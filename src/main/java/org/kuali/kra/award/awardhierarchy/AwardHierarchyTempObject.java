@@ -28,6 +28,7 @@ public class AwardHierarchyTempObject implements Serializable{
     private Boolean copyDescendants;
     private String copyAwardRadio;
     private String createNewChildRadio;
+    private Boolean disableCopyDescendantsCheckBox = true;
     
     public AwardHierarchyTempObject(){
         awardNumber1 = "";
@@ -206,5 +207,14 @@ public class AwardHierarchyTempObject implements Serializable{
     public void setAwardNumber(String awardNumber) {
         this.awardNumber = awardNumber;
     }
+    
+    public Boolean getAddCopyDescendantsCheckBox() {
+        return disableCopyDescendantsCheckBox;
+    }
+
+    public void setAddCopyDescendantsCheckBox(Boolean addCopyDescendantsCheckBox) {
+        this.disableCopyDescendantsCheckBox = addCopyDescendantsCheckBox;
+    }
+
 }
 
