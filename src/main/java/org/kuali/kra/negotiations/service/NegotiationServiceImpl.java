@@ -88,7 +88,7 @@ public class NegotiationServiceImpl implements NegotiationService {
                 bean = new NegotiationAssociatedDetailBean((ProposalLog) this.getBusinessObjectService().findByPrimaryKey(ProposalLog.class, primaryKeys));
             } else if (StringUtils.equals(negotiation.getNegotiationAssociationType().getCode(), 
                     NegotiationAssociationType.SUB_AWARD_ASSOCIATION)) {
-                throw new IllegalArgumentException("Sub Awards not implemented yet");
+                bean = new NegotiationAssociatedDetailBean();
             } else {
                 throw new IllegalArgumentException(negotiation.getNegotiationAssociationType().getCode() + " is an invalid code, should never gete here!");
             }

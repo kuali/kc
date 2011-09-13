@@ -122,6 +122,9 @@
                 					fieldConversions="awardId:document.negotiationList[0].associatedDocumentId" />
 					      	</c:when>
 					      	<c:when test="${KualiForm.displaySubAward}">
+					      		<img src="${ConfigProperties.kra.externalizable.images.url}searchicon.gif" name="subAwardImage" id="subAwardImage"
+					      		onClick="window.alert('Sub Award association is not yet implemented.')"
+					      		onmouseover="this.style.cursor='pointer';"/>
 					      	</c:when>
 					      	<c:when test="${KualiForm.displayProposalLog}">
 					        	<kul:lookup boClassName="org.kuali.kra.institutionalproposal.proposallog.ProposalLog" 
