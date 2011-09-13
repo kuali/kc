@@ -16,10 +16,18 @@
 <%@ include file="/WEB-INF/jsp/kraTldHeader.jsp"%>
 
 <c:set var="attributes" value="${DataDictionary.ProtocolAmendmentBean.attributes}" />
+<c:choose>
+    <c:when test="${KualiForm.protocolDocument.renewal}">
+        <c:set var="tabTitle" value="Renewal Details"/>
+    </c:when>
+    <c:otherwise>
+        <c:set var="tabTitle" value="Amendment Details"/>
+    </c:otherwise>
+</c:choose>
 
 <tr>
     <td class="tab-subhead" colspan="2" scope="row">
-		<kul:innerTab tabTitle="Amendment Details" parentTab="" defaultOpen="false" tabErrorKey="" overrideDivClass="inner-subhead">
+		<kul:innerTab tabTitle="${tabTitle}" parentTab="" defaultOpen="false" tabErrorKey="" overrideDivClass="inner-subhead">
 		    <div class="innerTab-container" align="left">
 		        <table class="tab" cellpadding="0" cellspacing="0" summary="">
 		            <tbody>

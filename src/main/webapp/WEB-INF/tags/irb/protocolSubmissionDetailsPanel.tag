@@ -52,7 +52,7 @@
 		    <kra-irb:submissionDetails />
  		    <kra-irb:reviewers />
 		    <kra-irb:voteSummary />
-		    <c:if test="${KualiForm.protocolDocument.amendment}" >
+		    <c:if test="${KualiForm.protocolDocument.amendment or KualiForm.protocolDocument.renewal}" >
 		      <kra-irb:amendmentSummary />
 		    </c:if>
 		    <kra-irb:checklistItems />
