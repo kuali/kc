@@ -357,7 +357,7 @@ public class ProtocolDocument extends ResearchDocumentBase implements Copyable, 
      * Is this a renewal protocol document?
      * @return
      */
-    private boolean isRenewal() {
+    public boolean isRenewal() {
         return getProtocol().getProtocolNumber().contains(RENEWAL_KEY);
     }
 
