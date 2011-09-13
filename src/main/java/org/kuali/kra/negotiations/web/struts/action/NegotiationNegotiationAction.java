@@ -17,6 +17,7 @@ package org.kuali.kra.negotiations.web.struts.action;
 
 import java.util.HashMap;
 import java.util.Map;
+import java.util.Set;
 
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
@@ -35,6 +36,7 @@ import org.kuali.kra.negotiations.bo.NegotiationStatus;
 import org.kuali.kra.negotiations.bo.NegotiationUnassociatedDetail;
 import org.kuali.kra.negotiations.web.struts.form.NegotiationForm;
 import org.kuali.kra.web.struts.action.StrutsConfirmation;
+import org.kuali.rice.kns.util.KNSConstants;
 
 /**
  * 
@@ -154,14 +156,27 @@ public class NegotiationNegotiationAction extends NegotiationAction {
         if (negotiationForm.getNegotiationDocument().getNegotiation().getNegotiationAssociationType() != null 
                 && StringUtils.equalsIgnoreCase(NegotiationAssociationType.NONE_ASSOCIATION, 
                         negotiationForm.getNegotiationDocument().getNegotiation().getNegotiationAssociationType().getCode())) {
-            String questionId = "foo";
-            String configurationId = "negotiation.message.changeAssociationType";
-            String params = "";
-            StrutsConfirmation question = buildParameterizedConfirmationQuestion(mapping, negotiationForm, request, response,
-                    questionId, configurationId, params);
-            return confirm(question, "confirmedChangeAssociation", "resetChangeAssociationType");
+            String message = "negotiation.message.changeAssociationType";
+            request.setAttribute(KNSConstants.METHOD_TO_CALL_ATTRIBUTE, "methodToCall.changeAssociationRedirector");
+            ActionForward confirmAction = confirm(buildParameterizedConfirmationQuestion(mapping, form, request, response, 
+                    "changeAssociationKey", message), 
+                    "confirmedChangeAssociationXXXXX", "resetChangeAssociationType");
+            return confirmAction;
         } else {
             return confirmedChangeAssociation(mapping, negotiationForm, request, response);
+        }
+    }
+    
+    public ActionForward changeAssociationRedirector(ActionMapping mapping, ActionForm form, HttpServletRequest request, HttpServletResponse response) throws Exception {
+        String buttonClicked = request.getParameter("buttonClicked").toString();
+        /**
+         * 0 is Yes
+         * 1 is no
+         */
+        if (StringUtils.equals(buttonClicked, "0")) {
+            return confirmedChangeAssociation(mapping, form, request, response);
+        } else {
+            return resetChangeAssociationType(mapping, form, request, response);
         }
     }
     
@@ -188,8 +203,8 @@ public class NegotiationNegotiationAction extends NegotiationAction {
         negotiationForm.populate(request);
         return actionForward;
     }
-    
-    public ActionForward resetChangeAssociationType(ActionMapping mapping, ActionForm form, HttpServletRequest request, HttpServletResponse response) throws Exception {
+
+    public ActionForward resetChangeAssociationType(ActionMapping mapping, ActionForm form, HttpServletRequest request, HttpServletResponse response) {
         ActionForward actionForward = mapping.findForward(Constants.MAPPING_BASIC);
         NegotiationForm negotiationForm = (NegotiationForm) form;
         
