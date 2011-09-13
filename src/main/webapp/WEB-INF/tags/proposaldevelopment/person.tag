@@ -31,7 +31,6 @@
 <bean:define id="parentTabName" name="KualiForm" property="${proposalPerson}.fullName"/>
 </c:otherwise>
 </c:choose>
-<div class="tab-container" align="center">
 <bean:define id="personEditableFields" name="KualiForm" property="personEditableFields" />  
 		
 		  <c:if test="${readOnly or isParent}">
@@ -769,6 +768,5 @@
 
 </table>
   </div>
-   </div>
 </div>
 
