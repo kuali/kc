@@ -30,6 +30,7 @@ public class NegotiationAssociatedDetailBean {
     public static final String MODE_INSTITUTIONAL_PROPOSAL = "IP";
     public static final String MODE_SUBAWARD = "SAWD";
     public static final String MODE_NONE = "NONE";
+    private static final String EMPTY_STRING = "";
     
     
     private String title;
@@ -41,8 +42,20 @@ public class NegotiationAssociatedDetailBean {
     private String primeSponsor;
     private String sponsorAward;
     private String subAwardOrganization;
-    
     private String mode;
+    
+    public NegotiationAssociatedDetailBean() {
+        this.title = EMPTY_STRING;
+        this.leadUnit = EMPTY_STRING;
+        this.piEmployee = EMPTY_STRING;
+        this.piNonEmployee = EMPTY_STRING;
+        this.adminPerson = EMPTY_STRING;
+        this.sponsor = EMPTY_STRING;
+        this.primeSponsor = EMPTY_STRING;
+        this.sponsorAward = EMPTY_STRING;
+        this.subAwardOrganization = EMPTY_STRING;
+        this.mode = MODE_NONE;
+    }
     
     /**
      * 
@@ -50,15 +63,17 @@ public class NegotiationAssociatedDetailBean {
      * @param award
      */
     public NegotiationAssociatedDetailBean(Award award) {
-        this.title = award.getTitle();
-        this.leadUnit = award.getLeadUnit() == null ? "" : award.getLeadUnit().getUnitName();
-        this.piEmployee = award.getPrincipalInvestigatorName();
-        this.piNonEmployee = "";
-        this.adminPerson = "";
-        this.sponsor = award.getSponsor() == null ? "" : award.getSponsor().getSponsorName();
-        this.primeSponsor = award.getPrimeSponsor() == null ? "" : award.getPrimeSponsor().getSponsorName();
-        this.sponsorAward = award.getSponsorAwardNumber();
-        this.subAwardOrganization = "";
+        if (award != null) {
+            this.title = award.getTitle();
+            this.leadUnit = award.getLeadUnit() == null ? EMPTY_STRING : award.getLeadUnit().getUnitName();
+            this.piEmployee = award.getPrincipalInvestigatorName();
+            this.piNonEmployee = EMPTY_STRING;
+            this.adminPerson = EMPTY_STRING;
+            this.sponsor = award.getSponsor() == null ? EMPTY_STRING : award.getSponsor().getSponsorName();
+            this.primeSponsor = award.getPrimeSponsor() == null ? EMPTY_STRING : award.getPrimeSponsor().getSponsorName();
+            this.sponsorAward = award.getSponsorAwardNumber();
+            this.subAwardOrganization = EMPTY_STRING;
+        }
         this.mode = MODE_AWARD;
     }
     
@@ -68,16 +83,20 @@ public class NegotiationAssociatedDetailBean {
      * @param proposalLog
      */
     public NegotiationAssociatedDetailBean(ProposalLog proposalLog) {
-        this.title = proposalLog.getTitle();
-        this.leadUnit = proposalLog.getUnit() == null ? "" : proposalLog.getUnit().getUnitName();
-        this.piEmployee = proposalLog.getPiName();
-        this.piNonEmployee = "";
-        this.adminPerson = "";
-        this.sponsor = proposalLog.getSponsorName();
-        this.primeSponsor = "";
-        this.sponsorAward = "";
-        this.subAwardOrganization = "";
+        this();
+        if (proposalLog != null) {
+            this.title = proposalLog.getTitle();
+            this.leadUnit = proposalLog.getUnit() == null ? EMPTY_STRING : proposalLog.getUnit().getUnitName();
+            this.piEmployee = proposalLog.getPiName();
+            this.piNonEmployee = EMPTY_STRING;
+            this.adminPerson = EMPTY_STRING;
+            this.sponsor = proposalLog.getSponsorName();
+            this.primeSponsor = EMPTY_STRING;
+            this.sponsorAward = EMPTY_STRING;
+            this.subAwardOrganization = EMPTY_STRING;
+        }
         this.mode = MODE_PROPOSAL_LOG;
+        
     }
     
     /**
@@ -86,15 +105,18 @@ public class NegotiationAssociatedDetailBean {
      * @param institutionalProposal
      */
     public NegotiationAssociatedDetailBean(InstitutionalProposal institutionalProposal) {
-        this.title = institutionalProposal.getTitle();
-        this.leadUnit = institutionalProposal.getLeadUnit() == null ? "" : institutionalProposal.getLeadUnit().getUnitName();
-        this.piEmployee = institutionalProposal.getPrincipalInvestigator() == null ? "" : institutionalProposal.getPrincipalInvestigator().getFullName();
-        this.piNonEmployee = "";
-        this.adminPerson = "";
-        this.sponsor = institutionalProposal.getSponsorName();
-        this.primeSponsor = institutionalProposal.getPrimeSponsor() == null ? "" : institutionalProposal.getPrimeSponsor().getSponsorName();
-        this.sponsorAward = "";
-        this.subAwardOrganization = "";
+        this();
+        if (institutionalProposal != null) {
+            this.title = institutionalProposal.getTitle();
+            this.leadUnit = institutionalProposal.getLeadUnit() == null ? EMPTY_STRING : institutionalProposal.getLeadUnit().getUnitName();
+            this.piEmployee = institutionalProposal.getPrincipalInvestigator() == null ? EMPTY_STRING : institutionalProposal.getPrincipalInvestigator().getFullName();
+            this.piNonEmployee = EMPTY_STRING;
+            this.adminPerson = EMPTY_STRING;
+            this.sponsor = institutionalProposal.getSponsorName();
+            this.primeSponsor = institutionalProposal.getPrimeSponsor() == null ? EMPTY_STRING : institutionalProposal.getPrimeSponsor().getSponsorName();
+            this.sponsorAward = EMPTY_STRING;
+            this.subAwardOrganization = EMPTY_STRING;
+        }
         this.mode = MODE_INSTITUTIONAL_PROPOSAL;
     }
     
@@ -104,16 +126,19 @@ public class NegotiationAssociatedDetailBean {
      * @param unAssociatedDetail
      */
     public NegotiationAssociatedDetailBean(NegotiationUnassociatedDetail unAssociatedDetail) {
-        this.title = unAssociatedDetail.getTitle();
-        this.leadUnit = unAssociatedDetail.getLeadUnit() == null ? "" : unAssociatedDetail.getLeadUnit().getUnitName();
-        this.piEmployee = unAssociatedDetail.getPIEmployee() == null ? "" : unAssociatedDetail.getPIEmployee().getFullName();
-        this.piNonEmployee = unAssociatedDetail.getPINonEmployee() == null ? "" : unAssociatedDetail.getPINonEmployee().getFullName();
-        this.adminPerson = unAssociatedDetail.getContactAdmin() == null ? "" : unAssociatedDetail.getContactAdmin().getFullName();
-        this.sponsor = unAssociatedDetail.getSponsor() == null ? "" : unAssociatedDetail.getSponsor().getSponsorName();
-        this.primeSponsor = unAssociatedDetail.getPrimeSponsor() == null ? "" : unAssociatedDetail.getPrimeSponsor().getSponsorName();
-        this.sponsorAward = unAssociatedDetail.getSponsorAwardNumber();
-        this.subAwardOrganization = unAssociatedDetail.getSubAwardOrganization() == null ? "" 
-                : unAssociatedDetail.getSubAwardOrganization().getOrganizationName();
+        this();
+        if (unAssociatedDetail != null) {
+            this.title = unAssociatedDetail.getTitle();
+            this.leadUnit = unAssociatedDetail.getLeadUnit() == null ? EMPTY_STRING : unAssociatedDetail.getLeadUnit().getUnitName();
+            this.piEmployee = unAssociatedDetail.getPIEmployee() == null ? EMPTY_STRING : unAssociatedDetail.getPIEmployee().getFullName();
+            this.piNonEmployee = unAssociatedDetail.getPINonEmployee() == null ? EMPTY_STRING : unAssociatedDetail.getPINonEmployee().getFullName();
+            this.adminPerson = unAssociatedDetail.getContactAdmin() == null ? EMPTY_STRING : unAssociatedDetail.getContactAdmin().getFullName();
+            this.sponsor = unAssociatedDetail.getSponsor() == null ? EMPTY_STRING : unAssociatedDetail.getSponsor().getSponsorName();
+            this.primeSponsor = unAssociatedDetail.getPrimeSponsor() == null ? EMPTY_STRING : unAssociatedDetail.getPrimeSponsor().getSponsorName();
+            this.sponsorAward = unAssociatedDetail.getSponsorAwardNumber();
+            this.subAwardOrganization = unAssociatedDetail.getSubAwardOrganization() == null ? EMPTY_STRING 
+                    : unAssociatedDetail.getSubAwardOrganization().getOrganizationName();
+        }
         this.mode = MODE_NONE;
     }
 

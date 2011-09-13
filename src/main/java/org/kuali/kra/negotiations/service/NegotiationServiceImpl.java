@@ -94,7 +94,7 @@ public class NegotiationServiceImpl implements NegotiationService {
             }
             return bean;
         } else {
-            throw new IllegalArgumentException("Negotiation Association Type is not set, it must be!");
+            return null;
         }
     }
 
