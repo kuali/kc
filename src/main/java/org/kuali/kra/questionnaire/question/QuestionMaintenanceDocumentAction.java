@@ -210,6 +210,7 @@ public class QuestionMaintenanceDocumentAction extends KualiMaintenanceDocumentA
             } 
         } else {
             forward = super.edit(mapping, form, request, response);
+            questionMaintenanceForm.getDocument().getDocumentHeader().setDocumentDescription("question - bootstrap data");
 
             // Version if a Question is selected for editing
             specialHandlingOfQuestion(questionMaintenanceForm, request);
@@ -230,11 +231,15 @@ public class QuestionMaintenanceDocumentAction extends KualiMaintenanceDocumentA
         QuestionMaintenanceForm questionMaintenanceForm = (QuestionMaintenanceForm) formBase;
         // kcirb-1502 : not sure why is retail isreadonly here.  the readonly is reset when calling
         // super.populateAuthorizationFields.
-        // rewrite this way seems to  work.  
-//        boolean isReadOnly = questionMaintenanceForm.isReadOnly();
+        // rewrite this way seems to  work.  this is not working for 3.1.1 for 'view' question.  which is using 'edit. 
+        // 4.0 is fine because 'view' link has been rewritten
+        boolean isReadOnly = questionMaintenanceForm.isReadOnly();
 
-        // populateAuthorizationFields will override the isReadOnly property of the form.
+        // populateAuthorizationFields will override the isReadOnly property of the form. if it is 'view'
         super.populateAuthorizationFields(formBase);
+        if (isReadOnly && StringUtils.equals(questionMaintenanceForm.getMethodToCall(), "edit")) {
+            questionMaintenanceForm.setReadOnly(isReadOnly);
+        }
         
         if (questionMaintenanceForm.isReadOnly() && formBase.getDocumentActions().containsKey(KNSConstants.KUALI_ACTION_CAN_CLOSE)) {
             Map<String, String> documentActions = new HashMap<String, String>();
