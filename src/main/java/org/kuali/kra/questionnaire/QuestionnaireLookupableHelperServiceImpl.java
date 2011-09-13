@@ -32,8 +32,8 @@ import org.kuali.rice.kew.util.KEWPropertyConstants;
 import org.kuali.rice.kns.bo.BusinessObject;
 import org.kuali.rice.kns.document.MaintenanceDocumentBase;
 import org.kuali.rice.kns.lookup.HtmlData;
-import org.kuali.rice.kns.lookup.KualiLookupableHelperServiceImpl;
 import org.kuali.rice.kns.lookup.HtmlData.AnchorHtmlData;
+import org.kuali.rice.kns.lookup.KualiLookupableHelperServiceImpl;
 import org.kuali.rice.kns.service.DocumentService;
 import org.kuali.rice.kns.util.KNSConstants;
 
@@ -143,7 +143,7 @@ public class QuestionnaireLookupableHelperServiceImpl extends KualiLookupableHel
             htmlDataList.add(htmlData);
         }
         if (hasViewPermission && questionnaire.getQuestionnaireId() != null) {
-            htmlDataList.add(getViewLink(businessObject));
+            htmlDataList.add(getViewLink(businessObject, pkNames));
         }
         if (hasModifyPermission && questionnaire.getQuestionnaireId() != null) {
             htmlDataList.add(getHtmlData(businessObject, KNSConstants.MAINTENANCE_COPY_METHOD_TO_CALL, pkNames));
@@ -169,13 +169,21 @@ public class QuestionnaireLookupableHelperServiceImpl extends KualiLookupableHel
         return docNumber;
     }
     
-    protected AnchorHtmlData getViewLink(BusinessObject businessObject) {
+    protected AnchorHtmlData getViewLink(BusinessObject businessObject, List pkNames) {
         AnchorHtmlData htmlData = new AnchorHtmlData();
-        String workflowUrl = getKualiConfigurationService().getPropertyString(KNSConstants.WORKFLOW_URL_KEY);
-        htmlData.setHref(String.format(DOCHANDLER_LINK, workflowUrl, ((Questionnaire) businessObject).getDocumentNumber()).replace("&docId", "&readOnly=true&docId"));
+        Questionnaire questionnaire = (Questionnaire) businessObject;
+        if (StringUtils.isNotBlank(questionnaire.getDocumentNumber())) {
+            String workflowUrl = getKualiConfigurationService().getPropertyString(KNSConstants.WORKFLOW_URL_KEY);
+            htmlData.setHref(String.format(DOCHANDLER_LINK, workflowUrl, questionnaire.getDocumentNumber()).replace("&docId",
+                    "&readOnly=true&docId"));
+        }
+        else {
+            htmlData = getUrlData(businessObject, KNSConstants.MAINTENANCE_EDIT_METHOD_TO_CALL, pkNames);
+            htmlData.setHref(htmlData.getHref().replace(MAINTENANCE, NEW_MAINTENANCE) + "&readOnly=true");
 
+        }
         htmlData.setDisplayText(VIEW);
-        return htmlData;        
+        return htmlData;
     }
         
     protected AnchorHtmlData getHtmlData(BusinessObject businessObject, String methodToCall, List pkNames) {
