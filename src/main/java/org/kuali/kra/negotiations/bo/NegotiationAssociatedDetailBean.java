@@ -70,6 +70,7 @@ public class NegotiationAssociatedDetailBean implements Serializable {
      * @param award
      */
     public NegotiationAssociatedDetailBean(Award award) {
+        this();
         if (award != null) {
             this.title = award.getTitle();
             this.leadUnit = award.getLeadUnit() == null ? EMPTY_STRING : award.getLeadUnit().getUnitName();

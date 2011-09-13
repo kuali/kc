@@ -135,6 +135,9 @@ public class NegotiationForm extends KraTransactionalDocumentFormBase {
     }
 
     public NegotiationAssociatedDetailBean getNegotiationAssociatedDetailBean() {
+        if (negotiationAssociatedDetailBean == null ) {
+            this.negotiationAssociatedDetailBean = getNegotiationService().buildNegotiationAssociatedDetailBean(this.getNegotiationDocument().getNegotiation());
+        }
         return negotiationAssociatedDetailBean;
     }
 }
