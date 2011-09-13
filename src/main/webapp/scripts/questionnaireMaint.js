@@ -83,7 +83,7 @@ function getQuestionNew(description, qtypeid, vers, dispans, ansmax, maxlength, 
 	    });
 	    linkNewQ.appendTo(div62);
 	    
-/*
+
 	    var linkUpdateQ = $(';nbsp;nbsp<a style="margin-left:2px;"></a>').attr("id",
 			"updateqn" + i).attr("name","updateqn" + i).html("(Update to current version)");
 	    linkUpdateQ.click(function() {
@@ -91,7 +91,7 @@ function getQuestionNew(description, qtypeid, vers, dispans, ansmax, maxlength, 
 		    clickUpdateQuestionVersion(idx);
 	    });
     	linkUpdateQ.appendTo(div62);
-*/
+
 	}
 
 	div62.appendTo(question);
@@ -3117,7 +3117,7 @@ function addForReplace(curidx) {
 				$("#movedn" + listitem.prev().attr("id")
 									  .substring(8)).show();
 				// TODO trying to group
-				alert("parent u"+parentUl.attr("id"));
+				//alert("parent u"+parentUl.attr("id"));
 				if (parentUl.attr("id") == 'example') {
 					// insert after, so assume current group 
 					// TODO : need to adjust group to 20/page ?
@@ -3165,7 +3165,7 @@ function addForReplace(curidx) {
 						.attr("value");
 			}
 			//alert(parentNum);
-			alert($("#questionNumber").attr("value"));
+			//alert($("#questionNumber").attr("value"));
 			$("#qnum" + $(listitem).attr("id").substring(8)).attr(
 					"value", $("#questionNumber").attr("value"));
 			var qid = $("#repqid").attr("value");
