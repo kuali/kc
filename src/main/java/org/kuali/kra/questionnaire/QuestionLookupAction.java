@@ -42,6 +42,7 @@ public class QuestionLookupAction extends KualiAction {
     private static final String PQP = "#q#";
     private static final String SINGLE_LOOKUP = "singleLookup";
     private static final String MULTI_LOOKUP = "multiLookup";
+    private static final String REPLACE_LOOKUP = "replaceLookup";
     
     @Override
     public ActionForward refresh(ActionMapping mapping, ActionForm form, HttpServletRequest request, HttpServletResponse response)
@@ -92,6 +93,9 @@ public class QuestionLookupAction extends KualiAction {
             // when single lookup return, this refresh will be called too
             forward = mapping.findForward(SINGLE_LOOKUP);
         }
+        else if (questionLookupForm.getNodeIndex() == -2) {
+            forward = mapping.findForward(REPLACE_LOOKUP);
+        }
         else {
             forward = mapping.findForward(MULTI_LOOKUP);
         }
@@ -124,6 +128,9 @@ public class QuestionLookupAction extends KualiAction {
             }
             else if (lookupType.equals("multivalue")) {
                 forward = mapping.findForward(MULTI_LOOKUP);
+            }
+            else if (lookupType.equals("replace")) {
+                forward = mapping.findForward(REPLACE_LOOKUP);
             }
         }
         return forward;
