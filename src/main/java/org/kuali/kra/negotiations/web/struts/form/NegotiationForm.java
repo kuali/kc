@@ -26,9 +26,11 @@ import org.apache.commons.lang.StringUtils;
 import org.kuali.kra.authorization.KraAuthorizationConstants;
 import org.kuali.kra.infrastructure.KraServiceLocator;
 import org.kuali.kra.negotiations.bo.Negotiation;
+import org.kuali.kra.negotiations.bo.NegotiationAssociatedDetailBean;
 import org.kuali.kra.negotiations.bo.NegotiationAssociationType;
 import org.kuali.kra.negotiations.bo.NegotiationUnassociatedDetail;
 import org.kuali.kra.negotiations.document.NegotiationDocument;
+import org.kuali.kra.negotiations.service.NegotiationService;
 import org.kuali.kra.web.struts.form.KraTransactionalDocumentFormBase;
 import org.kuali.rice.kns.service.BusinessObjectService;
 import org.kuali.rice.kns.util.KNSConstants;
@@ -47,6 +49,7 @@ public class NegotiationForm extends KraTransactionalDocumentFormBase {
     private static final long serialVersionUID = -3641922366447898075L;
     
     private List<NegotiationUnassociatedDetail> negotiationUnassociatedDetailsToDelete;
+    private NegotiationAssociatedDetailBean negotiationAssociatedDetailBean;
     
     /**
      * 
@@ -89,10 +92,15 @@ public class NegotiationForm extends KraTransactionalDocumentFormBase {
     @Override
     public void populate(HttpServletRequest request) {
         super.populate(request);
+        this.negotiationAssociatedDetailBean = getNegotiationService().buildNegotiationAssociatedDetailBean(this.getNegotiationDocument().getNegotiation());
     }
     
     public BusinessObjectService getBusinessObjectService() {
         return KraServiceLocator.getService(BusinessObjectService.class);
+    }
+    
+    public NegotiationService getNegotiationService() {
+        return KraServiceLocator.getService(NegotiationService.class);
     }
     
     private boolean isAssocitationType(String typeCode) {
@@ -120,5 +128,13 @@ public class NegotiationForm extends KraTransactionalDocumentFormBase {
     
     public boolean getDisplaySubAward() {
         return isAssocitationType(NegotiationAssociationType.SUB_AWARD_ASSOCIATION);
+    }
+    
+    public boolean getDispayAssociatedDetailPanel() { 
+        return !getDisplayUnAssociatedDetail() && StringUtils.isNotEmpty(this.getNegotiationDocument().getNegotiation().getAssociatedDocumentId());
+    }
+
+    public NegotiationAssociatedDetailBean getNegotiationAssociatedDetailBean() {
+        return negotiationAssociatedDetailBean;
     }
 }
