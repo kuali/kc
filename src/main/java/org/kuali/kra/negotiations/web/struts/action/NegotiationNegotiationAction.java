@@ -160,7 +160,7 @@ public class NegotiationNegotiationAction extends NegotiationAction {
             request.setAttribute(KNSConstants.METHOD_TO_CALL_ATTRIBUTE, "methodToCall.changeAssociationRedirector");
             ActionForward confirmAction = confirm(buildParameterizedConfirmationQuestion(mapping, form, request, response, 
                     "changeAssociationKey", message), 
-                    "confirmedChangeAssociationXXXXX", "resetChangeAssociationType");
+                    "confirmedChangeAssociation", "resetChangeAssociationType");
             return confirmAction;
         } else {
             return confirmedChangeAssociation(mapping, negotiationForm, request, response);
