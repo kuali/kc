@@ -35,6 +35,7 @@
 			</tr>
 		</thead>
 		<tbody>
+		  <c:if test="${not KualiForm.readOnly}">
 			<tr>
 				<td class="subelementcontent">
 				<table width="100%" cellspacing="0" cellpadding="0"
@@ -109,6 +110,7 @@
 											src="${ConfigProperties.kr.externalizable.images.url}tinybutton-add1.gif"
 											name="addquestionnaire" id="addQn${qidx}"  onClick="clickAdd(${qidx}); return false;"></td>
 									</tr>
+								</c:if>	
 								</tbody>
 							</table>
 							</td>
