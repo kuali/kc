@@ -23,6 +23,8 @@ import java.util.List;
 import java.util.Map;
 
 import org.apache.commons.lang.StringUtils;
+import org.apache.commons.logging.LogFactory;
+import org.apache.commons.logging.Log;
 import org.kuali.kra.authorization.KraAuthorizationConstants;
 import org.kuali.kra.bo.KcPerson;
 import org.kuali.kra.bo.ResearchArea;
@@ -69,11 +71,10 @@ import org.kuali.rice.kns.workflow.KualiDocumentXmlMaterializer;
 @NAMESPACE(namespace=Constants.MODULE_NAMESPACE_PROTOCOL)
 @COMPONENT(component=ParameterConstants.DOCUMENT_COMPONENT)
 public class ProtocolDocument extends ResearchDocumentBase implements Copyable, SessionDocument { 
-	
+    private static final Log LOG = LogFactory.getLog(ProtocolDocument.class);
     public static final String DOCUMENT_TYPE_CODE = "PROT";
     private static final String AMENDMENT_KEY = "A";
     private static final String RENEWAL_KEY = "R";
-    
     /**
      * Comment for <code>serialVersionUID</code>
      */
@@ -481,21 +482,28 @@ public class ProtocolDocument extends ResearchDocumentBase implements Copyable, 
      * Different document type may have different routing set up, so each document type
      * can implement its own isProcessComplete
      * @return
+     * @throws WorkflowException 
      */
     public boolean isProcessComplete() {
         boolean isComplete = true;
-           if (this.getProtocol().getProtocolStatusCode().equals(ProtocolStatus.SUBMITTED_TO_IRB)) {
-               if (this.getDocumentHeader().getWorkflowDocument().getRouteHeader().getDocRouteLevel() == 0) {
-                   isComplete = false;
-               } 
-           } else {
-               // approve/expedited approve/response approve
-               if (!KEWConstants.ROUTE_HEADER_FINAL_CD.equals(this.getDocumentHeader().getWorkflowDocument().getRouteHeader().getDocRouteStatus())) {
-                   isComplete = false;
-               } 
-           }
-           
-       return isComplete;
+        
+        if (this.getProtocol().getProtocolStatusCode().equals(ProtocolStatus.SUBMITTED_TO_IRB)) {
+            if (this.getDocumentHeader().getWorkflowDocument().getRouteHeader().getDocRouteLevel() == 0 ) { 
+                isComplete = false;
+            } 
+            // Added for KCIRB-1515
+            if (isAmendment() 
+                && getDocumentHeader().getWorkflowDocument().getCurrentRouteNodeNames().equalsIgnoreCase(Constants.PROTOCOL_IRBREVIEW_ROUTE_NODE_NAME)) {
+                isComplete = false;
+            }
+            
+        } else {
+            // approve/expedited approve/response approve
+            if (!KEWConstants.ROUTE_HEADER_FINAL_CD.equals(this.getDocumentHeader().getWorkflowDocument().getRouteHeader().getDocRouteStatus())) {
+                isComplete = false;
+            } 
+        }
+        return isComplete;
     }
     
 
