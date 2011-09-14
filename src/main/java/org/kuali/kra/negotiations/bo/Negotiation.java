@@ -16,8 +16,10 @@
 package org.kuali.kra.negotiations.bo;
 
 import java.sql.Date;
+import java.util.ArrayList;
 import java.util.Calendar;
 import java.util.LinkedHashMap;
+import java.util.List;
 
 import org.kuali.kra.bo.KcPerson;
 import org.kuali.kra.bo.KraPersistableBusinessObjectBase;
@@ -62,8 +64,11 @@ public class Negotiation extends KraPersistableBusinessObjectBase {
     private NegotiationAgreementType negotiationAgreementType;
     private NegotiationAssociationType negotiationAssociationType;
     
+    private List<NegotiationActivity> activities;
+    
     public Negotiation() {
         super();
+        activities = new ArrayList<NegotiationActivity>();
     }
     
     public String getNegotiationAge() {
@@ -292,5 +297,22 @@ public class Negotiation extends KraPersistableBusinessObjectBase {
         LinkedHashMap map = new LinkedHashMap();
         map.put("negotiationId", this.getNegotiationId());
         return map;
+    }
+
+    public List<NegotiationActivity> getActivities() {
+        return activities;
+    }
+
+    public void setActivities(List<NegotiationActivity> activities) {
+        this.activities = activities;
+    }
+    
+    public List<NegotiationActivityAttachment> getAllAttachments() {
+        List<NegotiationActivityAttachment> attachments = new ArrayList<NegotiationActivityAttachment>();
+        for (NegotiationActivity activity : getActivities()) {
+            attachments.addAll(activity.getAttachments());
+        }
+        //TODO add sort for attachments here
+        return attachments;
     }
 }

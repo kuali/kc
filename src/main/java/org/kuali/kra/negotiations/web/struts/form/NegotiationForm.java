@@ -50,6 +50,7 @@ public class NegotiationForm extends KraTransactionalDocumentFormBase {
     private static final long serialVersionUID = -3641922366447898075L;
     
     private List<NegotiationUnassociatedDetail> negotiationUnassociatedDetailsToDelete;
+    private NegotiationActivityHelper negotiationActivityHelper;
     private NegotiationAssociatedDetailBean negotiationAssociatedDetailBean;
     
     /**
@@ -59,6 +60,7 @@ public class NegotiationForm extends KraTransactionalDocumentFormBase {
     public NegotiationForm() {
         super();
         negotiationUnassociatedDetailsToDelete = new ArrayList<NegotiationUnassociatedDetail>();
+        negotiationActivityHelper = new NegotiationActivityHelper(this);
     }
     
     public NegotiationDocument getNegotiationDocument() {
@@ -129,6 +131,14 @@ public class NegotiationForm extends KraTransactionalDocumentFormBase {
     
     public boolean getDisplaySubAward() {
         return isAssocitationType(NegotiationAssociationType.SUB_AWARD_ASSOCIATION);
+    }
+
+    public NegotiationActivityHelper getNegotiationActivityHelper() {
+        return negotiationActivityHelper;
+    }
+
+    public void setNegotiationActivityHelper(NegotiationActivityHelper negotiationActivityHelper) {
+        this.negotiationActivityHelper = negotiationActivityHelper;
     }
     
     public boolean getDispayAssociatedDetailPanel() { 
