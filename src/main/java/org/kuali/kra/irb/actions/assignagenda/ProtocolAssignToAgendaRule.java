@@ -45,11 +45,7 @@ public class ProtocolAssignToAgendaRule extends ResearchDocumentRuleBase impleme
             isValid = false;
             reportError(ACTION_DATE_FIELD, KeyConstants.ERROR_PROTOCOL_ASSIGN_TO_AGENDA_NO_ACTION_DATE);
         }
-        
-        if (!event.getProtocolAssignToAgendaBean().isProtocolAssigned()) {
-            isValid = false;
-            reportError(PROTOCOL_ASSIGNED, KeyConstants.ERROR_PROTOCOL_ASSIGN_TO_AGENDA_NOT_SELECTED);
-        }
+       
         return isValid;
     }
     
