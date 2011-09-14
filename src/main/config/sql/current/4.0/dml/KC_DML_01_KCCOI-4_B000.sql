@@ -92,7 +92,7 @@ INSERT INTO FIN_ENTITIES_DATA_MATRIX ( COLUMN_NAME, COLUMN_LABEL, GUI_TYPE, LOOK
 VALUES ( 'GIFTS_FUNDS', 'Gift/Funds available to the Re', 'DROPDOWN', 'remuneration_range', 5, 'A', 5, sysdate, 'admin',  SYS_GUID() )
 /
 INSERT INTO ARG_VALUE_LOOKUP ( ARG_VALUE_LOOKUP_ID, ARGUMENT_NAME, VALUE, DESCRIPTION, UPDATE_TIMESTAMP, UPDATE_USER, OBJ_ID ) 
-VALUES (524 'ownership_interest', '1', '5 - 25%', sysdate, 'admin',  SYS_GUID() )
+VALUES (524, 'ownership_interest', '1', '5 - 25%', sysdate, 'admin',  SYS_GUID() )
 /
 INSERT INTO ARG_VALUE_LOOKUP ( ARG_VALUE_LOOKUP_ID, ARGUMENT_NAME, VALUE, DESCRIPTION, UPDATE_TIMESTAMP, UPDATE_USER, OBJ_ID ) 
 VALUES (525, 'ownership_interest', '2', '26 - 50%', sysdate, 'admin',  SYS_GUID() )
