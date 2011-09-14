@@ -15,6 +15,7 @@
  */
 package org.kuali.kra.negotiations.web.struts.action;
 
+import java.util.Date;
 import java.util.HashMap;
 import java.util.Map;
 import java.util.Set;
@@ -30,6 +31,7 @@ import org.kuali.kra.bo.Organization;
 import org.kuali.kra.bo.Sponsor;
 import org.kuali.kra.infrastructure.Constants;
 import org.kuali.kra.negotiations.bo.Negotiation;
+import org.kuali.kra.negotiations.bo.NegotiationActivity;
 import org.kuali.kra.negotiations.bo.NegotiationAgreementType;
 import org.kuali.kra.negotiations.bo.NegotiationAssociationType;
 import org.kuali.kra.negotiations.bo.NegotiationStatus;
@@ -154,6 +156,11 @@ public class NegotiationNegotiationAction extends NegotiationAction {
             }
         }
         
+        for (NegotiationActivity activity : negotiation.getActivities()) {
+            if (activity.isUpdated()) {
+                activity.updateActivity();
+            }
+        }
     }
     
     public ActionForward changeAssociation(ActionMapping mapping, ActionForm form, HttpServletRequest request, HttpServletResponse response) throws Exception {
@@ -222,5 +229,65 @@ public class NegotiationNegotiationAction extends NegotiationAction {
         negotiation.setNegotiationAssociationTypeId(dbNegotiation.getNegotiationAssociationType().getId());
         negotiation.setNegotiationAssociationType(dbNegotiation.getNegotiationAssociationType());
         return actionForward;
+    }
+    
+    public ActionForward addActivity(ActionMapping mapping, ActionForm form, HttpServletRequest request, HttpServletResponse response) throws Exception {
+        NegotiationForm negotiationForm = (NegotiationForm) form;
+        negotiationForm.getNegotiationActivityHelper().addActivity();
+        return mapping.findForward(Constants.MAPPING_BASIC);
+    }
+    
+    public ActionForward restrictActivity(ActionMapping mapping, ActionForm form, HttpServletRequest request, HttpServletResponse response) throws Exception {
+        NegotiationForm negotiationForm = (NegotiationForm) form;
+        negotiationForm.getNegotiationActivityHelper().setRestrictedActivity(Boolean.TRUE, getActivityIndex(request));
+        return mapping.findForward(Constants.MAPPING_BASIC);
+    }
+    
+    public ActionForward unrestrictActivity(ActionMapping mapping, ActionForm form, HttpServletRequest request, HttpServletResponse response) throws Exception {
+        NegotiationForm negotiationForm = (NegotiationForm) form;
+        negotiationForm.getNegotiationActivityHelper().setRestrictedActivity(Boolean.FALSE, getActivityIndex(request));
+        return mapping.findForward(Constants.MAPPING_BASIC);
+    }
+    
+    public ActionForward addAttachment(ActionMapping mapping, ActionForm form, HttpServletRequest request, HttpServletResponse response) throws Exception {
+        NegotiationForm negotiationForm = (NegotiationForm) form;
+        negotiationForm.getNegotiationActivityHelper().addAttachment(getActivityIndex(request));
+        return mapping.findForward(Constants.MAPPING_BASIC);
+    }
+    
+    public ActionForward deleteAttachment(ActionMapping mapping, ActionForm form, HttpServletRequest request, HttpServletResponse response) throws Exception {
+        NegotiationForm negotiationForm = (NegotiationForm) form;
+        negotiationForm.getNegotiationActivityHelper().deleteAttachment(getActivityIndex(request), getAttachmentIndex(request));
+        return mapping.findForward(Constants.MAPPING_BASIC);
+    }
+    
+    public ActionForward restrictAttachment(ActionMapping mapping, ActionForm form, HttpServletRequest request, HttpServletResponse response) throws Exception {
+        NegotiationForm negotiationForm = (NegotiationForm) form;
+        negotiationForm.getNegotiationActivityHelper().setRestrictedAttachment(Boolean.TRUE, getActivityIndex(request), getAttachmentIndex(request));
+        return mapping.findForward(Constants.MAPPING_BASIC);
+    }
+    
+    public ActionForward unrestrictAttachment(ActionMapping mapping, ActionForm form, HttpServletRequest request, HttpServletResponse response) throws Exception {
+        NegotiationForm negotiationForm = (NegotiationForm) form;
+        negotiationForm.getNegotiationActivityHelper().setRestrictedAttachment(Boolean.FALSE, getActivityIndex(request), getAttachmentIndex(request));
+        return mapping.findForward(Constants.MAPPING_BASIC);
+    }
+    
+    
+    protected Integer getActivityIndex(HttpServletRequest request) {
+        String parameterName = (String) request.getAttribute(KNSConstants.METHOD_TO_CALL_ATTRIBUTE);
+        if (StringUtils.isNotBlank(parameterName)) {
+            return Integer.parseInt(StringUtils.substringBetween(parameterName, ".activityIndex", "."));
+        }
+        return null;
+    }
+    
+    protected Integer getAttachmentIndex(HttpServletRequest request) {
+        String parameterName = (String) request.getAttribute(KNSConstants.METHOD_TO_CALL_ATTRIBUTE);
+        if (StringUtils.isNotBlank(parameterName)) {
+            return Integer.parseInt(StringUtils.substringBetween(parameterName, ".attachmentIndex", "."));
+        }
+        return null;
+        
     }
 }
