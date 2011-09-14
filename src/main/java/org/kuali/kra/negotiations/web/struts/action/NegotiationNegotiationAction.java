@@ -84,9 +84,14 @@ public class NegotiationNegotiationAction extends NegotiationAction {
             throws Exception {
         NegotiationForm negotiationForm = (NegotiationForm) form;
         loadCodeObjects(negotiationForm.getNegotiationDocument().getNegotiation());
+        Negotiation negotiation = negotiationForm.getNegotiationDocument().getNegotiation();
+        if (StringUtils.equals(negotiation.getNegotiationStatus().getCode(), NegotiationStatus.CODE_IN_PROGRESS)) {
+            //in the in progress status, the end date field is disabled, so this prvents a problem with moving back from
+            //completed or suspended to in progress.
+            negotiation.setNegotiationEndDate(null);
+        }
         ActionForward actionForward = super.save(mapping, form, request, response);
-        if (negotiationForm.getNegotiationDocument().getNegotiation().getUnAssociatedDetail() != null) {
-            Negotiation negotiation = negotiationForm.getNegotiationDocument().getNegotiation();
+        if (negotiation.getUnAssociatedDetail() != null) {
             if (negotiation.getUnAssociatedDetail().getNegotiationId() == null) {
                 negotiation.getUnAssociatedDetail().setNegotiationId(negotiation.getNegotiationId());
             }
@@ -99,7 +104,7 @@ public class NegotiationNegotiationAction extends NegotiationAction {
         if(!negotiationForm.getNegotiationUnassociatedDetailsToDelete().isEmpty()) {
             this.getBusinessObjectService().delete(negotiationForm.getNegotiationUnassociatedDetailsToDelete());
         }
-        negotiationForm.getNegotiationDocument().getNegotiation().refresh();
+        negotiation.refresh();
         return actionForward;
     }
     
