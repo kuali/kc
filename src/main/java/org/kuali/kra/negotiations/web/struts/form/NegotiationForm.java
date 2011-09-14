@@ -28,6 +28,7 @@ import org.kuali.kra.infrastructure.KraServiceLocator;
 import org.kuali.kra.negotiations.bo.Negotiation;
 import org.kuali.kra.negotiations.bo.NegotiationAssociatedDetailBean;
 import org.kuali.kra.negotiations.bo.NegotiationAssociationType;
+import org.kuali.kra.negotiations.bo.NegotiationStatus;
 import org.kuali.kra.negotiations.bo.NegotiationUnassociatedDetail;
 import org.kuali.kra.negotiations.document.NegotiationDocument;
 import org.kuali.kra.negotiations.service.NegotiationService;
@@ -133,11 +134,46 @@ public class NegotiationForm extends KraTransactionalDocumentFormBase {
     public boolean getDispayAssociatedDetailPanel() { 
         return !getDisplayUnAssociatedDetail() && StringUtils.isNotEmpty(this.getNegotiationDocument().getNegotiation().getAssociatedDocumentId());
     }
-
+    
+    /**
+     * 
+     * This method returns the NegotiationAssociatedDetailBean.  If it hasn't been set, it does so.
+     * @return
+     */
     public NegotiationAssociatedDetailBean getNegotiationAssociatedDetailBean() {
         if (negotiationAssociatedDetailBean == null ) {
             this.negotiationAssociatedDetailBean = getNegotiationService().buildNegotiationAssociatedDetailBean(this.getNegotiationDocument().getNegotiation());
         }
         return negotiationAssociatedDetailBean;
+    }
+    
+    public String getStatusRelatedJavascript() {
+        StringBuffer sb = new StringBuffer();
+        NegotiationStatus completed = getNegotiationStatus(NegotiationStatus.CODE_COMPLETED);
+        NegotiationStatus suspended = getNegotiationStatus(NegotiationStatus.CODE_SUSPENDED);
+        String newLine = "\n ";
+        sb.append("function manageStatusEndDate(doUpdateDate){").append(newLine);
+        sb.append("var statusField = document.getElementById('document.negotiationList[0].negotiationStatusId');").append(newLine);
+        sb.append("var dateField = document.getElementById('document.negotiationList[0].negotiationEndDate');").append(newLine);
+        
+        sb.append("if (statusField.options[statusField.selectedIndex].value == '").append(completed.getId().toString());
+        sb.append("' || statusField.options[statusField.selectedIndex].value == '").append(suspended.getId().toString());
+        sb.append("') {").append(newLine);
+        
+        sb.append("dateField.disabled = false;").append(newLine);
+        sb.append("if (dateField.value == '' && doUpdateDate) {").append(newLine);
+        sb.append("var currentTime = new Date();").append(newLine);
+        sb.append("dateField.value = currentTime.getMonth() + 1 + \"/\" +  currentTime.getDate() + \"/\" + currentTime.getFullYear();").append(newLine);
+        sb.append("}").append(newLine).append("} else {").append(newLine);
+        sb.append("dateField.disabled = true;").append(newLine).append("}").append(newLine).append("}").append(newLine);
+        sb.append("manageStatusEndDate(false);");
+
+        return sb.toString();
+    }
+    
+    private NegotiationStatus getNegotiationStatus(String code) {
+        Map params = new HashMap();
+        params.put("NEGOTIATION_STATUS_CODE", code);
+        return (NegotiationStatus) this.getBusinessObjectService().findMatching(NegotiationStatus.class, params).iterator().next();
     }
 }

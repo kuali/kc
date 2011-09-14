@@ -26,6 +26,10 @@ import org.kuali.kra.bo.KraPersistableBusinessObjectBase;
  * This class handles the various statuses of a negotiation.
  */
 public class NegotiationStatus extends NegotiationsGroupingBase implements Serializable {
+    
+    public static final String CODE_IN_PROGRESS = "IP";
+    public static final String CODE_COMPLETED = "COM";
+    public static final String CODE_SUSPENDED = "SP";
 
     /**
      * Comment for <code>serialVersionUID</code>
