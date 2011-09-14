@@ -15,6 +15,7 @@
  */
 package org.kuali.kra.negotiations.bo;
 
+import java.sql.Date;
 import java.util.Collection;
 import java.util.HashMap;
 import java.util.Map;
@@ -35,10 +36,21 @@ import org.kuali.rice.kns.service.BusinessObjectService;
 public class NegotiationBasicTests extends KcUnitTestBase {
     
     BusinessObjectService businessObjectService;
+    NegotiationStatus status;
+    NegotiationAgreementType agreementType;
+    NegotiationAssociationType associationType;
+    NegotiationLocation location;
+    NegotiationActivityType activityType;
     
     @Before
     public void setUp() throws Exception {
         businessObjectService = KraServiceLocator.getService(BusinessObjectService.class);
+        
+        status = (NegotiationStatus)businessObjectService.findAll(NegotiationStatus.class).iterator().next();
+        agreementType = (NegotiationAgreementType)businessObjectService.findAll(NegotiationAgreementType.class).iterator().next();
+        associationType = (NegotiationAssociationType)businessObjectService.findAll(NegotiationAssociationType.class).iterator().next();
+        activityType = (NegotiationActivityType)businessObjectService.findAll(NegotiationActivityType.class).iterator().next();
+        location = (NegotiationLocation)businessObjectService.findAll(NegotiationLocation.class).iterator().next();
     }
     
     @After
@@ -63,11 +75,7 @@ public class NegotiationBasicTests extends KcUnitTestBase {
         assertTrue(types.size() > 0);
     }
     
-    @Test
-    public void testNegotiation() throws Exception {
-        NegotiationStatus status = (NegotiationStatus)businessObjectService.findAll(NegotiationStatus.class).iterator().next();
-        NegotiationAgreementType agreementType = (NegotiationAgreementType)businessObjectService.findAll(NegotiationAgreementType.class).iterator().next();
-        NegotiationAssociationType associationType = (NegotiationAssociationType)businessObjectService.findAll(NegotiationAssociationType.class).iterator().next();
+    protected Negotiation getNewNegotiation() {
         
         Negotiation negotiation = new Negotiation();
         negotiation.setNegotiationStatus(status);
@@ -89,6 +97,13 @@ public class NegotiationBasicTests extends KcUnitTestBase {
         businessObjectService.save(negotiation);
         
         assertNotNull(negotiation.getUpdateUser());
+        
+        return negotiation;
+    }
+    
+    @Test
+    public void testNegotiation() throws Exception {
+        Negotiation negotiation = getNewNegotiation();
 
         Map primaryKey = new HashMap();
         primaryKey.put("negotiationId", negotiation.getNegotiationId());
@@ -105,12 +120,9 @@ public class NegotiationBasicTests extends KcUnitTestBase {
     
     @Test
     public void testNegotiationUnassociatedDetail() throws Exception {
-        NegotiationStatus status = (NegotiationStatus)businessObjectService.findAll(NegotiationStatus.class).iterator().next();
-        NegotiationAgreementType agreementType = (NegotiationAgreementType)businessObjectService.findAll(NegotiationAgreementType.class).iterator().next();
-        //NegotiationAssociationType associationType = (NegotiationAssociationType)businessObjectService.findAll(NegotiationAssociationType.class).iterator().next();
         Map primaryKey = new HashMap();
         primaryKey.put("code", "NO");
-        NegotiationAssociationType associationType = (NegotiationAssociationType)businessObjectService.findMatching(NegotiationAssociationType.class, primaryKey).iterator().next();
+        associationType = (NegotiationAssociationType)businessObjectService.findMatching(NegotiationAssociationType.class, primaryKey).iterator().next();
         
         Negotiation negotiation = new Negotiation();
         negotiation.setNegotiationStatus(status);
@@ -162,6 +174,27 @@ public class NegotiationBasicTests extends KcUnitTestBase {
         assertEquals(sponsor.getSponsorCode(), dbDetail.getSponsorCode());
         assertEquals(detail.getContactAdminPersonId(), dbDetail.getContactAdminPersonId());
 
+    }
+    
+    @Test
+    public void testActivities() {
+        Negotiation negotiation = getNewNegotiation();
+        
+        NegotiationActivity activity = new NegotiationActivity();
+        activity.setLocation(location);
+        activity.setActivityType(activityType);
+        activity.setStartDate(new Date(2011, 1, 1));
+        activity.setDescription("Test Description");
+        activity.setCreateDate(new Date(new java.util.Date().getTime()));
+        activity.setLastModifiedDate(new Date(new java.util.Date().getTime()));
+        activity.setLastModifiedUsername("quickstart");
+        negotiation.getActivities().add(activity);
+        
+        businessObjectService.save(negotiation);
+        
+        Negotiation negotiation2 = businessObjectService.findBySinglePrimaryKey(Negotiation.class, negotiation.getNegotiationId());
+        
+        assertTrue(negotiation2.getActivities().size() == 1);
     }
 
 }

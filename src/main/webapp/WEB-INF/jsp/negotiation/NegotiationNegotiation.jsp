@@ -22,7 +22,7 @@
 	showDocumentInfo="true"
 	htmlFormAction="negotiationNegotiation"
 	documentTypeName="NegotiationDocument"
-	renderMultipart="false"
+	renderMultipart="true"
 	showTabButtons="true"
 	auditCount="0"
   	headerDispatch="${KualiForm.headerDispatch}"
@@ -32,6 +32,7 @@
 <kul:documentOverview editingMode="${KualiForm.editingMode}" />
 
  <kra-negotiation:negotiation />
+ <kra-negotiation:negotiationActivities />
 
 <kul:panelFooter />
 	<kul:documentControls 

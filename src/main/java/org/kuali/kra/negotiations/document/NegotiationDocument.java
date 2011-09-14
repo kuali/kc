@@ -23,6 +23,8 @@ import org.apache.commons.lang.StringUtils;
 import org.kuali.kra.document.ResearchDocumentBase;
 import org.kuali.kra.infrastructure.Constants;
 import org.kuali.kra.negotiations.bo.Negotiation;
+import org.kuali.kra.negotiations.bo.NegotiationActivity;
+import org.kuali.kra.negotiations.bo.NegotiationActivityAttachment;
 import org.kuali.rice.kew.dto.DocumentRouteStatusChangeDTO;
 import org.kuali.rice.kew.util.KEWConstants;
 import org.kuali.rice.kns.service.ParameterConstants;
@@ -140,6 +142,28 @@ public class NegotiationDocument extends ResearchDocumentBase implements Seriali
         }
            
         return isComplete;
+    }
+    
+    /**
+     * 
+     * @see org.kuali.core.bo.PersistableBusinessObjectBase#buildListOfDeletionAwareLists()
+     */
+    @SuppressWarnings("unchecked")
+    @Override
+    public List buildListOfDeletionAwareLists() {
+        List managedLists = super.buildListOfDeletionAwareLists();
+        
+        managedLists.add(negotiationList);
+        
+        managedLists.add(getNegotiation().getActivities());
+        
+        List<NegotiationActivityAttachment> attachments = new ArrayList<NegotiationActivityAttachment>();
+        for (NegotiationActivity activity : getNegotiation().getActivities()) {
+            attachments.addAll(activity.getAttachments());
+        }
+        managedLists.add(attachments);
+        
+        return managedLists;
     }
 
     public List<Negotiation> getNegotiationList() {
