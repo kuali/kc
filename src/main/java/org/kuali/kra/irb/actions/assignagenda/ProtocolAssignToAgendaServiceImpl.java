@@ -88,17 +88,16 @@ public class ProtocolAssignToAgendaServiceImpl implements ProtocolAssignToAgenda
     public void assignToAgenda(Protocol protocol, ProtocolAssignToAgendaBean actionBean) throws Exception {
 
         ProtocolSubmission submission = findSubmission(protocol);
-        if (actionBean.isProtocolAssigned()) {
-            // add a new protocol action
-            ProtocolAction protocolAction = new ProtocolAction(protocol, submission, ProtocolActionType.ASSIGN_TO_AGENDA);
-            protocolAction.setComments(actionBean.getComments());
-            protocolAction.setActionDate(new Timestamp(actionBean.getActionDate().getTime()));
-            protocol.getProtocolActions().add(protocolAction);
-            protocolActionService.updateProtocolStatus(protocolAction, protocol);
-            documentService.saveDocument(protocol.getProtocolDocument());
-            // sendWithdrawNotification(protocol);
-            protocolActionsNotificationService.sendActionsNotification(protocol, new AssignToAgendaEvent(protocol));
-        } 
+        // add a new protocol action
+        ProtocolAction protocolAction = new ProtocolAction(protocol, submission, ProtocolActionType.ASSIGN_TO_AGENDA);
+        protocolAction.setComments(actionBean.getComments());
+        protocolAction.setActionDate(new Timestamp(actionBean.getActionDate().getTime()));
+        protocol.getProtocolActions().add(protocolAction);
+        protocolActionService.updateProtocolStatus(protocolAction, protocol);
+        documentService.saveDocument(protocol.getProtocolDocument());
+        // sendWithdrawNotification(protocol);
+        protocolActionsNotificationService.sendActionsNotification(protocol, new AssignToAgendaEvent(protocol));
+        
     }
 
     /** {@inheritDoc} */

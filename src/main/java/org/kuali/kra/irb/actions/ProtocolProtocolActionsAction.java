@@ -1257,9 +1257,7 @@ public class ProtocolProtocolActionsAction extends ProtocolAction implements Aud
                 if (applyRules(new ProtocolAssignToAgendaEvent(protocolForm.getProtocolDocument(), actionBean))) {               
                     getProtocolAssignToAgendaService().assignToAgenda(protocolForm.getProtocolDocument().getProtocol(), actionBean);
                     saveReviewComments(protocolForm, actionBean.getReviewCommentsBean());
-                    if (actionBean.isProtocolAssigned()) {
-                        recordProtocolActionSuccess("Assign to Agenda");
-                    }
+                    recordProtocolActionSuccess("Assign to Agenda");
                 }
             }
         } else {
