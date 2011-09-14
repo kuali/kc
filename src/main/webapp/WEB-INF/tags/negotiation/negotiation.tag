@@ -24,7 +24,9 @@
             <tr>
 		        <th><div align="right"><kul:htmlAttributeLabel attributeEntry="${negotiationAttributes.negotiationStatusId}" /></div></th>
                 <td>
-                	<kul:htmlControlAttribute property="document.negotiationList[0].negotiationStatusId" attributeEntry="${negotiationAttributes.negotiationStatusId}" readOnly="${readOnly}"/>
+                	<kul:htmlControlAttribute property="document.negotiationList[0].negotiationStatusId" 
+                		attributeEntry="${negotiationAttributes.negotiationStatusId}" readOnly="${readOnly}"
+                		onchange="manageStatusEndDate(true);"/>
                 </td>
                 <th><div align="right">Negotiation Dates:</div></th>
                 <td align="left" valign="middle">
@@ -32,6 +34,11 @@
                 	End: <kul:htmlControlAttribute property="document.negotiationList[0].negotiationEndDate" attributeEntry="${negotiationAttributes.negotiationEndDate}" readOnly="${readOnly}"/>
                 </td>
             </tr>
+            <script language="javascript">
+            	<!--
+            	${KualiForm.statusRelatedJavascript}
+            	-->
+            </script>
             <tr>
 		        <th><div align="right"><kul:htmlAttributeLabel attributeEntry="${negotiationAttributes.negotiatorPersonId}" /></div></th>
                 <td>
