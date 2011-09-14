@@ -72,16 +72,18 @@ public class NegotiationDocumentRule extends ResearchDocumentRuleBase {
     
     public boolean validateEndDate(Negotiation negotiation) {
         boolean result = true;
-        if (negotiation.getNegotiationEndDate() != null 
-                && getNegotiationService().getInProgressStatusCodes().contains(negotiation.getNegotiationStatus().getCode())) {
-            result = false;
-            getErrorReporter().reportError(END_DATE_PROPERTY, KeyConstants.NEGOTIATION_ERROR_INPROGRESS_END_DATE);
-        }
-        
-        if (negotiation.getNegotiationEndDate() == null
-                && getNegotiationService().getCompletedStatusCodes().contains(negotiation.getNegotiationStatus().getCode())) {
-            result = false;
-            getErrorReporter().reportError(END_DATE_PROPERTY, KeyConstants.NEGOTIATION_ERROR_COMPLETED_END_DATE);            
+        if (negotiation.getNegotiationStatus() != null) {
+            if (negotiation.getNegotiationEndDate() != null 
+                    && getNegotiationService().getInProgressStatusCodes().contains(negotiation.getNegotiationStatus().getCode())) {
+                result = false;
+                getErrorReporter().reportError(END_DATE_PROPERTY, KeyConstants.NEGOTIATION_ERROR_INPROGRESS_END_DATE);
+            }
+            
+            if (negotiation.getNegotiationEndDate() == null
+                    && getNegotiationService().getCompletedStatusCodes().contains(negotiation.getNegotiationStatus().getCode())) {
+                result = false;
+                getErrorReporter().reportError(END_DATE_PROPERTY, KeyConstants.NEGOTIATION_ERROR_COMPLETED_END_DATE);            
+            }
         }
         
         if (negotiation.getNegotiationEndDate() != null
