@@ -165,7 +165,8 @@ public class NegotiationForm extends KraTransactionalDocumentFormBase {
         sb.append("var currentTime = new Date();").append(newLine);
         sb.append("dateField.value = currentTime.getMonth() + 1 + \"/\" +  currentTime.getDate() + \"/\" + currentTime.getFullYear();").append(newLine);
         sb.append("}").append(newLine).append("} else {").append(newLine);
-        sb.append("dateField.disabled = true;").append(newLine).append("}").append(newLine).append("}").append(newLine);
+        sb.append("dateField.disabled = true;").append(newLine).append("dateField.value = '';");
+        sb.append("}").append(newLine).append("}").append(newLine);
         sb.append("manageStatusEndDate(false);");
 
         return sb.toString();
