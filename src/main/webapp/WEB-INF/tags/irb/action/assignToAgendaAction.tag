@@ -61,17 +61,7 @@
 			                                      readOnly="${true}" />
 	                </td>
 	            </tr>
-	            <tr>
-	            	<th> 
-	                    <div align="right">
-	                        <kul:htmlAttributeLabel attributeEntry="${attributes.protocolAssigned}" />
-	                    </div>
-	                </th>
-	                <td>
-						<kul:htmlControlAttribute property="actionHelper.assignToAgendaBean.protocolAssigned" 
-			                                      attributeEntry="${attributes.protocolAssigned}" />			                                      
-	                </td>
-	            </tr>
+	  
 	            <tr>
 	            	<th> 
 	                    <div align="right">
