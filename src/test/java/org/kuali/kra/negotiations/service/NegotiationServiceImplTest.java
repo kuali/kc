@@ -121,22 +121,6 @@ public class NegotiationServiceImplTest extends KcUnitTestBase {
         assertEquals(NegotiationAssociatedDetailBean.MODE_AWARD, bean.getMode());
     }
     
-    @Test
-    public void testBuildNegotiationAssociatedDetailBean3() {
-        
-        Negotiation negotiation = getBasicNegotiation();
-        negotiation.setNegotiationAssociationType(getNegotiationAssociationType("SWD"));
-        negotiation.setAssociatedDocumentId("Abc123");
-        this.businessObjectService.save(negotiation);
-        negotiation.refresh();
-        try{
-            NegotiationAssociatedDetailBean bean = this.negotiationService.buildNegotiationAssociatedDetailBean(negotiation);
-            assertTrue(false);
-        } catch (IllegalArgumentException iae) {
-            assertTrue(true);
-        }
-    }
-    
     private Negotiation getBasicNegotiation() {
         NegotiationStatus status = (NegotiationStatus)businessObjectService.findAll(NegotiationStatus.class).iterator().next();
         NegotiationAgreementType agreementType = (NegotiationAgreementType)businessObjectService.findAll(NegotiationAgreementType.class).iterator().next();
