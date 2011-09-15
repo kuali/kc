@@ -322,9 +322,8 @@
 						        <testFailureIgnore>false</testFailureIgnore>
 						        <!-- hopefully only temporary until all our tests are fixed :-) -->
 						        <test>${surefire.test}</test>
-						        <forkMode>never</forkMode>
 						        <reportFormat>plain</reportFormat>
-						        <argLine>-Xmx1536m -XX:MaxPermSize=512m</argLine>
+						        <argLine>-Xms1024m -Xmx2048m -server -XX:PermSize=1024m -XX:MaxPermSize=2048m</argLine>
 						        <aggregate>true</aggregate>
                             </configuration>
                         </plugin>
