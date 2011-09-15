@@ -28,7 +28,7 @@
                     <th width="15%"> 
                         <div align="right">
                             <nobr>
-                            <kul:htmlAttributeLabel attributeEntry="${attributes.summary}" />
+                            Renewal Summary:
                             </nobr>
                         </div>
                     </th>
@@ -42,7 +42,7 @@
             	<tr>
             		<th width="15%">
             			<div align="right">
-            				*Amend:
+            				*Renew:
             			</div>
             		</th>
             		<td>
