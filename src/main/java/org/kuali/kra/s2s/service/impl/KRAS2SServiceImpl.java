@@ -461,8 +461,9 @@ public class KRAS2SServiceImpl implements S2SService {
 				.getDevelopmentProposal().getProgramAnnouncementTitle());
 		grantSubmissionHeader.setAgencyName(pdDoc.getDevelopmentProposal()
 				.getSponsor().getSponsorName());
-		grantSubmissionHeader.setCFDANumber(pdDoc.getDevelopmentProposal()
-				.getCfdaNumber());
+		if(pdDoc.getDevelopmentProposal().getCfdaNumber()!=null){
+		    grantSubmissionHeader.setCFDANumber(pdDoc.getDevelopmentProposal().getCfdaNumber());
+		}
 		S2sOpportunity s2sOpportunity = pdDoc.getDevelopmentProposal()
 				.getS2sOpportunity();
 		s2sOpportunity.refreshNonUpdateableReferences();
