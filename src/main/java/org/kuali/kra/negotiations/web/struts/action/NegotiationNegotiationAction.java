@@ -27,11 +27,13 @@ import org.apache.commons.lang.StringUtils;
 import org.apache.struts.action.ActionForm;
 import org.apache.struts.action.ActionForward;
 import org.apache.struts.action.ActionMapping;
+import org.kuali.kra.bo.AttachmentFile;
 import org.kuali.kra.bo.Organization;
 import org.kuali.kra.bo.Sponsor;
 import org.kuali.kra.infrastructure.Constants;
 import org.kuali.kra.negotiations.bo.Negotiation;
 import org.kuali.kra.negotiations.bo.NegotiationActivity;
+import org.kuali.kra.negotiations.bo.NegotiationActivityAttachment;
 import org.kuali.kra.negotiations.bo.NegotiationAgreementType;
 import org.kuali.kra.negotiations.bo.NegotiationAssociationType;
 import org.kuali.kra.negotiations.bo.NegotiationStatus;
@@ -273,6 +275,25 @@ public class NegotiationNegotiationAction extends NegotiationAction {
         return mapping.findForward(Constants.MAPPING_BASIC);
     }
     
+    public ActionForward viewAttachment(ActionMapping mapping, ActionForm form, HttpServletRequest request, HttpServletResponse response) throws Exception {
+        NegotiationForm negotiationForm = (NegotiationForm) form;
+        NegotiationActivityAttachment attachment = negotiationForm.getNegotiationActivityHelper().getActivity(getActivityIndex(request))
+                                                                .getAttachments().get(getAttachmentIndex(request));
+        final AttachmentFile file = attachment.getFile();
+        this.streamToResponse(file.getData(), getValidHeaderString(file.getName()),  getValidHeaderString(file.getType()), response);
+        
+        return null;
+    }
+    
+    public ActionForward viewAttachmentFromAllAttachments(ActionMapping mapping, ActionForm form, HttpServletRequest request, HttpServletResponse response) throws Exception {
+        NegotiationForm negotiationForm = (NegotiationForm) form;
+        NegotiationActivityAttachment attachment = 
+            negotiationForm.getNegotiationDocument().getNegotiation().getAllAttachments().get(getAttachmentIndex(request));
+        final AttachmentFile file = attachment.getFile();
+        this.streamToResponse(file.getData(), getValidHeaderString(file.getName()),  getValidHeaderString(file.getType()), response);
+        
+        return null;
+    }    
     
     protected Integer getActivityIndex(HttpServletRequest request) {
         String parameterName = (String) request.getAttribute(KNSConstants.METHOD_TO_CALL_ATTRIBUTE);

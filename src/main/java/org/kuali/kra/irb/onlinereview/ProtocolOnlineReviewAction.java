@@ -1001,8 +1001,4 @@ public class ProtocolOnlineReviewAction extends ProtocolAction implements AuditM
         return RESPONSE_ALREADY_HANDLED;
     }
 
-    private static String getValidHeaderString(String s) {
-        return MimeUtility.quote(s, HeaderTokenizer.MIME);
-    }
-
 }
