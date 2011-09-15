@@ -82,15 +82,6 @@ function getQuestionNew(description, qtypeid, vers, dispans, ansmax, maxlength, 
 	    	                               "_blank", "width=640, height=600, scrollbars=yes");
 	    });
 	    linkNewQ.appendTo(div62);
-	    
-
-	    var linkUpdateQ = $(';nbsp;nbsp<a style="margin-left:2px;"></a>').attr("id",
-			"updateqn" + i).attr("name","updateqn" + i).html("(Update to current version)");
-	    linkUpdateQ.click(function() {
-		    var idx = $(this).attr("id").substring(8);
-		    clickUpdateQuestionVersion(idx);
-	    });
-    	linkUpdateQ.appendTo(div62);
 
 	}
 
