@@ -17,6 +17,7 @@ package org.kuali.kra.negotiations.service;
 
 import static org.junit.Assert.*;
 
+import java.sql.Date;
 import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
@@ -24,6 +25,7 @@ import java.util.Map;
 import org.junit.After;
 import org.junit.Before;
 import org.junit.Test;
+import org.kuali.kra.award.document.AwardDocument;
 import org.kuali.kra.award.home.Award;
 import org.kuali.kra.bo.Organization;
 import org.kuali.kra.bo.Sponsor;
@@ -112,7 +114,7 @@ public class NegotiationServiceImplTest extends KcUnitTestBase {
         Award award = (Award) this.businessObjectService.findByPrimaryKey(Award.class, primaryKeys);
         Negotiation negotiation = getBasicNegotiation();
         negotiation.setNegotiationAssociationType(getNegotiationAssociationType("AWD"));
-        negotiation.setAssociatedDocumentId(award.getAwardId().toString());
+        negotiation.setAssociatedDocumentId(award.getAwardNumber());
         this.businessObjectService.save(negotiation);
         negotiation.refresh();
         
