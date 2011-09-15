@@ -35,6 +35,8 @@ import java.util.Map;
 import java.util.Properties;
 import java.util.Set;
 
+import javax.mail.internet.HeaderTokenizer;
+import javax.mail.internet.MimeUtility;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 import javax.xml.parsers.DocumentBuilder;
@@ -904,4 +906,25 @@ public class KraTransactionalDocumentActionBase extends KualiTransactionalDocume
             return mapping.findForward(Constants.MAPPING_BASIC);
         }
     }
+    
+    /**
+     * Quotes a string that follows RFC 822 and is valid to include in an http header.
+     * 
+     * <p>
+     * This really should be a part of {@link org.kuali.rice.kns.util.WebUtils WebUtils}.
+     * <p>
+     * 
+     * For example: without this method, file names with spaces will not show up to the client correctly.
+     * 
+     * <p>
+     * This method is not doing a Base64 encode just a quoted printable character otherwise we would have
+     * to set the encoding type on the header.
+     * <p>
+     * 
+     * @param s the original string
+     * @return the modified header string
+     */
+    protected static String getValidHeaderString(String s) {
+        return MimeUtility.quote(s, HeaderTokenizer.MIME);
+    }    
 }
