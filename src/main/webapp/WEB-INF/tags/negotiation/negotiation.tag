@@ -126,7 +126,7 @@
 	                	<c:choose>
                 			<c:when test="${KualiForm.displayAward}">
                 				<kul:lookup boClassName="org.kuali.kra.award.home.Award" 
-                					fieldConversions="awardId:document.negotiationList[0].associatedDocumentId" />
+                					fieldConversions="awardNumber:document.negotiationList[0].associatedDocumentId" />
 					      	</c:when>
 					      	<c:when test="${KualiForm.displaySubAward}">
 					      		<img src="${ConfigProperties.kra.externalizable.images.url}searchicon.gif" name="subAwardImage" id="subAwardImage"
@@ -139,7 +139,7 @@
 					      	</c:when>
 					      	<c:when test="${KualiForm.displayInstitutionalProposal}">
 					        	<kul:lookup boClassName="org.kuali.kra.institutionalproposal.home.InstitutionalProposal" 
-					        		fieldConversions="proposalId:document.negotiationList[0].associatedDocumentId" /> 
+					        		fieldConversions="proposalNumber:document.negotiationList[0].associatedDocumentId" /> 
 					      	</c:when>
 						</c:choose>
 					</c:if>

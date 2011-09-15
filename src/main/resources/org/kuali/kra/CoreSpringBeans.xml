@@ -645,7 +645,13 @@
         </property>
         <property name="businessObjectService">
             <ref bean="businessObjectService" />
-        </property>        
+        </property>   
+        <property name="awardBudgetService">
+            <ref bean="awardBudgetService" />
+        </property> 
+        <property name="institutionalProposalService">
+            <ref bean="institutionalProposalService" />
+        </property>      
 	</bean>
 	
 </beans>

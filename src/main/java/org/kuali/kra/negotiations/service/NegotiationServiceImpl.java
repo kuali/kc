@@ -21,12 +21,15 @@ import java.util.List;
 import java.util.Map;
 
 import org.apache.commons.lang.StringUtils;
+import org.kuali.kra.award.budget.AwardBudgetService;
 import org.kuali.kra.award.home.Award;
 import org.kuali.kra.institutionalproposal.home.InstitutionalProposal;
 import org.kuali.kra.institutionalproposal.proposallog.ProposalLog;
+import org.kuali.kra.institutionalproposal.service.InstitutionalProposalService;
 import org.kuali.kra.negotiations.bo.Negotiation;
 import org.kuali.kra.negotiations.bo.NegotiationAssociatedDetailBean;
 import org.kuali.kra.negotiations.bo.NegotiationAssociationType;
+import org.kuali.kra.negotiations.bo.NegotiationUnassociatedDetail;
 import org.kuali.kra.negotiations.document.NegotiationDocument;
 import org.kuali.rice.kns.service.BusinessObjectService;
 import org.kuali.rice.kns.service.ParameterService;
@@ -39,6 +42,8 @@ public class NegotiationServiceImpl implements NegotiationService {
     private static final String PARAMETER_DELIMITER = ",";
     
     private ParameterService parameterService;
+    private AwardBudgetService awardBudgetService;
+    private InstitutionalProposalService institutionalProposalService;
     
     private BusinessObjectService businessObjectService;
     
@@ -66,26 +71,22 @@ public class NegotiationServiceImpl implements NegotiationService {
      */
     public NegotiationAssociatedDetailBean buildNegotiationAssociatedDetailBean(Negotiation negotiation) {        
         if (negotiation.getNegotiationAssociationType() != null) {
-            Map<String, String> primaryKeys = new HashMap<String, String>();
             NegotiationAssociatedDetailBean bean;
             if (StringUtils.equals(negotiation.getNegotiationAssociationType().getCode(), NegotiationAssociationType.AWARD_ASSOCIATION)) {
-                primaryKeys.put("AWARD_ID", negotiation.getAssociatedDocumentId());
-                bean = new NegotiationAssociatedDetailBean((Award) this.getBusinessObjectService().findByPrimaryKey(Award.class, primaryKeys));
+                Award award = getAward(negotiation.getAssociatedDocumentId());
+                bean = new NegotiationAssociatedDetailBean(award);
             } else if (StringUtils.equals(negotiation.getNegotiationAssociationType().getCode(), 
                     NegotiationAssociationType.INSTITUATIONAL_PROPOSAL_ASSOCIATION)) {
-                primaryKeys = new HashMap<String, String>();
-                primaryKeys.put("PROPOSAL_ID", negotiation.getAssociatedDocumentId());
-                bean = new NegotiationAssociatedDetailBean((InstitutionalProposal) this.getBusinessObjectService().findByPrimaryKey(
-                        InstitutionalProposal.class, primaryKeys));
-               
+                InstitutionalProposal ip = getInstitutionalProposal(negotiation.getAssociatedDocumentId());
+                bean = new NegotiationAssociatedDetailBean(ip);
             } else if (StringUtils.equals(negotiation.getNegotiationAssociationType().getCode(), 
                     NegotiationAssociationType.NONE_ASSOCIATION)) {
-                bean = new NegotiationAssociatedDetailBean(negotiation.getUnAssociatedDetail());
+                NegotiationUnassociatedDetail detail = negotiation.getUnAssociatedDetail();
+                bean = new NegotiationAssociatedDetailBean(detail);
             } else if (StringUtils.equals(negotiation.getNegotiationAssociationType().getCode(), 
                     NegotiationAssociationType.PROPOSAL_LOG_ASSOCIATION)) {
-                primaryKeys = new HashMap<String, String>();
-                primaryKeys.put("PROPOSAL_NUMBER", negotiation.getAssociatedDocumentId());
-                bean = new NegotiationAssociatedDetailBean((ProposalLog) this.getBusinessObjectService().findByPrimaryKey(ProposalLog.class, primaryKeys));
+                ProposalLog pl = getProposalLog(negotiation.getAssociatedDocumentId());
+                bean = new NegotiationAssociatedDetailBean(pl);
             } else if (StringUtils.equals(negotiation.getNegotiationAssociationType().getCode(), 
                     NegotiationAssociationType.SUB_AWARD_ASSOCIATION)) {
                 bean = new NegotiationAssociatedDetailBean();
@@ -96,6 +97,23 @@ public class NegotiationServiceImpl implements NegotiationService {
         } else {
             return null;
         }
+    }
+    
+    private Award getAward(String awardNumber) {
+        Award award = this.getAwardBudgetService().getActiveOrNewestAward(awardNumber);
+        return award;
+    }
+    
+    private ProposalLog getProposalLog(String proposalNumber) {
+        Map<String, String> primaryKeys = new HashMap<String, String>();
+        primaryKeys.put("PROPOSAL_NUMBER", proposalNumber);
+        ProposalLog pl = (ProposalLog) this.getBusinessObjectService().findByPrimaryKey(ProposalLog.class, primaryKeys);
+        return pl;
+    }
+    
+    private InstitutionalProposal getInstitutionalProposal(String proposalNumber) {
+        InstitutionalProposal ip = this.getInstitutionalProposalService().getActiveInstitutionalProposalVersion(proposalNumber);
+        return ip;
     }
 
     protected ParameterService getParameterService() {
@@ -112,6 +130,22 @@ public class NegotiationServiceImpl implements NegotiationService {
 
     public void setBusinessObjectService(BusinessObjectService businessObjectService) {
         this.businessObjectService = businessObjectService;
+    }
+
+    public AwardBudgetService getAwardBudgetService() {
+        return awardBudgetService;
+    }
+
+    public void setAwardBudgetService(AwardBudgetService awardBudgetService) {
+        this.awardBudgetService = awardBudgetService;
+    }
+
+    public InstitutionalProposalService getInstitutionalProposalService() {
+        return institutionalProposalService;
+    }
+
+    public void setInstitutionalProposalService(InstitutionalProposalService institutionalProposalService) {
+        this.institutionalProposalService = institutionalProposalService;
     }
 
 }
