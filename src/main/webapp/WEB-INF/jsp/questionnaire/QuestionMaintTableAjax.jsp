@@ -70,7 +70,13 @@
                                 <a href="#" id="modify${qidx}" onClick="clickModify(${qidx})">
                                     <img height="15" width="79" border="0" title="Modify the current contents of this node"
                                         alt="Modify Node" src="static/images/tinybutton-modifynode.gif">
-                                </a>								
+                                </a>
+                                <c:if test="${not KualiForm.questionCurrentVersion}">
+	                                <a href="#" id="update${qidx}" onClick="clickUpdateQuestionVersion(${qidx})">
+	                                    <img height="15" width="79" border="0" title="Update to the current version of this node"
+	                                        alt="Update Version" src="static/images/tinybutton-updateversion.gif">
+	                                </a>
+                                </c:if>								
 						    </td>
 							<th style="text-align: right;">Add Question:</th>
 							<td>

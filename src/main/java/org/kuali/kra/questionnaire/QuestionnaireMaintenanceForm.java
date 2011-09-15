@@ -59,6 +59,7 @@ public class QuestionnaireMaintenanceForm extends KualiMaintenanceForm {
     private String childNode;
     private String response;
     private String value;
+    private boolean questionCurrentVersion = true;
 
     /**
      * Constructs a QuestionnaireMaintenanceForm.
@@ -349,6 +350,16 @@ public class QuestionnaireMaintenanceForm extends KualiMaintenanceForm {
             getDocInfo().clear();
         }
 
+    }
+
+
+    public boolean isQuestionCurrentVersion() {
+        return questionCurrentVersion;
+    }
+
+
+    public void setQuestionCurrentVersion(boolean questionCurrentVersion) {
+        this.questionCurrentVersion = questionCurrentVersion;
     }
 
 
