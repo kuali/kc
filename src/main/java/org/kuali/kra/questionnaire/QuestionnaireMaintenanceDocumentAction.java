@@ -530,6 +530,16 @@ public class QuestionnaireMaintenanceDocumentAction extends KualiMaintenanceDocu
             Map pkMap = new HashMap();
             pkMap.put("questionRefId", qnForm.getQuestionId());
             qnForm.setQuestion((Question)getBusinessObjectService().findByPrimaryKey(Question.class, pkMap));
+            
+            //lets check for a more current version
+            pkMap.clear();
+            pkMap.put("questionId", qnForm.getQuestion().getQuestionId());
+            List<Question> questions = ((List<Question>)getBusinessObjectService().findMatchingOrderBy(Question.class, pkMap, "sequenceNumber", false));
+            if (CollectionUtils.isNotEmpty(questions)) {
+                if (!StringUtils.equals(questions.get(0).getQuestionRefId().toString(), qnForm.getQuestionId())) {
+                    qnForm.setQuestionCurrentVersion(false);
+                }
+            }
         }
         return mapping.findForward("ajaxQuestionMaintainTable");
     }
