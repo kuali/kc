@@ -7,6 +7,7 @@
 <script>
 $jq(document).ready(function() {
 	$jq('input[name*="viewAttachment"]').hide();
+	$jq('input[name*="viewAttachment"]').click(function() {excludeSubmitRestriction = true});
 	$jq('a.attachmentLink').click(function() { $jq(this).siblings('input').click(); });
 });
 </script>

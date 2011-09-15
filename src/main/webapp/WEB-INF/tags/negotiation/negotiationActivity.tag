@@ -96,7 +96,7 @@
               <tr>
                 <th style="text-align: right;"><c:out value="${ctr.count}"/></th>
                 <td><a href="#" class="attachmentLink"><c:out value="${attachment.file.name}"/></a>
-                        	<html:image property="methodToCall.viewAttachmentFromAllAttachments.attachmentIndex${ctr.count-1}"
+                        	<html:image property="methodToCall.viewAttachment.activityIndex${activityIndex}.attachmentIndex${ctr.count-1}"
    		  				src="${ConfigProperties.kra.externalizable.images.url}tinybutton-view.gif" styleClass="tinybutton" />
                 </td>
                 <td><kul:htmlControlAttribute property="${activityPath}.attachments[${ctr.count-1}].description" attributeEntry="${attachmentAttributes.description}" readOnly="true"/></td>
