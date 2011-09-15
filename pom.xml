@@ -194,6 +194,14 @@
 			    </executions>
 			</plugin>
 			<plugin>
+                <groupId>org.apache.maven.plugins</groupId>
+                <artifactId>maven-checkstyle-plugin</artifactId>
+                <version>2.6</version>
+                <configuration>
+                    <propertyExpansion>${checkstyle.propertyExpansion}</propertyExpansion>
+                </configuration>
+            </plugin>
+			<plugin>
 				<groupId>org.apache.maven.plugins</groupId>
 				<artifactId>maven-compiler-plugin</artifactId>
 				<version>2.3.2</version>
@@ -270,73 +278,104 @@
 				<artifactId>maven-install-plugin</artifactId>
 				<version>2.3.1</version>
 		    </plugin>
+            <plugin>
+                <groupId>org.apache.maven.plugins</groupId>
+                <artifactId>maven-javadoc-plugin</artifactId>
+                <version>2.7</version>
+            </plugin>
+            <plugin>
+                <groupId>org.apache.maven.plugins</groupId>
+                <artifactId>maven-project-info-reports-plugin</artifactId>
+                <version>2.2</version>
+            </plugin>
 		    <plugin>
 		    	<groupId>org.apache.maven.plugins</groupId>
 				<artifactId>maven-resources-plugin</artifactId>
 				<version>2.4.3</version>
 		    </plugin>
 		    <plugin>
-		    	<groupId>org.apache.maven.plugins</groupId>
-				<artifactId>maven-war-plugin</artifactId>
-				<version>2.1</version>
-		    </plugin>
+                <groupId>org.apache.maven.plugins</groupId>
+                <artifactId>maven-site-plugin</artifactId>
+                <version>3.0-beta-2</version>
+                <configuration>
+                    <reportPlugins>
+                        <!--  Currently we must configure these plugins both in pluginManagement and reportPlugins.
+                              See http://jira.codehaus.org/browse/MSITE-516 
+                        -->
+                        <plugin>
+	                        <groupId>net.sourceforge.maven-taglib</groupId>
+	                        <artifactId>maven-taglib-plugin</artifactId>
+	                    </plugin>
+                        <plugin>
+	                        <groupId>org.apache.maven.plugins</groupId>
+	                        <artifactId>maven-checkstyle-plugin</artifactId>
+                            <configuration>
+                                <propertyExpansion>${checkstyle.propertyExpansion}</propertyExpansion>
+                            </configuration>
+                        </plugin>
+						<plugin>
+						    <groupId>org.apache.maven.plugins</groupId>
+						    <artifactId>maven-javadoc-plugin</artifactId>
+						</plugin>
+						<plugin>
+						    <groupId>org.apache.maven.plugins</groupId>
+						    <artifactId>maven-project-info-reports-plugin</artifactId>
+						</plugin>
+						<plugin>
+			                <groupId>org.apache.maven.plugins</groupId>
+			                <artifactId>maven-surefire-plugin</artifactId>
+			                <configuration>
+			                    <useFile>${surefire.useFile}</useFile>
+			                    <testFailureIgnore>${surefire.testFailureIgnore}</testFailureIgnore>
+			                    <!-- hopefully only temporary until all our tests are fixed :-) -->
+			                    <test>${surefire.test}</test>
+			                    <reportFormat>${surefire.reportFormat}</reportFormat>
+			                    <forkMode>${surefire.forkMode}</forkMode>
+			                    <argLine>${surefire.argLine}</argLine>
+			                    <aggregate>${surefire.aggregate}</aggregate>
+			                </configuration>
+			            </plugin>
+			            <plugin>
+			                <groupId>org.codehaus.mojo</groupId>
+			                <artifactId>cobertura-maven-plugin</artifactId>
+			                <configuration>
+			                    <maxmem>${cobertura.maxmem}</maxmem>
+			                </configuration>
+			            </plugin>
+                    </reportPlugins>
+                </configuration>
+            </plugin>
             <plugin>
-	            <groupId>org.apache.maven.plugins</groupId>
-	            <artifactId>maven-surefire-plugin</artifactId>
-	            <version>2.6</version>
-	            <configuration>
-	                <useFile>false</useFile>
-	                <testFailureIgnore>false</testFailureIgnore>
-	                <!-- hopefully only temporary until all our tests are fixed :-) -->
-	                <test>${surefire.test}</test>
-	                <reportFormat>plain</reportFormat>
-	                <forkMode>never</forkMode>
-	                <argLine>-Xms256m -Xmx512m -XX:PermSize=256m -XX:MaxPermSize=512m</argLine>
-	                <aggregate>true</aggregate>
-	            </configuration>
+                <groupId>org.apache.maven.plugins</groupId>
+                <artifactId>maven-surefire-plugin</artifactId>
+                <version>2.6</version>
+                <configuration>
+                    <useFile>${surefire.useFile}</useFile>
+                    <testFailureIgnore>${surefire.testFailureIgnore}</testFailureIgnore>
+                    <!-- hopefully only temporary until all our tests are fixed :-) -->
+                    <test>${surefire.test}</test>
+                    <reportFormat>${surefire.reportFormat}</reportFormat>
+                    <forkMode>${surefire.forkMode}</forkMode>
+                    <argLine>${surefire.argLine}</argLine>
+                    <aggregate>${surefire.aggregate}</aggregate>
+                </configuration>
+            </plugin>
+            <plugin>
+                <groupId>net.sourceforge.maven-taglib</groupId>
+                <artifactId>maven-taglib-plugin</artifactId>
+                <version>2.4</version>
+            </plugin>
+            <plugin>
+                <groupId>org.apache.maven.plugins</groupId>
+                <artifactId>maven-war-plugin</artifactId>
+                <version>2.1</version>
             </plugin>
             <plugin>
                 <groupId>org.codehaus.mojo</groupId>
                 <artifactId>cobertura-maven-plugin</artifactId>
                 <version>2.4</version>
                 <configuration>
-                    <maxmem>512M</maxmem>
-                </configuration>
-            </plugin>
-		    <plugin>
-                <groupId>org.apache.maven.plugins</groupId>
-                <artifactId>maven-site-plugin</artifactId>
-                <version>3.0-beta-2</version>
-                <configuration>
-                    <reportPlugins>
-                        <plugin>
-	                        <groupId>net.sourceforge.maven-taglib</groupId>
-	                        <artifactId>maven-taglib-plugin</artifactId>
-	                        <version>2.4</version>
-	                    </plugin>
-                        <plugin>
-	                        <groupId>org.apache.maven.plugins</groupId>
-	                        <artifactId>maven-checkstyle-plugin</artifactId>
-	                        <version>2.6</version>
-                            <configuration>
-	                            <!--
-	                                looks like there are some bugs related to the suppression file location - using a nonstandard property.
-	                                This must be also set by the eclipse pluigin.
-	                             -->
-                                <propertyExpansion>cs.suppression.file=${basedir}/src/main/config/checkstyle_suppressions.xml</propertyExpansion>
-                            </configuration>
-                        </plugin>
-						<plugin>
-						    <groupId>org.apache.maven.plugins</groupId>
-						    <artifactId>maven-javadoc-plugin</artifactId>
-						    <version>2.7</version>
-						</plugin>
-						<plugin>
-						    <groupId>org.apache.maven.plugins</groupId>
-						    <artifactId>maven-project-info-reports-plugin</artifactId>
-						    <version>2.2</version>
-						</plugin>
-                    </reportPlugins>
+                    <maxmem>${cobertura.maxmem}</maxmem>
                 </configuration>
             </plugin>
 		</plugins>
@@ -1478,6 +1517,22 @@
 		<checkstyle.config.location>${basedir}/src/main/config/KC_Checkstyle.xml</checkstyle.config.location>
 		<checkstyle.enable.rss>false</checkstyle.enable.rss>
 		<checkstyle.enable.rules.summary>false</checkstyle.enable.rules.summary>
+		<!--
+           looks like there are some bugs related to the suppression file location - using a nonstandard property.
+           This must be also set by the eclipse pluigin.
+        -->
+        <checkstyle.propertyExpansion>cs.suppression.file=${basedir}/src/main/config/checkstyle_suppressions.xml</checkstyle.propertyExpansion>
+		
+		<!--  Cobertura config -->
+        <cobertura.maxmem>512M</cobertura.maxmem>
+		
+		<!-- Surefire config -->
+        <surefire.useFile>false</surefire.useFile>
+        <surefire.testFailureIgnore>false</surefire.testFailureIgnore>
+        <surefire.reportFormat>plain</surefire.reportFormat>
+        <surefire.forkMode>never</surefire.forkMode>
+        <surefire.argLine>-Xms256m -Xmx512m -XX:PermSize=256m -XX:MaxPermSize=512m</surefire.argLine>
+        <surefire.aggregate>true</surefire.aggregate>
 
     	<project.build.sourceEncoding>UTF-8</project.build.sourceEncoding>
     	
