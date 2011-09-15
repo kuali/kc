@@ -24,7 +24,6 @@
 
 <kul:innerTab parentTab="${parentTab}" tabTitle="${tabTitle}" defaultOpen="false" tabErrorKey="${activityPath}*" useCurrentTabIndexAsKey="true" overrideDivClass="${tabDivClass}">
             <div class="innerTab-container" align="left">
-            <c:out value="${activity.description}"/>
         
         <table cellpadding="4" cellspacing="0" summary="">
             <tr>
@@ -84,7 +83,6 @@
                 </td>
             </tr>
         </table>
-        <c:out value="${activity.description}"/>
         <table cellpadding="4" cellspacing="0" summary="">
             <tr>
             	<th><div align="right">Attachments:</div></th>
@@ -94,11 +92,13 @@
    		  				src="${ConfigProperties.kra.externalizable.images.url}tinybutton-add1.gif" styleClass="tinybutton"/>
             	</th>
             </tr>
-            <c:out value="${activity.description}"/>
             <c:forEach items="${activity.attachments}" var="attachment" varStatus="ctr">
               <tr>
                 <th style="text-align: right;"><c:out value="${ctr.count}"/></th>
-                <td><c:out value="${attachment.file.name}"/></td>
+                <td><a href="#" class="attachmentLink"><c:out value="${attachment.file.name}"/></a>
+                        	<html:image property="methodToCall.viewAttachmentFromAllAttachments.attachmentIndex${ctr.count-1}"
+   		  				src="${ConfigProperties.kra.externalizable.images.url}tinybutton-view.gif" styleClass="tinybutton" />
+                </td>
                 <td><kul:htmlControlAttribute property="${activityPath}.attachments[${ctr.count-1}].description" attributeEntry="${attachmentAttributes.description}" readOnly="true"/></td>
                 <td><html:image property="methodToCall.deleteAttachment.activityIndex${activityIndex}.attachmentIndex${ctr.count-1}"
    		  				src="${ConfigProperties.kr.externalizable.images.url}tinybutton-delete1.gif" styleClass="tinybutton"/>
