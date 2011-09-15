@@ -28,6 +28,12 @@
   	headerDispatch="${KualiForm.headerDispatch}"
   	headerTabActive="negotiation">
   	
+<script src="scripts/jquery/jquery.js"></script>
+<script type="text/javascript">
+   var $jq = jQuery.noConflict();
+</script>
+  	
+  	
 <div align="right"><kul:help documentTypeName="NegotiationDocument" pageName="Negotiation" /></div>
 <kul:documentOverview editingMode="${KualiForm.editingMode}" />
 
@@ -44,10 +50,4 @@
 		viewOnly="${KualiForm.editingMode['viewOnly']}"
 		/>
 
-
-
-<script src="scripts/jquery/jquery.js"></script>
-<script type="text/javascript">
-   var $jq = jQuery.noConflict();
-</script>
 </kul:documentPage>

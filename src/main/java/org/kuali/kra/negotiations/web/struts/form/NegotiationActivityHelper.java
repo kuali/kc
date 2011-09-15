@@ -71,7 +71,7 @@ public class NegotiationActivityHelper implements Serializable {
      * @param activityIndex
      * @return
      */
-    protected NegotiationActivity getActivity(int activityIndex) {
+    public NegotiationActivity getActivity(int activityIndex) {
         if (activityIndex == -1) {
             return newActivity;
         } else {
