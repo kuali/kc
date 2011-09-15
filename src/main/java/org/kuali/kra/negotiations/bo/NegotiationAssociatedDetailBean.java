@@ -95,8 +95,8 @@ public class NegotiationAssociatedDetailBean implements Serializable {
         if (proposalLog != null) {
             this.title = proposalLog.getTitle();
             this.leadUnit = proposalLog.getUnit() == null ? EMPTY_STRING : proposalLog.getUnit().getUnitName();
-            this.piEmployee = proposalLog.getPiName();
-            this.piNonEmployee = EMPTY_STRING;
+            this.piEmployee = proposalLog.getPerson() == null ? "" : proposalLog.getPerson().getFullName();
+            this.piNonEmployee = proposalLog.getRolodex() == null ? "" : proposalLog.getRolodex().getFullName();
             this.adminPerson = EMPTY_STRING;
             this.sponsor = proposalLog.getSponsorName();
             this.primeSponsor = EMPTY_STRING;
