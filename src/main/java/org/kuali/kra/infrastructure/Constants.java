@@ -615,6 +615,7 @@ public interface Constants {
     public static final Integer PROTOCOL_ATTACHMENT_NOTIFICATION_COMMENTS = 250;
     
     //Protocol Workflow
+    public static final String PROTOCOL_INITIATED_ROUTE_NODE_NAME = "Initiated";
     public static final String PROTOCOL_IRBREVIEW_ROUTE_NODE_NAME = "IRBReview";
     public static final String PROTOCOL_UNDO_APPROVE_ANNOTATION = "Undoing Approve Action";
     

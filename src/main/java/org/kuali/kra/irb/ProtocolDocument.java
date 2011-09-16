@@ -36,6 +36,7 @@ import org.kuali.kra.irb.actions.ProtocolAction;
 import org.kuali.kra.irb.actions.ProtocolActionType;
 import org.kuali.kra.irb.actions.ProtocolStatus;
 import org.kuali.kra.irb.actions.submit.ProtocolActionService;
+import org.kuali.kra.irb.actions.submit.ProtocolSubmissionStatus;
 import org.kuali.kra.irb.noteattachment.ProtocolAttachmentProtocol;
 import org.kuali.kra.irb.protocol.location.ProtocolLocationService;
 import org.kuali.kra.irb.protocol.research.ProtocolResearchAreaService;
@@ -488,16 +489,23 @@ public class ProtocolDocument extends ResearchDocumentBase implements Copyable, 
         boolean isComplete = true;
         
         if (this.getProtocol().getProtocolStatusCode().equals(ProtocolStatus.SUBMITTED_TO_IRB)) {
-            if (this.getDocumentHeader().getWorkflowDocument().getRouteHeader().getDocRouteLevel() == 0 ) { 
+            if (getDocumentHeader().getWorkflowDocument().getCurrentRouteNodeNames().equalsIgnoreCase(Constants.PROTOCOL_INITIATED_ROUTE_NODE_NAME)) { 
                 isComplete = false;
-            } 
-            // Added for KCIRB-1515
-            if (isAmendment() 
-                && getDocumentHeader().getWorkflowDocument().getCurrentRouteNodeNames().equalsIgnoreCase(Constants.PROTOCOL_IRBREVIEW_ROUTE_NODE_NAME)) {
-                isComplete = false;
+            }     
+            // while submitting an amendment for IRB review, the amendment moves from node Initiated to node IRBReview, 
+            //so need to check if protocolSubmissionStatus is "InAgenda" to avoid the processing page from not going away at all when 
+            // an amendment is submitted for review
+            // Added for KCIRB-1515 & KCIRB-1528
+            if (isAmendment()) {
+                if (StringUtils.isNotEmpty(getProtocol().getProtocolSubmissionStatus())
+                    && getProtocol().getProtocolSubmissionStatus().equals(ProtocolSubmissionStatus.IN_AGENDA)
+                    && getDocumentHeader().getWorkflowDocument().getCurrentRouteNodeNames().equalsIgnoreCase(Constants.PROTOCOL_IRBREVIEW_ROUTE_NODE_NAME)) {
+                        isComplete = false;
+               }
             }
-            
+               
         } else {
+          
             // approve/expedited approve/response approve
             if (!KEWConstants.ROUTE_HEADER_FINAL_CD.equals(this.getDocumentHeader().getWorkflowDocument().getRouteHeader().getDocRouteStatus())) {
                 isComplete = false;
