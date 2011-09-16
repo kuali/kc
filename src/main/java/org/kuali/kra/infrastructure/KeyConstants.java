@@ -949,7 +949,7 @@ public final class KeyConstants {
     
     //negotiations
     public static final String NEGOTIATION_STATUS_USED = "error.negotiations.codeAlreadyUsed";
-    
+    public static final String NEGOTIATION_CHANGE_ASSOCIATION_TYPE_MESSAGE="negotiation.message.changeAssociationType";
     public static final String ERROR_UNIT_NUMBER_REQUIRED = "error.unitnumber.required";
     public static final String NEGOTIATION_ERROR_END_DATE_GREATER_THAN_START = "negotiation.error.end.date.greater.than.start";
     public static final String NEGOTIATION_ERROR_INPROGRESS_END_DATE = "negotiation.error.inprogress.end.date";
