@@ -90,7 +90,8 @@ public class NegotiationNegotiationAction extends NegotiationAction {
         NegotiationForm negotiationForm = (NegotiationForm) form;
         loadCodeObjects(negotiationForm.getNegotiationDocument().getNegotiation());
         Negotiation negotiation = negotiationForm.getNegotiationDocument().getNegotiation();
-        if (StringUtils.equals(negotiation.getNegotiationStatus().getCode(), NegotiationStatus.CODE_IN_PROGRESS)) {
+        if (negotiation.getNegotiationStatus() != null 
+                && StringUtils.equals(negotiation.getNegotiationStatus().getCode(), NegotiationStatus.CODE_IN_PROGRESS)) {
             //in the in progress status, the end date field is disabled, so this prvents a problem with moving back from
             //completed or suspended to in progress.
             negotiation.setNegotiationEndDate(null);
