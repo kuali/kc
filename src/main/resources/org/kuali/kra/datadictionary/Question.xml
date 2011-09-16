@@ -174,6 +174,7 @@
         <property name="summary" value="Status" />
         <property name="description" value="Status" />
     </bean>
+            <!-- ExtendedPersistableBusinessObjectValuesFinder"-->
 
     <bean id="Question-categoryTypeCode" parent="Question-categoryTypeCode-parentBean" />
     <bean id="Question-categoryTypeCode-parentBean" abstract="true" parent="AttributeDefinition" >
@@ -186,10 +187,15 @@
         <property name="validationPattern" >
             <bean parent="NumericValidationPattern" />
         </property>
-        <property name="control" >
-            <bean parent="TextControlDefinition"
-                p:size="3" />
-        </property>
+         <property name="control" >
+      		<bean parent="SelectControlDefinition"
+            p:businessObjectClass="org.kuali.kra.questionnaire.question.QuestionCategory"
+            p:valuesFinderClass="org.kuali.kra.lookup.keyvalue.ExtendedPersistableBusinessObjectValuesFinder"
+            p:includeKeyInLabel="false"
+            p:includeBlankRow="false"
+            p:keyAttribute="categoryTypeCode"
+            p:labelAttribute="categoryName" />
+    </property>
         <property name="summary" value="Category Type Code" />
         <property name="description" value="Category Type Code" />
     </bean>
