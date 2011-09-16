@@ -1531,7 +1531,7 @@
         <surefire.testFailureIgnore>false</surefire.testFailureIgnore>
         <surefire.reportFormat>plain</surefire.reportFormat>
         <surefire.forkMode>never</surefire.forkMode>
-        <surefire.argLine>-Xms256m -Xmx512m -XX:PermSize=256m -XX:MaxPermSize=512m</surefire.argLine>
+        <surefire.argLine>-Xmx1024m -XX:MaxPermSize=512m</surefire.argLine>
         <surefire.aggregate>true</surefire.aggregate>
 
     	<project.build.sourceEncoding>UTF-8</project.build.sourceEncoding>
