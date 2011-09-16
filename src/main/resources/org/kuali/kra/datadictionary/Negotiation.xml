@@ -120,8 +120,8 @@
   <bean id="Negotiation-negotiationAssociationTypeId-parentBean" abstract="true" parent="AttributeDefinition">
     <property name="name" value="negotiationAssociationTypeId" />
     <property name="forceUppercase" value="false" />
-    <property name="label" value="Negotiation Assocation Type" />
-    <property name="shortLabel" value="Negotiation Assocation Type" />
+    <property name="label" value="Negotiation Association Type" />
+    <property name="shortLabel" value="Negotiation Association Type" />
     <property name="maxLength" value="22" />
     <property name="required" value="true" />
     <property name="validationPattern" >
@@ -136,8 +136,8 @@
             p:keyAttribute="id"
             p:labelAttribute="description" />
     </property>
-    <property name="summary" value="Negotiation Assocation Type" />
-    <property name="description" value="Negotiation Assocation Type" />
+    <property name="summary" value="Negotiation Association Type" />
+    <property name="description" value="Negotiation Association Type" />
   </bean>
   
   <bean id="Negotiation-negotiatorPersonId" parent="Negotiation-negotiatorPersonId-parentBean" />
