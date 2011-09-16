@@ -955,6 +955,7 @@ public final class KeyConstants {
     public static final String NEGOTIATION_ERROR_INPROGRESS_END_DATE = "negotiation.error.inprogress.end.date";
     public static final String NEGOTIATION_ERROR_COMPLETED_END_DATE = "negotiation.error.completed.end.date";
     public static final String NEGOTIATION_ERROR_NEGOTIATOR = "negotiation.error.negotiator";
+    public static final String NEGOTIATION_WARNING_ASSOCIATEDID_NOT_SET = "negotiation.warning.associatedid.not.set";
     
     public static final String MESSAGE_FINANCIAL_ENTITY_ACTION_COMPLETE = "message.financial.entity.action.successfully.completed";
     /**
