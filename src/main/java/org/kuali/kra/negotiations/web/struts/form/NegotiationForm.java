@@ -157,25 +157,38 @@ public class NegotiationForm extends KraTransactionalDocumentFormBase {
         return negotiationAssociatedDetailBean;
     }
     
+    /**
+     * 
+     * This method builds the javascript the disables and enables the ending date field based on the status field.
+     * @return
+     */
     public String getStatusRelatedJavascript() {
-        StringBuffer sb = new StringBuffer();
-        NegotiationStatus completed = getNegotiationStatus(NegotiationStatus.CODE_COMPLETED);
-        NegotiationStatus suspended = getNegotiationStatus(NegotiationStatus.CODE_SUSPENDED);
+        StringBuffer sb = new StringBuffer(100);
         String newLine = "\n ";
         sb.append("function manageStatusEndDate(doUpdateDate){").append(newLine);
         sb.append("var statusField = document.getElementById('document.negotiationList[0].negotiationStatusId');").append(newLine);
         sb.append("var dateField = document.getElementById('document.negotiationList[0].negotiationEndDate');").append(newLine);
+        sb.append("var statusFieldSelectedVal = statusField.options[statusField.selectedIndex].value;").append(newLine);
         
-        sb.append("if (statusField.options[statusField.selectedIndex].value == '").append(completed.getId().toString());
-        sb.append("' || statusField.options[statusField.selectedIndex].value == '").append(suspended.getId().toString());
-        sb.append("') {").append(newLine);
+        sb.append("if (");
+        int currentIndex = 0;
+        List<String> completedCodes = this.getNegotiationService().getCompletedStatusCodes();
+        for (String currentCode : completedCodes) {
+            NegotiationStatus currentStatus = getNegotiationStatus(currentCode);
+            sb.append("statusFieldSelectedVal == '").append(currentStatus.getId().toString()).append("'");
+            if (currentIndex + 1 < completedCodes.size()) {
+                sb.append(" || ");
+            }
+            currentIndex++;
+        }
+        sb.append(") {").append(newLine);
         
-        sb.append("dateField.disabled = false;").append(newLine);
-        sb.append("if (dateField.value == '' && doUpdateDate) {").append(newLine);
-        sb.append("var currentTime = new Date();").append(newLine);
-        sb.append("dateField.value = currentTime.getMonth() + 1 + \"/\" +  currentTime.getDate() + \"/\" + currentTime.getFullYear();").append(newLine);
-        sb.append("}").append(newLine).append("} else {").append(newLine);
-        sb.append("dateField.disabled = true;").append(newLine).append("dateField.value = '';");
+        sb.append("  dateField.disabled = false;").append(newLine);
+        sb.append("  if (dateField.value == '' && doUpdateDate) {").append(newLine);
+        sb.append("    var currentTime = new Date();").append(newLine);
+        sb.append("    dateField.value = currentTime.getMonth() + 1 + \"/\" +  currentTime.getDate() + \"/\" + currentTime.getFullYear();").append(newLine);
+        sb.append("  }").append(newLine).append("} else {").append(newLine);
+        sb.append("  dateField.disabled = true;").append(newLine).append("  dateField.value = '';").append(newLine);
         sb.append("}").append(newLine).append("}").append(newLine);
         sb.append("manageStatusEndDate(false);");
 
