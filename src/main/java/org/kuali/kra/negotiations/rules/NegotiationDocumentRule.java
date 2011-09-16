@@ -19,6 +19,7 @@ import org.apache.commons.lang.StringUtils;
 import org.kuali.kra.infrastructure.KeyConstants;
 import org.kuali.kra.infrastructure.KraServiceLocator;
 import org.kuali.kra.negotiations.bo.Negotiation;
+import org.kuali.kra.negotiations.bo.NegotiationAssociationType;
 import org.kuali.kra.negotiations.document.NegotiationDocument;
 import org.kuali.kra.negotiations.service.NegotiationService;
 import org.kuali.kra.rules.ResearchDocumentRuleBase;
@@ -33,7 +34,8 @@ public class NegotiationDocumentRule extends ResearchDocumentRuleBase {
     
     private static final String NEGOTIATION_ERROR_PATH = "document.negotiationList[0]";
     private static final String END_DATE_PROPERTY = "negotiationEndDate";
-    private static final String NEGOTIATOR_USERNAME_PROPERTY = "negotiator.userName";
+    private static final String NEGOTIATOR_USERNAME_PROPERTY = "negotiatorUserName";
+    private static final String ASSOCIATED_DOCMENT_ID = "associatedDocumentId";
     
     private NegotiationService negotiationService;
     
@@ -60,10 +62,11 @@ public class NegotiationDocumentRule extends ResearchDocumentRuleBase {
         Negotiation negotiation = negotiationDocument.getNegotiation();
         
         GlobalVariables.getMessageMap().addToErrorPath(NEGOTIATION_ERROR_PATH);
-        boolean result = true;
         
+        boolean result = true;
         result &= validateEndDate(negotiation);
         result &= validateNegotiator(negotiation);
+        result &= validateNegotiationAssociations(negotiation);
         
         GlobalVariables.getMessageMap().removeFromErrorPath(NEGOTIATION_ERROR_PATH);
         
@@ -102,6 +105,23 @@ public class NegotiationDocumentRule extends ResearchDocumentRuleBase {
             getErrorReporter().reportError(NEGOTIATOR_USERNAME_PROPERTY, KeyConstants.NEGOTIATION_ERROR_NEGOTIATOR);
         }
         return result;
+    }
+    
+    /**
+     * 
+     * This method validates the Negotiation Association.
+     * @param negotiation
+     * @return
+     */
+    public boolean validateNegotiationAssociations(Negotiation negotiation) {
+        boolean valid = true;
+        if (negotiation.getNegotiationAssociationType() != null 
+                && !StringUtils.equals(negotiation.getNegotiationAssociationType().getCode(), NegotiationAssociationType.NONE_ASSOCIATION)
+                && StringUtils.isEmpty(negotiation.getAssociatedDocumentId())) {
+            getErrorReporter().reportWarning(ASSOCIATED_DOCMENT_ID, KeyConstants.NEGOTIATION_WARNING_ASSOCIATEDID_NOT_SET, 
+                    negotiation.getNegotiationAssociationType().getDescription());
+        }
+        return valid;
     }
 
     protected NegotiationService getNegotiationService() {
