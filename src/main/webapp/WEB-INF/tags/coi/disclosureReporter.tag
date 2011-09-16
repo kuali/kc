@@ -29,7 +29,7 @@
         <tr>
         <td>
                     <table class=tab cellpadding=0 cellspacing="0" summary=""> 
-                        <tbody id="G2">
+                        <tbody>
                             <tr>
                                 <th> 
                                     <div align="right">

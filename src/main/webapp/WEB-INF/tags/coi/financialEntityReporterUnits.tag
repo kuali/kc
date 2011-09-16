@@ -26,7 +26,7 @@
             <kul:innerTab tabTitle="Unit Details" parentTab="Reporter" defaultOpen="false" tabErrorKey="financialEntityHelper.newFinancialEntityReporterUnit.*,financialEntityHelper.financialEntityReporter*" useCurrentTabIndexAsKey="false">
                 <div class="innerTab-container" align="left">
                     <table class=tab cellpadding="0" cellspacing="0" summary="">
-                        <tbody id="G3">
+                        <tbody>
                         <%-- Header --%>
                         <tr>
                             <kul:htmlAttributeHeaderCell literalLabel="&nbsp;" scope="col" /> 
