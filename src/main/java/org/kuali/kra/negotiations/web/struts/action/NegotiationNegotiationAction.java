@@ -31,6 +31,7 @@ import org.kuali.kra.bo.AttachmentFile;
 import org.kuali.kra.bo.Organization;
 import org.kuali.kra.bo.Sponsor;
 import org.kuali.kra.infrastructure.Constants;
+import org.kuali.kra.infrastructure.KeyConstants;
 import org.kuali.kra.negotiations.bo.Negotiation;
 import org.kuali.kra.negotiations.bo.NegotiationActivity;
 import org.kuali.kra.negotiations.bo.NegotiationActivityAttachment;
@@ -167,13 +168,22 @@ public class NegotiationNegotiationAction extends NegotiationAction {
     
     public ActionForward changeAssociation(ActionMapping mapping, ActionForm form, HttpServletRequest request, HttpServletResponse response) throws Exception {
         NegotiationForm negotiationForm = (NegotiationForm) form;
-        if (negotiationForm.getNegotiationDocument().getNegotiation().getNegotiationAssociationType() != null 
-                && StringUtils.equalsIgnoreCase(NegotiationAssociationType.NONE_ASSOCIATION, 
-                        negotiationForm.getNegotiationDocument().getNegotiation().getNegotiationAssociationType().getCode())) {
-            String message = "negotiation.message.changeAssociationType";
+        
+        if (negotiationForm.getNegotiationDocument().getNegotiation().getNegotiationAssociationType() != null) {
+            String oldAssociation = negotiationForm.getNegotiationDocument().getNegotiation().getNegotiationAssociationType().getDescription();
+            Long newAssociationTypeId = negotiationForm.getNegotiationDocument().getNegotiation().getNegotiationAssociationTypeId();
+            Map params = new HashMap();
+            params.put("NEGOTIATION_ASSC_TYPE_ID", newAssociationTypeId);
+            NegotiationAssociationType asscType = (NegotiationAssociationType) 
+                this.getBusinessObjectService().findByPrimaryKey(NegotiationAssociationType.class, params);
+            String newAssociation = asscType.getDescription();
+            if (StringUtils.equals(negotiationForm.getNegotiationDocument().getNegotiation().getNegotiationAssociationType().getCode(), 
+                    NegotiationAssociationType.NONE_ASSOCIATION)) {
+                newAssociation = newAssociation + ", you will lose any negotiation attributes that have been entered.";
+            }
             request.setAttribute(KNSConstants.METHOD_TO_CALL_ATTRIBUTE, "methodToCall.changeAssociationRedirector");
             ActionForward confirmAction = confirm(buildParameterizedConfirmationQuestion(mapping, form, request, response, 
-                    "changeAssociationKey", message), 
+                    "changeAssociationKey", KeyConstants.NEGOTIATION_CHANGE_ASSOCIATION_TYPE_MESSAGE, oldAssociation, newAssociation), 
                     "confirmedChangeAssociation", "resetChangeAssociationType");
             return confirmAction;
         } else {
