@@ -28,10 +28,12 @@ import org.kuali.kra.bo.KraPersistableBusinessObjectBase;
 import org.kuali.kra.infrastructure.KraServiceLocator;
 import org.kuali.kra.irb.Protocol;
 import org.kuali.kra.irb.actions.print.CorrespondenceXmlStream;
+import org.kuali.kra.irb.actions.print.ProtocolPrintWatermark;
 import org.kuali.kra.irb.actions.print.ProtocolXmlStream;
 import org.kuali.kra.irb.correspondence.ProtocolCorrespondenceTemplate;
 import org.kuali.kra.printing.PrintingException;
 import org.kuali.kra.printing.print.AbstractPrint;
+import org.kuali.kra.util.watermark.Watermarkable;
 
 /**
  * 
@@ -105,5 +107,26 @@ public abstract class AbstractProtocolActionsCorrespondence extends AbstractPrin
 
     public CorrespondenceXmlStream getCorrespondenceXmlStream() {
          return KraServiceLocator.getService(CorrespondenceXmlStream.class);
+    }
+    /**
+     * This method is to enable watermark in correspondence. Overriding AbstractPrint method isWatermarkEnabled()
+     * 
+     * @return boolean
+     */
+    @Override
+    public boolean isWatermarkEnabled() {
+        return true;
+    }
+
+    /**
+     * This method for getting watermark for protocol correspondence PDF. Overriding AbstractPrint method getWatermarkable
+     * 
+     * @return prtocolPrintWatermark
+     */
+    @Override
+    public Watermarkable getWatermarkable() {
+        ProtocolPrintWatermark prtocolPrintWatermark = new ProtocolPrintWatermark();
+        prtocolPrintWatermark.setPersistableBusinessObject(getPrintableBusinessObject());
+        return prtocolPrintWatermark;
     }
 }

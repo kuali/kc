@@ -95,11 +95,12 @@ public class Award extends KraPersistableBusinessObjectBase implements KeywordsM
     public static final String BLANK_COMMENT = "";
 
     private static final String NO_FLAG = "N";
-    private static final int TOTAL_STATIC_REPORTS = 4;
+    private static final int TOTAL_STATIC_REPORTS = 5;
     public static final String CLOSE_OUT_REPORT_TYPE_FINANCIAL_REPORT = "1";
     public static final String CLOSE_OUT_REPORT_TYPE_TECHNICAL = "4";
     public static final String CLOSE_OUT_REPORT_TYPE_PATENT = "3";
     public static final String CLOSE_OUT_REPORT_TYPE_PROPERTY = "2";
+    public static final String CLOSE_OUT_REPORT_TYPE_INVOICE = "6";
     private static final int MAX_NBR_AWD_HIERARCHY_TEMP_OBJECTS = 100;
     private static final String DEFAULT_GROUP_CODE_FOR_CENTRAL_ADMIN_CONTACTS = "C";
 
@@ -3370,6 +3371,9 @@ public class Award extends KraPersistableBusinessObjectBase implements KeywordsM
                 }else if(awardCloseout.getCloseoutReportCode() != null && awardCloseout.getCloseoutReportCode().equalsIgnoreCase(CLOSE_OUT_REPORT_TYPE_PROPERTY)){
                     awardCloseoutNewItems.remove(awardCloseout);
                     awardCloseoutNewItems.add(3,awardCloseout);
+                }else if(awardCloseout.getCloseoutReportCode() != null && awardCloseout.getCloseoutReportCode().equalsIgnoreCase(CLOSE_OUT_REPORT_TYPE_INVOICE)){
+                    awardCloseoutNewItems.remove(awardCloseout);
+                    awardCloseoutNewItems.add(4,awardCloseout);
                 }
             }
             awardCloseoutItems.addAll(0,awardCloseoutNewItems);

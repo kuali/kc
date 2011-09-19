@@ -42,15 +42,8 @@
 						<tr>
 							<td class="infoline">
 							
-								<div align="center">
-								<c:choose>
-									<c:when test="${KualiForm.document.award.accountNumber != null}">
-										<c:out value="${KualiForm.document.award.accountNumber}" />	
-									</c:when>
-									<c:otherwise>	
-										<kul:htmlControlAttribute property="document.award.accountNumber" attributeEntry="${awardCreateAccountAttributes.accountNumber}" readOnly="false"/>	
-									</c:otherwise>
-								</c:choose>				
+								<div align="center">				
+										<kul:htmlControlAttribute property="document.award.accountNumber"  attributeEntry="${awardCreateAccountAttributes.accountNumber}" readOnly="false"/>								
 								</div>
 							</td>
 							<td class="infoline">

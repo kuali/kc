@@ -329,13 +329,19 @@ public class PHS398ModularBudgetV1_1Generator extends
 					indirectCostItems.setIndirectCostRate(bdRate
 							.bigDecimalValue());
 				}
-				if (budgetModularIdc.getDescription() != null) {
-					costType = budgetModularIdc.getDescription();
+				if (budgetModularIdc.getDescription()!= null) {
+				    if (budgetModularIdc.getRateClass() != null) {
+
+					costType = budgetModularIdc.getRateClass().getDescription();
+				    }else{
+		                 costType = budgetModularIdc.getDescription();
+		                 }
+					
 					indirectCostItems.setIndirectCostTypeDescription(costType);
 				}
 				indirectCostItemsList.add(indirectCostItems);
 			}
-			IndirectCostItems[] indirectCostItemsArray = new IndirectCostItems[0];
+				IndirectCostItems[] indirectCostItemsArray = new IndirectCostItems[0];
 			indirectCostItemsArray = indirectCostItemsList
 					.toArray(indirectCostItemsArray);
 			indirectCost.setIndirectCostItemsArray(indirectCostItemsArray);
@@ -473,8 +479,13 @@ public class PHS398ModularBudgetV1_1Generator extends
 					indirectCostItems2.setIndirectCostRate(bdRate
 							.bigDecimalValue());
 				}
-				if (budgetModularIdc.getDescription() != null) {
-					costType = budgetModularIdc.getDescription();
+				if (budgetModularIdc.getDescription()!= null) {
+                    if (budgetModularIdc.getRateClass() != null) {
+
+                    costType = budgetModularIdc.getRateClass().getDescription();
+                    }else{
+                         costType = budgetModularIdc.getDescription();
+                         }
 					indirectCostItems2.setIndirectCostTypeDescription(costType);
 				}
 				if (indirectCostItems2Array != null) {
@@ -615,8 +626,13 @@ public class PHS398ModularBudgetV1_1Generator extends
 					indirectCostItems3.setIndirectCostRate(bdRate
 							.bigDecimalValue());
 				}
-				if (budgetModularIdc.getDescription() != null) {
-					costType = budgetModularIdc.getDescription();
+				if (budgetModularIdc.getDescription()!= null) {
+                    if (budgetModularIdc.getRateClass() != null) {
+
+                    costType = budgetModularIdc.getRateClass().getDescription();
+                    }else{
+                         costType = budgetModularIdc.getDescription();
+                         }
 					indirectCostItems3.setIndirectCostTypeDescription(costType);
 				}
 				if (indirectCostItems3Array != null) {
@@ -753,7 +769,11 @@ public class PHS398ModularBudgetV1_1Generator extends
 							.bigDecimalValue());
 				}
 				if (budgetModularIdc.getDescription() != null) {
+				    if (budgetModularIdc.getRateClass() != null) {
+				        costType = budgetModularIdc.getRateClass().getDescription();
+				    }else{
 					costType = budgetModularIdc.getDescription();
+				    }
 					indirectCostItems4.setIndirectCostTypeDescription(costType);
 				}
 				if (indirectCostItems4Array != null) {
@@ -892,8 +912,13 @@ public class PHS398ModularBudgetV1_1Generator extends
 					indirectCostItems5.setIndirectCostRate(bdRate
 							.bigDecimalValue());
 				}
-				if (budgetModularIdc.getDescription() != null) {
-					costType = budgetModularIdc.getDescription();
+				if (budgetModularIdc.getDescription()!= null) {
+                    if (budgetModularIdc.getRateClass() != null) {
+
+                    costType = budgetModularIdc.getRateClass().getDescription();
+                    }else{
+                         costType = budgetModularIdc.getDescription();
+                         }
 					indirectCostItems5.setIndirectCostTypeDescription(costType);
 				}
 				if (indirectCostItems5Array != null) {

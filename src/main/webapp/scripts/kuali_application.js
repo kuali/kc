@@ -431,6 +431,7 @@ function enableGrantsGov(enable) {
 
 function showS2SAppSubmissionStatusDetails(proposalNumber,trackingId) {
 	//alert(proposalNumber);
+	var docFormKey = DWRUtil.getValue( "docFormKey" );
 	var dwrReply = {
 			callback:function(data) {
 				//alert(data);
@@ -445,7 +446,7 @@ function showS2SAppSubmissionStatusDetails(proposalNumber,trackingId) {
 			timeout : 1000
 	};
 	//alert(trackingId);
-	S2SService.getStatusDetails( trackingId,proposalNumber,dwrReply);
+	S2SService.getStatusDetails( trackingId, proposalNumber + ":" + docFormKey, dwrReply);
 }
 
 function displayStatusDetails(data){
@@ -1389,13 +1390,14 @@ function updateOtherFields(editableColumnNameField, proposalNumberFieldId, callb
 	
 	var editableColumnName = editableColumnNameField.value;
 	if (editableColumnName != "") {
+		var docFormKey = DWRUtil.getValue( "docFormKey" );
 		var dwrReply = {
 			callback:callbackFunction,
 			errorHandler:function( errorMessage ) { 
 				window.status = errorMessage;
 			}
 		};
-		ProposalDevelopmentService.populateProposalEditableFieldMetaDataForAjaxCall(proposalNumber, editableColumnName, dwrReply );
+		ProposalDevelopmentService.populateProposalEditableFieldMetaDataForAjaxCall(proposalNumber + ":" + docFormKey, editableColumnName, dwrReply );
 	} else {
 			document.getElementById(oldDisplayValue).value = ""; 
 			document.getElementById(displayValue).value = ""; 
@@ -1814,6 +1816,7 @@ function selectAllAwardKeywords(document) {
 
 function loadApplicableTransactionIds(versionId, transactionId, awardNumber) {
 	var sequenceNumber = $(versionId).val();
+	var docFormKey = DWRUtil.getValue( "docFormKey" );
 	var dwrReply = {
 		callback:function(data) {
 			if ( data != null ) {
@@ -1830,7 +1833,7 @@ function loadApplicableTransactionIds(versionId, transactionId, awardNumber) {
 		    $(transactionId).html("");		
 		}
 	};
-	AwardTransactionLookupService.getApplicableTransactionIds(awardNumber, sequenceNumber, dwrReply);
+	AwardTransactionLookupService.getApplicableTransactionIds(awardNumber+":"+docFormKey, sequenceNumber, dwrReply);
 }
 
 
@@ -2451,6 +2454,7 @@ var costElementFieldName;
 
  function updateCostElement(budgetId, costElement, personSequenceNumberField, budgetCategoryTypeCode, callbackFunction ) {
 	var personSequenceNumber = personSequenceNumberField.value;
+	var docFormKey = DWRUtil.getValue( "docFormKey" );
 	costElementFieldName = costElement;
 	if ( personSequenceNumber != "") {
 		var dwrReply = {
@@ -2459,7 +2463,7 @@ var costElementFieldName;
 				window.status = errorMessage;
 			}
 		};
-		BudgetService.getApplicableCostElementsForAjaxCall(budgetId, personSequenceNumber, budgetCategoryTypeCode, dwrReply );
+		BudgetService.getApplicableCostElementsForAjaxCall(budgetId, personSequenceNumber, budgetCategoryTypeCode + ":" + docFormKey, dwrReply );
 	} else {
 	    kualiElements[costElementFieldName].options.length=1;
 	    var ceLookupDiv = document.getElementById("ceLookupDiv");

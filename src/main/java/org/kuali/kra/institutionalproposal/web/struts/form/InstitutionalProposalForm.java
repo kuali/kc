@@ -21,6 +21,7 @@ import java.util.Map;
 
 import org.apache.commons.lang.StringUtils;
 import org.kuali.kra.authorization.KraAuthorizationConstants;
+import org.kuali.kra.award.home.Award;
 import org.kuali.kra.common.customattributes.CustomDataForm;
 import org.kuali.kra.common.web.struts.form.ReportHelperBean;
 import org.kuali.kra.common.web.struts.form.ReportHelperBeanContainer;
@@ -42,6 +43,7 @@ import org.kuali.kra.web.struts.form.KraTransactionalDocumentFormBase;
 import org.kuali.kra.web.struts.form.MultiLookupFormBase;
 import org.kuali.rice.kns.datadictionary.HeaderNavigation;
 import org.kuali.rice.kns.service.DataDictionaryService;
+import org.kuali.rice.kns.service.ParameterService;
 import org.kuali.rice.kns.util.ActionFormUtilMap;
 import org.kuali.rice.kns.util.KNSConstants;
 
@@ -71,7 +73,7 @@ public class InstitutionalProposalForm extends KraTransactionalDocumentFormBase 
     private InstitutionalProposalCreditSplitBean institutionalProposalCreditSplitBean;
     private InstitutionalProposalUnitContactsBean unitContactsBean;
     private InstitutionalProposalCentralAdminContactsBean centralAdminContactsBean;
-    
+    private boolean cfdaLookupRequired;
     private MedusaBean medusaBean;
     private ReportHelperBean reportHelperBean;
     
@@ -424,6 +426,17 @@ public class InstitutionalProposalForm extends KraTransactionalDocumentFormBase 
         displayEditButton &= getInstitutionalProposalDocument().getInstitutionalProposal().isActiveVersion();
         return displayEditButton;
       }
+    
+    public boolean isCfdaLookupRequired() {
+        String integration = getParameterService().getParameterValue(Constants.MODULE_NAMESPACE_AWARD, 
+                Constants.PARAMETER_COMPONENT_DOCUMENT, Constants.FIN_SYSTEM_INTEGRATION_ON_OFF_PARAMETER);
+        cfdaLookupRequired = StringUtils.equals(integration, Constants.FIN_SYSTEM_INTEGRATION_ON) ? true : false;
+        return cfdaLookupRequired;
+    }
+
+    protected ParameterService getParameterService() {
+        return KraServiceLocator.getService(ParameterService.class);   
+    }
     
     public boolean getViewFundingSource() {
         return viewFundingSource;

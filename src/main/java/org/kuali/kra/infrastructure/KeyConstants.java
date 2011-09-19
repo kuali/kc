@@ -451,6 +451,8 @@ public final class KeyConstants {
 
     
     //Award Direc F and A Distribution
+    public static final String ERROR_AWARD_FANDA_INVALID_RTAES = "error.awardDirectFandADistribution.invalid.rate";
+    public static final String ERROR_AWARD_FANDA_INVALID_RTAES_FOR_SINGLE_RATE = "error.awardDirectFandADistribution.invalid.rate.for.single.rate";
     public static final String ERROR_AWARD_FANDA_DISTRIB_START_DATE_REQUIRED = "error.awardDirectFandADistribution.start.date.required";
     public static final String ERROR_AWARD_FANDA_DISTRIB_END_DATE_REQUIRED = "error.awardDirectFandADistribution.end.date.required";
     public static final String ERROR_AWARD_FANDA_DISTRIB_DIRECT_COST_REQUIRED = "error.awardDirectFandADistribution.direct.cost.required";
@@ -488,6 +490,12 @@ public final class KeyConstants {
     public static final String ERROR_BOTH_SPONSOR_AND_ROLODEX_ARE_NOT_SELECTED = "error.both.sponsor.and.rolodex.are.not.selected";
     public static final String ERROR_REQUIRED_ORGANIZATION_FIELD = "error.organizasion.required";
     //Award System Parameters    
+    public static final String ENABLE_AWARD_FNA_VALIDATION = "enable.award.FnA.validation";
+    public static final String OPTION_WARNING_ERROR_AWARD_FANDA_VALIDATION = "option.warning.error.award.FnA.validation";
+    public static final String ENABLED_PARAMETER_VALUE_ONE = "1";
+    public static final String ENABLED_PARAMETER_VALUE_TWO = "2";
+    public static final String WARNING = "W";
+    public static final String ERROR = "E";
     public static final String MIT_IDC_VALIDATION_ENABLED = "mit.idc.validation.enabled";
     public static final String MIT_IDC_VALIDATION_ENABLED_VALUE_FOR_COMPARISON = "1";
     public static final String REPORT_CLASS_FOR_PAYMENTS_AND_INVOICES = "reportClassForPaymentsAndInvoices";
@@ -499,6 +507,7 @@ public final class KeyConstants {
     public static final String CLOSE_OUT_REPORT_TYPE_TECHNICAL = "closeoutReportTypeTechnical";
     public static final String CLOSE_OUT_REPORT_TYPE_PATENT = "closeoutReportTypePatent";
     public static final String CLOSE_OUT_REPORT_TYPE_PROPERTY = "closeoutReportTypeProperty";
+    public static final String CLOSE_OUT_REPORT_TYPE_INVOICE = "closeoutReportTypeInvoice";
     public static final String AWARD_ACTIVE_STATUS_CODES_PARM = "AWARD_ACTIVE_STATUS_CODES";
     public static final String AWARD_COST_SHARING_PARM = "AWARD_COST_SHARING";
     public static final String AWARD_FABRICATED_EQUPIMENT_PARM = "AWARD_FABRICATED_EQUIPMENT";
@@ -524,10 +533,22 @@ public final class KeyConstants {
     public static final String AWARD_ADDRESS_NOT_COMPLETE = "error.award.createAccount.invalid.piAddress";
     public static final String AWARD_PI_NOT_SPECIFIED = "error.award.createAccount.invalid.pi";
     public static final String AWARD_F_AND_A_RATE_NOT_SPECIFIED = "error.award.createAccount.invalid.rate";
+    public static final String AWARD_ICR_RATE_TYPE_CODE_EMPTY = "error.award.createAccount.icr.rate.type.code.empty";
+    public static final String AWARD_ICR_RATE_CODE_EMPTY = "error.award.createAccount.icr.rate.code.empty";
+    public static final String AWARD_ADDRESS_NOT_COMPLETE = "error.award.createAccount.invalid.piAddress";
     public static final String ACCOUNT_ALREADY_CREATED = "error.award.createAccount.account.already.created";
+    public static final String AWARD_ACCOUNT_INVALID_WSDL_URL = "error.award.createAccount.invalid.wsdlurl";
+    public static final String AWARD_ACCOUNT_NUMER_NOT_VALID = "error.award.account.number.invalid";
+    public static final String AWARD_CHART_OF_ACCOUNTS_CODE_NOT_VALID = "error.award.chart.of.accounts.code.invalid";
+    public static final String AWARD_ACCOUNT_NUMBER_NOT_SPECIFIED = "error.award.createAccount.invalid.accountNumber";
+    public static final String BOTH_ACCOUNT_AND_CHART_REQUIRED = "error.award.account.number.and.chart.required";
+    public static final String CREATE_ACCOUNT_SERVICE_ERRORS = "error.award.createAccount.serviceErrors";    
     public static final String CANNOT_CONNECT_TO_SERVICE = "error.award.createAccount.cannotConnect";
+    public static final String CURRENT_RATE_NOT_SPECIFIED = "error.award.createAccount.invalid.currentRate";
     public static final String AWARD_ACCOUNT_INVALID_WSDL_URL = "error.award.createAccount.invalid.wsdlurl";
     public static final String DOCUMENT_NUMBER_NULL = "error.award.createAccount.nullDocumentNumber";
+    public static final String DOCUMENT_SAVED_WITH_ERRORS = "error.award.createAccount.saved.with.errors";
+    public static final String NO_PERMISSION_TO_LINK_ACCOUNT = "error.award.link.account.no.permission";
     public static final String CURRENT_RATE_NOT_SPECIFIED = "error.award.createAccount.invalid.currentRate";
     public static final String AWARD_ACCOUNT_NUMBER_NOT_SPECIFIED = "error.award.createAccount.invalid.accountNumber";
     public static final String NO_PERMISSION_TO_CREATE_ACCOUNT = "error.award.createAccount.noPermission";
@@ -541,9 +562,11 @@ public final class KeyConstants {
     // award budget
     public static final String BUDGET_POSTED = "message.award.budget.adjustment.budget.posted";
     public static final String BUDGET_ADJUSTMENT_DOCUMENT_NOT_CREATED = "error.award.budget.adjustment.document.not.created";
+    public static final String BUDGET_ADJUSTMENT_DOC_EXISTS = "error.award.budget.adjustment.document.exists";
+    public static final String EMPTY_ACCOUNTING_LINES = "error.award.budget.adjustment.empty.accounting.lines";
     public static final String FINANCIAL_OBJECT_CODE_MAPPING_NOT_FOUND = "error.award.budget.adjustment.financial.objectCode.mapping.not.found";
     public static final String FINANCIAL_OBJECT_CODE_MAPPING_EXISTS = "error.award.budget.financial.objectCode.mapping.exists";
-
+    public static final String ICR_TYPE_CODE_MAPPING_EXISTS = "error.award.budget.icr.type.code.mapping.exists";
     
     //Award template validation errors
     public static final String ERROR_NO_TEMPLATE_CODE = "error.award.templateCode.notFound";

@@ -56,7 +56,7 @@ public class AddAwardFandaRateEvent extends AwardFandaRateEvent{
      * @see org.kuali.core.rule.event.KualiDocumentEvent#getRuleInterfaceClass()
      */
     public Class<? extends BusinessRule> getRuleInterfaceClass() {
-        return AddFandaRateRule.class;
+        return AwardFandaRateRule.class;
     }
 
     /**

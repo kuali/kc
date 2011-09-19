@@ -1,7 +1,12 @@
 package org.kuali.kra.common.printing;
 
+import org.kuali.kra.infrastructure.Constants;
+import org.kuali.kra.infrastructure.KraServiceLocator;
 import org.kuali.kra.institutionalproposal.contacts.InstitutionalProposalPerson;
+import org.kuali.kra.institutionalproposal.customdata.InstitutionalProposalCustomData;
 import org.kuali.kra.institutionalproposal.home.InstitutionalProposal;
+import org.kuali.kra.proposaldevelopment.document.ProposalDevelopmentDocument;
+import org.kuali.rice.kns.service.ParameterService;
 import org.kuali.rice.kns.util.KualiDecimal;
 import org.kuali.rice.kns.web.ui.Column;
 
@@ -72,6 +77,10 @@ public class PendingReportBean extends ReportBean {
      * Source: InstitutionalProposal.projectPersons.totalEffort
      */
     private KualiDecimal totalEffort;
+    
+    private ParameterService parameterService;
+    
+    private List<InstitutionalProposalCustomData> institutionalProposalCustomDataList;
 
     public PendingReportBean(InstitutionalProposalPerson ipPerson) {
         InstitutionalProposal proposal = ipPerson.getInstitutionalProposal();
@@ -87,6 +96,19 @@ public class PendingReportBean extends ReportBean {
         this.calendarYearEffort = ipPerson.getCalendarYearEffort();
         this.summerEffort = ipPerson.getSummerEffort();
         this.totalEffort = ipPerson.getTotalEffort();
+        
+        institutionalProposalCustomDataList = new ArrayList<InstitutionalProposalCustomData>();
+        parameterService = KraServiceLocator.getService(ParameterService.class);
+        String customGroupName = parameterService.getParameterValue(ProposalDevelopmentDocument.class, Constants.CURRENT_PENDING_REPORT_GROUP_NAME);
+      
+        for(InstitutionalProposalCustomData custData:proposal.getInstitutionalProposalCustomDataList()){
+                if(custData.getCustomAttributeId()!=null){
+                    custData.setCustomAttribute(proposal.getInstitutionalProposalDocument().getCustomAttributeDocument(custData.getCustomAttributeId().toString()).getCustomAttribute());
+                    if(customGroupName.equals(custData.getCustomAttribute().getGroupName()))
+                        institutionalProposalCustomDataList.add(custData);
+                }
+        }
+
     }
 
     @Override
@@ -180,6 +202,19 @@ public class PendingReportBean extends ReportBean {
         columns.add(createColumn("Academic Year Effort", "academicYearEffort", academicYearEffort, KualiDecimal.class));
         columns.add(createColumn("Summer Year Effort", "summerYearEffort", summerEffort, KualiDecimal.class));
         columns.add(createColumn("Calendar Year Effort", "calendarYearEffort", calendarYearEffort, KualiDecimal.class));
+        if(institutionalProposalCustomDataList.size()>0){
+            for(InstitutionalProposalCustomData institutionalProposalCustomData :institutionalProposalCustomDataList) {
+                columns.add(createColumn(institutionalProposalCustomData.getCustomAttribute().getLabel(), "institutionalProposalCustomDataList", institutionalProposalCustomData.getValue(), String.class));
+            }
+        }
         return columns;
+    }
+
+    public void setInstitutionalProposalCustomDataList(List<InstitutionalProposalCustomData> institutionalProposalCustomDataList) {
+        this.institutionalProposalCustomDataList = institutionalProposalCustomDataList;
+    }
+
+    public List<InstitutionalProposalCustomData> getInstitutionalProposalCustomDataList() {
+        return institutionalProposalCustomDataList;
     }
 }

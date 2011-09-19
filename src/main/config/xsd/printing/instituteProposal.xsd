@@ -21,6 +21,9 @@
 				<xs:element name="DisclosureItem" type="IPDisclosureItemType" minOccurs="0" maxOccurs="unbounded"/>
 				<xs:element name="keyPersons" type="IPKeyPersonType" maxOccurs="unbounded"/>
 				<xs:element name="costSharingProjectPeriodFieldDescription" type="xs:string" minOccurs="0"/>
+				<xs:element name="CFDANum" type="xs:string" minOccurs="0"/>
+				<xs:element name="opportunityID" type="xs:string" minOccurs="0"/>
+				<xs:element name="otherData" type="OtherGroupTypes" minOccurs="0"/>
 			</xs:sequence>
 		</xs:complexType>
 	</xs:element>
@@ -206,6 +209,20 @@
 		<xs:sequence>
 			<xs:element name="scienceCode" type="xs:string" minOccurs="0"/>
 			<xs:element name="scienceCodeDesc" type="xs:string" minOccurs="0"/>
+		</xs:sequence>
+	</xs:complexType>
+	<xs:complexType name="OtherGroupDetailsTypes">
+		<xs:sequence>
+			<xs:element name="ColumnName" type="xs:string" minOccurs="0"/>
+			<xs:element name="ColumnValue" type="xs:string" minOccurs="0"/>
+			<xs:element name="ColumnDesc" type="xs:string" minOccurs="0"/>
+		</xs:sequence>
+	</xs:complexType>
+	<xs:complexType name="OtherGroupTypes">
+		<xs:sequence>
+			<xs:element name="groupName" type="xs:string" minOccurs="0"/>
+			<xs:element name="groupDesc" type="xs:string" minOccurs="0"/>
+			<xs:element name="OtherGroupDetails" type="OtherGroupDetailsTypes" minOccurs="0" maxOccurs="unbounded"/>
 		</xs:sequence>
 	</xs:complexType>
 </xs:schema>

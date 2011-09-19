@@ -827,8 +827,10 @@ public class S2SUtilServiceImpl implements S2SUtilService {
 			fieldValues.put(MODULE_ITEM_CODE, MODULE_ITEM_CODE_THREE);
 			fieldValues.put(MODULE_SUB_ITEM_CODE, MODULE_SUB_ITEM_CODE_ZERO);
 			fieldValues.put(MODULE_SUB_ITEM_KEY, MODULE_SUB_ITEM_KEY_ZERO);
-			fieldValues.put(QUESTIONNAIRE_REF_ID_FK, questionnaire.getQuestionnaireRefIdAsLong());
-			Collection<AnswerHeader> answerHeaderList = businessObjectService.findMatching(AnswerHeader.class, fieldValues);
+			fieldValues.put(QUESTIONNAIRE_REF_ID_FK, questionnaire
+					.getQuestionnaireRefId());
+			Collection<AnswerHeader> answerHeaderList = businessObjectService
+					.findMatching(AnswerHeader.class, fieldValues);
 			for (AnswerHeader answerHeader : answerHeaderList) {
 				questionnaireAnswers.addAll(answerHeader.getAnswers());
 			}
@@ -1190,5 +1192,13 @@ public class S2SUtilServiceImpl implements S2SUtilService {
     public void setProposalDevelopmentS2sQuestionnaireService(
             ProposalDevelopmentS2sQuestionnaireService proposalDevelopmentS2sQuestionnaireService) {
         this.proposalDevelopmentS2sQuestionnaireService = proposalDevelopmentS2sQuestionnaireService;
+    }
+
+    public String removeTimezoneFactor(String applicationXmlText) {
+        SimpleDateFormat timeFormat = new SimpleDateFormat("Z");
+        String offset = timeFormat.format(dateTimeService.getCurrentDate());
+        String offsetString = offset.substring(0,3) +":"+offset.substring(3);
+        String filteredApplicationStr = StringUtils.remove(applicationXmlText, offsetString);
+        return filteredApplicationStr;
     }
 }
