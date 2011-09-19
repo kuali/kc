@@ -16,6 +16,7 @@
 package org.kuali.kra.coi.personfinancialentity;
 
 import java.util.LinkedHashMap;
+import java.util.List;
 
 import org.kuali.kra.bo.KraPersistableBusinessObjectBase;
 
@@ -23,20 +24,22 @@ public class FinIntEntityRelType extends KraPersistableBusinessObjectBase {
     
     private static final long serialVersionUID = 1L;
 
-    private Integer relationshipTypeCode; 
+    private String relationshipTypeCode; 
     private String description; 
-    
-    private PersonFinIntDisclosure personFinIntDisclosure; 
+    private Integer sortId; 
+    private boolean active; 
+
+    private List<PersonFinIntDisclosure> personFinIntDisclosures; 
     
     public FinIntEntityRelType() { 
 
     } 
     
-    public Integer getRelationshipTypeCode() {
+    public String getRelationshipTypeCode() {
         return relationshipTypeCode;
     }
 
-    public void setRelationshipTypeCode(Integer relationshipTypeCode) {
+    public void setRelationshipTypeCode(String relationshipTypeCode) {
         this.relationshipTypeCode = relationshipTypeCode;
     }
 
@@ -48,14 +51,6 @@ public class FinIntEntityRelType extends KraPersistableBusinessObjectBase {
         this.description = description;
     }
 
-    public PersonFinIntDisclosure getPersonFinIntDisclosure() {
-        return personFinIntDisclosure;
-    }
-
-    public void setPersonFinIntDisclosure(PersonFinIntDisclosure personFinIntDisclosure) {
-        this.personFinIntDisclosure = personFinIntDisclosure;
-    }
-
     /** {@inheritDoc} */
     @Override 
     protected LinkedHashMap<String, Object> toStringMapper() {
@@ -63,6 +58,30 @@ public class FinIntEntityRelType extends KraPersistableBusinessObjectBase {
         hashMap.put("relationshipTypeCode", this.getRelationshipTypeCode());
         hashMap.put("description", this.getDescription());
         return hashMap;
+    }
+
+    public List<PersonFinIntDisclosure> getPersonFinIntDisclosures() {
+        return personFinIntDisclosures;
+    }
+
+    public void setPersonFinIntDisclosures(List<PersonFinIntDisclosure> personFinIntDisclosures) {
+        this.personFinIntDisclosures = personFinIntDisclosures;
+    }
+
+    public Integer getSortId() {
+        return sortId;
+    }
+
+    public void setSortId(Integer sortId) {
+        this.sortId = sortId;
+    }
+
+    public boolean isActive() {
+        return active;
+    }
+
+    public void setActive(boolean active) {
+        this.active = active;
     }
     
 }

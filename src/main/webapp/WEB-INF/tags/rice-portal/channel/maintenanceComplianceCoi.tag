@@ -21,7 +21,7 @@
     <li>COI Disclosure Status</li>
     <li>COI Reviewer</li>
     <li>COI Status</li>
-    <li>Entity Relationship Type</li>
+    <li><portal:portalLink displayTitle="true" title="Entity Relationship Type" url="kr/lookup.do?methodToCall=start&businessObjectClassName=org.kuali.kra.coi.personfinancialentity.FinIntEntityRelType&docFormKey=88888888&returnLocation=${ConfigProperties.application.url}/portal.do&hideReturnLink=true" /></li>
     <li>Entity Status</li>
   </ul>
 </div>
