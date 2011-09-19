@@ -535,29 +535,19 @@ public final class KeyConstants {
     public static final String AWARD_F_AND_A_RATE_NOT_SPECIFIED = "error.award.createAccount.invalid.rate";
     public static final String AWARD_ICR_RATE_TYPE_CODE_EMPTY = "error.award.createAccount.icr.rate.type.code.empty";
     public static final String AWARD_ICR_RATE_CODE_EMPTY = "error.award.createAccount.icr.rate.code.empty";
-    public static final String AWARD_ADDRESS_NOT_COMPLETE = "error.award.createAccount.invalid.piAddress";
     public static final String ACCOUNT_ALREADY_CREATED = "error.award.createAccount.account.already.created";
     public static final String AWARD_ACCOUNT_INVALID_WSDL_URL = "error.award.createAccount.invalid.wsdlurl";
     public static final String AWARD_ACCOUNT_NUMER_NOT_VALID = "error.award.account.number.invalid";
     public static final String AWARD_CHART_OF_ACCOUNTS_CODE_NOT_VALID = "error.award.chart.of.accounts.code.invalid";
     public static final String AWARD_ACCOUNT_NUMBER_NOT_SPECIFIED = "error.award.createAccount.invalid.accountNumber";
-    public static final String BOTH_ACCOUNT_AND_CHART_REQUIRED = "error.award.account.number.and.chart.required";
-    public static final String CREATE_ACCOUNT_SERVICE_ERRORS = "error.award.createAccount.serviceErrors";    
+    public static final String BOTH_ACCOUNT_AND_CHART_REQUIRED = "error.award.account.number.and.chart.required";    
     public static final String CANNOT_CONNECT_TO_SERVICE = "error.award.createAccount.cannotConnect";
     public static final String CURRENT_RATE_NOT_SPECIFIED = "error.award.createAccount.invalid.currentRate";
-    public static final String AWARD_ACCOUNT_INVALID_WSDL_URL = "error.award.createAccount.invalid.wsdlurl";
     public static final String DOCUMENT_NUMBER_NULL = "error.award.createAccount.nullDocumentNumber";
     public static final String DOCUMENT_SAVED_WITH_ERRORS = "error.award.createAccount.saved.with.errors";
     public static final String NO_PERMISSION_TO_LINK_ACCOUNT = "error.award.link.account.no.permission";
-    public static final String CURRENT_RATE_NOT_SPECIFIED = "error.award.createAccount.invalid.currentRate";
-    public static final String AWARD_ACCOUNT_NUMBER_NOT_SPECIFIED = "error.award.createAccount.invalid.accountNumber";
     public static final String NO_PERMISSION_TO_CREATE_ACCOUNT = "error.award.createAccount.noPermission";
-    public static final String VALIDATION_DID_NOT_OCCUR = "error.award.account.number.not.validated";
-    public static final String AWARD_ACCOUNT_NUMER_NOT_VALID = "error.award.account.number.invalid";
-    public static final String AWARD_CHART_OF_ACCOUNTS_CODE_NOT_VALID = "error.award.chart.of.accounts.code.invalid";
-    public static final String NO_PERMISSION_TO_LINK_ACCOUNT = "error.award.link.account.no.permission";
-    public static final String BOTH_ACCOUNT_AND_CHART_REQUIRED = "error.award.account.number.and.chart.required";
-    
+    public static final String VALIDATION_DID_NOT_OCCUR = "error.award.account.number.not.validated"; 
     
     // award budget
     public static final String BUDGET_POSTED = "message.award.budget.adjustment.budget.posted";
