@@ -19,6 +19,7 @@ import java.io.Serializable;
 import java.util.ArrayList;
 import java.util.List;
 
+import org.kuali.kra.infrastructure.KeyConstants;
 import org.kuali.kra.infrastructure.KraServiceLocator;
 import org.kuali.rice.kns.util.GlobalVariables;
 
@@ -36,8 +37,11 @@ public class FinancialEntityHelper implements Serializable {
     private List<PersonFinIntDisclosure> activeFinancialEntities;
     private List<PersonFinIntDisclosure> inactiveFinancialEntities;
     private List<FinancialEntityReporterUnit> deletedUnits;
-    
+    private List<FinIntEntityRelType> finEntityRelationshipTypes;
     private int editEntityIndex;
+    private List<FinEntityDataMatrixBean> newRelationDetails;
+    private List<FinEntityDataMatrixBean> editRelationDetails;
+    private Integer newRolodexId;
     
     public FinancialEntityHelper(FinancialEntityForm form) {
         newPersonFinancialEntity = new PersonFinIntDisclosure();
@@ -48,8 +52,12 @@ public class FinancialEntityHelper implements Serializable {
         setNewFinancialEntityReporterUnit(new FinancialEntityReporterUnit());
         activeFinancialEntities = new ArrayList<PersonFinIntDisclosure>();
         inactiveFinancialEntities = new ArrayList<PersonFinIntDisclosure>();
+        finEntityRelationshipTypes = getFinancialEntityService().getFinancialEntityRelationshipTypes();
         deletedUnits = new ArrayList<FinancialEntityReporterUnit>(); 
+        newRelationDetails = getFinancialEntityService().getFinancialEntityDataMatrix();
+        editRelationDetails = new ArrayList<FinEntityDataMatrixBean>(); 
         editEntityIndex = -1;
+        newRolodexId = -1;
         this.form = form;
     }
 
@@ -125,7 +133,7 @@ public class FinancialEntityHelper implements Serializable {
         return financialEntityReporter;
     }
     
-    public void refreshFinancialEntityReporter() {
+    private void refreshFinancialEntityReporter() {
         financialEntityReporter = getFinancialEntityService().getFinancialEntityReporter(
                 GlobalVariables.getUserSession().getPrincipalId());
         newPersonFinancialEntity.setFinancialEntityReporterId(financialEntityReporter.getFinancialEntityReporterId());
@@ -146,4 +154,68 @@ public class FinancialEntityHelper implements Serializable {
         this.deletedUnits = deletedUnits;
     }
 
-}
+
+    public List<FinIntEntityRelType> getFinEntityRelationshipTypes() {
+        return finEntityRelationshipTypes;
+    }
+
+
+    public void setFinEntityRelationshipTypes(List<FinIntEntityRelType> finEntityRelationshipTypes) {
+        this.finEntityRelationshipTypes = finEntityRelationshipTypes;
+    }
+
+
+    public List<FinEntityDataMatrixBean> getNewRelationDetails() {
+        return newRelationDetails;
+    }
+
+
+    public void setNewRelationDetails(List<FinEntityDataMatrixBean> newRelationDetails) {
+        this.newRelationDetails = newRelationDetails;
+    }
+
+
+    public List<FinEntityDataMatrixBean> getEditRelationDetails() {
+        return editRelationDetails;
+    }
+
+
+    public void setEditRelationDetails(List<FinEntityDataMatrixBean> editRelationDetails) {
+        this.editRelationDetails = editRelationDetails;
+    }
+
+    public void initiate() {
+        /* TODO : this is if user to re-enter to financial entity page after leaving it for something else
+         * trying to clean up whatever left in the session.
+         * Try to combine with the 'init' process when this helper is instantiated ?
+         * 
+         */
+        newPersonFinancialEntity = new PersonFinIntDisclosure();
+        newPersonFinancialEntity.setCurrentFlag(true);
+        newPersonFinancialEntity.setPersonId(GlobalVariables.getUserSession().getPrincipalId());
+        newPersonFinancialEntity.setFinancialEntityReporterId(financialEntityReporter.getFinancialEntityReporterId());
+        this.setActiveFinancialEntities(getFinancialEntities(true));
+        this.setInactiveFinancialEntities(getFinancialEntities(false));
+        this.refreshFinancialEntityReporter();
+        this.setNewFinancialEntityReporterUnit(new FinancialEntityReporterUnit());
+        newRelationDetails = getFinancialEntityService().getFinancialEntityDataMatrix();
+        editRelationDetails = new ArrayList<FinEntityDataMatrixBean>(); 
+        newRolodexId = -1;
+    }
+    
+    private List<PersonFinIntDisclosure> getFinancialEntities(boolean active) {
+        return getFinancialEntityService().getFinancialEntities(GlobalVariables.getUserSession().getPrincipalId(), active);
+    }
+
+
+    public Integer getNewRolodexId() {
+        return newRolodexId;
+    }
+
+
+    public void setNewRolodexId(Integer newRolodexId) {
+        this.newRolodexId = newRolodexId;
+    }
+    
+
+ }

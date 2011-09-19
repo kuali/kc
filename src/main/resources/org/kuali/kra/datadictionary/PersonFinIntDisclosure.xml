@@ -45,6 +45,7 @@
                 <ref bean="PersonFinIntDisclosure-relationshipDescription" />
                 <ref bean="PersonFinIntDisclosure-relatedToOrganizationFlag" />
                 <ref bean="PersonFinIntDisclosure-orgRelationDescription" />
+                <ref bean="PersonFinIntDisclosure-principalBusinessActivity" />
                 <ref bean="PersonFinIntDisclosure-sponsorCode" />
                 <ref bean="PersonFinIntDisclosure-versionNumber" />
             </list>
@@ -292,6 +293,25 @@
         </property>
         <property name="summary" value="Org Relation Description" />
         <property name="description" value="Org Relation Description" />
+    </bean>
+
+    <bean id="PersonFinIntDisclosure-principalBusinessActivity" parent="PersonFinIntDisclosure-principalBusinessActivity-parentBean" />
+    <bean id="PersonFinIntDisclosure-principalBusinessActivity-parentBean" abstract="true" parent="AttributeDefinition" >
+        <property name="name" value="principalBusinessActivity" />
+        <property name="forceUppercase" value="false" />
+        <property name="label" value="Entity Principal Business/Activity" />
+        <property name="shortLabel" value="Entity Principal Business/Activity" />
+        <property name="maxLength" value="2000" />
+        <property name="validationPattern" >
+            <bean parent="AnyCharacterValidationPattern" p:allowWhitespace="true" />
+        </property>
+        <property name="control" >
+            <bean parent="TextareaControlDefinition"
+                p:rows="4"
+                p:cols="60" />
+        </property>
+        <property name="summary" value="Entity Principal Business/Activity" />
+        <property name="description" value="Entity Principal Business/Activity" />
     </bean>
 
     <bean id="PersonFinIntDisclosure-sponsorCode" parent="PersonFinIntDisclosure-sponsorCode-parentBean" />
