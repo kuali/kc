@@ -19,6 +19,7 @@ import javax.xml.datatype.DatatypeConfigurationException;
 
 import org.kuali.kra.award.home.Award;
 import org.kuali.rice.kew.exception.WorkflowException;
+import org.kuali.rice.kns.service.BusinessObjectService;
 import org.kuali.rice.kns.service.DocumentService;
 
 public interface AccountCreationClient {
@@ -33,7 +34,20 @@ public interface AccountCreationClient {
     
     void setDocumentService(DocumentService documentService);
     
+    /**
+     * This method checks if the financial account number is valid.
+     * @param accountNumber
+     * @return
+     */
     String isValidAccountNumber(String accountNumber);
     
+    /**
+     * This method checks if the combination of account number and chart is valid.
+     * @param chartOfAccountsCode
+     * @param accountNumber
+     * @return
+     */
     String isValidChartAccount(String chartOfAccountsCode, String accountNumber);
+
+    void setBusinessObjectService(BusinessObjectService businessObjectService);
 }

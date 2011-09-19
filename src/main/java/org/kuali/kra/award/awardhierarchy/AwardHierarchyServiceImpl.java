@@ -361,9 +361,11 @@ public class AwardHierarchyServiceImpl implements AwardHierarchyService {
    
     
     protected void clearFilteredAttributes(Award newAward) {
+        // setting all financial information to null so copied award can spawn its own
         newAward.setAccountNumber(null);
         newAward.setFinancialAccountCreationDate(null);
         newAward.setFinancialAccountDocumentNumber(null);
+        newAward.setFinancialChartOfAccountsCode(null);
         newAward.setNoticeDate(null);
         int sourceFundingProposalsCount = newAward.getFundingProposals().size();
         for(int i=0; i < sourceFundingProposalsCount; i++) {

@@ -132,7 +132,7 @@ class FandARatesDataFeedCommand extends ProposalDataFeedCommandBase {
     private AwardFandaRate copyFandA(InstitutionalProposalUnrecoveredFandA ipUnrecoveredFandA) {
         AwardFandaRate awardFandA = new AwardFandaRate();
         awardFandA.setApplicableFandaRate(ipUnrecoveredFandA.getApplicableIndirectcostRate());
-        awardFandA.setFandaRateTypeCode(ipUnrecoveredFandA.getIndirectcostRateTypeCode());
+        awardFandA.setFandaRateTypeCode(ipUnrecoveredFandA.getIndirectcostRateTypeCode()==null?null:ipUnrecoveredFandA.getIndirectcostRateTypeCode().toString());
         awardFandA.setFiscalYear(ipUnrecoveredFandA.getFiscalYear());
         awardFandA.setOnCampusFlag(convertOnCampusBooleanToString(ipUnrecoveredFandA.getOnCampusFlag()));
         awardFandA.setSourceAccount(ipUnrecoveredFandA.getSourceAccount());

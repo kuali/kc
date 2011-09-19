@@ -309,8 +309,10 @@ public class ProposalDevelopmentAction extends BudgetParentActionBase {
         final ProposalDevelopmentDocument doc = proposalDevelopmentForm.getDocument();
         S2sOpportunity s2sOpportunity= new S2sOpportunity();
         s2sOpportunity = proposalDevelopmentForm.getDocument().getDevelopmentProposal().getS2sOpportunity();
-        if(s2sOpportunity!=null && s2sOpportunity.getProposalNumber()==null)
+        if(s2sOpportunity!=null && s2sOpportunity.getProposalNumber()==null){
             proposalDevelopmentForm.getDocument().getDevelopmentProposal().setS2sOpportunity(null);
+            proposalDevelopmentForm.setS2sOpportunity(s2sOpportunity);
+        }
         updateProposalDocument(proposalDevelopmentForm);
         
         preSave(mapping, proposalDevelopmentForm, request, response);
@@ -320,7 +322,7 @@ public class ProposalDevelopmentAction extends BudgetParentActionBase {
         if (proposalDevelopmentForm.isAuditActivated()) {
             forward = mapping.findForward(Constants.MAPPING_PROPOSAL_ACTIONS);
         }
-        
+        s2sOpportunity=proposalDevelopmentForm.getS2sOpportunity();
         if(s2sOpportunity!=null)
             doc.getDevelopmentProposal().setS2sOpportunity(s2sOpportunity);
         

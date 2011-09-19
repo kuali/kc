@@ -46,7 +46,7 @@ fi
 
 dbtype=`getChoice 'Enter Database Type' ORACLE MYSQL`
 
-version=`getChoice 'Enter Version' NEW 3.0 3.0.1`
+version=`getChoice 'Enter Version' NEW 3.0 3.0.1 3.1`
 
 un=`getAnswer 'Enter KC Database Username'`
 
@@ -172,6 +172,15 @@ case "${dbtype}" in
             mv *.log ../LOGS/
             cd ..
         fi
+
+		if [ "${version}" = "3.1"] || [ "${version}" = "3.0.1" ] || [ "${version}" = "3.0" ] || [ "${version}" = "NEW" ]
+		then
+			cd KC-RELEASE-3_1_1-SCRIPT
+			sqlplus "${un}"/"${pw}${DBSvrNm}" < KC-RELEASE-3_1_1-Upgrade-ORACLE.sql
+			sqlplus "${Riceun}"/"${Ricepw}${RiceDBSvrNm}" < KR-RELEASE-3_1_1-Upgrade-ORACLE.sql
+			mv *.log ../LOGS/
+			cd ..
+		fi		
 		
 		cd KC-RELEASE-3_0-CLEAN/oracle
 		sqlplus "${Riceun}"/"${Ricepw}${RiceDBSvrNm}" < krrelease/datasql/KR_00_CLEAN_SEQ_BS.sql
@@ -254,6 +263,15 @@ case "${dbtype}" in
             mv *.log ../LOGS/
             cd ..
         fi
+
+		if [ "${version}" = "3.1" ] || [ "${version}" = "3.0.1" ] || [ "${version}" = "3.0" ] || [ "${version}" = "NEW" ]
+		then
+            cd KC-RELEASE-3_1_1-SCRIPT
+            mysql -u ${un} -p${pw} -D ${DBSvrNm} -s -f < KC-RELEASE-3_1_1-Upgrade-MYSQL.sql > KC-RELEASE-3_1_1-Upgrade-MYSQL-Install.log 2>&1
+            mysql -u ${Riceun} -p${Ricepw} -D ${RiceDBSvrNm} -s -f < KR-RELEASE-3_1_1-Upgrade-MYSQL.sql > KR-RELEASE-3_1_1-Upgrade-MYSQL-Install.log 2>&1
+            mv *.log ../LOGS/
+            cd ..
+		fi
 		
         cd KC-RELEASE-3_0-CLEAN/mysql
         mysql -u ${Riceun} -p${Ricepw} -D ${RiceDBSvrNm} -s -f < krrelease/datasql/KR_00_CLEAN_SEQ_BS.sql > KR_CLEAN_SEQ_BS-Mysql-Install.log 2>&1

@@ -45,6 +45,7 @@ public class AwardCloseoutBean implements Serializable {
     private String closeoutReportTypePatent;
     private String closeoutReportTypeTechnical;
     private String closeoutReportTypeProperty;
+    private String closeoutReportTypeInvoice;
     private transient ParameterService parameterService;
    
     /**
@@ -70,6 +71,7 @@ public class AwardCloseoutBean implements Serializable {
         setCloseoutReportTypeTechnical(getParameterService().getParameterValue(AwardDocument.class, KeyConstants.CLOSE_OUT_REPORT_TYPE_TECHNICAL));
         setCloseoutReportTypePatent(getParameterService().getParameterValue(AwardDocument.class, KeyConstants.CLOSE_OUT_REPORT_TYPE_PATENT));
         setCloseoutReportTypeProperty(getParameterService().getParameterValue(AwardDocument.class, KeyConstants.CLOSE_OUT_REPORT_TYPE_PROPERTY));
+        setCloseoutReportTypeInvoice(getParameterService().getParameterValue(AwardDocument.class, KeyConstants.CLOSE_OUT_REPORT_TYPE_INVOICE));
         getAward().setAwardCloseoutItems(getAward().getAwardCloseoutItems());
     }
     
@@ -286,5 +288,21 @@ public class AwardCloseoutBean implements Serializable {
      */
     public void setCloseoutReportTypeProperty(String closeoutReportTypeProperty) {
         this.closeoutReportTypeProperty = closeoutReportTypeProperty;
+    }
+    
+    /**
+     * Gets the closeoutReportTypeInvoice attribute. 
+     * @return Returns the closeoutReportTypeInvoice.
+     */
+    public String getCloseoutReportTypeInvoice() {
+        return closeoutReportTypeInvoice;
+    }
+
+    /**
+     * Sets the closeoutReportTypeInvoice attribute value.
+     * @param closeoutReportTypeInvoice The closeoutReportTypeInvoice to set.
+     */
+    public void setCloseoutReportTypeInvoice(String closeoutReportTypeInvoice) {
+        this.closeoutReportTypeInvoice = closeoutReportTypeInvoice;
     }
 }

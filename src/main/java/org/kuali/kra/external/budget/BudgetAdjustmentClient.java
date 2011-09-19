@@ -27,7 +27,7 @@ import org.kuali.rice.kns.service.ParameterService;
 
 public interface BudgetAdjustmentClient {
 
-    void createBudgetAdjustmentDocument()throws DatatypeConfigurationException, WorkflowException, Exception;
+    void createBudgetAdjustmentDocument(AwardBudgetDocument awardBudgetDocument)throws DatatypeConfigurationException, WorkflowException, Exception;
 
     void setDocumentService(DocumentService documentService);
 
@@ -38,7 +38,8 @@ public interface BudgetAdjustmentClient {
     void setInstitutionalUnitService(InstitutionalUnitService institutionalUnitService);
 
     void setBudgetCalculationService(BudgetCalculationService budgetCalculationService);
+
+    void setBudgetAdjustmentServiceHelper(BudgetAdjustmentServiceHelper businessAdjustmentServiceHelper);
     
-    void setAwardBudgetDocument(AwardBudgetDocument awardBudgetDocument);
 
 }

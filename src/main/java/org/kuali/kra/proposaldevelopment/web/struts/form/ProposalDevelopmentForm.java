@@ -197,7 +197,7 @@ public class ProposalDevelopmentForm extends BudgetVersionFormBase implements Re
     private List<ProposalPersonQuestionnaireHelper> proposalPersonQuestionnaireHelpers;
     private List<AnswerHeader> answerHeadersToDelete;
     private List<ProposalPerson> proposalPersonsToDelete;
-
+    private transient S2sOpportunity s2sOpportunity;
    
     public ProposalDevelopmentForm() {
         super();
@@ -1781,6 +1781,14 @@ public class ProposalDevelopmentForm extends BudgetVersionFormBase implements Re
     
     public void setPropsoalPersonsToDelete(List<ProposalPerson> proposalPersonsToDelete) {
         this.proposalPersonsToDelete = proposalPersonsToDelete;
+    }
+
+    public void setS2sOpportunity(S2sOpportunity s2sOpportunity) {
+        this.s2sOpportunity = s2sOpportunity;
+    }
+
+    public S2sOpportunity getS2sOpportunity() {
+        return s2sOpportunity;
     }
 
 
