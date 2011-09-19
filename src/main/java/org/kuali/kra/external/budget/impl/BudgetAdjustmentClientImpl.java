@@ -25,6 +25,7 @@ import org.apache.commons.logging.Log;
 import org.apache.commons.logging.LogFactory;
 import org.kuali.kfs.integration.cg.budgetService.BudgetAdjustmentService;
 import org.kuali.kfs.integration.cg.budgetService.BudgetAdjustmentServiceSOAP;
+import org.kuali.kra.award.budget.document.AwardBudgetDocument;
 
 
 
@@ -50,7 +51,6 @@ public class BudgetAdjustmentClientImpl extends BudgetAdjustmentClientBase {
         return client;
       }
 
-      
     static
     {
         ClassLoader cl = Thread.currentThread().getContextClassLoader();
@@ -66,5 +66,6 @@ public class BudgetAdjustmentClientImpl extends BudgetAdjustmentClientBase {
         BudgetAdjustmentServiceSOAP ss = new BudgetAdjustmentServiceSOAP(WSDL_LOCATION, SERVICE_NAME);
         return ss.getBudgetAdjustmentServicePort();  
     }
+
 
 }

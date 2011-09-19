@@ -108,9 +108,15 @@ public class SalaryCalculator {
                 break;
             }
         }
-        Equals eInflationRC = new Equals("rateClassCode", inflationRateType.getRateClassCode());
-        Equals eInflationRT = new Equals("rateTypeCode", inflationRateType.getRateTypeCode());
-        And inflRCandRT = new And(eInflationRC, eInflationRT);
+		Equals eInflationRC	= null;
+		Equals eInflationRT = null;
+		And inflRCandRT = null;
+		
+		if(inflationRateType != null){
+			eInflationRC = new Equals("rateClassCode", inflationRateType.getRateClassCode());
+        	eInflationRT = new Equals("rateTypeCode", inflationRateType.getRateTypeCode());
+        	inflRCandRT = new And(eInflationRC, eInflationRT);
+         }
 
         LesserThan ltEndDate = new LesserThan("startDate", this.endDate);
         Equals eEndDate = new Equals("startDate", this.endDate);
@@ -694,9 +700,15 @@ public class SalaryCalculator {
                 break;
             }
         }
-        Equals eInflationRC = new Equals("rateClassCode", inflationRateType.getRateClassCode());
-        Equals eInflationRT = new Equals("rateTypeCode", inflationRateType.getRateTypeCode());
-        And inflRCandRT = new And(eInflationRC, eInflationRT);
+		Equals eInflationRC	= null;		
+		Equals eInflationRT = null;
+		And inflRCandRT = null;
+
+ 		if(inflationRateType != null){
+			eInflationRC = new Equals("rateClassCode", inflationRateType.getRateClassCode());
+			eInflationRT = new Equals("rateTypeCode", inflationRateType.getRateTypeCode());
+			inflRCandRT = new And(eInflationRC, eInflationRT);                 
+		}
 
         LesserThan ltEndDate = new LesserThan("startDate", eDate);
         Equals eEndDate = new Equals("startDate", eDate);

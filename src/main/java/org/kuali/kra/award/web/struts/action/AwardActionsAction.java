@@ -31,7 +31,6 @@ import org.apache.commons.lang.StringUtils;
 import org.apache.struts.action.ActionForm;
 import org.apache.struts.action.ActionForward;
 import org.apache.struts.action.ActionMapping;
-import org.kuali.kra.award.AwardCreateAccountRule;
 import org.kuali.kra.award.AwardForm;
 import org.kuali.kra.award.AwardNumberService;
 import org.kuali.kra.award.awardhierarchy.AwardHierarchy;
@@ -45,7 +44,6 @@ import org.kuali.kra.award.home.fundingproposal.AwardFundingProposal;
 import org.kuali.kra.award.printing.AwardPrintParameters;
 import org.kuali.kra.award.printing.AwardPrintType;
 import org.kuali.kra.award.printing.service.AwardPrintingService;
-import org.kuali.kra.bo.Unit;
 import org.kuali.kra.bo.versioning.VersionHistory;
 import org.kuali.kra.bo.versioning.VersionStatus;
 import org.kuali.kra.infrastructure.Constants;
@@ -58,7 +56,6 @@ import org.kuali.kra.proposaldevelopment.bo.AttachmentDataSource;
 import org.kuali.kra.service.VersionHistoryService;
 import org.kuali.kra.timeandmoney.AwardHierarchyNode;
 import org.kuali.kra.web.struts.action.AuditActionHelper;
-import org.kuali.rice.core.resourceloader.GlobalResourceLoader;
 import org.kuali.rice.core.util.RiceConstants;
 import org.kuali.rice.kew.exception.WorkflowException;
 import org.kuali.rice.kew.util.KEWConstants;
@@ -70,7 +67,6 @@ import org.kuali.rice.kns.util.KNSConstants;
 import org.kuali.rice.kns.web.struts.action.AuditModeAction;
 import org.kuali.rice.kns.web.struts.form.KualiDocumentFormBase;
 import org.kuali.kra.external.award.*;
-import org.kuali.kra.external.unit.service.InstitutionalUnitService;
 
 /**
  * 
@@ -725,7 +721,8 @@ public class AwardActionsAction extends AwardAction implements AuditModeAction {
         Award award = awardDocument.getAward();
         // if the user has permissions to create a financial account
         if (awardForm.getEditingMode().get("createAwardAccount").equals("true")) {
-            boolean rulePassed = new AwardCreateAccountRule().processAwardCreateAccountRules(award);
+            AwardAccountValidationService accountValidationService = getAwardAccountValidationService();
+            boolean rulePassed = accountValidationService.validateAwardAccountDetails(award);
             if (rulePassed) {
                 AccountCreationClient client = (AccountCreationClient) KraServiceLocator.getService("accountCreationClient");
                 /*
@@ -745,6 +742,10 @@ public class AwardActionsAction extends AwardAction implements AuditModeAction {
         forward = mapping.findForward(Constants.MAPPING_AWARD_ACTIONS_PAGE);
        
         return forward; 
+    }
+    
+    protected AwardAccountValidationService getAwardAccountValidationService() {
+        return KraServiceLocator.getService("awardAccountValidationService");
     }
     
     @Override

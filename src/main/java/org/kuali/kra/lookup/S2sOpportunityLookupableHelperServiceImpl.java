@@ -23,6 +23,8 @@ import java.util.List;
 import java.util.Map;
 import java.util.Properties;
 
+import org.apache.commons.httpclient.URIException;
+import org.apache.commons.httpclient.util.URIUtil;
 import org.apache.commons.lang.StringUtils;
 import org.apache.commons.logging.Log;
 import org.apache.commons.logging.LogFactory;
@@ -134,11 +136,35 @@ public class S2sOpportunityLookupableHelperServiceImpl extends KualiLookupableHe
                 
             List<Column> columns = row.getColumns();
             if(!lookupForm.getBackLocation().contains("proposalDevelopmentGrantsGov")){
-                String cfdaNumber=columns.get(0).getPropertyValue();
-                String oppurtunityId=columns.get(5).getPropertyValue();
-                String oppurtunityTitle=columns.get(6).getPropertyValue();
-                String createProposalUrl="<a href="+lookupForm.getBackLocation()+"?channelTitle=CreateProposal&channelUrl=proposalDevelopmentProposal.do?methodToCall=docHandler&command=initiate&docTypeName=ProposalDevelopmentDocument&cfdaNumber="+cfdaNumber+"&oppurtunityId="+oppurtunityId+"&opportunityTitle="+oppurtunityTitle+"&createProposalFromGrantsGov=true>Create Proposal</a>";
-                row.setReturnUrl(createProposalUrl);
+            String cfdaNumber=columns.get(0).getPropertyValue();
+            String closingDate=columns.get(1).getPropertyValue();
+            String competetionId=columns.get(2).getPropertyValue();
+            String instructionUrl=columns.get(3).getPropertyValue();
+            String openingDate =columns.get(4).getPropertyValue();
+            String oppurtunityId=columns.get(5).getPropertyValue();
+            String oppurtunityTitle=columns.get(6).getPropertyValue();
+            String schemaUrl=columns.get(7).getPropertyValue();
+            
+            String createProposalUrl=null;
+            try {
+                    String encodedUrl = URIUtil
+                            .encodeQuery(lookupForm.getBackLocation()
+                                    + "?channelTitle=CreateProposal&channelUrl=proposalDevelopmentProposal.do?methodToCall=docHandler&command=initiate&docTypeName=ProposalDevelopmentDocument"
+                                    + "&createProposalFromGrantsGov=true"
+                                    + "&document.developmentProposalList[0].s2sOpportunity.cfdaNumber=" + cfdaNumber
+                                    + "&document.developmentProposalList[0].s2sOpportunity.opportunityId=" + oppurtunityId
+                                    + "&document.developmentProposalList[0].s2sOpportunity.opportunityTitle=" + oppurtunityTitle
+                                    + "&document.developmentProposalList[0].s2sOpportunity.closingDate=" + closingDate
+                                    + "&document.developmentProposalList[0].s2sOpportunity.openingDate=" + openingDate
+                                    + "&document.developmentProposalList[0].s2sOpportunity.instructionUrl=" + instructionUrl
+                                    + "&document.developmentProposalList[0].s2sOpportunity.competetionId=" + competetionId
+                                    + "&document.developmentProposalList[0].s2sOpportunity.schemaUrl=" + schemaUrl);
+                    createProposalUrl = "<a href=" + encodedUrl + ">Create Proposal</a>";
+                    row.setReturnUrl(createProposalUrl);
+                }
+                catch (URIException e) {
+                    LOG.error(e.getMessage(), e);
+                }
             }
             for (Iterator iterator = columns.iterator(); iterator.hasNext();) {
                 Column col = (Column) iterator.next();

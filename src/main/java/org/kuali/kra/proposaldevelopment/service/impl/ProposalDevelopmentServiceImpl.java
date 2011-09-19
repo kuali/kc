@@ -24,9 +24,11 @@ import java.util.ListIterator;
 import java.util.Map;
 
 import org.apache.commons.collections.CollectionUtils;
+import org.apache.commons.lang.BooleanUtils;
 import org.apache.commons.lang.StringUtils;
 import org.apache.commons.logging.Log;
 import org.apache.commons.logging.LogFactory;
+import org.kuali.kra.award.AwardForm;
 import org.kuali.kra.award.awardhierarchy.sync.service.AwardSyncServiceImpl;
 import org.kuali.kra.award.home.Award;
 import org.kuali.kra.bo.Sponsor;
@@ -35,6 +37,7 @@ import org.kuali.kra.bo.versioning.VersionHistory;
 import org.kuali.kra.budget.core.BudgetService;
 import org.kuali.kra.budget.document.BudgetDocument;
 import org.kuali.kra.budget.versions.BudgetDocumentVersion;
+import org.kuali.kra.budget.web.struts.form.BudgetForm;
 import org.kuali.kra.infrastructure.Constants;
 import org.kuali.kra.infrastructure.PermissionConstants;
 import org.kuali.kra.institutionalproposal.home.InstitutionalProposal;
@@ -45,10 +48,12 @@ import org.kuali.kra.proposaldevelopment.bo.ProposalOverview;
 import org.kuali.kra.proposaldevelopment.bo.ProposalSite;
 import org.kuali.kra.proposaldevelopment.document.ProposalDevelopmentDocument;
 import org.kuali.kra.proposaldevelopment.service.ProposalDevelopmentService;
+import org.kuali.kra.proposaldevelopment.web.struts.form.ProposalDevelopmentForm;
 import org.kuali.kra.service.KraPersistenceStructureService;
 import org.kuali.kra.service.UnitAuthorizationService;
 import org.kuali.kra.service.VersionHistoryService;
 import org.kuali.rice.kew.exception.WorkflowException;
+import org.kuali.rice.kns.authorization.AuthorizationConstants;
 import org.kuali.rice.kns.bo.BusinessObject;
 import org.kuali.rice.kns.bo.PersistableBusinessObject;
 import org.kuali.rice.kns.service.BusinessObjectService;
@@ -182,7 +187,13 @@ public class ProposalDevelopmentServiceImpl implements ProposalDevelopmentServic
     }
 
     public String populateProposalEditableFieldMetaDataForAjaxCall(String proposalNumber, String editableFieldDBColumn) {
-        return populateProposalEditableFieldMetaData(proposalNumber, editableFieldDBColumn);
+        if(isAuthorizedToAccess(proposalNumber)){
+            if (StringUtils.isNotBlank(proposalNumber) && proposalNumber.contains(Constants.COLON)) {
+                proposalNumber = StringUtils.split(proposalNumber, Constants.COLON)[0];
+            }
+            return populateProposalEditableFieldMetaData(proposalNumber, editableFieldDBColumn);
+        }
+        return StringUtils.EMPTY;
     }
     
     protected ProposalOverview getProposalOverview(String proposalNumber) {
@@ -461,6 +472,41 @@ public class ProposalDevelopmentServiceImpl implements ProposalDevelopmentServic
         this.documentService = documentService;
     }
     
+    /*
+     * a utility method to check if dwr/ajax call really has authorization
+     * 'updateProtocolFundingSource' also accessed by non ajax call
+     */
+    
+    private boolean isAuthorizedToAccess(String proposalNumber) {
+        boolean isAuthorized = true;
+        if(proposalNumber.contains(Constants.COLON)){
+            if (GlobalVariables.getUserSession() != null) {
+                // TODO : this is a quick hack for KC 3.1.1 to provide authorization check for dwr/ajax call. dwr/ajax will be replaced by
+                // jquery/ajax in rice 2.0
+                String[] invalues = StringUtils.split(proposalNumber, Constants.COLON);
+                String docFormKey = invalues[1];
+                if (StringUtils.isBlank(docFormKey)) {
+                    isAuthorized = false;
+                } else {
+                    Object formObj = GlobalVariables.getUserSession().retrieveObject(docFormKey);
+                    if (formObj == null || !(formObj instanceof ProposalDevelopmentForm)) {
+                        isAuthorized = false;
+                    } else {
+                        Map<String, String> editModes = ((ProposalDevelopmentForm)formObj).getEditingMode();
+                        isAuthorized = BooleanUtils.toBoolean(editModes.get(AuthorizationConstants.EditMode.FULL_ENTRY))
+                        || BooleanUtils.toBoolean(editModes.get(AuthorizationConstants.EditMode.VIEW_ONLY))
+                        || BooleanUtils.toBoolean(editModes.get("modifyProposal"));
+                    }
+                }
+
+            } else {
+                // TODO : it seemed that tomcat has this issue intermittently ?
+                LOG.info("dwr/ajax does not have session ");
+            }
+        }
+        return isAuthorized;
+    }
+
     
     
 }

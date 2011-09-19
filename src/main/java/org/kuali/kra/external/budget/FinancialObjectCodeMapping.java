@@ -22,8 +22,12 @@ import org.kuali.kra.budget.rates.RateClass;
 import org.kuali.kra.budget.rates.RateType;
 import org.kuali.kra.proposaldevelopment.bo.ActivityType;
 
-public class FinancialObjectCodeMapping extends KraPersistableBusinessObjectBase implements Comparable {
+public class FinancialObjectCodeMapping extends KraPersistableBusinessObjectBase {
 
+    /**
+     * Comment for <code>serialVersionUID</code>
+     */
+    private static final long serialVersionUID = -7669400139293393635L;
     private String rateClassCode;
     private String rateTypeCode;
     private String unitNumber;
@@ -119,8 +123,13 @@ public class FinancialObjectCodeMapping extends KraPersistableBusinessObjectBase
 
     @Override
     protected LinkedHashMap toStringMapper() {
-        // TODO Auto-generated method stub
-        return null;
+            LinkedHashMap m = new LinkedHashMap();
+            m.put("rateClassCode", this.rateClassCode);
+            m.put("rateTypeCode", this.rateTypeCode);
+            m.put("unitNumber", this.unitNumber);
+            m.put("activityTypeCode", this.activityTypeCode);
+            m.put("financialObjectCode", this.financialObjectCode);
+            return m;
     }
 
     public int compareTo(Object arg0) {

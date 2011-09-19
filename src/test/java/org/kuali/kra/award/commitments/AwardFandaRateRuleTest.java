@@ -46,7 +46,7 @@ public class AwardFandaRateRuleTest {
         awardFandaRate = new AwardFandaRate();
         awardFandaRate.setApplicableFandaRate(new KualiDecimal(5));
         awardFandaRate.setFiscalYear("2008");
-        awardFandaRate.setFandaRateTypeCode(5);
+        awardFandaRate.setFandaRateTypeCode("5");
         awardFandaRate.setOnCampusFlag("N");
         awardFandaRate.setUnderrecoveryOfIndirectCost(new KualiDecimal(1000));
         awardFandaRate.setStartDate(new Date(new Long("1183316613046")));        

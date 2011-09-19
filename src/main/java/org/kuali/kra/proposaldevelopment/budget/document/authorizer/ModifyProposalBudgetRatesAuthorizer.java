@@ -30,17 +30,11 @@ public class ModifyProposalBudgetRatesAuthorizer extends BudgetAuthorizer {
      * @see org.kuali.kra.proposaldevelopment.document.authorizer.ProposalAuthorizer#isAuthorized(org.kuali.rice.kns.bo.user.UniversalUser, org.kuali.kra.proposaldevelopment.web.struts.form.ProposalDevelopmentForm)
      */
     public boolean isAuthorized(String userId, BudgetTask task) {
-        System.out.println("**********checking MDPR permission*********************");
         KraDocumentRejectionService documentRejectionService = KraServiceLocator.getService(KraDocumentRejectionService.class);
         BudgetDocument budgetDocument = task.getBudgetDocument();
         ProposalDevelopmentDocument doc = (ProposalDevelopmentDocument)budgetDocument.getParentDocument();
         boolean rejectedDocument = documentRejectionService.isDocumentOnInitialNode(doc.getDocumentNumber());
-        
-      System.out.println("++++++++++++++++++++ "+ !kraWorkflowService.isInWorkflow(doc));
-      System.out.println("++++++++++++++++++++ "+ rejectedDocument);
-      System.out.println("++++++++++++++++++++ "+ hasParentPermission(userId, doc, PermissionConstants.MODIFY_PROPOSAL_RATES));
-      System.out.println("++++++++++++++++++++ "+ !doc.getDevelopmentProposal().getSubmitFlag());
-        
+             
         return (!kraWorkflowService.isInWorkflow(doc) || rejectedDocument) &&
                 hasParentPermission(userId, doc, PermissionConstants.MODIFY_PROPOSAL_RATES) &&!doc.getDevelopmentProposal().getSubmitFlag(); 
     }

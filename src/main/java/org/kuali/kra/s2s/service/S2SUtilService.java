@@ -319,4 +319,6 @@ public interface S2SUtilService {
      */
     public CitizenshipTypes getCitizenship(ProposalPerson proposalPerson);
 
+    public String removeTimezoneFactor(String applicationXmlText);
+
 }

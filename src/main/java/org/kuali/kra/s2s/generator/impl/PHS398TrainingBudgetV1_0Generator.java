@@ -8,17 +8,17 @@
 
 package org.kuali.kra.s2s.generator.impl;
 
+import gov.grants.apply.forms.phs398TrainingBudgetV10.PHS398TrainingBudgetDocument;
+import gov.grants.apply.forms.phs398TrainingBudgetV10.PHS398TrainingBudgetDocument.PHS398TrainingBudget;
+import gov.grants.apply.forms.phs398TrainingBudgetV10.PHS398TrainingBudgetDocument.PHS398TrainingBudget.BudgetType;
+import gov.grants.apply.forms.phs398TrainingBudgetV10.PHS398TrainingBudgetYearDataType;
+import gov.grants.apply.system.attachmentsV10.AttachedFileDataType;
+
 import java.math.BigDecimal;
 import java.util.Arrays;
 import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
-
-import gov.grants.apply.forms.phs398TrainingBudgetV10.PHS398TrainingBudgetDocument;
-import gov.grants.apply.forms.phs398TrainingBudgetV10.PHS398TrainingBudgetYearDataType;
-import gov.grants.apply.forms.phs398TrainingBudgetV10.PHS398TrainingBudgetDocument.PHS398TrainingBudget;
-import gov.grants.apply.forms.phs398TrainingBudgetV10.PHS398TrainingBudgetDocument.PHS398TrainingBudget.BudgetType;
-import gov.grants.apply.system.attachmentsV10.AttachedFileDataType;
 
 import org.apache.xmlbeans.XmlObject;
 import org.kuali.kra.bo.Organization;
@@ -50,6 +50,7 @@ import org.kuali.kra.s2s.generator.bo.IndirectCostDetails;
 import org.kuali.kra.s2s.generator.bo.IndirectCostInfo;
 import org.kuali.kra.s2s.service.S2SBudgetCalculatorService;
 import org.kuali.kra.s2s.util.S2SConstants;
+import org.kuali.kra.s2s.validator.S2SErrorHandler;
 import org.kuali.rice.kns.service.BusinessObjectService;
 import org.kuali.rice.kns.service.DateTimeService;
 import org.kuali.rice.kns.service.ParameterService;
@@ -954,21 +955,25 @@ public class PHS398TrainingBudgetV1_0Generator extends S2SBaseFormGenerator {
                 .getCumulativeTotalDirectCostsRequested().add(cumTotalIndCosts1.add(cumTotalIndCosts2)));
         trainingBudgetType.setCumulativeTraineeTravelRequested(cumTravelCosts);
         trainingBudgetType.setCumulativeTrainingRelatedExpensesRequested(cumTrainingCosts);
-
-        AttachedFileDataType attachedFileDataType;
-        for (Narrative narrative : developmentProposal.getNarratives()) {
-             if (narrative.getNarrativeTypeCode() != null) {
-                 if(Integer.parseInt(narrative.getNarrativeTypeCode())==PHS_TRAINING_BUDGET_BUDGETJUSTIFICATION_130){                     
-                         attachedFileDataType = getAttachedFileType(narrative);
-                         if(attachedFileDataType == null){
-                             continue;
-                         }
-                         trainingBudgetType.setBudgetJustification(attachedFileDataType);                       
-                 }
-             } 
-        }       
-
-
+    
+       AttachedFileDataType attachedFileDataType = null;        
+       for (Narrative narrative : developmentProposal.getNarratives()) {            
+           if (narrative.getNarrativeTypeCode() != null) {                
+               if (Integer.parseInt(narrative.getNarrativeTypeCode()) == PHS_TRAINING_BUDGET_BUDGETJUSTIFICATION_130) {                    
+                   attachedFileDataType = getAttachedFileType(narrative);                    
+                   if (attachedFileDataType == null) {                        
+                       continue;                    
+                       }else{                        
+                           break;                    
+                           }                
+                   }            
+               }        
+           }        
+       if(attachedFileDataType == null){            
+           attachedFileDataType = AttachedFileDataType.Factory.newInstance();        
+           }        
+       trainingBudgetType.setBudgetJustification(attachedFileDataType);
+       
         return trainingBudgetType;
     }
 

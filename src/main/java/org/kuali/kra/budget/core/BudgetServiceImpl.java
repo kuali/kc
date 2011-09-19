@@ -28,7 +28,9 @@ import java.util.List;
 import java.util.Map;
 
 import org.apache.commons.collections.CollectionUtils;
+import org.apache.commons.lang.BooleanUtils;
 import org.apache.commons.lang.StringUtils;
+import org.kuali.kra.award.AwardForm;
 import org.kuali.kra.award.budget.AwardBudgetExt;
 import org.kuali.kra.award.budget.document.AwardBudgetDocument;
 import org.kuali.kra.award.commitments.AwardFandaRate;
@@ -55,6 +57,7 @@ import org.kuali.kra.budget.versions.AddBudgetVersionRule;
 import org.kuali.kra.budget.versions.BudgetDocumentVersion;
 import org.kuali.kra.budget.versions.BudgetVersionOverview;
 import org.kuali.kra.budget.versions.BudgetVersionRule;
+import org.kuali.kra.budget.web.struts.form.BudgetForm;
 import org.kuali.kra.infrastructure.Constants;
 import org.kuali.kra.infrastructure.KeyConstants;
 import org.kuali.kra.infrastructure.KraServiceLocator;
@@ -63,6 +66,7 @@ import org.kuali.kra.proposaldevelopment.document.ProposalDevelopmentDocument;
 import org.kuali.kra.service.DeepCopyPostProcessor;
 import org.kuali.rice.core.util.KeyLabelPair;
 import org.kuali.rice.kew.exception.WorkflowException;
+import org.kuali.rice.kns.authorization.AuthorizationConstants;
 import org.kuali.rice.kns.bo.DocumentHeader;
 import org.kuali.rice.kns.bo.PersistableBusinessObject;
 import org.kuali.rice.kns.rule.event.DocumentAuditEvent;
@@ -456,26 +460,33 @@ public class BudgetServiceImpl<T extends BudgetParent> implements BudgetService<
             String budgetCategoryTypeCode) {
         
         String resultStr = "";
-        List<ValidCeJobCode> validCostElements = getApplicableCostElements(budgetId, personSequenceNumber);
         
-        if(CollectionUtils.isNotEmpty(validCostElements)) {
-            for (ValidCeJobCode validCE : validCostElements) {
-                Map fieldValues = new HashMap();
-                fieldValues.put("costElement", validCE.getCostElement());
-                CostElement costElement = (CostElement) businessObjectService.findByPrimaryKey(CostElement.class, fieldValues);
-                resultStr += "," + validCE.getCostElement() + ";" + costElement.getDescription();
+        if(isAuthorizedToAccess(budgetCategoryTypeCode)){
+            if (StringUtils.isNotBlank(budgetCategoryTypeCode) && budgetCategoryTypeCode.contains(Constants.COLON)) {
+                budgetCategoryTypeCode = StringUtils.split(budgetCategoryTypeCode, Constants.COLON)[0];
             }
-            resultStr += ",ceLookup;false";
-        } else {
-            CostElementValuesFinder ceValuesFinder = new CostElementValuesFinder();
-            ceValuesFinder.setBudgetCategoryTypeCode(budgetCategoryTypeCode);
-            List<KeyLabelPair> allPersonnelCostElements = ceValuesFinder.getKeyValues();
-            for (KeyLabelPair keyLabelPair : allPersonnelCostElements) {
-                if(StringUtils.isNotEmpty(keyLabelPair.getKey().toString())) {
-                    resultStr += "," + keyLabelPair.getKey() + ";" + keyLabelPair.getLabel();
+
+            List<ValidCeJobCode> validCostElements = getApplicableCostElements(budgetId, personSequenceNumber);
+
+            if(CollectionUtils.isNotEmpty(validCostElements)) {
+                for (ValidCeJobCode validCE : validCostElements) {
+                    Map fieldValues = new HashMap();
+                    fieldValues.put("costElement", validCE.getCostElement());
+                    CostElement costElement = (CostElement) businessObjectService.findByPrimaryKey(CostElement.class, fieldValues);
+                    resultStr += "," + validCE.getCostElement() + ";" + costElement.getDescription();
                 }
+                resultStr += ",ceLookup;false";
+            } else {
+                CostElementValuesFinder ceValuesFinder = new CostElementValuesFinder();
+                ceValuesFinder.setBudgetCategoryTypeCode(budgetCategoryTypeCode);
+                List<KeyLabelPair> allPersonnelCostElements = ceValuesFinder.getKeyValues();
+                for (KeyLabelPair keyLabelPair : allPersonnelCostElements) {
+                    if(StringUtils.isNotEmpty(keyLabelPair.getKey().toString())) {
+                        resultStr += "," + keyLabelPair.getKey() + ";" + keyLabelPair.getLabel();
+                    }
+                }
+                resultStr += ",ceLookup;true";
             }
-            resultStr += ",ceLookup;true";
         }
         
         return resultStr;
@@ -682,6 +693,8 @@ public class BudgetServiceImpl<T extends BudgetParent> implements BudgetService<
 
         copyLineItemToPersonnelDetails(budgetDocument);
         budgetDocument.setVersionNumber(null);
+        // setting this to null so copied budget can be posted.
+        budgetDocument.getBudget().setBudgetAdjustmentDocumentNumber(null);
         List<BudgetProjectIncome> projectIncomes = budgetDocument.getBudget().getBudgetProjectIncomes();
         budgetDocument.getBudget().setBudgetProjectIncomes(new ArrayList<BudgetProjectIncome>());
         documentService.saveDocument(budgetDocument);
@@ -794,6 +807,43 @@ public class BudgetServiceImpl<T extends BudgetParent> implements BudgetService<
      */
     public void setBudgetSummaryService(BudgetSummaryService budgetSummaryService) {
         this.budgetSummaryService = budgetSummaryService;
+    }
+    
+    /*
+     * a utility method to check if dwr/ajax call really has authorization
+     * 'updateProtocolFundingSource' also accessed by non ajax call
+     */
+    
+    private boolean isAuthorizedToAccess(String budgetCategoryTypeCode) {
+        boolean isAuthorized = true;
+        if(budgetCategoryTypeCode.contains(Constants.COLON)){
+            if (GlobalVariables.getUserSession() != null) {
+                // TODO : this is a quick hack for KC 3.1.1 to provide authorization check for dwr/ajax call. dwr/ajax will be replaced by
+                // jquery/ajax in rice 2.0
+                String[] invalues = StringUtils.split(budgetCategoryTypeCode, Constants.COLON);
+                String docFormKey = invalues[1];
+                if (StringUtils.isBlank(docFormKey)) {
+                    isAuthorized = false;
+                } else {
+                    Object formObj = GlobalVariables.getUserSession().retrieveObject(docFormKey);
+                    if (formObj == null || !(formObj instanceof BudgetForm)) {
+                        isAuthorized = false;
+                    } else {
+                        Map<String, String> editModes = ((BudgetForm)formObj).getEditingMode();
+                        isAuthorized = BooleanUtils.toBoolean(editModes.get(AuthorizationConstants.EditMode.FULL_ENTRY))
+                        || BooleanUtils.toBoolean(editModes.get(AuthorizationConstants.EditMode.VIEW_ONLY))
+                        || BooleanUtils.toBoolean(editModes.get("modifyBudgtes"))
+                        || BooleanUtils.toBoolean(editModes.get("viewBudgets"))
+                        || BooleanUtils.toBoolean(editModes.get("addBudget"));
+                    }
+                }
+
+            } else {
+                // TODO : it seemed that tomcat has this issue intermittently ?
+                LOG.info("dwr/ajax does not have session ");
+            }
+        }
+        return isAuthorized;
     }
 
 }

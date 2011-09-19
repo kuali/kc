@@ -524,22 +524,26 @@ public class BudgetActionsAction extends BudgetAction implements AuditModeAction
         if (isFinancialIntegrationOn(awardBudgetDocument)) {
             if (isValidForPostingToFinancialSystem(awardBudgetDocument)) {
                 BudgetAdjustmentClient client = getBudgetAdjustmentClient();
-                client.setAwardBudgetDocument(awardBudgetDocument);
-                client.createBudgetAdjustmentDocument();
+                client.createBudgetAdjustmentDocument(awardBudgetDocument);
                 if (!isValidForPostingToFinancialSystem(awardBudgetDocument)) {
                     getAwardBudgetService().post(awardBudgetDocument);
                     String docNumber = awardBudgetDocument.getBudget().getBudgetAdjustmentDocumentNumber();
                     GlobalVariables.getMessageList().add(KeyConstants.BUDGET_POSTED, docNumber);
                 }
+            } else {
+                String budgetAdjustmentDocNbr = awardBudgetDocument.getBudget().getBudgetAdjustmentDocumentNumber();
+                GlobalVariables.getMessageMap().putError(KNSConstants.GLOBAL_ERRORS, KeyConstants.BUDGET_ADJUSTMENT_DOC_EXISTS, budgetAdjustmentDocNbr);
+                LOG.info("Cannot post budget. There is already a budget adjustment document linked to this budget.");
             }
+            
         } else {
             getAwardBudgetService().post(awardBudgetDocument);   
         }
 
         return mapping.findForward(Constants.BUDGET_ACTIONS_PAGE);
     }
-
-    private BudgetAdjustmentClient getBudgetAdjustmentClient() {
+  
+    protected BudgetAdjustmentClient getBudgetAdjustmentClient() {
         if (budgetAdjustmentClient == null) {
             budgetAdjustmentClient = KraServiceLocator.getService("budgetAdjustmentClient");
         }

@@ -18,6 +18,7 @@ package org.kuali.kra.institutionalproposal.printing.xmlstream;
 import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.LinkedHashMap;
+import java.util.LinkedList;
 import java.util.List;
 import java.util.Map;
 import java.util.Set;
@@ -38,6 +39,8 @@ import noNamespace.KeyPersonType;
 import noNamespace.MailingInfoType;
 import noNamespace.NSFcodeType;
 import noNamespace.NoticeOfOppType;
+import noNamespace.OtherGroupDetailsTypes;
+import noNamespace.OtherGroupTypes;
 import noNamespace.PersonType;
 import noNamespace.ProposalStatusType;
 import noNamespace.ProposalType;
@@ -51,6 +54,7 @@ import org.apache.commons.logging.LogFactory;
 import org.apache.xmlbeans.XmlObject;
 import org.kuali.kra.award.home.AwardType;
 import org.kuali.kra.award.home.ContactRole;
+import org.kuali.kra.bo.CustomAttributeDocument;
 import org.kuali.kra.bo.KcPerson;
 import org.kuali.kra.bo.KraPersistableBusinessObjectBase;
 import org.kuali.kra.bo.NoticeOfOpportunity;
@@ -63,10 +67,13 @@ import org.kuali.kra.bo.Unit;
 import org.kuali.kra.common.specialreview.bo.SpecialReview;
 import org.kuali.kra.costshare.CostShareService;
 import org.kuali.kra.document.ResearchDocumentBase;
+import org.kuali.kra.infrastructure.Constants;
 import org.kuali.kra.infrastructure.KraServiceLocator;
+import org.kuali.kra.institutionalproposal.InstitutionalProposalConstants;
 import org.kuali.kra.institutionalproposal.ProposalStatus;
 import org.kuali.kra.institutionalproposal.contacts.InstitutionalProposalPerson;
 import org.kuali.kra.institutionalproposal.contacts.InstitutionalProposalPersonUnit;
+import org.kuali.kra.institutionalproposal.customdata.InstitutionalProposalCustomData;
 import org.kuali.kra.institutionalproposal.home.InstitutionalProposal;
 import org.kuali.kra.institutionalproposal.home.InstitutionalProposalComment;
 import org.kuali.kra.institutionalproposal.home.InstitutionalProposalCostShare;
@@ -78,6 +85,9 @@ import org.kuali.kra.institutionalproposal.specialreview.InstitutionalProposalSp
 import org.kuali.kra.irb.Protocol;
 import org.kuali.kra.printing.util.PrintingUtils;
 import org.kuali.kra.proposaldevelopment.bo.ProposalPerson;
+import org.kuali.kra.service.InstitutionalProposalCustomAttributeService;
+import org.kuali.rice.kns.service.ParameterConstants;
+import org.kuali.rice.kns.service.ParameterService;
 
 /**
  * This class generates XML that conforms with the XSD related to Institution
@@ -88,8 +98,6 @@ import org.kuali.kra.proposaldevelopment.bo.ProposalPerson;
 public class InstitutionalProposalXmlStream extends
 		InstitutionalProposalBaseStream {
     
-    private static final Log LOG = LogFactory.getLog(InstitutionalProposalXmlStream.class);
-	
 	private static final String PROPOSAL_SUMMARY_COMMENT_CODE;
 	private static final String COST_SHARING_COMMENT_CODE;
 	private static final String INDIRECT_COST_COMMENT_CODE;
@@ -183,6 +191,10 @@ public class InstitutionalProposalXmlStream extends
 		instituteProposalXmlObject.setKeyPersonsArray(getKeyPersons(
 				institutionalProposal));
 		instituteProposalXmlObject.setCostSharingProjectPeriodFieldDescription(getProjectPeriodFieldDescription());
+		instituteProposalXmlObject.setCFDANum(institutionalProposal.getCfdaNumber());
+		instituteProposalXmlObject.setOpportunityID(institutionalProposal.getOpportunity());
+	    instituteProposalXmlObject.setOtherData(getCustomData(institutionalProposal));
+		
 		return instituteProposalXmlObject;
 	}
 	
@@ -190,6 +202,40 @@ public class InstitutionalProposalXmlStream extends
         String retVal =  KraServiceLocator.getService(CostShareService.class).getCostShareLabel(false);
         return retVal;
     }
+	
+	/*
+	 * This method will iterate over  InstitutionalProposalCustomData 
+	 * and set records with group name 'other' to the xmlObject 'otherGroup'. 
+	 */
+	private OtherGroupTypes getCustomData(
+	        InstitutionalProposal institutionalProposal){	    
+	    InstitutionalProposalCustomAttributeService institutionalProposalCustomAttributeService = KraServiceLocator.getService(InstitutionalProposalCustomAttributeService.class);
+        Map<String, CustomAttributeDocument> customAttributeDocuments = institutionalProposalCustomAttributeService.getDefaultInstitutionalProposalCustomAttributeDocuments();
+        OtherGroupTypes otherGroup=OtherGroupTypes.Factory.newInstance();        
+        List<OtherGroupDetailsTypes> otherGroupDetailsTypesList = new LinkedList<OtherGroupDetailsTypes>();       
+       
+        for (Map.Entry<String, CustomAttributeDocument> customAttributeDocumentEntry : customAttributeDocuments.entrySet()) {
+            OtherGroupDetailsTypes otherGroupDetails=OtherGroupDetailsTypes.Factory.newInstance();                  
+          
+            for(InstitutionalProposalCustomData custData:institutionalProposal.getInstitutionalProposalCustomDataList()){  
+               
+                if(custData.getCustomAttributeId() == (long)customAttributeDocumentEntry.getValue().getCustomAttribute().getId()
+                        && customAttributeDocuments.get(custData.getCustomAttributeId().toString()).getCustomAttribute().getGroupName()
+                            .equalsIgnoreCase(KraServiceLocator.getService(ParameterService.class).
+                                 getParameterValue(InstitutionalProposalConstants.INSTITUTIONAL_PROPOSAL_NAMESPACE,ParameterConstants.DOCUMENT_COMPONENT,Constants.INSTITUTE_PROPOSAL_OTHER_GROUP))){    
+                    
+                    otherGroup.setGroupName(customAttributeDocuments.get(custData.getCustomAttributeId().toString()).getCustomAttribute().getGroupName());
+                    otherGroupDetails.setColumnValue(custData.getValue());                  
+                    otherGroupDetails.setColumnName(customAttributeDocuments.get(custData.getCustomAttributeId().toString()).getCustomAttribute().getLabel());                                       
+                    otherGroupDetailsTypesList.add(otherGroupDetails);
+                    break;
+                }
+             }
+          }    
+                otherGroup.setOtherGroupDetailsArray(otherGroupDetailsTypesList.toArray(new OtherGroupDetailsTypes[0]));            
+        
+        return otherGroup;	    
+	}
 
 	/*
 	 * This method will set the values to key person type.It Iterate over

@@ -41,7 +41,7 @@ public class AwardFandARateAuditRuleTest {
         rule.setFinder(new ExtendedPersistableBusinessObjectValuesFinder() {
             @Override
             public String getKeyLabel(Object key) {
-                return ((Integer) key).intValue() == 5 ? "A" : "B";
+                return key.equals("5") ? "A" : "B";
             }            
         });
         
@@ -50,7 +50,7 @@ public class AwardFandARateAuditRuleTest {
         awardFandaRate1 = new AwardFandaRate();
         awardFandaRate1.setApplicableFandaRate(new KualiDecimal(5));
         awardFandaRate1.setFiscalYear("2008");
-        awardFandaRate1.setFandaRateTypeCode(5);
+        awardFandaRate1.setFandaRateTypeCode("5");
         awardFandaRate1.setOnCampusFlag("N");
         awardFandaRate1.setUnderrecoveryOfIndirectCost(new KualiDecimal(1000));
         awardFandaRate1.setStartDate(new Date(new Long("1183316613046")));        
@@ -59,7 +59,7 @@ public class AwardFandARateAuditRuleTest {
         awardFandaRate2 = new AwardFandaRate();
         awardFandaRate2.setApplicableFandaRate(new KualiDecimal(5));
         awardFandaRate2.setFiscalYear("2008");
-        awardFandaRate2.setFandaRateTypeCode(5);
+        awardFandaRate2.setFandaRateTypeCode("5");
         awardFandaRate2.setOnCampusFlag("F");
         awardFandaRate2.setUnderrecoveryOfIndirectCost(new KualiDecimal(1000));
         awardFandaRate2.setStartDate(new Date(new Long("1183316613046")));        
@@ -77,9 +77,9 @@ public class AwardFandARateAuditRuleTest {
         
         awardFandaRateList.add(new AwardFandaRate());
         awardFandaRateList.add(new AwardFandaRate());
-        awardFandaRateList.get(2).setFandaRateTypeCode(6);
+        awardFandaRateList.get(2).setFandaRateTypeCode("6");
         awardFandaRateList.get(2).setOnCampusFlag("F");
-        awardFandaRateList.get(3).setFandaRateTypeCode(6);        
+        awardFandaRateList.get(3).setFandaRateTypeCode("6");        
         awardFandaRateList.get(3).setOnCampusFlag("N");
         
         Assert.assertTrue(rule.isFandaRateInputInPairs(awardFandaRateList));
