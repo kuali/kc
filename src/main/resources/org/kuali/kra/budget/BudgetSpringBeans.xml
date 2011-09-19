@@ -521,8 +521,14 @@
               <property name="businessObjectService" ref="businessObjectService" />
               <property name="budgetCalculationService" ref= "budgetCalculationService" />
               <property name="institutionalUnitService" ref="institutionalUnitService" />
+              <property name="budgetAdjustmentServiceHelper" ref="budgetAdjustmentServiceHelper" />
+              
     </bean>
-  	
+    
+  	<bean id="budgetAdjustmentServiceHelper" class= "org.kuali.kra.external.budget.impl.BudgetAdjustmentServiceHelperImpl"> 
+              <property name="businessObjectService" ref="businessObjectService" />
+    </bean>
+    
     <bean id="budgetCategoryService"
 		class="org.kuali.kra.external.budget.service.impl.BudgetCategoryServiceImpl">
 		<property name="businessObjectService" ref="businessObjectService" />

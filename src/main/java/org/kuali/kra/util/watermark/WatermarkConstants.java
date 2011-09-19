@@ -59,6 +59,7 @@ public interface WatermarkConstants {
     
     public static final String WATERMARK_TYPE_TEXT = "TEXT";    
     public static final String WATERMARK_TYPE_IMAGE = "IMAGE";
+    public static final String ATTACHMENT_TYPE_PDF = "application/pdf";
     
     /**
      * Multiply this with Font Size to get the font width.

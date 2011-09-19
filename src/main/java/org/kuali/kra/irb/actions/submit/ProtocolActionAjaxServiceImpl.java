@@ -27,6 +27,7 @@ import org.kuali.kra.committee.service.CommitteeService;
 import org.kuali.kra.irb.Protocol;
 import org.kuali.kra.irb.ProtocolForm;
 import org.kuali.kra.irb.actions.ActionHelper;
+import org.kuali.kra.irb.protocol.funding.ProtocolFundingSourceServiceImpl;
 import org.kuali.rice.core.util.KeyLabelPair;
 import org.kuali.rice.kns.service.BusinessObjectService;
 import org.kuali.rice.kns.util.GlobalVariables;

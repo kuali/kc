@@ -19,12 +19,15 @@ import java.util.Collection;
 import java.util.HashMap;
 import java.util.Map;
 
+import org.apache.commons.lang.StringUtils;
+import org.kuali.kra.award.document.AwardDocument;
 import org.kuali.kra.award.home.Award;
 import org.kuali.kra.award.home.ValidRates;
 import org.kuali.kra.infrastructure.KeyConstants;
 import org.kuali.kra.infrastructure.KraServiceLocator;
 import org.kuali.kra.rules.ResearchDocumentRuleBase;
 import org.kuali.rice.kns.service.BusinessObjectService;
+import org.kuali.rice.kns.service.ParameterService;
 import org.kuali.rice.kns.util.KualiDecimal;
 
 /**
@@ -35,7 +38,15 @@ public class AwardBenefitsRatesRuleImpl extends ResearchDocumentRuleBase impleme
     private static final String ON_CAMPUS_RATE = "onCampusRate";
     private static final String OFF_CAMPUS_RATE = "offCampusRate";
     private static final String BENEFITS_RATES = "benefitsRates";
+    private ParameterService parameterService;
     BusinessObjectService businessObjectService;
+    
+    protected ParameterService getParameterService() {
+        if (this.parameterService == null) {
+            this.parameterService = KraServiceLocator.getService(ParameterService.class);        
+        }
+        return this.parameterService;
+    }
     
     /**
      * @see org.kuali.kra.award.commitments.AwardBenefitsRatesRule#processBenefitsRatesBusinessRules
@@ -52,11 +63,38 @@ public class AwardBenefitsRatesRuleImpl extends ResearchDocumentRuleBase impleme
      * @return
      */
     boolean validateBenefitsRatesInValidRatesTable(Award award) {
-        boolean valid = checkValidRatesOrNullValues(award);
-        if(!valid){
-            reportError(BENEFITS_RATES, 
-                    KeyConstants.ERROR_BENEFITS_RATES);
+        boolean valid = true;
+        if(StringUtils.equalsIgnoreCase(
+                this.getParameterService().getParameterValue(AwardDocument.class,
+                        KeyConstants.ENABLE_AWARD_FNA_VALIDATION),
+                        KeyConstants.ENABLED_PARAMETER_VALUE_ONE)){
+            valid = checkValidRatesOrNullValues(award);
+            if(!valid){
+                reportError(BENEFITS_RATES, 
+                        KeyConstants.ERROR_BENEFITS_RATES);
+            }
+        }else if(StringUtils.equalsIgnoreCase(
+                this.getParameterService().getParameterValue(AwardDocument.class,
+                        KeyConstants.ENABLE_AWARD_FNA_VALIDATION),
+                        KeyConstants.ENABLED_PARAMETER_VALUE_TWO)){
+            valid = checkSingleValidRatesOrNullValues(award);
+            if(!valid){
+                if(StringUtils.equalsIgnoreCase(
+                        this.getParameterService().getParameterValue(AwardDocument.class,
+                                KeyConstants.OPTION_WARNING_ERROR_AWARD_FANDA_VALIDATION),
+                                KeyConstants.ERROR)){
+                    reportError(BENEFITS_RATES, 
+                            KeyConstants.ERROR_BENEFITS_RATES);
+                }else{
+                    valid = true;
+                    reportWarning(BENEFITS_RATES, 
+                            KeyConstants.ERROR_BENEFITS_RATES);
+                }
+               
+            }
+            
         }
+        
         
         return valid;
     }
@@ -72,6 +110,23 @@ public class AwardBenefitsRatesRuleImpl extends ResearchDocumentRuleBase impleme
                 || award.getSpecialEbRateOnCampus() != null) {
             valid = getValidRates(award.getSpecialEbRateOnCampus(), 
                         award.getSpecialEbRateOffCampus()).size() > 0;
+        }
+        return valid;
+    }
+    /**
+     * This method tests that the valid rates attached to the award are in the valid rates table for single rate.
+     * @param award
+     * @return
+     */
+    boolean checkSingleValidRatesOrNullValues(Award award) {
+        boolean valid = true;
+        if(award.getSpecialEbRateOffCampus() != null ) {
+            valid = getValidRatesforSingleRate(OFF_CAMPUS_RATE, 
+                        award.getSpecialEbRateOffCampus()).size() > 0;
+        }
+        if(award.getSpecialEbRateOnCampus() != null ) {
+            valid = getValidRatesforSingleRate(ON_CAMPUS_RATE, 
+                        award.getSpecialEbRateOnCampus()).size() > 0;
         }
         return valid;
     }
@@ -99,6 +154,18 @@ public class AwardBenefitsRatesRuleImpl extends ResearchDocumentRuleBase impleme
                 (BusinessObjectService) KraServiceLocator.getService("businessObjectService");
         }
         return businessObjectService;
+    }
+    /**
+     * This method returns the valid rates from valid rates table that match the single rate attached to the award.
+     * @return
+     */
+    @SuppressWarnings("unchecked")
+    Collection<ValidRates> getValidRatesforSingleRate(String rateType,KualiDecimal benefitRate){
+        Map<String, Object> rateValues = new HashMap<String, Object>();
+        rateValues.put(rateType, benefitRate);
+       
+        return (Collection<ValidRates>) 
+                getKraBusinessObjectService().findMatching(ValidRates.class, rateValues);
     }
     
     

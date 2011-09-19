@@ -77,7 +77,7 @@
 											<fo:table-cell padding="2pt" text-align="right" display-align="center">
 												<fo:block>
 													<fo:inline font-family="Times New Roman" font-size="9pt" font-weight="bold">
-														<xsl:text>Proposal Number:</xsl:text>
+														<xsl:text>Institutional Proposal ID:</xsl:text>
 													</fo:inline>
 												</fo:block>
 											</fo:table-cell>
@@ -192,7 +192,7 @@
 											<fo:table-cell padding="2pt" text-align="right" display-align="center">
 												<fo:block>
 													<fo:inline font-family="Times New Roman" font-size="9pt" font-weight="bold">
-														<xsl:text>Account Number:</xsl:text>
+														<xsl:text>Account ID:</xsl:text>
 													</fo:inline>
 												</fo:block>
 											</fo:table-cell>
@@ -838,7 +838,7 @@
 																	<fo:table-cell padding="2pt" display-align="center">
 																		<fo:block>
 																			<fo:inline font-weight="bold">
-																				<xsl:text>Sponsor Proposal No.:</xsl:text>
+																				<xsl:text>Sponsor Proposal ID:</xsl:text>
 																			</fo:inline>
 																		</fo:block>
 																	</fo:table-cell>
@@ -906,7 +906,7 @@
 																	<fo:table-cell padding="2pt" display-align="center">
 																		<fo:block>
 																			<fo:inline font-weight="bold">
-																				<xsl:text>SubContracts:</xsl:text>
+																				<xsl:text>Subaward(s):</xsl:text>
 																			</fo:inline>
 																		</fo:block>
 																	</fo:table-cell>
@@ -930,6 +930,36 @@
 																					</xsl:for-each>
 																				</xsl:for-each>
 																			</xsl:for-each>
+																		</fo:block>
+																	</fo:table-cell>
+																</fo:table-row>
+																<fo:table-row>
+																	<fo:table-cell padding="2pt" display-align="center">
+																		<fo:block>
+																			<fo:inline font-weight="bold">
+																				<xsl:text>Opportunity ID:</xsl:text>
+																			</fo:inline>
+																		</fo:block>
+																	</fo:table-cell>
+																	<fo:table-cell padding="2pt" display-align="center">
+																		<fo:block>
+																			<xsl:for-each select="InstituteProposal">
+													                          <xsl:value-of select="opportunityID"></xsl:value-of>
+													                        </xsl:for-each>
+																		</fo:block>
+																	</fo:table-cell>
+																	<fo:table-cell padding="2pt" display-align="center">
+																		<fo:block>
+																			<fo:inline font-weight="bold">
+																				<xsl:text>CFDA No:</xsl:text>
+																			</fo:inline>
+																		</fo:block>
+																	</fo:table-cell>
+																	<fo:table-cell padding="2pt" display-align="center">
+																		<fo:block>
+																			<xsl:for-each select="InstituteProposal">
+													                          <xsl:value-of select="CFDANum"></xsl:value-of>
+													                        </xsl:for-each>
 																		</fo:block>
 																	</fo:table-cell>
 																</fo:table-row>
@@ -1481,53 +1511,7 @@
 													<fo:block>
 														<xsl:text>&#x2029;</xsl:text>
 													</fo:block>
-												</fo:inline-container>
-												<fo:block margin="0pt">
-													<fo:block>
-														<fo:inline-container>
-															<fo:block>
-																<xsl:text>&#x2029;</xsl:text>
-															</fo:block>
-														</fo:inline-container>
-														<fo:table table-layout="fixed" width="100%" border-spacing="2pt">
-															<fo:table-column column-width="25%"/>
-															<fo:table-column column-width="75%"/>
-															<fo:table-body start-indent="0pt">
-																<fo:table-row>
-																	<fo:table-cell padding="2pt" display-align="center">
-																		<fo:block>
-																			<fo:inline font-weight="bold">
-																				<xsl:text>Type of Account:</xsl:text>
-																			</fo:inline>
-																		</fo:block>
-																	</fo:table-cell>
-																	<fo:table-cell padding-right="50pt" padding="2pt" text-align="center" display-align="center">
-																		<fo:block>
-																			<xsl:for-each select="InstituteProposal">
-																				<xsl:for-each select="instProposalMaster">
-																					<xsl:for-each select="accountType">
-																						<xsl:choose>
-																							<xsl:when test=". = &apos;R&apos;">
-																								<fo:inline>
-																									<xsl:text>Research</xsl:text>
-																								</fo:inline>
-																							</xsl:when>
-																							<xsl:otherwise>
-																								<fo:inline>
-																									<xsl:text>Fund</xsl:text>
-																								</fo:inline>
-																							</xsl:otherwise>
-																						</xsl:choose>
-																					</xsl:for-each>
-																				</xsl:for-each>
-																			</xsl:for-each>
-																		</fo:block>
-																	</fo:table-cell>
-																</fo:table-row>
-															</fo:table-body>
-														</fo:table>
-													</fo:block>
-												</fo:block>
+												</fo:inline-container>												
 											</fo:block>
 										</fo:table-cell>
 									</fo:table-row>
@@ -1699,7 +1683,7 @@
 																		<fo:table-cell padding="2pt" display-align="center">
 																			<fo:block>
 																				<fo:inline font-weight="bold">
-																					<xsl:text>Total Indirect Cost:</xsl:text>
+																					<xsl:text>Total F&amp;A Cost:</xsl:text>
 																				</fo:inline>
 																			</fo:block>
 																		</fo:table-cell>
@@ -1809,7 +1793,7 @@
 																		<fo:table-cell padding-left="30pt" padding="2pt" display-align="center">
 																			<fo:block>
 																				<fo:inline font-weight="bold">
-																					<xsl:text>HeadCount:</xsl:text>
+																					<xsl:text>Head Count:</xsl:text>
 																				</fo:inline>
 																			</fo:block>
 																		</fo:table-cell>
@@ -1872,7 +1856,7 @@
 													<fo:block>
 														<fo:block/>
 														<fo:inline font-size="12pt" font-weight="bold">
-															<xsl:text>Agency Transmittal Data</xsl:text>
+															<xsl:text>Sponsor &amp; Program Information</xsl:text>
 														</fo:inline>
 													</fo:block>
 												</fo:block>
@@ -1961,7 +1945,7 @@
 																	<fo:table-cell padding="2pt" display-align="center">
 																		<fo:block>
 																			<fo:inline font-weight="bold">
-																				<xsl:text>NSF Code:</xsl:text>
+																				<xsl:text>NSF Science Code:</xsl:text>
 																			</fo:inline>
 																		</fo:block>
 																	</fo:table-cell>
@@ -1985,9 +1969,8 @@
 																								</fo:inline>
 																							</xsl:otherwise>
 																						</xsl:choose>
-																					</xsl:for-each>
-																					<xsl:for-each select="NSFcode">
-																						<xsl:for-each select="NSFcodeDesc">
+																					</xsl:for-each>																					
+																					<xsl:for-each select="NSFcodeDesc">
 																							<fo:inline>
 																								<xsl:text> : </xsl:text>
 																							</fo:inline>
@@ -2006,8 +1989,7 @@
 																									</fo:inline>
 																								</xsl:otherwise>
 																							</xsl:choose>
-																						</xsl:for-each>
-																					</xsl:for-each>
+																					</xsl:for-each>																					
 																				</xsl:for-each>
 																			</xsl:for-each>
 																		</fo:block>
@@ -2242,7 +2224,7 @@
 																												<fo:table-cell padding="2pt" display-align="center">
 																													<fo:block>
 																														<fo:inline font-weight="bold">
-																															<xsl:text>Zip:</xsl:text>
+																															<xsl:text>Postal Code:</xsl:text>
 																														</fo:inline>
 																													</fo:block>
 																												</fo:table-cell>
@@ -2384,7 +2366,7 @@
 														<xsl:if test="boolean( InstituteProposal/mailingInfo/deadlineType ) or  boolean(  InstituteProposal/mailingInfo/mailByOSP  ) or  boolean(  InstituteProposal/mailingInfo/mailType  ) or  string-length(  InstituteProposal/mailingInfo/comments  ) &gt; 0">
 															<fo:block/>
 															<fo:inline font-size="12pt" font-weight="bold">
-																<xsl:text>Mailing Information</xsl:text>
+																<xsl:text>Delivery Information</xsl:text>
 															</fo:inline>
 														</xsl:if>
 													</fo:block>
@@ -2421,7 +2403,7 @@
 																			<fo:table-cell padding="2pt" display-align="center">
 																				<fo:block>
 																					<fo:inline font-weight="bold">
-																						<xsl:text>Deadline Date:</xsl:text>
+																						<xsl:text>Sponsor Deadline Date:</xsl:text>
 																					</fo:inline>
 																				</fo:block>
 																			</fo:table-cell>
@@ -2447,7 +2429,7 @@
 																			<fo:table-cell padding="2pt" display-align="center">
 																				<fo:block>
 																					<fo:inline font-weight="bold">
-																						<xsl:text>Deadline Type:</xsl:text>
+																						<xsl:text>Sponsor Deadline Type:</xsl:text>
 																					</fo:inline>
 																				</fo:block>
 																			</fo:table-cell>
@@ -2489,12 +2471,12 @@
 																						<xsl:for-each select="mailingInfo">
 																							<xsl:for-each select="mailByOSP">
 																								<xsl:choose>
-																									<xsl:when test=". = &apos;O&apos;">
+																									<xsl:when test=". = &apos;1&apos;">
 																										<fo:inline>
 																											<xsl:text>OSP</xsl:text>
 																										</fo:inline>
 																									</xsl:when>
-																									<xsl:when test=". = &apos;D&apos;">
+																									<xsl:when test=". = &apos;2&apos;">
 																										<fo:inline>
 																											<xsl:text>Department</xsl:text>
 																										</fo:inline>
@@ -2511,7 +2493,7 @@
 																			<fo:table-cell padding="2pt" display-align="center">
 																				<fo:block>
 																					<fo:inline font-weight="bold">
-																						<xsl:text>Mail Type:</xsl:text>
+																						<xsl:text>Delivery Type:</xsl:text>
 																					</fo:inline>
 																				</fo:block>
 																			</fo:table-cell>
@@ -2521,17 +2503,17 @@
 																						<xsl:for-each select="mailingInfo">
 																							<xsl:for-each select="mailType">
 																								<xsl:choose>
-																									<xsl:when test=". = &apos;R&apos;">
+																									<xsl:when test=". = &apos;1&apos;">
 																										<fo:inline>
 																											<xsl:text>Regular</xsl:text>
 																										</fo:inline>
 																									</xsl:when>
-																									<xsl:when test=". = &apos;D&apos;">
+																									<xsl:when test=". = &apos;3&apos;">
 																										<fo:inline>
 																											<xsl:text>Express Courier</xsl:text>
 																										</fo:inline>
 																									</xsl:when>
-																									<xsl:when test=". = &apos;E&apos;">
+																									<xsl:when test=". = &apos;2&apos;">
 																										<fo:inline>
 																											<xsl:text>Electronic</xsl:text>
 																										</fo:inline>
@@ -2661,7 +2643,7 @@
 														<xsl:if test="InstituteProposal/scienceCode">
 															<fo:block/>
 															<fo:inline font-size="12pt" font-weight="bold">
-																<xsl:text>Science Code</xsl:text>
+																<xsl:text>Keywords</xsl:text>
 															</fo:inline>
 														</xsl:if>
 													</fo:block>
@@ -2783,7 +2765,7 @@
 													<fo:block>
 														<xsl:if test="InstituteProposal/IDCRates or  string-length(  InstituteProposal/IDCRatesComments  )  &gt; 0">
 															<fo:inline font-size="12pt" font-weight="bold">
-																<xsl:text>IDC Rates</xsl:text>
+																<xsl:text>F&amp;A Rates</xsl:text>
 															</fo:inline>
 														</xsl:if>
 													</fo:block>
@@ -2832,7 +2814,7 @@
 																					<fo:table-cell padding="2pt" display-align="center">
 																						<fo:block>
 																							<fo:inline font-weight="bold">
-																								<xsl:text>Type</xsl:text>
+																								<xsl:text>F&amp;A Rate Type</xsl:text>
 																							</fo:inline>
 																						</fo:block>
 																					</fo:table-cell>
@@ -2853,7 +2835,7 @@
 																					<fo:table-cell padding="2pt" display-align="center">
 																						<fo:block>
 																							<fo:inline font-weight="bold">
-																								<xsl:text>UnderRecovery</xsl:text>
+																								<xsl:text>Unrecovered F&amp;A</xsl:text>
 																							</fo:inline>
 																						</fo:block>
 																					</fo:table-cell>
@@ -3098,7 +3080,7 @@
 																				<fo:table-cell padding="2pt" display-align="center">
 																					<fo:block>
 																						<fo:inline font-weight="bold">
-																							<xsl:text>Approval</xsl:text>
+																							<xsl:text>Approval Status</xsl:text>
 																						</fo:inline>
 																					</fo:block>
 																				</fo:table-cell>
@@ -3336,7 +3318,7 @@
 																					<fo:table-cell padding="2pt" display-align="center">
 																						<fo:block>
 																							<fo:inline font-weight="bold">
-																								<xsl:text>Type</xsl:text>
+																								<xsl:text>Cost Share Type</xsl:text>
 																							</fo:inline>
 																						</fo:block>
 																					</fo:table-cell>
@@ -3590,6 +3572,149 @@
 									</fo:table-row>
 								</fo:table-body>
 							</fo:table>
+							<xsl:if test="InstituteProposal/otherData">
+								<fo:inline-container>
+									<fo:block>
+										<xsl:text>&#x2029;</xsl:text>
+									</fo:block>
+								</fo:inline-container>
+								<fo:table table-layout="fixed" width="100%" border-spacing="2pt">
+									<fo:table-column column-width="proportional-column-width(1)"/>
+									<fo:table-body start-indent="0pt">
+										<fo:table-row>
+											<fo:table-cell padding="2pt" display-align="center">
+												<fo:block/>
+											</fo:table-cell>
+										</fo:table-row>
+									</fo:table-body>
+								</fo:table>
+								<fo:inline-container>
+									<fo:block>
+										<xsl:text>&#x2029;</xsl:text>
+									</fo:block>
+								</fo:inline-container>
+								<fo:table table-layout="fixed" width="100%" border-spacing="2pt">
+									<fo:table-column column-width="proportional-column-width(1)"/>
+									<fo:table-body start-indent="0pt">
+										<fo:table-row>
+											<fo:table-cell font-family="Arial" font-size="9pt" font-weight="bold" padding="2pt" display-align="center">
+												<fo:block>
+													<fo:inline font-size="12pt" font-weight="bold">
+														<xsl:text>Other Data</xsl:text>
+													</fo:inline>
+												</fo:block>
+											</fo:table-cell>
+										</fo:table-row>
+									</fo:table-body>
+								</fo:table>
+								<fo:inline-container>
+									<fo:block>
+										<xsl:text>&#x2029;</xsl:text>
+									</fo:block>
+								</fo:inline-container>
+								<fo:table table-layout="fixed" width="100%" border-spacing="2pt">
+									<fo:table-column column-width="proportional-column-width(1)"/>
+									<fo:table-body start-indent="0pt">
+										<fo:table-row>
+											<fo:table-cell font-family="Arial" font-size="9pt" padding-left="30pt" padding="2pt" display-align="center">
+												<fo:block>
+													<xsl:if test="InstituteProposal/otherData">
+														<fo:inline-container>
+															<fo:block>
+																<xsl:text>&#x2029;</xsl:text>
+															</fo:block>
+														</fo:inline-container>													
+														<xsl:if test="InstituteProposal/otherData/OtherGroupDetails">
+															<fo:table table-layout="fixed" width="100%" border-spacing="2pt">
+																<fo:table-column column-width="25%"/>	
+																<fo:table-column column-width="11%"/>															
+																<fo:table-column column-width="proportional-column-width(1)"/>																
+																<fo:table-column column-width="proportional-column-width(1)"/>
+																<fo:table-body start-indent="0pt">
+																	<xsl:for-each select="InstituteProposal">
+																		<xsl:for-each select="otherData">
+																			<xsl:for-each select="OtherGroupDetails">
+																				<fo:table-row>
+																					<fo:table-cell font-family="Arial" font-size="9pt" padding="2pt" display-align="center">
+																						<fo:block>
+																							<xsl:for-each select="ColumnName">
+																								<xsl:variable name="value-of-template">
+																									<xsl:apply-templates/>
+																								</xsl:variable>
+																								<xsl:choose>
+																									<xsl:when test="contains(string($value-of-template),'&#x2029;')">
+																										<fo:block font-weight="bold">
+																											<xsl:copy-of select="$value-of-template"/>
+																										</fo:block>
+																									</xsl:when>
+																									<xsl:otherwise>
+																										<fo:inline font-weight="bold">
+																											<xsl:copy-of select="$value-of-template"/>
+																										</fo:inline>
+																									</xsl:otherwise>
+																								</xsl:choose>
+																								<fo:inline>
+																									<xsl:text>:</xsl:text>
+																								</fo:inline>
+																							</xsl:for-each>
+																						</fo:block>
+																					</fo:table-cell>
+																					<fo:table-cell font-family="Arial" font-size="9pt" number-columns-spanned="2" padding="2pt" display-align="center">
+																						<fo:block>
+																							<xsl:for-each select="ColumnValue">
+																								<xsl:variable name="value-of-template">
+																									<xsl:apply-templates/>
+																								</xsl:variable>
+																								<xsl:choose>
+																									<xsl:when test="contains(string($value-of-template),'&#x2029;')">
+																										<fo:block>
+																											<xsl:copy-of select="$value-of-template"/>
+																										</fo:block>
+																									</xsl:when>
+																									<xsl:otherwise>
+																										<fo:inline>
+																											<xsl:copy-of select="$value-of-template"/>
+																										</fo:inline>
+																									</xsl:otherwise>
+																								</xsl:choose>
+																							</xsl:for-each>
+																						</fo:block>
+																					</fo:table-cell>
+																					<fo:table-cell font-family="Arial" font-size="9pt" padding-left="20pt" padding="2pt" display-align="center">
+																						<fo:block>
+																							<xsl:for-each select="ColumnDesc">
+																								<xsl:variable name="value-of-template">
+																									<xsl:apply-templates/>
+																								</xsl:variable>
+																								<xsl:choose>
+																									<xsl:when test="contains(string($value-of-template),'&#x2029;')">
+																										<fo:block>
+																											<xsl:copy-of select="$value-of-template"/>
+																										</fo:block>
+																									</xsl:when>
+																									<xsl:otherwise>
+																										<fo:inline>
+																											<xsl:copy-of select="$value-of-template"/>
+																										</fo:inline>
+																									</xsl:otherwise>
+																								</xsl:choose>
+																							</xsl:for-each>
+																						</fo:block>
+																					</fo:table-cell>																					
+																				</fo:table-row>
+																			</xsl:for-each>
+																		</xsl:for-each>
+																	</xsl:for-each>
+																</fo:table-body>
+															</fo:table>
+														</xsl:if>
+													</xsl:if>
+												</fo:block>
+											</fo:table-cell>
+										</fo:table-row>
+									</fo:table-body>
+								</fo:table>
+							</xsl:if>
 						</xsl:for-each>
 					</fo:block>
 					<fo:block id="SV_RefID_PageTotal"/>

@@ -27,6 +27,7 @@ import org.kuali.kra.award.AwardForm;
 import org.kuali.kra.award.commitments.AddAwardFandaRateEvent;
 import org.kuali.kra.award.commitments.AwardCostShare;
 import org.kuali.kra.award.commitments.AwardFandaRate;
+import org.kuali.kra.award.commitments.AwardFandaRateRule;
 import org.kuali.kra.award.commitments.AwardFandaRateSaveEvent;
 import org.kuali.kra.award.document.AwardDocument;
 import org.kuali.kra.award.home.Award;
@@ -42,6 +43,7 @@ public class AwardCommitmentsAction extends AwardAction {
   
     private static final String CONFIRM_DELETE_COST_SHARE = "confirmDeleteCostShare";
     private static final String CONFIRM_DELETE_COST_SHARE_KEY = "confirmDeleteCostShareKey";
+   
     
     private CostShareActionHelper costShareActionHelper;
     
@@ -62,15 +64,13 @@ public class AwardCommitmentsAction extends AwardAction {
     public ActionForward save(ActionMapping mapping, ActionForm form, HttpServletRequest request, HttpServletResponse response) throws Exception {
         boolean isValid = true;
         AwardForm awardForm = (AwardForm)form;
-        
         List<AwardFandaRate> fandaRates = awardForm.getAwardDocument().getAward().getAwardFandaRate();
         for (int i=0; i<fandaRates.size(); i++) {
             if (!getKualiRuleService().applyRules(new AwardFandaRateSaveEvent(Constants.EMPTY_STRING, awardForm.getAwardDocument(), i))) {
                 isValid = false;
-                break;
+                //break;
             }
         }
-
         if (isValid) {
             return super.save(mapping, form, request, response);
         }
@@ -209,8 +209,8 @@ public class AwardCommitmentsAction extends AwardAction {
             , HttpServletResponse response) throws Exception {
         AwardForm awardForm = (AwardForm) form;
         AwardFandaRate newAwardFandaRate = awardForm.getNewAwardFandaRate();
-        if(getKualiRuleService().applyRules(new AddAwardFandaRateEvent(Constants.EMPTY_STRING, 
-                awardForm.getAwardDocument(), newAwardFandaRate))){
+        AwardFandaRateRule rule = new AwardFandaRateRule();
+        if (rule.processAddFandaRateBusinessRules(new AddAwardFandaRateEvent(Constants.EMPTY_STRING,awardForm.getAwardDocument(), newAwardFandaRate))) {
             addFandaRateToAward(awardForm.getAwardDocument().getAward(),newAwardFandaRate);            
             awardForm.setNewAwardFandaRate(new AwardFandaRate());
         }

@@ -19,7 +19,9 @@ package org.kuali.kra.external.award.impl;
 import java.sql.Date;
 import java.util.Calendar;
 import java.util.GregorianCalendar;
+import java.util.HashMap;
 import java.util.List;
+import java.util.Map;
 
 import javax.xml.datatype.DatatypeConfigurationException;
 import javax.xml.datatype.DatatypeFactory;
@@ -36,14 +38,18 @@ import org.kuali.kra.award.commitments.AwardFandaRate;
 import org.kuali.kra.award.contacts.AwardUnitContact;
 import org.kuali.kra.award.document.AwardDocument;
 import org.kuali.kra.award.home.Award;
+import org.kuali.kra.award.home.ValidRates;
 import org.kuali.kra.award.paymentreports.awardreports.AwardReportTerm;
 import org.kuali.kra.award.paymentreports.awardreports.AwardReportTermRecipient;
 import org.kuali.kra.bo.KcPerson;
 import org.kuali.kra.bo.UnitAdministratorType;
+import org.kuali.kra.budget.rates.RateClass;
 import org.kuali.kra.external.award.AccountCreationClient;
+import org.kuali.kra.external.award.FinancialIndirectCostRecoveryTypeCode;
 import org.kuali.kra.infrastructure.KeyConstants;
 import org.kuali.rice.kew.exception.WorkflowException;
 import org.kuali.rice.kew.web.session.UserSession;
+import org.kuali.rice.kns.service.BusinessObjectService;
 import org.kuali.rice.kns.service.DocumentService;
 import org.kuali.rice.kns.util.GlobalVariables;
 import org.kuali.rice.kns.util.KualiDecimal;
@@ -65,15 +71,18 @@ public abstract class AccountCreationClientBase implements AccountCreationClient
 
     private AccountParametersDTO accountParameters;
     private DocumentService documentService;
+    private BusinessObjectService businessObjectService;
     
     private static final Log LOG = LogFactory.getLog(AccountCreationClientBase.class);
-    private static final String CREATE_ACCOUNT_SERVICE_ERRORS = "error.award.createAccount.serviceErrors";
-    protected static final String CANNOT_CONNECT_TO_SERVICE = "error.award.createAccount.cannotConnect";
-    private static final String DOCUMENT_NUMBER_NULL = "error.award.createAccount.nullDocumentNumber";
     protected static final QName SERVICE_NAME = new QName("KFS", "accountCreationServiceSOAP");
+    private static final String ERROR_MESSAGE = "Cannot connect to the service. The service may be down, please try again later.";
+
     
     protected abstract AccountCreationService getServiceHandle();
     
+    /**
+     * @see org.kuali.kra.external.award.AccountCreationClient#isValidAccountNumber(java.lang.String)
+     */
     public String isValidAccountNumber(String accountNumber) {
         boolean isValidAccountNumber = false;
         
@@ -82,13 +91,15 @@ public abstract class AccountCreationClientBase implements AccountCreationClient
             LOG.info("Connecting to financial system...");
             isValidAccountNumber = port.isValidAccount(accountNumber);
         } catch (Exception e) {
-            String errorMessage = "Cannot connect to the service. The service may be down, please try again later.";
-            LOG.error(errorMessage + e.getMessage(), e);
+            LOG.error(ERROR_MESSAGE + e.getMessage(), e);
             return null;
         }    
         return isValidAccountNumber + "";
     }
     
+    /**
+     * @see org.kuali.kra.external.award.AccountCreationClient#isValidChartAccount(java.lang.String, java.lang.String)
+     */
     public String isValidChartAccount(String chartOfAccountsCode, String accountNumber) {
         boolean isValidChartOfAccountsCode = false;
         
@@ -97,8 +108,7 @@ public abstract class AccountCreationClientBase implements AccountCreationClient
             LOG.info("Connecting to financial system...");
             isValidChartOfAccountsCode = port.isValidChartAccount(chartOfAccountsCode, accountNumber);
         } catch (Exception e) {
-            String errorMessage = "Cannot connect to the service. The service may be down, please try again later.";
-            LOG.error(errorMessage + e.getMessage(), e);
+            LOG.error(ERROR_MESSAGE + e.getMessage(), e);
             return null;
         }    
         return isValidChartOfAccountsCode + "";
@@ -119,27 +129,30 @@ public abstract class AccountCreationClientBase implements AccountCreationClient
             LOG.info("Connecting to financial system...");
             createAccountResult = port.createAccount(accountParameters);
         } catch (Exception e) {
-            String errorMessage = "Cannot connect to the service. The service may be down, please try again later.";
-            LOG.error(errorMessage + e.getMessage(), e);
-            GlobalVariables.getMessageMap().putError(CANNOT_CONNECT_TO_SERVICE, KeyConstants.CANNOT_CONNECT_TO_SERVICE);
+            LOG.error(ERROR_MESSAGE + e.getMessage(), e);
+            GlobalVariables.getMessageMap().putError(KeyConstants.CANNOT_CONNECT_TO_SERVICE, KeyConstants.CANNOT_CONNECT_TO_SERVICE);
         }
             
         // If the account did not get created display the errors
+        // the result should never be null if the client connects to the financial system.
         if (createAccountResult != null) {
+            // if failure status
             if (!StringUtils.equalsIgnoreCase(createAccountResult.getStatus(), "success")) {
                 String completeErrorMessage = "";
                 List<String> errorMessages = createAccountResult.getErrorMessages();
                 for (String errorMessage : errorMessages) {
                     completeErrorMessage += errorMessage;
                 }
-                GlobalVariables.getMessageMap().putError(CREATE_ACCOUNT_SERVICE_ERRORS, 
+                GlobalVariables.getMessageMap().putError(KeyConstants.CREATE_ACCOUNT_SERVICE_ERRORS, 
                                                      KeyConstants.CREATE_ACCOUNT_SERVICE_ERRORS, 
                                                      completeErrorMessage);
             } else {
-                /* if account created successfully, then update the award table with the document number and date*/
+                // if account created successfully, then update the award table with the document number and date
+                //if there are error messages but the document was saved in KFS
+               
                 String financialAccountDocumentNumber = createAccountResult.getDocumentNumber();
                 if (financialAccountDocumentNumber == null) {
-                    GlobalVariables.getMessageMap().putError(DOCUMENT_NUMBER_NULL, KeyConstants.DOCUMENT_NUMBER_NULL);
+                    GlobalVariables.getMessageMap().putError(KeyConstants.DOCUMENT_NUMBER_NULL, KeyConstants.DOCUMENT_NUMBER_NULL);
                     LOG.warn("Document number returned from KFS account creation service is null.");
                 } else {
                     award.setFinancialAccountDocumentNumber(financialAccountDocumentNumber);
@@ -149,6 +162,17 @@ public abstract class AccountCreationClientBase implements AccountCreationClient
                     AwardDocument awardDocument = award.getAwardDocument();
                     documentService.saveDocument(awardDocument);
     
+                }      
+                if (ObjectUtils.isNotNull(createAccountResult.getErrorMessages()) 
+                        && !createAccountResult.getErrorMessages().isEmpty()) {
+                    String completeErrorMessage = "";
+                    List<String> errorMessages = createAccountResult.getErrorMessages();
+                    for (String errorMessage : errorMessages) {
+                        completeErrorMessage += errorMessage;
+                    }
+                    GlobalVariables.getMessageMap().putError(KeyConstants.DOCUMENT_SAVED_WITH_ERRORS, 
+                                                                 KeyConstants.DOCUMENT_SAVED_WITH_ERRORS,
+                                                                 completeErrorMessage);
                 }
             }  
         }
@@ -170,7 +194,6 @@ public abstract class AccountCreationClientBase implements AccountCreationClient
         accountParameters.setAccountNumber(award.getAccountNumber());
         setDefaultAddress(award);
         setAdminAddress(award);       
-        setPaymentAddress(award);
         
         //cfdaNumber
         String cfdaNumber = award.getCfdaNumber();
@@ -205,20 +228,54 @@ public abstract class AccountCreationClientBase implements AccountCreationClient
         accountParameters.setUnit(award.getUnitNumber());
         //Principal id
         accountParameters.setPrincipalId(UserSession.getAuthenticatedUser().getPrincipalId());
+
         // get the current FandaRate
-        AwardFandaRate currentFandaRate = getCurrentFandaRate(award);       
+        AwardFandaRate currentFandaRate = getCurrentFandaRate(award);    
+        
+        String rateClassCode = currentFandaRate.getFandaRateType().getRateClassCode();
+        String rateTypeCode = currentFandaRate.getFandaRateType().getRateTypeCode();
+        String icrTypeCode = getIndirectCostTypeCode(rateClassCode, rateTypeCode);
         //campus on/off indicator
         accountParameters.setOffCampusIndicator(!currentFandaRate.getOnOffCampusFlag()); 
         //indirect cost rate
-        accountParameters.setIndirectCostRate(currentFandaRate.getApplicableFandaRate() + "");
+        String icrRateCode = getIcrRateCode(currentFandaRate);
+        accountParameters.setIndirectCostRate(icrRateCode);
+        
         // indirect cost type code
-        accountParameters.setIndirectCostTypeCode(currentFandaRate.getFandaRateTypeCode() + "");
+        accountParameters.setIndirectCostTypeCode(icrTypeCode + "");
         
         //higher education function code
         accountParameters.setHigherEdFunctionCode(award.getActivityType().getHigherEducationFunctionCode());
         
     }
    
+    protected String getIndirectCostTypeCode(String rateClassCode, String rateTypeCode) {
+        Map <String, Object> criteria = new HashMap<String, Object>();
+        criteria.put("rateClassCode", rateClassCode);
+        criteria.put("rateTypeCode", rateTypeCode);
+        FinancialIndirectCostRecoveryTypeCode icrCostTypeCode= (FinancialIndirectCostRecoveryTypeCode) businessObjectService.findByPrimaryKey(FinancialIndirectCostRecoveryTypeCode.class, criteria);
+        return ObjectUtils.isNotNull(icrCostTypeCode)? icrCostTypeCode.getIcrTypeCode() : "";
+    }
+
+    protected String getIcrRateCode(AwardFandaRate currentFandaRate) { 
+        String icrRateCode = "";
+        Map <String, Object> criteria = new HashMap<String, Object>();
+        if (currentFandaRate.getOnCampusFlag().equalsIgnoreCase("N")) {
+            criteria.put("onCampusRate", currentFandaRate.getApplicableFandaRate());
+        } else {
+            criteria.put("offCampusRate", currentFandaRate.getApplicableFandaRate());
+        }
+        // TODO Auto-generated method stub
+        List<ValidRates> rates = (List<ValidRates>) businessObjectService.findMatching(ValidRates.class, criteria);
+        
+        // you should only find one rate that matches this criteria, this check happens in the award
+        //business rules
+        if (ObjectUtils.isNotNull(rates) && !rates.isEmpty()) {
+            icrRateCode = rates.get(0).getIcrRateCode();
+        } 
+        return icrRateCode;
+    }
+
     /**
      * This method sets the name.
      * @param award
@@ -227,11 +284,15 @@ public abstract class AccountCreationClientBase implements AccountCreationClient
         
         final int ACCOUNT_NAME_LENGTH = 40;
         // Account name
-        String accountName = award.getSponsor().getAcronym() 
-            + "-" + award.getSponsorAwardNumber();
+        String accountName = "";
+        if (ObjectUtils.isNotNull(award.getSponsor().getAcronym())) {
+            accountName += award.getSponsor().getAcronym() + "-";
+        }
+        if (ObjectUtils.isNotNull(award.getSponsorAwardNumber())) { accountName += award.getSponsorAwardNumber() + "-"; }
+        
         if (ObjectUtils.isNotNull(award.getPrincipalInvestigator()) 
             && ObjectUtils.isNotNull(award.getPrincipalInvestigator().getPerson())) {
-            accountName += "-" + award.getPrincipalInvestigator().getPerson().getLastName()
+            accountName +=  award.getPrincipalInvestigator().getPerson().getLastName()
                                + award.getPrincipalInvestigator().getPerson().getFirstName();
         }
             
@@ -250,17 +311,21 @@ public abstract class AccountCreationClientBase implements AccountCreationClient
         //default address is the PI address
         KcPerson principalInvestigator = award.getPrincipalInvestigator().getPerson();
         if (ObjectUtils.isNotNull(principalInvestigator)) {
-            String streetAddress = principalInvestigator.getAddressLine1();
+            
+            String streetAddress = "";
+            if (principalInvestigator.getAddressLine1() != null) {
+                streetAddress += principalInvestigator.getAddressLine1();
+            }
             if (principalInvestigator.getAddressLine2() != null) {
                 streetAddress += principalInvestigator.getAddressLine2();
             }
             
             if (principalInvestigator.getAddressLine3() != null) {
                 streetAddress += principalInvestigator.getAddressLine3();
-            }
-        
+            } 
             accountParameters.setDefaultAddressStreetAddress(streetAddress);
             accountParameters.setDefaultAddressCityName(principalInvestigator.getCity());
+            // getState returns state code
             accountParameters.setDefaultAddressStateCode(principalInvestigator.getState());
             accountParameters.setDefaultAddressZipCode(principalInvestigator.getPostalCode());
         }
@@ -280,7 +345,10 @@ public abstract class AccountCreationClientBase implements AccountCreationClient
                 && "Administrative Contact".equals(adminType.getDescription())) {
                 KcPerson adminPerson = contact.getPerson();
                 if (ObjectUtils.isNotNull(adminPerson)) {
-                    String adminStreetAddress = adminPerson.getAddressLine1();
+                    String adminStreetAddress = "";
+                    if (adminPerson.getAddressLine1() != null) {
+                        adminStreetAddress += adminPerson.getAddressLine1();
+                    }
                     if (adminPerson.getAddressLine2() != null) {
                         adminStreetAddress += adminPerson.getAddressLine2();
                     }
@@ -300,35 +368,6 @@ public abstract class AccountCreationClientBase implements AccountCreationClient
     }
     
     /**
-     * This method sets the payment address.
-     * @param award
-     */
-    protected void setPaymentAddress(Award award) {
-      //payment contact address
-        List<AwardReportTerm> items = award.getAwardReportTermItems();
-        for (AwardReportTerm item : items) {
-            List<AwardReportTermRecipient> recipients = item.getAwardReportTermRecipients();
-            // send any one of the recipients addresses
-            if (ObjectUtils.isNotNull(recipients) && recipients.size() != 0) {
-                String paymentStreetAddress = recipients.get(0).getRolodex().getAddressLine1();
-                if (recipients.get(0).getRolodex().getAddressLine2() != null) {
-                    paymentStreetAddress += recipients.get(0).getRolodex().getAddressLine2();
-                }
-                    
-                if (recipients.get(0).getRolodex().getAddressLine3() != null) {
-                    paymentStreetAddress += recipients.get(0).getRolodex().getAddressLine3();
-                }
-                
-                accountParameters.setPaymentAddressStreetAddress(paymentStreetAddress);
-                accountParameters.setPaymentAddressCityName(recipients.get(0).getRolodex().getCity());
-                accountParameters.setPaymentAddressStateCode(recipients.get(0).getRolodex().getState());
-                accountParameters.setPaymentAddressZipCode(recipients.get(0).getRolodex().getPostalCode());
-            }
-           
-        }
-    }
-    
-    /**
      * This method sets the income guideline text.
      * @param award
      */
@@ -341,7 +380,7 @@ public abstract class AccountCreationClientBase implements AccountCreationClient
         
         String incomeGuidelineText = ""; 
         if (paymentBasis != null) {
-            incomeGuidelineText += " " + paymentBasis;
+            incomeGuidelineText += paymentBasis;
         }
         if (paymentMethod != null) {
             incomeGuidelineText += " " + paymentMethod;
@@ -366,7 +405,8 @@ public abstract class AccountCreationClientBase implements AccountCreationClient
         }
         
         AwardFandaRate currentFandaRate;
-        
+        // when both On and Off campus rates are in, send the higher one. Ideally only one should be there
+        // the single rate validation parameter needs to be set on award
         KualiDecimal currentRateValue = new KualiDecimal(0.0);
         currentFandaRate = rates.get(0);
         for (AwardFandaRate rate : rates) {
@@ -391,5 +431,9 @@ public abstract class AccountCreationClientBase implements AccountCreationClient
      */
     public void setDocumentService(DocumentService documentService) {
         this.documentService = documentService;
+    }
+    
+    public void setBusinessObjectService(BusinessObjectService businessObjectService) {
+        this.businessObjectService = businessObjectService;
     }
 }

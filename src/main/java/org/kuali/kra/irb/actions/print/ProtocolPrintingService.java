@@ -17,6 +17,7 @@ package org.kuali.kra.irb.actions.print;
 
 import java.util.List;
 
+import org.kuali.kra.irb.Protocol;
 import org.kuali.kra.printing.Printable;
 import org.kuali.kra.printing.PrintingException;
 import org.kuali.kra.proposaldevelopment.bo.AttachmentDataSource;
@@ -44,4 +45,13 @@ public interface ProtocolPrintingService {
      * @throws PrintingException
      */
     AttachmentDataSource print(String reportName, List<Printable> printableArtifactList) throws PrintingException;
+    
+    /**
+     * 
+     * This method is to get the printable Artifacts for the selected protocol.
+     * @param protocol
+     * @return
+     */
+    Printable getProtocolPrintArtifacts(Protocol protocol) ; 
+   
 }

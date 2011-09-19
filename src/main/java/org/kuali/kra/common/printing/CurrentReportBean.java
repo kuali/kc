@@ -1,7 +1,14 @@
 package org.kuali.kra.common.printing;
 
 import org.kuali.kra.award.contacts.AwardPerson;
+import org.kuali.kra.award.customdata.AwardCustomData;
 import org.kuali.kra.award.home.Award;
+import org.kuali.kra.award.home.AwardAmountInfo;
+import org.kuali.kra.infrastructure.Constants;
+import org.kuali.kra.infrastructure.KraServiceLocator;
+import org.kuali.kra.proposaldevelopment.document.ProposalDevelopmentDocument;
+import org.kuali.rice.kns.service.ParameterConstants;
+import org.kuali.rice.kns.service.ParameterService;
 import org.kuali.rice.kns.util.KualiDecimal;
 import org.kuali.rice.kns.web.ui.Column;
 
@@ -73,7 +80,12 @@ public class CurrentReportBean extends ReportBean {
 
     private KualiDecimal totalEffort;
     private String sponsorAwardNumber;
-
+    private KualiDecimal totalDirectCostTotal;
+    private KualiDecimal totalIndirectCostTotal;
+    private List<AwardCustomData> awardCustomDataList;
+    private ParameterService parameterService;
+    protected static final String ROOT_AWARD_NUMBER_PARAMETER = "rootAwardNumber";
+    
     public CurrentReportBean(AwardPerson awardPerson) {
         this.roleCode = awardPerson.getRoleCode();
         this.academicYearEffort = awardPerson.getAcademicYearEffort();
@@ -84,11 +96,28 @@ public class CurrentReportBean extends ReportBean {
         Award award = awardPerson.getAward();
         this.awardNumber = award.getAwardNumber();
         this.sponsorName = award.getSponsorName();
-        this.sponsorAwardNumber = award.getSponsorAwardNumber();
+        this.sponsorAwardNumber = award.getSponsorCode();
         this.awardTitle = award.getTitle();
         this.awardAmount = award.calculateObligatedDistributedAmountTotal();
         this.projectStartDate = award.getAwardEffectiveDate();
         this.projectEndDate = award.findLatestFinalExpirationDate();
+        parameterService = KraServiceLocator.getService(ParameterService.class);
+        String directIndirectEnabledValue = parameterService.getParameterValue(Constants.PARAMETER_MODULE_AWARD, ParameterConstants.DOCUMENT_COMPONENT, "ENABLE_AWD_ANT_OBL_DIRECT_INDIRECT_COST");
+
+        for(AwardAmountInfo awardAmountInfo:award.getAwardAmountInfos()){
+            if(directIndirectEnabledValue.equals("1")){
+                this.totalDirectCostTotal =  awardAmountInfo.getObligatedTotalDirect();
+                this.totalIndirectCostTotal = awardAmountInfo.getObligatedTotalIndirect();
+            }
+        }
+        awardCustomDataList = new ArrayList<AwardCustomData>();
+        
+        String customGroupName = parameterService.getParameterValue(ProposalDevelopmentDocument.class, Constants.CURRENT_PENDING_REPORT_GROUP_NAME);
+        for(AwardCustomData awardcutomdata :award.getAwardCustomDataList()) {
+            if(awardcutomdata.getCustomAttribute()!=null && awardcutomdata.getCustomAttribute().getGroupName().equals(customGroupName)){
+                awardCustomDataList.add(awardcutomdata);
+            }
+        }
     }
 
     @Override
@@ -150,6 +179,8 @@ public class CurrentReportBean extends ReportBean {
         columns.add(createColumn("Sponsor", "sponsorName", sponsorName, String.class));
         columns.add(createColumn("Role", "roleCode", roleCode, String.class));
         columns.add(createColumn("Title", "awardTitle", awardTitle, String.class));
+        columns.add(createColumn("Total Direct Cost","totalDirectCostTotal",totalDirectCostTotal,KualiDecimal.class));
+        columns.add(createColumn("Total F&A Cost","totalIndirectCostTotal",totalIndirectCostTotal,KualiDecimal.class));
         columns.add(createColumn("Award Amount", "awardAmount", awardAmount, KualiDecimal.class));
         columns.add(createColumn("Project Start Date", "projectStartDate", projectStartDate, Date.class));
         columns.add(createColumn("Project End Date", "projectEndDate", projectEndDate, Date.class));
@@ -157,6 +188,11 @@ public class CurrentReportBean extends ReportBean {
         columns.add(createColumn("Academic Year Effort", "academicYearEffort", academicYearEffort, KualiDecimal.class));
         columns.add(createColumn("Summer Effort", "summerEffort", summerEffort, KualiDecimal.class));
         columns.add(createColumn("Calendar Year Effort", "calendarYearEffort", calendarYearEffort, KualiDecimal.class));
+        if(awardCustomDataList.size()>0){
+            for(AwardCustomData awardcutomdata :awardCustomDataList) {
+                columns.add(createColumn(awardcutomdata.getCustomAttribute().getLabel(), "awardCustomDataList", awardcutomdata.getValue(), String.class));
+            }
+        }
         return columns;
     }
 
@@ -175,4 +211,30 @@ public class CurrentReportBean extends ReportBean {
     public String getSponsorAwardNumber() {
         return sponsorAwardNumber;
     }
+
+    public void setTotalDirectCostTotal(KualiDecimal totalDirectCostTotal) {
+        this.totalDirectCostTotal = totalDirectCostTotal;
+    }
+
+    public KualiDecimal getTotalDirectCostTotal() {
+        return totalDirectCostTotal;
+    }
+
+    public void setTotalIndirectCostTotal(KualiDecimal totalIndirectCostTotal) {
+        this.totalIndirectCostTotal = totalIndirectCostTotal;
+    }
+
+    public KualiDecimal getTotalIndirectCostTotal() {
+        return totalIndirectCostTotal;
+    }
+
+    public void setAwardCustomDataList(List<AwardCustomData> awardCustomDataList) {
+        this.awardCustomDataList = awardCustomDataList;
+    }
+
+    public List<AwardCustomData> getAwardCustomDataList() {
+        return awardCustomDataList;
+    }
+
+
 }
