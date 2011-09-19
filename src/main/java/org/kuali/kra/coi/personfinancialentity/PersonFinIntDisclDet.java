@@ -28,11 +28,12 @@ public class PersonFinIntDisclDet extends KraPersistableBusinessObjectBase {
     private Integer sequenceNumber; 
     private String columnName; 
     private String columnValue; 
-    private Integer relationshipTypeCode; 
+    private String relationshipTypeCode; 
     private String comments; 
     private Long personFinIntDisclosureId; 
 
     private FinEntitiesDataMatrix finEntitiesDataMatrix; 
+    private PersonFinIntDisclosure personFinIntDisclosure;
     
     public PersonFinIntDisclDet() { 
 
@@ -78,11 +79,11 @@ public class PersonFinIntDisclDet extends KraPersistableBusinessObjectBase {
         this.columnValue = columnValue;
     }
 
-    public Integer getRelationshipTypeCode() {
+    public String getRelationshipTypeCode() {
         return relationshipTypeCode;
     }
 
-    public void setRelationshipTypeCode(Integer relationshipTypeCode) {
+    public void setRelationshipTypeCode(String relationshipTypeCode) {
         this.relationshipTypeCode = relationshipTypeCode;
     }
 
@@ -122,6 +123,14 @@ public class PersonFinIntDisclDet extends KraPersistableBusinessObjectBase {
 
     public void setPersonFinIntDisclosureId(Long personFinIntDisclosureId) {
         this.personFinIntDisclosureId = personFinIntDisclosureId;
+    }
+
+    public PersonFinIntDisclosure getPersonFinIntDisclosure() {
+        return personFinIntDisclosure;
+    }
+
+    public void setPersonFinIntDisclosure(PersonFinIntDisclosure personFinIntDisclosure) {
+        this.personFinIntDisclosure = personFinIntDisclosure;
     }
     
 }

@@ -19,8 +19,9 @@ import java.util.LinkedHashMap;
 import java.util.List;
 
 import org.kuali.kra.bo.KraPersistableBusinessObjectBase;
+import org.kuali.kra.budget.versions.BudgetDocumentVersion;
 
-public class FinEntitiesDataGroup extends KraPersistableBusinessObjectBase { 
+public class FinEntitiesDataGroup extends KraPersistableBusinessObjectBase implements Comparable<FinEntitiesDataGroup> { 
     
     private static final long serialVersionUID = 1L;
 
@@ -74,6 +75,10 @@ public class FinEntitiesDataGroup extends KraPersistableBusinessObjectBase {
 
     public void setFinEntitiesDataMatrixs(List<FinEntitiesDataMatrix> finEntitiesDataMatrixs) {
         this.finEntitiesDataMatrixs = finEntitiesDataMatrixs;
+    }
+
+    public int compareTo(FinEntitiesDataGroup arg1) {
+        return getDataGroupSortId().compareTo(arg1.getDataGroupSortId());
     }
     
 }

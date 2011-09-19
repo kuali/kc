@@ -16,6 +16,7 @@
 package org.kuali.kra.coi.personfinancialentity;
 
 import java.util.LinkedHashMap;
+import java.util.List;
 
 import org.kuali.kra.bo.KraPersistableBusinessObjectBase;
 
@@ -32,7 +33,7 @@ public class FinEntitiesDataMatrix extends KraPersistableBusinessObjectBase {
     private Integer columnSortId; 
     
     private FinEntitiesDataGroup finEntitiesDataGroup; 
-    private PersonFinIntDisclDet perFinIntDisclDet; 
+    private List<PersonFinIntDisclDet> perFinIntDisclDets; 
     
     public FinEntitiesDataMatrix() { 
 
@@ -102,14 +103,6 @@ public class FinEntitiesDataMatrix extends KraPersistableBusinessObjectBase {
         this.finEntitiesDataGroup = finEntitiesDataGroup;
     }
 
-    public PersonFinIntDisclDet getPerFinIntDisclDet() {
-        return perFinIntDisclDet;
-    }
-
-    public void setPerFinIntDisclDet(PersonFinIntDisclDet perFinIntDisclDet) {
-        this.perFinIntDisclDet = perFinIntDisclDet;
-    }
-
     /** {@inheritDoc} */
     @Override 
     protected LinkedHashMap<String, Object> toStringMapper() {
@@ -122,6 +115,14 @@ public class FinEntitiesDataMatrix extends KraPersistableBusinessObjectBase {
         hashMap.put("statusFlag", this.getStatusFlag());
         hashMap.put("columnSortId", this.getColumnSortId());
         return hashMap;
+    }
+
+    public List<PersonFinIntDisclDet> getPerFinIntDisclDets() {
+        return perFinIntDisclDets;
+    }
+
+    public void setPerFinIntDisclDets(List<PersonFinIntDisclDet> perFinIntDisclDets) {
+        this.perFinIntDisclDets = perFinIntDisclDets;
     }
     
 }

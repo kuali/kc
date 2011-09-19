@@ -22,7 +22,12 @@ import org.kuali.kra.bo.KraPersistableBusinessObjectBase;
 
 public class FinIntEntityStatus extends KraPersistableBusinessObjectBase { 
     
-    private static final long serialVersionUID = 1L;
+    /**
+     * Comment for <code>serialVersionUID</code>
+     */
+    private static final long serialVersionUID = -2103009505440817096L;
+    public static final String ACTIVE = "1";
+    public static final String INACTIVE = "2";
 
     private Integer statusCode; 
     private String description; 

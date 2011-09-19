@@ -17,6 +17,8 @@ package org.kuali.kra.coi.personfinancialentity;
 
 import java.util.List;
 
+import org.kuali.kra.service.VersionException;
+
 /**
  * 
  * This is an interface for declaration of methods related to financial entity maintenance
@@ -35,4 +37,12 @@ public interface FinancialEntityService {
     
     FinancialEntityReporter getFinancialEntityReporter(String personId);
     
+    List<FinIntEntityRelType> getFinancialEntityRelationshipTypes();
+    
+    List<FinEntityDataMatrixBean> getFinancialEntityDataMatrix();
+    
+    List<PersonFinIntDisclDet> getFinDisclosureDetails(List<FinEntityDataMatrixBean> dataMatrixs, String entityNumber, Integer sequenceNumber);
+    List<FinEntityDataMatrixBean> getFinancialEntityDataMatrixForEdit(List<PersonFinIntDisclDet> disclosureDetails);
+    PersonFinIntDisclosure versionPersonFinintDisclosure(PersonFinIntDisclosure personFinIntDisclosure, List<FinEntityDataMatrixBean> newRelationDetails) throws VersionException;
+
 }

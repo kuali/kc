@@ -37,6 +37,7 @@ public class FinancialEntityServiceTest {
     private static final String  PERSON_ID = "10000000001";
     private static final String  UNIT_NUMBER = "000001";
     private static final String  UNIT_NAME = "University";
+    private static final String  ENTITY_NUMBER = "1";
     Mockery context = new JUnit4Mockery();
 
     @Before
@@ -55,6 +56,7 @@ public class FinancialEntityServiceTest {
         personFinIntDisclosure.setPersonId(PERSON_ID);
         personFinIntDisclosure.setStatusCode(1);
         personFinIntDisclosure.setCurrentFlag(true);
+        personFinIntDisclosure.setEntityNumber(ENTITY_NUMBER);
         final List<PersonFinIntDisclosure> activeEntities = new ArrayList<PersonFinIntDisclosure>();
         activeEntities.add(personFinIntDisclosure);
         context.checking(new Expectations() {
@@ -65,6 +67,10 @@ public class FinancialEntityServiceTest {
                 fieldValues.put("currentFlag", "Y");     
                 one(businessObjectService).findMatching(PersonFinIntDisclosure.class, fieldValues);
                 will(returnValue(activeEntities));
+                Map fieldValues1 = new HashMap();
+                fieldValues1.put("entityNumber", ENTITY_NUMBER);
+                one(businessObjectService).findMatchingOrderBy(PersonFinIntDisclosure.class, fieldValues1, "sequenceNumber", false);
+                will(returnValue(activeEntities));
 
 
             }
@@ -74,7 +80,9 @@ public class FinancialEntityServiceTest {
         Assert.assertEquals(entities.size(), 1);
         Assert.assertEquals(entities.get(0).getPersonId(), PERSON_ID);
         Assert.assertEquals(entities.get(0).getStatusCode().intValue(), 1);
-        Assert.assertEquals(entities.get(0).isCurrentFlag(), true);
+        Assert.assertEquals(entities.get(0).getVersions().size(), 1);
+        Assert.assertEquals(entities.get(0).getVersions().get(0).getEntityNumber(), ENTITY_NUMBER);
+       Assert.assertEquals(entities.get(0).isCurrentFlag(), true);
 
     }
 
@@ -84,6 +92,7 @@ public class FinancialEntityServiceTest {
         final BusinessObjectService businessObjectService = context.mock(BusinessObjectService.class);
         PersonFinIntDisclosure personFinIntDisclosure = new PersonFinIntDisclosure();
         personFinIntDisclosure.setPersonId(PERSON_ID);
+        personFinIntDisclosure.setEntityNumber(ENTITY_NUMBER);
         personFinIntDisclosure.setStatusCode(2);
         personFinIntDisclosure.setCurrentFlag(true);
         final List<PersonFinIntDisclosure> activeEntities = new ArrayList<PersonFinIntDisclosure>();
@@ -96,6 +105,10 @@ public class FinancialEntityServiceTest {
                 fieldValues.put("currentFlag", "Y");     
                 one(businessObjectService).findMatching(PersonFinIntDisclosure.class, fieldValues);
                 will(returnValue(activeEntities));
+                Map fieldValues1 = new HashMap();
+                fieldValues1.put("entityNumber", ENTITY_NUMBER);
+                one(businessObjectService).findMatchingOrderBy(PersonFinIntDisclosure.class, fieldValues1, "sequenceNumber", false);
+                will(returnValue(activeEntities));
 
 
             }
@@ -105,6 +118,8 @@ public class FinancialEntityServiceTest {
         Assert.assertEquals(entities.size(), 1);
         Assert.assertEquals(entities.get(0).getPersonId(), PERSON_ID);
         Assert.assertEquals(entities.get(0).getStatusCode().intValue(), 2);
+        Assert.assertEquals(entities.get(0).getVersions().size(), 1);
+        Assert.assertEquals(entities.get(0).getVersions().get(0).getEntityNumber(), ENTITY_NUMBER);
         Assert.assertEquals(entities.get(0).isCurrentFlag(), true);
 
     }
