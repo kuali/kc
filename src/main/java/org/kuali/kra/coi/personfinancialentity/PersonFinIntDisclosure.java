@@ -15,24 +15,24 @@
  */
 package org.kuali.kra.coi.personfinancialentity;
 
+import java.util.ArrayList;
 import java.util.LinkedHashMap;
 import java.util.List;
 
-import javax.persistence.Transient;
-
 import org.apache.commons.lang.StringUtils;
-import org.kuali.kra.bo.KcPerson;
+import org.kuali.kra.SequenceOwner;
+import org.kuali.kra.SkipVersioning;
 import org.kuali.kra.bo.KraPersistableBusinessObjectBase;
 import org.kuali.kra.bo.OrganizationTypeList;
 import org.kuali.kra.bo.Sponsor;
-import org.kuali.kra.bo.Unit;
-import org.kuali.kra.infrastructure.KraServiceLocator;
-import org.kuali.kra.service.KcPersonService;
 
-public class PersonFinIntDisclosure extends KraPersistableBusinessObjectBase { 
+public class PersonFinIntDisclosure extends KraPersistableBusinessObjectBase implements SequenceOwner<PersonFinIntDisclosure> { 
     
-    private static final long serialVersionUID = 1L;
 
+    /**
+     * Comment for <code>serialVersionUID</code>
+     */
+    private static final long serialVersionUID = -3218103115548868080L;
     private Long personFinIntDisclosureId; 
     private Long financialEntityReporterId;
     private String personId; 
@@ -43,27 +43,33 @@ public class PersonFinIntDisclosure extends KraPersistableBusinessObjectBase {
     private String entityName; 
     private Integer entityTypeCode; 
     private String entityOwnershipType; 
-    private Integer relationshipTypeCode; 
+    private String relationshipTypeCode; 
     private String relationshipDescription; 
     private boolean relatedToOrganizationFlag; 
     private String orgRelationDescription; 
+    private String principalBusinessActivity; 
     private String sponsorCode; 
     private boolean currentFlag; 
-
+    
     private FinIntEntityRelType finIntEntityRelType; 
     private FinIntEntityStatus finIntEntityStatus; 
     private OrganizationTypeList organizationTypeList; 
     private List<InvCoiDiscDetail> invCoiDiscDetails; 
     private List<FinIntEntityYnq> finIntEntityYnqs; 
-    
+    private List<PersonFinIntDisclDet> perFinIntDisclDetails;
+    private List<FinancialEntityContactInfo> finEntityContactInfos;
     private Sponsor sponsor;
     
-//    @SkipVersioning
-    private FinancialEntityReporter financialEntityReporter; 
+//  @SkipVersioning
+  private FinancialEntityReporter financialEntityReporter; 
+@SkipVersioning
+private List<PersonFinIntDisclosure> versions; 
 
 
     public PersonFinIntDisclosure() { 
-
+        super();
+        finEntityContactInfos = new ArrayList<FinancialEntityContactInfo>();
+        finEntityContactInfos.add(new FinancialEntityContactInfo());
     } 
     
     public String getPersonId() {
@@ -130,11 +136,11 @@ public class PersonFinIntDisclosure extends KraPersistableBusinessObjectBase {
         this.entityOwnershipType = entityOwnershipType;
     }
 
-    public Integer getRelationshipTypeCode() {
+    public String getRelationshipTypeCode() {
         return relationshipTypeCode;
     }
 
-    public void setRelationshipTypeCode(Integer relationshipTypeCode) {
+    public void setRelationshipTypeCode(String relationshipTypeCode) {
         this.relationshipTypeCode = relationshipTypeCode;
     }
 
@@ -179,6 +185,9 @@ public class PersonFinIntDisclosure extends KraPersistableBusinessObjectBase {
     }
 
     public FinIntEntityStatus getFinIntEntityStatus() {
+        if (finIntEntityStatus == null && this.statusCode != null) {
+            this.refreshReferenceObject("finIntEntityStatus");
+        }
         return finIntEntityStatus;
     }
 
@@ -273,4 +282,66 @@ public class PersonFinIntDisclosure extends KraPersistableBusinessObjectBase {
         this.financialEntityReporter = financialEntityReporter;
     }
 
+    public List<PersonFinIntDisclDet> getPerFinIntDisclDetails() {
+        return perFinIntDisclDetails;
+    }
+
+    public void setPerFinIntDisclDetails(List<PersonFinIntDisclDet> perFinIntDisclDetails) {
+        this.perFinIntDisclDetails = perFinIntDisclDetails;
+    }
+
+    public void setSequenceOwner(PersonFinIntDisclosure newlyVersionedOwner) {
+        // TODO Auto-generated method stub
+        
+    }
+
+    public PersonFinIntDisclosure getSequenceOwner() {
+        // TODO Auto-generated method stub
+        return this;
+    }
+
+    public void resetPersistenceState() {
+        this.personFinIntDisclosureId = null;
+        
+    }
+
+    public void incrementSequenceNumber() {
+        this.sequenceNumber++; 
+                
+    }
+
+    public Integer getOwnerSequenceNumber() {
+        // TODO Auto-generated method stub
+        return null;
+    }
+
+    public String getVersionNameField() {
+        // TODO Auto-generated method stub
+        return "entityNumber";
+    }
+
+    public List<PersonFinIntDisclosure> getVersions() {
+        return versions;
+    }
+
+    public void setVersions(List<PersonFinIntDisclosure> versions) {
+        this.versions = versions;
+    }
+
+    public List<FinancialEntityContactInfo> getFinEntityContactInfos() {
+        return finEntityContactInfos;
+    }
+
+    public void setFinEntityContactInfos(List<FinancialEntityContactInfo> finEntityContactInfos) {
+        this.finEntityContactInfos = finEntityContactInfos;
+    }
+
+    public String getPrincipalBusinessActivity() {
+        return principalBusinessActivity;
+    }
+
+    public void setPrincipalBusinessActivity(String principalBusinessActivity) {
+        this.principalBusinessActivity = principalBusinessActivity;
+    }
+    
 }

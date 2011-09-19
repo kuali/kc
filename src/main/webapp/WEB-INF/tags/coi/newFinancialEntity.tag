@@ -1,6 +1,7 @@
 <%@ include file="/WEB-INF/jsp/kraTldHeader.jsp"%>
 
 <c:set var="personFinIntDisclAttribute" value="${DataDictionary.PersonFinIntDisclosure.attributes}" />
+<c:set var="entityContactInfoAttribute" value="${DataDictionary.FinancialEntityContactInfo.attributes}" />
 
 <kul:tab defaultOpen="false" tabTitle="New Financial Entity " transparentBackground="false"
     tabErrorKey="financialEntityHelper.newPersonFinancialEntity.*" >
@@ -25,10 +26,10 @@
                 </th>
                  <td align="left" valign="middle">
                 	<kul:htmlControlAttribute property="financialEntityHelper.newPersonFinancialEntity.sponsorCode" attributeEntry="${personFinIntDisclAttribute.sponsorCode}" onblur="loadSponsorName('financialEntityHelper.newPersonFinancialEntity.sponsorCode', 'sponsorName');false" />
-                	<kul:lookup boClassName="org.kuali.kra.bo.Sponsor" fieldConversions="sponsorCode:financialEntityHelper.newPersonFinancialEntity.sponsorCode,sponsorName:financialEntityHelper.newPersonFinancialEntity.sponsor.sponsorName" anchor="${tabKey}" />
+                	<kul:lookup boClassName="org.kuali.kra.bo.Sponsor" fieldConversions="sponsorCode:financialEntityHelper.newPersonFinancialEntity.sponsorCode,sponsorName:financialEntityHelper.newPersonFinancialEntity.sponsor.sponsorName,postalCode:financialEntityHelper.newPersonFinancialEntity.finEntityContactInfos[0].postalCode,countryCode:financialEntityHelper.newPersonFinancialEntity.finEntityContactInfos[0].countryCode,rolodexId:financialEntityHelper.newRolodexId" anchor="${tabKey}" />
                     <kul:directInquiry boClassName="org.kuali.kra.bo.Sponsor" inquiryParameters="financialEntityHelper.newPersonFinancialEntity.sponsorCode:sponsorCode" anchor="${tabKey}" />
                     <div id="sponsorName.div" >
-                        <c:if test="${!empty KualiForm.financialEntityHelper.newPersonFinancialEntity.sponsorCode}">
+                        <c:if test="${!empty KualiForm.financialEntityHelper.newPersonFinancialEntity.sponsorCode}" >
             				<c:choose>
 							    <c:when test="${empty KualiForm.financialEntityHelper.newPersonFinancialEntity.sponsor}">
 	                    			<span style='color: red;'>not found</span>
@@ -90,16 +91,99 @@
                     <kul:htmlControlAttribute property="financialEntityHelper.newPersonFinancialEntity.orgRelationDescription" 
                                               attributeEntry="${personFinIntDisclAttribute.orgRelationDescription}" /> 
                 </td>
-            </tr>            
-                <tr>
-					<td align="center" colspan="4">
-						<div align="center">
-							<html:image property="methodToCall.submit.new.anchor${tabKey}"
-							            src='${ConfigProperties.kra.externalizable.images.url}tinybutton-submit.gif' styleClass="tinybutton"/>
-						</div>
-	                </td>
-                </tr>
+            </tr>    
+            <%-- contact info --%>
+             <tr>
+                <th align="right" valign="middle" >
+                    <kul:htmlAttributeLabel attributeEntry="${entityContactInfoAttribute.addressLine1}" />
+                </th>
+                <td align="left" valign="middle">
+                    <kul:htmlControlAttribute property="financialEntityHelper.newPersonFinancialEntity.finEntityContactInfos[0].addressLine1" 
+                                              attributeEntry="${entityContactInfoAttribute.addressLine1}" /> 
+                </td>
+                <th align="right" valign="middle" >
+                    <kul:htmlAttributeLabel attributeEntry="${entityContactInfoAttribute.webAddress1}" />
+                </th>
+                <td align="left" valign="middle">
+                    <kul:htmlControlAttribute property="financialEntityHelper.newPersonFinancialEntity.finEntityContactInfos[0].webAddress1" 
+                                              attributeEntry="${entityContactInfoAttribute.webAddress1}" /> 
+                </td>
+            </tr>    
+             <tr>
+                <th align="right" valign="middle" >
+                    <kul:htmlAttributeLabel attributeEntry="${entityContactInfoAttribute.addressLine2}" />
+                </th>
+                <td align="left" valign="middle">
+                    <kul:htmlControlAttribute property="financialEntityHelper.newPersonFinancialEntity.finEntityContactInfos[0].addressLine2" 
+                                              attributeEntry="${entityContactInfoAttribute.addressLine2}" /> 
+                </td>
+                <th align="right" valign="middle" >
+                    <kul:htmlAttributeLabel attributeEntry="${entityContactInfoAttribute.webAddress2}" />
+                </th>
+                <td align="left" valign="middle">
+                    <kul:htmlControlAttribute property="financialEntityHelper.newPersonFinancialEntity.finEntityContactInfos[0].webAddress2" 
+                                              attributeEntry="${entityContactInfoAttribute.webAddress2}" /> 
+                </td>
+            </tr>    
+             <tr>
+                <th align="right" valign="middle" >
+                    <kul:htmlAttributeLabel attributeEntry="${entityContactInfoAttribute.addressLine3}" />
+                </th>
+                <td align="left" valign="middle">
+                    <kul:htmlControlAttribute property="financialEntityHelper.newPersonFinancialEntity.finEntityContactInfos[0].addressLine3" 
+                                              attributeEntry="${entityContactInfoAttribute.addressLine3}" /> 
+                </td>
+                <th align="right" valign="middle" >
+                    <kul:htmlAttributeLabel attributeEntry="${entityContactInfoAttribute.city}" />
+                </th>
+                <td align="left" valign="middle">
+                    <kul:htmlControlAttribute property="financialEntityHelper.newPersonFinancialEntity.finEntityContactInfos[0].city" 
+                                              attributeEntry="${entityContactInfoAttribute.city}" /> 
+                </td>
+            </tr>    
+             <tr>
+                <th align="right" valign="middle" >
+                    <kul:htmlAttributeLabel attributeEntry="${entityContactInfoAttribute.state}" />
+                </th>
+                <td align="left" valign="middle">
+                    <kul:htmlControlAttribute property="financialEntityHelper.newPersonFinancialEntity.finEntityContactInfos[0].state" 
+                                              attributeEntry="${entityContactInfoAttribute.state}" /> 
+                </td>
+                <th align="right" valign="middle" >
+                    <kul:htmlAttributeLabel attributeEntry="${entityContactInfoAttribute.organizationId}" />
+                </th>
+                <td align="left" valign="middle">
+                    <kul:htmlControlAttribute property="financialEntityHelper.newPersonFinancialEntity.finEntityContactInfos[0].organizationId" 
+                                              attributeEntry="${entityContactInfoAttribute.organizationId}" /> 
+                </td>
+            </tr>    
+             <tr>
+                <th align="right" valign="middle" >
+                    <kul:htmlAttributeLabel attributeEntry="${entityContactInfoAttribute.postalCode}" />
+                </th>
+                <td align="left" valign="middle">
+                    <kul:htmlControlAttribute property="financialEntityHelper.newPersonFinancialEntity.finEntityContactInfos[0].postalCode" 
+                                              attributeEntry="${entityContactInfoAttribute.postalCode}" /> 
+                </td>
+                <th align="right" valign="middle" >
+                    <kul:htmlAttributeLabel attributeEntry="${entityContactInfoAttribute.countryCode}" />
+                </th>
+                <td align="left" valign="middle">
+                    <kul:htmlControlAttribute property="financialEntityHelper.newPersonFinancialEntity.finEntityContactInfos[0].countryCode" 
+                                              attributeEntry="${entityContactInfoAttribute.countryCode}" /> 
+                </td>
+            </tr>    
+            <tr>
+                <th align="right" valign="middle" colspan="2">
+                    <kul:htmlAttributeLabel attributeEntry="${personFinIntDisclAttribute.principalBusinessActivity}" />
+                </th>
+                <td align="left" valign="middle" colspan="2">
+                    <kul:htmlControlAttribute property="financialEntityHelper.newPersonFinancialEntity.principalBusinessActivity" 
+                                              attributeEntry="${personFinIntDisclAttribute.principalBusinessActivity}" /> 
+                </td>
+           </tr>            
         </table>
     </div>
-
+    <kra-coi:financialEntityRelationshipDetails prop="financialEntityHelper.newRelationDetails" detailList="${KualiForm.financialEntityHelper.newRelationDetails}"
+       methodtocall="methodToCall.submit.new"/>
 </kul:tab>

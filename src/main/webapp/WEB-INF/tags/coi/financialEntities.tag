@@ -2,6 +2,7 @@
 
 <%-- <c:set var="readOnly" value="${KualiForm.readOnly}"  scope="request"/> --%>
 <c:set var="personFinIntDisclAttribute" value="${DataDictionary.PersonFinIntDisclosure.attributes}" />
+<c:set var="entityContactInfoAttribute" value="${DataDictionary.FinancialEntityContactInfo.attributes}" />
 
 <kul:tab defaultOpen="false" tabTitle="Financial Entities"
     tabErrorKey="financialEntityHelper.activeFinancialEntities*">
@@ -46,26 +47,15 @@
                             </div>
                         </td>
               </tr> 
-              <tbody id="G${status.index}" style="display: none;"> 
-              <%-- TODO : questionnaire not ready yet
-                 <tr> 
-                  <td align=left  style="padding:0px; border:none">&nbsp;</td> 
-                  <td colspan="4" align=left  style="padding:0px; border:none"><table cellpadding=0 cellspacing=0 summary="" style=" width:100%"> 
-                      <tbody> 
-                        <tr> 
-                          <td colspan="5" align=left ><strong>History of Changes</strong></td> 
-                        </tr> 
-                        <tr> 
-                          <th align=left>Questionnaire Name</th> 
-                          <th align=left>Questionnaire Description</th> 
-                          <th align=left>Last Update</th> 
-                          <th align=left>Entity Disclosed Location</th> 
-                          <th align=left>Actions</th> 
-                        </tr> 
-                      </tbody> 
-                    </table></td> 
+              <tbody id="G${status.index}" style="display: none;">
+              <%-- version--%> 
+              
+               <tr>
+                  <td colspan=5>
+                    <kra-coi:financialEntityVersionHistory  financialEntity="${financialEntity}" />
+                 </td>
                 </tr>
-                --%>
+                  
               <c:if test="${KualiForm.financialEntityHelper.editEntityIndex == status.index}">
                 <tr> 
                   <td colspan="5">
@@ -149,18 +139,109 @@
                                               attributeEntry="${personFinIntDisclAttribute.orgRelationDescription}" /> 
                 </td>
             </tr>            
-                <tr>
-                    <td align="center" colspan="4">
-                        <div align="center">
-                            <html:image property="methodToCall.submit.line${status.index}.anchor${tabKey}"
-                                        src='${ConfigProperties.kra.externalizable.images.url}tinybutton-submit.gif' styleClass="tinybutton"/>
-                        </div>
-                    </td>
-                </tr>
+            <%-- contact info --%>
+             <tr>
+                <th align="right" valign="middle" >
+                    <kul:htmlAttributeLabel attributeEntry="${entityContactInfoAttribute.addressLine1}" />
+                </th>
+                <td align="left" valign="middle">
+                    <kul:htmlControlAttribute property="financialEntityHelper.activeFinancialEntities[${status.index}].finEntityContactInfos[0].addressLine1" 
+                                              attributeEntry="${entityContactInfoAttribute.addressLine1}" /> 
+                </td>
+                <th align="right" valign="middle" >
+                    <kul:htmlAttributeLabel attributeEntry="${entityContactInfoAttribute.webAddress1}" />
+                </th>
+                <td align="left" valign="middle">
+                    <kul:htmlControlAttribute property="financialEntityHelper.activeFinancialEntities[${status.index}].finEntityContactInfos[0].webAddress1" 
+                                              attributeEntry="${entityContactInfoAttribute.webAddress1}" /> 
+                </td>
+            </tr>    
+             <tr>
+                <th align="right" valign="middle" >
+                    <kul:htmlAttributeLabel attributeEntry="${entityContactInfoAttribute.addressLine2}" />
+                </th>
+                <td align="left" valign="middle">
+                    <kul:htmlControlAttribute property="financialEntityHelper.activeFinancialEntities[${status.index}].finEntityContactInfos[0].addressLine2" 
+                                              attributeEntry="${entityContactInfoAttribute.addressLine2}" /> 
+                </td>
+                <th align="right" valign="middle" >
+                    <kul:htmlAttributeLabel attributeEntry="${entityContactInfoAttribute.webAddress2}" />
+                </th>
+                <td align="left" valign="middle">
+                    <kul:htmlControlAttribute property="financialEntityHelper.activeFinancialEntities[${status.index}].finEntityContactInfos[0].webAddress2" 
+                                              attributeEntry="${entityContactInfoAttribute.webAddress2}" /> 
+                </td>
+            </tr>    
+             <tr>
+                <th align="right" valign="middle" >
+                    <kul:htmlAttributeLabel attributeEntry="${entityContactInfoAttribute.addressLine3}" />
+                </th>
+                <td align="left" valign="middle">
+                    <kul:htmlControlAttribute property="financialEntityHelper.activeFinancialEntities[${status.index}].finEntityContactInfos[0].addressLine3" 
+                                              attributeEntry="${entityContactInfoAttribute.addressLine3}" /> 
+                </td>
+                <th align="right" valign="middle" >
+                    <kul:htmlAttributeLabel attributeEntry="${entityContactInfoAttribute.city}" />
+                </th>
+                <td align="left" valign="middle">
+                    <kul:htmlControlAttribute property="financialEntityHelper.activeFinancialEntities[${status.index}].finEntityContactInfos[0].city" 
+                                              attributeEntry="${entityContactInfoAttribute.city}" /> 
+                </td>
+            </tr>    
+             <tr>
+                <th align="right" valign="middle" >
+                    <kul:htmlAttributeLabel attributeEntry="${entityContactInfoAttribute.state}" />
+                </th>
+                <td align="left" valign="middle">
+                    <kul:htmlControlAttribute property="financialEntityHelper.activeFinancialEntities[${status.index}].finEntityContactInfos[0].state" 
+                                              attributeEntry="${entityContactInfoAttribute.state}" /> 
+                </td>
+                <th align="right" valign="middle" >
+                    <kul:htmlAttributeLabel attributeEntry="${entityContactInfoAttribute.organizationId}" />
+                </th>
+                <td align="left" valign="middle">
+                    <kul:htmlControlAttribute property="financialEntityHelper.activeFinancialEntities[${status.index}].finEntityContactInfos[0].organizationId" 
+                                              attributeEntry="${entityContactInfoAttribute.organizationId}" /> 
+                </td>
+            </tr>    
+             <tr>
+                <th align="right" valign="middle" >
+                    <kul:htmlAttributeLabel attributeEntry="${entityContactInfoAttribute.postalCode}" />
+                </th>
+                <td align="left" valign="middle">
+                    <kul:htmlControlAttribute property="financialEntityHelper.activeFinancialEntities[${status.index}].finEntityContactInfos[0].postalCode" 
+                                              attributeEntry="${entityContactInfoAttribute.postalCode}" /> 
+                </td>
+                <th align="right" valign="middle" >
+                    <kul:htmlAttributeLabel attributeEntry="${entityContactInfoAttribute.countryCode}" />
+                </th>
+                <td align="left" valign="middle">
+                    <kul:htmlControlAttribute property="financialEntityHelper.activeFinancialEntities[${status.index}].finEntityContactInfos[0].countryCode" 
+                                              attributeEntry="${entityContactInfoAttribute.countryCode}" /> 
+                </td>
+            </tr>    
+            <tr>
+                <th align="right" valign="middle" colspan="2">
+                    <kul:htmlAttributeLabel attributeEntry="${personFinIntDisclAttribute.principalBusinessActivity}" />
+                </th>
+                <td align="left" valign="middle" colspan="2">
+                    <kul:htmlControlAttribute property="financialEntityHelper.activeFinancialEntities[${status.index}].principalBusinessActivity" 
+                                              attributeEntry="${personFinIntDisclAttribute.principalBusinessActivity}" /> 
+                </td>
+           </tr>            
         </table>
                 
                 </td>
                 </tr>
+                
+           <%-- data matrix --%>     
+           <tr>
+             <td colspan="5">
+                 <kra-coi:financialEntityRelationshipDetails prop="financialEntityHelper.editRelationDetails" detailList="${KualiForm.financialEntityHelper.editRelationDetails}"
+                      methodtocall="methodToCall.submit.line${status.index}"/>
+             
+             </td>
+            </tr>     
                 </c:if>
                  
               </tbody> 
@@ -201,22 +282,10 @@
               </tr> 
               <tbody id="G${status.index}i" style="display: none;"> 
               
-                 <tr> 
-                  <td align=left  style="padding:0px; border:none">&nbsp;</td> 
-                  <td colspan="4" align=left  style="padding:0px; border:none"><table cellpadding=0 cellspacing=0 summary="" style=" width:100%"> 
-                      <tbody> 
-                        <tr> 
-                          <td colspan="5" align=left ><strong>History of Changes</strong></td> 
-                        </tr> 
-                        <tr> 
-                          <th align=left>Questionnaire Name</th> 
-                          <th align=left>Questionnaire Description</th> 
-                          <th align=left>Last Update</th> 
-                          <th align=left>Entity Disclosed Location</th> 
-                          <th align=left>Actions</th> 
-                        </tr> 
-                      </tbody> 
-                    </table></td> 
+               <tr>
+                  <td colspan=5>
+                    <kra-coi:financialEntityVersionHistory  financialEntity="${financialEntity}" />
+                 </td>
                 </tr>
                 
                  

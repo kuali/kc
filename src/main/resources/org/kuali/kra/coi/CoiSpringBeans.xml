@@ -49,6 +49,7 @@
      <bean id="financialEntityService" class="org.kuali.kra.coi.personfinancialentity.FinancialEntityServiceImpl">
         <property name="businessObjectService" ref="businessObjectService" />
         <property name="kcPersonService" ref="kcPersonService" />
+        <property name="versioningService" ref="versioningService" />
     </bean>
     
      <bean id="coiDisclosureService" class="org.kuali.kra.coi.disclosure.CoiDisclosureServiceImpl">

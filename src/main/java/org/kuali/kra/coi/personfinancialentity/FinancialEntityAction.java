@@ -31,6 +31,7 @@ import org.kuali.kra.infrastructure.Constants;
 import org.kuali.kra.infrastructure.KeyConstants;
 import org.kuali.kra.infrastructure.KraServiceLocator;
 import org.kuali.kra.rule.event.KraDocumentEventBaseExtension;
+import org.kuali.kra.service.VersionException;
 import org.kuali.rice.kns.service.BusinessObjectService;
 import org.kuali.rice.kns.service.DictionaryValidationService;
 import org.kuali.rice.kns.service.SequenceAccessorService;
@@ -59,10 +60,7 @@ public class FinancialEntityAction extends KualiAction {
     public ActionForward management(ActionMapping mapping, ActionForm form, HttpServletRequest request, HttpServletResponse response)
             throws Exception {
 
-        ((FinancialEntityForm) form).getFinancialEntityHelper().setActiveFinancialEntities(getFinancialEntities(true));
-        ((FinancialEntityForm) form).getFinancialEntityHelper().setInactiveFinancialEntities(getFinancialEntities(false));
-        ((FinancialEntityForm) form).getFinancialEntityHelper().refreshFinancialEntityReporter();
-        ((FinancialEntityForm) form).getFinancialEntityHelper().setNewFinancialEntityReporterUnit(new FinancialEntityReporterUnit());
+        ((FinancialEntityForm) form).getFinancialEntityHelper().initiate();
         return mapping.findForward("management");
     }
 
@@ -78,22 +76,23 @@ public class FinancialEntityAction extends KualiAction {
      */
     public ActionForward submit(ActionMapping mapping, ActionForm form, HttpServletRequest request, HttpServletResponse response)
             throws Exception {
+        FinancialEntityHelper financialEntityHelper = ((FinancialEntityForm) form).getFinancialEntityHelper();
 
         String parameterName = (String) request.getAttribute(KNSConstants.METHOD_TO_CALL_ATTRIBUTE);
         if (parameterName.contains(".new.")) {
-            if (isValidToSave(((FinancialEntityForm) form).getFinancialEntityHelper().getNewPersonFinancialEntity(), NEW_FINANCIAL_ENTITY)) {
+            if (isValidToSave(financialEntityHelper.getNewPersonFinancialEntity(), NEW_FINANCIAL_ENTITY)) {
                 saveNewFinancialEntity(form);
             }
         } else {
             int entityIndex = getSelectedLine(request);
-            PersonFinIntDisclosure personFinIntDisclosure = ((FinancialEntityForm) form).getFinancialEntityHelper()
-                    .getActiveFinancialEntities().get(entityIndex);
+            PersonFinIntDisclosure personFinIntDisclosure = financialEntityHelper.getActiveFinancialEntities().get(entityIndex);
 
             if (isValidToSave(personFinIntDisclosure, "financialEntityHelper.activeFinancialEntities[" + entityIndex + "]")) {
-                saveFinancialEntity(form, personFinIntDisclosure);
+                PersonFinIntDisclosure newVersionDisclosure = getFinancialEntityService().versionPersonFinintDisclosure(personFinIntDisclosure, financialEntityHelper.getEditRelationDetails());
+                saveFinancialEntity(form, newVersionDisclosure);
+              //  saveFinancialEntity(form, personFinIntDisclosure);
             }
             ((FinancialEntityForm) form).getFinancialEntityHelper().setEditEntityIndex(entityIndex);
-
         }
 
 //        ((FinancialEntityForm) form).getFinancialEntityHelper().setActiveFinancialEntities(getFinancialEntities(true));
@@ -119,6 +118,7 @@ public class FinancialEntityAction extends KualiAction {
         PersonFinIntDisclosure personFinIntDisclosure = ((FinancialEntityForm) form).getFinancialEntityHelper()
                 .getActiveFinancialEntities().get(entityIndex);
         ((FinancialEntityForm) form).getFinancialEntityHelper().setEditEntityIndex(entityIndex);
+        ((FinancialEntityForm) form).getFinancialEntityHelper().setEditRelationDetails(getFinancialEntityService().getFinancialEntityDataMatrixForEdit(personFinIntDisclosure.getPerFinIntDisclDetails()));
         // ((FinancialEntityForm) form).getFinancialEntityHelper().setActiveFinancialEntities(getFinancialEntities());
         return mapping.findForward(Constants.MAPPING_BASIC);
     }
@@ -151,6 +151,9 @@ public class FinancialEntityAction extends KualiAction {
         PersonFinIntDisclosure personFinIntDisclosure = ((FinancialEntityForm) form).getFinancialEntityHelper()
                 .getActiveFinancialEntities().get(entityIndex);
         personFinIntDisclosure.setStatusCode(2);
+        // the auto-retrieve is true. If it is not refresh here, then after save, the status code return to '1'
+        // same refresh for 'activate'
+        personFinIntDisclosure.refreshReferenceObject("finIntEntityStatus");
         getBusinessObjectService().save(personFinIntDisclosure);
         ((FinancialEntityForm) form).getFinancialEntityHelper().setActiveFinancialEntities(getFinancialEntities(true));
         ((FinancialEntityForm) form).getFinancialEntityHelper().setInactiveFinancialEntities(getFinancialEntities(false));
@@ -174,6 +177,7 @@ public class FinancialEntityAction extends KualiAction {
         PersonFinIntDisclosure personFinIntDisclosure = ((FinancialEntityForm) form).getFinancialEntityHelper()
                 .getInactiveFinancialEntities().get(entityIndex);
         personFinIntDisclosure.setStatusCode(1);
+        personFinIntDisclosure.refreshReferenceObject("finIntEntityStatus");
         getBusinessObjectService().save(personFinIntDisclosure);
         ((FinancialEntityForm) form).getFinancialEntityHelper().setActiveFinancialEntities(getFinancialEntities(true));
         ((FinancialEntityForm) form).getFinancialEntityHelper().setInactiveFinancialEntities(getFinancialEntities(false));
@@ -184,19 +188,23 @@ public class FinancialEntityAction extends KualiAction {
      * utility method to set up the new financial entity for save
      */
     private void saveNewFinancialEntity(ActionForm form) {
-        PersonFinIntDisclosure personFinIntDisclosure = ((FinancialEntityForm) form).getFinancialEntityHelper()
-                .getNewPersonFinancialEntity();
+        FinancialEntityHelper financialEntityHelper = ((FinancialEntityForm) form).getFinancialEntityHelper();
+        PersonFinIntDisclosure personFinIntDisclosure = financialEntityHelper.getNewPersonFinancialEntity();
         personFinIntDisclosure.setEntityNumber(getSequenceAccessorService().getNextAvailableSequenceNumber("SEQ_ENTITY_NUMBER_S")
                 .toString()); // sequence #
-        personFinIntDisclosure.setRelationshipTypeCode(1);
+        // it seems coeus always save 1.  not sure we need this because it should be in disclosure details
+        personFinIntDisclosure.setRelationshipTypeCode("1");
         personFinIntDisclosure.setSequenceNumber(1);
-       // personFinIntDisclosure.setPersonId(GlobalVariables.getUserSession().getPrincipalId());
+        personFinIntDisclosure.setPerFinIntDisclDetails(getFinancialEntityService().getFinDisclosureDetails(
+                financialEntityHelper.getNewRelationDetails(), personFinIntDisclosure.getEntityNumber(),
+                personFinIntDisclosure.getSequenceNumber()));
+        // personFinIntDisclosure.setPersonId(GlobalVariables.getUserSession().getPrincipalId());
         saveFinancialEntity(form, personFinIntDisclosure);
-        FinancialEntityHelper financialEntityHelper = ((FinancialEntityForm) form).getFinancialEntityHelper();
         financialEntityHelper.setNewPersonFinancialEntity(new PersonFinIntDisclosure());
         financialEntityHelper.getNewPersonFinancialEntity().setCurrentFlag(true);
         financialEntityHelper.getNewPersonFinancialEntity().setPersonId(GlobalVariables.getUserSession().getPrincipalId());
-        financialEntityHelper.getNewPersonFinancialEntity().setFinancialEntityReporterId(financialEntityHelper.getFinancialEntityReporter().getFinancialEntityReporterId());
+        financialEntityHelper.getNewPersonFinancialEntity().setFinancialEntityReporterId(
+                financialEntityHelper.getFinancialEntityReporter().getFinancialEntityReporterId());
     }
 
     public ActionForward addFinancialEntityReporterUnit(ActionMapping mapping, ActionForm form, HttpServletRequest request,
@@ -290,6 +298,14 @@ public class FinancialEntityAction extends KualiAction {
     
     private void recordSubmitActionSuccess(String submitAction) {
         GlobalVariables.getMessageList().add(KeyConstants.MESSAGE_FINANCIAL_ENTITY_ACTION_COMPLETE, submitAction);
+    }
+
+    @Override
+    public ActionForward refresh(ActionMapping mapping, ActionForm form, HttpServletRequest request, HttpServletResponse response)
+            throws Exception {
+        // TODO Auto-generated method stub
+        ActionForward forward = super.refresh(mapping, form, request, response);
+        return forward;
     }
 
 }

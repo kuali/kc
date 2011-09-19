@@ -15,10 +15,14 @@
  */
 package org.kuali.kra.coi.personfinancialentity;
 
+import java.util.Map;
+
 import javax.servlet.ServletRequest;
 import javax.servlet.http.HttpServletRequest;
 
+import org.apache.commons.lang.StringUtils;
 import org.apache.struts.action.ActionMapping;
+import org.kuali.rice.kim.util.KimConstants;
 import org.kuali.rice.kns.document.Document;
 import org.kuali.rice.kns.web.struts.form.KualiForm;
 
@@ -85,7 +89,7 @@ public class FinancialEntityForm  extends KualiForm {
     @Override
     public void populate(HttpServletRequest request) {
         super.populate(request);
-//        populateFalseCheckboxes(request);
+        populateFalseCheckboxes(request);
     }
 
     public FinancialEntityHelper getFinancialEntityHelper() {
@@ -102,30 +106,30 @@ public class FinancialEntityForm  extends KualiForm {
         super.reset(mapping, request);
     }
 
-//    /**
-//     * Uses the "checkboxToReset" parameter to find checkboxes which had not been
-//     * populated in the request and attempts to populate them
-//     * 
-//     * @param request the request to populate
-//     */
-//    @SuppressWarnings("unchecked")
-//    private void populateFalseCheckboxes(HttpServletRequest request) {
-//        Map<String, String[]> parameterMap = request.getParameterMap();
-//        if (parameterMap.get("checkboxToReset") != null) {
-//            final String[] checkboxesToReset = request.getParameterValues("checkboxToReset");
-//            if(checkboxesToReset != null && checkboxesToReset.length > 0) {
-//                for (int i = 0; i < checkboxesToReset.length; i++) {
-//                    String propertyName = (String) checkboxesToReset[i];
-//                    if ( !StringUtils.isBlank(propertyName) && parameterMap.get(propertyName) == null ) {
-//                        populateForProperty(propertyName, KimConstants.KIM_ATTRIBUTE_BOOLEAN_FALSE_STR_VALUE_DISPLAY, parameterMap);
-//                    }  
-//                    else if ( !StringUtils.isBlank(propertyName) && parameterMap.get(propertyName) != null && parameterMap.get(propertyName).length >= 1 && parameterMap.get(propertyName)[0].equalsIgnoreCase("on") ) {
-//                        populateForProperty(propertyName, KimConstants.KIM_ATTRIBUTE_BOOLEAN_TRUE_STR_VALUE_DISPLAY, parameterMap); 
-//                    }
-//                }
-//            }
-//        }
-//    }
+    /**
+     * Uses the "checkboxToReset" parameter to find checkboxes which had not been
+     * populated in the request and attempts to populate them
+     * populateFalseCheckboxes(request) is only for trxdocform, so we have to do it here for this non-trxform
+     * @param request the request to populate
+     */
+    @SuppressWarnings("unchecked")
+    private void populateFalseCheckboxes(HttpServletRequest request) {
+        Map<String, String[]> parameterMap = request.getParameterMap();
+        if (parameterMap.get("checkboxToReset") != null) {
+            final String[] checkboxesToReset = request.getParameterValues("checkboxToReset");
+            if(checkboxesToReset != null && checkboxesToReset.length > 0) {
+                for (int i = 0; i < checkboxesToReset.length; i++) {
+                    String propertyName = (String) checkboxesToReset[i];
+                    if ( !StringUtils.isBlank(propertyName) && parameterMap.get(propertyName) == null ) {
+                        populateForProperty(propertyName, KimConstants.KIM_ATTRIBUTE_BOOLEAN_FALSE_STR_VALUE_DISPLAY, parameterMap);
+                    }  
+                    else if ( !StringUtils.isBlank(propertyName) && parameterMap.get(propertyName) != null && parameterMap.get(propertyName).length >= 1 && parameterMap.get(propertyName)[0].equalsIgnoreCase("on") ) {
+                        populateForProperty(propertyName, KimConstants.KIM_ATTRIBUTE_BOOLEAN_TRUE_STR_VALUE_DISPLAY, parameterMap); 
+                    }
+                }
+            }
+        }
+    }
 
 
 }
