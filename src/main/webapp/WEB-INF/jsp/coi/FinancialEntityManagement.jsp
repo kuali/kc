@@ -175,6 +175,7 @@
 
 
     </SCRIPT> 
+<script language="javascript" src="dwr/interface/RolodexService.js"></script>
 <script language="javascript" src="dwr/interface/SponsorService.js"></script>
 
 </html:html>

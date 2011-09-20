@@ -39,11 +39,21 @@
                         <td class="tab-subhead1">
                             <div align=center>&nbsp;                    
                                 <c:if test="${KualiForm.financialEntityHelper.editEntityIndex != status.index}">
+                                    <c:choose>
+                                         <c:when test="${KualiForm.financialEntityHelper.activeFinancialEntities[status.index].processStatus == 'F'}">
                                     <html:image property="methodToCall.editFinancialEntity.line${status.index}.anchor${currentTabIndex}"
                                         src='${ConfigProperties.kra.externalizable.images.url}tinybutton-edit1.gif' styleClass="tinybutton"/>
+                                         </c:when>
+                                         <c:otherwise>
+                                    <html:image property="methodToCall.editFinancialEntity.line${status.index}.anchor${currentTabIndex}"
+                                        src='${ConfigProperties.kra.externalizable.images.url}tinybutton-resumeedit.gif' styleClass="tinybutton" title="Resume Edit"/>
+                                         </c:otherwise>
+                                    </c:choose>
                                 </c:if>
+                                <c:if test="${KualiForm.financialEntityHelper.activeFinancialEntities[status.index].processStatus == 'F'}">
                                 <html:image property="methodToCall.inactivateFinancialEntity.line${status.index}.anchor${currentTabIndex}"
                                         src='${ConfigProperties.kra.externalizable.images.url}tinybutton-deactivate.gif' styleClass="tinybutton"/>
+                                 </c:if>       
                             </div>
                         </td>
               </tr> 
@@ -72,9 +82,11 @@
                     <kul:htmlAttributeLabel attributeEntry="${personFinIntDisclAttribute.sponsorCode}" readOnly="true" />
                 </th>
                  <td align="left" valign="middle" >
-                    <kul:htmlControlAttribute property="financialEntityHelper.activeFinancialEntities[${status.index}].sponsorCode" attributeEntry="${personFinIntDisclAttribute.sponsorCode}" onblur="loadSponsorName('financialEntityHelper.activeFinancialEntities[${status.index}].sponsorCode', 'sponsorName${status.index}');false" />
+                    <kul:htmlControlAttribute property="financialEntityHelper.activeFinancialEntities[${status.index}].sponsorCode" attributeEntry="${personFinIntDisclAttribute.sponsorCode}" onblur="loadSponsor('financialEntityHelper.activeFinancialEntities[${status.index}].sponsorCode', 'sponsorName', 'financialEntityHelper.prevSponsorCode');false" />
                     <kul:lookup boClassName="org.kuali.kra.bo.Sponsor" fieldConversions="sponsorCode:financialEntityHelper.activeFinancialEntities[${status.index}].sponsorCode,sponsorName:financialEntityHelper.activeFinancialEntities[${status.index}].sponsor.sponsorName" anchor="${tabKey}" />
                     <kul:directInquiry boClassName="org.kuali.kra.bo.Sponsor" inquiryParameters="financialEntityHelper.activeFinancialEntities[${status.index}].sponsorCode:sponsorCode" anchor="${tabKey}" />
+                    <input type="hidden" name="financialEntityHelper.editRolodexId" value="${KualiForm.financialEntityHelper.editRolodexId}" />
+                    <input type="hidden" name="financialEntityHelper.prevSponsorCode" value="${KualiForm.financialEntityHelper.prevSponsorCode}"/>
                     <div id="sponsorName${status.index}.div" >
                         <c:if test="${!empty KualiForm.financialEntityHelper.activeFinancialEntities[status.index].sponsorCode}">
                             <c:choose>

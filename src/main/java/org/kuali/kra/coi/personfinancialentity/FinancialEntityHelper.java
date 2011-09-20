@@ -19,6 +19,7 @@ import java.io.Serializable;
 import java.util.ArrayList;
 import java.util.List;
 
+import org.kuali.kra.infrastructure.Constants;
 import org.kuali.kra.infrastructure.KeyConstants;
 import org.kuali.kra.infrastructure.KraServiceLocator;
 import org.kuali.rice.kns.util.GlobalVariables;
@@ -42,6 +43,9 @@ public class FinancialEntityHelper implements Serializable {
     private List<FinEntityDataMatrixBean> newRelationDetails;
     private List<FinEntityDataMatrixBean> editRelationDetails;
     private Integer newRolodexId;
+    private Integer editRolodexId;
+    private String prevSponsorCode;
+    private String prevNewSponsorCode;
     
     public FinancialEntityHelper(FinancialEntityForm form) {
         newPersonFinancialEntity = new PersonFinIntDisclosure();
@@ -58,6 +62,8 @@ public class FinancialEntityHelper implements Serializable {
         editRelationDetails = new ArrayList<FinEntityDataMatrixBean>(); 
         editEntityIndex = -1;
         newRolodexId = -1;
+        prevSponsorCode = Constants.EMPTY_STRING;
+        prevNewSponsorCode = Constants.EMPTY_STRING;
         this.form = form;
     }
 
@@ -200,7 +206,11 @@ public class FinancialEntityHelper implements Serializable {
         this.setNewFinancialEntityReporterUnit(new FinancialEntityReporterUnit());
         newRelationDetails = getFinancialEntityService().getFinancialEntityDataMatrix();
         editRelationDetails = new ArrayList<FinEntityDataMatrixBean>(); 
+        editEntityIndex = -1;
+        prevSponsorCode = Constants.EMPTY_STRING;
+        prevNewSponsorCode = Constants.EMPTY_STRING;
         newRolodexId = -1;
+        editRolodexId = -1;
     }
     
     private List<PersonFinIntDisclosure> getFinancialEntities(boolean active) {
@@ -216,6 +226,39 @@ public class FinancialEntityHelper implements Serializable {
     public void setNewRolodexId(Integer newRolodexId) {
         this.newRolodexId = newRolodexId;
     }
+
+
+    public String getPrevSponsorCode() {
+        return prevSponsorCode;
+    }
+
+
+    public void setPrevSponsorCode(String prevSponsorCode) {
+        this.prevSponsorCode = prevSponsorCode;
+    }
+
+
+    public Integer getEditRolodexId() {
+        return editRolodexId;
+    }
+
+
+    public void setEditRolodexId(Integer editRolodexId) {
+        this.editRolodexId = editRolodexId;
+    }
+
+
+    public String getPrevNewSponsorCode() {
+        return prevNewSponsorCode;
+    }
+
+
+    public void setPrevNewSponsorCode(String prevNewSponsorCode) {
+        this.prevNewSponsorCode = prevNewSponsorCode;
+    }
     
+    public void resetPrevSponsorCode() {
+        setPrevSponsorCode(getActiveFinancialEntities().get(editEntityIndex).getSponsorCode());
+    }
 
  }

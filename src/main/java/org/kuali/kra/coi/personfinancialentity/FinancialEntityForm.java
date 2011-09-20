@@ -70,8 +70,7 @@ public class FinancialEntityForm  extends KualiForm {
     @Override
     public void reset(final ActionMapping mapping, final HttpServletRequest request) {
         super.reset(mapping, request);
-        getFinancialEntityHelper().setEditEntityIndex(-1);
-//        this.getMeetingHelper().setAbsenteeList("");
+//        getFinancialEntityHelper().setEditEntityIndex(-1);
     }
 
     public boolean isReadOnly() {
