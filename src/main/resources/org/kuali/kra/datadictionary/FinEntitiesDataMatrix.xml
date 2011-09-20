@@ -71,8 +71,8 @@
         <property name="label" value="Column Label" />
         <property name="shortLabel" value="Column Label" />
         <property name="maxLength" value="30" />
-        <property name="validationPattern" >
-            <bean parent="AlphaNumericValidationPattern" />
+        <property name="validationPattern">
+            <bean p:allowWhitespace="true" parent="AnyCharacterValidationPattern"/>
         </property>
         <property name="control" >
             <bean parent="TextControlDefinition"
@@ -107,12 +107,12 @@
         <property name="label" value="Lookup Argument" />
         <property name="shortLabel" value="Lookup Argument" />
         <property name="maxLength" value="30" />
-        <property name="validationPattern" >
-            <bean parent="AlphaNumericValidationPattern" />
+        <property name="validationPattern">
+            <bean p:allowWhitespace="true" parent="AnyCharacterValidationPattern"/>
         </property>
         <property name="control" >
             <bean parent="TextControlDefinition"
-                p:size="10" />
+                p:size="30" />
         </property>
         <property name="summary" value="Lookup Argument" />
         <property name="description" value="Lookup Argument" />
@@ -124,13 +124,13 @@
         <property name="forceUppercase" value="false" />
         <property name="label" value="Data Group Id" />
         <property name="shortLabel" value="Data Group Id" />
-        <property name="maxLength" value="22" />
+        <property name="maxLength" value="12" />
         <property name="validationPattern" >
             <bean parent="NumericValidationPattern" />
         </property>
         <property name="control" >
             <bean parent="TextControlDefinition"
-                p:size="10" />
+                p:size="12" />
         </property>
         <property name="summary" value="Data Group Id" />
         <property name="description" value="Data Group Id" />
@@ -151,13 +151,13 @@
         <property name="forceUppercase" value="false" />
         <property name="label" value="Column Sort Id" />
         <property name="shortLabel" value="Column Sort Id" />
-        <property name="maxLength" value="22" />
+        <property name="maxLength" value="3" />
         <property name="validationPattern" >
             <bean parent="NumericValidationPattern" />
         </property>
         <property name="control" >
             <bean parent="TextControlDefinition"
-                p:size="10" />
+                p:size="3" />
         </property>
         <property name="summary" value="Column Sort Id" />
         <property name="description" value="Column Sort Id" />

@@ -67,12 +67,12 @@
         <property name="label" value="Data Group Name" />
         <property name="shortLabel" value="Data Group Name" />
         <property name="maxLength" value="30" />
-        <property name="validationPattern" >
-            <bean parent="AlphaNumericValidationPattern" />
+        <property name="validationPattern">
+            <bean p:allowWhitespace="true" parent="AnyCharacterValidationPattern"/>
         </property>
         <property name="control" >
             <bean parent="TextControlDefinition"
-                p:size="10" />
+                p:size="30" />
         </property>
         <property name="summary" value="Data Group Name" />
         <property name="description" value="Data Group Name" />
