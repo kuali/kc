@@ -58,12 +58,11 @@
 				<artifactId>cxf-codegen-plugin</artifactId>
 				<version>${cxf.version}</version>
 				<executions>
-					  <execution>
+					<execution>
 						<id>generate-apply-grants-gov</id>
 						<phase>generate-sources</phase>
 						<inherited>false</inherited>
 						<configuration>
-							<!-- maven 3 conventions - works with current m2Eclipse -->
 							<sourceRoot>${project.build.directory}/generated/cxf/main/java</sourceRoot>
 							<disableDirectoryScan>true</disableDirectoryScan>
 							<wsdlOptions>
@@ -87,7 +86,6 @@
 						<phase>generate-sources</phase>
 						<inherited>false</inherited>
 						<configuration>
-							<!-- maven 3 conventions - works with current m2Eclipse -->
 							<sourceRoot>${project.build.directory}/generated/cxf/main/java</sourceRoot>
 							<disableDirectoryScan>true</disableDirectoryScan>
 							<wsdlOptions>
@@ -115,7 +113,6 @@
 						<phase>generate-sources</phase>
 						<inherited>false</inherited>
 						<configuration>
-							<!-- maven 3 conventions - works with current m2Eclipse -->
 							<sourceRoot>${project.build.directory}/generated/cxf/main/java</sourceRoot>
 							<disableDirectoryScan>true</disableDirectoryScan>
 							<wsdlOptions>
@@ -138,7 +135,7 @@
 							<goal>wsdl2java</goal>
 						</goals>
 					</execution>
-				</executions>
+ 				</executions>
 				<dependencies>
                     <dependency>
                         <groupId>org.apache.cxf</groupId>
@@ -227,21 +224,12 @@
 	                    </goals>
 	                    <configuration>
 	                        <rules>
+			          	        <requireJavaVersion>
+                    		        <version>1.6</version>
+                  		        </requireJavaVersion>
 	                            <requireMavenVersion>
 	                                <version>[3.0,4.0)</version>
 	                            </requireMavenVersion>
-						  
-								<!--
-								Maven 3 Migration: This rule is not supported by Maven 3.
-								See: http://jira.codehaus.org/browse/MENFORCER-98
-								-->
-								<requirePluginVersions>
-									<message>Specifying a plugin w/o a version is a deprecated feature b/c it can cause non-reproducible builds</message>
-									<banLatest>true</banLatest>
-									<banRelease>true</banRelease>
-									<banSnapshots>true</banSnapshots>
-									<phases>clean,deploy,site</phases>
-								</requirePluginVersions>
 						  
 								<!--
 								When upgrading to rice 1.1 it is recommended to merge in the banned dependencies from rice's parent pom.
@@ -249,23 +237,98 @@
 								-->
 								<bannedDependencies>
 									<excludes>
-									<!-- jdom's groupid was changed causing duplicates to be included - excluding the old jdom -->
-									<exclude>jdom:jdom</exclude>
-									<!-- already including a geronimo version of this -->
-									<exclude>stax-api</exclude>
-									<!-- already including a geronimo version of this -->
-									<exclude>javax.activation:activation</exclude>
-									<!-- already including a geronimo version of this -->
-									<exclude>javax.mail:mail</exclude>
-									<!-- already including cglib-nodep -->
-									<exclude>cglib:cglib</exclude>
-									<!-- quartz's groupid was changed causing duplicates to be included - excluding the old quartz -->
-									<exclude>opensymphony:quartz</exclude>
-									<!-- bouncycastle's groupid was changed causing duplicates to be included - excluding the old bouncycastle -->
-									<exclude>bouncycastle</exclude>
-									<!-- already including slf4j's commons-logging implementation -->
-									<exclude>commons-logging</exclude>
+										<exclude>ojb</exclude>
+										<!-- renamed (decrecated) groupids -->
+										<exclude>wss4j</exclude>
+										<exclude>acegisecurity</exclude>
+										<exclude>xstream</exclude>
+										<exclude>uk.ltd.getahead</exclude>
+										<exclude>quartz</exclude>
+										<exclude>jdom</exclude>
+										<exclude>groovy</exclude>
+										<exclude>bouncycastle</exclude>
+										<exclude>opensymphony:quartz</exclude>
+										<exclude>javassist</exclude>
+										
+										<!-- jcl-over-slf4j is an alternate implementation of commons-logging - excluding commons-logging -->
+										<exclude>commons-logging</exclude>
+										<!-- already including a different jcl-over-slf4j -->
+										<exclude>org.slf4j:jcl104-over-slf4j</exclude>
+										<!-- excluding all slf4j -->
+										<exclude>org.slf4j</exclude>
+										
+										<!-- already including cglib-nodep -->
+										<exclude>cglib:cglib</exclude>
+										<!-- already including the jdk15 version -->
+										<exclude>org.bouncycastle:bcprov-jdk14</exclude>
+										
+										<!-- already including javax.mail -->
+										<exclude>javamail</exclude>
+										<exclude>geronimo:geronimo-mail</exclude>
+										<exclude>org.apache.geronimo.javamail:geronimo-javamail_1.4_mail</exclude>
+										<exclude>org.apache.geronimo.javamail:geronimo-javamail_1.3.1_mail</exclude>
+										<exclude>org.apache.geronimo.modules:geronimo-mail</exclude>
+										<exclude>org.apache.geronimo.specs:geronimo-javamail_1.4_spec</exclude>
+										<exclude>org.apache.geronimo.specs:geronimo-javamail_1.3.1_spec</exclude>
+										
+										<!-- already including javax.transation -->
+										<exclude>org.apache.geronimo.specs:geronimo-jta_1.1_spec</exclude>
+										<exclude>org.apache.geronimo.specs:geronimo-jta_1.0.1B_spec</exclude>
+										<exclude>geronimo-spec:geronimo-spec-jta</exclude>
+										<exclude>org.ow2.spec.ee:ow2-jta-1.1-spec</exclude>
+										<exclude>jta</exclude>
+										
+										<!-- activation apis - in jdk 6 -->
+										<exclude>javax.activation</exclude>
+										<exclude>org.apache.geronimo.specs:geronimo-activation_1.0.2_spec</exclude>
+										<exclude>org.apache.geronimo.specs:geronimo-activation_1.1_spec</exclude>
+										
+										<!-- metadata apis - in jdk 6 -->
+										<exclude>javax.jws</exclude>
+										
+										<!-- These are repackaged parser apis - some of these apis are
+										     included in jdk 6. The non-jdk parsers can be added indivually if needed. -->
+										<exclude>xerces:xmlParserAPIs</exclude>
+										<exclude>xml-apis</exclude>
+										
+										<!-- group ids for many sun xml apis - in jdk 6 -->
+										<exclude>javax.xml</exclude>
+										<exclude>com.sun.xml</exclude>
+										
+										<!-- jaxb apis - in jdk 6 -->
+										<exclude>org.apache.geronimo.specs:geronimo-jaxb_2.1_spec</exclude>
+										<exclude>org.apache.geronimo.specs:geronimo-jaxb_2.2_spec</exclude>
+										
+										<!-- jaxws apis - in jdk 6 -->
+										<exclude>javax.xml.ws</exclude>
+										<exclude>com.sun.xml.ws</exclude>
+										<exclude>org.apache.geronimo.specs:geronimo-jaxws_2.1_spec</exclude>
+										<exclude>org.apache.geronimo.specs:geronimo-jaxws_2.2_spec</exclude>
+										
+										<!-- stax apis - in jdk 6 -->
+										<exclude>javax.xml.stream</exclude>
+										<exclude>com.sun.xml.stream</exclude>
+										<exclude>org.apache.geronimo.specs:geronimo-stax-api_1.2_spec</exclude>
+										<exclude>stax</exclude>
+										
+										<!-- jaxp apis - in jdk 6 -->
+										<exclude>javax.xml.parsers</exclude>
+										<exclude>com.sun.xml.parsers</exclude>
+										<exclude>org.apace.servicemix.specs:org.apache.servicemix.specs.jaxp-api-1.4</exclude>
+										<exclude>org.apache.servicemix.specs:org.apache.servicemix.specs.jaxp-api-1.3</exclude>
+										
+										<!-- saaj apis - in jdk 6 -->
+										<exclude>javax.xml.soap:saaj-impl</exclude>
+										<exclude>com.sun.xml.messaging.saaj</exclude>
+										<exclude>org.apache.geronimo.specs:geronimo-saaj_1.3_spec</exclude>
+										<exclude>geronimo-spec:geronimo-spec-saaj</exclude>
+										<exclude>org.apache.servicemix.specs:org.apache.servicemix.specs.saaj-api-1.3</exclude>
 									</excludes>
+	
+				                    <includes>
+										<!-- only allow in this specific version -->
+										<include>org.slf4j:*:${slf4j.version}</include>
+				                    </includes>
 								</bannedDependencies>
 							</rules>
 	                        <fail>true</fail>
@@ -512,15 +575,19 @@
 		    <artifactId>displaytag</artifactId>
 		    <version>1.1.1</version>
 			<exclusions>
-				<exclusion>
+                <exclusion>
+                    <groupId>org.slf4j</groupId>
+                    <artifactId>slf4j-api</artifactId>
+                </exclusion>
+                <exclusion>
+                    <groupId>org.slf4j</groupId>
+					<artifactId>jcl104-over-slf4j</artifactId>
+				</exclusion>
+                <exclusion>
 					<groupId>itext</groupId>
 					<artifactId>itext</artifactId>
-				</exclusion>
-				<exclusion>
-					<artifactId>jcl104-over-slf4j</artifactId>
-					<groupId>org.slf4j</groupId>
-				</exclusion>
-			</exclusions>
+                </exclusion>          
+            </exclusions>
 		</dependency>
 		<dependency>
 		    <groupId>dom4j</groupId>
@@ -534,25 +601,40 @@
 		    </exclusions>
 		</dependency>
 		<dependency>
+	        <groupId>javax.mail</groupId>
+	        <artifactId>mail</artifactId>
+	        <version>${mail.version}</version>
+	        <exclusions>
+	          <exclusion>
+	            <groupId>javax.activation</groupId>
+	            <artifactId>activation</artifactId>
+	          </exclusion>
+	        </exclusions>
+      	</dependency>
+		<dependency>
 		    <groupId>dwr</groupId>
 		    <artifactId>dwr</artifactId>
 		    <version>1.1.3</version>
 		    <exclusions>
+                <exclusion>
+                    <groupId>bsf</groupId>
+                    <artifactId>bsf</artifactId>
+                </exclusion>
 		    	<exclusion>
-          			<groupId>jdom</groupId>
-          			<artifactId>jdom</artifactId>
+                    <groupId>commons-logging</groupId>
+	                <artifactId>commons-logging</artifactId>
         		</exclusion>
 		    	<exclusion>
-		    		<artifactId>bsf</artifactId>
-		    		<groupId>bsf</groupId>
+	                <groupId>xerces</groupId>
+	                <artifactId>xmlParserAPIs</artifactId>
 		    	</exclusion>
 		    	<exclusion>
-		    		<artifactId>commons-logging</artifactId>
-		    		<groupId>commons-logging</groupId>
+	                <groupId>jdom</groupId>
+	                <artifactId>jdom</artifactId>
 		    	</exclusion>
 		    	<exclusion>
-		    		<groupId>xerces</groupId>
-					<artifactId>xmlParserAPIs</artifactId>
+	                <groupId>xml-apis</groupId>
+	                <artifactId>xml-apis</artifactId>
 		    	</exclusion>
 		    </exclusions>
 		</dependency>
@@ -573,22 +655,6 @@
 			<artifactId>jstl</artifactId>
 			<version>${jstl.version}</version>
 		</dependency>
-		<!-- remove once we are on jdk 6 -->
-		<dependency>
-			<groupId>javax.xml.bind</groupId>
-			<artifactId>jaxb-api</artifactId>
-			<version>2.1</version>
-			<exclusions>
-				<exclusion>
-					<artifactId>stax-api</artifactId>
-					<groupId>javax.xml.stream</groupId>
-				</exclusion>
-				<exclusion>
-					<artifactId>activation</artifactId>
-					<groupId>javax.activation</groupId>
-				</exclusion>
-			</exclusions>
-		</dependency>
 		<dependency>
 		    <groupId>log4j</groupId>
 		    <artifactId>log4j</artifactId>
@@ -608,8 +674,12 @@
 			<scope>test</scope>
 			<exclusions>
 				<exclusion>
+					<groupId>commons-logging</groupId>
 		    		<artifactId>commons-logging</artifactId>
-		    		<groupId>commons-logging</groupId>
+		    	</exclusion>
+		    	<exclusion>
+		    		<groupId>xerces</groupId>
+		    		<artifactId>xercesImpl</artifactId>
 		    	</exclusion>
 			</exclusions>
 		</dependency>
@@ -627,6 +697,10 @@
 		    		<groupId>xercesImpl</groupId>
 		    	</exclusion>
 		    	<exclusion>
+		            <groupId>xalan</groupId>
+		            <artifactId>xalan</artifactId>
+		        </exclusion>		    	
+		    	<exclusion>
 		    		<artifactId>cglib</artifactId>
 		    		<groupId>cglib</groupId>
 		    	</exclusion>
@@ -634,6 +708,10 @@
 		    		<artifactId>commons-logging</artifactId>
 		    		<groupId>commons-logging</groupId>
 		    	</exclusion>
+				<exclusion>
+		            <artifactId>commons-beanutils</artifactId>
+		            <groupId>commons-beanutils</groupId>
+		        </exclusion>		    	
 		    </exclusions>
 		</dependency>
 		<dependency>
@@ -645,17 +723,58 @@
 		    		<artifactId>commons-logging</artifactId>
 		    		<groupId>commons-logging</groupId>
 		    	</exclusion>
+				<exclusion>
+		            <groupId>org.apache.geronimo.specs</groupId>
+		            <artifactId>geronimo-activation_1.1_spec</artifactId>
+		        </exclusion>		    	
 			</exclusions>
 		</dependency>
 		<dependency>
 			<groupId>org.apache.cxf</groupId>
 			<artifactId>cxf-rt-core</artifactId>
 			<version>${cxf.version}</version>
+			<exclusions>
+	          <exclusion>
+	            <groupId>org.apache.geronimo.specs</groupId>
+	            <artifactId>geronimo-javamail_1.4_spec</artifactId>
+	          </exclusion>
+	        </exclusions>			
 		</dependency>
 		<dependency>
 			<groupId>org.apache.cxf</groupId>
 			<artifactId>cxf-rt-frontend-jaxws</artifactId>
 			<version>${cxf.version}</version>
+ 			<exclusions>
+              <!-- avoids conflict with javamail -->
+	          <exclusion>
+	            <groupId>org.apache.geronimo.specs</groupId>
+	            <artifactId>geronimo-javamail_1.4_spec</artifactId>
+	          </exclusion>
+	          <exclusion>
+	            <groupId>org.apache.geronimo.specs</groupId>
+	            <artifactId>geronimo-activation_1.1_spec</artifactId>
+	          </exclusion>
+	          <exclusion>
+	            <groupId>org.apache.geronimo.specs</groupId>
+	            <artifactId>geronimo-ws-metadata_2.0_spec</artifactId>
+	          </exclusion>
+	          <exclusion>
+	            <groupId>org.apache.geronimo.specs</groupId>
+	            <artifactId>geronimo-jaxws_2.1_spec</artifactId>
+	          </exclusion>
+	          <exclusion>
+	            <groupId>org.apache.geronimo.specs</groupId>
+	            <artifactId>geronimo-annotation_1.0_spec</artifactId>
+	          </exclusion>
+	          <exclusion>
+	            <groupId>javax.xml.soap</groupId>
+	            <artifactId>saaj-api</artifactId>
+	          </exclusion>
+	          <exclusion>
+	            <groupId>com.sun.xml.messaging.saaj</groupId>
+	            <artifactId>saaj-impl</artifactId>
+	          </exclusion>
+	        </exclusions>			
 		</dependency>
 		<dependency>
 			<groupId>org.apache.cxf</groupId>
@@ -672,30 +791,6 @@
 		    		<groupId>commons-logging</groupId>
 		    	</exclusion>
 			</exclusions>
-		</dependency>
-		<!-- replaces banned dependency javax.activation -->
-		<!-- remove once we are on jdk 6 -->
-		<dependency>
-			<groupId>org.apache.geronimo.specs</groupId>
-			<artifactId>geronimo-activation_1.1_spec</artifactId>
-			<version>1.1</version>
-		</dependency>
-		<!-- replaces banned dependency javax.mail -->
-		<dependency>
-			<groupId>org.apache.geronimo.specs</groupId>
-			<artifactId>geronimo-javamail_1.4_spec</artifactId>
-			<version>1.7.1</version>
-		</dependency>
-		<!-- remove once we are on jdk 6 -->
-		<dependency>
-			<groupId>org.apache.geronimo.specs</groupId>
-			<artifactId>geronimo-jaxws_2.1_spec</artifactId>
-			<version>1.0</version>
-		</dependency>
-		<dependency>
-			<groupId>org.apache.geronimo.specs</groupId>
-			<artifactId>geronimo-ws-metadata_2.0_spec</artifactId>
-			<version>1.1.3</version>
 		</dependency>
 		<dependency>
 			<groupId>org.apache.santuario</groupId>
@@ -726,12 +821,12 @@
 			<version>0.93</version>
 			<exclusions>
 				<exclusion>
-					<artifactId>xmlParserAPIs</artifactId>
 					<groupId>xml-apis</groupId>
+					<artifactId>xmlParserAPIs</artifactId>
 				</exclusion>
 				<exclusion>
-		    		<artifactId>commons-logging</artifactId>
 		    		<groupId>commons-logging</groupId>
+		    		<artifactId>commons-logging</artifactId>
 		    	</exclusion>
 			</exclusions>
 		</dependency>
@@ -1114,12 +1209,12 @@
 			<version>${struts.version}</version>
 			<exclusions>
 				<exclusion>
-					<artifactId>standard</artifactId>
 					<groupId>taglibs</groupId>
+					<artifactId>standard</artifactId>
 				</exclusion>
 				<exclusion>
-					<artifactId>jstl</artifactId>
 					<groupId>javax.servlet</groupId>
+					<artifactId>jstl</artifactId>
 				</exclusion>
 				<exclusion>
 		    		<artifactId>commons-logging</artifactId>
@@ -1137,18 +1232,6 @@
 		    		<groupId>xml-apis</groupId>
 		    	</exclusion>
 		    </exclusions>
-		</dependency>
-		<dependency>
-			<groupId>xml-apis</groupId>
-			<artifactId>xml-apis</artifactId>
-			<version>1.3.04</version>
-			<scope>provided</scope>
-		</dependency>
-		<dependency>
-			<groupId>xerces</groupId>
-			<artifactId>xmlParserAPIs</artifactId>
-			<version>2.6.2</version>
-			<scope>provided</scope>
 		</dependency>
 	</dependencies>
 
@@ -1504,6 +1587,7 @@
 		<jetty.version>7.2.0.v20101020</jetty.version>
 		<jmock.version>2.5.1</jmock.version>
 		<jstl.version>1.1.2</jstl.version>
+		<mail.version>1.4.4</mail.version>
 		<mysql.version>5.1.13</mysql.version>
 		<oracle.version>10.2.0.3.0</oracle.version>
 		<rice.version>1.0.3.3</rice.version>
