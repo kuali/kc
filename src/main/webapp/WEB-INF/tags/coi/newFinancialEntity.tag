@@ -25,9 +25,12 @@
                     <kul:htmlAttributeLabel attributeEntry="${personFinIntDisclAttribute.sponsorCode}" readOnly="true" />
                 </th>
                  <td align="left" valign="middle">
-                	<kul:htmlControlAttribute property="financialEntityHelper.newPersonFinancialEntity.sponsorCode" attributeEntry="${personFinIntDisclAttribute.sponsorCode}" onblur="loadSponsorName('financialEntityHelper.newPersonFinancialEntity.sponsorCode', 'sponsorName');false" />
+                    <%-- kul:htmlControlAttribute property="financialEntityHelper.newPersonFinancialEntity.sponsorCode" attributeEntry="${personFinIntDisclAttribute.sponsorCode}" onblur="loadSponsor('financialEntityHelper.newPersonFinancialEntity.sponsorCode', 'sponsorName', 'financialEntityHelper.newRolodexId');loadEntityContactInfoFromRolodex('financialEntityHelper.newRolodexId','financialEntityHelper.newPersonFinancialEntity.finEntityContactInfos[0]');false" / --%>
+                    <kul:htmlControlAttribute property="financialEntityHelper.newPersonFinancialEntity.sponsorCode" attributeEntry="${personFinIntDisclAttribute.sponsorCode}" onblur="loadSponsor('financialEntityHelper.newPersonFinancialEntity.sponsorCode', 'sponsorName', 'financialEntityHelper.prevNewSponsorCode');false" />
                 	<kul:lookup boClassName="org.kuali.kra.bo.Sponsor" fieldConversions="sponsorCode:financialEntityHelper.newPersonFinancialEntity.sponsorCode,sponsorName:financialEntityHelper.newPersonFinancialEntity.sponsor.sponsorName,postalCode:financialEntityHelper.newPersonFinancialEntity.finEntityContactInfos[0].postalCode,countryCode:financialEntityHelper.newPersonFinancialEntity.finEntityContactInfos[0].countryCode,rolodexId:financialEntityHelper.newRolodexId" anchor="${tabKey}" />
                     <kul:directInquiry boClassName="org.kuali.kra.bo.Sponsor" inquiryParameters="financialEntityHelper.newPersonFinancialEntity.sponsorCode:sponsorCode" anchor="${tabKey}" />
+                    <input type="hidden" name="financialEntityHelper.newRolodexId" value="${KualiForm.financialEntityHelper.newRolodexId}" />
+                    <input type="hidden" name="financialEntityHelper.prevNewSponsorCode" value="${KualiForm.financialEntityHelper.prevNewSponsorCode}"/>
                     <div id="sponsorName.div" >
                         <c:if test="${!empty KualiForm.financialEntityHelper.newPersonFinancialEntity.sponsorCode}" >
             				<c:choose>

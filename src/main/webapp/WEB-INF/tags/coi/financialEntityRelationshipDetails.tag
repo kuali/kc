@@ -79,6 +79,10 @@
                 <tr>
                     <td align="center" colspan="${fn:length(KualiForm.financialEntityHelper.finEntityRelationshipTypes) + 2}">
                         <div align="center">
+                           <c:if test="${fn:contains(methodtocall, 'line')}">
+                            <html:image property="${fn:replace(methodtocall,'submit','save')}.anchor${tabKey}"
+                                        src='${ConfigProperties.kew.url}/images/tinybutton-save.gif' styleClass="tinybutton"/>
+                            </c:if>            
                             <html:image property="${methodtocall}.anchor${tabKey}"
                                         src='${ConfigProperties.kra.externalizable.images.url}tinybutton-submit.gif' styleClass="tinybutton"/>
                         </div>

@@ -143,6 +143,7 @@
         <field-descriptor name="principalBusinessActivity" column="PRINCIPAL_BUSINESS_ACTIVITY" jdbc-type="VARCHAR" />
         <field-descriptor name="relatedToOrganizationFlag" column="RELATED_TO_ORG_FLAG" jdbc-type="VARCHAR" conversion="org.kuali.rice.kns.util.OjbCharBooleanConversion"/>
         <field-descriptor name="currentFlag" column="CURRENT_FLAG" jdbc-type="VARCHAR" conversion="org.kuali.rice.kns.util.OjbCharBooleanConversion"/>
+        <field-descriptor name="processStatus" column="PROCESS_STATUS" jdbc-type="VARCHAR"/>
 		<field-descriptor name="orgRelationDescription" column="ORG_RELATION_DESCRIPTION" jdbc-type="VARCHAR" />
 		<field-descriptor name="sponsorCode" column="SPONSOR_CODE" jdbc-type="VARCHAR" />
 		<field-descriptor name="updateTimestamp" column="UPDATE_TIMESTAMP" jdbc-type="TIMESTAMP" />
