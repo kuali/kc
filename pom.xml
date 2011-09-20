@@ -248,7 +248,6 @@
 										<exclude>groovy</exclude>
 										<exclude>bouncycastle</exclude>
 										<exclude>opensymphony:quartz</exclude>
-										<exclude>javassist</exclude>
 										
 										<!-- jcl-over-slf4j is an alternate implementation of commons-logging - excluding commons-logging -->
 										<exclude>commons-logging</exclude>
