@@ -22,7 +22,7 @@
 	</init>
 	<allow>
 		<convert converter="bean" match="org.kuali.kra.bo.Sponsor">
-			<param name="include" value="sponsorCode,sponsorName" />
+			<param name="include" value="sponsorCode,sponsorName,rolodexId" />
 		</convert>
 		<convert converter="bean" match="org.kuali.kra.budget.personnel.JobCode">
 			<param name="include" value="jobCode" />
@@ -34,7 +34,7 @@
 			<param name="include" value="unitNumber,unitName" />			
 		</convert>	
 		<convert converter="bean" match="org.kuali.kra.bo.Rolodex">
-			<param name="include" value="fullName,rolodexId,unit,emailAddress,phoneNumber,organization" />
+			<param name="include" value="fullName,rolodexId,unit,emailAddress,phoneNumber,organization,addressLine1,addressLine2,addressLine3,city,state,countryCode,postalCode" />
 		</convert>
 
 						
@@ -161,7 +161,7 @@
 			<include method="getRolodexId" />
 			<include method="getEmailAddress" />
 			<include method="getPhoneNumber" />
-			<include method="getOrganization" />
+            <include method="getOrganization" />
 		</create>
 		<create creator="spring" javascript="StateService">
 +            <param name="beanName" value="stateService" />
