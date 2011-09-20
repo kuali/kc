@@ -189,8 +189,8 @@
     <property name="forceUppercase" value="false" />
     <property name="label" value="Activity Description" />
     <property name="shortLabel" value="Activity Desc" />
-    <property name="required" value="false" />
-    <property name="maxLength" value="4000" />
+    <property name="required" value="true" />
+    <property name="maxLength" value="2000" />
     <property name="validationPattern" >
       <bean parent="AnyCharacterValidationPattern" p:allowWhitespace="true" />
     </property>
