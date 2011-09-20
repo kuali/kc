@@ -23,6 +23,7 @@ import java.util.Set;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 
+import org.apache.commons.lang.ObjectUtils;
 import org.apache.commons.lang.StringUtils;
 import org.apache.struts.action.ActionForm;
 import org.apache.struts.action.ActionForward;
@@ -32,6 +33,7 @@ import org.kuali.kra.bo.Organization;
 import org.kuali.kra.bo.Sponsor;
 import org.kuali.kra.infrastructure.Constants;
 import org.kuali.kra.infrastructure.KeyConstants;
+import org.kuali.kra.infrastructure.KraServiceLocator;
 import org.kuali.kra.negotiations.bo.Negotiation;
 import org.kuali.kra.negotiations.bo.NegotiationActivity;
 import org.kuali.kra.negotiations.bo.NegotiationActivityAttachment;
@@ -39,6 +41,7 @@ import org.kuali.kra.negotiations.bo.NegotiationAgreementType;
 import org.kuali.kra.negotiations.bo.NegotiationAssociationType;
 import org.kuali.kra.negotiations.bo.NegotiationStatus;
 import org.kuali.kra.negotiations.bo.NegotiationUnassociatedDetail;
+import org.kuali.kra.negotiations.service.NegotiationService;
 import org.kuali.kra.negotiations.web.struts.form.NegotiationForm;
 import org.kuali.kra.web.struts.action.StrutsConfirmation;
 import org.kuali.rice.kns.util.KNSConstants;
@@ -50,6 +53,8 @@ import org.kuali.rice.kns.util.KNSConstants;
 public class NegotiationNegotiationAction extends NegotiationAction {
     
     private static final org.apache.commons.logging.Log LOG = org.apache.commons.logging.LogFactory.getLog(NegotiationNegotiationAction.class);
+    
+    private NegotiationService negotiationService;
     
     @Override
     public ActionForward execute(ActionMapping mapping, ActionForm form, HttpServletRequest request, HttpServletResponse response) throws Exception {
@@ -90,11 +95,23 @@ public class NegotiationNegotiationAction extends NegotiationAction {
         NegotiationForm negotiationForm = (NegotiationForm) form;
         loadCodeObjects(negotiationForm.getNegotiationDocument().getNegotiation());
         Negotiation negotiation = negotiationForm.getNegotiationDocument().getNegotiation();
+        Negotiation oldNegotiation = getBusinessObjectService().findBySinglePrimaryKey(Negotiation.class, negotiation.getNegotiationId());
         if (negotiation.getNegotiationStatus() != null 
-                && StringUtils.equals(negotiation.getNegotiationStatus().getCode(), NegotiationStatus.CODE_IN_PROGRESS)) {
+                && getNegotiationService().getInProgressStatusCodes().contains(negotiation.getNegotiationStatus().getCode())) {
             //in the in progress status, the end date field is disabled, so this prvents a problem with moving back from
             //completed or suspended to in progress.
             negotiation.setNegotiationEndDate(null);
+        } else if (negotiation.getNegotiationEndDate() != null 
+                && oldNegotiation != null && oldNegotiation.getNegotiationStatus() != null 
+                && getNegotiationService().getInProgressStatusCodes().contains(oldNegotiation.getNegotiationStatus().getCode())
+                && negotiation.getNegotiationStatus() != null 
+                && getNegotiationService().getCompletedStatusCodes().contains(negotiation.getNegotiationStatus().getCode())) {
+            if (negotiationForm.getNegotiationActivityHelper().hasPendingActivities()) {
+                ActionForward confirmAction = confirm(buildParameterizedConfirmationQuestion(mapping, form, request, response, 
+                        "changePendingActivitiesKey", KeyConstants.NEGOTIATION_CLOSE_PENDING_ACTIVITIES), 
+                        "closeAllPendingActivitiesAndSave", "resetNegotiationStatus");
+                return confirmAction;
+            }
         }
         ActionForward actionForward = super.save(mapping, form, request, response);
         if (negotiation.getUnAssociatedDetail() != null) {
@@ -244,6 +261,25 @@ public class NegotiationNegotiationAction extends NegotiationAction {
         return actionForward;
     }
     
+    public ActionForward closeAllPendingActivitiesAndSave(ActionMapping mapping, ActionForm form, HttpServletRequest request, HttpServletResponse response) throws Exception {
+        NegotiationForm negotiationForm = (NegotiationForm) form;
+        negotiationForm.getNegotiationActivityHelper().closeAllPendingActivities();
+        return this.save(mapping, negotiationForm, request, response);
+    }
+    
+    public ActionForward resetNegotiationStatus(ActionMapping mapping, ActionForm form, HttpServletRequest request, HttpServletResponse response) {
+        NegotiationForm negotiationForm = (NegotiationForm) form;
+        Negotiation negotiation = negotiationForm.getNegotiationDocument().getNegotiation();
+        Negotiation oldNegotiation = getBusinessObjectService().findBySinglePrimaryKey(Negotiation.class, 
+                negotiation.getNegotiationId());
+        if (oldNegotiation != null) {
+            negotiation.setNegotiationStatus(oldNegotiation.getNegotiationStatus());
+            negotiation.setNegotiationStatusId(oldNegotiation.getNegotiationStatusId());
+        }
+        return mapping.findForward(Constants.MAPPING_BASIC);
+
+    }    
+    
     public ActionForward addActivity(ActionMapping mapping, ActionForm form, HttpServletRequest request, HttpServletResponse response) throws Exception {
         NegotiationForm negotiationForm = (NegotiationForm) form;
         negotiationForm.getNegotiationActivityHelper().addActivity();
@@ -321,5 +357,16 @@ public class NegotiationNegotiationAction extends NegotiationAction {
         }
         return null;
         
+    }
+
+    public NegotiationService getNegotiationService() {
+        if (negotiationService == null) {
+            negotiationService = KraServiceLocator.getService(NegotiationService.class);
+        }
+        return negotiationService;
+    }
+
+    public void setNegotiationService(NegotiationService negotiationService) {
+        this.negotiationService = negotiationService;
     }
 }

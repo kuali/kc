@@ -86,7 +86,11 @@
         <table cellpadding="4" cellspacing="0" summary="">
             <tr>
             	<th><div align="right">Attachments:</div></th>
-            	<th>File: <html:file property="${activityPath}.newAttachment.newFile"/></th>
+            	<th>* File: <html:file property="${activityPath}.newAttachment.newFile"/><kul:checkErrors keyMatch="${activityPath}.newAttachment.newFile" auditMatch="${activityPath}.newAttachment.newFile"/>  
+            		<c:if test="${hasErrors}">
+	 					<kul:fieldShowErrorIcon />
+  					</c:if>
+            	</th>
             	<th><kul:htmlAttributeLabel attributeEntry="${attachmentAttributes.description}" useShortLabel="true" /> <kul:htmlControlAttribute property="${activityPath}.newAttachment.description" attributeEntry="${attachmentAttributes.description}" readOnly="${readOnly}"/></th>
             	<th><html:image property="methodToCall.addAttachment.activityIndex${activityIndex}"
    		  				src="${ConfigProperties.kra.externalizable.images.url}tinybutton-add1.gif" styleClass="tinybutton"/>
@@ -95,7 +99,7 @@
             <c:forEach items="${activity.attachments}" var="attachment" varStatus="ctr">
               <tr>
                 <th style="text-align: right;"><c:out value="${ctr.count}"/></th>
-                <td><a href="#" class="attachmentLink"><c:out value="${attachment.file.name}"/></a>
+                <td><a href="#" class="attachmentLink"><kra:fileicon attachment="${attachment.file}"/><c:out value="${attachment.file.name}"/></a>
                         	<html:image property="methodToCall.viewAttachment.activityIndex${activityIndex}.attachmentIndex${ctr.count-1}"
    		  				src="${ConfigProperties.kra.externalizable.images.url}tinybutton-view.gif" styleClass="tinybutton" />
                 </td>

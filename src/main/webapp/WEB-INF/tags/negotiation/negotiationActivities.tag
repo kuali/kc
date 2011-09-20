@@ -12,7 +12,7 @@ $jq(document).ready(function() {
 });
 </script>
 
-<kul:tab tabTitle="Activities & Attachments" defaultOpen="false" tabErrorKey="">
+<kul:tab tabTitle="Activities & Attachments" defaultOpen="false" tabErrorKey="" innerTabErrorKey="document.negotiationList[0].activities*,negotiationActivityHelper.*">
 <div class="tab-container"  align="center">
 <kra-negotiation:negotiationActivity activity="${KualiForm.negotiationActivityHelper.newActivity}" activityIndex="-1" parentTab="Activities & Attachments" tabDivClass="innerTab-h3head"/>
 
@@ -37,7 +37,7 @@ $jq(document).ready(function() {
       <tr>
         <th style="text-align:right;">${ctr.count}</th>
         <td><kul:htmlControlAttribute property="document.negotiation.allAttachments[${ctr.count-1}].activity.startDate" attributeEntry="${activityAttributes.startDate}" readOnly="true"/></td>
-        <td><a href="#" class="attachmentLink"><c:out value="${attachment.file.name}"/></a>
+        <td><a href="#" class="attachmentLink"><kra:fileicon attachment="${attachment.file}"/><c:out value="${attachment.file.name}"/></a>
         	<html:image property="methodToCall.viewAttachmentFromAllAttachments.attachmentIndex${ctr.count-1}"
    		  				src="${ConfigProperties.kra.externalizable.images.url}tinybutton-view.gif" styleClass="tinybutton" />
    		</td>
