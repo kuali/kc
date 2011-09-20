@@ -21,7 +21,7 @@ import java.util.List;
 import org.kuali.rice.core.util.KeyLabelPair;
 import org.kuali.rice.kns.lookup.keyvalues.KeyValuesBase;
 
-public class EntityOwnershipTypeValuesFiner extends KeyValuesBase {
+public class EntityOwnershipTypeValuesFinder extends KeyValuesBase {
 
     public List<KeyLabelPair> getKeyValues() {
         List<KeyLabelPair> keyValues = new ArrayList<KeyLabelPair>();
