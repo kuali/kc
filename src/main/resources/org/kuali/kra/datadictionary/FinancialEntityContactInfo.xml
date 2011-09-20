@@ -57,6 +57,7 @@
     <property name="forceUppercase" value="false"/>
     <property name="label" value="Address Line 1"/>
     <property name="shortLabel" value="Address Line 1"/>
+    <property name="required" value="true" />
     <property name="maxLength" value="80"/>
     <property name="validationPattern">
       <bean p:allowWhitespace="true" parent="AnyCharacterValidationPattern"/>
@@ -152,6 +153,7 @@
     <property name="forceUppercase" value="false"/>
     <property name="label" value="Postal Code"/>
     <property name="shortLabel" value="Postal Code"/>
+    <property name="required" value="true" />
     <property name="maxLength" value="15"/>
     <property name="validationPattern">
       <bean parent="AnyCharacterValidationPattern"/>
@@ -165,14 +167,17 @@
   <bean id="FinancialEntityContactInfo-city" parent="FinancialEntityContactInfo-city-parentBean"/>
 
   <bean abstract="true" id="FinancialEntityContactInfo-city-parentBean" parent="KraAttributeReferenceDummy-city">
+        <property name="required" value="true" />
   </bean>
   <bean id="FinancialEntityContactInfo-state" parent="FinancialEntityContactInfo-state-parentBean"/>
 
   <bean abstract="true" id="FinancialEntityContactInfo-state-parentBean" parent="KraAttributeReferenceDummy-state">
+        <property name="required" value="true" />
   </bean>
   <bean id="FinancialEntityContactInfo-countryCode" parent="FinancialEntityContactInfo-countryCode-parentBean"/>
 
   <bean abstract="true" id="FinancialEntityContactInfo-countryCode-parentBean" parent="KraAttributeReferenceDummy-countryCode">
+        <property name="required" value="true" />
   </bean>
   
   <bean id="FinancialEntityContactInfo-versionNumber" parent="FinancialEntityContactInfo-versionNumber-parentBean"/>

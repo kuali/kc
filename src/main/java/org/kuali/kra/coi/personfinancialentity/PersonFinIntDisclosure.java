@@ -50,7 +50,8 @@ public class PersonFinIntDisclosure extends KraPersistableBusinessObjectBase imp
     private String principalBusinessActivity; 
     private String sponsorCode; 
     private boolean currentFlag; 
-    
+    // this is for 'edit' save/submit ('S'/'F')
+    private String processStatus;
     private FinIntEntityRelType finIntEntityRelType; 
     private FinIntEntityStatus finIntEntityStatus; 
     private OrganizationTypeList organizationTypeList; 
@@ -342,6 +343,14 @@ private List<PersonFinIntDisclosure> versions;
 
     public void setPrincipalBusinessActivity(String principalBusinessActivity) {
         this.principalBusinessActivity = principalBusinessActivity;
+    }
+
+    public String getProcessStatus() {
+        return processStatus;
+    }
+
+    public void setProcessStatus(String processStatus) {
+        this.processStatus = processStatus;
     }
     
 }

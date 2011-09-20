@@ -21,9 +21,11 @@ import java.util.List;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 
+import org.apache.commons.lang.StringUtils;
 import org.apache.struts.action.ActionForm;
 import org.apache.struts.action.ActionForward;
 import org.apache.struts.action.ActionMapping;
+import org.kuali.kra.bo.Sponsor;
 import org.kuali.kra.coi.disclosure.AddDisclosureReporterUnitEvent;
 import org.kuali.kra.coi.disclosure.CoiDisclosureService;
 import org.kuali.kra.coi.disclosure.SaveDisclosureReporterUnitEvent;
@@ -31,7 +33,7 @@ import org.kuali.kra.infrastructure.Constants;
 import org.kuali.kra.infrastructure.KeyConstants;
 import org.kuali.kra.infrastructure.KraServiceLocator;
 import org.kuali.kra.rule.event.KraDocumentEventBaseExtension;
-import org.kuali.kra.service.VersionException;
+import org.kuali.kra.service.SponsorService;
 import org.kuali.rice.kns.service.BusinessObjectService;
 import org.kuali.rice.kns.service.DictionaryValidationService;
 import org.kuali.rice.kns.service.SequenceAccessorService;
@@ -88,8 +90,13 @@ public class FinancialEntityAction extends KualiAction {
             PersonFinIntDisclosure personFinIntDisclosure = financialEntityHelper.getActiveFinancialEntities().get(entityIndex);
 
             if (isValidToSave(personFinIntDisclosure, "financialEntityHelper.activeFinancialEntities[" + entityIndex + "]")) {
-                PersonFinIntDisclosure newVersionDisclosure = getFinancialEntityService().versionPersonFinintDisclosure(personFinIntDisclosure, financialEntityHelper.getEditRelationDetails());
-                saveFinancialEntity(form, newVersionDisclosure);
+                if (StringUtils.equals("F", personFinIntDisclosure.getProcessStatus())) {
+                    PersonFinIntDisclosure newVersionDisclosure = getFinancialEntityService().versionPersonFinintDisclosure(personFinIntDisclosure, financialEntityHelper.getEditRelationDetails());
+                    saveFinancialEntity(form, newVersionDisclosure);
+                } else {
+                    personFinIntDisclosure.setProcessStatus("F");
+                    saveFinancialEntity(form, personFinIntDisclosure);                     
+                }
               //  saveFinancialEntity(form, personFinIntDisclosure);
             }
             ((FinancialEntityForm) form).getFinancialEntityHelper().setEditEntityIndex(entityIndex);
@@ -97,6 +104,33 @@ public class FinancialEntityAction extends KualiAction {
 
 //        ((FinancialEntityForm) form).getFinancialEntityHelper().setActiveFinancialEntities(getFinancialEntities(true));
 //        ((FinancialEntityForm) form).getFinancialEntityHelper().setInactiveFinancialEntities(getFinancialEntities(false));
+        return mapping.findForward(Constants.MAPPING_BASIC);
+    }
+
+    public ActionForward save(ActionMapping mapping, ActionForm form, HttpServletRequest request, HttpServletResponse response)
+            throws Exception {
+        FinancialEntityHelper financialEntityHelper = ((FinancialEntityForm) form).getFinancialEntityHelper();
+
+        int entityIndex = getSelectedLine(request);
+        PersonFinIntDisclosure personFinIntDisclosure = financialEntityHelper.getActiveFinancialEntities().get(entityIndex);
+
+        if (isValidToSave(personFinIntDisclosure, "financialEntityHelper.activeFinancialEntities[" + entityIndex + "]")) {
+            if (StringUtils.equals("F", personFinIntDisclosure.getProcessStatus())) {
+                PersonFinIntDisclosure newVersionDisclosure = getFinancialEntityService().versionPersonFinintDisclosure(
+                        personFinIntDisclosure, financialEntityHelper.getEditRelationDetails());
+                newVersionDisclosure.setProcessStatus("S");
+                saveFinancialEntity(form, newVersionDisclosure);
+            }
+            else {
+                saveFinancialEntity(form, personFinIntDisclosure);
+            }
+            // saveFinancialEntity(form, personFinIntDisclosure);
+        }
+        ((FinancialEntityForm) form).getFinancialEntityHelper().setEditEntityIndex(entityIndex);
+
+
+        // ((FinancialEntityForm) form).getFinancialEntityHelper().setActiveFinancialEntities(getFinancialEntities(true));
+        // ((FinancialEntityForm) form).getFinancialEntityHelper().setInactiveFinancialEntities(getFinancialEntities(false));
         return mapping.findForward(Constants.MAPPING_BASIC);
     }
 
@@ -113,12 +147,14 @@ public class FinancialEntityAction extends KualiAction {
      */
     public ActionForward editFinancialEntity(ActionMapping mapping, ActionForm form, HttpServletRequest request,
             HttpServletResponse response) throws Exception {
+        FinancialEntityHelper financialEntityHelper = ((FinancialEntityForm) form).getFinancialEntityHelper();
 
         int entityIndex = getSelectedLine(request);
         PersonFinIntDisclosure personFinIntDisclosure = ((FinancialEntityForm) form).getFinancialEntityHelper()
                 .getActiveFinancialEntities().get(entityIndex);
-        ((FinancialEntityForm) form).getFinancialEntityHelper().setEditEntityIndex(entityIndex);
-        ((FinancialEntityForm) form).getFinancialEntityHelper().setEditRelationDetails(getFinancialEntityService().getFinancialEntityDataMatrixForEdit(personFinIntDisclosure.getPerFinIntDisclDetails()));
+        financialEntityHelper.setEditEntityIndex(entityIndex);
+        financialEntityHelper.setEditRelationDetails(getFinancialEntityService().getFinancialEntityDataMatrixForEdit(personFinIntDisclosure.getPerFinIntDisclDetails()));
+        financialEntityHelper.resetPrevSponsorCode();
         // ((FinancialEntityForm) form).getFinancialEntityHelper().setActiveFinancialEntities(getFinancialEntities());
         return mapping.findForward(Constants.MAPPING_BASIC);
     }
@@ -194,6 +230,7 @@ public class FinancialEntityAction extends KualiAction {
                 .toString()); // sequence #
         // it seems coeus always save 1.  not sure we need this because it should be in disclosure details
         personFinIntDisclosure.setRelationshipTypeCode("1");
+        personFinIntDisclosure.setProcessStatus("F");
         personFinIntDisclosure.setSequenceNumber(1);
         personFinIntDisclosure.setPerFinIntDisclDetails(getFinancialEntityService().getFinDisclosureDetails(
                 financialEntityHelper.getNewRelationDetails(), personFinIntDisclosure.getEntityNumber(),
@@ -264,7 +301,12 @@ public class FinancialEntityAction extends KualiAction {
 
         // TODO : may need to add save event rule
         GlobalVariables.getMessageMap().addToErrorPath(errorPath);
+        //getDictionaryValidationService().validateBusinessObjectsRecursively(personFinIntDisclosure, 2);
         getDictionaryValidationService().validateBusinessObject(personFinIntDisclosure);
+        GlobalVariables.getMessageMap().removeFromErrorPath(errorPath);
+        GlobalVariables.getMessageMap().addToErrorPath(errorPath + ".finEntityContactInfos[0]");
+        //getDictionaryValidationService().validateBusinessObjectsRecursively(personFinIntDisclosure, 2);
+        getDictionaryValidationService().validateBusinessObject(personFinIntDisclosure.getFinEntityContactInfos().get(0));
         GlobalVariables.getMessageMap().removeFromErrorPath(errorPath);
         return GlobalVariables.getMessageMap().hasNoErrors();
 
@@ -303,8 +345,36 @@ public class FinancialEntityAction extends KualiAction {
     @Override
     public ActionForward refresh(ActionMapping mapping, ActionForm form, HttpServletRequest request, HttpServletResponse response)
             throws Exception {
-        // TODO Auto-generated method stub
+        // TODO following is to handle populate entity address info after sponsor code change
+        // need further refactoring
         ActionForward forward = super.refresh(mapping, form, request, response);
+        FinancialEntityHelper financialEntityHelper = ((FinancialEntityForm) form).getFinancialEntityHelper();
+        String refreshCaller = request.getParameter("refreshCaller"); // sponsorLookupable
+        String sponsorCode = request.getParameter("financialEntityHelper.newPersonFinancialEntity.sponsorCode"); // sponsorLookupable
+        boolean isEdit = false;
+        if (StringUtils.isNotBlank(refreshCaller) && StringUtils.isBlank(sponsorCode) && financialEntityHelper.getEditEntityIndex() >= 0) {
+            sponsorCode = request.getParameter("financialEntityHelper.activeFinancialEntities["+financialEntityHelper.getEditEntityIndex()+"].sponsorCode");
+            isEdit = true;
+        }
+        if (StringUtils.isNotBlank(refreshCaller) && StringUtils.isNotBlank(sponsorCode)) {
+            Sponsor sponsor = KraServiceLocator.getService(SponsorService.class).getSponsor(sponsorCode);
+            if (sponsor != null) {
+                if (sponsor.getRolodex() == null) {
+                    sponsor.refreshReferenceObject("rolodex");
+                }
+                FinancialEntityContactInfo contactInfo = financialEntityHelper.getNewPersonFinancialEntity().getFinEntityContactInfos().get(0);
+                if (isEdit) {
+                    contactInfo = financialEntityHelper.getActiveFinancialEntities().get(financialEntityHelper.getEditEntityIndex()).getFinEntityContactInfos().get(0);
+                }
+                contactInfo.setAddressLine1(sponsor.getRolodex().getAddressLine1());
+                contactInfo.setAddressLine2(sponsor.getRolodex().getAddressLine2());
+                contactInfo.setAddressLine3(sponsor.getRolodex().getAddressLine3());
+                contactInfo.setCity(sponsor.getRolodex().getCity());
+                contactInfo.setState(sponsor.getRolodex().getState());
+                contactInfo.setCountryCode(sponsor.getRolodex().getCountryCode());
+                contactInfo.setPostalCode(sponsor.getRolodex().getPostalCode());
+            }
+        }
         return forward;
     }
 
