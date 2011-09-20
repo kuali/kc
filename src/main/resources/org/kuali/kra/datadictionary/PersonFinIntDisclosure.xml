@@ -223,7 +223,7 @@
         </property>
         <property name="control" >
             <bean parent="SelectControlDefinition"
-                p:valuesFinderClass="org.kuali.kra.coi.personfinancialentity.EntityOwnershipTypeValuesFiner"
+                p:valuesFinderClass="org.kuali.kra.coi.personfinancialentity.EntityOwnershipTypeValuesFinder"
                 p:includeKeyInLabel="false" />
         </property>
         <property name="summary" value="Entity Ownership Type" />
