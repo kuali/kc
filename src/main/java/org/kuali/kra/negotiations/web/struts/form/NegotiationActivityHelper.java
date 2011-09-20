@@ -19,8 +19,13 @@ import java.io.Serializable;
 import java.util.Date;
 
 import org.kuali.kra.bo.AttachmentFile;
+import org.kuali.kra.negotiations.bo.Negotiation;
 import org.kuali.kra.negotiations.bo.NegotiationActivity;
 import org.kuali.kra.negotiations.bo.NegotiationActivityAttachment;
+import org.kuali.kra.negotiations.rules.NegotiationActivityAddRuleEvent;
+import org.kuali.kra.negotiations.rules.NegotiationActivityAttachmentAddRuleEvent;
+import org.kuali.kra.negotiations.rules.NegotiationActivityAttachmentRuleImpl;
+import org.kuali.kra.negotiations.rules.NegotiationActivityRuleImpl;
 
 /**
  * Form helper to manage activities and attachments.
@@ -48,12 +53,15 @@ public class NegotiationActivityHelper implements Serializable {
      * execute phase timestamps and last user update is updated.
      */
     public void addActivity() {
-        //TODO: Add validations
-        newActivity.setCreateDate(new java.sql.Date(new Date().getTime()));
-        //set as updated so action code elsewhere will update references and modified timestamps
-        newActivity.setUpdated(true);
-        form.getNegotiationDocument().getNegotiation().getActivities().add(newActivity);
-        newActivity = new NegotiationActivity();
+        NegotiationActivityAddRuleEvent event = new NegotiationActivityAddRuleEvent("NegotiationActivityAddRuleEvent", "negotiationActivityHelper.newActivity", 
+                getForm().getDocument(), newActivity);
+        if (new NegotiationActivityRuleImpl().processAddNegotiationActivityRule(event)) { 
+            newActivity.setCreateDate(new java.sql.Date(new Date().getTime()));
+            //set as updated so action code elsewhere will update references and modified timestamps
+            newActivity.setUpdated(true);
+            form.getNegotiationDocument().getNegotiation().getActivities().add(newActivity);
+            newActivity = new NegotiationActivity();
+        }
     }
     
     /**
@@ -78,19 +86,32 @@ public class NegotiationActivityHelper implements Serializable {
             return form.getNegotiationDocument().getNegotiation().getActivities().get(activityIndex);
         }     
     }
+
+    protected String getActivityPrefix(int activityIndex) {
+        if (activityIndex == -1) {
+            return "negotiationActivityHelper.newActivity";
+        } else {
+            return "document.negotiationList[0].activities[" + activityIndex + "]";
+        }     
+    }
+
     
     /**
      * Add the newAttachment on the activity found at activityIndex.
      * @param activityIndex
      */
     public void addAttachment(int activityIndex) {
-        //TODO add attachment validations
         NegotiationActivity activity = getActivity(activityIndex);
+        String activityPrefix = getActivityPrefix(activityIndex);
         NegotiationActivityAttachment attachment = activity.getNewAttachment();
-        attachment.setFile(AttachmentFile.createFromFormFile(attachment.getNewFile()));
-        attachment.setActivity(activity);
-        activity.add(attachment);
-        activity.setNewAttachment(new NegotiationActivityAttachment());
+        NegotiationActivityAttachmentAddRuleEvent event = new NegotiationActivityAttachmentAddRuleEvent("NegotiationActivityAddRuleEvent", activityPrefix + ".newAttachment", 
+                getForm().getDocument(), activity, attachment);
+        if (new NegotiationActivityAttachmentRuleImpl().processAddAttachmentRule(event)) {
+            attachment.setFile(AttachmentFile.createFromFormFile(attachment.getNewFile()));
+            attachment.setActivity(activity);
+            activity.add(attachment);
+            activity.setNewAttachment(new NegotiationActivityAttachment());
+        }
     }
     
     /**
@@ -114,6 +135,25 @@ public class NegotiationActivityHelper implements Serializable {
         NegotiationActivity activity = getActivity(activityIndex);
         NegotiationActivityAttachment attachment = activity.getAttachments().get(attachmentIndex);
         attachment.setRestricted(restricted);
+    }
+    
+    public boolean hasPendingActivities() {
+        boolean result = false;
+        for (NegotiationActivity activity : getForm().getNegotiationDocument().getNegotiation().getActivities()) {
+            if (activity.getEndDate() == null) {
+                result = true;
+            }
+        }
+        return result;
+    }
+    
+    public void closeAllPendingActivities() {
+        Negotiation negotiation = getForm().getNegotiationDocument().getNegotiation();
+        for (NegotiationActivity activity : getForm().getNegotiationDocument().getNegotiation().getActivities()) {
+            if (activity.getEndDate() == null) {
+                activity.setEndDate(negotiation.getNegotiationEndDate());
+            }
+        }        
     }
 
     public NegotiationForm getForm() {

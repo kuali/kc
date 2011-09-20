@@ -19,6 +19,8 @@ import org.apache.commons.lang.StringUtils;
 import org.kuali.kra.infrastructure.KeyConstants;
 import org.kuali.kra.infrastructure.KraServiceLocator;
 import org.kuali.kra.negotiations.bo.Negotiation;
+import org.kuali.kra.negotiations.bo.NegotiationActivity;
+import org.kuali.kra.negotiations.bo.NegotiationActivityAttachment;
 import org.kuali.kra.negotiations.bo.NegotiationAssociationType;
 import org.kuali.kra.negotiations.document.NegotiationDocument;
 import org.kuali.kra.negotiations.service.NegotiationService;
@@ -36,6 +38,8 @@ public class NegotiationDocumentRule extends ResearchDocumentRuleBase {
     private static final String END_DATE_PROPERTY = "negotiationEndDate";
     private static final String NEGOTIATOR_USERNAME_PROPERTY = "negotiatorUserName";
     private static final String ASSOCIATED_DOCMENT_ID = "associatedDocumentId";
+    private static final String ACTIVITIES_PREFIX = "activities[";
+    private static final String ATTACHMENTS_PREFIX = "attachments[";
     
     private NegotiationService negotiationService;
     
@@ -67,6 +71,7 @@ public class NegotiationDocumentRule extends ResearchDocumentRuleBase {
         result &= validateEndDate(negotiation);
         result &= validateNegotiator(negotiation);
         result &= validateNegotiationAssociations(negotiation);
+        result &= validateNegotiationActivities(negotiation);
         
         GlobalVariables.getMessageMap().removeFromErrorPath(NEGOTIATION_ERROR_PATH);
         
@@ -122,6 +127,46 @@ public class NegotiationDocumentRule extends ResearchDocumentRuleBase {
                     negotiation.getNegotiationAssociationType().getDescription());
         }
         return valid;
+    }
+    
+    /**
+     * 
+     * Validate existing negotiation activities.
+     * @param negotiation
+     * @return
+     */
+    public boolean validateNegotiationActivities(Negotiation negotiation) {
+        boolean result = true;
+        int index = 0;
+        NegotiationActivityRuleImpl rule = new NegotiationActivityRuleImpl();
+        for (NegotiationActivity activity : negotiation.getActivities()) {
+            GlobalVariables.getMessageMap().addToErrorPath(ACTIVITIES_PREFIX + index + "]");
+            result &= rule.validateNegotiationActivity(activity, negotiation);
+            result &= validateActivityAttachments(negotiation, activity);
+            GlobalVariables.getMessageMap().removeFromErrorPath(ACTIVITIES_PREFIX + index + "]");
+            index++;
+        }
+        return result;
+    }
+    
+    /**
+     * 
+     * Validate the activities attachments.
+     * @param negotiation
+     * @param activity
+     * @return
+     */
+    public boolean validateActivityAttachments(Negotiation negotiation, NegotiationActivity activity) {
+        boolean result = true;
+        int index = 0;
+        NegotiationActivityAttachmentRuleImpl rule = new NegotiationActivityAttachmentRuleImpl();
+        for (NegotiationActivityAttachment attachment : activity.getAttachments()) {
+            GlobalVariables.getMessageMap().addToErrorPath(ATTACHMENTS_PREFIX + index + "]");
+            result &= rule.validateAttachmentRule(negotiation, activity, attachment);
+            GlobalVariables.getMessageMap().removeFromErrorPath(ATTACHMENTS_PREFIX + index + "]");
+            index++;
+        }
+        return result;
     }
 
     protected NegotiationService getNegotiationService() {

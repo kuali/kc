@@ -7,7 +7,8 @@
 <c:set var="readOnly" value="${false}" scope="request" />
 <script type='text/javascript' src='dwr/interface/KraPersonService.js'></script>
 
-<kul:tab tabTitle="Negotiation" defaultOpen="true" tabErrorKey="document.negotiationList[0].*,document.negotiationList*" 
+<kul:tab tabTitle="Negotiation" defaultOpen="true" 
+					tabErrorKey="document.negotiationList[0].negotiation*,document.negotiationList[0].negotiator*,document.negotiationList[0].anticipatedAwardDate,document.negotiationList[0].documentFolder,document.negotiationList[0].associatedDocumentId,document.negotiation.unAssociatedDetail*" 
 					auditCluster="requiredFieldsAuditErrors" tabAuditKey="document.title" useRiceAuditMode="true">
 					
 	<div class="tab-container" align="center">
@@ -50,6 +51,10 @@
 									'na',
 									'na');"
                     	readonly="${readOnly}"/>
+					<kul:checkErrors keyMatch="document.negotiationList[0].negotiatorUserName" auditMatch="document.negotiationList[0].negotiatorUserName"/>  
+            		<c:if test="${hasErrors}">
+	 					<kul:fieldShowErrorIcon />
+  					</c:if>                    	
                     <c:if test="${!readOnly}">
                         ${kfunc:registerEditableProperty(KualiForm, "document.negotiationList[0].negotiatorPersonId")}
 	                	<kul:lookup boClassName="org.kuali.kra.bo.KcPerson" 
