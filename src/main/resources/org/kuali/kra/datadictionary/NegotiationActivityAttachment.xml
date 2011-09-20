@@ -45,8 +45,8 @@
     <property name="forceUppercase" value="false" />
     <property name="label" value="Attachment Description" />
     <property name="shortLabel" value="Description" />
-    <property name="required" value="false" />
-    <property name="maxLength" value="4000" />
+    <property name="required" value="true" />
+    <property name="maxLength" value="200" />
     <property name="validationPattern" >
       <bean parent="AnyCharacterValidationPattern" p:allowWhitespace="true" />
     </property>
