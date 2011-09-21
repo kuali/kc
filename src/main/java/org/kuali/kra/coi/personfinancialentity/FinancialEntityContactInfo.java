@@ -36,7 +36,6 @@ public class FinancialEntityContactInfo extends KraPersistableBusinessObjectBase
     private String countryCode;
     private String webAddress1;
     private String webAddress2;
-    private String organizationId;
     private String postalCode;
     private String state;
     private Organization organization;
@@ -90,12 +89,7 @@ public class FinancialEntityContactInfo extends KraPersistableBusinessObjectBase
     public void setWebAddress2(String webAddress2) {
         this.webAddress2 = webAddress2;
     }
-    public String getOrganizationId() {
-        return organizationId;
-    }
-    public void setOrganizationId(String organizationId) {
-        this.organizationId = organizationId;
-    }
+
     public String getPostalCode() {
         return postalCode;
     }

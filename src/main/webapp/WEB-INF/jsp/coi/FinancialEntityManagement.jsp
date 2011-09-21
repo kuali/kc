@@ -170,10 +170,33 @@
       var idx = $j("#editIndex").attr("value");
       if (idx != -1) {
        $j("#A"+idx).click(); 
+      $j("#financialEntityHelper\\.activeFinancialEntities\\["+idx+"\\]\\.sponsorCode").focus(function() {
+          displayAlertMessage('messageBox'+idx, 'The entity address fields will be overriden when a valid sponsor code is entered');
+          //return false;
+      });
       }
+      
+      
+      $j("#financialEntityHelper\\.newPersonFinancialEntity\\.sponsorCode").focus(function() {
+          displayAlertMessage('messageBox', 'The entity address fields will be overriden when a valid sponsor code is entered');
+          //return false;
+      });
+      
+      $j('input[name^="methodToCall.performLookup.(!!org.kuali.kra.bo.Sponsor!!)"]').click(function() {
+        if(!confirm('The entity address fields will be overriden when a valid sponsor is selected.  Do you want to continue ?')) {
+            return false;
+        }
+      });
+      
     } ); 
 
-
+    function displayAlertMessage(messagedivid, message) {
+        var timeOut = 5
+        $j('#'+messagedivid).text(message).fadeIn().css({"display":"block","color":"red"});
+        setTimeout(function() {
+            $j('#'+messagedivid).fadeOut().css("display", "none");
+         }, timeOut * 1000);
+    }
     </SCRIPT> 
 <script language="javascript" src="dwr/interface/RolodexService.js"></script>
 <script language="javascript" src="dwr/interface/SponsorService.js"></script>

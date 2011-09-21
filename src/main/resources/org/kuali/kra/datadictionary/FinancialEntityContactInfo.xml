@@ -20,7 +20,6 @@
         <ref bean="FinancialEntityContactInfo-addressLine3"/>
         <ref bean="FinancialEntityContactInfo-webAddress1"/>
         <ref bean="FinancialEntityContactInfo-webAddress2"/>
-        <ref bean="FinancialEntityContactInfo-organizationId"/>
        <ref bean="FinancialEntityContactInfo-postalCode"/>
        <ref bean="FinancialEntityContactInfo-city"/>
         <ref bean="FinancialEntityContactInfo-state"/>
@@ -137,14 +136,6 @@
     <property name="description" value="Web Site 2"/>
   </bean>
   
-  <bean id="FinancialEntityContactInfo-organizationId" parent="FinancialEntityContactInfo-organizationId-parentBean"/>
-
-  <bean abstract="true" id="FinancialEntityContactInfo-organizationId-parentBean" parent="Organization-organizationId">
-    <property name="label" value="Organization"/>
-    <property name="shortLabel" value="Organization"/>
-    <property name="summary" value="Organization"/>
-    <property name="description" value="Organization"/>
-  </bean>
   
   <bean id="FinancialEntityContactInfo-postalCode" parent="FinancialEntityContactInfo-postalCode-parentBean"/>
 
@@ -208,7 +199,6 @@
               <bean p:attributeName="state" parent="FieldDefinition"/>
               <bean p:attributeName="webAddress1" parent="FieldDefinition"/>
               <bean p:attributeName="webAddress2" parent="FieldDefinition"/>
-              <bean p:attributeName="organizationId" parent="FieldDefinition"/>
              </list>
           </property>
         </bean>
@@ -232,7 +222,6 @@
     <property name="lookupFields">
       <list>
         <bean p:attributeName="financialEntityContactInfoId" parent="FieldDefinition"/>
-        <bean p:attributeName="organizationId" parent="FieldDefinition"/>
         <bean p:attributeName="addressLine1" parent="FieldDefinition"/>
         <bean p:attributeName="addressLine2" parent="FieldDefinition"/>
         <bean p:attributeName="addressLine3" parent="FieldDefinition"/>
@@ -247,7 +236,6 @@
     <property name="resultFields">
       <list>
         <bean p:attributeName="financialEntityContactInfoId" p:forceInquiry="true" parent="FieldDefinition"/>
-        <bean p:attributeName="organizationId" parent="FieldDefinition"/>
         <bean p:attributeName="addressLine1" parent="FieldDefinition"/>
         <bean p:attributeName="addressLine2" parent="FieldDefinition"/>
         <bean p:attributeName="addressLine3" parent="FieldDefinition"/>
