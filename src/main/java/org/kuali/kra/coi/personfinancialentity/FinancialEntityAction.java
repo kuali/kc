@@ -307,8 +307,11 @@ public class FinancialEntityAction extends KualiAction {
         GlobalVariables.getMessageMap().addToErrorPath(errorPath + ".finEntityContactInfos[0]");
         //getDictionaryValidationService().validateBusinessObjectsRecursively(personFinIntDisclosure, 2);
         getDictionaryValidationService().validateBusinessObject(personFinIntDisclosure.getFinEntityContactInfos().get(0));
-        GlobalVariables.getMessageMap().removeFromErrorPath(errorPath);
-        return GlobalVariables.getMessageMap().hasNoErrors();
+        GlobalVariables.getMessageMap().removeFromErrorPath(errorPath + ".finEntityContactInfos[0]");
+
+        boolean isValid = GlobalVariables.getMessageMap().hasNoErrors();
+        isValid &= checkRule(new SaveFinancialEntityEvent(errorPath,personFinIntDisclosure));
+        return isValid;
 
     }
 
@@ -378,4 +381,5 @@ public class FinancialEntityAction extends KualiAction {
         return forward;
     }
 
+ 
 }

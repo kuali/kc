@@ -82,9 +82,10 @@
                     <kul:htmlAttributeLabel attributeEntry="${personFinIntDisclAttribute.sponsorCode}" readOnly="true" />
                 </th>
                  <td align="left" valign="middle" >
-                    <kul:htmlControlAttribute property="financialEntityHelper.activeFinancialEntities[${status.index}].sponsorCode" attributeEntry="${personFinIntDisclAttribute.sponsorCode}" onblur="loadSponsor('financialEntityHelper.activeFinancialEntities[${status.index}].sponsorCode', 'sponsorName', 'financialEntityHelper.prevSponsorCode');false" />
+                    <kul:htmlControlAttribute property="financialEntityHelper.activeFinancialEntities[${status.index}].sponsorCode" attributeEntry="${personFinIntDisclAttribute.sponsorCode}" onblur="loadSponsor('financialEntityHelper.activeFinancialEntities[${status.index}].sponsorCode', 'sponsorName${status.index}', 'financialEntityHelper.prevSponsorCode');false" />
                     <kul:lookup boClassName="org.kuali.kra.bo.Sponsor" fieldConversions="sponsorCode:financialEntityHelper.activeFinancialEntities[${status.index}].sponsorCode,sponsorName:financialEntityHelper.activeFinancialEntities[${status.index}].sponsor.sponsorName" anchor="${tabKey}" />
                     <kul:directInquiry boClassName="org.kuali.kra.bo.Sponsor" inquiryParameters="financialEntityHelper.activeFinancialEntities[${status.index}].sponsorCode:sponsorCode" anchor="${tabKey}" />
+                    <div id="messageBox${status.index}" style="display:none;"></div>
                     <input type="hidden" name="financialEntityHelper.editRolodexId" value="${KualiForm.financialEntityHelper.editRolodexId}" />
                     <input type="hidden" name="financialEntityHelper.prevSponsorCode" value="${KualiForm.financialEntityHelper.prevSponsorCode}"/>
                     <div id="sponsorName${status.index}.div" >
@@ -208,12 +209,12 @@
                     <kul:htmlControlAttribute property="financialEntityHelper.activeFinancialEntities[${status.index}].finEntityContactInfos[0].state" 
                                               attributeEntry="${entityContactInfoAttribute.state}" /> 
                 </td>
-                <th align="right" valign="middle" >
-                    <kul:htmlAttributeLabel attributeEntry="${entityContactInfoAttribute.organizationId}" />
+                 <th align="right" valign="middle" >
+                    <kul:htmlAttributeLabel attributeEntry="${entityContactInfoAttribute.countryCode}" />
                 </th>
                 <td align="left" valign="middle">
-                    <kul:htmlControlAttribute property="financialEntityHelper.activeFinancialEntities[${status.index}].finEntityContactInfos[0].organizationId" 
-                                              attributeEntry="${entityContactInfoAttribute.organizationId}" /> 
+                    <kul:htmlControlAttribute property="financialEntityHelper.activeFinancialEntities[${status.index}].finEntityContactInfos[0].countryCode" 
+                                              attributeEntry="${entityContactInfoAttribute.countryCode}" /> 
                 </td>
             </tr>    
              <tr>
@@ -224,19 +225,10 @@
                     <kul:htmlControlAttribute property="financialEntityHelper.activeFinancialEntities[${status.index}].finEntityContactInfos[0].postalCode" 
                                               attributeEntry="${entityContactInfoAttribute.postalCode}" /> 
                 </td>
-                <th align="right" valign="middle" >
-                    <kul:htmlAttributeLabel attributeEntry="${entityContactInfoAttribute.countryCode}" />
-                </th>
-                <td align="left" valign="middle">
-                    <kul:htmlControlAttribute property="financialEntityHelper.activeFinancialEntities[${status.index}].finEntityContactInfos[0].countryCode" 
-                                              attributeEntry="${entityContactInfoAttribute.countryCode}" /> 
-                </td>
-            </tr>    
-            <tr>
-                <th align="right" valign="middle" colspan="2">
+               <th align="right" valign="middle">
                     <kul:htmlAttributeLabel attributeEntry="${personFinIntDisclAttribute.principalBusinessActivity}" />
                 </th>
-                <td align="left" valign="middle" colspan="2">
+                <td align="left" valign="middle">
                     <kul:htmlControlAttribute property="financialEntityHelper.activeFinancialEntities[${status.index}].principalBusinessActivity" 
                                               attributeEntry="${personFinIntDisclAttribute.principalBusinessActivity}" /> 
                 </td>
@@ -270,7 +262,7 @@
                 <td nowrap class="subhead">Last Update</td> 
                 <td nowrap class="subhead"><div align="center">Actions</div></td> 
               </tr> 
-              <input type="hidden" name="editIndex" id="editIndex" value="${KualiForm.financialEntityHelper.editEntityIndex}" />
+            <%--  <input type="hidden" name="editIndex" id="editIndex" value="${KualiForm.financialEntityHelper.editEntityIndex}" /> --%>
             <c:forEach var="financialEntity" items="${KualiForm.financialEntityHelper.inactiveFinancialEntities}" varStatus="status">
               <tr> 
                 <td nowrap class="tab-subhead1"><a href="#" id="A${status.index}i" onclick="rend(this, false)"><img src="${ConfigProperties.kra.externalizable.images.url}tinybutton-show.gif" alt="show/hide this panel" width=45 height=15 border=0 align=absmiddle id="F${status.index}i"></a></td> 
