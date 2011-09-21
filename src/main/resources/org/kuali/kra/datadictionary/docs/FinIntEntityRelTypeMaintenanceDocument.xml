@@ -35,7 +35,7 @@
         </property>
         <property name="documentTypeName" value="FinIntEntityRelTypeMaintenanceDocument" />
         <property name="documentAuthorizerClass" value="org.kuali.rice.kns.document.authorization.MaintenanceDocumentAuthorizerBase" />
-        <property name="businessRulesClass" value="org.kuali.kra.coi.FinIntEntityRelTypeMaintenanceDocumentRule"/>
+        <property name="businessRulesClass" value="org.kuali.kra.coi.personfinancialentity.FinIntEntityRelTypeMaintenanceDocumentRule"/>
     </bean>
 
     <!-- Maintenance Section Definitions -->
