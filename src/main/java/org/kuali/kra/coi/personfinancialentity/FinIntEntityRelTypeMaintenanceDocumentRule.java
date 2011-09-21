@@ -13,14 +13,13 @@
  * See the License for the specific language governing permissions and
  * limitations under the License.
  */
-package org.kuali.kra.coi;
+package org.kuali.kra.coi.personfinancialentity;
 
 import java.util.Collection;
 import java.util.HashMap;
 import java.util.Map;
 
 import org.apache.commons.lang.ObjectUtils;
-import org.kuali.kra.coi.personfinancialentity.FinIntEntityRelType;
 import org.kuali.kra.infrastructure.KeyConstants;
 import org.kuali.kra.infrastructure.KraServiceLocator;
 import org.kuali.kra.rules.KraMaintenanceDocumentRuleBase;
@@ -114,6 +113,10 @@ public class FinIntEntityRelTypeMaintenanceDocumentRule  extends KraMaintenanceD
             businessObjectService = KraServiceLocator.getService(BusinessObjectService.class);
         }
         return businessObjectService;
+    }
+
+    public void setBusinessObjectService(BusinessObjectService businessObjectService) {
+        this.businessObjectService = businessObjectService;
     }
        
 
