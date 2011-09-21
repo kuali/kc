@@ -493,7 +493,10 @@ import org.junit.runners.Suite.SuiteClasses;
     org.kuali.kra.coi.disclosure.AddDisclosureReporterUnitRuleTest.class,
     org.kuali.kra.coi.disclosure.SaveDisclosureReporterUnitRuleTest.class,
     org.kuali.kra.negotiations.rules.NegotiationDocumentRuleTest.class,
-    org.kuali.kra.negotiations.service.NegotiationServiceImplTest.class
+    org.kuali.kra.negotiations.service.NegotiationServiceImplTest.class,
+    org.kuali.kra.coi.personfinancialentity.FinIntEntityRelTypeMaintenanceDocumentRuleTest.class,
+    org.kuali.kra.coi.personfinancialentity.FinEntitiesDataGroupMaintenanceDocumentRuleTest.class,
+    org.kuali.kra.coi.personfinancialentity.FinEntitiesDataMatrixMaintenanceDocumentRuleTest.class
 })
 /** these are all the test class where all the test methods are currently passing. */
 public class PassSuite {
