@@ -187,7 +187,7 @@ public class BudgetSeleniumHelper extends KcSeleniumHelper {
         
         setPersonDetails(0, DEFAULT_JOB_CODE, DEFAULT_SALARY_AMOUNT);
         
-        saveDocument();
+        clickBudgetPersonnelTab();
         
         clickExpandAll();
         addPersonnelDetail(DEFAULT_PI_NAME, DEFAULT_JOB_CODE, DEFAULT_JOB_CODE_NAME);

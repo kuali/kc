@@ -58,8 +58,6 @@ public class AwardBudgetBasicSeleniumTest extends KcSeleniumTestBase {
         
         helper.addCustomData();
         
-        helper.clickAwardHomePage();
-        
         helper.submit();
 
         helper.addBudget();
