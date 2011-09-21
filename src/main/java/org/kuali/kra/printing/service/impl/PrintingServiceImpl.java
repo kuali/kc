@@ -444,7 +444,7 @@ public class PrintingServiceImpl implements PrintingService {
 	protected void logPrintDetails(Map<String, byte[]> xmlStreamMap)throws PrintingException{
 	    byte[] xmlBytes = null;
         String xmlString=null;
-        String loggingDirectory = kualiConfigurationService.getPropertyString(Constants.PRINT_LOGGING_ENABLE);
+        String loggingDirectory = kualiConfigurationService.getPropertyString(Constants.PRINT_LOGGING_DIRECTORY);
 	    Iterator<String> it = xmlStreamMap.keySet().iterator();
 	    if(loggingDirectory!=null){
 	    try {
