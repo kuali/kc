@@ -1710,7 +1710,10 @@ public class InstitutionalProposal extends KraPersistableBusinessObjectBase impl
     }
     
     public String getInstProposalNumber(){
-        retrieveInstProposalNumberFromDB();
+        //retrieveInstProposalNumberFromDB()
+        if(instProposalNumber == null){
+            instProposalNumber = proposalNumber;
+        }
         return instProposalNumber;
     }
     
