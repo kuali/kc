@@ -13,15 +13,13 @@
  * See the License for the specific language governing permissions and
  * limitations under the License.
  */
-package org.kuali.kra.coi;
+package org.kuali.kra.coi.personfinancialentity;
 
 import java.util.Collection;
 import java.util.HashMap;
 import java.util.Map;
 
 import org.apache.commons.lang.ObjectUtils;
-import org.kuali.kra.coi.personfinancialentity.FinEntitiesDataGroup;
-import org.kuali.kra.coi.personfinancialentity.FinEntitiesDataMatrix;
 import org.kuali.kra.infrastructure.KeyConstants;
 import org.kuali.kra.infrastructure.KraServiceLocator;
 import org.kuali.kra.rules.KraMaintenanceDocumentRuleBase;
@@ -30,12 +28,12 @@ import org.kuali.rice.kns.service.BusinessObjectService;
 
 /**
  * 
- * This class implements business rule for data matrix maintenance
+ * This class implements business rule for data group maintenance
  */
-public class FinEntitiesDataMatrixMaintenanceDocumentRule   extends KraMaintenanceDocumentRuleBase {
+public class FinEntitiesDataGroupMaintenanceDocumentRule  extends KraMaintenanceDocumentRuleBase {
 
-    private static final String COLUMN_SORT_ID_FIELD_NAME = "columnSortId";
-    private static final String GROUP_ID_FIELD_NAME = "dataGroupId";
+    private static final String GROUP_SORT_ID_FIELD_NAME = "dataGroupSortId";
+    private static final String GROUP_NAME_FIELD_NAME = "dataGroupName";
     
     private transient BusinessObjectService businessObjectService;
 
@@ -49,37 +47,37 @@ public class FinEntitiesDataMatrixMaintenanceDocumentRule   extends KraMaintenan
         return checkUniqueness(document);
     }
     
+
     private boolean checkUniqueness(MaintenanceDocument document) {
         boolean isValid = true;
         
-        FinEntitiesDataMatrix newFinEntitiesDataMatrix = (FinEntitiesDataMatrix) document.getNewMaintainableObject().getBusinessObject();
+        FinEntitiesDataGroup newFinEntitiesDataGroup = (FinEntitiesDataGroup) document.getNewMaintainableObject().getBusinessObject();
         
-        isValid &= checkSortIdUniqueness(newFinEntitiesDataMatrix);
-        isValid &= checkGroupIdExist(newFinEntitiesDataMatrix);
+        isValid &= checkSortIdUniqueness(newFinEntitiesDataGroup);
+        isValid &= checkGroupNameUniqueness(newFinEntitiesDataGroup);
         
         return isValid;
     }
 
     
     /*
-     * validate uniqueness of column sort id
+     * validate uniqueness of group sort id
      */
     @SuppressWarnings("unchecked")
-    private boolean checkSortIdUniqueness(FinEntitiesDataMatrix newFinEntitiesDataMatrix) {
+    private boolean checkSortIdUniqueness(FinEntitiesDataGroup newFinEntitiesDataGroup) {
         boolean isValid = true;
         
-        Integer coloumnSortId = newFinEntitiesDataMatrix.getColumnSortId();
+        Integer groupSortId = newFinEntitiesDataGroup.getDataGroupSortId();
         
         Map<String, Object> fieldValues = new HashMap<String, Object>();
-        fieldValues.put(COLUMN_SORT_ID_FIELD_NAME, coloumnSortId);
-        Collection<FinEntitiesDataMatrix> matchingDataMatrixs = getBusinessObjectService().findMatching(FinEntitiesDataMatrix.class, fieldValues);
+        fieldValues.put(GROUP_SORT_ID_FIELD_NAME, groupSortId);
+        Collection<FinEntitiesDataGroup> matchingDataGroups = getBusinessObjectService().findMatching(FinEntitiesDataGroup.class, fieldValues);
         
-        for (FinEntitiesDataMatrix dataMatrix : matchingDataMatrixs) {
-            if (!ObjectUtils.equals(dataMatrix.getColumnName(), newFinEntitiesDataMatrix.getColumnName())
-                    && ObjectUtils.equals(dataMatrix.getDataGroupId(), newFinEntitiesDataMatrix.getDataGroupId())) {
+        for (FinEntitiesDataGroup dataGroup : matchingDataGroups) {
+            if (!ObjectUtils.equals(dataGroup.getDataGroupId(), newFinEntitiesDataGroup.getDataGroupId())) {
                 isValid = false;
-                putFieldError(COLUMN_SORT_ID_FIELD_NAME, KeyConstants.ERROR_DUPLICATE_PROPERTY, 
-                    new String[] {"Column Sort Id"});
+                putFieldError(GROUP_SORT_ID_FIELD_NAME, KeyConstants.ERROR_DUPLICATE_PROPERTY, 
+                    new String[] {"Group Sort Id"});
                 break;
             }
         }
@@ -87,23 +85,29 @@ public class FinEntitiesDataMatrixMaintenanceDocumentRule   extends KraMaintenan
         return isValid;
     }
        
+    
     /*
-     * validate group id exist, ie, data group exist
+     * validate uniqueness of group name
      */
     @SuppressWarnings("unchecked")
-    private boolean checkGroupIdExist(FinEntitiesDataMatrix newFinEntitiesDataMatrix) {
+    private boolean checkGroupNameUniqueness(FinEntitiesDataGroup newFinEntitiesDataGroup) {
         boolean isValid = true;
-
-        Integer groupId = newFinEntitiesDataMatrix.getDataGroupId();
-
+        
+        String groupName = newFinEntitiesDataGroup.getDataGroupName();
+        
         Map<String, Object> fieldValues = new HashMap<String, Object>();
-        fieldValues.put(GROUP_ID_FIELD_NAME, groupId);
-
-        if (getBusinessObjectService().countMatching(FinEntitiesDataGroup.class, fieldValues) == 0) {
-            isValid = false;
-            putFieldError(GROUP_ID_FIELD_NAME, KeyConstants.ERROR_DATA_GROUP_NOT_EXIST, new String[] { groupId.toString() });
+        fieldValues.put(GROUP_NAME_FIELD_NAME, groupName);
+        Collection<FinEntitiesDataGroup> matchingDataGroups = getBusinessObjectService().findMatching(FinEntitiesDataGroup.class, fieldValues);
+        
+        for (FinEntitiesDataGroup dataGroup : matchingDataGroups) {
+            if (!ObjectUtils.equals(dataGroup.getDataGroupId(), newFinEntitiesDataGroup.getDataGroupId())) {
+                isValid = false;
+                putFieldError(GROUP_NAME_FIELD_NAME, KeyConstants.ERROR_DUPLICATE_PROPERTY, 
+                    new String[] {"Group Name"});
+                break;
+            }
         }
-
+        
         return isValid;
     }
 
@@ -113,6 +117,11 @@ public class FinEntitiesDataMatrixMaintenanceDocumentRule   extends KraMaintenan
         }
         return businessObjectService;
     }
+
+    public void setBusinessObjectService(BusinessObjectService businessObjectService) {
+        this.businessObjectService = businessObjectService;
+    }
        
+
 
 }
