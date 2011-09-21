@@ -53,8 +53,8 @@
         <property name="label" value="Column Name" />
         <property name="shortLabel" value="Column Name" />
         <property name="maxLength" value="30" />
-        <property name="validationPattern" >
-            <bean parent="AlphaNumericValidationPattern" />
+        <property name="validationPattern">
+            <bean p:allowWhitespace="true" parent="AnyCharacterValidationPattern"/>
         </property>
         <property name="control" >
             <bean parent="TextControlDefinition"
@@ -93,8 +93,9 @@
             <bean parent="AlphaNumericValidationPattern" />
         </property>
         <property name="control" >
-            <bean parent="TextControlDefinition"
-                p:size="10" />
+            <bean parent="SelectControlDefinition"
+                p:valuesFinderClass="org.kuali.kra.coi.personfinancialentity.DataMatrixGuiTypeValuesFinder"
+                p:includeKeyInLabel="false" />
         </property>
         <property name="summary" value="Gui Type" />
         <property name="description" value="Gui Type" />
