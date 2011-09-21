@@ -960,6 +960,9 @@ public final class KeyConstants {
     public static final String INSUFFICIENT_AMOUNT_TO_PERIOD_DIRECT_COST_LIMIT_SYNC = "insufficient.amount.to.period.direct.cost.limit.sync";
     public static final String TOTAL_DIRECT_COST_ALREADY_IN_SYNC = "total.direct.cost.already.sync";
     
+    public static final String ERROR_DUPLICATE_PROPERTY = "error.duplicate.property";
+    public static final String ERROR_DATA_GROUP_NOT_EXIST = "error.datagroup.not.exist";
+    
     //negotiations
     public static final String NEGOTIATION_STATUS_USED = "error.negotiations.codeAlreadyUsed";
     public static final String NEGOTIATION_CHANGE_ASSOCIATION_TYPE_MESSAGE="negotiation.message.changeAssociationType";
