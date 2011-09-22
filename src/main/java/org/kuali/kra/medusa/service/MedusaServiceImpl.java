@@ -34,6 +34,8 @@ import org.kuali.kra.bo.versioning.VersionStatus;
 import org.kuali.kra.institutionalproposal.home.InstitutionalProposal;
 import org.kuali.kra.institutionalproposal.proposaladmindetails.ProposalAdminDetails;
 import org.kuali.kra.medusa.MedusaNode;
+import org.kuali.kra.negotiations.bo.Negotiation;
+import org.kuali.kra.negotiations.service.NegotiationService;
 import org.kuali.kra.proposaldevelopment.bo.DevelopmentProposal;
 import org.kuali.kra.service.AwardHierarchyUIService;
 import org.kuali.kra.service.VersionHistoryService;
@@ -49,12 +51,13 @@ public class MedusaServiceImpl implements MedusaService {
     public static final String AWARD_MODULE = "award";
     public static final String INSTITUTIONAL_PROPOSAL_MODULE = "IP";
     public static final String DEVELOPMENT_PROPOSAL_MODULE = "DP";    
+    public static final String NEGOTIATION_MODULE = "neg";
     private static final int INST_PROPOSAL_STATUS_FUNDED = 2;
 
     private BusinessObjectService businessObjectService;
     private AwardAmountInfoService awardAmountInfoService;
     private VersionHistoryService versionHistoryService;
-    
+    private NegotiationService negotiationService;
     
     /**
      * 
@@ -77,6 +80,9 @@ public class MedusaServiceImpl implements MedusaService {
                 (DevelopmentProposal) businessObjectService.findByPrimaryKey(DevelopmentProposal.class, getFieldValues("proposalNumber", moduleId));
             devProp.setNsfCodeBo(getNsfCode(devProp.getNsfCode()));
             curNode.setBo(devProp);
+        } else if (StringUtils.equalsIgnoreCase(NEGOTIATION_MODULE, moduleName)) {
+            Negotiation negotiation = getNegotiation(moduleId);
+            curNode.setBo(negotiation);
         }
         return curNode;
     }
@@ -141,7 +147,12 @@ public class MedusaServiceImpl implements MedusaService {
             addVertex(graph, proposal);
             buildGraph(graph, proposal);
             nodes = getParentNodes(graph, new String[]{preferredModule, DEVELOPMENT_PROPOSAL_MODULE});
-        } 
+        } else if (StringUtils.equals(moduleName, NEGOTIATION_MODULE)) {
+            Negotiation negotiation = getNegotiation(moduleIdentifier);
+            addVertex(graph, negotiation);
+            buildGraph(graph, negotiation);
+            nodes = getParentNodes(graph, new String[]{preferredModule, NEGOTIATION_MODULE});
+        }
         return nodes;
     }
     
@@ -210,7 +221,7 @@ public class MedusaServiceImpl implements MedusaService {
             List<MedusaNode> seenNodes = new ArrayList<MedusaNode>(parentNodes);
             populateChildNodes(graph, node, seenNodes);
         }
-        
+
         return parentNodes;
     }
     
@@ -265,6 +276,15 @@ public class MedusaServiceImpl implements MedusaService {
                 addEdge(graph, award, proposal);                
             }
         }
+        Collection<Negotiation> negotiations = getNegotiations(award);
+        for (Negotiation negotiation : negotiations) {
+            if (findMatchingBo(graph.keySet(), negotiation) == null) {
+                addEdge(graph, award, negotiation);
+                buildGraph(graph, negotiation);
+            } else {
+                addEdge(graph, award, negotiation);                
+            }
+        }        
     }
     
     /**
@@ -292,6 +312,16 @@ public class MedusaServiceImpl implements MedusaService {
                 addEdge(graph, proposal, devProp);                
             }
         }
+        Collection<Negotiation> negotiations = getNegotiations(proposal);
+        for (Negotiation negotiation : negotiations) {
+            if (findMatchingBo(graph.keySet(), negotiation) == null) {
+                addEdge(graph, proposal, negotiation);
+                buildGraph(graph, negotiation);
+            } else {
+                addEdge(graph, proposal, negotiation);                
+            }
+        }
+        
     }
     
     /**
@@ -310,6 +340,24 @@ public class MedusaServiceImpl implements MedusaService {
                 addEdge(graph, devProp, proposal);
             }
         }       
+    }
+    
+    protected void buildGraph(HashMap<BusinessObject, List<BusinessObject>> graph, Negotiation negotiation) {
+        BusinessObject bo = getNegotiationService().getAssociatedObject(negotiation);
+        if (bo instanceof Award || bo instanceof InstitutionalProposal) {
+            if (findMatchingBo(graph.keySet(), bo) == null) {
+                addEdge(graph, negotiation, bo);
+                if (bo instanceof Award) {
+                    Award award = (Award) bo;
+                    buildGraph(graph, award);
+                } else if (bo instanceof InstitutionalProposal) {
+                    InstitutionalProposal proposal = (InstitutionalProposal) bo;
+                    buildGraph(graph, proposal);
+                }
+            } else {
+                addEdge(graph, negotiation, bo);
+            }
+        }
     }
     
     /**
@@ -355,7 +403,12 @@ public class MedusaServiceImpl implements MedusaService {
                     ((Award)bo2).getAwardId())) {
                 return true;
             }
-        }
+        } else if (bo1 instanceof Negotiation && bo2 instanceof Negotiation) {
+            if (ObjectUtils.equals(((Negotiation) bo1).getNegotiationId(),
+                    ((Negotiation) bo2).getNegotiationId())) {
+                return true;
+            }
+        }        
         return false;
     }
     
@@ -397,6 +450,11 @@ public class MedusaServiceImpl implements MedusaService {
         }
         Award currentAward = (Award) getActiveOrCurrentVersion(Award.class, award.getAwardNumber());
         return currentAward == null ? award : currentAward;
+    }
+    
+    protected Negotiation getNegotiation(Long negotiationId) {
+        Negotiation negotiation = (Negotiation) businessObjectService.findBySinglePrimaryKey(Negotiation.class, negotiationId);
+        return negotiation;
     }
     
     /**
@@ -443,6 +501,8 @@ public class MedusaServiceImpl implements MedusaService {
             return getNode((InstitutionalProposal)bo);
         } else if (bo instanceof DevelopmentProposal) {
             return getNode((DevelopmentProposal)bo);
+        } else if (bo instanceof Negotiation) {
+            return getNode((Negotiation)bo);
         } else {
             return null;
         }
@@ -469,7 +529,14 @@ public class MedusaServiceImpl implements MedusaService {
         node.setBo(proposal);
         node.setType(DEVELOPMENT_PROPOSAL_MODULE);
         return node;
-    }    
+    }
+    
+    protected MedusaNode getNode(Negotiation negotiation) {
+        MedusaNode node = new MedusaNode();
+        node.setBo(negotiation);
+        node.setType(NEGOTIATION_MODULE);
+        return node;
+    }
     
     /**
      * 
@@ -593,7 +660,11 @@ public class MedusaServiceImpl implements MedusaService {
             instProposals.add(getInstitutionalProposal(proposalAdminDetail.getInstProposalId()));
         }
         return instProposals;        
-    }    
+    }
+    
+    protected Collection<Negotiation> getNegotiations(BusinessObject bo) {
+        return getNegotiationService().getAssociatedNegotiations(bo);
+    }
 
     /**
      * Gets the businessObjectService attribute. 
@@ -640,7 +711,13 @@ public class MedusaServiceImpl implements MedusaService {
     public void setVersionHistoryService(VersionHistoryService versionHistoryService) {
         this.versionHistoryService = versionHistoryService;
     }
-    
-    
+
+    public NegotiationService getNegotiationService() {
+        return negotiationService;
+    }
+
+    public void setNegotiationService(NegotiationService negotiationService) {
+        this.negotiationService = negotiationService;
+    } 
     
 }
