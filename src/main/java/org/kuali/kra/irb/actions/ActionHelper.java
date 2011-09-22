@@ -2247,8 +2247,9 @@ public class ActionHelper implements Serializable {
     
     /**
      * Sets up the summary details subpanel.
+     * @throws Exception 
      */
-    public void initSummaryDetails() {
+    public void initSummaryDetails() throws Exception {
         if (currentSequenceNumber == -1) {
             currentSequenceNumber = getProtocol().getSequenceNumber();
         } else if (currentSequenceNumber > getProtocol().getSequenceNumber()) {
@@ -2274,6 +2275,7 @@ public class ActionHelper implements Serializable {
             protocolSummary.compare(prevProtocolSummary);
             prevProtocolSummary.compare(protocolSummary);
         }
+
         setSummaryQuestionnaireExist(hasAnsweredQuestionnaire((protocol.isAmendment() || protocol.isRenewal()) ? CoeusSubModule.AMENDMENT_RENEWAL : CoeusSubModule.ZERO_SUBMODULE, protocol.getSequenceNumber().toString()));
     }
 
@@ -2291,6 +2293,7 @@ public class ActionHelper implements Serializable {
             setPrevDisabled(true);
             setNextDisabled(true);
         }
+
         setReviewComments(getReviewerCommentsService().getReviewerComments(getProtocol().getProtocolNumber(),
                 currentSubmissionNumber));
         setReviewAttachments(getReviewerCommentsService().getReviewerAttachments(getProtocol().getProtocolNumber(),
@@ -2308,6 +2311,54 @@ public class ActionHelper implements Serializable {
         setAbstainees(getCommitteeDecisionService().getAbstainers(getProtocol().getProtocolNumber(), currentSubmissionNumber));
         setRecusers(getCommitteeDecisionService().getRecusers(getProtocol().getProtocolNumber(), currentSubmissionNumber));
         setSubmissionQuestionnaireExist(hasAnsweredQuestionnaire(CoeusSubModule.PROTOCOL_SUBMISSION, Integer.toString(currentSubmissionNumber)));
+    }
+    
+    /**
+     * This method populates the protocolAmendmentBean with the amendment details from the 
+     * current submission.
+     * @throws Exception
+     */
+    protected void setAmendmentDetails() throws Exception {
+        ProtocolAmendmentBean amendmentBean = getProtocolAmendmentBean();
+       
+        // Use the submission number to get the correct amendment details
+        if (getProtocol().isAmendment()) {
+            String originalProtocolNumber = getProtocol().getProtocolAmendRenewal().getProtocolNumber();           
+            List<Protocol> protocols = getProtocolAmendRenewService().getAmendmentAndRenewals(originalProtocolNumber);
+            
+            ProtocolAmendRenewal correctAmendment = getCorrectAmendment(protocols);
+            amendmentBean.setSummary(correctAmendment.getSummary());
+            amendmentBean.setGeneralInfo((correctAmendment.hasModule(ProtocolModule.GENERAL_INFO)) ? true : false);
+            amendmentBean.setProtocolPersonnel((correctAmendment.hasModule(ProtocolModule.PROTOCOL_PERSONNEL)) ? true : false);
+            amendmentBean.setAreasOfResearch((correctAmendment.hasModule(ProtocolModule.AREAS_OF_RESEARCH)) ? true : false);
+            amendmentBean.setAddModifyAttachments((correctAmendment.hasModule(ProtocolModule.ADD_MODIFY_ATTACHMENTS)) ? true : false);
+            amendmentBean.setFundingSource((correctAmendment.hasModule(ProtocolModule.FUNDING_SOURCE)) ? true : false);
+            amendmentBean.setOthers((correctAmendment.hasModule(ProtocolModule.OTHERS)) ? true : false);
+            amendmentBean.setProtocolOrganizations((correctAmendment.hasModule(ProtocolModule.PROTOCOL_ORGANIZATIONS)) ? true : false);
+            amendmentBean.setProtocolPermissions((correctAmendment.hasModule(ProtocolModule.PROTOCOL_PERMISSIONS)) ? true : false);
+            amendmentBean.setProtocolReferencesAndOtherIdentifiers((correctAmendment.hasModule(ProtocolModule.PROTOCOL_REFERENCES)) ? true : false);
+            amendmentBean.setQuestionnaire((correctAmendment.hasModule(ProtocolModule.QUESTIONNAIRE)) ? true : false);
+            amendmentBean.setSpecialReview((correctAmendment.hasModule(ProtocolModule.SPECIAL_REVIEW)) ? true : false);
+            amendmentBean.setSubjects((correctAmendment.hasModule(ProtocolModule.SUBJECTS)) ? true : false);
+
+        }
+
+    }
+        
+    
+    /**
+     * This method returns the amendRenewal bean with the current submission number. 
+     * @param protocols
+     * @return
+     */
+    protected ProtocolAmendRenewal getCorrectAmendment(List<Protocol> protocols) {
+        for (Protocol protocol : protocols) {
+            // There should always be an amendment with the current submission number.
+            if (protocol.isAmendment() && protocol.getProtocolSubmission().getSubmissionNumber() == currentSubmissionNumber) {
+                return protocol.getProtocolAmendRenewal();
+            }
+        }
+        return null;
     }
     
     private boolean hasAnsweredQuestionnaire(String moduleSubItemCode, String moduleSubItemKey) {
@@ -2392,6 +2443,7 @@ public class ActionHelper implements Serializable {
         return submissionNumbers;
     }
 
+  
 
     /*
      * utility method to set whether to display next or previous button on submission panel.
