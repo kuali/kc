@@ -60,7 +60,7 @@ public class FinIntEntityRelTypeMaintenanceDocumentRuleTest extends MaintenanceR
     }
     
     @Test
-    public void testModuleUniqueOK() throws Exception {
+    public void testUniqueOK() throws Exception {
         MaintenanceDocument finIntEntityRelTypeMaintenanceDocument = getFinIntEntityRelTypeMaintenanceDocument(CODE_1, DESCRIPTION_1, SORT_ID_1);
         
         assertTrue(rule.processCustomRouteDocumentBusinessRules(finIntEntityRelTypeMaintenanceDocument));
@@ -68,7 +68,7 @@ public class FinIntEntityRelTypeMaintenanceDocumentRuleTest extends MaintenanceR
     }
     
     @Test
-    public void testModuleUniqueNotOK() throws Exception {
+    public void testUniqueNotOK() throws Exception {
         MaintenanceDocument finIntEntityRelTypeMaintenanceDocument = getFinIntEntityRelTypeMaintenanceDocument(CODE_2, DESCRIPTION_1, SORT_ID_1);
         
         assertFalse(rule.processCustomRouteDocumentBusinessRules(finIntEntityRelTypeMaintenanceDocument));

@@ -59,7 +59,7 @@ public class FinEntitiesDataGroupMaintenanceDocumentRuleTest extends Maintenance
     }
     
     @Test
-    public void testModuleUniqueOK() throws Exception {
+    public void testUniqueOK() throws Exception {
         MaintenanceDocument finEntitiesDataGroupMaintenanceDocument = getFinEntitiesDataGroupMaintenanceDocument(GROUP_ID_1, GROUP_NAME, SORT_ID_1);
         
         assertTrue(rule.processCustomRouteDocumentBusinessRules(finEntitiesDataGroupMaintenanceDocument));
@@ -67,7 +67,7 @@ public class FinEntitiesDataGroupMaintenanceDocumentRuleTest extends Maintenance
     }
     
     @Test
-    public void testModuleUniqueNotOK() throws Exception {
+    public void testUniqueNotOK() throws Exception {
         MaintenanceDocument finEntitiesDataGroupMaintenanceDocument = getFinEntitiesDataGroupMaintenanceDocument(GROUP_ID_2, GROUP_NAME, SORT_ID_1);
         
         assertFalse(rule.processCustomRouteDocumentBusinessRules(finEntitiesDataGroupMaintenanceDocument));
