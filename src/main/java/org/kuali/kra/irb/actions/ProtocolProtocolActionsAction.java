@@ -1172,12 +1172,13 @@ public class ProtocolProtocolActionsAction extends ProtocolAction implements Aud
      * @return
      * @throws Exception
      */
-    public ActionForward viewPreviousSubmission(ActionMapping mapping, ActionForm form, HttpServletRequest request,
+    public ActionForward viewPreviousSubmission (ActionMapping mapping, ActionForm form, HttpServletRequest request,
             HttpServletResponse response) throws Exception {
 
         ProtocolForm protocolForm = (ProtocolForm) form;
         ActionHelper actionHelper = protocolForm.getActionHelper();
         actionHelper.setCurrentSubmissionNumber(actionHelper.getPrevSubmissionNumber());
+        actionHelper.setAmendmentDetails();
         protocolForm.getActionHelper().initSubmissionDetails();
         return mapping.findForward(Constants.MAPPING_BASIC);
     }
@@ -1198,6 +1199,7 @@ public class ProtocolProtocolActionsAction extends ProtocolAction implements Aud
         ProtocolForm protocolForm = (ProtocolForm) form;
         ActionHelper actionHelper = protocolForm.getActionHelper();
         actionHelper.setCurrentSubmissionNumber(actionHelper.getNextSubmissionNumber());
+        actionHelper.setAmendmentDetails();
         protocolForm.getActionHelper().initSubmissionDetails();
         return mapping.findForward(Constants.MAPPING_BASIC);
     }
