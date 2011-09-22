@@ -59,7 +59,7 @@ public class FinEntitiesDataMatrixMaintenanceDocumentRuleTest extends Maintenanc
     }
     
     @Test
-    public void testModuleUniqueOK() throws Exception {
+    public void testUniqueOK() throws Exception {
         MaintenanceDocument finEntitiesDataMatrixMaintenanceDocument = getFinEntitiesDataMatrixMaintenanceDocument(COLUMN_NAME, SORT_ID_1, GROUP_ID_1);
         rule.setBusinessObjectService(getMockBusinessObjectService());
        
@@ -68,7 +68,7 @@ public class FinEntitiesDataMatrixMaintenanceDocumentRuleTest extends Maintenanc
     }
     
     @Test
-    public void testModuleUniqueNotOK() throws Exception {
+    public void testUniqueNotOK() throws Exception {
         rule.setBusinessObjectService(getMockBusinessObjectService1());
         MaintenanceDocument finEntitiesDataMatrixMaintenanceDocument = getFinEntitiesDataMatrixMaintenanceDocument(COLUMN_NAME_1, SORT_ID_1, GROUP_ID_1);
         
