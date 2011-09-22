@@ -25,6 +25,7 @@ import javax.servlet.http.HttpServletRequest;
 import org.apache.commons.lang.StringUtils;
 import org.kuali.kra.authorization.KraAuthorizationConstants;
 import org.kuali.kra.infrastructure.KraServiceLocator;
+import org.kuali.kra.medusa.MedusaBean;
 import org.kuali.kra.negotiations.bo.Negotiation;
 import org.kuali.kra.negotiations.bo.NegotiationAssociatedDetailBean;
 import org.kuali.kra.negotiations.bo.NegotiationAssociationType;
@@ -53,6 +54,8 @@ public class NegotiationForm extends KraTransactionalDocumentFormBase {
     private NegotiationActivityHelper negotiationActivityHelper;
     private NegotiationAssociatedDetailBean negotiationAssociatedDetailBean;
     
+    private MedusaBean medusaBean;
+    
     /**
      * 
      * Constructs a NegotiationForm.java.
@@ -61,6 +64,7 @@ public class NegotiationForm extends KraTransactionalDocumentFormBase {
         super();
         negotiationUnassociatedDetailsToDelete = new ArrayList<NegotiationUnassociatedDetail>();
         negotiationActivityHelper = new NegotiationActivityHelper(this);
+        medusaBean = new MedusaBean();
     }
     
     public NegotiationDocument getNegotiationDocument() {
@@ -199,5 +203,13 @@ public class NegotiationForm extends KraTransactionalDocumentFormBase {
         Map params = new HashMap();
         params.put("NEGOTIATION_STATUS_CODE", code);
         return (NegotiationStatus) this.getBusinessObjectService().findMatching(NegotiationStatus.class, params).iterator().next();
+    }
+
+    public MedusaBean getMedusaBean() {
+        return medusaBean;
+    }
+
+    public void setMedusaBean(MedusaBean medusaBean) {
+        this.medusaBean = medusaBean;
     }
 }

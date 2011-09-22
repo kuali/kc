@@ -27,7 +27,9 @@
   	headerDispatch="${KualiForm.headerDispatch}"
   	headerTabActive="medusa" >
 
+<kul:tabTop tabTitle="Medusa" defaultOpen="true" tabErrorKey="">
 <kra-m:medusa />
+</kul:tabTop>
 <kul:panelFooter />
 <kul:documentControls transactionalDocument="true" suppressRoutingControls="true" suppressCancelButton="true"/>
 

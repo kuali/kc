@@ -24,6 +24,7 @@ import org.kuali.kra.award.home.Award;
 import org.kuali.kra.institutionalproposal.home.InstitutionalProposal;
 import org.kuali.kra.proposaldevelopment.bo.DevelopmentProposal;
 import org.kuali.kra.medusa.service.MedusaService;
+import org.kuali.kra.negotiations.bo.Negotiation;
 
 
 public class MedusaNodeComparator implements Comparator<MedusaNode> {
@@ -46,7 +47,9 @@ public class MedusaNodeComparator implements Comparator<MedusaNode> {
                 return nodeType + ((InstitutionalProposal)mBo).getProposalNumber();
             else if(StringUtils.equals(nodeType, "DP")) 
                 return nodeType + ((DevelopmentProposal)mBo).getProposalNumber();    
-            else
+            else if (StringUtils.equals(nodeType, "neg")) {
+                return nodeType + ((Negotiation)mBo).getNegotiationId();
+            } else
                 return "medusa: unsupported medusa node type";
         }
     }

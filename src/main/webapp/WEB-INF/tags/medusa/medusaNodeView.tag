@@ -13,6 +13,9 @@
 <c:when test="${node.type == 'DP'}">
   <kra-m:medusaDevPropSummary node="${node}"/>
 </c:when>
+<c:when test="${node.type == 'neg'}">
+  <kra-m:medusaNegotiationSummary node="${node}"/>
+</c:when>
 </c:choose>
 </div>
 
