@@ -96,7 +96,7 @@ public class NegotiationActivityRuleImpl implements NegotiationActivityAddRule {
             result = false;
             errorReporter.reportError(END_DATE_PROPERTY, KeyConstants.NEGOTIATION_ACTIVITY_END_AFTER_NEGOTIATION);
         }
-        if (activity.getFollowupDate() != null && activity.getFollowupDate().compareTo(new Date()) < 0) {
+        if (activity.getFollowupDate() != null && activity.getFollowupDate().compareTo(new Date()) <= 0) {
             result = false;
             errorReporter.reportError("followupDate", KeyConstants.NEGOTIATION_ACTIVITY_FOLLOWUP_BEFORE_TODAY);
         }
