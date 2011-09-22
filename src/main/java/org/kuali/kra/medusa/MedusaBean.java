@@ -36,6 +36,7 @@ public class MedusaBean implements Serializable{
     private MedusaNode currentNode;
     
     public MedusaBean() {
+        setMedusaViewRadio("0");
     }
     
     /**

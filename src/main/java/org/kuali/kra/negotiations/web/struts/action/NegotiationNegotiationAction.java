@@ -62,6 +62,8 @@ public class NegotiationNegotiationAction extends NegotiationAction {
         NegotiationForm negotiationForm = (NegotiationForm) form;
         loadCodeObjects(negotiationForm.getNegotiationDocument().getNegotiation());
         findAndLoadNegotiationUnassociatedDetail(negotiationForm.getNegotiationDocument().getNegotiation(), false);
+        negotiationForm.getMedusaBean().setModuleName("neg");
+        negotiationForm.getMedusaBean().setModuleIdentifier(negotiationForm.getDocument().getNegotiation().getNegotiationId());
         return actionForward;
     }
     
@@ -358,6 +360,21 @@ public class NegotiationNegotiationAction extends NegotiationAction {
         return null;
         
     }
+
+    /**
+     * Medusa refresh button action.
+     * @param mapping
+     * @param form
+     * @param request
+     * @param response
+     * @return
+     * @throws Exception
+     */
+    public ActionForward refreshView(ActionMapping mapping, ActionForm form, HttpServletRequest request, HttpServletResponse response) throws Exception {
+        
+        return mapping.findForward(Constants.MAPPING_AWARD_BASIC);
+    }
+
 
     public NegotiationService getNegotiationService() {
         if (negotiationService == null) {

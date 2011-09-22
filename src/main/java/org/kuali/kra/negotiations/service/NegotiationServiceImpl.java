@@ -15,7 +15,9 @@
  */
 package org.kuali.kra.negotiations.service;
 
+import java.util.ArrayList;
 import java.util.Arrays;
+import java.util.Collection;
 import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
@@ -29,8 +31,10 @@ import org.kuali.kra.institutionalproposal.service.InstitutionalProposalService;
 import org.kuali.kra.negotiations.bo.Negotiation;
 import org.kuali.kra.negotiations.bo.NegotiationAssociatedDetailBean;
 import org.kuali.kra.negotiations.bo.NegotiationAssociationType;
+import org.kuali.kra.negotiations.bo.NegotiationStatus;
 import org.kuali.kra.negotiations.bo.NegotiationUnassociatedDetail;
 import org.kuali.kra.negotiations.document.NegotiationDocument;
+import org.kuali.rice.kns.bo.BusinessObject;
 import org.kuali.rice.kns.service.BusinessObjectService;
 import org.kuali.rice.kns.service.ParameterService;
 
@@ -63,6 +67,30 @@ public class NegotiationServiceImpl implements NegotiationService {
     public List<String> getCompletedStatusCodes() {
         String value = getParameterService().getParameterValue(NegotiationDocument.class, "negotiationCompletedStatusCodes");
         return Arrays.asList(value.split(PARAMETER_DELIMITER));        
+    }
+    
+    public BusinessObject getAssociatedObject(Negotiation negotiation) {
+        if (negotiation.getNegotiationAssociationType() != null) {
+            BusinessObject bo = null;
+            if (StringUtils.equals(negotiation.getNegotiationAssociationType().getCode(), NegotiationAssociationType.AWARD_ASSOCIATION)) {
+                bo = getAward(negotiation.getAssociatedDocumentId());
+            } else if (StringUtils.equals(negotiation.getNegotiationAssociationType().getCode(), 
+                    NegotiationAssociationType.INSTITUATIONAL_PROPOSAL_ASSOCIATION)) {
+                bo = getInstitutionalProposal(negotiation.getAssociatedDocumentId());
+            } else if (StringUtils.equals(negotiation.getNegotiationAssociationType().getCode(), 
+                    NegotiationAssociationType.NONE_ASSOCIATION)) {
+                bo = negotiation.getUnAssociatedDetail();
+            } else if (StringUtils.equals(negotiation.getNegotiationAssociationType().getCode(), 
+                    NegotiationAssociationType.PROPOSAL_LOG_ASSOCIATION)) {
+                bo = getProposalLog(negotiation.getAssociatedDocumentId());
+            } else if (StringUtils.equals(negotiation.getNegotiationAssociationType().getCode(), 
+                    NegotiationAssociationType.SUB_AWARD_ASSOCIATION)) {
+                bo = null;
+            }
+            return bo;
+        } else {
+            return null;
+        }
     }
     
     /**
@@ -114,6 +142,38 @@ public class NegotiationServiceImpl implements NegotiationService {
     private InstitutionalProposal getInstitutionalProposal(String proposalNumber) {
         InstitutionalProposal ip = this.getInstitutionalProposalService().getActiveInstitutionalProposalVersion(proposalNumber);
         return ip;
+    }
+    
+    @SuppressWarnings("unchecked")
+    public List<Negotiation> getAssociatedNegotiations(BusinessObject bo) {
+        List<Negotiation> result = new ArrayList<Negotiation>();
+        if (bo instanceof ProposalLog) {
+            ProposalLog propLog = (ProposalLog) bo;
+            return new ArrayList(getAssociatedNegotiations(propLog.getProposalNumber(), NegotiationAssociationType.PROPOSAL_LOG_ASSOCIATION));
+        } else if (bo instanceof InstitutionalProposal) {
+            InstitutionalProposal ip = (InstitutionalProposal) bo;
+            return new ArrayList(getAssociatedNegotiations(ip.getProposalNumber(), NegotiationAssociationType.INSTITUATIONAL_PROPOSAL_ASSOCIATION));
+        } else if (bo instanceof Award) {
+            Award award = (Award) bo;
+            return new ArrayList(getAssociatedNegotiations(award.getAwardNumber(), NegotiationAssociationType.AWARD_ASSOCIATION));            
+        }
+        //TODO: subaward links to be implemented here when subaward is implemented.
+        return result;
+    }  
+    
+    @SuppressWarnings("unchecked")
+    protected Collection<Negotiation> getAssociatedNegotiations(String associatedId, String associationTypeCode) {
+        Map<String, Object> values = new HashMap<String, Object>();
+        values.put("associatedDocumentId", associatedId);
+        values.put("negotiationAssociationTypeId", getNegotiationAssociationType(associationTypeCode).getId());
+        return (Collection<Negotiation>) getBusinessObjectService().findMatching(Negotiation.class, values);
+    }
+    
+    @SuppressWarnings("unchecked")
+    public NegotiationAssociationType getNegotiationAssociationType(String associationTypeCode) {
+        Map params = new HashMap();
+        params.put("code", associationTypeCode);
+        return (NegotiationAssociationType) this.getBusinessObjectService().findMatching(NegotiationAssociationType.class, params).iterator().next();
     }
 
     protected ParameterService getParameterService() {
