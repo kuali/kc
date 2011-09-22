@@ -572,6 +572,7 @@
 		<property name="businessObjectService" ref="businessObjectService" />
 		<property name="awardAmountInfoService" ref="awardAmountInfoService" />
 		<property name="versionHistoryService" ref="versionHistoryService" />
+		<property name="negotiationService" ref="negotiationService" />
 	</bean>
 
 	<bean id="notificationService"

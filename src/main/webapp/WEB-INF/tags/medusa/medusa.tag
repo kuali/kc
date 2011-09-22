@@ -20,9 +20,10 @@
 	<link rel="stylesheet" href="css/jquery/new_kuali.css" type="text/css" />
 	<link rel="stylesheet" href="css/jquery/kuali-stylesheet.css" type="text/css" />
 	<link rel="stylesheet" href="css/jquery/jquery.treeview.css" type="text/css" />
+	<script type="text/javascript">
+	   var $jq = jQuery.noConflict();
+	</script>	
 
-
-<kul:tabTop tabTitle="Medusa" defaultOpen="true" tabErrorKey="">
 <div class="tab-container"  align="center">
 	<h3> 
 		<span class="subhead-left" style="display: inline;" >Medusa</span>
@@ -84,6 +85,5 @@ ${kfunc:registerEditableProperty(KualiForm, "medusaBean.moduleName")}
 <input type="hidden" id = "medusaBean.moduleName" name="medusaBean.moduleName" value="${KualiForm.medusaBean.moduleName}">
 ${kfunc:registerEditableProperty(KualiForm, "medusaBean.moduleIdentifier")}
 <input type="hidden" id = "medusaBean.moduleIdentifier" name="medusaBean.moduleIdentifier" value="${KualiForm.medusaBean.moduleIdentifier}">
-      
-</kul:tabTop>   
 
+</div>

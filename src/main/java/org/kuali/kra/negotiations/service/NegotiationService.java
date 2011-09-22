@@ -19,6 +19,8 @@ import java.util.List;
 
 import org.kuali.kra.negotiations.bo.Negotiation;
 import org.kuali.kra.negotiations.bo.NegotiationAssociatedDetailBean;
+import org.kuali.kra.negotiations.bo.NegotiationAssociationType;
+import org.kuali.rice.kns.bo.BusinessObject;
 
 /**
  * Service to help with Negotiation and working with Negotiations.
@@ -37,6 +39,8 @@ public interface NegotiationService {
      */
     List<String> getCompletedStatusCodes();
     
+    BusinessObject getAssociatedObject(Negotiation negotiation);
+    
     /**
      * 
      * This method gets the award, proposal log, institutional proposal or sub award from the negotiation's associated doc ID, and
@@ -45,5 +49,9 @@ public interface NegotiationService {
      * @return
      */
     NegotiationAssociatedDetailBean buildNegotiationAssociatedDetailBean(Negotiation negotiation);
+    
+    List<Negotiation> getAssociatedNegotiations(BusinessObject bo);
+    
+    NegotiationAssociationType getNegotiationAssociationType(String associationTypeCode);
 
 }

@@ -32,13 +32,17 @@
 <script type="text/javascript">
    var $jq = jQuery.noConflict();
 </script>
-  	
+<script type="text/javascript" src="scripts/medusaView.js"></script>  	
   	
 <div align="right"><kul:help documentTypeName="NegotiationDocument" pageName="Negotiation" /></div>
 <kul:documentOverview editingMode="${KualiForm.editingMode}" />
 
  <kra-negotiation:negotiation />
  <kra-negotiation:negotiationActivities />
+ 
+<kul:tab tabTitle="Medusa" defaultOpen="false" tabErrorKey="">
+<kra-m:medusa />
+</kul:tab>
 
 <kul:panelFooter />
 	<kul:documentControls 
