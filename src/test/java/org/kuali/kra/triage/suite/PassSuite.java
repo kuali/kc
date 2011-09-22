@@ -497,7 +497,8 @@ import org.junit.runners.Suite.SuiteClasses;
     org.kuali.kra.coi.personfinancialentity.FinIntEntityRelTypeMaintenanceDocumentRuleTest.class,
     org.kuali.kra.coi.personfinancialentity.FinEntitiesDataGroupMaintenanceDocumentRuleTest.class,
     org.kuali.kra.coi.personfinancialentity.FinEntitiesDataMatrixMaintenanceDocumentRuleTest.class,
-    org.kuali.kra.coi.personfinancialentity.SaveFinancialEntityRuleTest.class
+    org.kuali.kra.coi.personfinancialentity.SaveFinancialEntityRuleTest.class,
+    org.kuali.kra.negotiations.rules.NegotiationActivityRuleTest.class
 })
 /** these are all the test class where all the test methods are currently passing. */
 public class PassSuite {
