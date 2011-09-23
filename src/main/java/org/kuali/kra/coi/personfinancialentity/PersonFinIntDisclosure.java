@@ -25,6 +25,7 @@ import org.kuali.kra.SkipVersioning;
 import org.kuali.kra.bo.KraPersistableBusinessObjectBase;
 import org.kuali.kra.bo.OrganizationTypeList;
 import org.kuali.kra.bo.Sponsor;
+import org.kuali.kra.infrastructure.Constants;
 
 public class PersonFinIntDisclosure extends KraPersistableBusinessObjectBase implements SequenceOwner<PersonFinIntDisclosure> { 
     
@@ -237,6 +238,14 @@ private List<PersonFinIntDisclosure> versions;
             this.refreshReferenceObject("sponsor");
         }
         return sponsor;
+    }
+
+    public String getSponsorName() {
+        if (getSponsor() == null) {
+            return Constants.EMPTY_STRING;
+        } else {
+            return sponsor.getSponsorName();
+        }
     }
 
     public void setSponsor(Sponsor sponsor) {
