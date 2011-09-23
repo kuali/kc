@@ -20,15 +20,21 @@ import java.util.ArrayList;
 import java.util.Calendar;
 import java.util.LinkedHashMap;
 import java.util.List;
+import java.util.Map;
 
 import org.kuali.kra.bo.KcPerson;
 import org.kuali.kra.bo.KraPersistableBusinessObjectBase;
+import org.kuali.kra.common.permissions.Permissionable;
+import org.kuali.kra.infrastructure.Constants;
+import org.kuali.kra.infrastructure.KraServiceLocator;
+import org.kuali.kra.infrastructure.RoleConstants;
+import org.kuali.kra.negotiations.service.NegotiationService;
 
 /**
  * 
  * This class handles the negotiation BO.
  */
-public class Negotiation extends KraPersistableBusinessObjectBase {
+public class Negotiation extends KraPersistableBusinessObjectBase implements Permissionable {
 
     private static final long MILLISECS_PER_DAY = 24*60*60*1000;
     
@@ -314,5 +320,51 @@ public class Negotiation extends KraPersistableBusinessObjectBase {
         }
         //TODO add sort for attachments here
         return attachments;
+    }
+
+    @Override
+    public String getDocumentNumberForPermission() {
+        return this.negotiationId != null ? this.negotiationId.toString() : "NOT_SET";
+    }
+
+    @Override
+    public String getDocumentKey() {
+        return Permissionable.NEGOTIATION_KEY;
+    }
+
+    @Override
+    public List<String> getRoleNames() {
+        List<String> roleNames = new ArrayList<String>();
+        roleNames.add(RoleConstants.NEGOTIATION_COI);
+        roleNames.add(RoleConstants.NEGOTIATION_KP);
+        roleNames.add(RoleConstants.NEGOTIATION_NEGOTIATION_ADMINISTRATOR);
+        roleNames.add(RoleConstants.NEGOTIATION_NEGOTIATOR);
+        roleNames.add(RoleConstants.NEGOTIATION_PI);
+        return roleNames;
+    }
+
+    @Override
+    public String getNamespace() {
+        return Constants.MODULE_NAMESPANCE_NEGOTIATION;
+    }
+
+    @Override
+    public String getLeadUnitNumber() {
+        NegotiationAssociatedDetailBean bean = getNegotiationService().buildNegotiationAssociatedDetailBean(this);
+        return bean.getLeadUnit();
+    }
+    
+    private NegotiationService getNegotiationService() {
+        return KraServiceLocator.getService(NegotiationService.class);
+    }
+
+    @Override
+    public String getDocumentRoleTypeCode() {
+        return RoleConstants.NEGOTIATION_ROLE_TYPE;
+    }
+
+    @Override
+    public void populateAdditionalQualifiedRoleAttributes(Map<String, String> qualifiedRoleAttributes) {
+        return;
     }
 }

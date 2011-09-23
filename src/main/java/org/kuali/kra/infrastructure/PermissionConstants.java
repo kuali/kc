@@ -131,5 +131,15 @@ public interface PermissionConstants {
     
     String DOCUMENT_TYPE_ATTRIBUTE_QUALIFIER = "documentTypeName";
     
+    
+    /**
+     * Negotiation
+     */
+    public static final String NEGOTIATION_CREATE_NEGOTIATION = "CREATE NEGOTIATION";
+    public static final String NEGOTIATION_MODIFIY_NEGOTIATION = "MODIFY NEGOTIATION";
+    public static final String NEGOTIATION_MODIFY_ACTIVITIES = "MODIFY ACTIVITIES";
+    public static final String NEGOTIATION_VIEW_NEGOTIATION_UNRESTRICTED = "VIEW NEGOTIATION - UNRESTRICTED";
+    public static final String NEGOTIATION_VIEW_NEGOTIATION = "VIEW NEGOTIATION";
+    
 
 }
