@@ -3009,7 +3009,7 @@ function loadSponsor(sponsorCodeFieldName, sponsorNameFieldName, prevSponsorCode
                         setRecipientValue( sponsorNameFieldName, data.sponsorName );
                         if (sponsorCode!=prevSponsorCode) {
                             DWRUtil.setValue(prevSponsorCodeFieldName, data.sponsorCode);
-                            loadEntityContactInfoFromRolodex(data.rolodexId, "financialEntityHelper.newPersonFinancialEntity.finEntityContactInfos[0]");
+                            loadEntityContactInfoFromRolodex(data.rolodexId, findElPrefix( sponsorCodeFieldName )+".finEntityContactInfos[0]");
                         }
                     }
                 } else {

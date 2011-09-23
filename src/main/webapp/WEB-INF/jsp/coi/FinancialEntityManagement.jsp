@@ -188,7 +188,20 @@
         }
       });
       
-    } ); 
+      $j("#activeEntities-table").tablesorter({         
+        // pass the headers argument and assing a object         
+           headers: {             // assign the first column (we start counting zero)             
+               0: {                 // disable it by setting the property sorter to false                 
+                  sorter: false             },             
+            // assign the 10th (Action) column (we start counting zero)             
+               4: {                 // disable it by setting the property sorter to false                 
+                   sorter: false             }
+                     }
+          
+          }); 
+      
+      
+    } );  // end document.ready
 
     function displayAlertMessage(messagedivid, message) {
         var timeOut = 5
