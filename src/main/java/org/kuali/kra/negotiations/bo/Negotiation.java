@@ -22,13 +22,18 @@ import java.util.LinkedHashMap;
 import java.util.List;
 import java.util.Map;
 
+import org.apache.commons.lang.StringUtils;
+import org.kuali.kra.award.home.Award;
 import org.kuali.kra.bo.KcPerson;
 import org.kuali.kra.bo.KraPersistableBusinessObjectBase;
 import org.kuali.kra.common.permissions.Permissionable;
 import org.kuali.kra.infrastructure.Constants;
 import org.kuali.kra.infrastructure.KraServiceLocator;
 import org.kuali.kra.infrastructure.RoleConstants;
+import org.kuali.kra.institutionalproposal.home.InstitutionalProposal;
+import org.kuali.kra.institutionalproposal.proposallog.ProposalLog;
 import org.kuali.kra.negotiations.service.NegotiationService;
+import org.kuali.rice.kns.bo.BusinessObject;
 
 /**
  * 
@@ -350,8 +355,29 @@ public class Negotiation extends KraPersistableBusinessObjectBase implements Per
 
     @Override
     public String getLeadUnitNumber() {
-        NegotiationAssociatedDetailBean bean = getNegotiationService().buildNegotiationAssociatedDetailBean(this);
-        return bean.getLeadUnit();
+        BusinessObject bo = getNegotiationService().getAssociatedObject(this);
+        String leadUnitNumber;
+        if (StringUtils.equals(this.getNegotiationAssociationType().getCode(), NegotiationAssociationType.AWARD_ASSOCIATION)) {
+            Award award = (Award) bo;
+            leadUnitNumber = award.getLeadUnitNumber();
+        } else if (StringUtils.equals(this.getNegotiationAssociationType().getCode(), 
+                NegotiationAssociationType.INSTITUATIONAL_PROPOSAL_ASSOCIATION)) {
+            InstitutionalProposal ip = (InstitutionalProposal) bo;
+            leadUnitNumber = ip.getLeadUnitNumber();
+        } else if (StringUtils.equals(this.getNegotiationAssociationType().getCode(), 
+                NegotiationAssociationType.NONE_ASSOCIATION)) {
+            leadUnitNumber = this.getUnAssociatedDetail().getLeadUnit().getUnitNumber();
+        } else if (StringUtils.equals(this.getNegotiationAssociationType().getCode(), 
+                NegotiationAssociationType.PROPOSAL_LOG_ASSOCIATION)) {
+            ProposalLog pl = (ProposalLog) bo;
+            leadUnitNumber = pl.getLeadUnit();
+        } else if (StringUtils.equals(this.getNegotiationAssociationType().getCode(), 
+                NegotiationAssociationType.SUB_AWARD_ASSOCIATION)) {
+            leadUnitNumber = "";
+        } else {
+            throw new IllegalArgumentException(this.getNegotiationAssociationType().getCode() + " is an invalid code, should never gete here!");
+        }
+        return leadUnitNumber;
     }
     
     private NegotiationService getNegotiationService() {
