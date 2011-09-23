@@ -73,27 +73,11 @@
                                               attributeEntry="${personFinIntDisclAttribute.statusCode}" />
                 </td>
                 <th align="right" valign="middle" >
-                    <kul:htmlAttributeLabel attributeEntry="${personFinIntDisclAttribute.relationshipDescription}" />
-                </th>
-                <td align="left" valign="middle">
-                    <kul:htmlControlAttribute property="financialEntityHelper.newPersonFinancialEntity.relationshipDescription" 
-                                              attributeEntry="${personFinIntDisclAttribute.relationshipDescription}" /> 
-                </td>
-            </tr>            
-            <tr>
-                <th align="right" valign="middle" >
                     <kul:htmlAttributeLabel attributeEntry="${personFinIntDisclAttribute.entityOwnershipType}" />
                 </th>
                 <td align="left" valign="middle">
                     <kul:htmlControlAttribute property="financialEntityHelper.newPersonFinancialEntity.entityOwnershipType" 
                                               attributeEntry="${personFinIntDisclAttribute.entityOwnershipType}" /> 
-                </td>
-                <th align="right" valign="middle" >
-                    <kul:htmlAttributeLabel attributeEntry="${personFinIntDisclAttribute.orgRelationDescription}" />
-                </th>
-                <td align="left" valign="middle">
-                    <kul:htmlControlAttribute property="financialEntityHelper.newPersonFinancialEntity.orgRelationDescription" 
-                                              attributeEntry="${personFinIntDisclAttribute.orgRelationDescription}" /> 
                 </td>
             </tr>    
             <%-- contact info --%>
