@@ -94,4 +94,10 @@ public interface NegotiationService {
      * @return
      */
     boolean isNoModuleLinkingEnabled();
+    
+    /**
+     * If the negotiation is linked to a proposal log that has been promoted to a inst prop, then
+     * link the negotiation to the new inst prop.
+     */
+    void checkForPropLogPromotion(Negotiation negotiation);
 }
