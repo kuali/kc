@@ -97,7 +97,7 @@ public class NegotiationServiceImpl implements NegotiationService {
      * 
      * @see org.kuali.kra.negotiations.service.NegotiationService#buildNegotiationAssociatedDetailBean(org.kuali.kra.negotiations.bo.Negotiation)
      */
-    public NegotiationAssociatedDetailBean buildNegotiationAssociatedDetailBean(Negotiation negotiation) {        
+    public NegotiationAssociatedDetailBean buildNegotiationAssociatedDetailBean(Negotiation negotiation) {   
         if (negotiation.getNegotiationAssociationType() != null) {
             NegotiationAssociatedDetailBean bean;
             if (StringUtils.equals(negotiation.getNegotiationAssociationType().getCode(), NegotiationAssociationType.AWARD_ASSOCIATION)) {
