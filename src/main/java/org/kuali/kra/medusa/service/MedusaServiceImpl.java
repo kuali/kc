@@ -130,7 +130,7 @@ public class MedusaServiceImpl implements MedusaService {
      * @return
      */
     protected List<MedusaNode> getMedusaTree(String moduleName, Long moduleIdentifier, String preferredModule) {
-        List<MedusaNode> nodes = null;
+        List<MedusaNode> nodes = new ArrayList<MedusaNode>();
         HashMap<BusinessObject, List<BusinessObject>> graph = new HashMap<BusinessObject, List<BusinessObject>>();
         if (StringUtils.equals(moduleName, AWARD_MODULE)) {
             Award award = getAward(moduleIdentifier);
@@ -149,9 +149,11 @@ public class MedusaServiceImpl implements MedusaService {
             nodes = getParentNodes(graph, new String[]{preferredModule, DEVELOPMENT_PROPOSAL_MODULE});
         } else if (StringUtils.equals(moduleName, NEGOTIATION_MODULE)) {
             Negotiation negotiation = getNegotiation(moduleIdentifier);
-            addVertex(graph, negotiation);
-            buildGraph(graph, negotiation);
-            nodes = getParentNodes(graph, new String[]{preferredModule, NEGOTIATION_MODULE});
+            if (negotiation != null) {
+                addVertex(graph, negotiation);
+                buildGraph(graph, negotiation);
+                nodes = getParentNodes(graph, new String[]{preferredModule, NEGOTIATION_MODULE});
+            }
         }
         return nodes;
     }
