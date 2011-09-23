@@ -317,15 +317,6 @@ public class Negotiation extends KraPersistableBusinessObjectBase implements Per
     public void setActivities(List<NegotiationActivity> activities) {
         this.activities = activities;
     }
-    
-    public List<NegotiationActivityAttachment> getAllAttachments() {
-        List<NegotiationActivityAttachment> attachments = new ArrayList<NegotiationActivityAttachment>();
-        for (NegotiationActivity activity : getActivities()) {
-            attachments.addAll(activity.getAttachments());
-        }
-        //TODO add sort for attachments here
-        return attachments;
-    }
 
     @Override
     public String getDocumentNumberForPermission() {
