@@ -129,12 +129,7 @@
     </property>
     <property name="control" >
       <bean parent="SelectControlDefinition"
-            p:businessObjectClass="org.kuali.kra.negotiations.bo.NegotiationAssociationType"
-            p:valuesFinderClass="org.kuali.kra.lookup.keyvalue.ExtendedPersistableBusinessObjectValuesFinder"
-            p:includeKeyInLabel="false"
-            p:includeBlankRow="false"
-            p:keyAttribute="id"
-            p:labelAttribute="description" />
+            p:valuesFinderClass="org.kuali.kra.negotiations.keyvalue.NegotiationAssociationTypeValuesFinder" />
     </property>
     <property name="summary" value="Negotiation Association Type" />
     <property name="description" value="Negotiation Association Type" />

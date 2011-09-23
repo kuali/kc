@@ -50,8 +50,48 @@ public interface NegotiationService {
      */
     NegotiationAssociatedDetailBean buildNegotiationAssociatedDetailBean(Negotiation negotiation);
     
+    /**
+     * Get any negotiations associated with BO(ProposalLog, Inst Prop, Award, Subaward).
+     * User primarly by Medusa.
+     * @param bo
+     * @return
+     */
     List<Negotiation> getAssociatedNegotiations(BusinessObject bo);
     
+    /**
+     * Retrieve the association type BO.
+     * @param associationTypeCode
+     * @return
+     */
     NegotiationAssociationType getNegotiationAssociationType(String associationTypeCode);
 
+    /**
+     * Can a negotiation be linked to a proposal log?
+     * @return
+     */
+    boolean isProposalLogLinkingEnabled();
+
+    /**
+     * Can a negotiation be linked to an inst prop?
+     * @return
+     */
+    boolean isInstitutionalProposalLinkingEnabled();
+    
+    /**
+     * Can a negotiation be linked to an award?
+     * @return
+     */
+    boolean isAwardLinkingEnabled();
+    
+    /**
+     * Can a negotiation be linked to a subaward?
+     * @return
+     */
+    boolean isSubawardLinkingEnabled();
+    
+    /**
+     * Can a negotiation be linked to nothing?
+     * @return
+     */
+    boolean isNoModuleLinkingEnabled();
 }
