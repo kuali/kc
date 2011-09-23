@@ -123,7 +123,7 @@ public class NegotiationServiceImpl implements NegotiationService {
             }
             return bean;
         } else {
-            return null;
+            return new NegotiationAssociatedDetailBean();
         }
     }
     
