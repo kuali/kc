@@ -22,10 +22,13 @@ import org.kuali.kra.authorization.KcTransactionalDocumentAuthorizerBase;
 import org.kuali.kra.committee.document.CommitteeDocument;
 import org.kuali.kra.committee.document.authorization.CommitteeTask;
 import org.kuali.kra.infrastructure.TaskName;
+import org.kuali.kra.negotiations.auth.NegotiationTask;
+import org.kuali.kra.negotiations.bo.Negotiation;
 import org.kuali.kra.negotiations.document.NegotiationDocument;
 import org.kuali.rice.kim.bo.Person;
 import org.kuali.rice.kns.authorization.AuthorizationConstants;
 import org.kuali.rice.kns.document.Document;
+import org.kuali.rice.kns.util.GlobalVariables;
 
 /**
  * 
@@ -69,7 +72,10 @@ public class NegotiationDocumentAuthorizer extends KcTransactionalDocumentAuthor
     }
     
     private boolean canCreateNegotiation(Person user) {
-        return true;
+        //NegotiationDocument negotiationDocument = (NegotiationDocument) document;
+        NegotiationTask task = new NegotiationTask(TaskName.NEGOTIATION_CREATE_NEGOTIATION, new Negotiation());
+        boolean retVal = this.getTaskAuthorizationService().isAuthorized(user.getPrincipalId(), task);
+        return retVal;
     }
     
     
@@ -79,8 +85,12 @@ public class NegotiationDocumentAuthorizer extends KcTransactionalDocumentAuthor
      * @see org.kuali.rice.kns.document.authorization.DocumentAuthorizer#canInitiate(java.lang.String, org.kuali.rice.kim.bo.Person)
      */
     public boolean canInitiate(String documentTypeName, Person user) {
-        // TODO Auto-generated method stub
-        return true;
+        return canCreateNegotiation(user);
+        /*
+        NegotiationDocument negotiationDocument = (NegotiationDocument) document;
+        NegotiationTask task = new NegotiationTask(TaskName.NEGOTIATION_CREATE_NEGOTIATION, negotiationDocument.getNegotiation());
+        return this.getTaskAuthorizationService().isAuthorized(user.getPrincipalId(), task);
+        */
     }
     
     /**
@@ -88,8 +98,12 @@ public class NegotiationDocumentAuthorizer extends KcTransactionalDocumentAuthor
      * @see org.kuali.rice.kns.document.authorization.DocumentAuthorizer#canOpen(org.kuali.rice.kns.document.Document, org.kuali.rice.kim.bo.Person)
      */
     public boolean canOpen(Document document, Person user) {
-        // TODO Auto-generated method stub
         return true;
+        /*
+        NegotiationDocument negotiationDocument = (NegotiationDocument) document;
+        NegotiationTask task = new NegotiationTask(TaskName.NEGOTIATION_VIEW_NEGOTIATION, negotiationDocument.getNegotiation());
+        return this.getTaskAuthorizationService().isAuthorized(user.getPrincipalId(), task);
+        */
     }
     
     private boolean canExecuteNegotiationTask(String userId, NegotiationDocument doc, String taskName) {
