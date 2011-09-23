@@ -128,7 +128,7 @@ public class TestNegotiationAuthorizers extends KcUnitTestBase {
     public void testViewNegotiationUnRestrictedAuthorizer() {
         Negotiation negotiation = getNewNegotiation();
         NegotiationTask task = new NegotiationTask(TaskName.NEGOTIATION_VIEW_NEGOTIATION_UNRESTRICTED, negotiation);
-        
+
         boolean retVal = taskAuthorizationService.isAuthorized(quickstart.getPrincipalId(), task);
         assertTrue(retVal);
         
@@ -137,9 +137,9 @@ public class TestNegotiationAuthorizers extends KcUnitTestBase {
         
         retVal = taskAuthorizationService.isAuthorized(woods.getPrincipalId(), task);
         assertFalse(retVal);
-        
+
         retVal = taskAuthorizationService.isAuthorized(ospAdmin.getPrincipalId(), task);
-        assertFalse(retVal);
+        assertTrue(retVal);
     }
     
     @Test
@@ -156,7 +156,7 @@ public class TestNegotiationAuthorizers extends KcUnitTestBase {
         assertFalse(retVal);
         
         retVal = taskAuthorizationService.isAuthorized(ospAdmin.getPrincipalId(), task);
-        assertFalse(retVal);
+        assertTrue(retVal);
     }
     
     protected Negotiation getNewNegotiation() {
@@ -189,7 +189,13 @@ public class TestNegotiationAuthorizers extends KcUnitTestBase {
         
         Award award = (Award) this.businessObjectService.findAll(Award.class).iterator().next();
         
-        negotiation.setAssociatedDocumentId(award.getAccountNumber());
+        primaryKey = new HashMap();
+        primaryKey.put("unit_number", "000001");
+        Unit unit = (Unit) this.businessObjectService.findByPrimaryKey(Unit.class, primaryKey);
+        award.setLeadUnit(unit);
+        businessObjectService.save(award);
+        
+        negotiation.setAssociatedDocumentId(award.getAwardNumber());
         
         businessObjectService.save(negotiation);
         
@@ -197,5 +203,4 @@ public class TestNegotiationAuthorizers extends KcUnitTestBase {
         
         return negotiation;
     }
-
 }
