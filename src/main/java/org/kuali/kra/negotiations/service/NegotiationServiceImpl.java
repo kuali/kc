@@ -208,4 +208,34 @@ public class NegotiationServiceImpl implements NegotiationService {
         this.institutionalProposalService = institutionalProposalService;
     }
 
+    @Override
+    public boolean isAwardLinkingEnabled() {
+        String value = getParameterService().getParameterValue(NegotiationDocument.class, "ENABLE_NEGOTIATION_TO_AWARD_LINK");
+        return StringUtils.equals(value, "1");
+    }
+
+    @Override
+    public boolean isInstitutionalProposalLinkingEnabled() {
+        String value = getParameterService().getParameterValue(NegotiationDocument.class, "ENABLE_NEGOTIATION_TO_INSTPROP_LINK");
+        return StringUtils.equals(value, "1");
+    }
+
+    @Override
+    public boolean isNoModuleLinkingEnabled() {
+        String value = getParameterService().getParameterValue(NegotiationDocument.class, "ENABLE_NEGOTIATION_TO_NO_MODULE");
+        return StringUtils.equals(value, "1");
+    }
+
+    @Override
+    public boolean isProposalLogLinkingEnabled() {
+        String value = getParameterService().getParameterValue(NegotiationDocument.class, "ENABLE_NEGOTIATION_TO_PROPOSALLOG_LINK");
+        return StringUtils.equals(value, "1");
+    }
+
+    @Override
+    public boolean isSubawardLinkingEnabled() {
+        String value = getParameterService().getParameterValue(NegotiationDocument.class, "ENABLE_NEGOTIATION_TO_SUBAWARD_LINK");
+        return StringUtils.equals(value, "1");
+    }
+
 }
