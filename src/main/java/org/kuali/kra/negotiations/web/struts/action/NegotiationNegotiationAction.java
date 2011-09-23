@@ -51,8 +51,6 @@ public class NegotiationNegotiationAction extends NegotiationAction {
     
     private static final org.apache.commons.logging.Log LOG = org.apache.commons.logging.LogFactory.getLog(NegotiationNegotiationAction.class);
     
-    private NegotiationService negotiationService;
-    
     @Override
     public ActionForward execute(ActionMapping mapping, ActionForm form, HttpServletRequest request, HttpServletResponse response) throws Exception {
         ActionForward actionForward = super.execute(mapping, form, request, response);
@@ -377,16 +375,4 @@ public class NegotiationNegotiationAction extends NegotiationAction {
     public ActionForward sort(ActionMapping mapping, ActionForm form, HttpServletRequest request, HttpServletResponse response) throws Exception {
         return mapping.findForward(Constants.MAPPING_BASIC);
     }    
-
-
-    public NegotiationService getNegotiationService() {
-        if (negotiationService == null) {
-            negotiationService = KraServiceLocator.getService(NegotiationService.class);
-        }
-        return negotiationService;
-    }
-
-    public void setNegotiationService(NegotiationService negotiationService) {
-        this.negotiationService = negotiationService;
-    }
 }
