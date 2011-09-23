@@ -17,7 +17,7 @@
           <table cellpadding=0 cellspacing=0 summary=""> 
               <tr> 
                 <td colspan="2" nowrap class="subhead">Active Entities</td> 
-                <td nowrap class="subhead">Relationship to Entity</td> 
+                <td nowrap class="subhead">Sponsor</td> 
                 <td nowrap class="subhead">Last Update</td> 
                 <td nowrap class="subhead"><div align="center">Actions</div></td> 
               </tr> 
@@ -29,7 +29,7 @@
                         <div align="left"> ${financialEntity.entityName} </div>
                     </td>
                     <td align="left" valign="middle" class="tab-subhead1">
-                        <div align="left"> ${financialEntity.relationshipDescription} </div>
+                        <div align="left"> ${financialEntity.sponsorName} </div>
                     </td>
                     <td align="left" valign="middle" class="tab-subhead1">
                      <kul:htmlControlAttribute property="financialEntityHelper.activeFinancialEntities[${status.index}].updateTimestamp" 
@@ -128,28 +128,12 @@
                         <kul:htmlControlAttribute property="financialEntityHelper.activeFinancialEntities[${status.index}].statusCode" 
                                               attributeEntry="${personFinIntDisclAttribute.statusCode}" />
                 </td>
-                <th align="right" valign="middle" >
-                    <kul:htmlAttributeLabel attributeEntry="${personFinIntDisclAttribute.relationshipDescription}" />
-                </th>
-                <td align="left" valign="middle">
-                    <kul:htmlControlAttribute property="financialEntityHelper.activeFinancialEntities[${status.index}].relationshipDescription" 
-                                              attributeEntry="${personFinIntDisclAttribute.relationshipDescription}" /> 
-                </td>
-            </tr>            
-            <tr>
-                <th align="right" valign="middle" >
+               <th align="right" valign="middle" >
                     <kul:htmlAttributeLabel attributeEntry="${personFinIntDisclAttribute.entityOwnershipType}" />
                 </th>
                 <td align="left" valign="middle">
                     <kul:htmlControlAttribute property="financialEntityHelper.activeFinancialEntities[${status.index}].entityOwnershipType" 
                                               attributeEntry="${personFinIntDisclAttribute.entityOwnershipType}" /> 
-                </td>
-                <th align="right" valign="middle" >
-                    <kul:htmlAttributeLabel attributeEntry="${personFinIntDisclAttribute.orgRelationDescription}" />
-                </th>
-                <td align="left" valign="middle">
-                    <kul:htmlControlAttribute property="financialEntityHelper.activeFinancialEntities[${status.index}].orgRelationDescription" 
-                                              attributeEntry="${personFinIntDisclAttribute.orgRelationDescription}" /> 
                 </td>
             </tr>            
             <%-- contact info --%>
@@ -258,7 +242,7 @@
             <table cellpadding=0 cellspacing=0 summary=""> 
               <tr> 
                 <td colspan="2" nowrap class="subhead">Inactive Entities</td> 
-                <td nowrap class="subhead">Relationship to Entity</td> 
+                <td nowrap class="subhead">Sponsor</td> 
                 <td nowrap class="subhead">Last Update</td> 
                 <td nowrap class="subhead"><div align="center">Actions</div></td> 
               </tr> 
@@ -270,7 +254,7 @@
                         <div align="left"> ${financialEntity.entityName} </div>
                     </td>
                     <td align="left" valign="middle" class="tab-subhead1">
-                        <div align="left"> ${financialEntity.relationshipDescription} </div>
+                        <div align="left"> ${financialEntity.sponsorName} </div>
                     </td>
                     <td align="left" valign="middle" class="tab-subhead1">
                      <kul:htmlControlAttribute property="financialEntityHelper.inactiveFinancialEntities[${status.index}].updateTimestamp" 
