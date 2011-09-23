@@ -70,7 +70,7 @@ public class NegotiationServiceImpl implements NegotiationService {
     }
     
     public BusinessObject getAssociatedObject(Negotiation negotiation) {
-        if (negotiation.getNegotiationAssociationType() != null) {
+        if (negotiation != null && negotiation.getNegotiationAssociationType() != null) {
             BusinessObject bo = null;
             if (StringUtils.equals(negotiation.getNegotiationAssociationType().getCode(), NegotiationAssociationType.AWARD_ASSOCIATION)) {
                 bo = getAward(negotiation.getAssociatedDocumentId());
