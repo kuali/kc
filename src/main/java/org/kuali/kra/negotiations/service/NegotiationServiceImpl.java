@@ -238,4 +238,24 @@ public class NegotiationServiceImpl implements NegotiationService {
         return StringUtils.equals(value, "1");
     }
 
+    /**
+     * @see org.kuali.kra.negotiations.service.NegotiationService#checkForPropLogPromotion(org.kuali.kra.negotiations.bo.Negotiation)
+     */
+    @Override
+    public void checkForPropLogPromotion(Negotiation negotiation) {
+        if (negotiation.getNegotiationAssociationType() != null 
+                && StringUtils.equals(negotiation.getNegotiationAssociationType().getCode(), NegotiationAssociationType.PROPOSAL_LOG_ASSOCIATION)
+                && isInstitutionalProposalLinkingEnabled()) {
+            ProposalLog propLog = getBusinessObjectService().findBySinglePrimaryKey(ProposalLog.class, negotiation.getAssociatedDocumentId());
+            //if the proplog has been promoted to a inst prop then relink negotiation to the new inst prop.
+            if (StringUtils.isNotBlank(propLog.getInstProposalNumber())) {
+                negotiation.setNegotiationAssociationType(
+                        getNegotiationAssociationType(NegotiationAssociationType.INSTITUATIONAL_PROPOSAL_ASSOCIATION));
+                negotiation.setNegotiationAssociationTypeId(negotiation.getNegotiationAssociationType().getId());
+                negotiation.setAssociatedDocumentId(propLog.getInstProposalNumber());
+            }
+        }
+        
+    }
+
 }

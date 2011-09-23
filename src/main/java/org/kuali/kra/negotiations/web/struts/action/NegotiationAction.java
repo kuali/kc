@@ -22,7 +22,10 @@ import org.apache.struts.action.ActionForm;
 import org.apache.struts.action.ActionForward;
 import org.apache.struts.action.ActionMapping;
 import org.kuali.kra.infrastructure.Constants;
+import org.kuali.kra.infrastructure.KraServiceLocator;
+import org.kuali.kra.negotiations.bo.Negotiation;
 import org.kuali.kra.negotiations.document.NegotiationDocument;
+import org.kuali.kra.negotiations.service.NegotiationService;
 import org.kuali.kra.negotiations.web.struts.form.NegotiationForm;
 import org.kuali.kra.web.struts.action.KraTransactionalDocumentActionBase;
 
@@ -33,6 +36,18 @@ import org.kuali.kra.web.struts.action.KraTransactionalDocumentActionBase;
 public class NegotiationAction extends KraTransactionalDocumentActionBase {
     @SuppressWarnings("unused")
     private static final org.apache.commons.logging.Log LOG = org.apache.commons.logging.LogFactory.getLog(NegotiationAction.class);
+    
+    private NegotiationService negotiationService;
+    
+    @Override
+    public ActionForward docHandler(ActionMapping mapping, ActionForm form, 
+            HttpServletRequest request, HttpServletResponse response) throws Exception {
+        ActionForward forward = super.docHandler(mapping, form, request, response);
+        NegotiationForm negotiationForm = (NegotiationForm) form;
+        Negotiation negotiation = negotiationForm.getNegotiationDocument().getNegotiation();
+        getNegotiationService().checkForPropLogPromotion(negotiation);
+        return forward;
+    }
     
     @Override
     public ActionForward execute(ActionMapping mapping, ActionForm form, HttpServletRequest request, HttpServletResponse response) throws Exception {
@@ -52,5 +67,15 @@ public class NegotiationAction extends KraTransactionalDocumentActionBase {
         return actionForward;
     }
     
+    protected NegotiationService getNegotiationService() {
+        if (negotiationService == null) {
+            negotiationService = KraServiceLocator.getService(NegotiationService.class);
+        }
+        return negotiationService;
+    }
+
+    public void setNegotiationService(NegotiationService negotiationService) {
+        this.negotiationService = negotiationService;
+    }
     
 }
