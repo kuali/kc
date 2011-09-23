@@ -16,7 +16,10 @@
 package org.kuali.kra.negotiations.web.struts.form;
 
 import java.io.Serializable;
+import java.util.ArrayList;
+import java.util.Collections;
 import java.util.Date;
+import java.util.List;
 
 import org.kuali.kra.bo.AttachmentFile;
 import org.kuali.kra.negotiations.bo.Negotiation;
@@ -26,6 +29,8 @@ import org.kuali.kra.negotiations.rules.NegotiationActivityAddRuleEvent;
 import org.kuali.kra.negotiations.rules.NegotiationActivityAttachmentAddRuleEvent;
 import org.kuali.kra.negotiations.rules.NegotiationActivityAttachmentRuleImpl;
 import org.kuali.kra.negotiations.rules.NegotiationActivityRuleImpl;
+import org.kuali.kra.negotiations.sorting.ActivitySortingType;
+import org.kuali.kra.negotiations.sorting.AttachmentSortingType;
 
 /**
  * Form helper to manage activities and attachments.
@@ -38,6 +43,9 @@ public class NegotiationActivityHelper implements Serializable {
     private static final long serialVersionUID = 8707454680500119142L;
     private NegotiationForm form;
     private NegotiationActivity newActivity;
+    private ActivitySortingType activitySortingType;
+    private AttachmentSortingType attachmentSortingType;
+    private List<NegotiationActivityAttachment> allAttachments;
     
     /**
      * 
@@ -168,7 +176,63 @@ public class NegotiationActivityHelper implements Serializable {
     public void setNewActivity(NegotiationActivity newActivity) {
         this.newActivity = newActivity;
     }
-    
-    
+    public ActivitySortingType getActivitySortingType() {
+        return activitySortingType;
+    }
 
+    public void setActivitySortingType(ActivitySortingType activitySortingType) {
+        this.activitySortingType = activitySortingType;
+    }
+    public void setActivitySortingTypeName(String activitySortingTypeName) {
+        if (activitySortingTypeName == null) {
+            this.activitySortingType = null;
+        } else {
+            this.activitySortingType = ActivitySortingType.valueOf(activitySortingTypeName);
+        }
+    }
+    public String getActivitySortingTypeName() {
+        return activitySortingType.name();
+    }
+
+    public AttachmentSortingType getAttachmentSortingType() {
+        return attachmentSortingType;
+    }
+
+    public void setAttachmentSortingType(AttachmentSortingType attachmentSortingType) {
+        this.attachmentSortingType = attachmentSortingType;
+    }
+    public void setAttachmentSortingTypeName(String attachmentSortingTypeName) {
+        if (attachmentSortingTypeName == null) {
+            this.attachmentSortingType = null;
+        } else {
+            this.attachmentSortingType = AttachmentSortingType.valueOf(attachmentSortingTypeName);
+        }
+    }
+    public String getAttachmentSortingTypeName() {
+        return attachmentSortingType.name();
+    }
+    
+    public List<NegotiationActivityAttachment> getAllAttachments() {
+        if (allAttachments == null) {
+            generateAllAttachments();
+        }
+        return allAttachments;
+    }
+    
+    public void generateAllAttachments() {
+        allAttachments = new ArrayList<NegotiationActivityAttachment>();
+        for (NegotiationActivity activity : getForm().getNegotiationDocument().getNegotiation().getActivities()) {
+            allAttachments.addAll(activity.getAttachments());
+        }
+        if (attachmentSortingType != null) {
+            Collections.sort(allAttachments, attachmentSortingType.getComparator());
+        }
+    }
+    
+    public void sortActivities() {
+        if (getActivitySortingType() != null) {
+            Collections.sort(getForm().getNegotiationDocument().getNegotiation().getActivities(), 
+                    getActivitySortingType().getComparator());
+        }
+    }
 }

@@ -15,15 +15,12 @@
  */
 package org.kuali.kra.negotiations.web.struts.action;
 
-import java.util.Date;
 import java.util.HashMap;
 import java.util.Map;
-import java.util.Set;
 
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 
-import org.apache.commons.lang.ObjectUtils;
 import org.apache.commons.lang.StringUtils;
 import org.apache.struts.action.ActionForm;
 import org.apache.struts.action.ActionForward;
@@ -64,6 +61,8 @@ public class NegotiationNegotiationAction extends NegotiationAction {
         findAndLoadNegotiationUnassociatedDetail(negotiationForm.getNegotiationDocument().getNegotiation(), false);
         negotiationForm.getMedusaBean().setModuleName("neg");
         negotiationForm.getMedusaBean().setModuleIdentifier(negotiationForm.getDocument().getNegotiation().getNegotiationId());
+        negotiationForm.getNegotiationActivityHelper().sortActivities();
+        negotiationForm.getNegotiationActivityHelper().generateAllAttachments();
         return actionForward;
     }
     
@@ -337,7 +336,7 @@ public class NegotiationNegotiationAction extends NegotiationAction {
     public ActionForward viewAttachmentFromAllAttachments(ActionMapping mapping, ActionForm form, HttpServletRequest request, HttpServletResponse response) throws Exception {
         NegotiationForm negotiationForm = (NegotiationForm) form;
         NegotiationActivityAttachment attachment = 
-            negotiationForm.getNegotiationDocument().getNegotiation().getAllAttachments().get(getAttachmentIndex(request));
+            negotiationForm.getNegotiationActivityHelper().getAllAttachments().get(getAttachmentIndex(request));
         final AttachmentFile file = attachment.getFile();
         this.streamToResponse(file.getData(), getValidHeaderString(file.getName()),  getValidHeaderString(file.getType()), response);
         
@@ -372,8 +371,12 @@ public class NegotiationNegotiationAction extends NegotiationAction {
      */
     public ActionForward refreshView(ActionMapping mapping, ActionForm form, HttpServletRequest request, HttpServletResponse response) throws Exception {
         
-        return mapping.findForward(Constants.MAPPING_AWARD_BASIC);
+        return mapping.findForward(Constants.MAPPING_BASIC);
     }
+    
+    public ActionForward sort(ActionMapping mapping, ActionForm form, HttpServletRequest request, HttpServletResponse response) throws Exception {
+        return mapping.findForward(Constants.MAPPING_BASIC);
+    }    
 
 
     public NegotiationService getNegotiationService() {
