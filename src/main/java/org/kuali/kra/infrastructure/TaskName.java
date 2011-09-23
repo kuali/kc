@@ -204,5 +204,14 @@ public interface TaskName {
     public static final String CREATE_COI_DISCLOSURE = "createCoiDisclosure";
     public static final String MODIFY_COI_DISCLOSURE = "modifyCoiDisclosure";
     public static final String VIEW_COI_DISCLOSURE = "viewCoiDisclosure";
-
+    
+    /**
+     * Negotiation Tasks
+     * 
+     */
+    public static final String NEGOTIATION_CREATE_NEGOTIATION = "createNegotiation";
+    public static final String NEGOTIATION_MODIFIY_NEGOTIATION = "modifyNegotiation";
+    public static final String NEGOTIATION_MODIFY_ACTIVITIES = "modifyNegotiationActivities";
+    public static final String NEGOTIATION_VIEW_NEGOTIATION = "viewNegotiation";
+    public static final String NEGOTIATION_VIEW_NEGOTIATION_UNRESTRICTED = "viewNegotiationUnRestricted";
 }

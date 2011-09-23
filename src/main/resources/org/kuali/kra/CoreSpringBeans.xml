@@ -214,6 +214,7 @@
 				<ref bean="awardTaskAuthorizers" />
 				<ref bean="timeAndMoneyTaskAuthorizers" />
 				<ref bean="protocolOnlineReviewTaskAuthorizers" />
+				<ref bean="negotiationTaskAuthorizers"/>
 			</list>
 		</property>
 	</bean>
@@ -659,5 +660,35 @@
             <ref bean="institutionalProposalService" />
         </property>      
 	</bean>
+	
+	<bean id="parentNegotiationAuthorizer" abstract="true">
+        <property name="unitAuthorizationService" ref="unitAuthorizationService" />
+        <property name="kraWorkflowService" ref="kraWorkflowService" />
+        <property name="kcPersonService" ref="kcPersonService" />
+        <property name="kraAuthorizationService" ref="kraAuthorizationService" />
+    </bean>
+	
+	<bean id="negotiationTaskAuthorizers" class="org.kuali.kra.authorization.TaskAuthorizerGroup">
+        <property name="groupName" value="negotiation" />
+        <property name="taskAuthorizers">
+            <list>
+                <bean class="org.kuali.kra.negotiations.auth.CreateNegotiationAuthorizer" parent="parentNegotiationAuthorizer">
+                    <property name="taskName" value="createNegotiation" />
+                </bean>
+                <bean class="org.kuali.kra.negotiations.auth.ModifyNegotiationAuthorizer" parent="parentNegotiationAuthorizer">
+                    <property name="taskName" value="modifyNegotiation" />
+                </bean>
+                <bean class="org.kuali.kra.negotiations.auth.ModifyActivitiesAuthorizer" parent="parentNegotiationAuthorizer">
+                    <property name="taskName" value="modifyNegotiationActivities" />
+                </bean>
+                <bean class="org.kuali.kra.negotiations.auth.ViewNegotiationUnRestrictedAuthorizer" parent="parentNegotiationAuthorizer">
+                    <property name="taskName" value="viewNegotiationUnRestricted" />
+                </bean>
+                <bean class="org.kuali.kra.negotiations.auth.ViewNegotiationAuthorizer" parent="parentNegotiationAuthorizer">
+                    <property name="taskName" value="viewNegotiation" />
+                </bean>
+            </list>
+        </property>
+    </bean>
 	
 </beans>

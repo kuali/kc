@@ -36,6 +36,8 @@ public interface Permissionable {
     String COMMITTEE_SCHEDULE_KEY="committeeSchedule";
     String PROTOCOL_ONLINE_REVIEW_KEY="protocolOnlineReview";
     
+    String NEGOTIATION_KEY = "negotiation";
+    
     /**
      * 
      * This method returns the appropriate document number for implementing documents
