@@ -348,25 +348,29 @@ public class Negotiation extends KraPersistableBusinessObjectBase implements Per
     public String getLeadUnitNumber() {
         BusinessObject bo = getNegotiationService().getAssociatedObject(this);
         String leadUnitNumber;
-        if (StringUtils.equals(this.getNegotiationAssociationType().getCode(), NegotiationAssociationType.AWARD_ASSOCIATION)) {
-            Award award = (Award) bo;
-            leadUnitNumber = award.getLeadUnitNumber();
-        } else if (StringUtils.equals(this.getNegotiationAssociationType().getCode(), 
-                NegotiationAssociationType.INSTITUATIONAL_PROPOSAL_ASSOCIATION)) {
-            InstitutionalProposal ip = (InstitutionalProposal) bo;
-            leadUnitNumber = ip.getLeadUnitNumber();
-        } else if (StringUtils.equals(this.getNegotiationAssociationType().getCode(), 
-                NegotiationAssociationType.NONE_ASSOCIATION)) {
-            leadUnitNumber = this.getUnAssociatedDetail().getLeadUnit().getUnitNumber();
-        } else if (StringUtils.equals(this.getNegotiationAssociationType().getCode(), 
-                NegotiationAssociationType.PROPOSAL_LOG_ASSOCIATION)) {
-            ProposalLog pl = (ProposalLog) bo;
-            leadUnitNumber = pl.getLeadUnit();
-        } else if (StringUtils.equals(this.getNegotiationAssociationType().getCode(), 
-                NegotiationAssociationType.SUB_AWARD_ASSOCIATION)) {
-            leadUnitNumber = "";
+        if (this.getNegotiationAssociationType() != null) {
+            if (StringUtils.equals(this.getNegotiationAssociationType().getCode(), NegotiationAssociationType.AWARD_ASSOCIATION)) {
+                Award award = (Award) bo;
+                leadUnitNumber = award.getLeadUnitNumber();
+            } else if (StringUtils.equals(this.getNegotiationAssociationType().getCode(), 
+                    NegotiationAssociationType.INSTITUATIONAL_PROPOSAL_ASSOCIATION)) {
+                InstitutionalProposal ip = (InstitutionalProposal) bo;
+                leadUnitNumber = ip.getLeadUnitNumber();
+            } else if (StringUtils.equals(this.getNegotiationAssociationType().getCode(), 
+                    NegotiationAssociationType.NONE_ASSOCIATION)) {
+                leadUnitNumber = this.getUnAssociatedDetail().getLeadUnit().getUnitNumber();
+            } else if (StringUtils.equals(this.getNegotiationAssociationType().getCode(), 
+                    NegotiationAssociationType.PROPOSAL_LOG_ASSOCIATION)) {
+                ProposalLog pl = (ProposalLog) bo;
+                leadUnitNumber = pl.getLeadUnit();
+            } else if (StringUtils.equals(this.getNegotiationAssociationType().getCode(), 
+                    NegotiationAssociationType.SUB_AWARD_ASSOCIATION)) {
+                leadUnitNumber = "";
+            } else {
+                throw new IllegalArgumentException(this.getNegotiationAssociationType().getCode() + " is an invalid code, should never gete here!");
+            }
         } else {
-            throw new IllegalArgumentException(this.getNegotiationAssociationType().getCode() + " is an invalid code, should never gete here!");
+            return null;
         }
         return leadUnitNumber;
     }
