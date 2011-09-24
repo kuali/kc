@@ -3,8 +3,7 @@
 	xsi:schemaLocation="http://maven.apache.org/POM/4.0.0 http://maven.apache.org/maven-v4_0_0.xsd">
 	
 	<!-- 
-		The default build of this project targets a servlet 2.4 web container.  Profiles are provided for
-		targeting different environments.
+		The default build of this project targets a servlet 2.5 web container.  
 	 -->
 	<modelVersion>4.0.0</modelVersion>
 	<groupId>org.kuali.kra</groupId>
@@ -258,9 +257,12 @@
 										
 										<!-- already including cglib-nodep -->
 										<exclude>cglib:cglib</exclude>
-										<!-- already including the jdk15 version -->
+	                                    <!-- already including the jdk15 version -->
 										<exclude>org.bouncycastle:bcprov-jdk14</exclude>
 										
+	                                    <exclude>javax.servlet:jstl</exclude>
+	                                    <!-- allowing (including) a specific version below -->
+	
 										<!-- already including javax.mail -->
 										<exclude>javamail</exclude>
 										<exclude>geronimo:geronimo-mail</exclude>
@@ -326,6 +328,7 @@
 	
 				                    <includes>
 										<!-- only allow in this specific version -->
+	                                    <include>javax.servlet:jstl:${jstl.version}</include>
 										<include>org.slf4j:*:${slf4j.version}</include>
 				                    </includes>
 								</bannedDependencies>
@@ -361,8 +364,9 @@
                 <version>3.0-beta-2</version>
                 <configuration>
                     <reportPlugins>
-                        <!--  Currently we must configure these plugins both in pluginManagement and reportPlugins.
-                              See http://jira.codehaus.org/browse/MSITE-516 
+                        <!--  
+                            Currently we must configure these plugins both in pluginManagement and reportPlugins.
+                            See http://jira.codehaus.org/browse/MSITE-516 
                         -->
                         <plugin>
 	                        <groupId>net.sourceforge.maven-taglib</groupId>
@@ -439,6 +443,45 @@
                 <configuration>
                     <maxmem>${cobertura.maxmem}</maxmem>
                 </configuration>
+            </plugin>
+            <plugin>
+	            <groupId>org.mortbay.jetty</groupId>
+	            <artifactId>jetty-maven-plugin</artifactId>
+	            <version>${jetty.version}</version>
+	            <dependencies>
+	                <dependency>
+	                    <groupId>com.oracle</groupId>
+	                    <artifactId>ojdbc14</artifactId>
+	                    <version>${oracle.version}</version>
+	                    <scope>runtime</scope>
+	                </dependency>
+	                <dependency>
+	                    <groupId>mysql</groupId>
+	                    <artifactId>mysql-connector-java</artifactId>
+	                    <version>${mysql.version}</version>
+	                    <scope>runtime</scope>
+	                </dependency>
+	            </dependencies>
+	        </plugin>
+            <plugin>
+                <groupId>org.codehaus.mojo</groupId>
+                <artifactId>tomcat-maven-plugin</artifactId>
+                <!-- tomcat 6.0.26 -->
+                <version>1.0</version>
+                <dependencies>  
+                    <dependency>
+                        <groupId>com.oracle</groupId>
+                        <artifactId>ojdbc14</artifactId>
+                        <version>${oracle.version}</version>
+                        <scope>runtime</scope>
+                    </dependency>
+                    <dependency>
+                        <groupId>mysql</groupId>
+                        <artifactId>mysql-connector-java</artifactId>
+                        <version>${mysql.version}</version>
+                        <scope>runtime</scope>
+                    </dependency>
+                </dependencies>
             </plugin>
 		</plugins>
 	</build>
@@ -582,6 +625,10 @@
                     <groupId>org.slf4j</groupId>
 					<artifactId>jcl104-over-slf4j</artifactId>
 				</exclusion>
+                <exclusion>
+                    <groupId>javax.servlet</groupId>
+                    <artifactId>jstl</artifactId>
+                </exclusion>
                 <exclusion>
 					<groupId>itext</groupId>
 					<artifactId>itext</artifactId>
@@ -1082,14 +1129,6 @@
                     <groupId>org.testng</groupId>
                     <artifactId>testng</artifactId>
                 </exclusion>
-		        <exclusion>
-		            <groupId>org.mortbay.jetty</groupId>
-		            <artifactId>servlet-api-2.5</artifactId>
-		        </exclusion>
-		        <exclusion>
-		            <groupId>bouncycastle</groupId>
-		            <artifactId>bcprov-jdk15</artifactId>
-		        </exclusion>
 		    </exclusions>
 		</dependency>
 	    <dependency>
@@ -1381,119 +1420,57 @@
 		</profile>
 		
 		<!-- 
-			This profile defines the dependencies/plugins for targeting servlet 2.5 web containers like Tomcat 6+ & Jetty 6+
-			This config also defines plugins for running kc/rice in a bundled configuration.
+			This profile defines plugins for running kc/rice in a bundled configuration.
 		 -->
 		<profile>
-			<id>servlet-2.5</id>
+			<id>server-bundled</id>
 			<build>
 				<plugins>
 					<plugin>
-				          <groupId>org.mortbay.jetty</groupId>
-						  <artifactId>jetty-maven-plugin</artifactId>
-						  <version>${jetty.version}</version>
-						  <configuration>
+                        <groupId>org.mortbay.jetty</groupId>
+						<artifactId>jetty-maven-plugin</artifactId>
+						<configuration>
 							<webAppConfig>
-		            			<contextPath>${default.context.path}</contextPath>
-		          			</webAppConfig>
-						  </configuration>
-						  <dependencies>	
-							<dependency>
-							    <groupId>com.oracle</groupId>
-							    <artifactId>ojdbc14</artifactId>
-							    <version>${oracle.version}</version>
-							    <scope>runtime</scope>
-							</dependency>
-							<dependency>
-								<groupId>mysql</groupId>
-								<artifactId>mysql-connector-java</artifactId>
-								<version>${mysql.version}</version>
-								<scope>runtime</scope>
-							</dependency>
-						  </dependencies>
+								<contextPath>${default.context.path}</contextPath>
+							</webAppConfig>
+						</configuration>
 					</plugin>
-					
 					<plugin>
 						<groupId>org.codehaus.mojo</groupId>
 						<artifactId>tomcat-maven-plugin</artifactId>
-						<!-- tomcat 6.0.26 -->
-						<version>1.0</version>
 						<configuration>
 							<path>${default.context.path}</path>
 						</configuration>
-						<dependencies>	
-							<dependency>
-							    <groupId>com.oracle</groupId>
-							    <artifactId>ojdbc14</artifactId>
-							    <version>${oracle.version}</version>
-							    <scope>runtime</scope>
-							</dependency>
-							<dependency>
-								<groupId>mysql</groupId>
-								<artifactId>mysql-connector-java</artifactId>
-								<version>${mysql.version}</version>
-								<scope>runtime</scope>
-							</dependency>
-						</dependencies>
 					</plugin>
 				</plugins>
 			</build>
-
-			<properties>
-				<!-- overriding property to change versions of libraries-->
-				<jstl.version>1.2</jstl.version>
-				<servlet.version>2.5</servlet.version>
-			</properties>
 		</profile>
-		
 
 		<!-- 
-			This profile defines the dependencies/plugins for targeting servlet 2.5 web containers like Tomcat 6+ & Jetty 6+
-			This config also defines plugins for running kc/rice in an embedded configuration.
+			This profile defines plugins for running kc/rice in an embedded configuration.
 		 -->
 		<profile>
-			<id>servlet-2.5-embedded</id>
+			<id>server-embedded</id>
 			<build>
 				<plugins>
 					<plugin>
-				          <groupId>org.mortbay.jetty</groupId>
-						  <artifactId>jetty-maven-plugin</artifactId>
-						  <version>${jetty.version}</version>
-						  <configuration>
+						<groupId>org.mortbay.jetty</groupId>
+						<artifactId>jetty-maven-plugin</artifactId>
+						<configuration>
 							<webAppConfig>
-		            			<contextPath>${default.context.path}</contextPath>
-		          			</webAppConfig>
-		          			<contextHandlers>
-		          				<contextHandler implementation="org.eclipse.jetty.webapp.WebAppContext">
-		          					<!-- this is kind of hacky not sure if there is a better way -->
-                   					<war>${settings.localRepository}/org/kuali/rice/rice-web/${rice.version}/rice-web-${rice.version}.war</war>
-                   					<contextPath>/kr-dev</contextPath>
-               					</contextHandler>
-		          			</contextHandlers>
-						  </configuration>
-						  <dependencies>	
-							<dependency>
-							    <groupId>com.oracle</groupId>
-							    <artifactId>ojdbc14</artifactId>
-							    <version>${oracle.version}</version>
-							    <scope>runtime</scope>
-							</dependency>
-							<dependency>
-								<groupId>mysql</groupId>
-								<artifactId>mysql-connector-java</artifactId>
-								<version>${mysql.version}</version>
-								<scope>runtime</scope>
-							</dependency>
-						  </dependencies>
-					</plugin>					
+								<contextPath>${default.context.path}</contextPath>
+							</webAppConfig>
+							<contextHandlers>
+								<contextHandler implementation="org.eclipse.jetty.webapp.WebAppContext">
+									<!-- this is kind of hacky not sure if there is a better way -->
+									<war>${settings.localRepository}/org/kuali/rice/rice-web/${rice.version}/rice-web-${rice.version}.war</war>
+									<contextPath>/kr-dev</contextPath>
+								</contextHandler>
+							</contextHandlers>
+						</configuration>
+					</plugin>			
 				</plugins>
 			</build>
-
-			<properties>
-				<!-- overriding property to change versions of libraries-->
-				<jstl.version>1.2</jstl.version>
-				<servlet.version>2.5</servlet.version>
-			</properties>
 		</profile>
 	    
         <!-- 
@@ -1585,13 +1562,13 @@
 		<drools.version>5.1.1</drools.version>
 		<jetty.version>7.2.0.v20101020</jetty.version>
 		<jmock.version>2.5.1</jmock.version>
-		<jstl.version>1.1.2</jstl.version>
+		<jstl.version>1.2</jstl.version>
 		<mail.version>1.4.4</mail.version>
 		<mysql.version>5.1.13</mysql.version>
 		<oracle.version>10.2.0.3.0</oracle.version>
 		<rice.version>1.0.3.3</rice.version>
 		<selenium.version>2.5.0</selenium.version>
-		<servlet.version>2.4</servlet.version>
+		<servlet.version>2.5</servlet.version>
 		<slf4j.version>1.6.1</slf4j.version>
 		<springframework.version>2.5.6</springframework.version>
 		<struts.version>1.2.9</struts.version> 

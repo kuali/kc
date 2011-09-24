@@ -22,7 +22,7 @@
 <stringAttribute key="org.eclipse.jdt.launching.CLASSPATH_PROVIDER" value="org.maven.ide.eclipse.launchconfig.classpathProvider"/>
 <booleanAttribute key="org.eclipse.jdt.launching.DEFAULT_CLASSPATH" value="false"/>
 <stringAttribute key="org.eclipse.jdt.launching.MAIN_TYPE" value="org.codehaus.classworlds.Launcher"/>
-<stringAttribute key="org.eclipse.jdt.launching.PROGRAM_ARGUMENTS" value="-Pservlet-2.5-embedded org.mortbay.jetty:jetty-maven-plugin:run"/>
+<stringAttribute key="org.eclipse.jdt.launching.PROGRAM_ARGUMENTS" value="-Pserver-embedded org.mortbay.jetty:jetty-maven-plugin:run"/>
 <stringAttribute key="org.eclipse.jdt.launching.PROJECT_ATTR" value="kc_project"/>
 <stringAttribute key="org.eclipse.jdt.launching.SOURCE_PATH_PROVIDER" value="org.maven.ide.eclipse.launchconfig.sourcepathProvider"/>
 <stringAttribute key="org.eclipse.jdt.launching.VM_ARGUMENTS" value="-Dmaven.home=${env_var:M2_HOME}&#13;&#10;-Dclassworlds.conf=${env_var:M2_HOME}/bin/m2.conf&#13;&#10;-ea&#13;&#10;-Xmx1024m&#13;&#10;-XX:MaxPermSize=512m&#13;&#10;-XX:+UseConcMarkSweepGC&#13;&#10;-XX:+CMSClassUnloadingEnabled"/>
