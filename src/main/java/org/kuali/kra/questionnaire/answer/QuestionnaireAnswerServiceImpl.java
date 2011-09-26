@@ -268,18 +268,11 @@ public class QuestionnaireAnswerServiceImpl implements QuestionnaireAnswerServic
     /**
      * @see org.kuali.kra.questionnaire.answer.QuestionnaireAnswerService#checkIfQuestionnaireIsActiveForModule(java.lang.Integer, java.lang.String, java.lang.String)
      */
-    public boolean checkIfQuestionnaireIsActiveForModule(Integer questionnaireId, String coeusModuleCode, String coeusSubModuleCode) {
+    public boolean checkIfQuestionnaireIsActiveForModule(Integer questionnaireId, String moduleItemCode, String moduleSubItemCode) {
         boolean isActive = false;
         Questionnaire latestQnnrInstance = getLatestQuestionnaireVersion(questionnaireId);
         if(null != latestQnnrInstance && latestQnnrInstance.getIsFinal()) {
-            List<QuestionnaireUsage> questionnaireUsages = latestQnnrInstance.getQuestionnaireUsages();
-            for (QuestionnaireUsage questionnaireUsage : questionnaireUsages) {
-                if( StringUtils.equals(questionnaireUsage.getModuleItemCode(), coeusModuleCode) ) {
-                    // TODO sub-module comparison removed, can be added back later if needed
-                    isActive = true;
-                    break;
-                }
-            }
+            isActive = latestQnnrInstance.hasUsageFor(moduleItemCode, moduleSubItemCode);
         }       
         return isActive;               
     }
