@@ -52,7 +52,7 @@
         <property name="forceUppercase" value="false" />
         <property name="label" value="Per Fin Int Discl Det Id" />
         <property name="shortLabel" value="Per Fin Int Discl Det Id" />
-        <property name="maxLength" value="22" />
+        <property name="maxLength" value="12" />
         <property name="validationPattern" >
             <bean parent="NumericValidationPattern" />
         </property>
@@ -88,13 +88,13 @@
         <property name="forceUppercase" value="false" />
         <property name="label" value="Sequence Number" />
         <property name="shortLabel" value="Sequence Number" />
-        <property name="maxLength" value="22" />
+        <property name="maxLength" value="4" />
         <property name="validationPattern" >
             <bean parent="NumericValidationPattern" />
         </property>
         <property name="control" >
             <bean parent="TextControlDefinition"
-                p:size="10" />
+                p:size="4" />
         </property>
         <property name="summary" value="Sequence Number" />
         <property name="description" value="Sequence Number" />
@@ -142,13 +142,13 @@
         <property name="forceUppercase" value="false" />
         <property name="label" value="Relationship Type Code" />
         <property name="shortLabel" value="Relationship Type Code" />
-        <property name="maxLength" value="22" />
+        <property name="maxLength" value="3" />
         <property name="validationPattern" >
             <bean parent="NumericValidationPattern" />
         </property>
         <property name="control" >
             <bean parent="TextControlDefinition"
-                p:size="10" />
+                p:size="3" />
         </property>
         <property name="summary" value="Relationship Type Code" />
         <property name="description" value="Relationship Type Code" />

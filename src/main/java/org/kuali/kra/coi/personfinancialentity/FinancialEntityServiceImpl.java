@@ -46,6 +46,7 @@ public class FinancialEntityServiceImpl implements FinancialEntityService {
      * 
      * @see org.kuali.kra.coi.personfinancialentity.FinancialEntityService#getFinancialEntities(java.lang.String, boolean)
      */
+    @SuppressWarnings("unchecked")
     public List<PersonFinIntDisclosure> getFinancialEntities(String personId, boolean active) {
         Map<String, Object> fieldValues = new HashMap<String, Object>();
         fieldValues.put("personId", personId);
@@ -67,6 +68,7 @@ public class FinancialEntityServiceImpl implements FinancialEntityService {
     /*
      * get all financial entities with the same entity number
      */
+    @SuppressWarnings("unchecked")
     private List<PersonFinIntDisclosure> getFinDisclosureVersions(String entityNumber) {
         Map<String, Object> fieldValues = new HashMap<String, Object>();
         fieldValues.put("entityNumber", entityNumber);
@@ -74,13 +76,19 @@ public class FinancialEntityServiceImpl implements FinancialEntityService {
 
     }
     
+    @SuppressWarnings("unchecked")
     public List<FinIntEntityRelType> getFinancialEntityRelationshipTypes() {
         // TODO : consider to add sort_id for sorting purposes
-        Map fieldValues = new HashMap();
+        Map<String, String> fieldValues = new HashMap<String, String>();
         fieldValues.put("active", "Y");
         return (List<FinIntEntityRelType>) businessObjectService.findMatchingOrderBy(FinIntEntityRelType.class, fieldValues, "sortId", true);
     }
     
+    /**
+     * 
+     * @see org.kuali.kra.coi.personfinancialentity.FinancialEntityService#getFinancialEntityDataMatrix()
+     */
+    @SuppressWarnings("unchecked")
     public List<FinEntityDataMatrixBean> getFinancialEntityDataMatrix() {
         List<FinIntEntityRelType> relationshipTypes = getFinancialEntityRelationshipTypes();
         List<FinEntityDataMatrixBean> dataMatrixs = new ArrayList<FinEntityDataMatrixBean>();
@@ -118,6 +126,10 @@ public class FinancialEntityServiceImpl implements FinancialEntityService {
         return dataMatrixs;
     }
 
+    /**
+     * 
+     * @see org.kuali.kra.coi.personfinancialentity.FinancialEntityService#getFinDisclosureDetails(java.util.List, java.lang.String, java.lang.Integer)
+     */
     public List<PersonFinIntDisclDet> getFinDisclosureDetails(List<FinEntityDataMatrixBean> dataMatrixs, String entityNumber, Integer sequenceNumber) {
         List<PersonFinIntDisclDet>  disclosureDetails = new ArrayList<PersonFinIntDisclDet>();
         for (FinEntityDataMatrixBean dataRow : dataMatrixs) {
@@ -142,6 +154,10 @@ public class FinancialEntityServiceImpl implements FinancialEntityService {
         return disclosureDetails;
     }
 
+    /**
+     * 
+     * @see org.kuali.kra.coi.personfinancialentity.FinancialEntityService#getFinancialEntityDataMatrixForEdit(java.util.List)
+     */
     public List<FinEntityDataMatrixBean> getFinancialEntityDataMatrixForEdit(List<PersonFinIntDisclDet> disclosureDetails) {
         // TODO : be aware this is not efficient.  investigate if there is more efficient approach
         List<FinEntityDataMatrixBean> dataMatrixs = getFinancialEntityDataMatrix();
@@ -166,6 +182,9 @@ public class FinancialEntityServiceImpl implements FinancialEntityService {
         return dataMatrixs;
     }
     
+    /*
+     * Utility method to convert column value to boolean
+     */
     private void setRelationshipTypeBeanValue(FinEntityDataMatrixBean dataRow, RelationshipTypeBean relationshipTypeBean, PersonFinIntDisclDet personFinIntDisclDet) {
         if (dataRow.isArgValueLookup()) {
             relationshipTypeBean.setStringValue(personFinIntDisclDet.getColumnValue());
@@ -176,6 +195,9 @@ public class FinancialEntityServiceImpl implements FinancialEntityService {
         }
     }
 
+    /*
+     * Utility method to conver relation type from boolean to column value
+     */
     private String getRelationshipTypeValue(FinEntityDataMatrixBean dataRow, RelationshipTypeBean relationshipTypeBean) {
         String retVal = null;
         if (dataRow.isArgValueLookup()) {
@@ -192,7 +214,13 @@ public class FinancialEntityServiceImpl implements FinancialEntityService {
         this.businessObjectService = businessObjectService;
     }
 
+    /**
+     * 
+     * @see org.kuali.kra.coi.personfinancialentity.FinancialEntityService#getFinancialEntityReporter(java.lang.String)
+     */
+    @SuppressWarnings("unchecked")
     public FinancialEntityReporter getFinancialEntityReporter(String personId) {
+        // TODO : this reporterroleid is KC filed.  may be changed
         Map<String, Object> fieldValues = new HashMap<String, Object>();
         fieldValues.put("personId", personId);
         fieldValues.put("reporterRoleId", "FER");
@@ -223,6 +251,9 @@ public class FinancialEntityServiceImpl implements FinancialEntityService {
         return reporters.get(0);
     }
     
+    /*
+     * set up the lead unit from person's unit
+     */
     private FinancialEntityReporterUnit createLeadUnit(String personId) {
 
         FinancialEntityReporterUnit leadUnit = null;
@@ -237,6 +268,10 @@ public class FinancialEntityServiceImpl implements FinancialEntityService {
         return leadUnit;
     }
 
+    /**
+     * 
+     * @see org.kuali.kra.coi.personfinancialentity.FinancialEntityService#versionPersonFinintDisclosure(org.kuali.kra.coi.personfinancialentity.PersonFinIntDisclosure, java.util.List)
+     */
     public PersonFinIntDisclosure versionPersonFinintDisclosure(PersonFinIntDisclosure personFinIntDisclosure, List<FinEntityDataMatrixBean> newRelationDetails) throws VersionException {
         PersonFinIntDisclosure newDisclosure = versioningService.createNewVersion(personFinIntDisclosure);
         FinancialEntityContactInfo copiedContactInfo = (FinancialEntityContactInfo)ObjectUtils.deepCopy(newDisclosure.getFinEntityContactInfos().get(0));
@@ -251,6 +286,10 @@ public class FinancialEntityServiceImpl implements FinancialEntityService {
         return newDisclosure;
     }
     
+    /*
+     * set the current_flag of previous version to 'N'
+     * current_flag is try to speed up the process to find the current person FE disclosure
+     */
     private void nonCurrentOldDisclosure(Long disclosureId) {
         Map<String, Object> fieldValues = new HashMap<String, Object>();
         fieldValues.put("personFinIntDisclosureId", disclosureId);

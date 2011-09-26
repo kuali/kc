@@ -48,13 +48,13 @@
         <property name="forceUppercase" value="false" />
         <property name="label" value="Data Group Id" />
         <property name="shortLabel" value="Data Group Id" />
-        <property name="maxLength" value="22" />
+        <property name="maxLength" value="3" />
         <property name="validationPattern" >
             <bean parent="NumericValidationPattern" />
         </property>
         <property name="control" >
             <bean parent="TextControlDefinition"
-                p:size="10" />
+                p:size="3" />
         </property>
         <property name="summary" value="Data Group Id" />
         <property name="description" value="Data Group Id" />
@@ -84,13 +84,13 @@
         <property name="forceUppercase" value="false" />
         <property name="label" value="Data Group Sort Id" />
         <property name="shortLabel" value="Data Group Sort Id" />
-        <property name="maxLength" value="22" />
+        <property name="maxLength" value="3" />
         <property name="validationPattern" >
             <bean parent="NumericValidationPattern" />
         </property>
         <property name="control" >
             <bean parent="TextControlDefinition"
-                p:size="10" />
+                p:size="3" />
         </property>
         <property name="summary" value="Data Group Sort Id" />
         <property name="description" value="Data Group Sort Id" />

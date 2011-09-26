@@ -61,6 +61,16 @@ public class FinancialEntityAction extends KualiAction {
         return mapping.findForward("management");
     }
 
+    /**
+     * 
+     * This method is to forward to 'New Financial Entity' page
+     * @param mapping
+     * @param form
+     * @param request
+     * @param response
+     * @return
+     * @throws Exception
+     */
     public ActionForward editNew(ActionMapping mapping, ActionForm form, HttpServletRequest request, HttpServletResponse response)
             throws Exception {
 
@@ -68,6 +78,16 @@ public class FinancialEntityAction extends KualiAction {
         return mapping.findForward("editNew");
     }
 
+    /**
+     * 
+     * This method is to forward to 'My Financial Entities' page.
+     * @param mapping
+     * @param form
+     * @param request
+     * @param response
+     * @return
+     * @throws Exception
+     */
     public ActionForward editList(ActionMapping mapping, ActionForm form, HttpServletRequest request, HttpServletResponse response)
             throws Exception {
 
@@ -86,6 +106,16 @@ public class FinancialEntityAction extends KualiAction {
         
     }
     
+    /**
+     * 
+     * This method for 'close' button action.
+     * @param mapping
+     * @param form
+     * @param request
+     * @param response
+     * @return
+     * @throws Exception
+     */
     public ActionForward close(ActionMapping mapping, ActionForm form, HttpServletRequest request, HttpServletResponse response)
             throws Exception {
         return mapping.findForward(KNSConstants.MAPPING_PORTAL);
@@ -113,6 +143,12 @@ public class FinancialEntityAction extends KualiAction {
 
     }
 
+    /**
+     * 
+     * This method is to process rule check.
+     * @param event
+     * @return
+     */
     protected boolean checkRule(KraDocumentEventBaseExtension event) {
         return event.getRule().processRules(event);
     }
@@ -143,10 +179,19 @@ public class FinancialEntityAction extends KualiAction {
         return getFinancialEntityService().getFinancialEntities(GlobalVariables.getUserSession().getPrincipalId(), active);
     }
     
+    /**
+     * 
+     * This method is for header message displaying
+     * @param submitAction
+     */
     protected void recordSubmitActionSuccess(String submitAction) {
         GlobalVariables.getMessageList().add(KeyConstants.MESSAGE_FINANCIAL_ENTITY_ACTION_COMPLETE, submitAction);
     }
 
+    /**
+     * This is specifically for 'sponsor' lookup'  when return a value, the addresses fields will be overriden.
+     * @see org.kuali.rice.kns.web.struts.action.KualiAction#refresh(org.apache.struts.action.ActionMapping, org.apache.struts.action.ActionForm, javax.servlet.http.HttpServletRequest, javax.servlet.http.HttpServletResponse)
+     */
     @Override
     public ActionForward refresh(ActionMapping mapping, ActionForm form, HttpServletRequest request, HttpServletResponse response)
             throws Exception {
