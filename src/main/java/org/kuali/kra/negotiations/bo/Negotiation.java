@@ -18,6 +18,7 @@ package org.kuali.kra.negotiations.bo;
 import java.sql.Date;
 import java.util.ArrayList;
 import java.util.Calendar;
+import java.util.HashMap;
 import java.util.LinkedHashMap;
 import java.util.List;
 import java.util.Map;
@@ -32,6 +33,7 @@ import org.kuali.kra.infrastructure.KraServiceLocator;
 import org.kuali.kra.infrastructure.RoleConstants;
 import org.kuali.kra.institutionalproposal.home.InstitutionalProposal;
 import org.kuali.kra.institutionalproposal.proposallog.ProposalLog;
+import org.kuali.kra.kim.bo.KcKimAttributes;
 import org.kuali.kra.negotiations.service.NegotiationService;
 import org.kuali.rice.kns.bo.BusinessObject;
 
@@ -386,6 +388,6 @@ public class Negotiation extends KraPersistableBusinessObjectBase implements Per
 
     @Override
     public void populateAdditionalQualifiedRoleAttributes(Map<String, String> qualifiedRoleAttributes) {
-        return;
+        qualifiedRoleAttributes.put(KcKimAttributes.DOCUMENT_TYPE_NAME, this.getDocumentKey());
     }
 }
