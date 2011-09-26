@@ -19,10 +19,16 @@ import java.util.LinkedHashMap;
 
 import org.kuali.kra.bo.KraPersistableBusinessObjectBase;
 
+/**
+ * 
+ * This class is for Person Int. FE details
+ */
 public class PersonFinIntDisclDet extends KraPersistableBusinessObjectBase { 
     
-    private static final long serialVersionUID = 1L;
-
+    /**
+     * Comment for <code>serialVersionUID</code>
+     */
+    private static final long serialVersionUID = 1121307383084809439L;
     private Long perFinIntDisclDetId; 
     private String entityNumber; 
     private Integer sequenceNumber; 
