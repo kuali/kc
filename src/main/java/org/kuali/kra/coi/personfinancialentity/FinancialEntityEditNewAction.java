@@ -24,9 +24,23 @@ import org.apache.struts.action.ActionMapping;
 import org.kuali.kra.infrastructure.Constants;
 import org.kuali.rice.kns.util.GlobalVariables;
 
+/**
+ * 
+ * This class is the struts action for maintaining new financial entity page
+ */
 public class FinancialEntityEditNewAction extends FinancialEntityAction {
     private static final String NEW_FINANCIAL_ENTITY = "financialEntityHelper.newPersonFinancialEntity";
 
+    /**
+     * 
+     * This method is to submit the new FE
+     * @param mapping
+     * @param form
+     * @param request
+     * @param response
+     * @return
+     * @throws Exception
+     */
     public ActionForward submit(ActionMapping mapping, ActionForm form, HttpServletRequest request, HttpServletResponse response)
             throws Exception {
         FinancialEntityHelper financialEntityHelper = ((FinancialEntityForm) form).getFinancialEntityHelper();
