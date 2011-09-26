@@ -452,9 +452,11 @@
           <forward name="basic" path="/WEB-INF/jsp/coi/CoiCertification.jsp" />
           &coi_forwards;
        </action>
-          <action path="/financialEntityManagement" name="FinancialEntityForm" type="org.kuali.kra.coi.personfinancialentity.FinancialEntityAction" input="/WEB-INF/jsp/coi/FinancialEntityManagement.jsp" attribute="KualiForm">
-            <forward name="basic" path="/WEB-INF/jsp/coi/FinancialEntityManagement.jsp" />
+          <action path="/financialEntity*" name="FinancialEntityForm" type="org.kuali.kra.coi.personfinancialentity.FinancialEntity{1}Action" input="/WEB-INF/jsp/coi/FinancialEntity{1}.jsp" attribute="KualiForm">
+            <forward name="basic" path="/WEB-INF/jsp/coi/FinancialEntity{1}.jsp" />
             <forward name="management" path="/WEB-INF/jsp/coi/FinancialEntityManagement.jsp" />
+            <forward name="editNew" path="/WEB-INF/jsp/coi/FinancialEntityEditNew.jsp" />
+            <forward name="editList" path="/WEB-INF/jsp/coi/FinancialEntityEditList.jsp" />
      </action>
      
      <!--  KRA Negotiation Mapping -->

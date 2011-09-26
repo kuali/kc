@@ -25,28 +25,28 @@
         <style type="text/css">
             #workarea td.tab-subhead1
             {
-		        font-weight: bold;
-		        background-color: #939393;
-		        height: 18px;
-		        text-align: left;
-		        border-left: 1px solid #999999;
-		        color: #FFFFFF;
-		        padding: 2px 6px;
-		        border-bottom-width: 1px;
-		        border-bottom-style: solid;
-		        border-bottom-color: #B2B2B2;
+                font-weight: bold;
+                background-color: #939393;
+                height: 18px;
+                text-align: left;
+                border-left: 1px solid #999999;
+                color: #FFFFFF;
+                padding: 2px 6px;
+                border-bottom-width: 1px;
+                border-bottom-style: solid;
+                border-bottom-color: #B2B2B2;
             }
         </style>
         <c:forEach items="${fn:split(ConfigProperties.css.files, ',')}" var="cssFile">
             <c:if test="${fn:length(fn:trim(cssFile)) > 0}">
-				 <link href="${pageContext.request.contextPath}/${cssFile}"
-					rel="stylesheet" type="text/css" />
+                 <link href="${pageContext.request.contextPath}/${cssFile}"
+                    rel="stylesheet" type="text/css" />
             </c:if>
         </c:forEach>
         <c:forEach items="${fn:split(ConfigProperties.javascript.files, ',')}" var="javascriptFile">
             <c:if test="${fn:length(fn:trim(javascriptFile)) > 0}">
-				<script language="JavaScript" type="text/javascript"
-					src="${pageContext.request.contextPath}/${javascriptFile}"></script>
+                <script language="JavaScript" type="text/javascript"
+                    src="${pageContext.request.contextPath}/${javascriptFile}"></script>
             </c:if>
         </c:forEach>
         <script type="text/javascript" src="scripts/jquery/jquery.js"></script> 
@@ -56,12 +56,12 @@
         </script>
     </head>
     <body onload="if ( !restoreScrollPosition() ) {  }"
-			onKeyPress="return isReturnKeyAllowed('methodToCall.' , event);">
-			
-        <html:form styleId="kualiForm" action="/financialEntityManagement.do"
-		    method="post" onsubmit="return hasFormAlreadyBeenSubmitted();">
+            onKeyPress="return isReturnKeyAllowed('methodToCall.' , event);">
+            
+        <html:form styleId="kualiForm" action="/financialEntityEditNew.do"
+            method="post" onsubmit="return hasFormAlreadyBeenSubmitted();">
             <c:set var="KualiForm" value="${KualiForm}" /> 
-			<jsp:useBean id="KualiForm" type="org.kuali.rice.kns.web.struts.form.KualiForm" /> 
+            <jsp:useBean id="KualiForm" type="org.kuali.rice.kns.web.struts.form.KualiForm" /> 
             <a name="topOfForm"></a>
             <div class="headerarea" id="headerarea">
                 <h1>Financial Entities 
@@ -75,14 +75,14 @@
             <div class="horz-links-bkgrnd" id="horz-links">
                 <div id="tabs">
                     <dl class="tabul">
-                        <dt class="licurrent" >
-                            <span class="tabright tabcurrent">
+                        <dt>
+                            <span class="tabright">
                                 <input type="submit" name="methodToCall.management" value="Reporter" alt="Reporter">
                             </span>
                         </dt> 
-                        <dt>
-                            <span class="tabright">
-                                <input type="submit" name="methodToCall.editNew" value="New Financial Entity" alt="New financial Entity">
+                        <dt class="licurrent" >
+                            <span class="tabright tabcurrent">
+                                <input type="submit" name="methodToCall.eidtNew" value="New Financial Entity" alt="New financial Entity">
                             </span>
                         </dt> 
                         <dt>
@@ -96,18 +96,18 @@
             
             <c:set var="errorKey" value="financialEntityHelper"/>
             <div class="msg-excol">
-				<div class="left-errmsg">
-					<kul:errorCount auditCount="${auditCount}"/>
-					<c:if test="${!empty errorKey}">
-						<kul:errors keyMatch="${errorKey}" errorTitle=" "/>
-					</c:if>
-					<c:if test="${empty errorKey}">
-					    <kul:errors keyMatch="${Constants.GLOBAL_ERRORS}"
-															errorTitle=" " />
-					</c:if>
-					<kul:messages/>
-					<kul:lockMessages/>
-				</div>
+                <div class="left-errmsg">
+                    <kul:errorCount auditCount="${auditCount}"/>
+                    <c:if test="${!empty errorKey}">
+                        <kul:errors keyMatch="${errorKey}" errorTitle=" "/>
+                    </c:if>
+                    <c:if test="${empty errorKey}">
+                        <kul:errors keyMatch="${Constants.GLOBAL_ERRORS}"
+                                                            errorTitle=" " />
+                    </c:if>
+                    <kul:messages/>
+                    <kul:lockMessages/>
+                </div>
             </div>
             
             <div class="right">
@@ -125,11 +125,11 @@
                             <div id="workarea">
                 
             <!-- Tabbed Panel Head: reporter -->            
-                                <kra-coi:financialEntityReporter />
+                                <%-- kra-coi:financialEntityReporter / --%>
             <!-- Tabbed Panel Head: new financial entity -->            
-                                <%-- kra-coi:newFinancialEntity / --%>
-           <!-- Tabbed Panel Head: financial entities  -->           
-                                <%-- kra-coi:financialEntities / --%>
+                                <kra-coi:newFinancialEntity />
+            <!-- Tabbed Panel Head: financial entities -->            
+                                <%-- kra-coi:financialEntities /--%>
                         
                   
             <!-- Tabbed Panel Footer -->    
@@ -150,12 +150,12 @@
                   
                             <div id="globalbuttons" class="globalbuttons"> 
                           <!--
-    	                        <input type="image" name="methodToCall.save" src="kr/static/images/buttonsmall_save.gif"  class="globalbuttons" title="save" alt="save">
+                                <input type="image" name="methodToCall.save" src="kr/static/images/buttonsmall_save.gif"  class="globalbuttons" title="save" alt="save">
                           -->
-			                        <input type="image" name="methodToCall.close" src="kr/static/images/buttonsmall_close.gif" class="globalbuttons" title="close" alt="close">
+                                    <input type="image" name="methodToCall.close" src="kr/static/images/buttonsmall_close.gif" class="globalbuttons" title="close" alt="close">
                             <!--    
-			                    <input type="image" name="methodToCall.cancel" src="kr/static/images/buttonsmall_cancel.gif" class="globalbuttons" title="cancel" alt="cancel">
-			                    -->
+                                <input type="image" name="methodToCall.cancel" src="kr/static/images/buttonsmall_cancel.gif" class="globalbuttons" title="cancel" alt="cancel">
+                                -->
                             </div>
                         </div><%-- end aligncenter --%>
                     </td>
@@ -163,12 +163,12 @@
                 </tr>
             </table>
             <div class="left-errmsg">
-				<kul:errors displayRemaining="true"
-						errorTitle="Other errors:"
-						warningTitle="Other warnings:"
-						infoTitle="Other informational messages:"/>
+                <kul:errors displayRemaining="true"
+                        errorTitle="Other errors:"
+                        warningTitle="Other warnings:"
+                        infoTitle="Other informational messages:"/>
             </div>          
-		
+        
         </html:form>
         <div id="formComplete"></div> 
     </body>
