@@ -1658,6 +1658,10 @@ public class ActionHelper implements Serializable {
         return canAssignReviewers;
     }
     
+    public boolean isCanAssignReviewers() {
+        return canAssignReviewers;
+    }
+    
     public boolean getCanAssignReviewersUnavailable() {
         return canAssignReviewersUnavailable;
     }

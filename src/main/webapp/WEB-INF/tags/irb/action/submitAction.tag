@@ -139,11 +139,19 @@ ${kfunc:registerEditableProperty(KualiForm, "actionHelper.protocolSubmitAction.n
 		                    </th>
 		                    <td>
 		                        <nobr>
-		                        <c:choose>
+		                        <c:choose>		                     
 		                            <c:when test="${KualiForm.actionHelper.showCommittee}">
-				                        <kul:htmlControlAttribute property="actionHelper.protocolSubmitAction.scheduleId" 
-				                                                  attributeEntry="${attributes.scheduleId}"
-				                                                   onchange="displayReviewers(${KualiForm.document.protocol.protocolId})" />
+		                            	<c:choose>
+		                                	<c:when test="${KualiForm.actionHelper.canAssignReviewers}">
+				                            	<kul:htmlControlAttribute property="actionHelper.protocolSubmitAction.scheduleId" 
+				                                	                      attributeEntry="${attributes.scheduleId}"
+				                                    	                  onchange="displayReviewers(${KualiForm.document.protocol.protocolId})" />
+				                        	</c:when>
+				                        	<c:otherwise>
+				                            	<kul:htmlControlAttribute property="actionHelper.protocolSubmitAction.scheduleId" 
+				                                	                      attributeEntry="${attributes.scheduleId}" />
+    				                    	</c:otherwise>
+						                </c:choose>
 				                    </c:when>
 				                    <c:otherwise>
 				                        <kul:htmlControlAttribute property="actionHelper.protocolSubmitAction.scheduleId" 
@@ -152,11 +160,9 @@ ${kfunc:registerEditableProperty(KualiForm, "actionHelper.protocolSubmitAction.n
 				                </c:choose>
 		                        </nobr>
 		                    </td>
-	                  
-	                </tr>
+	                    </tr>
                 
-                    
-		                <c:choose>
+                        <c:choose>
 		                    <c:when test="${empty KualiForm.actionHelper.protocolSubmitAction.scheduleId}">
 		                        <tr id="reviewers" style="display: none">
 		                    </c:when>
@@ -164,52 +170,52 @@ ${kfunc:registerEditableProperty(KualiForm, "actionHelper.protocolSubmitAction.n
 		                        <tr id="reviewers">
 		                    </c:otherwise>
 		                </c:choose>
-		                    <th>
-		                        <div align="right">
-		                            Reviewers:
-		                        </div>
-		                    </th>
+		                <th>
+		                    <div align="right">
+		                        Reviewers:
+		                    </div>
+		                </th>
 		                    
-		                    <td colspan="3">
-		                        <div width="100%">
-		                            <table style="border: 0 none yellow">
-		                                <tr valign="top">
-		                                    <td width="50%" style="border: 0 none">
-						                        <table id="reviewersTableLeft" style="border: 0 none" cellpadding="0" cellspacing="0" summary="">
-						                        	<c:forEach var="reviewer" items="${KualiForm.actionHelper.protocolSubmitAction.leftReviewers}" varStatus="status">
-						                        	    <tr>
-						                        	        <td style="border: 0 none">
-		                                                        ${reviewer.fullName}
-		                                                    </td>
-						                        	        <td style="border: 0 none">
-						                        	            <kul:htmlControlAttribute property="actionHelper.protocolSubmitAction.reviewer[${status.index}].reviewerTypeCode"
-		                                                                                  attributeEntry="${reviewerAttributes.reviewerTypeCode}"/>
-											                </td>
-											            </tr>
-						                        	</c:forEach>
-						                        </table>
-				                    		</td>
-				                    		<td style="border: 0 none">
-						                        <table id="reviewersTableRight" style="border: 0 none" cellpadding="0" cellspacing="0" summary="">
-						                        	<c:set var="numLeftReviewers" value="${fn:length(KualiForm.actionHelper.protocolSubmitAction.leftReviewers)}" />
-						                        	<c:forEach var="reviewer" items="${KualiForm.actionHelper.protocolSubmitAction.rightReviewers}" varStatus="status">
-						                        	    <tr>
-						                        	        <td style="border: 0 none">
-		                                                        ${reviewer.fullName}
-		                                                    </td>
-						                        	        <td style="border: 0 none">
-						                        	            <kul:htmlControlAttribute property="actionHelper.protocolSubmitAction.reviewer[${status.index + numLeftReviewers}].reviewerTypeCode"
-		                                                                                  attributeEntry="${reviewerAttributes.reviewerTypeCode}"/>
-											                </td>
-											            </tr>
-						                        	</c:forEach>
-						                        </table>
-						                    </td>
-						                </tr>
-						            </table>
-			                    </div>
-		                    </td>
-	                	</tr>
+		                <td colspan="3">
+		                    <div width="100%">
+		                        <table style="border: 0 none yellow">
+		                            <tr valign="top">
+		                                <td width="50%" style="border: 0 none">
+						                    <table id="reviewersTableLeft" style="border: 0 none" cellpadding="0" cellspacing="0" summary="">
+						                    	<c:forEach var="reviewer" items="${KualiForm.actionHelper.protocolSubmitAction.leftReviewers}" varStatus="status">
+						                    	    <tr>
+						                    	        <td style="border: 0 none">
+		                                                       ${reviewer.fullName}
+		                                                </td>
+						                       	        <td style="border: 0 none">
+						                       	            <kul:htmlControlAttribute property="actionHelper.protocolSubmitAction.reviewer[${status.index}].reviewerTypeCode"
+		                                                                                 attributeEntry="${reviewerAttributes.reviewerTypeCode}"/>
+										                </td>
+										            </tr>
+						                       	</c:forEach>
+						                    </table>
+				                   		</td>
+				                   		<td style="border: 0 none">
+						                    <table id="reviewersTableRight" style="border: 0 none" cellpadding="0" cellspacing="0" summary="">
+						                        <c:set var="numLeftReviewers" value="${fn:length(KualiForm.actionHelper.protocolSubmitAction.leftReviewers)}" />
+						                        <c:forEach var="reviewer" items="${KualiForm.actionHelper.protocolSubmitAction.rightReviewers}" varStatus="status">
+						                            <tr>
+						                                <td style="border: 0 none">
+		                                                    ${reviewer.fullName}
+		                                                </td>
+						                             	<td style="border: 0 none">
+						                        	        <kul:htmlControlAttribute property="actionHelper.protocolSubmitAction.reviewer[${status.index + numLeftReviewers}].reviewerTypeCode"
+		                                                                              attributeEntry="${reviewerAttributes.reviewerTypeCode}"/>
+											            </td>
+											        </tr>
+						                        </c:forEach>
+						                    </table>
+						                </td>
+						            </tr>
+					            </table>
+			                </div>
+		                </td>
+	                </tr>
 	              
                 </c:if>
                    
