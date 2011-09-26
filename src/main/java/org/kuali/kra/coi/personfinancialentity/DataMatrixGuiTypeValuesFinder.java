@@ -21,6 +21,10 @@ import java.util.List;
 import org.kuali.rice.core.util.KeyLabelPair;
 import org.kuali.rice.kns.lookup.keyvalues.KeyValuesBase;
 
+/**
+ * 
+ * This class create a dropdown list for FE data matrix gui type
+ */
 public class DataMatrixGuiTypeValuesFinder extends KeyValuesBase {
 
         public List<KeyLabelPair> getKeyValues() {

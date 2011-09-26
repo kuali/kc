@@ -20,6 +20,10 @@ import java.util.List;
 
 import org.kuali.kra.bo.KraPersistableBusinessObjectBase;
 
+/**
+ * 
+ * This class is for FE status
+ */
 public class FinIntEntityStatus extends KraPersistableBusinessObjectBase { 
     
     /**

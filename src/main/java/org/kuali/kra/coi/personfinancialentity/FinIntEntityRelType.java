@@ -20,10 +20,16 @@ import java.util.List;
 
 import org.kuali.kra.bo.KraPersistableBusinessObjectBase;
 
+/**
+ * 
+ * This class is for FE relationship types
+ */
 public class FinIntEntityRelType extends KraPersistableBusinessObjectBase { 
     
-    private static final long serialVersionUID = 1L;
-
+    /**
+     * Comment for <code>serialVersionUID</code>
+     */
+    private static final long serialVersionUID = -7816013081822663506L;
     private String relationshipTypeCode; 
     private String description; 
     private Integer sortId; 

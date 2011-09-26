@@ -28,6 +28,10 @@ import org.kuali.kra.bo.OrganizationTypeList;
 import org.kuali.kra.bo.Sponsor;
 import org.kuali.kra.infrastructure.Constants;
 
+/**
+ * 
+ * This class is bo of person Int. FE disclosure
+ */
 public class PersonFinIntDisclosure extends KraPersistableBusinessObjectBase implements SequenceOwner<PersonFinIntDisclosure> { 
     
 
@@ -35,38 +39,41 @@ public class PersonFinIntDisclosure extends KraPersistableBusinessObjectBase imp
      * Comment for <code>serialVersionUID</code>
      */
     private static final long serialVersionUID = -3218103115548868080L;
-    private Long personFinIntDisclosureId; 
+    private Long personFinIntDisclosureId;
     private Long financialEntityReporterId;
-    private String personId; 
-    private String entityNumber; 
-    private Integer sequenceNumber; 
-    private Integer statusCode; 
-    private String statusDescription; 
-    private String entityName; 
-    private Integer entityTypeCode; 
-    private String entityOwnershipType; 
-    private String relationshipTypeCode; 
-    private String relationshipDescription; 
-    private boolean relatedToOrganizationFlag; 
-    private String orgRelationDescription; 
-    private String principalBusinessActivity; 
-    private String sponsorCode; 
-    private boolean currentFlag; 
+    private String personId;
+    private String entityNumber;
+    private Integer sequenceNumber;
+    private Integer statusCode;
+    private String statusDescription;
+    private String entityName;
+    private Integer entityTypeCode;
+    private String entityOwnershipType;
+    private String relationshipTypeCode;
+    private String relationshipDescription;
+    private boolean relatedToOrganizationFlag;
+    private String orgRelationDescription;
+    private String principalBusinessActivity;
+    private String sponsorCode;
+    // added this flag to ease the search of current person FE.
+    private boolean currentFlag;
     // this is for 'edit' save/submit ('S'/'F')
     private String processStatus;
-    private FinIntEntityRelType finIntEntityRelType; 
-    private FinIntEntityStatus finIntEntityStatus; 
-    private OrganizationTypeList organizationTypeList; 
-    private List<InvCoiDiscDetail> invCoiDiscDetails; 
-    private List<FinIntEntityYnq> finIntEntityYnqs; 
+    private FinIntEntityRelType finIntEntityRelType;
+    private FinIntEntityStatus finIntEntityStatus;
+    private OrganizationTypeList organizationTypeList;
+    private List<InvCoiDiscDetail> invCoiDiscDetails;
+    private List<FinIntEntityYnq> finIntEntityYnqs;
     private List<PersonFinIntDisclDet> perFinIntDisclDetails;
     private List<FinancialEntityContactInfo> finEntityContactInfos;
     private Sponsor sponsor;
+
+    // @SkipVersioning
+    private FinancialEntityReporter financialEntityReporter;
     
-//  @SkipVersioning
-  private FinancialEntityReporter financialEntityReporter; 
-@SkipVersioning
-private List<PersonFinIntDisclosure> versions; 
+    // foe FE history version display
+    @SkipVersioning
+    private List<PersonFinIntDisclosure> versions;
 
 
     public PersonFinIntDisclosure() { 
@@ -365,7 +372,7 @@ private List<PersonFinIntDisclosure> versions;
 
     @Override
     public void setUpdateTimestamp(Timestamp updateTimestamp) {
-        // TODO Auto-generated method stub
+        // if it is just to set FE to non-current, then don't update the timestamp
         if (isCurrentFlag()) {
             super.setUpdateTimestamp(updateTimestamp);
         }
