@@ -302,6 +302,7 @@
         <property name="label" value="Entity Principal Business/Activity" />
         <property name="shortLabel" value="Entity Principal Business/Activity" />
         <property name="maxLength" value="2000" />
+        <property name="required" value="true" />
         <property name="validationPattern" >
             <bean parent="AnyCharacterValidationPattern" p:allowWhitespace="true" />
         </property>

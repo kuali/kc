@@ -4,7 +4,7 @@
 <c:set var="personFinIntDisclAttribute" value="${DataDictionary.PersonFinIntDisclosure.attributes}" />
 <c:set var="entityContactInfoAttribute" value="${DataDictionary.FinancialEntityContactInfo.attributes}" />
 
-<kul:tab defaultOpen="false" tabTitle="Financial Entities"
+<kul:tab defaultOpen="true" tabTitle="Financial Entities"  transparentBackground="true"
     tabErrorKey="financialEntityHelper.activeFinancialEntities*">
 
     <div class="tab-container" align="center">
@@ -16,14 +16,34 @@
         --%>    
           <table cellpadding=0 cellspacing=0 summary=""> 
               <tr> 
-                <td colspan="2" nowrap class="subhead">Active Entities</td> 
-                <td nowrap class="subhead">Sponsor</td> 
-                <td nowrap class="subhead">Last Update</td> 
-                <td nowrap class="subhead"><div align="center">Actions</div></td> 
+                <td nowrap class="subhead"  width="5%" > &nbsp </td>
+                <td nowrap class="subhead" width="25%" >Active Entities</td> 
+                <td nowrap class="subhead" width="40%" >Sponsor</td> 
+                <td nowrap class="subhead" width="20%" >Last Update</td> 
+                <td nowrap class="subhead" width="10%" ><div align="center">Actions</div></td> 
               </tr> 
               <input type="hidden" name="editIndex" id="editIndex" value="${KualiForm.financialEntityHelper.editEntityIndex}" />
+
+            <%-- Header --%>
+
+             <tr>
+                    <td colspan="5" style="padding:0px;">
+                        
+                        <div>
+                            <table id="activeEntities-table" cellpadding=0 cellspacing="0"  style="border-collapse:collapse;" class="tablesorter">
+                                <thead>
+                                    <tr>
+                                        <th width="5%" />
+                                        <th width="25%"><div align="center"><img src="${ConfigProperties.kra.externalizable.images.url}sort-arrows.gif" width="15" height="16" alt="sort"></div></th> 
+                                        <th width="40%"><div align="center"><img src="${ConfigProperties.kra.externalizable.images.url}sort-arrows.gif" width="15" height="16" alt="sort"></div></th> 
+                                        <th width="20%"><div align="center"><img src="${ConfigProperties.kra.externalizable.images.url}sort-arrows.gif" width="15" height="16" alt="sort"></div></th> 
+                                        <th class="{sorter: false}" width="10%"> </th>
+                                   </tr>
+                                </thead>            
+                                <tbody>         
+
             <c:forEach var="financialEntity" items="${KualiForm.financialEntityHelper.activeFinancialEntities}" varStatus="status">
-              <tr> 
+              <tr id="hdrrow${status.index}"> 
                 <td nowrap class="tab-subhead1"><a href="#" id="A${status.index}" onclick="rend(this, false)"><img src="${ConfigProperties.kra.externalizable.images.url}tinybutton-show.gif" alt="show/hide this panel" width=45 height=15 border=0 align=absmiddle id="F${status.index}"></a></td> 
                     <td align="left" valign="middle" class="tab-subhead1">
                         <div align="left"> ${financialEntity.entityName} </div>
@@ -32,9 +52,10 @@
                         <div align="left"> ${financialEntity.sponsorName} </div>
                     </td>
                     <td align="left" valign="middle" class="tab-subhead1">
-                     <kul:htmlControlAttribute property="financialEntityHelper.activeFinancialEntities[${status.index}].updateTimestamp" 
+                      <fmt:formatDate value="${KualiForm.financialEntityHelper.activeFinancialEntities[status.index].updateTimestamp}" pattern="MM/dd/yyyy hh:mm a" />
+                    <%-- <kul:htmlControlAttribute property="financialEntityHelper.activeFinancialEntities[${status.index}].updateTimestamp" 
                                                           attributeEntry="${attributes.updateTimestamp}"
-                                                          readOnly="true" />
+                                                          readOnly="true" /> --%>
                     </td>
                         <td class="tab-subhead1">
                             <div align=center>&nbsp;                    
@@ -57,11 +78,13 @@
                             </div>
                         </td>
               </tr> 
-              <tbody id="G${status.index}" style="display: none;">
+              <tr id="G${status.index}" style="display: none;"> <td colspan="5">
+              <table id="active-hist-table" width="100%" cellpadding="0" cellspacing="0" class="datatable">
+            <%-- tbody id="G${status.index}" style="display: none;" --%> 
               <%-- version--%> 
               
-               <tr>
-                  <td colspan=5>
+               <tr >
+                  <td colspan=5 >
                     <kra-coi:financialEntityVersionHistory  financialEntity="${financialEntity}" />
                  </td>
                 </tr>
@@ -128,7 +151,7 @@
                         <kul:htmlControlAttribute property="financialEntityHelper.activeFinancialEntities[${status.index}].statusCode" 
                                               attributeEntry="${personFinIntDisclAttribute.statusCode}" />
                 </td>
-               <th align="right" valign="middle" >
+                <th align="right" valign="middle" >
                     <kul:htmlAttributeLabel attributeEntry="${personFinIntDisclAttribute.entityOwnershipType}" />
                 </th>
                 <td align="left" valign="middle">
@@ -231,24 +254,49 @@
              </td>
             </tr>     
                 </c:if>
-                 
-              </tbody> 
+              <%-- /tbody --%>
+               </table> </td></tr>
               
            </c:forEach>   
+                       </tbody>     
+                    </table>
+                  </div>
+               </td>
+            </tr>                           
         </table>
 
   <%-- Inactive --%>
   
             <table cellpadding=0 cellspacing=0 summary=""> 
               <tr> 
-                <td colspan="2" nowrap class="subhead">Inactive Entities</td> 
-                <td nowrap class="subhead">Sponsor</td> 
-                <td nowrap class="subhead">Last Update</td> 
-                <td nowrap class="subhead"><div align="center">Actions</div></td> 
+                <td nowrap class="subhead"  width="5%" > &nbsp </td>
+                <td nowrap class="subhead" width="25%" >Inactive Entities</td> 
+                <td nowrap class="subhead" width="40%" >Sponsor</td> 
+                <td nowrap class="subhead" width="20%" >Last Update</td> 
+                <td nowrap class="subhead" width="10%" ><div align="center">Actions</div></td> 
               </tr> 
+
+            <%-- Header --%>
+
+             <tr>
+                    <td colspan="5" style="padding:0px;">
+                        
+                        <div>
+                            <table id="inActiveEntities-table" cellpadding=0 cellspacing="0"  style="border-collapse:collapse;" class="tablesorter">
+                                <thead>
+                                    <tr>
+                                        <th width="5%" />
+                                        <th width="25%"><div align="center"><img src="${ConfigProperties.kra.externalizable.images.url}sort-arrows.gif" width="15" height="16" alt="sort"></div></th> 
+                                        <th width="40%"><div align="center"><img src="${ConfigProperties.kra.externalizable.images.url}sort-arrows.gif" width="15" height="16" alt="sort"></div></th> 
+                                        <th width="20%"><div align="center"><img src="${ConfigProperties.kra.externalizable.images.url}sort-arrows.gif" width="15" height="16" alt="sort"></div></th> 
+                                        <th class="{sorter: false}" width="10%"> </th>
+                                   </tr>
+                                </thead>            
+                                <tbody>         
+
             <%--  <input type="hidden" name="editIndex" id="editIndex" value="${KualiForm.financialEntityHelper.editEntityIndex}" /> --%>
             <c:forEach var="financialEntity" items="${KualiForm.financialEntityHelper.inactiveFinancialEntities}" varStatus="status">
-              <tr> 
+              <tr id="hdrrow${status.index}i"> 
                 <td nowrap class="tab-subhead1"><a href="#" id="A${status.index}i" onclick="rend(this, false)"><img src="${ConfigProperties.kra.externalizable.images.url}tinybutton-show.gif" alt="show/hide this panel" width=45 height=15 border=0 align=absmiddle id="F${status.index}i"></a></td> 
                     <td align="left" valign="middle" class="tab-subhead1">
                         <div align="left"> ${financialEntity.entityName} </div>
@@ -257,9 +305,10 @@
                         <div align="left"> ${financialEntity.sponsorName} </div>
                     </td>
                     <td align="left" valign="middle" class="tab-subhead1">
-                     <kul:htmlControlAttribute property="financialEntityHelper.inactiveFinancialEntities[${status.index}].updateTimestamp" 
+                      <fmt:formatDate value="${KualiForm.financialEntityHelper.inactiveFinancialEntities[status.index].updateTimestamp}" pattern="MM/dd/yyyy hh:mm a" />
+                    <%-- <kul:htmlControlAttribute property="financialEntityHelper.inactiveFinancialEntities[${status.index}].updateTimestamp" 
                                                           attributeEntry="${attributes.updateTimestamp}"
-                                                          readOnly="true" />
+                                                          readOnly="true" /> --%>
                     </td>
                         <td class="tab-subhead1">
                             <div align=center>&nbsp;                    
@@ -268,7 +317,9 @@
                             </div>
                         </td>
               </tr> 
-              <tbody id="G${status.index}i" style="display: none;"> 
+              <tr id="G${status.index}i" style="display: none;"> <td colspan="5">
+              <table id="inactive-hist-table" width="100%" cellpadding="0" cellspacing="0" class="datatable">
+              <%-- <tbody id="G${status.index}i" style="display: none;"> --%>
               
                <tr>
                   <td colspan=5>
@@ -277,9 +328,17 @@
                 </tr>
                 
                  
-              </tbody> 
+              <%--</tbody> --%> 
+                </table> </td></tr>
               
            </c:forEach>   
+           
+                       </tbody>     
+                    </table>
+                  </div>
+               </td>
+            </tr>                           
+           
         </table>
   
     </div>

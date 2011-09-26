@@ -1,0 +1,70 @@
+/*
+ * Copyright 2005-2010 The Kuali Foundation
+ * 
+ * Licensed under the Educational Community License, Version 2.0 (the "License");
+ * you may not use this file except in compliance with the License.
+ * You may obtain a copy of the License at
+ * 
+ * http://www.opensource.org/licenses/ecl1.php
+ * 
+ * Unless required by applicable law or agreed to in writing, software
+ * distributed under the License is distributed on an "AS IS" BASIS,
+ * WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
+ * See the License for the specific language governing permissions and
+ * limitations under the License.
+ */
+package org.kuali.kra.coi.personfinancialentity;
+
+import javax.servlet.http.HttpServletRequest;
+import javax.servlet.http.HttpServletResponse;
+
+import org.apache.struts.action.ActionForm;
+import org.apache.struts.action.ActionForward;
+import org.apache.struts.action.ActionMapping;
+import org.kuali.kra.infrastructure.Constants;
+import org.kuali.rice.kns.util.GlobalVariables;
+
+public class FinancialEntityEditNewAction extends FinancialEntityAction {
+    private static final String NEW_FINANCIAL_ENTITY = "financialEntityHelper.newPersonFinancialEntity";
+
+    public ActionForward submit(ActionMapping mapping, ActionForm form, HttpServletRequest request, HttpServletResponse response)
+            throws Exception {
+        FinancialEntityHelper financialEntityHelper = ((FinancialEntityForm) form).getFinancialEntityHelper();
+
+        if (isValidToSave(financialEntityHelper.getNewPersonFinancialEntity(), NEW_FINANCIAL_ENTITY)) {
+            saveNewFinancialEntity(form);
+        }
+
+//        ((FinancialEntityForm) form).getFinancialEntityHelper().setActiveFinancialEntities(getFinancialEntities(true));
+//        ((FinancialEntityForm) form).getFinancialEntityHelper().setInactiveFinancialEntities(getFinancialEntities(false));
+        return mapping.findForward(Constants.MAPPING_BASIC);
+    }
+
+    /*
+     * utility method to set up the new financial entity for save
+     */
+    private void saveNewFinancialEntity(ActionForm form) {
+        FinancialEntityHelper financialEntityHelper = ((FinancialEntityForm) form).getFinancialEntityHelper();
+        PersonFinIntDisclosure personFinIntDisclosure = financialEntityHelper.getNewPersonFinancialEntity();
+        personFinIntDisclosure.setEntityNumber(getSequenceAccessorService().getNextAvailableSequenceNumber("SEQ_ENTITY_NUMBER_S")
+                .toString()); // sequence #
+        // it seems coeus always save 1.  not sure we need this because it should be in disclosure details
+        personFinIntDisclosure.setRelationshipTypeCode("1");
+        personFinIntDisclosure.setProcessStatus("F");
+        personFinIntDisclosure.setSequenceNumber(1);
+        personFinIntDisclosure.setPerFinIntDisclDetails(getFinancialEntityService().getFinDisclosureDetails(
+                financialEntityHelper.getNewRelationDetails(), personFinIntDisclosure.getEntityNumber(),
+                personFinIntDisclosure.getSequenceNumber()));
+        // personFinIntDisclosure.setPersonId(GlobalVariables.getUserSession().getPrincipalId());
+        saveFinancialEntity(form, personFinIntDisclosure);
+        financialEntityHelper.setNewPersonFinancialEntity(new PersonFinIntDisclosure());
+        financialEntityHelper.getNewPersonFinancialEntity().setCurrentFlag(true);
+        financialEntityHelper.getNewPersonFinancialEntity().setPersonId(GlobalVariables.getUserSession().getPrincipalId());
+        financialEntityHelper.getNewPersonFinancialEntity().setFinancialEntityReporterId(
+                financialEntityHelper.getFinancialEntityReporter().getFinancialEntityReporterId());
+        financialEntityHelper.setNewRelationDetails(getFinancialEntityService().getFinancialEntityDataMatrix());
+    }
+
+    
+
+}
