@@ -20,6 +20,10 @@ import java.util.LinkedHashMap;
 import org.kuali.kra.bo.KraPersistableBusinessObjectBase;
 import org.kuali.kra.bo.Organization;
 
+/**
+ * 
+ * This class is to contain entity's contact info, mainly addresses.  This is kc only.
+ */
 public class FinancialEntityContactInfo extends KraPersistableBusinessObjectBase {
 
 
@@ -44,48 +48,63 @@ public class FinancialEntityContactInfo extends KraPersistableBusinessObjectBase
     public Long getPersonFinIntDisclosureId() {
         return personFinIntDisclosureId;
     }
+
     public void setPersonFinIntDisclosureId(Long personFinIntDisclosureId) {
         this.personFinIntDisclosureId = personFinIntDisclosureId;
     }
+
     public String getAddressLine1() {
         return addressLine1;
     }
+
     public void setAddressLine1(String addressLine1) {
         this.addressLine1 = addressLine1;
     }
+
     public String getAddressLine2() {
         return addressLine2;
     }
+
     public void setAddressLine2(String addressLine2) {
         this.addressLine2 = addressLine2;
     }
+
     public String getAddressLine3() {
         return addressLine3;
     }
+
     public void setAddressLine3(String addressLine3) {
         this.addressLine3 = addressLine3;
     }
+
     public String getCity() {
         return city;
     }
+
     public void setCity(String city) {
         this.city = city;
     }
+
     public String getCountryCode() {
         return countryCode;
     }
+
     public void setCountryCode(String countryCode) {
         this.countryCode = countryCode;
     }
+
     public String getWebAddress1() {
         return webAddress1;
     }
+
     public void setWebAddress1(String webAddress1) {
         this.webAddress1 = webAddress1;
     }
+
     public String getWebAddress2() {
         return webAddress2;
     }
+
     public void setWebAddress2(String webAddress2) {
         this.webAddress2 = webAddress2;
     }
@@ -93,35 +112,45 @@ public class FinancialEntityContactInfo extends KraPersistableBusinessObjectBase
     public String getPostalCode() {
         return postalCode;
     }
+
     public void setPostalCode(String postalCode) {
         this.postalCode = postalCode;
     }
+
     public String getState() {
         return state;
     }
+
     public void setState(String state) {
         this.state = state;
     }
+
     public Organization getOrganization() {
         return organization;
     }
+
     public void setOrganization(Organization organization) {
         this.organization = organization;
     }
+
     public Long getFinancialEntityContactInfoId() {
         return financialEntityContactInfoId;
     }
+
     public void setFinancialEntityContactInfoId(Long financialEntityContactInfoId) {
         this.financialEntityContactInfoId = financialEntityContactInfoId;
     }
+
     @Override
     protected LinkedHashMap toStringMapper() {
         // TODO Auto-generated method stub
         return null;
     }
+
     public PersonFinIntDisclosure getPersonFinIntDisclosure() {
         return personFinIntDisclosure;
     }
+
     public void setPersonFinIntDisclosure(PersonFinIntDisclosure personFinIntDisclosure) {
         this.personFinIntDisclosure = personFinIntDisclosure;
     }

@@ -20,10 +20,16 @@ import java.util.List;
 
 import org.kuali.kra.bo.KraPersistableBusinessObjectBase;
 
+/**
+ * 
+ * This class is FE data matrix.
+ */
 public class FinEntitiesDataMatrix extends KraPersistableBusinessObjectBase { 
-    
-    private static final long serialVersionUID = 1L;
 
+    /**
+     * Comment for <code>serialVersionUID</code>
+     */
+    private static final long serialVersionUID = -7588988427003150929L;
     private String columnName; 
     private String columnLabel; 
     private String guiType; 
