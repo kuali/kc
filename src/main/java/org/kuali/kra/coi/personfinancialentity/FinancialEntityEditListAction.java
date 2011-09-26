@@ -28,8 +28,13 @@ import org.kuali.kra.service.VersionException;
 import org.kuali.rice.kns.question.ConfirmationQuestion;
 import org.kuali.rice.kns.util.KNSConstants;
 
+/**
+ * 
+ * This class for the struts action of 'my financial entities' page.
+ */
 public class FinancialEntityEditListAction extends FinancialEntityAction{
     private static final String DEACTIVATE_ENTITY_QUESTION="DeactivateEntity";
+    // TODO : db column is '2000', but coeus shows 1000 limit; so just follow coeus message.
     private static final String DEACTIVATE_ENTITY_REASON_MAXLENGTH = "1000";
    /**
      * 
@@ -125,6 +130,9 @@ public class FinancialEntityEditListAction extends FinancialEntityAction{
         return mapping.findForward(Constants.MAPPING_BASIC);
     }
 
+    /*
+     * to version person financial entity and save.
+     */
     private PersonFinIntDisclosure versionFinancialEntity(ActionForm form, PersonFinIntDisclosure personFinIntDisclosure, Integer statusCode, String statusDesc) throws VersionException {
         FinancialEntityHelper financialEntityHelper = ((FinancialEntityForm) form).getFinancialEntityHelper();
         PersonFinIntDisclosure newVersionDisclosure = getFinancialEntityService().versionPersonFinintDisclosure(personFinIntDisclosure, financialEntityHelper.getEditRelationDetails());
@@ -142,7 +150,7 @@ public class FinancialEntityEditListAction extends FinancialEntityAction{
     }
     /**
      * 
-     * This method to handle the submit action for new or edited financial entity
+     * This method to handle the submit action for edited financial entity
      * @param mapping
      * @param form
      * @param request
@@ -175,6 +183,16 @@ public class FinancialEntityEditListAction extends FinancialEntityAction{
         return mapping.findForward(Constants.MAPPING_BASIC);
     }
 
+    /**
+     * 
+     * This method is to save the editing financial entity.  process_status is 'S'
+     * @param mapping
+     * @param form
+     * @param request
+     * @param response
+     * @return
+     * @throws Exception
+     */
     public ActionForward save(ActionMapping mapping, ActionForm form, HttpServletRequest request, HttpServletResponse response)
             throws Exception {
         FinancialEntityHelper financialEntityHelper = ((FinancialEntityForm) form).getFinancialEntityHelper();
@@ -204,6 +222,10 @@ public class FinancialEntityEditListAction extends FinancialEntityAction{
     }
 
 
+    /*
+     * after versioned, the retrieved list may not be exactly the same as before version.
+     * so, this is just to make sure it is fine.
+     */
     private void resetEditEntityIndex(ActionForm form, Long personFinIntDisclosureId) {
         FinancialEntityHelper financialEntityHelper = ((FinancialEntityForm) form).getFinancialEntityHelper();
         int i = 0;

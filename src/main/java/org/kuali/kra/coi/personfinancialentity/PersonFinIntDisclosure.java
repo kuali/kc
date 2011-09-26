@@ -15,6 +15,7 @@
  */
 package org.kuali.kra.coi.personfinancialentity;
 
+import java.sql.Timestamp;
 import java.util.ArrayList;
 import java.util.LinkedHashMap;
 import java.util.List;
@@ -360,6 +361,14 @@ private List<PersonFinIntDisclosure> versions;
 
     public void setProcessStatus(String processStatus) {
         this.processStatus = processStatus;
+    }
+
+    @Override
+    public void setUpdateTimestamp(Timestamp updateTimestamp) {
+        // TODO Auto-generated method stub
+        if (isCurrentFlag()) {
+            super.setUpdateTimestamp(updateTimestamp);
+        }
     }
     
 }

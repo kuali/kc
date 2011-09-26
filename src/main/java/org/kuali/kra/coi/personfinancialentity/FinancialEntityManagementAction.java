@@ -27,7 +27,22 @@ import org.kuali.kra.coi.disclosure.AddDisclosureReporterUnitEvent;
 import org.kuali.kra.coi.disclosure.SaveDisclosureReporterUnitEvent;
 import org.kuali.kra.infrastructure.Constants;
 
+/**
+ * 
+ * This class is the main (fist) page of FE maintenance
+ */
 public class FinancialEntityManagementAction extends FinancialEntityAction {
+
+    /**
+     * 
+     * This method is to add a reporter unit.
+     * @param mapping
+     * @param form
+     * @param request
+     * @param response
+     * @return
+     * @throws Exception
+     */
     public ActionForward addFinancialEntityReporterUnit(ActionMapping mapping, ActionForm form, HttpServletRequest request,
             HttpServletResponse response) throws Exception {
 
@@ -38,19 +53,40 @@ public class FinancialEntityManagementAction extends FinancialEntityAction {
                     financialEntityHelper.getFinancialEntityReporter(),
                     financialEntityHelper.getNewFinancialEntityReporterUnit());
             financialEntityHelper.setNewFinancialEntityReporterUnit(new FinancialEntityReporterUnit());
+            recordSubmitActionSuccess("Reporter Units add ");
         }
         return mapping.findForward(Constants.MAPPING_BASIC);
     }
     
-    
+    /**
+     * 
+     * This method is to remove an unit from the list.
+     * @param mapping
+     * @param form
+     * @param request
+     * @param response
+     * @return
+     * @throws Exception
+     */
     public ActionForward deleteFinancialEntityReporterUnit(ActionMapping mapping, ActionForm form, HttpServletRequest request,
             HttpServletResponse response) throws Exception {
 
         FinancialEntityHelper financialEntityHelper = ((FinancialEntityForm) form).getFinancialEntityHelper();
         getCoiDisclosureService().deleteDisclosureReporterUnit(financialEntityHelper.getFinancialEntityReporter(), financialEntityHelper.getDeletedUnits(), getSelectedLine(request));
+        recordSubmitActionSuccess("Reporter Units delete ");
         return mapping.findForward(Constants.MAPPING_BASIC);
     }
     
+    /**
+     * 
+     * This method is to save reporter units
+     * @param mapping
+     * @param form
+     * @param request
+     * @param response
+     * @return
+     * @throws Exception
+     */
     public ActionForward saveFinancialEntityReporterUnits(ActionMapping mapping, ActionForm form, HttpServletRequest request,
             HttpServletResponse response) throws Exception {
 
