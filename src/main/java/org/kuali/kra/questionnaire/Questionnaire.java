@@ -242,4 +242,27 @@ public class Questionnaire extends KraPersistableBusinessObjectBase implements C
         this.templateFile = templateFile;
     }
     
+    public boolean hasUsageFor(String moduleItemCode, String moduleSubItemCode) {
+        boolean retVal = false;
+        for(QuestionnaireUsage usage:questionnaireUsages) {
+            if( usage.getModuleItemCode().equals(moduleItemCode) && usage.getModuleSubItemCode().equals(moduleSubItemCode) ) {
+                retVal = true;
+                break;
+            }
+        }
+        return retVal;
+    }
+    
+    public QuestionnaireUsage getHighestVersionUsageFor(String moduleItemCode, String moduleSubItemCode) {
+        QuestionnaireUsage retVal = null;
+        int version = 0;
+        for(QuestionnaireUsage usage:questionnaireUsages) {
+            if( (usage.getModuleItemCode().equals(moduleItemCode)) && (usage.getModuleSubItemCode().equals(moduleSubItemCode)) && (usage.getQuestionnaireSequenceNumber() > version) ) {
+                version = usage.getQuestionnaireSequenceNumber();
+                retVal = usage;
+            }            
+        }
+        return retVal;
+    }
+    
 }

@@ -78,7 +78,7 @@ public interface QuestionnaireAnswerService {
 
     /**
      * 
-     * This method update whether a child question is going to be displayed or hidden based on parent's answer and condision. This
+     * This method update whether a child question is going to be displayed or hidden based on parent's answer and condition. This
      * method is public is purely for 'lookup' question because js 'onchange' is not working when 'lookup' is used.
      * 
      * @param answers
@@ -127,7 +127,7 @@ public interface QuestionnaireAnswerService {
     
     
     /**
-     * This method checks if the latest questionnaire instance associated with the given questionnaire ID is active, and also
+     * This method checks if the latest questionnaire instance associated with the given questionnaire ID is active and that it
      * has the given module and sub-module codes in one of its usages.
      * 
      * @param questionnaireId
