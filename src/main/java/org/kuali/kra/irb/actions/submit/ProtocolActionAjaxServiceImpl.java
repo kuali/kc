@@ -89,7 +89,7 @@ public class ProtocolActionAjaxServiceImpl implements ProtocolActionAjaxService 
                     Object formObj = GlobalVariables.getUserSession().retrieveObject(docFormKey);
                     if (formObj == null || !(formObj instanceof ProtocolForm)) {
                         isAuthorized = false;
-                        LOG.info("Attention: formObj is incorrect format = " + formObj);
+                        LOG.info("Attention: formObj is incorrect format for docFormKey = " + docFormKey + ", obj = " + formObj);
                     } else {
                         ActionHelper actionHelper = ((ProtocolForm) formObj).getActionHelper();
                         isAuthorized = actionHelper.getCanAssignCmtSched()
