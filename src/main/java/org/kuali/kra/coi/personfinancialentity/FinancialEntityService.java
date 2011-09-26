@@ -35,14 +35,55 @@ public interface FinancialEntityService {
      */
     List<PersonFinIntDisclosure> getFinancialEntities(String personId, boolean active);
     
+    /**
+     * 
+     * This method is to get the financial entity reporter.  If it does not exist, then it create on based on personId
+     * @param personId
+     * @return
+     */
     FinancialEntityReporter getFinancialEntityReporter(String personId);
     
+    /**
+     * 
+     * This method is to get all the active relationship types
+     * @return
+     */
     List<FinIntEntityRelType> getFinancialEntityRelationshipTypes();
     
+    /**
+     * 
+     * This method is to set up the datamatrix bean, which will be used for UI
+     * This bean is formed by datagroup/datamatrix/relationtype
+     * @return
+     */
     List<FinEntityDataMatrixBean> getFinancialEntityDataMatrix();
     
+    /**
+     * 
+     * This method is to convert UI data matrix to fin disclosure detail
+     * @param dataMatrixs
+     * @param entityNumber
+     * @param sequenceNumber
+     * @return
+     */
     List<PersonFinIntDisclDet> getFinDisclosureDetails(List<FinEntityDataMatrixBean> dataMatrixs, String entityNumber, Integer sequenceNumber);
+
+    /**
+     * 
+     * This method is to get the datamatrix bean and then populate the existing data from person fin discl detail
+     * @param disclosureDetails
+     * @return
+     */
     List<FinEntityDataMatrixBean> getFinancialEntityDataMatrixForEdit(List<PersonFinIntDisclDet> disclosureDetails);
+    
+    /**
+     * 
+     * This method to version person FE disclosure
+     * @param personFinIntDisclosure
+     * @param newRelationDetails
+     * @return
+     * @throws VersionException
+     */
     PersonFinIntDisclosure versionPersonFinintDisclosure(PersonFinIntDisclosure personFinIntDisclosure, List<FinEntityDataMatrixBean> newRelationDetails) throws VersionException;
 
 }

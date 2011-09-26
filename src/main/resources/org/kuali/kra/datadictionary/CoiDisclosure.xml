@@ -58,13 +58,13 @@
         <property name="forceUppercase" value="false" />
         <property name="label" value="Coi Disclosure Id" />
         <property name="shortLabel" value="Coi Disclosure Id" />
-        <property name="maxLength" value="22" />
+        <property name="maxLength" value="12" />
         <property name="validationPattern" >
             <bean parent="NumericValidationPattern" />
         </property>
         <property name="control" >
             <bean parent="TextControlDefinition"
-                p:size="10" />
+                p:size="12" />
         </property>
         <property name="summary" value="Coi Disclosure Id" />
         <property name="description" value="Coi Disclosure Id" />
@@ -94,13 +94,13 @@
         <property name="forceUppercase" value="false" />
         <property name="label" value="Sequence Number" />
         <property name="shortLabel" value="Sequence Number" />
-        <property name="maxLength" value="22" />
+        <property name="maxLength" value="6" />
         <property name="validationPattern" >
             <bean parent="NumericValidationPattern" />
         </property>
         <property name="control" >
             <bean parent="TextControlDefinition"
-                p:size="10" />
+                p:size="6" />
         </property>
         <property name="summary" value="Sequence Number" />
         <property name="description" value="Sequence Number" />
@@ -176,13 +176,13 @@
         <property name="forceUppercase" value="false" />
         <property name="label" value="Disclosure Disposition Code" />
         <property name="shortLabel" value="Disclosure Disposition Code" />
-        <property name="maxLength" value="22" />
+        <property name="maxLength" value="3" />
         <property name="validationPattern" >
             <bean parent="NumericValidationPattern" />
         </property>
         <property name="control" >
             <bean parent="TextControlDefinition"
-                p:size="10" />
+                p:size="3" />
         </property>
         <property name="summary" value="Disclosure Disposition Code" />
         <property name="description" value="Disclosure Disposition Code" />
@@ -194,13 +194,13 @@
         <property name="forceUppercase" value="false" />
         <property name="label" value="Disclosure Status Code" />
         <property name="shortLabel" value="Disclosure Status Code" />
-        <property name="maxLength" value="22" />
+        <property name="maxLength" value="3" />
         <property name="validationPattern" >
             <bean parent="NumericValidationPattern" />
         </property>
         <property name="control" >
             <bean parent="TextControlDefinition"
-                p:size="10" />
+                p:size="3" />
         </property>
         <property name="summary" value="Disclosure Status Code" />
         <property name="description" value="Disclosure Status Code" />
@@ -239,13 +239,13 @@
         <property name="forceUppercase" value="false" />
         <property name="label" value="Review Status Code" />
         <property name="shortLabel" value="Review Status Code" />
-        <property name="maxLength" value="22" />
+        <property name="maxLength" value="3" />
         <property name="validationPattern" >
             <bean parent="NumericValidationPattern" />
         </property>
         <property name="control" >
             <bean parent="TextControlDefinition"
-                p:size="10" />
+                p:size="3" />
         </property>
         <property name="summary" value="Review Status Code" />
         <property name="description" value="Review Status Code" />
@@ -257,13 +257,13 @@
         <property name="forceUppercase" value="false" />
         <property name="label" value="Disc Active Status" />
         <property name="shortLabel" value="Disc Active Status" />
-        <property name="maxLength" value="22" />
+        <property name="maxLength" value="3" />
         <property name="validationPattern" >
             <bean parent="NumericValidationPattern" />
         </property>
         <property name="control" >
             <bean parent="TextControlDefinition"
-                p:size="10" />
+                p:size="3" />
         </property>
         <property name="summary" value="Disc Active Status" />
         <property name="description" value="Disc Active Status" />

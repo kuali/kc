@@ -17,27 +17,41 @@ package org.kuali.kra.coi.personfinancialentity;
 
 import java.io.Serializable;
 
+/**
+ * 
+ * This class is for FE data matrix UI display
+ */
 public class RelationshipTypeBean implements Serializable {
+    /**
+     * Comment for <code>serialVersionUID</code>
+     */
+    private static final long serialVersionUID = 8317687460747741252L;
     private String code; 
     private String stringValue; 
     private boolean booleanValue;
+    
     public String getCode() {
         return code;
     }
+
     public void setCode(String code) {
         this.code = code;
     }
+
     public String getStringValue() {
         return stringValue;
     }
+
     public void setStringValue(String stringValue) {
         this.stringValue = stringValue;
     }
+
     public boolean isBooleanValue() {
         return booleanValue;
     }
+
     public void setBooleanValue(boolean booleanValue) {
         this.booleanValue = booleanValue;
     }
- 
+
 }

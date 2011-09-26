@@ -44,6 +44,8 @@ public class FinancialEntityHelper implements Serializable {
     private List<FinEntityDataMatrixBean> editRelationDetails;
     private Integer newRolodexId;
     private Integer editRolodexId;
+    // both prevxxx are hidden, and it will be used by js to check whether sponsor code has been changed
+    // when 'sponsorCode' field is onblur 
     private String prevSponsorCode;
     private String prevNewSponsorCode;
     
@@ -190,6 +192,10 @@ public class FinancialEntityHelper implements Serializable {
         this.editRelationDetails = editRelationDetails;
     }
 
+    /**
+     * 
+     * This method is to initiate the financial helper
+     */
     public void initiate() {
         /* TODO : this is if user to re-enter to financial entity page after leaving it for something else
          * trying to clean up whatever left in the session.

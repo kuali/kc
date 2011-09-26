@@ -47,13 +47,13 @@
         <property name="forceUppercase" value="false" />
         <property name="label" value="Status Code" />
         <property name="shortLabel" value="Status Code" />
-        <property name="maxLength" value="22" />
+        <property name="maxLength" value="3" />
         <property name="validationPattern" >
             <bean parent="NumericValidationPattern" />
         </property>
         <property name="control" >
             <bean parent="TextControlDefinition"
-                p:size="10" />
+                p:size="3" />
         </property>
         <property name="summary" value="Status Code" />
         <property name="description" value="Status Code" />
