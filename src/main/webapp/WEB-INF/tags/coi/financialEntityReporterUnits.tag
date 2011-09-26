@@ -23,7 +23,7 @@
 <table cellpadding=0 cellspacing=0 summary="">
     <tr>
         <td>
-            <kul:innerTab tabTitle="Unit Details" parentTab="Reporter" defaultOpen="false" tabErrorKey="financialEntityHelper.newFinancialEntityReporterUnit.*,financialEntityHelper.financialEntityReporter*" useCurrentTabIndexAsKey="false">
+            <kul:innerTab tabTitle="Unit Details" parentTab="Reporter" defaultOpen="true" tabErrorKey="financialEntityHelper.newFinancialEntityReporterUnit.*,financialEntityHelper.financialEntityReporter*" useCurrentTabIndexAsKey="false">
                 <div class="innerTab-container" align="left">
                     <table class=tab cellpadding="0" cellspacing="0" summary="">
                         <tbody>
