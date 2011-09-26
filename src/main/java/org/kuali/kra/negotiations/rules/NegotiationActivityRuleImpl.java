@@ -15,6 +15,7 @@
  */
 package org.kuali.kra.negotiations.rules;
 
+import java.util.Calendar;
 import java.util.Date;
 
 import org.apache.commons.lang.StringUtils;
@@ -96,9 +97,17 @@ public class NegotiationActivityRuleImpl implements NegotiationActivityAddRule {
             result = false;
             errorReporter.reportError(END_DATE_PROPERTY, KeyConstants.NEGOTIATION_ACTIVITY_END_AFTER_NEGOTIATION);
         }
-        if (activity.getFollowupDate() != null && activity.getFollowupDate().compareTo(new Date()) <= 0) {
-            result = false;
-            errorReporter.reportError("followupDate", KeyConstants.NEGOTIATION_ACTIVITY_FOLLOWUP_BEFORE_TODAY);
+        if (activity.getFollowupDate() != null) {
+            //get today but without any time fields so compare is done strictly on the date.
+            Calendar today = Calendar.getInstance();
+            today.set(Calendar.HOUR_OF_DAY, 0);
+            today.set(Calendar.MINUTE, 0);
+            today.set(Calendar.SECOND, 0);
+            today.set(Calendar.MILLISECOND, 0);
+            if (activity.getFollowupDate().compareTo(today.getTime()) < 0) {
+                result = false;
+                errorReporter.reportError("followupDate", KeyConstants.NEGOTIATION_ACTIVITY_FOLLOWUP_BEFORE_TODAY);
+            }
         }
         return result;
     }
