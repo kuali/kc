@@ -15,6 +15,7 @@
  */
 package org.kuali.kra.irb.auth;
 
+import org.kuali.kra.infrastructure.Constants;
 import org.apache.commons.lang.StringUtils;
 import org.kuali.kra.infrastructure.PermissionConstants;
 import org.kuali.kra.irb.Protocol;
@@ -31,7 +32,7 @@ public class ProtocolAssignReviewersAuthorizer extends ProtocolAuthorizer {
      */
     public boolean isAuthorized(String username, ProtocolTask task) {
         Protocol protocol = task.getProtocol();
-        return kraWorkflowService.isInWorkflow(protocol.getProtocolDocument()) &&
+        return kraWorkflowService.isDocumentOnNode(protocol.getProtocolDocument(), Constants.PROTOCOL_IRBREVIEW_ROUTE_NODE_NAME) &&
                isPendingOrSubmittedToCommittee(protocol) &&
                isInSchedule(protocol) &&
                hasPermission(username, protocol, PermissionConstants.PERFORM_IRB_ACTIONS_ON_PROTO);
