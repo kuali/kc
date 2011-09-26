@@ -21,11 +21,21 @@ import org.kuali.kra.coi.DisclosureReporterUnit;
 import org.kuali.kra.rule.BusinessRuleInterface;
 import org.kuali.kra.rule.event.KraDocumentEventBaseExtension;
 
+/**
+ * 
+ * This class is and event class when save FE
+ */
 public class SaveFinancialEntityEvent  extends KraDocumentEventBaseExtension {
     
     private String propertyName;
     private PersonFinIntDisclosure personFinIntDisclosure;
 
+    /**
+     * 
+     * Constructs a SaveFinancialEntityEvent.java.
+     * @param propertyName
+     * @param personFinIntDisclosure
+     */
     public SaveFinancialEntityEvent(String propertyName, PersonFinIntDisclosure personFinIntDisclosure) {
         super("Save financial entity", "", null);
         this.propertyName = propertyName;
@@ -50,7 +60,5 @@ public class SaveFinancialEntityEvent  extends KraDocumentEventBaseExtension {
     public void setPersonFinIntDisclosure(PersonFinIntDisclosure personFinIntDisclosure) {
         this.personFinIntDisclosure = personFinIntDisclosure;
     }
-
-
 
 }

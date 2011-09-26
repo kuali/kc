@@ -17,10 +17,12 @@ package org.kuali.kra.coi.personfinancialentity;
 
 import java.util.LinkedHashMap;
 
-import org.apache.commons.lang.StringUtils;
-import org.kuali.kra.bo.Unit;
 import org.kuali.kra.coi.DisclosureReporterUnit;
 
+/**
+ * 
+ * This class is FE reporter units.  KC only
+ */
 public class FinancialEntityReporterUnit extends DisclosureReporterUnit {
 
     private static final long serialVersionUID = -1254443328656115963L;
@@ -94,7 +96,6 @@ public class FinancialEntityReporterUnit extends DisclosureReporterUnit {
 
     @Override
     public Long getReporterUnitId() {
-        // TODO Auto-generated method stub
         return getFinancialEntityReporterUnitsId();
     } 
 

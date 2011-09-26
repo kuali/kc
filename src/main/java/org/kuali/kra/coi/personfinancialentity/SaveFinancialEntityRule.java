@@ -26,8 +26,13 @@ import org.kuali.kra.rule.BusinessRuleInterface;
 import org.kuali.kra.rules.ResearchDocumentRuleBase;
 import org.kuali.rice.kns.util.GlobalVariables;
 
+/**
+ * 
+ * This class is rule for save FE
+ */
 public class SaveFinancialEntityRule extends ResearchDocumentRuleBase implements BusinessRuleInterface<SaveFinancialEntityEvent> {
     
+    private static final String SPONSOR_CODE = "sponsorCode";
     /**
      * {@inheritDoc}
      * @see org.kuali.kra.rule.BusinessRuleInterface#processRules(org.kuali.kra.rule.event.KraDocumentEventBaseExtension)
@@ -38,14 +43,17 @@ public class SaveFinancialEntityRule extends ResearchDocumentRuleBase implements
         return isValid;
     }
 
+    /*
+     * validate if sponsorcode is valid
+     */
     private boolean checkValidSponsor(SaveFinancialEntityEvent event) {
         boolean isValid = true;
         if(StringUtils.isNotBlank(event.getPersonFinIntDisclosure().getSponsorCode())) {
             Map<String, Object> fieldValues = new HashMap<String, Object>();
-            fieldValues.put("sponsorCode", event.getPersonFinIntDisclosure().getSponsorCode());
+            fieldValues.put(SPONSOR_CODE, event.getPersonFinIntDisclosure().getSponsorCode());
             if(getBusinessObjectService().countMatching(Sponsor.class, fieldValues) == 0) {
                 GlobalVariables.getMessageMap().addToErrorPath(event.getPropertyName());
-                GlobalVariables.getMessageMap().putError("sponsorCode", KeyConstants.ERROR_INVALID_SPONSOR_CODE);
+                GlobalVariables.getMessageMap().putError(SPONSOR_CODE, KeyConstants.ERROR_INVALID_SPONSOR_CODE);
                 isValid = false;
                 GlobalVariables.getMessageMap().removeFromErrorPath(event.getPropertyName());
             }
@@ -55,6 +63,9 @@ public class SaveFinancialEntityRule extends ResearchDocumentRuleBase implements
 
     }
     
+    /*
+     * validate that entity name is unique.
+     */
     private boolean checkUniqueEntityName(SaveFinancialEntityEvent event) {
         boolean isValid = true;
         if (StringUtils.isNotBlank(event.getPersonFinIntDisclosure().getEntityName())) {

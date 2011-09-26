@@ -19,15 +19,18 @@ import java.util.ArrayList;
 import java.util.LinkedHashMap;
 import java.util.List;
 
-import javax.persistence.Transient;
-
-import org.kuali.kra.bo.KcPerson;
 import org.kuali.kra.coi.DisclosureReporter;
 import org.kuali.kra.coi.DisclosureReporterUnit;
-import org.kuali.kra.infrastructure.KraServiceLocator;
-import org.kuali.kra.service.KcPersonService;
 
+/**
+ * 
+ * This class is for FE reporter.  KC only
+ */
 public class FinancialEntityReporter extends DisclosureReporter {
+    /**
+     * Comment for <code>serialVersionUID</code>
+     */
+    private static final long serialVersionUID = 2436497197072156523L;
     /** TODO : not sure about this table.  
      * 1. should we combine this with coi reporter/correspondent, 
      * 2. personRoleId do we need it 

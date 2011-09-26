@@ -19,12 +19,18 @@ import java.util.LinkedHashMap;
 import java.util.List;
 
 import org.kuali.kra.bo.KraPersistableBusinessObjectBase;
-import org.kuali.kra.budget.versions.BudgetDocumentVersion;
 
+/**
+ * 
+ * This class is for FE entity data groups.
+ */
 public class FinEntitiesDataGroup extends KraPersistableBusinessObjectBase implements Comparable<FinEntitiesDataGroup> { 
     
-    private static final long serialVersionUID = 1L;
 
+    /**
+     * Comment for <code>serialVersionUID</code>
+     */
+    private static final long serialVersionUID = -7800055388419460633L;
     private Integer dataGroupId; 
     private String dataGroupName; 
     private Integer dataGroupSortId; 
