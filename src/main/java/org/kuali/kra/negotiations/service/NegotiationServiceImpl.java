@@ -251,8 +251,11 @@ public class NegotiationServiceImpl implements NegotiationService {
             if (StringUtils.isNotBlank(propLog.getInstProposalNumber())) {
                 negotiation.setNegotiationAssociationType(
                         getNegotiationAssociationType(NegotiationAssociationType.INSTITUATIONAL_PROPOSAL_ASSOCIATION));
-                negotiation.setNegotiationAssociationTypeId(negotiation.getNegotiationAssociationType().getId());
-                negotiation.setAssociatedDocumentId(propLog.getInstProposalNumber());
+                InstitutionalProposal proposal = getBusinessObjectService().findBySinglePrimaryKey(InstitutionalProposal.class, propLog.getInstProposalNumber());
+                if (proposal != null) {
+                    negotiation.setNegotiationAssociationTypeId(negotiation.getNegotiationAssociationType().getId());
+                    negotiation.setAssociatedDocumentId(proposal.getProposalNumber());
+                }
             }
         }
         
