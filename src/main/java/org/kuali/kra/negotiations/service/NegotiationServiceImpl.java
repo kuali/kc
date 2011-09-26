@@ -24,7 +24,10 @@ import java.util.Map;
 
 import org.apache.commons.lang.StringUtils;
 import org.kuali.kra.award.budget.AwardBudgetService;
+import org.kuali.kra.award.contacts.AwardPerson;
 import org.kuali.kra.award.home.Award;
+import org.kuali.kra.bo.KcPerson;
+import org.kuali.kra.institutionalproposal.contacts.InstitutionalProposalPerson;
 import org.kuali.kra.institutionalproposal.home.InstitutionalProposal;
 import org.kuali.kra.institutionalproposal.proposallog.ProposalLog;
 import org.kuali.kra.institutionalproposal.service.InstitutionalProposalService;
@@ -259,6 +262,42 @@ public class NegotiationServiceImpl implements NegotiationService {
             }
         }
         
+    }
+    
+    public boolean checkIfPersonIsAssociatedPerson(Negotiation negotiation, String personToCheckPersonId) {
+        if (negotiation != null && negotiation.getNegotiationAssociationType() != null) {
+            if (StringUtils.equals(negotiation.getNegotiationAssociationType().getCode(), NegotiationAssociationType.AWARD_ASSOCIATION)) {
+                Award award = getAward(negotiation.getAssociatedDocumentId());
+                List<AwardPerson> persons = award.getProjectPersons();
+                for (AwardPerson person : persons) {
+                    if (StringUtils.equals(person.getPerson().getPersonId(), personToCheckPersonId)) {
+                        return true;
+                    }
+                }
+            } else if (StringUtils.equals(negotiation.getNegotiationAssociationType().getCode(), 
+                    NegotiationAssociationType.INSTITUATIONAL_PROPOSAL_ASSOCIATION)) {
+                InstitutionalProposal ip = getInstitutionalProposal(negotiation.getAssociatedDocumentId());
+                List<InstitutionalProposalPerson> persons = ip.getProjectPersons();
+                for (InstitutionalProposalPerson person : persons) {
+                    if (StringUtils.equals(person.getPerson().getPersonId(), personToCheckPersonId)) {
+                        return true;
+                    }
+                }
+            } else if (StringUtils.equals(negotiation.getNegotiationAssociationType().getCode(), 
+                    NegotiationAssociationType.NONE_ASSOCIATION)) {
+                //bo = negotiation.getUnAssociatedDetail();
+            } else if (StringUtils.equals(negotiation.getNegotiationAssociationType().getCode(), 
+                    NegotiationAssociationType.PROPOSAL_LOG_ASSOCIATION)) {
+                ProposalLog pl = getProposalLog(negotiation.getAssociatedDocumentId());
+            } else if (StringUtils.equals(negotiation.getNegotiationAssociationType().getCode(), 
+                    NegotiationAssociationType.SUB_AWARD_ASSOCIATION)) {
+                //bo = null;
+                /**
+                 * @todo after subwards has been created, implement people stuff here.
+                 */
+            }
+        }
+        return false;
     }
 
 }

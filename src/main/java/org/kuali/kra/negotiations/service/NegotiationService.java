@@ -100,4 +100,13 @@ public interface NegotiationService {
      * link the negotiation to the new inst prop.
      */
     void checkForPropLogPromotion(Negotiation negotiation);
+    
+    /**
+     * 
+     * This method checks to see if the passed in person id is the PI, CO-PI, or KeyPerson on the associated document.
+     * @param negotiation
+     * @param personToCheckPersonId
+     * @return
+     */
+    boolean checkIfPersonIsAssociatedPerson(Negotiation negotiation, String personToCheckPersonId);
 }
