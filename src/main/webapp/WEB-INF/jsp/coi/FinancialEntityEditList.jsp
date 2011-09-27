@@ -180,5 +180,6 @@
         <script type="text/javascript" src="scripts/financialEntity.js"></script> 
 <script language="javascript" src="dwr/interface/RolodexService.js"></script>
 <script language="javascript" src="dwr/interface/SponsorService.js"></script>
+<script language="javascript" src="dwr/interface/StateService.js"></script>
 
 </html:html>
