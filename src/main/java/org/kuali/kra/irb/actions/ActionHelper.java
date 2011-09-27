@@ -2680,12 +2680,8 @@ public class ActionHelper implements Serializable {
         int maxSubmissionNumber = getMaxSubmissionNumber();
         for (AnswerHeader answerHeader : answerHeaders) {
             // only submission questionnaire and current protocol questionnaire will be printed
-            if ((CoeusSubModule.PROTOCOL_SUBMISSION.equals(answerHeader.getModuleSubItemCode()) && Integer.parseInt(answerHeader.getModuleSubItemKey()) <= maxSubmissionNumber)
-//                    || ((CoeusSubModule.ZERO_SUBMODULE.equals(answerHeader.getModuleSubItemCode()) || CoeusSubModule.AMENDMENT_RENEWAL
-//                            .equals(answerHeader.getModuleSubItemCode()))
-//                            && getProtocol().getProtocolNumber().equals(answerHeader.getModuleItemKey()) && answerHeader
-//                            .getModuleSubItemKey().equals(getProtocol().getSequenceNumber().toString()))
-                    || isCurrentAmendRenewalQn(answerHeader)) {
+            if ( (CoeusSubModule.PROTOCOL_SUBMISSION.equals(answerHeader.getModuleSubItemCode()) && Integer.parseInt(answerHeader.getModuleSubItemKey()) <= maxSubmissionNumber)
+                    || (isCurrentAmendRenewalQn(answerHeader)) ) {
                 QuestionnairePrintOption printOption = new QuestionnairePrintOption();
                 printOption.setQuestionnaireRefId(answerHeader.getQuestionnaire().getQuestionnaireRefIdAsLong());
                 printOption.setQuestionnaireId(answerHeader.getQuestionnaire().getQuestionnaireIdAsInteger());
@@ -2695,11 +2691,19 @@ public class ActionHelper implements Serializable {
                 printOption.setItemKey(answerHeader.getModuleItemKey());
                 printOption.setSubItemKey(answerHeader.getModuleSubItemKey());
                 printOption.setSubItemCode(answerHeader.getModuleSubItemCode());
+                // finally check if the answerheader's questionnaire is active, and set it accordingly in the Qnnr print option bean
+                printOption.setQuestionnaireActive(isQuestionnaireActive(answerHeader));
                 getQuestionnairesToPrints().add(printOption);
             }
         }
         Collections.sort(getQuestionnairesToPrints(), new QuestionnairePrintOptionComparator());
-
+    }
+    
+    private boolean isQuestionnaireActive(AnswerHeader answerHeader) {        
+        Integer questionnaireId = answerHeader.getQuestionnaire().getQuestionnaireIdAsInteger();
+        String coeusModuleCode = answerHeader.getModuleItemCode();
+        String coeusSubModuleCode = answerHeader.getModuleSubItemCode(); 
+        return getQuestionnaireAnswerService().checkIfQuestionnaireIsActiveForModule(questionnaireId, coeusModuleCode, coeusSubModuleCode);
     }
 
     private int getMaxSubmissionNumber() {
