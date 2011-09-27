@@ -58,7 +58,7 @@ public class FinancialEntityServiceImpl implements FinancialEntityService {
         }
         fieldValues.put("currentFlag", "Y");
 
-        List<PersonFinIntDisclosure> personFinDisclosures =  (List<PersonFinIntDisclosure>) businessObjectService.findMatching(PersonFinIntDisclosure.class, fieldValues);
+        List<PersonFinIntDisclosure> personFinDisclosures =  (List<PersonFinIntDisclosure>) businessObjectService.findMatchingOrderBy(PersonFinIntDisclosure.class, fieldValues, "entityName", true);
         for (PersonFinIntDisclosure personFinIntDisclosure : personFinDisclosures) {
             personFinIntDisclosure.setVersions(getFinDisclosureVersions(personFinIntDisclosure.getEntityNumber()));     
         }

@@ -38,6 +38,8 @@ public class FinancialEntityServiceTest {
     private static final String  UNIT_NUMBER = "000001";
     private static final String  UNIT_NAME = "University";
     private static final String  ENTITY_NUMBER = "1";
+    private static final String  ENTITY_NAME_1 = "Entity 1";
+    private static final String  ENTITY_NAME_2 = "Entity 2";
     private static final String  GROUP_NAME_1 = "Group 1";
     private static final String  GROUP_NAME_2 = "Group 2";
     private static final String  COLUMN_NAME_11 = "COLUMN_NAME_11";
@@ -72,6 +74,7 @@ public class FinancialEntityServiceTest {
         personFinIntDisclosure.setStatusCode(1);
         personFinIntDisclosure.setCurrentFlag(true);
         personFinIntDisclosure.setEntityNumber(ENTITY_NUMBER);
+        personFinIntDisclosure.setEntityName(ENTITY_NAME_1);
         final List<PersonFinIntDisclosure> activeEntities = new ArrayList<PersonFinIntDisclosure>();
         activeEntities.add(personFinIntDisclosure);
         context.checking(new Expectations() {
@@ -80,7 +83,7 @@ public class FinancialEntityServiceTest {
                 fieldValues.put("personId", PERSON_ID);
                 fieldValues.put("statusCode", "1");     
                 fieldValues.put("currentFlag", "Y");     
-                one(businessObjectService).findMatching(PersonFinIntDisclosure.class, fieldValues);
+                one(businessObjectService).findMatchingOrderBy(PersonFinIntDisclosure.class, fieldValues, "entityName", true);
                 will(returnValue(activeEntities));
                 Map fieldValues1 = new HashMap();
                 fieldValues1.put("entityNumber", ENTITY_NUMBER);
@@ -109,6 +112,7 @@ public class FinancialEntityServiceTest {
         personFinIntDisclosure.setPersonId(PERSON_ID);
         personFinIntDisclosure.setEntityNumber(ENTITY_NUMBER);
         personFinIntDisclosure.setStatusCode(2);
+        personFinIntDisclosure.setEntityName(ENTITY_NAME_1);
         personFinIntDisclosure.setCurrentFlag(true);
         final List<PersonFinIntDisclosure> activeEntities = new ArrayList<PersonFinIntDisclosure>();
         activeEntities.add(personFinIntDisclosure);
@@ -118,7 +122,7 @@ public class FinancialEntityServiceTest {
                 fieldValues.put("personId", PERSON_ID);
                 fieldValues.put("statusCode", "2");     
                 fieldValues.put("currentFlag", "Y");     
-                one(businessObjectService).findMatching(PersonFinIntDisclosure.class, fieldValues);
+                one(businessObjectService).findMatchingOrderBy(PersonFinIntDisclosure.class, fieldValues, "entityName", true);
                 will(returnValue(activeEntities));
                 Map fieldValues1 = new HashMap();
                 fieldValues1.put("entityNumber", ENTITY_NUMBER);
