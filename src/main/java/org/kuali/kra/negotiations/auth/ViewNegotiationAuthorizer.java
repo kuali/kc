@@ -16,14 +16,37 @@
 package org.kuali.kra.negotiations.auth;
 
 import org.kuali.kra.infrastructure.PermissionConstants;
+import org.kuali.kra.negotiations.bo.Negotiation;
+import org.kuali.kra.negotiations.service.NegotiationService;
 
+/**
+ * 
+ * This class manages the authorization to view a negotiation.
+ */
 public class ViewNegotiationAuthorizer extends NegotiationAuthorizer {
+    
+    private NegotiationService negotiationService;
 
     @Override
     public boolean isAuthorized(String userId, NegotiationTask task) {
         boolean retVal = hasPermission(userId, task.getNegotiation(), PermissionConstants.NEGOTIATION_VIEW_NEGOTIATION_UNRESTRICTED)
-            || hasPermission(userId, task.getNegotiation(), PermissionConstants.NEGOTIATION_VIEW_NEGOTIATION);
+            || hasPermission(userId, task.getNegotiation(), PermissionConstants.NEGOTIATION_VIEW_NEGOTIATION)
+            || isUserIdAssociatedWithAssociatedBO(userId, task.getNegotiation());
         return retVal;
+    }
+    
+    private boolean isUserIdAssociatedWithAssociatedBO(String userId, Negotiation negotiation) {
+        boolean retVal =this.getNegotiationService().isPersonIsAssociatedPerson(negotiation, userId);
+        System.err.println("isUserIdAssociatedWithAssociatedBO: " + (retVal));
+        return retVal;
+    }
+
+    public NegotiationService getNegotiationService() {
+        return negotiationService;
+    }
+
+    public void setNegotiationService(NegotiationService negotiationService) {
+        this.negotiationService = negotiationService;
     }
 
 }
