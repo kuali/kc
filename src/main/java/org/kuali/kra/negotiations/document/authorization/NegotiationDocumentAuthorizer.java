@@ -98,12 +98,10 @@ public class NegotiationDocumentAuthorizer extends KcTransactionalDocumentAuthor
      * @see org.kuali.rice.kns.document.authorization.DocumentAuthorizer#canOpen(org.kuali.rice.kns.document.Document, org.kuali.rice.kim.bo.Person)
      */
     public boolean canOpen(Document document, Person user) {
-        return true;
-        /*
-        NegotiationDocument negotiationDocument = (NegotiationDocument) document;
-        NegotiationTask task = new NegotiationTask(TaskName.NEGOTIATION_VIEW_NEGOTIATION, negotiationDocument.getNegotiation());
-        return this.getTaskAuthorizationService().isAuthorized(user.getPrincipalId(), task);
-        */
+        Negotiation negotiation = ((NegotiationDocument)document).getNegotiation();
+        NegotiationTask task = new NegotiationTask(TaskName.NEGOTIATION_VIEW_NEGOTIATION, negotiation);
+        boolean retVal = this.getTaskAuthorizationService().isAuthorized(user.getPrincipalId(), task);
+        return retVal;
     }
     
     private boolean canExecuteNegotiationTask(String userId, NegotiationDocument doc, String taskName) {

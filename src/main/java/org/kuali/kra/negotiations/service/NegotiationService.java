@@ -108,5 +108,5 @@ public interface NegotiationService {
      * @param personToCheckPersonId
      * @return
      */
-    boolean checkIfPersonIsAssociatedPerson(Negotiation negotiation, String personToCheckPersonId);
+    boolean isPersonIsAssociatedPerson(Negotiation negotiation, String personToCheckPersonId);
 }

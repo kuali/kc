@@ -16,36 +16,33 @@
 package org.kuali.kra.negotiations.auth;
 
 
+import java.sql.Timestamp;
 import java.util.HashMap;
+import java.util.List;
 import java.util.Map;
 
 import org.junit.After;
 import org.junit.Before;
 import org.junit.Test;
+import org.kuali.kra.award.budget.AwardBudgetService;
 import org.kuali.kra.award.document.AwardDocument;
 import org.kuali.kra.award.home.Award;
-import org.kuali.kra.bo.Organization;
+import org.kuali.kra.award.home.AwardService;
+import org.kuali.kra.award.home.AwardType;
 import org.kuali.kra.bo.Sponsor;
 import org.kuali.kra.bo.Unit;
 import org.kuali.kra.infrastructure.KraServiceLocator;
 import org.kuali.kra.infrastructure.TaskName;
-import org.kuali.kra.institutionalproposal.document.InstitutionalProposalDocument;
-import org.kuali.kra.institutionalproposal.home.InstitutionalProposal;
 import org.kuali.kra.negotiations.bo.Negotiation;
-import org.kuali.kra.negotiations.bo.NegotiationActivityType;
 import org.kuali.kra.negotiations.bo.NegotiationAgreementType;
 import org.kuali.kra.negotiations.bo.NegotiationAssociationType;
-import org.kuali.kra.negotiations.bo.NegotiationLocation;
 import org.kuali.kra.negotiations.bo.NegotiationStatus;
 import org.kuali.kra.negotiations.bo.NegotiationUnassociatedDetail;
 import org.kuali.kra.proposaldevelopment.bo.ActivityType;
-import org.kuali.kra.proposaldevelopment.bo.ProposalType;
 import org.kuali.kra.service.TaskAuthorizationService;
 import org.kuali.kra.test.infrastructure.KcUnitTestBase;
-import org.kuali.rice.kew.dto.UserIdDTO;
+import org.kuali.kra.timeandmoney.transactions.AwardTransactionType;
 import org.kuali.rice.kew.exception.WorkflowException;
-import org.kuali.rice.kew.routeheader.service.impl.WorkflowDocumentServiceImpl;
-import org.kuali.rice.kew.service.WorkflowDocument;
 import org.kuali.rice.kim.bo.Person;
 import org.kuali.rice.kim.service.PersonService;
 import org.kuali.rice.kns.service.BusinessObjectService;
@@ -89,7 +86,7 @@ public class TestNegotiationAuthorizers extends KcUnitTestBase {
     
     @Test
     public void testCreateNegotiationAuthorizer() throws WorkflowException {
-        Negotiation negotiation = getNewNegotiation(); 
+        Negotiation negotiation = getNewNegotiationWithUnassociatedDetail(); 
         NegotiationTask task = new NegotiationTask(TaskName.NEGOTIATION_CREATE_NEGOTIATION, negotiation);
         boolean retVal = taskAuthorizationService.isAuthorized(quickstart.getPrincipalId(), task);
         assertTrue(retVal);
@@ -106,7 +103,7 @@ public class TestNegotiationAuthorizers extends KcUnitTestBase {
     
     @Test
     public void testModifyNegotiationAuthorizer()  throws WorkflowException {
-        Negotiation negotiation = getNewNegotiation();
+        Negotiation negotiation = getNewNegotiationWithUnassociatedDetail();
         NegotiationTask task = new NegotiationTask(TaskName.NEGOTIATION_MODIFIY_NEGOTIATION, negotiation);
 
         boolean retVal = taskAuthorizationService.isAuthorized(quickstart.getPrincipalId(), task);
@@ -124,7 +121,7 @@ public class TestNegotiationAuthorizers extends KcUnitTestBase {
     
     @Test
     public void testModifyActivitiesAuthorizer() throws WorkflowException {
-        Negotiation negotiation = getNewNegotiation();
+        Negotiation negotiation = getNewNegotiationWithUnassociatedDetail();
         NegotiationTask task = new NegotiationTask(TaskName.NEGOTIATION_MODIFY_ACTIVITIES, negotiation);
         boolean retVal = taskAuthorizationService.isAuthorized(quickstart.getPrincipalId(), task);
         assertTrue(retVal);
@@ -141,7 +138,7 @@ public class TestNegotiationAuthorizers extends KcUnitTestBase {
     
     @Test
     public void testViewNegotiationUnRestrictedAuthorizer()  throws WorkflowException{
-        Negotiation negotiation = getNewNegotiation();
+        Negotiation negotiation = getNewNegotiationWithUnassociatedDetail();
         NegotiationTask task = new NegotiationTask(TaskName.NEGOTIATION_VIEW_NEGOTIATION_UNRESTRICTED, negotiation);
 
         boolean retVal = taskAuthorizationService.isAuthorized(quickstart.getPrincipalId(), task);
@@ -159,7 +156,7 @@ public class TestNegotiationAuthorizers extends KcUnitTestBase {
     
     @Test
     public void testViewNegotiationAuthorizer()  throws WorkflowException{
-        Negotiation negotiation = getNewNegotiation();
+        Negotiation negotiation = getNewNegotiationWithUnassociatedDetail();
         NegotiationTask task = new NegotiationTask(TaskName.NEGOTIATION_VIEW_NEGOTIATION,  negotiation);
         boolean retVal = taskAuthorizationService.isAuthorized(quickstart.getPrincipalId(), task);
         assertTrue(retVal);
@@ -174,7 +171,7 @@ public class TestNegotiationAuthorizers extends KcUnitTestBase {
         assertTrue(retVal);
     }
     
-    protected Negotiation getNewNegotiation() throws WorkflowException {
+    private Negotiation getNewNegotiationWithUnassociatedDetail() {
         Negotiation negotiation = new Negotiation();
         
         NegotiationStatus status = (NegotiationStatus)businessObjectService.findAll(NegotiationStatus.class).iterator().next();
@@ -221,53 +218,107 @@ public class TestNegotiationAuthorizers extends KcUnitTestBase {
         negotiation.setUnAssociatedDetail(detail);
         
         this.businessObjectService.save(negotiation);
+        return negotiation;
+    }
+    
+    /**
+     * 
+     * This method returns a newly built negotiation associated with an award.  Note this doesn't work, but am keeping it
+     * to maybe try later.
+     * @return
+     * @throws WorkflowException
+     */
+    private Negotiation getNewNegotiationWithAward() throws WorkflowException {
+        Negotiation negotiation = new Negotiation();
         
-        /*
-        InstitutionalProposal ip = new InstitutionalProposal();
-        ip.setTitle("super awesome cool title");
+        NegotiationStatus status = (NegotiationStatus)businessObjectService.findAll(NegotiationStatus.class).iterator().next();
+        NegotiationAgreementType agreementType = (NegotiationAgreementType)businessObjectService.findAll(NegotiationAgreementType.class).iterator().next();
+        
+        Map primaryKey = new HashMap();
+        primaryKey.put("code", "AWD");
+        NegotiationAssociationType associationType = (NegotiationAssociationType)businessObjectService.findMatching(NegotiationAssociationType.class, primaryKey).iterator().next();
+        
+        negotiation.setNegotiationAgreementType(agreementType);
+        negotiation.setNegotiationAssociationType(associationType);
+        negotiation.setNegotiationAssociationTypeId(associationType.getId());
+        negotiation.setNegotiationStatus(status);
+        
+        java.sql.Date testEndDate = new java.sql.Date(2011, 12, 31);
+        java.sql.Date testStartDate = new java.sql.Date(2009, 12, 31);
+        
+        negotiation.setAnticipatedAwardDate(testEndDate);
+        negotiation.setNegotiationEndDate(testEndDate);
+        negotiation.setNegotiationStartDate(testStartDate);
+        negotiation.setDocumentFolder("document folder");
+        negotiation.setDocumentNumber("123321");
+        
+        this.businessObjectService.save(negotiation);
+        
+        Award award = new Award();
+        award.setTitle("super awesome cool title");
+        
         primaryKey = new HashMap();
         primaryKey.put("unit_number", "000001");
         Unit unit = (Unit) this.businessObjectService.findByPrimaryKey(Unit.class, primaryKey);
-        ip.setLeadUnit(unit);
-        ip.setLeadUnitNumber(unit.getUnitNumber());
-        ip.setStatusCode(1);
-        ip.setProposalNumber("1234");
         
-        ActivityType at = (ActivityType) this.businessObjectService.findAll(ActivityType.class).iterator().next();
-        ip.setActivityType(at);
-        ip.setActivityTypeCode(at.getActivityTypeCode());
-        
-        ProposalType pt = (ProposalType) this.businessObjectService.findAll(ProposalType.class).iterator().next();
-        ip.setProposalType(pt);
-        ip.setProposalTypeCode(Integer.parseInt(pt.getProposalTypeCode()));
+        award.setUnitNumber(unit.getUnitNumber());
+        award.setLeadUnit(unit);
         
         Sponsor sponsor = (Sponsor) this.businessObjectService.findAll(Sponsor.class).iterator().next();
-        ip.setSponsor(sponsor);
-        ip.setSponsorCode(sponsor.getSponsorCode());
+        award.setSponsor(sponsor);
         
-        ip.setSubcontractFlag(false);
-        ip.setScienceCodeIndicator("N");
-        ip.setSpecialReviewIndicator("N");
+        ActivityType activityType = (ActivityType) this.businessObjectService.findAll(ActivityType.class).iterator().next();
+        award.setActivityType(activityType);
+        award.setActivityTypeCode(activityType.getActivityTypeCode());
         
-        InstitutionalProposalDocument ipd = new InstitutionalProposalDocument();
-        ipd.setDocumentNumber("123");
-        ipd.getDocumentHeader().setDocumentDescription("descr goes here!");
-        ipd.getDocumentHeader().setDocumentNumber("987");
-        UserIdDTO memStatFormat;
+        AwardTransactionType awardTransactionType = (AwardTransactionType) this.businessObjectService.findAll(AwardTransactionType.class).iterator().next();
+        award.setAwardTransactionType(awardTransactionType);
+        award.setAwardTransactionTypeCode(awardTransactionType.getAwardTransactionTypeCode());
+        
+        AwardType awardType = (AwardType) this.businessObjectService.findAll(AwardType.class).iterator().next();
+        award.setAwardType(awardType);
+        award.setAwardTypeCode(awardType.getAwardTypeCode());
+        
+        award.setStatusCode(1);
+        
+        java.sql.Date finalExpirationDate = new java.sql.Date(2011, 9, 27);
+        award.getAwardAmountInfos().get(0).setFinalExpirationDate(finalExpirationDate);
+        
+        award.setSequenceNumber(1);
+        award.setSequenceOwner(award);
+        
+        AwardDocument awardDocument = new AwardDocument();
+        awardDocument.setAward(award);
+        awardDocument.setDocumentNumber("123");
+        awardDocument.getDocumentHeader().setDocumentNumber("123");
+        awardDocument.getDocumentHeader().setDocumentDescription("doc header descr.");
+        awardDocument.setVersionNumber(new Long(1));
+        awardDocument.setUpdateTimestamp(new Timestamp(2011, 11, 11, 0, 0, 0, 0));
+        awardDocument.setUpdateUser(quickstart.getPrincipalId());
+        
         WorkflowDocumentService wds = KraServiceLocator.getService(WorkflowDocumentService.class);
-        KualiWorkflowDocument wd = wds.createWorkflowDocument("InstitutionalProposalDocument", quickstart);
-        ipd.getDocumentHeader().setWorkflowDocument(wd);
-        ipd.setInstitutionalProposal(ip);
-        //documentService.saveDocument(ipd);
+        KualiWorkflowDocument wd = wds.createWorkflowDocument("AwardDocument", quickstart);
+        wd.getRouteHeader().setDocTitle("doc ttitle");
+        wd.getRouteHeader().setAckRequested(false);
+        wd.getRouteHeader().setFyiRequested(false);
+        awardDocument.getDocumentHeader().setWorkflowDocument(wd);
+        award.setAwardDocument(awardDocument);
         
-        ip.setInstitutionalProposalDocument(ipd);
+        GlobalVariables.getErrorMap().clear();
+        //documentService.saveDocument(awardDocument);
+        this.businessObjectService.save(awardDocument);
+        this.businessObjectService.save(award);
         
-        //this.businessObjectService.save(ip);
-        documentService.saveDocument(ipd);
         
-        negotiation.setAssociatedDocumentId(ip.getProposalNumber());
+        Award dbAward1 = KraServiceLocator.getService(AwardBudgetService.class).getActiveOrNewestAward(award.getAwardNumber());
+        System.err.println("dbAward1 == null: " + (dbAward1 == null));
+        
+        List<Award> dbAwards = KraServiceLocator.getService(AwardService.class).findAwardsForAwardNumber(award.getAwardNumber());
+        System.err.println("dbAwards.size(): " + dbAwards.size());
+        
+        negotiation.setAssociatedDocumentId(award.getAwardNumber());
         this.businessObjectService.save(negotiation);
-        */
+        
         return negotiation;
     }
 }
