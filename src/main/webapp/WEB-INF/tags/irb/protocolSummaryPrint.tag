@@ -373,7 +373,7 @@
                             <td>
                                 <div align="left">
                                     ${KualiForm.actionHelper.questionnairesToPrints[status.index].label}
-                                    <c:if test="${not KualiForm.questionnaireHelper.answerHeaders[status.index].activeQuestionnaire}">
+                                    <c:if test="${not KualiForm.actionHelper.questionnairesToPrints[status.index].questionnaireActive}">
             							-- This Questionnaire has been deactivated.
         							</c:if>
                                 </div>
