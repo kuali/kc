@@ -33,7 +33,9 @@ public class QuestionnairePrintOption implements Serializable {
     private String subItemKey;
     private String subItemCode;
     private boolean selected;
+    private boolean questionnaireActive;
 
+    
     public Long getQuestionnaireRefId() {
         return questionnaireRefId;
     }
@@ -97,5 +99,14 @@ public class QuestionnairePrintOption implements Serializable {
     public void setQuestionnaireName(String questionnaireName) {
         this.questionnaireName = questionnaireName;
     }
+
+    public boolean isQuestionnaireActive() {
+        return questionnaireActive;
+    }
+
+    public void setQuestionnaireActive(boolean questionnaireActive) {
+        this.questionnaireActive = questionnaireActive;
+    }
+
 
 }
