@@ -17,11 +17,13 @@ package org.kuali.kra.s2s.polling;
 
 import java.text.ParseException;
 import java.text.SimpleDateFormat;
+import java.util.Calendar;
 import java.util.Date;
 
 import org.apache.commons.logging.Log;
 import org.apache.commons.logging.LogFactory;
 import org.kuali.kra.proposaldevelopment.document.ProposalDevelopmentDocument;
+import org.kuali.rice.kns.service.DateTimeService;
 import org.kuali.rice.kns.service.ParameterService;
 import org.springframework.scheduling.quartz.CronTriggerBean;
 
@@ -44,12 +46,22 @@ public class S2SCronTrigger extends CronTriggerBean {
 
      */
     private static final String DEFAULT_CRON_EXPRESSION = "0 0/20 * * * ?";
-    private static final String S2S_CRON_STARTTIME="s2sschedulercronExpressionstarttime";
+    private static final String S2S_POLLING_SCHEDULER_ENABLED="s2s.polling.scheduler.enabled";
+    
 
     private ParameterService parameterService;
     private String cronExpressionParameterName;
+    private DateTimeService dateTimeService;
 
     private static final Log LOG = LogFactory.getLog(S2SCronTrigger.class);
+
+    public DateTimeService getDateTimeService() {
+        return dateTimeService;
+    }
+
+    public void setDateTimeService(DateTimeService dateTimeService) {
+        this.dateTimeService = dateTimeService;
+    }
 
     /**
      * Sets the ParameterService.
@@ -71,17 +83,22 @@ public class S2SCronTrigger extends CronTriggerBean {
     }
 
     private Date getS2sCronStartTime() {
-        Date defaultDate = new Date(System.currentTimeMillis()+(365*24*60*60*1000L));
+        String s2sSchedulerEnabled="false";
+        Calendar today = dateTimeService.getCurrentCalendar();
+        today.add(Calendar.YEAR, 2);
+        Date dateAfterOneYear = today.getTime();
         String DATE_FORMAT = "dd-MMM-yyyy hh:mm a";
         SimpleDateFormat dateFormat = new SimpleDateFormat(DATE_FORMAT);
-        String defaultDateStr = dateFormat.format(defaultDate);
         try {
-            String dateString = getParameterValue(S2S_CRON_STARTTIME);
-            return dateFormat.parse(dateString);
+            s2sSchedulerEnabled = getParameterValue(S2S_POLLING_SCHEDULER_ENABLED);
+            if(Boolean.parseBoolean(s2sSchedulerEnabled)){
+                return dateTimeService.getCurrentDate();
+            }
         }catch (Exception e) {
+            String defaultDateStr = dateFormat.format(dateAfterOneYear);
             LOG.warn("Not able to get the starttime for S2S scheduler from system param table. Set it to "+defaultDateStr);
-            return defaultDate;
         }
+        return dateAfterOneYear;
     }
 
     /**
@@ -92,8 +109,7 @@ public class S2SCronTrigger extends CronTriggerBean {
     private String getSystemCronExpression() {
         try {
             return getParameterValue(this.cronExpressionParameterName);
-        }
-        catch (Exception ex) {
+        }catch (Exception ex) {
             return DEFAULT_CRON_EXPRESSION;
         }
     }

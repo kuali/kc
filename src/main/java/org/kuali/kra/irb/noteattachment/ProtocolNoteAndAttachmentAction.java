@@ -15,6 +15,8 @@
  */
 package org.kuali.kra.irb.noteattachment;
 
+import java.util.List;
+
 import javax.mail.internet.HeaderTokenizer;
 import javax.mail.internet.MimeUtility;
 import javax.servlet.http.HttpServletRequest;
@@ -49,6 +51,8 @@ public class ProtocolNoteAndAttachmentAction extends ProtocolAction {
 
     private static final String CONFIRM_NO_DELETE = "";
     private static final String NOT_FOUND_SELECTION = "the attachment was not found for selection ";
+    private static final String INVALID_ATTACHMENT = "this attachment version is invalid ";
+    
     
     private static final Log LOG = LogFactory.getLog(ProtocolNoteAndAttachmentAction.class);
     
@@ -270,9 +274,7 @@ public class ProtocolNoteAndAttachmentAction extends ProtocolAction {
         
         final int selection = this.getSelectedLine(request);
         final ProtocolAttachmentBase attachment = form.getNotesAttachmentsHelper().retrieveExistingAttachmentByType(selection, attachmentType);
-        
-        Printable printableArtifacts= getProtocolPrintingService().getProtocolPrintArtifacts(form.getProtocolDocument().getProtocol());
-        
+               
         if (attachment == null) {
             LOG.info(NOT_FOUND_SELECTION + selection);
             //may want to tell the user the selection was invalid.
@@ -281,22 +283,71 @@ public class ProtocolNoteAndAttachmentAction extends ProtocolAction {
         
         final AttachmentFile file = attachment.getFile();
         byte[] attachmentFile =null;
-        if(file.getType().equalsIgnoreCase(WatermarkConstants.ATTACHMENT_TYPE_PDF)){
-
-             try {  
-                if(printableArtifacts.isWatermarkEnabled()){    
-                    attachmentFile = getWatermarkService().applyWatermark(file.getData(),printableArtifacts.getWatermarkable().getWatermark());}
-             }
-             catch (Exception e) {
-                 LOG.error("Exception Occured in ProtocolNoteAndAttachmentAction. : ",e);    
-             }
-             if(attachmentFile!=null){
+        String attachmentFileType=file.getType().replace("\"", "");
+        if(attachmentFileType.equalsIgnoreCase(WatermarkConstants.ATTACHMENT_TYPE_PDF)){
+            attachmentFile=getProtocolAttachmentFile(form,attachment);
+            if(attachmentFile!=null){
                  this.streamToResponse(attachmentFile, getValidHeaderString(file.getName()),  getValidHeaderString(file.getType()), response);}
             return RESPONSE_ALREADY_HANDLED;
         }        
         this.streamToResponse(file.getData(), getValidHeaderString(file.getName()),  getValidHeaderString(file.getType()), response);
         
         return RESPONSE_ALREADY_HANDLED;
+    }
+    
+    /**
+     * 
+     * This method for set the attachment with the watermark which selected  by the client .
+     * @param protocolForm form
+     * @param protocolAttachmentBase attachment
+     * @return attachment file
+     */
+    private byte[] getProtocolAttachmentFile(ProtocolForm form,ProtocolAttachmentBase attachment){
+        
+        byte[] attachmentFile =null;
+        final AttachmentFile file = attachment.getFile();
+        Printable printableArtifacts= getProtocolPrintingService().getProtocolPrintArtifacts(form.getProtocolDocument().getProtocol());
+        try {
+            if(printableArtifacts.isWatermarkEnabled()){  
+            Integer attachmentDocumentId =attachment.getDocumentId();
+            List<ProtocolAttachmentProtocol> protocolAttachmentList=form.getDocument().getProtocol().getAttachmentProtocols();
+            for (ProtocolAttachmentProtocol attachmenteach : protocolAttachmentList) {
+                if(attachmentDocumentId.equals(attachmenteach.getDocumentId())){
+                    if(getProtocolAttachmentService().isNewAttachmentVersion(attachmenteach)){
+                        attachmentFile = getWatermarkService().applyWatermark(file.getData(),printableArtifacts.getWatermarkable().getWatermark());
+                    }else{
+                        attachmentFile = getWatermarkService().applyWatermark(file.getData(),printableArtifacts.getWatermarkable().getInvalidWatermark());
+                        LOG.info(INVALID_ATTACHMENT + attachmentDocumentId);  }
+                    }
+                }
+            }
+        }
+        catch (Exception e) {
+            LOG.error("Exception Occured in ProtocolNoteAndAttachmentAction. : ",e);    
+        }        
+        return attachmentFile;
+    }
+    
+    
+    /**
+     * Quotes a string that follows RFC 822 and is valid to include in an http header.
+     * 
+     * <p>
+     * This really should be a part of {@link org.kuali.rice.kns.util.WebUtils WebUtils}.
+     * <p>
+     * 
+     * For example: without this method, file names with spaces will not show up to the client correctly.
+     * 
+     * <p>
+     * This method is not doing a Base64 encode just a quoted printable character otherwise we would have
+     * to set the encoding type on the header.
+     * <p>
+     * 
+     * @param s the original string
+     * @return the modified header string
+     */
+    protected static String getValidHeaderString(String s) {
+        return MimeUtility.quote(s, HeaderTokenizer.MIME);
     }
     
     /**
@@ -364,6 +415,14 @@ public class ProtocolNoteAndAttachmentAction extends ProtocolAction {
      */
     private ProtocolPrintingService getProtocolPrintingService() {
         return KraServiceLocator.getService(ProtocolPrintingService.class);
+    }
+    
+    /**
+     * 
+     * This method is to get Protocol Attachment Service.
+     */    
+    private ProtocolAttachmentService getProtocolAttachmentService() {
+        return KraServiceLocator.getService(ProtocolAttachmentService.class);
     }
     
     /**

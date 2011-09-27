@@ -199,7 +199,9 @@ public class IrbPrintXmlUtilServiceImpl implements IrbPrintXmlUtilService {
                 if (!minuteEntryInfoBean.getMinuteEntryTypeCode().equals("3") && 
                         !minuteEntryInfoBean.getPrivateCommentFlag()) {
                     if (reviewCommentsService.getReviewerCommentsView(minuteEntryInfoBean)){
-                        addMinute(scheduleDetailsBean, minuteEntryInfoBean, schedule.addNewMinutes());
+                        if(!minuteEntryInfoBean.getPrivateCommentFlag()&& minuteEntryInfoBean.isFinalFlag()){ 
+                            addMinute(scheduleDetailsBean, minuteEntryInfoBean, schedule.addNewMinutes());
+                        }
                     }
                    
                 }
@@ -253,7 +255,9 @@ public class IrbPrintXmlUtilServiceImpl implements IrbPrintXmlUtilService {
                         && protocol.getProtocolSubmission() != null
                         && protocol.getProtocolSubmission().getSubmissionNumber().equals(protocolSubmission.getSubmissionNumber())) {
                     if (reviewCommentsService.getReviewerCommentsView(minuteEntryInfoBean)){
+                        if(!minuteEntryInfoBean.getPrivateCommentFlag()&& minuteEntryInfoBean.isFinalFlag()){
                         addMinute(committeeSchedule, minuteEntryInfoBean, protocolSubmissionType.addNewMinutes());
+                        }
                     }
                     
                 }
