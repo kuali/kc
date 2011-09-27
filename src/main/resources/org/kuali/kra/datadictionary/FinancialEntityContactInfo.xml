@@ -163,7 +163,6 @@
   <bean id="FinancialEntityContactInfo-state" parent="FinancialEntityContactInfo-state-parentBean"/>
 
   <bean abstract="true" id="FinancialEntityContactInfo-state-parentBean" parent="KraAttributeReferenceDummy-state">
-        <property name="required" value="true" />
   </bean>
   <bean id="FinancialEntityContactInfo-countryCode" parent="FinancialEntityContactInfo-countryCode-parentBean"/>
 

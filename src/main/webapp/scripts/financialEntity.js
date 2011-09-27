@@ -1,19 +1,32 @@
 
     $j(document).ready(function()     {
       var idx = $j("#editIndex").attr("value");
-      if (idx != -1) {
-       $j("#A"+idx).click(); 
-      $j("#financialEntityHelper\\.activeFinancialEntities\\["+idx+"\\]\\.sponsorCode").focus(function() {
-          displayAlertMessage('messageBox'+idx, 'The entity address fields will be overriden when a valid sponsor code is entered');
-          //return false;
-      });
+      if (idx != undefined && idx != -1) {
+          $j("#A"+idx).click(); 
+          if ($j("#financialEntityHelper\\.activeFinancialEntities\\["+idx+"\\]\\.finEntityContactInfos\\[0\\]\\.countryCode").length > 0) {
+              var countryCode = $j("#financialEntityHelper\\.activeFinancialEntities\\["+idx+"\\]\\.finEntityContactInfos\\[0\\]\\.countryCode").val();
+               if (countryCode != '' && countryCode != 'USA') {
+                  updateStateCode('financialEntityHelper.activeFinancialEntities['+idx+'].finEntityContactInfos[0].countryCode', '');
+              } 
+          }
+       
+          $j("#financialEntityHelper\\.activeFinancialEntities\\["+idx+"\\]\\.sponsorCode").focus(function() {
+             displayAlertMessage('messageBox'+idx, 'The entity address fields will be overriden when a valid sponsor code is entered');
+          });
       }
-      
       
       $j("#financialEntityHelper\\.newPersonFinancialEntity\\.sponsorCode").focus(function() {
           displayAlertMessage('messageBox', 'The entity address fields will be overriden when a valid sponsor code is entered');
           //return false;
       });
+      
+         if ($j("#financialEntityHelper\\.newPersonFinancialEntity\\.finEntityContactInfos\\[0\\]\\.countryCode").length > 0) {
+             // ".length >0" check to make sure this element does exist
+              var countryCode = $j("#financialEntityHelper\\.newPersonFinancialEntity\\.finEntityContactInfos\\[0\\]\\.countryCode").val();
+               if (countryCode != '' && countryCode != 'USA') {
+                  updateStateCode('financialEntityHelper.newPersonFinancialEntity.finEntityContactInfos[0].countryCode', '');
+              } 
+          }
       
       $j('input[name^="methodToCall.performLookup.(!!org.kuali.kra.bo.Sponsor!!)"]').click(function() {
         if(!confirm('The entity address fields will be overriden when a valid sponsor is selected.  Do you want to continue ?')) {
@@ -44,7 +57,7 @@ $j.tablesorter.addWidget({
 }); 
  
  
- // there is no proper parser for data/time field.  'shortDate is on for date'
+ // there is no proper parser for data/time field.  'shortDate is only for date'
  // add this parser for 'last update' column
  $j.tablesorter.addParser({
         id: "datetime",
@@ -107,3 +120,53 @@ $j.tablesorter.addWidget({
             $j('#'+messagedivid).fadeOut().css("display", "none");
          }, timeOut * 1000);
     }
+
+    function updateStateCode(countryCodeFieldName, state) {
+    var stateField = findElPrefix( countryCodeFieldName )+".state";
+    var countryCode = DWRUtil.getValue( countryCodeFieldName);
+    
+    var dwrReply = {
+        callback:function(data) {
+            if ( data != null ) {
+                DWRUtil.removeAllOptions( stateField );
+                $(stateField).options[0] = new Option('', '');
+                DWRUtil.addOptions( stateField, data, 'postalStateCode', 'postalStateName' );
+                if (state != '') {
+                        DWRUtil.setValue(stateField, state);
+                }
+            } 
+        },
+        errorHandler:function( errorMessage ) {
+            window.status = errorMessage;
+        }
+    };
+
+    StateService.findAllStatesByAltCountryCode(countryCode, dwrReply);
+    }
+    
+    function loadEntityContactInfoFromRolodex(rolodexId, prefix) {
+//        var rolodexId = DWRUtil.getValue( rolodexFieldName );
+ 
+        if (rolodexId != '') {
+            var dwrReply = {
+                callback:function(data) {
+                    if ( data != null ) {
+                        DWRUtil.setValue(prefix+".addressLine1", data.addressLine1);
+                        DWRUtil.setValue(prefix+".addressLine2", data.addressLine2);
+                        DWRUtil.setValue(prefix+".addressLine3", data.addressLine3);
+                        DWRUtil.setValue(prefix+".city", data.city);
+                        DWRUtil.setValue(prefix+".countryCode", data.countryCode);
+                        updateStateCode(prefix+".countryCode", data.state)
+                        DWRUtil.setValue(prefix+".state", data.state);
+                        DWRUtil.setValue(prefix+".postalCode", data.postalCode);
+                    }
+                },
+                errorHandler:function( errorMessage ) {
+                    window.status = errorMessage;
+                }
+            };
+            RolodexService.getRolodex(rolodexId, dwrReply);
+        }
+    
+}
+    

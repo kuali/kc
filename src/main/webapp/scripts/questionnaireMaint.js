@@ -3217,6 +3217,7 @@ function addForReplace(curidx) {
 
 
 function clickUpdateQuestionVersion(curidx) {
+   //$("#listcontrol"+curidx).click()
 	//alert(curidx);
 	$.ajax( {
 		url : 'maintenanceQn.do',

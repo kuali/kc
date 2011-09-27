@@ -221,7 +221,7 @@
                 </th>
                 <td align="left" valign="middle">
                     <kul:htmlControlAttribute property="financialEntityHelper.activeFinancialEntities[${status.index}].finEntityContactInfos[0].countryCode" 
-                                              attributeEntry="${entityContactInfoAttribute.countryCode}" /> 
+                                              attributeEntry="${entityContactInfoAttribute.countryCode}" onchange="updateStateCode('financialEntityHelper.activeFinancialEntities[${status.index}].finEntityContactInfos[0].countryCode','');"/> 
                 </td>
             </tr>    
              <tr>
