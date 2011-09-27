@@ -89,20 +89,24 @@
 													</fo:inline>
 												</fo:block>
 											</fo:table-cell>
-											<fo:table-cell border="solid  0.3pt  black" font-size="6" padding="4pt" padding-right="4pt" text-align="left" height="53" display-align="center">
-												<fo:block>
-													<fo:inline font-size="6" font-weight="bold">
-														<xsl:text>Total Direct Cost</xsl:text>
-													</fo:inline>
-												</fo:block>
-											</fo:table-cell>
-											<fo:table-cell border="solid  0.3pt  black" font-size="6" padding="4pt" padding-right="4pt" text-align="left" height="53" display-align="center">
-												<fo:block>
-													<fo:inline font-size="6" font-weight="bold">
-														<xsl:text>Total F&amp;A Cost</xsl:text>
-													</fo:inline>
-												</fo:block>
-											</fo:table-cell>
+											<xsl:if test="CurrentAndPendingSupport/CurrentSupport/TotalDirectCost">
+												<fo:table-cell border="solid  0.3pt  black" font-size="6" padding="4pt" padding-right="4pt" text-align="left" height="53" display-align="center">
+													<fo:block>
+														<fo:inline font-size="6" font-weight="bold">
+															<xsl:text>Total Direct Cost</xsl:text>
+														</fo:inline>
+													</fo:block>
+												</fo:table-cell>
+											</xsl:if>
+											<xsl:if test="CurrentAndPendingSupport/CurrentSupport/TotalIndirectCost">
+												<fo:table-cell border="solid  0.3pt  black" font-size="6" padding="4pt" padding-right="4pt" text-align="left" height="53" display-align="center">
+													<fo:block>
+														<fo:inline font-size="6" font-weight="bold">
+															<xsl:text>Total F&amp;A Cost</xsl:text>
+														</fo:inline>
+													</fo:block>
+												</fo:table-cell>
+											</xsl:if>
 											<fo:table-cell border="solid  0.3pt  black" font-size="6" padding="4pt" padding-right="4pt" text-align="left" height="53" display-align="center">
 												<fo:block>
 													<fo:inline font-size="6" font-weight="bold">
@@ -610,6 +614,7 @@
 															</xsl:for-each>
 														</fo:block>
 													</fo:table-cell>
+													<xsl:if test="TotalDirectCost">
 													<fo:table-cell border="solid 0.3pt black" font-size="6" padding="4pt" padding-right="4pt" text-align="right" display-align="center">
 														<fo:block>
 															<xsl:for-each select="TotalDirectCost">
@@ -622,18 +627,21 @@
 															</xsl:for-each>
 														</fo:block>
 													</fo:table-cell>
-													<fo:table-cell border="solid 0.3pt black" font-size="6" padding="4pt" padding-right="4pt" text-align="right" display-align="center">
-														<fo:block>
-															<xsl:for-each select="TotalIndirectCost">
-																<fo:inline>
-																	<xsl:text>$</xsl:text>
-																</fo:inline>
-																<fo:inline>
-																	<xsl:value-of select="format-number(number(string(.)), '#,###,###,##0.00')"/>
-																</fo:inline>
-															</xsl:for-each>
-														</fo:block>
-													</fo:table-cell>
+													</xsl:if>
+													<xsl:if test="TotalIndirectCost">
+														<fo:table-cell border="solid 0.3pt black" font-size="6" padding="4pt" padding-right="4pt" text-align="right" display-align="center">
+															<fo:block>
+																<xsl:for-each select="TotalIndirectCost">
+																	<fo:inline>
+																		<xsl:text>$</xsl:text>
+																	</fo:inline>
+																	<fo:inline>
+																		<xsl:value-of select="format-number(number(string(.)), '#,###,###,##0.00')"/>
+																	</fo:inline>
+																</xsl:for-each>
+															</fo:block>
+														</fo:table-cell>
+													</xsl:if>
 													<fo:table-cell border="solid  0.3pt  black" font-size="6" padding-right="4pt" text-align="right" padding="0" display-align="center">
 														<fo:block>
 															<xsl:for-each select="AwardAmount">

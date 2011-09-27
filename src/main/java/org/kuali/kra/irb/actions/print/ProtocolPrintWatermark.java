@@ -42,6 +42,7 @@ public class ProtocolPrintWatermark implements Watermarkable {
 
     private KraPersistableBusinessObjectBase persistableBusinessObject;
     private static final Log LOG = LogFactory.getLog(ProtocolPrintWatermark.class);
+    private static final String INVALID_WATERMARK_CODE = "-1";
     private WatermarkBean watermarkBean;
 
 
@@ -71,6 +72,24 @@ public class ProtocolPrintWatermark implements Watermarkable {
         return null;
     }
 
+    /**
+     * This method is to return invalid watermark with respect to the protocol document status.
+     * 
+     * @return waterMarkBean
+     */
+    public WatermarkBean getInvalidWatermark(){
+        String watermarkStatusCode = INVALID_WATERMARK_CODE;
+        {
+            WatermarkBean waterMarkBean = null;
+            try {
+                waterMarkBean = getProtocolWatermarkBeanObject(watermarkStatusCode);
+            }
+            catch (Exception e) {
+                LOG.error("Exception Occured in (ProtocolPrintWatermark) :", e);
+            }
+            return waterMarkBean;
+        }
+    }
 
     /**
      * This method for getting the watermark from the database.

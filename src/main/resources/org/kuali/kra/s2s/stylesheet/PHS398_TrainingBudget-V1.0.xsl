@@ -17,18 +17,16 @@
 			<fo:page-sequence master-reference="default-page" initial-page-number="1" format="1">
 				<fo:flow flow-name="xsl-region-body">
 					<fo:block>
-						<xsl:for-each select="$XML">
 							<fo:inline-container>
 								<fo:block>
 									<xsl:text>&#x2029;</xsl:text>
 								</fo:block>
 							</fo:inline-container>
-							<xsl:if test="//PHS398_TrainingBudget:PHS398_TrainingBudget/PHS398_TrainingBudget:BudgetYear">
+							<xsl:if test="PHS398_TrainingBudget:BudgetYear">
 								<fo:table font-family="Vrinda" line-height="6pt" padding="0" table-layout="fixed" width="100%" border-spacing="2pt">
 									<fo:table-column column-width="proportional-column-width(1)"/>
 									<fo:table-body margin="0" padding="0" start-indent="0pt">
-										<xsl:for-each select="//PHS398_TrainingBudget:PHS398_TrainingBudget">
-											<xsl:for-each select="//PHS398_TrainingBudget:BudgetYear">
+											<xsl:for-each select="PHS398_TrainingBudget:BudgetYear">
 												<fo:table-row margin="0">
 													<fo:table-cell margin="0" padding="0" padding-bottom="0" display-align="center">
 														<fo:block>
@@ -69,9 +67,8 @@
 																				<fo:inline font-family="Verdana" font-size="7pt">
 																					<xsl:text>Organizational DUNS: </xsl:text>
 																				</fo:inline>
-																				<xsl:for-each select="$XML">
 																					<xsl:for-each select="//PHS398_TrainingBudget:PHS398_TrainingBudget">
-																						<xsl:for-each select="//PHS398_TrainingBudget:DUNSNumber">
+																						<xsl:for-each select="PHS398_TrainingBudget:DUNSNumber">
 																							<fo:inline>
 																								<xsl:text>&#160; </xsl:text>
 																							</fo:inline>
@@ -92,7 +89,6 @@
 																							</xsl:choose>
 																						</xsl:for-each>
 																					</xsl:for-each>
-																				</xsl:for-each>
 																			</fo:block>
 																		</fo:table-cell>
 																		<fo:table-cell number-columns-spanned="2" padding="2pt" display-align="center">
@@ -100,9 +96,8 @@
 																				<fo:inline>
 																					<xsl:text>Budget Type:</xsl:text>
 																				</fo:inline>
-																				<xsl:for-each select="$XML">
-																					<xsl:for-each select="//PHS398_TrainingBudget:PHS398_TrainingBudget">
-																						<xsl:for-each select="//PHS398_TrainingBudget:BudgetType">
+																					<xsl:for-each select="//PHS398_TrainingBudget:PHS398_TrainingBudget">	
+																						<xsl:for-each select="PHS398_TrainingBudget:BudgetType">
 																							<fo:inline>
 																								<xsl:text>&#160;&#160; </xsl:text>
 																							</fo:inline>
@@ -138,7 +133,6 @@
 																							</fo:inline>
 																						</xsl:for-each>
 																					</xsl:for-each>
-																				</xsl:for-each>
 																			</fo:block>
 																		</fo:table-cell>
 																	</fo:table-row>
@@ -148,9 +142,8 @@
 																				<fo:inline font-family="Verdana" font-size="7pt">
 																					<xsl:text>Organization Name:</xsl:text>
 																				</fo:inline>
-																				<xsl:for-each select="$XML">
 																					<xsl:for-each select="//PHS398_TrainingBudget:PHS398_TrainingBudget">
-																						<xsl:for-each select="//PHS398_TrainingBudget:OrganizationName">
+																						<xsl:for-each select="PHS398_TrainingBudget:OrganizationName">
 																							<fo:inline>
 																								<xsl:text>&#160;&#160;&#160;&#160;&#160;&#160; </xsl:text>
 																							</fo:inline>
@@ -171,7 +164,6 @@
 																							</xsl:choose>
 																						</xsl:for-each>
 																					</xsl:for-each>
-																				</xsl:for-each>
 																			</fo:block>
 																		</fo:table-cell>
 																	</fo:table-row>
@@ -440,7 +432,7 @@
 																														<fo:inline>
 																															<xsl:text>&#160;</xsl:text>
 																														</fo:inline>
-																														<xsl:for-each select="//PHS398_TrainingBudget:UndergraduateNumFullTime">
+																														<xsl:for-each select="PHS398_TrainingBudget:UndergraduateNumFullTime">
 																															<xsl:variable name="value-of-template">
 																																<xsl:apply-templates/>
 																															</xsl:variable>
@@ -480,7 +472,7 @@
 																														<fo:inline>
 																															<xsl:text>&#160;</xsl:text>
 																														</fo:inline>
-																														<xsl:for-each select="//PHS398_TrainingBudget:UndergraduateNumShortTerm">
+																														<xsl:for-each select="PHS398_TrainingBudget:UndergraduateNumShortTerm">
 																															<xsl:variable name="value-of-template">
 																																<xsl:apply-templates/>
 																															</xsl:variable>
@@ -548,7 +540,7 @@
 																														<fo:inline>
 																															<xsl:text>&#160;</xsl:text>
 																														</fo:inline>
-																														<xsl:for-each select="//PHS398_TrainingBudget:UndergraduateStipendsRequested">
+																														<xsl:for-each select="PHS398_TrainingBudget:UndergraduateStipendsRequested">
 																															<fo:inline>
 																																<xsl:value-of select="format-number(number(string(.)), '#,###,###,###,##0.00')"/>
 																															</fo:inline>
@@ -576,7 +568,7 @@
 																														<fo:inline>
 																															<xsl:text>&#160;</xsl:text>
 																														</fo:inline>
-																														<xsl:for-each select="//PHS398_TrainingBudget:UndergraduateTuitionAndFeesRequested">
+																														<xsl:for-each select="PHS398_TrainingBudget:UndergraduateTuitionAndFeesRequested">
 																															<fo:inline>
 																																<xsl:value-of select="format-number(number(string(.)), '#,###,###,###,##0.00')"/>
 																															</fo:inline>
@@ -682,7 +674,7 @@
 																														<fo:inline>
 																															<xsl:text>&#160;</xsl:text>
 																														</fo:inline>
-																														<xsl:for-each select="//PHS398_TrainingBudget:UndergraduateNumFirstYearSophomoreStipends">
+																														<xsl:for-each select="PHS398_TrainingBudget:UndergraduateNumFirstYearSophomoreStipends">
 																															<xsl:variable name="value-of-template">
 																																<xsl:apply-templates/>
 																															</xsl:variable>
@@ -729,7 +721,7 @@
 																														<fo:inline>
 																															<xsl:text>&#160;</xsl:text>
 																														</fo:inline>
-																														<xsl:for-each select="//PHS398_TrainingBudget:UndergraduateNumJuniorSeniorStipends">
+																														<xsl:for-each select="PHS398_TrainingBudget:UndergraduateNumJuniorSeniorStipends">
 																															<xsl:variable name="value-of-template">
 																																<xsl:apply-templates/>
 																															</xsl:variable>
@@ -801,7 +793,7 @@
 																														<fo:inline>
 																															<xsl:text>&#160;</xsl:text>
 																														</fo:inline>
-																														<xsl:for-each select="//PHS398_TrainingBudget:PredocSingleDegreeNumFullTime">
+																														<xsl:for-each select="PHS398_TrainingBudget:PredocSingleDegreeNumFullTime">
 																															<xsl:variable name="value-of-template">
 																																<xsl:apply-templates/>
 																															</xsl:variable>
@@ -841,7 +833,7 @@
 																														<fo:inline>
 																															<xsl:text>&#160;</xsl:text>
 																														</fo:inline>
-																														<xsl:for-each select="//PHS398_TrainingBudget:PredocSingleDegreeNumShortTerm">
+																														<xsl:for-each select="PHS398_TrainingBudget:PredocSingleDegreeNumShortTerm">
 																															<xsl:variable name="value-of-template">
 																																<xsl:apply-templates/>
 																															</xsl:variable>
@@ -907,7 +899,7 @@
 																														<fo:inline>
 																															<xsl:text>&#160;</xsl:text>
 																														</fo:inline>
-																														<xsl:for-each select="//PHS398_TrainingBudget:PredocSingleDegreeStipendsRequested">
+																														<xsl:for-each select="PHS398_TrainingBudget:PredocSingleDegreeStipendsRequested">
 																															<fo:inline>
 																																<xsl:value-of select="format-number(number(string(.)), '#,###,###,###,##0.00')"/>
 																															</fo:inline>
@@ -935,7 +927,7 @@
 																														<fo:inline>
 																															<xsl:text>&#160;</xsl:text>
 																														</fo:inline>
-																														<xsl:for-each select="//PHS398_TrainingBudget:PredocSingleDegreeTuitionAndFeesRequested">
+																														<xsl:for-each select="PHS398_TrainingBudget:PredocSingleDegreeTuitionAndFeesRequested">
 																															<fo:inline>
 																																<xsl:value-of select="format-number(number(string(.)), '#,###,###,###,##0.00')"/>
 																															</fo:inline>
@@ -965,7 +957,7 @@
 																														<fo:inline>
 																															<xsl:text>&#160;</xsl:text>
 																														</fo:inline>
-																														<xsl:for-each select="//PHS398_TrainingBudget:PredocDualDegreeNumFullTime">
+																														<xsl:for-each select="PHS398_TrainingBudget:PredocDualDegreeNumFullTime">
 																															<xsl:variable name="value-of-template">
 																																<xsl:apply-templates/>
 																															</xsl:variable>
@@ -1005,7 +997,7 @@
 																														<fo:inline>
 																															<xsl:text>&#160;</xsl:text>
 																														</fo:inline>
-																														<xsl:for-each select="//PHS398_TrainingBudget:PredocDualDegreeNumShortTerm">
+																														<xsl:for-each select="PHS398_TrainingBudget:PredocDualDegreeNumShortTerm">
 																															<xsl:variable name="value-of-template">
 																																<xsl:apply-templates/>
 																															</xsl:variable>
@@ -1073,7 +1065,7 @@
 																														<fo:inline>
 																															<xsl:text>&#160;</xsl:text>
 																														</fo:inline>
-																														<xsl:for-each select="//PHS398_TrainingBudget:PredocDualDegreeStipendsRequested">
+																														<xsl:for-each select="PHS398_TrainingBudget:PredocDualDegreeStipendsRequested">
 																															<fo:inline>
 																																<xsl:value-of select="format-number(number(string(.)), '#,###,###,###,##0.00')"/>
 																															</fo:inline>
@@ -1101,7 +1093,7 @@
 																														<fo:inline>
 																															<xsl:text>&#160;</xsl:text>
 																														</fo:inline>
-																														<xsl:for-each select="//PHS398_TrainingBudget:PredocDualDegreeTuitionAndFeesRequested">
+																														<xsl:for-each select="PHS398_TrainingBudget:PredocDualDegreeTuitionAndFeesRequested">
 																															<fo:inline>
 																																<xsl:value-of select="format-number(number(string(.)), '#,###,###,###,##0.00')"/>
 																															</fo:inline>
@@ -1131,7 +1123,7 @@
 																														<fo:inline>
 																															<xsl:text>&#160;</xsl:text>
 																														</fo:inline>
-																														<xsl:for-each select="//PHS398_TrainingBudget:PredocTotalNumFullTime">
+																														<xsl:for-each select="PHS398_TrainingBudget:PredocTotalNumFullTime">
 																															<xsl:variable name="value-of-template">
 																																<xsl:apply-templates/>
 																															</xsl:variable>
@@ -1171,7 +1163,7 @@
 																														<fo:inline>
 																															<xsl:text>&#160;</xsl:text>
 																														</fo:inline>
-																														<xsl:for-each select="//PHS398_TrainingBudget:PredocTotalNumShortTerm">
+																														<xsl:for-each select="PHS398_TrainingBudget:PredocTotalNumShortTerm">
 																															<xsl:variable name="value-of-template">
 																																<xsl:apply-templates/>
 																															</xsl:variable>
@@ -1239,7 +1231,7 @@
 																														<fo:inline>
 																															<xsl:text>&#160;</xsl:text>
 																														</fo:inline>
-																														<xsl:for-each select="//PHS398_TrainingBudget:PredocTotalStipendsRequested">
+																														<xsl:for-each select="PHS398_TrainingBudget:PredocTotalStipendsRequested">
 																															<fo:inline>
 																																<xsl:value-of select="format-number(number(string(.)), '#,###,###,###,##0.00')"/>
 																															</fo:inline>
@@ -1267,7 +1259,7 @@
 																														<fo:inline>
 																															<xsl:text>&#160;</xsl:text>
 																														</fo:inline>
-																														<xsl:for-each select="//PHS398_TrainingBudget:PredocTotalTuitionAndFeesRequested">
+																														<xsl:for-each select="PHS398_TrainingBudget:PredocTotalTuitionAndFeesRequested">
 																															<fo:inline>
 																																<xsl:value-of select="format-number(number(string(.)), '#,###,###,###,##0.00')"/>
 																															</fo:inline>
@@ -1449,7 +1441,7 @@
 																														<fo:inline>
 																															<xsl:text>&#160;</xsl:text>
 																														</fo:inline>
-																														<xsl:for-each select="//PHS398_TrainingBudget:PostdocNumNonDegreeFullTime">
+																														<xsl:for-each select="PHS398_TrainingBudget:PostdocNumNonDegreeFullTime">
 																															<xsl:variable name="value-of-template">
 																																<xsl:apply-templates/>
 																															</xsl:variable>
@@ -1489,7 +1481,7 @@
 																														<fo:inline>
 																															<xsl:text>&#160;</xsl:text>
 																														</fo:inline>
-																														<xsl:for-each select="//PHS398_TrainingBudget:PostdocNumNonDegreeShortTerm">
+																														<xsl:for-each select="PHS398_TrainingBudget:PostdocNumNonDegreeShortTerm">
 																															<xsl:variable name="value-of-template">
 																																<xsl:apply-templates/>
 																															</xsl:variable>
@@ -1540,7 +1532,7 @@
 																														<fo:inline>
 																															<xsl:text>&#160;</xsl:text>
 																														</fo:inline>
-																														<xsl:for-each select="//PHS398_TrainingBudget:PostdocNumNonDegreeStipendLevel0">
+																														<xsl:for-each select="PHS398_TrainingBudget:PostdocNumNonDegreeStipendLevel0">
 																															<xsl:variable name="value-of-template">
 																																<xsl:apply-templates/>
 																															</xsl:variable>
@@ -1580,7 +1572,7 @@
 																														<fo:inline>
 																															<xsl:text>&#160;</xsl:text>
 																														</fo:inline>
-																														<xsl:for-each select="//PHS398_TrainingBudget:PostdocNumNonDegreeStipendLevel1">
+																														<xsl:for-each select="PHS398_TrainingBudget:PostdocNumNonDegreeStipendLevel1">
 																															<xsl:variable name="value-of-template">
 																																<xsl:apply-templates/>
 																															</xsl:variable>
@@ -1620,7 +1612,7 @@
 																														<fo:inline>
 																															<xsl:text>&#160;</xsl:text>
 																														</fo:inline>
-																														<xsl:for-each select="//PHS398_TrainingBudget:PostdocNumNonDegreeStipendLevel2">
+																														<xsl:for-each select="PHS398_TrainingBudget:PostdocNumNonDegreeStipendLevel2">
 																															<xsl:variable name="value-of-template">
 																																<xsl:apply-templates/>
 																															</xsl:variable>
@@ -1660,7 +1652,7 @@
 																														<fo:inline>
 																															<xsl:text>&#160;</xsl:text>
 																														</fo:inline>
-																														<xsl:for-each select="//PHS398_TrainingBudget:PostdocNumNonDegreeStipendLevel3">
+																														<xsl:for-each select="PHS398_TrainingBudget:PostdocNumNonDegreeStipendLevel3">
 																															<xsl:variable name="value-of-template">
 																																<xsl:apply-templates/>
 																															</xsl:variable>
@@ -1700,7 +1692,7 @@
 																														<fo:inline>
 																															<xsl:text>&#160;</xsl:text>
 																														</fo:inline>
-																														<xsl:for-each select="//PHS398_TrainingBudget:PostdocNumNonDegreeStipendLevel4">
+																														<xsl:for-each select="PHS398_TrainingBudget:PostdocNumNonDegreeStipendLevel4">
 																															<xsl:variable name="value-of-template">
 																																<xsl:apply-templates/>
 																															</xsl:variable>
@@ -1740,7 +1732,7 @@
 																														<fo:inline>
 																															<xsl:text>&#160;</xsl:text>
 																														</fo:inline>
-																														<xsl:for-each select="//PHS398_TrainingBudget:PostdocNumNonDegreeStipendLevel5">
+																														<xsl:for-each select="PHS398_TrainingBudget:PostdocNumNonDegreeStipendLevel5">
 																															<xsl:variable name="value-of-template">
 																																<xsl:apply-templates/>
 																															</xsl:variable>
@@ -1780,7 +1772,7 @@
 																														<fo:inline>
 																															<xsl:text>&#160;</xsl:text>
 																														</fo:inline>
-																														<xsl:for-each select="//PHS398_TrainingBudget:PostdocNumNonDegreeStipendLevel6">
+																														<xsl:for-each select="PHS398_TrainingBudget:PostdocNumNonDegreeStipendLevel6">
 																															<xsl:variable name="value-of-template">
 																																<xsl:apply-templates/>
 																															</xsl:variable>
@@ -1820,7 +1812,7 @@
 																														<fo:inline>
 																															<xsl:text>&#160;</xsl:text>
 																														</fo:inline>
-																														<xsl:for-each select="//PHS398_TrainingBudget:PostdocNumNonDegreeStipendLevel7">
+																														<xsl:for-each select="PHS398_TrainingBudget:PostdocNumNonDegreeStipendLevel7">
 																															<xsl:variable name="value-of-template">
 																																<xsl:apply-templates/>
 																															</xsl:variable>
@@ -1860,7 +1852,7 @@
 																														<fo:inline>
 																															<xsl:text>&#160;</xsl:text>
 																														</fo:inline>
-																														<xsl:for-each select="//PHS398_TrainingBudget:PostdocNonDegreeStipendsRequested">
+																														<xsl:for-each select="PHS398_TrainingBudget:PostdocNonDegreeStipendsRequested">
 																															<fo:inline>
 																																<xsl:value-of select="format-number(number(string(.)), '#,###,###,###,##0.00')"/>
 																															</fo:inline>
@@ -1888,7 +1880,7 @@
 																														<fo:inline>
 																															<xsl:text>&#160;</xsl:text>
 																														</fo:inline>
-																														<xsl:for-each select="//PHS398_TrainingBudget:PostdocNonDegreeTuitionAndFeesRequested">
+																														<xsl:for-each select="PHS398_TrainingBudget:PostdocNonDegreeTuitionAndFeesRequested">
 																															<fo:inline>
 																																<xsl:value-of select="format-number(number(string(.)), '#,###,###,###,##0.00')"/>
 																															</fo:inline>
@@ -1918,7 +1910,7 @@
 																														<fo:inline>
 																															<xsl:text>&#160;</xsl:text>
 																														</fo:inline>
-																														<xsl:for-each select="//PHS398_TrainingBudget:PostdocNumDegreeFullTime">
+																														<xsl:for-each select="PHS398_TrainingBudget:PostdocNumDegreeFullTime">
 																															<xsl:variable name="value-of-template">
 																																<xsl:apply-templates/>
 																															</xsl:variable>
@@ -1958,7 +1950,7 @@
 																														<fo:inline>
 																															<xsl:text>&#160;</xsl:text>
 																														</fo:inline>
-																														<xsl:for-each select="//PHS398_TrainingBudget:PostdocNumDegreeShortTerm">
+																														<xsl:for-each select="PHS398_TrainingBudget:PostdocNumDegreeShortTerm">
 																															<xsl:variable name="value-of-template">
 																																<xsl:apply-templates/>
 																															</xsl:variable>
@@ -2009,7 +2001,7 @@
 																														<fo:inline>
 																															<xsl:text>&#160;</xsl:text>
 																														</fo:inline>
-																														<xsl:for-each select="//PHS398_TrainingBudget:PostdocNumDegreeStipendLevel0">
+																														<xsl:for-each select="PHS398_TrainingBudget:PostdocNumDegreeStipendLevel0">
 																															<xsl:variable name="value-of-template">
 																																<xsl:apply-templates/>
 																															</xsl:variable>
@@ -2049,7 +2041,7 @@
 																														<fo:inline>
 																															<xsl:text>&#160;</xsl:text>
 																														</fo:inline>
-																														<xsl:for-each select="//PHS398_TrainingBudget:PostdocNumDegreeStipendLevel1">
+																														<xsl:for-each select="PHS398_TrainingBudget:PostdocNumDegreeStipendLevel1">
 																															<xsl:variable name="value-of-template">
 																																<xsl:apply-templates/>
 																															</xsl:variable>
@@ -2089,7 +2081,7 @@
 																														<fo:inline>
 																															<xsl:text>&#160;</xsl:text>
 																														</fo:inline>
-																														<xsl:for-each select="//PHS398_TrainingBudget:PostdocNumDegreeStipendLevel2">
+																														<xsl:for-each select="PHS398_TrainingBudget:PostdocNumDegreeStipendLevel2">
 																															<xsl:variable name="value-of-template">
 																																<xsl:apply-templates/>
 																															</xsl:variable>
@@ -2129,7 +2121,7 @@
 																														<fo:inline>
 																															<xsl:text>&#160;</xsl:text>
 																														</fo:inline>
-																														<xsl:for-each select="//PHS398_TrainingBudget:PostdocNumDegreeStipendLevel3">
+																														<xsl:for-each select="PHS398_TrainingBudget:PostdocNumDegreeStipendLevel3">
 																															<xsl:variable name="value-of-template">
 																																<xsl:apply-templates/>
 																															</xsl:variable>
@@ -2169,7 +2161,7 @@
 																														<fo:inline>
 																															<xsl:text>&#160;</xsl:text>
 																														</fo:inline>
-																														<xsl:for-each select="//PHS398_TrainingBudget:PostdocNumDegreeStipendLevel4">
+																														<xsl:for-each select="PHS398_TrainingBudget:PostdocNumDegreeStipendLevel4">
 																															<xsl:variable name="value-of-template">
 																																<xsl:apply-templates/>
 																															</xsl:variable>
@@ -2209,7 +2201,7 @@
 																														<fo:inline>
 																															<xsl:text>&#160;</xsl:text>
 																														</fo:inline>
-																														<xsl:for-each select="//PHS398_TrainingBudget:PostdocNumDegreeStipendLevel5">
+																														<xsl:for-each select="PHS398_TrainingBudget:PostdocNumDegreeStipendLevel5">
 																															<xsl:variable name="value-of-template">
 																																<xsl:apply-templates/>
 																															</xsl:variable>
@@ -2249,7 +2241,7 @@
 																														<fo:inline>
 																															<xsl:text>&#160;</xsl:text>
 																														</fo:inline>
-																														<xsl:for-each select="//PHS398_TrainingBudget:PostdocNumDegreeStipendLevel6">
+																														<xsl:for-each select="PHS398_TrainingBudget:PostdocNumDegreeStipendLevel6">
 																															<xsl:variable name="value-of-template">
 																																<xsl:apply-templates/>
 																															</xsl:variable>
@@ -2289,7 +2281,7 @@
 																														<fo:inline>
 																															<xsl:text>&#160;</xsl:text>
 																														</fo:inline>
-																														<xsl:for-each select="//PHS398_TrainingBudget:PostdocNumDegreeStipendLevel7">
+																														<xsl:for-each select="PHS398_TrainingBudget:PostdocNumDegreeStipendLevel7">
 																															<xsl:variable name="value-of-template">
 																																<xsl:apply-templates/>
 																															</xsl:variable>
@@ -2329,7 +2321,7 @@
 																														<fo:inline>
 																															<xsl:text>&#160;</xsl:text>
 																														</fo:inline>
-																														<xsl:for-each select="//PHS398_TrainingBudget:PostdocDegreeStipendsRequested">
+																														<xsl:for-each select="PHS398_TrainingBudget:PostdocDegreeStipendsRequested">
 																															<fo:inline>
 																																<xsl:value-of select="format-number(number(string(.)), '#,###,###,###,##0.00')"/>
 																															</fo:inline>
@@ -2357,7 +2349,7 @@
 																														<fo:inline>
 																															<xsl:text>&#160;</xsl:text>
 																														</fo:inline>
-																														<xsl:for-each select="//PHS398_TrainingBudget:PostdocDegreeTuitionAndFeesRequested">
+																														<xsl:for-each select="PHS398_TrainingBudget:PostdocDegreeTuitionAndFeesRequested">
 																															<fo:inline>
 																																<xsl:value-of select="format-number(number(string(.)), '#,###,###,###,##0.00')"/>
 																															</fo:inline>
@@ -2387,7 +2379,7 @@
 																														<fo:inline>
 																															<xsl:text>&#160;</xsl:text>
 																														</fo:inline>
-																														<xsl:for-each select="//PHS398_TrainingBudget:PostdocTotalFullTime">
+																														<xsl:for-each select="PHS398_TrainingBudget:PostdocTotalFullTime">
 																															<xsl:variable name="value-of-template">
 																																<xsl:apply-templates/>
 																															</xsl:variable>
@@ -2427,7 +2419,7 @@
 																														<fo:inline>
 																															<xsl:text>&#160;</xsl:text>
 																														</fo:inline>
-																														<xsl:for-each select="//PHS398_TrainingBudget:PostdocTotalShortTerm">
+																														<xsl:for-each select="PHS398_TrainingBudget:PostdocTotalShortTerm">
 																															<xsl:variable name="value-of-template">
 																																<xsl:apply-templates/>
 																															</xsl:variable>
@@ -2478,7 +2470,7 @@
 																														<fo:inline>
 																															<xsl:text>&#160;</xsl:text>
 																														</fo:inline>
-																														<xsl:for-each select="//PHS398_TrainingBudget:PostdocTotalStipendLevel0">
+																														<xsl:for-each select="PHS398_TrainingBudget:PostdocTotalStipendLevel0">
 																															<xsl:variable name="value-of-template">
 																																<xsl:apply-templates/>
 																															</xsl:variable>
@@ -2518,7 +2510,7 @@
 																														<fo:inline>
 																															<xsl:text>&#160;</xsl:text>
 																														</fo:inline>
-																														<xsl:for-each select="//PHS398_TrainingBudget:PostdocTotalStipendLevel1">
+																														<xsl:for-each select="PHS398_TrainingBudget:PostdocTotalStipendLevel1">
 																															<xsl:variable name="value-of-template">
 																																<xsl:apply-templates/>
 																															</xsl:variable>
@@ -2558,7 +2550,7 @@
 																														<fo:inline>
 																															<xsl:text>&#160;</xsl:text>
 																														</fo:inline>
-																														<xsl:for-each select="//PHS398_TrainingBudget:PostdocTotalStipendLevel2">
+																														<xsl:for-each select="PHS398_TrainingBudget:PostdocTotalStipendLevel2">
 																															<xsl:variable name="value-of-template">
 																																<xsl:apply-templates/>
 																															</xsl:variable>
@@ -2598,7 +2590,7 @@
 																														<fo:inline>
 																															<xsl:text>&#160;</xsl:text>
 																														</fo:inline>
-																														<xsl:for-each select="//PHS398_TrainingBudget:PostdocTotalStipendLevel3">
+																														<xsl:for-each select="PHS398_TrainingBudget:PostdocTotalStipendLevel3">
 																															<xsl:variable name="value-of-template">
 																																<xsl:apply-templates/>
 																															</xsl:variable>
@@ -2638,7 +2630,7 @@
 																														<fo:inline>
 																															<xsl:text>&#160;</xsl:text>
 																														</fo:inline>
-																														<xsl:for-each select="//PHS398_TrainingBudget:PostdocTotalStipendLevel4">
+																														<xsl:for-each select="PHS398_TrainingBudget:PostdocTotalStipendLevel4">
 																															<xsl:variable name="value-of-template">
 																																<xsl:apply-templates/>
 																															</xsl:variable>
@@ -2678,7 +2670,7 @@
 																														<fo:inline>
 																															<xsl:text>&#160;</xsl:text>
 																														</fo:inline>
-																														<xsl:for-each select="//PHS398_TrainingBudget:PostdocTotalStipendLevel5">
+																														<xsl:for-each select="PHS398_TrainingBudget:PostdocTotalStipendLevel5">
 																															<xsl:variable name="value-of-template">
 																																<xsl:apply-templates/>
 																															</xsl:variable>
@@ -2718,7 +2710,7 @@
 																														<fo:inline>
 																															<xsl:text>&#160;</xsl:text>
 																														</fo:inline>
-																														<xsl:for-each select="//PHS398_TrainingBudget:PostdocTotalStipendLevel6">
+																														<xsl:for-each select="PHS398_TrainingBudget:PostdocTotalStipendLevel6">
 																															<xsl:variable name="value-of-template">
 																																<xsl:apply-templates/>
 																															</xsl:variable>
@@ -2758,7 +2750,7 @@
 																														<fo:inline>
 																															<xsl:text>&#160;</xsl:text>
 																														</fo:inline>
-																														<xsl:for-each select="//PHS398_TrainingBudget:PostdocTotalStipendLevel7">
+																														<xsl:for-each select="PHS398_TrainingBudget:PostdocTotalStipendLevel7">
 																															<xsl:variable name="value-of-template">
 																																<xsl:apply-templates/>
 																															</xsl:variable>
@@ -2798,7 +2790,7 @@
 																														<fo:inline>
 																															<xsl:text>&#160;</xsl:text>
 																														</fo:inline>
-																														<xsl:for-each select="//PHS398_TrainingBudget:PostdocTotalStipendsRequested">
+																														<xsl:for-each select="PHS398_TrainingBudget:PostdocTotalStipendsRequested">
 																															<fo:inline>
 																																<xsl:value-of select="format-number(number(string(.)), '#,###,###,###,##0.00')"/>
 																															</fo:inline>
@@ -2826,7 +2818,7 @@
 																														<fo:inline>
 																															<xsl:text>&#160;</xsl:text>
 																														</fo:inline>
-																														<xsl:for-each select="//PHS398_TrainingBudget:PostdocTotalTuitionAndFeesRequested">
+																														<xsl:for-each select="PHS398_TrainingBudget:PostdocTotalTuitionAndFeesRequested">
 																															<fo:inline>
 																																<xsl:value-of select="format-number(number(string(.)), '#,###,###,###,##0.00')"/>
 																															</fo:inline>
@@ -2856,7 +2848,7 @@
 																														<fo:inline>
 																															<xsl:text>&#160;</xsl:text>
 																														</fo:inline>
-																														<xsl:for-each select="//PHS398_TrainingBudget:OtherNumFullTime">
+																														<xsl:for-each select="PHS398_TrainingBudget:OtherNumFullTime">
 																															<xsl:variable name="value-of-template">
 																																<xsl:apply-templates/>
 																															</xsl:variable>
@@ -2896,7 +2888,7 @@
 																														<fo:inline>
 																															<xsl:text>&#160;</xsl:text>
 																														</fo:inline>
-																														<xsl:for-each select="//PHS398_TrainingBudget:OtherNumShortTerm">
+																														<xsl:for-each select="PHS398_TrainingBudget:OtherNumShortTerm">
 																															<xsl:variable name="value-of-template">
 																																<xsl:apply-templates/>
 																															</xsl:variable>
@@ -2967,7 +2959,7 @@
 																														<fo:inline>
 																															<xsl:text>&#160;</xsl:text>
 																														</fo:inline>
-																														<xsl:for-each select="//PHS398_TrainingBudget:OtherStipendsRequested">
+																														<xsl:for-each select="PHS398_TrainingBudget:OtherStipendsRequested">
 																															<fo:inline>
 																																<xsl:value-of select="format-number(number(string(.)), '#,###,###,###,##0.00')"/>
 																															</fo:inline>
@@ -2995,7 +2987,7 @@
 																														<fo:inline>
 																															<xsl:text>&#160;</xsl:text>
 																														</fo:inline>
-																														<xsl:for-each select="//PHS398_TrainingBudget:OtherTuitionAndFeesRequested">
+																														<xsl:for-each select="PHS398_TrainingBudget:OtherTuitionAndFeesRequested">
 																															<fo:inline>
 																																<xsl:value-of select="format-number(number(string(.)), '#,###,###,###,##0.00')"/>
 																															</fo:inline>
@@ -3065,7 +3057,7 @@
 																														<fo:inline>
 																															<xsl:text>&#160;</xsl:text>
 																														</fo:inline>
-																														<xsl:for-each select="//PHS398_TrainingBudget:TotalStipendsRequested">
+																														<xsl:for-each select="PHS398_TrainingBudget:TotalStipendsRequested">
 																															<fo:inline>
 																																<xsl:value-of select="format-number(number(string(.)), '#,###,###,###,##0.00')"/>
 																															</fo:inline>
@@ -3093,7 +3085,7 @@
 																														<fo:inline>
 																															<xsl:text>&#160;</xsl:text>
 																														</fo:inline>
-																														<xsl:for-each select="//PHS398_TrainingBudget:TotalTuitionAndFeesRequested">
+																														<xsl:for-each select="PHS398_TrainingBudget:TotalTuitionAndFeesRequested">
 																															<fo:inline>
 																																<xsl:value-of select="format-number(number(string(.)), '#,###,###,###,##0.00')"/>
 																															</fo:inline>
@@ -3163,7 +3155,7 @@
 																														<fo:inline>
 																															<xsl:text>&#160;</xsl:text>
 																														</fo:inline>
-																														<xsl:for-each select="//PHS398_TrainingBudget:TotalStipendsAndTuitionFeesRequested">
+																														<xsl:for-each select="PHS398_TrainingBudget:TotalStipendsAndTuitionFeesRequested">
 																															<fo:inline>
 																																<xsl:value-of select="format-number(number(string(.)), '#,###,###,###,##0.00')"/>
 																															</fo:inline>
@@ -3294,7 +3286,7 @@
 																														<fo:inline>
 																															<xsl:text>&#160;</xsl:text>
 																														</fo:inline>
-																														<xsl:for-each select="//PHS398_TrainingBudget:TraineeTravelRequested">
+																														<xsl:for-each select="PHS398_TrainingBudget:TraineeTravelRequested">
 																															<fo:inline>
 																																<xsl:value-of select="format-number(number(string(.)), '#,###,###,###,##0.00')"/>
 																															</fo:inline>
@@ -3364,7 +3356,7 @@
 																														<fo:inline>
 																															<xsl:text>&#160;</xsl:text>
 																														</fo:inline>
-																														<xsl:for-each select="//PHS398_TrainingBudget:TrainingRelatedExpensesRequested">
+																														<xsl:for-each select="PHS398_TrainingBudget:TrainingRelatedExpensesRequested">
 																															<fo:inline>
 																																<xsl:value-of select="format-number(number(string(.)), '#,###,###,###,##0.00')"/>
 																															</fo:inline>
@@ -3431,7 +3423,7 @@
 																														<fo:inline>
 																															<xsl:text>&#160;</xsl:text>
 																														</fo:inline>
-																														<xsl:for-each select="//PHS398_TrainingBudget:ResearchDirectCostsRequested">
+																														<xsl:for-each select="PHS398_TrainingBudget:ResearchDirectCostsRequested">
 																															<fo:inline>
 																																<xsl:value-of select="format-number(number(string(.)), '#,###,###,###,##0.00')"/>
 																															</fo:inline>
@@ -3501,7 +3493,7 @@
 																														<fo:inline>
 																															<xsl:text>&#160;</xsl:text>
 																														</fo:inline>
-																														<xsl:for-each select="//PHS398_TrainingBudget:ConsortiumTrainingCostsRequested">
+																														<xsl:for-each select="PHS398_TrainingBudget:ConsortiumTrainingCostsRequested">
 																															<fo:inline>
 																																<xsl:value-of select="format-number(number(string(.)), '#,###,###,###,##0.00')"/>
 																															</fo:inline>
@@ -3574,7 +3566,7 @@
 																														<fo:inline>
 																															<xsl:text>&#160;</xsl:text>
 																														</fo:inline>
-																														<xsl:for-each select="//PHS398_TrainingBudget:TotalOtherDirectCostsRequested">
+																														<xsl:for-each select="PHS398_TrainingBudget:TotalOtherDirectCostsRequested">
 																															<fo:inline>
 																																<xsl:value-of select="format-number(number(string(.)), '#,###,###,###,##0.00')"/>
 																															</fo:inline>
@@ -3650,7 +3642,7 @@
 																														<fo:inline>
 																															<xsl:text>&#160;</xsl:text>
 																														</fo:inline>
-																														<xsl:for-each select="//PHS398_TrainingBudget:TotalDirectCostsRequested">
+																														<xsl:for-each select="PHS398_TrainingBudget:TotalDirectCostsRequested">
 																															<fo:inline>
 																																<xsl:value-of select="format-number(number(string(.)), '#,###,###,###,##0.00')"/>
 																															</fo:inline>
@@ -3763,7 +3755,7 @@
 																														<fo:inline>
 																															<xsl:text>&#160;</xsl:text>
 																														</fo:inline>
-																														<xsl:for-each select="//PHS398_TrainingBudget:IndirectCostType1">
+																														<xsl:for-each select="PHS398_TrainingBudget:IndirectCostType1">
 																															<xsl:variable name="value-of-template">
 																																<xsl:apply-templates/>
 																															</xsl:variable>
@@ -3803,7 +3795,7 @@
 																														<fo:inline>
 																															<xsl:text>&#160;</xsl:text>
 																														</fo:inline>
-																														<xsl:for-each select="//PHS398_TrainingBudget:IndirectCostRate1">
+																														<xsl:for-each select="PHS398_TrainingBudget:IndirectCostRate1">
 																															<xsl:variable name="value-of-template">
 																																<xsl:apply-templates/>
 																															</xsl:variable>
@@ -3843,7 +3835,7 @@
 																														<fo:inline>
 																															<xsl:text>&#160;</xsl:text>
 																														</fo:inline>
-																														<xsl:for-each select="//PHS398_TrainingBudget:IndirectCostBase1">
+																														<xsl:for-each select="PHS398_TrainingBudget:IndirectCostBase1">
 																															<fo:inline>
 																																<xsl:value-of select="format-number(number(string(.)), '#,###,###,###,##0.00')"/>
 																															</fo:inline>
@@ -3871,7 +3863,7 @@
 																														<fo:inline>
 																															<xsl:text>&#160;</xsl:text>
 																														</fo:inline>
-																														<xsl:for-each select="//PHS398_TrainingBudget:IndirectCostFundsRequested1">
+																														<xsl:for-each select="PHS398_TrainingBudget:IndirectCostFundsRequested1">
 																															<fo:inline>
 																																<xsl:value-of select="format-number(number(string(.)), '#,###,###,###,##0.00')"/>
 																															</fo:inline>
@@ -3943,7 +3935,7 @@
 																														<fo:inline>
 																															<xsl:text>&#160;</xsl:text>
 																														</fo:inline>
-																														<xsl:for-each select="//PHS398_TrainingBudget:IndirectCostType2">
+																														<xsl:for-each select="PHS398_TrainingBudget:IndirectCostType2">
 																															<xsl:variable name="value-of-template">
 																																<xsl:apply-templates/>
 																															</xsl:variable>
@@ -3983,7 +3975,7 @@
 																														<fo:inline>
 																															<xsl:text>&#160;</xsl:text>
 																														</fo:inline>
-																														<xsl:for-each select="//PHS398_TrainingBudget:IndirectCostRate2">
+																														<xsl:for-each select="PHS398_TrainingBudget:IndirectCostRate2">
 																															<xsl:variable name="value-of-template">
 																																<xsl:apply-templates/>
 																															</xsl:variable>
@@ -4023,7 +4015,7 @@
 																														<fo:inline>
 																															<xsl:text>&#160;</xsl:text>
 																														</fo:inline>
-																														<xsl:for-each select="//PHS398_TrainingBudget:IndirectCostBase2">
+																														<xsl:for-each select="PHS398_TrainingBudget:IndirectCostBase2">
 																															<fo:inline>
 																																<xsl:value-of select="format-number(number(string(.)), '#,###,###,###,##0.00')"/>
 																															</fo:inline>
@@ -4051,7 +4043,7 @@
 																														<fo:inline>
 																															<xsl:text>&#160;</xsl:text>
 																														</fo:inline>
-																														<xsl:for-each select="//PHS398_TrainingBudget:IndirectCostFundsRequested2">
+																														<xsl:for-each select="PHS398_TrainingBudget:IndirectCostFundsRequested2">
 																															<fo:inline>
 																																<xsl:value-of select="format-number(number(string(.)), '#,###,###,###,##0.00')"/>
 																															</fo:inline>
@@ -4156,7 +4148,7 @@
 																														<fo:inline>
 																															<xsl:text>&#160;</xsl:text>
 																														</fo:inline>
-																														<xsl:for-each select="//PHS398_TrainingBudget:TotalIndirectCostsRequested">
+																														<xsl:for-each select="PHS398_TrainingBudget:TotalIndirectCostsRequested">
 																															<fo:inline>
 																																<xsl:value-of select="format-number(number(string(.)), '#,###,###,###,##0.00')"/>
 																															</fo:inline>
@@ -4229,7 +4221,7 @@
 																														<fo:inline>
 																															<xsl:text>&#160;</xsl:text>
 																														</fo:inline>
-																														<xsl:for-each select="//PHS398_TrainingBudget:TotalDirectAndIndirectCostsRequested">
+																														<xsl:for-each select="PHS398_TrainingBudget:TotalDirectAndIndirectCostsRequested">
 																															<fo:inline>
 																																<xsl:value-of select="format-number(number(string(.)), '#,###,###,###,##0.00')"/>
 																															</fo:inline>
@@ -4275,9 +4267,8 @@
 																														<fo:inline>
 																															<xsl:text>&#160;</xsl:text>
 																														</fo:inline>
-																														<xsl:for-each select="$XML">
-																															<xsl:for-each select="//PHS398_TrainingBudget:PHS398_TrainingBudget">
-																																<xsl:for-each select="//PHS398_TrainingBudget:BudgetJustification">
+																														<xsl:for-each select="//PHS398_TrainingBudget:PHS398_TrainingBudget">
+																															<xsl:for-each select="PHS398_TrainingBudget:BudgetJustification">
 																																	<xsl:for-each select="att:FileName">
 																																		<xsl:variable name="value-of-template">
 																																			<xsl:apply-templates/>
@@ -4296,8 +4287,7 @@
 																																		</xsl:choose>
 																																	</xsl:for-each>
 																																</xsl:for-each>
-																															</xsl:for-each>
-																														</xsl:for-each>
+																															</xsl:for-each>																															
 																													</fo:block>
 																												</fo:table-cell>
 																											</fo:table-row>
@@ -4345,7 +4335,6 @@
 													</fo:table-cell>
 												</fo:table-row>
 											</xsl:for-each>
-										</xsl:for-each>
 									</fo:table-body>
 								</fo:table>
 							</xsl:if>
@@ -4473,14 +4462,12 @@
 																										<fo:block>
 																											<fo:inline>
 																												<xsl:text>&#160;</xsl:text>
-																											</fo:inline>
-																											<xsl:for-each select="//PHS398_TrainingBudget:PHS398_TrainingBudget">
-																												<xsl:for-each select="//PHS398_TrainingBudget:CumulativeUndergraduateStipendsRequested">
+																											</fo:inline>																											
+																												<xsl:for-each select="PHS398_TrainingBudget:CumulativeUndergraduateStipendsRequested">
 																													<fo:inline>
 																														<xsl:value-of select="format-number(number(string(.)), '#,###,###,###,##0.00')"/>
 																													</fo:inline>
-																												</xsl:for-each>
-																											</xsl:for-each>
+																												</xsl:for-each>																											
 																										</fo:block>
 																									</fo:table-cell>
 																								</fo:table-row>
@@ -4503,14 +4490,12 @@
 																										<fo:block>
 																											<fo:inline>
 																												<xsl:text>&#160;</xsl:text>
-																											</fo:inline>
-																											<xsl:for-each select="//PHS398_TrainingBudget:PHS398_TrainingBudget">
-																												<xsl:for-each select="//PHS398_TrainingBudget:CumulativeUndergraduateTuitionAndFeesRequested">
+																											</fo:inline>																											
+																												<xsl:for-each select="PHS398_TrainingBudget:CumulativeUndergraduateTuitionAndFeesRequested">
 																													<fo:inline>
 																														<xsl:value-of select="format-number(number(string(.)), '#,###,###,###,##0.00')"/>
 																													</fo:inline>
-																												</xsl:for-each>
-																											</xsl:for-each>
+																												</xsl:for-each>																											
 																										</fo:block>
 																									</fo:table-cell>
 																								</fo:table-row>
@@ -4569,14 +4554,12 @@
 																										<fo:block>
 																											<fo:inline>
 																												<xsl:text>&#160;</xsl:text>
-																											</fo:inline>
-																											<xsl:for-each select="//PHS398_TrainingBudget:PHS398_TrainingBudget">
-																												<xsl:for-each select="//PHS398_TrainingBudget:CumulativePredocSingleDegreeStipendsRequested">
+																											</fo:inline>																											
+																												<xsl:for-each select="PHS398_TrainingBudget:CumulativePredocSingleDegreeStipendsRequested">
 																													<fo:inline>
 																														<xsl:value-of select="format-number(number(string(.)), '#,###,###,###,##0.00')"/>
 																													</fo:inline>
-																												</xsl:for-each>
-																											</xsl:for-each>
+																												</xsl:for-each>																											
 																										</fo:block>
 																									</fo:table-cell>
 																								</fo:table-row>
@@ -4599,14 +4582,12 @@
 																										<fo:block>
 																											<fo:inline>
 																												<xsl:text>&#160;</xsl:text>
-																											</fo:inline>
-																											<xsl:for-each select="//PHS398_TrainingBudget:PHS398_TrainingBudget">
-																												<xsl:for-each select="//PHS398_TrainingBudget:CumulativePredocSingleDegreeTuitionAndFeesRequested">
+																											</fo:inline>																											
+																												<xsl:for-each select="PHS398_TrainingBudget:CumulativePredocSingleDegreeTuitionAndFeesRequested">
 																													<fo:inline>
 																														<xsl:value-of select="format-number(number(string(.)), '#,###,###,###,##0.00')"/>
 																													</fo:inline>
-																												</xsl:for-each>
-																											</xsl:for-each>
+																												</xsl:for-each>																											
 																										</fo:block>
 																									</fo:table-cell>
 																								</fo:table-row>
@@ -4644,14 +4625,12 @@
 																										<fo:block>
 																											<fo:inline>
 																												<xsl:text>&#160;</xsl:text>
-																											</fo:inline>
-																											<xsl:for-each select="//PHS398_TrainingBudget:PHS398_TrainingBudget">
-																												<xsl:for-each select="//PHS398_TrainingBudget:CumulativePredocDualDegreeStipendsRequested">
+																											</fo:inline>																											
+																												<xsl:for-each select="PHS398_TrainingBudget:CumulativePredocDualDegreeStipendsRequested">
 																													<fo:inline>
 																														<xsl:value-of select="format-number(number(string(.)), '#,###,###,###,##0.00')"/>
 																													</fo:inline>
-																												</xsl:for-each>
-																											</xsl:for-each>
+																												</xsl:for-each>																											
 																										</fo:block>
 																									</fo:table-cell>
 																								</fo:table-row>
@@ -4674,14 +4653,12 @@
 																										<fo:block>
 																											<fo:inline>
 																												<xsl:text>&#160;</xsl:text>
-																											</fo:inline>
-																											<xsl:for-each select="//PHS398_TrainingBudget:PHS398_TrainingBudget">
-																												<xsl:for-each select="//PHS398_TrainingBudget:CumulativePredocDualDegreeTuitionAndFeesRequested">
+																											</fo:inline>																											
+																												<xsl:for-each select="PHS398_TrainingBudget:CumulativePredocDualDegreeTuitionAndFeesRequested">
 																													<fo:inline>
 																														<xsl:value-of select="format-number(number(string(.)), '#,###,###,###,##0.00')"/>
 																													</fo:inline>
-																												</xsl:for-each>
-																											</xsl:for-each>
+																												</xsl:for-each>																											
 																										</fo:block>
 																									</fo:table-cell>
 																								</fo:table-row>
@@ -4719,14 +4696,12 @@
 																										<fo:block>
 																											<fo:inline>
 																												<xsl:text>&#160;</xsl:text>
-																											</fo:inline>
-																											<xsl:for-each select="//PHS398_TrainingBudget:PHS398_TrainingBudget">
-																												<xsl:for-each select="//PHS398_TrainingBudget:CumulativePredocTotalStipendsRequested">
+																											</fo:inline>																											
+																												<xsl:for-each select="PHS398_TrainingBudget:CumulativePredocTotalStipendsRequested">
 																													<fo:inline>
 																														<xsl:value-of select="format-number(number(string(.)), '#,###,###,###,##0.00')"/>
 																													</fo:inline>
-																												</xsl:for-each>
-																											</xsl:for-each>
+																												</xsl:for-each>																											
 																										</fo:block>
 																									</fo:table-cell>
 																								</fo:table-row>
@@ -4749,14 +4724,12 @@
 																										<fo:block>
 																											<fo:inline>
 																												<xsl:text>&#160;</xsl:text>
-																											</fo:inline>
-																											<xsl:for-each select="//PHS398_TrainingBudget:PHS398_TrainingBudget">
-																												<xsl:for-each select="//PHS398_TrainingBudget:CumulativePredocTotalTuitionAndFeesRequested">
+																											</fo:inline>																											
+																												<xsl:for-each select="PHS398_TrainingBudget:CumulativePredocTotalTuitionAndFeesRequested">
 																													<fo:inline>
 																														<xsl:value-of select="format-number(number(string(.)), '#,###,###,###,##0.00')"/>
 																													</fo:inline>
-																												</xsl:for-each>
-																											</xsl:for-each>
+																												</xsl:for-each>																											
 																										</fo:block>
 																									</fo:table-cell>
 																								</fo:table-row>
@@ -4815,14 +4788,12 @@
 																										<fo:block>
 																											<fo:inline>
 																												<xsl:text>&#160;</xsl:text>
-																											</fo:inline>
-																											<xsl:for-each select="//PHS398_TrainingBudget:PHS398_TrainingBudget">
-																												<xsl:for-each select="//PHS398_TrainingBudget:CumulativePostdocNonDegreeStipendsRequested">
+																											</fo:inline>																											
+																												<xsl:for-each select="PHS398_TrainingBudget:CumulativePostdocNonDegreeStipendsRequested">
 																													<fo:inline>
 																														<xsl:value-of select="format-number(number(string(.)), '#,###,###,###,##0.00')"/>
 																													</fo:inline>
-																												</xsl:for-each>
-																											</xsl:for-each>
+																												</xsl:for-each>																											
 																										</fo:block>
 																									</fo:table-cell>
 																								</fo:table-row>
@@ -4845,14 +4816,12 @@
 																										<fo:block>
 																											<fo:inline>
 																												<xsl:text>&#160;</xsl:text>
-																											</fo:inline>
-																											<xsl:for-each select="//PHS398_TrainingBudget:PHS398_TrainingBudget">
-																												<xsl:for-each select="//PHS398_TrainingBudget:CumulativePostdocNonDegreeTuitionAndFeesRequested">
+																											</fo:inline>																											
+																												<xsl:for-each select="PHS398_TrainingBudget:CumulativePostdocNonDegreeTuitionAndFeesRequested">
 																													<fo:inline>
 																														<xsl:value-of select="format-number(number(string(.)), '#,###,###,###,##0.00')"/>
 																													</fo:inline>
-																												</xsl:for-each>
-																											</xsl:for-each>
+																												</xsl:for-each>																											
 																										</fo:block>
 																									</fo:table-cell>
 																								</fo:table-row>
@@ -4890,14 +4859,12 @@
 																										<fo:block>
 																											<fo:inline>
 																												<xsl:text>&#160;</xsl:text>
-																											</fo:inline>
-																											<xsl:for-each select="//PHS398_TrainingBudget:PHS398_TrainingBudget">
-																												<xsl:for-each select="//PHS398_TrainingBudget:CumulativePostdocDegreeStipendsRequested">
+																											</fo:inline>																											
+																												<xsl:for-each select="PHS398_TrainingBudget:CumulativePostdocDegreeStipendsRequested">
 																													<fo:inline>
 																														<xsl:value-of select="format-number(number(string(.)), '#,###,###,###,##0.00')"/>
 																													</fo:inline>
-																												</xsl:for-each>
-																											</xsl:for-each>
+																												</xsl:for-each>																											
 																										</fo:block>
 																									</fo:table-cell>
 																								</fo:table-row>
@@ -4920,14 +4887,12 @@
 																										<fo:block>
 																											<fo:inline>
 																												<xsl:text>&#160;</xsl:text>
-																											</fo:inline>
-																											<xsl:for-each select="//PHS398_TrainingBudget:PHS398_TrainingBudget">
-																												<xsl:for-each select="//PHS398_TrainingBudget:CumulativePostdocDegreeTuitionAndFeesRequested">
+																											</fo:inline>																											
+																												<xsl:for-each select="PHS398_TrainingBudget:CumulativePostdocDegreeTuitionAndFeesRequested">
 																													<fo:inline>
 																														<xsl:value-of select="format-number(number(string(.)), '#,###,###,###,##0.00')"/>
 																													</fo:inline>
-																												</xsl:for-each>
-																											</xsl:for-each>
+																												</xsl:for-each>																											
 																										</fo:block>
 																									</fo:table-cell>
 																								</fo:table-row>
@@ -4965,14 +4930,12 @@
 																										<fo:block>
 																											<fo:inline>
 																												<xsl:text>&#160;</xsl:text>
-																											</fo:inline>
-																											<xsl:for-each select="//PHS398_TrainingBudget:PHS398_TrainingBudget">
-																												<xsl:for-each select="//PHS398_TrainingBudget:CumulativePostdocTotalStipendsRequested">
+																											</fo:inline>																											
+																												<xsl:for-each select="PHS398_TrainingBudget:CumulativePostdocTotalStipendsRequested">
 																													<fo:inline>
 																														<xsl:value-of select="format-number(number(string(.)), '#,###,###,###,##0.00')"/>
 																													</fo:inline>
-																												</xsl:for-each>
-																											</xsl:for-each>
+																												</xsl:for-each>																											
 																										</fo:block>
 																									</fo:table-cell>
 																								</fo:table-row>
@@ -4995,14 +4958,12 @@
 																										<fo:block>
 																											<fo:inline>
 																												<xsl:text>&#160;</xsl:text>
-																											</fo:inline>
-																											<xsl:for-each select="//PHS398_TrainingBudget:PHS398_TrainingBudget">
-																												<xsl:for-each select="//PHS398_TrainingBudget:CumulativePostdocTotalTuitionAndFeesRequested">
+																											</fo:inline>																											
+																												<xsl:for-each select="PHS398_TrainingBudget:CumulativePostdocTotalTuitionAndFeesRequested">
 																													<fo:inline>
 																														<xsl:value-of select="format-number(number(string(.)), '#,###,###,###,##0.00')"/>
 																													</fo:inline>
-																												</xsl:for-each>
-																											</xsl:for-each>
+																												</xsl:for-each>																											
 																										</fo:block>
 																									</fo:table-cell>
 																								</fo:table-row>
@@ -5057,14 +5018,12 @@
 																										<fo:block>
 																											<fo:inline>
 																												<xsl:text>&#160;</xsl:text>
-																											</fo:inline>
-																											<xsl:for-each select="//PHS398_TrainingBudget:PHS398_TrainingBudget">
-																												<xsl:for-each select="//PHS398_TrainingBudget:CumulativeOtherStipendsRequested">
+																											</fo:inline>																											
+																												<xsl:for-each select="PHS398_TrainingBudget:CumulativeOtherStipendsRequested">
 																													<fo:inline>
 																														<xsl:value-of select="format-number(number(string(.)), '#,###,###,###,##0.00')"/>
 																													</fo:inline>
-																												</xsl:for-each>
-																											</xsl:for-each>
+																												</xsl:for-each>																											
 																										</fo:block>
 																									</fo:table-cell>
 																								</fo:table-row>
@@ -5087,14 +5046,12 @@
 																										<fo:block>
 																											<fo:inline>
 																												<xsl:text>&#160;</xsl:text>
-																											</fo:inline>
-																											<xsl:for-each select="//PHS398_TrainingBudget:PHS398_TrainingBudget">
-																												<xsl:for-each select="//PHS398_TrainingBudget:CumulativeOtherTuitionAndFeesRequested">
+																											</fo:inline>																											
+																												<xsl:for-each select="PHS398_TrainingBudget:CumulativeOtherTuitionAndFeesRequested">
 																													<fo:inline>
 																														<xsl:value-of select="format-number(number(string(.)), '#,###,###,###,##0.00')"/>
 																													</fo:inline>
-																												</xsl:for-each>
-																											</xsl:for-each>
+																												</xsl:for-each>																											
 																										</fo:block>
 																									</fo:table-cell>
 																								</fo:table-row>
@@ -5149,14 +5106,12 @@
 																										<fo:block>
 																											<fo:inline>
 																												<xsl:text>&#160;</xsl:text>
-																											</fo:inline>
-																											<xsl:for-each select="//PHS398_TrainingBudget:PHS398_TrainingBudget">
-																												<xsl:for-each select="//PHS398_TrainingBudget:CumulativeTotalStipendsRequested">
+																											</fo:inline>																											
+																												<xsl:for-each select="PHS398_TrainingBudget:CumulativeTotalStipendsRequested">
 																													<fo:inline>
 																														<xsl:value-of select="format-number(number(string(.)), '#,###,###,###,##0.00')"/>
 																													</fo:inline>
-																												</xsl:for-each>
-																											</xsl:for-each>
+																												</xsl:for-each>																											
 																										</fo:block>
 																									</fo:table-cell>
 																								</fo:table-row>
@@ -5179,14 +5134,12 @@
 																										<fo:block>
 																											<fo:inline>
 																												<xsl:text>&#160;</xsl:text>
-																											</fo:inline>
-																											<xsl:for-each select="//PHS398_TrainingBudget:PHS398_TrainingBudget">
-																												<xsl:for-each select="//PHS398_TrainingBudget:CumulativeTuitionAndFeesRequested">
+																											</fo:inline>																											
+																												<xsl:for-each select="PHS398_TrainingBudget:CumulativeTuitionAndFeesRequested">
 																													<fo:inline>
 																														<xsl:value-of select="format-number(number(string(.)), '#,###,###,###,##0.00')"/>
 																													</fo:inline>
-																												</xsl:for-each>
-																											</xsl:for-each>
+																												</xsl:for-each>																											
 																										</fo:block>
 																									</fo:table-cell>
 																								</fo:table-row>
@@ -5241,14 +5194,12 @@
 																										<fo:block>
 																											<fo:inline>
 																												<xsl:text>&#160;</xsl:text>
-																											</fo:inline>
-																											<xsl:for-each select="//PHS398_TrainingBudget:PHS398_TrainingBudget">
-																												<xsl:for-each select="//PHS398_TrainingBudget:CumulativeTotalStipendsAndTuitionFeesRequested">
+																											</fo:inline>																											
+																												<xsl:for-each select="PHS398_TrainingBudget:CumulativeTotalStipendsAndTuitionFeesRequested">
 																													<fo:inline>
 																														<xsl:value-of select="format-number(number(string(.)), '#,###,###,###,##0.00')"/>
 																													</fo:inline>
-																												</xsl:for-each>
-																											</xsl:for-each>
+																												</xsl:for-each>																											
 																										</fo:block>
 																									</fo:table-cell>
 																								</fo:table-row>
@@ -5315,14 +5266,12 @@
 																										<fo:block>
 																											<fo:inline>
 																												<xsl:text>&#160;</xsl:text>
-																											</fo:inline>
-																											<xsl:for-each select="//PHS398_TrainingBudget:PHS398_TrainingBudget">
-																												<xsl:for-each select="//PHS398_TrainingBudget:CumulativeTraineeTravelRequested">
+																											</fo:inline>																											
+																												<xsl:for-each select="PHS398_TrainingBudget:CumulativeTraineeTravelRequested">
 																													<fo:inline>
 																														<xsl:value-of select="format-number(number(string(.)), '#,###,###,###,##0.00')"/>
 																													</fo:inline>
-																												</xsl:for-each>
-																											</xsl:for-each>
+																												</xsl:for-each>																											
 																										</fo:block>
 																									</fo:table-cell>
 																								</fo:table-row>
@@ -5357,14 +5306,12 @@
 																										<fo:block>
 																											<fo:inline>
 																												<xsl:text>&#160;</xsl:text>
-																											</fo:inline>
-																											<xsl:for-each select="//PHS398_TrainingBudget:PHS398_TrainingBudget">
-																												<xsl:for-each select="//PHS398_TrainingBudget:CumulativeTrainingRelatedExpensesRequested">
+																											</fo:inline>																											
+																												<xsl:for-each select="PHS398_TrainingBudget:CumulativeTrainingRelatedExpensesRequested">
 																													<fo:inline>
 																														<xsl:value-of select="format-number(number(string(.)), '#,###,###,###,##0.00')"/>
 																													</fo:inline>
-																												</xsl:for-each>
-																											</xsl:for-each>
+																												</xsl:for-each>																											
 																										</fo:block>
 																									</fo:table-cell>
 																								</fo:table-row>
@@ -5399,14 +5346,12 @@
 																										<fo:block>
 																											<fo:inline>
 																												<xsl:text>&#160;</xsl:text>
-																											</fo:inline>
-																											<xsl:for-each select="//PHS398_TrainingBudget:PHS398_TrainingBudget">
-																												<xsl:for-each select="//PHS398_TrainingBudget:CumulativeResearchDirectCostsRequested">
+																											</fo:inline>																											
+																												<xsl:for-each select="PHS398_TrainingBudget:CumulativeResearchDirectCostsRequested">
 																													<fo:inline>
 																														<xsl:value-of select="format-number(number(string(.)), '#,###,###,###,##0.00')"/>
 																													</fo:inline>
-																												</xsl:for-each>
-																											</xsl:for-each>
+																												</xsl:for-each>																											
 																										</fo:block>
 																									</fo:table-cell>
 																								</fo:table-row>
@@ -5441,14 +5386,12 @@
 																										<fo:block>
 																											<fo:inline>
 																												<xsl:text>&#160;</xsl:text>
-																											</fo:inline>
-																											<xsl:for-each select="//PHS398_TrainingBudget:PHS398_TrainingBudget">
-																												<xsl:for-each select="//PHS398_TrainingBudget:CumulativeConsortiumTrainingCostsRequested">
+																											</fo:inline>																											
+																												<xsl:for-each select="PHS398_TrainingBudget:CumulativeConsortiumTrainingCostsRequested">
 																													<fo:inline>
 																														<xsl:value-of select="format-number(number(string(.)), '#,###,###,###,##0.00')"/>
 																													</fo:inline>
-																												</xsl:for-each>
-																											</xsl:for-each>
+																												</xsl:for-each>																											
 																										</fo:block>
 																									</fo:table-cell>
 																								</fo:table-row>
@@ -5483,14 +5426,12 @@
 																										<fo:block>
 																											<fo:inline>
 																												<xsl:text>&#160;</xsl:text>
-																											</fo:inline>
-																											<xsl:for-each select="//PHS398_TrainingBudget:PHS398_TrainingBudget">
-																												<xsl:for-each select="//PHS398_TrainingBudget:CumulativeTotalOtherDirectCostsRequested">
+																											</fo:inline>																											
+																												<xsl:for-each select="PHS398_TrainingBudget:CumulativeTotalOtherDirectCostsRequested">
 																													<fo:inline>
 																														<xsl:value-of select="format-number(number(string(.)), '#,###,###,###,##0.00')"/>
 																													</fo:inline>
-																												</xsl:for-each>
-																											</xsl:for-each>
+																												</xsl:for-each>																											
 																										</fo:block>
 																									</fo:table-cell>
 																								</fo:table-row>
@@ -5531,14 +5472,12 @@
 																										<fo:block>
 																											<fo:inline>
 																												<xsl:text>&#160;</xsl:text>
-																											</fo:inline>
-																											<xsl:for-each select="//PHS398_TrainingBudget:PHS398_TrainingBudget">
-																												<xsl:for-each select="//PHS398_TrainingBudget:CumulativeTotalDirectCostsRequested">
+																											</fo:inline>																											
+																												<xsl:for-each select="PHS398_TrainingBudget:CumulativeTotalDirectCostsRequested">
 																													<fo:inline>
 																														<xsl:value-of select="format-number(number(string(.)), '#,###,###,###,##0.00')"/>
 																													</fo:inline>
-																												</xsl:for-each>
-																											</xsl:for-each>
+																												</xsl:for-each>																											
 																										</fo:block>
 																									</fo:table-cell>
 																								</fo:table-row>
@@ -5582,14 +5521,12 @@
 																										<fo:block>
 																											<fo:inline>
 																												<xsl:text>&#160;</xsl:text>
-																											</fo:inline>
-																											<xsl:for-each select="//PHS398_TrainingBudget:PHS398_TrainingBudget">
-																												<xsl:for-each select="//PHS398_TrainingBudget:CumulativeTotalIndirectCostsRequested">
+																											</fo:inline>																											
+																												<xsl:for-each select="PHS398_TrainingBudget:CumulativeTotalIndirectCostsRequested">
 																													<fo:inline>
 																														<xsl:value-of select="format-number(number(string(.)), '#,###,###,###,##0.00')"/>
 																													</fo:inline>
-																												</xsl:for-each>
-																											</xsl:for-each>
+																												</xsl:for-each>																											
 																										</fo:block>
 																									</fo:table-cell>
 																								</fo:table-row>
@@ -5630,14 +5567,12 @@
 																										<fo:block>
 																											<fo:inline>
 																												<xsl:text>&#160;</xsl:text>
-																											</fo:inline>
-																											<xsl:for-each select="//PHS398_TrainingBudget:PHS398_TrainingBudget">
-																												<xsl:for-each select="//PHS398_TrainingBudget:CumulativeTotalDirectAndIndirectCostsRequested">
+																											</fo:inline>																											
+																												<xsl:for-each select="PHS398_TrainingBudget:CumulativeTotalDirectAndIndirectCostsRequested">
 																													<fo:inline>
 																														<xsl:value-of select="format-number(number(string(.)), '#,###,###,###,##0.00')"/>
 																													</fo:inline>
-																												</xsl:for-each>
-																											</xsl:for-each>
+																												</xsl:for-each>																											
 																										</fo:block>
 																									</fo:table-cell>
 																								</fo:table-row>
@@ -5657,8 +5592,7 @@
 										</fo:table-cell>
 									</fo:table-row>
 								</fo:table-body>
-							</fo:table>
-						</xsl:for-each>
+							</fo:table>						
 					</fo:block>
 					<fo:block id="SV_RefID_PageTotal"/>
 				</fo:flow>

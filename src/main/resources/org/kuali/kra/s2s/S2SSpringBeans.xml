@@ -307,17 +307,15 @@
 	<bean id="preValidationTrigger"
 		class="org.kuali.kra.s2s.polling.S2SCronTrigger">
 		<property name="jobDetail" ref="preValidation" />
-		<property name="parameterService"
-			ref="parameterService" />
-		<property name="cronExpressionParameterName"
-			value="s2sScheduler.preValidation.cronExpression">
-		</property>
+		<property name="parameterService" ref="parameterService" />
+		<property name="dateTimeService" ref="dateTimeService" />
+		<property name="cronExpressionParameterName" value="s2sScheduler.preValidation.cronExpression"/>
 	</bean>
 	<bean id="validationTrigger"
 		class="org.kuali.kra.s2s.polling.S2SCronTrigger">
 		<property name="jobDetail" ref="validation" />
-		<property name="parameterService"
-			ref="parameterService" />
+		<property name="parameterService" ref="parameterService" />
+		<property name="dateTimeService" ref="dateTimeService" />
 		<property name="cronExpressionParameterName"
 			value="s2sScheduler.validation.cronExpression">
 		</property>
@@ -325,8 +323,8 @@
 	<bean id="postValidationTrigger"
 		class="org.kuali.kra.s2s.polling.S2SCronTrigger">
 		<property name="jobDetail" ref="postValidation" />
-		<property name="parameterService"
-			ref="parameterService" />
+		<property name="parameterService" ref="parameterService" />
+		<property name="dateTimeService" ref="dateTimeService" />
 		<property name="cronExpressionParameterName"
 			value="s2sScheduler.postValidation.cronExpression">
 		</property>
@@ -334,8 +332,8 @@
 	<bean id="errorOutTrigger"
 		class="org.kuali.kra.s2s.polling.S2SCronTrigger">
 		<property name="jobDetail" ref="errorOut" />
-		<property name="parameterService"
-			ref="parameterService" />
+		<property name="parameterService" ref="parameterService" />
+		<property name="dateTimeService" ref="dateTimeService" />
 		<property name="cronExpressionParameterName"
 			value="s2sScheduler.errorOut.cronExpression">
 		</property>

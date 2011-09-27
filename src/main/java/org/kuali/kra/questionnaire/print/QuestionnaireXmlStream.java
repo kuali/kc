@@ -415,10 +415,12 @@ public class QuestionnaireXmlStream implements XmlStream {
         org.kuali.kra.questionnaire.Questionnaire questionnaire = null;
         try {
             questionnaireDocument = (MaintenanceDocumentBase)documentService.getByDocumentHeaderId(documentNumber);
-            String content = KraServiceLocator.getService(RouteHeaderService.class).getContent(
+            if(questionnaireDocument!=null){
+                String content = KraServiceLocator.getService(RouteHeaderService.class).getContent(
                 questionnaireDocument.getDocumentHeader().getWorkflowDocument().getRouteHeaderId()).getDocumentContent();
-            
-            questionnaire = (org.kuali.kra.questionnaire.Questionnaire)getBusinessObjectFromXML(content,KualiDocumentXmlMaterializer.class.getName());
+                questionnaire = (org.kuali.kra.questionnaire.Questionnaire)getBusinessObjectFromXML(content,KualiDocumentXmlMaterializer.class.getName());
+           
+           }            
         }
         catch (WorkflowException e) {
             LOG.error("Problem in deserializing xmldata to Questionnaire",e);

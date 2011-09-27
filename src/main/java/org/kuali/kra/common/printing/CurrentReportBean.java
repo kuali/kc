@@ -175,12 +175,15 @@ public class CurrentReportBean extends ReportBean {
 
     protected List<Column> createColumns() {
         List<Column> columns = new ArrayList<Column>();
-        columns.add(createColumn("Award Number", "awardNumber", awardNumber, String.class));
+        columns.add(createColumn("Sponsor Award ID", "sponsorAwardNumber", sponsorAwardNumber, String.class));
         columns.add(createColumn("Sponsor", "sponsorName", sponsorName, String.class));
         columns.add(createColumn("Role", "roleCode", roleCode, String.class));
         columns.add(createColumn("Title", "awardTitle", awardTitle, String.class));
-        columns.add(createColumn("Total Direct Cost","totalDirectCostTotal",totalDirectCostTotal,KualiDecimal.class));
-        columns.add(createColumn("Total F&A Cost","totalIndirectCostTotal",totalIndirectCostTotal,KualiDecimal.class));
+        String directIndirectEnabledValue = parameterService.getParameterValue(Constants.PARAMETER_MODULE_AWARD, ParameterConstants.DOCUMENT_COMPONENT, "ENABLE_AWD_ANT_OBL_DIRECT_INDIRECT_COST");
+        if(directIndirectEnabledValue.equals("1")){
+            columns.add(createColumn("Total Direct Cost","totalDirectCostTotal",totalDirectCostTotal,KualiDecimal.class));
+            columns.add(createColumn("Total F&A Cost","totalIndirectCostTotal",totalIndirectCostTotal,KualiDecimal.class));
+        }
         columns.add(createColumn("Award Amount", "awardAmount", awardAmount, KualiDecimal.class));
         columns.add(createColumn("Project Start Date", "projectStartDate", projectStartDate, Date.class));
         columns.add(createColumn("Project End Date", "projectEndDate", projectEndDate, Date.class));

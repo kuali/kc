@@ -190,6 +190,7 @@ public class ProtocolProtocolActionsAction extends ProtocolAction implements Aud
 
     private static final String CONFIRM_DELETE_PROTOCOL_KEY = "confirmDeleteProtocol";
     private static final String CONFIRM_FOLLOWUP_ACTION_KEY = "confirmFollowupAction";
+    private static final String INVALID_ATTACHMENT = "this attachment version is invalid ";
 
     /** signifies that a response has already be handled therefore forwarding to obtain a response is not needed. */
     private static final ActionForward RESPONSE_ALREADY_HANDLED = null;
@@ -741,10 +742,9 @@ public class ProtocolProtocolActionsAction extends ProtocolAction implements Aud
             HttpServletResponse response) throws Exception {
         
         ProtocolForm protocolForm = (ProtocolForm) form;
-        Printable printableArtifact = getProtocolPrintingService().getProtocolPrintArtifacts(protocolForm.getProtocolDocument().getProtocol());
         int selected = getSelectedLine(request);
         ProtocolAttachmentProtocol attachment = protocolForm.getProtocolDocument().getProtocol().getActiveAttachmentProtocols().get(selected);
-        return printAttachmentProtocol(mapping, response, attachment,printableArtifact);
+        return printAttachmentProtocol(mapping, response, attachment,protocolForm);
     }
     
     /**
@@ -937,27 +937,22 @@ public class ProtocolProtocolActionsAction extends ProtocolAction implements Aud
     /*
      * This is to view attachment if attachment is selected in print panel.
      */
-    private ActionForward printAttachmentProtocol(ActionMapping mapping, HttpServletResponse response, ProtocolAttachmentBase attachment,Printable printable) throws Exception {
+    private ActionForward printAttachmentProtocol(ActionMapping mapping, HttpServletResponse response, ProtocolAttachmentBase attachment,ProtocolForm form) throws Exception {
 
         if (attachment == null) {
             return mapping.findForward(Constants.MAPPING_BASIC);
         }
         final AttachmentFile file = attachment.getFile();
-        if(file.getType().equalsIgnoreCase(WatermarkConstants.ATTACHMENT_TYPE_PDF)){  
            byte[] attachmentFile =null;
-           try {  
-              if(printable.isWatermarkEnabled()){    
-                  attachmentFile = getWatermarkService().applyWatermark(file.getData(),printable.getWatermarkable().getWatermark());}
+           String attachmentFileType=file.getType().replace("\"", "");
+           if(attachmentFileType.equalsIgnoreCase(WatermarkConstants.ATTACHMENT_TYPE_PDF)){
+               attachmentFile=getProtocolAttachmentFile(form,attachment);
+               if(attachmentFile!=null){          
+                   this.streamToResponse(attachmentFile, getValidHeaderString(file.getName()), getValidHeaderString(file.getType()), response);    }
+               else{
+                   this.streamToResponse(file.getData(), getValidHeaderString(file.getName()), getValidHeaderString(file.getType()), response);    }
+               return RESPONSE_ALREADY_HANDLED;
            }
-           catch (Exception e) {
-               LOG.error("Exception Occured in ProtocolNoteAndAttachmentAction. : ",e);    
-           }
-           if(attachmentFile!=null){
-               this.streamToResponse(attachmentFile, getValidHeaderString(file.getName()), getValidHeaderString(file.getType()), response);    }
-           else{
-               this.streamToResponse(file.getData(), getValidHeaderString(file.getName()), getValidHeaderString(file.getType()), response);    }
-           return RESPONSE_ALREADY_HANDLED;
-        }
         this.streamToResponse(file.getData(), getValidHeaderString(file.getName()), getValidHeaderString(file.getType()), response);
 //        byte[] watermarkedFile = KraServiceLocator.getService(WatermarkService.class).applyWatermark( file.getData(),getProtocolWatermarkBeanObject("199"));
 //        this.streamToResponse(watermarkedFile, getValidHeaderString(file.getName()), getValidHeaderString(file.getType()), response);
@@ -1030,6 +1025,42 @@ public class ProtocolProtocolActionsAction extends ProtocolAction implements Aud
     }
 
 
+    /**
+     * 
+     * This method for set the attachment with the watermark which selected  by the client .
+     * @param protocolForm form
+     * @param protocolAttachmentBase attachment
+     * @return attachment file
+     */
+    private byte[] getProtocolAttachmentFile(ProtocolForm form,ProtocolAttachmentBase attachment){
+        
+        byte[] attachmentFile =null;
+        final AttachmentFile file = attachment.getFile();
+        Printable printableArtifacts= getProtocolPrintingService().getProtocolPrintArtifacts(form.getProtocolDocument().getProtocol());
+        
+        try {
+            if(printableArtifacts.isWatermarkEnabled()){  
+            Integer attachmentDocumentId =attachment.getDocumentId();
+            List<ProtocolAttachmentProtocol> protocolAttachmentList=form.getDocument().getProtocol().getAttachmentProtocols();
+            for (ProtocolAttachmentProtocol attachmenteach : protocolAttachmentList) {
+                if(attachmentDocumentId.equals(attachmenteach.getDocumentId())){
+                    if(getProtocolAttachmentService().isNewAttachmentVersion(attachmenteach)){
+                        attachmentFile = getWatermarkService().applyWatermark(file.getData(),printableArtifacts.getWatermarkable().getWatermark());
+                    }else{
+                        attachmentFile = getWatermarkService().applyWatermark(file.getData(),printableArtifacts.getWatermarkable().getInvalidWatermark());
+                        LOG.info(INVALID_ATTACHMENT + attachmentDocumentId);  }
+                    }
+                }
+            }
+        }
+        catch (Exception e) {
+            LOG.error("Exception Occured in ProtocolNoteAndAttachmentAction. : ",e);    
+        }        
+        return attachmentFile;
+    }
+    
+    
+    
     /**
      * Filters the actions shown in the History sub-panel, first validating the dates before filtering and refreshing the page.
      * 
