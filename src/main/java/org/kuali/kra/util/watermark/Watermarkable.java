@@ -27,4 +27,10 @@ public interface Watermarkable {
      * bean with respect to the module.
      */
     public WatermarkBean getWatermark();
+    
+    /**
+     * 
+     * This method sets the invalid watermark bean.
+     */
+    public WatermarkBean getInvalidWatermark();
 }
