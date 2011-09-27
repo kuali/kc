@@ -141,21 +141,22 @@ public class QuestionnaireXmlStream implements XmlStream {
      */
     @SuppressWarnings("unchecked")
     private QuestionnaireDocument getQuestionnaireData(
-            KraPersistableBusinessObjectBase printableBusinessObject, Map<String, Object> params) throws PrintingException {
+        KraPersistableBusinessObjectBase printableBusinessObject, Map<String, Object> params) throws PrintingException {
         QuestionnaireDocument questionnaireDocument = QuestionnaireDocument.Factory.newInstance();
         Questionnaire questionnaireType = questionnaireDocument.addNewQuestionnaire();
         
         String documentNumber = (String)params.get("documentNumber");
-        Integer questionnaireId = (Integer)params.get("questionnaireId");
+        String questionnaireIdStr = (String)params.get("questionnaireId");
         org.kuali.kra.questionnaire.Questionnaire questionnaire;
-        if(questionnaireId!=null){ 
+        if(questionnaireIdStr!=null){ 
+            Integer questionnaireId = Integer.valueOf(questionnaireIdStr);
             Map<String,Integer> qParam = new HashMap<String,Integer>();
             qParam.put("questionnaireId", questionnaireId);
             List<org.kuali.kra.questionnaire.Questionnaire> questionnaires = 
                 (List)businessObjectService.findMatchingOrderBy(
                         org.kuali.kra.questionnaire.Questionnaire.class, qParam, "questionnaireRefId", false);
             questionnaire = questionnaires.get(0);
-            // not sure why need this.  If it is not refreshed, some may get empty qnQuestions
+            // not sure why need this.  If it is not refreshed, some may get empty Questions
             questionnaire.refreshReferenceObject("questionnaireQuestions");
         }else{
             questionnaire = findQuestionnaireObject(documentNumber);
