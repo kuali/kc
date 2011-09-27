@@ -86,10 +86,8 @@ public class FinancialEntityEditListAction extends FinancialEntityAction{
         }
         else if ((DEACTIVATE_ENTITY_QUESTION.equals(question)) && ConfirmationQuestion.NO.equals(buttonClicked)) {
             // nothing to do.
-        }
-        else {
-
-            if (reason == null || reason.length() > 1000) {
+        } else {
+            if (StringUtils.isBlank(reason) || reason.length() > 1000) {
                 if (reason == null) {
                     reason = ""; // Prevents null pointer exception in performQuestion
                 }
@@ -175,7 +173,7 @@ public class FinancialEntityEditListAction extends FinancialEntityAction{
                 }
               //  saveFinancialEntity(form, personFinIntDisclosure);
             }
-            ((FinancialEntityForm) form).getFinancialEntityHelper().setEditEntityIndex(entityIndex);
+ //           ((FinancialEntityForm) form).getFinancialEntityHelper().setEditEntityIndex(entityIndex);
         
 
 //        ((FinancialEntityForm) form).getFinancialEntityHelper().setActiveFinancialEntities(getFinancialEntities(true));
@@ -213,7 +211,7 @@ public class FinancialEntityEditListAction extends FinancialEntityAction{
             }
             // saveFinancialEntity(form, personFinIntDisclosure);
         }
-        ((FinancialEntityForm) form).getFinancialEntityHelper().setEditEntityIndex(entityIndex);
+       // ((FinancialEntityForm) form).getFinancialEntityHelper().setEditEntityIndex(entityIndex);
 
 
         // ((FinancialEntityForm) form).getFinancialEntityHelper().setActiveFinancialEntities(getFinancialEntities(true));

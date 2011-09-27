@@ -2966,30 +2966,6 @@ function updateStateFromCountry() {
 }
 
 
-function loadEntityContactInfoFromRolodex(rolodexId, prefix) {
-//        var rolodexId = DWRUtil.getValue( rolodexFieldName );
- 
-        if (rolodexId != '') {
-            var dwrReply = {
-                callback:function(data) {
-                    if ( data != null ) {
-                        DWRUtil.setValue(prefix+".addressLine1", data.addressLine1);
-                        DWRUtil.setValue(prefix+".addressLine2", data.addressLine2);
-                        DWRUtil.setValue(prefix+".addressLine3", data.addressLine3);
-                        DWRUtil.setValue(prefix+".city", data.city);
-                        DWRUtil.setValue(prefix+".state", data.state);
-                        DWRUtil.setValue(prefix+".countryCode", data.countryCode);
-                        DWRUtil.setValue(prefix+".postalCode", data.postalCode);
-                    }
-                },
-                errorHandler:function( errorMessage ) {
-                    window.status = errorMessage;
-                }
-            };
-            RolodexService.getRolodex(rolodexId, dwrReply);
-        }
-    
-}
 
 /*
  * Load the Sponsor Name field based on the Sponsor Code passed in.
@@ -3007,10 +2983,10 @@ function loadSponsor(sponsorCodeFieldName, sponsorNameFieldName, prevSponsorCode
                 if ( data != null ) {
                     if ( sponsorNameFieldName != null && sponsorNameFieldName != "" ) {
                         setRecipientValue( sponsorNameFieldName, data.sponsorName );
-                        if (sponsorCode!=prevSponsorCode) {
+                     //   if (sponsorCode!=prevSponsorCode) {
                             DWRUtil.setValue(prevSponsorCodeFieldName, data.sponsorCode);
                             loadEntityContactInfoFromRolodex(data.rolodexId, findElPrefix( sponsorCodeFieldName )+".finEntityContactInfos[0]");
-                        }
+                     //   }
                     }
                 } else {
                     if ( sponsorNameFieldName != null && sponsorNameFieldName != "" ) {
