@@ -28,6 +28,7 @@ import java.util.Map;
 
 import org.apache.commons.collections.CollectionUtils;
 import org.apache.commons.lang.StringUtils;
+import org.kuali.kra.authorization.ApplicationTask;
 import org.kuali.kra.bo.CoeusModule;
 import org.kuali.kra.bo.CoeusSubModule;
 import org.kuali.kra.committee.bo.CommitteeSchedule;
@@ -93,6 +94,7 @@ import org.kuali.rice.kns.service.BusinessObjectService;
 import org.kuali.rice.kns.service.ParameterService;
 import org.kuali.rice.kns.util.DateUtils;
 import org.kuali.rice.kns.util.GlobalVariables;
+import org.kuali.rice.kns.util.ObjectUtils;
 
 /**
  * The form helper class for the Protocol Actions tab.
@@ -263,6 +265,7 @@ public class ActionHelper implements Serializable {
     private ProtocolGenericActionBean protocolManageReviewCommentsBean;
     private ProtocolGenericActionBean protocolAbandonBean;
 
+    private String currentTaskName = "";
     private boolean prevDisabled;
     private boolean nextDisabled;
     private transient ParameterService parameterService;
@@ -271,7 +274,9 @@ public class ActionHelper implements Serializable {
     private transient ProtocolVersionService protocolVersionService;
     private transient ProtocolSubmitActionService protocolSubmitActionService;
     private transient ProtocolActionService protocolActionService;
-    
+    private boolean hasAmendments;
+    private boolean hasRenewals;
+    private boolean submissionHasNoAmendmentDetails;
     /*
      * Identifies the protocol "document" to print.
      */
@@ -839,9 +844,10 @@ public class ActionHelper implements Serializable {
         canAddTerminateReviewerComments = hasTerminateRequestLastAction();
         hideReviewerName = checkToHideReviewName();
 //        undoLastActionBean = createUndoLastActionBean(getProtocol());
-     
+       
         initSummaryDetails();
         initSubmissionDetails();
+        setAmendmentDetails();
         initFilterDatesView();
         initAmendmentBeans();
         initPrintQuestionnaire();
@@ -2317,38 +2323,66 @@ public class ActionHelper implements Serializable {
         setSubmissionQuestionnaireExist(hasAnsweredQuestionnaire(CoeusSubModule.PROTOCOL_SUBMISSION, Integer.toString(currentSubmissionNumber)));
     }
     
+    public void setCurrentTask(String currentTaskName) {
+        this.currentTaskName = currentTaskName;
+    }
+    
+    public String getCurrentTask() {
+        return currentTaskName;
+    }
     /**
      * This method populates the protocolAmendmentBean with the amendment details from the 
      * current submission.
      * @throws Exception
      */
     protected void setAmendmentDetails() throws Exception {
-        ProtocolAmendmentBean amendmentBean = getProtocolAmendmentBean();
-       
-        // Use the submission number to get the correct amendment details
-        if (getProtocol().isAmendment()) {
-            String originalProtocolNumber = getProtocol().getProtocolAmendRenewal().getProtocolNumber();           
+        /*
+         * Check if the user is trying to modify amendment sections, if so, do not setAmendmentDetials.
+         * If you set it, the user's data gets refreshed and the amendment details from the currentSubmission
+         * will be populated in the protocolAmendmentBean.
+         */
+        if (!currentTaskName.equalsIgnoreCase(TaskName.MODIFY_PROTOCOL_AMMENDMENT_SECTIONS)) {
+            ProtocolAmendmentBean amendmentBean = getProtocolAmendmentBean();
+            String originalProtocolNumber;
+            // Use the submission number to get the correct amendment details
+            if (getProtocol().isAmendment()) {
+                originalProtocolNumber = getProtocol().getProtocolAmendRenewal().getProtocolNumber();           
+            } else {
+                // We want to display amendment details even if the document is not an amendment.
+                // Amendment details needs to be displayed even after the amendment has been merged with the protocol.
+                originalProtocolNumber = getProtocol().getProtocolNumber();
+            }
             List<Protocol> protocols = getProtocolAmendRenewService().getAmendmentAndRenewals(originalProtocolNumber);
-            
+
             ProtocolAmendRenewal correctAmendment = getCorrectAmendment(protocols);
-            amendmentBean.setSummary(correctAmendment.getSummary());
-            amendmentBean.setGeneralInfo((correctAmendment.hasModule(ProtocolModule.GENERAL_INFO)) ? true : false);
-            amendmentBean.setProtocolPersonnel((correctAmendment.hasModule(ProtocolModule.PROTOCOL_PERSONNEL)) ? true : false);
-            amendmentBean.setAreasOfResearch((correctAmendment.hasModule(ProtocolModule.AREAS_OF_RESEARCH)) ? true : false);
-            amendmentBean.setAddModifyAttachments((correctAmendment.hasModule(ProtocolModule.ADD_MODIFY_ATTACHMENTS)) ? true : false);
-            amendmentBean.setFundingSource((correctAmendment.hasModule(ProtocolModule.FUNDING_SOURCE)) ? true : false);
-            amendmentBean.setOthers((correctAmendment.hasModule(ProtocolModule.OTHERS)) ? true : false);
-            amendmentBean.setProtocolOrganizations((correctAmendment.hasModule(ProtocolModule.PROTOCOL_ORGANIZATIONS)) ? true : false);
-            amendmentBean.setProtocolPermissions((correctAmendment.hasModule(ProtocolModule.PROTOCOL_PERMISSIONS)) ? true : false);
-            amendmentBean.setProtocolReferencesAndOtherIdentifiers((correctAmendment.hasModule(ProtocolModule.PROTOCOL_REFERENCES)) ? true : false);
-            amendmentBean.setQuestionnaire((correctAmendment.hasModule(ProtocolModule.QUESTIONNAIRE)) ? true : false);
-            amendmentBean.setSpecialReview((correctAmendment.hasModule(ProtocolModule.SPECIAL_REVIEW)) ? true : false);
-            amendmentBean.setSubjects((correctAmendment.hasModule(ProtocolModule.SUBJECTS)) ? true : false);
-
+            if (ObjectUtils.isNotNull(correctAmendment)) {
+                setSubmissionHasNoAmendmentDetails(false);
+                amendmentBean.setSummary(correctAmendment.getSummary());
+                amendmentBean.setGeneralInfo((correctAmendment.hasModule(ProtocolModule.GENERAL_INFO)) ? true : false);
+                amendmentBean.setProtocolPersonnel((correctAmendment.hasModule(ProtocolModule.PROTOCOL_PERSONNEL)) ? true : false);
+                amendmentBean.setAreasOfResearch((correctAmendment.hasModule(ProtocolModule.AREAS_OF_RESEARCH)) ? true : false);
+                amendmentBean.setAddModifyAttachments((correctAmendment.hasModule(ProtocolModule.ADD_MODIFY_ATTACHMENTS)) ? true : false);
+                amendmentBean.setFundingSource((correctAmendment.hasModule(ProtocolModule.FUNDING_SOURCE)) ? true : false);
+                amendmentBean.setOthers((correctAmendment.hasModule(ProtocolModule.OTHERS)) ? true : false);
+                amendmentBean.setProtocolOrganizations((correctAmendment.hasModule(ProtocolModule.PROTOCOL_ORGANIZATIONS)) ? true : false);
+                amendmentBean.setProtocolPermissions((correctAmendment.hasModule(ProtocolModule.PROTOCOL_PERMISSIONS)) ? true : false);
+                amendmentBean.setProtocolReferencesAndOtherIdentifiers((correctAmendment.hasModule(ProtocolModule.PROTOCOL_REFERENCES)) ? true : false);
+                amendmentBean.setQuestionnaire((correctAmendment.hasModule(ProtocolModule.QUESTIONNAIRE)) ? true : false);
+                amendmentBean.setSpecialReview((correctAmendment.hasModule(ProtocolModule.SPECIAL_REVIEW)) ? true : false);
+                amendmentBean.setSubjects((correctAmendment.hasModule(ProtocolModule.SUBJECTS)) ? true : false);
+            } else {
+                setSubmissionHasNoAmendmentDetails(true);
+            }
         }
-
     }
-        
+    
+    public void setSubmissionHasNoAmendmentDetails(boolean submissionHasNoAmendmentDetails) {
+        this.submissionHasNoAmendmentDetails = submissionHasNoAmendmentDetails;
+    }
+    
+    public boolean getSubmissionHasNoAmendmentDetails() {
+        return submissionHasNoAmendmentDetails;
+    }
     
     /**
      * This method returns the amendRenewal bean with the current submission number. 
@@ -2358,7 +2392,8 @@ public class ActionHelper implements Serializable {
     protected ProtocolAmendRenewal getCorrectAmendment(List<Protocol> protocols) {
         for (Protocol protocol : protocols) {
             // There should always be an amendment with the current submission number.
-            if (protocol.isAmendment() && protocol.getProtocolSubmission().getSubmissionNumber() == currentSubmissionNumber) {
+            if (protocol.isAmendment() && ObjectUtils.isNotNull(protocol.getProtocolSubmission().getSubmissionNumber()) 
+                && protocol.getProtocolSubmission().getSubmissionNumber() == currentSubmissionNumber) {
                 return protocol.getProtocolAmendRenewal();
             }
         }
@@ -2474,6 +2509,37 @@ public class ActionHelper implements Serializable {
         }
     }
 
+    /**
+     * This method returns true if a protocol has amendments
+     * @return
+     * @throws Exception
+     */
+    public boolean getHasAmendments() throws Exception {
+        if (getProtocol().isAmendment()) {
+            hasAmendments = true;
+        } else {
+            List<Protocol> protocols = (List<Protocol>) getProtocolAmendRenewService().getAmendments(getProtocol().getProtocolNumber());
+            hasAmendments = protocols.isEmpty() ? false : true;
+        } 
+        return hasAmendments;
+    }
+    
+    
+    /**
+     * This method returns true if a protocol has renewals.
+     * @return
+     * @throws Exception
+     */
+    public boolean getHasRenewals() throws Exception {
+        if (getProtocol().isRenewal()) {
+            hasRenewals = true;
+        } else {
+            List<Protocol> protocols = (List<Protocol>) getProtocolAmendRenewService().getRenewals(getProtocol().getProtocolNumber());
+            hasRenewals = protocols.isEmpty() ? false : true;
+        }
+        return hasRenewals;
+    }
+    
     public void addNotifyIrbAttachment() {
         getProtocolNotifyIrbBean().getActionAttachments().add(
                 getProtocolNotifyIrbBean().getNewActionAttachment());

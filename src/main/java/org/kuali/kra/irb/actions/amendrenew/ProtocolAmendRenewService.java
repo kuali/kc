@@ -15,6 +15,7 @@
  */
 package org.kuali.kra.irb.actions.amendrenew;
 
+import java.util.Collection;
 import java.util.List;
 
 import org.kuali.kra.irb.Protocol;
@@ -70,6 +71,22 @@ public interface ProtocolAmendRenewService {
      * @throws Exception 
      */
     public List<Protocol> getAmendmentAndRenewals(String protocolNumber) throws Exception;
+    
+    /**
+     * This method returns all of the amendments associated with a protocol.
+     * @param protocolNumber
+     * @return the list of amendments
+     * @throws Exception
+     */
+    public Collection<Protocol> getAmendments(String protocolNumber) throws Exception;
+    
+    /**
+     * This method returns all of the renewals associated with a protocol.
+     * @param protocolNumber
+     * @return the list of renewals
+     * @throws Exception
+     */
+    public Collection<Protocol> getRenewals(String protocolNumber) throws Exception;
     
     /**
      * Get the list of protocol modules that can be amended.  Modules that

@@ -220,6 +220,7 @@ public class ProtocolProtocolActionsAction extends ProtocolAction implements Aud
         protocolForm.getActionHelper().prepareView();
         // submit action may change "submission details", so re-initializa it
         protocolForm.getActionHelper().initSubmissionDetails();
+        
         return actionForward;
     }
 
@@ -558,14 +559,14 @@ public class ProtocolProtocolActionsAction extends ProtocolAction implements Aud
 
         ProtocolForm protocolForm = (ProtocolForm) form;
         Protocol protocol = protocolForm.getProtocolDocument().getProtocol();
-        
+        protocolForm.getActionHelper().setCurrentTask(TaskName.MODIFY_PROTOCOL_AMMENDMENT_SECTIONS);
         ProtocolTask task = new ProtocolTask(TaskName.MODIFY_PROTOCOL_AMMENDMENT_SECTIONS, protocol);
         if (isAuthorized(task)) {
             if (!applyRules(new ModifyAmendmentSectionsEvent(protocolForm.getProtocolDocument(), Constants.PROTOCOL_CREATE_AMENDMENT_KEY,
                 protocolForm.getActionHelper().getProtocolAmendmentBean()))) {
                 return mapping.findForward(Constants.MAPPING_BASIC);
             }
-
+        
             getProtocolAmendRenewService().updateAmendmentRenewal(protocolForm.getProtocolDocument(), 
                     protocolForm.getActionHelper().getProtocolAmendmentBean());
             
