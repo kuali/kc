@@ -28,14 +28,14 @@
 <tr>
     <td class="tab-subhead" colspan="2" scope="row">
 		<kul:innerTab tabTitle="${tabTitle}" parentTab="" defaultOpen="false" tabErrorKey="" overrideDivClass="inner-subhead">
-		    <div class="innerTab-container" align="left">
+		    <div class="innerTab-container" align="left">		    		    	
 		        <table class="tab" cellpadding="0" cellspacing="0" summary="">
 		            <tbody>
 		                <tr>
 		                    <th width="15%"> 
 		                        <div align="right">
 		                            <nobr>
-		                            <kul:htmlAttributeLabel attributeEntry="${attributes.summary}" />
+	                                    	* Summary:
 		                            </nobr>
 		                        </div>
 		                    </th>
@@ -51,7 +51,14 @@
 		                <tr>
 		                    <th width="15%">
 		                        <div align="right">
-		                            *Amend:
+		                        	<c:choose>
+		                        		<c:when test="${KualiForm.protocolDocument.renewal}">
+		                            		* Renew:
+		                            	</c:when>
+		                            	<c:otherwise>
+		                                	* Amend: 
+		                            	</c:otherwise>
+		                            </c:choose>
 		                        </div>
 		                    </th>
 		                    <td>
