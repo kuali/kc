@@ -4,7 +4,7 @@
 <c:set var="negotiationUnassociatedDetailAttributes" value="${DataDictionary.NegotiationUnassociatedDetail.attributes}" />
 <c:set var="action" value="negotiationNegotiation" />
 <c:set var="className" value="org.kuali.kra.negotiations.document.NegotiationDocument" />
-<c:set var="readOnly" value="${false}" scope="request" />
+<c:set var="readOnly" value="${not KualiForm.editingMode['modify']}"/>
 <script type='text/javascript' src='dwr/interface/KraPersonService.js'></script>
 
 <kul:tab tabTitle="Negotiation" defaultOpen="true" 
@@ -43,15 +43,17 @@
             <tr>
 		        <th><div align="right"><kul:htmlAttributeLabel attributeEntry="${negotiationAttributes.negotiatorPersonId}" /></div></th>
                 <td>
-                    <html:text property="document.negotiationList[0].negotiatorUserName" 
-						onblur="loadContactPersonName('document.negotiationList[0].negotiatorUserName',
-									'negotiator.fullName',
-									'na',
-									'na',
-									'na',
-									'na');"
-                    	readonly="${readOnly}"/>
-					<kul:checkErrors keyMatch="document.negotiationList[0].negotiatorUserName" auditMatch="document.negotiationList[0].negotiatorUserName"/>  
+                	<c:if test="${!readOnly}">
+	                    <html:text property="document.negotiationList[0].negotiatorUserName" 
+							onblur="loadContactPersonName('document.negotiationList[0].negotiatorUserName',
+										'negotiator.fullName',
+										'na',
+										'na',
+										'na',
+										'na');"
+	                    	readonly="${readOnly}"/>
+						<kul:checkErrors keyMatch="document.negotiationList[0].negotiatorUserName" auditMatch="document.negotiationList[0].negotiatorUserName"/>
+					</c:if>  
             		<c:if test="${hasErrors}">
 	 					<kul:fieldShowErrorIcon />
   					</c:if>                    	
@@ -184,15 +186,16 @@
             			</div>
                 	</th>
                 	<td>
-                		<html:text property="document.negotiation.unAssociatedDetail.PIEmployee.userName" 
-							onblur="loadContactPersonName('document.negotiation.unAssociatedDetail.PIEmployee.userName',
-										'PIEmployee.fullName',
-										'na',
-										'na',
-										'na',
-										'document.negotiation.unAssociatedDetail.piPersonId');"
-	                    	readonly="${readOnly}"/>
-	                    <c:if test="${!readOnly}">
+                		<c:if test="${!readOnly}">
+	                		<html:text property="document.negotiation.unAssociatedDetail.PIEmployee.userName" 
+								onblur="loadContactPersonName('document.negotiation.unAssociatedDetail.PIEmployee.userName',
+											'PIEmployee.fullName',
+											'na',
+											'na',
+											'na',
+											'document.negotiation.unAssociatedDetail.piPersonId');"
+		                    	readonly="${readOnly}"/>
+	                    
 	                        ${kfunc:registerEditableProperty(KualiForm, "document.negotiation.unAssociatedDetail.piPersonId")}
 		                    <html:hidden property="document.negotiation.unAssociatedDetail.piPersonId" styleId="document.negotiation.unAssociatedDetail.piPersonId"/>
 		                	<kul:lookup boClassName="org.kuali.kra.bo.KcPerson" 
@@ -227,15 +230,16 @@
             			</div>
 	                </th>
 	                <td>
-	                	<html:text property="document.negotiation.unAssociatedDetail.contactAdmin.userName" 
-							onblur="loadContactPersonName('document.negotiation.unAssociatedDetail.contactAdmin.userName',
-										'PINonEmployee.fullName',
-										'na',
-										'na',
-										'na',
-										'document.negotiation.unAssociatedDetail.contactAdminPersonId');"
-	                    	readonly="${readOnly}"/>
-	                    <c:if test="${!readOnly}">
+	                	<c:if test="${!readOnly}">
+		                	<html:text property="document.negotiation.unAssociatedDetail.contactAdmin.userName" 
+								onblur="loadContactPersonName('document.negotiation.unAssociatedDetail.contactAdmin.userName',
+											'PINonEmployee.fullName',
+											'na',
+											'na',
+											'na',
+											'document.negotiation.unAssociatedDetail.contactAdminPersonId');"
+		                    	readonly="${readOnly}"/>
+	                    
 	                        ${kfunc:registerEditableProperty(KualiForm, "document.negotiation.unAssociatedDetail.contactAdminPersonId")}
 		                    <html:hidden property="document.negotiation.unAssociatedDetail.contactAdminPersonId" styleId="document.negotiation.unAssociatedDetail.contactAdminPersonId"/>
 		                	<kul:lookup boClassName="org.kuali.kra.bo.KcPerson" 
