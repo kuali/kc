@@ -146,10 +146,9 @@ public class QuestionnaireXmlStream implements XmlStream {
         Questionnaire questionnaireType = questionnaireDocument.addNewQuestionnaire();
         
         String documentNumber = (String)params.get("documentNumber");
-        String questionnaireIdStr = (String)params.get("questionnaireId");
+        Integer questionnaireId = (Integer)params.get("questionnaireId");
         org.kuali.kra.questionnaire.Questionnaire questionnaire;
-        if(questionnaireIdStr!=null){ 
-            Integer questionnaireId = Integer.valueOf(questionnaireIdStr);
+        if(questionnaireId!=null){ 
             Map<String,Integer> qParam = new HashMap<String,Integer>();
             qParam.put("questionnaireId", questionnaireId);
             List<org.kuali.kra.questionnaire.Questionnaire> questionnaires = 
@@ -386,8 +385,8 @@ public class QuestionnaireXmlStream implements XmlStream {
 
     /**
      * 
-     * This method is used when Print job call comes from Questionnaire Maintenance Document. If It doesnt find any approved questionnaire document with
-     * the documentNumber, it fetch the xml data, deserialize it to Questionnaire BO.
+     * This method is used when Print job call comes from Questionnaire Maintenance Document. If It doesn't find any approved questionnaire document with
+     * the documentNumber, it fetches the xml data, deserializing it to Questionnaire BO.
      * @param documentNumber
      * @return
      * @throws PrintingException 
@@ -419,7 +418,6 @@ public class QuestionnaireXmlStream implements XmlStream {
                 String content = KraServiceLocator.getService(RouteHeaderService.class).getContent(
                 questionnaireDocument.getDocumentHeader().getWorkflowDocument().getRouteHeaderId()).getDocumentContent();
                 questionnaire = (org.kuali.kra.questionnaire.Questionnaire)getBusinessObjectFromXML(content,KualiDocumentXmlMaterializer.class.getName());
-           
            }            
         }
         catch (WorkflowException e) {
