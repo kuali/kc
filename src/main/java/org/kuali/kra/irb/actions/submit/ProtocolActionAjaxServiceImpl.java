@@ -82,24 +82,24 @@ public class ProtocolActionAjaxServiceImpl implements ProtocolActionAjaxService 
         if (GlobalVariables.getUserSession() != null) {
             // TODO : this is a quick hack for KC 3.1.1 to provide authorization check for dwr/ajax call. dwr/ajax will be replaced by
             // jquery/ajax in rice 2.0
-                 if (StringUtils.isBlank(docFormKey)) {
-                    isAuthorized = false;
-                    LOG.info("Attention: docFormKey is blank ");
+            if (StringUtils.isBlank(docFormKey)) {
+//              isAuthorized = false;
+                LOG.info("Attention: docFormKey is blank ");
+            } else {
+                Object formObj = GlobalVariables.getUserSession().retrieveObject(docFormKey);
+                if (formObj == null || !(formObj instanceof ProtocolForm)) {
+//                  isAuthorized = false;
+                    LOG.info("Attention: formObj is incorrect format for docFormKey = " + docFormKey + ", obj = " + formObj);
                 } else {
-                    Object formObj = GlobalVariables.getUserSession().retrieveObject(docFormKey);
-                    if (formObj == null || !(formObj instanceof ProtocolForm)) {
-                        isAuthorized = false;
-                        LOG.info("Attention: formObj is incorrect format for docFormKey = " + docFormKey + ", obj = " + formObj);
-                    } else {
-                        ActionHelper actionHelper = ((ProtocolForm) formObj).getActionHelper();
-                        isAuthorized = actionHelper.getCanAssignCmtSched()
+                    ActionHelper actionHelper = ((ProtocolForm) formObj).getActionHelper();
+                    isAuthorized = actionHelper.getCanAssignCmtSched()
                                 || actionHelper.getCanSubmitProtocol() || actionHelper.getCanAssignReviewers();
-                        if (!isAuthorized) {
-                            LOG.info("Attention: isAuthorized is false!");
-                        }
+                    if (!isAuthorized) {
+                        LOG.info("Attention: isAuthorized is false!");
                     }
-
                 }
+
+            }
             
         } else {
             // TODO : it seemed that tomcat has this issue intermittently ?
