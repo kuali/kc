@@ -265,12 +265,10 @@ public class NegotiationServiceImpl implements NegotiationService {
     }
     
     public boolean isPersonIsAssociatedPerson(Negotiation negotiation, String personToCheckPersonId) {
-        System.err.println(" negotiation != null: " + (negotiation != null) + "  negotiation.getNegotiationAssociationType() != null:" + (negotiation.getNegotiationAssociationType() != null));
         if (negotiation != null && negotiation.getNegotiationAssociationType() != null) {
             if (StringUtils.equals(negotiation.getNegotiationAssociationType().getCode(), NegotiationAssociationType.AWARD_ASSOCIATION)) {
                 Award award = getAward(negotiation.getAssociatedDocumentId());
                 List<AwardPerson> persons = award.getProjectPersons();
-                System.err.println("persons.size(): " + persons.size());
                 for (AwardPerson person : persons) {
                     if (StringUtils.equals(person.getPerson().getPersonId(), personToCheckPersonId)) {
                         return true;
