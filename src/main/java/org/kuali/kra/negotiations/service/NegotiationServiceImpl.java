@@ -285,6 +285,14 @@ public class NegotiationServiceImpl implements NegotiationService {
                 }
             } else if (StringUtils.equals(negotiation.getNegotiationAssociationType().getCode(), 
                     NegotiationAssociationType.NONE_ASSOCIATION)) {
+                if (negotiation.getUnAssociatedDetail() == null && negotiation.getAssociatedDocumentId() != null){
+                    findAndLoadNegotiationUnassociatedDetail(negotiation, false);
+                }
+                if (negotiation.getUnAssociatedDetail().getPIEmployee() != null) {
+                    if (StringUtils.equals(negotiation.getUnAssociatedDetail().getPIEmployee().getPersonId(), personToCheckPersonId)) {
+                        return true;
+                    }
+                }
                 //bo = negotiation.getUnAssociatedDetail();
             } else if (StringUtils.equals(negotiation.getNegotiationAssociationType().getCode(), 
                     NegotiationAssociationType.PROPOSAL_LOG_ASSOCIATION)) {
@@ -298,6 +306,20 @@ public class NegotiationServiceImpl implements NegotiationService {
             }
         }
         return false;
+    }
+    
+    public void findAndLoadNegotiationUnassociatedDetail(Negotiation negotiation, boolean reload) {
+        if (negotiation.getNegotiationAssociationType() != null 
+                && StringUtils.equalsIgnoreCase(negotiation.getNegotiationAssociationType().getCode(), NegotiationAssociationType.NONE_ASSOCIATION) 
+                && StringUtils.isNotEmpty(negotiation.getAssociatedDocumentId())) {
+            if (reload || negotiation.getUnAssociatedDetail() == null) {
+                Map params = new HashMap();
+                params.put("NEGOTIATION_UNASSOC_DETAIL_ID", negotiation.getAssociatedDocumentId());
+                NegotiationUnassociatedDetail unAssociatedDetail = (NegotiationUnassociatedDetail) 
+                        this.getBusinessObjectService().findByPrimaryKey(NegotiationUnassociatedDetail.class, params);
+                negotiation.setUnAssociatedDetail(unAssociatedDetail);
+            }
+        }
     }
 
 }
