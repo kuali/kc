@@ -27,16 +27,23 @@ import org.kuali.kra.award.budget.AwardBudgetService;
 import org.kuali.kra.award.contacts.AwardPerson;
 import org.kuali.kra.award.home.Award;
 import org.kuali.kra.bo.KcPerson;
+import org.kuali.kra.infrastructure.Constants;
+import org.kuali.kra.infrastructure.RoleConstants;
 import org.kuali.kra.institutionalproposal.contacts.InstitutionalProposalPerson;
 import org.kuali.kra.institutionalproposal.home.InstitutionalProposal;
 import org.kuali.kra.institutionalproposal.proposallog.ProposalLog;
 import org.kuali.kra.institutionalproposal.service.InstitutionalProposalService;
+import org.kuali.kra.kim.bo.KcKimAttributes;
+import org.kuali.kra.kim.service.impl.UnitAdministratorDerivedRoleTypeServiceImpl;
 import org.kuali.kra.negotiations.bo.Negotiation;
 import org.kuali.kra.negotiations.bo.NegotiationAssociatedDetailBean;
 import org.kuali.kra.negotiations.bo.NegotiationAssociationType;
 import org.kuali.kra.negotiations.bo.NegotiationStatus;
 import org.kuali.kra.negotiations.bo.NegotiationUnassociatedDetail;
 import org.kuali.kra.negotiations.document.NegotiationDocument;
+import org.kuali.kra.service.KcPersonService;
+import org.kuali.rice.kim.bo.role.dto.RoleMembershipInfo;
+import org.kuali.rice.kim.bo.types.dto.AttributeSet;
 import org.kuali.rice.kns.bo.BusinessObject;
 import org.kuali.rice.kns.service.BusinessObjectService;
 import org.kuali.rice.kns.service.ParameterService;
@@ -51,6 +58,8 @@ public class NegotiationServiceImpl implements NegotiationService {
     private ParameterService parameterService;
     private AwardBudgetService awardBudgetService;
     private InstitutionalProposalService institutionalProposalService;
+    private UnitAdministratorDerivedRoleTypeServiceImpl unitAdministratorDerivedRoleTypeServiceImpl;
+    private KcPersonService kcPersonService;
     
     private BusinessObjectService businessObjectService;
     
@@ -120,13 +129,16 @@ public class NegotiationServiceImpl implements NegotiationService {
                 bean = new NegotiationAssociatedDetailBean(pl);
             } else if (StringUtils.equals(negotiation.getNegotiationAssociationType().getCode(), 
                     NegotiationAssociationType.SUB_AWARD_ASSOCIATION)) {
-                bean = new NegotiationAssociatedDetailBean();
+                bean = new NegotiationAssociatedDetailBean("");
             } else {
                 throw new IllegalArgumentException(negotiation.getNegotiationAssociationType().getCode() + " is an invalid code, should never gete here!");
             }
+            if (bean.getDisplayOSPAdministrators()) {
+                bean.setOspAdministrators(this.getOSPAdministrators(negotiation.getLeadUnitNumber()));
+            }
             return bean;
         } else {
-            return new NegotiationAssociatedDetailBean();
+            return new NegotiationAssociatedDetailBean("");
         }
     }
     
@@ -179,37 +191,7 @@ public class NegotiationServiceImpl implements NegotiationService {
         return (NegotiationAssociationType) this.getBusinessObjectService().findMatching(NegotiationAssociationType.class, params).iterator().next();
     }
 
-    protected ParameterService getParameterService() {
-        return parameterService;
-    }
-
-    public void setParameterService(ParameterService parameterService) {
-        this.parameterService = parameterService;
-    }
-
-    public BusinessObjectService getBusinessObjectService() {
-        return businessObjectService;
-    }
-
-    public void setBusinessObjectService(BusinessObjectService businessObjectService) {
-        this.businessObjectService = businessObjectService;
-    }
-
-    public AwardBudgetService getAwardBudgetService() {
-        return awardBudgetService;
-    }
-
-    public void setAwardBudgetService(AwardBudgetService awardBudgetService) {
-        this.awardBudgetService = awardBudgetService;
-    }
-
-    public InstitutionalProposalService getInstitutionalProposalService() {
-        return institutionalProposalService;
-    }
-
-    public void setInstitutionalProposalService(InstitutionalProposalService institutionalProposalService) {
-        this.institutionalProposalService = institutionalProposalService;
-    }
+    
 
     @Override
     public boolean isAwardLinkingEnabled() {
@@ -264,6 +246,10 @@ public class NegotiationServiceImpl implements NegotiationService {
         
     }
     
+    /**
+     * 
+     * @see org.kuali.kra.negotiations.service.NegotiationService#isPersonIsAssociatedPerson(org.kuali.kra.negotiations.bo.Negotiation, java.lang.String)
+     */
     public boolean isPersonIsAssociatedPerson(Negotiation negotiation, String personToCheckPersonId) {
         if (negotiation != null && negotiation.getNegotiationAssociationType() != null) {
             if (StringUtils.equals(negotiation.getNegotiationAssociationType().getCode(), NegotiationAssociationType.AWARD_ASSOCIATION)) {
@@ -308,6 +294,10 @@ public class NegotiationServiceImpl implements NegotiationService {
         return false;
     }
     
+    /**
+     * 
+     * @see org.kuali.kra.negotiations.service.NegotiationService#findAndLoadNegotiationUnassociatedDetail(org.kuali.kra.negotiations.bo.Negotiation, boolean)
+     */
     public void findAndLoadNegotiationUnassociatedDetail(Negotiation negotiation, boolean reload) {
         if (negotiation.getNegotiationAssociationType() != null 
                 && StringUtils.equalsIgnoreCase(negotiation.getNegotiationAssociationType().getCode(), NegotiationAssociationType.NONE_ASSOCIATION) 
@@ -321,5 +311,87 @@ public class NegotiationServiceImpl implements NegotiationService {
             }
         }
     }
+    
+    /**
+     * 
+     * @see org.kuali.kra.negotiations.service.NegotiationService#getOSPAdministrators(java.lang.String)
+     */
+    public List<KcPerson> getOSPAdministrators(String unitNumber) {
+        List<KcPerson> kcPeople = new ArrayList<KcPerson>();
+        AttributeSet qualification = new AttributeSet();
+        qualification.put(KcKimAttributes.UNIT_NUMBER, unitNumber);
+        List<RoleMembershipInfo> roleMembershipInfos = this.getUnitAdministratorDerivedRoleTypeServiceImpl().getRoleMembersFromApplicationRole(
+                Constants.MODULE_NAMESPACE_NEGOTIATION, RoleConstants.OSP_ADMINISTRATOR, qualification);
+        for (RoleMembershipInfo info : roleMembershipInfos) {
+            if (StringUtils.equalsIgnoreCase(info.getMemberTypeCode(), "p")) {
+                //this is a person
+                KcPerson person = this.getKcPersonService().getKcPersonByPersonId(info.getMemberId());
+                if (!IsPersonInList(kcPeople, person)){
+                    kcPeople.add(person);
+                }
+                
+            }
+        }
+        return kcPeople;
+    }
+    
+    private boolean IsPersonInList(List<KcPerson> kcPeople, KcPerson person) {
+        for (KcPerson thisPerson : kcPeople) {
+            if (StringUtils.equals(thisPerson.getPersonId(), person.getPersonId())) {
+                return true;
+            }
+        }
+        return false;
+    }
+    
+    protected ParameterService getParameterService() {
+        return parameterService;
+    }
 
+    public void setParameterService(ParameterService parameterService) {
+        this.parameterService = parameterService;
+    }
+
+    public BusinessObjectService getBusinessObjectService() {
+        return businessObjectService;
+    }
+
+    public void setBusinessObjectService(BusinessObjectService businessObjectService) {
+        this.businessObjectService = businessObjectService;
+    }
+
+    public AwardBudgetService getAwardBudgetService() {
+        return awardBudgetService;
+    }
+
+    public void setAwardBudgetService(AwardBudgetService awardBudgetService) {
+        this.awardBudgetService = awardBudgetService;
+    }
+
+    public InstitutionalProposalService getInstitutionalProposalService() {
+        return institutionalProposalService;
+    }
+
+    public void setInstitutionalProposalService(InstitutionalProposalService institutionalProposalService) {
+        this.institutionalProposalService = institutionalProposalService;
+    }
+
+    public UnitAdministratorDerivedRoleTypeServiceImpl getUnitAdministratorDerivedRoleTypeServiceImpl() {
+        return unitAdministratorDerivedRoleTypeServiceImpl;
+    }
+
+    public void setUnitAdministratorDerivedRoleTypeServiceImpl(
+            UnitAdministratorDerivedRoleTypeServiceImpl unitAdministratorDerivedRoleTypeServiceImpl) {
+        this.unitAdministratorDerivedRoleTypeServiceImpl = unitAdministratorDerivedRoleTypeServiceImpl;
+    }
+
+    public KcPersonService getKcPersonService() {
+        return kcPersonService;
+    }
+
+    public void setKcPersonService(KcPersonService kcPersonService) {
+        this.kcPersonService = kcPersonService;
+    }
+    
+    
 }

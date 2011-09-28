@@ -102,7 +102,7 @@ public interface Constants {
     public static final String MODULE_NAMESPACE_PROPOSAL_DEVELOPMENT = "KC-PD";
     public static final String MODULE_NAMESPACE_INSTITUTIONAL_PROPOSAL = "KC-IP";
     public static final String MODULE_NAMESPACE_AWARD = "KC-AWARD"; 
-    public static final String MODULE_NAMESPANCE_NEGOTIATION = "KC-NEGOTIATION";
+    public static final String MODULE_NAMESPACE_NEGOTIATION = "KC-NEGOTIATION";
     
     public static final String PESSIMISTIC_LOCKING_EXPIRATION_AGE = "pessimisticLocking.expirationAge";
     
@@ -738,8 +738,5 @@ public interface Constants {
 
     // coi
     public static final String MODULE_NAMESPACE_COIDISCLOSURE = "KC-COIDISCLOSURE"; 
-    
-    //negotiation
-    public static final String MODULE_NAMESPACE_NEGOTIATION = "KC-NEGOTIATION";
 
 }

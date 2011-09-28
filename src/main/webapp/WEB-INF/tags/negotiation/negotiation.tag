@@ -368,6 +368,20 @@
 	                <th></th>
 	                <td></td>
             	</tr>
+            	
+            	<c:if test="${KualiForm.negotiationAssociatedDetailBean.displayOSPAdministrators}">
+            		<tr>
+            			<th><div align="right">OSP Administrators:</div></th>
+            			<td>
+            				<c:forEach items="${KualiForm.negotiationAssociatedDetailBean.ospAdministrators}" var="current">
+            					<c:out value="${current.fullName}"/>
+            					<Br/>
+            				</c:forEach>
+            			</td>
+            			<th></th>
+            			<td></td>
+            		</tr>
+            	</c:if>
             	            	
             	<tr>
             		<th>
