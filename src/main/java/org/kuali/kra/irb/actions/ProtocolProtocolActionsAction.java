@@ -182,14 +182,11 @@ public class ProtocolProtocolActionsAction extends ProtocolAction implements Aud
     private static final String CONFIRM_ASSIGN_TO_AGENDA_KEY = "confirmAssignToAgenda";
     private static final String CONFIRM_ASSIGN_CMT_SCHED_KEY = "confirmAssignCmtSched";
     private static final String CONIFRM_REMOVE_REVIEWER_KEY="confirmRemoveReviewer";
-    private static final String CONFIRM_REMOVE_EXISTING_REVIEWS_KEY="confirmRemoveExistingReviews";
-    private static final String SCHEDULE_CHANGE_REMOVE_ONLINE_REVIEW_ANNOTATION="Online Review removed due to submission committee or schedule change.";
     
     
     private static final String NOT_FOUND_SELECTION = "The attachment was not found for selection ";
 
     private static final String CONFIRM_DELETE_PROTOCOL_KEY = "confirmDeleteProtocol";
-    private static final String CONFIRM_FOLLOWUP_ACTION_KEY = "confirmFollowupAction";
     private static final String INVALID_ATTACHMENT = "this attachment version is invalid ";
 
     /** signifies that a response has already be handled therefore forwarding to obtain a response is not needed. */
@@ -821,7 +818,6 @@ public class ProtocolProtocolActionsAction extends ProtocolAction implements Aud
         ProtocolForm protocolForm = (ProtocolForm) form;
         Protocol protocol = protocolForm.getProtocolDocument().getProtocol();
         ActionForward forward = mapping.findForward(Constants.MAPPING_BASIC);
-        ActionHelper actionHelper = protocolForm.getActionHelper();
         String fileName = "Protocol_Summary_Report.pdf";
         ProtocolPrintType printType = ProtocolPrintType.PROTOCOL_FULL_PROTOCOL_REPORT;
         String reportName = protocol.getProtocolNumber() + "-" + printType.getReportName();
@@ -845,7 +841,7 @@ public class ProtocolProtocolActionsAction extends ProtocolAction implements Aud
         String fileName = "Protocol_questionnaire_Report.pdf";
 //        Integer selectedQid = getSelectedLine(request);
         String reportName = protocol.getProtocolNumber() + "-" + "ProtocolQuestionnaires";
-        AttachmentDataSource dataStream = getProtocolPrintingService().print(reportName, getQuestionnairePrintingService().getQuestionnairePtintable(protocolForm.getProtocolDocument().getProtocol(), protocolForm.getActionHelper().getQuestionnairesToPrints()));
+        AttachmentDataSource dataStream = getProtocolPrintingService().print(reportName, getQuestionnairePrintingService().getQuestionnairePrintable(protocolForm.getProtocolDocument().getProtocol(), protocolForm.getActionHelper().getQuestionnairesToPrints()));
         if (dataStream.getContent() != null) {
             dataStream.setFileName(fileName.toString());
             PrintingUtils.streamToResponse(dataStream, response);
@@ -893,7 +889,7 @@ public class ProtocolProtocolActionsAction extends ProtocolAction implements Aud
             
         }
         **/
-//        printableArtifactList.addAll(getQuestionnairePrintingService().getQuestionnairePtintable(protocolForm.getProtocolDocument().getProtocol(), protocolForm.getActionHelper().getQuestionnairesToPrints()));
+//        printableArtifactList.addAll(getQuestionnairePrintingService().getQuestionnairePrintable(protocolForm.getProtocolDocument().getProtocol(), protocolForm.getActionHelper().getQuestionnairesToPrints()));
 
         return printableArtifactList;
     }

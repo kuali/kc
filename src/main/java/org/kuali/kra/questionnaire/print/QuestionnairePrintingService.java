@@ -80,7 +80,7 @@ public interface QuestionnairePrintingService {
      * @param questionnairesToPrints
      * @return
      */
-    List<Printable> getQuestionnairePtintable(KraPersistableBusinessObjectBase printableBusinessObject, 
+    List<Printable> getQuestionnairePrintable(KraPersistableBusinessObjectBase printableBusinessObject, 
             List<QuestionnairePrintOption> questionnairesToPrints);
 
 }

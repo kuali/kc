@@ -399,7 +399,7 @@ public class QuestionnaireXmlStream implements XmlStream {
         if(questionnaires.isEmpty()){
             return findUnapprovedQuestionnaire(documentNumber);
         }
-        return questionnaires.isEmpty()?null:questionnaires.get(0);
+        return questionnaires.get(0);
     }
 
     /**
