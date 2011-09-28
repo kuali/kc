@@ -185,10 +185,10 @@ public class QuestionnairePrintingServiceTest extends PrintingServiceTestBase {
             qnPrintingServiceImpl.setBusinessObjectService(businessObjectService);
             qnPrintingServiceImpl.setQuestionnairePrint(questionnairePrint);
             
-            List<Printable> printables = qnPrintingServiceImpl.getQuestionnairePtintable(document.getProtocol(), questionnairesToPrints);
+            List<Printable> printables = qnPrintingServiceImpl.getQuestionnairePrintable(document.getProtocol(), questionnairesToPrints);
             // FIXME Writing PDF to disk for testing purpose only.
             assertEquals(printables.size(),1);
-            assertEquals(((AbstractPrint)printables.get(0)).getReportParameters().get("questionnaireId"), "1");
+            assertEquals(((AbstractPrint)printables.get(0)).getReportParameters().get("questionnaireId"), 1);
         } catch (Exception e) {
             e.printStackTrace();
             //assert false;
