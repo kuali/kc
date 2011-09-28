@@ -56,7 +56,7 @@ public class NegotiationNegotiationAction extends NegotiationAction {
         ActionForward actionForward = super.execute(mapping, form, request, response);
         NegotiationForm negotiationForm = (NegotiationForm) form;
         loadCodeObjects(negotiationForm.getNegotiationDocument().getNegotiation());
-        findAndLoadNegotiationUnassociatedDetail(negotiationForm.getNegotiationDocument().getNegotiation(), false);
+        this.getNegotiationService().findAndLoadNegotiationUnassociatedDetail(negotiationForm.getNegotiationDocument().getNegotiation(), false);
         negotiationForm.getMedusaBean().setModuleName("neg");
         negotiationForm.getMedusaBean().setModuleIdentifier(negotiationForm.getDocument().getNegotiation().getNegotiationId());
         negotiationForm.getNegotiationActivityHelper().sortActivities();
@@ -69,23 +69,8 @@ public class NegotiationNegotiationAction extends NegotiationAction {
         ActionForward actionForward = super.reload(mapping, form, request, response);
         NegotiationForm negotiationForm = (NegotiationForm) form;
         loadCodeObjects(negotiationForm.getNegotiationDocument().getNegotiation());
-        findAndLoadNegotiationUnassociatedDetail(negotiationForm.getNegotiationDocument().getNegotiation(), true);
+        this.getNegotiationService().findAndLoadNegotiationUnassociatedDetail(negotiationForm.getNegotiationDocument().getNegotiation(), true);
         return actionForward;
-    }
-    
-    
-    private void findAndLoadNegotiationUnassociatedDetail(Negotiation negotiation, boolean reload) {
-        if (negotiation.getNegotiationAssociationType() != null 
-                && StringUtils.equalsIgnoreCase(negotiation.getNegotiationAssociationType().getCode(), NegotiationAssociationType.NONE_ASSOCIATION) 
-                && StringUtils.isNotEmpty(negotiation.getAssociatedDocumentId())) {
-            if (reload || negotiation.getUnAssociatedDetail() == null) {
-                Map params = new HashMap();
-                params.put("NEGOTIATION_UNASSOC_DETAIL_ID", negotiation.getAssociatedDocumentId());
-                NegotiationUnassociatedDetail unAssociatedDetail = (NegotiationUnassociatedDetail) 
-                        this.getBusinessObjectService().findByPrimaryKey(NegotiationUnassociatedDetail.class, params);
-                negotiation.setUnAssociatedDetail(unAssociatedDetail);
-            }
-        }
     }
     
     @Override
