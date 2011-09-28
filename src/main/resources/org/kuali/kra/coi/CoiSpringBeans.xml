@@ -50,6 +50,7 @@
         <property name="businessObjectService" ref="businessObjectService" />
         <property name="kcPersonService" ref="kcPersonService" />
         <property name="versioningService" ref="versioningService" />
+        <property name="sequenceAccessorService" ref="sequenceAccessorService" />
     </bean>
     
      <bean id="coiDisclosureService" class="org.kuali.kra.coi.disclosure.CoiDisclosureServiceImpl">

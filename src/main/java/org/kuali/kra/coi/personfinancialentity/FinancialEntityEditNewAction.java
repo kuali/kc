@@ -60,8 +60,7 @@ public class FinancialEntityEditNewAction extends FinancialEntityAction {
     private void saveNewFinancialEntity(ActionForm form) {
         FinancialEntityHelper financialEntityHelper = ((FinancialEntityForm) form).getFinancialEntityHelper();
         PersonFinIntDisclosure personFinIntDisclosure = financialEntityHelper.getNewPersonFinancialEntity();
-        personFinIntDisclosure.setEntityNumber(getSequenceAccessorService().getNextAvailableSequenceNumber("SEQ_ENTITY_NUMBER_S")
-                .toString()); // sequence #
+        personFinIntDisclosure.setEntityNumber(getFinancialEntityService().getNextEntityNumber()); 
         // it seems coeus always save 1.  not sure we need this because it should be in disclosure details
         personFinIntDisclosure.setRelationshipTypeCode("1");
         personFinIntDisclosure.setProcessStatus("F");

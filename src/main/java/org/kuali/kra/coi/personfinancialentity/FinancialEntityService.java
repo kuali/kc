@@ -86,4 +86,10 @@ public interface FinancialEntityService {
      */
     PersonFinIntDisclosure versionPersonFinintDisclosure(PersonFinIntDisclosure personFinIntDisclosure, List<FinEntityDataMatrixBean> newRelationDetails) throws VersionException;
 
+    /**
+     * get next entity number from DB sequence
+     * This method...
+     * @return
+     */
+    String getNextEntityNumber();
 }
