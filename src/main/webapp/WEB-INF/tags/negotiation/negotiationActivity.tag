@@ -7,7 +7,7 @@
 
 <c:set var="activityAttributes" value="${DataDictionary.NegotiationActivity.attributes}" />
 <c:set var="attachmentAttributes" value="${DataDictionary.NegotiationActivityAttachment.attributes}" />
-<c:set var="readOnly" value="${false}" scope="request" />
+<c:set var="readOnly" value="${not KualiForm.editingMode['modify_activity']}"/>
 
 <c:if test="${empty tabDivClass}">
   <c:set var="tabDivClass" value="innerTab-head"/>
