@@ -36,8 +36,7 @@ public class ViewNegotiationAuthorizer extends NegotiationAuthorizer {
     }
     
     private boolean isUserIdAssociatedWithAssociatedBO(String userId, Negotiation negotiation) {
-        boolean retVal =this.getNegotiationService().isPersonIsAssociatedPerson(negotiation, userId);
-        System.err.println("isUserIdAssociatedWithAssociatedBO: " + (retVal));
+        boolean retVal = this.getNegotiationService().isPersonIsAssociatedPerson(negotiation, userId);
         return retVal;
     }
 

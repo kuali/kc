@@ -17,15 +17,20 @@ package org.kuali.kra.negotiations.web.struts.form;
 
 import java.util.ArrayList;
 import java.util.HashMap;
+import java.util.HashSet;
 import java.util.List;
 import java.util.Map;
+import java.util.Iterator;
+import java.util.Set;
 
 import javax.servlet.http.HttpServletRequest;
 
 import org.apache.commons.lang.StringUtils;
 import org.kuali.kra.authorization.KraAuthorizationConstants;
 import org.kuali.kra.infrastructure.KraServiceLocator;
+import org.kuali.kra.infrastructure.TaskName;
 import org.kuali.kra.medusa.MedusaBean;
+import org.kuali.kra.negotiations.auth.NegotiationTask;
 import org.kuali.kra.negotiations.bo.Negotiation;
 import org.kuali.kra.negotiations.bo.NegotiationAssociatedDetailBean;
 import org.kuali.kra.negotiations.bo.NegotiationAssociationType;
@@ -33,8 +38,11 @@ import org.kuali.kra.negotiations.bo.NegotiationStatus;
 import org.kuali.kra.negotiations.bo.NegotiationUnassociatedDetail;
 import org.kuali.kra.negotiations.document.NegotiationDocument;
 import org.kuali.kra.negotiations.service.NegotiationService;
+import org.kuali.kra.service.TaskAuthorizationService;
 import org.kuali.kra.web.struts.form.KraTransactionalDocumentFormBase;
+import org.kuali.rice.kim.bo.Person;
 import org.kuali.rice.kns.service.BusinessObjectService;
+import org.kuali.rice.kns.util.GlobalVariables;
 import org.kuali.rice.kns.util.KNSConstants;
 
 /**
@@ -100,6 +108,55 @@ public class NegotiationForm extends KraTransactionalDocumentFormBase {
     public void populate(HttpServletRequest request) {
         super.populate(request);
         this.negotiationAssociatedDetailBean = getNegotiationService().buildNegotiationAssociatedDetailBean(this.getNegotiationDocument().getNegotiation());
+        populateAuthorizationFields();
+    }
+    
+    public void populateAuthorizationFields() {
+        Person user = GlobalVariables.getUserSession().getPerson();
+        Set<String> localEditModes = new HashSet<String>();
+        
+        Negotiation negotiation = this.getNegotiationDocument().getNegotiation();
+        
+        NegotiationTask createTask = new NegotiationTask(TaskName.NEGOTIATION_CREATE_NEGOTIATION, negotiation);
+        if (this.getTaskAuthorizationService().isAuthorized(user.getPrincipalId(), createTask)) {
+            localEditModes.add("create");
+        }
+        
+        NegotiationTask modifyTask = new NegotiationTask(TaskName.NEGOTIATION_MODIFIY_NEGOTIATION, negotiation);
+        if (this.getTaskAuthorizationService().isAuthorized(user.getPrincipalId(), modifyTask)) {
+            localEditModes.add("modify");
+        }
+        
+        NegotiationTask modifyActivitiesTask = new NegotiationTask(TaskName.NEGOTIATION_MODIFY_ACTIVITIES, negotiation);
+        if (this.getTaskAuthorizationService().isAuthorized(user.getPrincipalId(), modifyActivitiesTask)) {
+            localEditModes.add("modify_activity");
+        }
+        
+        NegotiationTask viewTask = new NegotiationTask(TaskName.NEGOTIATION_VIEW_NEGOTIATION, negotiation);
+        if (this.getTaskAuthorizationService().isAuthorized(user.getPrincipalId(), viewTask)) {
+            localEditModes.add("view");
+        }
+        
+        NegotiationTask viewUnrestrictedTask = new NegotiationTask(TaskName.NEGOTIATION_VIEW_NEGOTIATION_UNRESTRICTED, negotiation);
+        if (this.getTaskAuthorizationService().isAuthorized(user.getPrincipalId(), viewUnrestrictedTask)) {
+            localEditModes.add("view_unrestricted");
+        }
+        
+        this.setEditingMode(convertSetToMap(localEditModes));
+    }
+    
+    private TaskAuthorizationService getTaskAuthorizationService() {
+        return KraServiceLocator.getService(TaskAuthorizationService.class);
+    }
+    
+    private Map convertSetToMap(Set s){
+        Map map = new HashMap();
+        Iterator i = s.iterator();
+        while(i.hasNext()) {
+            Object key = i.next();
+           map.put(key,KNSConstants.KUALI_DEFAULT_TRUE_VALUE);
+        }
+        return map;
     }
     
     public BusinessObjectService getBusinessObjectService() {
