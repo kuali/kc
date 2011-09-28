@@ -24,10 +24,12 @@ import java.util.Map;
 import org.apache.commons.lang.StringUtils;
 import org.kuali.kra.bo.KcPerson;
 import org.kuali.kra.infrastructure.Constants;
+import org.kuali.kra.infrastructure.KraServiceLocator;
 import org.kuali.kra.service.KcPersonService;
 import org.kuali.kra.service.VersionException;
 import org.kuali.kra.service.VersioningService;
 import org.kuali.rice.kns.service.BusinessObjectService;
+import org.kuali.rice.kns.service.SequenceAccessorService;
 import org.kuali.rice.kns.util.ObjectUtils;
 import org.springframework.transaction.annotation.Transactional;
 
@@ -41,6 +43,7 @@ public class FinancialEntityServiceImpl implements FinancialEntityService {
     private BusinessObjectService businessObjectService;
     private KcPersonService kcPersonService;
     private VersioningService versioningService;
+    private SequenceAccessorService sequenceAccessorService;
 
     /**
      * 
@@ -299,12 +302,25 @@ public class FinancialEntityServiceImpl implements FinancialEntityService {
 
     }
     
+    /**
+     * 
+     * @see org.kuali.kra.coi.personfinancialentity.FinancialEntityService#getNextEntityNumber()
+     */
+    public String getNextEntityNumber() {
+        return sequenceAccessorService.getNextAvailableSequenceNumber("SEQ_ENTITY_NUMBER_S").toString(); // sequence #
+
+    }
+
     public void setKcPersonService(KcPersonService kcPersonService) {
         this.kcPersonService = kcPersonService;
     }
 
     public void setVersioningService(VersioningService versioningService) {
         this.versioningService = versioningService;
+    }
+
+    public void setSequenceAccessorService(SequenceAccessorService sequenceAccessorService) {
+        this.sequenceAccessorService = sequenceAccessorService;
     }
 
 }
