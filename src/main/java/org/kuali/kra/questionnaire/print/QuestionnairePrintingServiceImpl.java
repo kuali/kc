@@ -97,9 +97,9 @@ public class QuestionnairePrintingServiceImpl implements QuestionnairePrintingSe
 
     /**
      * 
-     * @see org.kuali.kra.questionnaire.print.QuestionnairePrintingService#getQuestionnairePtintable(org.kuali.kra.bo.KraPersistableBusinessObjectBase, java.util.List)
+     * @see org.kuali.kra.questionnaire.print.QuestionnairePrintingService#getQuestionnairePrintable(org.kuali.kra.bo.KraPersistableBusinessObjectBase, java.util.List)
      */
-    public List<Printable> getQuestionnairePtintable(KraPersistableBusinessObjectBase printableBusinessObject, 
+    public List<Printable> getQuestionnairePrintable(KraPersistableBusinessObjectBase printableBusinessObject, 
                                                      List<QuestionnairePrintOption> questionnairesToPrints) {
         List<Printable> printables = new ArrayList<Printable>();
         for (QuestionnairePrintOption printOption : questionnairesToPrints) {
