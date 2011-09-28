@@ -86,11 +86,6 @@ public class NegotiationDocumentAuthorizer extends KcTransactionalDocumentAuthor
      */
     public boolean canInitiate(String documentTypeName, Person user) {
         return canCreateNegotiation(user);
-        /*
-        NegotiationDocument negotiationDocument = (NegotiationDocument) document;
-        NegotiationTask task = new NegotiationTask(TaskName.NEGOTIATION_CREATE_NEGOTIATION, negotiationDocument.getNegotiation());
-        return this.getTaskAuthorizationService().isAuthorized(user.getPrincipalId(), task);
-        */
     }
     
     /**

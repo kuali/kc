@@ -45,7 +45,6 @@ public class NegotiationsMaintainableImpl extends KraMaintainableImpl {
     @Override
     public void prepareForSave() {
         NegotiationsGroupingBase negotiationBase = (NegotiationsGroupingBase) this.businessObject;
-        System.err.println("negotiationBase.getClass(): " + negotiationBase.getClass());
         
         boolean isNew = negotiationBase.getId() == null;
         
