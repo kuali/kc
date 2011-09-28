@@ -20,6 +20,7 @@
 <c:set var="tabSubmissionDetails" value="submissionDetails" scope="request"/>
 <c:set var="prevDisabled" value="${KualiForm.actionHelper.prevDisabled}" />
 <c:set var="nextDisabled" value="${KualiForm.actionHelper.nextDisabled}" />
+<c:set var="submissionHasNoAmendmentDetails" value= "${KualiForm.actionHelper.submissionHasNoAmendmentDetails}"/>
 
 <kra:permission value="${fn:length(KualiForm.protocolDocument.protocol.protocolSubmissions) > 0}">
 
@@ -52,7 +53,7 @@
 		    <kra-irb:submissionDetails />
  		    <kra-irb:reviewers />
 		    <kra-irb:voteSummary />
-		    <c:if test="${KualiForm.protocolDocument.amendment or KualiForm.protocolDocument.renewal}" >
+		    <c:if test="${!submissionHasNoAmendmentDetails and KualiForm.actionHelper.hasAmendments or KualiForm.actionHelper.hasRenewals }" >
 		      <kra-irb:amendmentSummary />
 		    </c:if>
 		    <kra-irb:checklistItems />
