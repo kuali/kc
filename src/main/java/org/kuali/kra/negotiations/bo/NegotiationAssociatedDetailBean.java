@@ -16,8 +16,12 @@
 package org.kuali.kra.negotiations.bo;
 
 import java.io.Serializable;
+import java.util.ArrayList;
+import java.util.List;
 
+import org.drools.core.util.StringUtils;
 import org.kuali.kra.award.home.Award;
+import org.kuali.kra.bo.KcPerson;
 import org.kuali.kra.institutionalproposal.home.InstitutionalProposal;
 import org.kuali.kra.institutionalproposal.proposallog.ProposalLog;
 
@@ -42,6 +46,7 @@ public class NegotiationAssociatedDetailBean implements Serializable {
     
     private String title;
     private String leadUnit;
+    private String leadUnitNumber;
     private String piEmployee;
     private String piNonEmployee;
     private String adminPerson;
@@ -50,8 +55,14 @@ public class NegotiationAssociatedDetailBean implements Serializable {
     private String sponsorAward;
     private String subAwardOrganization;
     private String mode;
+    private List<KcPerson> ospAdministrators;
     
-    public NegotiationAssociatedDetailBean() {
+    /**
+     * 
+     * Constructs a NegotiationAssociatedDetailBean.java.
+     * @param leadUnitNumber
+     */
+    public NegotiationAssociatedDetailBean(String leadUnitNumber) {
         this.title = EMPTY_STRING;
         this.leadUnit = EMPTY_STRING;
         this.piEmployee = EMPTY_STRING;
@@ -62,6 +73,8 @@ public class NegotiationAssociatedDetailBean implements Serializable {
         this.sponsorAward = EMPTY_STRING;
         this.subAwardOrganization = EMPTY_STRING;
         this.mode = MODE_NONE;
+        this.leadUnitNumber = leadUnitNumber;
+        this.ospAdministrators = new ArrayList<KcPerson>();
     }
     
     /**
@@ -70,7 +83,7 @@ public class NegotiationAssociatedDetailBean implements Serializable {
      * @param award
      */
     public NegotiationAssociatedDetailBean(Award award) {
-        this();
+        this(award.getLeadUnitNumber());
         if (award != null) {
             this.title = award.getTitle();
             this.leadUnit = award.getLeadUnit() == null ? EMPTY_STRING : award.getLeadUnit().getUnitName();
@@ -91,7 +104,7 @@ public class NegotiationAssociatedDetailBean implements Serializable {
      * @param proposalLog
      */
     public NegotiationAssociatedDetailBean(ProposalLog proposalLog) {
-        this();
+        this(proposalLog.getUnit().getUnitNumber());
         if (proposalLog != null) {
             this.title = proposalLog.getTitle();
             this.leadUnit = proposalLog.getUnit() == null ? EMPTY_STRING : proposalLog.getUnit().getUnitName();
@@ -113,7 +126,7 @@ public class NegotiationAssociatedDetailBean implements Serializable {
      * @param institutionalProposal
      */
     public NegotiationAssociatedDetailBean(InstitutionalProposal institutionalProposal) {
-        this();
+        this(institutionalProposal.getLeadUnitNumber());
         if (institutionalProposal != null) {
             this.title = institutionalProposal.getTitle();
             this.leadUnit = institutionalProposal.getLeadUnit() == null ? EMPTY_STRING : institutionalProposal.getLeadUnit().getUnitName();
@@ -134,7 +147,7 @@ public class NegotiationAssociatedDetailBean implements Serializable {
      * @param unAssociatedDetail
      */
     public NegotiationAssociatedDetailBean(NegotiationUnassociatedDetail unAssociatedDetail) {
-        this();
+        this(unAssociatedDetail.getLeadUnitNumber());
         if (unAssociatedDetail != null) {
             this.title = unAssociatedDetail.getTitle();
             this.leadUnit = unAssociatedDetail.getLeadUnit() == null ? EMPTY_STRING : unAssociatedDetail.getLeadUnit().getUnitName();
@@ -228,5 +241,25 @@ public class NegotiationAssociatedDetailBean implements Serializable {
 
     public void setMode(String mode) {
         this.mode = mode;
+    }
+
+    public String getLeadUnitNumber() {
+        return leadUnitNumber;
+    }
+
+    public void setLeadUnitNumber(String leadUnitNumber) {
+        this.leadUnitNumber = leadUnitNumber;
+    }
+    
+    public boolean getDisplayOSPAdministrators() {
+        return !StringUtils.isEmpty(this.getLeadUnitNumber());
+    }
+
+    public List<KcPerson> getOspAdministrators() {
+        return ospAdministrators;
+    }
+
+    public void setOspAdministrators(List<KcPerson> ospAdministrators) {
+        this.ospAdministrators = ospAdministrators;
     }
 }

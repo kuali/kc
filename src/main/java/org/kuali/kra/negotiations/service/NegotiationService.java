@@ -17,6 +17,7 @@ package org.kuali.kra.negotiations.service;
 
 import java.util.List;
 
+import org.kuali.kra.bo.KcPerson;
 import org.kuali.kra.negotiations.bo.Negotiation;
 import org.kuali.kra.negotiations.bo.NegotiationAssociatedDetailBean;
 import org.kuali.kra.negotiations.bo.NegotiationAssociationType;
@@ -110,5 +111,19 @@ public interface NegotiationService {
      */
     boolean isPersonIsAssociatedPerson(Negotiation negotiation, String personToCheckPersonId);
     
+    /**
+     * 
+     * This method fine a NegotiationAssociatedDetail object from the DB and sets it to the passed in negotiation.
+     * @param negotiation
+     * @param reload
+     */
     void findAndLoadNegotiationUnassociatedDetail(Negotiation negotiation, boolean reload);
+    
+    /**
+     * 
+     * This method gets all the OSP Administrators for a given UNIT.
+     * @param unitNumber
+     * @return
+     */
+    List<KcPerson> getOSPAdministrators(String unitNumber);
 }
