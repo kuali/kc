@@ -107,22 +107,6 @@ public class NegotiationServiceImplTest extends KcUnitTestBase {
         assertEquals(NegotiationAssociatedDetailBean.MODE_NONE, bean.getMode());
     }
     
-    @Test
-    public void testBuildNegotiationAssociatedDetailBean2() {
-        Map primaryKeys = new HashMap();
-        primaryKeys.put("AWARD_ID", "1004");
-        Award award = (Award) this.businessObjectService.findByPrimaryKey(Award.class, primaryKeys);
-        Negotiation negotiation = getBasicNegotiation();
-        negotiation.setNegotiationAssociationType(getNegotiationAssociationType("AWD"));
-        negotiation.setAssociatedDocumentId(award.getAwardNumber());
-        this.businessObjectService.save(negotiation);
-        negotiation.refresh();
-        
-        NegotiationAssociatedDetailBean bean = this.negotiationService.buildNegotiationAssociatedDetailBean(negotiation);
-        
-        assertEquals(NegotiationAssociatedDetailBean.MODE_AWARD, bean.getMode());
-    }
-    
     private Negotiation getBasicNegotiation() {
         NegotiationStatus status = (NegotiationStatus)businessObjectService.findAll(NegotiationStatus.class).iterator().next();
         NegotiationAgreementType agreementType = (NegotiationAgreementType)businessObjectService.findAll(NegotiationAgreementType.class).iterator().next();

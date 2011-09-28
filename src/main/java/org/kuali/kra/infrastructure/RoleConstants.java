@@ -29,7 +29,7 @@ public interface RoleConstants {
     public static final String DEPARTMENT_ROLE_TYPE = "KC-UNT";
     public static final String PROTOCOL_ROLE_TYPE = Constants.MODULE_NAMESPACE_PROTOCOL;
     public static final String AWARD_ROLE_TYPE = Constants.MODULE_NAMESPACE_AWARD;
-    public static final String NEGOTIATION_ROLE_TYPE = Constants.MODULE_NAMESPANCE_NEGOTIATION;
+    public static final String NEGOTIATION_ROLE_TYPE = Constants.MODULE_NAMESPACE_NEGOTIATION;
     
     // The names of the standard roles as used by KIM to identify a role.
     

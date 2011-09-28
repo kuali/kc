@@ -343,7 +343,7 @@ public class Negotiation extends KraPersistableBusinessObjectBase implements Per
 
     @Override
     public String getNamespace() {
-        return Constants.MODULE_NAMESPANCE_NEGOTIATION;
+        return Constants.MODULE_NAMESPACE_NEGOTIATION;
     }
 
     @Override

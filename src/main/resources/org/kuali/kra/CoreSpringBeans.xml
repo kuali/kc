@@ -658,7 +658,13 @@
         </property> 
         <property name="institutionalProposalService">
             <ref bean="institutionalProposalService" />
-        </property>      
+        </property>    
+        <property name="unitAdministratorDerivedRoleTypeServiceImpl">
+        	<ref bean="unitAdministratorDerivedRoleTypeService"/>
+        </property>
+        <property name="kcPersonService">
+        	<ref bean="kcPersonService"/>
+        </property>    
 	</bean>
 	
 	<bean id="parentNegotiationAuthorizer" abstract="true">
