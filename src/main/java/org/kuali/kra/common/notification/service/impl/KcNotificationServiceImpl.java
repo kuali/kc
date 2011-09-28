@@ -23,6 +23,7 @@ import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
 import java.util.Set;
+import java.util.TreeSet;
 
 import org.apache.commons.lang.StringUtils;
 import org.apache.commons.logging.Log;
@@ -160,6 +161,11 @@ public class KcNotificationServiceImpl implements KcNotificationService {
     }
     
     private void setupRecipients(KcNotification kcNotification, Notification notification, NotificationContext context) {
+        TreeSet<NotificationRecipient> uniqueRecipients = new TreeSet<NotificationRecipient>(new Comparator<NotificationRecipient>() {
+            public int compare(NotificationRecipient o1, NotificationRecipient o2) {
+                return o1.getRecipientId().compareTo(o2.getRecipientId());
+            }
+        });
         List<NotificationTypeRecipient> roleRecipients = new ArrayList<NotificationTypeRecipient>();
         Collections.sort(kcNotification.getNotificationType().getNotificationTypeRecipients(), new Comparator<NotificationTypeRecipient>() {
             public int compare(NotificationTypeRecipient roleRecipeient1, NotificationTypeRecipient roleRecipeient2) {
@@ -176,7 +182,7 @@ public class KcNotificationServiceImpl implements KcNotificationService {
                         roleName = roleRecipient.getRoleName();
                     }
                 } else {
-                    notification.getRecipients().addAll(resolveRoleRecipients(roleRecipients));
+                    uniqueRecipients.addAll(resolveRoleRecipients(roleRecipients));
                     roleRecipients = new ArrayList<NotificationTypeRecipient>();
                     context.populateRoleQualifiers(roleRecipient);
                     roleRecipients.add(roleRecipient);
@@ -190,9 +196,8 @@ public class KcNotificationServiceImpl implements KcNotificationService {
                 e.printStackTrace();
             }
         }
-        notification.getRecipients().addAll(resolveRoleRecipients(roleRecipients));
-
-
+        uniqueRecipients.addAll(resolveRoleRecipients(roleRecipients));
+        notification.getRecipients().addAll(uniqueRecipients);
     }
     
     protected NotificationProducer getSystemNotificationProducer() {
