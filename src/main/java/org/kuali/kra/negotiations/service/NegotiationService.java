@@ -109,4 +109,6 @@ public interface NegotiationService {
      * @return
      */
     boolean isPersonIsAssociatedPerson(Negotiation negotiation, String personToCheckPersonId);
+    
+    void findAndLoadNegotiationUnassociatedDetail(Negotiation negotiation, boolean reload);
 }
