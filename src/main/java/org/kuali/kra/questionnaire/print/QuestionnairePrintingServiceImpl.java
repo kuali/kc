@@ -100,29 +100,29 @@ public class QuestionnairePrintingServiceImpl implements QuestionnairePrintingSe
      * @see org.kuali.kra.questionnaire.print.QuestionnairePrintingService#getQuestionnairePtintable(org.kuali.kra.bo.KraPersistableBusinessObjectBase, java.util.List)
      */
     public List<Printable> getQuestionnairePtintable(KraPersistableBusinessObjectBase printableBusinessObject, 
-            List<QuestionnairePrintOption> questionnairesToPrints) {
+                                                     List<QuestionnairePrintOption> questionnairesToPrints) {
         List<Printable> printables = new ArrayList<Printable>();
         for (QuestionnairePrintOption printOption : questionnairesToPrints) {
             if (printOption.isSelected()) {
-             //   AbstractPrint printable = getQuestionnairePrint();
+                //   AbstractPrint printable = getQuestionnairePrint();
                 AbstractPrint printable =  new QuestionnairePrint();
                 printable.setXmlStream(getQuestionnairePrint().getXmlStream());
-            Map<String, Object> reportParameters = new HashMap<String, Object>();
-            Questionnaire questionnaire = getQuestionnaire(printOption.getQuestionnaireRefId());
-            reportParameters.put("questionnaireId", questionnaire.getQuestionnaireId());
-            reportParameters.put("template", questionnaire.getTemplate());
-            // will be used by amendquestionnaire
-            reportParameters.put("moduleSubItemCode", printOption.getSubItemCode());
-            if (CoeusSubModule.PROTOCOL_SUBMISSION.equals(printOption.getSubItemCode())) {
-                reportParameters.put(PROTOCOL_NUMBER, printOption.getItemKey());
-                reportParameters.put(SUBMISSION_NUMBER, printOption.getSubItemKey());
-            }
+                Map<String, Object> reportParameters = new HashMap<String, Object>();
+                Questionnaire questionnaire = getQuestionnaire(printOption.getQuestionnaireRefId());
+                reportParameters.put("questionnaireId", questionnaire.getQuestionnaireIdAsInteger());
+                reportParameters.put("template", questionnaire.getTemplate());
+                //  will be used by amendquestionnaire
+                reportParameters.put("moduleSubItemCode", printOption.getSubItemCode());
+                if (CoeusSubModule.PROTOCOL_SUBMISSION.equals(printOption.getSubItemCode())) {
+                    reportParameters.put(PROTOCOL_NUMBER, printOption.getItemKey());
+                    reportParameters.put(SUBMISSION_NUMBER, printOption.getSubItemKey());
+                }
 
-            if (printable != null) {
-                printable.setPrintableBusinessObject(getProtocolPrintable(printOption));
-                printable.setReportParameters(reportParameters);
-                printables.add(printable);
-            }
+                if (printable != null) {
+                    printable.setPrintableBusinessObject(getProtocolPrintable(printOption));
+                    printable.setReportParameters(reportParameters);
+                    printables.add(printable);
+                }
             }
         }
         return printables;
