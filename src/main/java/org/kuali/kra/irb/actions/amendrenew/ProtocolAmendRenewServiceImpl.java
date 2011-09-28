@@ -115,7 +115,7 @@ public class ProtocolAmendRenewServiceImpl implements ProtocolAmendRenewService 
         amendProtocolDocument.getProtocol().setLastApprovalDate(protocolDocument.getProtocol().getLastApprovalDate());
         amendProtocolDocument.getProtocol().setProtocolStatusCode(ProtocolStatus.AMENDMENT_IN_PROGRESS);
         amendProtocolDocument.getProtocol().refreshReferenceObject(PROTOCOL_STATUS);
-        
+       
         markProtocolAttachmentsAsFinalized(amendProtocolDocument.getProtocol().getAttachmentProtocols());
         
         ProtocolAction protocolAction = createCreateAmendmentProtocolAction(protocolDocument.getProtocol(), 
@@ -432,7 +432,7 @@ public class ProtocolAmendRenewServiceImpl implements ProtocolAmendRenewService 
     }
     
     @SuppressWarnings("unchecked")
-    protected Collection<Protocol> getAmendments(String protocolNumber) throws Exception {
+    public Collection<Protocol> getAmendments(String protocolNumber) throws Exception {
         List<Protocol> amendments = new ArrayList<Protocol>();
         Collection<Protocol> protocols = (Collection<Protocol>) kraLookupDao.findCollectionUsingWildCard(Protocol.class, PROTOCOL_NUMBER, protocolNumber + AMEND_ID + "%", true);
         for (Protocol protocol : protocols) {
@@ -443,7 +443,7 @@ public class ProtocolAmendRenewServiceImpl implements ProtocolAmendRenewService 
     }
 
     @SuppressWarnings("unchecked")
-    protected Collection<Protocol> getRenewals(String protocolNumber) throws Exception {
+    public Collection<Protocol> getRenewals(String protocolNumber) throws Exception {
         List<Protocol> renewals = new ArrayList<Protocol>();
         Collection<Protocol> protocols = (Collection<Protocol>) kraLookupDao.findCollectionUsingWildCard(Protocol.class, PROTOCOL_NUMBER, protocolNumber + RENEW_ID + "%", true);
         for (Protocol protocol : protocols) {
