@@ -146,7 +146,7 @@ public class QuestionnairePrintingServiceTest extends PrintingServiceTestBase {
     }
 
     @Test
-    public void testGetQuestionnairePtintable() {
+    public void testGetQuestionnairePrintable() {
         List<QuestionnairePrintOption> questionnairesToPrints = new ArrayList<QuestionnairePrintOption>();
         QuestionnairePrintOption printOption1 = new QuestionnairePrintOption();
         printOption1.setLabel("Test1");
