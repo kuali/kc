@@ -653,7 +653,7 @@ public abstract class KcSeleniumHelper {
      * {@code nextPageTitle}.
      * 
      * @param className the BO class name of this maintenance document
-     * @param searchValues the search values of the maintenance document to copy
+     * @param searchValues the search values of the maintenance document to edit
      * @param nextPageTitle the title of the maintenance document on the next page
      */
     public final void editExistingMaintenanceDocument(final String className, final Map<String, String> searchValues, final String nextPageTitle) {
@@ -954,23 +954,23 @@ public abstract class KcSeleniumHelper {
     }
     
     /**
-     * Assert that the list of options identified by {@code locator} contains {@code text}.
+     * Assert that at least one of the selected elements in list of options identified by {@code locator} contains {@code text}.
      *
      * @param locator the id, partial name, partial title, or partial link name of the element to search for
-     * @param text the string to look for in the select options
+     * @param text the string to look for in the selected options
      */
-    public final void assertSelectOptionsContains(final String locator, final String text) {
-        assertSelectOptionsContains(locator, false, text);
+    public final void assertSelectedOptionsContains(final String locator, final String text) {
+        assertSelectedOptionsContains(locator, false, text);
     }
     
     /**
-     * Assert that the list of options identified by {@code locator} matches {@code text} depending on the value of {@code exact}.
+     * Assert that at least one of the selected elements in list of options identified by {@code locator} contains {@code text} depending on the value of {@code exact}.
      *
      * @param locator the id, name, title, or link name of the element to search for, exactness depending on the value of {@code exact}.
      * @param exact whether the locator should match exactly
-     * @param text the string to look for in the select options
+     * @param text the string to look for in the selected options
      */
-    public final void assertSelectOptionsContains(final String locator, final boolean exact, final String text) {
+    public final void assertSelectedOptionsContains(final String locator, final boolean exact, final String text) {
         Select select = new Select(getElement(locator, exact));
         
         List<String> selectedValues = new ArrayList<String>();
@@ -1680,7 +1680,7 @@ public abstract class KcSeleniumHelper {
      * @return a list of errors contained in {@code panelId}
      */
     private List<WebElement> getErrors(final String panelId) {
-        return getElementsByXPath("//div[@id='" + panelId + "']//div[@style='display: list-item; margin-left: 20px;']");
+        return getElementsByXPath("//div[@id='" + panelId + "']//div[@style='display:list-item;margin-left:20px;']");
     }
     
     /**
