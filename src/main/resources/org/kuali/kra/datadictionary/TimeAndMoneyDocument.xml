@@ -27,7 +27,9 @@
         </bean>
       </list>
     </property>
-    
+    <property name="workflowProperties">
+    	<ref bean="TimeAndMoneyDocument-workflowProperties"/>
+    </property>
     <property name="attributes">
       <list>      	
         <ref bean="TimeAndMoneyDocument-versionNumber"/>        
@@ -38,10 +40,29 @@
 <!-- Attribute Definitions -->	
   
   <bean id="TimeAndMoneyDocument-versionNumber" parent="TimeAndMoneyDocument-versionNumber-parentBean"/>
-
-  <bean id="TimeAndMoneyDocument-versionNumber-parentBean" abstract="true" parent="AttributeReferenceDummy-versionNumber">
+ <bean id="TimeAndMoneyDocument-versionNumber-parentBean" abstract="true" parent="AttributeReferenceDummy-versionNumber">
+  </bean>
+  <bean id="TimeAndMoneyDocument-workflowProperties" parent="TimeAndMoneyDocument-workflowProperties-parentBean"/>
+  <bean id="TimeAndMoneyDocument-workflowProperties-parentBean" abstract="true" parent="WorkflowProperties" >
+    <property name="workflowPropertyGroups">
+      <list>
+        <bean parent="WorkflowPropertyGroup">
+          <property name="workflowProperties">
+            <list>
+              <bean parent="WorkflowProperty" p:path="documentHeader"/>
+              <bean parent="WorkflowProperty" p:path="award.awardId"/>
+              <bean parent="WorkflowProperty" p:path="award.awardNumber"/>
+              <bean parent="WorkflowProperty" p:path="award.accountNumber"/>
+              <bean parent="WorkflowProperty" p:path="award.principalInvestigatorName"/>
+              <bean parent="WorkflowProperty" p:path="award.title"/>
+              <bean parent="WorkflowProperty" p:path="award.sponsor.sponsorCode"/>
+			  <bean parent="WorkflowProperty" p:path="award.leadUnit.unitNumber"/>
+			 </list>
+          </property>
+        </bean>
+      </list>
+    </property>
   </bean>
   
-  <bean id="TimeAndMoneyDocument-workflowAttributes-parentBean" abstract="true" parent="WorkflowAttributes">
-  </bean>
+  
 </beans>
