@@ -17,10 +17,15 @@ import java.util.Date;
 import java.util.List;
 import java.util.Map;
 
+import org.apache.commons.lang.StringUtils;
 import org.apache.commons.logging.Log;
 import org.apache.commons.logging.LogFactory;
+import org.kuali.kra.infrastructure.Constants;
+import org.kuali.kra.infrastructure.KraServiceLocator;
+import org.kuali.kra.service.MultiCampusIdentityService;
 import org.kuali.rice.kns.bo.BusinessObject;
 import org.kuali.rice.kns.lookup.PessimisticLockLookupableHelperServiceImpl;
+import org.kuali.rice.kns.util.GlobalVariables;
 
 /**
  * Modifies the field values for a search.
@@ -29,13 +34,18 @@ import org.kuali.rice.kns.lookup.PessimisticLockLookupableHelperServiceImpl;
  */
 public class KraPessimisticLockLookupableHelperServiceImpl extends PessimisticLockLookupableHelperServiceImpl {
 
-    private static final long serialVersionUID = -6838248755135780573L;
+    private static final long serialVersionUID = -4452653608498574503L;
+
+    private static final String PRINCIPAL_NAME_FIELD = "ownedByUser.principalName";
     
     private static final String GEN_TIMESTAMP_FORMAT = "MM/dd/yyyy";
     private static final String GEN_TIMESTAMP_NAME = "generatedTimestamp";
     private static final String DATE_RANGE_DELIMETER = "..";
     
     private static final Log LOG = LogFactory.getLog(KraPessimisticLockLookupableHelperServiceImpl.class);
+
+    private MultiCampusIdentityService multiCampusIdentityService;
+    
 
     /**
      * This method modifies the field values for the following condition. If a
@@ -53,10 +63,35 @@ public class KraPessimisticLockLookupableHelperServiceImpl extends PessimisticLo
         if (fieldValues == null) {
             throw new NullPointerException("the fieldValues is null");
         }
-
+        
         this.addSingleDayDateRange(fieldValues);
 
         return super.getSearchResults(fieldValues);
+    }
+    
+    @Override
+    public void validateSearchParameters(Map fieldValues) {
+        this.addMultiCampusPrincipalName(fieldValues);
+        super.validateSearchParameters(fieldValues);
+    }
+    
+    /**
+     * Modifies the principal name to multicampus format if multicampus mode is on.
+     * 
+     * @param fieldValues the values to map to modify
+     */
+    protected void addMultiCampusPrincipalName(final Map<String, String> fieldValues) {
+        boolean multiCampusEnabled = getParameterService().getIndicatorParameter(
+                Constants.KC_GENERIC_PARAMETER_NAMESPACE, Constants.KC_ALL_PARAMETER_DETAIL_TYPE_CODE, Constants.PARAMETER_MULTI_CAMPUS_ENABLED);
+        
+        if (multiCampusEnabled) {
+            if (StringUtils.isNotBlank(fieldValues.get(PRINCIPAL_NAME_FIELD))) {
+                String principalName = fieldValues.get(PRINCIPAL_NAME_FIELD);
+                String campusCode = (String) GlobalVariables.getUserSession().retrieveObject(Constants.USER_CAMPUS_CODE_KEY);
+                String multiCampusPrincipalName = getMultiCampusIdentityService().getMultiCampusPrincipalName(principalName, campusCode);
+                fieldValues.put(PRINCIPAL_NAME_FIELD, multiCampusPrincipalName);
+            }
+        }
     }
 
     /**
@@ -135,4 +170,16 @@ public class KraPessimisticLockLookupableHelperServiceImpl extends PessimisticLo
         
         return range.toString();
     }
+    
+    public MultiCampusIdentityService getMultiCampusIdentityService() {
+        if (multiCampusIdentityService == null) {
+            multiCampusIdentityService = KraServiceLocator.getService(MultiCampusIdentityService.class);
+        }
+        return multiCampusIdentityService;
+    }
+
+    public void setMultiCampusIdentityService(MultiCampusIdentityService multiCampusIdentityService) {
+        this.multiCampusIdentityService = multiCampusIdentityService;
+    }
+    
 }

@@ -60,6 +60,8 @@ public class KcPersonExtendedAttributes extends KraPersistableBusinessObjectBase
     private String idVerified;
     private String county;
     private Integer citizenshipTypeCode;
+    private String multiCampusPrincipalId;
+    private String multiCampusPrincipalName;
     
     private String biosketchDescription;
     private String fileName;
@@ -594,4 +596,21 @@ public class KcPersonExtendedAttributes extends KraPersistableBusinessObjectBase
     public void setCitizenshipType(CitizenshipType citizenshipType) {
         this.citizenshipType = citizenshipType;
     }
+
+    public String getMultiCampusPrincipalId() {
+        return multiCampusPrincipalId;
+    }
+
+    public void setMultiCampusPrincipalId(String multiCampusPrincipalId) {
+        this.multiCampusPrincipalId = multiCampusPrincipalId;
+    }
+
+    public String getMultiCampusPrincipalName() {
+        return multiCampusPrincipalName;
+    }
+
+    public void setMultiCampusPrincipalName(String multiCampusPrincipalName) {
+        this.multiCampusPrincipalName = multiCampusPrincipalName;
+    }
+    
 }

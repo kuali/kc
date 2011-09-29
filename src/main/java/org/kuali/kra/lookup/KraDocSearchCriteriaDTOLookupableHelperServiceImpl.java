@@ -17,27 +17,41 @@ package org.kuali.kra.lookup;
 
 import java.util.ArrayList;
 import java.util.Collection;
+import java.util.Collections;
+import java.util.HashMap;
 import java.util.Iterator;
 import java.util.List;
+import java.util.Map;
 
+import org.apache.commons.lang.ArrayUtils;
+import org.apache.commons.lang.ObjectUtils;
 import org.apache.commons.lang.StringUtils;
 import org.apache.commons.logging.Log;
 import org.apache.commons.logging.LogFactory;
 import org.kuali.kra.award.document.AwardDocument;
-import org.kuali.kra.irb.actions.notification.NotificationEventBase;
+import org.kuali.kra.infrastructure.Constants;
+import org.kuali.kra.infrastructure.KraServiceLocator;
+import org.kuali.kra.service.MultiCampusIdentityService;
 import org.kuali.rice.kew.bo.lookup.DocSearchCriteriaDTOLookupableHelperServiceImpl;
 import org.kuali.rice.kew.docsearch.DocumentSearchResult;
 import org.kuali.rice.kns.lookup.HtmlData.AnchorHtmlData;
+import org.kuali.rice.kns.util.GlobalVariables;
 import org.kuali.rice.kns.web.struts.form.LookupForm;
 import org.kuali.rice.kns.web.ui.Column;
 import org.kuali.rice.kns.web.ui.ResultRow;
 
 public class KraDocSearchCriteriaDTOLookupableHelperServiceImpl extends DocSearchCriteriaDTOLookupableHelperServiceImpl {
+    
     private static final String DOCUMENT_TITLE_FIELD = "documentTitle";
+    
+    private static final String[] PRINCIPAL_NAME_FIELDS = { "initiator", "aggregator", "budgetCreator", "narrativeWriter", "viewer" };
+    
     private static final Log LOG = LogFactory.getLog(KraDocSearchCriteriaDTOLookupableHelperServiceImpl.class);
 
     // TODO : should use injection to create this list instead ?
     private static ArrayList<String> notificationActions = new ArrayList<String>();
+    
+    private MultiCampusIdentityService multiCampusIdentityService;
     
     static {
         notificationActions.add("Close Enrollment");
@@ -60,11 +74,36 @@ public class KraDocSearchCriteriaDTOLookupableHelperServiceImpl extends DocSearc
      */
     @Override
     public Collection performLookup(LookupForm lookupForm, Collection resultTable, boolean bounded) {
-        List<DocumentSearchResult> docSearchResults = (List<DocumentSearchResult> ) super.performLookup(lookupForm, resultTable, bounded);
+        addMultiCampusPrincipalName();
+        List<DocumentSearchResult> docSearchResults = (List<DocumentSearchResult>) super.performLookup(lookupForm, resultTable, bounded);
         filterOutPlaceholderDocument(resultTable, docSearchResults);
         filterOutProtocolNotificationDocument(resultTable, docSearchResults);
         generateColumnAnchor(resultTable);
         return docSearchResults;
+    }
+    
+    /**
+     * Modifies the principal names to multicampus format if multicampus mode is on.
+     */
+    protected void addMultiCampusPrincipalName() {
+        boolean multiCampusEnabled = getParameterService().getIndicatorParameter(
+                Constants.KC_GENERIC_PARAMETER_NAMESPACE, Constants.KC_ALL_PARAMETER_DETAIL_TYPE_CODE, Constants.PARAMETER_MULTI_CAMPUS_ENABLED);
+        
+        if (multiCampusEnabled) {
+            Map<Object, Object> searchParameters = new HashMap<Object, Object>(getParameters());
+            for (String principalNameField : PRINCIPAL_NAME_FIELDS) {
+                String[] principalNameParameter = (String[]) searchParameters.get(principalNameField);
+                if (ArrayUtils.isNotEmpty(principalNameParameter)) {
+                    if (StringUtils.isNotBlank(principalNameParameter[0])) {
+                        String principalName = principalNameParameter[0];
+                        String campusCode = (String) GlobalVariables.getUserSession().retrieveObject(Constants.USER_CAMPUS_CODE_KEY);
+                        String multiCampusPrincipalName = getMultiCampusIdentityService().getMultiCampusPrincipalName(principalName, campusCode);
+                        searchParameters.put(principalNameField, new String[] {multiCampusPrincipalName});
+                    }
+                }
+            }
+            setParameters(Collections.unmodifiableMap(searchParameters));
+        }
     }
 
     /**
@@ -145,4 +184,16 @@ public class KraDocSearchCriteriaDTOLookupableHelperServiceImpl extends DocSearc
             }
         }
     }
+    
+    public MultiCampusIdentityService getMultiCampusIdentityService() {
+        if (multiCampusIdentityService == null) {
+            multiCampusIdentityService = KraServiceLocator.getService(MultiCampusIdentityService.class);
+        }
+        return multiCampusIdentityService;
+    }
+
+    public void setMultiCampusIdentityService(MultiCampusIdentityService multiCampusIdentityService) {
+        this.multiCampusIdentityService = multiCampusIdentityService;
+    }
+    
 }

@@ -21,12 +21,16 @@ import java.util.Map;
 
 import org.apache.commons.lang.StringUtils;
 import org.kuali.kra.bo.KcPerson;
+import org.kuali.kra.infrastructure.Constants;
 import org.kuali.kra.service.KcPersonService;
+import org.kuali.kra.service.MultiCampusIdentityService;
 import org.kuali.rice.kim.bo.entity.KimEntity;
 import org.kuali.rice.kim.bo.entity.KimPrincipal;
 import org.kuali.rice.kim.bo.impl.PersonImpl;
 import org.kuali.rice.kim.service.IdentityService;
 import org.kuali.rice.kim.service.PersonService;
+import org.kuali.rice.kns.service.ParameterService;
+import org.kuali.rice.kns.util.GlobalVariables;
 
 /**
  * Service for working with KcPerson objects.
@@ -37,6 +41,10 @@ public class KcPersonServiceImpl implements KcPersonService {
     
     @SuppressWarnings("unchecked")
     private PersonService personService;
+    
+    private ParameterService parameterService;
+    
+    private MultiCampusIdentityService multiCampusIdentityService;
     
     /** {@inheritDoc} */
     public List<KcPerson> getKcPersons(final Map<String, String> fieldValues) {
@@ -56,9 +64,16 @@ public class KcPersonServiceImpl implements KcPersonService {
      * @param fieldValues the field values to modify
      */
     protected void modifyFieldValues(final Map<String, String> fieldValues) {
+        boolean multiCampusEnabled = parameterService.getIndicatorParameter(
+                Constants.KC_GENERIC_PARAMETER_NAMESPACE, Constants.KC_ALL_PARAMETER_DETAIL_TYPE_CODE, Constants.PARAMETER_MULTI_CAMPUS_ENABLED);
+        
         //convert username and kcpersonid to proper naming such the person service can use them
         if (StringUtils.isNotBlank(fieldValues.get("userName"))){
             String userNameSearchValue = fieldValues.get("userName");
+            if (multiCampusEnabled) {
+                String campusCode = fieldValues.get("campusCode");
+                userNameSearchValue = this.multiCampusIdentityService.getMultiCampusPrincipalName(userNameSearchValue, campusCode);
+            }
             fieldValues.put("principalName", userNameSearchValue);  
         }
         
@@ -80,14 +95,30 @@ public class KcPersonServiceImpl implements KcPersonService {
     
     /** {@inheritDoc} */
     public KcPerson getKcPersonByUserName(final String userName) {
+        KcPerson person = null;
+        
         if (StringUtils.isEmpty(userName)) {
             throw new IllegalArgumentException("the userName is null or empty");
         }
-        KimEntity entity = this.identityService.getEntityInfoByPrincipalName(userName);
-        if (entity == null) {
-            return null;
+        
+        boolean multiCampusEnabled = parameterService.getIndicatorParameter(
+                Constants.KC_GENERIC_PARAMETER_NAMESPACE, Constants.KC_ALL_PARAMETER_DETAIL_TYPE_CODE, Constants.PARAMETER_MULTI_CAMPUS_ENABLED);
+        
+        if (multiCampusEnabled) {
+            String campusCode = (String) GlobalVariables.getUserSession().retrieveObject(Constants.USER_CAMPUS_CODE_KEY);
+            String multiCampusUserName = this.multiCampusIdentityService.getMultiCampusPrincipalName(userName, campusCode);
+            KimEntity entity = this.identityService.getEntityInfoByPrincipalName(multiCampusUserName);
+            if (entity != null) {
+                person = KcPerson.fromEntityAndUserName(entity, multiCampusUserName);
+            }
+        } else {
+            KimEntity entity = this.identityService.getEntityInfoByPrincipalName(userName);
+            if (entity != null) {
+                person = KcPerson.fromEntityAndUserName(entity, userName);
+            }
         }
-        return KcPerson.fromEntityAndUserName(entity, userName);
+
+        return person;
     }
     
     /** {@inheritDoc} */
@@ -140,6 +171,14 @@ public class KcPersonServiceImpl implements KcPersonService {
     
     public void setPersonService(PersonService personService) {
         this.personService = personService;
+    }
+
+    public void setParameterService(ParameterService parameterService) {
+        this.parameterService = parameterService;
+    }
+    
+    public void setMultiCampusIdentityService(MultiCampusIdentityService multiCampusIdentityService) {
+        this.multiCampusIdentityService = multiCampusIdentityService;
     }
     
 }

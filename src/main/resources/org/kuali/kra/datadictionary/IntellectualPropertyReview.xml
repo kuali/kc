@@ -129,6 +129,9 @@
         <property name="label" value="Reviewer" />
         <property name="shortLabel" value="Reviewer" />
         <property name="required" value="false" />
+        <property name="validationPattern" >
+            <bean parent="AnyCharacterValidationPattern" />
+        </property>
         <property name="control" >
             <bean parent="KualiUserControlDefinition"
                 p:personNameAttributeName="person.fullName"
