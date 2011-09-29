@@ -83,7 +83,7 @@ public class NegotiationAssociatedDetailBean implements Serializable {
      * @param award
      */
     public NegotiationAssociatedDetailBean(Award award) {
-        this(award.getLeadUnitNumber());
+        this(award == null ? "" : award.getLeadUnitNumber());
         if (award != null) {
             this.title = award.getTitle();
             this.leadUnit = award.getLeadUnit() == null ? EMPTY_STRING : award.getLeadUnit().getUnitName();
@@ -104,7 +104,7 @@ public class NegotiationAssociatedDetailBean implements Serializable {
      * @param proposalLog
      */
     public NegotiationAssociatedDetailBean(ProposalLog proposalLog) {
-        this(proposalLog.getUnit().getUnitNumber());
+        this(proposalLog == null ? "" : proposalLog.getUnit().getUnitNumber());
         if (proposalLog != null) {
             this.title = proposalLog.getTitle();
             this.leadUnit = proposalLog.getUnit() == null ? EMPTY_STRING : proposalLog.getUnit().getUnitName();
@@ -126,7 +126,7 @@ public class NegotiationAssociatedDetailBean implements Serializable {
      * @param institutionalProposal
      */
     public NegotiationAssociatedDetailBean(InstitutionalProposal institutionalProposal) {
-        this(institutionalProposal.getLeadUnitNumber());
+        this(institutionalProposal == null ? "" : institutionalProposal.getLeadUnitNumber());
         if (institutionalProposal != null) {
             this.title = institutionalProposal.getTitle();
             this.leadUnit = institutionalProposal.getLeadUnit() == null ? EMPTY_STRING : institutionalProposal.getLeadUnit().getUnitName();
@@ -147,7 +147,7 @@ public class NegotiationAssociatedDetailBean implements Serializable {
      * @param unAssociatedDetail
      */
     public NegotiationAssociatedDetailBean(NegotiationUnassociatedDetail unAssociatedDetail) {
-        this(unAssociatedDetail.getLeadUnitNumber());
+        this(unAssociatedDetail == null ? "" : unAssociatedDetail.getLeadUnitNumber());
         if (unAssociatedDetail != null) {
             this.title = unAssociatedDetail.getTitle();
             this.leadUnit = unAssociatedDetail.getLeadUnit() == null ? EMPTY_STRING : unAssociatedDetail.getLeadUnit().getUnitName();
