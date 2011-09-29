@@ -29,6 +29,7 @@ import org.kuali.kra.bo.web.SponsorFormMaintenanceDocumentSeleniumTest;
 import org.kuali.kra.budget.web.BudgetCategoryMaintenanceDocumentSeleniumTest;
 import org.kuali.kra.budget.web.CostElementMaintenanceDocumentSeleniumTest;
 import org.kuali.kra.budget.web.ValidCalcTypeMaintenanceDocumentSeleniumTest;
+import org.kuali.kra.coi.personfinancialentity.FinancialEntitySeleniumWebTest;
 import org.kuali.kra.committee.web.CommitteeCompleteSeleniumTest;
 import org.kuali.kra.institutionalproposal.web.InstitutionalProposalCompleteSeleniumTest;
 import org.kuali.kra.irb.web.ProtocolCompleteSeleniumTest;
@@ -54,6 +55,7 @@ import org.kuali.kra.proposaldevelopment.web.ProposalDevelopmentDeleteProposalTe
     ProtocolCompleteSeleniumTest.class,
     ProposalDevelopmentDeleteProposalTest.class,
     SponsorFormMaintenanceDocumentSeleniumTest.class,
-    ValidCalcTypeMaintenanceDocumentSeleniumTest.class
+    ValidCalcTypeMaintenanceDocumentSeleniumTest.class,
+    FinancialEntitySeleniumWebTest.class
 })
 public class IntegrationSuite {}
