@@ -32,6 +32,10 @@ import org.kuali.kra.budget.web.ValidCalcTypeMaintenanceDocumentSeleniumTest;
 import org.kuali.kra.coi.personfinancialentity.FinancialEntitySeleniumWebTest;
 import org.kuali.kra.committee.web.CommitteeCompleteSeleniumTest;
 import org.kuali.kra.institutionalproposal.web.InstitutionalProposalCompleteSeleniumTest;
+import org.kuali.kra.institutionalproposal.web.InstitutionalProposalContactsSeleniumTest;
+import org.kuali.kra.institutionalproposal.web.InstitutionalProposalDistributionSeleniumTest;
+import org.kuali.kra.institutionalproposal.web.InstitutionalProposalHomeSeleniumTest;
+import org.kuali.kra.institutionalproposal.web.InstitutionalProposalSpecialReviewSeleniumTest;
 import org.kuali.kra.irb.web.ProtocolCompleteSeleniumTest;
 import org.kuali.kra.proposaldevelopment.web.ActivityTypeMaintenanceDocumentSeleniumTest;
 import org.kuali.kra.proposaldevelopment.web.ProposalDevelopmentCompleteSeleniumTest;
@@ -50,6 +54,10 @@ import org.kuali.kra.proposaldevelopment.web.ProposalDevelopmentDeleteProposalTe
     InstituteLaRateMaintenanceDocumentSeleniumTest.class,
     InstituteRateMaintenanceDocumentSeleniumTest.class,
     InstitutionalProposalCompleteSeleniumTest.class,
+    InstitutionalProposalContactsSeleniumTest.class,
+    InstitutionalProposalDistributionSeleniumTest.class,
+    InstitutionalProposalHomeSeleniumTest.class,
+    InstitutionalProposalSpecialReviewSeleniumTest.class,
     OrganizationMaintenanceDocumentSeleniumTest.class,
     ProposalDevelopmentCompleteSeleniumTest.class,
     ProtocolCompleteSeleniumTest.class,
