@@ -82,7 +82,7 @@
                         </dt> 
                         <dt class="licurrent" >
                             <span class="tabright tabcurrent">
-                                <input type="submit" name="methodToCall.eidtNew" value="New Financial Entity" alt="New financial Entity">
+                                <input type="submit" name="methodToCall.editNew" value="New Financial Entity" alt="New financial Entity">
                             </span>
                         </dt> 
                         <dt>
@@ -152,6 +152,8 @@
                           <!--
                                 <input type="image" name="methodToCall.save" src="kr/static/images/buttonsmall_save.gif"  class="globalbuttons" title="save" alt="save">
                           -->
+                                    <input type="image" name="methodToCall.submit.new.anchor" src="kr/static/images/buttonsmall_submit.gif" class="globalbuttons" title="Submit" alt="Submit">
+                                    <input type="image" name="methodToCall.editNew" src="kr/static/images/buttonsmall_refresh.gif" class="globalbuttons" title="Refresh" alt="Refresh">
                                     <input type="image" name="methodToCall.close" src="kr/static/images/buttonsmall_close.gif" class="globalbuttons" title="close" alt="close">
                             <!--    
                                 <input type="image" name="methodToCall.cancel" src="kr/static/images/buttonsmall_cancel.gif" class="globalbuttons" title="cancel" alt="cancel">
