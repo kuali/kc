@@ -152,6 +152,11 @@
                           <!--
                                 <input type="image" name="methodToCall.save" src="kr/static/images/buttonsmall_save.gif"  class="globalbuttons" title="save" alt="save">
                           -->
+                                <c:if test="${KualiForm.financialEntityHelper.editEntityIndex != -1}">
+                                    <input type="image" name="methodToCall.save.line${KualiForm.financialEntityHelper.editEntityIndex}.anchor" src="kr/static/images/buttonsmall_save.gif" class="globalbuttons" title="Save Edit" alt="Save Edit">
+                                    <input type="image" name="methodToCall.submit.line${KualiForm.financialEntityHelper.editEntityIndex}.anchor" src="kr/static/images/buttonsmall_submit.gif" class="globalbuttons" title="Submit Edit" alt="Submit Edit">
+                                </c:if>
+                                    <input type="image" name="methodToCall.editList" src="kr/static/images/buttonsmall_refresh.gif" class="globalbuttons" title="Refresh" alt="Refresh">
                                     <input type="image" name="methodToCall.close" src="kr/static/images/buttonsmall_close.gif" class="globalbuttons" title="close" alt="close">
                             <!--    
                                 <input type="image" name="methodToCall.cancel" src="kr/static/images/buttonsmall_cancel.gif" class="globalbuttons" title="cancel" alt="cancel">
