@@ -392,6 +392,9 @@
 		<property name="lookupResultsService">
 			<ref bean="lookupResultsService" />
 		</property>
+		<property name="multiCampusIdentityService">
+            <ref bean="multiCampusIdentityService" />
+        </property>
 	</bean>
 
 	<bean id="pessimisticLockLookupable" class="org.kuali.rice.kns.lookup.KualiLookupableImpl"
@@ -480,15 +483,66 @@
 	<bean id="messageOfTheDayService" class="org.kuali.kra.service.impl.MessageOfTheDayServiceImpl">
 		<property name="businessObjectService" ref="businessObjectService" />
 	</bean>
+	
+	<bean id="groupLookupable" class="org.kuali.rice.kim.lookup.GroupLookupableImpl"
+        scope="prototype">
+        <property name="lookupableHelperService">
+            <bean class="org.kuali.kra.lookup.GroupLookupableHelperServiceImpl"
+                parent="lookupableHelperService">
+                    <property name="multiCampusIdentityService">
+                        <ref bean="multiCampusIdentityService" />
+                    </property>
+            </bean>
+        </property>
+    </bean>
 
 	<bean id="kimPersonLookupable" class="org.kuali.rice.kim.lookup.PersonLookupableImpl"
 		scope="prototype">
 		<property name="lookupableHelperService">
 			<bean class="org.kuali.kra.lookup.PersonLookupableHelperServiceImpl"
 				parent="lookupableHelperService">
+                    <property name="multiCampusIdentityService">
+                        <ref bean="multiCampusIdentityService" />
+                    </property>
 			</bean>
 		</property>
 	</bean>
+	
+	<bean id="permissionLookupable" class="org.kuali.rice.kim.lookup.PermissionLookupableImpl"
+        scope="prototype">
+        <property name="lookupableHelperService">
+            <bean class="org.kuali.kra.lookup.PermissionLookupableHelperServiceImpl"
+                parent="lookupableHelperService">
+                    <property name="multiCampusIdentityService">
+                        <ref bean="multiCampusIdentityService" />
+                    </property>
+            </bean>
+        </property>
+    </bean>
+    
+    <bean id="responsibilityLookupable" class="org.kuali.rice.kim.lookup.ResponsibilityLookupableImpl"
+        scope="prototype">
+        <property name="lookupableHelperService">
+            <bean class="org.kuali.kra.lookup.ResponsibilityLookupableHelperServiceImpl"
+                parent="lookupableHelperService">
+                    <property name="multiCampusIdentityService">
+                        <ref bean="multiCampusIdentityService" />
+                    </property>
+            </bean>
+        </property>
+    </bean>
+    
+    <bean id="roleLookupable" class="org.kuali.rice.kim.lookup.RoleLookupableImpl"
+        scope="prototype">
+        <property name="lookupableHelperService">
+            <bean class="org.kuali.kra.lookup.RoleLookupableHelperServiceImpl"
+                parent="lookupableHelperService">
+                    <property name="multiCampusIdentityService">
+                        <ref bean="multiCampusIdentityService" />
+                    </property>
+            </bean>
+        </property>
+    </bean>
 
 	<bean id="unitRoleTypeService" class="org.kuali.kra.kim.service.impl.UnitRoleTypeServiceImpl" />
 	<bean class="org.kuali.rice.ksb.messaging.KSBExporter">

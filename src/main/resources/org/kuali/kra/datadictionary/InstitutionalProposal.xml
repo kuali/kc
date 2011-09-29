@@ -880,14 +880,6 @@
 	<bean id="InstitutionalProposal-updateUser-parentBean" abstract="true" parent="KraAttributeReferenceDummy-updateUser" >
 		<property name="name" value="updateUser" />
 		<property name="label" value="Updated By" />
-		<property name="maxLength" value="60" />
-        <property name="validationPattern" >
-            <bean parent="AlphaNumericValidationPattern" />
-        </property>
-        <property name="control" >
-            <bean parent="TextControlDefinition"
-                p:size="10" />
-        </property>
 	</bean>
 	
 	<bean id="InstitutionalProposal-updateTimestamp" parent="InstitutionalProposal-updateTimestamp-parentBean" />

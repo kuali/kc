@@ -16,9 +16,13 @@
 package org.kuali.kra.lookup;
 
 import java.util.List;
+import java.util.Map;
 
 import org.apache.commons.lang.StringUtils;
 import org.kuali.kra.infrastructure.Constants;
+import org.kuali.kra.infrastructure.KraServiceLocator;
+import org.kuali.kra.service.MultiCampusIdentityService;
+import org.kuali.rice.kns.bo.BusinessObject;
 import org.kuali.rice.kns.util.GlobalVariables;
 import org.kuali.rice.kns.web.ui.Field;
 import org.kuali.rice.kns.web.ui.Row;
@@ -28,14 +32,18 @@ import org.kuali.rice.kns.web.ui.Row;
  */
 public class PersonLookupableHelperServiceImpl extends org.kuali.rice.kim.lookup.PersonLookupableHelperServiceImpl {
 
-    private static final long serialVersionUID = -8768505780052453120L;
+    private static final long serialVersionUID = 5378644476985169785L;
 
+    private static final String PRINCIPAL_NAME_FIELD = "principalName";
+    
+    private static final String CAMPUS_CODE_FIELD = "campusCode";
+    private static final String CAMPUS_LOOKUPABLE_CLASS_NAME = "org.kuali.rice.kns.bo.CampusImpl";
+    
     private static final String PRIMARY_DEPARTMENT_CODE_FIELD = "primaryDepartmentCode";
     private static final String UNIT_NUMBER_FIELD = "unitNumber";
     private static final String UNIT_LOOKUPABLE_CLASS_NAME = "org.kuali.kra.bo.Unit";
     
-    private static final String CAMPUS_CODE_FIELD = "campusCode";
-    private static final String CAMPUS_LOOKUPABLE_CLASS_NAME = "org.kuali.rice.kns.bo.CampusImpl";
+    private MultiCampusIdentityService multiCampusIdentityService;
     
     @Override
     public List<Row> getRows() {
@@ -68,6 +76,34 @@ public class PersonLookupableHelperServiceImpl extends org.kuali.rice.kim.lookup
         }
         return rows;
 
+    }
+    
+    @Override
+    public List<? extends BusinessObject> getSearchResults(Map<String, String> fieldValues) {
+        boolean multiCampusEnabled = getParameterService().getIndicatorParameter(
+                Constants.KC_GENERIC_PARAMETER_NAMESPACE, Constants.KC_ALL_PARAMETER_DETAIL_TYPE_CODE, Constants.PARAMETER_MULTI_CAMPUS_ENABLED);
+        
+        if (multiCampusEnabled) {
+            if (StringUtils.isNotBlank(fieldValues.get(PRINCIPAL_NAME_FIELD))) {
+                String principalName = fieldValues.get(PRINCIPAL_NAME_FIELD);
+                String campusCode = fieldValues.get(CAMPUS_CODE_FIELD);
+                String multiCampusPrincipalName = getMultiCampusIdentityService().getMultiCampusPrincipalName(principalName, campusCode);
+                fieldValues.put(PRINCIPAL_NAME_FIELD, multiCampusPrincipalName);
+            }
+        }
+        
+        return super.getSearchResults(fieldValues);
+    }
+
+    public MultiCampusIdentityService getMultiCampusIdentityService() {
+        if (multiCampusIdentityService == null) {
+            multiCampusIdentityService = KraServiceLocator.getService(MultiCampusIdentityService.class);
+        }
+        return multiCampusIdentityService;
+    }
+
+    public void setMultiCampusIdentityService(MultiCampusIdentityService multiCampusIdentityService) {
+        this.multiCampusIdentityService = multiCampusIdentityService;
     }
    
 }

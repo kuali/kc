@@ -499,6 +499,8 @@
         <field-descriptor name="contentType" column="BIOSKETCH_FILE_CONTENT_TYPE" jdbc-type="VARCHAR"/>
         <field-descriptor name="attachmentContent" column="BIOSKETCH_FILE" jdbc-type="LONGVARBINARY"/>
         <field-descriptor name="citizenshipTypeCode" column="CITIZENSHIP_TYPE_CODE" jdbc-type="INTEGER"/>
+		<field-descriptor name="multiCampusPrincipalId" column="MULTI_CAMPUS_PRINCIPAL_ID" jdbc-type="VARCHAR"/>
+		<field-descriptor name="multiCampusPrincipalName" column="MULTI_CAMPUS_PRINCIPAL_NAME" jdbc-type="VARCHAR"/>
 		
 		<field-descriptor name="updateTimestamp" column="UPDATE_TIMESTAMP" jdbc-type="TIMESTAMP" />
 		<field-descriptor name="updateUser" column="UPDATE_USER" jdbc-type="VARCHAR" />

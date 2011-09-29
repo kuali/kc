@@ -23,9 +23,11 @@ import java.util.Properties;
 
 import org.apache.commons.lang.StringUtils;
 import org.kuali.kra.bo.KcPerson;
+import org.kuali.kra.infrastructure.Constants;
 import org.kuali.kra.infrastructure.KeyConstants;
 import org.kuali.kra.infrastructure.KraServiceLocator;
 import org.kuali.kra.service.KcPersonService;
+import org.kuali.kra.service.MultiCampusIdentityService;
 import org.kuali.rice.kns.bo.BusinessObject;
 import org.kuali.rice.kns.lookup.HtmlData;
 import org.kuali.rice.kns.lookup.KualiLookupableHelperServiceImpl;
@@ -49,6 +51,8 @@ public class ProposalLogLookupableHelperServiceImpl extends KualiLookupableHelpe
     
     private boolean isLookupForProposalCreation;
     
+    private MultiCampusIdentityService multiCampusIdentityService;
+    
     /*
      * We want to allow users to query on principal name instead of person id, 
      * so we need to translate before performing the lookup.
@@ -56,14 +60,27 @@ public class ProposalLogLookupableHelperServiceImpl extends KualiLookupableHelpe
     @SuppressWarnings("unchecked")
     @Override
     public Collection performLookup(LookupForm lookupForm, Collection resultTable, boolean bounded) {
-        String userName = (String) lookupForm.getFieldsForLookup().get(USERNAME_FIELD);
-        if (!StringUtils.isBlank(userName)) {
-            KcPerson person = getKcPersonService().getKcPersonByUserName(userName);
+        String principalName = (String) lookupForm.getFieldsForLookup().get(USERNAME_FIELD);
+        
+        boolean multiCampusEnabled = getParameterService().getIndicatorParameter(
+                Constants.KC_GENERIC_PARAMETER_NAMESPACE, Constants.KC_ALL_PARAMETER_DETAIL_TYPE_CODE, Constants.PARAMETER_MULTI_CAMPUS_ENABLED);
+        
+        if (multiCampusEnabled) {
+            if (StringUtils.isNotBlank(principalName)) {
+                String campusCode = (String) GlobalVariables.getUserSession().retrieveObject(Constants.USER_CAMPUS_CODE_KEY);
+                principalName = getMultiCampusIdentityService().getMultiCampusPrincipalName(principalName, campusCode);
+                lookupForm.getFieldsForLookup().put(USERNAME_FIELD, principalName);
+            }
+        }
+        
+        if (!StringUtils.isBlank(principalName)) {
+            KcPerson person = getKcPersonService().getKcPersonByUserName(principalName);
             if (person != null) {
                 lookupForm.getFieldsForLookup().put("piId", person.getPersonId());
             }
             lookupForm.getFieldsForLookup().remove(USERNAME_FIELD);
         }
+        
         return super.performLookup(lookupForm, resultTable, bounded);
     }
     
@@ -182,6 +199,25 @@ public class ProposalLogLookupableHelperServiceImpl extends KualiLookupableHelpe
         }
     }
     
+    /**
+     * Modifies the principal name to multicampus format if multicampus mode is on.
+     * 
+     * @param fieldValues the values to map to modify
+     */
+    protected void addMultiCampusPrincipalName(final Map<String, String> fieldValues) {
+        boolean multiCampusEnabled = getParameterService().getIndicatorParameter(
+                Constants.KC_GENERIC_PARAMETER_NAMESPACE, Constants.KC_ALL_PARAMETER_DETAIL_TYPE_CODE, Constants.PARAMETER_MULTI_CAMPUS_ENABLED);
+        
+        if (multiCampusEnabled) {
+            if (StringUtils.isNotBlank(fieldValues.get(USERNAME_FIELD))) {
+                String principalName = fieldValues.get(USERNAME_FIELD);
+                String campusCode = (String) GlobalVariables.getUserSession().retrieveObject(Constants.USER_CAMPUS_CODE_KEY);
+                String multiCampusPrincipalName = getMultiCampusIdentityService().getMultiCampusPrincipalName(principalName, campusCode);
+                fieldValues.put(USERNAME_FIELD, multiCampusPrincipalName);
+            }
+        }
+    }
+    
     protected void removeEditLink(List<HtmlData> htmlDataList) {
         int editLinkIndex = -1;
         int currentIndex = 0;
@@ -199,6 +235,17 @@ public class ProposalLogLookupableHelperServiceImpl extends KualiLookupableHelpe
     
     protected KcPersonService getKcPersonService() {
         return KraServiceLocator.getService(KcPersonService.class);
+    }
+    
+    public MultiCampusIdentityService getMultiCampusIdentityService() {
+        if (multiCampusIdentityService == null) {
+            multiCampusIdentityService = KraServiceLocator.getService(MultiCampusIdentityService.class);
+        }
+        return multiCampusIdentityService;
+    }
+
+    public void setMultiCampusIdentityService(MultiCampusIdentityService multiCampusIdentityService) {
+        this.multiCampusIdentityService = multiCampusIdentityService;
     }
     
 }
