@@ -190,6 +190,10 @@
 				<value>kimPersonLookupable</value>
 				<value>riceApplicationConfigurationService</value>
 				<value>awardTemplateLookupable</value>
+				<value>groupLookupable</value>
+				<value>permissionLookupable</value>
+				<value>responsibilityLookupable</value>
+				<value>roleLookupable</value>
 			</set>
 		</property>
 	</bean>	
@@ -336,12 +340,27 @@
 		<property name="serviceName" value="encryptionService" />
 	</bean>
 	
+	<bean id ="multiCampusIdentityService" class="org.kuali.kra.service.impl.MultiCampusIdentityServiceImpl">
+	   <property name="businessObjectService">
+           <ref bean="businessObjectService" />
+       </property>
+	   <property name="identityService">
+           <ref bean="identityService" />
+       </property>
+	</bean>
+	
     <bean id="kcPersonService" class="org.kuali.kra.service.impl.KcPersonServiceImpl">
        <property name="identityService">
            <ref bean="identityService" />
        </property>
        <property name="personService">
            <ref bean="personService" />
+       </property>
+       <property name="parameterService">
+           <ref bean="parameterService" />
+       </property>
+       <property name="multiCampusIdentityService">
+           <ref bean="multiCampusIdentityService" />
        </property>
     </bean>
 	

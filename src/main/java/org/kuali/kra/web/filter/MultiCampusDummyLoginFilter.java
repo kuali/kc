@@ -30,6 +30,7 @@ import javax.servlet.http.HttpServletRequestWrapper;
 
 import org.kuali.kra.infrastructure.Constants;
 import org.kuali.kra.infrastructure.KraServiceLocator;
+import org.kuali.kra.service.MultiCampusIdentityService;
 import org.kuali.rice.kew.web.UserLoginFilter;
 import org.kuali.rice.kew.web.session.UserSession;
 import org.kuali.rice.kim.bo.entity.KimPrincipal;
@@ -68,14 +69,18 @@ public class MultiCampusDummyLoginFilter implements Filter {
             }
             if (session == null) {
                 IdentityManagementService auth = KIMServiceLocator.getIdentityManagementService();
+                MultiCampusIdentityService multiCampusAuth = KraServiceLocator.getService(MultiCampusIdentityService.class);
                 request.setAttribute("showPasswordField", showPassword);
                 request.setAttribute("campuses", campuses);
                 final String user = request.getParameter("__login_user");
                 final String password = request.getParameter("__login_pw");
                 final String campusCode = request.getParameter("__login_campusCode");
+                
+                final String multiCampusUser = multiCampusAuth.getMultiCampusPrincipalName(user, campusCode);
                 if (user != null) {
                     // Very simple password checking. Nothing hashed or encrypted. This is strictly for demonstration purposes only.
-                    final KimPrincipal principal = showPassword ? auth.getPrincipalByPrincipalNameAndPassword(user, password) : auth.getPrincipalByPrincipalName(user);
+                    final KimPrincipal principal = showPassword ? auth.getPrincipalByPrincipalNameAndPassword(multiCampusUser, password) 
+                                                                : auth.getPrincipalByPrincipalName(multiCampusUser);
                     if (principal == null) {
                         handleInvalidLogin(request, response);  
                         return;
@@ -84,7 +89,7 @@ public class MultiCampusDummyLoginFilter implements Filter {
                         // UserLoginFilter and WebAuthenticationService will create the session
                         request = new HttpServletRequestWrapper(hsreq) {
                             public String getRemoteUser() {
-                                return user;
+                                return multiCampusUser;
                             } 
                         };
                         hsreq.getSession().setAttribute(Constants.USER_CAMPUS_CODE_KEY, campusCode);

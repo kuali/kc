@@ -155,14 +155,6 @@
 		<property name="name" value="updateUser" />
 		<property name="label" value="Updated By" />
 		<property name="shortLabel" value="Uploaded By" />
-		<property name="maxLength" value="60" />
-        <property name="validationPattern" >
-            <bean parent="AlphaNumericValidationPattern" />
-        </property>
-        <property name="control" >
-            <bean parent="TextControlDefinition"
-                p:size="10" />
-        </property>
 	</bean>
 	
 	<bean id="AwardAttachment-updateTimestamp" parent="AwardAttachment-updateTimestamp-parentBean" />

@@ -23,24 +23,26 @@ import java.util.Map;
 import org.apache.commons.lang.StringUtils;
 import org.kuali.kra.bo.KcPerson;
 import org.kuali.kra.bo.UnitAdministrator;
+import org.kuali.kra.infrastructure.Constants;
 import org.kuali.kra.infrastructure.KraServiceLocator;
 import org.kuali.kra.service.KcPersonService;
+import org.kuali.kra.service.MultiCampusIdentityService;
 import org.kuali.rice.kns.bo.BusinessObject;
 import org.kuali.rice.kns.lookup.HtmlData;
 import org.kuali.rice.kns.lookup.KualiLookupableHelperServiceImpl;
+import org.kuali.rice.kns.util.GlobalVariables;
 import org.kuali.rice.kns.web.struts.form.LookupForm;
 import org.kuali.rice.kns.web.ui.Field;
 import org.kuali.rice.kns.web.ui.Row;
 
 /**
- * Lookupable helper service used for proposal log lookup
+ * Lookupable helper service used for proposal log lookup.
  */  
 public class UnitAdministratorLookupableHelperServiceImpl extends KualiLookupableHelperServiceImpl {
 
-    /**
-     * Comment for <code>serialVersionUID</code>
-     */
-    private static final long serialVersionUID = 2733736916454475501L;
+    private static final long serialVersionUID = -1872952906646407708L;
+    
+    private MultiCampusIdentityService multiCampusIdentityService;
     
     @SuppressWarnings("unchecked")
     public List<HtmlData> getCustomActionUrls(BusinessObject businessObject, List pkNames){
@@ -75,14 +77,27 @@ public class UnitAdministratorLookupableHelperServiceImpl extends KualiLookupabl
     @SuppressWarnings("unchecked")
     @Override
     public Collection performLookup(LookupForm lookupForm, Collection resultTable, boolean bounded) {
-        String userName = (String) lookupForm.getFieldsForLookup().get("person.userName");
-            if (StringUtils.isNotEmpty(userName)) {
-                KcPerson person = getKcPersonService().getKcPersonByUserName(userName);
-                if (person != null) {
-                    lookupForm.getFieldsForLookup().put("personId", person.getPersonId());
-                }
+        String principalName = (String) lookupForm.getFieldsForLookup().get("person.userName");
+        
+        boolean multiCampusEnabled = getParameterService().getIndicatorParameter(
+                Constants.KC_GENERIC_PARAMETER_NAMESPACE, Constants.KC_ALL_PARAMETER_DETAIL_TYPE_CODE, Constants.PARAMETER_MULTI_CAMPUS_ENABLED);
+        
+        if (multiCampusEnabled) {
+            if (StringUtils.isNotBlank(principalName)) {
+                String campusCode = (String) GlobalVariables.getUserSession().retrieveObject(Constants.USER_CAMPUS_CODE_KEY);
+                principalName = getMultiCampusIdentityService().getMultiCampusPrincipalName(principalName, campusCode);
+                lookupForm.getFieldsForLookup().put("person.userName", principalName);
             }
-            return super.performLookup(lookupForm, resultTable, bounded);
+        }
+        
+        if (StringUtils.isNotEmpty(principalName)) {
+            KcPerson person = getKcPersonService().getKcPersonByUserName(principalName);
+            if (person != null) {
+                lookupForm.getFieldsForLookup().put("personId", person.getPersonId());
+            }
+        }
+        
+        return super.performLookup(lookupForm, resultTable, bounded);
     }
     
     public KcPersonService getKcPersonService() {
@@ -114,6 +129,17 @@ public class UnitAdministratorLookupableHelperServiceImpl extends KualiLookupabl
             }
         }
         return filteredList;
+    }
+    
+    public MultiCampusIdentityService getMultiCampusIdentityService() {
+        if (multiCampusIdentityService == null) {
+            multiCampusIdentityService = KraServiceLocator.getService(MultiCampusIdentityService.class);
+        }
+        return multiCampusIdentityService;
+    }
+
+    public void setMultiCampusIdentityService(MultiCampusIdentityService multiCampusIdentityService) {
+        this.multiCampusIdentityService = multiCampusIdentityService;
     }
     
 }
