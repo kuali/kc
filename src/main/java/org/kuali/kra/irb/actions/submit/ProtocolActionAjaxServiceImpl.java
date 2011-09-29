@@ -92,6 +92,8 @@ public class ProtocolActionAjaxServiceImpl implements ProtocolActionAjaxService 
                     LOG.info("Attention: formObj is incorrect format for docFormKey = " + docFormKey + ", obj = " + formObj);
                 } else {
                     ActionHelper actionHelper = ((ProtocolForm) formObj).getActionHelper();
+System.out.println("\nAAAA getCanAssign() = " + actionHelper.getCanAssignCmtSched() +
+     ", canSubmit() = " + actionHelper.getCanSubmitProtocol() + ", canAssignReviewers() = " + actionHelper.getCanAssignReviewers());
                     isAuthorized = actionHelper.getCanAssignCmtSched()
                                 || actionHelper.getCanSubmitProtocol() || actionHelper.getCanAssignReviewers();
                     if (!isAuthorized) {
