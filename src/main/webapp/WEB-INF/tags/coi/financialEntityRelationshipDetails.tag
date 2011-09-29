@@ -10,11 +10,14 @@
 <c:set var="kraAttributeReferenceDummyAttributes" value="${DataDictionary.KraAttributeReferenceDummy.attributes}" />
     <div class="tab-container" align="center">
         <h3>
-            <span class="subhead-left"> Relationship Details </span>
+            <span class="subhead-left"> 
+            <a href="#" id ="relationDetailControl" class="relationDetailSubpanel"><img src='kr/images/tinybutton-show.gif' alt='show/hide panel' width='45' height='15' border='0' align='absmiddle'></a> Relationship Details </span>
             <span class="subhead-right"> <kul:help businessObjectClassName="org.kuali.kra.coi.personfinancialentity.FinIntEntityStatus" altText="help"/> </span>
         </h3>
+      <div id="relationDetailContent" class="relationDetailSubpanelContent">                    
                     
         <table id="response-table" width="100%" cellpadding="0" cellspacing="0" class="datatable">
+ <%--
             <tr>
                 <th align="middle" valign="middle" >
                     &nbsp;
@@ -31,6 +34,7 @@
                     Comment
                 </th>
             </tr>
+        --%>    
             <c:set var="groupId" value=""/>
             <c:forEach var="dataRow" items="${detailList}" varStatus="groupstatus">
                  <c:if test="${dataRow.dataGroupId != groupId}">
@@ -39,9 +43,22 @@
                         <kul:htmlControlAttribute property="${prop}[${groupstatus.index}].dataGroupName" 
                                               attributeEntry="${FinEntitiesDataMatrixAttribute.columnLabel}" readOnly="true"/> 
                     </th>
+            <c:forEach var="relationshipType" items="${KualiForm.financialEntityHelper.finEntityRelationshipTypes}" varStatus="status">
+                <th align="middle" valign="middle">
+
+
+                    <kul:htmlControlAttribute property="financialEntityHelper.finEntityRelationshipTypes[${status.index}].description" 
+                                              attributeEntry="${FinIntRelTypesAttribute.description}" readOnly="true"/> 
+                </th>
+             </c:forEach> 
+                <th align="middle" valign="middle" >
+                    Comment
+                </th>
+                <%--
                     <td colspan="${fn:length(KualiForm.financialEntityHelper.finEntityRelationshipTypes) + 1}"> 
                         &nbsp;
                     </td>
+                  --%>  
                     <c:set var="groupId" value="${dataRow.dataGroupId}"/>
                    <tr>
                  </c:if>
@@ -75,7 +92,8 @@
                     </td>
                  </tr>
              </c:forEach> 
-            </tr>            
+            </tr>    
+            <%--        
                 <tr>
                     <td align="center" colspan="${fn:length(KualiForm.financialEntityHelper.finEntityRelationshipTypes) + 2}">
                         <div align="center">
@@ -88,6 +106,7 @@
                         </div>
                     </td>
                 </tr>
-            
+             --%>
         </table>
+      </div>
     </div>
