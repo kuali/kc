@@ -360,8 +360,8 @@ public class Negotiation extends KraPersistableBusinessObjectBase implements Per
                 leadUnitNumber = ip == null ? "" : ip.getLeadUnitNumber();
             } else if (StringUtils.equals(this.getNegotiationAssociationType().getCode(), 
                     NegotiationAssociationType.NONE_ASSOCIATION)) {
-                leadUnitNumber = this.getUnAssociatedDetail() != null && this.getUnAssociatedDetail().getLeadUnit() != null ?
-                        this.getUnAssociatedDetail().getLeadUnit().getUnitNumber() : "";
+                leadUnitNumber = this.getUnAssociatedDetail() != null && this.getUnAssociatedDetail().getLeadUnitNumber() != null ?
+                        this.getUnAssociatedDetail().getLeadUnitNumber() : "";
             } else if (StringUtils.equals(this.getNegotiationAssociationType().getCode(), 
                     NegotiationAssociationType.PROPOSAL_LOG_ASSOCIATION)) {
                 ProposalLog pl = (ProposalLog) bo;
