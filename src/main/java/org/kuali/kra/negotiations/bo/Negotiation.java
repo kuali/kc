@@ -353,19 +353,19 @@ public class Negotiation extends KraPersistableBusinessObjectBase implements Per
         if (this.getNegotiationAssociationType() != null) {
             if (StringUtils.equals(this.getNegotiationAssociationType().getCode(), NegotiationAssociationType.AWARD_ASSOCIATION)) {
                 Award award = (Award) bo;
-                leadUnitNumber = award.getLeadUnitNumber();
+                leadUnitNumber = award == null ? "" : award.getLeadUnitNumber();
             } else if (StringUtils.equals(this.getNegotiationAssociationType().getCode(), 
                     NegotiationAssociationType.INSTITUATIONAL_PROPOSAL_ASSOCIATION)) {
                 InstitutionalProposal ip = (InstitutionalProposal) bo;
-                leadUnitNumber = ip.getLeadUnitNumber();
+                leadUnitNumber = ip == null ? "" : ip.getLeadUnitNumber();
             } else if (StringUtils.equals(this.getNegotiationAssociationType().getCode(), 
                     NegotiationAssociationType.NONE_ASSOCIATION)) {
-                leadUnitNumber = this.getUnAssociatedDetail() != null && this.getUnAssociatedDetail().getLeadUnit() != null ? 
+                leadUnitNumber = this.getUnAssociatedDetail() != null && this.getUnAssociatedDetail().getLeadUnit() != null ?
                         this.getUnAssociatedDetail().getLeadUnit().getUnitNumber() : "";
             } else if (StringUtils.equals(this.getNegotiationAssociationType().getCode(), 
                     NegotiationAssociationType.PROPOSAL_LOG_ASSOCIATION)) {
                 ProposalLog pl = (ProposalLog) bo;
-                leadUnitNumber = pl.getLeadUnit();
+                leadUnitNumber = pl == null ? "" : pl.getLeadUnit();
             } else if (StringUtils.equals(this.getNegotiationAssociationType().getCode(), 
                     NegotiationAssociationType.SUB_AWARD_ASSOCIATION)) {
                 leadUnitNumber = "";
