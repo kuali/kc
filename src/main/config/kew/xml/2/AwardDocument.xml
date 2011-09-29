@@ -13,6 +13,26 @@
 			<docHandler>${kuali.docHandler.url.prefix}/awardHome.do?methodToCall=docHandler</docHandler>
 			<helpDefinitionURL>default.htm?turl=Documents/award.htm</helpDefinitionURL>
 			<active>true</active>
+			<attributes>
+				<attribute>
+					<name>AwardIdSearchAttribute</name>
+				</attribute>
+				<attribute>
+					<name>AccountNumberSearchAttribute</name>
+				</attribute>
+				<attribute>
+					<name>AwardTitleSearchAttribute</name>
+				</attribute>
+				<attribute>
+					<name>InvestigatorSearchAttribute</name>
+				</attribute>
+				<attribute>
+					<name>LeadUnitSearchAttribute</name>
+				</attribute>
+				<attribute>
+					<name>SponsorSearchAttribute</name>
+				</attribute>
+			</attributes>
 			<routePaths>
 				<routePath>
 					<start name="Initiated" nextNode="hasSync"/>
@@ -153,7 +173,115 @@
                 </fieldDef>
             </routingConfig>
         </ruleAttribute>
-     </ruleAttributes>
+       	<ruleAttribute>
+			<name>AwardTitleSearchAttribute</name>
+			<className>org.kuali.rice.kew.docsearch.xml.StandardGenericXMLSearchableAttribute</className>
+			<label>AwardTitleSearchAttribute</label>
+			<description>AwardTitleSearchAttribute</description>
+			<type>SearchableXmlAttribute</type>
+			<serviceNamespace>KC</serviceNamespace>
+			<searchingConfig>
+				<fieldDef name="title" title="Award Title">
+					<display>
+						<type>text</type>
+					</display>
+					<fieldEvaluation>
+						<xpathexpression>//awardList/org.kuali.kra.award.home.Award/title</xpathexpression>
+					</fieldEvaluation>
+				</fieldDef>
+			</searchingConfig>
+		</ruleAttribute>
+		<ruleAttribute>
+			<name>AwardIdSearchAttribute</name>
+			<className>org.kuali.rice.kew.docsearch.xml.StandardGenericXMLSearchableAttribute</className>
+			<label>AwardIdSearchAttribute</label>
+			<description>AwardIdSearchAttribute</description>
+			<type>SearchableXmlAttribute</type>
+			<serviceNamespace>KC</serviceNamespace>
+			<searchingConfig>
+				<fieldDef name="awardId" title="Award Id">
+					<display>
+						<type>text</type>
+					</display>
+					<fieldEvaluation>
+						<xpathexpression>//awardList/org.kuali.kra.award.home.Award/awardNumber</xpathexpression>
+					</fieldEvaluation>
+				</fieldDef>
+			</searchingConfig>
+		</ruleAttribute>
+		<ruleAttribute>
+			<name>AccountNumberSearchAttribute</name>
+			<className>org.kuali.rice.kew.docsearch.xml.StandardGenericXMLSearchableAttribute</className>
+			<label>AccountNumberSearchAttribute</label>
+			<description>AccountNumberSearchAttribute</description>
+			<type>SearchableXmlAttribute</type>
+			<serviceNamespace>KC</serviceNamespace>
+			<searchingConfig>
+				<fieldDef name="accountNumber" title="Account Id">
+					<display>
+						<type>text</type>
+					</display>
+					<fieldEvaluation>
+						<xpathexpression>//awardList/org.kuali.kra.award.home.Award/accountNumber</xpathexpression>
+					</fieldEvaluation>
+				</fieldDef>
+			</searchingConfig>
+		</ruleAttribute>
+		<ruleAttribute>
+			<name>InvestigatorSearchAttribute</name>
+			<className>org.kuali.rice.kew.docsearch.xml.StandardGenericXMLSearchableAttribute</className>
+			<label>InvestigatorSearchAttribute</label>
+			<description>InvestigatorSearchAttribute</description>
+			<type>SearchableXmlAttribute</type>
+			<serviceNamespace>KC</serviceNamespace>
+			<searchingConfig>
+				<fieldDef name="principalInvestigatorName" title="Investigator">
+					<display>
+						<type>text</type>
+					</display>
+					<fieldEvaluation>
+						<xpathexpression>//awardList/org.kuali.kra.award.home.Award/principalInvestigatorName</xpathexpression>
+					</fieldEvaluation>
+				</fieldDef>
+			</searchingConfig>
+		</ruleAttribute>
+		<ruleAttribute>
+			<name>LeadUnitSearchAttribute</name>
+			<className>org.kuali.rice.kew.docsearch.xml.StandardGenericXMLSearchableAttribute</className>
+			<label>LeadUnitSearchAttribute</label>
+			<description>LeadUnitSearchAttribute</description>
+			<type>SearchableXmlAttribute</type>
+			<serviceNamespace>KC</serviceNamespace>
+			<searchingConfig>
+				<fieldDef name="leadUnit" title="Lead Unit">
+					<display>
+						<type>text</type>
+					</display>
+					<fieldEvaluation>
+						<xpathexpression>//awardList/org.kuali.kra.award.home.Award/leadUnit/unitNumber</xpathexpression>
+					</fieldEvaluation>
+				</fieldDef>
+			</searchingConfig>
+		</ruleAttribute>
+		<ruleAttribute>
+			<name>SponsorSearchAttribute</name>
+			<className>org.kuali.rice.kew.docsearch.xml.StandardGenericXMLSearchableAttribute</className>
+			<label>SponsorSearchAttribute</label>
+			<description>SponsorSearchAttribute</description>
+			<type>SearchableXmlAttribute</type>
+			<serviceNamespace>KC</serviceNamespace>
+			<searchingConfig>
+				<fieldDef name="sponsor" title="Sponsor">
+					<display>
+						<type>text</type>
+					</display>
+					<fieldEvaluation>
+						<xpathexpression>//awardList/org.kuali.kra.award.home.Award/sponsor/sponsorCode</xpathexpression>
+					</fieldEvaluation>
+				</fieldDef>
+			</searchingConfig>
+		</ruleAttribute>
+	</ruleAttributes>
      <ruleTemplates xmlns="ns:workflow/RuleTemplate" xsi:schemaLocation="ns:workflow/RuleTemplate resource:RuleTemplate">
         <ruleTemplate allowOverwrite="true">
           <name>RoutedByUserRoleTemplate</name>
