@@ -40,6 +40,7 @@ public class FinancialEntitySeleniumHelper extends KcSeleniumHelper {
 
         click("Financial Entities");
         click("methodToCall.editNew");
+        click("relationDetailControl");
         setupFields();
         waitForSponsorCodeAjax();
         click("methodToCall.submit.new.anchor");

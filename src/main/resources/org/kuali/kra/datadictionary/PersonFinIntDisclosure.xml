@@ -260,8 +260,8 @@
         </property>
 		<property name="control" >
       		<bean parent="TextareaControlDefinition"
-            	p:rows="4"
-            	p:cols="40" />
+            	p:rows="3"
+            	p:cols="60" />
 		</property>
         <property name="summary" value="Relationship Description" />
         <property name="description" value="Relationship Description" />
@@ -288,8 +288,8 @@
         </property>
         <property name="control" >
             <bean parent="TextareaControlDefinition"
-                p:rows="4"
-                p:cols="40" />
+                p:rows="3"
+                p:cols="60" />
         </property>
         <property name="summary" value="Org Relation Description" />
         <property name="description" value="Org Relation Description" />
@@ -308,7 +308,7 @@
         </property>
         <property name="control" >
             <bean parent="TextareaControlDefinition"
-                p:rows="4"
+                p:rows="3"
                 p:cols="60" />
         </property>
         <property name="summary" value="Entity Principal Business/Activity" />
