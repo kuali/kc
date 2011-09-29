@@ -54,6 +54,7 @@ public class AwardBudgetDocument extends BudgetDocument<org.kuali.kra.award.home
     private boolean budgetRateTypePopulated;
     private transient BudgetParentDocument<Award> newestBudgetParentDocument;
     private transient AwardBudgetService awardBudgetService;
+    private Award  currentAward;
     /**
      * Comment for <code>serialVersionUID</code>
      */
@@ -62,6 +63,7 @@ public class AwardBudgetDocument extends BudgetDocument<org.kuali.kra.award.home
     @Override
     public void initialize() {
         Award award = getParentDocument().getBudgetParent();
+        this.setCurrentAward(award);
         AwardBudgetExt awardBudget = getAwardBudget();
         awardBudget.setObligatedTotal(new BudgetDecimal(award.getBudgetTotalCostLimit().bigDecimalValue()));
         List<BudgetRate> budgetRates = awardBudget.getBudgetRates();
@@ -88,6 +90,22 @@ public class AwardBudgetDocument extends BudgetDocument<org.kuali.kra.award.home
         return newestBudgetParentDocument;
     }
     
+    /**
+     * Gets the currentAward attribute. 
+     * @return Returns the currentAward.
+     */
+    public Award getCurrentAward() {
+        return currentAward;
+    }
+
+    /**
+     * Sets the currentAward attribute value.
+     * @param currentAward The currentAward to set.
+     */
+    public void setCurrentAward(Award currentAward) {
+        this.currentAward = currentAward;
+    }
+
     /**
      * @see org.kuali.kra.document.ResearchDocumentBase#getDocumentTypeCode()
      */
@@ -163,7 +181,8 @@ public class AwardBudgetDocument extends BudgetDocument<org.kuali.kra.award.home
         String newStatus = dto.getNewRouteStatus();
         String oldStatus = dto.getOldRouteStatus();
         boolean changeStatus = false;
-   
+        this.setCurrentAward(getParentDocument().getBudgetParent());
+      
         if( LOG.isDebugEnabled() )
             LOG.debug(String.format( "Route status change on AwardBudgetDocument #%s from %s to %s.", getDocumentNumber(), oldStatus, newStatus ));
         

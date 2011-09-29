@@ -4,7 +4,7 @@
 
   <bean id="AwardBudgetDocument-parentBean" abstract="true" parent="BudgetDocument-parentBean">
     
-    <property name="useWorkflowPessimisticLocking" value="true"/>
+    <property name="useWorkflowPessimisticLocking" value="false"/>
     
     <property name="documentTypeName" value="AwardBudgetDocument"/>
     <property name="documentClass" value="org.kuali.kra.award.budget.document.AwardBudgetDocument"/>
@@ -73,20 +73,38 @@
         </bean>
       </list>
     </property>
-    
+    <property name="workflowProperties">
+    	<ref bean="AwardBudgetDocument-workflowProperties"/>
+    </property>
     <property name="attributes">
       <list>
         <ref bean="AwardBudgetDocument-versionNumber"/>
       </list>
     </property>
     
-    <property name="workflowAttributes">
-    	<ref bean="AwardBudgetDocument-workflowAttributes"/>
-    </property>
-    
   </bean>
 
   <bean id="AwardBudgetDocument-versionNumber" parent="BudgetDocument-versionNumber-parentBean"/>
 
-  <bean id="AwardBudgetDocument-workflowAttributes" parent="BudgetDocument-workflowAttributes-parentBean"/>
+  <bean id="AwardBudgetDocument-workflowProperties" parent="AwardBudgetDocument-workflowProperties-parentBean"/>
+  <bean id="AwardBudgetDocument-workflowProperties-parentBean" abstract="true" parent="WorkflowProperties" >
+    <property name="workflowPropertyGroups">
+      <list>
+        <bean parent="WorkflowPropertyGroup">
+          <property name="workflowProperties">
+            <list>
+              <bean parent="WorkflowProperty" p:path="documentHeader"/>
+ 			  <bean parent="WorkflowProperty" p:path="currentAward.awardId"/>
+ 			  <bean parent="WorkflowProperty" p:path="currentAward.awardNumber"/>
+              <bean parent="WorkflowProperty" p:path="currentAward.accountNumber"/>
+              <bean parent="WorkflowProperty" p:path="currentAward.principalInvestigatorName"/>
+              <bean parent="WorkflowProperty" p:path="currentAward.title"/>
+              <bean parent="WorkflowProperty" p:path="currentAward.sponsor.sponsorCode"/>
+			  <bean parent="WorkflowProperty" p:path="currentAward.leadUnit.unitNumber"/>
+            </list>
+          </property>
+        </bean>
+      </list>
+    </property>
+  </bean>
 </beans>

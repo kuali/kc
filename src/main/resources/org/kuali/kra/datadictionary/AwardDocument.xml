@@ -119,6 +119,11 @@
             <list>
               <bean parent="WorkflowProperty" p:path="documentHeader"/>
               <bean parent="WorkflowProperty" p:path="awardList.awardNumber"/>
+              <bean parent="WorkflowProperty" p:path="awardList.awardId"/>
+              <bean parent="WorkflowProperty" p:path="awardList.accountNumber"/>
+              <bean parent="WorkflowProperty" p:path="awardList.principalInvestigatorName"/>
+              <bean parent="WorkflowProperty" p:path="awardList.title"/>
+              <bean parent="WorkflowProperty" p:path="awardList.sponsor.sponsorCode"/>
 			  <bean parent="WorkflowProperty" p:path="awardList.sequenceNumber"/>
 			  <bean parent="WorkflowProperty" p:path="awardList.awardStatus.description"/>
 			  <bean parent="WorkflowProperty" p:path="awardList.awardStatus.statusCode"/>
