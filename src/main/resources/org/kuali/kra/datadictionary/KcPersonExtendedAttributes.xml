@@ -440,6 +440,26 @@
 		<property name="summary" value="Citzenship Type" />
 		<property name="description" value="Citzenship Type" />
 	</bean>
+	
+  <bean id="KcPersonExtendedAttributes-multiCampusPrincipalId" parent="KcPersonExtendedAttributes-multiCampusPrincipalId-parentBean" />
+  <bean id="KcPersonExtendedAttributes-multiCampusPrincipalId-parentBean" abstract="true" parent="AttributeDefinition">
+    <property name="name" value="multiCampusPrincipalId" />
+    <property name="label" value="Multi-Campus Principal Id" />
+    <property name="shortLabel" value="Multi-Campus Principal Id" />
+    <property name="maxLength" value="40" />
+    <property name="summary" value="Multi-Campus Principal Id" />
+    <property name="description" value="Multi-Campus Principal Id" />
+  </bean>
+  
+  <bean id="KcPersonExtendedAttributes-multiCampusPrincipalName" parent="KcPersonExtendedAttributes-multiCampusPrincipalName-parentBean" />
+  <bean id="KcPersonExtendedAttributes-multiCampusPrincipalName-parentBean" abstract="true" parent="AttributeDefinition">
+    <property name="name" value="multiCampusPrincipalName" />
+    <property name="label" value="Multi-Campus Principal Name" />
+    <property name="shortLabel" value="Multi-Campus Principal Name" />
+    <property name="maxLength" value="100" />
+    <property name="summary" value="Multi-Campus Principal Name" />
+    <property name="description" value="Multi-Campus Principal Name" />
+  </bean>
   
 
 <!-- Business Object Inquiry Definition -->
@@ -482,7 +502,9 @@
               <bean p:attributeName="idProvided" parent="FieldDefinition"/>
               <bean p:attributeName="idVerified" parent="FieldDefinition"/>
               <bean p:attributeName="county" parent="FieldDefinition"/>
-              <bean p:attributeName="citizenshipTypeCode" parent="FieldDefinition"/>               
+              <bean p:attributeName="citizenshipTypeCode" parent="FieldDefinition"/>
+              <bean p:attributeName="multiCampusPrincipalId" parent="FieldDefinition"/>
+              <bean p:attributeName="multiCampusPrincipalName" parent="FieldDefinition"/>               
             </list>
           </property>
         </bean>
