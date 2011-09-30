@@ -60,6 +60,7 @@ import org.kuali.kra.institutionalproposal.proposallog.ProposalLog;
 import org.kuali.kra.institutionalproposal.proposallog.ProposalLogUtils;
 import org.kuali.kra.institutionalproposal.proposallog.service.ProposalLogService;
 import org.kuali.kra.institutionalproposal.specialreview.InstitutionalProposalSpecialReview;
+import org.kuali.kra.negotiations.bo.Negotiable;
 import org.kuali.kra.proposaldevelopment.bo.ActivityType;
 import org.kuali.kra.proposaldevelopment.bo.ProposalType;
 import org.kuali.kra.proposaldevelopment.bo.ProposalUnitCreditSplit;
@@ -70,7 +71,7 @@ import org.kuali.rice.kns.util.KualiDecimal;
 import org.kuali.rice.kns.util.ObjectUtils;
 
 public class InstitutionalProposal extends KraPersistableBusinessObjectBase implements
-        KeywordsManager<InstitutionalProposalScienceKeyword>, SequenceOwner<InstitutionalProposal>, Sponsorable {
+        KeywordsManager<InstitutionalProposalScienceKeyword>, SequenceOwner<InstitutionalProposal>, Sponsorable, Negotiable {
 
     public static final String PROPOSAL_ID_PROPERTY_STRING = "proposalId";
     public static final String PROPOSAL_NUMBER_PROPERTY_STRING = "proposalNumber";
@@ -1740,6 +1741,44 @@ public class InstitutionalProposal extends KraPersistableBusinessObjectBase impl
 
     public void setSponsorNihMultiplePi(boolean sponsorNihMultiplePi) {
         this.sponsorNihMultiplePi = sponsorNihMultiplePi;
+    }
+
+    @Override
+    public String getLeadUnitName() {
+        String name = getLeadUnit() == null ? EMPTY_STRING : getLeadUnit().getUnitName();;
+        return name;
+    }
+
+    @Override
+    public String getPiEmployeeName() {
+        String name = getPrincipalInvestigator() == null ? EMPTY_STRING : getPrincipalInvestigator().getFullName();
+        return name;
+    }
+
+    @Override
+    public String getPiNonEmployeeName() {
+        return EMPTY_STRING;
+    }
+
+    @Override
+    public String getAdminPersonName() {
+        return EMPTY_STRING;
+    }
+
+    @Override
+    public String getPrimeSponsorName() {
+        String name = getPrimeSponsor() == null ? EMPTY_STRING : getPrimeSponsor().getSponsorName();
+        return name;
+    }
+
+    @Override
+    public String getSponsorAwardNumber() {
+        return EMPTY_STRING;
+    }
+
+    @Override
+    public String getSubAwardOrganizationName() {
+        return EMPTY_STRING;
     }
 
 }

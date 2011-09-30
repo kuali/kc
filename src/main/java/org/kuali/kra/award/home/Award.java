@@ -75,6 +75,7 @@ import org.kuali.kra.infrastructure.KeyConstants;
 import org.kuali.kra.infrastructure.KraServiceLocator;
 import org.kuali.kra.infrastructure.RoleConstants;
 import org.kuali.kra.institutionalproposal.home.InstitutionalProposal;
+import org.kuali.kra.negotiations.bo.Negotiable;
 import org.kuali.kra.proposaldevelopment.bo.ActivityType;
 import org.kuali.kra.service.Sponsorable;
 import org.kuali.kra.service.UnitService;
@@ -90,7 +91,7 @@ import org.kuali.rice.kns.util.TypedArrayList;
  * It implements ProcessKeywords to process all operations related to AwardScenceKeywords.
  */
 public class Award extends KraPersistableBusinessObjectBase implements KeywordsManager<AwardScienceKeyword>, Permissionable,
-        SequenceOwner<Award>, BudgetParent, Sponsorable {
+        SequenceOwner<Award>, BudgetParent, Sponsorable, Negotiable {
     public static final String DEFAULT_AWARD_NUMBER = "000000-00000";
     public static final String BLANK_COMMENT = "";
 
@@ -3378,5 +3379,37 @@ public class Award extends KraPersistableBusinessObjectBase implements KeywordsM
             }
             awardCloseoutItems.addAll(0,awardCloseoutNewItems);
         }
+    }
+
+    @Override
+    public String getLeadUnitName() {
+        String name = getLeadUnit() == null ? EMPTY_STRING : getLeadUnit().getUnitName();
+        return name;
+    }
+
+    @Override
+    public String getPiEmployeeName() {
+        return getPrincipalInvestigatorName();
+    }
+
+    @Override
+    public String getPiNonEmployeeName() {
+        return EMPTY_STRING;
+    }
+
+    @Override
+    public String getAdminPersonName() {
+        return EMPTY_STRING;
+    }
+
+    @Override
+    public String getPrimeSponsorName() {
+        String name = getPrimeSponsor() == null ? EMPTY_STRING : getPrimeSponsor().getSponsorName();;
+        return name;
+    }
+
+    @Override
+    public String getSubAwardOrganizationName() {
+        return EMPTY_STRING;
     }
 }
