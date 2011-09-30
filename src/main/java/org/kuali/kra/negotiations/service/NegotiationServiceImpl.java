@@ -35,6 +35,7 @@ import org.kuali.kra.institutionalproposal.proposallog.ProposalLog;
 import org.kuali.kra.institutionalproposal.service.InstitutionalProposalService;
 import org.kuali.kra.kim.bo.KcKimAttributes;
 import org.kuali.kra.kim.service.impl.UnitAdministratorDerivedRoleTypeServiceImpl;
+import org.kuali.kra.negotiations.bo.Negotiable;
 import org.kuali.kra.negotiations.bo.Negotiation;
 import org.kuali.kra.negotiations.bo.NegotiationAssociatedDetailBean;
 import org.kuali.kra.negotiations.bo.NegotiationAssociationType;
@@ -81,9 +82,9 @@ public class NegotiationServiceImpl implements NegotiationService {
         return Arrays.asList(value.split(PARAMETER_DELIMITER));        
     }
     
-    public BusinessObject getAssociatedObject(Negotiation negotiation) {
+    public Negotiable getAssociatedObject(Negotiation negotiation) {
         if (negotiation != null && negotiation.getNegotiationAssociationType() != null) {
-            BusinessObject bo = null;
+            Negotiable bo = null;
             if (StringUtils.equals(negotiation.getNegotiationAssociationType().getCode(), NegotiationAssociationType.AWARD_ASSOCIATION)) {
                 bo = getAward(negotiation.getAssociatedDocumentId());
             } else if (StringUtils.equals(negotiation.getNegotiationAssociationType().getCode(), 
@@ -111,28 +112,8 @@ public class NegotiationServiceImpl implements NegotiationService {
      */
     public NegotiationAssociatedDetailBean buildNegotiationAssociatedDetailBean(Negotiation negotiation) {   
         if (negotiation.getNegotiationAssociationType() != null) {
-            NegotiationAssociatedDetailBean bean;
-            if (StringUtils.equals(negotiation.getNegotiationAssociationType().getCode(), NegotiationAssociationType.AWARD_ASSOCIATION)) {
-                Award award = getAward(negotiation.getAssociatedDocumentId());
-                bean = new NegotiationAssociatedDetailBean(award);
-            } else if (StringUtils.equals(negotiation.getNegotiationAssociationType().getCode(), 
-                    NegotiationAssociationType.INSTITUATIONAL_PROPOSAL_ASSOCIATION)) {
-                InstitutionalProposal ip = getInstitutionalProposal(negotiation.getAssociatedDocumentId());
-                bean = new NegotiationAssociatedDetailBean(ip);
-            } else if (StringUtils.equals(negotiation.getNegotiationAssociationType().getCode(), 
-                    NegotiationAssociationType.NONE_ASSOCIATION)) {
-                NegotiationUnassociatedDetail detail = negotiation.getUnAssociatedDetail();
-                bean = new NegotiationAssociatedDetailBean(detail);
-            } else if (StringUtils.equals(negotiation.getNegotiationAssociationType().getCode(), 
-                    NegotiationAssociationType.PROPOSAL_LOG_ASSOCIATION)) {
-                ProposalLog pl = getProposalLog(negotiation.getAssociatedDocumentId());
-                bean = new NegotiationAssociatedDetailBean(pl);
-            } else if (StringUtils.equals(negotiation.getNegotiationAssociationType().getCode(), 
-                    NegotiationAssociationType.SUB_AWARD_ASSOCIATION)) {
-                bean = new NegotiationAssociatedDetailBean("");
-            } else {
-                throw new IllegalArgumentException(negotiation.getNegotiationAssociationType().getCode() + " is an invalid code, should never gete here!");
-            }
+            Negotiable negotiable = getAssociatedObject(negotiation);
+            NegotiationAssociatedDetailBean bean = new NegotiationAssociatedDetailBean(negotiable);
             if (bean.getDisplayOSPAdministrators()) {
                 bean.setOspAdministrators(this.getOSPAdministrators(negotiation.getLeadUnitNumber()));
             }
@@ -302,7 +283,7 @@ public class NegotiationServiceImpl implements NegotiationService {
         if (negotiation.getNegotiationAssociationType() != null 
                 && StringUtils.equalsIgnoreCase(negotiation.getNegotiationAssociationType().getCode(), NegotiationAssociationType.NONE_ASSOCIATION) 
                 && StringUtils.isNotEmpty(negotiation.getAssociatedDocumentId())) {
-            if (reload || negotiation.getUnAssociatedDetail() == null) {
+            if ((reload || negotiation.getUnAssociatedDetail() == null) && negotiation.getAssociatedDocumentId() != null) {
                 Map params = new HashMap();
                 params.put("NEGOTIATION_UNASSOC_DETAIL_ID", negotiation.getAssociatedDocumentId());
                 NegotiationUnassociatedDetail unAssociatedDetail = (NegotiationUnassociatedDetail) 

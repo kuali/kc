@@ -18,6 +18,7 @@ package org.kuali.kra.negotiations.service;
 import java.util.List;
 
 import org.kuali.kra.bo.KcPerson;
+import org.kuali.kra.negotiations.bo.Negotiable;
 import org.kuali.kra.negotiations.bo.Negotiation;
 import org.kuali.kra.negotiations.bo.NegotiationAssociatedDetailBean;
 import org.kuali.kra.negotiations.bo.NegotiationAssociationType;
@@ -40,7 +41,13 @@ public interface NegotiationService {
      */
     List<String> getCompletedStatusCodes();
     
-    BusinessObject getAssociatedObject(Negotiation negotiation);
+    /**
+     * 
+     * This method returns the associated Negotiable implemetned BO for the passed in negotiation.
+     * @param negotiation
+     * @return
+     */
+    Negotiable getAssociatedObject(Negotiation negotiation);
     
     /**
      * 
