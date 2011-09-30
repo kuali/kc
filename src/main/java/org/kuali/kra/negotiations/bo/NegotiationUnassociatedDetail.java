@@ -15,7 +15,9 @@
  */
 package org.kuali.kra.negotiations.bo;
 
+import java.util.ArrayList;
 import java.util.LinkedHashMap;
+import java.util.List;
 
 import org.kuali.kra.bo.KcPerson;
 import org.kuali.kra.bo.KraPersistableBusinessObjectBase;
@@ -346,5 +348,16 @@ public class NegotiationUnassociatedDetail extends KraPersistableBusinessObjectB
         String name = getSubAwardOrganization() == null ? EMPTY_STRING : getSubAwardOrganization().getOrganizationName();
         return name;
     }
-
+    
+    @Override
+    public List<KcPerson> getProjectKcPeople() {
+        List<KcPerson> kcPeople = new ArrayList<KcPerson>();
+        if (this.getContactAdmin() != null) {
+            kcPeople.add(this.getContactAdmin());
+        }
+        if (this.getPIEmployee() != null) {
+            kcPeople.add(this.getPIEmployee());
+        }
+        return kcPeople;
+    }
 }

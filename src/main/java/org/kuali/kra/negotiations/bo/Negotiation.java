@@ -30,6 +30,7 @@ import org.kuali.kra.infrastructure.KraServiceLocator;
 import org.kuali.kra.infrastructure.RoleConstants;
 import org.kuali.kra.kim.bo.KcKimAttributes;
 import org.kuali.kra.negotiations.service.NegotiationService;
+import org.kuali.rice.kns.bo.BusinessObject;
 
 /**
  * 
@@ -343,6 +344,9 @@ public class Negotiation extends KraPersistableBusinessObjectBase implements Per
     @Override
     public String getLeadUnitNumber() {
         Negotiable bo = getNegotiationService().getAssociatedObject(this);
+        if (bo != null) {
+            ((BusinessObject) bo).refresh();
+        }
         return bo != null ? bo.getLeadUnitNumber() : "";
     }
     
