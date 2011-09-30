@@ -18,6 +18,7 @@ package org.kuali.kra.common.notification.bo;
 import java.util.LinkedHashMap;
 
 import org.kuali.kra.bo.KraPersistableBusinessObjectBase;
+import org.kuali.rice.kim.bo.types.dto.AttributeSet;
 
 /**
  * Defines the recipients for a {@code NotificationType}.
@@ -30,6 +31,7 @@ public class NotificationTypeRecipient extends KraPersistableBusinessObjectBase 
     private Long notificationTypeId;
     private String roleName;
     private String roleQualifier;
+    //private AttributeSet roleQualifiers;
     private String toOrCC;
     
     // Non-persistent field for tracking the qualifier value.
@@ -83,6 +85,16 @@ public class NotificationTypeRecipient extends KraPersistableBusinessObjectBase 
     public void setQualifierValue(String qualifierValue) {
         this.qualifierValue = qualifierValue;
     }
+
+    /*
+    public AttributeSet getRoleQualifiers() {
+        return roleQualifiers;
+    }
+
+    public void setRoleQualifiers(AttributeSet roleQualifiers) {
+        this.roleQualifiers = roleQualifiers;
+    }
+    */
 
     @Override
     protected LinkedHashMap<String, Object> toStringMapper() {
