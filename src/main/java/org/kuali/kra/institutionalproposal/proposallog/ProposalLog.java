@@ -27,13 +27,14 @@ import org.kuali.kra.bo.Sponsor;
 import org.kuali.kra.bo.Unit;
 import org.kuali.kra.infrastructure.KraServiceLocator;
 import org.kuali.kra.institutionalproposal.proposallog.service.ProposalLogService;
+import org.kuali.kra.negotiations.bo.Negotiable;
 import org.kuali.kra.proposaldevelopment.bo.ProposalType;
 import org.kuali.kra.service.KcPersonService;
 
 /**
  * Encapsulates data and behavior of a Proposal Log.
  */
-public class ProposalLog extends KraPersistableBusinessObjectBase { 
+public class ProposalLog extends KraPersistableBusinessObjectBase implements Negotiable { 
     
     /** Log Status property name. */
     static final String LOG_STATUS = "logStatus";
@@ -452,5 +453,54 @@ public class ProposalLog extends KraPersistableBusinessObjectBase {
     
     boolean isEmpty(String str) {
         return str == null || str.length() == 0;
+    }
+
+    @Override
+    public String getLeadUnitNumber() {
+        String number = getUnit() == null ? EMPTY_STRING : getUnit().getUnitNumber();
+        return number;
+    }
+
+    @Override
+    public String getLeadUnitName() {
+        String name = getUnit() == null ? EMPTY_STRING : getUnit().getUnitName();
+        return name;
+    }
+
+    @Override
+    public String getPiEmployeeName() {
+        String name = getPerson() == null ? "" : getPerson().getFullName();
+        return name;
+    }
+
+    @Override
+    public String getPiNonEmployeeName() {
+        String name = getRolodex() == null ? "" : getRolodex().getFullName();;
+        return name;
+    }
+
+    @Override
+    public String getAdminPersonName() {
+        return EMPTY_STRING;
+    }
+
+    @Override
+    public String getPrimeSponsorCode() {
+        return EMPTY_STRING;
+    }
+
+    @Override
+    public String getPrimeSponsorName() {
+        return EMPTY_STRING;
+    }
+
+    @Override
+    public String getSponsorAwardNumber() {
+        return EMPTY_STRING;
+    }
+
+    @Override
+    public String getSubAwardOrganizationName() {
+        return EMPTY_STRING;
     }
 }

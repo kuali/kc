@@ -30,7 +30,7 @@ import org.kuali.kra.service.RolodexService;
  * 
  * This class handles the attributes needed for an unassociated negotiation.
  */
-public class NegotiationUnassociatedDetail extends KraPersistableBusinessObjectBase {
+public class NegotiationUnassociatedDetail extends KraPersistableBusinessObjectBase implements Negotiable {
     
     /**
      * Comment for <code>serialVersionUID</code>
@@ -291,6 +291,60 @@ public class NegotiationUnassociatedDetail extends KraPersistableBusinessObjectB
         else {
             return getKcPersonService().getKcPersonByPersonId(this.getContactAdminPersonId());
         }
+    }
+    
+    @Override
+    public String getLeadUnitName() {
+        String name = getLeadUnit() == null ? EMPTY_STRING : getLeadUnit().getUnitName();
+        return name;
+    }
+
+
+
+    @Override
+    public String getPiEmployeeName() {
+        String name = getPIEmployee() == null ? EMPTY_STRING : getPIEmployee().getFullName();
+        return name;
+    }
+
+
+
+    @Override
+    public String getPiNonEmployeeName() {
+        String name = getPINonEmployee() == null ? EMPTY_STRING : getPINonEmployee().getFullName();
+        return name;
+    }
+
+
+
+    @Override
+    public String getAdminPersonName() {
+        String name = getContactAdmin() == null ? EMPTY_STRING : getContactAdmin().getFullName();
+        return name;
+    }
+
+
+
+    @Override
+    public String getSponsorName() {
+        String name = getSponsor() == null ? EMPTY_STRING : getSponsor().getSponsorName();
+        return name;
+    }
+
+
+
+    @Override
+    public String getPrimeSponsorName() {
+        String name = getPrimeSponsor() == null ? EMPTY_STRING : getPrimeSponsor().getSponsorName();
+        return name;
+    }
+
+
+
+    @Override
+    public String getSubAwardOrganizationName() {
+        String name = getSubAwardOrganization() == null ? EMPTY_STRING : getSubAwardOrganization().getOrganizationName();
+        return name;
     }
 
 }

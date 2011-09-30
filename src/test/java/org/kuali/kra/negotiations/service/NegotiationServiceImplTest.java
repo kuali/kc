@@ -103,8 +103,6 @@ public class NegotiationServiceImplTest extends KcUnitTestBase {
         this.businessObjectService.save(negotiation);
         
         NegotiationAssociatedDetailBean bean = this.negotiationService.buildNegotiationAssociatedDetailBean(negotiation);
-        
-        assertEquals(NegotiationAssociatedDetailBean.MODE_NONE, bean.getMode());
     }
     
     private Negotiation getBasicNegotiation() {
