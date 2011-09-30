@@ -39,6 +39,9 @@
                 <table style="border:none; background:none;" cellpadding="0" cellspacing="0">
                     <tr>
                         <td style="border:none; background:none; text-align:right; width:20px; vertical-align:top;">
+                            <c:set var="tempProp" value="${property}.answerHeaders[${answerHeaderIndex}].notUpdated"/>
+                            ${kfunc:registerEditableProperty(KualiForm, tempProp)}
+                            <input type="hidden" name="${tempProp}" id="${tempProp}" value = "TRUE" />
                             
                             <c:set var="prop" value="${property}.answerHeaders[${answerHeaderIndex}].updateOption"/>
                             ${kfunc:registerEditableProperty(KualiForm, prop)}

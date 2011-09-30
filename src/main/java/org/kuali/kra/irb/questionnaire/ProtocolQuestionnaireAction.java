@@ -65,7 +65,7 @@ public class ProtocolQuestionnaireAction extends ProtocolAction {
         Document document = protocolForm.getDocument();
         List<AnswerHeader> answerHeaders = protocolForm.getQuestionnaireHelper().getAnswerHeaders();
         
-        if (applyRules(new SaveQuestionnaireAnswerEvent(document, answerHeaders))) {
+        if ( applyRules(new SaveQuestionnaireAnswerEvent(document, answerHeaders)) && applyRules(new SaveProtocolQuestionnaireEvent(document, answerHeaders)) ) {
             protocolForm.getQuestionnaireHelper().preSave();
             getBusinessObjectService().save(answerHeaders);
         }
