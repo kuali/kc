@@ -17,7 +17,9 @@ package org.kuali.kra.institutionalproposal.proposallog;
 
 import java.sql.Date;
 import java.sql.Timestamp;
+import java.util.ArrayList;
 import java.util.LinkedHashMap;
+import java.util.List;
 
 import org.apache.ojb.broker.PersistenceBroker;
 import org.kuali.kra.bo.KcPerson;
@@ -26,6 +28,7 @@ import org.kuali.kra.bo.NonOrganizationalRolodex;
 import org.kuali.kra.bo.Sponsor;
 import org.kuali.kra.bo.Unit;
 import org.kuali.kra.infrastructure.KraServiceLocator;
+import org.kuali.kra.institutionalproposal.contacts.InstitutionalProposalPerson;
 import org.kuali.kra.institutionalproposal.proposallog.service.ProposalLogService;
 import org.kuali.kra.negotiations.bo.Negotiable;
 import org.kuali.kra.proposaldevelopment.bo.ProposalType;
@@ -502,5 +505,14 @@ public class ProposalLog extends KraPersistableBusinessObjectBase implements Neg
     @Override
     public String getSubAwardOrganizationName() {
         return EMPTY_STRING;
+    }
+    
+    @Override
+    public List<KcPerson> getProjectKcPeople() {
+        List<KcPerson> kcPeople = new ArrayList<KcPerson>();
+        if (this.getPerson() != null) {
+            kcPeople.add(this.getPerson());
+        }
+        return kcPeople;
     }
 }
