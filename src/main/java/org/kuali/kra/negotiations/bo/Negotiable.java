@@ -15,6 +15,11 @@
  */
 package org.kuali.kra.negotiations.bo;
 
+import java.util.List;
+
+import org.kuali.kra.award.contacts.AwardPerson;
+import org.kuali.kra.bo.KcPerson;
+
 /**
  * 
  * This interface defines the methods a BO needs to implement in order to successfully associate with the negotiations module.
@@ -106,5 +111,12 @@ public interface Negotiable {
      * @return
      */
     String getSubAwardOrganizationName();
+    
+    /**
+     * 
+     * This method returns a list of KcPersons that include the PI, COI, and Key Personnel.
+     * @return
+     */
+    List<KcPerson> getProjectKcPeople();
     
 }

@@ -24,12 +24,10 @@ import java.util.Map;
 
 import org.apache.commons.lang.StringUtils;
 import org.kuali.kra.award.budget.AwardBudgetService;
-import org.kuali.kra.award.contacts.AwardPerson;
 import org.kuali.kra.award.home.Award;
 import org.kuali.kra.bo.KcPerson;
 import org.kuali.kra.infrastructure.Constants;
 import org.kuali.kra.infrastructure.RoleConstants;
-import org.kuali.kra.institutionalproposal.contacts.InstitutionalProposalPerson;
 import org.kuali.kra.institutionalproposal.home.InstitutionalProposal;
 import org.kuali.kra.institutionalproposal.proposallog.ProposalLog;
 import org.kuali.kra.institutionalproposal.service.InstitutionalProposalService;
@@ -39,7 +37,6 @@ import org.kuali.kra.negotiations.bo.Negotiable;
 import org.kuali.kra.negotiations.bo.Negotiation;
 import org.kuali.kra.negotiations.bo.NegotiationAssociatedDetailBean;
 import org.kuali.kra.negotiations.bo.NegotiationAssociationType;
-import org.kuali.kra.negotiations.bo.NegotiationStatus;
 import org.kuali.kra.negotiations.bo.NegotiationUnassociatedDetail;
 import org.kuali.kra.negotiations.document.NegotiationDocument;
 import org.kuali.kra.service.KcPersonService;
@@ -232,44 +229,12 @@ public class NegotiationServiceImpl implements NegotiationService {
      * @see org.kuali.kra.negotiations.service.NegotiationService#isPersonIsAssociatedPerson(org.kuali.kra.negotiations.bo.Negotiation, java.lang.String)
      */
     public boolean isPersonIsAssociatedPerson(Negotiation negotiation, String personToCheckPersonId) {
-        if (negotiation != null && negotiation.getNegotiationAssociationType() != null) {
-            if (StringUtils.equals(negotiation.getNegotiationAssociationType().getCode(), NegotiationAssociationType.AWARD_ASSOCIATION)) {
-                Award award = getAward(negotiation.getAssociatedDocumentId());
-                List<AwardPerson> persons = award.getProjectPersons();
-                for (AwardPerson person : persons) {
-                    if (StringUtils.equals(person.getPerson().getPersonId(), personToCheckPersonId)) {
-                        return true;
-                    }
+        Negotiable bo = getAssociatedObject(negotiation);
+        if (bo != null) {
+            for (KcPerson person : bo.getProjectKcPeople()) {
+                if (StringUtils.equals(person.getPersonId(), personToCheckPersonId)) {
+                    return true;
                 }
-            } else if (StringUtils.equals(negotiation.getNegotiationAssociationType().getCode(), 
-                    NegotiationAssociationType.INSTITUATIONAL_PROPOSAL_ASSOCIATION)) {
-                InstitutionalProposal ip = getInstitutionalProposal(negotiation.getAssociatedDocumentId());
-                List<InstitutionalProposalPerson> persons = ip.getProjectPersons();
-                for (InstitutionalProposalPerson person : persons) {
-                    if (StringUtils.equals(person.getPerson().getPersonId(), personToCheckPersonId)) {
-                        return true;
-                    }
-                }
-            } else if (StringUtils.equals(negotiation.getNegotiationAssociationType().getCode(), 
-                    NegotiationAssociationType.NONE_ASSOCIATION)) {
-                if (negotiation.getUnAssociatedDetail() == null && negotiation.getAssociatedDocumentId() != null){
-                    findAndLoadNegotiationUnassociatedDetail(negotiation, false);
-                }
-                if (negotiation.getUnAssociatedDetail().getPIEmployee() != null) {
-                    if (StringUtils.equals(negotiation.getUnAssociatedDetail().getPIEmployee().getPersonId(), personToCheckPersonId)) {
-                        return true;
-                    }
-                }
-                //bo = negotiation.getUnAssociatedDetail();
-            } else if (StringUtils.equals(negotiation.getNegotiationAssociationType().getCode(), 
-                    NegotiationAssociationType.PROPOSAL_LOG_ASSOCIATION)) {
-                ProposalLog pl = getProposalLog(negotiation.getAssociatedDocumentId());
-            } else if (StringUtils.equals(negotiation.getNegotiationAssociationType().getCode(), 
-                    NegotiationAssociationType.SUB_AWARD_ASSOCIATION)) {
-                //bo = null;
-                /**
-                 * @todo after subwards has been created, implement people stuff here.
-                 */
             }
         }
         return false;

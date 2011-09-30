@@ -18,7 +18,6 @@ package org.kuali.kra.institutionalproposal.home;
 import java.sql.Date;
 import java.util.ArrayList;
 import java.util.Calendar;
-import java.util.Collection;
 import java.util.HashMap;
 import java.util.LinkedHashMap;
 import java.util.List;
@@ -57,7 +56,6 @@ import org.kuali.kra.institutionalproposal.customdata.InstitutionalProposalCusto
 import org.kuali.kra.institutionalproposal.document.InstitutionalProposalDocument;
 import org.kuali.kra.institutionalproposal.ipreview.IntellectualPropertyReview;
 import org.kuali.kra.institutionalproposal.proposallog.ProposalLog;
-import org.kuali.kra.institutionalproposal.proposallog.ProposalLogUtils;
 import org.kuali.kra.institutionalproposal.proposallog.service.ProposalLogService;
 import org.kuali.kra.institutionalproposal.specialreview.InstitutionalProposalSpecialReview;
 import org.kuali.kra.negotiations.bo.Negotiable;
@@ -1780,5 +1778,13 @@ public class InstitutionalProposal extends KraPersistableBusinessObjectBase impl
     public String getSubAwardOrganizationName() {
         return EMPTY_STRING;
     }
-
+    
+    @Override
+    public List<KcPerson> getProjectKcPeople() {
+        List<KcPerson> kcPeople = new ArrayList<KcPerson>();
+        for (InstitutionalProposalPerson person : getProjectPersons()) {
+            kcPeople.add(person.getPerson());
+        }
+        return kcPeople;
+    }
 }

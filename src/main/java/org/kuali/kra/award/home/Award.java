@@ -19,7 +19,6 @@ import java.sql.Date;
 
 
 import java.util.ArrayList;
-import java.util.Arrays;
 import java.util.Calendar;
 import java.util.Collections;
 import java.util.Comparator;
@@ -3411,5 +3410,14 @@ public class Award extends KraPersistableBusinessObjectBase implements KeywordsM
     @Override
     public String getSubAwardOrganizationName() {
         return EMPTY_STRING;
+    }
+    
+    @Override
+    public List<KcPerson> getProjectKcPeople() {
+        List<KcPerson> kcPeople = new ArrayList<KcPerson>();
+        for (AwardPerson person : getProjectPersons()) {
+            kcPeople.add(person.getPerson());
+        }
+        return kcPeople;
     }
 }
