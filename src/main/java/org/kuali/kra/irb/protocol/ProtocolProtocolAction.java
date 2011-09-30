@@ -603,8 +603,6 @@ public class ProtocolProtocolAction extends ProtocolAction {
         for (ProtocolFundingSource fundingSource : protocolForm.getProtocolHelper().getNewProtocolFundingSources()) {
             FundingSourceEvent fundingSourceEvent = new FundingSourceEvent(protocolForm.getProtocolDocument().getProtocol());
             fundingSourceEvent.setFundingType("'" + fundingSource.getFundingSourceType().getDescription() + "': " + fundingSource.getFundingSourceNumber());
-            fundingSourceEvent.setSubject("Funding source linked to Protocol "
-                    + protocolForm.getProtocolDocument().getProtocol().getProtocolNumber());
             fundingSourceEvent.setAction("linked to");
             fundingSourceEvent.sendNotification();
 
@@ -613,8 +611,6 @@ public class ProtocolProtocolAction extends ProtocolAction {
             if (fundingSource.getProtocolFundingSourceId() != null) {
                 FundingSourceEvent fundingSourceEvent = new FundingSourceEvent(protocolForm.getProtocolDocument().getProtocol());
                 fundingSourceEvent.setFundingType("'" + fundingSource.getFundingSourceType().getDescription() + "': " + fundingSource.getFundingSourceNumber());
-                fundingSourceEvent.setSubject("Funding source removed from Protocol "
-                        + protocolForm.getProtocolDocument().getProtocol().getProtocolNumber());
                 fundingSourceEvent.setAction("removed from");
                 fundingSourceEvent.sendNotification();
             }
