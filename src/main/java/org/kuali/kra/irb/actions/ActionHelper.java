@@ -1075,6 +1075,16 @@ public class ActionHelper implements Serializable {
         return getTaskAuthorizationService().isAuthorized(getUserIdentifier(), task);
     }
     
+    public static boolean hasAssignCmtSchedPermission(String userId, String protocolNumber) {
+        Map<String, String> fieldValues = new HashMap<String, String>();
+        fieldValues.put("protocolNumber", protocolNumber);
+        BusinessObjectService bos = KraServiceLocator.getService(BusinessObjectService.class);
+        Protocol protocol = ((List<Protocol>) bos.findMatching(Protocol.class, fieldValues)).get(0);
+        ProtocolTask task = new ProtocolTask(TaskName.MODIFY_PROPOSAL, protocol);
+        TaskAuthorizationService tas = KraServiceLocator.getService(TaskAuthorizationService.class);        
+        return tas.isAuthorized(userId, task);
+    }
+    
     private boolean hasAssignCmtSchedUnavailablePermission() {
         ProtocolTask task = new ProtocolTask(TaskName.ASSIGN_TO_COMMITTEE_SCHEDULE_UNAVAILABLE, getProtocol());
         return getTaskAuthorizationService().isAuthorized(getUserIdentifier(), task);
