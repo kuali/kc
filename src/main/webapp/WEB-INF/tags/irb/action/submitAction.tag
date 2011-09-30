@@ -92,11 +92,12 @@ ${kfunc:registerEditableProperty(KualiForm, "actionHelper.protocolSubmitAction.n
 	                    </th>
 	                    <c:set target="${paramMap}" property="protocolLeadUnit" value="${KualiForm.document.protocolList[0].leadUnitNumber}" />
 	                    <c:set target="${paramMap}" property="docRouteStatus" value="${KualiForm.document.documentHeader.workflowDocument.routeHeader.docRouteStatus}" />
+	                    <c:set var="docNumber" value="${KualiForm.document.protocol.protocolNumber}" />
 	                    <c:choose>
 	                        <c:when test="${KualiForm.actionHelper.showCommittee}">
 	                            <td>
-				                    <html:select property="actionHelper.protocolSubmitAction.committeeId" onchange="loadScheduleDates('actionHelper.protocolSubmitAction.committeeId', 'actionHelper.protocolSubmitAction.scheduleId');" >                               
-				                        <c:forEach items="${krafn:getOptionList('org.kuali.kra.committee.lookup.keyvalue.CommitteeIdByUnitValuesFinder', paramMap)}" var="option">
+				                    <html:select property="actionHelper.protocolSubmitAction.committeeId" onchange="loadScheduleDates('actionHelper.protocolSubmitAction.committeeId', '${docNumber}', 'actionHelper.protocolSubmitAction.scheduleId');" >                               
+				                        <c:forEach items="${krafn:getOptionList('org.kuali.kra.committee.lookup.keyvalue.CommitteeIdByUnitValuesFinder', paramMap)}" var="option">   
 				                            <c:choose>                      
 				                                <c:when test="${KualiForm.actionHelper.protocolSubmitAction.committeeId == option.key}">
 				                                    <option value="${option.key}" selected="selected">${option.label}</option>
