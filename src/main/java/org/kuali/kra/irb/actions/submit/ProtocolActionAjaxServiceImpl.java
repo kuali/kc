@@ -30,6 +30,7 @@ import org.kuali.kra.irb.actions.ActionHelper;
 import org.kuali.kra.irb.protocol.funding.ProtocolFundingSourceServiceImpl;
 import org.kuali.rice.core.util.KeyLabelPair;
 import org.kuali.rice.kns.service.BusinessObjectService;
+import org.kuali.rice.kns.UserSession;
 import org.kuali.rice.kns.util.GlobalVariables;
 
 public class ProtocolActionAjaxServiceImpl implements ProtocolActionAjaxService {
@@ -59,9 +60,9 @@ public class ProtocolActionAjaxServiceImpl implements ProtocolActionAjaxService 
     /**
      * @see org.kuali.kra.irb.actions.submit.ProtocolActionAjaxService#getValidCommitteeDates(java.lang.String)
      */
-    public String getValidCommitteeDates(String committeeId, String docFormKey) {
+    public String getValidCommitteeDates(String committeeId, String protocolId) {
         StringBuffer ajaxList = new StringBuffer();
-        if (isAuthorizedToAccess(docFormKey)) {
+        if (isAuthorizedToAccess(protocolId)) {
             List<KeyLabelPair> dates = committeeService.getAvailableCommitteeDates(committeeId);
             for (KeyLabelPair date : dates) {
                 ajaxList.append(date.getKey() + ";" + date.getLabel() + ";");
@@ -77,38 +78,18 @@ public class ProtocolActionAjaxServiceImpl implements ProtocolActionAjaxService 
     /*
      * a utility method to check if dwr/ajax call really has authorization
      */
-    private boolean isAuthorizedToAccess(String docFormKey) {
+    private boolean isAuthorizedToAccess(String protocolId) {
         boolean isAuthorized = true;
-        if (GlobalVariables.getUserSession() != null) {
+        UserSession userSession = GlobalVariables.getUserSession();
+        if (userSession != null) {
             // TODO : this is a quick hack for KC 3.1.1 to provide authorization check for dwr/ajax call. dwr/ajax will be replaced by
             // jquery/ajax in rice 2.0
-            if (StringUtils.isBlank(docFormKey)) {
-//              isAuthorized = false;
-                LOG.info("Attention: docFormKey is blank ");
-            } else {
-                Object formObj = GlobalVariables.getUserSession().retrieveObject(docFormKey);
-                if (formObj == null || !(formObj instanceof ProtocolForm)) {
-//                  isAuthorized = false;
-                    LOG.info("Attention: formObj is incorrect format for docFormKey = " + docFormKey + ", obj = " + formObj);
-                } else {
-                    ActionHelper actionHelper = ((ProtocolForm) formObj).getActionHelper();
-System.out.println("\nAAAA getCanAssign() = " + actionHelper.getCanAssignCmtSched() +
-     ", canSubmit() = " + actionHelper.getCanSubmitProtocol() + ", canAssignReviewers() = " + actionHelper.getCanAssignReviewers());
-                    isAuthorized = actionHelper.getCanAssignCmtSched()
-                                || actionHelper.getCanSubmitProtocol() || actionHelper.getCanAssignReviewers();
-                    if (!isAuthorized) {
-                        LOG.info("Attention: isAuthorized is false!");
-                    }
-                }
-
-            }
-            
+            isAuthorized = ActionHelper.hasAssignCmtSchedPermission(userSession.getPrincipalName(), protocolId);
         } else {
             // TODO : it seemed that tomcat has this issue intermittently ?
             LOG.info("Attention: dwr/ajax STILL does not have session ");
         }
         return isAuthorized;
-
     }
 
     /**
