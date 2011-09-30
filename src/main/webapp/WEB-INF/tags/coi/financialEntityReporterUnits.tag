@@ -114,7 +114,8 @@
                             </tr>
                         </c:forEach>
                         <%-- Existing data --%>
-            </tr>            
+            </tr>   
+            <%--         
                 <tr>
                     <td align="center" colspan="5">
                         <div align="center">
@@ -123,6 +124,7 @@
                         </div>
                     </td>
                 </tr>
+               --%> 
                         </tbody>
                     </table>
                 </div>
