@@ -2117,18 +2117,17 @@ function checkdate(input){
  * Based upon the selected committe, load the scheduled dates for that committee
  * into the drop-down menu for scheduled dates.
  */
-function loadScheduleDates(committeeElementId, scheduleElementId) {
+function loadScheduleDates(committeeElementId, protocolElementId, scheduleElementId) {
     reviewersElement = document.getElementById("reviewers");
     if (reviewersElement != null) {
         reviewersElement.style.display = 'none';
     }
-    onlyLoadScheduleDates(committeeElementId, scheduleElementId);
+    onlyLoadScheduleDates(committeeElementId, protocolElementId, scheduleElementId);
 }
 
-function onlyLoadScheduleDates(committeeElementId, scheduleElementId) {
+function onlyLoadScheduleDates(committeeElementId, protocolId, scheduleElementId) {
 	var committeeId = DWRUtil.getValue(committeeElementId);
 	var scheduleElement = document.getElementsByName(scheduleElementId);
-	var docFormKey = DWRUtil.getValue( "docFormKey" );
 	var dwrReply = {
 		callback:function(data) {
 			if ( data == null ) {
@@ -2154,7 +2153,7 @@ function onlyLoadScheduleDates(committeeElementId, scheduleElementId) {
 			scheduleElement[0].innerHTML = "";	
 		}
 	};
-	ProtocolActionAjaxService.getValidCommitteeDates(committeeId, docFormKey, dwrReply);
+	ProtocolActionAjaxService.getValidCommitteeDates(committeeId, protocolId, dwrReply);
 }
 
 var protocolCheckListItemDescriptionWindow = null;
