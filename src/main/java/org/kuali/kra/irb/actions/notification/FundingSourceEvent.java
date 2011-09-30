@@ -16,112 +16,84 @@
 package org.kuali.kra.irb.actions.notification;
 
 import java.util.List;
+import java.util.Map;
 
-import org.apache.commons.lang.StringUtils;
+import org.apache.commons.collections.CollectionUtils;
 import org.kuali.kra.bo.CoeusModule;
 import org.kuali.kra.common.notification.NotificationContext;
+import org.kuali.kra.common.notification.NotificationContextBase;
 import org.kuali.kra.common.notification.bo.KcNotification;
+import org.kuali.kra.common.notification.bo.NotificationModuleRole;
+import org.kuali.kra.common.notification.bo.NotificationModuleRoleQualifier;
 import org.kuali.kra.common.notification.bo.NotificationTypeRecipient;
 import org.kuali.kra.common.notification.exception.UnknownRoleException;
+import org.kuali.kra.common.notification.service.KcNotificationModuleRoleService;
+import org.kuali.kra.common.notification.service.KcNotificationRenderingService;
 import org.kuali.kra.common.notification.service.KcNotificationService;
-import org.kuali.kra.infrastructure.Constants;
 import org.kuali.kra.infrastructure.KraServiceLocator;
-import org.kuali.kra.infrastructure.RoleConstants;
 import org.kuali.kra.irb.Protocol;
-import org.kuali.kra.kim.bo.KcKimAttributes;
-import org.w3c.dom.Element;
+import org.kuali.kra.irb.notification.IRBNotificationContext;
+import org.kuali.kra.irb.notification.IRBNotificationRenderingServiceImpl;
+import org.kuali.kra.irb.notification.IRBNotificationRoleQualifierServiceImpl;
 
-public class FundingSourceEvent extends NotificationEventBase implements NotificationContext {
+/**
+ * 
+ * This class supports a notification for protocol funding sources
+ */
+public class FundingSourceEvent extends IRBNotificationContext {
     public static final String FUNDING_SOURCE = "904";
     private String fundingType;
-    private String subject;
     private String action;
-    
-    public FundingSourceEvent() {
-    }
 
     public FundingSourceEvent(Protocol protocol) {
         super(protocol);
-    }
+    }    
 
-
-    /**
-     * 
-     * @see org.kuali.kra.irb.actions.notification.NotificationEventBase#getRecipients(org.w3c.dom.Element)
-     */
-    public void getRecipients(Element recipients) {
-        super.getRecipients(recipients);
-    }
-
-    /**
-     * 
-     * @see org.kuali.kra.irb.actions.notification.NotificationEventBase#getTitle()
-     */
-    public String getTitle() {
-        return "Add funding source to Protocol " + getProtocol().getProtocolNumber();
-    }
-
-    public String getTemplatePath() {
-        return "FundingSourceNotification.xsl";
-    }
-
-    /**
-     * 
-     * @see org.kuali.kra.irb.actions.notification.NotificationEventBase#getActionTypeCode()
-     */
-    @Override
     public String getActionTypeCode() {
         return FUNDING_SOURCE;
     }
-
-    @Override
-    public boolean isReviewerNotification() {
-        return true;    
-    }
     
+    /**
+     * 
+     * @see org.kuali.kra.common.notification.NotificationContext#populateRoleQualifiers(org.kuali.kra.common.notification.bo.NotificationTypeRecipient)
+     */
     @Override
-    public boolean isInvestigatorIncluded() {
-        return false;    
-    }
-    
-    public void populateRoleQualifiers(NotificationTypeRecipient notificationRecipient) throws UnknownRoleException {
-        String roleNamespace = StringUtils.substringBefore(notificationRecipient.getRoleName(), Constants.COLON);
-        String roleName = StringUtils.substringAfter(notificationRecipient.getRoleName(), Constants.COLON);
+    public void populateRoleQualifiers(NotificationTypeRecipient notificationRecipient) throws UnknownRoleException { 
+        List<NotificationModuleRole> moduleRoles = 
+            getNotificationModuleRuleService().getNotificationModuleRolesForKimRole(getModuleCode(), notificationRecipient.getRoleName());
         
-        if (StringUtils.equals(roleNamespace, RoleConstants.DEPARTMENT_ROLE_TYPE) && StringUtils.equals(roleName, RoleConstants.FUNDING_SOURCE_MONITOR))  {
-            notificationRecipient.setRoleQualifier(KcKimAttributes.UNIT_NUMBER);
-            notificationRecipient.setQualifierValue(getProtocol().getLeadUnitNumber());
-                
+        
+        if (CollectionUtils.isNotEmpty(moduleRoles)) {
+            for (NotificationModuleRole mRole : moduleRoles) {
+               List<NotificationModuleRoleQualifier> moduleQualifiers = mRole.getRoleQualifiers();
+               if (CollectionUtils.isNotEmpty(moduleQualifiers)) {
+                   for (NotificationModuleRoleQualifier mQualifier : moduleQualifiers) {
+                       notificationRecipient.setRoleQualifier(mQualifier.getQualifier());
+                       notificationRecipient.setQualifierValue(getNotificationRoleQualifierService().getRoleQualifierValue(mQualifier));
+                   }
+               }
+            }
         } else {
             throw new UnknownRoleException(notificationRecipient.getRoleName(), "FundingSource");
         }
-        
-    }   
+    } 
     
+    /**
+     * 
+     * @see org.kuali.kra.common.notification.NotificationContext#replaceContextVariables(java.lang.String)
+     */
+    @Override
     public String replaceContextVariables(String text) {
-        ProtocolActionsNotificationService protocolActionsNotificationService = KraServiceLocator
-                .getService(ProtocolActionsNotificationService.class);
-        try {
-            if (text.contains("{MESSAGE_SUBJECT}")) {
-                return StringUtils.replace(text, "{MESSAGE_SUBJECT}", getSubject());
-            }
-            else {
-                String message = protocolActionsNotificationService.getTransFormData(getProtocol(), getTemplate());
-                message = message.replaceAll("\\$amp;", "&amp;");
-                text =  StringUtils.replace(text, "{MESSAGE_BODY}", message);
-                text =  StringUtils.replace(text, "{ACTION}", getAction());
-                return StringUtils.replace(text, "{FUNDING_TYPE}", getFundingType());
-            }
-        } catch (Exception e) {
-            return null;
-        }
+        KcNotificationRenderingService renderer = new IRBNotificationRenderingServiceImpl(getProtocol());
+        Map<String, String> params = renderer.getReplacementParameters();
+        params.put("{FUNDING_TYPE}", getFundingType());
+        params.put("{ACTION}", getAction());
+        
+        return renderer.render(text, params);
     }
     
-    public void sendNotification() {
-        KcNotificationService kcNotificationService = KraServiceLocator.getService(KcNotificationService.class);
-        List<KcNotification> notifications = kcNotificationService.createNotifications(getProtocol().getProtocolDocument().getDocumentNumber(), Integer.toString(CoeusModule.IRB_MODULE_CODE_INT), getActionTypeCode(), this);
-        kcNotificationService.sendNotifications(notifications, this);
-
+    public void sendNotification() {        
+        sendNotification(this);
     }
 
     public String getFundingType() {
@@ -130,14 +102,6 @@ public class FundingSourceEvent extends NotificationEventBase implements Notific
 
     public void setFundingType(String fundingType) {
         this.fundingType = fundingType;
-    }
-
-    public String getSubject() {
-        return subject;
-    }
-
-    public void setSubject(String subject) {
-        this.subject = subject;
     }
 
     public String getAction() {
