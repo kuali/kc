@@ -345,7 +345,7 @@ public class MedusaServiceImpl implements MedusaService {
     }
     
     protected void buildGraph(HashMap<BusinessObject, List<BusinessObject>> graph, Negotiation negotiation) {
-        BusinessObject bo = getNegotiationService().getAssociatedObject(negotiation);
+        BusinessObject bo = (BusinessObject)getNegotiationService().getAssociatedObject(negotiation);
         if (bo instanceof Award || bo instanceof InstitutionalProposal) {
             if (findMatchingBo(graph.keySet(), bo) == null) {
                 addEdge(graph, negotiation, bo);
