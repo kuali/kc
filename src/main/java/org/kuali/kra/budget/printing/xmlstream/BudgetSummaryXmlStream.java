@@ -40,6 +40,7 @@ import org.kuali.kra.bo.KraPersistableBusinessObjectBase;
 import org.kuali.kra.budget.BudgetDecimal;
 import org.kuali.kra.budget.calculator.RateClassType;
 import org.kuali.kra.budget.core.Budget;
+import org.kuali.kra.budget.core.BudgetParent;
 import org.kuali.kra.budget.nonpersonnel.BudgetLineItem;
 import org.kuali.kra.budget.parameters.BudgetPeriod;
 import org.kuali.kra.budget.printing.util.ReportTypeVO;
@@ -109,10 +110,10 @@ public class BudgetSummaryXmlStream extends BudgetBaseStream {
 				.newInstance();
 		ReportPageType cumilativePageType = ReportPageType.Factory
 				.newInstance();
-		DevelopmentProposal proposal = ((ProposalDevelopmentDocument) budget
-				.getBudgetDocument().getParentDocument())
-				.getDevelopmentProposal();
-		ReportHeaderType reportHeaderType = getReportHeaderTypeForCumulativeReport(proposal);
+	
+		BudgetParent budgetParent = budget.getBudgetParent();
+
+		ReportHeaderType reportHeaderType = getReportHeaderTypeForCumulativeReport(budgetParent);
 		budgetSummaryReport.setReportHeader(reportHeaderType);
 		cumilativePageType = getBudgetSummaryReportPageType();
 		budgetSummaryReport.setCumilativePage(cumilativePageType);
