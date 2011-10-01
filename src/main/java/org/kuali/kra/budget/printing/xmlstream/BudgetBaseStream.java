@@ -38,6 +38,7 @@ import org.kuali.kra.budget.BudgetDecimal;
 import org.kuali.kra.budget.calculator.RateClassType;
 import org.kuali.kra.budget.calculator.ValidCalcType;
 import org.kuali.kra.budget.core.Budget;
+import org.kuali.kra.budget.core.BudgetParent;
 import org.kuali.kra.budget.nonpersonnel.AbstractBudgetRateAndBase;
 import org.kuali.kra.budget.nonpersonnel.BudgetLineItem;
 import org.kuali.kra.budget.nonpersonnel.BudgetLineItemBase;
@@ -115,22 +116,21 @@ public abstract class BudgetBaseStream implements XmlStream {
 
 	/**
 	 * This method gets ReportHeaderType from first budgetPeriod.It set all the
-	 * data for RportHeader from budgetPriod and DevelopmentProposal
+	 * data for RportHeader from budgetPriod and budgetParent
 	 * 
-	 * @param proposal
+	 * @param budgetParent
 	 * @return reportTypeHeader
 	 */
-	protected ReportHeaderType getReportHeaderTypeForCumulativeReport(
-			DevelopmentProposal proposal) {
+	protected ReportHeaderType getReportHeaderTypeForCumulativeReport(BudgetParent budgetParent) {
 		ReportHeaderType reportHeaderType = ReportHeaderType.Factory
 				.newInstance();
-		if (proposal != null) {
-			reportHeaderType.setProposalNumber(proposal.getProposalNumber());
+		if (budgetParent != null) {
+			reportHeaderType.setProposalNumber(budgetParent.getParentNumber());
 		}
-		if (proposal != null && proposal.getTitle() != null) {
-			reportHeaderType.setProposalTitle(proposal.getTitle());
+		if (budgetParent != null && budgetParent.getParentTitle() != null) {
+			reportHeaderType.setProposalTitle( budgetParent.getParentTitle());
 		}
-		String principleInvestigatorName = getPrincipleInvestigatorName(proposal);
+		String principleInvestigatorName = budgetParent.getParentPIName();
 		if (principleInvestigatorName != null) {
 			reportHeaderType.setPIName(principleInvestigatorName);
 		}
@@ -160,26 +160,7 @@ public abstract class BudgetBaseStream implements XmlStream {
 		 
 		return reportHeaderType;
 	}
-
-	/**
-	 * This method will get the principle investigator full name from list of
-	 * ProposalPerson by checking the PersonId and Investigator flag
-	 * 
-	 * @param proposal
-	 * @return principleInvestigatorName
-	 */
-	protected String getPrincipleInvestigatorName(DevelopmentProposal proposal) {
-		String principleInvestigatorName = null;
-		for (ProposalPerson pPerson : proposal.getProposalPersons()) {
-			if (pPerson.getProposalPersonRoleId().equals(
-					PRINCIPAL_INVESTIGATOR_ROLE)) {
-				principleInvestigatorName = pPerson.getFullName();
-				break;
-			}
-		}
-		return principleInvestigatorName;
-	}
-
+	
 	/**
 	 * This method gets ReportType for NonPersonnel data, by setting
 	 * NonPersonnel data categoryDescription, costElementDescription,
@@ -612,25 +593,14 @@ public abstract class BudgetBaseStream implements XmlStream {
 	 * 
 	 * @return integer liCount
 	 */
-	protected int getUnitNumber() {
-		String lsOwnedByUnit = EMPTY_STRING;
-		Map<String, String> proposalNumberMap = new HashMap<String, String>();
-		String proposalNumber = ((ProposalDevelopmentDocument) (budgetPeriod
-				.getBudget().getBudgetDocument()).getParentDocument())
-				.getDevelopmentProposal().getProposalNumber();
-		proposalNumberMap.put(PROPOSAL_NUMBER, proposalNumber);
-		LookupableDevelopmentProposal lookupDevProposal = (LookupableDevelopmentProposal) businessObjectService
-				.findByPrimaryKey(LookupableDevelopmentProposal.class,
-						proposalNumberMap);
-		if (lookupDevProposal != null) {
-			lsOwnedByUnit = lookupDevProposal.getSponsor().getOwnedByUnit();
-		}
-		Map<String, String> lsOwnedByUnitMap = new HashMap<String, String>();
-		lsOwnedByUnitMap.put(UNIT_NUMBER, lsOwnedByUnit);
-		int liCount = businessObjectService.findMatching(InstituteLaRate.class,
-				lsOwnedByUnitMap).size();
-		return liCount;
-	}
+	   protected int getUnitNumber() {
+	        String lsOwnedByUnit = budgetPeriod.getBudget().getBudgetParent().getIsOwnedByUnit();       
+	        Map<String, String> lsOwnedByUnitMap = new HashMap<String, String>();
+	        lsOwnedByUnitMap.put(UNIT_NUMBER, lsOwnedByUnit);
+	        int liCount = businessObjectService.findMatching(InstituteLaRate.class,
+	                lsOwnedByUnitMap).size();
+	        return liCount;
+	    }
 
 	/*
 	 * This method get RateTypeDescription for BudgetRateAndBase based on
@@ -1990,38 +1960,14 @@ public abstract class BudgetBaseStream implements XmlStream {
 	 * 
 	 * @param budgetPersRateAndBase
 	 * @return Integer
-	 */
-	protected Integer getInvestigatorFlag(
-			BudgetPersonnelDetails budgetPersonDetails) {
-		Integer flag = 3;
-		String personId = budgetPersonDetails.getPersonId();
-		DevelopmentProposal proposal = ((ProposalDevelopmentDocument) this.budget
-				.getBudgetDocument().getParentDocument())
-				.getDevelopmentProposal();
-		for (ProposalPerson pPerson : proposal.getProposalPersons()) {
-			// if (pPerson.getPersonId().equals(personId)) {
-			// flag = 2;
-			// if (pPerson.getProposalPersonRoleId().equals(
-			// PRINCIPAL_INVESTIGATOR_ROLE)) {
-			// flag = 1;
-			// break;
-			// }
-			// }
-			if (pPerson.getPersonId() != null
-					&& pPerson.getPersonId().equals(personId)
-					|| pPerson.getRolodexId() != null
-					&& pPerson.getRolodexId().equals(personId)) {
-				flag = 2;
-				if (pPerson.getProposalPersonRoleId().equals(
-						PRINCIPAL_INVESTIGATOR_ROLE)) {
-					flag = 1;
-					break;
-				}
-			}
-
-		}
-		return flag;
-	}
+	 */	
+	protected Integer getInvestigatorFlag(BudgetPersonnelDetails budgetPersonDetails) {
+	        Integer flag = 3;
+	        String personId = budgetPersonDetails.getPersonId();
+	        flag = this.budget.getBudgetParent().getParentInvestigatorFlag(personId, flag);
+	
+	        return flag;
+	    }
 
 	/**
 	 * This method gets vacationRate based on RateClassType VACATION from

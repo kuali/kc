@@ -19,6 +19,7 @@ import java.sql.Date;
 import java.util.ArrayList;
 import java.util.Collection;
 import java.util.Collections;
+import java.util.HashMap;
 import java.util.LinkedHashMap;
 import java.util.List;
 import java.util.Map;
@@ -55,6 +56,7 @@ import org.kuali.kra.s2s.bo.S2sOppForms;
 import org.kuali.kra.s2s.bo.S2sOpportunity;
 import org.kuali.kra.service.Sponsorable;
 import org.kuali.kra.service.YnqService;
+import org.kuali.rice.kns.service.BusinessObjectService;
 import org.kuali.rice.kns.service.ParameterService;
 import org.kuali.rice.kns.util.GlobalVariables;
 import org.kuali.rice.kns.util.TypedArrayList;
@@ -2002,6 +2004,58 @@ public class DevelopmentProposal extends KraPersistableBusinessObjectBase implem
     public void setPrimeSponsor(Sponsor primeSponsor) {
         this.primeSponsor = primeSponsor;
         this.primeSponsorCode = primeSponsor != null ? primeSponsor.getSponsorCode() : null;
+    }
+
+
+    public String getParentNumber() {
+        return this.getProposalNumber();
+    }
+
+    public String getParentPIName() {
+        String proposalInvestigatorName = null;
+        for (ProposalPerson pPerson : this.getProposalPersons()) {
+            if (pPerson.getPersonId() != null && pPerson.getProposalPersonRoleId().equals("PI"))
+            {
+                proposalInvestigatorName = pPerson.getFullName();
+                break;
+            }
+        }
+        return proposalInvestigatorName;
+    }
+
+    public String getParentTitle() {
+        // TODO Auto-generated method stub
+        return this.getTitle();
+    }
+
+    public String getIsOwnedByUnit() {
+      Map<String, String> proposalNumberMap = new HashMap<String, String>();
+      String proposalNumber = this.getProposalNumber();
+      proposalNumberMap.put("proposalNumber", proposalNumber);
+      BusinessObjectService businessObjectService = KraServiceLocator.getService(BusinessObjectService.class);  
+      LookupableDevelopmentProposal lookupDevProposal = (LookupableDevelopmentProposal) businessObjectService
+              .findByPrimaryKey(LookupableDevelopmentProposal.class,
+                      proposalNumberMap);
+      if (lookupDevProposal != null) {
+          return lookupDevProposal.getSponsor().getOwnedByUnit();
+      }  
+      return "";
+    }
+
+    public Integer getParentInvestigatorFlag(String personId, Integer flag) {  
+        for (ProposalPerson pPerson : this.getProposalPersons()) {
+            if (pPerson.getPersonId() != null
+                    && pPerson.getPersonId().equals(personId)
+                    || pPerson.getRolodexId() != null
+                    && pPerson.getRolodexId().equals(personId)) {
+                flag = 2;
+                if (pPerson.getProposalPersonRoleId().equals("PI")) {
+                    flag = 1;
+                    break;
+                }
+            }
+        }
+        return flag;
     }
    
 }
