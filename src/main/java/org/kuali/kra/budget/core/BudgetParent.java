@@ -23,6 +23,7 @@ import org.kuali.kra.award.home.ContactRole;
 import org.kuali.kra.bo.Unit;
 import org.kuali.kra.budget.personnel.PersonRolodex;
 import org.kuali.kra.proposaldevelopment.bo.ActivityType;
+import org.kuali.rice.kns.service.BusinessObjectService;
 
 /**
  * This class...
@@ -45,4 +46,13 @@ public interface BudgetParent {
     public String getHierarchyStatus();
     public String getDefaultBudgetStatusParameter();
     public boolean isParentInHierarchyComplete();
+    
+    public String getParentNumber();
+    public String getParentTitle();
+    public String getParentPIName();
+    public String getIsOwnedByUnit();
+    public Integer getParentInvestigatorFlag(String personId, Integer flag);
+    //public String getParentInvestigatorName();
+    
+    
 }
