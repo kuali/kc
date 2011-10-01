@@ -29,6 +29,8 @@ import noNamespace.BudgetSalaryDocument.BudgetSalary;
 import org.kuali.kra.budget.BudgetDecimal;
 import org.kuali.kra.budget.calculator.RateClassType;
 import org.kuali.kra.budget.core.BudgetCategory;
+import org.kuali.kra.budget.core.BudgetParent;
+import org.kuali.kra.budget.document.BudgetParentDocument;
 import org.kuali.kra.budget.nonpersonnel.BudgetLineItem;
 import org.kuali.kra.budget.nonpersonnel.BudgetLineItemCalculatedAmount;
 import org.kuali.kra.budget.parameters.BudgetPeriod;
@@ -65,18 +67,20 @@ public abstract class BudgetBaseSalaryStream extends BudgetBaseStream {
 	 */
 	protected BudgetSalary getBudgetSalaryTypeXmlObject() {
 		BudgetSalary budgetSalary = BudgetSalary.Factory.newInstance();
-        DevelopmentProposal proposal = ((ProposalDevelopmentDocument) budget.getBudgetDocument().getParentDocument()).getDevelopmentProposal();
-		String proposalNumber = proposal.getProposalNumber();
-		if (proposalNumber != null) {
-			budgetSalary.setProposalNumber(proposalNumber);
+		BudgetParent bdP = budget.getBudgetParent();		
+		String parentNumber = bdP.getParentNumber();
+		
+		if (parentNumber != null) {
+			budgetSalary.setProposalNumber(parentNumber);
 		}
 		setBudgetSalaryTypeBasicInformation(budgetSalary);
-		String principleInvestigatorName = getProposalInvestigatorName(proposal);
+		
+		String principleInvestigatorName =  bdP.getParentPIName(); 
 		if (principleInvestigatorName != null) {
 			budgetSalary.setPIName(principleInvestigatorName);
 		}
-		if (proposal != null && proposal.getTitle() != null) {
-			budgetSalary.setTitle(proposal.getTitle());
+		if (bdP != null && bdP.getParentTitle() != null) {
+			budgetSalary.setTitle(bdP.getParentTitle());
 		}
 	   return budgetSalary;
 	}
@@ -105,25 +109,6 @@ public abstract class BudgetBaseSalaryStream extends BudgetBaseStream {
 		    
 		}
 		budget.setPrintBudgetCommentFlag(null);
-	}
-
-	/*
-	 * This method will get the personal investigator name.Checks over proposal
-	 * persons if person is a investigator the return the person name
-	 */
-	private String getProposalInvestigatorName(DevelopmentProposal proposal) {
-		String proposalInvestigatorName = null;
-		if (proposal != null) {
-			for (ProposalPerson pPerson : proposal.getProposalPersons()) {
-				if (pPerson.getPersonId() != null
-						&& pPerson.getProposalPersonRoleId().equals(
-								PRINCIPAL_INVESTIGATOR_ROLE)) {
-					proposalInvestigatorName = pPerson.getFullName();
-					break;
-				}
-			}
-		}
-		return proposalInvestigatorName;
 	}
 
 	/**
