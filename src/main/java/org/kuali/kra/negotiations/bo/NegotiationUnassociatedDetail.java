@@ -48,7 +48,9 @@ public class NegotiationUnassociatedDetail extends KraPersistableBusinessObjectB
     private String primeSponsorCode;
     private String sponsorAwardNumber;
     private String contactAdminPersonId;
-    private String subAwardOrganizationId;;
+    private String subAwardOrganizationId;
+    
+    private transient String proposalTypeCode;
     
     private Negotiation negotiation;
     private Unit leadUnit;
@@ -301,6 +303,14 @@ public class NegotiationUnassociatedDetail extends KraPersistableBusinessObjectB
         return name;
     }
 
+    @Override
+    public String getPiName() {
+        if (getPIEmployee() != null) {
+            return getPiEmployeeName();
+        } else {
+            return getPiNonEmployeeName();
+        }
+    }
 
 
     @Override
@@ -359,5 +369,17 @@ public class NegotiationUnassociatedDetail extends KraPersistableBusinessObjectB
             kcPeople.add(this.getPIEmployee());
         }
         return kcPeople;
+    }
+
+
+
+    public String getProposalTypeCode() {
+        return proposalTypeCode;
+    }
+
+
+
+    public void setProposalTypeCode(String proposalTypeCode) {
+        this.proposalTypeCode = proposalTypeCode;
     }
 }

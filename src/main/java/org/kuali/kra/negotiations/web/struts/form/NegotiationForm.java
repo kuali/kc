@@ -103,14 +103,7 @@ public class NegotiationForm extends KraTransactionalDocumentFormBase {
         getDocumentActions().put(KNSConstants.KUALI_ACTION_CAN_SAVE, KNSConstants.KUALI_DEFAULT_TRUE_VALUE);
 
     }
-    
-    @Override
-    public void populate(HttpServletRequest request) {
-        super.populate(request);
-        this.negotiationAssociatedDetailBean = getNegotiationService().buildNegotiationAssociatedDetailBean(this.getNegotiationDocument().getNegotiation());
-        populateAuthorizationFields();
-    }
-    
+
     public void populateAuthorizationFields() {
         Person user = GlobalVariables.getUserSession().getPerson();
         Set<String> localEditModes = new HashSet<String>();

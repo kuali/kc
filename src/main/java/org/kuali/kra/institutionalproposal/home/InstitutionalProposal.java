@@ -1743,8 +1743,13 @@ public class InstitutionalProposal extends KraPersistableBusinessObjectBase impl
 
     @Override
     public String getLeadUnitName() {
-        String name = getLeadUnit() == null ? EMPTY_STRING : getLeadUnit().getUnitName();;
+        String name = getLeadUnit() == null ? EMPTY_STRING : getLeadUnit().getUnitName();
         return name;
+    }
+    
+    @Override
+    public String getPiName() {
+        return getPiEmployeeName();
     }
 
     @Override

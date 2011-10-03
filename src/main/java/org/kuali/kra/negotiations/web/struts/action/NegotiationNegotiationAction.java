@@ -26,21 +26,14 @@ import org.apache.struts.action.ActionForm;
 import org.apache.struts.action.ActionForward;
 import org.apache.struts.action.ActionMapping;
 import org.kuali.kra.bo.AttachmentFile;
-import org.kuali.kra.bo.Organization;
-import org.kuali.kra.bo.Sponsor;
 import org.kuali.kra.infrastructure.Constants;
 import org.kuali.kra.infrastructure.KeyConstants;
-import org.kuali.kra.infrastructure.KraServiceLocator;
 import org.kuali.kra.negotiations.bo.Negotiation;
 import org.kuali.kra.negotiations.bo.NegotiationActivity;
 import org.kuali.kra.negotiations.bo.NegotiationActivityAttachment;
-import org.kuali.kra.negotiations.bo.NegotiationAgreementType;
 import org.kuali.kra.negotiations.bo.NegotiationAssociationType;
-import org.kuali.kra.negotiations.bo.NegotiationStatus;
 import org.kuali.kra.negotiations.bo.NegotiationUnassociatedDetail;
-import org.kuali.kra.negotiations.service.NegotiationService;
 import org.kuali.kra.negotiations.web.struts.form.NegotiationForm;
-import org.kuali.kra.web.struts.action.StrutsConfirmation;
 import org.kuali.rice.kns.util.KNSConstants;
 
 /**
@@ -56,7 +49,6 @@ public class NegotiationNegotiationAction extends NegotiationAction {
         ActionForward actionForward = super.execute(mapping, form, request, response);
         NegotiationForm negotiationForm = (NegotiationForm) form;
         loadCodeObjects(negotiationForm.getNegotiationDocument().getNegotiation());
-        this.getNegotiationService().findAndLoadNegotiationUnassociatedDetail(negotiationForm.getNegotiationDocument().getNegotiation(), false);
         negotiationForm.getMedusaBean().setModuleName("neg");
         negotiationForm.getMedusaBean().setModuleIdentifier(negotiationForm.getDocument().getNegotiation().getNegotiationId());
         negotiationForm.getNegotiationActivityHelper().sortActivities();
@@ -69,7 +61,6 @@ public class NegotiationNegotiationAction extends NegotiationAction {
         ActionForward actionForward = super.reload(mapping, form, request, response);
         NegotiationForm negotiationForm = (NegotiationForm) form;
         loadCodeObjects(negotiationForm.getNegotiationDocument().getNegotiation());
-        this.getNegotiationService().findAndLoadNegotiationUnassociatedDetail(negotiationForm.getNegotiationDocument().getNegotiation(), true);
         return actionForward;
     }
     
@@ -117,48 +108,14 @@ public class NegotiationNegotiationAction extends NegotiationAction {
     
     private void loadCodeObjects(Negotiation negotiation) {
         Map primaryKeys = new HashMap();
-        if (negotiation.getNegotiationAgreementTypeId() != null) {
-            primaryKeys.put("NEGOTIATION_AGRMNT_TYPE_ID", negotiation.getNegotiationAgreementTypeId());
-            NegotiationAgreementType type = (NegotiationAgreementType) 
-                this.getBusinessObjectService().findByPrimaryKey(NegotiationAgreementType.class, primaryKeys);
-            negotiation.setNegotiationAgreementType(type);
-        }
-        
-        if (negotiation.getNegotiationAssociationTypeId() != null) {
-            primaryKeys = new HashMap();
-            primaryKeys.put("NEGOTIATION_ASSC_TYPE_ID", negotiation.getNegotiationAssociationTypeId());
-            NegotiationAssociationType type = (NegotiationAssociationType) 
-                this.getBusinessObjectService().findByPrimaryKey(NegotiationAssociationType.class, primaryKeys);
-            negotiation.setNegotiationAssociationType(type);
-        }
-        
-        if (negotiation.getNegotiationStatusId() != null) {
-            primaryKeys = new HashMap();
-            primaryKeys.put("NEGOTIATION_STATUS_ID", negotiation.getNegotiationStatusId());
-            NegotiationStatus status = (NegotiationStatus) 
-                this.getBusinessObjectService().findByPrimaryKey(NegotiationStatus.class, primaryKeys);
-            negotiation.setNegotiationStatus(status);
-        }
+        negotiation.refreshReferenceObject("negotiationAgreementType");
+        negotiation.refreshReferenceObject("negotiationAssociationType");
+        negotiation.refreshReferenceObject("negotiationStatus");        
         
         if (negotiation.getUnAssociatedDetail() != null) {
-            if (StringUtils.isNotBlank(negotiation.getUnAssociatedDetail().getSponsorCode())) {
-                primaryKeys = new HashMap();
-                primaryKeys.put("SPONSOR_CODE", negotiation.getUnAssociatedDetail().getSponsorCode());
-                Sponsor sponsor = (Sponsor) this.getBusinessObjectService().findByPrimaryKey(Sponsor.class, primaryKeys);
-                negotiation.getUnAssociatedDetail().setSponsor(sponsor);
-            }
-            if (StringUtils.isNotBlank(negotiation.getUnAssociatedDetail().getPrimeSponsorCode())) {
-                primaryKeys = new HashMap();
-                primaryKeys.put("SPONSOR_CODE", negotiation.getUnAssociatedDetail().getPrimeSponsorCode());
-                Sponsor sponsor = (Sponsor) this.getBusinessObjectService().findByPrimaryKey(Sponsor.class, primaryKeys);
-                negotiation.getUnAssociatedDetail().setPrimeSponsor(sponsor);
-            }
-            if (StringUtils.isNotBlank(negotiation.getUnAssociatedDetail().getSubAwardOrganizationId())) {
-                primaryKeys = new HashMap();
-                primaryKeys.put("ORGANIZATION_ID", negotiation.getUnAssociatedDetail().getSubAwardOrganizationId());
-                Organization org = (Organization) this.getBusinessObjectService().findByPrimaryKey(Organization.class, primaryKeys);
-                negotiation.getUnAssociatedDetail().setSubAwardOrganization(org);
-            }
+            negotiation.getUnAssociatedDetail().refreshReferenceObject("sponsor");
+            negotiation.getUnAssociatedDetail().refreshReferenceObject("primeSponsor");
+            negotiation.getUnAssociatedDetail().refreshReferenceObject("subAwardOrganization");
         }
         
         for (NegotiationActivity activity : negotiation.getActivities()) {

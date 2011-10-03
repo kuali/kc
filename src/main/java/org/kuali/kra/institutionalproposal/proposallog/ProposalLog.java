@@ -460,12 +460,14 @@ public class ProposalLog extends KraPersistableBusinessObjectBase implements Neg
 
     @Override
     public String getLeadUnitNumber() {
+        this.refreshReferenceObject("unit");
         String number = getUnit() == null ? EMPTY_STRING : getUnit().getUnitNumber();
         return number;
     }
 
     @Override
     public String getLeadUnitName() {
+        this.refreshReferenceObject("unit");
         String name = getUnit() == null ? EMPTY_STRING : getUnit().getUnitName();
         return name;
     }
@@ -478,7 +480,7 @@ public class ProposalLog extends KraPersistableBusinessObjectBase implements Neg
 
     @Override
     public String getPiNonEmployeeName() {
-        String name = getRolodex() == null ? "" : getRolodex().getFullName();;
+        String name = getRolodex() == null ? "" : getRolodex().getFullName();
         return name;
     }
 

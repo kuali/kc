@@ -757,5 +757,31 @@
             </list>
         </property>
     </bean>
+    
+    <bean id="negotiationDao" class="org.kuali.kra.negotiations.lookup.NegotiationDaoOjb" parent="platformAwareDao">
+    	<property name="negotiationService">
+    		<ref bean="negotiationService"/>
+    	</property>    
+    	<property name="persistenceStructureService">
+    		<ref bean="persistenceStructureService"/>
+    	</property>
+    	<property name="dateTimeService">
+    		<ref bean="dateTimeService"/>
+    	</property>
+    	
+    </bean>
+    
+    <bean id="negotiationLookupableHelperService" class="org.kuali.kra.negotiations.lookup.NegotiationLookupableHelperServiceImpl">
+    	<property name="negotiationDao">
+    		<ref bean="negotiationDao"/>
+    	</property>
+    </bean>
+    
+	<bean id="negotiationLookupable" class="org.kuali.rice.kns.lookup.KualiLookupableImpl" scope="prototype">
+  		<property name="lookupableHelperService">
+    		<ref bean="negotiationLookupableHelperService" />
+  		</property>
+	</bean>
+    
 	
 </beans>

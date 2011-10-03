@@ -194,6 +194,7 @@
 				<value>permissionLookupable</value>
 				<value>responsibilityLookupable</value>
 				<value>roleLookupable</value>
+				<value>negotiationLookupable</value>
 			</set>
 		</property>
 	</bean>	
