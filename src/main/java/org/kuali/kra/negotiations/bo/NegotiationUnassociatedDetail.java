@@ -382,4 +382,15 @@ public class NegotiationUnassociatedDetail extends KraPersistableBusinessObjectB
     public void setProposalTypeCode(String proposalTypeCode) {
         this.proposalTypeCode = proposalTypeCode;
     }
+
+
+
+    @Override
+    public String getAssociatedDocumentId() {
+        if (getNegotiationUnassociatedDetailId() != null) {
+            return getNegotiationUnassociatedDetailId().toString();
+        } else {
+            return EMPTY_STRING;
+        }
+    }
 }

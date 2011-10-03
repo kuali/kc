@@ -29,6 +29,12 @@ public interface Negotiable {
     public String EMPTY_STRING = "";
     
     /**
+     * Returns the negotiable's document id.
+     * @return
+     */
+    String getAssociatedDocumentId();
+    
+    /**
      * 
      * This method returns the lead unit's number, if it exists, otherwise returns an empty string.
      * @return

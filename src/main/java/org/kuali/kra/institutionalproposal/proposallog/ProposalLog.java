@@ -517,4 +517,9 @@ public class ProposalLog extends KraPersistableBusinessObjectBase implements Neg
         }
         return kcPeople;
     }
+
+    @Override
+    public String getAssociatedDocumentId() {
+        return getProposalNumber();
+    }
 }

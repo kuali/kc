@@ -59,6 +59,9 @@
     <property name="shortLabel" value="Title" />
     <property name="required" value="false" />
     <property name="maxLength" value="45" />
+	<property name="control" >
+		<bean parent="TextControlDefinition" p:size="45" />
+	</property>    
     <property name="summary" value="Title" />
     <property name="description" value="Title" />
   </bean>

@@ -38,7 +38,7 @@ public class NegotiationAssociatedDetailBean implements Serializable {
     
     private static final String EMPTY_STRING = "";
     
-    
+    private String associatedDocumentId;
     private String title;
     private String leadUnit;
     private String leadUnitNumber;
@@ -57,6 +57,7 @@ public class NegotiationAssociatedDetailBean implements Serializable {
      * @param leadUnitNumber
      */
     public NegotiationAssociatedDetailBean(String leadUnitNumber) {
+        this.associatedDocumentId = EMPTY_STRING;
         this.title = EMPTY_STRING;
         this.leadUnit = EMPTY_STRING;
         this.piEmployee = EMPTY_STRING;
@@ -78,6 +79,7 @@ public class NegotiationAssociatedDetailBean implements Serializable {
     public NegotiationAssociatedDetailBean(Negotiable negotiable) {
         this(negotiable != null ? negotiable.getLeadUnitNumber() : EMPTY_STRING);
         if (negotiable != null) {
+            this.associatedDocumentId = negotiable.getAssociatedDocumentId();
             this.title = negotiable.getTitle();
             this.leadUnit = negotiable.getLeadUnitName();
             this.piEmployee = negotiable.getPiEmployeeName();
@@ -180,5 +182,13 @@ public class NegotiationAssociatedDetailBean implements Serializable {
 
     public void setOspAdministrators(List<KcPerson> ospAdministrators) {
         this.ospAdministrators = ospAdministrators;
+    }
+
+    public String getAssociatedDocumentId() {
+        return associatedDocumentId;
+    }
+
+    public void setAssociatedDocumentId(String associatedDocumentId) {
+        this.associatedDocumentId = associatedDocumentId;
     }
 }
