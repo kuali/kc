@@ -2375,6 +2375,10 @@
         <collection-descriptor name="activities" proxy="true" element-class-ref="org.kuali.kra.negotiations.bo.NegotiationActivity" collection-class="org.apache.ojb.broker.util.collections.ManageableArrayList" auto-retrieve="true" auto-update="object" auto-delete="object">
 			<inverse-foreignkey field-ref="negotiationId"/>
 		</collection-descriptor>
+		
+    	<reference-descriptor name="negotiationDocument" class-ref="org.kuali.kra.negotiations.document.NegotiationDocument" auto-retrieve="true" auto-update="none" auto-delete="none">
+        	<foreignkey field-ref="documentNumber" />
+    	</reference-descriptor>		
 
     </class-descriptor>
     

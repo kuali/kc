@@ -18,8 +18,7 @@
 <channel:portalChannelTop channelTitle="Negotiations" />
 <div class="body">
   <ul class="chan">
-    <li>All My Negotiations</li>
-    <li><portal:portalLink displayTitle="false" title="Create Negotiation" url="negotiationNegotiation.do?methodToCall=docHandler&command=initiate&docTypeName=NegotiationDocument">Create a Negotiation (In development, not ready to test!)</portal:portalLink></li>
+    <li><portal:portalLink displayTitle="false" title="Negotiation Search" url="kr/lookup.do?methodToCall=search&businessObjectClassName=org.kuali.kra.negotiations.bo.Negotiation&docFormKey=88888888&includeCustomActionUrls=true&returnLocation=${ConfigProperties.application.url}/portal.do&userId=${UserSession.person.principalId}&hideReturnLink=true">All My Negotiations</portal:portalLink></li>
   </ul>
 </div>
 <channel:portalChannelBottom />
