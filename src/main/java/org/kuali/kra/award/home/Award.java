@@ -3385,6 +3385,11 @@ public class Award extends KraPersistableBusinessObjectBase implements KeywordsM
         String name = getLeadUnit() == null ? EMPTY_STRING : getLeadUnit().getUnitName();
         return name;
     }
+    
+    @Override
+    public String getPiName() {
+        return getPiEmployeeName();
+    }
 
     @Override
     public String getPiEmployeeName() {
@@ -3403,7 +3408,7 @@ public class Award extends KraPersistableBusinessObjectBase implements KeywordsM
 
     @Override
     public String getPrimeSponsorName() {
-        String name = getPrimeSponsor() == null ? EMPTY_STRING : getPrimeSponsor().getSponsorName();;
+        String name = getPrimeSponsor() == null ? EMPTY_STRING : getPrimeSponsor().getSponsorName();
         return name;
     }
 
@@ -3419,6 +3424,10 @@ public class Award extends KraPersistableBusinessObjectBase implements KeywordsM
             kcPeople.add(person.getPerson());
         }
         return kcPeople;
+    }
+    
+    public String getProposalTypeCode() {
+        return EMPTY_STRING;
     }
     
 

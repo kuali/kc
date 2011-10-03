@@ -22,6 +22,7 @@
         <ref bean="NegotiationUnassociatedDetail-sponsorAwardNumber" />
         <ref bean="NegotiationUnassociatedDetail-contactAdminPersonId" />
         <ref bean="NegotiationUnassociatedDetail-subAwardOrganizationId" />
+        <ref bean="NegotiationUnassociatedDetail-proposalTypeCode" />
       </list>
     </property>
   </bean>
@@ -47,39 +48,19 @@
   </bean>
   
   <bean id="NegotiationUnassociatedDetail-negotiationId" parent="NegotiationUnassociatedDetail-negotiationId-parentBean" />
-  <bean id="NegotiationUnassociatedDetail-negotiationId-parentBean" abstract="true" parent="AttributeDefinition">
+  <bean id="NegotiationUnassociatedDetail-negotiationId-parentBean" abstract="true" parent="Negotiation-negotiationId">
     <property name="name" value="negotiationId" />
-    <property name="forceUppercase" value="true" />
-    <property name="label" value="negotiationId" />
-    <property name="shortLabel" value="negotiationId" />
-    <property name="required" value="true" />
-    <property name="maxLength" value="22" />
-    <property name="validationPattern" >
-      <bean parent="NumericValidationPattern" />
-    </property>
-    <property name="control" >
-      <bean parent="TextControlDefinition" p:size="8" />
-    </property>
-    <property name="summary" value="negotiationId" />
-    <property name="description" value="negotiationId" />
   </bean>
   
   <bean id="NegotiationUnassociatedDetail-title" parent="NegotiationUnassociatedDetail-title-parentBean" />
-  <bean id="NegotiationUnassociatedDetail-title-parentBean" abstract="true" parent="AttributeDefinition">
+  <bean id="NegotiationUnassociatedDetail-title-parentBean" abstract="true" parent="Award-title">
     <property name="name" value="title" />
-    <property name="forceUppercase" value="false" />
-    <property name="label" value="title" />
-    <property name="shortLabel" value="title" />
+    <property name="label" value="Title" />
+    <property name="shortLabel" value="Title" />
     <property name="required" value="false" />
     <property name="maxLength" value="45" />
-    <property name="validationPattern" >
-      <bean parent="AnyCharacterValidationPattern" />
-    </property>
-    <property name="control" >
-      <bean parent="TextControlDefinition" p:size="45" />
-    </property>
-    <property name="summary" value="title" />
-    <property name="description" value="title" />
+    <property name="summary" value="Title" />
+    <property name="description" value="Title" />
   </bean>
   
   <bean id="NegotiationUnassociatedDetail-piPersonId" parent="NegotiationUnassociatedDetail-piPersonId-parentBean" />
@@ -119,73 +100,44 @@
   </bean>
   
   <bean id="NegotiationUnassociatedDetail-leadUnitNumber" parent="NegotiationUnassociatedDetail-leadUnitNumber-parentBean" />
-  <bean id="NegotiationUnassociatedDetail-leadUnitNumber-parentBean" abstract="true" parent="AttributeDefinition">
+  <bean id="NegotiationUnassociatedDetail-leadUnitNumber-parentBean" abstract="true" parent="Award-unitNumber">
     <property name="name" value="leadUnitNumber" />
-    <property name="forceUppercase" value="false" />
     <property name="label" value="Lead Unit" />
     <property name="shortLabel" value="Lead Unit" />
     <property name="required" value="false" />
     <property name="maxLength" value="8" />
-    <property name="validationPattern" >
-      <bean parent="AnyCharacterValidationPattern" />
-    </property>
-    <property name="control" >
-      <bean parent="TextControlDefinition" p:size="8" />
-    </property>
     <property name="summary" value="Lead Unit" />
     <property name="description" value="Lead Unit" />
   </bean>
   
   <bean id="NegotiationUnassociatedDetail-sponsorCode" parent="NegotiationUnassociatedDetail-sponsorCode-parentBean" />
-  <bean id="NegotiationUnassociatedDetail-sponsorCode-parentBean" abstract="true" parent="AttributeDefinition">
+  <bean id="NegotiationUnassociatedDetail-sponsorCode-parentBean" abstract="true" parent="Award-sponsorCode">
     <property name="name" value="sponsorCode" />
-    <property name="forceUppercase" value="false" />
     <property name="label" value="Sponsor" />
     <property name="shortLabel" value="Sponsor" />
     <property name="required" value="false" />
-    <property name="maxLength" value="6" />
-    <property name="validationPattern" >
-      <bean parent="AnyCharacterValidationPattern" />
-    </property>
-    <property name="control" >
-      <bean parent="TextControlDefinition" p:size="6" />
-    </property>
     <property name="summary" value="Sponsor" />
     <property name="description" value="Sponsor" />
   </bean>
   
   <bean id="NegotiationUnassociatedDetail-primeSponsorCode" parent="NegotiationUnassociatedDetail-primeSponsorCode-parentBean" />
-  <bean id="NegotiationUnassociatedDetail-primeSponsorCode-parentBean" abstract="true" parent="AttributeDefinition">
+  <bean id="NegotiationUnassociatedDetail-primeSponsorCode-parentBean" abstract="true" parent="Award-primeSponsorCode">
     <property name="name" value="primeSponsorCode" />
-    <property name="forceUppercase" value="false" />
     <property name="label" value="Prime Sponsor" />
     <property name="shortLabel" value="Prime Sponsor" />
     <property name="required" value="false" />
     <property name="maxLength" value="6" />
-    <property name="validationPattern" >
-      <bean parent="AnyCharacterValidationPattern" />
-    </property>
-    <property name="control" >
-      <bean parent="TextControlDefinition" p:size="6" />
-    </property>
     <property name="summary" value="Prime Sponsor" />
     <property name="description" value="Prime Sponsor" />
   </bean>
   
   <bean id="NegotiationUnassociatedDetail-sponsorAwardNumber" parent="NegotiationUnassociatedDetail-sponsorAwardNumber-parentBean" />
-  <bean id="NegotiationUnassociatedDetail-sponsorAwardNumber-parentBean" abstract="true" parent="AttributeDefinition">
+  <bean id="NegotiationUnassociatedDetail-sponsorAwardNumber-parentBean" abstract="true" parent="Award-sponsorAwardNumber">
     <property name="name" value="sponsorAwardNumber" />
-    <property name="forceUppercase" value="false" />
     <property name="label" value="Sponsor Award" />
     <property name="shortLabel" value="Sponsor Award" />
     <property name="required" value="false" />
     <property name="maxLength" value="70" />
-    <property name="validationPattern" >
-      <bean parent="AnyCharacterValidationPattern" />
-    </property>
-    <property name="control" >
-      <bean parent="TextControlDefinition" p:size="70" />
-    </property>
     <property name="summary" value="Sponsor Award" />
     <property name="description" value="Sponsor Award" />
   </bean>
@@ -226,4 +178,13 @@
     <property name="description" value="Sub Award Orgnaization" />
   </bean>
   
+  <bean id="NegotiationUnassociatedDetail-proposalTypeCode" parent="NegotiationUnassociatedDetail-proposalTypeCode-parentBean" />
+  <bean id="NegotiationUnassociatedDetail-proposalTypeCode-parentBean" abstract="true" parent="InstitutionalProposal-proposalTypeCode">
+    <property name="name" value="proposalTypeCode" />
+    <property name="label" value="Proposal Type Code" />
+    <property name="shortLabel" value="Proposal Type Code" />
+    <property name="summary" value="Proposal Type Code" />
+    <property name="description" value="Proposal Type Code" />
+  </bean>
+    
 </beans>

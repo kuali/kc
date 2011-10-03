@@ -50,6 +50,12 @@ public interface Negotiable {
     String getTitle();
     
     /**
+     * Returns the PI's name whether employee or non-employee.
+     * @return
+     */
+    String getPiName();
+    
+    /**
      * 
      * This method returns the employee principle investigator's name, if it exists, otherwise returns an empty string.
      * @return
@@ -118,5 +124,7 @@ public interface Negotiable {
      * @return
      */
     List<KcPerson> getProjectKcPeople();
+    
+    Object getProposalTypeCode();
     
 }

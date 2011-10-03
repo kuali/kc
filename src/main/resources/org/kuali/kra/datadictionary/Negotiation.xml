@@ -7,8 +7,12 @@
   <bean id="Negotiation" parent="Negotiation-parentBean" />
   <bean id="Negotiation-parentBean" abstract="true" parent="BusinessObjectEntry">
     <property name="businessObjectClass" value="org.kuali.kra.negotiations.bo.Negotiation" />
-		<property name="objectLabel" value="Negotiation" />
+	<property name="objectLabel" value="Negotiation" />
     <property name="titleAttribute" value="negotiationId" />
+        <property name="lookupDefinition" >
+      <ref bean="Negotiation-lookupDefinition" />
+    </property>
+    
     <property name="attributes" >
       <list>
         <ref bean="Negotiation-negotiationId" />
@@ -24,6 +28,14 @@
         <ref bean="Negotiation-anticipatedAwardDate"/>
         <ref bean="Negotiation-documentFolder"/>
         <ref bean="Negotiation-associatedDocumentId"/>
+        <ref bean="Negotiation-negotiationAge"/>
+        <ref bean="Negotiation-associatedNegotiable.sponsorCode"/>
+        <ref bean="Negotiation-associatedNegotiable.sponsorName"/>
+        <ref bean="Negotiation-associatedNegotiable.title"/>
+        <ref bean="Negotiation-associatedNegotiable.piName"/>
+        <ref bean="Negotiation-associatedNegotiable.proposalTypeCode"/>
+        <ref bean="Negotiation-associatedNegotiable.leadUnitNumber"/>
+        <ref bean="Negotiation-associatedNegotiable.leadUnitName"/>
       </list>
     </property>
   </bean>
@@ -35,8 +47,8 @@
   <bean id="Negotiation-negotiationId-parentBean" abstract="true" parent="AttributeDefinition">
     <property name="name" value="negotiationId" />
     <property name="forceUppercase" value="false" />
-    <property name="label" value="negotiationId" />
-    <property name="shortLabel" value="negotiationId" />
+    <property name="label" value="Negotiation ID" />
+    <property name="shortLabel" value="Negotiation ID" />
     <property name="required" value="false" />
     <property name="maxLength" value="22" />
     <property name="validationPattern" >
@@ -46,8 +58,8 @@
       <bean parent="TextControlDefinition"
             p:size="8" />
     </property>
-    <property name="summary" value="negotiationId" />
-    <property name="description" value="negotiationId" />
+    <property name="summary" value="Negotiation ID" />
+    <property name="description" value="Negotiation ID" />
   </bean>
   
   <bean id="Negotiation-negotiationDocumentNumber" parent="Negotiation-negotiationDocumentNumber-parentBean" />
@@ -129,7 +141,8 @@
     </property>
     <property name="control" >
       <bean parent="SelectControlDefinition"
-            p:valuesFinderClass="org.kuali.kra.negotiations.keyvalue.NegotiationAssociationTypeValuesFinder" />
+            p:valuesFinderClass="org.kuali.kra.negotiations.keyvalue.NegotiationAssociationTypeValuesFinder"
+            p:includeKeyInLabel="false" />
     </property>
     <property name="summary" value="Negotiation Association Type" />
     <property name="description" value="Negotiation Association Type" />
@@ -161,8 +174,8 @@
   <bean id="Negotiation-negotiator.fullName" parent="Negotiation-negotiator.fullName-parentBean" />
     <bean id="Negotiation-negotiator.fullName-parentBean" abstract="true" parent="KcPerson-fullName">
         <property name="name" value="negotiator.fullName" />
-        <property name="label" value="Negotiator Full Name" />
-        <property name="shortLabel" value="Negotiator Full Name" />
+        <property name="label" value="Negotiator" />
+        <property name="shortLabel" value="Negotiator" />
     </bean>  
   
   <bean id="Negotiation-negotiationStartDate" parent="Negotiation-negotiationStartDate-parentBean" />
@@ -240,5 +253,116 @@
     <property name="summary" value="Negotiation Assocation ID" />
     <property name="description" value="Negotiation Assocation ID" />
   </bean>
+  
+  <bean id="Negotiation-negotiationAge" parent="Negotiation-negotiationAge-parentBean" />
+  <bean id="Negotiation-negotiationAge-parentBean" abstract="true" parent="AttributeDefinition">
+    <property name="name" value="negotiationAge" />
+    <property name="forceUppercase" value="false" />
+    <property name="label" value="Negotiation Age" />
+    <property name="shortLabel" value="Negotiation Age" />
+    <property name="maxLength" value="25" />
+    <property name="required" value="false" />
+    <property name="validationPattern" >
+      <bean parent="NumericValidationPattern" />
+    </property>
+    <property name="control" >
+      <bean parent="TextControlDefinition"
+            p:size="25" />
+    </property>
+    <property name="summary" value="Negotiation Age" />
+    <property name="description" value="Negotiation Age" />
+  </bean>
+  
+  <bean id="Negotiation-associatedNegotiable.sponsorCode" parent="Negotiation-associatedNegotiable.sponsorCode-parentBean" />
+  <bean id="Negotiation-associatedNegotiable.sponsorCode-parentBean" abstract="true" parent="Award-sponsorCode">
+    <property name="name" value="associatedNegotiable.sponsorCode" />
+  </bean>
 
+  <bean id="Negotiation-associatedNegotiable.sponsorName" parent="Negotiation-associatedNegotiable.sponsorName-parentBean" />
+  <bean id="Negotiation-associatedNegotiable.sponsorName-parentBean" abstract="true" parent="Award-sponsorName">
+    <property name="name" value="associatedNegotiable.sponsorName" />
+  </bean>  
+  
+  <bean id="Negotiation-associatedNegotiable.title" parent="Negotiation-associatedNegotiable.title-parentBean" />
+  <bean id="Negotiation-associatedNegotiable.title-parentBean" abstract="true" parent="Award-title">
+    <property name="name" value="associatedNegotiable.title" />
+    <property name="label" value="Title" />
+    <property name="shortLabel" value="Title" />
+    <property name="summary" value="Title" />
+    <property name="description" value="Title" />    
+  </bean>
+  
+  <bean id="Negotiation-associatedNegotiable.piName" parent="Negotiation-associatedNegotiable.piName-parentBean" />
+  <bean id="Negotiation-associatedNegotiable.piName-parentBean" abstract="true" parent="Award-projectPersons.fullName">
+    <property name="name" value="associatedNegotiable.piName" />
+  </bean>
+  
+  <bean id="Negotiation-associatedNegotiable.proposalTypeCode" parent="Negotiation-associatedNegotiable.proposalTypeCode-parentBean" />
+  <bean id="Negotiation-associatedNegotiable.proposalTypeCode-parentBean" abstract="true" parent="NegotiationUnassociatedDetail-proposalTypeCode">
+    <property name="name" value="associatedNegotiable.proposalTypeCode" />
+  </bean>
+  
+  <bean id="Negotiation-associatedNegotiable.leadUnitNumber" parent="Negotiation-associatedNegotiable.leadUnitNumber-parentBean" />
+  <bean id="Negotiation-associatedNegotiable.leadUnitNumber-parentBean" abstract="true" parent="Award-unitNumber">
+    <property name="name" value="associatedNegotiable.leadUnitNumber" />
+  </bean>  
+
+  <bean id="Negotiation-associatedNegotiable.leadUnitName" parent="Negotiation-associatedNegotiable.leadUnitName-parentBean" />
+  <bean id="Negotiation-associatedNegotiable.leadUnitName-parentBean" abstract="true" parent="Award-leadUnit.unitName">
+    <property name="name" value="associatedNegotiable.leadUnitName" />
+  </bean>
+      
+  
+  <!-- Business Object Lookup Definition -->
+	<bean id="Negotiation-lookupDefinition" parent="Negotiation-lookupDefinition-parentBean" />
+  	<bean id="Negotiation-lookupDefinition-parentBean" abstract="true" parent="LookupDefinition">
+		<property name="title" value="Negotiation Lookup" />
+		<property name="lookupableID" value="negotiationLookupable" />
+		<property name="menubar" value="&lt;a href=&quot;index.jsp&quot;&gt;Main&lt;/a&gt;" />
+
+		<property name="defaultSort" >
+		  <bean parent="SortDefinition">
+		  </bean>
+		</property>
+		<property name="lookupFields" >
+		  <list>
+            <bean p:attributeName="negotiationId" parent="FieldDefinition" />
+		  	<bean p:attributeName="negotiationAssociationTypeId" parent="FieldDefinition" />
+		    <bean p:attributeName="associatedDocumentId" parent="FieldDefinition" />
+		    <bean p:attributeName="negotiationAge" parent="FieldDefinition" />
+		    <bean p:attributeName="associatedNegotiable.piName" parent="FieldDefinition" />
+		    <bean p:attributeName="associatedNegotiable.sponsorCode" parent="FieldDefinition" />
+		    <bean p:attributeName="associatedNegotiable.sponsorName" parent="FieldDefinition" />
+		    <bean p:attributeName="associatedNegotiable.title" parent="FieldDefinition" />
+		    <bean p:attributeName="negotiator.fullName" parent="FieldDefinition" />
+		    <bean p:attributeName="negotiationStartDate" parent="FieldDefinition" />
+		    <bean p:attributeName="negotiationStatusId" parent="FieldDefinition" />
+		    <bean p:attributeName="associatedNegotiable.proposalTypeCode" parent="FieldDefinition" />
+		    <bean p:attributeName="associatedNegotiable.leadUnitNumber" parent="FieldDefinition" />
+		    <bean p:attributeName="associatedNegotiable.leadUnitName" parent="FieldDefinition" />
+		    
+		  </list>
+		</property>
+		<property name="resultFields" >
+		  <list>
+            <bean p:attributeName="negotiationId" parent="FieldDefinition" />
+		  	<bean p:attributeName="negotiationAssociationTypeId" parent="FieldDefinition" />
+		    <bean p:attributeName="associatedDocumentId" parent="FieldDefinition" />
+		    <bean p:attributeName="negotiationAge" parent="FieldDefinition" />
+		    <bean p:attributeName="associatedNegotiable.piName" parent="FieldDefinition" />
+		    <bean p:attributeName="associatedNegotiable.sponsorCode" parent="FieldDefinition" />
+		    <bean p:attributeName="associatedNegotiable.sponsorName" parent="FieldDefinition" />
+		    <bean p:attributeName="associatedNegotiable.title" parent="FieldDefinition" />
+		    <bean p:attributeName="negotiator.fullName" parent="FieldDefinition" />
+		    <bean p:attributeName="negotiationStartDate" parent="FieldDefinition" />
+		    <bean p:attributeName="negotiationStatusId" parent="FieldDefinition" />
+		    <bean p:attributeName="associatedNegotiable.proposalTypeCode" parent="FieldDefinition" />
+		    <bean p:attributeName="associatedNegotiable.leadUnitNumber" parent="FieldDefinition" />
+		    <bean p:attributeName="associatedNegotiable.leadUnitName" parent="FieldDefinition" />
+
+		  </list>
+		</property>
+		<property name="resultSetLimit" value="50" />
+	</bean>
+    
 </beans>
