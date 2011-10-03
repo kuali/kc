@@ -78,6 +78,16 @@ public class NegotiationServiceImpl implements NegotiationService {
         String value = getParameterService().getParameterValue(NegotiationDocument.class, "negotiationCompletedStatusCodes");
         return Arrays.asList(value.split(PARAMETER_DELIMITER));        
     }
+
+    /**
+     * Return the CLOSED_NEGOTIATION_STATUS param.
+     * @see org.kuali.kra.negotiations.service.NegotiationService#getCompleteStatusCode()
+     */
+    public String getCompleteStatusCode() {
+        String value = getParameterService().getParameterValue(NegotiationDocument.class, "CLOSED_NEGOTIATION_STATUS");
+        return value;
+    }
+    
     
     public Negotiable getAssociatedObject(Negotiation negotiation) {
         if (negotiation != null && negotiation.getNegotiationAssociationType() != null) {
@@ -89,6 +99,7 @@ public class NegotiationServiceImpl implements NegotiationService {
                 bo = getInstitutionalProposal(negotiation.getAssociatedDocumentId());
             } else if (StringUtils.equals(negotiation.getNegotiationAssociationType().getCode(), 
                     NegotiationAssociationType.NONE_ASSOCIATION)) {
+                negotiation.refreshReferenceObject("unAssociatedDetail");
                 bo = negotiation.getUnAssociatedDetail();
             } else if (StringUtils.equals(negotiation.getNegotiationAssociationType().getCode(), 
                     NegotiationAssociationType.PROPOSAL_LOG_ASSOCIATION)) {
@@ -110,7 +121,7 @@ public class NegotiationServiceImpl implements NegotiationService {
     public NegotiationAssociatedDetailBean buildNegotiationAssociatedDetailBean(Negotiation negotiation) {
         negotiation.refreshReferenceObject("negotiationAssociationType");
         if (negotiation.getNegotiationAssociationType() != null) {
-            Negotiable negotiable = getAssociatedObject(negotiation);
+            Negotiable negotiable = negotiation.getAssociatedDocument();
             NegotiationAssociatedDetailBean bean = new NegotiationAssociatedDetailBean(negotiable);
             if (bean.getDisplayOSPAdministrators()) {
                 bean.setOspAdministrators(this.getOSPAdministrators(bean.getLeadUnitNumber()));
@@ -248,7 +259,7 @@ public class NegotiationServiceImpl implements NegotiationService {
     public NegotiationUnassociatedDetail findAndLoadNegotiationUnassociatedDetail(Negotiation negotiation) {
         if (negotiation.getNegotiationAssociationType() != null 
                 && StringUtils.equalsIgnoreCase(negotiation.getNegotiationAssociationType().getCode(), NegotiationAssociationType.NONE_ASSOCIATION) 
-                && StringUtils.isNotEmpty(negotiation.getAssociatedDocumentId())) {
+                && StringUtils.isNotEmpty(negotiation.getAssociatedDocumentId()) && negotiation.getAssociatedDocumentId().matches("\\d*")) {
             NegotiationUnassociatedDetail unAssociatedDetail = (NegotiationUnassociatedDetail) 
                     this.getBusinessObjectService().findBySinglePrimaryKey(NegotiationUnassociatedDetail.class, negotiation.getAssociatedDocumentId());
             return unAssociatedDetail;
