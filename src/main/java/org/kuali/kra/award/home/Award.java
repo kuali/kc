@@ -3472,4 +3472,9 @@ public class Award extends KraPersistableBusinessObjectBase implements KeywordsM
         }
         return flag;
     }
+
+    @Override
+    public String getAssociatedDocumentId() {
+        return getAwardNumber();
+    }
 }

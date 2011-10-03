@@ -43,6 +43,12 @@ public interface NegotiationService {
     List<String> getCompletedStatusCodes();
     
     /**
+     * Get the completed status code. Primarily used to trigger the closed notification.
+     * @return
+     */
+    String getCompleteStatusCode();
+    
+    /**
      * 
      * This method returns the associated Negotiable implemetned BO for the passed in negotiation.
      * @param negotiation

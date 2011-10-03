@@ -22,6 +22,7 @@ import java.util.LinkedHashMap;
 import java.util.List;
 import java.util.Map;
 
+import org.apache.commons.lang.StringUtils;
 import org.kuali.kra.bo.KcPerson;
 import org.kuali.kra.bo.KraPersistableBusinessObjectBase;
 import org.kuali.kra.common.permissions.Permissionable;
@@ -61,6 +62,7 @@ public class Negotiation extends KraPersistableBusinessObjectBase implements Per
     private String negotiatorUserName;
     
     private NegotiationUnassociatedDetail unAssociatedDetail;
+    private Negotiable associatedDocument;
     
     private NegotiationDocument negotiationDocument;
     
@@ -349,11 +351,13 @@ public class Negotiation extends KraPersistableBusinessObjectBase implements Per
 
     @Override
     public String getLeadUnitNumber() {
-        Negotiable bo = getNegotiationService().getAssociatedObject(this);
+        Negotiable bo = getAssociatedDocument();
         if (bo != null) {
             ((BusinessObject) bo).refresh();
+            return bo.getLeadUnitNumber();
+        } else {
+            return "";
         }
-        return bo != null ? bo.getLeadUnitNumber() : "";
     }
     
     public Negotiable getAssociatedNegotiable() {
@@ -384,5 +388,16 @@ public class Negotiation extends KraPersistableBusinessObjectBase implements Per
 
     public void setNegotiationDocument(NegotiationDocument negotiationDocument) {
         this.negotiationDocument = negotiationDocument;
+    }
+
+    public Negotiable getAssociatedDocument() {
+        if (associatedDocument == null || !StringUtils.equals(associatedDocument.getAssociatedDocumentId(), getAssociatedDocumentId())) {
+            associatedDocument = getNegotiationService().getAssociatedObject(this);
+        }
+        return associatedDocument;
+    }
+
+    public void setAssociatedDocument(Negotiable associatedDocument) {
+        this.associatedDocument = associatedDocument;
     }
 }
