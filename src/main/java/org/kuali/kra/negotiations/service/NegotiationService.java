@@ -22,6 +22,7 @@ import org.kuali.kra.negotiations.bo.Negotiable;
 import org.kuali.kra.negotiations.bo.Negotiation;
 import org.kuali.kra.negotiations.bo.NegotiationAssociatedDetailBean;
 import org.kuali.kra.negotiations.bo.NegotiationAssociationType;
+import org.kuali.kra.negotiations.bo.NegotiationUnassociatedDetail;
 import org.kuali.rice.kns.bo.BusinessObject;
 
 /**
@@ -117,14 +118,13 @@ public interface NegotiationService {
      * @return
      */
     boolean isPersonIsAssociatedPerson(Negotiation negotiation, String personToCheckPersonId);
-    
+
     /**
-     * 
      * This method fine a NegotiationAssociatedDetail object from the DB and sets it to the passed in negotiation.
      * @param negotiation
-     * @param reload
+     * @return
      */
-    void findAndLoadNegotiationUnassociatedDetail(Negotiation negotiation, boolean reload);
+    NegotiationUnassociatedDetail findAndLoadNegotiationUnassociatedDetail(Negotiation negotiation);
     
     /**
      * 
