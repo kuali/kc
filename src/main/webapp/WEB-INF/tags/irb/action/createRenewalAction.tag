@@ -28,7 +28,7 @@
                     <th width="15%"> 
                         <div align="right">
                             <nobr>
-                            * Renewal Summary:
+                            * Summary:
                             </nobr>
                         </div>
                     </th>
