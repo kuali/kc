@@ -28,7 +28,7 @@
                     <th width="15%"> 
                         <div align="right">
                             <nobr>
-                            <kul:htmlAttributeLabel attributeEntry="${attributes.summary}" />
+                            	* Summary:
                             </nobr>
                         </div>
                     </th>
