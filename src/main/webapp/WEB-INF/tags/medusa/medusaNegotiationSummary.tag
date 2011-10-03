@@ -38,6 +38,6 @@
     </tr>
     <tr>
       <th style="text-align: right;" colspan="3">Negotiation Age:</th>
-      <td><c:out value="${node.bo.negotiationAge}"/></td>
+      <td><c:out value="${node.bo.negotiationAge}"/> days</td>
     </tr>
   </table>

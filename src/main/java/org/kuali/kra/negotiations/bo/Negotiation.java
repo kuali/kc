@@ -29,6 +29,7 @@ import org.kuali.kra.infrastructure.Constants;
 import org.kuali.kra.infrastructure.KraServiceLocator;
 import org.kuali.kra.infrastructure.RoleConstants;
 import org.kuali.kra.kim.bo.KcKimAttributes;
+import org.kuali.kra.negotiations.document.NegotiationDocument;
 import org.kuali.kra.negotiations.service.NegotiationService;
 import org.kuali.rice.kns.bo.BusinessObject;
 
@@ -61,6 +62,8 @@ public class Negotiation extends KraPersistableBusinessObjectBase implements Per
     
     private NegotiationUnassociatedDetail unAssociatedDetail;
     
+    private NegotiationDocument negotiationDocument;
+    
     /**
      * Long awardId - award
      * String proposalNumber -developmentProposal
@@ -79,9 +82,9 @@ public class Negotiation extends KraPersistableBusinessObjectBase implements Per
         activities = new ArrayList<NegotiationActivity>();
     }
     
-    public String getNegotiationAge() {
+    public Integer getNegotiationAge() {
         if (getNegotiationStartDate() == null) {
-            return "";
+            return null;
         } else {
             long start = getNegotiationStartDate().getTime();
             long end = 0L;
@@ -91,7 +94,7 @@ public class Negotiation extends KraPersistableBusinessObjectBase implements Per
                 end = getNegotiationEndDate().getTime();
             }
             
-            return ((end - start) / MILLISECS_PER_DAY) + " days";
+            return new Long((end - start) / MILLISECS_PER_DAY).intValue();
         }
     }
     
@@ -292,6 +295,9 @@ public class Negotiation extends KraPersistableBusinessObjectBase implements Per
     }
 
     public NegotiationUnassociatedDetail getUnAssociatedDetail() {
+        if (unAssociatedDetail == null) {
+            unAssociatedDetail = getNegotiationService().findAndLoadNegotiationUnassociatedDetail(this);
+        }
         return unAssociatedDetail;
     }
 
@@ -350,6 +356,10 @@ public class Negotiation extends KraPersistableBusinessObjectBase implements Per
         return bo != null ? bo.getLeadUnitNumber() : "";
     }
     
+    public Negotiable getAssociatedNegotiable() {
+        return getNegotiationService().getAssociatedObject(this);
+    }
+    
     private NegotiationService getNegotiationService() {
         return KraServiceLocator.getService(NegotiationService.class);
     }
@@ -362,5 +372,17 @@ public class Negotiation extends KraPersistableBusinessObjectBase implements Per
     @Override
     public void populateAdditionalQualifiedRoleAttributes(Map<String, String> qualifiedRoleAttributes) {
         qualifiedRoleAttributes.put(KcKimAttributes.DOCUMENT_TYPE_NAME, this.getDocumentKey());
+    }
+
+    public NegotiationDocument getDocument() {
+        return negotiationDocument;
+    }
+
+    public NegotiationDocument getNegotiationDocument() {
+        return negotiationDocument;
+    }
+
+    public void setNegotiationDocument(NegotiationDocument negotiationDocument) {
+        this.negotiationDocument = negotiationDocument;
     }
 }
