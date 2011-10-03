@@ -727,6 +727,15 @@
         </property>    
 	</bean>
 	
+	<bean id="negotiationNotificationService" class="org.kuali.kra.negotiations.notifications.NegotiationNotificationServiceImpl">
+		<property name="kcNotificationService">
+			<ref bean="kcNotificationService"/>
+		</property>
+		<property name="negotiationService">
+			<ref bean="negotiationService"/>
+		</property>
+	</bean>
+	
 	<bean id="parentNegotiationAuthorizer" abstract="true">
         <property name="unitAuthorizationService" ref="unitAuthorizationService" />
         <property name="kraWorkflowService" ref="kraWorkflowService" />

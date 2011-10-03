@@ -1792,4 +1792,9 @@ public class InstitutionalProposal extends KraPersistableBusinessObjectBase impl
         }
         return kcPeople;
     }
+
+    @Override
+    public String getAssociatedDocumentId() {
+        return getProposalNumber();
+    }
 }

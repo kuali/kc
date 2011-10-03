@@ -25,14 +25,17 @@ import org.apache.commons.lang.StringUtils;
 import org.apache.struts.action.ActionForm;
 import org.apache.struts.action.ActionForward;
 import org.apache.struts.action.ActionMapping;
+
 import org.kuali.kra.bo.AttachmentFile;
 import org.kuali.kra.infrastructure.Constants;
 import org.kuali.kra.infrastructure.KeyConstants;
+import org.kuali.kra.infrastructure.KraServiceLocator;
 import org.kuali.kra.negotiations.bo.Negotiation;
 import org.kuali.kra.negotiations.bo.NegotiationActivity;
 import org.kuali.kra.negotiations.bo.NegotiationActivityAttachment;
 import org.kuali.kra.negotiations.bo.NegotiationAssociationType;
 import org.kuali.kra.negotiations.bo.NegotiationUnassociatedDetail;
+import org.kuali.kra.negotiations.notifications.NegotiationNotificationService;
 import org.kuali.kra.negotiations.web.struts.form.NegotiationForm;
 import org.kuali.rice.kns.util.KNSConstants;
 
@@ -76,16 +79,19 @@ public class NegotiationNegotiationAction extends NegotiationAction {
             //in the in progress status, the end date field is disabled, so this prvents a problem with moving back from
             //completed or suspended to in progress.
             negotiation.setNegotiationEndDate(null);
-        } else if (negotiation.getNegotiationEndDate() != null 
-                && oldNegotiation != null && oldNegotiation.getNegotiationStatus() != null 
+        } else if (oldNegotiation != null && oldNegotiation.getNegotiationStatus() != null 
                 && getNegotiationService().getInProgressStatusCodes().contains(oldNegotiation.getNegotiationStatus().getCode())
                 && negotiation.getNegotiationStatus() != null 
                 && getNegotiationService().getCompletedStatusCodes().contains(negotiation.getNegotiationStatus().getCode())) {
-            if (negotiationForm.getNegotiationActivityHelper().hasPendingActivities()) {
+            if (negotiation.getNegotiationEndDate() != null
+                    && negotiationForm.getNegotiationActivityHelper().hasPendingActivities()) {
                 ActionForward confirmAction = confirm(buildParameterizedConfirmationQuestion(mapping, form, request, response, 
                         "changePendingActivitiesKey", KeyConstants.NEGOTIATION_CLOSE_PENDING_ACTIVITIES), 
                         "closeAllPendingActivitiesAndSave", "resetNegotiationStatus");
                 return confirmAction;
+            }
+            if (StringUtils.equals(negotiation.getNegotiationStatus().getCode(), getNegotiationService().getCompleteStatusCode())) {
+                KraServiceLocator.getService(NegotiationNotificationService.class).sendCloseNotification(negotiationForm.getDocument());
             }
         }
         ActionForward actionForward = super.save(mapping, form, request, response);
