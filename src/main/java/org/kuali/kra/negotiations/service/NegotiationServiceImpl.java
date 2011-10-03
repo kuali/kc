@@ -107,12 +107,13 @@ public class NegotiationServiceImpl implements NegotiationService {
      * 
      * @see org.kuali.kra.negotiations.service.NegotiationService#buildNegotiationAssociatedDetailBean(org.kuali.kra.negotiations.bo.Negotiation)
      */
-    public NegotiationAssociatedDetailBean buildNegotiationAssociatedDetailBean(Negotiation negotiation) {   
+    public NegotiationAssociatedDetailBean buildNegotiationAssociatedDetailBean(Negotiation negotiation) {
+        negotiation.refreshReferenceObject("negotiationAssociationType");
         if (negotiation.getNegotiationAssociationType() != null) {
             Negotiable negotiable = getAssociatedObject(negotiation);
             NegotiationAssociatedDetailBean bean = new NegotiationAssociatedDetailBean(negotiable);
             if (bean.getDisplayOSPAdministrators()) {
-                bean.setOspAdministrators(this.getOSPAdministrators(negotiation.getLeadUnitNumber()));
+                bean.setOspAdministrators(this.getOSPAdministrators(bean.getLeadUnitNumber()));
             }
             return bean;
         } else {
@@ -244,17 +245,15 @@ public class NegotiationServiceImpl implements NegotiationService {
      * 
      * @see org.kuali.kra.negotiations.service.NegotiationService#findAndLoadNegotiationUnassociatedDetail(org.kuali.kra.negotiations.bo.Negotiation, boolean)
      */
-    public void findAndLoadNegotiationUnassociatedDetail(Negotiation negotiation, boolean reload) {
+    public NegotiationUnassociatedDetail findAndLoadNegotiationUnassociatedDetail(Negotiation negotiation) {
         if (negotiation.getNegotiationAssociationType() != null 
                 && StringUtils.equalsIgnoreCase(negotiation.getNegotiationAssociationType().getCode(), NegotiationAssociationType.NONE_ASSOCIATION) 
                 && StringUtils.isNotEmpty(negotiation.getAssociatedDocumentId())) {
-            if ((reload || negotiation.getUnAssociatedDetail() == null) && negotiation.getAssociatedDocumentId() != null) {
-                Map params = new HashMap();
-                params.put("NEGOTIATION_UNASSOC_DETAIL_ID", negotiation.getAssociatedDocumentId());
-                NegotiationUnassociatedDetail unAssociatedDetail = (NegotiationUnassociatedDetail) 
-                        this.getBusinessObjectService().findByPrimaryKey(NegotiationUnassociatedDetail.class, params);
-                negotiation.setUnAssociatedDetail(unAssociatedDetail);
-            }
+            NegotiationUnassociatedDetail unAssociatedDetail = (NegotiationUnassociatedDetail) 
+                    this.getBusinessObjectService().findBySinglePrimaryKey(NegotiationUnassociatedDetail.class, negotiation.getAssociatedDocumentId());
+            return unAssociatedDetail;
+        } else {
+            return null;
         }
     }
     
