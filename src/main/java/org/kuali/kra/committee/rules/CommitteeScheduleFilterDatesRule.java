@@ -38,7 +38,7 @@ public class CommitteeScheduleFilterDatesRule extends ResearchDocumentRuleBase i
         boolean rulePassed = true;
         
         Date startDate = filterCommitteeScheduleEvent.getScheduleData().getFilterStartDate();
-        Date endDate = filterCommitteeScheduleEvent.getScheduleData().getFilerEndDate();
+        Date endDate = filterCommitteeScheduleEvent.getScheduleData().getFilterEndDate();
         
         if(null == startDate) {
             reportError(SCHEDULEDATE_FILTERSTARTDATE, KeyConstants.ERROR_COMMITTEESCHEDULE_FILTER_DATE, MSG[0]);

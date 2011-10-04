@@ -27,6 +27,7 @@ import org.junit.Test;
 import org.kuali.kra.committee.bo.CommitteeSchedule;
 import org.kuali.kra.committee.rule.event.CommitteeScheduleDateConflictEvent;
 import org.kuali.kra.committee.rule.event.CommitteeScheduleEventBase;
+import org.kuali.kra.committee.web.struts.form.schedule.DailyScheduleData;
 import org.kuali.kra.committee.web.struts.form.schedule.ScheduleData;
 import org.kuali.kra.infrastructure.Constants;
 import org.kuali.kra.rules.SoftError;
@@ -143,7 +144,7 @@ public class CommitteeScheduleDateConflictRuleTest extends KcUnitTestBase {
      * This method is helper method to Soft Error test cases to set prerequisite.
      */
     private void prerequisiteSoftError() {
-        scheduleData = new ScheduleData();   
+        scheduleData = new DailyScheduleData();   
         scheduleData.setDatesInConflict(new ArrayList<java.sql.Date>());
     }
 }
