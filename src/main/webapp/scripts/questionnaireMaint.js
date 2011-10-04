@@ -2308,7 +2308,7 @@ var moduleCodes = [ 'select', 'Award', 'Institute Proposal',
 // TODO : initial submodule codes.  should come from DB
 var subModuleCodes = new Array(8);
   for (i = 0; i < subModuleCodes.length; ++ i) {
-	  subModuleCodes [i] = new Array(3);
+	  subModuleCodes [i] = new Array(5);
   }
   subModuleCodes[0][0] = '';
   subModuleCodes[3][0] = '';
@@ -2316,10 +2316,11 @@ var subModuleCodes = new Array(8);
   subModuleCodes[3][1] = 'Proposal Budget';
   subModuleCodes[7][1] = 'Amendment / Renewal';
   subModuleCodes[7][2] = 'Protocol Submission';
+  subModuleCodes[7][3] = 'Renewal';
+  subModuleCodes[7][4] = 'Amendment';
   subModuleCodes[3][2] = 'S2S Questionnaires';
   subModuleCodes[3][3] = 'Proposal Person Certification';
 	  
-//var subModuleCodes = [ 'select', 'Proposal Budget', 'Amendment / Renewal', 'Protocol Submission'];
 var opArray = [ 'select', 'and', 'or' ];
 var responseArray = [ 'select', 'Contains text value', 'Begins with text', 'Ends with text', 'Matches text',
 		'Less than number', 'Less than or equals number', 'Equals number', 'Not Equal to number',
