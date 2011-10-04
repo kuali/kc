@@ -33,7 +33,7 @@
         <ref bean="Negotiation-associatedNegotiable.sponsorName"/>
         <ref bean="Negotiation-associatedNegotiable.title"/>
         <ref bean="Negotiation-associatedNegotiable.piName"/>
-        <ref bean="Negotiation-associatedNegotiable.proposalTypeCode"/>
+        <ref bean="Negotiation-associatedNegotiable.negotiableProposalTypeCode"/>
         <ref bean="Negotiation-associatedNegotiable.leadUnitNumber"/>
         <ref bean="Negotiation-associatedNegotiable.leadUnitName"/>
       </list>
@@ -297,9 +297,9 @@
     <property name="name" value="associatedNegotiable.piName" />
   </bean>
   
-  <bean id="Negotiation-associatedNegotiable.proposalTypeCode" parent="Negotiation-associatedNegotiable.proposalTypeCode-parentBean" />
-  <bean id="Negotiation-associatedNegotiable.proposalTypeCode-parentBean" abstract="true" parent="NegotiationUnassociatedDetail-proposalTypeCode">
-    <property name="name" value="associatedNegotiable.proposalTypeCode" />
+  <bean id="Negotiation-associatedNegotiable.negotiableProposalTypeCode" parent="Negotiation-associatedNegotiable.negotiableProposalTypeCode-parentBean" />
+  <bean id="Negotiation-associatedNegotiable.negotiableProposalTypeCode-parentBean" abstract="true" parent="NegotiationUnassociatedDetail-negotiableProposalTypeCode">
+    <property name="name" value="associatedNegotiable.negotiableProposalTypeCode" />
   </bean>
   
   <bean id="Negotiation-associatedNegotiable.leadUnitNumber" parent="Negotiation-associatedNegotiable.leadUnitNumber-parentBean" />
@@ -337,7 +337,7 @@
 		    <bean p:attributeName="negotiator.fullName" parent="FieldDefinition" />
 		    <bean p:attributeName="negotiationStartDate" parent="FieldDefinition" />
 		    <bean p:attributeName="negotiationStatusId" parent="FieldDefinition" />
-		    <bean p:attributeName="associatedNegotiable.proposalTypeCode" parent="FieldDefinition" />
+		    <bean p:attributeName="associatedNegotiable.negotiableProposalTypeCode" parent="FieldDefinition" />
 		    <bean p:attributeName="associatedNegotiable.leadUnitNumber" parent="FieldDefinition" />
 		    <bean p:attributeName="associatedNegotiable.leadUnitName" parent="FieldDefinition" />
 		    
@@ -356,7 +356,7 @@
 		    <bean p:attributeName="negotiator.fullName" parent="FieldDefinition" />
 		    <bean p:attributeName="negotiationStartDate" parent="FieldDefinition" />
 		    <bean p:attributeName="negotiationStatusId" parent="FieldDefinition" />
-		    <bean p:attributeName="associatedNegotiable.proposalTypeCode" parent="FieldDefinition" />
+		    <bean p:attributeName="associatedNegotiable.negotiableProposalTypeCode" parent="FieldDefinition" />
 		    <bean p:attributeName="associatedNegotiable.leadUnitNumber" parent="FieldDefinition" />
 		    <bean p:attributeName="associatedNegotiable.leadUnitName" parent="FieldDefinition" />
 

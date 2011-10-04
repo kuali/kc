@@ -25,6 +25,7 @@ import org.kuali.kra.bo.Organization;
 import org.kuali.kra.bo.Rolodex;
 import org.kuali.kra.bo.Sponsor;
 import org.kuali.kra.bo.Unit;
+import org.kuali.kra.infrastructure.Constants;
 import org.kuali.kra.infrastructure.KraServiceLocator;
 import org.kuali.kra.service.RolodexService;
 
@@ -50,7 +51,7 @@ public class NegotiationUnassociatedDetail extends KraPersistableBusinessObjectB
     private String contactAdminPersonId;
     private String subAwardOrganizationId;
     
-    private transient String proposalTypeCode;
+    private transient String negotiableProposalTypeCode;
     
     private Negotiation negotiation;
     private Unit leadUnit;
@@ -360,27 +361,24 @@ public class NegotiationUnassociatedDetail extends KraPersistableBusinessObjectB
     }
     
     @Override
-    public List<KcPerson> getProjectKcPeople() {
-        List<KcPerson> kcPeople = new ArrayList<KcPerson>();
-        if (this.getContactAdmin() != null) {
-            kcPeople.add(this.getContactAdmin());
-        }
+    public List<NegotiationPersonDTO> getProjectPeople() {
+        List<NegotiationPersonDTO> kcPeople = new ArrayList<NegotiationPersonDTO>();
         if (this.getPIEmployee() != null) {
-            kcPeople.add(this.getPIEmployee());
+            kcPeople.add(new NegotiationPersonDTO(this.getPIEmployee(), Constants.PRINCIPAL_INVESTIGATOR_ROLE));
         }
         return kcPeople;
     }
 
 
 
-    public String getProposalTypeCode() {
-        return proposalTypeCode;
+    public String getNegotiableProposalTypeCode() {
+        return negotiableProposalTypeCode;
     }
 
 
 
-    public void setProposalTypeCode(String proposalTypeCode) {
-        this.proposalTypeCode = proposalTypeCode;
+    public void setNegotiableProposalTypeCode(String negotiableProposalTypeCode) {
+        this.negotiableProposalTypeCode = negotiableProposalTypeCode;
     }
 
 

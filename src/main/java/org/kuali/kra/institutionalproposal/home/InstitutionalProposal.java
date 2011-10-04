@@ -59,6 +59,7 @@ import org.kuali.kra.institutionalproposal.proposallog.ProposalLog;
 import org.kuali.kra.institutionalproposal.proposallog.service.ProposalLogService;
 import org.kuali.kra.institutionalproposal.specialreview.InstitutionalProposalSpecialReview;
 import org.kuali.kra.negotiations.bo.Negotiable;
+import org.kuali.kra.negotiations.bo.NegotiationPersonDTO;
 import org.kuali.kra.proposaldevelopment.bo.ActivityType;
 import org.kuali.kra.proposaldevelopment.bo.ProposalType;
 import org.kuali.kra.proposaldevelopment.bo.ProposalUnitCreditSplit;
@@ -1785,10 +1786,10 @@ public class InstitutionalProposal extends KraPersistableBusinessObjectBase impl
     }
     
     @Override
-    public List<KcPerson> getProjectKcPeople() {
-        List<KcPerson> kcPeople = new ArrayList<KcPerson>();
+    public List<NegotiationPersonDTO> getProjectPeople() {
+        List<NegotiationPersonDTO> kcPeople = new ArrayList<NegotiationPersonDTO>();
         for (InstitutionalProposalPerson person : getProjectPersons()) {
-            kcPeople.add(person.getPerson());
+            kcPeople.add(new NegotiationPersonDTO(person.getPerson(), person.getRoleCode()));
         }
         return kcPeople;
     }
@@ -1796,5 +1797,13 @@ public class InstitutionalProposal extends KraPersistableBusinessObjectBase impl
     @Override
     public String getAssociatedDocumentId() {
         return getProposalNumber();
+    }
+    
+    public String getNegotiableProposalTypeCode() {
+        if (getProposalTypeCode() != null) {
+            return getProposalTypeCode().toString();
+        } else {
+            return EMPTY_STRING;
+        }
     }
 }
