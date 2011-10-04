@@ -20,7 +20,7 @@ import java.text.ParseException;
 import org.kuali.kra.committee.bo.Committee;
 import org.kuali.kra.committee.bo.CommitteeSchedule;
 import org.kuali.kra.meeting.CommitteeScheduleMinute;
-import org.kuali.kra.committee.web.struts.form.schedule.ScheduleData;
+import org.kuali.kra.committee.web.struts.form.schedule.*;
 
 import java.util.List;
 
@@ -41,7 +41,7 @@ public interface CommitteeScheduleService {
     public Boolean isCommitteeScheduleDeletable(CommitteeSchedule committeeSchedule);
     
     /**
-     * This method implementer must add new non conflicting schedule dates to existing Committee.CommitteeSchdule list.
+     * This method implementer must add new non conflicting, non-repeating schedule dates to existing Committee.CommitteeSchedule list.
      * @param scheduleData
      * @param committee
      * @throws ParseException

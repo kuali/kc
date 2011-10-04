@@ -31,7 +31,7 @@ public class ScheduleDataTest extends TestCase {
     @Test
     public void testPopulateStyleClass() {
         
-        ScheduleData data = new ScheduleData();
+        ScheduleData data = new DailyScheduleData();
         
         Map<String, String> mapbefore = data.getStyleClasses();
         assertEquals(ScheduleData.BLOCK, mapbefore.get("NEVER"));

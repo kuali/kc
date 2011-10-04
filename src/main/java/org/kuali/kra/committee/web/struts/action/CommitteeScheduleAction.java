@@ -176,7 +176,7 @@ public class CommitteeScheduleAction extends CommitteeAction {
         ScheduleData scheduleData = committeeForm.getCommitteeHelper().getScheduleData();
         if(applyRules(new CommitteeScheduleFilterEvent(Constants.EMPTY_STRING, committeeForm.getDocument(), scheduleData, null, ErrorType.HARDERROR))) {
             Date startDate = scheduleData.getFilterStartDate();
-            Date endDate = scheduleData.getFilerEndDate();
+            Date endDate = scheduleData.getFilterEndDate();
             committeeForm.getCommitteeHelper().prepareFilterDatesView(startDate, endDate);
         }
         return mapping.findForward(Constants.MAPPING_BASIC );

@@ -78,7 +78,7 @@ public class CommitteeHelper implements Serializable {
         this.committeeForm = committeeForm;
         this.newCommitteeMembership = new CommitteeMembership();
         this.newCommitteeMembershipRoles = new ArrayList<CommitteeMembershipRole>();
-        this.setScheduleData(new ScheduleData());
+//        this.setScheduleData(new ScheduleData());
         this.setGenerateBatchCorrespondence(new ArrayList<CommitteeBatchCorrespondence>());
         this.setBatchCorrespondenceHistory(new ArrayList<CommitteeBatchCorrespondence>());
         this.memberIndex = -1;
@@ -200,9 +200,9 @@ public class CommitteeHelper implements Serializable {
         return scheduleData;
     }
 
-    public void setScheduleData(ScheduleData scheduleData) {
-        this.scheduleData = scheduleData;
-    }    
+//    public void setScheduleData(ScheduleData scheduleData) {
+//        this.scheduleData = scheduleData;
+//    }    
     
     public String getGenerateBatchCorrespondenceTypeCode() {
         return generateBatchCorrespondenceTypeCode;
@@ -333,8 +333,10 @@ public class CommitteeHelper implements Serializable {
         for (CommitteeSchedule committeeSchedule : getSortedCommitteeScheduleList()) {
             committeeSchedule.setFilter(true);            
         }
-        getScheduleData().setFilterStartDate(null);
-        getScheduleData().setFilerEndDate(null);
+        if (getScheduleData() != null) {
+            getScheduleData().setFilterStartDate(null);
+            getScheduleData().setFilterEndDate(null);
+        }
     }
     
     public boolean canModifySchedule() {
