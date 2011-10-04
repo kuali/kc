@@ -41,7 +41,14 @@ import org.kuali.kra.committee.bo.Committee;
 import org.kuali.kra.committee.bo.CommitteeSchedule;
 import org.kuali.kra.committee.bo.ScheduleStatus;
 import org.kuali.kra.committee.service.impl.CommitteeScheduleServiceImpl;
-import org.kuali.kra.committee.web.struts.form.schedule.*;
+import org.kuali.kra.committee.web.struts.form.schedule.DailyScheduleDetails;
+import org.kuali.kra.committee.web.struts.form.schedule.DayOfWeek;
+import org.kuali.kra.committee.web.struts.form.schedule.MonthlyScheduleDetails;
+import org.kuali.kra.committee.web.struts.form.schedule.ScheduleData;
+import org.kuali.kra.committee.web.struts.form.schedule.StyleKey;
+import org.kuali.kra.committee.web.struts.form.schedule.Time12HrFmt;
+import org.kuali.kra.committee.web.struts.form.schedule.WeeklyScheduleDetails;
+import org.kuali.kra.committee.web.struts.form.schedule.YearlyScheduleDetails;
 import org.kuali.kra.committee.web.struts.form.schedule.Time12HrFmt.MERIDIEM;
 import org.kuali.kra.irb.Protocol;
 import org.kuali.kra.scheduling.expr.util.CronSpecialChars;
@@ -72,11 +79,7 @@ public class CommitteeScheduleServiceImplTest  {
     
     private CommitteeSchedule committeeSchedule;
     
-    private NonRepeatingScheduleData nonRepeatingScheduleData;
-    private DailyScheduleData dailyScheduleData;
-    private WeeklyScheduleData weeklyScheduleData;
-    private MonthlyScheduleData monthlyScheduleData;
-    private YearlyScheduleData yearlyScheduleData;
+    private ScheduleData scheduleData;
     
     private Committee committee;
     
@@ -99,24 +102,24 @@ public class CommitteeScheduleServiceImplTest  {
      */
     @Test
     public void testAddScheduleYearlyRecurrenceCmplx() throws Exception {
+        prerequisite();
         yearlyPrerequisite();
-        prerequisite(yearlyScheduleData);
         context.checking(new Expectations() {{
-            Date dt = yearlyScheduleData.getScheduleStartDate();
-            Date endDt = yearlyScheduleData.getYearlySchedule().getScheduleEndDate();
+            Date dt = scheduleData.getScheduleStartDate();
+            Date endDt = scheduleData.getYearlySchedule().getScheduleEndDate();
             List<Date> dates = new LinkedList<Date>();
             dates.add(new Date());
             Time24HrFmt time  = new Time24HrFmt(TIME24HR_0_1);
-            CronSpecialChars weekOfMonth = ScheduleData.getWeekOfMonth(yearlyScheduleData.getYearlySchedule().getSelectedMonthsWeek());
-            CronSpecialChars dayOfWeek = ScheduleData.getDayOfWeek(yearlyScheduleData.getYearlySchedule().getSelectedDayOfWeek());
-            CronSpecialChars month = ScheduleData.getMonthOfWeek(yearlyScheduleData.getYearlySchedule().getSelectedOption2Month());
-            int frequency = yearlyScheduleData.getYearlySchedule().getOption2Year();
+            CronSpecialChars weekOfMonth = ScheduleData.getWeekOfMonth(scheduleData.getYearlySchedule().getSelectedMonthsWeek());
+            CronSpecialChars dayOfWeek = ScheduleData.getDayOfWeek(scheduleData.getYearlySchedule().getSelectedDayOfWeek());
+            CronSpecialChars month = ScheduleData.getMonthOfWeek(scheduleData.getYearlySchedule().getSelectedOption2Month());
+            int frequency = scheduleData.getYearlySchedule().getOption2Year();
             one(scheduleService).getScheduledDates(dt,endDt,time, weekOfMonth, dayOfWeek, month, frequency, null);will(returnValue(dates));
         }});
 
-        yearlyScheduleData.getYearlySchedule().setYearOption(YearlyScheduleDetails.yearOptionValues.CMPLX.toString());
+        scheduleData.getYearlySchedule().setYearOption(YearlyScheduleDetails.yearOptionValues.CMPLX.toString());
         
-        test(yearlyScheduleData, 1);
+        test(1);
     }
     
     /**
@@ -125,35 +128,35 @@ public class CommitteeScheduleServiceImplTest  {
      */
     @Test
     public void testAddScheduleYearlyRecurrenceXday() throws Exception {
+        prerequisite();
         yearlyPrerequisite();
-        prerequisite(yearlyScheduleData);
         context.checking(new Expectations() {{
-            Date dt = yearlyScheduleData.getScheduleStartDate();
-            Date endDt = yearlyScheduleData.getYearlySchedule().getScheduleEndDate();
+            Date dt = scheduleData.getScheduleStartDate();
+            Date endDt = scheduleData.getYearlySchedule().getScheduleEndDate();
             List<Date> dates = new LinkedList<Date>();
             dates.add(new Date());
             Time24HrFmt time  = new Time24HrFmt(TIME24HR_0_1);
-            CronSpecialChars month = ScheduleData.getMonthOfWeek(yearlyScheduleData.getYearlySchedule().getSelectedOption1Month());
-            int day = yearlyScheduleData.getYearlySchedule().getDay();
-            int frequency = yearlyScheduleData.getYearlySchedule().getOption1Year();
+            CronSpecialChars month = ScheduleData.getMonthOfWeek(scheduleData.getYearlySchedule().getSelectedOption1Month());
+            int day = scheduleData.getYearlySchedule().getDay();
+            int frequency = scheduleData.getYearlySchedule().getOption1Year();
             one(scheduleService).getScheduledDates(dt,endDt,time, month, day, frequency,  null);will(returnValue(dates));
         }});
         
-        yearlyScheduleData.getYearlySchedule().setYearOption(YearlyScheduleDetails.yearOptionValues.XDAY.toString());
+        scheduleData.getYearlySchedule().setYearOption(YearlyScheduleDetails.yearOptionValues.XDAY.toString());
         
-        test(yearlyScheduleData, 1);
+        test(1);
     }
     
     /**
      * Private helper method to set prerequiste's for yearly options.
      */
     private void yearlyPrerequisite(){
-        yearlyScheduleData = new YearlyScheduleData();
-        yearlyScheduleData.setYearlySchedule(new YearlyScheduleDetails());
-        int day = getDay(yearlyScheduleData.getScheduleStartDate(),Calendar.DATE);
-        int month = getDay(yearlyScheduleData.getScheduleStartDate(), Calendar.MONTH);
-        yearlyScheduleData.setScheduleStartDate(getDate(-day -(month*31)));
-        yearlyScheduleData.getYearlySchedule().setScheduleEndDate(getDate(-day - (month*31)+10));
+        scheduleData.setRecurrenceType(StyleKey.YEARLY.toString());      
+        scheduleData.setYearlySchedule(new YearlyScheduleDetails());
+        int day = getDay(scheduleData.getScheduleStartDate(),Calendar.DATE);
+        int month = getDay(scheduleData.getScheduleStartDate(), Calendar.MONTH);
+        scheduleData.setScheduleStartDate(getDate(-day -(month*31)));
+        scheduleData.getYearlySchedule().setScheduleEndDate(getDate(-day - (month*31)+10));
     }
     
     /**
@@ -162,26 +165,26 @@ public class CommitteeScheduleServiceImplTest  {
      */
     @Test
     public void testAddScheduleMonthlyRecurrenceXdayofweekAndXmonth() throws Exception {
+        prerequisite(); 
         monthlyPrerequisite();
-        prerequisite(monthlyScheduleData); 
         
-        int day = getDay(monthlyScheduleData.getScheduleStartDate(), Calendar.DATE);
-        monthlyScheduleData.setScheduleStartDate(getDate(-day));
-        monthlyScheduleData.getMonthlySchedule().setScheduleEndDate(getDate(-day+7));
-        monthlyScheduleData.getMonthlySchedule().setMonthOption(MonthlyScheduleDetails.optionValues.XDAYOFWEEKANDXMONTH.toString());
+        int day = getDay(scheduleData.getScheduleStartDate(), Calendar.DATE);
+        scheduleData.setScheduleStartDate(getDate(-day));
+        scheduleData.getMonthlySchedule().setScheduleEndDate(getDate(-day+7));
+        scheduleData.getMonthlySchedule().setMonthOption(MonthlyScheduleDetails.optionValues.XDAYOFWEEKANDXMONTH.toString());
         context.checking(new Expectations() {{
-            Date dt = monthlyScheduleData.getScheduleStartDate();
-            Date endDt = monthlyScheduleData.getMonthlySchedule().getScheduleEndDate();
+            Date dt = scheduleData.getScheduleStartDate();
+            Date endDt = scheduleData.getMonthlySchedule().getScheduleEndDate();
             List<Date> dates = new LinkedList<Date>();
             dates.add(new Date());
             Time24HrFmt time  = new Time24HrFmt(TIME24HR_0_1);
-            CronSpecialChars weekOfMonth = ScheduleData.getWeekOfMonth(monthlyScheduleData.getMonthlySchedule().getSelectedMonthsWeek());
-            CronSpecialChars dayOfWeek = ScheduleData.getDayOfWeek(monthlyScheduleData.getMonthlySchedule().getSelectedDayOfWeek());
-            int frequency = monthlyScheduleData.getMonthlySchedule().getOption2Month();
+            CronSpecialChars weekOfMonth = ScheduleData.getWeekOfMonth(scheduleData.getMonthlySchedule().getSelectedMonthsWeek());
+            CronSpecialChars dayOfWeek = ScheduleData.getDayOfWeek(scheduleData.getMonthlySchedule().getSelectedDayOfWeek());
+            int frequency = scheduleData.getMonthlySchedule().getOption2Month();
             one(scheduleService).getScheduledDates(dt,endDt,time,dayOfWeek, weekOfMonth, frequency,null);will(returnValue(dates));
         }});
         
-        test(monthlyScheduleData, 1);
+        test(1);
     }
 
     /**
@@ -190,25 +193,25 @@ public class CommitteeScheduleServiceImplTest  {
      */
     @Test
     public void testAddScheduleMonthlyRecurrenceXdayAndXmonth() throws Exception {
+        prerequisite();        
         monthlyPrerequisite();
-        prerequisite(monthlyScheduleData);        
         
-        int day = getDay(monthlyScheduleData.getScheduleStartDate(), Calendar.DATE);
-        monthlyScheduleData.getMonthlySchedule().setDay(day+1);
-        monthlyScheduleData.getMonthlySchedule().setScheduleEndDate(getDate(1));
-        monthlyScheduleData.getMonthlySchedule().setMonthOption(MonthlyScheduleDetails.optionValues.XDAYANDXMONTH.toString());
+        int day = getDay(scheduleData.getScheduleStartDate(), Calendar.DATE);
+        scheduleData.getMonthlySchedule().setDay(day+1);
+        scheduleData.getMonthlySchedule().setScheduleEndDate(getDate(1));
+        scheduleData.getMonthlySchedule().setMonthOption(MonthlyScheduleDetails.optionValues.XDAYANDXMONTH.toString());
         context.checking(new Expectations() {{
-            Date dt = monthlyScheduleData.getScheduleStartDate();
-            Date endDt = monthlyScheduleData.getMonthlySchedule().getScheduleEndDate();
+            Date dt = scheduleData.getScheduleStartDate();
+            Date endDt = scheduleData.getMonthlySchedule().getScheduleEndDate();
             List<Date> dates = new LinkedList<Date>();
             dates.add(new Date());
             Time24HrFmt time  = new Time24HrFmt(TIME24HR_0_1);
-            int day = monthlyScheduleData.getMonthlySchedule().getDay();
-            int frequency = monthlyScheduleData.getMonthlySchedule().getOption1Month();
+            int day = scheduleData.getMonthlySchedule().getDay();
+            int frequency = scheduleData.getMonthlySchedule().getOption1Month();
             one(scheduleService).getScheduledDates(dt,endDt,time,day,frequency,null);will(returnValue(dates));
         }});
         
-        test(monthlyScheduleData, 1);
+        test(1);
     }    
     
     /**
@@ -228,8 +231,8 @@ public class CommitteeScheduleServiceImplTest  {
      * Private helper method to set prerequiste's for monthly options.
      */
     private void monthlyPrerequisite() {
-        monthlyScheduleData = new MonthlyScheduleData();
-        monthlyScheduleData.setMonthlySchedule(new MonthlyScheduleDetails()); 
+        scheduleData.setRecurrenceType(StyleKey.MONTHLY.toString());      
+        scheduleData.setMonthlySchedule(new MonthlyScheduleDetails()); 
     }
     
     /**
@@ -238,39 +241,31 @@ public class CommitteeScheduleServiceImplTest  {
      */
     @Test
     public void testAddScheduleWeeklyRecurrence() throws Exception {
-        weeklyPrerequisite();
-        prerequisite(weeklyScheduleData);
+        prerequisite();
         
-        weeklyScheduleData.setWeeklySchedule(new WeeklyScheduleDetails());
-        weeklyScheduleData.getWeeklySchedule().setScheduleEndDate(getDate(7));
+        scheduleData.setRecurrenceType(StyleKey.WEEKLY.toString());      
+        scheduleData.setWeeklySchedule(new WeeklyScheduleDetails());
+        scheduleData.getWeeklySchedule().setScheduleEndDate(getDate(7));
         List<String> daysOfWeek = new ArrayList<String>(2);
         daysOfWeek.add(DayOfWeek.Monday.name());
         daysOfWeek.add("Hidden");
         
-        weeklyScheduleData.getWeeklySchedule().setDaysOfWeek(daysOfWeek);
+        scheduleData.getWeeklySchedule().setDaysOfWeek(daysOfWeek);
         context.checking(new Expectations() {{
-            Date dt = weeklyScheduleData.getScheduleStartDate();
-            Date endDt = weeklyScheduleData.getWeeklySchedule().getScheduleEndDate();
+            Date dt = scheduleData.getScheduleStartDate();
+            Date endDt = scheduleData.getWeeklySchedule().getScheduleEndDate();
             List<Date> dates = new LinkedList<Date>();
             dates.add(new Date());
             Time24HrFmt time  = new Time24HrFmt(TIME24HR_0_1); 
             CronSpecialChars[] dow = null;
-            if(CollectionUtils.isNotEmpty(weeklyScheduleData.getWeeklySchedule().getDaysOfWeek())) {
-                dow = ScheduleData.convertToWeekdays(weeklyScheduleData.getWeeklySchedule().getDaysOfWeek().toArray(new String[weeklyScheduleData.getWeeklySchedule().getDaysOfWeek().size()]));
+            if(CollectionUtils.isNotEmpty(scheduleData.getWeeklySchedule().getDaysOfWeek())) {
+                dow = ScheduleData.convertToWeekdays(scheduleData.getWeeklySchedule().getDaysOfWeek().toArray(new String[scheduleData.getWeeklySchedule().getDaysOfWeek().size()]));
             }
-            ScheduleSequence scheduleSequence = new WeekScheduleSequenceDecorator(new DefaultScheduleSequence(),weeklyScheduleData.getWeeklySchedule().getWeek(),dow.length);
+            ScheduleSequence scheduleSequence = new WeekScheduleSequenceDecorator(new DefaultScheduleSequence(),scheduleData.getWeeklySchedule().getWeek(),dow.length);
             one(scheduleService).getScheduledDates(dt,endDt,time,dow,scheduleSequence);will(returnValue(dates));
         }});
         
-        test(weeklyScheduleData, 1);
-    }
-    
-    /**
-     * Private helper method to set prerequiste's for weekly options.
-     */
-    private void weeklyPrerequisite(){
-        weeklyScheduleData = new WeeklyScheduleData();
-        weeklyScheduleData.setWeeklySchedule(new WeeklyScheduleDetails());
+        test(1);
     }
     
     /**
@@ -279,25 +274,25 @@ public class CommitteeScheduleServiceImplTest  {
      */
     @Test
     public void testAddScheduleDailyRecurrenceWeekday() throws Exception {
-        dailyPrerequisite();
-        prerequisite(dailyScheduleData);
+        prerequisite();
         
-        dailyScheduleData.setDailySchedule(new DailyScheduleDetails());
-        dailyScheduleData.getDailySchedule().setScheduleEndDate(getDate(1));
-        dailyScheduleData.getDailySchedule().setDayOption(DailyScheduleDetails.optionValues.WEEKDAY.toString());
+        scheduleData.setRecurrenceType(StyleKey.DAILY.toString());      
+        scheduleData.setDailySchedule(new DailyScheduleDetails());
+        scheduleData.getDailySchedule().setScheduleEndDate(getDate(1));
+        scheduleData.getDailySchedule().setDayOption(DailyScheduleDetails.optionValues.WEEKDAY.toString());
         
         context.checking(new Expectations() {{
-            Date dt = dailyScheduleData.getScheduleStartDate();
-            Date endDt = dailyScheduleData.getDailySchedule().getScheduleEndDate();
+            Date dt = scheduleData.getScheduleStartDate();
+            Date endDt = scheduleData.getDailySchedule().getScheduleEndDate();
             List<Date> dates = new LinkedList<Date>();
             dates.add(new Date());
             Time24HrFmt time  = new Time24HrFmt(TIME24HR_0_1); 
-            CronSpecialChars[] dow = dailyScheduleData.convertToWeekdays(dailyScheduleData.getDailySchedule().getDaysOfWeek());
+            CronSpecialChars[] dow = ScheduleData.convertToWeekdays(scheduleData.getDailySchedule().getDaysOfWeek());
             ScheduleSequence scheduleSequence = new WeekScheduleSequenceDecorator(new DefaultScheduleSequence(),1,dow.length);
             one(scheduleService).getScheduledDates(dt,endDt,time,dow,scheduleSequence);will(returnValue(dates));
         }});
         
-        test(dailyScheduleData, 1);
+        test(1);
     }
     
     /**
@@ -306,12 +301,12 @@ public class CommitteeScheduleServiceImplTest  {
      */
     @Test
     public void testAddScheduleDailyRecurrenceXday() throws Exception {
+        prerequisite();
+        
         dailyPrerequisite();
-        prerequisite(dailyScheduleData);
+        scheduleData.getDailySchedule().setDayOption(DailyScheduleDetails.optionValues.XDAY.toString());
         
-        dailyScheduleData.getDailySchedule().setDayOption(DailyScheduleDetails.optionValues.XDAY.toString());
-        
-        test(dailyScheduleData, 2);
+        test(2);
     }
 
     /**
@@ -320,20 +315,20 @@ public class CommitteeScheduleServiceImplTest  {
      */
     @Test
     public void testAddScheduleAdvancedSubmissionDays() throws Exception {
-        nonRepeatingScheduleData = new NonRepeatingScheduleData();
-        prerequisite(nonRepeatingScheduleData);
+        prerequisite();
         
-        nonRepeatingScheduleData.setTime(new Time12HrFmt(TIME12HR_11_59, MERIDIEM.PM));
+        scheduleData.setRecurrenceType(StyleKey.NEVER.toString());             
+        scheduleData.setTime(new Time12HrFmt(TIME12HR_11_59, MERIDIEM.PM));
         
         context.checking(new Expectations() {{
-            Date dt = nonRepeatingScheduleData.getScheduleStartDate();
+            Date dt = scheduleData.getScheduleStartDate();
             List<Date> dates = new LinkedList<Date>();
             dates.add(new Date());
             Time24HrFmt time  = new Time24HrFmt(TIME24HR_23_59); 
             one(scheduleService).getScheduledDates(dt,dt,time,null);will(returnValue(dates));
         }});
         
-        test(nonRepeatingScheduleData, 1);
+        test(1);
         java.sql.Date testDate = committee.getCommitteeSchedules().get(0).getProtocolSubDeadline();
         java.sql.Date expectedDate = new java.sql.Date(DateUtils.addDays(new Date(), -committee.getAdvancedSubmissionDaysRequired()).getTime());
         assertEquals(expectedDate.toString(), testDate.toString());
@@ -345,26 +340,26 @@ public class CommitteeScheduleServiceImplTest  {
      */
     @Test
     public void testAddScheduleDuplicateDates() throws Exception {
-        dailyScheduleData = new DailyScheduleData();
-        dailyScheduleData.setDailySchedule(new DailyScheduleDetails());
-        dailyScheduleData.getDailySchedule().setScheduleEndDate(getDate(2));
-        prerequisite(dailyScheduleData);
+        prerequisite();
         
+        scheduleData.setRecurrenceType(StyleKey.DAILY.toString());      
+        scheduleData.setDailySchedule(new DailyScheduleDetails());
+        scheduleData.getDailySchedule().setScheduleEndDate(getDate(2));
         context.checking(new Expectations() {{
-            Date dt = dailyScheduleData.getScheduleStartDate();
-            Date endDt = dailyScheduleData.getDailySchedule().getScheduleEndDate();
+            Date dt = scheduleData.getScheduleStartDate();
+            Date endDt = scheduleData.getDailySchedule().getScheduleEndDate();
             List<Date> dates = new LinkedList<Date>();
             dates.add(new Date());
             dates.add(new Date());
             dates.add(DateUtils.addDays(new Date(),2));
             Time24HrFmt time  = new Time24HrFmt(TIME24HR_0_1); 
-            int day = dailyScheduleData.getDailySchedule().getDay();
+            int day = scheduleData.getDailySchedule().getDay();
             one(scheduleService).getScheduledDates(dt,endDt,time,day,null);will(returnValue(dates));
         }});
-        dailyScheduleData.getDailySchedule().setDayOption(DailyScheduleDetails.optionValues.XDAY.toString());
+        scheduleData.getDailySchedule().setDayOption(DailyScheduleDetails.optionValues.XDAY.toString());
         
-        test(dailyScheduleData, 2);
-        assertEquals(1, dailyScheduleData.getDatesInConflict().size());
+        test(2);
+        assertEquals(1, scheduleData.getDatesInConflict().size());
     }
     
     /**
@@ -372,17 +367,17 @@ public class CommitteeScheduleServiceImplTest  {
      * @throws ParseException
      */
     private void dailyPrerequisite() throws ParseException {
-        dailyScheduleData = new DailyScheduleData();
-        dailyScheduleData.setDailySchedule(new DailyScheduleDetails());
-        dailyScheduleData.getDailySchedule().setScheduleEndDate(getDate(2));
+        scheduleData.setRecurrenceType(StyleKey.DAILY.toString());      
+        scheduleData.setDailySchedule(new DailyScheduleDetails());
+        scheduleData.getDailySchedule().setScheduleEndDate(getDate(2));
         context.checking(new Expectations() {{
-            Date dt = dailyScheduleData.getScheduleStartDate();
-            Date endDt = dailyScheduleData.getDailySchedule().getScheduleEndDate();
+            Date dt = scheduleData.getScheduleStartDate();
+            Date endDt = scheduleData.getDailySchedule().getScheduleEndDate();
             List<Date> dates = new LinkedList<Date>();
             dates.add(new Date());
             dates.add(DateUtils.addDays(new Date(),2));
             Time24HrFmt time  = new Time24HrFmt(TIME24HR_0_1); 
-            int day = dailyScheduleData.getDailySchedule().getDay();
+            int day = scheduleData.getDailySchedule().getDay();
             one(scheduleService).getScheduledDates(dt,endDt,time,day,null);will(returnValue(dates));
         }});
     }
@@ -393,48 +388,49 @@ public class CommitteeScheduleServiceImplTest  {
      */
     @Test
     public void testAddScheduleNeverRecurrence() throws Exception {  
-        nonRepeatingScheduleData = new NonRepeatingScheduleData();
-        prerequisite(nonRepeatingScheduleData);
+        prerequisite();
         
-        nonRepeatingScheduleData.setTime(new Time12HrFmt(TIME12HR_11_59, MERIDIEM.PM));
+        scheduleData.setRecurrenceType(StyleKey.NEVER.toString());             
+        scheduleData.setTime(new Time12HrFmt(TIME12HR_11_59, MERIDIEM.PM));
         
         context.checking(new Expectations() {{
-            Date dt = nonRepeatingScheduleData.getScheduleStartDate();
+            Date dt = scheduleData.getScheduleStartDate();
             List<Date> dates = new LinkedList<Date>();
             dates.add(new Date());
             Time24HrFmt time  = new Time24HrFmt(TIME24HR_23_59); 
             one(scheduleService).getScheduledDates(dt,dt,time,null);will(returnValue(dates));
         }});
         
-        test(nonRepeatingScheduleData, 1);
+        test(1);
         
     }  
     
     /**
-     * This method tests list size added during recurrence.
+     * This method test's list size added during recurrence.
      * @param count
      * @throws Exception
      */
-    private void test(ScheduleData scheduleData, int count) throws Exception {
+    private void test(int count) throws Exception {
         service.addSchedule(scheduleData, committee);
         
         assertEquals(count, committee.getCommitteeSchedules().size());
     }
     
     /**
-     * Private helper method to set prerequisites for all options.
+     * Private helper method to set prerequiste's for all options.
      */
-    private void  prerequisite(ScheduleData scheduleData) {
+    private void  prerequisite() {
         mockBusinessService();
         committee = new Committee();
         committee.setAdvancedSubmissionDaysRequired(10);
         
+        scheduleData = new ScheduleData();
         scheduleData.setScheduleStartDate(getDate(0)); 
         scheduleData.setTime(new Time12HrFmt(TIME12HR_00_01, MERIDIEM.AM));
     }
     
     /**
-     * This method tests if Protocol is deletable.
+     * This method test's if Protocol is deleteable.
      * @throws Exception
      */
     @Test
@@ -448,7 +444,7 @@ public class CommitteeScheduleServiceImplTest  {
     }
     
     /**
-     * This method tests if Protocol is deletable.
+     * This method test's if Protocol is deletable.
      * @throws Exception
      */
     @Test
@@ -461,7 +457,7 @@ public class CommitteeScheduleServiceImplTest  {
     }
     
     /**
-     * This method tests if Protocol is deletable.
+     * This method test's if Protocol is deletable.
      * @throws Exception
      */
     @Test

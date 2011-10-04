@@ -26,7 +26,12 @@ import org.junit.Before;
 import org.junit.Test;
 import org.kuali.kra.committee.document.CommitteeDocument;
 import org.kuali.kra.committee.rule.event.CommitteeScheduleStartAndEndDateEvent;
-import org.kuali.kra.committee.web.struts.form.schedule.*;
+import org.kuali.kra.committee.web.struts.form.schedule.DailyScheduleDetails;
+import org.kuali.kra.committee.web.struts.form.schedule.MonthlyScheduleDetails;
+import org.kuali.kra.committee.web.struts.form.schedule.ScheduleData;
+import org.kuali.kra.committee.web.struts.form.schedule.StyleKey;
+import org.kuali.kra.committee.web.struts.form.schedule.WeeklyScheduleDetails;
+import org.kuali.kra.committee.web.struts.form.schedule.YearlyScheduleDetails;
 import org.kuali.rice.kns.util.ErrorMap;
 import org.kuali.rice.kns.util.GlobalVariables;
 
@@ -34,11 +39,7 @@ public class CommitteeScheduleStartAndEndDateRuleTest  {
     
     private CommitteeDocument document;
     
-    private NonRepeatingScheduleData nonRepeatingScheduleData = new NonRepeatingScheduleData();
-    private DailyScheduleData dailyScheduleData = new DailyScheduleData();
-    private WeeklyScheduleData weeklyScheduleData = new WeeklyScheduleData();
-    private MonthlyScheduleData monthlyScheduleData = new MonthlyScheduleData();
-    private YearlyScheduleData yearlyScheduleData = new YearlyScheduleData();
+    private ScheduleData scheduleData;
     
     private CommitteeScheduleStartAndEndDateEvent event;
     
@@ -66,7 +67,7 @@ public class CommitteeScheduleStartAndEndDateRuleTest  {
     @Test
     public void testEmptyStartDate() throws Exception {
         
-        prerequisite(nonRepeatingScheduleData);
+        prerequisite(StyleKey.NEVER);
         
         event.getScheduleData().setScheduleStartDate(null);
         
@@ -80,7 +81,7 @@ public class CommitteeScheduleStartAndEndDateRuleTest  {
     @Test
     public void testNever() throws Exception {
         
-        prerequisite(nonRepeatingScheduleData);
+        prerequisite(StyleKey.NEVER);
         
         testAssertTrue();
     }
@@ -92,11 +93,11 @@ public class CommitteeScheduleStartAndEndDateRuleTest  {
     @Test
     public void testDailyForTrue() throws Exception {
         
-        prerequisite(nonRepeatingScheduleData);
+        prerequisite(StyleKey.DAILY);
         
-        dailyScheduleData.setDailySchedule(new DailyScheduleDetails());
+        scheduleData.setDailySchedule(new DailyScheduleDetails());
         Date dt = DateUtils.addDays(new Date(), 1);
-        dailyScheduleData.getDailySchedule().setScheduleEndDate(new java.sql.Date(dt.getTime()));
+        scheduleData.getDailySchedule().setScheduleEndDate(new java.sql.Date(dt.getTime()));
         
         testAssertTrue();
     }
@@ -108,10 +109,10 @@ public class CommitteeScheduleStartAndEndDateRuleTest  {
     @Test
     public void testDailyForFalse() throws Exception {
         
-        prerequisite(dailyScheduleData);
+        prerequisite(StyleKey.DAILY);
         
-        dailyScheduleData.setDailySchedule(new DailyScheduleDetails());
-        dailyScheduleData.getDailySchedule().setScheduleEndDate(dailyScheduleData.getScheduleStartDate());       
+        scheduleData.setDailySchedule(new DailyScheduleDetails());
+        scheduleData.getDailySchedule().setScheduleEndDate(scheduleData.getScheduleStartDate());       
         
         testAssertFalse();
     }
@@ -123,11 +124,11 @@ public class CommitteeScheduleStartAndEndDateRuleTest  {
     @Test
     public void testWeeklyForTrue() throws Exception {
         
-        prerequisite(weeklyScheduleData);
+        prerequisite(StyleKey.WEEKLY);
         
-        weeklyScheduleData.setWeeklySchedule(new WeeklyScheduleDetails());
+        scheduleData.setWeeklySchedule(new WeeklyScheduleDetails());
         Date dt = DateUtils.addDays(new Date(), 1);
-        weeklyScheduleData.getWeeklySchedule().setScheduleEndDate(new java.sql.Date(dt.getTime()));
+        scheduleData.getWeeklySchedule().setScheduleEndDate(new java.sql.Date(dt.getTime()));
         
         testAssertTrue();
     }
@@ -139,10 +140,10 @@ public class CommitteeScheduleStartAndEndDateRuleTest  {
     @Test
     public void testWeeklyForFalse() throws Exception {
         
-        prerequisite(weeklyScheduleData);
+        prerequisite(StyleKey.WEEKLY);
         
-        weeklyScheduleData.setWeeklySchedule(new WeeklyScheduleDetails());
-        weeklyScheduleData.getWeeklySchedule().setScheduleEndDate(weeklyScheduleData.getScheduleStartDate());
+        scheduleData.setWeeklySchedule(new WeeklyScheduleDetails());
+        scheduleData.getWeeklySchedule().setScheduleEndDate(scheduleData.getScheduleStartDate());
         
         testAssertFalse();
     }
@@ -154,11 +155,11 @@ public class CommitteeScheduleStartAndEndDateRuleTest  {
     @Test
     public void testMonthlyForTrue() throws Exception {
         
-        prerequisite(monthlyScheduleData);
+        prerequisite(StyleKey.MONTHLY);
         
-        monthlyScheduleData.setMonthlySchedule(new MonthlyScheduleDetails());
+        scheduleData.setMonthlySchedule(new MonthlyScheduleDetails());
         Date dt = DateUtils.addDays(new Date(), 1);
-        monthlyScheduleData.getMonthlySchedule().setScheduleEndDate(new java.sql.Date(dt.getTime()));
+        scheduleData.getMonthlySchedule().setScheduleEndDate(new java.sql.Date(dt.getTime()));
         
         testAssertTrue();
     }
@@ -170,10 +171,10 @@ public class CommitteeScheduleStartAndEndDateRuleTest  {
     @Test
     public void testMonthlyForFalse() throws Exception {
         
-        prerequisite(monthlyScheduleData);
+        prerequisite(StyleKey.MONTHLY);
         
-        monthlyScheduleData.setMonthlySchedule(new MonthlyScheduleDetails());
-        monthlyScheduleData.getMonthlySchedule().setScheduleEndDate(monthlyScheduleData.getScheduleStartDate());
+        scheduleData.setMonthlySchedule(new MonthlyScheduleDetails());
+        scheduleData.getMonthlySchedule().setScheduleEndDate(scheduleData.getScheduleStartDate());
         
         testAssertFalse();
     }    
@@ -185,11 +186,11 @@ public class CommitteeScheduleStartAndEndDateRuleTest  {
     @Test
     public void testYearlyForTrue() throws Exception {
         
-        prerequisite(yearlyScheduleData);
+        prerequisite(StyleKey.YEARLY);
         
-        yearlyScheduleData.setYearlySchedule(new YearlyScheduleDetails());
+        scheduleData.setYearlySchedule(new YearlyScheduleDetails());
         Date dt = DateUtils.addDays(new Date(), 1);
-        yearlyScheduleData.getYearlySchedule().setScheduleEndDate(new java.sql.Date(dt.getTime()));
+        scheduleData.getYearlySchedule().setScheduleEndDate(new java.sql.Date(dt.getTime()));
         
         testAssertTrue();
     }
@@ -201,10 +202,10 @@ public class CommitteeScheduleStartAndEndDateRuleTest  {
     @Test
     public void testYearlyForFalse() throws Exception {
         
-        prerequisite(yearlyScheduleData);
+        prerequisite(StyleKey.YEARLY);
         
-        yearlyScheduleData.setYearlySchedule(new YearlyScheduleDetails());
-        yearlyScheduleData.getYearlySchedule().setScheduleEndDate(yearlyScheduleData.getScheduleStartDate());
+        scheduleData.setYearlySchedule(new YearlyScheduleDetails());
+        scheduleData.getYearlySchedule().setScheduleEndDate(scheduleData.getScheduleStartDate());
         
         testAssertFalse();
     } 
@@ -229,7 +230,9 @@ public class CommitteeScheduleStartAndEndDateRuleTest  {
      * This method is prerequisite helper method.
      * @param key
      */
-    private void prerequisite(ScheduleData scheduleData) {
+    private void prerequisite(StyleKey key) {
+        scheduleData = new ScheduleData();
+        scheduleData.setRecurrenceType(key.toString());
         scheduleData.setScheduleStartDate(new java.sql.Date(new Date().getTime()));
         event = new CommitteeScheduleStartAndEndDateEvent("", (CommitteeDocument)document, scheduleData, null, null);
     }

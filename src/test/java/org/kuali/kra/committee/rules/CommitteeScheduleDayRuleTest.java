@@ -18,7 +18,10 @@ package org.kuali.kra.committee.rules;
 import org.junit.Test;
 import org.kuali.kra.committee.rule.event.CommitteeScheduleDayEvent;
 import org.kuali.kra.committee.rule.event.CommitteeScheduleEventBase.ErrorType;
-import org.kuali.kra.committee.web.struts.form.schedule.*;
+import org.kuali.kra.committee.web.struts.form.schedule.MonthlyScheduleDetails;
+import org.kuali.kra.committee.web.struts.form.schedule.ScheduleData;
+import org.kuali.kra.committee.web.struts.form.schedule.StyleKey;
+import org.kuali.kra.committee.web.struts.form.schedule.YearlyScheduleDetails;
 import org.kuali.kra.infrastructure.Constants;
 import org.kuali.kra.rules.TemplateRuleTest;
 
@@ -29,7 +32,7 @@ public class CommitteeScheduleDayRuleTest {
         new  TemplateRuleTest<CommitteeScheduleDayEvent, CommitteeScheduleDayRule> (){            
             @Override
             protected void prerequisite() {            
-                MonthlyScheduleData scheduleData = new MonthlyScheduleData();
+                ScheduleData scheduleData = new ScheduleData();
                 scheduleData.getMonthlySchedule().setDay(31);
                 scheduleData.setRecurrenceType(StyleKey.MONTHLY.toString());
                 scheduleData.getMonthlySchedule().setMonthOption(MonthlyScheduleDetails.optionValues.XDAYANDXMONTH.toString());               
@@ -45,7 +48,7 @@ public class CommitteeScheduleDayRuleTest {
         new  TemplateRuleTest<CommitteeScheduleDayEvent, CommitteeScheduleDayRule> (){ 
             @Override
             protected void prerequisite() {
-                MonthlyScheduleData scheduleData = new MonthlyScheduleData();
+                ScheduleData scheduleData = new ScheduleData();
                 scheduleData.getMonthlySchedule().setDay(32);
                 scheduleData.setRecurrenceType(StyleKey.MONTHLY.toString());
                 scheduleData.getMonthlySchedule().setMonthOption(MonthlyScheduleDetails.optionValues.XDAYANDXMONTH.toString());
@@ -61,7 +64,7 @@ public class CommitteeScheduleDayRuleTest {
         new  TemplateRuleTest<CommitteeScheduleDayEvent, CommitteeScheduleDayRule> (){            
             @Override
             protected void prerequisite() {            
-                YearlyScheduleData scheduleData = new YearlyScheduleData();
+                ScheduleData scheduleData = new ScheduleData();
                 scheduleData.getYearlySchedule().setDay(31);
                 scheduleData.setRecurrenceType(StyleKey.YEARLY.toString());
                 scheduleData.getYearlySchedule().setYearOption(YearlyScheduleDetails.yearOptionValues.XDAY.toString());               
@@ -77,7 +80,7 @@ public class CommitteeScheduleDayRuleTest {
         new  TemplateRuleTest<CommitteeScheduleDayEvent, CommitteeScheduleDayRule> (){            
             @Override
             protected void prerequisite() {            
-                YearlyScheduleData scheduleData = new YearlyScheduleData();
+                ScheduleData scheduleData = new ScheduleData();
                 scheduleData.getYearlySchedule().setDay(33);
                 scheduleData.setRecurrenceType(StyleKey.YEARLY.toString());
                 scheduleData.getYearlySchedule().setYearOption(YearlyScheduleDetails.yearOptionValues.XDAY.toString());               

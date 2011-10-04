@@ -21,7 +21,6 @@ import org.apache.commons.lang.time.DateUtils;
 import org.junit.Test;
 import org.kuali.kra.committee.rule.event.CommitteeScheduleFilterEvent;
 import org.kuali.kra.committee.rule.event.CommitteeScheduleEventBase.ErrorType;
-import org.kuali.kra.committee.web.struts.form.schedule.DailyScheduleData;
 import org.kuali.kra.committee.web.struts.form.schedule.ScheduleData;
 import org.kuali.kra.infrastructure.Constants;
 import org.kuali.kra.rules.TemplateRuleTest;
@@ -36,10 +35,10 @@ public class CommitteeScheduleFilterDatesRuleTest {
             @Override
             protected void prerequisite() {
                 
-                ScheduleData scheduleData = new DailyScheduleData();  
+                ScheduleData scheduleData = new ScheduleData();  
                 Date dt = DateUtils.addDays(new Date(), 1);  
                 scheduleData.setFilterStartDate(new java.sql.Date(new Date().getTime()));
-                scheduleData.setFilterEndDate(new java.sql.Date(dt.getTime()));
+                scheduleData.setFilerEndDate(new java.sql.Date(dt.getTime()));
                 
                 event = new CommitteeScheduleFilterEvent(Constants.EMPTY_STRING, null, scheduleData, null, ErrorType.HARDERROR);
                 rule = new CommitteeScheduleFilterDatesRule();
@@ -56,10 +55,10 @@ public class CommitteeScheduleFilterDatesRuleTest {
             @Override
             protected void prerequisite() {
                 
-                ScheduleData scheduleData = new DailyScheduleData();   
+                ScheduleData scheduleData = new ScheduleData();   
                 scheduleData.setFilterStartDate(new java.sql.Date(new Date().getTime()));
                 Date endDate = DateUtils.addDays(new Date(), -1);
-                scheduleData.setFilterEndDate(new java.sql.Date(endDate.getTime()));
+                scheduleData.setFilerEndDate(new java.sql.Date(endDate.getTime()));
                 
                 event = new CommitteeScheduleFilterEvent(Constants.EMPTY_STRING, null, scheduleData, null, ErrorType.HARDERROR);
                 rule = new CommitteeScheduleFilterDatesRule();
