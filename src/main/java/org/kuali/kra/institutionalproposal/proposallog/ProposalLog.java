@@ -27,10 +27,12 @@ import org.kuali.kra.bo.KraPersistableBusinessObjectBase;
 import org.kuali.kra.bo.NonOrganizationalRolodex;
 import org.kuali.kra.bo.Sponsor;
 import org.kuali.kra.bo.Unit;
+import org.kuali.kra.infrastructure.Constants;
 import org.kuali.kra.infrastructure.KraServiceLocator;
 import org.kuali.kra.institutionalproposal.contacts.InstitutionalProposalPerson;
 import org.kuali.kra.institutionalproposal.proposallog.service.ProposalLogService;
 import org.kuali.kra.negotiations.bo.Negotiable;
+import org.kuali.kra.negotiations.bo.NegotiationPersonDTO;
 import org.kuali.kra.proposaldevelopment.bo.ProposalType;
 import org.kuali.kra.service.KcPersonService;
 
@@ -510,10 +512,10 @@ public class ProposalLog extends KraPersistableBusinessObjectBase implements Neg
     }
     
     @Override
-    public List<KcPerson> getProjectKcPeople() {
-        List<KcPerson> kcPeople = new ArrayList<KcPerson>();
+    public List<NegotiationPersonDTO> getProjectPeople() {
+        List<NegotiationPersonDTO> kcPeople = new ArrayList<NegotiationPersonDTO>();
         if (this.getPerson() != null) {
-            kcPeople.add(this.getPerson());
+            kcPeople.add(new NegotiationPersonDTO(this.getPerson(), Constants.PRINCIPAL_INVESTIGATOR_ROLE));
         }
         return kcPeople;
     }
@@ -522,4 +524,8 @@ public class ProposalLog extends KraPersistableBusinessObjectBase implements Neg
     public String getAssociatedDocumentId() {
         return getProposalNumber();
     }
+    
+    public String getNegotiableProposalTypeCode() {
+        return getProposalTypeCode();
+    }    
 }
