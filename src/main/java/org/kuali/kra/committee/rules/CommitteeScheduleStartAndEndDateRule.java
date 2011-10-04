@@ -18,7 +18,8 @@ package org.kuali.kra.committee.rules;
 import java.sql.Date;
 
 import org.kuali.kra.committee.rule.event.CommitteeScheduleStartAndEndDateEvent;
-import org.kuali.kra.committee.web.struts.form.schedule.*;
+import org.kuali.kra.committee.web.struts.form.schedule.ScheduleData;
+import org.kuali.kra.committee.web.struts.form.schedule.StyleKey;
 import org.kuali.kra.infrastructure.KeyConstants;
 import org.kuali.kra.rule.BusinessRuleInterface;
 import org.kuali.kra.rules.ResearchDocumentRuleBase;
@@ -67,22 +68,22 @@ public class CommitteeScheduleStartAndEndDateRule extends ResearchDocumentRuleBa
             case NEVER :
                 break;
             case DAILY : 
-                endDate = ((DailyScheduleData)scheduleData).getDailySchedule().getScheduleEndDate();
+                endDate = scheduleData.getDailySchedule().getScheduleEndDate();
                 rulePassed = !isStartDateEndDateAfterOrEquals(startDate, endDate, msg);
                 errorPathBuilder.append(Constants.dailySchedule);
                 break;
             case WEEKLY :
-                endDate = ((WeeklyScheduleData)scheduleData).getWeeklySchedule().getScheduleEndDate();
+                endDate = scheduleData.getWeeklySchedule().getScheduleEndDate();
                 rulePassed = !isStartDateEndDateAfterOrEquals(startDate, endDate, msg); 
                 errorPathBuilder.append(Constants.weeklySchedule);
                 break;
             case MONTHLY :
-                endDate = ((MonthlyScheduleData)scheduleData).getMonthlySchedule().getScheduleEndDate();
+                endDate = scheduleData.getMonthlySchedule().getScheduleEndDate();
                 rulePassed = !isStartDateEndDateAfterOrEquals(startDate, endDate, msg);
                 errorPathBuilder.append(Constants.monthlySchedule);
                 break;
             case YEARLY : 
-                endDate = ((YearlyScheduleData)scheduleData).getYearlySchedule().getScheduleEndDate();
+                endDate = scheduleData.getYearlySchedule().getScheduleEndDate();
                 rulePassed = !isStartDateEndDateAfterOrEquals(startDate, endDate, msg);
                 errorPathBuilder.append(Constants.yearlySchedule);
                 break;            
