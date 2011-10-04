@@ -23,12 +23,10 @@
 <div id="workarea">
 <c:forEach items="${bean.answerHeaders}" var="answerHeader" varStatus="status">
 	
-	
 	<c:set var="prop" value="${property}.answerHeaders[${status.index}].showQuestions"/>
 	${kfunc:registerEditableProperty(KualiForm, prop)}
 	<input type="hidden" name="${prop}" id ="${prop}" 
            value = "${bean.answerHeaders[status.index].showQuestions}" />
-		
      <kra-questionnaire:questionnaireAnswers bean = "${bean}" property = "${property}" answerHeaderIndex = "${status.index}"/>
 				
 				 

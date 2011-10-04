@@ -34,6 +34,7 @@ import org.kuali.kra.bo.CoeusModule;
 import org.kuali.kra.bo.CoeusSubModule;
 import org.kuali.kra.infrastructure.Constants;
 import org.kuali.kra.infrastructure.KraServiceLocator;
+import org.kuali.kra.irb.Protocol;
 import org.kuali.kra.irb.ProtocolAction;
 import org.kuali.kra.irb.ProtocolForm;
 import org.kuali.kra.proposaldevelopment.bo.AttachmentDataSource;
@@ -258,15 +259,25 @@ public class ProtocolQuestionnaireAction extends ProtocolAction {
         ProtocolForm protocolForm = (ProtocolForm) form;
         String sequenceNumber = request.getParameter("sequenceNumber");
         String protocolNumber = request.getParameter(PROTOCOL_NUMBER);
-        
+        Protocol protocol = protocolForm.getProtocolDocument().getProtocol();
+        String subModuleCode = CoeusSubModule.ZERO_SUBMODULE;
+        if (protocol.isRenewal()) {
+            subModuleCode = CoeusSubModule.AMENDMENT_RENEWAL;
+            if (protocol.isRenewalWithoutAmendment()) {
+                subModuleCode = CoeusSubModule.RENEWAL;
+            }
+        } 
+        if (protocol.isAmendment()) {
+            subModuleCode = CoeusSubModule.AMENDMENT;
+        }
         ModuleQuestionnaireBean moduleQuestionnaireBean = new ModuleQuestionnaireBean(CoeusModule.IRB_MODULE_CODE, protocolNumber,
-            (protocolNumber.contains("A") || protocolNumber.contains("R")) ? CoeusSubModule.AMENDMENT_RENEWAL : CoeusSubModule.ZERO_SUBMODULE, sequenceNumber, true);
+                                                                                      subModuleCode, sequenceNumber, true);
         // TODO : should handle this more smoothly.  maybe in service, change the fieldvalues map of subitemcode to a list
         // so bos.findmatching will find all the matching codes in the list 
         protocolForm.getQuestionnaireHelper().setAnswerHeaders(
                 getQuestionnaireAnswerService().getQuestionnaireAnswer(moduleQuestionnaireBean));
-        if (protocolNumber.contains("A") || protocolNumber.contains("R")) {
-            moduleQuestionnaireBean.setModuleSubItemCode(CoeusSubModule.ZERO_SUBMODULE);
+        if (protocol.isAmendment() || protocol.isRenewal()) {           
+            moduleQuestionnaireBean.setModuleSubItemCode(subModuleCode);
             List<AnswerHeader> answerHeaders = getQuestionnaireAnswerService().getQuestionnaireAnswer(moduleQuestionnaireBean);
             if (!answerHeaders.isEmpty()) {
                 protocolForm.getQuestionnaireHelper().getAnswerHeaders().addAll(answerHeaders);
