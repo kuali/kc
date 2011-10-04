@@ -16,7 +16,11 @@
 package org.kuali.kra.committee.rules;
 
 import org.kuali.kra.committee.bo.CommitteeScheduleAttributeReferenceDummy;
-import org.kuali.kra.committee.web.struts.form.schedule.*;
+import org.kuali.kra.committee.web.struts.form.schedule.DailyScheduleDetails;
+import org.kuali.kra.committee.web.struts.form.schedule.MonthlyScheduleDetails;
+import org.kuali.kra.committee.web.struts.form.schedule.ScheduleData;
+import org.kuali.kra.committee.web.struts.form.schedule.StyleKey;
+import org.kuali.kra.committee.web.struts.form.schedule.YearlyScheduleDetails;
 import org.kuali.kra.infrastructure.KraServiceLocator;
 import org.kuali.rice.kns.service.DictionaryValidationService;
 import org.kuali.rice.kns.util.GlobalVariables;
@@ -56,74 +60,48 @@ public class CommitteeScheduleDataDictionaryValidationRule {
         StyleKey key = StyleKey.valueOf(scheduleData.getRecurrenceType());        
         switch (key) {
             case NEVER :
-                retVal = applyRules((NonRepeatingScheduleData)scheduleData);
-                break;
+                 retVal = true;
+                 break;
             case DAILY : 
-                retVal = applyRules((DailyScheduleData)scheduleData);
+                DailyScheduleDetails.optionValues dailyoption = DailyScheduleDetails.optionValues.valueOf(scheduleData.getDailySchedule().getDayOption());
+                switch (dailyoption) {
+                    case XDAY: 
+                        retVal = applyRules(ATTRIBUTE_DAY_RECURRENCE, scheduleData.getDailySchedule().getDay(), ERROR_KEY_SCHEDULEDATA_DAILYSCHEDULE_DAY);
+                        break;
+                    case WEEKDAY:
+                        retVal = true;
+                        break;
+                }
                 break;
             case WEEKLY :
-                retVal = applyRules((WeeklyScheduleData)scheduleData);
+                retVal = applyRules(ATTRIBUTE_WEEK_RECURRENCE, scheduleData.getWeeklySchedule().getWeek(), ERROR_KEY_SCHEDULEDATA_WEEKLYSCHEDULE_DAY);
                 break;
             case MONTHLY :
-                retVal = applyRules((MonthlyScheduleData)scheduleData);
+                MonthlyScheduleDetails.optionValues monthOption = MonthlyScheduleDetails.optionValues.valueOf(scheduleData.getMonthlySchedule().getMonthOption());
+                switch(monthOption) {
+                    case XDAYANDXMONTH :
+                        retVal = applyRules(ATTRIBUTE_MONTH_DAY, scheduleData.getMonthlySchedule().getDay(), ERROR_KEY_SCHEDULEDATA_MONTHLYSCHEDULE_DAY);
+                        if(retVal)
+                            retVal = applyRules(ATTRIBUTE_MONTH_RECURRENCE, scheduleData.getMonthlySchedule().getOption1Month(), ERROR_KEY_SCHEDULEDATA_MONTHLYSCHEDULE_OPTION1MONTH);
+                        break;
+                    case XDAYOFWEEKANDXMONTH :
+                        retVal = applyRules(ATTRIBUTE_MONTH_RECURRENCE, scheduleData.getMonthlySchedule().getOption2Month(), ERROR_KEY_SCHEDULEDATA_MONTHLYSCHEDULE_OPTION2MONTH);
+                        break;
+                }
                 break;
             case YEARLY : 
-                retVal = applyRules((YearlyScheduleData)scheduleData);
-                break;
-        }
-        return retVal;
-    }
-    
-    public boolean applyRules(NonRepeatingScheduleData scheduleData) {
-        return true;
-    }
-    
-    public boolean applyRules(DailyScheduleData scheduleData) {
-        boolean retVal = false;
-        DailyScheduleDetails.optionValues dailyoption = DailyScheduleDetails.optionValues.valueOf(scheduleData.getDailySchedule().getDayOption());
-        switch (dailyoption) {
-            case XDAY: 
-                retVal = applyRules(ATTRIBUTE_DAY_RECURRENCE, scheduleData.getDailySchedule().getDay(), ERROR_KEY_SCHEDULEDATA_DAILYSCHEDULE_DAY);
-                break;
-            case WEEKDAY:
-                retVal = true;
-                break;
-        }
-        return retVal;
-    }
-    
-    public boolean applyRules(WeeklyScheduleData scheduleData) {
-        return applyRules(ATTRIBUTE_WEEK_RECURRENCE, scheduleData.getWeeklySchedule().getWeek(), ERROR_KEY_SCHEDULEDATA_WEEKLYSCHEDULE_DAY);
-    }
-    
-    public boolean applyRules(MonthlyScheduleData scheduleData) {
-        boolean retVal = false;
-        MonthlyScheduleDetails.optionValues monthOption = MonthlyScheduleDetails.optionValues.valueOf(scheduleData.getMonthlySchedule().getMonthOption());
-        switch(monthOption) {
-            case XDAYANDXMONTH :
-                retVal = applyRules(ATTRIBUTE_MONTH_DAY, scheduleData.getMonthlySchedule().getDay(), ERROR_KEY_SCHEDULEDATA_MONTHLYSCHEDULE_DAY);
-                if(retVal)
-                    retVal = applyRules(ATTRIBUTE_MONTH_RECURRENCE, scheduleData.getMonthlySchedule().getOption1Month(), ERROR_KEY_SCHEDULEDATA_MONTHLYSCHEDULE_OPTION1MONTH);
-                break;
-            case XDAYOFWEEKANDXMONTH :
-                retVal = applyRules(ATTRIBUTE_MONTH_RECURRENCE, scheduleData.getMonthlySchedule().getOption2Month(), ERROR_KEY_SCHEDULEDATA_MONTHLYSCHEDULE_OPTION2MONTH);
-                break;
-        }
-        return retVal;
-    }
-    
-    public boolean applyRules(YearlyScheduleData scheduleData) {
-        boolean retVal = false;
-        YearlyScheduleDetails.yearOptionValues yearOption = YearlyScheduleDetails.yearOptionValues.valueOf(scheduleData.getYearlySchedule().getYearOption());
-        switch(yearOption) {
-            case XDAY :
-                retVal = applyRules(ATTRIBUTE_YEAR_DAY, scheduleData.getYearlySchedule().getDay(), ERROR_KEY_SCHEDULEDATA_YEARLYSCHEDULE_DAY);
-                if(retVal)
-                    retVal = applyRules(ATTRIBUTE_YEAR_RECURRENCE, scheduleData.getYearlySchedule().getOption1Year(), ERROR_KEY_SCHEDULEDATA_YEARLYSCHEDULE_OPTION1YEAR);
-                break;
-            case CMPLX:
-                retVal = applyRules(ATTRIBUTE_YEAR_RECURRENCE, scheduleData.getYearlySchedule().getOption2Year(), ERROR_KEY_SCHEDULEDATA_YEARLYSCHEDULE_OPTION2YEAR);
-                break;
+                YearlyScheduleDetails.yearOptionValues yearOption = YearlyScheduleDetails.yearOptionValues.valueOf(scheduleData.getYearlySchedule().getYearOption());
+                switch(yearOption) {
+                    case XDAY :
+                        retVal = applyRules(ATTRIBUTE_YEAR_DAY, scheduleData.getYearlySchedule().getDay(), ERROR_KEY_SCHEDULEDATA_YEARLYSCHEDULE_DAY);
+                        if(retVal)
+                            retVal = applyRules(ATTRIBUTE_YEAR_RECURRENCE, scheduleData.getYearlySchedule().getOption1Year(), ERROR_KEY_SCHEDULEDATA_YEARLYSCHEDULE_OPTION1YEAR);
+                        break;
+                    case CMPLX:
+                        retVal = applyRules(ATTRIBUTE_YEAR_RECURRENCE, scheduleData.getYearlySchedule().getOption2Year(), ERROR_KEY_SCHEDULEDATA_YEARLYSCHEDULE_OPTION2YEAR);
+                        break;
+                }
+                break;            
         }
         return retVal;
     }
