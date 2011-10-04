@@ -16,6 +16,7 @@
 package org.kuali.kra.irb.questionnaire;
 
 import org.kuali.kra.bo.CoeusModule;
+import org.kuali.kra.bo.CoeusSubModule;
 import org.kuali.kra.irb.Protocol;
 import org.kuali.kra.questionnaire.answer.ModuleQuestionnaireBean;
 
@@ -33,10 +34,18 @@ public class ProtocolModuleQuestionnaireBean extends ModuleQuestionnaireBean {
    
     private void setProtocolSubItemCode(Protocol protocol) {
         // For now check renewal/amendment.  will add 'Protocol Submission' when it is cleared
-        String subModuleCode = "0";
-        if (protocol.isAmendment() || protocol.isRenewal()) {
-            subModuleCode = "1";
+        String subModuleCode = CoeusSubModule.ZERO_SUBMODULE;
+        
+        if (protocol.isRenewal()) {
+            subModuleCode = CoeusSubModule.AMENDMENT_RENEWAL;
+            if (protocol.isRenewalWithoutAmendment()) {
+                subModuleCode = CoeusSubModule.RENEWAL;
+            }
         }
+        if (protocol.isAmendment()) {
+            subModuleCode = CoeusSubModule.AMENDMENT;
+        }
+        
         setModuleSubItemCode(subModuleCode);
     }
     
