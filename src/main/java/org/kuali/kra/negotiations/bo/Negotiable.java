@@ -129,8 +129,14 @@ public interface Negotiable {
      * This method returns a list of KcPersons that include the PI, COI, and Key Personnel.
      * @return
      */
-    List<KcPerson> getProjectKcPeople();
+    List<NegotiationPersonDTO> getProjectPeople();
     
-    Object getProposalTypeCode();
+    /**
+     * Get the proposal type code from this negotiable. Renamed to negotiableproposaltypecode as
+     * PropertyUtils appears to get a descriptor for the interface instead of the BO itself in some
+     * cases and this can cause the property to seem unwritable.
+     * @return
+     */
+    String getNegotiableProposalTypeCode();
     
 }

@@ -22,7 +22,7 @@
         <ref bean="NegotiationUnassociatedDetail-sponsorAwardNumber" />
         <ref bean="NegotiationUnassociatedDetail-contactAdminPersonId" />
         <ref bean="NegotiationUnassociatedDetail-subAwardOrganizationId" />
-        <ref bean="NegotiationUnassociatedDetail-proposalTypeCode" />
+        <ref bean="NegotiationUnassociatedDetail-negotiableProposalTypeCode" />
       </list>
     </property>
   </bean>
@@ -181,9 +181,9 @@
     <property name="description" value="Sub Award Orgnaization" />
   </bean>
   
-  <bean id="NegotiationUnassociatedDetail-proposalTypeCode" parent="NegotiationUnassociatedDetail-proposalTypeCode-parentBean" />
-  <bean id="NegotiationUnassociatedDetail-proposalTypeCode-parentBean" abstract="true" parent="InstitutionalProposal-proposalTypeCode">
-    <property name="name" value="proposalTypeCode" />
+  <bean id="NegotiationUnassociatedDetail-negotiableProposalTypeCode" parent="NegotiationUnassociatedDetail-negotiableProposalTypeCode-parentBean" />
+  <bean id="NegotiationUnassociatedDetail-negotiableProposalTypeCode-parentBean" abstract="true" parent="InstitutionalProposal-proposalTypeCode">
+    <property name="name" value="negotiableProposalTypeCode" />
     <property name="label" value="Proposal Type Code" />
     <property name="shortLabel" value="Proposal Type Code" />
     <property name="summary" value="Proposal Type Code" />

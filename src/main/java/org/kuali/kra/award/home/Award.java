@@ -75,6 +75,7 @@ import org.kuali.kra.infrastructure.KraServiceLocator;
 import org.kuali.kra.infrastructure.RoleConstants;
 import org.kuali.kra.institutionalproposal.home.InstitutionalProposal;
 import org.kuali.kra.negotiations.bo.Negotiable;
+import org.kuali.kra.negotiations.bo.NegotiationPersonDTO;
 import org.kuali.kra.proposaldevelopment.bo.ActivityType;
 import org.kuali.kra.service.Sponsorable;
 import org.kuali.kra.service.UnitService;
@@ -154,7 +155,6 @@ public class Award extends KraPersistableBusinessObjectBase implements KeywordsM
     private String financialAccountDocumentNumber;
     private Date financialAccountCreationDate;
     private String financialChartOfAccountsCode;
-
 
     private static boolean newVersion;
 
@@ -3418,15 +3418,15 @@ public class Award extends KraPersistableBusinessObjectBase implements KeywordsM
     }
     
     @Override
-    public List<KcPerson> getProjectKcPeople() {
-        List<KcPerson> kcPeople = new ArrayList<KcPerson>();
+    public List<NegotiationPersonDTO> getProjectPeople() {
+        List<NegotiationPersonDTO> kcPeople = new ArrayList<NegotiationPersonDTO>();
         for (AwardPerson person : getProjectPersons()) {
-            kcPeople.add(person.getPerson());
+            kcPeople.add(new NegotiationPersonDTO(person.getPerson(), person.getContactRoleCode()));
         }
         return kcPeople;
     }
     
-    public String getProposalTypeCode() {
+    public String getNegotiableProposalTypeCode() {
         return EMPTY_STRING;
     }
     
@@ -3477,4 +3477,5 @@ public class Award extends KraPersistableBusinessObjectBase implements KeywordsM
     public String getAssociatedDocumentId() {
         return getAwardNumber();
     }
+
 }

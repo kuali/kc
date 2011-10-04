@@ -37,6 +37,7 @@ import org.kuali.kra.negotiations.bo.Negotiable;
 import org.kuali.kra.negotiations.bo.Negotiation;
 import org.kuali.kra.negotiations.bo.NegotiationAssociatedDetailBean;
 import org.kuali.kra.negotiations.bo.NegotiationAssociationType;
+import org.kuali.kra.negotiations.bo.NegotiationPersonDTO;
 import org.kuali.kra.negotiations.bo.NegotiationUnassociatedDetail;
 import org.kuali.kra.negotiations.document.NegotiationDocument;
 import org.kuali.kra.service.KcPersonService;
@@ -243,8 +244,8 @@ public class NegotiationServiceImpl implements NegotiationService {
     public boolean isPersonIsAssociatedPerson(Negotiation negotiation, String personToCheckPersonId) {
         Negotiable bo = getAssociatedObject(negotiation);
         if (bo != null) {
-            for (KcPerson person : bo.getProjectKcPeople()) {
-                if (StringUtils.equals(person.getPersonId(), personToCheckPersonId)) {
+            for (NegotiationPersonDTO person : bo.getProjectPeople()) {
+                if (StringUtils.equals(person.getPerson().getPersonId(), personToCheckPersonId)) {
                     return true;
                 }
             }
