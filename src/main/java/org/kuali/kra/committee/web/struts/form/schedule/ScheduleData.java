@@ -17,18 +17,22 @@ package org.kuali.kra.committee.web.struts.form.schedule;
 
 import java.io.Serializable;
 import java.sql.Date;
+import java.text.ParseException;
 import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
 
+import org.kuali.kra.committee.service.impl.CommitteeScheduleServiceImpl;
 import org.kuali.kra.committee.web.struts.form.schedule.Time12HrFmt.MERIDIEM;
 import org.kuali.kra.committee.web.struts.form.schedule.util.ScheduleOptionsUtil;
 import org.kuali.kra.scheduling.expr.util.CronSpecialChars;
+import org.kuali.kra.scheduling.service.ScheduleService;
+import org.kuali.kra.scheduling.util.Time24HrFmt;
 
 /**
  * This class is form data helper class used to store UI based date for recurrence.
  */
-public class ScheduleData implements Serializable {
+public abstract class ScheduleData implements Serializable {
     
     private static final org.apache.commons.logging.Log LOG = org.apache.commons.logging.LogFactory.getLog(ScheduleData.class);
     
@@ -38,7 +42,7 @@ public class ScheduleData implements Serializable {
     
     public static final String DEFAULTTIME = "12:00";
     
-    private Date scheduleStartDate;
+    protected Date scheduleStartDate;
     
     private Time12HrFmt time;
     
@@ -48,17 +52,17 @@ public class ScheduleData implements Serializable {
     
     private Map<String,String> styleClasses;
     
-    private DailyScheduleDetails dailySchedule;
+    protected DailyScheduleDetails dailySchedule;
     
-    private WeeklyScheduleDetails weeklySchedule;
+    protected WeeklyScheduleDetails weeklySchedule;
     
-    private MonthlyScheduleDetails monthlySchedule;
+    protected MonthlyScheduleDetails monthlySchedule;
     
-    private YearlyScheduleDetails yearlySchedule;
+    protected YearlyScheduleDetails yearlySchedule;
     
     private Date filterStartDate;
     
-    private Date filerEndDate;    
+    private Date filterEndDate;    
     
     private List<Date> datesInConflict;
 
@@ -110,35 +114,35 @@ public class ScheduleData implements Serializable {
         return scheduleStartDate;
     }
 
-    public void setDailySchedule(DailyScheduleDetails dailySchedule) {
+    protected void setDailySchedule(DailyScheduleDetails dailySchedule) {
         this.dailySchedule = dailySchedule;
     }
 
-    public DailyScheduleDetails getDailySchedule() {
+    protected DailyScheduleDetails getDailySchedule() {
         return dailySchedule;
     }
 
-    public void setWeeklySchedule(WeeklyScheduleDetails weeklySchedule) {
+    protected void setWeeklySchedule(WeeklyScheduleDetails weeklySchedule) {
         this.weeklySchedule = weeklySchedule;
     }
 
-    public WeeklyScheduleDetails getWeeklySchedule() {
+    protected WeeklyScheduleDetails getWeeklySchedule() {
         return weeklySchedule;
     }
 
-    public void setMonthlySchedule(MonthlyScheduleDetails monthlySchedule) {
+    protected void setMonthlySchedule(MonthlyScheduleDetails monthlySchedule) {
         this.monthlySchedule = monthlySchedule;
     }
 
-    public MonthlyScheduleDetails getMonthlySchedule() {
+    protected MonthlyScheduleDetails getMonthlySchedule() {
         return monthlySchedule;
     }
 
-    public void setYearlySchedule(YearlyScheduleDetails yearlySchedule) {
+    protected void setYearlySchedule(YearlyScheduleDetails yearlySchedule) {
         this.yearlySchedule = yearlySchedule;
     }
 
-    public YearlyScheduleDetails getYearlySchedule() {
+    protected YearlyScheduleDetails getYearlySchedule() {
         return yearlySchedule;
     }
     
@@ -150,12 +154,12 @@ public class ScheduleData implements Serializable {
         this.filterStartDate = filterStartDate;
     }
 
-    public Date getFilerEndDate() {
-        return filerEndDate;
+    public Date getFilterEndDate() {
+        return filterEndDate;
     }
 
-    public void setFilerEndDate(Date filerEndDate) {
-        this.filerEndDate = filerEndDate;
+    public void setFilterEndDate(Date filterEndDate) {
+        this.filterEndDate = filterEndDate;
     }
     
     public Time12HrFmt getTime() {
@@ -206,38 +210,8 @@ public class ScheduleData implements Serializable {
         return ScheduleOptionsUtil.convertToWeekdays(daysOfWeek);
     }
     
-    public void printf() {
-        LOG.info("=========================================================");
-        LOG.info("ScheduleStartDate Date is :" + scheduleStartDate.toString());
-        LOG.info("Start time is :" + getTime().getTime() + getTime().getMeridiem());
-        LOG.info("Place is :" + place);
-        LOG.info("recurrenceType is :" + recurrenceType);
-        LOG.info("=========================================================");
-        LOG.info("Schedule Daily End Date is :" + dailySchedule.getScheduleEndDate());
-        LOG.info("Day is :" + dailySchedule.getDay());
-        LOG.info("Radio Button Option is :" + dailySchedule.getDayOption());
-        LOG.info("=========================================================");
-        LOG.info("Schedule Weekly End Date is :" + weeklySchedule.getScheduleEndDate());
-        LOG.info("Week is :" + weeklySchedule.getWeek());
-        LOG.info("Days is :" + weeklySchedule.getDaysOfWeek().toString());
-        LOG.info("=========================================================");
-        LOG.info("Schedule Monthly End Date is :" + monthlySchedule.getScheduleEndDate());
-        LOG.info("Day is :" + monthlySchedule.getDay());
-        LOG.info("Month Option1 is :" + monthlySchedule.getOption1Month());
-        LOG.info("Month Option2 is :" + monthlySchedule.getOption2Month());
-        LOG.info("Radio Button Option is :" + monthlySchedule.getMonthOption());
-        LOG.info("Month's Week is :" + monthlySchedule.getSelectedMonthsWeek());
-        LOG.info("Day Of Week is :" + monthlySchedule.getSelectedDayOfWeek());
-        LOG.info("=========================================================");
-        LOG.info("Schedule Yearly End Date is :" + yearlySchedule.getScheduleEndDate());
-        LOG.info("Day is :" + yearlySchedule.getDay());
-        LOG.info("Year Option1 is :" + yearlySchedule.getOption1Year());
-        LOG.info("Year Option2 is :" + yearlySchedule.getOption2Year());
-        LOG.info("Radio Button Option is :" + yearlySchedule.getYearOption());
-        LOG.info("Month Option1 is :" + yearlySchedule.getSelectedOption1Month());
-        LOG.info("Month Option2 is :" + yearlySchedule.getSelectedOption2Month());
-        LOG.info("Month's Week is :" + yearlySchedule.getSelectedMonthsWeek());
-        LOG.info("Day Of Week is :" + yearlySchedule.getSelectedDayOfWeek());
-        LOG.info("=========================================================");
+    public List<java.util.Date> getScheduleDates(ScheduleService scheduleService, java.sql.Date dt, Time24HrFmt time) throws ParseException {
+        return null;
     }
+
 }
