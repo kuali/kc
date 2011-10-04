@@ -31,7 +31,12 @@ import org.kuali.kra.committee.bo.Committee;
 import org.kuali.kra.committee.bo.CommitteeSchedule;
 import org.kuali.kra.committee.bo.ScheduleStatus;
 import org.kuali.kra.committee.service.CommitteeScheduleService;
-import org.kuali.kra.committee.web.struts.form.schedule.*;
+import org.kuali.kra.committee.web.struts.form.schedule.DailyScheduleDetails;
+import org.kuali.kra.committee.web.struts.form.schedule.MonthlyScheduleDetails;
+import org.kuali.kra.committee.web.struts.form.schedule.ScheduleData;
+import org.kuali.kra.committee.web.struts.form.schedule.StyleKey;
+import org.kuali.kra.committee.web.struts.form.schedule.YearlyScheduleDetails;
+import org.kuali.kra.infrastructure.KraServiceLocator;
 import org.kuali.kra.irb.Protocol;
 import org.kuali.kra.irb.actions.reviewcomments.ReviewCommentsService;
 import org.kuali.kra.meeting.CommitteeScheduleMinute;
@@ -63,6 +68,7 @@ public class CommitteeScheduleServiceImpl implements CommitteeScheduleService {
     
     private static final String PROTOCOL_ID_FIELD = "PROTOCOL_ID_FK";
     private static final String SCHEDULE_ID_FIELD = "SCHEDULE_ID_FK";
+    private static final String COMM_SCHEDULE_MINUTES_FIELD = "COMM_SCHEDULE_MINUTES_ID";
     private static final String ENTRY_NUMBER_FIELD = "ENTRY_NUMBER";
     private static final String SUBMISSION_ID_FIELD = "SUBMISSION_ID_FK";
     private static final String COMM_SCHEDULE_MINUTES_ID_PROPERTY = "commScheduleMinutesId";
@@ -126,12 +132,91 @@ public class CommitteeScheduleServiceImpl implements CommitteeScheduleService {
      */
     public void addSchedule(ScheduleData scheduleData, Committee committee) throws ParseException {
         
+        List<Date> dates = null;
+        Date dtEnd = null;
+        int frequency = 0;
+        int day = 0;
+        CronSpecialChars[] weekdays = null;
+        CronSpecialChars weekOfMonth = null;
+        CronSpecialChars dayOfWeek = null;
+        CronSpecialChars month = null;
+        
         Time24HrFmt time = getTime24hFmt(scheduleData.getScheduleStartDate(), scheduleData.getTime().findMinutes());
-        java.sql.Date dt = scheduleData.getScheduleStartDate();       
-        List<java.util.Date>dates = scheduleData.getScheduleDates(scheduleService, dt, time);
+        Date dt = scheduleData.getScheduleStartDate();       
+        
+        StyleKey key = StyleKey.valueOf(scheduleData.getRecurrenceType());        
+        switch (key) {
+            case NEVER :
+                dates = scheduleService.getScheduledDates(dt, dt, time, null);
+                break;
+            case DAILY : 
+                DailyScheduleDetails.optionValues dailyoption = DailyScheduleDetails.optionValues.valueOf(scheduleData.getDailySchedule().getDayOption());
+                switch (dailyoption) {
+                    case XDAY: 
+                        dtEnd = scheduleData.getDailySchedule().getScheduleEndDate();
+                        day = scheduleData.getDailySchedule().getDay();
+                        dates = scheduleService.getScheduledDates(dt, dtEnd, time, day, null);
+                        break;
+                    case WEEKDAY : 
+                        dtEnd = scheduleData.getDailySchedule().getScheduleEndDate();                        
+                        weekdays = ScheduleData.convertToWeekdays(scheduleData.getDailySchedule().getDaysOfWeek());
+                        ScheduleSequence scheduleSequence = new WeekScheduleSequenceDecorator(new TrimDatesScheduleSequenceDecorator(new DefaultScheduleSequence()),1,weekdays.length);
+                        dates = scheduleService.getScheduledDates(dt, dtEnd, time, weekdays, scheduleSequence);
+                        break;
+                }
+                break;
+            case WEEKLY :
+                dtEnd = scheduleData.getWeeklySchedule().getScheduleEndDate();
+                if(CollectionUtils.isNotEmpty(scheduleData.getWeeklySchedule().getDaysOfWeek())) {
+                    weekdays = ScheduleData.convertToWeekdays(scheduleData.getWeeklySchedule().getDaysOfWeek().toArray(new String[scheduleData.getWeeklySchedule().getDaysOfWeek().size()]));
+                }
+                
+                ScheduleSequence scheduleSequence = new WeekScheduleSequenceDecorator(new TrimDatesScheduleSequenceDecorator(new DefaultScheduleSequence()),scheduleData.getWeeklySchedule().getWeek(),weekdays.length);
+                dates = scheduleService.getScheduledDates(dt, dtEnd, time, weekdays, scheduleSequence);
+                break;
+            case MONTHLY :
+                MonthlyScheduleDetails.optionValues monthOption = MonthlyScheduleDetails.optionValues.valueOf(scheduleData.getMonthlySchedule().getMonthOption());
+                switch(monthOption) {
+                    case XDAYANDXMONTH :
+                        dtEnd = scheduleData.getMonthlySchedule().getScheduleEndDate();
+                        day = scheduleData.getMonthlySchedule().getDay();
+                        frequency = scheduleData.getMonthlySchedule().getOption1Month();
+                        dates = scheduleService.getScheduledDates(dt, dtEnd, time, day, frequency, null);
+                        break;
+                    case XDAYOFWEEKANDXMONTH :
+                        dtEnd = scheduleData.getMonthlySchedule().getScheduleEndDate();
+                        weekOfMonth = ScheduleData.getWeekOfMonth(scheduleData.getMonthlySchedule().getSelectedMonthsWeek());
+                        dayOfWeek = ScheduleData.getDayOfWeek(scheduleData.getMonthlySchedule().getSelectedDayOfWeek());
+                        frequency = scheduleData.getMonthlySchedule().getOption2Month();
+                        dates = scheduleService.getScheduledDates(dt, dtEnd, time, dayOfWeek, weekOfMonth, frequency, null);
+                        break;
+                }
+                break;
+            case YEARLY : 
+                YearlyScheduleDetails.yearOptionValues yearOption = YearlyScheduleDetails.yearOptionValues.valueOf(scheduleData.getYearlySchedule().getYearOption());
+                switch(yearOption) {
+                    case XDAY :
+                        dtEnd = scheduleData.getYearlySchedule().getScheduleEndDate();
+                        month = ScheduleData.getMonthOfWeek(scheduleData.getYearlySchedule().getSelectedOption1Month());
+                        day = scheduleData.getYearlySchedule().getDay();
+                        frequency = scheduleData.getYearlySchedule().getOption1Year();
+                        dates = scheduleService.getScheduledDates(dt, dtEnd, time, month, day, frequency, null);
+                        break;
+                    case CMPLX:
+                        dtEnd = scheduleData.getYearlySchedule().getScheduleEndDate();
+                        weekOfMonth = ScheduleData.getWeekOfMonth(scheduleData.getYearlySchedule().getSelectedMonthsWeek());
+                        dayOfWeek = ScheduleData.getDayOfWeek(scheduleData.getYearlySchedule().getSelectedDayOfWeek());
+                        month = ScheduleData.getMonthOfWeek(scheduleData.getYearlySchedule().getSelectedOption2Month());
+                        frequency = scheduleData.getYearlySchedule().getOption2Year();
+                        dates = scheduleService.getScheduledDates(dt, dtEnd, time, weekOfMonth, dayOfWeek, month, frequency, null);
+                        break;
+                }
+                break;            
+        }
         List<java.sql.Date> skippedDates = new ArrayList<java.sql.Date>();
         scheduleData.setDatesInConflict(skippedDates);
         addScheduleDatesToCommittee(dates, committee, scheduleData.getPlace(),skippedDates);
+
     }
     
     /**

@@ -17,7 +17,10 @@ package org.kuali.kra.committee.rules;
 
 import org.apache.commons.lang.StringUtils;
 import org.kuali.kra.committee.rule.event.CommitteeScheduleDayEvent;
-import org.kuali.kra.committee.web.struts.form.schedule.*;
+import org.kuali.kra.committee.web.struts.form.schedule.MonthlyScheduleDetails;
+import org.kuali.kra.committee.web.struts.form.schedule.ScheduleData;
+import org.kuali.kra.committee.web.struts.form.schedule.StyleKey;
+import org.kuali.kra.committee.web.struts.form.schedule.YearlyScheduleDetails;
 import org.kuali.kra.infrastructure.KeyConstants;
 import org.kuali.kra.rule.BusinessRuleInterface;
 import org.kuali.kra.rules.ResearchDocumentRuleBase;
@@ -37,33 +40,21 @@ public class CommitteeScheduleDayRule extends ResearchDocumentRuleBase implement
         StyleKey key = StyleKey.valueOf(scheduleData.getRecurrenceType());        
         switch (key) {
             case MONTHLY :
-                rulePassed = processRules((MonthlyScheduleData)scheduleData);
+                MonthlyScheduleDetails.optionValues monthOption = MonthlyScheduleDetails.optionValues.valueOf(scheduleData.getMonthlySchedule().getMonthOption());
+                switch(monthOption) {
+                    case XDAYANDXMONTH :
+                        rulePassed = validateDay(scheduleData.getMonthlySchedule().getDay(), SCHEDULEDATA_MONTHLY_DAY);
+                        break;
+                }                
                 break;
             case YEARLY : 
-                rulePassed = processRules((YearlyScheduleData)scheduleData);
+                YearlyScheduleDetails.yearOptionValues yearOption = YearlyScheduleDetails.yearOptionValues.valueOf(scheduleData.getYearlySchedule().getYearOption());
+                switch(yearOption) {
+                    case XDAY :
+                        rulePassed = validateDay(scheduleData.getYearlySchedule().getDay(), scheduleData.getYearlySchedule().getSelectedOption1Month(), SCHEDULEDATA_YEARLY_DAY);   
+                        break;
+                }
                 break;              
-        }
-        return rulePassed;
-    }
-    
-    public boolean processRules(MonthlyScheduleData scheduleData) {
-        boolean rulePassed = true;
-        MonthlyScheduleDetails.optionValues monthOption = MonthlyScheduleDetails.optionValues.valueOf(scheduleData.getMonthlySchedule().getMonthOption());
-        switch(monthOption) {
-            case XDAYANDXMONTH :
-                rulePassed = validateDay(scheduleData.getMonthlySchedule().getDay(), SCHEDULEDATA_MONTHLY_DAY);
-                break;
-        }                
-        return rulePassed;
-    }
-    
-    public boolean processRules(YearlyScheduleData scheduleData) {
-        boolean rulePassed = true;
-        YearlyScheduleDetails.yearOptionValues yearOption = YearlyScheduleDetails.yearOptionValues.valueOf(scheduleData.getYearlySchedule().getYearOption());
-        switch(yearOption) {
-            case XDAY :
-                rulePassed = validateDay(scheduleData.getYearlySchedule().getDay(), scheduleData.getYearlySchedule().getSelectedOption1Month(), SCHEDULEDATA_YEARLY_DAY);   
-                break;
         }
         return rulePassed;
     }
