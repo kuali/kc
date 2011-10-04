@@ -29,7 +29,6 @@ import org.junit.Test;
 import org.kuali.kra.committee.bo.CommitteeSchedule;
 import org.kuali.kra.committee.rule.event.CommitteeScheduleTimeEvent;
 import org.kuali.kra.committee.rule.event.CommitteeScheduleEventBase.ErrorType;
-import org.kuali.kra.committee.web.struts.form.schedule.DailyScheduleData;
 import org.kuali.kra.committee.web.struts.form.schedule.ScheduleData;
 import org.kuali.kra.committee.web.struts.form.schedule.Time12HrFmt;
 import org.kuali.kra.infrastructure.Constants;
@@ -129,7 +128,7 @@ public class CommitteeScheduleTimeRuleTest {
      * @throws ParseException 
      */
     private void prerequisiteScheduleData() {
-        scheduleData = new DailyScheduleData();
+        scheduleData = new ScheduleData();
         Time12HrFmt time = new Time12HrFmt(new Timestamp(new java.util.Date().getTime()));
         time.setMeridiem(Time12HrFmt.MERIDIEM.PM.toString());
         scheduleData.setTime(time);
