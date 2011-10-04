@@ -16,7 +16,8 @@
 package org.kuali.kra.committee.rules;
 
 import org.kuali.kra.committee.rule.event.CommitteeScheduleWeekDayEvent;
-import org.kuali.kra.committee.web.struts.form.schedule.*;
+import org.kuali.kra.committee.web.struts.form.schedule.ScheduleData;
+import org.kuali.kra.committee.web.struts.form.schedule.StyleKey;
 import org.kuali.kra.infrastructure.KeyConstants;
 import org.kuali.kra.rule.BusinessRuleInterface;
 import org.kuali.kra.rules.ResearchDocumentRuleBase;
@@ -31,7 +32,7 @@ public class CommitteeScheduleWeekDayRule extends ResearchDocumentRuleBase imple
         boolean rulePassed = true;        
         ScheduleData scheduleData = weekdayCommitteeScheduleEvent.getScheduleData();  
         StyleKey key = StyleKey.valueOf(scheduleData.getRecurrenceType());
-        if(key.equalsString(StyleKey.WEEKLY.toString()) && null == ((WeeklyScheduleData)scheduleData).getWeeklySchedule().getDaysOfWeek()) {
+        if(key.equalsString(StyleKey.WEEKLY.toString()) && null == scheduleData.getWeeklySchedule().getDaysOfWeek()) {
             reportError(ID, KeyConstants.ERROR_COMMITTEESCHEDULE_WEEKDAY);
             rulePassed = false;
         }        
