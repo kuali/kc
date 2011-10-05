@@ -15,6 +15,8 @@
  */
 package org.kuali.kra.negotiations.web.struts.action;
 
+import java.util.ArrayList;
+
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 
@@ -52,15 +54,7 @@ public class NegotiationAction extends KraTransactionalDocumentActionBase {
         getNegotiationService().checkForPropLogPromotion(negotiation);
         return forward;
     }
-        
-    @Override
-    public ActionForward execute(ActionMapping mapping, ActionForm form, HttpServletRequest request, HttpServletResponse response) throws Exception {
-        ActionForward actionForward = super.execute(mapping, form, request, response); 
-        NegotiationForm negotiationForm = (NegotiationForm)form;
-        negotiationForm.populateAuthorizationFields();
-        return actionForward;
-    }
-    
+            
     /**
      * Upon creating negotiation document default the negotiation status to in progress.
      * @see org.kuali.rice.kns.web.struts.action.KualiDocumentActionBase#createDocument(org.kuali.rice.kns.web.struts.form.KualiDocumentFormBase)
@@ -69,6 +63,9 @@ public class NegotiationAction extends KraTransactionalDocumentActionBase {
         super.createDocument(kualiDocumentFormBase);
         NegotiationDocument negotiationDocument = (NegotiationDocument) kualiDocumentFormBase.getDocument();
         negotiationDocument.getNegotiation().setNegotiationId(getSequenceAccessorService().getNextAvailableSequenceNumber(Constants.NEGOTIATION_SEQUENCE_NAME));
+        negotiationDocument.getNegotiation().setNegotiationStatus(
+                getNegotiationService().getNegotiationStatus(getNegotiationService().getInProgressStatusCodes().get(0)));
+        negotiationDocument.getNegotiation().setNegotiationStatusId(negotiationDocument.getNegotiation().getNegotiationStatus().getId());
     }
 
     
@@ -78,8 +75,10 @@ public class NegotiationAction extends KraTransactionalDocumentActionBase {
         ActionForward actionForward = mapping.findForward(Constants.MAPPING_BASIC);
         NegotiationForm negotiationForm = (NegotiationForm) form;
         NegotiationDocument negotiationDocument = negotiationForm.getNegotiationDocument();
-        
-        //call authorizer here!
+        if (negotiationDocument.getDocumentHeader().getWorkflowDocument().stateIsInitiated() 
+                || negotiationDocument.getDocumentHeader().getWorkflowDocument().stateIsSaved()) {
+            getDocumentService().routeDocument(negotiationDocument, "Route To Final", new ArrayList());
+        }
         
         actionForward = super.save(mapping, form, request, response);
         return actionForward;
