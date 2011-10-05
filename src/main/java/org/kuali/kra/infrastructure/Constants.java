@@ -739,6 +739,9 @@ public interface Constants {
     public static final String MAPPING_AMOUNT_INFO_PAGE ="amountInfo";
 
     // coi
-    public static final String MODULE_NAMESPACE_COIDISCLOSURE = "KC-COIDISCLOSURE"; 
+    public static final String MODULE_NAMESPACE_COIDISCLOSURE = "KC-COIDISCLOSURE";
+    
+    //Negotiations
+    public static final String NEGOTIATION_SEQUENCE_NAME = "NEGOTIATION_S";
 
 }

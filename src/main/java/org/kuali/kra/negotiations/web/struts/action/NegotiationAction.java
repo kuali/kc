@@ -28,6 +28,9 @@ import org.kuali.kra.negotiations.document.NegotiationDocument;
 import org.kuali.kra.negotiations.service.NegotiationService;
 import org.kuali.kra.negotiations.web.struts.form.NegotiationForm;
 import org.kuali.kra.web.struts.action.KraTransactionalDocumentActionBase;
+import org.kuali.rice.kew.exception.WorkflowException;
+import org.kuali.rice.kns.service.SequenceAccessorService;
+import org.kuali.rice.kns.web.struts.form.KualiDocumentFormBase;
 
 /**
  * 
@@ -38,7 +41,8 @@ public class NegotiationAction extends KraTransactionalDocumentActionBase {
     private static final org.apache.commons.logging.Log LOG = org.apache.commons.logging.LogFactory.getLog(NegotiationAction.class);
     
     private NegotiationService negotiationService;
-    
+    private SequenceAccessorService sequenceAccessorService;
+
     @Override
     public ActionForward docHandler(ActionMapping mapping, ActionForm form, 
             HttpServletRequest request, HttpServletResponse response) throws Exception {
@@ -48,7 +52,7 @@ public class NegotiationAction extends KraTransactionalDocumentActionBase {
         getNegotiationService().checkForPropLogPromotion(negotiation);
         return forward;
     }
-    
+        
     @Override
     public ActionForward execute(ActionMapping mapping, ActionForm form, HttpServletRequest request, HttpServletResponse response) throws Exception {
         ActionForward actionForward = super.execute(mapping, form, request, response); 
@@ -57,6 +61,18 @@ public class NegotiationAction extends KraTransactionalDocumentActionBase {
         return actionForward;
     }
     
+    /**
+     * Upon creating negotiation document default the negotiation status to in progress.
+     * @see org.kuali.rice.kns.web.struts.action.KualiDocumentActionBase#createDocument(org.kuali.rice.kns.web.struts.form.KualiDocumentFormBase)
+     */
+    protected void createDocument(KualiDocumentFormBase kualiDocumentFormBase) throws WorkflowException {
+        super.createDocument(kualiDocumentFormBase);
+        NegotiationDocument negotiationDocument = (NegotiationDocument) kualiDocumentFormBase.getDocument();
+        negotiationDocument.getNegotiation().setNegotiationId(getSequenceAccessorService().getNextAvailableSequenceNumber(Constants.NEGOTIATION_SEQUENCE_NAME));
+    }
+
+    
+    @SuppressWarnings("unchecked")
     @Override
     public ActionForward save(ActionMapping mapping, ActionForm form, HttpServletRequest request, HttpServletResponse response) throws Exception {  
         ActionForward actionForward = mapping.findForward(Constants.MAPPING_BASIC);
@@ -78,6 +94,17 @@ public class NegotiationAction extends KraTransactionalDocumentActionBase {
 
     public void setNegotiationService(NegotiationService negotiationService) {
         this.negotiationService = negotiationService;
+    }
+    
+    public SequenceAccessorService getSequenceAccessorService() {
+        if (sequenceAccessorService == null) {
+            sequenceAccessorService = KraServiceLocator.getService(SequenceAccessorService.class);
+        }
+        return sequenceAccessorService;
+    }
+
+    public void setSequenceAccessorService(SequenceAccessorService sequenceAccessorService) {
+        this.sequenceAccessorService = sequenceAccessorService;
     }
     
 }
