@@ -30,16 +30,10 @@ public class ViewNegotiationAuthorizer extends NegotiationAuthorizer {
     @Override
     public boolean isAuthorized(String userId, NegotiationTask task) {
         boolean retVal = hasPermission(userId, task.getNegotiation(), PermissionConstants.NEGOTIATION_VIEW_NEGOTIATION_UNRESTRICTED)
-            || hasPermission(userId, task.getNegotiation(), PermissionConstants.NEGOTIATION_VIEW_NEGOTIATION)
-            || isUserIdAssociatedWithAssociatedBO(userId, task.getNegotiation());
+            || hasPermission(userId, task.getNegotiation(), PermissionConstants.NEGOTIATION_VIEW_NEGOTIATION);
         return retVal;
     }
     
-    private boolean isUserIdAssociatedWithAssociatedBO(String userId, Negotiation negotiation) {
-        boolean retVal = this.getNegotiationService().isPersonIsAssociatedPerson(negotiation, userId);
-        return retVal;
-    }
-
     public NegotiationService getNegotiationService() {
         return negotiationService;
     }
