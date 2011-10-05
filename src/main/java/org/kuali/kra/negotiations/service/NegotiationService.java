@@ -22,6 +22,7 @@ import org.kuali.kra.negotiations.bo.Negotiable;
 import org.kuali.kra.negotiations.bo.Negotiation;
 import org.kuali.kra.negotiations.bo.NegotiationAssociatedDetailBean;
 import org.kuali.kra.negotiations.bo.NegotiationAssociationType;
+import org.kuali.kra.negotiations.bo.NegotiationStatus;
 import org.kuali.kra.negotiations.bo.NegotiationUnassociatedDetail;
 import org.kuali.rice.kns.bo.BusinessObject;
 
@@ -79,6 +80,13 @@ public interface NegotiationService {
      * @return
      */
     NegotiationAssociationType getNegotiationAssociationType(String associationTypeCode);
+    
+    /**
+     * Retrieve the status BO.
+     * @param statusCode
+     * @return
+     */
+    NegotiationStatus getNegotiationStatus(String statusCode);
 
     /**
      * Can a negotiation be linked to a proposal log?
