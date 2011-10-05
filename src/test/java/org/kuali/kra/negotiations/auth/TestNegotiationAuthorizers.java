@@ -60,6 +60,7 @@ public class TestNegotiationAuthorizers extends KcUnitTestBase {
     Person jtester;
     Person woods;
     Person ospAdmin;
+    Person negotiator;
     
 
     @Before
@@ -71,6 +72,7 @@ public class TestNegotiationAuthorizers extends KcUnitTestBase {
         jtester = KraServiceLocator.getService(PersonService.class).getPersonByPrincipalName("jtester");
         woods = KraServiceLocator.getService(PersonService.class).getPersonByPrincipalName("woods");
         ospAdmin = KraServiceLocator.getService(PersonService.class).getPersonByPrincipalName("borst");
+        negotiator = KraServiceLocator.getService(PersonService.class).getPersonByPrincipalName("oblood");
     }
 
     @After
@@ -124,6 +126,9 @@ public class TestNegotiationAuthorizers extends KcUnitTestBase {
         Negotiation negotiation = getNewNegotiationWithUnassociatedDetail();
         NegotiationTask task = new NegotiationTask(TaskName.NEGOTIATION_MODIFY_ACTIVITIES, negotiation);
         boolean retVal = taskAuthorizationService.isAuthorized(quickstart.getPrincipalId(), task);
+        assertFalse(retVal);
+        
+        retVal = taskAuthorizationService.isAuthorized(negotiator.getPrincipalId(), task);
         assertTrue(retVal);
         
         retVal = taskAuthorizationService.isAuthorized(jtester.getPrincipalId(), task);
@@ -197,6 +202,7 @@ public class TestNegotiationAuthorizers extends KcUnitTestBase {
         negotiation.setNegotiationStartDate(testStartDate);
         negotiation.setDocumentFolder("document folder");
         negotiation.setDocumentNumber("123321");
+        negotiation.setNegotiatorPersonId(negotiator.getPrincipalId());
         
         this.businessObjectService.save(negotiation);
         
