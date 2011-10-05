@@ -761,7 +761,6 @@
                 </bean>
                 <bean class="org.kuali.kra.negotiations.auth.ViewNegotiationAuthorizer" parent="parentNegotiationAuthorizer">
                     <property name="taskName" value="viewNegotiation" />
-                    <property name="negotiationService" ref="negotiationService" />
                 </bean>
             </list>
         </property>

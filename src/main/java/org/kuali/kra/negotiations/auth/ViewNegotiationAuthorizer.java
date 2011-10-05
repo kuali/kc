@@ -24,22 +24,12 @@ import org.kuali.kra.negotiations.service.NegotiationService;
  * This class manages the authorization to view a negotiation.
  */
 public class ViewNegotiationAuthorizer extends NegotiationAuthorizer {
-    
-    private NegotiationService negotiationService;
 
     @Override
     public boolean isAuthorized(String userId, NegotiationTask task) {
         boolean retVal = hasPermission(userId, task.getNegotiation(), PermissionConstants.NEGOTIATION_VIEW_NEGOTIATION_UNRESTRICTED)
             || hasPermission(userId, task.getNegotiation(), PermissionConstants.NEGOTIATION_VIEW_NEGOTIATION);
         return retVal;
-    }
-    
-    public NegotiationService getNegotiationService() {
-        return negotiationService;
-    }
-
-    public void setNegotiationService(NegotiationService negotiationService) {
-        this.negotiationService = negotiationService;
     }
 
 }

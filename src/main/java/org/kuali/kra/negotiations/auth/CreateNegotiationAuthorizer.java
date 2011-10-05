@@ -15,13 +15,14 @@
  */
 package org.kuali.kra.negotiations.auth;
 
+import org.kuali.kra.infrastructure.Constants;
 import org.kuali.kra.infrastructure.PermissionConstants;
 
 public class CreateNegotiationAuthorizer extends NegotiationAuthorizer {
 
     @Override
     public boolean isAuthorized(String userId, NegotiationTask task) {
-        boolean retVal = hasPermission(userId, task.getNegotiation(), PermissionConstants.NEGOTIATION_CREATE_NEGOTIATION);
+        boolean retVal = hasUnitPermission(userId, Constants.MODULE_NAMESPACE_NEGOTIATION, PermissionConstants.NEGOTIATION_CREATE_NEGOTIATION);
         return retVal;
     }
 
