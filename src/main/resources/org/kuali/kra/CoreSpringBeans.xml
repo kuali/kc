@@ -791,6 +791,26 @@
     		<ref bean="negotiationLookupableHelperService" />
   		</property>
 	</bean>
+	
+	<bean id="negotiationPersonDerivedRoleType" class="org.kuali.kra.negotiations.service.NegotiationPersonDerivedRoleTypeServiceImpl">
+		<property name="negotiationService">
+			<ref bean="negotiationService"/>
+		</property>
+	</bean>
+    <bean class="org.kuali.rice.ksb.messaging.KSBExporter">
+		<property name="serviceDefinition">
+			<bean parent="kcService" p:service-ref="negotiationPersonDerivedRoleType"
+				p:localServiceName="negotiationPersonDerivedRoleType" />
+		</property>
+	</bean>
+	
+	<bean id="negotiationNegotiatorDerivedRoleType" class="org.kuali.kra.negotiations.service.NegotiationNegotiatorDerivedRoleTypeServiceImpl"/>    
+	<bean class="org.kuali.rice.ksb.messaging.KSBExporter">
+		<property name="serviceDefinition">
+			<bean parent="kcService" p:service-ref="negotiationNegotiatorDerivedRoleType"
+				p:localServiceName="negotiationNegotiatorDerivedRoleType" />
+		</property>
+	</bean>	
     
 	
 </beans>
