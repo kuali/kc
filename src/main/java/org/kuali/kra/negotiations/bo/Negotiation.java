@@ -325,7 +325,7 @@ public class Negotiation extends KraPersistableBusinessObjectBase implements Per
 
     @Override
     public String getDocumentNumberForPermission() {
-        return this.negotiationId != null ? this.negotiationId.toString() : "NOT_SET";
+        return this.negotiationId != null ? this.negotiationId.toString() : null;
     }
 
     @Override
