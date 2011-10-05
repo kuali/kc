@@ -16,13 +16,19 @@
 package org.kuali.kra.irb.auth;
 
 import java.util.HashSet;
+import java.util.List;
 import java.util.Set;
 
+import org.apache.commons.lang.StringUtils;
 import org.kuali.kra.authorization.ApplicationTask;
 import org.kuali.kra.authorization.KcTransactionalDocumentAuthorizerBase;
+import org.kuali.kra.infrastructure.Constants;
 import org.kuali.kra.infrastructure.KraServiceLocator;
 import org.kuali.kra.infrastructure.TaskName;
 import org.kuali.kra.irb.ProtocolDocument;
+import org.kuali.kra.irb.actions.ProtocolStatus;
+import org.kuali.kra.irb.personnel.ProtocolPerson;
+import org.kuali.kra.irb.protocol.participant.ProtocolParticipant;
 import org.kuali.kra.service.TaskAuthorizationService;
 import org.kuali.rice.kim.bo.Person;
 import org.kuali.rice.kns.authorization.AuthorizationConstants;
@@ -65,11 +71,33 @@ public class ProtocolDocumentAuthorizer extends KcTransactionalDocumentAuthorize
             if( canExecuteProtocolTask(userId,protocolDocument,TaskName.MAINTAIN_PROTOCOL_ONLINEREVIEWS)) {
                 editModes.add(TaskName.MAINTAIN_PROTOCOL_ONLINEREVIEWS);
             }
+            if (canViewReviewComments(protocolDocument, user)) {
+                editModes.add(Constants.CAN_VIEW_REVIEW_COMMENTS);
+            }
         }
         
         return editModes;
     }
     
+    /**
+     * This method determines if a person can view the review comments.
+     * @param document
+     * @param user
+     * @return boolean
+     */
+    public boolean canViewReviewComments(Document document, Person user) {
+        ProtocolDocument protocolDoc = (ProtocolDocument)document;
+        List<ProtocolPerson> participants = protocolDoc.getProtocol().getProtocolPersons();
+        for (ProtocolPerson participant : participants) {
+            if (StringUtils.equalsIgnoreCase(participant.getPersonId() + "", user.getPrincipalId())) {
+                String statusCode = protocolDoc.getProtocol().getProtocolStatusCode();
+                if (statusCode.equalsIgnoreCase(ProtocolStatus.SUBMITTED_TO_IRB)) {
+                    return false;
+                }
+            }
+        }
+        return true;
+    }
     /**
      * @see org.kuali.rice.kns.document.authorization.DocumentAuthorizer#canInitiate(java.lang.String, org.kuali.rice.kim.bo.Person)
      */

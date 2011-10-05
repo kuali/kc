@@ -16,7 +16,8 @@
 <%@ include file="/WEB-INF/jsp/kraTldHeader.jsp"%>
 <c:set var="kraAttributeReferenceDummyAttributes" value="${DataDictionary.KraAttributeReferenceDummy.attributes}" />
 <c:set var="h3BkColor" value="background-color: #C3C3C3;border-bottom: 1px solid #CCCCCC;"/>
-
+<c:set var="protocolStatus" value="${KualiForm.protocolDocument.protocol.protocolStatusCode}" />
+<c:set var="canViewReviewComments" value="<%=org.kuali.kra.infrastructure.Constants.CAN_VIEW_REVIEW_COMMENTS%>" /> 
 <kul:tab tabTitle="Print" defaultOpen="false" tabErrorKey="actionHelper.reportType">
     <div class="tab-container" align="left" >
         <h3 style="${h3BkColor}">
@@ -168,6 +169,7 @@
                         </div>
                     </td>
                 </tr>
+                <kra:section permission="${canViewReviewComments}">
                 <tr>
                     <th class="infoline">
                         <div align="left">
@@ -182,6 +184,7 @@
                         </div>
                     </td>
                 </tr>
+                </kra:section>
          <%-- kcirb-1159 is closed (not fix, so comment out this       
                 <tr>
                     <th class="infoline">

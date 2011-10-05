@@ -541,6 +541,8 @@ public interface Constants {
     public static final String PROTOCOL_CREATE_RENEWAL_WITH_AMENDMENT_KEY = "actionHelper.protocolCreateRenewalWithAmendment";
     public static final String PROTOCOL_CREATE_RENEWAL_SUMMARY_KEY = "actionHelper.renewalSummary";
     
+    // Protocol edit modes
+    public static final String CAN_VIEW_REVIEW_COMMENTS = "viewReviewComments";
     // Risk Level
     public static final String PROTOCOL_UPDATE_RISK_LEVEL_KEY = "document.protocol.protocolRiskLevels";
     
