@@ -71,19 +71,24 @@
             <tr>
 		        <th><div align="right"><kul:htmlAttributeLabel attributeEntry="${activityAttributes.description}" /></div></th>
                 <td colspan="5">
-                	<kul:htmlControlAttribute property="${activityPath}.description" attributeEntry="${activityAttributes.description}" readOnly="${readOnly}"/>
-                	<c:choose><c:when test="${activity.restricted}">
-                	   <html:image property="methodToCall.unrestrictActivity.activityIndex${activityIndex}"
-   		  					src="${ConfigProperties.kra.externalizable.images.url}tinybutton-unrestrict.gif" styleClass="tinybutton"/>
-                	</c:when><c:otherwise>
-                	   <html:image property="methodToCall.restrictActivity.activityIndex${activityIndex}"
-   		  					src="${ConfigProperties.kra.externalizable.images.url}tinybutton-restrict.gif" styleClass="tinybutton"/>                	
-                	</c:otherwise>
-                	</c:choose>
+                	<c:if test="${!activity.restricted || KualiForm.editingMode['view_unrestricted']}">
+                	  <kul:htmlControlAttribute property="${activityPath}.description" attributeEntry="${activityAttributes.description}" readOnly="${readOnly}"/>
+		              <c:if test="${!readOnly}">
+		               	<c:choose><c:when test="${activity.restricted}">
+		               	   <html:image property="methodToCall.unrestrictActivity.activityIndex${activityIndex}"
+		  		  					src="${ConfigProperties.kra.externalizable.images.url}tinybutton-unrestrict.gif" styleClass="tinybutton"/>
+		               	</c:when><c:otherwise>
+		               	   <html:image property="methodToCall.restrictActivity.activityIndex${activityIndex}"
+		  		  					src="${ConfigProperties.kra.externalizable.images.url}tinybutton-restrict.gif" styleClass="tinybutton"/>                	
+		               	</c:otherwise>
+		               	</c:choose>
+		              </c:if>
+                	</c:if>
                 </td>
             </tr>
         </table>
         <table cellpadding="4" cellspacing="0" summary="">
+            <c:if test="${!readOnly}">
             <tr>
             	<th><div align="right">Attachments:</div></th>
             	<th>* File: <html:file property="${activityPath}.newAttachment.newFile"/><kul:checkErrors keyMatch="${activityPath}.newAttachment.newFile" auditMatch="${activityPath}.newAttachment.newFile"/>  
@@ -96,15 +101,17 @@
    		  				src="${ConfigProperties.kra.externalizable.images.url}tinybutton-add1.gif" styleClass="tinybutton"/>
             	</th>
             </tr>
+            </c:if>
             <c:forEach items="${activity.attachments}" var="attachment" varStatus="ctr">
+              <c:if test="${!attachment.restricted || KualiForm.editingMode['view_unrestricted']}">
               <tr>
                 <th style="text-align: right;"><c:out value="${ctr.count}"/></th>
                 <td><a href="#" class="attachmentLink"><kra:fileicon attachment="${attachment.file}"/><c:out value="${attachment.file.name}"/></a>
                         	<html:image property="methodToCall.viewAttachment.activityIndex${activityIndex}.attachmentIndex${ctr.count-1}"
    		  				src="${ConfigProperties.kra.externalizable.images.url}tinybutton-view.gif" styleClass="tinybutton" />
                 </td>
-                <td><kul:htmlControlAttribute property="${activityPath}.attachments[${ctr.count-1}].description" attributeEntry="${attachmentAttributes.description}" readOnly="true"/></td>
-                <td><html:image property="methodToCall.deleteAttachment.activityIndex${activityIndex}.attachmentIndex${ctr.count-1}"
+                <td><kul:htmlControlAttribute property="${activityPath}.attachments[${ctr.count-1}].description" attributeEntry="${attachmentAttributes.description}" readOnly="${readOnly}"/></td>
+                <td><c:if test="${!readOnly}"><html:image property="methodToCall.deleteAttachment.activityIndex${activityIndex}.attachmentIndex${ctr.count-1}"
    		  				src="${ConfigProperties.kr.externalizable.images.url}tinybutton-delete1.gif" styleClass="tinybutton"/>
    		  			<c:choose><c:when test="${attachment.restricted}">
    		  			<html:image property="methodToCall.unrestrictAttachment.activityIndex${activityIndex}.attachmentIndex${ctr.count-1}"
@@ -112,11 +119,12 @@
    		  			</c:when><c:otherwise>
    		  			<html:image property="methodToCall.restrictAttachment.activityIndex${activityIndex}.attachmentIndex${ctr.count-1}"
    		  				src="${ConfigProperties.kra.externalizable.images.url}tinybutton-restrict.gif" styleClass="tinybutton"/>
-   		  			</c:otherwise></c:choose>
+   		  			</c:otherwise></c:choose></c:if>
    		  		</td>
               </tr>
+              </c:if>
             </c:forEach>
-            <c:if test="${newActivity}">
+            <c:if test="${newActivity && !readOnly}">
 			<tr>
 			    <td class="infoline" style="text-align:center;" colspan="6">
 					<html:image property="methodToCall.addActivity"

@@ -17,8 +17,11 @@ $jq(document).ready(function() {
 
 <kul:tab tabTitle="Activities & Attachments" defaultOpen="false" tabErrorKey="" innerTabErrorKey="document.negotiationList[0].activities*,negotiationActivityHelper.*">
 <div class="tab-container"  align="center">
-<kra-negotiation:negotiationActivity activity="${KualiForm.negotiationActivityHelper.newActivity}" activityIndex="-1" parentTab="Activities & Attachments" tabDivClass="innerTab-h3head"/>
 
+<c:if test="${!readOnly}">
+  <%-- Hide Add Activity if readonly --%>
+  <kra-negotiation:negotiationActivity activity="${KualiForm.negotiationActivityHelper.newActivity}" activityIndex="-1" parentTab="Activities & Attachments" tabDivClass="innerTab-h3head"/>
+</c:if>
 <jsp:useBean id="paramMap" class="java.util.HashMap"/>
 <kul:innerTab parentTab="Activities & Attachments" tabTitle="Activities" defaultOpen="false" useCurrentTabIndexAsKey="true" overrideDivClass="innerTab-h3head">
   <table>
@@ -70,6 +73,7 @@ $jq(document).ready(function() {
     </thead>
     <tbody>
     <c:forEach items="${KualiForm.negotiationActivityHelper.allAttachments}" var="attachment" varStatus="ctr">
+      <c:if test="${!attachment.restricted || KualiForm.editingMode['view_unrestricted']}">
       <tr>
         <th style="text-align:right;">${ctr.count}</th>
         <td><kul:htmlControlAttribute property="negotiationActivityHelper.allAttachments[${ctr.count-1}].activity.startDate" attributeEntry="${activityAttributes.startDate}" readOnly="true"/></td>
@@ -81,6 +85,7 @@ $jq(document).ready(function() {
         <td><kul:htmlControlAttribute property="negotiationActivityHelper.allAttachments[${ctr.count-1}].activity.locationId" attributeEntry="${activityAttributes.locationId}" readOnly="true"/></td>
         <td><kul:htmlControlAttribute property="negotiationActivityHelper.allAttachments[${ctr.count-1}].activity.activityTypeId" attributeEntry="${activityAttributes.activityTypeId}" readOnly="true"/></td>
       </tr>
+      </c:if>
     </c:forEach>
     </tbody>
   </table>

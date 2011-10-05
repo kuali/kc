@@ -28,6 +28,7 @@ public class KcKimAttributes extends KimAttributes {
     public static final String TIMEANDMONEY = "timeandmoney";
     public static final String UNIT_NUMBER = "unitNumber";
     public static final String SUBUNITS = "subunits";
+    public static final String NEGOTIATION = "negotiation";
     
     protected String proposal;
     protected String protocol;
@@ -36,6 +37,7 @@ public class KcKimAttributes extends KimAttributes {
     protected String timeandmoney;
     protected String unitNumber;
     protected Boolean subunits;
+    protected String negotiation;
     protected String sectionName;
     protected String documentAction;
     
@@ -119,6 +121,14 @@ public class KcKimAttributes extends KimAttributes {
 
     public void setDocumentAction(String documentAction) {
         this.documentAction = documentAction;
+    }
+
+    public String getNegotiation() {
+        return negotiation;
+    }
+
+    public void setNegotiation(String negotiation) {
+        this.negotiation = negotiation;
     }
     
 }
