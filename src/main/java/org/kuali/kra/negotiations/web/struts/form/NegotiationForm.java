@@ -103,40 +103,6 @@ public class NegotiationForm extends KraTransactionalDocumentFormBase {
         getDocumentActions().put(KNSConstants.KUALI_ACTION_CAN_SAVE, KNSConstants.KUALI_DEFAULT_TRUE_VALUE);
 
     }
-
-    public void populateAuthorizationFields() {
-        Person user = GlobalVariables.getUserSession().getPerson();
-        Set<String> localEditModes = new HashSet<String>();
-        
-        Negotiation negotiation = this.getNegotiationDocument().getNegotiation();
-        
-        NegotiationTask createTask = new NegotiationTask(TaskName.NEGOTIATION_CREATE_NEGOTIATION, negotiation);
-        if (this.getTaskAuthorizationService().isAuthorized(user.getPrincipalId(), createTask)) {
-            localEditModes.add("create");
-        }
-        
-        NegotiationTask modifyTask = new NegotiationTask(TaskName.NEGOTIATION_MODIFIY_NEGOTIATION, negotiation);
-        if (this.getTaskAuthorizationService().isAuthorized(user.getPrincipalId(), modifyTask)) {
-            localEditModes.add("modify");
-        }
-        
-        NegotiationTask modifyActivitiesTask = new NegotiationTask(TaskName.NEGOTIATION_MODIFY_ACTIVITIES, negotiation);
-        if (this.getTaskAuthorizationService().isAuthorized(user.getPrincipalId(), modifyActivitiesTask)) {
-            localEditModes.add("modify_activity");
-        }
-        
-        NegotiationTask viewTask = new NegotiationTask(TaskName.NEGOTIATION_VIEW_NEGOTIATION, negotiation);
-        if (this.getTaskAuthorizationService().isAuthorized(user.getPrincipalId(), viewTask)) {
-            localEditModes.add("view");
-        }
-        
-        NegotiationTask viewUnrestrictedTask = new NegotiationTask(TaskName.NEGOTIATION_VIEW_NEGOTIATION_UNRESTRICTED, negotiation);
-        if (this.getTaskAuthorizationService().isAuthorized(user.getPrincipalId(), viewUnrestrictedTask)) {
-            localEditModes.add("view_unrestricted");
-        }
-        
-        this.setEditingMode(convertSetToMap(localEditModes));
-    }
     
     private TaskAuthorizationService getTaskAuthorizationService() {
         return KraServiceLocator.getService(TaskAuthorizationService.class);
@@ -251,9 +217,7 @@ public class NegotiationForm extends KraTransactionalDocumentFormBase {
     }
     
     private NegotiationStatus getNegotiationStatus(String code) {
-        Map params = new HashMap();
-        params.put("NEGOTIATION_STATUS_CODE", code);
-        return (NegotiationStatus) this.getBusinessObjectService().findMatching(NegotiationStatus.class, params).iterator().next();
+        return getNegotiationService().getNegotiationStatus(code);
     }
 
     public MedusaBean getMedusaBean() {
