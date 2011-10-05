@@ -38,6 +38,7 @@ import org.kuali.kra.negotiations.bo.Negotiation;
 import org.kuali.kra.negotiations.bo.NegotiationAssociatedDetailBean;
 import org.kuali.kra.negotiations.bo.NegotiationAssociationType;
 import org.kuali.kra.negotiations.bo.NegotiationPersonDTO;
+import org.kuali.kra.negotiations.bo.NegotiationStatus;
 import org.kuali.kra.negotiations.bo.NegotiationUnassociatedDetail;
 import org.kuali.kra.negotiations.document.NegotiationDocument;
 import org.kuali.kra.service.KcPersonService;
@@ -181,8 +182,13 @@ public class NegotiationServiceImpl implements NegotiationService {
         params.put("code", associationTypeCode);
         return (NegotiationAssociationType) this.getBusinessObjectService().findMatching(NegotiationAssociationType.class, params).iterator().next();
     }
-
     
+    @SuppressWarnings("unchecked")
+    public NegotiationStatus getNegotiationStatus(String statusCode) {
+        Map params = new HashMap();
+        params.put("code", statusCode);
+        return (NegotiationStatus) this.getBusinessObjectService().findMatching(NegotiationStatus.class, params).iterator().next();
+    }
 
     @Override
     public boolean isAwardLinkingEnabled() {
