@@ -38,6 +38,7 @@ import org.kuali.kra.negotiations.bo.NegotiationAgreementType;
 import org.kuali.kra.negotiations.bo.NegotiationAssociationType;
 import org.kuali.kra.negotiations.bo.NegotiationStatus;
 import org.kuali.kra.negotiations.bo.NegotiationUnassociatedDetail;
+import org.kuali.kra.negotiations.document.NegotiationDocument;
 import org.kuali.kra.proposaldevelopment.bo.ActivityType;
 import org.kuali.kra.service.TaskAuthorizationService;
 import org.kuali.kra.test.infrastructure.KcUnitTestBase;
@@ -88,8 +89,8 @@ public class TestNegotiationAuthorizers extends KcUnitTestBase {
     
     @Test
     public void testCreateNegotiationAuthorizer() throws WorkflowException {
-        Negotiation negotiation = getNewNegotiationWithUnassociatedDetail(); 
-        NegotiationTask task = new NegotiationTask(TaskName.NEGOTIATION_CREATE_NEGOTIATION, negotiation);
+        NegotiationDocument negotiationDoc = getNewNegotiationWithUnassociatedDetail(); 
+        NegotiationTask task = new NegotiationTask(TaskName.NEGOTIATION_CREATE_NEGOTIATION, negotiationDoc);
         boolean retVal = taskAuthorizationService.isAuthorized(quickstart.getPrincipalId(), task);
         assertTrue(retVal);
         
@@ -105,8 +106,8 @@ public class TestNegotiationAuthorizers extends KcUnitTestBase {
     
     @Test
     public void testModifyNegotiationAuthorizer()  throws WorkflowException {
-        Negotiation negotiation = getNewNegotiationWithUnassociatedDetail();
-        NegotiationTask task = new NegotiationTask(TaskName.NEGOTIATION_MODIFIY_NEGOTIATION, negotiation);
+        NegotiationDocument negotiationDoc = getNewNegotiationWithUnassociatedDetail();
+        NegotiationTask task = new NegotiationTask(TaskName.NEGOTIATION_MODIFIY_NEGOTIATION, negotiationDoc);
 
         boolean retVal = taskAuthorizationService.isAuthorized(quickstart.getPrincipalId(), task);
         assertTrue(retVal);
@@ -123,8 +124,8 @@ public class TestNegotiationAuthorizers extends KcUnitTestBase {
     
     @Test
     public void testModifyActivitiesAuthorizer() throws WorkflowException {
-        Negotiation negotiation = getNewNegotiationWithUnassociatedDetail();
-        NegotiationTask task = new NegotiationTask(TaskName.NEGOTIATION_MODIFY_ACTIVITIES, negotiation);
+        NegotiationDocument negotiationDoc = getNewNegotiationWithUnassociatedDetail();
+        NegotiationTask task = new NegotiationTask(TaskName.NEGOTIATION_MODIFY_ACTIVITIES, negotiationDoc);
         boolean retVal = taskAuthorizationService.isAuthorized(quickstart.getPrincipalId(), task);
         assertFalse(retVal);
         
@@ -143,8 +144,8 @@ public class TestNegotiationAuthorizers extends KcUnitTestBase {
     
     @Test
     public void testViewNegotiationUnRestrictedAuthorizer()  throws WorkflowException{
-        Negotiation negotiation = getNewNegotiationWithUnassociatedDetail();
-        NegotiationTask task = new NegotiationTask(TaskName.NEGOTIATION_VIEW_NEGOTIATION_UNRESTRICTED, negotiation);
+        NegotiationDocument negotiationDoc = getNewNegotiationWithUnassociatedDetail();
+        NegotiationTask task = new NegotiationTask(TaskName.NEGOTIATION_VIEW_NEGOTIATION_UNRESTRICTED, negotiationDoc);
 
         boolean retVal = taskAuthorizationService.isAuthorized(quickstart.getPrincipalId(), task);
         assertTrue(retVal);
@@ -161,8 +162,8 @@ public class TestNegotiationAuthorizers extends KcUnitTestBase {
     
     @Test
     public void testViewNegotiationAuthorizer()  throws WorkflowException{
-        Negotiation negotiation = getNewNegotiationWithUnassociatedDetail();
-        NegotiationTask task = new NegotiationTask(TaskName.NEGOTIATION_VIEW_NEGOTIATION,  negotiation);
+        NegotiationDocument negotiationDoc = getNewNegotiationWithUnassociatedDetail();
+        NegotiationTask task = new NegotiationTask(TaskName.NEGOTIATION_VIEW_NEGOTIATION,  negotiationDoc);
         boolean retVal = taskAuthorizationService.isAuthorized(quickstart.getPrincipalId(), task);
         assertTrue(retVal);
         
@@ -176,8 +177,9 @@ public class TestNegotiationAuthorizers extends KcUnitTestBase {
         assertTrue(retVal);
     }
     
-    private Negotiation getNewNegotiationWithUnassociatedDetail() {
-        Negotiation negotiation = new Negotiation();
+    private NegotiationDocument getNewNegotiationWithUnassociatedDetail() throws WorkflowException {
+        NegotiationDocument document = (NegotiationDocument) getDocumentService().getNewDocument(NegotiationDocument.class);
+        Negotiation negotiation = document.getNegotiation();
         
         NegotiationStatus status = (NegotiationStatus)businessObjectService.findAll(NegotiationStatus.class).iterator().next();
         NegotiationAgreementType agreementType = (NegotiationAgreementType)businessObjectService.findAll(NegotiationAgreementType.class).iterator().next();
@@ -224,7 +226,7 @@ public class TestNegotiationAuthorizers extends KcUnitTestBase {
         negotiation.setUnAssociatedDetail(detail);
         
         this.businessObjectService.save(negotiation);
-        return negotiation;
+        return document;
     }
     
     /**
@@ -234,8 +236,9 @@ public class TestNegotiationAuthorizers extends KcUnitTestBase {
      * @return
      * @throws WorkflowException
      */
-    private Negotiation getNewNegotiationWithAward() throws WorkflowException {
-        Negotiation negotiation = new Negotiation();
+    private NegotiationDocument getNewNegotiationWithAward() throws WorkflowException {
+        NegotiationDocument document = (NegotiationDocument) getDocumentService().getNewDocument(NegotiationDocument.class);
+        Negotiation negotiation = document.getNegotiation();
         
         NegotiationStatus status = (NegotiationStatus)businessObjectService.findAll(NegotiationStatus.class).iterator().next();
         NegotiationAgreementType agreementType = (NegotiationAgreementType)businessObjectService.findAll(NegotiationAgreementType.class).iterator().next();
@@ -325,6 +328,6 @@ public class TestNegotiationAuthorizers extends KcUnitTestBase {
         negotiation.setAssociatedDocumentId(award.getAwardNumber());
         this.businessObjectService.save(negotiation);
         
-        return negotiation;
+        return document;
     }
 }
