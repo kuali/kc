@@ -21,6 +21,9 @@ import org.junit.Test;
 import org.kuali.kra.budget.web.BudgetSeleniumHelper;
 import org.kuali.kra.test.infrastructure.KcSeleniumTestBase;
 
+/**
+ * Tests the basic submission of a development proposal.
+ */
 public class ProposalDevelopmentCompleteSeleniumTest extends KcSeleniumTestBase {
     
     private ProposalDevelopmentSeleniumHelper helper;
@@ -42,6 +45,9 @@ public class ProposalDevelopmentCompleteSeleniumTest extends KcSeleniumTestBase 
         super.tearDown();
     }
 
+    /**
+     * Test the basic submission of a development proposal.
+     */
     @Test
     public void testProposalDevelopmentComplete() throws Exception {
         helper.createProposalDevelopment();

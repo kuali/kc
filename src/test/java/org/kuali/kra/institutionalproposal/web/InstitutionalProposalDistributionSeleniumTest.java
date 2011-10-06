@@ -20,6 +20,9 @@ import org.junit.Before;
 import org.junit.Test;
 import org.kuali.kra.test.infrastructure.KcSeleniumTestBase;
 
+/**
+ * Tests the Distribution page of an Institutional Proposal.
+ */
 public class InstitutionalProposalDistributionSeleniumTest extends KcSeleniumTestBase {
 
     private InstitutionalProposalSeleniumHelper helper;
@@ -38,6 +41,9 @@ public class InstitutionalProposalDistributionSeleniumTest extends KcSeleniumTes
         super.tearDown();
     }
     
+    /**
+     * Test the Distribution page.
+     */
     @Test
     public void testDistributionPage() throws Exception {
         helper.createInstitutionalProposal();

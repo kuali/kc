@@ -28,6 +28,9 @@ import org.kuali.kra.budget.core.BudgetCategory;
 import org.kuali.kra.test.infrastructure.KcSeleniumTestBase;
 import org.kuali.rice.kns.document.MaintenanceDocumentBase;
 
+/**
+ * Tests the Budget Category maintenance document.
+ */
 public class BudgetCategoryMaintenanceDocumentSeleniumTest extends KcSeleniumTestBase {
     
     private static final String DOCUMENT_TITLE = "Budget Category";
@@ -66,6 +69,11 @@ public class BudgetCategoryMaintenanceDocumentSeleniumTest extends KcSeleniumTes
         super.tearDown();
     }
     
+    /**
+     * Test creating a budget category.
+     *
+     * @throws Exception
+     */
     @Test
     public void testCreateBudgetCategory() throws Exception {
         String budgetCategoryCode = getNewBudgetCategoryCode();
@@ -75,6 +83,11 @@ public class BudgetCategoryMaintenanceDocumentSeleniumTest extends KcSeleniumTes
         
     }
     
+    /**
+     * Test editing a budget category.
+     *
+     * @throws Exception
+     */
     @Test
     public void testEditBudgetCategory() throws Exception {
         String budgetCategoryCode = getNewBudgetCategoryCode();
@@ -94,6 +107,11 @@ public class BudgetCategoryMaintenanceDocumentSeleniumTest extends KcSeleniumTes
         verifyExistingMaintenanceDocument(documentNumber, budgetCategoryCode, EDIT_DESCRIPTION_2);
     }
 
+    /**
+     * Test copying a budget category.
+     *
+     * @throws Exception
+     */
     @Test
     public void testCopyBudgetCategory() throws Exception {
         String budgetCategoryCode1 = getNewBudgetCategoryCode();
@@ -115,6 +133,14 @@ public class BudgetCategoryMaintenanceDocumentSeleniumTest extends KcSeleniumTes
         verifyExistingMaintenanceDocument(documentNumber, budgetCategoryCode2, COPY_DESCRIPTION_2);
     }
     
+    /**
+     * Create a new maintenance document.
+     * 
+     * @param documentDescription the document description
+     * @param budgetCategoryCode the budget category code
+     * @param description the description
+     * @return the document number of the new maintenance document
+     */
     private String createNewMaintenanceDocument(String documentDescription, String budgetCategoryCode, String description) {
         String documentNumber = helper.createMaintenanceDocument(DOCUMENT_TITLE, BudgetCategory.class.getName(), MAINTENANCE_DOCUMENT_TITLE);
         
@@ -130,6 +156,14 @@ public class BudgetCategoryMaintenanceDocumentSeleniumTest extends KcSeleniumTes
         return documentNumber;
     }
     
+    /**
+     * Verify the details of an existing maintenance document.
+     *
+     * @param documentNumber the document of the maintenance document to verify
+     * @param budgetCategoryCode the budget category code
+     * @param description the description
+     * @throws Exception
+     */
     private void verifyExistingMaintenanceDocument(String documentNumber, String budgetCategoryCode, String description) throws Exception {
         MaintenanceDocumentBase document = (MaintenanceDocumentBase) getDocumentService().getByDocumentHeaderId(documentNumber);
         assertNotNull(document.getDocumentNumber());
@@ -141,6 +175,11 @@ public class BudgetCategoryMaintenanceDocumentSeleniumTest extends KcSeleniumTes
         assertEquals(description, budgetCategory.getDescription());
     }
     
+    /**
+     * Create a new unique budget category code.
+     * 
+     * @return a new unique budget category code
+     */
     @SuppressWarnings("unchecked")
     private String getNewBudgetCategoryCode() {
         int maxBudgetCategoryCode = 1;

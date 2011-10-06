@@ -15,6 +15,7 @@
  */
 package org.kuali.kra.workflow.test;
 
+import java.io.IOException;
 import java.net.URL;
 import java.text.SimpleDateFormat;
 import java.util.Calendar;
@@ -27,7 +28,7 @@ import org.junit.Ignore;
 import org.junit.Test;
 import org.kuali.kra.infrastructure.TestUtilities;
 import org.kuali.kra.proposaldevelopment.document.ProposalDevelopmentDocument;
-import org.kuali.kra.proposaldevelopment.web.ProposalDevelopmentWebTestBase;
+import org.kuali.kra.test.infrastructure.KcWebTestBase;
 import org.kuali.rice.kew.dto.ActionRequestDTO;
 import org.kuali.rice.kew.dto.DocumentDetailDTO;
 import org.kuali.rice.kew.dto.NetworkIdDTO;
@@ -55,7 +56,29 @@ import com.gargoylesoftware.htmlunit.html.HtmlSubmitInput;
  * This class tests the KraServiceLocator
  */
 @Ignore
-public class ProposalDevelopmentDocumentRoutingWebTest extends ProposalDevelopmentWebTestBase {
+public class ProposalDevelopmentDocumentRoutingWebTest extends KcWebTestBase {
+    
+    private static final String DOCUMENT_DESCRIPTION_ID = "document.documentHeader.documentDescription";
+    private static final String PROPOSAL_SPONSOR_CODE_ID = "document.developmentProposalList[0].sponsorCode";
+    private static final String PROPOSAL_TITLE_ID = "document.developmentProposalList[0].title";
+    private static final String PROPOSAL_REQUESTED_START_DATE_ID = "document.developmentProposalList[0].requestedStartDateInitial";
+    private static final String PROPOSAL_REQUESTED_END_DATE_ID = "document.developmentProposalList[0].requestedEndDateInitial";
+    private static final String PROPOSAL_ACTIVITY_TYPE_CODE_ID = "document.developmentProposalList[0].activityTypeCode";
+    private static final String PROPOSAL_TYPE_CODE_ID = "document.developmentProposalList[0].proposalTypeCode";
+    private static final String PROPOSAL_OWNED_BY_UNIT_ID = "document.developmentProposalList[0].ownedByUnitNumber";
+    private static final String PROPOSAL_PRIME_SPONSOR_CODE_ID ="document.developmentProposalList[0].primeSponsorCode";
+    
+    private static final String DEFAULT_DOCUMENT_DESCRIPTION = "Proposal Development Web Test";
+    private static final String DEFAULT_PROPOSAL_SPONSOR_CODE = "005770";
+    private static final String DEFAULT_PROPOSAL_TITLE = "Project title";
+    private static final String DEFAULT_PROPOSAL_REQUESTED_START_DATE = "08/14/2007";
+    private static final String DEFAULT_PROPOSAL_REQUESTED_END_DATE = "08/21/2007";
+    private static final String DEFAULT_PROPOSAL_ACTIVITY_TYPE = "2"; // Dept Research
+    private static final String DEFAULT_PROPOSAL_TYPE_CODE = "1"; // New
+    private static final String DEFAULT_PROPOSAL_OWNED_BY_UNIT = "000001";
+    private static final String DEFAULT_PROPOSAL_PRIME_SPONSOR_CODE ="000120";
+    private static final String PROPOSAL_DEVOPMENT_DOCUMENT_NAME = "Kuali :: Proposal Development Document";
+    
     private static final int IMAGE_INPUT = 4;
     private static final int SUBMIT_INPUT_BY_NAME = 5;
     private static final int SUBMIT_INPUT_BY_VALUE = 6;
@@ -69,8 +92,8 @@ public class ProposalDevelopmentDocumentRoutingWebTest extends ProposalDevelopme
     private static final String PROPOSAL_CREATOR = "quickstart";
     private static final String AGGREGATOR_ROLENAME = "Aggregator";
     private static final String VIEWER_ROLENAME = "Viewer";
-    protected static final String PERMISSIONS_LINK_NAME = "permissions.x";
-    protected static final String KEY_PERSONNEL_LINK_NAME = "keyPersonnel.x";
+    private static final String PERMISSIONS_LINK_NAME = "permissions.x";
+    private static final String KEY_PERSONNEL_LINK_NAME = "keyPersonnel.x";
     private static final String RADIO_FIELD_VALUE = "Y";
     private static final String CREDIT_SPLIT_VALUE = "100.00";
     private static final String WORKFLOW_ADMIN_GROUP_ID = "1";
@@ -79,9 +102,12 @@ public class ProposalDevelopmentDocumentRoutingWebTest extends ProposalDevelopme
 //    private Lifecycle customKEWLifecycle = null;
     private static final String CUSTOM_DATA_LINK_NAME = "methodToCall.headerTab.headerDispatch.save.navigateTo.customData.x";
     private static final String QUESTIONS_LINK_NAME = "methodToCall.headerTab.headerDispatch.save.navigateTo.questions.x";
+    private static final String ACTIONS_LINK_NAME = "actions";
     private static final String GRADUATE_STUDENT_COUNT_ID = "customAttributeValues(id4)";
     private static final String BILLING_ELEMENT_ID = "customAttributeValues(id1)";
     private static final String BUTTON_SAVE = "save";
+    
+    private HtmlPage proposalDevelopmentPage;
 
 //    private File xmlBackupDir = null;
     
@@ -314,6 +340,82 @@ public class ProposalDevelopmentDocumentRoutingWebTest extends ProposalDevelopme
 
         return target;
     }
+    
+    /**
+     * Gets the Proposal Development web page for creating a new Proposal document.
+     * We don't want to test within the Portal.  This means that we will extract the
+     * proposal development web page from within the Portal's Inline Frame (iframe).
+     * 
+     * @return the Proposal Development web page.
+     */
+    private final HtmlPage getProposalDevelopmentPage() {
+        return this.proposalDevelopmentPage;
+    }
+    
+    /**
+     * Sets the proposal development page for tests. Typically, run out of <code>{@link #setUp()}</code>
+     * 
+     * @param proposalDevelopmentPage <code>{@link HtmlPage}</code> instance for the test
+     */
+    private final void setProposalDevelopmentPage(HtmlPage proposalDevelopmentPage) {
+        this.proposalDevelopmentPage = proposalDevelopmentPage;
+    }
+    
+    /**
+     * Create a new instance of the proposal development page by clicking on the link to the portal page. The resulting page of the click
+     *  through is a frame, so it is important to get the inner page.
+     * 
+     * @return <code>{@link HtmlPage}</code> instance of the proposal development page
+     * @throws IOException
+     */
+    private final HtmlPage buildProposalDevelopmentPage() throws Exception {
+        HtmlPage retval = clickOn(getPortalPage(), "Create Proposal", "Kuali Portal Index");
+        retval = getInnerPages(retval).get(0);
+
+        assertTrue(PROPOSAL_DEVOPMENT_DOCUMENT_NAME.equals(retval.getTitleText()));
+        return retval;
+    }
+    
+    /**
+     * Sets the Proposal Development's required fields to legal default values.
+     * @param page the Proposal Development web page.
+     */
+    private void setDefaultRequiredFields(HtmlPage page) {
+        setRequiredFields(page, DEFAULT_DOCUMENT_DESCRIPTION,
+                                DEFAULT_PROPOSAL_SPONSOR_CODE,
+                                DEFAULT_PROPOSAL_TITLE,
+                                DEFAULT_PROPOSAL_REQUESTED_START_DATE,
+                                DEFAULT_PROPOSAL_REQUESTED_END_DATE,
+                                DEFAULT_PROPOSAL_ACTIVITY_TYPE,
+                                DEFAULT_PROPOSAL_TYPE_CODE,
+                                DEFAULT_PROPOSAL_OWNED_BY_UNIT,
+                                DEFAULT_PROPOSAL_PRIME_SPONSOR_CODE);
+    }
+    
+    /**
+     * Sets the required fields for a Proposal Development document.
+     * 
+     * @param page the Proposal Development web page.
+     * @param description the value for the description field.
+     * @param sponsorCode the value for the sponsor code field.
+     * @param title the value for the title field.
+     * @param startDate the value for the requested start date field.
+     * @param endDate the value for the requested end date field.
+     * @param activityType the value for the activity type code.
+     * @param proposalType the value for the proposal type code.
+     * @param ownedByUnit the value for the owned by unit field.
+     */
+    private void setRequiredFields(HtmlPage page, String description, String sponsorCode, String title, String startDate, String endDate, String activityType, String proposalType, String ownedByUnit, String primeSponsorCodeId) {
+        setFieldValue(page, DOCUMENT_DESCRIPTION_ID, description);
+        setFieldValue(page, PROPOSAL_SPONSOR_CODE_ID, sponsorCode);
+        setFieldValue(page, PROPOSAL_TITLE_ID, title);
+        setFieldValue(page, PROPOSAL_REQUESTED_START_DATE_ID, startDate);
+        setFieldValue(page, PROPOSAL_REQUESTED_END_DATE_ID, endDate);
+        setFieldValue(page, PROPOSAL_ACTIVITY_TYPE_CODE_ID, activityType);
+        setFieldValue(page, PROPOSAL_TYPE_CODE_ID, proposalType);
+        setFieldValue(page, PROPOSAL_OWNED_BY_UNIT_ID, ownedByUnit);
+        setFieldValue(page, PROPOSAL_PRIME_SPONSOR_CODE_ID, primeSponsorCodeId);
+    }
 
     private HtmlPage login(WebClient webClient, URL url, String loginLocation, String userid) throws Exception {
         final HtmlPage page1 = (HtmlPage) webClient.getPage(url);
@@ -352,6 +454,11 @@ public class ProposalDevelopmentDocumentRoutingWebTest extends ProposalDevelopme
                 assertTrue(false);
                 return null;
         }
+    }
+    
+    protected HtmlPage clickOnTab(HtmlPage page, String tabName) throws Exception {
+        HtmlElement element = getElementByNameEndsWith(page, tabName);
+        return clickOn(element);
     }
 
     private String getImageTagName(HtmlPage page, String uniqueNamePrefix) {

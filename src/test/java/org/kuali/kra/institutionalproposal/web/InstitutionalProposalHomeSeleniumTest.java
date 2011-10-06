@@ -20,6 +20,9 @@ import org.junit.Before;
 import org.junit.Test;
 import org.kuali.kra.test.infrastructure.KcSeleniumTestBase;
 
+/**
+ * Tests the Home page of an Institutional Proposal.
+ */
 public class InstitutionalProposalHomeSeleniumTest extends KcSeleniumTestBase {
 
     private InstitutionalProposalSeleniumHelper helper;
@@ -38,6 +41,9 @@ public class InstitutionalProposalHomeSeleniumTest extends KcSeleniumTestBase {
         super.tearDown();
     }
     
+    /**
+     * Test the Home page.
+     */
     @Test
     public void testHomePage() throws Exception {
         helper.createInstitutionalProposal();

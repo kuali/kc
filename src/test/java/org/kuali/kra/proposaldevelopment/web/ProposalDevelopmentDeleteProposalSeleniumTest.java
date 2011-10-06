@@ -21,7 +21,7 @@ import org.junit.Test;
 import org.kuali.kra.budget.web.BudgetSeleniumHelper;
 import org.kuali.kra.test.infrastructure.KcSeleniumTestBase;
 
-public class ProposalDevelopmentDeleteProposalTest extends KcSeleniumTestBase {
+public class ProposalDevelopmentDeleteProposalSeleniumTest extends KcSeleniumTestBase {
     
     private ProposalDevelopmentSeleniumHelper proposalDevelopmentHelper;
     private BudgetSeleniumHelper budgetHelper;
