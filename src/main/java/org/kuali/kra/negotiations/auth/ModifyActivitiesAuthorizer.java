@@ -21,7 +21,8 @@ public class ModifyActivitiesAuthorizer extends NegotiationAuthorizer {
 
     @Override
     public boolean isAuthorized(String userId, NegotiationTask task) {
-        boolean retVal = hasPermission(userId, task.getNegotiation(), PermissionConstants.NEGOTIATION_MODIFY_ACTIVITIES);
+        boolean retVal = hasPermission(userId, task.getNegotiationDocument().getNegotiation(), PermissionConstants.NEGOTIATION_MODIFY_ACTIVITIES)
+            && !task.getNegotiationDocument().isViewOnly();
         return retVal;
     }
 
