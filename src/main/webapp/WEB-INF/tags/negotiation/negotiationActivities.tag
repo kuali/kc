@@ -5,6 +5,23 @@
 <c:set var="readOnly" value="${not KualiForm.editingMode['modify_activity']}"/>
 
 <script>
+function doFilterActivities() {
+	var showAll = $jq('input[name="filterActivities"]:checked').val() == 'All';
+	$jq('input[id*="endDate"]').filter('[id*="activities["]').each(function() {
+		if ($jq(this).val() != '') {
+			if (showAll) {
+				$jq(this).parents('div[id^="tab-"]').first().prev().show();
+				if ($jq(this).parents('div[id^="tab-"]').first().prev().find('input[id^="tab-"]').is('[src*="hide.gif"]')) {
+					$jq(this).parents('div[id^="tab-"]').first().show();
+				}
+				
+			} else {
+				$jq(this).parents('div[id^="tab-"]').first().prev().hide();
+				$jq(this).parents('div[id^="tab-"]').first().hide();
+			}
+		}
+	});
+}
 $jq(document).ready(function() {
 	$jq('input[name*="viewAttachment"]').hide();
 	$jq('input[name*="viewAttachment"]').click(function() {excludeSubmitRestriction = true});
@@ -12,6 +29,7 @@ $jq(document).ready(function() {
 
 	$jq('input[name*="methodToCall.sort"]').parent().hide();
 	$jq('select[name*="SortingTypeName"]').change(function() { $jq(this).parent().parent().find('input[name*="methodToCall.sort"]').click(); });
+	doFilterActivities();
 });
 </script>
 
@@ -38,6 +56,13 @@ $jq(document).ready(function() {
    
 	</td>
    </tr>
+    <th style="text-align: right; width: 5em;">Display:</th>
+    <th colspan="2" style="text-align:left;">
+      <label><html:radio property="filterActivities" value="All" onchange="doFilterActivities();">All</html:radio></label> 
+      <label><html:radio property="filterActivities" value="Pending" onchange="doFilterActivities();">Pending</html:radio></label>
+   	</th>
+   </tr>
+   
   </table>
   <c:forEach items="${KualiForm.document.negotiation.activities}" var="activity" varStatus="ctr">
   	<kra-negotiation:negotiationActivity activity="${activity}" activityIndex="${ctr.count-1}" parentTab="All Activities"/>
