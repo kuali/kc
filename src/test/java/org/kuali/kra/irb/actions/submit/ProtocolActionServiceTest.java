@@ -684,22 +684,22 @@ public class ProtocolActionServiceTest extends ProtocolActionServiceTestBase {
         protocol.setProtocolStatusCode("203");
         assertTrue(protocolActionService.canPerformAction("103", protocol));
 
-//      should no longer be able to create an amendment unless Protocol is in Active or Exempt status
-/*      protocol.setProtocolStatusCode("300");
-        assertTrue(protocolActionService.canPerformAction("103", protocol));
+        // following tests changed to "assertFalse" since they are not supposed to be authorized
+        protocol.setProtocolStatusCode("300");
+        assertFalse(protocolActionService.canPerformAction("103", protocol));
 
         protocol.setProtocolStatusCode("301");
-        assertTrue(protocolActionService.canPerformAction("103", protocol));
+        assertFalse(protocolActionService.canPerformAction("103", protocol));
 
         protocol.setProtocolStatusCode("302");
-        assertTrue(protocolActionService.canPerformAction("103", protocol));
+        assertFalse(protocolActionService.canPerformAction("103", protocol));
 
         protocol.setProtocolStatusCode("308");
-        assertTrue(protocolActionService.canPerformAction("103", protocol));
+        assertFalse(protocolActionService.canPerformAction("103", protocol));
 
         protocol.setProtocolStatusCode("311");
-        assertTrue(protocolActionService.canPerformAction("103", protocol));
-*/  }
+        assertFalse(protocolActionService.canPerformAction("103", protocol));
+    }
 
     @Test
     public void testActionTypeCode102() {
