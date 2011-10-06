@@ -13,8 +13,9 @@
  * See the License for the specific language governing permissions and
  * limitations under the License.
  */
-package org.kuali.kra.institutionalproposal.web;
+package org.kuali.kra.proposaldevelopment.web;
 
+import java.io.IOException;
 import java.util.Collections;
 import java.util.List;
 
@@ -25,15 +26,15 @@ import org.kuali.kra.infrastructure.Constants;
 import org.kuali.kra.test.infrastructure.KcSeleniumTestBase;
 
 /**
- * Tests the Special Review page of an Institutional Proposal.
+ * Tests the Special Review page of a Development Proposal.
  */
-public class InstitutionalProposalSpecialReviewSeleniumTest extends KcSeleniumTestBase {
+public class ProposalDevelopmentSpecialReviewSeleniumTest extends KcSeleniumTestBase {
     
     private static final String TABLE_ID = "specialReviewTableId";
     private static final String ERROR_PANEL_ID = "tab-SpecialReview-div";
-    
+
     private static final String HELPER_PREFIX = "specialReviewHelper.newSpecialReview.";
-    private static final String LIST_PREFIX = "document.institutionalProposalList[0].specialReviews[%d].";
+    private static final String LIST_PREFIX = "document.developmentProposalList[0].propSpecialReviews[%d].";
     
     private static final String SPECIAL_REVIEW_TYPE_CODE_ID = "specialReviewTypeCode";
     private static final String APPROVAL_TYPE_CODE_ID = "approvalTypeCode";
@@ -59,7 +60,7 @@ public class InstitutionalProposalSpecialReviewSeleniumTest extends KcSeleniumTe
     private static final String LIST_EXPIRATION_DATE_ID = LIST_PREFIX + EXPIRATION_DATE_ID;
     private static final String LIST_EXEMPTION_TYPE_CODES_ID = LIST_PREFIX + EXEMPTION_TYPE_CODES_ID;
     private static final String LIST_COMMENTS_ID = LIST_PREFIX + COMMENTS_ID;
-        
+    
     private static final String SPECIAL_REVIEW_TYPE_NAME = "Animal Usage";
     private static final String APPROVAL_TYPE_APPROVED_NAME = "Approved";
     private static final String APPROVAL_TYPE_EXEMPT_NAME = "Exempt";
@@ -73,13 +74,13 @@ public class InstitutionalProposalSpecialReviewSeleniumTest extends KcSeleniumTe
     private static final String ADD_SPECIAL_REVIEW_BUTTON = "methodToCall.addSpecialReview";
     private static final String DELETE_SPECIAL_REVIEW_BUTTON = "methodToCall.deleteSpecialReview.line%d";
     
-    private InstitutionalProposalSeleniumHelper helper;
+    private ProposalDevelopmentSeleniumHelper helper;
     
     @Before
     public void setUp() throws Exception {
         super.setUp();
         
-        helper = InstitutionalProposalSeleniumHelper.instance(driver);
+        helper = ProposalDevelopmentSeleniumHelper.instance(driver);
     }
     
     @After
@@ -94,8 +95,8 @@ public class InstitutionalProposalSpecialReviewSeleniumTest extends KcSeleniumTe
      */
     @Test
     public void testAddApprovedSpecialReview() throws Exception {
-        helper.createInstitutionalProposal();
-        helper.clickInstitutionalProposalSpecialReviewPage();
+        helper.createProposalDevelopment();
+        helper.clickProposalDevelopmentSpecialReviewPage();
         
         setApprovedSpecialReviewFields();
         helper.click(ADD_SPECIAL_REVIEW_BUTTON);
@@ -105,7 +106,7 @@ public class InstitutionalProposalSpecialReviewSeleniumTest extends KcSeleniumTe
                  Collections.<String>emptyList(), COMMENTS, 0);
         
         helper.closeAndSearchDocument();
-        helper.clickInstitutionalProposalSpecialReviewPage();
+        helper.clickProposalDevelopmentSpecialReviewPage();
         checkRow(SPECIAL_REVIEW_TYPE_NAME, APPROVAL_TYPE_APPROVED_NAME, PROTOCOL_NUMBER, APPLICATION_DATE, APPROVAL_DATE, EXPIRATION_DATE, 
                  Collections.<String>emptyList(), COMMENTS, 0);
     }
@@ -115,8 +116,8 @@ public class InstitutionalProposalSpecialReviewSeleniumTest extends KcSeleniumTe
      */
     @Test
     public void testAddExemptSpecialReview() throws Exception {
-        helper.createInstitutionalProposal();
-        helper.clickInstitutionalProposalSpecialReviewPage();
+        helper.createProposalDevelopment();
+        helper.clickProposalDevelopmentSpecialReviewPage();
         
         setExemptSpecialReviewFields();
         helper.click(ADD_SPECIAL_REVIEW_BUTTON);
@@ -126,7 +127,7 @@ public class InstitutionalProposalSpecialReviewSeleniumTest extends KcSeleniumTe
                  EXPIRATION_DATE, Collections.singletonList(EXEMPTION_TYPE_E1_NAME), COMMENTS, 0);
         
         helper.closeAndSearchDocument();
-        helper.clickInstitutionalProposalSpecialReviewPage();
+        helper.clickProposalDevelopmentSpecialReviewPage();
         checkRow(SPECIAL_REVIEW_TYPE_NAME, APPROVAL_TYPE_EXEMPT_NAME, Constants.EMPTY_STRING, APPLICATION_DATE, Constants.EMPTY_STRING, 
                  EXPIRATION_DATE, Collections.singletonList(EXEMPTION_TYPE_E1_NAME), COMMENTS, 0);
     }
@@ -136,22 +137,22 @@ public class InstitutionalProposalSpecialReviewSeleniumTest extends KcSeleniumTe
      */
     @Test
     public void testDeleteSpecialReview() throws Exception {
-        helper.createInstitutionalProposal();
-        helper.clickInstitutionalProposalSpecialReviewPage();
+        helper.createProposalDevelopment();
+        helper.clickProposalDevelopmentSpecialReviewPage();
         
         setApprovedSpecialReviewFields();
         helper.click(ADD_SPECIAL_REVIEW_BUTTON);
         helper.assertNoPageErrors();
         
         helper.closeAndSearchDocument();
-        helper.clickInstitutionalProposalSpecialReviewPage();
+        helper.clickProposalDevelopmentSpecialReviewPage();
         
         helper.click(String.format(DELETE_SPECIAL_REVIEW_BUTTON, 0));
         helper.clickYesAnswer();
         helper.assertTableRowCount(TABLE_ID, 3);
         
         helper.closeAndSearchDocument();
-        helper.clickInstitutionalProposalSpecialReviewPage();
+        helper.clickProposalDevelopmentSpecialReviewPage();
         helper.assertTableRowCount(TABLE_ID, 3);
     }
     
@@ -160,8 +161,8 @@ public class InstitutionalProposalSpecialReviewSeleniumTest extends KcSeleniumTe
      */
     @Test
     public void testAddErrorSpecialReview() throws Exception {
-        helper.createInstitutionalProposal();
-        helper.clickInstitutionalProposalSpecialReviewPage();
+        helper.createProposalDevelopment();
+        helper.clickProposalDevelopmentSpecialReviewPage();
         
         helper.click(ADD_SPECIAL_REVIEW_BUTTON);
         helper.assertErrorCount(ERROR_PANEL_ID, 2);
@@ -170,7 +171,7 @@ public class InstitutionalProposalSpecialReviewSeleniumTest extends KcSeleniumTe
     /**
      * Sets the fields for an approved special review.
      */
-    private void setApprovedSpecialReviewFields() {
+    private void setApprovedSpecialReviewFields() throws IOException {
         helper.set(HELPER_SPECIAL_REVIEW_TYPE_CODE_ID, SPECIAL_REVIEW_TYPE_NAME);
         helper.set(HELPER_APPROVAL_TYPE_CODE_ID, APPROVAL_TYPE_APPROVED_NAME);
         helper.set(HELPER_PROTOCOL_NUMBER_ID, PROTOCOL_NUMBER);

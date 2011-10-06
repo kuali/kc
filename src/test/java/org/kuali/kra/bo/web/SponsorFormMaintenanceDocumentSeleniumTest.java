@@ -29,6 +29,9 @@ import org.kuali.kra.bo.SponsorForms;
 import org.kuali.kra.test.infrastructure.KcSeleniumTestBase;
 import org.kuali.rice.kns.document.MaintenanceDocumentBase;
 
+/**
+ * Tests the Sponsor Form and Sponsor Form Template maintenance documents.
+ */
 public class SponsorFormMaintenanceDocumentSeleniumTest extends KcSeleniumTestBase {
     
     private static final String SPONSOR_FORM_DOCUMENT_TITLE = "Sponsor Forms";
@@ -83,6 +86,11 @@ public class SponsorFormMaintenanceDocumentSeleniumTest extends KcSeleniumTestBa
         super.tearDown();
     }
     
+    /**
+     * Test creating a sponsor form.
+     *
+     * @throws Exception
+     */
     @Test
     public void testCreateSponsorForm() throws Exception {
         int packageNumber = getNewPackageNumber();
@@ -91,6 +99,11 @@ public class SponsorFormMaintenanceDocumentSeleniumTest extends KcSeleniumTestBa
         verifyExistingSponsorFormMaintenanceDocument(documentNumber, packageNumber, CREATE_SPONSOR_FORM_SPONSOR_CODE);
     }
     
+    /**
+     * Test editing a sponsor form.
+     *
+     * @throws Exception
+     */
     @Test
     public void testEditSponsorForm() throws Exception {
         int packageNumber = getNewPackageNumber();
@@ -111,6 +124,11 @@ public class SponsorFormMaintenanceDocumentSeleniumTest extends KcSeleniumTestBa
         verifyExistingSponsorFormMaintenanceDocument(documentNumber, packageNumber, EDIT_SPONSOR_FORM_SPONSOR_CODE_2);
     }
 
+    /**
+     * Test copying a sponsor form.
+     *
+     * @throws Exception
+     */
     @Test
     public void testCopySponsorForm() throws Exception {
         int packageNumber1 = getNewPackageNumber();
@@ -134,6 +152,11 @@ public class SponsorFormMaintenanceDocumentSeleniumTest extends KcSeleniumTestBa
         verifyExistingSponsorFormMaintenanceDocument(documentNumber, packageNumber2, COPY_SPONSOR_FORM_SPONSOR_CODE_2);
     }
     
+    /**
+     * Test creating a sponsor form template.
+     *
+     * @throws Exception
+     */
     @Test
     public void testCreateSponsorFormTemplate() throws Exception {
         long sponsorFormId = createNewSponsorFormForSponsorFormTemplate();
@@ -144,6 +167,11 @@ public class SponsorFormMaintenanceDocumentSeleniumTest extends KcSeleniumTestBa
         verifyExistingSponsorFormTemplateMaintenanceDocument(documentNumber, sponsorFormId, CREATE_SPONSOR_FORM_TEMPLATE_PAGE_DESCRIPTION, pageNumber);
     }
     
+    /**
+     * Test editing a sponsor form template.
+     *
+     * @throws Exception
+     */
     @Test
     public void testEditSponsorFormTemplate() throws Exception {
         long sponsorFormId = createNewSponsorFormForSponsorFormTemplate();
@@ -164,7 +192,12 @@ public class SponsorFormMaintenanceDocumentSeleniumTest extends KcSeleniumTestBa
         
         verifyExistingSponsorFormTemplateMaintenanceDocument(documentNumber, sponsorFormId, EDIT_SPONSOR_FORM_TEMPLATE_PAGE_DESCRIPTION_2, pageNumber);
     }
-
+    
+    /**
+     * Test copying a sponsor form template.
+     *
+     * @throws Exception
+     */
     @Test
     public void testCopySponsorFormTemplate() throws Exception {
         long sponsorFormId = createNewSponsorFormForSponsorFormTemplate();
@@ -188,6 +221,14 @@ public class SponsorFormMaintenanceDocumentSeleniumTest extends KcSeleniumTestBa
         verifyExistingSponsorFormTemplateMaintenanceDocument(documentNumber, sponsorFormId, COPY_SPONSOR_FORM_TEMPLATE_PAGE_DESCRIPTION, pageNumber2);
     }
     
+    /**
+     * Create a new maintenance document.
+     * 
+     * @param documentDescription the document description
+     * @param packageNumber the package number
+     * @param sponsorCode the sponsor code
+     * @return the document number of the new maintenance document
+     */
     // TODO: Add template files
     private String createNewSponsorFormMaintenanceDocument(String documentDescription, int packageNumber, String sponsorCode) {
         String documentNumber = helper.createMaintenanceDocument(SPONSOR_FORM_DOCUMENT_TITLE, SponsorForms.class.getName(), SPONSOR_FORM_MAINTENANCE_DOCUMENT_TITLE);
@@ -205,6 +246,15 @@ public class SponsorFormMaintenanceDocumentSeleniumTest extends KcSeleniumTestBa
         return documentNumber;
     }
     
+    /**
+     * Create a new maintenance document.
+     * 
+     * @param documentDescription the document description
+     * @param sponsorFormId the sponsor form id
+     * @param packageDescription the package description
+     * @param pageNumber the page number
+     * @return the document number of the new maintenance document
+     */
     // TODO: Add template files
     private String createNewSponsorFormTemplateMaintenanceDocument(String documentDescription, long sponsorFormId, String pageDescription, int pageNumber) {
         String documentNumber = helper.createMaintenanceDocument(SPONSOR_FORM_TEMPLATE_DOCUMENT_TITLE, SponsorFormTemplate.class.getName(), SPONSOR_FORM_TEMPLATE_MAINTENANCE_DOCUMENT_TITLE);
@@ -222,6 +272,11 @@ public class SponsorFormMaintenanceDocumentSeleniumTest extends KcSeleniumTestBa
         return documentNumber;
     }
     
+    /**
+     * Creates a new sponsor form for a new sponsor form template.
+     * 
+     * @return the id of the new sponsor form
+     */
     @SuppressWarnings("unchecked")
     private long createNewSponsorFormForSponsorFormTemplate() {
         int packageNumber = getNewPackageNumber();
@@ -235,6 +290,14 @@ public class SponsorFormMaintenanceDocumentSeleniumTest extends KcSeleniumTestBa
         return sponsorForms.get(0).getSponsorFormId();
     }
     
+    /**
+     * Verify the details of an existing maintenance document.
+     *
+     * @param documentNumber the document of the maintenance document to verify
+     * @param packageNumber the package number
+     * @param sponsorCode the sponsor code
+     * @throws Exception
+     */
     private void verifyExistingSponsorFormMaintenanceDocument(String documentNumber, int packageNumber, String sponsorCode) throws Exception {
         MaintenanceDocumentBase document = (MaintenanceDocumentBase) getDocumentService().getByDocumentHeaderId(documentNumber);
         assertNotNull(document.getDocumentNumber());
@@ -246,6 +309,15 @@ public class SponsorFormMaintenanceDocumentSeleniumTest extends KcSeleniumTestBa
         assertEquals(sponsorCode, sponsorForm.getSponsorCode());
     }
     
+    /**
+     * Verify the details of an existing maintenance document.
+     *
+     * @param documentNumber the document of the maintenance document to verify
+     * @param sponsorFormId the sponsor form id
+     * @param packageDescription the package description
+     * @param pageNumber the page number
+     * @throws Exception
+     */
     private void verifyExistingSponsorFormTemplateMaintenanceDocument(String documentNumber, long sponsorFormId, String pageDescription, int pageNumber) throws Exception {
         MaintenanceDocumentBase document = (MaintenanceDocumentBase) getDocumentService().getByDocumentHeaderId(documentNumber);
         assertNotNull(document.getDocumentNumber());
@@ -257,6 +329,11 @@ public class SponsorFormMaintenanceDocumentSeleniumTest extends KcSeleniumTestBa
         assertEquals(Integer.valueOf(pageNumber), sponsorFormTemplate.getPageNumber());
     }
     
+    /**
+     * Create a new unique package number.
+     * 
+     * @return a new unique package number
+     */
     @SuppressWarnings("unchecked")
     private int getNewPackageNumber() {
         int maxPackageNumber = 1;
@@ -273,6 +350,12 @@ public class SponsorFormMaintenanceDocumentSeleniumTest extends KcSeleniumTestBa
         return maxPackageNumber + 1;
     }
     
+    /**
+     * Create a new unique page number.
+     * 
+     * @param sponsorFormId the sponsor form id
+     * @return a new unique page number
+     */
     @SuppressWarnings("unchecked")
     private int getNewPageNumber(long sponsorFormId) {
         int maxPageNumber = 1;

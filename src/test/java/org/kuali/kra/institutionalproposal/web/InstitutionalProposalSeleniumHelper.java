@@ -15,7 +15,6 @@
  */
 package org.kuali.kra.institutionalproposal.web;
 
-import org.kuali.kra.infrastructure.TestUtilities;
 import org.kuali.kra.test.infrastructure.KcSeleniumHelper;
 import org.openqa.selenium.WebDriver;
 
@@ -39,14 +38,19 @@ public class InstitutionalProposalSeleniumHelper extends KcSeleniumHelper {
     private static final String DISTRIBUTION_LINK_NAME = "distribution";
     private static final String ACTIONS_LINK_NAME = "institutionalProposalActions";
     
+    private static final String INSTITUTIONAL_PROPOSAL_TAB_ID = "Institutional Proposal";
+    private static final String SPONSOR_PROGRAM_INFORMATION_TAB_ID = "Sponsor Program Information";
+    private static final String PERSONNEL_ITEMS_FOR_REVIEW_TAB_ID = "Personnel Items for Review";
+    private static final String ASDF_TAB_ID = "asdf asdf asdf asdf asdf asdf asdf asdf asdf asdf asdf asdf asdf asdf asdf asdf asdf asdf";
+    
     private static final String DOCUMENT_DESCRIPTION_ID = "document.documentHeader.documentDescription";
     
     private static final String PL_DEFAULT_DOCUMENT_DESCRIPTION = "Proposal Log Web Test";
     private static final String PL_LIST_PREFIX = "document.newMaintainableObject.";
     private static final String PL_PROPOSAL_TYPE_CODE_ID = PL_LIST_PREFIX + "proposalTypeCode";
-    private static final String PL_TITLE = PL_LIST_PREFIX + "title";
-    private static final String PL_PERSON_USER_NAME = PL_LIST_PREFIX + "person.userName";
-    private static final String PL_LEAD_UNIT = PL_LIST_PREFIX + "leadUnit";
+    private static final String PL_TITLE_ID = PL_LIST_PREFIX + "title";
+    private static final String PL_PERSON_USER_NAME_ID = PL_LIST_PREFIX + "person.userName";
+    private static final String PL_LEAD_UNIT_ID = PL_LIST_PREFIX + "leadUnit";
     
     private static final String IP_LIST_PREFIX = "document.institutionalProposalList[0].";
     private static final String IP_STATUS_CODE_ID = "document.institutionalProposal.statusCode";
@@ -71,6 +75,8 @@ public class InstitutionalProposalSeleniumHelper extends KcSeleniumHelper {
     private static final String IP_DEFAULT_PROJECT_TITLE = "Test Project";
     private static final String IP_DEFAULT_SPONSOR_CODE = "005891";
     private static final String IP_DEFAULT_TOTAL_CREDIT_SPLIT = "100.00";
+    private static final String IP_DEFAULT_GRADUATE_STUDENT_COUNT = "5";
+    private static final String IP_DEFAULT_BILLING_ELEMENT = "College";
     
     private static InstitutionalProposalSeleniumHelper helper;
     
@@ -144,9 +150,9 @@ public class InstitutionalProposalSeleniumHelper extends KcSeleniumHelper {
         
         set(DOCUMENT_DESCRIPTION_ID, PL_DEFAULT_DOCUMENT_DESCRIPTION);
         set(PL_PROPOSAL_TYPE_CODE_ID, PL_DEFAULT_PROPSAL_TYPE);
-        set(PL_TITLE, PL_DEFAULT_TITLE);
-        set(PL_PERSON_USER_NAME, PL_DEFAULT_PERSON_USER_NAME);
-        set(PL_LEAD_UNIT, PL_DEFAULT_LEAD_UNIT);
+        set(PL_TITLE_ID, PL_DEFAULT_TITLE);
+        set(PL_PERSON_USER_NAME_ID, PL_DEFAULT_PERSON_USER_NAME);
+        set(PL_LEAD_UNIT_ID, PL_DEFAULT_LEAD_UNIT);
         
         blanketApproveDocument();
     }
@@ -188,14 +194,14 @@ public class InstitutionalProposalSeleniumHelper extends KcSeleniumHelper {
      */
     private void setDefaultRequiredFields() {
         set(DOCUMENT_DESCRIPTION_ID, IP_DEFAULT_DOCUMENT_DESCRIPTION);
-        
-        openTab("Institutional Proposal");
+
+        openTab(INSTITUTIONAL_PROPOSAL_TAB_ID);
         set(IP_STATUS_CODE_ID, IP_DEFAULT_STATUS);
         set(IP_PROPOSAL_TYPE_CODE_ID, IP_DEFAULT_PROPOSAL_TYPE);
         set(IP_ACTIVITY_TYPE_CODE_ID, IP_DEFAULT_ACTIVITY_TYPE);
         set(IP_TITLE_ID, IP_DEFAULT_PROJECT_TITLE);
         
-        openTab("Sponsor Program Information");
+        openTab(SPONSOR_PROGRAM_INFORMATION_TAB_ID);
         set(IP_SPONSOR_CODE_ID, IP_DEFAULT_SPONSOR_CODE);
     }
     
@@ -219,11 +225,11 @@ public class InstitutionalProposalSeleniumHelper extends KcSeleniumHelper {
     public void addCustomData() {
         clickInstitutionalProposalCustomDataPage();
 
-        openTab("Personnel Items for Review");
-        set(IP_GRADUATE_STUDENT_COUNT_ID, TestUtilities.GRADUATE_STUDENT_COUNT_VALUE);
+        openTab(PERSONNEL_ITEMS_FOR_REVIEW_TAB_ID);
+        set(IP_GRADUATE_STUDENT_COUNT_ID, IP_DEFAULT_GRADUATE_STUDENT_COUNT);
         
-        openTab("asdf asdf asdf asdf asdf asdf asdf asdf asdf asdf asdf asdf asdf asdf asdf asdf asdf asdf");
-        set(IP_BILLING_ELEMENT_ID, TestUtilities.BILLING_ELEMENT_VALUE);
+        openTab(ASDF_TAB_ID);
+        set(IP_BILLING_ELEMENT_ID, IP_DEFAULT_BILLING_ELEMENT);
     }
     
     /**

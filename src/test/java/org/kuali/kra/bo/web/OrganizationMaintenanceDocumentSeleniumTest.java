@@ -30,6 +30,9 @@ import org.kuali.kra.proposaldevelopment.bo.ActivityType;
 import org.kuali.kra.test.infrastructure.KcSeleniumTestBase;
 import org.kuali.rice.kns.document.MaintenanceDocumentBase;
 
+/**
+ * Tests the Organization maintenance document.
+ */
 public class OrganizationMaintenanceDocumentSeleniumTest extends KcSeleniumTestBase {
     
     private static final String DOCUMENT_TITLE = "Organization";
@@ -94,6 +97,11 @@ public class OrganizationMaintenanceDocumentSeleniumTest extends KcSeleniumTestB
         super.tearDown();
     }
 
+    /**
+     * Test creating an organization.
+     *
+     * @throws Exception
+     */
     @Test
     public void testCreateOrganization() throws Exception {
         String organizationId = getNewOrganizationId();
@@ -102,7 +110,11 @@ public class OrganizationMaintenanceDocumentSeleniumTest extends KcSeleniumTestB
         verifyExistingMaintenanceDocument(documentNumber, organizationId, CREATE_CONTACT_ADDRESS_ID, CREATE_ORGANIZATION_NAME);
     }
 
-    
+    /**
+     * Test editing an organization.
+     *
+     * @throws Exception
+     */
     @Test
     public void testEditOrganization() throws Exception {
         String organizationId = getNewOrganizationId();
@@ -122,6 +134,11 @@ public class OrganizationMaintenanceDocumentSeleniumTest extends KcSeleniumTestB
         verifyExistingMaintenanceDocument(documentNumber, organizationId, EDIT_CONTACT_ADDRESS_ID_2, EDIT_ORGANIZATION_NAME);
     }
     
+    /**
+     * Test copying an organization.
+     *
+     * @throws Exception
+     */
     @Test
     public void testCopyOrganization() throws Exception {
         String organizationId1 = getNewOrganizationId();
@@ -144,6 +161,16 @@ public class OrganizationMaintenanceDocumentSeleniumTest extends KcSeleniumTestB
         verifyExistingMaintenanceDocument(documentNumber, organizationId2, COPY_CONTACT_ADDRESS_ID_2, COPY_ORGANIZATION_NAME_2);
     }
     
+    /**
+     * Create a new maintenance document.
+     * 
+     * @param documentDescription the document description
+     * @param organizationId the organization id
+     * @param contactAddressId the contact address id
+     * @param organizationName the organization name
+     * @param numberYnqs the number of YNQs
+     * @return the document number of the new maintenance document
+     */
     private String createNewMaintenanceDocument(String documentDescription, String organizationId, int contactAddressId, String organizationName, int numberYnqs) {
         String documentNumber = helper.createMaintenanceDocument(DOCUMENT_TITLE, Organization.class.getName(), MAINTENANCE_DOCUMENT_TITLE);
     
@@ -185,6 +212,16 @@ public class OrganizationMaintenanceDocumentSeleniumTest extends KcSeleniumTestB
         return documentNumber;
     }
     
+    /**
+     * Verify the details of an existing maintenance document.
+     *
+     * @param documentNumber the document of the maintenance document to verify
+     * @param organizationId the organization id
+     * @param contactAddressId the contact address id
+     * @param organizationName the organization name
+     * @param numberYnqs the number of YNQs
+     * @throws Exception
+     */
     private void verifyExistingMaintenanceDocument(String documentNumber, String organizationId, int contactAddressId, String organizationName) throws Exception {
         MaintenanceDocumentBase document = (MaintenanceDocumentBase) getDocumentService().getByDocumentHeaderId(documentNumber);
         assertNotNull(document.getDocumentNumber());
@@ -199,6 +236,11 @@ public class OrganizationMaintenanceDocumentSeleniumTest extends KcSeleniumTestB
         assertEquals(Integer.valueOf(DEFAULT_ORGANIZATION_IDCS_IDC_NUMBER), organization.getOrganizationIdcs().get(0).getIdcNumber());
     }
     
+    /**
+     * Create a new unique organization id.
+     * 
+     * @return a new unique organization id
+     */
     @SuppressWarnings("unchecked")
     private String getNewOrganizationId() {
         int maxOrganizationId = 1;

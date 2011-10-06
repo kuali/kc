@@ -15,7 +15,6 @@
  */
 package org.kuali.kra.proposaldevelopment.web;
 
-import org.kuali.kra.infrastructure.TestUtilities;
 import org.kuali.kra.test.infrastructure.KcSeleniumHelper;
 import org.openqa.selenium.WebDriver;
 
@@ -37,6 +36,11 @@ public class ProposalDevelopmentSeleniumHelper extends KcSeleniumHelper {
     private static final String BUDGET_VERSIONS_LINK_NAME = "budgetVersions";
     private static final String PERMISSIONS_LINK_NAME = "permissions";
     private static final String ACTIONS_LINK_NAME = "actions";
+    
+    private static final String PERSONNEL_ITEMS_FOR_REVIEW_TAB_ID = "Personnel Items for Review";
+    private static final String ASDF_TAB_ID = "asdf asdf asdf asdf asdf asdf asdf asdf asdf asdf asdf asdf asdf asdf asdf asdf asdf asdf";
+    private static final String GRANTS_GOV_AGENCY_SPECIFIC_QUESTIONS_TAB_ID = "Grants gov Agency Specific Questions";
+    private static final String PROPOSAL_QUESTIONS_TAB_ID = "Proposal Questions";
     
     private static final String DOCUMENT_DESCRIPTION_ID = "document.documentHeader.documentDescription";
     private static final String LIST_PREFIX = "document.developmentProposalList[0].";
@@ -74,6 +78,8 @@ public class ProposalDevelopmentSeleniumHelper extends KcSeleniumHelper {
     private static final String DEFAULT_PI_NAME = "Nicholas Majors";
     private static final String DEFAULT_PI_CONTACT_ROLE = "Principal Investigator";
     private static final String DEFAULT_TOTAL_CREDIT_SPLIT = "100.00";
+    private static final String DEFAULT_GRADUATE_STUDENT_COUNT = "5";
+    private static final String DEFAULT_BILLING_ELEMENT = "College";
     private static final String DEFAULT_BUDGET_VERSION_NAME = "Ver1";
     private static final String DEFAULT_BUDGET_STATUS = "Complete";
     private static final String DEFAULT_APPROVER = "jtester";
@@ -240,11 +246,11 @@ public class ProposalDevelopmentSeleniumHelper extends KcSeleniumHelper {
     public void addCustomData() {
         clickProposalDevelopmentCustomDataPage();
 
-        openTab("Personnel Items for Review");
-        set(GRADUATE_STUDENT_COUNT_ID, TestUtilities.GRADUATE_STUDENT_COUNT_VALUE);
+        openTab(PERSONNEL_ITEMS_FOR_REVIEW_TAB_ID);
+        set(GRADUATE_STUDENT_COUNT_ID, DEFAULT_GRADUATE_STUDENT_COUNT);
         
-        openTab("asdf asdf asdf asdf asdf asdf asdf asdf asdf asdf asdf asdf asdf asdf asdf asdf asdf asdf");
-        set(BILLING_ELEMENT_ID, TestUtilities.BILLING_ELEMENT_VALUE);
+        openTab(ASDF_TAB_ID);
+        set(BILLING_ELEMENT_ID, DEFAULT_BILLING_ELEMENT);
     }
     
     /**
@@ -253,10 +259,10 @@ public class ProposalDevelopmentSeleniumHelper extends KcSeleniumHelper {
     public void addQuestions() {
         clickProposalDevelopmentQuestionsPage();
 
-        openTab("Grants gov Agency Specific Questions");
+        openTab(GRANTS_GOV_AGENCY_SPECIFIC_QUESTIONS_TAB_ID);
         set(String.format(YNQS_ID, 20), YES_RADIO_FIELD_VALUE);
         
-        openTab("Proposal Questions");
+        openTab(PROPOSAL_QUESTIONS_TAB_ID);
         set(String.format(YNQS_ID, 0), NO_RADIO_FIELD_VALUE);
         set(String.format(YNQS_ID, 1), NO_RADIO_FIELD_VALUE);
         set(String.format(YNQS_ID, 2), NO_RADIO_FIELD_VALUE);

@@ -29,6 +29,9 @@ import org.kuali.kra.bo.InstituteRate;
 import org.kuali.kra.test.infrastructure.KcSeleniumTestBase;
 import org.kuali.rice.kns.document.MaintenanceDocumentBase;
 
+/**
+ * Tests the Institute Rate maintenance document.
+ */
 public class InstituteRateMaintenanceDocumentSeleniumTest extends KcSeleniumTestBase {
     
     private static final String DOCUMENT_TITLE = "Institute Rate";
@@ -79,6 +82,11 @@ public class InstituteRateMaintenanceDocumentSeleniumTest extends KcSeleniumTest
         super.tearDown();
     }
     
+    /**
+     * Test creating an institute rate.
+     *
+     * @throws Exception
+     */
     @Test
     public void testCreateInstituteRate() throws Exception {
         String fiscalYear = getNewFiscalYear();
@@ -88,6 +96,11 @@ public class InstituteRateMaintenanceDocumentSeleniumTest extends KcSeleniumTest
         verifyExistingMaintenanceDocument(documentNumber, fiscalYear, startDate, CREATE_RATE);
     }
 
+    /**
+     * Test editing an institute rate.
+     *
+     * @throws Exception
+     */
     @Test
     public void testEditInstituteRate() throws Exception {
         String fiscalYear = getNewFiscalYear();
@@ -109,6 +122,11 @@ public class InstituteRateMaintenanceDocumentSeleniumTest extends KcSeleniumTest
         verifyExistingMaintenanceDocument(documentNumber, fiscalYear, startDate, EDIT_RATE_2);
     }
 
+    /**
+     * Test copying an institute rate.
+     *
+     * @throws Exception
+     */
     @Test
     public void testCopyInstituteRate() throws Exception {
         String fiscalYear1 = getNewFiscalYear();
@@ -140,6 +158,15 @@ public class InstituteRateMaintenanceDocumentSeleniumTest extends KcSeleniumTest
         verifyExistingMaintenanceDocument(documentNumber, fiscalYear2, startDate2, COPY_RATE);
     }
     
+    /**
+     * Create a new maintenance document.
+     * 
+     * @param documentDescription the document description
+     * @param fiscalYear the fiscal year
+     * @param startDate the start date
+     * @param rate the rate
+     * @return the document number of the new maintenance document
+     */
     private String createNewMaintenanceDocument(String documentDescription, String fiscalYear, String startDate, String rate) {
         String documentNumber = helper.createMaintenanceDocument(DOCUMENT_TITLE, InstituteRate.class.getName(), MAINTENANCE_DOCUMENT_TITLE);
     
@@ -162,6 +189,15 @@ public class InstituteRateMaintenanceDocumentSeleniumTest extends KcSeleniumTest
         return documentNumber;
     }
     
+    /**
+     * Verify the details of an existing maintenance document.
+     *
+     * @param documentNumber the document of the maintenance document to verify
+     * @param fiscalYear the fiscal year
+     * @param startDate the start date
+     * @param rate the rate
+     * @throws Exception
+     */
     private void verifyExistingMaintenanceDocument(String documentNumber, String fiscalYear, String startDate, String rate) throws Exception {
         MaintenanceDocumentBase document = (MaintenanceDocumentBase) getDocumentService().getByDocumentHeaderId(documentNumber);
         assertNotNull(document.getDocumentNumber());
@@ -179,6 +215,11 @@ public class InstituteRateMaintenanceDocumentSeleniumTest extends KcSeleniumTest
         assertEquals(DEFAULT_ACTIVE, instituteRate.getActive());
     }
     
+    /**
+     * Create a new unique fiscal year.
+     * 
+     * @return a new unique fiscal year
+     */
     @SuppressWarnings("unchecked")
     private String getNewFiscalYear() {
         int maxFiscalYear = 1;

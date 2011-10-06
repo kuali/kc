@@ -16,7 +16,6 @@
 package org.kuali.kra.award.web;
 
 import org.kuali.kra.award.AwardFixtureFactory;
-import org.kuali.kra.infrastructure.TestUtilities;
 import org.kuali.kra.test.infrastructure.KcSeleniumHelper;
 import org.openqa.selenium.WebDriver;
 
@@ -39,6 +38,11 @@ public class AwardSeleniumHelper extends KcSeleniumHelper {
     private static final String ACTIONS_LINK_NAME = "awardActions";
     private static final String MEDUSA_LINK_NAME = "medusa";
     private static final String TIME_AND_MONEY_LINK_NAME = "methodToCall.timeAndMoney";
+    
+    private static final String SPONSOR_TEMPLATE_TAB_ID = "Sponsor Template";
+    private static final String KEY_PERSONNEL_AND_CREDIT_SPLIT_TAB_ID = "Key Personnel and Credit Split";
+    private static final String PERSONNEL_ITEMS_FOR_REVIEW_TAB_ID = "Personnel Items for Review";
+    private static final String ASDF_TAB_ID = "asdf asdf asdf asdf asdf asdf asdf asdf asdf asdf asdf asdf asdf asdf asdf asdf asdf asdf";
     
     private static final String DOCUMENT_DESCRIPTION_ID = "document.documentHeader.documentDescription";
     private static final String LIST_PREFIX = "document.awardList[0].";
@@ -86,6 +90,8 @@ public class AwardSeleniumHelper extends KcSeleniumHelper {
     private static final String DEFAULT_PI_PERSON_NAME = "majors";
     private static final String DEFAULT_PI_CONTACT_ROLE = "Principal Investigator";
     private static final String DEFAULT_TOTAL_CREDIT_SPLIT = "100";
+    private static final String DEFAULT_GRADUATE_STUDENT_COUNT = "5";
+    private static final String DEFAULT_BILLING_ELEMENT = "College";
     private static final String DEFAULT_BUDGET_VERSION_NAME = "Ver1";
     private static final String DEFAULT_BUDGET_STATUS = "Complete";
     
@@ -228,7 +234,7 @@ public class AwardSeleniumHelper extends KcSeleniumHelper {
     public void addSponsorTemplate() {
         clickAwardHomePage();
         
-        openTab("Sponsor Template");
+        openTab(SPONSOR_TEMPLATE_TAB_ID);
         set(TEMPLATE_CODE_TAG, DEFAULT_SPONSOR_TEMPLATE_CODE);
         click(APPLY_AWARD_TEMPLATE_BUTTON);
         clickYesAnswer();
@@ -241,7 +247,7 @@ public class AwardSeleniumHelper extends KcSeleniumHelper {
     public void addContacts() {
         clickAwardContactsPage();
 
-        openTab("Key Personnel and Credit Split");
+        openTab(KEY_PERSONNEL_AND_CREDIT_SPLIT_TAB_ID);
         set(PERSON_NAME_TAG, DEFAULT_PI_PERSON_NAME);
         set(CONTACT_ROLE_CODE_ID, DEFAULT_PI_CONTACT_ROLE);
         click(ADD_PERSON_BUTTON);
@@ -258,11 +264,11 @@ public class AwardSeleniumHelper extends KcSeleniumHelper {
     public void addCustomData() {
         clickAwardCustomDataPage();
         
-        openTab("Personnel Items for Review");
-        set(GRADUATE_STUDENT_COUNT_ID, TestUtilities.GRADUATE_STUDENT_COUNT_VALUE);
+        openTab(PERSONNEL_ITEMS_FOR_REVIEW_TAB_ID);
+        set(GRADUATE_STUDENT_COUNT_ID, DEFAULT_GRADUATE_STUDENT_COUNT);
         
-        openTab("asdf asdf asdf asdf asdf asdf asdf asdf asdf asdf asdf asdf asdf asdf asdf asdf asdf asdf");
-        set(BILLING_ELEMENT_ID, TestUtilities.BILLING_ELEMENT_VALUE);
+        openTab(ASDF_TAB_ID);
+        set(BILLING_ELEMENT_ID, DEFAULT_BILLING_ELEMENT);
     }
     
     /**
