@@ -17,7 +17,7 @@ package org.kuali.kra.negotiations.auth;
 
 import org.kuali.kra.authorization.Task;
 import org.kuali.kra.infrastructure.TaskGroupName;
-import org.kuali.kra.negotiations.bo.Negotiation;
+import org.kuali.kra.negotiations.document.NegotiationDocument;
 
 /**
  * 
@@ -25,20 +25,24 @@ import org.kuali.kra.negotiations.bo.Negotiation;
  */
 public class NegotiationTask extends Task {
     
-    private Negotiation negotiation;
-    
+    private NegotiationDocument negotiationDocument;
+
     /**
      * 
      * Constructs a NegotiationTask.java.
      * @param taskName
      * @param negotiation
      */
-    public NegotiationTask(String taskName, Negotiation negotiation) {
+    public NegotiationTask(String taskName, NegotiationDocument negotiationDocument) {
         super(TaskGroupName.NEGOTIATION, taskName);
-        this.negotiation = negotiation;
+        this.negotiationDocument = negotiationDocument;
+    }
+    
+    public NegotiationDocument getNegotiationDocument() {
+        return negotiationDocument;
     }
 
-    public Negotiation getNegotiation() {
-        return negotiation;
-    }
+    public void setNegotiationDocument(NegotiationDocument negotiationDocument) {
+        this.negotiationDocument = negotiationDocument;
+    }    
 }

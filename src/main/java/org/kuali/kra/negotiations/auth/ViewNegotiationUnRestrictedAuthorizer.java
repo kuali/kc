@@ -22,7 +22,7 @@ public class ViewNegotiationUnRestrictedAuthorizer extends NegotiationAuthorizer
     @Override
     public boolean isAuthorized(String userId, NegotiationTask task) {
         
-        boolean retVal = hasPermission(userId, task.getNegotiation(), PermissionConstants.NEGOTIATION_VIEW_NEGOTIATION_UNRESTRICTED);
+        boolean retVal = hasPermission(userId, task.getNegotiationDocument().getNegotiation(), PermissionConstants.NEGOTIATION_VIEW_NEGOTIATION_UNRESTRICTED);
         return retVal;
     }
 
