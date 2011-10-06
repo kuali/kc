@@ -5,6 +5,9 @@ import org.junit.Before;
 import org.junit.Test;
 import org.kuali.kra.test.infrastructure.KcSeleniumTestBase;
 
+/**
+ * Tests the basic submission of a Protocol.
+ */
 public class ProtocolCompleteSeleniumTest extends KcSeleniumTestBase {
     
     private ProtocolSeleniumHelper helper;
@@ -23,6 +26,9 @@ public class ProtocolCompleteSeleniumTest extends KcSeleniumTestBase {
         super.tearDown();
     }
 
+    /**
+     * Test the basic submission of a protocol.
+     */
 	@Test
 	public void testProtocolComplete() throws Exception {
 	    helper.createProtocol();

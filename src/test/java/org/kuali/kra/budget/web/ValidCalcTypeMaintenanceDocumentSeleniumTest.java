@@ -27,6 +27,9 @@ import org.kuali.kra.budget.calculator.ValidCalcType;
 import org.kuali.kra.test.infrastructure.KcSeleniumTestBase;
 import org.kuali.rice.kns.document.MaintenanceDocumentBase;
 
+/**
+ * Tests the Valid Calc Type maintenance document.
+ */
 public class ValidCalcTypeMaintenanceDocumentSeleniumTest extends KcSeleniumTestBase {
     
     private static final String DOCUMENT_TITLE = "Valid Calculation Type";
@@ -79,6 +82,11 @@ public class ValidCalcTypeMaintenanceDocumentSeleniumTest extends KcSeleniumTest
         super.tearDown();
     }
     
+    /**
+     * Test creating a valid calc type.
+     *
+     * @throws Exception
+     */
     @Test
     public void testCreateValidCalcType() throws Exception {
         String calcTypeId = getNewCalcTypeId();
@@ -87,6 +95,11 @@ public class ValidCalcTypeMaintenanceDocumentSeleniumTest extends KcSeleniumTest
         verifyExistingMaintenanceDocument(documentNumber, calcTypeId, CREATE_DEPENDENT_RATE_CLASS_TYPE, CREATE_RATE_CLASS_CODE, CREATE_RATE_TYPE_CODE);
     }
 
+    /**
+     * Test editing a valid calc type.
+     *
+     * @throws Exception
+     */
     @Test
     public void testEditValidCalcType() throws Exception {
         String calcTypeId = getNewCalcTypeId();
@@ -108,6 +121,11 @@ public class ValidCalcTypeMaintenanceDocumentSeleniumTest extends KcSeleniumTest
         verifyExistingMaintenanceDocument(documentNumber, calcTypeId, EDIT_DEPENDENT_RATE_CLASS_TYPE_2, EDIT_RATE_CLASS_CODE_2, EDIT_RATE_TYPE_CODE_2);
     }
 
+    /**
+     * Test copying a valid calc type.
+     *
+     * @throws Exception
+     */
     @Test
     public void testCopyValidCalcType() throws Exception {
         String calcTypeId1 = getNewCalcTypeId();
@@ -133,6 +151,16 @@ public class ValidCalcTypeMaintenanceDocumentSeleniumTest extends KcSeleniumTest
         verifyExistingMaintenanceDocument(documentNumber, calcTypeId2, COPY_DEPENDENT_RATE_CLASS_TYPE_2, COPY_RATE_CLASS_CODE_2, COPY_RATE_TYPE_CODE_2);
     }
     
+    /**
+     * Create a new maintenance document.
+     * 
+     * @param documentDescription the document description
+     * @param calcTypeId the calc type id
+     * @param dependentRateClassType the dependent rate class type
+     * @param rateClassCode the rate class code
+     * @param rateTypeCode the rate type code
+     * @return the document number of the new maintenance document
+     */
     private String createNewMaintenanceDocument(String documentDescription, String calcTypeId, String dependentRateClassType, String rateClassCode, String rateTypeCode) {
         String documentNumber = helper.createMaintenanceDocument(DOCUMENT_TITLE, ValidCalcType.class.getName(), MAINTENANCE_DOCUMENT_TITLE);
     
@@ -151,6 +179,16 @@ public class ValidCalcTypeMaintenanceDocumentSeleniumTest extends KcSeleniumTest
         return documentNumber;
     }
     
+    /**
+     * Verify the details of an existing maintenance document.
+     *
+     * @param documentNumber the document of the maintenance document to verify
+     * @param calcTypeId the calc type id
+     * @param dependentRateClassType the dependent rate class type
+     * @param rateClassCode the rate class code
+     * @param rateTypeCode the rate type code
+     * @throws Exception
+     */
     private void verifyExistingMaintenanceDocument(String documentNumber, String calcTypeId, String dependentRateClassType, String rateClassCode, String rateTypeCode) throws Exception {
         MaintenanceDocumentBase document = (MaintenanceDocumentBase) getDocumentService().getByDocumentHeaderId(documentNumber);
         assertNotNull(document.getDocumentNumber());
@@ -165,6 +203,11 @@ public class ValidCalcTypeMaintenanceDocumentSeleniumTest extends KcSeleniumTest
         assertEquals(rateTypeCode, validCalcType.getRateTypeCode());
     }
     
+    /**
+     * Create a new unique calc type id.
+     * 
+     * @return a new unique calc type id
+     */
     @SuppressWarnings("unchecked")
     private String getNewCalcTypeId() {
         int maxCalcTypeId = 1;

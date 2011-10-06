@@ -39,10 +39,14 @@ public class AwardBudgetBasicSeleniumTest extends KcSeleniumTestBase {
         
         helper = AwardSeleniumHelper.instance(driver);
         budgetHelper = BudgetSeleniumHelper.instance(driver);
+
+        helper.loginBackdoor();
     }
     
     @After
     public void tearDown() throws Exception {
+        helper.loginBackdoor();
+        
         helper = null;
         
         super.tearDown();
@@ -91,14 +95,14 @@ public class AwardBudgetBasicSeleniumTest extends KcSeleniumTestBase {
     }
     
     protected void approveBudget() {
-        helper.login("jtester");
+        helper.loginBackdoor("jtester");
         helper.docSearch(awardBudgetDocNbr);
         budgetHelper.clickBudgetActionsTab();
         budgetHelper.approveDocument();
     }
     
     protected void postBudget() {
-        helper.login("quickstart");
+        helper.loginBackdoor();
         helper.docSearch(awardBudgetDocNbr);
         budgetHelper.clickBudgetActionsTab();
         budgetHelper.postBudget();

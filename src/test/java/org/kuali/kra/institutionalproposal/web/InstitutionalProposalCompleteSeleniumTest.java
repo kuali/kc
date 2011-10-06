@@ -20,6 +20,9 @@ import org.junit.Before;
 import org.junit.Test;
 import org.kuali.kra.test.infrastructure.KcSeleniumTestBase;
 
+/**
+ * Tests the basic submission of an Institutional Proposal.
+ */
 public class InstitutionalProposalCompleteSeleniumTest extends KcSeleniumTestBase {
     
     private InstitutionalProposalSeleniumHelper helper;
@@ -38,6 +41,9 @@ public class InstitutionalProposalCompleteSeleniumTest extends KcSeleniumTestBas
         super.tearDown();
     }
     
+    /**
+     * Test the basic submission of an institutional proposal.
+     */
     @Test
     public void testInstitutionalProposalComplete() {
         helper.createInstitutionalProposal();

@@ -23,6 +23,9 @@ import org.junit.Test;
 import org.kuali.kra.proposaldevelopment.web.ProposalDevelopmentSeleniumHelper;
 import org.kuali.kra.test.infrastructure.KcSeleniumTestBase;
 
+/**
+ * Tests the basic functionality of the Selenium unit tests.
+ */
 public class SeleniumUnitTest extends KcSeleniumTestBase {
     
     private ProposalDevelopmentSeleniumHelper helper;
@@ -41,6 +44,9 @@ public class SeleniumUnitTest extends KcSeleniumTestBase {
         super.tearDown();
     }
 
+    /**
+     * Test that Selenium is working by creating a Development Proposal document.
+     */
     @Test
     public void testSeleniumUnit() throws Exception {
         helper.clickResearcherTab();

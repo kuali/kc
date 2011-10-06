@@ -38,11 +38,18 @@ import org.kuali.kra.institutionalproposal.web.InstitutionalProposalHomeSelenium
 import org.kuali.kra.institutionalproposal.web.InstitutionalProposalSpecialReviewSeleniumTest;
 import org.kuali.kra.irb.web.ProtocolCompleteSeleniumTest;
 import org.kuali.kra.proposaldevelopment.web.ActivityTypeMaintenanceDocumentSeleniumTest;
+import org.kuali.kra.proposaldevelopment.web.ProposalDevelopmentAbstractsPanelSeleniumTest;
 import org.kuali.kra.proposaldevelopment.web.ProposalDevelopmentCompleteSeleniumTest;
-import org.kuali.kra.proposaldevelopment.web.ProposalDevelopmentDeleteProposalTest;
+import org.kuali.kra.proposaldevelopment.web.ProposalDevelopmentCustomDataSeleniumTest;
+import org.kuali.kra.proposaldevelopment.web.ProposalDevelopmentDeleteProposalSeleniumTest;
+import org.kuali.kra.proposaldevelopment.web.ProposalDevelopmentKeyPersonnelSeleniumTest;
+import org.kuali.kra.proposaldevelopment.web.ProposalDevelopmentKeywordPanelSeleniumTest;
+import org.kuali.kra.proposaldevelopment.web.ProposalDevelopmentSpecialReviewSeleniumTest;
+import org.kuali.kra.proposaldevelopment.web.ProposalDevelopmentSponsorProgramInformationPanelSeleniumTest;
+import org.kuali.kra.proposaldevelopment.web.ProposalDevelopmentYnqSeleniumTest;
 
 @RunWith(Suite.class)
-@SuiteClasses(  {
+@SuiteClasses({
     SeleniumUnitTest.class,
     ActivityTypeMaintenanceDocumentSeleniumTest.class,
     AwardBudgetBasicSeleniumTest.class,
@@ -61,7 +68,14 @@ import org.kuali.kra.proposaldevelopment.web.ProposalDevelopmentDeleteProposalTe
     OrganizationMaintenanceDocumentSeleniumTest.class,
     ProposalDevelopmentCompleteSeleniumTest.class,
     ProtocolCompleteSeleniumTest.class,
-    ProposalDevelopmentDeleteProposalTest.class,
+    ProposalDevelopmentAbstractsPanelSeleniumTest.class,
+    ProposalDevelopmentCustomDataSeleniumTest.class,
+    ProposalDevelopmentDeleteProposalSeleniumTest.class,
+    ProposalDevelopmentKeyPersonnelSeleniumTest.class,
+    ProposalDevelopmentKeywordPanelSeleniumTest.class,
+    ProposalDevelopmentSpecialReviewSeleniumTest.class,
+    ProposalDevelopmentSponsorProgramInformationPanelSeleniumTest.class,
+    ProposalDevelopmentYnqSeleniumTest.class,
     SponsorFormMaintenanceDocumentSeleniumTest.class,
     ValidCalcTypeMaintenanceDocumentSeleniumTest.class,
     FinancialEntitySeleniumWebTest.class

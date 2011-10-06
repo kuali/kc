@@ -28,6 +28,9 @@ import org.kuali.kra.budget.core.CostElement;
 import org.kuali.kra.test.infrastructure.KcSeleniumTestBase;
 import org.kuali.rice.kns.document.MaintenanceDocumentBase;
 
+/**
+ * Tests the Cost Element maintenance document.
+ */
 public class CostElementMaintenanceDocumentSeleniumTest extends KcSeleniumTestBase {
 
     private static final String DOCUMENT_TITLE = "Object Code";
@@ -74,6 +77,11 @@ public class CostElementMaintenanceDocumentSeleniumTest extends KcSeleniumTestBa
         super.tearDown();
     }
 
+    /**
+     * Test creating a cost element.
+     *
+     * @throws Exception
+     */
     @Test
     public void testCreateCostElement() throws Exception {
         String costElementCode = getNewCostElementCode();
@@ -82,6 +90,11 @@ public class CostElementMaintenanceDocumentSeleniumTest extends KcSeleniumTestBa
         verifyExistingMaintenanceDocument(documentNumber, costElementCode, CREATE_DESCRIPTION, CREATE_ON_OFF_CAMPUS_FLAG);
     }
 
+    /**
+     * Test editing a cost element.
+     *
+     * @throws Exception
+     */
     @Test
     public void testEditCostElement() throws Exception {
         String costElementCode = getNewCostElementCode();
@@ -103,6 +116,11 @@ public class CostElementMaintenanceDocumentSeleniumTest extends KcSeleniumTestBa
 
     }
 
+    /**
+     * Test copying a cost element.
+     *
+     * @throws Exception
+     */
     @Test
     public void testCopyCostElement() throws Exception {
         String costElementCode1 = getNewCostElementCode();
@@ -125,6 +143,15 @@ public class CostElementMaintenanceDocumentSeleniumTest extends KcSeleniumTestBa
         verifyExistingMaintenanceDocument(documentNumber, costElementCode2, COPY_DESCRIPTION_2, COPY_ON_OFF_CAMPUS_FLAG_2);
     }
     
+    /**
+     * Create a new maintenance document.
+     * 
+     * @param documentDescription the document description
+     * @param costElementCode the cost element code
+     * @param description the description
+     * @param onOffCampusFlag the on/off campus flag
+     * @return the document number of the new maintenance document
+     */
     private String createNewMaintenanceDocument(String documentDescription, String costElementCode, String description, boolean onOffCampusFlag) {
         String documentNumber = helper.createMaintenanceDocument(DOCUMENT_TITLE, CostElement.class.getName(), MAINTENANCE_DOCUMENT_TITLE);
     
@@ -142,6 +169,15 @@ public class CostElementMaintenanceDocumentSeleniumTest extends KcSeleniumTestBa
         return documentNumber;
     }
     
+    /**
+     * Verify the details of an existing maintenance document.
+     *
+     * @param documentNumber the document of the maintenance document to verify
+     * @param costElementCode the cost element code
+     * @param description the description
+     * @param onOffCampusFlag the on/off campus flag
+     * @throws Exception
+     */
     private void verifyExistingMaintenanceDocument(String documentNumber, String costElementCode, String description, boolean onOffCampusFlag) throws Exception {
         MaintenanceDocumentBase document = (MaintenanceDocumentBase) getDocumentService().getByDocumentHeaderId(documentNumber);
         assertNotNull(document.getDocumentNumber());
@@ -155,6 +191,11 @@ public class CostElementMaintenanceDocumentSeleniumTest extends KcSeleniumTestBa
         assertEquals(DEFAULT_ACTIVE_FLAG, costElement.getActiveFlag());
     }
     
+    /**
+     * Create a new unique cost element code.
+     * 
+     * @return a new unique cost element code
+     */
     @SuppressWarnings("unchecked")
     private String getNewCostElementCode() {
         int maxCostElementCode = 1;

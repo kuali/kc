@@ -29,7 +29,7 @@
     		<span class="subhead-right"><kul:help businessObjectClassName="org.kuali.kra.bo.ScienceKeyword" altText="help"/></span>
         </h3>
        
-        <table cellpadding=0 cellspacing="0"  summary="">
+        <table id="keywords-table" cellpadding=0 cellspacing="0"  summary="">
              <tr>
               	<th><div align="left">&nbsp;</div></th>  
 				<th><div align="left"><kul:htmlAttributeLabel attributeEntry="${scienceKeywordAttributes.description}" noColon="true" /></div></th>

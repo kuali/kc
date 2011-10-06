@@ -20,7 +20,12 @@ import org.junit.Before;
 import org.junit.Test;
 import org.kuali.kra.test.infrastructure.KcSeleniumTestBase;
 
+/**
+ * Tests the Contacts page of an Institutional Proposal.
+ */
 public class InstitutionalProposalContactsSeleniumTest extends KcSeleniumTestBase {
+    
+    private static final String PROJECT_PERSONNEL_TAG_ID = "ProjectPersonnel";
     
     private static final String BEAN_PREFIX = "projectPersonnelBean.";
     
@@ -29,8 +34,8 @@ public class InstitutionalProposalContactsSeleniumTest extends KcSeleniumTestBas
     
     private static final String PERSON_ID_ID = "personId";
     private static final String ROLODEX_ID_ID = "rolodexId";
-    private static final String CONTACT_ROLE_CODE = BEAN_PREFIX + "contactRoleCode";
-    private static final String KEY_PERSON_ROLE = BEAN_PREFIX + "newInstitutionalProposalContact.keyPersonRole";
+    private static final String CONTACT_ROLE_CODE_ID = BEAN_PREFIX + "contactRoleCode";
+    private static final String KEY_PERSON_ROLE_ID = BEAN_PREFIX + "newInstitutionalProposalContact.keyPersonRole";
 
     private static final String PERSON_ID = "10000000002";
     private static final String ROLODEX_ID = "1727";
@@ -60,15 +65,20 @@ public class InstitutionalProposalContactsSeleniumTest extends KcSeleniumTestBas
         super.tearDown();
     }
     
+    /**
+     * Test the addition and removal of an employee.
+     * 
+     * @throws Exception
+     */
     @Test
     public void testAddRemoveEmployeeContact() throws Exception {
         helper.createInstitutionalProposal();
         helper.clickInstitutionalProposalContactsPage();
         
-        helper.openTab("ProjectPersonnel");
+        helper.openTab(PROJECT_PERSONNEL_TAG_ID);
         helper.lookup(PERSON_ID_TAG, PERSON_ID_ID, PERSON_ID);
         
-        helper.set(CONTACT_ROLE_CODE, CO_INVESTIGATOR_CONTACT_ROLE_CODE);
+        helper.set(CONTACT_ROLE_CODE_ID, CO_INVESTIGATOR_CONTACT_ROLE_CODE);
         helper.click(ADD_PROJECT_PERSON_BUTTON);
         
         helper.assertNoPageErrors();
@@ -78,16 +88,21 @@ public class InstitutionalProposalContactsSeleniumTest extends KcSeleniumTestBas
         helper.assertPageDoesNotContain(EMPLOYEE_FULL_NAME);
     }
 
+    /**
+     * Test the addition and removal of a non-employee.
+     * 
+     * @throws Exception
+     */
     @Test
     public void testAddRemoveRolodexContact() throws Exception {
         helper.createInstitutionalProposal();
         helper.clickInstitutionalProposalContactsPage();
         
-        helper.openTab("ProjectPersonnel");
+        helper.openTab(PROJECT_PERSONNEL_TAG_ID);
         helper.lookup(ROLODEX_ID_TAG, ROLODEX_ID_ID, ROLODEX_ID);
         
-        helper.set(CONTACT_ROLE_CODE, KEY_PERSON_CONTACT_ROLE_CODE);
-        helper.set(KEY_PERSON_ROLE, OBSERVER_KEY_PERSON_ROLE);
+        helper.set(CONTACT_ROLE_CODE_ID, KEY_PERSON_CONTACT_ROLE_CODE);
+        helper.set(KEY_PERSON_ROLE_ID, OBSERVER_KEY_PERSON_ROLE);
         helper.click(ADD_PROJECT_PERSON_BUTTON);
         
         helper.assertNoPageErrors();
