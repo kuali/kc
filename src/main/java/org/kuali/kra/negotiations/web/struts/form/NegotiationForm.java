@@ -61,6 +61,7 @@ public class NegotiationForm extends KraTransactionalDocumentFormBase {
     private List<NegotiationUnassociatedDetail> negotiationUnassociatedDetailsToDelete;
     private NegotiationActivityHelper negotiationActivityHelper;
     private NegotiationAssociatedDetailBean negotiationAssociatedDetailBean;
+    private String filterActivities;
     
     private MedusaBean medusaBean;
     
@@ -73,6 +74,7 @@ public class NegotiationForm extends KraTransactionalDocumentFormBase {
         negotiationUnassociatedDetailsToDelete = new ArrayList<NegotiationUnassociatedDetail>();
         negotiationActivityHelper = new NegotiationActivityHelper(this);
         medusaBean = new MedusaBean();
+        filterActivities = "All";
     }
     
     public NegotiationDocument getNegotiationDocument() {
@@ -226,5 +228,13 @@ public class NegotiationForm extends KraTransactionalDocumentFormBase {
 
     public void setMedusaBean(MedusaBean medusaBean) {
         this.medusaBean = medusaBean;
+    }
+
+    public String getFilterActivities() {
+        return filterActivities;
+    }
+
+    public void setFilterActivities(String filterActivities) {
+        this.filterActivities = filterActivities;
     }
 }
