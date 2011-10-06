@@ -1,6 +1,7 @@
 var AJAX_LOCATION = "awardHierarchyAwardActionsAjax.do";
 var ROOT_AWARD_LOCATION = "rootAwardNumber";
 var selectedAwardNumber = $('#selectedAwardNumber').attr("value");
+var currentAwardNumber = $("#currentAwardNumber").attr("value");
 var selectedNodeReached = false;
 var canCreateAward= $("#canCreateAward").attr("value");
 $(document).ready(function() {
@@ -55,12 +56,12 @@ function openSelectedAward(requestTracker) {
 	}
 }
   
-  function addAwardToHierarchy(info, parent) {
+  function addAwardToHierarchy(info, parent) {;
       var awardNumber = info['awardNumber'];
       //build the line description - will include the award number, pi, lead unit and
       //editable and/or summary fields for time and money.
       var idDiv = $('<div class="awardHierarchyLink"></div>').html(builduUi(info, awardNumber));
-      //add the div to the link
+       //add the div to the link
       var tag = $('<a class="awardHierarchy"></a>').html(idDiv);
 
       var listitem = $('<li class="closed awardhierarchy" id="li' + awardNumber +'"></li>').html(tag);
@@ -95,7 +96,6 @@ function openSelectedAward(requestTracker) {
   }
     
     function builduUi(info, awardNumber) {
-
     	var awardStatus = info['awardStatusCode'];
         if(awardStatus == 1){
         	var txtImage = "<img src=\"static/images/award_active.gif\" alt=\"Active\" title=\"Active\" />";
@@ -113,11 +113,18 @@ function openSelectedAward(requestTracker) {
         
         var index = awardNumber.indexOf("-");
         var awardNumber2 = parseInt(awardNumber.substring(index+1), 10);
-        
-      	var abc = "<span class='awardHierarchyLinkText'>" + txtImage + "&nbsp;" + getDetailString(info) + "</span><span class='hierarchyOpenLink'>" 
-      		+ "<a href='awardHome.do?methodToCall=docHandler&docId=" + info['awardDocumentNumber'] + "&awardNumber=" + awardNumber + "&command=displayDocSearchView&placeHolderAwardId=" + info['awardId'] + "' target='_blank'><img src='static/images/tinybutton-open.gif' /></a>"
-      		+ "</span><br clear='both'/>";
+        var abc;
+        if(awardNumber == currentAwardNumber){
+        	abc = "<span class='awardHierarchyLinkText'>" + txtImage + "&nbsp;" + getDetailString(info)
+      		+ "</span><br clear='both'/><br/>";
       	abc += '<input type="hidden" value="false" name="awardHierarchyToggle(' + awardNumber + ')"/>';
+        }else{
+        	abc = "<span class='awardHierarchyLinkText'>" + txtImage + "&nbsp;" + getDetailString(info) + "</span><span class='hierarchyOpenLink'>" 
+      		+ "<a href='awardHome.do?methodToCall=docHandler&docId=" + info['awardDocumentNumber'] + "&awardNumber=" + awardNumber + "&command=displayDocSearchView&placeHolderAwardId=" + info['awardId'] + "' target='_blank'><img src='static/images/tinybutton-open.gif' /></a>&nbsp;"
+      		+ "<a href='awardMedusa.do?methodToCall=docHandler&docId=" + info['awardDocumentNumber'] + "&awardNumber=" + awardNumber + "&command=displayDocSearchView&placeHolderAwardId=" + info['awardId'] + "' target='_blank'><img src='static/images/tinybutton-medusa.jpg' /></a></span>"
+      		+ "<br clear='both'/>";
+      	abc += '<input type="hidden" value="false" name="awardHierarchyToggle(' + awardNumber + ')"/>';
+        }
       	return abc; 
     }
   
