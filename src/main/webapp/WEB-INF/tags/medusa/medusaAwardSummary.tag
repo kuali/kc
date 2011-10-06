@@ -18,7 +18,13 @@
 	    <img title="Open Award Notes" 
 	          alt="Open Award Notes" style="border: medium none ;" 
 	          src="static/images/tinybutton-notes.gif"/>
-	  </a> 	  
+	  </a> 
+	  <a href="${ConfigProperties.application.url}/awardActions.do?methodToCall=docHandler&command=displayDocSearchView&docId=${node.bo.awardDocument.documentNumber}&medusaOpenedDoc=true&tabStates(Hierarchy Actions)=OPEN#Hierarchy Actions"
+	     target="_blank" class="medusaOpenLink">
+	    <img title="Open Award Hierarchy Actions" 
+	          alt="Open Award Notes" style="border: medium none ;" 
+	          src="static/images/tinybutton-hier_actions.jpg"/>
+	  </a> 	 	  
       </td>
     </tr>
     <tr>
