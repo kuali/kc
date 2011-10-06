@@ -18,6 +18,7 @@ package org.kuali.kra.negotiations.document.authorization;
 import java.util.HashSet;
 import java.util.Set;
 
+import org.kuali.kra.authorization.ApplicationTask;
 import org.kuali.kra.authorization.KcTransactionalDocumentAuthorizerBase;
 import org.kuali.kra.infrastructure.TaskName;
 import org.kuali.kra.negotiations.auth.NegotiationTask;
@@ -57,10 +58,10 @@ public class NegotiationDocumentAuthorizer extends KcTransactionalDocumentAuthor
                 editModes.add(AuthorizationConstants.EditMode.UNVIEWABLE);
             }
         } else {
-            if (canExecuteNegotiationTask(userId, negotiationDocument.getNegotiation(), TaskName.NEGOTIATION_MODIFIY_NEGOTIATION)
-                    || canExecuteNegotiationTask(userId, negotiationDocument.getNegotiation(), TaskName.NEGOTIATION_MODIFY_ACTIVITIES)) {  
+            if (canExecuteNegotiationTask(userId, negotiationDocument, TaskName.NEGOTIATION_MODIFIY_NEGOTIATION)
+                    || canExecuteNegotiationTask(userId, negotiationDocument, TaskName.NEGOTIATION_MODIFY_ACTIVITIES)) {  
                 editModes.add(AuthorizationConstants.EditMode.FULL_ENTRY);
-            } else if (canExecuteNegotiationTask(userId, negotiationDocument.getNegotiation(), TaskName.NEGOTIATION_VIEW_NEGOTIATION)) {
+            } else if (canExecuteNegotiationTask(userId, negotiationDocument, TaskName.NEGOTIATION_VIEW_NEGOTIATION)) {
                 editModes.add(AuthorizationConstants.EditMode.VIEW_ONLY);
             } else {
                 editModes.add(AuthorizationConstants.EditMode.UNVIEWABLE);
@@ -72,29 +73,30 @@ public class NegotiationDocumentAuthorizer extends KcTransactionalDocumentAuthor
     
     protected void setPermissions(Person user, NegotiationDocument negotiationDoc, Set<String> editModes) {
         
-        if (canExecuteNegotiationTask(user.getPrincipalId(), negotiationDoc.getNegotiation(), TaskName.NEGOTIATION_CREATE_NEGOTIATION)) {
+        if (canExecuteNegotiationTask(user.getPrincipalId(), negotiationDoc, TaskName.NEGOTIATION_CREATE_NEGOTIATION)) {
             editModes.add("create");
         }
         
-        if (canExecuteNegotiationTask(user.getPrincipalId(), negotiationDoc.getNegotiation(), TaskName.NEGOTIATION_MODIFIY_NEGOTIATION)) {
+        if (canExecuteNegotiationTask(user.getPrincipalId(), negotiationDoc, TaskName.NEGOTIATION_MODIFIY_NEGOTIATION)) {
             editModes.add("modify");
         }
 
-        if (canExecuteNegotiationTask(user.getPrincipalId(), negotiationDoc.getNegotiation(), TaskName.NEGOTIATION_MODIFY_ACTIVITIES)) {
+        if (canExecuteNegotiationTask(user.getPrincipalId(), negotiationDoc, TaskName.NEGOTIATION_MODIFY_ACTIVITIES)) {
             editModes.add("modify_activity");
         }
 
-        if (canExecuteNegotiationTask(user.getPrincipalId(), negotiationDoc.getNegotiation(), TaskName.NEGOTIATION_VIEW_NEGOTIATION)) {
+        if (canExecuteNegotiationTask(user.getPrincipalId(), negotiationDoc, TaskName.NEGOTIATION_VIEW_NEGOTIATION)) {
             editModes.add("view");
         }
 
-        if (canExecuteNegotiationTask(user.getPrincipalId(), negotiationDoc.getNegotiation(), TaskName.NEGOTIATION_VIEW_NEGOTIATION_UNRESTRICTED)) {
+        if (canExecuteNegotiationTask(user.getPrincipalId(), negotiationDoc, TaskName.NEGOTIATION_VIEW_NEGOTIATION_UNRESTRICTED)) {
             editModes.add("view_unrestricted");
         }
     }
     
     private boolean canCreateNegotiation(Person user) {
-        boolean retVal = canExecuteNegotiationTask(user.getPrincipalId(), new Negotiation(), TaskName.NEGOTIATION_CREATE_NEGOTIATION);
+        ApplicationTask task = new ApplicationTask(TaskName.NEGOTIATION_CREATE_NEGOTIATION);
+        boolean retVal = this.getTaskAuthorizationService().isAuthorized(user.getPrincipalId(), task);
         return retVal;
     }
     
@@ -114,18 +116,18 @@ public class NegotiationDocumentAuthorizer extends KcTransactionalDocumentAuthor
      */
     public boolean canOpen(Document document, Person user) {
         boolean retVal = 
-            canExecuteNegotiationTask(user.getPrincipalId(), ((NegotiationDocument) document).getNegotiation(), TaskName.NEGOTIATION_VIEW_NEGOTIATION);
+            canExecuteNegotiationTask(user.getPrincipalId(), (NegotiationDocument) document, TaskName.NEGOTIATION_VIEW_NEGOTIATION);
         return retVal;
     }
     
-    private boolean canExecuteNegotiationTask(String userId, Negotiation negotiation, String taskName) {
+    private boolean canExecuteNegotiationTask(String userId, NegotiationDocument negotiation, String taskName) {
         NegotiationTask modifyActivitiesTask = new NegotiationTask(taskName, negotiation);
         return this.getTaskAuthorizationService().isAuthorized(userId, modifyActivitiesTask);
     }
     
     public boolean canEdit(Document document, Person user) {
-        return canExecuteNegotiationTask(user.getPrincipalId(), ((NegotiationDocument) document).getNegotiation(), TaskName.NEGOTIATION_MODIFIY_NEGOTIATION)
-            || canExecuteNegotiationTask(user.getPrincipalId(), ((NegotiationDocument) document).getNegotiation(), TaskName.NEGOTIATION_MODIFY_ACTIVITIES);
+        return canExecuteNegotiationTask(user.getPrincipalId(), (NegotiationDocument) document, TaskName.NEGOTIATION_MODIFIY_NEGOTIATION)
+            || canExecuteNegotiationTask(user.getPrincipalId(), (NegotiationDocument) document, TaskName.NEGOTIATION_MODIFY_ACTIVITIES);
     }
     
     public boolean canSave(Document document, Person user) {
