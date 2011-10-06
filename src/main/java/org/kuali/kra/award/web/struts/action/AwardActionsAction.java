@@ -66,6 +66,7 @@ import org.kuali.rice.kns.util.GlobalVariables;
 import org.kuali.rice.kns.util.KNSConstants;
 import org.kuali.rice.kns.web.struts.action.AuditModeAction;
 import org.kuali.rice.kns.web.struts.form.KualiDocumentFormBase;
+import org.kuali.rice.kns.workflow.service.KualiWorkflowDocument;
 import org.kuali.kra.external.award.*;
 
 /**
@@ -85,7 +86,21 @@ public class AwardActionsAction extends AwardAction implements AuditModeAction {
     public static final String AWARD_COPY_NEW_OPTION = "a";
     public static final String AWARD_COPY_CHILD_OF_OPTION = "b";
     
-    
+    @Override
+    public ActionForward docHandler(ActionMapping mapping, ActionForm form
+            , HttpServletRequest request, HttpServletResponse response) throws Exception { AwardForm awardForm = (AwardForm) form;
+            String command = request.getParameter(KEWConstants.COMMAND_PARAMETER);
+            if(StringUtils.isNotEmpty(command) && KEWConstants.DOCSEARCH_COMMAND.equals(command)) {
+                loadDocumentInForm(request, awardForm); 
+                KualiWorkflowDocument workflowDoc = awardForm.getAwardDocument().getDocumentHeader().getWorkflowDocument();
+                if(workflowDoc != null)
+                    awardForm.setDocTypeName(workflowDoc.getDocumentType());
+                request.setAttribute("selectedAwardNumber", awardForm.getAwardDocument().getAward().getAwardNumber());   
+            } 
+            populateAwardHierarchy(form); 
+
+            return mapping.findForward(Constants.MAPPING_AWARD_ACTIONS_PAGE);
+            }
     @Override
     public ActionForward execute(ActionMapping mapping, ActionForm form, HttpServletRequest request, HttpServletResponse response)
             throws Exception {

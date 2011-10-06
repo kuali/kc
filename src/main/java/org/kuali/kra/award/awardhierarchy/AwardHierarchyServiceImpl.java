@@ -681,6 +681,7 @@ public class AwardHierarchyServiceImpl implements AwardHierarchyService {
         awardHierarchyNode.setProjectStartDate(award.getAwardEffectiveDate());
         awardHierarchyNode.setTitle(award.getTitle());
         awardHierarchyNode.setAwardId(award.getAwardId());
+        awardHierarchyNode.setAwardDocumentNumber(award.getAwardDocument().getDocumentNumber());
         
         /*
         String documentNumber = award.getAwardDocument().getDocumentNumber();
