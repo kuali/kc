@@ -43,6 +43,10 @@
 					<requests name="IRBReview" />
 				</routePath>
 			</routePaths>
+			<!--
+			Please do not change route node name IRBReviw. It IS REQUIRED and SHOULD be the last
+			route node for business logic related to IRB review to work.
+			 -->
 			<routeNodes>
 				<start name="Initiated">
 					<activationType>S</activationType>
