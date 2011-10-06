@@ -15,6 +15,11 @@
  */
 package org.kuali.kra.negotiations.web.struts.action;
 
+import static org.apache.commons.lang.StringUtils.isNotBlank;
+import static org.kuali.rice.kns.util.KNSConstants.EMPTY_STRING;
+import static org.kuali.rice.kns.util.KNSConstants.QUESTION_CLICKED_BUTTON;
+
+import java.util.Collection;
 import java.util.HashMap;
 import java.util.Map;
 
@@ -37,7 +42,10 @@ import org.kuali.kra.negotiations.bo.NegotiationAssociationType;
 import org.kuali.kra.negotiations.bo.NegotiationUnassociatedDetail;
 import org.kuali.kra.negotiations.notifications.NegotiationNotificationService;
 import org.kuali.kra.negotiations.web.struts.form.NegotiationForm;
+import org.kuali.kra.web.struts.action.StrutsConfirmation;
+import org.kuali.rice.kns.question.ConfirmationQuestion;
 import org.kuali.rice.kns.util.KNSConstants;
+import org.kuali.rice.kns.web.struts.form.KualiForm;
 
 /**
  * 
@@ -85,13 +93,46 @@ public class NegotiationNegotiationAction extends NegotiationAction {
                 && getNegotiationService().getCompletedStatusCodes().contains(negotiation.getNegotiationStatus().getCode())) {
             if (negotiation.getNegotiationEndDate() != null
                     && negotiationForm.getNegotiationActivityHelper().hasPendingActivities()) {
-                ActionForward confirmAction = confirm(buildParameterizedConfirmationQuestion(mapping, form, request, response, 
-                        "changePendingActivitiesKey", KeyConstants.NEGOTIATION_CLOSE_PENDING_ACTIVITIES), 
-                        "closeAllPendingActivitiesAndSave", "resetNegotiationStatus");
-                return confirmAction;
+                StrutsConfirmation question = buildParameterizedConfirmationQuestion(mapping, form, request, response, 
+                        "changePendingActivitiesKey", KeyConstants.NEGOTIATION_CLOSE_PENDING_ACTIVITIES);
+                question.setCaller(((KualiForm) question.getForm()).getMethodToCall());
+                if (question.hasQuestionInstAttributeName() && StringUtils.equals(question.getRequest().getParameter(KNSConstants.QUESTION_INST_ATTRIBUTE_NAME), question.getQuestionId())) {
+                    Object buttonClicked = question.getRequest().getParameter(QUESTION_CLICKED_BUTTON);
+                    if (ConfirmationQuestion.YES.equals(buttonClicked)) {
+                        negotiationForm.getNegotiationActivityHelper().closeAllPendingActivities();
+                    } else {
+                        negotiation.setNegotiationStatus(oldNegotiation.getNegotiationStatus());
+                        negotiation.setNegotiationStatusId(oldNegotiation.getNegotiationStatusId());
+                        return mapping.findForward(Constants.MAPPING_BASIC);
+                    }
+                } else {
+                    return performQuestionWithoutInput(question, EMPTY_STRING);
+                }
             }
             if (StringUtils.equals(negotiation.getNegotiationStatus().getCode(), getNegotiationService().getCompleteStatusCode())) {
                 KraServiceLocator.getService(NegotiationNotificationService.class).sendCloseNotification(negotiationForm.getDocument());
+            }
+        }
+        if (oldNegotiation == null || !StringUtils.equals(negotiation.getAssociatedDocumentId(), oldNegotiation.getAssociatedDocumentId())) {
+            Map<String, Object> values = new HashMap<String, Object>();
+            values.put("associatedDocumentId", negotiation.getAssociatedDocumentId());
+            Collection<Negotiation> otherNegotiations = getBusinessObjectService().findMatching(Negotiation.class, values);
+            if (!otherNegotiations.isEmpty()) {
+                StrutsConfirmation question = buildParameterizedConfirmationQuestion(mapping, form, request, response, 
+                        "duplicateLinkedNegotiations", KeyConstants.NEGOTIATION_DUPLICATE_LINKING, 
+                        negotiation.getNegotiationAssociationType().getDescription());
+                question.setCaller(((KualiForm) question.getForm()).getMethodToCall());
+                if (question.hasQuestionInstAttributeName() && StringUtils.equals(question.getRequest().getParameter(KNSConstants.QUESTION_INST_ATTRIBUTE_NAME), question.getQuestionId())) {
+                    Object buttonClicked = question.getRequest().getParameter(QUESTION_CLICKED_BUTTON);
+                    if (ConfirmationQuestion.NO.equals(buttonClicked)) {
+                        negotiation.setNegotiationAssociationType(oldNegotiation.getNegotiationAssociationType());
+                        negotiation.setNegotiationAssociationTypeId(oldNegotiation.getNegotiationAssociationTypeId());
+                        negotiation.setAssociatedDocumentId(oldNegotiation.getAssociatedDocumentId());
+                        return mapping.findForward(Constants.MAPPING_BASIC);
+                    }
+                } else {
+                    return performQuestionWithoutInput(question, EMPTY_STRING);
+                }
             }
         }
         ActionForward actionForward = super.save(mapping, form, request, response);
@@ -144,7 +185,7 @@ public class NegotiationNegotiationAction extends NegotiationAction {
             String newAssociation = asscType.getDescription();
             if (StringUtils.equals(negotiationForm.getNegotiationDocument().getNegotiation().getNegotiationAssociationType().getCode(), 
                     NegotiationAssociationType.NONE_ASSOCIATION)) {
-                newAssociation = newAssociation + ", you will lose any negotiation attributes that have been entered.";
+                newAssociation = newAssociation + ", you will lose any negotiation attributes that have been entered";
             }
             request.setAttribute(KNSConstants.METHOD_TO_CALL_ATTRIBUTE, "methodToCall.changeAssociationRedirector");
             ActionForward confirmAction = confirm(buildParameterizedConfirmationQuestion(mapping, form, request, response, 
@@ -206,26 +247,7 @@ public class NegotiationNegotiationAction extends NegotiationAction {
         negotiation.setNegotiationAssociationTypeId(dbNegotiation.getNegotiationAssociationType().getId());
         negotiation.setNegotiationAssociationType(dbNegotiation.getNegotiationAssociationType());
         return actionForward;
-    }
-    
-    public ActionForward closeAllPendingActivitiesAndSave(ActionMapping mapping, ActionForm form, HttpServletRequest request, HttpServletResponse response) throws Exception {
-        NegotiationForm negotiationForm = (NegotiationForm) form;
-        negotiationForm.getNegotiationActivityHelper().closeAllPendingActivities();
-        return this.save(mapping, negotiationForm, request, response);
-    }
-    
-    public ActionForward resetNegotiationStatus(ActionMapping mapping, ActionForm form, HttpServletRequest request, HttpServletResponse response) {
-        NegotiationForm negotiationForm = (NegotiationForm) form;
-        Negotiation negotiation = negotiationForm.getNegotiationDocument().getNegotiation();
-        Negotiation oldNegotiation = getBusinessObjectService().findBySinglePrimaryKey(Negotiation.class, 
-                negotiation.getNegotiationId());
-        if (oldNegotiation != null) {
-            negotiation.setNegotiationStatus(oldNegotiation.getNegotiationStatus());
-            negotiation.setNegotiationStatusId(oldNegotiation.getNegotiationStatusId());
-        }
-        return mapping.findForward(Constants.MAPPING_BASIC);
-
-    }    
+    }   
     
     public ActionForward addActivity(ActionMapping mapping, ActionForm form, HttpServletRequest request, HttpServletResponse response) throws Exception {
         NegotiationForm negotiationForm = (NegotiationForm) form;
