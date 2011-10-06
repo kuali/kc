@@ -20,6 +20,9 @@ import org.junit.Before;
 import org.junit.Test;
 import org.kuali.kra.test.infrastructure.KcSeleniumTestBase;
 
+/**
+ * Tests the basic submission of an Award.
+ */
 public class AwardCompleteSeleniumTest extends KcSeleniumTestBase {
     
     private AwardSeleniumHelper helper;
@@ -38,6 +41,9 @@ public class AwardCompleteSeleniumTest extends KcSeleniumTestBase {
         super.tearDown();
     }
     
+    /**
+     * Test the basic submission of an award.
+     */
     @Test
     public void testAwardComplete() {
         helper.createAward();

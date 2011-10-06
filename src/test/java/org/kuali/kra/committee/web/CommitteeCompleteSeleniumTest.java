@@ -12,6 +12,9 @@ import org.junit.Before;
 import org.junit.Test;
 import org.kuali.kra.test.infrastructure.KcSeleniumTestBase;
 
+/**
+ * Tests the basic submission of a Committee.
+ */
 public class CommitteeCompleteSeleniumTest extends KcSeleniumTestBase {
     
     private static final String PERSON_ID_TAG = "committeeHelper.newCommitteeMembership.personId";
@@ -76,6 +79,9 @@ public class CommitteeCompleteSeleniumTest extends KcSeleniumTestBase {
         super.tearDown();
     }
 
+    /**
+     * Test the basic submission of a committee.
+     */
     @Test
     public void testCommitteeComplete() throws Exception {
         helper.createCommittee();
@@ -90,6 +96,9 @@ public class CommitteeCompleteSeleniumTest extends KcSeleniumTestBase {
         assertSchedule();
     }
 
+    /**
+     * Adds members to a committee.
+     */
     private void addMembers() {
         helper.clickCommitteeMembersPage();
         
@@ -100,6 +109,15 @@ public class CommitteeCompleteSeleniumTest extends KcSeleniumTestBase {
         addMember(2, false, LEE_VAN_LENTEN_PERSON_ID, ALTERNATE_MEMBERSHIP_ROLE, GENERAL_EDUCATION_RESEARCH_AREA_CODE);
     }
     
+    /**
+     * Adds a member to a committee.
+     * 
+     * @param index the index of the member
+     * @param isEmployee whether or not the member is an employee
+     * @param personId the id of the member
+     * @param role the role of the member
+     * @param researchAreaCode the research area code of the member
+     */
     private void addMember(int index, boolean isEmployee, String personId, String role, String researchAreaCode) {
         if (isEmployee) {
             helper.lookup(PERSON_ID_TAG, PERSON_ID_ID, personId);
@@ -128,6 +146,9 @@ public class CommitteeCompleteSeleniumTest extends KcSeleniumTestBase {
         helper.assertSave();
     }
     
+    /**
+     * Adds schedules to a committee.
+     */
     private void addSchedules() {
         helper.clickCommitteeSchedulePage();
         
@@ -139,6 +160,9 @@ public class CommitteeCompleteSeleniumTest extends KcSeleniumTestBase {
         helper.assertSave();
     }
     
+    /**
+     * Asserts that the members have been properly added.
+     */
     private void assertMembers() {
         helper.clickCommitteeMembersPage();
         
@@ -150,18 +174,31 @@ public class CommitteeCompleteSeleniumTest extends KcSeleniumTestBase {
         assertMember(LEE_VAN_LENTEN_NAME, ALTERNATE_MEMBERSHIP_ROLE, GENERAL_EDUCATION_NAME);
     }
     
+    /**
+     * Asserts that a member has been properly added.
+     *
+     * @param name the name of the member
+     * @param role the role of the member
+     * @param researchArea the research area of the member
+     */
     private void assertMember(String name, String role, String researchArea) {
         helper.assertPageContains(name);
         helper.assertPageContains(role);
         helper.assertPageContains(researchArea);
     }
     
+    /**
+     * Asserts that the schedule has been properly added.
+     */
     private void assertSchedule() {
         helper.clickCommitteeSchedulePage();
         
         helper.assertPageContains(firstScheduleDate);
     }
     
+    /**
+     * Sets up the dates for the schedule.
+     */
     private void setupDates() {
         Calendar cl = new GregorianCalendar();
         cl.setTime(new Date());        

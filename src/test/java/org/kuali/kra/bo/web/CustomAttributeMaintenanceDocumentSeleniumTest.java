@@ -27,6 +27,9 @@ import org.kuali.kra.bo.KcPerson;
 import org.kuali.kra.test.infrastructure.KcSeleniumTestBase;
 import org.kuali.rice.kns.document.MaintenanceDocumentBase;
 
+/**
+ * Tests the Custom Attribute maintenance document.
+ */
 public class CustomAttributeMaintenanceDocumentSeleniumTest extends KcSeleniumTestBase {
     
     private static final String DOCUMENT_TITLE = "Custom Attribute";
@@ -77,6 +80,11 @@ public class CustomAttributeMaintenanceDocumentSeleniumTest extends KcSeleniumTe
         super.tearDown();
     }
 
+    /**
+     * Test creating a custom attribute.
+     *
+     * @throws Exception
+     */
     @Test
     public void testCreateCustomAttribute() throws Exception {
         int customAttributeId = getNewCustomAttributeId();
@@ -85,6 +93,11 @@ public class CustomAttributeMaintenanceDocumentSeleniumTest extends KcSeleniumTe
         verifyExistingMaintenanceDocument(documentNumber, customAttributeId, CREATE_DATA_LENGTH);
     }
     
+    /**
+     * Test editing a custom attribute.
+     *
+     * @throws Exception
+     */
     @Test
     public void testEditCustomAttribute() throws Exception {
         int customAttributeId = getNewCustomAttributeId();
@@ -104,6 +117,11 @@ public class CustomAttributeMaintenanceDocumentSeleniumTest extends KcSeleniumTe
         verifyExistingMaintenanceDocument(documentNumber, customAttributeId, EDIT_DATA_LENGTH_2);
     }
 
+    /**
+     * Test copying a custom attribute.
+     *
+     * @throws Exception
+     */
     @Test
     public void testCopyCustomAttribute() throws Exception {
         int customAttributeId1 = getNewCustomAttributeId();
@@ -131,6 +149,14 @@ public class CustomAttributeMaintenanceDocumentSeleniumTest extends KcSeleniumTe
         verifyExistingMaintenanceDocument(documentNumber, customAttributeId2, COPY_DATA_LENGTH_2);
     }
     
+    /**
+     * Create a new maintenance document.
+     * 
+     * @param documentDescription the document description
+     * @param customAttributeId the custom attribute id
+     * @param dataLength the data length
+     * @return the document number of the new maintenance document
+     */
     private String createNewMaintenanceDocument(String documentDescription, int customAttributeId, Integer dataLength) {
         String documentNumber = helper.createMaintenanceDocument(DOCUMENT_TITLE, CustomAttribute.class.getName(), MAINTENANCE_DOCUMENT_TITLE);
     
@@ -151,6 +177,14 @@ public class CustomAttributeMaintenanceDocumentSeleniumTest extends KcSeleniumTe
         return documentNumber;
     }
     
+    /**
+     * Verify the details of an existing maintenance document.
+     *
+     * @param documentNumber the document of the maintenance document to verify
+     * @param customAttributeId the custom attribute id
+     * @param dataLength the data length
+     * @throws Exception
+     */
     private void verifyExistingMaintenanceDocument(String documentNumber, int customAttributeId, Integer dataLength) throws Exception {
         MaintenanceDocumentBase document = (MaintenanceDocumentBase) getDocumentService().getByDocumentHeaderId(documentNumber);
         assertNotNull(document.getDocumentNumber());
@@ -167,6 +201,11 @@ public class CustomAttributeMaintenanceDocumentSeleniumTest extends KcSeleniumTe
         assertEquals(DEFAULT_NAME, customAttribute.getName());
     }
     
+    /**
+     * Create a new unique custom attribute id.
+     * 
+     * @return a new unique custom attribute id
+     */
     @SuppressWarnings("unchecked")
     private int getNewCustomAttributeId() {
         int maxCustomAttributeId = 1;

@@ -21,13 +21,15 @@ import static org.junit.Assert.assertNotNull;
 import static org.junit.Assert.assertTrue;
 
 import java.util.ArrayList;
+import java.util.Collections;
 import java.util.List;
 import java.util.Map;
 import java.util.Map.Entry;
 
 import org.apache.commons.lang.BooleanUtils;
 import org.apache.commons.lang.StringUtils;
-import org.kuali.rice.kns.util.NumberUtils;
+import org.kuali.kra.infrastructure.Constants;
+import org.kuali.rice.kns.bo.BusinessObject;
 import org.openqa.selenium.By;
 import org.openqa.selenium.WebDriver;
 import org.openqa.selenium.WebElement;
@@ -48,7 +50,7 @@ public abstract class KcSeleniumHelper {
     private static final String MAINTENANCE_TAB_TITLE = "Maintenance";
     private static final String SYSTEM_ADMIN_TAB_TITLE = "System Admin";
     
-    private static final String HELP_PAGE_TITLE = "Kuali Research Administration Online Help";
+    private static final String HELP_PAGE_TITLE = "KC";
     
     private static final String CREATE_MAINTENANCE_DOCUMENT_LINK = "maintenance.do?businessObjectClassName=%s&methodToCall=start";
 
@@ -87,9 +89,16 @@ public abstract class KcSeleniumHelper {
     }
     
     /**
+     * Logs in as the default backdoor user.
+     */
+    public final void loginBackdoor() {
+        loginBackdoor(DEFAULT_USER);
+    }
+    
+    /**
      * Logs in as the backdoor user {@code loginUser}.
      */
-    public final void login(final String loginUser) {
+    public final void loginBackdoor(final String loginUser) {
         clickResearcherTab();
 
         set("backdoorId", loginUser);
@@ -163,7 +172,53 @@ public abstract class KcSeleniumHelper {
      * @return the value of the element
      */
     public final String get(final String locator, final boolean exact) {
-        return getElement(locator, exact).getAttribute("value");
+        String value = Constants.EMPTY_STRING;
+        
+        WebElement element = getElement(locator, exact);
+        String tagName = element.getTagName();
+        String elementType = element.getAttribute("type");
+        
+        if (StringUtils.equals(tagName, "input") && StringUtils.equals(elementType, "checkbox")) {
+            value = getCheckbox(element);
+        } else if (StringUtils.equals(tagName, "input") && StringUtils.equals(elementType, "radio")) {
+            value = getRadio(element);
+        } else if (StringUtils.equals(tagName, "select")) {
+            value = getSelect(element);
+        } else {
+            value = element.getAttribute("value");
+        }
+        
+        return value;
+    }
+    
+    /**
+     * Gets the value of a checkbox.
+     * 
+     * @param element the located parent element
+     */
+    private final String getCheckbox(final WebElement element) {
+        return BooleanUtils.toString(element.isSelected(), "on", "off");
+    }
+    
+    /**
+     * Gets the value of a radio button.
+     * 
+     * @param locator the id, name, title, or link name of the element to set depending on the value of {@code exact}
+     * @param exact whether the locator should match exactly
+     */
+    private final String getRadio(final WebElement element) {
+        return BooleanUtils.toString(element.isSelected(), "on", "off");
+    }
+    
+    /**
+     * Gets the value of a select.
+     * 
+     * @param element the located parent element
+     */
+    private String getSelect(final WebElement element) {
+        Select select = new Select(element);
+        
+        return select.getFirstSelectedOption().getText();
     }
     
     /**
@@ -198,7 +253,6 @@ public abstract class KcSeleniumHelper {
             element.clear();
             element.sendKeys(value);
         }
-        
     }
     
     /**
@@ -596,8 +650,6 @@ public abstract class KcSeleniumHelper {
 
         click("methodToCall.search");
         
-        assertTableCellValue("row", 0, 1, searchFieldValue);
-        
         click("methodToCall.selectAll");
 
         click("methodToCall.prepareToReturnSelectedResults");
@@ -807,8 +859,7 @@ public abstract class KcSeleniumHelper {
     public final void assertElementContains(final String locator, final boolean exact, final String value) {
         clickExpandAll();
 
-        WebElement element = getElement(locator, exact);
-        assertTrue("Element " + locator + " does not contain " + value, StringUtils.contains(element.getAttribute("value"), value)); 
+        assertTrue("Element " + locator + " does not contain " + value, StringUtils.contains(get(locator, exact), value)); 
     }
     
     /**
@@ -831,8 +882,7 @@ public abstract class KcSeleniumHelper {
     public final void assertElementDoesNotContain(final String locator, final boolean exact, final String value) {
         clickExpandAll();
         
-        WebElement element = getElement(locator, exact);
-        assertFalse("Element " + locator + " contains " + value, StringUtils.contains(element.getAttribute("value"), value)); 
+        assertFalse("Element " + locator + " contains " + value, StringUtils.contains(get(locator, exact), value)); 
     }
     
     /**
@@ -848,7 +898,7 @@ public abstract class KcSeleniumHelper {
                     boolean selectorContains = false;
                     
                     for (WebElement element : getElementsByCssSelector(cssSelector)) {
-                        if (element.getText() != null && element.getText().matches(value)) {
+                        if (StringUtils.contains(element.getText(), value)) {
                             selectorContains = true;
                             break;
                         }
@@ -870,16 +920,16 @@ public abstract class KcSeleniumHelper {
         new ElementDoesNotExistWaiter("CSS selector " + cssSelector + " contains " + value).until(
             new Function<WebDriver, Boolean>() {
                 public Boolean apply(WebDriver driver) {
-                    boolean selectorDoesNotContain = true;
+                    boolean selectorContains = false;
                     
                     for (WebElement element : getElementsByCssSelector(cssSelector)) {
-                        if (element.getText() != null && element.getText().matches(value)) {
-                            selectorDoesNotContain = false;
+                        if (StringUtils.contains(element.getText(), value)) {
+                            selectorContains = true;
                             break;
                         }
                     }
 
-                    return selectorDoesNotContain;
+                    return selectorContains;
                 }
             }
         );
@@ -954,23 +1004,79 @@ public abstract class KcSeleniumHelper {
     }
     
     /**
-     * Assert that at least one of the selected elements in list of options identified by {@code locator} contains {@code text}.
+     * Assert that at least one of the elements in the list of options identified by {@code locator} contains {@code text}.
+     *
+     * @param locator the id, partial name, partial title, or partial link name of the element to search for
+     * @param text the string to look for in the options
+     */
+    public final void assertOptionsContain(final String locator, final String text) {
+        assertOptionsContain(locator, false, text);
+    }
+    
+    /**
+     * Assert that at least one of the elements in the list of options identified by {@code locator} contains {@code text} depending on the value of {@code exact}.
+     *
+     * @param locator the id, name, title, or link name of the element to search for, exactness depending on the value of {@code exact}.
+     * @param exact whether the locator should match exactly
+     * @param text the string to look for in the options
+     */
+    public final void assertOptionsContain(final String locator, final boolean exact, final String text) {
+        Select select = new Select(getElement(locator, exact));
+        
+        List<String> values = new ArrayList<String>();
+        for (WebElement option : select.getOptions()) {
+            values.add(option.getText());
+        }
+        
+        assertTrue("Options for " + locator + " do not contain " + text, values.contains(text));
+    }
+    
+    /**
+     * Assert that none of the elements in the list of options identified by {@code locator} contains {@code text}.
+     *
+     * @param locator the id, partial name, partial title, or partial link name of the element to search for
+     * @param text the string to look for in the options
+     */
+    public final void assertOptionsDoNotContain(final String locator, final String text) {
+        assertOptionsDoNotContain(locator, false, text);
+    }
+    
+    /**
+     * Assert that none of the elements in the list of options identified by {@code locator} contains {@code text} depending on the value of {@code exact}.
+     *
+     * @param locator the id, name, title, or link name of the element to search for, exactness depending on the value of {@code exact}.
+     * @param exact whether the locator should match exactly
+     * @param text the string to look for in the options
+     */
+    public final void assertOptionsDoNotContain(final String locator, final boolean exact, final String text) {
+        Select select = new Select(getElement(locator, exact));
+        
+        List<String> values = new ArrayList<String>();
+        for (WebElement option : select.getOptions()) {
+            values.add(option.getText());
+        }
+        
+        assertTrue("Options for " + locator + " contains " + text, !values.contains(text));
+    }
+    
+    /**
+     * Assert that at least one of the selected elements in the list of options identified by {@code locator} contains {@code text}.
      *
      * @param locator the id, partial name, partial title, or partial link name of the element to search for
      * @param text the string to look for in the selected options
      */
-    public final void assertSelectedOptionsContains(final String locator, final String text) {
-        assertSelectedOptionsContains(locator, false, text);
+    public final void assertSelectedOptionsContain(final String locator, final String text) {
+        assertSelectedOptionsContain(locator, false, text);
     }
     
     /**
-     * Assert that at least one of the selected elements in list of options identified by {@code locator} contains {@code text} depending on the value of {@code exact}.
+     * Assert that at least one of the selected elements in the list of options identified by {@code locator} contains {@code text} depending on the value of {@code exact}.
      *
      * @param locator the id, name, title, or link name of the element to search for, exactness depending on the value of {@code exact}.
      * @param exact whether the locator should match exactly
      * @param text the string to look for in the selected options
      */
-    public final void assertSelectedOptionsContains(final String locator, final boolean exact, final String text) {
+    public final void assertSelectedOptionsContain(final String locator, final boolean exact, final String text) {
         Select select = new Select(getElement(locator, exact));
         
         List<String> selectedValues = new ArrayList<String>();
@@ -979,6 +1085,34 @@ public abstract class KcSeleniumHelper {
         }
         
         assertTrue("Selected options for " + locator + " do not contain " + text, selectedValues.contains(text));
+    }
+    
+    /**
+     * Assert that none of the selected elements in the list of options identified by {@code locator} contains {@code text}.
+     *
+     * @param locator the id, partial name, partial title, or partial link name of the element to search for
+     * @param text the string to look for in the selected options
+     */
+    public final void assertSelectedOptionsDoNotContain(final String locator, final String text) {
+        assertSelectedOptionsDoNotContain(locator, false, text);
+    }
+    
+    /**
+     * Assert that none of the selected elements in the list of options identified by {@code locator} contains {@code text} depending on the value of {@code exact}.
+     *
+     * @param locator the id, name, title, or link name of the element to search for, exactness depending on the value of {@code exact}.
+     * @param exact whether the locator should match exactly
+     * @param text the string to look for in the selected options
+     */
+    public final void assertSelectedOptionsDoNotContain(final String locator, final boolean exact, final String text) {
+        Select select = new Select(getElement(locator, exact));
+        
+        List<String> selectedValues = new ArrayList<String>();
+        for (WebElement option : select.getAllSelectedOptions()) {
+            selectedValues.add(option.getText());
+        }
+        
+        assertTrue("Selected options for " + locator + " contains " + text, !selectedValues.contains(text));
     }
     
     /**
@@ -1000,39 +1134,79 @@ public abstract class KcSeleniumHelper {
     public final void assertExpandedTextArea(final String textAreaId, final String originalText, final String expandedAreaText) {
         set(textAreaId, originalText);
         
-        final String locator = "//input[starts-with(@name,'methodToCall.updateTextArea') and contains(@name, '" + textAreaId + "')]";
+        String parentWindowHandle = driver.getWindowHandle();
         
+        final String textAreaButtonLocator = "//input[starts-with(@name,'methodToCall.updateTextArea') and contains(@name, '" + textAreaId + "')]";
         WebElement textAreaButton = new ElementExistsWaiter("Expand button for " + textAreaId + " not found").until(
             new Function<WebDriver, WebElement>() {
                 public WebElement apply(WebDriver driver) {
-                    return getElementByXPath(locator);
+                    return getElementByXPath(textAreaButtonLocator);
                 }
             }
         );
-
         textAreaButton.click();
-        
-        driver.switchTo().window("null");
+        switchToPopupWindow(parentWindowHandle);
         
         assertEquals(originalText, get(textAreaId));
 
         set(textAreaId, expandedAreaText);
         
-        click("methodToCall.postTextAreaToParent");
-
+        final String continueButtonLocator = "methodToCall.postTextAreaToParent";
+        WebElement continueButton = new ElementExistsWaiter("Expand button for " + textAreaId + " not found").until(
+            new Function<WebDriver, WebElement>() {
+                public WebElement apply(WebDriver driver) {
+                    WebElement element = null;
+                    
+                    List<WebElement> elements = getActiveElementsByName(continueButtonLocator, false);
+                    if (!elements.isEmpty()) {
+                        element = elements.get(0);
+                    }
+                    return element;
+                }
+            }
+        );
+        continueButton.click();
+        driver.switchTo().window(parentWindowHandle);
+        
         assertEquals(expandedAreaText, get(textAreaId));
     }
     
     /**
-     * Asserts that all of the Help links on a web page (identified by the {@code helpWindow} target) are bringing up a page with the appropriate
-     * Help Page title.
+     * Asserts that the help link is bringing up a page with the appropriate Help Page title.
+     * 
+     * @param businessObjectClass the business object of the help link to click
      */
-    public final void assertHelpLinks() {
-        List<WebElement> helpLinks = getElementsByXPath("//node()[@target='helpWindow']");
-        for (WebElement helpLink : helpLinks) {
-            helpLink.click();
-            assertTitleContains(HELP_PAGE_TITLE);
-        }
+    public final void assertHelpLink(Class<? extends BusinessObject> businessObjectClass) {
+        String parentWindowHandle = driver.getWindowHandle();
+        
+        String locator = "methodToCall=getBusinessObjectHelpText&businessObjectClassName=" + businessObjectClass.getName();
+        WebElement helpLink = getElementByXPath("//node()[@target='helpWindow' and contains(@href, '" + locator + "')]");
+        helpLink.click();
+        switchToPopupWindow(parentWindowHandle);
+        
+        assertTitleContains(HELP_PAGE_TITLE);
+        
+        driver.close();
+        driver.switchTo().window(parentWindowHandle);
+    }
+    
+    /**
+     * Returns the row count of the table identified by {@code id}.
+     *
+     * @param id identifies the table to search
+     * @return the number of rows in the table
+     */
+    public final int getTableRowCount(final String id) {
+        final String locator = "//table[@id='" + id + "']/tbody/tr";
+        
+        return new ElementExistsWaiter("Table with id " + id + " not found").until(
+            new Function<WebDriver, Integer>() {
+                public Integer apply(WebDriver driver) {
+                    List<WebElement> rows = getElementsByXPath(locator);
+                    return rows.size();
+                }
+            }
+        );
     }
     
     /**
@@ -1042,41 +1216,46 @@ public abstract class KcSeleniumHelper {
      * @param expectedRowCount the row count to verify
      */
     public final void assertTableRowCount(final String id, final int expectedRowCount) {
-        final String locator = "//table[@id='" + id + "']/tbody/tr";
+        int actualRowCount = getTableRowCount(id);
+        assertEquals("Actual row count of " + actualRowCount + " did not match the expected row count of " + expectedRowCount, expectedRowCount, actualRowCount);
+    }
+    
+    /**
+     * Returns the cell value of the table identified by {@code id} at row {@code row} and column {@code column}.
+     *
+     * @param id identifies the table to search
+     * @param row the 0-valued row number to search
+     * @param column the 0-valued column number to search
+     * @return the cell value
+     */
+    public final String getTableCellValue(final String id, final int row, final int column) {
+        String rowString = String.valueOf(row + 1);
+        String columnString = String.valueOf(column + 1);
+
+        final String locator = "//table[@id='" + id + "']/tbody/tr[" + rowString + "]/td[" + columnString + "]";
         
-        new ElementExistsWaiter("Actual row count did not match the expected row count of " + expectedRowCount).until(
-            new Function<WebDriver, Boolean>() {
-                public Boolean apply(WebDriver driver) {
-                    List<WebElement> rows = getElementsByXPath(locator);
-                    return NumberUtils.equals(expectedRowCount, rows.size());
+        return new ElementExistsWaiter("Cell value for table with id " + id + " at row " + rowString + " and column " + columnString + " not found").until(
+            new Function<WebDriver, String>() {
+                public String apply(WebDriver driver) {
+                    WebElement cell = getElementByXPath(locator);
+                    return cell != null ? StringUtils.stripToEmpty(cell.getText()) : Constants.EMPTY_STRING;
                 }
             }
         );
     }
     
     /**
-     * Asserts that the text in the table identified by {@code id} at row {@code row} and column {@code column} matches the given 
-     * {@code text}.
+     * Asserts that the text in the table identified by {@code id} at row {@code row} and column {@code column} matches the given {@code expectedText}.
      *
      * @param id identifies the table to search
      * @param row the 0-valued row number to search
      * @param column the 0-valued column number to search
-     * @param text the text to verify
+     * @param expectedText the text to verify
      */
-    public final void assertTableCellValue(final String id, final int row, final int column, final String text) {
-        String rowString = String.valueOf(row + 1);
-        String columnString = String.valueOf(column + 1);
-
-        final String locator = "//table[@id='" + id + "']/tbody/tr[" + rowString + "]/td[" + columnString + "]";
+    public final void assertTableCellValue(final String id, final int row, final int column, final String expectedText) {
+        String actualText = getTableCellValue(id, row, column);
         
-        new ElementExistsWaiter(text + " not found for table " + id + " at row " + rowString + " and column " + columnString).until(
-            new Function<WebDriver, Boolean>() {
-                public Boolean apply(WebDriver driver) {
-                    WebElement cell = getElementByXPath(locator);
-                    return cell != null && StringUtils.equals(text, StringUtils.stripToEmpty(cell.getText()));
-                }
-            }
-        );
+        assertEquals("Actual cell text of " + actualText + " did not match the expected cell text of " + expectedText, expectedText, actualText);
     }
     
     /**
@@ -1662,6 +1841,20 @@ public abstract class KcSeleniumHelper {
         return switchToIFramePortletSuccessful;
     }
     
+    /**
+     * Attempts to switch to the latest popup window from the parent window.
+     * 
+     * @param parentWindowHandle the handle of the parent window
+     */
+    private void switchToPopupWindow(String parentWindowHandle) {
+        for (String handle : driver.getWindowHandles()) {
+            if (!StringUtils.equals(handle, parentWindowHandle)) {
+                driver.switchTo().window(handle);
+                break;
+            }
+        }
+    }
+    
    /**
     * Returns the XPath string that searches for elements that have an {@code attribute} that contains {@code text}.
     * 
@@ -1680,7 +1873,15 @@ public abstract class KcSeleniumHelper {
      * @return a list of errors contained in {@code panelId}
      */
     private List<WebElement> getErrors(final String panelId) {
-        return getElementsByXPath("//div[@id='" + panelId + "']//div[@style='display:list-item;margin-left:20px;']");
+        final String locator = "//div[@id='" + panelId + "']//div[@style='display:list-item;margin-left:20px;']";
+        
+        return new ElementCountFinderWaiter().until(
+            new Function<WebDriver, List<WebElement>>() {
+                public List<WebElement> apply(WebDriver driver) {
+                    return getElementsByXPath(locator);
+                }
+            }
+        );
     }
     
     /**
@@ -1809,20 +2010,62 @@ public abstract class KcSeleniumHelper {
          * @see org.openqa.selenium.support.ui.Wait#until(com.google.common.base.Function)
          */
         public <T> boolean until(Function<WebDriver, T> exists) {
-            boolean isFound = false;
-            
             long end = clock.laterBy(testTimeOut);
             while (clock.isNowBefore(end)) {
                 T value = exists.apply(driver);
                 
                 if (value != null) {
-                    isFound = true;
+                    return true;
                 }
                 
                 sleep();
             }
             
-            return isFound;
+            return false;
+        }
+        
+        private void sleep() {
+            try {
+                Thread.sleep(sleepTimeOut);
+            } catch (InterruptedException e) {
+                Thread.currentThread().interrupt();
+            }
+        }
+    }
+    
+    /**
+     * Mimics an {@code ElementExistsWaiter} to determine whether a list of elements exist on the page or not.
+     *
+     * @see org.openqa.selenium.support.ui.WebDriverWait
+     */
+    private class ElementCountFinderWaiter {
+        
+        private final Clock clock = new SystemClock();
+        private final long testTimeOut = 1000;
+        private final long sleepTimeOut = 500;
+        
+        /**
+         * Mimics the {@code ElementExistsWaiter.until(..)} method and waits until the number of returned elements is greater than zero.  If the number of
+         * returned elements becomes greater than zero within a certain time, then this method will return the element list, otherwise, it will return an empty 
+         * list
+         *
+         * @param exists the function to evaluate
+         * 
+         * @see org.openqa.selenium.support.ui.Wait#until(com.google.common.base.Function)
+         */
+        public List<WebElement> until(Function<WebDriver, List<WebElement>> elements) {
+            long end = clock.laterBy(testTimeOut);
+            while (clock.isNowBefore(end)) {
+                List<WebElement> values = elements.apply(driver);
+                
+                if (values != null && values.size() > 0) {
+                    return values;
+                }
+                
+                sleep();
+            }
+            
+            return Collections.<WebElement>emptyList();
         }
         
         private void sleep() {

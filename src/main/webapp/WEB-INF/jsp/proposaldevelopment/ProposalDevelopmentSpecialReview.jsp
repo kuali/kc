@@ -20,7 +20,7 @@
 	htmlFormAction="proposalDevelopmentSpecialReview"
 	documentTypeName="ProposalDevelopmentDocument"
 	renderMultipart="false"
-	showTabButtons="false"
+	showTabButtons="true"
 	auditCount="0"
   	headerDispatch="${KualiForm.headerDispatch}"
   	headerTabActive="specialReview">

@@ -28,6 +28,9 @@ import org.kuali.kra.proposaldevelopment.bo.ActivityType;
 import org.kuali.kra.test.infrastructure.KcSeleniumTestBase;
 import org.kuali.rice.kns.document.MaintenanceDocumentBase;
 
+/**
+ * Tests the Activity Type maintenance document.
+ */
 public class ActivityTypeMaintenanceDocumentSeleniumTest extends KcSeleniumTestBase {
     
     private static final String DOCUMENT_TITLE = "Activity Type";
@@ -66,6 +69,11 @@ public class ActivityTypeMaintenanceDocumentSeleniumTest extends KcSeleniumTestB
         super.tearDown();
     }
     
+    /**
+     * Test creating an activity type.
+     *
+     * @throws Exception
+     */
     @Test
     public void testCreateActivityType() throws Exception {
         String activityTypeCode = getNewActivityTypeCode();
@@ -74,6 +82,11 @@ public class ActivityTypeMaintenanceDocumentSeleniumTest extends KcSeleniumTestB
         verifyExistingMaintenanceDocument(documentNumber, activityTypeCode, CREATE_DESCRIPTION);
     }
     
+    /**
+     * Test editing an activity type.
+     *
+     * @throws Exception
+     */
     @Test
     public void testEditActivityType() throws Exception {
         String activityTypeCode = getNewActivityTypeCode();
@@ -93,6 +106,11 @@ public class ActivityTypeMaintenanceDocumentSeleniumTest extends KcSeleniumTestB
         verifyExistingMaintenanceDocument(documentNumber, activityTypeCode, EDIT_DESCRIPTION_2);
     }
 
+    /**
+     * Test copying an activity type.
+     *
+     * @throws Exception
+     */
     @Test
     public void testCopyActivityType() throws Exception {
         String activityTypeCode1 = getNewActivityTypeCode();
@@ -114,6 +132,14 @@ public class ActivityTypeMaintenanceDocumentSeleniumTest extends KcSeleniumTestB
         verifyExistingMaintenanceDocument(documentNumber, activityTypeCode2, COPY_DESCRIPTION_2);
     }
     
+    /**
+     * Create a new maintenance document.
+     * 
+     * @param documentDescription the document description
+     * @param activityTypeCode the activity type code
+     * @param description the description
+     * @return the document number of the new maintenance document
+     */
     private String createNewMaintenanceDocument(String documentDescription, String activityTypeCode, String description) {
         String documentNumber = helper.createMaintenanceDocument(DOCUMENT_TITLE, ActivityType.class.getName(), MAINTENANCE_DOCUMENT_TITLE);
     
@@ -129,6 +155,14 @@ public class ActivityTypeMaintenanceDocumentSeleniumTest extends KcSeleniumTestB
         return documentNumber;
     }
     
+    /**
+     * Verify the details of an existing maintenance document.
+     *
+     * @param documentNumber the document of the maintenance document to verify
+     * @param activityTypeCode the activity type code
+     * @param description the description
+     * @throws Exception
+     */
     private void verifyExistingMaintenanceDocument(String documentNumber, String activityTypeCode, String description) throws Exception {
         MaintenanceDocumentBase document = (MaintenanceDocumentBase) getDocumentService().getByDocumentHeaderId(documentNumber);
         assertNotNull(document.getDocumentNumber());
@@ -139,6 +173,11 @@ public class ActivityTypeMaintenanceDocumentSeleniumTest extends KcSeleniumTestB
         assertEquals(description, activityType.getDescription());
     }
     
+    /**
+     * Create a new unique activity type code.
+     * 
+     * @return a new unique activity type code
+     */
     @SuppressWarnings("unchecked")
     private String getNewActivityTypeCode() {
         int maxActivityTypeCode = 1;
