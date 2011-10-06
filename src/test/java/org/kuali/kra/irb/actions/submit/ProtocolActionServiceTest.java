@@ -684,7 +684,8 @@ public class ProtocolActionServiceTest extends ProtocolActionServiceTestBase {
         protocol.setProtocolStatusCode("203");
         assertTrue(protocolActionService.canPerformAction("103", protocol));
 
-        protocol.setProtocolStatusCode("300");
+//      should no longer be able to create an amendment unless Protocol is in Active or Exempt status
+/*      protocol.setProtocolStatusCode("300");
         assertTrue(protocolActionService.canPerformAction("103", protocol));
 
         protocol.setProtocolStatusCode("301");
@@ -698,7 +699,7 @@ public class ProtocolActionServiceTest extends ProtocolActionServiceTestBase {
 
         protocol.setProtocolStatusCode("311");
         assertTrue(protocolActionService.canPerformAction("103", protocol));
-    }
+*/  }
 
     @Test
     public void testActionTypeCode102() {
