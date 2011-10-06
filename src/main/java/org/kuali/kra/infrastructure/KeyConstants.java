@@ -977,6 +977,7 @@ public final class KeyConstants {
     public static final String NEGOTIATION_ACTIVITY_END_AFTER_NEGOTIATION = "negotiation.error.activity.end.after.negotiation.end";
     public static final String NEGOTIATION_ACTIVITY_START_BEFORE_END = "negotiation.error.activity.start.before.end";
     public static final String NEGOTIATION_CLOSE_PENDING_ACTIVITIES = "negotiation.message.closePendingActivities";
+    public static final String NEGOTIATION_DUPLICATE_LINKING = "negotiation.message.duplicateNegotiationLinked";
     
     public static final String MESSAGE_FINANCIAL_ENTITY_ACTION_COMPLETE = "message.financial.entity.action.successfully.completed";
     public static final String ERROR_DEACTIVATE_FINANCIAL_ENTITY_REASON_REQUIRED = "error.deactivate.financial.entity";
