@@ -17,14 +17,21 @@ package org.kuali.kra.irb.notification;
 
 import java.util.List;
 
+import org.apache.commons.collections.CollectionUtils;
 import org.kuali.kra.bo.CoeusModule;
 import org.kuali.kra.common.notification.NotificationContext;
 import org.kuali.kra.common.notification.NotificationContextBase;
 import org.kuali.kra.common.notification.bo.KcNotification;
+import org.kuali.kra.common.notification.bo.NotificationModuleRole;
+import org.kuali.kra.common.notification.bo.NotificationModuleRoleQualifier;
+import org.kuali.kra.common.notification.bo.NotificationTypeRecipient;
+import org.kuali.kra.common.notification.exception.UnknownRoleException;
 import org.kuali.kra.common.notification.service.KcNotificationModuleRoleService;
 import org.kuali.kra.common.notification.service.KcNotificationService;
 import org.kuali.kra.infrastructure.KraServiceLocator;
 import org.kuali.kra.irb.Protocol;
+import org.kuali.kra.irb.onlinereview.ProtocolOnlineReview;
+import org.kuali.rice.kim.bo.types.dto.AttributeSet;
 
 /**
  * 
@@ -73,4 +80,36 @@ public abstract class IRBNotificationContext extends NotificationContextBase {
         List<KcNotification> notifications = kcNotificationService.createNotifications(getProtocol().getProtocolDocument().getDocumentNumber(), Integer.toString(CoeusModule.IRB_MODULE_CODE_INT), getActionTypeCode(), context);
         kcNotificationService.sendNotifications(notifications, context);
     }
+    
+    /**
+     * 
+     * This method populates the role qualifiers for use in KIM lookups by finding the associated notification
+     * module roles and using the role qualifier service to find the values
+     * @param notificationRecipient The recipient of the notification, it represents a KIM role
+     * @param contextName The name of the calling event
+     * @throws UnknownRoleException
+     */
+    public void populateRoleQualifiers(NotificationTypeRecipient notificationRecipient, String contextName) throws UnknownRoleException { 
+        List<NotificationModuleRole> moduleRoles = 
+            getNotificationModuleRuleService().getNotificationModuleRolesForKimRole(getModuleCode(), notificationRecipient.getRoleName());
+        
+        
+        if (CollectionUtils.isNotEmpty(moduleRoles)) {
+            if (notificationRecipient.getRoleQualifiers() == null) {
+                notificationRecipient.setRoleQualifiers(new AttributeSet());
+            }
+            for (NotificationModuleRole mRole : moduleRoles) {
+               List<NotificationModuleRoleQualifier> moduleQualifiers = mRole.getRoleQualifiers();
+               if (CollectionUtils.isNotEmpty(moduleQualifiers)) {
+                   for (NotificationModuleRoleQualifier mQualifier : moduleQualifiers) {
+                       notificationRecipient.getRoleQualifiers().put(mQualifier.getQualifier(), 
+                               getNotificationRoleQualifierService().getRoleQualifierValue(mQualifier));
+                   }
+               }
+            }
+        } else {
+            throw new UnknownRoleException(notificationRecipient.getRoleName(), contextName);
+        }
+    }
+
 }

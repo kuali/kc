@@ -36,6 +36,8 @@ import org.kuali.kra.irb.ProtocolDocument;
 import org.kuali.kra.irb.actions.ProtocolAction;
 import org.kuali.kra.irb.correspondence.ProtocolCorrespondenceTemplate;
 import org.kuali.kra.irb.correspondence.ProtocolCorrespondenceTemplateService;
+import org.kuali.kra.irb.personnel.ProtocolPerson;
+import org.kuali.kra.service.impl.mocks.MockKcPersonService;
 import org.kuali.kra.test.infrastructure.KcUnitTestBase;
 import org.kuali.rice.kns.util.DateUtils;
 
@@ -71,6 +73,7 @@ public class CommitteeBatchCorrespondenceServiceTest extends KcUnitTestBase {
         final Date endDate = Date.valueOf("2010-06-15");
 
         committeeBatchCorrespondenceServiceImpl.setBusinessObjectService(new CommitteeTestHelper.MockBusinessObjectService());
+        committeeBatchCorrespondenceServiceImpl.setKcPersonService(new MockKcPersonService());
         
         final ProtocolDao protocolDao = context.mock(ProtocolDao.class);
         final List<Protocol> protocols = initProtocols();
@@ -114,6 +117,7 @@ public class CommitteeBatchCorrespondenceServiceTest extends KcUnitTestBase {
         final Date endDate = Date.valueOf("2010-06-15");
 
         committeeBatchCorrespondenceServiceImpl.setBusinessObjectService(new CommitteeTestHelper.MockBusinessObjectService());
+        committeeBatchCorrespondenceServiceImpl.setKcPersonService(new MockKcPersonService());
         
         final ProtocolDao protocolDao = context.mock(ProtocolDao.class);
         final List<Protocol> protocols = initProtocols();
@@ -155,6 +159,14 @@ public class CommitteeBatchCorrespondenceServiceTest extends KcUnitTestBase {
             public Integer getNextValue(String key) {
                 return 2;
             }
+            
+            @Override
+            public ProtocolPerson getPrincipalInvestigator() {
+                ProtocolPerson pPerson = new ProtocolPerson();
+                pPerson.setFullName("PI Test");
+                return pPerson;
+            }
+            
             public void refreshNonUpdateableReferences() {
             }
         };
@@ -179,6 +191,14 @@ public class CommitteeBatchCorrespondenceServiceTest extends KcUnitTestBase {
             public Integer getNextValue(String key) {
                 return 2;
             }
+            
+            @Override
+            public ProtocolPerson getPrincipalInvestigator() {
+                ProtocolPerson pPerson = new ProtocolPerson();
+                pPerson.setFullName("PI Test");
+                return pPerson;
+            }
+            
             public void refreshNonUpdateableReferences() {
             }
         };

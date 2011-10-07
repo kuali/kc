@@ -16,6 +16,7 @@
 package org.kuali.kra.irb.actions.notification;
 
 import java.util.List;
+import java.util.Map;
 
 import org.apache.commons.lang.StringUtils;
 import org.kuali.kra.bo.CoeusModule;
@@ -23,111 +24,77 @@ import org.kuali.kra.common.notification.NotificationContext;
 import org.kuali.kra.common.notification.bo.KcNotification;
 import org.kuali.kra.common.notification.bo.NotificationTypeRecipient;
 import org.kuali.kra.common.notification.exception.UnknownRoleException;
+import org.kuali.kra.common.notification.service.KcNotificationRenderingService;
 import org.kuali.kra.common.notification.service.KcNotificationService;
 import org.kuali.kra.infrastructure.Constants;
 import org.kuali.kra.infrastructure.KraServiceLocator;
 import org.kuali.kra.infrastructure.RoleConstants;
 import org.kuali.kra.irb.Protocol;
+import org.kuali.kra.irb.notification.IRBNotificationContext;
 import org.kuali.kra.irb.onlinereview.ProtocolOnlineReview;
 import org.w3c.dom.Element;
 
-public class RejectReviewEvent extends NotificationEventBase implements NotificationContext {
+public class RejectReviewEvent extends IRBNotificationContext {
     public static final String REVIEW_REJECTED = "903";
     private ProtocolOnlineReview onlineReview;
     private String reason;
     
-    public RejectReviewEvent() {
-    }
 
     public RejectReviewEvent(Protocol protocol) {
         super(protocol);
     }
 
-    /**
-     * 
-     * @see org.kuali.kra.irb.actions.notification.NotificationEventBase#getRecipients(org.w3c.dom.Element)
-     */
-    public void getRecipients(Element recipients) {
-        super.getRecipients(recipients);
-    }
 
     /**
      * 
-     * @see org.kuali.kra.irb.actions.notification.NotificationEventBase#getTitle()
-     */
-    public String getTitle() {
-        return "Protocol " + getProtocol().getProtocolNumber() + " Review returned to reviewer";
-    }
-
-    public String getTemplatePath() {
-        return "RejectReviewNotification.xsl";
-    }
-
-    /**
-     * 
-     * @see org.kuali.kra.irb.actions.notification.NotificationEventBase#getActionTypeCode()
+     * @see org.kuali.kra.common.notification.NotificationContextBase#getActionTypeCode()
      */
     @Override
     public String getActionTypeCode() {
         return REVIEW_REJECTED;
     }
 
-    @Override
+    /*
     public boolean isReviewerNotification() {
         return true;    
     }
     
-    @Override
+
     public boolean isInvestigatorIncluded() {
         return false;    
     }
+    */
     
     public void populateRoleQualifiers(NotificationTypeRecipient notificationRecipient) throws UnknownRoleException {
-        String roleNamespace = StringUtils.substringBefore(notificationRecipient.getRoleName(), Constants.COLON);
-        String roleName = StringUtils.substringAfter(notificationRecipient.getRoleName(), Constants.COLON);
+        super.populateRoleQualifiers(notificationRecipient, "RejectReview");
         
+        /*
         if (StringUtils.equals(roleNamespace, RoleConstants.PROTOCOL_ROLE_TYPE) && StringUtils.equals(roleName, RoleConstants.IRB_PROTOCOL_ONLINE_REVIEWER)) {
             if ("submissionId".equals(notificationRecipient.getRoleQualifier())) {
-           // notificationRecipient.setRoleQualifier("protocol");
             notificationRecipient.setQualifierValue(getProtocol().getProtocolSubmission().getSubmissionId().toString());
             } else if ("protocolOnlineReviewId".equals(notificationRecipient.getRoleQualifier())) {
-                // notificationRecipient.setRoleQualifier("protocol");
                 notificationRecipient.setQualifierValue(getOnlineReview().getProtocolOnlineReviewId().toString());
                 
             } else if ("protocolLeadUnitNumber".equals(notificationRecipient.getRoleQualifier())) {
-                // notificationRecipient.setRoleQualifier("protocol");
                 notificationRecipient.setQualifierValue(getProtocol().getLeadUnitNumber());
                 
             }
         } else {
             throw new UnknownRoleException(notificationRecipient.getRoleName(), "RejectReview");
         }
-        
+        */
     }   
     
     public String replaceContextVariables(String text) {
-        ProtocolActionsNotificationService protocolActionsNotificationService = KraServiceLocator
-                .getService(ProtocolActionsNotificationService.class);
-        try {
-            if (text.contains("{MESSAGE_SUBJECT}")) {
-                return StringUtils.replace(text, "{MESSAGE_SUBJECT}", getTitle());
-            }
-            else {
-                String message = protocolActionsNotificationService.getTransFormData(getProtocol(), getTemplate());
-                message = message.replaceAll("\\$amp;", "&amp;");
-                text = StringUtils.replace(text, "{MESSAGE_BODY}", message);
-                return StringUtils.replace(text, "{REASON}", getReason());
-            }
-        } catch (Exception e) {
-            return null;
-        }
+        KcNotificationRenderingService renderer = getNotificationRenderingService();
+        Map<String, String> params = renderer.getReplacementParameters();
+        params.put("{REASON}", getReason());
+        
+        return renderer.render(text, params);
     }
     
     public void sendNotification() {
-        KcNotificationService kcNotificationService = KraServiceLocator.getService(KcNotificationService.class);
-        List<KcNotification> notifications = kcNotificationService.createNotifications(getProtocol().getProtocolDocument().getDocumentNumber(), Integer.toString(CoeusModule.IRB_MODULE_CODE_INT), getActionTypeCode(), this);
-        kcNotificationService.sendNotifications(notifications, this);
-
+        sendNotification(this);
     }
 
     public ProtocolOnlineReview getOnlineReview() {

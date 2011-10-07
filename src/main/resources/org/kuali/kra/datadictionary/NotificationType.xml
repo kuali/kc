@@ -24,7 +24,7 @@
     <bean id="NotificationType" parent="NotificationType-parentBean" />
     <bean id="NotificationType-parentBean" abstract="true" parent="BusinessObjectEntry">
         <property name="businessObjectClass" value="org.kuali.kra.common.notification.bo.NotificationType" />
-        <property name="objectLabel" value="Notification Type" />
+        <property name="objectLabel" value="Notification" />
         <property name="inquiryDefinition" >
             <ref bean="NotificationType-inquiryDefinition" />
         </property>
@@ -54,8 +54,8 @@
     <bean id="NotificationType-notificationTypeId-parentBean" abstract="true" parent="AttributeDefinition">
         <property name="name" value="notificationTypeId" />
         <property name="forceUppercase" value="false" />
-        <property name="label" value="Notification Type Id" />
-        <property name="shortLabel" value="Notification Type Id" />
+        <property name="label" value="Notification Id" />
+        <property name="shortLabel" value="Notification Id" />
         <property name="maxLength" value="6" />
         <property name="validationPattern">
             <bean parent="NumericValidationPattern"/>
@@ -64,8 +64,8 @@
             <bean parent="TextControlDefinition" 
                   p:size="6"/>
         </property>
-        <property name="summary" value="Notification Type Id" />
-        <property name="description" value="Notification Type Id" />
+        <property name="summary" value="Notification Id" />
+        <property name="description" value="Notification Id" />
     </bean>
     
     <bean id="NotificationType-moduleCode" parent="NotificationType-moduleCode-parentBean" />
@@ -207,7 +207,7 @@
         <property name="inquirySections" >
             <list>
                 <bean parent="InquirySectionDefinition">
-                    <property name="title" value="Notification Type" />
+                    <property name="title" value="Notification" />
                     <property name="numberOfColumns" value="1" />
                     <property name="inquiryFields" >
                         <list>
@@ -229,7 +229,7 @@
 
     <bean id="NotificationType-lookupDefinition" parent="NotificationType-lookupDefinition-parentBean" />
     <bean id="NotificationType-lookupDefinition-parentBean" abstract="true" parent="LookupDefinition">
-        <property name="title" value="Notification Type Lookup" />
+        <property name="title" value="Notification Lookup" />
         <property name="menubar" value="&lt;a href=&quot;index.jsp&quot;&gt;Main&lt;/a&gt;" />
         <property name="defaultSort" >
             <bean parent="SortDefinition" />
