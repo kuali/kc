@@ -116,6 +116,7 @@ public class NegotiationNegotiationAction extends NegotiationAction {
         if (oldNegotiation == null || !StringUtils.equals(negotiation.getAssociatedDocumentId(), oldNegotiation.getAssociatedDocumentId())) {
             Map<String, Object> values = new HashMap<String, Object>();
             values.put("associatedDocumentId", negotiation.getAssociatedDocumentId());
+            values.put("negotiationAssociationTypeId", negotiation.getNegotiationAssociationType().getId());
             Collection<Negotiation> otherNegotiations = getBusinessObjectService().findMatching(Negotiation.class, values);
             if (!otherNegotiations.isEmpty()) {
                 StrutsConfirmation question = buildParameterizedConfirmationQuestion(mapping, form, request, response, 
