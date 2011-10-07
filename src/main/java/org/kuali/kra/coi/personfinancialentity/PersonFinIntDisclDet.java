@@ -17,6 +17,7 @@ package org.kuali.kra.coi.personfinancialentity;
 
 import java.util.LinkedHashMap;
 
+import org.apache.commons.lang.StringUtils;
 import org.kuali.kra.bo.KraPersistableBusinessObjectBase;
 
 /**
@@ -40,6 +41,7 @@ public class PersonFinIntDisclDet extends KraPersistableBusinessObjectBase {
 
     private FinEntitiesDataMatrix finEntitiesDataMatrix; 
     private PersonFinIntDisclosure personFinIntDisclosure;
+    private FinIntEntityRelType finIntEntityRelType;
     
     public PersonFinIntDisclDet() { 
 
@@ -137,6 +139,17 @@ public class PersonFinIntDisclDet extends KraPersistableBusinessObjectBase {
 
     public void setPersonFinIntDisclosure(PersonFinIntDisclosure personFinIntDisclosure) {
         this.personFinIntDisclosure = personFinIntDisclosure;
+    }
+
+    public FinIntEntityRelType getFinIntEntityRelType() {
+        if (StringUtils.isNotBlank(relationshipTypeCode) && finIntEntityRelType == null) {
+            this.refreshReferenceObject("finIntEntityRelType");
+        }
+        return finIntEntityRelType;
+    }
+
+    public void setFinIntEntityRelType(FinIntEntityRelType finIntEntityRelType) {
+        this.finIntEntityRelType = finIntEntityRelType;
     }
     
 }

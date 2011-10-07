@@ -38,7 +38,7 @@ public class FinancialEntitySeleniumHelper extends KcSeleniumHelper {
 
     public void FinancialEntityCompleteTest() {
 
-        click("Financial Entities");
+        click("Financial Entity");
         click("methodToCall.editNew");
         click("relationDetailControl");
         setupFields();
@@ -48,7 +48,7 @@ public class FinancialEntitySeleniumHelper extends KcSeleniumHelper {
 
         click("methodToCall.editList");
         int lastEntityIndex = findLastEntity();
-        click("methodToCall.editFinancialEntity.line" + lastEntityIndex);
+        click("methodToCall.editActiveFinancialEntity.line" + lastEntityIndex);
         set("financialEntityHelper.activeFinancialEntities[" + lastEntityIndex + "].principalBusinessActivity", "test company - v2");
 
         click("methodToCall.save.line" + lastEntityIndex + ".anchor");
@@ -99,7 +99,7 @@ public class FinancialEntitySeleniumHelper extends KcSeleniumHelper {
         String message = "";
         while (i < 1000) {
             try {
-                message = get("methodToCall.editFinancialEntity.line" + i);
+                message = get("methodToCall.editActiveFinancialEntity.line" + i);
             }
             catch (AssertionError e) {
                 // if (message.endsWith(" not found")) {
