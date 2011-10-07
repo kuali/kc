@@ -35,6 +35,7 @@ import org.kuali.kra.irb.Protocol;
 import org.kuali.kra.irb.notification.IRBNotificationContext;
 import org.kuali.kra.irb.notification.IRBNotificationRenderingServiceImpl;
 import org.kuali.kra.irb.notification.IRBNotificationRoleQualifierServiceImpl;
+import org.kuali.rice.kim.bo.types.dto.AttributeSet;
 
 /**
  * 
@@ -59,23 +60,7 @@ public class FundingSourceEvent extends IRBNotificationContext {
      */
     @Override
     public void populateRoleQualifiers(NotificationTypeRecipient notificationRecipient) throws UnknownRoleException { 
-        List<NotificationModuleRole> moduleRoles = 
-            getNotificationModuleRuleService().getNotificationModuleRolesForKimRole(getModuleCode(), notificationRecipient.getRoleName());
-        
-        
-        if (CollectionUtils.isNotEmpty(moduleRoles)) {
-            for (NotificationModuleRole mRole : moduleRoles) {
-               List<NotificationModuleRoleQualifier> moduleQualifiers = mRole.getRoleQualifiers();
-               if (CollectionUtils.isNotEmpty(moduleQualifiers)) {
-                   for (NotificationModuleRoleQualifier mQualifier : moduleQualifiers) {
-                       notificationRecipient.setRoleQualifier(mQualifier.getQualifier());
-                       notificationRecipient.setQualifierValue(getNotificationRoleQualifierService().getRoleQualifierValue(mQualifier));
-                   }
-               }
-            }
-        } else {
-            throw new UnknownRoleException(notificationRecipient.getRoleName(), "FundingSource");
-        }
+        super.populateRoleQualifiers(notificationRecipient, "FundingSource");
     } 
     
     /**
@@ -84,7 +69,7 @@ public class FundingSourceEvent extends IRBNotificationContext {
      */
     @Override
     public String replaceContextVariables(String text) {
-        KcNotificationRenderingService renderer = new IRBNotificationRenderingServiceImpl(getProtocol());
+        KcNotificationRenderingService renderer = getNotificationRenderingService();
         Map<String, String> params = renderer.getReplacementParameters();
         params.put("{FUNDING_TYPE}", getFundingType());
         params.put("{ACTION}", getAction());

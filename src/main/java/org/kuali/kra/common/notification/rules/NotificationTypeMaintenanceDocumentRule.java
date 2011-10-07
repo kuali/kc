@@ -39,7 +39,7 @@ public class NotificationTypeMaintenanceDocumentRule extends KraMaintenanceDocum
     private static final String MODULE_CODE_FIELD_NAME = "moduleCode";
     private static final String ACTION_CODE_FIELD_NAME = "actionCode";
     private static final String PROMPT_USER_FIELD_NAME = "promptUser";
-    private static final String ROLE_QUALIFIER_FIELD_NAME = "notificationTypeRecipients[%d].roleQualifier";
+    private static final String ROLE_FIELD_NAME = "notificationTypeRecipients[%d].roleName";
     
     private transient BusinessObjectService businessObjectService;
 
@@ -66,7 +66,7 @@ public class NotificationTypeMaintenanceDocumentRule extends KraMaintenanceDocum
         
         isValid &= checkModuleCodeActionCodeUniqueness(newNotificationType);
         isValid &= checkPromptUserSystemGeneratedBothNotTrue(newNotificationType);
-        isValid &= checkNotificationTypeIdRoleNameRoleQualifierUniqueness(newNotificationType);
+        isValid &= checkNotificationTypeIdRoleNameUniqueness(newNotificationType);
         
         return isValid;
     }
@@ -127,7 +127,7 @@ public class NotificationTypeMaintenanceDocumentRule extends KraMaintenanceDocum
      * @param newNotificationType the {@code NotificationType} to check
      * @return true if the {@code notificationTypeId}, {@code roleName}, and {@code roleQualifier} are unique, false otherwise
      */
-    private boolean checkNotificationTypeIdRoleNameRoleQualifierUniqueness(NotificationType newNotificationType) {
+    private boolean checkNotificationTypeIdRoleNameUniqueness(NotificationType newNotificationType) {
         boolean isValid = true;
         
         List<NotificationTypeRecipient> newNotificationTypeRecipients = newNotificationType.getNotificationTypeRecipients();
@@ -136,20 +136,17 @@ public class NotificationTypeMaintenanceDocumentRule extends KraMaintenanceDocum
             NotificationTypeRecipient outerNotificationTypeRecipient = outer.next();
             
             String outerRoleName = outerNotificationTypeRecipient.getRoleName();
-            String outerRoleQualifier = outerNotificationTypeRecipient.getRoleQualifier();
             
             for (ListIterator<NotificationTypeRecipient> inner = newNotificationTypeRecipients.listIterator(outer.nextIndex()); inner.hasNext();) {
                 int currentIndex = inner.nextIndex();
                 NotificationTypeRecipient innerNotificationTypeRecipient = inner.next();
                 
                 String innerRoleName = innerNotificationTypeRecipient.getRoleName();
-                String innerRoleQualifier = innerNotificationTypeRecipient.getRoleQualifier();
                 
-                if (StringUtils.equals(outerRoleName, innerRoleName) 
-                        && StringUtils.equals(outerRoleQualifier, innerRoleQualifier)) {
+                if (StringUtils.equals(outerRoleName, innerRoleName)) {
                     isValid = false;
-                    putFieldError(String.format(ROLE_QUALIFIER_FIELD_NAME, currentIndex), 
-                        KeyConstants.ERROR_NOTIFICATION_ROLE_NAME_ROLE_QUALIFIER_COMBINATION_EXISTS, new String[] {innerRoleName, innerRoleQualifier});
+                    putFieldError(String.format(ROLE_FIELD_NAME, currentIndex), 
+                        KeyConstants.ERROR_NOTIFICATION_ROLE_NAME_EXISTS, new String[] {innerRoleName});
                 }
             }
         }

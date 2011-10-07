@@ -48,10 +48,12 @@ import org.kuali.kra.irb.correspondence.ProtocolCorrespondenceType;
 import org.kuali.kra.printing.Printable;
 import org.kuali.kra.printing.PrintingException;
 import org.kuali.kra.printing.print.AbstractPrint;
+import org.kuali.kra.service.KcPersonService;
 import org.kuali.rice.kns.service.BusinessObjectService;
 import org.kuali.rice.kns.service.DocumentService;
 import org.kuali.rice.kns.service.SequenceAccessorService;
 import org.kuali.rice.kns.util.DateUtils;
+import org.kuali.rice.kns.util.GlobalVariables;
 
 /**
  * 
@@ -72,6 +74,7 @@ public class CommitteeBatchCorrespondenceServiceImpl implements CommitteeBatchCo
     private ProtocolGenericActionService protocolGenericActionService;
     private ProtocolCorrespondenceTemplateService protocolCorrespondenceTemplateService;
     private DocumentService documentService;
+    private KcPersonService kcPersonService;
     private int finalActionCounter;
 
     /**
@@ -118,8 +121,12 @@ public class CommitteeBatchCorrespondenceServiceImpl implements CommitteeBatchCo
                             protocolCorrespondenceType, committeeBatchCorrespondence.getCommitteeBatchCorrespondenceId(), protocolActionTypeCode);
                     committeeBatchCorrespondence.getCommitteeBatchCorrespondenceDetails().add(batchCorrespondenceDetail);
                     BatchCorrespondenceEvent correspondenceEvent = new BatchCorrespondenceEvent(protocol);
-                    correspondenceEvent.setSubject(protocolCorrespondenceType.getDescription() + " for Protocol " + protocol.getProtocolNumber());
+                    correspondenceEvent.setProtocolCorrespondenceType(protocolCorrespondenceType.getDescription());
                     correspondenceEvent.setDetailId(batchCorrespondenceDetail.getCommitteeBatchCorrespondenceDetailId());
+                    System.err.println(kcPersonService);
+                    System.err.println(GlobalVariables.getUserSession().getPrincipalId());
+                    System.err.println(kcPersonService.getKcPersonByPersonId(GlobalVariables.getUserSession().getPrincipalId()));
+                    correspondenceEvent.setUserFullname(kcPersonService.getKcPersonByPersonId(GlobalVariables.getUserSession().getPrincipalId()).getFullName());
                     correspondenceEvent.sendNotification();
                 }
             }
@@ -410,6 +417,14 @@ public class CommitteeBatchCorrespondenceServiceImpl implements CommitteeBatchCo
      */
     public void setDocumentService(DocumentService documentService) {
         this.documentService = documentService;
+    }
+
+    /**
+     * Populated by Spring Beans.
+     * @param kcPersonService
+     */
+    public void setKcPersonService(KcPersonService kcPersonService) {
+        this.kcPersonService = kcPersonService;
     }
 
 }

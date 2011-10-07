@@ -35,7 +35,7 @@
 
   <bean id="NotificationTypeMaintenanceDocument-EditNotificationType-parentBean" abstract="true" parent="MaintainableSectionDefinition">
     <property name="id" value="Edit Notification Types"/>
-    <property name="title" value="Edit Notification Types"/>
+    <property name="title" value="Edit Notifications"/>
     <property name="maintainableItems">
       <list>
         <bean parent="MaintainableFieldDefinition" p:name="notificationTypeId" p:required="true"/>

@@ -3,8 +3,8 @@
 	<documentTypes xmlns="ns:workflow/DocumentType" xsi:schemaLocation="ns:workflow/DocumentType resource:DocumentType">
 		<documentType>
 			<name>NotificationTypeMaintenanceDocument</name>
-			<description>Create/Edit a Notification Type</description>
-			<label>Notification Type</label>
+			<description>Create/Edit a Notification</description>
+			<label>Notification</label>
 			<parent>KcSharedMaintenanceDocument</parent>
 		</documentType>
 	</documentTypes>	

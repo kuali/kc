@@ -2227,7 +2227,6 @@
         <field-descriptor name="notificationTypeRecipientId" column="NOTIFICATION_TYPE_RECIPIENT_ID" jdbc-type="BIGINT" primarykey="true" sequence-name="SEQ_NOTIFICATION_TYPE_ID" autoincrement="true" />
         <field-descriptor name="notificationTypeId" column="NOTIFICATION_TYPE_ID" jdbc-type="BIGINT" />
         <field-descriptor name="roleName" column="ROLE_NAME" jdbc-type="VARCHAR" />
-        <field-descriptor name="roleQualifier" column="ROLE_QUALIFIER" jdbc-type="VARCHAR" />
         <field-descriptor name="toOrCC" column="TO_OR_CC" jdbc-type="VARCHAR" />
         <field-descriptor name="updateUser" column="UPDATE_USER" jdbc-type="VARCHAR" />
         <field-descriptor name="updateTimestamp" column="UPDATE_TIMESTAMP" jdbc-type="TIMESTAMP" />
@@ -2375,7 +2374,7 @@
         <collection-descriptor name="activities" proxy="true" element-class-ref="org.kuali.kra.negotiations.bo.NegotiationActivity" collection-class="org.apache.ojb.broker.util.collections.ManageableArrayList" auto-retrieve="true" auto-update="object" auto-delete="object">
 			<inverse-foreignkey field-ref="negotiationId"/>
 		</collection-descriptor>
-		
+
     	<reference-descriptor name="negotiationDocument" class-ref="org.kuali.kra.negotiations.document.NegotiationDocument" auto-retrieve="true" auto-update="none" auto-delete="none">
         	<foreignkey field-ref="documentNumber" />
     	</reference-descriptor>		

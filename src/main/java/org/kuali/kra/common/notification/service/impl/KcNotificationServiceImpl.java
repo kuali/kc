@@ -223,24 +223,19 @@ public class KcNotificationServiceImpl implements KcNotificationService {
     
     protected List<NotificationRecipient> resolveRoleRecipients(List<NotificationTypeRecipient> roleRecipients) {
         List<NotificationRecipient> recipients = new ArrayList<NotificationRecipient>();
-        
-        String roleNamespace = StringUtils.substringBefore(roleRecipients.get(0).getRoleName(), Constants.COLON);
-        String roleName = StringUtils.substringAfter(roleRecipients.get(0).getRoleName(), Constants.COLON);
-        
-        AttributeSet qualification = new AttributeSet();
         for (NotificationTypeRecipient roleRecipient : roleRecipients) {
-            if (StringUtils.isNotBlank(roleRecipient.getRoleQualifier())) {
-                qualification.put(roleRecipient.getRoleQualifier(), roleRecipient.getQualifierValue());
+            LOG.info("Processing recipient: " + roleRecipient.getRoleName() + " with " + roleRecipient.getRoleQualifiers().size() + " qualifiers.");
+            String roleNamespace = StringUtils.substringBefore(roleRecipient.getRoleName(), Constants.COLON);
+            String roleName = StringUtils.substringAfter(roleRecipient.getRoleName(), Constants.COLON);
+    
+            Collection<String> roleMembers = roleManagementService.getRoleMemberPrincipalIds(roleNamespace, roleName, roleRecipient.getRoleQualifiers());
+            for (String roleMember : roleMembers) {
+                NotificationRecipient recipient = new NotificationRecipient();
+                recipient.setRecipientId(kcPersonService.getKcPersonByPersonId(roleMember).getUserName());
+                recipient.setRecipientType(KimConstants.KimGroupMemberTypes.PRINCIPAL_MEMBER_TYPE);
+                recipients.add(recipient);
             }
-        }
-        Collection<String> roleMembers = roleManagementService.getRoleMemberPrincipalIds(roleNamespace, roleName, qualification);
-        for (String roleMember : roleMembers) {
-            NotificationRecipient recipient = new NotificationRecipient();
-//            recipient.setRecipientId(roleMember);
-            recipient.setRecipientId(kcPersonService.getKcPersonByPersonId(roleMember).getUserName());
-            recipient.setRecipientType(KimConstants.KimGroupMemberTypes.PRINCIPAL_MEMBER_TYPE);
-            recipients.add(recipient);
-        }
+        } 
         
         return recipients;
     }
