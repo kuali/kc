@@ -15,9 +15,12 @@
  */
 package org.kuali.kra.coi.personfinancialentity;
 
+import java.util.List;
+
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 
+import org.apache.commons.collections.CollectionUtils;
 import org.apache.commons.lang.StringUtils;
 import org.apache.struts.action.ActionForm;
 import org.apache.struts.action.ActionForward;
@@ -36,7 +39,28 @@ public class FinancialEntityEditListAction extends FinancialEntityAction{
     private static final String DEACTIVATE_ENTITY_QUESTION="DeactivateEntity";
     // TODO : db column is '2000', but coeus shows 1000 limit; so just follow coeus message.
     private static final String DEACTIVATE_ENTITY_REASON_MAXLENGTH = "1000";
-   /**
+    private static final String PROCESS_STATUS_FINAL = "F";
+
+    
+    
+    public ActionForward editActiveFinancialEntity(ActionMapping mapping, ActionForm form, HttpServletRequest request,
+            HttpServletResponse response) throws Exception {
+        FinancialEntityHelper financialEntityHelper = ((FinancialEntityForm) form).getFinancialEntityHelper();
+        financialEntityHelper.setEditType(ACTIVATE_ENTITY);
+        editFinancialEntity(form, request);
+       return mapping.findForward(Constants.MAPPING_BASIC);
+    }
+
+    public ActionForward editInactiveFinancialEntity(ActionMapping mapping, ActionForm form, HttpServletRequest request,
+            HttpServletResponse response) throws Exception {
+        FinancialEntityHelper financialEntityHelper = ((FinancialEntityForm) form).getFinancialEntityHelper();
+        financialEntityHelper.setEditType(INACTIVATE_ENTITY);
+        editFinancialEntity(form, request);
+       return mapping.findForward(Constants.MAPPING_BASIC);
+    }
+
+
+    /**
      * 
      * This method is called when 'edit' button is clicked for an active financial entity.  It will set up the
      * index, so ui will display the financial entity panel for editing.
@@ -47,20 +71,29 @@ public class FinancialEntityEditListAction extends FinancialEntityAction{
      * @return
      * @throws Exception
      */
-    public ActionForward editFinancialEntity(ActionMapping mapping, ActionForm form, HttpServletRequest request,
-            HttpServletResponse response) throws Exception {
+    private void editFinancialEntity(ActionForm form, HttpServletRequest request) throws Exception {
         FinancialEntityHelper financialEntityHelper = ((FinancialEntityForm) form).getFinancialEntityHelper();
 
         int entityIndex = getSelectedLine(request);
-        PersonFinIntDisclosure personFinIntDisclosure = ((FinancialEntityForm) form).getFinancialEntityHelper()
-                .getActiveFinancialEntities().get(entityIndex);
+        PersonFinIntDisclosure personFinIntDisclosure = getFinancialEntities(form).get(entityIndex);
         financialEntityHelper.setEditEntityIndex(entityIndex);
         financialEntityHelper.setEditRelationDetails(getFinancialEntityService().getFinancialEntityDataMatrixForEdit(personFinIntDisclosure.getPerFinIntDisclDetails()));
         financialEntityHelper.resetPrevSponsorCode();
-        // ((FinancialEntityForm) form).getFinancialEntityHelper().setActiveFinancialEntities(getFinancialEntities());
-        return mapping.findForward(Constants.MAPPING_BASIC);
     }
 
+    private List<PersonFinIntDisclosure> getFinancialEntities(ActionForm form) {
+        
+        FinancialEntityHelper financialEntityHelper = ((FinancialEntityForm) form).getFinancialEntityHelper();
+        if (StringUtils.equals(ACTIVATE_ENTITY, financialEntityHelper.getEditType())) {
+            return ((FinancialEntityForm) form).getFinancialEntityHelper()
+                .getActiveFinancialEntities();
+        } else {
+            return ((FinancialEntityForm) form).getFinancialEntityHelper()
+                    .getInactiveFinancialEntities();
+        }
+
+    }
+    
     /**
      * 
      * This method to inactive the selected financial entity
@@ -100,6 +133,7 @@ public class FinancialEntityEditListAction extends FinancialEntityAction{
 
                 PersonFinIntDisclosure personFinIntDisclosure = ((FinancialEntityForm) form).getFinancialEntityHelper()
                         .getActiveFinancialEntities().get(entityIndex);
+                ((FinancialEntityForm) form).getFinancialEntityHelper().setEditRelationDetails(getFinancialEntityService().getFinancialEntityDataMatrixForEdit(personFinIntDisclosure.getPerFinIntDisclDetails()));
                 versionFinancialEntity(form, personFinIntDisclosure,2, reason);
             }
         }
@@ -121,10 +155,11 @@ public class FinancialEntityEditListAction extends FinancialEntityAction{
             HttpServletResponse response) throws Exception {
 
         int entityIndex = getSelectedLine(request);
-        PersonFinIntDisclosure personFinIntDisclosure = ((FinancialEntityForm) form).getFinancialEntityHelper()
-                .getInactiveFinancialEntities().get(entityIndex);
+        FinancialEntityHelper financialEntityHelper = ((FinancialEntityForm) form).getFinancialEntityHelper();
+        PersonFinIntDisclosure personFinIntDisclosure = financialEntityHelper.getInactiveFinancialEntities().get(entityIndex);
+        financialEntityHelper.setEditRelationDetails(getFinancialEntityService().getFinancialEntityDataMatrixForEdit(personFinIntDisclosure.getPerFinIntDisclDetails()));
         versionFinancialEntity(form, personFinIntDisclosure,1, Constants.EMPTY_STRING);
-        ((FinancialEntityForm) form).getFinancialEntityHelper().setEditEntityIndex(-1);
+        financialEntityHelper.setEditEntityIndex(-1);
         return mapping.findForward(Constants.MAPPING_BASIC);
     }
 
@@ -161,24 +196,30 @@ public class FinancialEntityEditListAction extends FinancialEntityAction{
         FinancialEntityHelper financialEntityHelper = ((FinancialEntityForm) form).getFinancialEntityHelper();
 
            int entityIndex = getSelectedLine(request);
-            PersonFinIntDisclosure personFinIntDisclosure = financialEntityHelper.getActiveFinancialEntities().get(entityIndex);
+            PersonFinIntDisclosure personFinIntDisclosure = getFinancialEntities(form).get(entityIndex);
 
-            if (isValidToSave(personFinIntDisclosure, "financialEntityHelper.activeFinancialEntities[" + entityIndex + "]")) {
-                if (StringUtils.equals("F", personFinIntDisclosure.getProcessStatus())) {
-                    PersonFinIntDisclosure newFinIntDisclosure = versionFinancialEntity(form, personFinIntDisclosure,1, Constants.EMPTY_STRING);
+            if (isValidToSave(personFinIntDisclosure, getErrotPropertyPrefix(form, entityIndex))) {
+                if (StringUtils.equals(PROCESS_STATUS_FINAL, personFinIntDisclosure.getProcessStatus())) {
+                    PersonFinIntDisclosure newFinIntDisclosure = versionFinancialEntity(form, personFinIntDisclosure,StringUtils.equals(ACTIVATE_ENTITY, financialEntityHelper.getEditType()) ? 1 : 2, Constants.EMPTY_STRING);
                     resetEditEntityIndex(form, newFinIntDisclosure.getPersonFinIntDisclosureId());
                 } else {
-                    personFinIntDisclosure.setProcessStatus("F");
+                    personFinIntDisclosure.setProcessStatus(PROCESS_STATUS_FINAL);
+                    resetFinEntityDet(financialEntityHelper, personFinIntDisclosure);
                     saveFinancialEntity(form, personFinIntDisclosure);                     
                 }
-              //  saveFinancialEntity(form, personFinIntDisclosure);
             }
- //           ((FinancialEntityForm) form).getFinancialEntityHelper().setEditEntityIndex(entityIndex);
-        
-
-//        ((FinancialEntityForm) form).getFinancialEntityHelper().setActiveFinancialEntities(getFinancialEntities(true));
-//        ((FinancialEntityForm) form).getFinancialEntityHelper().setInactiveFinancialEntities(getFinancialEntities(false));
         return mapping.findForward(Constants.MAPPING_BASIC);
+    }
+
+    private String getErrotPropertyPrefix(ActionForm form, int entityIndex) {
+        
+        FinancialEntityHelper financialEntityHelper = ((FinancialEntityForm) form).getFinancialEntityHelper();
+        if (StringUtils.equals(ACTIVATE_ENTITY, financialEntityHelper.getEditType())) {
+            return "financialEntityHelper.activeFinancialEntities[" + entityIndex + "]";
+        } else {
+            return "financialEntityHelper.inactiveFinancialEntities[" + entityIndex + "]";
+        }
+
     }
 
     /**
@@ -196,29 +237,35 @@ public class FinancialEntityEditListAction extends FinancialEntityAction{
         FinancialEntityHelper financialEntityHelper = ((FinancialEntityForm) form).getFinancialEntityHelper();
 
         int entityIndex = getSelectedLine(request);
-        PersonFinIntDisclosure personFinIntDisclosure = financialEntityHelper.getActiveFinancialEntities().get(entityIndex);
+        PersonFinIntDisclosure personFinIntDisclosure = getFinancialEntities(form).get(entityIndex);
 
-        if (isValidToSave(personFinIntDisclosure, "financialEntityHelper.activeFinancialEntities[" + entityIndex + "]")) {
-            if (StringUtils.equals("F", personFinIntDisclosure.getProcessStatus())) {
+        if (isValidToSave(personFinIntDisclosure, getErrotPropertyPrefix(form, entityIndex))) {
+            if (StringUtils.equals(PROCESS_STATUS_FINAL, personFinIntDisclosure.getProcessStatus())) {
                 PersonFinIntDisclosure newVersionDisclosure = getFinancialEntityService().versionPersonFinintDisclosure(
                         personFinIntDisclosure, financialEntityHelper.getEditRelationDetails());
                 newVersionDisclosure.setProcessStatus("S");
+                newVersionDisclosure.setStatusDescription(Constants.EMPTY_STRING);
                 saveFinancialEntity(form, newVersionDisclosure);
                 resetEditEntityIndex(form, newVersionDisclosure.getPersonFinIntDisclosureId());
             }
             else {
+                resetFinEntityDet(financialEntityHelper, personFinIntDisclosure);
                 saveFinancialEntity(form, personFinIntDisclosure);
             }
             // saveFinancialEntity(form, personFinIntDisclosure);
         }
-       // ((FinancialEntityForm) form).getFinancialEntityHelper().setEditEntityIndex(entityIndex);
-
-
-        // ((FinancialEntityForm) form).getFinancialEntityHelper().setActiveFinancialEntities(getFinancialEntities(true));
-        // ((FinancialEntityForm) form).getFinancialEntityHelper().setInactiveFinancialEntities(getFinancialEntities(false));
         return mapping.findForward(Constants.MAPPING_BASIC);
     }
 
+    private void resetFinEntityDet(FinancialEntityHelper financialEntityHelper, PersonFinIntDisclosure personFinIntDisclosure) {
+        if (CollectionUtils.isNotEmpty(personFinIntDisclosure.getPerFinIntDisclDetails())) {
+            getBusinessObjectService().delete(personFinIntDisclosure.getPerFinIntDisclDetails());
+        }
+        personFinIntDisclosure.setPerFinIntDisclDetails(getFinancialEntityService().getFinDisclosureDetails(
+                financialEntityHelper.getEditRelationDetails(), personFinIntDisclosure.getEntityNumber(),
+                personFinIntDisclosure.getSequenceNumber()));
+        
+    }
 
     /*
      * after versioned, the retrieved list may not be exactly the same as before version.
@@ -227,7 +274,7 @@ public class FinancialEntityEditListAction extends FinancialEntityAction{
     private void resetEditEntityIndex(ActionForm form, Long personFinIntDisclosureId) {
         FinancialEntityHelper financialEntityHelper = ((FinancialEntityForm) form).getFinancialEntityHelper();
         int i = 0;
-        for (PersonFinIntDisclosure personFinIntDisclosure : financialEntityHelper.getActiveFinancialEntities()) {
+        for (PersonFinIntDisclosure personFinIntDisclosure : getFinancialEntities(form)) {
             if (personFinIntDisclosure.getPersonFinIntDisclosureId().equals(personFinIntDisclosureId)) {
                 financialEntityHelper.setEditEntityIndex(i);
                 break;

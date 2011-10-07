@@ -49,6 +49,18 @@ public class FinancialEntityHelper implements Serializable {
     private String prevSponsorCode;
     private String prevNewSponsorCode;
     
+    private String editType;
+    
+    public String getEditType() {
+        return editType;
+    }
+
+
+    public void setEditType(String editType) {
+        this.editType = editType;
+    }
+
+
     public FinancialEntityHelper(FinancialEntityForm form) {
         newPersonFinancialEntity = new PersonFinIntDisclosure();
         newPersonFinancialEntity.setCurrentFlag(true);

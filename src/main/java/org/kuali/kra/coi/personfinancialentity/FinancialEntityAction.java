@@ -43,6 +43,8 @@ import org.kuali.rice.kns.web.struts.action.KualiAction;
  */
 public class FinancialEntityAction extends KualiAction {
 
+    protected static final String INACTIVATE_ENTITY = "inactive";
+    protected static final String ACTIVATE_ENTITY = "active";
 
     /**
      * 
