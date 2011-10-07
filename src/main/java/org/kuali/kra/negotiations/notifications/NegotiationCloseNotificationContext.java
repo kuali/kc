@@ -21,9 +21,11 @@ import org.apache.commons.lang.StringUtils;
 import org.kuali.kra.common.notification.NotificationContext;
 import org.kuali.kra.common.notification.bo.NotificationTypeRecipient;
 import org.kuali.kra.common.notification.exception.UnknownRoleException;
+import org.kuali.kra.kim.bo.KcKimAttributes;
 import org.kuali.kra.negotiations.bo.Negotiable;
 import org.kuali.kra.negotiations.bo.Negotiation;
 import org.kuali.kra.negotiations.document.NegotiationDocument;
+import org.kuali.rice.kim.bo.types.dto.AttributeSet;
 
 /**
  * Notification Context for Negotiation Closed action.
@@ -45,12 +47,36 @@ public class NegotiationCloseNotificationContext implements NotificationContext 
 
     @Override
     public void populateRoleQualifiers(NotificationTypeRecipient notificationRecipient) throws UnknownRoleException {
+        
+        String qualifierKey = null;
+        String qualifierValue = null;
+        if (StringUtils.equals(notificationRecipient.getRoleName(), "KC-NEGOTIATION:Negotiator") ||
+            StringUtils.equals(notificationRecipient.getRoleName(), "KC-NEGOTIATION:Investigators")) {
+            qualifierKey = "documentTypeName";
+            qualifierValue = getNegotiationDocument().getNegotiation().getDocumentKey();
+        } else if (StringUtils.equals(notificationRecipient.getRoleName(), "KC-ADM:OSP Administrator") ||
+                   StringUtils.equals(notificationRecipient.getRoleName(), "KC-WKFLW:Unit Administrator")) {
+            qualifierKey = KcKimAttributes.UNIT_NUMBER;
+            qualifierValue = getNegotiationDocument().getNegotiation().getLeadUnitNumber();
+        }
+        
+        AttributeSet qualifications = notificationRecipient.getRoleQualifiers();
+        if (qualifications == null) {
+            qualifications = new AttributeSet();
+        }
+        if (qualifierKey != null && qualifierValue != null) {
+            qualifications.put(qualifierKey, qualifierValue);
+        }
+        notificationRecipient.setRoleQualifiers(qualifications);
+        
+        /*
         if (StringUtils.equals(notificationRecipient.getRoleQualifier(), "unitNumber")) {
             notificationRecipient.setQualifierValue(getNegotiationDocument().getNegotiation().getLeadUnitNumber());
         }
         if (StringUtils.equals(notificationRecipient.getRoleQualifier(), "documentTypeName")) {
             notificationRecipient.setQualifierValue(getNegotiationDocument().getNegotiation().getDocumentKey());
         }
+        */
 
     }
 

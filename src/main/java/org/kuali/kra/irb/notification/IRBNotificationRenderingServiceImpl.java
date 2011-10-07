@@ -15,12 +15,18 @@
  */
 package org.kuali.kra.irb.notification;
 
+import java.util.Collection;
 import java.util.HashMap;
+import java.util.List;
 import java.util.Map;
 
+import org.apache.commons.collections.CollectionUtils;
 import org.apache.commons.lang.StringUtils;
 import org.kuali.kra.common.notification.service.KcNotificationRenderingService;
 import org.kuali.kra.irb.Protocol;
+import org.kuali.kra.irb.actions.ProtocolActionType;
+import org.kuali.kra.irb.actions.submit.ProtocolSubmissionQualifierType;
+import org.kuali.kra.irb.actions.submit.ProtocolSubmissionType;
 import org.kuali.rice.kns.service.BusinessObjectService;
 import org.kuali.rice.kns.service.KNSServiceLocator;
 
@@ -83,17 +89,29 @@ public class IRBNotificationRenderingServiceImpl implements KcNotificationRender
             } else if (StringUtils.equals(key, IRBReplacementParameters.PROTOCOL_STATUS_DESCRIPTION)) {
                 params.put(key, protocol.getProtocolStatus().getDescription());
             } else if (StringUtils.equals(key, IRBReplacementParameters.LAST_ACTION_NAME)) {
-                //params.put(key, protocol.getLastProtocolAction());
+                if (protocol.getLastProtocolAction() != null) {
+                    params.put(key, getProtocolLastActionName(protocol.getLastProtocolAction().getProtocolActionTypeCode()));    
+                }
             } else if (StringUtils.equals(key, IRBReplacementParameters.LAST_ACTION_TYPE_CODE)) {
-                params.put(key, protocol.getLastProtocolAction().getProtocolActionTypeCode()); 
+                if (protocol.getLastProtocolAction() != null) {
+                    params.put(key, protocol.getLastProtocolAction().getProtocolActionTypeCode());
+                }
             } else if (StringUtils.equals(key, IRBReplacementParameters.LAST_SUBMISSION_NAME)) {
-                //params.put(key, protocol.getProtocolSubmission().get)
+                if (protocol.getProtocolSubmission() != null) {
+                    params.put(key, getProtocolSubmissionName(protocol.getProtocolSubmission().getSubmissionTypeCode()));
+                }
             } else if (StringUtils.equals(key, IRBReplacementParameters.LAST_SUBMISSION_TYPE_CODE)) {
-                params.put(key, protocol.getProtocolSubmission().getSubmissionTypeCode());
+                if (protocol.getProtocolSubmission() != null) {
+                    params.put(key, protocol.getProtocolSubmission().getSubmissionTypeCode());
+                }
             } else if (StringUtils.equals(key, IRBReplacementParameters.LAST_SUBMISSION_TYPE_QUAL_CODE)) {
-                params.put(key, protocol.getProtocolSubmission().getSubmissionTypeQualifierCode());
+                if (protocol.getProtocolSubmission() != null) {
+                    params.put(key, protocol.getProtocolSubmission().getSubmissionTypeQualifierCode());
+                }
             } else if (StringUtils.equals(key, IRBReplacementParameters.LAST_SUBMISSION_TYPE_QUAL_NAME)) {
-                //params.put(key, protocol.getProtocolSubmission());
+                if (protocol.getProtocolSubmission() != null) {
+                    params.put(key, getLastSubmissionTypeQualifierName(protocol.getProtocolSubmission().getSubmissionTypeQualifierCode()));
+                }
             } else if (StringUtils.equals(key, IRBReplacementParameters.PROTOCOL_TITLE)) {
                 params.put(key, protocol.getTitle());
             } else if (StringUtils.equals(key, IRBReplacementParameters.PROTOCOL_TYPE_CODE)) {
@@ -137,10 +155,42 @@ public class IRBNotificationRenderingServiceImpl implements KcNotificationRender
         this.businessObjectService = businessObjectService;
     }
 
-    /*
-    private String getProtocolLastActionName(String lastActionTypeCode) {
-        getBusinessObjectService().findMatching(clazz, fieldValues)
-    }
-    */
 
+    private String getProtocolLastActionName(String lastActionTypeCode) {
+        String result = null;
+        Map<String, String> fieldValues = new HashMap<String, String>();
+        fieldValues.put("protocolActionTypeCode", lastActionTypeCode);
+        List<ProtocolActionType> actionTypes = (List<ProtocolActionType>)getBusinessObjectService().findMatching(ProtocolActionType.class, fieldValues);
+        if (CollectionUtils.isNotEmpty(actionTypes)) {
+            result = actionTypes.get(0).getDescription();
+        }
+        
+        return result;
+    }
+
+    private String getProtocolSubmissionName(String submissionTypeCode) {
+        String result = null;
+        Map<String, String> fieldValues = new HashMap<String, String>();
+        fieldValues.put("submissionTypeCode", submissionTypeCode);
+        List<ProtocolSubmissionType> submissionTypes = 
+            (List<ProtocolSubmissionType>)getBusinessObjectService().findMatching(ProtocolSubmissionType.class, fieldValues);
+        if (CollectionUtils.isNotEmpty(submissionTypes)) {
+            result = submissionTypes.get(0).getDescription();
+        }
+        
+        return result;
+    }
+    
+    private String getLastSubmissionTypeQualifierName(String submissionQualifierTypeCode) {
+        String result = null;
+        Map<String, String> fieldValues = new HashMap<String, String>();
+        fieldValues.put("submissionQualifierTypeCode", submissionQualifierTypeCode);
+        List<ProtocolSubmissionQualifierType> submissionQualifierTypes = 
+            (List<ProtocolSubmissionQualifierType>)getBusinessObjectService().findMatching(ProtocolSubmissionQualifierType.class, fieldValues);
+        if (CollectionUtils.isNotEmpty(submissionQualifierTypes)) {
+            result = submissionQualifierTypes.get(0).getDescription();
+        }
+        
+        return result;
+    }
 }

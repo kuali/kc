@@ -37,7 +37,7 @@ public class NotificationTypeMaintenanceDocumentRuleTest extends MaintenanceRule
     private static final String MODULE_CODE_FIELD_NAME = "moduleCode";
     private static final String ACTION_CODE_FIELD_NAME = "actionCode";
     private static final String PROMPT_USER_FIELD_NAME = "promptUser";
-    private static final String ROLE_QUALIFIER_FIELD_NAME = "notificationTypeRecipients[%d].roleQualifier";
+    private static final String ROLE_FIELD_NAME = "notificationTypeRecipients[%d].roleName";
     
     private static final Long NOTIFICATION_TYPE_ID_10000 = 10000L;
     private static final Long NOTIFICATION_TYPE_ID_10001 = 10001L;
@@ -104,20 +104,20 @@ public class NotificationTypeMaintenanceDocumentRuleTest extends MaintenanceRule
     }
     
     @Test
-    public void testNotificationTypeIdRoleIdRoleQualifierUnique() throws Exception {
-        MaintenanceDocument notificationTypeMaintenanceDocument = getNotificationTypeMaintenanceDocument(NOTIFICATION_TYPE_ID_10001, MODULE_CODE_2, ACTION_CODE_102, ROLE_NAME_2, ROLE_QUALIFIER_000002);
+    public void testNotificationTypeIdRoleIdRoleNameUnique() throws Exception {
+        MaintenanceDocument notificationTypeMaintenanceDocument = getNotificationTypeMaintenanceDocument(NOTIFICATION_TYPE_ID_10001, MODULE_CODE_2, ACTION_CODE_102, ROLE_NAME_2);
     
         assertTrue(rule.processCustomRouteDocumentBusinessRules(notificationTypeMaintenanceDocument));
         assertTrue(rule.processCustomApproveDocumentBusinessRules(notificationTypeMaintenanceDocument));
     }
     
     @Test
-    public void testNotificationTypeIdRoleIdRoleQualifierNotUnique() throws Exception {
-        MaintenanceDocument notificationTypeMaintenanceDocument = getNotificationTypeMaintenanceDocument(NOTIFICATION_TYPE_ID_10001, MODULE_CODE_2, ACTION_CODE_102, ROLE_NAME_1, ROLE_QUALIFIER_000001);
+    public void testNotificationTypeIdRoleIdRoleNameNotUnique() throws Exception {
+        MaintenanceDocument notificationTypeMaintenanceDocument = getNotificationTypeMaintenanceDocument(NOTIFICATION_TYPE_ID_10001, MODULE_CODE_2, ACTION_CODE_102, ROLE_NAME_1);
     
         assertFalse(rule.processCustomRouteDocumentBusinessRules(notificationTypeMaintenanceDocument));
         assertFalse(rule.processCustomApproveDocumentBusinessRules(notificationTypeMaintenanceDocument));
-        assertFieldErrorExists(String.format(ROLE_QUALIFIER_FIELD_NAME, 1), KeyConstants.ERROR_NOTIFICATION_ROLE_NAME_ROLE_QUALIFIER_COMBINATION_EXISTS);
+        assertFieldErrorExists(String.format(ROLE_FIELD_NAME, 1), KeyConstants.ERROR_NOTIFICATION_ROLE_NAME_EXISTS);
     }
     
     private MaintenanceDocument getNotificationTypeMaintenanceDocument(Long notificationTypeId, String moduleCode, String actionCode) throws Exception {
@@ -140,7 +140,7 @@ public class NotificationTypeMaintenanceDocumentRuleTest extends MaintenanceRule
         return newMaintDoc(notificationType);
     }
     
-    private MaintenanceDocument getNotificationTypeMaintenanceDocument(Long notificationTypeId, String moduleCode, String actionCode, String roleId, String roleQualifier) throws Exception {
+    private MaintenanceDocument getNotificationTypeMaintenanceDocument(Long notificationTypeId, String moduleCode, String actionCode, String roleId) throws Exception {
         NotificationType notificationType = new NotificationType();
         notificationType.setNotificationTypeId(notificationTypeId);
         notificationType.setModuleCode(moduleCode);
@@ -148,13 +148,11 @@ public class NotificationTypeMaintenanceDocumentRuleTest extends MaintenanceRule
         
         NotificationTypeRecipient notificationTypeRecipient1 = new NotificationTypeRecipient();
         notificationTypeRecipient1.setRoleName(ROLE_NAME_1);
-        notificationTypeRecipient1.setRoleQualifier(ROLE_QUALIFIER_000001);
         
         notificationType.getNotificationTypeRecipients().add(notificationTypeRecipient1);
         
         NotificationTypeRecipient notificationTypeRecipient2 = new NotificationTypeRecipient();
         notificationTypeRecipient2.setRoleName(roleId);
-        notificationTypeRecipient2.setRoleQualifier(roleQualifier);
         
         notificationType.getNotificationTypeRecipients().add(notificationTypeRecipient2);
         

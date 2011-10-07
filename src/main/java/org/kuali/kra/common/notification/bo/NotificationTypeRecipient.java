@@ -30,13 +30,10 @@ public class NotificationTypeRecipient extends KraPersistableBusinessObjectBase 
     private Long notificationTypeRecipientId;
     private Long notificationTypeId;
     private String roleName;
-    private String roleQualifier;
-    //private AttributeSet roleQualifiers;
     private String toOrCC;
     
     // Non-persistent field for tracking the qualifier value.
-    // Consider a new class for 'instances' of type recipients with an eye toward JPA.
-    private String qualifierValue;
+    private AttributeSet roleQualifiers;
 
     public Long getNotificationTypeRecipientId() {
         return notificationTypeRecipientId;
@@ -62,14 +59,6 @@ public class NotificationTypeRecipient extends KraPersistableBusinessObjectBase 
         this.roleName = roleName;
     }
 
-    public String getRoleQualifier() {
-        return roleQualifier;
-    }
-
-    public void setRoleQualifier(String roleQualifier) {
-        this.roleQualifier = roleQualifier;
-    }
-
     public String getToOrCC() {
         return toOrCC;
     }
@@ -78,15 +67,6 @@ public class NotificationTypeRecipient extends KraPersistableBusinessObjectBase 
         this.toOrCC = toOrCC;
     }
 
-    public String getQualifierValue() {
-        return qualifierValue;
-    }
-
-    public void setQualifierValue(String qualifierValue) {
-        this.qualifierValue = qualifierValue;
-    }
-
-    /*
     public AttributeSet getRoleQualifiers() {
         return roleQualifiers;
     }
@@ -94,7 +74,6 @@ public class NotificationTypeRecipient extends KraPersistableBusinessObjectBase 
     public void setRoleQualifiers(AttributeSet roleQualifiers) {
         this.roleQualifiers = roleQualifiers;
     }
-    */
 
     @Override
     protected LinkedHashMap<String, Object> toStringMapper() {
@@ -102,7 +81,6 @@ public class NotificationTypeRecipient extends KraPersistableBusinessObjectBase 
         propMap.put("notificationTypeRecipientId", getNotificationTypeRecipientId());
         propMap.put("notificationTypeId", getNotificationTypeId());
         propMap.put("roleName", getRoleName());
-        propMap.put("roleQualifier", getRoleQualifier());
         propMap.put("toOrCC", getToOrCC());
         return propMap;
     }
@@ -114,7 +92,6 @@ public class NotificationTypeRecipient extends KraPersistableBusinessObjectBase 
         result = prime * result + ((notificationTypeId == null) ? 0 : notificationTypeId.hashCode());
         result = prime * result + ((notificationTypeRecipientId == null) ? 0 : notificationTypeRecipientId.hashCode());
         result = prime * result + ((roleName == null) ? 0 : roleName.hashCode());
-        result = prime * result + ((roleQualifier == null) ? 0 : roleQualifier.hashCode());
         return result;
     }
 
@@ -151,13 +128,7 @@ public class NotificationTypeRecipient extends KraPersistableBusinessObjectBase 
         } else if (!roleName.equals(other.roleName)) {
             return false;
         }
-        if (roleQualifier == null) {
-            if (other.roleQualifier != null) {
-                return false;
-            }
-        } else if (!roleQualifier.equals(other.roleQualifier)) {
-            return false;
-        }
+
         return true;
     }
     
