@@ -1,18 +1,33 @@
 
     $j(document).ready(function()     {
         var idx = $j("#editIndex").attr("value");
+        var editType = $j("#editType").attr("value");
         if (idx != undefined && idx != -1) {
-            $j("#A"+idx).click(); 
-            if ($j("#financialEntityHelper\\.activeFinancialEntities\\["+idx+"\\]\\.finEntityContactInfos\\[0\\]\\.countryCode").length > 0) {
-                var countryCode = $j("#financialEntityHelper\\.activeFinancialEntities\\["+idx+"\\]\\.finEntityContactInfos\\[0\\]\\.countryCode").val();
-                if (countryCode != '' && countryCode != 'USA') {
-                   updateStateCode('financialEntityHelper.activeFinancialEntities['+idx+'].finEntityContactInfos[0].countryCode', '');
-                } 
-            }
+            if (editType == 'active') {
+                $j("#A"+idx).click(); 
+                if ($j("#financialEntityHelper\\.activeFinancialEntities\\["+idx+"\\]\\.finEntityContactInfos\\[0\\]\\.countryCode").length > 0) {
+                    var countryCode = $j("#financialEntityHelper\\.activeFinancialEntities\\["+idx+"\\]\\.finEntityContactInfos\\[0\\]\\.countryCode").val();
+                    if (countryCode != '' && countryCode != 'USA') {
+                       updateStateCode('financialEntityHelper.activeFinancialEntities['+idx+'].finEntityContactInfos[0].countryCode', '');
+                    } 
+                }
        
-            $j("#financialEntityHelper\\.activeFinancialEntities\\["+idx+"\\]\\.sponsorCode").focus(function() {
-                displayAlertMessage('messageBox'+idx, 'The entity address fields will be overriden when a valid sponsor code is entered');
-            });
+                $j("#financialEntityHelper\\.activeFinancialEntities\\["+idx+"\\]\\.sponsorCode").focus(function() {
+                    displayAlertMessage('messageBox'+idx, 'The entity address fields will be overriden when a valid sponsor code is entered');
+                });
+            } else {
+                $j("#A"+idx+"i").click(); 
+                if ($j("#financialEntityHelper\\.inactiveFinancialEntities\\["+idx+"\\]\\.finEntityContactInfos\\[0\\]\\.countryCode").length > 0) {
+                    var countryCode = $j("#financialEntityHelper\\.inactiveFinancialEntities\\["+idx+"\\]\\.finEntityContactInfos\\[0\\]\\.countryCode").val();
+                    if (countryCode != '' && countryCode != 'USA') {
+                       updateStateCode('financialEntityHelper.inactiveFinancialEntities['+idx+'].finEntityContactInfos[0].countryCode', '');
+                    } 
+                }
+       
+                $j("#financialEntityHelper\\.inactiveFinancialEntities\\["+idx+"\\]\\.sponsorCode").focus(function() {
+                    displayAlertMessage('messageBox'+idx, 'The entity address fields will be overriden when a valid sponsor code is entered');
+                });
+            }
         }
       
         $j("#financialEntityHelper\\.newPersonFinancialEntity\\.sponsorCode").focus(function() {
@@ -81,6 +96,8 @@
          {  widgets: ['zebra','relocaterow'],
            // initial sort on 2nd column (entity name) on ascending order
             sortList: [[1,0]],
+            // "header" is conflict with kuali-stylesheet.css; so 
+            cssHeader: "sorterheader",
             headers: {             // assign the first column (we start counting zero)             
                0: {                 // disable it by setting the property sorter to false                 
                   sorter: false             },      
@@ -96,6 +113,8 @@
       
            {  widgets: ['zebra','relocaterow'],
               sortList: [[1,0]],
+            // "header" is conflict with kuali-stylesheet.css; so 
+            cssHeader: "sorterheader",
               headers: {             // assign the first column (we start counting zero)             
                  0: {                 // disable it by setting the property sorter to false                 
                     sorter: false             },      
@@ -143,7 +162,7 @@
                         }
                );
                 $j(".relationDetailSubpanelContent").hide();
-           
+                          
       
     } );  // end document.ready
 

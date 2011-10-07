@@ -198,6 +198,9 @@
 		<reference-descriptor name="personFinIntDisclosure" class-ref="org.kuali.kra.coi.personfinancialentity.PersonFinIntDisclosure" auto-retrieve="true" auto-update="none" auto-delete="none"> 
 			<foreignkey field-ref="personFinIntDisclosureId"/>
 		</reference-descriptor>
+        <reference-descriptor name="finIntEntityRelType" class-ref="org.kuali.kra.coi.personfinancialentity.FinIntEntityRelType" auto-retrieve="false" auto-update="none" auto-delete="none"> 
+            <foreignkey field-ref="relationshipTypeCode"/>
+        </reference-descriptor>
 	</class-descriptor>
 	
 	<class-descriptor class="org.kuali.kra.coi.personfinancialentity.InvCoiDiscDetail" table="INV_COI_DISC_DETAILS">
