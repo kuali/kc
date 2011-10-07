@@ -48,6 +48,7 @@
 		        <th><div align="right"><kul:htmlAttributeLabel attributeEntry="${activityAttributes.endDate}" /></div></th>
                 <td>
                 	<kul:htmlControlAttribute property="${activityPath}.endDate" attributeEntry="${activityAttributes.endDate}" readOnly="${readOnly}"/>
+                	<c:if test="${readOnly}"><input type="hidden" id="${activityPath}.endDate" value="${activity.endDate}" disabled="true"/></c:if>
                 </td>
 		        <th><div align="right"><kul:htmlAttributeLabel attributeEntry="${activityAttributes.createDate}" /></div></th>
                 <td>
