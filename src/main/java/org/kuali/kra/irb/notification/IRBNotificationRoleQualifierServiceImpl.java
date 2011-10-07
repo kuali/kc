@@ -15,11 +15,13 @@
  */
 package org.kuali.kra.irb.notification;
 
+import org.apache.commons.collections.CollectionUtils;
 import org.apache.commons.lang.StringUtils;
 import org.kuali.kra.bo.KraPersistableBusinessObjectBase;
 import org.kuali.kra.common.notification.bo.NotificationModuleRoleQualifier;
 import org.kuali.kra.common.notification.service.KcNotificationRoleQualifierService;
 import org.kuali.kra.irb.Protocol;
+import org.kuali.kra.irb.onlinereview.ProtocolOnlineReview;
 import org.kuali.kra.kim.bo.KcKimAttributes;
 
 
@@ -37,14 +39,26 @@ public class IRBNotificationRoleQualifierServiceImpl implements KcNotificationRo
      */
     @Override
     public String getRoleQualifierValue(NotificationModuleRoleQualifier qualifier) {
+        String qName = qualifier.getQualifier();
 
-        if (StringUtils.equals(qualifier.getDocumentName(), Protocol.class.getName())) {
-            String qName = qualifier.getQualifier();
-            
-            if (qName.equalsIgnoreCase(KcKimAttributes.UNIT_NUMBER)) {
+        if (StringUtils.equals(qualifier.getDocumentName(), Protocol.class.getName())) {            
+            if (StringUtils.equalsIgnoreCase(qName, KcKimAttributes.UNIT_NUMBER) ||
+                StringUtils.equalsIgnoreCase(qName, "protocolLeadUnitNumber")) {
                 return getProtocol().getLeadUnitNumber();
-            } else if (qName.equalsIgnoreCase(KcKimAttributes.PROTOCOL)) {
+            } else if (StringUtils.equalsIgnoreCase(qName, KcKimAttributes.PROTOCOL)) {
                 return getProtocol().getProtocolNumber();
+            } else if (StringUtils.equalsIgnoreCase(qName, KcKimAttributes.SUBUNITS)) {
+                return "Y";
+            } else if (StringUtils.equalsIgnoreCase(qName, "submissionId")) {
+                if (getProtocol().getProtocolSubmission() != null) {
+                    return getProtocol().getProtocolSubmission().getSubmissionId().toString();
+                }
+            }
+        } else if (StringUtils.equals(qualifier.getDocumentName(), ProtocolOnlineReview.class.getName())) {
+            if (CollectionUtils.isNotEmpty(getProtocol().getProtocolOnlineReviews())) {
+                if (StringUtils.equals(qName, "protocolOnlineReviewId")) {
+                    return getProtocol().getProtocolOnlineReviews().get(0).getProtocolOnlineReviewId().toString();
+                }
             }
         }
         

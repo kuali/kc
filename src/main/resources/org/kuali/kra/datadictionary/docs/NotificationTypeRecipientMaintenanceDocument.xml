@@ -33,12 +33,11 @@
 
   <bean id="NotificationTypeRecipientMaintenanceDocument-EditNotificationTypeRecipient-parentBean" abstract="true" parent="MaintainableSectionDefinition">
     <property name="id" value="Edit Notification Type Recipients"/>
-    <property name="title" value="Edit Notification Type Recipients"/>
+    <property name="title" value="Edit Notification Recipients"/>
     <property name="maintainableItems">
       <list>
         <bean parent="MaintainableFieldDefinition" p:name="notificationTypeId" p:required="true"/>
         <bean parent="MaintainableFieldDefinition" p:name="roleName" p:required="true"/>
-        <bean parent="MaintainableFieldDefinition" p:name="roleQualifier" p:required="true"/>
         <bean parent="MaintainableFieldDefinition" p:name="toOrCC" p:required="true"/>
       </list>
     </property>
@@ -47,7 +46,7 @@
   
   <bean id="NotificationTypeRecipientMaintenanceDocument-EditNotificationTypeRecipientList-parentBean" abstract="true" parent="MaintainableSectionDefinition">
     <property name="id" value="Edit Notification Type Recipients"/>
-    <property name="title" value="Edit Notification Type Recipients"/>
+    <property name="title" value="Edit Notification Recipients"/>
     <property name="maintainableItems">
       <list>
         <bean parent="MaintainableCollectionDefinition">
@@ -57,17 +56,15 @@
           <property name="alwaysAllowCollectionDeletion" value="true"/>
           <property name="includeAddLine" value="true"/>
           <property name="includeMultipleLookupLine" value="false"/>
-          <property name="summaryTitle" value="Notification Type Recipients"/>
+          <property name="summaryTitle" value="Notification Recipients"/>
           <property name="summaryFields">
             <list>
               <bean parent="MaintainableFieldDefinition" p:name="roleName"/>
-              <bean parent="MaintainableFieldDefinition" p:name="roleQualifier"/>
             </list>
           </property>
           <property name="maintainableFields">
             <list>
 	          <bean parent="MaintainableFieldDefinition" p:name="roleName" p:required="true"/>
-	          <bean parent="MaintainableFieldDefinition" p:name="roleQualifier" p:required="true"/>
 	          <bean parent="MaintainableFieldDefinition" p:name="toOrCC" p:required="true"/>
             </list>
           </property>
