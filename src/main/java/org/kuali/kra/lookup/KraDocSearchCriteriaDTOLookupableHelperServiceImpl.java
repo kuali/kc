@@ -44,7 +44,7 @@ public class KraDocSearchCriteriaDTOLookupableHelperServiceImpl extends DocSearc
     
     private static final String DOCUMENT_TITLE_FIELD = "documentTitle";
     
-    private static final String[] PRINCIPAL_NAME_FIELDS = { "initiator", "aggregator", "budgetCreator", "narrativeWriter", "viewer" };
+    private static final String PRINCIPAL_NAME_FIELD = "initiator";
     
     private static final Log LOG = LogFactory.getLog(KraDocSearchCriteriaDTOLookupableHelperServiceImpl.class);
 
@@ -91,15 +91,13 @@ public class KraDocSearchCriteriaDTOLookupableHelperServiceImpl extends DocSearc
         
         if (multiCampusEnabled) {
             Map<Object, Object> searchParameters = new HashMap<Object, Object>(getParameters());
-            for (String principalNameField : PRINCIPAL_NAME_FIELDS) {
-                String[] principalNameParameter = (String[]) searchParameters.get(principalNameField);
-                if (ArrayUtils.isNotEmpty(principalNameParameter)) {
-                    if (StringUtils.isNotBlank(principalNameParameter[0])) {
-                        String principalName = principalNameParameter[0];
-                        String campusCode = (String) GlobalVariables.getUserSession().retrieveObject(Constants.USER_CAMPUS_CODE_KEY);
-                        String multiCampusPrincipalName = getMultiCampusIdentityService().getMultiCampusPrincipalName(principalName, campusCode);
-                        searchParameters.put(principalNameField, new String[] {multiCampusPrincipalName});
-                    }
+            String[] principalNameParameter = (String[]) searchParameters.get(PRINCIPAL_NAME_FIELD);
+            if (ArrayUtils.isNotEmpty(principalNameParameter)) {
+                if (StringUtils.isNotBlank(principalNameParameter[0])) {
+                    String principalName = principalNameParameter[0];
+                    String campusCode = (String) GlobalVariables.getUserSession().retrieveObject(Constants.USER_CAMPUS_CODE_KEY);
+                    String multiCampusPrincipalName = getMultiCampusIdentityService().getMultiCampusPrincipalName(principalName, campusCode);
+                    searchParameters.put(PRINCIPAL_NAME_FIELD, new String[] {multiCampusPrincipalName});
                 }
             }
             setParameters(Collections.unmodifiableMap(searchParameters));
