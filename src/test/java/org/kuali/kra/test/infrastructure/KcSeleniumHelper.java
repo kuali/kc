@@ -26,6 +26,7 @@ import java.util.List;
 import java.util.Map;
 import java.util.Map.Entry;
 
+import org.apache.commons.collections.CollectionUtils;
 import org.apache.commons.lang.BooleanUtils;
 import org.apache.commons.lang.StringUtils;
 import org.kuali.kra.infrastructure.Constants;
@@ -1210,6 +1211,28 @@ public abstract class KcSeleniumHelper {
     }
     
     /**
+     * Returns the column count of the table identified by {@code id} at row {@code row}.
+     *
+     * @param id identifies the table to search
+     * @param row the 0-valued row number to search
+     * @return the number of columns in the table
+     */
+    public final int getTableColumnCount(final String id, final int row) {
+        String rowString = String.valueOf(row + 1);
+        
+        final String locator = "//table[@id='" + id + "']/tbody/tr[" + rowString + "]/td";
+        
+        return new ElementExistsWaiter("Table with id " + id + " not found").until(
+            new Function<WebDriver, Integer>() {
+                public Integer apply(WebDriver driver) {
+                    List<WebElement> columns = getElementsByXPath(locator);
+                    return columns.size();
+                }
+            }
+        );
+    }
+    
+    /**
      * Asserts that the row count of the table identified by {@code id} matches {@code expectedRowCount}.
      *
      * @param id identifies the table to search
@@ -1256,6 +1279,48 @@ public abstract class KcSeleniumHelper {
         String actualText = getTableCellValue(id, row, column);
         
         assertEquals("Actual cell text of " + actualText + " did not match the expected cell text of " + expectedText, expectedText, actualText);
+    }
+    
+    /**
+     * Asserts that the text in the table identified by {@code id} at any particular column in any particular row matches the given {@code expectedText}.
+     *
+     * @param id identifies the table to search
+     * @param expectedText the text to verify
+     */
+    public final void assertTableCellValue(final String id, final String expectedText) {
+        boolean tableContains = false;
+        
+        for (int row = 0; row < getTableRowCount(id); row++) {
+            boolean tableRowContains = getTableRowContains(id, row, expectedText);
+            if (tableRowContains) {
+                tableContains = true;
+                break;
+            }
+        }
+        
+        assertTrue("Cell text of " + expectedText + " not found", tableContains);
+    }
+    
+    /**
+     * Determines whether the text in the table identified by {@code id} at any particular column at row {@code row} matches the given {@code expectedText}.
+     *
+     * @param id identifies the table to search
+     * @param row the 0-valued row number to search
+     * @param expectedText the text to verify
+     * @return true if row {@row} contains {@expectedText}, false otherwise
+     */
+    private final boolean getTableRowContains(final String id, int row, final String expectedText) {
+        boolean tableRowContains = false;
+        
+        for (int column =  0; column < getTableColumnCount(id, row); column++) {
+            String actualText = getTableCellValue(id, row, column);
+            if (StringUtils.equals(expectedText, actualText)) {
+                tableRowContains = true;
+                break;
+            }
+        }
+        
+        return tableRowContains;
     }
     
     /**
@@ -1331,8 +1396,8 @@ public abstract class KcSeleniumHelper {
                 public Boolean apply(WebDriver driver) {
                     boolean isFormComplete = false;
                     
-                    WebElement element = driver.findElement(By.id("formComplete"));
-                    if (element != null) {
+                    List<WebElement> elements = driver.findElements(By.id("formComplete"));
+                    if (CollectionUtils.isNotEmpty(elements)) {
                         isFormComplete = true;
                     }
                     
