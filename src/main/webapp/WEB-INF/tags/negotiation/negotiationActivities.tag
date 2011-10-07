@@ -36,7 +36,7 @@ $jq(document).ready(function() {
 <kul:tab tabTitle="Activities & Attachments" defaultOpen="false" tabErrorKey="" innerTabErrorKey="document.negotiationList[0].activities*,negotiationActivityHelper.*">
 <div class="tab-container"  align="center">
 
-<c:if test="${!readOnly}">
+<c:if test="${!readOnly || KualiForm.editingMode['modify']}">
   <%-- Hide Add Activity if readonly --%>
   <kra-negotiation:negotiationActivity activity="${KualiForm.negotiationActivityHelper.newActivity}" activityIndex="-1" parentTab="Activities & Attachments" tabDivClass="innerTab-h3head"/>
 </c:if>
