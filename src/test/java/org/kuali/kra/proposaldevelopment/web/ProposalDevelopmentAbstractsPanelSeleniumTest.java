@@ -87,8 +87,8 @@ public class ProposalDevelopmentAbstractsPanelSeleniumTest extends KcSeleniumTes
         helper.openTab(TAB_ID);
         
         helper.assertTableRowCount(TABLE_ID, 4);
-        checkRow(timestampDisplayComputer, ABSTRACT_TYPE_COMPUTER_NAME, ABSTRACT_DETAILS_COMPUTER_1, 2);
-        checkRow(timestampDisplayLabs, ABSTRACT_TYPE_LABS_NAME, ABSTRACT_DETAILS_LABS, 3);
+        checkRow(timestampDisplayComputer, ABSTRACT_TYPE_COMPUTER_NAME, ABSTRACT_DETAILS_COMPUTER_1);
+        checkRow(timestampDisplayLabs, ABSTRACT_TYPE_LABS_NAME, ABSTRACT_DETAILS_LABS);
     }
     
     /**
@@ -125,7 +125,7 @@ public class ProposalDevelopmentAbstractsPanelSeleniumTest extends KcSeleniumTes
         helper.clickProposalDevelopmentAbstractsAndAttachmentsPage();
         helper.openTab(TAB_ID);
         helper.assertTableRowCount(TABLE_ID, 3);
-        checkRow(timestampDisplayComputer, ABSTRACT_TYPE_COMPUTER_NAME, Constants.EMPTY_STRING, 2);
+        checkRow(timestampDisplayComputer, ABSTRACT_TYPE_COMPUTER_NAME, Constants.EMPTY_STRING);
     }
     
     /**
@@ -151,7 +151,7 @@ public class ProposalDevelopmentAbstractsPanelSeleniumTest extends KcSeleniumTes
         helper.openTab(TAB_ID);
 
         helper.assertTableRowCount(TABLE_ID, 3);
-        checkRow(timestampDisplayComputer, ABSTRACT_TYPE_COMPUTER_NAME, ABSTRACT_DETAILS_COMPUTER_2, 2);
+        checkRow(timestampDisplayComputer, ABSTRACT_TYPE_COMPUTER_NAME, ABSTRACT_DETAILS_COMPUTER_2);
     }
 
     /**
@@ -205,7 +205,7 @@ public class ProposalDevelopmentAbstractsPanelSeleniumTest extends KcSeleniumTes
         helper.assertOptionsDoNotContain(NEW_ABSTRACT_TYPE_CODE_ID, ABSTRACT_TYPE_COMPUTER_NAME);
 
         helper.assertTableRowCount(TABLE_ID, 3);
-        checkRow(timestampDisplayComputer, ABSTRACT_TYPE_COMPUTER_NAME, ABSTRACT_DETAILS_COMPUTER_1, 2);
+        checkRow(timestampDisplayComputer, ABSTRACT_TYPE_COMPUTER_NAME, ABSTRACT_DETAILS_COMPUTER_1);
     }
 
     /**
@@ -263,10 +263,10 @@ public class ProposalDevelopmentAbstractsPanelSeleniumTest extends KcSeleniumTes
      * @param abstractDetails the expected abstract details
      * @param rowIndex the index of the row to check
      */
-    private void checkRow(String timestampDisplay, String abstractTypeName, String abstractDetails, int rowIndex) {
-        helper.assertTableCellValue(TABLE_ID, rowIndex, 0, timestampDisplay);
-        helper.assertTableCellValue(TABLE_ID, rowIndex, 2, abstractTypeName);
-        helper.assertTableCellValue(TABLE_ID, rowIndex, 3, abstractDetails);
+    private void checkRow(String timestampDisplay, String abstractTypeName, String abstractDetails) {
+        helper.assertTableCellValue(TABLE_ID, timestampDisplay);
+        helper.assertTableCellValue(TABLE_ID, abstractTypeName);
+        helper.assertTableCellValue(TABLE_ID, abstractDetails);
     }
     
 }
