@@ -19,6 +19,7 @@ import java.io.Serializable;
 import java.util.ArrayList;
 import java.util.List;
 
+import org.apache.commons.lang.StringUtils;
 import org.kuali.kra.infrastructure.Constants;
 import org.kuali.kra.infrastructure.KeyConstants;
 import org.kuali.kra.infrastructure.KraServiceLocator;
@@ -276,7 +277,11 @@ public class FinancialEntityHelper implements Serializable {
     }
     
     public void resetPrevSponsorCode() {
-        setPrevSponsorCode(getActiveFinancialEntities().get(editEntityIndex).getSponsorCode());
+        if (StringUtils.equals(FinancialEntityAction.ACTIVATE_ENTITY, this.getEditType())) {
+            setPrevSponsorCode(getActiveFinancialEntities().get(editEntityIndex).getSponsorCode());
+        } else {
+            setPrevSponsorCode(getInactiveFinancialEntities().get(editEntityIndex).getSponsorCode());
+        }
     }
 
  }
