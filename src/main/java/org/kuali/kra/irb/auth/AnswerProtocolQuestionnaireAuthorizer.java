@@ -20,18 +20,12 @@ package org.kuali.kra.irb.auth;
  * 
  * This class is to check authorization to answer protocol questionnaire.
  */
-public class AnswerProtocolQuestionnaireAuthorizer extends ProtocolAuthorizer {
-
+public class AnswerProtocolQuestionnaireAuthorizer extends ModifyProtocolAuthorizer {
+    
     /**
-     * @see org.kuali.kra.irb.auth.ProtocolAuthorizer#isAuthorized(java.lang.String, org.kuali.kra.irb.auth.ProtocolTask)
+     * @see org.kuali.kra.irb.auth.ModifyProtocolAuthorizer#isAuthorized(java.lang.String, org.kuali.kra.irb.auth.ProtocolTask)
      */
     public boolean isAuthorized(String userId, ProtocolTask task) {
-
-        return !task.getProtocol().getProtocolDocument().isViewOnly()
-                && !isPessimisticLocked(task.getProtocol().getProtocolDocument())
-                && !kraWorkflowService.isInWorkflow(task.getProtocol().getProtocolDocument());
-        // kcirb-876 : Answer questionnaire permission is not needed   
-           //     && hasPermission(userId, task.getProtocol(), PermissionConstants.ANSWER_PROTOCOL_QUESTIONNAIRE);
+        return super.isAuthorized(userId, task);
     }
-
 }
