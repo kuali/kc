@@ -459,8 +459,8 @@ public class ResearchAreasServiceImpl implements ResearchAreasService {
         for(CommitteeMembershipExpertise cme:cmes) {
             // first get the parent committee membership using the FK
             CommitteeMembership parentCommitteeMembership = this.getBusinessObjectService().findBySinglePrimaryKey(CommitteeMembership.class, cme.getCommitteeMembershipIdFk());
-            // check if the parent committee membership is still active
-            if(null != parentCommitteeMembership && parentCommitteeMembership.isActive()) {
+            // check if the parent committee membership's term is still open
+            if(null != parentCommitteeMembership && (!parentCommitteeMembership.hasTermEnded()) ) {
                 // then get the parent committee using the FK
                 Committee parentCommittee = this.getBusinessObjectService().findBySinglePrimaryKey(Committee.class, parentCommitteeMembership.getCommitteeIdFk());
                 // check if the committee is the current version

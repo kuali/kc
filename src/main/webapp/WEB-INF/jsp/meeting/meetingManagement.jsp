@@ -113,7 +113,8 @@
             
             <div class="right">
                 <div class="excol">
-		           <input type="image" alt="return to committee" class="tinybutton" onclick="" src="${ConfigProperties.kra.externalizable.images.url}tinybutton-retcommittee.gif" name="methodToCall.returnToCommittee"> &nbsp;&nbsp;
+                   <!--  commenting out the return to committee link until resolution of the mismatch view button issue -->
+		           <!--  input type="image" alt="return to committee" class="tinybutton" onclick="" src="${ConfigProperties.kra.externalizable.images.url}tinybutton-retcommittee.gif" name="methodToCall.returnToCommittee" --> &nbsp;&nbsp;
                    <html:image property="methodToCall.showAllTabs" src="${ConfigProperties.kr.externalizable.images.url}tinybutton-expandall.gif" title="show all panel content" alt="show all panel content" styleClass="tinybutton" onclick="return expandAllTab();" />
                     <html:image property="methodToCall.hideAllTabs" src="${ConfigProperties.kr.externalizable.images.url}tinybutton-collapseall.gif" title="hide all panel content" alt="hide all panel content" styleClass="tinybutton" onclick="return collapseAllTab();" />
                 </div>

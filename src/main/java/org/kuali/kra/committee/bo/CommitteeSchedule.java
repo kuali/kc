@@ -531,5 +531,25 @@ public class CommitteeSchedule extends CommitteeAssociate implements Comparable<
         qualifiedRoleAttributes.put(KcKimAttributes.COMMITTEE, getCommittee().getCommitteeId());
         qualifiedRoleAttributes.put(KcKimAttributes.COMMITTEESCHEDULE, this.getScheduleId());
     }
+    
+    
+    /**
+     * This method returns true if the given personId has a membership in the schedule's parent committee that is active 
+     * for the schedule date, and false otherwise. Also returns false if the personId parameter or the 
+     * parent committee of the schedule is null. 
+     * @param personId
+     * @return
+     */
+    public boolean isActiveFor(String personId) {
+        boolean retVal = false;
+        Committee parentCommittee = this.getCommittee();
+        if(parentCommittee != null){
+            CommitteeMembership member = parentCommittee.getCommitteeMembershipFor(personId);
+            if(member != null) {
+                retVal = member.isActive(this.scheduledDate);
+            }
+        }
+        return retVal;        
+    }
 
 }
