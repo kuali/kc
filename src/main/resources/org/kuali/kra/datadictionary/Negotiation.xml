@@ -20,6 +20,7 @@
         <ref bean="Negotiation-negotiationStatusId"/>
         <ref bean="Negotiation-negotiationAgreementTypeId"/>
         <ref bean="Negotiation-negotiationAssociationTypeId"/>
+        <ref bean="Negotiation-negotiationAssociationType.description"/>
         <ref bean="Negotiation-negotiatorPersonId"/>
         <ref bean="Negotiation-negotiatorUserName"/>
         <ref bean="Negotiation-negotiator.fullName"/>
@@ -146,6 +147,10 @@
     </property>
     <property name="summary" value="Negotiation Association Type" />
     <property name="description" value="Negotiation Association Type" />
+  </bean>
+  
+  <bean id="Negotiation-negotiationAssociationType.description" parent="Negotiation-negotiationAssociationTypeId-parentBean">
+  	<property name="name" value="negotiationAssociationType.description" />
   </bean>
   
   <bean id="Negotiation-negotiatorPersonId" parent="Negotiation-negotiatorPersonId-parentBean" />
@@ -346,7 +351,8 @@
 		<property name="resultFields" >
 		  <list>
             <bean p:attributeName="negotiationId" parent="FieldDefinition" />
-		  	<bean p:attributeName="negotiationAssociationTypeId" parent="FieldDefinition" />
+		  	<!--  <bean p:attributeName="negotiationAssociationTypeId" parent="FieldDefinition" />-->
+		  	<bean p:attributeName="negotiationAssociationType.description" parent="FieldDefinition" />
 		    <bean p:attributeName="associatedDocumentId" parent="FieldDefinition" />
 		    <bean p:attributeName="negotiationAge" parent="FieldDefinition" />
 		    <bean p:attributeName="associatedNegotiable.piName" parent="FieldDefinition" />
