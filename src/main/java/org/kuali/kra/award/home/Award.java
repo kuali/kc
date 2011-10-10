@@ -64,6 +64,7 @@ import org.kuali.kra.bo.ScienceKeyword;
 import org.kuali.kra.bo.Sponsor;
 import org.kuali.kra.bo.Unit;
 import org.kuali.kra.bo.UnitAdministrator;
+import org.kuali.kra.bo.versioning.VersionStatus;
 import org.kuali.kra.budget.core.BudgetParent;
 import org.kuali.kra.budget.personnel.PersonRolodex;
 import org.kuali.kra.common.permissions.Permissionable;
@@ -279,6 +280,7 @@ public class Award extends KraPersistableBusinessObjectBase implements KeywordsM
         awardComments = new TypedArrayList(AwardComment.class);
         setCurrentActionComments("");
         setNewVersion(false);
+        awardSequenceStatus = VersionStatus.PENDING.name();
     }
 
     /**
