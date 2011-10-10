@@ -15,8 +15,10 @@
  */
 package org.kuali.kra.service.impl;
 
+import java.sql.Date;
 import java.util.ArrayList;
 import java.util.Arrays;
+import java.util.Calendar;
 import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
@@ -642,33 +644,37 @@ public class ResearchAreasServiceTest {
         
         final List<CommitteeMembershipExpertise> committeeMembershipExpertiseList = Arrays.asList(cme1, cme2, cme3, cme4);
         
+        // get a calendar using the default time zone and locale to set the term end dates of the memberships
+        Calendar cal = Calendar.getInstance();
+        // clear lower time fields
+        cal.set(Calendar.HOUR_OF_DAY, 0);
+        cal.set(Calendar.MINUTE, 0);
+        cal.set(Calendar.SECOND, 0);
+        cal.set(Calendar.MILLISECOND, 0);
         
-        final CommitteeMembership cm1 = new CommitteeMembership() {
-            public boolean isActive() {
-                return true;
-            }
-        };
+    
+        // one day into the future
+        cal.roll(Calendar.DATE, true);
+        Date dateTomorrow = new Date(cal.getTime().getTime());
+        // one day into the past
+        cal.roll(Calendar.DATE, false);
+        cal.roll(Calendar.DATE, false);
+        Date dateYesterday = new Date(cal.getTime().getTime());
+        
+        final CommitteeMembership cm1 = new CommitteeMembership();
+        cm1.setTermEndDate(dateTomorrow);
         cm1.setCommitteeIdFk(11L);
         
-        final CommitteeMembership cm2 = new CommitteeMembership() {
-            public boolean isActive() {
-                return false;
-            }
-        };
+        final CommitteeMembership cm2 = new CommitteeMembership();
+        cm2.setTermEndDate(dateYesterday);
         cm2.setCommitteeIdFk(22L);
         
-        final CommitteeMembership cm3 = new CommitteeMembership() {
-            public boolean isActive() {
-                return true;
-            }
-        };
+        final CommitteeMembership cm3 = new CommitteeMembership();
+        cm3.setTermEndDate(dateTomorrow);
         cm3.setCommitteeIdFk(33L);
         
-        final CommitteeMembership cm4 = new CommitteeMembership() {
-            public boolean isActive() {
-                return true;
-            }
-        };
+        final CommitteeMembership cm4 = new CommitteeMembership();
+        cm4.setTermEndDate(dateTomorrow);
         cm4.setCommitteeIdFk(44L);
         
         

@@ -392,4 +392,23 @@ public class Committee extends KraPersistableBusinessObjectBase implements Compa
       //FIXME: verify role type
         return null;
     }
+    
+    /**
+     * This method will return the committee membership instance representing the 
+     * person given by personID. If no such membership is associated with the committee, 
+     * then null is returned. Also returns null if the personId parameter is null.
+     *
+     * @param personId
+     * @return
+     */
+    public CommitteeMembership getCommitteeMembershipFor(String personId) {
+        CommitteeMembership retVal = null;
+        for(CommitteeMembership member : this.getCommitteeMemberships()) {
+            if(member.isRepresentingPerson(personId)) {
+                retVal = member;
+                break;
+            }
+        }
+        return retVal;
+    }
 }

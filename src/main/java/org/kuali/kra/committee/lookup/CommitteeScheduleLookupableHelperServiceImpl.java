@@ -16,11 +16,12 @@
 package org.kuali.kra.committee.lookup;
 
 import java.util.ArrayList;
-import java.util.Collections;
+import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
 import java.util.Properties;
 
+import org.apache.commons.lang.StringUtils;
 import org.kuali.kra.committee.bo.Committee;
 import org.kuali.kra.committee.bo.CommitteeSchedule;
 import org.kuali.kra.committee.document.authorization.CommitteeScheduleTask;
@@ -43,58 +44,111 @@ import org.kuali.rice.kns.web.ui.Row;
 
 /**
  * 
- * This class is to create action links and inquiry url for committeeschedule lookup. 
+ * This class is to create action links and inquiry url for committeeschedule lookup.
  */
 @SuppressWarnings("serial")
 public class CommitteeScheduleLookupableHelperServiceImpl extends KualiLookupableHelperServiceImpl {
     private static final String READ_ONLY = "readOnly";
     private static final String COMMITTEE_COMMITTEE_NAME = "committee.committeeName";
+    private static final String COMMITTEE_ID = "committeeId";
+    private static final String SEQUENCE_NUMBER = "sequenceNumber";
+    private static final String SCHEDULE_PERSON_ID_LOOKUP = "committee.committeeMemberships.personId";
+
     private TaskAuthorizationService taskAuthorizationService;
-    private BusinessObjectService businessObjectService;
+
+    // these two lists are used as an optimization while deciding if a committee is current
+    private List<Long> activeCommitteePKs = new ArrayList<Long>();
+    private List<Long> inActiveCommitteePKs = new ArrayList<Long>();
+
+
+    // helper method that checks that the given committee instance has the highest sequence number of all other
+    // committee instances in the database with the same committee id. This method scans the active and inactive
+    // committee PK list before querying the database via BOService.
+    // (See replacement for this method in ResearchAreaReferencesDaoOjb if efficiency becomes a concern)
+    // NOTE: this method modifies the state of this object by updating two instance fields.
+    private boolean isCurrentVersion(Committee committee) {
+        boolean retValue = false;
+        if (this.activeCommitteePKs.contains(committee.getId())) {
+            retValue = true;
+        }
+        else {
+            if (!this.inActiveCommitteePKs.contains(committee.getId())) {
+                // since its in neither active nor the inactive list we have to query the database
+                // get the list of all Committee instances that have the same id as the argument instance,
+                // sorted in descending order of their sequence numbers
+                Map<String, String> fieldValues = new HashMap<String, String>();
+                fieldValues.put(COMMITTEE_ID, committee.getCommitteeId());
+                @SuppressWarnings("unchecked")
+                List<Committee> committees = (List<Committee>) this.getBusinessObjectService().findMatchingOrderBy(Committee.class, fieldValues, SEQUENCE_NUMBER, false);
+                if ( (committees != null) && (!committees.isEmpty()) ) {
+                    // check the first element with the argument
+                    if(committees.get(0).equals(committee)) {
+                        retValue = true;
+                    }
+                    // update the active list, add the first element PK
+                    this.activeCommitteePKs.add(committees.get(0).getId());
+                    // update the inactive list, add the remaining elements PK
+                    committees.remove(0);
+                    for(Committee cmt: committees) {                    
+                        this.inActiveCommitteePKs.add(cmt.getId());
+                    }
+                }                
+            }
+        }
+        return retValue;
+    }
+
 
     @SuppressWarnings("unchecked")
     @Override
     public List<? extends BusinessObject> getSearchResults(Map<String, String> fieldValues) {
-        List<CommitteeSchedule> activeCommitteeSchedules =  (List<CommitteeSchedule>)getActiveList(super.getSearchResultsUnbounded(fieldValues));
-        Long matchingResultsCount = new Long(activeCommitteeSchedules.size());
+        List<CommitteeSchedule> rawCommitteeSchedules = (List<CommitteeSchedule>) super.getSearchResultsUnbounded(fieldValues);
+        List<CommitteeSchedule> finalCommitteeSchedules = new ArrayList<CommitteeSchedule>();
+        // go through each of the raw schedules and decide if it should be included in the final listing
+        for (CommitteeSchedule schedule : rawCommitteeSchedules) {
+            // check if the schedule's committee is the most current version
+            if ((schedule.getCommittee() != null) && (isCurrentVersion(schedule.getCommittee()))) {
+                // are we looking for all schedules or for a specific user?
+                if (StringUtils.isNotBlank(fieldValues.get(SCHEDULE_PERSON_ID_LOOKUP))) {
+                    // check if schedule is active for the logged in user
+                    if (schedule.isActiveFor(fieldValues.get(SCHEDULE_PERSON_ID_LOOKUP))) {
+                        finalCommitteeSchedules.add(schedule);
+                    }
+                }
+                else {
+                    // we are not filtering by person id, so just add the schedule to the final list
+                    finalCommitteeSchedules.add(schedule);
+                }
+            }
+        }
+        // processing return collection based on final result count
+        Long matchingResultsCount = new Long(finalCommitteeSchedules.size());
         Integer searchResultsLimit = LookupUtils.getSearchResultsLimit(CommitteeSchedule.class);
         if ((matchingResultsCount == null) || (matchingResultsCount.intValue() <= searchResultsLimit.intValue())) {
-            return new CollectionIncomplete(activeCommitteeSchedules, new Long(0));
-        } else {
-            return new CollectionIncomplete(trimResult(activeCommitteeSchedules, searchResultsLimit), matchingResultsCount);
+            return new CollectionIncomplete<CommitteeSchedule>(finalCommitteeSchedules, new Long(0));
+        }
+        else {
+            return new CollectionIncomplete<CommitteeSchedule>(trimResult(finalCommitteeSchedules, searchResultsLimit),
+                matchingResultsCount);
         }
     }
 
+
     /**
      * This method trims the search result.
+     * 
      * @param result, the result set to be trimmed
      * @param trimSize, the maximum size of the trimmed result set
      * @return the trimmed result set
      */
     protected List<CommitteeSchedule> trimResult(List<CommitteeSchedule> result, Integer trimSize) {
-        List<CommitteeSchedule> trimedResult = new ArrayList<CommitteeSchedule>();
+        List<CommitteeSchedule> trimmedResult = new ArrayList<CommitteeSchedule>();
         for (CommitteeSchedule committeeSchedule : result) {
-            if (trimedResult.size() < trimSize) {
-                trimedResult.add(committeeSchedule); 
+            if (trimmedResult.size() < trimSize) {
+                trimmedResult.add(committeeSchedule);
             }
         }
-        return trimedResult;
-    }
-
-    /*
-     * get the schedules of active committee
-     */
-    @SuppressWarnings("unchecked")
-    protected List<? extends BusinessObject> getActiveList(List<? extends BusinessObject> searchResults) {
-
-        List<CommitteeSchedule> uniqueResults = new ArrayList<CommitteeSchedule>();
-        List<Long> activeCommitteePks = getActiveCommitteePks();
-        for (CommitteeSchedule committeeSchedule : (List<CommitteeSchedule>) searchResults) {
-            if (activeCommitteePks.contains(committeeSchedule.getCommitteeIdFk())) {
-                uniqueResults.add(committeeSchedule);
-            }
-        }
-        return uniqueResults;
+        return trimmedResult;
     }
 
 
@@ -110,7 +164,8 @@ public class CommitteeScheduleLookupableHelperServiceImpl extends KualiLookupabl
         if (canModifySchedule((CommitteeSchedule) businessObject)) {
             htmlDataList.add(getLink((CommitteeSchedule) businessObject, true));
             htmlDataList.add(getLink((CommitteeSchedule) businessObject, false));
-        } else if (canViewSchedule((CommitteeSchedule) businessObject)) {
+        }
+        else if (canViewSchedule((CommitteeSchedule) businessObject)) {
             htmlDataList.add(getLink((CommitteeSchedule) businessObject, false));
         }
         return htmlDataList;
@@ -131,7 +186,8 @@ public class CommitteeScheduleLookupableHelperServiceImpl extends KualiLookupabl
         if (isEdit) {
             htmlData.setDisplayText("edit");
             parameters.put(READ_ONLY, "false");
-        } else {
+        }
+        else {
             htmlData.setDisplayText("view");
             parameters.put(READ_ONLY, "true");
         }
@@ -143,8 +199,8 @@ public class CommitteeScheduleLookupableHelperServiceImpl extends KualiLookupabl
     }
 
     /**
-     * This method is for committeeId that does not have inquiry created by lookup frame work.
-     * Also, disable inquiry link for committee name.
+     * This method is for committeeId that does not have inquiry created by lookup frame work. Also, disable inquiry link for
+     * committee name.
      * 
      * @see org.kuali.core.lookup.AbstractLookupableHelperServiceImpl#getInquiryUrl(org.kuali.core.bo.BusinessObject,
      *      java.lang.String)
@@ -156,7 +212,8 @@ public class CommitteeScheduleLookupableHelperServiceImpl extends KualiLookupabl
         String inqPropertyName = propertyName;
         if (COMMITTEE_COMMITTEE_NAME.equals(propertyName)) {
             return new AnchorHtmlData();
-        } else {
+        }
+        else {
             return super.getInquiryUrl(inqBo, inqPropertyName);
         }
     }
@@ -194,27 +251,6 @@ public class CommitteeScheduleLookupableHelperServiceImpl extends KualiLookupabl
             }
         }
         return rows;
-    }
-
-    /*
-     * get the active committee pks, and put in a list
-     */
-    protected List<Long> getActiveCommitteePks() {
-        List<Committee> committees = (List<Committee>) businessObjectService.findAll(Committee.class);
-        List<String> committeeIds = new ArrayList<String>();
-        List<Long> activeCommitteePks = new ArrayList<Long>();
-        if (committees.size() > 0) {
-            Collections.sort(committees);
-            Collections.reverse(committees);
-            for (Committee committee : committees) {
-                if (!committeeIds.contains(committee.getCommitteeId())) {
-                    committeeIds.add(committee.getCommitteeId());
-                    activeCommitteePks.add(committee.getId());
-                }
-            }
-        }
-
-        return activeCommitteePks;
     }
 
 

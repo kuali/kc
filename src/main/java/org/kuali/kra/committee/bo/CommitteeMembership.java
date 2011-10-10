@@ -336,6 +336,7 @@ public class CommitteeMembership extends CommitteeAssociate {
         }
         return isActive;
     }
+    
 
     /**
      * Indicates if the committee memberships are of the same person (i.e. the personId and rolodexId are the same).
@@ -356,6 +357,35 @@ public class CommitteeMembership extends CommitteeAssociate {
 
     public void resetPersistenceState() {
         setCommitteeMembershipId(null);
+    }
+    
+    /**
+     * 
+     * This method returns true if the member's term has ended before the current date, otherwise 
+     * false. Also returns true if member's term end date is null.
+     * @return true if member is term has ended, false otherwise
+     */
+    public boolean hasTermEnded() {
+        boolean retVal = true;
+        Date currentDate = DateUtils.clearTimeFields(new Date(System.currentTimeMillis()));
+        if( (this.termEndDate != null) && !(this.termEndDate.before(currentDate)) ) {
+            retVal = false;
+        }
+        return retVal;
+    }
+    
+    /**
+     * This method will return true if personId parameter matches that of the membership's personID, and false otherwise.
+     * Also returns false if the personId parameter is null, or if the membership's personId is null.
+     * @param personId
+     * @return
+     */
+    public boolean isRepresentingPerson(String personId) {
+        boolean retVal = false;
+        if(this.personId != null) {
+            retVal = this.personId.equals(personId);
+        }
+        return retVal;
     }
 
 }
