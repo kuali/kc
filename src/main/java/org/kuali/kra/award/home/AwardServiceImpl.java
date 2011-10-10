@@ -16,6 +16,7 @@
 package org.kuali.kra.award.home;
 
 import java.util.ArrayList;
+import java.util.Collection;
 import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
@@ -23,6 +24,7 @@ import java.util.Map;
 import org.kuali.kra.award.document.AwardDocument;
 import org.kuali.kra.award.notesandattachments.attachments.AwardAttachment;
 import org.kuali.kra.bo.versioning.VersionHistory;
+import org.kuali.kra.bo.versioning.VersionStatus;
 import org.kuali.kra.budget.summary.BudgetSummaryService;
 import org.kuali.kra.service.ServiceHelper;
 import org.kuali.kra.service.VersionException;
@@ -100,7 +102,7 @@ public class AwardServiceImpl implements AwardService {
         newVersion.getAwardAmountInfos().get(0).setOriginatingAwardVersion(newVersion.getSequenceNumber());
         newVersion.getAwardAmountInfos().get(0).setTimeAndMoneyDocumentNumber(null);
         return newAwardDocument;
-    }
+    }   
     
     private AwardAttachment findMatchingAwardAttachment(List<AwardAttachment> originalAwardList, Long currentFileId) throws VersionException {
         for (AwardAttachment attach : originalAwardList) {
@@ -166,5 +168,25 @@ public class AwardServiceImpl implements AwardService {
 
     public void setParameterService(ParameterService parameterService) {
         this.parameterService = parameterService;
+    }
+
+    @Override
+    public void updateAwardSequenceStatus(Award award, VersionStatus status) {
+        if (status.equals(VersionStatus.ACTIVE)) {
+            archiveCurrentActiveAward(award.getAwardNumber());
+        }
+        award.setAwardSequenceStatus(status.toString());
+        businessObjectService.save(award);   
+    }
+    
+    protected void archiveCurrentActiveAward(String awardNumber) {
+        Map<String, Object> values = new HashMap<String, Object>();
+        values.put("awardNumber", awardNumber);
+        values.put("awardSequenceStatus", VersionStatus.ACTIVE.name());
+        Collection<Award> awards = businessObjectService.findMatching(Award.class, values);
+        for (Award award : awards) {
+            award.setAwardSequenceStatus(VersionStatus.ARCHIVED.name());
+            businessObjectService.save(award);
+        }
     }
 }

@@ -274,6 +274,9 @@
         <property name="kualiConfigurationService">
         	<ref bean="kualiConfigurationService" />
         </property>
+        <property name="awardService">
+        	<ref bean="awardService"/>
+       	</property>
     </bean>
     
     <bean id="awardAmountInfoService" class="org.kuali.kra.award.AwardAmountInfoServiceImpl">	

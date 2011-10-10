@@ -100,6 +100,12 @@ public class ProposalLogMaintainableImpl extends KraMaintainableImpl implements 
                 
         // We need to set this here so it's in the stored XML
         proposalLog.setUpdateTimestamp(getDateTimeService().getCurrentTimestamp());
+        
+        if (proposalLog.getPerson() != null) {
+            proposalLog.setPiName(proposalLog.getPerson().getFullName());
+        } else if (proposalLog.getRolodex() != null) {
+            proposalLog.setPiName(proposalLog.getRolodex().getFullName());
+        }
     }
     
     private void setupDefaultValues(ProposalLog proposalLog) {
