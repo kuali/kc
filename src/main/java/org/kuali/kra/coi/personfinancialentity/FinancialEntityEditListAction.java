@@ -42,7 +42,16 @@ public class FinancialEntityEditListAction extends FinancialEntityAction{
     private static final String PROCESS_STATUS_FINAL = "F";
 
     
-    
+    /**
+     * 
+     * This method is for editing 'active' financial entity
+     * @param mapping
+     * @param form
+     * @param request
+     * @param response
+     * @return
+     * @throws Exception
+     */
     public ActionForward editActiveFinancialEntity(ActionMapping mapping, ActionForm form, HttpServletRequest request,
             HttpServletResponse response) throws Exception {
         FinancialEntityHelper financialEntityHelper = ((FinancialEntityForm) form).getFinancialEntityHelper();
@@ -51,6 +60,16 @@ public class FinancialEntityEditListAction extends FinancialEntityAction{
        return mapping.findForward(Constants.MAPPING_BASIC);
     }
 
+    /**
+     * 
+     * This method is for editing 'inactive' financial entity
+     * @param mapping
+     * @param form
+     * @param request
+     * @param response
+     * @return
+     * @throws Exception
+     */
     public ActionForward editInactiveFinancialEntity(ActionMapping mapping, ActionForm form, HttpServletRequest request,
             HttpServletResponse response) throws Exception {
         FinancialEntityHelper financialEntityHelper = ((FinancialEntityForm) form).getFinancialEntityHelper();
@@ -60,15 +79,12 @@ public class FinancialEntityEditListAction extends FinancialEntityAction{
     }
 
 
+
     /**
      * 
-     * This method is called when 'edit' button is clicked for an active financial entity.  It will set up the
-     * index, so ui will display the financial entity panel for editing.
-     * @param mapping
+     * This method is the share components of 'edit' both active and inactive FE
      * @param form
      * @param request
-     * @param response
-     * @return
      * @throws Exception
      */
     private void editFinancialEntity(ActionForm form, HttpServletRequest request) throws Exception {
@@ -81,6 +97,9 @@ public class FinancialEntityEditListAction extends FinancialEntityAction{
         financialEntityHelper.resetPrevSponsorCode();
     }
 
+    /*
+     * get active or inactive FE list based on the type selected
+     */
     private List<PersonFinIntDisclosure> getFinancialEntities(ActionForm form) {
         
         FinancialEntityHelper financialEntityHelper = ((FinancialEntityForm) form).getFinancialEntityHelper();
@@ -177,10 +196,9 @@ public class FinancialEntityEditListAction extends FinancialEntityAction{
         newVersionDisclosure.refreshReferenceObject("finIntEntityStatus");
         saveFinancialEntity(form, newVersionDisclosure);
         return newVersionDisclosure;
-//        ((FinancialEntityForm) form).getFinancialEntityHelper().setActiveFinancialEntities(getFinancialEntities(true));
-//        ((FinancialEntityForm) form).getFinancialEntityHelper().setInactiveFinancialEntities(getFinancialEntities(false));
         
     }
+    
     /**
      * 
      * This method to handle the submit action for edited financial entity
@@ -211,6 +229,9 @@ public class FinancialEntityEditListAction extends FinancialEntityAction{
         return mapping.findForward(Constants.MAPPING_BASIC);
     }
 
+    /*
+     * get proper error prefix for active and inactive FE
+     */
     private String getErrotPropertyPrefix(ActionForm form, int entityIndex) {
         
         FinancialEntityHelper financialEntityHelper = ((FinancialEntityForm) form).getFinancialEntityHelper();
@@ -257,6 +278,9 @@ public class FinancialEntityEditListAction extends FinancialEntityAction{
         return mapping.findForward(Constants.MAPPING_BASIC);
     }
 
+    /*
+     * reload FE details from ui fields.  also delete the old details; so the new one can be saved properly
+     */
     private void resetFinEntityDet(FinancialEntityHelper financialEntityHelper, PersonFinIntDisclosure personFinIntDisclosure) {
         if (CollectionUtils.isNotEmpty(personFinIntDisclosure.getPerFinIntDisclDetails())) {
             getBusinessObjectService().delete(personFinIntDisclosure.getPerFinIntDisclDetails());
