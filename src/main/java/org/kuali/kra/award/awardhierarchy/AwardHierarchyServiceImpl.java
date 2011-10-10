@@ -32,6 +32,7 @@ import org.kuali.kra.award.document.AwardDocument;
 import org.kuali.kra.award.home.Award;
 import org.kuali.kra.award.home.AwardAmountInfo;
 import org.kuali.kra.award.home.AwardComment;
+import org.kuali.kra.award.home.AwardService;
 import org.kuali.kra.award.home.approvedsubawards.AwardApprovedSubaward;
 import org.kuali.kra.award.notesandattachments.notes.AwardNotepad;
 import org.kuali.kra.award.paymentreports.closeout.AwardCloseout;
@@ -71,6 +72,7 @@ public class AwardHierarchyServiceImpl implements AwardHierarchyService {
     AwardAmountInfoService awardAmountInfoService;
     ActivePendingTransactionsService activePendingTransactionsService;
     KualiConfigurationService kualiConfigurationService;
+    private AwardService awardService;
 
     /**
      * 
@@ -428,6 +430,7 @@ public class AwardHierarchyServiceImpl implements AwardHierarchyService {
 
     protected void finalizeAward(Award newAward) {
         versionHistoryService.createVersionHistory(newAward, VersionStatus.ACTIVE, GlobalVariables.getUserSession().getPrincipalName());
+        awardService.updateAwardSequenceStatus(newAward, VersionStatus.ACTIVE);
     }
     
     void copyNodeRecursively(AwardHierarchy sourceNode, AwardHierarchy newParentNode, AwardHierarchy newRootNode) {
@@ -888,5 +891,13 @@ public class AwardHierarchyServiceImpl implements AwardHierarchyService {
 
     public void setVersionHistoryService(VersionHistoryService versionHistoryService) {
         this.versionHistoryService = versionHistoryService;
+    }
+
+    public AwardService getAwardService() {
+        return awardService;
+    }
+
+    public void setAwardService(AwardService awardService) {
+        this.awardService = awardService;
     }
 }

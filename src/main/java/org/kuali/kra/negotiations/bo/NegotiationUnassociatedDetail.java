@@ -19,6 +19,9 @@ import java.util.ArrayList;
 import java.util.LinkedHashMap;
 import java.util.List;
 
+import org.apache.commons.lang.StringUtils;
+import org.apache.ojb.broker.PersistenceBroker;
+import org.apache.ojb.broker.PersistenceBrokerException;
 import org.kuali.kra.bo.KcPerson;
 import org.kuali.kra.bo.KraPersistableBusinessObjectBase;
 import org.kuali.kra.bo.Organization;
@@ -44,6 +47,7 @@ public class NegotiationUnassociatedDetail extends KraPersistableBusinessObjectB
     private String title;
     private String piPersonId;
     private String piRolodexId;
+    private String piName;
     private String leadUnitNumber;
     private String sponsorCode;
     private String primeSponsorCode;
@@ -67,6 +71,25 @@ public class NegotiationUnassociatedDetail extends KraPersistableBusinessObjectB
         super();
     }
     
+    
+    public void beforeInsert(PersistenceBroker persistenceBroker) {
+        super.beforeInsert(persistenceBroker);
+        setPiName();
+    }
+    
+    public void beforeUpdate(PersistenceBroker persistenceBroker) {
+        super.beforeUpdate(persistenceBroker);
+        setPiName();
+    }
+    
+    
+    protected void setPiName() {
+        if (getPIEmployee() != null) {
+            setPiName(getPIEmployee().getFullName());
+        } else if (getPINonEmployee() != null) {
+            setPiName(this.getPINonEmployee().getFullName());
+        }        
+    }
     
 
     public Long getNegotiationUnassociatedDetailId() {
@@ -306,11 +329,11 @@ public class NegotiationUnassociatedDetail extends KraPersistableBusinessObjectB
 
     @Override
     public String getPiName() {
-        if (getPIEmployee() != null) {
-            return getPiEmployeeName();
-        } else {
-            return getPiNonEmployeeName();
-        }
+        return piName;
+    }
+    
+    public void setPiName(String piName) {
+        this.piName = piName;
     }
 
 

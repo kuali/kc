@@ -274,7 +274,7 @@
     <property name="maxLength" value="25" />
     <property name="required" value="false" />
     <property name="validationPattern" >
-      <bean parent="NumericValidationPattern" />
+      <bean parent="AnyCharacterValidationPattern" />
     </property>
     <property name="control" >
       <bean parent="TextControlDefinition"

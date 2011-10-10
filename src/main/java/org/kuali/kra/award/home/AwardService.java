@@ -18,6 +18,7 @@ package org.kuali.kra.award.home;
 import java.util.List;
 
 import org.kuali.kra.award.document.AwardDocument;
+import org.kuali.kra.bo.versioning.VersionStatus;
 import org.kuali.kra.service.VersionException;
 import org.kuali.rice.kew.exception.WorkflowException;
 
@@ -60,5 +61,13 @@ public interface AwardService {
      * @throws VersionException
      */
     public AwardDocument createNewAwardVersion(AwardDocument awardDocument) throws VersionException, WorkflowException;
+    
+    /**
+     * Update the award to use the new VersionStatus. If the version status is ACTIVE, any other active version of this
+     * award will be set to ARCHIVED.
+     * @param award
+     * @param status
+     */
+    void updateAwardSequenceStatus(Award award, VersionStatus status);
     
 }

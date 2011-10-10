@@ -33,6 +33,7 @@ import org.kuali.kra.award.contacts.AwardPersonUnit;
 import org.kuali.kra.award.document.authorization.AwardTask;
 import org.kuali.kra.award.home.Award;
 import org.kuali.kra.award.home.AwardComment;
+import org.kuali.kra.award.home.AwardService;
 import org.kuali.kra.award.home.ContactRole;
 import org.kuali.kra.award.home.fundingproposal.AwardFundingProposal;
 import org.kuali.kra.award.paymentreports.awardreports.AwardReportTerm;
@@ -115,6 +116,7 @@ public class AwardDocument extends BudgetParentDocument<Award> implements  Copya
     
 
     private transient boolean documentSaveAfterVersioning;
+    private transient AwardService awardService;
     
     /**
      * Constructs a AwardDocument object
@@ -245,12 +247,14 @@ public class AwardDocument extends BudgetParentDocument<Award> implements  Copya
         if (KEWConstants.ROUTE_HEADER_FINAL_CD.equalsIgnoreCase(newStatus)) {
 
             //getVersionHistoryService().createVersionHistory(getAward(), VersionStatus.ACTIVE, GlobalVariables.getUserSession().getPrincipalName());
+            getAwardService().updateAwardSequenceStatus(getAward(), VersionStatus.ACTIVE);
             getVersionHistoryService().updateVersionHistoryOnRouteToFinal(getAward(), VersionStatus.ACTIVE, GlobalVariables.getUserSession().getPrincipalName());
         }
         if (newStatus.equalsIgnoreCase(KEWConstants.ROUTE_HEADER_CANCEL_CD) || newStatus.equalsIgnoreCase(KEWConstants.ROUTE_HEADER_DISAPPROVED_CD)) {
             revertFundedProposals();
             disableAwardComments();
             //getVersionHistoryService().createVersionHistory(getAward(), VersionStatus.CANCELED, GlobalVariables.getUserSession().getPrincipalName());
+            getAwardService().updateAwardSequenceStatus(getAward(), VersionStatus.CANCELED);
             getVersionHistoryService().updateVersionHistoryOnCancel(getAward(), VersionStatus.CANCELED, GlobalVariables.getUserSession().getPrincipalName());
         }
         
@@ -670,6 +674,17 @@ public class AwardDocument extends BudgetParentDocument<Award> implements  Copya
     public void refreshBudgetDocumentVersions() {
         this.refreshReferenceObject("actualBudgetDocumentVersions");
         budgetDocumentVersions.clear();
+    }
+
+    public AwardService getAwardService() {
+        if (awardService == null) {
+            awardService = KraServiceLocator.getService(AwardService.class);
+        }
+        return awardService;
+    }
+
+    public void setAwardService(AwardService awardService) {
+        this.awardService = awardService;
     }
 
 }

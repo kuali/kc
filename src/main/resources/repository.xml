@@ -2389,6 +2389,7 @@
     	<field-descriptor name="piRolodexId" column="PI_ROLODEX_ID" jdbc-type="VARCHAR" />
     	<field-descriptor name="leadUnitNumber" column="LEAD_UNIT" jdbc-type="VARCHAR" />
     	<field-descriptor name="sponsorCode" column="SPONSOR_CODE" jdbc-type="VARCHAR" />
+    	<field-descriptor name="piName" column="PI_NAME" jdbc-type="VARCHAR" />
     	<field-descriptor name="primeSponsorCode" column="PRIME_SPONSOR_CODE" jdbc-type="VARCHAR" />
     	<field-descriptor name="sponsorAwardNumber" column="SPONSOR_AWARD_NUMBER" jdbc-type="VARCHAR" />
     	<field-descriptor name="contactAdminPersonId" column="CONTACT_ADMIN_PERSON_ID" jdbc-type="VARCHAR" />

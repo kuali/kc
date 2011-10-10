@@ -35,6 +35,8 @@ import org.kuali.kra.negotiations.bo.NegotiationUnassociatedDetail;
 import org.kuali.kra.negotiations.service.NegotiationService;
 import org.kuali.rice.kns.dao.impl.LookupDaoOjb;
 import org.kuali.rice.kns.util.GlobalVariables;
+import org.kuali.rice.kns.util.KNSConstants;
+import org.kuali.rice.kns.util.RiceKeyConstants;
 
 /**
  * Negotiation Dao to assist with lookups. This implements looking up associated document information
@@ -72,7 +74,6 @@ public class NegotiationDaoOjb extends LookupDaoOjb implements NegotiationDao {
         
         proposalLogTransform = new HashMap<String, String>();
         proposalLogTransform.put("sponsorName", "sponsor.sponsorName");
-        proposalLogTransform.put("piName", "person.fullName");
         proposalLogTransform.put("leadUnitNumber", "leadUnit");
         proposalLogTransform.put("leadUnitName", "unit.unitName");
 
@@ -113,7 +114,12 @@ public class NegotiationDaoOjb extends LookupDaoOjb implements NegotiationDao {
             result = findCollectionBySearchHelper(Negotiation.class, fieldValues, false, false, null);
         }
         if (result != null && !result.isEmpty() && StringUtils.isNotBlank(fieldValues.get("negotiationAge"))) {
-            result = filterByNegotiationAge(fieldValues.get("negotiationAge"), result);
+            try {
+                result = filterByNegotiationAge(fieldValues.get("negotiationAge"), result);
+            } catch (NumberFormatException e) {
+                GlobalVariables.getMessageMap().putError(KNSConstants.DOCUMENT_ERRORS, RiceKeyConstants.ERROR_CUSTOM, new String[] { "Invalid Numeric Input: " + fieldValues.get("negotiationAge")});
+                result = new ArrayList<Negotiation>();
+            }
         }
         return result;
     }
@@ -130,6 +136,7 @@ public class NegotiationDaoOjb extends LookupDaoOjb implements NegotiationDao {
         if (values == null) {
             return new ArrayList<Negotiation>();
         }
+        values.put("awardSequenceStatus", VersionStatus.ACTIVE.name());
         Criteria criteria = getCollectionCriteriaFromMap(new Award(), values);
         Criteria negotiationCrit = new Criteria();
         ReportQueryByCriteria subQuery = QueryFactory.newReportQuery(Award.class, criteria);
