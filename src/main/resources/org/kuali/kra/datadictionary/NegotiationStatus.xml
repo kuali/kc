@@ -111,7 +111,7 @@
 
   <bean id="NegotiationStatus-inquiryDefinition" parent="NegotiationStatus-inquiryDefinition-parentBean" />
   <bean id="NegotiationStatus-inquiryDefinition-parentBean" abstract="true" parent="InquiryDefinition">
-    <property name="title" value="Object Code" />
+    <property name="title" value="Negotiation Status" />
     <property name="inquirySections" >
       <list>
         <bean parent="InquirySectionDefinition">

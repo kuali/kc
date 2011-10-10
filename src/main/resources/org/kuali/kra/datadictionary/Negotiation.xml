@@ -154,7 +154,8 @@
     <property name="description" value="Negotiation Association Type" />
   </bean>
   
-  <bean id="Negotiation-negotiationAssociationType.description" parent="Negotiation-negotiationAssociationTypeId-parentBean">
+  <bean id="Negotiation-negotiationAssociationType.description" parent="Negotiation-negotiationAssociationType.description-parentBean"/>
+  <bean id="Negotiation-negotiationAssociationType.description-parentBean" parent="Negotiation-negotiationAssociationTypeId-parentBean">
   	<property name="name" value="negotiationAssociationType.description" />
   </bean>
   
@@ -284,12 +285,12 @@
   </bean>
   
   <bean id="Negotiation-associatedNegotiable.sponsorCode" parent="Negotiation-associatedNegotiable.sponsorCode-parentBean" />
-  <bean id="Negotiation-associatedNegotiable.sponsorCode-parentBean" abstract="true" parent="Award-sponsorCode">
+  <bean id="Negotiation-associatedNegotiable.sponsorCode-parentBean" abstract="true" parent="Sponsor-sponsorCode">
     <property name="name" value="associatedNegotiable.sponsorCode" />
   </bean>
 
   <bean id="Negotiation-associatedNegotiable.sponsorName" parent="Negotiation-associatedNegotiable.sponsorName-parentBean" />
-  <bean id="Negotiation-associatedNegotiable.sponsorName-parentBean" abstract="true" parent="Award-sponsorName">
+  <bean id="Negotiation-associatedNegotiable.sponsorName-parentBean" abstract="true" parent="Sponsor-sponsorName">
     <property name="name" value="associatedNegotiable.sponsorName" />
   </bean>  
   
@@ -303,7 +304,7 @@
   </bean>
   
   <bean id="Negotiation-associatedNegotiable.piName" parent="Negotiation-associatedNegotiable.piName-parentBean" />
-  <bean id="Negotiation-associatedNegotiable.piName-parentBean" abstract="true" parent="Award-projectPersons.fullName">
+  <bean id="Negotiation-associatedNegotiable.piName-parentBean" abstract="true" parent="KcPerson-fullName">
     <property name="name" value="associatedNegotiable.piName" />
   </bean>
   
@@ -313,12 +314,12 @@
   </bean>
   
   <bean id="Negotiation-associatedNegotiable.leadUnitNumber" parent="Negotiation-associatedNegotiable.leadUnitNumber-parentBean" />
-  <bean id="Negotiation-associatedNegotiable.leadUnitNumber-parentBean" abstract="true" parent="Award-unitNumber">
+  <bean id="Negotiation-associatedNegotiable.leadUnitNumber-parentBean" abstract="true" parent="Unit-unitNumber">
     <property name="name" value="associatedNegotiable.leadUnitNumber" />
   </bean>  
 
   <bean id="Negotiation-associatedNegotiable.leadUnitName" parent="Negotiation-associatedNegotiable.leadUnitName-parentBean" />
-  <bean id="Negotiation-associatedNegotiable.leadUnitName-parentBean" abstract="true" parent="Award-leadUnit.unitName">
+  <bean id="Negotiation-associatedNegotiable.leadUnitName-parentBean" abstract="true" parent="Unit-unitName">
     <property name="name" value="associatedNegotiable.leadUnitName" />
   </bean>
       
