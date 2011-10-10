@@ -221,6 +221,10 @@ public class CommitteeServiceImpl implements CommitteeService {
      * @param member the member
      * @param scheduledDate the date of the meeting
      * @return true if the member will be at the meeting; otherwise false
+     * TODO: This method calls member.isActive() and then carries out date checking that has 
+     *  already been performed in member.isActive()? Perhaps this method should be removed and 
+     *  its invocation in getAvailableMembers() above should be replaced by a single 
+     *  call to member.isActive(schedule.getScheduledDate())
      */
     protected boolean isMemberAvailable(CommitteeMembership member, Date scheduledDate) {
         java.sql.Date sqlDate = new java.sql.Date(scheduledDate.getTime());
@@ -243,6 +247,7 @@ public class CommitteeServiceImpl implements CommitteeService {
      * @see org.kuali.kra.committee.service.CommitteeService#getCommitteeSchedule(org.kuali.kra.committee.bo.Committee, java.lang.String)
      */
     public CommitteeSchedule getCommitteeSchedule(Committee committee, String scheduleId) {
+        //TODO the code belongs in and should be moved to Committee BO?
         List<CommitteeSchedule> schedules = committee.getCommitteeSchedules();
         for (CommitteeSchedule schedule : schedules) {
             if (StringUtils.equals(schedule.getScheduleId(), scheduleId)) {
