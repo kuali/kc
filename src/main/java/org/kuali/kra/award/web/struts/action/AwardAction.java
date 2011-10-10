@@ -60,6 +60,7 @@ import org.kuali.kra.award.document.AwardDocument;
 import org.kuali.kra.award.home.Award;
 import org.kuali.kra.award.home.AwardAmountInfo;
 import org.kuali.kra.award.home.AwardComment;
+import org.kuali.kra.award.home.AwardService;
 import org.kuali.kra.award.home.approvedsubawards.AwardApprovedSubaward;
 import org.kuali.kra.award.paymentreports.ReportClass;
 import org.kuali.kra.award.paymentreports.awardreports.AwardReportTerm;
@@ -130,6 +131,7 @@ public class AwardAction extends BudgetParentActionBase {
 
     private ParameterService parameterService;
     private transient AwardBudgetService awardBudgetService;
+    private transient AwardService awardService;
     
     private static final Log LOG = LogFactory.getLog( AwardAction.class );
     
@@ -397,6 +399,7 @@ public class AwardAction extends BudgetParentActionBase {
             
             boolean newAwardSaved = savingNewAward && award.getAwardId() != null; 
             if(newAwardSaved) {
+                getAwardService().updateAwardSequenceStatus(award, VersionStatus.PENDING);
                 getVersionHistoryService().createVersionHistory(award, VersionStatus.PENDING, userId);
             }
  
@@ -1804,5 +1807,16 @@ public class AwardAction extends BudgetParentActionBase {
                             documentActions.remove(KNSConstants.KUALI_ACTION_CAN_CANCEL);
                 }       
         }   
+    }
+
+    public AwardService getAwardService() {
+        if (awardService == null) {
+            awardService = KraServiceLocator.getService(AwardService.class);
+        }
+        return awardService;
+    }
+
+    public void setAwardService(AwardService awardService) {
+        this.awardService = awardService;
     }
 }

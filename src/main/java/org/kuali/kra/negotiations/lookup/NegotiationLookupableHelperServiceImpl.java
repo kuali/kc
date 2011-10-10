@@ -70,8 +70,6 @@ public class NegotiationLookupableHelperServiceImpl extends KraLookupableHelperS
         parameters.put(KNSConstants.DISPATCH_REQUEST_PARAMETER, KNSConstants.DOC_HANDLER_METHOD);
         parameters.put(KNSConstants.PARAMETER_COMMAND, KEWConstants.DOCSEARCH_COMMAND);
         parameters.put(KNSConstants.DOCUMENT_TYPE_NAME, getDocumentTypeName());
-        parameters.put("viewDocument", "true");
-        parameters.put("docOpenedFromIPSearch", "true");
         parameters.put("docId", document.getDocumentNumber());
         String href  = UrlFactory.parameterizeUrl("../" + getHtmlAction(), parameters);
         
