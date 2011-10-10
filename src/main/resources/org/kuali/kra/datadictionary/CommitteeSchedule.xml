@@ -57,6 +57,7 @@
 				<ref bean="CommSchedule-committee.committeeId" />
 				<ref bean="CommSchedule-committee.committeeName" />
 				<ref bean="CommSchedule-committee.committeeTypeCode" />
+				<ref bean="CommSchedule-committee.committeeMemberships.personId" />
 				<ref bean="CommSchedule-protocolSubmissions.protocolNumber" />
 				<ref bean="CommSchedule-scheduleStatus.description" />
 				<ref bean="CommSchedule-availableToReviewers" />
@@ -329,6 +330,16 @@
 		<property name="label" value="Committee Type" />
 		<property name="shortLabel" value="Committee Type" />
 	</bean>
+	
+	<bean id="CommSchedule-committee.committeeMemberships.personId" parent="CommSchedule-committee.committeeMemberships.personId-parentBean" />
+    <bean id="CommSchedule-committee.committeeMemberships.personId-parentBean" abstract="true" parent="AttributeReferenceDummy-genericBigText">
+        <property name="name" value="committee.committeeMemberships.personId" />
+        <property name="label" value="All My Schedules" />
+        <property name="shortLabel" value="All My Schedules" />
+        <property name="summary" value="All My Schedules" />
+        <property name="description" value="All My Schedules" />
+    </bean>
+	
 
 	<bean id="CommSchedule-selected" parent="CommSchedule-selected-parentBean" />
 
@@ -454,6 +465,8 @@
 					p:attributeName="committee.committeeName" />
 				<bean parent="FieldDefinition"
 					p:attributeName="committee.committeeTypeCode" />
+				<bean parent="FieldDefinition"
+                    p:attributeName="committee.committeeMemberships.personId" p:hidden="true" />
 			</list>
 		</property>
 		<property name="resultFields" >

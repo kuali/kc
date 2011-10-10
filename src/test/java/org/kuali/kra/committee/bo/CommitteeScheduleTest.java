@@ -23,6 +23,7 @@ import java.util.HashMap;
 import java.util.Map;
 
 import org.apache.commons.lang.time.DateUtils;
+import org.junit.Test;
 import org.kuali.kra.committee.web.struts.form.schedule.Time12HrFmt;
 import org.kuali.kra.committee.web.struts.form.schedule.Time12HrFmt.MERIDIEM;
 
@@ -144,5 +145,98 @@ public class CommitteeScheduleTest extends BoAttributeTestBase<CommitteeSchedule
     protected void boPostrequisite() {
         super.boPostrequisite();
         cm.setViewTime(new Time12HrFmt("10:30",MERIDIEM.AM));
+    }
+    
+    
+    @Test
+    public void testIsActiveFor() {
+        // create two schedules with two different dates. one in November and the other in December
+        CommitteeSchedule novemberSchedule = new CommitteeSchedule();
+        novemberSchedule.setScheduledDate(Date.valueOf("2011-11-25"));
+        
+        CommitteeSchedule decemberSchedule = new CommitteeSchedule();
+        decemberSchedule.setScheduledDate(Date.valueOf("2011-12-25"));
+                
+        // create four committee membership mock objects, 
+        // one active only for November date, one active for only December date, 
+        // one active for both dates, and the last inactive for both dates.
+        CommitteeMembership novemberMember = new CommitteeMembership() {            
+            public boolean isActive(Date date) {
+                if(date.equals(Date.valueOf("2011-11-25"))) {
+                    return true;
+                }
+                else {
+                    return false;
+                }
+            }
+        };
+        novemberMember.setPersonId("novemberPerson");
+        
+        CommitteeMembership decemberMember = new CommitteeMembership() {            
+            public boolean isActive(Date date) {
+                if(date.equals(Date.valueOf("2011-12-25"))) {
+                    return true;
+                }
+                else {
+                    return false;
+                }
+            }     
+        };
+        decemberMember.setPersonId("decemberPerson");
+        
+        CommitteeMembership novemberDecemberMember = new CommitteeMembership() {            
+            public boolean isActive(Date date) {
+                if( (date.equals(Date.valueOf("2011-12-25"))) || (date.equals(Date.valueOf("2011-11-25"))) ) {
+                    return true;
+                }
+                else {
+                    return false;
+                }
+            }
+        };
+        novemberDecemberMember.setPersonId("novemberDecemberPerson");
+        
+        CommitteeMembership neitherNovemberNorDecemberMember = new CommitteeMembership() {            
+            public boolean isActive(Date date) {
+                if ( !(date.equals(Date.valueOf("2011-12-25"))) && !(date.equals(Date.valueOf("2011-11-25"))) ) {
+                    return true;
+                }
+                else {
+                    return false;
+                }
+            }      
+        };
+        neitherNovemberNorDecemberMember.setPersonId("neitherNovemberNorDecemberPerson");
+       
+        // create the committee instance and add the memberships to it
+        Committee committee = new Committee();
+        committee.getCommitteeMemberships().add(novemberMember);
+        committee.getCommitteeMemberships().add(decemberMember);
+        committee.getCommitteeMemberships().add(novemberDecemberMember);
+        committee.getCommitteeMemberships().add(neitherNovemberNorDecemberMember);
+        
+        // set the committee instance on the two schedules created earlier
+        decemberSchedule.setCommittee(committee);
+        novemberSchedule.setCommittee(committee);
+        
+        assertTrue(novemberSchedule.isActiveFor("novemberPerson"));
+        assertTrue(decemberSchedule.isActiveFor("decemberPerson"));
+        
+        assertFalse(novemberSchedule.isActiveFor("decemberPerson"));
+        assertFalse(decemberSchedule.isActiveFor("novemberPerson"));
+        
+        assertTrue(decemberSchedule.isActiveFor("novemberDecemberPerson"));
+        assertTrue(novemberSchedule.isActiveFor("novemberDecemberPerson"));
+        
+        assertFalse(novemberSchedule.isActiveFor("neitherNovemberNorDecemberPerson"));
+        assertFalse(decemberSchedule.isActiveFor("neitherNovemberNorDecemberPerson"));
+        
+        assertFalse(novemberSchedule.isActiveFor(null));
+        decemberSchedule.setCommittee(null);
+        assertFalse(decemberSchedule.isActiveFor("decemberPerson"));
+        // restore committee
+        decemberSchedule.setCommittee(committee);
+        assertTrue(decemberSchedule.isActiveFor("decemberPerson"));
+        
     }
 }

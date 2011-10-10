@@ -34,6 +34,7 @@
             <li><portal:portalLink displayTitle="true" title="All My Protocols" url="kr/lookup.do?methodToCall=search&businessObjectClassName=org.kuali.kra.irb.Protocol&docFormKey=88888888&returnLocation=${ConfigProperties.application.url}/portal.do&hideReturnLink=true&lookupProtocolPersonId=${UserSession.principalId}" /></li>
             <li><portal:portalLink displayTitle="true" title="Search Protocols" url="kr/lookup.do?methodToCall=start&businessObjectClassName=org.kuali.kra.irb.Protocol&docFormKey=88888888&returnLocation=${ConfigProperties.application.url}/portal.do&hideReturnLink=true" /></li>
             <li><portal:portalLink displayTitle="true" title="All My Reviews" url="kr/lookup.do?methodToCall=start&businessObjectClassName=org.kuali.kra.irb.onlinereview.ProtocolOnlineReview&docFormKey=88888888&returnLocation=${ConfigProperties.application.url}/portal.do&hideReturnLink=true&lookupReviewerPersonId=${UserSession.principalId}" /></li>
+            <li><portal:portalLink displayTitle="true" title="All My Schedules" url="kr/lookup.do?methodToCall=search&businessObjectClassName=org.kuali.kra.committee.bo.CommitteeSchedule&docFormKey=88888888&returnLocation=${ConfigProperties.application.url}/portal.do&hideReturnLink=true&committee.committeeMemberships.personId=${UserSession.principalId}" /></li>
         </ul>  
 </div>
 <channel:portalChannelBottom />
