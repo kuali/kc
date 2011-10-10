@@ -111,11 +111,11 @@
 
   <bean id="NegotiationAssociationType-inquiryDefinition" parent="NegotiationAssociationType-inquiryDefinition-parentBean" />
   <bean id="NegotiationAssociationType-inquiryDefinition-parentBean" abstract="true" parent="InquiryDefinition">
-    <property name="title" value="Object Code" />
+    <property name="title" value="Negotiation Association Type" />
     <property name="inquirySections" >
       <list>
         <bean parent="InquirySectionDefinition">
-          <property name="title" value="Negotiation Status" />
+          <property name="title" value="Negotiation Association" />
           <property name="numberOfColumns" value="1" />
           <property name="inquiryFields" >
             <list>
