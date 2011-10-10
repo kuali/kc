@@ -97,8 +97,7 @@ public class ProtocolHelper implements Serializable {
     private boolean modifyReferences = false;
     private boolean modifyOrganizations = false;
     private boolean modifySubjects = false;
-    private boolean modifyAreasOfResearch = false;
-    
+    private boolean modifyAreasOfResearch = false;    
     private boolean leadUnitAutoPopulated = false;
     private transient ParameterService parameterService;
     private transient KcPersonService personService;
@@ -209,17 +208,6 @@ public class ProtocolHelper implements Serializable {
         initializeModifyOrganizationsPermission(protocol);
         initializeModifySubjectsPermission(protocol);
         initializeModifyAreasOfResearchPermission(protocol);
-        
-        /* 
-        modifyProtocol = true;
-        billableReadOnly = false;
-        modifyGeneralInfo = true;
-        modifyFundingSource = true;
-        modifyReferences = true;
-        modifyOrganizations = true;
-        modifySubjects = true;
-        modifyAreasOfResearch = true;
-		*/
     }
 
     private void initializeModifyProtocolPermission(Protocol protocol) {
@@ -289,7 +277,7 @@ public class ProtocolHelper implements Serializable {
     public boolean getModifyProtocol() {
         return modifyProtocol;
     }
-
+    
     public boolean getBillableReadOnly() {
         return billableReadOnly;
     }
