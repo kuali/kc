@@ -442,14 +442,11 @@ public class AwardHomeAction extends AwardAction {
         awardForm.getAwardDocument().getAward().setNewVersion(true); 
         AwardDocument newAwardDocument = getAwardService().createNewAwardVersion(awardForm.getAwardDocument());
         getDocumentService().saveDocument(newAwardDocument);
+        getAwardService().updateAwardSequenceStatus(newAwardDocument.getAward(), VersionStatus.PENDING);
         getVersionHistoryService().createVersionHistory(newAwardDocument.getAward(), VersionStatus.PENDING,
                 GlobalVariables.getUserSession().getPrincipalName());
         reinitializeAwardForm(awardForm, newAwardDocument);
         return new ActionForward(makeDocumentOpenUrl(newAwardDocument), true);
-    }
-    
-    private AwardService getAwardService() {
-        return KraServiceLocator.getService(AwardService.class);
     }
     
     /**

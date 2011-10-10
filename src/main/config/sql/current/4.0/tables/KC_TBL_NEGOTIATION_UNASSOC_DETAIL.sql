@@ -4,6 +4,7 @@ CREATE TABLE "NEGOTIATION_UNASSOC_DETAIL"  (
 	"TITLE"                        	VARCHAR2(45) NULL,
 	"PI_PERSON_ID"                 	VARCHAR2(40) NULL,
 	"PI_ROLODEX_ID"                	VARCHAR2(40) NULL,
+	"PI_NAME"						VARCHAR2(100) NULL,
 	"LEAD_UNIT"                    	VARCHAR2(8) NULL,
 	"SPONSOR_CODE"                 	CHAR(6) NULL,
 	"PRIME_SPONSOR_CODE"           	CHAR(6) NULL,

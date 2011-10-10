@@ -16,6 +16,7 @@
         <ref bean="NegotiationUnassociatedDetail-title" />
         <ref bean="NegotiationUnassociatedDetail-piPersonId" />
         <ref bean="NegotiationUnassociatedDetail-piRolodexId" />
+        <ref bean="NegotiationUnassociatedDetail-piName" />
         <ref bean="NegotiationUnassociatedDetail-leadUnitNumber" />
         <ref bean="NegotiationUnassociatedDetail-sponsorCode" />
         <ref bean="NegotiationUnassociatedDetail-primeSponsorCode" />
@@ -101,6 +102,24 @@
     <property name="summary" value="Principle Investigator Non-Employee" />
     <property name="description" value="Principle Investigator Non-Employee" />
   </bean>
+  
+  <bean id="NegotiationUnassociatedDetail-piName" parent="NegotiationUnassociatedDetail-piName-parentBean" />
+  <bean id="NegotiationUnassociatedDetail-piName-parentBean" abstract="true" parent="AttributeDefinition">
+    <property name="name" value="piName" />
+    <property name="forceUppercase" value="false" />
+    <property name="label" value="Principal Investigator Name" />
+    <property name="shortLabel" value="PI Name" />
+    <property name="required" value="false" />
+    <property name="maxLength" value="200" />
+    <property name="validationPattern" >
+      <bean parent="AnyCharacterValidationPattern" />
+    </property>
+    <property name="control" >
+      <bean parent="TextControlDefinition" p:size="40" />
+    </property>
+    <property name="summary" value="Principal Investigator Name" />
+    <property name="description" value="Principal Investigator Name" />
+  </bean>  
   
   <bean id="NegotiationUnassociatedDetail-leadUnitNumber" parent="NegotiationUnassociatedDetail-leadUnitNumber-parentBean" />
   <bean id="NegotiationUnassociatedDetail-leadUnitNumber-parentBean" abstract="true" parent="Award-unitNumber">
