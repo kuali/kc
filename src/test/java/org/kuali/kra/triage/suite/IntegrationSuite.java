@@ -19,8 +19,15 @@ import org.junit.runner.RunWith;
 import org.junit.runners.Suite;
 import org.junit.runners.Suite.SuiteClasses;
 import org.kuali.kra.SeleniumUnitTest;
+import org.kuali.kra.award.web.AwardAttachmentsPanelSeleniumTest;
 import org.kuali.kra.award.web.AwardBudgetBasicSeleniumTest;
+import org.kuali.kra.award.web.AwardCommentsPanelSeleniumTest;
 import org.kuali.kra.award.web.AwardCompleteSeleniumTest;
+import org.kuali.kra.award.web.AwardDataValidationPanelSeleniumTest;
+import org.kuali.kra.award.web.AwardDetailsAndDatesPanelSeleniumTest;
+import org.kuali.kra.award.web.AwardDirectFandADistributionPanelSeleniumTest;
+import org.kuali.kra.award.web.AwardReportsPanelSeleniumTest;
+import org.kuali.kra.award.web.AwardSpecialReviewSeleniumTest;
 import org.kuali.kra.bo.web.CustomAttributeMaintenanceDocumentSeleniumTest;
 import org.kuali.kra.bo.web.InstituteLaRateMaintenanceDocumentSeleniumTest;
 import org.kuali.kra.bo.web.InstituteRateMaintenanceDocumentSeleniumTest;
@@ -52,8 +59,15 @@ import org.kuali.kra.proposaldevelopment.web.ProposalDevelopmentYnqSeleniumTest;
 @SuiteClasses({
     SeleniumUnitTest.class,
     ActivityTypeMaintenanceDocumentSeleniumTest.class,
+    AwardAttachmentsPanelSeleniumTest.class,
     AwardBudgetBasicSeleniumTest.class,
+    AwardCommentsPanelSeleniumTest.class,
     AwardCompleteSeleniumTest.class,
+    AwardDataValidationPanelSeleniumTest.class,
+    AwardDetailsAndDatesPanelSeleniumTest.class,
+    AwardDirectFandADistributionPanelSeleniumTest.class,
+    AwardReportsPanelSeleniumTest.class,
+    AwardSpecialReviewSeleniumTest.class,
     BudgetCategoryMaintenanceDocumentSeleniumTest.class,
     CommitteeCompleteSeleniumTest.class,
     CostElementMaintenanceDocumentSeleniumTest.class,
