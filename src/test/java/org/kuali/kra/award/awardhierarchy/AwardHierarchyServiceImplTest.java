@@ -31,6 +31,9 @@ import org.junit.Test;
 import org.kuali.kra.award.AwardNumberService;
 import org.kuali.kra.award.document.AwardDocument;
 import org.kuali.kra.award.home.Award;
+import org.kuali.kra.award.home.AwardService;
+import org.kuali.kra.award.home.AwardServiceImpl;
+import org.kuali.kra.bo.versioning.VersionStatus;
 import org.kuali.kra.infrastructure.KraServiceLocator;
 import org.kuali.kra.service.VersionHistoryService;
 import org.kuali.kra.service.VersioningService;
@@ -69,7 +72,8 @@ public class AwardHierarchyServiceImplTest extends KcUnitTestBase {
         service.setDocumentService(getDocumentService());
         service.setVersioningService(KraServiceLocator.getService(VersioningService.class));
         service.setVersionHistoryService(KraServiceLocator.getService(VersionHistoryService.class));
-        
+        service.setAwardService(new AwardServiceMock());
+         
         awardList = new ArrayList<Award>();
         rootNodeA = createFullAwardHierarchy(100001L, NUMBER_OF_CHILDREN_A, NUMBER_OF_GRANDCHILDREN_A);
         addAwards(rootNodeA);
@@ -264,6 +268,7 @@ public class AwardHierarchyServiceImplTest extends KcUnitTestBase {
             Award award = createAward(node.getAwardNumber());
             if (placeholderDocument != null) {
                 placeholderDocument.getAwardList().add(award);
+                award.setAwardDocument(placeholderDocument);
                 getDocumentService().saveDocument(placeholderDocument);
             } else {
                 awardList.add(award);
@@ -342,5 +347,11 @@ public class AwardHierarchyServiceImplTest extends KcUnitTestBase {
     private VersionHistoryService getVersionHistoryService() {
         return KraServiceLocator.getService(VersionHistoryService.class);
     }
+    
+    private class AwardServiceMock extends AwardServiceImpl {
+        public void updateAwardSequenceStatus(Award award, VersionStatus status) {
+            //do nothing.
+        }
+    }    
 
 }
