@@ -80,6 +80,10 @@ public class NegotiationDocumentAuthorizer extends KcTransactionalDocumentAuthor
         if (canExecuteNegotiationTask(user.getPrincipalId(), negotiationDoc, TaskName.NEGOTIATION_MODIFIY_NEGOTIATION)) {
             editModes.add("modify");
         }
+        
+        if (canExecuteNegotiationTask(user.getPrincipalId(), negotiationDoc, TaskName.NEGOTIATION_CREATE_ACTIVITIES)) {
+            editModes.add("create_activity");
+        }        
 
         if (canExecuteNegotiationTask(user.getPrincipalId(), negotiationDoc, TaskName.NEGOTIATION_MODIFY_ACTIVITIES)) {
             editModes.add("modify_activity");
@@ -127,7 +131,8 @@ public class NegotiationDocumentAuthorizer extends KcTransactionalDocumentAuthor
     
     public boolean canEdit(Document document, Person user) {
         return canExecuteNegotiationTask(user.getPrincipalId(), (NegotiationDocument) document, TaskName.NEGOTIATION_MODIFIY_NEGOTIATION)
-            || canExecuteNegotiationTask(user.getPrincipalId(), (NegotiationDocument) document, TaskName.NEGOTIATION_MODIFY_ACTIVITIES);
+            || canExecuteNegotiationTask(user.getPrincipalId(), (NegotiationDocument) document, TaskName.NEGOTIATION_MODIFY_ACTIVITIES)
+            || canExecuteNegotiationTask(user.getPrincipalId(), (NegotiationDocument) document, TaskName.NEGOTIATION_CREATE_ACTIVITIES);
     }
     
     public boolean canSave(Document document, Person user) {

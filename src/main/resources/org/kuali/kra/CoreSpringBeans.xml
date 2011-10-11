@@ -753,6 +753,9 @@
                 <bean class="org.kuali.kra.negotiations.auth.ModifyNegotiationAuthorizer" parent="parentNegotiationAuthorizer">
                     <property name="taskName" value="modifyNegotiation" />
                 </bean>
+                <bean class="org.kuali.kra.negotiations.auth.CreateActivitiesAuthorizer" parent="parentNegotiationAuthorizer">
+                    <property name="taskName" value="createNegotiationActivities" />
+                </bean>                
                 <bean class="org.kuali.kra.negotiations.auth.ModifyActivitiesAuthorizer" parent="parentNegotiationAuthorizer">
                     <property name="taskName" value="modifyNegotiationActivities" />
                 </bean>
