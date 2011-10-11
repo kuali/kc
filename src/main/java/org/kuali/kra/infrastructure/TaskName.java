@@ -211,6 +211,7 @@ public interface TaskName {
      */
     public static final String NEGOTIATION_CREATE_NEGOTIATION = "createNegotiation";
     public static final String NEGOTIATION_MODIFIY_NEGOTIATION = "modifyNegotiation";
+    public static final String NEGOTIATION_CREATE_ACTIVITIES = "createNegotiationActivities";
     public static final String NEGOTIATION_MODIFY_ACTIVITIES = "modifyNegotiationActivities";
     public static final String NEGOTIATION_VIEW_NEGOTIATION = "viewNegotiation";
     public static final String NEGOTIATION_VIEW_NEGOTIATION_UNRESTRICTED = "viewNegotiationUnRestricted";

@@ -4,10 +4,11 @@
 <%@ attribute name="activityIndex" required="true" %>
 <%@ attribute name="activity" required="true" type="org.kuali.kra.negotiations.bo.NegotiationActivity" %>
 <%@ attribute name="tabDivClass" required="false" %>
+<%@ attribute name="readOnly" required="true" %>
 
 <c:set var="activityAttributes" value="${DataDictionary.NegotiationActivity.attributes}" />
 <c:set var="attachmentAttributes" value="${DataDictionary.NegotiationActivityAttachment.attributes}" />
-<c:set var="readOnly" value="${!(KualiForm.editingMode['modify_activity'] || (KualiForm.editingMode['modify'] && activityIndex == -1))}"/>
+
 
 <c:if test="${empty tabDivClass}">
   <c:set var="tabDivClass" value="innerTab-head"/>
