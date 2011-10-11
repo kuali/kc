@@ -43,27 +43,32 @@
 									${member.personName}
 								</option>
 							</c:forEach>
-						</html:select> <kul:checkErrors keyMatch="onlineReviewsActionHelper.newProtocolReviewCommitteeMembershipId"/>
-										 <c:if test="${hasErrors}">
-	 										<kul:fieldShowErrorIcon />
-  										</c:if>
-										
+						</html:select> 
+						<kul:checkErrors keyMatch="onlineReviewsActionHelper.newProtocolReviewCommitteeMembershipId"/>
+							<c:if test="${hasErrors}">
+	 							<kul:fieldShowErrorIcon />
+  							</c:if>
 						</c:if>
 					</td>
 	               	<th class="grid"><div align="right"><kul:htmlAttributeLabel attributeEntry="${onlineReviewAttributes.dateRequested}" noColon="false" /></div></th>
-	               	<td class="grid" >
-						<kul:htmlControlAttribute property="onlineReviewsActionHelper.newReviewDateRequested" attributeEntry="${onlineReviewAttributes.dateRequested}" datePicker="true" readOnly="${!canAssignCommitteeMember || readOnly}" />
-	               	</td>
+		               	<td class="grid" >
+							<kul:htmlControlAttribute property="onlineReviewsActionHelper.newReviewDateRequested" attributeEntry="${onlineReviewAttributes.dateRequested}" datePicker="true" readOnly="${!canAssignCommitteeMember || readOnly}" />
+	    	           	</td>
 	             	</tr>
 	             	<tr>
-	             		<th class="grid"><div align="right"><kul:htmlAttributeLabel attributeEntry="${newOnlineReviewAttributes.newReviewerTypeCode}" noColon="false" /></div></th>
-	             		<td class = "grid"><kul:htmlControlAttribute property="onlineReviewsActionHelper.newReviewerTypeCode" attributeEntry="${newOnlineReviewAttributes.newReviewerTypeCode}" readOnly="false"/>
-	             
-	               	<th class="grid"><div align="right"><kul:htmlAttributeLabel attributeEntry="${onlineReviewAttributes.dateDue}" noColon="false" /></div></th>
-	               	<td class="grid" >
-						<kul:htmlControlAttribute property="onlineReviewsActionHelper.newReviewDateDue" attributeEntry="${onlineReviewAttributes.dateDue}" datePicker="true" readOnly="${!canAssignNewReviewer || readOnly}" />
-	               	</td>
-	             
+	             		<th class="grid"><div align="right">
+	             			<kul:htmlAttributeLabel attributeEntry="${newOnlineReviewAttributes.newReviewerTypeCode}" noColon="false" /></div>
+	             		</th>
+	        	     	<td class = "grid"><kul:htmlControlAttribute property="onlineReviewsActionHelper.newReviewerTypeCode" attributeEntry="${newOnlineReviewAttributes.newReviewerTypeCode}" readOnly="false"/>
+	             			<th class="grid">
+	             				<div align="right">
+	             					<kul:htmlAttributeLabel attributeEntry="${onlineReviewAttributes.dateDue}" noColon="false" />
+	             				</div>
+	             			</th>
+				            <td class="grid" >
+								<kul:htmlControlAttribute property="onlineReviewsActionHelper.newReviewDateDue" attributeEntry="${onlineReviewAttributes.dateDue}" datePicker="true" readOnly="${!canAssignNewReviewer || readOnly}" />
+	               			</td>
+	             		</td>
 	             	</tr>
 	        
 	          		<tr>

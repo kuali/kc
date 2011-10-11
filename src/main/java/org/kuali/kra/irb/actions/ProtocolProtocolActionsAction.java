@@ -562,7 +562,7 @@ public class ProtocolProtocolActionsAction extends ProtocolAction implements Aud
         protocolForm.getActionHelper().setCurrentTask(TaskName.MODIFY_PROTOCOL_AMMENDMENT_SECTIONS);
         ProtocolTask task = new ProtocolTask(TaskName.MODIFY_PROTOCOL_AMMENDMENT_SECTIONS, protocol);
         if (isAuthorized(task)) {
-            if (!applyRules(new ModifyAmendmentSectionsEvent(protocolForm.getProtocolDocument(), Constants.PROTOCOL_CREATE_AMENDMENT_KEY,
+            if (!applyRules(new ModifyAmendmentSectionsEvent(protocolForm.getProtocolDocument(), Constants.PROTOCOL_MODIFY_AMENDMENT_KEY,
                 protocolForm.getActionHelper().getProtocolAmendmentBean()))) {
                 return mapping.findForward(Constants.MAPPING_BASIC);
             }
@@ -677,9 +677,9 @@ public class ProtocolProtocolActionsAction extends ProtocolAction implements Aud
         ProtocolForm protocolForm = (ProtocolForm) form;
         ProtocolTask task = new ProtocolTask(TaskName.PROTOCOL_AMEND_RENEW_DELETE, protocolForm.getProtocolDocument().getProtocol());
         if (isAuthorized(task)) {
-            return confirm(buildDeleteProtocolConfirmationQuestion(mapping, form, request, response), CONFIRM_DELETE_PROTOCOL_KEY,
-                    "");
-
+            return confirm(buildDeleteProtocolConfirmationQuestion(mapping, form, request, response), 
+                           CONFIRM_DELETE_PROTOCOL_KEY,
+                           "");
         }
         return mapping.findForward(Constants.MAPPING_BASIC);
     }
