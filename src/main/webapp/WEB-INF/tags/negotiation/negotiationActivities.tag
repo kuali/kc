@@ -36,9 +36,8 @@ $jq(document).ready(function() {
 <kul:tab tabTitle="Activities & Attachments" defaultOpen="false" tabErrorKey="" innerTabErrorKey="document.negotiationList[0].activities*,negotiationActivityHelper.*">
 <div class="tab-container"  align="center">
 
-<c:if test="${!readOnly || KualiForm.editingMode['modify']}">
-  <%-- Hide Add Activity if readonly --%>
-  <kra-negotiation:negotiationActivity activity="${KualiForm.negotiationActivityHelper.newActivity}" activityIndex="-1" parentTab="Activities & Attachments" tabDivClass="innerTab-h3head"/>
+<c:if test="${KualiForm.editingMode['create_activity']}">
+  <kra-negotiation:negotiationActivity activity="${KualiForm.negotiationActivityHelper.newActivity}" activityIndex="-1" parentTab="Activities & Attachments" tabDivClass="innerTab-h3head" readOnly="false"/>
 </c:if>
 <jsp:useBean id="paramMap" class="java.util.HashMap"/>
 <kul:innerTab parentTab="Activities & Attachments" tabTitle="Activities" defaultOpen="false" useCurrentTabIndexAsKey="true" overrideDivClass="innerTab-h3head">
@@ -65,7 +64,7 @@ $jq(document).ready(function() {
    
   </table>
   <c:forEach items="${KualiForm.document.negotiation.activities}" var="activity" varStatus="ctr">
-  	<kra-negotiation:negotiationActivity activity="${activity}" activityIndex="${ctr.count-1}" parentTab="All Activities"/>
+  	<kra-negotiation:negotiationActivity activity="${activity}" activityIndex="${ctr.count-1}" parentTab="All Activities" readOnly="${readOnly}"/>
   </c:forEach>
 </kul:innerTab>
 
