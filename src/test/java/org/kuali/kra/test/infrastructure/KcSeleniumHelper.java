@@ -20,6 +20,8 @@ import static org.junit.Assert.assertFalse;
 import static org.junit.Assert.assertNotNull;
 import static org.junit.Assert.assertTrue;
 
+import java.io.File;
+import java.net.URL;
 import java.util.ArrayList;
 import java.util.Collections;
 import java.util.List;
@@ -74,6 +76,23 @@ public abstract class KcSeleniumHelper {
     private static final String SUBMIT_SUCCESS_MESSAGE = "Document was successfully approved";
     
     private WebDriver driver;
+    
+    private enum TabCommand {
+        OPEN,
+        CLOSE;
+        
+        public boolean contains(String tabCommand) {
+            boolean contains = StringUtils.equalsIgnoreCase(tabCommand, this.name());
+            
+            for (TabCommand command : TabCommand.values()) {
+                if (command != this) {
+                    contains |= !StringUtils.equalsIgnoreCase(tabCommand, command.name());
+                }
+            }
+            
+            return contains;
+        }
+    }
     
     protected KcSeleniumHelper(WebDriver driver) {
         this.driver = driver;
@@ -246,6 +265,8 @@ public abstract class KcSeleniumHelper {
         
         if (StringUtils.equals(tagName, "input") && StringUtils.equals(elementType, "checkbox")) {
             setCheckbox(element, value);
+        } else if (StringUtils.equals(tagName, "input") && StringUtils.equals(elementType, "file")) {
+            setFile(element, value);
         } else if (StringUtils.equals(tagName, "input") && StringUtils.equals(elementType, "radio")) {
             setRadio(locator, exact, value);
         } else if (StringUtils.equals(tagName, "select")) {
@@ -267,6 +288,16 @@ public abstract class KcSeleniumHelper {
         if ((booleanValue && !element.isSelected()) || (!booleanValue && element.isSelected())) {
             element.click();
         }
+    }
+    
+    /**
+     * Sets the value of a file upload.
+     * 
+     * @param element the located parent element
+     * @param value the new value of the element
+     */
+    private final void setFile(final WebElement element, final String value) {
+        element.sendKeys(value);
     }
     
     /**
@@ -403,7 +434,7 @@ public abstract class KcSeleniumHelper {
             }
         );
 
-        clickTab(tab, "open");
+        clickTab(tab, TabCommand.OPEN);
     }
     
     /**
@@ -428,7 +459,7 @@ public abstract class KcSeleniumHelper {
             }
         );
         
-        clickTab(tab, "open");
+        clickTab(tab, TabCommand.OPEN);
     }
 
     /**
@@ -447,7 +478,7 @@ public abstract class KcSeleniumHelper {
             }
         );
 
-        clickTab(tab, "close");
+        clickTab(tab, TabCommand.CLOSE);
     }
 
     /**
@@ -472,7 +503,7 @@ public abstract class KcSeleniumHelper {
             }
         );
 
-        clickTab(tab, "close");
+        clickTab(tab, TabCommand.CLOSE);
     }
     
     /**
@@ -490,33 +521,31 @@ public abstract class KcSeleniumHelper {
      * @param tab the tab to click
      * @param command the instruction to either open or close the tab
      */
-    private void clickTab(final WebElement tab, final String command) {
-        new ElementExistsWaiter("Cannot " + command + " given tab").until(
-            new Function<WebDriver, Boolean>() {
-                public Boolean apply(WebDriver driver) {
-                    boolean isClicked = false;
-                    
-                    String tabTitle = tab.getAttribute("title");
-                    if (StringUtils.contains(tabTitle, command)) {
-                        tab.click();
-                    } else {
-                        isClicked = true;
-                    }
-                    
-                    return isClicked;
-                }
-            }
-        );
+    private void clickTab(final WebElement tab, final TabCommand command) {
+        String tabCommand = StringUtils.substringBefore(tab.getAttribute("title"), " ");
+        if (command.contains(tabCommand)) {
+            tab.click();
+        }
     }
     
     /**
-     * Gets the document number from a document's web page.  It is expected to be in an HTML table in a table labeled "headerarea".
+     * Gets the document number from a document's web page.
      *
      * @return the document's number
      */
-    public final String getDocumentNumber() {
+    public String getDocumentNumber() {
         final String locator = "//div[@id='headerarea']/div/table/tbody/tr[1]/td[1]";
         
+        return getDocumentNumber(locator);
+    }
+    
+    /**
+     * Gets the document number from a document's web page using the given XPath {@code locator}.
+     *
+     * @param locator the xpath string to locate the document number
+     * @return the document's number
+     */
+    protected final String getDocumentNumber(final String locator) {
         WebElement documentNumber = new ElementExistsWaiter(locator + " not found").until(
             new Function<WebDriver, WebElement>() {
                 public WebElement apply(WebDriver driver) {
@@ -524,7 +553,7 @@ public abstract class KcSeleniumHelper {
                 }
             }
         );
-        
+            
         return documentNumber.getText();
     }
     
@@ -1366,12 +1395,16 @@ public abstract class KcSeleniumHelper {
     public final void assertError(final String panelId, final String expectedText) {
         clickExpandAll();
         
-        List<String> errorValues = new ArrayList<String>();
+        boolean errorsContain = false;
+        
         for (WebElement error : getErrors(panelId)) {
-            errorValues.add(error.getAttribute("value"));
+            if (StringUtils.contains(error.getText(), expectedText)) {
+                errorsContain = true;
+                break;
+            }
         }
         
-        assertTrue("Errors in " + panelId + " do not contain " + expectedText, errorValues.contains(expectedText));
+        assertTrue("Errors in " + panelId + " do not contain " + expectedText, errorsContain);
     }
 
     /**
@@ -1385,6 +1418,34 @@ public abstract class KcSeleniumHelper {
         
         List<WebElement> errors = getErrors(panelId);
         assertEquals("Error count of " + errors.size() + " did not match the expected error count of " + expectedErrorCount, expectedErrorCount, errors.size());
+    }
+    
+    /**
+     * Gets the absolute file path from the given Class {@code clazz}.
+     * 
+     * @param clazz the class to get the file path from
+     * @return the absolute file path of {@code clazz}
+     */
+    public final String getAbsoluteFilePath(final Class<?> clazz) {
+        URL fileUrl = getClass().getResource("/" + clazz.getCanonicalName().replaceAll("\\.", "/") + ".class");
+        
+        assertNotNull(fileUrl);
+        
+        return new File(fileUrl.getFile()).getAbsolutePath();
+    }
+    
+    /**
+     * Gets the simple file path from the given Class {@code clazz}.
+     * 
+     * @param clazz the class to get the file path from
+     * @return the simple file path of {@code clazz}
+     */
+    public final String getSimpleFilePath(final Class<?> clazz) {
+        String fileName = clazz.getSimpleName() + ".class";
+        
+        assertNotNull(fileName);
+        
+        return fileName;
     }
     
     /**
