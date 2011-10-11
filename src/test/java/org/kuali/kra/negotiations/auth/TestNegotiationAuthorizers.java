@@ -123,11 +123,32 @@ public class TestNegotiationAuthorizers extends KcUnitTestBase {
     }
     
     @Test
+    public void testCreateActivitiesAuthorizer() throws WorkflowException {
+        NegotiationDocument negotiationDoc = getNewNegotiationWithUnassociatedDetail();
+        NegotiationTask task = new NegotiationTask(TaskName.NEGOTIATION_CREATE_ACTIVITIES, negotiationDoc);
+        boolean retVal = taskAuthorizationService.isAuthorized(quickstart.getPrincipalId(), task);
+        assertTrue(retVal);
+        
+        retVal = taskAuthorizationService.isAuthorized(negotiator.getPrincipalId(), task);
+        assertTrue(retVal);
+        
+        retVal = taskAuthorizationService.isAuthorized(jtester.getPrincipalId(), task);
+        assertTrue(retVal);
+        
+        retVal = taskAuthorizationService.isAuthorized(woods.getPrincipalId(), task);
+        assertFalse(retVal);
+        
+        retVal = taskAuthorizationService.isAuthorized(ospAdmin.getPrincipalId(), task);
+        assertFalse(retVal);
+    }
+        
+    
+    @Test
     public void testModifyActivitiesAuthorizer() throws WorkflowException {
         NegotiationDocument negotiationDoc = getNewNegotiationWithUnassociatedDetail();
         NegotiationTask task = new NegotiationTask(TaskName.NEGOTIATION_MODIFY_ACTIVITIES, negotiationDoc);
         boolean retVal = taskAuthorizationService.isAuthorized(quickstart.getPrincipalId(), task);
-        assertFalse(retVal);
+        assertTrue(retVal);
         
         retVal = taskAuthorizationService.isAuthorized(negotiator.getPrincipalId(), task);
         assertTrue(retVal);
