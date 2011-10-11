@@ -89,6 +89,7 @@
 // call the tablesorter plugin and assign widgets with id "zebra" (Default widget in the core) and the newly created "relocaterow" 
       
            
+      try {
       $j("#activeEntities-table").tablesorter(
       
                
@@ -107,6 +108,10 @@
                      }                                
           }
           ); 
+     } catch (err) {
+       // if active list is empty, then .ready skipped the rest of codes.  not sure why.
+       // so use this try catch to keep it going.
+     }  
       
       try {
       $j("#inActiveEntities-table").tablesorter(
