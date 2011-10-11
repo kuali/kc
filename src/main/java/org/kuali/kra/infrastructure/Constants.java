@@ -538,6 +538,7 @@ public interface Constants {
     public static final Integer AFFILIATION_STUDENT_INVESTIGATOR_TYPE = 4;
     
     public static final String PROTOCOL_CREATE_AMENDMENT_KEY = "actionHelper.protocolCreateAmendment";
+    public static final String PROTOCOL_MODIFY_AMENDMENT_KEY = "actionHelper.protocolModifyAmendment";
     public static final String PROTOCOL_CREATE_RENEWAL_WITH_AMENDMENT_KEY = "actionHelper.protocolCreateRenewalWithAmendment";
     public static final String PROTOCOL_CREATE_RENEWAL_SUMMARY_KEY = "actionHelper.renewalSummary";
     

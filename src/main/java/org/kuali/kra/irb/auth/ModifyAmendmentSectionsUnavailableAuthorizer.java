@@ -26,6 +26,6 @@ public class ModifyAmendmentSectionsUnavailableAuthorizer extends ProtocolAuthor
     public boolean isAuthorized(String userId, ProtocolTask task) {
         return hasPermission(userId, task.getProtocol(), PermissionConstants.CREATE_AMMENDMENT) &&
                (!isAmendmentOrRenewal(task.getProtocol()) ||
-                !canExecuteAction(task.getProtocol(), ProtocolActionType.AMENDMENT_CREATED));
+                !canExecuteAction(task.getProtocol(), ProtocolActionType.MODIFY_AMENDMENT_SECTION));
     }
 }

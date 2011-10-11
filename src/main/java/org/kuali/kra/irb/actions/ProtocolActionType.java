@@ -26,21 +26,29 @@ import org.kuali.kra.bo.KraPersistableBusinessObjectBase;
 @SuppressWarnings("serial")
 public class ProtocolActionType extends KraPersistableBusinessObjectBase {
     
+    public static final String PROTOCOL_CREATED = "100";
     public static final String SUBMIT_TO_IRB = "101";
-    public static final String WITHDRAWN = "303";
+    public static final String RENEWAL_CREATED = "102";
+    public static final String AMENDMENT_CREATED = "103";
+    public static final String REQUEST_FOR_TERMINATION = "104";
     public static final String REQUEST_TO_CLOSE = "105";
     public static final String REQUEST_FOR_SUSPENSION = "106";
+    public static final String MODIFY_AMENDMENT_SECTION = "107";
     public static final String REQUEST_TO_CLOSE_ENROLLMENT = "108";
-    public static final String REQUEST_TO_REOPEN_ENROLLMENT = "115";
+    public static final String NOTIFIED_COMMITTEE = "109";
+    public static final String RENEWAL_REMINDER_GENERATED = "111";
+    public static final String ADMINISTRATIVE_CORRECTION = "113";
     public static final String REQUEST_FOR_DATA_ANALYSIS_ONLY = "114";
-    public static final String REQUEST_FOR_TERMINATION = "104";
+    public static final String REQUEST_TO_REOPEN_ENROLLMENT = "115";
     public static final String NOTIFY_IRB = "116";
-    public static final String AMENDMENT_CREATED = "103";
-    public static final String RENEWAL_CREATED = "102";
+    public static final String ABANDON_PROTOCOL = "119";
     public static final String ASSIGN_TO_AGENDA = "200";
+    public static final String DEFERRED = "201";
+    public static final String SUBSTANTIVE_REVISIONS_REQUIRED = "202";
+    public static final String SPECIFIC_MINOR_REVISIONS_REQUIRED = "203"; 
     public static final String APPROVED = "204";
-    public static final String DISAPPROVED = "304";
-    public static final String PROTOCOL_CREATED = "100";
+    public static final String EXPEDITE_APPROVAL = "205";
+    public static final String GRANT_EXEMPTION = "206";
     public static final String CLOSED_FOR_ENROLLMENT = "207";                                
     public static final String RESPONSE_APPROVAL = "208";                                
     public static final String IRB_ACKNOWLEDGEMENT = "209";                                
@@ -50,18 +58,11 @@ public class ProtocolActionType extends KraPersistableBusinessObjectBase {
     public static final String CLOSED_ADMINISTRATIVELY_CLOSED = "300";                                
     public static final String TERMINATED = "301";                                
     public static final String SUSPENDED = "302";                                
+    public static final String WITHDRAWN = "303";
+    public static final String DISAPPROVED = "304";
     public static final String EXPIRED = "305";                                
     public static final String SUSPENDED_BY_DSMB = "306";
-    public static final String EXPEDITE_APPROVAL = "205";
-    public static final String GRANT_EXEMPTION = "206";
-    public static final String ADMINISTRATIVE_CORRECTION = "113";
-    public static final String SPECIFIC_MINOR_REVISIONS_REQUIRED = "203"; 
-    public static final String SUBSTANTIVE_REVISIONS_REQUIRED = "202";
-    public static final String DEFERRED = "201";
     public static final String MANAGE_REVIEW_COMMENTS = "310";
-    public static final String NOTIFIED_COMMITTEE = "109";
-    public static final String ABANDON_PROTOCOL = "119";
-    public static final String RENEWAL_REMINDER_GENERATED = "111";
     
     //No corresponding actionTypeCode for this in Coeus 
     //Although we can use DISAPPROVED/SPECIFIC_MINOR_REVISIONS_REQUIRED/SUBSTANTIVE_REVISIONS_REQUIRED instead

@@ -45,6 +45,7 @@ public class ProtocolActionTypeToCorrespondenceTemplateServiceImpl implements Pr
         actionTypesToCorrespondenceType.put(ProtocolActionType.REQUEST_TO_REOPEN_ENROLLMENT, Arrays.asList(""));
         actionTypesToCorrespondenceType.put(ProtocolActionType.NOTIFY_IRB, Arrays.asList(""));
         actionTypesToCorrespondenceType.put(ProtocolActionType.AMENDMENT_CREATED, Arrays.asList(""));
+        actionTypesToCorrespondenceType.put(ProtocolActionType.MODIFY_AMENDMENT_SECTION, Arrays.asList(""));
         actionTypesToCorrespondenceType.put(ProtocolActionType.RENEWAL_CREATED, Arrays.asList(""));
         actionTypesToCorrespondenceType.put(ProtocolActionType.ASSIGN_TO_AGENDA, Arrays.asList(""));
         actionTypesToCorrespondenceType.put(ProtocolActionType.APPROVED, Arrays.asList("Approval Letter"));
