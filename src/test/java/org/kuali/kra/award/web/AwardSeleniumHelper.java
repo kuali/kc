@@ -15,6 +15,7 @@
  */
 package org.kuali.kra.award.web;
 
+import org.apache.commons.lang.StringUtils;
 import org.kuali.kra.award.AwardFixtureFactory;
 import org.kuali.kra.test.infrastructure.KcSeleniumHelper;
 import org.openqa.selenium.WebDriver;
@@ -188,6 +189,17 @@ public class AwardSeleniumHelper extends KcSeleniumHelper {
      */
     public void openTimeAndMoneyDocument() {
         click(TIME_AND_MONEY_LINK_NAME);
+    }
+    
+    /**
+     * {@inheritDoc}
+     * @see org.kuali.kra.test.infrastructure.KcSeleniumHelper#getDocumentNumber()
+     */
+    @Override
+    public String getDocumentNumber() {
+        final String locator = "//div[@id='headerarea']/div/table/tbody/tr[1]/td[2]";
+        
+        return StringUtils.substringBefore(getDocumentNumber(locator), ":");
     }
     
     /**
