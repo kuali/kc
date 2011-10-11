@@ -154,8 +154,8 @@ public class NegotiationBasicTests extends KcUnitTestBase {
         detail.setPrimeSponsor(sponsor);
         detail.setSubAwardOrganization(org);
         detail.setTitle("super awesome title");
-        detail.setPiPersonId("person id");
-        detail.setPiRolodexId("rolodex id");
+        detail.setPiPersonId("10000000001");
+        detail.setPiRolodexId("212");
         detail.setSponsorAwardNumber("1590431");
         detail.setContactAdminPersonId("jdh34");
         
