@@ -52,8 +52,8 @@ public class NegotiationCloseNotificationContext implements NotificationContext 
         String qualifierValue = null;
         if (StringUtils.equals(notificationRecipient.getRoleName(), "KC-NEGOTIATION:Negotiator") ||
             StringUtils.equals(notificationRecipient.getRoleName(), "KC-NEGOTIATION:Investigators")) {
-            qualifierKey = "documentTypeName";
-            qualifierValue = getNegotiationDocument().getNegotiation().getDocumentKey();
+            qualifierKey = KcKimAttributes.NEGOTIATION;
+            qualifierValue = getNegotiationDocument().getNegotiation().getDocumentNumberForPermission();
         } else if (StringUtils.equals(notificationRecipient.getRoleName(), "KC-ADM:OSP Administrator") ||
                    StringUtils.equals(notificationRecipient.getRoleName(), "KC-WKFLW:Unit Administrator")) {
             qualifierKey = KcKimAttributes.UNIT_NUMBER;
@@ -68,15 +68,6 @@ public class NegotiationCloseNotificationContext implements NotificationContext 
             qualifications.put(qualifierKey, qualifierValue);
         }
         notificationRecipient.setRoleQualifiers(qualifications);
-        
-        /*
-        if (StringUtils.equals(notificationRecipient.getRoleQualifier(), "unitNumber")) {
-            notificationRecipient.setQualifierValue(getNegotiationDocument().getNegotiation().getLeadUnitNumber());
-        }
-        if (StringUtils.equals(notificationRecipient.getRoleQualifier(), "documentTypeName")) {
-            notificationRecipient.setQualifierValue(getNegotiationDocument().getNegotiation().getDocumentKey());
-        }
-        */
 
     }
 
