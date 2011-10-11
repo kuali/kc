@@ -67,7 +67,7 @@ public class AwardBudgetBasicSeleniumTest extends KcSeleniumTestBase {
         helper.addBudget();
         helper.openBudget(0);
         
-        awardBudgetDocNbr = helper.getDocumentNumber();
+        awardBudgetDocNbr = budgetHelper.getDocumentNumber();
         
         populateBudget();
         
