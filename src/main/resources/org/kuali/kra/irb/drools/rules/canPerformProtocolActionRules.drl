@@ -195,7 +195,7 @@ end
 rule "Create new Amendment"
 salience 100
 when
-	protocolAction : ProtocolActionMapping(actionTypeCode == "103", protocolStatusCode in ("200", "201", "202", "203"))
+	protocolAction : ProtocolActionMapping(actionTypeCode == "107", protocolStatusCode in ("200", "201", "202", "203"))
 then	
 	setAction(protocolAction, true);
 end
