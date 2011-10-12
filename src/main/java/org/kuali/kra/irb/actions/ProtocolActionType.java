@@ -33,7 +33,6 @@ public class ProtocolActionType extends KraPersistableBusinessObjectBase {
     public static final String REQUEST_FOR_TERMINATION = "104";
     public static final String REQUEST_TO_CLOSE = "105";
     public static final String REQUEST_FOR_SUSPENSION = "106";
-    public static final String MODIFY_AMENDMENT_SECTION = "107";
     public static final String REQUEST_TO_CLOSE_ENROLLMENT = "108";
     public static final String NOTIFIED_COMMITTEE = "109";
     public static final String RENEWAL_REMINDER_GENERATED = "111";
@@ -42,6 +41,7 @@ public class ProtocolActionType extends KraPersistableBusinessObjectBase {
     public static final String REQUEST_TO_REOPEN_ENROLLMENT = "115";
     public static final String NOTIFY_IRB = "116";
     public static final String ABANDON_PROTOCOL = "119";
+    public static final String MODIFY_AMENDMENT_SECTION = "125";
     public static final String ASSIGN_TO_AGENDA = "200";
     public static final String DEFERRED = "201";
     public static final String SUBSTANTIVE_REVISIONS_REQUIRED = "202";
