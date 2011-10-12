@@ -2991,11 +2991,12 @@ function showViewFile(template) {
 	}
 	$('#templateFileNameHidden').val($(template).val());
 	$('#fileNameDiv').html($(template).val());
+    $('#fileNameDiv').hide();
 }
 function replaceTemplate(image) {
    $(image).hide();
    $('#templateFileDiv').show();
-   //$('#fileNameDiv').hide();
+   $('#fileNameDiv').hide();
    $('#viewTemplate').hide();
    
 }
