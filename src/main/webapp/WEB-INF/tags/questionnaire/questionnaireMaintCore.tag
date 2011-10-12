@@ -62,9 +62,9 @@
 	                    <html:file styleId="templateFile" property="templateFile" size="50" onchange="showViewFile(this)" accept="text/xsl"/>
 	                </div>
 	                <html:hidden styleId="templateFileNameHidden" property="document.newMaintainableObject.businessObject.fileName" value="${KualiForm.document.newMaintainableObject.businessObject.fileName}"/> 
-                    <%-- <div id = "fileNameDiv" class="viewsection" style="${viewStyle}">         --%>
-                    <%--      ${KualiForm.document.newMaintainableObject.businessObject.fileName}  --%>
-                    <%-- </div>                                                                    --%>
+                    <div id = "fileNameDiv" class="viewsection" style="${viewStyle}">         
+                         ${KualiForm.document.newMaintainableObject.businessObject.fileName}  
+                    </div>                                                                    
                 </td>
 	            <td class="infoline">
 		            <div id="viewTemplate"  class="viewsection"  style="${viewStyle} align="center">
