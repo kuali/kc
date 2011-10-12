@@ -36,7 +36,6 @@
             <list>
                 <ref bean="NotificationModuleRoleQualifier-notificationModuleRoleQualifierId" />
                 <ref bean="NotificationModuleRoleQualifier-notificationModuleRoleId" />
-                <ref bean="NotificationModuleRoleQualifier-documentName" />
                 <ref bean="NotificationModuleRoleQualifier-qualifier" />
             </list>
         </property>
@@ -80,27 +79,6 @@
         <property name="description" value="Notification Module Role Id" />
     </bean>
     
-    <bean id="NotificationModuleRoleQualifier-documentName" parent="NotificationModuleRoleQualifier-documentName-parentBean" />
-    <bean id="NotificationModuleRoleQualifier-documentName-parentBean" abstract="true" parent="AttributeDefinition">
-        <property name="name" value="documentName" />
-        <property name="forceUppercase" value="false" />
-        <property name="label" value="Document Name" />
-        <property name="shortLabel" value="Document Name" />
-        <property name="required" value="true" />
-        <property name="maxLength" value="125" />
-        <property name="validationPattern" >
-            <bean parent="AnyCharacterValidationPattern" 
-                  p:allowWhitespace="true" />
-        </property>
-        <property name="control" >
-            <bean parent="SelectControlDefinition"
-                  p:valuesFinderClass="org.kuali.kra.common.notification.lookup.keyvalue.NotificationModuleRoleDocumentValuesFinder"
-                  p:includeKeyInLabel="false" />
-        </property>
-        <property name="summary" value="Document Name" />
-        <property name="description" value="Document Name" />
-    </bean>
-    
     <bean id="NotificationModuleRoleQualifier-qualifier" parent="NotificationModuleRoleQualifier-qualifier-parentBean" />
     <bean id="NotificationModuleRoleQualifier-qualifier-parentBean" abstract="true" parent="AttributeDefinition" >
         <property name="name" value="qualifier" />
@@ -137,8 +115,6 @@
                                   p:attributeName="notificationModuleRoleId" 
                                   p:forceInquiry="true" />
                             <bean parent="FieldDefinition" 
-                                  p:attributeName="documentName" />
-                            <bean parent="FieldDefinition" 
                                   p:attributeName="qualifier" />                                
                         </list>
                     </property>
@@ -165,8 +141,6 @@
 	                  p:attributeName="notificationModuleRoleId" 
 	                  p:forceLookup="true" />
 	            <bean parent="FieldDefinition" 
-	                  p:attributeName="documentName" />
-	            <bean parent="FieldDefinition" 
 	                  p:attributeName="qualifier" />	                  
             </list>
         </property>
@@ -178,8 +152,6 @@
 	            <bean parent="FieldDefinition" 
 	                  p:attributeName="notificationModuleRoleId" 
 	                  p:forceInquiry="true" />
-	            <bean parent="FieldDefinition" 
-	                  p:attributeName="documentName" />
 	            <bean parent="FieldDefinition" 
 	                  p:attributeName="qualifier" />
             </list>

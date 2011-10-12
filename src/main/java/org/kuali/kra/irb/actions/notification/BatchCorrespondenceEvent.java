@@ -15,34 +15,17 @@
  */
 package org.kuali.kra.irb.actions.notification;
 
-import java.util.List;
 import java.util.Map;
-
-import org.apache.commons.lang.StringUtils;
-import org.kuali.kra.bo.CoeusModule;
-import org.kuali.kra.common.notification.NotificationContext;
-import org.kuali.kra.common.notification.bo.KcNotification;
-import org.kuali.kra.common.notification.bo.NotificationTypeRecipient;
-import org.kuali.kra.common.notification.exception.UnknownRoleException;
 import org.kuali.kra.common.notification.service.KcNotificationRenderingService;
-import org.kuali.kra.common.notification.service.KcNotificationService;
-import org.kuali.kra.infrastructure.Constants;
-import org.kuali.kra.infrastructure.KraServiceLocator;
-import org.kuali.kra.infrastructure.RoleConstants;
-import org.kuali.kra.irb.Protocol;
 import org.kuali.kra.irb.notification.IRBNotificationContext;
-import org.kuali.kra.kim.bo.KcKimAttributes;
-import org.w3c.dom.Element;
+
 
 public class BatchCorrespondenceEvent extends IRBNotificationContext {
 
     private Long detailId;
     private String protocolCorrespondenceType;
     private String userFullname;
-    
-    public BatchCorrespondenceEvent(Protocol protocol) {
-        super(protocol);
-    }
+
 
     /**
      * 
@@ -52,13 +35,18 @@ public class BatchCorrespondenceEvent extends IRBNotificationContext {
     public String getActionTypeCode() {
         // TODO : just give it a code for now.
         return "111";
-    }
+    } 
 
-
-    public void populateRoleQualifiers(NotificationTypeRecipient notificationRecipient) throws UnknownRoleException {
-        super.populateRoleQualifiers(notificationRecipient, "BatchCorrespondence");
-    }   
+    /**
+     * 
+     * @see org.kuali.kra.common.notification.NotificationContextBase#getContextName()
+     */
+    @Override
+    public String getContextName() {
+        return "BatchCorrespondence";
+    }    
     
+    @Override
     public String replaceContextVariables(String text) {
         KcNotificationRenderingService renderer = getNotificationRenderingService();
         Map<String, String> params = renderer.getReplacementParameters();
@@ -66,14 +54,6 @@ public class BatchCorrespondenceEvent extends IRBNotificationContext {
         params.put("{PROTOCOL_CORRESPONDENCE_TYPE}", getProtocolCorrespondenceType());
         params.put("{USER_FULLNAME}", getUserFullname());
         return renderer.render(text, params);
-    }
-    
-    /**
-     * 
-     * @see org.kuali.kra.common.notification.NotificationContextBase#sendNotification()
-     */
-    public void sendNotification() {
-        sendNotification(this);
     }
 
 

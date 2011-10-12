@@ -15,14 +15,12 @@
  */
 package org.kuali.kra.irb.notification;
 
-import java.util.Collection;
 import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
 
 import org.apache.commons.collections.CollectionUtils;
 import org.apache.commons.lang.StringUtils;
-import org.kuali.kra.common.notification.service.KcNotificationRenderingService;
 import org.kuali.kra.irb.Protocol;
 import org.kuali.kra.irb.actions.ProtocolActionType;
 import org.kuali.kra.irb.actions.submit.ProtocolSubmissionQualifierType;
@@ -30,15 +28,11 @@ import org.kuali.kra.irb.actions.submit.ProtocolSubmissionType;
 import org.kuali.rice.kns.service.BusinessObjectService;
 import org.kuali.rice.kns.service.KNSServiceLocator;
 
-public class IRBNotificationRenderingServiceImpl implements KcNotificationRenderingService {
+public class IRBNotificationRenderingServiceImpl implements IRBNotificationRenderingService {
 
     private Protocol protocol;
     private BusinessObjectService businessObjectService;
     
-    
-    public IRBNotificationRenderingServiceImpl(Protocol protocol) {
-        this.protocol = protocol;
-    }
     
     /**
      * 
@@ -46,8 +40,7 @@ public class IRBNotificationRenderingServiceImpl implements KcNotificationRender
      */
     @Override
     public String render(String text) {
-        Map<String, String> replacementParameters = getReplacementParameters();
-        return render(text, replacementParameters);
+        return render(text, getReplacementParameters());
     }
     
     /**
@@ -160,7 +153,7 @@ public class IRBNotificationRenderingServiceImpl implements KcNotificationRender
         String result = null;
         Map<String, String> fieldValues = new HashMap<String, String>();
         fieldValues.put("protocolActionTypeCode", lastActionTypeCode);
-        List<ProtocolActionType> actionTypes = (List<ProtocolActionType>)getBusinessObjectService().findMatching(ProtocolActionType.class, fieldValues);
+        List<ProtocolActionType> actionTypes = (List<ProtocolActionType>) getBusinessObjectService().findMatching(ProtocolActionType.class, fieldValues);
         if (CollectionUtils.isNotEmpty(actionTypes)) {
             result = actionTypes.get(0).getDescription();
         }
@@ -173,7 +166,7 @@ public class IRBNotificationRenderingServiceImpl implements KcNotificationRender
         Map<String, String> fieldValues = new HashMap<String, String>();
         fieldValues.put("submissionTypeCode", submissionTypeCode);
         List<ProtocolSubmissionType> submissionTypes = 
-            (List<ProtocolSubmissionType>)getBusinessObjectService().findMatching(ProtocolSubmissionType.class, fieldValues);
+            (List<ProtocolSubmissionType>) getBusinessObjectService().findMatching(ProtocolSubmissionType.class, fieldValues);
         if (CollectionUtils.isNotEmpty(submissionTypes)) {
             result = submissionTypes.get(0).getDescription();
         }
@@ -186,11 +179,12 @@ public class IRBNotificationRenderingServiceImpl implements KcNotificationRender
         Map<String, String> fieldValues = new HashMap<String, String>();
         fieldValues.put("submissionQualifierTypeCode", submissionQualifierTypeCode);
         List<ProtocolSubmissionQualifierType> submissionQualifierTypes = 
-            (List<ProtocolSubmissionQualifierType>)getBusinessObjectService().findMatching(ProtocolSubmissionQualifierType.class, fieldValues);
+            (List<ProtocolSubmissionQualifierType>) getBusinessObjectService().findMatching(ProtocolSubmissionQualifierType.class, fieldValues);
         if (CollectionUtils.isNotEmpty(submissionQualifierTypes)) {
             result = submissionQualifierTypes.get(0).getDescription();
         }
         
         return result;
     }
+
 }

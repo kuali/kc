@@ -15,23 +15,17 @@
  */
 package org.kuali.kra.irb.notification;
 
-import org.apache.commons.collections.CollectionUtils;
 import org.apache.commons.lang.StringUtils;
-import org.kuali.kra.bo.KraPersistableBusinessObjectBase;
 import org.kuali.kra.common.notification.bo.NotificationModuleRoleQualifier;
-import org.kuali.kra.common.notification.service.KcNotificationRoleQualifierService;
 import org.kuali.kra.irb.Protocol;
 import org.kuali.kra.irb.onlinereview.ProtocolOnlineReview;
 import org.kuali.kra.kim.bo.KcKimAttributes;
 
 
-public class IRBNotificationRoleQualifierServiceImpl implements KcNotificationRoleQualifierService {
+public class IRBNotificationRoleQualifierServiceImpl implements IRBNotificationRoleQualifierService {
 
     private Protocol protocol;
-    
-    public IRBNotificationRoleQualifierServiceImpl(Protocol protocol) {
-        this.protocol = protocol;
-    }
+    private ProtocolOnlineReview protocolOnlineReview;
     
     /**
      * 
@@ -40,8 +34,7 @@ public class IRBNotificationRoleQualifierServiceImpl implements KcNotificationRo
     @Override
     public String getRoleQualifierValue(NotificationModuleRoleQualifier qualifier) {
         String qName = qualifier.getQualifier();
-
-        if (StringUtils.equals(qualifier.getDocumentName(), Protocol.class.getName())) {            
+        
             if (StringUtils.equalsIgnoreCase(qName, KcKimAttributes.UNIT_NUMBER) ||
                 StringUtils.equalsIgnoreCase(qName, "protocolLeadUnitNumber")) {
                 return getProtocol().getLeadUnitNumber();
@@ -53,14 +46,9 @@ public class IRBNotificationRoleQualifierServiceImpl implements KcNotificationRo
                 if (getProtocol().getProtocolSubmission() != null) {
                     return getProtocol().getProtocolSubmission().getSubmissionId().toString();
                 }
+            } else if (StringUtils.equals(qName, "protocolOnlineReviewId")) {          
+                    return protocolOnlineReview.getProtocolOnlineReviewId().toString();
             }
-        } else if (StringUtils.equals(qualifier.getDocumentName(), ProtocolOnlineReview.class.getName())) {
-            if (CollectionUtils.isNotEmpty(getProtocol().getProtocolOnlineReviews())) {
-                if (StringUtils.equals(qName, "protocolOnlineReviewId")) {
-                    return getProtocol().getProtocolOnlineReviews().get(0).getProtocolOnlineReviewId().toString();
-                }
-            }
-        }
         
         return null;
     }
@@ -71,6 +59,14 @@ public class IRBNotificationRoleQualifierServiceImpl implements KcNotificationRo
 
     public void setProtocol(Protocol protocol) {
         this.protocol = protocol;
+    }
+
+    public ProtocolOnlineReview getProtocolOnlineReview() {
+        return protocolOnlineReview;
+    }
+
+    public void setProtocolOnlineReview(ProtocolOnlineReview protocolOnlineReview) {
+        this.protocolOnlineReview = protocolOnlineReview;
     }
 
 }
