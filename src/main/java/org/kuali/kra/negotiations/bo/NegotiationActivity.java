@@ -69,18 +69,33 @@ public class NegotiationActivity extends KraPersistableBusinessObjectBase {
      * @return
      */
     public String getNumberOfDays() {
-        if (getStartDate() == null) {
+        return getNumberOfDays(getStartDate(), getEndDate());
+    }
+    
+    /**
+     * 
+     * This method Calculates the number of days between the start date and either the end date when available or the current date.
+     * @param startDate
+     * @param endDate
+     * @return
+     */
+    public static String getNumberOfDays(Date startDate, Date endDate) {
+        if (startDate == null) {
             return "";
         } else {
-            long start = getStartDate().getTime();
-            long end = 0L;
-            if (getEndDate() == null) {
-                end = Calendar.getInstance().getTimeInMillis();
+            if (startDate.equals(endDate)) {
+                return "1 day";
             } else {
-                end = getEndDate().getTime();
+                long start = startDate.getTime();
+                long end = 0L;
+                if (endDate == null) {
+                    end = Calendar.getInstance().getTimeInMillis();
+                } else {
+                    end = endDate.getTime();
+                }
+                
+                return ((end - start) / MILLISECS_PER_DAY) + " days";
             }
-            
-            return ((end - start) / MILLISECS_PER_DAY) + " days";
         }
     }
     
