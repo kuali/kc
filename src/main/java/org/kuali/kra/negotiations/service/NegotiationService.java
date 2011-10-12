@@ -20,6 +20,8 @@ import java.util.List;
 import org.kuali.kra.bo.KcPerson;
 import org.kuali.kra.negotiations.bo.Negotiable;
 import org.kuali.kra.negotiations.bo.Negotiation;
+import org.kuali.kra.negotiations.bo.NegotiationActivity;
+import org.kuali.kra.negotiations.bo.NegotiationActivityHistoryLineBean;
 import org.kuali.kra.negotiations.bo.NegotiationAssociatedDetailBean;
 import org.kuali.kra.negotiations.bo.NegotiationAssociationType;
 import org.kuali.kra.negotiations.bo.NegotiationStatus;
@@ -147,4 +149,6 @@ public interface NegotiationService {
      * @return
      */
     List<KcPerson> getOSPAdministrators(String unitNumber);
+    
+    List<NegotiationActivityHistoryLineBean> getNegotiationActivityHistoryLineBeans(List<NegotiationActivity> activities);
 }
