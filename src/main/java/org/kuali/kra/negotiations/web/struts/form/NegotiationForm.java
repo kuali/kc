@@ -16,6 +16,8 @@
 package org.kuali.kra.negotiations.web.struts.form;
 
 import java.util.ArrayList;
+import java.util.Collection;
+import java.util.Collections;
 import java.util.HashMap;
 import java.util.HashSet;
 import java.util.List;
@@ -32,6 +34,8 @@ import org.kuali.kra.infrastructure.TaskName;
 import org.kuali.kra.medusa.MedusaBean;
 import org.kuali.kra.negotiations.auth.NegotiationTask;
 import org.kuali.kra.negotiations.bo.Negotiation;
+import org.kuali.kra.negotiations.bo.NegotiationActivity;
+import org.kuali.kra.negotiations.bo.NegotiationActivityHistoryLineBean;
 import org.kuali.kra.negotiations.bo.NegotiationAssociatedDetailBean;
 import org.kuali.kra.negotiations.bo.NegotiationAssociationType;
 import org.kuali.kra.negotiations.bo.NegotiationStatus;
@@ -236,5 +240,20 @@ public class NegotiationForm extends KraTransactionalDocumentFormBase {
 
     public void setFilterActivities(String filterActivities) {
         this.filterActivities = filterActivities;
+    }
+    
+    /**
+     * 
+     * This method build a sorted list of NegotiationActivityHistoryLineBeans and returns it.
+     * @return
+     */
+    public List<NegotiationActivityHistoryLineBean> getNegotiationActivityHistoryLineBeans() {
+        List<NegotiationActivityHistoryLineBean> beans = new ArrayList<NegotiationActivityHistoryLineBean>();
+        for (NegotiationActivity activity : this.getNegotiationDocument().getNegotiation().getActivities()) {
+            NegotiationActivityHistoryLineBean bean = new NegotiationActivityHistoryLineBean(activity);
+            beans.add(bean);
+        }
+        Collections.sort(beans);
+        return beans;
     }
 }
