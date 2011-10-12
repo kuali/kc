@@ -16,10 +16,13 @@
 package org.kuali.kra.negotiations.lookup;
 
 import java.util.ArrayList;
+import java.util.Collection;
+import java.util.Iterator;
 import java.util.List;
 import java.util.Map;
 import java.util.Properties;
 
+import org.apache.commons.lang.StringUtils;
 import org.kuali.kra.lookup.KraLookupableHelperServiceImpl;
 import org.kuali.kra.negotiations.bo.Negotiation;
 import org.kuali.rice.kew.util.KEWConstants;
@@ -29,6 +32,9 @@ import org.kuali.rice.kns.lookup.HtmlData;
 import org.kuali.rice.kns.lookup.HtmlData.AnchorHtmlData;
 import org.kuali.rice.kns.util.KNSConstants;
 import org.kuali.rice.kns.util.UrlFactory;
+import org.kuali.rice.kns.web.struts.form.LookupForm;
+import org.kuali.rice.kns.web.ui.Column;
+import org.kuali.rice.kns.web.ui.ResultRow;
 
 /**
  * Negotiation Lookup Helper Service
@@ -105,6 +111,52 @@ public class NegotiationLookupableHelperServiceImpl extends KraLookupableHelperS
 
     public void setNegotiationDao(NegotiationDao negotiationDao) {
         this.negotiationDao = negotiationDao;
+    }
+    
+    /**
+     * Call's the super class's performLookup function and edits the URLs for the unit name, unit number, sponsor name, and pi name.
+     * @see org.kuali.kra.lookup.KraLookupableHelperServiceImpl#performLookup(org.kuali.rice.kns.web.struts.form.LookupForm, java.util.Collection, boolean)
+     */
+    @Override
+    public Collection performLookup(LookupForm lookupForm, Collection resultTable, boolean bounded) {
+        final String leadUnitName = "associatedNegotiable.leadUnitName";
+        final String leadUnitNumber = "associatedNegotiable.leadUnitNumber";
+        final String sponsorName = "associatedNegotiable.sponsorName";
+        final String piName = "associatedNegotiable.piName";
+                
+        Collection lookupStuff = super.performLookup(lookupForm, resultTable, bounded);
+        Iterator i = resultTable.iterator();
+        while (i.hasNext()) {
+            ResultRow row = (ResultRow) i.next();
+            for (Column column : row.getColumns()) {
+                System.err.println("column.getPropertyName(): " + column.getPropertyName() + "    column.getPropertyValue():" + column.getPropertyValue());
+                //the unit name, pi Name and sponsor name don't need to generate links.
+                if (StringUtils.equalsIgnoreCase(column.getPropertyName(), leadUnitName) 
+                        || StringUtils.equalsIgnoreCase(column.getPropertyName(), sponsorName)
+                        || StringUtils.equalsIgnoreCase(column.getPropertyName(), piName)) {
+                    column.setPropertyURL("");
+                    for (AnchorHtmlData data : column.getColumnAnchors()) {
+                        if (data != null) {
+                            data.setHref("");
+                        }
+                        
+                    }
+                }
+                if (StringUtils.equalsIgnoreCase(column.getPropertyName(), leadUnitNumber)){
+                    String unitNumber = column.getPropertyValue();
+                    //String newUrl = "http://127.0.0.1:8080/kc-dev/kr/inquiry.do?businessObjectClassName=org.kuali.kra.bo.Unit&unitNumber=" + unitNumber + "&methodToCall=start";
+                    String newUrl = "inquiry.do?businessObjectClassName=org.kuali.kra.bo.Unit&unitNumber=" + unitNumber + "&methodToCall=start";
+                    column.setPropertyURL(newUrl);
+                    for (AnchorHtmlData data : column.getColumnAnchors()) {
+                        if (data != null) {
+                            data.setHref(newUrl);
+                        }
+                        
+                    }
+                }
+            }
+        }
+        return lookupStuff;
     }
 
 }
