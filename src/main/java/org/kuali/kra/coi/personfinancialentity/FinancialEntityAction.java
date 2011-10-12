@@ -205,7 +205,11 @@ public class FinancialEntityAction extends KualiAction {
         String sponsorCode = request.getParameter("financialEntityHelper.newPersonFinancialEntity.sponsorCode"); // sponsorLookupable
         boolean isEdit = false;
         if (StringUtils.isNotBlank(refreshCaller) && StringUtils.isBlank(sponsorCode) && financialEntityHelper.getEditEntityIndex() >= 0) {
-            sponsorCode = request.getParameter("financialEntityHelper.activeFinancialEntities["+financialEntityHelper.getEditEntityIndex()+"].sponsorCode");
+            if (StringUtils.equals(ACTIVATE_ENTITY, financialEntityHelper.getEditType())) {
+                sponsorCode = request.getParameter("financialEntityHelper.activeFinancialEntities["+financialEntityHelper.getEditEntityIndex()+"].sponsorCode");
+            } else {
+                sponsorCode = request.getParameter("financialEntityHelper.inactiveFinancialEntities["+financialEntityHelper.getEditEntityIndex()+"].sponsorCode");
+            }
             isEdit = true;
         }
         if (StringUtils.isNotBlank(refreshCaller) && StringUtils.isNotBlank(sponsorCode)) {
@@ -216,7 +220,11 @@ public class FinancialEntityAction extends KualiAction {
                 }
                 FinancialEntityContactInfo contactInfo = financialEntityHelper.getNewPersonFinancialEntity().getFinEntityContactInfos().get(0);
                 if (isEdit) {
-                    contactInfo = financialEntityHelper.getActiveFinancialEntities().get(financialEntityHelper.getEditEntityIndex()).getFinEntityContactInfos().get(0);
+                    if (StringUtils.equals(ACTIVATE_ENTITY, financialEntityHelper.getEditType())) {
+                       contactInfo = financialEntityHelper.getActiveFinancialEntities().get(financialEntityHelper.getEditEntityIndex()).getFinEntityContactInfos().get(0);
+                    } else {
+                        contactInfo = financialEntityHelper.getInactiveFinancialEntities().get(financialEntityHelper.getEditEntityIndex()).getFinEntityContactInfos().get(0);
+                    }
                 }
                 contactInfo.setAddressLine1(sponsor.getRolodex().getAddressLine1());
                 contactInfo.setAddressLine2(sponsor.getRolodex().getAddressLine2());
