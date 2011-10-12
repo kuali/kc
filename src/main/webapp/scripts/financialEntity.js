@@ -168,6 +168,19 @@
                );
                 $j(".relationDetailSubpanelContent").hide();
                           
+  // the show/hide for entity and relation detail panels are not from kuali framework
+  // so to override the onclick here to also expand entity and relation detail panels
+  // first remove the 'onclick' attribute, then add 'click' function
+  $j('input[name=methodToCall\\.showAllTabs]').attr('onclick', '').click(function() {
+		expandAllTab();
+		if ($j("#financialEntityControl").html().indexOf("show.gif") > -1) {
+            $j("#financialEntityControl").click();
+        }
+		if ($j("#relationDetailControl").html().indexOf("show.gif") > -1) {
+            $j("#relationDetailControl").click();
+        }
+        return false;
+	});	
       
     } );  // end document.ready
 
