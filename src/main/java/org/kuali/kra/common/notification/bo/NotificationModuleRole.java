@@ -15,23 +15,24 @@
  */
 package org.kuali.kra.common.notification.bo;
 
+import java.util.ArrayList;
 import java.util.LinkedHashMap;
 import java.util.List;
 
 import org.kuali.kra.bo.KraPersistableBusinessObjectBase;
-import org.kuali.rice.kim.bo.role.dto.KimRoleInfo;
-import org.kuali.rice.kns.util.TypedArrayList;
 
 /**
  * 
- * This class allows a coeus module to be associated with specific role names
+ * This class allows a coeus module to be associated with specific role names.
  */
 public class NotificationModuleRole extends KraPersistableBusinessObjectBase {
 
+    private static final long serialVersionUID = -2991839907693163026L;
+    
     private Long notificationModuleRoleId;
     private String moduleCode;
     private String roleName;    
-    private List<NotificationModuleRoleQualifier> roleQualifiers = new TypedArrayList(NotificationModuleRoleQualifier.class);
+    private List<NotificationModuleRoleQualifier> roleQualifiers = new ArrayList<NotificationModuleRoleQualifier>();
     
     public Long getNotificationModuleRoleId() {
         return notificationModuleRoleId;

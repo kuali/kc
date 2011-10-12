@@ -29,7 +29,6 @@ public class NotificationModuleRoleQualifier extends KraPersistableBusinessObjec
     
     private Long notificationModuleRoleQualifierId;
     private Long notificationModuleRoleId;
-    private String documentName;
     private String qualifier;    
     
     public Long getNotificationModuleRoleQualifierId() {
@@ -44,12 +43,6 @@ public class NotificationModuleRoleQualifier extends KraPersistableBusinessObjec
     public void setNotificationModuleRoleId(Long notificationModuleRoleId) {
         this.notificationModuleRoleId = notificationModuleRoleId;
     }
-    public String getDocumentName() {
-        return documentName;
-    }
-    public void setDocumentName(String documentName) {
-        this.documentName = documentName;
-    }
     public String getQualifier() {
         return qualifier;
     }
@@ -63,7 +56,6 @@ public class NotificationModuleRoleQualifier extends KraPersistableBusinessObjec
         LinkedHashMap<String, Object> propMap = new LinkedHashMap<String, Object>();
         propMap.put("notificationModuleRoleQualifierId", getNotificationModuleRoleQualifierId());
         propMap.put("notificationModuleRoleId", getNotificationModuleRoleId());        
-        propMap.put("documentName", getDocumentName());
         propMap.put("qualifier", getQualifier());
         return propMap;
     }

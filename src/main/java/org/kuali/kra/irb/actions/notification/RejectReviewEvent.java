@@ -15,34 +15,14 @@
  */
 package org.kuali.kra.irb.actions.notification;
 
-import java.util.List;
 import java.util.Map;
-
-import org.apache.commons.lang.StringUtils;
-import org.kuali.kra.bo.CoeusModule;
-import org.kuali.kra.common.notification.NotificationContext;
-import org.kuali.kra.common.notification.bo.KcNotification;
-import org.kuali.kra.common.notification.bo.NotificationTypeRecipient;
-import org.kuali.kra.common.notification.exception.UnknownRoleException;
 import org.kuali.kra.common.notification.service.KcNotificationRenderingService;
-import org.kuali.kra.common.notification.service.KcNotificationService;
-import org.kuali.kra.infrastructure.Constants;
-import org.kuali.kra.infrastructure.KraServiceLocator;
-import org.kuali.kra.infrastructure.RoleConstants;
-import org.kuali.kra.irb.Protocol;
 import org.kuali.kra.irb.notification.IRBNotificationContext;
-import org.kuali.kra.irb.onlinereview.ProtocolOnlineReview;
-import org.w3c.dom.Element;
+
 
 public class RejectReviewEvent extends IRBNotificationContext {
     public static final String REVIEW_REJECTED = "903";
-    private ProtocolOnlineReview onlineReview;
     private String reason;
-    
-
-    public RejectReviewEvent(Protocol protocol) {
-        super(protocol);
-    }
 
 
     /**
@@ -53,56 +33,27 @@ public class RejectReviewEvent extends IRBNotificationContext {
     public String getActionTypeCode() {
         return REVIEW_REJECTED;
     }
-
-    /*
-    public boolean isReviewerNotification() {
-        return true;    
+    
+    /**
+     * 
+     * @see org.kuali.kra.common.notification.NotificationContextBase#getContextName()
+     */
+    @Override
+    public String getContextName() {
+        return "RejectReview";
     }
     
-
-    public boolean isInvestigatorIncluded() {
-        return false;    
-    }
-    */
-    
-    public void populateRoleQualifiers(NotificationTypeRecipient notificationRecipient) throws UnknownRoleException {
-        super.populateRoleQualifiers(notificationRecipient, "RejectReview");
-        
-        /*
-        if (StringUtils.equals(roleNamespace, RoleConstants.PROTOCOL_ROLE_TYPE) && StringUtils.equals(roleName, RoleConstants.IRB_PROTOCOL_ONLINE_REVIEWER)) {
-            if ("submissionId".equals(notificationRecipient.getRoleQualifier())) {
-            notificationRecipient.setQualifierValue(getProtocol().getProtocolSubmission().getSubmissionId().toString());
-            } else if ("protocolOnlineReviewId".equals(notificationRecipient.getRoleQualifier())) {
-                notificationRecipient.setQualifierValue(getOnlineReview().getProtocolOnlineReviewId().toString());
-                
-            } else if ("protocolLeadUnitNumber".equals(notificationRecipient.getRoleQualifier())) {
-                notificationRecipient.setQualifierValue(getProtocol().getLeadUnitNumber());
-                
-            }
-        } else {
-            throw new UnknownRoleException(notificationRecipient.getRoleName(), "RejectReview");
-        }
-        */
-    }   
-    
+    /**
+     * 
+     * @see org.kuali.kra.common.notification.NotificationContextBase#replaceContextVariables(java.lang.String)
+     */
+    @Override
     public String replaceContextVariables(String text) {
         KcNotificationRenderingService renderer = getNotificationRenderingService();
         Map<String, String> params = renderer.getReplacementParameters();
         params.put("{REASON}", getReason());
         
         return renderer.render(text, params);
-    }
-    
-    public void sendNotification() {
-        sendNotification(this);
-    }
-
-    public ProtocolOnlineReview getOnlineReview() {
-        return onlineReview;
-    }
-
-    public void setOnlineReview(ProtocolOnlineReview onlineReview) {
-        this.onlineReview = onlineReview;
     }
 
     public String getReason() {

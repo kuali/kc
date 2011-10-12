@@ -15,20 +15,20 @@
  */
 package org.kuali.kra.common.notification;
 
+
 import java.util.List;
 
-import org.apache.commons.lang.StringUtils;
+import org.apache.commons.collections.CollectionUtils;
+import org.kuali.kra.common.notification.bo.KcNotification;
+import org.kuali.kra.common.notification.bo.NotificationModuleRole;
+import org.kuali.kra.common.notification.bo.NotificationModuleRoleQualifier;
 import org.kuali.kra.common.notification.bo.NotificationTypeRecipient;
 import org.kuali.kra.common.notification.exception.UnknownRoleException;
 import org.kuali.kra.common.notification.service.KcNotificationModuleRoleService;
 import org.kuali.kra.common.notification.service.KcNotificationRenderingService;
 import org.kuali.kra.common.notification.service.KcNotificationRoleQualifierService;
-import org.kuali.kra.infrastructure.Constants;
-import org.kuali.rice.kim.bo.role.dto.KimRoleInfo;
-import org.kuali.rice.kim.bo.types.dto.KimTypeAttributeInfo;
-import org.kuali.rice.kim.bo.types.dto.KimTypeInfo;
-import org.kuali.rice.kim.service.KimTypeInfoService;
-import org.kuali.rice.kim.service.RoleManagementService;
+import org.kuali.kra.common.notification.service.KcNotificationService;
+import org.kuali.rice.kim.bo.types.dto.AttributeSet;
 
 /**
  * 
@@ -38,14 +38,15 @@ import org.kuali.rice.kim.service.RoleManagementService;
  */
 public abstract class NotificationContextBase implements NotificationContext {
 
+    private KcNotificationService notificationService;
     private KcNotificationRenderingService notificationRenderingService;
-    private KcNotificationModuleRoleService notificationModuleRuleService;
+    private KcNotificationModuleRoleService notificationModuleRoleService;
     private KcNotificationRoleQualifierService notificationRoleQualifierService;
         
     /**
      * 
      * This method returns the associated coeus module as defined in the
-     * CoeusModule object
+     * CoeusModule object.
      * @return the coeus module code
      * @see org.kuali.kra.bo.CoeusModule
      */
@@ -53,19 +54,81 @@ public abstract class NotificationContextBase implements NotificationContext {
     
     /**
      * 
-     * This method returns the action type code needed to send notifications
+     * This method returns the action type code needed to send notifications.
      * by the KcNotificationService
      * @return the action type code
      */
     public abstract String getActionTypeCode();
+    
+    /**
+     * 
+     * This method returns the document number for the associated document.
+     * @return the document number
+     */
+    public abstract String getDocumentNumber();
+    
+    /**
+     * 
+     * This method defines a label used for the given context.
+     * @return the context name
+     */
+    public abstract String getContextName();
         
     /**
      * 
-     * This method sends the notifications
+     * This method sends the notifications.
      */
-    public abstract void sendNotification();
-
+    public void sendNotification() {
+        List<KcNotification> notifications = getNotificationService().createNotifications(getDocumentNumber(), getModuleCode(), getActionTypeCode(), this);
+        getNotificationService().sendNotifications(notifications, this);
+    }
     
+    /**
+     * This method replaces the context variables using the default parameters.
+     * @see org.kuali.kra.common.notification.NotificationContext#replaceContextVariables(java.lang.String)
+     */
+    public String replaceContextVariables(String text) {
+        return getNotificationRenderingService().render(text);
+    }
+    
+    /**
+     * 
+     * This method populates the role qualifiers for use in KIM lookups by finding the associated notification
+     * module roles and using the role qualifier service to find the values.
+     * @param notificationRecipient The recipient of the notification, it represents a KIM role
+     * @throws UnknownRoleException
+     */
+    public void populateRoleQualifiers(NotificationTypeRecipient notificationRecipient) throws UnknownRoleException { 
+        List<NotificationModuleRole> moduleRoles = 
+            getNotificationModuleRoleService().getNotificationModuleRolesForKimRole(getModuleCode(), notificationRecipient.getRoleName());
+        
+        
+        if (CollectionUtils.isNotEmpty(moduleRoles)) {
+            if (notificationRecipient.getRoleQualifiers() == null) {
+                notificationRecipient.setRoleQualifiers(new AttributeSet());
+            }
+            for (NotificationModuleRole mRole : moduleRoles) {
+                List<NotificationModuleRoleQualifier> moduleQualifiers = mRole.getRoleQualifiers();
+                if (CollectionUtils.isNotEmpty(moduleQualifiers)) {
+                    for (NotificationModuleRoleQualifier mQualifier : moduleQualifiers) {
+                        notificationRecipient.getRoleQualifiers().put(mQualifier.getQualifier(), 
+                                getNotificationRoleQualifierService().getRoleQualifierValue(mQualifier));
+                    }
+                }
+            }
+        } else {
+            throw new UnknownRoleException(notificationRecipient.getRoleName(), getContextName());
+        }
+    }    
+    
+    public KcNotificationService getNotificationService() {
+        return notificationService;
+    }
+
+    public void setNotificationService(KcNotificationService notificationService) {
+        this.notificationService = notificationService;
+    }
+
     public KcNotificationRenderingService getNotificationRenderingService() {
         return notificationRenderingService;
     }
@@ -74,12 +137,12 @@ public abstract class NotificationContextBase implements NotificationContext {
         this.notificationRenderingService = notificationRenderingService;
     }
 
-    public KcNotificationModuleRoleService getNotificationModuleRuleService() {
-        return notificationModuleRuleService;
+    public KcNotificationModuleRoleService getNotificationModuleRoleService() {
+        return notificationModuleRoleService;
     }
 
-    public void setNotificationModuleRuleService(KcNotificationModuleRoleService notificationModuleRuleService) {
-        this.notificationModuleRuleService = notificationModuleRuleService;
+    public void setNotificationModuleRoleService(KcNotificationModuleRoleService notificationModuleRoleService) {
+        this.notificationModuleRoleService = notificationModuleRoleService;
     }
 
     public KcNotificationRoleQualifierService getNotificationRoleQualifierService() {
