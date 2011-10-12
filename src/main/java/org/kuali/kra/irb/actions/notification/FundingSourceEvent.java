@@ -15,53 +15,38 @@
  */
 package org.kuali.kra.irb.actions.notification;
 
-import java.util.List;
 import java.util.Map;
 
-import org.apache.commons.collections.CollectionUtils;
-import org.kuali.kra.bo.CoeusModule;
-import org.kuali.kra.common.notification.NotificationContext;
-import org.kuali.kra.common.notification.NotificationContextBase;
-import org.kuali.kra.common.notification.bo.KcNotification;
-import org.kuali.kra.common.notification.bo.NotificationModuleRole;
-import org.kuali.kra.common.notification.bo.NotificationModuleRoleQualifier;
-import org.kuali.kra.common.notification.bo.NotificationTypeRecipient;
-import org.kuali.kra.common.notification.exception.UnknownRoleException;
-import org.kuali.kra.common.notification.service.KcNotificationModuleRoleService;
 import org.kuali.kra.common.notification.service.KcNotificationRenderingService;
-import org.kuali.kra.common.notification.service.KcNotificationService;
-import org.kuali.kra.infrastructure.KraServiceLocator;
-import org.kuali.kra.irb.Protocol;
 import org.kuali.kra.irb.notification.IRBNotificationContext;
-import org.kuali.kra.irb.notification.IRBNotificationRenderingServiceImpl;
-import org.kuali.kra.irb.notification.IRBNotificationRoleQualifierServiceImpl;
-import org.kuali.rice.kim.bo.types.dto.AttributeSet;
 
 /**
  * 
- * This class supports a notification for protocol funding sources
+ * This class supports a notification for protocol funding sources.
  */
 public class FundingSourceEvent extends IRBNotificationContext {
     public static final String FUNDING_SOURCE = "904";
     private String fundingType;
     private String action;
+  
 
-    public FundingSourceEvent(Protocol protocol) {
-        super(protocol);
-    }    
-
+    /**
+     * 
+     * @see org.kuali.kra.common.notification.NotificationContextBase#getActionTypeCode()
+     */
+    @Override
     public String getActionTypeCode() {
         return FUNDING_SOURCE;
     }
     
     /**
      * 
-     * @see org.kuali.kra.common.notification.NotificationContext#populateRoleQualifiers(org.kuali.kra.common.notification.bo.NotificationTypeRecipient)
+     * @see org.kuali.kra.common.notification.NotificationContextBase#getContextName()
      */
     @Override
-    public void populateRoleQualifiers(NotificationTypeRecipient notificationRecipient) throws UnknownRoleException { 
-        super.populateRoleQualifiers(notificationRecipient, "FundingSource");
-    } 
+    public String getContextName() {
+        return "FundingSource";
+    }
     
     /**
      * 
@@ -75,10 +60,6 @@ public class FundingSourceEvent extends IRBNotificationContext {
         params.put("{ACTION}", getAction());
         
         return renderer.render(text, params);
-    }
-    
-    public void sendNotification() {        
-        sendNotification(this);
     }
 
     public String getFundingType() {

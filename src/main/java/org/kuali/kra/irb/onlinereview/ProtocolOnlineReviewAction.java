@@ -458,8 +458,9 @@ public class ProtocolOnlineReviewAction extends ProtocolAction implements AuditM
                 setOnlineReviewCommentFinalFlags(prDoc.getProtocolOnlineReview(), false);
                 getDocumentService().saveDocument(prDoc);
                 getProtocolOnlineReviewService().returnProtocolOnlineReviewDocumentToReviewer(prDoc,reason,GlobalVariables.getUserSession().getPrincipalId());
-                RejectReviewEvent rejectReview = new RejectReviewEvent(protocolForm.getProtocolDocument().getProtocol());
-                rejectReview.setOnlineReview(prDoc.getProtocolOnlineReview());
+                RejectReviewEvent rejectReview = new RejectReviewEvent();
+                rejectReview.setProtocol(protocolForm.getProtocolDocument().getProtocol());
+                rejectReview.setProtocolOnlineReview(prDoc.getProtocolOnlineReview());
                 rejectReview.setReason(reason);
                 rejectReview.sendNotification();
                 protocolForm.getOnlineReviewsActionHelper().init(true);

@@ -32,15 +32,6 @@ public interface KcNotificationModuleRoleService {
     
     /**
      * 
-     * This method allows you to remove a relationship between a coeus module code and a role name
-     * @param moduleCode The module code as defined in the CoeusModule object
-     * @param roleName The KIM namespace and role name, combined with a semicolon, ie. namespace:rolename
-     * @see org.kuali.kra.bo.CoeusModule
-     */
-    public void deleteNotificationModuleRole(String moduleCode, String roleName);
-    
-    /**
-     * 
      * This method retrieves all notification module roles for a given coeus module code
      * @param moduleCode The module code as defined in the CoeusModule object
      * @return The list of matching notification modules roles for the given code

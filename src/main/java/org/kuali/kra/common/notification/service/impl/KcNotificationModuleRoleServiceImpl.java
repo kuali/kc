@@ -21,7 +21,6 @@ import java.util.Map;
 
 import org.kuali.kra.common.notification.bo.NotificationModuleRole;
 import org.kuali.kra.common.notification.service.KcNotificationModuleRoleService;
-import org.kuali.kra.common.notification.service.KcNotificationService;
 import org.kuali.rice.kns.service.BusinessObjectService;
 
 public class KcNotificationModuleRoleServiceImpl implements KcNotificationModuleRoleService {
@@ -43,25 +42,14 @@ public class KcNotificationModuleRoleServiceImpl implements KcNotificationModule
 
     /**
      * 
-     * @see org.kuali.kra.common.notification.service.KcNotificationModuleRoleService#deleteNotificationModuleRole(java.lang.String, java.lang.String)
-     */
-    public void deleteNotificationModuleRole(String moduleCode, String roleName) {
-        NotificationModuleRole moduleRole = new NotificationModuleRole();
-        moduleRole.setModuleCode(moduleCode);
-        moduleRole.setRoleName(roleName);
-        
-        getBusinessObjectService().delete(moduleRole);
-    }
-
-    /**
-     * 
      * @see org.kuali.kra.common.notification.service.KcNotificationModuleRoleService#getNotificationModuleRoles(java.lang.String)
      */
     public List<NotificationModuleRole> getNotificationModuleRoles(String moduleCode) {
 
         Map<String, String> fieldValues = new HashMap<String, String>();
         fieldValues.put("moduleCode", moduleCode);
-        List<NotificationModuleRole> moduleRoles = (List<NotificationModuleRole>)getBusinessObjectService().findMatching(NotificationModuleRole.class, fieldValues);
+        List<NotificationModuleRole> moduleRoles = 
+            (List<NotificationModuleRole>) getBusinessObjectService().findMatching(NotificationModuleRole.class, fieldValues);
         
         return moduleRoles;
     }
@@ -74,7 +62,8 @@ public class KcNotificationModuleRoleServiceImpl implements KcNotificationModule
         Map<String, String> fieldValues = new HashMap<String, String>();
         fieldValues.put("moduleCode", moduleCode);
         fieldValues.put("roleName", roleName);
-        List<NotificationModuleRole> moduleRoles = (List<NotificationModuleRole>)getBusinessObjectService().findMatching(NotificationModuleRole.class, fieldValues);
+        List<NotificationModuleRole> moduleRoles = 
+            (List<NotificationModuleRole>) getBusinessObjectService().findMatching(NotificationModuleRole.class, fieldValues);
         
         return moduleRoles;
     }
@@ -89,7 +78,7 @@ public class KcNotificationModuleRoleServiceImpl implements KcNotificationModule
 
     /**
      * 
-     * Convenience method to get the business object service
+     * Convenience method to get the business object service.
      * @return the business object service reference
      */
     public BusinessObjectService getBusinessObjectService() {
@@ -98,7 +87,7 @@ public class KcNotificationModuleRoleServiceImpl implements KcNotificationModule
 
     /**
      * 
-     * Convenience method to set the business object service
+     * Convenience method to set the business object service.
      * @param businessObjectService The reference to the business object service
      */
     public void setBusinessObjectService(BusinessObjectService businessObjectService) {

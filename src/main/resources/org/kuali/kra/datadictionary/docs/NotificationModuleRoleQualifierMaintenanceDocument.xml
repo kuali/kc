@@ -33,7 +33,6 @@
     <property name="maintainableItems">
       <list>
         <bean parent="MaintainableFieldDefinition" p:name="notificationModuleRoleQualifierId" p:required="true"/>
-        <bean parent="MaintainableFieldDefinition" p:name="documentName" p:required="true"/>
         <bean parent="MaintainableFieldDefinition" p:name="qualifier" p:required="true"/>
       </list>
     </property>
@@ -55,13 +54,11 @@
           <property name="summaryTitle" value="Notification Module Role Qualifiers"/>
           <property name="summaryFields">
             <list>
-              <bean parent="MaintainableFieldDefinition" p:name="documentName"/>
               <bean parent="MaintainableFieldDefinition" p:name="qualifier"/>
             </list>
           </property>
           <property name="maintainableFields">
             <list>
-	          <bean parent="MaintainableFieldDefinition" p:name="documentName" p:required="true"/>
 	          <bean parent="MaintainableFieldDefinition" p:name="qualifier" p:required="true"/>
             </list>
           </property>

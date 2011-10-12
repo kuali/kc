@@ -2265,7 +2265,6 @@
     <class-descriptor class="org.kuali.kra.common.notification.bo.NotificationModuleRoleQualifier" table="NOTIFICATION_MDL_ROLE_QLFR">
         <field-descriptor name="notificationModuleRoleQualifierId" column="NOTIFICATION_MDL_ROLE_QLFR_ID" jdbc-type="BIGINT" primarykey="true" sequence-name="SEQ_NTFCTN_MDL_ROLE_QLFR_ID" autoincrement="true" />
         <field-descriptor name="notificationModuleRoleId" column="NOTIFICATION_MODULE_ROLE_ID" jdbc-type="BIGINT" />  
-        <field-descriptor name="documentName" column="DOCUMENT_NAME" jdbc-type="VARCHAR" />
         <field-descriptor name="qualifier" column="QUALIFIER" jdbc-type="VARCHAR" />
         <field-descriptor name="updateUser" column="UPDATE_USER" jdbc-type="VARCHAR" />
         <field-descriptor name="updateTimestamp" column="UPDATE_TIMESTAMP" jdbc-type="TIMESTAMP" />
