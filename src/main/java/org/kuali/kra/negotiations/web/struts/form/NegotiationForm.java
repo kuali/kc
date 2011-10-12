@@ -16,25 +16,17 @@
 package org.kuali.kra.negotiations.web.struts.form;
 
 import java.util.ArrayList;
-import java.util.Collection;
-import java.util.Collections;
 import java.util.HashMap;
-import java.util.HashSet;
+import java.util.Iterator;
 import java.util.List;
 import java.util.Map;
-import java.util.Iterator;
 import java.util.Set;
-
-import javax.servlet.http.HttpServletRequest;
 
 import org.apache.commons.lang.StringUtils;
 import org.kuali.kra.authorization.KraAuthorizationConstants;
 import org.kuali.kra.infrastructure.KraServiceLocator;
-import org.kuali.kra.infrastructure.TaskName;
 import org.kuali.kra.medusa.MedusaBean;
-import org.kuali.kra.negotiations.auth.NegotiationTask;
 import org.kuali.kra.negotiations.bo.Negotiation;
-import org.kuali.kra.negotiations.bo.NegotiationActivity;
 import org.kuali.kra.negotiations.bo.NegotiationActivityHistoryLineBean;
 import org.kuali.kra.negotiations.bo.NegotiationAssociatedDetailBean;
 import org.kuali.kra.negotiations.bo.NegotiationAssociationType;
@@ -44,9 +36,7 @@ import org.kuali.kra.negotiations.document.NegotiationDocument;
 import org.kuali.kra.negotiations.service.NegotiationService;
 import org.kuali.kra.service.TaskAuthorizationService;
 import org.kuali.kra.web.struts.form.KraTransactionalDocumentFormBase;
-import org.kuali.rice.kim.bo.Person;
 import org.kuali.rice.kns.service.BusinessObjectService;
-import org.kuali.rice.kns.util.GlobalVariables;
 import org.kuali.rice.kns.util.KNSConstants;
 
 /**
@@ -244,16 +234,10 @@ public class NegotiationForm extends KraTransactionalDocumentFormBase {
     
     /**
      * 
-     * This method build a sorted list of NegotiationActivityHistoryLineBeans and returns it.
+     * This method calls the negotiation service and return the results of hte getNegotiationActivityHistoryLineBeans funciton.
      * @return
      */
     public List<NegotiationActivityHistoryLineBean> getNegotiationActivityHistoryLineBeans() {
-        List<NegotiationActivityHistoryLineBean> beans = new ArrayList<NegotiationActivityHistoryLineBean>();
-        for (NegotiationActivity activity : this.getNegotiationDocument().getNegotiation().getActivities()) {
-            NegotiationActivityHistoryLineBean bean = new NegotiationActivityHistoryLineBean(activity);
-            beans.add(bean);
-        }
-        Collections.sort(beans);
-        return beans;
+        return this.getNegotiationService().getNegotiationActivityHistoryLineBeans(this.getNegotiationDocument().getNegotiation().getActivities());
     }
 }
