@@ -109,7 +109,7 @@ public class ProposalDevelopmentS2sQuestionnaireServiceImpl implements ProposalD
         
         for (QuestionnaireUsage usage : usages) {    
             for (S2sOppFormQuestionnaire oppFormQuestionnaire : s2sOppFormQuestionnaires) {
-                if (oppFormQuestionnaire.getQuestionnaireId().equals(usage.getQuestionnaire().getQuestionnaireId())) {
+                if (oppFormQuestionnaire.getQuestionnaireId().toString().equals(usage.getQuestionnaire().getQuestionnaireId())) {
                     result.add(usage);
                 }
             }
