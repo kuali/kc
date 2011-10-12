@@ -9,6 +9,7 @@
 <c:set var="textAreaFieldName1" value="newProtocolReference.comments" />
 <c:set var="action" value="protocolProtocol" />
 <c:set var="className" value="${KualiForm.document.class.name}" />
+<c:set var="viewStyle" value="display: block;"/>
 
 <c:set var="researchAreasAttributes" value="${DataDictionary.ResearchArea.attributes}" />
 
@@ -219,27 +220,29 @@
 						<c:out value="${status.index+1}" />
 					</th>
 	                <td align="left" valign="middle">
-	                	<div align="center"> 
-	                	<kul:htmlControlAttribute property="document.protocolList[0].protocolReferences[${status.index}].protocolReferenceType.description" 
-	                													readOnly="true"	attributeEntry="${protocolReferenceTypeAttributes.description}"  /> </div>
+                        <div style="${viewStyle}">
+                            ${protocolReference.protocolReferenceType.description}  
+                        </div>
+					</td>
+
+	                <td align="left" valign="middle">
+                        <div style="${viewStyle}">
+                            ${protocolReference.referenceKey}  
+                        </div>
 					</td>
 
 	                <td align="left" valign="middle">
 	                	<div align="center"> 
-	                	<kul:htmlControlAttribute property="document.protocolList[0].protocolReferences[${status.index}].referenceKey" 
-	                													readOnly="true"	attributeEntry="${protocolReferenceAttributes.referenceKey}"  /> </div>
+	                	    <kul:htmlControlAttribute property="document.protocolList[0].protocolReferences[${status.index}].applicationDate" 
+	                													readOnly="true"	attributeEntry="${protocolReferenceAttributes.applicationDate}"  /> 
+	                	</div>
 					</td>
 
 	                <td align="left" valign="middle">
 	                	<div align="center"> 
-	                	<kul:htmlControlAttribute property="document.protocolList[0].protocolReferences[${status.index}].applicationDate" 
-	                													readOnly="true"	attributeEntry="${protocolReferenceAttributes.applicationDate}"  /> </div>
-					</td>
-
-	                <td align="left" valign="middle">
-	                	<div align="center"> 
-	                	<kul:htmlControlAttribute property="document.protocolList[0].protocolReferences[${status.index}].approvalDate" 
-	                													readOnly="true"	attributeEntry="${protocolReferenceAttributes.approvalDate}"  /> </div>
+	                	    <kul:htmlControlAttribute property="document.protocolList[0].protocolReferences[${status.index}].approvalDate" 
+	                													readOnly="true"	attributeEntry="${protocolReferenceAttributes.approvalDate}"  /> 
+	                    </div>
 					</td>
 					
                     <c:if test="${!readOnlymodifyReferences}">

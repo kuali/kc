@@ -4,6 +4,7 @@
 <c:set var="fundingSourceTypeAttributes" value="${DataDictionary.FundingSourceType.attributes}" />
 <c:set var="readOnly" value="${!KualiForm.protocolHelper.modifyFundingSource}" />
 <c:set var="allowEditName" value="${KualiForm.protocolHelper.editProtocolFundingSourceName}" />
+<c:set var="viewStyle" value="display: block;"/>
 
 <c:choose>
     <c:when test="${KualiForm.protocolHelper.fundingNumberLookupable}">
@@ -114,55 +115,45 @@
             
             <%-- Existing data --%>
             <c:forEach var="protocolFundingSource" items="${KualiForm.document.protocolList[0].protocolFundingSources}" varStatus="status">
-                 <tr>
+                <tr valign="middle">
                     <th class="infoline">
                         <c:out value="${status.index+1}" />
                     </th>
-                  <td align="left" valign="middle">
-                    <div align="left">
-                        <kul:htmlControlAttribute property="document.protocolList[0].protocolFundingSources[${status.index}].fundingSourceType.description" 
-                                                  readOnly="true" attributeEntry="${fundingSourceTypeAttributes.description}" /> 
-                    </div>
-                  </td>
-                  <td align="left" valign="middle">
-                    <div align="left">
-                        <kul:htmlControlAttribute property="document.protocolList[0].protocolFundingSources[${status.index}].fundingSourceNumber" 
-                                                  readOnly="true" attributeEntry="${protocolFundingSourceAttributes.fundingSourceNumber}" /> 
-                    </div>                  
-                  </td>
-                  <td align="left" valign="middle">
-                    <div align="left">
-                        <kul:htmlControlAttribute property="document.protocolList[0].protocolFundingSources[${status.index}].fundingSourceName" 
-                                                  readOnly="true" attributeEntry="${fundingSourceTypeAttributes.description}" />
-                    </div>
-                  </td>
-                  <td align="left" valign="middle">
-                    <div align="left">
-                        <kul:htmlControlAttribute property="document.protocolList[0].protocolFundingSources[${status.index}].fundingSourceTitle" 
-                                                  readOnly="true" attributeEntry="${fundingSourceTypeAttributes.description}" />
-                    </div>
-                  </td>
-                  <td>
-                    <div align=center>&nbsp;
-                        <c:if test="${!readOnly}">
-                            <html:image property="methodToCall.deleteProtocolFundingSource.line${status.index}.anchor${currentTabIndex}"
-                                src='${ConfigProperties.kra.externalizable.images.url}tinybutton-delete1.gif' styleClass="tinybutton"/>
-                        </c:if>
-                        
-                        <c:if test="${(protocolFundingSource.fundingSourceLookupable)}">
-   
-                               <html:image property="methodToCall.viewProtocolFundingSource.line${status.index}.anchor${currentTabIndex}"
-                                alt="view funding source"
-                                src='${ConfigProperties.kra.externalizable.images.url}tinybutton-view.gif' styleClass="tinybutton"
-                            onclick="javascript: protocolFundingSourcePop( '${name}', ${KualiForm.formKey}, ${KualiForm.document.sessionDocument}, ${status.index}, ${currentTabIndex});return false"/>         
-                        </c:if> 
-
-                                                   
-                        
-                    </div>
-                  </td>
+                    <td align="left">
+                        <div style="${viewStyle}">
+                            ${protocolFundingSource.fundingSourceType.description}  
+                        </div>
+                    </td>
+                    <td align="left">
+                        <div style="${viewStyle}">
+                            ${protocolFundingSource.fundingSourceNumber}  
+                        </div>
+                    </td>
+                    <td align="left">
+                        <div style="${viewStyle}">
+                            ${protocolFundingSource.fundingSourceName}  
+                        </div>
+                    </td>
+                    <td align="left">
+                        <div style="${viewStyle}">
+                            ${protocolFundingSource.fundingSourceTitle}  
+                        </div>
+                    </td>
+                    <td>
+                        <div align=center>&nbsp;
+                            <c:if test="${!readOnly}">
+                                <html:image property="methodToCall.deleteProtocolFundingSource.line${status.index}.anchor${currentTabIndex}"
+                                    src='${ConfigProperties.kra.externalizable.images.url}tinybutton-delete1.gif' styleClass="tinybutton"/>
+                            </c:if>
+                            <c:if test="${(protocolFundingSource.fundingSourceLookupable)}">
+                                <html:image property="methodToCall.viewProtocolFundingSource.line${status.index}.anchor${currentTabIndex}"
+                                    alt="view funding source"
+                                    src='${ConfigProperties.kra.externalizable.images.url}tinybutton-view.gif' styleClass="tinybutton"
+                                    onclick="javascript: protocolFundingSourcePop( '${name}', ${KualiForm.formKey}, ${KualiForm.document.sessionDocument}, ${status.index}, ${currentTabIndex});return false"/>         
+                            </c:if> 
+                        </div>
+                    </td>
                 </tr>
-
             </c:forEach>
         </table>
 	</div>	
