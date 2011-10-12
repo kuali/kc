@@ -141,8 +141,9 @@
                                                     <kul:htmlAttributeLabel attributeEntry="${personFinIntDisclAttribute.statusCode}" />
                                                 </th>
                                                 <td align="left" valign="middle">
-                                                        <kul:htmlControlAttribute property="${prop}[${status.index}].statusCode" 
-                                              attributeEntry="${personFinIntDisclAttribute.statusCode}" />
+                                                        ${financialEntity.finIntEntityStatus.description}
+                                                     <%--   <kul:htmlControlAttribute property="${prop}[${status.index}].statusCode" 
+                                              attributeEntry="${personFinIntDisclAttribute.statusCode}" /> --%>
                                                 </td>
                                                 <th align="right" valign="middle" >
                                                     <kul:htmlAttributeLabel attributeEntry="${personFinIntDisclAttribute.entityOwnershipType}" />
