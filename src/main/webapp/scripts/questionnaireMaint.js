@@ -2637,6 +2637,20 @@ $(document).ready(function() {
      //           });
    }
    
+   
+  // the show/hide for question and usage panels are not from kuali framework
+  // so to override the onclick here to also expand question and usage panels
+  // first remove the 'onclick' attribute, then add 'click' function
+  $('input[name=methodToCall\\.showAllTabs]').attr('onclick', '').click(function() {
+		expandAllTab();
+		if ($("a.questionpanelcontrol").html().indexOf("show.gif") > -1) {
+            $("a.questionpanelcontrol").click();
+        }
+		if ($("a.usagepanelcontrol").html().indexOf("show.gif") > -1) {
+            $("a.usagepanelcontrol").click();
+        }
+        return false;
+	});	
   
 }); // document.ready
 
