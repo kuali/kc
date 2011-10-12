@@ -203,7 +203,7 @@ end
 rule "Modify Amendment Sections"
 salience 100
 when
-    protocolAction : ProtocolActionMapping(actionTypeCode == "107", protocolStatusCode in ("102", "104", "105", "106", "304"))
+    protocolAction : ProtocolActionMapping(actionTypeCode == "125", protocolStatusCode in ("102", "104", "105", "106", "304"))
 then
     setAction(protocolAction, true);
 end
