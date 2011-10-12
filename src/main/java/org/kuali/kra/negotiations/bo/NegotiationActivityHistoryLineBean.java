@@ -57,9 +57,6 @@ public class NegotiationActivityHistoryLineBean implements Comparable<Negotiatio
         this.setStartDate(negotiationActivity.getStartDate());
         this.setEndDate(negotiationActivity.getEndDate());
         this.setActivityDays(negotiationActivity.getNumberOfDays());
-        //this.setEfectiveLocationStartDate()
-        //this.setEfectiveLocationEndDate()
-        this.setLocationDays(negotiationActivity.getNumberOfDays());
     }
 
     public String getActivityType() {

@@ -15,9 +15,12 @@
  */
 package org.kuali.kra.negotiations.service;
 
+import java.sql.Date;
 import java.util.ArrayList;
 import java.util.Arrays;
+import java.util.Calendar;
 import java.util.Collection;
+import java.util.Collections;
 import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
@@ -35,6 +38,8 @@ import org.kuali.kra.kim.bo.KcKimAttributes;
 import org.kuali.kra.kim.service.impl.UnitAdministratorDerivedRoleTypeServiceImpl;
 import org.kuali.kra.negotiations.bo.Negotiable;
 import org.kuali.kra.negotiations.bo.Negotiation;
+import org.kuali.kra.negotiations.bo.NegotiationActivity;
+import org.kuali.kra.negotiations.bo.NegotiationActivityHistoryLineBean;
 import org.kuali.kra.negotiations.bo.NegotiationAssociatedDetailBean;
 import org.kuali.kra.negotiations.bo.NegotiationAssociationType;
 import org.kuali.kra.negotiations.bo.NegotiationPersonDTO;
@@ -305,6 +310,75 @@ public class NegotiationServiceImpl implements NegotiationService {
             }
         }
         return false;
+    }
+    /**
+     * 
+     * @see org.kuali.kra.negotiations.service.NegotiationService#getNegotiationActivityHistoryLineBeans(java.util.List)
+     */
+    public List<NegotiationActivityHistoryLineBean> getNegotiationActivityHistoryLineBeans(List<NegotiationActivity> activities) {
+        List<NegotiationActivityHistoryLineBean> beans = new ArrayList<NegotiationActivityHistoryLineBean>();
+        for (NegotiationActivity activity : activities) {
+            NegotiationActivityHistoryLineBean bean = new NegotiationActivityHistoryLineBean(activity);
+            beans.add(bean);
+        }
+        Collections.sort(beans);
+        // now set the effective dates
+        Date previousStartDate = null;
+        Date previousEndDate = null;
+        String previousLocation = "";
+        for (NegotiationActivityHistoryLineBean bean : beans) {
+            if (StringUtils.equals(previousLocation, bean.getLocation())) {
+                if (isDateBetween(bean.getStartDate(), previousStartDate, previousEndDate)
+                        && isDateBetween(bean.getEndDate(), previousStartDate, previousEndDate)) {
+                    //current date range lies within the previous date range
+                    bean.setEfectiveLocationStartDate(null);
+                    bean.setEfectiveLocationEndDate(null);
+                    bean.setLocationDays("0 Days");
+                    //leave previous alone
+                } else if (isDateBetween(bean.getStartDate(), previousStartDate, previousEndDate) 
+                        && bean.getEndDate().after(previousEndDate)) {
+                    //current date range starts within the previous range, but finishes past it.
+                    bean.setEfectiveLocationStartDate(previousEndDate);
+                    bean.setEfectiveLocationEndDate(bean.getEndDate());
+                    bean.setLocationDays(NegotiationActivity.getNumberOfDays(bean.getStartDate(), bean.getEndDate()));
+                    
+                    previousEndDate = bean.getEndDate();
+                } else {
+                    //completely separate range.
+                    previousStartDate = bean.getStartDate();
+                    previousEndDate = bean.getEndDate();
+                    
+                    bean.setEfectiveLocationEndDate(bean.getEndDate());
+                    bean.setEfectiveLocationStartDate(bean.getStartDate());
+                    bean.setLocationDays(NegotiationActivity.getNumberOfDays(bean.getStartDate(), bean.getEndDate()));
+                }
+            } else {
+                // new location so set the effective date
+                previousStartDate = bean.getStartDate();
+                previousEndDate = bean.getEndDate();
+                previousLocation = bean.getLocation();
+                
+                bean.setEfectiveLocationEndDate(bean.getEndDate());
+                bean.setEfectiveLocationStartDate(bean.getStartDate());
+                bean.setLocationDays(NegotiationActivity.getNumberOfDays(bean.getStartDate(), bean.getEndDate()));
+            }
+        }
+        return beans;
+    }
+    
+    private boolean isDateBetween(Date checkDate, Date rangeStart, Date rangeEnd) {
+        if (rangeStart == null) {
+            return false;
+        }
+        if (checkDate == null) {
+            checkDate = new Date(Calendar.getInstance().getTimeInMillis());
+        }
+        if (rangeEnd == null) {
+            rangeEnd = new Date(Calendar.getInstance().getTimeInMillis());
+        }
+        boolean startOk = rangeStart.equals(checkDate) || rangeStart.before(checkDate);
+        boolean endOk = rangeEnd.equals(checkDate) || rangeEnd.after(checkDate);
+        return startOk && endOk;
     }
     
     protected ParameterService getParameterService() {
