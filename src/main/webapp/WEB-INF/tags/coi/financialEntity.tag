@@ -118,13 +118,13 @@
                                                     <input type="hidden" name="financialEntityHelper.editRolodexId" value="${KualiForm.financialEntityHelper.editRolodexId}" />
                                                     <input type="hidden" name="financialEntityHelper.prevSponsorCode" value="${KualiForm.financialEntityHelper.prevSponsorCode}"/>
                                                     <div id="sponsorName${status.index}.div" >
-                                                        <c:if test="${!empty KualiForm.financialEntityHelper.activeFinancialEntities[status.index].sponsorCode}">
+                                                        <c:if test="${!empty financialEntity.sponsorCode}">
                                                             <c:choose>
-                                                                <c:when test="${empty KualiForm.financialEntityHelper.activeFinancialEntities[status.index].sponsor}">
+                                                                <c:when test="${empty financialEntity.sponsor}">
                                                                     <span style='color: red;'>not found</span>
                                                                 </c:when>
                                                                 <c:otherwise>
-                                                                        <c:out value="${KualiForm.financialEntityHelper.activeFinancialEntities[status.index].sponsor.sponsorName}" />
+                                                                        <c:out value="${financialEntity.sponsor.sponsorName}" />
                                                                 </c:otherwise>  
                                                             </c:choose>                        
                                                         </c:if>
