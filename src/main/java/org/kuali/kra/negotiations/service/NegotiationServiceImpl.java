@@ -322,7 +322,8 @@ public class NegotiationServiceImpl implements NegotiationService {
             beans.add(bean);
         }
         Collections.sort(beans);
-        // now set the effective dates
+        
+        // now set the effective dates and calculate the location days.
         Date previousStartDate = null;
         Date previousEndDate = null;
         String previousLocation = "";
@@ -338,16 +339,16 @@ public class NegotiationServiceImpl implements NegotiationService {
                 } else if (isDateBetween(bean.getStartDate(), previousStartDate, previousEndDate) 
                         && bean.getEndDate().after(previousEndDate)) {
                     //current date range starts within the previous range, but finishes past it.
-                    bean.setEfectiveLocationStartDate(previousEndDate);
+                    Date previousEndDatePlusOneDay = new Date(previousEndDate.getTime() + NegotiationActivity.MILLISECS_PER_DAY);
+                    bean.setEfectiveLocationStartDate(previousEndDatePlusOneDay);
                     bean.setEfectiveLocationEndDate(bean.getEndDate());
-                    bean.setLocationDays(NegotiationActivity.getNumberOfDays(bean.getStartDate(), bean.getEndDate()));
+                    bean.setLocationDays(NegotiationActivity.getNumberOfDays(previousEndDatePlusOneDay, bean.getEndDate()));
                     
                     previousEndDate = bean.getEndDate();
                 } else {
                     //completely separate range.
                     previousStartDate = bean.getStartDate();
                     previousEndDate = bean.getEndDate();
-                    
                     bean.setEfectiveLocationEndDate(bean.getEndDate());
                     bean.setEfectiveLocationStartDate(bean.getStartDate());
                     bean.setLocationDays(NegotiationActivity.getNumberOfDays(bean.getStartDate(), bean.getEndDate()));
@@ -357,7 +358,6 @@ public class NegotiationServiceImpl implements NegotiationService {
                 previousStartDate = bean.getStartDate();
                 previousEndDate = bean.getEndDate();
                 previousLocation = bean.getLocation();
-                
                 bean.setEfectiveLocationEndDate(bean.getEndDate());
                 bean.setEfectiveLocationStartDate(bean.getStartDate());
                 bean.setLocationDays(NegotiationActivity.getNumberOfDays(bean.getStartDate(), bean.getEndDate()));
