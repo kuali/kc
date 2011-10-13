@@ -747,6 +747,27 @@ public class ProtocolProtocolActionsAction extends ProtocolAction implements Aud
     
     /**
      * 
+     * This method is for 'view' personnel attachment. lost when merging from 3.0 to trunk
+     * @param mapping
+     * @param form
+     * @param request
+     * @param response
+     * @return
+     * @throws Exception
+     */
+    public ActionForward viewProtocolPersonnelAttachment(ActionMapping mapping, ActionForm form, HttpServletRequest request, 
+            HttpServletResponse response) throws Exception {
+        
+        ProtocolForm protocolForm = (ProtocolForm) form;
+        int selected = getSelectedLine(request);
+        ProtocolAttachmentPersonnel personAttach = protocolForm.getProtocolDocument().getProtocol().getAttachmentPersonnels().get(selected);
+        return printAttachmentProtocol(mapping, response, personAttach,protocolForm);
+
+    }
+
+    
+    /**
+     * 
      * This method is to print protocol reports
      * @param mapping
      * @param form
