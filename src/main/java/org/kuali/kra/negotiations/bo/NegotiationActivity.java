@@ -35,7 +35,7 @@ public class NegotiationActivity extends KraPersistableBusinessObjectBase {
      * Comment for <code>serialVersionUID</code>
      */
     private static final long serialVersionUID = 1927288853033781994L;
-    private static final long MILLISECS_PER_DAY = 24*60*60*1000;
+    public static final long MILLISECS_PER_DAY = 24*60*60*1000;
     
     private Long activityId;
     private Long negotiationId;
@@ -83,19 +83,14 @@ public class NegotiationActivity extends KraPersistableBusinessObjectBase {
         if (startDate == null) {
             return "";
         } else {
-            if (startDate.equals(endDate)) {
-                return "1 day";
+            long start = startDate.getTime();
+            long end = 0L;
+            if (endDate == null) {
+                end = Calendar.getInstance().getTimeInMillis();
             } else {
-                long start = startDate.getTime();
-                long end = 0L;
-                if (endDate == null) {
-                    end = Calendar.getInstance().getTimeInMillis();
-                } else {
-                    end = endDate.getTime();
-                }
-                
-                return ((end - start) / MILLISECS_PER_DAY) + " days";
+                end = endDate.getTime();
             }
+            return (((end - start) / MILLISECS_PER_DAY) + 1) + " days";
         }
     }
     
