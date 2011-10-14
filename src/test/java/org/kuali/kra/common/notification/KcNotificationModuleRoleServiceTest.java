@@ -26,9 +26,9 @@ import org.kuali.kra.common.notification.service.KcNotificationModuleRoleService
 import org.kuali.kra.infrastructure.Constants;
 import org.kuali.kra.infrastructure.KraServiceLocator;
 import org.kuali.kra.infrastructure.RoleConstants;
-import org.kuali.kra.test.infrastructure.KcWebTestBase;
+import org.kuali.kra.test.infrastructure.KcUnitTestBase;
 
-public class KcNotificationModuleRoleServiceTest extends KcWebTestBase {
+public class KcNotificationModuleRoleServiceTest extends KcUnitTestBase {
 
     protected KcNotificationModuleRoleService notificationModuleRoleService;
     

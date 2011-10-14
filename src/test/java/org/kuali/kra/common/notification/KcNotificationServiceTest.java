@@ -20,9 +20,9 @@ import org.junit.Before;
 import org.junit.Test;
 import org.kuali.kra.common.notification.service.KcNotificationService;
 import org.kuali.kra.infrastructure.KraServiceLocator;
-import org.kuali.kra.test.infrastructure.KcWebTestBase;
+import org.kuali.kra.test.infrastructure.KcUnitTestBase;
 
-public class KcNotificationServiceTest extends KcWebTestBase {
+public class KcNotificationServiceTest extends KcUnitTestBase {
     
     protected KcNotificationService notificationService;
     
