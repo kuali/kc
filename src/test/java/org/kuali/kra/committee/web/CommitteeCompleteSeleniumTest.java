@@ -36,12 +36,12 @@ public class CommitteeCompleteSeleniumTest extends KcSeleniumTestBase {
     
     private static final String VOTING_CHAIR_MEMBERSHIP_TYPE = "Voting member";
     private static final String NICHOLAS_MAJORS_PERSON_ID = "10000000004";
-    private static final String NICHOLAS_MAJORS_NAME = "Nicholas  Majors";
+    private static final String NICHOLAS_MAJORS_NAME = "Nicholas Majors";
     private static final String CHAIR_MEMBERSHIP_ROLE = "Chair";
     private static final String PERSONAL_CULINARY_SERVICES_OTHER_RESEARCH_AREA_CODE = "12.99";
     private static final String PERSONAL_CULINARY_SERVICES_OTHER_NAME = "12.99 Personal and Culinary Services, Other";
     private static final String ALLYSON_CATE_PERSON_ID = "10000000008";
-    private static final String ALLYSON_CATE_NAME = "Allyson  Cate";
+    private static final String ALLYSON_CATE_NAME = "Allyson Cate";
     private static final String IRB_ADMINISTRATOR_MEMBERSHIP_ROLE = "IRB Administrator";
     private static final String AGRICULTURAL_PRODUCTION_OPERATIONS_RESEARCH_AREA_CODE = "01.03";
     private static final String AGRICULTURAL_PRODUCTION_OPERATIONS_NAME = "01.03 Agricultural Production Operations";
