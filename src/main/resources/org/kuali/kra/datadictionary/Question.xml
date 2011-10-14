@@ -205,7 +205,8 @@
         <property name="name" value="questionTypeId" />
         <property name="forceUppercase" value="false" />
         <property name="label" value="Question Type Id" />
-        <property name="shortLabel" value="Question Type Id" />
+        <property name="shortLabel" value="Type" />
+        <property name="required" value="true" />
         <property name="maxLength" value="12" />
         <property name="validationPattern" >
             <bean parent="NumericValidationPattern" />
