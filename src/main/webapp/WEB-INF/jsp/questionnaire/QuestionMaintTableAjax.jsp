@@ -56,11 +56,11 @@
 								        alt="Remove Node" src="static/images/tinybutton-removenode.gif">
 								</a>
 								<a href="#" id="cut${qidx}" onClick="clickCut(${qidx})">
-								    <img height="15" width="79" border="0" title="Cut this node and its child roups/sponsors.  (Node will not be removed until you paste it.)"
+								    <img height="15" width="79" border="0" title="Cut this node and its child groups/sponsors (Node will not be removed until you paste it)"
 								         alt="Cut Node" src="static/images/tinybutton-cutnode.gif">
 								</a>
 								<a href="#" id="copy${qidx}" onClick="clickCopy(${qidx})">
-								    <img height="15" width="79" border="0" title="Copy this node and its child.)" alt="Copy Node"
+								    <img height="15" width="79" border="0" title="Copy this node and its child" alt="Copy Node"
 								         src="static/images/jquery/tinybutton-copynode.gif">
 								</a>
 								<a href="#" id="paste${qidx}" onClick="clickPaste(${qidx})">
@@ -73,7 +73,7 @@
                                 </a>
                                 <c:if test="${not KualiForm.questionCurrentVersion}">
 	                                <a href="#" id="update${qidx}" onClick="clickUpdateQuestionVersion(${qidx})">
-	                                    <img height="15" width="79" border="0" title="Update to the current version of this node"
+	                                    <img height="15" width="79" border="0" title="Update the current version of this node"
 	                                        alt="Update Version" src="static/images/tinybutton-updateversion.gif">
 	                                </a>
                                 </c:if>								
