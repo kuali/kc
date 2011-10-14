@@ -110,8 +110,12 @@
         
     <table id="response-table" width="100%" cellpadding="0" cellspacing="0" class="datatable">
         <tr>
-            <th align="center" valign="middle" width="115">Type</th>
-            <th align="center" valign="middle">Values</th>
+            <th align="center" valign="middle" width="115">
+                <kul:htmlAttributeLabel attributeEntry="${DataDictionary.Question.attributes.questionTypeId}" useShortLabel="true" noColon="true" />
+            </th>
+            <th align="center" valign="middle">
+                Values
+            </th>
         </tr>
         <tr>
             <td align="left" valign="middle">
