@@ -18,6 +18,8 @@ package org.kuali.kra.negotiations.bo;
 import java.io.Serializable;
 import java.sql.Date;
 
+import org.drools.core.util.StringUtils;
+
 /**
  * 
  * This class contains all the attributes for a line in the activity history table.
@@ -37,6 +39,7 @@ public class NegotiationActivityHistoryLineBean implements Comparable<Negotiatio
     private Date efectiveLocationStartDate;
     private Date efectiveLocationEndDate;
     private String locationDays;
+    private String lineNumber;
     
     /**
      * 
@@ -153,7 +156,17 @@ public class NegotiationActivityHistoryLineBean implements Comparable<Negotiatio
         this.locationDays = locationDays;
     }
 
+    public String getLineNumber() {
+        if (StringUtils.isEmpty(lineNumber)){
+            return "&nbsp;";
+        }else {
+            return lineNumber;
+        }
+    }
 
+    public void setLineNumber(String lineNumber) {
+        this.lineNumber = lineNumber;
+    }
 
     @Override
     public int compareTo(NegotiationActivityHistoryLineBean o) {
