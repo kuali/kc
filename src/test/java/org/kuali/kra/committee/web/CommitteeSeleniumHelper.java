@@ -15,6 +15,7 @@
  */
 package org.kuali.kra.committee.web;
 
+import org.kuali.kra.infrastructure.Constants;
 import org.kuali.kra.test.infrastructure.KcSeleniumHelper;
 import org.openqa.selenium.WebDriver;
 
@@ -61,6 +62,8 @@ public class CommitteeSeleniumHelper extends KcSeleniumHelper {
     
     private static CommitteeSeleniumHelper helper;
     
+    private String currentCommitteeId = Constants.EMPTY_STRING;
+    
     public static CommitteeSeleniumHelper instance(WebDriver driver) {
         if (helper == null) {
             helper = new CommitteeSeleniumHelper(driver);
@@ -70,6 +73,15 @@ public class CommitteeSeleniumHelper extends KcSeleniumHelper {
     
     private CommitteeSeleniumHelper(WebDriver driver) {
         super(driver);
+    }
+    
+    /**
+     * Returns the current committee ID.
+     * 
+     * @return the current committee ID
+     */
+    public final String getCurrentCommitteeID() {
+        return currentCommitteeId;
     }
     
     /**
@@ -128,11 +140,11 @@ public class CommitteeSeleniumHelper extends KcSeleniumHelper {
      * Sets the Committee's required fields to legal default values.
      */
     private void setDefaultRequiredFields() {
-        String committeeId = getNextCommitteeID();
+        currentCommitteeId = getNextCommitteeID();
         
         set(DOCUMENT_DESCRIPTION_ID, DEFAULT_DOCUMENT_DESCRIPTION);
-        set(ID_ID, committeeId);
-        set(NAME_ID, committeeId + DEFAULT_NAME);
+        set(ID_ID, currentCommitteeId);
+        set(NAME_ID, currentCommitteeId + DEFAULT_NAME);
         set(HOME_UNIT_NUMBER_ID, DEFAULT_HOME_UNIT_NUMBER);
         set(TYPE_CODE_ID, DEFAULT_TYPE);
         set(DESCRIPTION_ID, DEFAULT_DESCRIPTION);
