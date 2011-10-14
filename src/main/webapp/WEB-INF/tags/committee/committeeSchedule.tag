@@ -149,7 +149,7 @@
             <span class="subhead-left">Schedule</span>
             <span class="subhead-right"><kul:help businessObjectClassName="org.kuali.kra.committee.bo.CommitteeSchedule" altText="help"/></span>
         </h3>
-            <table cellpadding=0 cellspacing="0"  summary="">
+            <table id="schedule-table" cellpadding=0 cellspacing="0"  summary="">
               <tr>
                 <td colspan="9"><br>
                   <div align="center">
