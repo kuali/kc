@@ -19,12 +19,13 @@ import java.io.Serializable;
 import java.sql.Date;
 
 import org.drools.core.util.StringUtils;
+import org.kuali.rice.kns.web.ui.ResultRow;
 
 /**
  * 
  * This class contains all the attributes for a line in the activity history table.
  */
-public class NegotiationActivityHistoryLineBean implements Comparable<NegotiationActivityHistoryLineBean>, Serializable {
+public class NegotiationActivityHistoryLineBean extends ResultRow implements Comparable<NegotiationActivityHistoryLineBean>, Serializable {
     /**
      * Comment for <code>serialVersionUID</code>
      */
@@ -46,7 +47,7 @@ public class NegotiationActivityHistoryLineBean implements Comparable<Negotiatio
      * Constructs a NegotiationActivityHistoryLineBean.java.
      */
     public NegotiationActivityHistoryLineBean() {
-        
+        super(null, "", "");
     }
     
     /**
@@ -55,6 +56,7 @@ public class NegotiationActivityHistoryLineBean implements Comparable<Negotiatio
      * @param negotiationActivity
      */
     public NegotiationActivityHistoryLineBean(NegotiationActivity negotiationActivity) {
+        this();
         this.setActivityType(negotiationActivity.getActivityType().getDescription());
         this.setLocation(negotiationActivity.getLocation().getDescription());
         this.setStartDate(negotiationActivity.getStartDate());
