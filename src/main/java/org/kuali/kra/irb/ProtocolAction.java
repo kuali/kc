@@ -374,7 +374,7 @@ public abstract class ProtocolAction extends KraTransactionalDocumentActionBase 
             request.setAttribute(KNSConstants.PARAMETER_DOC_ID, docIdRequestParameter);
             forward = mapping.findForward(Constants.MAPPING_COPY_PROPOSAL_PAGE);
             forward = new ActionForward(forward.getPath()+ "?" + KNSConstants.PARAMETER_DOC_ID + "=" + docIdRequestParameter);  
-        } else if (Constants.MAPPING_PROTOCOL_ACTIONS.equals(command)) {
+        } else if (Constants.MAPPING_PROTOCOL_ACTIONS.equals(command) || Constants.MAPPING_PROTOCOL_ONLINE_REVIEW.equals(command)) {
             String docIdRequestParameter = request.getParameter(KNSConstants.PARAMETER_DOC_ID);
             Document retrievedDocument = KNSServiceLocator.getDocumentService().getByDocumentHeaderId(docIdRequestParameter);
             protocolForm.setDocument(retrievedDocument);
@@ -392,6 +392,9 @@ public abstract class ProtocolAction extends KraTransactionalDocumentActionBase 
         
         if (Constants.MAPPING_PROTOCOL_ACTIONS.equals(command)) {
             forward = protocolActions(mapping, protocolForm, request, response);
+        }
+        if (Constants.MAPPING_PROTOCOL_ONLINE_REVIEW.equals(command)) {
+            forward = onlineReview(mapping, protocolForm, request, response);
         }
         
         return forward;
@@ -450,7 +453,7 @@ public abstract class ProtocolAction extends KraTransactionalDocumentActionBase 
      */
     public ActionForward onlineReview(ActionMapping mapping, ActionForm form
             , HttpServletRequest request, HttpServletResponse response) {        
-        return mapping.findForward("onlineReview");
+        return mapping.findForward(Constants.MAPPING_PROTOCOL_ONLINE_REVIEW);
     }
     
     
