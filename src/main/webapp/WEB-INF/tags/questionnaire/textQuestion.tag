@@ -37,13 +37,13 @@ ${kfunc:registerEditableProperty(KualiForm, questionFieldName)}
                 <c:set var="answerLength" value="${question.answerMaxLength}" />
                     <c:choose>
                         <c:when test="${answerLength > 80}">
-                            <html:textarea property="${questionFieldName}" style="" title="Question Answer" tabindex="${tabindex}"
+                            <html:textarea property="${questionFieldName}" style="" styleId="${questionFieldName}" title="Question Answer" tabindex="${tabindex}"
                                 rows="3" cols="100"
                                 styleClass="Qanswer"
                                 onkeyup="textLimit(this, ${answerLength});" />
                     
                             <kul:expandedTextArea textAreaFieldName="${questionFieldName}" 
-                                action="questionnaire" textAreaLabel="Question Answer" />
+                                action="questionnaire" textAreaLabel="Question Answer" maxLength="${question.answerMaxLength}" />
 
                         </c:when>
                         <c:otherwise>
