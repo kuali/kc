@@ -309,7 +309,7 @@ public class ProtocolOnlineReviewAction extends ProtocolAction implements AuditM
         ProtocolForm protocolForm = (ProtocolForm) form;
         ProtocolOnlineReviewDocument prDoc = protocolForm.getOnlineReviewsActionHelper().getDocumentFromHelperMap(onlineReviewDocumentNumber);
         ReviewCommentsBean reviewCommentsBean = protocolForm.getOnlineReviewsActionHelper().getReviewCommentsBeanFromHelperMap(onlineReviewDocumentNumber);
-
+        boolean isApproveReview = StringUtils.equals(ProtocolOnlineReviewStatus.SAVED_STATUS_CD, prDoc.getProtocolOnlineReview().getProtocolOnlineReviewStatusCode());
         //check to see if we are the reviewer and this is an approval to the irb admin.
         
         boolean validComments = applyRules(new RouteProtocolOnlineReviewEvent(prDoc, reviewCommentsBean.getReviewComments(), protocolForm.getOnlineReviewsActionHelper().getIndexByDocumentNumber(onlineReviewDocumentNumber)));
@@ -340,7 +340,11 @@ public class ProtocolOnlineReviewAction extends ProtocolAction implements AuditM
             // TODO : only send to this reviewer, not the other unapproved review ?
             getProtocolActionsNotificationService().sendActionsNotification(protocolForm.getProtocolDocument().getProtocol(), new ReviewCompleteEvent(protocolForm.getProtocolDocument().getProtocol()));
             if (!protocolForm.getEditingMode().containsKey("maintainProtocolOnlineReviews")) {
+                // reviewer approve will return here
                 return mapping.findForward(KNSConstants.MAPPING_PORTAL);
+            } else if (isApproveReview) {
+                // admin approve review will return here
+                return routeProtocolOLRToHoldingPage(mapping, protocolForm, prDoc.getDocumentNumber());
             }
         }
         
@@ -348,6 +352,17 @@ public class ProtocolOnlineReviewAction extends ProtocolAction implements AuditM
        
         return mapping.findForward(Constants.MAPPING_BASIC);
         
+    }
+
+    private ActionForward routeProtocolOLRToHoldingPage(ActionMapping mapping, ProtocolForm protocolForm, String olrDocId) {
+        Long routeHeaderId = Long.parseLong(protocolForm.getDocument().getDocumentNumber());
+        String returnLocation = buildActionUrl(routeHeaderId, Constants.MAPPING_PROTOCOL_ONLINE_REVIEW , "ProtocolDocument");
+        // use this doc id for holding action to check if online review document is complete for admin approve.
+        returnLocation += "&" + "olrDocId=" + olrDocId;
+        ActionForward basicForward = mapping.findForward(KNSConstants.MAPPING_PORTAL);
+        ActionForward holdingPageForward = mapping.findForward(Constants.MAPPING_HOLDING_PAGE);
+        return routeToHoldingPage(basicForward, basicForward, holdingPageForward, returnLocation);
+
     }
 
     private ProtocolActionsNotificationService getProtocolActionsNotificationService() {
