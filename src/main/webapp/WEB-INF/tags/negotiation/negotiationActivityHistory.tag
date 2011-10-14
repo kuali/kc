@@ -1,54 +1,15 @@
 <%@ include file="/WEB-INF/jsp/kraTldHeader.jsp"%>
-<table>
-	<tr>
-		<th>History Line #</th>
-		<th>Activity Type</th>
-		<th>Location</th>
-		<th>Start Date</th>
-		<th>End Date</th>
-		<th>Activity Days</th>
-		<th>Effective Location Start Date</th>
-		<th>Effective Location End Date</th>
-		<th>Location Days</th>
-	</tr>
-	<c:set var="lineNumber" value="1" />
-	<c:set var="previousLocation" value="" />
-	<c:forEach items="${KualiForm.negotiationActivityHistoryLineBeans}" var="current">
-		<c:if test="${previousLocation != current.location && previousLocation != ''}">
-			<tr>
-				<td>&nbsp;</td>
-				<td></td>
-				<td></td>
-				<td></td>
-				<td></td>
-				<td></td>
-				<td></td>
-				<td></td>
-				<td></td>
-			</tr>
-		</c:if>
-		<tr>
-			<td><c:out value="${lineNumber}" />
-			</td>
-			<td><c:out value="${current.activityType}" />
-			</td>
-			<td><c:out value="${current.location}" />
-			</td>
-			<td><c:out value="${current.startDate}" />
-			</td>
-			<td><c:out value="${current.endDate}" />
-			</td>
-			<td><c:out value="${current.activityDays}" />
-			</td>
-			<td><c:out value="${current.efectiveLocationStartDate}" />
-			</td>
-			<td><c:out value="${current.efectiveLocationEndDate}" />
-			</td>
-			<td><c:out value="${current.locationDays}" />
-			</td>
 
-		</tr>
-		<c:set var="previousLocation" value="${current.location}" />
-		<c:set var="lineNumber" value="${lineNumber + 1 }" />
-	</c:forEach>
-</table>
+<display:table name="${KualiForm.negotiationActivityHistoryLineBeans}" export="false" id="row"  
+	class="datatable-100" cellpadding="2" cellspacing="0" requestURI="">
+  <%--<display:column sortable="false" title="ID"> <c:out value="${row.id}"/> </display:column> --%>
+  <display:column property="lineNumber" title="History Line #"/>
+  <display:column property="activityType" title="Activity Days"/>
+  <display:column property="location" title="Location"/>
+  <display:column property="startDate" title="Start Date"/>
+  <display:column property="endDate" title="End Date"/>
+  <display:column property="activityDays" title="Activity Days"/>
+  <display:column property="efectiveLocationStartDate" title="Effective Location Start Date"/>
+  <display:column property="efectiveLocationEndDate" title="Effective Location End Date"/>
+  <display:column property="locationDays" title="Location Days"/>
+</display:table>

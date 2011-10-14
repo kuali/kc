@@ -327,43 +327,48 @@ public class NegotiationServiceImpl implements NegotiationService {
         Date previousStartDate = null;
         Date previousEndDate = null;
         String previousLocation = "";
+        int counter = 1;
+        List<NegotiationActivityHistoryLineBean> beansToReturn = new ArrayList<NegotiationActivityHistoryLineBean>();
         for (NegotiationActivityHistoryLineBean bean : beans) {
             if (StringUtils.equals(previousLocation, bean.getLocation())) {
                 if (isDateBetween(bean.getStartDate(), previousStartDate, previousEndDate)
                         && isDateBetween(bean.getEndDate(), previousStartDate, previousEndDate)) {
                     //current date range lies within the previous date range
-                    bean.setEfectiveLocationStartDate(null);
-                    bean.setEfectiveLocationEndDate(null);
-                    bean.setLocationDays("0 Days");
+                    setBeanStuff(bean, null, null, "0 Days");
                     //leave previous alone
                 } else if (isDateBetween(bean.getStartDate(), previousStartDate, previousEndDate) 
                         && bean.getEndDate().after(previousEndDate)) {
                     //current date range starts within the previous range, but finishes past it.
-                    Date previousEndDatePlusOneDay = new Date(previousEndDate.getTime() + NegotiationActivity.MILLISECS_PER_DAY);
-                    bean.setEfectiveLocationStartDate(previousEndDatePlusOneDay);
-                    bean.setEfectiveLocationEndDate(bean.getEndDate());
-                    bean.setLocationDays(NegotiationActivity.getNumberOfDays(previousEndDatePlusOneDay, bean.getEndDate()));
-                    
+                    Date previousEndDatePlusOneDay = new Date(previousEndDate.getTime() + NegotiationActivity.MILLISECS_PER_DAY);                    
                     previousEndDate = bean.getEndDate();
+                    setBeanStuff(bean, previousEndDatePlusOneDay, bean.getEndDate(), NegotiationActivity.getNumberOfDays(previousEndDatePlusOneDay, bean.getEndDate()));
                 } else {
                     //completely separate range.
                     previousStartDate = bean.getStartDate();
                     previousEndDate = bean.getEndDate();
-                    bean.setEfectiveLocationEndDate(bean.getEndDate());
-                    bean.setEfectiveLocationStartDate(bean.getStartDate());
-                    bean.setLocationDays(NegotiationActivity.getNumberOfDays(bean.getStartDate(), bean.getEndDate()));
+                    setBeanStuff(bean, bean.getStartDate(), bean.getEndDate(), NegotiationActivity.getNumberOfDays(bean.getStartDate(), bean.getEndDate()));
                 }
             } else {
                 // new location so set the effective date
                 previousStartDate = bean.getStartDate();
                 previousEndDate = bean.getEndDate();
                 previousLocation = bean.getLocation();
-                bean.setEfectiveLocationEndDate(bean.getEndDate());
-                bean.setEfectiveLocationStartDate(bean.getStartDate());
-                bean.setLocationDays(NegotiationActivity.getNumberOfDays(bean.getStartDate(), bean.getEndDate()));
+                setBeanStuff(bean, bean.getStartDate(), bean.getEndDate(), NegotiationActivity.getNumberOfDays(bean.getStartDate(), bean.getEndDate()));
+                if (!beansToReturn.isEmpty()) { 
+                    beansToReturn.add(new NegotiationActivityHistoryLineBean());
+                }
             }
+            bean.setLineNumber(String.valueOf(counter));
+            beansToReturn.add(bean);
+            counter++;
         }
-        return beans;
+        return beansToReturn;
+    }
+    
+    private void setBeanStuff(NegotiationActivityHistoryLineBean bean, Date efectiveLocationStartDate, Date efectiveLocationEndDate, String locationDays) {
+        bean.setEfectiveLocationEndDate(efectiveLocationEndDate);
+        bean.setEfectiveLocationStartDate(efectiveLocationStartDate);
+        bean.setLocationDays(locationDays); 
     }
     
     private boolean isDateBetween(Date checkDate, Date rangeStart, Date rangeEnd) {
