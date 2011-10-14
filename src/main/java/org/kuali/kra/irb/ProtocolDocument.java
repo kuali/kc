@@ -76,6 +76,7 @@ public class ProtocolDocument extends ResearchDocumentBase implements Copyable, 
     public static final String DOCUMENT_TYPE_CODE = "PROT";
     private static final String AMENDMENT_KEY = "A";
     private static final String RENEWAL_KEY = "R";
+    private static final String OLR_DOC_ID_PARAM = "&olrDocId=";
     /**
      * Comment for <code>serialVersionUID</code>
      */
@@ -511,8 +512,29 @@ public class ProtocolDocument extends ResearchDocumentBase implements Copyable, 
                 isComplete = false;
             } 
         }
+        String backLocation = (String) GlobalVariables.getUserSession().retrieveObject(Constants.HOLDING_PAGE_RETURN_LOCATION);
+        if (StringUtils.isNotBlank(backLocation) && backLocation.indexOf(OLR_DOC_ID_PARAM) > -1 ) {
+            isComplete = isOnlineReviewApprovedByAdmin(backLocation.substring(backLocation.indexOf(OLR_DOC_ID_PARAM) + 10));
+        }
         return isComplete;
     }
     
 
+    /*
+     * Check if OLR is approved by admin - 'approve review' not 'accept review'
+     * if there are more holding action for olr, then this probably should be moved to OLRDocument
+     */
+    private boolean isOnlineReviewApprovedByAdmin(String olrDocId) {
+        boolean isComplete = true;
+        try {
+            ProtocolOnlineReviewDocument onlineReviewDoc = (ProtocolOnlineReviewDocument)getDocumentService().getByDocumentHeaderId(olrDocId);
+            if (onlineReviewDoc.getDocumentHeader().getWorkflowDocument().getCurrentRouteNodeNames().equalsIgnoreCase(Constants.ONLINE_REVIEW_ROUTE_NODE_ONLINE_REVIEWER)) {
+                isComplete = false;
+            }
+        } catch (Exception e) {
+            isComplete = true;
+        }
+        return isComplete;
+
+    }
 }
