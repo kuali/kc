@@ -40,7 +40,7 @@ public class InstitutionalProposalContactsSeleniumTest extends KcSeleniumTestBas
     private static final String PERSON_ID = "10000000002";
     private static final String ROLODEX_ID = "1727";
     
-    private static final String EMPLOYEE_FULL_NAME = "Joe  Tester";
+    private static final String EMPLOYEE_FULL_NAME = "Joe Tester";
     private static final String ROLODEX_FULL_NAME = "Ho, Pauline";
     private static final String CO_INVESTIGATOR_CONTACT_ROLE_CODE = "Co-Investigator";
     private static final String KEY_PERSON_CONTACT_ROLE_CODE = "Key Person";

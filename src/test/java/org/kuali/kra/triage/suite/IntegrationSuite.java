@@ -37,7 +37,16 @@ import org.kuali.kra.budget.web.BudgetCategoryMaintenanceDocumentSeleniumTest;
 import org.kuali.kra.budget.web.CostElementMaintenanceDocumentSeleniumTest;
 import org.kuali.kra.budget.web.ValidCalcTypeMaintenanceDocumentSeleniumTest;
 import org.kuali.kra.coi.personfinancialentity.FinancialEntitySeleniumWebTest;
+import org.kuali.kra.committee.web.CommitteeActionsSeleniumTest;
+import org.kuali.kra.committee.web.CommitteeAreasOfResearchPanelSeleniumTest;
+import org.kuali.kra.committee.web.CommitteeAuthorizationSeleniumTest;
+import org.kuali.kra.committee.web.CommitteeCommitteeSeleniumTest;
 import org.kuali.kra.committee.web.CommitteeCompleteSeleniumTest;
+import org.kuali.kra.committee.web.CommitteeMembershipSeleniumTest;
+import org.kuali.kra.committee.web.CommitteeScheduleAddSeleniumTest;
+import org.kuali.kra.committee.web.CommitteeScheduleFilterSeleniumTest;
+import org.kuali.kra.committee.web.CommitteeSchedulePanelSeleniumTest;
+import org.kuali.kra.committee.web.CommitteeScheduleRuleSeleniumTest;
 import org.kuali.kra.institutionalproposal.web.InstitutionalProposalCompleteSeleniumTest;
 import org.kuali.kra.institutionalproposal.web.InstitutionalProposalContactsSeleniumTest;
 import org.kuali.kra.institutionalproposal.web.InstitutionalProposalDistributionSeleniumTest;
@@ -69,7 +78,16 @@ import org.kuali.kra.proposaldevelopment.web.ProposalDevelopmentYnqSeleniumTest;
     AwardReportsPanelSeleniumTest.class,
     AwardSpecialReviewSeleniumTest.class,
     BudgetCategoryMaintenanceDocumentSeleniumTest.class,
+    CommitteeActionsSeleniumTest.class,
+    CommitteeAreasOfResearchPanelSeleniumTest.class,
+    CommitteeAuthorizationSeleniumTest.class,
+    CommitteeCommitteeSeleniumTest.class,
     CommitteeCompleteSeleniumTest.class,
+    CommitteeMembershipSeleniumTest.class,
+    CommitteeScheduleAddSeleniumTest.class,
+    CommitteeScheduleFilterSeleniumTest.class,
+    CommitteeSchedulePanelSeleniumTest.class,
+    CommitteeScheduleRuleSeleniumTest.class,
     CostElementMaintenanceDocumentSeleniumTest.class,
     CustomAttributeMaintenanceDocumentSeleniumTest.class,
     InstituteLaRateMaintenanceDocumentSeleniumTest.class,

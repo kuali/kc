@@ -870,6 +870,48 @@ public abstract class KcSeleniumHelper {
     }
     
     /**
+     * Asserts that the element identified by {@code locator} exists.
+     * 
+     * @param locator the id, partial name, partial title, or partial link name of the element to search for
+     */
+    public final void assertElementExists(final String locator) {
+        assertElementExists(locator, false);
+    }
+    
+    /**
+     * Asserts that the element identified by {@code locator} exists depending on the value of {@code exact}.
+     * 
+     * @param locator the id, partial name, partial title, or partial link name of the element to search for
+     * @param exact whether the locator should match exactly
+     */
+    public final void assertElementExists(final String locator, final boolean exact) {
+        clickExpandAll();
+        
+        assertTrue("Element " + locator + " does not exist", findElement(locator, exact));
+    }
+    
+    /**
+     * Asserts that the element identified by {@code locator} does not exist.
+     * 
+     * @param locator the id, partial name, partial title, or partial link name of the element to search for
+     */
+    public final void assertElementDoesNotExist(final String locator) {
+        assertElementDoesNotExist(locator, false);
+    }
+    
+    /**
+     * Asserts that the element identified by {@code locator} does not exist depending on the value of {@code exact}.
+     * 
+     * @param locator the id, partial name, partial title, or partial link name of the element to search for
+     * @param exact whether the locator should match exactly
+     */
+    public final void assertElementDoesNotExist(final String locator, final boolean exact) {
+        clickExpandAll();
+        
+        assertFalse("Element " + locator + " exists", findElement(locator, exact));
+    }
+    
+    /**
      * Asserts that the value of the element identified by {@code locator} contains {@code value}.
      * 
      * @param locator the id, partial name, partial title, or partial link name of the element to search for
@@ -1421,6 +1463,40 @@ public abstract class KcSeleniumHelper {
     }
     
     /**
+     * Asserts that one or more of the warnings contained in {@code panelId} contains {@code expectedText}.
+     *
+     * @param panelId the id attribute of the panel
+     * @param text the string to look for in the warnings
+     */
+    public final void assertWarning(final String panelId, final String expectedText) {
+        clickExpandAll();
+        
+        boolean warningsContain = false;
+        
+        for (WebElement error : getWarnings(panelId)) {
+            if (StringUtils.contains(error.getText(), expectedText)) {
+                warningsContain = true;
+                break;
+            }
+        }
+        
+        assertTrue("Warnings in " + panelId + " do not contain " + expectedText, warningsContain);
+    }
+
+    /**
+     * Asserts that there are {@code expectedErrorCount} warnings contained in {@code panelId}.
+     *
+     * @param panelId the id attribute of the panel
+     * @param expectedWarningCount the number of warnings expected on the page
+     */
+    public final void assertWarningCount(final String panelId, final int expectedWarningCount) {
+        clickExpandAll();
+        
+        List<WebElement> warnings = getWarnings(panelId);
+        assertEquals("Warning count of " + warnings.size() + " did not match the expected warning count of " + expectedWarningCount, expectedWarningCount, warnings.size());
+    }
+    
+    /**
      * Gets the absolute file path from the given Class {@code clazz}.
      * 
      * @param clazz the class to get the file path from
@@ -1941,7 +2017,7 @@ public abstract class KcSeleniumHelper {
     private List<WebElement> getActiveElementsByText(final String text) {
         List<WebElement> elements = new ArrayList<WebElement>();
 
-        for (WebElement element : driver.findElements(By.xpath("//*[contains(text(), '" + text + "')]"))) {
+        for (WebElement element : driver.findElements(By.xpath("//*[contains(normalize-space(text()), '" + text + "')]"))) {
             if (element.isDisplayed()) {
                 elements.add(element);
             }
@@ -1999,7 +2075,25 @@ public abstract class KcSeleniumHelper {
      * @return a list of errors contained in {@code panelId}
      */
     private List<WebElement> getErrors(final String panelId) {
-        final String locator = "//div[@id='" + panelId + "']//div[@style='display:list-item;margin-left:20px;']";
+        final String locator = "//div[@id='" + panelId + "']//div[contains(@style,'display:list-item') and contains(@style,'margin-left:20px')]";
+        
+        return new ElementCountFinderWaiter().until(
+            new Function<WebDriver, List<WebElement>>() {
+                public List<WebElement> apply(WebDriver driver) {
+                    return getElementsByXPath(locator);
+                }
+            }
+        );
+    }
+    
+    /**
+     * Returns the list of elements that contain warnings in the element identified by {@code panelId}.
+     * 
+     * @param panelId the id attribute of the panel
+     * @return a list of warnings contained in {@code panelId}
+     */
+    private List<WebElement> getWarnings(final String panelId) {
+        final String locator = "//div[@id='" + panelId + "']//div[contains(@style,'color:navy')]/li";
         
         return new ElementCountFinderWaiter().until(
             new Function<WebDriver, List<WebElement>>() {
