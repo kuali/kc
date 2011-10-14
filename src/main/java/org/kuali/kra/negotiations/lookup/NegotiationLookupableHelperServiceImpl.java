@@ -129,7 +129,6 @@ public class NegotiationLookupableHelperServiceImpl extends KraLookupableHelperS
         while (i.hasNext()) {
             ResultRow row = (ResultRow) i.next();
             for (Column column : row.getColumns()) {
-                System.err.println("column.getPropertyName(): " + column.getPropertyName() + "    column.getPropertyValue():" + column.getPropertyValue());
                 //the unit name, pi Name and sponsor name don't need to generate links.
                 if (StringUtils.equalsIgnoreCase(column.getPropertyName(), leadUnitName) 
                         || StringUtils.equalsIgnoreCase(column.getPropertyName(), sponsorName)

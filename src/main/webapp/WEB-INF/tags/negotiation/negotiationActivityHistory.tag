@@ -1,7 +1,7 @@
 <%@ include file="/WEB-INF/jsp/kraTldHeader.jsp"%>
 
-<display:table name="${KualiForm.negotiationActivityHistoryLineBeans}" export="false" id="row"  
-	class="datatable-100" cellpadding="2" cellspacing="0">
+<display:table name="${KualiForm.negotiationActivityHistoryLineBeans}" export="true" id="row"  
+	class="datatable-100" cellpadding="2" cellspacing="0" requestURIcontext="false" requestURI="">
   <display:column property="lineNumber" title="History Line #"/>
   <display:column property="activityType" title="Activity Type"/>
   <display:column property="location" title="Location"/>
