@@ -15,7 +15,10 @@
  */
 package org.kuali.kra.coi.personfinancialentity;
 
+import java.util.ArrayList;
+import java.util.HashMap;
 import java.util.List;
+import java.util.Map;
 
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
@@ -28,6 +31,7 @@ import org.apache.struts.action.ActionMapping;
 import org.kuali.kra.infrastructure.Constants;
 import org.kuali.kra.infrastructure.KeyConstants;
 import org.kuali.kra.service.VersionException;
+import org.kuali.rice.kew.web.session.UserSession;
 import org.kuali.rice.kns.question.ConfirmationQuestion;
 import org.kuali.rice.kns.util.KNSConstants;
 
@@ -97,6 +101,59 @@ public class FinancialEntityEditListAction extends FinancialEntityAction{
         financialEntityHelper.resetPrevSponsorCode();
     }
 
+    
+    public ActionForward editFinancialEntityFromLookup(ActionMapping mapping, ActionForm form, HttpServletRequest request,
+            HttpServletResponse response) throws Exception {
+        String id = request.getParameter("personFinIntDisclosureId");
+        FinancialEntityHelper financialEntityHelper = ((FinancialEntityForm) form).getFinancialEntityHelper();
+        List<PersonFinIntDisclosure> activePersonFinIntDisclosures = getActiveFinancialEntities();
+        List<PersonFinIntDisclosure> inactivePersonFinIntDisclosures = getInactiveFinancialEntities();
+
+        financialEntityHelper.setActiveFinancialEntities(activePersonFinIntDisclosures);
+        financialEntityHelper.setInactiveFinancialEntities(inactivePersonFinIntDisclosures);
+        PersonFinIntDisclosure currentEntity = getFinancialEntity(id);
+        financialEntityHelper.setEditEntityIndex(getEntityIndex(currentEntity));
+        financialEntityHelper.setEditRelationDetails(getFinancialEntityService().
+                getFinancialEntityDataMatrixForEdit(
+                    currentEntity.getPerFinIntDisclDetails()));
+        if (StringUtils.equals(currentEntity.getStatusCode() + "", FinIntEntityStatus.INACTIVE)) {
+            financialEntityHelper.setEditType(INACTIVATE_ENTITY);
+        } else {
+            financialEntityHelper.setEditType(ACTIVATE_ENTITY);
+        }
+        return mapping.findForward(Constants.MAPPING_COI_EDIT_LIST); 
+    }
+  
+    protected int getEntityIndex(PersonFinIntDisclosure currentEntity) {
+        int entityIndex = 0;
+        List<PersonFinIntDisclosure> financialEntities = getActiveFinancialEntities();
+        if (StringUtils.equals(currentEntity.getStatusCode() + "", FinIntEntityStatus.INACTIVE)) {
+            financialEntities = getInactiveFinancialEntities();
+        }
+        for (int i = 0; i < financialEntities.size(); i++) {
+            PersonFinIntDisclosure fe = financialEntities.get(i);
+            if (StringUtils.equals(currentEntity.getPersonFinIntDisclosureId()+"", fe.getPersonFinIntDisclosureId() + "")) {
+                entityIndex = i;
+            }
+        }
+        return entityIndex;
+    }
+    
+    protected PersonFinIntDisclosure getFinancialEntity(String entityId) {
+        Map<String, String> criteria = new HashMap<String, String>();
+        criteria.put("personFinIntDisclosureId", entityId);
+        PersonFinIntDisclosure value = (PersonFinIntDisclosure) getBusinessObjectService().findByPrimaryKey(PersonFinIntDisclosure.class, criteria);
+        return value;
+    }
+    
+    protected List<PersonFinIntDisclosure> getActiveFinancialEntities() {
+        return getFinancialEntityService().getFinancialEntities(UserSession.getAuthenticatedUser().getPrincipalId(), true);
+    }
+    
+    protected List<PersonFinIntDisclosure> getInactiveFinancialEntities() {
+        return getFinancialEntityService().getFinancialEntities(UserSession.getAuthenticatedUser().getPrincipalId(), false);
+    }
+    
     /*
      * get active or inactive FE list based on the type selected
      */
@@ -111,6 +168,12 @@ public class FinancialEntityEditListAction extends FinancialEntityAction{
                     .getInactiveFinancialEntities();
         }
 
+    }
+    
+    public ActionForward showFinancialEntityHistory(ActionMapping mapping, ActionForm form, HttpServletRequest request, HttpServletResponse response) {
+        FinancialEntityHelper financialEntityHelper = ((FinancialEntityForm) form).getFinancialEntityHelper();
+
+        return mapping.findForward("history");
     }
     
     /**

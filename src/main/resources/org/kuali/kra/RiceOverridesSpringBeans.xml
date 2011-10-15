@@ -195,6 +195,7 @@
 				<value>responsibilityLookupable</value>
 				<value>roleLookupable</value>
 				<value>negotiationLookupable</value>
+				<value>financialEntityLookupable</value>
 			</set>
 		</property>
 	</bean>	
