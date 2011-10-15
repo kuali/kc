@@ -61,6 +61,7 @@ public class FinancialEntityEditNewAction extends FinancialEntityAction {
         FinancialEntityHelper financialEntityHelper = ((FinancialEntityForm) form).getFinancialEntityHelper();
         PersonFinIntDisclosure personFinIntDisclosure = financialEntityHelper.getNewPersonFinancialEntity();
         personFinIntDisclosure.setEntityNumber(getFinancialEntityService().getNextEntityNumber()); 
+        personFinIntDisclosure.setSponsorName(personFinIntDisclosure.getSponsor().getSponsorName());
         // it seems coeus always save 1.  not sure we need this because it should be in disclosure details
         personFinIntDisclosure.setRelationshipTypeCode("1");
         personFinIntDisclosure.setProcessStatus("F");
@@ -68,7 +69,6 @@ public class FinancialEntityEditNewAction extends FinancialEntityAction {
         personFinIntDisclosure.setPerFinIntDisclDetails(getFinancialEntityService().getFinDisclosureDetails(
                 financialEntityHelper.getNewRelationDetails(), personFinIntDisclosure.getEntityNumber(),
                 personFinIntDisclosure.getSequenceNumber()));
-        // personFinIntDisclosure.setPersonId(GlobalVariables.getUserSession().getPrincipalId());
         saveFinancialEntity(form, personFinIntDisclosure);
         financialEntityHelper.setNewPersonFinancialEntity(new PersonFinIntDisclosure());
         financialEntityHelper.getNewPersonFinancialEntity().setCurrentFlag(true);

@@ -146,6 +146,7 @@
         <field-descriptor name="processStatus" column="PROCESS_STATUS" jdbc-type="VARCHAR"/>
 		<field-descriptor name="orgRelationDescription" column="ORG_RELATION_DESCRIPTION" jdbc-type="VARCHAR" />
 		<field-descriptor name="sponsorCode" column="SPONSOR_CODE" jdbc-type="VARCHAR" />
+		<field-descriptor name="sponsorName" column="SPONSOR_NAME" jdbc-type="VARCHAR" />
 		<field-descriptor name="updateTimestamp" column="UPDATE_TIMESTAMP" jdbc-type="TIMESTAMP" />
 		<field-descriptor name="updateUser" column="UPDATE_USER" jdbc-type="VARCHAR" />
 		<field-descriptor name="versionNumber" column="VER_NBR" jdbc-type="BIGINT" locking="true" />

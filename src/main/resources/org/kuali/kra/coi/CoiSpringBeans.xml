@@ -45,12 +45,22 @@
             </list>
         </property>
     </bean>
-
+	
      <bean id="financialEntityService" class="org.kuali.kra.coi.personfinancialentity.FinancialEntityServiceImpl">
         <property name="businessObjectService" ref="businessObjectService" />
         <property name="kcPersonService" ref="kcPersonService" />
         <property name="versioningService" ref="versioningService" />
         <property name="sequenceAccessorService" ref="sequenceAccessorService" />
+    </bean>
+   
+    <bean id="financialEntityLookupable" class="org.kuali.rice.kns.lookup.KualiLookupableImpl" scope="prototype">
+  		<property name="lookupableHelperService">
+    		<ref bean="financialEntityLookupableHelperService" />
+  		</property>
+	</bean>
+	
+    <bean id="financialEntityLookupableHelperService" class="org.kuali.kra.coi.lookup.FinancialEntityLookupableHelper" parent="lookupableHelperService" scope="prototype">
+    	
     </bean>
     
      <bean id="coiDisclosureService" class="org.kuali.kra.coi.disclosure.CoiDisclosureServiceImpl">
