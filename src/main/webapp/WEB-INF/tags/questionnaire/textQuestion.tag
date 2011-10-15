@@ -36,9 +36,9 @@ ${kfunc:registerEditableProperty(KualiForm, questionFieldName)}
                 <td style="border:none;">
                 <c:set var="answerLength" value="${question.answerMaxLength}" />
                     <c:choose>
-                        <c:when test="${answerLength > 80}">
+                        <c:when test="${answerLength > 300}">
                             <html:textarea property="${questionFieldName}" style="" styleId="${questionFieldName}" title="Question Answer" tabindex="${tabindex}"
-                                rows="3" cols="100"
+                                rows="3" cols="80"
                                 styleClass="Qanswer"
                                 onkeyup="textLimit(this, ${answerLength});" />
                     
@@ -47,7 +47,11 @@ ${kfunc:registerEditableProperty(KualiForm, questionFieldName)}
 
                         </c:when>
                         <c:otherwise>
-                            <input type="text" class="Qanswer" id="${questionFieldName}" name="${questionFieldName}" maxlength="${question.answerMaxLength}" size="${question.answerMaxLength}" 
+                            <c:set var="fieldSize" value="${answerLength}" />
+                            <c:if test="${answerLength > 80}">
+                                <c:set var="fieldSize" value="80" />
+                            </c:if>
+                            <input type="text" class="Qanswer" id="${questionFieldName}" name="${questionFieldName}" maxlength="${question.answerMaxLength}" size="${fieldSize}" 
                                 value="${bean.answerHeaders[answerHeaderIndex].answers[questionIndex].answer}" />
                         </c:otherwise>
                     </c:choose>
