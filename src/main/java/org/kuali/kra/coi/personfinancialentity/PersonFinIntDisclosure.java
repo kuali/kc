@@ -33,7 +33,6 @@ import org.kuali.kra.infrastructure.Constants;
  * This class is bo of person Int. FE disclosure
  */
 public class PersonFinIntDisclosure extends KraPersistableBusinessObjectBase implements SequenceOwner<PersonFinIntDisclosure> { 
-    
 
     /**
      * Comment for <code>serialVersionUID</code>
@@ -67,7 +66,8 @@ public class PersonFinIntDisclosure extends KraPersistableBusinessObjectBase imp
     private List<PersonFinIntDisclDet> perFinIntDisclDetails;
     private List<FinancialEntityContactInfo> finEntityContactInfos;
     private Sponsor sponsor;
-
+    private String sponsorName;
+    
     // @SkipVersioning
     private FinancialEntityReporter financialEntityReporter;
     
@@ -88,6 +88,10 @@ public class PersonFinIntDisclosure extends KraPersistableBusinessObjectBase imp
 
     public void setPersonId(String personId) {
         this.personId = personId;
+    }
+
+    public void setSponsorName(String sponsorName) {
+        this.sponsorName = sponsorName;
     }
 
     public String getEntityNumber() {

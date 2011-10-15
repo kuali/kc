@@ -19,47 +19,48 @@
     xsi:schemaLocation="http://www.springframework.org/schema/beans
         http://www.springframework.org/schema/beans/spring-beans-2.0.xsd">
 
-    <bean id="PersonFinIntDisclosure" parent="PersonFinIntDisclosure-parentBean" />
-    <bean id="PersonFinIntDisclosure-parentBean" abstract="true" parent="BusinessObjectEntry">
+    <bean id="FinancialEntity" parent="FinancialEntity-parentBean" />
+    <bean id="FinancialEntity-parentBean" abstract="true" parent="BusinessObjectEntry">
         <property name="businessObjectClass" value="org.kuali.kra.coi.personfinancialentity.PersonFinIntDisclosure" />
- 		<property name="objectLabel" value="Person Financial Interest disclosure" />
+ 		<property name="objectLabel" value="Financial Entity" />
         <property name="inquiryDefinition" >
-            <ref bean="PersonFinIntDisclosure-inquiryDefinition" />
+            <ref bean="FinancialEntity-inquiryDefinition" />
         </property>
         <property name="lookupDefinition" >
-            <ref bean="PersonFinIntDisclosure-lookupDefinition" />
+            <ref bean="FinancialEntity-lookupDefinition" />
         </property>
         <property name="titleAttribute" value="personFinIntDisclosureId" />
         <property name="attributes" >
             <list>
-                <ref bean="PersonFinIntDisclosure-personFinIntDisclosureId" />
-                <ref bean="PersonFinIntDisclosure-personId" />
-                <ref bean="PersonFinIntDisclosure-entityNumber" />
-                <ref bean="PersonFinIntDisclosure-sequenceNumber" />
-                <ref bean="PersonFinIntDisclosure-statusCode" />
-                <ref bean="PersonFinIntDisclosure-statusDescription" />
-                <ref bean="PersonFinIntDisclosure-entityName" />
-                <ref bean="PersonFinIntDisclosure-entityTypeCode" />
-                <ref bean="PersonFinIntDisclosure-entityOwnershipType" />
-                <ref bean="PersonFinIntDisclosure-relationshipTypeCode" />
-                <ref bean="PersonFinIntDisclosure-relationshipDescription" />
-                <ref bean="PersonFinIntDisclosure-relatedToOrganizationFlag" />
-                <ref bean="PersonFinIntDisclosure-orgRelationDescription" />
-                <ref bean="PersonFinIntDisclosure-principalBusinessActivity" />
-                <ref bean="PersonFinIntDisclosure-sponsorCode" />
-                <ref bean="PersonFinIntDisclosure-versionNumber" />
+                <ref bean="FinancialEntity-personFinIntDisclosureId" />
+                <ref bean="FinancialEntity-personId" />
+                <ref bean="FinancialEntity-entityNumber" />
+                <ref bean="FinancialEntity-sequenceNumber" />
+                <ref bean="FinancialEntity-statusCode" />
+                <ref bean="FinancialEntity-statusDescription" />
+                <ref bean="FinancialEntity-entityName" />
+                <ref bean="FinancialEntity-entityTypeCode" />
+                <ref bean="FinancialEntity-entityOwnershipType" />
+                <ref bean="FinancialEntity-relationshipTypeCode" />
+                <ref bean="FinancialEntity-relationshipDescription" />
+                <ref bean="FinancialEntity-relatedToOrganizationFlag" />
+                <ref bean="FinancialEntity-orgRelationDescription" />
+                <ref bean="FinancialEntity-principalBusinessActivity" />
+                <ref bean="FinancialEntity-sponsorCode" />
+                <ref bean="FinancialEntity-versionNumber" />
+         		<ref bean="Sponsor-sponsorName" />
             </list>
         </property>
     </bean>
 
     <!-- Attribute Definitions -->
     
-    <bean id="PersonFinIntDisclosure-personFinIntDisclosureId" parent="PersonFinIntDisclosure-personFinIntDisclosureId-parentBean" />
-    <bean id="PersonFinIntDisclosure-personFinIntDisclosureId-parentBean" abstract="true" parent="AttributeDefinition" >
+    <bean id="FinancialEntity-personFinIntDisclosureId" parent="FinancialEntity-personFinIntDisclosureId-parentBean" />
+    <bean id="FinancialEntity-personFinIntDisclosureId-parentBean" abstract="true" parent="AttributeDefinition" >
         <property name="name" value="personFinIntDisclosureId" />
         <property name="forceUppercase" value="false" />
-        <property name="label" value="Person Fin Int Disclosure Id" />
-        <property name="shortLabel" value="Person Fin Int Disclosure Id" />
+        <property name="label" value="Entity Id" />
+        <property name="shortLabel" value="Entity Id" />
         <property name="maxLength" value="12" />
         <property name="validationPattern" >
             <bean parent="NumericValidationPattern" />
@@ -72,8 +73,8 @@
         <property name="description" value="Person Fin Int Disclosure Id" />
     </bean>
 
-    <bean id="PersonFinIntDisclosure-personId" parent="PersonFinIntDisclosure-personId-parentBean" />
-    <bean id="PersonFinIntDisclosure-personId-parentBean" abstract="true" parent="AttributeDefinition" >
+    <bean id="FinancialEntity-personId" parent="FinancialEntity-personId-parentBean" />
+    <bean id="FinancialEntity-personId-parentBean" abstract="true" parent="AttributeDefinition" >
         <property name="name" value="personId" />
         <property name="forceUppercase" value="false" />
         <property name="label" value="Person Id" />
@@ -90,8 +91,8 @@
         <property name="description" value="Person Id" />
     </bean>
 
-    <bean id="PersonFinIntDisclosure-entityNumber" parent="PersonFinIntDisclosure-entityNumber-parentBean" />
-    <bean id="PersonFinIntDisclosure-entityNumber-parentBean" abstract="true" parent="AttributeDefinition" >
+    <bean id="FinancialEntity-entityNumber" parent="FinancialEntity-entityNumber-parentBean" />
+    <bean id="FinancialEntity-entityNumber-parentBean" abstract="true" parent="AttributeDefinition" >
         <property name="name" value="entityNumber" />
         <property name="forceUppercase" value="false" />
         <property name="label" value="Entity Number" />
@@ -108,8 +109,8 @@
         <property name="description" value="Entity Number" />
     </bean>
 
-    <bean id="PersonFinIntDisclosure-sequenceNumber" parent="PersonFinIntDisclosure-sequenceNumber-parentBean" />
-    <bean id="PersonFinIntDisclosure-sequenceNumber-parentBean" abstract="true" parent="AttributeDefinition" >
+    <bean id="FinancialEntity-sequenceNumber" parent="FinancialEntity-sequenceNumber-parentBean" />
+    <bean id="FinancialEntity-sequenceNumber-parentBean" abstract="true" parent="AttributeDefinition" >
         <property name="name" value="sequenceNumber" />
         <property name="forceUppercase" value="false" />
         <property name="label" value="Sequence Number" />
@@ -126,8 +127,8 @@
         <property name="description" value="Sequence Number" />
     </bean>
 
-    <bean id="PersonFinIntDisclosure-statusCode" parent="PersonFinIntDisclosure-statusCode-parentBean" />
-    <bean id="PersonFinIntDisclosure-statusCode-parentBean" abstract="true" parent="AttributeDefinition" >
+    <bean id="FinancialEntity-statusCode" parent="FinancialEntity-statusCode-parentBean" />
+    <bean id="FinancialEntity-statusCode-parentBean" abstract="true" parent="AttributeDefinition" >
         <property name="name" value="statusCode" />
         <property name="forceUppercase" value="false" />
         <property name="label" value="Status Code" />
@@ -150,8 +151,8 @@
         <property name="description" value="Status Code" />
     </bean>
 
-    <bean id="PersonFinIntDisclosure-statusDescription" parent="PersonFinIntDisclosure-statusDescription-parentBean" />
-    <bean id="PersonFinIntDisclosure-statusDescription-parentBean" abstract="true" parent="AttributeDefinition" >
+    <bean id="FinancialEntity-statusDescription" parent="FinancialEntity-statusDescription-parentBean" />
+    <bean id="FinancialEntity-statusDescription-parentBean" abstract="true" parent="AttributeDefinition" >
         <property name="name" value="statusDescription" />
         <property name="forceUppercase" value="false" />
         <property name="label" value="Status Description" />
@@ -168,8 +169,8 @@
         <property name="description" value="Status Description" />
     </bean>
 
-    <bean id="PersonFinIntDisclosure-entityName" parent="PersonFinIntDisclosure-entityName-parentBean" />
-    <bean id="PersonFinIntDisclosure-entityName-parentBean" abstract="true" parent="AttributeDefinition" >
+    <bean id="FinancialEntity-entityName" parent="FinancialEntity-entityName-parentBean" />
+    <bean id="FinancialEntity-entityName-parentBean" abstract="true" parent="AttributeDefinition" >
         <property name="name" value="entityName" />
         <property name="forceUppercase" value="false" />
         <property name="label" value="Entity Name" />
@@ -187,8 +188,8 @@
         <property name="description" value="Entity Name" />
     </bean>
 
-    <bean id="PersonFinIntDisclosure-entityTypeCode" parent="PersonFinIntDisclosure-entityTypeCode-parentBean" />
-    <bean id="PersonFinIntDisclosure-entityTypeCode-parentBean" abstract="true" parent="AttributeDefinition" >
+    <bean id="FinancialEntity-entityTypeCode" parent="FinancialEntity-entityTypeCode-parentBean" />
+    <bean id="FinancialEntity-entityTypeCode-parentBean" abstract="true" parent="AttributeDefinition" >
         <property name="name" value="entityTypeCode" />
         <property name="forceUppercase" value="false" />
         <property name="label" value="Type" />
@@ -211,8 +212,8 @@
         <property name="description" value="Entity Type Code" />
     </bean>
 
-    <bean id="PersonFinIntDisclosure-entityOwnershipType" parent="PersonFinIntDisclosure-entityOwnershipType-parentBean" />
-    <bean id="PersonFinIntDisclosure-entityOwnershipType-parentBean" abstract="true" parent="AttributeReferenceDummy-genericBoolean" >
+    <bean id="FinancialEntity-entityOwnershipType" parent="FinancialEntity-entityOwnershipType-parentBean" />
+    <bean id="FinancialEntity-entityOwnershipType-parentBean" abstract="true" parent="AttributeReferenceDummy-genericBoolean" >
         <property name="name" value="entityOwnershipType" />
         <property name="label" value="Public/Privately held" />
         <property name="shortLabel" value="Public/Privately held" />
@@ -230,8 +231,8 @@
         <property name="description" value="Entity Ownership Type" />
     </bean>
 
-    <bean id="PersonFinIntDisclosure-relationshipTypeCode" parent="PersonFinIntDisclosure-relationshipTypeCode-parentBean" />
-    <bean id="PersonFinIntDisclosure-relationshipTypeCode-parentBean" abstract="true" parent="AttributeDefinition" >
+    <bean id="FinancialEntity-relationshipTypeCode" parent="FinancialEntity-relationshipTypeCode-parentBean" />
+    <bean id="FinancialEntity-relationshipTypeCode-parentBean" abstract="true" parent="AttributeDefinition" >
         <property name="name" value="relationshipTypeCode" />
         <property name="forceUppercase" value="false" />
         <property name="label" value="Relationship Type Code" />
@@ -248,8 +249,8 @@
         <property name="description" value="Relationship Type Code" />
     </bean>
 
-    <bean id="PersonFinIntDisclosure-relationshipDescription" parent="PersonFinIntDisclosure-relationshipDescription-parentBean" />
-    <bean id="PersonFinIntDisclosure-relationshipDescription-parentBean" abstract="true" parent="AttributeDefinition" >
+    <bean id="FinancialEntity-relationshipDescription" parent="FinancialEntity-relationshipDescription-parentBean" />
+    <bean id="FinancialEntity-relationshipDescription-parentBean" abstract="true" parent="AttributeDefinition" >
         <property name="name" value="relationshipDescription" />
         <property name="forceUppercase" value="false" />
         <property name="label" value="Relationship Description" />
@@ -267,8 +268,8 @@
         <property name="description" value="Relationship Description" />
     </bean>
 
-    <bean id="PersonFinIntDisclosure-relatedToOrganizationFlag" parent="PersonFinIntDisclosure-relatedToOrganizationFlag-parentBean" />
-    <bean id="PersonFinIntDisclosure-relatedToOrganizationFlag-parentBean" abstract="true" parent="AttributeReferenceDummy-genericBoolean" >
+    <bean id="FinancialEntity-relatedToOrganizationFlag" parent="FinancialEntity-relatedToOrganizationFlag-parentBean" />
+    <bean id="FinancialEntity-relatedToOrganizationFlag-parentBean" abstract="true" parent="AttributeReferenceDummy-genericBoolean" >
         <property name="name" value="relatedToOrganizationFlag" />
         <property name="label" value="Related To Organization Flag" />
         <property name="shortLabel" value="Related To Organization Flag" />
@@ -276,8 +277,8 @@
         <property name="description" value="Related To Organization Flag" />
     </bean>
 
-    <bean id="PersonFinIntDisclosure-orgRelationDescription" parent="PersonFinIntDisclosure-orgRelationDescription-parentBean" />
-    <bean id="PersonFinIntDisclosure-orgRelationDescription-parentBean" abstract="true" parent="AttributeDefinition" >
+    <bean id="FinancialEntity-orgRelationDescription" parent="FinancialEntity-orgRelationDescription-parentBean" />
+    <bean id="FinancialEntity-orgRelationDescription-parentBean" abstract="true" parent="AttributeDefinition" >
         <property name="name" value="orgRelationDescription" />
         <property name="forceUppercase" value="false" />
         <property name="label" value="Org Relation Description" />
@@ -295,8 +296,8 @@
         <property name="description" value="Org Relation Description" />
     </bean>
 
-    <bean id="PersonFinIntDisclosure-principalBusinessActivity" parent="PersonFinIntDisclosure-principalBusinessActivity-parentBean" />
-    <bean id="PersonFinIntDisclosure-principalBusinessActivity-parentBean" abstract="true" parent="AttributeDefinition" >
+    <bean id="FinancialEntity-principalBusinessActivity" parent="FinancialEntity-principalBusinessActivity-parentBean" />
+    <bean id="FinancialEntity-principalBusinessActivity-parentBean" abstract="true" parent="AttributeDefinition" >
         <property name="name" value="principalBusinessActivity" />
         <property name="forceUppercase" value="false" />
         <property name="label" value="Entity Principal Business/Activity" />
@@ -315,8 +316,8 @@
         <property name="description" value="Entity Principal Business/Activity" />
     </bean>
 
-    <bean id="PersonFinIntDisclosure-sponsorCode" parent="PersonFinIntDisclosure-sponsorCode-parentBean" />
-    <bean id="PersonFinIntDisclosure-sponsorCode-parentBean" abstract="true" parent="AttributeDefinition" >
+    <bean id="FinancialEntity-sponsorCode" parent="FinancialEntity-sponsorCode-parentBean" />
+    <bean id="FinancialEntity-sponsorCode-parentBean" abstract="true" parent="AttributeDefinition" >
         <property name="name" value="sponsorCode" />
         <property name="forceUppercase" value="false" />
         <property name="label" value="Sponsor Code" />
@@ -333,24 +334,26 @@
         <property name="description" value="Sponsor Code" />
     </bean>
 
-    <bean id="PersonFinIntDisclosure-versionNumber" parent="PersonFinIntDisclosure-versionNumber-parentBean" />
-    <bean id="PersonFinIntDisclosure-versionNumber-parentBean" abstract="true" parent="AttributeReferenceDummy-versionNumber">
+    <bean id="FinancialEntity-versionNumber" parent="FinancialEntity-versionNumber-parentBean" />
+    <bean id="FinancialEntity-versionNumber-parentBean" abstract="true" parent="AttributeReferenceDummy-versionNumber">
     </bean>
 
     <!-- Business Object Inquiry Definition -->
-    <bean id="PersonFinIntDisclosure-inquiryDefinition" parent="PersonFinIntDisclosure-inquiryDefinition-parentBean" />
-    <bean id="PersonFinIntDisclosure-inquiryDefinition-parentBean" abstract="true" parent="InquiryDefinition">
-        <property name="title" value="Person Fin Int Disclosure Id" />
+    <bean id="FinancialEntity-inquiryDefinition" parent="FinancialEntity-inquiryDefinition-parentBean" />
+    <bean id="FinancialEntity-inquiryDefinition-parentBean" abstract="true" parent="InquiryDefinition">
+        <property name="title" value="Financial Entity" />
         <property name="inquirySections" >
             <list>
                 <bean parent="InquirySectionDefinition">
-                    <property name="title" value="Person Fin Int Disclosure Id" />
+                    <property name="title" value="Financial Entity Id" />
                     <property name="numberOfColumns" value="1" />
                     <property name="inquiryFields" >
                         <list>
                             <bean parent="FieldDefinition"
                                 p:attributeName="personFinIntDisclosureId" 
                                 p:forceInquiry="true" />
+                            <bean parent="FieldDefinition"
+                            	p:attributeName="sponsorName" />
                             <bean parent="FieldDefinition"
                                 p:attributeName="personId" />
                             <bean parent="FieldDefinition"
@@ -385,9 +388,10 @@
     </bean>
 
     <!-- Business Object Lookup Definition -->
-    <bean id="PersonFinIntDisclosure-lookupDefinition" parent="PersonFinIntDisclosure-lookupDefinition-parentBean" />
-    <bean id="PersonFinIntDisclosure-lookupDefinition-parentBean" abstract="true" parent="LookupDefinition">
-        <property name="title" value="Person Fin Int Disclosure Lookup" />
+    <bean id="FinancialEntity-lookupDefinition" parent="FinancialEntity-lookupDefinition-parentBean" />
+    <bean id="FinancialEntity-lookupDefinition-parentBean" abstract="true" parent="LookupDefinition">
+        <property name="title" value="Financial Entity Lookup" />
+        <property name="lookupableID" value="financialEntityLookupable" />
         <property name="menubar" value="&lt;a href=&quot;index.jsp&quot;&gt;Main&lt;/a&gt;" />
         <property name="defaultSort" >
             <bean parent="SortDefinition" >
@@ -399,6 +403,12 @@
                     p:attributeName="personFinIntDisclosureId" 
                     p:forceInquiry="true" />
                 <bean parent="FieldDefinition"
+                            	p:attributeName="sponsorName" />
+                <bean parent="FieldDefinition"
+                    p:attributeName="entityName" />
+                <bean parent="FieldDefinition"
+                    p:attributeName="sponsorCode" />
+                <!--<bean parent="FieldDefinition"
                     p:attributeName="personId" />
                 <bean parent="FieldDefinition"
                     p:attributeName="entityNumber" />
@@ -408,9 +418,7 @@
                     p:attributeName="statusCode" />
                 <bean parent="FieldDefinition"
                     p:attributeName="statusDescription" />
-                <bean parent="FieldDefinition"
-                    p:attributeName="entityName" />
-                <bean parent="FieldDefinition"
+                    <bean parent="FieldDefinition"
                     p:attributeName="entityTypeCode" />
                 <bean parent="FieldDefinition"
                     p:attributeName="entityOwnershipType" />
@@ -421,9 +429,7 @@
                 <bean parent="FieldDefinition"
                     p:attributeName="relatedToOrganizationFlag" />
                 <bean parent="FieldDefinition"
-                    p:attributeName="orgRelationDescription" />
-                <bean parent="FieldDefinition"
-                    p:attributeName="sponsorCode" />
+                    p:attributeName="orgRelationDescription" />-->
             </list>
         </property>
         <property name="resultFields" >
@@ -432,6 +438,10 @@
                     p:attributeName="personFinIntDisclosureId" 
                     p:forceInquiry="true" />
                 <bean parent="FieldDefinition"
+                    p:attributeName="sponsorName" />
+                <bean parent="FieldDefinition"
+                    p:attributeName="entityName" />
+                <bean parent="FieldDefinition"
                     p:attributeName="personId" />
                 <bean parent="FieldDefinition"
                     p:attributeName="entityNumber" />
@@ -441,8 +451,6 @@
                     p:attributeName="statusCode" />
                 <bean parent="FieldDefinition"
                     p:attributeName="statusDescription" />
-                <bean parent="FieldDefinition"
-                    p:attributeName="entityName" />
                 <bean parent="FieldDefinition"
                     p:attributeName="entityTypeCode" />
                 <bean parent="FieldDefinition"
@@ -457,6 +465,8 @@
                     p:attributeName="orgRelationDescription" />
                 <bean parent="FieldDefinition"
                     p:attributeName="sponsorCode" />
+                <bean parent="FieldDefinition"
+                    p:attributeName="versionNumber" />
             </list>
         </property>
     </bean>
