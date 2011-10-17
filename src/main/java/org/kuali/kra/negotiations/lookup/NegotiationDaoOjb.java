@@ -19,6 +19,7 @@ import java.util.ArrayList;
 import java.util.Collection;
 import java.util.HashMap;
 import java.util.Iterator;
+import java.util.List;
 import java.util.Map;
 
 import org.apache.commons.lang.StringUtils;
@@ -27,16 +28,22 @@ import org.apache.ojb.broker.query.QueryFactory;
 import org.apache.ojb.broker.query.ReportQueryByCriteria;
 import org.kuali.kra.award.home.Award;
 import org.kuali.kra.bo.versioning.VersionStatus;
+import org.kuali.kra.infrastructure.KraServiceLocator;
 import org.kuali.kra.institutionalproposal.home.InstitutionalProposal;
 import org.kuali.kra.institutionalproposal.proposallog.ProposalLog;
 import org.kuali.kra.negotiations.bo.Negotiation;
 import org.kuali.kra.negotiations.bo.NegotiationAssociationType;
 import org.kuali.kra.negotiations.bo.NegotiationUnassociatedDetail;
 import org.kuali.kra.negotiations.service.NegotiationService;
+import org.kuali.rice.kns.bo.BusinessObject;
 import org.kuali.rice.kns.dao.impl.LookupDaoOjb;
+import org.kuali.rice.kns.lookup.CollectionIncomplete;
+import org.kuali.rice.kns.service.ParameterService;
 import org.kuali.rice.kns.util.GlobalVariables;
 import org.kuali.rice.kns.util.KNSConstants;
 import org.kuali.rice.kns.util.RiceKeyConstants;
+import org.springframework.dao.DataIntegrityViolationException;
+import org.springmodules.orm.ojb.OjbOperationException;
 
 /**
  * Negotiation Dao to assist with lookups. This implements looking up associated document information
@@ -53,6 +60,8 @@ public class NegotiationDaoOjb extends LookupDaoOjb implements NegotiationDao {
     private static Map<String, String> proposalTransform;
     private static Map<String, String> proposalLogTransform;
     private static Map<String, String> unassociatedTransform;
+    
+    private static Integer maxSearchResults;
     
     private NegotiationService negotiationService;
     
@@ -105,10 +114,10 @@ public class NegotiationDaoOjb extends LookupDaoOjb implements NegotiationDao {
         
         Collection<Negotiation> result = new ArrayList<Negotiation>();
         if (!associationDetails.isEmpty()) {
-            result.addAll(getNegotiationsLinkedToAward(fieldValues, associationDetails));
-            result.addAll(getNegotiationsLinkedToProposal(fieldValues, associationDetails));
-            result.addAll(getNegotiationsLinkedToProposalLog(fieldValues, associationDetails));
-            result.addAll(getNegotiationsUnassociated(fieldValues, associationDetails));
+            addListToList(result, getNegotiationsLinkedToAward(fieldValues, associationDetails));
+            addListToList(result, getNegotiationsLinkedToProposal(fieldValues, associationDetails));
+            addListToList(result, getNegotiationsLinkedToProposalLog(fieldValues, associationDetails));
+            addListToList(result, getNegotiationsUnassociated(fieldValues, associationDetails));
             //TODO - need to search for subaward once implemented.
         } else {
             result = findCollectionBySearchHelper(Negotiation.class, fieldValues, false, false, null);
@@ -122,6 +131,101 @@ public class NegotiationDaoOjb extends LookupDaoOjb implements NegotiationDao {
             }
         }
         return result;
+    }
+    
+    private void addListToList(Collection<Negotiation> fullResultList, Collection<Negotiation> listToAdd) {
+        if (fullResultList != null && listToAdd != null) {
+            Integer max = getNegotiatonSearchResultsLimit();
+            if (max == null) {
+                max = 500;
+            }
+            if (fullResultList.size() < max) {
+                int fullResultListPlusListToAddSize = fullResultList.size() + listToAdd.size();
+                if (fullResultListPlusListToAddSize <= max) {
+                    fullResultList.addAll(listToAdd);
+                } else {
+                    int numberOfNewEntriesToAdd = max - fullResultList.size();
+                    int counter = 1;
+                    for (Negotiation neg : listToAdd) {
+                        if (counter < numberOfNewEntriesToAdd) {
+                            fullResultList.add(neg);
+                        }
+                        counter++;
+                    }
+                }
+            }
+        }
+    }
+    
+    @Override
+    public Collection findCollectionBySearchHelper(Class businessObjectClass, Map formProps, boolean unbounded, boolean usePrimaryKeyValuesOnly, Object additionalCriteria ) {
+        BusinessObject businessObject = checkBusinessObjectClass(businessObjectClass);
+        if (usePrimaryKeyValuesOnly) {
+            return executeSearch(businessObjectClass, getCollectionCriteriaFromMapUsingPrimaryKeysOnly(businessObjectClass, formProps), unbounded);
+        }
+        
+        Criteria crit = getCollectionCriteriaFromMap(businessObject, formProps);
+        if (additionalCriteria != null && additionalCriteria instanceof Criteria) {
+            crit.addAndCriteria((Criteria) additionalCriteria);
+        }
+
+        return executeSearch(businessObjectClass, crit, unbounded);
+    }
+    
+    private BusinessObject checkBusinessObjectClass(Class businessObjectClass) {
+        if (businessObjectClass == null) {
+            throw new IllegalArgumentException("BusinessObject class passed to LookupDaoOjb findCollectionBySearchHelper... method was null");
+        }
+        BusinessObject businessObject = null;
+        try {
+            businessObject = (BusinessObject) businessObjectClass.newInstance();
+        }
+        catch (IllegalAccessException e) {
+            throw new RuntimeException("LookupDaoOjb could not get instance of " + businessObjectClass.getName(), e);
+        }
+        catch (InstantiationException e) {
+            throw new RuntimeException("LookupDaoOjb could not get instance of " + businessObjectClass.getName(), e);
+        }
+        return businessObject;
+    }
+    
+    private Collection executeSearch(Class businessObjectClass, Criteria criteria, boolean unbounded) {
+        Collection searchResults = new ArrayList();
+        Long matchingResultsCount = null;
+        try {
+            Integer searchResultsLimit = getNegotiatonSearchResultsLimit();
+            if (!unbounded && (searchResultsLimit != null)) {
+                matchingResultsCount = new Long(getPersistenceBrokerTemplate().getCount(QueryFactory.newQuery(businessObjectClass, criteria)));
+                getDbPlatform().applyLimit(searchResultsLimit, criteria);
+            }
+            if ((matchingResultsCount == null) || (matchingResultsCount.intValue() <= searchResultsLimit.intValue())) {
+                matchingResultsCount = new Long(0);
+            }
+            searchResults = getPersistenceBrokerTemplate().getCollectionByQuery(QueryFactory.newQuery(businessObjectClass, criteria));
+            // populate Person objects in business objects
+            List bos = new ArrayList();
+            bos.addAll(searchResults);
+            searchResults = bos;
+        }
+        catch (OjbOperationException e) {
+            throw new RuntimeException("NegotiationDaoOjb encountered exception during executeSearch", e);
+        }
+        catch (DataIntegrityViolationException e) {
+            throw new RuntimeException("NegotiationDaoOjb encountered exception during executeSearch", e);
+        }
+        return new CollectionIncomplete(searchResults, matchingResultsCount);
+    }
+    
+    private Integer getNegotiatonSearchResultsLimit(){
+        if (maxSearchResults == null) {
+            String parmVal = KraServiceLocator.getService(ParameterService.class).getParameterValue("KC-NEGOTIATION", "Lookup", 
+                    "NEGOTIATION_RETRIEVE_LIMIT");
+            if (!StringUtils.isEmpty(parmVal)) {
+                Integer integer = Integer.parseInt(parmVal);
+                maxSearchResults = integer;
+            }
+        }
+        return maxSearchResults;
     }
     
     /**
