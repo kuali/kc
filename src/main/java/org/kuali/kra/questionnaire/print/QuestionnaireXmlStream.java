@@ -176,6 +176,11 @@ public class QuestionnaireXmlStream implements XmlStream {
             setAnswerInfo(printableBusinessObject,moduleQuestionnaireBean,questionnaireType);
             if(moduleQuestionnaireBean!=null && moduleQuestionnaireBean.getModuleItemCode() != null) {
                 setModuleUsage(moduleQuestionnaireBean,questionnaireType);
+            }else{
+                ModuleQuestionnaireBean moduleSubQuestionnaireBean = getQuestionnaireAnswerHeaderBean(printableBusinessObject, params);
+                moduleSubQuestionnaireBean.setModuleItemCode(questionnaire.getQuestionnaireUsage(0).getModuleItemCode());
+                moduleSubQuestionnaireBean.setModuleSubItemCode(questionnaire.getQuestionnaireUsage(0).getModuleSubItemCode());
+                setModuleUsage(moduleSubQuestionnaireBean,questionnaireType);
             }
             String moduleCode = moduleQuestionnaireBean.getModuleItemCode();
             String moduleSubcode = moduleQuestionnaireBean.getModuleSubItemCode();
@@ -279,11 +284,13 @@ public class QuestionnaireXmlStream implements XmlStream {
         CoeusModule moduleData = getQuestionnaireCouesModule(moduleCode);//txnBean.getModuleData(true);
         String moduleSubItemKey = moduleQuestionnaireBean.getModuleSubItemKey();
         // a bug should be the modulesubitemcode NOT modulesubitemkey
-       // CoeusSubModule subModuleData = getQuestionnaireCoeusSubModule(moduleCode,moduleSubItemKey);
+       // CoeusSubModule subModuleData1 = getQuestionnaireCoeusSubModule(moduleCode,moduleSubItemKey);
         CoeusSubModule subModuleData = getQuestionnaireCoeusSubModule(moduleCode,moduleQuestionnaireBean.getModuleSubItemCode());
         
         moduleInfo.setModuleCode(Integer.parseInt(moduleCode));
-        moduleInfo.setSubModuleCode(Integer.parseInt(moduleSubItemKey));
+        if(moduleSubItemKey!=null){
+            moduleInfo.setSubModuleCode(Integer.parseInt(moduleSubItemKey));
+        }
         moduleInfo.setModuleDesc(moduleData.getDescription());
         if(subModuleData!=null){
             moduleInfo.setSubModuleDesc(subModuleData.getDescription());
@@ -484,6 +491,9 @@ public class QuestionnaireXmlStream implements XmlStream {
                 }
                 if (questionnaireQuestion.getQuestion() != null) {
                     questionInfo.setQuestion(questionnaireQuestion.getQuestion().getQuestion());
+                    if(!questionnaireQuestion.getParentQuestionNumber().equals(0)){
+                        questionInfo.setParentQuestionNumber(questionnaireQuestion.getParentQuestionNumber());
+                    }
                 }
                 if (answerHeaders != null && answerHeaders.size() > 0) {
                     for (AnswerHeader answerHeader : answerHeaders) {

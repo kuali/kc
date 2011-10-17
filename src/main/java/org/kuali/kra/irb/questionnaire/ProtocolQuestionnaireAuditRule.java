@@ -56,15 +56,14 @@ public class ProtocolQuestionnaireAuditRule extends BaseQuestionnaireAuditRule<P
         if (headers!=null) {
             for (int i=0;i<headers.size();i++) {
                 AnswerHeader header = headers.get(i);
-                QuestionnaireUsage usage = header.getQuestionnaire().getHighestVersionUsageFor(pmqb.getModuleItemCode(), pmqb.getModuleSubItemCode());
-                if ( (usage != null) && (usage.isMandatory()) && (!header.getCompleted()) && (header.isActiveQuestionnaire()) ) {
+                QuestionnaireUsage usage = getQuestionnaireUsage(CoeusModule.IRB_MODULE_CODE, header.getQuestionnaire().getQuestionnaireUsages());
+                if ( (usage != null) && usage.isMandatory() && !header.getCompleted()) {
                     isValid = false;
-                    addMandatoryQuestionnaireErrorToAuditErrors(i, usage);
+                    addMandatoryQuestionnaireErrorToAuditErrors(i,usage);
                 }
                 // now check for whether updates if any were required, were actually performed
-                // TODO: not sure if we really need to check if questionnaire is active, that should've been taken care of 
-                // by the service that sets the new version published flag
-                if(header.isNewerVersionPublished() && (header.isActiveQuestionnaire()) ) {
+                // no need to check if questionnaire is active, thats taken care of by the service that sets the new version published flag
+                if(header.isNewerVersionPublished()) {
                     isValid = false;
                     addQuestionnaireNotUpdatedErrorToAuditErrors(i, usage);
                 }
@@ -115,10 +114,36 @@ public class ProtocolQuestionnaireAuditRule extends BaseQuestionnaireAuditRule<P
         getProtocolAuditErrors("questionnaireHelper", usage.getQuestionnaireLabel(), answerHeaderIndex).add(new AuditError(errorKey, messageKey, getAuditErrorLink()));
     }
     
+    
+    private QuestionnaireUsage getQuestionnaireUsage(String moduleItemCode, List<QuestionnaireUsage> questionnaireUsages) {
+        QuestionnaireUsage usage = null;
+        int version = 0;
+        for (QuestionnaireUsage questionnaireUsage : questionnaireUsages) {
+            if (usage == null || (moduleItemCode.equals(questionnaireUsage.getModuleItemCode()) && questionnaireUsage.getQuestionnaireSequenceNumber() > version)) {
+                version = questionnaireUsage.getQuestionnaireSequenceNumber();
+                usage = questionnaireUsage;
+            }            
+        }
+        return usage;
+    }
+    
     protected void addMandatoryQuestionnaireErrorToAuditErrors(Integer answerHeaderIndex, QuestionnaireUsage usage) {
         String errorKey = String.format(PROTOCOL_QUESTIONNAIRE_KEY, answerHeaderIndex);
         String messageKey = KeyConstants.ERROR_MANDATORY_QUESTIONNAIRE;
-        getProtocolAuditErrors("questionnaireHelper", usage.getQuestionnaireLabel(), answerHeaderIndex).add(new AuditError(errorKey, messageKey, getAuditErrorLink()));
+        addErrorToAuditErrors(answerHeaderIndex, usage, errorKey, messageKey);
+    }
+    
+    /**
+     * Creates and adds the Audit Error to the <code>{@link List<AuditError>}</code> auditError.
+     */
+    protected void addErrorToAuditErrors(Integer answerHeaderIndex, QuestionnaireUsage usage, String errorKey, String messageKey) {
+        StringBuilder stringBuilder = new StringBuilder();
+        stringBuilder.append(Constants.PROTOCOL_QUESTIONNAIRE_PAGE);
+        stringBuilder.append(".");
+        stringBuilder.append(Constants.PROTOCOL_QUESTIONNAIRE_PANEL_ANCHOR);
+        
+        getProtocolAuditErrors("questionnaireHelper", usage.getQuestionnaireLabel(), answerHeaderIndex).add(new AuditError(errorKey, messageKey, stringBuilder.toString()));
+        
     }
     
     /**
