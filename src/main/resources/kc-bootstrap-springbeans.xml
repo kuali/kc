@@ -13,6 +13,7 @@
 	<import resource="org/kuali/kra/committee/CommitteeSpringBeans.xml" /> 
 	<import resource="org/kuali/kra/questionnaire/QuestionnaireSpringBeans.xml" /> 
 	<import resource="org/kuali/kra/award/AwardSpringBeans.xml" /> 
+	<import resource="org/kuali/kra/subaward/SubAwardSpringBeans.xml" />
 	<import resource="org/kuali/kra/budget/BudgetSpringBeans.xml" /> 
 	<import resource="org/kuali/kra/common/specialreview/SpecialReviewSpringBeans.xml" />
 	<import resource="org/kuali/kra/coi/CoiSpringBeans.xml" /> 

@@ -42,6 +42,7 @@
         <form-bean name="ProtocolOnlineReviewForm" type="org.kuali.kra.irb.onlinereview.ProtocolOnlineReviewForm"/> 
         <form-bean name="ProtocolNotificationTemplateForm" type="org.kuali.kra.irb.actions.notification.ProtocolNotificationTemplateForm" />
         <form-bean name="JqueryAjaxForm" type="org.kuali.kra.jqueryajax.JqueryAjaxForm"/>
+        <form-bean name="SubAwardForm" type="org.kuali.kra.subaward.SubAwardForm" />       
         <form-bean name="CurrentOrPendingReportForm" type="org.kuali.kra.proposaldevelopment.web.struts.form.CurrentOrPendingReportForm" />
 		<form-bean name="CoiDisclosureForm" type="org.kuali.kra.coi.CoiDisclosureForm" />
 		<form-bean name="FinancialEntityForm" type="org.kuali.kra.coi.personfinancialentity.FinancialEntityForm" />
@@ -415,7 +416,20 @@
  		<action path="/jqueryAjax" name="JqueryAjaxForm" type="org.kuali.kra.jqueryajax.JqueryAjaxAction" scope="request" attribute="KualiForm">
             <forward name="basic" path="/WEB-INF/jsp/jqueryajax/JqueryAjax.jsp" />
         </action>
-		<action path="/currentOrPendingReport" name="CurrentOrPendingReportForm" input="/WEB-INF/jsp/currentOrPendingReport.jsp" type="org.kuali.kra.proposaldevelopment.web.struts.action.CurrentOrPendingReportAction"
+<!-- SubAward -->
+
+      <action path="/subAward*" name="SubAwardForm" input="/WEB-INF/jsp/subaward/SubAward{1}.jsp" type="org.kuali.kra.subaward.web.struts.action.SubAward{1}Action"  scope="session" parameter="methodToCall" validate="true" attribute="KualiForm">
+          <forward name="basic" path="/WEB-INF/jsp/subaward/SubAward{1}.jsp" />
+          <forward name="subAward" path="/WEB-INF/jsp/subaward/SubAwardHome.jsp" />
+          <forward name="fundingSource" path="/WEB-INF/jsp/subaward/SubAwardFundingSource.jsp" />
+          <forward name="amountInfo" path="/WEB-INF/jsp/subaward/SubAwardAmountInfo.jsp" />
+          <forward name="amountReleased" path="/WEB-INF/jsp/subaward/SubAwardAmountReleased.jsp" /> 
+          <forward name="contacts" path="/WEB-INF/jsp/subaward/SubAwardContacts.jsp" /> 
+          <forward name="closeout" path="/WEB-INF/jsp/subaward/SubAwardCloseout.jsp" /> 
+          <forward name="customData" path="/WEB-INF/jsp/subaward/SubAwardCustomData.jsp" /> 
+      </action>
+<!-- end -->
+	<action path="/currentOrPendingReport" name="CurrentOrPendingReportForm" input="/WEB-INF/jsp/currentOrPendingReport.jsp" type="org.kuali.kra.proposaldevelopment.web.struts.action.CurrentOrPendingReportAction"
           scope="session" parameter="methodToCall"  validate="true" attribute="KualiForm">
           <forward name="basic" path="/WEB-INF/jsp/currentOrPendingReport.jsp" />
      </action>
