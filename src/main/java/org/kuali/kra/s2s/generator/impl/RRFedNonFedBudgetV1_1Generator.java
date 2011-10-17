@@ -98,11 +98,11 @@ public class RRFedNonFedBudgetV1_1Generator extends RRFedNonFedBudgetBaseGenerat
 
     private static final Log LOG = LogFactory.getLog(RRFedNonFedBudgetV1_0Generator.class);
     private static final String EXTRA_KEYPERSON_ATTACHMENT_NON_FED_XSL = "/org/kuali/kra/s2s/stylesheet/ExtraKeyPersonAttachmentNonFed.xsl";
-	private static final String EXTRA_KEYPERSONS = "EXTRA_KEYPERSONS";
+	private static final String EXTRA_KEYPERSONS = "RRFEDNONFED_EXTRA_KEYPERSONS";
 	private static final int EXTRA_KEYPERSONS_TYPE = 11;
-	private static final String EXTRA_KEYPERSONS_COMMENT = "EXTRA KEYPERSONS";
+	private static final String EXTRA_KEYPERSONS_COMMENT = "RRFEDNONFED_EXTRA_KEYPERSONS";
 	private static final String ADDITIONAL_EQUIPMENT_NARRATIVE_TYPE_CODE ="12";
-	private static final String ADDITIONAL_EQUIPMENT_NARRATIVE_COMMENT = "ADDITIONAL EQUIPMENT";
+	private static final String ADDITIONAL_EQUIPMENT_NARRATIVE_COMMENT = "RRFEDNONFED_ADDITIONAL_EQUIPMENT";
     /**
      * This method returns RRFedNonFedBudgetDocument object based on proposal development document which contains the informations
      * such as DUNSID,OrganizationName,BudgetType,BudgetYear and BudgetSummary.
@@ -1342,7 +1342,7 @@ public class RRFedNonFedBudgetV1_1Generator extends RRFedNonFedBudgetBaseGenerat
 			PrintingService printingService= KraServiceLocator.getService(PrintingService.class);
 			try {
 				AttachmentDataSource printData = printingService.print(printable);
-				String fileName = pdDoc.getDevelopmentProposal().getProposalNumber()+"_"+periodInfo.getBudgetPeriod()+"_"+EXTRA_KEYPERSONS;
+				String fileName = pdDoc.getDevelopmentProposal().getProposalNumber()+"_"+periodInfo.getBudgetPeriod()+"_"+EXTRA_KEYPERSONS+".pdf";
 				extraKPNarrative = saveNarrative(printData.getContent(), ""+EXTRA_KEYPERSONS_TYPE, fileName, EXTRA_KEYPERSONS_COMMENT);
 			} catch (PrintingException e) {
 				e.printStackTrace();

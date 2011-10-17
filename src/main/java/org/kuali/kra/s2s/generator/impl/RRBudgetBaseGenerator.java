@@ -53,7 +53,8 @@ import org.kuali.rice.kns.service.BusinessObjectService;
  * @author Kuali Research Administration Team (kualidev@oncourse.iu.edu)
  */
 public abstract class RRBudgetBaseGenerator extends S2SBaseFormGenerator {
-	protected S2SBudgetCalculatorService s2sBudgetCalculatorService;
+	private static final String ADDITIONAL_EQUIPMENT = "ADDITIONAL_EQUIPMENT";
+    protected S2SBudgetCalculatorService s2sBudgetCalculatorService;
 	protected S2SUtilService s2sUtilService;
 	protected BusinessObjectService businessObjectService;
 	public static final String OTHERCOST_DESCRIPTION = "Other";
@@ -77,7 +78,7 @@ public abstract class RRBudgetBaseGenerator extends S2SBaseFormGenerator {
 	private static final String EQUIPMENT_NARRATIVE_TYPE_CODE = "12";
 
 	private static final String EXTRA_KEYPERSON_ATTACHMENT_XSL = "/org/kuali/kra/s2s/stylesheet/ExtraKeyPersonAttachment.xsl";
-	private static final String EXTRA_KEYPERSONS_COMMENT = "EXTRA KEYPERSONS";
+	private static final String EXTRA_KEYPERSONS_COMMENT = "EXTRA_KEYPERSONS";
 	private static final String EXTRA_KEYPERSONS_TYPE = "11";
 
 
@@ -138,9 +139,9 @@ public abstract class RRBudgetBaseGenerator extends S2SBaseFormGenerator {
 			try {
 				AttachmentDataSource printData = printingService
 						.print(printable);
-				String fileName=pdDoc.getDevelopmentProposal().getProposalNumber()+"_ADDITIONAL_EQUIPMENT.pdf";
+				String fileName=pdDoc.getDevelopmentProposal().getProposalNumber()+periodInfo.getBudgetPeriod()+ADDITIONAL_EQUIPMENT+".pdf";
 				narrative = saveNarrative(printData.getContent(),
-						EQUIPMENT_NARRATIVE_TYPE_CODE,fileName,"Auto generated document for Equipment");
+						EQUIPMENT_NARRATIVE_TYPE_CODE,fileName,ADDITIONAL_EQUIPMENT);
 			} catch (PrintingException e) {
 				e.printStackTrace();
 			}
@@ -189,7 +190,7 @@ public abstract class RRBudgetBaseGenerator extends S2SBaseFormGenerator {
 			PrintingService printingService= KraServiceLocator.getService(PrintingService.class);
 			try {
 				AttachmentDataSource printData = printingService.print(printable);
-				String fileName = pdDoc.getDevelopmentProposal().getProposalNumber()+"_"+EXTRA_KEYPERSONS;
+				String fileName = pdDoc.getDevelopmentProposal().getProposalNumber()+periodInfo.getBudgetPeriod()+"_"+EXTRA_KEYPERSONS+".pdf";
 				extraKPNarrative = saveNarrative(printData.getContent(), EXTRA_KEYPERSONS_TYPE, fileName, EXTRA_KEYPERSONS_COMMENT);
 			} catch (PrintingException e) {
 				e.printStackTrace();
