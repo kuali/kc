@@ -720,9 +720,17 @@
 																					</fo:list-item-label>
 																					<fo:list-item-body start-indent="body-start()">
 																						<fo:block>
-																							<fo:inline>
-																								<xsl:text>&#160;</xsl:text>
-																							</fo:inline>
+																							<xsl:if test="ParentQuestionNumber != 0">	
+																								<fo:inline>
+																									<xsl:text>&#160;&#160;&#160;&#160;</xsl:text>
+																								</fo:inline>
+																								<fo:inline>	
+																									<xsl:text font-family="Courier">•-></xsl:text>
+																								</fo:inline>
+																								<fo:inline>
+																									<xsl:text>&#160;</xsl:text>
+																								</fo:inline>
+																			 				</xsl:if>
 																							<xsl:for-each select="Question">
 																								<xsl:variable name="value-of-template">
 																									<xsl:apply-templates/>

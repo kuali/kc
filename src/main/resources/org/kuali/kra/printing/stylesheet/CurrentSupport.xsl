@@ -110,6 +110,20 @@
 											<fo:table-cell border="solid  0.3pt  black" font-size="6" padding="4pt" padding-right="4pt" text-align="left" height="53" display-align="center">
 												<fo:block>
 													<fo:inline font-size="6" font-weight="bold">
+														<xsl:text>Total Direct Cost</xsl:text>
+													</fo:inline>
+												</fo:block>
+											</fo:table-cell>
+											<fo:table-cell border="solid  0.3pt  black" font-size="6" padding="4pt" padding-right="4pt" text-align="left" height="53" display-align="center">
+												<fo:block>
+													<fo:inline font-size="6" font-weight="bold">
+														<xsl:text>Total F&amp;A Cost</xsl:text>
+													</fo:inline>
+												</fo:block>
+											</fo:table-cell>
+											<fo:table-cell border="solid  0.3pt  black" font-size="6" padding="4pt" padding-right="4pt" text-align="left" height="53" display-align="center">
+												<fo:block>
+													<fo:inline font-size="6" font-weight="bold">
 														<xsl:text>Award Amount</xsl:text>
 													</fo:inline>
 												</fo:block>

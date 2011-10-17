@@ -2041,7 +2041,7 @@
 	
 	</class-descriptor>		
 		<class-descriptor class="org.kuali.kra.bo.PersonTraining" table="PERSON_TRAINING">
-		<field-descriptor name="personTrainingId" column="PERSON_TRAINING_ID" jdbc-type="INTEGER" primarykey="true" sequence-name="SEQ_CUSTOM_ATTRIBUTE" autoincrement="true"/>
+		<field-descriptor name="personTrainingId" column="PERSON_TRAINING_ID" jdbc-type="INTEGER" primarykey="true" sequence-name="SEQ_PERSON_TRAINING_ID" autoincrement="true"/>
 		<field-descriptor name="personId" column="PERSON_ID" jdbc-type="VARCHAR" />
 		<field-descriptor name="trainingNumber" column="TRAINING_NUMBER" jdbc-type="INTEGER"/>
 		<field-descriptor name="trainingCode" column="TRAINING_CODE" jdbc-type="INTEGER" />
