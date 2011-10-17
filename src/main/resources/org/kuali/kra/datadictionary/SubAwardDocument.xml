@@ -1,0 +1,55 @@
+<?xml version="1.0" encoding="UTF-8"?><beans xmlns="http://www.springframework.org/schema/beans" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xmlns:p="http://www.springframework.org/schema/p" xsi:schemaLocation="http://www.springframework.org/schema/beans         http://www.springframework.org/schema/beans/spring-beans-2.0.xsd">
+
+  <bean id="SubAwardDocument" parent="SubAwardDocument-parentBean"/>
+
+  <bean id="SubAwardDocument-parentBean" abstract="true" parent="TransactionalDocumentEntry">
+    
+    
+    
+    
+    <property name="usePessimisticLocking" value="true"/>
+    <property name="useWorkflowPessimisticLocking" value="false"/>
+    
+    <property name="documentTypeName" value="SubAwardDocument"/>
+    <property name="businessRulesClass" value="org.kuali.kra.subaward.subawardrule.SubAwardDocumentRule"/>
+    <property name="documentClass" value="org.kuali.kra.subaward.document.SubAwardDocument"/>
+    <property name="documentAuthorizerClass" value="org.kuali.kra.subaward.document.authorization.SubAwardDocumentAuthorizer"/>
+     
+    <property name="allowsCopy" value="true"/>
+    <property name="headerNavigationList">
+      <list>
+        <bean parent="HeaderNavigation">
+          <property name="headerTabDisplayName" value="SubAward"/>
+          <property name="headerTabNavigateTo" value="subAward"/>
+        </bean>
+        <bean parent="HeaderNavigation">
+          <property name="headerTabDisplayName" value="Funding Source"/>
+          <property name="headerTabNavigateTo" value="fundingSource"/>
+        </bean>
+        <bean parent="HeaderNavigation">
+          <property name="headerTabDisplayName" value="Amount Info"/>
+          <property name="headerTabNavigateTo" value="amountInfo"/>
+        </bean>
+        <bean parent="HeaderNavigation">
+          <property name="headerTabDisplayName" value="Amount Released"/>
+          <property name="headerTabNavigateTo" value="amountReleased"/>
+        </bean>        
+        <bean parent="HeaderNavigation">
+          <property name="headerTabDisplayName" value="Contacts"/>
+          <property name="headerTabNavigateTo" value="contacts"/>
+        </bean>
+        <bean parent="HeaderNavigation">
+          <property name="headerTabDisplayName" value="Closeouts"/>
+          <property name="headerTabNavigateTo" value="closeouts"/>
+        </bean>
+        <bean parent="HeaderNavigation">
+          <property name="headerTabDisplayName" value="Custom Data"/>
+          <property name="headerTabNavigateTo" value="customData"/>
+        </bean>
+      </list>  
+    </property>
+    
+  </bean>
+
+  
+</beans>

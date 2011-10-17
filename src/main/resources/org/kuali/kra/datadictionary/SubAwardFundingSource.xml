@@ -1,0 +1,256 @@
+<?xml version="1.0" encoding="UTF-8"?>
+
+<beans xmlns="http://www.springframework.org/schema/beans"
+    xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+    xmlns:p="http://www.springframework.org/schema/p"
+    xsi:schemaLocation="http://www.springframework.org/schema/beans
+        http://www.springframework.org/schema/beans/spring-beans-2.0.xsd">
+ 
+ <bean id="SubAwardFundingSource" parent="SubAwardFundingSource-parentBean" />
+  <bean id="SubAwardFundingSource-parentBean" abstract="true" parent="BusinessObjectEntry">
+    <property name="businessObjectClass" value="org.kuali.kra.subaward.bo.SubAwardFundingSource" />
+		<property name="objectLabel" value="SubAwardFundingSource" />
+		    <property name="inquiryDefinition" >
+		      <ref bean="SubAwardFundingSource-inquiryDefinition" />
+		    </property>
+		    <property name="lookupDefinition" >
+		      <ref bean="SubAwardFundingSource-lookupDefinition" />
+		    </property>
+       		<property name="attributes" >
+		      <list>
+		      	<ref bean="SubAwardFundingSource-subAwardFundingSourceId" />
+		        <ref bean="SubAwardFundingSource-subAwardId" />	
+		        <ref bean="SubAwardFundingSource-awardId" />
+		        <ref bean="SubAwardFundingSource-accountNumber" />
+		        <ref bean="SubAwardFundingSource-statusCode" />
+		        <ref bean="SubAwardFundingSource-sponsorCode" />
+		        <ref bean="SubAwardFundingSource-amountObligatedToDate" /> 
+		   		<ref bean="SubAwardFundingSource-obligationExpirationDate" />
+		      </list>
+		    </property>
+		   
+ 		 </bean>
+
+<!-- Attribute Definitions -->
+    
+   <bean id="SubAwardFundingSource-subAwardFundingSourceId" parent="SubAwardFundingSource-subAwardFundingSourceId-parentBean" />
+  <bean id="SubAwardFundingSource-subAwardFundingSourceId-parentBean" abstract="true" parent="AttributeDefinition">
+       <property name="name" value="subAwardFundingSourceId" />
+    <property name="forceUppercase" value="false" />
+    <property name="label" value="SubAward Funding Source Id" />
+    <property name="shortLabel" value="SubAward Funding Source Id" />
+    <property name="maxLength" value="22" />
+    <property name="validationPattern" >
+      <bean parent="NumericValidationPattern" />
+    </property>
+    <property name="required" value="false" />
+    <property name="control" >
+      <bean parent="TextControlDefinition"
+            p:size="15" />
+    </property>
+    <property name="summary" value="SubAward Funding Source Id" />
+    <property name="description" value="SubAward Funding Source Id" />    
+  </bean>
+  
+      <bean id="SubAwardFundingSource-subAwardId" parent="SubAwardFundingSource-subAwardId-parentBean" />
+  <bean id="SubAwardFundingSource-subAwardId-parentBean" abstract="true" parent="AttributeDefinition">
+       <property name="name" value="subAwardId" />
+    <property name="forceUppercase" value="false" />
+    <property name="label" value="SubAward Id" />
+    <property name="shortLabel" value="SubAwardId" />
+    <property name="maxLength" value="22" />
+    <property name="validationPattern" >
+      <bean parent="NumericValidationPattern" />
+    </property>
+    <property name="required" value="false" />
+    <property name="control" >
+      <bean parent="TextControlDefinition"
+            p:size="15" />
+    </property>
+    <property name="summary" value="SubAward Id" />
+    <property name="description" value="SubAward Id" />    
+  </bean>
+
+  
+  <bean id="SubAwardFundingSource-awardId" parent="SubAwardFundingSource-awardId-parentBean" />
+  <bean id="SubAwardFundingSource-awardId-parentBean" abstract="true" parent="Award-awardNumber-parentBean">
+    <property name="name" value="awardId" />
+    <property name="label" value="Award Number" />
+    <property name="shortLabel" value="Award Number" />
+    <property name="required" value="false" />
+     <property name="summary" value="Award Number" />
+    <property name="description" 
+    	value="A unique institutionally assigned number of a previously funded application." />
+    <property name="validationPattern">
+			<bean parent="AnyCharacterValidationPattern"
+            p:allowWhitespace="true" />
+	</property>
+  </bean>
+  
+    <bean id="SubAwardFundingSource-accountNumber" parent="SubAwardFundingSource-accountNumber-parentBean" />
+  <bean id="SubAwardFundingSource-accountNumber-parentBean" abstract="true" parent="AttributeDefinition">
+    <property name="name" value="accountNumber" />
+    <property name="forceUppercase" value="false" />
+    <property name="label" value="Account ID" />
+    <property name="shortLabel" value="Account ID" />
+    <property name="maxLength" value="7" />
+    <property name="validationPattern" >
+      <bean parent="AlphaNumericValidationPattern" />
+    </property>
+    <property name="required" value="false" />
+    <property name="control" >
+      <bean parent="TextControlDefinition"
+            p:size="12" />
+    </property>
+    <property name="summary" value="Account ID" />
+    <property name="description" value="Account ID" />
+  </bean>
+  
+  	<bean id="SubAwardFundingSource-statusCode" parent="SubAwardFundingSource-statusCode-parentBean" />
+	<bean id="SubAwardFundingSource-statusCode-parentBean" abstract="true" parent="AttributeDefinition">
+		<property name="name" value="statusCode" />
+		<property name="forceUppercase" value="false" />
+		<property name="label" value="Award statusCode" />
+		<property name="shortLabel" value="Award statusCode" />
+		<property name="maxLength" value="150" />
+		<property name="validationPattern" >
+		  <bean parent="AnyCharacterValidationPattern" p:allowWhitespace="true" />
+		</property>
+		<property name="control" >
+		  <bean p:size="60" parent="TextControlDefinition" />
+		</property>
+		<property name="summary" value="Award statusCode" />
+		<property name="description" value="Award statusCode" />
+	</bean>
+  
+  <bean id="SubAwardFundingSource-sponsorCode" parent="SubAwardFundingSource-sponsorCode-parentBean" />
+  
+  <bean id="SubAwardFundingSource-sponsorCode-parentBean" abstract="true" parent="AttributeDefinition">
+    <property name="name" value="sponsorCode" />
+    <property name="forceUppercase" value="false" />
+    <property name="label" value="Sponsor ID" />
+    <property name="shortLabel" value="Sponsor" />
+    <property name="maxLength" value="6" />
+    <property name="validationPattern" >
+      <bean parent="AnyCharacterValidationPattern" />
+    </property>
+    <property name="required" value="true" />
+    <property name="control" >
+      <bean parent="TextControlDefinition"
+            p:size="12" />
+    </property>
+    <property name="summary" value="Agency/Sponsor #" />
+    <property name="description" value="The identification number of the organization or agency that is providing support for the sponsored project." />
+  </bean>
+  
+   <bean id="SubAwardFundingSource-amountObligatedToDate" parent="SubAwardFundingSource-amountObligatedToDate-parentBean" />
+    <bean id="SubAwardFundingSource-amountObligatedToDate-parentBean" abstract="true" parent="AttributeDefinition" >
+        <property name="name" value="amountObligatedToDate" />
+        <property name="forceUppercase" value="false" />
+        <property name="label" value="Amount" />
+        <property name="shortLabel" value="Amount" />
+        <property name="maxLength" value="22" />
+        <property name="validationPattern" >
+	      	<bean parent="FixedPointValidationPattern"
+	            p:precision="12"
+	            p:scale="2"
+	            p:allowNegative="true" />
+    	</property>
+        <property name="control" >
+            <bean parent="TextControlDefinition"
+                p:size="10" />
+        </property>
+        <property name="summary" value="Amount" />
+        <property name="description" value="Amount" />
+    </bean>
+    
+    <bean id="SubAwardFundingSource-obligationExpirationDate" parent="SubAwardFundingSource-obligationExpirationDate-parentBean" />
+    <bean id="SubAwardFundingSource-obligationExpirationDate-parentBean" abstract="true" parent="KraAttributeReferenceDummy-genericDate" >
+        <property name="name" value="obligationExpirationDate" />
+        <property name="label" value="Final Expiration Date" />
+        <property name="shortLabel" value="Final Expiration Date" />
+        <property name="summary" value="Final Expiration Date" />
+        <property name="description" value="Final Expiration Date" />
+    </bean>
+ 
+   <bean id="SubAwardFundingSource-versionNumber" parent="SubAwardFundingSource-versionNumber-parentBean" />
+    <bean id="SubAwardFundingSource-versionNumber-parentBean" abstract="true" parent="AttributeReferenceDummy-versionNumber">
+    </bean>
+
+
+
+      <!-- Business Object Inquiry Definition -->
+ <bean id="SubAwardFundingSource-inquiryDefinition" parent="SubAwardFundingSource-inquiryDefinition-parentBean" />
+
+  <bean id="SubAwardFundingSource-inquiryDefinition-parentBean" abstract="true" parent="InquiryDefinition">
+    <property name="title" value="SubAwardFundingSource" />
+    <property name="inquirySections" >
+      <list>
+        <bean parent="InquirySectionDefinition">
+          <property name="title" value="SubAwardFundingSource" />
+          <property name="numberOfColumns" value="1" />
+          <property name="inquiryFields" >
+            <list>
+              <bean parent="FieldDefinition"
+                    p:attributeName="SubAwardFundingSourceId"
+                    p:forceInquiry="true" />             
+            </list>
+          </property>
+        </bean>
+      </list>
+    </property>
+  </bean>
+  
+  <!-- Business Object Lookup Definition -->
+
+  <bean id="SubAwardFundingSource-lookupDefinition" parent="SubAwardFundingSource-lookupDefinition-parentBean" />
+
+  <bean id="SubAwardFundingSource-lookupDefinition-parentBean" abstract="true" parent="LookupDefinition">
+    <property name="title" value="SubAward Funding Source Lookup" />
+    <property name="menubar" value="&lt;a href=&quot;index.jsp&quot;&gt;Main&lt;/a&gt;" />
+
+    <property name="defaultSort" >
+      <bean parent="SortDefinition">
+      </bean>
+    </property>
+    <property name="lookupFields" >
+      <list>
+        <bean parent="FieldDefinition"
+                    p:attributeName="subAwardFundingSourceId"
+                    p:forceInquiry="true" />
+                   
+               
+      </list>
+    </property>
+    <property name="resultFields" >
+      <list>      
+                 <bean parent="FieldDefinition" p:attributeName="subAwardFundingSourceId" p:forceInquiry="true" />   
+                <bean p:attributeName="awardId"   parent="FieldDefinition"/>
+                    <bean p:attributeName="SubAwardCode"   parent="FieldDefinition"/>
+      </list>
+    </property>
+  </bean>
+ 
+</beans>
+
+          
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+

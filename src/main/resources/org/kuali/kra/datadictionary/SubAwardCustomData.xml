@@ -1,0 +1,50 @@
+<beans xmlns="http://www.springframework.org/schema/beans"
+    xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+    xmlns:p="http://www.springframework.org/schema/p"
+    xsi:schemaLocation="http://www.springframework.org/schema/beans
+        http://www.springframework.org/schema/beans/spring-beans-2.0.xsd">
+
+  <bean id="SubAwardCustomData" parent="SubAwardCustomData-parentBean" />
+
+  <bean id="SubAwardCustomData-parentBean" abstract="true" parent="BusinessObjectEntry">
+    <property name="businessObjectClass" value="org.kuali.kra.subaward.customdata.SubAwardCustomData" />
+		<property name="objectLabel" value="SubAward Custom Data" />
+    <property name="titleAttribute" value="SubAwardCustomData" />
+ <!--    <property name="helpDefinition" >
+      <bean parent="HelpDefinition"
+            p:parameterNamespace="KC-contract"
+            p:parameterName="contractCustomDataHelpUrl"
+            p:parameterDetailType="Document" />
+    </property> -->
+    <property name="attributes" >
+      <list>
+        <ref bean="SubAwardCustomData-value" />
+      </list>
+    </property>
+  </bean>
+
+<!-- Attribute Definitions -->
+
+
+  <bean id="SubAwardCustomData-value" parent="SubAwardCustomData-value-parentBean" />
+
+  <bean id="SubAwardCustomData-value-parentBean" abstract="true" parent="AttributeDefinition">
+    <property name="name" value="value" />
+    <property name="forceUppercase" value="false" />
+    <property name="label" value="Value" />
+    <property name="shortLabel" value="Value" />
+    <property name="maxLength" value="2000" />
+    <property name="validationPattern" >
+      <bean parent="AnyCharacterValidationPattern"
+            p:allowWhitespace="true" />
+    </property>
+    <property name="required" value="false" />
+    <property name="control" >
+      <bean parent="TextControlDefinition"
+            p:size="10" />
+    </property>
+    <property name="summary" value="Value" />
+    <property name="description" value="Value" />
+  </bean>
+</beans>
+

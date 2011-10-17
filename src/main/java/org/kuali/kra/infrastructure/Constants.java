@@ -739,8 +739,12 @@ public interface Constants {
     public static final String AWARD_BUDGET_DEFAULT_FNA_RATE_CLASS_CODE = "awardBudgetDefaultFnARateClassCode";
     public static final String AWARD_BUDGET_DEFAULT_UNDERRECOVERY_RATE_CLASS_CODE = "awardBudgetDefaultUnderrecoveryRateClassCode";
     //Subcontract
+    public static final String MAPPING_SUBAWARD_PAGE = "subAward";
     public static final String MAPPING_FUNDING_SOURCE_PAGE = "fundingSource";
     public static final String MAPPING_AMOUNT_INFO_PAGE ="amountInfo";
+    public static final String MAPPING_AMOUNT_RELEASED_PAGE="amountReleased";
+    public static final String MAPPING_CONTACTS_PAGE="contacts";
+    public static final String MAPPING_CLOSEOUT_PAGE="closeout";
 
     // coi
     public static final String MODULE_NAMESPACE_COIDISCLOSURE = "KC-COIDISCLOSURE";
