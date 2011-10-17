@@ -29,7 +29,6 @@ import org.kuali.kra.infrastructure.KraServiceLocator;
 import org.kuali.kra.irb.Protocol;
 import org.kuali.kra.irb.actions.print.CorrespondenceXmlStream;
 import org.kuali.kra.irb.actions.print.ProtocolPrintWatermark;
-import org.kuali.kra.irb.actions.print.ProtocolXmlStream;
 import org.kuali.kra.irb.correspondence.ProtocolCorrespondenceTemplate;
 import org.kuali.kra.printing.PrintingException;
 import org.kuali.kra.printing.print.AbstractPrint;
@@ -108,6 +107,7 @@ public abstract class AbstractProtocolActionsCorrespondence extends AbstractPrin
     public CorrespondenceXmlStream getCorrespondenceXmlStream() {
          return KraServiceLocator.getService(CorrespondenceXmlStream.class);
     }
+
     /**
      * This method is to enable watermark in correspondence. Overriding AbstractPrint method isWatermarkEnabled()
      * 
