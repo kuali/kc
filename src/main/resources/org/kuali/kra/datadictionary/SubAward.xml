@@ -1,0 +1,427 @@
+<beans xmlns="http://www.springframework.org/schema/beans"
+    xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+    xmlns:p="http://www.springframework.org/schema/p"
+    xsi:schemaLocation="http://www.springframework.org/schema/beans
+        http://www.springframework.org/schema/beans/spring-beans-2.0.xsd">
+
+  <bean id="SubAward" parent="SubAward-parentBean" />
+
+  <bean id="SubAward-parentBean" abstract="true" parent="BusinessObjectEntry">
+    <property name="businessObjectClass" value="org.kuali.kra.subaward.bo.SubAward" />
+		<property name="objectLabel" value="SubAward" />
+    <property name="inquiryDefinition" >
+      <ref bean="SubAward-inquiryDefinition" />
+    </property>
+    <property name="lookupDefinition" >
+      <ref bean="SubAward-lookupDefinition" />
+    </property>
+    <property name="attributes" >
+      <list>
+      	<ref bean="SubAward-subAwardId" />                
+        <ref bean="SubAward-organizationId" />
+        <ref bean="SubAward-startDate" />
+        <ref bean="SubAward-endDate" />
+		<ref bean="SubAward-subAwardTypeCode" />
+        <ref bean="SubAward-purchaseOrderNum" />
+        <ref bean="SubAward-title" />
+        <ref bean="SubAward-statusCode" />
+        <ref bean="SubAward-accountNumber" />
+        <ref bean="SubAward-vendorNumber" />
+		<ref bean="SubAward-requisitionerId" />
+        <ref bean="SubAward-requisitionerUnit" />
+        <ref bean="SubAward-archiveLocation" />
+        <ref bean="SubAward-closeoutDate" />       
+		<ref bean="SubAward-comments" />
+        <ref bean="SubAward-siteInvestigator" />        
+      </list>
+    </property>
+  </bean>
+
+<!-- Attribute Definitions -->
+
+  <bean id="SubAward-subAwardId" parent="SubAward-subAwardId-parentBean" />
+  <bean id="SubAward-subAwardId-parentBean" abstract="true" parent="AttributeDefinition">
+    <property name="name" value="subAwardId" />
+    <property name="forceUppercase" value="false" />
+    <property name="label" value="SubAward Id" />
+    <property name="shortLabel" value="SubAward Id" />
+    <property name="maxLength" value="22" />
+    <property name="validationPattern" >
+      <bean parent="NumericValidationPattern" />
+    </property>
+    <property name="required" value="true" />
+    <property name="control" >
+      <bean parent="TextControlDefinition"
+            p:size="10" />
+    </property>
+    <property name="summary" value="SubAward Id" />
+    <property name="description" value="SubAward Id" />    
+  </bean>
+    
+   
+  <bean id="SubAward-organizationId" parent="SubAward-organizationId-parentBean" />
+  
+  <bean id="SubAward-organizationId-parentBean" abstract="true" parent="AttributeDefinition">
+    <property name="name" value="organizationId" />
+    <property name="forceUppercase" value="false" />
+    <property name="label" value="Subcontractor" />
+    <property name="shortLabel" value="Subcontractor" />
+    <property name="maxLength" value="60" />
+    <property name="validationPattern" >
+      <bean parent="AlphaNumericValidationPattern" />
+    </property>
+    <property name="required" value="true" />
+    <property name="control" >
+      <bean parent="TextControlDefinition"
+            p:size="60" />
+    </property>
+    <property name="summary" value="Subcontractor Id" />
+    <property name="description" value="Subcontractor Id" />    
+  </bean>
+  
+  <bean id="SubAward-startDate" parent="SubAward-startDate-parentBean" />
+  
+  <bean id="SubAward-startDate-parentBean" abstract="true" parent="AttributeDefinition">
+    <property name="name" value="startDate" />
+    <property name="forceUppercase" value="false" />
+    <property name="label" value="Start Date" />
+    <property name="shortLabel" value="Start Date" />
+    <property name="maxLength" value="10" />
+    <property name="validationPattern" >
+      <bean parent="AlphaNumericValidationPattern" />
+    </property>
+    <property name="required" value="false" />
+    <property name="control" >
+      <bean parent="TextControlDefinition"
+            p:size="10" />
+    </property>
+    <property name="summary" value="Start Date" />
+    <property name="description" value="Start Date" />    
+  </bean>
+    
+  <bean id="SubAward-endDate" parent="SubAward-endDate-parentBean" />
+  
+  <bean id="SubAward-endDate-parentBean" abstract="true" parent="AttributeDefinition">
+    <property name="name" value="endDate" />
+    <property name="forceUppercase" value="false" />
+    <property name="label" value="End Date" />
+    <property name="shortLabel" value="End Date" />
+    <property name="maxLength" value="10" />
+    <property name="validationPattern" >
+      <bean parent="AlphaNumericValidationPattern" />
+    </property>
+    <property name="required" value="false" />
+    <property name="control" >
+      <bean parent="TextControlDefinition"
+            p:size="10" />
+    </property>
+    <property name="summary" value="End Date" />
+    <property name="description" value="End Date" />    
+  </bean>
+  
+  
+  <bean id="SubAward-subAwardTypeCode" parent="SubAward-subAwardTypeCode-parentBean" />
+  
+  <bean id="SubAward-subAwardTypeCode-parentBean" abstract="true" parent="AttributeDefinition">
+    <property name="name" value="subAwardTypeCode" />
+    <property name="forceUppercase" value="false" />
+    <property name="label" value="SubAward Type" />
+    <property name="shortLabel" value="SubAward Type" />
+    <property name="maxLength" value="22" />
+    <property name="validationPattern" >
+      <bean parent="NumericValidationPattern" />
+    </property>
+    <property name="required" value="true" />
+   	 <property name="control" >
+      <bean parent="SelectControlDefinition"
+            p:businessObjectClass="org.kuali.kra.award.home.AwardType"
+            p:valuesFinderClass="org.kuali.kra.lookup.keyvalue.ExtendedPersistableBusinessObjectValuesFinder"
+            p:includeKeyInLabel="false"
+            p:includeBlankRow="false"
+            p:keyAttribute="awardTypeCode"
+            p:labelAttribute="description" />
+    </property>
+    <property name="summary" value="SubAward Type Code" />
+    <property name="description" value="SubAward Type Code" />    
+  </bean>
+  
+  <bean id="SubAward-purchaseOrderNum" parent="SubAward-purchaseOrderNum-parentBean" />
+  
+  <bean id="SubAward-purchaseOrderNum-parentBean" abstract="true" parent="AttributeDefinition">
+    <property name="name" value="purchaseOrderNum" />
+    <property name="forceUppercase" value="false" />
+    <property name="label" value="Purchase Order Num" />
+    <property name="shortLabel" value="Purchase Order Num" />
+    <property name="maxLength" value="12" />
+    <property name="validationPattern" >
+      <bean parent="AlphaNumericValidationPattern" />
+    </property>
+    <property name="required" value="true" />
+    <property name="control" >
+      <bean parent="TextControlDefinition"
+            p:size="12" />
+    </property>
+    <property name="summary" value="Purchase Order Num" />
+    <property name="description" value="Purchase Order Num" />    
+  </bean>
+  
+  <bean id="SubAward-title" parent="SubAward-title-parentBean" />
+  
+  <bean id="SubAward-title-parentBean" abstract="true" parent="AttributeDefinition">
+    <property name="name" value="title" />
+    <property name="forceUppercase" value="false" />
+    <property name="label" value="Title" />
+    <property name="shortLabel" value="Title" />
+    <property name="maxLength" value="100" />
+    <property name="validationPattern" >
+      <bean parent="AlphaNumericValidationPattern" />
+    </property>
+    <property name="required" value="false" />
+    <property name="control">
+			<bean parent="TextareaControlDefinition" p:rows="3" p:cols="50" />
+		</property>
+    <property name="summary" value="Title" />
+    <property name="description" value="Title" />    
+  </bean>
+  
+  
+  <bean id="SubAward-statusCode" parent="SubAward-statusCode-parentBean" />
+  
+  <bean id="SubAward-statusCode-parentBean" abstract="true" parent="AttributeDefinition">
+    <property name="name" value="statusCode" />
+    <property name="forceUppercase" value="false" />
+    <property name="label" value="Status" />
+    <property name="shortLabel" value="Status" />
+    <property name="maxLength" value="22" />
+    <property name="validationPattern" >
+      <bean parent="NumericValidationPattern" />
+    </property>
+    <property name="required" value="true" />
+     <property name="control" >
+      <bean parent="SelectControlDefinition"
+            p:businessObjectClass="org.kuali.kra.subaward.bo.SubAwardStatus"
+            p:valuesFinderClass="org.kuali.kra.lookup.keyvalue.ExtendedPersistableBusinessObjectValuesFinder"
+            p:includeKeyInLabel="false"
+            p:includeBlankRow="false"
+            p:keyAttribute="subAwardStatusCode"
+            p:labelAttribute="description" />
+    </property>
+    <property name="summary" value="Status Code" />
+    <property name="description" value="Status Code" />    
+  </bean>
+  
+  
+  <bean id="SubAward-accountNumber" parent="SubAward-accountNumber-parentBean" />
+  
+  <bean id="SubAward-accountNumber-parentBean" abstract="true" parent="AttributeDefinition">
+    <property name="name" value="accountNumber" />
+    <property name="forceUppercase" value="false" />
+    <property name="label" value="Account Number" />
+    <property name="shortLabel" value="Account Number" />
+    <property name="maxLength" value="7" />
+    <property name="validationPattern" >
+      <bean parent="AlphaNumericValidationPattern" />
+    </property>
+    <property name="required" value="false" />
+    <property name="control" >
+      <bean parent="TextControlDefinition"
+            p:size="15" />
+    </property>
+    <property name="summary" value="Account Number" />
+    <property name="description" value="Account Number" />    
+  </bean>
+  
+  
+  <bean id="SubAward-vendorNumber" parent="SubAward-vendorNumber-parentBean" />
+  
+  <bean id="SubAward-vendorNumber-parentBean" abstract="true" parent="AttributeDefinition">
+    <property name="name" value="vendorNumber" />
+    <property name="forceUppercase" value="false" />
+    <property name="label" value="Vendor Number" />
+    <property name="shortLabel" value="Vendor Number" />
+    <property name="maxLength" value="10" />
+    <property name="validationPattern" >
+      <bean parent="AlphaNumericValidationPattern" />
+    </property>
+    <property name="required" value="false" />
+    <property name="control" >
+      <bean parent="TextControlDefinition"
+            p:size="15" />
+    </property>
+    <property name="summary" value="Vendor Number" />
+    <property name="description" value="Vendor Number" />    
+  </bean>
+  
+  
+  <bean id="SubAward-requisitionerId" parent="SubAward-requisitionerId-parentBean" />
+  
+  <bean id="SubAward-requisitionerId-parentBean" abstract="true" parent="AttributeDefinition">
+    <property name="name" value="requisitionerId" />
+    <property name="forceUppercase" value="false" />
+    <property name="label" value="Requisitioner" />
+    <property name="shortLabel" value="Requisitioner" />
+    <property name="maxLength" value="20" />
+    <property name="validationPattern" >
+      <bean parent="AlphaNumericValidationPattern" />
+    </property>
+    <property name="required" value="true" />
+    <property name="control" >
+      <bean parent="TextControlDefinition"
+            p:size="60" />
+    </property>
+    <property name="summary" value="Requisitioner Id" />
+    <property name="description" value="Requisitioner Id" />    
+  </bean>
+  
+  <bean id="SubAward-requisitionerUnit" parent="SubAward-requisitionerUnit-parentBean" />
+  
+  <bean id="SubAward-requisitionerUnit-parentBean" abstract="true" parent="AttributeDefinition">
+    <property name="name" value="requisitionerUnit" />
+    <property name="forceUppercase" value="false" />
+    <property name="label" value="Requisitioner Unit" />
+    <property name="shortLabel" value="Requisitioner Unit" />
+    <property name="maxLength" value="8" />
+    <property name="validationPattern" >
+      <bean parent="AnyCharacterValidationPattern" p:allowWhitespace="true" />
+    </property>
+    <property name="required" value="false" />
+    <property name="control" >
+      <bean parent="TextControlDefinition"
+            p:size="10" />
+    </property>
+    <property name="summary" value="Requisitioner Unit" />
+    <property name="description" value="Requisitioner Unit" />    
+  </bean>
+  
+  
+  <bean id="SubAward-archiveLocation" parent="SubAward-archiveLocation-parentBean" />
+  
+  <bean id="SubAward-archiveLocation-parentBean" abstract="true" parent="AttributeDefinition">
+    <property name="name" value="archiveLocation" />
+    <property name="forceUppercase" value="false" />
+    <property name="label" value="Archive Location" />
+    <property name="shortLabel" value="Archive Location" />
+    <property name="maxLength" value="50" />
+    <property name="validationPattern" >
+      <bean parent="AlphaNumericValidationPattern" />
+    </property>
+    <property name="required" value="false" />
+    <property name="control" >
+      <bean parent="TextControlDefinition"
+            p:size="50" />
+    </property>
+    <property name="summary" value="Archive Location" />
+    <property name="description" value="Archive Location" />    
+  </bean>
+  
+  <bean id="SubAward-closeoutDate" parent="SubAward-closeoutDate-parentBean" />
+  
+  <bean id="SubAward-closeoutDate-parentBean" abstract="true" parent="AttributeDefinition">
+    <property name="name" value="closeoutDate" />
+    <property name="forceUppercase" value="false" />
+    <property name="label" value="Closeout Date" />
+    <property name="shortLabel" value="Closeout Date" />
+    <property name="maxLength" value="7" />
+    <property name="validationPattern" >
+      <bean parent="AlphaNumericValidationPattern" />
+    </property>
+    <property name="required" value="false" />
+    <property name="control" >
+      <bean parent="TextControlDefinition"
+            p:size="10" />
+    </property>
+    <property name="summary" value="Closeout Date" />
+    <property name="description" value="Closeout Date" />    
+  </bean>
+  
+  
+  <bean id="SubAward-comments" parent="SubAward-comments-parentBean" />
+  
+  <bean id="SubAward-comments-parentBean" abstract="true" parent="AttributeDefinition">
+    <property name="name" value="comments" />
+    <property name="forceUppercase" value="false" />
+    <property name="label" value="Comments" />
+    <property name="shortLabel" value="Comments" />
+    <property name="maxLength" value="4000" />
+    <property name="validationPattern" >
+      <bean parent="AlphaNumericValidationPattern" />
+    </property>
+    <property name="required" value="false" />
+    <property name="control">
+			<bean parent="TextareaControlDefinition" p:rows="3" p:cols="60" />
+		</property>
+    <property name="summary" value="Comments" />
+    <property name="description" value="Comments" />    
+  </bean>
+    
+  <bean id="SubAward-siteInvestigator" parent="SubAward-siteInvestigator-parentBean" />
+  
+  <bean id="SubAward-siteInvestigator-parentBean" abstract="true" parent="AttributeDefinition">
+    <property name="name" value="siteInvestigator" />
+    <property name="forceUppercase" value="false" />
+    <property name="label" value="Site Investigator" />
+    <property name="shortLabel" value="Site Investigator" />
+    <property name="maxLength" value="22" />
+    <property name="validationPattern" >
+      <bean parent="NumericValidationPattern" />
+    </property>
+    <property name="required" value="false" />
+    <property name="control" >
+      <bean parent="TextControlDefinition"
+            p:size="60" />
+    </property>
+    <property name="summary" value="Site Investigator" />
+    <property name="description" value="Site Investigator" />    
+  </bean>
+  
+  <!-- Business Object Inquiry Definition -->
+  <bean id="SubAward-inquiryDefinition" parent="SubAward-inquiryDefinition-parentBean" />
+
+  <bean id="SubAward-inquiryDefinition-parentBean" abstract="true" parent="InquiryDefinition">
+    <property name="title" value="SubAward" />
+    <property name="inquirySections" >
+      <list>
+        <bean parent="InquirySectionDefinition">
+          <property name="title" value="SubAward" />
+          <property name="numberOfColumns" value="1" />
+          <property name="inquiryFields" >
+            <list>
+              <bean parent="FieldDefinition"
+                    p:attributeName="subAwardId"
+                    p:forceInquiry="true" />             
+            </list>
+          </property>
+        </bean>
+      </list>
+    </property>
+  </bean>
+  
+  <!-- Business Object Lookup Definition -->
+
+  <bean id="SubAward-lookupDefinition" parent="SubAward-lookupDefinition-parentBean" />
+
+  <bean id="SubAward-lookupDefinition-parentBean" abstract="true" parent="LookupDefinition">
+    <property name="title" value="Activity Type Lookup" />
+    <property name="menubar" value="&lt;a href=&quot;index.jsp&quot;&gt;Main&lt;/a&gt;" />
+
+    <property name="defaultSort" >
+      <bean parent="SortDefinition">
+      </bean>
+    </property>
+    <property name="lookupFields" >
+      <list>
+        <bean parent="FieldDefinition"
+                    p:attributeName="subAwardId"
+                    p:forceInquiry="true" />
+      </list>
+    </property>
+    <property name="resultFields" >
+      <list>
+        <bean parent="FieldDefinition"
+                    p:attributeName="subAwardId"
+                    p:forceInquiry="true" />
+      </list>
+    </property>
+  </bean>
+ 
+</beans>

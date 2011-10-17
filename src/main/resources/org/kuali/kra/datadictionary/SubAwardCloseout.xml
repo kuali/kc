@@ -1,0 +1,260 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<beans xmlns="http://www.springframework.org/schema/beans"
+    xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+    xmlns:p="http://www.springframework.org/schema/p"
+    xsi:schemaLocation="http://www.springframework.org/schema/beans
+        http://www.springframework.org/schema/beans/spring-beans-2.0.xsd">
+ 
+ <bean id="SubAwardCloseout" parent="SubAwardCloseout-parentBean" />
+  <bean id="SubAwardCloseout-parentBean" abstract="true" parent="BusinessObjectEntry">
+    <property name="businessObjectClass" value="org.kuali.kra.subaward.bo.SubAwardCloseout" />
+		<property name="objectLabel" value="SubAwardCloseout" />
+		    <property name="inquiryDefinition" >
+		      <ref bean="SubAwardCloseout-inquiryDefinition" />
+		    </property>
+		    <property name="lookupDefinition" >
+		      <ref bean="SubAwardCloseout-lookupDefinition" />
+		    </property>
+       		<property name="attributes" >
+		      <list>
+		      	<ref bean="SubAwardCloseout-subAwardCloseoutId" />
+		        <ref bean="SubAwardCloseout-subAwardId" />  
+		        <ref bean="SubAwardCloseout-closeoutNumber" />
+		        <ref bean="SubAwardCloseout-closeoutTypeCode" />
+				<ref bean="SubAwardCloseout-dateRequested" />
+		        <ref bean="SubAwardCloseout-dateFollowup" />
+		        <ref bean="SubAwardCloseout-dateReceived" />
+		        <ref bean="SubAwardCloseout-comments" />
+		        
+		             
+		      </list>
+		    </property>
+		   
+ 		 </bean>
+ 		 
+<!-- Attribute Definitions -->
+    
+   <bean id="SubAwardCloseout-subAwardCloseoutId" parent="SubAwardCloseout-subAwardCloseoutId-parentBean" />
+  <bean id="SubAwardCloseout-subAwardCloseoutId-parentBean" abstract="true" parent="AttributeDefinition">
+       <property name="name" value="subAwardCloseoutId" />
+    <property name="forceUppercase" value="false" />
+    <property name="label" value="SubAward Closeout Id" />
+    <property name="shortLabel" value="SubAward Closeout Id" />
+    <property name="maxLength" value="22" />
+    <property name="validationPattern" >
+      <bean parent="NumericValidationPattern" />
+    </property>
+    <property name="required" value="false" />
+    <property name="control" >
+      <bean parent="TextControlDefinition"
+            p:size="10" />
+    </property>
+    <property name="summary" value="SubAward Closeout Id" />
+    <property name="description" value="SubAward Closeout Id" />    
+  </bean>
+  
+    <bean id="SubAwardCloseout-subAwardId" parent="SubAwardCloseout-subAwardId-parentBean" />
+  <bean id="SubAwardCloseout-subAwardId-parentBean" abstract="true" parent="AttributeDefinition">
+    <property name="name" value="subAwardId" />
+    <property name="forceUppercase" value="false" />
+    <property name="label" value="SubAward Id" />
+    <property name="shortLabel" value="SubAward Id" />
+    <property name="maxLength" value="22" />
+    <property name="validationPattern" >
+      <bean parent="NumericValidationPattern" />
+    </property>
+    <property name="required" value="false" />
+    <property name="control" >
+      <bean parent="TextControlDefinition"
+            p:size="10" />
+    </property>
+    <property name="summary" value="SubAward Id" />
+    <property name="description" value="SubAward Id" />    
+  </bean> 
+  
+  
+  <bean id="SubAwardCloseout-closeoutNumber" parent="SubAwardCloseout-closeoutNumber-parentBean" />
+  
+  <bean id="SubAwardCloseout-closeoutNumber-parentBean" abstract="true" parent="AttributeDefinition">
+    <property name="name" value="closeoutNumber" />
+    <property name="forceUppercase" value="false" />
+    <property name="label" value="Closeout Number" />
+    <property name="shortLabel" value="Closeout Number" />
+    <property name="maxLength" value="22" />
+    <property name="validationPattern" >
+      <bean parent="NumericValidationPattern" />
+    </property>
+    <property name="required" value="false" />
+    <property name="control" >
+      <bean parent="TextControlDefinition"
+            p:size="10" />
+    </property>
+    <property name="summary" value="Closeout Number" />
+    <property name="description" value="Closeout Number" />    
+  </bean>
+  <bean id="SubAwardCloseout-closeoutTypeCode" parent="SubAwardCloseout-closeoutTypeCode-parentBean" />
+  
+  <bean id="SubAwardCloseout-closeoutTypeCode-parentBean" abstract="true" parent="AttributeDefinition">
+    <property name="name" value="closeoutTypeCode" />
+    <property name="forceUppercase" value="false" />
+    <property name="label" value="Closeout Type Code" />
+    <property name="shortLabel" value="Closeout Type Code" />
+    <property name="maxLength" value="22" />
+    <property name="validationPattern" >
+      <bean parent="AnyCharacterValidationPattern" />
+    </property>
+    <property name="required" value="true" />
+     <property name="control" >
+      <bean parent="SelectControlDefinition"
+            p:businessObjectClass="org.kuali.kra.subaward.bo.CloseoutType"
+            p:valuesFinderClass="org.kuali.kra.lookup.keyvalue.ExtendedPersistableBusinessObjectValuesFinder"
+            p:includeKeyInLabel="false"
+            p:includeBlankRow="false"
+            p:keyAttribute="closeoutTypeCode"
+            p:labelAttribute="description" />
+    </property>
+    <property name="summary" value="Closeout Type Code" />
+    <property name="description" value="Closeout Type Code" />    
+  </bean>           
+            
+ <bean id="SubAwardCloseout-dateRequested" parent="SubAwardCloseout-dateRequested-parentBean" />
+  
+  <bean id="SubAwardCloseout-dateRequested-parentBean" abstract="true" parent="AttributeDefinition">
+    <property name="name" value="dateRequested" />
+    <property name="forceUppercase" value="false" />
+    <property name="label" value="Date Requested" />
+    <property name="shortLabel" value="Date Requested" />
+    <property name="maxLength" value="22" />
+    <property name="validationPattern" >
+      <bean parent="NumericValidationPattern" />
+    </property>
+    <property name="required" value="false" />
+    <property name="control" >
+      <bean parent="TextControlDefinition"
+            p:size="10" />
+    </property>
+    <property name="summary" value="Date Requested" />
+    <property name="description" value="Date Requested" />    
+  </bean>     
+    
+   <bean id="SubAwardCloseout-dateFollowup" parent="SubAwardCloseout-dateFollowup-parentBean" />
+  
+  <bean id="SubAwardCloseout-dateFollowup-parentBean" abstract="true" parent="AttributeDefinition">
+    <property name="name" value="dateFollowup" />
+    <property name="forceUppercase" value="false" />
+    <property name="label" value="Date Followup" />
+    <property name="shortLabel" value="Date Followup" />
+    <property name="maxLength" value="22" />
+    <property name="validationPattern" >
+      <bean parent="NumericValidationPattern" />
+    </property>
+    <property name="required" value="false" />
+    <property name="control" >
+      <bean parent="TextControlDefinition"
+            p:size="10" />
+    </property>
+    <property name="summary" value="Date Followup" />
+    <property name="description" value="Date Followup" />    
+  </bean>      
+  
+     <bean id="SubAwardCloseout-dateReceived" parent="SubAwardCloseout-dateReceived-parentBean" />
+  
+  <bean id="SubAwardCloseout-dateReceived-parentBean" abstract="true" parent="AttributeDefinition">
+    <property name="name" value="dateReceived" />
+    <property name="forceUppercase" value="false" />
+    <property name="label" value="Date Received" />
+    <property name="shortLabel" value="Date Received" />
+    <property name="maxLength" value="22" />
+    <property name="validationPattern" >
+      <bean parent="NumericValidationPattern" />
+    </property>
+    <property name="required" value="false" />
+    <property name="control" >
+      <bean parent="TextControlDefinition"
+            p:size="10" />
+    </property>
+    <property name="summary" value="Date Received" />
+    <property name="description" value="Date Received" />    
+  </bean>       
+           
+ <bean id="SubAwardCloseout-comments" parent="SubAwardCloseout-comments-parentBean" />
+  
+  <bean id="SubAwardCloseout-comments-parentBean" abstract="true" parent="AttributeDefinition">
+    <property name="name" value="comments" />
+    <property name="forceUppercase" value="false" />
+    <property name="label" value="Comments" />
+    <property name="shortLabel" value="Comments" />
+    <property name="maxLength" value="4000" />
+    <property name="validationPattern" >
+      <bean parent="AlphaNumericValidationPattern" />
+    </property>
+    <property name="required" value="false" />
+    <property name="control" >
+      <bean parent="TextareaControlDefinition" p:rows="3" p:cols="60" />
+    </property>
+    <property name="summary" value="Comments" />
+    <property name="description" value="Comments" />    
+  </bean>    
+         
+    <bean id="SubAwardCloseout-versionNumber" parent="SubAwardCloseout-versionNumber-parentBean" />
+    <bean id="SubAwardCloseout-versionNumber-parentBean" abstract="true" parent="AttributeReferenceDummy-versionNumber">
+    </bean>
+
+          <!-- Business Object Inquiry Definition -->
+ <bean id="SubAwardCloseout-inquiryDefinition" parent="SubAwardCloseout-inquiryDefinition-parentBean" />
+
+  <bean id="SubAwardCloseout-inquiryDefinition-parentBean" abstract="true" parent="InquiryDefinition">
+    <property name="title" value="SubAward Closeout" />
+    <property name="inquirySections" >
+      <list>
+        <bean parent="InquirySectionDefinition">
+          <property name="title" value="SubAward Closeout" />
+          <property name="numberOfColumns" value="1" />
+          <property name="inquiryFields" >
+            <list>
+              <bean parent="FieldDefinition"
+                    p:attributeName="SubAwardCloseoutId"
+                    p:forceInquiry="true" />             
+            </list>
+          </property>
+        </bean>
+      </list>
+    </property>
+  </bean>
+  
+  <!-- Business Object Lookup Definition -->
+
+  <bean id="SubAwardCloseout-lookupDefinition" parent="SubAwardCloseout-lookupDefinition-parentBean" />
+
+  <bean id="SubAwardCloseout-lookupDefinition-parentBean" abstract="true" parent="LookupDefinition">
+    <property name="title" value="SubAward Closeout Lookup" />
+    <property name="menubar" value="&lt;a href=&quot;index.jsp&quot;&gt;Main&lt;/a&gt;" />
+
+    <property name="defaultSort" >
+      <bean parent="SortDefinition">
+      </bean>
+    </property>
+    <property name="lookupFields" >
+      <list>
+        <bean parent="FieldDefinition"
+                    p:attributeName="subAwardCloseoutId"
+                    p:forceInquiry="true" />
+                    <bean p:attributeName="subAwardCode"   parent="FieldDefinition"/>
+                    <bean p:attributeName="subAwardId"   parent="FieldDefinition"/>
+               
+      </list>
+    </property>
+    <property name="resultFields" >
+      <list>       
+                 <bean parent="FieldDefinition" p:attributeName="subAwardCloseoutId" p:forceInquiry="true" />   
+                <bean p:attributeName="subAwardCode"   parent="FieldDefinition"/>
+                    <bean p:attributeName="subAwardId"   parent="FieldDefinition"/>
+      </list>
+    </property>
+  </bean>
+ 
+</beans>
+
+          
+
+   
