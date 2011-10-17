@@ -22,8 +22,6 @@ import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
 
-import javax.mail.internet.HeaderTokenizer;
-import javax.mail.internet.MimeUtility;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 
@@ -978,71 +976,6 @@ public class ProtocolProtocolActionsAction extends ProtocolAction implements Aud
         return RESPONSE_ALREADY_HANDLED;
     }
 
-
-    private WatermarkBean getProtocolWatermarkBeanObject(String protocolStatusCode) {
-        WatermarkBean watermarkBean = new WatermarkBean();
-        Watermark watermark = null;
-        Map<String, Object> fields = new HashMap<String, Object>();
-        fields.put("statusCode", protocolStatusCode);
-        Collection<Watermark> watermarks = getBusinessObjectService().findMatching(Watermark.class, fields);
-        if (watermarks != null && watermarks.size() > 0) {
-            watermark = watermarks.iterator().next();
-        }
-        if (watermark != null && watermark.isWatermarkStatus()) {
-            try {
-                String watermarkFontSize = watermark.getFontSize() == null ? WatermarkConstants.DEFAULT_FONT_SIZE_CHAR : watermark
-                        .getFontSize();
-                String watermarkFontColour = watermark.getFontColor() == null ? WatermarkConstants.FONT_COLOR : watermark
-                        .getFontColor();
-                watermarkBean.setType(watermark.getWatermarkType() == null ? WatermarkConstants.WATERMARK_TYPE_TEXT : watermark
-                        .getWatermarkType());
-
-                watermarkBean.setFont(getWatermarkFont(WatermarkConstants.FONT, watermarkFontSize, watermarkFontColour));
-                watermarkBean.setText(watermark.getWatermarkText());
-                if (watermarkBean.getType().equals(WatermarkConstants.WATERMARK_TYPE_IMAGE)) {
-                    watermarkBean.setText(watermark.getFileName());
-                    byte[] imageData = watermark.getAttachmentContent();
-                    if (imageData != null) {
-                        Image imageFile = Image.getInstance(imageData);
-                        watermarkBean.setFileImage(imageFile);
-                    }
-                }
-
-            }
-            catch (Exception e) {
-                LOG.error("Exception Occured in (ProtocolPrintWatermark) :", e);
-            }
-            return watermarkBean;
-        }
-        return null;
-    }
-
-    private Font getWatermarkFont(String watermarkFontName, String watermarkSize, String watermarkColour) {
-        Font watermarkFont = new Font(WatermarkConstants.DEFAULT_FONT_SIZE);
-        watermarkFont.setFont(watermarkFontName);
-        if (StringUtils.isNotBlank(watermarkSize)) {
-            try {
-                watermarkFont.setSize(Integer.parseInt(watermarkSize));
-            }
-            catch (NumberFormatException numberFormatException) {
-                watermarkFont.setSize(WatermarkConstants.DEFAULT_WATERMARK_FONT_SIZE);
-                LOG.error("Exception Occuring in ProtocolPrintWatermark:(getFont:numberFormatException)");
-            }
-        }
-        else {
-            watermarkFont.setSize(WatermarkConstants.DEFAULT_WATERMARK_FONT_SIZE);
-        }
-        if (StringUtils.isNotBlank(watermarkColour)) {
-            watermarkFont.setColor(watermarkColour);
-        }
-        else {
-            watermarkFont.setColor(WatermarkConstants.DEFAULT_WATERMARK_COLOR);
-           
-        }
-        return watermarkFont;
-    }
-
-
     /**
      * 
      * This method for set the attachment with the watermark which selected  by the client .
@@ -1160,6 +1093,20 @@ public class ProtocolProtocolActionsAction extends ProtocolAction implements Aud
         ProtocolAttachmentBase attachment; 
         if (attachmentSummary.getAttachmentType().startsWith("Protocol: ")) {
             attachment = getProtocolAttachmentService().getAttachment(ProtocolAttachmentProtocol.class, attachmentSummary.getAttachmentId());
+            if (attachment == null) {
+                return mapping.findForward(Constants.MAPPING_BASIC);
+            }
+            final AttachmentFile file = attachment.getFile();
+            byte[] attachmentFile =null;
+            String attachmentFileType=file.getType().replace("\"", "");
+            if(attachmentFileType.equalsIgnoreCase(WatermarkConstants.ATTACHMENT_TYPE_PDF)){
+                attachmentFile=getProtocolAttachmentFile(protocolForm,attachment);
+                if(attachmentFile!=null){          
+                    this.streamToResponse(attachmentFile, getValidHeaderString(file.getName()), getValidHeaderString(file.getType()), response);    }
+                else{
+                    this.streamToResponse(file.getData(), getValidHeaderString(file.getName()), getValidHeaderString(file.getType()), response);    }
+                return RESPONSE_ALREADY_HANDLED;
+            }
         } else {
             attachment = getProtocolAttachmentService().getAttachment(ProtocolAttachmentPersonnel.class, attachmentSummary.getAttachmentId());
         }
