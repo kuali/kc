@@ -1,0 +1,3 @@
+INSERT INTO KRNS_PARM_T (NMSPC_CD, PARM_DTL_TYP_CD, PARM_NM, OBJ_ID, VER_NBR, PARM_TYP_CD, TXT, PARM_DESC_TXT, CONS_CD, APPL_NMSPC_CD)
+VALUES('KC-NEGOTIATION', 'Lookup', 'NEGOTIATION_RETRIEVE_LIMIT', SYS_GUID(), 1, 'CONFG', '500', 'The maximum number of records returned from a negotiations search.', 'A', 'KC')
+/
