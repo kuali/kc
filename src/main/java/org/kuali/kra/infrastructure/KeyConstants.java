@@ -963,6 +963,23 @@ public final class KeyConstants {
     public static final String ERROR_DUPLICATE_PROPERTY = "error.duplicate.property";
     public static final String ERROR_DATA_GROUP_NOT_EXIST = "error.datagroup.not.exist";
     
+  //Subcontract    
+    public static final String ERROR_REQUIRED_SUBCONTRACTOR_ID = "error.required.subcontractor.id";
+    public static final String ERROR_REQUIRED_STATUS = "error.required.statuscode";
+    public static final String ERROR_REQUIRED_SUBAWARD_TYPE = "error.required.subaward.typecode";
+    public static final String ERROR_REQUIRED_REQUISITIONER = "error.required.requisitioner";
+    public static final String ERROR_REQUIRED_PURCHASE_ORDER_NUM = "error.required.purchase.order.num";
+    public static final String ERROR_REQUIRED_EFFECTIVE_DATE = "error.required.effective.date";
+    public static final String ERROR_REQUIRED_INVOICE_NUMBER = "error.required.invoice.number";
+    public static final String ERROR_REQUIRED_AMOUNT_RELEASED_START_DATE = "error.required.amount.released.start.date";
+    public static final String ERROR_REQUIRED_AMOUNT_RELEASED_END_DATE = "error.required.amount.released.end.date";
+    public static final String ERROR_REQUIRED_AMOUNT_RELEASED_EFFECTIVE_DATE = "error.required.amount.released.effective.date";
+    public static final String ERROR_REQUIRED_AMOUNT_RELEASED = "error.required.amount.released";
+    public static final String ERROR_REQUIRED_SUBAWARD_CONTACT_ROLODEX_ID = "error.required.subaward.contact.rolodex.id";
+    public static final String ERROR_REQUIRED_SUBAWARD_CONTACT_TYPE_CODE = "error.required.subaward.contact.contact.type.code";
+    public static final String ERROR_REQUIRED_SUBAWARD_CLOSEOUT_TYPE_CODE = "error.required.subaward.closeout.closeout.type.code";
+    public static final String ERROR_REQUIRED_SUBAWARD_FUNDING_SOURCE_AWARD_NUMBER= "error.required.subaward.funding.source.award.number";
+    
     //negotiations
     public static final String NEGOTIATION_STATUS_USED = "error.negotiations.codeAlreadyUsed";
     public static final String NEGOTIATION_CHANGE_ASSOCIATION_TYPE_MESSAGE="negotiation.message.changeAssociationType";
