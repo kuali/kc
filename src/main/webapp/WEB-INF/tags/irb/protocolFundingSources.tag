@@ -35,7 +35,7 @@
         </h3>
 		
 		
-		<table cellpadding=0 cellspacing=0 summary="">
+		<table id="funding-source-table" cellpadding=0 cellspacing=0 summary="">
         	<tr>
                 <kul:htmlAttributeHeaderCell literalLabel="&nbsp;" scope="col" /> 
                 <kul:htmlAttributeHeaderCell attributeEntry="${protocolFundingSourceAttributes.fundingSourceTypeCode}" />

@@ -30,7 +30,7 @@
     		<span class="subhead-right"><kul:help businessObjectClassName="org.kuali.kra.irb.protocol.location.ProtocolLocation" altText="help"/></span>
         </h3>
         
-        <table cellpadding="0" cellspacing="0" summary="">
+        <table id="location-table" cellpadding="0" cellspacing="0" summary="">
           	<%-- Header --%>
           	<tr>
           		<kul:htmlAttributeHeaderCell literalLabel="&nbsp;" scope="col" /> 

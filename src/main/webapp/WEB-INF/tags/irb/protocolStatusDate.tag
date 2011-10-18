@@ -10,7 +10,7 @@
 		 	<span class="subhead-right"><kul:help businessObjectClassName="org.kuali.kra.irb.actions.ProtocolStatus" altText="help"/></span>
 		</h3>
     
-    	<table cellpadding=0 cellspacing=0 summary="">
+    	<table id="status-dates-table" cellpadding=0 cellspacing=0 summary="">
     	 	<tr>
     		 	<th width="30%"><div align="right"><kul:htmlAttributeLabel attributeEntry="${protocolAttributes.protocolNumber}"/></div></th>
     	       	<td width="20%">

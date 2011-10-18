@@ -57,7 +57,7 @@ public class CommitteeAreasOfResearchPanelSeleniumTest extends KcSeleniumTestBas
         helper.createCommittee();
         
         helper.assertTableRowCount(TABLE_ID, 3);
-        helper.assertTableCellValue(TABLE_ID, RESEARCH_AREA);
+        helper.assertTableCellValueContains(TABLE_ID, RESEARCH_AREA);
 
         helper.saveDocument();
         helper.assertNoPageErrors();
@@ -65,7 +65,7 @@ public class CommitteeAreasOfResearchPanelSeleniumTest extends KcSeleniumTestBas
         helper.closeAndSearchDocument();
         
         helper.assertTableRowCount(TABLE_ID, 3);
-        helper.assertTableCellValue(TABLE_ID, RESEARCH_AREA);
+        helper.assertTableCellValueContains(TABLE_ID, RESEARCH_AREA);
     }
     
     /**
