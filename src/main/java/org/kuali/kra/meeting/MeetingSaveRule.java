@@ -19,6 +19,7 @@ import java.util.List;
 
 import org.apache.commons.lang.StringUtils;
 import org.kuali.kra.committee.bo.CommitteeSchedule;
+import org.kuali.kra.committee.rules.CommitteeScheduleTimeRule;
 import org.kuali.kra.committee.web.struts.form.schedule.Time12HrFmt;
 import org.kuali.kra.infrastructure.KeyConstants;
 import org.kuali.kra.rule.BusinessRuleInterface;
@@ -75,7 +76,8 @@ public class MeetingSaveRule  extends ResearchDocumentRuleBase implements Busine
             rulePassed &= checkStartTimeBeforeEndTime(committeeSchedule.getViewStartTime(), committeeSchedule.getViewEndTime());
         }
         time = committeeSchedule.getViewTime().getTime();
-        rulePassed &= processTime(time, ID1);
+        // reuse logic in CommitteeScheduleTimeRule
+        rulePassed &= (new CommitteeScheduleTimeRule()).processTime(time, ID1);
         rulePassed &= checkDeadlineBeforeScheduleDate(committeeSchedule);
         return rulePassed;
     }
