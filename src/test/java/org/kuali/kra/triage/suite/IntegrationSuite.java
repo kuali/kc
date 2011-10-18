@@ -18,7 +18,6 @@ package org.kuali.kra.triage.suite;
 import org.junit.runner.RunWith;
 import org.junit.runners.Suite;
 import org.junit.runners.Suite.SuiteClasses;
-import org.kuali.kra.SeleniumUnitTest;
 import org.kuali.kra.award.web.AwardAttachmentsPanelSeleniumTest;
 import org.kuali.kra.award.web.AwardBudgetBasicSeleniumTest;
 import org.kuali.kra.award.web.AwardCommentsPanelSeleniumTest;
@@ -79,10 +78,14 @@ import org.kuali.kra.proposaldevelopment.web.ProposalDevelopmentKeywordPanelSele
 import org.kuali.kra.proposaldevelopment.web.ProposalDevelopmentSpecialReviewSeleniumTest;
 import org.kuali.kra.proposaldevelopment.web.ProposalDevelopmentSponsorProgramInformationPanelSeleniumTest;
 import org.kuali.kra.proposaldevelopment.web.ProposalDevelopmentYnqSeleniumTest;
+import org.kuali.kra.web.PortalSeleniumTest;
+import org.kuali.kra.web.SeleniumUnitTest;
+import org.kuali.kra.workflow.test.ProposalDevelopmentDocumentRoutingSeleniumTest;
 
 @RunWith(Suite.class)
 @SuiteClasses({
     SeleniumUnitTest.class,
+    PortalSeleniumTest.class,
     ActivityTypeMaintenanceDocumentSeleniumTest.class,
     AwardAttachmentsPanelSeleniumTest.class,
     AwardBudgetBasicSeleniumTest.class,
@@ -114,7 +117,16 @@ import org.kuali.kra.proposaldevelopment.web.ProposalDevelopmentYnqSeleniumTest;
     InstitutionalProposalHomeSeleniumTest.class,
     InstitutionalProposalSpecialReviewSeleniumTest.class,
     OrganizationMaintenanceDocumentSeleniumTest.class,
+    ProposalDevelopmentAbstractsPanelSeleniumTest.class,
     ProposalDevelopmentCompleteSeleniumTest.class,
+    ProposalDevelopmentCustomDataSeleniumTest.class,
+    ProposalDevelopmentDeleteProposalSeleniumTest.class,
+    ProposalDevelopmentDocumentRoutingSeleniumTest.class,
+    ProposalDevelopmentKeyPersonnelSeleniumTest.class,
+    ProposalDevelopmentKeywordPanelSeleniumTest.class,
+    ProposalDevelopmentSpecialReviewSeleniumTest.class,
+    ProposalDevelopmentSponsorProgramInformationPanelSeleniumTest.class,
+    ProposalDevelopmentYnqSeleniumTest.class,
     ProtocolAdditionalInformationPanelSeleniumTest.class,
     ProtocolAuthorizationSeleniumTest.class,
     ProtocolBatchCorrespondenceSeleniumTest.class,
@@ -132,14 +144,6 @@ import org.kuali.kra.proposaldevelopment.web.ProposalDevelopmentYnqSeleniumTest;
     ProtocolStatusAndDatesPanelSeleniumTest.class,
     ProtocolSubmitActionSeleniumTest.class,
     ProtocolWithdrawActionSeleniumTest.class,
-    ProposalDevelopmentAbstractsPanelSeleniumTest.class,
-    ProposalDevelopmentCustomDataSeleniumTest.class,
-    ProposalDevelopmentDeleteProposalSeleniumTest.class,
-    ProposalDevelopmentKeyPersonnelSeleniumTest.class,
-    ProposalDevelopmentKeywordPanelSeleniumTest.class,
-    ProposalDevelopmentSpecialReviewSeleniumTest.class,
-    ProposalDevelopmentSponsorProgramInformationPanelSeleniumTest.class,
-    ProposalDevelopmentYnqSeleniumTest.class,
     SponsorFormMaintenanceDocumentSeleniumTest.class,
     ValidCalcTypeMaintenanceDocumentSeleniumTest.class,
     FinancialEntitySeleniumWebTest.class
