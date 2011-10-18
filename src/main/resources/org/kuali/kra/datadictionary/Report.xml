@@ -32,6 +32,7 @@
 				<ref bean="Report-reportCode"/>
 				<ref bean="Report-description"/>
 				<ref bean="Report-finalReportFlag"/>
+				<ref bean="Report-active"/>
 				<ref bean="Report-versionNumber"/>
 			</list>
 		</property>
@@ -79,6 +80,17 @@
 		<property name="summary" value="Final Report Flag"/>
 		<property name="description" value="Final Report Flag"/>
 	</bean>
+	
+	<bean id="Report-active" parent="Report-active-parentBean" />
+	<bean id="Report-active-parentBean" abstract="true" parent="AttributeReferenceDummy-genericBoolean">
+	    <property name="name" value="active" />
+	    <property name="forceUppercase" value="false" />
+	    <property name="label" value="Active" />
+	    <property name="shortLabel" value="Active" />
+	    <property name="maxLength" value="1" />
+	    <property name="summary" value="Active" />
+	    <property name="description" value="Active" />
+	</bean>		
 
 	<bean id="Report-versionNumber" parent="Report-versionNumber-parentBean"/>
 	<bean abstract="true" id="Report-versionNumber-parentBean" parent="AttributeReferenceDummy-versionNumber">
@@ -98,6 +110,7 @@
 							<bean p:attributeName="reportCode" p:forceInquiry="true" parent="FieldDefinition"/>
 							<bean p:attributeName="description" parent="FieldDefinition"/>
 							<bean p:attributeName="finalReportFlag" parent="FieldDefinition"/>
+							<bean p:attributeName="active" parent="FieldDefinition"/>
 						</list>
 					</property>
 				</bean>
@@ -120,6 +133,7 @@
 				<bean p:attributeName="reportCode" p:forceInquiry="true" parent="FieldDefinition"/>
 				<bean p:attributeName="description" parent="FieldDefinition"/>
 				<bean p:attributeName="finalReportFlag" parent="FieldDefinition"/>
+				<bean p:attributeName="active" parent="FieldDefinition"/>
 			</list>
 		</property>
 		<property name="resultFields">
@@ -127,6 +141,7 @@
 				<bean p:attributeName="reportCode" p:forceInquiry="true" parent="FieldDefinition"/>
 				<bean p:attributeName="description" parent="FieldDefinition"/>
 				<bean p:attributeName="finalReportFlag" parent="FieldDefinition"/>
+				<bean p:attributeName="active" parent="FieldDefinition"/>
 			</list>
 		</property>
 	</bean>

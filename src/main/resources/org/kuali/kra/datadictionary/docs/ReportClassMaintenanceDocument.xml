@@ -52,6 +52,7 @@
 				<bean parent="MaintainableFieldDefinition" p:name="reportClassCode" p:required="true"/>
 				<bean parent="MaintainableFieldDefinition" p:name="description" p:required="true"/>
 				<bean parent="MaintainableFieldDefinition" p:name="generateReportRequirements" p:required="true"/>
+				<bean parent="MaintainableFieldDefinition" p:name="active" />
 				<bean parent="MaintainableFieldDefinition" p:name="versionNumber"/>
 			</list>
 		</property>

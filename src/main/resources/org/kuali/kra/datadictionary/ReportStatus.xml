@@ -14,37 +14,38 @@
  * See the License for the specific language governing permissions and
  * limitations under the License.
  */
---><beans xmlns="http://www.springframework.org/schema/beans" xmlns:p="http://www.springframework.org/schema/p" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:schemaLocation="http://www.springframework.org/schema/beans   http://www.springframework.org/schema/beans/spring-beans-2.0.xsd">
+-->
+<beans xmlns="http://www.springframework.org/schema/beans" xmlns:p="http://www.springframework.org/schema/p" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:schemaLocation="http://www.springframework.org/schema/beans   http://www.springframework.org/schema/beans/spring-beans-2.0.xsd">
 
-	<bean id="Distribution" parent="Distribution-parentBean"/>
-	<bean abstract="true" id="Distribution-parentBean" parent="BusinessObjectEntry">
-		<property name="businessObjectClass" value="org.kuali.kra.award.home.Distribution"/>
-		<property name="objectLabel" value="Distribution"/>
+	<bean id="ReportStatus" parent="ReportStatus-parentBean"/>
+	<bean abstract="true" id="ReportStatus-parentBean" parent="BusinessObjectEntry">
+		<property name="businessObjectClass" value="org.kuali.kra.award.paymentreports.ReportStatus"/>
+		<property name="objectLabel" value="ReportStatus"/>
 		<property name="inquiryDefinition">
-			<ref bean="Distribution-inquiryDefinition"/>
+			<ref bean="ReportStatus-inquiryDefinition"/>
 		</property>
 		<property name="lookupDefinition">
-			<ref bean="Distribution-lookupDefinition"/>
+			<ref bean="ReportStatus-lookupDefinition"/>
 		</property>
-		<property name="titleAttribute" value="ospDistributionCode"/>
+		<property name="titleAttribute" value="reportStatusCode"/>
 		<property name="attributes">
 			<list>
-				<ref bean="Distribution-ospDistributionCode"/>
-				<ref bean="Distribution-description"/>
-				<ref bean="Distribution-active"/>
-				<ref bean="Distribution-versionNumber"/>
+				<ref bean="ReportStatus-reportStatusCode"/>
+				<ref bean="ReportStatus-description"/>
+				<ref bean="ReportStatus-active"/>
+				<ref bean="ReportStatus-versionNumber"/>
 			</list>
 		</property>
 	</bean>
 
 	<!-- Attribute Definitions -->
 	
-	<bean id="Distribution-ospDistributionCode" parent="Distribution-ospDistributionCode-parentBean"/>
-	<bean abstract="true" id="Distribution-ospDistributionCode-parentBean" parent="AttributeDefinition">
-		<property name="name" value="ospDistributionCode"/>
+	<bean id="ReportStatus-reportStatusCode" parent="ReportStatus-reportStatusCode-parentBean"/>
+	<bean abstract="true" id="ReportStatus-reportStatusCode-parentBean" parent="AttributeDefinition">
+		<property name="name" value="reportStatusCode"/>
 		<property name="forceUppercase" value="false"/>
-		<property name="label" value="Osp File Copy Code"/>
-		<property name="shortLabel" value="Osp File Copy Code"/>
+		<property name="label" value="Report Status Code"/>
+		<property name="shortLabel" value="Report Status Code"/>
 		<property name="maxLength" value="3"/>
 		<property name="validationPattern">
 			<bean parent="NumericValidationPattern"/>
@@ -52,12 +53,12 @@
 		<property name="control">
 			<bean p:size="10" parent="TextControlDefinition"/>
 		</property>
-		<property name="summary" value="Osp File Copy Code"/>
-		<property name="description" value="Osp File Copy Code"/>
+		<property name="summary" value="Report Status Code"/>
+		<property name="description" value="Report Status Code"/>
 	</bean>
 
-	<bean id="Distribution-description" parent="Distribution-description-parentBean"/>
-	<bean abstract="true" id="Distribution-description-parentBean" parent="AttributeDefinition">
+	<bean id="ReportStatus-description" parent="ReportStatus-description-parentBean"/>
+	<bean abstract="true" id="ReportStatus-description-parentBean" parent="AttributeDefinition">
 		<property name="name" value="description"/>
 		<property name="forceUppercase" value="false"/>
 		<property name="label" value="Description"/>
@@ -71,8 +72,8 @@
 		<property name="description" value="Description"/>
 	</bean>
 	
-	<bean id="Distribution-active" parent="Distribution-active-parentBean" />
-	<bean id="Distribution-active-parentBean" abstract="true" parent="AttributeReferenceDummy-genericBoolean">
+	<bean id="ReportStatus-active" parent="ReportStatus-active-parentBean" />
+	<bean id="ReportStatus-active-parentBean" abstract="true" parent="AttributeReferenceDummy-genericBoolean">
 	    <property name="name" value="active" />
 	    <property name="forceUppercase" value="false" />
 	    <property name="label" value="Active" />
@@ -81,23 +82,23 @@
 	    <property name="summary" value="Active" />
 	    <property name="description" value="Active" />
 	</bean>		
-
-	<bean id="Distribution-versionNumber" parent="Distribution-versionNumber-parentBean"/>
-	<bean abstract="true" id="Distribution-versionNumber-parentBean" parent="AttributeReferenceDummy-versionNumber">
+	
+	<bean id="ReportStatus-versionNumber" parent="ReportStatus-versionNumber-parentBean"/>
+	<bean abstract="true" id="ReportStatus-versionNumber-parentBean" parent="AttributeReferenceDummy-versionNumber">
 	</bean>
 
 	<!-- Business Object Inquiry Definition -->
-	<bean id="Distribution-inquiryDefinition" parent="Distribution-inquiryDefinition-parentBean"/>
-	<bean abstract="true" id="Distribution-inquiryDefinition-parentBean" parent="InquiryDefinition">
-		<property name="title" value="Osp File Copy Code"/>
+	<bean id="ReportStatus-inquiryDefinition" parent="ReportStatus-inquiryDefinition-parentBean"/>
+	<bean abstract="true" id="ReportStatus-inquiryDefinition-parentBean" parent="InquiryDefinition">
+		<property name="title" value="Report Status"/>
 		<property name="inquirySections">
 			<list>
 				<bean parent="InquirySectionDefinition">
-					<property name="title" value="Osp File Copy Code"/>
+					<property name="title" value="Report Status"/>
 					<property name="numberOfColumns" value="1"/>
 					<property name="inquiryFields">
 						<list>
-							<bean p:attributeName="ospDistributionCode" p:forceInquiry="true" parent="FieldDefinition"/>
+							<bean p:attributeName="reportStatusCode" p:forceInquiry="true" parent="FieldDefinition"/>
 							<bean p:attributeName="description" parent="FieldDefinition"/>
 							<bean p:attributeName="active" parent="FieldDefinition"/>
 						</list>
@@ -108,9 +109,9 @@
 	</bean>
 
 	<!-- Business Object Lookup Definition -->
-	<bean id="Distribution-lookupDefinition" parent="Distribution-lookupDefinition-parentBean"/>
-	<bean abstract="true" id="Distribution-lookupDefinition-parentBean" parent="LookupDefinition">
-		<property name="title" value="Osp File Copy Lookup"/>
+	<bean id="ReportStatus-lookupDefinition" parent="ReportStatus-lookupDefinition-parentBean"/>
+	<bean abstract="true" id="ReportStatus-lookupDefinition-parentBean" parent="LookupDefinition">
+		<property name="title" value="Report Status Lookup"/>
 		<property name="menubar" value="&lt;a href=&quot;index.jsp&quot;&gt;Main&lt;/a&gt;"/>
 
 		<property name="defaultSort">
@@ -119,14 +120,14 @@
 		</property>
 		<property name="lookupFields">
 			<list>
-				<bean p:attributeName="ospDistributionCode" p:forceInquiry="true" parent="FieldDefinition"/>
+				<bean p:attributeName="reportStatusCode" p:forceInquiry="true" parent="FieldDefinition"/>
 				<bean p:attributeName="description" parent="FieldDefinition"/>
 				<bean p:attributeName="active" parent="FieldDefinition"/>
 			</list>
 		</property>
 		<property name="resultFields">
 			<list>
-				<bean p:attributeName="ospDistributionCode" p:forceInquiry="true" parent="FieldDefinition"/>
+				<bean p:attributeName="reportStatusCode" p:forceInquiry="true" parent="FieldDefinition"/>
 				<bean p:attributeName="description" parent="FieldDefinition"/>
 				<bean p:attributeName="active" parent="FieldDefinition"/>
 			</list>
