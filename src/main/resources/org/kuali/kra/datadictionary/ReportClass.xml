@@ -32,6 +32,7 @@
 				<ref bean="ReportClass-reportClassCode"/>
 				<ref bean="ReportClass-description"/>
 				<ref bean="ReportClass-generateReportRequirements"/>
+				<ref bean="ReportClass-active"/>
 				<ref bean="ReportClass-versionNumber"/>
 			</list>
 		</property>
@@ -74,11 +75,22 @@
 	<bean id="ReportClass-generateReportRequirements" parent="ReportClass-generateReportRequirements-parentBean"/>
 	<bean abstract="true" id="ReportClass-generateReportRequirements-parentBean" parent="AttributeReferenceDummy-genericBoolean">
 		<property name="name" value="generateReportRequirements"/>
-		<property name="label" value="Generate Report Requirements"/>
-		<property name="shortLabel" value="Generate Report Requirements"/>
-		<property name="summary" value="Generate Report Requirements"/>
-		<property name="description" value="Generate Report Requirements"/>
+		<property name="label" value="Generate Report Tracking"/>
+		<property name="shortLabel" value="Generate Report Tracking"/>
+		<property name="summary" value="Generate Report Tracking"/>
+		<property name="description" value="Generate Report Tracking"/>
 	</bean>
+	
+	<bean id="ReportClass-active" parent="ReportClass-active-parentBean" />
+	<bean id="ReportClass-active-parentBean" abstract="true" parent="AttributeReferenceDummy-genericBoolean">
+	    <property name="name" value="active" />
+	    <property name="forceUppercase" value="false" />
+	    <property name="label" value="Active" />
+	    <property name="shortLabel" value="Active" />
+	    <property name="maxLength" value="1" />
+	    <property name="summary" value="Active" />
+	    <property name="description" value="Active" />
+	</bean>		
 
 	<bean id="ReportClass-versionNumber" parent="ReportClass-versionNumber-parentBean"/>
 	<bean abstract="true" id="ReportClass-versionNumber-parentBean" parent="AttributeReferenceDummy-versionNumber">
@@ -98,6 +110,7 @@
 							<bean p:attributeName="reportClassCode" p:forceInquiry="true" parent="FieldDefinition"/>
 							<bean p:attributeName="description" parent="FieldDefinition"/>
 							<bean p:attributeName="generateReportRequirements" parent="FieldDefinition"/>
+							<bean p:attributeName="active" parent="FieldDefinition"/>
 						</list>
 					</property>
 				</bean>
@@ -120,6 +133,7 @@
 				<bean p:attributeName="reportClassCode" p:forceInquiry="true" parent="FieldDefinition"/>
 				<bean p:attributeName="description" parent="FieldDefinition"/>
 				<bean p:attributeName="generateReportRequirements" parent="FieldDefinition"/>
+				<bean p:attributeName="active" parent="FieldDefinition"/>
 			</list>
 		</property>
 		<property name="resultFields">
@@ -127,6 +141,7 @@
 				<bean p:attributeName="reportClassCode" p:forceInquiry="true" parent="FieldDefinition"/>
 				<bean p:attributeName="description" parent="FieldDefinition"/>
 				<bean p:attributeName="generateReportRequirements" parent="FieldDefinition"/>
+				<bean p:attributeName="active" parent="FieldDefinition"/>
 			</list>
 		</property>
 	</bean>
