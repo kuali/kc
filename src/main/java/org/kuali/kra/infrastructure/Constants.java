@@ -406,6 +406,9 @@ public interface Constants {
     
     //COI
     public static final String MAPPING_COI_EDIT_LIST = "editList";
+    public static final String FINANCIAL_ENTITY_STATUS_ACTIVE = "active";
+    public static final String FINANCIAL_ENTITY_STATUS_INACTIVE = "inactive";
+    
     public static final String AWARD_SEQUENCE_AWARD_NUMBER = "SEQ_AWARD_AWARD_NUMBER";
     
     public static final String LINKED_FUNDING_PROPOSALS_KEY = "linkedProposals";

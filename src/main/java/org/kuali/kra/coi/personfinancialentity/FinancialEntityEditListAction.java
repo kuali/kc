@@ -172,11 +172,19 @@ public class FinancialEntityEditListAction extends FinancialEntityAction{
         FinancialEntityHelper financialEntityHelper = ((FinancialEntityForm) form).getFinancialEntityHelper();      
         Integer entityIndex = Integer.parseInt(request.getParameter("index"));
         financialEntityHelper.setEditEntityIndex(entityIndex);
+        String status = request.getParameter("status");
         PersonFinIntDisclosure currentPersonFinIntDisclosure = ((FinancialEntityForm) form).getFinancialEntityHelper().getActiveFinancialEntities().get(entityIndex);
+        if (StringUtils.equalsIgnoreCase(status, Constants.FINANCIAL_ENTITY_STATUS_INACTIVE)) {
+            currentPersonFinIntDisclosure = ((FinancialEntityForm) form).getFinancialEntityHelper().getInactiveFinancialEntities().get(entityIndex);
+        }
         financialEntityHelper.setVersions(currentPersonFinIntDisclosure);
         return mapping.findForward("history");
     }
     
+   /* public ActionForward viewFinancialEntity(ActionMapping mapping, ActionForm form, HttpServletRequest request, HttpServletResponse response) {
+        
+        return mapping.findForward("viewEntity");
+    }*/
   
     /**
      * 
