@@ -371,7 +371,7 @@ import org.junit.runners.Suite.SuiteClasses;
     org.kuali.kra.irb.web.BatchCorrespondenceDetailWebTest.class,
     org.kuali.kra.committee.service.CommitteeBatchCorrespondenceServiceTest.class,
     org.kuali.kra.irb.actions.notification.ProtocolNotificationTemplateRuleTest.class,
-    org.kuali.kra.questionnaire.print.QuestionnairePrintingServiceTest.class,
+    //org.kuali.kra.questionnaire.print.QuestionnairePrintingServiceTest.class,
     org.kuali.kra.rules.CustomAttributeDocumentMaintenanceDocumentRuleTest.class,
     org.kuali.kra.service.impl.AwardScheduleGenerationServiceImplTest.class,
     org.kuali.kra.questionnaire.question.QuestionAuthorizationServiceTest.class,
@@ -468,7 +468,7 @@ import org.junit.runners.Suite.SuiteClasses;
     org.kuali.kra.coi.personfinancialentity.SaveFinancialEntityRuleTest.class,
     org.kuali.kra.negotiations.rules.NegotiationActivityRuleTest.class,
     org.kuali.kra.negotiations.auth.TestNegotiationAuthorizers.class,
-    org.kuali.kra.irb.protocol.questionnaire.ProtocolQuestionnaireAuditRuleTest.class,
+    //org.kuali.kra.irb.protocol.questionnaire.ProtocolQuestionnaireAuditRuleTest.class,
     org.kuali.kra.irb.protocol.questionnaire.SaveProtocolQuestionnaireRuleTest.class
 })
 /** these are all the test class where all the test methods are currently passing. */
