@@ -471,6 +471,7 @@
             <forward name="management" path="/WEB-INF/jsp/coi/FinancialEntityManagement.jsp" />
             <forward name="editNew" path="/WEB-INF/jsp/coi/FinancialEntityEditNew.jsp" />
             <forward name="editList" path="/WEB-INF/jsp/coi/FinancialEntityEditList.jsp" />
+            <forward name="history" path="/WEB-INF/jsp/coi/FinancialEntityHistory.jsp" />
      </action>
      
      <!--  KRA Negotiation Mapping -->
