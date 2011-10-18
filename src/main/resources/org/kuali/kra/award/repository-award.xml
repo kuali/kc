@@ -1467,4 +1467,63 @@
 		</reference-descriptor>
 	</class-descriptor>
 	
+    <!-- Award Report Tracking -->
+    <class-descriptor class="org.kuali.kra.award.paymentreports.awardreports.reporting.ReportTracking" table="AWARD_REPORT_TRACKING">
+    	<field-descriptor name="awardReportTrackingId" column="AWARD_REPORT_TRACKING_ID" jdbc-type="BIGINT" primarykey="true" autoincrement="true" sequence-name="AWARD_REPORT_TRACKING_S" />
+    	<field-descriptor name="awardReportTermId" column="AWARD_REPORT_TERM_ID" jdbc-type="BIGINT" />
+    	<field-descriptor name="awardNumber" column="AWARD_NUMBER" jdbc-type="VARCHAR" />
+    	<field-descriptor name="piPersonId" column="PI_PERSON_ID" jdbc-type="VARCHAR" />
+    	<field-descriptor name="piRolodexId" column="PI_ROLODEX_ID" jdbc-type="INTEGER" />
+    	<field-descriptor name="piName" column="PI_NAME" jdbc-type="VARCHAR" />
+    	<field-descriptor name="leadUnitNumber" column="LEAD_UNIT_NUMBER" jdbc-type="VARCHAR" />
+    	<field-descriptor name="reportClassCode" column="REPORT_CLASS_CODE" jdbc-type="VARCHAR" />
+    	<field-descriptor name="reportCode" column="REPORT_CODE" jdbc-type="VARCHAR" />
+    	<field-descriptor name="frequencyCode" column="FREQUENCY_CODE" jdbc-type="VARCHAR" />
+    	<field-descriptor name="frequencyBaseCode" column="FREQUENCY_BASE_CODE" jdbc-type="VARCHAR" />
+    	<field-descriptor name="ospDistributionCode" column="OSP_DISTRIBUTION_CODE" jdbc-type="VARCHAR" />
+    	<field-descriptor name="statusCode" column="STATUS_CODE" jdbc-type="VARCHAR" />
+    	<field-descriptor name="baseDate" column="BASE_DATE" jdbc-type="DATE" />
+    	<field-descriptor name="dueDate" column="DUE_DATE" jdbc-type="DATE" />
+    	<field-descriptor name="overdue" column="OVERDUE" jdbc-type="INTEGER" />
+    	<field-descriptor name="activityDate" column="ACTIVITY_DATE" jdbc-type="DATE" />
+    	<field-descriptor name="comments" column="COMMENTS" jdbc-type="VARCHAR" />
+    	<field-descriptor name="preparerId" column="PREPARER_ID" jdbc-type="VARCHAR" />
+    	<field-descriptor name="preparerName" column="PREPARER_NAME" jdbc-type="VARCHAR" />
+    	<field-descriptor name="sponsorCode" column="SPONSOR_CODE" jdbc-type="VARCHAR" />
+    	<field-descriptor name="sponsorAwardNumber" column="SPONSOR_AWARD_NUMBER" jdbc-type="VARCHAR" />
+    	<field-descriptor name="title" column="TITLE" jdbc-type="VARCHAR" />
+    	<field-descriptor name="lastUpdateUser" column="LAST_UPDATE_USER" jdbc-type="VARCHAR" />
+    	<field-descriptor name="lastUpdateDate" column="LAST_UPDATE_DATE" jdbc-type="DATE" />
+    	
+    	<field-descriptor name="updateTimestamp" column="UPDATE_TIMESTAMP" jdbc-type="TIMESTAMP" />
+		<field-descriptor name="updateUser" column="UPDATE_USER" jdbc-type="VARCHAR" />
+		<field-descriptor name="objectId" column="OBJ_ID" jdbc-type="VARCHAR" />
+		<field-descriptor name="versionNumber" column="VER_NBR" jdbc-type="BIGINT" locking="false" />
+    	
+    	<reference-descriptor name="distribution" class-ref="org.kuali.kra.award.home.Distribution" auto-retrieve="true" auto-update="none" auto-delete="none"> 
+			<foreignkey field-ref="ospDistributionCode"/>
+		</reference-descriptor>
+		<reference-descriptor name="frequency" class-ref="org.kuali.kra.award.paymentreports.Frequency" auto-retrieve="true" auto-update="none" auto-delete="none"> 
+			<foreignkey field-ref="frequencyCode"/>
+		</reference-descriptor>
+		<reference-descriptor name="frequencyBase" class-ref="org.kuali.kra.award.paymentreports.FrequencyBase" auto-retrieve="true" auto-update="none" auto-delete="none"> 
+			<foreignkey field-ref="frequencyBaseCode"/>
+		</reference-descriptor>
+		<reference-descriptor name="report" class-ref="org.kuali.kra.award.paymentreports.Report" auto-retrieve="true" auto-update="none" auto-delete="none"> 
+			<foreignkey field-ref="reportCode"/>
+		</reference-descriptor>
+		<reference-descriptor name="reportClass" class-ref="org.kuali.kra.award.paymentreports.ReportClass" auto-retrieve="true" auto-update="none" auto-delete="none"> 
+			<foreignkey field-ref="reportClassCode"/>
+		</reference-descriptor>
+		<reference-descriptor name="reportStatus" class-ref="org.kuali.kra.award.paymentreports.ReportStatus" auto-retrieve="true" auto-update="none" auto-delete="none"> 
+			<foreignkey field-ref="reportStatus"/>
+		</reference-descriptor>    
+        <reference-descriptor name="leadUnit" class-ref="org.kuali.kra.bo.Unit" auto-retrieve="true" auto-update="none" auto-delete="none">
+			<foreignkey field-ref="leadUnitNumber"/>
+		</reference-descriptor>
+		<reference-descriptor name="sponsor" class-ref="org.kuali.kra.bo.Sponsor" auto-retrieve="true" auto-update="none" auto-delete="none"> 
+            <foreignkey field-ref="sponsorCode" />
+        </reference-descriptor>			
+    </class-descriptor>	
+	
 </descriptor-repository>
