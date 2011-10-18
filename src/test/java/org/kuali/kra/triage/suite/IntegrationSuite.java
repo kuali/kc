@@ -52,7 +52,23 @@ import org.kuali.kra.institutionalproposal.web.InstitutionalProposalContactsSele
 import org.kuali.kra.institutionalproposal.web.InstitutionalProposalDistributionSeleniumTest;
 import org.kuali.kra.institutionalproposal.web.InstitutionalProposalHomeSeleniumTest;
 import org.kuali.kra.institutionalproposal.web.InstitutionalProposalSpecialReviewSeleniumTest;
+import org.kuali.kra.irb.web.ProtocolAdditionalInformationPanelSeleniumTest;
+import org.kuali.kra.irb.web.ProtocolAuthorizationSeleniumTest;
+import org.kuali.kra.irb.web.ProtocolBatchCorrespondenceSeleniumTest;
 import org.kuali.kra.irb.web.ProtocolCompleteSeleniumTest;
+import org.kuali.kra.irb.web.ProtocolCustomDataSeleniumTest;
+import org.kuali.kra.irb.web.ProtocolDataValidationPanelSeleniumTest;
+import org.kuali.kra.irb.web.ProtocolFundingSourcePanelSeleniumTest;
+import org.kuali.kra.irb.web.ProtocolLocationPanelSeleniumTest;
+import org.kuali.kra.irb.web.ProtocolModifySubmissionActionSeleniumTest;
+import org.kuali.kra.irb.web.ProtocolNotesAndAttachmentsSeleniumTest;
+import org.kuali.kra.irb.web.ProtocolParticipantPanelSeleniumTest;
+import org.kuali.kra.irb.web.ProtocolPersonnelSeleniumTest;
+import org.kuali.kra.irb.web.ProtocolRequiredFieldsPanelSeleniumTest;
+import org.kuali.kra.irb.web.ProtocolSpecialReviewSeleniumTest;
+import org.kuali.kra.irb.web.ProtocolStatusAndDatesPanelSeleniumTest;
+import org.kuali.kra.irb.web.ProtocolSubmitActionSeleniumTest;
+import org.kuali.kra.irb.web.ProtocolWithdrawActionSeleniumTest;
 import org.kuali.kra.proposaldevelopment.web.ActivityTypeMaintenanceDocumentSeleniumTest;
 import org.kuali.kra.proposaldevelopment.web.ProposalDevelopmentAbstractsPanelSeleniumTest;
 import org.kuali.kra.proposaldevelopment.web.ProposalDevelopmentCompleteSeleniumTest;
@@ -99,7 +115,23 @@ import org.kuali.kra.proposaldevelopment.web.ProposalDevelopmentYnqSeleniumTest;
     InstitutionalProposalSpecialReviewSeleniumTest.class,
     OrganizationMaintenanceDocumentSeleniumTest.class,
     ProposalDevelopmentCompleteSeleniumTest.class,
+    ProtocolAdditionalInformationPanelSeleniumTest.class,
+    ProtocolAuthorizationSeleniumTest.class,
+    ProtocolBatchCorrespondenceSeleniumTest.class,
     ProtocolCompleteSeleniumTest.class,
+    ProtocolCustomDataSeleniumTest.class,
+    ProtocolDataValidationPanelSeleniumTest.class,
+    ProtocolFundingSourcePanelSeleniumTest.class,
+    ProtocolLocationPanelSeleniumTest.class,
+    ProtocolModifySubmissionActionSeleniumTest.class,
+    ProtocolNotesAndAttachmentsSeleniumTest.class,
+    ProtocolParticipantPanelSeleniumTest.class,
+    ProtocolPersonnelSeleniumTest.class,
+    ProtocolRequiredFieldsPanelSeleniumTest.class,
+    ProtocolSpecialReviewSeleniumTest.class,
+    ProtocolStatusAndDatesPanelSeleniumTest.class,
+    ProtocolSubmitActionSeleniumTest.class,
+    ProtocolWithdrawActionSeleniumTest.class,
     ProposalDevelopmentAbstractsPanelSeleniumTest.class,
     ProposalDevelopmentCustomDataSeleniumTest.class,
     ProposalDevelopmentDeleteProposalSeleniumTest.class,

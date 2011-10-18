@@ -184,7 +184,7 @@ public class InstitutionalProposalSeleniumHelper extends KcSeleniumHelper {
 
         click("methodToCall.search");
         
-        assertTableCellValue("row", 0, 0, "select");
+        assertTableCellValueContains("row", 0, 0, "select");
         
         click("select", true);
     }

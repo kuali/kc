@@ -85,9 +85,9 @@ public class AwardAttachmentsPanelSeleniumTest extends KcSeleniumTestBase {
         helper.assertPageContains(String.format(ATTACHMENTS_LABEL, 1));
         helper.assertTableRowCount(TABLE_ID, 3);
         
-        helper.assertTableCellValue(TABLE_ID, TYPE_CODE);
-        helper.assertTableCellValue(TABLE_ID, DESCRIPTION);
-        helper.assertTableCellValue(TABLE_ID, helper.getSimpleFilePath(AwardAttachmentsPanelSeleniumTest.class));
+        helper.assertTableCellValueContains(TABLE_ID, TYPE_CODE);
+        helper.assertTableCellValueContains(TABLE_ID, DESCRIPTION);
+        helper.assertTableCellValueContains(TABLE_ID, helper.getSimpleFilePath(AwardAttachmentsPanelSeleniumTest.class));
         
         helper.click(DELETE_ATTACHMENT_BUTTON);
         helper.clickYesAnswer();
