@@ -11,7 +11,7 @@
             <c:set var="editmethod" value="editActiveFinancialEntity" />                                           
             <c:set var="activemethod" value="inactivateFinancialEntity" />                                           
             <c:set var="activeimage" value="tinybutton-deactivate.gif" />                                           
-            <c:set var="activetitle" value="Deactivate" />                                           
+            <c:set var="activetitle" value="Deactivate" />                      
             <c:set var="prop" value="financialEntityHelper.activeFinancialEntities" />                                           
         </c:when>
         <c:otherwise>
@@ -19,12 +19,10 @@
             <c:set var="editmethod" value="editInactiveFinancialEntity" />                                           
             <c:set var="activemethod" value="activateFinancialEntity" />                                           
             <c:set var="activeimage" value="tinybutton-activate.gif" />                                           
-            <c:set var="activetitle" value="Activate" />                                           
+            <c:set var="activetitle" value="Activate" />          
             <c:set var="prop" value="financialEntityHelper.inactiveFinancialEntities" />                                           
         </c:otherwise>
     </c:choose>
-
-
     <c:forEach var="financialEntity" items="${financialEntityList}" varStatus="status">
         <tr id="hdrrow${status.index}${idsufix}"> 
             <td nowrap class="tab-subhead1"><a href="#" id="A${status.index}${idsufix}" onclick="rend(this, false)"><img src="${ConfigProperties.kra.externalizable.images.url}tinybutton-show.gif" alt="show/hide this panel" width=45 height=15 border=0 align=absmiddle id="F${status.index}${idsufix}"></a></td> 
@@ -55,8 +53,12 @@
                         <c:if test="${financialEntity.processStatus == 'F'}">
                         <html:image property="methodToCall.${activemethod}.line${status.index}.anchor${currentTabIndex}"
                                         src='${ConfigProperties.kra.externalizable.images.url}${activeimage}' styleClass="tinybutton" title="${activetitle}"/>
-                         </c:if>       
-
+                         </c:if>    
+                         <c:if test="${activeFlag == 'active'}">   
+						 <a class="iframe" id="history" title="${financialEntity.entityName} History" href="${pageContext.request.contextPath}/financialEntityEditList.do?methodToCall=showFinancialEntityHistory&status=${activeFlag}&index=${status.index}">
+						 	<html:image src='${ConfigProperties.kra.externalizable.images.url}tinybutton-viewhistory.gif' styleClass="tinybutton" title="View History"/>
+                    	 </a>
+                    	 </c:if>
                     </div>
             </td>
         </tr> 
@@ -66,13 +68,7 @@
     <%-- tbody id="G${status.index}" style="display: none;" --%> 
       <%-- version--%> 
               
-      <%-- replaced by 'history' button
-                    <tr >
-                        <td colspan=5 >
-                            <kra-coi:financialEntityVersionHistory  financialEntity="${financialEntity}" />
-                        </td>
-                    </tr>
-         --%>          
+    
                     <c:if test="${KualiForm.financialEntityHelper.editEntityIndex == status.index and KualiForm.financialEntityHelper.editType == activeFlag}">
                         <tr> 
                             <td colspan="5">
@@ -80,7 +76,7 @@
                                     <h3>
                                         <span class="subhead-left"> 
                                             <a href="#" id ="financialEntityControl" class="financialEntitySubpanel"><img src='kr/images/tinybutton-hide.gif' alt='show/hide panel' width='45' height='15' border='0' align='absmiddle'></a> Financial Entity </span>
-                                        <span class="subhead-right"> <kul:help businessObjectClassName="org.kuali.kra.coi.personfinancialentity.FinIntEntityStatus" altText="help"/> </span>
+                                        <span class="subhead-right"> <kul:help businessObjectClassName="org.kuali.kra.coi.personfinancialentityDisclosure.FinIntEntityStatus" altText="help"/> </span>
                                     </h3>
                                     <div id="financialEntityContent" class="financialEntitySubpanelContent">                    
 

@@ -44,7 +44,7 @@ public class FinancialEntityEditListAction extends FinancialEntityAction{
     // TODO : db column is '2000', but coeus shows 1000 limit; so just follow coeus message.
     private static final String DEACTIVATE_ENTITY_REASON_MAXLENGTH = "1000";
     private static final String PROCESS_STATUS_FINAL = "F";
-
+    
     
     /**
      * 
@@ -81,8 +81,6 @@ public class FinancialEntityEditListAction extends FinancialEntityAction{
         editFinancialEntity(form, request);
        return mapping.findForward(Constants.MAPPING_BASIC);
     }
-
-
 
     /**
      * 
@@ -171,11 +169,15 @@ public class FinancialEntityEditListAction extends FinancialEntityAction{
     }
     
     public ActionForward showFinancialEntityHistory(ActionMapping mapping, ActionForm form, HttpServletRequest request, HttpServletResponse response) {
-        FinancialEntityHelper financialEntityHelper = ((FinancialEntityForm) form).getFinancialEntityHelper();
-
+        FinancialEntityHelper financialEntityHelper = ((FinancialEntityForm) form).getFinancialEntityHelper();      
+        Integer entityIndex = Integer.parseInt(request.getParameter("index"));
+        financialEntityHelper.setEditEntityIndex(entityIndex);
+        PersonFinIntDisclosure currentPersonFinIntDisclosure = ((FinancialEntityForm) form).getFinancialEntityHelper().getActiveFinancialEntities().get(entityIndex);
+        financialEntityHelper.setVersions(currentPersonFinIntDisclosure);
         return mapping.findForward("history");
     }
     
+  
     /**
      * 
      * This method to inactive the selected financial entity
