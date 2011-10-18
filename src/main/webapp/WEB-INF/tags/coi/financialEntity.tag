@@ -54,11 +54,12 @@
                         <html:image property="methodToCall.${activemethod}.line${status.index}.anchor${currentTabIndex}"
                                         src='${ConfigProperties.kra.externalizable.images.url}${activeimage}' styleClass="tinybutton" title="${activetitle}"/>
                          </c:if>    
-                         <c:if test="${activeFlag == 'active'}">   
 						 <a class="iframe" id="history" title="${financialEntity.entityName} History" href="${pageContext.request.contextPath}/financialEntityEditList.do?methodToCall=showFinancialEntityHistory&status=${activeFlag}&index=${status.index}">
 						 	<html:image src='${ConfigProperties.kra.externalizable.images.url}tinybutton-viewhistory.gif' styleClass="tinybutton" title="View History"/>
                     	 </a>
-                    	 </c:if>
+                    	 <%-- <a class="iframe" id="viewEntity" title="${financialEntity.entityName}" href="${pageContext.request.contextPath}/financialEntityEditList.do?methodToCall=viewFinancialEntity&status=${activeFlag}&index=${status.index}">
+						 	<html:image src='${ConfigProperties.kra.externalizable.images.url}tinybutton-view.gif' styleClass="tinybutton" title="View Entity"/>
+                    	 </a>--%>
                     </div>
             </td>
         </tr> 
