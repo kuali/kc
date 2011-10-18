@@ -1441,6 +1441,8 @@ function updateOtherFields_Callback( data ) {
 		if(counter == 2) {
 			document.getElementById(oldDisplayValue).value = value_array[counter];
 			document.getElementById(displayValue).value = value_array[counter];
+			document.getElementById(oldDisplayValue).disabled = true;
+			document.getElementById(displayValue).disabled = true;
 		}
 		
 		if(counter == 3) {
