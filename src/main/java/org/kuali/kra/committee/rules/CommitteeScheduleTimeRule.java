@@ -51,38 +51,40 @@ public class CommitteeScheduleTimeRule extends ResearchDocumentRuleBase implemen
             rulePassed = processTime(event.getScheduleData().getTime().getTime(), ID2);
         }
         if(null != event.getCommitteeSchedules()) {
-            rulePassed = processCommitteeSchedule(event.getCommitteeSchedules());
+            rulePassed = processCommitteeSchedules(event.getCommitteeSchedules());
         }
         return rulePassed;
     }
 
-    private boolean processCommitteeSchedule(List<CommitteeSchedule> committeeScheduleas) {
+    private boolean processCommitteeSchedules(List<CommitteeSchedule> committeeSchedules) {
 
         boolean rulePassed = true;
         int count = 0;
 
-        for (CommitteeSchedule cs : committeeScheduleas) {
+        for (CommitteeSchedule cs : committeeSchedules) {
 
             String time = cs.getViewTime().getTime();
 
-            rulePassed = processTime(time, String.format(ID1, count++));
+            rulePassed &= processTime(time, String.format(ID1, count++));
 
         }
         return rulePassed;
     }
 
-    private boolean processTime(String time, String id) {
-        boolean rulePassed = true;
-
+    // this method has been made public so its logic can be reused by MeetingSaveRule validation, this 
+    // is a temporary solution, sometime in the future the two classes: MeetingSaveRule and CommitteeScheduleTimeRule
+    // should be re-factored as siblings with the parent class containing the common time validation logic.
+    public boolean processTime(String time, String id) {
+    
         if (StringUtils.isBlank(time)) {               
-            rulePassed = createErrorReport(id, MSG1);
-            return rulePassed;
+            createRequiredFieldErrorReport(id);
+            return false;
         }
 
         String[] result = time.split(COLON);
         if (result.length != 2) {               
-            rulePassed = createErrorReport(id, MSG1);
-            return rulePassed;
+            createFormattingErrorReport(id, time, MSG1);
+            return false;
         }
 
         Integer hrs;
@@ -93,25 +95,30 @@ public class CommitteeScheduleTimeRule extends ResearchDocumentRuleBase implemen
             mins = new Integer(result[1]);
 
             if (!(hrs >= 1 && hrs <= 12)) { 
-                rulePassed = createErrorReport(id, MSG3);
-                return rulePassed;
+                createFormattingErrorReport(id, time, MSG3);
+                return false;
             }
 
 
             if (!(mins >= 0 && mins <= 59)) {
-                rulePassed = createErrorReport(id, MSG4);
-                return rulePassed;
+                createFormattingErrorReport(id, time, MSG4);
+                return false;
             }
         }
         catch (NumberFormatException e) {
-            rulePassed = createErrorReport(id, MSG2);           
+            createFormattingErrorReport(id, time, MSG2);
+            return false;
         }
-        return rulePassed;
+        
+        return true;
     }
 
-    private boolean createErrorReport(String id, String msg) {
-        reportError(id, KeyConstants.ERROR_COMMITTEESCHEDULE_VIEWTIME, msg);
-        return false;
+    private void createFormattingErrorReport(String id, String data, String msg) {
+        reportError(id, KeyConstants.ERROR_COMMITTEESCHEDULE_VIEWTIME_FORMATTING, data, msg);
+    }
+    
+    private void createRequiredFieldErrorReport(String id) {
+        reportError(id, KeyConstants.ERROR_COMMITTEESCHEDULE_VIEWTIME_BLANK);
     }
 
 }
