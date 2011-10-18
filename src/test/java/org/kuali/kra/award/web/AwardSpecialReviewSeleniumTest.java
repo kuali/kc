@@ -25,6 +25,9 @@ import org.junit.Test;
 import org.kuali.kra.infrastructure.Constants;
 import org.kuali.kra.test.infrastructure.KcSeleniumTestBase;
 
+/**
+ * Tests the Special Review page of an Award.
+ */
 public class AwardSpecialReviewSeleniumTest extends KcSeleniumTestBase {
 
     private static final String TABLE_ID = "specialReviewTableId";

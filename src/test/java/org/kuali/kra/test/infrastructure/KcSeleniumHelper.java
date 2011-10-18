@@ -72,6 +72,7 @@ public abstract class KcSeleniumHelper {
     
     private static final String ERRORS_FOUND_ON_PAGE = "error(s) found on page";
     private static final String SAVE_SUCCESS_MESSAGE = "Document was successfully saved";
+    private static final String RELOAD_SUCCESS_MESSAGE = "Document was successfully reloaded";
     private static final String ROUTE_SUCCESS_MESSAGE = "Document was successfully submitted";
     private static final String SUBMIT_SUCCESS_MESSAGE = "Document was successfully approved";
     
@@ -164,14 +165,18 @@ public abstract class KcSeleniumHelper {
      * Click the Expand All button.
      */
     public final void clickExpandAll() {
-        click(SHOW_ALL_TABS_BUTTON);
+        if (findElement(SHOW_ALL_TABS_BUTTON, true)) {
+            click(SHOW_ALL_TABS_BUTTON);
+        }
     }
     
     /**
      * Click the Collapse All button.
      */
     public final void clickCollapseAll() {
-        click(HIDE_ALL_TABS_BUTTON);
+        if (findElement(HIDE_ALL_TABS_BUTTON, true)) {
+            click(HIDE_ALL_TABS_BUTTON);
+        }
     }
 
     /**
@@ -626,7 +631,7 @@ public abstract class KcSeleniumHelper {
 
         click("methodToCall.search");
 
-        assertTableCellValue("row", 0, 0, "return value");
+        assertTableCellValueContains("row", 0, 0, "return value");
         
         click("return value", true);
     }
@@ -845,6 +850,13 @@ public abstract class KcSeleniumHelper {
     public final void blanketApproveDocument() {
         waitForFormLoad();
         click(BLANKET_APPROVE_BUTTON);
+    }
+    
+    /**
+     * Asserts that the document has been reloaded.
+     */
+    public final void assertReload() {
+        assertPageContains(RELOAD_SUCCESS_MESSAGE);
     }
     
     /**
@@ -1072,7 +1084,7 @@ public abstract class KcSeleniumHelper {
             }
         }
 
-        assertTrue("Page contains" + title, !StringUtils.contains(pageSource, title));
+        assertFalse("Page contains" + title, StringUtils.contains(pageSource, title));
     }
     
     /**
@@ -1128,7 +1140,7 @@ public abstract class KcSeleniumHelper {
             values.add(option.getText());
         }
         
-        assertTrue("Options for " + locator + " contains " + text, !values.contains(text));
+        assertFalse("Options for " + locator + " contains " + text, values.contains(text));
     }
     
     /**
@@ -1184,7 +1196,20 @@ public abstract class KcSeleniumHelper {
             selectedValues.add(option.getText());
         }
         
-        assertTrue("Selected options for " + locator + " contains " + text, !selectedValues.contains(text));
+        assertFalse("Selected options for " + locator + " contains " + text, selectedValues.contains(text));
+    }
+    
+    public final void assertPopupWindowContains(final String popupWindowId, final String expectedText) {
+        String parentWindowHandle = driver.getWindowHandle();
+        
+        click(popupWindowId);
+        switchToPopupWindow(parentWindowHandle);
+        
+        assertPageContains(expectedText);
+        
+        driver.close();
+        
+        driver.switchTo().window(parentWindowHandle);
     }
     
     /**
@@ -1339,26 +1364,26 @@ public abstract class KcSeleniumHelper {
     }
     
     /**
-     * Asserts that the text in the table identified by {@code id} at row {@code row} and column {@code column} matches the given {@code expectedText}.
+     * Asserts that the text in the table identified by {@code id} at row {@code row} and column {@code column} contains {@code expectedText}.
      *
      * @param id identifies the table to search
      * @param row the 0-valued row number to search
      * @param column the 0-valued column number to search
      * @param expectedText the text to verify
      */
-    public final void assertTableCellValue(final String id, final int row, final int column, final String expectedText) {
+    public final void assertTableCellValueContains(final String id, final int row, final int column, final String expectedText) {
         String actualText = getTableCellValue(id, row, column);
         
-        assertEquals("Actual cell text of " + actualText + " did not match the expected cell text of " + expectedText, expectedText, actualText);
+        assertTrue("Actual cell text of " + actualText + " did not contain the expected cell text of " + expectedText, StringUtils.contains(actualText, expectedText));
     }
     
     /**
-     * Asserts that the text in the table identified by {@code id} at any particular column in any particular row matches the given {@code expectedText}.
+     * Asserts that the text in the table identified by {@code id} at any particular column in any particular row contains {@code expectedText}.
      *
      * @param id identifies the table to search
      * @param expectedText the text to verify
      */
-    public final void assertTableCellValue(final String id, final String expectedText) {
+    public final void assertTableCellValueContains(final String id, final String expectedText) {
         boolean tableContains = false;
         
         for (int row = 0; row < getTableRowCount(id); row++) {
@@ -1373,7 +1398,41 @@ public abstract class KcSeleniumHelper {
     }
     
     /**
-     * Determines whether the text in the table identified by {@code id} at any particular column at row {@code row} matches the given {@code expectedText}.
+     * Asserts that the text in the table identified by {@code id} at row {@code row} and column {@code column} does not contain {@code expectedText}.
+     *
+     * @param id identifies the table to search
+     * @param row the 0-valued row number to search
+     * @param column the 0-valued column number to search
+     * @param expectedText the text to verify
+     */
+    public final void assertTableCellValueDoesNotContain(final String id, final int row, final int column, final String expectedText) {
+        String actualText = getTableCellValue(id, row, column);
+        
+        assertFalse("Actual cell text of " + actualText + " contains the expected cell text of " + expectedText, StringUtils.contains(actualText, expectedText));
+    }
+    
+    /**
+     * Asserts that the text in the table identified by {@code id} at any particular column in any particular row does not contain {@code expectedText}.
+     *
+     * @param id identifies the table to search
+     * @param expectedText the text to verify
+     */
+    public final void assertTableCellValueDoesNotContain(final String id, final String expectedText) {
+        boolean tableContains = false;
+        
+        for (int row = 0; row < getTableRowCount(id); row++) {
+            boolean tableRowContains = getTableRowContains(id, row, expectedText);
+            if (tableRowContains) {
+                tableContains = true;
+                break;
+            }
+        }
+        
+        assertFalse("Cell text of " + expectedText + " found", tableContains);
+    }
+    
+    /**
+     * Determines whether the text in the table identified by {@code id} at any particular column at row {@code row} contains {@code expectedText}.
      *
      * @param id identifies the table to search
      * @param row the 0-valued row number to search
@@ -1385,7 +1444,7 @@ public abstract class KcSeleniumHelper {
         
         for (int column =  0; column < getTableColumnCount(id, row); column++) {
             String actualText = getTableCellValue(id, row, column);
-            if (StringUtils.equals(expectedText, actualText)) {
+            if (StringUtils.contains(actualText, expectedText)) {
                 tableRowContains = true;
                 break;
             }
