@@ -31,6 +31,9 @@
 			<list>
 				<ref bean="FrequencyBase-frequencyBaseCode"/>
 				<ref bean="FrequencyBase-description"/>
+				<ref bean="FrequencyBase-regenerationTypeName"/>
+				<ref bean="FrequencyBase-reportRegenerationType.description"/>
+				<ref bean="FrequencyBase-active"/>
 				<ref bean="FrequencyBase-versionNumber"/>
 			</list>
 		</property>
@@ -70,6 +73,52 @@
 		<property name="description" value="Description"/>
 	</bean>
 
+	<bean id="FrequencyBase-regenerationTypeName" parent="FrequencyBase-regenerationTypeName-parentBean"/>
+	<bean abstract="true" id="FrequencyBase-regenerationTypeName-parentBean" parent="AttributeDefinition">
+		<property name="name" value="regenerationTypeName"/>
+		<property name="forceUppercase" value="false"/>
+		<property name="required" value="true"/>
+		<property name="label" value="Regeneration Policy"/>
+		<property name="shortLabel" value="Regeneration Policy"/>
+		<property name="maxLength" value="200"/>
+		<property name="validationPattern"><bean p:allowWhitespace="true" parent="AnyCharacterValidationPattern"/></property>
+	    <property name="control" >
+	      <bean parent="SelectControlDefinition"
+	            p:valuesFinderClass="org.kuali.kra.award.paymentreports.ReportRegenerationTypeValuesFinder"
+	            p:includeKeyInLabel="false"
+	            p:includeBlankRow="false" />
+	    </property>
+		<property name="summary" value="Regeneration Policy"/>
+		<property name="description" value="Regeneration Policy"/>
+	</bean>
+
+	<bean id="FrequencyBase-reportRegenerationType.description" parent="FrequencyBase-reportRegenerationType.description-parentBean"/>
+	<bean abstract="true" id="FrequencyBase-reportRegenerationType.description-parentBean" parent="AttributeDefinition">
+		<property name="name" value="reportRegenerationType.description"/>
+		<property name="forceUppercase" value="false"/>
+		<property name="required" value="true"/>
+		<property name="label" value="Regeneration Policy"/>
+		<property name="shortLabel" value="Regeneration Policy"/>
+		<property name="maxLength" value="200"/>
+		<property name="validationPattern"><bean p:allowWhitespace="true" parent="AnyCharacterValidationPattern"/></property>
+	    <property name="control" >
+	      <bean parent="TextControlDefinition" p:size="10"/>
+	    </property>
+		<property name="summary" value="Regeneration Policy"/>
+		<property name="description" value="Regeneration Policy"/>
+	</bean>	
+	
+	<bean id="FrequencyBase-active" parent="FrequencyBase-active-parentBean" />
+	<bean id="FrequencyBase-active-parentBean" abstract="true" parent="AttributeReferenceDummy-genericBoolean">
+	    <property name="name" value="active" />
+	    <property name="forceUppercase" value="false" />
+	    <property name="label" value="Active" />
+	    <property name="shortLabel" value="Active" />
+	    <property name="maxLength" value="1" />
+	    <property name="summary" value="Active" />
+	    <property name="description" value="Active" />
+	</bean>	
+	
 	<bean id="FrequencyBase-versionNumber" parent="FrequencyBase-versionNumber-parentBean"/>
 	<bean abstract="true" id="FrequencyBase-versionNumber-parentBean" parent="AttributeReferenceDummy-versionNumber">
 	</bean>
@@ -87,6 +136,8 @@
 						<list>
 							<bean p:attributeName="frequencyBaseCode" p:forceInquiry="true" parent="FieldDefinition"/>
 							<bean p:attributeName="description" parent="FieldDefinition"/>
+							<bean p:attributeName="reportRegenerationType.description" parent="FieldDefinition"/>
+							<bean p:attributeName="active" parent="FieldDefinition"/>
 						</list>
 					</property>
 				</bean>
@@ -108,12 +159,16 @@
 			<list>
 				<bean p:attributeName="frequencyBaseCode" p:forceInquiry="true" parent="FieldDefinition"/>
 				<bean p:attributeName="description" parent="FieldDefinition"/>
+				<bean p:attributeName="regenerationTypeName" parent="FieldDefinition"/>
+				<bean p:attributeName="active" parent="FieldDefinition"/>
 			</list>
 		</property>
 		<property name="resultFields">
 			<list>
 				<bean p:attributeName="frequencyBaseCode" p:forceInquiry="true" parent="FieldDefinition"/>
 				<bean p:attributeName="description" parent="FieldDefinition"/>
+				<bean p:attributeName="reportRegenerationType.description" parent="FieldDefinition"/>
+				<bean p:attributeName="active" parent="FieldDefinition"/>
 			</list>
 		</property>
 	</bean>

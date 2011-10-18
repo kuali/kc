@@ -34,6 +34,7 @@ public class Report extends KraPersistableBusinessObjectBase {
     private String reportCode; 
     private String description; 
     private boolean finalReportFlag; 
+    private boolean active;
     
     /**
      * Constructs a Report.java
@@ -147,6 +148,14 @@ public class Report extends KraPersistableBusinessObjectBase {
             return false;
         }   
         return true;
+    }
+
+    public boolean isActive() {
+        return active;
+    }
+
+    public void setActive(boolean active) {
+        this.active = active;
     }
     
     

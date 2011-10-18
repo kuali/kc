@@ -37,6 +37,7 @@ public class Frequency extends KraPersistableBusinessObjectBase {
     private Boolean repeatFlag; 
     private Integer advanceNumberOfDays; 
     private Integer advanceNumberOfMonths; 
+    private boolean active;
     
     
     public Frequency() { 
@@ -158,6 +159,14 @@ public class Frequency extends KraPersistableBusinessObjectBase {
             return false;
         }   
         return true;
+    }
+
+    public boolean isActive() {
+        return active;
+    }
+
+    public void setActive(boolean active) {
+        this.active = active;
     }
         
 }

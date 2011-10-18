@@ -668,6 +668,7 @@
 		<field-descriptor name="updateTimestamp" column="UPDATE_TIMESTAMP" jdbc-type="TIMESTAMP" />
 		<field-descriptor name="updateUser" column="UPDATE_USER" jdbc-type="VARCHAR" />
 		<field-descriptor name="generateReportRequirements" column="GENERATE_REPORT_REQUIREMENTS" jdbc-type="VARCHAR" conversion="org.kuali.rice.kns.util.OjbCharBooleanConversion"/>
+		<field-descriptor name="active" column="ACTIVE_FLAG" jdbc-type="CHAR" conversion="org.kuali.rice.kns.util.OjbCharBooleanConversion" />
 		<!--<collection-descriptor name="templateReportTerms" proxy="true" element-class-ref="org.kuali.kra.bo.TemplateReportTerms" collection-class="org.apache.ojb.broker.util.collections.ManageableArrayList" auto-retrieve="true" auto-update="object" auto-delete="none">
 			<inverse-foreignkey field-ref="reportClassCode"/>
 		</collection-descriptor>
@@ -712,6 +713,7 @@
 		<field-descriptor name="reportCode" column="REPORT_CODE" jdbc-type="VARCHAR" primarykey="true" />
 		<field-descriptor name="description" column="DESCRIPTION" jdbc-type="VARCHAR" />
 		<field-descriptor name="finalReportFlag" column="FINAL_REPORT_FLAG" jdbc-type="VARCHAR" conversion="org.kuali.rice.kns.util.OjbCharBooleanConversion"/>
+		<field-descriptor name="active" column="ACTIVE_FLAG" jdbc-type="CHAR" conversion="org.kuali.rice.kns.util.OjbCharBooleanConversion" />
 		<field-descriptor name="updateTimestamp" column="UPDATE_TIMESTAMP" jdbc-type="TIMESTAMP" />
 		<field-descriptor name="updateUser" column="UPDATE_USER" jdbc-type="VARCHAR" />
 		<!--  <collection-descriptor name="templateReportTerms" proxy="true" element-class-ref="org.kuali.kra.bo.TemplateReportTerms" collection-class="org.apache.ojb.broker.util.collections.ManageableArrayList" auto-retrieve="true" auto-update="object" auto-delete="none">
@@ -741,6 +743,7 @@
 		<field-descriptor name="updateUser" column="UPDATE_USER" jdbc-type="VARCHAR" />
 		<field-descriptor name="advanceNumberOfDays" column="ADVANCE_NUMBER_OF_DAYS" jdbc-type="INTEGER" />
 		<field-descriptor name="advanceNumberOfMonths" column="ADVANCE_NUMBER_OF_MONTHS" jdbc-type="INTEGER" />
+		<field-descriptor name="active" column="ACTIVE_FLAG" jdbc-type="CHAR" conversion="org.kuali.rice.kns.util.OjbCharBooleanConversion" />
 		<!--  <collection-descriptor name="templateReportTerms" proxy="true" element-class-ref="org.kuali.kra.bo.TemplateReportTerms" collection-class="org.apache.ojb.broker.util.collections.ManageableArrayList" auto-retrieve="true" auto-update="object" auto-delete="none">
 			<inverse-foreignkey field-ref="frequencyCode"/>
 		</collection-descriptor>
@@ -761,6 +764,8 @@
 	<class-descriptor class="org.kuali.kra.award.paymentreports.FrequencyBase" table="FREQUENCY_BASE">		
 		<field-descriptor name="frequencyBaseCode" column="FREQUENCY_BASE_CODE" jdbc-type="VARCHAR" primarykey="true" />
 		<field-descriptor name="description" column="DESCRIPTION" jdbc-type="VARCHAR" />
+		<field-descriptor name="regenerationTypeName" column="REGENERATION_TYPE_NAME" jdbc-type="VARCHAR" />
+		<field-descriptor name="active" column="ACTIVE_FLAG" jdbc-type="CHAR" conversion="org.kuali.rice.kns.util.OjbCharBooleanConversion" />
 		<field-descriptor name="versionNumber" column="VER_NBR" jdbc-type="BIGINT" locking="false"/>
 		<field-descriptor name="objectId" column="OBJ_ID" jdbc-type="VARCHAR" />
 		<field-descriptor name="updateTimestamp" column="UPDATE_TIMESTAMP" jdbc-type="TIMESTAMP" />
@@ -782,6 +787,7 @@
 	<class-descriptor class="org.kuali.kra.award.home.Distribution" table="DISTRIBUTION">		
 		<field-descriptor name="ospDistributionCode" column="OSP_DISTRIBUTION_CODE" jdbc-type="VARCHAR" primarykey="true" />
 		<field-descriptor name="description" column="DESCRIPTION" jdbc-type="VARCHAR" />
+		<field-descriptor name="active" column="ACTIVE_FLAG" jdbc-type="CHAR" conversion="org.kuali.rice.kns.util.OjbCharBooleanConversion" />
 		<field-descriptor name="versionNumber" column="VER_NBR" jdbc-type="BIGINT" locking="false"/>
 		<field-descriptor name="objectId" column="OBJ_ID" jdbc-type="VARCHAR" />
 		<field-descriptor name="updateTimestamp" column="UPDATE_TIMESTAMP" jdbc-type="TIMESTAMP" />
@@ -817,6 +823,8 @@
 		</reference-descriptor>
 	</class-descriptor>
 	
+	
+	
 	<class-descriptor class="org.kuali.kra.award.paymentreports.ValidFrequencyBase" table="VALID_FREQUENCY_BASE">
 		<field-descriptor name="validFrequencyBaseId" column="VALID_FREQUENCY_BASE_ID" jdbc-type="INTEGER" primarykey="true" />
 		<field-descriptor name="frequencyCode" column="FREQUENCY_CODE" jdbc-type="VARCHAR" />
@@ -832,6 +840,17 @@
 			<foreignkey field-ref="frequencyBaseCode"/>
 		</reference-descriptor>
 	</class-descriptor>	
+	
+	<class-descriptor class="org.kuali.kra.award.paymentreports.ReportStatus" table="REPORT_STATUS">		
+		<field-descriptor name="reportStatusCode" column="REPORT_STATUS_CODE" jdbc-type="VARCHAR" primarykey="true" />
+		<field-descriptor name="description" column="DESCRIPTION" jdbc-type="VARCHAR" />
+		<field-descriptor name="active" column="ACTIVE_FLAG" jdbc-type="CHAR" conversion="org.kuali.rice.kns.util.OjbCharBooleanConversion" />
+		<field-descriptor name="versionNumber" column="VER_NBR" jdbc-type="BIGINT" locking="false"/>
+		<field-descriptor name="objectId" column="OBJ_ID" jdbc-type="VARCHAR" />
+		<field-descriptor name="updateTimestamp" column="UPDATE_TIMESTAMP" jdbc-type="TIMESTAMP" />
+		<field-descriptor name="updateUser" column="UPDATE_USER" jdbc-type="VARCHAR" />
+	</class-descriptor>	
+	
 	<class-descriptor class="org.kuali.kra.award.home.AwardTemplate" table="AWARD_TEMPLATE">
 		<field-descriptor name="templateCode" column="AWARD_TEMPLATE_CODE" jdbc-type="INTEGER" primarykey="true" sequence-name="SEQ_AWARD_TEMPLATE" autoincrement="true" />
 		<field-descriptor name="statusCode" column="STATUS_CODE" jdbc-type="VARCHAR"/>
