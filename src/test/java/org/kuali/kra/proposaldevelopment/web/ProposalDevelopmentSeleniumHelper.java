@@ -83,7 +83,7 @@ public class ProposalDevelopmentSeleniumHelper extends KcSeleniumHelper {
     private static final String DEFAULT_BUDGET_VERSION_NAME = "Ver1";
     private static final String DEFAULT_BUDGET_STATUS = "Complete";
     private static final String DEFAULT_APPROVER = "jtester";
-    private static final String DEVAULT_VIEWER_ROLENAME = "Viewer";
+    private static final String DEFAULT_VIEWER_ROLENAME = "Viewer";
     
     private static final String YES_RADIO_FIELD_VALUE = "Y";
     private static final String NO_RADIO_FIELD_VALUE = "N";
@@ -337,7 +337,7 @@ public class ProposalDevelopmentSeleniumHelper extends KcSeleniumHelper {
         clickProposalDevelopmentPermissionsPage();
         
         set(USERNAME_FIELD_ID, DEFAULT_APPROVER);
-        set(ROLENAME_FIELD_ID, DEVAULT_VIEWER_ROLENAME);
+        set(ROLENAME_FIELD_ID, DEFAULT_VIEWER_ROLENAME);
         click(ADD_PROPOSAL_USER_BUTTON);
     }
     

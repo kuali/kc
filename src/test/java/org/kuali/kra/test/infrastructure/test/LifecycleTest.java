@@ -10,18 +10,21 @@ import java.net.URL;
 import org.junit.Test;
 import org.kuali.kra.infrastructure.KraServiceLocator;
 import org.kuali.kra.test.infrastructure.KcUnitTestBase;
-import org.kuali.kra.test.infrastructure.KcWebTestBase;
 import org.kuali.rice.core.config.Config;
 import org.kuali.rice.core.config.ConfigContext;
 import org.kuali.rice.test.web.HtmlUnitUtil;
 
 public class LifecycleTest extends KcUnitTestBase {
+    
+    private static final String BROWSER_PROTOCOL = "http";
+    private static final String BROWSER_ADDRESS = "127.0.0.1";
+    private static final String PORTAL_ADDRESS = "kc-dev";
+    
 	@Test
 	public void testConfig() {
 		Config config = ConfigContext.getCurrentContextConfig();
 	    assertNotNull("Config not loaded", config);
 	    LOG.debug("***** application url = " + config.getObject("application.url"));
-		
 	}
 
 	@Test
@@ -31,11 +34,11 @@ public class LifecycleTest extends KcUnitTestBase {
     
     @Test
     public void testServer() throws Throwable {
-        int port = HtmlUnitUtil.getPort();
-        URL url = new URL(KcWebTestBase.PROTOCOL_AND_HOST + ":"+port+"/kc-dev/");
-        HttpURLConnection connection = (HttpURLConnection)url.openConnection();
+        URL url = new URL(BROWSER_PROTOCOL + "://" + BROWSER_ADDRESS + ":" + HtmlUnitUtil.getPort().toString() + "/" + PORTAL_ADDRESS);
+        HttpURLConnection connection = (HttpURLConnection) url.openConnection();
         int responseCode = connection.getResponseCode();
         connection.disconnect();
-        assertTrue("Server not loaded", responseCode==200);
+        assertTrue("Server not loaded", responseCode == 200);
     }
+
 }
