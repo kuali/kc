@@ -88,7 +88,7 @@
     <property name="shortLabel" value="City" />
     <property name="maxLength" value="30" />
     <property name="validationPattern" >
-      <bean parent="AlphaNumericValidationPattern"
+      <bean parent="AnyCharacterValidationPattern"
             p:allowWhitespace="true" />
     </property>
     <property name="control" >
