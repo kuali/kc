@@ -17,11 +17,11 @@ package org.kuali.kra.coi.personfinancialentity;
 
 import java.io.Serializable;
 import java.util.ArrayList;
+import java.util.Collections;
 import java.util.List;
 
 import org.apache.commons.lang.StringUtils;
 import org.kuali.kra.infrastructure.Constants;
-import org.kuali.kra.infrastructure.KeyConstants;
 import org.kuali.kra.infrastructure.KraServiceLocator;
 import org.kuali.rice.kns.util.GlobalVariables;
 
@@ -49,9 +49,8 @@ public class FinancialEntityHelper implements Serializable {
     // when 'sponsorCode' field is onblur 
     private String prevSponsorCode;
     private String prevNewSponsorCode;
-    
     private String editType;
-    
+    private List<PersonFinIntDisclosure> versions;
     public String getEditType() {
         return editType;
     }
@@ -149,7 +148,15 @@ public class FinancialEntityHelper implements Serializable {
         return KraServiceLocator.getService(FinancialEntityService.class);
     }
 
-
+    public void setVersions(PersonFinIntDisclosure personFinIntDisclosure) {
+        versions = personFinIntDisclosure.getVersions();
+        Collections.reverse(versions);
+    }
+    
+    public List<PersonFinIntDisclosure> getVersions() {
+        return versions;
+    }
+    
     public FinancialEntityReporter getFinancialEntityReporter() {
         return financialEntityReporter;
     }
