@@ -78,9 +78,9 @@ public class ProposalDevelopmentKeywordPanelSeleniumTest extends KcSeleniumTestB
         helper.assertNoPageErrors();
         
         helper.assertTableRowCount(TABLE_ID, 5);
-        helper.assertTableCellValue(TABLE_ID, 2, 1, KEYWORDS_DESCRIPTION_TRANSMITTANCE);
+        helper.assertTableCellValueContains(TABLE_ID, 2, 1, KEYWORDS_DESCRIPTION_TRANSMITTANCE);
         helper.assertElementContains(String.format(LIST_SELECT_KEYWORD_ID, 0), SELECT_KEYWORD_UNCHECKED);
-        helper.assertTableCellValue(TABLE_ID, 3, 1, KEYWORDS_DESCRIPTION_TEMPERATURE);
+        helper.assertTableCellValueContains(TABLE_ID, 3, 1, KEYWORDS_DESCRIPTION_TEMPERATURE);
         helper.assertElementContains(String.format(LIST_SELECT_KEYWORD_ID, 1), SELECT_KEYWORD_UNCHECKED);
     }
     
@@ -123,9 +123,9 @@ public class ProposalDevelopmentKeywordPanelSeleniumTest extends KcSeleniumTestB
         helper.assertNoPageErrors();
 
         helper.set(String.format(LIST_SELECT_KEYWORD_ID, 1), SELECT_KEYWORD_CHECKED);
-        helper.assertTableCellValue(TABLE_ID, 2, 1, KEYWORDS_DESCRIPTION_TRANSMITTANCE);
+        helper.assertTableCellValueContains(TABLE_ID, 2, 1, KEYWORDS_DESCRIPTION_TRANSMITTANCE);
         helper.assertElementContains(String.format(LIST_SELECT_KEYWORD_ID, 0), SELECT_KEYWORD_UNCHECKED);
-        helper.assertTableCellValue(TABLE_ID, 3, 1, KEYWORDS_DESCRIPTION_TEMPERATURE);
+        helper.assertTableCellValueContains(TABLE_ID, 3, 1, KEYWORDS_DESCRIPTION_TEMPERATURE);
         helper.assertElementContains(String.format(LIST_SELECT_KEYWORD_ID, 1), SELECT_KEYWORD_CHECKED);
         
         helper.click(DELETE_SELECTED_BUTTON);
@@ -134,7 +134,7 @@ public class ProposalDevelopmentKeywordPanelSeleniumTest extends KcSeleniumTestB
         helper.assertNoPageErrors();
         
         helper.assertTableRowCount(TABLE_ID, 4);
-        helper.assertTableCellValue(TABLE_ID, 2, 1, KEYWORDS_DESCRIPTION_TRANSMITTANCE);
+        helper.assertTableCellValueContains(TABLE_ID, 2, 1, KEYWORDS_DESCRIPTION_TRANSMITTANCE);
         helper.assertElementContains(String.format(LIST_SELECT_KEYWORD_ID, 0), SELECT_KEYWORD_UNCHECKED);
     }
     

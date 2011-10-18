@@ -180,11 +180,11 @@ public class CommitteeMembershipSeleniumTest extends KcSeleniumTestBase {
         helper.assertNoPageErrors();
 
         helper.assertTableRowCount(MEMBERSHIP_ROLE_TABLE_ID, 5);
-        helper.assertTableCellValue(MEMBERSHIP_ROLE_TABLE_ID, MEMBERSHIP_ROLE_CODE_MEMBER_SCIENTIST);
-        helper.assertTableCellValue(MEMBERSHIP_ROLE_TABLE_ID, MEMBERSHIP_ROLE_CODE_CHAIR);
+        helper.assertTableCellValueContains(MEMBERSHIP_ROLE_TABLE_ID, MEMBERSHIP_ROLE_CODE_MEMBER_SCIENTIST);
+        helper.assertTableCellValueContains(MEMBERSHIP_ROLE_TABLE_ID, MEMBERSHIP_ROLE_CODE_CHAIR);
 
         helper.assertTableRowCount(MEMBERSHIP_EXPERTISE_TABLE_ID, 3);
-        helper.assertTableCellValue(MEMBERSHIP_EXPERTISE_TABLE_ID, RESEARCH_AREA_CODE_NAME);
+        helper.assertTableCellValueContains(MEMBERSHIP_EXPERTISE_TABLE_ID, RESEARCH_AREA_CODE_NAME);
     }
 
     /**

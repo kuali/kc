@@ -117,15 +117,15 @@ public class CommitteeSchedulePanelSeleniumTest extends KcSeleniumTestBase {
         helper.assertTableRowCount(TABLE_ID, 6);
         
         helper.assertElementContains(String.format(LIST_SCHEDULE_DATE_ID, 0), fullFormatter.format(firstScheduleDate));
-        helper.assertTableCellValue(TABLE_ID, 2, 1, dayFormatter.format(firstScheduleDate).toUpperCase());
+        helper.assertTableCellValueContains(TABLE_ID, 2, 1, dayFormatter.format(firstScheduleDate).toUpperCase());
         helper.assertElementContains(String.format(LIST_PROTOCOL_SUB_DEADLINE_ID, 0), fullFormatter.format(firstDeadlineDate));
         
         helper.assertElementContains(String.format(LIST_SCHEDULE_DATE_ID, 1), fullFormatter.format(secondScheduleDate));
-        helper.assertTableCellValue(TABLE_ID, 3, 1, dayFormatter.format(secondScheduleDate).toUpperCase());
+        helper.assertTableCellValueContains(TABLE_ID, 3, 1, dayFormatter.format(secondScheduleDate).toUpperCase());
         helper.assertElementContains(String.format(LIST_PROTOCOL_SUB_DEADLINE_ID, 1), fullFormatter.format(secondDeadlineDate));
         
         helper.assertElementContains(String.format(LIST_SCHEDULE_DATE_ID, 2), fullFormatter.format(thirdScheduleDate));
-        helper.assertTableCellValue(TABLE_ID, 4, 1, dayFormatter.format(thirdScheduleDate).toUpperCase());
+        helper.assertTableCellValueContains(TABLE_ID, 4, 1, dayFormatter.format(thirdScheduleDate).toUpperCase());
         helper.assertElementContains(String.format(LIST_PROTOCOL_SUB_DEADLINE_ID, 2), fullFormatter.format(thirdDeadlineDate));
         
         Date newScheduleDate = DateUtils.addDays(new Date(), 5);
@@ -143,7 +143,7 @@ public class CommitteeSchedulePanelSeleniumTest extends KcSeleniumTestBase {
         helper.assertTableRowCount(TABLE_ID, 6);
         
         helper.assertElementContains(String.format(LIST_SCHEDULE_DATE_ID, 2), fullFormatter.format(newScheduleDate));
-        helper.assertTableCellValue(TABLE_ID, 4, 1, dayFormatter.format(newScheduleDate).toUpperCase());
+        helper.assertTableCellValueContains(TABLE_ID, 4, 1, dayFormatter.format(newScheduleDate).toUpperCase());
         helper.assertElementContains(String.format(LIST_PROTOCOL_SUB_DEADLINE_ID, 2), fullFormatter.format(newDeadlineDate));
         helper.assertElementContains(String.format(LIST_SCHEDULE_STATUS_CODE_ID, 2), SCHEDULE_STATUS_CODE);
         helper.assertElementContains(String.format(LIST_PLACE_ID, 2), PLACE);
@@ -184,19 +184,19 @@ public class CommitteeSchedulePanelSeleniumTest extends KcSeleniumTestBase {
         helper.assertTableRowCount(TABLE_ID, 7);
         
         helper.assertElementContains(String.format(LIST_SCHEDULE_DATE_ID, 0), fullFormatter.format(firstScheduleDate));
-        helper.assertTableCellValue(TABLE_ID, 2, 1, dayFormatter.format(firstScheduleDate).toUpperCase());
+        helper.assertTableCellValueContains(TABLE_ID, 2, 1, dayFormatter.format(firstScheduleDate).toUpperCase());
         helper.assertElementContains(String.format(LIST_PROTOCOL_SUB_DEADLINE_ID, 0), fullFormatter.format(firstDeadlineDate));
         
         helper.assertElementContains(String.format(LIST_SCHEDULE_DATE_ID, 1), fullFormatter.format(secondScheduleDate));
-        helper.assertTableCellValue(TABLE_ID, 3, 1, dayFormatter.format(secondScheduleDate).toUpperCase());
+        helper.assertTableCellValueContains(TABLE_ID, 3, 1, dayFormatter.format(secondScheduleDate).toUpperCase());
         helper.assertElementContains(String.format(LIST_PROTOCOL_SUB_DEADLINE_ID, 1), fullFormatter.format(secondDeadlineDate));
         
         helper.assertElementContains(String.format(LIST_SCHEDULE_DATE_ID, 2), fullFormatter.format(thirdScheduleDate));
-        helper.assertTableCellValue(TABLE_ID, 4, 1, dayFormatter.format(thirdScheduleDate).toUpperCase());
+        helper.assertTableCellValueContains(TABLE_ID, 4, 1, dayFormatter.format(thirdScheduleDate).toUpperCase());
         helper.assertElementContains(String.format(LIST_PROTOCOL_SUB_DEADLINE_ID, 2), fullFormatter.format(thirdDeadlineDate));
         
         helper.assertElementContains(String.format(LIST_SCHEDULE_DATE_ID, 3), fullFormatter.format(fourthScheduleDate));
-        helper.assertTableCellValue(TABLE_ID, 5, 1, dayFormatter.format(fourthScheduleDate).toUpperCase());
+        helper.assertTableCellValueContains(TABLE_ID, 5, 1, dayFormatter.format(fourthScheduleDate).toUpperCase());
         helper.assertElementContains(String.format(LIST_PROTOCOL_SUB_DEADLINE_ID, 3), fullFormatter.format(fourthDeadlineDate));
         
         helper.set(String.format(LIST_SELECTED_ID, 1), SELECTED);
@@ -210,15 +210,15 @@ public class CommitteeSchedulePanelSeleniumTest extends KcSeleniumTestBase {
         helper.assertTableRowCount(TABLE_ID, 6);
         
         helper.assertElementContains(String.format(LIST_SCHEDULE_DATE_ID, 0), fullFormatter.format(firstScheduleDate));
-        helper.assertTableCellValue(TABLE_ID, 2, 1, dayFormatter.format(firstScheduleDate).toUpperCase());
+        helper.assertTableCellValueContains(TABLE_ID, 2, 1, dayFormatter.format(firstScheduleDate).toUpperCase());
         helper.assertElementContains(String.format(LIST_PROTOCOL_SUB_DEADLINE_ID, 0), fullFormatter.format(firstDeadlineDate));
         
         helper.assertElementContains(String.format(LIST_SCHEDULE_DATE_ID, 1), fullFormatter.format(thirdScheduleDate));
-        helper.assertTableCellValue(TABLE_ID, 3, 1, dayFormatter.format(thirdScheduleDate).toUpperCase());
+        helper.assertTableCellValueContains(TABLE_ID, 3, 1, dayFormatter.format(thirdScheduleDate).toUpperCase());
         helper.assertElementContains(String.format(LIST_PROTOCOL_SUB_DEADLINE_ID, 1), fullFormatter.format(thirdDeadlineDate));
         
         helper.assertElementContains(String.format(LIST_SCHEDULE_DATE_ID, 2), fullFormatter.format(fourthScheduleDate));
-        helper.assertTableCellValue(TABLE_ID, 4, 1, dayFormatter.format(fourthScheduleDate).toUpperCase());
+        helper.assertTableCellValueContains(TABLE_ID, 4, 1, dayFormatter.format(fourthScheduleDate).toUpperCase());
         helper.assertElementContains(String.format(LIST_PROTOCOL_SUB_DEADLINE_ID, 2), fullFormatter.format(fourthDeadlineDate));
     }
     

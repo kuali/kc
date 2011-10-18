@@ -264,9 +264,9 @@ public class ProposalDevelopmentAbstractsPanelSeleniumTest extends KcSeleniumTes
      * @param rowIndex the index of the row to check
      */
     private void checkRow(String timestampDisplay, String abstractTypeName, String abstractDetails) {
-        helper.assertTableCellValue(TABLE_ID, timestampDisplay);
-        helper.assertTableCellValue(TABLE_ID, abstractTypeName);
-        helper.assertTableCellValue(TABLE_ID, abstractDetails);
+        helper.assertTableCellValueContains(TABLE_ID, timestampDisplay);
+        helper.assertTableCellValueContains(TABLE_ID, abstractTypeName);
+        helper.assertTableCellValueContains(TABLE_ID, abstractDetails);
     }
     
 }
