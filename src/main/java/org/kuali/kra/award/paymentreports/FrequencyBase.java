@@ -18,6 +18,7 @@ package org.kuali.kra.award.paymentreports;
 
 import java.util.LinkedHashMap;
 
+import org.apache.commons.lang.StringUtils;
 import org.kuali.kra.bo.KraPersistableBusinessObjectBase;
 
 /**
@@ -33,12 +34,14 @@ public class FrequencyBase extends KraPersistableBusinessObjectBase {
     private static final long serialVersionUID = 5406416029670950959L;
     private String frequencyBaseCode; 
     private String description; 
+    private String regenerationTypeName;
+    private boolean active;
     
     /**
      * Constructs a FrequencyBase object.
      */
     public FrequencyBase() { 
-
+        regenerationTypeName = ReportRegenerationType.REGEN.name();
     } 
     
     /**
@@ -131,6 +134,36 @@ public class FrequencyBase extends KraPersistableBusinessObjectBase {
         return true;
     }
     
+    public ReportRegenerationType getReportRegenerationType() {
+        if (StringUtils.isNotBlank(getRegenerationTypeName())) {
+            return ReportRegenerationType.valueOf(getRegenerationTypeName());
+        } else {
+            return null;
+        }
+    }
     
+    public void setReportRegenerationType(ReportRegenerationType type) {
+        if (type != null) {
+            setRegenerationTypeName(type.name());
+        } else {
+            setRegenerationTypeName(null);
+        }
+    }
+
+    public String getRegenerationTypeName() {
+        return regenerationTypeName;
+    }
+
+    public void setRegenerationTypeName(String regenerationTypeName) {
+        this.regenerationTypeName = regenerationTypeName;
+    }
+
+    public boolean isActive() {
+        return active;
+    }
+
+    public void setActive(boolean active) {
+        this.active = active;
+    }
     
 }

@@ -33,6 +33,7 @@ public class Distribution extends KraPersistableBusinessObjectBase {
     private static final long serialVersionUID = -8638092879516673772L;
     private String ospDistributionCode; 
     private String description; 
+    private boolean active;
     
     /**
      * Constructs a Distribution.java
@@ -128,6 +129,14 @@ public class Distribution extends KraPersistableBusinessObjectBase {
             return false;
         }   
         return true;
+    }
+
+    public boolean isActive() {
+        return active;
+    }
+
+    public void setActive(boolean active) {
+        this.active = active;
     }
     
 }

@@ -33,7 +33,8 @@ public class ReportClass extends KraPersistableBusinessObjectBase {
     private static final long serialVersionUID = 2641812275218339806L;
     private String reportClassCode; 
     private String description; 
-    private boolean generateReportRequirements; 
+    private boolean generateReportRequirements;
+    private boolean active;
     
     /**
      * Constructs a ReportClass.java
@@ -146,6 +147,14 @@ public class ReportClass extends KraPersistableBusinessObjectBase {
             return false;
         }   
         return true;
+    }
+
+    public boolean isActive() {
+        return active;
+    }
+
+    public void setActive(boolean active) {
+        this.active = active;
     }
     
     

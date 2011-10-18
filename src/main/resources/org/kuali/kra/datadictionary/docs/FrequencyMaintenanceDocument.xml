@@ -56,6 +56,7 @@
 				<bean parent="MaintainableFieldDefinition" p:name="repeatFlag" p:required="true"/>
 				<bean parent="MaintainableFieldDefinition" p:name="advanceNumberOfDays"/>
 				<bean parent="MaintainableFieldDefinition" p:name="advanceNumberOfMonths"/>
+				<bean parent="MaintainableFieldDefinition" p:name="active" p:required="true"/>
 				<bean parent="MaintainableFieldDefinition" p:name="versionNumber"/>
 			</list>
 		</property>
