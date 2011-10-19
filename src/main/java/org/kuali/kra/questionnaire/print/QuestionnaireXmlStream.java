@@ -281,17 +281,20 @@ public class QuestionnaireXmlStream implements XmlStream {
         ModuleUsageType moduleUsage = questionnaireType.addNewModuleUsage();
         ModuleInfoType moduleInfo = moduleUsage.addNewModuleInfo();
         String moduleCode = moduleQuestionnaireBean.getModuleItemCode();
-        CoeusModule moduleData = getQuestionnaireCouesModule(moduleCode);//txnBean.getModuleData(true);
+        CoeusModule moduleData = getQuestionnaireCouesModule(moduleCode);
         String moduleSubItemKey = moduleQuestionnaireBean.getModuleSubItemKey();
         // a bug should be the modulesubitemcode NOT modulesubitemkey
        // CoeusSubModule subModuleData1 = getQuestionnaireCoeusSubModule(moduleCode,moduleSubItemKey);
         CoeusSubModule subModuleData = getQuestionnaireCoeusSubModule(moduleCode,moduleQuestionnaireBean.getModuleSubItemCode());
-        
-        moduleInfo.setModuleCode(Integer.parseInt(moduleCode));
+        if(moduleCode!=null){
+            moduleInfo.setModuleCode(Integer.parseInt(moduleCode));
+        }
         if(moduleSubItemKey!=null){
             moduleInfo.setSubModuleCode(Integer.parseInt(moduleSubItemKey));
         }
-        moduleInfo.setModuleDesc(moduleData.getDescription());
+        if(moduleData!=null){
+            moduleInfo.setModuleDesc(moduleData.getDescription());
+        }
         if(subModuleData!=null){
             moduleInfo.setSubModuleDesc(subModuleData.getDescription());
         }
