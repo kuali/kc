@@ -340,24 +340,18 @@ public abstract class KcSeleniumHelper {
      * @param value the new value of the element
      */
     private void setSelect(final WebElement element, final String value) {
-        WebElement option = new ElementExistsWaiter("The option with value " + value + " not found").until(
-            new Function<WebDriver, WebElement>() {
-                public WebElement apply(WebDriver driver) {
-                    WebElement optionElement = null;
-                    
-                    for (WebElement option : element.findElements(By.tagName("option"))) {
-                        String optionText = option.getText();
-                        if (StringUtils.contains(optionText, value)) {
-                            optionElement = option;
-                            break;
-                        }
-                    }
-                    
-                    return optionElement;
-                }
+        WebElement optionElement = null;
+        
+        Select select = new Select(element);
+        for (WebElement option : select.getOptions()) {
+            String optionText = option.getText();
+            if (StringUtils.contains(optionText, value)) {
+                optionElement = option;
+                break;
             }
-        );
-        option.click();
+        }
+
+        optionElement.click();
     }
 
     /**

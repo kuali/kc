@@ -548,20 +548,6 @@
 			<artifactId>commons-lang</artifactId>
 			<version>2.5</version>
 		</dependency>
-		
-		
-		<!-- included to resolve dependency conflict between rice & htmlunit.  htmlunit needs a newer version -->
-		<dependency>
-			<groupId>commons-httpclient</groupId>
-			<artifactId>commons-httpclient</artifactId>
-			<version>3.1</version>
-			<exclusions>
-				<exclusion>
-					<artifactId>commons-logging</artifactId>
-					<groupId>commons-logging</groupId>
-				</exclusion>
-			</exclusions>
-		</dependency>
 
 		<!-- commons-logging implementation, commons-logging calls will go to slf4j -->
 		<dependency>
@@ -712,22 +698,6 @@
 			<version>${mysql.version}</version>
 			<!-- should be provided once embedded jetty is figured out -->
 			<scope>test</scope>
-		</dependency>
-		<dependency>
-			<groupId>net.sourceforge.htmlunit</groupId>
-			<artifactId>htmlunit</artifactId>
-			<version>2.8</version>
-			<scope>test</scope>
-			<exclusions>
-				<exclusion>
-					<groupId>commons-logging</groupId>
-		    		<artifactId>commons-logging</artifactId>
-		    	</exclusion>
-		    	<exclusion>
-		    		<groupId>xerces</groupId>
-		    		<artifactId>xercesImpl</artifactId>
-		    	</exclusion>
-			</exclusions>
 		</dependency>
 		<dependency>
 			<groupId>org.kuali.db.ojb</groupId>
@@ -1083,11 +1053,6 @@
 					<groupId>javax.servlet</groupId>
 					<artifactId>jstl</artifactId>
 				</exclusion>
-				<!-- excluding so that htmlunit will work -->
-				<exclusion>
-					<artifactId>commons-httpclient</artifactId>
-					<groupId>commons-httpclient</groupId>
-				</exclusion>
 				<exclusion>
 					<artifactId>mail</artifactId>
 					<groupId>javax.mail</groupId>
@@ -1129,6 +1094,10 @@
                     <groupId>org.testng</groupId>
                     <artifactId>testng</artifactId>
                 </exclusion>
+                <exclusion>
+					<groupId>commons-logging</groupId>
+		    		<artifactId>commons-logging</artifactId>
+		    	</exclusion>
 		    </exclusions>
 		</dependency>
 	    <dependency>
@@ -1567,7 +1536,7 @@
 		<mysql.version>5.1.13</mysql.version>
 		<oracle.version>10.2.0.3.0</oracle.version>
 		<rice.version>1.0.3.3</rice.version>
-		<selenium.version>2.5.0</selenium.version>
+		<selenium.version>2.6.0</selenium.version>
 		<servlet.version>2.5</servlet.version>
 		<slf4j.version>1.6.1</slf4j.version>
 		<springframework.version>2.5.6</springframework.version>
