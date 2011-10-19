@@ -56,14 +56,15 @@ public class ProtocolQuestionnaireAuditRule extends BaseQuestionnaireAuditRule<P
         if (headers!=null) {
             for (int i=0;i<headers.size();i++) {
                 AnswerHeader header = headers.get(i);
-                QuestionnaireUsage usage = getQuestionnaireUsage(CoeusModule.IRB_MODULE_CODE, header.getQuestionnaire().getQuestionnaireUsages());
-                if ( (usage != null) && usage.isMandatory() && !header.getCompleted()) {
+                QuestionnaireUsage usage = header.getQuestionnaire().getHighestVersionUsageFor(pmqb.getModuleItemCode(), pmqb.getModuleSubItemCode());
+                if ( (usage != null) && (usage.isMandatory()) && (!header.getCompleted()) && (header.isActiveQuestionnaire()) ) {
                     isValid = false;
-                    addMandatoryQuestionnaireErrorToAuditErrors(i,usage);
+                    addMandatoryQuestionnaireErrorToAuditErrors(i, usage);
                 }
                 // now check for whether updates if any were required, were actually performed
-                // no need to check if questionnaire is active, thats taken care of by the service that sets the new version published flag
-                if(header.isNewerVersionPublished()) {
+                // TODO: not sure if we really need to check if questionnaire is active, that should've been taken care of 
+                // by the service that sets the new version published flag
+                if(header.isNewerVersionPublished() && (header.isActiveQuestionnaire()) ) {
                     isValid = false;
                     addQuestionnaireNotUpdatedErrorToAuditErrors(i, usage);
                 }
