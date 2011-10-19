@@ -337,9 +337,7 @@ public class SponsorFormMaintenanceDocumentSeleniumTest extends KcSeleniumTestBa
     @SuppressWarnings("unchecked")
     private int getNewPackageNumber() {
         int maxPackageNumber = 1;
-        Map<String, String> fieldValues = new LinkedHashMap<String, String>();
-        fieldValues.put(PACKAGE_NAME_ID, DEFAULT_PACKAGE_NAME);
-        Collection<SponsorForms> sponsorForms = getBusinessObjectService().findMatching(SponsorForms.class, fieldValues);
+        Collection<SponsorForms> sponsorForms = getBusinessObjectService().findAll(SponsorForms.class);
         for (SponsorForms sponsorForm : sponsorForms) {
             int packageNumber = sponsorForm.getPackageNumber();
             if (packageNumber > maxPackageNumber) {
