@@ -63,11 +63,11 @@ public class CoiDisclosure extends KraPersistableBusinessObjectBase {
 //    private CoiStatus coiStatus; 
 //    private CoiDispositionStatus coiDispositionStatus; 
 //    private CoiDisclProjects coiDisclProjects; 
-//    private CoiDiscDetails coiDiscDetails; 
+    private CoiDiscDetail coiDiscDetails; 
 //    private CoiDocuments coiDocuments; 
 //    private CoiNotepad coiNotepad; 
 //    private CoiUserRoles coiUserRoles; 
-    
+
     public CoiDisclosure() { 
 //        disclosurePersons = new ArrayList<DisclosurePerson>();
 //        DisclosurePerson newDisclosurePerson = new DisclosurePerson();
@@ -325,4 +325,14 @@ public class CoiDisclosure extends KraPersistableBusinessObjectBase {
         this.setExpirationDate(new Date(DateUtils.addDays(new Date(System.currentTimeMillis()), 365).getTime()));
 
     }
+    
+    
+    public CoiDiscDetail getCoiDiscDetails() {
+        return coiDiscDetails;
+    }
+
+    public void setCoiDiscDetails(CoiDiscDetail coiDiscDetails) {
+        this.coiDiscDetails = coiDiscDetails;
+    }
+
 }
