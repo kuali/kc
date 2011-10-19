@@ -20,7 +20,7 @@
   <ul class="chan">
     <li>COI Disclosure Status</li>
     <li>COI Reviewer</li>
-    <li>COI Status</li>
+    <li><portal:portalLink displayTitle="true" title="COI Status" url="kr/lookup.do?methodToCall=start&businessObjectClassName=org.kuali.kra.coi.CoiStatus&docFormKey=88888888&returnLocation=${ConfigProperties.application.url}/portal.do&hideReturnLink=true" /></li>
     <li><portal:portalLink displayTitle="true" title="Entity Relationship Type" url="kr/lookup.do?methodToCall=start&businessObjectClassName=org.kuali.kra.coi.personfinancialentity.FinIntEntityRelType&docFormKey=88888888&returnLocation=${ConfigProperties.application.url}/portal.do&hideReturnLink=true" /></li>
     <li>Entity Status</li>
     <li><portal:portalLink displayTitle="true" title="Entity Data Groups" url="kr/lookup.do?methodToCall=start&businessObjectClassName=org.kuali.kra.coi.personfinancialentity.FinEntitiesDataGroup&docFormKey=88888888&returnLocation=${ConfigProperties.application.url}/portal.do&hideReturnLink=true" /></li>
