@@ -1516,7 +1516,7 @@
 			<foreignkey field-ref="reportClassCode"/>
 		</reference-descriptor>
 		<reference-descriptor name="reportStatus" class-ref="org.kuali.kra.award.paymentreports.ReportStatus" auto-retrieve="true" auto-update="none" auto-delete="none"> 
-			<foreignkey field-ref="reportStatus"/>
+			<foreignkey field-ref="statusCode"/>
 		</reference-descriptor>    
         <reference-descriptor name="leadUnit" class-ref="org.kuali.kra.bo.Unit" auto-retrieve="true" auto-update="none" auto-delete="none">
 			<foreignkey field-ref="leadUnitNumber"/>
