@@ -165,8 +165,8 @@
 	<bean id="AwardTemplateReportTerm-ospFileCopy-parentBean" abstract="true" parent="AttributeDefinition" >
 		<property name="name" value="ospDistributionCode" />
 		<property name="forceUppercase" value="false" />
-		<property name="label" value="OspCopy" />
-		<property name="shortLabel" value="OspCopy" />
+		<property name="label" value="Osp File Copy" />
+		<property name="shortLabel" value="Osp File Copy" />
 		<property name="maxLength" value="3" />
 		<property name="validationPattern" >
 			<bean parent="AlphaNumericValidationPattern" />
