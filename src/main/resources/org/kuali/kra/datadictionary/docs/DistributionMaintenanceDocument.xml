@@ -45,8 +45,8 @@
 	
 	<bean id="DistributionMaintenanceDocument-EditDistribution" parent="DistributionMaintenanceDocument-EditDistribution-parentBean"/>
 	<bean id="DistributionMaintenanceDocument-EditDistribution-parentBean" abstract="true" parent="MaintainableSectionDefinition">
-		<property name="id" value="Edit Osp File Copy"/>
-		<property name="title" value="Edit Osp File COpy"/>
+		<property name="id" value="Edit OSP File Copy"/>
+		<property name="title" value="Edit OSP File Copy"/>
 		<property name="maintainableItems">
 			<list>
 				<bean parent="MaintainableFieldDefinition" p:name="ospDistributionCode" p:required="true"/>
