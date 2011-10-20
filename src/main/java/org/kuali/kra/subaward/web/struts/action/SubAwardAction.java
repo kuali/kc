@@ -245,7 +245,20 @@ public ActionForward customData(ActionMapping mapping, ActionForm form
     return subAwardForm.getCustomDataHelper().subAwardCustomData(mapping, form, request, response);
 }
 
+/**
+*
+* This method gets called upon navigation to subaward action tab.
+* @param mapping
+* @param form
+* @param request
+* @param response
+* @return
+*/
 
+public ActionForward subAwardActions(ActionMapping mapping, ActionForm form, HttpServletRequest request, HttpServletResponse response) {
+    
+    return mapping.findForward(Constants.MAPPING_SUBAWARD_ACTION_PAGE);
+}
 
 /**
  * 

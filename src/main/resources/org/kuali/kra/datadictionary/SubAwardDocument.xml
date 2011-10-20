@@ -15,7 +15,7 @@
     <property name="documentClass" value="org.kuali.kra.subaward.document.SubAwardDocument"/>
     <property name="documentAuthorizerClass" value="org.kuali.kra.subaward.document.authorization.SubAwardDocumentAuthorizer"/>
      
-    <property name="allowsCopy" value="true"/>
+    <property name="allowsCopy" value="false"/>
     <property name="headerNavigationList">
       <list>
         <bean parent="HeaderNavigation">
@@ -41,6 +41,10 @@
         <bean parent="HeaderNavigation">
           <property name="headerTabDisplayName" value="Closeouts"/>
           <property name="headerTabNavigateTo" value="closeouts"/>
+        </bean>
+        <bean parent="HeaderNavigation">
+          <property name="headerTabDisplayName" value="SubAward Actions"/>
+          <property name="headerTabNavigateTo" value="subAwardActions"/>
         </bean>
         <bean parent="HeaderNavigation">
           <property name="headerTabDisplayName" value="Custom Data"/>

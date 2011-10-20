@@ -27,10 +27,9 @@ public class AwardSubAwardTerms extends KraPersistableBusinessObjectBase {
     private Integer awardId; 
     private String mitAwardNumber; 
     private Integer sequenceNumber; 
-    private Integer subAwardApprovalCode; 
+    private Integer subAwardApprovalTypeCode; 
     
     private Award award; 
-    private SubAwardApprovalType subAwardApprovalType; 
     
     public AwardSubAwardTerms() { 
 
@@ -68,12 +67,12 @@ public class AwardSubAwardTerms extends KraPersistableBusinessObjectBase {
         this.sequenceNumber = sequenceNumber;
     }
 
-    public Integer getSubAwardApprovalCode() {
-        return subAwardApprovalCode;
+    public Integer getSubAwardApprovalTypeCode() {
+        return subAwardApprovalTypeCode;
     }
 
-    public void setSubAwardApprovalCode(Integer subAwardApprovalCode) {
-        this.subAwardApprovalCode = subAwardApprovalCode;
+    public void setSubAwardApprovalTypeCode(Integer subAwardApprovalTypeCode) {
+        this.subAwardApprovalTypeCode = subAwardApprovalTypeCode;
     }
 
     public Award getAward() {
@@ -84,15 +83,7 @@ public class AwardSubAwardTerms extends KraPersistableBusinessObjectBase {
         this.award = award;
     }   
 
-    public SubAwardApprovalType getSubAwardApprovalType() {
-        return subAwardApprovalType;
-    }
-
-    public void setSubAwardApprovalType(SubAwardApprovalType subAwardApprovalType) {
-        this.subAwardApprovalType = subAwardApprovalType;
-    }
-
-   
+  
 
     /** {@inheritDoc} */
     @Override 
@@ -102,7 +93,7 @@ public class AwardSubAwardTerms extends KraPersistableBusinessObjectBase {
         hashMap.put("awardId", this.getAwardId());
         hashMap.put("mitAwardNumber", this.getMitAwardNumber());
         hashMap.put("sequenceNumber", this.getSequenceNumber());
-        hashMap.put("subAwardApprovalCode", this.getSubAwardApprovalCode());
+        hashMap.put("subAwardApprovalCode", this.getSubAwardApprovalTypeCode());
         return hashMap;
     }
     
