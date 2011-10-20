@@ -1,0 +1,210 @@
+<beans xmlns="http://www.springframework.org/schema/beans" 
+	xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" 
+	xmlns:p="http://www.springframework.org/schema/p" 
+	xsi:schemaLocation="http://www.springframework.org/schema/beans 
+		http://www.springframework.org/schema/beans/spring-beans-2.0.xsd">
+
+    <bean id="OrganizationCorrespondent" parent="OrganizationCorrespondent-parentBean" />
+    <bean id="OrganizationCorrespondent-parentBean" abstract="true" parent="BusinessObjectEntry">
+        <property name="businessObjectClass" value="org.kuali.kra.bo.OrganizationCorrespondent" />
+		<property name="objectLabel" value="Organization Correspondent" />
+        <property name="inquiryDefinition" >
+            <ref bean="OrganizationCorrespondent-inquiryDefinition" />
+        </property>
+        <property name="lookupDefinition" >
+            <ref bean="OrganizationCorrespondent-lookupDefinition" />
+        </property>
+        <property name="attributes" >
+            <list>
+                <ref bean="OrganizationCorrespondent-organizationCorrespondentId" />
+                <ref bean="OrganizationCorrespondent-organizationId" />
+                <ref bean="OrganizationCorrespondent-correspondentTypeCode" />
+                <ref bean="OrganizationCorrespondent-personId" />
+		        <ref bean="OrganizationCorrespondent-person.fullName" />
+                <ref bean="OrganizationCorrespondent-nonEmployeeFlag" />
+                <ref bean="OrganizationCorrespondent-description" />
+                <ref bean="OrganizationCorrespondent-versionNumber" />
+            </list>
+        </property>
+    </bean>
+
+    <!-- Attribute Definitions -->
+    
+    <bean id="OrganizationCorrespondent-organizationCorrespondentId" parent="OrganizationCorrespondent-organizationCorrespondentId-parentBean" />
+    <bean id="OrganizationCorrespondent-organizationCorrespondentId-parentBean" abstract="true" parent="AttributeDefinition" >
+        <property name="name" value="organizationCorrespondentId" />
+        <property name="forceUppercase" value="false" />
+        <property name="label" value="Organization Correspondent Id" />
+        <property name="shortLabel" value="Organization Correspondent Id" />
+        <property name="maxLength" value="22" />
+        <property name="validationPattern" >
+            <bean parent="NumericValidationPattern" />
+        </property>
+        <property name="control" >
+            <bean parent="TextControlDefinition"
+                p:size="12" />
+        </property>
+        <property name="summary" value="Organization Correspondent Id" />
+        <property name="description" value="Organization Correspondent Id" />
+    </bean>
+
+    <bean id="OrganizationCorrespondent-organizationId" parent="OrganizationCorrespondent-organizationId-parentBean" />
+    <bean id="OrganizationCorrespondent-organizationId-parentBean" abstract="true" parent="AttributeDefinition" >
+        <property name="name" value="organizationId" />
+        <property name="forceUppercase" value="false" />
+        <property name="label" value="Organization Id" />
+        <property name="shortLabel" value="Organization Id" />
+        <property name="maxLength" value="8" />
+        <property name="validationPattern" >
+            <bean parent="AlphaNumericValidationPattern" />
+        </property>
+        <property name="control" >
+            <bean parent="TextControlDefinition"
+                p:size="10" />
+        </property>
+        <property name="summary" value="Organization Id" />
+        <property name="description" value="Organization Id" />
+    </bean>
+
+    <bean id="OrganizationCorrespondent-correspondentTypeCode" parent="OrganizationCorrespondent-correspondentTypeCode-parentBean" />
+    <bean id="OrganizationCorrespondent-correspondentTypeCode-parentBean" abstract="true" parent="AttributeDefinition" >
+        <property name="name" value="correspondentTypeCode" />
+        <property name="forceUppercase" value="false" />
+        <property name="label" value="Correspondent Type Code" />
+        <property name="shortLabel" value="Correspondent Type Code" />
+        <property name="maxLength" value="22" />
+        <property name="validationPattern" >
+            <bean parent="NumericValidationPattern" />
+        </property>
+        <property name="control" >
+            <bean parent="TextControlDefinition"
+                p:size="10" />
+        </property>
+        <property name="summary" value="Correspondent Type Code" />
+        <property name="description" value="Correspondent Type Code" />
+    </bean>
+
+    <bean id="OrganizationCorrespondent-personId" parent="OrganizationCorrespondent-personId-parentBean" />
+    <bean id="OrganizationCorrespondent-personId-parentBean" abstract="true" parent="PersonImpl-principalId" >
+        <property name="name" value="personId" />
+        <property name="label" value="Person Id" />
+        <property name="shortLabel" value="Person Id" />
+        <property name="control">
+            <bean parent="HiddenControlDefinition" />
+        </property>
+        <property name="displayLabelAttribute" value="person.userName" />
+    </bean>
+
+	<bean id="OrganizationCorrespondent-person.fullName" parent="OrganizationCorrespondent-person.fullName-parentBean" />
+    <bean id="OrganizationCorrespondent-person.fullName-parentBean" abstract="true" parent="KcPerson-fullName">
+        <property name="name" value="person.fullName" />
+        <property name="label" value="Full Name" />
+        <property name="shortLabel" value="Full Name" />
+    </bean>
+  
+    <bean id="OrganizationCorrespondent-nonEmployeeFlag" parent="OrganizationCorrespondent-nonEmployeeFlag-parentBean" />
+    <bean id="OrganizationCorrespondent-nonEmployeeFlag-parentBean" abstract="true" parent="AttributeReferenceDummy-genericBoolean" >
+        <property name="name" value="nonEmployeeFlag" />
+        <property name="label" value="Non Employee Flag" />
+        <property name="shortLabel" value="Non Employee Flag" />
+        <property name="summary" value="Non Employee Flag" />
+        <property name="description" value="Non Employee Flag" />
+    </bean>
+
+    <bean id="OrganizationCorrespondent-description" parent="OrganizationCorrespondent-description-parentBean" />
+    <bean id="OrganizationCorrespondent-description-parentBean" abstract="true" parent="AttributeDefinition" >
+        <property name="name" value="description" />
+        <property name="forceUppercase" value="false" />
+        <property name="label" value="Description" />
+        <property name="shortLabel" value="Description" />
+        <property name="maxLength" value="2000" />
+        <property name="validationPattern" >
+            <bean parent="AnyCharacterValidationPattern"
+                p:allowWhitespace="true" />
+        </property>
+        <property name="control" >
+            <bean parent="TextareaControlDefinition"
+                p:rows="2"
+                p:cols="120" />
+        </property>
+        <property name="summary" value="Description" />
+        <property name="description" value="Description" />
+    </bean>
+
+    <bean id="OrganizationCorrespondent-versionNumber" parent="OrganizationCorrespondent-versionNumber-parentBean" />
+    <bean id="OrganizationCorrespondent-versionNumber-parentBean" abstract="true" parent="AttributeReferenceDummy-versionNumber">
+    </bean>
+
+    <!-- Business Object Inquiry Definition -->
+    <bean id="OrganizationCorrespondent-inquiryDefinition" parent="OrganizationCorrespondent-inquiryDefinition-parentBean" />
+    <bean id="OrganizationCorrespondent-inquiryDefinition-parentBean" abstract="true" parent="InquiryDefinition">
+        <property name="title" value="Organization Correspondent" />
+        <property name="inquirySections" >
+            <list>
+                <bean parent="InquirySectionDefinition">
+                    <property name="title" value="Organization Correspondent" />
+                    <property name="numberOfColumns" value="1" />
+                    <property name="inquiryFields" >
+                        <list>
+				            <bean parent="FieldDefinition"
+                			    p:attributeName="personId"
+                    			p:forceInquiry="true" />
+                            <bean parent="FieldDefinition"
+                                p:attributeName="organizationId"
+                    			p:forceInquiry="true" />
+                            <bean parent="FieldDefinition"
+                                p:attributeName="correspondentTypeCode"
+                    			p:forceInquiry="true" />
+                            <bean parent="FieldDefinition"
+                                p:attributeName="nonEmployeeFlag" />
+                        </list>
+                    </property>
+                </bean>
+            </list>
+        </property>
+    </bean>
+
+    <!-- Business Object Lookup Definition -->
+    <bean id="OrganizationCorrespondent-lookupDefinition" parent="OrganizationCorrespondent-lookupDefinition-parentBean" />
+    <bean id="OrganizationCorrespondent-lookupDefinition-parentBean" abstract="true" parent="LookupDefinition">
+        <property name="title" value="Organization Correspondent Lookup" />
+        <property name="menubar" value="&lt;a href=&quot;index.jsp&quot;&gt;Main&lt;/a&gt;" />
+        <property name="defaultSort" >
+            <bean parent="SortDefinition" >
+            </bean>
+        </property>
+        <property name="lookupFields" >
+            <list>
+				<bean parent="FieldDefinition"
+                    p:attributeName="personId" />
+                <bean parent="FieldDefinition"
+                    p:attributeName="organizationId" />
+                <bean parent="FieldDefinition"
+                    p:attributeName="correspondentTypeCode" />
+                <bean parent="FieldDefinition"
+                    p:attributeName="nonEmployeeFlag" />
+            </list>
+        </property>
+        <property name="resultFields" >
+            <list>
+				<bean parent="FieldDefinition"
+                	p:attributeName="personId" />
+				<bean parent="FieldDefinition"
+                	p:attributeName="person.fullName"
+                    p:forceInquiry="true" />
+                <bean parent="FieldDefinition"
+                    p:attributeName="organizationCorrespondentId" 
+                    p:forceInquiry="true" />
+                <bean parent="FieldDefinition"
+                    p:attributeName="organizationId" 
+                    p:forceInquiry="true" />
+                <bean parent="FieldDefinition"
+                    p:attributeName="correspondentTypeCode" 
+		            p:forceInquiry="true" />
+                <bean parent="FieldDefinition"
+                    p:attributeName="nonEmployeeFlag" />
+            </list>
+        </property>
+    </bean>
+</beans>
+

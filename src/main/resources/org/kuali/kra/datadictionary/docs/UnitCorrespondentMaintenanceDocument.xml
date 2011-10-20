@@ -1,0 +1,41 @@
+<beans xmlns="http://www.springframework.org/schema/beans" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xmlns:p="http://www.springframework.org/schema/p" xsi:schemaLocation="http://www.springframework.org/schema/beans http://www.springframework.org/schema/beans/spring-beans-2.0.xsd">
+
+    <bean id="UnitCorrespondentMaintenanceDocument" parent="UnitCorrespondentMaintenanceDocument-parentBean" />
+    <bean id="UnitCorrespondentMaintenanceDocument-parentBean" abstract="true" parent="MaintenanceDocumentEntry">
+        <property name="businessObjectClass" value="org.kuali.kra.bo.UnitCorrespondent" />
+        <property name="maintainableClass" value="org.kuali.kra.maintenance.KraMaintainableImpl" />
+	    <property name="allowsRecordDeletion" value="true"/>
+        <property name="maintainableSections" >
+            <list>
+                <ref bean="UnitCorrespondentMaintenanceDocument-EditUnitCorrespondent" />
+            </list>
+        </property>
+        <property name="lockingKeys" >
+            <list>
+                <value>unitCorrespondentId</value>
+            </list>
+        </property>
+        <property name="documentTypeName" value="UnitCorrespondentMaintenanceDocument" />
+        <property name="businessRulesClass" value="org.kuali.rice.kns.document.authorization.MaintenanceDocumentAuthorizerBase" />
+    </bean>
+
+    <!-- Maintenance Section Definitions -->
+    
+    <bean id="UnitCorrespondentMaintenanceDocument-EditUnitCorrespondent" parent="UnitCorrespondentMaintenanceDocument-EditUnitCorrespondent-parentBean" />
+    <bean id="UnitCorrespondentMaintenanceDocument-EditUnitCorrespondent-parentBean" abstract="true" parent="MaintainableSectionDefinition">
+        <property name="id" value="Edit Unit Correspondent" />
+        <property name="title" value="Edit Unit Correspondent" />
+        <property name="maintainableItems" >
+            <list>
+                <bean parent="MaintainableFieldDefinition" p:name="unitCorrespondentId" p:required="true" />
+                <bean parent="MaintainableFieldDefinition" p:name="unitNumber" p:required="true" />
+                <bean parent="MaintainableFieldDefinition" p:name="correspondentTypeCode" p:required="true" />
+                <bean parent="MaintainableFieldDefinition" p:name="personId" p:required="true" />
+ 		        <bean parent="MaintainableFieldDefinition" p:name="person.userName" p:required="false" />
+                <bean parent="MaintainableFieldDefinition" p:name="nonEmployeeFlag" p:required="true" />
+                <bean parent="MaintainableFieldDefinition" p:name="description" />
+                <bean parent="MaintainableFieldDefinition" p:name="versionNumber" />
+            </list>
+        </property>
+    </bean>
+</beans>
