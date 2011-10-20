@@ -43,8 +43,8 @@
 	<bean abstract="true" id="Distribution-ospDistributionCode-parentBean" parent="AttributeDefinition">
 		<property name="name" value="ospDistributionCode"/>
 		<property name="forceUppercase" value="false"/>
-		<property name="label" value="Osp File Copy Code"/>
-		<property name="shortLabel" value="Osp File Copy Code"/>
+		<property name="label" value="OSP File Copy Code"/>
+		<property name="shortLabel" value="OSP File Copy Code"/>
 		<property name="maxLength" value="3"/>
 		<property name="validationPattern">
 			<bean parent="NumericValidationPattern"/>
@@ -52,8 +52,8 @@
 		<property name="control">
 			<bean p:size="10" parent="TextControlDefinition"/>
 		</property>
-		<property name="summary" value="Osp File Copy Code"/>
-		<property name="description" value="Osp File Copy Code"/>
+		<property name="summary" value="OSP File Copy Code"/>
+		<property name="description" value="OSP File Copy Code"/>
 	</bean>
 
 	<bean id="Distribution-description" parent="Distribution-description-parentBean"/>
@@ -89,11 +89,11 @@
 	<!-- Business Object Inquiry Definition -->
 	<bean id="Distribution-inquiryDefinition" parent="Distribution-inquiryDefinition-parentBean"/>
 	<bean abstract="true" id="Distribution-inquiryDefinition-parentBean" parent="InquiryDefinition">
-		<property name="title" value="Osp File Copy Code"/>
+		<property name="title" value="OSP File Copy Code"/>
 		<property name="inquirySections">
 			<list>
 				<bean parent="InquirySectionDefinition">
-					<property name="title" value="Osp File Copy Code"/>
+					<property name="title" value="OSP File Copy Code"/>
 					<property name="numberOfColumns" value="1"/>
 					<property name="inquiryFields">
 						<list>
@@ -110,7 +110,7 @@
 	<!-- Business Object Lookup Definition -->
 	<bean id="Distribution-lookupDefinition" parent="Distribution-lookupDefinition-parentBean"/>
 	<bean abstract="true" id="Distribution-lookupDefinition-parentBean" parent="LookupDefinition">
-		<property name="title" value="Osp File Copy Lookup"/>
+		<property name="title" value="OSP File Copy Lookup"/>
 		<property name="menubar" value="&lt;a href=&quot;index.jsp&quot;&gt;Main&lt;/a&gt;"/>
 
 		<property name="defaultSort">
