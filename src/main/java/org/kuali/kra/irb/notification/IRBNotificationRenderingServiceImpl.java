@@ -21,17 +21,23 @@ import java.util.Map;
 
 import org.apache.commons.collections.CollectionUtils;
 import org.apache.commons.lang.StringUtils;
+import org.kuali.kra.committee.bo.Committee;
 import org.kuali.kra.irb.Protocol;
+import org.kuali.kra.irb.actions.ProtocolAction;
 import org.kuali.kra.irb.actions.ProtocolActionType;
+import org.kuali.kra.irb.actions.submit.ProtocolReviewType;
 import org.kuali.kra.irb.actions.submit.ProtocolSubmissionQualifierType;
 import org.kuali.kra.irb.actions.submit.ProtocolSubmissionType;
+import org.kuali.kra.service.KcPersonService;
 import org.kuali.rice.kns.service.BusinessObjectService;
 import org.kuali.rice.kns.service.KNSServiceLocator;
+import org.kuali.rice.kns.util.GlobalVariables;
 
 public class IRBNotificationRenderingServiceImpl implements IRBNotificationRenderingService {
 
     private Protocol protocol;
     private BusinessObjectService businessObjectService;
+    private KcPersonService kcPersonService;
     
     
     /**
@@ -123,6 +129,18 @@ public class IRBNotificationRenderingServiceImpl implements IRBNotificationRende
                 params.put(key, protocol.getProtocolSubmissionStatus());
             } else if (StringUtils.equals(key, IRBReplacementParameters.DOCUMENT_NUMBER)) {
                 params.put(key, protocol.getProtocolDocument().getDocumentNumber());
+            } else if (StringUtils.equals(key, IRBReplacementParameters.USER_FULLNAME)) {
+                if (GlobalVariables.getUserSession() != null) {
+                    params.put(key, getKcPersonService().getKcPersonByPersonId(GlobalVariables.getUserSession().getPrincipalId()).getFullName());
+                }
+            } else if (StringUtils.equals(key, IRBReplacementParameters.PROTOCOL_REVIEW_TYPE_DESC)) {
+                if (protocol.getProtocolSubmission() != null) {
+                    params.put(key, getProtocolReviewTypeDescription(protocol.getProtocolSubmission().getProtocolReviewTypeCode()));
+                }
+            } else if (StringUtils.equals(key, IRBReplacementParameters.COMMITTEE_NAME)) {
+                if (protocol.getProtocolSubmission() != null) {
+                    params.put(key, getCommitteeName(protocol.getProtocolSubmission().getCommitteeId()));
+                }
             }
         }
         
@@ -148,6 +166,14 @@ public class IRBNotificationRenderingServiceImpl implements IRBNotificationRende
         this.businessObjectService = businessObjectService;
     }
 
+
+    public KcPersonService getKcPersonService() {
+        return kcPersonService;
+    }
+
+    public void setKcPersonService(KcPersonService kcPersonService) {
+        this.kcPersonService = kcPersonService;
+    }
 
     private String getProtocolLastActionName(String lastActionTypeCode) {
         String result = null;
@@ -187,4 +213,27 @@ public class IRBNotificationRenderingServiceImpl implements IRBNotificationRende
         return result;
     }
 
+    private String getProtocolReviewTypeDescription(String reviewTypeCode) {
+        String result = null;
+        Map<String, String> fieldValues = new HashMap<String, String>();
+        fieldValues.put("reviewTypeCode", reviewTypeCode);
+        List<ProtocolReviewType> protocolReviewTypes = 
+            (List<ProtocolReviewType>) getBusinessObjectService().findMatching(ProtocolReviewType.class, fieldValues);
+        if (CollectionUtils.isNotEmpty(protocolReviewTypes)) {
+            result = protocolReviewTypes.get(0).getDescription();
+        }        
+        return result;
+    }
+    
+    private String getCommitteeName(String committeeId) {
+        String result = null;
+        Map<String, String> fieldValues = new HashMap<String, String>();
+        fieldValues.put("committeeId", committeeId);
+        List<Committee> committees = 
+            (List<Committee>) getBusinessObjectService().findMatching(Committee.class, fieldValues);
+        if (CollectionUtils.isNotEmpty(committees)) {
+            result = committees.get(0).getCommitteeName();
+        }        
+        return result;        
+    }
 }

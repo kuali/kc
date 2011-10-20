@@ -17,49 +17,30 @@ package org.kuali.kra.irb.actions.notification;
 
 import org.kuali.kra.irb.Protocol;
 import org.kuali.kra.irb.actions.ProtocolActionType;
+import org.kuali.kra.irb.notification.IRBNotificationContext;
 import org.w3c.dom.Element;
 
 /**
  * 
  * This class is for request for data analysis notification event
  */
-public class DataAnalysisEvent extends NotificationEventBase {
-
-
-    public DataAnalysisEvent() {
-    }
-
-    public DataAnalysisEvent(Protocol protocol) {
-        super(protocol);
-    }
+public class DataAnalysisEvent extends IRBNotificationContext {
 
     /**
      * 
-     * @see org.kuali.kra.irb.actions.notification.NotificationEventBase#getRecipients(org.w3c.dom.Element)
-     */
-    public void getRecipients(Element recipients) {
-        super.getRecipients(recipients);
-    }
-
-    /**
-     * 
-     * @see org.kuali.kra.irb.actions.notification.NotificationEventBase#getTitle()
-     */
-    public String getTitle() {
-        return "Protocol " + getProtocol().getProtocolNumber() + " request for Data Analysis";
-    }
-
-    public String getTemplatePath() {
-        return "DataAnalysisNotification.xsl";
-    }
-
-    /**
-     * 
-     * @see org.kuali.kra.irb.actions.notification.NotificationEventBase#getActionTypeCode()
+     * @see org.kuali.kra.common.notification.NotificationContextBase#getActionTypeCode()
      */
     @Override
     public String getActionTypeCode() {
         return ProtocolActionType.REQUEST_FOR_DATA_ANALYSIS_ONLY;
     }
 
+    /**
+     * 
+     * @see org.kuali.kra.common.notification.NotificationContextBase#getContextName()
+     */
+    @Override
+    public String getContextName() {
+        return "DataAnalysisEvent";
+    }
 }

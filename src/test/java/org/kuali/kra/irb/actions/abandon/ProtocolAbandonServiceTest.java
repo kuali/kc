@@ -58,9 +58,7 @@ public class ProtocolAbandonServiceTest  extends KcUnitTestBase {
         
         service = new ProtocolAbandonServiceImpl();
         service.setProtocolActionService(KraServiceLocator.getService(ProtocolActionService.class));
-        service.setDocumentService(getMockDocumentService());
-        service.setProtocolActionsNotificationService(getMockProtocolActionsNotificationService());
-        
+        service.setDocumentService(getMockDocumentService());        
     }
 
     @After

@@ -27,7 +27,6 @@ import org.kuali.kra.irb.actions.assignagenda.ProtocolAssignToAgendaService;
 import org.kuali.kra.irb.actions.correspondence.ProtocolActionCorrespondenceGenerationService;
 import org.kuali.kra.irb.actions.notification.DeferEvent;
 import org.kuali.kra.irb.actions.notification.IrbAcknowledgementEvent;
-import org.kuali.kra.irb.actions.notification.ProtocolActionsNotificationService;
 import org.kuali.kra.irb.actions.notification.SpecificMinorRevisionsEvent;
 import org.kuali.kra.irb.actions.notification.SubstantiveRevisionsRequiredEvent;
 import org.kuali.kra.irb.actions.submit.ProtocolActionService;
@@ -48,7 +47,6 @@ public class ProtocolGenericActionServiceImpl implements ProtocolGenericActionSe
     private ProtocolActionService protocolActionService;
     private DocumentService documentService;
     private ProtocolActionCorrespondenceGenerationService protocolActionCorrespondenceGenerationService;
-    private ProtocolActionsNotificationService protocolActionsNotificationService;
     private ProtocolOnlineReviewService protocolOnlineReviewService;
     private ProtocolVersionService protocolVersionService;
     private ProtocolAssignToAgendaService protocolAssignToAgendaService;
@@ -73,7 +71,9 @@ public class ProtocolGenericActionServiceImpl implements ProtocolGenericActionSe
     /**{@inheritDoc}**/
     public ProtocolDocument defer(Protocol protocol, ProtocolGenericActionBean actionBean) throws Exception {
         performGenericAction(protocol, actionBean, ProtocolActionType.DEFERRED, ProtocolStatus.DEFERRED);
-        protocolActionsNotificationService.sendActionsNotification(protocol, new DeferEvent(protocol));
+        DeferEvent deferEvent = new DeferEvent();
+        deferEvent.setProtocol(protocol);
+        deferEvent.sendNotification();
         
         return getDeferredVersionedDocument(protocol);
     }
@@ -92,7 +92,9 @@ public class ProtocolGenericActionServiceImpl implements ProtocolGenericActionSe
     /**{@inheritDoc}**/
     public void irbAcknowledgement(Protocol protocol, ProtocolGenericActionBean actionBean) throws Exception {
         performGenericAction(protocol, actionBean, ProtocolActionType.IRB_ACKNOWLEDGEMENT);
-        protocolActionsNotificationService.sendActionsNotification(protocol, new IrbAcknowledgementEvent(protocol));
+        IrbAcknowledgementEvent irbAckEvent = new IrbAcknowledgementEvent();
+        irbAckEvent.setProtocol(protocol);
+        irbAckEvent.sendNotification();
     }
 
     /**{@inheritDoc}**/
@@ -108,7 +110,9 @@ public class ProtocolGenericActionServiceImpl implements ProtocolGenericActionSe
     /**{@inheritDoc}**/
     public ProtocolDocument returnForSMR(Protocol protocol, ProtocolGenericActionBean actionBean) throws Exception {
         performGenericAction(protocol, actionBean, ProtocolActionType.SPECIFIC_MINOR_REVISIONS_REQUIRED, ProtocolStatus.SPECIFIC_MINOR_REVISIONS_REQUIRED);
-        protocolActionsNotificationService.sendActionsNotification(protocol, new SpecificMinorRevisionsEvent(protocol));
+        SpecificMinorRevisionsEvent smrEvent = new SpecificMinorRevisionsEvent();
+        smrEvent.setProtocol(protocol);
+        smrEvent.sendNotification();
 
         return getReturnedVersionedDocument(protocol);
     }
@@ -116,7 +120,9 @@ public class ProtocolGenericActionServiceImpl implements ProtocolGenericActionSe
     /**{@inheritDoc}**/
     public ProtocolDocument returnForSRR(Protocol protocol, ProtocolGenericActionBean actionBean) throws Exception {
         performGenericAction(protocol, actionBean, ProtocolActionType.SUBSTANTIVE_REVISIONS_REQUIRED, ProtocolStatus.SUBSTANTIVE_REVISIONS_REQUIRED);
-        protocolActionsNotificationService.sendActionsNotification(protocol, new SubstantiveRevisionsRequiredEvent(protocol));
+        SubstantiveRevisionsRequiredEvent srrEvent = new SubstantiveRevisionsRequiredEvent();
+        srrEvent.setProtocol(protocol);
+        srrEvent.sendNotification();
 
         return getReturnedVersionedDocument(protocol);
     }
@@ -254,10 +260,6 @@ public class ProtocolGenericActionServiceImpl implements ProtocolGenericActionSe
 
     public void setProtocolActionCorrespondenceGenerationService(ProtocolActionCorrespondenceGenerationService protocolActionCorrespondenceGenerationService) {
         this.protocolActionCorrespondenceGenerationService = protocolActionCorrespondenceGenerationService;
-    }
-
-    public void setProtocolActionsNotificationService(ProtocolActionsNotificationService protocolActionsNotificationService) {
-        this.protocolActionsNotificationService = protocolActionsNotificationService;
     }
 
     public void setProtocolOnlineReviewService(ProtocolOnlineReviewService protocolOnlineReviewService) {

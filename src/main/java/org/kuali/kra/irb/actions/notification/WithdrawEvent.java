@@ -15,48 +15,31 @@
  */
 package org.kuali.kra.irb.actions.notification;
 
-import org.kuali.kra.irb.Protocol;
 import org.kuali.kra.irb.actions.ProtocolActionType;
-import org.w3c.dom.Element;
+import org.kuali.kra.irb.notification.IRBNotificationContext;
 
 /**
  * 
  * This class is for withdraw notification event
  */
-public class WithdrawEvent extends NotificationEventBase {
-
-
-    public WithdrawEvent(Protocol protocol) {
-        super(protocol);
-    }
+public class WithdrawEvent extends IRBNotificationContext {
 
     /**
      * 
-     * @see org.kuali.kra.irb.actions.notification.NotificationEventBase#getRecipients(org.w3c.dom.Element)
-     */
-    public void getRecipients(Element recipients) {
-        super.getRecipients(recipients);
-    }
-
-    /**
-     * 
-     * @see org.kuali.kra.irb.actions.notification.NotificationEventBase#getTitle()
-     */
-    public String getTitle() {
-        return "Protocol " + getProtocol().getProtocolNumber() + " Withdrawn";
-    }
-
-    public String getTemplatePath() {
-        return "ProtocolWithdrawNotification.xsl";
-    }
-
-    /**
-     * 
-     * @see org.kuali.kra.irb.actions.notification.NotificationEventBase#getActionTypeCode()
+     * @see org.kuali.kra.common.notification.NotificationContextBase#getActionTypeCode()
      */
     @Override
     public String getActionTypeCode() {
         return ProtocolActionType.WITHDRAWN;
     }
+
+    /**
+     * 
+     * @see org.kuali.kra.common.notification.NotificationContextBase#getContextName()
+     */
+    @Override
+    public String getContextName() {
+        return "WithdrawEvent";
+    }   
 
 }

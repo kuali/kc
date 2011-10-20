@@ -27,14 +27,13 @@ import org.kuali.kra.bo.CoeusModule;
 import org.kuali.kra.irb.Protocol;
 import org.kuali.kra.irb.actions.ProtocolAction;
 import org.kuali.kra.irb.actions.ProtocolSubmissionBuilder;
-import org.kuali.kra.irb.actions.notification.NotificationEventBase;
 import org.kuali.kra.irb.actions.notification.ProtocolActionsNotificationService;
 import org.kuali.kra.irb.actions.notification.RequestActionType;
-import org.kuali.kra.irb.actions.notifyirb.ProtocolNotifyIrbBean;
 import org.kuali.kra.irb.actions.submit.ProtocolActionService;
 import org.kuali.kra.irb.actions.submit.ProtocolReviewType;
 import org.kuali.kra.irb.actions.submit.ProtocolSubmission;
 import org.kuali.kra.irb.actions.submit.ProtocolSubmissionStatus;
+import org.kuali.kra.irb.notification.IRBNotificationContext;
 import org.kuali.kra.questionnaire.answer.AnswerHeader;
 import org.kuali.rice.kew.exception.WorkflowException;
 import org.kuali.rice.kns.service.BusinessObjectService;
@@ -168,10 +167,9 @@ public class ProtocolRequestServiceImpl implements ProtocolRequestService {
     protected void sendRequestNotification(Protocol protocol, ProtocolRequestBean requestBean) throws Exception {
 
         RequestActionType requestActionType = RequestActionType.getRequestActionType(requestBean.getProtocolActionTypeCode());
-        NotificationEventBase event = requestActionType.getEventClass().newInstance();
-       // RequestToCloseEvent event1 = new RequestToCloseEvent();
+        IRBNotificationContext event = requestActionType.getEventClass().newInstance();
         event.setProtocol(protocol);
-        protocolActionsNotificationService.sendActionsNotification(protocol, event);
+        event.sendNotification();
     }
 
     public void setProtocolActionsNotificationService(ProtocolActionsNotificationService protocolActionsNotificationService) {

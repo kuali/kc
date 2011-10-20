@@ -16,6 +16,7 @@
 package org.kuali.kra.irb.actions.notification;
 
 import org.apache.commons.lang.StringUtils;
+import org.kuali.kra.irb.notification.IRBNotificationContext;
 
 
 public enum RequestActionType {
@@ -27,10 +28,10 @@ public enum RequestActionType {
 
 
     
-    private final Class<? extends NotificationEventBase> eventClass;
+    private final Class<? extends IRBNotificationContext> eventClass;
     private final String actionTypeCode;
 
-    RequestActionType(Class<? extends NotificationEventBase> eventClass, String actionTypeCode) {
+    RequestActionType(Class<? extends IRBNotificationContext> eventClass, String actionTypeCode) {
         this.eventClass = eventClass;
         this.actionTypeCode = actionTypeCode;
     }
@@ -39,7 +40,7 @@ public enum RequestActionType {
         return actionTypeCode;
     }
 
-    public Class<? extends NotificationEventBase> getEventClass() {
+    public Class<? extends IRBNotificationContext> getEventClass() {
         return eventClass;
     }
 

@@ -15,48 +15,30 @@
  */
 package org.kuali.kra.irb.actions.abandon;
 
-import org.kuali.kra.irb.Protocol;
 import org.kuali.kra.irb.actions.ProtocolActionType;
-import org.kuali.kra.irb.actions.notification.NotificationEventBase;
-import org.w3c.dom.Element;
+import org.kuali.kra.irb.notification.IRBNotificationContext;
 
 /**
  * 
  * This class is the notification event for abandon protocol.
  */
-public class ProtocolAbandonEvent  extends NotificationEventBase {
-
-    public ProtocolAbandonEvent(Protocol protocol) {
-        super(protocol);
-    }
-
+public class ProtocolAbandonEvent  extends IRBNotificationContext {
 
     /**
      * 
-     * @see org.kuali.kra.irb.actions.notification.NotificationEventBase#getRecipients(org.w3c.dom.Element)
-     */
-    public void getRecipients(Element recipients) {
-        super.getRecipients(recipients);
-    }
-
-    /**
-     * 
-     * @see org.kuali.kra.irb.actions.notification.NotificationEventBase#getTitle()
-     */
-    public String getTitle() {
-        return "Protocol " + getProtocol().getProtocolNumber() + " Abandoned";
-    }
-
-    public String getTemplatePath() {
-        return "AbandonProtocolNotification.xsl";
-    }
-
-    /**
-     * 
-     * @see org.kuali.kra.irb.actions.notification.NotificationEventBase#getActionTypeCode()
+     * @see org.kuali.kra.common.notification.NotificationContextBase#getActionTypeCode()
      */
     @Override
     public String getActionTypeCode() {
         return ProtocolActionType.ABANDON_PROTOCOL;
+    }
+
+    /**
+     * 
+     * @see org.kuali.kra.common.notification.NotificationContextBase#getContextName()
+     */
+    @Override
+    public String getContextName() {
+        return "ProtocolAbandonedEvent";
     }
 }

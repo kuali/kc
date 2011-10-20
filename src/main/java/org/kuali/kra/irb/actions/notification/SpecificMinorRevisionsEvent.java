@@ -15,32 +15,27 @@
  */
 package org.kuali.kra.irb.actions.notification;
 
-import org.kuali.kra.irb.Protocol;
 import org.kuali.kra.irb.actions.ProtocolActionType;
+import org.kuali.kra.irb.notification.IRBNotificationContext;
 
-public class SpecificMinorRevisionsEvent extends NotificationEventBase {
+public class SpecificMinorRevisionsEvent extends IRBNotificationContext {
 
-    public SpecificMinorRevisionsEvent() {
-        super();
-    }
-    
-    public SpecificMinorRevisionsEvent(Protocol protocol) {
-        super(protocol);
-    }
-    
-    @Override
-    public String getTitle() {
-        return "Specific minor revisions requested.";
-    }
-
+    /**
+     * 
+     * @see org.kuali.kra.common.notification.NotificationContextBase#getActionTypeCode()
+     */
     @Override
     public String getActionTypeCode() {
         return ProtocolActionType.SPECIFIC_MINOR_REVISIONS_REQUIRED;
     }
-
+    
+    /**
+     * 
+     * @see org.kuali.kra.common.notification.NotificationContextBase#getContextName()
+     */
     @Override
-    public String getTemplatePath() {
-        return "SpecificMinorRevisionsNotification.xsl";
+    public String getContextName() {
+        return "SpecificMinorRevisionsEvent";
     }
 
 }

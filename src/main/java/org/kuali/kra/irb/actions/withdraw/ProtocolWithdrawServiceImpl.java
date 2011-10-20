@@ -120,8 +120,9 @@ public class ProtocolWithdrawServiceImpl implements ProtocolWithdrawService {
             protocolOnlineReviewService.finalizeOnlineReviews(submission, WITHDRAW_FINALIZE_OLR_ANNOTATION);
         }
         businessObjectService.save(protocol.getProtocolDocument());
-        // sendWithdrawNotification(protocol);
-        protocolActionsNotificationService.sendActionsNotification(protocol, new WithdrawEvent(protocol));
+        WithdrawEvent withdrawEvent = new WithdrawEvent();
+        withdrawEvent.setProtocol(protocol);
+        withdrawEvent.sendNotification();
         
         if (isVersion) {
             /*
