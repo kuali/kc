@@ -29,7 +29,6 @@ import org.kuali.kra.irb.actions.ProtocolAction;
 import org.kuali.kra.irb.actions.ProtocolActionType;
 import org.kuali.kra.irb.actions.ProtocolSubmissionBuilder;
 import org.kuali.kra.irb.actions.notification.NotifyIrbEvent;
-import org.kuali.kra.irb.actions.notification.ProtocolActionsNotificationService;
 import org.kuali.kra.irb.actions.submit.ProtocolActionService;
 import org.kuali.kra.irb.actions.submit.ProtocolSubmission;
 import org.kuali.kra.irb.actions.submit.ProtocolSubmissionStatus;
@@ -50,7 +49,6 @@ public class ProtocolNotifyIrbServiceImpl implements ProtocolNotifyIrbService {
     private BusinessObjectService businessObjectService;
     private DocumentService documentService;
     private ProtocolActionService protocolActionService;
-    private ProtocolActionsNotificationService protocolActionsNotificationService;
 
     /**
      * Set the business object service.
@@ -86,8 +84,10 @@ public class ProtocolNotifyIrbServiceImpl implements ProtocolNotifyIrbService {
         documentService.saveDocument(protocol.getProtocolDocument());
         protocol.refreshReferenceObject("protocolSubmissions");
         try {
-            //sendNotifyIrbNotification(protocol, notifyIrbBean);
-            protocolActionsNotificationService.sendActionsNotification(protocol, new NotifyIrbEvent(protocol));
+            NotifyIrbEvent notifyIrbEvent = new NotifyIrbEvent();
+            notifyIrbEvent.setProtocol(protocol);
+            notifyIrbEvent.setActionComments(protocolAction.getComments());
+            notifyIrbEvent.sendNotification();
         } catch (Exception e) {
             LOG.info("Notify Irb Notification exception " + e.getStackTrace());
         }
@@ -150,9 +150,6 @@ public class ProtocolNotifyIrbServiceImpl implements ProtocolNotifyIrbService {
         return submission;
     }
 
-    public void setProtocolActionsNotificationService(ProtocolActionsNotificationService protocolActionsNotificationService) {
-        this.protocolActionsNotificationService = protocolActionsNotificationService;
-    }
     public void setDocumentService(DocumentService documentService) {
         this.documentService = documentService;
     }

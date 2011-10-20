@@ -52,7 +52,7 @@ public class BatchCorrespondenceEvent extends IRBNotificationContext {
         Map<String, String> params = renderer.getReplacementParameters();
         params.put("{DETAIL_ID}", getDetailId().toString());
         params.put("{PROTOCOL_CORRESPONDENCE_TYPE}", getProtocolCorrespondenceType());
-        params.put("{USER_FULLNAME}", getUserFullname());
+        //params.put("{USER_FULLNAME}", getUserFullname());
         return renderer.render(text, params);
     }
 

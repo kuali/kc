@@ -15,61 +15,31 @@
  */
 package org.kuali.kra.irb.actions.notification;
 
-import org.kuali.kra.irb.Protocol;
 import org.kuali.kra.irb.actions.ProtocolActionType;
-import org.w3c.dom.Element;
+import org.kuali.kra.irb.notification.IRBNotificationContext;
+
 
 /**
  * 
  * This class is the event for Assign to agenda reviewer notification.
  */
-public class AssignToAgendaEvent  extends NotificationEventBase {
+public class AssignToAgendaEvent extends IRBNotificationContext {
 
-        public AssignToAgendaEvent() {
-        }
+    /**
+     *     
+     * @see org.kuali.kra.common.notification.NotificationContextBase#getActionTypeCode()
+     */
+    @Override
+    public String getActionTypeCode() {
+        return ProtocolActionType.ASSIGN_TO_AGENDA;
+    }
 
-        public AssignToAgendaEvent(Protocol protocol) {
-            super(protocol);
-        }
-
-        /**
-         * 
-         * @see org.kuali.kra.irb.actions.notification.NotificationEventBase#getRecipients(org.w3c.dom.Element)
-         */
-        public void getRecipients(Element recipients) {
-            super.getRecipients(recipients);
-        }
-
-        /**
-         * 
-         * @see org.kuali.kra.irb.actions.notification.NotificationEventBase#getTitle()
-         */
-        public String getTitle() {
-            return "Protocol assigned to agenda";
-        }
-
-        public String getTemplatePath() {
-            return "AssignToAgendaReviewerNotification.xsl";
-        }
-
-        /**
-         * 
-         * @see org.kuali.kra.irb.actions.notification.NotificationEventBase#getActionTypeCode()
-         */
-        @Override
-        public String getActionTypeCode() {
-            return ProtocolActionType.ASSIGN_TO_AGENDA;
-        }
-
-        @Override
-        public boolean isReviewerNotification() {
-            return true;    
-        }
-
-        @Override
-        public boolean isReviewerIncluded() {
-            return true;    
-        }
-
-
+    /**
+     * 
+     * @see org.kuali.kra.common.notification.NotificationContextBase#getContextName()
+     */
+    @Override
+    public String getContextName() {
+        return "AssinToAgendaEvent";
+    }
 }

@@ -15,70 +15,58 @@
  */
 package org.kuali.kra.irb.actions.notification;
 
-import org.kuali.kra.irb.Protocol;
-import org.w3c.dom.Element;
+import java.util.Map;
+
+import org.kuali.kra.common.notification.service.KcNotificationRenderingService;
+import org.kuali.kra.irb.notification.IRBNotificationContext;
+
 
 /**
  * 
  * This class is the event for Assign reviewer notification.
  */
-public class AssignReviewerEvent extends NotificationEventBase {
+public class AssignReviewerEvent extends IRBNotificationContext {
     public static final String ASSIGN_REVIEWER = "901";
-
-    public AssignReviewerEvent() {
-    }
-
-    public AssignReviewerEvent(Protocol protocol) {
-        super(protocol);
-    }
+    
+    private String actionTaken;
 
     /**
      * 
-     * @see org.kuali.kra.irb.actions.notification.NotificationEventBase#getRecipients(org.w3c.dom.Element)
-     */
-    public void getRecipients(Element recipients) {
-        super.getRecipients(recipients);
-    }
-
-    /**
-     * 
-     * @see org.kuali.kra.irb.actions.notification.NotificationEventBase#getTitle()
-     */
-    public String getTitle() {
-        return "IRB Protocol Reviewer added";
-    }
-
-    public String getTemplatePath() {
-        return "AssignReviewerNotification.xsl";
-    }
-
-    /**
-     * 
-     * @see org.kuali.kra.irb.actions.notification.NotificationEventBase#getActionTypeCode()
+     * @see org.kuali.kra.common.notification.NotificationContextBase#getActionTypeCode()
      */
     @Override
     public String getActionTypeCode() {
         return ASSIGN_REVIEWER;
     }
-    
+
+    /**
+     * 
+     * @see org.kuali.kra.common.notification.NotificationContextBase#getContextName()
+     */
     @Override
-    public boolean isReviewerNotification() {
-        return true;    
+    public String getContextName() {
+        return "AssignReviewerEvent";
+    }
+    
+    /**
+     * 
+     * @see org.kuali.kra.common.notification.NotificationContext#replaceContextVariables(java.lang.String)
+     */
+    @Override
+    public String replaceContextVariables(String text) {
+        KcNotificationRenderingService renderer = getNotificationRenderingService();
+        Map<String, String> params = renderer.getReplacementParameters();
+        params.put("{ACTION_TAKEN}", getActionTaken());
+        
+        return renderer.render(text, params);
+    }    
+
+    public String getActionTaken() {
+        return actionTaken;
     }
 
-    @Override
-    public boolean isInvestigatorIncluded() {
-        return false;    
-    }
-    
-    @Override
-    public boolean isIrbAdminIncluded() {
-        return false;    
-    }
-
-    @Override
-    public boolean isReviewerIncluded() {
-        return true;    
+    public void setActionTaken(String actionTaken) {
+        this.actionTaken = actionTaken;
     }
 
 

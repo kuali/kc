@@ -15,50 +15,32 @@
  */
 package org.kuali.kra.irb.actions.notification;
 
-import org.kuali.kra.irb.Protocol;
 import org.kuali.kra.irb.actions.ProtocolActionType;
-import org.w3c.dom.Element;
+import org.kuali.kra.irb.notification.IRBNotificationContext;
 
 /**
  * 
  * This class is for request to close enrollment notification event
  */
-public class CloseEnrollmentEvent extends NotificationEventBase {
+public class CloseEnrollmentEvent extends IRBNotificationContext {
 
-    public CloseEnrollmentEvent() {
-    }
-
-    public CloseEnrollmentEvent(Protocol protocol) {
-        super(protocol);
-    }
 
     /**
      * 
-     * @see org.kuali.kra.irb.actions.notification.NotificationEventBase#getRecipients(org.w3c.dom.Element)
-     */
-    public void getRecipients(Element recipients) {
-        super.getRecipients(recipients);
-    }
-
-    /**
-     * 
-     * @see org.kuali.kra.irb.actions.notification.NotificationEventBase#getTitle()
-     */
-    public String getTitle() {
-        return "Protocol " + getProtocol().getProtocolNumber() + " request to Close Enrollment";
-    }
-
-    public String getTemplatePath() {
-        return "CloseEnrollmentNotification.xsl";
-    }
-
-    /**
-     * 
-     * @see org.kuali.kra.irb.actions.notification.NotificationEventBase#getActionTypeCode()
+     * @see org.kuali.kra.common.notification.NotificationContextBase#getActionTypeCode()
      */
     @Override
     public String getActionTypeCode() {
         return ProtocolActionType.REQUEST_TO_CLOSE_ENROLLMENT;
     }
+    
+    /**
+     * 
+     * @see org.kuali.kra.common.notification.NotificationContextBase#getContextName()
+     */
+    @Override
+    public String getContextName() {
+        return "CloseEnrollmentEvent";
+    }    
 
 }

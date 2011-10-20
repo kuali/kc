@@ -37,6 +37,7 @@ import org.kuali.rice.kim.bo.types.dto.AttributeSet;
  * that should be implemented by any notification.
  */
 public abstract class NotificationContextBase implements NotificationContext {
+    private static final org.apache.log4j.Logger LOG = org.apache.log4j.Logger.getLogger(NotificationContextBase.class);
 
     private KcNotificationService notificationService;
     private KcNotificationRenderingService notificationRenderingService;
@@ -79,6 +80,7 @@ public abstract class NotificationContextBase implements NotificationContext {
      * This method sends the notifications.
      */
     public void sendNotification() {
+        LOG.info("Sending Notification [" + getContextName() + "]");
         List<KcNotification> notifications = getNotificationService().createNotifications(getDocumentNumber(), getModuleCode(), getActionTypeCode(), this);
         getNotificationService().sendNotifications(notifications, this);
     }
