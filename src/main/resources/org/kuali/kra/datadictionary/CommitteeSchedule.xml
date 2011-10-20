@@ -312,7 +312,7 @@
 		<property name="required" value="false" />
 		<property name="control" >
       		<bean parent="SelectControlDefinition"
-            	p:valuesFinderClass="org.kuali.kra.committee.lookup.keyvalue.CommitteeIdValuesFinder"
+            	p:valuesFinderClass="org.kuali.kra.committee.lookup.keyvalue.CommitteeIdIdPairValuesFinder"
                 p:includeKeyInLabel="false" />
 		</property>
 	</bean>
