@@ -17,6 +17,8 @@ package org.kuali.kra.coi.disclosure;
 
 import java.util.List;
 
+import org.kuali.kra.coi.CoiDiscDetail;
+import org.kuali.kra.coi.CoiDisclosure;
 import org.kuali.kra.coi.DisclosureReporter;
 import org.kuali.kra.coi.DisclosureReporterUnit;
 
@@ -27,5 +29,7 @@ public interface CoiDisclosureService {
     void addDisclosureReporterUnit(DisclosureReporter disclosureReporter , DisclosureReporterUnit newDisclosureReporterUnit);
     void deleteDisclosureReporterUnit(DisclosureReporter disclosureReporter,List<? extends DisclosureReporterUnit> deletedUnits, int unitIndex);
     void resetLeadUnit(DisclosureReporter disclosureReporter);
-   
+    
+    void InitializeDisclosureDetails(CoiDisclosure coiDisclosure);
+
 }
