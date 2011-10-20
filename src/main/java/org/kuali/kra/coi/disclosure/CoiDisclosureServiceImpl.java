@@ -22,15 +22,25 @@ import java.util.Map;
 
 import org.apache.commons.collections.CollectionUtils;
 import org.kuali.kra.bo.KcPerson;
+import org.kuali.kra.coi.CoiDiscDetail;
+import org.kuali.kra.coi.CoiDisclosure;
 import org.kuali.kra.coi.DisclosureReporter;
 import org.kuali.kra.coi.DisclosureReporterUnit;
+import org.kuali.kra.coi.personfinancialentity.FinancialEntityService;
+import org.kuali.kra.coi.personfinancialentity.PersonFinIntDisclosure;
+import org.kuali.kra.infrastructure.KraServiceLocator;
+import org.kuali.kra.irb.Protocol;
+import org.kuali.kra.irb.personnel.ProtocolPerson;
 import org.kuali.kra.service.KcPersonService;
 import org.kuali.rice.kns.service.BusinessObjectService;
+import org.kuali.rice.kns.service.SequenceAccessorService;
+import org.kuali.rice.kns.util.GlobalVariables;
 
 public class CoiDisclosureServiceImpl implements CoiDisclosureService {
 
     private BusinessObjectService businessObjectService;
     private KcPersonService kcPersonService;
+    private FinancialEntityService financialEntityService;
 
     @SuppressWarnings("rawtypes")
     public DisclosurePerson getDisclosureReporter(String personId, Long coiDisclosureId) {
@@ -121,12 +131,62 @@ public class CoiDisclosureServiceImpl implements CoiDisclosureService {
         return leadUnit;
     }
 
+    
+    public void getProjects() {
+        // get all user's pd/protocol/Award, user is PI 
+        List<Protocol> protocols = getProtocols(GlobalVariables.getUserSession().getPrincipalId());
+        
+    }
+    
+    public void InitializeDisclosureDetails(CoiDisclosure coiDisclosure) {
+        // When creating a disclosure.  the detail will be created at first
+        List<CoiDiscDetail> disclosureDetails = new ArrayList<CoiDiscDetail>();
+        List<PersonFinIntDisclosure> financialEntities = financialEntityService.getFinancialEntities(GlobalVariables.getUserSession().getPrincipalId(), true);
+        List<Protocol> protocols = getProtocols(GlobalVariables.getUserSession().getPrincipalId());
+        for (Protocol protocol : protocols) {
+            for (PersonFinIntDisclosure personFinIntDisclosure : financialEntities) {
+                CoiDiscDetail disclosureDetail = new CoiDiscDetail(personFinIntDisclosure);
+                disclosureDetail.setModuleItemKey(protocol.getProtocolNumber());
+                // TODO : this is how coeus set.  not sure ?
+                disclosureDetail.setModuleCode(13); 
+                coiDisclosure.initCoiDisclosureNumber();
+                disclosureDetail.setCoiDisclosureNumber(coiDisclosure.getCoiDisclosureNumber());
+                disclosureDetail.setSequenceNumber(coiDisclosure.getSequenceNumber());
+                disclosureDetail.setDescription("Sample Description"); // this is from coeus.  
+                disclosureDetails.add(disclosureDetail);
+            }
+            
+        }
+        coiDisclosure.setCoiDiscDetails(disclosureDetails);
+        
+    }
+    private List<Protocol> getProtocols(String personId) {
+        
+        // TODO : does this include amendment/renewal
+        List<Protocol> protocols = new ArrayList<Protocol>();
+        Map<String, Object> fieldValues = new HashMap<String, Object>();
+        fieldValues.put("personId", personId);
+        fieldValues.put("protocolPersonRoleId", "PI");
+        List<ProtocolPerson> protocolPersons = (List<ProtocolPerson>) businessObjectService.findMatching(ProtocolPerson.class, fieldValues);
+        for (ProtocolPerson protocolPerson : protocolPersons) {
+            if (protocolPerson.getProtocol().isActive()) {
+                protocols.add(protocolPerson.getProtocol());
+            }
+        }
+        return protocols;
+        
+    }
+    
     public void setBusinessObjectService(BusinessObjectService businessObjectService) {
         this.businessObjectService = businessObjectService;
     }
 
     public void setKcPersonService(KcPersonService kcPersonService) {
         this.kcPersonService = kcPersonService;
+    }
+
+    public void setFinancialEntityService(FinancialEntityService financialEntityService) {
+        this.financialEntityService = financialEntityService;
     }
 
 }

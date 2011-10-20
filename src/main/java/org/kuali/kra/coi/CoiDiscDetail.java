@@ -18,24 +18,29 @@ package org.kuali.kra.coi;
 import java.util.LinkedHashMap;
 
 import org.kuali.kra.bo.KraPersistableBusinessObjectBase;
+import org.kuali.kra.coi.personfinancialentity.PersonFinIntDisclosure;
+import org.kuali.kra.infrastructure.KraServiceLocator;
+import org.kuali.rice.kns.service.SequenceAccessorService;
 
 public class CoiDiscDetail extends KraPersistableBusinessObjectBase { 
     
-    private static final long serialVersionUID = 1L;
 
-    private Integer coiDiscDetailId; 
-    private Integer coiDisclosureId; 
+    private static final long serialVersionUID = 779054686380799255L;
+    private Long coiDiscDetailId; 
+    private Long coiDisclosureId; 
     private String coiDisclosureNumber; 
     private Integer sequenceNumber; 
     private Integer coiDiscDetailNumber; 
     private Integer moduleCode; 
     private String moduleItemKey; 
+    // TODO : since the synthetic key 'personFinIntDisclosureId' is added.  ok to remove entitynumber/entitysequence ?
     private String entityNumber; 
     private Integer entitySequenceNumber; 
     private Integer entityStatusCode; 
     private String description; 
     private String comments; 
-    
+    private Long personFinIntDisclosureId;
+    private PersonFinIntDisclosure personFinIntDisclosure;
     private CoiEntityStatusCode coiEntityStatusCode; 
     private CoiDisclosure coiDisclosure; 
     
@@ -43,19 +48,30 @@ public class CoiDiscDetail extends KraPersistableBusinessObjectBase {
 
     } 
     
-    public Integer getCoiDiscDetailId() {
+    public CoiDiscDetail(PersonFinIntDisclosure personFinIntDisclosure) { 
+        this.setPersonFinIntDisclosureId(personFinIntDisclosure.getPersonFinIntDisclosureId());
+        this.setPersonFinIntDisclosure(personFinIntDisclosure);
+        this.setEntityNumber(personFinIntDisclosure.getEntityNumber());
+        this.setEntitySequenceNumber(personFinIntDisclosure.getSequenceNumber());
+        // TODO : not sure about disclosuredetailnumber & expirationdate
+        Long nextNumber = KraServiceLocator.getService(SequenceAccessorService.class).getNextAvailableSequenceNumber("SEQ_COI_DISC_DETAILS_ID");
+        this.setCoiDiscDetailNumber(nextNumber.intValue());
+
+    } 
+
+    public Long getCoiDiscDetailId() {
         return coiDiscDetailId;
     }
 
-    public void setCoiDiscDetailId(Integer coiDiscDetailId) {
+    public void setCoiDiscDetailId(Long coiDiscDetailId) {
         this.coiDiscDetailId = coiDiscDetailId;
     }
 
-    public Integer getCoiDisclosureId() {
+    public Long getCoiDisclosureId() {
         return coiDisclosureId;
     }
 
-    public void setCoiDisclosureId(Integer coiDisclosureId) {
+    public void setCoiDisclosureId(Long coiDisclosureId) {
         this.coiDisclosureId = coiDisclosureId;
     }
 
@@ -172,6 +188,22 @@ public class CoiDiscDetail extends KraPersistableBusinessObjectBase {
         hashMap.put("description", this.getDescription());
         hashMap.put("comments", this.getComments());
         return hashMap;
+    }
+
+    public Long getPersonFinIntDisclosureId() {
+        return personFinIntDisclosureId;
+    }
+
+    public void setPersonFinIntDisclosureId(Long personFinIntDisclosureId) {
+        this.personFinIntDisclosureId = personFinIntDisclosureId;
+    }
+
+    public PersonFinIntDisclosure getPersonFinIntDisclosure() {
+        return personFinIntDisclosure;
+    }
+
+    public void setPersonFinIntDisclosure(PersonFinIntDisclosure personFinIntDisclosure) {
+        this.personFinIntDisclosure = personFinIntDisclosure;
     }
     
 }

@@ -30,6 +30,7 @@ import org.kuali.kra.coi.DisclosureReporterUnit;
 import org.kuali.kra.infrastructure.Constants;
 import org.kuali.kra.infrastructure.KraServiceLocator;
 import org.kuali.kra.rule.event.KraDocumentEventBaseExtension;
+import org.springframework.util.CollectionUtils;
 
 public class CoiDisclosureAction extends CoiAction {
 
@@ -88,11 +89,20 @@ public class CoiDisclosureAction extends CoiAction {
             throws Exception {
         // TODO Auto-generated method stub
         ActionForward actionForward = super.execute(mapping, form, request, response);
-        CoiDisclosureForm coiDisclosureForm = (CoiDisclosureForm) form;
-        ((CoiDisclosureDocument)coiDisclosureForm.getDocument()).getCoiDisclosure().initSelectedUnit();
+        CoiDisclosureDocument coiDisclosureDocument = (CoiDisclosureDocument)((CoiDisclosureForm) form).getDocument();
+        coiDisclosureDocument.getCoiDisclosure().initSelectedUnit();
+        checkToLoadDisclosureDetails(coiDisclosureDocument.getCoiDisclosure());
         return actionForward;
 
     }
 
-
+    private void checkToLoadDisclosureDetails(CoiDisclosure coiDisclosure) {
+        // TODO : load FE disclosure when creating coi disc
+        // still need more clarification on whether there is any other occasion this need to be loaded
+        if (coiDisclosure.getCoiDisclosureId() == null && CollectionUtils.isEmpty(coiDisclosure.getCoiDiscDetails())) {
+            getCoiDisclosureService().InitializeDisclosureDetails(coiDisclosure);
+        }
+        
+    }
+    
 }
