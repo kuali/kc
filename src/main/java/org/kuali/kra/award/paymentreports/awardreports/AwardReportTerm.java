@@ -37,6 +37,7 @@ import org.kuali.kra.award.paymentreports.FrequencyBase;
 import org.kuali.kra.award.paymentreports.Report;
 import org.kuali.kra.award.paymentreports.ReportClass;
 import org.kuali.kra.award.paymentreports.awardreports.reporting.AwardReporting;
+import org.kuali.kra.award.paymentreports.awardreports.reporting.ReportTracking;
 
 
 /**
@@ -53,6 +54,7 @@ public class AwardReportTerm extends AwardAssociate implements GenericAwardRepor
 
     private Long awardReportTermId;
     private List<AwardReporting> awardReportings;
+    private List<ReportTracking> reportTrackings;
     
     
     @AwardSyncableProperty(key=true) 
@@ -446,5 +448,13 @@ public class AwardReportTerm extends AwardAssociate implements GenericAwardRepor
      */
     public void setReportClass(ReportClass reportClass) {
         this.reportClass = reportClass;
+    }
+
+    public List<ReportTracking> getReportTrackings() {
+        return reportTrackings;
+    }
+
+    public void setReportTrackings(List<ReportTracking> reportTrackings) {
+        this.reportTrackings = reportTrackings;
     }   
 }
