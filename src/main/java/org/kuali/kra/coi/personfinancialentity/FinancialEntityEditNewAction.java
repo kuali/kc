@@ -23,6 +23,7 @@ import org.apache.struts.action.ActionForward;
 import org.apache.struts.action.ActionMapping;
 import org.kuali.kra.infrastructure.Constants;
 import org.kuali.rice.kns.util.GlobalVariables;
+import org.kuali.rice.kns.util.ObjectUtils;
 
 /**
  * 
@@ -61,7 +62,9 @@ public class FinancialEntityEditNewAction extends FinancialEntityAction {
         FinancialEntityHelper financialEntityHelper = ((FinancialEntityForm) form).getFinancialEntityHelper();
         PersonFinIntDisclosure personFinIntDisclosure = financialEntityHelper.getNewPersonFinancialEntity();
         personFinIntDisclosure.setEntityNumber(getFinancialEntityService().getNextEntityNumber()); 
-        personFinIntDisclosure.setSponsorName(personFinIntDisclosure.getSponsor().getSponsorName());
+        if (ObjectUtils.isNotNull(personFinIntDisclosure.getSponsor()) && ObjectUtils.isNotNull(personFinIntDisclosure.getSponsor().getSponsorName())) {
+            personFinIntDisclosure.setSponsorName(personFinIntDisclosure.getSponsor().getSponsorName());
+        }
         // it seems coeus always save 1.  not sure we need this because it should be in disclosure details
         personFinIntDisclosure.setRelationshipTypeCode("1");
         personFinIntDisclosure.setProcessStatus("F");
