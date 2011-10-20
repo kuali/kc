@@ -3,8 +3,8 @@
 	<documentTypes xmlns="ns:workflow/DocumentType" xsi:schemaLocation="ns:workflow/DocumentType resource:DocumentType">
 		<documentType>
 			<name>DistributionMaintenanceDocument</name>
-			<description>Create a New Osp File Copy</description>
-			<label>Osp File Copy</label>
+			<description>Create a New OSP File Copy</description>
+			<label>OSP File Copy</label>
 			<parent>KcAwardsMaintenanceDocument</parent>
 		</documentType>
 	</documentTypes>	
