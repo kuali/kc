@@ -37,6 +37,7 @@
 <div align="right"><kul:help documentTypeName="CoiDisclosureDocument" pageName="CoiDisclosure" /></div>
 <kul:documentOverview editingMode="${KualiForm.editingMode}" />
 <kra-coi:disclosureReporter />
+<kra-coi:disclosureFinancialEntities />
 
 <kul:panelFooter />
 	<kul:documentControls 

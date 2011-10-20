@@ -21,6 +21,7 @@ import java.util.LinkedHashMap;
 import java.util.List;
 
 import org.apache.commons.collections.CollectionUtils;
+import org.apache.commons.lang.StringUtils;
 import org.kuali.kra.bo.KraPersistableBusinessObjectBase;
 import org.kuali.kra.coi.disclosure.CoiDisclosureService;
 import org.kuali.kra.coi.disclosure.DisclosurePerson;
@@ -63,7 +64,7 @@ public class CoiDisclosure extends KraPersistableBusinessObjectBase {
 //    private CoiStatus coiStatus; 
 //    private CoiDispositionStatus coiDispositionStatus; 
 //    private CoiDisclProjects coiDisclProjects; 
-    private CoiDiscDetail coiDiscDetails; 
+    private List<CoiDiscDetail> coiDiscDetails; 
 //    private CoiDocuments coiDocuments; 
 //    private CoiNotepad coiNotepad; 
 //    private CoiUserRoles coiUserRoles; 
@@ -73,6 +74,7 @@ public class CoiDisclosure extends KraPersistableBusinessObjectBase {
 //        DisclosurePerson newDisclosurePerson = new DisclosurePerson();
 //        newDisclosurePerson.setCoiDisclosure(this);
 //        disclosurePersons.add(newDisclosurePerson);
+        this.setSequenceNumber(1);
         getDisclosureReporter();
 
     } 
@@ -317,21 +319,25 @@ public class CoiDisclosure extends KraPersistableBusinessObjectBase {
     public void initRequiredFields() {
         this.setDisclosureDispositionCode(DISPOSITION_PENDING);
         this.setDisclosureStatusCode(DISCLOSURE_PENDING);
-        this.setSequenceNumber(1);
         this.setPersonId(this.getDisclosureReporter().getPersonId());
-        // TODO : not sure about disclosurenumber & expirationdate
-        Long nextNumber = KraServiceLocator.getService(SequenceAccessorService.class).getNextAvailableSequenceNumber("SEQ_DISCLOSURE_ID");
-        this.setCoiDisclosureNumber(nextNumber.toString());
         this.setExpirationDate(new Date(DateUtils.addDays(new Date(System.currentTimeMillis()), 365).getTime()));
 
     }
     
+    public void initCoiDisclosureNumber() {
+        // TODO : not sure about disclosurenumber & expirationdate
+        if (StringUtils.isBlank(this.getCoiDisclosureNumber())) {
+            Long nextNumber = KraServiceLocator.getService(SequenceAccessorService.class).getNextAvailableSequenceNumber("SEQ_COI_DISCL_NUMBER");
+            this.setCoiDisclosureNumber(nextNumber.toString());
+        }
+        
+    }
     
-    public CoiDiscDetail getCoiDiscDetails() {
+    public List<CoiDiscDetail> getCoiDiscDetails() {
         return coiDiscDetails;
     }
 
-    public void setCoiDiscDetails(CoiDiscDetail coiDiscDetails) {
+    public void setCoiDiscDetails(List<CoiDiscDetail> coiDiscDetails) {
         this.coiDiscDetails = coiDiscDetails;
     }
 

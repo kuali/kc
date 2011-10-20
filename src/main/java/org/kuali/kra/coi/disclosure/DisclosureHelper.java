@@ -22,17 +22,24 @@ import java.util.List;
 import org.apache.commons.collections.CollectionUtils;
 import org.kuali.kra.coi.CoiDisclosureDocument;
 import org.kuali.kra.coi.CoiDisclosureForm;
+import org.kuali.kra.coi.personfinancialentity.FinEntityDataMatrixBean;
+import org.kuali.kra.coi.personfinancialentity.FinancialEntityService;
+import org.kuali.kra.infrastructure.KraServiceLocator;
 
 public class DisclosureHelper implements Serializable {
 
     private CoiDisclosureForm form;
     private DisclosurePersonUnit newDisclosurePersonUnit;
     private List<DisclosurePersonUnit> deletedUnits;
+    private List<FinEntityDataMatrixBean> editRelationDetails;
+    private List<FinEntityDataMatrixBean> newRelationDetails;
 
     public DisclosureHelper(CoiDisclosureForm form) {
         this.form = form;
         setNewDisclosurePersonUnit(new DisclosurePersonUnit());
         deletedUnits = new ArrayList<DisclosurePersonUnit>(); 
+        newRelationDetails = getFinancialEntityService().getFinancialEntityDataMatrix();
+        editRelationDetails = new ArrayList<FinEntityDataMatrixBean>(); 
    }
 
     public CoiDisclosureForm getForm() {
@@ -66,6 +73,26 @@ public class DisclosureHelper implements Serializable {
 
     public void setDeletedUnits(List<DisclosurePersonUnit> deletedUnits) {
         this.deletedUnits = deletedUnits;
+    }
+
+    public List<FinEntityDataMatrixBean> getEditRelationDetails() {
+        return editRelationDetails;
+    }
+
+    public void setEditRelationDetails(List<FinEntityDataMatrixBean> editRelationDetails) {
+        this.editRelationDetails = editRelationDetails;
+    }
+
+    public List<FinEntityDataMatrixBean> getNewRelationDetails() {
+        return newRelationDetails;
+    }
+
+    public void setNewRelationDetails(List<FinEntityDataMatrixBean> newRelationDetails) {
+        this.newRelationDetails = newRelationDetails;
+    }
+
+    private FinancialEntityService getFinancialEntityService() {
+        return KraServiceLocator.getService(FinancialEntityService.class);
     }
 
 

@@ -66,6 +66,7 @@
      <bean id="coiDisclosureService" class="org.kuali.kra.coi.disclosure.CoiDisclosureServiceImpl">
         <property name="businessObjectService" ref="businessObjectService" />
         <property name="kcPersonService" ref="kcPersonService" />
+        <property name="financialEntityService" ref="financialEntityService" />
     </bean>
     
 
