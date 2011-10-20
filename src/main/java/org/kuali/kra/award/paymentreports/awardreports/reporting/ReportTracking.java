@@ -36,7 +36,11 @@ import org.kuali.kra.infrastructure.KraServiceLocator;
 import org.kuali.kra.service.KcPersonService;
 import org.kuali.rice.kns.service.BusinessObjectService;
 
-public class ReportTracking extends KraPersistableBusinessObjectBase {
+/**
+ * 
+ * This class...
+ */
+public class ReportTracking extends KraPersistableBusinessObjectBase implements Comparable<ReportTracking> {
 
     /**
      * Comment for <code>serialVersionUID</code>
@@ -422,5 +426,14 @@ public class ReportTracking extends KraPersistableBusinessObjectBase {
 
     public void setLeadUnit(Unit leadUnit) {
         this.leadUnit = leadUnit;
+    }
+
+    /**
+     * This method implements comparable based on the due date;
+     * @see java.lang.Comparable#compareTo(java.lang.Object)
+     */
+    @Override
+    public int compareTo(ReportTracking o) {
+        return this.getDueDate().compareTo(o.getDueDate());
     }
 }

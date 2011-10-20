@@ -622,4 +622,9 @@
 		<property name="businessObjectService" ref="businessObjectService" />
 	</bean>
 	
+	<bean id="reportTrackingService" class="org.kuali.kra.award.paymentreports.awardreports.reporting.service.ReportTrackingServiceImpl">
+		<property name="awardScheduleGenerationService" ref="awardScheduleGenerationService" />
+		<property name="businessObjectService" ref="businessObjectService" />
+	</bean>
+	
 </beans>

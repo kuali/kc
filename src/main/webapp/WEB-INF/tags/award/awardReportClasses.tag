@@ -308,6 +308,7 @@ function updateBaseDateDisplay(selectBox) {
 	        	${KualiForm.valueFinderResultDoNotCache}
 	            <c:if test="${KualiForm.reportClassForPaymentsAndInvoices.reportClassCode != reportClassKey}" >
 	            	<kra-a:awardReporting innerTabParent="${reportClassLabel}" index="${status.index}" />
+	            	<kra-a:reportTracking innerTabParent="${reportClassLabel}" index="${status.index}" />
 	            </c:if>		    
 	        </td>
 	    </tr>
