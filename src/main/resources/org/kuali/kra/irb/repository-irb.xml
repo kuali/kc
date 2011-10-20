@@ -1310,4 +1310,43 @@
 			<foreignkey field-ref="submissionTypeQualCode"/>
 		</reference-descriptor>
 	</class-descriptor>
+	
+	<class-descriptor class="org.kuali.kra.bo.OrganizationCorrespondent" table="ORGANIZATION_CORRESPONDENT">
+		<field-descriptor name="organizationCorrespondentId" column="ORGANIZATION_CORRESPONDENT_ID" jdbc-type="INTEGER" primarykey="true" />
+		<field-descriptor name="organizationId" column="ORGANIZATION_ID" jdbc-type="VARCHAR" />
+		<field-descriptor name="correspondentTypeCode" column="CORRESPONDENT_TYPE_CODE" jdbc-type="INTEGER" />
+		<field-descriptor name="personId" column="PERSON_ID" jdbc-type="VARCHAR" />
+		<field-descriptor name="nonEmployeeFlag" column="NON_EMPLOYEE_FLAG" jdbc-type="VARCHAR" conversion="org.kuali.rice.kns.util.OjbCharBooleanConversion"/>
+		<field-descriptor name="description" column="DESCRIPTION" jdbc-type="VARCHAR" />
+		<field-descriptor name="updateTimestamp" column="UPDATE_TIMESTAMP" jdbc-type="TIMESTAMP" />
+		<field-descriptor name="updateUser" column="UPDATE_USER" jdbc-type="VARCHAR" />
+		<field-descriptor name="versionNumber" column="VER_NBR" jdbc-type="BIGINT" locking="true" />
+		<field-descriptor name="objectId" column="OBJ_ID" jdbc-type="VARCHAR" />
+		<reference-descriptor name="organization" class-ref="org.kuali.kra.bo.Organization" auto-retrieve="false" auto-update="none" auto-delete="none"> 
+			<foreignkey field-ref="organizationId"/>
+		</reference-descriptor>
+		<reference-descriptor name="correspondentType" class-ref="org.kuali.kra.irb.correspondence.CorrespondentType" auto-retrieve="false" auto-update="none" auto-delete="none"> 
+			<foreignkey field-ref="correspondentTypeCode"/>
+		</reference-descriptor>
+	</class-descriptor>
+	
+	<class-descriptor class="org.kuali.kra.bo.UnitCorrespondent" table="UNIT_CORRESPONDENT">
+		<field-descriptor name="unitCorrespondentId" column="UNIT_CORRESPONDENT_ID" jdbc-type="INTEGER" primarykey="true" />
+		<field-descriptor name="unitNumber" column="UNIT_NUMBER" jdbc-type="VARCHAR" />
+		<field-descriptor name="correspondentTypeCode" column="CORRESPONDENT_TYPE_CODE" jdbc-type="INTEGER" />
+		<field-descriptor name="personId" column="PERSON_ID" jdbc-type="VARCHAR" />
+		<field-descriptor name="personName" column="PERSON_NAME" jdbc-type="VARCHAR" />
+		<field-descriptor name="nonEmployeeFlag" column="NON_EMPLOYEE_FLAG" jdbc-type="VARCHAR" conversion="org.kuali.rice.kns.util.OjbCharBooleanConversion"/>
+		<field-descriptor name="description" column="DESCRIPTION" jdbc-type="VARCHAR" />
+		<field-descriptor name="updateTimestamp" column="UPDATE_TIMESTAMP" jdbc-type="TIMESTAMP" />
+		<field-descriptor name="updateUser" column="UPDATE_USER" jdbc-type="VARCHAR" />
+		<field-descriptor name="versionNumber" column="VER_NBR" jdbc-type="BIGINT" locking="true" />
+		<field-descriptor name="objectId" column="OBJ_ID" jdbc-type="VARCHAR" />
+		<reference-descriptor name="unit" class-ref="org.kuali.kra.bo.Unit" auto-retrieve="false" auto-update="none" auto-delete="none"> 
+			<foreignkey field-ref="unitNumber"/>
+		</reference-descriptor>
+		<reference-descriptor name="correspondentType" class-ref="org.kuali.kra.irb.correspondence.CorrespondentType" auto-retrieve="false" auto-update="none" auto-delete="none"> 
+			<foreignkey field-ref="correspondentTypeCode"/>
+		</reference-descriptor>
+	</class-descriptor>
 </descriptor-repository>
