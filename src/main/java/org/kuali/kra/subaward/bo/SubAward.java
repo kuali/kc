@@ -16,15 +16,19 @@
 package org.kuali.kra.subaward.bo;
 
 
+import org.kuali.kra.bo.KcPerson;
 import org.kuali.kra.bo.KraPersistableBusinessObjectBase;
 import org.kuali.kra.bo.Organization;
 import org.kuali.kra.bo.Rolodex;
 import org.kuali.kra.bo.Unit;
+import org.kuali.kra.infrastructure.KraServiceLocator;
 
 import java.util.ArrayList;
 import java.util.LinkedHashMap;
 import java.util.List;
 import java.sql.Date;
+
+import org.kuali.kra.service.KcPersonService;
 import org.kuali.kra.subaward.bo.SubAwardFundingSource;
 import org.kuali.kra.subaward.bo.SubAwardContact;
 import org.kuali.kra.subaward.bo.SubAwardCloseout;
@@ -71,6 +75,7 @@ public class SubAward extends KraPersistableBusinessObjectBase {
     private Organization organization;
     private Unit unit;
     private Rolodex rolodex;
+  
     
     public Rolodex getRolodex() {
         return rolodex;
@@ -105,7 +110,11 @@ public class SubAward extends KraPersistableBusinessObjectBase {
     }
 
     public String getRequisitionerName() {
-        return requisitionerName;
+        if(requisitionerId!=null){
+            return requisitionerName = KraServiceLocator.getService(KcPersonService.class).getKcPersonByPersonId(requisitionerId).getFullName();
+        }else{
+            return this.requisitionerName;
+        }
     }
 
     public void setRequisitionerName(String requisitionerName) {
