@@ -628,6 +628,8 @@ public abstract class KcSeleniumHelper {
         assertTableCellValueContains("row", 0, 0, "return value");
         
         click("return value", true);
+        
+        waitForFormLoad();
     }
 
     /**
