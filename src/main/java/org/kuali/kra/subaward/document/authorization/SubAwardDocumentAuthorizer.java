@@ -34,7 +34,13 @@ public class SubAwardDocumentAuthorizer extends KcTransactionalDocumentAuthorize
         
         return editModes;
     }
-    
+    /**
+     * @see org.kuali.kra.authorization.KcTransactionalDocumentAuthorizerBase#canReload(org.kuali.rice.kns.document.Document, org.kuali.rice.kim.bo.Person)
+     */
+    @Override
+    protected boolean canReload(Document document, Person user) {
+        return canEdit(document, user);
+    }
 
     public boolean canOpen(Document arg0, Person arg1) {
         // TODO Auto-generated method stub

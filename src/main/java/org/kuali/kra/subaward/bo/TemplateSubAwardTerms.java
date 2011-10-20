@@ -26,7 +26,7 @@ public class TemplateSubAwardTerms extends KraPersistableBusinessObjectBase {
 
     private Integer templateSubAwardTermsId; 
     private Integer templateCode; 
-    private Integer subAwardApprovalCode; 
+    private Integer subAwardApprovalTypeCode; 
     
     private SubAwardApprovalType subAwardApprovalType; 
     private AwardTemplate awardTemplate; 
@@ -51,13 +51,14 @@ public class TemplateSubAwardTerms extends KraPersistableBusinessObjectBase {
         this.templateCode = templateCode;
     }
 
-    public Integer getSubAwardApprovalCode() {
-        return subAwardApprovalCode;
+
+    public Integer getSubAwardApprovalTypeCode() {
+        return subAwardApprovalTypeCode;
     }
 
-    public void setSubAwardApprovalCode(Integer subAwardApprovalCode) {
-        this.subAwardApprovalCode = subAwardApprovalCode;
-    } 
+    public void setSubAwardApprovalTypeCode(Integer subAwardApprovalTypeCode) {
+        this.subAwardApprovalTypeCode = subAwardApprovalTypeCode;
+    }
 
     public SubAwardApprovalType getSubAwardApprovalType() {
         return subAwardApprovalType;
@@ -81,7 +82,7 @@ public class TemplateSubAwardTerms extends KraPersistableBusinessObjectBase {
         LinkedHashMap<String, Object> hashMap = new LinkedHashMap<String, Object>();
         hashMap.put("templateSubAwardTermsId", this.getTemplateSubAwardTermsId());
         hashMap.put("templateCode", this.getTemplateCode());
-        hashMap.put("subAwardApprovalCode", this.getSubAwardApprovalCode());
+        hashMap.put("subAwardApprovalCode", this.getSubAwardApprovalTypeCode());
         return hashMap;
     }
     
