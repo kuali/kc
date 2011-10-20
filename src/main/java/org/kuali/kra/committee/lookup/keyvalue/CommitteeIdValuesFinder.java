@@ -39,6 +39,43 @@ import java.util.Collections;
 public class CommitteeIdValuesFinder extends KeyValuesBase {
     
     private List<ProtocolCorrespondenceTemplate> correspondenceTemplates;
+    private BusinessObjectService businessObjectService;
+    
+    
+    public BusinessObjectService getBusinessObjectService() {
+        if(null == this.businessObjectService) {
+            this.setBusinessObjectService(KraServiceLocator.getService(BusinessObjectService.class));
+        }
+        return this.businessObjectService;
+    }
+
+    public void setBusinessObjectService(BusinessObjectService businessObjectService) {
+        this.businessObjectService = businessObjectService;
+    }
+
+    /**
+     * This method will return the list of all highest-sequence number committee instances.
+     * Will always return non-null (but possibly empty) collection.
+     */
+    protected List<Committee> getActiveCommittees() {
+        ArrayList<Committee> returnCommitteeList = new ArrayList<Committee>();
+        
+        Collection<Committee> committees = this.getBusinessObjectService().findAll(Committee.class);
+        // sort and iterate through to get only the latest instances
+        if (CollectionUtils.isNotEmpty(committees)) {
+            List<String> committeeIds = new ArrayList<String>();
+            // only the active ones
+            Collections.sort((List<Committee>) committees, Collections.reverseOrder());
+            for (Committee committee : committees) {
+                if (!committeeIds.contains(committee.getCommitteeId())) {
+                    returnCommitteeList.add(committee); 
+                    committeeIds.add(committee.getCommitteeId());
+                }
+            }
+        }
+        
+        return returnCommitteeList;
+    }
 
     /**
      * @return the list of &lt;key, value&gt; pairs of committees. The first entry is always &lt;"", "select:"&gt;.
@@ -47,18 +84,15 @@ public class CommitteeIdValuesFinder extends KeyValuesBase {
     @SuppressWarnings("unchecked")
     public List<KeyLabelPair> getKeyValues() {
 
-        Collection<Committee> committees = KraServiceLocator.getService(BusinessObjectService.class).findAll(Committee.class);
         List<KeyLabelPair> keyValues = new ArrayList<KeyLabelPair>();
-
+        // only the active ones
+        Collection<Committee> committees = this.getActiveCommittees();
         if (CollectionUtils.isNotEmpty(committees)) {
+            // get the exclusion list
             List<String> excludedCommitteeIds = getExcludedCommitteeIds();
-
-            // only the active ones
-            Collections.sort((List<Committee>) committees, Collections.reverseOrder());
             for (Committee committee : committees) {
                 if (!excludedCommitteeIds.contains(committee.getCommitteeId())) {
                     keyValues.add(new KeyLabelPair(committee.getCommitteeId(), committee.getCommitteeName()));
-                    excludedCommitteeIds.add(committee.getCommitteeId());
                 }
             }
 
