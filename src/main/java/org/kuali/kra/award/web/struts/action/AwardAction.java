@@ -65,6 +65,7 @@ import org.kuali.kra.award.home.approvedsubawards.AwardApprovedSubaward;
 import org.kuali.kra.award.paymentreports.ReportClass;
 import org.kuali.kra.award.paymentreports.awardreports.AwardReportTerm;
 import org.kuali.kra.award.paymentreports.awardreports.AwardReportTermRecipient;
+import org.kuali.kra.award.paymentreports.awardreports.reporting.service.ReportTrackingService;
 import org.kuali.kra.award.paymentreports.closeout.CloseoutReportTypeValuesFinder;
 import org.kuali.kra.bo.versioning.VersionHistory;
 import org.kuali.kra.bo.versioning.VersionStatus;
@@ -132,6 +133,7 @@ public class AwardAction extends BudgetParentActionBase {
     private ParameterService parameterService;
     private transient AwardBudgetService awardBudgetService;
     private transient AwardService awardService;
+    private transient ReportTrackingService reportTrackingService;
     
     private static final Log LOG = LogFactory.getLog( AwardAction.class );
     
@@ -385,39 +387,44 @@ public class AwardAction extends BudgetParentActionBase {
         // TODO: JF Are all of these saves in a single transaction?
         ActionForward forward = mapping.findForward(Constants.MAPPING_BASIC);
         AwardForm awardForm = (AwardForm) form;
-        
+
         Award award = awardForm.getAwardDocument().getAward();
         checkAwardNumber(award);
         String userId = GlobalVariables.getUserSession().getPrincipalName();
+
+        boolean savingNewAward = award.getAwardId() == null;
+
+        forward = super.save(mapping, form, request, response);
+        if (awardForm.getMethodToCall().equals("save") && awardForm.isAuditActivated()) {
+            forward = mapping.findForward(Constants.MAPPING_AWARD_ACTIONS_PAGE);
+        }
+
+        boolean newAwardSaved = savingNewAward && award.getAwardId() != null;
+        if (newAwardSaved) {
+            getAwardService().updateAwardSequenceStatus(award, VersionStatus.PENDING);
+            getVersionHistoryService().createVersionHistory(award, VersionStatus.PENDING, userId);
+        }
+
+        AwardHierarchyBean bean = awardForm.getAwardHierarchyBean();
+        if (bean.saveHierarchyChanges()) {
+            List<String> order = new ArrayList<String>();
+            awardForm.setAwardHierarchyNodes(bean.getAwardHierarchy(bean.getRootNode().getAwardNumber(), order));
+            awardForm.setOrder(order);
+        }
+        // generate hierarchy sync changes after save so all BOs have ids and parent ids set
+        for (AwardSyncPendingChangeBean pendingChange : awardForm.getAwardSyncBean().getConfirmedPendingChanges()) {
+            // refresh object to make sure all references have been loaded before the sync
+            pendingChange.getObject().refresh();
+            getAwardSyncCreationService().addAwardSyncChange(award, pendingChange);
+        }
+        // now we need to save the hierarchy changes
+        getBusinessObjectService().save(award.getSyncChanges());
+        awardForm.getAwardSyncBean().getConfirmedPendingChanges().clear();
         
-            boolean savingNewAward = award.getAwardId() == null;
-            
-            forward = super.save(mapping, form, request, response);
-            if (awardForm.getMethodToCall().equals("save") && awardForm.isAuditActivated()) {
-                forward = mapping.findForward(Constants.MAPPING_AWARD_ACTIONS_PAGE);
-            }
-            
-            boolean newAwardSaved = savingNewAward && award.getAwardId() != null; 
-            if(newAwardSaved) {
-                getAwardService().updateAwardSequenceStatus(award, VersionStatus.PENDING);
-                getVersionHistoryService().createVersionHistory(award, VersionStatus.PENDING, userId);
-            }
- 
-            AwardHierarchyBean bean = awardForm.getAwardHierarchyBean(); 
-            if(bean.saveHierarchyChanges()) {
-                List<String> order = new ArrayList<String>();
-                awardForm.setAwardHierarchyNodes(bean.getAwardHierarchy(bean.getRootNode().getAwardNumber(), order));
-                awardForm.setOrder(order);
-            }
-            //generate hierarchy sync changes after save so all BOs have ids and parent ids set
-            for (AwardSyncPendingChangeBean pendingChange : awardForm.getAwardSyncBean().getConfirmedPendingChanges()) {
-                //refresh object to make sure all references have been loaded before the sync
-                pendingChange.getObject().refresh();
-                getAwardSyncCreationService().addAwardSyncChange(award, pendingChange);
-            }
-            //now we need to save the hierarchy changes
-            getBusinessObjectService().save(award.getSyncChanges());
-            awardForm.getAwardSyncBean().getConfirmedPendingChanges().clear();
+        /**
+         * deal with the award report tracking generation business.
+         */
+        getReportTrackingService().generateReportTrackingAndSave(award);
 
         return forward;
     }
@@ -1818,5 +1825,12 @@ public class AwardAction extends BudgetParentActionBase {
 
     public void setAwardService(AwardService awardService) {
         this.awardService = awardService;
+    }
+    
+    public ReportTrackingService getReportTrackingService() {
+        if (reportTrackingService == null) {
+            reportTrackingService = KraServiceLocator.getService(ReportTrackingService.class);
+        }
+        return reportTrackingService;
     }
 }
