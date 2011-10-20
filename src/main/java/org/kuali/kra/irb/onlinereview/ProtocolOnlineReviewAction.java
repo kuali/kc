@@ -19,8 +19,6 @@ import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
 
-import javax.mail.internet.HeaderTokenizer;
-import javax.mail.internet.MimeUtility;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 
@@ -40,17 +38,14 @@ import org.kuali.kra.irb.Protocol;
 import org.kuali.kra.irb.ProtocolAction;
 import org.kuali.kra.irb.ProtocolForm;
 import org.kuali.kra.irb.ProtocolOnlineReviewDocument;
-import org.kuali.kra.irb.actions.notification.ProtocolActionsNotificationService;
 import org.kuali.kra.irb.actions.notification.RejectReviewEvent;
 import org.kuali.kra.irb.actions.notification.ReviewCompleteEvent;
-import org.kuali.kra.irb.actions.reviewcomments.ProtocolAddReviewAttachmentEvent;
 import org.kuali.kra.irb.actions.reviewcomments.ReviewAttachmentsBean;
 import org.kuali.kra.irb.actions.reviewcomments.ReviewCommentsBean;
 import org.kuali.kra.irb.actions.reviewcomments.ReviewCommentsService;
 import org.kuali.kra.irb.actions.submit.ProtocolReviewer;
 import org.kuali.kra.irb.actions.submit.ProtocolReviewerBean;
 import org.kuali.kra.irb.actions.submit.ProtocolSubmission;
-import org.kuali.kra.irb.auth.ProtocolTask;
 import org.kuali.kra.irb.onlinereview.event.AddProtocolOnlineReviewAttachmentEvent;
 import org.kuali.kra.irb.onlinereview.event.AddProtocolOnlineReviewCommentEvent;
 import org.kuali.kra.irb.onlinereview.event.DeleteProtocolOnlineReviewEvent;
@@ -60,13 +55,11 @@ import org.kuali.kra.irb.onlinereview.event.RouteProtocolOnlineReviewEvent;
 import org.kuali.kra.irb.onlinereview.event.SaveProtocolOnlineReviewEvent;
 import org.kuali.kra.meeting.CommitteeScheduleMinute;
 import org.kuali.kra.meeting.MinuteEntryType;
-import org.kuali.kra.service.KraAuthorizationService;
 import org.kuali.kra.service.KraWorkflowService;
 import org.kuali.kra.service.TaskAuthorizationService;
 import org.kuali.kra.web.struts.action.AuditActionHelper;
 import org.kuali.rice.kns.bo.Note;
 import org.kuali.rice.kns.question.ConfirmationQuestion;
-import org.kuali.rice.kns.service.DateTimeService;
 import org.kuali.rice.kns.service.DocumentService;
 import org.kuali.rice.kns.service.KualiRuleService;
 import org.kuali.rice.kns.util.GlobalVariables;
@@ -337,8 +330,10 @@ public class ProtocolOnlineReviewAction extends ProtocolAction implements AuditM
             getDocumentService().approveDocument(prDoc, "", null);
             protocolForm.getOnlineReviewsActionHelper().init(true);
             recordOnlineReviewActionSuccess("approved", prDoc);
-            // TODO : only send to this reviewer, not the other unapproved review ?
-            getProtocolActionsNotificationService().sendActionsNotification(protocolForm.getProtocolDocument().getProtocol(), new ReviewCompleteEvent(protocolForm.getProtocolDocument().getProtocol()));
+            ReviewCompleteEvent reviewCompleteEvent = new ReviewCompleteEvent();
+            reviewCompleteEvent.setProtocol(protocolForm.getProtocolDocument().getProtocol());
+            reviewCompleteEvent.setProtocolOnlineReview(prDoc.getProtocolOnlineReview());
+            reviewCompleteEvent.sendNotification();
             if (!protocolForm.getEditingMode().containsKey("maintainProtocolOnlineReviews")) {
                 // reviewer approve will return here
                 return mapping.findForward(KNSConstants.MAPPING_PORTAL);
@@ -365,9 +360,6 @@ public class ProtocolOnlineReviewAction extends ProtocolAction implements AuditM
 
     }
 
-    private ProtocolActionsNotificationService getProtocolActionsNotificationService() {
-        return KraServiceLocator.getService(ProtocolActionsNotificationService.class);
-    }
     /**
      * 
      * @param mapping the mapping associated with this action.

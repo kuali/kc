@@ -15,60 +15,31 @@
  */
 package org.kuali.kra.irb.actions.notification;
 
-import org.kuali.kra.irb.Protocol;
-import org.w3c.dom.Element;
+import org.kuali.kra.irb.notification.IRBNotificationContext;
 
 /**
  * 
  * This class is the event for Complete protocol online review notification.
  */
-public class ReviewCompleteEvent extends NotificationEventBase {
+public class ReviewCompleteEvent extends IRBNotificationContext {
     public static final String REVIEW_COMPLETE = "902";
-
-    public ReviewCompleteEvent() {
-    }
-
-    public ReviewCompleteEvent(Protocol protocol) {
-        super(protocol);
-    }
-
+    
     /**
      * 
-     * @see org.kuali.kra.irb.actions.notification.NotificationEventBase#getRecipients(org.w3c.dom.Element)
-     */
-    public void getRecipients(Element recipients) {
-        super.getRecipients(recipients);
-    }
-
-    /**
-     * 
-     * @see org.kuali.kra.irb.actions.notification.NotificationEventBase#getTitle()
-     */
-    public String getTitle() {
-        return "Protocol " + getProtocol().getProtocolNumber() + " Review Complete";
-    }
-
-    public String getTemplatePath() {
-        return "ReviewCompleteNotification.xsl";
-    }
-
-    /**
-     * 
-     * @see org.kuali.kra.irb.actions.notification.NotificationEventBase#getActionTypeCode()
+     * @see org.kuali.kra.common.notification.NotificationContextBase#getActionTypeCode()
      */
     @Override
     public String getActionTypeCode() {
         return REVIEW_COMPLETE;
     }
-
-    @Override
-    public boolean isReviewerNotification() {
-        return true;    
-    }
     
+    /**
+     * 
+     * @see org.kuali.kra.common.notification.NotificationContextBase#getContextName()
+     */
     @Override
-    public boolean isInvestigatorIncluded() {
-        return false;    
+    public String getContextName() {
+        return "ReviewCompleteEvent";
     }
-    
+ 
 }

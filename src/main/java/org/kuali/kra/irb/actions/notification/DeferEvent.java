@@ -15,40 +15,30 @@
  */
 package org.kuali.kra.irb.actions.notification;
 
-import org.kuali.kra.irb.Protocol;
 import org.kuali.kra.irb.actions.ProtocolActionType;
-import org.w3c.dom.Element;
+import org.kuali.kra.irb.notification.IRBNotificationContext;
 
 /**
  * 
  * This class is for withdraw notification event
  */
-public class DeferEvent extends NotificationEventBase {
-
-
-    public DeferEvent(Protocol protocol) {
-        super(protocol);
-    }
-
-     /**
-     * 
-     * @see org.kuali.kra.irb.actions.notification.NotificationEventBase#getTitle()
-     */
-    public String getTitle() {
-        return "Protocol " + getProtocol().getProtocolNumber() + " Deferred";
-    }
-
-    public String getTemplatePath() {
-        return "ProtocolDeferNotification.xsl";
-    }
+public class DeferEvent extends IRBNotificationContext {
 
     /**
      * 
-     * @see org.kuali.kra.irb.actions.notification.NotificationEventBase#getActionTypeCode()
+     * @see org.kuali.kra.common.notification.NotificationContextBase#getActionTypeCode()
      */
     @Override
     public String getActionTypeCode() {
         return ProtocolActionType.DEFERRED;
     }
 
+    /**
+     * 
+     * @see org.kuali.kra.common.notification.NotificationContextBase#getContextName()
+     */
+    @Override
+    public String getContextName() {
+        return "DeferEvent";
+    }
 }

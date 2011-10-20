@@ -20,25 +20,18 @@ import java.util.Iterator;
 import java.util.List;
 
 import org.apache.commons.lang.StringUtils;
-import org.kuali.kra.bo.KcPerson;
 import org.kuali.kra.committee.bo.Committee;
 import org.kuali.kra.committee.service.CommitteeService;
 import org.kuali.kra.irb.Protocol;
-import org.kuali.kra.irb.ProtocolDocument;
 import org.kuali.kra.irb.actions.ProtocolAction;
 import org.kuali.kra.irb.actions.ProtocolActionType;
 import org.kuali.kra.irb.actions.assigncmtsched.ProtocolAssignCmtSchedService;
 import org.kuali.kra.irb.actions.notification.AssignToAgendaEvent;
-import org.kuali.kra.irb.actions.notification.ProtocolActionsNotificationService;
 import org.kuali.kra.irb.actions.submit.ProtocolActionService;
 import org.kuali.kra.irb.actions.submit.ProtocolSubmission;
 import org.kuali.kra.irb.actions.submit.ProtocolSubmissionStatus;
-import org.kuali.kra.irb.onlinereview.ProtocolOnlineReview;
-import org.kuali.kra.irb.onlinereview.ProtocolOnlineReviewService;
 import org.kuali.rice.core.util.KeyLabelPair;
-import org.kuali.rice.kew.util.XmlHelper;
 import org.kuali.rice.kns.service.DocumentService;
-import org.w3c.dom.Element;
 
 
 /**
@@ -53,8 +46,6 @@ public class ProtocolAssignToAgendaServiceImpl implements ProtocolAssignToAgenda
     private ProtocolActionService protocolActionService;
     private ProtocolAssignCmtSchedService protocolAssignCmtSchedService;
     private CommitteeService committeeService;
-    private ProtocolActionsNotificationService protocolActionsNotificationService;
-
 
     public void setDocumentService(DocumentService documentService) {
         this.documentService = documentService;
@@ -95,9 +86,9 @@ public class ProtocolAssignToAgendaServiceImpl implements ProtocolAssignToAgenda
         protocol.getProtocolActions().add(protocolAction);
         protocolActionService.updateProtocolStatus(protocolAction, protocol);
         documentService.saveDocument(protocol.getProtocolDocument());
-        // sendWithdrawNotification(protocol);
-        protocolActionsNotificationService.sendActionsNotification(protocol, new AssignToAgendaEvent(protocol));
-        
+        AssignToAgendaEvent assignToAgendaEvent = new AssignToAgendaEvent();
+        assignToAgendaEvent.setProtocol(protocol);
+        assignToAgendaEvent.sendNotification();        
     }
 
     /** {@inheritDoc} */
@@ -178,10 +169,6 @@ public class ProtocolAssignToAgendaServiceImpl implements ProtocolAssignToAgenda
             }
         }
         return null;
-    }
-
-    public void setProtocolActionsNotificationService(ProtocolActionsNotificationService protocolActionsNotificationService) {
-        this.protocolActionsNotificationService = protocolActionsNotificationService;
     }
     
 

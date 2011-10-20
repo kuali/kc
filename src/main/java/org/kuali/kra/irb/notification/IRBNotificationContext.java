@@ -42,8 +42,8 @@ public abstract class IRBNotificationContext extends NotificationContextBase {
     public IRBNotificationContext() {
         setNotificationService(KraServiceLocator.getService(KcNotificationService.class));
         setNotificationModuleRoleService(KraServiceLocator.getService(KcNotificationModuleRoleService.class));
-        setNotificationRenderingService(new IRBNotificationRenderingServiceImpl());
-        setNotificationRoleQualifierService(new IRBNotificationRoleQualifierServiceImpl());
+        setNotificationRenderingService(KraServiceLocator.getService(IRBNotificationRenderingService.class));
+        setNotificationRoleQualifierService(KraServiceLocator.getService(IRBNotificationRoleQualifierService.class));
     }
 
     public Protocol getProtocol() {

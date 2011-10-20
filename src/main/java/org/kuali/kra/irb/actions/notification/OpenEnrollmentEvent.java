@@ -17,48 +17,31 @@ package org.kuali.kra.irb.actions.notification;
 
 import org.kuali.kra.irb.Protocol;
 import org.kuali.kra.irb.actions.ProtocolActionType;
+import org.kuali.kra.irb.notification.IRBNotificationContext;
 import org.w3c.dom.Element;
 
 /**
  * 
  * This class is for request to re-open enrollment notification event
  */
-public class OpenEnrollmentEvent extends NotificationEventBase {
+public class OpenEnrollmentEvent extends IRBNotificationContext {
 
-    public OpenEnrollmentEvent() {
-    }
-
-    public OpenEnrollmentEvent(Protocol protocol) {
-        super(protocol);
-    }
 
     /**
      * 
-     * @see org.kuali.kra.irb.actions.notification.NotificationEventBase#getRecipients(org.w3c.dom.Element)
-     */
-    public void getRecipients(Element recipients) {
-        super.getRecipients(recipients);
-    }
-
-    /**
-     * 
-     * @see org.kuali.kra.irb.actions.notification.NotificationEventBase#getTitle()
-     */
-    public String getTitle() {
-        return "Protocol " + getProtocol().getProtocolNumber() + " request to Re-Open Enrollment";
-    }
-
-    public String getTemplatePath() {
-        return "OpenEnrollmentNotification.xsl";
-    }
-
-    /**
-     * 
-     * @see org.kuali.kra.irb.actions.notification.NotificationEventBase#getActionTypeCode()
+     * @see org.kuali.kra.common.notification.NotificationContextBase#getActionTypeCode()
      */
     @Override
     public String getActionTypeCode() {
         return ProtocolActionType.REQUEST_TO_REOPEN_ENROLLMENT;
     }
 
+    /**
+     * 
+     * @see org.kuali.kra.common.notification.NotificationContextBase#getContextName()
+     */
+    @Override
+    public String getContextName() {
+        return "OpenEnrollmentEvent";
+    }
 }

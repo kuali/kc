@@ -80,7 +80,6 @@ public class ProtocolNotifyIrbServiceTest extends KcUnitTestBase {
         service = new ProtocolNotifyIrbServiceImpl();
         service.setProtocolActionService(KraServiceLocator.getService(ProtocolActionService.class));
         service.setDocumentService(getMockDocumentService());
-        service.setProtocolActionsNotificationService(getMockProtocolActionsNotificationService());
         
         businessObjectService = KraServiceLocator.getService(BusinessObjectService.class);
         service.setBusinessObjectService(businessObjectService);

@@ -23,7 +23,6 @@ import org.kuali.kra.irb.actions.ProtocolActionType;
 import org.kuali.kra.irb.actions.correspondence.ProtocolActionCorrespondenceGenerationService;
 import org.kuali.kra.irb.actions.genericactions.ProtocolGenericActionBean;
 import org.kuali.kra.irb.actions.genericactions.ProtocolGenericCorrespondence;
-import org.kuali.kra.irb.actions.notification.ProtocolActionsNotificationService;
 import org.kuali.kra.irb.actions.submit.ProtocolActionService;
 import org.kuali.kra.printing.PrintingException;
 import org.kuali.rice.kew.exception.WorkflowException;
@@ -38,7 +37,6 @@ public class ProtocolAbandonServiceImpl implements ProtocolAbandonService {
     private static final Log LOG = LogFactory.getLog(ProtocolAbandonServiceImpl.class);
     private DocumentService documentService;
     private ProtocolActionService protocolActionService;
-    private ProtocolActionsNotificationService protocolActionsNotificationService;
     private ProtocolActionCorrespondenceGenerationService protocolActionCorrespondenceGenerationService;
 
     /**
@@ -54,7 +52,9 @@ public class ProtocolAbandonServiceImpl implements ProtocolAbandonService {
         protocol.setActive(false);
         documentService.cancelDocument(protocol.getProtocolDocument(), null);
         try {
-            protocolActionsNotificationService.sendActionsNotification(protocol, new ProtocolAbandonEvent(protocol));
+            ProtocolAbandonEvent protocolAbandonEvent = new ProtocolAbandonEvent();
+            protocolAbandonEvent.setProtocol(protocol);
+            protocolAbandonEvent.sendNotification();
             createCorrespondenceAndAttach(protocol, ProtocolActionType.ABANDON_PROTOCOL);
         } catch (Exception e) {
             LOG.info("Abandon Protocol Notification exception " + e.getStackTrace());
@@ -75,10 +75,6 @@ public class ProtocolAbandonServiceImpl implements ProtocolAbandonService {
 
     public void setProtocolActionService(ProtocolActionService protocolActionService) {
         this.protocolActionService = protocolActionService;
-    }
-
-    public void setProtocolActionsNotificationService(ProtocolActionsNotificationService protocolActionsNotificationService) {
-        this.protocolActionsNotificationService = protocolActionsNotificationService;
     }
 
     public void setProtocolActionCorrespondenceGenerationService(
