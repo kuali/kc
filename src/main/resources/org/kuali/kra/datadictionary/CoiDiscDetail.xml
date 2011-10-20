@@ -35,6 +35,7 @@
                 <ref bean="CoiDiscDetail-coiDiscDetailId" />
                 <ref bean="CoiDiscDetail-coiDisclosureId" />
                 <ref bean="CoiDiscDetail-coiDisclosureNumber" />
+                <ref bean="CoiDiscDetail-personFinIntDisclosureId" />
                 <ref bean="CoiDiscDetail-sequenceNumber" />
                 <ref bean="CoiDiscDetail-coiDiscDetailNumber" />
                 <ref bean="CoiDiscDetail-moduleCode" />
@@ -217,8 +218,8 @@
     <bean id="CoiDiscDetail-entityStatusCode-parentBean" abstract="true" parent="AttributeDefinition" >
         <property name="name" value="entityStatusCode" />
         <property name="forceUppercase" value="false" />
-        <property name="label" value="Entity Status Code" />
-        <property name="shortLabel" value="Entity Status Code" />
+        <property name="label" value="Conflict" />
+        <property name="shortLabel" value="Conflict" />
         <property name="maxLength" value="3" />
         <property name="validationPattern" >
             <bean parent="NumericValidationPattern" />
@@ -226,7 +227,7 @@
     	<property name="control" >
       		<bean parent="SelectControlDefinition"
             	p:businessObjectClass="org.kuali.kra.coi.CoiEntityStatusCode"
-            	p:valuesFinderClass="org.kuali.rice.kns.lookup.keyvalues.PersistableBusinessObjectValuesFinder"
+            	p:valuesFinderClass="org.kuali.kra.lookup.keyvalue.ExtendedPersistableBusinessObjectValuesFinder"
             	p:includeKeyInLabel="false"
             	p:includeBlankRow="false"
             	p:keyAttribute="entityStatusCode"
@@ -237,21 +238,8 @@
     </bean>
 
     <bean id="CoiDiscDetail-description" parent="CoiDiscDetail-description-parentBean" />
-    <bean id="CoiDiscDetail-description-parentBean" abstract="true" parent="AttributeDefinition" >
-        <property name="name" value="description" />
-        <property name="forceUppercase" value="false" />
-        <property name="label" value="Description" />
-        <property name="shortLabel" value="Description" />
+    <bean id="CoiDiscDetail-description-parentBean" abstract="true" parent="KraAttributeReferenceDummy-description"  >
         <property name="maxLength" value="2000" />
-        <property name="validationPattern" >
-            <bean parent="AlphaNumericValidationPattern" />
-        </property>
-        <property name="control" >
-            <bean parent="TextControlDefinition"
-                p:size="10" />
-        </property>
-        <property name="summary" value="Description" />
-        <property name="description" value="Description" />
     </bean>
 
     <bean id="CoiDiscDetail-comments" parent="CoiDiscDetail-comments-parentBean" />
@@ -262,14 +250,20 @@
         <property name="shortLabel" value="Comments" />
         <property name="maxLength" value="200" />
         <property name="validationPattern" >
-            <bean parent="AlphaNumericValidationPattern" />
+            <bean parent="AnyCharacterValidationPattern" p:allowWhitespace="true"/>
         </property>
         <property name="control" >
-            <bean parent="TextControlDefinition"
-                p:size="10" />
+            <bean parent="TextareaControlDefinition"
+                p:rows="2"
+                p:cols="60" />
         </property>
         <property name="summary" value="Comments" />
         <property name="description" value="Comments" />
+    </bean>
+    <bean id="CoiDiscDetail-personFinIntDisclosureId" parent="CoiDiscDetail-personFinIntDisclosureId-parentBean" />
+    <bean id="CoiDiscDetail-personFinIntDisclosureId-parentBean" abstract="true" parent="FinancialEntity-personFinIntDisclosureId">
+        <property name="label" value="Entity" />
+        <property name="shortLabel" value="Entity" />
     </bean>
 
     <bean id="CoiDiscDetail-versionNumber" parent="CoiDiscDetail-versionNumber-parentBean" />
