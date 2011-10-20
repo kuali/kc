@@ -15,32 +15,26 @@
  */
 package org.kuali.kra.irb.actions.notification;
 
-import org.kuali.kra.irb.Protocol;
 import org.kuali.kra.irb.actions.ProtocolActionType;
+import org.kuali.kra.irb.notification.IRBNotificationContext;
 
-public class SubstantiveRevisionsRequiredEvent extends NotificationEventBase {
+public class SubstantiveRevisionsRequiredEvent extends IRBNotificationContext {
 
-    public SubstantiveRevisionsRequiredEvent() {
-        super();
-    }
-    
-    public SubstantiveRevisionsRequiredEvent(Protocol protocol) {
-        super(protocol);
-    }
-    
-    @Override
-    public String getTitle() {
-        return "Substantive revisions required.";
-    }
-
+    /**
+     * 
+     * @see org.kuali.kra.common.notification.NotificationContextBase#getActionTypeCode()
+     */
     @Override
     public String getActionTypeCode() {
         return ProtocolActionType.SUBSTANTIVE_REVISIONS_REQUIRED;
     }
 
+    /**
+     * 
+     * @see org.kuali.kra.common.notification.NotificationContextBase#getContextName()
+     */
     @Override
-    public String getTemplatePath() {
-        return "SubstantiveRevisionsRequiredNotification.xsl";
+    public String getContextName() {
+        return "SubstantiveRevisionsRequiredEvent";
     }
-
 }

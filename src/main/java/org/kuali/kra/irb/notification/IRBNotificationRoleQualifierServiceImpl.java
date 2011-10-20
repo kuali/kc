@@ -46,8 +46,10 @@ public class IRBNotificationRoleQualifierServiceImpl implements IRBNotificationR
                 if (getProtocol().getProtocolSubmission() != null) {
                     return getProtocol().getProtocolSubmission().getSubmissionId().toString();
                 }
-            } else if (StringUtils.equals(qName, "protocolOnlineReviewId")) {          
+            } else if (StringUtils.equals(qName, "protocolOnlineReviewId")) {
+                if (protocolOnlineReview != null) {
                     return protocolOnlineReview.getProtocolOnlineReviewId().toString();
+                }
             }
         
         return null;

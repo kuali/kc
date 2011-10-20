@@ -648,7 +648,6 @@
     <bean id="protocolNotifyIrbService" class="org.kuali.kra.irb.actions.notifyirb.ProtocolNotifyIrbServiceImpl">
         <property name="businessObjectService" ref="businessObjectService" />
         <property name="protocolActionService" ref="protocolActionService" />
-        <property name="protocolActionsNotificationService" ref="protocolActionsNotificationService" />
        <property name="documentService" ref="documentService" />
     </bean>
     
@@ -728,7 +727,6 @@
         <property name="protocolActionService" ref="protocolActionService" />
         <property name="protocolAssignCmtSchedService" ref="protocolAssignCmtSchedService" />
         <property name="committeeService" ref="committeeService" />
-        <property name="protocolActionsNotificationService" ref="protocolActionsNotificationService" />
     </bean> 
     
     <bean id="protocolAssignReviewersService" class="org.kuali.kra.irb.actions.assignreviewers.ProtocolAssignReviewersServiceImpl">
@@ -763,7 +761,6 @@
         <property name="protocolActionService" ref="protocolActionService" />
         <property name="documentService" ref="documentService" />
         <property name="protocolActionCorrespondenceGenerationService" ref="protocolActionCorrespondenceGenerationService" />
-        <property name="protocolActionsNotificationService" ref="protocolActionsNotificationService" />
         <property name="protocolOnlineReviewService" ref="protocolOnlineReviewService"/>
         <property name="protocolVersionService" ref="protocolVersionService" />
         <property name="protocolAssignToAgendaService" ref="protocolAssignToAgendaService" />
@@ -944,7 +941,6 @@
 
     <bean id="protocolAbandonService" class="org.kuali.kra.irb.actions.abandon.ProtocolAbandonServiceImpl">
         <property name="protocolActionService" ref="protocolActionService" />
-        <property name="protocolActionsNotificationService" ref="protocolActionsNotificationService" />
         <property name="protocolActionCorrespondenceGenerationService" ref="protocolActionCorrespondenceGenerationService" />
        <property name="documentService" ref="documentService" />
     </bean>
@@ -960,7 +956,37 @@
       </property>
     </bean>
     
-
+    <bean id="iRBNotificationRenderingService" class="org.kuali.kra.irb.notification.IRBNotificationRenderingServiceImpl"
+          scope="prototype">
+        <property name="businessObjectService" ref="businessObjectService" />
+        <property name="kcPersonService" ref="kcPersonService" />          
+    </bean>
+    
+    <bean id="iRBNotificationRoleQualifierService" class="org.kuali.kra.irb.notification.IRBNotificationRoleQualifierServiceImpl"
+          scope="prototype">
+    </bean>
+    
+    <bean id="protocolPersonnelDerivedRoleTypeService"
+          class="org.kuali.kra.kim.service.impl.ProtocolPersonnelDerivedRoleTypeServiceImpl">
+    </bean>
+    
+    <bean class="org.kuali.rice.ksb.messaging.KSBExporter">
+      <property name="serviceDefinition">
+            <bean parent="kcService" p:service-ref="protocolPersonnelDerivedRoleTypeService"
+                  p:localServiceName="protocolPersonnelDerivedRoleTypeService" />
+      </property>
+    </bean>
+    
+    <bean id="protocolAffiliateTypeDerivedRoleTypeService"
+          class="org.kuali.kra.kim.service.impl.ProtocolAffiliateTypeDerivedRoleTypeServiceImpl">
+    </bean>
+    
+    <bean class="org.kuali.rice.ksb.messaging.KSBExporter">
+      <property name="serviceDefinition">
+            <bean parent="kcService" p:service-ref="protocolAffiliateTypeDerivedRoleTypeService"
+                  p:localServiceName="protocolAffiliateTypeDerivedRoleTypeService" />
+      </property>
+    </bean>    
 </beans>
 
 

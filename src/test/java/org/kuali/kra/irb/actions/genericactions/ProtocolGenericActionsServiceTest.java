@@ -70,7 +70,6 @@ public class ProtocolGenericActionsServiceTest extends KcUnitTestBase {
         service.setProtocolActionService(KraServiceLocator.getService(ProtocolActionService.class));
         service.setDocumentService(KraServiceLocator.getService(DocumentService.class));
         service.setProtocolActionCorrespondenceGenerationService(getMockProtocolActionCorrespondenceGenerationService());
-        service.setProtocolActionsNotificationService(getMockProtocolActionsNotificationService());
         service.setProtocolOnlineReviewService(getMockProtocolOnlineReviewService());
         service.setProtocolVersionService(KraServiceLocator.getService(ProtocolVersionService.class));
     }

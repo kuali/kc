@@ -66,17 +66,21 @@ public class ProtocolAssignReviewersServiceImpl implements ProtocolAssignReviewe
             }
            
             businessObjectService.save(protocolSubmission); 
-            // TODO : how should we handle, new addtion, existing, removed and even empty list
-            // For example : do we send "removed" message.  Do we send message for existing reviewer again ?
-            // this method also called by submittoirbforreview
-            if (sendNotification && protocolSubmission.getCommitteeIdFk() != null && protocolSubmission.getScheduleIdFk() != null) {
-                protocolActionsNotificationService.sendActionsNotification(protocolSubmission.getProtocol(), new AssignReviewerEvent(protocolSubmission.getProtocol()));
-            }
-
         }
     }
     
     protected void removeReviewer(ProtocolSubmission protocolSubmission, ProtocolReviewerBean protocolReviewBean,String annotation) {
+        //We need to send the notification prior to the online review being removed in order to satisfy the kim role recipients requirements
+        ProtocolOnlineReviewDocument onlineReviewDocument = 
+            protocolOnlineReviewService.getProtocolOnlineReviewDocument(protocolReviewBean.getPersonId(), protocolReviewBean.getNonEmployeeFlag(), protocolSubmission);
+        if (onlineReviewDocument != null) {    
+            AssignReviewerEvent assignReviewerEvent = new AssignReviewerEvent();
+            assignReviewerEvent.setProtocol(protocolSubmission.getProtocol());
+            assignReviewerEvent.setProtocolOnlineReview(onlineReviewDocument.getProtocolOnlineReview());
+            assignReviewerEvent.setActionTaken("removed");
+            assignReviewerEvent.sendNotification();
+        }
+        
         protocolOnlineReviewService.removeOnlineReviewDocument(protocolReviewBean.getPersonId(), protocolReviewBean.getNonEmployeeFlag(), protocolSubmission, annotation);
     }
     
@@ -99,6 +103,13 @@ public class ProtocolAssignReviewersServiceImpl implements ProtocolAssignReviewe
                 description, explanation, organizationDocumentNumber, routeAnnotation, initialApproval, dateRequested, dateDue, sessionPrincipalId);
     
         protocolSubmission.getProtocolOnlineReviews().add(document.getProtocolOnlineReview());
+        
+        //send notification now that the online review has been created.
+        AssignReviewerEvent assignReviewerEvent = new AssignReviewerEvent();
+        assignReviewerEvent.setProtocol(protocolSubmission.getProtocol());
+        assignReviewerEvent.setProtocolOnlineReview(document.getProtocolOnlineReview());
+        assignReviewerEvent.setActionTaken("added");
+        assignReviewerEvent.sendNotification();        
     }
     
     protected void updateReviewer(ProtocolSubmission protocolSubmission, ProtocolReviewerBean protocolReviewerBean) {

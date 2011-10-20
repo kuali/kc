@@ -15,47 +15,56 @@
  */
 package org.kuali.kra.irb.actions.notification;
 
-import org.kuali.kra.irb.Protocol;
+import java.util.Map;
+
+import org.kuali.kra.common.notification.service.KcNotificationRenderingService;
 import org.kuali.kra.irb.actions.ProtocolActionType;
-import org.w3c.dom.Element;
+import org.kuali.kra.irb.notification.IRBNotificationContext;
 
 /**
  * 
  * This class is for Notify Irb notification event
  */
-public class NotifyIrbEvent extends NotificationEventBase {
+public class NotifyIrbEvent extends IRBNotificationContext {
 
-    public NotifyIrbEvent(Protocol protocol) {
-        super(protocol);
-    }
-
-
+    private String actionComments;
+    
     /**
      * 
-     * @see org.kuali.kra.irb.actions.notification.NotificationEventBase#getRecipients(org.w3c.dom.Element)
-     */
-    public void getRecipients(Element recipients) {
-        super.getRecipients(recipients);
-    }
-
-    /**
-     * 
-     * @see org.kuali.kra.irb.actions.notification.NotificationEventBase#getTitle()
-     */
-    public String getTitle() {
-        return "Protocol " + getProtocol().getProtocolNumber() + " Notify Irb";
-    }
-
-    public String getTemplatePath() {
-        return "NotifyIrbNotification.xsl";
-    }
-
-    /**
-     * 
-     * @see org.kuali.kra.irb.actions.notification.NotificationEventBase#getActionTypeCode()
+     * @see org.kuali.kra.common.notification.NotificationContextBase#getActionTypeCode()
      */
     @Override
     public String getActionTypeCode() {
         return ProtocolActionType.NOTIFY_IRB;
+    }
+
+    /**
+     * 
+     * @see org.kuali.kra.common.notification.NotificationContextBase#getContextName()
+     */
+    @Override
+    public String getContextName() {
+        return "NotifyIrbEvent";
+    }
+    
+    /**
+     * 
+     * @see org.kuali.kra.common.notification.NotificationContextBase#replaceContextVariables(java.lang.String)
+     */
+    @Override
+    public String replaceContextVariables(String text) {
+        KcNotificationRenderingService renderer = getNotificationRenderingService();
+        Map<String, String> params = renderer.getReplacementParameters();
+        params.put("{ACTION_COMMENTS}", getActionComments());
+        
+        return renderer.render(text, params);
+    }
+
+    public String getActionComments() {
+        return actionComments;
+    }
+
+    public void setActionComments(String actionComments) {
+        this.actionComments = actionComments;
     }
 }
