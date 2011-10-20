@@ -45,18 +45,19 @@ public class SubAwardDocumentRule extends ResearchDocumentRuleBase implements Su
     private static final String NEW_SUBAWARD = "document.subAwardList[0]";
     
     
-    private static final String EFFECTIVE_DATE = "newSubAwardAmountReleased.effectiveDate";
+    private static final String AMOUNT_INFO_EFFECTIVE_DATE = "newSubAwardAmountInfo.effectiveDate";
+    private static final String AMOUNT_RELEASED_EFFECTIVE_DATE = "newSubAwardAmountReleased.effectiveDate";
     private static final String INVOICE_NUMBER = "newSubAwardAmountReleased.invoiceNumber";
     private static final String START_DATE = "newSubAwardAmountReleased.startDate";
     private static final String END_DATE = "newSubAwardAmountReleased.endDate";
     private static final String AMOUNT_RELEASED="newSubAwardAmountReleased.amountReleased";
     
-    private static final String ROLODEX_ID="newSubAwardContact.rolodexName";
+    private static final String ROLODEX_ID="newSubAwardContact.rolodex.firstName";
     private static final String CONTACT_TYPE_CODE="newSubAwardContact.contactTypeCode";
     
     private static final String CLOSEOUT_TYPE_CODE="newSubAwardCloseout.closeoutTypeCode";
     
-    private static final String AWARD_NUMBER="newSubAwardFundingSource.awardId";
+    private static final String AWARD_NUMBER="newSubAwardFundingSource.award.awardNumber";
     
     
     
@@ -124,7 +125,7 @@ public class SubAwardDocumentRule extends ResearchDocumentRuleBase implements Su
                 || amountInfo.getEffectiveDate()==null){
             rulePassed = false;
             
-            reportError(EFFECTIVE_DATE
+            reportError(AMOUNT_INFO_EFFECTIVE_DATE
                     , KeyConstants.ERROR_REQUIRED_EFFECTIVE_DATE);            
             
         }  
@@ -171,7 +172,7 @@ public class SubAwardDocumentRule extends ResearchDocumentRuleBase implements Su
         if(amountReleased==null 
                 || amountReleased.getEffectiveDate()==null){
             rulePassed = false;            
-            reportError(EFFECTIVE_DATE
+            reportError(AMOUNT_RELEASED_EFFECTIVE_DATE
                     , KeyConstants.ERROR_REQUIRED_AMOUNT_RELEASED_EFFECTIVE_DATE);
         }  
         if(amountReleased==null 

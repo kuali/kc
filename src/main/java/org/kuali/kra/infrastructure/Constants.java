@@ -748,7 +748,7 @@ public interface Constants {
     public static final String MAPPING_AMOUNT_RELEASED_PAGE="amountReleased";
     public static final String MAPPING_CONTACTS_PAGE="contacts";
     public static final String MAPPING_CLOSEOUT_PAGE="closeout";
-
+    public static final String MAPPING_SUBAWARD_ACTION_PAGE="subAwardActions";
     // coi
     public static final String MODULE_NAMESPACE_COIDISCLOSURE = "KC-COIDISCLOSURE";
     
