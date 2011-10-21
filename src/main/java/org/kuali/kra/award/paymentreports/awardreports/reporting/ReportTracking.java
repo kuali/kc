@@ -392,10 +392,14 @@ public class ReportTracking extends KraPersistableBusinessObjectBase implements 
     }
     
     public KcPerson getPreparer() {
-        if (preparer != null && StringUtils.isNotBlank(getPreparerId())) {
+        if (preparer == null && StringUtils.isNotBlank(getPreparerId())) {
             preparer = getKcPersonService().getKcPersonByPersonId(getPreparerId());
         }
         return preparer;
+    }
+    
+    public String getPreparerFullname() {
+        return getPreparer() != null ? getPreparer().getFullName() : "";
     }
 
     protected BusinessObjectService getBusinessObjectService() {

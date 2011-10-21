@@ -18,8 +18,11 @@
 <%@ attribute name="innerTabParent" description="Inner Tab Parent Name" required="true"%>
 <%@ attribute name="index" description="Index" required="true"%>
 
+<script type='text/javascript' src='dwr/interface/KraPersonService.js'></script>
+
 <c:set var="awardReportingAttributes" value="${DataDictionary.AwardReporting.attributes}" />
 <c:set var="reportTrackingAttributes" value="${DataDictionary.ReportTracking.attributes}" />
+<c:set var="readOnly" value="${false }"/>
 
 <kul:innerTab parentTab="${innerTabParent}" defaultOpen="false"
 	tabTitle="Details - Report Tracking (New)"
@@ -63,26 +66,36 @@
 				</td>
 				<td>
 					<kul:htmlControlAttribute property="document.award.awardReportTermItems[${index}].reportTrackings[${status.index}].overdue" 
-						attributeEntry="${reportTrackingAttributes.overdue}"  />
+						attributeEntry="${reportTrackingAttributes.overdue}" readOnly="${true }"  />
 				</td>
 				<td>
+					<kul:htmlControlAttribute property="document.award.awardReportTermItems[${index}].reportTrackings[${status.index}].preparerName" 
+						attributeEntry="${reportTrackingAttributes.preparerName}" readOnly="${readOnly }"  />
+					<c:if test="${!readOnly}">
+	                	<kul:lookup boClassName="org.kuali.kra.bo.KcPerson" 
+	                                fieldConversions="userName:document.award.awardReportTermItems[${index}].reportTrackings[${status.index}].preparerName,personId:document.award.awardReportTermItems[${index}].reportTrackings[${status.index}].preparerId" />
+                    </c:if>				
 					<kul:htmlControlAttribute property="document.award.awardReportTermItems[${index}].reportTrackings[${status.index}].preparerId" 
-						attributeEntry="${reportTrackingAttributes.preparerId}"  />
+						attributeEntry="${reportTrackingAttributes.preparerId}" readOnly="${readOnly }"  />
+					<br/>
+					<span id="preparer[${status.index}]">
+						<c:out value="${reportTracking.preparerFullname}"/>&nbsp;
+					</span>
 				</td>
 				<td>
 					<kul:htmlControlAttribute property="document.award.awardReportTermItems[${index}].reportTrackings[${status.index}].statusCode" 
-						attributeEntry="${reportTrackingAttributes.statusCode}"  />
+						attributeEntry="${reportTrackingAttributes.statusCode}" readOnly="${readOnly }"  />
 				</td>
 				<td>
 					<kul:htmlControlAttribute property="document.award.awardReportTermItems[${index}].reportTrackings[${status.index}].activityDate" 
-						attributeEntry="${reportTrackingAttributes.activityDate}"  />
+						attributeEntry="${reportTrackingAttributes.activityDate}" readOnly="${readOnly }"  />
 				</td>
 				<td>
 					<kul:htmlControlAttribute property="document.award.awardReportTermItems[${index}].reportTrackings[${status.index}].comments" 
-						attributeEntry="${reportTrackingAttributes.comments}"  />
+						attributeEntry="${reportTrackingAttributes.comments}" readOnly="${readOnly }"  />
 				</td>
 				<td>
-					${reportTracking.updateUser } ${reportTracking.updateTimestamp }
+					${reportTracking.lastUpdateUser } ${reportTracking.lastUpdateDate }
 				</td>
 			</tr>			
 		</c:forEach>

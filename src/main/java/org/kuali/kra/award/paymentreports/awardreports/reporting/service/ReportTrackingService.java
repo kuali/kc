@@ -38,6 +38,14 @@ public interface ReportTrackingService {
     
     /**
      * 
+     * This method simply refreshes the reporting tracking objects, no delete, no save.
+     * @param award
+     * @throws ParseException 
+     */
+    void refreshReportTracking(Award award) throws ParseException;
+    
+    /**
+     * 
      * This method gets all the saved ReportTracking objects for a given AwardReportTerm.
      * @param awardTerm
      * @return
