@@ -320,6 +320,7 @@ public class CoiDisclosure extends KraPersistableBusinessObjectBase {
         this.setDisclosureDispositionCode(DISPOSITION_PENDING);
         this.setDisclosureStatusCode(DISCLOSURE_PENDING);
         this.setPersonId(this.getDisclosureReporter().getPersonId());
+        initCoiDisclosureNumber();
         this.setExpirationDate(new Date(DateUtils.addDays(new Date(System.currentTimeMillis()), 365).getTime()));
 
     }
