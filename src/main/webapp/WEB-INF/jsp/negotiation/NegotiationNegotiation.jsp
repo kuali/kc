@@ -29,7 +29,7 @@
   	headerTabActive="negotiation">
   	
 <script src="scripts/jquery/jquery.js"></script>
-<script type="text/javascript">
+<script type="text/javascript"> 
    var $jq = jQuery.noConflict();
 </script>
 <script type="text/javascript" src="scripts/medusaView.js"></script>  	
@@ -39,10 +39,15 @@
 
  <kra-negotiation:negotiation />
  <kra-negotiation:negotiationActivities />
- 
+
+ <kul:tab tabTitle="Custom Data" defaultOpen="false" tabErrorKey="">
+ <kra-negotiation:NegotiationCustomDataTab name="${KualiForm.actionName}"/>
+ </kul:tab>
+  
 <kul:tab tabTitle="Medusa" defaultOpen="false" tabErrorKey="">
 <kra-m:medusa />
 </kul:tab>
+
 
 <kul:panelFooter />
 	<kul:documentControls 
