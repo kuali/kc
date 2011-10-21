@@ -428,6 +428,15 @@ public class AwardAction extends BudgetParentActionBase {
 
         return forward;
     }
+    
+    @Override
+    public ActionForward reload(ActionMapping mapping, ActionForm form, 
+            HttpServletRequest request, HttpServletResponse response) throws Exception {
+        AwardForm awardForm = (AwardForm) form;
+        ActionForward actionForward = super.reload(mapping, form, request, response);
+        getReportTrackingService().refreshReportTracking(awardForm.getAwardDocument().getAward());
+        return actionForward;        
+    }
 
     @Override
     public ActionForward close(ActionMapping mapping, ActionForm form, HttpServletRequest request, HttpServletResponse response) throws Exception {

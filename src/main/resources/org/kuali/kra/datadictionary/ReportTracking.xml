@@ -46,6 +46,7 @@
                 <ref bean="ReportTracking-overdue" />
                 <ref bean="ReportTracking-activityDate" />
                 <ref bean="ReportTracking-comments" />
+                <ref bean="ReportTracking-preparerName" />
                 <ref bean="ReportTracking-preparerId" />
                 <ref bean="ReportTracking-sponsorCode" />
                 <ref bean="ReportTracking-sponsor.sponsorName" />
@@ -200,7 +201,25 @@
         <property name="summary" value="Comments" />
         <property name="description" value="Comments" />
     </bean>
-
+    
+    <bean id="ReportTracking-preparerName" parent="ReportTracking-preparerName-parentBean" />
+    <bean id="ReportTracking-preparerName-parentBean" abstract="true" parent="AttributeDefinition" >
+        <property name="name" value="preparerName" />
+        <property name="forceUppercase" value="false" />
+        <property name="label" value="Preparer Name" />
+        <property name="shortLabel" value="Preparer Name" />
+        <property name="maxLength" value="90" />
+        <property name="validationPattern" >
+            <bean parent="AlphaNumericValidationPattern" />
+        </property>
+        <property name="control" >
+            <bean parent="TextControlDefinition"
+                p:size="10" />
+        </property>
+        <property name="summary" value="Preparer Name" />
+        <property name="description" value="Preparer Name" />
+    </bean>
+    
     <bean id="ReportTracking-preparerId" parent="ReportTracking-preparerId-parentBean" />
     <bean id="ReportTracking-preparerId-parentBean" abstract="true" parent="AttributeDefinition" >
         <property name="name" value="preparerId" />
@@ -212,8 +231,7 @@
             <bean parent="AlphaNumericValidationPattern" />
         </property>
         <property name="control" >
-            <bean parent="TextControlDefinition"
-                p:size="10" />
+            <bean parent="HiddenControlDefinition" p:size="10" />
         </property>
         <property name="summary" value="Preparer" />
         <property name="description" value="Preparer" />
