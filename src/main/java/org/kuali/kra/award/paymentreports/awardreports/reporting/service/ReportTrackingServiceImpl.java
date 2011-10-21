@@ -42,6 +42,37 @@ public class ReportTrackingServiceImpl implements ReportTrackingService {
     
     private AwardScheduleGenerationService awardScheduleGenerationService;
     private BusinessObjectService businessObjectService;
+    
+    @Override
+    public void refreshReportTracking(Award award) throws ParseException {
+        List<AwardReportTerm> awardReportTermItems = award.getAwardReportTermItems();      
+        for (AwardReportTerm awardTerm : awardReportTermItems) {
+            List<java.util.Date> dates = new ArrayList<java.util.Date>();
+            List<AwardReportTerm> awardReportTerms = new ArrayList<AwardReportTerm>();
+            awardReportTerms.add(awardTerm);
+            dates = getAwardScheduleGenerationService().generateSchedules(award, awardReportTerms, true);
+            if (awardTerm.getReportTrackings() == null) {
+                awardTerm.setReportTrackings(getReportTacking(awardTerm));
+            } else {
+                awardTerm.setReportTrackings(purgePendingReports(awardTerm.getReportTrackings(), new ArrayList<ReportTracking>()));
+            }
+            
+            if (dates.size() == 0) {
+                ReportTracking rt = buildReportTracking(award, awardTerm);
+                awardTerm.getReportTrackings().add(rt);
+            }
+            
+            for (java.util.Date date : dates) {
+                if (!isAwardTermDateAlreadySet(awardTerm.getReportTrackings(), date)) {
+                    ReportTracking rt = buildReportTracking(award, awardTerm);
+                    java.sql.Date sqldate = new java.sql.Date(date.getTime());
+                    rt.setDueDate(sqldate);
+                    awardTerm.getReportTrackings().add(rt);
+                }
+            }
+            Collections.sort(awardTerm.getReportTrackings());
+        }
+    }
 
     @Override
     public void generateReportTrackingAndSave(Award award) throws ParseException {
@@ -81,6 +112,7 @@ public class ReportTrackingServiceImpl implements ReportTrackingService {
     }
     
     private ReportTracking buildReportTracking(Award award, AwardReportTerm awardTerm) {
+        awardTerm.refresh();
         ReportTracking reportTracking = new ReportTracking();
         reportTracking.setAwardNumber(award.getAwardNumber());
         reportTracking.setAwardReportTermId(awardTerm.getAwardReportTermId());
@@ -94,9 +126,12 @@ public class ReportTrackingServiceImpl implements ReportTrackingService {
         reportTracking.setLastUpdateUser(GlobalVariables.getUserSession().getPerson().getName());
         reportTracking.setLeadUnit(award.getLeadUnit());
         reportTracking.setLeadUnitNumber(award.getLeadUnitNumber());
+        reportTracking.setOverdue(0);
         reportTracking.setPiName(award.getPrincipalInvestigatorName());
-        reportTracking.setPiPersonId(award.getPrincipalInvestigator().getPersonId());
-        reportTracking.setPiRolodexId(award.getPrincipalInvestigator().getRolodexId());
+        if (award.getPrincipalInvestigator() != null) {
+            reportTracking.setPiPersonId(award.getPrincipalInvestigator().getPersonId());
+            reportTracking.setPiRolodexId(award.getPrincipalInvestigator().getRolodexId());
+        }
         reportTracking.setReport(awardTerm.getReport());
         reportTracking.setReportClass(awardTerm.getReportClass());
         reportTracking.setReportClassCode(awardTerm.getReportClassCode());
