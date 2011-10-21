@@ -479,6 +479,7 @@
       <action path="/negotiationNegotiation" name="NegotiationForm" input="/WEB-INF/jsp/negotiation/NegotiationNegotiation.jsp" type="org.kuali.kra.negotiations.web.struts.action.NegotiationNegotiationAction"  scope="request" parameter="methodToCall" validate="true" attribute="KualiForm">
           <forward name="Negotiation" path="/WEB-INF/jsp/negotiation/NegotiationNegotiation.jsp" />
           <forward name="basic" path="/WEB-INF/jsp/negotiation/NegotiationNegotiation.jsp" />
+     	  <forward name="customData" path="/WEB-INF/jsp/negotiation/NegotiationNegotiation.jsp" />
        </action>
      
      

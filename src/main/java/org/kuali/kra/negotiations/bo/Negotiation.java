@@ -23,6 +23,7 @@ import java.util.List;
 import java.util.Map;
 
 import org.apache.commons.lang.StringUtils;
+import org.kuali.kra.award.customdata.AwardCustomData;
 import org.kuali.kra.bo.KcPerson;
 import org.kuali.kra.bo.KraPersistableBusinessObjectBase;
 import org.kuali.kra.common.permissions.Permissionable;
@@ -33,6 +34,7 @@ import org.kuali.kra.kim.bo.KcKimAttributes;
 import org.kuali.kra.negotiations.document.NegotiationDocument;
 import org.kuali.kra.negotiations.service.NegotiationService;
 import org.kuali.rice.kns.bo.BusinessObject;
+import org.kuali.kra.negotiations.customdata.NegotiationCustomData;
 
 /**
  * 
@@ -57,11 +59,13 @@ public class Negotiation extends KraPersistableBusinessObjectBase implements Per
     private Date negotiationEndDate;
     private Date anticipatedAwardDate;
     private String documentFolder;
+    private String allAttachments;
     
     //transient
     private String negotiatorUserName;
     
     private NegotiationUnassociatedDetail unAssociatedDetail;
+    private List<NegotiationCustomData> negotiationCustomDataList;
     private Negotiable associatedDocument;
     
     private NegotiationDocument negotiationDocument;
@@ -82,6 +86,7 @@ public class Negotiation extends KraPersistableBusinessObjectBase implements Per
     public Negotiation() {
         super();
         activities = new ArrayList<NegotiationActivity>();
+        negotiationCustomDataList = new ArrayList<NegotiationCustomData>();
     }
     
     public Integer getNegotiationAge() {
@@ -96,8 +101,17 @@ public class Negotiation extends KraPersistableBusinessObjectBase implements Per
                 end = getNegotiationEndDate().getTime();
             }
             
-            return new Long((end - start) / MILLISECS_PER_DAY).intValue();
-        }
+           return new Long((end - start) / MILLISECS_PER_DAY).intValue();        }
+    }
+    
+    public String getAllAttachments()
+    {
+        return allAttachments;
+    }
+    
+    public void setAllAttachments(String allAttachments)
+    {
+        this.allAttachments = allAttachments;
     }
     
     public Long getNegotiationId() {
@@ -377,6 +391,25 @@ public class Negotiation extends KraPersistableBusinessObjectBase implements Per
     public void populateAdditionalQualifiedRoleAttributes(Map<String, String> qualifiedRoleAttributes) {
         qualifiedRoleAttributes.put(KcKimAttributes.DOCUMENT_TYPE_NAME, this.getDocumentKey());
     }
+    
+    /**
+     * Gets the negotiationCustomDataList attribute.
+     * 
+     * @return Returns the negotiationCustomDataList.
+     */
+    public List<NegotiationCustomData> getNegotiationCustomDataList() {
+        return negotiationCustomDataList;
+    }
+
+    /**
+     * Sets the negotiationCustomDataList attribute value.
+     * @param negotiationCustomDataList The negotiationCustomDataList to set.
+     */
+    public void setNegotiationCustomDataList(List<NegotiationCustomData> negotiationCustomDataList) {
+        this.negotiationCustomDataList = negotiationCustomDataList;
+    }
+
+    
 
     public NegotiationDocument getDocument() {
         return negotiationDocument;
