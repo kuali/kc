@@ -18,13 +18,20 @@ package org.kuali.kra.negotiations.document;
 import java.io.Serializable;
 import java.util.ArrayList;
 import java.util.List;
+import java.util.Map;
+import java.util.SortedMap;
 
 import org.apache.commons.lang.StringUtils;
+import org.kuali.kra.bo.CustomAttributeDocument;
 import org.kuali.kra.document.ResearchDocumentBase;
 import org.kuali.kra.infrastructure.Constants;
+import org.kuali.kra.infrastructure.KraServiceLocator;
 import org.kuali.kra.negotiations.bo.Negotiation;
 import org.kuali.kra.negotiations.bo.NegotiationActivity;
 import org.kuali.kra.negotiations.bo.NegotiationActivityAttachment;
+import org.kuali.kra.negotiations.customdata.NegotiationCustomData;
+import org.kuali.kra.negotiations.web.struts.form.NegotiationForm;
+import org.kuali.kra.service.NegotiationCustomAttributeService;
 import org.kuali.rice.kew.dto.DocumentRouteStatusChangeDTO;
 import org.kuali.rice.kew.util.KEWConstants;
 import org.kuali.rice.kns.service.ParameterConstants;
@@ -44,7 +51,7 @@ public class NegotiationDocument extends ResearchDocumentBase implements Seriali
      */
     private static final long serialVersionUID = 2635757819118105L;
 
-    private static final String DOCUMENT_TYPE_CODE = "NGT";
+    public static final String DOCUMENT_TYPE_CODE = "NGT";
     
     private List<Negotiation> negotiationList;
     private String docStatusCode;
@@ -57,7 +64,18 @@ public class NegotiationDocument extends ResearchDocumentBase implements Seriali
     public NegotiationDocument() {
         negotiationList = new ArrayList<Negotiation>();
         negotiationList.add(new Negotiation());
+        populateCustomAttributes();
     }  
+    
+    /**
+     * This method populates the customAttributes for this document.
+     */
+    @Override
+    public void populateCustomAttributes() {
+        NegotiationCustomAttributeService negotiationCustomAttributeService = KraServiceLocator.getService(NegotiationCustomAttributeService.class);
+        Map<String, CustomAttributeDocument> customAttributeDocuments = negotiationCustomAttributeService.getDefaultNegotiationCustomAttributeDocuments();
+        setCustomAttributeDocuments(customAttributeDocuments);
+    }
     
     /**
      * 
