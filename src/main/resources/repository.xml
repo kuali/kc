@@ -2377,8 +2377,26 @@
     	<reference-descriptor name="negotiationDocument" class-ref="org.kuali.kra.negotiations.document.NegotiationDocument" auto-retrieve="true" auto-update="none" auto-delete="none">
         	<foreignkey field-ref="documentNumber" />
     	</reference-descriptor>		
+    	
+    	<collection-descriptor name="negotiationCustomDataList" proxy="true" element-class-ref="org.kuali.kra.negotiations.customdata.NegotiationCustomData" collection-class="org.apache.ojb.broker.util.collections.ManageableArrayList" auto-retrieve="true" auto-update="object" auto-delete="object">
+            <inverse-foreignkey field-ref="negotiationId"/>
+        </collection-descriptor>
 
     </class-descriptor>
+    	<class-descriptor class="org.kuali.kra.negotiations.customdata.NegotiationCustomData" table="NEGOTIATION_CUSTOM_DATA">
+		<field-descriptor name="negotiationCustomDataId" column="NEGOTIATION_CUSTOM_DATA_ID" jdbc-type="BIGINT" primarykey="true" autoincrement="true" sequence-name="SEQ_NEGOTIATION_CUSTOM_DATA_ID" />
+		<field-descriptor name="negotiationId" column="NEGOTIATION_ID" jdbc-type="BIGINT" access="anonymous"/>
+		<field-descriptor name="negotiationNumber" column="NEGOTIATION_NUMBER" jdbc-type="VARCHAR"/>
+`		<field-descriptor name="customAttributeId" column="CUSTOM_ATTRIBUTE_ID" jdbc-type="BIGINT"/>
+		<field-descriptor name="value" column="VALUE" jdbc-type="VARCHAR"/>
+		<field-descriptor name="updateTimestamp" column="UPDATE_TIMESTAMP" jdbc-type="TIMESTAMP"/>
+		<field-descriptor name="updateUser" column="UPDATE_USER" jdbc-type="VARCHAR"/>
+		<field-descriptor name="versionNumber" column="VER_NBR" jdbc-type="BIGINT" locking="false" />
+		<field-descriptor name="objectId" column="OBJ_ID" jdbc-type="VARCHAR" />
+		<reference-descriptor name="customAttribute" class-ref="org.kuali.kra.bo.CustomAttribute" auto-retrieve="true" auto-update="none" auto-delete="none"> 
+			<foreignkey field-ref="customAttributeId"/>
+		</reference-descriptor>
+	</class-descriptor>
     
     <class-descriptor class="org.kuali.kra.negotiations.bo.NegotiationUnassociatedDetail" table="NEGOTIATION_UNASSOC_DETAIL">
     	<field-descriptor name="negotiationUnassociatedDetailId" column="NEGOTIATION_UNASSOC_DETAIL_ID" jdbc-type="BIGINT" primarykey="true" sequence-name="NEGOTIATION_UNASSOC_DETAIL_S" autoincrement="true" />

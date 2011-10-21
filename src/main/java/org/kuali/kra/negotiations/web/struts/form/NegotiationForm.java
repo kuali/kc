@@ -16,22 +16,28 @@
 package org.kuali.kra.negotiations.web.struts.form;
 
 import java.util.ArrayList;
+import java.util.Collections;
 import java.util.HashMap;
 import java.util.Iterator;
 import java.util.List;
 import java.util.Map;
 import java.util.Set;
+import java.util.SortedMap;
 
 import org.apache.commons.lang.StringUtils;
 import org.kuali.kra.authorization.KraAuthorizationConstants;
 import org.kuali.kra.infrastructure.KraServiceLocator;
 import org.kuali.kra.medusa.MedusaBean;
 import org.kuali.kra.negotiations.bo.Negotiation;
+
+import org.kuali.kra.negotiations.bo.NegotiationActivity;
 import org.kuali.kra.negotiations.bo.NegotiationActivityHistoryLineBean;
 import org.kuali.kra.negotiations.bo.NegotiationAssociatedDetailBean;
 import org.kuali.kra.negotiations.bo.NegotiationAssociationType;
 import org.kuali.kra.negotiations.bo.NegotiationStatus;
 import org.kuali.kra.negotiations.bo.NegotiationUnassociatedDetail;
+import org.kuali.kra.negotiations.customdata.CustomDataHelper;
+import org.kuali.kra.negotiations.customdata.NegotiationCustomData;
 import org.kuali.kra.negotiations.document.NegotiationDocument;
 import org.kuali.kra.negotiations.service.NegotiationService;
 import org.kuali.kra.service.TaskAuthorizationService;
@@ -55,6 +61,8 @@ public class NegotiationForm extends KraTransactionalDocumentFormBase {
     private List<NegotiationUnassociatedDetail> negotiationUnassociatedDetailsToDelete;
     private NegotiationActivityHelper negotiationActivityHelper;
     private NegotiationAssociatedDetailBean negotiationAssociatedDetailBean;
+    private CustomDataHelper negotiationCustomDataFormHelper;
+    private CustomDataHelper customDataHelper = new CustomDataHelper(this);
     private String filterActivities;
     
     private MedusaBean medusaBean;
@@ -68,8 +76,46 @@ public class NegotiationForm extends KraTransactionalDocumentFormBase {
         negotiationUnassociatedDetailsToDelete = new ArrayList<NegotiationUnassociatedDetail>();
         negotiationActivityHelper = new NegotiationActivityHelper(this);
         medusaBean = new MedusaBean();
+        negotiationCustomDataFormHelper = new CustomDataHelper(this);
         filterActivities = "All";
+        init();
     }
+    
+    private void init()
+    {
+    NegotiationForm negotiationForm = (NegotiationForm) this;
+    List<NegotiationCustomData> negotiationCustomDataList = negotiationForm.getNegotiationDocument().getNegotiation().getNegotiationCustomDataList();
+    negotiationForm.getCustomDataHelper().buildCustomDataCollectionsOnFormNewNegotiations(
+            (SortedMap<String, List>) negotiationForm.getCustomDataHelper().getCustomAttributeGroups(), negotiationForm,
+            negotiationForm.getNegotiationDocument().getCustomAttributeDocuments());
+    }
+    
+    /**
+     * @see org.kuali.kra.common.customattributes.CustomDataForm#getCustomDataHelper()
+     */
+    public CustomDataHelper getCustomDataHelper() {
+        return customDataHelper;
+    }
+
+    /**
+     * This method sets the custom data helper
+     * 
+     * @param customDataHelper
+     */
+    public void setCustomDataHelper(CustomDataHelper customDataHelper) {
+        this.customDataHelper = customDataHelper;
+    }
+
+    
+    /**
+     * This method returns a string representation of the document type
+     * 
+     * @return
+     */
+    public String getDocumentTypeName() {
+        return "NegotiationDocument";
+    }
+
     
     public NegotiationDocument getNegotiationDocument() {
         return this.getDocument();
@@ -99,7 +145,7 @@ public class NegotiationForm extends KraTransactionalDocumentFormBase {
         getDocumentActions().put(KNSConstants.KUALI_ACTION_CAN_SAVE, KNSConstants.KUALI_DEFAULT_TRUE_VALUE);
 
     }
-    
+
     private TaskAuthorizationService getTaskAuthorizationService() {
         return KraServiceLocator.getService(TaskAuthorizationService.class);
     }

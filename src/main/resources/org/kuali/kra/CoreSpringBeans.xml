@@ -813,6 +813,10 @@
 				p:localServiceName="negotiationNegotiatorDerivedRoleType" />
 		</property>
 	</bean>	
+	
+     <bean id="negotiationCustomAttributeService" class="org.kuali.kra.service.impl.NegotiationCustomAttributeServiceImpl">
+		<property name="businessObjectService" ref="businessObjectService" />
+	</bean>
     
 	
 </beans>
