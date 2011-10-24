@@ -46,6 +46,6 @@
 	</c:forEach>
 
 	<c:if test="${fn:length(KualiForm.customDataHelper.customAttributeGroups) > 0}">
-	   	<kul:panelFooter />
+
 	</c:if>
 </div>
