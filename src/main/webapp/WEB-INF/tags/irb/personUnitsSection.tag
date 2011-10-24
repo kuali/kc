@@ -77,7 +77,7 @@
 				                    <td align="left" valign="middle" class="infoline">
 									    <div align=center>
 										    <bean:define id="leadFlag" name="KualiForm" property="personnelHelper.newProtocolPersonUnits[${personIndex}].leadUnitFlag" />
-										    <html:radio property="personnelHelper.newProtocolPersonUnits[${personIndex}].leadUnitFlag" value="true"/>
+										    <html:checkbox property="personnelHelper.newProtocolPersonUnits[${personIndex}].leadUnitFlag" title="Add this unit as lead" />
 			                      	    </div>
 								    </td>
                                 </c:if>    
