@@ -61,7 +61,7 @@
 					</td>
 					<td class="infoline">
 						<div align="center">
-							<html:image property="methodToCall.addProtocolLocation.anchor${tabKey}"
+							<html:image property="methodToCall.newFinancialEntity.anchor${tabKey}"
 							src='${ConfigProperties.kra.externalizable.images.url}tinybutton-newfinancialentity.gif' styleClass="tinybutton"/>
 						</div>
 	                </td>
@@ -96,10 +96,12 @@
 						<div align=center>&nbsp;
 							<html:image property="methodToCall.viewFinancialEntity.line${status.index}.anchor${currentTabIndex}"
 									src='${ConfigProperties.kra.externalizable.images.url}tinybutton-view.gif' styleClass="tinybutton"/>
-							<html:image property="methodToCall.editFinancialEntity.line${status.index}.anchor${currentTabIndex}"
+							<c:if test="${KualiForm.disclosureHelper.canEditDisclosureFinancialEntity}">		
+							    <html:image property="methodToCall.editFinancialEntity.line${status.index}.anchor${currentTabIndex}"
 									src='${ConfigProperties.kra.externalizable.images.url}tinybutton-edit1.gif' styleClass="tinybutton"/>
+                    	     </c:if>
 							<c:if test="${KualiForm.disclosureHelper.canViewDisclosureFeHistory}">		
-						        <a class="disclosureFeHistory" id="history${status.index}" title="${disclosureDetail.personFinIntDisclosure.entityName} History" href="${pageContext.request.contextPath}/financialEntityEditList.do?methodToCall=showFinancialEntityHistory&status=active&index=${status.index}">
+						        <a class="disclosureFeHistory" id="history${status.index}" title="${disclosureDetail.personFinIntDisclosure.entityName} History" href="${pageContext.request.contextPath}/financialEntityEditList.do?methodToCall=showFinancialEntityHistory&status=activecoi&index=${disclosureDetail.personFinIntDisclosure.personFinIntDisclosureId}">
 							        <html:image property="methodToCall.historyFinancialEntity.line${status.index}.anchor${currentTabIndex}"
 									    src='${ConfigProperties.kra.externalizable.images.url}tinybutton-history.gif' styleClass="tinybutton"/>
                     	         </a>

@@ -15,7 +15,6 @@
  */
 package org.kuali.kra.coi.personfinancialentity;
 
-import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
@@ -91,15 +90,33 @@ public class FinancialEntityEditListAction extends FinancialEntityAction{
      */
     private void editFinancialEntity(ActionForm form, HttpServletRequest request) throws Exception {
         FinancialEntityHelper financialEntityHelper = ((FinancialEntityForm) form).getFinancialEntityHelper();
-
-        int entityIndex = getSelectedLine(request);
+        int entityIndex = -1;
+        if (request.getParameter("coiDocId") != null ) {
+            // patch if request from coi disclosure FE
+            financialEntityHelper.setActiveFinancialEntities(getFinancialEntities(true));
+            entityIndex = findMatchedIndex(financialEntityHelper.getActiveFinancialEntities(), financialEntityHelper.getEditCoiEntityId());
+        } else {
+            entityIndex = getSelectedLine(request);
+        }
         PersonFinIntDisclosure personFinIntDisclosure = getFinancialEntities(form).get(entityIndex);
         financialEntityHelper.setEditEntityIndex(entityIndex);
         financialEntityHelper.setEditRelationDetails(getFinancialEntityService().getFinancialEntityDataMatrixForEdit(personFinIntDisclosure.getPerFinIntDisclDetails()));
         financialEntityHelper.resetPrevSponsorCode();
     }
 
-    
+    /*
+     * This method is for coi edit.  coi FE list is not the same as ActiveFE, so need to match the FEDisclosureID
+     */
+    private int findMatchedIndex(List<PersonFinIntDisclosure> financialEntities, String entityId) {
+        int i = 0;
+        for (PersonFinIntDisclosure financialEntity : financialEntities) {
+            if (StringUtils.equals(financialEntity.getPersonFinIntDisclosureId().toString(), entityId)) {
+                return i;
+            }
+            i++;
+        }
+        return -1;
+    }
     public ActionForward editFinancialEntityFromLookup(ActionMapping mapping, ActionForm form, HttpServletRequest request,
             HttpServletResponse response) throws Exception {
         String id = request.getParameter("personFinIntDisclosureId");
@@ -168,18 +185,27 @@ public class FinancialEntityEditListAction extends FinancialEntityAction{
 
     }
     
-    public ActionForward showFinancialEntityHistory(ActionMapping mapping, ActionForm form, HttpServletRequest request, HttpServletResponse response) {
-        FinancialEntityHelper financialEntityHelper = ((FinancialEntityForm) form).getFinancialEntityHelper();      
+    public ActionForward showFinancialEntityHistory(ActionMapping mapping, ActionForm form, HttpServletRequest request,
+            HttpServletResponse response) {
+        FinancialEntityHelper financialEntityHelper = ((FinancialEntityForm) form).getFinancialEntityHelper();
         Integer entityIndex = Integer.parseInt(request.getParameter("index"));
         financialEntityHelper.setEditEntityIndex(entityIndex);
         String status = request.getParameter("status");
-        if (StringUtils.equalsIgnoreCase(status, Constants.FINANCIAL_ENTITY_STATUS_ACTIVE) && CollectionUtils.isEmpty(((FinancialEntityForm) form).getFinancialEntityHelper().getActiveFinancialEntities())) {
-            // this is a patch to make sure coi disclosure history can get active entities if financialentityform is not in session yet.
-            ((FinancialEntityForm) form).getFinancialEntityHelper().setActiveFinancialEntities(getFinancialEntities(true));
-        }
-        PersonFinIntDisclosure currentPersonFinIntDisclosure = ((FinancialEntityForm) form).getFinancialEntityHelper().getActiveFinancialEntities().get(entityIndex);
-        if (StringUtils.equalsIgnoreCase(status, Constants.FINANCIAL_ENTITY_STATUS_INACTIVE)) {
-            currentPersonFinIntDisclosure = ((FinancialEntityForm) form).getFinancialEntityHelper().getInactiveFinancialEntities().get(entityIndex);
+        PersonFinIntDisclosure currentPersonFinIntDisclosure;
+
+        if (StringUtils.equalsIgnoreCase(status, "activecoi")) {
+            // this is a patch to retrieve coi disclosure history 
+            currentPersonFinIntDisclosure = getFinancialEntity(entityIndex.toString());
+            currentPersonFinIntDisclosure.setVersions(getFinancialEntityService().getFinDisclosureVersions(currentPersonFinIntDisclosure.getEntityNumber()));
+        } else {
+            if (StringUtils.equalsIgnoreCase(status, Constants.FINANCIAL_ENTITY_STATUS_INACTIVE)) {
+                currentPersonFinIntDisclosure = ((FinancialEntityForm) form).getFinancialEntityHelper()
+                        .getInactiveFinancialEntities().get(entityIndex);
+            }
+            else {
+                currentPersonFinIntDisclosure = ((FinancialEntityForm) form).getFinancialEntityHelper()
+                        .getActiveFinancialEntities().get(entityIndex);
+            }
         }
         financialEntityHelper.setVersions(currentPersonFinIntDisclosure);
         return mapping.findForward("history");
@@ -288,21 +314,29 @@ public class FinancialEntityEditListAction extends FinancialEntityAction{
      */
     public ActionForward submit(ActionMapping mapping, ActionForm form, HttpServletRequest request, HttpServletResponse response)
             throws Exception {
-        FinancialEntityHelper financialEntityHelper = ((FinancialEntityForm) form).getFinancialEntityHelper();
+        FinancialEntityForm financialEntityForm = (FinancialEntityForm) form;
+        FinancialEntityHelper financialEntityHelper = financialEntityForm.getFinancialEntityHelper();
 
-           int entityIndex = getSelectedLine(request);
-            PersonFinIntDisclosure personFinIntDisclosure = getFinancialEntities(form).get(entityIndex);
+        int entityIndex = getSelectedLine(request);
+        PersonFinIntDisclosure personFinIntDisclosure = getFinancialEntities(form).get(entityIndex);
 
-            if (isValidToSave(personFinIntDisclosure, getErrotPropertyPrefix(form, entityIndex))) {
-                if (StringUtils.equals(PROCESS_STATUS_FINAL, personFinIntDisclosure.getProcessStatus())) {
-                    PersonFinIntDisclosure newFinIntDisclosure = versionFinancialEntity(form, personFinIntDisclosure,StringUtils.equals(ACTIVATE_ENTITY, financialEntityHelper.getEditType()) ? 1 : 2, Constants.EMPTY_STRING);
-                    resetEditEntityIndex(form, newFinIntDisclosure.getPersonFinIntDisclosureId());
-                } else {
-                    personFinIntDisclosure.setProcessStatus(PROCESS_STATUS_FINAL);
-                    resetFinEntityDet(financialEntityHelper, personFinIntDisclosure);
-                    saveFinancialEntity(form, personFinIntDisclosure);                     
-                }
+        if (isValidToSave(personFinIntDisclosure, getErrotPropertyPrefix(form, entityIndex))) {
+            if (StringUtils.equals(PROCESS_STATUS_FINAL, personFinIntDisclosure.getProcessStatus())) {
+                PersonFinIntDisclosure newFinIntDisclosure = versionFinancialEntity(form, personFinIntDisclosure,
+                        StringUtils.equals(ACTIVATE_ENTITY, financialEntityHelper.getEditType()) ? 1 : 2, Constants.EMPTY_STRING);
+                resetEditEntityIndex(form, newFinIntDisclosure.getPersonFinIntDisclosureId());
             }
+            else {
+                personFinIntDisclosure.setProcessStatus(PROCESS_STATUS_FINAL);
+                resetFinEntityDet(financialEntityHelper, personFinIntDisclosure);
+                saveFinancialEntity(form, personFinIntDisclosure);
+            }
+            if (StringUtils.isNotBlank(financialEntityForm.getCoiDocId())) {
+                String forward = buildForwardUrl(Long.parseLong(financialEntityForm.getCoiDocId()));
+                financialEntityForm.setCoiDocId(null);
+                return new ActionForward(forward, true);
+            }
+        }
         return mapping.findForward(Constants.MAPPING_BASIC);
     }
 

@@ -18,6 +18,7 @@ package org.kuali.kra.coi.personfinancialentity;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 
+import org.apache.commons.lang.StringUtils;
 import org.apache.struts.action.ActionForm;
 import org.apache.struts.action.ActionForward;
 import org.apache.struts.action.ActionMapping;
@@ -44,10 +45,16 @@ public class FinancialEntityEditNewAction extends FinancialEntityAction {
      */
     public ActionForward submit(ActionMapping mapping, ActionForm form, HttpServletRequest request, HttpServletResponse response)
             throws Exception {
-        FinancialEntityHelper financialEntityHelper = ((FinancialEntityForm) form).getFinancialEntityHelper();
+        FinancialEntityForm financialEntityForm = (FinancialEntityForm) form;
+        FinancialEntityHelper financialEntityHelper = financialEntityForm.getFinancialEntityHelper();
 
         if (isValidToSave(financialEntityHelper.getNewPersonFinancialEntity(), NEW_FINANCIAL_ENTITY)) {
             saveNewFinancialEntity(form);
+            if (StringUtils.isNotBlank(financialEntityForm.getCoiDocId())) {
+                String forward = buildForwardUrl(Long.parseLong(financialEntityForm.getCoiDocId()));
+                financialEntityForm.setCoiDocId(null);
+                return new ActionForward(forward, true);
+            }
         }
 
 //        ((FinancialEntityForm) form).getFinancialEntityHelper().setActiveFinancialEntities(getFinancialEntities(true));
@@ -81,6 +88,22 @@ public class FinancialEntityEditNewAction extends FinancialEntityAction {
         financialEntityHelper.setNewRelationDetails(getFinancialEntityService().getFinancialEntityDataMatrix());
     }
 
+    /**
+     * 
+     * This method is for Coi disclosure FE 'newFinancialEntity'.  It will be forwarded to here
+     * @param mapping
+     * @param form
+     * @param request
+     * @param response
+     * @return
+     * @throws Exception
+     */
+    public ActionForward addNewCoiDiscFinancialEntity(ActionMapping mapping, ActionForm form, HttpServletRequest request, HttpServletResponse response)
+            throws Exception {
+
+        ((FinancialEntityForm) form).getFinancialEntityHelper().initiate();
+        return mapping.findForward(Constants.MAPPING_BASIC);
+    }
     
 
 }
