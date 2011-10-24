@@ -27,7 +27,6 @@ public class UnitCorrespondent extends KraPersistableBusinessObjectBase {
     private String unitNumber; 
     private Integer correspondentTypeCode; 
     private String personId; 
-    private String personName; 
     private boolean nonEmployeeFlag; 
     private String description; 
     
@@ -68,14 +67,6 @@ public class UnitCorrespondent extends KraPersistableBusinessObjectBase {
 
     public void setPersonId(String personId) {
         this.personId = personId;
-    }
-
-    public String getPersonName() {
-        return personName;
-    }
-
-    public void setPersonName(String personName) {
-        this.personName = personName;
     }
 
     public boolean getNonEmployeeFlag() {

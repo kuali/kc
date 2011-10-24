@@ -19,6 +19,7 @@
                 <ref bean="UnitCorrespondent-correspondentType.description" />
                 <ref bean="UnitCorrespondent-personId" />
 				<ref bean="UnitCorrespondent-person.fullName" />
+        		<ref bean="UnitCorrespondent-person.userName" />
                 <ref bean="UnitCorrespondent-nonEmployeeFlag" />
                 <ref bean="UnitCorrespondent-description" />
                 <ref bean="UnitCorrespondent-versionNumber" />
@@ -90,9 +91,10 @@
     <bean id="UnitCorrespondent-personId" parent="UnitCorrespondent-personId-parentBean" />
     <bean id="UnitCorrespondent-personId-parentBean" abstract="true" parent="AttributeReferenceDummy-genericSystemId" >
         <property name="name" value="personId" />
-        <property name="label" value="KC Person Id" />
-        <property name="shortLabel" value="KC Person Id" />
+        <property name="label" value="Person Id" />
+        <property name="shortLabel" value="Person Id" />
         <property name="displayLabelAttribute" value="person.userName" />
+        <property name="forceUppercase" value="false" />
     </bean>
 
 	<bean id="UnitCorrespondent-person.fullName" parent="UnitCorrespondent-person.fullName-parentBean" />
@@ -100,6 +102,23 @@
         <property name="name" value="person.fullName" />
         <property name="label" value="Full Name" />
         <property name="shortLabel" value="Full Name" />
+    </bean>
+
+	<bean id="UnitCorrespondent-person.userName" parent="UnitCorrespondent-person.userName-parentBean" />
+    <bean id="UnitCorrespondent-person.userName-parentBean" abstract="true" parent="PersonImpl-principalName">
+        <property name="name" value="person.userName" />
+        <property name="label" value="User Person" />
+        <property name="shortLabel" value="Name" />
+        <property name="required" value="false" />
+        <property name="validationPattern" >
+            <bean parent="AnyCharacterValidationPattern" />
+        </property>
+        <property name="control" >
+            <bean parent="KualiUserControlDefinition"
+                p:personNameAttributeName="person.fullName"
+                p:universalIdAttributeName="personId"
+                p:userIdAttributeName="person.userName" />
+        </property>
     </bean>
 
     <bean id="UnitCorrespondent-nonEmployeeFlag" parent="UnitCorrespondent-nonEmployeeFlag-parentBean" />
