@@ -17,10 +17,9 @@
         <property name="attributes" >
             <list>
                 <ref bean="OrganizationCorrespondent-organizationCorrespondentId" />
+                <ref bean="OrganizationCorrespondent-personId" />
                 <ref bean="OrganizationCorrespondent-organizationId" />
                 <ref bean="OrganizationCorrespondent-correspondentTypeCode" />
-                <ref bean="OrganizationCorrespondent-personId" />
-		        <ref bean="OrganizationCorrespondent-person.fullName" />
                 <ref bean="OrganizationCorrespondent-nonEmployeeFlag" />
                 <ref bean="OrganizationCorrespondent-description" />
                 <ref bean="OrganizationCorrespondent-versionNumber" />
@@ -30,6 +29,14 @@
 
     <!-- Attribute Definitions -->
     
+    <bean id="OrganizationCorrespondent-personId" parent="OrganizationCorrespondent-personId-parentBean" />
+    <bean id="OrganizationCorrespondent-personId-parentBean" abstract="true" parent="AttributeReferenceDummy-genericSystemId" >
+        <property name="name" value="personId" />
+        <property name="label" value="Person Id" />
+        <property name="shortLabel" value="Person Id" />
+        <property name="displayLabelAttribute" value="person.userName" />
+    </bean>
+
     <bean id="OrganizationCorrespondent-organizationCorrespondentId" parent="OrganizationCorrespondent-organizationCorrespondentId-parentBean" />
     <bean id="OrganizationCorrespondent-organizationCorrespondentId-parentBean" abstract="true" parent="AttributeDefinition" >
         <property name="name" value="organizationCorrespondentId" />
@@ -84,24 +91,6 @@
         <property name="description" value="Correspondent Type Code" />
     </bean>
 
-    <bean id="OrganizationCorrespondent-personId" parent="OrganizationCorrespondent-personId-parentBean" />
-    <bean id="OrganizationCorrespondent-personId-parentBean" abstract="true" parent="PersonImpl-principalId" >
-        <property name="name" value="personId" />
-        <property name="label" value="Person Id" />
-        <property name="shortLabel" value="Person Id" />
-        <property name="control">
-            <bean parent="HiddenControlDefinition" />
-        </property>
-        <property name="displayLabelAttribute" value="person.userName" />
-    </bean>
-
-	<bean id="OrganizationCorrespondent-person.fullName" parent="OrganizationCorrespondent-person.fullName-parentBean" />
-    <bean id="OrganizationCorrespondent-person.fullName-parentBean" abstract="true" parent="KcPerson-fullName">
-        <property name="name" value="person.fullName" />
-        <property name="label" value="Full Name" />
-        <property name="shortLabel" value="Full Name" />
-    </bean>
-  
     <bean id="OrganizationCorrespondent-nonEmployeeFlag" parent="OrganizationCorrespondent-nonEmployeeFlag-parentBean" />
     <bean id="OrganizationCorrespondent-nonEmployeeFlag-parentBean" abstract="true" parent="AttributeReferenceDummy-genericBoolean" >
         <property name="name" value="nonEmployeeFlag" />
@@ -189,9 +178,6 @@
             <list>
 				<bean parent="FieldDefinition"
                 	p:attributeName="personId" />
-				<bean parent="FieldDefinition"
-                	p:attributeName="person.fullName"
-                    p:forceInquiry="true" />
                 <bean parent="FieldDefinition"
                     p:attributeName="organizationCorrespondentId" 
                     p:forceInquiry="true" />
