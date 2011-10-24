@@ -18,10 +18,21 @@
 
 
 
-<script src="scripts/jquery/jquery.js"></script>
-<script type="text/javascript">
-   var $j = jQuery.noConflict();
-</script>
+        <script type="text/javascript" src="scripts/jquery/jquery.js"></script> 
+        <script type="text/javascript" src="scripts/jquery/jquery.fancybox-1.3.4.pack.js"></script>
+        <link rel="stylesheet" type="text/css" href="scripts/jquery/fancybox/jquery.fancybox-1.3.4.css"" media="screen"/>
+        <script type="text/javascript">
+            var $j = jQuery.noConflict();
+        	$j(document).ready(function() {
+        		$j("a.disclosureFeHistory").fancybox({ 
+        			'width':400,
+        			'height':200,
+        			'type':'iframe',
+        			'autoScale':'false'
+        			            		
+        		});
+        	})
+        </script>
  
 <kul:documentPage
 	showDocumentInfo="true"

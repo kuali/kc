@@ -98,8 +98,12 @@
 									src='${ConfigProperties.kra.externalizable.images.url}tinybutton-view.gif' styleClass="tinybutton"/>
 							<html:image property="methodToCall.editFinancialEntity.line${status.index}.anchor${currentTabIndex}"
 									src='${ConfigProperties.kra.externalizable.images.url}tinybutton-edit1.gif' styleClass="tinybutton"/>
-							<html:image property="methodToCall.historyFinancialEntity.line${status.index}.anchor${currentTabIndex}"
-									src='${ConfigProperties.kra.externalizable.images.url}tinybutton-history.gif' styleClass="tinybutton"/>
+							<c:if test="${KualiForm.disclosureHelper.canViewDisclosureFeHistory}">		
+						        <a class="disclosureFeHistory" id="history${status.index}" title="${disclosureDetail.personFinIntDisclosure.entityName} History" href="${pageContext.request.contextPath}/financialEntityEditList.do?methodToCall=showFinancialEntityHistory&status=active&index=${status.index}">
+							        <html:image property="methodToCall.historyFinancialEntity.line${status.index}.anchor${currentTabIndex}"
+									    src='${ConfigProperties.kra.externalizable.images.url}tinybutton-history.gif' styleClass="tinybutton"/>
+                    	         </a>
+                    	     </c:if>
 						</div>
 		              </td>
 	            </tr>

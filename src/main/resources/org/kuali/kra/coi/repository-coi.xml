@@ -408,7 +408,7 @@
 		<reference-descriptor name="coiDisclosure" class-ref="org.kuali.kra.coi.CoiDisclosure" auto-retrieve="true" auto-update="none" auto-delete="none"> 
 			<foreignkey field-ref="coiDisclosureId"/>
 		</reference-descriptor>
-		<reference-descriptor name="personFinIntDisclosure" class-ref="org.kuali.kra.coi.personfinancialentity.PersonFinIntDisclosure" auto-retrieve="false" auto-update="none" auto-delete="none"> 
+		<reference-descriptor name="personFinIntDisclosure" class-ref="org.kuali.kra.coi.personfinancialentity.PersonFinIntDisclosure" auto-retrieve="true" auto-update="none" auto-delete="none"> 
 			<foreignkey field-ref="personFinIntDisclosureId"/>
 		</reference-descriptor>
 	</class-descriptor>	
