@@ -70,7 +70,7 @@
                                     <td align="left" valign="middle" class="infoline">
                                         <div align=center>
                                             <bean:define id="leadFlag" name="KualiForm" property="financialEntityHelper.newFinancialEntityReporterUnit.leadUnitFlag" />
-                                            <html:radio property="financialEntityHelper.newFinancialEntityReporterUnit.leadUnitFlag" value="true"/>
+                                            <html:checkbox property="financialEntityHelper.newFinancialEntityReporterUnit.leadUnitFlag" title="Add this unit as lead" />                                        
                                         </div>
                                     </td>
                                 <td class="infoline">
