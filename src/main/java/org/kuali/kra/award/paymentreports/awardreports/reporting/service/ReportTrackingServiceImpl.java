@@ -25,6 +25,7 @@ import java.util.Map;
 
 import org.apache.commons.lang.StringUtils;
 import org.kuali.kra.award.home.Award;
+import org.kuali.kra.award.paymentreports.ReportRegenerationType;
 import org.kuali.kra.award.paymentreports.ReportStatus;
 import org.kuali.kra.award.paymentreports.awardreports.AwardReportTerm;
 import org.kuali.kra.award.paymentreports.awardreports.reporting.ReportTracking;
@@ -54,7 +55,7 @@ public class ReportTrackingServiceImpl implements ReportTrackingService {
             if (awardTerm.getReportTrackings() == null) {
                 awardTerm.setReportTrackings(getReportTacking(awardTerm));
             } else {
-                awardTerm.setReportTrackings(purgePendingReports(awardTerm.getReportTrackings(), new ArrayList<ReportTracking>()));
+                awardTerm.setReportTrackings(purgePendingReports(awardTerm, awardTerm.getReportTrackings(), new ArrayList<ReportTracking>()));
             }
             
             if (dates.size() == 0) {
@@ -81,13 +82,25 @@ public class ReportTrackingServiceImpl implements ReportTrackingService {
         List<ReportTracking> reportsToDelete = new ArrayList<ReportTracking>();        
         for (AwardReportTerm awardTerm : awardReportTermItems) {
             List<java.util.Date> dates = new ArrayList<java.util.Date>();
+           
+            /**
+            * creating this secondary AwardReportTerm List as we need to pass a List of AwardReportTerms to the dates generation
+            * service below, and we only want to be concerned with the current item, the whole list that we are looping through.
+            */
             List<AwardReportTerm> awardReportTerms = new ArrayList<AwardReportTerm>();
             awardReportTerms.add(awardTerm);
             dates = getAwardScheduleGenerationService().generateSchedules(award, awardReportTerms, true);
+            
             if (awardTerm.getReportTrackings() == null) {
+                //pull the report tracking items from the database.
                 awardTerm.setReportTrackings(getReportTacking(awardTerm));
             } else {
-                awardTerm.setReportTrackings(purgePendingReports(awardTerm.getReportTrackings(), reportsToDelete));
+                /**
+                 * Purge pending reports from the already existing ReportTracking list, and mark those to be persisted.
+                 * Note, passing in reportsToDelete as any pending reports will be put in there so they are removed from the DB,
+                 * if needed.
+                 */
+                awardTerm.setReportTrackings(purgePendingReports(awardTerm, awardTerm.getReportTrackings(), reportsToDelete));
                 reportsToSave.addAll(awardTerm.getReportTrackings());
             }
             
@@ -95,7 +108,9 @@ public class ReportTrackingServiceImpl implements ReportTrackingService {
                 ReportTracking rt = buildReportTracking(award, awardTerm);
                 awardTerm.getReportTrackings().add(rt);
             }
-            
+            /**
+             * Add a new report tracking item for each date, if that date doesn't already have a report tracking item.
+             */
             for (java.util.Date date : dates) {
                 if (!isAwardTermDateAlreadySet(awardTerm.getReportTrackings(), date)) {
                     ReportTracking rt = buildReportTracking(award, awardTerm);
@@ -111,6 +126,13 @@ public class ReportTrackingServiceImpl implements ReportTrackingService {
         this.getBusinessObjectService().save(reportsToSave);
     }
     
+    /**
+     * 
+     * This method builds a basic report tracking item pre-populated with Award and AwardTerm data.
+     * @param award
+     * @param awardTerm
+     * @return
+     */
     private ReportTracking buildReportTracking(Award award, AwardReportTerm awardTerm) {
         awardTerm.refresh();
         ReportTracking reportTracking = new ReportTracking();
@@ -155,10 +177,21 @@ public class ReportTrackingServiceImpl implements ReportTrackingService {
         return rs;
     }
     
-    private List<ReportTracking> purgePendingReports(List<ReportTracking> reportListToClean, List<ReportTracking> deleteReports) {
+    /**
+     * 
+     * This method purges (puts them in the deleteReportsList) and report tracking items that are pending, and come from award term
+     * that has a frequency base that allows for regeneration.  Any ReportTracking items not purges are in the NEW returning list.
+     * @param awardTerm
+     * @param reportListToClean
+     * @param deleteReports
+     * @return
+     */
+    private List<ReportTracking> purgePendingReports(AwardReportTerm awardTerm, List<ReportTracking> reportListToClean, List<ReportTracking> deleteReports) {
         List<ReportTracking> reportTrackingReturn = new ArrayList<ReportTracking>();
         for (ReportTracking rt : reportListToClean) {
-            if (StringUtils.equals(getPendingReportStatus().getReportStatusCode(), rt.getStatusCode())) {
+            if (StringUtils.equals(getPendingReportStatus().getReportStatusCode(), rt.getStatusCode())
+                    && StringUtils.equals(awardTerm.getFrequencyBase().getReportRegenerationType().getDescription(), 
+                            ReportRegenerationType.REGEN.getDescription())) {
                 deleteReports.add(rt);
             } else {
                 reportTrackingReturn.add(rt);
