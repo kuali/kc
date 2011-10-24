@@ -2130,12 +2130,12 @@ public abstract class KcSeleniumHelper {
      * @return a list of errors contained in {@code panelId}
      */
     private List<WebElement> getErrors(final String panelId) {
-        final String locator = "//div[@id='" + panelId + "']//div[contains(@style,'display:list-item') and contains(@style,'margin-left:20px')]";
+        final String locator = "div[id='" + panelId + "'] div[class='tab-container-error'] div div div";
         
         return new ElementCountFinderWaiter().until(
             new Function<WebDriver, List<WebElement>>() {
                 public List<WebElement> apply(WebDriver driver) {
-                    return getElementsByXPath(locator);
+                    return getElementsByCssSelector(locator);
                 }
             }
         );
@@ -2148,12 +2148,12 @@ public abstract class KcSeleniumHelper {
      * @return a list of warnings contained in {@code panelId}
      */
     private List<WebElement> getWarnings(final String panelId) {
-        final String locator = "//div[@id='" + panelId + "']//div[contains(@style,'color:navy')]/li";
+        final String locator = "div[id='" + panelId + "'] div[class='tab-container'] div li";
         
         return new ElementCountFinderWaiter().until(
             new Function<WebDriver, List<WebElement>>() {
                 public List<WebElement> apply(WebDriver driver) {
-                    return getElementsByXPath(locator);
+                    return getElementsByCssSelector(locator);
                 }
             }
         );
