@@ -88,6 +88,7 @@
         <property name="forceUppercase" value="false" />
         <property name="label" value="Unit Number" />
         <property name="shortLabel" value="Unit Number" />
+        <property name="required" value="true" />
         <property name="maxLength" value="8" />
         <property name="validationPattern" >
             <bean parent="AnyCharacterValidationPattern" />
@@ -105,6 +106,7 @@
         <property name="name" value="leadUnitFlag" />
         <property name="label" value="Lead" />
         <property name="shortLabel" value="Lead" />
+        <property name="required" value="true" />
         <property name="summary" value="Lead Unit Flag" />
         <property name="description" value="Lead Unit Flag" />
     </bean>

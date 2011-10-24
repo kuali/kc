@@ -127,6 +127,7 @@
 		<property name="label" value="Unit Number" />
 		<property name="shortLabel" value="Unit Number" />
 		<property name="maxLength" value="8" />
+        <property name="required" value="true" />
 		<property name="validationPattern" >
 			<bean parent="AnyCharacterValidationPattern" />
 		</property>
@@ -144,6 +145,7 @@
 		<property name="label" value="Lead" />
 		<property name="shortLabel" value="Lead" />
 		<property name="summary" value="Lead Unit Flag" />
+        <property name="required" value="true" />
 		<property name="description" value="Lead Unit Flag" />
 	</bean>
 
