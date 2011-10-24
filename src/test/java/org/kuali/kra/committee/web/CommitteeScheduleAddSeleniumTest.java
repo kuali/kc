@@ -308,11 +308,26 @@ public class CommitteeScheduleAddSeleniumTest extends KcSeleniumTestBase {
         Date scheduleMonday = getMonday(scheduleStartDate);
         Date deadlineDateMonday = DateUtils.addDays(scheduleMonday, -1);
         
-        helper.assertTableRowCount(TABLE_ID, 4);
-        
-        helper.assertElementContains(String.format(LIST_SCHEDULE_DATE_ID, 0), fullFormatter.format(scheduleMonday));
-        helper.assertTableCellValueContains(TABLE_ID, 2, 1, dayFormatter.format(scheduleMonday).toUpperCase());
-        helper.assertElementContains(String.format(LIST_PROTOCOL_SUB_DEADLINE_ID, 0), fullFormatter.format(deadlineDateMonday));
+        if (DateUtils.isSameDay(scheduleStartDate, scheduleMonday)) {
+            Date scheduleNextMonday = DateUtils.addDays(scheduleMonday, 7);
+            Date deadlineDateNextMonday = DateUtils.addDays(scheduleNextMonday, -1);
+            
+            helper.assertTableRowCount(TABLE_ID, 5);
+            
+            helper.assertElementContains(String.format(LIST_SCHEDULE_DATE_ID, 0), fullFormatter.format(scheduleMonday));
+            helper.assertTableCellValueContains(TABLE_ID, 2, 1, dayFormatter.format(scheduleMonday).toUpperCase());
+            helper.assertElementContains(String.format(LIST_PROTOCOL_SUB_DEADLINE_ID, 0), fullFormatter.format(deadlineDateMonday));
+            
+            helper.assertElementContains(String.format(LIST_SCHEDULE_DATE_ID, 1), fullFormatter.format(scheduleNextMonday));
+            helper.assertTableCellValueContains(TABLE_ID, 3, 1, dayFormatter.format(scheduleNextMonday).toUpperCase());
+            helper.assertElementContains(String.format(LIST_PROTOCOL_SUB_DEADLINE_ID, 1), fullFormatter.format(deadlineDateNextMonday));
+        } else {
+            helper.assertTableRowCount(TABLE_ID, 4);
+            
+            helper.assertElementContains(String.format(LIST_SCHEDULE_DATE_ID, 0), fullFormatter.format(scheduleMonday));
+            helper.assertTableCellValueContains(TABLE_ID, 2, 1, dayFormatter.format(scheduleMonday).toUpperCase());
+            helper.assertElementContains(String.format(LIST_PROTOCOL_SUB_DEADLINE_ID, 0), fullFormatter.format(deadlineDateMonday));
+        }
     }
     
     /**
