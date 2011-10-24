@@ -25,11 +25,11 @@ import org.kuali.kra.coi.CoiAction;
 import org.kuali.kra.coi.CoiDisclosure;
 import org.kuali.kra.coi.CoiDisclosureDocument;
 import org.kuali.kra.coi.CoiDisclosureForm;
-import org.kuali.kra.coi.DisclosureReporter;
-import org.kuali.kra.coi.DisclosureReporterUnit;
 import org.kuali.kra.infrastructure.Constants;
 import org.kuali.kra.infrastructure.KraServiceLocator;
 import org.kuali.kra.rule.event.KraDocumentEventBaseExtension;
+import org.kuali.rice.core.config.ConfigContext;
+import org.kuali.rice.kns.util.GlobalVariables;
 import org.springframework.util.CollectionUtils;
 
 public class CoiDisclosureAction extends CoiAction {
@@ -100,9 +100,39 @@ public class CoiDisclosureAction extends CoiAction {
         // TODO : load FE disclosure when creating coi disc
         // still need more clarification on whether there is any other occasion this need to be loaded
         if (coiDisclosure.getCoiDisclosureId() == null && CollectionUtils.isEmpty(coiDisclosure.getCoiDiscDetails())) {
-            getCoiDisclosureService().InitializeDisclosureDetails(coiDisclosure);
+            getCoiDisclosureService().initializeDisclosureDetails(coiDisclosure);
+        } else {
+            getCoiDisclosureService().updateDisclosureDetails(coiDisclosure);
         }
         
     }
     
+    public ActionForward newFinancialEntity(ActionMapping mapping, ActionForm form, HttpServletRequest request, HttpServletResponse response)
+            throws Exception {
+        ActionForward actionForward = save(mapping, form, request, response);
+        if (GlobalVariables.getMessageMap().hasNoErrors()) {
+            String forward = ConfigContext.getCurrentContextConfig().getProperty("kuali.docHandler.url.prefix") + 
+                    "/financialEntityEditNew.do?methodToCall=addNewCoiDiscFinancialEntity&coiDocId="+((CoiDisclosureForm) form).getDocument().getDocumentNumber();
+//            "/portal.do?channelTitle=Financial%20Entity&channelUrl=financialEntityManagement.do?methodToCall=editNew&coiDocId="+((CoiDisclosureForm) form).getDocument().getDocumentNumber();
+            return new ActionForward(forward, true);
+        }
+        return actionForward;
+
+    }
+
+    public ActionForward editFinancialEntity(ActionMapping mapping, ActionForm form, HttpServletRequest request, HttpServletResponse response)
+            throws Exception {
+        ActionForward actionForward = save(mapping, form, request, response);
+        if (GlobalVariables.getMessageMap().hasNoErrors()) {
+            CoiDisclosureForm coiDisclosureForm = (CoiDisclosureForm) form;
+            CoiDisclosure coiDisclosure = ((CoiDisclosureDocument)coiDisclosureForm.getDocument()).getCoiDisclosure();
+            String forward = ConfigContext.getCurrentContextConfig().getProperty("kuali.docHandler.url.prefix") + 
+                    "/financialEntityEditList.do?methodToCall=editActiveFinancialEntity&coiDocId="+((CoiDisclosureForm) form).getDocument().getDocumentNumber()+"&financialEntityHelper.editCoiEntityId="+coiDisclosure.getCoiDiscDetails().get(getSelectedLine(request)).getPersonFinIntDisclosureId() ;
+           // "/portal.do?channelTitle=Financial%20Entity&channelUrl=financialEntityManagement.do?methodToCall=editList&coiDocId="+((CoiDisclosureForm) form).getDocument().getDocumentNumber()+"&financialEntityHelper.editEntityIndex"+getSelectedLine(request);
+            return new ActionForward(forward, true);
+        }
+        return actionForward;
+
+    }
+
 }

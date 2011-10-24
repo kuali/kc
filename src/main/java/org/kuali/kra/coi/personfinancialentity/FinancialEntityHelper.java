@@ -51,6 +51,8 @@ public class FinancialEntityHelper implements Serializable {
     private String prevNewSponsorCode;
     private String editType;
     private List<PersonFinIntDisclosure> versions;
+    private String editCoiEntityId;
+
     public String getEditType() {
         return editType;
     }
@@ -289,6 +291,16 @@ public class FinancialEntityHelper implements Serializable {
         } else {
             setPrevSponsorCode(getInactiveFinancialEntities().get(editEntityIndex).getSponsorCode());
         }
+    }
+
+
+    public String getEditCoiEntityId() {
+        return editCoiEntityId;
+    }
+
+
+    public void setEditCoiEntityId(String editCoiEntityId) {
+        this.editCoiEntityId = editCoiEntityId;
     }
 
  }

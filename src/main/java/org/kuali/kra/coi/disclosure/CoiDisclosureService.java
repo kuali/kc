@@ -30,6 +30,8 @@ public interface CoiDisclosureService {
     void deleteDisclosureReporterUnit(DisclosureReporter disclosureReporter,List<? extends DisclosureReporterUnit> deletedUnits, int unitIndex);
     void resetLeadUnit(DisclosureReporter disclosureReporter);
     
-    void InitializeDisclosureDetails(CoiDisclosure coiDisclosure);
+    void initializeDisclosureDetails(CoiDisclosure coiDisclosure);
+    
+    void updateDisclosureDetails(CoiDisclosure coiDisclosure);
 
 }
