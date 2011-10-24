@@ -448,8 +448,17 @@ import org.junit.runners.Suite.SuiteClasses;
     org.kuali.kra.negotiations.auth.TestNegotiationAuthorizers.class,
     org.kuali.kra.irb.protocol.questionnaire.ProtocolQuestionnaireAuditRuleTest.class,
     org.kuali.kra.irb.protocol.questionnaire.SaveProtocolQuestionnaireRuleTest.class,
-    org.kuali.kra.committee.lookup.keyvalue.CommitteeIdIdPairValuesFinderTest.class,
-    org.kuali.kra.committee.lookup.keyvalue.CommitteeIdValuesFinderTest.class
+//    org.kuali.kra.committee.lookup.keyvalue.CommitteeIdIdPairValuesFinderTest.class,
+//    org.kuali.kra.committee.lookup.keyvalue.CommitteeIdValuesFinderTest.class,
+    org.kuali.kra.subaward.customdata.SubAwardCustomDataTest.class,
+    org.kuali.kra.subaward.document.SubAwardDocumentTest.class,
+    org.kuali.kra.subaward.subawardrule.SubAwardDocumentRuleTest.class,
+    org.kuali.kra.subaward.web.struts.action.SubAwardActionTest.class,
+    org.kuali.kra.subaward.web.struts.action.SubAwardAmountInfoActionTest.class,
+    org.kuali.kra.subaward.web.struts.action.SubAwardAmountReleasedActionTest.class,
+    org.kuali.kra.subaward.web.struts.action.SubAwardCloseoutActionTest.class,
+    org.kuali.kra.subaward.web.struts.action.SubAwardContactsActionTest.class,
+    org.kuali.kra.subaward.web.struts.action.SubAwardFundingSourceActionTest.class
 })
 /** these are all the test class where all the test methods are currently passing. */
 public class PassSuite {
