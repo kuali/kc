@@ -29,7 +29,10 @@ import org.kuali.kra.coi.disclosure.CoiDisclosureService;
 import org.kuali.kra.infrastructure.KeyConstants;
 import org.kuali.kra.infrastructure.KraServiceLocator;
 import org.kuali.kra.rule.event.KraDocumentEventBaseExtension;
+import org.kuali.kra.service.ResearchDocumentService;
 import org.kuali.kra.service.SponsorService;
+import org.kuali.rice.ken.util.NotificationConstants;
+import org.kuali.rice.kew.util.KEWConstants;
 import org.kuali.rice.kns.service.BusinessObjectService;
 import org.kuali.rice.kns.service.DictionaryValidationService;
 import org.kuali.rice.kns.service.SequenceAccessorService;
@@ -60,6 +63,8 @@ public class FinancialEntityAction extends KualiAction {
             throws Exception {
 
         ((FinancialEntityForm) form).getFinancialEntityHelper().initiate();
+        // if this starts from FE link.  clean any coiDocId resicure
+        ((FinancialEntityForm) form).setCoiDocId(null);
         return mapping.findForward("management");
     }
 
@@ -238,5 +243,25 @@ public class FinancialEntityAction extends KualiAction {
         return forward;
     }
 
- 
+    protected String buildForwardUrl(Long routeHeaderId) {
+        // TODO : this is a copy from KraTransactionalDocumentActionBase.
+        // investigate if it can be shared
+        ResearchDocumentService researchDocumentService = KraServiceLocator.getService(ResearchDocumentService.class);
+        String forward = researchDocumentService.getDocHandlerUrl(routeHeaderId);
+ //       forward = forward.replaceFirst(DEFAULT_TAB, ALTERNATE_OPEN_TAB);
+        if (forward.indexOf("?") == -1) {
+            forward += "?";
+        }
+        else {
+            forward += "&";
+        }
+        forward += KEWConstants.ROUTEHEADER_ID_PARAMETER + "=" + routeHeaderId;
+        forward += "&" + KEWConstants.COMMAND_PARAMETER + "=" + NotificationConstants.NOTIFICATION_DETAIL_VIEWS.DOC_SEARCH_VIEW;
+        if (GlobalVariables.getUserSession().isBackdoorInUse()) {
+            forward += "&" + KEWConstants.BACKDOOR_ID_PARAMETER + "=" + GlobalVariables.getUserSession().getPrincipalName();
+        }
+        return forward;
+    }
+
+
 }

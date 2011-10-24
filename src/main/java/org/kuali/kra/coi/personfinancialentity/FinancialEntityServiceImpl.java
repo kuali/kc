@@ -72,7 +72,7 @@ public class FinancialEntityServiceImpl implements FinancialEntityService {
      * get all financial entities with the same entity number
      */
     @SuppressWarnings("unchecked")
-    private List<PersonFinIntDisclosure> getFinDisclosureVersions(String entityNumber) {
+    public List<PersonFinIntDisclosure> getFinDisclosureVersions(String entityNumber) {
         Map<String, Object> fieldValues = new HashMap<String, Object>();
         fieldValues.put("entityNumber", entityNumber);
         return (List<PersonFinIntDisclosure>) businessObjectService.findMatchingOrderBy(PersonFinIntDisclosure.class, fieldValues, "sequenceNumber", false);

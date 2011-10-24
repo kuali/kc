@@ -21,6 +21,7 @@ import java.util.List;
 import java.util.Map;
 
 import org.apache.commons.collections.CollectionUtils;
+import org.apache.commons.lang.StringUtils;
 import org.kuali.kra.bo.KcPerson;
 import org.kuali.kra.coi.CoiDiscDetail;
 import org.kuali.kra.coi.CoiDisclosure;
@@ -134,32 +135,75 @@ public class CoiDisclosureServiceImpl implements CoiDisclosureService {
     
     public void getProjects() {
         // get all user's pd/protocol/Award, user is PI 
+        // TODO : WIP
         List<Protocol> protocols = getProtocols(GlobalVariables.getUserSession().getPrincipalId());
         
     }
     
-    public void InitializeDisclosureDetails(CoiDisclosure coiDisclosure) {
+    public void initializeDisclosureDetails(CoiDisclosure coiDisclosure) {
         // When creating a disclosure.  the detail will be created at first
         List<CoiDiscDetail> disclosureDetails = new ArrayList<CoiDiscDetail>();
         List<PersonFinIntDisclosure> financialEntities = financialEntityService.getFinancialEntities(GlobalVariables.getUserSession().getPrincipalId(), true);
         List<Protocol> protocols = getProtocols(GlobalVariables.getUserSession().getPrincipalId());
         for (Protocol protocol : protocols) {
             for (PersonFinIntDisclosure personFinIntDisclosure : financialEntities) {
-                CoiDiscDetail disclosureDetail = new CoiDiscDetail(personFinIntDisclosure);
-                disclosureDetail.setModuleItemKey(protocol.getProtocolNumber());
-                // TODO : this is how coeus set.  not sure ?
-                disclosureDetail.setModuleCode(13); 
-                coiDisclosure.initCoiDisclosureNumber();
-                disclosureDetail.setCoiDisclosureNumber(coiDisclosure.getCoiDisclosureNumber());
-                disclosureDetail.setSequenceNumber(coiDisclosure.getSequenceNumber());
-                disclosureDetail.setDescription("Sample Description"); // this is from coeus.  
-                disclosureDetails.add(disclosureDetail);
-            }
-            
+                disclosureDetails.add(createNewCoiDiscDetail(coiDisclosure, personFinIntDisclosure, protocol.getProtocolNumber()));
+            }            
         }
         coiDisclosure.setCoiDiscDetails(disclosureDetails);
         
     }
+    
+    public void updateDisclosureDetails(CoiDisclosure coiDisclosure) {
+        // When creating a disclosure. the detail will be created at first
+        // TODO : what if FE is deactivate
+        List<CoiDiscDetail> disclosureDetails = new ArrayList<CoiDiscDetail>();
+        List<PersonFinIntDisclosure> financialEntities = financialEntityService.getFinancialEntities(GlobalVariables
+                .getUserSession().getPrincipalId(), true);
+        List<String> moduleItemKeys = new ArrayList<String>();
+        for (PersonFinIntDisclosure personFinIntDisclosure : financialEntities) {
+            boolean isNewFinancialEntity = true;
+            for (CoiDiscDetail coiDiscDetail : coiDisclosure.getCoiDiscDetails()) {
+                if (StringUtils.equals(personFinIntDisclosure.getEntityNumber(), coiDiscDetail.getEntityNumber())) {
+                    isNewFinancialEntity = false;
+                    if (!personFinIntDisclosure.getSequenceNumber().equals(coiDiscDetail.getEntitySequenceNumber())) {
+                        coiDiscDetail.setEntitySequenceNumber(personFinIntDisclosure.getSequenceNumber());
+                        coiDiscDetail.setPersonFinIntDisclosureId(personFinIntDisclosure.getPersonFinIntDisclosureId());
+                        coiDiscDetail.refreshReferenceObject("personFinIntDisclosure");
+                    }
+                }
+
+            }
+            if (isNewFinancialEntity) {
+                // TODO : if this method is what we need, then check moduleitemkey alone is ot enough
+                // may also need to check event type, which will be added later to db schema
+                for (CoiDiscDetail coiDiscDetail : coiDisclosure.getCoiDiscDetails()) {
+                    if (!moduleItemKeys.contains(coiDiscDetail.getModuleItemKey())) {
+                        moduleItemKeys.add(coiDiscDetail.getModuleItemKey());
+                        disclosureDetails.add(createNewCoiDiscDetail(coiDisclosure, personFinIntDisclosure,
+                            coiDiscDetail.getModuleItemKey()));
+                    }
+                }
+            }
+        }
+        if (CollectionUtils.isNotEmpty(disclosureDetails)) {
+            coiDisclosure.getCoiDiscDetails().addAll(disclosureDetails);
+        }
+    }
+
+    private CoiDiscDetail createNewCoiDiscDetail(CoiDisclosure coiDisclosure,PersonFinIntDisclosure personFinIntDisclosure, String moduleItemKey) {
+        CoiDiscDetail disclosureDetail = new CoiDiscDetail(personFinIntDisclosure);
+        disclosureDetail.setModuleItemKey(moduleItemKey);
+        // TODO : this is how coeus set. not sure ?
+        disclosureDetail.setModuleCode(13);
+        coiDisclosure.initCoiDisclosureNumber();
+        disclosureDetail.setCoiDisclosureNumber(coiDisclosure.getCoiDisclosureNumber());
+        disclosureDetail.setSequenceNumber(coiDisclosure.getSequenceNumber());
+        disclosureDetail.setDescription("Sample Description"); // this is from coeus.
+        return disclosureDetail;
+        
+    }
+    
     private List<Protocol> getProtocols(String personId) {
         
         // TODO : does this include amendment/renewal

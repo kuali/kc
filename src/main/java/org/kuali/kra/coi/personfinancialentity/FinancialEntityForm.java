@@ -37,6 +37,7 @@ public class FinancialEntityForm  extends KualiForm {
     private String formKey;
     private Document document;
     private boolean readOnly;
+    private String coiDocId;
 
     public FinancialEntityForm() {
         super();
@@ -128,6 +129,14 @@ public class FinancialEntityForm  extends KualiForm {
                 }
             }
         }
+    }
+
+    public String getCoiDocId() {
+        return coiDocId;
+    }
+
+    public void setCoiDocId(String coiDocId) {
+        this.coiDocId = coiDocId;
     }
 
 

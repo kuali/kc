@@ -92,4 +92,6 @@ public interface FinancialEntityService {
      * @return
      */
     String getNextEntityNumber();
+    
+    List<PersonFinIntDisclosure> getFinDisclosureVersions(String entityNumber);
 }
