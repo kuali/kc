@@ -173,6 +173,10 @@ public class FinancialEntityEditListAction extends FinancialEntityAction{
         Integer entityIndex = Integer.parseInt(request.getParameter("index"));
         financialEntityHelper.setEditEntityIndex(entityIndex);
         String status = request.getParameter("status");
+        if (StringUtils.equalsIgnoreCase(status, Constants.FINANCIAL_ENTITY_STATUS_ACTIVE) && CollectionUtils.isEmpty(((FinancialEntityForm) form).getFinancialEntityHelper().getActiveFinancialEntities())) {
+            // this is a patch to make sure coi disclosure history can get active entities if financialentityform is not in session yet.
+            ((FinancialEntityForm) form).getFinancialEntityHelper().setActiveFinancialEntities(getFinancialEntities(true));
+        }
         PersonFinIntDisclosure currentPersonFinIntDisclosure = ((FinancialEntityForm) form).getFinancialEntityHelper().getActiveFinancialEntities().get(entityIndex);
         if (StringUtils.equalsIgnoreCase(status, Constants.FINANCIAL_ENTITY_STATUS_INACTIVE)) {
             currentPersonFinIntDisclosure = ((FinancialEntityForm) form).getFinancialEntityHelper().getInactiveFinancialEntities().get(entityIndex);
