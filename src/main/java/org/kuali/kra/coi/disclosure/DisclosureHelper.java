@@ -33,6 +33,7 @@ public class DisclosureHelper implements Serializable {
     private List<DisclosurePersonUnit> deletedUnits;
     private List<FinEntityDataMatrixBean> editRelationDetails;
     private List<FinEntityDataMatrixBean> newRelationDetails;
+    private boolean canViewDisclosureFeHistory;
 
     public DisclosureHelper(CoiDisclosureForm form) {
         this.form = form;
@@ -40,6 +41,7 @@ public class DisclosureHelper implements Serializable {
         deletedUnits = new ArrayList<DisclosurePersonUnit>(); 
         newRelationDetails = getFinancialEntityService().getFinancialEntityDataMatrix();
         editRelationDetails = new ArrayList<FinEntityDataMatrixBean>(); 
+        canViewDisclosureFeHistory = hasCanViewDisclosureFeHistoryPermission();
    }
 
     public CoiDisclosureForm getForm() {
@@ -95,5 +97,18 @@ public class DisclosureHelper implements Serializable {
         return KraServiceLocator.getService(FinancialEntityService.class);
     }
 
+    public boolean isCanViewDisclosureFeHistory() {
+        return canViewDisclosureFeHistory;
+    }
+
+    public void setCanViewDisclosureFeHistory(boolean canViewDisclosureFeHistory) {
+        this.canViewDisclosureFeHistory = canViewDisclosureFeHistory;
+    }
+
+    private boolean hasCanViewDisclosureFeHistoryPermission() {
+        // TODO : to br implemented after coi task authorizer are set
+        // for noew, just return true
+        return true;
+    }
 
 }
