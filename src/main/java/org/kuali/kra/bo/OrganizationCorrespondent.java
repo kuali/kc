@@ -28,7 +28,6 @@ public class OrganizationCorrespondent extends KraPersistableBusinessObjectBase 
     private String organizationId; 
     private Integer correspondentTypeCode; 
     private String personId; 
-    private String personName; 
     private boolean nonEmployeeFlag; 
     private String description; 
     
@@ -36,7 +35,7 @@ public class OrganizationCorrespondent extends KraPersistableBusinessObjectBase 
     private CorrespondentType correspondentType; 
     
     public OrganizationCorrespondent() { 
-
+        super();
     } 
     
     public Integer getOrganizationCorrespondentId() {
@@ -69,14 +68,6 @@ public class OrganizationCorrespondent extends KraPersistableBusinessObjectBase 
 
     public void setPersonId(String personId) {
         this.personId = personId;
-    }
-
-    public String getPersonName() {
-        return personName;
-    }
-
-    public void setPersonName(String personName) {
-        this.personName = personName;
     }
 
     public boolean getNonEmployeeFlag() {
