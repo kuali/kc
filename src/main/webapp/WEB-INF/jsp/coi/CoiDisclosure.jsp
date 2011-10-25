@@ -49,6 +49,7 @@
 <kul:documentOverview editingMode="${KualiForm.editingMode}" />
 <kra-coi:disclosureReporter />
 <kra-coi:disclosureFinancialEntities />
+<kra-coi:coiCertification topTab="false" />
 
 <kul:panelFooter />
 	<kul:documentControls 
