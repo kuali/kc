@@ -438,6 +438,7 @@ public class ReportTracking extends KraPersistableBusinessObjectBase implements 
      */
     @Override
     public int compareTo(ReportTracking o) {
-        return this.getDueDate().compareTo(o.getDueDate());
+        return o == null || o.getDueDate() == null || this.getDueDate() == null ? 0 
+                : this.getDueDate().compareTo(o.getDueDate());
     }
 }
