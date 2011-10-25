@@ -46,7 +46,6 @@ import org.kuali.kra.infrastructure.KraServiceLocator;
 import org.kuali.rice.kns.bo.PersistableBusinessObject;
 import org.kuali.rice.kns.service.KNSServiceLocator;
 import org.kuali.rice.kns.service.PersistenceService;
-import org.kuali.rice.kns.util.ErrorMap;
 import org.kuali.rice.kns.util.GlobalVariables;
 import org.kuali.rice.kns.util.KNSConstants;
 
@@ -750,9 +749,8 @@ public class AwardPaymentReportsAndTermsAction extends AwardAction {
         return mapping.findForward(Constants.MAPPING_AWARD_BASIC);
     }
     
-    public ActionForward regenerateReports(ActionMapping mapping, ActionForm form, HttpServletRequest request, HttpServletResponse response)
-    throws Exception {
-        AwardForm awardForm = (AwardForm)form;
+    public ActionForward regenerateReports(ActionMapping mapping, ActionForm form, HttpServletRequest request, HttpServletResponse response) throws Exception {
+        AwardForm awardForm = (AwardForm) form;
         Award award = awardForm.getAwardDocument().getAward();
         this.getReportTrackingService().generateReportTrackingAndSave(award, true);
         return mapping.findForward(Constants.MAPPING_AWARD_BASIC);
