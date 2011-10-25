@@ -54,6 +54,7 @@ import org.kuali.kra.award.notesandattachments.notes.AwardNotepadBean;
 import org.kuali.kra.award.paymentreports.ReportClass;
 import org.kuali.kra.award.paymentreports.awardreports.AwardReportsBean;
 import org.kuali.kra.award.paymentreports.awardreports.reporting.AwardReportingBean;
+import org.kuali.kra.award.paymentreports.awardreports.reporting.service.ReportTrackingService;
 import org.kuali.kra.award.paymentreports.closeout.AwardCloseoutBean;
 import org.kuali.kra.award.paymentreports.paymentschedule.PaymentScheduleBean;
 import org.kuali.kra.award.paymentreports.specialapproval.approvedequipment.ApprovedEquipmentBean;
@@ -199,6 +200,7 @@ public class AwardForm extends BudgetVersionFormBase
 
     private transient ParameterService parameterService;
     private transient AwardHierarchyUIService awardHierarchyUIService;
+    private transient ReportTrackingService reportTrackingService;
 
 
     /**
@@ -922,6 +924,22 @@ public class AwardForm extends BudgetVersionFormBase
             awardHierarchyUIService = KraServiceLocator.getService(AwardHierarchyUIService.class);
         }
         return awardHierarchyUIService;
+    }
+    
+    private ReportTrackingService getReportTrackingService() {
+        if (reportTrackingService == null) {
+            reportTrackingService = KraServiceLocator.getService(ReportTrackingService.class);
+        }
+        return reportTrackingService;
+    }
+    
+    /**
+     * 
+     * This method calls ReportTrackingService.autoRegenerateReports if that is true, this returns false.
+     * @return
+     */
+    public boolean getDisplayRegenerateButton() {
+        return !this.getReportTrackingService().autoRegenerateReports(this.getAwardDocument().getAward());
     }
 
     /**
