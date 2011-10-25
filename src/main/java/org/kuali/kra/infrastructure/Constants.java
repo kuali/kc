@@ -755,4 +755,10 @@ public interface Constants {
     //Negotiations
     public static final String NEGOTIATION_SEQUENCE_NAME = "NEGOTIATION_S";
 
+    // Disclosure disclosure page audit rules
+    public static final String COI_DISCLOSURE_DISCLOSURE_PAGE = "disclosure";
+    public static final String COI_DISCLOSURE_DISCLOSURE_PANEL_NAME = "Disclosure";
+    public static final String DISCLOSURE_FINANCIAL_ENTITY_PANEL_ANCHOR = "Financial Entity";
+    public static final String DISCLOSURE_FINANCIAL_ENTITY_KEY = "document.coiDisclosureList[0].coiDiscDetails[%s].entityStatusCode";
+
 }

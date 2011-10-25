@@ -29,6 +29,7 @@ public class CoiDisclosureForm extends KraTransactionalDocumentFormBase implemen
      */
     private static final long serialVersionUID = -5620344612882618024L;
     private DisclosureHelper disclosureHelper;
+    private boolean auditActivated;
 
     public CoiDisclosureForm() {
         super();
@@ -60,12 +61,11 @@ public class CoiDisclosureForm extends KraTransactionalDocumentFormBase implemen
     }
 
     public boolean isAuditActivated() {
-        // TODO Auto-generated method stub
-        return false;
+        return this.auditActivated;
     }
 
     public void setAuditActivated(boolean auditActivated) {
-        // TODO Auto-generated method stub
+        this.auditActivated = auditActivated;
         
     }
 
