@@ -20,14 +20,24 @@ import java.util.ArrayList;
 import java.util.List;
 
 import org.apache.commons.collections.CollectionUtils;
+import org.apache.commons.lang.StringUtils;
 import org.kuali.kra.coi.CoiDisclosureDocument;
 import org.kuali.kra.coi.CoiDisclosureForm;
 import org.kuali.kra.coi.personfinancialentity.FinEntityDataMatrixBean;
 import org.kuali.kra.coi.personfinancialentity.FinancialEntityService;
 import org.kuali.kra.infrastructure.KraServiceLocator;
+import org.kuali.rice.kns.service.ParameterService;
 
 public class DisclosureHelper implements Serializable {
 
+    /**
+     * Comment for <code>serialVersionUID</code>
+     */
+    private static final long serialVersionUID = -7441300028105575094L;
+    protected static final String NAMESPACE_CODE = "KC-COIDISCLOSURE";
+    protected static final String PARAMETER_CODE = "Document";
+    private static final String CONFLICT_HEADER_LABEL_PARAMETER = "COI_DISCLOSURE_FE_CONFLICT_HEADER_LABEL";
+    protected static final String DEFAULT_CONFLICT_HEADER_LABEL = "Conflict";
     private CoiDisclosureForm form;
     private DisclosurePersonUnit newDisclosurePersonUnit;
     private List<DisclosurePersonUnit> deletedUnits;
@@ -35,7 +45,8 @@ public class DisclosureHelper implements Serializable {
     private List<FinEntityDataMatrixBean> newRelationDetails;
     private boolean canViewDisclosureFeHistory;
     private boolean canEditDisclosureFinancialEntity;
-
+    private String conflictHeaderLabel;
+    
     public DisclosureHelper(CoiDisclosureForm form) {
         this.form = form;
         setNewDisclosurePersonUnit(new DisclosurePersonUnit());
@@ -44,6 +55,7 @@ public class DisclosureHelper implements Serializable {
         editRelationDetails = new ArrayList<FinEntityDataMatrixBean>(); 
         canViewDisclosureFeHistory = hasCanViewDisclosureFeHistoryPermission();
         canEditDisclosureFinancialEntity = hasCanEditDisclosureFinancialEntityPermission();
+        initConflictHeaderLabel();
    }
 
     public CoiDisclosureForm getForm() {
@@ -125,5 +137,31 @@ public class DisclosureHelper implements Serializable {
         // for now, just return true
         return true;
     }
+
+    public String getConflictHeaderLabel() {
+        if (StringUtils.isBlank(conflictHeaderLabel)) {
+            initConflictHeaderLabel();
+        }
+        return conflictHeaderLabel;
+    }
+
+    public void setConflictHeaderLabel(String conflictHeaderLabel) {
+        this.conflictHeaderLabel = conflictHeaderLabel;
+    }
     
+    private void initConflictHeaderLabel() {
+        String param = DEFAULT_CONFLICT_HEADER_LABEL;
+        try {
+            param = getParameterService().getParameterValue(NAMESPACE_CODE, PARAMETER_CODE, CONFLICT_HEADER_LABEL_PARAMETER);
+        } catch (Exception e) {
+            // param not set - use default    
+        }
+        setConflictHeaderLabel(param);
+        
+    }
+    
+    private ParameterService getParameterService() {
+         return KraServiceLocator.getService(ParameterService.class);
+    }
+
 }
