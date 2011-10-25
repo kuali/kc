@@ -26,7 +26,9 @@ import org.kuali.kra.bo.KraPersistableBusinessObjectBase;
 import org.kuali.kra.coi.disclosure.CoiDisclosureService;
 import org.kuali.kra.coi.disclosure.DisclosurePerson;
 import org.kuali.kra.coi.disclosure.DisclosurePersonUnit;
+import org.kuali.kra.infrastructure.Constants;
 import org.kuali.kra.infrastructure.KraServiceLocator;
+import org.kuali.rice.kns.service.ParameterService;
 import org.kuali.rice.kns.service.SequenceAccessorService;
 import org.kuali.rice.kns.util.DateUtils;
 import org.kuali.rice.kns.util.GlobalVariables;
@@ -60,6 +62,15 @@ public class CoiDisclosure extends KraPersistableBusinessObjectBase {
     private Integer discActiveStatus; 
     private CoiDisclosureDocument coiDisclosureDocument;
     private List<DisclosurePerson> disclosurePersons;
+    
+    private transient ParameterService parameterService;
+    private transient boolean certifiedFlag;
+
+    private static final String DISCLOSURE_CERT_STMT = "COI_CERTIFICATION_STATEMENT";
+    private static final String DISCLOSURE_CERT_ACK  = "COI_CERTIFICATION_ACKNOWLEDGEMENT";
+    
+    private transient String certificationStatement;
+    private transient String acknowledgementStatement;
     
 //    private CoiStatus coiStatus; 
 //    private CoiDispositionStatus coiDispositionStatus; 
@@ -132,6 +143,7 @@ public class CoiDisclosure extends KraPersistableBusinessObjectBase {
     }
 
     public void setCertificationTimestamp(Date certificationTimestamp) {
+        certifiedFlag = certificationTimestamp != null;
         this.certificationTimestamp = certificationTimestamp;
     }
 
@@ -340,6 +352,37 @@ public class CoiDisclosure extends KraPersistableBusinessObjectBase {
 
     public void setCoiDiscDetails(List<CoiDiscDetail> coiDiscDetails) {
         this.coiDiscDetails = coiDiscDetails;
+    }
+
+    public boolean getCertifiedFlag() {
+        return certifiedFlag;
+    }
+
+    public void setCertifiedFlag(boolean certifiedFlag) {
+        this.certifiedFlag = certifiedFlag;
+    }
+
+    protected ParameterService getParameterService() {
+        if (this.parameterService == null) {
+            this.parameterService = KraServiceLocator.getService(ParameterService.class);        
+        }
+        return this.parameterService;
+    }
+    
+    public String getCertificationStatement() {
+        if (certificationStatement == null) {
+            certificationStatement = getParameterService().getParameterValue(Constants.MODULE_NAMESPACE_COIDISCLOSURE, 
+                       Constants.PARAMETER_COMPONENT_DOCUMENT, DISCLOSURE_CERT_STMT);
+        }
+        return certificationStatement;
+    }
+
+    public String getAcknowledgementStatement() {
+        if (acknowledgementStatement == null) {
+            acknowledgementStatement = getParameterService().getParameterValue(Constants.MODULE_NAMESPACE_COIDISCLOSURE, 
+                       Constants.PARAMETER_COMPONENT_DOCUMENT, DISCLOSURE_CERT_ACK);
+        }
+        return acknowledgementStatement;
     }
 
 }
