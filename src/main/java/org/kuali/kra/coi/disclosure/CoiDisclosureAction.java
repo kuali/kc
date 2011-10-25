@@ -30,6 +30,7 @@ import org.kuali.kra.infrastructure.KraServiceLocator;
 import org.kuali.kra.rule.event.KraDocumentEventBaseExtension;
 import org.kuali.rice.core.config.ConfigContext;
 import org.kuali.rice.kns.util.GlobalVariables;
+import org.kuali.rice.kns.util.KNSConstants;
 import org.springframework.util.CollectionUtils;
 
 public class CoiDisclosureAction extends CoiAction {
@@ -80,7 +81,11 @@ public class CoiDisclosureAction extends CoiAction {
             getCoiDisclosureService().resetLeadUnit(coiDisclosure.getDisclosureReporter());
         }
         actionForward = super.save(mapping, form, request, response);
-        
+        if (KNSConstants.SAVE_METHOD.equals(coiDisclosureForm.getMethodToCall()) && coiDisclosureForm.isAuditActivated() 
+                && GlobalVariables.getMessageMap().hasNoErrors()) {
+            actionForward = mapping.findForward("disclosureActions");
+        }
+
         return actionForward;
     }
 
