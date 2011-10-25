@@ -30,11 +30,13 @@ public interface ReportTrackingService {
     
     /**
      * 
-     * This method generates the reports for all the award report items in the award.
+     * This method generates the reports for all the award report items in the award. Use the forceReportRegeneration
+     * to over ride the autoRegenerateReports call.
      * @param award
+     * @param forceReportRegeneration
      * @throws ParseException 
      */
-    void generateReportTrackingAndSave(Award award) throws ParseException;
+    void generateReportTrackingAndSave(Award award, boolean forceReportRegeneration) throws ParseException;
     
     /**
      * 
@@ -51,4 +53,12 @@ public interface ReportTrackingService {
      * @return
      */
     List<ReportTracking> getReportTacking(AwardReportTerm awardTerm);
+    
+    /**
+     * 
+     * This method returns true if the award is a root award, otherwise returns false.
+     * @param award
+     * @return
+     */
+    boolean autoRegenerateReports(Award award);
 }

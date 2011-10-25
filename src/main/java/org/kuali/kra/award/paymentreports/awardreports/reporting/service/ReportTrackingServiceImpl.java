@@ -76,7 +76,7 @@ public class ReportTrackingServiceImpl implements ReportTrackingService {
     }
 
     @Override
-    public void generateReportTrackingAndSave(Award award) throws ParseException {
+    public void generateReportTrackingAndSave(Award award, boolean forceReportRegeneration) throws ParseException {
         List<AwardReportTerm> awardReportTermItems = award.getAwardReportTermItems();
         List<ReportTracking> reportsToSave = new ArrayList<ReportTracking>();
         List<ReportTracking> reportsToDelete = new ArrayList<ReportTracking>();        
@@ -100,7 +100,9 @@ public class ReportTrackingServiceImpl implements ReportTrackingService {
                  * Note, passing in reportsToDelete as any pending reports will be put in there so they are removed from the DB,
                  * if needed.
                  */
-                awardTerm.setReportTrackings(purgePendingReports(awardTerm, awardTerm.getReportTrackings(), reportsToDelete));
+                if (forceReportRegeneration || autoRegenerateReports(award)) {
+                    awardTerm.setReportTrackings(purgePendingReports(awardTerm, awardTerm.getReportTrackings(), reportsToDelete));
+                }
                 reportsToSave.addAll(awardTerm.getReportTrackings());
             }
             
@@ -218,6 +220,13 @@ public class ReportTrackingServiceImpl implements ReportTrackingService {
         reportTrackings.addAll(reportTrackingCollection);
         Collections.sort(reportTrackings);
         return reportTrackings;
+    }
+    
+    @Override
+    public boolean autoRegenerateReports(Award award) {
+        String rootAwardNumberEnder = "-00001";
+        boolean retVal = StringUtils.endsWith(award.getAwardNumber(), rootAwardNumberEnder);
+        return retVal;
     }
 
     public AwardScheduleGenerationService getAwardScheduleGenerationService() {

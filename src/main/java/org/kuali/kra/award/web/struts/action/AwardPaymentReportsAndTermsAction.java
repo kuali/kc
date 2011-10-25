@@ -748,5 +748,13 @@ public class AwardPaymentReportsAndTermsAction extends AwardAction {
             award.getAwardReportTermItems().get(getAwardReportTermIndex(request)).getAwardReportTermRecipients().get(getSelectedLine(request));
         awardForm.getAwardSyncBean().addConfirmedPendingChange(AwardSyncType.ADD_SYNC, recipient, AWARD_REPORT_TERM_PROPERTY);
         return mapping.findForward(Constants.MAPPING_AWARD_BASIC);
-    }      
+    }
+    
+    public ActionForward regenerateReports(ActionMapping mapping, ActionForm form, HttpServletRequest request, HttpServletResponse response)
+    throws Exception {
+        AwardForm awardForm = (AwardForm)form;
+        Award award = awardForm.getAwardDocument().getAward();
+        this.getReportTrackingService().generateReportTrackingAndSave(award, true);
+        return mapping.findForward(Constants.MAPPING_AWARD_BASIC);
+    }
 }
