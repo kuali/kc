@@ -104,6 +104,7 @@ public class AwardReportsPanelSeleniumTest extends KcSeleniumTestBase {
     @Test
     public void testAddDeleteFinancialNoErrors() throws Exception {
         helper.createAward();
+        helper.addContacts();
         helper.clickAwardPaymentReportsAndTermsPage();
         
         helper.openTab(TAB_ID);
@@ -140,6 +141,7 @@ public class AwardReportsPanelSeleniumTest extends KcSeleniumTestBase {
     @Test
     public void testAddFinancialErrors() throws Exception {
         helper.createAward();
+        helper.addContacts();
         helper.clickAwardPaymentReportsAndTermsPage();
         
         helper.openTab(TAB_ID);
@@ -172,6 +174,7 @@ public class AwardReportsPanelSeleniumTest extends KcSeleniumTestBase {
     @Test
     public void testAddFinancialRecipients() throws Exception {
         helper.createAward();
+        helper.addContacts();
         helper.clickAwardPaymentReportsAndTermsPage();
         
         helper.openTab(TAB_ID);
@@ -205,6 +208,7 @@ public class AwardReportsPanelSeleniumTest extends KcSeleniumTestBase {
     @Test
     public void testAddDeleteProperty() throws Exception {
         helper.createAward();
+        helper.addContacts();
         helper.clickAwardPaymentReportsAndTermsPage();
         
         helper.openTab(TAB_ID);
@@ -241,6 +245,7 @@ public class AwardReportsPanelSeleniumTest extends KcSeleniumTestBase {
     @Test
     public void testModifyMiscellaneousProcurementPurchasing() throws Exception {
         helper.createAward();
+        helper.addContacts();
         helper.clickAwardPaymentReportsAndTermsPage();
         
         helper.openTab(TAB_ID);
