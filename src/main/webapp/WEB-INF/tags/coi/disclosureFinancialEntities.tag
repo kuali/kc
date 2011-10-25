@@ -30,7 +30,7 @@
           	<tr>
           		<kul:htmlAttributeHeaderCell literalLabel="&nbsp;" scope="col" /> 
           		<kul:htmlAttributeHeaderCell attributeEntry="${coiDiscDetailAttributes.personFinIntDisclosureId}" scope="col" />
-          		<kul:htmlAttributeHeaderCell attributeEntry="${coiDiscDetailAttributes.entityStatusCode}" scope="col" />
+          		<th rowspan="1" colspan="1" scope="col">${KualiForm.disclosureHelper.conflictHeaderLabel}</th>
           		<kul:htmlAttributeHeaderCell attributeEntry="${coiDiscDetailAttributes.comments}" scope="col" />
           		<c:if test="${!readOnly}">
           		    <kul:htmlAttributeHeaderCell literalLabel="Actions" scope="col" />
