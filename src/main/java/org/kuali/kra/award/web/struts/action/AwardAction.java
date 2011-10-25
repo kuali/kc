@@ -424,7 +424,7 @@ public class AwardAction extends BudgetParentActionBase {
         /**
          * deal with the award report tracking generation business.
          */
-        getReportTrackingService().generateReportTrackingAndSave(award);
+        getReportTrackingService().generateReportTrackingAndSave(award, false);
 
         return forward;
     }
