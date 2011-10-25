@@ -47,10 +47,8 @@ public class AwardCompleteSeleniumTest extends KcSeleniumTestBase {
     @Test
     public void testAwardComplete() {
         helper.createAward();
-        
-        helper.addSponsorTemplate();
-        
         helper.addContacts();
+        helper.addSponsorTemplate();
         
         helper.addCustomData();
         
