@@ -18,6 +18,7 @@ package org.kuali.kra.award.paymentreports.awardreports;
 import java.util.List;
 
 import org.apache.commons.lang.StringUtils;
+import org.kuali.kra.award.home.Award;
 import org.kuali.kra.infrastructure.KeyConstants;
 import org.kuali.kra.rules.ResearchDocumentRuleBase;
 import org.kuali.rice.kns.util.GlobalVariables;
@@ -66,7 +67,18 @@ public class AwardReportTermRuleImpl extends ResearchDocumentRuleBase
      * @return
      */
     public boolean processAddAwardReportTermBusinessRules(AddAwardReportTermRuleEvent event) {
-        return validateRequiredFields(event.getAwardReportTermItemForValidation(), "") && processCommonValidations(event);        
+        System.err.println("processAddAwardReportTermBusinessRules!!!!!!!!!!!!");
+        return validatePI(event.getAward()) && validateRequiredFields(event.getAwardReportTermItemForValidation(), "") 
+            && processCommonValidations(event);        
+    }
+    
+    private boolean validatePI(Award award) {
+        boolean retVal = true;
+        if (award.getPrincipalInvestigator() == null) {
+            retVal = false;
+            reportError(AWARD_REPORT_TERM_REPORT_CODE_PROPERTY, KeyConstants.ERROR_AWARD_REPORT_TERM_ITEM_NO_PI, "");
+        }
+        return retVal;
     }
     
     private boolean processCommonValidations(AwardReportTermRuleEvent event) {
