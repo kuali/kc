@@ -15,30 +15,41 @@
 --%>
 <%@ include file="/WEB-INF/jsp/kraTldHeader.jsp"%>
 
-<kul:tab tabTitle="Reports" defaultOpen="false" tabErrorKey="document.awardList[0].awardReportTermItems,document.award.awardTemplate.REPORTS_TAB" auditCluster="reportsAuditErrors" tabAuditKey="document.reportTermsAuditRules*" useRiceAuditMode="true">
+<kul:tab tabTitle="Reports" defaultOpen="false"
+	tabErrorKey="document.awardList[0].awardReportTermItems,document.award.awardTemplate.REPORTS_TAB"
+	auditCluster="reportsAuditErrors"
+	tabAuditKey="document.reportTermsAuditRules*" useRiceAuditMode="true">
 	<div class="tab-container" align="right">
-    	<h3>
-    		<span class="subhead-left">Report Classes</span>
-    		<span class="subhead-right">
-    			<kul:help businessObjectClassName="org.kuali.kra.award.paymentreports.awardreports.AwardReportTerm" altText="help"/>
-			</span>
-        </h3>
+		<h3>
+			<span class="subhead-left">Report Classes</span> <span
+				class="subhead-right"> <kul:help
+					businessObjectClassName="org.kuali.kra.award.paymentreports.awardreports.AwardReportTerm"
+					altText="help" /> </span>
+		</h3>
 
-        <c:forEach var="reportClass" items="${KualiForm.reportClasses}" varStatus="reportClassIndex">
-        	<c:if test="${KualiForm.reportClassForPaymentsAndInvoices.reportClassCode != reportClass.key}" >
-        		<kra-a:awardReportClasses index="${reportClassIndex.index}" reportClassKey="${reportClass.key}" reportClassLabel="${reportClass.label}" reportCodeLabel="* Report Type" />
-        	</c:if>
+		<c:forEach var="reportClass" items="${KualiForm.reportClasses}"
+			varStatus="reportClassIndex">
+			<c:if
+				test="${KualiForm.reportClassForPaymentsAndInvoices.reportClassCode != reportClass.key}">
+				<kra-a:awardReportClasses index="${reportClassIndex.index}"
+					reportClassKey="${reportClass.key}"
+					reportClassLabel="${reportClass.label}"
+					reportCodeLabel="* Report Type" />
+			</c:if>
 		</c:forEach>
-		</br>
-		</br>
+		<br/> <br/>
 		<kra-a:awardReportsMiscellaneousProcurementPurchasing />
 		<div align="center">
-		
-		</br>
-		<c:if test="${(!readOnly)}">
-	    	<kra-a:awardSyncButton  scopeNames="REPORTS_TAB" tabKey="${tabKey}"/>
-	    </c:if>
-		</div>	
-    </div>    
-    
+
+			</br>
+			<c:if test="${(!readOnly)}">
+				<kra-a:awardSyncButton scopeNames="REPORTS_TAB" tabKey="${tabKey}" />
+			</c:if>
+			<c:if test="${KualiForm.displayRegenerateButton }">
+				<html:image property="methodToCall.regenerateReports"
+		src='${ConfigProperties.kra.externalizable.images.url}tinybutton-generate-schedule.gif' styleClass="tinybutton"/>
+			</c:if>
+		</div>
+	</div>
+
 </kul:tab>
