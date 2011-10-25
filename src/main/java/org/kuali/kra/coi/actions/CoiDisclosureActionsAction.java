@@ -15,8 +15,25 @@
  */
 package org.kuali.kra.coi.actions;
 
+import javax.servlet.http.HttpServletRequest;
+import javax.servlet.http.HttpServletResponse;
+
+import org.apache.struts.action.ActionForm;
+import org.apache.struts.action.ActionForward;
+import org.apache.struts.action.ActionMapping;
 import org.kuali.kra.coi.CoiAction;
+import org.kuali.kra.coi.CoiDisclosureForm;
+import org.kuali.kra.web.struts.action.AuditActionHelper;
 
 public class CoiDisclosureActionsAction extends CoiAction {
+    public ActionForward activate(ActionMapping mapping, ActionForm form, HttpServletRequest request, 
+            HttpServletResponse response) throws Exception {
+        return new AuditActionHelper().setAuditMode(mapping, (CoiDisclosureForm) form, true);
+    }
+
+    public ActionForward deactivate(ActionMapping mapping, ActionForm form, HttpServletRequest request, 
+            HttpServletResponse response) throws Exception {
+        return new AuditActionHelper().setAuditMode(mapping, (CoiDisclosureForm) form, false);
+    }
 
 }
