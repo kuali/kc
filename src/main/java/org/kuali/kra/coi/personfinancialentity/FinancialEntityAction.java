@@ -223,13 +223,18 @@ public class FinancialEntityAction extends KualiAction {
                 if (sponsor.getRolodex() == null) {
                     sponsor.refreshReferenceObject("rolodex");
                 }
+                
                 FinancialEntityContactInfo contactInfo = financialEntityHelper.getNewPersonFinancialEntity().getFinEntityContactInfos().get(0);
                 if (isEdit) {
                     if (StringUtils.equals(ACTIVATE_ENTITY, financialEntityHelper.getEditType())) {
-                       contactInfo = financialEntityHelper.getActiveFinancialEntities().get(financialEntityHelper.getEditEntityIndex()).getFinEntityContactInfos().get(0);
+                        financialEntityHelper.getActiveFinancialEntities().get(financialEntityHelper.getEditEntityIndex()).setEntityName(sponsor.getSponsorName());
+                        contactInfo = financialEntityHelper.getActiveFinancialEntities().get(financialEntityHelper.getEditEntityIndex()).getFinEntityContactInfos().get(0);
                     } else {
+                        financialEntityHelper.getInactiveFinancialEntities().get(financialEntityHelper.getEditEntityIndex()).setEntityName(sponsor.getSponsorName());
                         contactInfo = financialEntityHelper.getInactiveFinancialEntities().get(financialEntityHelper.getEditEntityIndex()).getFinEntityContactInfos().get(0);
                     }
+                } else {
+                    financialEntityHelper.getNewPersonFinancialEntity().setEntityName(sponsor.getSponsorName());
                 }
                 contactInfo.setAddressLine1(sponsor.getRolodex().getAddressLine1());
                 contactInfo.setAddressLine2(sponsor.getRolodex().getAddressLine2());
@@ -263,5 +268,5 @@ public class FinancialEntityAction extends KualiAction {
         return forward;
     }
 
-
+ 
 }
