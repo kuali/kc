@@ -28,7 +28,6 @@ import org.kuali.kra.irb.actions.ProtocolActionType;
 import org.kuali.kra.irb.actions.ProtocolStatus;
 import org.kuali.kra.irb.actions.assignagenda.ProtocolAssignToAgendaService;
 import org.kuali.kra.irb.actions.correspondence.ProtocolActionCorrespondenceGenerationService;
-import org.kuali.kra.irb.actions.notification.ProtocolActionsNotificationService;
 import org.kuali.kra.irb.actions.notification.WithdrawEvent;
 import org.kuali.kra.irb.actions.submit.ProtocolActionService;
 import org.kuali.kra.irb.actions.submit.ProtocolSubmission;
@@ -53,7 +52,6 @@ public class ProtocolWithdrawServiceImpl implements ProtocolWithdrawService {
     private ProtocolVersionService protocolVersionService;
     private ProtocolAssignToAgendaService protocolAssignToAgendaService;
     private ProtocolActionCorrespondenceGenerationService protocolActionCorrespondenceGenerationService;
-    private ProtocolActionsNotificationService protocolActionsNotificationService;
     private ProtocolOnlineReviewService protocolOnlineReviewService;
     private IdentityManagementService identityManagementService;
     
@@ -263,9 +261,6 @@ public class ProtocolWithdrawServiceImpl implements ProtocolWithdrawService {
                StringUtils.equals(submission.getSubmissionTypeCode(), ProtocolSubmissionType.CONTINUATION_WITH_AMENDMENT);
     }
 
-    public void setProtocolActionsNotificationService(ProtocolActionsNotificationService protocolActionsNotificationService) {
-        this.protocolActionsNotificationService = protocolActionsNotificationService;
-    }
 
     public void setIdentityManagementService(IdentityManagementService identityManagementService) {
         this.identityManagementService = identityManagementService;

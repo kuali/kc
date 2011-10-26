@@ -27,7 +27,6 @@ import org.kuali.kra.bo.CoeusModule;
 import org.kuali.kra.irb.Protocol;
 import org.kuali.kra.irb.actions.ProtocolAction;
 import org.kuali.kra.irb.actions.ProtocolSubmissionBuilder;
-import org.kuali.kra.irb.actions.notification.ProtocolActionsNotificationService;
 import org.kuali.kra.irb.actions.notification.RequestActionType;
 import org.kuali.kra.irb.actions.submit.ProtocolActionService;
 import org.kuali.kra.irb.actions.submit.ProtocolReviewType;
@@ -50,7 +49,6 @@ public class ProtocolRequestServiceImpl implements ProtocolRequestService {
     private BusinessObjectService businessObjectService;
     private DocumentService documentService;
     private ProtocolActionService protocolActionService;
-    private ProtocolActionsNotificationService protocolActionsNotificationService;
 
     /**
      * Set the business object service.
@@ -172,9 +170,6 @@ public class ProtocolRequestServiceImpl implements ProtocolRequestService {
         event.sendNotification();
     }
 
-    public void setProtocolActionsNotificationService(ProtocolActionsNotificationService protocolActionsNotificationService) {
-        this.protocolActionsNotificationService = protocolActionsNotificationService;
-    }
 
     public void setDocumentService(DocumentService documentService) {
         this.documentService = documentService;
