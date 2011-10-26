@@ -38,7 +38,7 @@ public class ProtocolLocationPanelSeleniumTest extends KcSeleniumTestBase {
     
     private static final String ORGANIZATION_ID =  "000001";
     private static final String PROTOCOL_ORGANIZATION_TYPE_CODE = "Performing Organization";
-    private static final String CONTACT = "Last Name, First Name: Address Line 1 Address Line 2 Address Line 3, Kuali Coeus,   MA   53421";
+    private static final String CONTACT = "Last Name, First Name: Address Line 1 Address Line 2 Address Line 3, Kuali Coeus, MA 53421";
     private static final String HUMAN_SUB_ASSURANCE = "FWA00004881";
     
     private static final String ERROR_ORGANIZATION_REQUIRED = "At least one organization must be entered.";
