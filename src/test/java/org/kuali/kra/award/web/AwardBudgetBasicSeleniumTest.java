@@ -56,9 +56,9 @@ public class AwardBudgetBasicSeleniumTest extends KcSeleniumTestBase {
     public void testAwardBudgetBasic() {
         helper.createAward();
         
-        helper.addSponsorTemplate();
-        
         helper.addContacts();
+        
+        helper.addSponsorTemplate();
         
         helper.addCustomData();
         
