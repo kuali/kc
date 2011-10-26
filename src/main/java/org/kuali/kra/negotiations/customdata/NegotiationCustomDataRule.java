@@ -27,5 +27,5 @@ public interface NegotiationCustomDataRule extends BusinessRule {
      * @param netotiationSaveCustomDataRuleEvent
      * @return
      */
-    boolean processSaveNegotiationBusinessRules(NegotiationSaveCustomDataRuleEvent NegotiationSaveCustomDataRuleEventDataRuleEvent);
+    boolean processSaveNegotiationCustomDataBusinessRules(NegotiationSaveCustomDataRuleEvent NegotiationSaveCustomDataRuleEventDataRuleEvent);
 }
