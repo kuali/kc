@@ -29,7 +29,6 @@ import org.kuali.kra.irb.ProtocolDocument;
 import org.kuali.kra.irb.actions.ProtocolAction;
 import org.kuali.kra.irb.actions.ProtocolActionType;
 import org.kuali.kra.irb.actions.genericactions.ProtocolGenericActionBean;
-import org.kuali.kra.irb.actions.notification.ProtocolActionsNotificationService;
 import org.kuali.kra.irb.actions.submit.ProtocolActionService;
 import org.kuali.kra.irb.actions.submit.ProtocolSubmission;
 import org.kuali.kra.irb.test.ProtocolFactory;
@@ -111,15 +110,6 @@ public class ProtocolAbandonServiceTest  extends KcUnitTestBase {
         return service;
     }
     
-    private ProtocolActionsNotificationService getMockProtocolActionsNotificationService() {
-        final ProtocolActionsNotificationService service = context.mock(ProtocolActionsNotificationService.class);
-        
-        context.checking(new Expectations() {{
-            ignoring(service);
-        }});
-        
-        return service;
-    }
     
     private ProtocolGenericActionBean getMockProtocolGenericActionBean(){
         final ProtocolGenericActionBean bean = context.mock(ProtocolGenericActionBean.class);

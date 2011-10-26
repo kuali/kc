@@ -633,7 +633,6 @@
         <property name="protocolVersionService" ref="protocolVersionService" />
         <property name="protocolAssignToAgendaService" ref="protocolAssignToAgendaService" />
         <property name="protocolActionCorrespondenceGenerationService" ref="protocolActionCorrespondenceGenerationService" />
-        <property name="protocolActionsNotificationService" ref="protocolActionsNotificationService" />
 		<property name="identityManagementService" ref="identityManagementService"/>
 		<property name="protocolOnlineReviewService" ref="protocolOnlineReviewService"/>
     </bean>
@@ -641,7 +640,6 @@
     <bean id="protocolRequestService" class="org.kuali.kra.irb.actions.request.ProtocolRequestServiceImpl">
         <property name="businessObjectService" ref="businessObjectService" />
         <property name="protocolActionService" ref="protocolActionService" />
-        <property name="protocolActionsNotificationService" ref="protocolActionsNotificationService" />
         <property name="documentService" ref="documentService" />
     </bean>
     
@@ -732,7 +730,6 @@
     <bean id="protocolAssignReviewersService" class="org.kuali.kra.irb.actions.assignreviewers.ProtocolAssignReviewersServiceImpl">
         <property name="businessObjectService" ref="businessObjectService" />
         <property name="protocolOnlineReviewService" ref="protocolOnlineReviewService"/>
-        <property name="protocolActionsNotificationService" ref="protocolActionsNotificationService" />
     </bean>
     
     <bean id="protocolGrantExemptionService" class="org.kuali.kra.irb.actions.grantexemption.ProtocolGrantExemptionServiceImpl">
@@ -889,20 +886,6 @@
             <property name="xmlStream" ref="protocolSummaryXmlStream" />
         </bean>
 
-    <bean id="protocolActionsNotificationService" class="org.kuali.kra.irb.actions.notification.ProtocolActionsNotificationServiceImpl">
-        <property name="notificationService" ref="notificationService" />
-        <property name="kimRoleManagementService" ref="roleManagementService" />
-        <property name="kcPersonService" ref="kcPersonService" />
-        <property name="documentService" ref="documentService" />
-        <property name="kualiConfigurationService" ref="kualiConfigurationService" />
-        <property name="protocolXmlStream" ref="protocolXmlStream" />
-        <property name="protocolOnlineReviewService" ref="protocolOnlineReviewService"/>
-        <property name="notificationTemplates">
-			<list>
-			    <value>/org/kuali/kra/irb/actions_notification.xml</value>
-            </list>
-		</property>
-    </bean>
     <bean id="protocolNotificationTemplateAuthorizationService" class="org.kuali.kra.irb.actions.notification.ProtocolNotificationTemplateAuthorizationServiceImpl">
         <property name="unitAuthorizationService" ref="unitAuthorizationService" />
         <property name="kcPersonService" ref="kcPersonService" />

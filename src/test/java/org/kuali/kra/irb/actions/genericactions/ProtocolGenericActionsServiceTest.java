@@ -34,7 +34,6 @@ import org.kuali.kra.irb.actions.ProtocolAction;
 import org.kuali.kra.irb.actions.ProtocolActionType;
 import org.kuali.kra.irb.actions.ProtocolStatus;
 import org.kuali.kra.irb.actions.correspondence.ProtocolActionCorrespondenceGenerationService;
-import org.kuali.kra.irb.actions.notification.ProtocolActionsNotificationService;
 import org.kuali.kra.irb.actions.submit.ProtocolActionService;
 import org.kuali.kra.irb.actions.submit.ProtocolReviewType;
 import org.kuali.kra.irb.actions.submit.ProtocolReviewerBean;
@@ -318,15 +317,6 @@ public class ProtocolGenericActionsServiceTest extends KcUnitTestBase {
         return service;
     }
     
-    private ProtocolActionsNotificationService getMockProtocolActionsNotificationService() {
-        final ProtocolActionsNotificationService service = context.mock(ProtocolActionsNotificationService.class);
-        
-        context.checking(new Expectations() {{
-            ignoring(service);
-        }});
-        
-        return service;
-    }
     
     private ProtocolOnlineReviewService getMockProtocolOnlineReviewService() {
         final ProtocolOnlineReviewService service = context.mock(ProtocolOnlineReviewService.class);
