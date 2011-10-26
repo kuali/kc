@@ -21,6 +21,8 @@ import java.util.List;
 
 import org.apache.commons.collections.CollectionUtils;
 import org.apache.commons.lang.StringUtils;
+import org.kuali.kra.coi.CoiDisclProject;
+import org.kuali.kra.coi.CoiDisclosure;
 import org.kuali.kra.coi.CoiDisclosureDocument;
 import org.kuali.kra.coi.CoiDisclosureForm;
 import org.kuali.kra.coi.personfinancialentity.FinEntityDataMatrixBean;
@@ -46,7 +48,8 @@ public class DisclosureHelper implements Serializable {
     private boolean canViewDisclosureFeHistory;
     private boolean canEditDisclosureFinancialEntity;
     private String conflictHeaderLabel;
-    
+    private CoiDisclProject newCoiDisclProject;
+
     public DisclosureHelper(CoiDisclosureForm form) {
         this.form = form;
         setNewDisclosurePersonUnit(new DisclosurePersonUnit());
@@ -55,6 +58,9 @@ public class DisclosureHelper implements Serializable {
         editRelationDetails = new ArrayList<FinEntityDataMatrixBean>(); 
         canViewDisclosureFeHistory = hasCanViewDisclosureFeHistoryPermission();
         canEditDisclosureFinancialEntity = hasCanEditDisclosureFinancialEntityPermission();
+        CoiDisclosure coiDisclosure = form.getCoiDisclosureDocument().getCoiDisclosure();
+      //  coiDisclosure.initCoiDisclosureNumber();
+        newCoiDisclProject = new CoiDisclProject(coiDisclosure.getCoiDisclosureNumber(), coiDisclosure.getSequenceNumber());
         initConflictHeaderLabel();
    }
 
@@ -162,6 +168,14 @@ public class DisclosureHelper implements Serializable {
     
     private ParameterService getParameterService() {
          return KraServiceLocator.getService(ParameterService.class);
+    }
+
+    public CoiDisclProject getNewCoiDisclProject() {
+        return newCoiDisclProject;
+    }
+
+    public void setNewCoiDisclProject(CoiDisclProject newCoiDisclProject) {
+        this.newCoiDisclProject = newCoiDisclProject;
     }
 
 }
