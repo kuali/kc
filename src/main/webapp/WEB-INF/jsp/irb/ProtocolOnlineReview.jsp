@@ -20,6 +20,15 @@
 <script src="scripts/jquery/jquery.js"></script>
 <script type="text/javascript">
     var $j = jQuery.noConflict();
+    
+    function checkForUnprocessedComments(id) {
+    	var commentValue = document.getElementById(id).value;
+    	if (commentValue && commentValue.length > 0) {
+    		return confirm("You have unsaved changes in your comments section, do you wish to proceed anyway?");
+    	} else {
+    		return true;
+    	}
+    }
 </script>
 
 
