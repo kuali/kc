@@ -2971,7 +2971,7 @@ function updateStateFromCountry() {
 /*
  * Load the Sponsor Name field based on the Sponsor Code passed in.
  */
-function loadSponsor(sponsorCodeFieldName, sponsorNameFieldName, prevSponsorCodeFieldName ) {
+function loadSponsor(sponsorCodeFieldName, sponsorNameFieldName, entityNameFieldName, prevSponsorCodeFieldName ) {
     var sponsorCode = DWRUtil.getValue( sponsorCodeFieldName );
     var prevSponsorCode = DWRUtil.getValue( prevSponsorCodeFieldName );
 
@@ -2984,6 +2984,7 @@ function loadSponsor(sponsorCodeFieldName, sponsorNameFieldName, prevSponsorCode
                 if ( data != null ) {
                     if ( sponsorNameFieldName != null && sponsorNameFieldName != "" ) {
                         setRecipientValue( sponsorNameFieldName, data.sponsorName );
+                        setRecipientValue(entityNameFieldName, data.sponsorName);
                      //   if (sponsorCode!=prevSponsorCode) {
                             DWRUtil.setValue(prevSponsorCodeFieldName, data.sponsorCode);
                             loadEntityContactInfoFromRolodex(data.rolodexId, findElPrefix( sponsorCodeFieldName )+".finEntityContactInfos[0]");
