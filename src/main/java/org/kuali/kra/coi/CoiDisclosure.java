@@ -74,7 +74,7 @@ public class CoiDisclosure extends KraPersistableBusinessObjectBase {
     
 //    private CoiStatus coiStatus; 
 //    private CoiDispositionStatus coiDispositionStatus; 
-//    private CoiDisclProjects coiDisclProjects; 
+    private List<CoiDisclProject> coiDisclProjects; 
     private List<CoiDiscDetail> coiDiscDetails; 
 //    private CoiDocuments coiDocuments; 
 //    private CoiNotepad coiNotepad; 
@@ -86,6 +86,7 @@ public class CoiDisclosure extends KraPersistableBusinessObjectBase {
 //        newDisclosurePerson.setCoiDisclosure(this);
 //        disclosurePersons.add(newDisclosurePerson);
         this.setSequenceNumber(1);
+        initCoiDisclosureNumber();
         getDisclosureReporter();
 
     } 
@@ -383,6 +384,17 @@ public class CoiDisclosure extends KraPersistableBusinessObjectBase {
                        Constants.PARAMETER_COMPONENT_DOCUMENT, DISCLOSURE_CERT_ACK);
         }
         return acknowledgementStatement;
+    }
+
+    public List<CoiDisclProject> getCoiDisclProjects() {
+        if (coiDisclProjects == null) {
+            coiDisclProjects = new ArrayList<CoiDisclProject>();
+        }
+        return coiDisclProjects;
+    }
+
+    public void setCoiDisclProjects(List<CoiDisclProject> coiDisclProjects) {
+        this.coiDisclProjects = coiDisclProjects;
     }
 
 }
