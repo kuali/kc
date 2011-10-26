@@ -1,0 +1,381 @@
+<!--
+ Copyright 2006-2009 The Kuali Foundation
+
+ Licensed under the Educational Community License, Version 2.0 (the "License");
+ you may not use this file except in compliance with the License.
+ You may obtain a copy of the License at
+
+ http://www.osedu.org/licenses/ECL-2.0
+
+ Unless required by applicable law or agreed to in writing, software
+ distributed under the License is distributed on an "AS IS" BASIS,
+ WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
+ See the License for the specific language governing permissions and
+ limitations under the License.
+-->
+<beans xmlns="http://www.springframework.org/schema/beans"
+    xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+    xmlns:p="http://www.springframework.org/schema/p"
+    xsi:schemaLocation="http://www.springframework.org/schema/beans
+        http://www.springframework.org/schema/beans/spring-beans-2.0.xsd">
+
+    <bean id="CoiDisclProject" parent="CoiDisclProject-parentBean" />
+    <bean id="CoiDisclProject-parentBean" abstract="true" parent="BusinessObjectEntry">
+        <property name="businessObjectClass" value="org.kuali.kra.coi.CoiDisclProject" />
+		<property name="objectLabel" value="Coi Disclosure Project" />
+        <property name="inquiryDefinition" >
+            <ref bean="CoiDisclProject-inquiryDefinition" />
+        </property>
+        <property name="lookupDefinition" >
+            <ref bean="CoiDisclProject-lookupDefinition" />
+        </property>
+        <property name="titleAttribute" value="coiDisclProjectsId" />
+        <property name="attributes" >
+            <list>
+                <ref bean="CoiDisclProject-coiDisclProjectsId" />
+                <ref bean="CoiDisclProject-coiDisclosureId" />
+                <ref bean="CoiDisclProject-coiDisclosureNumber" />
+                <ref bean="CoiDisclProject-sequenceNumber" />
+                <ref bean="CoiDisclProject-coiProjectId" />
+                <ref bean="CoiDisclProject-coiProjectTitle" />
+                <ref bean="CoiDisclProject-coiProjectType" />
+                <ref bean="CoiDisclProject-coiProjectSponsor" />
+                <ref bean="CoiDisclProject-coiProjectStartDate" />
+                <ref bean="CoiDisclProject-coiProjectEndDate" />
+                <ref bean="CoiDisclProject-coiProjectFundingAmount" />
+                <ref bean="CoiDisclProject-coiProjectRole" />
+                <ref bean="CoiDisclProject-versionNumber" />
+                <ref bean="CoiDisclProject-disclosureFlag" />
+                
+            </list>
+        </property>
+    </bean>
+
+    <!-- Attribute Definitions -->
+    
+    <bean id="CoiDisclProject-coiDisclProjectsId" parent="CoiDisclProject-coiDisclProjectsId-parentBean" />
+    <bean id="CoiDisclProject-coiDisclProjectsId-parentBean" abstract="true" parent="AttributeDefinition" >
+        <property name="name" value="coiDisclProjectsId" />
+        <property name="forceUppercase" value="false" />
+        <property name="label" value="Coi Discl Projects Id" />
+        <property name="shortLabel" value="Coi Discl Projects Id" />
+        <property name="maxLength" value="12" />
+        <property name="validationPattern" >
+            <bean parent="NumericValidationPattern" />
+        </property>
+        <property name="control" >
+            <bean parent="TextControlDefinition"
+                p:size="12" />
+        </property>
+        <property name="summary" value="Coi Discl Projects Id" />
+        <property name="description" value="Coi Discl Projects Id" />
+    </bean>
+
+    <bean id="CoiDisclProject-coiDisclosureId" parent="CoiDisclProject-coiDisclosureId-parentBean" />
+    <bean id="CoiDisclProject-coiDisclosureId-parentBean" abstract="true" parent="AttributeDefinition" >
+        <property name="name" value="coiDisclosureId" />
+        <property name="forceUppercase" value="false" />
+        <property name="label" value="Coi Disclosure Id" />
+        <property name="shortLabel" value="Coi Disclosure Id" />
+        <property name="maxLength" value="12" />
+        <property name="validationPattern" >
+            <bean parent="NumericValidationPattern" />
+        </property>
+        <property name="control" >
+            <bean parent="TextControlDefinition"
+                p:size="12" />
+        </property>
+        <property name="summary" value="Coi Disclosure Id" />
+        <property name="description" value="Coi Disclosure Id" />
+    </bean>
+
+    <bean id="CoiDisclProject-coiDisclosureNumber" parent="CoiDisclProject-coiDisclosureNumber-parentBean" />
+    <bean id="CoiDisclProject-coiDisclosureNumber-parentBean" abstract="true" parent="AttributeDefinition" >
+        <property name="name" value="coiDisclosureNumber" />
+        <property name="forceUppercase" value="false" />
+        <property name="label" value="Coi Disclosure Number" />
+        <property name="shortLabel" value="Coi Disclosure Number" />
+        <property name="maxLength" value="20" />
+        <property name="validationPattern" >
+            <bean parent="AlphaNumericValidationPattern" />
+        </property>
+        <property name="control" >
+            <bean parent="TextControlDefinition"
+                p:size="10" />
+        </property>
+        <property name="summary" value="Coi Disclosure Number" />
+        <property name="description" value="Coi Disclosure Number" />
+    </bean>
+
+    <bean id="CoiDisclProject-sequenceNumber" parent="CoiDisclProject-sequenceNumber-parentBean" />
+    <bean id="CoiDisclProject-sequenceNumber-parentBean" abstract="true" parent="AttributeDefinition" >
+        <property name="name" value="sequenceNumber" />
+        <property name="forceUppercase" value="false" />
+        <property name="label" value="Sequence Number" />
+        <property name="shortLabel" value="Sequence Number" />
+        <property name="maxLength" value="6" />
+        <property name="validationPattern" >
+            <bean parent="NumericValidationPattern" />
+        </property>
+        <property name="control" >
+            <bean parent="TextControlDefinition"
+                p:size="6" />
+        </property>
+        <property name="summary" value="Sequence Number" />
+        <property name="description" value="Sequence Number" />
+    </bean>
+
+    <bean id="CoiDisclProject-coiProjectId" parent="CoiDisclProject-coiProjectId-parentBean" />
+    <bean id="CoiDisclProject-coiProjectId-parentBean" abstract="true" parent="AttributeDefinition" >
+        <property name="name" value="coiProjectId" />
+        <property name="forceUppercase" value="false" />
+        <property name="label" value="Project Id" />
+        <property name="shortLabel" value="Project Id" />
+    	<property name="required" value="true" />
+        <property name="maxLength" value="20" />
+        <property name="validationPattern" >
+            <bean parent="AnyCharacterValidationPattern" p:allowWhitespace="true"/>
+        </property>
+        <property name="control" >
+            <bean parent="TextControlDefinition"
+                p:size="20" />
+        </property>
+        <property name="summary" value="Coi Project Id" />
+        <property name="description" value="Coi Project Id" />
+    </bean>
+
+    <bean id="CoiDisclProject-coiProjectTitle" parent="CoiDisclProject-coiProjectTitle-parentBean" />
+    <bean id="CoiDisclProject-coiProjectTitle-parentBean" abstract="true" parent="AttributeDefinition" >
+        <property name="name" value="coiProjectTitle" />
+        <property name="forceUppercase" value="false" />
+        <property name="label" value="Project Title" />
+        <property name="shortLabel" value="Project Title" />
+    	<property name="required" value="true" />
+        <property name="maxLength" value="200" />
+        <property name="validationPattern" >
+            <bean parent="AnyCharacterValidationPattern" p:allowWhitespace="true"/>
+        </property>
+        <property name="control" >
+            <bean parent="TextControlDefinition"
+                p:size="60" />
+        </property>
+        <property name="summary" value="Coi Project Title" />
+        <property name="description" value="Coi Project Title" />
+    </bean>
+
+    <bean id="CoiDisclProject-coiProjectType" parent="CoiDisclProject-coiProjectType-parentBean" />
+    <bean id="CoiDisclProject-coiProjectType-parentBean" abstract="true" parent="AttributeDefinition" >
+        <property name="name" value="coiProjectType" />
+        <property name="forceUppercase" value="false" />
+        <property name="label" value="Project Type" />
+        <property name="shortLabel" value="Project Type" />
+    	<property name="required" value="true" />
+        <property name="maxLength" value="20" />
+        <property name="validationPattern" >
+            <bean parent="AlphaNumericValidationPattern" />
+        </property>
+    	<property name="control" >
+      		<bean parent="SelectControlDefinition"
+            	p:businessObjectClass="org.kuali.kra.proposaldevelopment.bo.ProposalType"
+            	p:valuesFinderClass="org.kuali.kra.lookup.keyvalue.ExtendedPersistableBusinessObjectValuesFinder"
+            	p:includeKeyInLabel="false"
+            	p:includeBlankRow="false"
+            	p:keyAttribute="proposalTypeCode"
+            	p:labelAttribute="description" />
+    	</property>
+        <property name="summary" value="Coi Project Type" />
+        <property name="description" value="Coi Project Type" />
+    </bean>
+
+    <bean id="CoiDisclProject-coiProjectSponsor" parent="CoiDisclProject-coiProjectSponsor-parentBean" />
+    <bean id="CoiDisclProject-coiProjectSponsor-parentBean" abstract="true" parent="AttributeDefinition" >
+        <property name="name" value="coiProjectSponsor" />
+        <property name="forceUppercase" value="false" />
+        <property name="label" value="Sponsor" />
+        <property name="shortLabel" value="Sponsor" />
+    	<property name="required" value="true" />
+        <property name="maxLength" value="200" />
+        <property name="validationPattern" >
+            <bean parent="AnyCharacterValidationPattern" p:allowWhitespace="true"/>
+        </property>
+        <property name="control" >
+            <bean parent="TextControlDefinition"
+                p:size="60" />
+        </property>
+        <property name="summary" value="Coi Project Sponsor" />
+        <property name="description" value="Coi Project Sponsor" />
+    </bean>
+
+    <bean id="CoiDisclProject-coiProjectStartDate" parent="CoiDisclProject-coiProjectStartDate-parentBean" />
+    <bean id="CoiDisclProject-coiProjectStartDate-parentBean" abstract="true" parent="KraAttributeReferenceDummy-genericDate" >
+        <property name="name" value="coiProjectStartDate" />
+        <property name="label" value="Project Start Date" />
+        <property name="shortLabel" value="Project Start Date" />
+    	<property name="required" value="true" />
+        <property name="summary" value="Coi Project Start Date" />
+        <property name="description" value="Coi Project Start Date" />
+    </bean>
+
+    <bean id="CoiDisclProject-coiProjectEndDate" parent="CoiDisclProject-coiProjectEndDate-parentBean" />
+    <bean id="CoiDisclProject-coiProjectEndDate-parentBean" abstract="true" parent="KraAttributeReferenceDummy-genericDate" >
+        <property name="name" value="coiProjectEndDate" />
+        <property name="label" value="Project End Date" />
+        <property name="shortLabel" value="Project End Date" />
+    	<property name="required" value="true" />
+        <property name="summary" value="Coi Project End Date" />
+        <property name="description" value="Coi Project End Date" />
+    </bean>
+
+    <bean id="CoiDisclProject-coiProjectFundingAmount" parent="CoiDisclProject-coiProjectFundingAmount-parentBean" />
+    <bean id="CoiDisclProject-coiProjectFundingAmount-parentBean" abstract="true" parent="KraAttributeReferenceDummy-genericAmount" >
+        <property name="name" value="coiProjectFundingAmount" />
+        <property name="label" value="Project Funding Amount" />
+        <property name="shortLabel" value="Project Funding Amount" />
+        <property name="summary" value="Coi Project Funding Amount" />
+        <property name="description" value="Coi Project Funding Amount" />
+    </bean>
+
+    <bean id="CoiDisclProject-coiProjectRole" parent="CoiDisclProject-coiProjectRole-parentBean" />
+    <bean id="CoiDisclProject-coiProjectRole-parentBean" abstract="true" parent="AttributeDefinition" >
+        <property name="name" value="coiProjectRole" />
+        <property name="forceUppercase" value="false" />
+        <property name="label" value="Project Role" />
+        <property name="shortLabel" value="Project Role" />
+    	<property name="required" value="true" />
+        <property name="maxLength" value="20" />
+        <property name="validationPattern" >
+            <bean parent="AnyCharacterValidationPattern" p:allowWhitespace="true"/>
+        </property>
+        <property name="control" >
+            <bean parent="TextControlDefinition"
+                p:size="20" />
+        </property>
+        <property name="summary" value="Coi Project Role" />
+        <property name="description" value="Coi Project Role" />
+    </bean>
+    <bean id="CoiDisclProject-disclosureFlag" parent="CoiDisclProject-disclosureFlag-parentBean" />
+    <bean id="CoiDisclProject-disclosureFlag-parentBean" abstract="true" parent="AttributeReferenceDummy-genericBoolean" >
+        <property name="name" value="disclosureFlag" />
+        <property name="label" value="Disclosure" />
+        <property name="shortLabel" value="Disclosure" />
+        <property name="required" value="true" />
+        <property name="summary" value="Disclosure Flag" />
+        <property name="description" value="Disclosure Flag" />
+    </bean>
+
+    <bean id="CoiDisclProject-versionNumber" parent="CoiDisclProject-versionNumber-parentBean" />
+    <bean id="CoiDisclProject-versionNumber-parentBean" abstract="true" parent="AttributeReferenceDummy-versionNumber">
+    </bean>
+
+    <!-- Business Object Inquiry Definition -->
+    <bean id="CoiDisclProject-inquiryDefinition" parent="CoiDisclProject-inquiryDefinition-parentBean" />
+    <bean id="CoiDisclProject-inquiryDefinition-parentBean" abstract="true" parent="InquiryDefinition">
+        <property name="title" value="Coi Discl Projects Id" />
+        <property name="inquirySections" >
+            <list>
+                <bean parent="InquirySectionDefinition">
+                    <property name="title" value="Coi Discl Projects Id" />
+                    <property name="numberOfColumns" value="1" />
+                    <property name="inquiryFields" >
+                        <list>
+                            <bean parent="FieldDefinition"
+                                p:attributeName="coiDisclProjectsId" 
+                                p:forceInquiry="true" />
+                            <bean parent="FieldDefinition"
+                                p:attributeName="coiDisclosureId" />
+                            <bean parent="FieldDefinition"
+                                p:attributeName="coiDisclosureNumber" />
+                            <bean parent="FieldDefinition"
+                                p:attributeName="sequenceNumber" />
+                            <bean parent="FieldDefinition"
+                                p:attributeName="coiProjectId" />
+                            <bean parent="FieldDefinition"
+                                p:attributeName="coiProjectTitle" />
+                            <bean parent="FieldDefinition"
+                                p:attributeName="coiProjectType" />
+                            <bean parent="FieldDefinition"
+                                p:attributeName="coiProjectSponsor" />
+                            <bean parent="FieldDefinition"
+                                p:attributeName="coiProjectStartDate" />
+                            <bean parent="FieldDefinition"
+                                p:attributeName="coiProjectEndDate" />
+                            <bean parent="FieldDefinition"
+                                p:attributeName="coiProjectFundingAmount" />
+                            <bean parent="FieldDefinition"
+                                p:attributeName="coiProjectRole" />
+                        </list>
+                    </property>
+                </bean>
+            </list>
+        </property>
+    </bean>
+
+    <!-- Business Object Lookup Definition -->
+    <bean id="CoiDisclProject-lookupDefinition" parent="CoiDisclProject-lookupDefinition-parentBean" />
+    <bean id="CoiDisclProject-lookupDefinition-parentBean" abstract="true" parent="LookupDefinition">
+        <property name="title" value="Coi Discl Projects Lookup" />
+        <property name="menubar" value="&lt;a href=&quot;index.jsp&quot;&gt;Main&lt;/a&gt;" />
+        <property name="defaultSort" >
+            <bean parent="SortDefinition" >
+        </bean>
+        </property>
+        <property name="lookupFields" >
+            <list>
+                <bean parent="FieldDefinition"
+                    p:attributeName="coiDisclProjectsId" 
+                    p:forceInquiry="true" />
+                <bean parent="FieldDefinition"
+                    p:attributeName="coiDisclosureId" />
+                <bean parent="FieldDefinition"
+                    p:attributeName="coiDisclosureNumber" />
+                <bean parent="FieldDefinition"
+                    p:attributeName="sequenceNumber" />
+                <bean parent="FieldDefinition"
+                    p:attributeName="coiProjectId" />
+                <bean parent="FieldDefinition"
+                    p:attributeName="coiProjectTitle" />
+                <bean parent="FieldDefinition"
+                    p:attributeName="coiProjectType" />
+                <bean parent="FieldDefinition"
+                    p:attributeName="coiProjectSponsor" />
+                <bean parent="FieldDefinition"
+                    p:attributeName="coiProjectStartDate" />
+                <bean parent="FieldDefinition"
+                    p:attributeName="coiProjectEndDate" />
+                <bean parent="FieldDefinition"
+                    p:attributeName="coiProjectFundingAmount" />
+                <bean parent="FieldDefinition"
+                    p:attributeName="coiProjectRole" />
+            </list>
+        </property>
+        <property name="resultFields" >
+            <list>
+                <bean parent="FieldDefinition"
+                    p:attributeName="coiDisclProjectsId" 
+                    p:forceInquiry="true" />
+                <bean parent="FieldDefinition"
+                    p:attributeName="coiDisclosureId" />
+                <bean parent="FieldDefinition"
+                    p:attributeName="coiDisclosureNumber" />
+                <bean parent="FieldDefinition"
+                    p:attributeName="sequenceNumber" />
+                <bean parent="FieldDefinition"
+                    p:attributeName="coiProjectId" />
+                <bean parent="FieldDefinition"
+                    p:attributeName="coiProjectTitle" />
+                <bean parent="FieldDefinition"
+                    p:attributeName="coiProjectType" />
+                <bean parent="FieldDefinition"
+                    p:attributeName="coiProjectSponsor" />
+                <bean parent="FieldDefinition"
+                    p:attributeName="coiProjectStartDate" />
+                <bean parent="FieldDefinition"
+                    p:attributeName="coiProjectEndDate" />
+                <bean parent="FieldDefinition"
+                    p:attributeName="coiProjectFundingAmount" />
+                <bean parent="FieldDefinition"
+                    p:attributeName="coiProjectRole" />
+            </list>
+        </property>
+    </bean>
+</beans>

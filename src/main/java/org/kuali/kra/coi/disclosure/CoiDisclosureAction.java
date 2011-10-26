@@ -22,6 +22,7 @@ import org.apache.struts.action.ActionForm;
 import org.apache.struts.action.ActionForward;
 import org.apache.struts.action.ActionMapping;
 import org.kuali.kra.coi.CoiAction;
+import org.kuali.kra.coi.CoiDisclProject;
 import org.kuali.kra.coi.CoiDisclosure;
 import org.kuali.kra.coi.CoiDisclosureDocument;
 import org.kuali.kra.coi.CoiDisclosureForm;
@@ -138,6 +139,19 @@ public class CoiDisclosureAction extends CoiAction {
         }
         return actionForward;
 
+    }
+
+    public ActionForward addProposal(ActionMapping mapping, ActionForm form, HttpServletRequest request,
+            HttpServletResponse response) throws Exception {
+
+        CoiDisclosureForm coiDisclosureForm = (CoiDisclosureForm) form;
+        DisclosureHelper disclosureHelper = coiDisclosureForm.getDisclosureHelper();
+        if (checkRule(new AddProposalProjectEvent("disclosureHelper.newCoiDisclProject", disclosureHelper.getNewCoiDisclProject()))) {
+            CoiDisclosure coiDisclosure = coiDisclosureForm.getCoiDisclosureDocument().getCoiDisclosure();
+            coiDisclosure.getCoiDisclProjects().add(disclosureHelper.getNewCoiDisclProject());
+            disclosureHelper.setNewCoiDisclProject(new CoiDisclProject(coiDisclosure.getCoiDisclosureNumber(), coiDisclosure.getSequenceNumber()));
+        }
+        return mapping.findForward(Constants.MAPPING_BASIC);
     }
 
 }
