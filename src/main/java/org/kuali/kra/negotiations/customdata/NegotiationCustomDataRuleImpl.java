@@ -23,6 +23,7 @@ import java.util.regex.Pattern;
 
 import org.apache.commons.lang.StringUtils;
 import org.kuali.kra.negotiations.document.NegotiationDocument;
+import org.kuali.kra.award.customdata.AwardCustomData;
 import org.kuali.kra.bo.CustomAttribute;
 import org.kuali.kra.bo.CustomAttributeDataType;
 import org.kuali.kra.bo.CustomAttributeDocument;
@@ -62,7 +63,7 @@ public class NegotiationCustomDataRuleImpl extends ResearchDocumentRuleBase impl
     /**
      * @see org.kuali.kra.negotiations.customdata.NegotiationCustomDataRule#NegotiationSaveCustomDataRuleEventiationCustomDataBusinessRules(org.kuali.kra.negotiation.customdata.NegotiationNegotiationSaveCustomDataRuleEvent)
      */
-    public boolean processSaveNegotiationBusinessRules(NegotiationSaveCustomDataRuleEvent negotiationSaveCustomDataRuleEvent) {
+    public boolean processSaveNegotiationCustomDataBusinessRules(NegotiationSaveCustomDataRuleEvent negotiationSaveCustomDataRuleEvent) {
         NegotiationDocument negotiationDocument = negotiationSaveCustomDataRuleEvent.getNegotiationDocument();
         Map<String, CustomAttributeDocument> customAttributeDocuments = negotiationDocument.getCustomAttributeDocuments();
         boolean valid = true;
@@ -78,14 +79,22 @@ public class NegotiationCustomDataRuleImpl extends ResearchDocumentRuleBase impl
                       customAttribute.setValue(negotiationCustomData.getValue());
                       break;
                   }
-                }
+                }                
             }
             String errorKey = CUSTOMATTRIBUTE_VALUES_ID + customAttribute.getId() + RIGHT_PAREN;
             if (StringUtils.isNotBlank(customAttribute.getValue())) {
                 valid &= validateAttributeFormat(customAttribute, errorKey);
             }
+            if (customAttributeDocument.isRequired())
+            {
+                if (customAttribute.getValue() == null || customAttribute.getValue().equals("") )
+                {
+                    GlobalVariables.getErrorMap().putError(errorKey, RiceKeyConstants.ERROR_REQUIRED, 
+                            customAttribute.getLabel(),customAttribute.getValue(), getValidFormat(customAttribute.getCustomAttributeDataType().getDescription()));
+                     valid = false;
+                }
+            }
         }
-
         return valid;
     }
     
@@ -95,6 +104,8 @@ public class NegotiationCustomDataRuleImpl extends ResearchDocumentRuleBase impl
      * @param customAttribute
      * @param errorKey
      * @return
+     * 
+
      */
     @SuppressWarnings("unchecked")
     private boolean validateAttributeFormat(CustomAttribute customAttribute, String errorKey) {
@@ -139,7 +150,7 @@ public class NegotiationCustomDataRuleImpl extends ResearchDocumentRuleBase impl
                             customAttribute.getLabel(), attributeValue, validFormat);
                      return false;
                 }
-            }
+            } 
             
             // validate BO data against the database contents 
             String lookupClass = customAttribute.getLookupClass();
