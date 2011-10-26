@@ -33,7 +33,6 @@ import org.kuali.kra.irb.actions.ProtocolAction;
 import org.kuali.kra.irb.actions.ProtocolStatus;
 import org.kuali.kra.irb.actions.assignagenda.ProtocolAssignToAgendaService;
 import org.kuali.kra.irb.actions.correspondence.ProtocolActionCorrespondenceGenerationService;
-import org.kuali.kra.irb.actions.notification.ProtocolActionsNotificationService;
 import org.kuali.kra.irb.actions.submit.ProtocolActionService;
 import org.kuali.kra.irb.actions.submit.ProtocolReviewType;
 import org.kuali.kra.irb.actions.submit.ProtocolReviewerBean;
@@ -71,7 +70,6 @@ public class ProtocolWithdrawServiceTest extends KcUnitTestBase {
         service.setProtocolActionService(KraServiceLocator.getService(ProtocolActionService.class));
         service.setProtocolOnlineReviewService(getMockOnlineReviewService());
         service.setBusinessObjectService(getMockBusinessObjectService());
-        service.setProtocolActionsNotificationService(getMockProtocolActionsNotificationService());
         service.setDocumentService(KraServiceLocator.getService(DocumentService.class));
         service.setProtocolVersionService(KraServiceLocator.getService(ProtocolVersionService.class));
         service.setProtocolAssignToAgendaService(getMockProtocolAssignToAgendaService());
@@ -128,15 +126,6 @@ public class ProtocolWithdrawServiceTest extends KcUnitTestBase {
         return service;
     }
     
-    private ProtocolActionsNotificationService getMockProtocolActionsNotificationService() {
-        final ProtocolActionsNotificationService service = context.mock(ProtocolActionsNotificationService.class);
-        
-        context.checking(new Expectations() {{
-            ignoring(service);
-        }});
-        
-        return service;
-    }
     
     private ProtocolAssignToAgendaService getMockProtocolAssignToAgendaService() {
         final ProtocolAssignToAgendaService service = context.mock(ProtocolAssignToAgendaService.class);

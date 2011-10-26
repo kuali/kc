@@ -43,7 +43,6 @@ import org.kuali.kra.irb.ProtocolDocument;
 import org.kuali.kra.irb.actions.ProtocolAction;
 import org.kuali.kra.irb.actions.ProtocolActionType;
 import org.kuali.kra.irb.actions.ProtocolSubmissionDoc;
-import org.kuali.kra.irb.actions.notification.ProtocolActionsNotificationService;
 import org.kuali.kra.irb.actions.request.MockFormFile;
 import org.kuali.kra.irb.actions.submit.ProtocolActionService;
 import org.kuali.kra.irb.actions.submit.ProtocolReviewType;
@@ -233,15 +232,6 @@ public class ProtocolNotifyIrbServiceTest extends KcUnitTestBase {
         return service;
     }
     
-    private ProtocolActionsNotificationService getMockProtocolActionsNotificationService() {
-        final ProtocolActionsNotificationService service = context.mock(ProtocolActionsNotificationService.class);
-        
-        context.checking(new Expectations() {{
-            ignoring(service);
-        }});
-        
-        return service;
-    }
     
     private ProtocolNotifyIrbBean getMockProtocolNotifyIrbBean(final String committeeId, final ProtocolActionAttachment... attachments) {
         final ProtocolNotifyIrbBean bean = context.mock(ProtocolNotifyIrbBean.class);

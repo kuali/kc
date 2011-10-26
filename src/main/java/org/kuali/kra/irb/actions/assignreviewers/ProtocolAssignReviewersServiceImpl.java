@@ -22,7 +22,6 @@ import org.apache.commons.lang.StringUtils;
 import org.kuali.kra.infrastructure.Constants;
 import org.kuali.kra.irb.ProtocolOnlineReviewDocument;
 import org.kuali.kra.irb.actions.notification.AssignReviewerEvent;
-import org.kuali.kra.irb.actions.notification.ProtocolActionsNotificationService;
 import org.kuali.kra.irb.actions.submit.ProtocolReviewer;
 import org.kuali.kra.irb.actions.submit.ProtocolReviewerBean;
 import org.kuali.kra.irb.actions.submit.ProtocolSubmission;
@@ -38,7 +37,6 @@ public class ProtocolAssignReviewersServiceImpl implements ProtocolAssignReviewe
     
     private BusinessObjectService businessObjectService;
     private ProtocolOnlineReviewService protocolOnlineReviewService;
-    private ProtocolActionsNotificationService protocolActionsNotificationService;
 
     /**
      * {@inheritDoc}
@@ -46,14 +44,12 @@ public class ProtocolAssignReviewersServiceImpl implements ProtocolAssignReviewe
      *      java.util.List)
      */
     public void assignReviewers(ProtocolSubmission protocolSubmission, List<ProtocolReviewerBean> protocolReviewerBeans) throws Exception  {
-        boolean sendNotification = false;
         if (protocolSubmission != null) {
             for (ProtocolReviewerBean bean : protocolReviewerBeans) {
                 if (StringUtils.isNotBlank(bean.getReviewerTypeCode())) {
                     if (!protocolOnlineReviewService.isProtocolReviewer(bean.getPersonId(), bean.getNonEmployeeFlag(), protocolSubmission)) {
                         
                         createReviewer(protocolSubmission, bean);
-                        sendNotification = true;
                     } else {
                         updateReviewer(protocolSubmission, bean);
                     }
@@ -134,8 +130,5 @@ public class ProtocolAssignReviewersServiceImpl implements ProtocolAssignReviewe
         this.protocolOnlineReviewService = protocolOnlineReviewService;
     }
 
-    public void setProtocolActionsNotificationService(ProtocolActionsNotificationService protocolActionsNotificationService) {
-        this.protocolActionsNotificationService = protocolActionsNotificationService;
-    }
     
 }
