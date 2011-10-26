@@ -63,7 +63,7 @@ public class NegotiationSaveCustomDataRuleEvent extends KraDocumentEventBase {
      * @see org.kuali.rice.kns.rule.event.KualiDocumentEvent#invokeRuleMethod(org.kuali.rice.kns.rule.BusinessRule)
      */
     public boolean invokeRuleMethod(BusinessRule rule) {
-        return ((NegotiationCustomDataRule) rule).processSaveNegotiationBusinessRules(this);
+        return ((NegotiationCustomDataRule) rule).processSaveNegotiationCustomDataBusinessRules(this);
     }
 
 }
