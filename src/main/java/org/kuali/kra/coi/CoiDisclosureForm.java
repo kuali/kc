@@ -19,7 +19,6 @@ import java.util.Map;
 
 import org.kuali.kra.authorization.KraAuthorizationConstants;
 import org.kuali.kra.coi.disclosure.DisclosureHelper;
-import org.kuali.kra.coi.personfinancialentity.FinancialEntityHelper;
 import org.kuali.kra.web.struts.form.Auditable;
 import org.kuali.kra.web.struts.form.KraTransactionalDocumentFormBase;
 
@@ -77,4 +76,7 @@ public class CoiDisclosureForm extends KraTransactionalDocumentFormBase implemen
         this.disclosureHelper = disclosureHelper;
     }
 
+    public CoiDisclosureDocument getCoiDisclosureDocument() {
+        return (CoiDisclosureDocument)this.getDocument();
+    }
 }

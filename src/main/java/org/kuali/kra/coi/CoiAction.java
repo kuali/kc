@@ -22,13 +22,10 @@ import org.apache.struts.action.ActionForm;
 import org.apache.struts.action.ActionForward;
 import org.apache.struts.action.ActionMapping;
 import org.kuali.kra.infrastructure.Constants;
-import org.kuali.kra.infrastructure.TaskName;
-import org.kuali.kra.irb.ProtocolForm;
-import org.kuali.kra.irb.auth.ProtocolTask;
 import org.kuali.kra.web.struts.action.AuditActionHelper;
 import org.kuali.kra.web.struts.action.KraTransactionalDocumentActionBase;
+import org.kuali.rice.kew.util.KEWConstants;
 import org.kuali.rice.kns.util.GlobalVariables;
-import org.kuali.rice.kns.util.KNSConstants;
 
 public abstract class CoiAction extends KraTransactionalDocumentActionBase {
     @Override
@@ -59,6 +56,27 @@ public abstract class CoiAction extends KraTransactionalDocumentActionBase {
     }
     public ActionForward disclosureActions(ActionMapping mapping, ActionForm form, HttpServletRequest request, HttpServletResponse response) {
         return mapping.findForward("disclosureActions");
+    }
+
+    @Override
+    public ActionForward docHandler(ActionMapping mapping, ActionForm form, HttpServletRequest request, HttpServletResponse response)
+            throws Exception {
+        CoiDisclosureForm coiDisclosureForm = (CoiDisclosureForm) form;
+        String command = coiDisclosureForm.getCommand();
+        ActionForward forward = mapping.findForward(Constants.MAPPING_BASIC);
+        String moduleCode = "13"; 
+        if (command.startsWith(KEWConstants.INITIATE_COMMAND)) {
+            if (command.endsWith("_M")) {
+                moduleCode = "11";
+            }
+            coiDisclosureForm.setCommand(KEWConstants.INITIATE_COMMAND);
+            forward = super.docHandler(mapping, form, request, response);
+            coiDisclosureForm.getCoiDisclosureDocument().getCoiDisclosure().setModuleCode(moduleCode);
+        } else {
+            forward = super.docHandler(mapping, form, request, response);            
+        }
+
+        return forward;
     }
 
 //    @Override
