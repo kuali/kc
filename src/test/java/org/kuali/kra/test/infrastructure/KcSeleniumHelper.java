@@ -1346,14 +1346,14 @@ public abstract class KcSeleniumHelper {
     public final String getTableCellValue(final String id, final int row, final int column) {
         String rowString = String.valueOf(row + 1);
         String columnString = String.valueOf(column + 1);
-
+        
         final String locator = "//table[@id='" + id + "']/tbody/tr[" + rowString + "]/td[" + columnString + "]";
         
         return new ElementExistsWaiter("Cell value for table with id " + id + " at row " + rowString + " and column " + columnString + " not found").until(
             new Function<WebDriver, String>() {
                 public String apply(WebDriver driver) {
                     WebElement cell = getElementByXPath(locator);
-                    return cell != null ? StringUtils.stripToEmpty(cell.getText()) : Constants.EMPTY_STRING;
+                    return cell == null ? Constants.EMPTY_STRING : normalize(cell.getText());
                 }
             }
         );
@@ -2157,6 +2157,16 @@ public abstract class KcSeleniumHelper {
                 }
             }
         );
+    }
+    
+    /**
+     * Returns a string that strips all multiple whitespaces out of the given {@code str) and replaces them with a single whitespace.
+     * 
+     * @param str the string to normalize
+     * @return the normalized string
+     */
+    private String normalize(String str) {
+        return (str == null) ? Constants.EMPTY_STRING : str.replaceAll("\\s+", " ");
     }
     
     /**
