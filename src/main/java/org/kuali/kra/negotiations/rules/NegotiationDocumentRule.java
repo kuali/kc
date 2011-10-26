@@ -16,12 +16,16 @@
 package org.kuali.kra.negotiations.rules;
 
 import org.apache.commons.lang.StringUtils;
+import org.kuali.kra.award.customdata.AwardCustomDataRuleImpl;
+import org.kuali.kra.award.customdata.AwardSaveCustomDataRuleEvent;
 import org.kuali.kra.infrastructure.KeyConstants;
 import org.kuali.kra.infrastructure.KraServiceLocator;
 import org.kuali.kra.negotiations.bo.Negotiation;
 import org.kuali.kra.negotiations.bo.NegotiationActivity;
 import org.kuali.kra.negotiations.bo.NegotiationActivityAttachment;
 import org.kuali.kra.negotiations.bo.NegotiationAssociationType;
+import org.kuali.kra.negotiations.customdata.NegotiationCustomDataRuleImpl;
+import org.kuali.kra.negotiations.customdata.NegotiationSaveCustomDataRuleEvent;
 import org.kuali.kra.negotiations.document.NegotiationDocument;
 import org.kuali.kra.negotiations.service.NegotiationService;
 import org.kuali.kra.rules.ResearchDocumentRuleBase;
@@ -71,8 +75,13 @@ public class NegotiationDocumentRule extends ResearchDocumentRuleBase {
         result &= validateEndDate(negotiation);
         result &= validateNegotiator(negotiation);
         result &= validateNegotiationAssociations(negotiation);
-        result &= validateNegotiationActivities(negotiation);
+        result &= validateNegotiationActivities(negotiation); 
         
+        String errorPath = "negotiationCustomData";
+        NegotiationSaveCustomDataRuleEvent event = new NegotiationSaveCustomDataRuleEvent(errorPath, 
+                                                               negotiationDocument);
+        result &= new NegotiationCustomDataRuleImpl().processSaveNegotiationCustomDataBusinessRules(event);
+           
         GlobalVariables.getMessageMap().removeFromErrorPath(NEGOTIATION_ERROR_PATH);
         
         return result;
