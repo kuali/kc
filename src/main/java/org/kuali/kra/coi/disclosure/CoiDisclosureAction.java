@@ -18,6 +18,7 @@ package org.kuali.kra.coi.disclosure;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 
+import org.apache.commons.lang.StringUtils;
 import org.apache.struts.action.ActionForm;
 import org.apache.struts.action.ActionForward;
 import org.apache.struts.action.ActionMapping;
@@ -111,6 +112,12 @@ public class CoiDisclosureAction extends CoiAction {
             getCoiDisclosureService().updateDisclosureDetails(coiDisclosure);
         }
         
+        // TODO : for manual proposal project
+        if (StringUtils.equals("11", coiDisclosure.getModuleCode()) && !CollectionUtils.isEmpty(coiDisclosure.getCoiDisclProjects())) {
+            for (CoiDisclProject coiDisclProject : coiDisclosure.getCoiDisclProjects()) {
+                getCoiDisclosureService().updateDisclosureDetails(coiDisclProject);
+            }
+        }
     }
     
     public ActionForward newFinancialEntity(ActionMapping mapping, ActionForm form, HttpServletRequest request, HttpServletResponse response)
@@ -146,8 +153,11 @@ public class CoiDisclosureAction extends CoiAction {
 
         CoiDisclosureForm coiDisclosureForm = (CoiDisclosureForm) form;
         DisclosureHelper disclosureHelper = coiDisclosureForm.getDisclosureHelper();
+        CoiDisclosure coiDisclosure = coiDisclosureForm.getCoiDisclosureDocument().getCoiDisclosure();
+        disclosureHelper.getNewCoiDisclProject().setCoiDisclosure(coiDisclosure);
+        disclosureHelper.getNewCoiDisclProject().setCoiDisclosureNumber(coiDisclosure.getCoiDisclosureNumber());
         if (checkRule(new AddProposalProjectEvent("disclosureHelper.newCoiDisclProject", disclosureHelper.getNewCoiDisclProject()))) {
-            CoiDisclosure coiDisclosure = coiDisclosureForm.getCoiDisclosureDocument().getCoiDisclosure();
+            getCoiDisclosureService().initializeDisclosureDetails(disclosureHelper.getNewCoiDisclProject());
             coiDisclosure.getCoiDisclProjects().add(disclosureHelper.getNewCoiDisclProject());
             disclosureHelper.setNewCoiDisclProject(new CoiDisclProject(coiDisclosure.getCoiDisclosureNumber(), coiDisclosure.getSequenceNumber()));
         }

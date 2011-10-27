@@ -24,17 +24,16 @@ import org.apache.commons.collections.CollectionUtils;
 import org.apache.commons.lang.StringUtils;
 import org.kuali.kra.bo.KcPerson;
 import org.kuali.kra.coi.CoiDiscDetail;
+import org.kuali.kra.coi.CoiDisclProject;
 import org.kuali.kra.coi.CoiDisclosure;
 import org.kuali.kra.coi.DisclosureReporter;
 import org.kuali.kra.coi.DisclosureReporterUnit;
 import org.kuali.kra.coi.personfinancialentity.FinancialEntityService;
 import org.kuali.kra.coi.personfinancialentity.PersonFinIntDisclosure;
-import org.kuali.kra.infrastructure.KraServiceLocator;
 import org.kuali.kra.irb.Protocol;
 import org.kuali.kra.irb.personnel.ProtocolPerson;
 import org.kuali.kra.service.KcPersonService;
 import org.kuali.rice.kns.service.BusinessObjectService;
-import org.kuali.rice.kns.service.SequenceAccessorService;
 import org.kuali.rice.kns.util.GlobalVariables;
 
 public class CoiDisclosureServiceImpl implements CoiDisclosureService {
@@ -154,6 +153,20 @@ public class CoiDisclosureServiceImpl implements CoiDisclosureService {
         
     }
     
+    
+    public void initializeDisclosureDetails(CoiDisclProject coiDisclProject) {
+        // When creating a disclosure. the detail will be created at first
+        List<CoiDiscDetail> disclosureDetails = new ArrayList<CoiDiscDetail>();
+        List<PersonFinIntDisclosure> financialEntities = financialEntityService.getFinancialEntities(GlobalVariables
+                .getUserSession().getPrincipalId(), true);
+        for (PersonFinIntDisclosure personFinIntDisclosure : financialEntities) {
+            disclosureDetails.add(createNewCoiDiscDetail(coiDisclProject.getCoiDisclosure(), personFinIntDisclosure, coiDisclProject.getCoiProjectId()));
+        }
+        coiDisclProject.setCoiDiscDetails(disclosureDetails);
+
+    }
+    
+    
     public void updateDisclosureDetails(CoiDisclosure coiDisclosure) {
         // When creating a disclosure. the detail will be created at first
         // TODO : what if FE is deactivate
@@ -191,11 +204,58 @@ public class CoiDisclosureServiceImpl implements CoiDisclosureService {
         }
     }
 
+    public void updateDisclosureDetails(CoiDisclProject coiDisclProject) {
+        // When creating a disclosure. the detail will be created at first
+        // TODO : what if FE is deactivate
+        Map <String, Object> fieldValues = new HashMap<String, Object>();
+        fieldValues.put("coiDisclosureId", coiDisclProject.getCoiDisclosureId());
+        fieldValues.put("moduleCode", "11");
+        fieldValues.put("moduleItemKey", coiDisclProject.getCoiProjectId());
+
+        coiDisclProject.setCoiDiscDetails((List<CoiDiscDetail>) businessObjectService.findMatching(CoiDiscDetail.class, fieldValues));
+
+        List<CoiDiscDetail> disclosureDetails = new ArrayList<CoiDiscDetail>();
+        List<PersonFinIntDisclosure> financialEntities = financialEntityService.getFinancialEntities(GlobalVariables
+                .getUserSession().getPrincipalId(), true);
+        List<String> moduleItemKeys = new ArrayList<String>();
+        for (PersonFinIntDisclosure personFinIntDisclosure : financialEntities) {
+            boolean isNewFinancialEntity = true;
+            for (CoiDiscDetail coiDiscDetail : coiDisclProject.getCoiDiscDetails()) {
+                if (StringUtils.equals(personFinIntDisclosure.getEntityNumber(), coiDiscDetail.getEntityNumber())) {
+                    isNewFinancialEntity = false;
+                    if (!personFinIntDisclosure.getSequenceNumber().equals(coiDiscDetail.getEntitySequenceNumber())) {
+                        coiDiscDetail.setEntitySequenceNumber(personFinIntDisclosure.getSequenceNumber());
+                        coiDiscDetail.setPersonFinIntDisclosureId(personFinIntDisclosure.getPersonFinIntDisclosureId());
+                        coiDiscDetail.refreshReferenceObject("personFinIntDisclosure");
+                    }
+                }
+
+            }
+            if (isNewFinancialEntity) {
+                // TODO : if this method is what we need, then check moduleitemkey alone is ot enough
+                // may also need to check event type, which will be added later to db schema
+                for (CoiDiscDetail coiDiscDetail : coiDisclProject.getCoiDiscDetails()) {
+                    if (!moduleItemKeys.contains(coiDiscDetail.getModuleItemKey())) {
+                        moduleItemKeys.add(coiDiscDetail.getModuleItemKey());
+                        disclosureDetails.add(createNewCoiDiscDetail(coiDisclProject.getCoiDisclosure(), personFinIntDisclosure,
+                            coiDiscDetail.getModuleItemKey()));
+                    }
+                }
+            }
+        }
+        if (CollectionUtils.isNotEmpty(disclosureDetails)) {
+            coiDisclProject.getCoiDiscDetails().addAll(disclosureDetails);
+        }
+        if (CollectionUtils.isEmpty(coiDisclProject.getCoiDiscDetails())) {
+            initializeDisclosureDetails(coiDisclProject);
+        }
+    }
+
     private CoiDiscDetail createNewCoiDiscDetail(CoiDisclosure coiDisclosure,PersonFinIntDisclosure personFinIntDisclosure, String moduleItemKey) {
         CoiDiscDetail disclosureDetail = new CoiDiscDetail(personFinIntDisclosure);
         disclosureDetail.setModuleItemKey(moduleItemKey);
         // TODO : this is how coeus set. not sure ?
-        disclosureDetail.setModuleCode(13);
+        disclosureDetail.setModuleCode(coiDisclosure.getModuleCode());
         coiDisclosure.initCoiDisclosureNumber();
         disclosureDetail.setCoiDisclosureNumber(coiDisclosure.getCoiDisclosureNumber());
         disclosureDetail.setSequenceNumber(coiDisclosure.getSequenceNumber());

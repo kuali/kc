@@ -17,6 +17,7 @@ package org.kuali.kra.coi;
 
 import java.sql.Date;
 import java.util.LinkedHashMap;
+import java.util.List;
 
 import org.kuali.kra.bo.KraPersistableBusinessObjectBase;
 import org.kuali.kra.proposaldevelopment.bo.ProposalType;
@@ -42,7 +43,9 @@ public class CoiDisclProject extends KraPersistableBusinessObjectBase {
     private ProposalType proposalType;
     
     private CoiDisclosure coiDisclosure; 
-    
+    // for UI purposes
+    private List<CoiDiscDetail> coiDiscDetails; 
+
     public CoiDisclProject(String coiDisclosureNumber, Integer sequenceNumber) { 
         this.coiDisclosureNumber = coiDisclosureNumber;
         this.sequenceNumber = sequenceNumber;
@@ -187,6 +190,12 @@ public class CoiDisclProject extends KraPersistableBusinessObjectBase {
     }
     public void setDisclosureFlag(boolean disclosureFlag) {
         this.disclosureFlag = disclosureFlag;
+    }
+    public List<CoiDiscDetail> getCoiDiscDetails() {
+        return coiDiscDetails;
+    }
+    public void setCoiDiscDetails(List<CoiDiscDetail> coiDiscDetails) {
+        this.coiDiscDetails = coiDiscDetails;
     }
     
 }
