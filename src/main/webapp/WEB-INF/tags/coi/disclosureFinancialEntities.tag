@@ -25,7 +25,7 @@
     		<span class="subhead-right"><kul:help businessObjectClassName="org.kuali.kra.coi.CoiDiscDetail" altText="help"/></span>
         </h3>
         
-        <table id="location-table" cellpadding="0" cellspacing="0" summary="">
+        <table id="disclosurefe-table" cellpadding="0" cellspacing="0" summary="">
           	<%-- Header --%>
           	<tr>
           		<kul:htmlAttributeHeaderCell literalLabel="&nbsp;" scope="col" /> 
@@ -40,6 +40,7 @@
           	
              <%-- New data --%>
         	<%-- <kra:permission value="${KualiForm.protocolHelper.modifyOrganizations}"> --%>
+<c:set var="coiDiscDetailAttributes" value="${DataDictionary.CoiDiscDetail.attributes}" />
 	             <tr>
 					<th class="infoline">
 						&nbsp;

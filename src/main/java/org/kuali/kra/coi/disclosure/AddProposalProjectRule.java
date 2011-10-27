@@ -15,10 +15,13 @@
  */
 package org.kuali.kra.coi.disclosure;
 
+import java.util.HashMap;
+import java.util.Map;
+
+import org.apache.commons.lang.StringUtils;
 import org.kuali.kra.coi.CoiDisclProject;
 import org.kuali.kra.infrastructure.KeyConstants;
 import org.kuali.kra.infrastructure.KraServiceLocator;
-import org.kuali.kra.proposaldevelopment.bo.DevelopmentProposal;
 import org.kuali.kra.rule.BusinessRuleInterface;
 import org.kuali.kra.rules.ResearchDocumentRuleBase;
 import org.kuali.rice.kns.service.DataDictionaryService;
@@ -52,7 +55,27 @@ public class AddProposalProjectRule extends ResearchDocumentRuleBase implements 
             }
         }
 
-    
+        if (StringUtils.isNotBlank(coiDisclProject.getCoiProjectId())) {
+            Map <String, Object> fieldValues = new HashMap<String, Object>();
+            fieldValues.put("coiDisclosureNumber", coiDisclProject.getCoiDisclosureNumber());
+            fieldValues.put("sequenceNumber", coiDisclProject.getSequenceNumber());
+            fieldValues.put("coiProjectId", coiDisclProject.getCoiProjectId());
+
+            if (getBusinessObjectService().countMatching(CoiDisclProject.class, fieldValues) > 0) {
+                valid = false;
+                GlobalVariables.getMessageMap().putError("coiProjectId", KeyConstants.ERROR_COI_DUPLICATE_PROJECT_ID);
+                
+            } else {
+                for (CoiDisclProject disclProject : coiDisclProject.getCoiDisclosure().getCoiDisclProjects()) {
+                    if (StringUtils.equals(disclProject.getCoiProjectId(), coiDisclProject.getCoiProjectId())) {
+                        valid = false;
+                        GlobalVariables.getMessageMap().putError("coiProjectId", KeyConstants.ERROR_COI_DUPLICATE_PROJECT_ID);
+                        break;                        
+                    }
+                }
+            }
+            
+        }
         return valid;
     }
 }
