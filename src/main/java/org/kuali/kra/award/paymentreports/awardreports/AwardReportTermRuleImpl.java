@@ -67,7 +67,6 @@ public class AwardReportTermRuleImpl extends ResearchDocumentRuleBase
      * @return
      */
     public boolean processAddAwardReportTermBusinessRules(AddAwardReportTermRuleEvent event) {
-        System.err.println("processAddAwardReportTermBusinessRules!!!!!!!!!!!!");
         return validatePI(event.getAward()) && validateRequiredFields(event.getAwardReportTermItemForValidation(), "") 
             && processCommonValidations(event);        
     }
@@ -75,8 +74,8 @@ public class AwardReportTermRuleImpl extends ResearchDocumentRuleBase
     private boolean validatePI(Award award) {
         boolean retVal = true;
         if (award.getPrincipalInvestigator() == null) {
-            retVal = false;
-            reportError(AWARD_REPORT_TERM_REPORT_CODE_PROPERTY, KeyConstants.ERROR_AWARD_REPORT_TERM_ITEM_NO_PI, "");
+            //retVal = false;
+            reportWarning(AWARD_REPORT_TERM_REPORT_CODE_PROPERTY, KeyConstants.ERROR_AWARD_REPORT_TERM_ITEM_NO_PI, "");
         }
         return retVal;
     }

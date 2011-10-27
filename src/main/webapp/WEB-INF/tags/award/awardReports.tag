@@ -45,10 +45,6 @@
 			<c:if test="${(!readOnly)}">
 				<kra-a:awardSyncButton scopeNames="REPORTS_TAB" tabKey="${tabKey}" />
 			</c:if>
-			<c:if test="${KualiForm.displayRegenerateButton }">
-				<html:image property="methodToCall.regenerateReports"
-		src='${ConfigProperties.kra.externalizable.images.url}tinybutton-generate-schedule.gif' styleClass="tinybutton"/>
-			</c:if>
 		</div>
 	</div>
 

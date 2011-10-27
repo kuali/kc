@@ -54,6 +54,7 @@ import org.kuali.kra.award.notesandattachments.notes.AwardNotepadBean;
 import org.kuali.kra.award.paymentreports.ReportClass;
 import org.kuali.kra.award.paymentreports.awardreports.AwardReportsBean;
 import org.kuali.kra.award.paymentreports.awardreports.reporting.AwardReportingBean;
+import org.kuali.kra.award.paymentreports.awardreports.reporting.ReportTracking;
 import org.kuali.kra.award.paymentreports.awardreports.reporting.service.ReportTrackingService;
 import org.kuali.kra.award.paymentreports.closeout.AwardCloseoutBean;
 import org.kuali.kra.award.paymentreports.paymentschedule.PaymentScheduleBean;
@@ -188,6 +189,8 @@ public class AwardForm extends BudgetVersionFormBase
     private List<List<BudgetDecimal>>  personnelBudgetLimits = new ArrayList<List<BudgetDecimal>>();
     private List<List<BudgetDecimal>>  nonPersonnelBudgetLimits = new ArrayList<List<BudgetDecimal>>();
     private List<List<BudgetDecimal>>  totalBudgetLimits = new ArrayList<List<BudgetDecimal>>();
+    
+    private List<ReportTracking> reportTrackingsToDelete = new ArrayList<ReportTracking>();
     
     private boolean viewFundingSource;
 
@@ -1445,5 +1448,13 @@ public class AwardForm extends BudgetVersionFormBase
     
     public void setAwardHierarchyUIService(AwardHierarchyUIService awardHierarchyUIService) {
         this.awardHierarchyUIService = awardHierarchyUIService;
+    }
+
+    public List<ReportTracking> getReportTrackingsToDelete() {
+        return reportTrackingsToDelete;
+    }
+
+    public void setReportTrackingsToDelete(List<ReportTracking> reportTrackingsToDelete) {
+        this.reportTrackingsToDelete = reportTrackingsToDelete;
     }
 }
