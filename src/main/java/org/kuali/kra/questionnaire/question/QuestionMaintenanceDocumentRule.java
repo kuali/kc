@@ -208,7 +208,7 @@ public class QuestionMaintenanceDocumentRule extends MaintenanceDocumentRuleBase
         boolean isValid = true;
 
         isValid &= validateDisplayedAnswers(question);
-        isValid &= validateAnswerMaxLength(question);
+        isValid &= validateAnswerMaxLengthWithCeiling(question);
         isValid &= validateMaxAnswers(question);
         
         return isValid;
@@ -237,7 +237,7 @@ public class QuestionMaintenanceDocumentRule extends MaintenanceDocumentRuleBase
         boolean isValid = true;
 
         isValid &= validateDisplayedAnswers(question);
-        isValid &= validateAnswerMaxLength(question);
+        isValid &= validateAnswerMaxLengthWithCeiling(question);
         isValid &= validateMaxAnswers(question);
         
         return isValid;
@@ -292,7 +292,22 @@ public class QuestionMaintenanceDocumentRule extends MaintenanceDocumentRuleBase
             return false;
         }
     }
+    
+    public boolean validateAnswerMaxLengthWithCeiling(Question question) {
+        if (validateAnswerMaxLength(question)) {
+            if (question.getAnswerMaxLength() != null && question.getAnswerMaxLength() <= 2000) {
+                return true;
+            } else {
+                GlobalVariables.getErrorMap().putError(Constants.QUESTION_DOCUMENT_FIELD_ANSWER_MAX_LENGTH,
+                        KeyConstants.ERROR_QUESTION_ANSWER_MAX_LENGTH_VALUE_TOO_LARGE);                
+                return false;
+            }
+        } else {
+            return false;
+        }
+    }
 
+    
     /**
      * This method validates the maxAnswers field.  The field must contain a number greater than zero.
      * @param question - the question to be validated
