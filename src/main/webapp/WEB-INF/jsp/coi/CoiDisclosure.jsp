@@ -31,6 +31,37 @@
         			'autoScale':'false'
         			            		
         		});
+        		
+	             $j("input[class^=selectDisclClass]").click(function() {
+		            var idx= $j(this).attr("class").substring(16);
+		            if ($j(this).is(":checked"))
+		            {
+			            //show the hidden div
+			            $j("#div_FinancialEntity"+idx).show("fast");
+		            }
+		            else
+		            {
+			            //otherwise, hide it
+			            $j("#div_FinancialEntity"+idx).hide("fast");
+		            }
+				 
+                 });
+	             $j("input[class^=selectDisclClass]").each(function() {
+		            var idx= $j(this).attr("class").substring(16);
+		            if ($j(this).is(":checked"))
+		            {
+			            //show the hidden div
+			            $j("#div_FinancialEntity"+idx).show("fast");
+		            }
+		            else
+		            {
+			            //otherwise, hide it
+			            $j("#div_FinancialEntity"+idx).hide("fast");
+		            }
+				 
+                 });
+                 
+        		
         	})
         </script>
  

@@ -31,7 +31,7 @@ public class CoiDiscDetail extends KraPersistableBusinessObjectBase {
     private String coiDisclosureNumber; 
     private Integer sequenceNumber; 
     private Integer coiDiscDetailNumber; 
-    private Integer moduleCode; 
+    private String moduleCode; 
     private String moduleItemKey; 
     // TODO : since the synthetic key 'personFinIntDisclosureId' is added.  ok to remove entitynumber/entitysequence ?
     private String entityNumber; 
@@ -99,11 +99,11 @@ public class CoiDiscDetail extends KraPersistableBusinessObjectBase {
         this.coiDiscDetailNumber = coiDiscDetailNumber;
     }
 
-    public Integer getModuleCode() {
+    public String getModuleCode() {
         return moduleCode;
     }
 
-    public void setModuleCode(Integer moduleCode) {
+    public void setModuleCode(String moduleCode) {
         this.moduleCode = moduleCode;
     }
 
