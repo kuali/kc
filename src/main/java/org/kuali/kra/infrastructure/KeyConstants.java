@@ -828,6 +828,7 @@ public final class KeyConstants {
     public static final String ERROR_QUESTION_DISPLAYED_ANSWERS_INVALID_BOXES = "error.question.displayed.answers.invalid.boxes";
     public static final String ERROR_QUESTION_DISPLAYED_ANSWERS_INVALID_AREAS = "error.question.displayed.answers.invalid.areas";
     public static final String ERROR_QUESTION_ANSWER_MAX_LENGTH_INVALID = "error.question.answer.max.length.invalid";
+    public static final String ERROR_QUESTION_ANSWER_MAX_LENGTH_VALUE_TOO_LARGE = "error.question.answer.max.length.value.too.large";
     public static final String ERROR_QUESTION_MAX_ANSWERS_INVALID_ANSWERS_BOXES = "error.question.max.answers.invalid.answers.boxes";
     public static final String ERROR_QUESTION_MAX_ANSWERS_INVALID_ANSWERS_AREAS = "error.question.max.answers.invalid.answers.areas";
     public static final String ERROR_QUESTION_MAX_ANSWERS_INVALID_RETURNS = "error.question.max.answers.invalid.returns";
