@@ -39,6 +39,7 @@ import org.kuali.kra.award.home.Award;
 import org.kuali.kra.award.home.AwardSponsorTerm;
 import org.kuali.kra.award.paymentreports.awardreports.AwardReportTerm;
 import org.kuali.kra.award.paymentreports.awardreports.AwardReportTermRecipient;
+import org.kuali.kra.award.paymentreports.awardreports.reporting.ReportTracking;
 import org.kuali.kra.award.paymentreports.closeout.AwardCloseoutService;
 import org.kuali.kra.bo.SponsorTerm;
 import org.kuali.kra.infrastructure.Constants;
@@ -334,11 +335,14 @@ public class AwardPaymentReportsAndTermsAction extends AwardAction {
      */
     public ActionForward deleteAwardReportTerm(ActionMapping mapping, ActionForm form,
             HttpServletRequest request, HttpServletResponse response) throws Exception {
-        
+        AwardForm awardForm =(AwardForm) form;
         AwardReportTerm newReport = 
-            (((AwardForm) form).getAwardReportsBean()).deleteAwardReportTermItem(getLineToDelete(request));
-        return this.confirmSyncAction(mapping, form, request, response, AwardSyncType.DELETE_SYNC, newReport, 
+            (awardForm.getAwardReportsBean()).deleteAwardReportTermItem(getLineToDelete(request));
+        ActionForward af = this.confirmSyncAction(mapping, form, request, response, AwardSyncType.DELETE_SYNC, newReport, 
                 AWARD_REPORT_TERM_PROPERTY, null, mapping.findForward(Constants.MAPPING_AWARD_BASIC));
+        List<ReportTracking> reportTrackings = this.getReportTrackingService().getReportTacking(newReport);
+        awardForm.getReportTrackingsToDelete().addAll(reportTrackings);
+        return af;
     }
     
     /**
@@ -626,11 +630,17 @@ public class AwardPaymentReportsAndTermsAction extends AwardAction {
      */
     @Override
     public ActionForward save(ActionMapping mapping, ActionForm form, HttpServletRequest request, HttpServletResponse response) throws Exception {
-        AwardDocument awardDocument = ((AwardForm) form).getAwardDocument();
+        AwardForm awardForm = (AwardForm) form;
+        AwardDocument awardDocument = awardForm.getAwardDocument();
         getAwardCloseoutService().updateCloseoutDueDatesBeforeSave(awardDocument.getAward());
-        if(new AwardDocumentRule().processAwardReportTermBusinessRules(awardDocument)){
-            return super.save(mapping, form, request, response);
-        }else{
+        if (new AwardDocumentRule().processAwardReportTermBusinessRules(awardDocument)) {
+            ActionForward forward = super.save(mapping, form, request, response);
+            if (!awardForm.getReportTrackingsToDelete().isEmpty()) {
+                this.getBusinessObjectService().delete(awardForm.getReportTrackingsToDelete());
+                awardForm.setReportTrackingsToDelete(new ArrayList<ReportTracking>());
+            }
+            return forward;
+        } else {
             return mapping.findForward(Constants.MAPPING_AWARD_BASIC);
         }
     }
