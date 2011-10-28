@@ -118,7 +118,7 @@
 											style="border: medium none; width: 30px; text-align: center;"><input
 											type="image" alt="add" style="border: medium none;"
 											src="${ConfigProperties.kr.externalizable.images.url}tinybutton-add1.gif"
-											name="addquestionnaire" id="addQn${qidx}"  onClick="clickAdd(${qidx}); return false;"></td>
+											name="addquestionnaire" id="addQn${qidx}"  title="Add a question" onClick="clickAdd(${qidx}); return false;"></td>
 									</tr>
 								</c:if>	
 								</tbody>

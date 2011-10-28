@@ -5,7 +5,7 @@
 
 <div class="tab-container" align="center">
     <h3>
-        <span class="subhead-left"><a href="#" class="usagepanelcontrol"><img src='kr/images/tinybutton-show.gif' alt='show/hide panel' width='45' height='15' border='0' align='absmiddle'></a>
+        <span class="subhead-left"><a href="#" class="usagepanelcontrol"><img src='kr/images/tinybutton-show.gif' alt='show/hide panel' title='show/hide panel' width='45' height='15' border='0' align='absmiddle'></a>
           Usage </span>
         <span class="subhead-right"> <kul:help businessObjectClassName="org.kuali.kra.questionnaire.Questionnaire" altText="help"/> </span>
     </h3>
@@ -71,7 +71,7 @@
                 
                 <td class="infoline">
                     <div align=center>&nbsp;
-                        <input type="image" id="addUsage" name="addUsage" src="static/images/tinybutton-add1.gif" class="tinybutton">
+                        <input type="image" id="addUsage" name="addUsage" alt="Add an usage" title="Add an usage" src="static/images/tinybutton-add1.gif" class="tinybutton">
                     </div>
                 </td>
             </tr>
@@ -88,10 +88,10 @@
                     function()
                     {
                         $("#usagepanelcontent").slideDown(500);
-                        $("a.usagepanelcontrol").html("<img src='kr/images/tinybutton-hide.gif' alt='show/hide panel' width='45' height='15' border='0' align='absmiddle'>");
+                        $("a.usagepanelcontrol").html("<img src='kr/images/tinybutton-hide.gif' alt='show/hide panel' title='show/hide panel' width='45' height='15' border='0' align='absmiddle'>");
                     },function(){
                         $("#usagepanelcontent").slideUp(500);
-                        $("a.usagepanelcontrol").html("<img src='kr/images/tinybutton-show.gif' alt='show/hide panel' width='45' height='15' border='0' align='absmiddle'>");
+                        $("a.usagepanelcontrol").html("<img src='kr/images/tinybutton-show.gif' alt='show/hide panel' title='show/hide panel' width='45' height='15' border='0' align='absmiddle'>");
                     }
                 );
    </script>

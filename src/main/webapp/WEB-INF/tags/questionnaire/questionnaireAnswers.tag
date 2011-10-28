@@ -69,14 +69,14 @@
         <h3>
             <span class="subhead-left">
                 <a href="#" id ="questionpanelcontrol:${property}:${answerHeaderIndex}" class="questionpanel">
-                    <img src='kr/images/tinybutton-hide.gif' alt='show/hide panel' width='45' height='15' border='0' align='absmiddle'>
+                    <img src='kr/images/tinybutton-hide.gif' alt='show/hide panel' title="show/hide panel" width='45' height='15' border='0' align='absmiddle'>
                 </a>
                 Questions 
             </span>
  	        <span class="subhead-right">
  	            <html:image property="methodToCall.printQuestionnaireAnswer.${property}.line${answerHeaderIndex}.anchor"
 	                        src='${ConfigProperties.kra.externalizable.images.url}tinybutton-printdark.gif' styleClass="tinybutton"
-                            alt="Print Questionnaire Answer" onclick="excludeSubmitRestriction = true;"/> 
+                            alt="Print Questionnaire Answer" title="Print Questionnaire Answer" onclick="excludeSubmitRestriction = true;"/> 
                 <a title="[Help]help" target="helpWindow" href="${ConfigProperties.application.url}/kr/help.do?methodToCall=getBusinessObjectHelpText&amp;businessObjectClassName=org.kuali.kra.questionnaire.question.Question">
                     <img styleClass="tinybutton" alt="[Help]help" src="${ConfigProperties.kr.externalizable.images.url}my_cp_inf.gif"></a>
                     <%--  when using this tag, the 'print' and '?' is not aligning well.

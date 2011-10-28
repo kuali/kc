@@ -58,13 +58,13 @@
         </c:if>
 	 --%>
         <h3>
-            <span class="subhead-left"><a href="#" id ="questionpanelcontrol${answerHeaderIndex}" class="questionpanel"><img src='kr/images/tinybutton-show.gif' alt='show/hide panel' width='45' height='15' border='0' align='absmiddle'></a>
+            <span class="subhead-left"><a href="#" id ="questionpanelcontrol${answerHeaderIndex}" class="questionpanel"><img src='kr/images/tinybutton-show.gif' alt='show/hide panel' title='show/hide panel' width='45' height='15' border='0' align='absmiddle'></a>
                 ${tabTitle} </span>
  	        <span class="subhead-right">
 	        <c:if test = "${not empty bean.answerHeaders[answerHeaderIndex].answerHeaderId}" > 
  	        <html:image property="methodToCall.printSubmissionQuestionnaireAnswer.line${bean.answerHeaders[answerHeaderIndex].answerHeaderId}.anchor"
 	src='${ConfigProperties.kra.externalizable.images.url}tinybutton-printdark.gif' styleClass="tinybutton"
-   alt="Print Questionnaire Answer" onclick="excludeSubmitRestriction = true;"/> 
+   alt="Print Questionnaire Answer" title="Print Questionnaire Answer" onclick="excludeSubmitRestriction = true;"/> 
            </c:if>
    <a title="[Help]help" target="helpWindow" href="${ConfigProperties.application.url}/kr/help.do?methodToCall=getBusinessObjectHelpText&amp;businessObjectClassName=org.kuali.kra.questionnaire.question.Question">
    <img styleClass="tinybutton"
