@@ -107,6 +107,7 @@
 	                        <div align="center">
 	                            <html:image property="methodToCall.addProtocolFundingSource.anchor${tabKey}"
 	                            src='${ConfigProperties.kra.externalizable.images.url}tinybutton-add1.gif' 
+	                            title="Add protocol funding source"
 	                            styleClass="tinybutton"/>
 	                        </div>
 	                </td>
