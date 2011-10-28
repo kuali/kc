@@ -59,19 +59,7 @@ public class ReportTrackingServiceImpl implements ReportTrackingService {
             }
             
             if (autoRegenerateReports(award) &&  award.getPrincipalInvestigator() != null) {
-                if (dates.size() == 0) {
-                    ReportTracking rt = buildReportTracking(award, awardTerm);
-                    awardTerm.getReportTrackings().add(rt);
-                }
-                
-                for (java.util.Date date : dates) {
-                    if (!isAwardTermDateAlreadySet(awardTerm.getReportTrackings(), date)) {
-                        ReportTracking rt = buildReportTracking(award, awardTerm);
-                        java.sql.Date sqldate = new java.sql.Date(date.getTime());
-                        rt.setDueDate(sqldate);
-                        awardTerm.getReportTrackings().add(rt);
-                    }
-                }
+                runDateCalcuations(dates, award, awardTerm, new ArrayList<ReportTracking>());
             }
             Collections.sort(awardTerm.getReportTrackings());
         }
@@ -108,27 +96,40 @@ public class ReportTrackingServiceImpl implements ReportTrackingService {
                     reportsToSave.addAll(awardTerm.getReportTrackings());
                 }
                 
-                if (dates.size() == 0) {
-                    ReportTracking rt = buildReportTracking(award, awardTerm);
-                    awardTerm.getReportTrackings().add(rt);
-                }
-                /**
-                 * Add a new report tracking item for each date, if that date doesn't already have a report tracking item.
-                 */
-                 
-                for (java.util.Date date : dates) {
-                    if (!isAwardTermDateAlreadySet(awardTerm.getReportTrackings(), date)) {
-                        ReportTracking rt = buildReportTracking(award, awardTerm);
-                        java.sql.Date sqldate = new java.sql.Date(date.getTime());
-                        rt.setDueDate(sqldate);
-                        awardTerm.getReportTrackings().add(rt);
-                        reportsToSave.add(rt);
-                    }
-                }
+                runDateCalcuations(dates, award, awardTerm, reportsToSave);
+                
                 Collections.sort(awardTerm.getReportTrackings());
             }
             this.getBusinessObjectService().delete(reportsToDelete);
             this.getBusinessObjectService().save(reportsToSave);
+        }
+    }
+    
+    /**
+     * 
+     * This method...
+     * @param dates
+     * @param award
+     * @param awardTerm
+     * @Param reportsToSave
+     */
+    private void runDateCalcuations(List<java.util.Date> dates, Award award, AwardReportTerm awardTerm, List<ReportTracking> reportsToSave) {
+        if (dates.size() == 0 && awardTerm.getReportTrackings().size() == 0) {
+            ReportTracking rt = buildReportTracking(award, awardTerm);
+            awardTerm.getReportTrackings().add(rt);
+        }
+        /**
+         * Add a new report tracking item for each date, if that date doesn't already have a report tracking item.
+         */
+         
+        for (java.util.Date date : dates) {
+            if (!isAwardTermDateAlreadySet(awardTerm.getReportTrackings(), date)) {
+                ReportTracking rt = buildReportTracking(award, awardTerm);
+                java.sql.Date sqldate = new java.sql.Date(date.getTime());
+                rt.setDueDate(sqldate);
+                awardTerm.getReportTrackings().add(rt);
+                reportsToSave.add(rt);
+            }
         }
     }
     
