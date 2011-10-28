@@ -4,11 +4,11 @@
 <div class="tab-container" align="center">
 <h3><span class="subhead-left"><a href="#"
     class="questionpanelcontrol"><img src='kr/images/tinybutton-show.gif'
-    alt='show/hide panel' width='45' height='15' border='0' align='absmiddle'></a>
+    alt='show/hide panel' title='show/hide panel' width='45' height='15' border='0' align='absmiddle'></a>
 Content </span> <span class="subhead-right"> 
 <html:image property="methodToCall.printQuestionnaire"
 	src='${ConfigProperties.kra.externalizable.images.url}tinybutton-printdark.gif' styleClass="tinybutton"
-   alt="Print Questionnaire Answer" onclick="excludeSubmitRestriction = true;"/> 
+   alt="Print Questionnaire Answer" title="Print Questionnaire Answer" onclick="excludeSubmitRestriction = true;"/> 
    <a title="[Help]help" target="helpWindow" href="${ConfigProperties.application.url}/kr/help.do?methodToCall=getBusinessObjectHelpText&amp;businessObjectClassName=org.kuali.kra.questionnaire.Questionnaire">
    <img styleClass="tinybutton"
   alt="[Help]help" src="${ConfigProperties.kr.externalizable.images.url}my_cp_inf.gif"></a>
@@ -111,10 +111,10 @@ Content </span> <span class="subhead-right">
 					function()
 					{
 						$("#questionpanelcontent").slideDown(500);
-						$("a.questionpanelcontrol").html("<img src='kr/images/tinybutton-hide.gif' alt='show/hide panel' width='45' height='15' border='0' align='absmiddle'>");
+						$("a.questionpanelcontrol").html("<img src='kr/images/tinybutton-hide.gif' alt='show/hide panel' title='show/hide panel' width='45' height='15' border='0' align='absmiddle'>");
 					},function(){
 						$("#questionpanelcontent").slideUp(500);
-						$("a.questionpanelcontrol").html("<img src='kr/images/tinybutton-show.gif' alt='show/hide panel' width='45' height='15' border='0' align='absmiddle'>");
+						$("a.questionpanelcontrol").html("<img src='kr/images/tinybutton-show.gif' alt='show/hide panel' title='show/hide panel' width='45' height='15' border='0' align='absmiddle'>");
 					}
 				);
    </script>
