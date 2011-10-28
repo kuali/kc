@@ -65,13 +65,6 @@
           		<property name="headerTabDisplayName" value="Notes &amp; Attachments"/>
           		<property name="headerTabNavigateTo" value="noteAndAttachment"/>
         	</bean>
-         	<bean parent="HeaderNavigation">
-	          	<property name="helpDefinition">
-	            	<bean parent="HelpDefinition" p:parameterNamespace="KC-COIDISCLOSURE" p:parameterName="coiCertificationHelp" p:parameterDetailType="Document"/>
-	          	</property>
-	          	<property name="headerTabDisplayName" value="Certification"/>
-	          	<property name="headerTabNavigateTo" value="certification"/>
-        	</bean>
         	
       	</list>
     	</property>
