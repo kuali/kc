@@ -81,6 +81,7 @@
 								<html:image
 									property="methodToCall.deleteProtocolResearchArea.line${ctr}.anchor${currentTabIndex}"
 									src='${ConfigProperties.kra.externalizable.images.url}tinybutton-delete1.gif'
+									title= 'Delete protocol research area'
 									styleClass="tinybutton" />
 							</div>
 						</td>
@@ -189,7 +190,7 @@
                     <td class="infoline" rowspan="2" style="text-align:center;">
                         <div align=center>
 							<html:image property="methodToCall.addProtocolReferenceBean.anchor${tabKey}"
-							src='${ConfigProperties.kra.externalizable.images.url}tinybutton-add1.gif' styleClass="tinybutton"/>
+							src='${ConfigProperties.kra.externalizable.images.url}tinybutton-add1.gif' title="Add other identifier" styleClass="tinybutton"/>
                         </div>
                     </td>
                 </tr>
