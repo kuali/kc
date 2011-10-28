@@ -152,7 +152,6 @@ public class FinancialEntityHelper implements Serializable {
 
     public void setVersions(PersonFinIntDisclosure personFinIntDisclosure) {
         versions = personFinIntDisclosure.getVersions();
-        Collections.reverse(versions);
     }
     
     public List<PersonFinIntDisclosure> getVersions() {

@@ -2,7 +2,6 @@
 <%@ attribute name="financialEntityList" required="true" type="java.util.List" description="A List of active or inactive FE" %>
 <%@ attribute name="activeFlag" required="true" description="whether this is for active FE or inactive FE" %>
 
-<%-- <c:set var="readOnly" value="${KualiForm.readOnly}"  scope="request"/> --%>
 <c:set var="personFinIntDisclAttribute" value="${DataDictionary.PersonFinIntDisclosure.attributes}" />
 <c:set var="entityContactInfoAttribute" value="${DataDictionary.FinancialEntityContactInfo.attributes}" />
     <c:choose>
@@ -37,7 +36,9 @@
             </td>
             <td class="tab-subhead1">
                     <div align=center>&nbsp;                               
-                                             
+                         <a class="iframe" id="viewEntitySummary" title="${financialEntity.entityName} Summary" href="${pageContext.request.contextPath}/financialEntityEditList.do?methodToCall=viewFinancialEntity&status=${activeFlag}&index=${status.index}" scrolling="no" noresize>
+						 	<html:image src='${ConfigProperties.kra.externalizable.images.url}tinybutton-view.gif' styleClass="tinybutton" title="View Entity"/>
+                    	 </a>            
                         <c:if test="${KualiForm.financialEntityHelper.editEntityIndex != status.index or KualiForm.financialEntityHelper.editType != activeFlag}">
                             <c:choose>
                                  <c:when test="${financialEntity.processStatus == 'F'}">
@@ -57,19 +58,13 @@
 						 <a class="iframe" id="history" title="${financialEntity.entityName} History" href="${pageContext.request.contextPath}/financialEntityEditList.do?methodToCall=showFinancialEntityHistory&status=${activeFlag}&index=${status.index}">
 						 	<html:image src='${ConfigProperties.kra.externalizable.images.url}tinybutton-viewhistory.gif' styleClass="tinybutton" title="View History"/>
                     	 </a>
-                    	 <%-- <a class="iframe" id="viewEntity" title="${financialEntity.entityName}" href="${pageContext.request.contextPath}/financialEntityEditList.do?methodToCall=viewFinancialEntity&status=${activeFlag}&index=${status.index}">
-						 	<html:image src='${ConfigProperties.kra.externalizable.images.url}tinybutton-view.gif' styleClass="tinybutton" title="View Entity"/>
-                    	 </a>--%>
-                    </div>
+					</div>
             </td>
         </tr> 
         <tr id="G${status.index}${idsufix}" style="display: none;"> 
             <td colspan="5">
                 <table id="active-hist-table" width="100%" cellpadding="0" cellspacing="0" class="datatable">
-    <%-- tbody id="G${status.index}" style="display: none;" --%> 
-      <%-- version--%> 
-              
-    
+ 
                     <c:if test="${KualiForm.financialEntityHelper.editEntityIndex == status.index and KualiForm.financialEntityHelper.editType == activeFlag}">
                         <tr> 
                             <td colspan="5">
@@ -94,12 +89,9 @@
                                                     <kul:htmlAttributeLabel attributeEntry="${personFinIntDisclAttribute.entityTypeCode}" />
                                                 </th>
                                                 <td align="left" valign="middle"  colspan="3">
-                                                   <%--                      <div align="center" class="fixed-size-270-div">--%>
                                                         <kul:htmlControlAttribute property="${prop}[${status.index}].entityTypeCode" 
-                                              attributeEntry="${personFinIntDisclAttribute.entityTypeCode}" />
-                                                   <%-- </div>  --%> 
-                   
-                                           
+                                              attributeEntry="${personFinIntDisclAttribute.entityTypeCode}" />                   
+                                        
                                                 </td>
                                             </tr>
                                             <tr>
@@ -139,9 +131,7 @@
                                                 </th>
                                                 <td align="left" valign="middle">
                                                         ${financialEntity.finIntEntityStatus.description}
-                                                     <%--   <kul:htmlControlAttribute property="${prop}[${status.index}].statusCode" 
-                                              attributeEntry="${personFinIntDisclAttribute.statusCode}" /> --%>
-                                                </td>
+                                                  
                                                 <th align="right" valign="middle" >
                                                     <kul:htmlAttributeLabel attributeEntry="${personFinIntDisclAttribute.entityOwnershipType}" />
                                                 </th>
@@ -158,7 +148,6 @@
                             </td>
                         </tr>
                 
-                       <%-- data matrix --%>     
                         <tr>
                             <td colspan="5">
                                <kra-coi:financialEntityRelationshipDetails prop="financialEntityHelper.editRelationDetails" detailList="${KualiForm.financialEntityHelper.editRelationDetails}"/>
@@ -166,7 +155,6 @@
                             </td>
                         </tr>     
                     </c:if>
-                          <%-- /tbody --%>
                 </table> 
             </td>
         </tr>

@@ -15,6 +15,7 @@
  */
 package org.kuali.kra.coi.personfinancialentity;
 
+import java.util.Collections;
 import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
@@ -211,11 +212,37 @@ public class FinancialEntityEditListAction extends FinancialEntityAction{
         return mapping.findForward("history");
     }
     
-   /* public ActionForward viewFinancialEntity(ActionMapping mapping, ActionForm form, HttpServletRequest request, HttpServletResponse response) {
+    public ActionForward viewFinancialEntity(ActionMapping mapping, ActionForm form, HttpServletRequest request, HttpServletResponse response) {
+        FinancialEntityHelper financialEntityHelper = ((FinancialEntityForm) form).getFinancialEntityHelper();      
+        FinancialEntitySummaryHelper summaryHelper = ((FinancialEntityForm)form).getFinancialEntitySummaryHelper();
+        Integer entityIndex = Integer.parseInt(request.getParameter("index"));
+        financialEntityHelper.setEditEntityIndex(entityIndex);
+        String status = request.getParameter("status");
         
+       int currentVersionNumber;
+        PersonFinIntDisclosure currentFinancialEntity;
+        if (StringUtils.equalsIgnoreCase(status, Constants.FINANCIAL_ENTITY_STATUS_INACTIVE)) {
+            currentFinancialEntity = ((FinancialEntityForm) form).getFinancialEntityHelper().getInactiveFinancialEntities().get(entityIndex);
+            currentVersionNumber = currentFinancialEntity.getVersions().size();
+        } else {
+            currentFinancialEntity = ((FinancialEntityForm) form).getFinancialEntityHelper().getActiveFinancialEntities().get(entityIndex);
+            currentVersionNumber = currentFinancialEntity.getVersions().size();
+            
+        }
+        summaryHelper.setSummaryDetails(currentVersionNumber, currentFinancialEntity.getEntityNumber(), status);
         return mapping.findForward("viewEntity");
-    }*/
-  
+    }
+    
+    public ActionForward previousNextVersion(ActionMapping mapping, ActionForm form, HttpServletRequest request, HttpServletResponse response) {
+        int currentVersionNumber = Integer.parseInt(request.getParameter("versionNumber"));
+        String entityNumber = request.getParameter("entityNumber");
+        String status = request.getParameter("statusCode");
+        FinancialEntitySummaryHelper summaryHelper = ((FinancialEntityForm)form).getFinancialEntitySummaryHelper();
+        summaryHelper.setSummaryDetails(currentVersionNumber, entityNumber, status);
+        return mapping.findForward("viewEntity");
+
+    }
+    
     /**
      * 
      * This method to inactive the selected financial entity

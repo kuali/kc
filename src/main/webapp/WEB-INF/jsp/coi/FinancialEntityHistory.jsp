@@ -1,6 +1,7 @@
 <%@ include file="/WEB-INF/jsp/kraTldHeader.jsp"%>
 <link rel="stylesheet" href="css/jquery/new_kuali.css" type="text/css" />
 <link rel="stylesheet" href="css/jquery/kuali-stylesheet.css" type="text/css" />
+
 <c:set var="financialEntityVersions" value= "${KualiForm.financialEntityHelper.versions}" />
 <c:set var="entityName" value="${KualiForm.financialEntityHelper.versions[0].entityName}"/>
                                         <div class="innerTab-container" align="left">
@@ -33,5 +34,6 @@
                                                     </tr>
                                                 </c:forEach>
                                             </table>
+                                           
                                         </div>
                                     
