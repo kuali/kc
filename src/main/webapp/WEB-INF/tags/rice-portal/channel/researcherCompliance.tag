@@ -14,6 +14,15 @@
  limitations under the License.
 --%>
 <%@ include file="/WEB-INF/jsp/kraTldHeader.jsp"%>
+        <script type="text/javascript" src="scripts/jquery/jquery.js"></script> 
+        <script type="text/javascript" src="scripts/jquery/jquery.fancybox-1.3.4.pack.js"></script>
+        <link rel="stylesheet" type="text/css" href="scripts/jquery/fancybox/jquery.fancybox-1.3.4.css"" media="screen"/>
+        <script type="text/javascript">
+            var $j = jQuery.noConflict();
+        	$j(document).ready(function() {
+        		$j("#FB_manual_coi_help_control").fancybox();
+        	})
+        </script>
 
 <channel:portalChannelTop channelTitle="Compliance" />
 <div class="body">
@@ -23,6 +32,17 @@
     <li>Review Final Entities</li>
     <li>Pending Disclosures</li>
     <li>All my Disclosures</li>
+    <li><portal:portalLink displayTitle="false" title="Create Manual Disclosure - temporary link" url="coiDisclosure.do?methodToCall=docHandler&command=initiate_11&docTypeName=CoiDisclosureDocument">Create Manual Disclosure - temp link<a id="FB_manual_coi_help_control" href="#FB_manual_coi_help_div" title="Coi Manual Disclosure"><img src="${ConfigProperties.kr.externalizable.images.url}my_cp_inf.gif" alt="[Help]${altText}" hspace=5 border=0  align="middle"></a></portal:portalLink></li>
+    <li><portal:portalLink displayTitle="false" title="New Protocol Disclosure - temporary link" url="coiDisclosure.do?methodToCall=docHandler&command=initiate_12&docTypeName=CoiDisclosureDocument">New Protocol Disclosure - temp link</portal:portalLink></li>
+
   </ul>
 </div>
+    <div style="display: none;">
+          <div id="FB_manual_coi_help_div" style="overflow:auto;">
+          <p>
+          To be used only for non-system generated project disclosures. e.g.,  </br>
+          Proposal or Award is not in the system.
+          </P
+          </div>
+    </div>      
 <channel:portalChannelBottom />

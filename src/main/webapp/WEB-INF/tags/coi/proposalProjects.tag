@@ -22,7 +22,7 @@
 	<div class="tab-container" align="center">
       <div class="div_Proposal">
                 <h3>
-    		        <span class="subhead-left">Proposal</span>
+    		        <span class="subhead-left">New Proposal</span>
     		        <span class="subhead-right"><kul:help businessObjectClassName="org.kuali.kra.coi.CoiDiscDetail" altText="help"/></span>
                 </h3>
  <%--
