@@ -38,11 +38,14 @@
 <kul:documentOverview editingMode="${KualiForm.editingMode}" />
 
  <kra-negotiation:negotiation />
- <kra-negotiation:negotiationActivities />
 
+ <c:if test="${fn:length(KualiForm.customDataHelper.customAttributeGroups) > 0}">
  <kul:tab tabTitle="Custom Data" defaultOpen="false" tabErrorKey="">
  <kra-negotiation:NegotiationCustomDataTab name="${KualiForm.actionName}"/>
  </kul:tab>
+  </c:if>
+  
+ <kra-negotiation:negotiationActivities />
   
 <kul:tab tabTitle="Medusa" defaultOpen="false" tabErrorKey="">
 <kra-m:medusa />
