@@ -37,6 +37,9 @@ public class FinancialEntityForm  extends KualiForm {
     private String formKey;
     private Document document;
     private boolean readOnly;
+    private FinancialEntitySummaryHelper financialEntitySummaryHelper;
+    private FinancialEntitySummaryBean currentSummary;
+    private FinancialEntitySummaryBean previousSummary;
     private String coiDocId;
 
     public FinancialEntityForm() {
@@ -49,8 +52,27 @@ public class FinancialEntityForm  extends KualiForm {
      */
     public void initialize() {
        setFinancialEntityHelper(new FinancialEntityHelper(this));
+       setFinancialEntitySummaryHelper(new FinancialEntitySummaryHelper(this));
+       currentSummary = new FinancialEntitySummaryBean(this);
+       previousSummary = new FinancialEntitySummaryBean(this);
+
     }
 
+    public FinancialEntitySummaryBean getCurrentSummary() {
+        return currentSummary;
+    }
+
+    public void setCurrentSummary(FinancialEntitySummaryBean currentSummary) {
+        this.currentSummary = currentSummary;
+    }
+
+    public FinancialEntitySummaryBean getPreviousSummary() {
+        return previousSummary;
+    }
+
+    public void setPreviousSummary(FinancialEntitySummaryBean previousSummary) {
+        this.previousSummary = previousSummary;
+    }
 
     public String getFormKey() {
         return formKey;
@@ -100,6 +122,11 @@ public class FinancialEntityForm  extends KualiForm {
         this.financialEntityHelper = financialEntityHelper;
     }
 
+    private void setFinancialEntitySummaryHelper(FinancialEntitySummaryHelper financialEntitySummaryHelper) {
+       this.financialEntitySummaryHelper = financialEntitySummaryHelper;
+        
+    }
+    
     @Override
     public void reset(ActionMapping mapping, ServletRequest request) {
         // TODO Auto-generated method stub
@@ -131,6 +158,10 @@ public class FinancialEntityForm  extends KualiForm {
         }
     }
 
+    public FinancialEntitySummaryHelper getFinancialEntitySummaryHelper() {
+        return financialEntitySummaryHelper;
+    }
+
     public String getCoiDocId() {
         return coiDocId;
     }
@@ -138,6 +169,5 @@ public class FinancialEntityForm  extends KualiForm {
     public void setCoiDocId(String coiDocId) {
         this.coiDocId = coiDocId;
     }
-
 
 }
