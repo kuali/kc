@@ -463,18 +463,14 @@
           <forward name="basic" path="/WEB-INF/jsp/coi/CoiNoteAndAttachment.jsp" />
           &coi_forwards;
        </action>
-       <action path="/coiCertification" name="CoiDisclosureForm" input="/WEB-INF/jsp/coi/CoiCertification.jsp" type="org.kuali.kra.coi.certification.CoiCertificationAction"  scope="request" parameter="methodToCall" validate="true" attribute="KualiForm">
-          <forward name="basic" path="/WEB-INF/jsp/coi/CoiCertification.jsp" />
-          &coi_forwards;
-       </action>
           <action path="/financialEntity*" name="FinancialEntityForm" type="org.kuali.kra.coi.personfinancialentity.FinancialEntity{1}Action" input="/WEB-INF/jsp/coi/FinancialEntity{1}.jsp" attribute="KualiForm">
-            <forward name="basic" path="/WEB-INF/jsp/coi/FinancialEntity{1}.jsp" />
-            <forward name="management" path="/WEB-INF/jsp/coi/FinancialEntityManagement.jsp" />
-            <forward name="editNew" path="/WEB-INF/jsp/coi/FinancialEntityEditNew.jsp" />
-            <forward name="editList" path="/WEB-INF/jsp/coi/FinancialEntityEditList.jsp" />
-            <forward name="history" path="/WEB-INF/jsp/coi/FinancialEntityHistory.jsp" />
-            <forward name="viewEntity" path="/WEB-INF/jsp/coi/FinancialEntityView.jsp" />
-     </action>
+          <forward name="basic" path="/WEB-INF/jsp/coi/FinancialEntity{1}.jsp" />
+          <forward name="management" path="/WEB-INF/jsp/coi/FinancialEntityManagement.jsp" />
+          <forward name="editNew" path="/WEB-INF/jsp/coi/FinancialEntityEditNew.jsp" />
+          <forward name="editList" path="/WEB-INF/jsp/coi/FinancialEntityEditList.jsp" />
+          <forward name="history" path="/WEB-INF/jsp/coi/FinancialEntityHistory.jsp" />
+          <forward name="viewEntity" path="/WEB-INF/jsp/coi/FinancialEntityView.jsp" />
+       </action>
      
      <!--  KRA Negotiation Mapping -->
       <action path="/negotiationNegotiation" name="NegotiationForm" input="/WEB-INF/jsp/negotiation/NegotiationNegotiation.jsp" type="org.kuali.kra.negotiations.web.struts.action.NegotiationNegotiationAction"  scope="request" parameter="methodToCall" validate="true" attribute="KualiForm">
