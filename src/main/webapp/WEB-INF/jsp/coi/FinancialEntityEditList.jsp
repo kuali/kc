@@ -51,11 +51,18 @@
         </c:forEach>
         <script type="text/javascript" src="scripts/jquery/jquery.js"></script> 
         <script type="text/javascript" src="scripts/jquery/jquery.tablesorter.js"></script> 
-        <script type="text/javascript" src="scripts/jquery/jquery.fancybox-1.3.4.pack.js"></script>
-        <link rel="stylesheet" type="text/css" href="scripts/jquery/fancybox/jquery.fancybox-1.3.4.css"" media="screen"/>
-        
+        <script type="text/javascript" src="scripts/jquery/jquery.fancybox-1.3.4jh.js"></script>
+        <link rel="stylesheet" type="text/css" href="scripts/jquery/fancybox/jquery.fancybox-1.3.4.css"" media="screen"/>    
+       
         <script type="text/javascript">
-            var $j = jQuery.noConflict();
+        
+            var $j = jQuery.noConflict();          
+            // Fancybox calculates the div sizes wrong in Chrome and some other browsers for some reason 
+            //and the grey background image ends up being a tiny bit bigger
+            // this makes Rice JS expand the page, which makes Fancybox try to expand the grey image to cover the entire page and this happens in a loop 
+            // and causes the dropbox to move downward. To prevent this, remove the background grey image completely in Chrome. This also required a modification
+            // of Fancybox code in order to disable dropshadow.
+        	$j.fancybox.setup({ dropshadow : false, overlayShow : false });  
         	$j(document).ready(function() {
         		$j("a#history").fancybox({ 
         			'width':400,
@@ -64,6 +71,11 @@
         			'autoScale':'false'
         			            		
         		});
+        		$j("a#viewEntitySummary").fancybox({
+        			'width' : 553,
+        			'height': 600,
+        		});
+				
         	})
         </script>
     </head>

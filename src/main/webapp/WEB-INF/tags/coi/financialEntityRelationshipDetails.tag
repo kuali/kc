@@ -17,6 +17,7 @@
                     
             <table id="response-table" width="100%" cellpadding="0" cellspacing="0" class="datatable">
                 <c:set var="groupId" value=""/>
+                <!-- detail list is a list of FinEntityDataMatrixBeans -->
                 <c:forEach var="dataRow" items="${detailList}" varStatus="groupstatus">
                     <c:if test="${dataRow.dataGroupId != groupId}">
                         <tr>
@@ -50,7 +51,7 @@
                                         <kra-coi:argValueLookupData  valueIndex="${status.index}" bean="${dataRow}" 
                                            property="${prop}[${groupstatus.index}].relationshipTypeBeans[${status.index}].stringValue" />
                                     </c:when>
-                                    <c:otherwise>
+                                    <c:otherwise> 
                                             <kul:htmlControlAttribute property="${prop}[${groupstatus.index}].relationshipTypeBeans[${status.index}].booleanValue" 
                                                       attributeEntry="${kraAttributeReferenceDummyAttributes.checkBox}" />
                                     </c:otherwise>
