@@ -39,4 +39,5 @@ public interface CoiDisclosureService {
     
     void updateDisclosureDetails(CoiDisclProject coiDisclProject);
 
+    void setDisclDetailsForSave(CoiDisclosure coiDisclosure);
 }
