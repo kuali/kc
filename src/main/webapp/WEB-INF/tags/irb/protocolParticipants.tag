@@ -66,7 +66,8 @@
 					<td align="left" valign="middle" class="infoline">
 						<div align=center>
 						    <html:image property="methodToCall.addProtocolParticipant.anchor${tabKey}"
-							src='${ConfigProperties.kra.externalizable.images.url}tinybutton-add1.gif' styleClass="tinybutton"/>
+							src='${ConfigProperties.kra.externalizable.images.url}tinybutton-add1.gif' 
+							title= "Add protocol participants" styleClass="tinybutton"/>
 						</div>
 					</td>
 	            </tr>

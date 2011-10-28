@@ -90,7 +90,8 @@
 					<td class="infoline">
 						<div align="center">
 							<html:image property="methodToCall.addProtocolLocation.anchor${tabKey}"
-							src='${ConfigProperties.kra.externalizable.images.url}tinybutton-add1.gif' styleClass="tinybutton"/>
+							src='${ConfigProperties.kra.externalizable.images.url}tinybutton-add1.gif' 
+							title='Add organization' styleClass="tinybutton"/>
 						</div>
 	                </td>
 	            </tr>
@@ -150,7 +151,7 @@
 							    </c:when>
 							    <c:otherwise>
 								    <html:image property="methodToCall.clearProtocolLocationAddress.line${status.index}.anchor${currentTabIndex}"
-		                                    src='${ConfigProperties.kra.externalizable.images.url}tinybutton-clearcontact.gif' styleClass="tinybutton"/>
+		                                    src='${ConfigProperties.kra.externalizable.images.url}tinybutton-clearcontact.gif' title="Clear organization address" styleClass="tinybutton"/>
 	                            </c:otherwise>
 	                        </c:choose>
 						</kra:permission>  
@@ -168,7 +169,7 @@
 					  <td>
 						<div align=center>&nbsp;
 							<html:image property="methodToCall.deleteProtocolLocation.line${status.index}.anchor${currentTabIndex}"
-									src='${ConfigProperties.kra.externalizable.images.url}tinybutton-deleteorganization.gif' styleClass="tinybutton"/>
+									src='${ConfigProperties.kra.externalizable.images.url}tinybutton-deleteorganization.gif' title="Delete organization" styleClass="tinybutton"/>
 						</div>
 		              </td>
 		           </c:if>
