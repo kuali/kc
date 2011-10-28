@@ -16,7 +16,9 @@
 package org.kuali.kra.coi;
 
 import java.sql.Date;
+import java.text.SimpleDateFormat;
 import java.util.ArrayList;
+import java.util.Calendar;
 import java.util.LinkedHashMap;
 import java.util.List;
 
@@ -72,7 +74,10 @@ public class CoiDisclosure extends KraPersistableBusinessObjectBase {
     
     private transient String certificationStatement;
     private transient String acknowledgementStatement;
-    
+
+    // dateFormatter here is thread safe.
+    private SimpleDateFormat dateFormatter = new SimpleDateFormat("MM/dd/yyyy");
+
 //    private CoiStatus coiStatus; 
 //    private CoiDispositionStatus coiDispositionStatus; 
     private List<CoiDisclProject> coiDisclProjects; 
@@ -147,6 +152,13 @@ public class CoiDisclosure extends KraPersistableBusinessObjectBase {
         return certificationTimestamp;
     }
 
+    public String getCertificationTimestampString() {
+        if (getCertificationTimestamp() == null) {
+            return dateFormatter.format(new Date(Calendar.getInstance().getTimeInMillis()));
+        }
+        return dateFormatter.format(getCertificationTimestamp());
+    }
+    
     public void setCertificationTimestamp(Date certificationTimestamp) {
         certifiedFlag = certificationTimestamp != null;
         this.certificationTimestamp = certificationTimestamp;
