@@ -82,6 +82,7 @@ public class CoiDisclosureAction extends CoiAction {
         } else {
             getCoiDisclosureService().resetLeadUnit(coiDisclosure.getDisclosureReporter());
         }
+        getCoiDisclosureService().setDisclDetailsForSave(coiDisclosure);
         actionForward = super.save(mapping, form, request, response);
         if (KNSConstants.SAVE_METHOD.equals(coiDisclosureForm.getMethodToCall()) && coiDisclosureForm.isAuditActivated() 
                 && GlobalVariables.getMessageMap().hasNoErrors()) {
@@ -98,22 +99,24 @@ public class CoiDisclosureAction extends CoiAction {
         ActionForward actionForward = super.execute(mapping, form, request, response);
         CoiDisclosureDocument coiDisclosureDocument = (CoiDisclosureDocument)((CoiDisclosureForm) form).getDocument();
         coiDisclosureDocument.getCoiDisclosure().initSelectedUnit();
-        checkToLoadDisclosureDetails(coiDisclosureDocument.getCoiDisclosure());
+        checkToLoadDisclosureDetails(coiDisclosureDocument.getCoiDisclosure(), ((CoiDisclosureForm) form).getMethodToCall());
         return actionForward;
 
     }
 
-    private void checkToLoadDisclosureDetails(CoiDisclosure coiDisclosure) {
+    private void checkToLoadDisclosureDetails(CoiDisclosure coiDisclosure, String methodToCall) {
         // TODO : load FE disclosure when creating coi disc
         // still need more clarification on whether there is any other occasion this need to be loaded
         if (coiDisclosure.getCoiDisclosureId() == null && CollectionUtils.isEmpty(coiDisclosure.getCoiDiscDetails())) {
             getCoiDisclosureService().initializeDisclosureDetails(coiDisclosure);
         } else {
-            getCoiDisclosureService().updateDisclosureDetails(coiDisclosure);
+            if (!StringUtils.equals("save", methodToCall)) {
+                getCoiDisclosureService().updateDisclosureDetails(coiDisclosure);
+            }
         }
         
         // TODO : for manual proposal project
-        if (StringUtils.equals("11", coiDisclosure.getModuleCode()) && !CollectionUtils.isEmpty(coiDisclosure.getCoiDisclProjects())) {
+        if (StringUtils.equals(PROPOSAL_DISCL_MODULE_CODE, coiDisclosure.getModuleCode()) && !CollectionUtils.isEmpty(coiDisclosure.getCoiDisclProjects())) {
             for (CoiDisclProject coiDisclProject : coiDisclosure.getCoiDisclProjects()) {
                 getCoiDisclosureService().updateDisclosureDetails(coiDisclProject);
             }

@@ -391,7 +391,7 @@
 		<field-descriptor name="coiDisclosureNumber" column="COI_DISCLOSURE_NUMBER" jdbc-type="VARCHAR" />
 		<field-descriptor name="sequenceNumber" column="SEQUENCE_NUMBER" jdbc-type="INTEGER" />
 		<field-descriptor name="coiDiscDetailNumber" column="COI_DISC_DETAILS_NUMBER" jdbc-type="INTEGER" />
-		<field-descriptor name="moduleCode" column="MODULE_CODE" jdbc-type="INTEGER" />
+		<field-descriptor name="moduleCode" column="MODULE_CODE" jdbc-type="VARCHAR" />
 		<field-descriptor name="moduleItemKey" column="MODULE_ITEM_KEY" jdbc-type="VARCHAR" />
 		<field-descriptor name="entityNumber" column="ENTITY_NUMBER" jdbc-type="VARCHAR" />
 		<field-descriptor name="entitySequenceNumber" column="ENTITY_SEQUENCE_NUMBER" jdbc-type="INTEGER" />
