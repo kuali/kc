@@ -908,7 +908,7 @@ function getMaintTableHeader(description, vers) {
 	// var thtmp = $('<th class="subelementheader" align="left" >');
 	var thtmp = $('<th style="background:#939393;height:18px;color:#FFFFFF;text-align:left;padding-left:4px;" align="left" >');
 	var imgtmp = $(
-			'<a href="#" class="hidedetail"><img src="kr/static/images/tinybutton-hide.gif" align="absmiddle" border="0" width="45" height="15"></a>')
+			'<a href="#" class="hidedetail"><img src="kr/static/images/tinybutton-hide.gif" title="Hide detail" align="absmiddle" border="0" width="45" height="15"></a>')
 			.toggle(
 			// TODO : really need this toggle. Mock's toggle did not show up
 			);
@@ -1586,7 +1586,7 @@ function getAddQuestionRow(curidx) {
 	tdtmp.appendTo(trtmp);
 
 	image = $(
-			'<input name="addquestionnaire" src="kr/static/images/tinybutton-add1.gif" style="border:none;" alt="add" type="image" />')
+			'<input name="addquestionnaire" src="kr/static/images/tinybutton-add1.gif" style="border:none;" alt="add" title="Add questionnaire" type="image" />')
 			.attr("id", "addQn" + curidx)
 			.click(function() {
 				var idx = $(this).attr("id").substring(5);
@@ -2407,7 +2407,7 @@ $("#addUsage")
 				tdtmp = $('<td align="left" valign="middle">').html(qnversion);
 				tdtmp.appendTo(trtmp);
 				inputtmp = $(
-						'<input type="image" id="deleteUsage" name="deleteUsage" src="static/images/tinybutton-delete1.gif" class="tinybutton">')
+						'<input type="image" id="deleteUsage" name="deleteUsage" title="Delete usage" src="static/images/tinybutton-delete1.gif" class="tinybutton">')
 						.attr("id", "deleteUsage" + ucount).click(function() {
 								shiftUsage($(this).attr("id").substring(11));
 								ucount--;
@@ -2903,7 +2903,7 @@ function loadUsages(usages) {
         tdtmp = $('<td align="left" valign="middle">').html(field[3]);  
         tdtmp.appendTo(trtmp);
         var inputtmp = $(
-                '<input type="image" id="deleteUsage" name="deleteUsage" src="static/images/tinybutton-delete1.gif" class="tinybutton">')
+                '<input type="image" id="deleteUsage" name="deleteUsage" title="Delete usage" src="static/images/tinybutton-delete1.gif" class="tinybutton">')
                 .attr("id", "deleteUsage" + ucount).click(
                         function() {
                                                         // alert(sqlScripts);
