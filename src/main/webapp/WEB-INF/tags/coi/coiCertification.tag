@@ -7,7 +7,8 @@
 <c:set var="title" value="Certification" />
 <c:set var="certStatement" value="${KualiForm.document.coiDisclosureList[0].certificationStatement}" />
 <c:set var="ackStatement" value="${KualiForm.document.coiDisclosureList[0].acknowledgementStatement}" />
-<c:set var="reporter" value = "document.coiDisclosureList[0].disclosurePersons[0].reporter" />
+<c:set var="reporterName" value="${KualiForm.document.coiDisclosureList[0].disclosurePersons[0].reporter.fullName}" />
+<c:set var="certTimeStamp" value="${KualiForm.document.coiDisclosureList[0].certificationTimestampString}" />
 <c:if test="${topTab == true}">
 	<%--instead of using kul:tabTop tag just define the workarea div - this gets around an unbalanced tag problem when using conditional tags --%>
 	<div id="workarea">
@@ -42,32 +43,26 @@
 			</tr>
 			<tr>
             	<td style="vertical-align:top;">
-                	<input type="checkbox" id="C_Certification" />
+                	<input type="checkbox" id="certCheckbox" />
                     <script type="text/javascript">
-						$(document).ready(function(){
+						$j(document).ready(function(){
 							// initial state
-								$("#D_Certification").hide(0);
-								$("#C_Certification").attr('checked', false);
+							$j("#certSubpanel").hide(0);
+							$j("#certCheckbox").attr('checked', false);
 							// trigger
-								$("#C_Certification").click(
-									function()
-										{
-											F_Certification();
+								$j("#certCheckbox").click(
+									function() {
+											funcHideShowCert();
 										}
 									);
 									// function
-									function F_Certification()
-										{
-alert('F_Certification');										
-											if ($('#C_Certification').is(':checked'))
-											{
-												$("#D_Certification").slideDown(400);
-												$("#C_Certification").attr('checked', true);
-											}
-											else
-											{
-												$("#D_Certification").slideUp(200);
-												$("#C_Certification").attr('checked', false);
+									function funcHideShowCert() {
+											if ($j('#certCheckbox').is(':checked')) {
+												$j("#certSubpanel").slideDown(400);
+												$j("#certCheckbox").attr('checked', true);
+											} else {
+												$j("#certSubpanel").slideUp(200);
+												$j("#certCheckbox").attr('checked', false);
 											}
 										}
 									}
@@ -84,37 +79,34 @@ alert('F_Certification');
 							${ackStatement}
 						</c:otherwise>
 					</c:choose>
-                    <div id="D_Certification" style="display:none;">
+                    <div id="certSubpanel" style="display:none;">
                     	<p>
                         	<table style="border:none; background:none; width:400px;" cellpadding="0" cellspacing="0">
                                 <tr>
                                     <td style="border:none; background:none; text-align:center;">
-	                                    <kul:htmlControlAttribute property="${reporter}.fullName" 
-    	                                                          attributeEntry="${personAttributes.fullName}" 
-        	                                                      readOnly="true"/> 
+	                                    <u><b>${reporterName}</b></u> 
                                     </td>
                                     <td style="border:none; background:none; text-align:center;">
-                                        <u><b>10/09/2009</b></u>
+										<u><b>${certTimeStamp}</b></u>										 
                                     </td>
                                     <td style="border:none; background:none; text-align:center;" rowspan="2">
-                                        <input id="BFNsubmit" src="../images/tinybutton-submit.gif" onclick="javascript: alert('Thank you for submitting your certification.'); return false" style="border:none;" alt="submit" title="Submit" type="image" />
+                                        <input id="certSubmit" src="../images/tinybutton-submit.gif" onclick="javascript: alert('Thank you for submitting your certification.'); return false" style="border:none;" alt="submit" title="Submit" type="image" />
                                         <script type="text/javascript">
-													$(document).ready(function(){
+													$j(document).ready(function(){
 														// initial state
-															$("#BFNprint").hide(0);
-															$("#C_Certification").attr("disabled", false);
+														$j("#certPrint").hide(0);
+														$j("#certCheckbox").attr("disabled", false);
 														// trigger
-															$("#BFNsubmit").click(
-																function()
-																{
-																	$("#BFNsubmit").hide(0);
-																	$("#BFNprint").slideDown(0);
-																	$("#C_Certification").attr("disabled", true);
+															$j("#certSubmit").click(
+																function() {
+																	$j("#certSubmit").hide(0);
+																	$j("#certPrint").slideDown(0);
+																	$j("#certCheckbox").attr("disabled", true);
 																}
 															);
 													});
 										</script>
-                                        <input id="BFNprint" src="../images/tinybutton-print.gif" onclick="javascript: alert('This would print the Internal Disclosure.'); return false" style="border:none;" alt="print" title="Print" type="image" />
+                                        <input id="certPrint" src="../images/tinybutton-print.gif" onclick="javascript: alert('This would print the Internal Disclosure.'); return false" style="border:none;" alt="print" title="Print" type="image" />
                                     </td>
                                 </tr>
                                 <tr>

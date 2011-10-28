@@ -148,9 +148,27 @@ public class CoiDisclosureAction extends CoiAction {
             return new ActionForward(forward, true);
         }
         return actionForward;
-
     }
 
+    
+    public ActionForward saveDisclosureCertification(ActionMapping mapping, ActionForm form, HttpServletRequest request,
+            HttpServletResponse response) throws Exception {
+
+        CoiDisclosureForm coiDisclosureForm = (CoiDisclosureForm) form;
+        DisclosureHelper disclosureHelper = coiDisclosureForm.getDisclosureHelper();
+/*        if (checkRule(new AddDisclosureReporterUnitEvent("disclosureHelper.newDisclosurePersonUnit", disclosureHelper.getNewDisclosurePersonUnit(),
+                ((CoiDisclosureDocument)coiDisclosureForm.getDocument()).getCoiDisclosure().getDisclosureReporter().getDisclosurePersonUnits()))) {
+            getCoiDisclosureService().addDisclosureReporterUnit(
+                   ((CoiDisclosureDocument)coiDisclosureForm.getDocument()).getCoiDisclosure().getDisclosureReporter(),
+                   disclosureHelper.getNewDisclosurePersonUnit());
+            disclosureHelper.setNewDisclosurePersonUnit(new DisclosurePersonUnit());
+        }
+*/
+System.out.println("\nNew saveDisclosureCertification event occurred.... ");        
+        return mapping.findForward(Constants.MAPPING_BASIC);
+    }
+
+    
     public ActionForward addProposal(ActionMapping mapping, ActionForm form, HttpServletRequest request,
             HttpServletResponse response) throws Exception {
 
