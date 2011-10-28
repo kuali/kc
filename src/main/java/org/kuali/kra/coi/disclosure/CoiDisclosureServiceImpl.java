@@ -16,6 +16,7 @@
 package org.kuali.kra.coi.disclosure;
 
 import java.util.ArrayList;
+import java.util.Collections;
 import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
@@ -23,6 +24,7 @@ import java.util.Map;
 import org.apache.commons.collections.CollectionUtils;
 import org.apache.commons.lang.StringUtils;
 import org.kuali.kra.bo.KcPerson;
+import org.kuali.kra.coi.CoiAction;
 import org.kuali.kra.coi.CoiDiscDetail;
 import org.kuali.kra.coi.CoiDisclProject;
 import org.kuali.kra.coi.CoiDisclosure;
@@ -30,7 +32,9 @@ import org.kuali.kra.coi.DisclosureReporter;
 import org.kuali.kra.coi.DisclosureReporterUnit;
 import org.kuali.kra.coi.personfinancialentity.FinancialEntityService;
 import org.kuali.kra.coi.personfinancialentity.PersonFinIntDisclosure;
+import org.kuali.kra.infrastructure.Constants;
 import org.kuali.kra.irb.Protocol;
+import org.kuali.kra.irb.ProtocolFinderDao;
 import org.kuali.kra.irb.personnel.ProtocolPerson;
 import org.kuali.kra.service.KcPersonService;
 import org.kuali.rice.kns.service.BusinessObjectService;
@@ -41,6 +45,7 @@ public class CoiDisclosureServiceImpl implements CoiDisclosureService {
     private BusinessObjectService businessObjectService;
     private KcPersonService kcPersonService;
     private FinancialEntityService financialEntityService;
+    private ProtocolFinderDao protocolFinderDao;
 
     @SuppressWarnings("rawtypes")
     public DisclosurePerson getDisclosureReporter(String personId, Long coiDisclosureId) {
@@ -109,6 +114,21 @@ public class CoiDisclosureServiceImpl implements CoiDisclosureService {
         }
     }
 
+    public void setDisclDetailsForSave(CoiDisclosure coiDisclosure) {
+        if (StringUtils.equals(CoiAction.PROTOCOL_DISCL_MODULE_CODE, coiDisclosure.getModuleCode())) {
+            coiDisclosure.setCoiDiscDetails(new ArrayList<CoiDiscDetail>());
+            for (CoiDisclEventProject coiDisclEventProject : coiDisclosure.getCoiDisclEventProjects()) {
+                coiDisclosure.getCoiDiscDetails().addAll(coiDisclEventProject.getCoiDiscDetails());
+            }
+        }
+        if (StringUtils.equals(CoiAction.PROPOSAL_DISCL_MODULE_CODE, coiDisclosure.getModuleCode())) {
+            coiDisclosure.setCoiDiscDetails(new ArrayList<CoiDiscDetail>());
+            for (CoiDisclProject coiDisclProject : coiDisclosure.getCoiDisclProjects()) {
+                coiDisclosure.getCoiDiscDetails().addAll(coiDisclProject.getCoiDiscDetails());
+            }
+        }
+    }
+
 
     private void resetLeadUnit(List<? extends DisclosureReporterUnit> disclosureReporterUnits) {
         for (DisclosureReporterUnit  disclosureReporterUnit : disclosureReporterUnits) {
@@ -142,14 +162,21 @@ public class CoiDisclosureServiceImpl implements CoiDisclosureService {
     public void initializeDisclosureDetails(CoiDisclosure coiDisclosure) {
         // When creating a disclosure.  the detail will be created at first
         List<CoiDiscDetail> disclosureDetails = new ArrayList<CoiDiscDetail>();
+        List<CoiDisclEventProject> disclEventProjects = new ArrayList<CoiDisclEventProject>();
         List<PersonFinIntDisclosure> financialEntities = financialEntityService.getFinancialEntities(GlobalVariables.getUserSession().getPrincipalId(), true);
         List<Protocol> protocols = getProtocols(GlobalVariables.getUserSession().getPrincipalId());
         for (Protocol protocol : protocols) {
+            CoiDisclEventProject coiDisclEventProject = new CoiDisclEventProject("IRB", protocol, new ArrayList<CoiDiscDetail>());
             for (PersonFinIntDisclosure personFinIntDisclosure : financialEntities) {
-                disclosureDetails.add(createNewCoiDiscDetail(coiDisclosure, personFinIntDisclosure, protocol.getProtocolNumber()));
-            }            
+                CoiDiscDetail disclosureDetail = createNewCoiDiscDetail(coiDisclosure, personFinIntDisclosure, protocol.getProtocolNumber());
+                disclosureDetail.setProtocol(protocol);
+                disclosureDetails.add(disclosureDetail);
+                coiDisclEventProject.getCoiDiscDetails().add(disclosureDetail);
+            }    
+            disclEventProjects.add(coiDisclEventProject);
         }
         coiDisclosure.setCoiDiscDetails(disclosureDetails);
+        coiDisclosure.setCoiDisclEventProjects(disclEventProjects);
         
     }
     
@@ -169,39 +196,27 @@ public class CoiDisclosureServiceImpl implements CoiDisclosureService {
     
     public void updateDisclosureDetails(CoiDisclosure coiDisclosure) {
         // When creating a disclosure. the detail will be created at first
-        // TODO : what if FE is deactivate
-        List<CoiDiscDetail> disclosureDetails = new ArrayList<CoiDiscDetail>();
-        List<PersonFinIntDisclosure> financialEntities = financialEntityService.getFinancialEntities(GlobalVariables
-                .getUserSession().getPrincipalId(), true);
-        List<String> moduleItemKeys = new ArrayList<String>();
-        for (PersonFinIntDisclosure personFinIntDisclosure : financialEntities) {
-            boolean isNewFinancialEntity = true;
-            for (CoiDiscDetail coiDiscDetail : coiDisclosure.getCoiDiscDetails()) {
-                if (StringUtils.equals(personFinIntDisclosure.getEntityNumber(), coiDiscDetail.getEntityNumber())) {
-                    isNewFinancialEntity = false;
-                    if (!personFinIntDisclosure.getSequenceNumber().equals(coiDiscDetail.getEntitySequenceNumber())) {
-                        coiDiscDetail.setEntitySequenceNumber(personFinIntDisclosure.getSequenceNumber());
-                        coiDiscDetail.setPersonFinIntDisclosureId(personFinIntDisclosure.getPersonFinIntDisclosureId());
-                        coiDiscDetail.refreshReferenceObject("personFinIntDisclosure");
-                    }
-                }
+        // TODO : this is for protocol now
+        Collections.sort(coiDisclosure.getCoiDiscDetails());
+        String moduleItemKey = Constants.EMPTY_STRING;
+        List<CoiDisclEventProject> disclEventProjects = new ArrayList<CoiDisclEventProject>();
+        CoiDisclEventProject coiDisclEventProject = new CoiDisclEventProject();
 
+            for (CoiDiscDetail coiDiscDetail : coiDisclosure.getCoiDiscDetails()) {
+               if (!StringUtils.equals(moduleItemKey, coiDiscDetail.getModuleItemKey())) {
+                   if (StringUtils.isNotBlank(moduleItemKey)) {
+                       disclEventProjects.add(coiDisclEventProject);
+                   }
+                   Protocol protocol = protocolFinderDao.findCurrentProtocolByNumber(coiDiscDetail.getModuleItemKey());
+                   moduleItemKey = coiDiscDetail.getModuleItemKey();
+                   coiDisclEventProject = new CoiDisclEventProject("IRB", protocol, new ArrayList<CoiDiscDetail>());              
+               }
+               coiDisclEventProject.getCoiDiscDetails().add(coiDiscDetail);
+               coiDisclEventProject.setDisclosureFlag(true);
             }
-            if (isNewFinancialEntity) {
-                // TODO : if this method is what we need, then check moduleitemkey alone is ot enough
-                // may also need to check event type, which will be added later to db schema
-                for (CoiDiscDetail coiDiscDetail : coiDisclosure.getCoiDiscDetails()) {
-                    if (!moduleItemKeys.contains(coiDiscDetail.getModuleItemKey())) {
-                        moduleItemKeys.add(coiDiscDetail.getModuleItemKey());
-                        disclosureDetails.add(createNewCoiDiscDetail(coiDisclosure, personFinIntDisclosure,
-                            coiDiscDetail.getModuleItemKey()));
-                    }
-                }
-            }
-        }
-        if (CollectionUtils.isNotEmpty(disclosureDetails)) {
-            coiDisclosure.getCoiDiscDetails().addAll(disclosureDetails);
-        }
+            disclEventProjects.add(coiDisclEventProject); // the last project
+
+            coiDisclosure.setCoiDisclEventProjects(disclEventProjects);
     }
 
     public void updateDisclosureDetails(CoiDisclProject coiDisclProject) {
@@ -209,46 +224,14 @@ public class CoiDisclosureServiceImpl implements CoiDisclosureService {
         // TODO : what if FE is deactivate
         Map <String, Object> fieldValues = new HashMap<String, Object>();
         fieldValues.put("coiDisclosureId", coiDisclProject.getCoiDisclosureId());
-        fieldValues.put("moduleCode", "11");
+        fieldValues.put("moduleCode", CoiAction.PROPOSAL_DISCL_MODULE_CODE);
         fieldValues.put("moduleItemKey", coiDisclProject.getCoiProjectId());
 
         coiDisclProject.setCoiDiscDetails((List<CoiDiscDetail>) businessObjectService.findMatching(CoiDiscDetail.class, fieldValues));
 
-        List<CoiDiscDetail> disclosureDetails = new ArrayList<CoiDiscDetail>();
-        List<PersonFinIntDisclosure> financialEntities = financialEntityService.getFinancialEntities(GlobalVariables
-                .getUserSession().getPrincipalId(), true);
-        List<String> moduleItemKeys = new ArrayList<String>();
-        for (PersonFinIntDisclosure personFinIntDisclosure : financialEntities) {
-            boolean isNewFinancialEntity = true;
-            for (CoiDiscDetail coiDiscDetail : coiDisclProject.getCoiDiscDetails()) {
-                if (StringUtils.equals(personFinIntDisclosure.getEntityNumber(), coiDiscDetail.getEntityNumber())) {
-                    isNewFinancialEntity = false;
-                    if (!personFinIntDisclosure.getSequenceNumber().equals(coiDiscDetail.getEntitySequenceNumber())) {
-                        coiDiscDetail.setEntitySequenceNumber(personFinIntDisclosure.getSequenceNumber());
-                        coiDiscDetail.setPersonFinIntDisclosureId(personFinIntDisclosure.getPersonFinIntDisclosureId());
-                        coiDiscDetail.refreshReferenceObject("personFinIntDisclosure");
-                    }
-                }
-
-            }
-            if (isNewFinancialEntity) {
-                // TODO : if this method is what we need, then check moduleitemkey alone is ot enough
-                // may also need to check event type, which will be added later to db schema
-                for (CoiDiscDetail coiDiscDetail : coiDisclProject.getCoiDiscDetails()) {
-                    if (!moduleItemKeys.contains(coiDiscDetail.getModuleItemKey())) {
-                        moduleItemKeys.add(coiDiscDetail.getModuleItemKey());
-                        disclosureDetails.add(createNewCoiDiscDetail(coiDisclProject.getCoiDisclosure(), personFinIntDisclosure,
-                            coiDiscDetail.getModuleItemKey()));
-                    }
-                }
-            }
-        }
-        if (CollectionUtils.isNotEmpty(disclosureDetails)) {
-            coiDisclProject.getCoiDiscDetails().addAll(disclosureDetails);
-        }
-        if (CollectionUtils.isEmpty(coiDisclProject.getCoiDiscDetails())) {
-            initializeDisclosureDetails(coiDisclProject);
-        }
+//        if (CollectionUtils.isEmpty(coiDisclProject.getCoiDiscDetails())) {
+//            initializeDisclosureDetails(coiDisclProject);
+//        }
     }
 
     private CoiDiscDetail createNewCoiDiscDetail(CoiDisclosure coiDisclosure,PersonFinIntDisclosure personFinIntDisclosure, String moduleItemKey) {
@@ -291,6 +274,10 @@ public class CoiDisclosureServiceImpl implements CoiDisclosureService {
 
     public void setFinancialEntityService(FinancialEntityService financialEntityService) {
         this.financialEntityService = financialEntityService;
+    }
+
+    public void setProtocolFinderDao(ProtocolFinderDao protocolFinderDao) {
+        this.protocolFinderDao = protocolFinderDao;
     }
 
 }

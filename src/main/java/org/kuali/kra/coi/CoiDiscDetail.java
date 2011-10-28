@@ -17,12 +17,16 @@ package org.kuali.kra.coi;
 
 import java.util.LinkedHashMap;
 
+import org.apache.commons.lang.StringUtils;
 import org.kuali.kra.bo.KraPersistableBusinessObjectBase;
+import org.kuali.kra.coi.personfinancialentity.FinEntitiesDataGroup;
 import org.kuali.kra.coi.personfinancialentity.PersonFinIntDisclosure;
 import org.kuali.kra.infrastructure.KraServiceLocator;
+import org.kuali.kra.irb.Protocol;
+import org.kuali.kra.irb.personnel.ProtocolPersonRole;
 import org.kuali.rice.kns.service.SequenceAccessorService;
 
-public class CoiDiscDetail extends KraPersistableBusinessObjectBase { 
+public class CoiDiscDetail extends KraPersistableBusinessObjectBase implements Comparable<CoiDiscDetail> { 
     
 
     private static final long serialVersionUID = 779054686380799255L;
@@ -43,6 +47,9 @@ public class CoiDiscDetail extends KraPersistableBusinessObjectBase {
     private PersonFinIntDisclosure personFinIntDisclosure;
     private CoiEntityStatusCode coiEntityStatusCode; 
     private CoiDisclosure coiDisclosure; 
+    // transient data for UI
+    // TODO : investigate to come up with super class/interface for disclose projects (PD/PROTOCOL/AWD) purpose ?
+    private Protocol protocol;
     
     public CoiDiscDetail() { 
 
@@ -205,5 +212,25 @@ public class CoiDiscDetail extends KraPersistableBusinessObjectBase {
     public void setPersonFinIntDisclosure(PersonFinIntDisclosure personFinIntDisclosure) {
         this.personFinIntDisclosure = personFinIntDisclosure;
     }
+
+    public Protocol getProtocol() {
+        return protocol;
+    }
+
+    public void setProtocol(Protocol protocol) {
+        this.protocol = protocol;
+    }
     
+    public int compareTo(CoiDiscDetail other) {
+        int result = 0;
+        if (other!=null) {
+            if ( StringUtils.equals(moduleItemKey, other.getModuleItemKey())) {
+                result = personFinIntDisclosureId.compareTo(other.getPersonFinIntDisclosureId());
+            } else {
+                result = moduleItemKey.compareTo(other.getModuleItemKey());
+            }
+        }
+        return result;
+    }
+
 }

@@ -23,6 +23,7 @@ import java.util.List;
 import org.apache.commons.collections.CollectionUtils;
 import org.apache.commons.lang.StringUtils;
 import org.kuali.kra.bo.KraPersistableBusinessObjectBase;
+import org.kuali.kra.coi.disclosure.CoiDisclEventProject;
 import org.kuali.kra.coi.disclosure.CoiDisclosureService;
 import org.kuali.kra.coi.disclosure.DisclosurePerson;
 import org.kuali.kra.coi.disclosure.DisclosurePersonUnit;
@@ -79,6 +80,9 @@ public class CoiDisclosure extends KraPersistableBusinessObjectBase {
 //    private CoiDocuments coiDocuments; 
 //    private CoiNotepad coiNotepad; 
 //    private CoiUserRoles coiUserRoles; 
+
+    // help UI purposes
+    private transient List<CoiDisclEventProject> coiDisclEventProjects; 
 
     public CoiDisclosure() { 
 //        disclosurePersons = new ArrayList<DisclosurePerson>();
@@ -395,6 +399,14 @@ public class CoiDisclosure extends KraPersistableBusinessObjectBase {
 
     public void setCoiDisclProjects(List<CoiDisclProject> coiDisclProjects) {
         this.coiDisclProjects = coiDisclProjects;
+    }
+
+    public List<CoiDisclEventProject> getCoiDisclEventProjects() {
+        return coiDisclEventProjects;
+    }
+
+    public void setCoiDisclEventProjects(List<CoiDisclEventProject> coiDisclEventProjects) {
+        this.coiDisclEventProjects = coiDisclEventProjects;
     }
 
 }

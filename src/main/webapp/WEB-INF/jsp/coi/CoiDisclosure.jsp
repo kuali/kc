@@ -82,7 +82,12 @@
 <c:if test="${KualiForm.document.coiDisclosureList[0].moduleCode=='11'}" >
     <kra-coi:proposalProjects />
 </c:if>
+<c:if test="${KualiForm.document.coiDisclosureList[0].moduleCode=='12'}" >
+    <kra-coi:protocolProjects />
+</c:if>
+<c:if test="${KualiForm.document.coiDisclosureList[0].moduleCode=='13'}" >
 <kra-coi:disclosureFinancialEntities />
+</c:if>
 <kra-coi:coiCertification topTab="false" />
 
 <kul:panelFooter />

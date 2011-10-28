@@ -67,6 +67,7 @@
         <property name="businessObjectService" ref="businessObjectService" />
         <property name="kcPersonService" ref="kcPersonService" />
         <property name="financialEntityService" ref="financialEntityService" />
+        <property name="protocolFinderDao" ref="protocolFinderDao" />
     </bean>
     
 
