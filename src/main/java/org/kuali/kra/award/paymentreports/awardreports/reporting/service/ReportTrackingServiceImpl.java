@@ -67,7 +67,6 @@ public class ReportTrackingServiceImpl implements ReportTrackingService {
 
     @Override
     public void generateReportTrackingAndSave(Award award, boolean forceReportRegeneration) throws ParseException {
-        System.err.println("generateReportTrackingAndSave");
         if ((forceReportRegeneration || autoRegenerateReports(award)) && award.getPrincipalInvestigator() != null) {
             List<AwardReportTerm> awardReportTermItems = award.getAwardReportTermItems();
             List<ReportTracking> reportsToSave = new ArrayList<ReportTracking>();
@@ -214,7 +213,7 @@ public class ReportTrackingServiceImpl implements ReportTrackingService {
         }
         if (!retVal) {
             for (ReportTracking rt : reportTrackings) {
-                if (rt.getDueDate().getTime() == date.getTime()) {
+                if (rt.getDueDate() != null && rt.getDueDate().getTime() == date.getTime()) {
                     retVal =  true;
                 }
             }
