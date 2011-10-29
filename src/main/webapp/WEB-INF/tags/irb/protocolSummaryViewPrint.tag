@@ -12,7 +12,12 @@
 <kul:tab tabTitle="Summary & History" defaultOpen="false" tabErrorKey="">
 
 	<div class="tab-container" align="left">
-		
+		<h3>
+   			<span class="subhead-left">Summary & History</span>
+   			<span class="subhead-right">
+   				<kul:help parameterNamespace="KC-PROTOCOL" parameterDetailType="Document" parameterName="protocolSummaryAndHistoryHelp" altText="help"/>
+			</span>
+       </h3>
 		<kra-irb:protocolSummaryPanel />
 		<kra-irb:protocolSubmissionDetailsPanel />
 		<kra-irb:protocolViewHistory />
