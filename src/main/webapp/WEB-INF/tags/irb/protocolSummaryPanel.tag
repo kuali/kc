@@ -12,7 +12,12 @@
 
 <kul:innerTab tabTitle="Summary" parentTab="" defaultOpen="false">
     <div class="innerTab-container">
-    
+    <h3>
+   			<span class="subhead-left">Summary</span>
+   			<span class="subhead-right">
+   				<kul:help parameterNamespace="KC-PROTOCOL" parameterDetailType="Document" parameterName="protocolSummaryHelp" altText="Help"/>
+			</span>
+       </h3>
         <table cellpadding="0" cellspacing="0">
             <tbody>
                 <tr>
