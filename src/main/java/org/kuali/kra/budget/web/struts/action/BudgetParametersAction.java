@@ -695,6 +695,7 @@ public class BudgetParametersAction extends BudgetAction {
         BudgetForm budgetForm = (BudgetForm) form;
         BudgetDocument budgetDocument = budgetForm.getBudgetDocument();
         Budget budget = budgetDocument.getBudget();
+        budget.getBudgetPeriods().clear();
         String warningMessage = getBudgetSummaryService().defaultWarningMessage(budget);
         
         if (StringUtils.isNotBlank(warningMessage)) {
