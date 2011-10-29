@@ -20,7 +20,12 @@
 <c:set var="canViewReviewComments" value="<%=org.kuali.kra.infrastructure.Constants.CAN_VIEW_REVIEW_COMMENTS%>" /> 
 <kul:tab tabTitle="Print" defaultOpen="false" tabErrorKey="actionHelper.reportType">
     <div class="tab-container" align="left" >
-
+	<h3>
+   			<span class="subhead-left">Print</span>
+   			<span class="subhead-right">
+   				<kul:help parameterNamespace="KC-PROTOCOL" parameterDetailType="Document" parameterName="protocolPrintHelp" altText="help"/>
+			</span>
+       </h3>
         <kul:innerTab tabTitle="Protocol Details" parentTab="" defaultOpen="false">
             <div class="innerTab-container">
                 <table cellpadding="0" cellspacing="0" summary="print forms">
