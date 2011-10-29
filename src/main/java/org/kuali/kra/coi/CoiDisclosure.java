@@ -160,8 +160,14 @@ public class CoiDisclosure extends KraPersistableBusinessObjectBase {
     }
     
     public void setCertificationTimestamp(Date certificationTimestamp) {
-        certifiedFlag = certificationTimestamp != null;
         this.certificationTimestamp = certificationTimestamp;
+    }
+
+    public void certifyDisclosure() {
+        certifiedFlag = true;
+        setCertificationTimestamp(new Date(Calendar.getInstance().getTimeInMillis()));
+        certificationText = new String(certificationStatement);
+//TODO: Might need to save disclosure here...
     }
 
     public String getDisclosureDispositionCode() {
