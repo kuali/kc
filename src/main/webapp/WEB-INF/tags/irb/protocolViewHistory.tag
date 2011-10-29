@@ -7,6 +7,12 @@ ${kfunc:registerEditableProperty(KualiForm, "actionHelper.selectedHistoryItem")}
 <kul:innerTab tabTitle="History" parentTab="" defaultOpen="false" tabErrorKey="actionHelper.filteredHistory*">
 
     <div class="innerTab-container" align="left">
+    <h3>
+   			<span class="subhead-left">History</span>
+   			<span class="subhead-right">
+   				<kul:help parameterNamespace="KC-PROTOCOL" parameterDetailType="Document" parameterName="protocolHistoryHelp" altText="Help"/>
+			</span>
+       </h3>
         <table class="tab" cellpadding="0" cellspacing="0" summary=""> 
             <tbody>
             <tr>
