@@ -26,6 +26,12 @@
 
 <kul:innerTab parentTab="Summary, History, & Print" defaultOpen="false" tabTitle="Submission Details">
     <div class="innerTab-container" align="left">
+    <h3>
+   			<span class="subhead-left">Submission Details</span>
+   			<span class="subhead-right">
+   				<kul:help parameterNamespace="KC-PROTOCOL" parameterDetailType="Document" parameterName="protocolSubmissionDetailsHelp" altText="Help"/>
+			</span>
+       </h3>
         <table class="tab" cellpadding="0" cellspacing="0" summary=""> 
             <tbody>
             <tr>
