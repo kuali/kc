@@ -90,23 +90,31 @@
 										<u><b>${certTimeStamp}</b></u>										 
                                     </td>
                                     <td style="border:none; background:none; text-align:center;" rowspan="2">
-                                        <input id="certSubmit" src="../images/tinybutton-submit.gif" onclick="javascript: alert('Thank you for submitting your certification.'); return false" style="border:none;" alt="submit" title="Submit" type="image" />
-                                        <script type="text/javascript">
-													$j(document).ready(function(){
-														// initial state
-														$j("#certPrint").hide(0);
-														$j("#certCheckbox").attr("disabled", false);
-														// trigger
-															$j("#certSubmit").click(
-																function() {
-																	$j("#certSubmit").hide(0);
-																	$j("#certPrint").slideDown(0);
-																	$j("#certCheckbox").attr("disabled", true);
-																}
-															);
-													});
-										</script>
-                                        <input id="certPrint" src="../images/tinybutton-print.gif" onclick="javascript: alert('This would print the Internal Disclosure.'); return false" style="border:none;" alt="print" title="Print" type="image" />
+                                        <div id="certSubmit">
+											<html:image property="methodToCall.saveDisclosureCertification"
+													    src='${ConfigProperties.kra.externalizable.images.url}tinybutton-submit.gif' />
+                	                        <script type="text/javascript">
+														$j(document).ready(function(){
+															// initial state
+															$j("#certPrint").hide(0);
+															$j("#certCheckbox").attr("disabled", false);
+															// trigger
+																$j("#certSubmit").click(
+																	function() {
+																		$j("#certSubmit").hide(0);
+																		$j("#certPrint").slideDown(0);
+																		$j("#certCheckbox").attr("disabled", true);
+																	}
+																);
+														});
+											</script>
+										</div>
+                                    </td>
+                                    <td style="border:none; background:none; text-align:center;" rowspan="2">
+										<div id="certPrint">
+											<html:image property="methodToCall.printDisclosureCertification"
+													    src='${ConfigProperties.kra.externalizable.images.url}tinybutton-print.gif' />
+										</div>
                                     </td>
                                 </tr>
                                 <tr>
@@ -114,7 +122,7 @@
                                         Reporter
                                     </td>
                                     <td style="border:none; background:none; text-align:center;" class="fineprint">
-                                        Date
+                                        Certification Date
                                     </td>
                                 </tr>
                         	</table>
