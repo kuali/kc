@@ -156,7 +156,10 @@ public class CoiDisclosureAction extends CoiAction {
 
         CoiDisclosureForm coiDisclosureForm = (CoiDisclosureForm) form;
         DisclosureHelper disclosureHelper = coiDisclosureForm.getDisclosureHelper();
-/*        if (checkRule(new AddDisclosureReporterUnitEvent("disclosureHelper.newDisclosurePersonUnit", disclosureHelper.getNewDisclosurePersonUnit(),
+        CoiDisclosure disclosure = ((CoiDisclosureDocument)coiDisclosureForm.getDocument()).getCoiDisclosure();
+        String certStatement = disclosure.getCertificationStatement();
+disclosure.certifyDisclosure();
+                /*        if (checkRule(new AddDisclosureReporterUnitEvent("disclosureHelper.newDisclosurePersonUnit", disclosureHelper.getNewDisclosurePersonUnit(),
                 ((CoiDisclosureDocument)coiDisclosureForm.getDocument()).getCoiDisclosure().getDisclosureReporter().getDisclosurePersonUnits()))) {
             getCoiDisclosureService().addDisclosureReporterUnit(
                    ((CoiDisclosureDocument)coiDisclosureForm.getDocument()).getCoiDisclosure().getDisclosureReporter(),
@@ -165,6 +168,24 @@ public class CoiDisclosureAction extends CoiAction {
         }
 */
 System.out.println("\nNew saveDisclosureCertification event occurred.... ");        
+        return mapping.findForward(Constants.MAPPING_BASIC);
+    }
+
+    
+    public ActionForward printDisclosureCertification(ActionMapping mapping, ActionForm form, HttpServletRequest request,
+            HttpServletResponse response) throws Exception {
+
+        CoiDisclosureForm coiDisclosureForm = (CoiDisclosureForm) form;
+        DisclosureHelper disclosureHelper = coiDisclosureForm.getDisclosureHelper();
+/*        if (checkRule(new PrintDisclosureCertificationEvent("disclosureHelper.newDisclosurePersonUnit", disclosureHelper.getNewDisclosurePersonUnit(),
+                ((CoiDisclosureDocument)coiDisclosureForm.getDocument()).getCoiDisclosure().getDisclosureReporter().getDisclosurePersonUnits()))) {
+            getCoiDisclosureService().addDisclosureReporterUnit(
+                   ((CoiDisclosureDocument)coiDisclosureForm.getDocument()).getCoiDisclosure().getDisclosureReporter(),
+                   disclosureHelper.getNewDisclosurePersonUnit());
+            disclosureHelper.setNewDisclosurePersonUnit(new DisclosurePersonUnit());
+        }
+*/
+System.out.println("\nNew printDisclosureCertification event occurred.... ");        
         return mapping.findForward(Constants.MAPPING_BASIC);
     }
 
