@@ -16,7 +16,9 @@
 <%@ include file="/WEB-INF/jsp/kraTldHeader.jsp"%>
 <%@ attribute name="auditActivated" required="true" type="java.lang.Boolean" description="whether audit is activated" %>
 <%@ attribute name="topTab" required="true" type="java.lang.Boolean" description="is this the top tab on the page" %>
-
+<%@ attribute name="helpParameterNamespace" required="false" %>
+<%@ attribute name="helpParameterDetailType" required="false" %>
+<%@ attribute name="helpParameterName" required="false" %>
 <%@ attribute name="categories" required="false" type="java.lang.String" description="comma-separated string of validation categories (ex: Validation Errors,Warnings). If not set a default will be used." %>
 <%@ tag body-content="scriptless" description="The instructions for using the validation. If not set a default will be used." example="You can activate a Validation check...</p><ul><li>errors</li><li>warnings</li></ul>" %>
 
@@ -30,6 +32,11 @@
 	<div class="tab-container" align="center">
 		<h3> 
 			<span class="subhead-left">${title}</span>
+			<c:if test="${! empty helpParameterNamespace and ! empty helpParameterDetailType and ! empty helpParameterName}">
+			<span class="subhead-right">
+   				<kul:help parameterNamespace="${helpParameterNamespace}" parameterDetailType="${helpParameterDetailType}" parameterName="${helpParameterName}" altText="help"/>
+			</span>
+			</c:if>
 		</h3>
 		<table cellpadding="0" cellspacing="0" summary="">
 			<tr>
