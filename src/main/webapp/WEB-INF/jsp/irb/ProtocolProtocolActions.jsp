@@ -53,9 +53,8 @@
 <div align="right"><kul:help documentTypeName="ProtocolDocument" pageName="Protocol Actions" /></div>
 <kra-irb:protocolRequestAction />
 <c:if test="${showActions}" >
-<kra:dataValidation auditActivated="${KualiForm.auditActivated}" topTab="false"/>
+<kra:dataValidation auditActivated="${KualiForm.auditActivated}" topTab="false" helpParameterNamespace="KC-PROTOCOL" helpParameterName="protocolDataValidationHelp" helpParameterDetailType="Document"/>
 </c:if>
-<%--<kra-irb:protocolPrint/>--%>
 <kra-irb:protocolSummaryPrint/>
 <kra-irb:protocolSummaryViewPrint/>
 <kra-irb:protocolCopyProtocol />
