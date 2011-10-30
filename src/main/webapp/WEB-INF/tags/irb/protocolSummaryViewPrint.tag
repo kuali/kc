@@ -15,7 +15,7 @@
 		<h3>
    			<span class="subhead-left">Summary & History</span>
    			<span class="subhead-right">
-   				<kul:help parameterNamespace="KC-PROTOCOL" parameterDetailType="Document" parameterName="protocolSummaryAndHistoryHelp" alternativeHelp="Help" altText="Help"/>
+   				<kul:help parameterNamespace="KC-PROTOCOL" parameterDetailType="Document" parameterName="protocolSummaryAndHistoryHelp" altText="Help"/>
 			</span>
        </h3>
 		<kra-irb:protocolSummaryPanel />
