@@ -37,7 +37,8 @@ public class FinancialEntitySeleniumHelper extends KcSeleniumHelper {
     }
 
     public void FinancialEntityCompleteTest() {
-
+        helper.clickResearcherTab();
+        
         click("Financial Entity");
         click("methodToCall.editNew");
         click("relationDetailControl");
