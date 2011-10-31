@@ -89,7 +89,7 @@
 
 
     <class-descriptor class="org.kuali.kra.coi.disclosure.DisclosurePersonUnit" table="COI_DISCLOSURE_PERSON_UNITS">
-        <field-descriptor name="disclosurePersonUnitsId" column="COI_DISCLOSURE_PERSON_UNITS_ID" jdbc-type="BIGINT" primarykey="true" autoincrement="true" sequence-name="SEQ_COI_DISCL_PERSON_UNIT_ID" />
+        <field-descriptor name="disclosurePersonUnitsId" column="COI_DISCLOSURE_PERSON_UNITS_ID" jdbc-type="BIGINT" primarykey="true" autoincrement="true" sequence-name="SEQ_DISCL_PERSON_UNITS_ID" />
         <field-descriptor name="disclosurePersonId" column="COI_DISCLOSURE_PERSON_ID" jdbc-type="BIGINT"/>
         <field-descriptor name="versionNumber" column="VER_NBR" jdbc-type="BIGINT" locking="false"/>
         <field-descriptor name="objectId" column="OBJ_ID" jdbc-type="VARCHAR" />
