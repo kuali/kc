@@ -28,9 +28,6 @@ import org.kuali.rice.kew.util.KEWConstants;
 import org.kuali.rice.kns.util.GlobalVariables;
 
 public abstract class CoiAction extends KraTransactionalDocumentActionBase {
-    public static final String PROPOSAL_DISCL_MODULE_CODE = "11";
-    public static final String PROTOCOL_DISCL_MODULE_CODE = "12";
-    public static final String AWARD_DISCL_MODULE_CODE = "1";
     
     @Override
     public ActionForward execute(ActionMapping mapping, ActionForm form, HttpServletRequest request, HttpServletResponse response)
@@ -70,10 +67,10 @@ public abstract class CoiAction extends KraTransactionalDocumentActionBase {
         ActionForward forward = mapping.findForward(Constants.MAPPING_BASIC);
         String moduleCode = "13"; 
         if (command.startsWith(KEWConstants.INITIATE_COMMAND)) {
-            if (command.endsWith(PROPOSAL_DISCL_MODULE_CODE)) {
-                moduleCode = PROPOSAL_DISCL_MODULE_CODE;
-            } else if (command.endsWith(PROTOCOL_DISCL_MODULE_CODE)) {
-                moduleCode = PROTOCOL_DISCL_MODULE_CODE;
+            if (command.endsWith(CoiDisclosure.PROPOSAL_DISCL_MODULE_CODE)) {
+                moduleCode = CoiDisclosure.PROPOSAL_DISCL_MODULE_CODE;
+            } else if (command.endsWith(CoiDisclosure.PROTOCOL_DISCL_MODULE_CODE)) {
+                moduleCode = CoiDisclosure.PROTOCOL_DISCL_MODULE_CODE;
             }
             coiDisclosureForm.setCommand(KEWConstants.INITIATE_COMMAND);
             forward = super.docHandler(mapping, form, request, response);

@@ -110,15 +110,18 @@ public class CoiDisclosureAction extends CoiAction {
         if (coiDisclosure.getCoiDisclosureId() == null && CollectionUtils.isEmpty(coiDisclosure.getCoiDiscDetails())) {
             getCoiDisclosureService().initializeDisclosureDetails(coiDisclosure);
         } else {
-            if (!StringUtils.equals("save", methodToCall)) {
+            if (!StringUtils.equals("addProposal", methodToCall) && !StringUtils.equals("save", methodToCall)) {
                 getCoiDisclosureService().updateDisclosureDetails(coiDisclosure);
             }
         }
         
         // TODO : for manual proposal project
-        if (StringUtils.equals(PROPOSAL_DISCL_MODULE_CODE, coiDisclosure.getModuleCode()) && !CollectionUtils.isEmpty(coiDisclosure.getCoiDisclProjects())) {
+        if (coiDisclosure.isProposalEvent() && !CollectionUtils.isEmpty(coiDisclosure.getCoiDisclProjects())) {
             for (CoiDisclProject coiDisclProject : coiDisclosure.getCoiDisclProjects()) {
-                getCoiDisclosureService().updateDisclosureDetails(coiDisclProject);
+                // TODO : need to look into this condition further
+                if (!StringUtils.equals("addProposal", methodToCall) && !StringUtils.equals("save", methodToCall) && coiDisclProject.getCoiDisclProjectsId() != null) {
+                    getCoiDisclosureService().updateDisclosureDetails(coiDisclProject);
+                }
             }
         }
     }
