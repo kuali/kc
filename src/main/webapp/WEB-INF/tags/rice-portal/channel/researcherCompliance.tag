@@ -34,6 +34,7 @@
     <li>All my Disclosures</li>
     <li><portal:portalLink displayTitle="false" title="Create Manual Disclosure - temporary link" url="coiDisclosure.do?methodToCall=docHandler&command=initiate_11&docTypeName=CoiDisclosureDocument">Create Manual Disclosure - temp link<a id="FB_manual_coi_help_control" href="#FB_manual_coi_help_div" title="Coi Manual Disclosure"><img src="${ConfigProperties.kr.externalizable.images.url}my_cp_inf.gif" alt="[Help]${altText}" hspace=5 border=0  align="middle"></a></portal:portalLink></li>
     <li><portal:portalLink displayTitle="false" title="New Protocol Disclosure - temporary link" url="coiDisclosure.do?methodToCall=docHandler&command=initiate_12&docTypeName=CoiDisclosureDocument">New Protocol Disclosure - temp link</portal:portalLink></li>
+    <li><portal:portalLink displayTitle="false" title="New Award Disclosure - temporary link" url="coiDisclosure.do?methodToCall=docHandler&command=initiate_1&docTypeName=CoiDisclosureDocument">New Award Disclosure - temp link</portal:portalLink></li>
 
   </ul>
 </div>
