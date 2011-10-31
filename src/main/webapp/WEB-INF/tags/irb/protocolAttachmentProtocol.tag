@@ -208,7 +208,7 @@
                     </td style="border: none; width: 20%;">
                     <td align="left" valign="middle" style="border: none;">
                         <div align="left">
-                            <kul:htmlControlAttribute property="notesAttachmentsHelper.newAttachmentFilter.filterBy" attributeEntry="${protocolAttachmentFilterAttributes.filterBy}" />
+                            <kul:htmlControlAttribute property="notesAttachmentsHelper.newAttachmentFilter.filterBy" attributeEntry="${protocolAttachmentFilterAttributes.filterBy}" readOnly="false"/>
                         </div>
                     </td>
                     <td style="border: none; width: 10%;">
@@ -218,7 +218,7 @@
                     </td>
                     <td align="left" valign="middle" style="border: none; width: 40%;">
                         <div align="left">
-                            <kul:htmlControlAttribute property="notesAttachmentsHelper.newAttachmentFilter.sortBy" attributeEntry="${protocolAttachmentFilterAttributes.sortBy}" />
+                            <kul:htmlControlAttribute property="notesAttachmentsHelper.newAttachmentFilter.sortBy" attributeEntry="${protocolAttachmentFilterAttributes.sortBy}" readOnly="false"/>
                         </div>
                     </td>                    
                 </tr>
