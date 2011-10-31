@@ -168,7 +168,7 @@
         <property name="shortLabel" value="Module Item Key" />
         <property name="maxLength" value="20" />
         <property name="validationPattern" >
-            <bean parent="AlphaNumericValidationPattern" />
+            <bean parent="AnyCharacterValidationPattern" p:allowWhitespace="true"/>
         </property>
         <property name="control" >
             <bean parent="TextControlDefinition"
