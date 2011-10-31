@@ -49,7 +49,10 @@ public class CoiDisclosure extends KraPersistableBusinessObjectBase {
     private static final long serialVersionUID = 1056040995591476518L;
     private static final String DISPOSITION_PENDING = "3";
     private static final String DISCLOSURE_PENDING = "100";
- 
+    public static final String PROPOSAL_DISCL_MODULE_CODE = "11";
+    public static final String PROTOCOL_DISCL_MODULE_CODE = "12";
+    public static final String AWARD_DISCL_MODULE_CODE = "1";
+
     private Long coiDisclosureId; 
     private String coiDisclosureNumber; 
     private Integer sequenceNumber; 
@@ -425,6 +428,18 @@ public class CoiDisclosure extends KraPersistableBusinessObjectBase {
 
     public void setCoiDisclEventProjects(List<CoiDisclEventProject> coiDisclEventProjects) {
         this.coiDisclEventProjects = coiDisclEventProjects;
+    }
+
+    public boolean isProposalEvent() {
+        return StringUtils.equals(PROPOSAL_DISCL_MODULE_CODE, this.getModuleCode());
+    }
+    
+    public boolean isProtocolEvent() {
+        return StringUtils.equals(PROTOCOL_DISCL_MODULE_CODE, this.getModuleCode());
+    }
+
+    public boolean isAwardEvent() {
+        return StringUtils.equals(AWARD_DISCL_MODULE_CODE, this.getModuleCode());
     }
 
 }

@@ -15,7 +15,7 @@
 --%>
 <%@ include file="/WEB-INF/jsp/kraTldHeader.jsp"%>
 <%@ attribute name="idx" required="true" description="Coi disl project list index" %>
-<%@ attribute name="disclProject" required="true" type="org.kuali.kra.coi.CoiDisclProject" %>
+<%@ attribute name="disclProject" required="true" type="org.kuali.kra.coi.disclosure.CoiDisclEventProject" %>
 
 <c:set var="coiDisclProjectAttributes" value="${DataDictionary.CoiDisclProject.attributes}" />
 <c:set var="coiDiscDetailAttributes" value="${DataDictionary.CoiDiscDetail.attributes}" />
@@ -23,7 +23,7 @@
 <table cellpadding=0 cellspacing=0 summary="">
     <tr>
         <td>
-            <kul:innerTab tabTitle="Proposal - ${disclProject.coiProjectId} : ${disclProject.coiProjectTitle}" parentTab="Add Proposals" defaultOpen="false" tabErrorKey="disclosureHelper.newDisclosurePersonUnit.*,document.coiDisclosureList[0].disclosurePersons[0]*" useCurrentTabIndexAsKey="false">
+            <kul:innerTab tabTitle="Proposal - ${disclProject.eventProjectBo.proposalNumber} : ${disclProject.eventProjectBo.title}" parentTab="Add Proposals" defaultOpen="false" tabErrorKey="disclosureHelper.newDisclosurePersonUnit.*,document.coiDisclosureList[0].disclosurePersons[0]*" useCurrentTabIndexAsKey="false">
                 <div class="innerTab-container" align="left">
                     <table class=tab cellpadding="0" cellspacing="0" summary="">
                         <tbody>
@@ -43,28 +43,28 @@
                 <tr>
                   <td align="left" valign="middle">
 					<div align="left">
-                		<kul:htmlControlAttribute property="document.coiDisclosureList[0].coiDisclProjects[${idx}].disclosureFlag" attributeEntry="${coiDisclProjectAttributes.disclosureFlag}" readOnly="${readOnly}" styleClass="selectDisclClass${idx}M" /> 
-                		<kul:htmlControlAttribute property="document.coiDisclosureList[0].coiDisclProjects[${idx}].coiProjectId" readOnly="true" attributeEntry="${coiDisclProjectAttributes.coiProjectId}" /> 
+                		<kul:htmlControlAttribute property="document.coiDisclosureList[0].coiDisclEventProjects[${idx}].disclosureFlag" attributeEntry="${coiDisclProjectAttributes.disclosureFlag}" readOnly="${readOnly}" styleClass="selectDisclClass${idx}" /> 
+                		<kul:htmlControlAttribute property="document.coiDisclosureList[0].coiDisclEventProjects[${idx}].eventProjectBo.proposalNumber" readOnly="true" attributeEntry="${coiDisclProjectAttributes.coiProjectId}" /> 
 					</div>
 				  </td>
                   <td align="left" valign="middle">
 					<div align="left">
-                		<kul:htmlControlAttribute property="document.coiDisclosureList[0].coiDisclProjects[${idx}].coiProjectTitle" readOnly="true" attributeEntry="${coiDisclProjectAttributes.coiProjectTitle}" /> 
+                		<kul:htmlControlAttribute property="document.coiDisclosureList[0].coiDisclEventProjects[${idx}].eventProjectBo.title" readOnly="true" attributeEntry="${coiDisclProjectAttributes.coiProjectTitle}" /> 
 					</div>
 				  </td>
                   <td align="left" valign="middle">
 					<div align="left">
-                		<kul:htmlControlAttribute property="document.coiDisclosureList[0].coiDisclProjects[${idx}].coiProjectSponsor" readOnly="true" attributeEntry="${coiDisclProjectAttributes.coiProjectSponsor}" /> 
+                		<kul:htmlControlAttribute property="document.coiDisclosureList[0].coiDisclEventProjects[${idx}].eventProjectBo.sponsor.sponsorName" readOnly="true" attributeEntry="${coiDisclProjectAttributes.coiProjectSponsor}" /> 
 					</div>
 				  </td>
                   <td align="left" valign="middle">
 					<div align="left">
-                		<kul:htmlControlAttribute property="document.coiDisclosureList[0].coiDisclProjects[${idx}].coiProjectStartDate" readOnly="true" attributeEntry="${coiDisclProjectAttributes.coiProjectStartDate}" /> 
+                		<kul:htmlControlAttribute property="document.coiDisclosureList[0].coiDisclEventProjects[${idx}].eventProjectBo.requestedStartDateInitial" readOnly="true" attributeEntry="${coiDisclProjectAttributes.coiProjectStartDate}" /> 
 					</div>
 				  </td>
                   <td align="left" valign="middle">
 					<div align="left">
-                		<kul:htmlControlAttribute property="document.coiDisclosureList[0].coiDisclProjects[${idx}].coiProjectEndDate" readOnly="true" attributeEntry="${coiDisclProjectAttributes.coiProjectEndDate}" /> 
+                		<kul:htmlControlAttribute property="document.coiDisclosureList[0].coiDisclEventProjects[${idx}].eventProjectBo.requestedEndDateInitial" readOnly="true" attributeEntry="${coiDisclProjectAttributes.coiProjectEndDate}" /> 
 					</div>
 				  </td>
                   <td align="left" valign="middle">
@@ -76,7 +76,7 @@
 
                 <tr>
                     <td colspan="6">
-       <div id="div_FinancialEntity${idx}M" class="div_FinancialEntity" style="display:none;">
+       <div id="div_FinancialEntity${idx}" class="div_FinancialEntity" style="display:none;">
                 <h3>
     		        <span class="subhead-left">Financial Entity</span>
     		        <span class="subhead-right"><kul:help businessObjectClassName="org.kuali.kra.coi.CoiDiscDetail" altText="help"/></span>
@@ -104,9 +104,9 @@
 	                <td align="left" valign="middle"  class="infoline">
 						<div align="center">
 							<html:image property="methodToCall.allConflict.anchor${tabKey}"
-							src='${ConfigProperties.kra.externalizable.images.url}tinybutton-all.gif' styleClass="conflict" onclick="$j('select.conflictClass${idx}M').val('2');return false;" />
+							src='${ConfigProperties.kra.externalizable.images.url}tinybutton-all.gif' styleClass="conflict" onclick="$j('select.conflictClass${idx}').val('2');return false;" />
 							<html:image property="methodToCall.noneConflict.anchor${tabKey}"
-							src='${ConfigProperties.kra.externalizable.images.url}tinybutton-none.gif' styleClass="conflict" onclick="$j('select.conflictClass${idx}M').val('1');return false;" />
+							src='${ConfigProperties.kra.externalizable.images.url}tinybutton-none.gif' styleClass="conflict" onclick="$j('select.conflictClass${idx}').val('1');return false;" />
 						</div>
 	                </td>
 	                <td align="left" valign="middle" class="infoline">
@@ -120,6 +120,7 @@
 	                </td>
 	            </tr>
             
+
         	<c:forEach var="disclosureDetail" items="${disclProject.coiDiscDetails}" varStatus="festatus">
 	             <tr>
 					<th class="infoline">
@@ -127,18 +128,18 @@
 					</th>
                   <td align="left" valign="middle">
 					<div align="left">
-                		<kul:htmlControlAttribute property="document.coiDisclosureList[0].coiDisclProjects[${idx}].coiDiscDetails[${festatus.index}].personFinIntDisclosure.entityName" readOnly="true" attributeEntry="${financialEntityAttributes.entityName}" /> 
+                		<kul:htmlControlAttribute property="document.coiDisclosureList[0].coiDisclEventProjects[${idx}].coiDiscDetails[${festatus.index}].personFinIntDisclosure.entityName" readOnly="true" attributeEntry="${financialEntityAttributes.entityName}" /> 
 					</div>
 				  </td>
                   <td align="left" valign="middle">
 					<div align="left">
-                		<kul:htmlControlAttribute property="document.coiDisclosureList[0].coiDisclProjects[${idx}].coiDiscDetails[${festatus.index}].entityStatusCode" 
-                			readOnly="${readOnly}" attributeEntry="${coiDiscDetailAttributes.entityStatusCode}" styleClass="conflictClass${idx}M" />
+                		<kul:htmlControlAttribute property="document.coiDisclosureList[0].coiDisclEventProjects[${idx}].coiDiscDetails[${festatus.index}].entityStatusCode" 
+                			readOnly="${readOnly}" attributeEntry="${coiDiscDetailAttributes.entityStatusCode}" styleClass="conflictClass${idx}" />
 					</div>
 				  </td>
                   <td align="left" valign="middle">
 					<div align="left">
-                		<kul:htmlControlAttribute property="document.coiDisclosureList[0].coiDisclProjects[${idx}].coiDiscDetails[${festatus.index}].comments" 
+                		<kul:htmlControlAttribute property="document.coiDisclosureList[0].coiDisclEventProjects[${idx}].coiDiscDetails[${festatus.index}].comments" 
                 			readOnly="${readOnly}" attributeEntry="${coiDiscDetailAttributes.comments}" />
 					</div>
 				  </td>
