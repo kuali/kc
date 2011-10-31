@@ -57,11 +57,13 @@ public class CommitteeMembershipTest {
         
         Date dateToday = new Date(cal.getTime().getTime());
         // one day into the future
-        cal.roll(Calendar.DATE, true);
+        //cal.roll(Calendar.DATE, true);
+        cal.add(Calendar.DATE, 1);
         Date dateTomorrow = new Date(cal.getTime().getTime());
         // one day into the past
-        cal.roll(Calendar.DATE, false);
-        cal.roll(Calendar.DATE, false);
+        //cal.roll(Calendar.DATE, false);
+        //cal.roll(Calendar.DATE, false);
+        cal.add(Calendar.DATE, -2);
         Date dateYesterday = new Date(cal.getTime().getTime());
         
         CommitteeMembership cm = new CommitteeMembership();
