@@ -15,6 +15,7 @@
  */
 package org.kuali.kra.award.paymentreports.awardreports;
 
+import java.util.ArrayList;
 import java.util.List;
 
 import org.kuali.kra.infrastructure.KeyConstants;
@@ -74,15 +75,55 @@ public class AwardReportTermRecipientRuleImpl extends ResearchDocumentRuleBase
      */
     boolean isUnique(List<AwardReportTermRecipient> awardReportTermRecipientItems, AwardReportTermRecipient awardReportTermRecipientItem) {
         boolean duplicateFound = false;
-        for(AwardReportTermRecipient listItem: awardReportTermRecipientItems) {
+        ArrayList<String> contactRecipients = new ArrayList<String>();
+        ArrayList<String> rolodexRecipients = new ArrayList<String>();
+        for (AwardReportTermRecipient listItem : awardReportTermRecipientItems) {
+            if (listItem != null) {
+                if (listItem.getContactId() != null) {
+                    String receipient = listItem.getContactId().toString();
+                    if (contactRecipients.contains(receipient)) {
+                        duplicateFound = true;
+                        break;
+                    } else {
+                        contactRecipients.add(receipient);
+                    }
+                } else {
+                    String receipient = listItem.getRolodexId().toString();
+                    if (rolodexRecipients.contains(receipient)) {
+                        duplicateFound = true;
+                        break;
+                    } else {
+                        rolodexRecipients.add(receipient);
+                    }
+                }
+            }
+            /*
             duplicateFound = awardReportTermRecipientItem != listItem && listItem.equals(awardReportTermRecipientItem);
             if(duplicateFound) {
                 break;
             }
+            */
+        }
+        if (awardReportTermRecipientItem != null) {
+            if (awardReportTermRecipientItem.getContactId() != null) {
+                String receipient = awardReportTermRecipientItem.getContactId().toString();
+                if (contactRecipients.contains(receipient)) {
+                    duplicateFound = true;
+                } else {
+                    contactRecipients.add(receipient);
+                }
+            } else {
+                String receipient = awardReportTermRecipientItem.getRolodexId().toString();
+                if (rolodexRecipients.contains(receipient)) {
+                    duplicateFound = true;
+                } else {
+                    rolodexRecipients.add(receipient);
+                }
+            }
         }
         
-        if(duplicateFound) {
-            if(!hasDuplicateErrorBeenReported()) {
+        if (duplicateFound) {
+            if (!hasDuplicateErrorBeenReported()) {
                 reportError("AwardReportTermRecipient", KeyConstants.ERROR_AWARD_REPORT_TERM_RECIPIENT_ITEM_NOT_UNIQUE);
             }
         }
