@@ -15,12 +15,14 @@
  */
 package org.kuali.kra.test.infrastructure;
 
+import org.apache.commons.lang.StringUtils;
 import org.junit.After;
 import org.junit.AfterClass;
 import org.junit.Before;
 import org.junit.BeforeClass;
 import org.junit.runner.RunWith;
 import org.junit.runner.notification.RunListener;
+import org.kuali.kra.infrastructure.Constants;
 import org.kuali.kra.test.infrastructure.lifecycle.KcUnitTestSeleniumLifecycle;
 import org.kuali.rice.test.web.HtmlUnitUtil;
 import org.openqa.selenium.WebDriver;
@@ -36,6 +38,8 @@ public class KcSeleniumTestBase extends KcUnitTestBase {
     
     private static KcUnitTestSeleniumLifecycle LIFECYCLE = new KcUnitTestSeleniumLifecycle();
     private static RunListener RUN_LISTENER = new KcUnitTestRunListener(LIFECYCLE);
+    
+    private String defaultHandle = Constants.EMPTY_STRING;
 
     @BeforeClass
     public static final void seleniumBeforeClass() {
@@ -66,10 +70,17 @@ public class KcSeleniumTestBase extends KcUnitTestBase {
         super.setUp();
         
         driver.get(BROWSER_PROTOCOL + "://" + BROWSER_ADDRESS + ":" + HtmlUnitUtil.getPort().toString() + "/" + PORTAL_ADDRESS);
+        defaultHandle = driver.getWindowHandle();
     }
     
     @After
     public void tearDown() throws Exception {
+        for (String handle : driver.getWindowHandles()) {
+            if (!StringUtils.equals(handle, defaultHandle)) {
+                driver.switchTo().window(handle);
+                driver.close();
+            }
+        }
         driver.get(BROWSER_PROTOCOL + "://" + BROWSER_ADDRESS + ":" + HtmlUnitUtil.getPort().toString() + "/" + PORTAL_ADDRESS);
         
         super.tearDown();
