@@ -85,6 +85,9 @@
 <div align="right"><kul:help documentTypeName="CoiDisclosureDocument" pageName="CoiDisclosure" /></div>
 <kul:documentOverview editingMode="${KualiForm.editingMode}" />
 <kra-coi:disclosureReporter />
+<c:if test="${KualiForm.document.coiDisclosureList[0].moduleCode=='1'}" >
+    <kra-coi:awardProjects />
+</c:if>
 <c:if test="${KualiForm.document.coiDisclosureList[0].moduleCode=='11'}" >
     <kra-coi:proposalProjects />
 </c:if>
