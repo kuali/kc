@@ -308,17 +308,22 @@ public class ProtocolNoteAndAttachmentAction extends ProtocolAction {
         final AttachmentFile file = attachment.getFile();
         Printable printableArtifacts= getProtocolPrintingService().getProtocolPrintArtifacts(form.getProtocolDocument().getProtocol());
         try {
-            if(printableArtifacts.isWatermarkEnabled()){  
-            Integer attachmentDocumentId =attachment.getDocumentId();
-            List<ProtocolAttachmentProtocol> protocolAttachmentList=form.getDocument().getProtocol().getAttachmentProtocols();
-            for (ProtocolAttachmentProtocol attachmenteach : protocolAttachmentList) {
-                if(attachmentDocumentId.equals(attachmenteach.getDocumentId())){
-                    if(getProtocolAttachmentService().isNewAttachmentVersion(attachmenteach)){
-                        attachmentFile = getWatermarkService().applyWatermark(file.getData(),printableArtifacts.getWatermarkable().getWatermark());
-                    }else{
-                        attachmentFile = getWatermarkService().applyWatermark(file.getData(),printableArtifacts.getWatermarkable().getInvalidWatermark());
-                        LOG.info(INVALID_ATTACHMENT + attachmentDocumentId);  }
+            if(printableArtifacts.isWatermarkEnabled()){
+                Integer attachmentDocumentId =attachment.getDocumentId();
+                List<ProtocolAttachmentProtocol> protocolAttachmentList=form.getDocument().getProtocol().getAttachmentProtocols();
+                if(protocolAttachmentList.size()>0){
+                    for (ProtocolAttachmentProtocol protocolAttachment : protocolAttachmentList) {
+                        if(attachmentDocumentId.equals(protocolAttachment.getDocumentId())){
+                            if(getProtocolAttachmentService().isNewAttachmentVersion(protocolAttachment)){
+                                attachmentFile = getWatermarkService().applyWatermark(file.getData(),printableArtifacts.getWatermarkable().getWatermark());
+                            }else{
+                                attachmentFile = getWatermarkService().applyWatermark(file.getData(),printableArtifacts.getWatermarkable().getInvalidWatermark());
+                                LOG.info(INVALID_ATTACHMENT + attachmentDocumentId);
+                            }
+                        }
                     }
+                }else{
+                    attachmentFile = getWatermarkService().applyWatermark(file.getData(),printableArtifacts.getWatermarkable().getWatermark());
                 }
             }
         }
