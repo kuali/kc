@@ -89,7 +89,7 @@ public class AwardReportTermRecipientRuleImpl extends ResearchDocumentRuleBase
                 }
             }
         }
-        if (awardReportTermRecipientItem != null) {
+        if (!duplicateFound && awardReportTermRecipientItem != null) {
             if (awardReportTermRecipientItem.getContactId() != null) {
                 duplicateFound = checkStringInList(awardReportTermRecipientItem.getContactId().toString(), contactRecipients);
             } else {
