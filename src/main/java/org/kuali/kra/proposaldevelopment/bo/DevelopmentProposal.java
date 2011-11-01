@@ -2057,5 +2057,7 @@ public class DevelopmentProposal extends KraPersistableBusinessObjectBase implem
         }
         return flag;
     }
-   
+   public String getParentTypeName(){
+       return "Proposal";
+   }
 }

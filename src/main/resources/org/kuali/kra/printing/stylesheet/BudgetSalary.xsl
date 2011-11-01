@@ -1711,11 +1711,13 @@
 			</fo:page-sequence>
 		</fo:root>
 	</xsl:template>
+	
 	<xsl:template name="headerall">
 		<fo:static-content flow-name="xsl-region-before">
 			<fo:block>
 				<xsl:for-each select="$XML">
-					<fo:inline-container>
+				<xsl:variable name="parentTypeName" select="budgetSalary/parentTypeName"/>
+				<fo:inline-container>
 						<fo:block>
 							<xsl:text>&#x2029;</xsl:text>
 						</fo:block>
@@ -1736,7 +1738,11 @@
 									<fo:block>
 										<fo:block/>
 										<fo:inline font-family="Times New Roman" font-size="15pt" font-weight="bold">
-											<xsl:text>Coeus Proposal Development - Salary requested on proposal budget&#160; </xsl:text>
+										
+											<xsl:text>Coeus </xsl:text> 
+											<xsl:text/> <xsl:value-of select="$parentTypeName" />
+											<xsl:text> Development - Salary requested on proposal budget&#160; </xsl:text>
+											
 										</fo:inline>
 										<fo:inline font-family="Times New Roman" font-size="13pt" font-weight="bold">
 											<xsl:text>&#160; </xsl:text>
@@ -1748,7 +1754,8 @@
 								<fo:table-cell font-family="Times New Roman" font-size="9pt" padding-bottom="0" padding="2pt" text-align="right" display-align="before">
 									<fo:block>
 										<fo:inline font-weight="bold">
-											<xsl:text>Proposal Number:</xsl:text>
+										<xsl:text/> <xsl:value-of select="$parentTypeName" />
+										<xsl:text> Number:</xsl:text>
 										</fo:inline>
 									</fo:block>
 								</fo:table-cell>

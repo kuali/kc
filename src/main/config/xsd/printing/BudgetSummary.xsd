@@ -37,6 +37,7 @@
 	</xsd:complexType>
 	<xsd:complexType name="ReportHeaderType">
 		<xsd:sequence>
+			<xsd:element name="parentTypeName" type="xsd:string" minOccurs="0"/>
 			<xsd:element name="ProposalNumber" type="xsd:string"/>
 			<xsd:element name="ProposalTitle" type="xsd:string" minOccurs="0"/>
 			<xsd:element name="PIName" type="xsd:string" minOccurs="0"/>
