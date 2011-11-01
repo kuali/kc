@@ -27,6 +27,9 @@ import org.kuali.kra.bo.KraPersistableBusinessObjectBase;
 @SuppressWarnings("serial")
 public class CommitteeType extends KraPersistableBusinessObjectBase {
 
+    public static final String IRB_TYPE_CODE = "1";
+    public static final String COI_TYPE_CODE = "2";
+    
     private String committeeTypeCode;
     private String description;
     

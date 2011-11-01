@@ -60,6 +60,7 @@ public class CommitteeRuleTest extends CommitteeRuleTestBase {
          * Create a committee without setting any properties.
          */
         CommitteeDocument document = getNewCommitteeDocument();
+        
 
         /*
          * Process the Save Document rule.  Since we didn't set
@@ -140,10 +141,11 @@ public class CommitteeRuleTest extends CommitteeRuleTestBase {
     /**
      * This method tests the logic for validating that all research areas associated with a committee are active.
      * Specifically it tests 3 different cases: 
-     *      1. Committee has no research areas -- should give no error as rule is satisfied trivially.
-     *      2. Committee has research areas and all are active -- should give no error
-     *      3. Committee has research areas and some are inactive -- should give a single error with the error-property correctly encoding the
+     *      1. IRB Committee has no research areas -- should give no error as rule is satisfied trivially.
+     *      2. IRB Committee has research areas and all are active -- should give no error
+     *      3. IRB Committee has research areas and some are inactive -- should give a single error with the error-property correctly encoding the
      *              indices of the inactive areas.
+     *      4. COI Committee does not care about research areas being active or inactive.        
      */
     @Test
     public void testProcessCommitteeResearchAreaBusinessRules() throws Exception {
@@ -202,6 +204,11 @@ public class CommitteeRuleTest extends CommitteeRuleTestBase {
         assertFalse(rule.processCommitteeResearchAreaBusinessRules(document));
         String errorPropertyKey = INACTIVE_RESEARCH_AREAS_PREFIX + SEPERATOR + "1.3.";
         assertError(errorPropertyKey, KeyConstants.ERROR_COMMITTEE_RESEARCH_AREA_INACTIVE);
+        
+        // check case 4
+        document.getCommittee().setCommitteeTypeCode("2");
+        assertTrue(rule.processCommitteeResearchAreaBusinessRules(document));
+        
     }
 
 }
