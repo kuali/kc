@@ -29,6 +29,8 @@ import org.kuali.kra.committee.bo.CommitteeMembership;
 import org.kuali.kra.committee.bo.CommitteeMembershipExpertise;
 import org.kuali.kra.committee.bo.CommitteeMembershipRole;
 import org.kuali.kra.committee.bo.CommitteeResearchArea;
+import org.kuali.kra.committee.bo.businessLogic.CommitteeBusinessLogic;
+import org.kuali.kra.committee.bo.businessLogic.CommitteeCollaboratorFactoryGroup;
 import org.kuali.kra.committee.document.CommitteeDocument;
 import org.kuali.kra.committee.lookup.keyvalue.CommitteeIdValuesFinder;
 import org.kuali.kra.committee.rule.AddCommitteeMembershipRoleRule;
@@ -79,7 +81,7 @@ public class CommitteeDocumentRule extends ResearchDocumentRuleBase implements B
 
     private static final String SEPERATOR = ".";
     private static final String PROPERTY_NAME_INACTIVE_AREAS_OF_EXPERTISE_PREFIX = "document.committeeList[0].committeeMemberships[%1$s].areasOfExpertise.inactive";
-    private static final String INACTIVE_RESEARCH_AREAS_PREFIX = "document.committeeList[0].committeeResearchAreas.inactive";
+    private static final String COMMITTEE_COLLABORATOR_FACTORY_GROUP_BEAN_ID = "committeeCollaboratorFactoryGroup";
     private static final String COMMITTEE_ID_FIELD = "document.committeeList[0].committeeId";
     private static final String COMMITTEE_NAME_FIELD = "document.committeeList[0].committeeName";
     private static final String COMMITTEE_HOME_UNIT_NUMBER_FIELD = "document.committeeList[0].homeUnitNumber";
@@ -142,6 +144,11 @@ public class CommitteeDocumentRule extends ResearchDocumentRuleBase implements B
      * @return
      */
     public boolean processCommitteeResearchAreaBusinessRules(CommitteeDocument document) {
+        CommitteeCollaboratorFactoryGroup cmtGrp = KraServiceLocator.getService(CommitteeCollaboratorFactoryGroup.class);
+        CommitteeBusinessLogic committeeBusinessLogic = cmtGrp.getCommitteeBusinessLogicFor(document.getCommittee());
+        return committeeBusinessLogic.validateCommitteeResearchAreas();
+        
+        /* the code below was replaced by the above call to the business logic method
         boolean inactiveFound = false;
         StringBuffer inactiveResearchAreaIndices = new StringBuffer();
         
@@ -164,6 +171,7 @@ public class CommitteeDocumentRule extends ResearchDocumentRuleBase implements B
         }
         
         return !inactiveFound;
+        */
     }
     
     
