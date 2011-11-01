@@ -24,6 +24,7 @@
       <channel:maintenanceProposals />
       <channel:maintenanceAwards />
       <channel:maintenanceNegotiations />
+      <channel:maintenanceSubAwards />
 </td>
 
 <td class="content" valign="top">

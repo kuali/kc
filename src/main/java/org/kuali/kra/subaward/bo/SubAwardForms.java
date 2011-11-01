@@ -15,16 +15,22 @@
  */
 package org.kuali.kra.subaward.bo;
 
+import org.apache.struts.upload.FormFile;
 import org.kuali.kra.bo.KraPersistableBusinessObjectBase;
+import org.kuali.rice.kns.bo.PersistableAttachment;
+
 import java.util.LinkedHashMap;
 
-public class SubAwardForms extends KraPersistableBusinessObjectBase { 
+public class SubAwardForms extends KraPersistableBusinessObjectBase implements PersistableAttachment{ 
     
     private static final long serialVersionUID = 1L;
 
     private String formId; 
     private String description; 
-    private byte[] form; 
+    private byte[] attachmentContent;
+    private String fileName;
+    private String contentType;
+    private transient FormFile templateFile;    
     
     
     public SubAwardForms() { 
@@ -47,22 +53,45 @@ public class SubAwardForms extends KraPersistableBusinessObjectBase {
         this.description = description;
     }
 
-    public byte[] getForm() {
-        return form;
+    public FormFile getTemplateFile() {
+        return templateFile;
     }
 
-    public void setForm(byte[] form) {
-        this.form = form;
+    public void setTemplateFile(FormFile templateFile) {
+        this.templateFile = templateFile;
     }
+    
+    public byte[] getAttachmentContent() {
+        return attachmentContent;
+    }
+
+    public void setAttachmentContent(byte[] attachmentContent) {
+        this.attachmentContent = attachmentContent;
+    }
+
+    public String getFileName() {
+        return fileName;
+    }
+
+    public void setFileName(String fileName) {
+        this.fileName = fileName;
+    }
+
+    public String getContentType() {
+        return contentType;
+    }
+
+    public void setContentType(String contentType) {
+        this.contentType = contentType;
+    }
+
 
     /** {@inheritDoc} */
     @Override 
     protected LinkedHashMap<String, Object> toStringMapper() {
         LinkedHashMap<String, Object> hashMap = new LinkedHashMap<String, Object>();
         hashMap.put("formId", this.getFormId());
-        hashMap.put("description", this.getDescription());
-        hashMap.put("form", this.getForm());
+        hashMap.put("description", this.getDescription());       
         return hashMap;
     }
-    
 }

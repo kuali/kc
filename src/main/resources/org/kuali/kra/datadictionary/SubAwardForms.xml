@@ -1,0 +1,164 @@
+<?xml version="1.0" encoding="UTF-8"?>
+
+<beans xmlns="http://www.springframework.org/schema/beans"
+    xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+    xmlns:p="http://www.springframework.org/schema/p"
+    xsi:schemaLocation="http://www.springframework.org/schema/beans
+        http://www.springframework.org/schema/beans/spring-beans-2.0.xsd">
+ 
+  <bean id="SubcontractForms" parent="SubcontractForms-parentBean" />
+  <bean id="SubcontractForms-parentBean" abstract="true" parent="BusinessObjectEntry">
+    <property name="businessObjectClass" value="org.kuali.kra.subaward.bo.SubAwardForms" />
+		<property name="objectLabel" value="SubcontractForms" />
+		    <property name="inquiryDefinition" >
+		      <ref bean="SubcontractForms-inquiryDefinition" />
+		    </property>
+		    <property name="lookupDefinition" >
+		      <ref bean="SubcontractForms-lookupDefinition" />
+		    </property>
+       		<property name="attributes" >
+		      <list>
+		      	<ref bean="SubcontractForms-formId" />
+		        <ref bean="SubcontractForms-description" />
+		        <ref bean="SubcontractForms-templateFile" />
+		        <ref bean="SubcontractForms-fileName" />
+		        <ref bean="SubcontractForms-contentType" />
+		      </list>
+		    </property>
+		   
+ 		 </bean> 		 
+
+<!-- Attribute Definitions -->
+    
+  <bean id="SubcontractForms-formId" parent="SubcontractForms-formId-parentBean" />
+  <bean id="SubcontractForms-formId-parentBean" abstract="true" parent="AttributeDefinition">
+       <property name="name" value="formId" />
+    <property name="forceUppercase" value="false" />
+    <property name="label" value="Form Id" />
+    <property name="shortLabel" value="Form Id" />
+    <property name="maxLength" value="22" />
+    <property name="validationPattern" >
+      <bean parent="NumericValidationPattern" />
+    </property>
+    <property name="required" value="false" />
+    <property name="control" >
+      <bean parent="TextControlDefinition"
+            p:size="10" />
+    </property>
+    <property name="summary" value="Form Id" />
+    <property name="description" value="Form Id" />    
+  </bean>
+  
+  <bean id="SubcontractForms-description" parent="SubcontractForms-description-parentBean" />
+  <bean id="SubcontractForms-description-parentBean" abstract="true" parent="KraAttributeReferenceDummy-description"/>       
+
+   <bean id="SubcontractForms-versionNumber" parent="SubcontractForms-versionNumber-parentBean" />
+   <bean id="SubcontractForms-versionNumber-parentBean" abstract="true" parent="AttributeReferenceDummy-versionNumber"/>
+    
+   <bean id="FileControlDefinition"
+        class="org.kuali.rice.kns.datadictionary.control.FileControlDefinition"
+        abstract="true" />  
+  
+  <bean id="SubcontractForms-templateFile" parent="SubcontractForms-templateFile-parentBean" />
+  <bean id="SubcontractForms-templateFile-parentBean" abstract="true" parent="AttributeDefinition">
+    <property name="name" value="templateFile" />
+    <property name="forceUppercase" value="false" />
+    <property name="label" value="Attachment" />
+    <property name="shortLabel" value="Attachment" />
+    <property name="maxLength" value="150" />
+    <property name="required" value="false" />
+    <property name="control" >
+      <bean parent="FileControlDefinition"
+            p:size="100" />
+    </property>
+    <property name="summary" value="Attachment" />
+    <property name="description" value="Sponsor Form Template" />
+  </bean>
+  
+   
+  <bean id="SubcontractForms-fileName" parent="SubcontractForms-fileName-parentBean" />
+  <bean id="SubcontractForms-fileName-parentBean" abstract="true" parent="AttributeDefinition">
+    <property name="name" value="fileName" />
+    <property name="forceUppercase" value="false" />
+    <property name="label" value="fileName" />
+    <property name="shortLabel" value="fileName" />
+    <property name="maxLength" value="150" />
+    <property name="required" value="true" />
+    <property name="control" >
+      <bean parent="FileControlDefinition"
+            p:size="100" />
+    </property>
+    <property name="summary" value="File Name" />
+    <property name="description" value="File Name" />
+  </bean>
+  
+  <bean id="SubcontractForms-contentType" parent="SubcontractForms-contentType-parentBean" />
+  <bean id="SubcontractForms-contentType-parentBean" abstract="true" parent="AttributeDefinition">
+    <property name="name" value="contentType" />
+    <property name="forceUppercase" value="false" />
+    <property name="label" value="contentType" />
+    <property name="shortLabel" value="contentType" />
+    <property name="maxLength" value="150" />
+    <property name="required" value="true" />
+    <property name="control" >
+      <bean parent="FileControlDefinition"
+            p:size="100" />
+    </property>
+    <property name="summary" value="Content Type" />
+    <property name="description" value="Content Type" />
+  </bean>
+
+
+      <!-- Business Object Inquiry Definition -->
+ <bean id="SubcontractForms-inquiryDefinition" parent="SubcontractForms-inquiryDefinition-parentBean" />
+
+  <bean id="SubcontractForms-inquiryDefinition-parentBean" abstract="true" parent="InquiryDefinition">
+    <property name="title" value="Subcontract Form" />
+    <property name="inquirySections" >
+      <list>
+        <bean parent="InquirySectionDefinition">
+          <property name="title" value="Subcontract Form" />
+          <property name="numberOfColumns" value="1" />
+          <property name="inquiryFields" >
+            <list>
+              <bean parent="FieldDefinition"
+                    p:attributeName="formId"
+                    p:forceInquiry="true" />             
+            </list>
+          </property>
+        </bean>
+      </list>
+    </property>
+  </bean>
+  
+  <!-- Business Object Lookup Definition -->
+
+  <bean id="SubcontractForms-lookupDefinition" parent="SubcontractForms-lookupDefinition-parentBean" />
+  <bean id="SubcontractForms-lookupDefinition-parentBean" abstract="true" parent="LookupDefinition">
+    <property name="title" value="Subcontract Forms Lookup" />
+    <property name="menubar" value="&lt;a href=&quot;index.jsp&quot;&gt;Main&lt;/a&gt;" />
+
+    <property name="defaultSort" >
+      <bean parent="SortDefinition">
+      </bean>
+    </property>
+    <property name="lookupFields" >
+      <list>
+        <bean parent="FieldDefinition"
+                    p:attributeName="formId"
+                    p:forceInquiry="true" />
+        <bean parent="FieldDefinition"
+                    p:attributeName="description"
+                    p:forceInquiry="true" />
+                   
+               
+      </list>
+    </property>
+    <property name="resultFields" >
+      <list>       
+                <bean parent="FieldDefinition" p:attributeName="formId" p:forceInquiry="true" />   
+                <bean p:attributeName="description"   parent="FieldDefinition"/></list>
+    </property>
+  </bean>
+ 
+</beans>
