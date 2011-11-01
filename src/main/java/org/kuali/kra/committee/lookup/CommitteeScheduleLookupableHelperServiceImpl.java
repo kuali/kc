@@ -16,6 +16,7 @@
 package org.kuali.kra.committee.lookup;
 
 import java.util.ArrayList;
+import java.util.Collections;
 import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
@@ -109,9 +110,9 @@ public class CommitteeScheduleLookupableHelperServiceImpl extends KualiLookupabl
             if ((schedule.getCommittee() != null) && (isCurrentVersion(schedule.getCommittee()))) {
                 // are we looking for all schedules or for a specific user?
                 if (StringUtils.isNotBlank(fieldValues.get(SCHEDULE_PERSON_ID_LOOKUP))) {
-                    // check if schedule is active for the logged in user
-                    if (schedule.isActiveFor(fieldValues.get(SCHEDULE_PERSON_ID_LOOKUP))) {
-                        finalCommitteeSchedules.add(schedule);
+                    // check if schedule is active for the logged in user and is made available or is modifiable by user
+                    if( ( (schedule.isActiveFor(fieldValues.get(SCHEDULE_PERSON_ID_LOOKUP)) && (schedule.isAvailableToReviewers()) ) || (canModifySchedule(schedule)) ) ) {
+                        finalCommitteeSchedules.add(schedule);                        
                     }
                 }
                 else {
@@ -120,6 +121,26 @@ public class CommitteeScheduleLookupableHelperServiceImpl extends KualiLookupabl
                 }
             }
         }
+        // if we are looking for schedules for a specific user then 
+        // sort the schedules based on schedule date and move the entire block of past schedules to the end
+        if (StringUtils.isNotBlank(fieldValues.get(SCHEDULE_PERSON_ID_LOOKUP))) {
+            Collections.sort(finalCommitteeSchedules);
+            List<CommitteeSchedule> pastCommitteeSchedules = new ArrayList<CommitteeSchedule>();
+            for (CommitteeSchedule schedule : finalCommitteeSchedules) {
+                if(schedule.isScheduleDateInPast()) {
+                    pastCommitteeSchedules.add(schedule);
+                }
+                else {
+                    break;
+                }
+            }
+            // removeAll the past schedules and addAll them back (this will have the effect of moving them from front to the back)
+            finalCommitteeSchedules.removeAll(pastCommitteeSchedules);
+            Collections.reverse(pastCommitteeSchedules);
+            finalCommitteeSchedules.addAll(pastCommitteeSchedules); 
+        }
+        
+        
         // processing return collection based on final result count
         Long matchingResultsCount = new Long(finalCommitteeSchedules.size());
         Integer searchResultsLimit = LookupUtils.getSearchResultsLimit(CommitteeSchedule.class);
@@ -167,6 +188,15 @@ public class CommitteeScheduleLookupableHelperServiceImpl extends KualiLookupabl
         else if (canViewSchedule((CommitteeSchedule) businessObject)) {
             htmlDataList.add(getLink((CommitteeSchedule) businessObject, false));
         }
+        
+        // append past message to action URL list if the schedule date has passed
+        
+        if( ((CommitteeSchedule) businessObject).isScheduleDateInPast()) {
+            AnchorHtmlData htmlData = new AnchorHtmlData();
+            htmlData.setDisplayText("(past)");
+            htmlDataList.add(htmlData);
+        }
+        
         return htmlDataList;
     }
 
@@ -190,6 +220,7 @@ public class CommitteeScheduleLookupableHelperServiceImpl extends KualiLookupabl
             htmlData.setDisplayText("view");
             parameters.put(READ_ONLY, "true");
         }
+       
         String href = UrlFactory.parameterizeUrl("../meetingManagement.do", parameters);
 
         htmlData.setHref(href);
