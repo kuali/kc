@@ -56,6 +56,7 @@ public class CoiDisclosure extends KraPersistableBusinessObjectBase {
     public static final String PROPOSAL_DISCL_MODULE_CODE = "11";
     public static final String PROTOCOL_DISCL_MODULE_CODE = "12";
     public static final String AWARD_DISCL_MODULE_CODE = "1";
+    public static final String ANNUAL_DISCL_MODULE_CODE = "13";
 
     private Long coiDisclosureId; 
     private String coiDisclosureNumber; 
@@ -454,6 +455,10 @@ public class CoiDisclosure extends KraPersistableBusinessObjectBase {
 
     public boolean isAwardEvent() {
         return StringUtils.equals(AWARD_DISCL_MODULE_CODE, this.getModuleCode());
+    }
+
+    public boolean isAnnualEvent() {
+        return StringUtils.equals(ANNUAL_DISCL_MODULE_CODE, this.getModuleCode());
     }
 
  }
