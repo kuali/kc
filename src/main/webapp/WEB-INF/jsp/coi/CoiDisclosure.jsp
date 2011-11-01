@@ -21,6 +21,7 @@
         <script type="text/javascript" src="scripts/jquery/jquery.js"></script> 
          <script type="text/javascript" src="scripts/jquery/jquery.fancybox-1.3.4jh.js"></script>
         <link rel="stylesheet" type="text/css" href="scripts/jquery/fancybox/jquery.fancybox-1.3.4.css"" media="screen"/>    
+       	<style type="text/css">div#fancybox-wrap {top:100px !important;}</style>
         <script type="text/javascript">
             var $j = jQuery.noConflict();
             // Fancybox calculates the div sizes wrong in Chrome and some other browsers for some reason 
@@ -36,6 +37,12 @@
         			'type':'iframe',
         			'autoScale':'false'
         			            		
+        		});
+        		$j("a.disclosureFeView").fancybox({
+        			'width' : 553,
+        			'height': 500,
+        			'type' : 'iframe',
+        			'autoscale' : 'false',
         		});
         		
 	             $j("input[class^=selectDisclClass]").click(function() {

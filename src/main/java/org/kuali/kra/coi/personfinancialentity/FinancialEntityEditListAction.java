@@ -15,7 +15,6 @@
  */
 package org.kuali.kra.coi.personfinancialentity;
 
-import java.util.Collections;
 import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
@@ -229,7 +228,14 @@ public class FinancialEntityEditListAction extends FinancialEntityAction{
         
         int currentVersionNumber;
         PersonFinIntDisclosure currentFinancialEntity;
-        if (StringUtils.equalsIgnoreCase(status, Constants.FINANCIAL_ENTITY_STATUS_INACTIVE)) {
+        if (StringUtils.equalsIgnoreCase(status, "activecoi")) {
+            // this is a patch to retrieve coi disclosure view
+            currentFinancialEntity = getFinancialEntity(entityIndex.toString());
+            currentFinancialEntity.setVersions(getFinancialEntityService().getFinDisclosureVersions(currentFinancialEntity.getEntityNumber()));
+            currentVersionNumber = currentFinancialEntity.getVersions().size();
+            status = ACTIVATE_ENTITY;
+            ((FinancialEntityForm) form).getFinancialEntityHelper().setActiveFinancialEntities(getFinancialEntities(true));
+        } else if (StringUtils.equalsIgnoreCase(status, Constants.FINANCIAL_ENTITY_STATUS_INACTIVE)) {
             currentFinancialEntity = ((FinancialEntityForm) form).getFinancialEntityHelper().getInactiveFinancialEntities().get(entityIndex);
             currentVersionNumber = currentFinancialEntity.getVersions().size();
         } else {

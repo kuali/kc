@@ -16,7 +16,6 @@
 package org.kuali.kra.coi.disclosure;
 
 import java.util.ArrayList;
-import java.util.Collection;
 import java.util.Collections;
 import java.util.HashMap;
 import java.util.List;
@@ -168,6 +167,7 @@ public class CoiDisclosureServiceImpl implements CoiDisclosureService {
     
     public void initializeDisclosureDetails(CoiDisclosure coiDisclosure) {
         // When creating a disclosure. the detail will be created at first
+        // TODO : method too long need refactor
         List<CoiDiscDetail> disclosureDetails = new ArrayList<CoiDiscDetail>();
         List<CoiDisclEventProject> disclEventProjects = new ArrayList<CoiDisclEventProject>();
         List<PersonFinIntDisclosure> financialEntities = financialEntityService.getFinancialEntities(GlobalVariables
@@ -215,7 +215,18 @@ public class CoiDisclosureServiceImpl implements CoiDisclosureService {
                 }
                 disclEventProjects.add(coiDisclEventProject);
             }
-        }
+        } else if (coiDisclosure.isAnnualEvent()) {
+            // TODO : use protocol for now.  need to add all projects here
+            List<Protocol> protocols = getProtocols(GlobalVariables.getUserSession().getPrincipalId());
+            for (Protocol protocol : protocols) {
+                for (PersonFinIntDisclosure personFinIntDisclosure : financialEntities) {
+                    CoiDiscDetail disclosureDetail = createNewCoiDiscDetail(coiDisclosure, personFinIntDisclosure,
+                            protocol.getProtocolNumber());
+                    disclosureDetail.setProtocol(protocol);
+                    disclosureDetails.add(disclosureDetail);
+                }
+            }
+        } 
 
         coiDisclosure.setCoiDiscDetails(disclosureDetails);
         coiDisclosure.setCoiDisclEventProjects(disclEventProjects);
@@ -244,23 +255,25 @@ public class CoiDisclosureServiceImpl implements CoiDisclosureService {
         List<CoiDisclEventProject> disclEventProjects = new ArrayList<CoiDisclEventProject>();
         CoiDisclEventProject coiDisclEventProject = new CoiDisclEventProject();
 
-        for (CoiDiscDetail coiDiscDetail : coiDisclosure.getCoiDiscDetails()) {
-            if (!StringUtils.equals(moduleItemKey, coiDiscDetail.getModuleItemKey())) {
-                if (StringUtils.isNotBlank(moduleItemKey) && coiDisclEventProject.getEventProjectBo() != null) {
-                    // event bo is found in table.  this is especially for PD to check null bo
-                    disclEventProjects.add(coiDisclEventProject);
+        if (!coiDisclosure.isAnnualEvent()) {
+            for (CoiDiscDetail coiDiscDetail : coiDisclosure.getCoiDiscDetails()) {
+                if (!StringUtils.equals(moduleItemKey, coiDiscDetail.getModuleItemKey())) {
+                    if (StringUtils.isNotBlank(moduleItemKey) && coiDisclEventProject.getEventProjectBo() != null) {
+                        // event bo is found in table. this is especially for PD to check null bo
+                        disclEventProjects.add(coiDisclEventProject);
+                    }
+                    moduleItemKey = coiDiscDetail.getModuleItemKey();
+                    coiDisclEventProject = getEventBo(coiDisclosure, coiDiscDetail);
                 }
-                moduleItemKey = coiDiscDetail.getModuleItemKey();
-                coiDisclEventProject = getEventBo(coiDisclosure, coiDiscDetail);
+                coiDisclEventProject.getCoiDiscDetails().add(coiDiscDetail);
+                coiDisclEventProject.setDisclosureFlag(true);
             }
-            coiDisclEventProject.getCoiDiscDetails().add(coiDiscDetail);
-            coiDisclEventProject.setDisclosureFlag(true);
-        }
-        if (coiDisclEventProject.getEventProjectBo() != null) {
-            disclEventProjects.add(coiDisclEventProject); // the last project
-        }
+            if (coiDisclEventProject.getEventProjectBo() != null) {
+                disclEventProjects.add(coiDisclEventProject); // the last project
+            }
 
-        coiDisclosure.setCoiDisclEventProjects(disclEventProjects);
+            coiDisclosure.setCoiDisclEventProjects(disclEventProjects);
+        }
     }
 
     private CoiDisclEventProject getEventBo(CoiDisclosure coiDisclosure, CoiDiscDetail coiDiscDetail) {

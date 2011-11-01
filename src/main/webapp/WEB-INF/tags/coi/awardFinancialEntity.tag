@@ -134,8 +134,11 @@
 				  </td>
 					  <td>
 						<div align=center>&nbsp;
-							<html:image property="methodToCall.viewFinancialEntity.line${festatus.index}.anchor${currentTabIndex}"
-									src='${ConfigProperties.kra.externalizable.images.url}tinybutton-view.gif' styleClass="tinybutton"/>
+							<c:if test="${KualiForm.disclosureHelper.canViewDisclosureFeHistory}">		
+                                <a class="disclosureFeView" id="viewEntitySummary${festatus.index}" title="${disclosureDetail.personFinIntDisclosure.entityName} Summary" href="${pageContext.request.contextPath}/financialEntityEditList.do?methodToCall=viewFinancialEntity&status=activecoi&index=${disclosureDetail.personFinIntDisclosure.personFinIntDisclosureId}" scrolling="no" noresize>
+						 	        <html:image src='${ConfigProperties.kra.externalizable.images.url}tinybutton-view.gif' styleClass="tinybutton" title="View Entity"/>
+                    	        </a>   
+                    	    </c:if>         
 							<c:if test="${KualiForm.disclosureHelper.canEditDisclosureFinancialEntity}">		
 							    <html:image property="methodToCall.editFinancialEntity.line${festatus.index}.anchor${currentTabIndex}"
 									src='${ConfigProperties.kra.externalizable.images.url}tinybutton-edit1.gif' styleClass="tinybutton"/>
