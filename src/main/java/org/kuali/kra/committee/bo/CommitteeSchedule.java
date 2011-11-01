@@ -24,7 +24,6 @@ import java.util.LinkedHashMap;
 import java.util.List;
 import java.util.Map;
 
-import org.apache.commons.lang.time.DateUtils;
 import org.kuali.kra.SkipVersioning;
 import org.kuali.kra.committee.web.struts.form.schedule.DayOfWeek;
 import org.kuali.kra.committee.web.struts.form.schedule.Time12HrFmt;
@@ -38,6 +37,7 @@ import org.kuali.kra.meeting.CommScheduleMinuteDoc;
 import org.kuali.kra.meeting.CommitteeScheduleAttendance;
 import org.kuali.kra.meeting.CommitteeScheduleMinute;
 import org.kuali.kra.meeting.ScheduleAgenda;
+import org.kuali.rice.kns.util.DateUtils;
 
 /**
  * This is BO class to support CommitteeScheulde. It has three transient field to support UI.
@@ -550,6 +550,19 @@ public class CommitteeSchedule extends CommitteeAssociate implements Comparable<
             }
         }
         return retVal;        
+    }
+    
+    /**
+     * This method returns true if and only if the schedule date has passed
+     * @return
+     */
+    public boolean isScheduleDateInPast(){
+        boolean retVal = false;
+        Date currentDate = DateUtils.clearTimeFields(new Date(System.currentTimeMillis()));
+        if(this.scheduledDate != null) {
+            retVal = this.scheduledDate.before(currentDate);
+        }
+        return retVal;
     }
 
 }
