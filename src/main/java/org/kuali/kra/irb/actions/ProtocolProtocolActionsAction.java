@@ -990,18 +990,22 @@ public class ProtocolProtocolActionsAction extends ProtocolAction implements Aud
         Printable printableArtifacts= getProtocolPrintingService().getProtocolPrintArtifacts(form.getProtocolDocument().getProtocol());
         
         try {
-            if(printableArtifacts.isWatermarkEnabled()){  
+            if(printableArtifacts.isWatermarkEnabled()){
             Integer attachmentDocumentId =attachment.getDocumentId();
             List<ProtocolAttachmentProtocol> protocolAttachmentList=form.getDocument().getProtocol().getAttachmentProtocols();
-            for (ProtocolAttachmentProtocol attachmenteach : protocolAttachmentList) {
-                if(attachmentDocumentId.equals(attachmenteach.getDocumentId())){
-                    if(getProtocolAttachmentService().isNewAttachmentVersion(attachmenteach)){
-                        attachmentFile = getWatermarkService().applyWatermark(file.getData(),printableArtifacts.getWatermarkable().getWatermark());
-                    }else{
-                        attachmentFile = getWatermarkService().applyWatermark(file.getData(),printableArtifacts.getWatermarkable().getInvalidWatermark());
-                        LOG.info(INVALID_ATTACHMENT + attachmentDocumentId);  }
+            if(protocolAttachmentList.size()>0){
+                for (ProtocolAttachmentProtocol protocolAttachment : protocolAttachmentList) {
+                    if(attachmentDocumentId.equals(protocolAttachment.getDocumentId())){
+                        if(getProtocolAttachmentService().isNewAttachmentVersion(protocolAttachment)){
+                            attachmentFile = getWatermarkService().applyWatermark(file.getData(),printableArtifacts.getWatermarkable().getWatermark());
+                        }else{
+                            attachmentFile = getWatermarkService().applyWatermark(file.getData(),printableArtifacts.getWatermarkable().getInvalidWatermark());
+                            LOG.info(INVALID_ATTACHMENT + attachmentDocumentId);
+                        }
                     }
                 }
+            }else{
+                attachmentFile = getWatermarkService().applyWatermark(file.getData(),printableArtifacts.getWatermarkable().getWatermark()); }
             }
         }
         catch (Exception e) {
@@ -1091,30 +1095,16 @@ public class ProtocolProtocolActionsAction extends ProtocolAction implements Aud
         AttachmentSummary attachmentSummary = protocolSummary.getAttachments().get(selectedIndex);
         
         ProtocolAttachmentBase attachment; 
+        
         if (attachmentSummary.getAttachmentType().startsWith("Protocol: ")) {
             attachment = getProtocolAttachmentService().getAttachment(ProtocolAttachmentProtocol.class, attachmentSummary.getAttachmentId());
-            if (attachment == null) {
-                return mapping.findForward(Constants.MAPPING_BASIC);
-            }
-            final AttachmentFile file = attachment.getFile();
-            byte[] attachmentFile =null;
-            String attachmentFileType=file.getType().replace("\"", "");
-            if(attachmentFileType.equalsIgnoreCase(WatermarkConstants.ATTACHMENT_TYPE_PDF)){
-                attachmentFile=getProtocolAttachmentFile(protocolForm,attachment);
-                if(attachmentFile!=null){          
-                    this.streamToResponse(attachmentFile, getValidHeaderString(file.getName()), getValidHeaderString(file.getType()), response);    }
-                else{
-                    this.streamToResponse(file.getData(), getValidHeaderString(file.getName()), getValidHeaderString(file.getType()), response);    }
-                return RESPONSE_ALREADY_HANDLED;
-            }
         } else {
             attachment = getProtocolAttachmentService().getAttachment(ProtocolAttachmentPersonnel.class, attachmentSummary.getAttachmentId());
         }
-        AttachmentFile file = attachment.getFile();
-        streamToResponse(file.getData(), getValidHeaderString(file.getName()), getValidHeaderString(file.getType()), response);
         
-        return RESPONSE_ALREADY_HANDLED;
+        return printAttachmentProtocol(mapping, response, attachment, protocolForm);
     }
+       
 
     /**
      * Go to the previous summary.
