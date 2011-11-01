@@ -65,7 +65,7 @@ public abstract class CoiAction extends KraTransactionalDocumentActionBase {
         CoiDisclosureForm coiDisclosureForm = (CoiDisclosureForm) form;
         String command = coiDisclosureForm.getCommand();
         ActionForward forward = mapping.findForward(Constants.MAPPING_BASIC);
-        String moduleCode = "13"; 
+        String moduleCode = CoiDisclosure.ANNUAL_DISCL_MODULE_CODE; 
         if (command.startsWith(KEWConstants.INITIATE_COMMAND)) {
             if (command.endsWith(CoiDisclosure.PROPOSAL_DISCL_MODULE_CODE)) {
                 moduleCode = CoiDisclosure.PROPOSAL_DISCL_MODULE_CODE;
