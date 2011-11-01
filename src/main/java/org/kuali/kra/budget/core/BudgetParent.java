@@ -52,7 +52,6 @@ public interface BudgetParent {
     public String getParentPIName();
     public String getIsOwnedByUnit();
     public Integer getParentInvestigatorFlag(String personId, Integer flag);
-    //public String getParentInvestigatorName();
-    
-    
+    public String  getParentTypeName();
+ 
 }

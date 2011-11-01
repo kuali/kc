@@ -10934,6 +10934,7 @@
         <fo:static-content flow-name="xsl-region-before">
             <fo:block>
                 <xsl:for-each select="$XML">
+                <xsl:variable name="parentTypeName" select="budgetSalary/parentTypeName"/>
                     <fo:inline-container>
                         <fo:block>
                             <xsl:text>&#x2029;</xsl:text>
@@ -10955,7 +10956,9 @@
                                     <fo:block>
                                     <fo:block/>
                                         <fo:inline font-family="Times New Roman" font-size="15pt" font-weight="bold">
-                                            <xsl:text>Coeus Proposal Development - </xsl:text>
+                                            <xsl:text>Coeus </xsl:text>
+											<xsl:text/> <xsl:value-of select="$parentTypeName" />
+                                            <xsl:text> - </xsl:text>
                                         </fo:inline>
                                         <xsl:for-each select="budgetSalary">
                                             <xsl:for-each select="HeaderTitle">
@@ -10983,7 +10986,8 @@
                                 <fo:table-cell font-family="Times New Roman" font-size="9pt" padding-bottom="0" padding-right="10pt" padding="2pt" text-align="right" display-align="before">
                                     <fo:block>
                                         <fo:inline font-weight="bold">
-                                            <xsl:text>Proposal Number:</xsl:text>
+                                        <xsl:text/> <xsl:value-of select="$parentTypeName" />
+                                            <xsl:text> Number:</xsl:text>
                                         </fo:inline>
                                     </fo:block>
                                 </fo:table-cell>
@@ -11045,7 +11049,8 @@
                                 <fo:table-cell font-family="Times New Roman" font-size="9pt" padding-bottom="0" padding-right="10pt" padding="2pt" text-align="right" display-align="before">
                                     <fo:block>
                                         <fo:inline font-weight="bold">
-                                            <xsl:text>Proposal Title:</xsl:text>
+                                        <xsl:text/> <xsl:value-of select="$parentTypeName" />
+                                            <xsl:text> Title:</xsl:text>
                                         </fo:inline>
                                     </fo:block>
                                 </fo:table-cell>
