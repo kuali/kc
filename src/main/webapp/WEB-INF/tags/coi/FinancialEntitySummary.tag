@@ -10,13 +10,11 @@
 	</c:otherwise>
 </c:choose>
 <c:set var="relationshipDetails" value= "${bean.relationshipDetails}" />
-
 <tr>
-
-	<td class="content_grey" rowspan="3" style="vertical-align: top;">
+	<td class="content_grey" rowspan="3" style="vertical-align: top;" width="30%">
 	<p>Address:</p>
 	</td>
-	<td class="content_white" rowspan="3" style="vertical-align: top;">
+	<td class="content_white" rowspan="3" style="vertical-align: top;" width="70%">
 	<p>${bean.address}</p>
 	</td>
 	<td class="content_grey">Sponsor code:</td>
@@ -34,15 +32,15 @@
 </tr>
 
 <tr>
-	<td class="content_grey">
+	<td class="content_grey" width="30%">
 	<p>Details:</p>
 	</td>
-	<td colspan="3">${bean.details}</td>
+	<td colspan="3" width="70%">${bean.details}</td>
 </tr>
 <c:forEach items="${relationshipDetails}" var="entry">
 	<tr>
-	<td class="content_grey">${entry.key}</td>
-	<td colspan="3">${entry.value}</td>
+	<td class="content_grey" width="30%">${entry.key}</td>
+	<td colspan="3" width="70%">${entry.value}</td>
 	</tr>
 </c:forEach>
 

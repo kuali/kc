@@ -16,6 +16,7 @@
 package org.kuali.kra.coi.personfinancialentity;
 
 import java.io.Serializable;
+import java.util.List;
 import java.util.Map;
 
 public class FinancialEntitySummaryBean implements Serializable {
@@ -25,13 +26,12 @@ public class FinancialEntitySummaryBean implements Serializable {
     private static final long serialVersionUID = -8525835671837464825L;
     private String address;
     private String relationshipDescription;
-    private Long sponsorCode;
+    private String sponsorCode;
     private String statusCode;
     private String ownershipType;
     private String details;
     private Map<String, String> relationshipDetails;
     private FinancialEntityForm financialEntityForm;
-    
     
     
     public FinancialEntitySummaryBean(FinancialEntityForm financialEntityForm) {
@@ -67,11 +67,11 @@ public class FinancialEntitySummaryBean implements Serializable {
     public void setRelationshipDescription(String relationshipDescription) {
         this.relationshipDescription = relationshipDescription;
     }
-    public Long getSponsorCode() {
+    public String getSponsorCode() {
         return sponsorCode;
     }
-    public void setSponsorCode(Long sponsorCode) {
-        this.sponsorCode = sponsorCode;
+    public void setSponsorCode(String string) {
+        this.sponsorCode = string;
     }
     public String getStatusCode() {
         return statusCode;
