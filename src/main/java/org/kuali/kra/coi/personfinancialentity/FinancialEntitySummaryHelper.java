@@ -17,12 +17,16 @@ package org.kuali.kra.coi.personfinancialentity;
 
 import java.io.Serializable;
 import java.util.HashMap;
+import java.util.Iterator;
 import java.util.List;
 import java.util.Map;
+import java.util.TreeMap;
 
 import org.apache.commons.lang.StringUtils;
 import org.kuali.kra.infrastructure.Constants;
 import org.kuali.kra.infrastructure.KraServiceLocator;
+import org.kuali.kra.lookup.keyvalue.ArgValueLookupValuesFinder;
+import org.kuali.rice.core.util.KeyLabelPair;
 import org.kuali.rice.kns.service.BusinessObjectService;
 import org.kuali.rice.kns.util.ObjectUtils;
 
@@ -39,11 +43,13 @@ public class FinancialEntitySummaryHelper implements Serializable {
     private PersonFinIntDisclosure currentFinancialEntity;
     private PersonFinIntDisclosure previousFinancialEntity;
     private List<PersonFinIntDisclosure> versions;
+    private String[] relationshipType; 
+    private String[] percentages; 
+    private String[] remuneration;
     
     private static final String newLine = "<BR>";
-    private static final String[] relationshipType = {"Self", "Spouse", "Children", "Student", "Other"};
-    private static final String[] percentages = {"5-25%", "26-50%", "51-75%", "76-100%"};
-    private static final String[] remuneration = {"10-50K", "51-100K", "101-200K", "Over 200K"};
+    private static final String remunerationRange = "remuneration_range";
+    private static final String ownershipInterests = "ownership_interest";
     private static final String plusString = "+";
     
 
@@ -74,14 +80,16 @@ public class FinancialEntitySummaryHelper implements Serializable {
     public void setPreviousFinancialEntity(PersonFinIntDisclosure previousFinancialEntity) {
         this.previousFinancialEntity = previousFinancialEntity;
     }
+  
     
     /**
-     * This method...
+     * This method is called from the action class.
      * @param currentVersionNumber
      * @param entityNumber
      * @param status
      */
     public void setSummaryDetails(int currentVersionNumber, String entityNumber, String status) {
+        initRanges();
         this.currentVersionNumber = currentVersionNumber;
         currentFinancialEntity = new PersonFinIntDisclosure();
         previousFinancialEntity = new PersonFinIntDisclosure();
@@ -115,7 +123,7 @@ public class FinancialEntitySummaryHelper implements Serializable {
     }
 
     /**
-     * This method...
+     * This method set the current and previous beans
      * @param currentVersionNumber
      * @param currentFinancialEntity
      * @param previousFinancialEntity
@@ -124,21 +132,22 @@ public class FinancialEntitySummaryHelper implements Serializable {
         setCurrentVersionNumber(currentVersionNumber);
         FinancialEntitySummaryBean currentSummary = financialEntityForm.getCurrentSummary();
         FinancialEntitySummaryBean previousSummary = financialEntityForm.getPreviousSummary();
-        setSummaryDetails(currentFinancialEntity, currentSummary);       
-        setSummaryDetails(previousFinancialEntity, previousSummary); 
-        //financialEntityForm.setCurrentSummary(currentSummary);
-        //financialEntityForm.setPreviousSummary(previousSummary);
+        setSummaryInformation(currentFinancialEntity, currentSummary);       
+        setSummaryInformation(previousFinancialEntity, previousSummary); 
         
         Map<String, String> currentRelationshipDetails = getRelationshipDetails(currentFinancialEntity);
-        if (currentVersionNumber > 1) {                     
-            Map<String, String> previousRelationshipDetails = getRelationshipDetails(previousFinancialEntity);
+        Map<String, String> previousRelationshipDetails = new HashMap<String, String>();
+        if (currentVersionNumber > 1) { 
+            previousRelationshipDetails = getRelationshipDetails(previousFinancialEntity);
             formatDetails(currentRelationshipDetails, previousRelationshipDetails);
         }
-        
+        Map<String, String> dataGroups = getDataGroups();
+        currentSummary.setRelationshipDetails(cleanupDetails(currentRelationshipDetails, dataGroups));
+        previousSummary.setRelationshipDetails(cleanupDetails(previousRelationshipDetails, dataGroups));
     }
 
     /**
-     * This method...
+     * This method adds a span to current details when it is different from the previous
      * @param currentRelationshipDetails
      * @param previousRelationshipDetails
      */
@@ -170,43 +179,63 @@ public class FinancialEntitySummaryHelper implements Serializable {
         if (ObjectUtils.isNotNull(currentSummary.getSponsorCode())) {
             if (ObjectUtils.isNotNull(previousSummary.getSponsorCode())) {
                 if (!StringUtils.equalsIgnoreCase(currentSummary.getSponsorCode().toString(), previousSummary.getSponsorCode().toString())) {
-                    currentSummary.setDetails(addSpan(currentSummary.getSponsorCode().toString()));
+                    currentSummary.setSponsorCode(addSpan(currentSummary.getSponsorCode().toString()));
                 } 
             } else {
-                currentSummary.setDetails(addSpan(currentSummary.getSponsorCode().toString()));
+                currentSummary.setSponsorCode(addSpan(currentSummary.getSponsorCode().toString()));
             }
+        }
+        if (!StringUtils.equalsIgnoreCase(currentSummary.getOwnershipType(), previousSummary.getOwnershipType())) {
+            currentSummary.setOwnershipType(addSpan(currentSummary.getOwnershipType()));
         }
       
     }
     
     /**
-     * This method...
+     * This method adds the correct header and sub headers for the details.
      * @param relationshipDetails
      * @param dataGroups 
      * @return
      */
     protected Map<String, String> cleanupDetails(Map<String, String> relationshipDetails, Map<String, String> dataGroups) {
-        Map<String, String> formattedRelationshipDetails = new HashMap<String, String>();
+        Map<String, String> formattedRelationshipDetails = new TreeMap<String, String>();
         for (String group : relationshipDetails.keySet()) {
             String heading = group.substring(0, group.indexOf(plusString));
             String subHeading = group.substring(group.indexOf(plusString) + 1);
-            formattedRelationshipDetails.put(heading, subHeading + newLine + relationshipDetails.get(group));
+            if (formattedRelationshipDetails.containsKey(heading)) {
+                formattedRelationshipDetails.put(heading, 
+                                                 formattedRelationshipDetails.get(heading) 
+                                                 + subHeading + ": " + newLine + relationshipDetails.get(group) + newLine);
+
+            } else {
+                formattedRelationshipDetails.put(heading, subHeading + ": " + newLine + relationshipDetails.get(group) + newLine);
+            }
         }
-              
+        /*
+         * Add an empty string if a group is missing or it will not show up 
+         * in the summary.
+         */
         for (String group : dataGroups.keySet()) {
             if (!formattedRelationshipDetails.containsKey(dataGroups.get(group))) {
                 formattedRelationshipDetails.put(dataGroups.get(group), "");
             }
         }
-    return formattedRelationshipDetails;    
+       
+        
+        return formattedRelationshipDetails;    
     }
     
+    /**
+     * This method adds a span class to a string
+     * @param htmlString
+     * @return
+     */
     protected String addSpan(String htmlString) {
         return "<span class=\"changed\">" + htmlString + "</span>";
     }
    
     public List<PersonFinIntDisclosure> getVersions() {
-       return versions;
+        return versions;
     }
     
     public void setVersions(List<PersonFinIntDisclosure> versions) {
@@ -226,11 +255,11 @@ public class FinancialEntitySummaryHelper implements Serializable {
     }
    
     /**
-     * This method...
+     * This method sets all the information required for the summary.
      * @param financialEntity
      * @param summary
      */
-    protected void setSummaryDetails(PersonFinIntDisclosure financialEntity, FinancialEntitySummaryBean summary) {
+    protected void setSummaryInformation(PersonFinIntDisclosure financialEntity, FinancialEntitySummaryBean summary) {
         String entityAddress = "";
         for (FinancialEntityContactInfo address : financialEntity.getFinEntityContactInfos()) {
             entityAddress += ObjectUtils.isNull(address.getAddressLine1()) ? "" : address.getAddressLine1() + newLine;
@@ -256,61 +285,78 @@ public class FinancialEntitySummaryHelper implements Serializable {
             details += "Entity Principal Business/Activity: " + newLine + financialEntity.getPrincipalBusinessActivity() + newLine;
         }
         summary.setDetails(details);
-        
+        summary.setStatusCode(ObjectUtils.isNotNull(financialEntity.getStatusCode()) ? financialEntity.getStatusCode().toString() : "");
+        summary.setSponsorCode(ObjectUtils.isNotNull(financialEntity.getSponsorCode()) ? financialEntity.getSponsorCode().toString() : "");
+       
     }
     
     /**
-     * This method...
+     * This method gets the relationship details for a financial entity.
      * @param financialEntity
      * @return
      */
     protected Map<String, String> getRelationshipDetails(PersonFinIntDisclosure financialEntity) {
         List<PersonFinIntDisclDet> details = financialEntity.getPerFinIntDisclDetails();
         
-        Map<String, DataMatrix> dataType = getFinancialEntityDataMatrix();
-        Map<String, String> oDetails = new HashMap<String, String>();
+        Map<String, FinEntitiesDataMatrix> dataType = getFinancialEntityDataMatrix();
+        Map<String, String> relationshipDetails = new HashMap<String, String>();
         Map<String, String> dataGroups = getDataGroups();
         String value = "";
         for (PersonFinIntDisclDet detail : details) {
-            int columnValue = Integer.parseInt(detail.getColumnValue());
-            DataMatrix dm = dataType.get(detail.getColumnName());
-            if (ObjectUtils.isNull(dm.getLookupArgument())) {
-                value = relationshipType[Integer.parseInt(detail.getRelationshipTypeCode()) - 1] + ", ";
-            } else {
-                if (dm.getLookupArgument().equalsIgnoreCase("remuneration_range")) {
-                    value = relationshipType[Integer.parseInt(detail.getRelationshipTypeCode()) - 1]  + " : "
-                            + remuneration[columnValue - 1] + ", ";
-                } else if (dm.getLookupArgument().equalsIgnoreCase("ownership_interest")) {
-                    value = relationshipType[Integer.parseInt(detail.getRelationshipTypeCode()) - 1] + " : " 
-                            + percentages[columnValue - 1] + ", ";
+            FinEntitiesDataMatrix dm = dataType.get(detail.getColumnName());
+            
+            // if column value is null, it is a comment
+            if (ObjectUtils.isNotNull(detail.getColumnValue())) {
+                int columnValue = Integer.parseInt(detail.getColumnValue());
+                // if lookup argument is null, it is a select. Hence get the relationship type
+                if (ObjectUtils.isNull(dm.getLookupArgument())) {
+                    value = relationshipType[Integer.parseInt(detail.getRelationshipTypeCode()) - 1] + ", ";
+                } else {
+                    if (dm.getLookupArgument().equalsIgnoreCase(remunerationRange)) {
+                        value = relationshipType[Integer.parseInt(detail.getRelationshipTypeCode()) - 1]  + " : "
+                        + remuneration[columnValue - 1] + ", ";
+                    } else if (dm.getLookupArgument().equalsIgnoreCase(ownershipInterests)) {
+                        value = relationshipType[Integer.parseInt(detail.getRelationshipTypeCode()) - 1] + " : " 
+                        + percentages[columnValue - 1] + ", ";
+                    } 
+                }
+                
+                String groupName = dataGroups.get(dm.getDataGroupId().toString());
+                String hashKey = groupName + plusString + dm.getColumnLabel();
+                if (relationshipDetails.containsKey(hashKey)) {
+                    relationshipDetails.put(hashKey, relationshipDetails.get(hashKey) + value);
+                } else {
+                    
+                    if (ObjectUtils.isNotNull(detail.getComments())) {
+                        value =  "Comments: " + detail.getComments() + newLine + value; 
+                    } 
+                    relationshipDetails.put(hashKey, value);
+                    
                 } 
+                
             }
-            
-            String groupName = dataGroups.get(dm.getDataGroupId().toString());
-            String hashKey = groupName + plusString + dm.getColumnLabel();
-            if (oDetails.containsKey(hashKey)) {
-                oDetails.put(hashKey, oDetails.get(hashKey) + value);
-            } else {
-                oDetails.put(hashKey, value);
-            }
-            
         }
-        return oDetails;
+       
+        return relationshipDetails;
     }
     
-    protected Map<String, DataMatrix> getFinancialEntityDataMatrix() {
-        Map<String, DataMatrix> dataType = new HashMap<String, DataMatrix>();
+    protected Map<String, FinEntitiesDataMatrix> getFinancialEntityDataMatrix() {
+        Map<String, FinEntitiesDataMatrix> dataType = new HashMap<String, FinEntitiesDataMatrix>();
         List<FinEntitiesDataMatrix> matrix = (List<FinEntitiesDataMatrix>) getBusinessObjectService().findAll(FinEntitiesDataMatrix.class);
         for (FinEntitiesDataMatrix row : matrix) {
-            DataMatrix dataMatrix = new DataMatrix();
+           /* DataMatrix dataMatrix = new DataMatrix();
             dataMatrix.setColumnLabel(row.getColumnLabel());
             dataMatrix.setDataGroupId(row.getDataGroupId());
             dataMatrix.setLookupArgument(row.getLookupArgument());
-            dataType.put(row.getColumnName(), dataMatrix);
+            dataType.put(row.getColumnName(), dataMatrix);*/
+            dataType.put(row.getColumnName(), row);
         }
         return dataType;
     }
     
+    /*
+     * 
+     */
     protected Map<String, String> getDataGroups() {
         Map<String, String> dataGroups = new HashMap<String, String>();
         List<FinEntitiesDataGroup> groups = (List<FinEntitiesDataGroup>) getBusinessObjectService().findAll(FinEntitiesDataGroup.class);
@@ -320,6 +366,7 @@ public class FinancialEntitySummaryHelper implements Serializable {
         }
         return dataGroups;
     }
+    
     protected BusinessObjectService getBusinessObjectService() {
         return KraServiceLocator.getService(BusinessObjectService.class);
     }
@@ -328,4 +375,71 @@ public class FinancialEntitySummaryHelper implements Serializable {
         return KraServiceLocator.getService(FinancialEntityService.class);
     }
   
+    
+    /**
+     * This method sets the salary and percentage ranges and the relationship values.
+     */
+    protected void initRanges() {
+        ArgValueLookupValuesFinder finder = new  ArgValueLookupValuesFinder();
+        finder.setArgName(remunerationRange);
+        List<KeyLabelPair> kv = finder.getKeyValues();
+        
+        int index = 0;
+        String[] temp = new String[kv.size()];
+        for (KeyLabelPair pair : kv) {
+            if (!pair.getLabel().equalsIgnoreCase("select")) {
+                temp[index] = pair.getLabel();
+                index++;
+            }
+        }
+        setRemuneration(temp);
+        
+        finder.setArgName(ownershipInterests);
+        kv = finder.getKeyValues();
+        index = 0;
+        String[] tempPercentage = new String[kv.size()];
+        for (KeyLabelPair pair : kv) {
+            if (!pair.getLabel().equalsIgnoreCase("select")) {
+                tempPercentage[index] = pair.getLabel();
+                index++;
+            }
+        }
+        setPercentages(tempPercentage);
+        
+        List<FinIntEntityRelType> relTypes = (List<FinIntEntityRelType>) getBusinessObjectService().findAll(FinIntEntityRelType.class);
+        String[] types = new String[relTypes.size()];
+        index = 0;
+        for (FinIntEntityRelType type : relTypes) {
+            types[index] = type.getDescription();
+            index++;
+        }
+        setRelationshipType(types);
+    }
+
+    public String[] getRelationshipType() {
+        return relationshipType;
+    }
+
+    public void setRelationshipType(String[] relationshipType) {
+        this.relationshipType = relationshipType;
+    }
+
+    public String[] getPercentages() {
+        return percentages;
+    }
+
+    public void setPercentages(String[] percentages) {
+        this.percentages = percentages;
+    }
+
+    public String[] getRemuneration() {
+        return remuneration;
+    }
+
+    public void setRemuneration(String[] remuneration) {
+        this.remuneration = remuneration;
+    }
+    
+    
+    
 }
