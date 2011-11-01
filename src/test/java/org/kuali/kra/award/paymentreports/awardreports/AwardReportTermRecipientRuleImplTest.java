@@ -57,14 +57,7 @@ public class AwardReportTermRecipientRuleImplTest {
         awardReportTermRecipientItem.setContactTypeCode("5");
         awardReportTermRecipientItem.setRolodexId(5);        
         awardReportTermRecipientItems.add(awardReportTermRecipientItem);        
-        //awardReportTermRecipientItem = new AwardReportTermRecipient();
-        //awardReportTermRecipientItem.setContactTypeCode("5");
-        //awardReportTermRecipientItem.setRolodexId(5);
         Assert.assertFalse(awardReportTermRecipientRuleImpl.isUnique(awardReportTermRecipientItems, awardReportTermRecipientItem));
-        //awardReportTermRecipientItem = new AwardReportTermRecipient();
-        //awardReportTermRecipientItem.setContactTypeCode("3");
-        //awardReportTermRecipientItem.setRolodexId(5);
-        //Assert.assertTrue(awardReportTermRecipientRuleImpl.isUnique(awardReportTermRecipientItems, awardReportTermRecipientItem));
     }
     
     /**
