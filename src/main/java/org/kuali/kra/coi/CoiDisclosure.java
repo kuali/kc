@@ -15,7 +15,10 @@
  */
 package org.kuali.kra.coi;
 
+import static org.kuali.kra.infrastructure.KraServiceLocator.getService;
+
 import java.sql.Date;
+import java.sql.Timestamp;
 import java.text.SimpleDateFormat;
 import java.util.ArrayList;
 import java.util.Calendar;
@@ -31,6 +34,7 @@ import org.kuali.kra.coi.disclosure.DisclosurePerson;
 import org.kuali.kra.coi.disclosure.DisclosurePersonUnit;
 import org.kuali.kra.infrastructure.Constants;
 import org.kuali.kra.infrastructure.KraServiceLocator;
+import org.kuali.rice.kns.service.KualiConfigurationService;
 import org.kuali.rice.kns.service.ParameterService;
 import org.kuali.rice.kns.service.SequenceAccessorService;
 import org.kuali.rice.kns.util.DateUtils;
@@ -59,7 +63,7 @@ public class CoiDisclosure extends KraPersistableBusinessObjectBase {
     private String personId; 
     private String certificationText; 
     private String certifiedBy; 
-    private Date certificationTimestamp; 
+    private Timestamp certificationTimestamp; 
     private String disclosureDispositionCode; 
     private String disclosureStatusCode; 
     private Date expirationDate; 
@@ -74,10 +78,12 @@ public class CoiDisclosure extends KraPersistableBusinessObjectBase {
 
     private static final String DISCLOSURE_CERT_STMT = "COI_CERTIFICATION_STATEMENT";
     private static final String DISCLOSURE_CERT_ACK  = "COI_CERTIFICATION_ACKNOWLEDGEMENT";
+    private static final String SUBMIT_ACK_THANKYOU = "message.disclosure.submit.thankyou";
     
     private transient String certificationStatement;
     private transient String acknowledgementStatement;
-
+    private static String submitThankyouStatement = null;
+    
     // dateFormatter here is thread safe.
     private SimpleDateFormat dateFormatter = new SimpleDateFormat("MM/dd/yyyy");
 
@@ -151,26 +157,26 @@ public class CoiDisclosure extends KraPersistableBusinessObjectBase {
         this.certifiedBy = certifiedBy;
     }
 
-    public Date getCertificationTimestamp() {
+    public Timestamp getCertificationTimestamp() {
         return certificationTimestamp;
     }
 
     public String getCertificationTimestampString() {
         if (getCertificationTimestamp() == null) {
-            return dateFormatter.format(new Date(Calendar.getInstance().getTimeInMillis()));
+            return null;
+        } else {
+            return dateFormatter.format(getCertificationTimestamp());
         }
-        return dateFormatter.format(getCertificationTimestamp());
     }
     
-    public void setCertificationTimestamp(Date certificationTimestamp) {
+    public void setCertificationTimestamp(Timestamp certificationTimestamp) {
         this.certificationTimestamp = certificationTimestamp;
     }
 
     public void certifyDisclosure() {
         certifiedFlag = true;
-        setCertificationTimestamp(new Date(Calendar.getInstance().getTimeInMillis()));
-        certificationText = new String(certificationStatement);
-//TODO: Might need to save disclosure here...
+        setCertificationTimestamp(new Timestamp(Calendar.getInstance().getTimeInMillis()));
+        certificationText = new String(acknowledgementStatement);
     }
 
     public String getDisclosureDispositionCode() {
@@ -430,6 +436,14 @@ public class CoiDisclosure extends KraPersistableBusinessObjectBase {
         this.coiDisclEventProjects = coiDisclEventProjects;
     }
 
+    public String getSubmitThankyouStatement() {
+        if (submitThankyouStatement == null) {
+            KualiConfigurationService kualiConfiguration = getService(KualiConfigurationService.class);
+            submitThankyouStatement = kualiConfiguration.getPropertyString(SUBMIT_ACK_THANKYOU);
+        }
+        return submitThankyouStatement;
+    }
+
     public boolean isProposalEvent() {
         return StringUtils.equals(PROPOSAL_DISCL_MODULE_CODE, this.getModuleCode());
     }
@@ -442,4 +456,4 @@ public class CoiDisclosure extends KraPersistableBusinessObjectBase {
         return StringUtils.equals(AWARD_DISCL_MODULE_CODE, this.getModuleCode());
     }
 
-}
+ }

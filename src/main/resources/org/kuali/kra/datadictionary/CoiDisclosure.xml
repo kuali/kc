@@ -131,9 +131,6 @@
         <property name="label" value="Certification Text" />
         <property name="shortLabel" value="Certification Text" />
         <property name="maxLength" value="4000" />
-        <property name="validationPattern" >
-            <bean parent="AlphaNumericValidationPattern" />
-        </property>
         <property name="control" >
             <bean parent="TextareaControlDefinition"
                 p:rows="3"
