@@ -47,21 +47,41 @@ public class AwardReportTermRecipientRuleImplTest {
         awardReportTermRecipientItems = null;
     }
     
+    /**
+     * 
+     * This method should find an error condition.
+     */
     @Test
-    public final void testIsUnique(){
+    public final void testIsUnique1(){
+        AwardReportTermRecipient awardReportTermRecipientItem = new AwardReportTermRecipient();
+        awardReportTermRecipientItem.setContactTypeCode("5");
+        awardReportTermRecipientItem.setRolodexId(5);        
+        awardReportTermRecipientItems.add(awardReportTermRecipientItem);        
+        //awardReportTermRecipientItem = new AwardReportTermRecipient();
+        //awardReportTermRecipientItem.setContactTypeCode("5");
+        //awardReportTermRecipientItem.setRolodexId(5);
+        Assert.assertFalse(awardReportTermRecipientRuleImpl.isUnique(awardReportTermRecipientItems, awardReportTermRecipientItem));
+        //awardReportTermRecipientItem = new AwardReportTermRecipient();
+        //awardReportTermRecipientItem.setContactTypeCode("3");
+        //awardReportTermRecipientItem.setRolodexId(5);
+        //Assert.assertTrue(awardReportTermRecipientRuleImpl.isUnique(awardReportTermRecipientItems, awardReportTermRecipientItem));
+    }
+    
+    /**
+     * 
+     * This method should not find an error condition.
+     */
+    @Test
+    public final void testIsUnique2(){
         AwardReportTermRecipient awardReportTermRecipientItem = new AwardReportTermRecipient();
         awardReportTermRecipientItem.setContactTypeCode("5");
         awardReportTermRecipientItem.setRolodexId(5);        
         awardReportTermRecipientItems.add(awardReportTermRecipientItem);        
         awardReportTermRecipientItem = new AwardReportTermRecipient();
-        awardReportTermRecipientItem.setContactTypeCode("5");
-        awardReportTermRecipientItem.setRolodexId(5);
-        Assert.assertFalse(awardReportTermRecipientRuleImpl.isUnique(awardReportTermRecipientItems, awardReportTermRecipientItem));
-        awardReportTermRecipientItem = new AwardReportTermRecipient();
         awardReportTermRecipientItem.setContactTypeCode("3");
-        awardReportTermRecipientItem.setRolodexId(5);
+        awardReportTermRecipientItem.setRolodexId(3);
         Assert.assertTrue(awardReportTermRecipientRuleImpl.isUnique(awardReportTermRecipientItems, awardReportTermRecipientItem));
-    }   
+    }
     
     @Test
     public final void testAreRequiredFieldsComplete(){
