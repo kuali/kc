@@ -19,6 +19,7 @@ import java.util.List;
 
 import org.apache.commons.lang.StringUtils;
 import org.kuali.kra.award.home.Award;
+import org.kuali.kra.award.lookup.keyvalue.FrequencyBaseCodeValuesFinder;
 import org.kuali.kra.infrastructure.KeyConstants;
 import org.kuali.kra.rules.ResearchDocumentRuleBase;
 import org.kuali.rice.kns.util.GlobalVariables;
@@ -133,8 +134,16 @@ public class AwardReportTermRuleImpl extends ResearchDocumentRuleBase
             reportError(fieldPrePend + AWARD_REPORT_TERM_FREQUENCY_CODE_PROPERTY, KeyConstants.ERROR_REQUIRED, FREQUENCY_CODE_ERROR_PARM);
         }
         if (StringUtils.isBlank(awardReportTermItem.getFrequencyBaseCode())) {
-            retVal = false;
-            reportError(fieldPrePend + AWARD_REPORT_TERM_FREQUENCY_BASE_CODE_PROPERTY, KeyConstants.ERROR_REQUIRED, FREQUENCY_BASE_CODE_ERROR_PARM);
+            FrequencyBaseCodeValuesFinder finder = new FrequencyBaseCodeValuesFinder(awardReportTermItem.getFrequencyCode());
+            /**
+             * If there are no frequency bases active, then we don't validate the frequency base field.
+             * Note, there is always a 'select' value pair in the keyValues.
+             */
+            System.err.println("finder.getKeyValues().size(): " + finder.getKeyValues().size());
+            if (finder.getKeyValues().size() > 1) {
+                retVal = false;
+                reportError(fieldPrePend + AWARD_REPORT_TERM_FREQUENCY_BASE_CODE_PROPERTY, KeyConstants.ERROR_REQUIRED, FREQUENCY_BASE_CODE_ERROR_PARM);
+            }
         }
         if (StringUtils.isBlank(awardReportTermItem.getOspDistributionCode())) {
             reportError(fieldPrePend + AWARD_REPORT_TERM_DISTRIBUTION_PROPERTY, KeyConstants.ERROR_REQUIRED, DISTRIBUTION_ERROR_PARM);
