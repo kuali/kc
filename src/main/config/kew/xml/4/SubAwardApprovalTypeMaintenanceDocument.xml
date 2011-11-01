@@ -1,0 +1,11 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<data xmlns="ns:workflow" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:schemaLocation="ns:workflow resource:WorkflowData">
+	<documentTypes xmlns="ns:workflow/DocumentType" xsi:schemaLocation="ns:workflow/DocumentType resource:DocumentType">
+		<documentType>
+			<name>SubAwardApprovalTypeMaintenanceDocument</name>
+			<description>Document used to create or update SubAward Approval Type business objects.</description>
+			<label>SubAward Approval Type Maintenance Document</label>
+			<parent>KcSharedMaintenanceDocument</parent>
+			</documentType>
+	</documentTypes>	
+</data>
