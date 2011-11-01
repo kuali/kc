@@ -72,6 +72,7 @@ public abstract class BudgetBaseSalaryStream extends BudgetBaseStream {
 		
 		if (parentNumber != null) {
 			budgetSalary.setProposalNumber(parentNumber);
+			budgetSalary.setParentTypeName(bdP.getParentTypeName());		
 		}
 		setBudgetSalaryTypeBasicInformation(budgetSalary);
 		

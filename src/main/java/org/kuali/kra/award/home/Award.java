@@ -3436,19 +3436,13 @@ public class Award extends KraPersistableBusinessObjectBase implements KeywordsM
     
 
     public String getParentNumber() {
-        // TODO Auto-generated method stub
         return this.getAwardNumber();
     }
 
     public String getParentPIName() {
-        // TODO Auto-generated method stub
-        return null;
-    }
-
-    public String getParentTitle() {
         String investigatorName = null;
         for (AwardPerson aPerson : this.getProjectPersons()) {
-            if (aPerson.getPersonId() != null && aPerson.getRolodexId().equals("PI"))
+            if (aPerson != null && aPerson.isPrincipalInvestigator() )
             {
                 investigatorName = aPerson.getFullName();
                 break;
@@ -3457,24 +3451,32 @@ public class Award extends KraPersistableBusinessObjectBase implements KeywordsM
         return investigatorName;
     }
 
+    public String getParentTitle() {
+        return this.getTitle();
+    }
+
     public String getIsOwnedByUnit() {
         return this.getLeadUnitName();
     }
 
     public Integer getParentInvestigatorFlag(String personId, Integer flag) {
-        for (AwardPerson pPerson : this.getProjectPersons()) {
-            if (pPerson.getPersonId() != null
-                    && pPerson.getPersonId().equals(personId)
-                    || pPerson.getRolodexId() != null
-                    && pPerson.getRolodexId().equals(personId)) {
+        for (AwardPerson aPerson : this.getProjectPersons()) {
+            if (aPerson.getPersonId() != null
+                    && aPerson.getPersonId().equals(personId)
+                    || aPerson.getRolodexId() != null
+                    && aPerson.getRolodexId().equals(personId)) {
                 flag = 2;
-                if (pPerson.getRolodexId().equals("PI")) {
+                if (aPerson.isPrincipalInvestigator()) {
                     flag = 1;
                     break;
                 }
             }
         }
         return flag;
+    }
+    
+    public String getParentTypeName(){
+        return "Award";
     }
 
     @Override

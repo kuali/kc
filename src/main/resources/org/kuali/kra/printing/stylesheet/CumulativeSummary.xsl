@@ -16,6 +16,8 @@
             <fo:page-sequence master-reference="default-page" initial-page-number="1" format="1">
                 <fo:static-content flow-name="xsl-region-before">
                     <fo:block>
+                        <xsl:variable name="parentTypeName" select="BudgetSummaryReport/ReportHeader/parentTypeName"/>
+    	
                         <fo:table width="520pt" space-before.optimum="1pt" space-after.optimum="2pt">
                             <fo:table-column/>
                             <fo:table-column/>
@@ -28,7 +30,9 @@
                                             <fo:block>
                                                 <fo:leader leader-pattern="space" />
                                             </fo:block>
-                                            <fo:inline font-size="12.0pt" font-weight="bold">Coeus Proposal Development - Cumulative Budget Summary</fo:inline>
+                                            <fo:inline font-size="12.0pt" font-weight="bold">Coeus </fo:inline>
+                                            <fo:inline font-size="12.0pt" font-weight="bold"> <xsl:value-of select="$parentTypeName" /> </fo:inline>
+                                            <fo:inline font-size="12.0pt" font-weight="bold"> Development - Cumulative Budget Summary</fo:inline>
                                             <fo:block>
                                                 <fo:leader leader-pattern="space" />
                                             </fo:block>
@@ -41,7 +45,7 @@
                                 <fo:table-row>
                                     <fo:table-cell font-size="inherited-property-value(&apos;font-size&apos;) - 2pt"  padding-left="0pt" padding-right="0pt" padding-top="0pt" border-style="solid" border-width="1pt" border-color="white" text-align="left" padding-start="3pt" padding-end="3pt" padding-before="3pt"  display-align="center">
                                         <fo:block>
-                                            <fo:inline font-size="9.0pt" font-weight="bold">Proposal Number </fo:inline>
+                                            <fo:inline font-size="9.0pt" font-weight="bold"><xsl:value-of select="$parentTypeName" /> Number </fo:inline>
                                         </fo:block>
                                     </fo:table-cell>
                                     <fo:table-cell font-size="inherited-property-value(&apos;font-size&apos;) - 2pt"  padding-left="0pt" padding-right="0pt" padding-top="0pt" border-style="solid" border-width="1pt" border-color="white" text-align="left" padding-start="3pt" padding-end="3pt" padding-before="3pt"  display-align="center">
@@ -126,7 +130,7 @@
                                 <fo:table-row>
                                     <fo:table-cell  padding-left="0pt" padding-right="0pt" padding-top="0pt" border-style="solid" border-width="1pt" border-color="white" width="235pt" padding-start="3pt" padding-end="3pt" padding-before="3pt"  display-align="center" text-align="start">
                                         <fo:block>
-                                            <fo:inline font-size="9.5pt" font-weight="bold">Proposal Title</fo:inline>
+                                            <fo:inline font-size="9.5pt" font-weight="bold"><xsl:value-of select="$parentTypeName" /> Title</fo:inline>
                                             <fo:inline font-size="9.5pt">&#160;</fo:inline>
                                         </fo:block>
                                     </fo:table-cell>

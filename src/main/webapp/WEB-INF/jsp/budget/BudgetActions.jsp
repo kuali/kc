@@ -32,8 +32,8 @@
   	<div align="right"><kul:help documentTypeName="BudgetDocument" pageName="Budget Actions" /></div>
 
 	<div align="center">
-	    <c:choose>
-	       <c:when test="${KualiForm.editingMode['printProposal'] and proposalBudgetFlag}">
+		<c:choose>
+	       <c:when test="${KualiForm.editingMode['printProposal']}">
 		       <kra-b:budgetPrintForms />
 		       <kra-b:budgetJustification top="false" />
 		   </c:when>

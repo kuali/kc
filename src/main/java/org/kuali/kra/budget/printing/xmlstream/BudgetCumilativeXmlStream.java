@@ -117,6 +117,7 @@ public class BudgetCumilativeXmlStream extends BudgetBaseStream {
 		ReportHeaderType reportHeaderType = ReportHeaderType.Factory
 				.newInstance();
 		if (budgetParent != null) {
+		    reportHeaderType.setParentTypeName(budgetParent.getParentTypeName());
 			reportHeaderType.setProposalNumber(budgetParent.getParentNumber());
 		}
 		if (budgetParent != null && budgetParent.getParentTitle() != null) {
