@@ -810,8 +810,8 @@ public class ProposalDevelopmentActionsAction extends ProposalDevelopmentAction 
         boolean isIPProtocolLinkingEnabled = getParameterService().getIndicatorParameter(
             "KC-PROTOCOL", "Document", "irb.protocol.institute.proposal.linking.enabled");
         List<ProposalSpecialReview> specialReviews = proposalDevelopmentDocument.getDevelopmentProposal().getPropSpecialReviews();
-        if (isIPProtocolLinkingEnabled 
-            && applyRules(new SaveSpecialReviewLinkEvent<ProposalSpecialReview>(proposalDevelopmentDocument, specialReviews, new ArrayList<String>()))) {
+        if (!isIPProtocolLinkingEnabled 
+            || applyRules(new SaveSpecialReviewLinkEvent<ProposalSpecialReview>(proposalDevelopmentDocument, specialReviews, new ArrayList<String>()))) {
             /*
              * If there is an opportunity, then this is a Grants.gov submission.  
              */
