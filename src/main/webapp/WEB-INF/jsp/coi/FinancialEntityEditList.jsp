@@ -53,6 +53,7 @@
         <script type="text/javascript" src="scripts/jquery/jquery.tablesorter.js"></script> 
         <script type="text/javascript" src="scripts/jquery/jquery.fancybox-1.3.4jh.js"></script>
         <link rel="stylesheet" type="text/css" href="scripts/jquery/fancybox/jquery.fancybox-1.3.4.css"" media="screen"/>    
+       	<style type="text/css">div#fancybox-wrap {top:100px !important;}</style>
        
         <script type="text/javascript">
         
@@ -73,7 +74,9 @@
         		});
         		$j("a#viewEntitySummary").fancybox({
         			'width' : 553,
-        			'height': 600,
+        			'height': 500,
+        			'type' : 'iframe',
+        			'autoscale' : 'false',
         		});
 				
         	})

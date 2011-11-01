@@ -212,14 +212,22 @@ public class FinancialEntityEditListAction extends FinancialEntityAction{
         return mapping.findForward("history");
     }
     
+    /**
+     * This method displays the financial entity summary.
+     * @param mapping
+     * @param form
+     * @param request
+     * @param response
+     * @return
+     */
     public ActionForward viewFinancialEntity(ActionMapping mapping, ActionForm form, HttpServletRequest request, HttpServletResponse response) {
         FinancialEntityHelper financialEntityHelper = ((FinancialEntityForm) form).getFinancialEntityHelper();      
-        FinancialEntitySummaryHelper summaryHelper = ((FinancialEntityForm)form).getFinancialEntitySummaryHelper();
+        FinancialEntitySummaryHelper summaryHelper = ((FinancialEntityForm) form).getFinancialEntitySummaryHelper();
         Integer entityIndex = Integer.parseInt(request.getParameter("index"));
         financialEntityHelper.setEditEntityIndex(entityIndex);
         String status = request.getParameter("status");
         
-       int currentVersionNumber;
+        int currentVersionNumber;
         PersonFinIntDisclosure currentFinancialEntity;
         if (StringUtils.equalsIgnoreCase(status, Constants.FINANCIAL_ENTITY_STATUS_INACTIVE)) {
             currentFinancialEntity = ((FinancialEntityForm) form).getFinancialEntityHelper().getInactiveFinancialEntities().get(entityIndex);
@@ -233,11 +241,19 @@ public class FinancialEntityEditListAction extends FinancialEntityAction{
         return mapping.findForward("viewEntity");
     }
     
+    /**
+     * This method shows the previous and next versions of the financial entity
+     * @param mapping
+     * @param form
+     * @param request
+     * @param response
+     * @return
+     */
     public ActionForward previousNextVersion(ActionMapping mapping, ActionForm form, HttpServletRequest request, HttpServletResponse response) {
         int currentVersionNumber = Integer.parseInt(request.getParameter("versionNumber"));
         String entityNumber = request.getParameter("entityNumber");
         String status = request.getParameter("statusCode");
-        FinancialEntitySummaryHelper summaryHelper = ((FinancialEntityForm)form).getFinancialEntitySummaryHelper();
+        FinancialEntitySummaryHelper summaryHelper = ((FinancialEntityForm) form).getFinancialEntitySummaryHelper();
         summaryHelper.setSummaryDetails(currentVersionNumber, entityNumber, status);
         return mapping.findForward("viewEntity");
 
