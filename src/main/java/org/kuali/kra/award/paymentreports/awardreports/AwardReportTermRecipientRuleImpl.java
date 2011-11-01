@@ -73,52 +73,27 @@ public class AwardReportTermRecipientRuleImpl extends ResearchDocumentRuleBase
      * @param paymentScheduleItem
      * @return
      */
-    boolean isUnique(List<AwardReportTermRecipient> awardReportTermRecipientItems, AwardReportTermRecipient awardReportTermRecipientItem) {
+    protected boolean isUnique(List<AwardReportTermRecipient> awardReportTermRecipientItems, AwardReportTermRecipient awardReportTermRecipientItem) {
         boolean duplicateFound = false;
         ArrayList<String> contactRecipients = new ArrayList<String>();
         ArrayList<String> rolodexRecipients = new ArrayList<String>();
         for (AwardReportTermRecipient listItem : awardReportTermRecipientItems) {
             if (listItem != null) {
                 if (listItem.getContactId() != null) {
-                    String receipient = listItem.getContactId().toString();
-                    if (contactRecipients.contains(receipient)) {
-                        duplicateFound = true;
-                        break;
-                    } else {
-                        contactRecipients.add(receipient);
-                    }
+                    duplicateFound = checkStringInList(listItem.getContactId().toString(), contactRecipients);
                 } else {
-                    String receipient = listItem.getRolodexId().toString();
-                    if (rolodexRecipients.contains(receipient)) {
-                        duplicateFound = true;
-                        break;
-                    } else {
-                        rolodexRecipients.add(receipient);
-                    }
+                    duplicateFound = checkStringInList(listItem.getRolodexId().toString(), rolodexRecipients);
+                }
+                if (duplicateFound) {
+                    break;
                 }
             }
-            /*
-            duplicateFound = awardReportTermRecipientItem != listItem && listItem.equals(awardReportTermRecipientItem);
-            if(duplicateFound) {
-                break;
-            }
-            */
         }
         if (awardReportTermRecipientItem != null) {
             if (awardReportTermRecipientItem.getContactId() != null) {
-                String receipient = awardReportTermRecipientItem.getContactId().toString();
-                if (contactRecipients.contains(receipient)) {
-                    duplicateFound = true;
-                } else {
-                    contactRecipients.add(receipient);
-                }
+                duplicateFound = checkStringInList(awardReportTermRecipientItem.getContactId().toString(), contactRecipients);
             } else {
-                String receipient = awardReportTermRecipientItem.getRolodexId().toString();
-                if (rolodexRecipients.contains(receipient)) {
-                    duplicateFound = true;
-                } else {
-                    rolodexRecipients.add(receipient);
-                }
+                duplicateFound = checkStringInList(awardReportTermRecipientItem.getRolodexId().toString(), rolodexRecipients);
             }
         }
         
@@ -128,6 +103,16 @@ public class AwardReportTermRecipientRuleImpl extends ResearchDocumentRuleBase
             }
         }
         return !duplicateFound;
+    }
+    
+    private boolean checkStringInList(String receipient, ArrayList<String> recipientList) {
+        boolean exists = false;
+        if (recipientList.contains(receipient)) {
+            exists = true;
+        } else {
+            recipientList.add(receipient);
+        }
+        return exists;
     }
 
     /**
