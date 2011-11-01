@@ -23,10 +23,12 @@ import org.junit.After;
 import org.junit.Assert;
 import org.junit.Before;
 import org.junit.Test;
+import org.kuali.kra.printing.service.impl.KCTestPrintable;
+import org.kuali.kra.test.infrastructure.KcUnitTestBase;
 import org.kuali.rice.kns.util.ErrorMap;
 import org.kuali.rice.kns.util.GlobalVariables;
 
-public class AwardReportTermRuleImplTest {
+public class AwardReportTermRuleImplTest extends KcUnitTestBase {
     
     AwardReportTermRuleImpl awardReportTermRule;
     AwardReportTerm awardReportTerm;
