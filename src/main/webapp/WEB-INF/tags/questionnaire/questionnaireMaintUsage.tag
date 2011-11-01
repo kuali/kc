@@ -71,7 +71,7 @@
                 
                 <td class="infoline">
                     <div align=center>&nbsp;
-                        <input type="image" id="addUsage" name="addUsage" alt="Add an usage" title="Add an usage" src="static/images/tinybutton-add1.gif" class="tinybutton">
+                        <input type="image" id="addUsage" name="addUsage" alt="Add a Usage" title="Add a Usage" src="static/images/tinybutton-add1.gif" class="tinybutton">
                     </div>
                 </td>
             </tr>
