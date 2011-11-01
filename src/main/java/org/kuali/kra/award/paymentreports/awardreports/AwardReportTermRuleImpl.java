@@ -139,7 +139,6 @@ public class AwardReportTermRuleImpl extends ResearchDocumentRuleBase
              * If there are no frequency bases active, then we don't validate the frequency base field.
              * Note, there is always a 'select' value pair in the keyValues.
              */
-            System.err.println("finder.getKeyValues().size(): " + finder.getKeyValues().size());
             if (finder.getKeyValues().size() > 1) {
                 retVal = false;
                 reportError(fieldPrePend + AWARD_REPORT_TERM_FREQUENCY_BASE_CODE_PROPERTY, KeyConstants.ERROR_REQUIRED, FREQUENCY_BASE_CODE_ERROR_PARM);
