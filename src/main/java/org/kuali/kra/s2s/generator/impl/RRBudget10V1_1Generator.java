@@ -526,6 +526,7 @@ public class RRBudget10V1_1Generator extends RRBudgetBaseGenerator {
             EquipmentList[] equipmentArray = new EquipmentList[0];
             equipmentArray = equipmentArrayList.toArray(equipmentArray);
             equipment.setEquipmentListArray(equipmentArray);
+            totalFund = totalFund.add(totalExtraEquipFund);
             equipment.setTotalFund(totalFund.bigDecimalValue());
             if (equipmentArray.length > 0) {
                 equipment.setTotalFundForAttachedEquipment(totalExtraEquipFund.bigDecimalValue());
