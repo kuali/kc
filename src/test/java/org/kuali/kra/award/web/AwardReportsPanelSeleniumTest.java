@@ -71,8 +71,8 @@ public class AwardReportsPanelSeleniumTest extends KcSeleniumTestBase {
     private static final String PROCUREMENT_PRIORITY_CODE = "DO0076";
     
     private static final String ERROR_REPORT_CODE_REQUIRED = "Type (Type) is a required field";
-    private static final String ERROR_FREQUENCY_CODE_REQUIRED = "Frequency (Frequency) is a required field";
-    private static final String ERROR_OSP_DISTRIBUTION_CODE_REQUIRED = "OSP File Copy (OSP File Copy ) is a required field";
+    private static final String ERROR_FREQUENCY_CODE_REQUIRED_WITH_OSP = "Frequency is required if OSP File Copy is selected";
+    private static final String ERROR_OSP_DISTRIBUTION_REQUIRED_WITH_FREQUENCY = "OSP File Copy is required for a final report if Frequency is selected.";
     
     private static final String ADD_AWARD_REPORT_TERM_FINANCIAL_BUTTON = "methodToCall.addAwardReportTerm.reportClass1.reportClassIndex0";
     private static final String DELETE_AWARD_REPORT_TERM_FINANCIAL_BUTTON = "methodToCall.deleteAwardReportTerm.line0";
@@ -151,9 +151,9 @@ public class AwardReportsPanelSeleniumTest extends KcSeleniumTestBase {
         
         helper.click(ADD_AWARD_REPORT_TERM_FINANCIAL_BUTTON);
         
-        helper.assertErrorCount(ERROR_PANEL_ID, 3);
+        helper.assertErrorCount(ERROR_PANEL_ID, 2);
         helper.assertError(ERROR_PANEL_ID, ERROR_REPORT_CODE_REQUIRED);
-        helper.assertError(ERROR_PANEL_ID, ERROR_FREQUENCY_CODE_REQUIRED);
+        helper.assertError(ERROR_PANEL_ID, ERROR_FREQUENCY_CODE_REQUIRED_WITH_OSP);
         
         helper.set(BEAN_REPORT_CODE_FINANCIAL_ID, REPORT_CODE_FINANCIAL);
         helper.set(BEAN_FREQUENCY_CODE_FINANCIAL_ID, FREQUENCY_CODE);        
@@ -162,8 +162,8 @@ public class AwardReportsPanelSeleniumTest extends KcSeleniumTestBase {
 
         helper.click(ADD_AWARD_REPORT_TERM_FINANCIAL_BUTTON);
         
-        helper.assertErrorCount(ERROR_PANEL_ID, 1);
-        helper.assertError(ERROR_PANEL_ID, ERROR_OSP_DISTRIBUTION_CODE_REQUIRED);       
+        helper.assertErrorCount(ERROR_PANEL_ID, 1);       
+        helper.assertError(ERROR_PANEL_ID, ERROR_OSP_DISTRIBUTION_REQUIRED_WITH_FREQUENCY);
     }
     
     /**
