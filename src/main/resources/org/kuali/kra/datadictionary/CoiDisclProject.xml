@@ -39,6 +39,7 @@
                 <ref bean="CoiDisclProject-coiProjectId" />
                 <ref bean="CoiDisclProject-coiProjectTitle" />
                 <ref bean="CoiDisclProject-coiProjectType" />
+                <ref bean="CoiDisclProject-disclosureEventType" />
                 <ref bean="CoiDisclProject-coiProjectSponsor" />
                 <ref bean="CoiDisclProject-coiProjectStartDate" />
                 <ref bean="CoiDisclProject-coiProjectEndDate" />
@@ -169,7 +170,6 @@
         <property name="forceUppercase" value="false" />
         <property name="label" value="Project Type" />
         <property name="shortLabel" value="Project Type" />
-    	<property name="required" value="true" />
         <property name="maxLength" value="20" />
         <property name="validationPattern" >
             <bean parent="AlphaNumericValidationPattern" />
@@ -186,6 +186,28 @@
         <property name="summary" value="Coi Project Type" />
         <property name="description" value="Coi Project Type" />
     </bean>
+    
+    <bean id="CoiDisclProject-disclosureEventType" parent="CoiDisclProject-disclosureEventType-parentBean" />
+    <bean id="CoiDisclProject-disclosureEventType-parentBean" abstract="true" parent="AttributeDefinition" >
+        <property name="name" value="disclosureEventType" />
+        <property name="forceUppercase" value="false" />
+        <property name="label" value="Event Type" />
+        <property name="shortLabel" value="Event Type" />
+    	<property name="required" value="true" />
+        <property name="maxLength" value="3" />
+        <property name="validationPattern" >
+            <bean parent="AlphaNumericValidationPattern" />
+        </property>
+    	<property name="control" >
+      		<bean parent="SelectControlDefinition"
+            	p:valuesFinderClass="org.kuali.kra.coi.disclosure.DisclosureEventTypeValuesFinder"
+            	p:includeKeyInLabel="false"
+	            p:script="updateTable(this)"/>
+    	</property>
+        <property name="summary" value="Coi Disclosure Event Type" />
+        <property name="description" value="Coi Disclosure Event Type" />
+    </bean>
+    
 
     <bean id="CoiDisclProject-coiProjectSponsor" parent="CoiDisclProject-coiProjectSponsor-parentBean" />
     <bean id="CoiDisclProject-coiProjectSponsor-parentBean" abstract="true" parent="AttributeDefinition" >
@@ -193,7 +215,6 @@
         <property name="forceUppercase" value="false" />
         <property name="label" value="Sponsor" />
         <property name="shortLabel" value="Sponsor" />
-    	<property name="required" value="true" />
         <property name="maxLength" value="200" />
         <property name="validationPattern" >
             <bean parent="AnyCharacterValidationPattern" p:allowWhitespace="true"/>
@@ -211,7 +232,6 @@
         <property name="name" value="coiProjectStartDate" />
         <property name="label" value="Project Start Date" />
         <property name="shortLabel" value="Project Start Date" />
-    	<property name="required" value="true" />
         <property name="summary" value="Coi Project Start Date" />
         <property name="description" value="Coi Project Start Date" />
     </bean>
@@ -221,7 +241,6 @@
         <property name="name" value="coiProjectEndDate" />
         <property name="label" value="Project End Date" />
         <property name="shortLabel" value="Project End Date" />
-    	<property name="required" value="true" />
         <property name="summary" value="Coi Project End Date" />
         <property name="description" value="Coi Project End Date" />
     </bean>
@@ -241,7 +260,6 @@
         <property name="forceUppercase" value="false" />
         <property name="label" value="Project Role" />
         <property name="shortLabel" value="Project Role" />
-    	<property name="required" value="true" />
         <property name="maxLength" value="20" />
         <property name="validationPattern" >
             <bean parent="AnyCharacterValidationPattern" p:allowWhitespace="true"/>

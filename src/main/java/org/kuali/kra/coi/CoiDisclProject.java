@@ -19,14 +19,21 @@ import java.sql.Date;
 import java.util.LinkedHashMap;
 import java.util.List;
 
+import org.apache.commons.lang.StringUtils;
 import org.kuali.kra.bo.KraPersistableBusinessObjectBase;
 import org.kuali.kra.proposaldevelopment.bo.ProposalType;
 import org.kuali.rice.kns.util.KualiDecimal;
 
 public class CoiDisclProject extends KraPersistableBusinessObjectBase { 
     
-    private static final long serialVersionUID = 1L;
 
+    /**
+     * Comment for <code>serialVersionUID</code>
+     */
+    private static final long serialVersionUID = -870946478393121916L;
+    public static final String PROPOSAL_EVENT = "1";
+    public static final String AWARD_EVENT = "2";
+    public static final String PROTOCOL_EVENT = "3";
     private Long coiDisclProjectsId; 
     private Long coiDisclosureId; 
     private String coiDisclosureNumber; 
@@ -34,6 +41,9 @@ public class CoiDisclProject extends KraPersistableBusinessObjectBase {
     private String coiProjectId; 
     private String coiProjectTitle; 
     private String coiProjectType; 
+    // TODO : event type is still not certain because we still have not new schema from coeus
+    // this should come from a table eventually I think ?
+    private String disclosureEventType; 
     private String coiProjectSponsor; 
     private Date coiProjectStartDate; 
     private Date coiProjectEndDate; 
@@ -197,5 +207,69 @@ public class CoiDisclProject extends KraPersistableBusinessObjectBase {
     public void setCoiDiscDetails(List<CoiDiscDetail> coiDiscDetails) {
         this.coiDiscDetails = coiDiscDetails;
     }
+    public String getDisclosureEventType() {
+        return disclosureEventType;
+    }
+    public void setDisclosureEventType(String disclosureEventType) {
+        this.disclosureEventType = disclosureEventType;
+    }
     
+    public boolean isProposalEvent() {
+        return StringUtils.equals(PROPOSAL_EVENT, this.disclosureEventType);
+    }
+    
+    public boolean isAwardEvent() {
+        return StringUtils.equals(AWARD_EVENT, this.disclosureEventType);
+    }
+    
+    public boolean isProtocolEvent() {
+        return StringUtils.equals(PROTOCOL_EVENT, this.disclosureEventType);
+    }
+    
+    public String getProjectIdLabel() {
+        String label = "Project Id";
+        if (isAwardEvent()) {
+            label = "Award Number";
+        } else if (isProtocolEvent()) {
+            label = "Protocol Number";
+        }
+        return label;
+    }
+    
+    public String getProjectTitleLabel() {
+        String label = "Project Title";
+        if (isAwardEvent()) {
+            label = "Award Title";
+        } else if (isProtocolEvent()) {
+            label = "Protocol Name";
+        }
+        return label;
+    }
+    
+    public String getProjectTypeLabel() {
+        String label = "Project Type";
+        if (isProtocolEvent()) {
+            label = "Protocol type";
+        }
+        return label;
+    }
+    
+    public String getProjectStartDateLabel() {
+        String label = "Project Start Date";
+        if (isAwardEvent()) {
+            label = "Award Date";
+        }
+        return label;
+    }
+    
+    public String getEventDescription() {
+        String description = "Proposal";
+        if (isAwardEvent()) {
+            description = "Award";
+        } else if (isProtocolEvent()) {
+            description = "Protocol";
+        }
+        return description;
+
+    }
 }

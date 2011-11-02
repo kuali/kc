@@ -23,59 +23,19 @@
 <table cellpadding=0 cellspacing=0 summary="">
     <tr>
         <td>
-            <kul:innerTab tabTitle="Proposal - ${disclProject.coiProjectId} : ${disclProject.coiProjectTitle}" parentTab="Add Proposals" defaultOpen="false" tabErrorKey="disclosureHelper.newDisclosurePersonUnit.*,document.coiDisclosureList[0].disclosurePersons[0]*" useCurrentTabIndexAsKey="false">
-                <div class="innerTab-container" align="left">
-                    <table class=tab cellpadding="0" cellspacing="0" summary="">
-                        <tbody>
-                        <%-- Header --%>
-                                 <tr>
-                                    <th><div align="center">Proposal Number</div></th> 
-                                    <th><div align="center"></div>Proposal Name</th> 
-                                    <th><div align="center"></div>Sponsor</th> 
-                                    <th><div align="center">start Date</div></th> 
-                                    <th><div align="center">End Date</div></th> 
-                                    <th><div align="center">PI</div></th> 
-                                </tr>
-                        <%-- Header --%>
-                        
-                         <%-- New data --%>
-                        <%-- kra:permission value="${KualiForm.disclosureHelper.modifyPersonnel}" --%>
-                <tr>
-                  <td align="left" valign="middle">
-					<div align="left">
-                		<kul:htmlControlAttribute property="document.coiDisclosureList[0].coiDisclProjects[${idx}].disclosureFlag" attributeEntry="${coiDisclProjectAttributes.disclosureFlag}" readOnly="${readOnly}" styleClass="selectDisclClass${idx}M" /> 
-                		<kul:htmlControlAttribute property="document.coiDisclosureList[0].coiDisclProjects[${idx}].coiProjectId" readOnly="true" attributeEntry="${coiDisclProjectAttributes.coiProjectId}" /> 
-					</div>
-				  </td>
-                  <td align="left" valign="middle">
-					<div align="left">
-                		<kul:htmlControlAttribute property="document.coiDisclosureList[0].coiDisclProjects[${idx}].coiProjectTitle" readOnly="true" attributeEntry="${coiDisclProjectAttributes.coiProjectTitle}" /> 
-					</div>
-				  </td>
-                  <td align="left" valign="middle">
-					<div align="left">
-                		<kul:htmlControlAttribute property="document.coiDisclosureList[0].coiDisclProjects[${idx}].coiProjectSponsor" readOnly="true" attributeEntry="${coiDisclProjectAttributes.coiProjectSponsor}" /> 
-					</div>
-				  </td>
-                  <td align="left" valign="middle">
-					<div align="left">
-                		<kul:htmlControlAttribute property="document.coiDisclosureList[0].coiDisclProjects[${idx}].coiProjectStartDate" readOnly="true" attributeEntry="${coiDisclProjectAttributes.coiProjectStartDate}" /> 
-					</div>
-				  </td>
-                  <td align="left" valign="middle">
-					<div align="left">
-                		<kul:htmlControlAttribute property="document.coiDisclosureList[0].coiDisclProjects[${idx}].coiProjectEndDate" readOnly="true" attributeEntry="${coiDisclProjectAttributes.coiProjectEndDate}" /> 
-					</div>
-				  </td>
-                  <td align="left" valign="middle">
-					<div align="left">
-				         ${KualiForm.document.coiDisclosureList[0].disclosurePersons[0].reporter.fullName}
-					</div>
-				  </td>
-	            </tr>
-
-                <tr>
-                    <td colspan="6">
+            <kul:innerTab tabTitle=" ${disclProject.eventDescription} - ${disclProject.coiProjectId} : ${disclProject.coiProjectTitle}" parentTab="Add Proposals" defaultOpen="false" tabErrorKey="disclosureHelper.newDisclosurePersonUnit.*,document.coiDisclosureList[0].disclosurePersons[0]*" useCurrentTabIndexAsKey="false">
+                <c:choose>
+                    <c:when test="${disclProject.proposalEvent}">
+                        <kra-coi:manualProposalHeader disclProject="${disclProject}" idx = "${idx}"/>                    
+                    </c:when>
+                    <c:when test="${disclProject.awardEvent}">
+                        <kra-coi:manualAwardHeader disclProject="${disclProject}" idx = "${idx}"/>                    
+                    </c:when>
+                    <c:otherwise>
+                        <kra-coi:manualProtocolHeader disclProject="${disclProject}" idx = "${idx}"/>                    
+                    </c:otherwise>
+                
+                </c:choose>
        <div id="div_FinancialEntity${idx}M" class="div_FinancialEntity" style="display:none;">
                 <h3>
     		        <span class="subhead-left">Financial Entity</span>

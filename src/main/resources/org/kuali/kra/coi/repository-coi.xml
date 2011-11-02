@@ -438,6 +438,7 @@
 		<field-descriptor name="coiProjectId" column="COI_PROJECT_ID" jdbc-type="VARCHAR" />
 		<field-descriptor name="coiProjectTitle" column="COI_PROJECT_TITLE" jdbc-type="VARCHAR" />
 		<field-descriptor name="coiProjectType" column="COI_PROJECT_TYPE" jdbc-type="VARCHAR" />
+		<field-descriptor name="disclosureEventType" column="COI_DISCLOSURE_EVENT_TYPE" jdbc-type="VARCHAR" />
 		<field-descriptor name="coiProjectSponsor" column="COI_PROJECT_SPONSOR" jdbc-type="VARCHAR" />
 		<field-descriptor name="coiProjectStartDate" column="COI_PROJECT_START_DATE" jdbc-type="DATE" />
 		<field-descriptor name="coiProjectEndDate" column="COI_PROJECT_END_DATE" jdbc-type="DATE" />
