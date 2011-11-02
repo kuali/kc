@@ -53,6 +53,7 @@ public class CoiDisclosure extends KraPersistableBusinessObjectBase {
     private static final long serialVersionUID = 1056040995591476518L;
     private static final String DISPOSITION_PENDING = "3";
     private static final String DISCLOSURE_PENDING = "100";
+    public static final String MANUAL_DISCL_MODULE_CODE = "14";
     public static final String PROPOSAL_DISCL_MODULE_CODE = "11";
     public static final String PROTOCOL_DISCL_MODULE_CODE = "12";
     public static final String AWARD_DISCL_MODULE_CODE = "1";
@@ -357,6 +358,7 @@ public class CoiDisclosure extends KraPersistableBusinessObjectBase {
         }
         managedLists.add(disclosurePersonUnits);
         managedLists.add(getDisclosurePersons());
+        managedLists.add(getCoiDiscDetails());
         return managedLists;
     }
 
@@ -459,6 +461,10 @@ public class CoiDisclosure extends KraPersistableBusinessObjectBase {
 
     public boolean isAnnualEvent() {
         return StringUtils.equals(ANNUAL_DISCL_MODULE_CODE, this.getModuleCode());
+    }
+
+    public boolean isManualEvent() {
+        return StringUtils.equals(MANUAL_DISCL_MODULE_CODE, this.getModuleCode());
     }
 
  }

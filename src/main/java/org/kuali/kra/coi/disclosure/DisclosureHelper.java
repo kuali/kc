@@ -49,6 +49,7 @@ public class DisclosureHelper implements Serializable {
     private boolean canEditDisclosureFinancialEntity;
     private String conflictHeaderLabel;
     private CoiDisclProject newCoiDisclProject;
+    private String protocolType;
 
     public DisclosureHelper(CoiDisclosureForm form) {
         this.form = form;
@@ -176,6 +177,14 @@ public class DisclosureHelper implements Serializable {
 
     public void setNewCoiDisclProject(CoiDisclProject newCoiDisclProject) {
         this.newCoiDisclProject = newCoiDisclProject;
+    }
+
+    public String getProtocolType() {
+        return protocolType;
+    }
+
+    public void setProtocolType(String protocolType) {
+        this.protocolType = protocolType;
     }
 
 }
