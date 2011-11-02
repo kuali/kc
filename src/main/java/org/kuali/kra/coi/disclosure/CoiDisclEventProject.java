@@ -18,8 +18,13 @@ package org.kuali.kra.coi.disclosure;
 import java.io.Serializable;
 import java.util.List;
 
+import org.apache.commons.lang.StringUtils;
+import org.kuali.kra.award.home.Award;
 import org.kuali.kra.bo.KraPersistableBusinessObjectBase;
 import org.kuali.kra.coi.CoiDiscDetail;
+import org.kuali.kra.coi.CoiDisclProject;
+import org.kuali.kra.irb.Protocol;
+import org.kuali.kra.proposaldevelopment.bo.DevelopmentProposal;
 
 
 public class CoiDisclEventProject implements Serializable {
@@ -73,5 +78,29 @@ public class CoiDisclEventProject implements Serializable {
         this.disclosureFlag = disclosureFlag;
     } 
 
+    public boolean isProposalEvent() {
+        return StringUtils.equals(CoiDisclProject.PROPOSAL_EVENT, this.eventType);
+    }
+    
+    public boolean isAwardEvent() {
+        return StringUtils.equals(CoiDisclProject.AWARD_EVENT, this.eventType);
+    }
+    
+    public boolean isProtocolEvent() {
+        return StringUtils.equals(CoiDisclProject.PROTOCOL_EVENT, this.eventType);
+    }
 
+    public String getProjectId() {
+        // TODO : may be should add an 'disclosurable' interface, and add projectid method
+        // so these bo can implement this method
+        String projectId = "";
+        if (isAwardEvent()) {
+            projectId = ((Award)this.eventProjectBo).getAwardNumber();
+        } else if (isProtocolEvent()) {
+            projectId = ((Protocol)this.eventProjectBo).getProtocolNumber();
+        } else {
+            projectId = ((DevelopmentProposal)this.eventProjectBo).getProposalNumber();
+        }
+        return projectId;
+    }
 }

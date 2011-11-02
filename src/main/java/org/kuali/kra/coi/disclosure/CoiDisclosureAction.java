@@ -125,7 +125,7 @@ public class CoiDisclosureAction extends CoiAction {
         }
         
         // TODO : for manual proposal project
-        if (coiDisclosure.isProposalEvent() && !CollectionUtils.isEmpty(coiDisclosure.getCoiDisclProjects())) {
+        if (coiDisclosure.isManualEvent() && !CollectionUtils.isEmpty(coiDisclosure.getCoiDisclProjects())) {
             for (CoiDisclProject coiDisclProject : coiDisclosure.getCoiDisclProjects()) {
                 // TODO : need to look into this condition further
                 if (!StringUtils.equals("addProposal", methodToCall) && !StringUtils.equals("save", methodToCall) && coiDisclProject.getCoiDisclProjectsId() != null) {
@@ -199,7 +199,7 @@ System.out.println("\nNew printDisclosureCertification event occurred.... ");
         CoiDisclosure coiDisclosure = coiDisclosureForm.getCoiDisclosureDocument().getCoiDisclosure();
         disclosureHelper.getNewCoiDisclProject().setCoiDisclosure(coiDisclosure);
         disclosureHelper.getNewCoiDisclProject().setCoiDisclosureNumber(coiDisclosure.getCoiDisclosureNumber());
-        if (checkRule(new AddProposalProjectEvent("disclosureHelper.newCoiDisclProject", disclosureHelper.getNewCoiDisclProject()))) {
+        if (checkRule(new AddManualProjectEvent("disclosureHelper.newCoiDisclProject", disclosureHelper.getNewCoiDisclProject()))) {
             getCoiDisclosureService().initializeDisclosureDetails(disclosureHelper.getNewCoiDisclProject());
             coiDisclosure.getCoiDisclProjects().add(disclosureHelper.getNewCoiDisclProject());
             disclosureHelper.setNewCoiDisclProject(new CoiDisclProject(coiDisclosure.getCoiDisclosureNumber(), coiDisclosure.getSequenceNumber()));

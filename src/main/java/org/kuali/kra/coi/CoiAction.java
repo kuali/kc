@@ -73,6 +73,8 @@ public abstract class CoiAction extends KraTransactionalDocumentActionBase {
                 moduleCode = CoiDisclosure.PROTOCOL_DISCL_MODULE_CODE;
             } else if (command.endsWith(CoiDisclosure.AWARD_DISCL_MODULE_CODE)) {
                 moduleCode = CoiDisclosure.AWARD_DISCL_MODULE_CODE;
+            } else if (command.endsWith(CoiDisclosure.MANUAL_DISCL_MODULE_CODE)) {
+                moduleCode = CoiDisclosure.MANUAL_DISCL_MODULE_CODE;
             }
             coiDisclosureForm.setCommand(KEWConstants.INITIATE_COMMAND);
             forward = super.docHandler(mapping, form, request, response);
