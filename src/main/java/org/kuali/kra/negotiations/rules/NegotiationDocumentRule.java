@@ -128,6 +128,7 @@ public class NegotiationDocumentRule extends ResearchDocumentRuleBase {
      * @return
      */
     public boolean validateNegotiationAssociations(Negotiation negotiation) {
+        System.err.println("validateNegotiationAssociations");
         boolean valid = true;
         if (negotiation.getNegotiationAssociationType() != null 
                 && !StringUtils.equals(negotiation.getNegotiationAssociationType().getCode(), NegotiationAssociationType.NONE_ASSOCIATION)
