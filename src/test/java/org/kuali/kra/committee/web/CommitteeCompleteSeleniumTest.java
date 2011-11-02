@@ -104,8 +104,10 @@ public class CommitteeCompleteSeleniumTest extends KcSeleniumTestBase {
         
         addMember(0, true, NICHOLAS_MAJORS_PERSON_ID, CHAIR_MEMBERSHIP_ROLE, PERSONAL_CULINARY_SERVICES_OTHER_RESEARCH_AREA_CODE);
         helper.clickCollapseAll();
+        helper.toggle(SHOW_ALL_MEMBERS_BUTTON);
         addMember(1, true, ALLYSON_CATE_PERSON_ID, IRB_ADMINISTRATOR_MEMBERSHIP_ROLE, AGRICULTURAL_PRODUCTION_OPERATIONS_RESEARCH_AREA_CODE);        
         helper.clickCollapseAll();
+        helper.toggle(SHOW_ALL_MEMBERS_BUTTON);
         addMember(2, false, LEE_VAN_LENTEN_PERSON_ID, ALTERNATE_MEMBERSHIP_ROLE, GENERAL_EDUCATION_RESEARCH_AREA_CODE);
     }
     
@@ -166,7 +168,7 @@ public class CommitteeCompleteSeleniumTest extends KcSeleniumTestBase {
     private void assertMembers() {
         helper.clickCommitteeMembersPage();
         
-        helper.click(SHOW_ALL_MEMBERS_BUTTON);
+        helper.toggle(SHOW_ALL_MEMBERS_BUTTON);
         helper.clickExpandAll();
         
         assertMember(NICHOLAS_MAJORS_NAME, CHAIR_MEMBERSHIP_ROLE, PERSONAL_CULINARY_SERVICES_OTHER_NAME);
