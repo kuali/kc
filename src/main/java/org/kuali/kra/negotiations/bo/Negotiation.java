@@ -42,13 +42,13 @@ import org.kuali.kra.negotiations.customdata.NegotiationCustomData;
  */
 public class Negotiation extends KraPersistableBusinessObjectBase implements Permissionable {
 
-    private static final long MILLISECS_PER_DAY = 24*60*60*1000;
-    
+    private static final long MILLISECS_PER_DAY = 24 * 60 * 60 * 1000;
+
     /**
      * Comment for <code>serialVersionUID</code>
      */
     private static final long serialVersionUID = 2529772854773433195L;
-    
+
     private Long negotiationId;
     private String documentNumber;
     private Long negotiationStatusId;
@@ -60,64 +60,62 @@ public class Negotiation extends KraPersistableBusinessObjectBase implements Per
     private Date anticipatedAwardDate;
     private String documentFolder;
     private String allAttachments;
-    
-    //transient
+
+    // transient
     private String negotiatorUserName;
-    
+
     private NegotiationUnassociatedDetail unAssociatedDetail;
     private List<NegotiationCustomData> negotiationCustomDataList;
     private Negotiable associatedDocument;
-    
+
     private NegotiationDocument negotiationDocument;
-    
+
     /**
-     * Long awardId - award
-     * String proposalNumber -developmentProposal
-     * Long proposalId - institutionalProposal
+     * Long awardId - award String proposalNumber -developmentProposal Long proposalId - institutionalProposal
      */
     private String associatedDocumentId;
-    
+
     private NegotiationStatus negotiationStatus;
     private NegotiationAgreementType negotiationAgreementType;
     private NegotiationAssociationType negotiationAssociationType;
-    
+
     private List<NegotiationActivity> activities;
-    
+
     public Negotiation() {
         super();
         activities = new ArrayList<NegotiationActivity>();
         negotiationCustomDataList = new ArrayList<NegotiationCustomData>();
     }
-    
+
     public Integer getNegotiationAge() {
         if (getNegotiationStartDate() == null) {
             return null;
-        } else {
+        }
+        else {
             long start = getNegotiationStartDate().getTime();
             long end = 0L;
             if (getNegotiationEndDate() == null) {
                 end = Calendar.getInstance().getTimeInMillis();
-            } else {
+            }
+            else {
                 end = getNegotiationEndDate().getTime();
             }
-            
-           return new Long((end - start) / MILLISECS_PER_DAY).intValue();        }
+
+            return new Long((end - start) / MILLISECS_PER_DAY).intValue();
+        }
     }
-    
-    public String getAllAttachments()
-    {
+
+    public String getAllAttachments() {
         return allAttachments;
     }
-    
-    public void setAllAttachments(String allAttachments)
-    {
+
+    public void setAllAttachments(String allAttachments) {
         this.allAttachments = allAttachments;
     }
-    
+
     public Long getNegotiationId() {
         return negotiationId;
     }
-
 
 
     public void setNegotiationId(Long negotiationId) {
@@ -125,11 +123,9 @@ public class Negotiation extends KraPersistableBusinessObjectBase implements Per
     }
 
 
-
     public String getDocumentNumber() {
         return documentNumber;
     }
-
 
 
     public void setDocumentNumber(String documentNumber) {
@@ -137,11 +133,9 @@ public class Negotiation extends KraPersistableBusinessObjectBase implements Per
     }
 
 
-
     public Long getNegotiationStatusId() {
         return negotiationStatusId;
     }
-
 
 
     public void setNegotiationStatusId(Long negotiationStatusId) {
@@ -149,11 +143,9 @@ public class Negotiation extends KraPersistableBusinessObjectBase implements Per
     }
 
 
-
     public Long getNegotiationAgreementTypeId() {
         return negotiationAgreementTypeId;
     }
-
 
 
     public void setNegotiationAgreementTypeId(Long negotiationAgreementTypeId) {
@@ -161,11 +153,9 @@ public class Negotiation extends KraPersistableBusinessObjectBase implements Per
     }
 
 
-
     public Long getNegotiationAssociationTypeId() {
         return negotiationAssociationTypeId;
     }
-
 
 
     public void setNegotiationAssociationTypeId(Long negotiationAssociationTypeId) {
@@ -173,30 +163,30 @@ public class Negotiation extends KraPersistableBusinessObjectBase implements Per
     }
 
 
-
     public String getNegotiatorPersonId() {
         return negotiatorPersonId;
     }
 
 
-
     public void setNegotiatorPersonId(String negotiatorPersonId) {
         this.negotiatorPersonId = negotiatorPersonId;
     }
-    
+
     public KcPerson getNegotiator() {
         if (this.getNegotiatorPersonId() == null) {
             return null;
-        } else {
+        }
+        else {
             return getKcPersonService().getKcPersonByPersonId(this.getNegotiatorPersonId());
         }
     }
-    
+
     public String getNegotiatorUserName() {
         KcPerson negotiator = getNegotiator();
         if (negotiator == null) {
             return negotiatorUserName;
-        } else {
+        }
+        else {
             return negotiator.getUserName();
         }
     }
@@ -206,20 +196,26 @@ public class Negotiation extends KraPersistableBusinessObjectBase implements Per
         KcPerson negotiator = null;
         try {
             negotiator = getKcPersonService().getKcPersonByUserName(negotiatorUserName);
-        } catch (IllegalArgumentException e) {
-            //invalid username, will be caught by validation routines
+        }
+        catch (IllegalArgumentException e) {
+            // invalid username, will be caught by validation routines
         }
         if (negotiator != null) {
             setNegotiatorPersonId(negotiator.getPersonId());
-        } else {
+        }
+        else {
             setNegotiatorPersonId(null);
         }
     }
 
     public Date getNegotiationStartDate() {
+        if (negotiationStartDate == null || negotiationStartDate.equals(""))
+        {
+            Calendar now = Calendar.getInstance();
+            setNegotiationStartDate (new java.sql.Date (now.get(Calendar.YEAR)-1900, now.get(Calendar.MONTH), now.get(Calendar.DAY_OF_MONTH)));
+        }
         return negotiationStartDate;
     }
-
 
 
     public void setNegotiationStartDate(Date negotiationStartDate) {
@@ -227,11 +223,9 @@ public class Negotiation extends KraPersistableBusinessObjectBase implements Per
     }
 
 
-
     public Date getNegotiationEndDate() {
         return negotiationEndDate;
     }
-
 
 
     public void setNegotiationEndDate(Date negotiationEndDate) {
@@ -239,11 +233,9 @@ public class Negotiation extends KraPersistableBusinessObjectBase implements Per
     }
 
 
-
     public Date getAnticipatedAwardDate() {
         return anticipatedAwardDate;
     }
-
 
 
     public void setAnticipatedAwardDate(Date anticipatedAwardDate) {
@@ -251,11 +243,9 @@ public class Negotiation extends KraPersistableBusinessObjectBase implements Per
     }
 
 
-
     public String getDocumentFolder() {
         return documentFolder;
     }
-
 
 
     public void setDocumentFolder(String documentFolder) {
@@ -263,11 +253,9 @@ public class Negotiation extends KraPersistableBusinessObjectBase implements Per
     }
 
 
-
     public String getAssociatedDocumentId() {
         return associatedDocumentId;
     }
-
 
 
     public void setAssociatedDocumentId(String associatedDocumentId) {
@@ -275,11 +263,9 @@ public class Negotiation extends KraPersistableBusinessObjectBase implements Per
     }
 
 
-
     public NegotiationStatus getNegotiationStatus() {
         return negotiationStatus;
     }
-
 
 
     public void setNegotiationStatus(NegotiationStatus negotiationStatus) {
@@ -287,11 +273,9 @@ public class Negotiation extends KraPersistableBusinessObjectBase implements Per
     }
 
 
-
     public NegotiationAgreementType getNegotiationAgreementType() {
         return negotiationAgreementType;
     }
-
 
 
     public void setNegotiationAgreementType(NegotiationAgreementType negotiationAgreementType) {
@@ -299,11 +283,9 @@ public class Negotiation extends KraPersistableBusinessObjectBase implements Per
     }
 
 
-
     public NegotiationAssociationType getNegotiationAssociationType() {
         return negotiationAssociationType;
     }
-
 
 
     public void setNegotiationAssociationType(NegotiationAssociationType negotiationAssociationType) {
@@ -369,15 +351,16 @@ public class Negotiation extends KraPersistableBusinessObjectBase implements Per
         if (bo != null) {
             ((BusinessObject) bo).refresh();
             return bo.getLeadUnitNumber();
-        } else {
+        }
+        else {
             return "";
         }
     }
-    
+
     public Negotiable getAssociatedNegotiable() {
         return getNegotiationService().getAssociatedObject(this);
     }
-    
+
     private NegotiationService getNegotiationService() {
         return KraServiceLocator.getService(NegotiationService.class);
     }
@@ -391,7 +374,7 @@ public class Negotiation extends KraPersistableBusinessObjectBase implements Per
     public void populateAdditionalQualifiedRoleAttributes(Map<String, String> qualifiedRoleAttributes) {
         qualifiedRoleAttributes.put(KcKimAttributes.DOCUMENT_TYPE_NAME, this.getDocumentKey());
     }
-    
+
     /**
      * Gets the negotiationCustomDataList attribute.
      * 
@@ -403,13 +386,13 @@ public class Negotiation extends KraPersistableBusinessObjectBase implements Per
 
     /**
      * Sets the negotiationCustomDataList attribute value.
+     * 
      * @param negotiationCustomDataList The negotiationCustomDataList to set.
      */
     public void setNegotiationCustomDataList(List<NegotiationCustomData> negotiationCustomDataList) {
         this.negotiationCustomDataList = negotiationCustomDataList;
     }
 
-    
 
     public NegotiationDocument getDocument() {
         return negotiationDocument;
@@ -424,7 +407,8 @@ public class Negotiation extends KraPersistableBusinessObjectBase implements Per
     }
 
     public Negotiable getAssociatedDocument() {
-        if (associatedDocument == null || !StringUtils.equals(associatedDocument.getAssociatedDocumentId(), getAssociatedDocumentId())) {
+        if (associatedDocument == null
+                || !StringUtils.equals(associatedDocument.getAssociatedDocumentId(), getAssociatedDocumentId())) {
             associatedDocument = getNegotiationService().getAssociatedObject(this);
         }
         return associatedDocument;
