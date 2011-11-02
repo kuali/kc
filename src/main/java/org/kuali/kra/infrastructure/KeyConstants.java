@@ -485,6 +485,8 @@ public final class KeyConstants {
     public static final String ERROR_EMPTY_REPORT_TERMS = "error.empty.report.terms";
     public static final String ERROR_EMPTY_TERMS = "error.empty.terms";
     public static final String ERROR_AWARD_REPORT_TERM_ITEM_NOT_UNIQUE = "error.awardReportTermItem.notunique";
+    public static final String ERROR_AWARD_REPORT_TERM_ITEM_OSP_REQUIRED = "error.awardReportTermItem.ospRequired";
+    public static final String ERROR_AWARD_REPORT_TERM_ITEM_FREQUENCY_REQUIRED = "error.awardReportTermItem.frequencyRequired";
     public static final String ERROR_AWARD_REPORT_TERM_ITEM_NO_PI = "error.awardReportTermItem.noPI";
     public static final String ERROR_AWARD_REPORT_TERM_RECIPIENT_ITEM_NOT_UNIQUE = "error.awardReportTermRecipientItem.notunique";
     public static final String ERROR_BOTH_SPONSOR_AND_ROLODEX_ARE_SELECTED = "error.both.sponsor.and.rolodex.are.selected";

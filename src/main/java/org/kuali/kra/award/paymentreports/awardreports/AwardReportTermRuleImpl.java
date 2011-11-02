@@ -15,11 +15,14 @@
  */
 package org.kuali.kra.award.paymentreports.awardreports;
 
+import java.util.HashMap;
 import java.util.List;
+import java.util.Map;
 
 import org.apache.commons.lang.StringUtils;
 import org.kuali.kra.award.home.Award;
 import org.kuali.kra.award.lookup.keyvalue.FrequencyBaseCodeValuesFinder;
+import org.kuali.kra.award.paymentreports.Report;
 import org.kuali.kra.infrastructure.KeyConstants;
 import org.kuali.kra.rules.ResearchDocumentRuleBase;
 import org.kuali.rice.kns.util.GlobalVariables;
@@ -42,6 +45,7 @@ public class AwardReportTermRuleImpl extends ResearchDocumentRuleBase
     private static final String DISTRIBUTION_ERROR_PARM = "OSP File Copy  (OSP File Copy )";
     private static final String DUE_DATE_ERROR_PARM = "Due Date (Due Date)";
     private static final String EMPTY_CODE = "-1";
+    private static final String FINAL_REPORT_DESCRIPTION = "Final (Final Report)";
 
     /**
      * 
@@ -129,9 +133,10 @@ public class AwardReportTermRuleImpl extends ResearchDocumentRuleBase
             retVal = false;
             reportError(fieldPrePend + AWARD_REPORT_TERM_REPORT_CODE_PROPERTY, KeyConstants.ERROR_REQUIRED, REPORT_CODE_ERROR_PARM);
         }
-        if (StringUtils.isBlank(awardReportTermItem.getFrequencyCode())) {
+        if (StringUtils.isBlank(awardReportTermItem.getFrequencyCode()) && 
+                !StringUtils.isBlank(awardReportTermItem.getOspDistributionCode())) {
             retVal = false;
-            reportError(fieldPrePend + AWARD_REPORT_TERM_FREQUENCY_CODE_PROPERTY, KeyConstants.ERROR_REQUIRED, FREQUENCY_CODE_ERROR_PARM);
+            reportError(fieldPrePend + AWARD_REPORT_TERM_FREQUENCY_CODE_PROPERTY, KeyConstants.ERROR_AWARD_REPORT_TERM_ITEM_FREQUENCY_REQUIRED);
         }
         if (StringUtils.isBlank(awardReportTermItem.getFrequencyBaseCode())) {
             FrequencyBaseCodeValuesFinder finder = new FrequencyBaseCodeValuesFinder(awardReportTermItem.getFrequencyCode());
@@ -144,9 +149,22 @@ public class AwardReportTermRuleImpl extends ResearchDocumentRuleBase
                 reportError(fieldPrePend + AWARD_REPORT_TERM_FREQUENCY_BASE_CODE_PROPERTY, KeyConstants.ERROR_REQUIRED, FREQUENCY_BASE_CODE_ERROR_PARM);
             }
         }
-        if (StringUtils.isBlank(awardReportTermItem.getOspDistributionCode())) {
-            reportError(fieldPrePend + AWARD_REPORT_TERM_DISTRIBUTION_PROPERTY, KeyConstants.ERROR_REQUIRED, DISTRIBUTION_ERROR_PARM);
+        if (StringUtils.isBlank(awardReportTermItem.getOspDistributionCode()) 
+                && isFinalReport(awardReportTermItem.getReportCode())
+                && StringUtils.isNotBlank(awardReportTermItem.getFrequencyCode())) {
+            reportError(fieldPrePend + AWARD_REPORT_TERM_DISTRIBUTION_PROPERTY, KeyConstants.ERROR_AWARD_REPORT_TERM_ITEM_OSP_REQUIRED);
             retVal = false;
+        }
+        return retVal;
+    }
+    
+    private boolean isFinalReport(String reportCode) {
+        boolean retVal = false;
+        if (StringUtils.isNotBlank(reportCode)) {
+            Map fieldValues = new HashMap();
+            fieldValues.put("REPORT_CODE", reportCode);
+            Report report = (Report) this.getBusinessObjectService().findMatching(Report.class, fieldValues).iterator().next();
+            retVal = report.getFinalReportFlag();
         }
         return retVal;
     }
