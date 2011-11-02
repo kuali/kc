@@ -15,6 +15,9 @@
  */
 package org.kuali.kra.coi.disclosure;
 
+import java.util.HashMap;
+import java.util.Map;
+
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 
@@ -27,8 +30,14 @@ import org.kuali.kra.coi.CoiDisclProject;
 import org.kuali.kra.coi.CoiDisclosure;
 import org.kuali.kra.coi.CoiDisclosureDocument;
 import org.kuali.kra.coi.CoiDisclosureForm;
+import org.kuali.kra.coi.service.CoiPrintingService;
 import org.kuali.kra.infrastructure.Constants;
 import org.kuali.kra.infrastructure.KraServiceLocator;
+import org.kuali.kra.proposaldevelopment.bo.AttachmentDataSource;
+import org.kuali.kra.proposaldevelopment.bo.ProposalPerson;
+import org.kuali.kra.proposaldevelopment.document.ProposalDevelopmentDocument;
+import org.kuali.kra.proposaldevelopment.printing.service.ProposalDevelopmentPrintingService;
+import org.kuali.kra.proposaldevelopment.web.struts.form.ProposalDevelopmentForm;
 import org.kuali.kra.rule.event.KraDocumentEventBaseExtension;
 import org.kuali.rice.core.config.ConfigContext;
 import org.kuali.rice.kns.util.GlobalVariables;
@@ -158,40 +167,29 @@ public class CoiDisclosureAction extends CoiAction {
             HttpServletResponse response) throws Exception {
 
         CoiDisclosureForm coiDisclosureForm = (CoiDisclosureForm) form;
-        DisclosureHelper disclosureHelper = coiDisclosureForm.getDisclosureHelper();
         CoiDisclosure disclosure = ((CoiDisclosureDocument)coiDisclosureForm.getDocument()).getCoiDisclosure();
-        String certStatement = disclosure.getCertificationStatement();
-disclosure.certifyDisclosure();
-                /*        if (checkRule(new AddDisclosureReporterUnitEvent("disclosureHelper.newDisclosurePersonUnit", disclosureHelper.getNewDisclosurePersonUnit(),
-                ((CoiDisclosureDocument)coiDisclosureForm.getDocument()).getCoiDisclosure().getDisclosureReporter().getDisclosurePersonUnits()))) {
-            getCoiDisclosureService().addDisclosureReporterUnit(
-                   ((CoiDisclosureDocument)coiDisclosureForm.getDocument()).getCoiDisclosure().getDisclosureReporter(),
-                   disclosureHelper.getNewDisclosurePersonUnit());
-            disclosureHelper.setNewDisclosurePersonUnit(new DisclosurePersonUnit());
+        if (checkRule(new CertifyDisclosureEvent("disclosureHelper.certifyDisclosure", disclosure))) {
+            disclosure.certifyDisclosure();
         }
-*/
-System.out.println("\nNew saveDisclosureCertification event occurred.... ");        
         return mapping.findForward(Constants.MAPPING_BASIC);
     }
 
     
-    public ActionForward printDisclosureCertification(ActionMapping mapping, ActionForm form, HttpServletRequest request,
-            HttpServletResponse response) throws Exception {
-
-        CoiDisclosureForm coiDisclosureForm = (CoiDisclosureForm) form;
-        DisclosureHelper disclosureHelper = coiDisclosureForm.getDisclosureHelper();
-/*        if (checkRule(new PrintDisclosureCertificationEvent("disclosureHelper.newDisclosurePersonUnit", disclosureHelper.getNewDisclosurePersonUnit(),
-                ((CoiDisclosureDocument)coiDisclosureForm.getDocument()).getCoiDisclosure().getDisclosureReporter().getDisclosurePersonUnits()))) {
-            getCoiDisclosureService().addDisclosureReporterUnit(
-                   ((CoiDisclosureDocument)coiDisclosureForm.getDocument()).getCoiDisclosure().getDisclosureReporter(),
-                   disclosureHelper.getNewDisclosurePersonUnit());
-            disclosureHelper.setNewDisclosurePersonUnit(new DisclosurePersonUnit());
-        }
-*/
+    public ActionForward printDisclosureCertification(ActionMapping mapping, ActionForm form, HttpServletRequest request, HttpServletResponse response) throws Exception {
 System.out.println("\nNew printDisclosureCertification event occurred.... ");        
+        CoiDisclosureForm coiDisclosureForm = (CoiDisclosureForm) form;
+        CoiDisclosureDocument coiDisclosureDocument = coiDisclosureForm.getCoiDisclosureDocument();
+        CoiDisclosure coiDisclosure = coiDisclosureDocument.getCoiDisclosure();
+        DisclosurePerson selectedPerson = coiDisclosure.getDisclosurePersons().get(0);
+        CoiPrintingService printService = KraServiceLocator.getService(CoiPrintingService.class);
+        Map<String,Object> reportParameters = new HashMap<String,Object>();
+        reportParameters.put(CoiPrintingService.PRINT_CERTIFICATION_PERSON, selectedPerson);
+        reportParameters.put(CoiPrintingService.PRINT_CERTIFICATION_STATEMENT, coiDisclosure.getCertificationStatement());
+        reportParameters.put(CoiPrintingService.PRINT_CERTIFICATION_TIMESTAMP, coiDisclosure.getCertificationTimestamp());
+//TODO        AttachmentDataSource dataStream = printService.print(coiDisclosure, CoiPrintingService.PRINT_CERTIFICATION, reportParameters);
+//TODO        streamToResponse(dataStream, response);
         return mapping.findForward(Constants.MAPPING_BASIC);
     }
-
     
     public ActionForward addProposal(ActionMapping mapping, ActionForm form, HttpServletRequest request,
             HttpServletResponse response) throws Exception {

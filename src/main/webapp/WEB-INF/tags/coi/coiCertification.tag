@@ -56,6 +56,8 @@
 							// initial state
 							if ($j('#certCheckbox').is(':checked')) {
 								$j("#certSubpanel").show();
+								$j("#certPrint").show();
+								$j("#certSubmit").hide();
 							} else {
 								$j("#certSubpanel").hide();
 							}
@@ -113,27 +115,22 @@
 														styleClass="tinybutton" />
                 	                        <script type="text/javascript">
 														$j(document).ready(function(){
-															// initial state
-															$j("#certPrint").hide(0);
-															$j("#certCheckbox").attr("disabled", false);
 															// trigger
-																$j("#certSubmit").click(
-																	function() {
-																		alert("${submitThankyouStatement}");
-																		$j("#certSubmit").hide(0);
-																		$j("#certCheckbox").attr("disabled", true);
-																	}
-																);
+															$j("#certSubmit").click(
+																function() {
+																	alert("${submitThankyouStatement}");
+																	$j("#certSubmit").hide(0);
+																	$j("#certCheckbox").attr("disabled", true);
+																}
+															);
 														});
 											</script>
                                     </td>
-                                    <td style="border:none; background:none; text-align:center;" rowspan="2">
-										<div id="certPrint">
-											<html:image property="methodToCall.printDisclosureCertification"
-													    src="${ConfigProperties.kra.externalizable.images.url}tinybutton-print.gif" 
-														title="Print disclosure certification" alt="Print disclosure certification" 
-														styleClass="tinybutton" onclick='javascript: alert("Printing is still to be implemented, sorry for the delay.");' />
-										</div>
+                                    <td id="certPrint" style="border:none; background:none; text-align:center;" rowspan="2">
+										<html:image property="methodToCall.printDisclosureCertification"
+												    src="${ConfigProperties.kra.externalizable.images.url}tinybutton-print.gif" 
+													title="Print disclosure certification" alt="Print disclosure certification" 
+													styleClass="tinybutton" onclick='javascript: alert("Printing is still to be implemented, sorry for the delay.");' />
                                     </td>
                                 </tr>
                                 <tr>
