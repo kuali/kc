@@ -94,4 +94,6 @@ public interface FinancialEntityService {
     String getNextEntityNumber();
     
     List<PersonFinIntDisclosure> getFinDisclosureVersions(String entityNumber);
+    
+    PersonFinIntDisclosure getCurrentFinancialEntities(String entityNumber);
 }

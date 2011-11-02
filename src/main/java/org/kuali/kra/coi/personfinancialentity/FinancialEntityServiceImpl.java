@@ -24,7 +24,6 @@ import java.util.Map;
 import org.apache.commons.lang.StringUtils;
 import org.kuali.kra.bo.KcPerson;
 import org.kuali.kra.infrastructure.Constants;
-import org.kuali.kra.infrastructure.KraServiceLocator;
 import org.kuali.kra.service.KcPersonService;
 import org.kuali.kra.service.VersionException;
 import org.kuali.kra.service.VersioningService;
@@ -302,6 +301,15 @@ public class FinancialEntityServiceImpl implements FinancialEntityService {
 
     }
     
+    public PersonFinIntDisclosure getCurrentFinancialEntities(String entityNumber) {
+        Map<String, Object> fieldValues = new HashMap<String, Object>();
+        fieldValues.put("entityNumber", entityNumber);
+        fieldValues.put("currentFlag", "Y");
+
+        return ((List<PersonFinIntDisclosure>) businessObjectService.findMatching(PersonFinIntDisclosure.class, fieldValues)).get(0);
+
+    }
+
     /**
      * 
      * @see org.kuali.kra.coi.personfinancialentity.FinancialEntityService#getNextEntityNumber()

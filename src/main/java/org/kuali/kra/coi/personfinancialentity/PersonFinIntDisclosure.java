@@ -382,4 +382,8 @@ public class PersonFinIntDisclosure extends KraPersistableBusinessObjectBase imp
         }
     }
     
+    public boolean isStatusActive() {
+        return StringUtils.equals(FinIntEntityStatus.ACTIVE, this.statusCode.toString());
+    }
+    
 }

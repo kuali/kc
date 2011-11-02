@@ -20,96 +20,6 @@
 <kul:tab defaultOpen="false" tabTitle="Proposal and Financial Entities" auditCluster="" tabAuditKey="" useRiceAuditMode="true"
     tabErrorKey="disclosureHelper.newCoiDisclProject.*" >
 	<div class="tab-container" align="center">
-      <div class="div_Proposal">
-                <h3>
-    		        <span class="subhead-left">New Proposal</span>
-    		        <span class="subhead-right"><kul:help businessObjectClassName="org.kuali.kra.coi.CoiDiscDetail" altText="help"/></span>
-                </h3>
- <%--
-    	<h3>
-    		<span class="subhead-left">New Proposal</span>
-    		<span class="subhead-right"><kul:help businessObjectClassName="org.kuali.kra.coi.CoiDiscDetail" altText="help"/></span>
-        </h3>
-   --%>     
-        <table id="newproposal-table" cellpadding="0" cellspacing="0" summary="">
-            <tr>
-                <th align="right" valign="middle">
-                   <kul:htmlAttributeLabel attributeEntry="${coiDisclProjectAttributes.coiProjectTitle}" />
-                </th>
-                <td align="left" valign="middle" colspan="2">
-                    <kul:htmlControlAttribute property="disclosureHelper.newCoiDisclProject.coiProjectTitle" 
-                            attributeEntry="${coiDisclProjectAttributes.coiProjectTitle}" /> 
-                </td>
-                <th align="right" valign="middle" >
-                   <kul:htmlAttributeLabel attributeEntry="${coiDisclProjectAttributes.coiProjectRole}" />
-                </th>
-               <td align="left" valign="middle" colspan="2" >
-                    <kul:htmlControlAttribute property="disclosureHelper.newCoiDisclProject.coiProjectRole" 
-                            attributeEntry="${coiDisclProjectAttributes.coiProjectRole}" />
-          
-                 </td>
-            </tr>
-            <tr>
-                <th align="right" valign="middle">
-                   <kul:htmlAttributeLabel attributeEntry="${coiDisclProjectAttributes.coiProjectId}" />
-                </th>
-                <td align="left" valign="middle" colspan="2" >
-                    <kul:htmlControlAttribute property="disclosureHelper.newCoiDisclProject.coiProjectId" 
-                            attributeEntry="${coiDisclProjectAttributes.coiProjectId}" /> 
-                </td>
-                <th align="right" valign="middle" >
-                   <kul:htmlAttributeLabel attributeEntry="${coiDisclProjectAttributes.coiProjectSponsor}" />
-                </th>
-               <td align="left" valign="middle" colspan="2" >
-                       <kul:htmlControlAttribute property="disclosureHelper.newCoiDisclProject.coiProjectSponsor" 
-                            attributeEntry="${coiDisclProjectAttributes.coiProjectSponsor}" />
-          
-                 </td>
-            </tr>
-            <tr>
-                <th align="right" valign="middle">
-                   <kul:htmlAttributeLabel attributeEntry="${coiDisclProjectAttributes.coiProjectType}" />
-                </th>
-                <td align="left" valign="middle" colspan="2" >
-                    <kul:htmlControlAttribute property="disclosureHelper.newCoiDisclProject.coiProjectType" 
-                            attributeEntry="${coiDisclProjectAttributes.coiProjectType}" /> 
-                </td>
-                <th align="right" valign="middle" >
-                   <kul:htmlAttributeLabel attributeEntry="${coiDisclProjectAttributes.coiProjectFundingAmount}" />
-                </th>
-               <td align="left" valign="middle" colspan="2" >
-                       <kul:htmlControlAttribute property="disclosureHelper.newCoiDisclProject.coiProjectFundingAmount" 
-                            attributeEntry="${coiDisclProjectAttributes.coiProjectFundingAmount}" />
-          
-                 </td>
-            </tr>
-            <tr>
-                <th align="right" valign="middle">
-                   <kul:htmlAttributeLabel attributeEntry="${coiDisclProjectAttributes.coiProjectStartDate}" />
-                </th>
-                <td align="left" valign="middle" colspan="2" >
-                    <kul:htmlControlAttribute property="disclosureHelper.newCoiDisclProject.coiProjectStartDate" 
-                            attributeEntry="${coiDisclProjectAttributes.coiProjectStartDate}" /> 
-                </td>
-                <th align="right" valign="middle" >
-                   <kul:htmlAttributeLabel attributeEntry="${coiDisclProjectAttributes.coiProjectEndDate}" />
-                </th>
-               <td align="left" valign="middle" colspan="2" >
-                       <kul:htmlControlAttribute property="disclosureHelper.newCoiDisclProject.coiProjectEndDate" 
-                            attributeEntry="${coiDisclProjectAttributes.coiProjectEndDate}" />
-          
-                 </td>
-            </tr>
-                <tr>
-                    <td align="center" colspan="6">
-                        <div align="center">
-                            <html:image property="methodToCall.addProposal.anchor${tabKey}"
-                                        src='${ConfigProperties.kr.externalizable.images.url}tinybutton-add1.gif' styleClass="tinybutton"/>
-                        </div>
-                    </td>
-                </tr>
-              </table>
-           </div> <%-- proposal div --%>              
  
        <div class="div_ProposalList">
                 <h3>
@@ -123,9 +33,6 @@
             
             <%-- Existing data --%>
 
-        	<c:forEach var="disclProject" items="${KualiForm.document.coiDisclosureList[0].coiDisclProjects}" varStatus="status">
-                 <kra-coi:proposalFinancialEntity disclProject="${disclProject}"  idx="${status.index}"/>	            
-        	</c:forEach> 
         	<c:forEach var="disclProject" items="${KualiForm.document.coiDisclosureList[0].coiDisclEventProjects}" varStatus="status">
 
                  <kra-coi:devProposalFinancialEntity disclProject="${disclProject}"  idx="${status.index}"/>	            

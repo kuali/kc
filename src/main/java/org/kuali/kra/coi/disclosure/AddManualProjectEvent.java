@@ -22,7 +22,7 @@ import org.kuali.kra.coi.DisclosureReporterUnit;
 import org.kuali.kra.rule.BusinessRuleInterface;
 import org.kuali.kra.rule.event.KraDocumentEventBaseExtension;
 
-public class AddProposalProjectEvent extends KraDocumentEventBaseExtension {
+public class AddManualProjectEvent extends KraDocumentEventBaseExtension {
     
     private String propertyName;
     private CoiDisclProject coiDisclProject;
@@ -33,7 +33,7 @@ public class AddProposalProjectEvent extends KraDocumentEventBaseExtension {
      * @param propertyName The error path property prefix
      * @param reviewAttachment The added Reviewer Attachment
      */
-    public AddProposalProjectEvent(String propertyName, CoiDisclProject coiDisclProject) {
+    public AddManualProjectEvent(String propertyName, CoiDisclProject coiDisclProject) {
         super("Add Proposal", "", null);
         this.propertyName = propertyName;
         this.coiDisclProject = coiDisclProject;
@@ -47,7 +47,7 @@ public class AddProposalProjectEvent extends KraDocumentEventBaseExtension {
     @Override
     @SuppressWarnings("unchecked")
     public BusinessRuleInterface getRule() {
-        return new AddProposalProjectRule();
+        return new AddManualProjectRule();
     }
 
     public CoiDisclProject getCoiDisclProject() {
