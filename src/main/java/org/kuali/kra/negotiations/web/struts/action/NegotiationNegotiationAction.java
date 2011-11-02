@@ -19,6 +19,7 @@ import static org.apache.commons.lang.StringUtils.isNotBlank;
 import static org.kuali.rice.kns.util.KNSConstants.EMPTY_STRING;
 import static org.kuali.rice.kns.util.KNSConstants.QUESTION_CLICKED_BUTTON;
 
+import java.util.ArrayList;
 import java.util.Collection;
 import java.util.HashMap;
 import java.util.List;
@@ -148,10 +149,15 @@ public class NegotiationNegotiationAction extends NegotiationAction {
         }
         if (oldNegotiation == null
                 || !StringUtils.equals(negotiation.getAssociatedDocumentId(), oldNegotiation.getAssociatedDocumentId())) {
-            Map<String, Object> values = new HashMap<String, Object>();
-            values.put("associatedDocumentId", negotiation.getAssociatedDocumentId());
-            values.put("negotiationAssociationTypeId", negotiation.getNegotiationAssociationType().getId());
-            Collection<Negotiation> otherNegotiations = getBusinessObjectService().findMatching(Negotiation.class, values);
+            Collection<Negotiation> otherNegotiations;
+            if (negotiation.getNegotiationAssociationType() != null) {
+                Map<String, Object> values = new HashMap<String, Object>();
+                values.put("associatedDocumentId", negotiation.getAssociatedDocumentId());
+                values.put("negotiationAssociationTypeId", negotiation.getNegotiationAssociationType().getId());
+                otherNegotiations = getBusinessObjectService().findMatching(Negotiation.class, values);
+            } else {
+                otherNegotiations = new ArrayList<Negotiation>();
+            }
             if (!otherNegotiations.isEmpty()) {
                 StrutsConfirmation question = buildParameterizedConfirmationQuestion(mapping, form, request, response,
                         "duplicateLinkedNegotiations", KeyConstants.NEGOTIATION_DUPLICATE_LINKING, negotiation
@@ -277,7 +283,7 @@ public class NegotiationNegotiationAction extends NegotiationAction {
             params.put("NEGOTIATION_ASSC_TYPE_ID", newAssociationTypeId);
             NegotiationAssociationType asscType = (NegotiationAssociationType) this.getBusinessObjectService().findByPrimaryKey(
                     NegotiationAssociationType.class, params);
-            String newAssociation = asscType.getDescription();
+            String newAssociation = asscType != null ? asscType.getDescription() : "nothing";
             if (StringUtils.equals(negotiationForm.getNegotiationDocument().getNegotiation().getNegotiationAssociationType()
                     .getCode(), NegotiationAssociationType.NONE_ASSOCIATION)) {
                 newAssociation = newAssociation + ", you will lose any negotiation attributes that have been entered";
@@ -320,10 +326,9 @@ public class NegotiationNegotiationAction extends NegotiationAction {
         negotiationForm.getNegotiationDocument().getNegotiation().setNegotiationAssociationType(asscType);
         negotiationForm.getNegotiationDocument().getNegotiation().setAssociatedDocumentId("");
 
-        if (StringUtils.equalsIgnoreCase(asscType.getCode(), NegotiationAssociationType.NONE_ASSOCIATION)) {
+        if (asscType != null && StringUtils.equalsIgnoreCase(asscType.getCode(), NegotiationAssociationType.NONE_ASSOCIATION)) {
             negotiationForm.getNegotiationDocument().getNegotiation().setUnAssociatedDetail(new NegotiationUnassociatedDetail());
-        }
-        else {
+        } else {
             if (negotiationForm.getNegotiationDocument().getNegotiation().getUnAssociatedDetail() != null) {
                 negotiationForm.getNegotiationUnassociatedDetailsToDelete().add(
                         negotiationForm.getNegotiationDocument().getNegotiation().getUnAssociatedDetail());
