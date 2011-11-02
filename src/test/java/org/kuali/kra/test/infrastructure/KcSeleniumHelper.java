@@ -400,6 +400,27 @@ public abstract class KcSeleniumHelper {
     }
     
     /**
+     * Clicks on an element in the web page only if it exists.
+     *
+     * @param locator the id, partial name, partial title, or partial link name of the element to click on
+     */
+    public final void toggle(final String locator) {
+        toggle(locator, false);
+    }
+    
+    /**
+     * Clicks on an element in the web page only if it exists.
+     *
+     * @param locator the id, name, title, or link name of the element to click on depending on the value of {@code exact}
+     * @param exact whether the locator should match exactly
+     */
+    public final void toggle(final String locator, final boolean exact) {
+        if (findElement(locator, exact)) {
+            click(locator, exact);
+        }
+    }
+    
+    /**
      * Clicks on the Yes answer in the web page, if it exists.
      */
     public final void clickYesAnswer() {
