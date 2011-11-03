@@ -38,6 +38,7 @@
         <ref bean="Negotiation-associatedNegotiable.negotiableProposalTypeCode"/>
         <ref bean="Negotiation-associatedNegotiable.leadUnitNumber"/>
         <ref bean="Negotiation-associatedNegotiable.leadUnitName"/>
+        <ref bean="Negotiation-activities.followupDate"/>
       </list>
     </property>
   </bean>
@@ -326,6 +327,11 @@
   <bean id="Negotiation-associatedNegotiable.leadUnitName-parentBean" abstract="true" parent="Unit-unitName">
     <property name="name" value="associatedNegotiable.leadUnitName" />
   </bean>
+  
+  <bean id="Negotiation-activities.followupDate" parent="Negotiation-activities.followupDate-parentBean" />
+  <bean id="Negotiation-activities.followupDate-parentBean" abstract="true" parent="NegotiationActivity-followupDate">
+    <property name="name" value="activities.followupDate" />
+  </bean>
       
   
   <!-- Business Object Lookup Definition -->
@@ -355,6 +361,7 @@
 		    <bean p:attributeName="associatedNegotiable.negotiableProposalTypeCode" parent="FieldDefinition" />
 		    <bean p:attributeName="associatedNegotiable.leadUnitNumber" parent="FieldDefinition" />
 		    <bean p:attributeName="associatedNegotiable.leadUnitName" parent="FieldDefinition" />
+		    <bean p:attributeName="activities.followupDate" parent="FieldDefinition" />
 		    
 		  </list>
 		</property>
