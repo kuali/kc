@@ -15,6 +15,7 @@
  */
 package org.kuali.kra.proposaldevelopment.web;
 
+import org.apache.commons.lang.StringUtils;
 import org.junit.After;
 import org.junit.Before;
 import org.junit.Test;
@@ -140,7 +141,6 @@ public class ProposalDevelopmentAbstractsPanelSeleniumTest extends KcSeleniumTes
         helper.openTab(TAB_ID);
 
         addAbstract(ABSTRACT_TYPE_COMPUTER_NAME, ABSTRACT_DETAILS_COMPUTER_1);
-        String timestampDisplayComputer = helper.getTableCellValue(TABLE_ID, 2, 0);
         
         helper.saveDocument();
 
@@ -151,7 +151,7 @@ public class ProposalDevelopmentAbstractsPanelSeleniumTest extends KcSeleniumTes
         helper.openTab(TAB_ID);
 
         helper.assertTableRowCount(TABLE_ID, 3);
-        checkRow(timestampDisplayComputer, ABSTRACT_TYPE_COMPUTER_NAME, ABSTRACT_DETAILS_COMPUTER_2);
+        checkRow(Constants.EMPTY_STRING, ABSTRACT_TYPE_COMPUTER_NAME, ABSTRACT_DETAILS_COMPUTER_2);
     }
 
     /**
@@ -264,7 +264,9 @@ public class ProposalDevelopmentAbstractsPanelSeleniumTest extends KcSeleniumTes
      * @param rowIndex the index of the row to check
      */
     private void checkRow(String timestampDisplay, String abstractTypeName, String abstractDetails) {
-        helper.assertTableCellValueContains(TABLE_ID, timestampDisplay);
+        if (StringUtils.isNotBlank(timestampDisplay)) {
+            helper.assertTableCellValueContains(TABLE_ID, timestampDisplay);
+        }
         helper.assertTableCellValueContains(TABLE_ID, abstractTypeName);
         helper.assertTableCellValueContains(TABLE_ID, abstractDetails);
     }
