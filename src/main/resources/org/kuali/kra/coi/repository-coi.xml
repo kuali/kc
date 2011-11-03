@@ -476,4 +476,13 @@
         <field-descriptor name="versionNumber" column="VER_NBR" jdbc-type="BIGINT" locking="false" />
     </class-descriptor>
     
+     <class-descriptor class="org.kuali.kra.coi.CoiCommitteeRoleType" table="COI_COMMITTEE_ROLE_TYPE">
+        <field-descriptor name="roleTypeCode" column="COI_COMMITTEE_ROLE_TYPE_CODE" jdbc-type="VARCHAR" primarykey="true" />
+        <field-descriptor name="description" column="DESCRIPTION" jdbc-type="VARCHAR" />
+        <field-descriptor name="updateTimestamp" column="UPDATE_TIMESTAMP" jdbc-type="TIMESTAMP" />
+        <field-descriptor name="updateUser" column="UPDATE_USER" jdbc-type="VARCHAR" />
+        <field-descriptor name="versionNumber" column="VER_NBR" jdbc-type="BIGINT" locking="false" />
+        <field-descriptor name="objectId" column="OBJ_ID" jdbc-type="VARCHAR" />
+    </class-descriptor>	
+    
 </descriptor-repository>
