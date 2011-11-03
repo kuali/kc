@@ -55,6 +55,7 @@ import org.kuali.kra.institutionalproposal.rules.InstitutionalProposalNoteAddEve
 import org.kuali.kra.institutionalproposal.rules.InstitutionalProposalNoteEventBase.ErrorType;
 import org.kuali.kra.institutionalproposal.service.InstitutionalProposalVersioningService;
 import org.kuali.kra.institutionalproposal.web.struts.form.InstitutionalProposalForm;
+import org.kuali.kra.negotiations.service.NegotiationService;
 import org.kuali.kra.proposaldevelopment.document.ProposalDevelopmentDocument;
 import org.kuali.kra.service.KcAttachmentService;
 import org.kuali.kra.service.KeywordsService;
@@ -389,9 +390,14 @@ public class InstitutionalProposalHomeAction extends InstitutionalProposalAction
         if (proposalLog != null && !proposalLog.getLogStatus().equals(ProposalLogUtils.getProposalLogSubmittedStatusCode())) {
             //  ipForm.getInstitutionalProposalDocument().getInstitutionalProposal().doProposalLogDataFeed(proposalLog);
             getProposalLogService().promoteProposalLog(proposalLog.getProposalNumber());
+            this.getNegotationService().promoteProposalLogNegotiation(proposalLog.getProposalNumber(), ip.getProposalNumber());
         }
         ip.setSponsorNihMultiplePi(getSponsorService().isSponsorNihMultiplePi(ip));
         return forward;
+    }   
+    
+    private NegotiationService getNegotationService() {
+        return KraServiceLocator.getService(NegotiationService.class);
     }
 
     private ProposalLog retrieveProposalLog(String proposalNumber) {
