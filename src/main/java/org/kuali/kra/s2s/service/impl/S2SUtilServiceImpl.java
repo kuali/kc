@@ -52,6 +52,7 @@ import org.kuali.kra.proposaldevelopment.bo.DevelopmentProposal;
 import org.kuali.kra.proposaldevelopment.bo.Narrative;
 import org.kuali.kra.proposaldevelopment.bo.ProposalPerson;
 import org.kuali.kra.proposaldevelopment.bo.ProposalPersonUnit;
+import org.kuali.kra.proposaldevelopment.bo.ProposalSite;
 import org.kuali.kra.proposaldevelopment.bo.ProposalYnq;
 import org.kuali.kra.proposaldevelopment.document.ProposalDevelopmentDocument;
 import org.kuali.kra.proposaldevelopment.questionnaire.ProposalPersonModuleQuestionnaireBean;
@@ -1071,22 +1072,23 @@ public class S2SUtilServiceImpl implements S2SUtilService {
      */
     public String getCognizantFedAgency(DevelopmentProposal developmentProposal) {
         StringBuilder fedAgency = new StringBuilder();
-        if (developmentProposal.getApplicantOrganization() != null
-                && developmentProposal.getApplicantOrganization()
-                        .getRolodex() != null) {
-            Rolodex rolodex = developmentProposal.getApplicantOrganization().getRolodex();
+        ProposalSite applicantOrganization = developmentProposal.getApplicantOrganization();
+        if (applicantOrganization != null && 
+            applicantOrganization.getOrganization()!=null && 
+                applicantOrganization.getOrganization().getCognizantAuditor()!=null){
+            applicantOrganization.getOrganization().refreshReferenceObject("cognizantAuditorRolodex");
+            Rolodex rolodex = applicantOrganization.getOrganization().getCognizantAuditorRolodex();
             fedAgency.append(rolodex.getOrganization());
             fedAgency.append(", ");
-            fedAgency.append(rolodex.getFirstName());
+            fedAgency.append(StringUtils.trimToEmpty(rolodex.getFirstName()));
             fedAgency.append(" ");
-            fedAgency.append(rolodex.getLastName());
+            fedAgency.append(StringUtils.trimToEmpty(rolodex.getLastName()));
             fedAgency.append(" ");
             if (rolodex.getPhoneNumber() != null) {
                 if (rolodex.getPhoneNumber().length() < 180) {
                     fedAgency.append(rolodex.getPhoneNumber());
                 } else {
-                    fedAgency
-                            .append(rolodex.getPhoneNumber().substring(0, 180));
+                    fedAgency.append(rolodex.getPhoneNumber().substring(0, 180));
                 }
             }
         }
