@@ -151,4 +151,13 @@ public interface NegotiationService {
     List<KcPerson> getOSPAdministrators(String unitNumber);
     
     List<NegotiationActivityHistoryLineBean> getNegotiationActivityHistoryLineBeans(List<NegotiationActivity> activities);
+    
+    /**
+     * 
+     * This method finds the negotiation, if it exists, that is association with the proposal log, and changes it's
+     * association to the institutional proposal.
+     * @param proposalLogProposalNumber
+     * @param institutionalProposalProposalNumber
+     */
+    void promoteProposalLogNegotiation(String proposalLogProposalNumber, String institutionalProposalProposalNumber);
 }

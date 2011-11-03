@@ -153,6 +153,16 @@ public class NegotiationServiceImpl implements NegotiationService {
     
     private InstitutionalProposal getInstitutionalProposal(String proposalNumber) {
         InstitutionalProposal ip = this.getInstitutionalProposalService().getActiveInstitutionalProposalVersion(proposalNumber);
+        if (ip == null) {
+            //the proposal_number doesn't have an active one associated with it. so grab an inactive one, this will happen when a
+            //a proposal log has been promoted to an institutional proposal but not completed yet.
+            Map params = new HashMap();
+            params.put("PROPOSAL_NUMBER", proposalNumber);
+            Collection<InstitutionalProposal> proposals = this.businessObjectService.findMatching(InstitutionalProposal.class, params);
+            if (proposals != null && proposals.size() > 0) {
+                ip = proposals.iterator().next();
+            }
+        }
         return ip;
     }
     
@@ -384,6 +394,25 @@ public class NegotiationServiceImpl implements NegotiationService {
         boolean startOk = rangeStart.equals(checkDate) || rangeStart.before(checkDate);
         boolean endOk = rangeEnd.equals(checkDate) || rangeEnd.after(checkDate);
         return startOk && endOk;
+    }
+    
+    /**
+     * 
+     * @see org.kuali.kra.negotiations.service.NegotiationService#promoteProposalLogNegotiation(java.lang.String, java.lang.String)
+     */
+    public void promoteProposalLogNegotiation(String proposalLogProposalNumber, String institutionalProposalProposalNumber) {
+        Collection<Negotiation> negotiations = getAssociatedNegotiations(proposalLogProposalNumber, NegotiationAssociationType.PROPOSAL_LOG_ASSOCIATION);
+        ArrayList<Negotiation> negotiationsToSave = new ArrayList<Negotiation>();
+        if (negotiations != null && !negotiations.isEmpty()) {
+            NegotiationAssociationType ipAssocationType = getNegotiationAssociationType(NegotiationAssociationType.INSTITUATIONAL_PROPOSAL_ASSOCIATION);
+            for (Negotiation negotiation : negotiations) {
+                negotiation.setNegotiationAssociationType(ipAssocationType);
+                negotiation.setNegotiationAssociationTypeId(ipAssocationType.getId());
+                negotiation.setAssociatedDocumentId(institutionalProposalProposalNumber);
+                negotiationsToSave.add(negotiation);
+            }
+        }
+        this.getBusinessObjectService().save(negotiationsToSave);
     }
     
     protected ParameterService getParameterService() {
