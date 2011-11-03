@@ -40,6 +40,8 @@ import org.openqa.selenium.support.ui.Clock;
 import org.openqa.selenium.support.ui.Select;
 import org.openqa.selenium.support.ui.SystemClock;
 import org.openqa.selenium.support.ui.Wait;
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
 
 import com.google.common.base.Function;
 
@@ -76,6 +78,8 @@ public abstract class KcSeleniumHelper {
     private static final String ROUTE_SUCCESS_MESSAGE = "Document was successfully submitted";
     private static final String SUBMIT_SUCCESS_MESSAGE = "Document was successfully approved";
     
+    private static final Logger logger = LoggerFactory.getLogger(KcSeleniumHelper.class);
+    
     private WebDriver driver;
     
     private enum TabCommand {
@@ -104,8 +108,12 @@ public abstract class KcSeleniumHelper {
      */
     public final void login() {
         if (StringUtils.equals(driver.getTitle(), "Login")) {
+            logger.debug("Logging in as {}", DEFAULT_USER);
+            
             set("__login_user", DEFAULT_USER);
             click("//input[@value='Login']");
+            
+            logger.debug("Logged in as {}", DEFAULT_USER);
         }
     }
     
@@ -120,10 +128,14 @@ public abstract class KcSeleniumHelper {
      * Logs in as the backdoor user {@code loginUser}.
      */
     public final void loginBackdoor(final String loginUser) {
+        logger.debug("Logging in as {}", loginUser);
+        
         clickResearcherTab();
 
         set("backdoorId", loginUser);
         click("imageField");
+        
+        logger.debug("Logged in as {}", loginUser);
     }
     
     /**
@@ -203,6 +215,8 @@ public abstract class KcSeleniumHelper {
         String tagName = element.getTagName();
         String elementType = element.getAttribute("type");
         
+        logger.debug("Getting the value of {} from the element which has a tag of {} and a type of {}", new String[] {value, tagName, elementType});
+        
         if (StringUtils.equals(tagName, "input") && StringUtils.equals(elementType, "checkbox")) {
             value = getCheckbox(element);
         } else if (StringUtils.equals(tagName, "input") && StringUtils.equals(elementType, "radio")) {
@@ -212,6 +226,8 @@ public abstract class KcSeleniumHelper {
         } else {
             value = element.getAttribute("value");
         }
+        
+        logger.debug("Got the value of {} from the element which has a tag of {} and a type of {}", new String[] {value, tagName, elementType});
         
         return value;
     }
@@ -268,6 +284,8 @@ public abstract class KcSeleniumHelper {
         String tagName = element.getTagName();
         String elementType = element.getAttribute("type");
         
+        logger.debug("Setting the value to {} of the element which has a tag of {} and a type of {}", new String[] {value, tagName, elementType});
+        
         if (StringUtils.equals(tagName, "input") && StringUtils.equals(elementType, "checkbox")) {
             setCheckbox(element, value);
         } else if (StringUtils.equals(tagName, "input") && StringUtils.equals(elementType, "file")) {
@@ -280,6 +298,8 @@ public abstract class KcSeleniumHelper {
             element.clear();
             element.sendKeys(value);
         }
+        
+        logger.debug("Set the value to {} of the element which has a tag of {} and a type of {}", new String[] {value, tagName, elementType});
     }
     
     /**
@@ -390,6 +410,8 @@ public abstract class KcSeleniumHelper {
      * @param nextPageTitle the expected title of the next web page (may be null)
      */
     public final void click(final String locator, final boolean exact, final String nextPageTitle) {
+        logger.debug("Clicking the element at {}", locator);
+        
         getElement(locator, exact).click();
         
         login();
@@ -397,6 +419,8 @@ public abstract class KcSeleniumHelper {
         if (nextPageTitle != null) {
             assertPageContains(nextPageTitle);
         }
+        
+        logger.debug("Clicked the element at {}", locator);
     }
     
     /**
@@ -542,9 +566,13 @@ public abstract class KcSeleniumHelper {
      * @param command the instruction to either open or close the tab
      */
     private void clickTab(final WebElement tab, final TabCommand command) {
+        logger.debug("Clicking tab {} with requested command {}", tab.toString(), command.name());
+        
         String tabCommand = StringUtils.substringBefore(tab.getAttribute("title"), " ");
         if (command.contains(tabCommand)) {
             tab.click();
+            
+            logger.debug("Clicked the tab {} with actual command {}", tab.toString(), tabCommand);
         }
     }
     
@@ -589,6 +617,8 @@ public abstract class KcSeleniumHelper {
      * @param documentNumber the document number to search for
      */
     public final void docSearch(final String documentNumber) {
+        logger.debug("Searching for and opening document number {}", documentNumber);
+        
         click("Document Search");
         
         set("routeHeaderId", documentNumber);
@@ -596,6 +626,8 @@ public abstract class KcSeleniumHelper {
         click("methodToCall.search");
         
         click(documentNumber, true);
+        
+        logger.debug("Found and opening document number {}", documentNumber);
     }
     
     /**
@@ -637,6 +669,8 @@ public abstract class KcSeleniumHelper {
      * @param searchFieldValue the value to insert into the search field (may be null if id is null)
      */
     public final void lookup(final String tag, final String searchFieldId, final String searchFieldValue) {    
+        logger.debug("Looking up single result for tag {} for search field {} with search value {}", new String[] {tag, searchFieldId, searchFieldValue});
+        
         clickLookup(tag);
 
         if (searchFieldId != null) {
@@ -651,6 +685,8 @@ public abstract class KcSeleniumHelper {
         click("return value", true);
         
         waitForFormLoad();
+        
+        logger.debug("Looked up single result for tag {} for search field {} with search value {}", new String[] {tag, searchFieldId, searchFieldValue});
     }
 
     /**
@@ -693,6 +729,8 @@ public abstract class KcSeleniumHelper {
      * @param searchFieldValue the value to insert into the search field (may be null if id is null)
      */
     public final void multiLookup(final String tag, final String searchFieldId, final String searchFieldValue) {
+        logger.debug("Looking up multiple results for tag {} for search field {} with search value {}", new String[] {tag, searchFieldId, searchFieldValue});
+        
         clickLookup(tag);
 
         if (searchFieldId != null) {
@@ -705,6 +743,8 @@ public abstract class KcSeleniumHelper {
         click("methodToCall.selectAll");
 
         click("methodToCall.prepareToReturnSelectedResults");
+        
+        logger.debug("Looked up multiple result for tag {} for search field {} with search value {}", new String[] {tag, searchFieldId, searchFieldValue});
     }
     
     /**
@@ -999,11 +1039,17 @@ public abstract class KcSeleniumHelper {
                     boolean selectorContains = false;
                     
                     for (WebElement element : getElementsByCssSelector(cssSelector)) {
+                        logger.debug("Searching CSS selector {} with text {} for whether it contains value {}", 
+                                     new String[] {cssSelector, element.getText(), value});
+                        
                         if (StringUtils.contains(element.getText(), value)) {
                             selectorContains = true;
                             break;
                         }
                     }
+                    
+                    logger.debug(selectorContains ? "Found CSS selector {} contains value {}" : "Found CSS selector {} does not contain value {}", 
+                                 new String[] {cssSelector, value});
 
                     return selectorContains;
                 }
@@ -1024,11 +1070,16 @@ public abstract class KcSeleniumHelper {
                     boolean selectorContains = false;
                     
                     for (WebElement element : getElementsByCssSelector(cssSelector)) {
+                        logger.debug("Searching CSS selector {} with text {} for whether it contains value {}", 
+                                new String[] {cssSelector, element.getText(), value});
                         if (StringUtils.contains(element.getText(), value)) {
                             selectorContains = true;
                             break;
                         }
                     }
+                    
+                    logger.debug(selectorContains ? "Found CSS selector {} contains value {}" : "Found CSS selector {} does not contain value {}", 
+                            new String[] {cssSelector, value});
 
                     return selectorContains;
                 }
@@ -1122,12 +1173,16 @@ public abstract class KcSeleniumHelper {
      * @param text the string to look for in the options
      */
     public final void assertOptionsContain(final String locator, final boolean exact, final String text) {
+        logger.debug("Finding option values for select element {}", locator);
+        
         Select select = new Select(getElement(locator, exact));
         
         List<String> values = new ArrayList<String>();
         for (WebElement option : select.getOptions()) {
             values.add(option.getText());
         }
+        
+        logger.debug("Found option values for select element {} are {}", locator, values.toString());
         
         assertTrue("Options for " + locator + " do not contain " + text, values.contains(text));
     }
@@ -1150,12 +1205,16 @@ public abstract class KcSeleniumHelper {
      * @param text the string to look for in the options
      */
     public final void assertOptionsDoNotContain(final String locator, final boolean exact, final String text) {
+        logger.debug("Finding option values for select element {}", locator);
+        
         Select select = new Select(getElement(locator, exact));
         
         List<String> values = new ArrayList<String>();
         for (WebElement option : select.getOptions()) {
             values.add(option.getText());
         }
+        
+        logger.debug("Found option values for select element {} are {}", locator, values.toString());
         
         assertFalse("Options for " + locator + " contains " + text, values.contains(text));
     }
@@ -1178,12 +1237,16 @@ public abstract class KcSeleniumHelper {
      * @param text the string to look for in the selected options
      */
     public final void assertSelectedOptionsContain(final String locator, final boolean exact, final String text) {
+        logger.debug("Finding selected option values for select element {}", locator);
+        
         Select select = new Select(getElement(locator, exact));
         
         List<String> selectedValues = new ArrayList<String>();
         for (WebElement option : select.getAllSelectedOptions()) {
             selectedValues.add(option.getText());
         }
+        
+        logger.debug("Found selected option values for select element {} are {}", locator, selectedValues.toString());
         
         assertTrue("Selected options for " + locator + " do not contain " + text, selectedValues.contains(text));
     }
@@ -1206,6 +1269,8 @@ public abstract class KcSeleniumHelper {
      * @param text the string to look for in the selected options
      */
     public final void assertSelectedOptionsDoNotContain(final String locator, final boolean exact, final String text) {
+        logger.debug("Finding selected option values for select element {}", locator);
+        
         Select select = new Select(getElement(locator, exact));
         
         List<String> selectedValues = new ArrayList<String>();
@@ -1213,20 +1278,28 @@ public abstract class KcSeleniumHelper {
             selectedValues.add(option.getText());
         }
         
+        logger.debug("Found selected option values for select element {} are {}", locator, selectedValues.toString());
+        
         assertFalse("Selected options for " + locator + " contains " + text, selectedValues.contains(text));
     }
     
     public final void assertPopupWindowContains(final String popupWindowId, final String expectedText) {
         String parentWindowHandle = driver.getWindowHandle();
         
+        logger.debug("Switching to popup window {} out of parent window with handle {}", popupWindowId, parentWindowHandle);
+        
         click(popupWindowId);
         switchToPopupWindow(parentWindowHandle);
+        
+        logger.debug("Switched to popup window {} out of parent window with handle {}", popupWindowId, parentWindowHandle);
         
         assertPageContains(expectedText);
         
         driver.close();
         
         driver.switchTo().window(parentWindowHandle);
+        
+        logger.debug("Switched to parent window with handle {} from popup window {}", parentWindowHandle, popupWindowId);
     }
     
     /**
@@ -1456,16 +1529,24 @@ public abstract class KcSeleniumHelper {
      * @param expectedText the text to verify
      * @return true if row {@row} contains {@expectedText}, false otherwise
      */
-    private final boolean getTableRowContains(final String id, int row, final String expectedText) {
+    private final boolean getTableRowContains(final String id, final int row, final String expectedText) {
         boolean tableRowContains = false;
         
         for (int column =  0; column < getTableColumnCount(id, row); column++) {
+            logger.debug("Getting cell value from table {} at row {} and column {}", new Object[] {id, row, column});
+            
             String actualText = getTableCellValue(id, row, column);
+            
+            logger.debug("Found cell value from table {} at row {} and column {} to be {}", new Object[] {id, row, column, actualText});
+            
             if (StringUtils.contains(actualText, expectedText)) {
                 tableRowContains = true;
                 break;
             }
         }
+        
+        logger.debug(tableRowContains ? "Found table {} at row {} contains text {}" : "Found table {} at row {} does not contain text {}", 
+                new Object[] {id, row, expectedText});
         
         return tableRowContains;
     }
@@ -1670,17 +1751,27 @@ public abstract class KcSeleniumHelper {
     private Function<WebDriver, WebElement> locateElementByAll(final String locator, final boolean exact) {
         return new Function<WebDriver, WebElement>() {
             public WebElement apply(WebDriver driver) {
+                logger.debug("Locating element {} by id", locator);
+                
                 WebElement element = getElementById(locator);
                 
                 if (element == null) {
+                    logger.debug("Locating element {} by name", locator);
+                    
                     element = getElementByName(locator, exact);
                     if (element == null) {
+                        logger.debug("Locating element {} by title", locator);
+                        
                         element = getElementByTitle(locator, exact);
                         if (element == null) {
+                            logger.debug("Locating element {} by link text", locator);
+                            
                             element = getElementByLinkText(locator, exact);
                         }
                     }
                 }
+                
+                logger.debug(element != null ? "Found element {}" : "Did not find element {}", locator);
                 
                 return element;
             }
