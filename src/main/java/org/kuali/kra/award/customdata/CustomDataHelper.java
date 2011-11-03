@@ -28,6 +28,7 @@ import javax.servlet.http.HttpServletResponse;
 import org.apache.struts.action.ActionForm;
 import org.apache.struts.action.ActionForward;
 import org.apache.struts.action.ActionMapping;
+import org.drools.core.util.StringUtils;
 import org.kuali.kra.award.AwardForm;
 import org.kuali.kra.award.document.AwardDocument;
 import org.kuali.kra.award.home.Award;
@@ -142,7 +143,7 @@ public class CustomDataHelper extends CustomDataHelperBase {
 
     /**
      * This method copies data out of Array of AwardStringObjectBo into parent collection which is in turn copied into collection of 
-     * AwardCustomData objects on Award for data persitence.
+     * AwardCustomData objects on Award for data persistence.
      */
     public void populateCustomAttributeValuesMap() {
         for(Map.Entry<String, String[]> customAttributeValue:getCustomAttributeValues().entrySet()) {
@@ -233,9 +234,12 @@ public class CustomDataHelper extends CustomDataHelperBase {
                                                        AwardForm awardForm, Map<String, 
                                                            CustomAttributeDocument> customAttributeDocuments) {
         for(Map.Entry<String, CustomAttributeDocument> customAttributeDocumentEntry:customAttributeDocuments.entrySet()) {
-            awardForm.getCustomDataHelper().getCustomAttributeValues()
-                .put("id" + customAttributeDocumentEntry.getValue().getCustomAttributeId().toString(), new String[] {""});       
+            String temp = customAttributeDocumentEntry.getValue().getCustomAttribute().getValue();
+            awardForm.getCustomDataHelper().getCustomAttributeValues().put("id" + customAttributeDocumentEntry.getValue().getCustomAttributeId().toString(), (temp == null ? new String[]{null} : new String[]{temp}));       
             String groupName = customAttributeDocumentEntry.getValue().getCustomAttribute().getGroupName();
+            if (StringUtils.isEmpty(groupName)) {
+                groupName = "No Group";
+            }
             List<CustomAttributeDocument> customAttributeDocumentList = customAttributeGroups.get(groupName);
             if (customAttributeDocumentList == null) {
                 customAttributeDocumentList = new ArrayList<CustomAttributeDocument>();
