@@ -17,11 +17,11 @@ package org.kuali.kra.coi.disclosure;
 
 import java.util.List;
 
-import org.kuali.kra.coi.CoiDiscDetail;
 import org.kuali.kra.coi.CoiDisclProject;
 import org.kuali.kra.coi.CoiDisclosure;
 import org.kuali.kra.coi.DisclosureReporter;
 import org.kuali.kra.coi.DisclosureReporterUnit;
+import org.kuali.kra.service.VersionException;
 
 public interface CoiDisclosureService {
     // TODO : refactor financialentityservice and this service to share many very similar methods
@@ -40,4 +40,6 @@ public interface CoiDisclosureService {
     void updateDisclosureDetails(CoiDisclProject coiDisclProject);
 
     void setDisclDetailsForSave(CoiDisclosure coiDisclosure);
+    
+    CoiDisclosure versionCoiDisclosure() throws VersionException;
 }
