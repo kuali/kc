@@ -107,6 +107,14 @@
         				</list>
         			</property>
         		</bean>
+        		<bean parent="RelationshipDefinition">
+        			<property name="objectAttributeName" value="projectPersons" />
+        			<property name="primitiveAttributes">
+        				<list>
+        					<bean parent="PrimitiveAttributeDefinition" p:sourceName="projectPersons.fullName" p:targetName="fullName" />
+        				</list>
+        			</property>
+        		</bean>
         	</list>
         </property>
         <property name="collections">
@@ -925,14 +933,12 @@
         <property name="label" value="Proposal Person" />
         <property name="shortLabel" value="Proposal Person" />
     </bean>
-    
     <bean id="InstitutionalProposal-projectPersons.institutionalProposalContactId" parent="InstitutionalProposal-projectPersons.institutionalProposalContactId-parentBean" />
     <bean id="InstitutionalProposal-projectPersons.institutionalProposalContactId-parentBean" abstract="true" parent="InstitutionalProposalPerson-institutionalProposalContactId">
         <property name="name" value="projectPersons.institutionalProposalContactId" />
         <property name="label" value="Proposal Person" />
         <property name="shortLabel" value="Proposal Person" />
     </bean>
-    
     <bean id="InstitutionalProposal-principalInvestigator.fullName" parent="InstitutionalProposal-principalInvestigator.fullName-parentBean" />
     <bean id="InstitutionalProposal-principalInvestigator.fullName-parentBean" abstract="true" parent="KcPerson-fullName">
         <property name="name" value="principalInvestigator.fullName" />
@@ -1009,7 +1015,7 @@
                 <bean parent="FieldDefinition" p:noLookup="true" p:noDirectInquiry="true" p:useShortLabel="true"
                     p:attributeName="leadUnit.unitName" />
                 -->
-                <bean parent="FieldDefinition" p:useShortLabel="true"
+                <bean parent="FieldDefinition" p:useShortLabel="true" p:noDirectInquiry="true"
                     p:attributeName="projectPersons.fullName" />
                 <bean parent="FieldDefinition"
                     p:attributeName="projectPersons.institutionalProposalContactId" p:hidden="true" />
