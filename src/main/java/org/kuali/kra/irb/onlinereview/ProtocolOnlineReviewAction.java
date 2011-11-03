@@ -339,7 +339,7 @@ public class ProtocolOnlineReviewAction extends ProtocolAction implements AuditM
                 return mapping.findForward(KNSConstants.MAPPING_PORTAL);
             } else if (isApproveReview) {
                 // admin approve review will return here
-                return routeProtocolOLRToHoldingPage(mapping, protocolForm, prDoc.getDocumentNumber());
+                return routeProtocolOLRToHoldingPage(mapping, protocolForm, prDoc.getDocumentNumber(), "Approve");
             }
         }
         
@@ -349,13 +349,16 @@ public class ProtocolOnlineReviewAction extends ProtocolAction implements AuditM
         
     }
 
-    private ActionForward routeProtocolOLRToHoldingPage(ActionMapping mapping, ProtocolForm protocolForm, String olrDocId) {
+    private ActionForward routeProtocolOLRToHoldingPage(ActionMapping mapping, ProtocolForm protocolForm, String olrDocId, String olrEvent) {
         Long routeHeaderId = Long.parseLong(protocolForm.getDocument().getDocumentNumber());
         String returnLocation = buildActionUrl(routeHeaderId, Constants.MAPPING_PROTOCOL_ONLINE_REVIEW , "ProtocolDocument");
-        // use this doc id for holding action to check if online review document is complete for admin approve.
-        returnLocation += "&" + "olrDocId=" + olrDocId;
+        // use this doc id for holding action to check if online review document is complete and return to online review tab
+        returnLocation += "&" + "olrDocId=" + olrDocId + "&" + "olrEvent=" + olrEvent;
         ActionForward basicForward = mapping.findForward(KNSConstants.MAPPING_PORTAL);
-        ActionForward holdingPageForward = mapping.findForward(Constants.MAPPING_HOLDING_PAGE);
+        //ActionForward holdingPageForward = mapping.findForward(Constants.MAPPING_HOLDING_PAGE);
+        ActionForward holdingPageForward = mapping.findForward(Constants.MAPPING_IRB_HOLDING_PAGE);
+        GlobalVariables.getUserSession().addObject(Constants.HOLDING_PAGE_DOCUMENT_ID, (Object)olrDocId);
+        
         return routeToHoldingPage(basicForward, basicForward, holdingPageForward, returnLocation);
 
     }
@@ -471,7 +474,9 @@ public class ProtocolOnlineReviewAction extends ProtocolAction implements AuditM
                 rejectReview.setReason(reason);
                 rejectReview.sendNotification();
                 protocolForm.getOnlineReviewsActionHelper().init(true);
-                recordOnlineReviewActionSuccess("returned to reviewer", prDoc);                
+                recordOnlineReviewActionSuccess("returned to reviewer", prDoc);   
+                return routeProtocolOLRToHoldingPage(mapping, protocolForm, prDoc.getDocumentNumber(), "Reject");
+
             }
         }
         return mapping.findForward(Constants.MAPPING_BASIC);

@@ -39,6 +39,7 @@ import org.kuali.rice.kns.service.DocumentService;
 import org.kuali.rice.kns.service.ParameterConstants;
 import org.kuali.rice.kns.service.ParameterConstants.COMPONENT;
 import org.kuali.rice.kns.service.ParameterConstants.NAMESPACE;
+import org.kuali.rice.kns.util.GlobalVariables;
 import org.kuali.rice.kns.util.ObjectUtils;
 
 /**
@@ -56,6 +57,9 @@ public class ProtocolOnlineReviewDocument extends ResearchDocumentBase implement
 	
     private static final String DOCUMENT_TYPE_CODE = "PTRV";
     private static final org.apache.log4j.Logger LOG = org.apache.log4j.Logger.getLogger(ProtocolOnlineReviewDocument.class);
+    private static final String OLR_DOC_ID_PARAM = "olrDocId";
+    private static final String OLR_EVENT_PARAM = "olrEvent";
+
     /**
      * Comment for <code>serialVersionUID</code>
      */
@@ -206,4 +210,78 @@ public class ProtocolOnlineReviewDocument extends ResearchDocumentBase implement
         }
     }
     
+    public boolean isProcessComplete() {
+        boolean isComplete = true;
+        
+        String backLocation = (String) GlobalVariables.getUserSession().retrieveObject(Constants.HOLDING_PAGE_RETURN_LOCATION);
+        String olrDocId = getURLParamValue(backLocation, OLR_DOC_ID_PARAM);
+        if (olrDocId != null) {
+            String olrEvent = getURLParamValue(backLocation, OLR_EVENT_PARAM);
+            if (StringUtils.equalsIgnoreCase(olrEvent, "Approve")) {
+                isComplete = isOnlineReviewApproveComplete(olrDocId);
+            } else if (StringUtils.equalsIgnoreCase(olrEvent, "Reject")) {
+                isComplete = isOnlineReviewRejectComplete(olrDocId);         
+            }
+        }
+            
+        return isComplete;
+    }
+    
+    private boolean isOnlineReviewApproveComplete(String olrDocId) {
+        boolean isComplete = true;
+        try {
+            ProtocolOnlineReviewDocument onlineReviewDoc = (ProtocolOnlineReviewDocument)getDocumentService().getByDocumentHeaderId(olrDocId);
+            if (onlineReviewDoc.getDocumentHeader().getWorkflowDocument().getCurrentRouteNodeNames().equalsIgnoreCase(Constants.ONLINE_REVIEW_ROUTE_NODE_ONLINE_REVIEWER)) {
+                isComplete = false;
+            }
+        } catch (Exception e) {
+            isComplete = true;
+        }
+        
+        return isComplete;
+    }
+
+    private boolean isOnlineReviewRejectComplete(String olrDocId) {
+        boolean isComplete = true;
+        try {
+            ProtocolOnlineReviewDocument onlineReviewDoc = (ProtocolOnlineReviewDocument)getDocumentService().getByDocumentHeaderId(olrDocId);
+            if (!onlineReviewDoc.getDocumentHeader().getWorkflowDocument().getCurrentRouteNodeNames().equalsIgnoreCase(Constants.ONLINE_REVIEW_ROUTE_NODE_ONLINE_REVIEWER)) {
+                isComplete = false;
+            }
+        } catch (Exception e) {
+            isComplete = true;
+        }
+        
+        return isComplete;
+    }
+    
+    private DocumentService getDocumentService() {
+        return KraServiceLocator.getService(DocumentService.class);
+    }
+    
+    private String getURLParamValue(String url, String paramName) {
+        String pValue = null;
+        
+        if (StringUtils.isNotBlank(url) && url.indexOf("?") > -1) {
+            String paramString = url.substring(url.indexOf("?") + 1);
+
+            if (StringUtils.isNotBlank(paramString)) {
+                String params[] = paramString.split("&");
+                for (String param : params) {
+                    String temp[] = param.split("=");
+
+                    if (StringUtils.equals(temp[0], paramName)) {
+                        pValue = temp[1];
+                    }
+                }
+            }
+        }
+        
+        return pValue;
+    }
 }
+
+
+
+
+
