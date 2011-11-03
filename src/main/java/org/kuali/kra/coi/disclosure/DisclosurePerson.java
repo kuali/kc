@@ -18,14 +18,16 @@ package org.kuali.kra.coi.disclosure;
 import java.util.LinkedHashMap;
 import java.util.List;
 
+import org.kuali.kra.SequenceAssociate;
 import org.kuali.kra.bo.KcPerson;
 import org.kuali.kra.coi.CoiDisclosure;
 import org.kuali.kra.coi.DisclosureReporter;
 import org.kuali.kra.coi.DisclosureReporterUnit;
 import org.kuali.kra.infrastructure.KraServiceLocator;
+import org.kuali.kra.irb.Protocol;
 import org.kuali.kra.service.KcPersonService;
 
-public class DisclosurePerson extends DisclosureReporter {
+public class DisclosurePerson extends DisclosureReporter implements SequenceAssociate<CoiDisclosure> {
     /**
      * TODO : not sure about this table. 1. should we combine this with coi reporter/correspondent, 2. personRoleId do we need it
      **/
@@ -97,6 +99,30 @@ public class DisclosurePerson extends DisclosureReporter {
     public List<? extends DisclosureReporterUnit> getDisclosureReporterUnits() {
         // TODO Auto-generated method stub
         return getDisclosurePersonUnits();
+    }
+
+    @Override
+    public Integer getSequenceNumber() {
+        // TODO Auto-generated method stub
+        return null;
+    }
+
+    @Override
+    public void resetPersistenceState() {
+        this.setDisclosurePersonId(null);
+                
+    }
+
+    @Override
+    public void setSequenceOwner(CoiDisclosure newlyVersionedOwner) {
+        this.setCoiDisclosure(newlyVersionedOwner);   
+                
+    }
+
+    @Override
+    public CoiDisclosure getSequenceOwner() {
+        // TODO Auto-generated method stub
+        return this.getCoiDisclosure();
     }
 
 

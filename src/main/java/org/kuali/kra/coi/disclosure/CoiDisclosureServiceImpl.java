@@ -31,6 +31,8 @@ import org.kuali.kra.coi.CoiDisclProject;
 import org.kuali.kra.coi.CoiDisclosure;
 import org.kuali.kra.coi.DisclosureReporter;
 import org.kuali.kra.coi.DisclosureReporterUnit;
+import org.kuali.kra.coi.personfinancialentity.FinEntityDataMatrixBean;
+import org.kuali.kra.coi.personfinancialentity.FinancialEntityContactInfo;
 import org.kuali.kra.coi.personfinancialentity.FinancialEntityService;
 import org.kuali.kra.coi.personfinancialentity.PersonFinIntDisclosure;
 import org.kuali.kra.infrastructure.Constants;
@@ -40,8 +42,11 @@ import org.kuali.kra.irb.personnel.ProtocolPerson;
 import org.kuali.kra.proposaldevelopment.bo.DevelopmentProposal;
 import org.kuali.kra.proposaldevelopment.bo.ProposalPerson;
 import org.kuali.kra.service.KcPersonService;
+import org.kuali.kra.service.VersionException;
+import org.kuali.kra.service.VersioningService;
 import org.kuali.rice.kns.service.BusinessObjectService;
 import org.kuali.rice.kns.util.GlobalVariables;
+import org.kuali.rice.kns.util.ObjectUtils;
 
 public class CoiDisclosureServiceImpl implements CoiDisclosureService {
 
@@ -49,6 +54,7 @@ public class CoiDisclosureServiceImpl implements CoiDisclosureService {
     private KcPersonService kcPersonService;
     private FinancialEntityService financialEntityService;
     private ProtocolFinderDao protocolFinderDao;
+    private VersioningService versioningService;
 
     @SuppressWarnings("rawtypes")
     public DisclosurePerson getDisclosureReporter(String personId, Long coiDisclosureId) {
@@ -458,6 +464,19 @@ public class CoiDisclosureServiceImpl implements CoiDisclosureService {
         
     }
  
+    public CoiDisclosure versionCoiDisclosure() throws VersionException {
+        Map fieldValues = new HashMap();
+        fieldValues.put("personId", GlobalVariables.getUserSession().getPrincipalId());
+
+        List<CoiDisclosure> disclosures = (List<CoiDisclosure>) businessObjectService.findMatchingOrderBy(CoiDisclosure.class, fieldValues, "sequenceNumber", false);
+        CoiDisclosure newDisclosure = null;
+        if (CollectionUtils.isNotEmpty(disclosures)) {
+            newDisclosure = versioningService.createNewVersion(disclosures.get(0));
+            newDisclosure.setCoiDisclProjects(null);
+            newDisclosure.setCoiDiscDetails(null);
+        }
+        return newDisclosure;
+    }
 
     public void setBusinessObjectService(BusinessObjectService businessObjectService) {
         this.businessObjectService = businessObjectService;
@@ -473,6 +492,10 @@ public class CoiDisclosureServiceImpl implements CoiDisclosureService {
 
     public void setProtocolFinderDao(ProtocolFinderDao protocolFinderDao) {
         this.protocolFinderDao = protocolFinderDao;
+    }
+
+    public void setVersioningService(VersioningService versioningService) {
+        this.versioningService = versioningService;
     }
 
 }

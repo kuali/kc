@@ -18,10 +18,12 @@ package org.kuali.kra.coi.disclosure;
 import java.util.LinkedHashMap;
 
 import org.apache.commons.lang.StringUtils;
+import org.kuali.kra.SequenceAssociate;
 import org.kuali.kra.bo.Unit;
+import org.kuali.kra.coi.CoiDisclosure;
 import org.kuali.kra.coi.DisclosureReporterUnit;
 
-public class DisclosurePersonUnit  extends DisclosureReporterUnit {
+public class DisclosurePersonUnit  extends DisclosureReporterUnit implements SequenceAssociate<CoiDisclosure> {
 
     private Long disclosurePersonUnitsId; 
     private Long disclosurePersonId;
@@ -90,8 +92,32 @@ public void setDisclosurePerson(DisclosurePerson disclosurePerson) {
 public Long getReporterUnitId() {
     // TODO Auto-generated method stub
     return getDisclosurePersonUnitsId();
-} 
-       
+}
+
+@Override
+public Integer getSequenceNumber() {
+    // TODO Auto-generated method stub
+    return null;
+}
+
+@Override
+public void resetPersistenceState() {
+    this.setDisclosurePersonUnitsId(null);
+            
+}
+
+@Override
+public void setSequenceOwner(CoiDisclosure newlyVersionedOwner) {
+    this.getDisclosurePerson().setCoiDisclosure(newlyVersionedOwner);   
+            
+}
+
+@Override
+public CoiDisclosure getSequenceOwner() {
+    // TODO Auto-generated method stub
+    return this.getDisclosurePerson().getCoiDisclosure();
+}
+
 
 
 }

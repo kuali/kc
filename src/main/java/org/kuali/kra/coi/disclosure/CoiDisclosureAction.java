@@ -71,10 +71,6 @@ public class CoiDisclosureAction extends CoiAction {
         return mapping.findForward(Constants.MAPPING_BASIC);
     }
 
-    private CoiDisclosureService getCoiDisclosureService() {
-        return KraServiceLocator.getService(CoiDisclosureService.class);
-    }
-
     private boolean checkRule(KraDocumentEventBaseExtension event) {
         return event.getRule().processRules(event);
     }
