@@ -121,10 +121,11 @@ public class CommitteeScheduleLookupableHelperServiceImpl extends KualiLookupabl
                 }
             }
         }
+        Collections.sort(finalCommitteeSchedules);
+        
         // if we are looking for schedules for a specific user then 
         // sort the schedules based on schedule date and move the entire block of past schedules to the end
         if (StringUtils.isNotBlank(fieldValues.get(SCHEDULE_PERSON_ID_LOOKUP))) {
-            Collections.sort(finalCommitteeSchedules);
             List<CommitteeSchedule> pastCommitteeSchedules = new ArrayList<CommitteeSchedule>();
             for (CommitteeSchedule schedule : finalCommitteeSchedules) {
                 if(schedule.isScheduleDateInPast()) {
