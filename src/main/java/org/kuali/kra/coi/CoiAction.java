@@ -21,7 +21,9 @@ import javax.servlet.http.HttpServletResponse;
 import org.apache.struts.action.ActionForm;
 import org.apache.struts.action.ActionForward;
 import org.apache.struts.action.ActionMapping;
+import org.kuali.kra.coi.disclosure.CoiDisclosureService;
 import org.kuali.kra.infrastructure.Constants;
+import org.kuali.kra.infrastructure.KraServiceLocator;
 import org.kuali.kra.web.struts.action.AuditActionHelper;
 import org.kuali.kra.web.struts.action.KraTransactionalDocumentActionBase;
 import org.kuali.rice.kew.util.KEWConstants;
@@ -78,6 +80,10 @@ public abstract class CoiAction extends KraTransactionalDocumentActionBase {
             }
             coiDisclosureForm.setCommand(KEWConstants.INITIATE_COMMAND);
             forward = super.docHandler(mapping, form, request, response);
+            CoiDisclosure coiDisclosure = getCoiDisclosureService().versionCoiDisclosure();
+            if (coiDisclosure != null) {
+                coiDisclosureForm.getCoiDisclosureDocument().setCoiDisclosure(coiDisclosure);
+            }
             coiDisclosureForm.getCoiDisclosureDocument().getCoiDisclosure().setModuleCode(moduleCode);
         } else {
             forward = super.docHandler(mapping, form, request, response);            
@@ -85,6 +91,11 @@ public abstract class CoiAction extends KraTransactionalDocumentActionBase {
 
         return forward;
     }
+
+    protected CoiDisclosureService getCoiDisclosureService() {
+        return KraServiceLocator.getService(CoiDisclosureService.class);
+    }
+
 
 //    @Override
 //    public final ActionForward save(ActionMapping mapping, ActionForm form, HttpServletRequest request, HttpServletResponse response)
