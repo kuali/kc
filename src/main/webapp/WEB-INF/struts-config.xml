@@ -75,6 +75,7 @@
 <!-- Rice content End -->
        	
        	<forward name="kraHoldingPage" path="/kraHoldingPage.do" redirect="true" />
+       	<forward name="irbHoldingPage" path="/irbHoldingPage.do" redirect="true" />       	
        	
        	<forward name="closePage" path="/EmptyClosePage.html" />
        	<forward name="copyProposal" path="/WEB-INF/jsp/proposaldevelopment/copyProposal.jsp" redirect="true" />
@@ -109,6 +110,10 @@
         <action path="/kraHoldingPage" name="KualiForm" type="org.kuali.kra.web.struts.action.KraHoldingPageAction">
             <forward name="basic" path="/kraHoldingPage.jsp" />
         </action>
+        
+        <action path="/irbHoldingPage" name="KualiForm" type="org.kuali.kra.irb.actions.IrbHoldingPageAction">
+            <forward name="basic" path="/irbHoldingPage.jsp" />
+        </action>        
                             
       <!--  KRA Proposal Development Mapping -->
       <action path="/proposalDevelopment*" name="ProposalDevelopmentForm" input="/WEB-INF/jsp/proposaldevelopment/ProposalDevelopment{1}.jsp" type="org.kuali.kra.proposaldevelopment.web.struts.action.ProposalDevelopment{1}Action"  scope="request" parameter="methodToCall" validate="true" attribute="KualiForm">
@@ -373,6 +378,11 @@
 
       <action path="/batchCorrespondenceDetail" name="BatchCorrespondenceDetailForm" input="/WEB-INF/jsp/irb/BatchCorrespondenceDetail.jsp" type="org.kuali.kra.irb.correspondence.BatchCorrespondenceDetailAction" parameter="methodToCall" validate="true" attribute="KualiForm">
         <forward name="basic" path="/WEB-INF/jsp/irb/BatchCorrespondenceDetail.jsp" />
+      </action>
+      
+      <action path="/protocolNotificationEditor" name="ProtocolForm" input="/WEB-INF/jsp/irb/ProtocolNotificationEditor.jsp" type="org.kuali.kra.irb.actions.ProtocolNotificationEditorAction" scope="request" parameter="methodToCall" validate="true" attribute="KualiForm">
+        <forward name="basic" path="/WEB-INF/jsp/irb/ProtocolNotificationEditor.jsp"/>
+        &protocol_forwards;
       </action>
       <!--  KRA IRB Mapping END -->
       
