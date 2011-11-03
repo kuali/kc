@@ -27,6 +27,8 @@ import java.util.List;
 
 import org.apache.commons.collections.CollectionUtils;
 import org.apache.commons.lang.StringUtils;
+import org.kuali.kra.SequenceOwner;
+import org.kuali.kra.SkipVersioning;
 import org.kuali.kra.bo.KraPersistableBusinessObjectBase;
 import org.kuali.kra.coi.disclosure.CoiDisclEventProject;
 import org.kuali.kra.coi.disclosure.CoiDisclosureService;
@@ -34,6 +36,7 @@ import org.kuali.kra.coi.disclosure.DisclosurePerson;
 import org.kuali.kra.coi.disclosure.DisclosurePersonUnit;
 import org.kuali.kra.infrastructure.Constants;
 import org.kuali.kra.infrastructure.KraServiceLocator;
+import org.kuali.kra.irb.Protocol;
 import org.kuali.rice.kns.service.KualiConfigurationService;
 import org.kuali.rice.kns.service.ParameterService;
 import org.kuali.rice.kns.service.SequenceAccessorService;
@@ -44,7 +47,7 @@ import org.kuali.rice.kns.util.GlobalVariables;
  * 
  * This class is the main bo class of Coi disclosure
  */
-public class CoiDisclosure extends KraPersistableBusinessObjectBase { 
+public class CoiDisclosure extends KraPersistableBusinessObjectBase implements SequenceOwner<CoiDisclosure> { 
     
 
     /**
@@ -91,7 +94,9 @@ public class CoiDisclosure extends KraPersistableBusinessObjectBase {
 
 //    private CoiStatus coiStatus; 
 //    private CoiDispositionStatus coiDispositionStatus; 
+    @SkipVersioning
     private List<CoiDisclProject> coiDisclProjects; 
+    @SkipVersioning
     private List<CoiDiscDetail> coiDiscDetails; 
 //    private CoiDocuments coiDocuments; 
 //    private CoiNotepad coiNotepad; 
@@ -465,6 +470,39 @@ public class CoiDisclosure extends KraPersistableBusinessObjectBase {
 
     public boolean isManualEvent() {
         return StringUtils.equals(MANUAL_DISCL_MODULE_CODE, this.getModuleCode());
+    }
+
+    @Override
+    public void setSequenceOwner(CoiDisclosure newlyVersionedOwner) {
+        // TODO Auto-generated method stub
+        
+    }
+
+    @Override
+    public CoiDisclosure getSequenceOwner() {
+        return this;
+    }
+
+    @Override
+    public void resetPersistenceState() {
+        this.coiDisclosureId = null;
+        
+    }
+
+    @Override
+    public void incrementSequenceNumber() {
+        this.sequenceNumber++;         
+    }
+
+    @Override
+    public Integer getOwnerSequenceNumber() {
+        // TODO Auto-generated method stub
+        return null;
+    }
+
+    @Override
+    public String getVersionNameField() {
+        return "coiDisclosureNumber";
     }
 
  }
