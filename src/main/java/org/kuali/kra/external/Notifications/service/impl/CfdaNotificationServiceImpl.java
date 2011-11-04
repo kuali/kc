@@ -24,13 +24,10 @@ import javax.xml.parsers.ParserConfigurationException;
 import javax.xml.transform.TransformerException;
 
 import org.kuali.kra.external.Notifications.service.CfdaNotificationService;
-import org.kuali.kra.irb.actions.notification.ReviewCompleteEvent;
-import org.kuali.rice.kew.util.XmlHelper;
-
 import org.kuali.rice.ken.exception.InvalidXMLException;
 import org.kuali.rice.ken.service.NotificationService;
 import org.kuali.rice.ken.util.Util;
-import org.kuali.rice.kns.util.GlobalVariables;
+import org.kuali.rice.kew.util.XmlHelper;
 import org.w3c.dom.Document;
 import org.w3c.dom.Element;
 import org.xml.sax.InputSource;

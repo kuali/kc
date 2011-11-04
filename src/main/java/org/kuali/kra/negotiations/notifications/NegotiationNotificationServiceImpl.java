@@ -15,9 +15,6 @@
  */
 package org.kuali.kra.negotiations.notifications;
 
-import java.util.List;
-
-import org.kuali.kra.common.notification.bo.KcNotification;
 import org.kuali.kra.common.notification.service.KcNotificationService;
 import org.kuali.kra.negotiations.bo.Negotiable;
 import org.kuali.kra.negotiations.document.NegotiationDocument;
@@ -28,9 +25,6 @@ import org.kuali.kra.negotiations.service.NegotiationService;
  */
 public class NegotiationNotificationServiceImpl implements NegotiationNotificationService {
     
-    protected static final String NEGOTIATION_NOTIFICATION_MODULE_CODE = "5";
-    protected static final String NEGOTIATION_CLOSE_NOTIFICATION_ACTION_CODE = "100";
-    
     private KcNotificationService kcNotificationService;
     private NegotiationService negotiationService;
 
@@ -38,9 +32,7 @@ public class NegotiationNotificationServiceImpl implements NegotiationNotificati
     public void sendCloseNotification(NegotiationDocument document) {
         Negotiable negotiableBo = document.getNegotiation().getAssociatedDocument();
         NegotiationCloseNotificationContext context = new NegotiationCloseNotificationContext(document, negotiableBo);
-        List<KcNotification> notifications = getKcNotificationService().createNotifications(document.getDocumentNumber(), 
-                NEGOTIATION_NOTIFICATION_MODULE_CODE, NEGOTIATION_CLOSE_NOTIFICATION_ACTION_CODE, context);
-        getKcNotificationService().sendNotifications(notifications, context);
+        getKcNotificationService().sendNotification(context);
     }
 
     public KcNotificationService getKcNotificationService() {

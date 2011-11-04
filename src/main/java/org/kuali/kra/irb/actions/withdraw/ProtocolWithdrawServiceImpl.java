@@ -20,6 +20,7 @@ import java.sql.Date;
 import org.apache.commons.lang.StringUtils;
 import org.apache.commons.logging.Log;
 import org.apache.commons.logging.LogFactory;
+import org.kuali.kra.common.notification.service.KcNotificationService;
 import org.kuali.kra.irb.Protocol;
 import org.kuali.kra.irb.ProtocolDocument;
 import org.kuali.kra.irb.ProtocolVersionService;
@@ -28,11 +29,12 @@ import org.kuali.kra.irb.actions.ProtocolActionType;
 import org.kuali.kra.irb.actions.ProtocolStatus;
 import org.kuali.kra.irb.actions.assignagenda.ProtocolAssignToAgendaService;
 import org.kuali.kra.irb.actions.correspondence.ProtocolActionCorrespondenceGenerationService;
-import org.kuali.kra.irb.actions.notification.WithdrawEvent;
 import org.kuali.kra.irb.actions.submit.ProtocolActionService;
 import org.kuali.kra.irb.actions.submit.ProtocolSubmission;
 import org.kuali.kra.irb.actions.submit.ProtocolSubmissionStatus;
 import org.kuali.kra.irb.actions.submit.ProtocolSubmissionType;
+import org.kuali.kra.irb.notification.IRBNotificationContext;
+import org.kuali.kra.irb.notification.IRBNotificationRenderer;
 import org.kuali.kra.irb.onlinereview.ProtocolOnlineReviewService;
 import org.kuali.kra.printing.PrintingException;
 import org.kuali.rice.kew.exception.WorkflowException;
@@ -54,6 +56,7 @@ public class ProtocolWithdrawServiceImpl implements ProtocolWithdrawService {
     private ProtocolActionCorrespondenceGenerationService protocolActionCorrespondenceGenerationService;
     private ProtocolOnlineReviewService protocolOnlineReviewService;
     private IdentityManagementService identityManagementService;
+    private KcNotificationService kcNotificationService;
     
     private static final String WITHDRAW_FINALIZE_OLR_ANNOTATION = "Online Review finalized as part of withdraw action on protocol.";
     
@@ -118,9 +121,9 @@ public class ProtocolWithdrawServiceImpl implements ProtocolWithdrawService {
             protocolOnlineReviewService.finalizeOnlineReviews(submission, WITHDRAW_FINALIZE_OLR_ANNOTATION);
         }
         businessObjectService.save(protocol.getProtocolDocument());
-        WithdrawEvent withdrawEvent = new WithdrawEvent();
-        withdrawEvent.setProtocol(protocol);
-        withdrawEvent.sendNotification();
+        IRBNotificationRenderer renderer = new IRBNotificationRenderer(protocol);
+        IRBNotificationContext context = new IRBNotificationContext(protocol, ProtocolActionType.WITHDRAWN, "Withdrawn", renderer);
+        kcNotificationService.sendNotification(context);
         
         if (isVersion) {
             /*
@@ -272,5 +275,9 @@ public class ProtocolWithdrawServiceImpl implements ProtocolWithdrawService {
 
     public void setProtocolOnlineReviewService(ProtocolOnlineReviewService protocolOnlineReviewService) {
         this.protocolOnlineReviewService = protocolOnlineReviewService;
+    }
+    
+    public void setKcNotificationService(KcNotificationService kcNotificationService) {
+        this.kcNotificationService = kcNotificationService;
     }
 }

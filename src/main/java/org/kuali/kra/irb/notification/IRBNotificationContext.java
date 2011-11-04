@@ -17,6 +17,7 @@ package org.kuali.kra.irb.notification;
 
 
 import org.kuali.kra.bo.CoeusModule;
+import org.kuali.kra.common.notification.NotificationRenderer;
 import org.kuali.kra.common.notification.NotificationContextBase;
 import org.kuali.kra.common.notification.service.KcNotificationModuleRoleService;
 import org.kuali.kra.common.notification.service.KcNotificationService;
@@ -25,39 +26,52 @@ import org.kuali.kra.irb.Protocol;
 import org.kuali.kra.irb.onlinereview.ProtocolOnlineReview;
 
 /**
- * 
  * This class extends the notification context base and provides some helpful functions for
  * any IRB specific events.
  */
-public abstract class IRBNotificationContext extends NotificationContextBase {
+public class IRBNotificationContext extends NotificationContextBase {
+
+    private static final long serialVersionUID = 6642334312368480034L;
     
-    protected Protocol protocol;
-    protected ProtocolOnlineReview protocolOnlineReview;
+    private String documentNumber;
+    private String actionTypeCode;
+    private String contextName;
+    
+    /**
+     * Constructs an IRB notification context and sets the necessary services.
+     * @param protocol
+     * @param protocolOnlineReview
+     * @param actionTypeCode
+     * @param contextName
+     */
+    public IRBNotificationContext(Protocol protocol, ProtocolOnlineReview protocolOnlineReview, String actionTypeCode, String contextName, NotificationRenderer renderer) {
+        this(protocol, actionTypeCode, contextName, renderer);
+        
+        ((IRBNotificationRoleQualifierService) getNotificationRoleQualifierService()).setProtocolOnlineReview(protocolOnlineReview);
+    }
 
     /**
-     * 
-     * Constructs a IRBNotificationContext.java and sets the necessary services.
+     * Constructs an IRB notification context and sets the necessary services.
      * @param protocol
+     * @param actionTypeCode
+     * @param contextName
      */
-    public IRBNotificationContext() {
+    public IRBNotificationContext(Protocol protocol, String actionTypeCode, String contextName, NotificationRenderer renderer) {
+        super(renderer);
+        
+        this.documentNumber = protocol.getProtocolDocument().getDocumentNumber();
+        this.actionTypeCode = actionTypeCode;
+        this.contextName = contextName;
+        
         setNotificationService(KraServiceLocator.getService(KcNotificationService.class));
         setNotificationModuleRoleService(KraServiceLocator.getService(KcNotificationModuleRoleService.class));
-        setNotificationRenderingService(KraServiceLocator.getService(IRBNotificationRenderingService.class));
         setNotificationRoleQualifierService(KraServiceLocator.getService(IRBNotificationRoleQualifierService.class));
-    }
-
-    public Protocol getProtocol() {
-        return protocol;
-    }
-
-    public void setProtocol(Protocol protocol) {
-        this.protocol = protocol;
-        ((IRBNotificationRenderingService) getNotificationRenderingService()).setProtocol(protocol);
+        
         ((IRBNotificationRoleQualifierService) getNotificationRoleQualifierService()).setProtocol(protocol);
     }
     
     /**
-     * 
+     * {@inheritDoc}
      * @see org.kuali.kra.common.notification.NotificationContextBase#getModuleCode()
      */
     public String getModuleCode() {
@@ -65,26 +79,27 @@ public abstract class IRBNotificationContext extends NotificationContextBase {
     }
     
     /**
-     * 
+     * {@inheritDoc}
      * @see org.kuali.kra.common.notification.NotificationContextBase#getDocumentNumber()
      */
     public String getDocumentNumber() {
-        return getProtocol().getProtocolDocument().getDocumentNumber();
-    }
-
-    /**
-     * 
-     * This method allows the specifying of an individual protocol online review for
-     * use in resolving role qualifier values.
-     * @param onlineReview
-     */
-    public void setProtocolOnlineReview(ProtocolOnlineReview protocolOnlineReview) {
-        this.protocolOnlineReview = protocolOnlineReview;
-        ((IRBNotificationRoleQualifierService) getNotificationRoleQualifierService()).setProtocolOnlineReview(protocolOnlineReview);
+        return documentNumber;
     }
     
-    public ProtocolOnlineReview getProtocolOnlineReview() {
-        return protocolOnlineReview;
+    /**
+     * {@inheritDoc}
+     * @see org.kuali.kra.common.notification.NotificationContext#getActionTypeCode()
+     */
+    public String getActionTypeCode() {
+        return actionTypeCode;
+    }
+    
+    /**
+     * {@inheritDoc}
+     * @see org.kuali.kra.common.notification.NotificationContext#getContextName()
+     */
+    public String getContextName() {
+        return contextName;
     }
     
 }

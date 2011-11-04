@@ -20,28 +20,46 @@ import java.util.Set;
 
 import org.kuali.kra.common.notification.NotificationContext;
 import org.kuali.kra.common.notification.bo.KcNotification;
+import org.kuali.kra.common.notification.bo.NotificationType;
+import org.kuali.kra.common.notification.bo.NotificationTypeRecipient;
 
+/**
+ * Defines methods for creating and sending KC Notifications.
+ */
 public interface KcNotificationService {
     
     /**
-     * Creates a list of KC Notifications based on a Module Code, Action Code, and Notification Context.  The Notification Types associated with the Module 
-     * Code and Action Code will be retrieved from persistent storage, and translated into context-specific KC Notification instances based on the Notification 
-     * Context.
+     * Returns the Notification Type based on a Notification Context.
      * 
-     * @param documentNumber
-     * @param moduleCode
-     * @param actionCode
-     * @param notificationContext
-     * @return The list of KC Notifications
+     * @param context
+     * @return The Notification Type
      */
-    List<KcNotification> createNotifications(String documentNumber, String moduleCode, String actionCode, NotificationContext notificationContext);
+    NotificationType getNotificationType(NotificationContext context);
     
     /**
-     * Saves a list of KC Notifications.
+     * Returns the Notification Type based on a Module Code and Action Code.
      * 
-     * @param notifications
+     * @param moduleCode
+     * @param actionCode
+     * @return The Notification Type
      */
-    void saveNotifications(List<KcNotification> notifications);
+    NotificationType getNotificationType(String moduleCode, String actionCode);
+    
+    /**
+     * Creates a KC Notification based on the Notification Context.  The Notification Type associated with the Module Code and Action Code is 
+     * retrieved from persistent storage and translated into a context-specific KC Notification instance based on the Notification Context.
+     * 
+     * @param notificationContext
+     * @return The KC Notification
+     */
+    KcNotification createNotification(NotificationContext notificationContext);
+    
+    /**
+     * Saves a KC Notifications.
+     * 
+     * @param notification
+     */
+    void saveNotification(KcNotification notification);
     
     /**
      * Retrieves a list of KC Notifications based on a Document Number, a Module Code, and a set of Action Codes.
@@ -54,12 +72,19 @@ public interface KcNotificationService {
     List<KcNotification> getNotifications(String documentNumber, String moduleCode, Set<String> actionCodes);
     
     /**
-     * Send the list of KC Notifications. The context is needed to populate context-specific role qualifiers
-     * within the Role-based Recipients.
+     * Send an unedited KC Notification, using the context to populate context-specific role qualifiers within the Role-based Recipients.
      * 
-     * @param notifications
      * @param notificationContext
      */
-    void sendNotifications(List<KcNotification> notifications, NotificationContext notificationContext);
+    void sendNotification(NotificationContext notificationContext);
+    
+    /**
+     * Send a previously saved or edited KC Notification, using the context to populate context-specific role qualifiers within the Role-based Recipients and 
+     * additionally sending the notification to other non-role users.
+     * 
+     * @param notification
+     * @param notificationContext
+     */
+    void sendNotification(KcNotification notification, List<NotificationTypeRecipient> notificationRecipients, NotificationContext notificationContext);
 
 }
