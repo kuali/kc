@@ -12,10 +12,9 @@
         </property>
         <property name="attributes" >
             <list>
-                <ref bean="OrganizationCorrespondent-organizationCorrespondentId" />
                 <ref bean="OrganizationCorrespondent-personId" />
-        		<ref bean="OrganizationCorrespondent-person.fullName" />
-        		<ref bean="OrganizationCorrespondent-person.userName" />
+       		    <ref bean="OrganizationCorrespondent-person.fullName" />
+       		    <ref bean="OrganizationCorrespondent-person.userName" />
                 <ref bean="OrganizationCorrespondent-organizationId" />
                 <ref bean="OrganizationCorrespondent-correspondentTypeCode" />
                 <ref bean="OrganizationCorrespondent-correspondentType.description" />
@@ -30,21 +29,23 @@
     
     <bean id="OrganizationCorrespondent-personId" parent="OrganizationCorrespondent-personId-parentBean" />
     <bean id="OrganizationCorrespondent-personId-parentBean" abstract="true" parent="PersonImpl-principalId" >
-  		<property name="name" value="personId" />
+       	<property name="name" value="personId" />
         <property name="label" value="KC Person ID" />
         <property name="shortLabel" value="KC Person ID" />
         <property name="displayLabelAttribute" value="person.userName" />
-        <property name="forceUppercase" value="false" />
+        <property name="control">
+            <bean parent="HiddenControlDefinition" />
+        </property>
     </bean>
 
-  <bean id="OrganizationCorrespondent-person.fullName" parent="OrganizationCorrespondent-person.fullName-parentBean" />
+    <bean id="OrganizationCorrespondent-person.fullName" parent="OrganizationCorrespondent-person.fullName-parentBean" />
     <bean id="OrganizationCorrespondent-person.fullName-parentBean" abstract="true" parent="KcPerson-fullName">
         <property name="name" value="person.fullName" />
         <property name="label" value="Full Name" />
         <property name="shortLabel" value="Full Name" />
     </bean>
 
-	<bean id="OrganizationCorrespondent-person.userName" parent="OrganizationCorrespondent-person.userName-parentBean" />
+    <bean id="OrganizationCorrespondent-person.userName" parent="OrganizationCorrespondent-person.userName-parentBean" />
     <bean id="OrganizationCorrespondent-person.userName-parentBean" abstract="true" parent="PersonImpl-principalName">
         <property name="name" value="person.userName" />
         <property name="label" value="KC Person" />
@@ -59,24 +60,6 @@
                 p:universalIdAttributeName="personId"
                 p:userIdAttributeName="person.userName" />
         </property>
-    </bean>
-
-    <bean id="OrganizationCorrespondent-organizationCorrespondentId" parent="OrganizationCorrespondent-organizationCorrespondentId-parentBean" />
-    <bean id="OrganizationCorrespondent-organizationCorrespondentId-parentBean" abstract="true" parent="AttributeDefinition" >
-        <property name="name" value="organizationCorrespondentId" />
-        <property name="forceUppercase" value="false" />
-        <property name="label" value="Organization Correspondent Id" />
-        <property name="shortLabel" value="Organization Correspondent Id" />
-        <property name="maxLength" value="22" />
-        <property name="validationPattern" >
-            <bean parent="NumericValidationPattern" />
-        </property>
-        <property name="control" >
-            <bean parent="TextControlDefinition"
-                p:size="12" />
-        </property>
-        <property name="summary" value="Organization Correspondent Id" />
-        <property name="description" value="Organization Correspondent Id" />
     </bean>
 
     <bean id="OrganizationCorrespondent-organizationId" parent="OrganizationCorrespondent-organizationId-parentBean" />
@@ -164,15 +147,13 @@
                     <property name="numberOfColumns" value="1" />
                     <property name="inquiryFields" >
                         <list>
-				            <bean parent="FieldDefinition"
-                			    p:attributeName="personId"
-                    			p:forceInquiry="true" />
+			                <bean parent="FieldDefinition"
+                                p:attributeName="person.fullName"
+                    		    p:forceInquiry="true" />
                             <bean parent="FieldDefinition"
-                                p:attributeName="organizationId"
-                    			p:forceInquiry="true" />
+                                p:attributeName="organizationId" />
                             <bean parent="FieldDefinition"
-                                p:attributeName="correspondentType.description"
-                    			p:forceInquiry="true" />
+                                p:attributeName="correspondentType.description" />
                             <bean parent="FieldDefinition"
                                 p:attributeName="nonEmployeeFlag" />
                         </list>
@@ -193,8 +174,8 @@
         </property>
         <property name="lookupFields" >
             <list>
-				<bean parent="FieldDefinition"
-                    p:attributeName="personId" />
+		        <bean parent="FieldDefinition"
+                    p:attributeName="person.userName" />
                 <bean parent="FieldDefinition"
                     p:attributeName="organizationId" />
                 <bean parent="FieldDefinition"
@@ -205,13 +186,13 @@
         </property>
         <property name="resultFields" >
             <list>
-				<bean parent="FieldDefinition"
-                	p:attributeName="person.fullName" />
-                <bean parent="FieldDefinition"
-                    p:attributeName="organizationCorrespondentId" 
-                    p:forceInquiry="true" />
+		        <bean parent="FieldDefinition"
+                    p:attributeName="person.fullName" />
                 <bean parent="FieldDefinition"
                     p:attributeName="organizationId" 
+                    p:forceInquiry="true" />
+                <bean parent="FieldDefinition"
+                    p:attributeName="correspondentTypeCode" 
                     p:forceInquiry="true" />
                 <bean parent="FieldDefinition"
                     p:attributeName="description" 
@@ -222,4 +203,3 @@
         </property>
     </bean>
 </beans>
-

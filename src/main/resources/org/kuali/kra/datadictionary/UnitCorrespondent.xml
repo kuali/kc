@@ -10,16 +10,14 @@
         <property name="lookupDefinition" >
             <ref bean="UnitCorrespondent-lookupDefinition" />
         </property>
-        <property name="titleAttribute" value="unitCorrespondentId" />
         <property name="attributes" >
             <list>
-                <ref bean="UnitCorrespondent-unitCorrespondentId" />
-                <ref bean="UnitCorrespondent-unitNumber" />
-                <ref bean="UnitCorrespondent-correspondentTypeCode" />
-                <ref bean="UnitCorrespondent-correspondentType.description" />
                 <ref bean="UnitCorrespondent-personId" />
 				<ref bean="UnitCorrespondent-person.fullName" />
         		<ref bean="UnitCorrespondent-person.userName" />
+                <ref bean="UnitCorrespondent-unitNumber" />
+                <ref bean="UnitCorrespondent-correspondentTypeCode" />
+                <ref bean="UnitCorrespondent-correspondentType.description" />
                 <ref bean="UnitCorrespondent-nonEmployeeFlag" />
                 <ref bean="UnitCorrespondent-description" />
                 <ref bean="UnitCorrespondent-versionNumber" />
@@ -29,22 +27,39 @@
 
     <!-- Attribute Definitions -->
     
-    <bean id="UnitCorrespondent-unitCorrespondentId" parent="UnitCorrespondent-unitCorrespondentId-parentBean" />
-    <bean id="UnitCorrespondent-unitCorrespondentId-parentBean" abstract="true" parent="AttributeDefinition" >
-        <property name="name" value="unitCorrespondentId" />
-        <property name="forceUppercase" value="false" />
-        <property name="label" value="Unit Correspondent Id" />
-        <property name="shortLabel" value="Unit Correspondent Id" />
-        <property name="maxLength" value="22" />
+    <bean id="UnitCorrespondent-personId" parent="UnitCorrespondent-personId-parentBean" />
+    <bean id="UnitCorrespondent-personId-parentBean" abstract="true" parent="AttributeReferenceDummy-genericSystemId" >
+        <property name="name" value="personId" />
+        <property name="label" value="Person Id" />
+        <property name="shortLabel" value="Person Id" />
+        <property name="displayLabelAttribute" value="person.userName" />
+        <property name="control">
+            <bean parent="HiddenControlDefinition" />
+        </property>
+    </bean>
+
+	<bean id="UnitCorrespondent-person.fullName" parent="UnitCorrespondent-person.fullName-parentBean" />
+    <bean id="UnitCorrespondent-person.fullName-parentBean" abstract="true" parent="KcPerson-fullName">
+        <property name="name" value="person.fullName" />
+        <property name="label" value="Full Name" />
+        <property name="shortLabel" value="Full Name" />
+    </bean>
+
+	<bean id="UnitCorrespondent-person.userName" parent="UnitCorrespondent-person.userName-parentBean" />
+    <bean id="UnitCorrespondent-person.userName-parentBean" abstract="true" parent="PersonImpl-principalName">
+        <property name="name" value="person.userName" />
+        <property name="label" value="KC Person" />
+        <property name="shortLabel" value="Name" />
+        <property name="required" value="false" />
         <property name="validationPattern" >
-            <bean parent="NumericValidationPattern" />
+            <bean parent="AnyCharacterValidationPattern" />
         </property>
         <property name="control" >
-            <bean parent="TextControlDefinition"
-                p:size="12" />
+            <bean parent="KualiUserControlDefinition"
+                p:personNameAttributeName="person.fullName"
+                p:universalIdAttributeName="personId"
+                p:userIdAttributeName="person.userName" />
         </property>
-        <property name="summary" value="Unit Correspondent Id" />
-        <property name="description" value="Unit Correspondent Id" />
     </bean>
 
     <bean id="UnitCorrespondent-unitNumber" parent="UnitCorrespondent-unitNumber-parentBean" />
@@ -87,39 +102,6 @@
 	<bean id="UnitCorrespondent-correspondentType.description-parentBean" abstract="true" parent="CorrespondentType-description">
     	<property name="name" value="correspondentType.description" />
   	</bean>
-
-    <bean id="UnitCorrespondent-personId" parent="UnitCorrespondent-personId-parentBean" />
-    <bean id="UnitCorrespondent-personId-parentBean" abstract="true" parent="AttributeReferenceDummy-genericSystemId" >
-        <property name="name" value="personId" />
-        <property name="label" value="Person Id" />
-        <property name="shortLabel" value="Person Id" />
-        <property name="displayLabelAttribute" value="person.userName" />
-        <property name="forceUppercase" value="false" />
-    </bean>
-
-	<bean id="UnitCorrespondent-person.fullName" parent="UnitCorrespondent-person.fullName-parentBean" />
-    <bean id="UnitCorrespondent-person.fullName-parentBean" abstract="true" parent="KcPerson-fullName">
-        <property name="name" value="person.fullName" />
-        <property name="label" value="Full Name" />
-        <property name="shortLabel" value="Full Name" />
-    </bean>
-
-	<bean id="UnitCorrespondent-person.userName" parent="UnitCorrespondent-person.userName-parentBean" />
-    <bean id="UnitCorrespondent-person.userName-parentBean" abstract="true" parent="PersonImpl-principalName">
-        <property name="name" value="person.userName" />
-        <property name="label" value="User Person" />
-        <property name="shortLabel" value="Name" />
-        <property name="required" value="false" />
-        <property name="validationPattern" >
-            <bean parent="AnyCharacterValidationPattern" />
-        </property>
-        <property name="control" >
-            <bean parent="KualiUserControlDefinition"
-                p:personNameAttributeName="person.fullName"
-                p:universalIdAttributeName="personId"
-                p:userIdAttributeName="person.userName" />
-        </property>
-    </bean>
 
     <bean id="UnitCorrespondent-nonEmployeeFlag" parent="UnitCorrespondent-nonEmployeeFlag-parentBean" />
     <bean id="UnitCorrespondent-nonEmployeeFlag-parentBean" abstract="true" parent="AttributeReferenceDummy-genericBoolean" >
@@ -166,12 +148,12 @@
                     <property name="inquiryFields" >
                         <list>
 				            <bean parent="FieldDefinition"
-                			    p:attributeName="personId"
+                                p:attributeName="person.fullName"
                     			p:forceInquiry="true" />
                             <bean parent="FieldDefinition"
                                 p:attributeName="unitNumber" />
                             <bean parent="FieldDefinition"
-                                p:attributeName="correspondentTypeCode" />
+                                p:attributeName="correspondentType.description" />
                             <bean parent="FieldDefinition"
                                 p:attributeName="nonEmployeeFlag" />
                         </list>
@@ -193,7 +175,7 @@
         <property name="lookupFields" >
             <list>
 				<bean parent="FieldDefinition"
-                    p:attributeName="personId" />
+                    p:attributeName="person.userName" />
                 <bean parent="FieldDefinition"
                     p:attributeName="unitNumber" />
                 <bean parent="FieldDefinition"
@@ -205,11 +187,7 @@
         <property name="resultFields" >
             <list>
 				<bean parent="FieldDefinition"
-                	p:attributeName="person.fullName"
-                    p:forceInquiry="true" />
-                <bean parent="FieldDefinition"
-                    p:attributeName="unitCorrespondentId" 
-                    p:forceInquiry="true" />
+                	p:attributeName="person.fullName" />
                 <bean parent="FieldDefinition"
                     p:attributeName="unitNumber" 
                     p:forceInquiry="true" />
