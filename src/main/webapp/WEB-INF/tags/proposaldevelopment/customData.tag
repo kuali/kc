@@ -69,7 +69,7 @@
                 	</c:when>
                 	<c:otherwise>
                 		${kfunc:registerEditableProperty(KualiForm, customAttributeId)}
-                		<input id="${customAttributeId}" type="text" name="${customAttributeId}" value='${customAttributeValue}' style="${customAttributeErrorStyle}"/>
+                		<input size="60" id="${customAttributeId}" type="text" name="${customAttributeId}" value='${customAttributeValue}' style="${customAttributeErrorStyle}"/>
 
 						<c:if test="${not empty customAttributeDocument.customAttribute.lookupClass}">
 						 <c:choose>
