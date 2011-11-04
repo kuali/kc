@@ -104,6 +104,8 @@ public class CoiDisclosure extends KraPersistableBusinessObjectBase implements S
 
     // help UI purposes
     private transient List<CoiDisclEventProject> coiDisclEventProjects; 
+    private KraPersistableBusinessObjectBase eventBo; 
+
 
     public CoiDisclosure() { 
 //        disclosurePersons = new ArrayList<DisclosurePerson>();
@@ -503,6 +505,14 @@ public class CoiDisclosure extends KraPersistableBusinessObjectBase implements S
     @Override
     public String getVersionNameField() {
         return "coiDisclosureNumber";
+    }
+
+    public KraPersistableBusinessObjectBase getEventBo() {
+        return eventBo;
+    }
+
+    public void setEventBo(KraPersistableBusinessObjectBase eventBo) {
+        this.eventBo = eventBo;
     }
 
  }

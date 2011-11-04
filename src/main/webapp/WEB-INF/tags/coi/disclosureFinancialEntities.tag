@@ -21,10 +21,13 @@
     tabErrorKey="document.coiDisclosureList[0].coiDiscDetails*" >
 	<div class="tab-container" align="center">
     	<h3>
-    		<span class="subhead-left">Financial Entity</span>
+    		<span class="subhead-left">Projects</span>
     		<span class="subhead-right"><kul:help businessObjectClassName="org.kuali.kra.coi.CoiDiscDetail" altText="help"/></span>
         </h3>
         
+<table cellpadding=0 cellspacing=0 summary="">
+    <tr>
+        <td>
             
             <%-- Existing data --%>
         	<c:forEach var="disclProject" items="${KualiForm.document.coiDisclosureList[0].coiDisclEventProjects}" varStatus="status">
@@ -44,6 +47,11 @@
 
         	</c:forEach> 
             <%-- Existing data --%>
+
+        </td>
+    </tr>
+</table>
+
 
     </div>
 </kul:tab>

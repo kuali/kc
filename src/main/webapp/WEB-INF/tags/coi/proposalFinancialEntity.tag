@@ -20,10 +20,6 @@
 <c:set var="coiDisclProjectAttributes" value="${DataDictionary.CoiDisclProject.attributes}" />
 <c:set var="coiDiscDetailAttributes" value="${DataDictionary.CoiDiscDetail.attributes}" />
 <%-- c:set var="readOnly" value="${!KualiForm.personnelHelper.modifyPersonnel}" / --%>
-<table cellpadding=0 cellspacing=0 summary="">
-    <tr>
-        <td>
-            <kul:innerTab tabTitle=" ${disclProject.eventDescription} - ${disclProject.coiProjectId} : ${disclProject.coiProjectTitle}" parentTab="Add Proposals" defaultOpen="false" tabErrorKey="disclosureHelper.newDisclosurePersonUnit.*,document.coiDisclosureList[0].disclosurePersons[0]*" useCurrentTabIndexAsKey="false">
                 <c:choose>
                     <c:when test="${disclProject.proposalEvent}">
                         <kra-coi:manualProposalHeader disclProject="${disclProject}" idx = "${idx}"/>                    
@@ -36,9 +32,9 @@
                     </c:otherwise>
                 
                 </c:choose>
-       <div id="div_FinancialEntity${idx}M" class="div_FinancialEntity" style="display:none;">
+       <div id="div_FinancialEntity${idx}M" class="div_FinancialEntity" >
                 <h3>
-    		        <span class="subhead-left">Financial Entity</span>
+    		        <span class="subhead-left">Financial Entities</span>
     		        <span class="subhead-right"><kul:help businessObjectClassName="org.kuali.kra.coi.CoiDiscDetail" altText="help"/></span>
                 </h3>
 
@@ -125,15 +121,6 @@
 	            </c:forEach>
 	            </table> <%-- fe table --%>
 	            </div>
-		              </td>
-	            </tr>
-	            
-                        </tbody>
-                    </table> <%-- proposal table --%>
-                </div>
-            </kul:innerTab>
-        </td>
-    </tr>
-</table>
+                
 
 
