@@ -26,6 +26,7 @@ import org.apache.commons.lang.StringUtils;
 import org.kuali.kra.SequenceOwner;
 import org.kuali.kra.bo.KraPersistableBusinessObjectBase;
 import org.kuali.kra.bo.Unit;
+import org.kuali.kra.coi.CoiReviewType;
 import org.kuali.kra.committee.document.CommitteeDocument;
 import org.kuali.kra.common.permissions.Permissionable;
 import org.kuali.kra.infrastructure.Constants;
@@ -53,10 +54,12 @@ public class Committee extends KraPersistableBusinessObjectBase implements Compa
     private Integer maxProtocols;
     private Integer advancedSubmissionDaysRequired;
     private String reviewTypeCode;
+    private String coiReviewTypeCode;
     
     private Unit homeUnit;
     private CommitteeType committeeType;
     private ProtocolReviewType reviewType;
+    private CoiReviewType coiReviewType;
     
     private CommitteeDocument committeeDocument;
     
@@ -176,6 +179,14 @@ public class Committee extends KraPersistableBusinessObjectBase implements Compa
         this.reviewTypeCode = reviewTypeCode;
     }
 
+    public String getCoiReviewTypeCode() {
+        return coiReviewTypeCode;
+    }
+
+    public void setCoiReviewTypeCode(String coiReviewTypeCode) {
+        this.coiReviewTypeCode = coiReviewTypeCode;
+    }
+
     public Unit getHomeUnit() {
         return homeUnit;
     }
@@ -200,6 +211,14 @@ public class Committee extends KraPersistableBusinessObjectBase implements Compa
         this.reviewType = reviewType;
     }
     
+    public CoiReviewType getCoiReviewType() {
+        return coiReviewType;
+    }
+
+    public void setCoiReviewType(CoiReviewType coiReviewType) {
+        this.coiReviewType = coiReviewType;
+    }
+
     public CommitteeDocument getCommitteeDocument() {
         return committeeDocument;
     }

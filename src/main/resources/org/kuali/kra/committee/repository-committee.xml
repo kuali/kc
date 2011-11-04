@@ -129,6 +129,7 @@
 		<field-descriptor name="maxProtocols" column="MAX_PROTOCOLS" jdbc-type="INTEGER" />
 		<field-descriptor name="advancedSubmissionDaysRequired" column="ADV_SUBMISSION_DAYS_REQ" jdbc-type="INTEGER" />
 		<field-descriptor name="reviewTypeCode" column="APPLICABLE_REVIEW_TYPE_CODE" jdbc-type="VARCHAR" />
+		<field-descriptor name="coiReviewTypeCode" column="COI_REVIEW_TYPE_CODE" jdbc-type="VARCHAR" />
 		<field-descriptor name="updateTimestamp" column="UPDATE_TIMESTAMP" jdbc-type="TIMESTAMP" />
 		<field-descriptor name="updateUser" column="UPDATE_USER" jdbc-type="VARCHAR" />
 		<field-descriptor name="objectId" column="OBJ_ID" jdbc-type="VARCHAR" />
@@ -148,6 +149,10 @@
          
          <reference-descriptor name="reviewType" class-ref="org.kuali.kra.irb.actions.submit.ProtocolReviewType" auto-retrieve="true" auto-update="none" auto-delete="none">
             <foreignkey field-ref="reviewTypeCode" />
+         </reference-descriptor>
+         
+         <reference-descriptor name="coiReviewType" class-ref="org.kuali.kra.coi.CoiReviewType" auto-retrieve="true" auto-update="none" auto-delete="none">
+            <foreignkey field-ref="coiReviewTypeCode" />
          </reference-descriptor>
          
    		<collection-descriptor name="committeeMemberships" element-class-ref="org.kuali.kra.committee.bo.CommitteeMembership" collection-class="org.apache.ojb.broker.util.collections.ManageableArrayList" auto-retrieve="true" auto-update="object" auto-delete="object">
