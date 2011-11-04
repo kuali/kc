@@ -15,9 +15,6 @@
  */
 package org.kuali.kra.coi.disclosure;
 
-import java.util.HashMap;
-import java.util.Map;
-
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 
@@ -30,17 +27,10 @@ import org.kuali.kra.coi.CoiDisclProject;
 import org.kuali.kra.coi.CoiDisclosure;
 import org.kuali.kra.coi.CoiDisclosureDocument;
 import org.kuali.kra.coi.CoiDisclosureForm;
-import org.kuali.kra.coi.certification.CertifyDisclosureEvent;
-import org.kuali.kra.coi.service.CoiPrintingService;
 import org.kuali.kra.infrastructure.Constants;
-import org.kuali.kra.infrastructure.KraServiceLocator;
-import org.kuali.kra.proposaldevelopment.bo.AttachmentDataSource;
-import org.kuali.kra.proposaldevelopment.bo.ProposalPerson;
-import org.kuali.kra.proposaldevelopment.document.ProposalDevelopmentDocument;
-import org.kuali.kra.proposaldevelopment.printing.service.ProposalDevelopmentPrintingService;
-import org.kuali.kra.proposaldevelopment.web.struts.form.ProposalDevelopmentForm;
 import org.kuali.kra.rule.event.KraDocumentEventBaseExtension;
 import org.kuali.rice.core.config.ConfigContext;
+import org.kuali.rice.kew.util.KEWConstants;
 import org.kuali.rice.kns.util.GlobalVariables;
 import org.kuali.rice.kns.util.KNSConstants;
 import org.springframework.util.CollectionUtils;
@@ -103,18 +93,23 @@ public class CoiDisclosureAction extends CoiAction {
             throws Exception {
         // TODO Auto-generated method stub
         ActionForward actionForward = super.execute(mapping, form, request, response);
-        CoiDisclosureDocument coiDisclosureDocument = (CoiDisclosureDocument)((CoiDisclosureForm) form).getDocument();
+        CoiDisclosureForm coiDisclosureForm = (CoiDisclosureForm) form;
+        CoiDisclosureDocument coiDisclosureDocument = (CoiDisclosureDocument)coiDisclosureForm.getDocument();
         coiDisclosureDocument.getCoiDisclosure().initSelectedUnit();
-        checkToLoadDisclosureDetails(coiDisclosureDocument.getCoiDisclosure(), ((CoiDisclosureForm) form).getMethodToCall());
+        checkToLoadDisclosureDetails(coiDisclosureDocument.getCoiDisclosure(), ((CoiDisclosureForm) form).getMethodToCall(), coiDisclosureForm.getDisclosureHelper().getNewProjectId());
         return actionForward;
 
     }
 
-    private void checkToLoadDisclosureDetails(CoiDisclosure coiDisclosure, String methodToCall) {
+    private void checkToLoadDisclosureDetails(CoiDisclosure coiDisclosure, String methodToCall, String projectId) {
         // TODO : load FE disclosure when creating coi disc
         // still need more clarification on whether there is any other occasion this need to be loaded
         if (coiDisclosure.getCoiDisclosureId() == null && CollectionUtils.isEmpty(coiDisclosure.getCoiDiscDetails())) {
-            getCoiDisclosureService().initializeDisclosureDetails(coiDisclosure);
+            if (StringUtils.equals("newProjectDisclosure", methodToCall) && projectId != null) {
+                getCoiDisclosureService().initializeDisclosureDetails(coiDisclosure, projectId);
+            } else {
+                getCoiDisclosureService().initializeDisclosureDetails(coiDisclosure);
+            }
         } else {
             if (!StringUtils.equals("addProposal", methodToCall) && !StringUtils.equals("save", methodToCall)) {
                 getCoiDisclosureService().updateDisclosureDetails(coiDisclosure);
@@ -175,4 +170,78 @@ public class CoiDisclosureAction extends CoiAction {
         return mapping.findForward(Constants.MAPPING_BASIC);
     }
 
+    public ActionForward getNewProtocolsForDisclosure(ActionMapping mapping, ActionForm form, HttpServletRequest request, HttpServletResponse response)
+            throws Exception {
+        ((CoiDisclosureForm) form).getDisclosureHelper().setNewProtocols(getCoiDisclosureService().getProtocols(GlobalVariables.getUserSession().getPrincipalId()));
+        return mapping.findForward(Constants.MAPPING_BASIC);
+
+    }
+    public ActionForward getNewProposalsForDisclosure(ActionMapping mapping, ActionForm form, HttpServletRequest request, HttpServletResponse response)
+            throws Exception {
+        ((CoiDisclosureForm) form).getDisclosureHelper().setNewProposals(getCoiDisclosureService().getProposals(GlobalVariables.getUserSession().getPrincipalId()));
+        return mapping.findForward(Constants.MAPPING_BASIC);
+
+    }
+    public ActionForward getNewAwardsForDisclosure(ActionMapping mapping, ActionForm form, HttpServletRequest request, HttpServletResponse response)
+            throws Exception {
+        ((CoiDisclosureForm) form).getDisclosureHelper().setNewAwards(getCoiDisclosureService().getAwards(GlobalVariables.getUserSession().getPrincipalId()));
+        return mapping.findForward(Constants.MAPPING_BASIC);
+
+    }
+    
+    public ActionForward newProtocolDisclosure(ActionMapping mapping, ActionForm form, HttpServletRequest request, HttpServletResponse response)
+            throws Exception {
+        CoiDisclosureForm coiDisclosureForm = (CoiDisclosureForm) form;
+        coiDisclosureForm.setCommand(KEWConstants.INITIATE_COMMAND);
+        ActionForward forward = super.docHandler(mapping, form, request, response);
+        CoiDisclosure coiDisclosure = getCoiDisclosureService().versionCoiDisclosure();
+        if (coiDisclosure != null) {
+            coiDisclosureForm.getCoiDisclosureDocument().setCoiDisclosure(coiDisclosure);
+        }
+        coiDisclosureForm.getCoiDisclosureDocument().getCoiDisclosure().setModuleCode(CoiDisclosure.PROTOCOL_DISCL_MODULE_CODE);
+        return forward;
+
+    }
+    
+    public ActionForward newProjectDisclosure(ActionMapping mapping, ActionForm form, HttpServletRequest request, HttpServletResponse response)
+            throws Exception {
+        CoiDisclosureForm coiDisclosureForm = (CoiDisclosureForm) form;
+        coiDisclosureForm.setCommand(KEWConstants.INITIATE_COMMAND);
+        ActionForward forward = super.docHandler(mapping, form, request, response);
+        CoiDisclosure coiDisclosure = getCoiDisclosureService().versionCoiDisclosure();
+        if (coiDisclosure != null) {
+            coiDisclosureForm.getCoiDisclosureDocument().setCoiDisclosure(coiDisclosure);
+        }
+        coiDisclosureForm.getCoiDisclosureDocument().getCoiDisclosure().setModuleCode(coiDisclosureForm.getDisclosureHelper().getModuleCode());
+        return forward;
+
+    }
+
+    public ActionForward newAwardDisclosure(ActionMapping mapping, ActionForm form, HttpServletRequest request, HttpServletResponse response)
+            throws Exception {
+        CoiDisclosureForm coiDisclosureForm = (CoiDisclosureForm) form;
+        coiDisclosureForm.setCommand(KEWConstants.INITIATE_COMMAND);
+        ActionForward forward = super.docHandler(mapping, form, request, response);
+        CoiDisclosure coiDisclosure = getCoiDisclosureService().versionCoiDisclosure();
+        if (coiDisclosure != null) {
+            coiDisclosureForm.getCoiDisclosureDocument().setCoiDisclosure(coiDisclosure);
+        }
+        coiDisclosureForm.getCoiDisclosureDocument().getCoiDisclosure().setModuleCode(CoiDisclosure.AWARD_DISCL_MODULE_CODE);
+        return forward;
+
+    }
+    public ActionForward newProposalDisclosure(ActionMapping mapping, ActionForm form, HttpServletRequest request, HttpServletResponse response)
+            throws Exception {
+        CoiDisclosureForm coiDisclosureForm = (CoiDisclosureForm) form;
+        coiDisclosureForm.setCommand(KEWConstants.INITIATE_COMMAND);
+        ActionForward forward = super.docHandler(mapping, form, request, response);
+        CoiDisclosure coiDisclosure = getCoiDisclosureService().versionCoiDisclosure();
+        if (coiDisclosure != null) {
+            coiDisclosureForm.getCoiDisclosureDocument().setCoiDisclosure(coiDisclosure);
+        }
+        coiDisclosureForm.getCoiDisclosureDocument().getCoiDisclosure().setModuleCode(CoiDisclosure.PROPOSAL_DISCL_MODULE_CODE);
+        return forward;
+
+    }
+    
 }

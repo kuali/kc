@@ -19,7 +19,12 @@
 
 <c:set var="coiDisclProjectAttributes" value="${DataDictionary.CoiDisclProject.attributes}" />
 <c:set var="coiDiscDetailAttributes" value="${DataDictionary.CoiDiscDetail.attributes}" />
-                <div class="innerTab-container" align="left">
+                <div>
+                <h3>
+    		        <span class="subhead-left">Award</span>
+    		        <span class="subhead-right"><kul:help businessObjectClassName="org.kuali.kra.coi.CoiDiscDetail" altText="help"/></span>
+                </h3>
+              
                     <table class=tab cellpadding="0" cellspacing="0" summary="">
                         <tbody>
                         <%-- Header --%>
@@ -36,7 +41,6 @@
                 <tr>
                   <td align="left" valign="middle">
 					<div align="left">
-                		<kul:htmlControlAttribute property="document.coiDisclosureList[0].coiDisclProjects[${idx}].disclosureFlag" attributeEntry="${coiDisclProjectAttributes.disclosureFlag}" readOnly="${readOnly}" styleClass="selectDisclClass${idx}M" /> 
                 		<kul:htmlControlAttribute property="document.coiDisclosureList[0].coiDisclProjects[${idx}].coiProjectId" readOnly="true" attributeEntry="${coiDisclProjectAttributes.coiProjectId}" /> 
 					</div>
 				  </td>
@@ -57,5 +61,5 @@
 				  </td>
 	            </tr>
 
-                <tr>
-                    <td colspan="4">
+               </table>
+               </div>

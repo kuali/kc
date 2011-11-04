@@ -21,7 +21,10 @@
 <kul:tab defaultOpen="false" tabTitle="Manual Event and Financial Entities" auditCluster="" tabAuditKey="" useRiceAuditMode="true"
     tabErrorKey="disclosureHelper.newCoiDisclProject.*" >
 	<div class="tab-container" align="center">
-      <div class="div_Proposal">
+	<c:choose>
+	<c:when test="${fn:length(KualiForm.document.coiDisclosureList[0].coiDisclProjects) == 0}">
+	
+      <div class="div_manual_new">
                 <h3>
     		        <span class="subhead-left">New Event Project</span>
     		        <span class="subhead-right"><kul:help businessObjectClassName="org.kuali.kra.coi.CoiDiscDetail" altText="help"/></span>
@@ -115,13 +118,14 @@
                 </tr>
               </table>
            </div> <%-- proposal div --%>              
+
+
+	</c:when>
+	<c:otherwise>
+
+
  
-       <div class="div_ProposalList">
-                <h3>
-    		        <span class="subhead-left">Proposals</span>
-    		        <span class="subhead-right"><kul:help businessObjectClassName="org.kuali.kra.coi.CoiDiscDetail" altText="help"/></span>
-                </h3>
-              
+       <div class="div_manualproject">
               
                                   
             <%-- New data --%>
@@ -133,6 +137,10 @@
         	</c:forEach> 
             <%-- Existing data --%>
      </div> <%-- proposal list div --%>
+
+	</c:otherwise>
+   </c:choose>
+
     </div>
 </kul:tab>
 

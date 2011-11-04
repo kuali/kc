@@ -17,10 +17,13 @@ package org.kuali.kra.coi.disclosure;
 
 import java.util.List;
 
+import org.kuali.kra.award.home.Award;
 import org.kuali.kra.coi.CoiDisclProject;
 import org.kuali.kra.coi.CoiDisclosure;
 import org.kuali.kra.coi.DisclosureReporter;
 import org.kuali.kra.coi.DisclosureReporterUnit;
+import org.kuali.kra.irb.Protocol;
+import org.kuali.kra.proposaldevelopment.bo.DevelopmentProposal;
 import org.kuali.kra.service.VersionException;
 
 public interface CoiDisclosureService {
@@ -42,4 +45,9 @@ public interface CoiDisclosureService {
     void setDisclDetailsForSave(CoiDisclosure coiDisclosure);
     
     CoiDisclosure versionCoiDisclosure() throws VersionException;
+    
+    List<Protocol> getProtocols(String personId);
+    List<DevelopmentProposal> getProposals(String personId);
+    List<Award> getAwards(String personId);
+    void initializeDisclosureDetails(CoiDisclosure coiDisclosure, String projectId);
 }
