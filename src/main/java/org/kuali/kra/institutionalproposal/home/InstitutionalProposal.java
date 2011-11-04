@@ -1799,11 +1799,17 @@ public class InstitutionalProposal extends KraPersistableBusinessObjectBase impl
         return getProposalNumber();
     }
     
+    @Override
     public String getNegotiableProposalTypeCode() {
         if (getProposalTypeCode() != null) {
             return getProposalTypeCode().toString();
         } else {
             return EMPTY_STRING;
         }
+    }
+
+    @Override
+    public ProposalType getNegotiableProposalType() {
+        return this.getProposalType();
     }
 }
