@@ -26,13 +26,12 @@ import org.apache.commons.lang.StringUtils;
 import org.kuali.kra.award.contacts.AwardPerson;
 import org.kuali.kra.award.home.Award;
 import org.kuali.kra.bo.KcPerson;
+import org.kuali.kra.bo.KraPersistableBusinessObjectBase;
 import org.kuali.kra.coi.CoiDiscDetail;
 import org.kuali.kra.coi.CoiDisclProject;
 import org.kuali.kra.coi.CoiDisclosure;
 import org.kuali.kra.coi.DisclosureReporter;
 import org.kuali.kra.coi.DisclosureReporterUnit;
-import org.kuali.kra.coi.personfinancialentity.FinEntityDataMatrixBean;
-import org.kuali.kra.coi.personfinancialentity.FinancialEntityContactInfo;
 import org.kuali.kra.coi.personfinancialentity.FinancialEntityService;
 import org.kuali.kra.coi.personfinancialentity.PersonFinIntDisclosure;
 import org.kuali.kra.infrastructure.Constants;
@@ -46,7 +45,6 @@ import org.kuali.kra.service.VersionException;
 import org.kuali.kra.service.VersioningService;
 import org.kuali.rice.kns.service.BusinessObjectService;
 import org.kuali.rice.kns.util.GlobalVariables;
-import org.kuali.rice.kns.util.ObjectUtils;
 
 public class CoiDisclosureServiceImpl implements CoiDisclosureService {
 
@@ -129,14 +127,18 @@ public class CoiDisclosureServiceImpl implements CoiDisclosureService {
             for (CoiDisclProject coiDisclProject : coiDisclosure.getCoiDisclProjects()) {
                 coiDisclosure.getCoiDiscDetails().addAll(coiDisclProject.getCoiDiscDetails());
             }
-        } else {
+        }
+        else {
    //     if (coiDisclosure.isProtocolEvent() || coiDisclosure.isProposalEvent() || coiDisclosure.isAwardEvent()) {
+          if (coiDisclosure.isAnnualEvent()) {
+              // TODO this is temp for moving to one project at a time
             coiDisclosure.setCoiDiscDetails(new ArrayList<CoiDiscDetail>());
             for (CoiDisclEventProject coiDisclEventProject : coiDisclosure.getCoiDisclEventProjects()) {
-                if (coiDisclEventProject.isDisclosureFlag()) {
+               // if (coiDisclEventProject.isDisclosureFlag()) {
                     coiDisclosure.getCoiDiscDetails().addAll(coiDisclEventProject.getCoiDiscDetails());
-                }
+               // }
             }
+          }
         }
     }
 
@@ -233,6 +235,58 @@ public class CoiDisclosureServiceImpl implements CoiDisclosureService {
 
     }
     
+    public void initializeDisclosureDetails(CoiDisclosure coiDisclosure, String projectId) {
+        // When creating a disclosure. the detail will be created at first
+        List<CoiDiscDetail> disclosureDetails = new ArrayList<CoiDiscDetail>();
+        List<PersonFinIntDisclosure> financialEntities = financialEntityService.getFinancialEntities(GlobalVariables
+                .getUserSession().getPrincipalId(), true);
+        coiDisclosure.setEventBo(getEventBo(coiDisclosure, projectId));
+        String moduleItemKey = getModuleItemKey(coiDisclosure, coiDisclosure.getEventBo());
+        for (PersonFinIntDisclosure personFinIntDisclosure : financialEntities) {
+            CoiDiscDetail disclosureDetail = createNewCoiDiscDetail(coiDisclosure, personFinIntDisclosure,
+                    moduleItemKey);
+            disclosureDetails.add(disclosureDetail);
+        }
+        coiDisclosure.setCoiDiscDetails(disclosureDetails);
+    }
+    
+    private String getModuleItemKey(CoiDisclosure coiDisclosure, KraPersistableBusinessObjectBase eventBo) {
+    // TODO : this is a temp method, should add interface and 'getmoduleitemkey' in the disclosurable bos    
+        String moduleItemKey = null;
+        if (coiDisclosure.isProtocolEvent()) {
+            moduleItemKey = ((Protocol)eventBo).getProtocolNumber();
+        }
+        else if (coiDisclosure.isProposalEvent()) {
+            moduleItemKey = ((DevelopmentProposal)eventBo).getProposalNumber();
+        } 
+        else if (coiDisclosure.isAwardEvent()) {
+            moduleItemKey = ((Award)eventBo).getAwardNumber();
+       }
+        return moduleItemKey;
+    }
+    
+    private KraPersistableBusinessObjectBase getEventBo(CoiDisclosure coiDisclosure, String projectId) {
+        KraPersistableBusinessObjectBase eventBo = null;
+        if (coiDisclosure.isProtocolEvent()) {
+            eventBo = getProtocol(Long.valueOf(projectId));
+        }
+        else if (coiDisclosure.isProposalEvent()) {
+            eventBo = getDevelopmentProposal(projectId);
+        } 
+        else if (coiDisclosure.isAwardEvent()) {
+            // TODO : for award
+            eventBo = getAwardById(projectId);
+       }
+        return eventBo;
+
+    }
+
+    private Protocol getProtocol(Long protocolId) {
+        HashMap<String, Object> pkMap = new HashMap<String, Object>();
+        pkMap.put("protocolId", protocolId);
+        return (Protocol) this.businessObjectService.findByPrimaryKey(Protocol.class, pkMap);
+    
+    }
     
     public void initializeDisclosureDetails(CoiDisclProject coiDisclProject) {
         // When creating a disclosure. the detail will be created at first
@@ -288,6 +342,10 @@ public class CoiDisclosureServiceImpl implements CoiDisclosureService {
             }
 
             coiDisclosure.setCoiDisclEventProjects(disclEventProjects);
+            // TODO : single project
+            if (!coiDisclosure.isAnnualEvent()) {
+                coiDisclosure.setCoiDiscDetails(disclEventProjects.get(0).getCoiDiscDetails());
+            }
         }
     }
 
@@ -317,15 +375,18 @@ public class CoiDisclosureServiceImpl implements CoiDisclosureService {
         if (coiDisclosure.isProtocolEvent()) {
             Protocol protocol = protocolFinderDao.findCurrentProtocolByNumber(coiDiscDetail.getModuleItemKey());
             coiDisclEventProject = new CoiDisclEventProject("3", protocol, new ArrayList<CoiDiscDetail>());
+            coiDisclosure.setEventBo(protocol);
         }
         else if (coiDisclosure.isProposalEvent()) {
             DevelopmentProposal proposal = getDevelopmentProposal(coiDiscDetail.getModuleItemKey());
             coiDisclEventProject = new CoiDisclEventProject("1", proposal, new ArrayList<CoiDiscDetail>());
+            coiDisclosure.setEventBo(proposal);
         } 
         else if (coiDisclosure.isAwardEvent()) {
             // TODO : for award
             Award award = getAward(coiDiscDetail.getModuleItemKey());
             coiDisclEventProject = new CoiDisclEventProject("2", award, new ArrayList<CoiDiscDetail>());
+            coiDisclosure.setEventBo(award);
        }
         return coiDisclEventProject;
 
@@ -355,6 +416,12 @@ public class CoiDisclosureServiceImpl implements CoiDisclosureService {
         fieldValues.put(fieldName, filedValue);
         return businessObjectService.countMatching(clazz, fieldValues) > 0;
 
+    }
+    
+    private Award getAwardById(String awardId) {
+        Map<String, Object> values = new HashMap<String, Object>();
+        values.put("awardId", awardId);
+        return (Award)businessObjectService.findByPrimaryKey(Award.class, values);
     }
     
     private Award getAward(String awardNumber) {
@@ -414,7 +481,7 @@ public class CoiDisclosureServiceImpl implements CoiDisclosureService {
         
     }
     
-    private List<Protocol> getProtocols(String personId) {
+    public List<Protocol> getProtocols(String personId) {
         
         List<Protocol> protocols = new ArrayList<Protocol>();
         Map<String, Object> fieldValues = new HashMap<String, Object>();
@@ -430,7 +497,7 @@ public class CoiDisclosureServiceImpl implements CoiDisclosureService {
         
     }
     
-    private List<DevelopmentProposal> getProposals(String personId) {
+    public List<DevelopmentProposal> getProposals(String personId) {
         
         List<DevelopmentProposal> proposals = new ArrayList<DevelopmentProposal>();
         Map<String, Object> fieldValues = new HashMap<String, Object>();
@@ -447,7 +514,7 @@ public class CoiDisclosureServiceImpl implements CoiDisclosureService {
         
     }
  
-    private List<Award> getAwards(String personId) {
+    public List<Award> getAwards(String personId) {
         
         List<Award> awards = new ArrayList<Award>();
         Map<String, Object> fieldValues = new HashMap<String, Object>();

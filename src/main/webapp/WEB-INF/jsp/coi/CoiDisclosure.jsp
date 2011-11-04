@@ -48,40 +48,30 @@
         			'autoscale' : 'false',
         		});
         		
-	             $j("input[class^=selectDisclClass]").click(function() {
-		            var idx= $j(this).attr("class").substring(16);
-		            if ($j(this).is(":checked"))
-		            {
-			            //show the hidden div
-			            $j("#div_FinancialEntity"+idx).show("fast");
-		            }
-		            else
-		            {
-			            //otherwise, hide it
-			            $j("#div_FinancialEntity"+idx).hide("fast");
-		            }
-				 
-                 });
-	             $j("input[class^=selectDisclClass]").each(function() {
-		            var idx= $j(this).attr("class").substring(16);
-		            if ($j(this).is(":checked"))
-		            {
-			            //show the hidden div
-			            $j("#div_FinancialEntity"+idx).show("fast");
-		            }
-		            else
-		            {
-			            //otherwise, hide it
-			            $j("#div_FinancialEntity"+idx).hide("fast");
-		            }
-				 
-                 });
+        		           if ($j(".financialEntitySubpanel").length > 0) {
+               $j(".financialEntitySubpanel").toggle(
+                        function()
+                        {
+                            var controlId = $j(this).attr("id");
+                            var contentId = controlId.replace("Control","Content");
+                            $j("#"+contentId).slideDown(500);
+                            $j(this).html("<img src='kr/images/tinybutton-hide.gif' alt='show/hide panel' width='45' height='15' border='0' align='absmiddle'>");
+                        },function(){
+                            var controlId = $j(this).attr("id");
+                            var contentId = controlId.replace("Control","Content");
+                            $j("#"+contentId).slideUp(500);
+                            $j(this).html("<img src='kr/images/tinybutton-show.gif' alt='show/hide panel' width='45' height='15' border='0' align='absmiddle'>");
+                        }
+               );
+               $j(".financialEntitySubpanel").click();
+           }
+        		
                  // hide protocol type list
                  protocolType = $j("#disclosureHelper\\.protocolType").html();
                  $j("#disclosureHelper\\.protocolType").hide();
                  proposalType=$j("#disclosureHelper\\.newCoiDisclProject\\.coiProjectType").html();
         		 updateTable($j("#disclosureHelper\\.newCoiDisclProject\\.disclosureEventType"));
-        	})
+        	}) // end document ready
         	
            function updateTable(eventType) {
                // alert($j(eventType).attr("value"));
@@ -161,13 +151,16 @@
 <kul:documentOverview editingMode="${KualiForm.editingMode}" />
 <kra-coi:disclosureReporter />
 <c:if test="${KualiForm.document.coiDisclosureList[0].moduleCode=='1'}" >
-    <kra-coi:awardProjects />
+    <%-- <kra-coi:awardProjects /> --%>
+    <kra-coi:newAwardFinancialEntities />
 </c:if>
 <c:if test="${KualiForm.document.coiDisclosureList[0].moduleCode=='11'}" >
-    <kra-coi:proposalProjects />
+    <%-- <kra-coi:proposalProjects /> --%>
+    <kra-coi:newProposalFinancialEntities />
 </c:if>
 <c:if test="${KualiForm.document.coiDisclosureList[0].moduleCode=='12'}" >
-    <kra-coi:protocolProjects />
+   <%-- <kra-coi:protocolProjects /> --%>
+    <kra-coi:newProtocolFinancialEntities />
 </c:if>
 <c:if test="${KualiForm.document.coiDisclosureList[0].moduleCode=='13'}" >
 <kra-coi:disclosureFinancialEntities />

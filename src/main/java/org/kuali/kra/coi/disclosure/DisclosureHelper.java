@@ -21,6 +21,7 @@ import java.util.List;
 
 import org.apache.commons.collections.CollectionUtils;
 import org.apache.commons.lang.StringUtils;
+import org.kuali.kra.award.home.Award;
 import org.kuali.kra.coi.CoiDisclProject;
 import org.kuali.kra.coi.CoiDisclosure;
 import org.kuali.kra.coi.CoiDisclosureDocument;
@@ -28,6 +29,8 @@ import org.kuali.kra.coi.CoiDisclosureForm;
 import org.kuali.kra.coi.personfinancialentity.FinEntityDataMatrixBean;
 import org.kuali.kra.coi.personfinancialentity.FinancialEntityService;
 import org.kuali.kra.infrastructure.KraServiceLocator;
+import org.kuali.kra.irb.Protocol;
+import org.kuali.kra.proposaldevelopment.bo.DevelopmentProposal;
 import org.kuali.rice.kns.service.ParameterService;
 
 public class DisclosureHelper implements Serializable {
@@ -50,6 +53,15 @@ public class DisclosureHelper implements Serializable {
     private String conflictHeaderLabel;
     private CoiDisclProject newCoiDisclProject;
     private String protocolType;
+    // new protocols for disclosure
+    private List<Protocol> newProtocols;
+    private Long newProtocolId;
+    private String newProposalNumber;
+    private Long newAwardId;
+    private List<DevelopmentProposal> newProposals;
+    private List<Award> newAwards;
+    private String newProjectId;
+    private String moduleCode;
 
     public DisclosureHelper(CoiDisclosureForm form) {
         this.form = form;
@@ -62,6 +74,7 @@ public class DisclosureHelper implements Serializable {
         CoiDisclosure coiDisclosure = form.getCoiDisclosureDocument().getCoiDisclosure();
       //  coiDisclosure.initCoiDisclosureNumber();
         newCoiDisclProject = new CoiDisclProject(coiDisclosure.getCoiDisclosureNumber(), coiDisclosure.getSequenceNumber());
+        newProtocols = new ArrayList<Protocol>(); 
         initConflictHeaderLabel();
    }
 
@@ -185,6 +198,70 @@ public class DisclosureHelper implements Serializable {
 
     public void setProtocolType(String protocolType) {
         this.protocolType = protocolType;
+    }
+
+    public List<Protocol> getNewProtocols() {
+        return newProtocols;
+    }
+
+    public void setNewProtocols(List<Protocol> newProtocols) {
+        this.newProtocols = newProtocols;
+    }
+
+    public Long getNewProtocolId() {
+        return newProtocolId;
+    }
+
+    public void setNewProtocolId(Long newProtocolId) {
+        this.newProtocolId = newProtocolId;
+    }
+
+    public String getNewProposalNumber() {
+        return newProposalNumber;
+    }
+
+    public void setNewProposalNumber(String newProposalNumber) {
+        this.newProposalNumber = newProposalNumber;
+    }
+
+    public Long getNewAwardId() {
+        return newAwardId;
+    }
+
+    public void setNewAwardId(Long newAwardId) {
+        this.newAwardId = newAwardId;
+    }
+
+    public List<DevelopmentProposal> getNewProposals() {
+        return newProposals;
+    }
+
+    public void setNewProposals(List<DevelopmentProposal> newProposals) {
+        this.newProposals = newProposals;
+    }
+
+    public List<Award> getNewAwards() {
+        return newAwards;
+    }
+
+    public void setNewAwards(List<Award> newAwards) {
+        this.newAwards = newAwards;
+    }
+
+    public String getNewProjectId() {
+        return newProjectId;
+    }
+
+    public void setNewProjectId(String newProjectId) {
+        this.newProjectId = newProjectId;
+    }
+
+    public String getModuleCode() {
+        return moduleCode;
+    }
+
+    public void setModuleCode(String moduleCode) {
+        this.moduleCode = moduleCode;
     }
 
 }
