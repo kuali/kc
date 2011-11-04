@@ -74,7 +74,7 @@ public class CommitteeRuleTest extends CommitteeRuleTestBase {
          * There should be nine required fields.
          */
         ErrorMap errorMap = GlobalVariables.getErrorMap();
-        assertEquals(9, errorMap.getErrorCount());
+        assertEquals(8, errorMap.getErrorCount());
         
         /*
          * Verify that the error keys for each of the required fields 
@@ -87,7 +87,7 @@ public class CommitteeRuleTest extends CommitteeRuleTestBase {
         assertTrue(errorMap.containsKey("document.committeeList[0].minimumMembersRequired"));
         assertTrue(errorMap.containsKey("document.committeeList[0].committeeName"));
         assertTrue(errorMap.containsKey("document.committeeList[0].advancedSubmissionDaysRequired"));
-        assertTrue(errorMap.containsKey("document.committeeList[0].reviewTypeCode"));
+        // assertTrue(errorMap.containsKey("document.committeeList[0].reviewTypeCode"));
         assertTrue(errorMap.containsKey("document.committeeList[0].committeeId"));
     }
     
