@@ -1312,7 +1312,7 @@
 	</class-descriptor>
 	
 	<class-descriptor class="org.kuali.kra.bo.OrganizationCorrespondent" table="ORGANIZATION_CORRESPONDENT">
-		<field-descriptor name="organizationCorrespondentId" column="ORGANIZATION_CORRESPONDENT_ID" jdbc-type="INTEGER" primarykey="true" />
+		<field-descriptor name="organizationCorrespondentId" column="ORGANIZATION_CORRESPONDENT_ID" jdbc-type="INTEGER" primarykey="true" sequence-name="SEQ_ORGANIZATION_CORRESPONDENT_ID" autoincrement="true" />
 		<field-descriptor name="organizationId" column="ORGANIZATION_ID" jdbc-type="VARCHAR" />
 		<field-descriptor name="correspondentTypeCode" column="CORRESPONDENT_TYPE_CODE" jdbc-type="INTEGER" />
 		<field-descriptor name="personId" column="PERSON_ID" jdbc-type="VARCHAR" />
@@ -1331,7 +1331,7 @@
 	</class-descriptor>
 	
 	<class-descriptor class="org.kuali.kra.bo.UnitCorrespondent" table="UNIT_CORRESPONDENT">
-		<field-descriptor name="unitCorrespondentId" column="UNIT_CORRESPONDENT_ID" jdbc-type="INTEGER" primarykey="true" />
+		<field-descriptor name="unitCorrespondentId" column="UNIT_CORRESPONDENT_ID" jdbc-type="INTEGER" primarykey="true" sequence-name="SEQ_UNIT_CORRESPONDENT_ID" autoincrement="true" />
 		<field-descriptor name="unitNumber" column="UNIT_NUMBER" jdbc-type="VARCHAR" />
 		<field-descriptor name="correspondentTypeCode" column="CORRESPONDENT_TYPE_CODE" jdbc-type="INTEGER" />
 		<field-descriptor name="personId" column="PERSON_ID" jdbc-type="VARCHAR" />

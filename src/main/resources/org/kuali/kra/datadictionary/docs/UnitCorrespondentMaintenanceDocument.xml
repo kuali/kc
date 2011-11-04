@@ -12,7 +12,9 @@
         </property>
         <property name="lockingKeys" >
             <list>
-                <value>unitCorrespondentId</value>
+                <value>unitNumber</value>
+                <value>correspondentTypeCode</value>
+		        <value>personId</value>
             </list>
         </property>
         <property name="documentTypeName" value="UnitCorrespondentMaintenanceDocument" />
@@ -27,14 +29,12 @@
         <property name="title" value="Edit Unit Correspondent" />
         <property name="maintainableItems" >
             <list>
-                <bean parent="MaintainableFieldDefinition" p:name="unitCorrespondentId" p:required="true" />
-                <bean parent="MaintainableFieldDefinition" p:name="unitNumber" p:required="true" />
-                <bean parent="MaintainableFieldDefinition" p:name="correspondentTypeCode" p:required="true" />
                 <bean parent="MaintainableFieldDefinition" p:name="personId" p:required="true" />
  		        <bean parent="MaintainableFieldDefinition" p:name="person.userName" p:required="false" />
+                <bean parent="MaintainableFieldDefinition" p:name="unitNumber" p:required="true" />
+                <bean parent="MaintainableFieldDefinition" p:name="correspondentTypeCode" p:required="true" />
                 <bean parent="MaintainableFieldDefinition" p:name="nonEmployeeFlag" p:required="true" />
                 <bean parent="MaintainableFieldDefinition" p:name="description" />
-                <bean parent="MaintainableFieldDefinition" p:name="versionNumber" />
             </list>
         </property>
     </bean>
