@@ -26,13 +26,11 @@ import org.kuali.kra.irb.Protocol;
 import org.kuali.kra.irb.actions.ProtocolAction;
 import org.kuali.kra.irb.actions.ProtocolActionType;
 import org.kuali.kra.irb.actions.assigncmtsched.ProtocolAssignCmtSchedService;
-import org.kuali.kra.irb.actions.notification.AssignToAgendaEvent;
 import org.kuali.kra.irb.actions.submit.ProtocolActionService;
 import org.kuali.kra.irb.actions.submit.ProtocolSubmission;
 import org.kuali.kra.irb.actions.submit.ProtocolSubmissionStatus;
 import org.kuali.rice.core.util.KeyLabelPair;
 import org.kuali.rice.kns.service.DocumentService;
-
 
 /**
  * 
@@ -85,10 +83,7 @@ public class ProtocolAssignToAgendaServiceImpl implements ProtocolAssignToAgenda
         protocolAction.setActionDate(new Timestamp(actionBean.getActionDate().getTime()));
         protocol.getProtocolActions().add(protocolAction);
         protocolActionService.updateProtocolStatus(protocolAction, protocol);
-        documentService.saveDocument(protocol.getProtocolDocument());
-        AssignToAgendaEvent assignToAgendaEvent = new AssignToAgendaEvent();
-        assignToAgendaEvent.setProtocol(protocol);
-        assignToAgendaEvent.sendNotification();        
+        documentService.saveDocument(protocol.getProtocolDocument());    
     }
 
     /** {@inheritDoc} */
@@ -170,6 +165,5 @@ public class ProtocolAssignToAgendaServiceImpl implements ProtocolAssignToAgenda
         }
         return null;
     }
-    
 
 }

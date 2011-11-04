@@ -24,15 +24,17 @@ import org.apache.commons.collections.CollectionUtils;
 import org.apache.commons.logging.Log;
 import org.apache.commons.logging.LogFactory;
 import org.kuali.kra.bo.CoeusModule;
+import org.kuali.kra.common.notification.service.KcNotificationService;
 import org.kuali.kra.irb.Protocol;
 import org.kuali.kra.irb.actions.ProtocolAction;
+import org.kuali.kra.irb.actions.ProtocolActionType;
 import org.kuali.kra.irb.actions.ProtocolSubmissionBuilder;
-import org.kuali.kra.irb.actions.notification.RequestActionType;
 import org.kuali.kra.irb.actions.submit.ProtocolActionService;
 import org.kuali.kra.irb.actions.submit.ProtocolReviewType;
 import org.kuali.kra.irb.actions.submit.ProtocolSubmission;
 import org.kuali.kra.irb.actions.submit.ProtocolSubmissionStatus;
 import org.kuali.kra.irb.notification.IRBNotificationContext;
+import org.kuali.kra.irb.notification.IRBNotificationRenderer;
 import org.kuali.kra.questionnaire.answer.AnswerHeader;
 import org.kuali.rice.kew.exception.WorkflowException;
 import org.kuali.rice.kns.service.BusinessObjectService;
@@ -49,6 +51,7 @@ public class ProtocolRequestServiceImpl implements ProtocolRequestService {
     private BusinessObjectService businessObjectService;
     private DocumentService documentService;
     private ProtocolActionService protocolActionService;
+    private KcNotificationService kcNotificationService;
 
     /**
      * Set the business object service.
@@ -160,19 +163,24 @@ public class ProtocolRequestServiceImpl implements ProtocolRequestService {
     
     /*
      * send Request notification for different event
-     * TODO : can we share this method with withdraw notification and other action notification ?
      */
     protected void sendRequestNotification(Protocol protocol, ProtocolRequestBean requestBean) throws Exception {
-
-        RequestActionType requestActionType = RequestActionType.getRequestActionType(requestBean.getProtocolActionTypeCode());
-        IRBNotificationContext event = requestActionType.getEventClass().newInstance();
-        event.setProtocol(protocol);
-        event.sendNotification();
+        ProtocolActionType protocolActionType = businessObjectService.findBySinglePrimaryKey(ProtocolActionType.class, requestBean.getProtocolActionTypeCode());
+        String protocolActionTypeCode = protocolActionType.getProtocolActionTypeCode();
+        String description = protocolActionType.getDescription();
+        
+        IRBNotificationRenderer renderer = new IRBNotificationRenderer(protocol);
+        IRBNotificationContext context = new IRBNotificationContext(protocol, protocolActionTypeCode, description, renderer);
+        kcNotificationService.sendNotification(context);
     }
 
 
     public void setDocumentService(DocumentService documentService) {
         this.documentService = documentService;
+    }
+    
+    public void setKcNotificationService(KcNotificationService kcNotificationService) {
+        this.kcNotificationService = kcNotificationService;
     }
 
 }

@@ -36,6 +36,7 @@ import org.kuali.kra.irb.actions.ProtocolStatus;
 import org.kuali.kra.irb.actions.submit.ProtocolSubmission;
 import org.kuali.kra.irb.customdata.CustomDataHelper;
 import org.kuali.kra.irb.noteattachment.NotesAttachmentsHelper;
+import org.kuali.kra.irb.notification.NotificationHelper;
 import org.kuali.kra.irb.onlinereview.OnlineReviewsActionHelper;
 import org.kuali.kra.irb.onlinereview.ProtocolOnlineReviewService;
 import org.kuali.kra.irb.permission.PermissionsHelper;
@@ -87,6 +88,7 @@ public class ProtocolForm extends KraTransactionalDocumentFormBase implements Pe
     private ActionHelper actionHelper;
     private OnlineReviewsActionHelper onlineReviewsActionHelper;
     private QuestionnaireHelper questionnaireHelper;
+    private NotificationHelper notificationHelper;
     //transient so that the helper and its members don't have to be serializable or transient
     //reinitialized in the getter
     private transient NotesAttachmentsHelper notesAttachmentsHelper;
@@ -132,6 +134,7 @@ public class ProtocolForm extends KraTransactionalDocumentFormBase implements Pe
         this.notesAttachmentsHelper.prepareView();
         setNewProtocolReferenceBean(new ProtocolReferenceBean());
         setOnlineReviewsActionHelper(new OnlineReviewsActionHelper(this));
+        setNotificationHelper(new NotificationHelper(this));
     }
 
     /**
@@ -465,7 +468,15 @@ public class ProtocolForm extends KraTransactionalDocumentFormBase implements Pe
     public OnlineReviewsActionHelper getOnlineReviewsActionHelper() {
         return onlineReviewsActionHelper;
     }
- 
+
+    public NotificationHelper getNotificationHelper() {
+        return notificationHelper;
+    }
+
+    public void setNotificationHelper(NotificationHelper notificationHelper) {
+        this.notificationHelper = notificationHelper;
+    }
+
     @Override
     public boolean isPropertyEditable(String propertyName) {
         if (propertyName.startsWith("actionHelper.protocolSubmitAction.reviewer") ||

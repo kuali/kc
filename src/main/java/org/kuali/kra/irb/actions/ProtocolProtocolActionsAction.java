@@ -17,7 +17,6 @@ package org.kuali.kra.irb.actions;
 
 import java.sql.Date;
 import java.util.ArrayList;
-import java.util.Collection;
 import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
@@ -35,10 +34,10 @@ import org.kuali.kra.authorization.ApplicationTask;
 import org.kuali.kra.bo.AttachmentFile;
 import org.kuali.kra.bo.CoeusModule;
 import org.kuali.kra.bo.CoeusSubModule;
-import org.kuali.kra.bo.Watermark;
 import org.kuali.kra.committee.bo.Committee;
 import org.kuali.kra.committee.bo.CommitteeSchedule;
 import org.kuali.kra.committee.service.CommitteeService;
+import org.kuali.kra.common.notification.service.KcNotificationService;
 import org.kuali.kra.infrastructure.Constants;
 import org.kuali.kra.infrastructure.KeyConstants;
 import org.kuali.kra.infrastructure.KraServiceLocator;
@@ -145,8 +144,6 @@ import org.kuali.kra.questionnaire.answer.AnswerHeader;
 import org.kuali.kra.questionnaire.answer.ModuleQuestionnaireBean;
 import org.kuali.kra.questionnaire.answer.QuestionnaireAnswerService;
 import org.kuali.kra.service.TaskAuthorizationService;
-import org.kuali.kra.util.watermark.Font;
-import org.kuali.kra.util.watermark.WatermarkBean;
 import org.kuali.kra.util.watermark.WatermarkConstants;
 import org.kuali.kra.web.struts.action.AuditActionHelper;
 import org.kuali.kra.web.struts.action.KraTransactionalDocumentActionBase;
@@ -162,8 +159,6 @@ import org.kuali.rice.kns.util.GlobalVariables;
 import org.kuali.rice.kns.util.KNSConstants;
 import org.kuali.rice.kns.web.struts.action.AuditModeAction;
 import org.springframework.util.CollectionUtils;
-
-import com.lowagie.text.Image;
 
 /**
  * The set of actions for the Protocol Actions tab.
@@ -1225,9 +1220,9 @@ public class ProtocolProtocolActionsAction extends ProtocolAction implements Aud
      * @return
      * @throws Exception
      */
-    public ActionForward assignToAgenda(ActionMapping mapping, ActionForm form, HttpServletRequest request,
-            HttpServletResponse response) throws Exception {
-
+    public ActionForward assignToAgenda(ActionMapping mapping, ActionForm form, HttpServletRequest request, HttpServletResponse response) throws Exception {
+        ActionForward forward = mapping.findForward(Constants.MAPPING_BASIC);
+        
         ProtocolForm protocolForm = (ProtocolForm) form;
        
         if (!hasDocumentStateChanged(protocolForm)) {
@@ -1238,13 +1233,21 @@ public class ProtocolProtocolActionsAction extends ProtocolAction implements Aud
                     getProtocolAssignToAgendaService().assignToAgenda(protocolForm.getProtocolDocument().getProtocol(), actionBean);
                     saveReviewComments(protocolForm, actionBean.getReviewCommentsBean());
                     recordProtocolActionSuccess("Assign to Agenda");
+                    
+                    if (protocolForm.getNotificationHelper().getPromptUserForNotificationEditor()) {
+                        protocolForm.getNotificationHelper().prepareView();
+                        forward = mapping.findForward("protocolNotificationEditor");
+                    } else {
+                        getNotificationService().sendNotification(protocolForm.getNotificationHelper().getContext());
+                    }
                 }
             }
         } else {
             GlobalVariables.getMessageMap().clearErrorMessages();
             GlobalVariables.getMessageMap().putError("documentstatechanged", KeyConstants.ERROR_PROTOCOL_DOCUMENT_STATE_CHANGED,  new String[] {}); 
         }
-        return mapping.findForward(Constants.MAPPING_BASIC);
+        
+        return forward;
     }
     
     public ActionForward protocolReviewNotRequired(ActionMapping mapping, ActionForm form, HttpServletRequest request,
@@ -3221,5 +3224,9 @@ public class ProtocolProtocolActionsAction extends ProtocolAction implements Aud
     
     protected PersonService<Person> getPersonService() {
         return KraServiceLocator.getService(PersonService.class);
+    }
+    
+    protected KcNotificationService getNotificationService() {
+        return KraServiceLocator.getService(KcNotificationService.class);
     }
 }

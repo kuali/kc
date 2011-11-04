@@ -22,3 +22,4 @@
 <forward name="specialReview" path="/WEB-INF/jsp/irb/ProtocolSpecialReview.jsp" />
 <forward name="checkListItemDescription" path="/WEB-INF/jsp/irb/ProtocolCheckListItemDescription.jsp" />
 <forward name="questionnaire" path="/WEB-INF/jsp/irb/ProtocolQuestionnaire.jsp" />
+<forward name="protocolNotificationEditor" path="/WEB-INF/jsp/irb/ProtocolNotificationEditor.jsp"/>

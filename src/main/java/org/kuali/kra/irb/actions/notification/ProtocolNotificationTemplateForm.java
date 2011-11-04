@@ -76,11 +76,11 @@ public class ProtocolNotificationTemplateForm extends KualiForm {
         templates.add(getTemplate(ProtocolActionType.IRB_ACKNOWLEDGEMENT, "IrbAcknowledgementNotification.xsl"));
         templates.add(getTemplate(ProtocolActionType.ABANDON_PROTOCOL, "AbandonProtocolNotification.xsl"));
         templates.add(getTemplate(ProtocolActionType.ASSIGN_TO_AGENDA, "AssignToAgendaReviewerNotification.xsl"));
-        templates.add(getTemplate(AssignReviewerEvent.ASSIGN_REVIEWER, "AssignReviewerNotification.xsl"));
-        templates.add(getTemplate(ReviewCompleteEvent.REVIEW_COMPLETE, "ReviewCompleteNotification.xsl"));
+        templates.add(getTemplate(ProtocolActionType.ASSIGN_REVIEWER, "AssignReviewerNotification.xsl"));
+        templates.add(getTemplate(ProtocolActionType.REVIEW_COMPLETE, "ReviewCompleteNotification.xsl"));
         templates.add(getTemplate(ProtocolActionType.RENEWAL_REMINDER_GENERATED, "BatchCorrespondenceNotification.xsl"));
-        templates.add(getTemplate(RejectReviewEvent.REVIEW_REJECTED, "RejectReviewNotification.xsl"));
-        templates.add(getTemplate(FundingSourceEvent.FUNDING_SOURCE, "FundingSourceNotification.xsl"));
+        templates.add(getTemplate(ProtocolActionType.REVIEW_REJECTED, "RejectReviewNotification.xsl"));
+        templates.add(getTemplate(ProtocolActionType.FUNDING_SOURCE, "FundingSourceNotification.xsl"));
 
         return templates;
     }
@@ -91,13 +91,13 @@ public class ProtocolNotificationTemplateForm extends KualiForm {
         template.setFileName(fileName);
         template.setNotificationTemplate(getFileContent("/org/kuali/kra/irb/notification/stylesheet/"+fileName));
         template.refreshReferenceObject("protocolActionType");
-        if (actionTypeCode.equals(AssignReviewerEvent.ASSIGN_REVIEWER)) {
+        if (actionTypeCode.equals(ProtocolActionType.ASSIGN_REVIEWER)) {
             ProtocolActionType actionType = new ProtocolActionType();
             actionType.setProtocolActionTypeCode(actionTypeCode);
             actionType.setDescription("Assign Reviewer");
             template.setProtocolActionType(actionType);
         }
-        if (actionTypeCode.equals(ReviewCompleteEvent.REVIEW_COMPLETE)) {
+        if (actionTypeCode.equals(ProtocolActionType.REVIEW_COMPLETE)) {
             ProtocolActionType actionType = new ProtocolActionType();
             actionType.setProtocolActionTypeCode(actionTypeCode);
             actionType.setDescription("Review Complete");

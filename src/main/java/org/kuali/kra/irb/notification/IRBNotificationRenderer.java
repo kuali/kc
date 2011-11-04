@@ -22,8 +22,9 @@ import java.util.Map;
 import org.apache.commons.collections.CollectionUtils;
 import org.apache.commons.lang.StringUtils;
 import org.kuali.kra.committee.bo.Committee;
+import org.kuali.kra.common.notification.NotificationRendererBase;
+import org.kuali.kra.infrastructure.KraServiceLocator;
 import org.kuali.kra.irb.Protocol;
-import org.kuali.kra.irb.actions.ProtocolAction;
 import org.kuali.kra.irb.actions.ProtocolActionType;
 import org.kuali.kra.irb.actions.submit.ProtocolReviewType;
 import org.kuali.kra.irb.actions.submit.ProtocolSubmissionQualifierType;
@@ -33,41 +34,31 @@ import org.kuali.rice.kns.service.BusinessObjectService;
 import org.kuali.rice.kns.service.KNSServiceLocator;
 import org.kuali.rice.kns.util.GlobalVariables;
 
-public class IRBNotificationRenderingServiceImpl implements IRBNotificationRenderingService {
+/**
+ * Renders fields for the IRB notifications.
+ */
+public class IRBNotificationRenderer extends NotificationRendererBase {
+
+    private static final long serialVersionUID = 7966684994606021231L;
 
     private Protocol protocol;
-    private BusinessObjectService businessObjectService;
-    private KcPersonService kcPersonService;
     
-    
-    /**
-     * 
-     * @see org.kuali.kra.common.notification.service.KcNotificationRenderingService#render(java.lang.String)
-     */
-    @Override
-    public String render(String text) {
-        return render(text, getReplacementParameters());
-    }
+    private transient BusinessObjectService businessObjectService;
+    private transient KcPersonService kcPersonService;
     
     /**
-     * 
-     * @see org.kuali.kra.common.notification.service.KcNotificationRenderingService#render(java.lang.String, java.util.Map)
+     * Constructs an IRB notification renderer.
+     * @param protocol
      */
-    @Override
-    public String render(String text, Map<String,String> replacementParameters) { 
-        for (String key : replacementParameters.keySet()) {
-            text = StringUtils.replace(text, key, replacementParameters.get(key));
-        }
-        
-        return text;
+    public IRBNotificationRenderer(Protocol protocol) {
+        this.protocol = protocol;
     }
 
     /**
-     * 
-     * @see org.kuali.kra.common.notification.service.KcNotificationRenderingService#getReplacementParameters()
+     * {@inheritDoc}
+     * @see org.kuali.kra.common.notification.NotificationRenderer#getReplacementParameters()
      */
-    @Override
-    public Map<String, String> getReplacementParameters() {
+    public Map<String, String> getDefaultReplacementParameters() {
         String[] replacementParameters = IRBReplacementParameters.REPLACEMENT_PARAMETERS;
         
         Map<String, String> params = new HashMap<String, String>();
@@ -166,8 +157,10 @@ public class IRBNotificationRenderingServiceImpl implements IRBNotificationRende
         this.businessObjectService = businessObjectService;
     }
 
-
     public KcPersonService getKcPersonService() {
+        if (kcPersonService == null) {
+            kcPersonService = KraServiceLocator.getService(KcPersonService.class);
+        }
         return kcPersonService;
     }
 

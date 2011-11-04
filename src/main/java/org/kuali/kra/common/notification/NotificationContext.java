@@ -25,6 +25,35 @@ import org.kuali.kra.common.notification.exception.UnknownRoleException;
 public interface NotificationContext {
     
     /**
+     * Returns the associated module as defined in {@link org.kuali.kra.bo.CoeusModule}.
+     * 
+     * @return the Coeus module code
+     * @see org.kuali.kra.bo.CoeusModule
+     */
+    String getModuleCode();
+    
+    /**
+     * Returns the action type code for this context.
+     * 
+     * @return the action type code
+     */
+    String getActionTypeCode();
+    
+    /**
+     * Returns the document number for the associated document.
+     * 
+     * @return the document number
+     */
+    String getDocumentNumber();
+    
+    /**
+     * Returns a the name used for the given context.
+     * 
+     * @return the context name
+     */
+    String getContextName();
+    
+    /**
      * Replace context-specific variables in the message or subject. 
      * E.G., {DOCUMENT_NUMBER} -> 1234567.
      * 
