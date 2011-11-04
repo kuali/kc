@@ -71,7 +71,7 @@ public class NegotiationDaoOjb extends LookupDaoOjb implements NegotiationDao {
         awardTransform.put("piName", "projectPersons.fullName");
         //proposal type code doesn't exist on the award so make sure we don't find awards when
         //search for proposal type
-        awardTransform.put("proposalTypeCode", INVALID_COLUMN_NAME);
+        awardTransform.put("negotiableProposalTypeCode", INVALID_COLUMN_NAME);
         awardTransform.put("leadUnitNumber", "unitNumber");
         awardTransform.put("leadUnitName", "leadUnit.unitName");
                 
@@ -80,18 +80,20 @@ public class NegotiationDaoOjb extends LookupDaoOjb implements NegotiationDao {
         proposalTransform.put("piName", "projectPersons.fullName");
         proposalTransform.put("leadUnitNumber", "units.unitNumber");
         proposalTransform.put("leadUnitName", "units.unit.unitName");
+        proposalTransform.put("negotiableProposalTypeCode", "proposalTypeCode");
         
         proposalLogTransform = new HashMap<String, String>();
         proposalLogTransform.put("sponsorName", "sponsor.sponsorName");
         proposalLogTransform.put("leadUnitNumber", "leadUnit");
         proposalLogTransform.put("leadUnitName", "unit.unitName");
+        proposalLogTransform.put("negotiableProposalTypeCode", "proposalTypeCode");
 
         unassociatedTransform = new HashMap<String, String>();
         unassociatedTransform.put("sponsorName", "sponsor.sponsorName");
         unassociatedTransform.put("piName", "piName");
         //proposal type code doesn't exist here either so make sure we don't find then when
         //searching for proposal type
-        unassociatedTransform.put("proposalTypeCode", INVALID_COLUMN_NAME);
+        unassociatedTransform.put("negotiableProposalTypeCode", INVALID_COLUMN_NAME);
         unassociatedTransform.put("leadUnitName", "leadUnit.unitName");
 
         
