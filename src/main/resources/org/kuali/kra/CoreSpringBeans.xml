@@ -817,6 +817,11 @@
      <bean id="negotiationCustomAttributeService" class="org.kuali.kra.service.impl.NegotiationCustomAttributeServiceImpl">
 		<property name="businessObjectService" ref="businessObjectService" />
 	</bean>
-    
+
+    <bean id="notificationModuleRoleService" class="org.kuali.kra.service.impl.NotificationModuleRoleServiceImpl">
+        <property name="businessObjectService">
+            <ref bean="businessObjectService" />
+        </property>
+    </bean>    
 	
 </beans>

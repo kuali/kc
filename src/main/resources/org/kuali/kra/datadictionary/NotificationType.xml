@@ -86,7 +86,8 @@
                 p:includeKeyInLabel="false"
                 p:includeBlankRow="false"
                 p:keyAttribute="moduleCode"
-                p:labelAttribute="description" />
+                p:labelAttribute="description"
+                p:script="updateNotificationRecipients(this.value)" />
         </property>
         <property name="summary" value="Module Code" />
         <property name="description" value="Module Code" />
