@@ -17,7 +17,7 @@
 
 <c:set var="coiDiscDetailAttributes" value="${DataDictionary.CoiDiscDetail.attributes}" />
 <c:set var="financialEntityAttributes" value="${DataDictionary.PersonFinIntDisclosure.attributes}" />
-<kul:tab defaultOpen="false" tabTitle="Financial Entity Relationships" auditCluster="financialEntityDiscAuditErrors" tabAuditKey="document.coiDisclosureList[0].coiDiscDetails*" useRiceAuditMode="true"
+<kul:tab defaultOpen="false" tabTitle="Financial Entity Relationships" auditCluster="financialEntityDiscAuditErrors" tabAuditKey="document.coiDisclosureList[0].coiDisclEventProjects[*" useRiceAuditMode="true"
     tabErrorKey="document.coiDisclosureList[0].coiDiscDetails*" >
 	<div class="tab-container" align="center">
     	<h3>
