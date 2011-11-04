@@ -29,10 +29,10 @@
 		<property name="lookupDefinition" >
 			<ref bean="coiReviewType-lookupDefinition" />
 		</property>
-		<property name="titleAttribute" value="coiReviewTypeCode" />
+		<property name="titleAttribute" value="reviewTypeCode" />
 		<property name="attributes" >
 			<list>
-				<ref bean="coiReviewType-coiReviewTypeCode" />
+				<ref bean="coiReviewType-reviewTypeCode" />
 				<ref bean="coiReviewType-description" />
 				<!-- <ref bean="coiReviewType-globalFlag" /> -->
 				<ref bean="coiReviewType-versionNumber" />
@@ -42,8 +42,8 @@
 
 	<!-- Attribute Definitions -->
 	
-	<bean id="coiReviewType-coiReviewTypeCode" parent="coiReviewType-coiReviewTypeCode-parentBean" />
-	<bean id="coiReviewType-coiReviewTypeCode-parentBean" abstract="true" parent="AttributeDefinition" >
+	<bean id="coiReviewType-reviewTypeCode" parent="coiReviewType-reviewTypeCode-parentBean" />
+	<bean id="coiReviewType-reviewTypeCode-parentBean" abstract="true" parent="AttributeDefinition" >
 		<property name="name" value="reviewTypeCode" />
 		<property name="forceUppercase" value="false" />
 		<property name="label" value="COI Review Type Code" />
