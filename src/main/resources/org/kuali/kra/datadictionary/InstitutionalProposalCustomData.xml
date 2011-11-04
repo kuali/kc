@@ -148,7 +148,7 @@
    		 </property>
         <property name="control" >
             <bean parent="TextControlDefinition"
-                p:size="10" />
+                p:size="60" />
         </property>
         <property name="summary" value="Value" />
         <property name="description" value="Value" />
