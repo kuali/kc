@@ -26,6 +26,7 @@ import org.jmock.lib.legacy.ClassImposteriser;
 import org.junit.After;
 import org.junit.Before;
 import org.junit.Test;
+import org.kuali.kra.common.notification.service.KcNotificationService;
 import org.kuali.kra.infrastructure.Constants;
 import org.kuali.kra.infrastructure.KraServiceLocator;
 import org.kuali.kra.irb.ProtocolDocument;
@@ -71,6 +72,7 @@ public class ProtocolGenericActionsServiceTest extends KcUnitTestBase {
         service.setProtocolActionCorrespondenceGenerationService(getMockProtocolActionCorrespondenceGenerationService());
         service.setProtocolOnlineReviewService(getMockProtocolOnlineReviewService());
         service.setProtocolVersionService(KraServiceLocator.getService(ProtocolVersionService.class));
+        service.setKcNotificationService(getMockKcNotificationService());
     }
 
     @Override
@@ -317,7 +319,6 @@ public class ProtocolGenericActionsServiceTest extends KcUnitTestBase {
         return service;
     }
     
-    
     private ProtocolOnlineReviewService getMockProtocolOnlineReviewService() {
         final ProtocolOnlineReviewService service = context.mock(ProtocolOnlineReviewService.class);
         
@@ -366,6 +367,16 @@ public class ProtocolGenericActionsServiceTest extends KcUnitTestBase {
         }});
 
         return action;
+    }
+    
+    private KcNotificationService getMockKcNotificationService() {
+        final KcNotificationService service = context.mock(KcNotificationService.class);
+        
+        context.checking(new Expectations() {{
+            ignoring(service);
+        }});
+        
+        return service;
     }
 
 }
