@@ -29,6 +29,7 @@ import org.kuali.kra.committee.bo.Committee;
 import org.kuali.kra.committee.bo.CommitteeBatchCorrespondence;
 import org.kuali.kra.committee.service.impl.CommitteeBatchCorrespondenceServiceImpl;
 import org.kuali.kra.committee.test.CommitteeTestHelper;
+import org.kuali.kra.common.notification.service.KcNotificationService;
 import org.kuali.kra.infrastructure.Constants;
 import org.kuali.kra.irb.Protocol;
 import org.kuali.kra.irb.ProtocolDao;
@@ -57,6 +58,7 @@ public class CommitteeBatchCorrespondenceServiceTest extends KcUnitTestBase {
     @Before
     public void setUp() {
         committeeBatchCorrespondenceServiceImpl = new CommitteeBatchCorrespondenceServiceImpl();
+        committeeBatchCorrespondenceServiceImpl.setKcNotificationService(getMockKcNotificationService());
     }
 
     /**
@@ -221,4 +223,15 @@ public class CommitteeBatchCorrespondenceServiceTest extends KcUnitTestBase {
         document.setDocumentNumber(documentNumber);
         return document;
     }
+    
+    private KcNotificationService getMockKcNotificationService() {
+        final KcNotificationService service = context.mock(KcNotificationService.class);
+        
+        context.checking(new Expectations() {{
+            ignoring(service);
+        }});
+        
+        return service;
+    }
+    
 }
