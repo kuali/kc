@@ -30,6 +30,7 @@ import org.apache.struts.action.ActionForward;
 import org.apache.struts.action.ActionMapping;
 import org.kuali.kra.bo.AttachmentFile;
 import org.kuali.kra.committee.bo.CommitteeMembership;
+import org.kuali.kra.common.notification.service.KcNotificationService;
 import org.kuali.kra.infrastructure.Constants;
 import org.kuali.kra.infrastructure.KeyConstants;
 import org.kuali.kra.infrastructure.KraServiceLocator;
@@ -38,14 +39,16 @@ import org.kuali.kra.irb.Protocol;
 import org.kuali.kra.irb.ProtocolAction;
 import org.kuali.kra.irb.ProtocolForm;
 import org.kuali.kra.irb.ProtocolOnlineReviewDocument;
-import org.kuali.kra.irb.actions.notification.RejectReviewEvent;
-import org.kuali.kra.irb.actions.notification.ReviewCompleteEvent;
+import org.kuali.kra.irb.actions.ProtocolActionType;
+import org.kuali.kra.irb.actions.notification.RejectReviewNotificationRenderer;
 import org.kuali.kra.irb.actions.reviewcomments.ReviewAttachmentsBean;
 import org.kuali.kra.irb.actions.reviewcomments.ReviewCommentsBean;
 import org.kuali.kra.irb.actions.reviewcomments.ReviewCommentsService;
 import org.kuali.kra.irb.actions.submit.ProtocolReviewer;
 import org.kuali.kra.irb.actions.submit.ProtocolReviewerBean;
 import org.kuali.kra.irb.actions.submit.ProtocolSubmission;
+import org.kuali.kra.irb.notification.IRBNotificationContext;
+import org.kuali.kra.irb.notification.IRBNotificationRenderer;
 import org.kuali.kra.irb.onlinereview.event.AddProtocolOnlineReviewAttachmentEvent;
 import org.kuali.kra.irb.onlinereview.event.AddProtocolOnlineReviewCommentEvent;
 import org.kuali.kra.irb.onlinereview.event.DeleteProtocolOnlineReviewEvent;
@@ -330,10 +333,13 @@ public class ProtocolOnlineReviewAction extends ProtocolAction implements AuditM
             getDocumentService().approveDocument(prDoc, "", null);
             protocolForm.getOnlineReviewsActionHelper().init(true);
             recordOnlineReviewActionSuccess("approved", prDoc);
-            ReviewCompleteEvent reviewCompleteEvent = new ReviewCompleteEvent();
-            reviewCompleteEvent.setProtocol(protocolForm.getProtocolDocument().getProtocol());
-            reviewCompleteEvent.setProtocolOnlineReview(prDoc.getProtocolOnlineReview());
-            reviewCompleteEvent.sendNotification();
+            
+            Protocol protocol = protocolForm.getProtocolDocument().getProtocol();
+            ProtocolOnlineReview protocolOnlineReview = prDoc.getProtocolOnlineReview();
+            IRBNotificationRenderer renderer = new IRBNotificationRenderer(protocol);
+            IRBNotificationContext context = new IRBNotificationContext(protocol, protocolOnlineReview, ProtocolActionType.REVIEW_COMPLETE, "Review Complete", renderer);
+            getKcNotificationService().sendNotification(context);
+            
             if (!protocolForm.getEditingMode().containsKey("maintainProtocolOnlineReviews")) {
                 // reviewer approve will return here
                 return mapping.findForward(KNSConstants.MAPPING_PORTAL);
@@ -468,11 +474,13 @@ public class ProtocolOnlineReviewAction extends ProtocolAction implements AuditM
                 setOnlineReviewCommentFinalFlags(prDoc.getProtocolOnlineReview(), false);
                 getDocumentService().saveDocument(prDoc);
                 getProtocolOnlineReviewService().returnProtocolOnlineReviewDocumentToReviewer(prDoc,reason,GlobalVariables.getUserSession().getPrincipalId());
-                RejectReviewEvent rejectReview = new RejectReviewEvent();
-                rejectReview.setProtocol(protocolForm.getProtocolDocument().getProtocol());
-                rejectReview.setProtocolOnlineReview(prDoc.getProtocolOnlineReview());
-                rejectReview.setReason(reason);
-                rejectReview.sendNotification();
+                
+                Protocol protocol = protocolForm.getProtocolDocument().getProtocol();
+                ProtocolOnlineReview protocolOnlineReview = prDoc.getProtocolOnlineReview();
+                RejectReviewNotificationRenderer renderer = new RejectReviewNotificationRenderer(protocol, reason);
+                IRBNotificationContext context = new IRBNotificationContext(protocol, protocolOnlineReview, ProtocolActionType.REVIEW_REJECTED, "Return to Reviewer", renderer);
+                getKcNotificationService().sendNotification(context);
+                
                 protocolForm.getOnlineReviewsActionHelper().init(true);
                 recordOnlineReviewActionSuccess("returned to reviewer", prDoc);   
                 return routeProtocolOLRToHoldingPage(mapping, protocolForm, prDoc.getDocumentNumber(), "Reject");
@@ -967,6 +975,10 @@ public class ProtocolOnlineReviewAction extends ProtocolAction implements AuditM
         
     private KraWorkflowService getKraWorkflowService() {
         return KraServiceLocator.getService(KraWorkflowService.class);
+    }
+    
+    private KcNotificationService getKcNotificationService() {
+        return KraServiceLocator.getService(KcNotificationService.class);
     }
     
     protected void recordOnlineReviewActionSuccess(String onlineReviewActionName, ProtocolOnlineReviewDocument document) {

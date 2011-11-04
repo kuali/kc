@@ -17,6 +17,7 @@ package org.kuali.kra.irb.actions.genericactions;
 
 import java.sql.Timestamp;
 
+import org.kuali.kra.common.notification.service.KcNotificationService;
 import org.kuali.kra.irb.Protocol;
 import org.kuali.kra.irb.ProtocolDocument;
 import org.kuali.kra.irb.ProtocolVersionService;
@@ -25,13 +26,11 @@ import org.kuali.kra.irb.actions.ProtocolActionType;
 import org.kuali.kra.irb.actions.ProtocolStatus;
 import org.kuali.kra.irb.actions.assignagenda.ProtocolAssignToAgendaService;
 import org.kuali.kra.irb.actions.correspondence.ProtocolActionCorrespondenceGenerationService;
-import org.kuali.kra.irb.actions.notification.DeferEvent;
-import org.kuali.kra.irb.actions.notification.IrbAcknowledgementEvent;
-import org.kuali.kra.irb.actions.notification.SpecificMinorRevisionsEvent;
-import org.kuali.kra.irb.actions.notification.SubstantiveRevisionsRequiredEvent;
 import org.kuali.kra.irb.actions.submit.ProtocolActionService;
 import org.kuali.kra.irb.actions.submit.ProtocolSubmission;
 import org.kuali.kra.irb.actions.submit.ProtocolSubmissionStatus;
+import org.kuali.kra.irb.notification.IRBNotificationContext;
+import org.kuali.kra.irb.notification.IRBNotificationRenderer;
 import org.kuali.kra.irb.onlinereview.ProtocolOnlineReviewService;
 import org.kuali.kra.printing.PrintingException;
 import org.kuali.rice.kns.service.BusinessObjectService;
@@ -51,6 +50,7 @@ public class ProtocolGenericActionServiceImpl implements ProtocolGenericActionSe
     private ProtocolVersionService protocolVersionService;
     private ProtocolAssignToAgendaService protocolAssignToAgendaService;
     private BusinessObjectService businessObjectService;
+    private KcNotificationService kcNotificationService;
     
     /**{@inheritDoc}**/
     public void close(Protocol protocol, ProtocolGenericActionBean actionBean) throws Exception {
@@ -71,9 +71,9 @@ public class ProtocolGenericActionServiceImpl implements ProtocolGenericActionSe
     /**{@inheritDoc}**/
     public ProtocolDocument defer(Protocol protocol, ProtocolGenericActionBean actionBean) throws Exception {
         performGenericAction(protocol, actionBean, ProtocolActionType.DEFERRED, ProtocolStatus.DEFERRED);
-        DeferEvent deferEvent = new DeferEvent();
-        deferEvent.setProtocol(protocol);
-        deferEvent.sendNotification();
+        IRBNotificationRenderer renderer = new IRBNotificationRenderer(protocol);
+        IRBNotificationContext context = new IRBNotificationContext(protocol, ProtocolActionType.DEFERRED, "Deferred", renderer);
+        kcNotificationService.sendNotification(context);
         
         return getDeferredVersionedDocument(protocol);
     }
@@ -92,9 +92,9 @@ public class ProtocolGenericActionServiceImpl implements ProtocolGenericActionSe
     /**{@inheritDoc}**/
     public void irbAcknowledgement(Protocol protocol, ProtocolGenericActionBean actionBean) throws Exception {
         performGenericAction(protocol, actionBean, ProtocolActionType.IRB_ACKNOWLEDGEMENT);
-        IrbAcknowledgementEvent irbAckEvent = new IrbAcknowledgementEvent();
-        irbAckEvent.setProtocol(protocol);
-        irbAckEvent.sendNotification();
+        IRBNotificationRenderer renderer = new IRBNotificationRenderer(protocol);
+        IRBNotificationContext context = new IRBNotificationContext(protocol, ProtocolActionType.IRB_ACKNOWLEDGEMENT, "IRB Acknowledgement", renderer);
+        kcNotificationService.sendNotification(context);
     }
 
     /**{@inheritDoc}**/
@@ -110,9 +110,9 @@ public class ProtocolGenericActionServiceImpl implements ProtocolGenericActionSe
     /**{@inheritDoc}**/
     public ProtocolDocument returnForSMR(Protocol protocol, ProtocolGenericActionBean actionBean) throws Exception {
         performGenericAction(protocol, actionBean, ProtocolActionType.SPECIFIC_MINOR_REVISIONS_REQUIRED, ProtocolStatus.SPECIFIC_MINOR_REVISIONS_REQUIRED);
-        SpecificMinorRevisionsEvent smrEvent = new SpecificMinorRevisionsEvent();
-        smrEvent.setProtocol(protocol);
-        smrEvent.sendNotification();
+        IRBNotificationRenderer renderer = new IRBNotificationRenderer(protocol);
+        IRBNotificationContext context = new IRBNotificationContext(protocol, ProtocolActionType.SPECIFIC_MINOR_REVISIONS_REQUIRED, "Specific Minor Revisions Required", renderer);
+        kcNotificationService.sendNotification(context);
 
         return getReturnedVersionedDocument(protocol);
     }
@@ -120,9 +120,9 @@ public class ProtocolGenericActionServiceImpl implements ProtocolGenericActionSe
     /**{@inheritDoc}**/
     public ProtocolDocument returnForSRR(Protocol protocol, ProtocolGenericActionBean actionBean) throws Exception {
         performGenericAction(protocol, actionBean, ProtocolActionType.SUBSTANTIVE_REVISIONS_REQUIRED, ProtocolStatus.SUBSTANTIVE_REVISIONS_REQUIRED);
-        SubstantiveRevisionsRequiredEvent srrEvent = new SubstantiveRevisionsRequiredEvent();
-        srrEvent.setProtocol(protocol);
-        srrEvent.sendNotification();
+        IRBNotificationRenderer renderer = new IRBNotificationRenderer(protocol);
+        IRBNotificationContext context = new IRBNotificationContext(protocol, ProtocolActionType.SUBSTANTIVE_REVISIONS_REQUIRED, "Substantive Revisions Required", renderer);
+        kcNotificationService.sendNotification(context);
 
         return getReturnedVersionedDocument(protocol);
     }
@@ -276,6 +276,10 @@ public class ProtocolGenericActionServiceImpl implements ProtocolGenericActionSe
 
     public void setBusinessObjectService(BusinessObjectService businessObjectService) {
         this.businessObjectService = businessObjectService;
+    }
+    
+    public void setKcNotificationService(KcNotificationService kcNotificationService) {
+        this.kcNotificationService = kcNotificationService;
     }
 
 }

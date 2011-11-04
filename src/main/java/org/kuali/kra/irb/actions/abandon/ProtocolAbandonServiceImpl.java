@@ -17,6 +17,7 @@ package org.kuali.kra.irb.actions.abandon;
 
 import org.apache.commons.logging.Log;
 import org.apache.commons.logging.LogFactory;
+import org.kuali.kra.common.notification.service.KcNotificationService;
 import org.kuali.kra.irb.Protocol;
 import org.kuali.kra.irb.actions.ProtocolAction;
 import org.kuali.kra.irb.actions.ProtocolActionType;
@@ -24,6 +25,8 @@ import org.kuali.kra.irb.actions.correspondence.ProtocolActionCorrespondenceGene
 import org.kuali.kra.irb.actions.genericactions.ProtocolGenericActionBean;
 import org.kuali.kra.irb.actions.genericactions.ProtocolGenericCorrespondence;
 import org.kuali.kra.irb.actions.submit.ProtocolActionService;
+import org.kuali.kra.irb.notification.IRBNotificationContext;
+import org.kuali.kra.irb.notification.IRBNotificationRenderer;
 import org.kuali.kra.printing.PrintingException;
 import org.kuali.rice.kew.exception.WorkflowException;
 import org.kuali.rice.kns.service.DocumentService;
@@ -38,6 +41,7 @@ public class ProtocolAbandonServiceImpl implements ProtocolAbandonService {
     private DocumentService documentService;
     private ProtocolActionService protocolActionService;
     private ProtocolActionCorrespondenceGenerationService protocolActionCorrespondenceGenerationService;
+    private KcNotificationService kcNotificationService;
 
     /**
      * 
@@ -52,9 +56,9 @@ public class ProtocolAbandonServiceImpl implements ProtocolAbandonService {
         protocol.setActive(false);
         documentService.cancelDocument(protocol.getProtocolDocument(), null);
         try {
-            ProtocolAbandonEvent protocolAbandonEvent = new ProtocolAbandonEvent();
-            protocolAbandonEvent.setProtocol(protocol);
-            protocolAbandonEvent.sendNotification();
+            IRBNotificationRenderer renderer = new IRBNotificationRenderer(protocol);
+            IRBNotificationContext context = new IRBNotificationContext(protocol, ProtocolActionType.ABANDON_PROTOCOL, "Abandon", renderer);
+            kcNotificationService.sendNotification(context);
             createCorrespondenceAndAttach(protocol, ProtocolActionType.ABANDON_PROTOCOL);
         } catch (Exception e) {
             LOG.info("Abandon Protocol Notification exception " + e.getStackTrace());
@@ -80,6 +84,10 @@ public class ProtocolAbandonServiceImpl implements ProtocolAbandonService {
     public void setProtocolActionCorrespondenceGenerationService(
             ProtocolActionCorrespondenceGenerationService protocolActionCorrespondenceGenerationService) {
         this.protocolActionCorrespondenceGenerationService = protocolActionCorrespondenceGenerationService;
+    }
+    
+    public void setKcNotificationService(KcNotificationService kcNotificationService) {
+        this.kcNotificationService = kcNotificationService;
     }
 
 }
