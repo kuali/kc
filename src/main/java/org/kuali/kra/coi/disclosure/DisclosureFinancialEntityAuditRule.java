@@ -40,19 +40,37 @@ public class DisclosureFinancialEntityAuditRule extends ResearchDocumentRuleBase
         CoiDisclosureDocument coiDisclosureDocument = (CoiDisclosureDocument) document;
         auditErrors = new ArrayList<AuditError>();
         
-        isValid = isConflictValueSelected(coiDisclosureDocument.getCoiDisclosure());
+        if (coiDisclosureDocument.getCoiDisclosure().isManualEvent()) {
+            isValid = isConflictValueSelectedForManual(coiDisclosureDocument.getCoiDisclosure());
+            
+        } else if (coiDisclosureDocument.getCoiDisclosure().isAnnualEvent()) {
+            isValid = isConflictValueSelectedForAnnual(coiDisclosureDocument.getCoiDisclosure());
+            
+        } else {
+            isValid = isConflictValueSelected(coiDisclosureDocument.getCoiDisclosure());
+        }
 
         reportAndCreateAuditCluster();
         
         return isValid;
     }
 
-    private void addErrorToAuditErrors(int index) {
+    private void addErrorToAuditErrors(int index, String errorKey) {
         StringBuilder stringBuilder = new StringBuilder();
         stringBuilder.append(Constants.COI_DISCLOSURE_DISCLOSURE_PAGE);
         stringBuilder.append(".");
         stringBuilder.append(Constants.DISCLOSURE_FINANCIAL_ENTITY_PANEL_ANCHOR);
-        auditErrors.add(new AuditError(String.format(Constants.DISCLOSURE_FINANCIAL_ENTITY_KEY, index),
+        auditErrors.add(new AuditError(String.format(errorKey, index),
+                                        KeyConstants.ERROR_COI_FINANCIAL_ENTITY_STATUS_REQUIRED,
+                                        stringBuilder.toString()));   
+    }
+    
+    private void addErrorToAuditErrors(int index, int index1, String errorKey) {
+        StringBuilder stringBuilder = new StringBuilder();
+        stringBuilder.append(Constants.COI_DISCLOSURE_DISCLOSURE_PAGE);
+        stringBuilder.append(".");
+        stringBuilder.append(Constants.DISCLOSURE_FINANCIAL_ENTITY_PANEL_ANCHOR);
+        auditErrors.add(new AuditError(String.format(errorKey, index, index1),
                                         KeyConstants.ERROR_COI_FINANCIAL_ENTITY_STATUS_REQUIRED,
                                         stringBuilder.toString()));   
     }
@@ -62,7 +80,7 @@ public class DisclosureFinancialEntityAuditRule extends ResearchDocumentRuleBase
         int i = 0;
         for (CoiDiscDetail coiDiscDetail : coiDisclosure.getCoiDiscDetails()) {
             if (coiDiscDetail.getEntityStatusCode() == null) {
-                addErrorToAuditErrors(i);
+                addErrorToAuditErrors(i, Constants.DISCLOSURE_FINANCIAL_ENTITY_KEY);
                 isSelected = false;
             }
             i++;
@@ -70,6 +88,36 @@ public class DisclosureFinancialEntityAuditRule extends ResearchDocumentRuleBase
         return isSelected;
     }
     
+    private boolean isConflictValueSelectedForAnnual(CoiDisclosure coiDisclosure) {
+        boolean isSelected = true;
+        int i = 0;
+        for (CoiDisclEventProject disclProject : coiDisclosure.getCoiDisclEventProjects()) {
+            int j = 0;
+            for (CoiDiscDetail coiDiscDetail : disclProject.getCoiDiscDetails()) {
+                if (coiDiscDetail.getEntityStatusCode() == null) {
+                    addErrorToAuditErrors(i, j, Constants.DISCLOSURE_ANNUAL_FINANCIAL_ENTITY_KEY);
+                    isSelected = false;
+                }
+                j++;
+            }
+            i++;
+        }
+        return isSelected;
+    }
+
+    private boolean isConflictValueSelectedForManual(CoiDisclosure coiDisclosure) {
+        boolean isSelected = true;
+        int i = 0;
+        for (CoiDiscDetail coiDiscDetail : coiDisclosure.getCoiDisclProjects().get(0).getCoiDiscDetails()) {
+            if (coiDiscDetail.getEntityStatusCode() == null) {
+                addErrorToAuditErrors(i, Constants.DISCLOSURE_MANUAL_FINANCIAL_ENTITY_KEY);
+                isSelected = false;
+            }
+            i++;
+        }
+        return isSelected;
+    }
+
     protected void reportAndCreateAuditCluster() {
         if (auditErrors.size() > 0) {
             GlobalVariables.getAuditErrorMap().put(FINANCIAL_ENTITY_AUDIT_ERRORS, 
