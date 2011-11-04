@@ -24,6 +24,7 @@ import org.jmock.lib.legacy.ClassImposteriser;
 import org.junit.After;
 import org.junit.Before;
 import org.junit.Test;
+import org.kuali.kra.common.notification.service.KcNotificationService;
 import org.kuali.kra.infrastructure.Constants;
 import org.kuali.kra.infrastructure.KraServiceLocator;
 import org.kuali.kra.irb.Protocol;
@@ -74,6 +75,7 @@ public class ProtocolWithdrawServiceTest extends KcUnitTestBase {
         service.setProtocolVersionService(KraServiceLocator.getService(ProtocolVersionService.class));
         service.setProtocolAssignToAgendaService(getMockProtocolAssignToAgendaService());
         service.setProtocolActionCorrespondenceGenerationService(getMockActionCorrespondenceGenerationService());
+        service.setKcNotificationService(getMockKcNotificationService());
         
         protocolSubmitActionService = KraServiceLocator.getService(ProtocolSubmitActionService.class);
     }
@@ -186,6 +188,16 @@ public class ProtocolWithdrawServiceTest extends KcUnitTestBase {
         }});
         
         return bean;
+    }
+    
+    private KcNotificationService getMockKcNotificationService() {
+        final KcNotificationService service = context.mock(KcNotificationService.class);
+        
+        context.checking(new Expectations() {{
+            ignoring(service);
+        }});
+        
+        return service;
     }
     
 }
