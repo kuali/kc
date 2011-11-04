@@ -20,13 +20,19 @@ package org.kuali.kra.common.notification.exception;
  */
 public class UnknownRoleException extends Exception {
 
-    private static final long serialVersionUID = -6349023885981438007L;
+    private static final long serialVersionUID = -1925770520412550327L;
     
-    private String roleId;
-    private String context;
+    private final String roleId;
+    private final String context;
     
+    /**
+     * Constructs an Unknown Role exception.
+     * 
+     * @param roleId
+     * @param context
+     */
     public UnknownRoleException(final String roleId, final String context) {
-        super("Role " + roleId + "not recognized for context " + context);
+        super("Role " + roleId + " not recognized for context " + context);
         this.roleId = roleId;
         this.context = context;
     }
@@ -38,4 +44,5 @@ public class UnknownRoleException extends Exception {
     public String getContext() {
         return context;
     }
+
 }

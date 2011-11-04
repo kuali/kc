@@ -30,16 +30,20 @@ import org.apache.struts.action.ActionForm;
 import org.apache.struts.action.ActionForward;
 import org.apache.struts.action.ActionMapping;
 import org.kuali.kra.bo.ResearchArea;
+import org.kuali.kra.common.notification.service.KcNotificationService;
 import org.kuali.kra.infrastructure.Constants;
 import org.kuali.kra.infrastructure.KeyConstants;
 import org.kuali.kra.infrastructure.KraServiceLocator;
+import org.kuali.kra.irb.Protocol;
 import org.kuali.kra.irb.ProtocolAction;
 import org.kuali.kra.irb.ProtocolDocument;
 import org.kuali.kra.irb.ProtocolDocumentRule;
 import org.kuali.kra.irb.ProtocolEventBase;
 import org.kuali.kra.irb.ProtocolForm;
-import org.kuali.kra.irb.actions.notification.FundingSourceEvent;
+import org.kuali.kra.irb.actions.ProtocolActionType;
+import org.kuali.kra.irb.actions.notification.FundingSourceNotificationRenderer;
 import org.kuali.kra.irb.actions.submit.ProtocolSubmission;
+import org.kuali.kra.irb.notification.IRBNotificationContext;
 import org.kuali.kra.irb.protocol.funding.AddProtocolFundingSourceEvent;
 import org.kuali.kra.irb.protocol.funding.LookupProtocolFundingSourceEvent;
 import org.kuali.kra.irb.protocol.funding.ProtocolFundingSource;
@@ -600,24 +604,26 @@ public class ProtocolProtocolAction extends ProtocolAction {
 
     private void fundingSourceNotification(ActionForm form) {
         ProtocolForm protocolForm = (ProtocolForm) form;
+        Protocol protocol = protocolForm.getProtocolDocument().getProtocol();
         for (ProtocolFundingSource fundingSource : protocolForm.getProtocolHelper().getNewProtocolFundingSources()) {
-            FundingSourceEvent fundingSourceEvent = new FundingSourceEvent();
-            fundingSourceEvent.setProtocol(protocolForm.getProtocolDocument().getProtocol());
-            fundingSourceEvent.setFundingType("'" + fundingSource.getFundingSourceType().getDescription() + "': " + fundingSource.getFundingSourceNumber());
-            fundingSourceEvent.setAction("linked to");
-            fundingSourceEvent.sendNotification();
+            String fundingType = "'" + fundingSource.getFundingSourceType().getDescription() + "': " + fundingSource.getFundingSourceNumber();
+            FundingSourceNotificationRenderer renderer = new FundingSourceNotificationRenderer(protocol, fundingType, "linked to");
+            IRBNotificationContext context = new IRBNotificationContext(protocol, ProtocolActionType.FUNDING_SOURCE, "Funding Source", renderer);
+            getKcNotificationService().sendNotification(context);
 
         }
         for (ProtocolFundingSource fundingSource : protocolForm.getDeletedProtocolFundingSources()) {
             if (fundingSource.getProtocolFundingSourceId() != null) {
-                FundingSourceEvent fundingSourceEvent = new FundingSourceEvent();
-                fundingSourceEvent.setProtocol(protocolForm.getProtocolDocument().getProtocol());
-                fundingSourceEvent.setFundingType("'" + fundingSource.getFundingSourceType().getDescription() + "': " + fundingSource.getFundingSourceNumber());
-                fundingSourceEvent.setAction("removed from");
-                fundingSourceEvent.sendNotification();
+                String fundingType = "'" + fundingSource.getFundingSourceType().getDescription() + "': " + fundingSource.getFundingSourceNumber();
+                FundingSourceNotificationRenderer renderer = new FundingSourceNotificationRenderer(protocol, fundingType, "removed from");
+                IRBNotificationContext context = new IRBNotificationContext(protocol, ProtocolActionType.FUNDING_SOURCE, "Funding Source", renderer);
+                getKcNotificationService().sendNotification(context);
             }
 
         }
-
+    }
+    
+    private KcNotificationService getKcNotificationService() {
+        return KraServiceLocator.getService(KcNotificationService.class);
     }
 }

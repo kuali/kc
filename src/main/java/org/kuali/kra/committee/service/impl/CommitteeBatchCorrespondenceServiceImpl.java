@@ -30,6 +30,7 @@ import org.kuali.kra.committee.bo.CommitteeBatchCorrespondenceDetail;
 import org.kuali.kra.committee.print.CommitteeReportType;
 import org.kuali.kra.committee.service.CommitteeBatchCorrespondenceService;
 import org.kuali.kra.committee.service.CommitteePrintingService;
+import org.kuali.kra.common.notification.service.KcNotificationService;
 import org.kuali.kra.infrastructure.Constants;
 import org.kuali.kra.infrastructure.KraServiceLocator;
 import org.kuali.kra.irb.Protocol;
@@ -39,12 +40,13 @@ import org.kuali.kra.irb.actions.ProtocolAction;
 import org.kuali.kra.irb.actions.ProtocolActionType;
 import org.kuali.kra.irb.actions.genericactions.ProtocolGenericActionBean;
 import org.kuali.kra.irb.actions.genericactions.ProtocolGenericActionService;
-import org.kuali.kra.irb.actions.notification.BatchCorrespondenceEvent;
+import org.kuali.kra.irb.actions.notification.BatchCorrespondenceNotificationRenderer;
 import org.kuali.kra.irb.correspondence.BatchCorrespondence;
 import org.kuali.kra.irb.correspondence.BatchCorrespondenceDetail;
 import org.kuali.kra.irb.correspondence.ProtocolCorrespondence;
 import org.kuali.kra.irb.correspondence.ProtocolCorrespondenceTemplateService;
 import org.kuali.kra.irb.correspondence.ProtocolCorrespondenceType;
+import org.kuali.kra.irb.notification.IRBNotificationContext;
 import org.kuali.kra.printing.Printable;
 import org.kuali.kra.printing.PrintingException;
 import org.kuali.kra.printing.print.AbstractPrint;
@@ -53,7 +55,6 @@ import org.kuali.rice.kns.service.BusinessObjectService;
 import org.kuali.rice.kns.service.DocumentService;
 import org.kuali.rice.kns.service.SequenceAccessorService;
 import org.kuali.rice.kns.util.DateUtils;
-import org.kuali.rice.kns.util.GlobalVariables;
 
 /**
  * 
@@ -75,6 +76,8 @@ public class CommitteeBatchCorrespondenceServiceImpl implements CommitteeBatchCo
     private ProtocolCorrespondenceTemplateService protocolCorrespondenceTemplateService;
     private DocumentService documentService;
     private KcPersonService kcPersonService;
+    private KcNotificationService kcNotificationService;
+    
     private int finalActionCounter;
 
     /**
@@ -120,12 +123,16 @@ public class CommitteeBatchCorrespondenceServiceImpl implements CommitteeBatchCo
                     CommitteeBatchCorrespondenceDetail batchCorrespondenceDetail = createBatchCorrespondenceDetail(committeeId, protocol, 
                             protocolCorrespondenceType, committeeBatchCorrespondence.getCommitteeBatchCorrespondenceId(), protocolActionTypeCode);
                     committeeBatchCorrespondence.getCommitteeBatchCorrespondenceDetails().add(batchCorrespondenceDetail);
-                    BatchCorrespondenceEvent correspondenceEvent = new BatchCorrespondenceEvent();
-                    correspondenceEvent.setProtocol(protocol);
-                    correspondenceEvent.setProtocolCorrespondenceType(protocolCorrespondenceType.getDescription());
-                    correspondenceEvent.setDetailId(batchCorrespondenceDetail.getCommitteeBatchCorrespondenceDetailId());
-                    //correspondenceEvent.setUserFullname(kcPersonService.getKcPersonByPersonId(GlobalVariables.getUserSession().getPrincipalId()).getFullName());
-                    correspondenceEvent.sendNotification();
+                    
+                    Long detailId = batchCorrespondenceDetail.getCommitteeBatchCorrespondenceDetailId();
+                    String description = protocolCorrespondenceType.getDescription();
+                    //String userFullName = kcPersonService.getKcPersonByPersonId(GlobalVariables.getUserSession().getPrincipalId()).getFullName();
+                    String userFullName = Constants.EMPTY_STRING;
+                    BatchCorrespondenceNotificationRenderer renderer 
+                        = new BatchCorrespondenceNotificationRenderer(protocol, detailId, description, userFullName);
+                    IRBNotificationContext context 
+                        = new IRBNotificationContext(protocol, ProtocolActionType.RENEWAL_REMINDER_GENERATED, "Renewal Reminder Generated", renderer);
+                    kcNotificationService.sendNotification(context);
                 }
             }
         }
@@ -423,6 +430,14 @@ public class CommitteeBatchCorrespondenceServiceImpl implements CommitteeBatchCo
      */
     public void setKcPersonService(KcPersonService kcPersonService) {
         this.kcPersonService = kcPersonService;
+    }
+    
+    /**
+     * Populated by Spring Beans.
+     * @param kcNotificationService
+     */
+    public void setKcNotificationService(KcNotificationService kcNotificationService) {
+        this.kcNotificationService = kcNotificationService;
     }
 
 }

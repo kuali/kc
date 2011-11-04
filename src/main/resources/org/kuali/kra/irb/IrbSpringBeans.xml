@@ -635,12 +635,14 @@
         <property name="protocolActionCorrespondenceGenerationService" ref="protocolActionCorrespondenceGenerationService" />
 		<property name="identityManagementService" ref="identityManagementService"/>
 		<property name="protocolOnlineReviewService" ref="protocolOnlineReviewService"/>
+		<property name="kcNotificationService" ref="kcNotificationService" />
     </bean>
     
     <bean id="protocolRequestService" class="org.kuali.kra.irb.actions.request.ProtocolRequestServiceImpl">
         <property name="businessObjectService" ref="businessObjectService" />
         <property name="protocolActionService" ref="protocolActionService" />
         <property name="documentService" ref="documentService" />
+        <property name="kcNotificationService" ref="kcNotificationService" />
     </bean>
     
     <bean id="protocolNotifyIrbService" class="org.kuali.kra.irb.actions.notifyirb.ProtocolNotifyIrbServiceImpl">
@@ -730,6 +732,7 @@
     <bean id="protocolAssignReviewersService" class="org.kuali.kra.irb.actions.assignreviewers.ProtocolAssignReviewersServiceImpl">
         <property name="businessObjectService" ref="businessObjectService" />
         <property name="protocolOnlineReviewService" ref="protocolOnlineReviewService"/>
+        <property name="kcNotificationService" ref="kcNotificationService" />
     </bean>
     
     <bean id="protocolGrantExemptionService" class="org.kuali.kra.irb.actions.grantexemption.ProtocolGrantExemptionServiceImpl">
@@ -762,6 +765,7 @@
         <property name="protocolVersionService" ref="protocolVersionService" />
         <property name="protocolAssignToAgendaService" ref="protocolAssignToAgendaService" />
         <property name="businessObjectService" ref="businessObjectService" />
+        <property name="kcNotificationService" ref="kcNotificationService" />
     </bean>
     
     <bean id="protocolApproveService" class="org.kuali.kra.irb.actions.approve.ProtocolApproveServiceImpl">
@@ -937,12 +941,6 @@
             <bean parent="kcService" p:service-ref="activeCommitteeMemberOnProtocolDerivedRoleTypeService"
           p:localServiceName="activeCommitteeMemberOnProtocolDerivedRoleTypeService" />
       </property>
-    </bean>
-    
-    <bean id="iRBNotificationRenderingService" class="org.kuali.kra.irb.notification.IRBNotificationRenderingServiceImpl"
-          scope="prototype">
-        <property name="businessObjectService" ref="businessObjectService" />
-        <property name="kcPersonService" ref="kcPersonService" />          
     </bean>
     
     <bean id="iRBNotificationRoleQualifierService" class="org.kuali.kra.irb.notification.IRBNotificationRoleQualifierServiceImpl"

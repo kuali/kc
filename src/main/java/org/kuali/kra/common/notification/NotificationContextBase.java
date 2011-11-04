@@ -15,74 +15,40 @@
  */
 package org.kuali.kra.common.notification;
 
-
+import java.io.Serializable;
 import java.util.List;
 
 import org.apache.commons.collections.CollectionUtils;
-import org.kuali.kra.common.notification.bo.KcNotification;
 import org.kuali.kra.common.notification.bo.NotificationModuleRole;
 import org.kuali.kra.common.notification.bo.NotificationModuleRoleQualifier;
 import org.kuali.kra.common.notification.bo.NotificationTypeRecipient;
 import org.kuali.kra.common.notification.exception.UnknownRoleException;
 import org.kuali.kra.common.notification.service.KcNotificationModuleRoleService;
-import org.kuali.kra.common.notification.service.KcNotificationRenderingService;
 import org.kuali.kra.common.notification.service.KcNotificationRoleQualifierService;
 import org.kuali.kra.common.notification.service.KcNotificationService;
 import org.kuali.rice.kim.bo.types.dto.AttributeSet;
 
 /**
- * 
- * This class provides a class for all notifications to extend.  Its main purpose is to
- * provide a holding place for the required services, as well as define a few methods
- * that should be implemented by any notification.
+ * Provides a base class for all notifications to extend.  It defines a holding place for the required services as well as a few methods that should be 
+ * implemented by any notification.
  */
-public abstract class NotificationContextBase implements NotificationContext {
-    private static final org.apache.log4j.Logger LOG = org.apache.log4j.Logger.getLogger(NotificationContextBase.class);
+public abstract class NotificationContextBase implements NotificationContext, Serializable {
 
-    private KcNotificationService notificationService;
-    private KcNotificationRenderingService notificationRenderingService;
-    private KcNotificationModuleRoleService notificationModuleRoleService;
-    private KcNotificationRoleQualifierService notificationRoleQualifierService;
-        
-    /**
-     * 
-     * This method returns the associated coeus module as defined in the
-     * CoeusModule object.
-     * @return the coeus module code
-     * @see org.kuali.kra.bo.CoeusModule
-     */
-    public abstract String getModuleCode();
+    private static final long serialVersionUID = -6135354658158890714L;
+
+    private NotificationRenderer renderer;
+    
+    private transient KcNotificationService notificationService;
+    private transient KcNotificationModuleRoleService notificationModuleRoleService;
+    private transient KcNotificationRoleQualifierService notificationRoleQualifierService;
     
     /**
+     * Constructs a Notification Context base class.
      * 
-     * This method returns the action type code needed to send notifications.
-     * by the KcNotificationService
-     * @return the action type code
+     * @param renderer the text renderer for this context
      */
-    public abstract String getActionTypeCode();
-    
-    /**
-     * 
-     * This method returns the document number for the associated document.
-     * @return the document number
-     */
-    public abstract String getDocumentNumber();
-    
-    /**
-     * 
-     * This method defines a label used for the given context.
-     * @return the context name
-     */
-    public abstract String getContextName();
-        
-    /**
-     * 
-     * This method sends the notifications.
-     */
-    public void sendNotification() {
-        LOG.info("Sending Notification [" + getContextName() + "]");
-        List<KcNotification> notifications = getNotificationService().createNotifications(getDocumentNumber(), getModuleCode(), getActionTypeCode(), this);
-        getNotificationService().sendNotifications(notifications, this);
+    public NotificationContextBase(NotificationRenderer renderer) {
+        this.renderer = renderer;
     }
     
     /**
@@ -90,7 +56,7 @@ public abstract class NotificationContextBase implements NotificationContext {
      * @see org.kuali.kra.common.notification.NotificationContext#replaceContextVariables(java.lang.String)
      */
     public String replaceContextVariables(String text) {
-        return getNotificationRenderingService().render(text);
+        return renderer.render(text);
     }
     
     /**
@@ -131,14 +97,6 @@ public abstract class NotificationContextBase implements NotificationContext {
         this.notificationService = notificationService;
     }
 
-    public KcNotificationRenderingService getNotificationRenderingService() {
-        return notificationRenderingService;
-    }
-
-    public void setNotificationRenderingService(KcNotificationRenderingService notificationRenderingService) {
-        this.notificationRenderingService = notificationRenderingService;
-    }
-
     public KcNotificationModuleRoleService getNotificationModuleRoleService() {
         return notificationModuleRoleService;
     }
@@ -154,9 +112,5 @@ public abstract class NotificationContextBase implements NotificationContext {
     public void setNotificationRoleQualifierService(KcNotificationRoleQualifierService notificationRoleQualifierService) {
         this.notificationRoleQualifierService = notificationRoleQualifierService;
     }
-
-
-
-    
 
 }

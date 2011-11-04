@@ -34,6 +34,11 @@ public class NotificationTypeRecipient extends KraPersistableBusinessObjectBase 
     
     // Non-persistent field for tracking the qualifier value.
     private AttributeSet roleQualifiers;
+    
+    // Fields for ad-hoc notifications
+    private String personId;
+    private String rolodexId;
+    private String fullName;
 
     public Long getNotificationTypeRecipientId() {
         return notificationTypeRecipientId;
@@ -73,6 +78,30 @@ public class NotificationTypeRecipient extends KraPersistableBusinessObjectBase 
 
     public void setRoleQualifiers(AttributeSet roleQualifiers) {
         this.roleQualifiers = roleQualifiers;
+    }
+
+    public String getPersonId() {
+        return personId;
+    }
+
+    public void setPersonId(String personId) {
+        this.personId = personId;
+    }
+
+    public String getRolodexId() {
+        return rolodexId;
+    }
+
+    public void setRolodexId(String rolodexId) {
+        this.rolodexId = rolodexId;
+    }
+
+    public String getFullName() {
+        return fullName;
+    }
+
+    public void setFullName(String fullName) {
+        this.fullName = fullName;
     }
 
     @Override

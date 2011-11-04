@@ -19,12 +19,17 @@ import java.sql.Date;
 import java.util.List;
 
 import org.apache.commons.lang.StringUtils;
+import org.kuali.kra.common.notification.service.KcNotificationService;
 import org.kuali.kra.infrastructure.Constants;
+import org.kuali.kra.irb.Protocol;
 import org.kuali.kra.irb.ProtocolOnlineReviewDocument;
-import org.kuali.kra.irb.actions.notification.AssignReviewerEvent;
+import org.kuali.kra.irb.actions.ProtocolActionType;
+import org.kuali.kra.irb.actions.notification.AssignReviewerNotificationRenderer;
 import org.kuali.kra.irb.actions.submit.ProtocolReviewer;
 import org.kuali.kra.irb.actions.submit.ProtocolReviewerBean;
 import org.kuali.kra.irb.actions.submit.ProtocolSubmission;
+import org.kuali.kra.irb.notification.IRBNotificationContext;
+import org.kuali.kra.irb.onlinereview.ProtocolOnlineReview;
 import org.kuali.kra.irb.onlinereview.ProtocolOnlineReviewService;
 import org.kuali.kra.irb.personnel.ProtocolPerson;
 import org.kuali.rice.kns.service.BusinessObjectService;
@@ -37,6 +42,7 @@ public class ProtocolAssignReviewersServiceImpl implements ProtocolAssignReviewe
     
     private BusinessObjectService businessObjectService;
     private ProtocolOnlineReviewService protocolOnlineReviewService;
+    private KcNotificationService kcNotificationService;
 
     /**
      * {@inheritDoc}
@@ -69,12 +75,12 @@ public class ProtocolAssignReviewersServiceImpl implements ProtocolAssignReviewe
         //We need to send the notification prior to the online review being removed in order to satisfy the kim role recipients requirements
         ProtocolOnlineReviewDocument onlineReviewDocument = 
             protocolOnlineReviewService.getProtocolOnlineReviewDocument(protocolReviewBean.getPersonId(), protocolReviewBean.getNonEmployeeFlag(), protocolSubmission);
-        if (onlineReviewDocument != null) {    
-            AssignReviewerEvent assignReviewerEvent = new AssignReviewerEvent();
-            assignReviewerEvent.setProtocol(protocolSubmission.getProtocol());
-            assignReviewerEvent.setProtocolOnlineReview(onlineReviewDocument.getProtocolOnlineReview());
-            assignReviewerEvent.setActionTaken("removed");
-            assignReviewerEvent.sendNotification();
+        if (onlineReviewDocument != null) {   
+            Protocol protocol = protocolSubmission.getProtocol();
+            ProtocolOnlineReview protocolOnlineReview = onlineReviewDocument.getProtocolOnlineReview();
+            AssignReviewerNotificationRenderer renderer = new AssignReviewerNotificationRenderer(protocol, "removed");
+            IRBNotificationContext context = new IRBNotificationContext(protocol, protocolOnlineReview, ProtocolActionType.ASSIGN_REVIEWER, "Assign Reviewer", renderer);
+            kcNotificationService.sendNotification(context);
         }
         
         protocolOnlineReviewService.removeOnlineReviewDocument(protocolReviewBean.getPersonId(), protocolReviewBean.getNonEmployeeFlag(), protocolSubmission, annotation);
@@ -101,11 +107,11 @@ public class ProtocolAssignReviewersServiceImpl implements ProtocolAssignReviewe
         protocolSubmission.getProtocolOnlineReviews().add(document.getProtocolOnlineReview());
         
         //send notification now that the online review has been created.
-        AssignReviewerEvent assignReviewerEvent = new AssignReviewerEvent();
-        assignReviewerEvent.setProtocol(protocolSubmission.getProtocol());
-        assignReviewerEvent.setProtocolOnlineReview(document.getProtocolOnlineReview());
-        assignReviewerEvent.setActionTaken("added");
-        assignReviewerEvent.sendNotification();        
+        Protocol protocol = protocolSubmission.getProtocol();
+        ProtocolOnlineReview protocolOnlineReview = document.getProtocolOnlineReview();
+        AssignReviewerNotificationRenderer renderer = new AssignReviewerNotificationRenderer(protocol, "added");
+        IRBNotificationContext context = new IRBNotificationContext(protocol, protocolOnlineReview, ProtocolActionType.ASSIGN_REVIEWER, "Assign Reviewer", renderer);
+        kcNotificationService.sendNotification(context);
     }
     
     protected void updateReviewer(ProtocolSubmission protocolSubmission, ProtocolReviewerBean protocolReviewerBean) {
@@ -130,5 +136,9 @@ public class ProtocolAssignReviewersServiceImpl implements ProtocolAssignReviewe
         this.protocolOnlineReviewService = protocolOnlineReviewService;
     }
 
+    
+    public void setKcNotificationService(KcNotificationService kcNotificationService) {
+        this.kcNotificationService = kcNotificationService;
+    }
     
 }

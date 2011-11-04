@@ -24,15 +24,17 @@ import org.apache.commons.collections.CollectionUtils;
 import org.apache.commons.logging.Log;
 import org.apache.commons.logging.LogFactory;
 import org.kuali.kra.bo.CoeusModule;
+import org.kuali.kra.common.notification.service.KcNotificationService;
 import org.kuali.kra.irb.Protocol;
 import org.kuali.kra.irb.actions.ProtocolAction;
 import org.kuali.kra.irb.actions.ProtocolActionType;
 import org.kuali.kra.irb.actions.ProtocolSubmissionBuilder;
-import org.kuali.kra.irb.actions.notification.NotifyIrbEvent;
+import org.kuali.kra.irb.actions.notification.NotifyIrbNotificationRenderer;
 import org.kuali.kra.irb.actions.submit.ProtocolActionService;
 import org.kuali.kra.irb.actions.submit.ProtocolSubmission;
 import org.kuali.kra.irb.actions.submit.ProtocolSubmissionStatus;
 import org.kuali.kra.irb.actions.submit.ProtocolSubmissionType;
+import org.kuali.kra.irb.notification.IRBNotificationContext;
 import org.kuali.kra.questionnaire.answer.AnswerHeader;
 import org.kuali.rice.kew.exception.WorkflowException;
 import org.kuali.rice.kns.service.BusinessObjectService;
@@ -49,6 +51,7 @@ public class ProtocolNotifyIrbServiceImpl implements ProtocolNotifyIrbService {
     private BusinessObjectService businessObjectService;
     private DocumentService documentService;
     private ProtocolActionService protocolActionService;
+    private KcNotificationService kcNotificationService;
 
     /**
      * Set the business object service.
@@ -84,10 +87,9 @@ public class ProtocolNotifyIrbServiceImpl implements ProtocolNotifyIrbService {
         documentService.saveDocument(protocol.getProtocolDocument());
         protocol.refreshReferenceObject("protocolSubmissions");
         try {
-            NotifyIrbEvent notifyIrbEvent = new NotifyIrbEvent();
-            notifyIrbEvent.setProtocol(protocol);
-            notifyIrbEvent.setActionComments(protocolAction.getComments());
-            notifyIrbEvent.sendNotification();
+            NotifyIrbNotificationRenderer renderer = new NotifyIrbNotificationRenderer(protocol, protocolAction.getComments());
+            IRBNotificationContext context = new IRBNotificationContext(protocol, ProtocolActionType.NOTIFY_IRB, "Notify IRB", renderer);
+            kcNotificationService.sendNotification(context);
         } catch (Exception e) {
             LOG.info("Notify Irb Notification exception " + e.getStackTrace());
         }
@@ -153,4 +155,9 @@ public class ProtocolNotifyIrbServiceImpl implements ProtocolNotifyIrbService {
     public void setDocumentService(DocumentService documentService) {
         this.documentService = documentService;
     }
+    
+    public void setKcNotificationService(KcNotificationService kcNotificationService) {
+        this.kcNotificationService = kcNotificationService;
+    }
+    
 }

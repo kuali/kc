@@ -13,28 +13,28 @@
  * See the License for the specific language governing permissions and
  * limitations under the License.
  */
-package org.kuali.kra.irb.actions.notification;
+package org.kuali.kra.common.notification;
 
-import org.kuali.kra.irb.actions.ProtocolActionType;
-import org.kuali.kra.irb.notification.IRBNotificationContext;
+import java.util.Map;
 
-public class SubstantiveRevisionsRequiredEvent extends IRBNotificationContext {
-
-    /**
-     * 
-     * @see org.kuali.kra.common.notification.NotificationContextBase#getActionTypeCode()
-     */
-    @Override
-    public String getActionTypeCode() {
-        return ProtocolActionType.SUBSTANTIVE_REVISIONS_REQUIRED;
-    }
+/**
+ * Defines the text renderer for Notifications.
+ */
+public interface NotificationRenderer {
 
     /**
+     * Renders the message in {@code text} using default replacement parameters.
      * 
-     * @see org.kuali.kra.common.notification.NotificationContextBase#getContextName()
+     * @param text the message to be rendered
+     * @return the message with all possible search and replace parameters filled in
      */
-    @Override
-    public String getContextName() {
-        return "SubstantiveRevisionsRequiredEvent";
-    }
+    String render(String text);
+    
+    /**
+     * Returns the default replacement parameters for the renderer.
+     * 
+     * @return the default replacement parameters for the renderer
+     */
+    Map<String, String> getDefaultReplacementParameters();
+
 }

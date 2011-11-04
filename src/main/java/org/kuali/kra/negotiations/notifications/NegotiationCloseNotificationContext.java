@@ -32,6 +32,9 @@ import org.kuali.rice.kim.bo.types.dto.AttributeSet;
  */
 public class NegotiationCloseNotificationContext implements NotificationContext {
     
+    private static final String NEGOTIATION_NOTIFICATION_MODULE_CODE = "5";
+    private static final String NEGOTIATION_CLOSE_NOTIFICATION_ACTION_CODE = "100";
+    
     private static final String DATE_FORMAT_MM_DD_YYYY = "MM/dd/yyyy";
     private static final String NOTIFICATION_LINE_BREAK = "\n<br/>\n";
     
@@ -43,6 +46,26 @@ public class NegotiationCloseNotificationContext implements NotificationContext 
         this.negotiationDocument = negotiationDocument;
         this.negotiableBo = negotiableBo;
         SimpleDateFormat df = new SimpleDateFormat(DATE_FORMAT_MM_DD_YYYY);
+    }
+    
+    @Override
+    public String getModuleCode() {
+        return NEGOTIATION_NOTIFICATION_MODULE_CODE;
+    }
+
+    @Override
+    public String getActionTypeCode() {
+        return NEGOTIATION_CLOSE_NOTIFICATION_ACTION_CODE;
+    }
+
+    @Override
+    public String getDocumentNumber() {
+        return negotiationDocument.getDocumentNumber();
+    }
+
+    @Override
+    public String getContextName() {
+        return "Close Notification";
     }
 
     @Override
