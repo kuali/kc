@@ -20,11 +20,15 @@
 <c:set var="coiDisclProjectAttributes" value="${DataDictionary.CoiDisclProject.attributes}" />
 <c:set var="coiDiscDetailAttributes" value="${DataDictionary.CoiDiscDetail.attributes}" />
 <%-- c:set var="readOnly" value="${!KualiForm.personnelHelper.modifyPersonnel}" / --%>
-<table cellpadding=0 cellspacing=0 summary="">
-    <tr>
-        <td>
-            <kul:innerTab tabTitle="Proposal - ${disclProject.eventProjectBo.proposalNumber} : ${disclProject.eventProjectBo.title}" parentTab="Add Proposals" defaultOpen="false" tabErrorKey="disclosureHelper.newDisclosurePersonUnit.*,document.coiDisclosureList[0].disclosurePersons[0]*" useCurrentTabIndexAsKey="false">
-                <div class="innerTab-container" align="left">
+                <div class="tab-container" align="left">
+    	<h3>
+            <span class="subhead-left"> 
+               <a href="#" id ="financialEntityControl${idx}" class="financialEntitySubpanel"><img src='kr/images/tinybutton-hide.gif' alt='show/hide panel' width='45' height='15' border='0' align='absmiddle'></a> 
+               Proposal - ${disclProject.eventProjectBo.proposalNumber}:${disclProject.eventProjectBo.title} </span>
+    		<span class="subhead-right"><kul:help businessObjectClassName="org.kuali.kra.coi.CoiDiscDetail" altText="help"/></span>
+        </h3>
+                  <div  id="financialEntityContent${idx}" class="financialEntitySubpanelContent">
+                  <div>
                     <table class=tab cellpadding="0" cellspacing="0" summary="">
                         <tbody>
                         <%-- Header --%>
@@ -43,7 +47,6 @@
                 <tr>
                   <td align="left" valign="middle">
 					<div align="left">
-                		<kul:htmlControlAttribute property="document.coiDisclosureList[0].coiDisclEventProjects[${idx}].disclosureFlag" attributeEntry="${coiDisclProjectAttributes.disclosureFlag}" readOnly="${readOnly}" styleClass="selectDisclClass${idx}" /> 
                 		<kul:htmlControlAttribute property="document.coiDisclosureList[0].coiDisclEventProjects[${idx}].eventProjectBo.proposalNumber" readOnly="true" attributeEntry="${coiDisclProjectAttributes.coiProjectId}" /> 
 					</div>
 				  </td>
@@ -73,12 +76,11 @@
 					</div>
 				  </td>
 	            </tr>
-
-                <tr>
-                    <td colspan="6">
-       <div id="div_FinancialEntity${idx}" class="div_FinancialEntity" style="display:none;">
+               </table>
+              </div>
+       <div id="div_FinancialEntity${idx}" class="div_FinancialEntity">
                 <h3>
-    		        <span class="subhead-left">Financial Entity</span>
+    		        <span class="subhead-left">Financial Entities</span>
     		        <span class="subhead-right"><kul:help businessObjectClassName="org.kuali.kra.coi.CoiDiscDetail" altText="help"/></span>
                 </h3>
 
@@ -166,15 +168,7 @@
 	            </c:forEach>
 	            </table> <%-- fe table --%>
 	            </div>
-		              </td>
-	            </tr>
-	            
-                        </tbody>
-                    </table> <%-- proposal table --%>
                 </div>
-            </kul:innerTab>
-        </td>
-    </tr>
-</table>
+                </div>
 
 
