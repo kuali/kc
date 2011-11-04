@@ -458,7 +458,8 @@ import org.junit.runners.Suite.SuiteClasses;
     org.kuali.kra.subaward.web.struts.action.SubAwardAmountReleasedActionTest.class,
     org.kuali.kra.subaward.web.struts.action.SubAwardCloseoutActionTest.class,
     org.kuali.kra.subaward.web.struts.action.SubAwardContactsActionTest.class,
-    org.kuali.kra.subaward.web.struts.action.SubAwardFundingSourceActionTest.class
+    org.kuali.kra.subaward.web.struts.action.SubAwardFundingSourceActionTest.class,
+    org.kuali.kra.service.impl.NotificationModuleRoleServiceImplTest.class
 })
 /** these are all the test class where all the test methods are currently passing. */
 public class PassSuite {

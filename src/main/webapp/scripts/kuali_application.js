@@ -3004,3 +3004,34 @@ function loadSponsor(sponsorCodeFieldName, sponsorNameFieldName, entityNameField
         SponsorService.getSponsor(sponsorCode,dwrReply);
     }
 }
+
+
+function updateNotificationRecipients(moduleCode) {
+	var dwrReply = {
+		callback:updateNotificationRecipients_Callback,
+		errorHandler:function( errorMessage ) { 
+			window.status = errorMessage;
+		}
+	};
+	NotificationModuleRoleService.getModuleRolesForAjaxCall(moduleCode, dwrReply);
+}
+
+function updateNotificationRecipients_Callback(data) {
+	alert(data);
+	
+	var element = document.getElementById('document.newMaintainableObject.add.notificationTypeRecipients.roleName');
+	
+	if (element) {
+		element.options.length=0;
+		var option_array=data.split(",");
+		var optionNum=0;	
+		while (optionNum < option_array.length) {
+			  if (optionNum == 0) {
+			        element.options[0]=new Option("select","", true, true);
+			  } else {
+			        element.options[optionNum]=new Option(option_array[optionNum], option_array[optionNum]);
+			  }
+			  optionNum+=1;			
+		}
+	}
+}
