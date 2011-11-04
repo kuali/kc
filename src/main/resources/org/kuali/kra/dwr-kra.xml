@@ -163,6 +163,11 @@
 			<include method="getPhoneNumber" />
             <include method="getOrganization" />
 		</create>
+        <create creator="spring" javascript="NotificationModuleRoleService">
+            <param name="beanName" value="notificationModuleRoleService" />
+            <include method="getModuleRolesByModuleName" />
+            <include method="getModuleRolesForAjaxCall" />
+        </create>		
 		<create creator="spring" javascript="StateService">
 +            <param name="beanName" value="stateService" />
 +            <include method="findAllStatesByAltCountryCode" />
