@@ -16,10 +16,14 @@
 package org.kuali.kra.service.impl;
 
 import java.util.HashMap;
+import java.util.List;
 import java.util.Map;
 
 import org.apache.commons.lang.StringUtils;
 import org.kuali.kra.bo.Organization;
+import org.kuali.kra.bo.OrganizationCorrespondent;
+import org.kuali.kra.bo.UnitAdministrator;
+import org.kuali.kra.infrastructure.KraServiceLocator;
 import org.kuali.kra.service.OrganizationService;
 import org.kuali.rice.kns.service.BusinessObjectService;
 
@@ -58,6 +62,19 @@ public class OrganizationServiceImpl implements OrganizationService {
     }
 
     /**
+     * @see org.kuali.kra.service.OrganizationService#retrieveOrganizationCorrespondentByOrganizationId(java.lang.String)
+     */
+    @SuppressWarnings("unchecked")
+    public List<OrganizationCorrespondent> retrieveOrganizationCorrespondentsByOrganizationId(String organizationId) {
+        this.businessObjectService = KraServiceLocator.getService(BusinessObjectService.class);
+        Map<String, String> queryMap = new HashMap<String, String>();
+        queryMap.put(ORGANIZATION_ID, organizationId);
+        List<OrganizationCorrespondent> organizationCorrespondents = 
+            (List<OrganizationCorrespondent>) getBusinessObjectService().findMatching(OrganizationCorrespondent.class, queryMap);
+        return organizationCorrespondents;
+    }
+    
+    /**
      * Sets the businessObjectService attribute value.
      * 
      * @param businessObjectService The businessObjectService to set.
@@ -65,5 +82,14 @@ public class OrganizationServiceImpl implements OrganizationService {
     public void setBusinessObjectService(BusinessObjectService businessObjectService) {
         this.businessObjectService = businessObjectService;
     }
+    /**
+     * Accessor for <code>{@link BusinessObjectService}</code>
+     *
+     * @return BusinessObjectService
+     */
 
+    public BusinessObjectService getBusinessObjectService() {
+        return this.businessObjectService;
+    }
+    
 }
