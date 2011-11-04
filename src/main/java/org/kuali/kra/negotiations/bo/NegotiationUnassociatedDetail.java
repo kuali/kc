@@ -30,6 +30,7 @@ import org.kuali.kra.bo.Sponsor;
 import org.kuali.kra.bo.Unit;
 import org.kuali.kra.infrastructure.Constants;
 import org.kuali.kra.infrastructure.KraServiceLocator;
+import org.kuali.kra.proposaldevelopment.bo.ProposalType;
 import org.kuali.kra.service.RolodexService;
 
 /**
@@ -413,5 +414,11 @@ public class NegotiationUnassociatedDetail extends KraPersistableBusinessObjectB
         } else {
             return EMPTY_STRING;
         }
+    }
+
+
+    @Override
+    public ProposalType getNegotiableProposalType() {
+        return null;
     }
 }

@@ -78,6 +78,7 @@ import org.kuali.kra.institutionalproposal.home.InstitutionalProposal;
 import org.kuali.kra.negotiations.bo.Negotiable;
 import org.kuali.kra.negotiations.bo.NegotiationPersonDTO;
 import org.kuali.kra.proposaldevelopment.bo.ActivityType;
+import org.kuali.kra.proposaldevelopment.bo.ProposalType;
 import org.kuali.kra.service.Sponsorable;
 import org.kuali.kra.service.UnitService;
 import org.kuali.kra.timeandmoney.transactions.AwardTransactionType;
@@ -3490,5 +3491,10 @@ public class Award extends KraPersistableBusinessObjectBase implements KeywordsM
 
     public void setAwardSequenceStatus(String awardSequenceStatus) {
         this.awardSequenceStatus = awardSequenceStatus;
+    }
+
+    @Override
+    public ProposalType getNegotiableProposalType() {
+        return null;
     }
 }
