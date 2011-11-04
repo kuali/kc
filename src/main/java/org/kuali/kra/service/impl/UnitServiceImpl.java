@@ -23,8 +23,10 @@ import java.util.Map;
 
 import org.apache.commons.collections.CollectionUtils;
 import org.apache.commons.lang.StringUtils;
+import org.kuali.kra.bo.OrganizationCorrespondent;
 import org.kuali.kra.bo.Unit;
 import org.kuali.kra.bo.UnitAdministrator;
+import org.kuali.kra.bo.UnitCorrespondent;
 import org.kuali.kra.dao.UnitLookupDao;
 import org.kuali.kra.infrastructure.KraServiceLocator;
 import org.kuali.kra.service.UnitService;
@@ -275,5 +277,19 @@ public class UnitServiceImpl implements UnitService {
         this.unitLookupDao = unitLookupDao;
     }
     
+    /**
+     * @see org.kuali.kra.service.UnitService#retrieveUnitCorrespondentByUnitNumber(java.lang.String)
+     */
+    @SuppressWarnings("unchecked")
+    public List<UnitCorrespondent> retrieveUnitCorrespondentsByUnitNumber(String unitNumber) {
+        this.businessObjectService = KraServiceLocator.getService(BusinessObjectService.class);
+        Map<String, String> queryMap = new HashMap<String, String>();
+        queryMap.put(UNIT_NUMBER, unitNumber);
+        List<UnitCorrespondent> unitCorrespondents = 
+            (List<UnitCorrespondent>) getBusinessObjectService().findMatching(UnitCorrespondent.class, queryMap);
+        return unitCorrespondents;
+    }
+    
+
     
 }
