@@ -20,6 +20,7 @@ import java.util.List;
 
 import org.kuali.kra.bo.Unit;
 import org.kuali.kra.bo.UnitAdministrator;
+import org.kuali.kra.bo.UnitCorrespondent;
 
 /**
  * The Unit Service provides a set of queries related to Units.
@@ -99,7 +100,16 @@ public interface UnitService {
     public String getInitialUnitsForUnitHierarchy(int depth);
     
     public List<UnitAdministrator> retrieveUnitAdministratorsByUnitNumber(String unitNumber);
-    
+
+    /**
+     * This method returns a list of UnitCorrespondent
+     * objects based on a passed unit number.
+     * @param unitNumber identifier for the unit
+     * @return list of UnitCorrespondent objects
+     * null value is returned if no unit correspondents not found
+     */
+    public List<UnitCorrespondent> retrieveUnitCorrespondentsByUnitNumber(String unitNumber);
+
     /**
      * 
      * This method returns the tree depth of the entire unit hierarchy tree;
