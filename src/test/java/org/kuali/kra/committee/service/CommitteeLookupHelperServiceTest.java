@@ -31,7 +31,7 @@ import org.kuali.rice.kns.web.ui.Row;
 
 public class CommitteeLookupHelperServiceTest extends KcUnitTestBase {
     
-    private static final int NUMBER_LOOKUP_CRITERIA_FIELDS = 9;
+    private static final int NUMBER_LOOKUP_CRITERIA_FIELDS = 10;
     private static final String EDIT_URL = "../committeeCommittee.do?committeeId=100&docTypeName=CommitteeDocument&methodToCall=docHandler&command=initiate";
     
     private CommitteeLookupableHelperServiceImpl committeeLookupableHelperServiceImpl;

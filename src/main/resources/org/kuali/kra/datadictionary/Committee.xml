@@ -42,6 +42,7 @@
 				<ref bean="CommitteeAttribute-CommitteeDescription" />
 				<ref bean="CommitteeAttribute-ScheduleDescription" />	
 				<ref bean="CommitteeAttribute-ReviewTypeCode" />
+				<ref bean="CommitteeAttribute-CoiReviewTypeCode" />
 				<ref bean="CommitteeAttribute-MinimumMembersRequired" />
 				<ref bean="CommitteeAttribute-MaxProtocols" />
 				<ref bean="CommitteeAttribute-AdvancedSubmissionDaysRequired" />
@@ -199,7 +200,7 @@
 	    <property name="validationPattern" >
 	      <bean parent="AlphaNumericValidationPattern" />
 	    </property>
-	    <property name="required" value="true" />
+	    <!-- <property name="required" value="true" />  -->
 	    <property name="control" >
 	      <bean parent="SelectControlDefinition"
 	            p:businessObjectClass="org.kuali.kra.irb.actions.submit.ProtocolReviewType"
@@ -211,6 +212,30 @@
 	    </property>
 	    <property name="summary" value="Review Type" />
 	    <property name="description" value="The type of review." />
+    </bean>
+    
+    <bean id="CommitteeAttribute-CoiReviewTypeCode" parent="CommitteeAttribute-CoiReviewTypeCode-parentBean" />
+	<bean id="CommitteeAttribute-CoiReviewTypeCode-parentBean" abstract="true" parent="AttributeDefinition">
+	    <property name="name" value="coiReviewTypeCode" />
+	    <property name="forceUppercase" value="false" />
+	    <property name="label" value="COI Review Type" />
+	    <property name="shortLabel" value="COI Review Type" />
+	    <property name="maxLength" value="3" />
+	    <property name="validationPattern" >
+	      <bean parent="AlphaNumericValidationPattern" />
+	    </property>
+	    <!-- <property name="required" value="true" />  -->
+	    <property name="control" >
+	      <bean parent="SelectControlDefinition"
+	            p:businessObjectClass="org.kuali.kra.coi.CoiReviewType"
+	            p:valuesFinderClass="org.kuali.kra.lookup.keyvalue.ExtendedPersistableBusinessObjectValuesFinder"
+	            p:includeKeyInLabel="false"
+            	p:includeBlankRow="false"
+	            p:keyAttribute="reviewTypeCode"
+	            p:labelAttribute="description" />
+	    </property>
+	    <property name="summary" value="COI Review Type" />
+	    <property name="description" value="The type of COI review." />
     </bean>
 	
 	<bean id="CommitteeAttribute-MinimumMembersRequired" parent="CommitteeAttribute-MinimumMembersRequired-parentBean" />
@@ -370,6 +395,8 @@
 					            p:attributeName="committeeDescription" />
 				            <bean parent="FieldDefinition"
 					            p:attributeName="reviewTypeCode" />
+					        <bean parent="FieldDefinition"
+					            p:attributeName="coiReviewTypeCode" />
 						</list>
 					</property>
 				</bean>
@@ -403,6 +430,8 @@
 					p:attributeName="committeeDescription" />
 				<bean parent="FieldDefinition"
 					p:attributeName="reviewTypeCode" />
+				<bean parent="FieldDefinition"
+				    p:attributeName="coiReviewTypeCode" />
 				<bean parent="FieldDefinition"
 					p:attributeName="committeeMemberships.membershipRoles.membershipRoleCode" />
 				<bean parent="FieldDefinition"
