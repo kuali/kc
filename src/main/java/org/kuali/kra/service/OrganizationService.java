@@ -15,7 +15,11 @@
  */
 package org.kuali.kra.service;
 
+import java.util.List;
+
 import org.kuali.kra.bo.Organization;
+import org.kuali.kra.bo.OrganizationCorrespondent;
+import org.kuali.kra.bo.UnitAdministrator;
 
 public interface OrganizationService {
 
@@ -35,4 +39,14 @@ public interface OrganizationService {
      * null value is returned if organization not found
      */
     public Organization getOrganization(String organizationId);
+    
+    /**
+     * This method returns a list of OrganizationCorrespondent
+     * objects based on a passed organization id.
+     * @param organizationId identifier for the organization
+     * @return list of OrganizationCorrespondent objects
+     * null value is returned if organization not found
+     */
+    public List<OrganizationCorrespondent> retrieveOrganizationCorrespondentsByOrganizationId(String organizationId);
+
 }

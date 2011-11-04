@@ -27,6 +27,7 @@ public class KcKimAttributes extends KimAttributes {
     public static final String AWARD = "award";
     public static final String TIMEANDMONEY = "timeandmoney";
     public static final String UNIT_NUMBER = "unitNumber";
+    public static final String ORGANIZATION_ID = "organizationId";
     public static final String SUBUNITS = "subunits";
     public static final String NEGOTIATION = "negotiation";
     
