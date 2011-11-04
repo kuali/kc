@@ -30,6 +30,7 @@ import org.kuali.kra.coi.CoiDisclProject;
 import org.kuali.kra.coi.CoiDisclosure;
 import org.kuali.kra.coi.CoiDisclosureDocument;
 import org.kuali.kra.coi.CoiDisclosureForm;
+import org.kuali.kra.coi.certification.CertifyDisclosureEvent;
 import org.kuali.kra.coi.service.CoiPrintingService;
 import org.kuali.kra.infrastructure.Constants;
 import org.kuali.kra.infrastructure.KraServiceLocator;
@@ -158,35 +159,6 @@ public class CoiDisclosureAction extends CoiAction {
         return actionForward;
     }
 
-    
-    public ActionForward saveDisclosureCertification(ActionMapping mapping, ActionForm form, HttpServletRequest request,
-            HttpServletResponse response) throws Exception {
-
-        CoiDisclosureForm coiDisclosureForm = (CoiDisclosureForm) form;
-        CoiDisclosure disclosure = ((CoiDisclosureDocument)coiDisclosureForm.getDocument()).getCoiDisclosure();
-        if (checkRule(new CertifyDisclosureEvent("disclosureHelper.certifyDisclosure", disclosure))) {
-            disclosure.certifyDisclosure();
-        }
-        return mapping.findForward(Constants.MAPPING_BASIC);
-    }
-
-    
-    public ActionForward printDisclosureCertification(ActionMapping mapping, ActionForm form, HttpServletRequest request, HttpServletResponse response) throws Exception {
-System.out.println("\nNew printDisclosureCertification event occurred.... ");        
-        CoiDisclosureForm coiDisclosureForm = (CoiDisclosureForm) form;
-        CoiDisclosureDocument coiDisclosureDocument = coiDisclosureForm.getCoiDisclosureDocument();
-        CoiDisclosure coiDisclosure = coiDisclosureDocument.getCoiDisclosure();
-        DisclosurePerson selectedPerson = coiDisclosure.getDisclosurePersons().get(0);
-        CoiPrintingService printService = KraServiceLocator.getService(CoiPrintingService.class);
-        Map<String,Object> reportParameters = new HashMap<String,Object>();
-        reportParameters.put(CoiPrintingService.PRINT_CERTIFICATION_PERSON, selectedPerson);
-        reportParameters.put(CoiPrintingService.PRINT_CERTIFICATION_STATEMENT, coiDisclosure.getCertificationStatement());
-        reportParameters.put(CoiPrintingService.PRINT_CERTIFICATION_TIMESTAMP, coiDisclosure.getCertificationTimestamp());
-//TODO        AttachmentDataSource dataStream = printService.print(coiDisclosure, CoiPrintingService.PRINT_CERTIFICATION, reportParameters);
-//TODO        streamToResponse(dataStream, response);
-        return mapping.findForward(Constants.MAPPING_BASIC);
-    }
-    
     public ActionForward addProposal(ActionMapping mapping, ActionForm form, HttpServletRequest request,
             HttpServletResponse response) throws Exception {
 
