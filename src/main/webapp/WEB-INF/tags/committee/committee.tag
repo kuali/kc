@@ -57,7 +57,10 @@
                 <td align="left" valign="middle">
                 	<kul:htmlControlAttribute property="document.committeeList[0].committeeTypeCode" 
                 	                          attributeEntry="${committeeAttributes.committeeTypeCode}" 
-                	                          readOnlyAlternateDisplay="${KualiForm.document.committeeList[0].committeeType.description}"/>
+                	                          readOnlyAlternateDisplay="KualiForm.document.committeeList[0].committeeType.description}"/>
+                     <c:if test="${readOnly}">
+                         <input type="hidden" id="document.committeeList[0].committeeTypeCode"  value="${KualiForm.document.committeeList[0].committeeTypeCode}" />
+                     </c:if>
                 </td>
             </tr>
             
@@ -80,19 +83,31 @@
                 
                 <th><div align="right"><kul:htmlAttributeLabel attributeEntry="${committeeAttributes.reviewTypeCode}" /></div></th>
                 <td align="left" valign="middle">
+                  <div id="coireview">
+                    <c:if test="${readOnly}">
+                	    ${KualiForm.document.committeeList[0].coiReviewType.description}
+                    </c:if>
+                    <c:if test="${!readOnly}">
+                	    <kul:htmlControlAttribute property="document.committeeList[0].coiReviewTypeCode" attributeEntry="${committeeAttributes.coiReviewTypeCode}" />
+                    </c:if>
+                    </div>
+                  <div id="irbreview">
                     <c:if test="${readOnly}">
                 	    ${KualiForm.document.committeeList[0].reviewType.description}
                     </c:if>
                     <c:if test="${!readOnly}">
                 	    <kul:htmlControlAttribute property="document.committeeList[0].reviewTypeCode" attributeEntry="${committeeAttributes.reviewTypeCode}" />
                     </c:if>
+                    </div>
                 </td>
             </tr>
             
             <tr>
 		        <th><div align="right"><kul:htmlAttributeLabel attributeEntry="${committeeAttributes.maxProtocols}" /></div></th>
                 <td>
+                    <c:if test="${!readOnly or KualiForm.document.committeeList[0].committeeTypeCode != '2'}">
                     <kul:htmlControlAttribute property="document.committeeList[0].maxProtocols" attributeEntry="${committeeAttributes.maxProtocols}" />
+                    </c:if>
                 </td>
                 <th><div align="right"><nobr><kul:htmlAttributeLabel attributeEntry="${committeeAttributes.updateTimestamp}" /></nobr></div></th>
                 <td align="left" valign="middle">
