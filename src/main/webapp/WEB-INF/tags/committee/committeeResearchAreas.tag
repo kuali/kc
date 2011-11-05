@@ -19,7 +19,7 @@
 <c:set var="readOnly" value="${!KualiForm.committeeHelper.modifyCommittee}" />
 
 <kul:tab tabTitle="Area of Research" defaultOpen="true" tabErrorKey="document.committeeList[0].committeeResearchAreas.inactive.*,committeeResearchAreas*">
-	<div class="tab-container" align="center">
+	<div class="tab-container" align="center" id="researchAreaDiv">
     	<h3>
     		<span class="subhead-left">Area of Research</span>
     		<span class="subhead-right"><kul:help businessObjectClassName="org.kuali.kra.committee.bo.CommitteeResearchArea" altText="help"/></span>
