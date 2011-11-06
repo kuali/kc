@@ -8,7 +8,10 @@
   <bean id="NegotiationUnassociatedDetail-parentBean" abstract="true" parent="BusinessObjectEntry">
     <property name="businessObjectClass" value="org.kuali.kra.negotiations.bo.NegotiationUnassociatedDetail" />
 		<property name="objectLabel" value="NegotiationUnassociatedDetail-parentBean" />
-    <property name="titleAttribute" value="NegotiationAgreementType" />
+    <property name="titleAttribute" value="negotiationUnassociatedDetailId" />
+    <property name="lookupDefinition" >
+      <ref bean="NegotiationUnassociatedDetail-lookupDefinition" />
+    </property>
     <property name="attributes" >
       <list>
         <ref bean="NegotiationUnassociatedDetail-negotiationUnassociatedDetailId" />
@@ -208,5 +211,43 @@
     <property name="summary" value="Proposal Type Code" />
     <property name="description" value="Proposal Type Code" />
   </bean>
+  
+  
+  <!-- Business Object Lookup Definition -->
+	<bean id="NegotiationUnassociatedDetail-lookupDefinition" parent="NegotiationUnassociatedDetail-lookupDefinition-parentBean" />
+  	<bean id="NegotiationUnassociatedDetail-lookupDefinition-parentBean" abstract="true" parent="LookupDefinition">
+		<property name="title" value="Negotiation Unassociated Detail Lookup" />
+		<!-- <property name="lookupableID" value="negotiationLookupable" />  -->
+		<property name="menubar" value="&lt;a href=&quot;index.jsp&quot;&gt;Main&lt;/a&gt;" />
+
+		<property name="defaultSort" >
+		  <bean parent="SortDefinition">
+		  </bean>
+		</property>
+		<property name="lookupFields" >
+		  <list>
+		  	<bean p:attributeName="negotiationUnassociatedDetailId" parent="FieldDefinition" />
+            <bean p:attributeName="negotiationId" parent="FieldDefinition" />
+		    
+		  </list>
+		</property>
+		<property name="resultFields" >
+		  <list>
+            <bean p:attributeName="negotiationUnassociatedDetailId" parent="FieldDefinition" />
+            <bean p:attributeName="negotiationId" parent="FieldDefinition" />
+            <bean p:attributeName="title" parent="FieldDefinition" />
+            <bean p:attributeName="piPersonId" parent="FieldDefinition" />
+            <bean p:attributeName="piRolodexId" parent="FieldDefinition" />
+            <bean p:attributeName="leadUnitNumber" parent="FieldDefinition" />
+            <bean p:attributeName="sponsorCode" parent="FieldDefinition" />
+            <bean p:attributeName="primeSponsorCode" parent="FieldDefinition" />
+            <bean p:attributeName="sponsorAwardNumber" parent="FieldDefinition" />
+            <bean p:attributeName="contactAdminPersonId" parent="FieldDefinition" />
+            <bean p:attributeName="subAwardOrganizationId" parent="FieldDefinition" />
+
+		  </list>
+		</property>
+		<property name="resultSetLimit" value="50" />
+	</bean>
     
 </beans>

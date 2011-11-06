@@ -39,6 +39,7 @@
         <ref bean="Negotiation-associatedNegotiable.proposalTypeDescription"/>
         <ref bean="Negotiation-associatedNegotiable.leadUnitNumber"/>
         <ref bean="Negotiation-associatedNegotiable.leadUnitName"/>
+        <ref bean="Negotiation-associatedNegotiable.associatedDocumentId"/>
         <ref bean="Negotiation-activities.followupDate"/>
       </list>
     </property>
@@ -267,6 +268,11 @@
     <property name="description" value="Negotiation Assocation ID" />
   </bean>
   
+  <bean id="Negotiation-associatedNegotiable.associatedDocumentId" parent="Negotiation-associatedNegotiable.associatedDocumentId-parentBean"/>
+  <bean id="Negotiation-associatedNegotiable.associatedDocumentId-parentBean" parent="Negotiation-associatedDocumentId">
+  	<property name="name" value="associatedNegotiable.associatedDocumentId" />
+  </bean>
+  
   <bean id="Negotiation-negotiationAge" parent="Negotiation-negotiationAge-parentBean" />
   <bean id="Negotiation-negotiationAge-parentBean" abstract="true" parent="AttributeDefinition">
     <property name="name" value="negotiationAge" />
@@ -379,7 +385,7 @@
 		  <list>
             <bean p:attributeName="negotiationId" parent="FieldDefinition" />
 		  	<bean p:attributeName="negotiationAssociationType.description" parent="FieldDefinition" />
-		    <bean p:attributeName="associatedDocumentId" parent="FieldDefinition" />
+		    <bean p:attributeName="associatedNegotiable.associatedDocumentId" parent="FieldDefinition" />
 		    <bean p:attributeName="negotiationAge" parent="FieldDefinition" />
 		    <bean p:attributeName="associatedNegotiable.piName" parent="FieldDefinition" />
 		    <bean p:attributeName="associatedNegotiable.sponsorCode" parent="FieldDefinition" />
