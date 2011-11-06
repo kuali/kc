@@ -64,6 +64,13 @@ public class UnitAdministratorMaintenanceDocumentRule extends KraMaintenanceDocu
         Unit newUnit = newUnitAdministrator.getUnit();
         UnitAdministratorType newUnitAdministratorType = newUnitAdministrator.getUnitAdministratorType();
         
+        // skip validation if the object is being deleted.  
+        if (document.getNewMaintainableObject().getMaintenanceAction().equals("Delete") ||
+           (document.getOldMaintainableObject().getMaintenanceAction().equals("Delete")))
+        {
+            return true;
+        }
+       
         if (!newUnitAdministratorType.getMultiplesFlag()) {
             Map<String, String> fieldValues = new HashMap<String, String>();
             fieldValues.put("unitNumber", newUnit.getUnitNumber());
