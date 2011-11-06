@@ -349,9 +349,10 @@ public class NegotiationNegotiationAction extends NegotiationAction {
         params.put("NEGOTIATION_ID", negotiation.getNegotiationId());
 
         Negotiation dbNegotiation = (Negotiation) this.getBusinessObjectService().findByPrimaryKey(Negotiation.class, params);
-
-        negotiation.setNegotiationAssociationTypeId(dbNegotiation.getNegotiationAssociationType().getId());
-        negotiation.setNegotiationAssociationType(dbNegotiation.getNegotiationAssociationType());
+        if (dbNegotiation !=  null) {
+            negotiation.setNegotiationAssociationTypeId(dbNegotiation.getNegotiationAssociationType().getId());
+            negotiation.setNegotiationAssociationType(dbNegotiation.getNegotiationAssociationType());
+        }
         return actionForward;
     }
 
