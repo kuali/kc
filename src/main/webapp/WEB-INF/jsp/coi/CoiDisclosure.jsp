@@ -154,7 +154,7 @@
     <%-- <kra-coi:awardProjects /> --%>
     <kra-coi:newAwardFinancialEntities />
 </c:if>
-<c:if test="${KualiForm.document.coiDisclosureList[0].moduleCode=='11'}" >
+<c:if test="${KualiForm.document.coiDisclosureList[0].moduleCode=='11' or KualiForm.document.coiDisclosureList[0].moduleCode=='15'}" >
     <%-- <kra-coi:proposalProjects /> --%>
     <kra-coi:newProposalFinancialEntities />
 </c:if>
