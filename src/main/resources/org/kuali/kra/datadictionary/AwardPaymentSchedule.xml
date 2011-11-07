@@ -168,13 +168,12 @@
 		<property name="forceUppercase" value="false" />
 		<property name="label" value="Comments" />
 		<property name="shortLabel" value="Comments" />
-		<property name="maxLength" value="50" />
+		<property name="maxLength" value="200" />
 		<property name="validationPattern" >
 			<bean parent="AnyCharacterValidationPattern" p:allowWhitespace="true"/>
 		</property>
 		<property name="control" >
-			<bean parent="TextControlDefinition"
-				p:size="10" />
+			<bean parent="TextareaControlDefinition" p:rows="1" p:cols="30" />
 		</property>
 		<property name="summary" value="Comments" />
 		<property name="description" value="Comments" />
