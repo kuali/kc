@@ -71,6 +71,7 @@
         <property name="versioningService" ref="versioningService" />
         <property name="parameterService" ref="parameterService" />
         <property name="dateTimeService" ref="dateTimeService" />
+        <property name="sponsorHierarchyDao" ref="sponsorHierarchyDao" />
     </bean>
     
 
