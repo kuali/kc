@@ -32,14 +32,6 @@ import org.kuali.kra.test.infrastructure.KcUnitTestBase;
 import org.kuali.rice.kns.UserSession;
 import org.kuali.rice.kns.util.GlobalVariables;
 
-//@PerSuiteUnitTestData(
-//        @UnitTestData(
-//            sqlFiles = {
-//                @UnitTestFile(filename = "classpath:sql/dml/load_protocolpersonnselservicetest_data.sql", delimiter = ";")
-//            }
-//            )
-//            )
-
 public class ProtocolPersonnelServiceTest extends KcUnitTestBase {
     protected static final String CO_INVESTIGATOR_PERSON_ID = "10000000003";
     protected static final String CO_INVESTIGATOR_NAME = "Nicholas Majors";
@@ -72,8 +64,6 @@ public class ProtocolPersonnelServiceTest extends KcUnitTestBase {
     
     @After
     public void tearDown() throws Exception {
-//        SQLDataLoader testDataUnloader = new SQLDataLoader("classpath:sql/dml/clear_protocolpersonnselservicetest_data.sql", ";");
-//        testDataUnloader.runSql();
         GlobalVariables.setUserSession(null);
         service = null;
         protocolPersonnelService = null;

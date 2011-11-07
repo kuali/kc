@@ -24,14 +24,6 @@ import org.kuali.kra.infrastructure.KraServiceLocator;
 import org.kuali.kra.service.ArgValueLookupService;
 import org.kuali.kra.test.infrastructure.KcUnitTestBase;
 
-//@PerTestUnitTestData(
-//        @UnitTestData(
-//            sqlFiles = {
-//                 @UnitTestFile(filename = "classpath:sql/dml/load_ARG_VALUE_LOOKUP.sql", delimiter = ";")
-//                }
-//        )
-//)
-
 public class ArgValueLookupServiceImplTest extends KcUnitTestBase{
 
     private ArgValueLookupService argValueLookupService = null;

@@ -31,14 +31,6 @@ import org.kuali.kra.irb.correspondence.ProtocolCorrespondenceType;
 import org.kuali.kra.test.infrastructure.KcUnitTestBase;
 import org.kuali.rice.kns.service.BusinessObjectService;
 
-/*
-@PerSuiteUnitTestData(
-        @UnitTestData(
-                sqlFiles = {
-                        @UnitTestFile(filename = "classpath:sql/dml/load_PROTO_CORRESP_TYPE.sql", delimiter = ";")
-                }
-       )
-    )*/
 public class ProtocolActionTypeToCorrespondenceTemplateServiceTest extends KcUnitTestBase {
     
     ProtocolActionTypeToCorrespondenceTemplateService service;
