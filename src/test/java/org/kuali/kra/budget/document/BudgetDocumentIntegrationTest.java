@@ -45,7 +45,7 @@ public class BudgetDocumentIntegrationTest {
         Date fiscalYearStart = budget.loadFiscalYearStart();
         
         Calendar cal = GregorianCalendar.getInstance();
-        cal.set(2000, Calendar.JULY, 1, 0, 0, 0); // test data set via load_system_params.sql
+        cal.set(2000, Calendar.JULY, 1, 0, 0, 0);
         
         // a small delta has resulted during testing, but always less than a second. Why? I have no idea.
         Assert.assertTrue(Math.abs(cal.getTimeInMillis() - fiscalYearStart.getTime()) < MILLIS_PER_SECOND); 

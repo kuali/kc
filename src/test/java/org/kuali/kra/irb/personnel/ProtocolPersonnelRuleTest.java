@@ -24,16 +24,7 @@ import org.kuali.kra.irb.ProtocolDocument;
 import org.kuali.kra.irb.test.ProtocolRuleTestBase;
 import org.kuali.rice.kns.util.ErrorMap;
 import org.kuali.rice.kns.util.GlobalVariables;
-import org.kuali.rice.test.data.PerSuiteUnitTestData;
-import org.kuali.rice.test.data.UnitTestData;
-import org.kuali.rice.test.data.UnitTestFile;
 
-//@PerSuiteUnitTestData(@UnitTestData(sqlFiles = {
-//        @UnitTestFile(filename = "classpath:sql/dml/load_PROTOCOL_PERSON_ROLES.sql", delimiter = ";"),
-//        @UnitTestFile(filename = "classpath:sql/dml/load_PROTOCOL_PERSON_ROLE_MAPPING.sql", delimiter = ";"),
-//        @UnitTestFile(filename = "classpath:sql/dml/load_protocol_status.sql", delimiter = ";"),
-//        @UnitTestFile(filename = "classpath:sql/dml/load_PROTOCOL_ORG_TYPE.sql", delimiter = ";"),
-//        @UnitTestFile(filename = "classpath:sql/dml/load_protocol_type.sql", delimiter = ";") }))
 public class ProtocolPersonnelRuleTest extends ProtocolRuleTestBase {
     private ProtocolPersonnelRuleBase rule;
     private static final String CO_INVESTIGATOR_PERSON_ID = "10000000003";

@@ -24,21 +24,12 @@ import org.kuali.kra.infrastructure.Constants;
 import org.kuali.kra.infrastructure.KeyConstants;
 import org.kuali.kra.infrastructure.KraServiceLocator;
 import org.kuali.kra.irb.ProtocolDocument;
-import org.kuali.kra.irb.protocol.location.AddProtocolLocationEvent;
-import org.kuali.kra.irb.protocol.location.ProtocolLocation;
-import org.kuali.kra.irb.protocol.location.ProtocolLocationRule;
-import org.kuali.kra.irb.protocol.location.ProtocolOrganizationType;
 import org.kuali.kra.irb.test.ProtocolRuleTestBase;
 import org.kuali.rice.kns.service.BusinessObjectService;
 import org.kuali.rice.kns.util.ErrorMessage;
 import org.kuali.rice.kns.util.GlobalVariables;
 import org.kuali.rice.kns.util.TypedArrayList;
-import org.kuali.rice.test.data.PerSuiteUnitTestData;
-import org.kuali.rice.test.data.UnitTestData;
-import org.kuali.rice.test.data.UnitTestFile;
 
-//@PerSuiteUnitTestData(@UnitTestData(sqlFiles = {
-//        @UnitTestFile(filename = "classpath:sql/dml/load_PROTOCOL_ORG_TYPE.sql", delimiter = ";")}))
 public class ProtocolLocationRuleTest extends ProtocolRuleTestBase {
 
     private static final String NEW_PROTOCOL_LOCATION = "protocolHelper.newProtocolLocation";

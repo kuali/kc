@@ -16,8 +16,6 @@
 package org.kuali.kra.irb.actions.submit;
 
 import java.util.ArrayList;
-import java.util.Arrays;
-import java.util.HashMap;
 import java.util.List;
 
 import org.jmock.Expectations;
@@ -36,7 +34,6 @@ import org.kuali.kra.irb.ProtocolDocument;
 import org.kuali.kra.irb.personnel.ProtocolPerson;
 import org.kuali.kra.irb.test.ProtocolRuleTestBase;
 import org.kuali.rice.kew.exception.WorkflowException;
-import org.kuali.rice.kns.service.BusinessObjectService;
 import org.kuali.rice.kns.service.ParameterService;
 import org.kuali.rice.kns.util.GlobalVariables;
 
@@ -45,17 +42,6 @@ import org.kuali.rice.kns.util.GlobalVariables;
  * 
  * @author Kuali Research Administration Team (kualidev@oncourse.iu.edu)
  */
-// @PerSuiteUnitTestData(
-// @UnitTestData(
-// sqlFiles = {
-// @UnitTestFile(filename = "classpath:sql/dml/load_SUBMISSION_TYPE.sql", delimiter = ";")
-// ,@UnitTestFile(filename = "classpath:sql/dml/load_protocol_review_type.sql", delimiter = ";")
-// ,@UnitTestFile(filename = "classpath:sql/dml/load_PROTOCOL_REVIEWER_TYPE.sql", delimiter = ";")
-// ,@UnitTestFile(filename = "classpath:sql/dml/load_EXEMPT_STUDIES_CHECKLIST.sql", delimiter = ";")
-// ,@UnitTestFile(filename = "classpath:sql/dml/load_EXPEDITED_REVIEW_CHECKLIST.sql", delimiter = ";")
-// }
-// )
-// )
 public class ProtocolSubmitActionRuleTest extends ProtocolRuleTestBase {
 
     private Mockery context = new JUnit4Mockery();

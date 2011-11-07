@@ -16,19 +16,15 @@
 package org.kuali.kra.committee.rules;
 
 import java.sql.Date;
-import java.util.ArrayList;
 
 import org.junit.After;
 import org.junit.Before;
 import org.junit.Test;
-import org.kuali.kra.bo.ResearchArea;
 import org.kuali.kra.committee.bo.CommitteeMembership;
 import org.kuali.kra.committee.bo.CommitteeMembershipExpertise;
 import org.kuali.kra.committee.bo.CommitteeMembershipRole;
 import org.kuali.kra.committee.document.CommitteeDocument;
 import org.kuali.kra.infrastructure.KeyConstants;
-import org.kuali.kra.irb.ProtocolDocument;
-import org.kuali.kra.irb.protocol.research.ProtocolResearchArea;
 import org.kuali.rice.kns.util.ErrorMap;
 import org.kuali.rice.kns.util.GlobalVariables;
 
