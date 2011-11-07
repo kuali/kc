@@ -1,8 +1,0 @@
-/* sequence for proposal number eps_proposal table */
-CREATE SEQUENCE SEQ_PROPOSAL_NUMBER_KRA
-  START WITH 1
-  MAXVALUE 99999999
-  MINVALUE 1
-  NOCYCLE
-  NOCACHE
-  NOORDER;
