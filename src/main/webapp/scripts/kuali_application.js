@@ -3017,7 +3017,7 @@ function updateNotificationRecipients(moduleCode) {
 }
 
 function updateNotificationRecipients_Callback(data) {
-	alert(data);
+	//alert(data);
 	
 	var element = document.getElementById('document.newMaintainableObject.add.notificationTypeRecipients.roleName');
 	
