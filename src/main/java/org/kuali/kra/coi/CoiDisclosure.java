@@ -479,6 +479,20 @@ public class CoiDisclosure extends KraPersistableBusinessObjectBase implements S
         return StringUtils.equals(MANUAL_DISCL_MODULE_CODE, this.getModuleCode());
     }
 
+    public String getCompleteMessage() {
+        String completeMessage = "Disclosure is complete";
+        if (CollectionUtils.isNotEmpty(this.getCoiDiscDetails())) {
+            for (CoiDiscDetail coiDiscDetail : this.getCoiDiscDetails()) {
+                if (StringUtils.isBlank(coiDiscDetail.getEntityStatusCode())) {
+                    completeMessage = "Disclosure is Not complete";
+                    break;
+                }
+                
+            }
+        }
+        return completeMessage;
+    }
+
     @Override
     public void setSequenceOwner(CoiDisclosure newlyVersionedOwner) {
         // TODO Auto-generated method stub
