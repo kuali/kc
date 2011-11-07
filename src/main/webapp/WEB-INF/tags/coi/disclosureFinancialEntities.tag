@@ -36,6 +36,9 @@
                     <c:when test="${disclProject.proposalEvent}">
                         <kra-coi:devProposalFinancialEntity disclProject="${disclProject}"  idx="${status.index}"/>	            
                     </c:when>
+                    <c:when test="${disclProject.institutionalProposalEvent}">
+                        <kra-coi:devProposalFinancialEntity disclProject="${disclProject}"  idx="${status.index}"/>	            
+                    </c:when>
                     <c:when test="${disclProject.awardEvent}">
                         <kra-coi:awardFinancialEntity disclProject="${disclProject}"  idx="${status.index}"/>	            
                     </c:when>

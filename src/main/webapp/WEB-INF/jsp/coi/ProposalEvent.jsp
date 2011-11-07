@@ -84,6 +84,40 @@
                     </td>
                </tr>
         </c:forEach>
+        <c:forEach items="${KualiForm.disclosureHelper.newInstitutionalProposals}" var="proposal" varStatus="status">
+               <tr>
+                  <td align="left" valign="middle">
+					<div align="left">
+                		${proposal.proposalNumber}
+					</div>
+				  </td>
+                  <td align="left" valign="middle">
+					<div align="left">
+                		${proposal.title}
+					</div>
+				  </td>
+                  <td align="left" valign="middle">
+					<div align="left">
+                		${proposal.sponsor.sponsorName} 
+					</div>
+				  </td>
+                  <td align="left" valign="middle">
+					<div align="left">
+                 	    ${proposal.requestedStartDateInitial}
+					</div>
+					</td>
+                  <td align="left" valign="middle">
+					<div align="left">
+                 	    ${proposal.requestedEndDateInitial}
+					</div>
+					</td>
+                    <td>
+                      <div align="center">
+                        <a title="New Proposal Disclosure" href="coiDisclosure.do?methodToCall=newProjectDisclosure&disclosureHelper.moduleCode=15&disclosureHelper.proposalType=ip&disclosureHelper.newProjectId=${proposal.proposalNumber}&docTypeName=CoiDisclosureDocument">Report Coi</a>
+                       </div>
+                    </td>
+               </tr>
+        </c:forEach>
             </table>   
     </div> 
 </kul:tab>

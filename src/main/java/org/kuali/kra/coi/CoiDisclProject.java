@@ -32,6 +32,7 @@ public class CoiDisclProject extends KraPersistableBusinessObjectBase {
      */
     private static final long serialVersionUID = -870946478393121916L;
     public static final String PROPOSAL_EVENT = "1";
+    public static final String INSTITUTIONAL_PROPOSAL_EVENT = "4";
     public static final String AWARD_EVENT = "2";
     public static final String PROTOCOL_EVENT = "3";
     private Long coiDisclProjectsId; 

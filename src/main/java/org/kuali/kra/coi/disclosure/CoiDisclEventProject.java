@@ -23,6 +23,7 @@ import org.kuali.kra.award.home.Award;
 import org.kuali.kra.bo.KraPersistableBusinessObjectBase;
 import org.kuali.kra.coi.CoiDiscDetail;
 import org.kuali.kra.coi.CoiDisclProject;
+import org.kuali.kra.institutionalproposal.home.InstitutionalProposal;
 import org.kuali.kra.irb.Protocol;
 import org.kuali.kra.proposaldevelopment.bo.DevelopmentProposal;
 
@@ -82,6 +83,10 @@ public class CoiDisclEventProject implements Serializable {
         return StringUtils.equals(CoiDisclProject.PROPOSAL_EVENT, this.eventType);
     }
     
+    public boolean isInstitutionalProposalEvent() {
+        return StringUtils.equals(CoiDisclProject.INSTITUTIONAL_PROPOSAL_EVENT, this.eventType);
+    }
+    
     public boolean isAwardEvent() {
         return StringUtils.equals(CoiDisclProject.AWARD_EVENT, this.eventType);
     }
@@ -99,7 +104,11 @@ public class CoiDisclEventProject implements Serializable {
         } else if (isProtocolEvent()) {
             projectId = ((Protocol)this.eventProjectBo).getProtocolNumber();
         } else {
-            projectId = ((DevelopmentProposal)this.eventProjectBo).getProposalNumber();
+            if (eventProjectBo instanceof DevelopmentProposal) {
+                projectId = ((DevelopmentProposal)this.eventProjectBo).getProposalNumber();
+            } else {
+                projectId = ((InstitutionalProposal)this.eventProjectBo).getProposalNumber();
+            }
         }
         return projectId;
     }
