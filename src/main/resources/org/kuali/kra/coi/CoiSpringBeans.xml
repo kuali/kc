@@ -69,6 +69,8 @@
         <property name="financialEntityService" ref="financialEntityService" />
         <property name="protocolFinderDao" ref="protocolFinderDao" />
         <property name="versioningService" ref="versioningService" />
+        <property name="parameterService" ref="parameterService" />
+        <property name="dateTimeService" ref="dateTimeService" />
     </bean>
     
 

@@ -58,6 +58,7 @@ public class CoiDisclosure extends KraPersistableBusinessObjectBase implements S
     private static final String DISCLOSURE_PENDING = "100";
     public static final String MANUAL_DISCL_MODULE_CODE = "14";
     public static final String PROPOSAL_DISCL_MODULE_CODE = "11";
+    public static final String INSTITUTIONAL_PROPOSAL_DISCL_MODULE_CODE = "15";
     public static final String PROTOCOL_DISCL_MODULE_CODE = "12";
     public static final String AWARD_DISCL_MODULE_CODE = "1";
     public static final String ANNUAL_DISCL_MODULE_CODE = "13";
@@ -456,6 +457,10 @@ public class CoiDisclosure extends KraPersistableBusinessObjectBase implements S
 
     public boolean isProposalEvent() {
         return StringUtils.equals(PROPOSAL_DISCL_MODULE_CODE, this.getModuleCode());
+    }
+    
+    public boolean isInstitutionalProposalEvent() {
+        return StringUtils.equals(INSTITUTIONAL_PROPOSAL_DISCL_MODULE_CODE, this.getModuleCode());
     }
     
     public boolean isProtocolEvent() {
