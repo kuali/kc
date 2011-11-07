@@ -305,6 +305,7 @@ public class ProtocolOnlineReviewAction extends ProtocolAction implements AuditM
         ProtocolForm protocolForm = (ProtocolForm) form;
         ProtocolOnlineReviewDocument prDoc = protocolForm.getOnlineReviewsActionHelper().getDocumentFromHelperMap(onlineReviewDocumentNumber);
         ReviewCommentsBean reviewCommentsBean = protocolForm.getOnlineReviewsActionHelper().getReviewCommentsBeanFromHelperMap(onlineReviewDocumentNumber);
+        ReviewAttachmentsBean reviewAttachmentsBean = protocolForm.getOnlineReviewsActionHelper().getReviewAttachmentsBeanFromHelperMap(onlineReviewDocumentNumber);
         boolean isApproveReview = StringUtils.equals(ProtocolOnlineReviewStatus.SAVED_STATUS_CD, prDoc.getProtocolOnlineReview().getProtocolOnlineReviewStatusCode());
         //check to see if we are the reviewer and this is an approval to the irb admin.
         
@@ -328,6 +329,8 @@ public class ProtocolOnlineReviewAction extends ProtocolAction implements AuditM
             //nothing to do here.
         } else {
             getReviewCommentsService().saveReviewComments(reviewCommentsBean.getReviewComments(), reviewCommentsBean.getDeletedReviewComments());
+            getReviewCommentsService().saveReviewAttachments(reviewAttachmentsBean.getReviewAttachments(), reviewAttachmentsBean.getDeletedReviewAttachments());           
+
             prDoc.getProtocolOnlineReview().addActionPerformed("Approve");
             getDocumentService().saveDocument(prDoc);
             getDocumentService().approveDocument(prDoc, "", null);
