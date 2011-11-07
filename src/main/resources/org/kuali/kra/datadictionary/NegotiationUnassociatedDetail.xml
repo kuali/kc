@@ -12,6 +12,9 @@
     <property name="lookupDefinition" >
       <ref bean="NegotiationUnassociatedDetail-lookupDefinition" />
     </property>
+    <property name="inquiryDefinition" >
+      <ref bean="NegotiationUnassociatedDetail-inquiryDefinition" />
+    </property>
     <property name="attributes" >
       <list>
         <ref bean="NegotiationUnassociatedDetail-negotiationUnassociatedDetailId" />
@@ -210,6 +213,34 @@
     <property name="shortLabel" value="Proposal Type Code" />
     <property name="summary" value="Proposal Type Code" />
     <property name="description" value="Proposal Type Code" />
+  </bean>
+  
+  <bean id="NegotiationUnassociatedDetail-inquiryDefinition" parent="NegotiationUnassociatedDetail-inquiryDefinition-parentBean" />
+  <bean id="NegotiationUnassociatedDetail-inquiryDefinition-parentBean" abstract="true" parent="InquiryDefinition">
+    <property name="title" value="Award" />
+    <property name="inquirySections" >
+      <list>
+        <bean parent="InquirySectionDefinition">
+          <property name="title" value="Negotiation Unassociated Detail Inquiry" />
+          <property name="numberOfColumns" value="2" />
+          <property name="inquiryFields" >
+            <list>
+				<bean p:attributeName="negotiationUnassociatedDetailId" p:forceInquiry="true" parent="FieldDefinition" />
+	            <bean p:attributeName="negotiationId" parent="FieldDefinition" />
+	            <bean p:attributeName="title" parent="FieldDefinition" />
+	            <bean p:attributeName="piPersonId" parent="FieldDefinition" />
+	            <bean p:attributeName="piRolodexId" parent="FieldDefinition" />
+	            <bean p:attributeName="leadUnitNumber" parent="FieldDefinition" />
+	            <bean p:attributeName="sponsorCode" parent="FieldDefinition" />
+	            <bean p:attributeName="primeSponsorCode" parent="FieldDefinition" />
+	            <bean p:attributeName="sponsorAwardNumber" parent="FieldDefinition" />
+	            <bean p:attributeName="contactAdminPersonId" parent="FieldDefinition" />
+	            <bean p:attributeName="subAwardOrganizationId" parent="FieldDefinition" />
+            </list>
+          </property>
+        </bean>
+      </list>
+    </property>
   </bean>
   
   
