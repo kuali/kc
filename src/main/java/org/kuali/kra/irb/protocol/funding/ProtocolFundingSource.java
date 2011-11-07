@@ -174,4 +174,8 @@ public class ProtocolFundingSource extends ProtocolAssociate {
         }
         return true;
     }
+    
+    public boolean isSponsorFunding() {
+        return (StringUtils.equals(fundingSourceTypeCode, FundingSourceType.SPONSOR));
+    }
 }

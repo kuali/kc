@@ -187,7 +187,7 @@ public class CoiDisclosureAction extends CoiAction {
         return actionForward;
     }
 
-    public ActionForward addProposal(ActionMapping mapping, ActionForm form, HttpServletRequest request,
+    public ActionForward addManualProject(ActionMapping mapping, ActionForm form, HttpServletRequest request,
             HttpServletResponse response) throws Exception {
 
         CoiDisclosureForm coiDisclosureForm = (CoiDisclosureForm) form;
