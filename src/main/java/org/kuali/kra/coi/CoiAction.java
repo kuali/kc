@@ -61,36 +61,6 @@ public abstract class CoiAction extends KraTransactionalDocumentActionBase {
         return mapping.findForward("disclosureActions");
     }
 
-    @Override
-    public ActionForward docHandler(ActionMapping mapping, ActionForm form, HttpServletRequest request, HttpServletResponse response)
-            throws Exception {
-        CoiDisclosureForm coiDisclosureForm = (CoiDisclosureForm) form;
-        String command = coiDisclosureForm.getCommand();
-        ActionForward forward = mapping.findForward(Constants.MAPPING_BASIC);
-        String moduleCode = CoiDisclosure.ANNUAL_DISCL_MODULE_CODE; 
-        if (command.startsWith(KEWConstants.INITIATE_COMMAND)) {
-            if (command.endsWith(CoiDisclosure.PROPOSAL_DISCL_MODULE_CODE)) {
-                moduleCode = CoiDisclosure.PROPOSAL_DISCL_MODULE_CODE;
-            } else if (command.endsWith(CoiDisclosure.PROTOCOL_DISCL_MODULE_CODE)) {
-                moduleCode = CoiDisclosure.PROTOCOL_DISCL_MODULE_CODE;
-            } else if (command.endsWith(CoiDisclosure.AWARD_DISCL_MODULE_CODE)) {
-                moduleCode = CoiDisclosure.AWARD_DISCL_MODULE_CODE;
-            } else if (command.endsWith(CoiDisclosure.MANUAL_DISCL_MODULE_CODE)) {
-                moduleCode = CoiDisclosure.MANUAL_DISCL_MODULE_CODE;
-            }
-            coiDisclosureForm.setCommand(KEWConstants.INITIATE_COMMAND);
-            forward = super.docHandler(mapping, form, request, response);
-            CoiDisclosure coiDisclosure = getCoiDisclosureService().versionCoiDisclosure();
-            if (coiDisclosure != null) {
-                coiDisclosureForm.getCoiDisclosureDocument().setCoiDisclosure(coiDisclosure);
-            }
-            coiDisclosureForm.getCoiDisclosureDocument().getCoiDisclosure().setModuleCode(moduleCode);
-        } else {
-            forward = super.docHandler(mapping, form, request, response);            
-        }
-
-        return forward;
-    }
 
     protected CoiDisclosureService getCoiDisclosureService() {
         return KraServiceLocator.getService(CoiDisclosureService.class);

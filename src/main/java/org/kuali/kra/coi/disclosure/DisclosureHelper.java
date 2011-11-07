@@ -29,6 +29,7 @@ import org.kuali.kra.coi.CoiDisclosureForm;
 import org.kuali.kra.coi.personfinancialentity.FinEntityDataMatrixBean;
 import org.kuali.kra.coi.personfinancialentity.FinancialEntityService;
 import org.kuali.kra.infrastructure.KraServiceLocator;
+import org.kuali.kra.institutionalproposal.home.InstitutionalProposal;
 import org.kuali.kra.irb.Protocol;
 import org.kuali.kra.proposaldevelopment.bo.DevelopmentProposal;
 import org.kuali.rice.kns.service.ParameterService;
@@ -59,9 +60,11 @@ public class DisclosureHelper implements Serializable {
     private String newProposalNumber;
     private Long newAwardId;
     private List<DevelopmentProposal> newProposals;
+    private List<InstitutionalProposal> newInstitutionalProposals;
     private List<Award> newAwards;
     private String newProjectId;
     private String moduleCode;
+    private String proposalType;
 
     public DisclosureHelper(CoiDisclosureForm form) {
         this.form = form;
@@ -262,6 +265,22 @@ public class DisclosureHelper implements Serializable {
 
     public void setModuleCode(String moduleCode) {
         this.moduleCode = moduleCode;
+    }
+
+    public List<InstitutionalProposal> getNewInstitutionalProposals() {
+        return newInstitutionalProposals;
+    }
+
+    public void setNewInstitutionalProposals(List<InstitutionalProposal> newInstitutionalProposals) {
+        this.newInstitutionalProposals = newInstitutionalProposals;
+    }
+
+    public String getProposalType() {
+        return proposalType;
+    }
+
+    public void setProposalType(String proposalType) {
+        this.proposalType = proposalType;
     }
 
 }

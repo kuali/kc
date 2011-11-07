@@ -15,6 +15,7 @@
  */
 package org.kuali.kra.coi.disclosure;
 
+import java.sql.Date;
 import java.util.ArrayList;
 import java.util.Collections;
 import java.util.HashMap;
@@ -24,6 +25,7 @@ import java.util.Map;
 import org.apache.commons.collections.CollectionUtils;
 import org.apache.commons.lang.StringUtils;
 import org.kuali.kra.award.contacts.AwardPerson;
+import org.kuali.kra.award.document.AwardDocument;
 import org.kuali.kra.award.home.Award;
 import org.kuali.kra.bo.KcPerson;
 import org.kuali.kra.bo.KraPersistableBusinessObjectBase;
@@ -35,15 +37,22 @@ import org.kuali.kra.coi.DisclosureReporterUnit;
 import org.kuali.kra.coi.personfinancialentity.FinancialEntityService;
 import org.kuali.kra.coi.personfinancialentity.PersonFinIntDisclosure;
 import org.kuali.kra.infrastructure.Constants;
+import org.kuali.kra.institutionalproposal.contacts.InstitutionalProposalPerson;
+import org.kuali.kra.institutionalproposal.document.InstitutionalProposalDocument;
+import org.kuali.kra.institutionalproposal.home.InstitutionalProposal;
 import org.kuali.kra.irb.Protocol;
+import org.kuali.kra.irb.ProtocolDocument;
 import org.kuali.kra.irb.ProtocolFinderDao;
 import org.kuali.kra.irb.personnel.ProtocolPerson;
 import org.kuali.kra.proposaldevelopment.bo.DevelopmentProposal;
 import org.kuali.kra.proposaldevelopment.bo.ProposalPerson;
+import org.kuali.kra.proposaldevelopment.document.ProposalDevelopmentDocument;
 import org.kuali.kra.service.KcPersonService;
 import org.kuali.kra.service.VersionException;
 import org.kuali.kra.service.VersioningService;
 import org.kuali.rice.kns.service.BusinessObjectService;
+import org.kuali.rice.kns.service.DateTimeService;
+import org.kuali.rice.kns.service.ParameterService;
 import org.kuali.rice.kns.util.GlobalVariables;
 
 public class CoiDisclosureServiceImpl implements CoiDisclosureService {
@@ -53,6 +62,21 @@ public class CoiDisclosureServiceImpl implements CoiDisclosureService {
     private FinancialEntityService financialEntityService;
     private ProtocolFinderDao protocolFinderDao;
     private VersioningService versioningService;
+    private ParameterService parameterService;
+    private DateTimeService dateTimeService;
+
+    private static final String PROTOCOL_DISCLOSE_STATUS_CODES = "PROTOCOL_DISCLOSE_STATUS_CODES";
+    private static final String PROPOSAL_DISCLOSE_STATUS_CODES = "PROPOSAL_DISCLOSE_STATUS_CODES";
+    private static final String INSTITUTIONAL_PROPOSAL_DISCLOSE_STATUS_CODES = "INSTITUTIONAL_PROPOSAL_DISCLOSE_STATUS_CODES";
+    private static final String AWARD_DISCLOSE_STATUS_CODES = "AWARD_DISCLOSE_STATUS_CODES";
+
+    private static Map<String, String> moduleEventMap = new HashMap<String, String>();
+    static {
+        moduleEventMap.put("11", "1");
+        moduleEventMap.put("1", "2");
+        moduleEventMap.put("12", "3");
+        moduleEventMap.put("15", "4");
+    }
 
     @SuppressWarnings("rawtypes")
     public DisclosurePerson getDisclosureReporter(String personId, Long coiDisclosureId) {
@@ -166,7 +190,7 @@ public class CoiDisclosureServiceImpl implements CoiDisclosureService {
     
     public void initializeDisclosureDetails(CoiDisclosure coiDisclosure) {
         // When creating a disclosure. the detail will be created at first
-        // TODO : method too long need refactor
+        // TODO : method too long need refactor.  this method should only for annual.  clean it. 
         List<CoiDiscDetail> disclosureDetails = new ArrayList<CoiDiscDetail>();
         List<CoiDisclEventProject> disclEventProjects = new ArrayList<CoiDisclEventProject>();
         List<PersonFinIntDisclosure> financialEntities = financialEntityService.getFinancialEntities(GlobalVariables
@@ -179,7 +203,7 @@ public class CoiDisclosureServiceImpl implements CoiDisclosureService {
                 for (PersonFinIntDisclosure personFinIntDisclosure : financialEntities) {
                     CoiDiscDetail disclosureDetail = createNewCoiDiscDetail(coiDisclosure, personFinIntDisclosure,
                             protocol.getProtocolNumber());
-                    disclosureDetail.setProtocol(protocol);
+                    disclosureDetail.setProjectType(CoiDisclProject.PROTOCOL_EVENT);
                     disclosureDetails.add(disclosureDetail);
                     coiDisclEventProject.getCoiDiscDetails().add(disclosureDetail);
                 }
@@ -196,6 +220,24 @@ public class CoiDisclosureServiceImpl implements CoiDisclosureService {
                     CoiDiscDetail disclosureDetail = createNewCoiDiscDetail(coiDisclosure, personFinIntDisclosure,
                             proposal.getProposalNumber());
 //                    disclosureDetail.setProtocol(proposal);
+                    disclosureDetail.setProjectType(CoiDisclProject.PROPOSAL_EVENT);
+                    disclosureDetails.add(disclosureDetail);
+                    coiDisclEventProject.getCoiDiscDetails().add(disclosureDetail);
+                }
+                disclEventProjects.add(coiDisclEventProject);
+            }
+        } 
+        if (coiDisclosure.isInstitutionalProposalEvent() || coiDisclosure.isAnnualEvent()) {
+            // TODO : also need to add Institutional proposal
+            List<InstitutionalProposal> iProposals = getInstitutionalProposals(GlobalVariables.getUserSession().getPrincipalId());
+            for (InstitutionalProposal proposal : iProposals) {
+                CoiDisclEventProject coiDisclEventProject = new CoiDisclEventProject("4", proposal,
+                    new ArrayList<CoiDiscDetail>());
+                for (PersonFinIntDisclosure personFinIntDisclosure : financialEntities) {
+                    CoiDiscDetail disclosureDetail = createNewCoiDiscDetail(coiDisclosure, personFinIntDisclosure,
+                            proposal.getProposalNumber());
+                    disclosureDetail.setProjectType(CoiDisclProject.INSTITUTIONAL_PROPOSAL_EVENT);
+//                    disclosureDetail.setProtocol(proposal);
                     disclosureDetails.add(disclosureDetail);
                     coiDisclEventProject.getCoiDiscDetails().add(disclosureDetail);
                 }
@@ -211,6 +253,7 @@ public class CoiDisclosureServiceImpl implements CoiDisclosureService {
                     CoiDiscDetail disclosureDetail = createNewCoiDiscDetail(coiDisclosure, personFinIntDisclosure,
                             award.getAwardNumber());
 //                    disclosureDetail.setProtocol(proposal);
+                    disclosureDetail.setProjectType(CoiDisclProject.AWARD_EVENT);
                     disclosureDetails.add(disclosureDetail);
                     coiDisclEventProject.getCoiDiscDetails().add(disclosureDetail);
                 }
@@ -245,6 +288,7 @@ public class CoiDisclosureServiceImpl implements CoiDisclosureService {
         for (PersonFinIntDisclosure personFinIntDisclosure : financialEntities) {
             CoiDiscDetail disclosureDetail = createNewCoiDiscDetail(coiDisclosure, personFinIntDisclosure,
                     moduleItemKey);
+            disclosureDetail.setProjectType(moduleEventMap.get(coiDisclosure.getModuleCode()));
             disclosureDetails.add(disclosureDetail);
         }
         coiDisclosure.setCoiDiscDetails(disclosureDetails);
@@ -258,6 +302,8 @@ public class CoiDisclosureServiceImpl implements CoiDisclosureService {
         }
         else if (coiDisclosure.isProposalEvent()) {
             moduleItemKey = ((DevelopmentProposal)eventBo).getProposalNumber();
+        } else if (coiDisclosure.isInstitutionalProposalEvent()) {
+            moduleItemKey = ((InstitutionalProposal)eventBo).getProposalNumber();
         } 
         else if (coiDisclosure.isAwardEvent()) {
             moduleItemKey = ((Award)eventBo).getAwardNumber();
@@ -272,7 +318,9 @@ public class CoiDisclosureServiceImpl implements CoiDisclosureService {
         }
         else if (coiDisclosure.isProposalEvent()) {
             eventBo = getDevelopmentProposal(projectId);
-        } 
+        } else if (coiDisclosure.isInstitutionalProposalEvent()) {
+                eventBo = getInstitutionalProposal(projectId);
+        }
         else if (coiDisclosure.isAwardEvent()) {
             // TODO : for award
             eventBo = getAwardById(projectId);
@@ -305,6 +353,7 @@ public class CoiDisclosureServiceImpl implements CoiDisclosureService {
         // When creating a disclosure. the detail will be created at first
         // TODO : this is for protocol now
         Collections.sort(coiDisclosure.getCoiDiscDetails());
+        String projectType = Constants.EMPTY_STRING;
         String moduleItemKey = Constants.EMPTY_STRING;
         List<CoiDisclEventProject> disclEventProjects = new ArrayList<CoiDisclEventProject>();
         CoiDisclEventProject coiDisclEventProject = new CoiDisclEventProject();
@@ -314,13 +363,14 @@ public class CoiDisclosureServiceImpl implements CoiDisclosureService {
         List<String> disclEntityNumbers = new ArrayList<String>();
         if (!coiDisclosure.isManualEvent()) {
             for (CoiDiscDetail coiDiscDetail : coiDisclosure.getCoiDiscDetails()) {
-                if (!StringUtils.equals(moduleItemKey, coiDiscDetail.getModuleItemKey())) {
-                    if (StringUtils.isNotBlank(moduleItemKey) && coiDisclEventProject.getEventProjectBo() != null) {
+                if (!StringUtils.equals(projectType, coiDiscDetail.getProjectType()) || !StringUtils.equals(moduleItemKey, coiDiscDetail.getModuleItemKey())) {
+                    if (StringUtils.isNotBlank(projectType) && coiDisclEventProject.getEventProjectBo() != null) {
                         // event bo is found in table. this is especially for PD to check null bo
-                        checkToAddNewFinancialEntity(financialEntities, coiDisclEventProject.getCoiDiscDetails(), disclEntityNumbers, coiDisclEventProject.getProjectId(), coiDisclosure);
+                        checkToAddNewFinancialEntity(financialEntities, coiDisclEventProject.getCoiDiscDetails(), disclEntityNumbers, coiDisclEventProject.getProjectId(), coiDisclosure, coiDiscDetail.getProjectType());
                         disclEventProjects.add(coiDisclEventProject);
                     }
                     moduleItemKey = coiDiscDetail.getModuleItemKey();
+                    projectType = coiDiscDetail.getProjectType();
                     if (!coiDisclosure.isAnnualEvent()) {
                         coiDisclEventProject = getEventBo(coiDisclosure, coiDiscDetail);
                     } else {
@@ -337,23 +387,24 @@ public class CoiDisclosureServiceImpl implements CoiDisclosureService {
                 }
             }
             if (coiDisclEventProject.getEventProjectBo() != null) {
-                checkToAddNewFinancialEntity(financialEntities, coiDisclEventProject.getCoiDiscDetails(), disclEntityNumbers, coiDisclEventProject.getProjectId(), coiDisclosure);
+                checkToAddNewFinancialEntity(financialEntities, coiDisclEventProject.getCoiDiscDetails(), disclEntityNumbers, coiDisclEventProject.getProjectId(), coiDisclosure, projectType);
                 disclEventProjects.add(coiDisclEventProject); // the last project
             }
 
             coiDisclosure.setCoiDisclEventProjects(disclEventProjects);
             // TODO : single project
-            if (!coiDisclosure.isAnnualEvent()) {
+            if (!coiDisclosure.isAnnualEvent() && !disclEventProjects.isEmpty()) {
                 coiDisclosure.setCoiDiscDetails(disclEventProjects.get(0).getCoiDiscDetails());
             }
         }
     }
 
 
-    private void checkToAddNewFinancialEntity(List<PersonFinIntDisclosure> financialEntities, List<CoiDiscDetail> coiDiscDetails, List<String> disclEntityNumbers, String projectId, CoiDisclosure coiDisclosure) {
+    private void checkToAddNewFinancialEntity(List<PersonFinIntDisclosure> financialEntities, List<CoiDiscDetail> coiDiscDetails, List<String> disclEntityNumbers, String projectId, CoiDisclosure coiDisclosure, String projectType) {
         for (PersonFinIntDisclosure personFinIntDisclosure : financialEntities) {
             if (!disclEntityNumbers.contains(personFinIntDisclosure.getEntityNumber())) {
                 coiDiscDetails.add(createNewCoiDiscDetail(coiDisclosure, personFinIntDisclosure, projectId));
+                coiDiscDetails.get(coiDiscDetails.size() - 1).setProjectType(projectType);
             }
         }
         
@@ -381,6 +432,10 @@ public class CoiDisclosureServiceImpl implements CoiDisclosureService {
             DevelopmentProposal proposal = getDevelopmentProposal(coiDiscDetail.getModuleItemKey());
             coiDisclEventProject = new CoiDisclEventProject("1", proposal, new ArrayList<CoiDiscDetail>());
             coiDisclosure.setEventBo(proposal);
+        } else if (coiDisclosure.isInstitutionalProposalEvent()) {
+            InstitutionalProposal proposal = getInstitutionalProposal(coiDiscDetail.getModuleItemKey());
+            coiDisclEventProject = new CoiDisclEventProject("4", proposal, new ArrayList<CoiDiscDetail>());
+            coiDisclosure.setEventBo(proposal);
         } 
         else if (coiDisclosure.isAwardEvent()) {
             // TODO : for award
@@ -395,13 +450,16 @@ public class CoiDisclosureServiceImpl implements CoiDisclosureService {
     // temporary solution until coeus schema is finalized
     private CoiDisclEventProject getEventBoForAnnualDiscl(CoiDisclosure coiDisclosure, CoiDiscDetail coiDiscDetail) {
         CoiDisclEventProject coiDisclEventProject = new CoiDisclEventProject();
-        if (isInBo(Protocol.class, "protocolNumber", coiDiscDetail.getModuleItemKey())) {
+        if (coiDiscDetail.isProtocolEvent()) {
             Protocol protocol = protocolFinderDao.findCurrentProtocolByNumber(coiDiscDetail.getModuleItemKey());
             coiDisclEventProject = new CoiDisclEventProject("3", protocol, new ArrayList<CoiDiscDetail>());
         }
-        else if (isInBo(DevelopmentProposal.class, "proposalNumber", coiDiscDetail.getModuleItemKey())) {
+        else if (coiDiscDetail.isProposalEvent()) {
             DevelopmentProposal proposal = getDevelopmentProposal(coiDiscDetail.getModuleItemKey());
             coiDisclEventProject = new CoiDisclEventProject("1", proposal, new ArrayList<CoiDiscDetail>());
+        } else if (coiDiscDetail.isInstitutionalProposalEvent()) {
+            InstitutionalProposal proposal = getInstitutionalProposal(coiDiscDetail.getModuleItemKey());
+            coiDisclEventProject = new CoiDisclEventProject("4", proposal, new ArrayList<CoiDiscDetail>());
         } else  {
             // TODO : for award
             Award award = getAward(coiDiscDetail.getModuleItemKey());
@@ -431,10 +489,18 @@ public class CoiDisclosureServiceImpl implements CoiDisclosureService {
         return awards.get(0);
     }
 
+    
     private DevelopmentProposal getDevelopmentProposal(String proposalNumber) {
         Map<String, Object> primaryKeys = new HashMap<String, Object>();
         primaryKeys.put("proposalNumber", proposalNumber);
         DevelopmentProposal currentProposal = (DevelopmentProposal) businessObjectService.findByPrimaryKey(DevelopmentProposal.class, primaryKeys);
+        return currentProposal;
+    }
+    private InstitutionalProposal getInstitutionalProposal(String proposalNumber) {
+        // TODO : not sure IP pk is proposal#
+        Map<String, Object> primaryKeys = new HashMap<String, Object>();
+        primaryKeys.put("proposalNumber", proposalNumber);
+        InstitutionalProposal currentProposal = (InstitutionalProposal) businessObjectService.findByPrimaryKey(InstitutionalProposal.class, primaryKeys);
         return currentProposal;
     }
 
@@ -459,7 +525,7 @@ public class CoiDisclosureServiceImpl implements CoiDisclosureService {
                 activeDetails.add(coiDiscDetail);
             }            
         }
-        checkToAddNewFinancialEntity(financialEntities, activeDetails, disclEntityNumbers, coiDisclProject.getCoiProjectId().toString(), coiDisclProject.getCoiDisclosure());
+        checkToAddNewFinancialEntity(financialEntities, activeDetails, disclEntityNumbers, coiDisclProject.getCoiProjectId().toString(), coiDisclProject.getCoiDisclosure(), coiDisclProject.getDisclosureEventType());
 
         coiDisclProject.setCoiDiscDetails(activeDetails);
 
@@ -486,10 +552,10 @@ public class CoiDisclosureServiceImpl implements CoiDisclosureService {
         List<Protocol> protocols = new ArrayList<Protocol>();
         Map<String, Object> fieldValues = new HashMap<String, Object>();
         fieldValues.put("personId", personId);
-        fieldValues.put("protocolPersonRoleId", "PI");
+//        fieldValues.put("protocolPersonRoleId", "PI");
         List<ProtocolPerson> protocolPersons = (List<ProtocolPerson>) businessObjectService.findMatching(ProtocolPerson.class, fieldValues);
         for (ProtocolPerson protocolPerson : protocolPersons) {
-            if (protocolPerson.getProtocol().isActive()) {
+            if (protocolPerson.getProtocol().isActive() && isProtocolDisclosurable(protocolPerson.getProtocol()) && !isProjectReported(protocolPerson.getProtocol().getProtocolNumber(), CoiDisclProject.PROTOCOL_EVENT)) {
                 protocols.add(protocolPerson.getProtocol());
             }
         }
@@ -502,13 +568,30 @@ public class CoiDisclosureServiceImpl implements CoiDisclosureService {
         List<DevelopmentProposal> proposals = new ArrayList<DevelopmentProposal>();
         Map<String, Object> fieldValues = new HashMap<String, Object>();
         fieldValues.put("personId", personId);
-        fieldValues.put("proposalPersonRoleId", "PI");
+//        fieldValues.put("proposalPersonRoleId", "PI");
         List<ProposalPerson> proposalPersons = (List<ProposalPerson>) businessObjectService.findMatching(ProposalPerson.class, fieldValues);
         for (ProposalPerson proposalPerson : proposalPersons) {
-//            if (proposalPerson.getDevelopmentProposal().) {
-            // TODO : condition to be implemented
+            if (isProposalDisclosurable(proposalPerson.getDevelopmentProposal()) && !isProjectReported(proposalPerson.getDevelopmentProposal().getProposalNumber(), CoiDisclProject.PROPOSAL_EVENT)) {
+            // TODO : condition to be implemented              
                 proposals.add(proposalPerson.getDevelopmentProposal());
-//            }
+            }
+        }
+        return proposals;
+        
+    }
+ 
+    public List<InstitutionalProposal> getInstitutionalProposals(String personId) {
+        
+        List<InstitutionalProposal> proposals = new ArrayList<InstitutionalProposal>();
+        Map<String, Object> fieldValues = new HashMap<String, Object>();
+        fieldValues.put("personId", personId);
+//        fieldValues.put("proposalPersonRoleId", "PI");
+        List<InstitutionalProposalPerson> proposalPersons = (List<InstitutionalProposalPerson>) businessObjectService.findMatching(InstitutionalProposalPerson.class, fieldValues);
+        for (InstitutionalProposalPerson proposalPerson : proposalPersons) {
+            if (isInstitutionalProposalDisclosurable(proposalPerson.getInstitutionalProposal()) && !isProjectReported(proposalPerson.getInstitutionalProposal().getProposalNumber(), CoiDisclProject.INSTITUTIONAL_PROPOSAL_EVENT)) {
+            // TODO : condition to be implemented
+                proposals.add(proposalPerson.getInstitutionalProposal());
+            }
         }
         return proposals;
         
@@ -519,18 +602,35 @@ public class CoiDisclosureServiceImpl implements CoiDisclosureService {
         List<Award> awards = new ArrayList<Award>();
         Map<String, Object> fieldValues = new HashMap<String, Object>();
         fieldValues.put("personId", personId);
-        fieldValues.put("roleCode", "PI");
+//        fieldValues.put("roleCode", "PI");
         List<AwardPerson> awardPersons = (List<AwardPerson>) businessObjectService.findMatching(AwardPerson.class, fieldValues);
         for (AwardPerson awardPerson : awardPersons) {
-//            if () {
+            if (isAwardDisclosurable(awardPerson.getAward()) && !isProjectReported(awardPerson.getAward().getAwardNumber(), CoiDisclProject.AWARD_EVENT)) {
             // TODO : condition to be implemented
                 awards.add(awardPerson.getAward());
-//            }
+            }
         }
         return awards;
         
     }
  
+    private boolean isProjectReported(String projectId, String projectType) {
+        boolean isDisclosed = false;
+        // TODO : temporary commented out for testing
+        HashMap<String, Object> fieldValues = new HashMap<String, Object>();
+        fieldValues.put("moduleItemKey", projectId);
+        fieldValues.put("projectType", projectType);
+        List<CoiDiscDetail> discDetails = (List<CoiDiscDetail>)businessObjectService.findMatching(CoiDiscDetail.class, fieldValues);
+        Date currentDate = dateTimeService.getCurrentSqlDateMidnight();
+        for (CoiDiscDetail discDetail : discDetails) {
+            if (discDetail.getCoiDisclosure().getExpirationDate().after(currentDate)) {
+                isDisclosed = true;
+                break;
+            }
+        }
+        return isDisclosed;
+    }
+
     public CoiDisclosure versionCoiDisclosure() throws VersionException {
         Map fieldValues = new HashMap();
         fieldValues.put("personId", GlobalVariables.getUserSession().getPrincipalId());
@@ -563,6 +663,71 @@ public class CoiDisclosureServiceImpl implements CoiDisclosureService {
 
     public void setVersioningService(VersioningService versioningService) {
         this.versioningService = versioningService;
+    }
+
+    public boolean isAwardDisclosurable(Award award) {
+        List<String> params = new ArrayList<String>();
+        try {
+            params = parameterService.getParameterValues(AwardDocument.class, AWARD_DISCLOSE_STATUS_CODES);
+        } catch (Exception e) {
+            
+        }
+        if (params.isEmpty()) {
+            // TODO : what if param is not set or not set properly ?
+            params.add("1");
+        }
+        return params.contains(award.getStatusCode().toString());
+   
+    }
+    public boolean isProposalDisclosurable(DevelopmentProposal proposal) {
+        List<String> params = new ArrayList<String>();
+        try {
+            params = parameterService.getParameterValues(ProposalDevelopmentDocument.class, PROPOSAL_DISCLOSE_STATUS_CODES);
+        } catch (Exception e) {
+            
+        }
+        if (params.isEmpty()) {
+            // TODO : what if param is not set or not set properly ?
+            params.add("1");
+        }
+        return params.contains(proposal.getProposalTypeCode());
+   
+    }
+    public boolean isInstitutionalProposalDisclosurable(InstitutionalProposal proposal) {
+        List<String> params = new ArrayList<String>();
+        try {
+            params = parameterService.getParameterValues(InstitutionalProposalDocument.class, INSTITUTIONAL_PROPOSAL_DISCLOSE_STATUS_CODES);
+        } catch (Exception e) {
+            
+        }
+        if (params.isEmpty()) {
+            // TODO : what if param is not set or not set properly ?
+            params.add("1");
+        }
+        return params.contains(proposal.getStatusCode().toString());
+   
+    }
+    public boolean isProtocolDisclosurable(Protocol protocol) {
+        List<String> params = new ArrayList<String>();
+        try {
+            params = parameterService.getParameterValues(ProtocolDocument.class, PROTOCOL_DISCLOSE_STATUS_CODES);
+        } catch (Exception e) {
+            
+        }
+        if (params.isEmpty()) {
+            // TODO : what if param is not set or not set properly ?
+            params.add("100");
+        }
+        return params.contains(protocol.getProtocolStatusCode());
+   
+    }
+
+    public void setParameterService(ParameterService parameterService) {
+        this.parameterService = parameterService;
+    }
+
+    public void setDateTimeService(DateTimeService dateTimeService) {
+        this.dateTimeService = dateTimeService;
     }
 
 }

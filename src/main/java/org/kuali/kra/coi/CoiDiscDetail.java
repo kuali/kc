@@ -47,6 +47,7 @@ public class CoiDiscDetail extends KraPersistableBusinessObjectBase implements C
     private PersonFinIntDisclosure personFinIntDisclosure;
     private CoiEntityStatusCode coiEntityStatusCode; 
     private CoiDisclosure coiDisclosure; 
+    private String projectType; 
     // transient data for UI
     // TODO : investigate to come up with super class/interface for disclose projects (PD/PROTOCOL/AWD) purpose ?
     private Protocol protocol;
@@ -223,14 +224,45 @@ public class CoiDiscDetail extends KraPersistableBusinessObjectBase implements C
     
     public int compareTo(CoiDiscDetail other) {
         int result = 0;
-        if (other!=null) {
-            if ( StringUtils.equals(moduleItemKey, other.getModuleItemKey())) {
-                result = personFinIntDisclosureId.compareTo(other.getPersonFinIntDisclosureId());
-            } else {
-                result = moduleItemKey.compareTo(other.getModuleItemKey());
+        if (other != null) {
+            if (StringUtils.equals(projectType, other.getProjectType())) {
+                if (StringUtils.equals(moduleItemKey, other.getModuleItemKey())) {
+                    result = personFinIntDisclosureId.compareTo(other.getPersonFinIntDisclosureId());
+                }
+                else {
+                    result = moduleItemKey.compareTo(other.getModuleItemKey());
+                }
+            }
+            else {
+                result = projectType.compareTo(other.getProjectType());
             }
         }
         return result;
     }
+
+    public String getProjectType() {
+        return projectType;
+    }
+
+    public void setProjectType(String projectType) {
+        this.projectType = projectType;
+    }
+
+    public boolean isProposalEvent() {
+        return StringUtils.equals(CoiDisclProject.PROPOSAL_EVENT, this.projectType);
+    }
+    
+    public boolean isInstitutionalProposalEvent() {
+        return StringUtils.equals(CoiDisclProject.INSTITUTIONAL_PROPOSAL_EVENT, this.projectType);
+    }
+    
+    public boolean isAwardEvent() {
+        return StringUtils.equals(CoiDisclProject.AWARD_EVENT, this.projectType);
+    }
+    
+    public boolean isProtocolEvent() {
+        return StringUtils.equals(CoiDisclProject.PROTOCOL_EVENT, this.projectType);
+    }
+
 
 }
