@@ -34,14 +34,6 @@ import org.kuali.rice.kns.util.TypedArrayList;
 /**
  * Base class for Committee business rule tests.
  */
-//@PerSuiteUnitTestData(
-//    @UnitTestData(
-//        sqlFiles = {
-//            @UnitTestFile(filename = "classpath:sql/dml/load_committee_type.sql", delimiter = ";")
-//           ,@UnitTestFile(filename = "classpath:sql/dml/load_protocol_review_type.sql", delimiter = ";")
-//        }
-//    )
-//)
 public abstract class CommitteeRuleTestBase extends KcUnitTestBase {
 
     protected DocumentService documentService = null;
