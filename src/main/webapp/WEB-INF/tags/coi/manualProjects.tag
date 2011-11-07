@@ -18,7 +18,7 @@
 <c:set var="coiDisclProjectAttributes" value="${DataDictionary.CoiDisclProject.attributes}" />
 <c:set var="coiDiscDetailAttributes" value="${DataDictionary.CoiDiscDetail.attributes}" />
 <c:set var="protocolAttributes" value="${DataDictionary.Protocol.attributes}" />
-<kul:tab defaultOpen="false" tabTitle="Manual Event and Financial Entities" auditCluster="financialEntityDiscAuditErrors" tabAuditKey="document.coiDisclosureList[0].coiDisclProjects[0].coiDiscDetails*" useRiceAuditMode="true"
+<kul:tab defaultOpen="false" tabTitle="Manual Event and Financial Entities (${KualiForm.document.coiDisclosureList[0].completeMessage})" auditCluster="financialEntityDiscAuditErrors" tabAuditKey="document.coiDisclosureList[0].coiDisclProjects[0].coiDiscDetails*" useRiceAuditMode="true"
     tabErrorKey="disclosureHelper.newCoiDisclProject.*" >
 	<div class="tab-container" align="center">
 	<c:choose>
@@ -111,7 +111,7 @@
                 <tr>
                     <td align="center" colspan="6">
                         <div align="center">
-                            <html:image property="methodToCall.addProposal.anchor${tabKey}"
+                            <html:image property="methodToCall.addManualProject.anchor${tabKey}"
                                         src='${ConfigProperties.kr.externalizable.images.url}tinybutton-add1.gif' styleClass="tinybutton"/>
                         </div>
                     </td>

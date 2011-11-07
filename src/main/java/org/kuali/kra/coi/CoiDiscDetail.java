@@ -40,7 +40,7 @@ public class CoiDiscDetail extends KraPersistableBusinessObjectBase implements C
     // TODO : since the synthetic key 'personFinIntDisclosureId' is added.  ok to remove entitynumber/entitysequence ?
     private String entityNumber; 
     private Integer entitySequenceNumber; 
-    private Integer entityStatusCode; 
+    private String entityStatusCode; 
     private String description; 
     private String comments; 
     private Long personFinIntDisclosureId;
@@ -139,11 +139,11 @@ public class CoiDiscDetail extends KraPersistableBusinessObjectBase implements C
         this.entitySequenceNumber = entitySequenceNumber;
     }
 
-    public Integer getEntityStatusCode() {
+    public String getEntityStatusCode() {
         return entityStatusCode;
     }
 
-    public void setEntityStatusCode(Integer entityStatusCode) {
+    public void setEntityStatusCode(String entityStatusCode) {
         this.entityStatusCode = entityStatusCode;
     }
 

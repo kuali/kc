@@ -404,7 +404,7 @@
 		<field-descriptor name="moduleItemKey" column="MODULE_ITEM_KEY" jdbc-type="VARCHAR" />
 		<field-descriptor name="entityNumber" column="ENTITY_NUMBER" jdbc-type="VARCHAR" />
 		<field-descriptor name="entitySequenceNumber" column="ENTITY_SEQUENCE_NUMBER" jdbc-type="INTEGER" />
-		<field-descriptor name="entityStatusCode" column="ENTITY_STATUS_CODE" jdbc-type="INTEGER" />
+		<field-descriptor name="entityStatusCode" column="ENTITY_STATUS_CODE" jdbc-type="VARCHAR" />
 		<field-descriptor name="description" column="DESCRIPTION" jdbc-type="VARCHAR" />
 		<field-descriptor name="updateTimestamp" column="UPDATE_TIMESTAMP" jdbc-type="TIMESTAMP" />
 		<field-descriptor name="updateUser" column="UPDATE_USER" jdbc-type="VARCHAR" />
