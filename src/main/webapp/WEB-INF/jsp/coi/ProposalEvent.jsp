@@ -127,8 +127,13 @@
 <div id="globalbuttons" class="globalbuttons">
     <html:image src="${ConfigProperties.kr.externalizable.images.url}buttonsmall_close.gif" styleClass="globalbuttons" property="methodToCall.close" title="close" alt="close"/>
 </div>
-<hr>
 
-</SCRIPT>
+<script src="scripts/jquery/jquery.js"></script>
+<script type="text/javascript">
+   var $j = jQuery.noConflict();
+   $j(document).ready(function () {
+        $j('#horz-links').hide();
+   }); // end document.ready
+</script>
 
 </kul:page>
