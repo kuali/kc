@@ -197,6 +197,9 @@ public class CommitteeServiceTest {
         CommitteeSchedule schedule1 = new CommitteeSchedule();
         schedule1.setScheduleId("1");
         schedule1.setScheduledDate(new Date(System.currentTimeMillis()));
+        Calendar now = getCalendar(new java.util.Date());
+        now.add(Calendar.DAY_OF_MONTH, -10);
+        schedule1.setProtocolSubDeadline(new Date(now.getTimeInMillis()));
         schedule1.setTime(new Timestamp(0));
         schedule1.setScheduleStatus(cs);
         committee.getCommitteeSchedules().add(schedule1);
@@ -204,6 +207,7 @@ public class CommitteeServiceTest {
         CommitteeSchedule schedule2 = new CommitteeSchedule();
         schedule2.setScheduleId("2");
         schedule2.setScheduledDate(getDate(20));
+        schedule2.setProtocolSubDeadline(getDate(10));
         schedule2.setTime(new Timestamp(0));
         schedule2.setScheduleStatus(cs);
         committee.getCommitteeSchedules().add(schedule2);
