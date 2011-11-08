@@ -109,13 +109,15 @@ public class KcNotificationServiceImpl implements KcNotificationService {
         KcNotification notification = new KcNotification();
         
         NotificationType notificationType = getNotificationType(context);
-        notification.setNotificationTypeId(notificationType.getNotificationTypeId());
-        notification.setDocumentNumber(context.getDocumentNumber());
-        String instanceSubject = context.replaceContextVariables(notificationType.getSubject());
-        notification.setSubject(instanceSubject);
-        String instanceMessage = context.replaceContextVariables(notificationType.getMessage());
-        notification.setMessage(instanceMessage);
-        notification.setNotificationType(notificationType);
+        if (notificationType != null) {
+            notification.setNotificationTypeId(notificationType.getNotificationTypeId());
+            notification.setDocumentNumber(context.getDocumentNumber());
+            String instanceSubject = context.replaceContextVariables(notificationType.getSubject());
+            notification.setSubject(instanceSubject);
+            String instanceMessage = context.replaceContextVariables(notificationType.getMessage());
+            notification.setMessage(instanceMessage);
+            notification.setNotificationType(notificationType);
+        }
         
         return notification;
     }
@@ -155,11 +157,14 @@ public class KcNotificationServiceImpl implements KcNotificationService {
      */
     public void sendNotification(NotificationContext context) {
         KcNotification notification = createNotification(context);
-        String subject = notification.getSubject();
-        String message = notification.getMessage();
-        Collection<NotificationRecipient> notificationRecipients = getRecipients(context);
-
-        sendNotification(context, subject, message, notificationRecipients);
+        
+        if (notification.getNotificationType() != null && notification.getNotificationType().getSendNotification()) {
+            String subject = notification.getSubject();
+            String message = notification.getMessage();
+            Collection<NotificationRecipient> notificationRecipients = getRecipients(context);
+    
+            sendNotification(context, subject, message, notificationRecipients);
+        }
     }
     
     /**
