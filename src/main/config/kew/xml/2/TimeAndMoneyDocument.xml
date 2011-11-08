@@ -57,10 +57,15 @@
 			<type>SearchableXmlAttribute</type>
 			<serviceNamespace>KC</serviceNamespace>
 			<searchingConfig>
-				<fieldDef name="timeAndMoneyAwardId" title="Award Id">
+				<fieldDef name="timeAndMoneyAwardId" title="Award ID">
 					<display>
 						<type>text</type>
 					</display>
+					<lookup businessObjectClass="org.kuali.kra.award.home.Award">
+				      <fieldConversions>
+				        <fieldConversion lookupFieldName="awardNumber" localFieldName="timeAndMoneyAwardId"/>
+				      </fieldConversions>
+				    </lookup>
 					<fieldEvaluation>
 						<xpathexpression>//award/awardNumber</xpathexpression>
 					</fieldEvaluation>
@@ -79,6 +84,11 @@
 					<display>
 						<type>text</type>
 					</display>
+					<lookup businessObjectClass="org.kuali.kra.award.home.Award">
+				      <fieldConversions>
+				        <fieldConversion lookupFieldName="title" localFieldName="timeAndMoneyAwardTitle"/>
+				      </fieldConversions>
+				    </lookup>
 					<fieldEvaluation>
 						<xpathexpression>//award/title</xpathexpression>
 					</fieldEvaluation>
@@ -93,10 +103,15 @@
 			<type>SearchableXmlAttribute</type>
 			<serviceNamespace>KC</serviceNamespace>
 			<searchingConfig>
-				<fieldDef name="timeAndMoneyAccountNumber" title="Account Number">
+				<fieldDef name="timeAndMoneyAccountNumber" title="Account ID">
 					<display>
 						<type>text</type>
 					</display>
+					<lookup businessObjectClass="org.kuali.kra.award.home.Award">
+				      <fieldConversions>
+				        <fieldConversion lookupFieldName="accountNumber" localFieldName="timeAndMoneyAccountNumber"/>
+				      </fieldConversions>
+				    </lookup>
 					<fieldEvaluation>
 						<xpathexpression>//award/accountNumber</xpathexpression>
 					</fieldEvaluation>
@@ -115,6 +130,11 @@
 					<display>
 						<type>text</type>
 					</display>
+					<lookup businessObjectClass="org.kuali.kra.bo.KcPerson">
+				      <fieldConversions>
+				        <fieldConversion lookupFieldName="fullName" localFieldName="timeAndMoneyInvestigator"/>
+				      </fieldConversions>
+				    </lookup>
 					<fieldEvaluation>
 						<xpathexpression>//award/principalInvestigatorName</xpathexpression>
 					</fieldEvaluation>
@@ -133,6 +153,11 @@
 					<display>
 						<type>text</type>
 					</display>
+					<lookup businessObjectClass="org.kuali.kra.bo.Unit">
+				      <fieldConversions>
+				        <fieldConversion lookupFieldName="unitNumber" localFieldName="timeAndMoneyLeadUnit"/>
+				      </fieldConversions>
+				    </lookup>
 					<fieldEvaluation>
 						<xpathexpression>//award/leadUnit/unitNumber</xpathexpression>
 					</fieldEvaluation>
@@ -151,6 +176,11 @@
 					<display>
 						<type>text</type>
 					</display>
+					<lookup businessObjectClass="org.kuali.kra.bo.Sponsor">
+				      <fieldConversions>
+				        <fieldConversion lookupFieldName="sponsorCode" localFieldName="timeAndMoneySponsor"/>
+				      </fieldConversions>
+				    </lookup>
 					<fieldEvaluation>
 						<xpathexpression>//award/sponsor/sponsorCode</xpathexpression>
 					</fieldEvaluation>
