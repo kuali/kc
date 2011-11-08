@@ -96,14 +96,16 @@ public class ProtocolAffiliateTypeDerivedRoleTypeServiceImpl extends KimDerivedR
 
     private String getAffiliationType(Integer affiliationTypeCode) {
         String result = null;
-        Map<String, String> fieldValues = new HashMap<String, String>();
-        fieldValues.put("affiliationTypeCode", affiliationTypeCode.toString());
-        List<AffiliationType> affiliationTypes = 
-            (List<AffiliationType>) getBusinessObjectService().findMatching(AffiliationType.class, fieldValues);
-        if (CollectionUtils.isNotEmpty(affiliationTypes)) {
-            result = affiliationTypes.get(0).getDescription();
-        }
         
+        if (affiliationTypeCode != null) {
+            Map<String, String> fieldValues = new HashMap<String, String>();
+            fieldValues.put("affiliationTypeCode", affiliationTypeCode.toString());
+            List<AffiliationType> affiliationTypes = 
+                (List<AffiliationType>) getBusinessObjectService().findMatching(AffiliationType.class, fieldValues);
+            if (CollectionUtils.isNotEmpty(affiliationTypes)) {
+                result = affiliationTypes.get(0).getDescription();
+            }
+        }
         return result;        
     }
     
