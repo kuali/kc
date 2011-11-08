@@ -34,10 +34,15 @@ import org.kuali.rice.kim.bo.Role;
 import org.kuali.rice.kim.service.KIMServiceLocator;
 import org.kuali.rice.kim.service.RoleService;
 
+/**
+ * Defines the base helper for sending ad-hoc notifications.
+ * 
+ * @param <T> the notification context
+ */
 public abstract class NotificationHelperBase<T extends NotificationContext> implements Serializable {
+
+    private static final long serialVersionUID = 7775917415827067116L;
     
-    private static final long serialVersionUID = 5566270961613461008L;
-        
     private NotificationTypeRecipient newNotificationRecipient;
     private List<NotificationTypeRecipient> notificationRecipients;
     private KcNotification notification;
@@ -51,6 +56,9 @@ public abstract class NotificationHelperBase<T extends NotificationContext> impl
     private transient KcPersonService kcPersonService;
     private transient RolodexService rolodexService;
     
+    /**
+     * Constructs a NotificationHelperBase.
+     */
     public NotificationHelperBase() {
         this.setNewNotificationRecipient(new NotificationTypeRecipient());
         this.setNotificationRecipients(new ArrayList<NotificationTypeRecipient>());
@@ -85,6 +93,11 @@ public abstract class NotificationHelperBase<T extends NotificationContext> impl
         return newRoleId;
     }
 
+    /**
+     * Sets the {@code newRoleId} while nulling the other id values.
+     * 
+     * @param newRoleId the new role id
+     */
     public void setNewRoleId(String newRoleId) {
         this.newRoleId = newRoleId;
         this.newPersonId = null;
@@ -95,6 +108,11 @@ public abstract class NotificationHelperBase<T extends NotificationContext> impl
         return newPersonId;
     }
 
+    /**
+     * Sets the {@code newPersonId} while nulling the other id values.
+     * 
+     * @param newPersonId the new person id
+     */
     public void setNewPersonId(String newPersonId) {
         this.newRoleId = null;
         this.newPersonId = newPersonId;
@@ -105,12 +123,22 @@ public abstract class NotificationHelperBase<T extends NotificationContext> impl
         return newRolodexId;
     }
 
+    /**
+     * Sets the {@code newRolodexId} while nulling the other id values.
+     * 
+     * @param newRolodexId the new rolodex id
+     */
     public void setNewRolodexId(String newRolodexId) {
         this.newRoleId = null;
         this.newPersonId = null;
         this.newRolodexId = newRolodexId;
     }
 
+    /**
+     * Returns the context for this notification.
+     * 
+     * @return the context for this notification
+     */
     public abstract T getContext();
     
     /**
@@ -145,17 +173,25 @@ public abstract class NotificationHelperBase<T extends NotificationContext> impl
         setNotification(getNotificationService().createNotification(getContext()));
     }
 
+    /**
+     * Determines whether the ad-hoc notification editor for this context should be shown.
+     * 
+     * @return true if the ad-hoc notification editor should be shown, false otherwise
+     */
     public boolean getPromptUserForNotificationEditor() {
         boolean promptUser = false;
         
         NotificationType notificationType = getNotificationService().getNotificationType(getContext());
-        if (notificationType != null && notificationType.getPromptUser()) {
+        if (notificationType != null && notificationType.getSendNotification() && notificationType.getPromptUser()) {
             promptUser = true;
         }
         
         return promptUser;
     }
     
+    /**
+     * Sends the ad-hoc notification.
+     */
     public void sendNotification() {
         getNotificationService().sendNotification(notification, notificationRecipients, getContext());
     }
