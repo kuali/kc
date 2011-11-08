@@ -189,6 +189,26 @@
 			<type>RuleAttribute</type>
 		</ruleAttribute>
 		
+		<ruleAttribute>
+			<name>OrganizationCorrespondentRoleAttribute</name>
+			<className>
+				org.kuali.kra.workflow.OrganizationCorrespondentRoleAttribute
+			</className>
+			<label>Protocol Organization Notification</label>
+			<description>Protocol Organization Notification</description>
+			<type>RuleAttribute</type>
+		</ruleAttribute>
+		
+		<ruleAttribute>
+			<name>UnitCorrespondentRoleAttribute</name>
+			<className>
+				org.kuali.kra.workflow.UnitCorrespondentRoleAttribute
+			</className>
+			<label>Protocol Unit Notification</label>
+			<description>Protocol Unit Notification</description>
+			<type>RuleAttribute</type>
+		</ruleAttribute>
+		
         <ruleAttribute>
 			<name>ProtocolReRouteAttribute</name>
 			<className>
