@@ -1,0 +1,111 @@
+-- update_rice_principal_columns.sql
+--this scripts corrects some problems related to rice principal column length
+
+ALTER TABLE KRNS_LOOKUP_RSLT_T MODIFY (PRNCPL_ID varchar(40));
+ALTER TABLE KRNS_LOOKUP_SEL_T MODIFY (PRNCPL_ID varchar(40));
+
+-- reset_sequences.sql
+
+CREATE OR REPLACE procedure reset_sequences(sequence_name in VARCHAR2) is
+ 
+    l_generic_seq_max_value NUMBER;
+    l_generic_seq_next_value NUMBER;
+    l_table_name VARCHAR2(30);
+    l_key_column_name VARCHAR2(30);
+    l_gen_seq_sql VARCHAR2(4000);
+    
+    v_code NUMBER;
+    v_errm VARCHAR2(64);
+
+  BEGIN
+    l_table_name := replace(lower(sequence_name), '_id_s', '_t');
+    l_key_column_name := replace(lower(sequence_name), 'krim', 'kim');
+    l_key_column_name := replace(l_key_column_name, '_s', '');
+    dbms_output.put_line(l_key_column_name);
+
+    begin 
+    l_gen_seq_sql := 'SELECT MAX('|| l_key_column_name || ') FROM ' || l_table_name;
+    EXECUTE IMMEDIATE l_gen_seq_sql INTO l_generic_seq_max_value;
+    exception when others then 
+         v_code := SQLCODE;
+         v_errm := SUBSTR(SQLERRM, 1 , 64);
+         DBMS_OUTPUT.PUT_LINE('Error code ' || v_code || ': ' || v_errm);
+         --attempt again
+         l_key_column_name := replace(l_key_column_name, 'kim_', '');
+         l_gen_seq_sql := 'SELECT MAX('|| l_key_column_name || ') FROM ' || l_table_name;
+         dbms_output.put_line(l_gen_seq_sql);
+         EXECUTE IMMEDIATE l_gen_seq_sql INTO l_generic_seq_max_value;
+    end;
+    
+    l_gen_seq_sql := 'select ' || sequence_name || '.nextval from dual';
+    EXECUTE IMMEDIATE l_gen_seq_sql into l_generic_seq_next_value;
+    
+    while(l_generic_seq_next_value <= l_generic_seq_max_value) loop 
+        EXECUTE IMMEDIATE l_gen_seq_sql into l_generic_seq_next_value ;
+    end loop;
+    
+    dbms_output.put_line('Current value :' || l_generic_seq_next_value || ' Max Value: ' || l_generic_seq_max_value);  
+    
+    END;
+/
+
+-- unit_acl_migration.sql
+
+set define off
+DECLARE
+ l_role_name VARCHAR2(500);
+ l_new_role_id VARCHAR2(40);
+ l_role_type_id VARCHAR2(40);
+ 
+  l_default_type_id VARCHAR2(40);
+  l_unit_type_id VARCHAR2(40);
+  l_unit_hierarchy_type_id VARCHAR2(40);
+  l_unit_number_attr_id VARCHAR2(40);
+  l_descend_attr_id VARCHAR2(40);
+  
+ CURSOR UCUR IS SELECT * FROM UNIT_ACL WHERE ACTIVE_FLAG = 'Y';
+ -- SELECT ID, PERSON_ID, ROLE_ID, UNIT_NUMBER, SUBUNITS, ACTIVE_FLAG, VER_NBR, OBJ_ID FROM UNIT_ACL;
+BEGIN
+
+    SELECT KIM_TYP_ID INTO l_unit_type_id FROM KRIM_TYP_T T WHERE T.NM = 'Unit';
+    SELECT KIM_TYP_ID INTO l_unit_hierarchy_type_id FROM KRIM_TYP_T T WHERE T.NM = 'UnitHierarchy';
+    SELECT KIM_TYP_ID INTO l_default_type_id FROM KRIM_TYP_T T WHERE T.NM = 'Default';
+
+    SELECT KIM_ATTR_DEFN_ID INTO l_unit_number_attr_id FROM KRIM_ATTR_DEFN_T T WHERE T.NM = 'unitNumber';
+    SELECT KIM_ATTR_DEFN_ID INTO l_descend_attr_id FROM KRIM_ATTR_DEFN_T T WHERE T.NM = 'subunits';
+
+    FOR REC IN UCUR   
+    LOOP
+        SELECT NAME INTO l_role_name FROM KIM_ROLES_T T WHERE T.ID = REC.ROLE_ID;
+        SELECT ROLE_ID INTO l_new_role_id FROM KRIM_ROLE_T WHERE ROLE_NM = l_role_name;
+        SELECT KIM_TYP_ID INTO l_role_type_id FROM KRIM_ROLE_T WHERE ROLE_ID = l_new_role_id;
+        
+        INSERT INTO KRIM_ROLE_MBR_T(ROLE_MBR_ID, ROLE_ID, MBR_ID,MBR_TYP_CD, ACTV_FRM_DT, ACTV_TO_DT, LAST_UPDT_DT, OBJ_ID, VER_NBR) 
+        VALUES (KRIM_ROLE_MBR_ID_S.NEXTVAL, l_new_role_id, REC.PERSON_ID, 'P', NULL, NULL, SYSDATE, SYS_GUID(), 1);
+        
+         INSERT INTO KRIM_ROLE_MBR_ATTR_DATA_T (ATTR_DATA_ID, ROLE_MBR_ID, KIM_TYP_ID, KIM_ATTR_DEFN_ID, ATTR_VAL, OBJ_ID) 
+         VALUES (KRIM_ATTR_DATA_ID_S.NEXTVAL, KRIM_ROLE_MBR_ID_S.CURRVAL, l_role_type_id, l_unit_number_attr_id, REC.UNIT_NUMBER, SYS_GUID());
+                 
+         IF(l_role_type_id = l_unit_hierarchy_type_id) THEN 
+               INSERT INTO KRIM_ROLE_MBR_ATTR_DATA_T (ATTR_DATA_ID, ROLE_MBR_ID, KIM_TYP_ID, KIM_ATTR_DEFN_ID, ATTR_VAL, OBJ_ID) 
+               VALUES (KRIM_ATTR_DATA_ID_S.NEXTVAL, KRIM_ROLE_MBR_ID_S.CURRVAL, l_role_type_id, l_descend_attr_id, REC.SUBUNITS, SYS_GUID());
+
+         END IF;
+    END LOOP;
+
+END;
+
+-- admin_user_principal
+
+set define off
+INSERT INTO KRIM_ENTITY_T (ENTITY_ID, ACTV_IND, LAST_UPDT_DT, OBJ_ID, VER_NBR) VALUES (KRIM_ENTITY_ID_S.NEXTVAL, 'Y', SYSDATE, SYS_GUID(), 1);
+
+INSERT INTO KRIM_PRNCPL_T (PRNCPL_NM, ENTITY_ID, PRNCPL_PSWD, ACTV_IND, LAST_UPDT_DT, PRNCPL_ID, OBJ_ID, VER_NBR) VALUES 
+('admin', KRIM_ENTITY_ID_S.CURRVAL, 'fK69ATFsAydwQuteang+xMva+Tc=', 'Y', SYSDATE, KRIM_PRNCPL_ID_S.NEXTVAL, SYS_GUID(), 1);
+
+INSERT INTO KRIM_ENTITY_ENT_TYP_T (ENTITY_ID, ENT_TYP_CD, LAST_UPDT_DT, ACTV_IND, OBJ_ID, VER_NBR) VALUES 
+(KRIM_ENTITY_ID_S.CURRVAL, 'PERSON', SYSDATE, 'Y', SYS_GUID(), 1);
+
+UPDATE KRIM_ROLE_MBR_T T SET T.MBR_ID = KRIM_PRNCPL_ID_S.CURRVAL WHERE T.MBR_ID = 'admin';
+
+commit;
