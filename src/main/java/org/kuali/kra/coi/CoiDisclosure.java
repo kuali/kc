@@ -480,11 +480,11 @@ public class CoiDisclosure extends KraPersistableBusinessObjectBase implements S
     }
 
     public String getCompleteMessage() {
-        String completeMessage = "Disclosure is complete";
+        String completeMessage = "Review complete";
         if (CollectionUtils.isNotEmpty(this.getCoiDiscDetails())) {
             for (CoiDiscDetail coiDiscDetail : this.getCoiDiscDetails()) {
                 if (StringUtils.isBlank(coiDiscDetail.getEntityStatusCode())) {
-                    completeMessage = "Disclosure is Not complete";
+                    completeMessage = "Review Incomplete";
                     break;
                 }
                 
