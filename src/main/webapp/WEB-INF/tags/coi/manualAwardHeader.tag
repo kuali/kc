@@ -29,34 +29,28 @@
                         <tbody>
                         <%-- Header --%>
                                  <tr>
-                                    <th><div align="center">Award Number</div></th> 
-                                    <th><div align="center">Award Title</div></th> 
-                                    <th><div align="center">Award Date</div></th> 
-                                    <th><div align="center">PI</div></th> 
+                                    <th><div align="right">Award Number:</div></th> 
+                  <td align="left" valign="middle">
+					<div align="left">
+                		<kul:htmlControlAttribute property="document.coiDisclosureList[0].coiDisclProjects[${idx}].coiProjectId" readOnly="true" attributeEntry="${coiDisclProjectAttributes.coiProjectId}" /> 
+					</div>
+				  </td>
+                                    <th><div align="right">Award Date:</div></th> 
+                  <td align="left" valign="middle">
+					<div align="left">
+                		<kul:htmlControlAttribute property="document.coiDisclosureList[0].coiDisclProjects[${idx}].coiProjectStartDate" readOnly="true" attributeEntry="${coiDisclProjectAttributes.coiProjectStartDate}" /> 
+					</div>
+				  </td>
                                 </tr>
                         <%-- Header --%>
                         
                          <%-- New data --%>
                         <%-- kra:permission value="${KualiForm.disclosureHelper.modifyPersonnel}" --%>
                 <tr>
-                  <td align="left" valign="middle">
-					<div align="left">
-                		<kul:htmlControlAttribute property="document.coiDisclosureList[0].coiDisclProjects[${idx}].coiProjectId" readOnly="true" attributeEntry="${coiDisclProjectAttributes.coiProjectId}" /> 
-					</div>
-				  </td>
-                  <td align="left" valign="middle">
+                                    <th><div align="right">Title:</div></th> 
+                  <td align="left" valign="middle" colspan="3">
 					<div align="left">
                 		<kul:htmlControlAttribute property="document.coiDisclosureList[0].coiDisclProjects[${idx}].coiProjectTitle" readOnly="true" attributeEntry="${coiDisclProjectAttributes.coiProjectTitle}" /> 
-					</div>
-				  </td>
-                  <td align="left" valign="middle">
-					<div align="left">
-                		<kul:htmlControlAttribute property="document.coiDisclosureList[0].coiDisclProjects[${idx}].coiProjectStartDate" readOnly="true" attributeEntry="${coiDisclProjectAttributes.coiProjectStartDate}" /> 
-					</div>
-				  </td>
-                  <td align="left" valign="middle">
-					<div align="left">
-				         ${KualiForm.document.coiDisclosureList[0].disclosurePersons[0].reporter.fullName}
 					</div>
 				  </td>
 	            </tr>

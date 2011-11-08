@@ -32,7 +32,6 @@
                                     <th><div align="center">Protocol Number</div></th> 
                                     <th><div align="center">Protocol Name</div></th> 
                                     <th><div align="center">Protocol Type</div></th> 
-                                    <th><div align="center">PI</div></th> 
                                 </tr>
                         <%-- Header --%>
                         
@@ -51,12 +50,7 @@
 				  </td>
                   <td align="left" valign="middle">
 					<div align="left">
-                		<kul:htmlControlAttribute property="document.coiDisclosureList[0].coiDisclProjects[${idx}].coiProjectType" readOnly="true" attributeEntry="${coiDisclProjectAttributes.coiProjectStartDate}" /> 
-					</div>
-				  </td>
-                  <td align="left" valign="middle">
-					<div align="left">
-				         ${KualiForm.document.coiDisclosureList[0].disclosurePersons[0].reporter.fullName}
+                		<kul:htmlControlAttribute property="document.coiDisclosureList[0].coiDisclProjects[${idx}].protocolType.description" readOnly="true" attributeEntry="${coiDisclProjectAttributes.coiProjectStartDate}" /> 
 					</div>
 				  </td>
 	            </tr>

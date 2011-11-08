@@ -677,7 +677,12 @@ public class Protocol extends KraPersistableBusinessObjectBase implements Sequen
     public ProtocolPerson getPrincipalInvestigator() {
         return getProtocolPersonnelService().getPrincipalInvestigator(getProtocolPersons());
     }
-    
+
+    public String getPrincipalInvestigatorName() {
+        ProtocolPerson pi = getPrincipalInvestigator();
+        return pi != null ? pi.getFullName() : null;
+    }
+
     public ProtocolUnit getLeadUnit() {
         ProtocolUnit leadUnit = null;
         if (getPrincipalInvestigator() != null) {

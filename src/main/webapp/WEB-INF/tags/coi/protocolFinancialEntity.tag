@@ -23,57 +23,55 @@
                 <div class="tab-container" align="left">
     	<h3>
             <span class="subhead-left"> 
-               <a href="#" id ="financialEntityControl${idx}" class="financialEntitySubpanel"><img src='kr/images/tinybutton-hide.gif' alt='show/hide panel' width='45' height='15' border='0' align='absmiddle'></a> 
                Protocol - ${disclProject.eventProjectBo.protocolNumber}:${disclProject.eventProjectBo.title} </span>
     		<span class="subhead-right"><kul:help businessObjectClassName="org.kuali.kra.coi.CoiDiscDetail" altText="help"/></span>
         </h3>
-                  <div  id="financialEntityContent${idx}" class="financialEntitySubpanelContent">
                   <div>
                     <table class=tab cellpadding="0" cellspacing="0" summary="">
                         <tbody>
                         <%-- Header --%>
                                  <tr>
-                                    <th><div align="center">Protocol Number</div></th> 
-                                    <th><div align="center"></div>Protocol Name</th> 
-                                    <th><div align="center"></div>Protocol Type</th> 
-                                    <th><div align="center">Application Date</div></th> 
-                                    <th><div align="center">Expiration Date</div></th> 
-                                    <th><div align="center">PI</div></th> 
+                                    <th><div align="right">IRB Protocol Number:</div></th> 
+                  <td align="left" valign="middle">
+					<div align="left">
+                		<kul:htmlControlAttribute property="document.coiDisclosureList[0].coiDisclEventProjects[${idx}].eventProjectBo.protocolNumber" readOnly="true" attributeEntry="${coiDisclProjectAttributes.coiProjectId}" /> 
+					</div>
+				  </td>
+                                    <th><div align="right">IRB Protocol Name:</div></th> 
+                  <td align="left" valign="middle">
+					<div align="left">
+                		<kul:htmlControlAttribute property="document.coiDisclosureList[0].coiDisclEventProjects[${idx}].eventProjectBo.title" readOnly="true" attributeEntry="${coiDisclProjectAttributes.coiProjectTitle}" /> 
+					</div>
+				  </td>
+                                    <th><div align="right">IRB Protocol Type:</div></th> 
+                  <td align="left" valign="middle">
+					<div align="left">
+                		<kul:htmlControlAttribute property="document.coiDisclosureList[0].coiDisclEventProjects[${idx}].eventProjectBo.protocolType.description" readOnly="true" attributeEntry="${coiDisclProjectAttributes.coiProjectSponsor}" /> 
+					</div>
+				  </td>
                                 </tr>
                         <%-- Header --%>
                         
                          <%-- New data --%>
                         <%-- kra:permission value="${KualiForm.disclosureHelper.modifyPersonnel}" --%>
                 <tr>
-                  <td align="left" valign="middle">
-					<div align="left">
-                		<kul:htmlControlAttribute property="document.coiDisclosureList[0].coiDisclEventProjects[${idx}].eventProjectBo.protocolNumber" readOnly="true" attributeEntry="${coiDisclProjectAttributes.coiProjectId}" /> 
-					</div>
-				  </td>
-                  <td align="left" valign="middle">
-					<div align="left">
-                		<kul:htmlControlAttribute property="document.coiDisclosureList[0].coiDisclEventProjects[${idx}].eventProjectBo.title" readOnly="true" attributeEntry="${coiDisclProjectAttributes.coiProjectTitle}" /> 
-					</div>
-				  </td>
-                  <td align="left" valign="middle">
-					<div align="left">
-                		<kul:htmlControlAttribute property="document.coiDisclosureList[0].coiDisclEventProjects[${idx}].eventProjectBo.protocolType.description" readOnly="true" attributeEntry="${coiDisclProjectAttributes.coiProjectSponsor}" /> 
-					</div>
-				  </td>
+                                    <th><div align="right">Application Date:</div></th> 
                   <td align="left" valign="middle">
 					<div align="left">
 					    <%-- kc removed applicationdate from protocol.  not sure what to replace --%>
                 		<kul:htmlControlAttribute property="document.coiDisclosureList[0].coiDisclEventProjects[${idx}].eventProjectBo.updateTimestamp" readOnly="true" attributeEntry="${coiDisclProjectAttributes.coiProjectStartDate}" /> 
 					</div>
 				  </td>
+                                    <th><div align="right">Expiration Date:</div></th> 
                   <td align="left" valign="middle">
 					<div align="left">
                 		<kul:htmlControlAttribute property="document.coiDisclosureList[0].coiDisclEventProjects[${idx}].eventProjectBo.expirationDate" readOnly="true" attributeEntry="${coiDisclProjectAttributes.coiProjectEndDate}" /> 
 					</div>
 				  </td>
+                                    <th><div align="right">PI Name:</div></th> 
                   <td align="left" valign="middle">
 					<div align="left">
-				         ${KualiForm.document.coiDisclosureList[0].disclosurePersons[0].reporter.fullName}
+				         ${KualiForm.document.coiDisclosureList[0].coiDisclEventProjects[idx].eventProjectBo.principalInvestigatorName}
 					</div>
 				  </td>
 	            </tr>
@@ -82,9 +80,12 @@
               </div>
        <div id="div_FinancialEntity${idx}" class="div_FinancialEntity">
                 <h3>
-    		        <span class="subhead-left">Financial Entities</span>
+            <span class="subhead-left"> 
+               <a href="#" id ="financialEntityControl${idx}" class="financialEntitySubpanel"><img src='kr/images/tinybutton-hide.gif' alt='show/hide panel' width='45' height='15' border='0' align='absmiddle'></a> 
+               Financial Entities</span>
     		        <span class="subhead-right"><kul:help businessObjectClassName="org.kuali.kra.coi.CoiDiscDetail" altText="help"/></span>
                 </h3>
+                  <div  id="financialEntityContent${idx}" class="financialEntitySubpanelContent">
 
 
              <table id="protocol-table" cellpadding="0" cellspacing="0" summary="">

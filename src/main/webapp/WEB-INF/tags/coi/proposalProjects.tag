@@ -14,18 +14,12 @@
  limitations under the License.
 --%>
 <%@ include file="/WEB-INF/jsp/kraTldHeader.jsp"%>
+<%@ attribute name="auditErrorKey" required="true" description="audit error keys" %>
 
 <c:set var="coiDisclProjectAttributes" value="${DataDictionary.CoiDisclProject.attributes}" />
 <c:set var="coiDiscDetailAttributes" value="${DataDictionary.CoiDiscDetail.attributes}" />
-<kul:tab defaultOpen="false" tabTitle="Proposal and Financial Entities" auditCluster="" tabAuditKey="" useRiceAuditMode="true"
+<kul:tab defaultOpen="false" tabTitle="Proposals" auditCluster="financialEntityDiscAuditErrors" tabAuditKey="${auditErrorKey}" useRiceAuditMode="true"
     tabErrorKey="disclosureHelper.newCoiDisclProject.*" >
-	<div class="tab-container" align="center">
- 
-       <div class="div_ProposalList">
-                <h3>
-    		        <span class="subhead-left">Proposals</span>
-    		        <span class="subhead-right"><kul:help businessObjectClassName="org.kuali.kra.coi.CoiDiscDetail" altText="help"/></span>
-                </h3>
               
               
                                   
@@ -34,12 +28,10 @@
             <%-- Existing data --%>
 
         	<c:forEach var="disclProject" items="${KualiForm.document.coiDisclosureList[0].coiDisclEventProjects}" varStatus="status">
-
-                 <kra-coi:devProposalFinancialEntity disclProject="${disclProject}"  idx="${status.index}"/>	            
-
+                 <c:if test="${disclProject.proposalEvent}">
+                     <kra-coi:devProposalFinancialEntity disclProject="${disclProject}"  idx="${status.index}"/>	            
+                 </c:if>
         	</c:forEach> 
             <%-- Existing data --%>
-     </div> <%-- proposal list div --%>
-    </div>
 </kul:tab>
 

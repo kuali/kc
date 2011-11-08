@@ -17,45 +17,51 @@
 
 <c:set var="coiDiscDetailAttributes" value="${DataDictionary.CoiDiscDetail.attributes}" />
 <c:set var="financialEntityAttributes" value="${DataDictionary.PersonFinIntDisclosure.attributes}" />
-<kul:tab defaultOpen="false" tabTitle="Financial Entity Relationships (${KualiForm.document.coiDisclosureList[0].completeMessage})" auditCluster="financialEntityDiscAuditErrors" tabAuditKey="document.coiDisclosureList[0].coiDisclEventProjects[*" useRiceAuditMode="true"
-    tabErrorKey="document.coiDisclosureList[0].coiDiscDetails*" >
-	<div class="tab-container" align="center">
-    	<h3>
-    		<span class="subhead-left">Projects</span>
-    		<span class="subhead-right"><kul:help businessObjectClassName="org.kuali.kra.coi.CoiDiscDetail" altText="help"/></span>
-        </h3>
-        
-<table cellpadding=0 cellspacing=0 summary="">
-    <tr>
-        <td>
-            
-            <%-- Existing data --%>
+<c:set var="awardAuditError" value=""/>
+<c:set var="proposalAuditError" value=""/>
+<c:set var="protocolAuditError" value=""/>
         	<c:forEach var="disclProject" items="${KualiForm.document.coiDisclosureList[0].coiDisclEventProjects}" varStatus="status">
-
                 <c:choose>
                     <c:when test="${disclProject.proposalEvent}">
-                        <kra-coi:devProposalFinancialEntity disclProject="${disclProject}"  idx="${status.index}"/>	            
-                    </c:when>
-                    <c:when test="${disclProject.institutionalProposalEvent}">
-                        <kra-coi:devProposalFinancialEntity disclProject="${disclProject}"  idx="${status.index}"/>	            
+                        <c:choose>
+                            <c:when test="${empty proposalAuditError}">
+                                 <c:set var="proposalAuditError" value="document.coiDisclosureList[0].coiDisclEventProjects[${status.index}].*"/>
+                            </c:when>
+                            <c:otherwise>
+                                 <c:set var="proposalAuditError" value="${proposalAuditError},document.coiDisclosureList[0].coiDisclEventProjects[${status.index}].*"/>
+                            </c:otherwise>
+                         </c:choose>
                     </c:when>
                     <c:when test="${disclProject.awardEvent}">
-                        <kra-coi:awardFinancialEntity disclProject="${disclProject}"  idx="${status.index}"/>	            
+                        <c:choose>
+                            <c:when test="${empty awardAuditError}">
+                                 <c:set var="awardAuditError" value="document.coiDisclosureList[0].coiDisclEventProjects[${status.index}].*"/>
+                            </c:when>
+                            <c:otherwise>
+                                 <c:set var="awardAuditError" value="${awardAuditError},document.coiDisclosureList[0].coiDisclEventProjects[${status.index}].*"/>
+                            </c:otherwise>
+                         </c:choose>
                     </c:when>
                     <c:otherwise>
-                        <kra-coi:protocolFinancialEntity disclProject="${disclProject}"  idx="${status.index}"/>	            
+                        <c:choose>
+                            <c:when test="${empty protocolAuditError}">
+                                 <c:set var="protocolAuditError" value="document.coiDisclosureList[0].coiDisclEventProjects[${status.index}].*"/>
+                            </c:when>
+                            <c:otherwise>
+                                 <c:set var="protocolAuditError" value="${protocolAuditError},document.coiDisclosureList[0].coiDisclEventProjects[${status.index}].*"/>
+                            </c:otherwise>
+                         </c:choose>
                     </c:otherwise>
                 
                 </c:choose>
-
-        	</c:forEach> 
-            <%-- Existing data --%>
-
-        </td>
-    </tr>
-</table>
-
-
-    </div>
-</kul:tab>
-
+             </c:forEach>
+     <c:if test="${not empty awardAuditError}">             
+         <kra-coi:awardProjects auditErrorKey="${awardAuditError}" />	
+     </c:if>                
+     <c:if test="${not empty proposalAuditError}">             
+         <kra-coi:proposalProjects auditErrorKey="${proposalAuditError}" />	            
+     </c:if>                
+     <c:if test="${not empty protocolAuditError}">             
+         <kra-coi:protocolProjects auditErrorKey="${protocolAuditError}" />	            
+     </c:if>                
+         
