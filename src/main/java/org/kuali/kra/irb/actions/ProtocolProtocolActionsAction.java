@@ -329,7 +329,7 @@ public class ProtocolProtocolActionsAction extends ProtocolAction implements Aud
         if (committee != null) {
             CommitteeSchedule schedule = getCommitteeService().getCommitteeSchedule(committee, scheduleId);
             if (schedule != null) {
-                int currentSubmissionCount = (schedule.getProtocolSubmissions() == null) ? 0 : schedule.getProtocolSubmissions().size();
+                int currentSubmissionCount = (schedule.getProtocolSubmissions() == null) ? 0 : activeSubmissonCount(schedule.getProtocolSubmissions());
                 int maxSubmissionCount = schedule.getMaxProtocols();
                 isMax = currentSubmissionCount >= maxSubmissionCount;
             }
@@ -338,6 +338,15 @@ public class ProtocolProtocolActionsAction extends ProtocolAction implements Aud
         return isMax;
     }
 
+    private int activeSubmissonCount(List<ProtocolSubmission> submissions) {
+        int count = 0;
+        for (ProtocolSubmission submission : submissions) {
+            if (submission.getProtocol().isActive()) {
+                count++;
+            }
+        }
+        return count;
+    }
     /*
      * Builds the confirmation question to verify if the user wants to submit the protocol for review.
      */
