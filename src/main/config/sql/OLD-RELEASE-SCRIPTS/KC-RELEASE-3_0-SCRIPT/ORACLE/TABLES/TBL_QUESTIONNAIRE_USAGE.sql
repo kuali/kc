@@ -1,1 +1,0 @@
-alter table questionnaire_usage add is_mandatory char(1);
