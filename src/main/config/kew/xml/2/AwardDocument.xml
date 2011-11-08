@@ -18,10 +18,10 @@
 					<name>AwardIdSearchAttribute</name>
 				</attribute>
 				<attribute>
-					<name>AccountNumberSearchAttribute</name>
+					<name>AwardTitleSearchAttribute</name>
 				</attribute>
 				<attribute>
-					<name>AwardTitleSearchAttribute</name>
+					<name>AccountNumberSearchAttribute</name>
 				</attribute>
 				<attribute>
 					<name>InvestigatorSearchAttribute</name>
@@ -185,6 +185,11 @@
 					<display>
 						<type>text</type>
 					</display>
+					<lookup businessObjectClass="org.kuali.kra.award.home.Award">
+				      <fieldConversions>
+				        <fieldConversion lookupFieldName="title" localFieldName="title"/>
+				      </fieldConversions>
+				    </lookup>
 					<fieldEvaluation>
 						<xpathexpression>//awardList/org.kuali.kra.award.home.Award/title</xpathexpression>
 					</fieldEvaluation>
@@ -199,10 +204,15 @@
 			<type>SearchableXmlAttribute</type>
 			<serviceNamespace>KC</serviceNamespace>
 			<searchingConfig>
-				<fieldDef name="awardId" title="Award Id">
+				<fieldDef name="awardId" title="Award ID">
 					<display>
 						<type>text</type>
 					</display>
+					<lookup businessObjectClass="org.kuali.kra.award.home.Award">
+				      <fieldConversions>
+				        <fieldConversion lookupFieldName="awardNumber" localFieldName="awardId"/>
+				      </fieldConversions>
+				    </lookup>
 					<fieldEvaluation>
 						<xpathexpression>//awardList/org.kuali.kra.award.home.Award/awardNumber</xpathexpression>
 					</fieldEvaluation>
@@ -217,10 +227,15 @@
 			<type>SearchableXmlAttribute</type>
 			<serviceNamespace>KC</serviceNamespace>
 			<searchingConfig>
-				<fieldDef name="accountNumber" title="Account Id">
+				<fieldDef name="accountNumber" title="Account ID">
 					<display>
 						<type>text</type>
 					</display>
+					<lookup businessObjectClass="org.kuali.kra.award.home.Award">
+				      <fieldConversions>
+				        <fieldConversion lookupFieldName="accountNumber" localFieldName="accountNumber"/>
+				      </fieldConversions>
+				    </lookup>
 					<fieldEvaluation>
 						<xpathexpression>//awardList/org.kuali.kra.award.home.Award/accountNumber</xpathexpression>
 					</fieldEvaluation>
@@ -239,6 +254,11 @@
 					<display>
 						<type>text</type>
 					</display>
+					<lookup businessObjectClass="org.kuali.kra.bo.KcPerson">
+				      <fieldConversions>
+				        <fieldConversion lookupFieldName="fullName" localFieldName="principalInvestigatorName"/>
+				      </fieldConversions>
+				    </lookup>
 					<fieldEvaluation>
 						<xpathexpression>//awardList/org.kuali.kra.award.home.Award/principalInvestigatorName</xpathexpression>
 					</fieldEvaluation>
@@ -257,6 +277,11 @@
 					<display>
 						<type>text</type>
 					</display>
+					<lookup businessObjectClass="org.kuali.kra.bo.Unit">
+				      <fieldConversions>
+				        <fieldConversion lookupFieldName="unitNumber" localFieldName="leadUnit"/>
+				      </fieldConversions>
+				    </lookup>
 					<fieldEvaluation>
 						<xpathexpression>//awardList/org.kuali.kra.award.home.Award/leadUnit/unitNumber</xpathexpression>
 					</fieldEvaluation>
@@ -275,6 +300,11 @@
 					<display>
 						<type>text</type>
 					</display>
+					<lookup businessObjectClass="org.kuali.kra.bo.Sponsor">
+				      <fieldConversions>
+				        <fieldConversion lookupFieldName="sponsorCode" localFieldName="sponsor"/>
+				      </fieldConversions>
+				    </lookup>
 					<fieldEvaluation>
 						<xpathexpression>//awardList/org.kuali.kra.award.home.Award/sponsor/sponsorCode</xpathexpression>
 					</fieldEvaluation>
