@@ -30,34 +30,47 @@
         <table id="disclosurefe-table" cellpadding="0" cellspacing="0" summary="">
           	<%-- Header --%>
                                  <tr>
-                                    <th><div align="center">Protocol Number</div></th> 
-                                    <th><div align="center">Protocol Name</div></th> 
-                                    <th><div align="center">Protocol Type</div></th> 
-                                    <th><div align="center">PI</div></th> 
+                                    <th><div align="right">IRB Protocol Number:</div></th> 
+                  <td align="left" valign="middle">
+					<div align="left">
+                		${protocol.protocolNumber}
+					</div>
+				  </td>
+                                    <th><div align="right">IRB Protocol Name:</div></th> 
+                  <td align="left" valign="middle">
+					<div align="left">
+                		${protocol.title}
+					</div>
+				  </td>
+                                    <th><div align="right">IRB Protocol Type:</div></th> 
+                  <td align="left" valign="middle">
+					<div align="left">
+					${protocol.protocolType.description}
+					</div>
+				  </td>
                                 </tr>
                         <%-- Header --%>
                         
                          <%-- New data --%>
                         <%-- kra:permission value="${KualiForm.disclosureHelper.modifyPersonnel}" --%>
                 <tr>
+                                    <th><div align="right">Application Date:</div></th> 
                   <td align="left" valign="middle">
 					<div align="left">
-                		${protocol.protocolNumber}
+					    <%-- kc removed applicationdate from protocol.  not sure what to replace --%>
+                		${protocol.updateTimestamp}
 					</div>
 				  </td>
+                                    <th><div align="right">Expiration Date:</div></th> 
                   <td align="left" valign="middle">
 					<div align="left">
-                		${protocol.title}
+                		${protocol.expirationDate}
 					</div>
 				  </td>
+                                    <th><div align="right">PI Name:</div></th> 
                   <td align="left" valign="middle">
 					<div align="left">
-                		${protocol.protocolType.description} 
-					</div>
-				  </td>
-                  <td align="left" valign="middle">
-					<div align="left">
-				         ${KualiForm.document.coiDisclosureList[0].disclosurePersons[0].reporter.fullName}
+                		${protocol.principalInvestigatorName}
 					</div>
 				  </td>
 	            </tr>
