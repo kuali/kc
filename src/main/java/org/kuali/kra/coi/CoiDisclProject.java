@@ -21,6 +21,7 @@ import java.util.List;
 
 import org.apache.commons.lang.StringUtils;
 import org.kuali.kra.bo.KraPersistableBusinessObjectBase;
+import org.kuali.kra.irb.protocol.ProtocolType;
 import org.kuali.kra.proposaldevelopment.bo.ProposalType;
 import org.kuali.rice.kns.util.KualiDecimal;
 
@@ -52,6 +53,7 @@ public class CoiDisclProject extends KraPersistableBusinessObjectBase {
     private String coiProjectRole; 
     private boolean disclosureFlag;
     private ProposalType proposalType;
+    private ProtocolType protocolType;
     
     private CoiDisclosure coiDisclosure; 
     // for UI purposes
@@ -272,5 +274,11 @@ public class CoiDisclProject extends KraPersistableBusinessObjectBase {
         }
         return description;
 
+    }
+    public ProtocolType getProtocolType() {
+        return protocolType;
+    }
+    public void setProtocolType(ProtocolType protocolType) {
+        this.protocolType = protocolType;
     }
 }

@@ -34,7 +34,6 @@
                                     <th><div align="center">Sponsor</div></th> 
                                     <th><div align="center">start Date</div></th> 
                                     <th><div align="center">End Date</div></th> 
-                                    <th><div align="center">PI</div></th> 
                                 </tr>
                         <%-- Header --%>
                         
@@ -64,11 +63,6 @@
                   <td align="left" valign="middle">
 					<div align="left">
                 		<kul:htmlControlAttribute property="document.coiDisclosureList[0].coiDisclProjects[${idx}].coiProjectEndDate" readOnly="true" attributeEntry="${coiDisclProjectAttributes.coiProjectEndDate}" /> 
-					</div>
-				  </td>
-                  <td align="left" valign="middle">
-					<div align="left">
-				         ${KualiForm.document.coiDisclosureList[0].disclosurePersons[0].reporter.fullName}
 					</div>
 				  </td>
 	            </tr>

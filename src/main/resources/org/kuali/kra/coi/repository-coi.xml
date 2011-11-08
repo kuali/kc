@@ -456,6 +456,9 @@
 		<reference-descriptor name="proposalType" class-ref="org.kuali.kra.proposaldevelopment.bo.ProposalType" auto-retrieve="true" auto-update="none" auto-delete="none"> 
 			<foreignkey field-ref="coiProjectType"/>
 		</reference-descriptor>
+        <reference-descriptor name="protocolType" class-ref="org.kuali.kra.irb.protocol.ProtocolType" auto-retrieve="true" auto-update="none" auto-delete="none"> 
+            <foreignkey field-ref="coiProjectType"/>
+        </reference-descriptor>
 	</class-descriptor>
 	
 	<class-descriptor class="org.kuali.kra.coi.CoiReviewer" table="COI_REVIEWER">

@@ -73,8 +73,10 @@ public class CoiDisclosureServiceImpl implements CoiDisclosureService {
     private static final String PROPOSAL_DISCLOSE_STATUS_CODES = "PROPOSAL_DISCLOSE_STATUS_CODES";
     private static final String INSTITUTIONAL_PROPOSAL_DISCLOSE_STATUS_CODES = "INSTITUTIONAL_PROPOSAL_DISCLOSE_STATUS_CODES";
     private static final String AWARD_DISCLOSE_STATUS_CODES = "AWARD_DISCLOSE_STATUS_CODES";
-    private static final String SPONSOR_HIERARCHY_NAMES_FOR_DISCLOSE = "SPONSOR_HIERARCHY_NAMES_FOR_DISCLOSE";
-
+    private static final String SPONSORS_FOR_PROPOSAL_AWD_DISCLOSE = "SPONSORS_FOR_PROPOSAL_AWD_DISCLOSE";
+    private static final String SPONSORS_FOR_PROTOCOL_DISCLOSE = "SPONSORS_FOR_PROTOCOL_DISCLOSE";
+    private static final String ALL_SPONSORS_FOR_PROPOSAL_AWD_DISCLOSE = "ALL_SPONSORS_FOR_PROPOSAL_AWD_DISCLOSE";
+    private static final String ALL_SPONSORS_FOR_PROTOCOL_DISCLOSE = "ALL_SPONSORS_FOR_PROTOCOL_DISCLOSE";
     private static Map<String, String> moduleEventMap = new HashMap<String, String>();
     static {
         moduleEventMap.put("11", "1");
@@ -618,7 +620,6 @@ public class CoiDisclosureServiceImpl implements CoiDisclosureService {
         List<AwardPerson> awardPersons = (List<AwardPerson>) businessObjectService.findMatching(AwardPerson.class, fieldValues);
         for (AwardPerson awardPerson : awardPersons) {
             if (isAwardDisclosurable(awardPerson.getAward()) && !isProjectReported(awardPerson.getAward().getAwardNumber(), CoiDisclProject.AWARD_EVENT)) {
-            // TODO : condition to be implemented
                 awards.add(awardPerson.getAward());
             }
         }
@@ -688,7 +689,7 @@ public class CoiDisclosureServiceImpl implements CoiDisclosureService {
             // TODO : what if param is not set or not set properly ?
             params.add("1");
         }
-        return params.contains(award.getStatusCode().toString()) && isSponsorActiveForDisclose(award.getSponsorCode());
+        return params.contains(award.getStatusCode().toString()) && isSponsorForDisclosesure(ProposalDevelopmentDocument.class, award.getSponsorCode(), SPONSORS_FOR_PROPOSAL_AWD_DISCLOSE, ALL_SPONSORS_FOR_PROPOSAL_AWD_DISCLOSE);
    
     }
     public boolean isProposalDisclosurable(DevelopmentProposal proposal) {
@@ -702,7 +703,7 @@ public class CoiDisclosureServiceImpl implements CoiDisclosureService {
             // TODO : what if param is not set or not set properly ?
             params.add("1");
         }
-        return params.contains(proposal.getProposalTypeCode()) && isSponsorActiveForDisclose(proposal.getSponsorCode());
+        return params.contains(proposal.getProposalTypeCode()) && isSponsorForDisclosesure(ProposalDevelopmentDocument.class, proposal.getSponsorCode(), SPONSORS_FOR_PROPOSAL_AWD_DISCLOSE, ALL_SPONSORS_FOR_PROPOSAL_AWD_DISCLOSE);
    
     }
     public boolean isInstitutionalProposalDisclosurable(InstitutionalProposal proposal) {
@@ -716,7 +717,7 @@ public class CoiDisclosureServiceImpl implements CoiDisclosureService {
             // TODO : what if param is not set or not set properly ?
             params.add("1");
         }
-        return params.contains(proposal.getStatusCode().toString()) && isSponsorActiveForDisclose(proposal.getSponsorCode());
+        return params.contains(proposal.getStatusCode().toString()) && isSponsorForDisclosesure(ProposalDevelopmentDocument.class, proposal.getSponsorCode(), SPONSORS_FOR_PROPOSAL_AWD_DISCLOSE, ALL_SPONSORS_FOR_PROPOSAL_AWD_DISCLOSE);
    
     }
     public boolean isProtocolDisclosurable(Protocol protocol) {
@@ -737,7 +738,7 @@ public class CoiDisclosureServiceImpl implements CoiDisclosureService {
     private boolean isProtocolFundedByActiveSponsor(Protocol protocol) {
          boolean isActive = false;
          for (ProtocolFundingSource fundingSource : protocol.getProtocolFundingSources()) {
-             if (fundingSource.isSponsorFunding() && isSponsorActiveForDisclose(fundingSource.getFundingSourceNumber())) {
+             if (fundingSource.isSponsorFunding() && isSponsorForDisclosesure(ProtocolDocument.class, fundingSource.getFundingSourceNumber(), SPONSORS_FOR_PROTOCOL_DISCLOSE, ALL_SPONSORS_FOR_PROTOCOL_DISCLOSE)) {
                  isActive = true;
                  break;
              }
@@ -754,12 +755,15 @@ public class CoiDisclosureServiceImpl implements CoiDisclosureService {
         this.dateTimeService = dateTimeService;
     }
 
-    private boolean isSponsorActiveForDisclose(String sponsorCode) {
-
+    private boolean isSponsorForDisclosesure(Class clazz, String sponsorCode, String paramName, String paramNameAllSponsor) {
+        return isAllSponsorActiveForDisclose(clazz, paramNameAllSponsor) || isSponsorHierarchyActiveForDisclose(clazz, sponsorCode, paramName);    
+    }
+    
+    private boolean isSponsorHierarchyActiveForDisclose(Class clazz, String sponsorCode, String paramName) {
         
         List<String> params = new ArrayList<String>();
         try {
-            params = parameterService.getParameterValues(ProposalDevelopmentDocument.class, SPONSOR_HIERARCHY_NAMES_FOR_DISCLOSE);
+            params = parameterService.getParameterValues(clazz, paramName);
         } catch (Exception e) {
             
         }
@@ -778,6 +782,20 @@ public class CoiDisclosureServiceImpl implements CoiDisclosureService {
             return sponsorCodes.contains(sponsorCode);
         }
     }
+
+    private boolean isAllSponsorActiveForDisclose(Class clazz,  String paramName) {
+
+        
+        boolean isAllSponsors = false;
+        try {
+            isAllSponsors = parameterService.getIndicatorParameter(clazz, paramName);
+        } catch (Exception e) {
+            
+        }
+   
+        return isAllSponsors;
+    }
+
 
     public void setSponsorHierarchyDao(SponsorHierarchyDao sponsorHierarchyDao) {
         this.sponsorHierarchyDao = sponsorHierarchyDao;

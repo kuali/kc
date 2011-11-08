@@ -22,57 +22,55 @@
 <%-- c:set var="readOnly" value="${!KualiForm.personnelHelper.modifyPersonnel}" / --%>
                 <div class="tab-container" align="left">
     	<h3>
-            <span class="subhead-left"> 
-               <a href="#" id ="financialEntityControl${idx}" class="financialEntitySubpanel"><img src='kr/images/tinybutton-hide.gif' alt='show/hide panel' width='45' height='15' border='0' align='absmiddle'></a> 
-               Proposal - ${disclProject.eventProjectBo.proposalNumber}:${disclProject.eventProjectBo.title} </span>
+    	    <span class="subhead-left">Proposal - ${disclProject.eventProjectBo.proposalNumber}:${disclProject.eventProjectBo.title}</span>
+                </span>
     		<span class="subhead-right"><kul:help businessObjectClassName="org.kuali.kra.coi.CoiDiscDetail" altText="help"/></span>
         </h3>
-                  <div  id="financialEntityContent${idx}" class="financialEntitySubpanelContent">
                   <div>
                     <table class=tab cellpadding="0" cellspacing="0" summary="">
                         <tbody>
                         <%-- Header --%>
                                  <tr>
-                                    <th><div align="center">Proposal Number</div></th> 
-                                    <th><div align="center"></div>Proposal Name</th> 
-                                    <th><div align="center"></div>Sponsor</th> 
-                                    <th><div align="center">start Date</div></th> 
-                                    <th><div align="center">End Date</div></th> 
-                                    <th><div align="center">PI</div></th> 
-                                </tr>
-                        <%-- Header --%>
-                        
-                         <%-- New data --%>
-                        <%-- kra:permission value="${KualiForm.disclosureHelper.modifyPersonnel}" --%>
-                <tr>
+                                    <th><div align="right">Proposal Number:</div></th> 
                   <td align="left" valign="middle">
 					<div align="left">
                 		<kul:htmlControlAttribute property="document.coiDisclosureList[0].coiDisclEventProjects[${idx}].eventProjectBo.proposalNumber" readOnly="true" attributeEntry="${coiDisclProjectAttributes.coiProjectId}" /> 
 					</div>
 				  </td>
+                                    <th><div align="right">Proposal Name:</div></th> 
                   <td align="left" valign="middle">
 					<div align="left">
                 		<kul:htmlControlAttribute property="document.coiDisclosureList[0].coiDisclEventProjects[${idx}].eventProjectBo.title" readOnly="true" attributeEntry="${coiDisclProjectAttributes.coiProjectTitle}" /> 
 					</div>
 				  </td>
+                                    <th><div align="right">Sponsor:</div></th> 
                   <td align="left" valign="middle">
 					<div align="left">
                 		<kul:htmlControlAttribute property="document.coiDisclosureList[0].coiDisclEventProjects[${idx}].eventProjectBo.sponsor.sponsorName" readOnly="true" attributeEntry="${coiDisclProjectAttributes.coiProjectSponsor}" /> 
 					</div>
 				  </td>
+                                </tr>
+                <tr>
+                        <%-- Header --%>
+                        
+                         <%-- New data --%>
+                                    <th><div align="right">start Date:</div></th> 
+                        <%-- kra:permission value="${KualiForm.disclosureHelper.modifyPersonnel}" --%>
                   <td align="left" valign="middle">
 					<div align="left">
                 		<kul:htmlControlAttribute property="document.coiDisclosureList[0].coiDisclEventProjects[${idx}].eventProjectBo.requestedStartDateInitial" readOnly="true" attributeEntry="${coiDisclProjectAttributes.coiProjectStartDate}" /> 
 					</div>
 				  </td>
+                                    <th><div align="right">End Date:</div></th> 
                   <td align="left" valign="middle">
 					<div align="left">
                 		<kul:htmlControlAttribute property="document.coiDisclosureList[0].coiDisclEventProjects[${idx}].eventProjectBo.requestedEndDateInitial" readOnly="true" attributeEntry="${coiDisclProjectAttributes.coiProjectEndDate}" /> 
 					</div>
 				  </td>
+                                    <th><div align="right">PI Name:</div></th> 
                   <td align="left" valign="middle">
 					<div align="left">
-				         ${KualiForm.document.coiDisclosureList[0].disclosurePersons[0].reporter.fullName}
+				         ${KualiForm.document.coiDisclosureList[0].coiDisclEventProjects[idx].eventProjectBo.principalInvestigatorName}
 					</div>
 				  </td>
 	            </tr>
@@ -80,9 +78,12 @@
               </div>
        <div id="div_FinancialEntity${idx}" class="div_FinancialEntity">
                 <h3>
-    		        <span class="subhead-left">Financial Entities</span>
+            <span class="subhead-left"> 
+               <a href="#" id ="financialEntityControl${idx}" class="financialEntitySubpanel"><img src='kr/images/tinybutton-hide.gif' alt='show/hide panel' width='45' height='15' border='0' align='absmiddle'></a> 
+               Financial Entities </span>
     		        <span class="subhead-right"><kul:help businessObjectClassName="org.kuali.kra.coi.CoiDiscDetail" altText="help"/></span>
                 </h3>
+                  <div  id="financialEntityContent${idx}" class="financialEntitySubpanelContent">
 
 
              <table id="newproposal-table" cellpadding="0" cellspacing="0" summary="">
