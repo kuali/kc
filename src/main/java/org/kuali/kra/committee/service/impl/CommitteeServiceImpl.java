@@ -155,8 +155,8 @@ public class CommitteeServiceImpl implements CommitteeService {
     protected boolean isOkayToScheduleReview(Committee committee, CommitteeSchedule schedule) {
         Calendar now = getCalendar(new Date());
         Calendar scheduleCalendar = getCalendar(schedule.getScheduledDate());
-        now.add(Calendar.DAY_OF_MONTH, committee.getAdvancedSubmissionDaysRequired());
-        boolean dateRangeOK = now.compareTo(scheduleCalendar) <= 0;
+       // now.add(Calendar.DAY_OF_MONTH, committee.getAdvancedSubmissionDaysRequired());
+        boolean dateRangeOK = now.compareTo(getCalendar(schedule.getProtocolSubDeadline())) <= 0;
         boolean statusOK = "Scheduled".equals(schedule.getScheduleStatus().getDescription());
         return dateRangeOK && statusOK;
     }
