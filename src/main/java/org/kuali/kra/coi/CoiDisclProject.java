@@ -19,6 +19,7 @@ import java.sql.Date;
 import java.util.LinkedHashMap;
 import java.util.List;
 
+import org.apache.commons.collections.CollectionUtils;
 import org.apache.commons.lang.StringUtils;
 import org.kuali.kra.bo.KraPersistableBusinessObjectBase;
 import org.kuali.kra.irb.protocol.ProtocolType;
@@ -281,4 +282,35 @@ public class CoiDisclProject extends KraPersistableBusinessObjectBase {
     public void setProtocolType(ProtocolType protocolType) {
         this.protocolType = protocolType;
     }
+    
+    public String getCompleteMessage() {
+        String completeMessage = "Review Complete";
+        if (CollectionUtils.isNotEmpty(this.getCoiDiscDetails())) {
+            for (CoiDiscDetail coiDiscDetail : this.getCoiDiscDetails()) {
+                if (StringUtils.isBlank(coiDiscDetail.getEntityStatusCode())) {
+                    completeMessage = "Review Incomplete";
+                    break;
+                }
+                
+            }
+        }
+        return completeMessage;
+    }
+
+    public boolean isComplete() {
+        // TODO : this is kind of duplicate with getCompleteMessage.
+        // may want to merge for better solution
+        boolean isComplete = true;
+        if (CollectionUtils.isNotEmpty(this.getCoiDiscDetails())) {
+            for (CoiDiscDetail coiDiscDetail : this.getCoiDiscDetails()) {
+                if (StringUtils.isBlank(coiDiscDetail.getEntityStatusCode())) {
+                    isComplete = false;
+                    break;
+                }
+                
+            }
+        }
+        return isComplete;
+    }
+
 }
