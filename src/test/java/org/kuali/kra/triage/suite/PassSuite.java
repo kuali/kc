@@ -447,6 +447,8 @@ import org.junit.runners.Suite.SuiteClasses;
     org.kuali.kra.coi.personfinancialentity.FinEntitiesDataGroupMaintenanceDocumentRuleTest.class,
     org.kuali.kra.coi.personfinancialentity.FinEntitiesDataMatrixMaintenanceDocumentRuleTest.class,
     org.kuali.kra.coi.personfinancialentity.SaveFinancialEntityRuleTest.class,
+    org.kuali.kra.coi.disclosure.AddManualProjectRuleTest.class,
+    org.kuali.kra.coi.disclosure.CoiDisclosureServiceTest.class,
     org.kuali.kra.negotiations.rules.NegotiationActivityRuleTest.class,
     org.kuali.kra.negotiations.auth.TestNegotiationAuthorizers.class,
     org.kuali.kra.irb.protocol.questionnaire.ProtocolQuestionnaireAuditRuleTest.class,
