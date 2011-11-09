@@ -55,11 +55,6 @@ var kualiElements = kualiForm.elements;
 </script>
 <c:choose>
 	<c:when test="${KualiForm.displayRegenerateButton }">
-		<%--
-		<kul:documentControls transactionalDocument="true" suppressRoutingControls="true" suppressCancelButton="true" 
-			extraButtonSource="${ConfigProperties.kra.externalizable.images.url}tinybutton-generate-schedule.gif" 
-			extraButtonProperty="methodToCall.regenerateReports" extraButtonAlt="Generate Reports" />
-			 --%>
 		<kul:documentControls transactionalDocument="true" suppressRoutingControls="true" suppressCancelButton="true" 
 			extraButtonSource="${ConfigProperties.kra.externalizable.images.url}generate-report-tracking.jpg" 
 			extraButtonProperty="methodToCall.regenerateReports" extraButtonAlt="Generate Reports" />
