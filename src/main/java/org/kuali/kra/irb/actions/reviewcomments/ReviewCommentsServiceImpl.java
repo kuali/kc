@@ -329,20 +329,19 @@ public class ReviewCommentsServiceImpl implements ReviewCommentsService {
         String principalId = GlobalVariables.getUserSession().getPrincipalId();
         String principalName = GlobalVariables.getUserSession().getPrincipalName();
         
-        if (minute.getProtocolOnlineReviewIdFk() != null) {
-            if (isIrbAdministrator(principalId)) {
-                return true;
-            } else {
+        if (isIrbAdministrator(principalId)) {
+            return true;
+        } else {
+            if (minute.getProtocolOnlineReviewIdFk() != null) {
                 if (minute.isAccepted()) {
                     return StringUtils.equals(principalName, minute.getCreateUser()) || isViewable(minute);
                 } else {
                     return false;
                 }
-            }       
-        } else {
-            return true;
-        }
-        
+            } else {
+                return false;
+            }
+        }       
     }
     
     /*
