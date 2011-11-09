@@ -54,7 +54,7 @@
 		<collection-descriptor name="committeeScheduleAttendances" proxy="true" element-class-ref="org.kuali.kra.meeting.CommitteeScheduleAttendance" collection-class="org.apache.ojb.broker.util.collections.ManageableArrayList" auto-retrieve="true" auto-update="object" auto-delete="object">
         	<inverse-foreignkey field-ref="scheduleIdFk" />
     	</collection-descriptor>
-		<collection-descriptor name="protocolSubmissions" proxy="true" element-class-ref="org.kuali.kra.irb.actions.submit.ProtocolSubmission" collection-class="org.apache.ojb.broker.util.collections.ManageableArrayList" auto-retrieve="true" auto-update="none" auto-delete="none">
+		<collection-descriptor name="protocolSubmissions" proxy="true" element-class-ref="org.kuali.kra.irb.actions.submit.ProtocolSubmission" collection-class="org.apache.ojb.broker.util.collections.ManageableArrayList" auto-retrieve="true" auto-update="object" auto-delete="object">
         	<inverse-foreignkey field-ref="scheduleIdFk" />
     	</collection-descriptor>
 		<collection-descriptor name="commScheduleActItems" proxy="true" element-class-ref="org.kuali.kra.meeting.CommScheduleActItem" collection-class="org.apache.ojb.broker.util.collections.ManageableArrayList" auto-retrieve="true" auto-update="object" auto-delete="object">

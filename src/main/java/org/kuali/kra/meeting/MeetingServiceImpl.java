@@ -50,6 +50,8 @@ public class MeetingServiceImpl implements MeetingService {
     SequenceAccessorService sequenceAccessorService;
     
     DateTimeService dateTimeService;
+    
+    private static final String PROTOCOL_SUBMISSIONS_REF_ID = "protocolSubmissions";
 
     /*
      * 
@@ -800,6 +802,14 @@ public class MeetingServiceImpl implements MeetingService {
             }
         }
         return isPresent;
+    }
+
+    /**
+     * @see org.kuali.kra.meeting.MeetingService#refreshProtocolSubmissionsFor(org.kuali.kra.committee.bo.CommitteeSchedule)
+     */
+    @Override
+    public void refreshProtocolSubmissionsFor(CommitteeSchedule committeeSchedule) {
+        committeeSchedule.refreshReferenceObject(PROTOCOL_SUBMISSIONS_REF_ID);
     }
 
 
