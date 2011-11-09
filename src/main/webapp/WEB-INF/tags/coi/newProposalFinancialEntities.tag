@@ -18,7 +18,7 @@
 <c:set var="coiDiscDetailAttributes" value="${DataDictionary.CoiDiscDetail.attributes}" />
 <c:set var="financialEntityAttributes" value="${DataDictionary.PersonFinIntDisclosure.attributes}" />
 <c:set var="proposal" value="${KualiForm.document.coiDisclosureList[0].eventBo}" />
-<kul:tab defaultOpen="false" tabTitle="Project & Financial Entity Relationships (${KualiForm.document.coiDisclosureList[0].completeMessage})" auditCluster="financialEntityDiscAuditErrors" tabAuditKey="document.coiDisclosureList[0].coiDiscDetails*" useRiceAuditMode="true"
+<kul:tab defaultOpen="false" tabTitle="Project & Financial Entity Relationships" auditCluster="financialEntityDiscAuditErrors" tabAuditKey="document.coiDisclosureList[0].coiDiscDetails*" useRiceAuditMode="true"
     tabErrorKey="document.coiDisclosureList[0].coiDiscDetails*" >
 	<div class="tab-container" align="center">
 	 <div>
@@ -78,7 +78,11 @@
             <%-- Existing data --%>
 	<div>
     	<h3>
-    		<span class="subhead-left">Financial Entities</span>
+    		<span class="subhead-left">
+                  <c:if test="${not KualiForm.document.coiDisclosureList[0].complete}">
+                    <img src="${ConfigProperties.kra.externalizable.images.url}exclamation.png" style="border:none; width:16px; height:16px; vertical-align:middle;" label="Incomplete Project">
+                  </c:if>
+    		Financial Entities (${KualiForm.document.coiDisclosureList[0].completeMessage})</span>
     		<span class="subhead-right"><kul:help businessObjectClassName="org.kuali.kra.coi.CoiDiscDetail" altText="help"/></span>
         </h3>
         

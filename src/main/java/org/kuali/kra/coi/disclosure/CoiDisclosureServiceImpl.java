@@ -85,6 +85,10 @@ public class CoiDisclosureServiceImpl implements CoiDisclosureService {
         moduleEventMap.put("15", "4");
     }
 
+    /**
+     * 
+     * @see org.kuali.kra.coi.disclosure.CoiDisclosureService#getDisclosureReporter(java.lang.String, java.lang.Long)
+     */
     @SuppressWarnings("rawtypes")
     public DisclosurePerson getDisclosureReporter(String personId, Long coiDisclosureId) {
         List<DisclosurePerson> reporters = new ArrayList<DisclosurePerson>();
@@ -120,6 +124,10 @@ public class CoiDisclosureServiceImpl implements CoiDisclosureService {
         return reporters.get(0);
     }
 
+    /**
+     * 
+     * @see org.kuali.kra.coi.disclosure.CoiDisclosureService#addDisclosureReporterUnit(org.kuali.kra.coi.DisclosureReporter, org.kuali.kra.coi.DisclosureReporterUnit)
+     */
     public void addDisclosureReporterUnit(DisclosureReporter disclosureReporter , DisclosureReporterUnit newDisclosureReporterUnit) {
         
         List<DisclosureReporterUnit> disclosureReporterUnits = (List<DisclosureReporterUnit>)disclosureReporter.getDisclosureReporterUnits();
@@ -130,6 +138,10 @@ public class CoiDisclosureServiceImpl implements CoiDisclosureService {
         disclosureReporterUnits.add(newDisclosureReporterUnit);
     }
 
+    /**
+     * 
+     * @see org.kuali.kra.coi.disclosure.CoiDisclosureService#deleteDisclosureReporterUnit(org.kuali.kra.coi.DisclosureReporter, java.util.List, int)
+     */
     public void deleteDisclosureReporterUnit(DisclosureReporter disclosureReporter,List<? extends DisclosureReporterUnit> deletedUnits, int unitIndex) {
         
         List<DisclosureReporterUnit> disclosureReporterUnits = (List<DisclosureReporterUnit>)disclosureReporter.getDisclosureReporterUnits();
@@ -144,6 +156,10 @@ public class CoiDisclosureServiceImpl implements CoiDisclosureService {
         }
     }
 
+    /**
+     * 
+     * @see org.kuali.kra.coi.disclosure.CoiDisclosureService#resetLeadUnit(org.kuali.kra.coi.DisclosureReporter)
+     */
     public void resetLeadUnit(DisclosureReporter disclosureReporter) {
         List<? extends DisclosureReporterUnit> disclosureReporterUnits = disclosureReporter.getDisclosureReporterUnits();
         if (CollectionUtils.isNotEmpty(disclosureReporterUnits)) {
@@ -152,6 +168,10 @@ public class CoiDisclosureServiceImpl implements CoiDisclosureService {
         }
     }
 
+    /**
+     * 
+     * @see org.kuali.kra.coi.disclosure.CoiDisclosureService#setDisclDetailsForSave(org.kuali.kra.coi.CoiDisclosure)
+     */
     public void setDisclDetailsForSave(CoiDisclosure coiDisclosure) {
         if (coiDisclosure.isManualEvent()) {
             coiDisclosure.setCoiDiscDetails(new ArrayList<CoiDiscDetail>());
@@ -160,20 +180,19 @@ public class CoiDisclosureServiceImpl implements CoiDisclosureService {
             }
         }
         else {
-   //     if (coiDisclosure.isProtocolEvent() || coiDisclosure.isProposalEvent() || coiDisclosure.isAwardEvent()) {
           if (coiDisclosure.isAnnualEvent()) {
-              // TODO this is temp for moving to one project at a time
             coiDisclosure.setCoiDiscDetails(new ArrayList<CoiDiscDetail>());
             for (CoiDisclEventProject coiDisclEventProject : coiDisclosure.getCoiDisclEventProjects()) {
-               // if (coiDisclEventProject.isDisclosureFlag()) {
                     coiDisclosure.getCoiDiscDetails().addAll(coiDisclEventProject.getCoiDiscDetails());
-               // }
             }
           }
         }
     }
 
 
+    /*
+     * set all units leadunitflag to false
+     */
     private void resetLeadUnit(List<? extends DisclosureReporterUnit> disclosureReporterUnits) {
         for (DisclosureReporterUnit  disclosureReporterUnit : disclosureReporterUnits) {
             disclosureReporterUnit.setLeadUnitFlag(false);
@@ -181,6 +200,9 @@ public class CoiDisclosureServiceImpl implements CoiDisclosureService {
         
     }
 
+    /*
+     * set the kcperson unit to leadunit when reporter is set up initially
+     */
     private DisclosurePersonUnit createLeadUnit(String personId) {
 
         DisclosurePersonUnit leadUnit = null;
@@ -195,6 +217,10 @@ public class CoiDisclosureServiceImpl implements CoiDisclosureService {
         return leadUnit;
     }
     
+    /**
+     * 
+     * @see org.kuali.kra.coi.disclosure.CoiDisclosureService#initializeDisclosureDetails(org.kuali.kra.coi.CoiDisclosure)
+     */
     public void initializeDisclosureDetails(CoiDisclosure coiDisclosure) {
         // When creating a disclosure. the detail will be created at first
         // TODO : method too long need refactor.  this method should only for annual.  clean it. 
@@ -220,6 +246,9 @@ public class CoiDisclosureServiceImpl implements CoiDisclosureService {
 
     }
     
+    /*
+     * set up protocols, that need disclosure, with FE relationship
+     */
     private void initProtocols(List<CoiDisclEventProject> disclEventProjects, List<CoiDiscDetail> disclosureDetails, List<PersonFinIntDisclosure> financialEntities, CoiDisclosure coiDisclosure) {
         List<Protocol> protocols = getProtocols(GlobalVariables.getUserSession().getPrincipalId());
         for (Protocol protocol : protocols) {
@@ -237,6 +266,9 @@ public class CoiDisclosureServiceImpl implements CoiDisclosureService {
         
     }
     
+    /*
+     * set up proposals, that need disclosure, with FE relationship
+     */
     private void initProposals(List<CoiDisclEventProject> disclEventProjects, List<CoiDiscDetail> disclosureDetails,
             List<PersonFinIntDisclosure> financialEntities, CoiDisclosure coiDisclosure) {
         List<DevelopmentProposal> proposals = getProposals(GlobalVariables.getUserSession().getPrincipalId());
@@ -254,6 +286,9 @@ public class CoiDisclosureServiceImpl implements CoiDisclosureService {
         }
     }
     
+    /*
+     * set up institutional proposals, that need disclosure, with FE relationship
+     */
     private void initInstitutionalProposals(List<CoiDisclEventProject> disclEventProjects, List<CoiDiscDetail> disclosureDetails, List<PersonFinIntDisclosure> financialEntities, CoiDisclosure coiDisclosure) {
         List<InstitutionalProposal> iProposals = getInstitutionalProposals(GlobalVariables.getUserSession().getPrincipalId());
         for (InstitutionalProposal proposal : iProposals) {
@@ -272,6 +307,9 @@ public class CoiDisclosureServiceImpl implements CoiDisclosureService {
         
     }
     
+    /*
+     * set up awards, that need disclosure, with FE relationship
+     */
     private void initAwards(List<CoiDisclEventProject> disclEventProjects, List<CoiDiscDetail> disclosureDetails, List<PersonFinIntDisclosure> financialEntities, CoiDisclosure coiDisclosure) {
         List<Award> awards = getAwards(GlobalVariables.getUserSession().getPrincipalId());
         for (Award award : awards) {
@@ -290,6 +328,11 @@ public class CoiDisclosureServiceImpl implements CoiDisclosureService {
         
     }
     
+    /**
+     * 
+     * @see org.kuali.kra.coi.disclosure.CoiDisclosureService#initializeDisclosureDetails(org.kuali.kra.coi.CoiDisclosure,
+     *      java.lang.String)
+     */
     public void initializeDisclosureDetails(CoiDisclosure coiDisclosure, String projectId) {
         // When creating a disclosure. the detail will be created at first
         List<CoiDiscDetail> disclosureDetails = new ArrayList<CoiDiscDetail>();
@@ -306,6 +349,9 @@ public class CoiDisclosureServiceImpl implements CoiDisclosureService {
         coiDisclosure.setCoiDiscDetails(disclosureDetails);
     }
     
+    /*
+     * get moduleitemkey from different project bo
+     */
     private String getModuleItemKey(CoiDisclosure coiDisclosure, KraPersistableBusinessObjectBase eventBo) {
     // TODO : this is a temp method, should add interface and 'getmoduleitemkey' in the disclosurable bos    
         String moduleItemKey = null;
@@ -323,6 +369,9 @@ public class CoiDisclosureServiceImpl implements CoiDisclosureService {
         return moduleItemKey;
     }
     
+    /*
+     * set up the eventbo based on disclosure event and projectid
+     */
     private KraPersistableBusinessObjectBase getEventBo(CoiDisclosure coiDisclosure, String projectId) {
         KraPersistableBusinessObjectBase eventBo = null;
         if (coiDisclosure.isProtocolEvent()) {
@@ -341,6 +390,9 @@ public class CoiDisclosureServiceImpl implements CoiDisclosureService {
 
     }
 
+    /*
+     * get protocol by using protocolid
+     */
     private Protocol getProtocol(Long protocolId) {
         HashMap<String, Object> pkMap = new HashMap<String, Object>();
         pkMap.put("protocolId", protocolId);
@@ -348,6 +400,10 @@ public class CoiDisclosureServiceImpl implements CoiDisclosureService {
     
     }
     
+    /**
+     * 
+     * @see org.kuali.kra.coi.disclosure.CoiDisclosureService#initializeDisclosureDetails(org.kuali.kra.coi.CoiDisclProject)
+     */
     public void initializeDisclosureDetails(CoiDisclProject coiDisclProject) {
         // When creating a disclosure. the detail will be created at first
         List<CoiDiscDetail> disclosureDetails = new ArrayList<CoiDiscDetail>();
@@ -362,7 +418,10 @@ public class CoiDisclosureServiceImpl implements CoiDisclosureService {
 
     }
     
-    
+    /**
+     * 
+     * @see org.kuali.kra.coi.disclosure.CoiDisclosureService#updateDisclosureDetails(org.kuali.kra.coi.CoiDisclosure)
+     */
     public void updateDisclosureDetails(CoiDisclosure coiDisclosure) {
         // When creating a disclosure. the detail will be created at first
         // TODO : this is for protocol now
@@ -414,6 +473,9 @@ public class CoiDisclosureServiceImpl implements CoiDisclosureService {
     }
 
 
+    /*
+     * check if there is new FE added since last update. if there is, then set up the coi disclose FE
+     */
     private void checkToAddNewFinancialEntity(List<PersonFinIntDisclosure> financialEntities, List<CoiDiscDetail> coiDiscDetails, List<String> disclEntityNumbers, String projectId, CoiDisclosure coiDisclosure, String projectType) {
         for (PersonFinIntDisclosure personFinIntDisclosure : financialEntities) {
             if (!disclEntityNumbers.contains(personFinIntDisclosure.getEntityNumber())) {
@@ -425,6 +487,9 @@ public class CoiDisclosureServiceImpl implements CoiDisclosureService {
         
     }
 
+    /*
+     * get current FE if there is new version FE
+     */
     private void getCurrentFinancialEntity(CoiDiscDetail coiDiscDetail) {
         if (!coiDiscDetail.getPersonFinIntDisclosure().isCurrentFlag()) {
             PersonFinIntDisclosure financialEntity = financialEntityService.getCurrentFinancialEntities(coiDiscDetail.getPersonFinIntDisclosure().getEntityNumber());
@@ -435,6 +500,10 @@ public class CoiDisclosureServiceImpl implements CoiDisclosureService {
         
     }
     
+    /*
+     * get event bo based on event and moduleitemkey.  
+     * TODO : this may not be enough.  may need to consider to save event pk to table
+     */
     private CoiDisclEventProject getEventBo(CoiDisclosure coiDisclosure, CoiDiscDetail coiDiscDetail) {
         CoiDisclEventProject coiDisclEventProject = new CoiDisclEventProject();
         if (coiDisclosure.isProtocolEvent()) {
@@ -462,6 +531,9 @@ public class CoiDisclosureServiceImpl implements CoiDisclosureService {
     }
     
     // temporary solution until coeus schema is finalized
+    /*
+     * get eventbo for annual disclosure
+     */
     private CoiDisclEventProject getEventBoForAnnualDiscl(CoiDisclosure coiDisclosure, CoiDiscDetail coiDiscDetail) {
         CoiDisclEventProject coiDisclEventProject = new CoiDisclEventProject();
         if (coiDiscDetail.isProtocolEvent()) {
@@ -482,20 +554,19 @@ public class CoiDisclosureServiceImpl implements CoiDisclosureService {
         return coiDisclEventProject;
 
     }
-    
-    private boolean isInBo(Class clazz, String fieldName, String filedValue) {
-        Map<String, Object> fieldValues = new HashMap<String, Object>();
-        fieldValues.put(fieldName, filedValue);
-        return businessObjectService.countMatching(clazz, fieldValues) > 0;
-
-    }
-    
+        
+    /*
+     * retrieve award by awardid
+     */
     private Award getAwardById(String awardId) {
         Map<String, Object> values = new HashMap<String, Object>();
         values.put("awardId", awardId);
         return (Award)businessObjectService.findByPrimaryKey(Award.class, values);
     }
     
+    /*
+     * retrieve award by awardnumber
+     */
     private Award getAward(String awardNumber) {
         Map<String, Object> values = new HashMap<String, Object>();
         values.put("awardNumber", awardNumber);
@@ -503,13 +574,19 @@ public class CoiDisclosureServiceImpl implements CoiDisclosureService {
         return awards.get(0);
     }
 
-    
+    /*
+     * get PD by proposalNumber
+     */
     private DevelopmentProposal getDevelopmentProposal(String proposalNumber) {
         Map<String, Object> primaryKeys = new HashMap<String, Object>();
         primaryKeys.put("proposalNumber", proposalNumber);
         DevelopmentProposal currentProposal = (DevelopmentProposal) businessObjectService.findByPrimaryKey(DevelopmentProposal.class, primaryKeys);
         return currentProposal;
     }
+    
+    /*
+     * get IP by using proposalNumber
+     */
     private InstitutionalProposal getInstitutionalProposal(String proposalNumber) {
         // TODO : not sure IP pk is proposal#
         Map<String, Object> primaryKeys = new HashMap<String, Object>();
@@ -518,6 +595,10 @@ public class CoiDisclosureServiceImpl implements CoiDisclosureService {
         return currentProposal;
     }
 
+    /**
+     * 
+     * @see org.kuali.kra.coi.disclosure.CoiDisclosureService#updateDisclosureDetails(org.kuali.kra.coi.CoiDisclProject)
+     */
     public void updateDisclosureDetails(CoiDisclProject coiDisclProject) {
         // When creating a disclosure. the detail will be created at first
         // TODO : what if FE is deactivate
@@ -543,11 +624,11 @@ public class CoiDisclosureServiceImpl implements CoiDisclosureService {
 
         coiDisclProject.setCoiDiscDetails(activeDetails);
 
-//        if (CollectionUtils.isEmpty(coiDisclProject.getCoiDiscDetails())) {
-//            initializeDisclosureDetails(coiDisclProject);
-//        }
     }
 
+    /*
+     * utility method to create new coidiscl object
+     */
     private CoiDiscDetail createNewCoiDiscDetail(CoiDisclosure coiDisclosure,PersonFinIntDisclosure personFinIntDisclosure, String moduleItemKey) {
         CoiDiscDetail disclosureDetail = new CoiDiscDetail(personFinIntDisclosure);
         disclosureDetail.setModuleItemKey(moduleItemKey);
@@ -561,6 +642,10 @@ public class CoiDisclosureServiceImpl implements CoiDisclosureService {
         
     }
     
+    /**
+     * 
+     * @see org.kuali.kra.coi.disclosure.CoiDisclosureService#getProtocols(java.lang.String)
+     */
     public List<Protocol> getProtocols(String personId) {
         
         List<Protocol> protocols = new ArrayList<Protocol>();
@@ -577,6 +662,10 @@ public class CoiDisclosureServiceImpl implements CoiDisclosureService {
         
     }
     
+    /**
+     * 
+     * @see org.kuali.kra.coi.disclosure.CoiDisclosureService#getProposals(java.lang.String)
+     */
     public List<DevelopmentProposal> getProposals(String personId) {
         
         List<DevelopmentProposal> proposals = new ArrayList<DevelopmentProposal>();
@@ -594,6 +683,10 @@ public class CoiDisclosureServiceImpl implements CoiDisclosureService {
         
     }
  
+    /**
+     * 
+     * @see org.kuali.kra.coi.disclosure.CoiDisclosureService#getInstitutionalProposals(java.lang.String)
+     */
     public List<InstitutionalProposal> getInstitutionalProposals(String personId) {
         
         List<InstitutionalProposal> proposals = new ArrayList<InstitutionalProposal>();
@@ -611,6 +704,10 @@ public class CoiDisclosureServiceImpl implements CoiDisclosureService {
         
     }
  
+    /**
+     * 
+     * @see org.kuali.kra.coi.disclosure.CoiDisclosureService#getAwards(java.lang.String)
+     */
     public List<Award> getAwards(String personId) {
         
         List<Award> awards = new ArrayList<Award>();
@@ -627,23 +724,30 @@ public class CoiDisclosureServiceImpl implements CoiDisclosureService {
         
     }
  
+    /*
+     * check if project has been reported in the current report year
+     */
     private boolean isProjectReported(String projectId, String projectType) {
         boolean isDisclosed = false;
         // TODO : is checking matching moduleitemkey & expiration date sufficient
-        HashMap<String, Object> fieldValues = new HashMap<String, Object>();
-        fieldValues.put("moduleItemKey", projectId);
-        fieldValues.put("projectType", projectType);
-        List<CoiDiscDetail> discDetails = (List<CoiDiscDetail>)businessObjectService.findMatching(CoiDiscDetail.class, fieldValues);
-        Date currentDate = dateTimeService.getCurrentSqlDateMidnight();
-        for (CoiDiscDetail discDetail : discDetails) {
-            if (discDetail.getCoiDisclosure().getExpirationDate().after(currentDate)) {
-                isDisclosed = true;
-                break;
-            }
-        }
+//        HashMap<String, Object> fieldValues = new HashMap<String, Object>();
+//        fieldValues.put("moduleItemKey", projectId);
+//        fieldValues.put("projectType", projectType);
+//        List<CoiDiscDetail> discDetails = (List<CoiDiscDetail>)businessObjectService.findMatching(CoiDiscDetail.class, fieldValues);
+//        Date currentDate = dateTimeService.getCurrentSqlDateMidnight();
+//        for (CoiDiscDetail discDetail : discDetails) {
+//            if (discDetail.getCoiDisclosure().getExpirationDate().after(currentDate)) {
+//                isDisclosed = true;
+//                break;
+//            }
+//        }
         return isDisclosed;
     }
 
+    /**
+     * 
+     * @see org.kuali.kra.coi.disclosure.CoiDisclosureService#versionCoiDisclosure()
+     */
     public CoiDisclosure versionCoiDisclosure() throws VersionException {
         Map fieldValues = new HashMap();
         fieldValues.put("personId", GlobalVariables.getUserSession().getPrincipalId());
@@ -678,7 +782,13 @@ public class CoiDisclosureServiceImpl implements CoiDisclosureService {
         this.versioningService = versioningService;
     }
 
-    public boolean isAwardDisclosurable(Award award) {
+    /**
+     * 
+     * This method is to check is award is active for disclosure
+     * @param award
+     * @return
+     */
+    private boolean isAwardDisclosurable(Award award) {
         List<String> params = new ArrayList<String>();
         try {
             params = parameterService.getParameterValues(AwardDocument.class, AWARD_DISCLOSE_STATUS_CODES);
@@ -692,7 +802,11 @@ public class CoiDisclosureServiceImpl implements CoiDisclosureService {
         return params.contains(award.getStatusCode().toString()) && isSponsorForDisclosesure(ProposalDevelopmentDocument.class, award.getSponsorCode(), SPONSORS_FOR_PROPOSAL_AWD_DISCLOSE, ALL_SPONSORS_FOR_PROPOSAL_AWD_DISCLOSE);
    
     }
-    public boolean isProposalDisclosurable(DevelopmentProposal proposal) {
+    
+    /*
+     * check if PD is active for disclosure
+     */
+    private boolean isProposalDisclosurable(DevelopmentProposal proposal) {
         List<String> params = new ArrayList<String>();
         try {
             params = parameterService.getParameterValues(ProposalDevelopmentDocument.class, PROPOSAL_DISCLOSE_STATUS_CODES);
@@ -706,7 +820,11 @@ public class CoiDisclosureServiceImpl implements CoiDisclosureService {
         return params.contains(proposal.getProposalTypeCode()) && isSponsorForDisclosesure(ProposalDevelopmentDocument.class, proposal.getSponsorCode(), SPONSORS_FOR_PROPOSAL_AWD_DISCLOSE, ALL_SPONSORS_FOR_PROPOSAL_AWD_DISCLOSE);
    
     }
-    public boolean isInstitutionalProposalDisclosurable(InstitutionalProposal proposal) {
+
+    /*
+     * check if institutional proposal is active for disclosure
+     */
+    private boolean isInstitutionalProposalDisclosurable(InstitutionalProposal proposal) {
         List<String> params = new ArrayList<String>();
         try {
             params = parameterService.getParameterValues(InstitutionalProposalDocument.class, INSTITUTIONAL_PROPOSAL_DISCLOSE_STATUS_CODES);
@@ -720,7 +838,11 @@ public class CoiDisclosureServiceImpl implements CoiDisclosureService {
         return params.contains(proposal.getStatusCode().toString()) && isSponsorForDisclosesure(ProposalDevelopmentDocument.class, proposal.getSponsorCode(), SPONSORS_FOR_PROPOSAL_AWD_DISCLOSE, ALL_SPONSORS_FOR_PROPOSAL_AWD_DISCLOSE);
    
     }
-    public boolean isProtocolDisclosurable(Protocol protocol) {
+    
+    /*
+     * check if protocol is active for disclosure
+     */
+    private boolean isProtocolDisclosurable(Protocol protocol) {
         List<String> params = new ArrayList<String>();
         try {
             params = parameterService.getParameterValues(ProtocolDocument.class, PROTOCOL_DISCLOSE_STATUS_CODES);
@@ -735,6 +857,9 @@ public class CoiDisclosureServiceImpl implements CoiDisclosureService {
    
     }
 
+    /*
+     * check if protocol funding source sponsor is in disclose list
+     */
     private boolean isProtocolFundedByActiveSponsor(Protocol protocol) {
          boolean isActive = false;
          for (ProtocolFundingSource fundingSource : protocol.getProtocolFundingSources()) {
@@ -759,6 +884,9 @@ public class CoiDisclosureServiceImpl implements CoiDisclosureService {
         return isAllSponsorActiveForDisclose(clazz, paramNameAllSponsor) || isSponsorHierarchyActiveForDisclose(clazz, sponsorCode, paramName);    
     }
     
+    /*
+     * check if sponsorcode in in sponsor hierarchy
+     */
     private boolean isSponsorHierarchyActiveForDisclose(Class clazz, String sponsorCode, String paramName) {
         
         List<String> params = new ArrayList<String>();
@@ -783,6 +911,9 @@ public class CoiDisclosureServiceImpl implements CoiDisclosureService {
         }
     }
 
+    /*
+     * check if the all sponsor active for disclosure flag is true
+     */
     private boolean isAllSponsorActiveForDisclose(Class clazz,  String paramName) {
 
         

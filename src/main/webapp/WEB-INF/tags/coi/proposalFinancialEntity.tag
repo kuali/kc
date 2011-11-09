@@ -34,7 +34,11 @@
                 </c:choose>
        <div id="div_FinancialEntity${idx}M" class="div_FinancialEntity" >
                 <h3>
-    		        <span class="subhead-left">Financial Entities</span>
+    		        <span class="subhead-left">
+                  <c:if test="${not disclProject.complete}">
+                    <img src="${ConfigProperties.kra.externalizable.images.url}exclamation.png" style="border:none; width:16px; height:16px; vertical-align:middle;" label="Incomplete Project">
+                  </c:if>
+    		        Financial Entities (${disclProject.completeMessage})</span>
     		        <span class="subhead-right"><kul:help businessObjectClassName="org.kuali.kra.coi.CoiDiscDetail" altText="help"/></span>
                 </h3>
 
