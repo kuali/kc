@@ -253,7 +253,7 @@
   <bean id="Negotiation-associatedDocumentId-parentBean" abstract="true" parent="AttributeDefinition">
     <property name="name" value="associatedDocumentId" />
     <property name="forceUppercase" value="false" />
-    <property name="label" value="Negotiation Assocation ID" />
+    <property name="label" value="Negotiation Association ID" />
     <property name="shortLabel" value="Assoc Doc Id" />
     <property name="maxLength" value="25" />
     <property name="required" value="false" />
@@ -264,8 +264,8 @@
       <bean parent="TextControlDefinition"
             p:size="25" />
     </property>
-    <property name="summary" value="Negotiation Assocation ID" />
-    <property name="description" value="Negotiation Assocation ID" />
+    <property name="summary" value="Negotiation Association ID" />
+    <property name="description" value="Negotiation Association ID" />
   </bean>
   
   <bean id="Negotiation-associatedNegotiable.associatedDocumentId" parent="Negotiation-associatedNegotiable.associatedDocumentId-parentBean"/>
