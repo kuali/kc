@@ -18,6 +18,8 @@ package org.kuali.kra.negotiations.rules;
 import org.apache.commons.lang.StringUtils;
 import org.kuali.kra.award.customdata.AwardCustomDataRuleImpl;
 import org.kuali.kra.award.customdata.AwardSaveCustomDataRuleEvent;
+import org.kuali.kra.award.document.AwardDocument;
+import org.kuali.kra.infrastructure.Constants;
 import org.kuali.kra.infrastructure.KeyConstants;
 import org.kuali.kra.infrastructure.KraServiceLocator;
 import org.kuali.kra.negotiations.bo.Negotiation;
@@ -28,8 +30,11 @@ import org.kuali.kra.negotiations.customdata.NegotiationCustomDataRuleImpl;
 import org.kuali.kra.negotiations.customdata.NegotiationSaveCustomDataRuleEvent;
 import org.kuali.kra.negotiations.document.NegotiationDocument;
 import org.kuali.kra.negotiations.service.NegotiationService;
+import org.kuali.kra.rule.event.KraDocumentEventBaseExtension;
+import org.kuali.kra.rule.event.SaveCustomAttributeEvent;
 import org.kuali.kra.rules.ResearchDocumentRuleBase;
 import org.kuali.rice.kns.document.Document;
+import org.kuali.rice.kns.util.ErrorMap;
 import org.kuali.rice.kns.util.GlobalVariables;
 
 /**
@@ -76,7 +81,6 @@ public class NegotiationDocumentRule extends ResearchDocumentRuleBase {
         result &= validateNegotiator(negotiation);
         result &= validateNegotiationAssociations(negotiation);
         result &= validateNegotiationActivities(negotiation); 
-        
         String errorPath = "negotiationCustomData";
         NegotiationSaveCustomDataRuleEvent event = new NegotiationSaveCustomDataRuleEvent(errorPath, 
                                                                negotiationDocument);
@@ -85,6 +89,15 @@ public class NegotiationDocumentRule extends ResearchDocumentRuleBase {
         GlobalVariables.getMessageMap().removeFromErrorPath(NEGOTIATION_ERROR_PATH);
         
         return result;
+    }
+    
+    /**
+     * @see org.kuali.kra.rule.BusinessRuleInterface#processRules(org.kuali.kra.rule.event.KraDocumentEventBaseExtension)
+     */
+    public boolean processRules(KraDocumentEventBaseExtension event) {
+        boolean retVal = false;
+        retVal = event.getRule().processRules(event);
+        return retVal;
     }
     
     public boolean validateEndDate(Negotiation negotiation) {
