@@ -18,6 +18,7 @@ package org.kuali.kra.coi.disclosure;
 import java.io.Serializable;
 import java.util.List;
 
+import org.apache.commons.collections.CollectionUtils;
 import org.apache.commons.lang.StringUtils;
 import org.kuali.kra.award.home.Award;
 import org.kuali.kra.bo.KraPersistableBusinessObjectBase;
@@ -112,4 +113,35 @@ public class CoiDisclEventProject implements Serializable {
         }
         return projectId;
     }
+    
+    public String getCompleteMessage() {
+        String completeMessage = "Review Complete";
+        if (CollectionUtils.isNotEmpty(this.getCoiDiscDetails())) {
+            for (CoiDiscDetail coiDiscDetail : this.getCoiDiscDetails()) {
+                if (StringUtils.isBlank(coiDiscDetail.getEntityStatusCode())) {
+                    completeMessage = "Review Incomplete";
+                    break;
+                }
+                
+            }
+        }
+        return completeMessage;
+    }
+
+    public boolean isComplete() {
+        // TODO : this is kind of duplicate with getCompleteMessage.
+        // may want to merge for better solution
+        boolean isComplete = true;
+        if (CollectionUtils.isNotEmpty(this.getCoiDiscDetails())) {
+            for (CoiDiscDetail coiDiscDetail : this.getCoiDiscDetails()) {
+                if (StringUtils.isBlank(coiDiscDetail.getEntityStatusCode())) {
+                    isComplete = false;
+                    break;
+                }
+                
+            }
+        }
+        return isComplete;
+    }
+
 }
