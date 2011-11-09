@@ -159,6 +159,8 @@ public class MeetingAction extends KualiAction {
         CommitteeSchedule committeeSchedule = ((MeetingForm) form).getMeetingHelper().getCommitteeSchedule();
         if (isValidToSave(((MeetingForm) form).getMeetingHelper())) {
             ((MeetingForm) form).getMeetingHelper().populateAttendancePreSave();
+            // need to refresh the protocol submissions because they can be asynchronously updated in a separate browser tab
+            getMeetingService().refreshProtocolSubmissionsFor(committeeSchedule);
             getMeetingService().saveMeetingDetails(committeeSchedule, ((MeetingForm) form).getMeetingHelper().getDeletedBos());
             ((MeetingForm) form).getMeetingHelper().initDeletedList();
         }
