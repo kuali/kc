@@ -40,7 +40,7 @@
  <kra-negotiation:negotiation />
 
  <c:if test="${fn:length(KualiForm.customDataHelper.customAttributeGroups) > 0}">
- <kul:tab tabTitle="Custom Data" defaultOpen="false" tabErrorKey="">
+ <kul:tab tabTitle="Custom Data" defaultOpen="false" tabErrorKey="document.negotiationList[0].customAttributeValue*" useRiceAuditMode="false">
  <kra-negotiation:NegotiationCustomDataTab name="${KualiForm.actionName}"/>
  </kul:tab>
   </c:if>

@@ -89,7 +89,7 @@ public class NegotiationCustomDataRuleImpl extends ResearchDocumentRuleBase impl
             {
                 if (customAttribute.getValue() == null || customAttribute.getValue().equals("") )
                 {
-                    GlobalVariables.getErrorMap().putError(errorKey, RiceKeyConstants.ERROR_REQUIRED, 
+                    GlobalVariables.getMessageMap().putError(errorKey, RiceKeyConstants.ERROR_REQUIRED, 
                             customAttribute.getLabel(),customAttribute.getValue(), getValidFormat(customAttribute.getCustomAttributeDataType().getDescription()));
                      valid = false;
                 }
