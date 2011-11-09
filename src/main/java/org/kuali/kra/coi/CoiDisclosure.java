@@ -480,7 +480,7 @@ public class CoiDisclosure extends KraPersistableBusinessObjectBase implements S
     }
 
     public String getCompleteMessage() {
-        String completeMessage = "Review complete";
+        String completeMessage = "Review Complete";
         if (CollectionUtils.isNotEmpty(this.getCoiDiscDetails())) {
             for (CoiDiscDetail coiDiscDetail : this.getCoiDiscDetails()) {
                 if (StringUtils.isBlank(coiDiscDetail.getEntityStatusCode())) {
@@ -491,6 +491,23 @@ public class CoiDisclosure extends KraPersistableBusinessObjectBase implements S
             }
         }
         return completeMessage;
+    }
+
+    
+    public boolean isComplete() {
+        // TODO : this is kind of duplicate with getCompleteMessage.
+        // may want to merge for better solution
+        boolean isComplete = true;
+        if (CollectionUtils.isNotEmpty(this.getCoiDiscDetails())) {
+            for (CoiDiscDetail coiDiscDetail : this.getCoiDiscDetails()) {
+                if (StringUtils.isBlank(coiDiscDetail.getEntityStatusCode())) {
+                    isComplete = false;
+                    break;
+                }
+                
+            }
+        }
+        return isComplete;
     }
 
     @Override

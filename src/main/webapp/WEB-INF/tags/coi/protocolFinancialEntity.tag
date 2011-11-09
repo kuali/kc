@@ -82,7 +82,10 @@
                 <h3>
             <span class="subhead-left"> 
                <a href="#" id ="financialEntityControl${idx}" class="financialEntitySubpanel"><img src='kr/images/tinybutton-hide.gif' alt='show/hide panel' width='45' height='15' border='0' align='absmiddle'></a> 
-               Financial Entities</span>
+                  <c:if test="${not KualiForm.document.coiDisclosureList[0].coiDisclEventProjects[idx].complete}">
+                    <img src="${ConfigProperties.kra.externalizable.images.url}exclamation.png" style="border:none; width:16px; height:16px; vertical-align:middle;" label="Incomplete Project">
+                  </c:if>
+               Financial Entities (${KualiForm.document.coiDisclosureList[0].coiDisclEventProjects[idx].completeMessage})</span>
     		        <span class="subhead-right"><kul:help businessObjectClassName="org.kuali.kra.coi.CoiDiscDetail" altText="help"/></span>
                 </h3>
                   <div  id="financialEntityContent${idx}" class="financialEntitySubpanelContent">
