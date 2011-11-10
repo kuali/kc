@@ -16,10 +16,13 @@
 package org.kuali.kra.award.web.struts.action;
 
 
+import java.sql.Timestamp;
 import java.util.ArrayList;
 import java.util.Collection;
+import java.util.HashMap;
 import java.util.Iterator;
 import java.util.List;
+import java.util.Map;
 
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
@@ -41,6 +44,7 @@ import org.kuali.kra.award.paymentreports.awardreports.AwardReportTerm;
 import org.kuali.kra.award.paymentreports.awardreports.AwardReportTermRecipient;
 import org.kuali.kra.award.paymentreports.awardreports.reporting.ReportTracking;
 import org.kuali.kra.award.paymentreports.closeout.AwardCloseoutService;
+import org.kuali.kra.award.paymentreports.paymentschedule.AwardPaymentSchedule;
 import org.kuali.kra.bo.SponsorTerm;
 import org.kuali.kra.infrastructure.Constants;
 import org.kuali.kra.infrastructure.KraServiceLocator;
@@ -634,6 +638,23 @@ public class AwardPaymentReportsAndTermsAction extends AwardAction {
         AwardDocument awardDocument = awardForm.getAwardDocument();
         getAwardCloseoutService().updateCloseoutDueDatesBeforeSave(awardDocument.getAward());
         if (new AwardDocumentRule().processAwardReportTermBusinessRules(awardDocument)) {
+            
+            /**
+             * process AwardPaymentSchedule, if they have been updated, update the last update user, and last update date fields.
+             */
+            String lastUpdateUser = GlobalVariables.getUserSession().getPerson().getName();
+            Timestamp lastUpdateDate = new Timestamp(new java.util.Date().getTime());
+            
+            for (AwardPaymentSchedule item : awardDocument.getAward().getPaymentScheduleItems()) {
+                Map primaryKey = new HashMap();
+                primaryKey.put("AWARD_PAYMENT_SCHEDULE_ID", item.getAwardPaymentScheduleId());
+                AwardPaymentSchedule dbItem = (AwardPaymentSchedule) this.getBusinessObjectService().findByPrimaryKey(AwardPaymentSchedule.class, primaryKey);
+                if (dbItem == null || item.checkForUpdates(dbItem)) {
+                    item.setLastUpdateTimestamp(lastUpdateDate);
+                    item.setLastUpdateUser(lastUpdateUser);
+                }
+            }
+            
             ActionForward forward = super.save(mapping, form, request, response);
             if (!awardForm.getReportTrackingsToDelete().isEmpty()) {
                 this.getBusinessObjectService().delete(awardForm.getReportTrackingsToDelete());
