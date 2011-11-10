@@ -116,6 +116,9 @@ public class AwardForm extends BudgetVersionFormBase
     
     private static final long serialVersionUID = -7633960906991275328L;
     
+    private static final String PAYMENT_SCHEDULE_ACTIVE_LINKS_PARAMETER = "AwardPaymentScheduleActiveLinks";
+    private static Boolean displayAwardPaymentScheduleActiveLinkFields;
+    
     private String lookupResultsBOClassName;
     private String lookupResultsSequenceNumber;
     
@@ -1456,5 +1459,18 @@ public class AwardForm extends BudgetVersionFormBase
 
     public void setReportTrackingsToDelete(List<ReportTracking> reportTrackingsToDelete) {
         this.reportTrackingsToDelete = reportTrackingsToDelete;
+    }
+    
+    /**
+     * 
+     * This method returns true if the AwardPaymentScheduleActiveLinks equals "Y" otherwise returns false.
+     * @return
+     */
+    public boolean getDisplayAwardPaymentScheduleActiveLinkFields() {
+        if (displayAwardPaymentScheduleActiveLinkFields == null) {
+            String parmVal = this.getParameterService().getParameterValue("KC-AWARD", "Document", PAYMENT_SCHEDULE_ACTIVE_LINKS_PARAMETER);
+            displayAwardPaymentScheduleActiveLinkFields = StringUtils.equalsIgnoreCase("Y", parmVal);
+        }
+        return displayAwardPaymentScheduleActiveLinkFields.booleanValue();
     }
 }
