@@ -208,11 +208,11 @@ public class AwardHierarchyTempObject implements Serializable{
         this.awardNumber = awardNumber;
     }
     
-    public Boolean getAddCopyDescendantsCheckBox() {
+    public Boolean getDisableCopyDescendantsCheckBox() {
         return disableCopyDescendantsCheckBox;
     }
 
-    public void setAddCopyDescendantsCheckBox(Boolean addCopyDescendantsCheckBox) {
+    public void setDisableCopyDescendantsCheckBox(Boolean addCopyDescendantsCheckBox) {
         this.disableCopyDescendantsCheckBox = addCopyDescendantsCheckBox;
     }
 
