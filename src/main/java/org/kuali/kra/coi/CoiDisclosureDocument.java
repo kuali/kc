@@ -19,13 +19,19 @@ import java.util.ArrayList;
 import java.util.List;
 
 import org.kuali.kra.document.ResearchDocumentBase;
+import org.kuali.kra.infrastructure.Constants;
 import org.kuali.rice.kns.document.Copyable;
 import org.kuali.rice.kns.document.SessionDocument;
+import org.kuali.rice.kns.service.ParameterConstants;
+import org.kuali.rice.kns.service.ParameterConstants.COMPONENT;
+import org.kuali.rice.kns.service.ParameterConstants.NAMESPACE;
 
 /**
  * 
  * This class is Coi disclosure document class
  */
+@NAMESPACE(namespace=Constants.MODULE_NAMESPACE_COIDISCLOSURE)
+@COMPONENT(component=ParameterConstants.DOCUMENT_COMPONENT)
 public class CoiDisclosureDocument extends ResearchDocumentBase implements Copyable, SessionDocument { 
     
     public static final String DOCUMENT_TYPE_CODE = "COI";

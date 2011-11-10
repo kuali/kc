@@ -23,17 +23,17 @@
 	<div class="tab-container" align="center">
 	 <div>
     	<h3>
-    		<span class="subhead-left">Award</span>
+    		<span class="subhead-left">Award Number: ${award.awardNumber}</span>
     		<span class="subhead-right"><kul:help businessObjectClassName="org.kuali.kra.coi.CoiDiscDetail" altText="help"/></span>
         </h3>
         
         <table id="disclosurefe-table" cellpadding="0" cellspacing="0" summary="">
           	<%-- Header --%>
                                  <tr>
-                                    <th><div align="right">Award Number:</div></th> 
-                  <td align="left" valign="middle">
+                  <th><div align="right">Title:</div></th> 
+                  <td align="left" valign="middle" colspan="3">
 					<div align="left">
-                		${award.awardNumber}
+                		${award.title}
 					</div>
 				  </td>
                               <th><div align="right">Award Date:</div></th> 
@@ -48,12 +48,6 @@
                          <%-- New data --%>
                         <%-- kra:permission value="${KualiForm.disclosureHelper.modifyPersonnel}" --%>
                 <tr>
-                  <th><div align="right">Title:</div></th> 
-                  <td align="left" valign="middle" colspan="3">
-					<div align="left">
-                		${award.title}
-					</div>
-				  </td>
 	            </tr>
              </table>
              </div>

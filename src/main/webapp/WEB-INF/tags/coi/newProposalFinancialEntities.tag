@@ -23,21 +23,15 @@
 	<div class="tab-container" align="center">
 	 <div>
     	<h3>
-    		<span class="subhead-left">Proposal</span>
+    		<span class="subhead-left">Proposal Number: ${proposal.proposalNumber}</span>
     		<span class="subhead-right"><kul:help businessObjectClassName="org.kuali.kra.coi.CoiDiscDetail" altText="help"/></span>
         </h3>
         
         <table id="disclosurefe-table" cellpadding="0" cellspacing="0" summary="">
           	<%-- Header --%>
                                  <tr>
-                                    <th><div align="right">Proposal Number:</div></th> 
-                  <td align="left" valign="middle">
-					<div align="left">
-                		${proposal.proposalNumber}
-					</div>
-				  </td>
                                     <th><div align="right">Proposal Name:</div></th> 
-                  <td align="left" valign="middle">
+                  <td align="left" valign="middle" colspan="3">
 					<div align="left">
                 		${proposal.title}
 					</div>
