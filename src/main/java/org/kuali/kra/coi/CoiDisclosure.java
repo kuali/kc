@@ -480,17 +480,16 @@ public class CoiDisclosure extends KraPersistableBusinessObjectBase implements S
     }
 
     public String getCompleteMessage() {
-        String completeMessage = "Review Complete";
+        int completeCount = 0;
         if (CollectionUtils.isNotEmpty(this.getCoiDiscDetails())) {
             for (CoiDiscDetail coiDiscDetail : this.getCoiDiscDetails()) {
-                if (StringUtils.isBlank(coiDiscDetail.getEntityStatusCode())) {
-                    completeMessage = "Review Incomplete";
-                    break;
+                if (StringUtils.isNotBlank(coiDiscDetail.getEntityStatusCode())) {
+                    completeCount ++;
                 }
                 
             }
         }
-        return completeMessage;
+        return completeCount + "/" +this.getCoiDiscDetails().size() + " Reviews Complete";
     }
 
     
