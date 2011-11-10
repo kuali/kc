@@ -43,7 +43,7 @@ public class DisclosureHelper implements Serializable {
     protected static final String NAMESPACE_CODE = "KC-COIDISCLOSURE";
     protected static final String PARAMETER_CODE = "Document";
     private static final String CONFLICT_HEADER_LABEL_PARAMETER = "COI_DISCLOSURE_FE_CONFLICT_HEADER_LABEL";
-    protected static final String DEFAULT_CONFLICT_HEADER_LABEL = "Conflict";
+    protected static final String DEFAULT_CONFLICT_HEADER_LABEL = "Related";
     private CoiDisclosureForm form;
     private DisclosurePersonUnit newDisclosurePersonUnit;
     private List<DisclosurePersonUnit> deletedUnits;
