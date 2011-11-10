@@ -58,7 +58,7 @@
                   <td align="left" valign="middle">
 					<div align="left">
 					    <%-- kc removed applicationdate from protocol.  not sure what to replace --%>
-                		${protocol.updateTimestamp}
+                		${protocol.applicationDate}
 					</div>
 				  </td>
                                     <th><div align="right">Expiration Date:</div></th> 

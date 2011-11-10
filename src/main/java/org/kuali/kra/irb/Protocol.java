@@ -2161,4 +2161,16 @@ public class Protocol extends KraPersistableBusinessObjectBase implements Sequen
         return filteredMemebers;
     }
     
+    /**
+     * 
+     * This method is to return the first submission date as application date. see kccoi-36 comment
+     * @return
+     */
+    public Date getApplicationDate() {
+        if (CollectionUtils.isNotEmpty(this.protocolSubmissions)) {
+            return this.protocolSubmissions.get(0).getSubmissionDate();
+        } else {
+            return null;
+        }
+    }
 }
