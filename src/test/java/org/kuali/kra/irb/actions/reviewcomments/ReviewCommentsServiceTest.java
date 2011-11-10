@@ -40,6 +40,7 @@ import org.kuali.kra.irb.Protocol;
 import org.kuali.kra.irb.ProtocolDocument;
 import org.kuali.kra.irb.ProtocolFinderDao;
 import org.kuali.kra.irb.actions.submit.ProtocolSubmission;
+import org.kuali.kra.irb.onlinereview.ProtocolOnlineReview;
 import org.kuali.kra.irb.test.ProtocolFactory;
 import org.kuali.kra.meeting.CommitteeScheduleMinute;
 import org.kuali.kra.meeting.MinuteEntryType;
@@ -47,6 +48,7 @@ import org.kuali.kra.service.KcPersonService;
 import org.kuali.kra.test.infrastructure.KcUnitTestBase;
 import org.kuali.rice.kim.service.RoleService;
 import org.kuali.rice.kns.UserSession;
+import org.kuali.rice.kns.service.BusinessObjectService;
 import org.kuali.rice.kns.service.DateTimeService;
 import org.kuali.rice.kns.service.ParameterService;
 import org.kuali.rice.kns.util.GlobalVariables;
@@ -56,6 +58,7 @@ public class ReviewCommentsServiceTest extends KcUnitTestBase {
     private static final String FIRST_COMMENT = "First Review Comment";
     private static final String SECOND_COMMENT = "Second Review Comment";
     private static final String THIRD_COMMENT = "Third Review Comment";
+    private static final Long PROTOCOL_ONLINE_REVIEW_FK_ID = new Long("12514314361461436");
     
     private ReviewCommentsServiceImpl service;
     
@@ -418,7 +421,6 @@ public class ReviewCommentsServiceTest extends KcUnitTestBase {
      */
     @Test
     public void testHideReviewerNameProtocolFalsePartial() throws Exception {
-        /*
         GlobalVariables.setUserSession(new UserSession("majors"));
         List<CommitteeScheduleMinute> reviewComments = new ArrayList<CommitteeScheduleMinute>();
         CommitteeSchedule committeeSchedule = createCommitteeSchedule("10", createCommittee());
@@ -427,13 +429,19 @@ public class ReviewCommentsServiceTest extends KcUnitTestBase {
             @Override
             public void refreshReferenceObject(String referenceObjectName) {
                 // do nothing
+            }       
+            
+            @Override
+            public boolean isAccepted() {
+                return true;
             }
 
         };
+        
         firstNewReviewComment.setCommitteeSchedule(committeeSchedule);
         firstNewReviewComment.setCommScheduleMinutesId(1L);
         firstNewReviewComment.setMinuteEntryTypeCode(MinuteEntryType.PROTOCOL);
-        firstNewReviewComment.setProtocolOnlineReviewIdFk(new Long("12514314361461436"));
+        firstNewReviewComment.setProtocolOnlineReviewIdFk(PROTOCOL_ONLINE_REVIEW_FK_ID);
         firstNewReviewComment.setMinuteEntry(FIRST_COMMENT);
         firstNewReviewComment.setCreateUser("majors");
         reviewComments.add(firstNewReviewComment);
@@ -443,12 +451,17 @@ public class ReviewCommentsServiceTest extends KcUnitTestBase {
             public void refreshReferenceObject(String referenceObjectName) {
                 // do nothing
             }
+            
+            @Override
+            public boolean isAccepted() {
+                return true;
+            }
 
         };
         secondNewReviewComment.setCommitteeSchedule(committeeSchedule);
         secondNewReviewComment.setCommScheduleMinutesId(2L);
         secondNewReviewComment.setMinuteEntryTypeCode(MinuteEntryType.PROTOCOL);
-        secondNewReviewComment.setProtocolOnlineReviewIdFk(new Long("12514314361461436"));
+        secondNewReviewComment.setProtocolOnlineReviewIdFk(PROTOCOL_ONLINE_REVIEW_FK_ID);
         secondNewReviewComment.setMinuteEntry(SECOND_COMMENT);
         secondNewReviewComment.setCreateUser("quickstart");
         reviewComments.add(secondNewReviewComment);
@@ -456,16 +469,17 @@ public class ReviewCommentsServiceTest extends KcUnitTestBase {
         service.setParameterService(getMockParameterService() );       
         service.setKimRoleManagementService(getMockRoleService1());
         service.setCommitteeService(getMockCommitteeService());
+        service.setBusinessObjectService(getMockBusinessObjectService());
         
         service.setKcPersonService(getMockKcPersonService());
         Protocol protocol = new Protocol();
         protocol.setProtocolNumber("001");
+        
+        
         service.setProtocolFinderDao(getProtocolFinderDao(reviewComments));
         assertFalse(service.setHideReviewerName(protocol, 1));
         assertTrue(firstNewReviewComment.isDisplayReviewerName());
         assertFalse(secondNewReviewComment.isDisplayReviewerName());
-        */
-        assertTrue(true);
     }
 
     @Test
@@ -599,6 +613,7 @@ public class ReviewCommentsServiceTest extends KcUnitTestBase {
         service.setParameterService(getMockParameterService() );       
         service.setKimRoleManagementService(getMockRoleService1());
         service.setCommitteeService(getMockCommitteeService());
+       
         
         service.setKcPersonService(getMockKcPersonService());
         
@@ -702,6 +717,23 @@ public class ReviewCommentsServiceTest extends KcUnitTestBase {
             will(returnValue(submissions));
         }});
         return protocolFinderDao;
+    }
+    
+    private BusinessObjectService getMockBusinessObjectService() {
+        final BusinessObjectService businessObjectService = context.mock(BusinessObjectService.class);
+        
+        
+        final ProtocolOnlineReview onlineReview = new ProtocolOnlineReview();
+        onlineReview.setProtocolOnlineReviewId(PROTOCOL_ONLINE_REVIEW_FK_ID);
+        onlineReview.setAdminAccepted(true);
+        onlineReview.setReviewerApproved(true);
+        
+        context.checking(new Expectations() {{
+                allowing(businessObjectService).findBySinglePrimaryKey(ProtocolOnlineReview.class, PROTOCOL_ONLINE_REVIEW_FK_ID);
+                will(returnValue(onlineReview));
+        }});
+                
+        return businessObjectService;
     }
 
     private CommitteeService getMockCommitteeService() {
