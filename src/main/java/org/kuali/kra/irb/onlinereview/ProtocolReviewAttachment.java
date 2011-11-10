@@ -313,7 +313,7 @@ public class ProtocolReviewAttachment extends ProtocolReviewable {
     @Override
     public boolean isFinal() {
         // TODO not sure if att is entered from management review att
-        return getProtocolOnlineReviewIdFk() == null || getProtocolOnlineReview().isReviewerApproved() || getProtocolOnlineReview().isAdminAccepted();
+        return getProtocolOnlineReviewIdFk() == null || (getProtocolOnlineReview().isReviewerApproved() && getProtocolOnlineReview().isAdminAccepted());
     }
 
     @Override
