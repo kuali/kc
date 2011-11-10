@@ -59,7 +59,7 @@
                   <td align="left" valign="middle">
 					<div align="left">
 					    <%-- kc removed applicationdate from protocol.  not sure what to replace --%>
-                		<kul:htmlControlAttribute property="document.coiDisclosureList[0].coiDisclEventProjects[${idx}].eventProjectBo.updateTimestamp" readOnly="true" attributeEntry="${coiDisclProjectAttributes.coiProjectStartDate}" /> 
+                		<kul:htmlControlAttribute property="document.coiDisclosureList[0].coiDisclEventProjects[${idx}].eventProjectBo.applicationDate" readOnly="true" attributeEntry="${coiDisclProjectAttributes.coiProjectStartDate}" /> 
 					</div>
 				  </td>
                                     <th><div align="right">Expiration Date:</div></th> 
