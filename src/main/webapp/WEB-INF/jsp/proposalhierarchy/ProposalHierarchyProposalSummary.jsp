@@ -66,7 +66,7 @@ http://www.osedu.org/licenses/ECL-2.0
 	<kul:innerTab parentTab="${parentTabTitle}" tabTitle="Investigator/Units" tabDescription="Investigator/Units" defaultOpen="false">
 		<div class="innerTab-container" align="left">
 			<table cellpadding=0 cellspacing=0 summary="">
-				<tr><th width="20%" align="right" valign="middle">Principle Investigator:</th><td width="30%" align="left" valign="middle">${proposal.principalInvestigator.fullName}&nbsp;</td>
+				<tr><th width="20%" align="right" valign="middle">Principal Investigator:</th><td width="30%" align="left" valign="middle">${proposal.principalInvestigator.fullName}&nbsp;</td>
 	          		<th width="20%" align="right" valign="middle">Unit(s):</th>
 	          		<td width="30%" align="left" valign="middle">${proposal.ownedByUnitName} (Lead Unit)<br />
 	          			<c:forEach var="unit" items="${proposal.principalInvestigator.units}" varStatus="unitStatus">
