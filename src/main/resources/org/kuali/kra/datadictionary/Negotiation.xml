@@ -314,10 +314,10 @@
   <bean id="Negotiation-associatedNegotiable.piName" parent="Negotiation-associatedNegotiable.piName-parentBean" />
   <bean id="Negotiation-associatedNegotiable.piName-parentBean" abstract="true" parent="PersonImpl-principalName">
     <property name="name" value="associatedNegotiable.piName" />
-    <property name="label" value="Principle Investigator" />
+    <property name="label" value="Principal Investigator" />
     <property name="shortLabel" value="PI" />
-    <property name="summary" value="Principle Investigator" />
-    <property name="description" value="Principle Investigator" />
+    <property name="summary" value="Principal Investigator" />
+    <property name="description" value="Principal Investigator" />
   </bean>
   
   <bean id="Negotiation-associatedNegotiable.negotiableProposalTypeCode" parent="Negotiation-associatedNegotiable.negotiableProposalTypeCode-parentBean" />
