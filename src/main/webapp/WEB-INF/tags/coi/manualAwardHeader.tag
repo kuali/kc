@@ -21,7 +21,7 @@
 <c:set var="coiDiscDetailAttributes" value="${DataDictionary.CoiDiscDetail.attributes}" />
                 <div>
                 <h3>
-    		        <span class="subhead-left">Award</span>
+    		        <span class="subhead-left">Award Number: ${KualiForm.document.coiDisclosureList[0].coiDisclProjects[idx].coiProjectId}</span>
     		        <span class="subhead-right"><kul:help businessObjectClassName="org.kuali.kra.coi.CoiDiscDetail" altText="help"/></span>
                 </h3>
               
@@ -29,10 +29,10 @@
                         <tbody>
                         <%-- Header --%>
                                  <tr>
-                                    <th><div align="right">Award Number:</div></th> 
+                                    <th><div align="right">Title:</div></th> 
                   <td align="left" valign="middle">
 					<div align="left">
-                		<kul:htmlControlAttribute property="document.coiDisclosureList[0].coiDisclProjects[${idx}].coiProjectId" readOnly="true" attributeEntry="${coiDisclProjectAttributes.coiProjectId}" /> 
+                		<kul:htmlControlAttribute property="document.coiDisclosureList[0].coiDisclProjects[${idx}].coiProjectTitle" readOnly="true" attributeEntry="${coiDisclProjectAttributes.coiProjectTitle}" /> 
 					</div>
 				  </td>
                                     <th><div align="right">Award Date:</div></th> 
@@ -41,19 +41,6 @@
                 		<kul:htmlControlAttribute property="document.coiDisclosureList[0].coiDisclProjects[${idx}].coiProjectStartDate" readOnly="true" attributeEntry="${coiDisclProjectAttributes.coiProjectStartDate}" /> 
 					</div>
 				  </td>
-                                </tr>
-                        <%-- Header --%>
-                        
-                         <%-- New data --%>
-                        <%-- kra:permission value="${KualiForm.disclosureHelper.modifyPersonnel}" --%>
-                <tr>
-                                    <th><div align="right">Title:</div></th> 
-                  <td align="left" valign="middle" colspan="3">
-					<div align="left">
-                		<kul:htmlControlAttribute property="document.coiDisclosureList[0].coiDisclProjects[${idx}].coiProjectTitle" readOnly="true" attributeEntry="${coiDisclProjectAttributes.coiProjectTitle}" /> 
-					</div>
-				  </td>
-	            </tr>
 
                </table>
                </div>

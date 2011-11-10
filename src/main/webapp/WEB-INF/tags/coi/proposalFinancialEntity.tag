@@ -45,21 +45,21 @@
 
              <table id="newproposal-table" cellpadding="0" cellspacing="0" summary="">
           	<tr>
-          		<kul:htmlAttributeHeaderCell literalLabel="&nbsp;" scope="col" /> 
+          		<kul:htmlAttributeHeaderCell literalLabel="Review" scope="col" /> 
           		<kul:htmlAttributeHeaderCell attributeEntry="${coiDiscDetailAttributes.personFinIntDisclosureId}" scope="col" />
           		<th rowspan="1" colspan="1" scope="col">${KualiForm.disclosureHelper.conflictHeaderLabel}</th>
           		<kul:htmlAttributeHeaderCell attributeEntry="${coiDiscDetailAttributes.comments}" scope="col" />
-          		<c:if test="${!readOnly}">
-          		    <kul:htmlAttributeHeaderCell literalLabel="Actions" scope="col" />
-          		</c:if>
           	</tr> 
 	             <tr>
 					<th class="infoline">
 						&nbsp;
 					</th>
-					<th class="infoline">
-						&nbsp;
-					</th>
+					<td class="infoline">
+						<div align="center">
+							<html:image property="methodToCall.newFinancialEntity.anchor${tabKey}"
+							src='${ConfigProperties.kra.externalizable.images.url}tinybutton-newfinancialentity.gif' styleClass="tinybutton"/>
+						</div>
+	                </td>
 	
 	                <td align="left" valign="middle"  class="infoline">
 						<div align="center">
@@ -72,36 +72,10 @@
 	                <td align="left" valign="middle" class="infoline">
 	                	&nbsp;
 					</td>
-					<td class="infoline">
-						<div align="center">
-							<html:image property="methodToCall.newFinancialEntity.anchor${tabKey}"
-							src='${ConfigProperties.kra.externalizable.images.url}tinybutton-newfinancialentity.gif' styleClass="tinybutton"/>
-						</div>
-	                </td>
 	            </tr>
             
         	<c:forEach var="disclosureDetail" items="${disclProject.coiDiscDetails}" varStatus="festatus">
 	             <tr>
-					<th class="infoline">
-						<c:out value="${festatus.index+1}" />
-					</th>
-                  <td align="left" valign="middle">
-					<div align="left">
-                		<kul:htmlControlAttribute property="document.coiDisclosureList[0].coiDisclProjects[${idx}].coiDiscDetails[${festatus.index}].personFinIntDisclosure.entityName" readOnly="true" attributeEntry="${financialEntityAttributes.entityName}" /> 
-					</div>
-				  </td>
-                  <td align="left" valign="middle">
-					<div align="left">
-                		<kul:htmlControlAttribute property="document.coiDisclosureList[0].coiDisclProjects[${idx}].coiDiscDetails[${festatus.index}].entityStatusCode" 
-                			readOnly="${readOnly}" attributeEntry="${coiDiscDetailAttributes.entityStatusCode}" styleClass="conflictClass${idx}M" />
-					</div>
-				  </td>
-                  <td align="left" valign="middle">
-					<div align="left">
-                		<kul:htmlControlAttribute property="document.coiDisclosureList[0].coiDisclProjects[${idx}].coiDiscDetails[${festatus.index}].comments" 
-                			readOnly="${readOnly}" attributeEntry="${coiDiscDetailAttributes.comments}" />
-					</div>
-				  </td>
 					  <td>
 						<div align=center>&nbsp;
 							<c:if test="${KualiForm.disclosureHelper.canViewDisclosureFeHistory}">		
@@ -121,6 +95,23 @@
                     	     </c:if>
 						</div>
 		              </td>
+                  <td align="left" valign="middle">
+					<div align="left">
+                		<kul:htmlControlAttribute property="document.coiDisclosureList[0].coiDisclProjects[${idx}].coiDiscDetails[${festatus.index}].personFinIntDisclosure.entityName" readOnly="true" attributeEntry="${financialEntityAttributes.entityName}" /> 
+					</div>
+				  </td>
+                  <td align="left" valign="middle">
+					<div align="left">
+                		<kul:htmlControlAttribute property="document.coiDisclosureList[0].coiDisclProjects[${idx}].coiDiscDetails[${festatus.index}].entityStatusCode" 
+                			readOnly="${readOnly}" attributeEntry="${coiDiscDetailAttributes.entityStatusCode}" styleClass="conflictClass${idx}M" />
+					</div>
+				  </td>
+                  <td align="left" valign="middle">
+					<div align="left">
+                		<kul:htmlControlAttribute property="document.coiDisclosureList[0].coiDisclProjects[${idx}].coiDiscDetails[${festatus.index}].comments" 
+                			readOnly="${readOnly}" attributeEntry="${coiDiscDetailAttributes.comments}" />
+					</div>
+				  </td>
 	            </tr>
 	            </c:forEach>
 	            </table> <%-- fe table --%>

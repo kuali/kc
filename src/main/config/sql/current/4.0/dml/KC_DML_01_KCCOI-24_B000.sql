@@ -1,7 +1,7 @@
 INSERT INTO COI_ENTITY_STATUS_CODE ( ENTITY_STATUS_CODE, DESCRIPTION, UPDATE_TIMESTAMP, UPDATE_USER, OBJ_ID ) 
-VALUES ( 1, 'No Conflict', sysdate, 'admin',  SYS_GUID() )
+VALUES ( 1, 'unrelated', sysdate, 'admin',  SYS_GUID() )
 /
 INSERT INTO COI_ENTITY_STATUS_CODE ( ENTITY_STATUS_CODE, DESCRIPTION, UPDATE_TIMESTAMP, UPDATE_USER, OBJ_ID ) 
-VALUES ( 2, 'Conflict', sysdate, 'admin',  SYS_GUID() )
+VALUES ( 2, 'related', sysdate, 'admin',  SYS_GUID() )
 /
 

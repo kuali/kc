@@ -21,7 +21,7 @@
 <c:set var="coiDiscDetailAttributes" value="${DataDictionary.CoiDiscDetail.attributes}" />
                 <div>
                 <h3>
-    		        <span class="subhead-left">Protocol</span>
+    		        <span class="subhead-left">Protocol Number: ${KualiForm.document.coiDisclosureList[0].coiDisclProjects[idx].coiProjectId}</span>
     		        <span class="subhead-right"><kul:help businessObjectClassName="org.kuali.kra.coi.CoiDiscDetail" altText="help"/></span>
                 </h3>
               
@@ -29,31 +29,21 @@
                         <tbody>
                         <%-- Header --%>
                                  <tr>
-                                    <th><div align="center">Protocol Number</div></th> 
-                                    <th><div align="center">Protocol Name</div></th> 
-                                    <th><div align="center">Protocol Type</div></th> 
-                                </tr>
-                        <%-- Header --%>
-                        
-                         <%-- New data --%>
-                        <%-- kra:permission value="${KualiForm.disclosureHelper.modifyPersonnel}" --%>
-                <tr>
-                  <td align="left" valign="middle">
-					<div align="left">
-                		<kul:htmlControlAttribute property="document.coiDisclosureList[0].coiDisclProjects[${idx}].coiProjectId" readOnly="true" attributeEntry="${coiDisclProjectAttributes.coiProjectId}" /> 
-					</div>
-				  </td>
+                                    <th><div align="right">Protocol Name:</div></th> 
                   <td align="left" valign="middle">
 					<div align="left">
                 		<kul:htmlControlAttribute property="document.coiDisclosureList[0].coiDisclProjects[${idx}].coiProjectTitle" readOnly="true" attributeEntry="${coiDisclProjectAttributes.coiProjectTitle}" /> 
 					</div>
 				  </td>
+                                    <th><div align="right">Protocol Type:</div></th> 
                   <td align="left" valign="middle">
 					<div align="left">
                 		<kul:htmlControlAttribute property="document.coiDisclosureList[0].coiDisclProjects[${idx}].protocolType.description" readOnly="true" attributeEntry="${coiDisclProjectAttributes.coiProjectStartDate}" /> 
 					</div>
 				  </td>
-	            </tr>
+                                </tr>
+                        <%-- Header --%>
+                        
 
                </table>
                </div>
