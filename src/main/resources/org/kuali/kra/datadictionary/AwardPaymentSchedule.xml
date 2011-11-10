@@ -49,6 +49,9 @@
 				<ref bean="AwardPaymentSchedule-statusDescription" />
 				<ref bean="AwardPaymentSchedule-status" />
 				<ref bean="AwardPaymentSchedule-versionNumber" />
+				<ref bean="AwardPaymentSchedule-overdue" />
+				<ref bean="AwardPaymentSchedule-reportStatusCode" />
+				<ref bean="AwardPaymentSchedule-submittedByPersonId" />
 			</list>
 		</property>
 	</bean>
@@ -143,6 +146,12 @@
 		<property name="summary" value="Preparer" />
 		<property name="description" value="Preparer" />
 	</bean>
+	
+	<bean id="AwardPaymentSchedule-submittedByPersonId" parent="AwardPaymentSchedule-submittedByPersonId-parentBean"/>
+	<bean id="AwardPaymentSchedule-submittedByPersonId-parentBean" abstract="true" parent="AwardPaymentSchedule-submittedBy">
+		<property name="name" value="submittedByPersonId" />
+		<property name="maxLength" value="40" />
+	</bean>
 
 	<bean id="AwardPaymentSchedule-invoiceNumber" parent="AwardPaymentSchedule-invoiceNumber-parentBean" />
 	<bean id="AwardPaymentSchedule-invoiceNumber-parentBean" abstract="true" parent="AttributeDefinition" >
@@ -196,9 +205,46 @@
 		<property name="summary" value="Status" />
 		<property name="description" value="Status" />
 	</bean>
+	
+	<bean id="AwardPaymentSchedule-overdue" parent="AwardPaymentSchedule-overdue-parentBean" />
+	<bean id="AwardPaymentSchedule-overdue-parentBean" abstract="true" parent="AttributeDefinition" >
+		<property name="name" value="overdue" />
+		<property name="forceUppercase" value="false" />
+		<property name="label" value="Overdue" />
+		<property name="shortLabel" value="Overdue" />
+		<property name="maxLength" value="15" />
+		<property name="validationPattern" >
+			<bean parent="NumericValidationPattern" />
+		</property>
+		<property name="control" >
+			<bean parent="TextControlDefinition" p:size="10" />
+		</property>
+		<property name="summary" value="Overdue" />
+		<property name="description" value="Overdue" />
+	</bean>
 
 	<bean id="AwardPaymentSchedule-versionNumber" parent="AwardPaymentSchedule-versionNumber-parentBean" />
 	<bean id="AwardPaymentSchedule-versionNumber-parentBean" abstract="true" parent="AttributeReferenceDummy-versionNumber">
+	</bean>
+	
+	<bean id="AwardPaymentSchedule-reportStatusCode" parent="AwardPaymentSchedule-reportStatusCode-parentBean"/>
+	<bean id="AwardPaymentSchedule-reportStatusCode-parentBean" abstract="true" parent="AwardPaymentSchedule-status">
+		<property name="name" value="reportStatusCode" />
+		<property name="required" value="false" />
+		<property name="forceUppercase" value="false" />
+		<property name="maxLength" value="22" />
+		<property name="validationPattern" >
+			<bean parent="NumericValidationPattern" />
+		</property>
+		<property name="control" >
+			<bean parent="SelectControlDefinition"
+	            p:businessObjectClass="org.kuali.kra.award.paymentreports.ReportStatus"
+	            p:valuesFinderClass="org.kuali.kra.lookup.keyvalue.ExtendedPersistableBusinessObjectValuesFinder"
+	            p:includeKeyInLabel="false"
+	            p:includeBlankRow="false"
+	            p:keyAttribute="reportStatusCode"
+	            p:labelAttribute="description" />
+		</property>
 	</bean>
 
 	<!-- Business Object Inquiry Definition -->

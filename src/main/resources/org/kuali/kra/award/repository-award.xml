@@ -1089,6 +1089,14 @@
 		<field-descriptor name="status" column="STATUS" jdbc-type="VARCHAR" />
 		<field-descriptor name="versionNumber" column="VER_NBR" jdbc-type="BIGINT" locking="false" />
 		<field-descriptor name="objectId" column="OBJ_ID" jdbc-type="VARCHAR" />		
+		<field-descriptor name="lastUpdateUser" column="LAST_UPDATE_USER" jdbc-type="VARCHAR" />
+		<field-descriptor name="lastUpdateTimestamp" column="LAST_UPDATE_TIMESTAMP" jdbc-type="TIMESTAMP" />
+		<field-descriptor name="overdue" column="OVERDUE" jdbc-type="INTEGER" />
+		<field-descriptor name="reportStatusCode" column="REPORT_STATUS_CODE" jdbc-type="VARCHAR" />
+		<field-descriptor name="submittedByPersonId" column="SUBMITTED_BY_PERSON_ID" jdbc-type="VARCHAR"/>
+		<reference-descriptor name="reportStatus" class-ref="org.kuali.kra.award.paymentreports.ReportStatus" auto-retrieve="true" auto-update="none" auto-delete="none"> 
+			<foreignkey field-ref="reportStatusCode"/>
+		</reference-descriptor> 
 	</class-descriptor>
 	
 	<class-descriptor class="org.kuali.kra.award.home.AwardTransferringSponsor" table="AWARD_TRANSFERRING_SPONSOR">
