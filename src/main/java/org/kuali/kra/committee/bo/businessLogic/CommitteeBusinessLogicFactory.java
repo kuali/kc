@@ -41,13 +41,18 @@ public class CommitteeBusinessLogicFactory {
             retVal = new IRBCommitteeBusinessLogic(committee, getCommitteeCollaboratorFactoryGroup());
         }
         else if (StringUtils.equals(committee.getCommitteeTypeCode(), CommitteeType.COI_TYPE_CODE)) {
-            retVal = new COICommitteeBusinessLogic(committee, getCommitteeCollaboratorFactoryGroup());
+            retVal = new CoiCommitteeBusinessLogic(committee, getCommitteeCollaboratorFactoryGroup());
         }
         else {
             retVal = new CommitteeBusinessLogic(committee, getCommitteeCollaboratorFactoryGroup()) {
 
                 @Override
                 public boolean validateCommitteeResearchAreas() {
+                    return false;
+                }
+
+                @Override
+                public boolean checkReviewType() {
                     return false;
                 }
                 

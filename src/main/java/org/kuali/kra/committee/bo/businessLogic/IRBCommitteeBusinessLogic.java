@@ -18,6 +18,7 @@ package org.kuali.kra.committee.bo.businessLogic;
 import java.util.List;
 
 import org.apache.commons.collections.CollectionUtils;
+import org.apache.commons.lang.StringUtils;
 import org.kuali.kra.committee.bo.Committee;
 import org.kuali.kra.committee.bo.CommitteeResearchArea;
 import org.kuali.kra.infrastructure.KeyConstants;
@@ -64,6 +65,11 @@ public class IRBCommitteeBusinessLogic extends CommitteeBusinessLogic {
         }
         
         return !inactiveFound;
+    }
+
+    @Override
+    public boolean checkReviewType() {
+        return !StringUtils.isBlank(getCommitteeBusinessObject().getReviewTypeCode());
     }
     
 }

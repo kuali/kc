@@ -90,7 +90,13 @@
                     <c:if test="${!readOnly}">
                 	    <kul:htmlControlAttribute property="document.committeeList[0].coiReviewTypeCode" attributeEntry="${committeeAttributes.coiReviewTypeCode}" />
                     </c:if>
-                    </div>
+                    <kul:checkErrors keyMatch="document.committeeList[0].reviewTypeCode" />
+					<c:if test="${hasErrors}">
+						<%-- display the error icon --%>
+						<kul:fieldShowErrorIcon />
+				  	</c:if>
+                  </div>
+                  
                   <div id="irbreview">
                     <c:if test="${readOnly}">
                 	    ${KualiForm.document.committeeList[0].reviewType.description}
@@ -98,7 +104,9 @@
                     <c:if test="${!readOnly}">
                 	    <kul:htmlControlAttribute property="document.committeeList[0].reviewTypeCode" attributeEntry="${committeeAttributes.reviewTypeCode}" />
                     </c:if>
-                    </div>
+                    <kul:checkErrors keyMatch="document.committeeList[0].reviewTypeCode" />
+                  </div>
+                  
                 </td>
             </tr>
             
