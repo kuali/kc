@@ -65,7 +65,7 @@
         <table id="disclosurefe-table" cellpadding="0" cellspacing="0" summary="">
         
                   	<tr>
-          		<kul:htmlAttributeHeaderCell literalLabel="&nbsp;" scope="col" /> 
+          		<kul:htmlAttributeHeaderCell literalLabel="Review" scope="col" /> 
           		<kul:htmlAttributeHeaderCell literalLabel="Entity"  scope="col" />
           		<th rowspan="1" colspan="1" scope="col">${KualiForm.disclosureHelper.conflictHeaderLabel}</th>
           		<kul:htmlAttributeHeaderCell attributeEntry="${coiDiscDetailAttributes.comments}" scope="col" />
