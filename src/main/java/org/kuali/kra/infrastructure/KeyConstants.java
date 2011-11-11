@@ -651,11 +651,13 @@ public final class KeyConstants {
     public static final String ERROR_ONLINE_REVIEW_STATUS_REQUIRED = "error.protocol.onlinereview.status.required";
     public static final String ERROR_ONLINE_REVIEW_REJECTED_REASON_REQUIRED = "error.protocol.onlinereview.comment.rejected";
     public static final String ERROR_ONLINE_REVIEW_ATTACHMENT_DESCRIPTION_REQUIRED = "error.protocol.onlinereview.attachment.description.required";
+    
     //  Committee Messages
     public static final String ERROR_COMMITTEE_DUPLICATE_ID = "error.committee.duplicateId";
     public static final String ERROR_COMMITTEE_DUPLICATE_NAME = "error.committee.duplicateName";
     public static final String ERROR_COMMITTEE_INVALID_ID = "error.committee.invalidId";
     public static final String ERROR_COMMITTEE_RESEARCH_AREA_INACTIVE = "error.committee.researchArea.inactive";
+    public static final String ERROR_COMMITTEE_REVIEW_TYPE_REQUIRED = "error.committee.reviewType.required";
     
     //CommitteeMembership Messages
     public static final String ERROR_COMMITTEE_MEMBERSHIP_PERSON_NOT_SPECIFIED = "error.committee.membership.person.not.specified";

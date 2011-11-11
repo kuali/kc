@@ -15,17 +15,23 @@
  */
 package org.kuali.kra.committee.bo.businessLogic;
 
+import org.apache.commons.lang.StringUtils;
 import org.kuali.kra.committee.bo.Committee;
 
-public class COICommitteeBusinessLogic extends CommitteeBusinessLogic {
+public class CoiCommitteeBusinessLogic extends CommitteeBusinessLogic {
 
-    public COICommitteeBusinessLogic(Committee businessObject, CommitteeCollaboratorFactoryGroup committeeCollaborators) {
+    public CoiCommitteeBusinessLogic(Committee businessObject, CommitteeCollaboratorFactoryGroup committeeCollaborators) {
         super(businessObject, committeeCollaborators);
     }
 
     @Override
     public boolean validateCommitteeResearchAreas() {
         return true;
+    }
+
+    @Override
+    public boolean checkReviewType() {
+        return !StringUtils.isBlank(getCommitteeBusinessObject().getCoiReviewTypeCode());
     }
 
 }
