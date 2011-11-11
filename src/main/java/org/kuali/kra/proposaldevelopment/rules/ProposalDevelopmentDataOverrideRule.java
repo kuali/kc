@@ -166,8 +166,8 @@ public class ProposalDevelopmentDataOverrideRule extends ResearchDocumentRuleBas
 
         Object currentValue = proposalDevelopmentService.getProposalFieldValueFromDBColumnName(proposalOverriddenData.getProposalNumber(), proposalOverriddenData.getColumnName());
         String currentValueStr = (currentValue != null) ? currentValue.toString() : "";
-        if(DATE.equalsIgnoreCase( proposalOverriddenData.getEditableColumn().getDataType())) {
-            currentValueStr = dateTimeService.toString((Date) currentValue, "MM/dd/yyyy");
+        if(DATE.equalsIgnoreCase( proposalOverriddenData.getEditableColumn().getDataType()) && currentValue != null) {
+                currentValueStr = dateTimeService.toString((Date) currentValue, "MM/dd/yyyy");
         }
         
         if(StringUtils.isNotEmpty(currentValueStr) && currentValueStr.equalsIgnoreCase(overriddenValue)) {
