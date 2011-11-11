@@ -129,14 +129,20 @@ public class CommitteeDocumentRule extends ResearchDocumentRuleBase implements B
         valid &= validateUniqueCommitteeId((CommitteeDocument) document);
         valid &= validateUniqueCommitteeName((CommitteeDocument) document);
         valid &= validateHomeUnit((CommitteeDocument) document);
-        valid &= processCommitteeResearchAreaBusinessRules((CommitteeDocument) document);     
+        if(valid) {
+            valid &= processCommitteeResearchAreaBusinessRules((CommitteeDocument) document);
+            valid &= validateCommitteeReviewType((CommitteeDocument) document);
+        }             
         valid &= validateCommitteeMemberships((CommitteeDocument) document);
         valid &= processScheduleRules((CommitteeDocument) document);
+        
         
         return valid;
     }
     
     
+    
+
     /**
      * This method will check if all the research areas that have been added to the committee are indeed active.
      * It is declared public because it will be invoked from the action class for committee as well.
@@ -144,7 +150,7 @@ public class CommitteeDocumentRule extends ResearchDocumentRuleBase implements B
      * @return
      */
     public boolean processCommitteeResearchAreaBusinessRules(CommitteeDocument document) {
-        CommitteeCollaboratorFactoryGroup cmtGrp = KraServiceLocator.getService(CommitteeCollaboratorFactoryGroup.class);
+        CommitteeCollaboratorFactoryGroup cmtGrp = getCommitteeCollaboratorFactoryGroup();
         CommitteeBusinessLogic committeeBusinessLogic = cmtGrp.getCommitteeBusinessLogicFor(document.getCommittee());
         return committeeBusinessLogic.validateCommitteeResearchAreas();
         
@@ -175,6 +181,21 @@ public class CommitteeDocumentRule extends ResearchDocumentRuleBase implements B
     }
     
     
+    /**
+     * This method will check that the proper review type corresponding to the committee type is chosen
+     * @param document
+     * @return
+     */
+    private boolean validateCommitteeReviewType(CommitteeDocument document) {
+        CommitteeCollaboratorFactoryGroup cmtGrp = getCommitteeCollaboratorFactoryGroup();
+        CommitteeBusinessLogic committeeBusinessLogic = cmtGrp.getCommitteeBusinessLogicFor(document.getCommittee());
+        return committeeBusinessLogic.validateReviewType();  
+    }
+    
+    
+    public CommitteeCollaboratorFactoryGroup getCommitteeCollaboratorFactoryGroup() {
+        return KraServiceLocator.getService(CommitteeCollaboratorFactoryGroup.class);
+    }
     
     
     /**
