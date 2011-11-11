@@ -154,9 +154,7 @@
             <tbody id="G${anchorIndex}" style="display: none;">
 	           	<c:forEach var="personnelObjectCode" items="${personnelObjectCodes}" varStatus="objStatus" >
 			        <c:set var="summarySalaryTotals" value="${KualiForm.document.budget.objectCodePersonnelSalaryTotals[personnelObjectCode.costElement]}" />
-			        <c:if test="${summarySalaryTotals != null}">
-			         	<c:set var="firstCellRowSpan" value="${firstCellRowSpan+1}" />
-			        </c:if>
+			         <c:set var="firstCellRowSpan" value="${firstCellRowSpan+1}" />
 		        	 <tr>
 		        	 	<c:if test="${objStatus.index == 0}">
 		        	    	<td width="5%" rowspan="${firstCellRowSpan}">&nbsp;</td>
