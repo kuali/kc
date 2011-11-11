@@ -15,13 +15,16 @@
  */
 package org.kuali.kra.committee.rules;
 
+import java.lang.reflect.Method;
 import java.util.ArrayList;
 
 import org.junit.After;
 import org.junit.Before;
 import org.junit.Test;
 import org.kuali.kra.bo.ResearchArea;
+import org.kuali.kra.committee.bo.Committee;
 import org.kuali.kra.committee.bo.CommitteeResearchArea;
+import org.kuali.kra.committee.bo.CommitteeType;
 import org.kuali.kra.committee.document.CommitteeDocument;
 import org.kuali.kra.infrastructure.KeyConstants;
 import org.kuali.rice.kns.util.ErrorMap;
@@ -137,6 +140,46 @@ public class CommitteeRuleTest extends CommitteeRuleTestBase {
         ErrorMap errorMap = GlobalVariables.getErrorMap();
         assertTrue(errorMap.containsMessageKey(KeyConstants.ERROR_INVALID_UNIT));
     }
+    
+    @Test
+    public void testValidateCommitteeReviewType() throws Exception {
+        CommitteeDocument document = getNewCommitteeDocument();
+        setCommitteeProperties(document);
+        // unset both the review types
+        document.getCommittee().setCoiReviewTypeCode(null);
+        document.getCommittee().setReviewTypeCode(null);
+        assertFalse(invoke_ValidateCommitteeReviewType(document));
+        
+        // set a non-null review type code for IRB, null for COI and set the committee type to COI
+        document.getCommittee().setCommitteeTypeCode(CommitteeType.COI_TYPE_CODE);
+        document.getCommittee().setCoiReviewTypeCode(null);
+        document.getCommittee().setReviewTypeCode("4");
+        assertFalse(invoke_ValidateCommitteeReviewType(document));
+        assertError("document.committeeList[0].reviewTypeCode", KeyConstants.ERROR_COMMITTEE_REVIEW_TYPE_REQUIRED);
+        
+        // set a non-null review type code for COI, should now pass
+        document.getCommittee().setCoiReviewTypeCode("4");
+        assertTrue(invoke_ValidateCommitteeReviewType(document));
+        
+        // set a non-null review type code for COI, null for IRB and set the committee type to IRB
+        document.getCommittee().setCoiReviewTypeCode("4");
+        document.getCommittee().setReviewTypeCode(null);
+        document.getCommittee().setCommitteeTypeCode(CommitteeType.IRB_TYPE_CODE);
+        assertFalse(invoke_ValidateCommitteeReviewType(document));
+        assertError("document.committeeList[0].reviewTypeCode", KeyConstants.ERROR_COMMITTEE_REVIEW_TYPE_REQUIRED);
+        
+        // set a non-null review type code for IRB, should now pass
+        document.getCommittee().setReviewTypeCode("4");
+        assertTrue(invoke_ValidateCommitteeReviewType(document));
+    }
+    
+    // for testing a private validation method
+    private boolean invoke_ValidateCommitteeReviewType(CommitteeDocument document) throws Exception {      
+        Method m = rule.getClass().getDeclaredMethod("validateCommitteeReviewType", CommitteeDocument.class);
+        m.setAccessible(true);       
+        return (Boolean) m.invoke(rule, document);    
+    }
+    
     
     /**
      * This method tests the logic for validating that all research areas associated with a committee are active.
