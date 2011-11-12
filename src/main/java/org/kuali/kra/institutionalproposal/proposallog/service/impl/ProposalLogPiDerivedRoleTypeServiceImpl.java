@@ -46,7 +46,7 @@ public class ProposalLogPiDerivedRoleTypeServiceImpl extends KimDerivedRoleTypeS
         try {
             MaintenanceDocument doc = (MaintenanceDocument) docService.getByDocumentHeaderId(qualification.get("documentNumber"));
             ProposalLog pLog = (ProposalLog) doc.getDocumentBusinessObject();
-            RoleMembershipInfo rmi = new RoleMembershipInfo(null, null, pLog.getPerson().getUserName(), "P", null);
+            RoleMembershipInfo rmi = new RoleMembershipInfo(null, null, pLog.getPerson().getPersonId(), "P", null);
             roleMembers.add(rmi);
         } catch (WorkflowException ex) {
             
