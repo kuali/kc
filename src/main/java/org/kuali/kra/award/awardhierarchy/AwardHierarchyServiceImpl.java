@@ -34,6 +34,7 @@ import org.kuali.kra.award.home.AwardAmountInfo;
 import org.kuali.kra.award.home.AwardComment;
 import org.kuali.kra.award.home.AwardService;
 import org.kuali.kra.award.home.approvedsubawards.AwardApprovedSubaward;
+import org.kuali.kra.award.notesandattachments.attachments.AwardAttachment;
 import org.kuali.kra.award.notesandattachments.notes.AwardNotepad;
 import org.kuali.kra.award.paymentreports.closeout.AwardCloseout;
 import org.kuali.kra.award.paymentreports.specialapproval.approvedequipment.AwardApprovedEquipment;
@@ -394,6 +395,8 @@ public class AwardHierarchyServiceImpl implements AwardHierarchyService {
                 comment.setComments(Constants.DEF_CURRENT_ACTION_COMMENT_COPIED_AWARD);
             }
         }
+        
+        newAward.getAwardAttachments().clear();
         
         newAward.getSyncChanges().clear();
         newAward.getSyncStatuses().clear();
