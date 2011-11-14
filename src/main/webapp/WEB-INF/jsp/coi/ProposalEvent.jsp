@@ -15,6 +15,14 @@
 --%>
 
 <%@ include file="/WEB-INF/jsp/kraTldHeader.jsp"%>
+<c:choose>
+    <c:when test="${fn:length(KualiForm.disclosureHelper.newProposals) == 0}" >
+        <c:set var="notfound" value=" (No new proposal found)" />
+    </c:when>
+    <c:otherwise>
+        <c:set var="notfound" value="" />
+    </c:otherwise>
+</c:choose>
 
 
 <kul:page lookup="false" 
@@ -28,7 +36,7 @@
     <div id="workarea">
 
 
-<kul:tab tabTitle="New Proposals for disclosure"
+<kul:tab tabTitle="New Proposals for disclosure${notfound}"
          defaultOpen="true"
          alwaysOpen="true"
          transparentBackground="true" 

@@ -142,5 +142,9 @@ public interface PermissionConstants {
     public static final String NEGOTIATION_VIEW_NEGOTIATION_UNRESTRICTED = "VIEW NEGOTIATION - UNRESTRICTED";
     public static final String NEGOTIATION_VIEW_NEGOTIATION = "VIEW NEGOTIATION";
     
-
+    /**
+     * COI disclosure
+     */
+    public static final String MAINTAIN_COI_DISCLOSURE = "Maintain Coi Disclosure";
+    public static final String VIEW_COI_DISCLOSURE = "View Coi Disclosure";
 }

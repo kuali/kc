@@ -19,7 +19,7 @@
 
 <c:set var="coiDisclProjectAttributes" value="${DataDictionary.CoiDisclProject.attributes}" />
 <c:set var="coiDiscDetailAttributes" value="${DataDictionary.CoiDiscDetail.attributes}" />
-<%-- c:set var="readOnly" value="${!KualiForm.personnelHelper.modifyPersonnel}" / --%>
+<c:set var="readOnly" value="${!KualiForm.disclosureHelper.canEditDisclosureFinancialEntity}" />
                 <c:choose>
                     <c:when test="${disclProject.proposalEvent}">
                         <kra-coi:manualProposalHeader disclProject="${disclProject}" idx = "${idx}"/>                    
@@ -50,6 +50,7 @@
           		<th rowspan="1" colspan="1" scope="col">${KualiForm.disclosureHelper.conflictHeaderLabel}</th>
           		<kul:htmlAttributeHeaderCell attributeEntry="${coiDiscDetailAttributes.comments}" scope="col" />
           	</tr> 
+			   <c:if test="${!readOnly}">
 	             <tr>
 					<th class="infoline">
 						&nbsp;
@@ -73,6 +74,7 @@
 	                	&nbsp;
 					</td>
 	            </tr>
+				</c:if>
             
         	<c:forEach var="disclosureDetail" items="${disclProject.coiDiscDetails}" varStatus="festatus">
 	             <tr>

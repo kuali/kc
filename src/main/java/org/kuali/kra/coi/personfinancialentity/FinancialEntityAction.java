@@ -183,7 +183,11 @@ public class FinancialEntityAction extends KualiAction {
      * utility method to get active/inactive financial entities.
      */
     protected List<PersonFinIntDisclosure> getFinancialEntities(boolean active) {
-        return getFinancialEntityService().getFinancialEntities(GlobalVariables.getUserSession().getPrincipalId(), active);
+        return getFinancialEntities(GlobalVariables.getUserSession().getPrincipalId(), active);
+    }
+    
+    protected List<PersonFinIntDisclosure> getFinancialEntities(String personId, boolean active) {
+        return getFinancialEntityService().getFinancialEntities(personId, active);
     }
     
     /**
