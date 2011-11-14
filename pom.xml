@@ -1536,7 +1536,7 @@
 		<mysql.version>5.1.13</mysql.version>
 		<oracle.version>10.2.0.3.0</oracle.version>
 		<rice.version>1.0.3.3</rice.version>
-		<selenium.version>2.6.0</selenium.version>
+		<selenium.version>2.12.0</selenium.version>
 		<servlet.version>2.5</servlet.version>
 		<slf4j.version>1.6.1</slf4j.version>
 		<springframework.version>2.5.6</springframework.version>
