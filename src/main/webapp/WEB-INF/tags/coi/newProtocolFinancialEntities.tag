@@ -18,6 +18,7 @@
 <c:set var="coiDiscDetailAttributes" value="${DataDictionary.CoiDiscDetail.attributes}" />
 <c:set var="financialEntityAttributes" value="${DataDictionary.PersonFinIntDisclosure.attributes}" />
 <c:set var="protocol" value="${KualiForm.document.coiDisclosureList[0].eventBo}" />
+<c:set var="readOnly" value="${!KualiForm.disclosureHelper.canEditDisclosureFinancialEntity}" />
 <kul:tab defaultOpen="false" tabTitle="Project & Financial Entity Relationships" auditCluster="financialEntityDiscAuditErrors" tabAuditKey="document.coiDisclosureList[0].coiDiscDetails*" useRiceAuditMode="true"
     tabErrorKey="document.coiDisclosureList[0].coiDiscDetails*" >
 	<div class="tab-container" align="center">
@@ -89,6 +90,7 @@
           		<th rowspan="1" colspan="1" scope="col">${KualiForm.disclosureHelper.conflictHeaderLabel}</th>
           		<kul:htmlAttributeHeaderCell attributeEntry="${coiDiscDetailAttributes.comments}" scope="col" />
           	</tr> 
+			   <c:if test="${!readOnly}">
 	             <tr>
 					<th class="infoline">
 						&nbsp;
@@ -112,7 +114,7 @@
 	                	&nbsp;
 					</td>
 	            </tr>
-            
+               </c:if>
         
         
         	<c:forEach var="disclosureDetail" items="${KualiForm.document.coiDisclosureList[0].coiDiscDetails}" varStatus="status">

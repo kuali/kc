@@ -24,6 +24,7 @@ import java.util.ArrayList;
 import java.util.Calendar;
 import java.util.LinkedHashMap;
 import java.util.List;
+import java.util.Map;
 
 import org.apache.commons.collections.CollectionUtils;
 import org.apache.commons.lang.StringUtils;
@@ -34,9 +35,10 @@ import org.kuali.kra.coi.disclosure.CoiDisclEventProject;
 import org.kuali.kra.coi.disclosure.CoiDisclosureService;
 import org.kuali.kra.coi.disclosure.DisclosurePerson;
 import org.kuali.kra.coi.disclosure.DisclosurePersonUnit;
+import org.kuali.kra.common.permissions.Permissionable;
 import org.kuali.kra.infrastructure.Constants;
 import org.kuali.kra.infrastructure.KraServiceLocator;
-import org.kuali.kra.irb.Protocol;
+import org.kuali.kra.infrastructure.RoleConstants;
 import org.kuali.rice.kns.service.KualiConfigurationService;
 import org.kuali.rice.kns.service.ParameterService;
 import org.kuali.rice.kns.service.SequenceAccessorService;
@@ -47,7 +49,7 @@ import org.kuali.rice.kns.util.GlobalVariables;
  * 
  * This class is the main bo class of Coi disclosure
  */
-public class CoiDisclosure extends KraPersistableBusinessObjectBase implements SequenceOwner<CoiDisclosure> { 
+public class CoiDisclosure extends KraPersistableBusinessObjectBase implements SequenceOwner<CoiDisclosure>, Permissionable { 
     
 
     /**
@@ -351,6 +353,15 @@ public class CoiDisclosure extends KraPersistableBusinessObjectBase implements S
 
     }
     
+    public String getLeadUnitNumber() {
+        for (DisclosurePersonUnit disclosurePersonUnit : disclosurePersons.get(0).getDisclosurePersonUnits()) {
+            if (disclosurePersonUnit.isLeadUnitFlag()) {
+                return disclosurePersonUnit.getUnitNumber();
+            }
+        }
+        return null;
+    }
+    
     private CoiDisclosureService getCoiDisclosureService() {
         return KraServiceLocator.getService(CoiDisclosureService.class);    
     }
@@ -549,5 +560,52 @@ public class CoiDisclosure extends KraPersistableBusinessObjectBase implements S
     public void setEventBo(KraPersistableBusinessObjectBase eventBo) {
         this.eventBo = eventBo;
     }
+
+    @Override
+    public String getDocumentNumberForPermission() {
+        return coiDisclosureNumber;
+    }
+
+    @Override
+    public String getDocumentKey() {
+        return Permissionable.COI_DISCLOSURE_KEY;
+    }
+
+    // permissionable related override
+    @Override
+    public List<String> getRoleNames() {
+//        List<String> roleNames = new ArrayList<String>();
+//
+
+//        roleNames.add(RoleConstants.COI_VIEWER);
+//
+//        return roleNames;
+        return null;
+    }
+
+    @Override
+    public String getNamespace() {
+        return Constants.MODULE_NAMESPACE_COIDISCLOSURE;
+    }
+    
+    /**
+     * 
+     * @see org.kuali.kra.UnitAclLoadable#getUnitNumberOfDocument()
+     */
+    public String getDocumentUnitNumber() {
+        return getLeadUnitNumber();
+    }
+
+    @Override
+    public String getDocumentRoleTypeCode() {
+        return RoleConstants.COI_DISCLOSURE_ROLE_TYPE;
+    }
+
+    @Override
+    public void populateAdditionalQualifiedRoleAttributes(Map<String, String> qualifiedRoleAttributes) {
+        // TODO Auto-generated method stub
+        
+    }
+    // end permissionable related override
 
  }

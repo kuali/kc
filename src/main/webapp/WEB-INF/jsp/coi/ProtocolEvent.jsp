@@ -16,6 +16,14 @@
 
 <%@ include file="/WEB-INF/jsp/kraTldHeader.jsp"%>
 
+<c:choose>
+    <c:when test="${fn:length(KualiForm.disclosureHelper.newProtocols) == 0}" >
+        <c:set var="notfound" value=" (No new protocol found)" />
+    </c:when>
+    <c:otherwise>
+        <c:set var="notfound" value="" />
+    </c:otherwise>
+</c:choose>
 
 <kul:page lookup="false" 
           docTitle="New Protocol For Disclosure" 
@@ -29,7 +37,7 @@
 
 <c:set var="protocolAttributes" value="${DataDictionary.Protocol.attributes}" />
 
-<kul:tab tabTitle="New Protocols for disclosure"
+<kul:tab tabTitle="New Protocols for disclosure${notfound}"
          defaultOpen="true"
          alwaysOpen="true"
          transparentBackground="true" 

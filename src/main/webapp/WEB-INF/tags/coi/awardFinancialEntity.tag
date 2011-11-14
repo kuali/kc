@@ -19,7 +19,7 @@
 
 <c:set var="coiDisclProjectAttributes" value="${DataDictionary.CoiDisclProject.attributes}" />
 <c:set var="coiDiscDetailAttributes" value="${DataDictionary.CoiDiscDetail.attributes}" />
-<%-- c:set var="readOnly" value="${!KualiForm.personnelHelper.modifyPersonnel}" / --%>
+<c:set var="readOnly" value="${!KualiForm.disclosureHelper.canEditDisclosureFinancialEntity}" />
                 <div class="tab-container" align="left">
     	<h3>
             <span class="subhead-left"> 
@@ -72,6 +72,7 @@
           		<th rowspan="1" colspan="1" scope="col">${KualiForm.disclosureHelper.conflictHeaderLabel}</th>
           		<kul:htmlAttributeHeaderCell attributeEntry="${coiDiscDetailAttributes.comments}" scope="col" />
           	</tr> 
+			   <c:if test="${!readOnly}">
 	             <tr>
 					<th class="infoline">
 						&nbsp;
@@ -95,6 +96,7 @@
 	                	&nbsp;
 					</td>
 	            </tr>
+				</c:if>
             
 
         	<c:forEach var="disclosureDetail" items="${disclProject.coiDiscDetails}" varStatus="festatus">

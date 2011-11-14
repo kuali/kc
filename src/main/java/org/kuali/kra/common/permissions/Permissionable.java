@@ -37,6 +37,7 @@ public interface Permissionable {
     String PROTOCOL_ONLINE_REVIEW_KEY="protocolOnlineReview";
     
     String NEGOTIATION_KEY = "negotiation";
+    String COI_DISCLOSURE_KEY = "coiDisclosure";
     
     /**
      * 

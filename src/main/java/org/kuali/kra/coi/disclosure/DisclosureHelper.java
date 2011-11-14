@@ -26,13 +26,17 @@ import org.kuali.kra.coi.CoiDisclProject;
 import org.kuali.kra.coi.CoiDisclosure;
 import org.kuali.kra.coi.CoiDisclosureDocument;
 import org.kuali.kra.coi.CoiDisclosureForm;
+import org.kuali.kra.coi.auth.CoiDisclosureTask;
 import org.kuali.kra.coi.personfinancialentity.FinEntityDataMatrixBean;
 import org.kuali.kra.coi.personfinancialentity.FinancialEntityService;
 import org.kuali.kra.infrastructure.KraServiceLocator;
+import org.kuali.kra.infrastructure.TaskName;
 import org.kuali.kra.institutionalproposal.home.InstitutionalProposal;
 import org.kuali.kra.irb.Protocol;
 import org.kuali.kra.proposaldevelopment.bo.DevelopmentProposal;
+import org.kuali.kra.service.TaskAuthorizationService;
 import org.kuali.rice.kns.service.ParameterService;
+import org.kuali.rice.kns.util.GlobalVariables;
 
 public class DisclosureHelper implements Serializable {
 
@@ -65,6 +69,7 @@ public class DisclosureHelper implements Serializable {
     private String newProjectId;
     private String moduleCode;
     private String proposalType;
+    private boolean modifyReporter;
 
     public DisclosureHelper(CoiDisclosureForm form) {
         this.form = form;
@@ -72,8 +77,8 @@ public class DisclosureHelper implements Serializable {
         deletedUnits = new ArrayList<DisclosurePersonUnit>(); 
         newRelationDetails = getFinancialEntityService().getFinancialEntityDataMatrix();
         editRelationDetails = new ArrayList<FinEntityDataMatrixBean>(); 
-        canViewDisclosureFeHistory = hasCanViewDisclosureFeHistoryPermission();
-        canEditDisclosureFinancialEntity = hasCanEditDisclosureFinancialEntityPermission();
+//        canViewDisclosureFeHistory = hasCanViewDisclosureFeHistoryPermission();
+//        canEditDisclosureFinancialEntity = hasCanEditDisclosureFinancialEntityPermission();
         CoiDisclosure coiDisclosure = form.getCoiDisclosureDocument().getCoiDisclosure();
       //  coiDisclosure.initCoiDisclosureNumber();
         newCoiDisclProject = new CoiDisclProject(coiDisclosure.getCoiDisclosureNumber(), coiDisclosure.getSequenceNumber());
@@ -83,6 +88,36 @@ public class DisclosureHelper implements Serializable {
 
     public CoiDisclosureForm getForm() {
         return form;
+    }
+    public void prepareView() {
+        initializePermissions(getCoiDisclosure());    
+    }
+    
+    private void initializePermissions(CoiDisclosure coiDisclosure) {
+        initializeModifyCoiDisclosurePermission(coiDisclosure);
+        canViewDisclosureFeHistory = hasCanViewDisclosureFeHistoryPermission(coiDisclosure);
+        canEditDisclosureFinancialEntity = hasCanEditDisclosureFinancialEntityPermission(coiDisclosure);
+    }
+
+    private void initializeModifyCoiDisclosurePermission(CoiDisclosure coiDisclosure) {
+        CoiDisclosureTask task = new CoiDisclosureTask(TaskName.MODIFY_COI_DISCLOSURE, coiDisclosure);
+        modifyReporter = getTaskAuthorizationService().isAuthorized(getUserIdentifier(), task);     
+    }
+
+    private String getUserIdentifier() {
+        return GlobalVariables.getUserSession().getPrincipalId();
+    }
+
+    private CoiDisclosure getCoiDisclosure() {
+        CoiDisclosureDocument document = form.getCoiDisclosureDocument();
+        if (document == null || document.getCoiDisclosure() == null) {
+            throw new IllegalArgumentException("invalid (null) CoiDisclosureDocument in ProtocolForm");
+        }
+        return document.getCoiDisclosure();
+    }
+
+    private TaskAuthorizationService getTaskAuthorizationService() {
+        return KraServiceLocator.getService(TaskAuthorizationService.class);
     }
 
     public void setForm(CoiDisclosureForm form) {
@@ -142,10 +177,9 @@ public class DisclosureHelper implements Serializable {
         this.canViewDisclosureFeHistory = canViewDisclosureFeHistory;
     }
 
-    private boolean hasCanViewDisclosureFeHistoryPermission() {
-        // TODO : to br implemented after coi task authorizer are set
-        // for now, just return true
-        return true;
+    private boolean hasCanViewDisclosureFeHistoryPermission(CoiDisclosure coiDisclosure) {
+        CoiDisclosureTask task = new CoiDisclosureTask(TaskName.VIEW_COI_DISCLOSURE, coiDisclosure);
+        return getTaskAuthorizationService().isAuthorized(getUserIdentifier(), task); 
     }
 
     public boolean isCanEditDisclosureFinancialEntity() {
@@ -155,10 +189,9 @@ public class DisclosureHelper implements Serializable {
     public void setCanEditDisclosureFinancialEntity(boolean canEditDisclosureFinancialEntity) {
         this.canEditDisclosureFinancialEntity = canEditDisclosureFinancialEntity;
     }
-    private boolean hasCanEditDisclosureFinancialEntityPermission() {
-        // TODO : to br implemented after coi task authorizer are set
-        // for now, just return true
-        return true;
+    private boolean hasCanEditDisclosureFinancialEntityPermission(CoiDisclosure coiDisclosure) {
+        CoiDisclosureTask task = new CoiDisclosureTask(TaskName.MODIFY_COI_DISCLOSURE, coiDisclosure);
+        return getTaskAuthorizationService().isAuthorized(getUserIdentifier(), task); 
     }
 
     public String getConflictHeaderLabel() {
@@ -281,6 +314,14 @@ public class DisclosureHelper implements Serializable {
 
     public void setProposalType(String proposalType) {
         this.proposalType = proposalType;
+    }
+
+    public boolean isModifyReporter() {
+        return modifyReporter;
+    }
+
+    public void setModifyReporter(boolean modifyReporter) {
+        this.modifyReporter = modifyReporter;
     }
 
 }
