@@ -339,7 +339,7 @@ public class ReviewCommentsServiceImpl implements ReviewCommentsService {
                     return false;
                 }
             } else {
-                return false;
+                return (!minute.isPrivate() && minute.isFinal());
             }
         }       
     }
