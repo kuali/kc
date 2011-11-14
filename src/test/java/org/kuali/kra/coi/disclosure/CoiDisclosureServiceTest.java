@@ -405,6 +405,7 @@ public class CoiDisclosureServiceTest extends KcUnitTestBase {
         };
         coiDisclosure.setModuleCode(CoiDisclosure.PROPOSAL_DISCL_MODULE_CODE);
         coiDisclosure.setCoiDiscDetails(new ArrayList<CoiDiscDetail>());
+        coiDisclosure.setPersonId("10000000001");
         coiDisclosure.getCoiDiscDetails().add(createNewCoiDiscDetail(CoiDisclosure.PROPOSAL_DISCL_MODULE_CODE, personFinIntDisclosure, CoiDisclProject.PROPOSAL_EVENT));
         coiDisclosureService.setBusinessObjectService(businessObjectService);
         coiDisclosureService.setFinancialEntityService(financialEntityService);
