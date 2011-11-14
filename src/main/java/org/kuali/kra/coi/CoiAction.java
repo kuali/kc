@@ -43,6 +43,7 @@ public abstract class CoiAction extends KraTransactionalDocumentActionBase {
     }
     
     public ActionForward disclosure(ActionMapping mapping, ActionForm form, HttpServletRequest request, HttpServletResponse response) {
+        ((CoiDisclosureForm)form).getDisclosureHelper().prepareView();
         return mapping.findForward("disclosure");
     }
     public ActionForward committee(ActionMapping mapping, ActionForm form, HttpServletRequest request, HttpServletResponse response) {

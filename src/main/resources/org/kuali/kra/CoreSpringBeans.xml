@@ -177,6 +177,11 @@
 					parent="parentAuthorizer">
 					<property name="taskName" value="createTimeAndMoney" />
 				</bean>
+				<bean class="org.kuali.kra.authorizer.CreateCoiDisclosureAuthorizer"
+					parent="parentAuthorizer">
+					<property name="taskName" value="createCoiDisclosure" />
+					<property name="coiDisclosureService" ref="coiDisclosureService" />
+				</bean>
 			</list>
 		</property>
 	</bean>
@@ -215,6 +220,7 @@
 				<ref bean="timeAndMoneyTaskAuthorizers" />
 				<ref bean="protocolOnlineReviewTaskAuthorizers" />
 				<ref bean="negotiationTaskAuthorizers"/>
+				<ref bean="coiDisclosureTaskAuthorizers" />
 			</list>
 		</property>
 	</bean>

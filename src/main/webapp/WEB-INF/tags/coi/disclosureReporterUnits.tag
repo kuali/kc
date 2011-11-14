@@ -19,7 +19,7 @@
 <c:set var="disclosureReporter" value="document.coiDisclosureList[0].disclosurePersons[0]" />
 <c:set var="unitAttributes" value="${DataDictionary.Unit.attributes}" />
 <bean:define id="disclosurePersonUnits" name="KualiForm" property="document.coiDisclosureList[0].disclosurePersons[0].disclosurePersonUnits" />
-<%-- c:set var="readOnly" value="${!KualiForm.personnelHelper.modifyPersonnel}" / --%>
+<c:set var="readOnly" value="${!KualiForm.disclosureHelper.modifyReporter}" />
 <table cellpadding=0 cellspacing=0 summary="">
     <tr>
         <td>
@@ -35,7 +35,6 @@
                             <kul:htmlAttributeHeaderCell attributeEntry="${disclosurePersonUnitsAttributes.leadUnitFlag}" scope="col" align="center"/>
                             <c:if test="${!readOnly}">
                                 <kul:htmlAttributeHeaderCell literalLabel="Actions" scope="col" align="center"/>
-                            </c:if>
                         </tr> 
                         <%-- Header --%>
                         
@@ -78,6 +77,7 @@
                                         <html:image property="methodToCall.addDisclosurePersonUnit.line${status.index}" 
                                         src="${ConfigProperties.kr.externalizable.images.url}tinybutton-add1.gif" title="Add Unit" alt="Add Unit" styleClass="tinybutton"/></div>
                                 </td>
+                            </c:if>
                             </tr>
                         <%-- /kra:permission --%>
                         <%-- New data --%>

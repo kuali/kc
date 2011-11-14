@@ -148,4 +148,11 @@ public interface CoiDisclosureService {
      * @param projectId
      */
     void initializeDisclosureDetails(CoiDisclosure coiDisclosure, String projectId);
+    
+    /**
+     * 
+     * This method is to check whether this user has active projects to disclose
+     * @return
+     */
+    boolean isReporter();
 }
