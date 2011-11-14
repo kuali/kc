@@ -77,7 +77,7 @@
   <bean id="NegotiationUnassociatedDetail-piPersonId-parentBean" abstract="true" parent="AttributeDefinition">
     <property name="name" value="piPersonId" />
     <property name="forceUppercase" value="false" />
-    <property name="label" value="Principal investigator Employee" />
+    <property name="label" value="Principal Investigator Employee" />
     <property name="shortLabel" value="PI Person" />
     <property name="required" value="false" />
     <property name="maxLength" value="40" />
@@ -87,8 +87,8 @@
     <property name="control" >
       <bean parent="TextControlDefinition" p:size="40" />
     </property>
-    <property name="summary" value="Principal investigator Employee" />
-    <property name="description" value="Principal investigator Employee" />
+    <property name="summary" value="Principal Investigator Employee" />
+    <property name="description" value="Principal Investigator Employee" />
   </bean>
   
   <bean id="NegotiationUnassociatedDetail-piRolodexId" parent="NegotiationUnassociatedDetail-piRolodexId-parentBean" />
