@@ -129,6 +129,7 @@ public class CoiDisclosureAction extends CoiAction {
         } else {
             forward = super.docHandler(mapping, form, request, response);            
         }
+        ((CoiDisclosureForm)form).getDisclosureHelper().prepareView();
       checkToLoadDisclosureDetails(coiDisclosureForm.getCoiDisclosureDocument().getCoiDisclosure(), ((CoiDisclosureForm) form).getMethodToCall(), coiDisclosureForm.getDisclosureHelper().getNewProjectId());
 
         return forward;
@@ -205,20 +206,20 @@ public class CoiDisclosureAction extends CoiAction {
 
     public ActionForward getNewProtocolsForDisclosure(ActionMapping mapping, ActionForm form, HttpServletRequest request, HttpServletResponse response)
             throws Exception {
-        ((CoiDisclosureForm) form).getDisclosureHelper().setNewProtocols(getCoiDisclosureService().getProtocols(GlobalVariables.getUserSession().getPrincipalId()));
+        ((CoiDisclosureForm) form).getDisclosureHelper().setNewProtocols(getCoiDisclosureService().getProtocols(getUserId()));
         return mapping.findForward(Constants.MAPPING_BASIC);
 
     }
     public ActionForward getNewProposalsForDisclosure(ActionMapping mapping, ActionForm form, HttpServletRequest request, HttpServletResponse response)
             throws Exception {
-        ((CoiDisclosureForm) form).getDisclosureHelper().setNewProposals(getCoiDisclosureService().getProposals(GlobalVariables.getUserSession().getPrincipalId()));
-        ((CoiDisclosureForm) form).getDisclosureHelper().setNewInstitutionalProposals(getCoiDisclosureService().getInstitutionalProposals(GlobalVariables.getUserSession().getPrincipalId()));
+        ((CoiDisclosureForm) form).getDisclosureHelper().setNewProposals(getCoiDisclosureService().getProposals(getUserId()));
+        ((CoiDisclosureForm) form).getDisclosureHelper().setNewInstitutionalProposals(getCoiDisclosureService().getInstitutionalProposals(getUserId()));
         return mapping.findForward(Constants.MAPPING_BASIC);
 
     }
     public ActionForward getNewAwardsForDisclosure(ActionMapping mapping, ActionForm form, HttpServletRequest request, HttpServletResponse response)
             throws Exception {
-        ((CoiDisclosureForm) form).getDisclosureHelper().setNewAwards(getCoiDisclosureService().getAwards(GlobalVariables.getUserSession().getPrincipalId()));
+        ((CoiDisclosureForm) form).getDisclosureHelper().setNewAwards(getCoiDisclosureService().getAwards(getUserId()));
         return mapping.findForward(Constants.MAPPING_BASIC);
 
     }
@@ -233,10 +234,14 @@ public class CoiDisclosureAction extends CoiAction {
             coiDisclosureForm.getCoiDisclosureDocument().setCoiDisclosure(coiDisclosure);
         }
         coiDisclosureForm.getCoiDisclosureDocument().getCoiDisclosure().setModuleCode(coiDisclosureForm.getDisclosureHelper().getModuleCode());
+        // dochandler may populate discdetails for new doc.  here is just to reset to reload it again.
+        coiDisclosureForm.getCoiDisclosureDocument().getCoiDisclosure().setCoiDiscDetails(null);
         checkToLoadDisclosureDetails(coiDisclosureForm.getCoiDisclosureDocument().getCoiDisclosure(), ((CoiDisclosureForm) form).getMethodToCall(), coiDisclosureForm.getDisclosureHelper().getNewProjectId());
         return forward;
 
     }
 
-    
+    private String getUserId() {
+    	return GlobalVariables.getUserSession().getPrincipalId();
+    }
 }

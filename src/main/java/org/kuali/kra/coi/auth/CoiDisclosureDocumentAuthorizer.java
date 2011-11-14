@@ -18,23 +18,20 @@ package org.kuali.kra.coi.auth;
 import java.util.HashSet;
 import java.util.Set;
 
+import org.kuali.kra.authorization.ApplicationTask;
 import org.kuali.kra.authorization.KcTransactionalDocumentAuthorizerBase;
 import org.kuali.kra.coi.CoiDisclosureDocument;
-import org.kuali.kra.infrastructure.Constants;
+import org.kuali.kra.infrastructure.KraServiceLocator;
 import org.kuali.kra.infrastructure.TaskName;
+import org.kuali.kra.service.TaskAuthorizationService;
 import org.kuali.rice.kim.bo.Person;
 import org.kuali.rice.kns.authorization.AuthorizationConstants;
 import org.kuali.rice.kns.document.Document;
-import org.kuali.rice.kns.service.ParameterConstants;
-import org.kuali.rice.kns.service.ParameterConstants.COMPONENT;
-import org.kuali.rice.kns.service.ParameterConstants.NAMESPACE;
 
 /**
  * 
- * This class implements document authorizer for coidisclosuredocument
+ * This class implements document authorizer for Coidisclosuredocument
  */
-@NAMESPACE(namespace=Constants.MODULE_NAMESPACE_COIDISCLOSURE)
-@COMPONENT(component=ParameterConstants.DOCUMENT_COMPONENT)
 public class CoiDisclosureDocumentAuthorizer extends KcTransactionalDocumentAuthorizerBase {
     // TODO : detail need to be implemented after role and tasks are set up.
     
@@ -96,10 +93,10 @@ public class CoiDisclosureDocumentAuthorizer extends KcTransactionalDocumentAuth
      */
     private boolean canCreateCoiDisclosure(Person user) {
         // TODO : to be implemented later
-        return true;
-//        ApplicationTask task = new ApplicationTask(TaskName.CREATE_COI_DISCLOSURE);       
-//        TaskAuthorizationService taskAuthenticationService = KraServiceLocator.getService(TaskAuthorizationService.class);
-//        return taskAuthenticationService.isAuthorized(user.getPrincipalId(), task);
+//        return true;
+        ApplicationTask task = new ApplicationTask(TaskName.CREATE_COI_DISCLOSURE);       
+        TaskAuthorizationService taskAuthenticationService = KraServiceLocator.getService(TaskAuthorizationService.class);
+        return taskAuthenticationService.isAuthorized(user.getPrincipalId(), task);
     }
     
     /**
@@ -111,10 +108,10 @@ public class CoiDisclosureDocumentAuthorizer extends KcTransactionalDocumentAuth
      */
     private boolean canExecuteCoiDisclosureTask(String userId, CoiDisclosureDocument doc, String taskName) {
         // TODO : to be implemented later
-        return true;
-//        CoiDisclosureTask task = new CoiDisclosureTask(taskName, doc.getCoiDisclosure());       
-//        TaskAuthorizationService taskAuthenticationService = KraServiceLocator.getService(TaskAuthorizationService.class);
-//        return taskAuthenticationService.isAuthorized(userId, task);
+//        return true;
+        CoiDisclosureTask task = new CoiDisclosureTask(taskName, doc.getCoiDisclosure());       
+        TaskAuthorizationService taskAuthenticationService = KraServiceLocator.getService(TaskAuthorizationService.class);
+        return taskAuthenticationService.isAuthorized(userId, task);
     }
     
     /**

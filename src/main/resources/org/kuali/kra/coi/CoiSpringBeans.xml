@@ -75,6 +75,29 @@
     </bean>
     
 
+    <bean id="parentCoiDisclosureAuthorizer" abstract="true">
+        <property name="unitAuthorizationService" ref="unitAuthorizationService" />
+        <property name="kraWorkflowService" ref="kraWorkflowService" />
+        <property name="kcPersonService" ref="kcPersonService" />
+        <property name="kraAuthorizationService" ref="kraAuthorizationService" />
+        <property name="coiDisclosureService" ref="coiDisclosureService" />
+    </bean>
+
+    <bean id="coiDisclosureTaskAuthorizers" class="org.kuali.kra.authorization.TaskAuthorizerGroup">
+        <property name="groupName" value="coiDisclosure" />
+        <property name="taskAuthorizers">
+            <list>
+                <bean class="org.kuali.kra.coi.auth.ModifyCoiDisclosureAuthorizer" parent="parentCoiDisclosureAuthorizer">
+                    <property name="taskName" value="modifyCoiDisclosure" />
+                </bean>
+                
+                <bean class="org.kuali.kra.coi.auth.ViewCoiDisclosureAuthorizer" parent="parentCoiDisclosureAuthorizer">
+                    <property name="taskName" value="viewCoiDisclosure" />
+                </bean>
+            </list>
+        </property>
+    </bean>
+
 </beans>
 
 

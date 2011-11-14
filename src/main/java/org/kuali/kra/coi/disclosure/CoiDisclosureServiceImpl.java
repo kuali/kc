@@ -15,7 +15,6 @@
  */
 package org.kuali.kra.coi.disclosure;
 
-import java.sql.Date;
 import java.util.ArrayList;
 import java.util.Collections;
 import java.util.HashMap;
@@ -430,8 +429,11 @@ public class CoiDisclosureServiceImpl implements CoiDisclosureService {
         String moduleItemKey = Constants.EMPTY_STRING;
         List<CoiDisclEventProject> disclEventProjects = new ArrayList<CoiDisclEventProject>();
         CoiDisclEventProject coiDisclEventProject = new CoiDisclEventProject();
-        List<PersonFinIntDisclosure> financialEntities = financialEntityService.getFinancialEntities(GlobalVariables
-                .getUserSession().getPrincipalId(), true);
+        String personId = GlobalVariables.getUserSession().getPrincipalId();
+        if (!StringUtils.equals(personId, coiDisclosure.getPersonId())) {
+            personId = coiDisclosure.getPersonId();
+        }
+        List<PersonFinIntDisclosure> financialEntities = financialEntityService.getFinancialEntities(personId, true);
 
         List<String> disclEntityNumbers = new ArrayList<String>();
         if (!coiDisclosure.isManualEvent()) {
@@ -932,4 +934,20 @@ public class CoiDisclosureServiceImpl implements CoiDisclosureService {
         this.sponsorHierarchyDao = sponsorHierarchyDao;
     }
 
+    public boolean isReporter() {
+        // TODO : this is the initial implementation to check if a user need to report
+        // more condition may be added
+        // how to decide whether user has manual projects to report ?
+        String personId = GlobalVariables.getUserSession().getPrincipalId();
+        return hasExistingCoiDisclosure() || CollectionUtils.isNotEmpty(getProtocols(personId)) || CollectionUtils.isNotEmpty(getProposals(personId))
+                || CollectionUtils.isNotEmpty(getAwards(personId)) || CollectionUtils.isNotEmpty(getInstitutionalProposals(personId));
+    }
+    
+    private boolean hasExistingCoiDisclosure() {
+        Map<String, Object> fieldValues = new HashMap<String, Object>();
+        fieldValues.put("personId", GlobalVariables.getUserSession().getPrincipalId());
+
+        return businessObjectService.countMatching(CoiDisclosure.class, fieldValues) > 0;
+
+    }
 }
