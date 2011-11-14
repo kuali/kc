@@ -64,8 +64,12 @@ public class ProposalLogLookupableHelperServiceImpl extends KualiLookupableHelpe
             }
             lookupForm.getFieldsForLookup().remove(USERNAME_FIELD);
         }
-        
-        return super.performLookup(lookupForm, resultTable, bounded);
+        Collection results = super.performLookup(lookupForm, resultTable, bounded);
+        if (StringUtils.containsIgnoreCase(lookupForm.getBackLocation(), "negotiationNegotiation")) {
+            return cleanSearchResultsForNegotiationLookup(results);
+        } else {
+            return results;
+        }
     }
     
     /* 
@@ -73,15 +77,24 @@ public class ProposalLogLookupableHelperServiceImpl extends KualiLookupableHelpe
      */
     @Override
     public List<? extends BusinessObject> getSearchResults(Map<String, String> fieldValues) {
-        
         checkIsLookupForProposalCreation(fieldValues);
-        
-//        if (isLookupForProposalCreation) {
-//            fieldValues.remove(ProposalLog.LOG_STATUS);
-//            fieldValues.put(ProposalLog.LOG_STATUS, ProposalLogUtils.getProposalLogPendingStatusCode());
-//        }
-        
-        return super.getSearchResults(fieldValues);
+        List<? extends BusinessObject> results = super.getSearchResults(fieldValues);
+        String returnLocation = fieldValues.get("backLocation");
+        if (StringUtils.containsIgnoreCase(returnLocation, "negotiationNegotiation")) {
+            return cleanSearchResultsForNegotiationLookup(results);
+        } else {
+            return results;
+        }
+    }
+    
+    private List<ProposalLog> cleanSearchResultsForNegotiationLookup(Collection searchResults) {
+        List<ProposalLog> newResults = new ArrayList<ProposalLog>();
+        for (ProposalLog pl : (List<ProposalLog>) searchResults) {
+            if (StringUtils.isBlank(pl.getInstProposalNumber())) {
+                newResults.add(pl);
+            }
+        }
+        return newResults;
     }
     
     /**
