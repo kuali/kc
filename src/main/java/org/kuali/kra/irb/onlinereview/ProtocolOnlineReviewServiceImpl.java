@@ -27,6 +27,7 @@ import org.apache.commons.logging.Log;
 import org.apache.commons.logging.LogFactory;
 import org.kuali.kra.committee.bo.CommitteeMembership;
 import org.kuali.kra.committee.service.CommitteeService;
+import org.kuali.kra.infrastructure.Constants;
 import org.kuali.kra.infrastructure.KraServiceLocator;
 import org.kuali.kra.irb.Protocol;
 import org.kuali.kra.irb.ProtocolFinderDao;
@@ -50,6 +51,7 @@ import org.kuali.rice.kns.service.BusinessObjectService;
 import org.kuali.rice.kns.service.DocumentService;
 import org.kuali.rice.kns.util.GlobalVariables;
 import org.kuali.rice.kns.util.KNSConstants;
+import org.kuali.kra.service.KraWorkflowService;
 import org.kuali.rice.kns.workflow.service.KualiWorkflowDocument;
 import org.kuali.rice.kns.workflow.service.WorkflowDocumentService;
 
@@ -362,8 +364,9 @@ public class ProtocolOnlineReviewServiceImpl implements ProtocolOnlineReviewServ
         ProtocolSubmission submission = protocol.getProtocolSubmission();
         if (submission != null) {
             isReviewable = StringUtils.isNotEmpty(submission.getScheduleId()); 
-            isReviewable &= StringUtils.equals(submission.getSubmissionStatusCode(), ProtocolSubmissionStatus.SUBMITTED_TO_COMMITTEE) 
-                || StringUtils.equals(submission.getSubmissionStatusCode(), ProtocolSubmissionStatus.IN_AGENDA);
+            isReviewable &= (StringUtils.equals(submission.getSubmissionStatusCode(), ProtocolSubmissionStatus.SUBMITTED_TO_COMMITTEE) 
+                || StringUtils.equals(submission.getSubmissionStatusCode(), ProtocolSubmissionStatus.IN_AGENDA));
+            isReviewable &= getKraWorkflowService().isDocumentOnNode(protocol.getProtocolDocument(), Constants.PROTOCOL_IRBREVIEW_ROUTE_NODE_NAME);
         }
         return isReviewable;
     }
@@ -600,6 +603,13 @@ public class ProtocolOnlineReviewServiceImpl implements ProtocolOnlineReviewServ
      */
     public WorkflowDocumentService getWorkflowDocumentService() {
         return KraServiceLocator.getService(WorkflowDocumentService.class);
+    }
+    /**
+     * Gets the workflowDocumentService attribute. 
+     * @return Returns the workflowDocumentService.
+     */
+    public KraWorkflowService getKraWorkflowService() {
+        return KraServiceLocator.getService(KraWorkflowService.class);
     }
     /**
      * Gets the personService attribute. 

@@ -21,6 +21,10 @@ import org.kuali.kra.infrastructure.PermissionConstants;
 import org.kuali.kra.irb.Protocol;
 import org.kuali.kra.irb.actions.submit.ProtocolSubmission;
 import org.kuali.kra.irb.actions.submit.ProtocolSubmissionStatus;
+import org.kuali.rice.kew.dto.ActionRequestDTO;
+import org.kuali.rice.kew.dto.DocumentDetailDTO;
+import org.kuali.rice.kew.dto.ReportCriteriaDTO;
+import org.kuali.rice.kew.service.WorkflowInfo;
 
 /**
  * Determine if a user can assign a protocol to a committee/schedule.
@@ -32,10 +36,31 @@ public class ProtocolAssignReviewersAuthorizer extends ProtocolAuthorizer {
      */
     public boolean isAuthorized(String username, ProtocolTask task) {
         Protocol protocol = task.getProtocol();
-        return kraWorkflowService.isDocumentOnNode(protocol.getProtocolDocument(), Constants.PROTOCOL_IRBREVIEW_ROUTE_NODE_NAME) &&
-               isPendingOrSubmittedToCommittee(protocol) &&
-               isInSchedule(protocol) &&
-               hasPermission(username, protocol, PermissionConstants.PERFORM_IRB_ACTIONS_ON_PROTO);
+        return (isOnNode(protocol) || willBeOnNode(username, protocol)) && 
+            hasPermission(username, protocol, PermissionConstants.PERFORM_IRB_ACTIONS_ON_PROTO);
+    }
+
+    public boolean isOnNode(Protocol protocol) {
+        return kraWorkflowService.isDocumentOnNode(protocol.getProtocolDocument(), Constants.PROTOCOL_IRBREVIEW_ROUTE_NODE_NAME);
+    }
+
+    // look to insure our next node won't be "DepartmentReview", which means the protocol will require
+    // departmental approval before being assigned reviewers
+    public boolean willBeOnNode(String username, Protocol protocol) {
+        boolean results = true;
+        ReportCriteriaDTO reportCriteria = new ReportCriteriaDTO(protocol.getProtocolDocument().getDocumentHeader().getWorkflowDocument().getRouteHeader().getRouteHeaderId());
+        reportCriteria.setTargetPrincipalIds(new String[] { username });
+        WorkflowInfo info = new WorkflowInfo();
+        
+        try { 
+            DocumentDetailDTO results1 = info.routingReport(reportCriteria);
+            for(ActionRequestDTO actionRequest : results1.getActionRequests() ){
+                if (Constants.PROTOCOL_APPROVAL_NODE_NAME.equals(actionRequest.getNodeName())) {
+                    results = false;
+                }
+            }
+        } catch (Exception e) {}
+        return results;
     }
 
     /**
