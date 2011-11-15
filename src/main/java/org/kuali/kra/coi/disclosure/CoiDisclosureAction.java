@@ -165,8 +165,10 @@ public class CoiDisclosureAction extends CoiAction {
             throws Exception {
         ActionForward actionForward = save(mapping, form, request, response);
         if (GlobalVariables.getMessageMap().hasNoErrors()) {
+            CoiDisclosureForm coiDisclosureForm = (CoiDisclosureForm) form;
+            CoiDisclosure coiDisclosure = ((CoiDisclosureDocument)coiDisclosureForm.getDocument()).getCoiDisclosure();
             String forward = ConfigContext.getCurrentContextConfig().getProperty("kuali.docHandler.url.prefix") + 
-                    "/financialEntityEditNew.do?methodToCall=addNewCoiDiscFinancialEntity&coiDocId="+((CoiDisclosureForm) form).getDocument().getDocumentNumber();
+                    "/financialEntityEditNew.do?methodToCall=addNewCoiDiscFinancialEntity&coiDocId="+((CoiDisclosureForm) form).getDocument().getDocumentNumber()+"&financialEntityHelper.reporterId="+coiDisclosure.getPersonId();
 //            "/portal.do?channelTitle=Financial%20Entity&channelUrl=financialEntityManagement.do?methodToCall=editNew&coiDocId="+((CoiDisclosureForm) form).getDocument().getDocumentNumber();
             return new ActionForward(forward, true);
         }

@@ -52,6 +52,7 @@ public class FinancialEntityHelper implements Serializable {
     private String editType;
     private List<PersonFinIntDisclosure> versions;
     private String editCoiEntityId;
+    private String reporterId;
 
     public String getEditType() {
         return editType;
@@ -64,10 +65,13 @@ public class FinancialEntityHelper implements Serializable {
 
 
     public FinancialEntityHelper(FinancialEntityForm form) {
-        newPersonFinancialEntity = new PersonFinIntDisclosure();
+        if (StringUtils.isBlank(reporterId)) {
+            reporterId = GlobalVariables.getUserSession().getPrincipalId();
+        }
+      newPersonFinancialEntity = new PersonFinIntDisclosure();
         newPersonFinancialEntity.setCurrentFlag(true);
         financialEntityReporter = new FinancialEntityReporter();
-        newPersonFinancialEntity.setPersonId(GlobalVariables.getUserSession().getPrincipalId());
+        newPersonFinancialEntity.setPersonId(reporterId);
         newPersonFinancialEntity.setFinancialEntityReporterId(financialEntityReporter.getFinancialEntityReporterId());
         setNewFinancialEntityReporterUnit(new FinancialEntityReporterUnit());
         activeFinancialEntities = new ArrayList<PersonFinIntDisclosure>();
@@ -163,8 +167,10 @@ public class FinancialEntityHelper implements Serializable {
     }
     
     private void refreshFinancialEntityReporter() {
-        financialEntityReporter = getFinancialEntityService().getFinancialEntityReporter(
-                GlobalVariables.getUserSession().getPrincipalId());
+        if (StringUtils.isBlank(reporterId)) {
+            reporterId = GlobalVariables.getUserSession().getPrincipalId();
+        }
+        financialEntityReporter = getFinancialEntityService().getFinancialEntityReporter(reporterId);
         newPersonFinancialEntity.setFinancialEntityReporterId(financialEntityReporter.getFinancialEntityReporterId());
     }
 
@@ -223,9 +229,12 @@ public class FinancialEntityHelper implements Serializable {
          * Try to combine with the 'init' process when this helper is instantiated ?
          * 
          */
+        if (StringUtils.isBlank(reporterId)) {
+            reporterId = GlobalVariables.getUserSession().getPrincipalId();
+        }
         newPersonFinancialEntity = new PersonFinIntDisclosure();
         newPersonFinancialEntity.setCurrentFlag(true);
-        newPersonFinancialEntity.setPersonId(GlobalVariables.getUserSession().getPrincipalId());
+        newPersonFinancialEntity.setPersonId(reporterId);
         newPersonFinancialEntity.setFinancialEntityReporterId(financialEntityReporter.getFinancialEntityReporterId());
         this.setActiveFinancialEntities(getFinancialEntities(true));
         this.setInactiveFinancialEntities(getFinancialEntities(false));
@@ -241,7 +250,10 @@ public class FinancialEntityHelper implements Serializable {
     }
     
     private List<PersonFinIntDisclosure> getFinancialEntities(boolean active) {
-        return getFinancialEntityService().getFinancialEntities(GlobalVariables.getUserSession().getPrincipalId(), active);
+        if (StringUtils.isBlank(reporterId)) {
+            reporterId = GlobalVariables.getUserSession().getPrincipalId();
+        }
+        return getFinancialEntityService().getFinancialEntities(reporterId, active);
     }
 
 
@@ -300,6 +312,16 @@ public class FinancialEntityHelper implements Serializable {
 
     public void setEditCoiEntityId(String editCoiEntityId) {
         this.editCoiEntityId = editCoiEntityId;
+    }
+
+
+    public String getReporterId() {
+        return reporterId;
+    }
+
+
+    public void setReporterId(String reporterId) {
+        this.reporterId = reporterId;
     }
 
  }
