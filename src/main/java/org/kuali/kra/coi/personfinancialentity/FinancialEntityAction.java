@@ -64,7 +64,7 @@ public class FinancialEntityAction extends KualiAction {
 
         ((FinancialEntityForm) form).getFinancialEntityHelper().initiate();
         // if this starts from FE link.  clean any coiDocId resicure
-        ((FinancialEntityForm) form).setCoiDocId(null);
+ //       ((FinancialEntityForm) form).setCoiDocId(null);
         return mapping.findForward("management");
     }
 

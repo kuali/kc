@@ -384,6 +384,7 @@ public class FinancialEntityEditListAction extends FinancialEntityAction{
             if (StringUtils.isNotBlank(financialEntityForm.getCoiDocId())) {
                 String forward = buildForwardUrl(Long.parseLong(financialEntityForm.getCoiDocId()));
                 financialEntityForm.setCoiDocId(null);
+                financialEntityForm.getFinancialEntityHelper().setReporterId(null);
                 return new ActionForward(forward, true);
             }
         }
