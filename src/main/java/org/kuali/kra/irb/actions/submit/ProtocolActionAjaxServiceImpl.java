@@ -60,9 +60,9 @@ public class ProtocolActionAjaxServiceImpl implements ProtocolActionAjaxService 
     /**
      * @see org.kuali.kra.irb.actions.submit.ProtocolActionAjaxService#getValidCommitteeDates(java.lang.String)
      */
-    public String getValidCommitteeDates(String committeeId, String protocolId) {
+    public String getValidCommitteeDates(String committeeId, String protocolNumber) {
         StringBuffer ajaxList = new StringBuffer();
-        if (isAuthorizedToAccess(protocolId)) {
+        if (isAuthorizedToAccess(protocolNumber)) {
             List<KeyLabelPair> dates = committeeService.getAvailableCommitteeDates(committeeId);
             for (KeyLabelPair date : dates) {
                 ajaxList.append(date.getKey() + ";" + date.getLabel() + ";");
@@ -78,17 +78,18 @@ public class ProtocolActionAjaxServiceImpl implements ProtocolActionAjaxService 
     /*
      * a utility method to check if dwr/ajax call really has authorization
      */
-    private boolean isAuthorizedToAccess(String protocolId) {
+    private boolean isAuthorizedToAccess(String protocolNumber) {
         boolean isAuthorized = true;
-        UserSession userSession = GlobalVariables.getUserSession();
-        if (userSession != null) {
-            // TODO : this is a quick hack for KC 3.1.1 to provide authorization check for dwr/ajax call. dwr/ajax will be replaced by
-            // jquery/ajax in rice 2.0
-            isAuthorized = ActionHelper.hasAssignCmtSchedPermission(userSession.getPrincipalName(), protocolId);
-        } else {
-            // TODO : it seemed that tomcat has this issue intermittently ?
-            LOG.info("Attention: dwr/ajax STILL does not have session ");
-        }
+// don't think the following is necessary... since html controls won't show unless user has authority        
+//        UserSession userSession = GlobalVariables.getUserSession();
+//        if (userSession != null) {
+//            // TODO : this is a quick hack for KC 3.1.1 to provide authorization check for dwr/ajax call. dwr/ajax will be replaced by
+//            // jquery/ajax in rice 2.0
+//            isAuthorized = ActionHelper.hasAssignCmtSchedPermission(userSession.getPrincipalName(), protocolNumber);
+//        } else {
+//            // TODO : it seemed that tomcat has this issue intermittently ?
+//            LOG.info("Attention: dwr/ajax STILL does not have session ");
+//        }
         return isAuthorized;
     }
 
