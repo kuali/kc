@@ -155,6 +155,7 @@ public class ActionHelper implements Serializable {
     private boolean canAssignCmtSched = false;
     private boolean canAssignCmtSchedUnavailable = false;
     private boolean canAssignReviewers = false;
+    private boolean canAssignReviewersCmtSel = false;
     private boolean canAssignReviewersUnavailable = false;
     private boolean canGrantExemption = false;
     private boolean canGrantExemptionUnavailable = false;
@@ -777,6 +778,7 @@ public class ActionHelper implements Serializable {
         canAssignCmtSched = hasAssignCmtSchedPermission();
         canAssignCmtSchedUnavailable = hasAssignCmtSchedUnavailablePermission();
         canAssignReviewers = hasAssignReviewersPermission();
+        canAssignReviewersCmtSel = hasAssignReviewersCmtSel();
         canAssignReviewersUnavailable = hasAssignReviewersUnavailablePermission();
         canGrantExemption = hasGrantExemptionPermission();
         canGrantExemptionUnavailable = hasGrantExemptionUnavailablePermission();
@@ -1097,6 +1099,11 @@ public class ActionHelper implements Serializable {
     
     private boolean hasAssignReviewersUnavailablePermission() {
         ProtocolTask task = new ProtocolTask(TaskName.ASSIGN_REVIEWERS_UNAVAILABLE, getProtocol());
+        return getTaskAuthorizationService().isAuthorized(getUserIdentifier(), task);
+    }
+    
+    private boolean hasAssignReviewersCmtSel() {
+        ProtocolTask task = new ProtocolTask(TaskName.ASSIGN_REVIEWERS_CMT_SEL, getProtocol());
         return getTaskAuthorizationService().isAuthorized(getUserIdentifier(), task);
     }
     
@@ -1674,12 +1681,12 @@ public class ActionHelper implements Serializable {
         return canAssignReviewers;
     }
     
-    public boolean isCanAssignReviewers() {
-        return canAssignReviewers;
-    }
-    
     public boolean getCanAssignReviewersUnavailable() {
         return canAssignReviewersUnavailable;
+    }
+    
+    public boolean getCanAssignReviewersCmtSel() {
+        return canAssignReviewersCmtSel;
     }
     
     public boolean getCanGrantExemption() {
