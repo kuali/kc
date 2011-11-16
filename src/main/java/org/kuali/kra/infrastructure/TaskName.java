@@ -116,6 +116,7 @@ public interface TaskName {
     public static final String ASSIGN_TO_COMMITTEE_SCHEDULE_UNAVAILABLE = "protocolAssignToCmtSchedUnavailable";
     public static final String ASSIGN_REVIEWERS = "protocolAssignReviewers";
     public static final String ASSIGN_REVIEWERS_UNAVAILABLE = "protocolAssignReviewersUnavailable";
+    public static final String ASSIGN_REVIEWERS_CMT_SEL = "protocolAssignReviewersCmtSel";
     public static final String GRANT_EXEMPTION = "protocolGrantExemption";
     public static final String GRANT_EXEMPTION_UNAVAILABLE = "protocolGrantExemptionUnavailable";
     public static final String VIEW_RESTRICTED_NOTES = "viewRestrictedNotes";
