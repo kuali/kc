@@ -143,7 +143,7 @@ ${kfunc:registerEditableProperty(KualiForm, "actionHelper.protocolSubmitAction.n
 		                        <c:choose>		                     
 		                            <c:when test="${KualiForm.actionHelper.showCommittee}">
 		                            	<c:choose>
-		                                	<c:when test="${KualiForm.actionHelper.canAssignReviewers}">
+		                                	<c:when test="${KualiForm.actionHelper.canAssignReviewersCmtSel}">
 				                            	<kul:htmlControlAttribute property="actionHelper.protocolSubmitAction.scheduleId" 
 				                                	                      attributeEntry="${attributes.scheduleId}"
 				                                    	                  onchange="displayReviewers(${KualiForm.document.protocol.protocolId})" />
