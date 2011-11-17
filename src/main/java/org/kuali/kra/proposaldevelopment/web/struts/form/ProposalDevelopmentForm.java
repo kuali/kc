@@ -17,7 +17,6 @@ package org.kuali.kra.proposaldevelopment.web.struts.form;
 
 import static org.kuali.kra.infrastructure.Constants.CREDIT_SPLIT_ENABLED_RULE_NAME;
 import static org.kuali.kra.infrastructure.KraServiceLocator.getService;
-import static org.kuali.kra.logging.BufferedLogger.debug;
 import static org.kuali.kra.logging.BufferedLogger.warn;
 import static org.kuali.rice.kns.util.KNSConstants.EMPTY_STRING;
 
@@ -29,6 +28,7 @@ import java.util.HashMap;
 import java.util.Iterator;
 import java.util.List;
 import java.util.Map;
+import java.util.Set;
 import java.util.SortedMap;
 
 import javax.servlet.http.HttpServletRequest;
@@ -37,12 +37,12 @@ import org.apache.commons.lang.StringUtils;
 import org.apache.struts.action.ActionMapping;
 import org.apache.struts.upload.FormFile;
 import org.kuali.kra.authorization.ApplicationTask;
+import org.kuali.kra.authorization.KcTransactionalDocumentAuthorizerBase;
 import org.kuali.kra.authorization.KraAuthorizationConstants;
 import org.kuali.kra.bo.CitizenshipType;
 import org.kuali.kra.bo.CoeusModule;
 import org.kuali.kra.bo.CustomAttributeDocument;
 import org.kuali.kra.bo.KcPerson;
-import org.kuali.kra.bo.PersonEditableField;
 import org.kuali.kra.bo.SponsorFormTemplateList;
 import org.kuali.kra.bo.Unit;
 import org.kuali.kra.budget.core.Budget;
@@ -63,6 +63,7 @@ import org.kuali.kra.proposaldevelopment.bo.ProposalAbstract;
 import org.kuali.kra.proposaldevelopment.bo.ProposalAssignedRole;
 import org.kuali.kra.proposaldevelopment.bo.ProposalChangedData;
 import org.kuali.kra.proposaldevelopment.bo.ProposalCopyCriteria;
+import org.kuali.kra.proposaldevelopment.bo.ProposalDevelopmentApproverViewDO;
 import org.kuali.kra.proposaldevelopment.bo.ProposalPerson;
 import org.kuali.kra.proposaldevelopment.bo.ProposalPersonBiography;
 import org.kuali.kra.proposaldevelopment.bo.ProposalPersonDegree;
@@ -93,12 +94,14 @@ import org.kuali.kra.service.UnitService;
 import org.kuali.kra.web.struts.form.BudgetVersionFormBase;
 import org.kuali.rice.kew.util.KEWConstants;
 import org.kuali.rice.kew.util.PerformanceLogger;
+import org.kuali.rice.kim.bo.Person;
 import org.kuali.rice.kim.bo.Role;
 import org.kuali.rice.kim.bo.role.dto.KimPermissionInfo;
 import org.kuali.rice.kim.service.PermissionService;
 import org.kuali.rice.kns.bo.Parameter;
 import org.kuali.rice.kns.datadictionary.HeaderNavigation;
 import org.kuali.rice.kns.service.BusinessObjectService;
+import org.kuali.rice.kns.service.KNSServiceLocator;
 import org.kuali.rice.kns.service.KualiConfigurationService;
 import org.kuali.rice.kns.service.ParameterService;
 import org.kuali.rice.kns.util.ActionFormUtilMap;
@@ -155,6 +158,9 @@ public class ProposalDevelopmentForm extends BudgetVersionFormBase implements Re
     private Long versionNumberForS2sOpportunity;
     private ProposalSite newPerformanceSite;
     private ProposalSite newOtherOrganization;
+    
+    private ProposalDevelopmentApproverViewDO approverViewDO;
+    
     private CongressionalDistrictHelper applicantOrganizationHelper;
     private CongressionalDistrictHelper performingOrganizationHelper;
     private List<CongressionalDistrictHelper> performanceSiteHelpers;
@@ -1284,6 +1290,14 @@ public class ProposalDevelopmentForm extends BudgetVersionFormBase implements Re
         return performanceSiteHelpers;
     }
 
+    public ProposalDevelopmentApproverViewDO getApproverViewDO() {
+        return approverViewDO;
+    }
+
+    public void setApproverViewDO(ProposalDevelopmentApproverViewDO approverViewDO) {
+        this.approverViewDO = approverViewDO;
+    }
+    
     public void setOtherOrganizationHelpers(List<CongressionalDistrictHelper> otherOrganizationHelpers) {
         this.otherOrganizationHelpers = otherOrganizationHelpers;
     }
@@ -1522,12 +1536,17 @@ public class ProposalDevelopmentForm extends BudgetVersionFormBase implements Re
             if (tab.getHeaderTabNavigateTo().equals("grantsGov")) {
                 tab.setDisabled(disableGrantsGov);
             }
-            if (showHierarchy || !tab.getHeaderTabNavigateTo().equals("hierarchy")) {
-                if (tab.getHeaderTabNavigateTo().equals("customData")) {
-                    if (!this.getDocument().getCustomAttributeDocuments().isEmpty()) {
-                        newTabs.add(tab);
-                    }
-                } else {
+//            if (showHierarchy || !tab.getHeaderTabNavigateTo().equals("hierarchy")) {
+//                if (tab.getHeaderTabNavigateTo().equals("customData")) {
+//                    if (!this.getDocument().getCustomAttributeDocuments().isEmpty()) {
+//                        newTabs.add(tab);
+//                    }
+//                } else {
+//                    newTabs.add(tab);
+//                }
+//            }
+            if((showHierarchy || !tab.getHeaderTabNavigateTo().equals("hierarchy"))) {
+                if (!tab.getHeaderTabDisplayName().toUpperCase().equals("APPROVER VIEW") || canPerformWorkflowAction()) {
                     newTabs.add(tab);
                 }
             }
@@ -1535,6 +1554,19 @@ public class ProposalDevelopmentForm extends BudgetVersionFormBase implements Re
         tabs = newTabs.toArray(new HeaderNavigation[newTabs.size()]);
         return tabs;
     }
+    
+    public boolean canPerformWorkflowAction() {
+        KcTransactionalDocumentAuthorizerBase documentAuthorizer = (KcTransactionalDocumentAuthorizerBase) KNSServiceLocator.getDocumentHelperService().getDocumentAuthorizer(this.getDocument());
+        Person user = GlobalVariables.getUserSession().getPerson();
+        Set<String> documentActions = documentAuthorizer.getDocumentActions(this.getDocument(), user, null);
+
+        boolean canApprove= documentActions.contains(KNSConstants.KUALI_ACTION_CAN_APPROVE);
+        boolean canAck = documentActions.contains(KNSConstants.KUALI_ACTION_CAN_ACKNOWLEDGE);
+        boolean canDisapprove = documentActions.contains(KNSConstants.KUALI_ACTION_CAN_DISAPPROVE);
+
+        return canApprove || canAck || canDisapprove;
+    }
+    
     
     public boolean isGrantsGovEnabled() {
         return KraServiceLocator.getService(ProposalDevelopmentService.class).isGrantsGovEnabledForProposal(getDocument().getDevelopmentProposal());

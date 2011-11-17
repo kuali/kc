@@ -28,23 +28,26 @@ import org.apache.commons.lang.BooleanUtils;
 import org.apache.commons.lang.StringUtils;
 import org.apache.commons.logging.Log;
 import org.apache.commons.logging.LogFactory;
-import org.kuali.kra.award.AwardForm;
 import org.kuali.kra.award.awardhierarchy.sync.service.AwardSyncServiceImpl;
 import org.kuali.kra.award.home.Award;
 import org.kuali.kra.bo.Sponsor;
 import org.kuali.kra.bo.Unit;
 import org.kuali.kra.bo.versioning.VersionHistory;
+import org.kuali.kra.budget.core.Budget;
 import org.kuali.kra.budget.core.BudgetService;
+import org.kuali.kra.budget.distributionincome.BudgetCostShare;
 import org.kuali.kra.budget.document.BudgetDocument;
 import org.kuali.kra.budget.versions.BudgetDocumentVersion;
-import org.kuali.kra.budget.web.struts.form.BudgetForm;
 import org.kuali.kra.infrastructure.Constants;
 import org.kuali.kra.infrastructure.PermissionConstants;
 import org.kuali.kra.institutionalproposal.home.InstitutionalProposal;
+import org.kuali.kra.proposaldevelopment.bo.CoPiInfoDO;
+import org.kuali.kra.proposaldevelopment.bo.CostShareInfoDO;
 import org.kuali.kra.proposaldevelopment.bo.DevelopmentProposal;
 import org.kuali.kra.proposaldevelopment.bo.ProposalBudgetStatus;
 import org.kuali.kra.proposaldevelopment.bo.ProposalColumnsToAlter;
 import org.kuali.kra.proposaldevelopment.bo.ProposalOverview;
+import org.kuali.kra.proposaldevelopment.bo.ProposalPerson;
 import org.kuali.kra.proposaldevelopment.bo.ProposalSite;
 import org.kuali.kra.proposaldevelopment.document.ProposalDevelopmentDocument;
 import org.kuali.kra.proposaldevelopment.service.ProposalDevelopmentService;
@@ -62,6 +65,7 @@ import org.kuali.rice.kns.service.KNSServiceLocator;
 import org.kuali.rice.kns.service.ParameterService;
 import org.kuali.rice.kns.util.GlobalVariables;
 import org.kuali.rice.kns.util.ObjectUtils;
+import static org.kuali.kra.infrastructure.Constants.CO_INVESTIGATOR_ROLE;
 
 // TODO : extends PersistenceServiceStructureImplBase is a hack to temporarily resolve get class descriptor.
 public class ProposalDevelopmentServiceImpl implements ProposalDevelopmentService {
@@ -74,6 +78,7 @@ public class ProposalDevelopmentServiceImpl implements ProposalDevelopmentServic
     private ParameterService parameterService;
     private DocumentService documentService;
     private VersionHistoryService versionHistoryService;
+    
 
     
     /**
@@ -507,6 +512,60 @@ public class ProposalDevelopmentServiceImpl implements ProposalDevelopmentServic
         return isAuthorized;
     }
 
+    public Budget getFinalBudget (DevelopmentProposal proposal) {
+        List<BudgetDocumentVersion> budgetDocuments = proposal.getProposalDocument().getBudgetDocumentVersions();
+        Map<String, Object> fieldValues = new HashMap<String, Object>();
+        Budget budget = null;
+        
+        if (budgetDocuments != null && budgetDocuments.size() > 0) {            
+            for(BudgetDocumentVersion budgetDocument : budgetDocuments) {
+                fieldValues.clear();
+                fieldValues.put("document_number", budgetDocument.getDocumentNumber());
+                List<Budget> budgets = (List<Budget>) getBusinessObjectService().findMatching(Budget.class, fieldValues);
+                budget = budgets.get(0);               
+                // break out if we find the final budget
+                if (budget.getFinalVersionFlag()) {
+                    break;
+                }
+            }                         
+        }   
+        
+        return budget;
+    }
     
+public List<CoPiInfoDO> getCoPiPiInfo (DevelopmentProposal proposal) {
+        
+        List<ProposalPerson> proposalPersons = proposal.getProposalPersons();
+        List<CoPiInfoDO> coPiInfos = new ArrayList<CoPiInfoDO>();
+        
+        for (ProposalPerson proposalPerson : proposalPersons) {
+            if (proposalPerson.getProposalPersonRoleId().equals(CO_INVESTIGATOR_ROLE)) {
+                CoPiInfoDO coPiInfo = new CoPiInfoDO();
+                coPiInfo.setCoPiUnit(proposalPerson.getHomeUnit());
+                coPiInfo.setCoPiName(proposalPerson.getFullName());   
+                coPiInfos.add(coPiInfo);
+            } 
+        }
+        
+        return coPiInfos;
+    }
+
+public List<CostShareInfoDO> getCostShareInfo (Budget budget) {       
+    List<BudgetCostShare> costShares = budget.getBudgetCostShares();
+    List<CostShareInfoDO> costShareInfos = new ArrayList<CostShareInfoDO>();
+    
+    if (costShares != null && costShares.size() > 0) {
+        for (BudgetCostShare costShare : costShares) {
+            if (!costShare.getSourceUnit().equals(Constants.THIRD_PARTY_UNIT_NO)) {
+                CostShareInfoDO costShareInfo = new CostShareInfoDO();
+                costShareInfo.setCostShareUnit(costShare.getSourceUnit());
+                costShareInfo.setCostShareAmount(costShare.getShareAmount());
+                costShareInfos.add(costShareInfo);
+            }                            
+        }
+    }
+    
+    return costShareInfos;
+}
     
 }

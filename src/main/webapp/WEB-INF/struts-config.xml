@@ -79,6 +79,7 @@
        	
        	<forward name="closePage" path="/EmptyClosePage.html" />
        	<forward name="copyProposal" path="/WEB-INF/jsp/proposaldevelopment/copyProposal.jsp" redirect="true" />
+       	<forward name="proposalDevelopmentSummary" path="/WEB-INF/jsp/proposaldevelopment/ProposalDevelopmentSummary.jsp" redirect="true" />
     </global-forwards>
 
     <action-mappings>
@@ -140,6 +141,7 @@
           <forward name="ajaxProposalSummary" path="/WEB-INF/jsp/proposalhierarchy/ProposalHierarchyProposalSummary.jsp" />
           <forward name="ajaxBudgetSummary" path="/WEB-INF/jsp/proposalhierarchy/ProposalHierarchyBudgetSummary.jsp" />
           <forward name="deleted" path="/WEB-INF/jsp/proposaldevelopment/ProposalDevelopmentDeleted.jsp"/>
+          <forward name="approverView" path="/WEB-INF/jsp/proposaldevelopment/ProposalDevelopmentApproverView.jsp" />
       </action>
 
  		<action path="/unitHierarchy" name="UnitHierarchyForm" type="org.kuali.kra.web.struts.action.UnitHierarchyAction" scope="request">
