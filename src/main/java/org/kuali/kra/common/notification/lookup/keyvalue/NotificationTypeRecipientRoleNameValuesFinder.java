@@ -17,8 +17,10 @@ package org.kuali.kra.common.notification.lookup.keyvalue;
 
 import java.util.ArrayList;
 import java.util.Collection;
+import java.util.Collections;
 import java.util.List;
 
+import org.apache.commons.lang.builder.CompareToBuilder;
 import org.kuali.kra.infrastructure.KraServiceLocator;
 import org.kuali.kra.lookup.keyvalue.PrefixValuesFinder;
 import org.kuali.rice.core.util.KeyLabelPair;
@@ -41,14 +43,15 @@ public class NotificationTypeRecipientRoleNameValuesFinder extends KeyValuesBase
     public List<?> getKeyValues() {
         Collection<RoleImpl> roles = getKeyValuesService().findAll(RoleImpl.class);
         
-        List<KeyLabelPair> keyValues = new ArrayList<KeyLabelPair>();
-        keyValues.add(new KeyLabelPair(PrefixValuesFinder.getPrefixKey(), PrefixValuesFinder.getDefaultPrefixValue()));
+        List<KeyLabelSortByValue> keyValues = new ArrayList<KeyLabelSortByValue>();
+        keyValues.add(new KeyLabelSortByValue(PrefixValuesFinder.getPrefixKey(), PrefixValuesFinder.getDefaultPrefixValue()));
         for (RoleImpl role : roles) {
             String roleKey = role.getNamespaceCode() + ":" + role.getRoleName();
-            keyValues.add(new KeyLabelPair(roleKey, roleKey));                            
+            keyValues.add(new KeyLabelSortByValue(roleKey, roleKey));                            
         }
-                
-    
+
+        // sort values for usability
+        Collections.sort(keyValues);
         return keyValues;
     }
     
