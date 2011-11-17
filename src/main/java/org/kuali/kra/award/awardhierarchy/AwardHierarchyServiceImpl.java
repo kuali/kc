@@ -688,6 +688,7 @@ public class AwardHierarchyServiceImpl implements AwardHierarchyService {
         awardHierarchyNode.setTitle(award.getTitle());
         awardHierarchyNode.setAwardId(award.getAwardId());
         awardHierarchyNode.setAwardDocumentNumber(award.getAwardDocument().getDocumentNumber());
+        awardHierarchyNode.setHasChildren(!awardHierarchy.getChildren().isEmpty());
         
         /*
         String documentNumber = award.getAwardDocument().getDocumentNumber();

@@ -92,26 +92,8 @@
 		<input type="hidden" id = "awardHierarchyTempObject[${i}].copyDescendants" name="awardHierarchyTempObject[${i}].copyDescendants" value="${KualiForm.awardHierarchyTempObjects[i].copyDescendants}">
 		<input type="hidden" id = "awardHierarchyTempObject[${i}].createNewChildRadio" name="awardHierarchyTempObject[${i}].createNewChildRadio" value="${KualiForm.awardHierarchyTempObjects[i].createNewChildRadio}">
 		<input type="hidden" id = "awardHierarchyTempObject[${i}].copyAwardRadio" name="awardHierarchyTempObject[${i}].copyAwardRadio" value="${KualiForm.awardHierarchyTempObjects[i].copyAwardRadio}">
-		<c:choose>
-		 	<c:when test="${empty KualiForm.awardHierarchyBean.rootNode.children}"> 	
-				<input type="hidden" id = "awardHierarchyTempObject[${i}].disableCopyDescendantsCheckBox" name="awardHierarchyTempObject[${i}].disableCopyDescendantsCheckBox" value="${false}">
-			</c:when>
-			<c:otherwise>
-				<input type="hidden" id = "awardHierarchyTempObject[${i}].disableCopyDescendantsCheckBox" name="awardHierarchyTempObject[${i}].disableCopyDescendantsCheckBox" value="${KualiForm.awardHierarchyTempObjects[i].disableCopyDescendantsCheckBox}">
-			</c:otherwise>
-		</c:choose>
 	</c:forEach>
-	<!-- 
-		<c:choose>
-		 	<c:when test="${empty KualiForm.awardHierarchyBean.rootNode.children}">
-		 	false
-				<input type="hidden" id = "awardHierarchyTempObject[${i}].copyDescendants" name="awardHierarchyTempObject[${i}].copyDescendants" value="${false}">
-			</c:when>
-			<c:otherwise>
-				<input type="hidden" id = "awardHierarchyTempObject[${i}].copyDescendants" name="awardHierarchyTempObject[${i}].copyDescendants" value="${KualiForm.awardHierarchyTempObjects[i].copyDescendants}">
-			</c:otherwise>
-		</c:choose>
-	-->
+	
 	<div id="templates" style="display: none;">
 	  <table style="border: 1px solid rgb(147, 147, 147); padding: 0px; border-collapse: collapse;" class="detailTable awardDetails" id="awardDetails">
 	    <tbody>
