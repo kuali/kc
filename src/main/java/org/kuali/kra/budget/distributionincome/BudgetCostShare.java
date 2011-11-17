@@ -32,6 +32,7 @@ public class BudgetCostShare extends BudgetDistributionAndIncomeComponent implem
     private BudgetDecimal shareAmount;
     private BudgetDecimal sharePercentage;
     private String sourceAccount;
+    private String sourceUnit;
 
     private String hierarchyProposalNumber;
     private boolean hiddenInHierarchy;
@@ -137,6 +138,8 @@ public class BudgetCostShare extends BudgetDistributionAndIncomeComponent implem
     public String getSourceAccount() {
         return sourceAccount;
     }
+    
+    
 
     /**
      * 
@@ -187,7 +190,14 @@ public class BudgetCostShare extends BudgetDistributionAndIncomeComponent implem
     public void setSourceAccount(String sourceAcocunt) {
         this.sourceAccount = sourceAcocunt;
     }
+    
+    public String getSourceUnit() {
+        return sourceUnit;
+    }
 
+    public void setSourceUnit(String sourceUnit) {
+        this.sourceUnit = sourceUnit;
+    }
     /**
      * 
      * @see org.kuali.kra.budget.distributionincome.BudgetDistributionAndIncomeComponent#toStringMapper()
