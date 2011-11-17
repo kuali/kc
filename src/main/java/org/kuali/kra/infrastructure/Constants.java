@@ -334,7 +334,12 @@ public interface Constants {
     // Copy proposal
     public static final String COPY_PROPOSAL_PROPERTY_KEY = "copyProposal";
     
+    //Approver View
     public static final String MAPPING_COPY_PROPOSAL_PAGE = "copyProposal";
+    public static final String MAPPING_PROPOSAL_SUMMARY_PAGE = "proposalDevelopmentSummary";
+    public static final String THIRD_PARTY_UNIT_NO="3RD-PRTY";
+    
+    public static final String MAPPING_PROPOSAL_APPROVER_VIEW_PAGE = "approverView";
     public static final String HEADER_TAB = "headerTab";
     
     public static final String ON_OFF_CAMPUS_FLAG = "onOffCampusFlag";
@@ -768,5 +773,7 @@ public interface Constants {
     public static final String DISCLOSURE_FINANCIAL_ENTITY_KEY = "document.coiDisclosureList[0].coiDiscDetails[%s].entityStatusCode";
     public static final String DISCLOSURE_MANUAL_FINANCIAL_ENTITY_KEY = "document.coiDisclosureList[0].coiDisclProjects[0].coiDiscDetails[%s].entityStatusCode";
     public static final String DISCLOSURE_ANNUAL_FINANCIAL_ENTITY_KEY = "document.coiDisclosureList[0].coiDisclEventProjects[%s].coiDiscDetails[%s].entityStatusCode";
+    
+    
 
 }

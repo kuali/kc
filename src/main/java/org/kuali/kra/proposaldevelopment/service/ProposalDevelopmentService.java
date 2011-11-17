@@ -23,11 +23,14 @@ import org.apache.commons.collections.CollectionUtils;
 import org.apache.commons.lang.StringUtils;
 import org.kuali.kra.award.home.Award;
 import org.kuali.kra.bo.Unit;
+import org.kuali.kra.budget.core.Budget;
 import org.kuali.kra.institutionalproposal.home.InstitutionalProposal;
 import org.kuali.kra.proposaldevelopment.bo.DevelopmentProposal;
 import org.kuali.kra.proposaldevelopment.document.ProposalDevelopmentDocument;
 import org.kuali.rice.kew.exception.WorkflowException;
 import org.kuali.rice.kns.bo.PersistableBusinessObject;
+import org.kuali.kra.proposaldevelopment.bo.CoPiInfoDO;
+import org.kuali.kra.proposaldevelopment.bo.CostShareInfoDO;
 
 public interface ProposalDevelopmentService {
     
@@ -80,6 +83,12 @@ public interface ProposalDevelopmentService {
      * @throws WorkflowException
      */
     public void deleteProposal(ProposalDevelopmentDocument proposalDocument) throws WorkflowException;
+    
+    public Budget getFinalBudget (DevelopmentProposal proposal);
+    
+    public List<CoPiInfoDO> getCoPiPiInfo (DevelopmentProposal proposal);
+    
+    public List<CostShareInfoDO> getCostShareInfo (Budget budget);
 
 
 }
