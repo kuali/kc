@@ -76,6 +76,7 @@ public class ProtocolActionType extends KraPersistableBusinessObjectBase {
     public static final String REVIEW_COMPLETE = "902";
     public static final String REVIEW_REJECTED = "903";
     public static final String FUNDING_SOURCE = "904";
+    public static final String REVIEW_DELETED = "905";
     
     private String protocolActionTypeCode;
     
