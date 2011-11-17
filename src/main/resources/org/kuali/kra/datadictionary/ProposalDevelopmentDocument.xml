@@ -103,6 +103,13 @@
           <property name="headerTabDisplayName" value="Medusa"/>
           <property name="headerTabNavigateTo" value="medusa"/>
         </bean>
+        <bean parent="HeaderNavigation">
+          <property name="helpDefinition">
+            <bean parent="HelpDefinition" p:parameterNamespace="KC-PD" p:parameterName="proposalDevelopmentProposalHelp" p:parameterDetailType="D"/>
+          </property>
+          <property name="headerTabDisplayName" value="Approver View"/>
+          <property name="headerTabNavigateTo" value="approverView"/>
+        </bean>
       </list>
     </property>
     <property name="allowsNoteAttachments" value="false"/>

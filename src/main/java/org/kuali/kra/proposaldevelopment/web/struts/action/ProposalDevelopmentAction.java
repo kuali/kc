@@ -55,6 +55,7 @@ import org.kuali.kra.proposaldevelopment.bo.Narrative;
 import org.kuali.kra.proposaldevelopment.bo.ProposalAbstract;
 import org.kuali.kra.proposaldevelopment.bo.ProposalColumnsToAlter;
 import org.kuali.kra.proposaldevelopment.bo.ProposalCopyCriteria;
+import org.kuali.kra.proposaldevelopment.bo.ProposalDevelopmentApproverViewDO;
 import org.kuali.kra.proposaldevelopment.bo.ProposalPerson;
 import org.kuali.kra.proposaldevelopment.bo.ProposalPersonBiography;
 import org.kuali.kra.proposaldevelopment.document.ProposalDevelopmentDocument;
@@ -70,9 +71,9 @@ import org.kuali.kra.proposaldevelopment.web.struts.form.ProposalDevelopmentForm
 import org.kuali.kra.s2s.S2SException;
 import org.kuali.kra.s2s.bo.S2sOppForms;
 import org.kuali.kra.s2s.bo.S2sOpportunity;
-import org.kuali.kra.s2s.service.PrintService;
 import org.kuali.kra.s2s.service.S2SService;
 import org.kuali.kra.service.KraAuthorizationService;
+import org.kuali.kra.service.KraWorkflowService;
 import org.kuali.kra.service.PersonEditableService;
 import org.kuali.kra.service.SponsorService;
 import org.kuali.kra.web.struts.action.AuditActionHelper;
@@ -117,17 +118,44 @@ public class ProposalDevelopmentAction extends BudgetParentActionBase {
         if(createProposalFromGrantsGov!=null && createProposalFromGrantsGov.equals("true")){
         s2sOpportunity = proposalDevelopmentForm.getDocument().getDevelopmentProposal().getS2sOpportunity();
         }
-        if (KEWConstants.ACTIONLIST_INLINE_COMMAND.equals(command)) {
+        //KRACOEUS-5064
+        if (proposalDevelopmentForm.getDocument().getDocumentHeader().getDocumentNumber() == null && request.getParameter(KNSConstants.PARAMETER_DOC_ID) != null) {
             loadDocumentInForm(request, proposalDevelopmentForm);
-            forward = mapping.findForward(Constants.MAPPING_COPY_PROPOSAL_PAGE);
-            forward = new ActionForward(forward.getPath()+ "?" + KNSConstants.PARAMETER_DOC_ID + "=" + request.getParameter(KNSConstants.PARAMETER_DOC_ID));  
-        } else if (Constants.MAPPING_PROPOSAL_ACTIONS.equals(command)) {
-            loadDocument(proposalDevelopmentForm);
-            forward = actions(mapping, proposalDevelopmentForm, request, response);
-        } else {
-            forward = super.docHandler(mapping, form, request, response);
         }
-        
+        if (KEWConstants.ACTIONLIST_INLINE_COMMAND.equals(command)) {
+            //forward = mapping.findForward(Constants.MAPPING_COPY_PROPOSAL_PAGE);
+            //KRACOEUS-5064
+            KraWorkflowService workflowService = KraServiceLocator.getService(KraWorkflowService.class);
+            ProposalDevelopmentApproverViewDO approverViewDO = workflowService.populateApproverViewDO(proposalDevelopmentForm);
+            proposalDevelopmentForm.setApproverViewDO(approverViewDO);
+            forward = mapping.findForward(Constants.MAPPING_PROPOSAL_SUMMARY_PAGE);
+            forward = new ActionForward(forward.getPath()+ "?" + KNSConstants.PARAMETER_DOC_ID + "=" + request.getParameter(KNSConstants.PARAMETER_DOC_ID));  
+        } //else if (Constants.MAPPING_PROPOSAL_ACTIONS.equals(command)) {
+//            loadDocument(proposalDevelopmentForm);
+//            forward = actions(mapping, proposalDevelopmentForm, request, response);
+//        } else {
+//            forward = super.docHandler(mapping, form, request, response);
+//        }
+        else {
+            if (proposalDevelopmentForm.getDocTypeName() == null || proposalDevelopmentForm.getDocTypeName().equals("")) {
+                proposalDevelopmentForm.setDocTypeName("ProposalDevelopmentDocument");
+            }
+            KraWorkflowService workflowService = KraServiceLocator.getService(KraWorkflowService.class);
+            if (workflowService.canPerformWorkflowAction(proposalDevelopmentForm.getDocument())) {
+
+                ProposalDevelopmentApproverViewDO approverViewDO = workflowService.populateApproverViewDO(proposalDevelopmentForm);
+                proposalDevelopmentForm.setApproverViewDO(approverViewDO);
+                
+                super.docHandler(mapping, form, request, response);
+
+                forward = mapping.findForward(Constants.MAPPING_PROPOSAL_APPROVER_VIEW_PAGE);
+                forward = new ActionForward(forward.getPath()+ "?" + KNSConstants.PARAMETER_DOC_ID + "=" + request.getParameter(KNSConstants.PARAMETER_DOC_ID));
+            }
+            else {
+                forward = super.docHandler(mapping, form, request, response);
+            }
+        }
+    
         if (proposalDevelopmentForm.getDocument().isProposalDeleted()) {
             return mapping.findForward("deleted");
         }

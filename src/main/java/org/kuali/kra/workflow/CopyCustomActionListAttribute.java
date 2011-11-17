@@ -31,7 +31,7 @@ public class CopyCustomActionListAttribute implements CustomActionListAttribute 
      * @see edu.iu.uis.eden.plugin.attributes.CustomActionListAttribute#getDocHandlerDisplayParameters(edu.iu.uis.eden.web.session.UserSession, edu.iu.uis.eden.actionitem.ActionItem)
      */
     public DisplayParameters getDocHandlerDisplayParameters(UserSession userSession, ActionItem actionItem) throws Exception {
-    	DisplayParameters dp = new DisplayParameters(new Integer(30));
+    	DisplayParameters dp = new DisplayParameters(new Integer(300));
     	return dp;
     }
 
