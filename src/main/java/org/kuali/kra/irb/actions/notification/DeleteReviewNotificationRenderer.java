@@ -23,7 +23,7 @@ import org.kuali.kra.irb.notification.IRBNotificationRenderer;
 /**
  * Renders additional fields for the Delete Review notification.
  */
-public class DeletetReviewNotificationRenderer extends IRBNotificationRenderer {
+public class DeleteReviewNotificationRenderer extends IRBNotificationRenderer {
 
     private String reason;
 
@@ -33,7 +33,7 @@ public class DeletetReviewNotificationRenderer extends IRBNotificationRenderer {
      * @param protocol
      * @param reason
      */
-    public DeletetReviewNotificationRenderer(Protocol protocol, String reason) {
+    public DeleteReviewNotificationRenderer(Protocol protocol, String reason) {
         super(protocol);
         
         this.reason = reason;
@@ -57,5 +57,4 @@ public class DeletetReviewNotificationRenderer extends IRBNotificationRenderer {
         params.put("{REASON}", reason);
         return params;
     }
-
 }
