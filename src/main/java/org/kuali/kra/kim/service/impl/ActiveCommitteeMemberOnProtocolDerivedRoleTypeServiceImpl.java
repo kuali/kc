@@ -66,7 +66,7 @@ public class ActiveCommitteeMemberOnProtocolDerivedRoleTypeServiceImpl extends K
                     Committee committee = protocol.getProtocolSubmission().getCommittee();
                     if (committee != null) {
                         for (CommitteeMembership membership : committee.getCommitteeMemberships()) {
-                            if (membership.getPersonId()!=null) {
+                            if (membership.getPersonId()!=null && membership.isActive()) {
                                 members.add(new RoleMembershipInfo(null, null, membership.getPersonId(), Role.PRINCIPAL_MEMBER_TYPE, null));
                             }
                         }
