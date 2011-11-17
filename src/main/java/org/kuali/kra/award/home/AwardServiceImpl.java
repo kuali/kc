@@ -176,7 +176,9 @@ public class AwardServiceImpl implements AwardService {
             archiveCurrentActiveAward(award.getAwardNumber());
         }
         award.setAwardSequenceStatus(status.toString());
-        businessObjectService.save(award);   
+        if (award.getAwardDocument() != null) {
+            businessObjectService.save(award);
+        }
     }
     
     protected void archiveCurrentActiveAward(String awardNumber) {
