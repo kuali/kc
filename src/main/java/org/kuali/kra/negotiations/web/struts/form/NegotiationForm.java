@@ -15,6 +15,8 @@
  */
 package org.kuali.kra.negotiations.web.struts.form;
 
+import static org.kuali.rice.kns.util.KNSConstants.EMPTY_STRING;
+
 import java.util.ArrayList;
 import java.util.Collections;
 import java.util.HashMap;
@@ -40,10 +42,15 @@ import org.kuali.kra.negotiations.customdata.CustomDataHelper;
 import org.kuali.kra.negotiations.customdata.NegotiationCustomData;
 import org.kuali.kra.negotiations.document.NegotiationDocument;
 import org.kuali.kra.negotiations.service.NegotiationService;
+import org.kuali.kra.proposaldevelopment.bo.ProposalPerson;
+import org.kuali.kra.proposaldevelopment.bo.ProposalState;
+import org.kuali.kra.proposaldevelopment.document.ProposalDevelopmentDocument;
 import org.kuali.kra.service.TaskAuthorizationService;
 import org.kuali.kra.web.struts.form.KraTransactionalDocumentFormBase;
 import org.kuali.rice.kns.service.BusinessObjectService;
 import org.kuali.rice.kns.util.KNSConstants;
+import org.kuali.rice.kns.web.ui.HeaderField;
+import org.kuali.rice.kns.workflow.service.KualiWorkflowDocument;
 
 /**
  * 
@@ -206,6 +213,17 @@ public class NegotiationForm extends KraTransactionalDocumentFormBase {
     public boolean getDispayAssociatedDetailPanel() { 
         return !getDisplayUnAssociatedDetail() && StringUtils.isNotEmpty(this.getNegotiationDocument().getNegotiation().getAssociatedDocumentId());
     }
+    
+    
+    @Override
+    public void populateHeaderFields(KualiWorkflowDocument workflowDocument) {
+        super.populateHeaderFields(workflowDocument);
+        NegotiationDocument nd = getDocument();
+        
+        getDocInfo().add(2, new HeaderField("DataDictionary.Negotiation.attributes.negotiationId", nd.getNegotiation().getNegotiationId().toString()));
+        getDocInfo().add(2, new HeaderField("DataDictionary.Negotiation.attributes.negotiatorUserName", nd.getNegotiation().getNegotiatorUserName()));
+    }
+
     
     /**
      * 

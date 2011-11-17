@@ -64,7 +64,7 @@
                     </c:if>
                     <br/><span id="negotiator.fullName"><c:out value="${KualiForm.document.negotiationList[0].negotiator.fullName}"/>&nbsp;</span>
                 </td>
-                <th><div align="right">Negotiation Age:</div></th>
+                <th><div align="right">Negotiation Age in Days:</div></th>
                 <td align="left" valign="middle">
                 	<kul:htmlControlAttribute property="document.negotiationList[0].negotiationAge" attributeEntry="${negotiationAttributes.negotiationAge}" readOnly="true"/>
                 </td>

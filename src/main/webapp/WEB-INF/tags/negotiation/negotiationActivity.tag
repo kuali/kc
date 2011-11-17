@@ -19,7 +19,7 @@
   <c:set var="tabTitle" value="Add Activity"/>
   <c:set var="activityPath" value="negotiationActivityHelper.newActivity"/>
 </c:when><c:otherwise>
-  <c:set var="tabTitle" value="${activity.startDate} ${activity.activityType.description}"/>
+  <c:set var="tabTitle" value="${activity.startDate} ${activity.location.description}-${activity.activityType.description}"/>
   <c:set var="activityPath" value="document.negotiationList[0].activities[${activityIndex}]"/>
 </c:otherwise></c:choose>
 
