@@ -219,9 +219,32 @@ public class NegotiationForm extends KraTransactionalDocumentFormBase {
     public void populateHeaderFields(KualiWorkflowDocument workflowDocument) {
         super.populateHeaderFields(workflowDocument);
         NegotiationDocument nd = getDocument();
+        final String ATTRIB_NEG_ID = "DataDictionary.Negotiation.attributes.negotiationId";
+        final String ATTRIB_NEG_USER_NAME = "DataDictionary.Negotiation.attributes.negotiatorUserName";
         
-        getDocInfo().add(2, new HeaderField("DataDictionary.Negotiation.attributes.negotiationId", nd.getNegotiation().getNegotiationId().toString()));
-        getDocInfo().add(2, new HeaderField("DataDictionary.Negotiation.attributes.negotiatorUserName", nd.getNegotiation().getNegotiatorUserName()));
+        if (nd == null || nd.getNegotiation() == null)
+        {
+            getDocInfo().add(2, new HeaderField(ATTRIB_NEG_ID, EMPTY_STRING));
+            getDocInfo().add(2, new HeaderField(ATTRIB_NEG_USER_NAME, EMPTY_STRING));            
+            return;
+        }
+        if (nd.getNegotiation().getNegotiationId() == null)
+        {
+             getDocInfo().add(2, new HeaderField(ATTRIB_NEG_ID, EMPTY_STRING));
+        }
+        else
+        {             
+            getDocInfo().add(2, new HeaderField(ATTRIB_NEG_ID, nd.getNegotiation().getNegotiationId().toString()));            
+        }
+        if (nd.getNegotiation().getNegotiatorUserName() == null)
+        {
+            getDocInfo().add(2, new HeaderField(ATTRIB_NEG_USER_NAME, EMPTY_STRING));
+        }
+        else
+        {
+            getDocInfo().add(2, new HeaderField(ATTRIB_NEG_USER_NAME, nd.getNegotiation().getNegotiatorUserName()));            
+        }
+        
     }
 
     
