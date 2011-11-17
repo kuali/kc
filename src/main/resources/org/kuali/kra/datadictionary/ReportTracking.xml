@@ -53,6 +53,7 @@
                 <ref bean="ReportTracking-sponsorAwardNumber" />
                 <ref bean="ReportTracking-title" />
                 <ref bean="ReportTracking-versionNumber" />
+                <ref bean="ReportTracking-multiEditSelected"/>
             </list>
         </property>
     </bean>
@@ -253,6 +254,23 @@
 		</property>
 		<property name="summary" value="Sponsor Name" />
 		<property name="description" value="Sponsor Name" />    
+    </bean>
+    
+    <bean id="ReportTracking-multiEditSelected" parent="ReportTracking-multiEditSelected-parentBean"/>
+    <bean id="ReportTracking-multiEditSelected-parentBean" abstract="true" parent="AttributeDefinition">
+    	<property name="name" value="multiEditSelected" />
+        <property name="forceUppercase" value="false" />
+        <property name="label" value="Select" />
+        <property name="shortLabel" value="Select" />
+        <property name="maxLength" value="1" />
+	    <property name="validationPattern" >
+	      <bean parent="AlphaNumericValidationPattern" />
+	    </property>
+	    <property name="control" >
+	      <bean parent="CheckboxControlDefinition" />
+	    </property>
+        <property name="summary" value="Select" />
+        <property name="description" value="Select" />
     </bean>
 
     <bean id="ReportTracking-sponsorAwardNumber" parent="ReportTracking-sponsorAwardNumber-parentBean" />

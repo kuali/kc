@@ -29,6 +29,7 @@ import org.kuali.kra.award.paymentreports.ReportRegenerationType;
 import org.kuali.kra.award.paymentreports.ReportStatus;
 import org.kuali.kra.award.paymentreports.awardreports.AwardReportTerm;
 import org.kuali.kra.award.paymentreports.awardreports.reporting.ReportTracking;
+import org.kuali.kra.award.paymentreports.awardreports.reporting.ReportTrackingBean;
 import org.kuali.kra.service.AwardScheduleGenerationService;
 import org.kuali.rice.kns.service.BusinessObjectService;
 import org.kuali.rice.kns.util.GlobalVariables;
@@ -176,7 +177,13 @@ public class ReportTrackingServiceImpl implements ReportTrackingService {
         return reportTracking;
     }
     
-    private ReportStatus getPendingReportStatus() {
+    /**
+     * 
+     * This method...
+     * @return
+     * @unsupported
+     */
+    protected ReportStatus getPendingReportStatus() {
         Map params = new HashMap();
         params.put("DESCRIPTION", PENDING_STATUS_DESCRIPTION);
         ReportStatus rs = (ReportStatus) this.getBusinessObjectService().findByPrimaryKey(ReportStatus.class, params);
@@ -261,6 +268,43 @@ public class ReportTrackingServiceImpl implements ReportTrackingService {
 
     public void setBusinessObjectService(BusinessObjectService businessObjectService) {
         this.businessObjectService = businessObjectService;
+    }
+
+    @Override
+    public void setReportTrackingListSelected(List<ReportTracking> reportTrackingListing, boolean selectedValue) {
+        for (ReportTracking rt : reportTrackingListing) {
+            rt.setMultiEditSelected(selectedValue);
+        }
+    }
+
+    @Override
+    public void updateMultipleReportTrackingRecords(List<ReportTracking> reportTrackingListing,
+            ReportTrackingBean reportTrackingBean) {
+        for (ReportTracking rt : reportTrackingListing) {
+            if (rt.getMultiEditSelected()) {
+                if (StringUtils.isNotBlank(reportTrackingBean.getComments())) {
+                    rt.setComments(reportTrackingBean.getComments());
+                }
+                if (StringUtils.isNotBlank(reportTrackingBean.getPreparerId())) {
+                    rt.setPreparerId(reportTrackingBean.getPreparerId());
+                    rt.setPreparerName(reportTrackingBean.getPreparerName());
+                }
+                if (reportTrackingBean.getActivityDate() != null) {
+                    rt.setActivityDate(reportTrackingBean.getActivityDate());
+                }
+                if (StringUtils.isNotBlank(reportTrackingBean.getStatusCode())) {
+                    rt.setStatusCode(reportTrackingBean.getStatusCode());
+                    rt.setReportStatus(getReportStatus(reportTrackingBean.getStatusCode()));
+                }
+            }
+        }
+    }
+    
+    protected ReportStatus getReportStatus(String statusCode) {
+        Map params = new HashMap();
+        params.put("REPORT_STATUS_CODE", statusCode);
+        ReportStatus rs = (ReportStatus) this.getBusinessObjectService().findByPrimaryKey(ReportStatus.class, params);
+        return rs;
     }
 
 }
