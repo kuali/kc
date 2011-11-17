@@ -134,6 +134,8 @@ public class AwardHierarchyUIServiceImpl implements AwardHierarchyUIService {
         appendJson(sb, "anticipatedTotalDirect", (String)formatter.format(aNode.getAnticipatedTotalDirect()));
         sb.append(",");
         appendJson(sb, "anticipatedTotalIndirect", (String)formatter.format(aNode.getAnticipatedTotalIndirect()));
+        sb.append(",");
+        appendJson(sb, "hasChildren", aNode.getHasChildren());
         sb.append("}");
         return sb.toString();
     }
