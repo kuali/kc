@@ -55,6 +55,7 @@ import org.kuali.kra.award.paymentreports.ReportClass;
 import org.kuali.kra.award.paymentreports.awardreports.AwardReportsBean;
 import org.kuali.kra.award.paymentreports.awardreports.reporting.AwardReportingBean;
 import org.kuali.kra.award.paymentreports.awardreports.reporting.ReportTracking;
+import org.kuali.kra.award.paymentreports.awardreports.reporting.ReportTrackingBean;
 import org.kuali.kra.award.paymentreports.awardreports.reporting.service.ReportTrackingService;
 import org.kuali.kra.award.paymentreports.closeout.AwardCloseoutBean;
 import org.kuali.kra.award.paymentreports.paymentschedule.PaymentScheduleBean;
@@ -207,6 +208,8 @@ public class AwardForm extends BudgetVersionFormBase
     private transient ParameterService parameterService;
     private transient AwardHierarchyUIService awardHierarchyUIService;
     private transient ReportTrackingService reportTrackingService;
+    
+    private List<ReportTrackingBean> reportTrackingBeans;
 
 
     /**
@@ -261,7 +264,7 @@ public class AwardForm extends BudgetVersionFormBase
         awardPrintNotice = new AwardPrintNotice();
         awardPrintChangeReport = new AwardTransactionSelectorBean();
         order = new ArrayList<String>();
-        
+        reportTrackingBeans = buildReportTrackingBeans();
         awardHierarchyBean = new AwardHierarchyBean(this);
         medusaBean = new MedusaBean();
         //sync
@@ -273,6 +276,15 @@ public class AwardForm extends BudgetVersionFormBase
         setDirectIndirectViewEnabled(getParameterService().getParameterValue(Constants.PARAMETER_MODULE_AWARD, ParameterConstants.DOCUMENT_COMPONENT, "ENABLE_AWD_ANT_OBL_DIRECT_INDIRECT_COST"));
         budgetLimitSummary = new BudgetLimitSummaryHelper();
         awardBudgetLimitsBean = new AwardBudgetLimitsBean(this);
+    }
+    
+    public List<ReportTrackingBean> buildReportTrackingBeans() {
+        List<ReportTrackingBean> beans = new ArrayList<ReportTrackingBean>();
+        int numberOfReportItems = this.getAwardDocument().getAward().getAwardReportTermItems().size();
+        for (int i=0; i<numberOfReportItems; i++) {
+            beans.add(new ReportTrackingBean());
+        }
+        return beans;
     }
 
     /**
@@ -1473,4 +1485,17 @@ public class AwardForm extends BudgetVersionFormBase
         }
         return displayAwardPaymentScheduleActiveLinkFields.booleanValue();
     }
+
+    public void setReportTrackingService(ReportTrackingService reportTrackingService) {
+        this.reportTrackingService = reportTrackingService;
+    }
+
+    public List<ReportTrackingBean> getReportTrackingBeans() {
+        return reportTrackingBeans;
+    }
+
+    public void setReportTrackingBeans(List<ReportTrackingBean> reportTrackingBeans) {
+        this.reportTrackingBeans = reportTrackingBeans;
+    }
+    
 }

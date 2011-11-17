@@ -43,6 +43,7 @@ import org.kuali.kra.award.home.AwardSponsorTerm;
 import org.kuali.kra.award.paymentreports.awardreports.AwardReportTerm;
 import org.kuali.kra.award.paymentreports.awardreports.AwardReportTermRecipient;
 import org.kuali.kra.award.paymentreports.awardreports.reporting.ReportTracking;
+import org.kuali.kra.award.paymentreports.awardreports.reporting.ReportTrackingBean;
 import org.kuali.kra.award.paymentreports.closeout.AwardCloseoutService;
 import org.kuali.kra.award.paymentreports.paymentschedule.AwardPaymentSchedule;
 import org.kuali.kra.bo.SponsorTerm;
@@ -319,8 +320,10 @@ public class AwardPaymentReportsAndTermsAction extends AwardAction {
         AwardReportTerm newReport = 
             ((AwardForm) form).getAwardReportsBean().addAwardReportTermItem(getReportClass(request), getReportClassCodeIndex(request));
         if (newReport != null) {
-            return this.confirmSyncAction(mapping, form, request, response, AwardSyncType.ADD_SYNC, newReport, AWARD_REPORT_TERM_PROPERTY, null, 
+            ActionForward confirmSynch = this.confirmSyncAction(mapping, form, request, response, AwardSyncType.ADD_SYNC, newReport, AWARD_REPORT_TERM_PROPERTY, null, 
                     mapping.findForward(Constants.MAPPING_AWARD_BASIC));
+            ((AwardForm) form).getReportTrackingBeans().add(new ReportTrackingBean());
+            return confirmSynch;
         } else {
             return mapping.findForward(Constants.MAPPING_AWARD_BASIC);
         }
@@ -635,6 +638,7 @@ public class AwardPaymentReportsAndTermsAction extends AwardAction {
     @Override
     public ActionForward save(ActionMapping mapping, ActionForm form, HttpServletRequest request, HttpServletResponse response) throws Exception {
         AwardForm awardForm = (AwardForm) form;
+        printRequest(request);
         AwardDocument awardDocument = awardForm.getAwardDocument();
         getAwardCloseoutService().updateCloseoutDueDatesBeforeSave(awardDocument.getAward());
         if (new AwardDocumentRule().processAwardReportTermBusinessRules(awardDocument)) {
@@ -663,6 +667,16 @@ public class AwardPaymentReportsAndTermsAction extends AwardAction {
             return forward;
         } else {
             return mapping.findForward(Constants.MAPPING_AWARD_BASIC);
+        }
+    }
+    
+    private static void printRequest(HttpServletRequest request) {
+        Map paramMap = request.getParameterMap();
+        Iterator keys = paramMap.keySet().iterator();
+        while (keys.hasNext()) {
+            String key = keys.next().toString();
+            String val = paramMap.get(key).toString();
+            System.err.println(key + " : " + val);
         }
     }
 
@@ -786,4 +800,47 @@ public class AwardPaymentReportsAndTermsAction extends AwardAction {
         this.getReportTrackingService().generateReportTrackingAndSave(award, true);
         return mapping.findForward(Constants.MAPPING_AWARD_BASIC);
     }
+    
+    public ActionForward selectAllMultEdit(ActionMapping mapping, ActionForm form, HttpServletRequest request, HttpServletResponse response) throws Exception {
+        AwardForm awardForm = (AwardForm) form;
+        int awardReportTermItemsIndex = getAwardReportTermItemsIndex(request);
+        List<ReportTracking> reportTrackings = awardForm.getAwardDocument().getAward().getAwardReportTermItems().get(getAwardReportTermItemsIndex(request)).getReportTrackings();
+        getReportTrackingService().setReportTrackingListSelected(reportTrackings, true);
+        return mapping.findForward(Constants.MAPPING_AWARD_BASIC);
+    }
+    
+    public ActionForward selectNoneMultiEdit(ActionMapping mapping, ActionForm form, HttpServletRequest request, HttpServletResponse response) throws Exception {
+        AwardForm awardForm = (AwardForm) form;
+        int awardReportTermItemsIndex = getAwardReportTermItemsIndex(request);
+        List<ReportTracking> reportTrackings = awardForm.getAwardDocument().getAward().getAwardReportTermItems().get(getAwardReportTermItemsIndex(request)).getReportTrackings();
+        getReportTrackingService().setReportTrackingListSelected(reportTrackings, false);
+        return mapping.findForward(Constants.MAPPING_AWARD_BASIC);
+    }
+    
+    public ActionForward updateMultileReportTracking(ActionMapping mapping, ActionForm form, HttpServletRequest request, HttpServletResponse response) throws Exception {
+        AwardForm awardForm = (AwardForm) form;
+        int awardReportTermItemsIndex = getAwardReportTermItemsIndex(request);
+        List<ReportTracking> reportTrackings = awardForm.getAwardDocument().getAward().getAwardReportTermItems().get(getAwardReportTermItemsIndex(request)).getReportTrackings();
+        getReportTrackingService().updateMultipleReportTrackingRecords(reportTrackings, awardForm.getReportTrackingBeans().get(awardReportTermItemsIndex));
+        getReportTrackingService().setReportTrackingListSelected(reportTrackings, false);
+        awardForm.setReportTrackingBeans(awardForm.buildReportTrackingBeans());
+        return mapping.findForward(Constants.MAPPING_AWARD_BASIC);
+    }
+    
+    private int getAwardReportTermItemsIndex(HttpServletRequest request) {
+        final String awardReportTermItemsIndexBase = "AwardReportTermItemsIndex";
+        Map paramMap = request.getParameterMap();
+        Iterator keys = paramMap.keySet().iterator();
+        while (keys.hasNext()) {
+            String key = keys.next().toString();
+            if (StringUtils.contains(key, awardReportTermItemsIndexBase)) {
+                int startingSubStringIndex = StringUtils.indexOf(key, awardReportTermItemsIndexBase) + awardReportTermItemsIndexBase.length();
+                int endingSubStringIndex = key.length() - 2;
+                String intValSubstring = key.substring(startingSubStringIndex, endingSubStringIndex);
+                return Integer.valueOf(intValSubstring);
+            }
+        }
+        throw new IllegalArgumentException(awardReportTermItemsIndexBase + " was not found in the request, can't find the index.");
+    }
+    
 }

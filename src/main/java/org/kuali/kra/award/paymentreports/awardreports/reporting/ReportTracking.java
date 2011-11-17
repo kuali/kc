@@ -86,6 +86,7 @@ public class ReportTracking extends KraPersistableBusinessObjectBase implements 
     
     private transient KcPersonService kcPersonService;
     private transient BusinessObjectService businessObjectService;
+    private boolean multiEditSelected;
 
     public Long getAwardReportTrackingId() {
         return awardReportTrackingId;
@@ -430,6 +431,14 @@ public class ReportTracking extends KraPersistableBusinessObjectBase implements 
 
     public void setLeadUnit(Unit leadUnit) {
         this.leadUnit = leadUnit;
+    }
+
+    public boolean getMultiEditSelected() {
+        return multiEditSelected;
+    }
+
+    public void setMultiEditSelected(boolean multiEditSelected) {
+        this.multiEditSelected = multiEditSelected;
     }
 
     /**
