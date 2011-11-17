@@ -30,6 +30,7 @@ import org.kuali.kra.committee.service.CommitteeService;
 import org.kuali.kra.infrastructure.Constants;
 import org.kuali.kra.infrastructure.KraServiceLocator;
 import org.kuali.kra.irb.Protocol;
+import org.kuali.kra.irb.ProtocolDocument;
 import org.kuali.kra.irb.ProtocolFinderDao;
 import org.kuali.kra.irb.ProtocolOnlineReviewDocument;
 import org.kuali.kra.irb.actions.assignreviewers.ProtocolAssignReviewersService;
@@ -363,10 +364,18 @@ public class ProtocolOnlineReviewServiceImpl implements ProtocolOnlineReviewServ
         boolean isReviewable = false;
         ProtocolSubmission submission = protocol.getProtocolSubmission();
         if (submission != null) {
-            isReviewable = StringUtils.isNotEmpty(submission.getScheduleId()); 
-            isReviewable &= (StringUtils.equals(submission.getSubmissionStatusCode(), ProtocolSubmissionStatus.SUBMITTED_TO_COMMITTEE) 
-                || StringUtils.equals(submission.getSubmissionStatusCode(), ProtocolSubmissionStatus.IN_AGENDA));
-            isReviewable &= getKraWorkflowService().isDocumentOnNode(protocol.getProtocolDocument(), Constants.PROTOCOL_IRBREVIEW_ROUTE_NODE_NAME);
+            try {
+                isReviewable = StringUtils.isNotEmpty(submission.getScheduleId()); 
+                isReviewable &= (StringUtils.equals(submission.getSubmissionStatusCode(), ProtocolSubmissionStatus.SUBMITTED_TO_COMMITTEE) 
+                        || StringUtils.equals(submission.getSubmissionStatusCode(), ProtocolSubmissionStatus.IN_AGENDA));
+                ProtocolDocument protocolDocument = (ProtocolDocument) documentService.getByDocumentHeaderId(protocol.getProtocolDocument().getDocumentNumber());
+                isReviewable &= getKraWorkflowService().isDocumentOnNode(protocolDocument, Constants.PROTOCOL_IRBREVIEW_ROUTE_NODE_NAME);
+            } catch (WorkflowException e) {
+                String errorString = String.format("WorkflowException checking route node for creating new ProtocolOnlineReviewDocument " +
+                		"for protocol %s", submission.getProtocolNumber());
+                LOG.error(errorString, e);
+                throw new RuntimeException(errorString, e);
+            }
         }
         return isReviewable;
     }

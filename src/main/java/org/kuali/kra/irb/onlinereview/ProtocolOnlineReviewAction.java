@@ -40,7 +40,7 @@ import org.kuali.kra.irb.ProtocolAction;
 import org.kuali.kra.irb.ProtocolForm;
 import org.kuali.kra.irb.ProtocolOnlineReviewDocument;
 import org.kuali.kra.irb.actions.ProtocolActionType;
-import org.kuali.kra.irb.actions.notification.DeletetReviewNotificationRenderer;
+import org.kuali.kra.irb.actions.notification.DeleteReviewNotificationRenderer;
 import org.kuali.kra.irb.actions.notification.RejectReviewNotificationRenderer;
 import org.kuali.kra.irb.actions.reviewcomments.ReviewAttachmentsBean;
 import org.kuali.kra.irb.actions.reviewcomments.ReviewCommentsBean;
@@ -662,6 +662,12 @@ public class ProtocolOnlineReviewAction extends ProtocolAction implements AuditM
                             KNSConstants.QUESTION_REASON_ATTRIBUTE_NAME, "reason");
                 } 
                 
+                ProtocolOnlineReview protocolOnlineReview = prDoc.getProtocolOnlineReview();
+                Protocol protocol = protocolForm.getDocument().getProtocol();
+                DeleteReviewNotificationRenderer renderer = new DeleteReviewNotificationRenderer(protocol, reason);
+                IRBNotificationContext context = new IRBNotificationContext(protocol, protocolOnlineReview, ProtocolActionType.REVIEW_DELETED, "Review Deleted", renderer);
+                getKcNotificationService().sendNotification(context);
+
                 prDoc.getProtocolOnlineReview().addActionPerformed("Delete");
                 KualiDocumentFormBase kualiDocumentFormBase = (KualiDocumentFormBase)protocolForm.getOnlineReviewsActionHelper().getDocumentHelperMap().get(onlineReviewDocumentNumber).get(OnlineReviewsActionHelper.FORM_MAP_KEY);
                 doProcessingAfterPost( kualiDocumentFormBase, request );
@@ -679,12 +685,6 @@ public class ProtocolOnlineReviewAction extends ProtocolAction implements AuditM
                 if (!protocolForm.getEditingMode().containsKey("maintainProtocolOnlineReviews")) {
                     return mapping.findForward(KNSConstants.MAPPING_PORTAL);
                 }
-                
-                ProtocolOnlineReview protocolOnlineReview = prDoc.getProtocolOnlineReview();
-                Protocol protocol = protocolForm.getDocument().getProtocol();
-                DeletetReviewNotificationRenderer renderer = new DeletetReviewNotificationRenderer(protocol, reason);
-                IRBNotificationContext context = new IRBNotificationContext(protocol, protocolOnlineReview, ProtocolActionType.REVIEW_DELETED, "Review Deleted", renderer);
-                getKcNotificationService().sendNotification(context);
             }
         }
         
