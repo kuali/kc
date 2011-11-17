@@ -21,6 +21,7 @@ import java.util.List;
 import org.kuali.kra.award.home.Award;
 import org.kuali.kra.award.paymentreports.awardreports.AwardReportTerm;
 import org.kuali.kra.award.paymentreports.awardreports.reporting.ReportTracking;
+import org.kuali.kra.award.paymentreports.awardreports.reporting.ReportTrackingBean;
 
 /**
  * 
@@ -61,4 +62,22 @@ public interface ReportTrackingService {
      * @return
      */
     boolean autoRegenerateReports(Award award);
+    
+    /**
+     * 
+     * This method updates the MultiEditSelected attributes of every ReportTracking object in the list to whatever the
+     * selectedValue value is.
+     * @param reportTrackingListing
+     * @param selectedValue
+     */
+    void setReportTrackingListSelected(List<ReportTracking> reportTrackingListing, boolean selectedValue);
+    
+    /**
+     * 
+     * This method updates the value of every object in the reportTrackingListing list that has a true value for MultiEditSelected
+     * for each attribture that is populated in the report tracking bean.
+     * @param reportTrackingListing
+     * @param reportTrackingBean
+     */
+    void updateMultipleReportTrackingRecords(List<ReportTracking> reportTrackingListing, ReportTrackingBean reportTrackingBean);
 }
