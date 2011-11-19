@@ -132,15 +132,22 @@ public class AwardContactsAction extends AwardAction {
      * @throws Exception
      */
     public ActionForward addNewProjectPersonUnit(ActionMapping mapping, ActionForm form, HttpServletRequest request, HttpServletResponse response) 
-                                                                                                                        throws Exception {
-        
-        /*AwardPersonUnit unit = getProjectPersonnelBean(form).addNewProjectPersonUnit(getSelectedLine(request));
-        if (unit != null) {
-            return confirmSyncAction(mapping, form, request, response, AwardSyncType.ADD_SYNC, unit, "projectPersons", null, mapping.findForward(Constants.MAPPING_AWARD_BASIC));       
-        } else {
-            return mapping.findForward(Constants.MAPPING_AWARD_BASIC);
-        }*/
-        return confirm(buildSyncUnitDetailsConfirmationQuestion(mapping, form, request, response), CONFIRM_SYNC_UNIT_DETAILS, ADD_SYNC_UNIT_DETAILS);
+                                                                                                                        throws Exception {       
+        Award award = ((AwardForm)form).getAwardDocument().getAward();
+        AwardPersonUnit newPersonUnit = getProjectPersonnelBean(form).getNewAwardPersonUnit(getSelectedLine(request));
+    
+        if( newPersonUnit.isLeadUnit() && award.getLeadUnit() != null){
+            return confirm(buildSyncUnitDetailsConfirmationQuestion(mapping, form, request, response), CONFIRM_SYNC_UNIT_DETAILS, ADD_SYNC_UNIT_DETAILS);
+        }
+        else
+        {
+            AwardPersonUnit unit = getProjectPersonnelBean(form).addNewProjectPersonUnit(getSelectedLine(request));
+            if (unit != null) {
+                return confirmSyncAction(mapping, form, request, response, AwardSyncType.ADD_SYNC, unit, "projectPersons", null, mapping.findForward(Constants.MAPPING_AWARD_BASIC));       
+            } else {
+                return mapping.findForward(Constants.MAPPING_AWARD_BASIC);
+            }
+        }
     }
     
     /**
