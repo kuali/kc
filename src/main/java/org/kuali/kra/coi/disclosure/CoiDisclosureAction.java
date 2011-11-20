@@ -15,6 +15,9 @@
  */
 package org.kuali.kra.coi.disclosure;
 
+import java.util.HashMap;
+import java.util.Map;
+
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 
@@ -27,7 +30,11 @@ import org.kuali.kra.coi.CoiDisclProject;
 import org.kuali.kra.coi.CoiDisclosure;
 import org.kuali.kra.coi.CoiDisclosureDocument;
 import org.kuali.kra.coi.CoiDisclosureForm;
+import org.kuali.kra.coi.certification.CertifyDisclosureEvent;
+import org.kuali.kra.coi.service.CoiPrintingService;
 import org.kuali.kra.infrastructure.Constants;
+import org.kuali.kra.infrastructure.KraServiceLocator;
+import org.kuali.kra.proposaldevelopment.bo.AttachmentDataSource;
 import org.kuali.kra.rule.event.KraDocumentEventBaseExtension;
 import org.kuali.rice.core.config.ConfigContext;
 import org.kuali.rice.kew.util.KEWConstants;
@@ -240,9 +247,30 @@ public class CoiDisclosureAction extends CoiAction {
         coiDisclosureForm.getCoiDisclosureDocument().getCoiDisclosure().setCoiDiscDetails(null);
         checkToLoadDisclosureDetails(coiDisclosureForm.getCoiDisclosureDocument().getCoiDisclosure(), ((CoiDisclosureForm) form).getMethodToCall(), coiDisclosureForm.getDisclosureHelper().getNewProjectId());
         return forward;
-
     }
 
+    //TODO: This may need some work...
+    public ActionForward saveDisclosureCertification(ActionMapping mapping, ActionForm form, HttpServletRequest request,
+            HttpServletResponse response) throws Exception {
+
+        CoiDisclosureForm coiDisclosureForm = (CoiDisclosureForm) form;
+        CoiDisclosure disclosure = ((CoiDisclosureDocument)coiDisclosureForm.getDocument()).getCoiDisclosure();
+        if (checkRule(new CertifyDisclosureEvent("disclosureHelper.certifyDisclosure", disclosure))) {
+            disclosure.certifyDisclosure();
+        }
+        return mapping.findForward(Constants.MAPPING_BASIC);
+    }
+
+    //TODO: This will need some work...
+    public ActionForward printDisclosureCertification(ActionMapping mapping, ActionForm form, HttpServletRequest request, HttpServletResponse response) throws Exception {
+        CoiDisclosure coiDisclosure = ((CoiDisclosureForm)form).getCoiDisclosureDocument().getCoiDisclosure();
+        CoiPrintingService printService = KraServiceLocator.getService(CoiPrintingService.class);
+        Map<String,Object> reportParameters = new HashMap<String,Object>();
+        AttachmentDataSource dataStream = printService.printDisclosureCertification(coiDisclosure, CoiPrintingService.PRINT_CERTIFICATION, reportParameters);
+        streamToResponse(dataStream, response);
+        return mapping.findForward(Constants.MAPPING_BASIC);
+    }
+    
     private String getUserId() {
     	return GlobalVariables.getUserSession().getPrincipalId();
     }

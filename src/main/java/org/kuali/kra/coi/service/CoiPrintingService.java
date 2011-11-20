@@ -15,11 +15,13 @@
  */
 package org.kuali.kra.coi.service;
 
+import java.util.List;
 import java.util.Map;
 
 import org.kuali.kra.bo.KraPersistableBusinessObjectBase;
 import org.kuali.kra.coi.print.CoiReportType;
 import org.kuali.kra.coi.service.CoiPrintingService;
+import org.kuali.kra.printing.Printable;
 import org.kuali.kra.printing.PrintingException;
 import org.kuali.kra.printing.print.AbstractPrint;
 import org.kuali.kra.proposaldevelopment.bo.AttachmentDataSource;
@@ -40,24 +42,21 @@ public interface CoiPrintingService {
     public static String PRINT_REPORT_TYPE = "coiReportTypeCode";
     
     /**
-     * 
-     * This method gets the specific implementation for printing a COI report based
-     * on the report type.
-     * @param printType
-     * @return printable
-     */
-    AbstractPrint getCoiPrintable(CoiReportType reportType);
-    
-    /**
      * This method generates the required report and returns the PDF stream as
-     * {@link AttachmentDataSource}.
+     * {@link AttachmentDataSource}
      * 
-     * @param printableArtifact the specific implementation for printing the report.
+     * @param disclosureDocument
+     *            disclosure data using which report is generated
+     * @param reportName
+     *            report to be generated
+     * @param reportParameters
+     *            {@link Map} of parameters required for report generation
      * @return {@link AttachmentDataSource} which contains the byte array of the
      *         generated PDF
-     * @throws PrintingException if any errors occur during report generation
+     * @throws PrintingException
+     *             if any errors occur during report generation
      */
-    AttachmentDataSource printCoiDisclosureReport(
-            KraPersistableBusinessObjectBase printableBusinessObject, String reportName,
-            Map<String, Object> reportParameters) throws PrintingException;
+    public AttachmentDataSource printDisclosureCertification( KraPersistableBusinessObjectBase institutionalProposal, 
+                                                              String reportName,
+                                                              Map<String, Object> reportParameters) throws PrintingException;
 }
