@@ -130,7 +130,7 @@
 										<html:image property="methodToCall.printDisclosureCertification"
 												    src="${ConfigProperties.kra.externalizable.images.url}tinybutton-print.gif" 
 													title="Print disclosure certification" alt="Print disclosure certification" 
-													styleClass="tinybutton" onclick='javascript: alert("Printing is still to be implemented, sorry for the delay.");' />
+													styleClass="tinybutton" onclick='javascript: alert(\'Printing is still to be implemented.\');' />
                                     </td>
                                 </tr>
                                 <tr>
