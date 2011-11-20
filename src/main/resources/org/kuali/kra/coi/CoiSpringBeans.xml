@@ -98,6 +98,35 @@
         </property>
     </bean>
 
+    <bean id="coiCertificationXmlStream" class="org.kuali.kra.coi.print.CoiCertificationXmlStream">
+		<property name="businessObjectService">
+        	<ref bean="businessObjectService" />
+        </property>
+        <property name="dateTimeService">
+            <ref bean="dateTimeService" />
+        </property>
+        <property name="documentService">
+            <ref bean="documentService" />
+        </property>
+    </bean>
+
+    <bean id="coiCertificationPrint" class="org.kuali.kra.coi.print.CoiCertificationPrint" scope="prototype">
+        <property name="xmlStream" ref="coiCertificationXmlStream" />
+    </bean>
+
+
+	<bean id="coiPrintingService" class="org.kuali.kra.coi.service.impl.CoiPrintingServiceImpl">
+		<property name="printingService">
+			<ref bean="printingService" />
+		</property>
+        <property name="coiCertificationPrint" ref="coiCertificationPrint" />
+        <property name="businessObjectService">
+                <ref bean="businessObjectService" />
+ 		</property>
+                
+	</bean>
+	
+
 </beans>
 
 
