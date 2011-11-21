@@ -399,6 +399,21 @@ public class TransactionRuleImpl extends ResearchDocumentRuleBase implements Tra
                     }
             }
         }
+        KualiDecimal obligatedTotal = new KualiDecimal(0);
+        KualiDecimal anticipatedTotal= new KualiDecimal(0);
+        obligatedTotal = obligatedTotal.add(awardHierarchyNode.getObligatedTotalDirect());
+        obligatedTotal = obligatedTotal.add(awardHierarchyNode.getObligatedTotalIndirect());
+        anticipatedTotal = anticipatedTotal.add(awardHierarchyNode.getAnticipatedTotalDirect());
+        anticipatedTotal = anticipatedTotal.add(awardHierarchyNode.getAnticipatedTotalIndirect());
+        
+        if (obligatedTotal.isGreaterThan(anticipatedTotal)) {
+            reportError(TIME_AND_MONEY_TRANSACTION, KeyConstants.ERROR_ANTICIPATED_AMOUNT);
+            valid = false;
+        }
+        if (awardHierarchyNode.getAmountObligatedToDate().isLessThan(KualiDecimal.ZERO)) {
+            reportError(TIME_AND_MONEY_TRANSACTION, KeyConstants.ERROR_OBLIGATED_AMOUNT_NEGATIVE);
+            valid = false;
+        }
         return valid;
     }
     
