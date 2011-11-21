@@ -38,6 +38,7 @@ public class QuestionnaireQuestion extends KraPersistableBusinessObjectBase impl
         
     private Questionnaire sequenceOwner;
     private String deleted;
+    private boolean isAllow; 
 
     public QuestionnaireQuestion() { 
 
@@ -173,5 +174,12 @@ public class QuestionnaireQuestion extends KraPersistableBusinessObjectBase impl
         this.deleted = deleted;
     }
 
+    public boolean isAllow() {
+        return isAllow;
+    }
+    
+    public void setAllow(boolean isAllow) {
+        this.isAllow = isAllow;
+    }
     
 }

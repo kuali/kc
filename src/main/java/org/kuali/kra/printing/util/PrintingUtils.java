@@ -34,6 +34,7 @@ import org.kuali.kra.infrastructure.KraServiceLocator;
 import org.kuali.kra.institutionalproposal.printing.InstitutionalProposalPrintType;
 import org.kuali.kra.institutionalproposal.proposallog.service.ProposalLogPrintingService;
 import org.kuali.kra.irb.actions.print.ProtocolPrintType;
+import org.kuali.kra.negotiations.printing.NegotiationActivityPrintType;
 import org.kuali.kra.printing.service.CurrentAndPendingReportService;
 import org.kuali.kra.proposaldevelopment.bo.AttachmentDataSource;
 import org.kuali.kra.proposaldevelopment.bo.ProposalPerson;
@@ -76,6 +77,8 @@ public class PrintingUtils {
     	private static final String XSL_PROPOSAL_LOG_REPORT = "proposalLog.xsl";
 	private static final String PRINCIPAL_INVESTIGATOR = "PI";
 	private static final String COMMENT_TYPE_CODE_PARAMETER = "commentTypeCode";
+	private static final String  XSL_PRINT_NEGOTIATION_ACTIVITY_REPORT ="NegotiationActivityReport.xsl";
+
 
 	/**
 	 * This method fetches system constant parameters
@@ -196,7 +199,13 @@ public class PrintingUtils {
             xsl = XSL_COMMITTEE_ROSTER;
         } else if (reportType.equals(CommitteeReportType.FUTURE_SCHEDULED_MEETINGS.getCommitteeReportType())) {
             xsl = XSL_FUTURE_SCHEDULED_MEETINGS;
-        } else if (ProtocolPrintType.getReportTypes().contains(reportType)) {
+        } 
+        else if (reportType
+                .equals(NegotiationActivityPrintType.NEGOTIATION_ACTIVITY_REPORT
+                        .getNegotiationActivityPrintType())) {
+            xsl = XSL_PRINT_NEGOTIATION_ACTIVITY_REPORT;
+        }  
+        else if (ProtocolPrintType.getReportTypes().contains(reportType)) {
             for (ProtocolPrintType protocolPrintType : ProtocolPrintType.values()) {
                 if (reportType.equals(protocolPrintType.getProtocolPrintType())) {
                     xsl = protocolPrintType.getTemplate();

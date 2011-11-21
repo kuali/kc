@@ -53,7 +53,9 @@ import org.kuali.kra.negotiations.bo.NegotiationUnassociatedDetail;
 import org.kuali.kra.negotiations.customdata.NegotiationCustomData;
 import org.kuali.kra.negotiations.document.NegotiationDocument;
 import org.kuali.kra.negotiations.notifications.NegotiationNotificationService;
+import org.kuali.kra.negotiations.printing.NegotiationActivityPrintType;
 import org.kuali.kra.negotiations.web.struts.form.NegotiationForm;
+import org.kuali.kra.proposaldevelopment.bo.AttachmentDataSource;
 import org.kuali.kra.web.struts.action.StrutsConfirmation;
 import org.kuali.rice.kns.question.ConfirmationQuestion;
 import org.kuali.rice.kns.util.GlobalVariables;
@@ -466,4 +468,54 @@ public class NegotiationNegotiationAction extends NegotiationAction {
             throws Exception {
         return mapping.findForward(Constants.MAPPING_BASIC);
     }
+    /**
+     * NegotiationActivities print all button action.
+     * 
+     * @param mapping
+     * @param form
+     * @param request
+     * @param response
+     * @return
+     * @throws Exception
+     */
+    public ActionForward printNegotiationActivity(ActionMapping mapping, ActionForm form,
+            HttpServletRequest request, HttpServletResponse response)
+            throws Exception {   
+        Map<String, Object> reportParameters = new HashMap<String, Object>();        
+        NegotiationForm negotiationForm = (NegotiationForm) form;  
+        NegotiationDocument negotiationDocument = negotiationForm.getDocument();     
+        Negotiation negotiation = negotiationDocument.getNegotiation();
+        negotiation.setPrintindex(0);
+        AttachmentDataSource dataStream = getNegotiationPrintingService().printNegotiationActivityReport
+                          (negotiation, NegotiationActivityPrintType.NEGOTIATION_ACTIVITY_REPORT, reportParameters);                                                  
+        streamToResponse(dataStream,response);       
+        
+        return null;
+    }    
+    
+    /**
+     * NegotiationActivities print button action.
+     * 
+     * @param mapping
+     * @param form
+     * @param request
+     * @param response
+     * @return
+     * @throws Exception
+     */
+    public ActionForward printActivity(ActionMapping mapping, ActionForm form,
+            HttpServletRequest request, HttpServletResponse response)
+            throws Exception { 
+        int printindex =getActivityIndex(request);
+        Map<String, Object> reportParameters = new HashMap<String, Object>();
+        NegotiationForm negotiationForm = (NegotiationForm) form;  
+        NegotiationDocument negotiationDocument = negotiationForm.getDocument();     
+        Negotiation negotiation = negotiationDocument.getNegotiation();        
+        negotiation.setPrintindex(printindex+1);
+        AttachmentDataSource dataStream = getNegotiationPrintingService().printNegotiationActivityReport
+                          (negotiation, NegotiationActivityPrintType.NEGOTIATION_ACTIVITY_REPORT, reportParameters);                                                  
+        streamToResponse(dataStream,response);
+        
+        return null;
+    }    
 }

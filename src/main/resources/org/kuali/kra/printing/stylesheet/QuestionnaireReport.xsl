@@ -112,19 +112,19 @@
 											</fo:block>
 										</fo:table-cell>
 									</fo:table-row>
-									<fo:table-row>
-										<fo:table-cell font-size="9pt" font-weight="bold" padding="2pt" text-align="justify" display-align="before">
-											<fo:block>
-												<fo:inline>
-													<xsl:text>Module:</xsl:text>
-												</fo:inline>
-											</fo:block>
-										</fo:table-cell>
-										<fo:table-cell padding="2pt" display-align="center">
-											<fo:block>
-												<xsl:for-each select="Questionnaire">
-													<xsl:for-each select="ModuleUsage">
-														<xsl:for-each select="ModuleInfo">
+									<xsl:for-each select="Questionnaire">
+										<xsl:for-each select="ModuleUsage">
+											<xsl:for-each select="ModuleInfo">
+												<fo:table-row>
+													<fo:table-cell font-size="9pt" font-weight="bold" padding="2pt" text-align="justify" display-align="before">
+														<fo:block>
+															<fo:inline>
+																<xsl:text>Module:</xsl:text>
+															</fo:inline>
+														</fo:block>
+													</fo:table-cell>
+													<fo:table-cell padding="2pt" display-align="center">
+														<fo:block>
 															<xsl:for-each select="ModuleDesc">
 																<xsl:variable name="value-of-template">
 																	<xsl:apply-templates/>
@@ -142,23 +142,17 @@
 																	</xsl:otherwise>
 																</xsl:choose>
 															</xsl:for-each>
-														</xsl:for-each>
-													</xsl:for-each>
-												</xsl:for-each>
-											</fo:block>
-										</fo:table-cell>
-										<fo:table-cell font-size="9pt" font-weight="bold" padding="2pt" display-align="center">
-											<fo:block>
-												<fo:inline>
-													<xsl:text>Sub Module:</xsl:text>
-												</fo:inline>
-											</fo:block>
-										</fo:table-cell>
-										<fo:table-cell padding="2pt" display-align="center">
-											<fo:block>
-												<xsl:for-each select="Questionnaire">
-													<xsl:for-each select="ModuleUsage">
-														<xsl:for-each select="ModuleInfo">
+														</fo:block>
+													</fo:table-cell>
+													<fo:table-cell font-size="9pt" font-weight="bold" padding="2pt" display-align="center">
+														<fo:block>
+															<fo:inline>
+																<xsl:text>Sub Module:</xsl:text>
+															</fo:inline>
+														</fo:block>
+													</fo:table-cell>
+													<fo:table-cell padding="2pt" display-align="center">
+														<fo:block>
 															<xsl:for-each select="SubModuleDesc">
 																<xsl:variable name="value-of-template">
 																	<xsl:apply-templates/>
@@ -176,12 +170,14 @@
 																	</xsl:otherwise>
 																</xsl:choose>
 															</xsl:for-each>
-														</xsl:for-each>
-													</xsl:for-each>
-												</xsl:for-each>
-											</fo:block>
-										</fo:table-cell>
-									</fo:table-row>
+														</fo:block>
+													</fo:table-cell>
+												</fo:table-row>
+									
+											</xsl:for-each>
+										</xsl:for-each>
+									</xsl:for-each>
+									
 								</fo:table-body>
 							</fo:table>
 							<xsl:choose>
@@ -647,142 +643,29 @@
 													<fo:block>
 														<xsl:choose>
 															<xsl:when test="/Questionnaire/UserOption/UserOptionsInfo/PrintAnsweredQuestionsOnly = &apos;Yes&apos;">
-																<xsl:for-each select="Questionnaire">
-																	<xsl:for-each select="Questions">
-																		<xsl:for-each select="QuestionInfo">
-																			<xsl:if test="count(   AnswerInfo   ) &gt; 0">
-																				<xsl:for-each select="AnswerInfo">
-																					<xsl:if test="string-length(  Answer  )  &gt; 0">
-																						<fo:inline-container>
-																							<fo:block>
-																								<xsl:text>&#x2029;</xsl:text>
-																							</fo:block>
-																						</fo:inline-container>
-																						<fo:list-block provisional-distance-between-starts="7mm" provisional-label-separation="2mm">
-																							<fo:list-item>
-																								<fo:list-item-label end-indent="label-end()" text-align="right">
-																									<fo:block font-family="ZapfDingbats" font-size="7pt">&#x25A0;</fo:block>
-																								</fo:list-item-label>
-																								<fo:list-item-body start-indent="body-start()">
-																									<fo:block>
-																										<xsl:for-each select="Answer">
-																											<xsl:variable name="value-of-template">
-																												<xsl:apply-templates/>
-																											</xsl:variable>
-																											<xsl:choose>
-																												<xsl:when test="contains(string($value-of-template),'&#x2029;')">
-																													<fo:block>
-																														<xsl:copy-of select="$value-of-template"/>
-																													</fo:block>
-																												</xsl:when>
-																												<xsl:otherwise>
-																													<fo:inline>
-																														<xsl:copy-of select="$value-of-template"/>
-																													</fo:inline>
-																												</xsl:otherwise>
-																											</xsl:choose>
-																										</xsl:for-each>
-																									</fo:block>
-																								</fo:list-item-body>
-																							</fo:list-item>
-																						</fo:list-block>
-																					</xsl:if>
-																				</xsl:for-each>
-																			</xsl:if>
-																		</xsl:for-each>
-																	</xsl:for-each>
-																</xsl:for-each>
+															
+															 <xsl:for-each select="Questionnaire">
+															 	<xsl:for-each select="Questions">
+															 		<fo:block>
+															  			<fo:leader leader-pattern="space" /> 
+															  		</fo:block>
+															  		<xsl:call-template name="Template1" /> 
+															  </xsl:for-each>
+															  </xsl:for-each>
+															  <fo:block />  
+
 															</xsl:when>
 															<xsl:when test="/Questionnaire/UserOption/UserOptionsInfo/PrintAnsweredQuestionsOnly = &apos;No&apos;">
-																<xsl:for-each select="Questionnaire">
-																	<xsl:for-each select="Questions">
-																		<xsl:for-each select="QuestionInfo">
-																			<fo:block>
-																				<fo:leader leader-pattern="space"/>
-																			</fo:block>
-																			<fo:inline-container>
-																				<fo:block>
-																					<xsl:text>&#x2029;</xsl:text>
-																				</fo:block>
-																			</fo:inline-container>
-																			<fo:block margin="0pt">
-																				<fo:block/>
-																			</fo:block>
-																			<fo:inline-container>
-																				<fo:block>
-																					<xsl:text>&#x2029;</xsl:text>
-																				</fo:block>
-																			</fo:inline-container>
-																			<fo:list-block provisional-distance-between-starts="7mm" provisional-label-separation="2mm">
-																				<fo:list-item>
-																					<fo:list-item-label end-indent="label-end()" text-align="right">
-																						<fo:block/>
-																					</fo:list-item-label>
-																					<fo:list-item-body start-indent="body-start()">
-																						<fo:block>
-																							<xsl:if test="ParentQuestionNumber != 0">	
-																								<fo:inline>
-																									<xsl:text>&#160;&#160;&#160;&#160;</xsl:text>
-																								</fo:inline>
-																								<fo:inline>	
-																									<xsl:text font-family="Courier">•-></xsl:text>
-																								</fo:inline>
-																								<fo:inline>
-																									<xsl:text>&#160;</xsl:text>
-																								</fo:inline>
-																			 				</xsl:if>
-																							<xsl:for-each select="Question">
-																								<xsl:variable name="value-of-template">
-																									<xsl:apply-templates/>
-																								</xsl:variable>
-																								<xsl:choose>
-																									<xsl:when test="contains(string($value-of-template),'&#x2029;')">
-																										<fo:block>
-																											<xsl:copy-of select="$value-of-template"/>
-																										</fo:block>
-																									</xsl:when>
-																									<xsl:otherwise>
-																										<fo:inline>
-																											<xsl:copy-of select="$value-of-template"/>
-																										</fo:inline>
-																									</xsl:otherwise>
-																								</xsl:choose>
-																							</xsl:for-each>
-																						</fo:block>
-																					</fo:list-item-body>
-																				</fo:list-item>
-																			</fo:list-block>
-																			<fo:inline>
-																				<xsl:text>&#160;&#160;&#160;&#160;&#160;&#160;&#160; </xsl:text>
-																			</fo:inline>
-																			<xsl:if test="count(  AnswerInfo  )  &gt; 0">
-																				<xsl:for-each select="AnswerInfo">
-																					<fo:block/>
-																					<fo:inline>
-																						<xsl:text>&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160; </xsl:text>
-																					</fo:inline>
-																					<xsl:for-each select="Answer">
-																						<xsl:variable name="value-of-template">
-																							<xsl:apply-templates/>
-																						</xsl:variable>
-																						<xsl:choose>
-																							<xsl:when test="contains(string($value-of-template),'&#x2029;')">
-																								<fo:block>
-																									<xsl:copy-of select="$value-of-template"/>
-																								</fo:block>
-																							</xsl:when>
-																							<xsl:otherwise>
-																								<fo:inline>
-																									<xsl:copy-of select="$value-of-template"/>
-																								</fo:inline>
-																							</xsl:otherwise>
-																						</xsl:choose>
-																					</xsl:for-each>
-																				</xsl:for-each>
-																			</xsl:if>
-																		</xsl:for-each>
-																	</xsl:for-each>
-																</xsl:for-each>
+ 
+															 <xsl:for-each select="Questionnaire">
+															 	<xsl:for-each select="Questions">
+															 		<fo:block>
+															  			<fo:leader leader-pattern="space" /> 
+															  		</fo:block>
+															  		<xsl:call-template name="Template1" /> 
+															  </xsl:for-each>
+															 </xsl:for-each>
+															  <fo:block /> 
 															</xsl:when>
 														</xsl:choose>
 													</fo:block>
@@ -870,6 +753,91 @@
 			</xsl:otherwise>
 		</xsl:choose>
 	</xsl:template>
+	<xsl:template name="Template1">
+ 		<xsl:for-each select="QuestionInfo">
+			<fo:block>
+				<fo:leader leader-pattern="space" /> 
+			</fo:block>
+			<fo:inline-container>
+				<fo:block>
+  					<xsl:text>​</xsl:text> 
+  				</fo:block>
+  			</fo:inline-container>
+			<fo:list-block provisional-distance-between-starts="7mm" provisional-label-separation="2mm">
+ 				<fo:list-item>
+ 					<fo:list-item-label end-indent="label-end()" text-align="right">
+  						<fo:block font-family="Courier">•</fo:block> 
+  					</fo:list-item-label>
+ 					<fo:list-item-body start-indent="body-start()">
+					 	<fo:block>
+ 							<xsl:call-template name="Template2" /> 
+  						</fo:block>
+  					</fo:list-item-body>
+				</fo:list-item>
+			</fo:list-block>
+  		</xsl:for-each>
+	</xsl:template>
+	<xsl:template name="Template2">
+		<fo:inline-container>
+			<fo:block>
+  				<xsl:text>​</xsl:text> 
+			</fo:block>
+		</fo:inline-container>
+		<fo:block margin="0pt">
+			<xsl:for-each select="Question">
+				<xsl:variable name="value-of-template_044058B8">
+				<xsl:apply-templates /> 
+				</xsl:variable>
+				<xsl:choose>
+					<xsl:when test="contains(string($value-of-template_044058B8),'​')">
+						<fo:block>
+							<xsl:copy-of select="$value-of-template_044058B8" /> 
+						</fo:block>
+					</xsl:when>
+				 	<xsl:otherwise>
+				 		<fo:inline>
+				  			<xsl:copy-of select="$value-of-template_044058B8" /> 
+				  		</fo:inline>
+				  	</xsl:otherwise>
+				 </xsl:choose>
+			</xsl:for-each>
+		</fo:block>
+		<fo:inline-container>
+			<fo:block>
+		  		<xsl:text>​</xsl:text> 
+		  	</fo:block>
+	  	</fo:inline-container>
+		<fo:block margin="0pt">
+			<xsl:for-each select="AnswerInfo">
+				<xsl:for-each select="Answer">
+					<xsl:variable name="value-of-template_04405998">
+	  				<xsl:apply-templates /> 
+	 				</xsl:variable>
+		 			<xsl:choose>
+			 			<xsl:when test="contains(string($value-of-template_04405998),'​')">
+							<fo:block>
+							 	<xsl:copy-of select="$value-of-template_04405998" /> 
+							</fo:block>
+						</xsl:when>
+						<xsl:otherwise>
+							<fo:inline>
+							 	<xsl:copy-of select="$value-of-template_04405998" /> 
+							</fo:inline>
+						</xsl:otherwise>
+				 	</xsl:choose>
+				</xsl:for-each>
+			</xsl:for-each>
+		</fo:block>
+		<fo:inline-container>
+			<fo:block>
+				<xsl:text>​</xsl:text> 
+			</fo:block>
+		</fo:inline-container>
+		<fo:block margin="0pt">
+			<xsl:call-template name="Template1" /> 
+		</fo:block>
+	</xsl:template>
+
 	<xsl:template name="double-backslash">
 		<xsl:param name="text"/>
 		<xsl:param name="text-length"/>
