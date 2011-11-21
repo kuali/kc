@@ -134,6 +134,14 @@
 			    </td>
 			</tr>
 			</c:if>
+			 <c:if test="${!newActivity && !readOnly}">
+				<tr>
+			     <td class="infoline" style="text-align:center;" colspan="6">
+					<html:image property="methodToCall.printActivity.activityIndex${activityIndex}"
+   		  				src="${ConfigProperties.kra.externalizable.images.url}tinybutton-print.gif" styleClass="tinybutton"/>
+			     </td>
+				</tr>
+			 </c:if>			
         </table>
         
         </div>
