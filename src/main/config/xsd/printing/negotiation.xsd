@@ -1,0 +1,73 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!-- edited with XMLSPY v2004 rel. 3 U (http://www.xmlspy.com) by jenlu (Massachusetts Institute of Technology) -->
+<xs:schema xmlns:xs="http://www.w3.org/2001/XMLSchema" elementFormDefault="qualified" attributeFormDefault="unqualified">
+	<xs:element name="negotiations">
+		<xs:annotation>
+			<xs:documentation>Comment describing your root element</xs:documentation>
+		</xs:annotation>
+		<xs:complexType>
+			<xs:sequence>
+				<xs:element name="negotiationData" type="negotiationDataType" minOccurs="0" maxOccurs="unbounded"/>
+			</xs:sequence>
+		</xs:complexType>
+	</xs:element>
+	<xs:complexType name="negotiationDataType">
+		<xs:sequence>
+			<xs:element name="proposalNumber" type="xs:string" minOccurs="0"/>
+			<xs:element name="title" type="xs:string" minOccurs="0"/>
+			<xs:element name="sponsor" type="sponsorTypes" minOccurs="0"/>
+			<xs:element name="leadUnit" type="leadUnitType" minOccurs="0"/>
+			<xs:element name="proposalTypes" type="proposalTypes" minOccurs="0"/>
+			<xs:element name="status" type="statusType" minOccurs="0"/>
+			<xs:element name="investigator" type="xs:string" minOccurs="0"/>
+			<xs:element name="negotiator" type="xs:string" minOccurs="0"/>
+			<xs:element name="contractAdmin" type="xs:string" minOccurs="0"/>
+			<xs:element name="docFileAddress" type="xs:string" minOccurs="0"/>
+			<xs:element name="startDate" type="xs:date" minOccurs="0"/>
+			<xs:element name="currentDate" type="xs:date" minOccurs="0"/>
+			<xs:element name="activities" type="activitiesType" minOccurs="0" maxOccurs="unbounded"/>
+		</xs:sequence>
+	</xs:complexType>
+	<xs:complexType name="leadUnitType">
+		<xs:sequence>
+			<xs:element name="unitNumber" type="xs:string" minOccurs="0"/>
+			<xs:element name="unitName" type="xs:string" minOccurs="0"/>
+		</xs:sequence>
+	</xs:complexType>
+	<xs:complexType name="sponsorTypes">
+		<xs:sequence>
+			<xs:element name="sponsorCode" type="xs:string" minOccurs="0"/>
+			<xs:element name="sponsorName" type="xs:string" minOccurs="0"/>
+		</xs:sequence>
+	</xs:complexType>
+	<xs:complexType name="proposalTypes">
+		<xs:sequence>
+			<xs:element name="proposalTypeCode" type="xs:integer" minOccurs="0"/>
+			<xs:element name="proposalTypeDesc" type="xs:string" minOccurs="0"/>
+		</xs:sequence>
+	</xs:complexType>
+	<xs:complexType name="activitiesType">
+		<xs:sequence>
+			<xs:element name="docFileAddress" type="xs:string" minOccurs="0"/>
+			<xs:element name="description" type="xs:string" minOccurs="0"/>
+			<xs:element name="activity" type="activityTypes" minOccurs="0"/>
+			<xs:element name="updatedBy" type="xs:string" minOccurs="0"/>
+			<xs:element name="activityDate" type="xs:date" minOccurs="0"/>
+			<xs:element name="createDate" type="xs:date" minOccurs="0"/>
+			<xs:element name="followupDate" type="xs:date" minOccurs="0"/>
+			<xs:element name="lastDate" type="xs:date" minOccurs="0"/>
+		</xs:sequence>
+	</xs:complexType>
+	<xs:complexType name="statusType">
+		<xs:sequence>
+			<xs:element name="statusCode" type="xs:int" minOccurs="0"/>
+			<xs:element name="statusDesc" type="xs:string" minOccurs="0"/>
+		</xs:sequence>
+	</xs:complexType>
+	<xs:complexType name="activityTypes">
+		<xs:sequence>
+			<xs:element name="activityCode" type="xs:int" minOccurs="0"/>
+			<xs:element name="activityDesc" type="xs:string" minOccurs="0"/>
+		</xs:sequence>
+	</xs:complexType>
+</xs:schema>

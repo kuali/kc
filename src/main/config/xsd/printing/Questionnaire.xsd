@@ -29,7 +29,7 @@
 	</xs:complexType>
 	<xs:complexType name="ModuleUsageType">
 		<xs:sequence>
-			<xs:element name="ModuleInfo" type="ModuleInfoType" minOccurs="0"/>
+			<xs:element name="ModuleInfo" type="ModuleInfoType" minOccurs="0" maxOccurs="unbounded"/>
 		</xs:sequence>
 	</xs:complexType>
 	<xs:complexType name="ModuleInfoType">
@@ -58,6 +58,7 @@
 			<xs:element name="Condition" type="xs:string" minOccurs="0"/>
 			<xs:element name="ConditionValue" type="xs:string" minOccurs="0"/>
 			<xs:element name="AnswerInfo" type="AnswerInfoType" minOccurs="0" maxOccurs="unbounded"/>
+			<xs:element name="QuestionInfo" type="QuestionInfoType" minOccurs="0" maxOccurs="unbounded"/>
 		</xs:sequence>
 	</xs:complexType>
 	<xs:complexType name="AnswerHeaderType">
