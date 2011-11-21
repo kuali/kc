@@ -4,7 +4,7 @@
     <artifactId>kc-printing-xsds</artifactId>
     <packaging>jar</packaging>
     <name>KC Project. Printing schema compiler</name>
-    <version>1.3.6</version>
+    <version>1.3.8</version>
     <url>http://kuali.org</url>
     <build>
         <plugins>
