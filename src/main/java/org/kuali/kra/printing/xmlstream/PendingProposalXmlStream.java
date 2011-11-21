@@ -33,6 +33,11 @@ import org.kuali.rice.kns.util.KualiDecimal;
 public class PendingProposalXmlStream extends CurrentAndPendingBaseStream {
 	private InstitutionalProposalPersonService institutionalProposalPersonService;
 	private ArrayList columsList;
+    private static final String PROP_SEQ_STATUS = "ACTIVE";
+    private static final String PROP_NUMBER = "proposalNumber";
+    private static final int PROP_TYPE_CONTINUATION = 4;
+    private static final int PROP_TYPE_TASK_ORDER = 6;
+    private static final int PROP_PENDING_STATUS = 1;    
 	/**
 	 * This method generates XML for Pending Proposal Report. It uses data
 	 * passed in {@link ResearchDocumentBase} for populating the XML nodes. The
@@ -175,7 +180,18 @@ public class PendingProposalXmlStream extends CurrentAndPendingBaseStream {
 	    for (PendingReportBean bean : pendingReportBeans) {
 	        PendingSupport pendingSupport = PendingSupport.Factory.newInstance();
 	        Map<String,String> cutomDataValueMap = new HashMap<String,String>();
+	        Map<String, String> proposalNumberMap = new HashMap<String, String>();
+	        List<InstitutionalProposal> institutionalProposalList = null;  
 	        pendingSupports.add(pendingSupport);
+	        
+	        proposalNumberMap.put(PROP_NUMBER, String.valueOf(bean.getProposalNumber()));
+	        institutionalProposalList = (List<InstitutionalProposal>) getBusinessObjectService()
+                                    .findMatching(InstitutionalProposal.class,proposalNumberMap);
+	      for(InstitutionalProposal institutionalProposal:institutionalProposalList){
+	        
+	       if(institutionalProposal.getProposalSequenceStatus().equals(PROP_SEQ_STATUS) && institutionalProposal.getStatusCode()== PROP_PENDING_STATUS 
+	               && institutionalProposal.getProposalTypeCode()!= PROP_TYPE_CONTINUATION && institutionalProposal.getProposalTypeCode()!= PROP_TYPE_TASK_ORDER ){
+	        
 	        if (bean.getProposalTitle() != null) {
 	            pendingSupport.setTitle(bean.getProposalTitle());
 	        }
@@ -239,6 +255,8 @@ public class PendingProposalXmlStream extends CurrentAndPendingBaseStream {
                 pendingSupport.setPendingReportCEColomnValuesArray(pendingReportCEColomnValues.toArray(new PendingReportCEColomnValues[0]));
             }
 	    }
+	  }
+	 }
 	    return pendingSupports.toArray(new PendingSupport[0]);
 	}
 

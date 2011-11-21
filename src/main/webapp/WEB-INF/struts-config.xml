@@ -430,7 +430,7 @@
         </action>
 <!-- SubAward -->
 
-      <action path="/subAward*" name="SubAwardForm" input="/WEB-INF/jsp/subaward/SubAward{1}.jsp" type="org.kuali.kra.subaward.web.struts.action.SubAward{1}Action"  scope="session" parameter="methodToCall" validate="true" attribute="KualiForm">
+      <action path="/subAward*" name="SubAwardForm" input="/WEB-INF/jsp/subaward/SubAward{1}.jsp" type="org.kuali.kra.subaward.web.struts.action.SubAward{1}Action"  scope="request" parameter="methodToCall" validate="true" attribute="KualiForm">
           <forward name="basic" path="/WEB-INF/jsp/subaward/SubAward{1}.jsp" />
           <forward name="subAward" path="/WEB-INF/jsp/subaward/SubAwardHome.jsp" />
           <forward name="fundingSource" path="/WEB-INF/jsp/subaward/SubAwardFundingSource.jsp" />
@@ -439,7 +439,7 @@
           <forward name="contacts" path="/WEB-INF/jsp/subaward/SubAwardContacts.jsp" /> 
           <forward name="closeout" path="/WEB-INF/jsp/subaward/SubAwardCloseout.jsp" /> 
           <forward name="customData" path="/WEB-INF/jsp/subaward/SubAwardCustomData.jsp" /> 
-          <forward name="subAwardActions" path="/WEB-INF/jsp/subaward/SubAwardAction.jsp" />
+          <forward name="subAwardActions" path="/WEB-INF/jsp/subaward/SubAwardActions.jsp" />
       </action>
 <!-- end -->
 	<action path="/currentOrPendingReport" name="CurrentOrPendingReportForm" input="/WEB-INF/jsp/currentOrPendingReport.jsp" type="org.kuali.kra.proposaldevelopment.web.struts.action.CurrentOrPendingReportAction"
