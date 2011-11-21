@@ -141,10 +141,16 @@ public interface PermissionConstants {
     public static final String NEGOTIATION_MODIFY_ACTIVITIES = "MODIFY ACTIVITIES";
     public static final String NEGOTIATION_VIEW_NEGOTIATION_UNRESTRICTED = "VIEW NEGOTIATION - UNRESTRICTED";
     public static final String NEGOTIATION_VIEW_NEGOTIATION = "VIEW NEGOTIATION";
-    
     /**
      * COI disclosure
      */
     public static final String MAINTAIN_COI_DISCLOSURE = "Maintain Coi Disclosure";
     public static final String VIEW_COI_DISCLOSURE = "View Coi Disclosure";
+    
+    /*
+     * Subaward
+     */
+     public static final String CREATE_SUBAWARD = "CREATE SUBAWARD";
+     public static final String MODIFY_SUBAWARD = "MODIFY SUBAWARD";
+     public static final String VIEW_SUBAWARD = "VIEW SUBAWARD";
 }

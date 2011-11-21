@@ -36,4 +36,6 @@ public interface TaskGroupName {
     public static final String PROTOCOL_ONLINEREVIEW = "protocolOnlineReview";
     public static final String NEGOTIATION = "negotiation";
     public static final String COIDISCLOSURE = "coiDisclosure";
+    public static final String SUBAWARD = "subAward";
+
 }

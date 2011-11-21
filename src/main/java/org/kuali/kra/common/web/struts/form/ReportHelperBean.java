@@ -5,6 +5,7 @@ import org.kuali.kra.common.printing.CurrentReportBean;
 import org.kuali.kra.common.printing.PendingReportBean;
 import org.kuali.kra.infrastructure.KraServiceLocator;
 import org.kuali.kra.institutionalproposal.document.InstitutionalProposalDocument;
+import org.kuali.kra.institutionalproposal.home.InstitutionalProposal;
 import org.kuali.kra.institutionalproposal.proposaladmindetails.ProposalAdminDetails;
 import org.kuali.kra.printing.service.CurrentAndPendingReportService;
 import org.kuali.kra.proposaldevelopment.document.ProposalDevelopmentDocument;
@@ -17,6 +18,7 @@ import java.io.Serializable;
 import java.util.ArrayList;
 import java.util.Collection;
 import java.util.Collections;
+import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
 
@@ -30,6 +32,11 @@ public class ReportHelperBean implements Serializable {
     private boolean institutionalProposalExists;
     private String proposalNumber;
     private static final String DEV_PROPOSAL_NUMBER_FIELD_NAME = "devProposalNumber";
+    private static final String PROP_SEQ_STATUS = "ACTIVE";
+    private static final String PROP_NUMBER = "proposalNumber";
+    private static final int PROP_TYPE_CONTINUATION = 4;
+    private static final int PROP_TYPE_TASK_ORDER = 6;
+    private static final int PROP_PENDING_STATUS = 1;
 
     public ReportHelperBean(KualiDocumentFormBase form) {
         this.form = form;
@@ -119,8 +126,21 @@ public class ReportHelperBean implements Serializable {
 
         public List<ResultRow> preparePendingReport() {
             List<ResultRow> resultRows = new ArrayList<ResultRow>();
+            Map<String, String> proposalNumberMap = new HashMap<String, String>();
+            List<InstitutionalProposal> institutionalProposalList = null;  
+            
             for(PendingReportBean bean: loadReportData()) {
-                resultRows.add(bean.createResultRow());
+                proposalNumberMap.put(PROP_NUMBER, String.valueOf(bean.getProposalNumber()));
+                institutionalProposalList = (List<InstitutionalProposal>) getBusinessObjectService()
+                                        .findMatching(InstitutionalProposal.class,proposalNumberMap);
+                for(InstitutionalProposal institutionalProposal:institutionalProposalList){
+                    
+                    if(institutionalProposal.getProposalSequenceStatus().equals(PROP_SEQ_STATUS) && institutionalProposal.getStatusCode()== PROP_PENDING_STATUS 
+                            && institutionalProposal.getProposalTypeCode()!= PROP_TYPE_CONTINUATION && institutionalProposal.getProposalTypeCode()!= PROP_TYPE_TASK_ORDER ){
+                   
+                            resultRows.add(bean.createResultRow());
+                    }
+                }
             }
 
             return resultRows;

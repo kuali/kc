@@ -216,4 +216,11 @@ public interface TaskName {
     public static final String NEGOTIATION_MODIFY_ACTIVITIES = "modifyNegotiationActivities";
     public static final String NEGOTIATION_VIEW_NEGOTIATION = "viewNegotiation";
     public static final String NEGOTIATION_VIEW_NEGOTIATION_UNRESTRICTED = "viewNegotiationUnRestricted";
+    
+    /*
+     * Subaward Tasks
+     */
+    public static final String CREATE_SUBAWARD = "createSubaward";
+    public static final String MODIFY_SUBAWARD = "modifySubaward";
+    public static final String VIEW_SUBAWARD = "viewSubaward";
 }

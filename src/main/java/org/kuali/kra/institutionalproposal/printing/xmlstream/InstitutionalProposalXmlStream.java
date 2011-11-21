@@ -98,6 +98,8 @@ import org.kuali.rice.kns.service.ParameterService;
 public class InstitutionalProposalXmlStream extends
 		InstitutionalProposalBaseStream {
     
+    private static final Log LOG = LogFactory.getLog(InstitutionalProposalXmlStream.class);
+	
 	private static final String PROPOSAL_SUMMARY_COMMENT_CODE;
 	private static final String COST_SHARING_COMMENT_CODE;
 	private static final String INDIRECT_COST_COMMENT_CODE;

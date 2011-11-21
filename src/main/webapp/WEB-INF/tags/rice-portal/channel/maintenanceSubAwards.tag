@@ -20,6 +20,7 @@
   <ul class="chan">
   	<li><portal:portalLink displayTitle="true" title="SubAwardStatus" url="kr/lookup.do?methodToCall=start&businessObjectClassName=org.kuali.kra.subaward.bo.SubAwardStatus&docFormKey=88888888&returnLocation=${ConfigProperties.application.url}/portal.do&hideReturnLink=true" /></li>
   	<li><portal:portalLink displayTitle="true" title="SubAwardApprovalType" url="kr/lookup.do?methodToCall=start&businessObjectClassName=org.kuali.kra.subaward.bo.SubAwardApprovalType&docFormKey=88888888&returnLocation=${ConfigProperties.application.url}/portal.do&hideReturnLink=true" /></li>
+    <li><portal:portalLink displayTitle="true" title="SubAwardForms" url="kr/lookup.do?methodToCall=start&businessObjectClassName=org.kuali.kra.subaward.bo.SubAwardForms&docFormKey=88888888&returnLocation=${ConfigProperties.application.url}/portal.do&hideReturnLink=true" /></li>
   </ul>
 </div>
 <channel:portalChannelBottom />
