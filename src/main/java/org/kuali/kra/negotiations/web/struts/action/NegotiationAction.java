@@ -27,6 +27,7 @@ import org.kuali.kra.infrastructure.Constants;
 import org.kuali.kra.infrastructure.KraServiceLocator;
 import org.kuali.kra.negotiations.bo.Negotiation;
 import org.kuali.kra.negotiations.document.NegotiationDocument;
+import org.kuali.kra.negotiations.printing.service.NegotiationPrintingService;
 import org.kuali.kra.negotiations.service.NegotiationService;
 import org.kuali.kra.negotiations.web.struts.form.NegotiationForm;
 import org.kuali.kra.web.struts.action.KraTransactionalDocumentActionBase;
@@ -44,6 +45,7 @@ public class NegotiationAction extends KraTransactionalDocumentActionBase {
     
     private NegotiationService negotiationService;
     private SequenceAccessorService sequenceAccessorService;
+    private NegotiationPrintingService negotiationPrintingService;
 
     @Override
     public ActionForward docHandler(ActionMapping mapping, ActionForm form, 
@@ -106,5 +108,15 @@ public class NegotiationAction extends KraTransactionalDocumentActionBase {
     public void setSequenceAccessorService(SequenceAccessorService sequenceAccessorService) {
         this.sequenceAccessorService = sequenceAccessorService;
     }
-    
+
+    public NegotiationPrintingService getNegotiationPrintingService() {
+        if (negotiationPrintingService == null) {
+            negotiationPrintingService =KraServiceLocator.getService(NegotiationPrintingService.class);
+        }
+        return negotiationPrintingService;
+    }
+
+    public void setNegotiationPrintingService(NegotiationPrintingService negotiationPrintingService) {
+        this.negotiationPrintingService = negotiationPrintingService;
+    }  
 }

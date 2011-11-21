@@ -80,6 +80,16 @@ public class Negotiation extends KraPersistableBusinessObjectBase implements Per
     private NegotiationAssociationType negotiationAssociationType;
 
     private List<NegotiationActivity> activities;
+    
+    private int printindex;
+
+    public int getPrintindex() {
+        return printindex;
+    }
+
+    public void setPrintindex(int printindex) {
+        this.printindex = printindex;
+    }
 
     public Negotiation() {
         super();
