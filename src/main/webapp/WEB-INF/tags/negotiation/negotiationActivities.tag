@@ -59,6 +59,9 @@ $jq(document).ready(function() {
     <th colspan="2" style="text-align:left;">
       <label><html:radio property="filterActivities" value="All" onchange="doFilterActivities();">All</html:radio></label> 
       <label><html:radio property="filterActivities" value="Pending" onchange="doFilterActivities();">Pending</html:radio></label>
+      <html:image property="methodToCall.printNegotiationActivity"
+						src='${ConfigProperties.kra.externalizable.images.url}tinybutton-print.gif' 
+						alt="Print Negotiation Activity" styleClass="tinybutton" onclick="excludeSubmitRestriction=true" align="right"/>
    	</th>
    </tr>
    
