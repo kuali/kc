@@ -77,7 +77,7 @@
 			<inverse-foreignkey field-ref="subAwardId"/>
 		</collection-descriptor>
 		
-        <reference-descriptor name="subAwardDocument" class-ref="org.kuali.kra.subaward.bo.SubAward" auto-retrieve="true" auto-update="none" auto-delete="none">
+        <reference-descriptor name="subAwardDocument" class-ref="org.kuali.kra.subaward.document.SubAwardDocument" auto-retrieve="true" auto-update="none" auto-delete="none">
             <foreignkey field-ref="documentNumber" />
         </reference-descriptor>
         
@@ -91,6 +91,16 @@
 		
 		<reference-descriptor name="rolodex" class-ref="org.kuali.kra.bo.Rolodex" auto-retrieve="true" auto-update="none" auto-delete="none"> 
 			<foreignkey field-ref="siteInvestigator"/>
+		</reference-descriptor>
+		
+		
+		<reference-descriptor name="subAwardStatus" class-ref="org.kuali.kra.subaward.bo.SubAwardStatus" auto-retrieve="true" auto-update="none" auto-delete="none"> 
+			<foreignkey field-ref="statusCode"/> 
+		</reference-descriptor>
+		
+		
+		<reference-descriptor name="subAwardType" class-ref="org.kuali.kra.award.home.AwardType" auto-retrieve="true" auto-update="none" auto-delete="none"> 
+			<foreignkey field-ref="subAwardTypeCode"/> 
 		</reference-descriptor>
 		
 		

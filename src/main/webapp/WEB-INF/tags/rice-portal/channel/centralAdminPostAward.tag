@@ -36,7 +36,7 @@
     <td nowrap class="disabled-text">Subawards</td>
     <td>
       <portal:portalLink displayTitle="false" title="SubAwards" url="subAwardHome.do?methodToCall=docHandler&command=initiate&docTypeName=SubAwardDocument"><img src="static/images/add.png" alt="add" width="16" height="16" border="0" align="absmiddle"></portal:portalLink>
-      <img src="static/images/searchicon.gif" alt="lookup" width="16" height="16" align="absmiddle">
+      <portal:portalLink displayTitle="false" title="SubAwards" url="kr/lookup.do?methodToCall=start&businessObjectClassName=org.kuali.kra.subaward.bo.SubAward&docFormKey=88888888&includeCustomActionUrls=true&returnLocation=${ConfigProperties.application.url}/portal.do&hideReturnLink=true"><img src="static/images/searchicon.gif" alt="lookup" width="16"  border="0" height="16" align="absmiddle"></portal:portalLink>
     </td>
   </tr>
   </table>

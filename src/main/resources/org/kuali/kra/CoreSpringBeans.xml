@@ -219,6 +219,7 @@
 				<ref bean="awardTaskAuthorizers" />
 				<ref bean="timeAndMoneyTaskAuthorizers" />
 				<ref bean="protocolOnlineReviewTaskAuthorizers" />
+				<ref bean="subAwardTaskAuthorizers" />
 				<ref bean="negotiationTaskAuthorizers"/>
 				<ref bean="coiDisclosureTaskAuthorizers" />
 			</list>
@@ -830,4 +831,20 @@
         </property>
     </bean>    
 	
+	<bean id="negotiationActivityXmlStream"
+			class="org.kuali.kra.negotiations.printing.xmlstream.NegotiationActivityXmlStream">
+			<property name="dateTimeService" ref="dateTimeService" />
+			<property name="businessObjectService" ref="businessObjectService" />
+			<property name="documentService" ref="documentService" />			
+    </bean>
+    <bean id="negotiationActivityPrint"
+			class="org.kuali.kra.negotiations.printing.print.NegotiationActivityprint">
+			<property name="xmlStream" ref="negotiationActivityXmlStream" />
+	</bean>
+	<bean id="negotiationPrintingService" class="org.kuali.kra.negotiations.printing.service.impl.NegotiationPrintingServiceImpl">   
+         <property name="printingService">  <ref bean="printingService" />    </property>
+         <property name="negotiationActivityPrint">  <ref bean="negotiationActivityPrint" />    </property>
+         
+	</bean>
+    
 </beans>

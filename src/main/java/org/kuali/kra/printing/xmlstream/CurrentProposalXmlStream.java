@@ -22,6 +22,8 @@ import org.kuali.kra.printing.service.CurrentAndPendingReportService;
 import org.kuali.kra.award.customdata.AwardCustomData;
 import org.kuali.rice.kns.service.ParameterConstants;
 import org.kuali.rice.kns.service.ParameterService;
+import org.kuali.rice.kns.service.ParameterConstants;
+import org.kuali.rice.kns.service.ParameterService;
 /**
  * This class generates XML that confirms with the XSD related to Current
  * Proposal Report. The data for XML is derived from
@@ -117,7 +119,6 @@ public class CurrentProposalXmlStream extends CurrentAndPendingBaseStream {
 		List<CurrentSupport> currentSupports = new ArrayList<CurrentSupport>();
 		 parameterService = KraServiceLocator.getService(ParameterService.class);
 		 String directIndirectEnabledValue = parameterService.getParameterValue(Constants.PARAMETER_MODULE_AWARD, ParameterConstants.DOCUMENT_COMPONENT, "ENABLE_AWD_ANT_OBL_DIRECT_INDIRECT_COST");
-
 		for (CurrentReportBean bean : currentReportBeans) {
 		    Map<String,String> cutomDataValueMap = new HashMap<String,String>();
 		    CurrentSupport currentSupport = CurrentSupport.Factory.newInstance();

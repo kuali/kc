@@ -74,6 +74,7 @@ import org.kuali.kra.s2s.util.S2SConstants;
 import org.kuali.kra.service.CitizenshipTypeService;
 import org.kuali.kra.service.KcPersonService;
 import org.kuali.kra.service.SponsorService;
+import org.kuali.kra.service.UnitService;
 import org.kuali.rice.kns.bo.Country;
 import org.kuali.rice.kns.bo.State;
 import org.kuali.rice.kns.service.BusinessObjectService;
@@ -103,6 +104,7 @@ public class S2SUtilServiceImpl implements S2SUtilService {
     private SponsorService sponsorService;
     private NarrativeService narrativeService;
     private CitizenshipTypeService citizenshipTypeService;
+    private UnitService unitService;
     private ProposalDevelopmentS2sQuestionnaireService proposalDevelopmentS2sQuestionnaireService;
 	private static final String SUBMISSION_TYPE_CODE = "submissionTypeCode";
 	private static final String SUBMISSION_TYPE_DESCRIPTION = "submissionTypeDescription";
@@ -924,11 +926,12 @@ public class S2SUtilServiceImpl implements S2SUtilService {
                     if (unit.isLeadUnit()) {
                         Unit leadUnit = unit.getUnit();
                         leadUnit.refreshReferenceObject("unitAdministrators");
+                        KcPerson unitAdmin = null;                        
                         for (UnitAdministrator admin : leadUnit
                                 .getUnitAdministrators()) {
                             if (contactType.equals(admin
                                     .getUnitAdministratorTypeCode())) {
-                                KcPerson unitAdmin = getKcPersonService().getKcPersonByPersonId(admin.getPersonId());
+                                unitAdmin = getKcPersonService().getKcPersonByPersonId(admin.getPersonId());    
                                 depPerson.setLastName(unitAdmin.getLastName());
                                 depPerson.setFirstName(unitAdmin.getFirstName());
                                 if (unitAdmin.getMiddleName() != null) {
@@ -949,6 +952,33 @@ public class S2SUtilServiceImpl implements S2SUtilService {
                                 break;
                             }
                         }
+                            if(unitAdmin == null){ 
+                                Unit parentUnit = getUnitService().getTopUnit();
+                                for(UnitAdministrator parentAdmin : parentUnit.getUnitAdministrators()){
+                                    if (contactType.equals(parentAdmin
+                                            .getUnitAdministratorTypeCode())) {
+                                        KcPerson parentUnitAdmin = getKcPersonService().getKcPersonByPersonId(parentAdmin.getPersonId());
+                                        depPerson.setLastName(parentUnitAdmin.getLastName());
+                                        depPerson.setFirstName(parentUnitAdmin.getFirstName());
+                                        if (parentUnitAdmin.getMiddleName() != null) {
+                                            depPerson.setMiddleName(parentUnitAdmin.getMiddleName());
+                                        }
+                                        depPerson.setEmailAddress(parentUnitAdmin.getEmailAddress());
+                                        depPerson.setOfficePhone(parentUnitAdmin.getOfficePhone());
+                                        depPerson.setFaxNumber(parentUnitAdmin.getFaxNumber());
+                                        depPerson.setPrimaryTitle(parentUnitAdmin.getPrimaryTitle());
+                                        depPerson.setAddress1(parentUnitAdmin.getAddressLine1());
+                                        depPerson.setAddress2(parentUnitAdmin.getAddressLine2());
+                                        depPerson.setAddress3(parentUnitAdmin.getAddressLine3());
+                                        depPerson.setCity(parentUnitAdmin.getCity());
+                                        depPerson.setCounty(parentUnitAdmin.getCounty());
+                                        depPerson.setCountryCode(parentUnitAdmin.getCountryCode());
+                                        depPerson.setPostalCode(parentUnitAdmin.getPostalCode());
+                                        depPerson.setState(parentUnitAdmin.getState());
+                                        break;
+                                    }                                    
+                                }  
+                            } 
                     }
                 }
             }
@@ -1194,6 +1224,22 @@ public class S2SUtilServiceImpl implements S2SUtilService {
     public void setProposalDevelopmentS2sQuestionnaireService(
             ProposalDevelopmentS2sQuestionnaireService proposalDevelopmentS2sQuestionnaireService) {
         this.proposalDevelopmentS2sQuestionnaireService = proposalDevelopmentS2sQuestionnaireService;
+    }
+    
+    /**
+     * Gets the unitService attribute. 
+     * @return Returns the unitService.
+     */
+    public UnitService getUnitService() {
+        return unitService;
+    }
+    
+    /**
+     * Sets the unitService attribute value.
+     * @param unitService The unitService to set.
+     */
+    public void setUnitService(UnitService unitService) {
+        this.unitService = unitService;
     }
 
     public String removeTimezoneFactor(String applicationXmlText) {

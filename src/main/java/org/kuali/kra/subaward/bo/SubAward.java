@@ -16,16 +16,20 @@
 package org.kuali.kra.subaward.bo;
 
 
+import org.kuali.kra.award.home.AwardType;
 import org.kuali.kra.bo.KcPerson;
 import org.kuali.kra.bo.KraPersistableBusinessObjectBase;
 import org.kuali.kra.bo.Organization;
 import org.kuali.kra.bo.Rolodex;
 import org.kuali.kra.bo.Unit;
+import org.kuali.kra.common.permissions.Permissionable;
+import org.kuali.kra.infrastructure.Constants;
 import org.kuali.kra.infrastructure.KraServiceLocator;
 
 import java.util.ArrayList;
 import java.util.LinkedHashMap;
 import java.util.List;
+import java.util.Map;
 import java.sql.Date;
 
 import org.kuali.kra.service.KcPersonService;
@@ -38,7 +42,7 @@ import org.kuali.kra.subaward.document.SubAwardDocument;
 import org.kuali.rice.kns.util.TypedArrayList;
 import org.kuali.kra.subaward.customdata.SubAwardCustomData;
 
-public class SubAward extends KraPersistableBusinessObjectBase { 
+public class SubAward extends KraPersistableBusinessObjectBase implements Permissionable{ 
     
     private static final long serialVersionUID = 1L;
 
@@ -52,6 +56,7 @@ public class SubAward extends KraPersistableBusinessObjectBase {
     private String purchaseOrderNum; 
     private String title; 
     private Integer statusCode; 
+    private String statusDescription;
     private String accountNumber; 
     private String vendorNumber; 
     private String requisitionerId; 
@@ -75,8 +80,18 @@ public class SubAward extends KraPersistableBusinessObjectBase {
     private Organization organization;
     private Unit unit;
     private Rolodex rolodex;
-  
+    private SubAwardStatus subAwardStatus;
+    private AwardType subAwardType;
+    private KcPerson kcPerson;
     
+    public KcPerson getKcPerson() {
+        return kcPerson;
+    }
+
+    public void setKcPerson(KcPerson kcPerson) {
+        this.kcPerson = kcPerson;
+    }
+
     public Rolodex getRolodex() {
         return rolodex;
     }
@@ -102,7 +117,12 @@ public class SubAward extends KraPersistableBusinessObjectBase {
     }
 
     public String getOrganizationName() {
-        return organizationName;
+        Organization organization=getOrganization();
+        if(organization!=null){
+            return organization.getOrganizationName();
+        }else{
+            return organizationName;
+        }
     }
 
     public void setOrganizationName(String organizationName) {
@@ -399,7 +419,14 @@ public class SubAward extends KraPersistableBusinessObjectBase {
     public void setSubAwardCustomDataList(List<SubAwardCustomData> subAwardCustomDataList) {
         this.subAwardCustomDataList = subAwardCustomDataList;
     }
+    
 
+    public String getStatusDescription() {
+        SubAwardStatus status = getSubAwardStatus();
+        statusDescription = status != null ? status.getDescription() : null;
+        return statusDescription;
+    }
+    
     /** {@inheritDoc} */
     @Override 
     protected LinkedHashMap<String, Object> toStringMapper() {
@@ -442,10 +469,76 @@ public class SubAward extends KraPersistableBusinessObjectBase {
 
     public SubAwardDocument getSubAwardDocument() {
         if(subAwardDocument==null){
-            this.refreshReferenceObject("SubAwardDocument");
+            this.refreshReferenceObject("subAwardDocument");
         }
         return subAwardDocument;
     }
+
+    public void setSubAwardStatus(SubAwardStatus subAwardStatus) {
+        this.subAwardStatus = subAwardStatus;
+    }
+
+    public SubAwardStatus getSubAwardStatus() {
+        if (subAwardStatus == null && statusCode != null) {
+            refreshReferenceObject("subAwardStatus");
+        }
+        return subAwardStatus;
+    }
+
+    public void setSubAwardType(AwardType subAwardType) {
+        this.subAwardType = subAwardType;
+    }
+
+    public AwardType getSubAwardType() {
+        return subAwardType;
+    }
+
+    @Override
+    public String getDocumentNumberForPermission() {
+        if(subAwardId!=null)
+            return subAwardId.toString();
+        else
+            return null;
+    }
+
+    @Override
+    public String getDocumentKey() {
+        // TODO Auto-generated method stub
+        return null;
+    }
+
+    @Override
+    public List<String> getRoleNames() {
+        // TODO Auto-generated method stub
+        return null;
+    }
+
+    @Override
+    public String getNamespace() {
+        return Constants.MODULE_NAMESPACE_SUBAWARD;
+    }
+
+    @Override
+    public String getLeadUnitNumber() {
+        // TODO Auto-generated method stub
+        return null;
+    }
+
+    @Override
+    public String getDocumentRoleTypeCode() {
+        // TODO Auto-generated method stub
+        return null;
+    }
+
+    @Override
+    public void populateAdditionalQualifiedRoleAttributes(Map<String, String> qualifiedRoleAttributes) {
+        if(getSubAwardDocument()!=null)
+            qualifiedRoleAttributes.put("documentNumber", getSubAwardDocument().getDocumentNumber());
+        
+    }
+
+
+  
     
     
 }

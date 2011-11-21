@@ -17,10 +17,14 @@ package org.kuali.kra.subaward.web.struts.action;
 
 import javax.servlet.ServletRequest;
 import javax.servlet.ServletResponse;
+import javax.servlet.http.HttpServletRequest;
+import javax.servlet.http.HttpServletResponse;
 
 import org.apache.struts.action.ActionForm;
 import org.apache.struts.action.ActionForward;
 import org.apache.struts.action.ActionMapping;
+import org.kuali.kra.subaward.SubAwardForm;
+import org.kuali.kra.web.struts.action.AuditActionHelper;
 
 public class SubAwardActionsAction  extends SubAwardAction{
     @Override
@@ -28,5 +32,12 @@ public class SubAwardActionsAction  extends SubAwardAction{
         ActionForward actionForward = super.execute(mapping, form, request, response);
         return actionForward;
     }
-
+    public ActionForward activate(ActionMapping mapping, ActionForm form, HttpServletRequest request, HttpServletResponse response)
+    throws Exception {
+        return new AuditActionHelper().setAuditMode(mapping, (SubAwardForm) form, true);
+    }
+    public ActionForward deactivate(ActionMapping mapping, ActionForm form, HttpServletRequest request, HttpServletResponse response)
+    throws Exception {
+        return new AuditActionHelper().setAuditMode(mapping, (SubAwardForm) form, false);
+    }
 }

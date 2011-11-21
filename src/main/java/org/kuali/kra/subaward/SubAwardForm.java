@@ -16,6 +16,8 @@
 package org.kuali.kra.subaward;
 
 import java.util.Map;
+
+import org.kuali.kra.web.struts.form.Auditable;
 import org.kuali.kra.web.struts.form.KraTransactionalDocumentFormBase;
 import org.kuali.kra.common.customattributes.CustomDataForm;
 import org.kuali.kra.common.permissions.web.struts.form.PermissionsForm;
@@ -30,7 +32,7 @@ import org.kuali.kra.subaward.document.SubAwardDocument;
 import org.kuali.rice.kew.util.KEWConstants;
 import org.kuali.rice.kns.workflow.service.KualiWorkflowDocument;
 import org.kuali.kra.subaward.customdata.CustomDataHelper;
-public class SubAwardForm extends KraTransactionalDocumentFormBase implements PermissionsForm,CustomDataForm{
+public class SubAwardForm extends KraTransactionalDocumentFormBase implements PermissionsForm,CustomDataForm,Auditable{
     
     private static final long serialVersionUID = -1452575757578523254L;
 
@@ -44,6 +46,16 @@ public class SubAwardForm extends KraTransactionalDocumentFormBase implements Pe
     private SubAwardContact newSubAwardContact;
     private SubAwardAmountReleased newSubAwardAmountReleased;
     private CustomDataHelper customDataHelper = new CustomDataHelper(this);
+    private boolean auditActivated;
+    
+    public boolean isAuditActivated() {
+        return auditActivated;
+    }
+
+    public void setAuditActivated(boolean auditActivated) {
+        this.auditActivated = auditActivated;
+    }
+
     public SubAwardFundingSource getNewSubAwardFundingSource() {
         return newSubAwardFundingSource;
     }
