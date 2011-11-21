@@ -45,5 +45,35 @@
 			</list>
 		</property>
 	</bean>
+	<bean id="subAwardLookupable" class="org.kuali.rice.kns.lookup.KualiLookupableImpl" scope="prototype">
+  		<property name="lookupableHelperService">
+    		<ref bean="subAwardLookupableHelperService" />
+  		</property>  		
+	</bean>
 	
+	<bean id="subAwardLookupableHelperService" class="org.kuali.kra.subaward.lookup.SubAwardLookupableHelperServiceImpl" parent="lookupableHelperService" scope="prototype">
+  	</bean>
+  	
+  	<bean id="parentSubAwardAuthorizer" abstract="true">
+        <property name="unitAuthorizationService" ref="unitAuthorizationService" />
+        <property name="kraWorkflowService" ref="kraWorkflowService" />
+        <property name="kcPersonService" ref="kcPersonService" />
+        <property name="kraAuthorizationService" ref="kraAuthorizationService" />
+    </bean>
+  	
+  	<bean id="subAwardTaskAuthorizers" class="org.kuali.kra.authorization.TaskAuthorizerGroup">
+        <property name="groupName" value="subAward" />
+        <property name="taskAuthorizers">
+            <list>
+                <bean class="org.kuali.kra.subaward.document.authorizer.ViewSubAwardAuthorizer" parent="parentSubAwardAuthorizer">
+                    <property name="taskName" value="viewSubaward" />
+                </bean>
+                
+                 <bean class="org.kuali.kra.subaward.document.authorizer.ModifySubAwardAutherizer" parent="parentSubAwardAuthorizer">
+                    <property name="taskName" value="modifySubaward" />
+                </bean>          
+            </list>
+         </property>
+     </bean>
+  	
 </beans>	

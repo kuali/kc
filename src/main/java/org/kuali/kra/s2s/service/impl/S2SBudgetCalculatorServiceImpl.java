@@ -47,6 +47,7 @@ import org.kuali.kra.budget.personnel.TbnPerson;
 import org.kuali.kra.budget.rates.RateClass;
 import org.kuali.kra.budget.versions.BudgetDocumentVersion;
 import org.kuali.kra.budget.versions.BudgetVersionOverview;
+import org.kuali.kra.infrastructure.KraServiceLocator;
 import org.kuali.kra.proposaldevelopment.bo.ProposalPerson;
 import org.kuali.kra.proposaldevelopment.budget.modular.BudgetModularIdc;
 import org.kuali.kra.proposaldevelopment.document.ProposalDevelopmentDocument;
@@ -66,6 +67,7 @@ import org.kuali.kra.s2s.service.S2SUtilService;
 import org.kuali.kra.s2s.util.S2SConstants;
 import org.kuali.kra.service.KcPersonService;
 import org.kuali.kra.service.RolodexService;
+import org.kuali.kra.service.SponsorService;
 import org.kuali.rice.kew.exception.WorkflowException;
 import org.kuali.rice.kns.service.BusinessObjectService;
 import org.kuali.rice.kns.service.KNSServiceLocator;
@@ -143,6 +145,8 @@ public class S2SBudgetCalculatorServiceImpl implements
 	private static final String PARTICIPANT_OTHER_CATEGORY = "Participant Other";
 	private static final String OTHER_DIRECT_COSTS_CATEGORY = "Other Direct Costs";
 	private static final String KEYPERSON_CO_PD_PI = "CO-PD/PI";
+	private static final String NID_PD_PI = "PD/PI";
+	private static final String NID_CO_PD_PI = "CO-INVESTIGATOR";    
 	private static final String KEYPERSON_OTHER = "Other (Specify)";
 	private static final String APPOINTMENT_TYPE_SUM_EMPLOYEE = "SUM EMPLOYEE";
 	private static final String APPOINTMENT_TYPE_TMP_EMPLOYEE = "TMP EMPLOYEE";
@@ -1728,7 +1732,16 @@ public class S2SBudgetCalculatorServiceImpl implements
 					.setMiddleName(coInvestigator.getMiddleName());
 			keyPerson.setNonMITPersonFlag(isPersonNonMITPerson(coInvestigator));
 			
-			keyPerson.setRole(KEYPERSON_CO_PD_PI);
+			SponsorService sponsorService = KraServiceLocator
+                            .getService(SponsorService.class);
+            if(sponsorService.isSponsorNihMultiplePi(pdDoc.getDevelopmentProposal())){   
+               if(coInvestigator.isMultiplePi())
+                   keyPerson.setRole(NID_PD_PI);                               
+               else 
+                   keyPerson.setRole(NID_CO_PD_PI);
+            }
+            else
+			       keyPerson.setRole(KEYPERSON_CO_PD_PI);
 			keyPersons.add(keyPerson);
 		}
 		

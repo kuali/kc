@@ -299,8 +299,8 @@
 	</Error>
 	<Error>
 		<MessageKey>/GrantApplication/Forms/RR_SF424/ApplicantInfo/ContactPersonInfo/Name/FirstName</MessageKey>
-		<Message>First name missing for PD/PI.</Message>
-		<FixLink>keyPersonnel</FixLink>
+		<Message>First name missing for proposal contact person, please verify the information in the Unit Administrator table.</Message>
+		<FixLink>grantsGov</FixLink>
 	</Error>
 	<Error>
 		<MessageKey>/GrantApplication/Forms/RR_SF424/ApplicantInfo/ContactPersonInfo/Name/MiddleName</MessageKey>
@@ -309,8 +309,8 @@
 	</Error>
 	<Error>
 		<MessageKey>/GrantApplication/Forms/RR_SF424/ApplicantInfo/ContactPersonInfo/Name/LastName</MessageKey>
-		<Message>Last name missing for PD/PI.</Message>
-		<FixLink>keyPersonnel</FixLink>
+		<Message>Last name missing for proposal contact person, please verify the information in the Unit Administrator table.</Message>
+		<FixLink>grantsGov</FixLink>
 	</Error>
 	<Error>
 		<MessageKey>/GrantApplication/Forms/RR_SF424/ApplicantInfo/ContactPersonInfo/Fax</MessageKey>
@@ -385,24 +385,24 @@
 	</Error>
 	<Error>
  		<MessageKey>/GrantApplication/Forms/RR_SF424/ApplicantInfo/ContactPersonInfo/Phone</MessageKey>  
-		<Message>Phone number missing for PD/PI.</Message> 
-	    <FixLink>keyPersonnel</FixLink> 
+		<Message>Phone number missing for proposal contact person, please verify the information in the Unit Administrator table.</Message> 
+	    <FixLink>grantsGov</FixLink> 
     </Error>
 	<!-- #RR_SF424 V1_2 -->
 	<Error>
  		<MessageKey>/GrantApplication/Forms/RR_SF424_1_2/ApplicantInfo/ContactPersonInfo/Name/FirstName</MessageKey> 
-		<Message>First name missing for PD/PI.</Message> 
- 		<FixLink>keyPersonnel</FixLink> 
+		<Message>First name missing for proposal contact person, please verify the information in the Unit Administrator table.</Message> 
+ 		<FixLink>grantsGov</FixLink> 
   	</Error>
   	<Error>
  		<MessageKey>/GrantApplication/Forms/RR_SF424_1_2/ApplicantInfo/ContactPersonInfo/Name/LastName</MessageKey> 
- 		<Message>Last name missing for PD/PI.</Message> 
-  		<FixLink>keyPersonnel</FixLink> 
+ 		<Message>Last name missing for proposal contact person, please verify the information in the Unit Administrator table.</Message> 
+  		<FixLink>grantsGov</FixLink> 
     </Error>
     <Error>
  		<MessageKey>/GrantApplication/Forms/RR_SF424_1_2/ApplicantInfo/ContactPersonInfo/Phone</MessageKey> 
-		<Message>Phone number missing for PD/PI.</Message> 
-  		<FixLink>keyPersonnel</FixLink> 
+		<Message> Phone number missing for proposal contact person, please verify the information in the Unit Administrator table.</Message> 
+  		<FixLink>grantsGov</FixLink> 
   	</Error>
   	<Error>
   		<MessageKey>/GrantApplication/Forms/RR_SF424_1_2/PDPIContactInfo</MessageKey> 
@@ -1076,38 +1076,38 @@
 	</Error>	
 	<Error>
  		<MessageKey>/GrantApplication/Forms/PHS398_CoverPageSupplement_1_4/ContactPersonInfo/ContactName/FirstName</MessageKey> 
- 		<Message>First name missing for contact person.</Message> 
-  		<FixLink>keyPersonnel</FixLink> 
+ 		<Message>First name missing for proposal contact person, please verify the information in the Unit Administrator table.</Message> 
+  		<FixLink>grantsGov</FixLink> 
 	</Error>
 	<Error>
  		<MessageKey>/GrantApplication/Forms/PHS398_CoverPageSupplement_1_4/ContactPersonInfo/ContactName/LastName</MessageKey> 
- 		<Message>Last name missing for contact person.</Message> 
-  		<FixLink>keyPersonnel</FixLink> 
+ 		<Message>Last name missing for proposal contact person, please verify the information in the Unit Administrator table.</Message> 
+  		<FixLink>grantsGov</FixLink> 
 	</Error>
 	<Error>
  		<MessageKey>/GrantApplication/Forms/PHS398_CoverPageSupplement_1_4/ContactPersonInfo/ContactPhone</MessageKey> 
- 		<Message>Phone number missing for contact person.</Message> 
-  		<FixLink>keyPersonnel</FixLink> 
+ 		<Message>Phone number missing for contact person, please verify the information in the Unit Administrator table.</Message> 
+  		<FixLink>grantsGov</FixLink> 
 	</Error>
 	<Error>
  		<MessageKey>/GrantApplication/Forms/PHS398_CoverPageSupplement_1_4/ContactPersonInfo/ContactTitle</MessageKey> 
- 		<Message>Title missing for contact person.</Message> 
-  		<FixLink>keyPersonnel</FixLink> 
+ 		<Message>Title missing for contact person, please verify the information in the Unit Administrator table.</Message> 
+  		<FixLink>grantsGov</FixLink> 
 	</Error>
 	<Error>
  		<MessageKey>/GrantApplication/Forms/PHS398_CoverPageSupplement_1_4/ContactPersonInfo/ContactAddress/Street1</MessageKey> 
- 		<Message>Address missing for contact person.</Message> 
-  		<FixLink>keyPersonnel</FixLink> 
+ 		<Message>Address missing for contact person, please verify the information in the Unit Administrator table.</Message> 
+  		<FixLink>grantsGov</FixLink> 
 	</Error>
 	<Error>
  		<MessageKey>/GrantApplication/Forms/PHS398_CoverPageSupplement_1_4/ContactPersonInfo/ContactAddress/City</MessageKey> 
- 		<Message>City missing for contact person.</Message> 
-  		<FixLink>keyPersonnel</FixLink> 
+ 		<Message>City missing for contact person, please verify the information in the Unit Administrator table.</Message> 
+  		<FixLink>grantsGov</FixLink> 
 	</Error>
 	<Error>
  		<MessageKey>/GrantApplication/Forms/PHS398_CoverPageSupplement_1_4/ContactPersonInfo/ContactAddress/Country</MessageKey> 
- 		<Message>Country missing for contact person.</Message> 
-  		<FixLink>keyPersonnel</FixLink> 
+ 		<Message>Country missing for contact person, please verify the information in the Unit Administrator table.</Message> 
+  		<FixLink>grantsGov</FixLink> 
 	</Error>
 	<Error>
  		<MessageKey>/GrantApplication/Forms/PHS398_CoverPageSupplement_1_4/StemCells/isHumanStemCellsInvolved</MessageKey> 

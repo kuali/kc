@@ -1,13 +1,12 @@
- 
- <%--
+<%--
  Copyright 2005-2010 The Kuali Foundation
-
+ 
  Licensed under the Educational Community License, Version 2.0 (the "License");
  you may not use this file except in compliance with the License.
  You may obtain a copy of the License at
-
- http://www.osedu.org/licenses/ECL-2.0
-
+ 
+ http://www.opensource.org/licenses/ecl1.php
+ 
  Unless required by applicable law or agreed to in writing, software
  distributed under the License is distributed on an "AS IS" BASIS,
  WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
@@ -15,20 +14,12 @@
  limitations under the License.
 --%>
 <%@ include file="/WEB-INF/jsp/kraTldHeader.jsp"%>
-<kul:documentPage
-	showDocumentInfo="true"
-	htmlFormAction="subAwardActions"
-	documentTypeName="SubAwardDocument"
-	renderMultipart="false"
-	showTabButtons="true"
-	auditCount="0"
-  	headerDispatch="${KualiForm.headerDispatch}"
-  	headerTabActive="subAwardActions"> 	
-  	
-<div id="workarea">
-</div>
 
-<kul:documentControls transactionalDocument="true" suppressRoutingControls="true" suppressCancelButton="true" />
-<script language="javascript" src="scripts/kuali_application.js"></script>
 
-</kul:documentPage>
+<kul:tab tabTitle="Print" tabItemCount="" defaultOpen="false" tabErrorKey="" auditCluster="requiredFieldsAuditErrors" tabAuditKey="" useRiceAuditMode="true">
+		<div class="tab-container" align="center">
+		<h3>
+			<span class="subhead-left">Print</span>
+		</h3>
+		</div>
+</kul:tab>

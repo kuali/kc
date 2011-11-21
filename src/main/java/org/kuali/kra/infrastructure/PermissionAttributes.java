@@ -304,7 +304,15 @@ public class PermissionAttributes {
         attributes.put(ATTR_DOCUMENT_TYPE_NAME, "QuestionMaintenanceDocument"); 
         tempAttributesMap.put(PermissionConstants.VIEW_QUESTION, attributes);
 
-        
+        attributes = new HashMap<String, String>();  
+        attributes.put(ATTR_DOCUMENT_TYPE_NAME, "SubAwardDocument"); 
+        tempAttributesMap.put(PermissionConstants.VIEW_SUBAWARD, attributes);
+        attributes = new HashMap<String, String>();  
+        attributes.put(ATTR_DOCUMENT_TYPE_NAME, "SubAwardDocument"); 
+        tempAttributesMap.put(PermissionConstants.MODIFY_SUBAWARD, attributes);
+        attributes = new HashMap<String, String>();  
+        attributes.put(ATTR_DOCUMENT_TYPE_NAME, "SubAwardDocument"); 
+        tempAttributesMap.put(PermissionConstants.CREATE_SUBAWARD, attributes);
         attributesMap = Collections.unmodifiableMap(tempAttributesMap);
     }
     

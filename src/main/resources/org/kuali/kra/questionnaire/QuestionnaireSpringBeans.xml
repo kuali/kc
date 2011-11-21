@@ -136,6 +136,9 @@
             </property>
             <property name="questionnaireAnswerService">
                 <ref bean="questionnaireAnswerService" />
+            </property> 
+            <property name="kcPersonService">
+                <ref bean="kcPersonService" />
             </property>
     </bean>
     <bean id="questionnairePrint"

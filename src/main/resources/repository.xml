@@ -2162,7 +2162,7 @@
 	</class-descriptor>
 	
 	<class-descriptor class="org.kuali.kra.proposaldevelopment.bo.ValidNarrForms" table="VALID_NARR_FORMS">
-		<field-descriptor name="validNarrFormsId" column="VALID_NARR_FORMS_ID" jdbc-type="INTEGER" primarykey="true" />
+		<field-descriptor name="validNarrFormsId" column="VALID_NARR_FORMS_ID" jdbc-type="INTEGER" primarykey="true" sequence-name="SEQ_VALID_NARR_FORMS_ID" autoincrement="true"/>
 		<field-descriptor name="formName" column="FORM_NAME" jdbc-type="VARCHAR" />
 		<field-descriptor name="narrativeTypeCode" column="NARRATIVE_TYPE_CODE" jdbc-type="VARCHAR" />
 		<field-descriptor name="mandatory" column="MANDATORY" jdbc-type="VARCHAR" />
