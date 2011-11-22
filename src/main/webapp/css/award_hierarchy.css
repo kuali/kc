@@ -4,7 +4,6 @@ div.awardHierarchyLink {
 }
 span.hierarchyOpenLink {
   float: right;
-  width: 55px;
   margin-right: 5px;
   list-style: none;
   display: inline;
