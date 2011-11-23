@@ -630,4 +630,161 @@
 		<property name="businessObjectService" ref="businessObjectService" />
 	</bean>
 	
+	<bean id="reportTrackingLookupableHelperService" class="org.kuali.kra.award.paymentreports.awardreports.reporting.service.ReportTrackingLookupableHelperServiceImpl" parent="lookupableHelperService" scope="prototype">
+        <property name="reportTrackingDao">
+            <ref bean="reportTrackingDao" />
+        </property>
+  	</bean>
+  	
+	<bean id="reportTrackingLookupable" class="org.kuali.rice.kns.lookup.KualiLookupableImpl" scope="prototype">
+  		<property name="lookupableHelperService">
+    		<ref bean="reportTrackingLookupableHelperService" />
+  		</property>
+	</bean>  	
+
+	<bean id="reportTrackingDao" parent="platformAwareDao" class="org.kuali.kra.award.paymentreports.awardreports.reporting.service.ReportTrackingDaoOjb">
+	    <property name="persistenceStructureService">
+    		<ref bean="persistenceStructureService"/>
+    	</property>
+    	<property name="dateTimeService">
+    		<ref bean="dateTimeService"/>
+    	</property>
+	</bean>
+	
+	<bean id="reportTrackingSearchViews" class="org.kuali.kra.award.paymentreports.awardreports.reporting.service.ReportTrackingSearchViews" init-method="init">
+	    <property name="piViewName" value="PI View"/>
+	    <property name="customViewName" value="Customize View..."/>
+		<property name="reportTrackingViews">
+		  <list>
+		    <bean class="org.kuali.kra.award.paymentreports.ReportTrackingView">
+		    	<property name="viewName" value="PI View"/>
+		    	<property name="groupByDisplayCols">
+		    		<list>
+		    			<value>piName</value>
+		    			<value>reportClass.description</value>
+		    			<value>report.description</value>
+		    			<value>frequency.description</value>
+		    			<value>frequencyBase.description</value>
+		    			<value>baseDate</value>
+		    			<value>distribution.description</value>
+		    		</list>
+		    	</property>
+		    	<property name="detailCols">
+		    		<list>
+		    			<value>awardNumber</value>
+		    			<value>leadUnitNumber</value>
+		    			<value>leadUnit.unitName</value>
+		    			<value>reportStatus.description</value>
+		    			<value>dueDate</value>
+		    			<value>overdue</value>
+		    			<value>activityDate</value>
+		    			<value>comments</value>
+		    			<value>preparer.fullName</value>
+		    		</list>
+		    	</property>
+		    </bean>
+		    <bean class="org.kuali.kra.award.paymentreports.ReportTrackingView">
+		    	<property name="viewName" value="Award View"/>
+		    	<property name="groupByDisplayCols">
+		    		<list>
+		    			<value>awardNumber</value>
+		    			<value>piName</value>
+		    			<value>sponsorCode</value>
+		    			<value>sponsorAwardNumber</value>
+		    			<value>title</value>
+		    		</list>
+		    	</property>
+		    	<property name="detailCols">
+		    		<list>
+		    			<value>awardNumber</value>
+		    			<value>reportClass.description</value>
+		    			<value>report.description</value>
+		    			<value>frequency.description</value>
+		    			<value>baseDate</value>
+		    			<value>dueDate</value>
+		    			<value>distribution.description</value>
+		    			<value>activityDate</value>
+		    			<value>comments</value>
+		    			<value>preparer.fullName</value>
+		    		</list>
+		    	</property>
+		    </bean>
+		    <bean class="org.kuali.kra.award.paymentreports.ReportTrackingView">
+		    	<property name="viewName" value="Sponsor View"/>
+		    	<property name="groupByDisplayCols">
+		    		<list>
+		    			<value>sponsorCode</value>
+		    		</list>
+		    	</property>
+		    	<property name="detailCols">
+		    		<list>
+		    			<value>awardNumber</value>
+		    			<value>piName</value>
+		    			<value>reportClass.description</value>
+		    			<value>report.description</value>
+		    			<value>reportStatus.description</value>
+		    			<value>dueDate</value>
+		    			<value>sponsorAwardNumber</value>
+		    			<value>title</value>
+		    		</list>
+		    	</property>
+		    </bean>	
+		    <bean class="org.kuali.kra.award.paymentreports.ReportTrackingView">
+		    	<property name="viewName" value="Customize View..."/>
+		    	<property name="groupByDisplayCols">
+		    		<list>
+		    			<value>piName</value>
+		    			<value>reportClass.description</value>
+		    			<value>report.description</value>
+		    			<value>frequency.description</value>
+		    			<value>frequencyBase.description</value>
+		    			<value>baseDate</value>
+		    			<value>distribution.description</value>
+		    		</list>
+		    	</property>
+		    	<property name="detailCols">
+		    		<list>
+		    			<value>awardNumber</value>
+		    			<value>leadUnitNumber</value>
+		    			<value>leadUnit.unitName</value>
+		    			<value>reportStatus.description</value>
+		    			<value>dueDate</value>
+		    			<value>overdue</value>
+		    			<value>activityDate</value>
+		    			<value>comments</value>
+		    			<value>preparer.fullName</value>
+		    		</list>
+		    	</property>
+		    	
+		    </bean>		    
+		  </list>
+		</property>
+		<property name="allFields">
+			<list>
+				<value>awardNumber</value>
+				<value>piName</value>
+				<value>leadUnitNumber</value>
+				<value>leadUnit.unitName</value>
+				<value>reportClass.description</value>
+				<value>report.description</value>
+				<value>frequency.description</value>
+				<value>frequencyBase.description</value>
+				<value>baseDate</value>
+				<value>reportStatus.description</value>
+				<value>distribution.description</value>
+				<value>dueDate</value>
+				<value>overdue</value>
+				<value>activityDate</value>
+				<value>comments</value>
+				<value>preparer.fullName</value>
+				<value>lastUpdateDate</value>
+				<value>lastUpdateUser</value>
+				<value>sponsorCode</value>
+				<value>sponsor.sponsorName</value>
+				<value>sponsorAwardNumber</value>
+				<value>title</value>
+			</list>
+		</property>
+	</bean>
+	
 </beans>
