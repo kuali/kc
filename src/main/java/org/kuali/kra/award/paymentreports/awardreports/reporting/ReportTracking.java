@@ -16,6 +16,7 @@
 package org.kuali.kra.award.paymentreports.awardreports.reporting;
 
 import java.sql.Date;
+import java.sql.Timestamp;
 import java.util.LinkedHashMap;
 
 import org.apache.commons.lang.StringUtils;
@@ -70,7 +71,7 @@ public class ReportTracking extends KraPersistableBusinessObjectBase implements 
     private String sponsorAwardNumber;
     private String title;
     private String lastUpdateUser;
-    private Date lastUpdateDate;
+    private Timestamp lastUpdateDate;
     
     private ReportClass reportClass;
     private Report report;
@@ -256,11 +257,11 @@ public class ReportTracking extends KraPersistableBusinessObjectBase implements 
         this.lastUpdateUser = lastUpdateUser;
     }
 
-    public Date getLastUpdateDate() {
+    public Timestamp getLastUpdateDate() {
         return lastUpdateDate;
     }
 
-    public void setLastUpdateDate(Date lastUpdateDate) {
+    public void setLastUpdateDate(Timestamp lastUpdateDate) {
         this.lastUpdateDate = lastUpdateDate;
     }
 
@@ -449,5 +450,37 @@ public class ReportTracking extends KraPersistableBusinessObjectBase implements 
     public int compareTo(ReportTracking o) {
         return o == null || o.getDueDate() == null || this.getDueDate() == null ? 0 
                 : this.getDueDate().compareTo(o.getDueDate());
+    }
+    
+    /**
+     * 
+     * This method checks the fields available on the UI and if any of those fields are different than the DB version, it returns true.
+     * @param dbReportTracking
+     * @return
+     */
+    public boolean hasBeenUpdated(ReportTracking dbReportTracking) {
+        boolean retVal = false;
+        if (dbReportTracking != null) {
+            if (!StringUtils.equalsIgnoreCase(this.getPreparerId(), dbReportTracking.getPreparerId())) {
+                retVal = true;
+            } else if (!StringUtils.equalsIgnoreCase(this.getStatusCode(), dbReportTracking.getStatusCode())) {
+                retVal = true;
+            } else if (!StringUtils.equalsIgnoreCase(this.getComments(), dbReportTracking.getComments())) {
+                retVal = true;
+            } else if (!dateEquals(this.activityDate, dbReportTracking.activityDate)) {
+                retVal = true;
+            }
+        }
+        return retVal;
+    }
+    
+    private boolean dateEquals(Date date1, Date date2) {
+        boolean retVal = false;
+        if (date1 == null && date2 == null) {
+            retVal = true;
+        } else if (date1 != null && date2 != null && date1.equals(date2)) {
+            return true;
+        }
+        return retVal;
     }
 }

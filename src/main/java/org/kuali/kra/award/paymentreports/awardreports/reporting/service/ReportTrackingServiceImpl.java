@@ -101,6 +101,23 @@ public class ReportTrackingServiceImpl implements ReportTrackingService {
                 Collections.sort(awardTerm.getReportTrackings());
             }
             this.getBusinessObjectService().delete(reportsToDelete);
+            /**
+             * if any reports have been update, update the last updated user and date.
+             */
+            for (ReportTracking rt : reportsToSave) {
+                /**
+                 * if the report tracking has been saved, and it's not in pending status, we need to check for updates.
+                 */
+                if (rt.getAwardReportTrackingId() != null && !StringUtils.equals(rt.getStatusCode(), getPendingReportStatus().getReportStatusCode())) {
+                    Map params = new HashMap();
+                    params.put("AWARD_REPORT_TRACKING_ID", rt.getAwardReportTrackingId());
+                    ReportTracking dbRt = (ReportTracking) this.getBusinessObjectService().findByPrimaryKey(ReportTracking.class, params);
+                    if (rt.hasBeenUpdated(dbRt)) {
+                        rt.setLastUpdateDate(new java.sql.Timestamp(new java.util.Date().getTime()));
+                        rt.setLastUpdateUser(GlobalVariables.getUserSession().getPerson().getName());
+                    }
+                }
+            }
             this.getBusinessObjectService().save(reportsToSave);
         }
     }
@@ -113,7 +130,7 @@ public class ReportTrackingServiceImpl implements ReportTrackingService {
      * @param awardTerm
      * @Param reportsToSave
      */
-    private void runDateCalcuations(List<java.util.Date> dates, Award award, AwardReportTerm awardTerm, List<ReportTracking> reportsToSave) {
+    protected void runDateCalcuations(List<java.util.Date> dates, Award award, AwardReportTerm awardTerm, List<ReportTracking> reportsToSave) {
         if (dates.size() == 0 && awardTerm.getReportTrackings().size() == 0) {
             ReportTracking rt = buildReportTracking(award, awardTerm);
             awardTerm.getReportTrackings().add(rt);
@@ -140,7 +157,7 @@ public class ReportTrackingServiceImpl implements ReportTrackingService {
      * @param awardTerm
      * @return
      */
-    private ReportTracking buildReportTracking(Award award, AwardReportTerm awardTerm) {
+    protected ReportTracking buildReportTracking(Award award, AwardReportTerm awardTerm) {
         awardTerm.refresh();
         ReportTracking reportTracking = new ReportTracking();
         reportTracking.setAwardNumber(award.getAwardNumber());
@@ -150,8 +167,7 @@ public class ReportTrackingServiceImpl implements ReportTrackingService {
         reportTracking.setFrequencyBase(awardTerm.getFrequencyBase());
         reportTracking.setFrequencyBaseCode(awardTerm.getFrequencyBaseCode());
         reportTracking.setFrequencyCode(awardTerm.getFrequencyCode());
-        java.sql.Date lastUpdateDate = new java.sql.Date(new java.util.Date().getTime());
-        reportTracking.setLastUpdateDate(lastUpdateDate);
+        reportTracking.setLastUpdateDate(new java.sql.Timestamp(new java.util.Date().getTime()));
         reportTracking.setLastUpdateUser(GlobalVariables.getUserSession().getPerson().getName());
         reportTracking.setLeadUnit(award.getLeadUnit());
         reportTracking.setLeadUnitNumber(award.getLeadUnitNumber());
