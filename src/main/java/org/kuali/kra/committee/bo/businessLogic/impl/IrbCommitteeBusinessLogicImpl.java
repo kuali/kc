@@ -13,7 +13,7 @@
  * See the License for the specific language governing permissions and
  * limitations under the License.
  */
-package org.kuali.kra.committee.bo.businessLogic;
+package org.kuali.kra.committee.bo.businessLogic.impl;
 
 import java.util.List;
 
@@ -21,15 +21,17 @@ import org.apache.commons.collections.CollectionUtils;
 import org.apache.commons.lang.StringUtils;
 import org.kuali.kra.committee.bo.Committee;
 import org.kuali.kra.committee.bo.CommitteeResearchArea;
+import org.kuali.kra.committee.bo.businessLogic.CommitteeCollaboratorBusinessLogicFactoryGroup;
+import org.kuali.kra.committee.bo.businessLogic.CommitteeResearchAreaBusinessLogic;
 import org.kuali.kra.infrastructure.KeyConstants;
 import org.kuali.kra.rules.ErrorReporter;
 
-public class IRBCommitteeBusinessLogic extends CommitteeBusinessLogic {
+public class IrbCommitteeBusinessLogicImpl extends CommitteeBusinessLogicImpl {
 
     private static final String SEPERATOR = ".";
     private static final String INACTIVE_RESEARCH_AREAS_PREFIX = "document.committeeList[0].committeeResearchAreas.inactive";
 
-    public IRBCommitteeBusinessLogic(Committee businessObject, CommitteeCollaboratorFactoryGroup committeeCollaborators) {
+    public IrbCommitteeBusinessLogicImpl(Committee businessObject, CommitteeCollaboratorBusinessLogicFactoryGroup committeeCollaborators) {
         super(businessObject, committeeCollaborators);
     }
     
@@ -49,8 +51,8 @@ public class IRBCommitteeBusinessLogic extends CommitteeBusinessLogic {
         if(CollectionUtils.isNotEmpty(cras)) {
             int raIndex = 0;
             for (CommitteeResearchArea cra : cras) {
-                // get collaborator for the committeeResearchArea BO
-                CommitteeResearchAreaBusinessLogic craLogic = getCommitteeCollaboratorFactoryGroup().getCommitteeReserachAreaBusinessLogic(cra);
+                // get collaborator for the CommitteeResearchArea BO
+                CommitteeResearchAreaBusinessLogic craLogic = getCommitteeCollaboratorBusinessLogicFactoryGroup().getCommitteeReserachAreaBusinessLogic(cra);
                 if(!(craLogic.isEnclosedResearchAreaActive())) {
                     inactiveFound = true;
                     inactiveResearchAreaIndices.append(raIndex).append(SEPERATOR);
