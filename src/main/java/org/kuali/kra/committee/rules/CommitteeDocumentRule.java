@@ -30,7 +30,7 @@ import org.kuali.kra.committee.bo.CommitteeMembershipExpertise;
 import org.kuali.kra.committee.bo.CommitteeMembershipRole;
 import org.kuali.kra.committee.bo.CommitteeResearchArea;
 import org.kuali.kra.committee.bo.businessLogic.CommitteeBusinessLogic;
-import org.kuali.kra.committee.bo.businessLogic.CommitteeCollaboratorFactoryGroup;
+import org.kuali.kra.committee.bo.businessLogic.CommitteeCollaboratorBusinessLogicFactoryGroup;
 import org.kuali.kra.committee.document.CommitteeDocument;
 import org.kuali.kra.committee.lookup.keyvalue.CommitteeIdValuesFinder;
 import org.kuali.kra.committee.rule.AddCommitteeMembershipRoleRule;
@@ -129,13 +129,11 @@ public class CommitteeDocumentRule extends ResearchDocumentRuleBase implements B
         valid &= validateUniqueCommitteeId((CommitteeDocument) document);
         valid &= validateUniqueCommitteeName((CommitteeDocument) document);
         valid &= validateHomeUnit((CommitteeDocument) document);
-        if(valid) {
-            valid &= processCommitteeResearchAreaBusinessRules((CommitteeDocument) document);
-            valid &= validateCommitteeReviewType((CommitteeDocument) document);
-        }             
+        
+        valid &= validateCommitteeTypeSpecificData((CommitteeDocument) document);
+                   
         valid &= validateCommitteeMemberships((CommitteeDocument) document);
         valid &= processScheduleRules((CommitteeDocument) document);
-        
         
         return valid;
     }
@@ -144,57 +142,26 @@ public class CommitteeDocumentRule extends ResearchDocumentRuleBase implements B
     
 
     /**
-     * This method will check if all the research areas that have been added to the committee are indeed active.
-     * It is declared public because it will be invoked from the action class for committee as well.
+     * This method will validate the committee data w.r.t constraints that are specific to committee type that was chosen.
+     * Currently these constraints are 1. (for IRB only) all research areas that are chosen must be active, and
+     * 2. the proper review type corresponding to the committee type is chosen.
      * @param document
      * @return
      */
-    public boolean processCommitteeResearchAreaBusinessRules(CommitteeDocument document) {
-        CommitteeCollaboratorFactoryGroup cmtGrp = getCommitteeCollaboratorFactoryGroup();
+    private boolean validateCommitteeTypeSpecificData(CommitteeDocument document) {
+        boolean valid = true;
+        CommitteeCollaboratorBusinessLogicFactoryGroup cmtGrp = getCommitteeCollaboratorBusinessLogicFactoryGroup();
         CommitteeBusinessLogic committeeBusinessLogic = cmtGrp.getCommitteeBusinessLogicFor(document.getCommittee());
-        return committeeBusinessLogic.validateCommitteeResearchAreas();
-        
-        /* the code below was replaced by the above call to the business logic method
-        boolean inactiveFound = false;
-        StringBuffer inactiveResearchAreaIndices = new StringBuffer();
-        
-        List<CommitteeResearchArea> cras = document.getCommittee().getCommitteeResearchAreas();
-        // iterate over all the research areas for this committee looking for inactive research areas
-        if(CollectionUtils.isNotEmpty(cras)) {
-            int raIndex = 0;
-            for (CommitteeResearchArea committeeResearchArea : cras) {
-                if(!(committeeResearchArea.getResearchAreas().isActive())) {
-                    inactiveFound = true;
-                    inactiveResearchAreaIndices.append(raIndex).append(SEPERATOR);
-                }
-                raIndex++;
-            }
-        }
-        // if we found any inactive research areas in the above loop, report as a single error key suffixed by the list of indices of the inactive areas
-        if(inactiveFound) { 
-            String committeeResearchAreaInactiveErrorPropertyKey = INACTIVE_RESEARCH_AREAS_PREFIX + SEPERATOR + inactiveResearchAreaIndices.toString();
-            reportError(committeeResearchAreaInactiveErrorPropertyKey, KeyConstants.ERROR_COMMITTEE_RESEARCH_AREA_INACTIVE);
-        }
-        
-        return !inactiveFound;
-        */
+        // delegate actual validation logic to the business logic wrapper
+        valid &= committeeBusinessLogic.validateCommitteeResearchAreas();
+        // delegate actual validation logic to the business logic wrapper
+        valid &= committeeBusinessLogic.validateReviewType();
+        return valid;
     }
     
     
-    /**
-     * This method will check that the proper review type corresponding to the committee type is chosen
-     * @param document
-     * @return
-     */
-    private boolean validateCommitteeReviewType(CommitteeDocument document) {
-        CommitteeCollaboratorFactoryGroup cmtGrp = getCommitteeCollaboratorFactoryGroup();
-        CommitteeBusinessLogic committeeBusinessLogic = cmtGrp.getCommitteeBusinessLogicFor(document.getCommittee());
-        return committeeBusinessLogic.validateReviewType();  
-    }
-    
-    
-    public CommitteeCollaboratorFactoryGroup getCommitteeCollaboratorFactoryGroup() {
-        return KraServiceLocator.getService(CommitteeCollaboratorFactoryGroup.class);
+    public CommitteeCollaboratorBusinessLogicFactoryGroup getCommitteeCollaboratorBusinessLogicFactoryGroup() {
+        return KraServiceLocator.getService(CommitteeCollaboratorBusinessLogicFactoryGroup.class);
     }
     
     

@@ -13,22 +13,26 @@
  * See the License for the specific language governing permissions and
  * limitations under the License.
  */
-package org.kuali.kra.committee.bo.businessLogic;
+package org.kuali.kra.committee.bo.businessLogic.impl;
 
 import org.apache.commons.lang.StringUtils;
 import org.kuali.kra.committee.bo.Committee;
+import org.kuali.kra.committee.bo.CommitteeResearchArea;
 import org.kuali.kra.committee.bo.CommitteeType;
+import org.kuali.kra.committee.bo.businessLogic.CommitteeBusinessLogic;
+import org.kuali.kra.committee.bo.businessLogic.CommitteeCollaboratorBusinessLogicFactory;
+import org.kuali.kra.committee.bo.businessLogic.CommitteeCollaboratorBusinessLogicFactoryGroup;
 
-public class CommitteeBusinessLogicFactory {
+public class CommitteeBusinessLogicFactoryImpl implements CommitteeCollaboratorBusinessLogicFactory<Committee, CommitteeBusinessLogic>  {
 
-    private CommitteeCollaboratorFactoryGroup committeeCollaboratorFactoryGroup;
+    private CommitteeCollaboratorBusinessLogicFactoryGroup committeeCollaboratorFactoryGroup;
 
 
-    public void setCommitteeCollaboratorFactoryGroup(CommitteeCollaboratorFactoryGroup committeeCollaboratorFactoryGroup) {
+    public void setCommitteeCollaboratorBusinessLogicFactoryGroup(CommitteeCollaboratorBusinessLogicFactoryGroup committeeCollaboratorFactoryGroup) {
         this.committeeCollaboratorFactoryGroup = committeeCollaboratorFactoryGroup;
     }
 
-    public CommitteeCollaboratorFactoryGroup getCommitteeCollaboratorFactoryGroup() {
+    public CommitteeCollaboratorBusinessLogicFactoryGroup getCommitteeCollaboratorBusinessLogicFactoryGroup() {
         return committeeCollaboratorFactoryGroup;
     }
 
@@ -38,25 +42,14 @@ public class CommitteeBusinessLogicFactory {
 
         // return appropriate subclass of committee business logic based on committee type
         if (StringUtils.equals(committee.getCommitteeTypeCode(), CommitteeType.IRB_TYPE_CODE)) {
-            retVal = new IRBCommitteeBusinessLogic(committee, getCommitteeCollaboratorFactoryGroup());
+            retVal = new IrbCommitteeBusinessLogicImpl(committee, getCommitteeCollaboratorBusinessLogicFactoryGroup());
         }
         else if (StringUtils.equals(committee.getCommitteeTypeCode(), CommitteeType.COI_TYPE_CODE)) {
-            retVal = new CoiCommitteeBusinessLogic(committee, getCommitteeCollaboratorFactoryGroup());
+            retVal = new CoiCommitteeBusinessLogicImpl(committee, getCommitteeCollaboratorBusinessLogicFactoryGroup());
         }
         else {
-            retVal = new CommitteeBusinessLogic(committee, getCommitteeCollaboratorFactoryGroup()) {
-
-                @Override
-                public boolean validateCommitteeResearchAreas() {
-                    return false;
-                }
-
-                @Override
-                public boolean checkReviewType() {
-                    return false;
-                }
-                
-            };
+            // return irb committee business logic by default
+            retVal = new IrbCommitteeBusinessLogicImpl(committee, getCommitteeCollaboratorBusinessLogicFactoryGroup());
         }
 
         return retVal;
