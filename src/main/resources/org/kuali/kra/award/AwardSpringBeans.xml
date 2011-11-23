@@ -110,7 +110,10 @@
                 
                 <bean class="org.kuali.kra.award.document.authorizer.OpenAwardBudgetAuthorizer" parent="parentAwardAuthorizer">
                     <property name="taskName" value="openBudgets" />
-                </bean>                
+                </bean>  
+                <bean class="org.kuali.kra.award.document.authorizer.MaintainAwardReportTrackingAuthorizer" parent="parentAwardAuthorizer">
+                    <property name="taskName" value="maintainReportTracking" />
+                </bean>              
             </list>
          </property>
      </bean>

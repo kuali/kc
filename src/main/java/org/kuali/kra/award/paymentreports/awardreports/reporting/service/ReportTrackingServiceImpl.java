@@ -173,7 +173,11 @@ public class ReportTrackingServiceImpl implements ReportTrackingService {
         reportTracking.setSponsor(award.getSponsor());
         reportTracking.setSponsorAwardNumber(award.getSponsorAwardNumber());
         reportTracking.setSponsorCode(award.getSponsorCode());
-        reportTracking.setTitle(awardTerm.getReport().getDescription());
+        reportTracking.setTitle(award.getTitle());
+        /**
+         *@ToDo this should be whatever the base date is as selected by the user. 
+         */
+        //reportTracking.setBaseDate(baseDate)
         return reportTracking;
     }
     
