@@ -132,4 +132,9 @@ public class PermissionsHelper extends PermissionsHelperBase {
         AwardTask task = new AwardTask(AwardTaskNames.MODIFY_AWARD_ROLES.getAwardTaskName(), getAward());
         return getTaskAuthorizationService().isAuthorized(getUserIdentifier(), task);
     }
+    
+    public boolean getMaintainAwardReportTracking() {
+        AwardTask task = new AwardTask(AwardTaskNames.MAINTAIN_REPORT_TRACKING.getAwardTaskName(), getAward());
+        return getTaskAuthorizationService().isAuthorized(getUserIdentifier(), task);
+    }
 }
