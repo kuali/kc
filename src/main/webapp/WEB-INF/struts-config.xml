@@ -47,6 +47,7 @@
 		<form-bean name="CoiDisclosureForm" type="org.kuali.kra.coi.CoiDisclosureForm" />
 		<form-bean name="FinancialEntityForm" type="org.kuali.kra.coi.personfinancialentity.FinancialEntityForm" />
 		<form-bean name="NegotiationForm" type="org.kuali.kra.negotiations.web.struts.form.NegotiationForm" />
+		<form-bean name="ReportTrackingLookupForm" type="org.kuali.kra.award.web.struts.action.ReportTrackingLookupForm" />
     </form-beans>
 
 <!-- Rice content Start -->
@@ -249,6 +250,11 @@
       
       <action path="/awardHierarchyAwardActionsAjax" name="AwardForm" type="org.kuali.kra.award.web.struts.action.AwardActionsAction" attribute="KualiForm" >
           <forward name="basic" path="/WEB-INF/jsp/award/awardHierarchyAwardActionsAjax.jsp" />
+      </action>
+      
+      <action path="/reportTrackingLookup" name="ReportTrackingLookupForm" type="org.kuali.kra.award.web.struts.action.ReportTrackingLookupAction" attribute="KualiForm">
+          <forward name="basic" path="/WEB-INF/jsp/award/ReportTrackingSearch.jsp"/>
+          <forward name="ajaxDetails" path="/WEB-INF/jsp/award/ReportTrackingAjaxDetails.jsp"/>
       </action>
                         
       <!-- Time And Money -->

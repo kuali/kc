@@ -85,6 +85,8 @@ public class ReportTracking extends KraPersistableBusinessObjectBase implements 
     private transient Rolodex piRolodex;
     private transient KcPerson preparer;
     
+    //item count is used during the search and returning grouped results.
+    private transient int itemCount;
     private transient KcPersonService kcPersonService;
     private transient BusinessObjectService businessObjectService;
     private boolean multiEditSelected;
@@ -450,6 +452,14 @@ public class ReportTracking extends KraPersistableBusinessObjectBase implements 
     public int compareTo(ReportTracking o) {
         return o == null || o.getDueDate() == null || this.getDueDate() == null ? 0 
                 : this.getDueDate().compareTo(o.getDueDate());
+    }
+
+    public int getItemCount() {
+        return itemCount;
+    }
+
+    public void setItemCount(int itemCount) {
+        this.itemCount = itemCount;
     }
     
     /**
