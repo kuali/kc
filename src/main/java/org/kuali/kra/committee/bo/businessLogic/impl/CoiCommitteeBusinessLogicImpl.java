@@ -13,14 +13,15 @@
  * See the License for the specific language governing permissions and
  * limitations under the License.
  */
-package org.kuali.kra.committee.bo.businessLogic;
+package org.kuali.kra.committee.bo.businessLogic.impl;
 
 import org.apache.commons.lang.StringUtils;
 import org.kuali.kra.committee.bo.Committee;
+import org.kuali.kra.committee.bo.businessLogic.CommitteeCollaboratorBusinessLogicFactoryGroup;
 
-public class CoiCommitteeBusinessLogic extends CommitteeBusinessLogic {
+public class CoiCommitteeBusinessLogicImpl extends CommitteeBusinessLogicImpl {
 
-    public CoiCommitteeBusinessLogic(Committee businessObject, CommitteeCollaboratorFactoryGroup committeeCollaborators) {
+    public CoiCommitteeBusinessLogicImpl(Committee businessObject, CommitteeCollaboratorBusinessLogicFactoryGroup committeeCollaborators) {
         super(businessObject, committeeCollaborators);
     }
 

@@ -26,6 +26,8 @@ import org.apache.struts.action.ActionForward;
 import org.apache.struts.action.ActionMapping;
 import org.kuali.kra.bo.ResearchArea;
 import org.kuali.kra.committee.bo.Committee;
+import org.kuali.kra.committee.bo.businessLogic.CommitteeBusinessLogic;
+import org.kuali.kra.committee.bo.businessLogic.CommitteeCollaboratorBusinessLogicFactoryGroup;
 import org.kuali.kra.committee.document.CommitteeDocument;
 import org.kuali.kra.committee.document.authorization.CommitteeTask;
 import org.kuali.kra.committee.rules.CommitteeDocumentRule;
@@ -80,9 +82,10 @@ public class CommitteeCommitteeAction extends CommitteeAction {
     protected void processMultipleLookupResults(CommitteeForm committeeForm,
             Class lookupResultsBOClass, Collection<PersistableBusinessObject> selectedBOs) {
         if (lookupResultsBOClass.isAssignableFrom(ResearchArea.class)) {
-            getCommitteeService().addResearchAreas(committeeForm.getCommitteeDocument().getCommittee(), (Collection) selectedBOs);
+            Committee committee = committeeForm.getCommitteeDocument().getCommittee();
+            getCommitteeService().addResearchAreas(committee, (Collection) selectedBOs);
             // finally do validation and error reporting for inactive research areas
-            (new CommitteeDocumentRule()).processCommitteeResearchAreaBusinessRules(committeeForm.getCommitteeDocument());
+            getCommitteeBusinessLogic(committee).validateCommitteeResearchAreas();
         }
     }
     
@@ -107,12 +110,19 @@ public class CommitteeCommitteeAction extends CommitteeAction {
             committee.getCommitteeResearchAreas().remove(getLineToDelete(request));
         }
         // finally do validation and error reporting for inactive research areas
-        (new CommitteeDocumentRule()).processCommitteeResearchAreaBusinessRules(committeeForm.getCommitteeDocument());
+        getCommitteeBusinessLogic(committee).validateCommitteeResearchAreas();
+        
         return mapping.findForward(Constants.MAPPING_BASIC);
+    }
+
+    public CommitteeBusinessLogic getCommitteeBusinessLogic(Committee committee) {
+        CommitteeCollaboratorBusinessLogicFactoryGroup cmtGrp = KraServiceLocator.getService(CommitteeCollaboratorBusinessLogicFactoryGroup.class);
+        CommitteeBusinessLogic committeeBusinessLogic = cmtGrp.getCommitteeBusinessLogicFor(committee);
+        return committeeBusinessLogic;
     }
 
     private CommitteeService getCommitteeService() {
         return (CommitteeService) KraServiceLocator.getService(CommitteeService.class);
     }
-
+    
 }
