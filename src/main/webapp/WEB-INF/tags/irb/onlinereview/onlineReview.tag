@@ -232,9 +232,6 @@
 	            			<c:if test="${(!empty kualiForm.documentActions[Constants.KUALI_ACTION_CAN_APPROVE]) and not suppressRoutingControls}">
 	            				<html:image src="static/images/${kualiForm.approveImageName}" styleClass="globalbuttons" property="methodToCall.approveOnlineReview.${documentNumber}.anchor${tabKey}" title="approve" alt="approve" onclick="return checkForUnprocessedComments('onlineReviewsActionHelper.reviewCommentsBeans[${renderIndex}].newReviewComment.minuteEntry');"/>
 	            			</c:if>
-	            			<c:if test="${!empty kualiForm.documentActions[Constants.KUALI_ACTION_CAN_DISAPPROVE] and not suppressRoutingControls}">
-	            				<html:image src="${ConfigProperties.kr.externalizable.images.url}buttonsmall_disapprove.gif" styleClass="globalbuttons" property="methodToCall.disapproveOnlineReview.${documentNumber}.anchor${tabKey}" title="disapprove" alt="disapprove"/>
-	            			</c:if>
                             <c:if test="${!empty kualiForm.documentActions[Constants.KUALI_ACTION_CAN_DISAPPROVE] and not suppressRoutingControls}">
                                 <html:image src="static/images/buttonsmall_delete_review.gif" styleClass="globalbuttons" property="methodToCall.deleteOnlineReview.${documentNumber}.anchor${tabKey}" title="delete" alt="delete"/>
                             </c:if>	            			
