@@ -245,7 +245,7 @@ public class NegotiationServiceImpl implements NegotiationService {
                 && isInstitutionalProposalLinkingEnabled()) {
             ProposalLog propLog = getBusinessObjectService().findBySinglePrimaryKey(ProposalLog.class, negotiation.getAssociatedDocumentId());
             //if the proplog has been promoted to a inst prop then relink negotiation to the new inst prop.
-            if (StringUtils.isNotBlank(propLog.getInstProposalNumber())) {
+            if (propLog != null && StringUtils.isNotBlank(propLog.getInstProposalNumber())) {
                 negotiation.setNegotiationAssociationType(
                         getNegotiationAssociationType(NegotiationAssociationType.INSTITUATIONAL_PROPOSAL_ASSOCIATION));
                 InstitutionalProposal proposal = getBusinessObjectService().findBySinglePrimaryKey(InstitutionalProposal.class, propLog.getInstProposalNumber());
