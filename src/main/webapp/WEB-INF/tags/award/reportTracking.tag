@@ -167,7 +167,9 @@
 						attributeEntry="${reportTrackingAttributes.comments}" readOnly="${reportTrackingReadOnly }"  />
 				</td>
 				<td>
-					${reportTracking.lastUpdateUser } ${reportTracking.lastUpdateDate }
+					${reportTracking.lastUpdateUser } : 
+					<fmt:formatDate value="${reportTracking.lastUpdateDate}" pattern="MM/dd/yyyy HH:mm:ss"/>
+					
 				</td>
 			</tr>			
 		</c:forEach>

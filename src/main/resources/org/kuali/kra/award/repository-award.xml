@@ -1501,7 +1501,7 @@
     	<field-descriptor name="sponsorAwardNumber" column="SPONSOR_AWARD_NUMBER" jdbc-type="VARCHAR" />
     	<field-descriptor name="title" column="TITLE" jdbc-type="VARCHAR" />
     	<field-descriptor name="lastUpdateUser" column="LAST_UPDATE_USER" jdbc-type="VARCHAR" />
-    	<field-descriptor name="lastUpdateDate" column="LAST_UPDATE_DATE" jdbc-type="DATE" />
+    	<field-descriptor name="lastUpdateDate" column="LAST_UPDATE_DATE" jdbc-type="TIMESTAMP" />
     	
     	<field-descriptor name="updateTimestamp" column="UPDATE_TIMESTAMP" jdbc-type="TIMESTAMP" />
 		<field-descriptor name="updateUser" column="UPDATE_USER" jdbc-type="VARCHAR" />
