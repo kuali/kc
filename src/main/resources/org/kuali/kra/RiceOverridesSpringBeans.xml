@@ -196,6 +196,7 @@
 				<value>roleLookupable</value>
 				<value>negotiationLookupable</value>
 				<value>financialEntityLookupable</value>
+				<value>reportTrackingLookupable</value>
 				<value>subAwardLookupable</value>
 			</set>
 		</property>

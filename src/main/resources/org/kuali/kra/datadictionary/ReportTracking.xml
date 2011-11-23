@@ -36,11 +36,17 @@
                 <ref bean="ReportTracking-leadUnitNumber" />
                 <ref bean="ReportTracking-leadUnit.unitName" />
                 <ref bean="ReportTracking-reportClassCode" />
+                <ref bean="ReportTracking-reportClass.description" />
                 <ref bean="ReportTracking-reportCode" />
+                <ref bean="ReportTracking-report.description" />
                 <ref bean="ReportTracking-frequencyCode" />
+                <ref bean="ReportTracking-frequency.description" />
                 <ref bean="ReportTracking-frequencyBaseCode" />
+                <ref bean="ReportTracking-frequencyBase.description" />
                 <ref bean="ReportTracking-ospDistributionCode" />
+                <ref bean="ReportTracking-distribution.description"/>
                 <ref bean="ReportTracking-statusCode" />
+                <ref bean="ReportTracking-reportStatus.description" />
                 <ref bean="ReportTracking-baseDate" />
                 <ref bean="ReportTracking-dueDate" />
                 <ref bean="ReportTracking-overdue" />
@@ -48,10 +54,13 @@
                 <ref bean="ReportTracking-comments" />
                 <ref bean="ReportTracking-preparerName" />
                 <ref bean="ReportTracking-preparerId" />
+                <ref bean="ReportTracking-preparer.fullName"/>
                 <ref bean="ReportTracking-sponsorCode" />
                 <ref bean="ReportTracking-sponsor.sponsorName" />
                 <ref bean="ReportTracking-sponsorAwardNumber" />
                 <ref bean="ReportTracking-title" />
+                <ref bean="ReportTracking-lastUpdateUser" />
+                <ref bean="ReportTracking-lastUpdateDate" />
                 <ref bean="ReportTracking-versionNumber" />
                 <ref bean="ReportTracking-multiEditSelected"/>
             </list>
@@ -102,19 +111,87 @@
     <bean id="ReportTracking-leadUnit.unitName-parentBean" abstract="true" parent="Award-leadUnit.unitName" />
     
     <bean id="ReportTracking-reportClassCode" parent="ReportTracking-reportClassCode-parentBean" />
-    <bean id="ReportTracking-reportClassCode-parentBean" abstract="true" parent="AwardReportTerm-reportClassCode" />
+    <bean id="ReportTracking-reportClassCode-parentBean" abstract="true" parent="AwardReportTerm-reportClassCode">
+    	<property name="label" value="Report Class" />
+		<property name="shortLabel" value="Report Class" />
+		<property name="summary" value="Report Class" />
+		<property name="description" value="Report Class" />		    
+		<property name="control" >
+			<bean parent="SelectControlDefinition"
+	            p:businessObjectClass="org.kuali.kra.award.paymentreports.ReportClass"
+	            p:valuesFinderClass="org.kuali.kra.lookup.keyvalue.ExtendedPersistableBusinessObjectValuesFinder"
+	            p:includeKeyInLabel="false"
+	            p:includeBlankRow="false"
+	            p:keyAttribute="reportClassCode"
+	            p:labelAttribute="description" />
+		</property>    		
+    </bean>
+    
+    <bean id="ReportTracking-reportClassDesc" parent="ReportTracking-reportClassDesc-parentBean" />
+    <bean id="ReportTracking-reportClassDesc-parentBean" abstract="true" parent="ReportClass-description">
+    	<property name="name" value="reportClassDesc"/>
+    	<property name="label" value="Report Class" />
+		<property name="shortLabel" value="Report Class" />
+		<property name="summary" value="Report Class" />
+		<property name="description" value="Report Class" />		
+    </bean>
+    
+    <bean id="ReportTracking-reportClass.description" parent="ReportTracking-reportClass.description-parentBean" />
+    <bean id="ReportTracking-reportClass.description-parentBean" abstract="true" parent="ReportClass-description">
+    	<property name="name" value="reportClass.description"/>
+    	<property name="label" value="Report Class" />
+		<property name="shortLabel" value="Report Class" />
+		<property name="summary" value="Report Class" />
+		<property name="description" value="Report Class" />		
+    </bean>
     
     <bean id="ReportTracking-reportCode" parent="ReportTracking-reportCode-parentBean" />
     <bean id="ReportTracking-reportCode-parentBean" abstract="true" parent="AwardReportTerm-reportCode" />
 
+    <bean id="ReportTracking-report.description" parent="ReportTracking-report.description-parentBean" />
+    <bean id="ReportTracking-report.description-parentBean" abstract="true" parent="Report-description">
+    	<property name="name" value="report.description"/>
+    	<property name="label" value="Report" />
+		<property name="shortLabel" value="Report" />
+		<property name="summary" value="Report" />
+		<property name="description" value="Report" />		
+    </bean>
+
     <bean id="ReportTracking-frequencyCode" parent="ReportTracking-frequencyCode-parentBean" />
     <bean id="ReportTracking-frequencyCode-parentBean" abstract="true" parent="AwardReportTerm-frequencyCode" />
+    
+    <bean id="ReportTracking-frequency.description" parent="ReportTracking-frequency.description-parentBean" />
+    <bean id="ReportTracking-frequency.description-parentBean" abstract="true" parent="Frequency-description">
+    	<property name="name" value="frequency.description"/>
+    	<property name="label" value="Frequency" />
+		<property name="shortLabel" value="Frequency" />
+		<property name="summary" value="Frequency" />
+		<property name="description" value="Frequency" />		
+    </bean>    
 
     <bean id="ReportTracking-frequencyBaseCode" parent="ReportTracking-frequencyBaseCode-parentBean" />
     <bean id="ReportTracking-frequencyBaseCode-parentBean" abstract="true" parent="AwardReportTerm-frequencyBaseCode" />
+    
+    <bean id="ReportTracking-frequencyBase.description" parent="ReportTracking-frequencyBase.description-parentBean" />
+    <bean id="ReportTracking-frequencyBase.description-parentBean" abstract="true" parent="FrequencyBase-description">
+    	<property name="name" value="frequencyBase.description"/>
+    	<property name="label" value="Frequency Base" />
+		<property name="shortLabel" value="Frequency Base" />
+		<property name="summary" value="Frequency Base" />
+		<property name="description" value="Frequency Base" />		
+    </bean>    
 
     <bean id="ReportTracking-ospDistributionCode" parent="ReportTracking-ospDistributionCode-parentBean" />
     <bean id="ReportTracking-ospDistributionCode-parentBean" abstract="true" parent="AwardReportTerm-ospDistributionCode" />
+    
+    <bean id="ReportTracking-distribution.description" parent="ReportTracking-distribution.description-parentBean" />
+    <bean id="ReportTracking-distribution.description-parentBean" abstract="true" parent="Distribution-description">
+    	<property name="name" value="distribution.description"/>
+    	<property name="label" value="OSP File Copy" />
+		<property name="shortLabel" value="OSP File Copy" />
+		<property name="summary" value="OSP File Copy" />
+		<property name="description" value="OSP File Copy" />		
+    </bean>    
     
     <bean id="ReportTracking-statusCode" parent="ReportTracking-statusCode-parentBean" />
     <bean id="ReportTracking-statusCode-parentBean" abstract="true" parent="AttributeDefinition">
@@ -139,6 +216,15 @@
 		<property name="summary" value="Status" />
 		<property name="description" value="Status" />
     </bean>
+    
+    <bean id="ReportTracking-reportStatus.description" parent="ReportTracking-reportStatus.description-parentBean" />
+    <bean id="ReportTracking-reportStatus.description-parentBean" abstract="true" parent="ReportStatus-description">
+    	<property name="name" value="reportStatus.description"/>
+    	<property name="label" value="Status" />
+		<property name="shortLabel" value="Status" />
+		<property name="summary" value="Status" />
+		<property name="description" value="Status" />		
+    </bean>    
     
     <bean id="ReportTracking-baseDate" parent="ReportTracking-baseDate-parentBean" />
     <bean id="ReportTracking-baseDate-parentBean" abstract="true" parent="KraAttributeReferenceDummy-genericDate" >
@@ -238,6 +324,15 @@
         <property name="description" value="Preparer" />
     </bean>
     
+    <bean id="ReportTracking-preparer.fullName" parent="ReportTracking-preparer.fullName-parentBean" />
+    <bean id="ReportTracking-preparer.fullName-parentBean" abstract="true" parent="AwardContact-fullName">
+    	<property name="name" value="preparer.fullName"/>
+    	<property name="label" value="Preparer" />
+		<property name="shortLabel" value="Preparer" />
+		<property name="summary" value="Preparer" />
+		<property name="description" value="Preparer" />		
+    </bean>    
+    
     <bean id="ReportTracking-sponsorCode" parent="ReportTracking-sponsorCode-parentBean" />
     <bean id="ReportTracking-sponsorCode-parentBean" abstract="true" parent="Award-sponsorCode" />
     
@@ -283,12 +378,31 @@
     <bean id="ReportTracking-versionNumber-parentBean" abstract="true" parent="AttributeReferenceDummy-versionNumber">
     </bean>
 
+	<bean id="ReportTracking-lastUpdateUser" parent="ReportTracking-lastUpdateUser-parentBean"/>
+	<bean id="ReportTracking-lastUpdateUser-parentBean" abstract="true" parent="AwardContact-fullName">
+    	<property name="name" value="lastUpdateUser"/>
+    	<property name="label" value="Last Updated By" />
+		<property name="shortLabel" value="Last Updated By" />
+		<property name="summary" value="Last Updated By" />
+		<property name="description" value="Last Updated By" />		
+    </bean>
+    
+    <bean id="ReportTracking-lastUpdateDate" parent="ReportTracking-lastUpdateDate-parentBean" />
+    <bean id="ReportTracking-lastUpdateDate-parentBean" abstract="true" parent="KraAttributeReferenceDummy-genericDate" >
+        <property name="name" value="lastUpdateDate" />
+        <property name="label" value="Last Updated Date" />
+        <property name="shortLabel" value="Last Updated Date" />
+        <property name="summary" value="Last Updated Date" />
+        <property name="description" value="Last Updated Date" />
+    </bean>    
+    
+
     <!-- Business Object Lookup Definition -->
     <bean id="ReportTracking-lookupDefinition" parent="ReportTracking-lookupDefinition-parentBean" />
     <bean id="ReportTracking-lookupDefinition-parentBean" abstract="true" parent="LookupDefinition">
         <property name="title" value="Award Reporting Lookup" />
         <property name="menubar" value="&lt;a href=&quot;index.jsp&quot;&gt;Main&lt;/a&gt;" />
-
+		<property name="lookupableID" value="reportTrackingLookupable" />
         <property name="defaultSort" >
             <bean parent="SortDefinition" >
         </bean>
