@@ -20,7 +20,8 @@ package org.kuali.kra.infrastructure;
  * This class...
  */
 public enum AwardTaskNames {
-    MODIFY_AWARD("modifyAward"),VIEW_AWARD("viewAward"),MODIFY_AWARD_ROLES("modifyAwardRoles"),ADD_AWARD_NOTES("addAwardNotes");
+    MODIFY_AWARD("modifyAward"),VIEW_AWARD("viewAward"),MODIFY_AWARD_ROLES("modifyAwardRoles"),ADD_AWARD_NOTES("addAwardNotes"),
+    MAINTAIN_REPORT_TRACKING("maintainReportTracking");
 
     private String awardTaskName;   
      
