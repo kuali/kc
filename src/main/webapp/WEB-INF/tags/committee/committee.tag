@@ -81,7 +81,7 @@
                     <kul:htmlControlAttribute property="document.committeeList[0].minimumMembersRequired" attributeEntry="${committeeAttributes.minimumMembersRequired}" />
                 </td>
                 
-                <th><div align="right"><kul:htmlAttributeLabel attributeEntry="${committeeAttributes.reviewTypeCode}" /></div></th>
+                <th><div align="right">*<kul:htmlAttributeLabel attributeEntry="${committeeAttributes.reviewTypeCode}" /></div></th>
                 <td align="left" valign="middle">
                   <div id="coireview">
                     <c:if test="${readOnly}">
@@ -111,10 +111,17 @@
             </tr>
             
             <tr>
-		        <th><div align="right"><kul:htmlAttributeLabel attributeEntry="${committeeAttributes.maxProtocols}" /></div></th>
+		        <th><div align="right">
+		        	<div id="maxProtocolsLabel">
+		        		<c:if test="${!readOnly or KualiForm.document.committeeList[0].committeeTypeCode != '2'}">
+		        			<kul:htmlAttributeLabel attributeEntry="${committeeAttributes.maxProtocols}" />
+		        		</c:if>
+		        	</div>
+		        	</div>
+		        </th>
                 <td>
                     <c:if test="${!readOnly or KualiForm.document.committeeList[0].committeeTypeCode != '2'}">
-                    <kul:htmlControlAttribute property="document.committeeList[0].maxProtocols" attributeEntry="${committeeAttributes.maxProtocols}" />
+                    	<kul:htmlControlAttribute property="document.committeeList[0].maxProtocols" attributeEntry="${committeeAttributes.maxProtocols}" />
                     </c:if>
                 </td>
                 <th><div align="right"><nobr><kul:htmlAttributeLabel attributeEntry="${committeeAttributes.updateTimestamp}" /></nobr></div></th>

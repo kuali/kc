@@ -251,8 +251,8 @@
 		
 		
 		
-	<bean id="committeeCollaboratorFactoryGroup" 
-		class="org.kuali.kra.committee.bo.businessLogic.CommitteeCollaboratorFactoryGroup"
+	<bean id="committeeCollaboratorBusinessLogicFactoryGroup" 
+		class="org.kuali.kra.committee.bo.businessLogic.impl.CommitteeCollaboratorBusinessLogicFactoryGroupImpl"
 		scope="prototype">
 		<property name="committeeBusinessLogicFactory">
 			<ref bean="committeeBusinessLogicFactory" />
@@ -263,11 +263,11 @@
 	</bean>
 	
 	<bean id="committeeBusinessLogicFactory" 
-		class="org.kuali.kra.committee.bo.businessLogic.CommitteeBusinessLogicFactory"
+		class="org.kuali.kra.committee.bo.businessLogic.impl.CommitteeBusinessLogicFactoryImpl"
 		scope="prototype" />
 		
 	<bean id="committeeResearchAreaBusinessLogicFactory" 
-		class="org.kuali.kra.committee.bo.businessLogic.CommitteeResearchAreaBusinessLogicFactory"
+		class="org.kuali.kra.committee.bo.businessLogic.impl.CommitteeResearchAreaBusinessLogicFactoryImpl"
 		scope="prototype" />
 		
 

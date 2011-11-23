@@ -13,26 +13,29 @@
  * See the License for the specific language governing permissions and
  * limitations under the License.
  */
-package org.kuali.kra.committee.bo.businessLogic;
+package org.kuali.kra.committee.bo.businessLogic.impl;
 
 import org.kuali.kra.committee.bo.CommitteeResearchArea;
+import org.kuali.kra.committee.bo.businessLogic.CommitteeCollaboratorBusinessLogicFactory;
+import org.kuali.kra.committee.bo.businessLogic.CommitteeCollaboratorBusinessLogicFactoryGroup;
+import org.kuali.kra.committee.bo.businessLogic.CommitteeResearchAreaBusinessLogic;
 
-public class CommitteeResearchAreaBusinessLogicFactory {
+public class CommitteeResearchAreaBusinessLogicFactoryImpl implements CommitteeCollaboratorBusinessLogicFactory<CommitteeResearchArea, CommitteeResearchAreaBusinessLogic> {
     
-    private CommitteeCollaboratorFactoryGroup committeeCollaboratorFactoryGroup;
+    private CommitteeCollaboratorBusinessLogicFactoryGroup committeeCollaboratorFactoryGroup;
     
     
-    public void setCommitteeCollaboratorFactoryGroup(CommitteeCollaboratorFactoryGroup committeeCollaboratorFactoryGroup) {
+    public void setCommitteeCollaboratorBusinessLogicFactoryGroup(CommitteeCollaboratorBusinessLogicFactoryGroup committeeCollaboratorFactoryGroup) {
         this.committeeCollaboratorFactoryGroup = committeeCollaboratorFactoryGroup;
     }
 
-    public CommitteeCollaboratorFactoryGroup getCommitteeCollaboratorFactoryGroup() {
+    public CommitteeCollaboratorBusinessLogicFactoryGroup getCommitteeCollaboratorFactoryGroup() {
         return committeeCollaboratorFactoryGroup;
     }
 
     
     public CommitteeResearchAreaBusinessLogic getBusinessLogicFor(CommitteeResearchArea businessObject) {
-        return new CommitteeResearchAreaBusinessLogic(businessObject, getCommitteeCollaboratorFactoryGroup());
+        return new CommitteeResearchAreaBusinessLogicImpl(businessObject, getCommitteeCollaboratorFactoryGroup());
     }
 
 }

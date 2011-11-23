@@ -64,6 +64,7 @@
                  // COI type
                     $j('#document\\.committeeList\\[0\\]\\.maxProtocols').attr("value",0);
                     $j('#document\\.committeeList\\[0\\]\\.maxProtocols').hide();
+                    $j('#maxProtocolsLabel').hide();
                     $j('#tab-AreaofResearch-div').prev().hide();
                     if ($j("input[name^='tabStates(AreaofResearch)']").attr("value") == 'OPEN') {
                          $j('#tab-AreaofResearch-div').hide();
@@ -75,6 +76,7 @@
               if (typeCode == '1') {
                   // IRB type
                     $j('#document\\.committeeList\\[0\\]\\.maxProtocols').show();
+                    $j('#maxProtocolsLabel').show();
                     if ($j("input[name^='tabStates(AreaofResearch)']").attr("value") == 'OPEN') {
                         $j('#tab-AreaofResearch-div').show();
                     }
