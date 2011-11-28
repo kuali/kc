@@ -19,8 +19,11 @@
   <c:set var="tabTitle" value="Add Activity"/>
   <c:set var="activityPath" value="negotiationActivityHelper.newActivity"/>
 </c:when><c:otherwise>
-  <c:set var="tabTitle" value="${activity.startDate} ${activity.location.description}-${activity.activityType.description}"/>
   <c:set var="activityPath" value="document.negotiationList[0].activities[${activityIndex}]"/>
+  <c:set var="startDate"><bean:write name="KualiForm" property="${activityPath}.startDate"/></c:set>
+  <c:set var="lastUpdate"><bean:write name="KualiForm" property="${activityPath}.lastModifiedDate"/></c:set>
+  <c:set var="tabTitle" value="${activity.activityType.description} - ${activity.location.description} - ${startDate} - ${activity.lastModifiedUser.fullName} - ${lastUpdate}"/>
+  
 </c:otherwise></c:choose>
 
 <kul:innerTab parentTab="${parentTab}" tabTitle="${tabTitle}" defaultOpen="false" tabErrorKey="${activityPath}*" useCurrentTabIndexAsKey="true" overrideDivClass="${tabDivClass}">
