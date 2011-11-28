@@ -34,6 +34,8 @@
 <c:set target="${paramMap1}" property="reportClassCode" value="${reportClassKey}" />
 <c:set target="${paramMap2}" property="reportClassCode" value="${reportClassKey}" />
 
+<%-- The logic in the updateBaseDateDisplay function is duplicated in ReportTrackingServiceImpl.calculateBaseDate.
+If you update one, please update the other. --%>
 <script>
 jQuery().ready(function() {
 	jQuery("select[name$='frequencyBaseCode']").each(function(i) {updateBaseDateDisplay(jQuery(this))});
