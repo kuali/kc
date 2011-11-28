@@ -24,25 +24,31 @@
         	})
         </script>
 
-<channel:portalChannelTop channelTitle="Compliance" />
+<channel:portalChannelTop channelTitle="Conflict of Interest" />
 <div class="body">
+  <strong>My Financial Entities </strong>
   <ul class="chan">
-    <li><portal:portalLink displayTitle="false" title="Create Disclosure" url="coiDisclosure.do?methodToCall=docHandler&command=initiate&docTypeName=CoiDisclosureDocument">Create Disclosure</portal:portalLink></li>
-    <li><portal:portalLink displayTitle="false" title="Financial Entity" url="financialEntityManagement.do?methodToCall=management&financialEntityHelper.reporterId=&coiDocId=">Financial Entity</portal:portalLink></li>
-    <li>Review Final Entities</li>
-    <li>Pending Disclosures</li>
-    <li>All my Disclosures</li>
-    <li><portal:portalLink displayTitle="false" title="Create Manual Disclosure - temporary link" url="coiDisclosure.do?methodToCall=docHandler&command=initiate_14&docTypeName=CoiDisclosureDocument">Create Manual Disclosure - temp link<a id="FB_manual_coi_help_control" href="#FB_manual_coi_help_div" title="Coi Manual Disclosure">
-      <img src="${ConfigProperties.kra.externalizable.images.url}questionmark.jpg" alt="[Help]${altText}" style="border:none; width:16px; height:16px; vertical-align:middle;"></a></portal:portalLink></li>
-    <%-- <li><portal:portalLink displayTitle="false" title="New Protocol Disclosure - temporary link" url="coiDisclosure.do?methodToCall=docHandler&command=initiate_12&docTypeName=CoiDisclosureDocument">New Protocol Disclosure - temp link</portal:portalLink></li> --%>
-    <li><portal:portalLink displayTitle="false" title="New Protocol Disclosure - temporary link" url="protocolEventDisclosure.do?methodToCall=getNewProtocolsForDisclosure">New Protocol Disclosure - temp link</portal:portalLink></li>
-    <li><portal:portalLink displayTitle="false" title="New Proposal Disclosure - temporary link" url="proposalEventDisclosure.do?methodToCall=getNewProposalsForDisclosure">New Proposal Disclosure - temp link</portal:portalLink></li>
-    <li><portal:portalLink displayTitle="false" title="New Award Disclosure - temporary link" url="awardEventDisclosure.do?methodToCall=getNewAwardsForDisclosure">New Award Disclosure - temp link</portal:portalLink></li>
-    <%--<li><portal:portalLink displayTitle="false" title="New Proposal Disclosure - temporary link" url="coiDisclosure.do?methodToCall=docHandler&command=initiate_11&docTypeName=CoiDisclosureDocument">New Proposal Disclosure - temp link</portal:portalLink></li>
-    <li><portal:portalLink displayTitle="false" title="New Award Disclosure - temporary link" url="coiDisclosure.do?methodToCall=docHandler&command=initiate_1&docTypeName=CoiDisclosureDocument">New Award Disclosure - temp link</portal:portalLink></li>
-    --%>
-
+    <li><portal:portalLink displayTitle="false" title="Create New Financial Entity" url="financialEntityManagement.do?methodToCall=management&financialEntityHelper.reporterId=&coiDocId=">Financial Entity</portal:portalLink></li>
+    <li><portal:portalLink displayTitle="false" title="View/Edit Financial Entities" url="financialEntityManagement.do?methodToCall=editList&financialEntityHelper.reporterId=&coiDocId=">View/Edit Financial Entities</portal:portalLink></li>
   </ul>
+  <strong>My Disclosures </strong>
+  <ul class="chan">
+    <li><portal:portalLink displayTitle="false" title="Create Annual Disclosure" url="coiDisclosure.do?methodToCall=docHandler&command=initiate&docTypeName=CoiDisclosureDocument">Create Annual Disclosure</portal:portalLink></li>
+    <li><portal:portalLink displayTitle="false" title="Create Manual Disclosure" url="coiDisclosure.do?methodToCall=docHandler&command=initiate_14&docTypeName=CoiDisclosureDocument">Create Manual Disclosure<a id="FB_manual_coi_help_control" href="#FB_manual_coi_help_div" title="Coi Manual Disclosure">
+      <img src="${ConfigProperties.kra.externalizable.images.url}questionmark.jpg" alt="[Help]${altText}" style="border:none; width:16px; height:16px; vertical-align:middle;"></a></portal:portalLink></li>
+    <li><portal:portalLink displayTitle="false" title="New Award Disclosure" url="awardEventDisclosure.do?methodToCall=getNewAwardsForDisclosure">New Award Disclosure</portal:portalLink></li>
+    <li><portal:portalLink displayTitle="false" title="New Proposal Disclosure " url="proposalEventDisclosure.do?methodToCall=getNewProposalsForDisclosure">New Proposal Disclosure</portal:portalLink></li>
+    <li><portal:portalLink displayTitle="false" title="New Protocol Disclosure" url="protocolEventDisclosure.do?methodToCall=getNewProtocolsForDisclosure">New Protocol Disclosure</portal:portalLink></li>
+    <li>View/Edit Disclosure</li>
+  </ul>
+  <!--
+  <strong>Reporter Disclosure/FE </strong>
+  <ul class="chan">
+    <li>Financial Entity</li>
+    <li>Disclosure</li>
+    <li>View/Edit Disclosure</li>
+  </ul>
+  -->
 </div>
     <div style="display: none;">
           <div id="FB_manual_coi_help_div" style="overflow:auto;">

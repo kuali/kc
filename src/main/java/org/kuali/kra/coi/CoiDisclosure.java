@@ -75,7 +75,9 @@ public class CoiDisclosure extends KraPersistableBusinessObjectBase implements S
     private String disclosureDispositionCode; 
     private String disclosureStatusCode; 
     private Date expirationDate; 
-    private String moduleCode; 
+//    private String moduleCode; 
+    private String eventTypeCode; 
+    private String moduleItemKey; 
     private String reviewStatusCode; 
     private Integer discActiveStatus; 
     private CoiDisclosureDocument coiDisclosureDocument;
@@ -215,13 +217,13 @@ public class CoiDisclosure extends KraPersistableBusinessObjectBase implements S
         this.expirationDate = expirationDate;
     }
 
-    public String getModuleCode() {
-        return moduleCode;
-    }
-
-    public void setModuleCode(String moduleCode) {
-        this.moduleCode = moduleCode;
-    }
+//    public String getModuleCode() {
+//        return moduleCode;
+//    }
+//
+//    public void setModuleCode(String moduleCode) {
+//        this.moduleCode = moduleCode;
+//    }
 
     public String getReviewStatusCode() {
         return reviewStatusCode;
@@ -309,7 +311,7 @@ public class CoiDisclosure extends KraPersistableBusinessObjectBase implements S
         hashMap.put("disclosureDispositionCode", this.getDisclosureDispositionCode());
         hashMap.put("disclosureStatusCode", this.getDisclosureStatusCode());
         hashMap.put("expirationDate", this.getExpirationDate());
-        hashMap.put("moduleCode", this.getModuleCode());
+//        hashMap.put("moduleCode", this.getModuleCode());
         hashMap.put("reviewStatusCode", this.getReviewStatusCode());
         hashMap.put("discActiveStatus", this.getDiscActiveStatus());
         return hashMap;
@@ -467,27 +469,29 @@ public class CoiDisclosure extends KraPersistableBusinessObjectBase implements S
     }
 
     public boolean isProposalEvent() {
-        return StringUtils.equals(PROPOSAL_DISCL_MODULE_CODE, this.getModuleCode());
+        return StringUtils.equals(CoiDisclosureEventType.DEVELOPMENT_PROPOSAL, this.getEventTypeCode());
     }
     
     public boolean isInstitutionalProposalEvent() {
-        return StringUtils.equals(INSTITUTIONAL_PROPOSAL_DISCL_MODULE_CODE, this.getModuleCode());
+        return StringUtils.equals(CoiDisclosureEventType.INSTITUTIONAL_PROPOSAL, this.getEventTypeCode());
     }
     
     public boolean isProtocolEvent() {
-        return StringUtils.equals(PROTOCOL_DISCL_MODULE_CODE, this.getModuleCode());
+        return StringUtils.equals(CoiDisclosureEventType.IRB_PROTOCOL, this.getEventTypeCode());
     }
 
     public boolean isAwardEvent() {
-        return StringUtils.equals(AWARD_DISCL_MODULE_CODE, this.getModuleCode());
+        return StringUtils.equals(CoiDisclosureEventType.AWARD, this.getEventTypeCode());
     }
 
     public boolean isAnnualEvent() {
-        return StringUtils.equals(ANNUAL_DISCL_MODULE_CODE, this.getModuleCode());
+        return StringUtils.equals(CoiDisclosureEventType.ANNUAL, this.getEventTypeCode());
     }
 
     public boolean isManualEvent() {
-        return StringUtils.equals(MANUAL_DISCL_MODULE_CODE, this.getModuleCode());
+        return StringUtils.equals(CoiDisclosureEventType.MANUAL_AWARD, this.getEventTypeCode())
+                || StringUtils.equals(CoiDisclosureEventType.MANUAL_DEVELOPMENT_PROPOSAL, this.getEventTypeCode())
+                || StringUtils.equals(CoiDisclosureEventType.MANUAL_IRB_PROTOCOL, this.getEventTypeCode());
     }
 
     public String getCompleteMessage() {
@@ -607,5 +611,21 @@ public class CoiDisclosure extends KraPersistableBusinessObjectBase implements S
         
     }
     // end permissionable related override
+
+    public String getEventTypeCode() {
+        return eventTypeCode;
+    }
+
+    public void setEventTypeCode(String eventTypeCode) {
+        this.eventTypeCode = eventTypeCode;
+    }
+
+    public String getModuleItemKey() {
+        return moduleItemKey;
+    }
+
+    public void setModuleItemKey(String moduleItemKey) {
+        this.moduleItemKey = moduleItemKey;
+    }
 
  }

@@ -87,7 +87,7 @@
 					</td>
                     <td>
                       <div align="center">
-                        <a title="New Proposal Disclosure" href="coiDisclosure.do?methodToCall=newProjectDisclosure&disclosureHelper.moduleCode=11&disclosureHelper.newProjectId=${proposal.proposalNumber}&docTypeName=CoiDisclosureDocument">Report Coi</a>
+                        <a title="New Proposal Disclosure" href="coiDisclosure.do?methodToCall=newProjectDisclosure&disclosureHelper.eventTypeCode=2&disclosureHelper.newProjectId=${proposal.proposalNumber}&disclosureHelper.newModuleItemKey=${proposal.proposalNumber}&docTypeName=CoiDisclosureDocument">Report Coi</a>
                        </div>
                     </td>
                </tr>
@@ -121,7 +121,7 @@
 					</td>
                     <td>
                       <div align="center">
-                        <a title="New Proposal Disclosure" href="coiDisclosure.do?methodToCall=newProjectDisclosure&disclosureHelper.moduleCode=15&disclosureHelper.proposalType=ip&disclosureHelper.newProjectId=${proposal.proposalNumber}&docTypeName=CoiDisclosureDocument">Report Coi</a>
+                        <a title="New Proposal Disclosure" href="coiDisclosure.do?methodToCall=newProjectDisclosure&disclosureHelper.eventTypeCode=10&disclosureHelper.proposalType=ip&disclosureHelper.newProjectId=${proposal.proposalId}&disclosureHelper.newModuleItemKey=${proposal.proposalNumber}&docTypeName=CoiDisclosureDocument">Report Coi</a>
                        </div>
                     </td>
                </tr>

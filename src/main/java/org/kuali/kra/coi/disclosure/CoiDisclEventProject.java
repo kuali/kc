@@ -24,6 +24,7 @@ import org.kuali.kra.award.home.Award;
 import org.kuali.kra.bo.KraPersistableBusinessObjectBase;
 import org.kuali.kra.coi.CoiDiscDetail;
 import org.kuali.kra.coi.CoiDisclProject;
+import org.kuali.kra.coi.CoiDisclosureEventType;
 import org.kuali.kra.institutionalproposal.home.InstitutionalProposal;
 import org.kuali.kra.irb.Protocol;
 import org.kuali.kra.proposaldevelopment.bo.DevelopmentProposal;
@@ -81,19 +82,19 @@ public class CoiDisclEventProject implements Serializable {
     } 
 
     public boolean isProposalEvent() {
-        return StringUtils.equals(CoiDisclProject.PROPOSAL_EVENT, this.eventType);
+        return StringUtils.equals(CoiDisclosureEventType.DEVELOPMENT_PROPOSAL, this.eventType);
     }
     
     public boolean isInstitutionalProposalEvent() {
-        return StringUtils.equals(CoiDisclProject.INSTITUTIONAL_PROPOSAL_EVENT, this.eventType);
+        return StringUtils.equals(CoiDisclosureEventType.INSTITUTIONAL_PROPOSAL, this.eventType);
     }
     
     public boolean isAwardEvent() {
-        return StringUtils.equals(CoiDisclProject.AWARD_EVENT, this.eventType);
+        return StringUtils.equals(CoiDisclosureEventType.AWARD, this.eventType);
     }
     
     public boolean isProtocolEvent() {
-        return StringUtils.equals(CoiDisclProject.PROTOCOL_EVENT, this.eventType);
+        return StringUtils.equals(CoiDisclosureEventType.IRB_PROTOCOL, this.eventType);
     }
 
     public String getProjectId() {
