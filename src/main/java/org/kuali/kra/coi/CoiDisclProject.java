@@ -33,10 +33,10 @@ public class CoiDisclProject extends KraPersistableBusinessObjectBase {
      * Comment for <code>serialVersionUID</code>
      */
     private static final long serialVersionUID = -870946478393121916L;
-    public static final String PROPOSAL_EVENT = "1";
-    public static final String INSTITUTIONAL_PROPOSAL_EVENT = "4";
-    public static final String AWARD_EVENT = "2";
-    public static final String PROTOCOL_EVENT = "3";
+//    public static final String PROPOSAL_EVENT = "12";
+//    public static final String INSTITUTIONAL_PROPOSAL_EVENT = "14";
+//    public static final String AWARD_EVENT = "11";
+//    public static final String PROTOCOL_EVENT = "13";
     private Long coiDisclProjectsId; 
     private Long coiDisclosureId; 
     private String coiDisclosureNumber; 
@@ -52,7 +52,6 @@ public class CoiDisclProject extends KraPersistableBusinessObjectBase {
     private Date coiProjectEndDate; 
     private KualiDecimal coiProjectFundingAmount; 
     private String coiProjectRole; 
-    private boolean disclosureFlag;
     private ProposalType proposalType;
     private ProtocolType protocolType;
     
@@ -199,12 +198,7 @@ public class CoiDisclProject extends KraPersistableBusinessObjectBase {
     public void setProposalType(ProposalType proposalType) {
         this.proposalType = proposalType;
     }
-    public boolean isDisclosureFlag() {
-        return disclosureFlag;
-    }
-    public void setDisclosureFlag(boolean disclosureFlag) {
-        this.disclosureFlag = disclosureFlag;
-    }
+
     public List<CoiDiscDetail> getCoiDiscDetails() {
         return coiDiscDetails;
     }
@@ -219,15 +213,15 @@ public class CoiDisclProject extends KraPersistableBusinessObjectBase {
     }
     
     public boolean isProposalEvent() {
-        return StringUtils.equals(PROPOSAL_EVENT, this.disclosureEventType);
+        return StringUtils.equals(CoiDisclosureEventType.MANUAL_DEVELOPMENT_PROPOSAL, this.disclosureEventType);
     }
     
     public boolean isAwardEvent() {
-        return StringUtils.equals(AWARD_EVENT, this.disclosureEventType);
+        return StringUtils.equals(CoiDisclosureEventType.MANUAL_AWARD, this.disclosureEventType);
     }
     
     public boolean isProtocolEvent() {
-        return StringUtils.equals(PROTOCOL_EVENT, this.disclosureEventType);
+        return StringUtils.equals(CoiDisclosureEventType.MANUAL_IRB_PROTOCOL, this.disclosureEventType);
     }
     
     public String getProjectIdLabel() {
@@ -277,6 +271,9 @@ public class CoiDisclProject extends KraPersistableBusinessObjectBase {
 
     }
     public ProtocolType getProtocolType() {
+        if (StringUtils.isNotBlank(coiProjectType) && protocolType == null) {
+            this.refreshReferenceObject("protocolType");
+        }
         return protocolType;
     }
     public void setProtocolType(ProtocolType protocolType) {

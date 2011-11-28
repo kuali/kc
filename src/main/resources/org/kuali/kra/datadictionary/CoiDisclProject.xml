@@ -46,7 +46,6 @@
                 <ref bean="CoiDisclProject-coiProjectFundingAmount" />
                 <ref bean="CoiDisclProject-coiProjectRole" />
                 <ref bean="CoiDisclProject-versionNumber" />
-                <ref bean="CoiDisclProject-disclosureFlag" />
                 
             </list>
         </property>
@@ -270,15 +269,6 @@
         </property>
         <property name="summary" value="Coi Project Role" />
         <property name="description" value="Coi Project Role" />
-    </bean>
-    <bean id="CoiDisclProject-disclosureFlag" parent="CoiDisclProject-disclosureFlag-parentBean" />
-    <bean id="CoiDisclProject-disclosureFlag-parentBean" abstract="true" parent="AttributeReferenceDummy-genericBoolean" >
-        <property name="name" value="disclosureFlag" />
-        <property name="label" value="Disclosure" />
-        <property name="shortLabel" value="Disclosure" />
-        <property name="required" value="true" />
-        <property name="summary" value="Disclosure Flag" />
-        <property name="description" value="Disclosure Flag" />
     </bean>
 
     <bean id="CoiDisclProject-versionNumber" parent="CoiDisclProject-versionNumber-parentBean" />

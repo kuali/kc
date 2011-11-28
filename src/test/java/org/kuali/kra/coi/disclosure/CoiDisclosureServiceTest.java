@@ -31,6 +31,7 @@ import org.kuali.kra.bo.FundingSourceType;
 import org.kuali.kra.coi.CoiDiscDetail;
 import org.kuali.kra.coi.CoiDisclProject;
 import org.kuali.kra.coi.CoiDisclosure;
+import org.kuali.kra.coi.CoiDisclosureEventType;
 import org.kuali.kra.coi.personfinancialentity.FinancialEntityService;
 import org.kuali.kra.coi.personfinancialentity.PersonFinIntDisclosure;
 import org.kuali.kra.institutionalproposal.contacts.InstitutionalProposalPerson;
@@ -278,7 +279,7 @@ public class CoiDisclosureServiceTest extends KcUnitTestBase {
                 
             }
         };
-        coiDisclosure.setModuleCode(CoiDisclosure.ANNUAL_DISCL_MODULE_CODE);
+        coiDisclosure.setEventTypeCode(CoiDisclosureEventType.ANNUAL);
 
         coiDisclosureService.setBusinessObjectService(businessObjectService);
         coiDisclosureService.setFinancialEntityService(financialEntityService);
@@ -403,10 +404,10 @@ public class CoiDisclosureServiceTest extends KcUnitTestBase {
                 
             }
         };
-        coiDisclosure.setModuleCode(CoiDisclosure.PROPOSAL_DISCL_MODULE_CODE);
+        coiDisclosure.setEventTypeCode(CoiDisclosureEventType.DEVELOPMENT_PROPOSAL);
         coiDisclosure.setCoiDiscDetails(new ArrayList<CoiDiscDetail>());
         coiDisclosure.setPersonId("10000000001");
-        coiDisclosure.getCoiDiscDetails().add(createNewCoiDiscDetail(CoiDisclosure.PROPOSAL_DISCL_MODULE_CODE, personFinIntDisclosure, CoiDisclProject.PROPOSAL_EVENT));
+        coiDisclosure.getCoiDiscDetails().add(createNewCoiDiscDetail(CoiDisclosure.PROPOSAL_DISCL_MODULE_CODE, personFinIntDisclosure, CoiDisclosureEventType.DEVELOPMENT_PROPOSAL));
         coiDisclosureService.setBusinessObjectService(businessObjectService);
         coiDisclosureService.setFinancialEntityService(financialEntityService);
         coiDisclosureService.updateDisclosureDetails(coiDisclosure);
@@ -476,14 +477,14 @@ public class CoiDisclosureServiceTest extends KcUnitTestBase {
                 
             }
         };
-        coiDisclosure.setModuleCode(CoiDisclosure.PROPOSAL_DISCL_MODULE_CODE);
+        coiDisclosure.setEventTypeCode(CoiDisclosureEventType.DEVELOPMENT_PROPOSAL);
 
         coiDisclosureService.setBusinessObjectService(businessObjectService);
         coiDisclosureService.setFinancialEntityService(financialEntityService);
         coiDisclosureService.initializeDisclosureDetails(coiDisclosure, PROJECT_ID);
         Assert.assertEquals(coiDisclosure.getCoiDiscDetails().size(), 1);
         Assert.assertEquals(coiDisclosure.getCoiDiscDetails().get(0).getEntityNumber(), ENTITY_NUMBER);
-        Assert.assertEquals(coiDisclosure.getCoiDiscDetails().get(0).getProjectType(), CoiDisclProject.PROPOSAL_EVENT);
+        Assert.assertEquals(coiDisclosure.getCoiDiscDetails().get(0).getProjectType(), CoiDisclosureEventType.DEVELOPMENT_PROPOSAL);
 
     }
 
@@ -513,7 +514,7 @@ public class CoiDisclosureServiceTest extends KcUnitTestBase {
         coiDisclProject.setCoiDisclosureId(1L);
         coiDisclProject.setCoiProjectId(PROJECT_ID);
 
-        CoiDiscDetail coiDisDetail = createNewCoiDiscDetail(CoiDisclosure.MANUAL_DISCL_MODULE_CODE, personFinIntDisclosure, CoiDisclProject.PROPOSAL_EVENT);
+        CoiDiscDetail coiDisDetail = createNewCoiDiscDetail(CoiDisclosure.MANUAL_DISCL_MODULE_CODE, personFinIntDisclosure, CoiDisclosureEventType.MANUAL_DEVELOPMENT_PROPOSAL);
         CoiDisclosure coiDisclosure = new CoiDisclosure() {
             public void initCoiDisclosureNumber()  {
                 this.setCoiDisclosureNumber("1");
@@ -527,10 +528,12 @@ public class CoiDisclosureServiceTest extends KcUnitTestBase {
                 
             }
         };
-        coiDisclosure.setModuleCode(CoiDisclosure.MANUAL_DISCL_MODULE_CODE);
+      //  coiDisclosure.setModuleCode(CoiDisclosure.MANUAL_DISCL_MODULE_CODE);
+        coiDisclosure.setEventTypeCode(CoiDisclosureEventType.MANUAL_DEVELOPMENT_PROPOSAL);
         coiDisclosure.setCoiDiscDetails(new ArrayList<CoiDiscDetail>());
         coiDisclosure.getCoiDiscDetails().add(coiDisDetail);
         coiDisclProject.setCoiDisclosure(coiDisclosure);
+        coiDisclosure.setPersonId(PERSON_ID);
         coiDisDetail.setPersonFinIntDisclosure(personFinIntDisclosure);
         final List<CoiDiscDetail> coiDisDetails = new ArrayList<CoiDiscDetail>();
         coiDisDetails.add(coiDisDetail);
@@ -567,8 +570,8 @@ public class CoiDisclosureServiceTest extends KcUnitTestBase {
         coiDisclProject.setCoiDisclosureId(1L);
         coiDisclProject.setCoiProjectId(PROJECT_ID);
 
-        CoiDiscDetail coiDisDetail = createNewCoiDiscDetail(CoiDisclosure.MANUAL_DISCL_MODULE_CODE, personFinIntDisclosure, CoiDisclProject.PROPOSAL_EVENT);
-        CoiDiscDetail coiDisDetail1 = createNewCoiDiscDetail(CoiDisclosure.MANUAL_DISCL_MODULE_CODE, personFinIntDisclosure1, CoiDisclProject.PROPOSAL_EVENT);
+        CoiDiscDetail coiDisDetail = createNewCoiDiscDetail(CoiDisclosure.MANUAL_DISCL_MODULE_CODE, personFinIntDisclosure, CoiDisclosureEventType.MANUAL_DEVELOPMENT_PROPOSAL);
+        CoiDiscDetail coiDisDetail1 = createNewCoiDiscDetail(CoiDisclosure.MANUAL_DISCL_MODULE_CODE, personFinIntDisclosure1, CoiDisclosureEventType.MANUAL_DEVELOPMENT_PROPOSAL);
         CoiDisclosure coiDisclosure = new CoiDisclosure() {
             public void initCoiDisclosureNumber()  {
                 this.setCoiDisclosureNumber("1");
@@ -582,7 +585,8 @@ public class CoiDisclosureServiceTest extends KcUnitTestBase {
                 
             }
         };
-        coiDisclosure.setModuleCode(CoiDisclosure.MANUAL_DISCL_MODULE_CODE);
+ //       coiDisclosure.setModuleCode(CoiDisclosure.MANUAL_DISCL_MODULE_CODE);
+        coiDisclosure.setEventTypeCode(CoiDisclosureEventType.MANUAL_DEVELOPMENT_PROPOSAL);
         coiDisclProject.setCoiDisclosure(coiDisclosure);
         final List<CoiDiscDetail> coiDisDetails = new ArrayList<CoiDiscDetail>();
         coiDisDetails.add(coiDisDetail);
@@ -616,10 +620,10 @@ public class CoiDisclosureServiceTest extends KcUnitTestBase {
         PersonFinIntDisclosure personFinIntDisclosure1 = createPersonFinIntDisclosure(PERSON_ID, ENTITY_NUMBER_2,ENTITY_NAME_2);
 
         final CoiDisclEventProject coiDisclProject = new CoiDisclEventProject();
-        coiDisclProject.setEventType(CoiDisclProject.PROPOSAL_EVENT);
+        coiDisclProject.setEventType(CoiDisclosureEventType.DEVELOPMENT_PROPOSAL);
  
-        CoiDiscDetail coiDisDetail = createNewCoiDiscDetail(CoiDisclosure.ANNUAL_DISCL_MODULE_CODE, personFinIntDisclosure, CoiDisclProject.PROPOSAL_EVENT);
-        CoiDiscDetail coiDisDetail1 = createNewCoiDiscDetail(CoiDisclosure.ANNUAL_DISCL_MODULE_CODE, personFinIntDisclosure1, CoiDisclProject.PROPOSAL_EVENT);
+        CoiDiscDetail coiDisDetail = createNewCoiDiscDetail(CoiDisclosure.ANNUAL_DISCL_MODULE_CODE, personFinIntDisclosure, CoiDisclosureEventType.DEVELOPMENT_PROPOSAL);
+        CoiDiscDetail coiDisDetail1 = createNewCoiDiscDetail(CoiDisclosure.ANNUAL_DISCL_MODULE_CODE, personFinIntDisclosure1, CoiDisclosureEventType.DEVELOPMENT_PROPOSAL);
         CoiDisclosure coiDisclosure = new CoiDisclosure() {
             public void initCoiDisclosureNumber()  {
                 this.setCoiDisclosureNumber("1");
@@ -633,7 +637,7 @@ public class CoiDisclosureServiceTest extends KcUnitTestBase {
                 
             }
         };
-        coiDisclosure.setModuleCode(CoiDisclosure.ANNUAL_DISCL_MODULE_CODE);
+        coiDisclosure.setEventTypeCode(CoiDisclosureEventType.ANNUAL);
         final List<CoiDiscDetail> coiDisDetails = new ArrayList<CoiDiscDetail>();
         coiDisDetails.add(coiDisDetail);
         coiDisDetails.add(coiDisDetail1);
@@ -789,6 +793,7 @@ public class CoiDisclosureServiceTest extends KcUnitTestBase {
        
        Award award = new Award();
        award.setAwardNumber("1");
+       award.setAwardId(1L);
        award.setSponsorCode("000340");
        award.setStatusCode(1);
        awardPerson.setAward(award);
@@ -799,6 +804,17 @@ public class CoiDisclosureServiceTest extends KcUnitTestBase {
                fieldValues.put("personId", PERSON_ID);
                one(businessObjectService).findMatching(AwardPerson.class, fieldValues);
                will(returnValue(awardPersons));
+
+           }
+       });
+       final List<Award> awards = new ArrayList<Award>();
+       awards.add(award);
+       context.checking(new Expectations() {
+           {
+               Map<String, Object> values = new HashMap<String, Object>();
+               values.put("awardNumber", "1");
+               one(businessObjectService).findMatchingOrderBy(Award.class, values, "sequenceNumber", false);
+               will(returnValue(awards));
 
            }
        });

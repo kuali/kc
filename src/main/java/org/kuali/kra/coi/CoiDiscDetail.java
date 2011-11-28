@@ -47,10 +47,13 @@ public class CoiDiscDetail extends KraPersistableBusinessObjectBase implements C
     private PersonFinIntDisclosure personFinIntDisclosure;
     private CoiEntityStatusCode coiEntityStatusCode; 
     private CoiDisclosure coiDisclosure; 
-    private String projectType; 
+    // TODO : in general this projectType is same as cisclosure eventtypecode.
+    // the only exception is annual event which may have several project type.
+    private String projectType;
+    // fk to projects.  easire to retrieve project, especially projects are versioned.  moduleitemkey is not enough
+    private String projectIdFk; 
     // transient data for UI
     // TODO : investigate to come up with super class/interface for disclose projects (PD/PROTOCOL/AWD) purpose ?
-    private Protocol protocol;
     
     public CoiDiscDetail() { 
 
@@ -213,14 +216,6 @@ public class CoiDiscDetail extends KraPersistableBusinessObjectBase implements C
     public void setPersonFinIntDisclosure(PersonFinIntDisclosure personFinIntDisclosure) {
         this.personFinIntDisclosure = personFinIntDisclosure;
     }
-
-    public Protocol getProtocol() {
-        return protocol;
-    }
-
-    public void setProtocol(Protocol protocol) {
-        this.protocol = protocol;
-    }
     
     public int compareTo(CoiDiscDetail other) {
         int result = 0;
@@ -249,19 +244,27 @@ public class CoiDiscDetail extends KraPersistableBusinessObjectBase implements C
     }
 
     public boolean isProposalEvent() {
-        return StringUtils.equals(CoiDisclProject.PROPOSAL_EVENT, this.projectType);
+        return StringUtils.equals(CoiDisclosureEventType.DEVELOPMENT_PROPOSAL, this.projectType);
     }
     
     public boolean isInstitutionalProposalEvent() {
-        return StringUtils.equals(CoiDisclProject.INSTITUTIONAL_PROPOSAL_EVENT, this.projectType);
+        return StringUtils.equals(CoiDisclosureEventType.INSTITUTIONAL_PROPOSAL, this.projectType);
     }
     
     public boolean isAwardEvent() {
-        return StringUtils.equals(CoiDisclProject.AWARD_EVENT, this.projectType);
+        return StringUtils.equals(CoiDisclosureEventType.AWARD, this.projectType);
     }
     
     public boolean isProtocolEvent() {
-        return StringUtils.equals(CoiDisclProject.PROTOCOL_EVENT, this.projectType);
+        return StringUtils.equals(CoiDisclosureEventType.IRB_PROTOCOL, this.projectType);
+    }
+
+    public String getProjectIdFk() {
+        return projectIdFk;
+    }
+
+    public void setProjectIdFk(String projectIdFk) {
+        this.projectIdFk = projectIdFk;
     }
 
 

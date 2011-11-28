@@ -76,7 +76,7 @@
 				  </td>
                     <td>
                       <div align="center">
-                        <a title="New Protocol Disclosure" href="coiDisclosure.do?methodToCall=newProjectDisclosure&disclosureHelper.moduleCode=12&disclosureHelper.newProjectId=${protocol.protocolId}&docTypeName=CoiDisclosureDocument">Report Coi</a>                        
+                        <a title="New Protocol Disclosure" href="coiDisclosure.do?methodToCall=newProjectDisclosure&disclosureHelper.eventTypeCode=3&disclosureHelper.newProjectId=${protocol.protocolId}&disclosureHelper.newModuleItemKey=${protocol.protocolNumber}&docTypeName=CoiDisclosureDocument">Report Coi</a>                        
                       </div>
                     </td>
                </tr>
