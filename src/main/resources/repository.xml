@@ -2210,7 +2210,6 @@
         <field-descriptor name="message" column="MESSAGE" jdbc-type="VARCHAR" />
         <field-descriptor name="promptUser" column="PROMPT_USER" jdbc-type="CHAR" conversion="org.kuali.rice.kns.util.OjbCharBooleanConversion" />
         <field-descriptor name="sendNotification" column="SEND_NOTIFICATION" jdbc-type="CHAR" conversion="org.kuali.rice.kns.util.OjbCharBooleanConversion" />
-        <field-descriptor name="systemGenerated" column="SYSTEM_GENERATED" jdbc-type="CHAR" conversion="org.kuali.rice.kns.util.OjbCharBooleanConversion" />
         <field-descriptor name="updateUser" column="UPDATE_USER" jdbc-type="VARCHAR" />
         <field-descriptor name="updateTimestamp" column="UPDATE_TIMESTAMP" jdbc-type="TIMESTAMP" />
         <field-descriptor name="versionNumber" column="VER_NBR" jdbc-type="BIGINT" locking="true" />

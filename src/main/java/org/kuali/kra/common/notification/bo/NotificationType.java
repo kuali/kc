@@ -36,7 +36,6 @@ public class NotificationType extends KraPersistableBusinessObjectBase {
     private String subject;
     private String message;
     private boolean promptUser;
-    private boolean systemGenerated;
     private boolean sendNotification;
     
     private CoeusModule coeusModule;
@@ -99,14 +98,6 @@ public class NotificationType extends KraPersistableBusinessObjectBase {
     public void setPromptUser(boolean promptUser) {
         this.promptUser = promptUser;
     }
-
-    public boolean getSystemGenerated() {
-        return systemGenerated;
-    }
-
-    public void setSystemGenerated(boolean systemGenerated) {
-        this.systemGenerated = systemGenerated;
-    }
     
     public boolean getSendNotification() {
         return sendNotification;
@@ -142,7 +133,6 @@ public class NotificationType extends KraPersistableBusinessObjectBase {
         propMap.put("subject", getSubject());
         propMap.put("message", getMessage());
         propMap.put("promptUser", getPromptUser());
-        propMap.put("systemGenerated", getSystemGenerated());
         propMap.put("sendNotification", getSendNotification());
         return propMap;
     }
