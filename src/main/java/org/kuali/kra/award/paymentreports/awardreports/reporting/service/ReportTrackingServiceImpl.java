@@ -15,6 +15,7 @@
  */
 package org.kuali.kra.award.paymentreports.awardreports.reporting.service;
 
+import java.sql.Date;
 import java.text.ParseException;
 import java.util.ArrayList;
 import java.util.Collection;
@@ -190,11 +191,34 @@ public class ReportTrackingServiceImpl implements ReportTrackingService {
         reportTracking.setSponsorAwardNumber(award.getSponsorAwardNumber());
         reportTracking.setSponsorCode(award.getSponsorCode());
         reportTracking.setTitle(award.getTitle());
-        /**
-         *@ToDo this should be whatever the base date is as selected by the user. 
-         */
-        //reportTracking.setBaseDate(baseDate)
+        reportTracking.setBaseDate(calculateBaseDate(awardTerm));
         return reportTracking;
+    }
+    
+    /**
+     * 
+     * This method calculates the the frequency base date based on the award term's selected base code.
+     * It is a duplication of the logic on awardReportClasses.tag.
+     * If this function requires updating, you'll need to update the javascript in the tag file.
+     * @param awardTerm
+     * @return
+     */
+    protected Date calculateBaseDate(AwardReportTerm awardTerm) { 
+        Date returnDate = null;
+        if (awardTerm != null && awardTerm.getFrequencyBaseCode() != null) {
+            if (StringUtils.equalsIgnoreCase(awardTerm.getFrequencyBaseCode(), "1")) {
+                returnDate = awardTerm.getAward().getAwardExecutionDate();
+            } else if (StringUtils.equalsIgnoreCase(awardTerm.getFrequencyBaseCode(), "2")) {
+                returnDate = awardTerm.getAward().getAwardEffectiveDate();
+            } else if (StringUtils.equalsIgnoreCase(awardTerm.getFrequencyBaseCode(), "3")) {
+                returnDate = awardTerm.getAward().getLastAwardAmountInfo().getObligationExpirationDate();
+            } else if (StringUtils.equalsIgnoreCase(awardTerm.getFrequencyBaseCode(), "4")) {
+                returnDate = awardTerm.getAward().getLastAwardAmountInfo().getFinalExpirationDate();
+            } else if (StringUtils.equalsIgnoreCase(awardTerm.getFrequencyBaseCode(), "5")) {
+                returnDate = awardTerm.getAward().getLastAwardAmountInfo().getCurrentFundEffectiveDate();
+            }
+        }
+        return returnDate;
     }
     
     /**
