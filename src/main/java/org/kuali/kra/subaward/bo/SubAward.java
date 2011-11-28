@@ -16,12 +16,14 @@
 package org.kuali.kra.subaward.bo;
 
 
+import org.kuali.kra.SequenceOwner;
 import org.kuali.kra.award.home.AwardType;
 import org.kuali.kra.bo.KcPerson;
 import org.kuali.kra.bo.KraPersistableBusinessObjectBase;
 import org.kuali.kra.bo.Organization;
 import org.kuali.kra.bo.Rolodex;
 import org.kuali.kra.bo.Unit;
+import org.kuali.kra.bo.versioning.VersionStatus;
 import org.kuali.kra.common.permissions.Permissionable;
 import org.kuali.kra.infrastructure.Constants;
 import org.kuali.kra.infrastructure.KraServiceLocator;
@@ -42,7 +44,7 @@ import org.kuali.kra.subaward.document.SubAwardDocument;
 import org.kuali.rice.kns.util.TypedArrayList;
 import org.kuali.kra.subaward.customdata.SubAwardCustomData;
 
-public class SubAward extends KraPersistableBusinessObjectBase implements Permissionable{ 
+public class SubAward extends KraPersistableBusinessObjectBase implements Permissionable,SequenceOwner<SubAward>{ 
     
     private static final long serialVersionUID = 1L;
 
@@ -83,7 +85,17 @@ public class SubAward extends KraPersistableBusinessObjectBase implements Permis
     private SubAwardStatus subAwardStatus;
     private AwardType subAwardType;
     private KcPerson kcPerson;
+    private String subAwardSequenceStatus;
+    private static boolean newVersion;
     
+    public String getSubAwardSequenceStatus() {
+        return subAwardSequenceStatus;
+    }
+
+    public void setSubAwardSequenceStatus(String subAwardSequenceStatus) {
+        this.subAwardSequenceStatus = subAwardSequenceStatus;
+    }
+
     public KcPerson getKcPerson() {
         return kcPerson;
     }
@@ -168,9 +180,15 @@ public class SubAward extends KraPersistableBusinessObjectBase implements Permis
         super();
         
         initializeCollections();
-
+        initialize();
+        
     } 
     
+    protected void initialize() {
+        setSequenceNumber(1);
+        subAwardSequenceStatus = VersionStatus.PENDING.name();
+        setNewVersion(false);
+    }
     public Integer getSubAwardId() {
         return subAwardId;
     }
@@ -536,9 +554,65 @@ public class SubAward extends KraPersistableBusinessObjectBase implements Permis
             qualifiedRoleAttributes.put("documentNumber", getSubAwardDocument().getDocumentNumber());
         
     }
+    /**
+     * @see org.kuali.kra.SequenceOwner#incrementSequenceNumber()
+     */
+    public void incrementSequenceNumber() {
+        this.sequenceNumber++;
+    }
+    /**
+     * @see org.kuali.kra.SequenceOwner#getOwnerSequenceNumber()
+     */
+    @Override
+    public void setSequenceOwner(SubAward newlyVersionedOwner) {
+        // TODO Auto-generated method stub
+        
+    }
+    /**
+     * @see org.kuali.kra.SequenceAssociate#getSequenceOwner()
+     */
+    @Override
+    public SubAward getSequenceOwner() {
+        return this;
+    }
+    /**
+     * @see org.kuali.kra.Sequenceable#resetPersistenceState()
+     */
+    @Override
+    public void resetPersistenceState() {
+       this.subAwardId=null;
+        
+    }
+
+    @Override
+    public Integer getOwnerSequenceNumber() {
+        return null;
+    }
+
+    @Override
+    public String getVersionNameField() {
+        return "subAwardCode";
+    }
 
 
   
-    
+    /**
+     * sets newVersion to specified value
+     * @param newVersion the newVersion to be set
+     */
+    public void setNewVersion (boolean newVersion)
+    {
+        this.newVersion = newVersion;
+       
+    }
+
+    /**
+     * Gets the newVersion attribute
+     * @return Returns the newVersion attribute
+     */
+    public boolean getNewVersion ()
+    {
+        return this.newVersion;
+    }
     
 }

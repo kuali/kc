@@ -192,11 +192,13 @@ public class ProtocolPersonnelAction extends ProtocolAction {
      */
     private ActionForward printAttachmentProtocol(ActionMapping mapping, ProtocolForm form, HttpServletResponse response, ProtocolAttachmentBase attachment) throws Exception {
 
+       
         if (attachment == null) {
             return mapping.findForward(Constants.MAPPING_BASIC);
         }
         final AttachmentFile file = attachment.getFile();
-        byte[] attachmentFile =null;
+       
+       /* byte[] attachmentFile =null;
         String attachmentFileType=file.getType().replace("\"", "");
         if(attachmentFileType.equalsIgnoreCase(WatermarkConstants.ATTACHMENT_TYPE_PDF)){
             attachmentFile=getProtocolAttachmentFile(form,attachment);
@@ -205,7 +207,8 @@ public class ProtocolPersonnelAction extends ProtocolAction {
             else{
                 this.streamToResponse(file.getData(), getValidHeaderString(file.getName()), getValidHeaderString(file.getType()), response);    }
             return RESPONSE_ALREADY_HANDLED;
-        }
+        }*/
+        
         this.streamToResponse(file.getData(), getValidHeaderString(file.getName()), getValidHeaderString(file.getType()), response);
         return RESPONSE_ALREADY_HANDLED;
     }

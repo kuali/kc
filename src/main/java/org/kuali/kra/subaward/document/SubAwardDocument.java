@@ -18,10 +18,16 @@ package org.kuali.kra.subaward.document;
 import java.util.ArrayList;
 import java.util.List;
 
+import org.kuali.kra.service.VersionHistoryService;
 import org.kuali.kra.subaward.bo.SubAward;
+import org.kuali.kra.bo.versioning.VersionStatus;
 import org.kuali.kra.document.ResearchDocumentBase;
+import org.kuali.kra.infrastructure.KraServiceLocator;
+import org.kuali.rice.kew.dto.DocumentRouteStatusChangeDTO;
+import org.kuali.rice.kew.util.KEWConstants;
 import org.kuali.rice.kns.document.Copyable;
 import org.kuali.rice.kns.document.SessionDocument;
+import org.kuali.rice.kns.util.GlobalVariables;
 import org.kuali.rice.kns.workflow.service.KualiWorkflowDocument;
 
 public class SubAwardDocument extends ResearchDocumentBase implements  Copyable, SessionDocument{
@@ -30,12 +36,11 @@ public class SubAwardDocument extends ResearchDocumentBase implements  Copyable,
      * Comment for <code>serialVersionUID</code>
      */
     private static final long serialVersionUID = 5454534590787613256L;
-    
+    private transient boolean documentSaveAfterVersioning;
     private List<SubAward> subAwardList;    
     public static final String DOCUMENT_TYPE_CODE = "SAWD";
     @Override
     public String getDocumentTypeCode() {
-        // TODO Auto-generated method stub
         return DOCUMENT_TYPE_CODE;
     }
     /**
@@ -58,7 +63,27 @@ public class SubAwardDocument extends ResearchDocumentBase implements  Copyable,
         return subAwardList;
     }    
 
-   
+    /**
+     * @see org.kuali.rice.kns.document.DocumentBase#doRouteStatusChange(org.kuali.rice.kew.dto.DocumentRouteStatusChangeDTO)
+     */
+    @Override
+    public void doRouteStatusChange(DocumentRouteStatusChangeDTO statusChangeEvent) {
+        super.doRouteStatusChange(statusChangeEvent);
+        
+        String newStatus = statusChangeEvent.getNewRouteStatus();
+        String oldStatus = statusChangeEvent.getOldRouteStatus();
+        
+        if (KEWConstants.ROUTE_HEADER_FINAL_CD.equalsIgnoreCase(newStatus)) {
+            getVersionHistoryService().updateVersionHistoryOnRouteToFinal(getSubAward(), VersionStatus.ACTIVE, GlobalVariables.getUserSession().getPrincipalName());
+        }
+        if (newStatus.equalsIgnoreCase(KEWConstants.ROUTE_HEADER_CANCEL_CD) || newStatus.equalsIgnoreCase(KEWConstants.ROUTE_HEADER_DISAPPROVED_CD)) {
+            getVersionHistoryService().updateVersionHistoryOnCancel(getSubAward(), VersionStatus.CANCELED, GlobalVariables.getUserSession().getPrincipalName());
+        }
+        
+        for (SubAward subAward : subAwardList) {
+            subAward.setSubAwardDocument(this);
+        }
+    }
     /**
      * This method specifies if this document may be edited; i.e. it's only initiated or saved
      * @return
@@ -72,4 +97,25 @@ public class SubAwardDocument extends ResearchDocumentBase implements  Copyable,
         subAwardList = new ArrayList<SubAward>();
         subAwardList.add(new SubAward());       
     }
+    /**
+     * @return
+     */
+    public boolean isDocumentSaveAfterVersioning() {
+        return documentSaveAfterVersioning;
+    }
+    
+    /**
+     * @param documentSaveAfterVersioning
+     */
+    public void setDocumentSaveAfterSubAwardLookupEditOrVersion(boolean documentSaveAfterVersioning) {
+        this.documentSaveAfterVersioning = documentSaveAfterVersioning;
+    }
+    /**
+     * @return
+     */
+    protected VersionHistoryService getVersionHistoryService() {
+        return KraServiceLocator.getService(VersionHistoryService.class);
+    }
+
+    
 }

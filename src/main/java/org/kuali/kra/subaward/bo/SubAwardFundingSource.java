@@ -15,7 +15,6 @@
  */
 package org.kuali.kra.subaward.bo;
 
-import org.kuali.kra.bo.KraPersistableBusinessObjectBase;
 
 import java.sql.Date;
 import java.util.LinkedHashMap;
@@ -25,14 +24,13 @@ import org.kuali.kra.award.home.AwardAmountInfo;
 import org.kuali.rice.kns.util.KualiDecimal;
 
 
-public class SubAwardFundingSource extends KraPersistableBusinessObjectBase { 
+public class SubAwardFundingSource extends SubAwardAssociate { 
     
     private static final long serialVersionUID = 1L;
 
     private Integer subAwardFundingSourceId; 
     private Integer subAwardId; 
     private String subAwardCode; 
-    private Integer sequenceNumber; 
     private Long awardId; 
     private String accountNumber;
     private Integer statusCode;
@@ -102,23 +100,6 @@ public class SubAwardFundingSource extends KraPersistableBusinessObjectBase {
         this.subAwardCode = subAwardCode;
     }
 
-    public Integer getSequenceNumber() {
-        return sequenceNumber;
-    }
-
-    public void setSequenceNumber(Integer sequenceNumber) {
-        this.sequenceNumber = sequenceNumber;
-    }
-
-
-
-    public SubAward getSubAward() {
-        return subAward;
-    }
-
-    public void setSubAward(SubAward subAward) {
-        this.subAward = subAward;
-    }
     
     public Date getObligationExpirationDate() {
         return obligationExpirationDate;
@@ -166,6 +147,11 @@ public class SubAwardFundingSource extends KraPersistableBusinessObjectBase {
     }
     public String getAwardNumber() {
         return awardNumber;
+    }
+    @Override
+    public void resetPersistenceState() {
+
+        this.subAwardFundingSourceId = null;
     }
     
 }

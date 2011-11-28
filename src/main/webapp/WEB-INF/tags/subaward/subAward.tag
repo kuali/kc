@@ -29,7 +29,7 @@
         	<tr>
 				<th><div align="right"><kul:htmlAttributeLabel attributeEntry="${subAwardAttributes.subAwardId}" /></div></th>
                 <td>
-                    ${document.subAwardList[0].subAwardId}&nbsp; 
+                    ${KualiForm.subAwardDocument.subAward.subAwardCode}&nbsp; 
                       
                      <%--  <kul:htmlControlAttribute property="document.subAwardList[0].subAwardId" readOnly="${readOnly}" attributeEntry="${subAwardAttributes.subAwardId}" /> --%>
                 </td>
@@ -46,7 +46,7 @@
 				<th>
 					<div align="right">Version:</div></th>
 				
-					<td>&nbsp; </td>              
+					<td>${KualiForm.subAwardDocument.subAward.sequenceNumber}&nbsp; </td>              
 				<th><div align="right"><kul:htmlAttributeLabel attributeEntry="${subAwardAttributes.organizationId}" /></div></th>
                 <td>
                 <kul:htmlControlAttribute property="document.subAwardList[0].organization.organizationName" readOnly="${readOnly}" attributeEntry="${subAwardAttributes.organizationId}" />
