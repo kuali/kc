@@ -40,7 +40,6 @@ public final class KeyConstants {
     
     // Notification
     public static final String ERROR_NOTIFICATION_MODULE_CODE_ACTION_CODE_COMBINATION_EXISTS = "error.notification.moduleCode.actionCode.combination.exists";
-    public static final String ERROR_NOTIFICATION_PROMPT_USER_SYSTEM_GENERATED_CANNOT_BOTH_BE_TRUE = "error.notification.promptUser.systemGenerated.cannot.both.be.true";
     public static final String ERROR_NOTIFICATION_ROLE_NAME_EXISTS = "error.notification.roleNamespace.roleName.exists";
     
     // Special Review
