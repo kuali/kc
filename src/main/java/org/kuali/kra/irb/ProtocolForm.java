@@ -169,13 +169,13 @@ public class ProtocolForm extends KraTransactionalDocumentFormBase implements Pe
             String principalId = GlobalVariables.getUserSession().getPrincipalId();
             ProtocolSubmission submission = getProtocolDocument().getProtocol().getProtocolSubmission();
             boolean isUserOnlineReviewer = onlineReviewService.isProtocolReviewer(principalId, false, submission);
-            boolean isProtocolInStateToBeReviewed = onlineReviewService.isProtocolInStateToBeReviewed(getProtocolDocument().getProtocol());
             boolean isUserIrbAdmin = getKraAuthorizationService().hasRole(GlobalVariables.getUserSession().getPrincipalId(), "KC-UNT", "IRB Administrator"); 
-            onlineReviewTabEnabled = isProtocolInStateToBeReviewed && (isUserOnlineReviewer || isUserIrbAdmin);
+            onlineReviewTabEnabled = (isUserOnlineReviewer || isUserIrbAdmin) 
+                    && onlineReviewService.isProtocolInStateToBeReviewed(getProtocolDocument().getProtocol());
         }
         
-            //We have to copy the HeaderNavigation elements into a new collection as the 
-            //List returned by DD is it's cached copy of the header navigation list.
+        //We have to copy the HeaderNavigation elements into a new collection as the 
+        //List returned by DD is it's cached copy of the header navigation list.
         for (HeaderNavigation nav : navigation) {
             if (StringUtils.equals(nav.getHeaderTabNavigateTo(),ONLINE_REVIEW_NAV_TO)) {
                 nav.setDisabled(!onlineReviewTabEnabled);
