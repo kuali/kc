@@ -197,12 +197,14 @@
 			<table cellpadding="0" cellspacing="0" class="datatable-100" style="width: 100%">
 				<tr>
 					<td height="30" colspan="${headerColspan}" class="infoline" style="text-align: center;">
+					  <div class="customSearchButtons">
 				        <a class="showHideSearch hideSearch" onclick="toggleSearchTable(this);">show or hide search details</a>
 						<a href="#customSelection" id="customSelLink"><img src="${ConfigProperties.kra.externalizable.images.url}buttonsmall-changeview.gif" alt="Change view"/></a>
 						<!--  hidden image used by fancybox.close to call updateView on close -->
 						${kfunc:registerEditableProperty(KualiForm, "methodToCall.resetCustomView")}			  
 				  		<html:image styleId="onChangeViewClose" property="methodToCall.updateView" style="display:none;"
-				     		src="${ConfigProperties.kra.externalizable.images.url}tinybutton-updateview.gif" styleClass="tinybutton"/>						
+				     		src="${ConfigProperties.kra.externalizable.images.url}tinybutton-updateview.gif" styleClass="tinybutton"/>
+				      </div>						
 					</td>				
 				</tr>			
 			</table>
@@ -262,7 +264,7 @@
 			    cursor: pointer;
 			  }
 			  .showHideSearch {
-			  	display: inline-block;
+			  	display: block;
 			  	clear: none;
 			    width: 105px;
 			    height: 18px;
@@ -272,7 +274,13 @@
 			    line-height: 0px;
 			    overflow: hidden;
 			    cursor: pointer;
-			  }			  
+			    float: left;
+			  }		
+			  .customSearchButtons {
+			    margin-left: auto;
+			    margin-right: auto;
+			    width: 211px;
+			  }
 			  .showLink {
 			    background-image: url("${ConfigProperties.kr.externalizable.images.url}tinybutton-show.gif");
 			  }
@@ -291,22 +299,33 @@
 			  #customSelection table {
 			    width: 100%;
 			  }
+			  div#fancyboxwrap{
+			  	top:120px
+			  }
 
 			</style>
 			<script>
+				var showHideSearchClass = ".showHideSearch";
 				var showSearchClass = "showSearch";
 				var hideSearchClass = "hideSearch";
-				function toggleSearchTable(link) {
+				function toggleSearchTable() {
 					if ($jq('table.searchTable').is(':visible')) {
 						$jq('table.searchTable').hide();
-						$jq(link).removeClass(hideSearchClass);
-						$jq(link).addClass(showSearchClass);
+						$jq(showHideSearchClass).removeClass(hideSearchClass);
+						$jq(showHideSearchClass).addClass(showSearchClass);
 					} else {
 						$jq('table.searchTable').show();
-						$jq(link).addClass(hideSearchClass);
-						$jq(link).removeClass(showSearchClass);
+						$jq(showHideSearchClass).addClass(hideSearchClass);
+						$jq(showHideSearchClass).removeClass(showSearchClass);
 					}
-				}	
+				}
+				function showSearchTable() {
+					if (!$jq('table.searchTable').is(':visible')) {
+						$jq('table.searchTable').show();
+						$jq(showHideSearchClass).addClass(hideSearchClass);
+						$jq(showHideSearchClass).removeClass(showSearchClass);
+					}
+				}				
 				var showClass = "showLink";
 				var hideClass = "hideLink";									
 				function toggleDetails(link) {
@@ -361,13 +380,16 @@
 						$jq("input[name='customGroupByFields']").removeAttr('disabled');
 						$jq("input[name='customDetailFields']").removeAttr('disabled');
 					}
-				} 				
+				} 
 				$jq(document).ready(function() {
 					$jq('a.showHideLink').each(function() { $jq(this).click(function() { toggleDetails(this); })});
 					toggleCustomView($jq("input[name=currentViewIndex]:checked"));
+					$jq.fancybox.setup({ dropshadow : false, overlayShow : false });
 					$jq("#customSelLink").fancybox({
 						'hideOnContentClick' : false,
-						'onClosed' : function() { $jq('#onChangeViewClose').click(); }
+						'width:' : 400,
+						'onClosed' : function() { $jq('#onChangeViewClose').click(); },
+						'onStart' : function() { showSearchTable(); }
 						 });
 				});
 			</script>
