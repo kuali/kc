@@ -173,17 +173,5 @@
 				</td>
 			</tr>			
 		</c:forEach>
-		<c:if test="${!reportTrackingReadOnly && readOnly}">
-			<tr>
-				<td colspan="8">
-					<div align="center">
-							<html:image property="methodToCall.save"
-												src='${ConfigProperties.kra.externalizable.images.url}tinybutton-apply.gif' 
-												alt="Save Report Tracking" onclick="" styleClass="tinybutton"/>
-						</div>
-				</td>
-			</tr>
-		</c:if>
 	</table>
-
 </kul:innerTab>
