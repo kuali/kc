@@ -763,7 +763,7 @@ public class ProtocolProtocolActionsAction extends ProtocolAction implements Aud
         ProtocolForm protocolForm = (ProtocolForm) form;
         int selected = getSelectedLine(request);
         ProtocolAttachmentPersonnel personAttach = protocolForm.getProtocolDocument().getProtocol().getAttachmentPersonnels().get(selected);
-        return printAttachmentProtocol(mapping, response, personAttach,protocolForm);
+        return printPersonnelAttachmentProtocol(mapping, response, personAttach,protocolForm);
 
     }
 
@@ -958,7 +958,6 @@ public class ProtocolProtocolActionsAction extends ProtocolAction implements Aud
      * This is to view attachment if attachment is selected in print panel.
      */
     private ActionForward printAttachmentProtocol(ActionMapping mapping, HttpServletResponse response, ProtocolAttachmentBase attachment,ProtocolForm form) throws Exception {
-
         if (attachment == null) {
             return mapping.findForward(Constants.MAPPING_BASIC);
         }
@@ -980,6 +979,18 @@ public class ProtocolProtocolActionsAction extends ProtocolAction implements Aud
         return RESPONSE_ALREADY_HANDLED;
     }
 
+    /*
+     * This is to view Personnel attachment if attachment is selected in print & summary panel.
+     */
+    private ActionForward printPersonnelAttachmentProtocol(ActionMapping mapping, HttpServletResponse response, ProtocolAttachmentBase attachment,ProtocolForm form) throws Exception {
+
+        if (attachment == null) {
+            return mapping.findForward(Constants.MAPPING_BASIC);
+        }
+        final AttachmentFile file = attachment.getFile();
+        this.streamToResponse(file.getData(), getValidHeaderString(file.getName()), getValidHeaderString(file.getType()), response);
+        return RESPONSE_ALREADY_HANDLED;
+    }
     /**
      * 
      * This method for set the attachment with the watermark which selected  by the client .
@@ -1099,11 +1110,11 @@ public class ProtocolProtocolActionsAction extends ProtocolAction implements Aud
         AttachmentSummary attachmentSummary = protocolSummary.getAttachments().get(selectedIndex);
         
         ProtocolAttachmentBase attachment; 
-        
         if (attachmentSummary.getAttachmentType().startsWith("Protocol: ")) {
             attachment = getProtocolAttachmentService().getAttachment(ProtocolAttachmentProtocol.class, attachmentSummary.getAttachmentId());
         } else {
             attachment = getProtocolAttachmentService().getAttachment(ProtocolAttachmentPersonnel.class, attachmentSummary.getAttachmentId());
+            return printPersonnelAttachmentProtocol(mapping, response, attachment, protocolForm);
         }
         
         return printAttachmentProtocol(mapping, response, attachment, protocolForm);

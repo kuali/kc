@@ -15,20 +15,18 @@
  */
 package org.kuali.kra.subaward.bo;
 
-import org.kuali.kra.bo.KraPersistableBusinessObjectBase;
 import java.util.LinkedHashMap;
 import org.kuali.kra.award.home.ContactType;
 import org.kuali.kra.bo.Rolodex;
 import org.kuali.kra.subaward.bo.SubAward;
 
-public class SubAwardContact extends KraPersistableBusinessObjectBase { 
+public class SubAwardContact extends SubAwardAssociate { 
     
     private static final long serialVersionUID = 1L;
 
     private Integer subAwardContactId; 
     private Integer subAwardId; 
     private String subAwardCode; 
-    private Integer sequenceNumber; 
     private String contactTypeCode; 
     private Integer rolodexId;
    
@@ -82,13 +80,6 @@ public class SubAwardContact extends KraPersistableBusinessObjectBase {
         this.subAwardCode = subAwardCode;
     }
 
-    public Integer getSequenceNumber() {
-        return sequenceNumber;
-    }
-
-    public void setSequenceNumber(Integer sequenceNumber) {
-        this.sequenceNumber = sequenceNumber;
-    }
 
     public String getContactTypeCode() {
         return contactTypeCode;
@@ -122,13 +113,6 @@ public class SubAwardContact extends KraPersistableBusinessObjectBase {
         this.rolodex = rolodex;
     }
 
-    public SubAward getSubAward() {
-        return subAward;
-    }
-
-    public void setSubAward(SubAward subAward) {
-        this.subAward = subAward;
-    }  
 
     public String getRolodexName() {
         return rolodexName;
@@ -261,6 +245,12 @@ public class SubAwardContact extends KraPersistableBusinessObjectBase {
         hashMap.put("contactTypeCode", this.getContactTypeCode());
         hashMap.put("rolodexId", this.getRolodexId());
         return hashMap;
+    }
+
+    @Override
+    public void resetPersistenceState() {
+
+            this.subAwardContactId = null;
     }
     
 }

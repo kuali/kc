@@ -4,9 +4,6 @@
 
   <bean id="SubAwardDocument-parentBean" abstract="true" parent="TransactionalDocumentEntry">
     
-    
-    
-    
     <property name="usePessimisticLocking" value="true"/>
     <property name="useWorkflowPessimisticLocking" value="false"/>
     

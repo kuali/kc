@@ -71,6 +71,7 @@ import org.kuali.kra.bo.NonOrganizationalRolodex;
 import org.kuali.kra.bo.Organization;
 import org.kuali.kra.bo.ScienceKeyword;
 import org.kuali.kra.bo.Sponsor;
+import org.kuali.kra.bo.SponsorType;
 import org.kuali.kra.bo.Unit;
 import org.kuali.kra.bo.UnitContactType;
 import org.kuali.kra.budget.BudgetDecimal;
@@ -97,6 +98,13 @@ import org.kuali.kra.institutionalproposal.home.InstitutionalProposal;
 import org.kuali.kra.institutionalproposal.home.InstitutionalProposalComment;
 import org.kuali.kra.institutionalproposal.home.InstitutionalProposalCostShare;
 import org.kuali.kra.institutionalproposal.home.InstitutionalProposalScienceKeyword;
+import org.kuali.kra.negotiations.bo.Negotiation;
+import org.kuali.kra.negotiations.bo.NegotiationActivity;
+import org.kuali.kra.negotiations.bo.NegotiationActivityType;
+import org.kuali.kra.negotiations.bo.NegotiationAssociationType;
+import org.kuali.kra.negotiations.bo.NegotiationStatus;
+import org.kuali.kra.negotiations.bo.NegotiationUnassociatedDetail;
+import org.kuali.kra.negotiations.document.NegotiationDocument;
 import org.kuali.kra.proposaldevelopment.bo.AttachmentDataSource;
 import org.kuali.kra.proposaldevelopment.bo.DevelopmentProposal;
 import org.kuali.kra.proposaldevelopment.bo.ProposalBudgetStatus;
@@ -1800,6 +1808,63 @@ public class PrintingTestUtils {
 		getBusinessObjectService().save(pd);
 		return pd;
 	}
+	
+	public static NegotiationDocument getNegotiationDocument() {
+        NegotiationDocument negotiationDocument = null;
+        try {
+            negotiationDocument = (NegotiationDocument) getDocumentService()
+                    .getNewDocument("NegotiationDocument");
+        } catch (WorkflowException e) {
+            e.printStackTrace();
+            throw new RuntimeException(e);
+        }
+        Negotiation negotiation = new Negotiation();        
+        negotiation.setNegotiatorPersonId("1");        
+        negotiation.setNegotiationStartDate(new Date(System.currentTimeMillis()));
+        negotiation.setDocumentFolder("DocumentFolder");           
+        
+        NegotiationUnassociatedDetail negotiationUnassociatedDetail = new NegotiationUnassociatedDetail();
+        negotiationUnassociatedDetail.setTitle("Title");
+        negotiationUnassociatedDetail.setPiName("principle Investigator");
+        
+        Unit leadUnit = new Unit();
+        leadUnit.setUnitName("University");
+        leadUnit.setUnitNumber("000001");       
+        negotiationUnassociatedDetail.setLeadUnit(leadUnit);
+        
+        Sponsor sponsor = new Sponsor();
+        SponsorType sponsorType = new SponsorType();        
+        sponsor.setSponsorName("Sponsor Name");
+        sponsorType.setSponsorTypeCode("1");
+        sponsor.setSponsorType(sponsorType);        
+        negotiationUnassociatedDetail.setSponsor(sponsor);  
+        negotiationUnassociatedDetail.setContactAdminPersonId("1");       
+        
+        NegotiationStatus negotiationStatus = new NegotiationStatus();
+        negotiationStatus.setDescription("Description");
+        
+        NegotiationAssociationType negotiationAssociationType = new NegotiationAssociationType();
+        negotiationAssociationType.setCode("PL");         
+        
+        List<NegotiationActivity> negotiationActivities =new ArrayList<NegotiationActivity>();        
+        NegotiationActivity  negotiationActivity = new NegotiationActivity();
+        NegotiationActivityType negotiationActivityType = new NegotiationActivityType();
+        negotiationActivity.setDescription("Activity 1");
+        negotiationActivity.setCreateDate(new Date(System.currentTimeMillis()));
+        negotiationActivity.setFollowupDate(new Date(System.currentTimeMillis()));       
+        negotiationActivity.setStartDate(new Date(System.currentTimeMillis())); 
+        negotiationActivityType.setDescription("Activity 1");
+        negotiationActivity.setActivityType(negotiationActivityType);        
+        negotiationActivities.add(negotiationActivity);        
+        negotiationActivity.setUpdateUser("quickstart");
+        
+        negotiation.setNegotiationStatus(negotiationStatus);
+        List<Negotiation> negotiationList = new ArrayList<Negotiation>();
+        negotiationList.add(negotiation);
+        negotiationDocument.setNegotiationList(negotiationList);
+        return negotiationDocument;
+    }
+ 
 
 	public static Map<String, Object> getInstituteProposalReportParameters() {
 		Map<String, Object> reportParamsMap = new HashMap<String, Object>();
@@ -2029,4 +2094,9 @@ public class PrintingTestUtils {
 		Map<String, Object> reportParamsMap = new HashMap<String, Object>();
 		return reportParamsMap;
 	}
+	
+	public static Map<String, Object> getNegotiationActivityXmlStreamReportParameters() {
+        Map<String, Object> reportParamsMap = new HashMap<String, Object>();
+        return reportParamsMap;
+    }
 }

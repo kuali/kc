@@ -48,10 +48,13 @@
 	<bean id="subAwardLookupable" class="org.kuali.rice.kns.lookup.KualiLookupableImpl" scope="prototype">
   		<property name="lookupableHelperService">
     		<ref bean="subAwardLookupableHelperService" />
-  		</property>  		
+  		</property>  
 	</bean>
 	
 	<bean id="subAwardLookupableHelperService" class="org.kuali.kra.subaward.lookup.SubAwardLookupableHelperServiceImpl" parent="lookupableHelperService" scope="prototype">
+		<property name="versionHistoryService">
+            <ref bean="versionHistoryService" />
+        </property>	
   	</bean>
   	
   	<bean id="parentSubAwardAuthorizer" abstract="true">
@@ -75,5 +78,15 @@
             </list>
          </property>
      </bean>
-  	
+  	<bean id="subAwardService" class="org.kuali.kra.subaward.service.impl.SubAwardServiceImpl">
+        <property name="businessObjectService">
+            <ref bean="businessObjectService" />
+        </property>
+        <property name="documentService">
+            <ref bean="documentService" />
+        </property>
+        <property name="versioningService">
+            <ref bean="versioningService" />
+        </property>
+    </bean>
 </beans>	

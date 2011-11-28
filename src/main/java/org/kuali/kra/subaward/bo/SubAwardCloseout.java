@@ -15,19 +15,17 @@
  */
 package org.kuali.kra.subaward.bo;
 
-import org.kuali.kra.bo.KraPersistableBusinessObjectBase;
 import java.util.LinkedHashMap;
 import java.sql.Date;
 import org.kuali.kra.subaward.bo.SubAward;
 
-public class SubAwardCloseout extends KraPersistableBusinessObjectBase { 
+public class SubAwardCloseout extends SubAwardAssociate { 
     
     private static final long serialVersionUID = 1L;
 
     private Integer subAwardCloseoutId; 
     private Integer subAwardId; 
     private String subAwardCode; 
-    private Integer sequenceNumber; 
     private Integer closeoutNumber; 
     private Integer closeoutTypeCode; 
     private Date dateRequested; 
@@ -63,14 +61,6 @@ public class SubAwardCloseout extends KraPersistableBusinessObjectBase {
 
     public void setSubAwardCode(String subAwardCode) {
         this.subAwardCode = subAwardCode;
-    }
-
-    public Integer getSequenceNumber() {
-        return sequenceNumber;
-    }
-
-    public void setSequenceNumber(Integer sequenceNumber) {
-        this.sequenceNumber = sequenceNumber;
     }
 
     public Integer getCloseoutNumber() {
@@ -121,14 +111,6 @@ public class SubAwardCloseout extends KraPersistableBusinessObjectBase {
         this.comments = comments;
     }
 
-    public SubAward getSubAward() {
-        return subAward;
-    }
-
-    public void setSubAward(SubAward subAward) {
-        this.subAward = subAward;
-    }
-
     /** {@inheritDoc} */
     @Override 
     protected LinkedHashMap<String, Object> toStringMapper() {
@@ -144,6 +126,12 @@ public class SubAwardCloseout extends KraPersistableBusinessObjectBase {
         hashMap.put("dateReceived", this.getDateReceived());
         hashMap.put("comments", this.getComments());
         return hashMap;
+    }
+
+    @Override
+    public void resetPersistenceState() {
+
+        this.subAwardCloseoutId=null;
     }
     
 }
