@@ -32,9 +32,9 @@ public class DisclosureEventTypeValuesFinder extends KeyValuesBase {
     public List<KeyLabelPair> getKeyValues() {
         List<KeyLabelPair> keyValues = new ArrayList<KeyLabelPair>();
         keyValues.add(new KeyLabelPair("", "select"));
-        keyValues.add(new KeyLabelPair("1", "Proposal"));
-        keyValues.add(new KeyLabelPair("2", "Award"));
-        keyValues.add(new KeyLabelPair("3", "Protocol"));
+        keyValues.add(new KeyLabelPair("12", "Proposal"));
+        keyValues.add(new KeyLabelPair("11", "Award"));
+        keyValues.add(new KeyLabelPair("13", "Protocol"));
         return keyValues;
     }
 }

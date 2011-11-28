@@ -22,6 +22,7 @@ import org.apache.commons.lang.time.DateUtils;
 import org.junit.Test;
 import org.kuali.kra.coi.CoiDisclProject;
 import org.kuali.kra.coi.CoiDisclosure;
+import org.kuali.kra.coi.CoiDisclosureEventType;
 import org.kuali.kra.infrastructure.Constants;
 import org.kuali.kra.rules.TemplateRuleTest;
 import org.kuali.kra.test.infrastructure.KcUnitTestBase;
@@ -35,7 +36,7 @@ public class AddManualProjectRuleTest extends KcUnitTestBase {
                 CoiDisclProject coiDisclProject = new CoiDisclProject() ;
                 
                 coiDisclProject.setCoiProjectId("test id");
-                coiDisclProject.setDisclosureEventType(CoiDisclProject.PROPOSAL_EVENT);
+                coiDisclProject.setDisclosureEventType(CoiDisclosureEventType.MANUAL_DEVELOPMENT_PROPOSAL);
                 coiDisclProject.setCoiProjectTitle("test title");
                 coiDisclProject.setCoiProjectType("1");
                 coiDisclProject.setCoiProjectSponsor("test sponsor");
@@ -62,7 +63,7 @@ public class AddManualProjectRuleTest extends KcUnitTestBase {
                 CoiDisclProject coiDisclProject = new CoiDisclProject() ;
                 
         //        coiDisclProject.setCoiProjectId("test id");
-                coiDisclProject.setDisclosureEventType(CoiDisclProject.PROPOSAL_EVENT);
+                coiDisclProject.setDisclosureEventType(CoiDisclosureEventType.MANUAL_DEVELOPMENT_PROPOSAL);
                 coiDisclProject.setCoiProjectTitle("test title");
                 coiDisclProject.setCoiProjectType("1");
                 coiDisclProject.setCoiProjectSponsor("test sponsor");
@@ -88,7 +89,7 @@ public class AddManualProjectRuleTest extends KcUnitTestBase {
                 CoiDisclProject coiDisclProject = new CoiDisclProject() ;
                 
                 coiDisclProject.setCoiProjectId("test id");
-                coiDisclProject.setDisclosureEventType(CoiDisclProject.PROPOSAL_EVENT);
+                coiDisclProject.setDisclosureEventType(CoiDisclosureEventType.MANUAL_DEVELOPMENT_PROPOSAL);
                 coiDisclProject.setCoiProjectTitle("test title");
                 coiDisclProject.setCoiProjectType("1");
                 coiDisclProject.setCoiProjectSponsor("test sponsor");
@@ -114,7 +115,7 @@ public class AddManualProjectRuleTest extends KcUnitTestBase {
                 CoiDisclProject coiDisclProject = new CoiDisclProject() ;
                 
                 coiDisclProject.setCoiProjectId("test id");
-                coiDisclProject.setDisclosureEventType(CoiDisclProject.AWARD_EVENT);
+                coiDisclProject.setDisclosureEventType(CoiDisclosureEventType.MANUAL_AWARD);
                 coiDisclProject.setCoiProjectTitle("test title");
                 coiDisclProject.setCoiProjectStartDate(new java.sql.Date(new Date().getTime()));
                 CoiDisclosure coiDisclosure = new CoiDisclosure();
@@ -135,7 +136,7 @@ public class AddManualProjectRuleTest extends KcUnitTestBase {
                 CoiDisclProject coiDisclProject = new CoiDisclProject() ;
                 
                 coiDisclProject.setCoiProjectId("test id");
-                coiDisclProject.setDisclosureEventType(CoiDisclProject.PROTOCOL_EVENT);
+                coiDisclProject.setDisclosureEventType(CoiDisclosureEventType.MANUAL_IRB_PROTOCOL);
                 coiDisclProject.setCoiProjectTitle("test title");
                 coiDisclProject.setCoiProjectType("1");
                 CoiDisclosure coiDisclosure = new CoiDisclosure();

@@ -51,7 +51,8 @@
 		<field-descriptor name="expirationDate" column="EXPIRATION_DATE" jdbc-type="DATE" />
 		<field-descriptor name="updateTimestamp" column="UPDATE_TIMESTAMP" jdbc-type="TIMESTAMP" />
 		<field-descriptor name="updateUser" column="UPDATE_USER" jdbc-type="VARCHAR" />
-		<field-descriptor name="moduleCode" column="MODULE_CODE" jdbc-type="VARCHAR" />
+		<field-descriptor name="eventTypeCode" column="EVENT_TYPE_CODE" jdbc-type="VARCHAR" />
+		<field-descriptor name="moduleItemKey" column="MODULE_ITEM_KEY" jdbc-type="VARCHAR" />
 		<field-descriptor name="reviewStatusCode" column="REVIEW_STATUS_CODE" jdbc-type="VARCHAR" />
 		<field-descriptor name="discActiveStatus" column="DISC_ACTIVE_STATUS" jdbc-type="INTEGER" />
 		<field-descriptor name="versionNumber" column="VER_NBR" jdbc-type="BIGINT" locking="true" />
@@ -410,6 +411,7 @@
 		<field-descriptor name="updateUser" column="UPDATE_USER" jdbc-type="VARCHAR" />
 		<field-descriptor name="comments" column="COMMENTS" jdbc-type="VARCHAR" />
 		<field-descriptor name="projectType" column="PROJECT_TYPE" jdbc-type="VARCHAR" />
+		<field-descriptor name="projectIdFk" column="PROJECT_ID_FK" jdbc-type="VARCHAR" />
 		<field-descriptor name="versionNumber" column="VER_NBR" jdbc-type="BIGINT" locking="true" />
 		<field-descriptor name="objectId" column="OBJ_ID" jdbc-type="VARCHAR" />
 		<reference-descriptor name="coiEntityStatusCode" class-ref="org.kuali.kra.coi.CoiEntityStatusCode" auto-retrieve="true" auto-update="none" auto-delete="none"> 
@@ -449,7 +451,6 @@
 		<field-descriptor name="updateUser" column="UPDATE_USER" jdbc-type="VARCHAR" />
 		<field-descriptor name="versionNumber" column="VER_NBR" jdbc-type="BIGINT" locking="true" />
 		<field-descriptor name="objectId" column="OBJ_ID" jdbc-type="VARCHAR" />
-        <field-descriptor name="disclosureFlag" column="DISCLOSURE_FLAG" jdbc-type="VARCHAR" conversion="org.kuali.rice.kns.util.OjbCharBooleanConversion"/>
 		<reference-descriptor name="coiDisclosure" class-ref="org.kuali.kra.coi.CoiDisclosure" auto-retrieve="true" auto-update="none" auto-delete="none"> 
 			<foreignkey field-ref="coiDisclosureId"/>
 		</reference-descriptor>
