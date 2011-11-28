@@ -18,10 +18,10 @@ package org.kuali.kra.subaward.customdata;
 import java.util.LinkedHashMap;
 
 import org.kuali.kra.subaward.bo.SubAward;
+import org.kuali.kra.subaward.bo.SubAwardAssociate;
 import org.kuali.kra.bo.CustomAttribute;
-import org.kuali.kra.bo.KraPersistableBusinessObjectBase;
 
-public class SubAwardCustomData extends KraPersistableBusinessObjectBase{
+public class SubAwardCustomData extends SubAwardAssociate{
 
     /**
      * Comment for <code>serialVersionUID</code>
@@ -30,7 +30,6 @@ public class SubAwardCustomData extends KraPersistableBusinessObjectBase{
     private Long subAwardCustomDataId;
     private String value;
     private Long customAttributeId;
-    private Integer sequenceNumber;
     private CustomAttribute customAttribute;
     
     private SubAward subAward;
@@ -173,12 +172,6 @@ public class SubAwardCustomData extends KraPersistableBusinessObjectBase{
      */
     public void setCustomAttribute(CustomAttribute customAttribute) {
         this.customAttribute = customAttribute;
-    }
-    public void setSequenceNumber(Integer sequenceNumber) {
-        this.sequenceNumber = sequenceNumber;
-    }
-    public Integer getSequenceNumber() {
-        return sequenceNumber;
     }
     
     

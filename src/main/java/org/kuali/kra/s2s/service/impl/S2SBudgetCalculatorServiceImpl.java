@@ -47,6 +47,8 @@ import org.kuali.kra.budget.personnel.TbnPerson;
 import org.kuali.kra.budget.rates.RateClass;
 import org.kuali.kra.budget.versions.BudgetDocumentVersion;
 import org.kuali.kra.budget.versions.BudgetVersionOverview;
+import org.kuali.kra.infrastructure.Constants;
+import org.kuali.kra.infrastructure.KeyConstants;
 import org.kuali.kra.infrastructure.KraServiceLocator;
 import org.kuali.kra.proposaldevelopment.bo.ProposalPerson;
 import org.kuali.kra.proposaldevelopment.budget.modular.BudgetModularIdc;
@@ -71,6 +73,7 @@ import org.kuali.kra.service.SponsorService;
 import org.kuali.rice.kew.exception.WorkflowException;
 import org.kuali.rice.kns.service.BusinessObjectService;
 import org.kuali.rice.kns.service.KNSServiceLocator;
+import org.kuali.rice.kns.service.ParameterService;
 
 /**
  * This class contains the implementation for common budget calculations
@@ -154,12 +157,35 @@ public class S2SBudgetCalculatorServiceImpl implements
 			.getLog(S2SBudgetCalculatorServiceImpl.class);
 	private static final String PRINCIPAL_INVESTIGATOR_ROLE = "PD/PI";
 	private static final String KEY_ROLODEX_ID = "rolodexId";
+    private static final Object ONE_STRING = "1";
 	private BusinessObjectService businessObjectService;
 	private KcPersonService kcPersonService;
 	private S2SUtilService s2SUtilService;
 	private RolodexService rolodexService;
+	private ParameterService parameterService;
 
-	/**
+	public ParameterService getParameterService() {
+        return parameterService;
+    }
+
+    public void setParameterService(ParameterService parameterService) {
+        this.parameterService = parameterService;
+    }
+    public boolean isBudgetSummaryCostShareParameterValueEnabled(Budget budget) {
+        return budget.getSubmitCostSharingFlag();
+    }
+//    public boolean isBudgetCostShareParameterValueEnabled() {
+//        
+//        String parameterValue = null;
+//        try {
+//            parameterValue = this.parameterService.getParameterValue(
+//                    BudgetDocument.class, Constants.ENABLE_COST_SHARE_SUBMIT);
+//        } catch (IllegalArgumentException e) {
+//            LOG.error("Parameter not found - " + Constants.ENABLE_COST_SHARE_SUBMIT, e);
+//        }
+//        return parameterValue==null?true:ONE_STRING.equals(parameterValue);
+//    }
+    /**
 	 * 
 	 * This method does the budget related calculations for a given
 	 * ProposalDevelopmentDocument and returns them in BudgetSummaryInfo
@@ -186,7 +212,9 @@ public class S2SBudgetCalculatorServiceImpl implements
 		budgetSummaryInfo.setCumTotalIndirectCosts(budget
 				.getTotalIndirectCost());
 		budgetSummaryInfo.setCumTotalDirectCosts(budget.getTotalDirectCost());
-		budgetSummaryInfo.setCumTotalCostSharing(budget.getCostSharingAmount());
+		if(budget.getSubmitCostSharingFlag()){
+		    budgetSummaryInfo.setCumTotalCostSharing(budget.getCostSharingAmount());
+		}
 
 		BudgetDecimal totalDirectCostSharing = BudgetDecimal.ZERO;
 		BudgetDecimal totalIndirectCostSharing = BudgetDecimal.ZERO;
@@ -209,18 +237,21 @@ public class S2SBudgetCalculatorServiceImpl implements
 						.getBudgetCategoryTypeCode().equals(
 								BUDGET_CATEGORY_TYPE_PERSONNEL)) {
 					lineItemCost = lineItemCost.add(lineItem.getLineItemCost());
-					lineItemCostSharingAmount = lineItemCostSharingAmount
-							.add(lineItem.getCostSharingAmount());
+					if(canBudgetLineItemCostSharingInclude(budget, lineItem)){
+					    lineItemCostSharingAmount = lineItemCostSharingAmount.add(lineItem.getCostSharingAmount());
+					}
 				}
 
 				for (BudgetLineItemCalculatedAmount lineItemCalAmt : lineItem
 						.getBudgetLineItemCalculatedAmounts()) {
 					lineItemCalAmt.refreshReferenceObject("rateClass");
-					if (lineItemCalAmt.getRateClass().getRateClassType()
-							.equals(RateClassType.OVERHEAD.getRateClassType())) {
-                        totalIndirectCostSharing = totalIndirectCostSharing.add(lineItemCalAmt.getCalculatedCostSharing());
-					} else {
-                        totalDirectCostSharing = totalDirectCostSharing.add(lineItemCalAmt.getCalculatedCostSharing());
+					if(canBudgetLineItemCostSharingInclude(budget, lineItem)){
+    					if (lineItemCalAmt.getRateClass().getRateClassType()
+    							.equals(RateClassType.OVERHEAD.getRateClassType())) {
+                            totalIndirectCostSharing = totalIndirectCostSharing.add(lineItemCalAmt.getCalculatedCostSharing());
+    					} else {
+                            totalDirectCostSharing = totalDirectCostSharing.add(lineItemCalAmt.getCalculatedCostSharing());
+    					}
 					}
 					if ((lineItemCalAmt.getRateClassCode().equals(
 							RATE_CLASS_CODE_EMPLOYEE_BENEFITS) && !lineItemCalAmt
@@ -236,15 +267,17 @@ public class S2SBudgetCalculatorServiceImpl implements
 										BUDGET_CATEGORY_TYPE_PERSONNEL)) {
 							fringeCost = fringeCost.add(lineItemCalAmt
 									.getCalculatedCost());
-							fringeCostSharingAmount = fringeCostSharingAmount
-									.add(lineItemCalAmt
-											.getCalculatedCostSharing());
+							if(canBudgetLineItemCostSharingInclude(budget, lineItem)){
+							    fringeCostSharingAmount = fringeCostSharingAmount.add(lineItemCalAmt.getCalculatedCostSharing());
+							}
 						}
 					}
 					if (lineItemCalAmt.getRateClass().getRateClassType()
 							.equals(RATE_CLASS_TYPE_LAB_ALLOCATION_SALARIES)) {
 						budgetDetailsCost = budgetDetailsCost.add(lineItemCalAmt.getCalculatedCost());
-						budgetDetailsCostSharingAmount = budgetDetailsCostSharingAmount.add(lineItemCalAmt.getCalculatedCostSharing());
+						if(canBudgetLineItemCostSharingInclude(budget, lineItem)){
+						    budgetDetailsCostSharingAmount = budgetDetailsCostSharingAmount.add(lineItemCalAmt.getCalculatedCostSharing());
+						}
 					}
 					if ((lineItemCalAmt.getRateClass().getRateClassType()
 							.equals(RATE_CLASS_TYPE_EMPLOYEE_BENEFITS) && lineItemCalAmt
@@ -256,16 +289,19 @@ public class S2SBudgetCalculatorServiceImpl implements
 									.getRateTypeCode().equals(
 											RATE_TYPE_ADMINISTRATIVE_SALARIES))) {
 						budgetDetailsFringeCost = budgetDetailsFringeCost.add(lineItemCalAmt.getCalculatedCost());
-						budgetDetailsFringeCostSharingAmount = budgetDetailsFringeCostSharingAmount.add(lineItemCalAmt.getCalculatedCostSharing());
+						if(canBudgetLineItemCostSharingInclude(budget, lineItem)){
+						    budgetDetailsFringeCostSharingAmount = budgetDetailsFringeCostSharingAmount.add(lineItemCalAmt.getCalculatedCostSharing());
+						}
 					}
 					
 				}
 			}
 		}
-
-		budgetSummaryInfo.setCumTotalDirectCostSharing(totalDirectCostSharing);
-		budgetSummaryInfo
-				.setCumTotalIndirectCostSharing(totalIndirectCostSharing);
+		if(budget.getSubmitCostSharingFlag()){
+		    budgetSummaryInfo.setCumTotalDirectCostSharing(totalDirectCostSharing);
+    		budgetSummaryInfo
+    				.setCumTotalIndirectCostSharing(totalIndirectCostSharing);
+        }
 		totPersFunds = totPersFunds.add(lineItemCost).add(fringeCost).add(
 				budgetDetailsCost).add(budgetDetailsFringeCost);
 		totPersNonFunds = totPersNonFunds.add(lineItemCostSharingAmount).add(
@@ -355,46 +391,46 @@ public class S2SBudgetCalculatorServiceImpl implements
 				cumParticipantCount = cumParticipantCount
 						+ (otherDirectCostInfo.getParticpantTotalCount() == 0 ? 0
 								: otherDirectCostInfo.getParticpantTotalCount());
-
-				cumAlterationsCostSharing = cumAlterationsCostSharing
-						.add(otherDirectCostInfo.getAlterationsCostSharing());
-				cumConsultantsCostSharing = cumConsultantsCostSharing
-						.add(otherDirectCostInfo.getConsultantsCostSharing());
-				cumMaterialsCostSharing = cumMaterialsCostSharing
-						.add(otherDirectCostInfo.getMaterialsCostSharing());
-				cumPubsCostSharing = cumPubsCostSharing.add(otherDirectCostInfo
-						.getPublicationsCostSharing());
-				cumSubAwardCostSharing = cumSubAwardCostSharing
-						.add(otherDirectCostInfo.getSubAwardsCostSharing());
-				cumComputerCostSharing = cumComputerCostSharing
-						.add(otherDirectCostInfo.getComputerCostSharing());
-				cumEquipRentalCostSharing = cumEquipRentalCostSharing
-						.add(otherDirectCostInfo.getEquipRentalCostSharing());
-				cumAllCostSharing = cumAllCostSharing.add(otherDirectCostInfo
-						.getTotalOtherDirectCostSharing());
-
-				cumPartStipendsCostSharing = cumPartStipendsCostSharing
-						.add(otherDirectCostInfo.getPartStipendsCostSharing() == null ? BudgetDecimal.ZERO
-								: otherDirectCostInfo
-										.getPartStipendsCostSharing());
-				cumPartTravelCostSharing = cumPartTravelCostSharing
-						.add(otherDirectCostInfo.getPartTravelCostSharing() == null ? BudgetDecimal.ZERO
-								: otherDirectCostInfo
-										.getPartTravelCostSharing());
-				cumPartSubsistenceCostSharing = cumPartSubsistenceCostSharing
-						.add(otherDirectCostInfo
-								.getPartSubsistenceCostSharing() == null ? BudgetDecimal.ZERO
-								: otherDirectCostInfo
-										.getPartSubsistenceCostSharing());
-				cumPartTuitionCostSharing = cumPartTuitionCostSharing
-						.add(otherDirectCostInfo.getPartTuitionCostSharing() == null ? BudgetDecimal.ZERO
-								: otherDirectCostInfo
-										.getPartTuitionCostSharing());
-
-				cumPartOtherCostSharing = cumPartOtherCostSharing
-						.add(otherDirectCostInfo.getPartOtherCostSharing() == null ? BudgetDecimal.ZERO
-								: otherDirectCostInfo.getPartOtherCostSharing());
-
+				if(budget.getSubmitCostSharingFlag()){
+    				cumAlterationsCostSharing = cumAlterationsCostSharing
+    						.add(otherDirectCostInfo.getAlterationsCostSharing());
+    				cumConsultantsCostSharing = cumConsultantsCostSharing
+    						.add(otherDirectCostInfo.getConsultantsCostSharing());
+    				cumMaterialsCostSharing = cumMaterialsCostSharing
+    						.add(otherDirectCostInfo.getMaterialsCostSharing());
+    				cumPubsCostSharing = cumPubsCostSharing.add(otherDirectCostInfo
+    						.getPublicationsCostSharing());
+    				cumSubAwardCostSharing = cumSubAwardCostSharing
+    						.add(otherDirectCostInfo.getSubAwardsCostSharing());
+    				cumComputerCostSharing = cumComputerCostSharing
+    						.add(otherDirectCostInfo.getComputerCostSharing());
+    				cumEquipRentalCostSharing = cumEquipRentalCostSharing
+    						.add(otherDirectCostInfo.getEquipRentalCostSharing());
+    				cumAllCostSharing = cumAllCostSharing.add(otherDirectCostInfo
+    						.getTotalOtherDirectCostSharing());
+    
+    				cumPartStipendsCostSharing = cumPartStipendsCostSharing
+    						.add(otherDirectCostInfo.getPartStipendsCostSharing() == null ? BudgetDecimal.ZERO
+    								: otherDirectCostInfo
+    										.getPartStipendsCostSharing());
+    				cumPartTravelCostSharing = cumPartTravelCostSharing
+    						.add(otherDirectCostInfo.getPartTravelCostSharing() == null ? BudgetDecimal.ZERO
+    								: otherDirectCostInfo
+    										.getPartTravelCostSharing());
+    				cumPartSubsistenceCostSharing = cumPartSubsistenceCostSharing
+    						.add(otherDirectCostInfo
+    								.getPartSubsistenceCostSharing() == null ? BudgetDecimal.ZERO
+    								: otherDirectCostInfo
+    										.getPartSubsistenceCostSharing());
+    				cumPartTuitionCostSharing = cumPartTuitionCostSharing
+    						.add(otherDirectCostInfo.getPartTuitionCostSharing() == null ? BudgetDecimal.ZERO
+    								: otherDirectCostInfo
+    										.getPartTuitionCostSharing());
+    
+    				cumPartOtherCostSharing = cumPartOtherCostSharing
+    						.add(otherDirectCostInfo.getPartOtherCostSharing() == null ? BudgetDecimal.ZERO
+    								: otherDirectCostInfo.getPartOtherCostSharing());
+				}
 				totalDomesticTravel = totalDomesticTravel.add(budgetPeriodInfo
 						.getDomesticTravelCost());
 				totalForeignTravel = totalForeignTravel.add(budgetPeriodInfo
@@ -443,14 +479,15 @@ public class S2SBudgetCalculatorServiceImpl implements
 		budgetSummaryInfo.setPartTuition(cumPartTuition);
 		budgetSummaryInfo.setparticipantCount(cumParticipantCount);
 
-		// add costSaring for fedNonFedBudget report
-		budgetSummaryInfo.setPartOtherCostSharing(cumPartOtherCostSharing);
-		budgetSummaryInfo.setPartStipendCostSharing(cumPartStipendsCostSharing);
-		budgetSummaryInfo.setPartTravelCostSharing(cumPartTravelCostSharing);
-		budgetSummaryInfo
-				.setPartSubsistenceCostSharing(cumPartSubsistenceCostSharing);
-		budgetSummaryInfo.setPartTuitionCostSharing(cumPartTuitionCostSharing);
-
+		if(budget.getSubmitCostSharingFlag()){
+    		// add costSaring for fedNonFedBudget report
+    		budgetSummaryInfo.setPartOtherCostSharing(cumPartOtherCostSharing);
+    		budgetSummaryInfo.setPartStipendCostSharing(cumPartStipendsCostSharing);
+    		budgetSummaryInfo.setPartTravelCostSharing(cumPartTravelCostSharing);
+    		budgetSummaryInfo
+    				.setPartSubsistenceCostSharing(cumPartSubsistenceCostSharing);
+    		budgetSummaryInfo.setPartTuitionCostSharing(cumPartTuitionCostSharing);
+		}
 		OtherDirectCostInfo summaryOtherDirectCostInfo = new OtherDirectCostInfo();
 		summaryOtherDirectCostInfo.setAlterations(cumAlterations);
 		summaryOtherDirectCostInfo.setcomputer(cumComputer);
@@ -471,48 +508,49 @@ public class S2SBudgetCalculatorServiceImpl implements
 						.add(cumPartTravel)))));
 		summaryOtherDirectCostInfo
 				.setParticipantTotalCount(cumParticipantCount);
-		// start add costSaring for fedNonFedBudget report
-		summaryOtherDirectCostInfo
-				.setAlterationsCostSharing(cumAlterationsCostSharing);
-		summaryOtherDirectCostInfo
-				.setComputerCostSharing(cumComputerCostSharing);
-		summaryOtherDirectCostInfo
-				.setConsultantsCostSharing(cumConsultantsCostSharing);
-		summaryOtherDirectCostInfo
-				.setMaterialsCostSharing(cumMaterialsCostSharing);
-		summaryOtherDirectCostInfo
-				.setPublicationsCostSharing(cumPubsCostSharing);
-		summaryOtherDirectCostInfo
-				.setSubAwardsCostSharing(cumSubAwardCostSharing);
-		summaryOtherDirectCostInfo
-				.setEquipRentalCostSharing(cumEquipRentalCostSharing);
-		summaryOtherDirectCostInfo
-				.setTotalOtherDirectCostSharing(cumAllCostSharing);
-
-		summaryOtherDirectCostInfo
-				.setPartStipendsCostSharing(cumPartStipendsCostSharing);
-		summaryOtherDirectCostInfo
-				.setPartTravelCostSharing(cumPartTravelCostSharing);
-		summaryOtherDirectCostInfo
-				.setPartTuitionCostSharing(cumPartTuitionCostSharing);
-		summaryOtherDirectCostInfo
-				.setPartSubsistenceCostSharing(cumPartSubsistenceCostSharing);
-		summaryOtherDirectCostInfo
-				.setPartOtherCostSharing(cumPartOtherCostSharing);
-
-		participantTotalCostSharing = participantTotalCostSharing
-				.add(cumPartStipendsCostSharing);
-		participantTotalCostSharing = participantTotalCostSharing
-				.add(cumPartTravelCostSharing);
-		participantTotalCostSharing = participantTotalCostSharing
-				.add(cumPartOtherCostSharing);
-		participantTotalCostSharing = participantTotalCostSharing
-				.add(cumPartTuitionCostSharing);
-		participantTotalCostSharing = participantTotalCostSharing
-				.add(cumPartSubsistenceCostSharing);
-		summaryOtherDirectCostInfo
-				.setParticipantTotalCostSharing(participantTotalCostSharing);
-
+		if(budget.getSubmitCostSharingFlag()){
+    		// start add costSaring for fedNonFedBudget report
+    		summaryOtherDirectCostInfo
+    				.setAlterationsCostSharing(cumAlterationsCostSharing);
+    		summaryOtherDirectCostInfo
+    				.setComputerCostSharing(cumComputerCostSharing);
+    		summaryOtherDirectCostInfo
+    				.setConsultantsCostSharing(cumConsultantsCostSharing);
+    		summaryOtherDirectCostInfo
+    				.setMaterialsCostSharing(cumMaterialsCostSharing);
+    		summaryOtherDirectCostInfo
+    				.setPublicationsCostSharing(cumPubsCostSharing);
+    		summaryOtherDirectCostInfo
+    				.setSubAwardsCostSharing(cumSubAwardCostSharing);
+    		summaryOtherDirectCostInfo
+    				.setEquipRentalCostSharing(cumEquipRentalCostSharing);
+    		summaryOtherDirectCostInfo
+    				.setTotalOtherDirectCostSharing(cumAllCostSharing);
+    		
+    		summaryOtherDirectCostInfo
+    				.setPartStipendsCostSharing(cumPartStipendsCostSharing);
+    		summaryOtherDirectCostInfo
+    				.setPartTravelCostSharing(cumPartTravelCostSharing);
+    		summaryOtherDirectCostInfo
+    				.setPartTuitionCostSharing(cumPartTuitionCostSharing);
+    		summaryOtherDirectCostInfo
+    				.setPartSubsistenceCostSharing(cumPartSubsistenceCostSharing);
+    		summaryOtherDirectCostInfo
+    				.setPartOtherCostSharing(cumPartOtherCostSharing);
+    
+    		participantTotalCostSharing = participantTotalCostSharing
+    				.add(cumPartStipendsCostSharing);
+    		participantTotalCostSharing = participantTotalCostSharing
+    				.add(cumPartTravelCostSharing);
+    		participantTotalCostSharing = participantTotalCostSharing
+    				.add(cumPartOtherCostSharing);
+    		participantTotalCostSharing = participantTotalCostSharing
+    				.add(cumPartTuitionCostSharing);
+    		participantTotalCostSharing = participantTotalCostSharing
+    				.add(cumPartSubsistenceCostSharing);
+    		summaryOtherDirectCostInfo
+    				.setParticipantTotalCostSharing(participantTotalCostSharing);
+		}
 		List<Map<String, String>> cvAllOthers = new ArrayList<Map<String, String>>();
 		HashMap<String, String> hmAllOthers = new HashMap<String, String>();
 		hmAllOthers.put(S2SConstants.KEY_COST, cumOtherType1.toString());
@@ -583,27 +621,24 @@ public class S2SBudgetCalculatorServiceImpl implements
 			BudgetDecimal totalDirectCostSharing = BudgetDecimal.ZERO;
 			BudgetDecimal totalIndirectCostSharing = BudgetDecimal.ZERO;
 			bpData.setLineItemCount(budgetPeriod.getBudgetLineItems().size());
-			for (BudgetLineItem lineItem : budgetPeriod.getBudgetLineItems()) {
-				totalCostSharing = totalCostSharing.add(lineItem
-						.getCostSharingAmount());
-				for (BudgetLineItemCalculatedAmount lineItemCalculatedAmt : lineItem
-				        .getBudgetLineItemCalculatedAmounts()) {
-				    lineItemCalculatedAmt.refreshReferenceObject("rateClass");
-				    if (lineItemCalculatedAmt.getRateClass().getRateClassType()
-				            .equals(RateClassType.OVERHEAD.getRateClassType())) {
-
-				        totalIndirectCostSharing = totalIndirectCostSharing
-				        .add(lineItemCalculatedAmt
-				                .getCalculatedCostSharing());
-				    }else{
-				        totalDirectCostSharing  = totalDirectCostSharing
-                        .add(lineItemCalculatedAmt
-                                .getCalculatedCostSharing());
-				    }
-				}
-			}
-			totalDirectCostSharing = totalDirectCostSharing
-					.add(totalCostSharing);
+            if(budget.getSubmitCostSharingFlag()){
+    			for (BudgetLineItem lineItem : budgetPeriod.getBudgetLineItems()) {
+    		        totalCostSharing = totalCostSharing.add(lineItem.getCostSharingAmount());
+    				for (BudgetLineItemCalculatedAmount lineItemCalculatedAmt : lineItem
+    				        .getBudgetLineItemCalculatedAmounts()) {
+    				    lineItemCalculatedAmt.refreshReferenceObject("rateClass");
+    				    if(lineItem.getSubmitCostSharingFlag()){
+        				    if (lineItemCalculatedAmt.getRateClass().getRateClassType()
+        				            .equals(RateClassType.OVERHEAD.getRateClassType())) {
+        				        totalIndirectCostSharing = totalIndirectCostSharing.add(lineItemCalculatedAmt.getCalculatedCostSharing());
+        				    }else{
+        				        totalDirectCostSharing  = totalDirectCostSharing.add(lineItemCalculatedAmt.getCalculatedCostSharing());
+        				    }
+    				    }
+    				}
+    			}
+    			totalDirectCostSharing = totalDirectCostSharing.add(totalCostSharing);
+            }
 
 			// populate the budgetPeriod data from the BudgetPeriod
 			bpData.setFinalVersionFlag(budget.getFinalVersionFlag().toString());
@@ -619,8 +654,10 @@ public class S2SBudgetCalculatorServiceImpl implements
 			bpData.setDirectCostsTotal(budgetPeriod.getTotalDirectCost());
 			bpData.setTotalIndirectCost(budgetPeriod.getTotalIndirectCost());
 			bpData.setCostSharingAmount(budgetPeriod.getCostSharingAmount());
-			bpData.setTotalDirectCostSharing(totalDirectCostSharing);
-			bpData.setTotalIndirectCostSharing(totalIndirectCostSharing);
+			if(budget.getSubmitCostSharingFlag()){
+    			bpData.setTotalDirectCostSharing(totalDirectCostSharing);
+    			bpData.setTotalIndirectCostSharing(totalIndirectCostSharing);
+		    }
 			bpData.setCognizantFedAgency(s2SUtilService.getCognizantFedAgency(pdDoc.getDevelopmentProposal()));
 
 			bpData.setIndirectCosts(getIndirectCosts(budget, budgetPeriod));
@@ -634,14 +671,12 @@ public class S2SBudgetCalculatorServiceImpl implements
 
 				bpData.setForeignTravelCost(otherCostInfo.getForeignTravel());
 				bpData.setTotalTravelCost(otherCostInfo.getTotTravel());
-				// add costSaring for fedNonFedBudget report
-				bpData.setDomesticTravelCostSharing(otherCostInfo
-						.getDomTravelCostSharing());
-				bpData.setForeignTravelCostSharing(otherCostInfo
-						.getForeignTravelCostSharing());
-				bpData.setTotalTravelCostSharing(otherCostInfo
-						.getTotTravelCostSharing());
-
+				if(budget.getSubmitCostSharingFlag()){
+    				// add costSaring for fedNonFedBudget report
+    				bpData.setDomesticTravelCostSharing(otherCostInfo.getDomTravelCostSharing());
+    				bpData.setForeignTravelCostSharing(otherCostInfo.getForeignTravelCostSharing());
+    				bpData.setTotalTravelCostSharing(otherCostInfo.getTotTravelCostSharing());
+				}
 				// participants
 				bpData.setpartOtherCost(otherCostInfo.getPartOther());
 				bpData.setpartStipendCost(otherCostInfo.getPartStipends());
@@ -650,17 +685,13 @@ public class S2SBudgetCalculatorServiceImpl implements
 				bpData.setPartTuition(otherCostInfo.getPartTuition());
 				bpData.setparticipantCount(otherCostInfo
 						.getParticpantTotalCount());
-
-				bpData.setPartOtherCostSharing(otherCostInfo
-						.getPartOtherCostSharing());
-				bpData.setPartStipendCostSharing(otherCostInfo
-						.getPartStipendsCostSharing());
-				bpData.setPartTravelCostSharing(otherCostInfo
-						.getPartTravelCostSharing());
-				bpData.setPartTuitionCostSharing(otherCostInfo
-						.getPartTuitionCostSharing());
-				bpData.setPartSubsistenceCostSharing(otherCostInfo
-						.getPartSubsistenceCostSharing());
+				if(budget.getSubmitCostSharingFlag()){
+    				bpData.setPartOtherCostSharing(otherCostInfo.getPartOtherCostSharing());
+    				bpData.setPartStipendCostSharing(otherCostInfo.getPartStipendsCostSharing());
+    				bpData.setPartTravelCostSharing(otherCostInfo.getPartTravelCostSharing());
+    				bpData.setPartTuitionCostSharing(otherCostInfo.getPartTuitionCostSharing());
+    				bpData.setPartSubsistenceCostSharing(otherCostInfo.getPartSubsistenceCostSharing());
+				}
 			}
 			List<List<KeyPersonInfo>> keyPersonList = getKeyPersons(
 					budgetPeriod, pdDoc, MAX_KEY_PERSON_COUNT);
@@ -680,24 +711,25 @@ public class S2SBudgetCalculatorServiceImpl implements
 			BudgetDecimal totalKeyPersonSumCostSharing = BudgetDecimal.ZERO;
 			BudgetDecimal totalAttKeyPersonSum = BudgetDecimal.ZERO;
 			BudgetDecimal totalAttKeyPersonSumCostSharing = BudgetDecimal.ZERO;
-
-			if (keyPersons != null) {
-				for (KeyPersonInfo keyPerson : keyPersons) {
-					totalKeyPersonSum = totalKeyPersonSum.add(keyPerson
-							.getFundsRequested());
-					totalKeyPersonSumCostSharing = totalKeyPersonSumCostSharing
-							.add(keyPerson.getNonFundsRequested());
-				}
-			}
-
-			if (extraPersons != null) {
-				for (KeyPersonInfo keyPerson : extraPersons) {
-					totalAttKeyPersonSum = totalAttKeyPersonSum.add(keyPerson
-							.getFundsRequested());
-					// start add costSaring for fedNonFedBudget report
-					totalAttKeyPersonSumCostSharing = totalAttKeyPersonSumCostSharing
-							.add(keyPerson.getNonFundsRequested());
-				}
+			if(budget.getSubmitCostSharingFlag()){
+    			if (keyPersons != null) {
+    				for (KeyPersonInfo keyPerson : keyPersons) {
+    					totalKeyPersonSum = totalKeyPersonSum.add(keyPerson
+    							.getFundsRequested());
+    					totalKeyPersonSumCostSharing = totalKeyPersonSumCostSharing
+    							.add(keyPerson.getNonFundsRequested());
+    				}
+    			}
+    
+    			if (extraPersons != null) {
+    				for (KeyPersonInfo keyPerson : extraPersons) {
+    					totalAttKeyPersonSum = totalAttKeyPersonSum.add(keyPerson
+    							.getFundsRequested());
+    					// start add costSaring for fedNonFedBudget report
+    					totalAttKeyPersonSumCostSharing = totalAttKeyPersonSumCostSharing
+    							.add(keyPerson.getNonFundsRequested());
+    				}
+    			}
 			}
 			bpData.setTotalFundsKeyPersons(totalKeyPersonSum
 					.add(totalAttKeyPersonSum));
@@ -1157,6 +1189,7 @@ public class S2SBudgetCalculatorServiceImpl implements
 	 */
 	protected List<OtherDirectCostInfo> getOtherDirectCosts(
 			BudgetPeriod budgetPeriod, String sponsor) {
+	    Budget budget = budgetPeriod.getBudget();
 		OtherDirectCostInfo otherDirectCostInfo = new OtherDirectCostInfo();
 
 		List<CostInfo> costInfoList = new ArrayList<CostInfo>();
@@ -1179,12 +1212,11 @@ public class S2SBudgetCalculatorServiceImpl implements
 						costInfo.setBudgetPeriod(budgetPeriod.getBudgetPeriod()
 								.intValue());
 						costInfo.setCost(lineItem.getLineItemCost());
-						costInfo
-								.setCostSharing(lineItem.getCostSharingAmount());
-						costInfo
-								.setCategory(budgetCategoryMap.getDescription());
-						costInfo.setCategoryType(budgetCategoryMap
-								.getCategoryType());
+						if(canBudgetLineItemCostSharingInclude(budget, lineItem)){
+						    costInfo.setCostSharing(lineItem.getCostSharingAmount());
+					    }
+						costInfo.setCategory(budgetCategoryMap.getDescription());
+						costInfo.setCategoryType(budgetCategoryMap.getCategoryType());
 						if (lineItem.getQuantity() != null) {
 							costInfo.setQuantity(lineItem.getQuantity());
 						}
@@ -1214,13 +1246,15 @@ public class S2SBudgetCalculatorServiceImpl implements
 						.equals(RATE_CLASS_TYPE_SALARIES_MS)) {
 					totalCost = totalCost.add(lineItemCalculatedAmt
 							.getCalculatedCost());
-					totalCostSharing = totalCostSharing
-							.add(lineItemCalculatedAmt
-									.getCalculatedCostSharing());
+					if(canBudgetLineItemCostSharingInclude(budget, lineItem)){
+					    totalCostSharing = totalCostSharing.add(lineItemCalculatedAmt.getCalculatedCostSharing());
+					}
 				}
 			}
 			lineItemcostInfo.setCost(totalCost);
-			lineItemcostInfo.setCostSharing(totalCostSharing);
+			if(canBudgetLineItemCostSharingInclude(budget, lineItem)){
+			    lineItemcostInfo.setCostSharing(totalCostSharing);
+			}
 			StringBuilder description = new StringBuilder();
 			description.append(DESCRIPTION_LA);
 			description.append(totalCost);
@@ -1274,103 +1308,119 @@ public class S2SBudgetCalculatorServiceImpl implements
 		for (CostInfo costInfo : costInfoList) {
 			if (costInfo.getCategory().equals(MATERIALS_AND_SUPPLIES_CATEGORY)) {
 				materialCost = materialCost.add(costInfo.getCost());
-				materialCostSharing = materialCostSharing.add(costInfo
-						.getCostSharing());
+				if(budget.getSubmitCostSharingFlag()){
+				    materialCostSharing = materialCostSharing.add(costInfo.getCostSharing());
+				}
 			} else if (costInfo.getCategory().equals(CONSULTANT_COSTS_CATEGORY)) {
 				consultantCost = consultantCost.add(costInfo.getCost());
-				consultantCostSharing = consultantCostSharing.add(costInfo
-						.getCostSharing());
+                if(budget.getSubmitCostSharingFlag()){
+                    consultantCostSharing = consultantCostSharing.add(costInfo.getCostSharing());
+                }
 			} else if (costInfo.getCategory()
 					.equals(PUBLICATION_COSTS_CATEGORY)) {
 				publicationCost = publicationCost.add(costInfo.getCost());
-				publicationCostSharing = publicationCostSharing.add(costInfo
-						.getCostSharing());
+                if(budget.getSubmitCostSharingFlag()){
+                    publicationCostSharing = publicationCostSharing.add(costInfo.getCostSharing());
+                }
 			} else if (costInfo.getCategory()
 					.equals(COMPUTER_SERVICES_CATEGORY)) {
 				computerCost = computerCost.add(costInfo.getCost());
-				computerCostSharing = computerCostSharing.add(costInfo
-						.getCostSharing());
+                if(budget.getSubmitCostSharingFlag()){
+                    computerCostSharing = computerCostSharing.add(costInfo.getCostSharing());
+                }
 			} else if (costInfo.getCategory().equals(ALTERATIONS_CATEGORY)) {
 				alterationsCost = alterationsCost.add(costInfo.getCost());
-				alterationsCostSharing = alterationsCostSharing.add(costInfo
-						.getCostSharing());
+                if(budget.getSubmitCostSharingFlag()){
+                    alterationsCostSharing = alterationsCostSharing.add(costInfo.getCostSharing());
+                }
 			} else if (costInfo.getCategory().equals(SUBCONTRACT_CATEGORY)) {
 				subContractCost = subContractCost.add(costInfo.getCost());
-				subContractCostSharing = subContractCostSharing.add(costInfo
-						.getCostSharing());
+                if(budget.getSubmitCostSharingFlag()){
+                    subContractCostSharing = subContractCostSharing.add(costInfo.getCostSharing());
+                }
 			} else if (costInfo.getCategory().equals(EQUIPMENT_RENTAL_CATEGORY)) {
-				equipmentRentalCost = equipmentRentalCost.add(costInfo
-						.getCost());
-				equipmentRentalCostSharing = equipmentRentalCostSharing
-						.add(costInfo.getCostSharing());
+				equipmentRentalCost = equipmentRentalCost.add(costInfo.getCost());
+                if(budget.getSubmitCostSharingFlag()){
+                    equipmentRentalCostSharing = equipmentRentalCostSharing.add(costInfo.getCostSharing());
+                }
 			} else if (costInfo.getCategory().equals(DOMESTIC_TRAVEL_CATEGORY)) {
 				domesticTravelCost = domesticTravelCost.add(costInfo.getCost());
-				domesticTravelCostSharing = domesticTravelCostSharing
-						.add(costInfo.getCostSharing());
+                if(budget.getSubmitCostSharingFlag()){
+                    domesticTravelCostSharing = domesticTravelCostSharing.add(costInfo.getCostSharing());
+                }
 			} else if (costInfo.getCategory().equals(FOREIGN_TRAVEL_CATEGORY)) {
 				foreignTravelCost = foreignTravelCost.add(costInfo.getCost());
-				foreignTravelCostSharing = foreignTravelCostSharing
-						.add(costInfo.getCostSharing());
+                if(budget.getSubmitCostSharingFlag()){
+                    foreignTravelCostSharing = foreignTravelCostSharing.add(costInfo.getCostSharing());
+                }
 			} else if (costInfo.getCategory().equals(
 					PARTICIPANT_STIPENDS_CATEGORY)) {
 				partStipendsCost = partStipendsCost.add(costInfo.getCost());
-				partStipendsCostSharing = partStipendsCostSharing.add(costInfo
-						.getCostSharing());
-				totalParticipantCost = totalParticipantCost.add(costInfo
-						.getCost());
-				totalParticipantCostSharing = totalParticipantCostSharing
-						.add(costInfo.getCostSharing());
+                if(budget.getSubmitCostSharingFlag()){
+                    partStipendsCostSharing = partStipendsCostSharing.add(costInfo.getCostSharing());
+                    totalParticipantCostSharing = totalParticipantCostSharing.add(costInfo.getCostSharing());
+                }
+				totalParticipantCost = totalParticipantCost.add(costInfo.getCost());
 				totalParticipantCount += costInfo.getQuantity();
 			} else if (costInfo.getCategory().equals(
 					PARTICIPANT_TRAVEL_CATEGORY)) {
 				partTravelCost = partTravelCost.add(costInfo.getCost());
-				partTravelCostSharing = partTravelCostSharing.add(costInfo
-						.getCostSharing());
+				if(budget.getSubmitCostSharingFlag()){
+    				partTravelCostSharing = partTravelCostSharing.add(costInfo
+    						.getCostSharing());
+                    totalParticipantCostSharing = totalParticipantCostSharing
+                            .add(costInfo.getCostSharing());
+				}
 				totalParticipantCost = totalParticipantCost.add(costInfo
 						.getCost());
-				totalParticipantCostSharing = totalParticipantCostSharing
-						.add(costInfo.getCostSharing());
 				totalParticipantCount += costInfo.getQuantity();
 			} else if (costInfo.getCategory().equals(
 					PARTICIPANT_TUTION_CATEGORY)) {
 				partTuitionCost = partTuitionCost.add(costInfo.getCost());
-				partTuitionCostSharing = partTuitionCostSharing.add(costInfo
-						.getCostSharing());
+				if(budget.getSubmitCostSharingFlag()){
+				    partTuitionCostSharing = partTuitionCostSharing.add(costInfo.getCostSharing());
+				    totalParticipantCostSharing = totalParticipantCostSharing.add(costInfo.getCostSharing());
+				}
 				totalParticipantCost = totalParticipantCost.add(costInfo
 						.getCost());
-				totalParticipantCostSharing = totalParticipantCostSharing
-						.add(costInfo.getCostSharing());
 				totalParticipantCount += costInfo.getQuantity();
 			} else if (costInfo.getCategory().equals(
 					PARTICIPANT_SUBSISTENCE_CATEGORY)) {
 				partSubsistenceCost = partSubsistenceCost.add(costInfo
 						.getCost());
-				partSubsistenceCostSharing = partSubsistenceCostSharing
+				if(budget.getSubmitCostSharingFlag()){
+	                partSubsistenceCostSharing = partSubsistenceCostSharing
 						.add(costInfo.getCostSharing());
+	                totalParticipantCostSharing = totalParticipantCostSharing
+	                        .add(costInfo.getCostSharing());
+				}
 				totalParticipantCost = totalParticipantCost.add(costInfo
 						.getCost());
-				totalParticipantCostSharing = totalParticipantCostSharing
-						.add(costInfo.getCostSharing());
+				
 				totalParticipantCount += costInfo.getQuantity();
 			} else if (costInfo.getCategory()
 					.equals(PARTICIPANT_OTHER_CATEGORY)) {
 				partOtherCost = partOtherCost.add(costInfo.getCost());
-				partOtherCostSharing = partOtherCostSharing.add(costInfo
-						.getCostSharing());
+                if(budget.getSubmitCostSharingFlag()){
+    				partOtherCostSharing = partOtherCostSharing.add(costInfo
+    						.getCostSharing());
+                    totalParticipantCostSharing = totalParticipantCostSharing
+                            .add(costInfo.getCostSharing());
+                }
 				totalParticipantCost = totalParticipantCost.add(costInfo
 						.getCost());
-				totalParticipantCostSharing = totalParticipantCostSharing
-						.add(costInfo.getCostSharing());
 				totalParticipantCount += costInfo.getQuantity();
 			} else if (costInfo.getCategory().equals(
 					OTHER_DIRECT_COSTS_CATEGORY)) {
 				otherDirectCost = otherDirectCost.add(costInfo.getCost());
-				otherDirectCostSharing = otherDirectCostSharing.add(costInfo
-						.getCostSharing());
+                if(budget.getSubmitCostSharingFlag()){
+                    otherDirectCostSharing = otherDirectCostSharing.add(costInfo.getCostSharing());
+                }
 			} else {
 				otherCost = otherCost.add(costInfo.getCost());
-				otherCostSharing = otherCostSharing.add(costInfo
-						.getCostSharing());
+                if(budget.getSubmitCostSharingFlag()){
+                    otherCostSharing = otherCostSharing.add(costInfo.getCostSharing());
+                }
 			}
 		}
 
@@ -1422,31 +1472,31 @@ public class S2SBudgetCalculatorServiceImpl implements
 
 		totalTravelCost = totalTravelCost.add(domesticTravelCost);
 		totalTravelCost = totalTravelCost.add(foreignTravelCost);
-
-		totalOtherDirectCostSharing = totalOtherDirectCostSharing
-				.add(materialCostSharing);
-		totalOtherDirectCostSharing = totalOtherDirectCostSharing
-				.add(consultantCostSharing);
-		totalOtherDirectCostSharing = totalOtherDirectCostSharing
-				.add(publicationCostSharing);
-		totalOtherDirectCostSharing = totalOtherDirectCostSharing
-				.add(computerCostSharing);
-		totalOtherDirectCostSharing = totalOtherDirectCostSharing
-				.add(alterationsCostSharing);
-		totalOtherDirectCostSharing = totalOtherDirectCostSharing
-				.add(subContractCostSharing);
-		totalOtherDirectCostSharing = totalOtherDirectCostSharing
-				.add(equipmentRentalCostSharing);
-		totalOtherDirectCostSharing = totalOtherDirectCostSharing
-				.add(otherDirectCostSharing);
-		totalOtherDirectCostSharing = totalOtherDirectCostSharing
-				.add(otherCostSharing);
-
-		totalTravelCostSharing = totalTravelCostSharing
-				.add(domesticTravelCostSharing);
-		totalTravelCostSharing = totalTravelCostSharing
-				.add(foreignTravelCostSharing);
-
+        if(budget.getSubmitCostSharingFlag()){
+    		totalOtherDirectCostSharing = totalOtherDirectCostSharing
+    				.add(materialCostSharing);
+    		totalOtherDirectCostSharing = totalOtherDirectCostSharing
+    				.add(consultantCostSharing);
+    		totalOtherDirectCostSharing = totalOtherDirectCostSharing
+    				.add(publicationCostSharing);
+    		totalOtherDirectCostSharing = totalOtherDirectCostSharing
+    				.add(computerCostSharing);
+    		totalOtherDirectCostSharing = totalOtherDirectCostSharing
+    				.add(alterationsCostSharing);
+    		totalOtherDirectCostSharing = totalOtherDirectCostSharing
+    				.add(subContractCostSharing);
+    		totalOtherDirectCostSharing = totalOtherDirectCostSharing
+    				.add(equipmentRentalCostSharing);
+    		totalOtherDirectCostSharing = totalOtherDirectCostSharing
+    				.add(otherDirectCostSharing);
+    		totalOtherDirectCostSharing = totalOtherDirectCostSharing
+    				.add(otherCostSharing);
+    
+    		totalTravelCostSharing = totalTravelCostSharing
+    				.add(domesticTravelCostSharing);
+    		totalTravelCostSharing = totalTravelCostSharing
+    				.add(foreignTravelCostSharing);
+        }
 		otherDirectCostInfo.settotalOtherDirect(totalOtherDirect);
 		otherDirectCostInfo
 				.setTotalOtherDirectCostSharing(totalOtherDirectCostSharing);
@@ -1474,6 +1524,10 @@ public class S2SBudgetCalculatorServiceImpl implements
 		otherDirectCosts.add(otherDirectCostInfo);
 		return otherDirectCosts;
 	}
+
+    private boolean canBudgetLineItemCostSharingInclude(Budget budget, BudgetLineItem lineItem) {
+        return budget.getSubmitCostSharingFlag() && lineItem.getSubmitCostSharingFlag();
+    }
 
 	/**
 	 * This method returns a list of BudgetCategoryMap based on the input. The
@@ -1612,8 +1666,10 @@ public class S2SBudgetCalculatorServiceImpl implements
 						            .getCostElementBO().getDescription()); 
 						totalEquipFund = totalEquipFund.add(lineItem
 								.getLineItemCost());
-						totalEquipNonFund = totalEquipNonFund.add(lineItem
+						if(canBudgetLineItemCostSharingInclude(budgetPeriod.getBudget(), lineItem)){
+						    totalEquipNonFund = totalEquipNonFund.add(lineItem
 								.getCostSharingAmount());
+					    }
 
 						StringBuilder keyBuilder = new StringBuilder();
 						keyBuilder.append(budgetCategoryMap.getCategoryType());
@@ -1635,15 +1691,16 @@ public class S2SBudgetCalculatorServiceImpl implements
 	                            equipCostInfo.setDescription(lineItem
 	                                    .getCostElementBO().getDescription());	                        
 							equipCostInfo.setCost(lineItem.getLineItemCost());
-							equipCostInfo.setCostSharing(lineItem
-									.getCostSharingAmount());
+							if(canBudgetLineItemCostSharingInclude(budgetPeriod.getBudget(), lineItem)){
+							    equipCostInfo.setCostSharing(lineItem.getCostSharingAmount());
+							}
 						} else {
 							equipCostInfo = costInfoMap.get(key);
 							equipCostInfo.setCost(equipCostInfo.getCost().add(
 									lineItem.getLineItemCost()));
-							equipCostInfo.setCostSharing(equipCostInfo
-									.getCostSharing().add(
-											lineItem.getCostSharingAmount()));
+							if(canBudgetLineItemCostSharingInclude(budgetPeriod.getBudget(), lineItem)){
+							    equipCostInfo.setCostSharing(equipCostInfo.getCostSharing().add(lineItem.getCostSharingAmount()));
+							}
 						}
 						costInfoMap.put(key, equipCostInfo);
 						costInfos.add(equipCostInfo);
@@ -1887,12 +1944,9 @@ public class S2SBudgetCalculatorServiceImpl implements
 			keyPerson.setFundsRequested(compensationInfo.getFundsRequested());
 			keyPerson.setFringe(compensationInfo.getFringe());
 			// start add costSaring for fedNonFedBudget report
-			keyPerson.setCostSharingAmount(compensationInfo
-					.getCostSharingAmount());
-			keyPerson.setNonFundsRequested(compensationInfo
-					.getNonFundsRequested());
-			keyPerson.setFringeCostSharing(compensationInfo
-					.getFringeCostSharing());
+			keyPerson.setCostSharingAmount(compensationInfo.getCostSharingAmount());
+			keyPerson.setNonFundsRequested(compensationInfo.getNonFundsRequested());
+			keyPerson.setFringeCostSharing(compensationInfo.getFringeCostSharing());
 			// end add costSaring for fedNonFedBudget report
 		}
 
@@ -1902,24 +1956,17 @@ public class S2SBudgetCalculatorServiceImpl implements
 				compensationInfo = getCompensation(keyPerson, budgetPeriod,
 						pdDoc.getDevelopmentProposal().getProposalNumber());
 
-				keyPerson.setAcademicMonths(compensationInfo
-						.getAcademicMonths());
-				keyPerson.setCalendarMonths(compensationInfo
-						.getCalendarMonths());
+				keyPerson.setAcademicMonths(compensationInfo.getAcademicMonths());
+				keyPerson.setCalendarMonths(compensationInfo.getCalendarMonths());
 				keyPerson.setSummerMonths(compensationInfo.getSummerMonths());
 				keyPerson.setBaseSalary(compensationInfo.getBaseSalary());
-				keyPerson.setRequestedSalary(compensationInfo
-						.getRequestedSalary());
-				keyPerson.setFundsRequested(compensationInfo
-						.getFundsRequested());
+				keyPerson.setRequestedSalary(compensationInfo.getRequestedSalary());
+				keyPerson.setFundsRequested(compensationInfo.getFundsRequested());
 				keyPerson.setFringe(compensationInfo.getFringe());
 				// start add costSaring for fedNonFedBudget report
-				keyPerson.setCostSharingAmount(compensationInfo
-						.getCostSharingAmount());
-				keyPerson.setNonFundsRequested(compensationInfo
-						.getNonFundsRequested());
-				keyPerson.setFringeCostSharing(compensationInfo
-						.getFringeCostSharing());
+				keyPerson.setCostSharingAmount(compensationInfo.getCostSharingAmount());
+				keyPerson.setNonFundsRequested(compensationInfo.getNonFundsRequested());
+				keyPerson.setFringeCostSharing(compensationInfo.getFringeCostSharing());
 				// end add costSaring for fedNonFedBudget report
 			}
 		}
@@ -1929,19 +1976,19 @@ public class S2SBudgetCalculatorServiceImpl implements
 		listKeyPersons.add(extraPersons);
 		return listKeyPersons;
 	}
-        private boolean isSeniorLineItem(String keyPersonRole, List<BudgetCategoryMapping> budgetCategoryList, String budgetCategoryCode) {
-            boolean isSeniorLineItem = false;
-            if(keyPersonRole.equalsIgnoreCase(KEYPERSON_OTHER)){
-                for (BudgetCategoryMapping categoryMapping : budgetCategoryList) {
-                if (categoryMapping.getBudgetCategoryCode().equals(
-                        budgetCategoryCode)) {
-                    isSeniorLineItem = true;
-                }}
-                }else{
-                    isSeniorLineItem = true;
-                }
-            return isSeniorLineItem;
-        }
+    private boolean isSeniorLineItem(String keyPersonRole, List<BudgetCategoryMapping> budgetCategoryList, String budgetCategoryCode) {
+        boolean isSeniorLineItem = false;
+        if(keyPersonRole.equalsIgnoreCase(KEYPERSON_OTHER)){
+            for (BudgetCategoryMapping categoryMapping : budgetCategoryList) {
+            if (categoryMapping.getBudgetCategoryCode().equals(
+                    budgetCategoryCode)) {
+                isSeniorLineItem = true;
+            }}
+            }else{
+                isSeniorLineItem = true;
+            }
+        return isSeniorLineItem;
+    }
 	protected boolean budgetPersonExistInProposalPersons(
 			BudgetPerson budgetPerson, List<ProposalPerson> propPersons) {
 		for (ProposalPerson propPerson:propPersons) {
@@ -2033,9 +2080,10 @@ public class S2SBudgetCalculatorServiceImpl implements
 								.multiply(new BudgetDecimal(0.01)));
 					}
 					totalSal = totalSal.add(personDetails.getSalaryRequested());
-					totalSalCostSharing = totalSalCostSharing.add(personDetails
+					if (canBudgetLineItemCostSharingInclude(budgetPeriod.getBudget(), lineItem)) {
+					    totalSalCostSharing = totalSalCostSharing.add(personDetails
 							.getCostSharingAmount());
-
+					}
 					for (BudgetPersonnelCalculatedAmount personCalculatedAmt : personDetails
 							.getBudgetPersonnelCalculatedAmounts()) {
 						personCalculatedAmt.refreshReferenceObject("rateClass");
@@ -2050,11 +2098,10 @@ public class S2SBudgetCalculatorServiceImpl implements
 										.getRateTypeCode()
 										.equals(
 												RATE_TYPE_ADMINISTRATIVE_SALARIES))) {
-							fringe = fringe.add(personCalculatedAmt
-									.getCalculatedCost());
-							fringeCostSharing = fringeCostSharing
-									.add(personCalculatedAmt
-											.getCalculatedCostSharing());
+							fringe = fringe.add(personCalculatedAmt.getCalculatedCost());
+							if(canBudgetLineItemCostSharingInclude(budgetPeriod.getBudget(), lineItem)){
+							    fringeCostSharing = fringeCostSharing.add(personCalculatedAmt.getCalculatedCostSharing());
+							}
 						}
 					}
 					BudgetPerson budgetPerson = personDetails.getBudgetPerson();
@@ -2084,8 +2131,7 @@ public class S2SBudgetCalculatorServiceImpl implements
 		compensationInfo.setFringe(fringe);
 		compensationInfo.setFundsRequested(totalSal.add(fringe));
 		compensationInfo.setFringeCostSharing(fringeCostSharing);
-		compensationInfo.setNonFundsRequested(totalSalCostSharing
-				.add(fringeCostSharing));
+		compensationInfo.setNonFundsRequested(totalSalCostSharing.add(fringeCostSharing));
 		return compensationInfo;
 	}
 
@@ -2178,10 +2224,7 @@ public class S2SBudgetCalculatorServiceImpl implements
 					// budget versions, get the last one
 					budgetDocument = (BudgetDocument) KNSServiceLocator
 							.getDocumentService().getByDocumentHeaderId(
-									budgetVersions.get(
-											budgetVersions.size() - 1)
-											.getBudgetVersionOverview()
-											.getDocumentNumber());
+									budgetVersions.get(budgetVersions.size() - 1).getBudgetVersionOverview().getDocumentNumber());
 				}
 			}
 		} catch (WorkflowException e) {
@@ -2216,10 +2259,8 @@ public class S2SBudgetCalculatorServiceImpl implements
 						.getBudgetLineItems()) {
 					for (BudgetPersonnelDetails budgetPersonnelDetails : lineItem
 							.getBudgetPersonnelDetailsList()) {
-						if (s2SUtilService.proposalPersonEqualsBudgetPerson(
-								proposalPerson, budgetPersonnelDetails)) {
-							salary = salary.add(budgetPersonnelDetails
-									.getSalaryRequested());
+						if (s2SUtilService.proposalPersonEqualsBudgetPerson(proposalPerson, budgetPersonnelDetails)) {
+							salary = salary.add(budgetPersonnelDetails.getSalaryRequested());
 						}
 					}
 				}

@@ -20,12 +20,15 @@ import javax.servlet.http.HttpServletResponse;
 import org.apache.struts.action.ActionForm;
 import org.apache.struts.action.ActionForward;
 import org.apache.struts.action.ActionMapping;
+import org.kuali.kra.award.home.AwardService;
 import org.kuali.kra.infrastructure.Constants;
 import org.kuali.kra.infrastructure.KraServiceLocator;
 import org.kuali.kra.service.KeywordsService;
+import org.kuali.kra.service.VersionHistoryService;
 import org.kuali.kra.subaward.SubAwardForm;
 import org.kuali.kra.subaward.bo.SubAward;
 import org.kuali.kra.subaward.document.SubAwardDocument;
+import org.kuali.kra.subaward.service.SubAwardService;
 import org.kuali.kra.subaward.subawardrule.SubAwardDocumentRule;
 import org.kuali.kra.web.struts.action.KraTransactionalDocumentActionBase;
 import org.kuali.rice.kew.exception.WorkflowException;
@@ -36,6 +39,8 @@ import org.kuali.rice.kns.util.KNSConstants;
 import org.kuali.rice.kns.web.struts.form.KualiDocumentFormBase;
 
 public class SubAwardAction extends KraTransactionalDocumentActionBase{
+    
+    private transient SubAwardService subAwardService;
     
     /**
      * @see org.kuali.kra.web.struts.action.KraTransactionalDocumentActionBase#execute(org.apache.struts.action.ActionMapping, org.apache.struts.action.ActionForm, javax.servlet.http.HttpServletRequest, javax.servlet.http.HttpServletResponse)
@@ -261,6 +266,13 @@ public ActionForward subAwardActions(ActionMapping mapping, ActionForm form, Htt
 }
 
 /**
+ * @return
+ */
+protected VersionHistoryService getVersionHistoryService() {
+    return KraServiceLocator.getService(VersionHistoryService.class);
+}
+
+/**
  * 
  * This method...
  * @return
@@ -268,6 +280,18 @@ public ActionForward subAwardActions(ActionMapping mapping, ActionForm form, Htt
 @SuppressWarnings("unchecked")
 protected KeywordsService getKeywordService(){
     return KraServiceLocator.getService(KeywordsService.class);
+}
+
+
+public SubAwardService getSubAwardService() {
+    if (subAwardService == null) {
+        subAwardService = KraServiceLocator.getService(SubAwardService.class);
+    }
+    return subAwardService;
+}
+
+public void setSubAwardService(SubAwardService subAwardService) {
+    this.subAwardService = subAwardService;
 }
 
 }

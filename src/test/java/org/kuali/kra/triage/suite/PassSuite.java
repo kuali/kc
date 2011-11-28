@@ -21,7 +21,6 @@ import org.junit.runners.Suite.SuiteClasses;
 
 @RunWith(Suite.class)
 @SuiteClasses(  {
-
     org.kuali.kra.test.OjbRepositoryMappingTest.class,
     org.kuali.kra.test.infrastructure.test.LifecycleTest.class,
     org.kuali.kra.institutionalproposal.customdata.InstitutionalProposalCustomDataTest.class,
@@ -464,7 +463,8 @@ import org.junit.runners.Suite.SuiteClasses;
     org.kuali.kra.subaward.web.struts.action.SubAwardCloseoutActionTest.class,
     org.kuali.kra.subaward.web.struts.action.SubAwardContactsActionTest.class,
     org.kuali.kra.subaward.web.struts.action.SubAwardFundingSourceActionTest.class,
-    org.kuali.kra.service.impl.NotificationModuleRoleServiceImplTest.class
+    org.kuali.kra.service.impl.NotificationModuleRoleServiceImplTest.class,
+    org.kuali.kra.subaward.document.authorization.TestSubAwardAuthorizers.class
 })
 /** these are all the test class where all the test methods are currently passing. */
 public class PassSuite {
