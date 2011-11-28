@@ -616,7 +616,7 @@ public class BudgetPeriodInfo {
      * @return Value of property costSharingAmount.
      */
     public BudgetDecimal getCostSharingAmount() {
-        return costSharingAmount;
+        return costSharingAmount==null?BudgetDecimal.ZERO:costSharingAmount;
     }
 
     /**
@@ -629,7 +629,7 @@ public class BudgetPeriodInfo {
     }
 
     public BudgetDecimal getDomesticTravelCostSharing() {
-        return domesticTravelCostSharing;
+        return domesticTravelCostSharing==null?BudgetDecimal.ZERO:domesticTravelCostSharing;
     }
 
     public void setDomesticTravelCostSharing(BudgetDecimal domesticTravelCostSharing) {
@@ -637,7 +637,7 @@ public class BudgetPeriodInfo {
     }
 
     public BudgetDecimal getForeignTravelCostSharing() {
-        return foreignTravelCostSharing;
+        return foreignTravelCostSharing==null?BudgetDecimal.ZERO:foreignTravelCostSharing;
     }
 
     public void setForeignTravelCostSharing(BudgetDecimal foreignTravelCostSharing) {
@@ -645,7 +645,7 @@ public class BudgetPeriodInfo {
     }
 
     public BudgetDecimal getTotalTravelCostSharing() {
-        return totalTravelCostSharing;
+        return totalTravelCostSharing==null?BudgetDecimal.ZERO:totalTravelCostSharing;
     }
 
     public void setTotalTravelCostSharing(BudgetDecimal totalTravelCostSharing) {
@@ -653,7 +653,7 @@ public class BudgetPeriodInfo {
     }
 
     public BudgetDecimal getPartStipendCostSharing() {
-        return partStipendCostSharing;
+        return partStipendCostSharing==null?BudgetDecimal.ZERO:partStipendCostSharing;
     }
 
     public void setPartStipendCostSharing(BudgetDecimal partStipendCostSharing) {
@@ -661,7 +661,7 @@ public class BudgetPeriodInfo {
     }
 
     public BudgetDecimal getPartTravelCostSharing() {
-        return partTravelCostSharing;
+        return partTravelCostSharing==null?BudgetDecimal.ZERO:partTravelCostSharing;
     }
 
     public void setPartTravelCostSharing(BudgetDecimal partTravelCostSharing) {
@@ -669,7 +669,7 @@ public class BudgetPeriodInfo {
     }
 
     public BudgetDecimal getPartOtherCostSharing() {
-        return partOtherCostSharing;
+        return partOtherCostSharing==null?BudgetDecimal.ZERO:partOtherCostSharing;
     }
 
     public void setPartOtherCostSharing(BudgetDecimal partOtherCostSharing) {
@@ -701,7 +701,7 @@ public class BudgetPeriodInfo {
     }
 
     public BudgetDecimal getTotalCompensationCostSharing() {
-        return totalCompensationCostSharing;
+        return totalCompensationCostSharing==null?BudgetDecimal.ZERO:totalCompensationCostSharing;
     }
 
     public void setTotalCompensationCostSharing(BudgetDecimal totalCompensationCostSharing) {
@@ -709,7 +709,7 @@ public class BudgetPeriodInfo {
     }
 
     public BudgetDecimal getTotalDirectCostSharing() {
-        return totalDirectCostSharing;
+        return totalDirectCostSharing==null?BudgetDecimal.ZERO:totalDirectCostSharing;
     }
 
     public void setTotalDirectCostSharing(BudgetDecimal totalDirectCostSharing) {
@@ -717,7 +717,7 @@ public class BudgetPeriodInfo {
     }
 
     public BudgetDecimal getTotalIndirectCostSharing() {
-        return totalIndirectCostSharing;
+        return totalIndirectCostSharing==null?BudgetDecimal.ZERO:totalIndirectCostSharing;
     }
 
     public void setTotalIndirectCostSharing(BudgetDecimal totalIndirectCostSharing) {
@@ -821,7 +821,7 @@ public class BudgetPeriodInfo {
      * @return Value of property partSubsistenceCostSharing.
      */
     public BudgetDecimal getPartSubsistenceCostSharing() {
-        return partSubsistenceCostSharing;
+        return partSubsistenceCostSharing==null?BudgetDecimal.ZERO:partSubsistenceCostSharing;
     }
 
     /**
@@ -839,7 +839,7 @@ public class BudgetPeriodInfo {
      * @return Value of property partTuitionCostSharing.
      */
     public BudgetDecimal getPartTuitionCostSharing() {
-        return partTuitionCostSharing;
+        return partTuitionCostSharing==null?BudgetDecimal.ZERO:partTuitionCostSharing;
     }
 
     /**

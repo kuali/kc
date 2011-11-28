@@ -15,18 +15,28 @@
  */
 package org.kuali.kra.subaward.lookup;
 
+import java.util.ArrayList;
+import java.util.Collection;
 import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
 import java.util.Properties;
+import java.util.Set;
+import java.util.TreeSet;
 
 import org.apache.commons.lang.StringUtils;
+import org.kuali.kra.bo.versioning.VersionHistory;
+import org.kuali.kra.infrastructure.KraServiceLocator;
 import org.kuali.kra.lookup.KraLookupableHelperServiceImpl;
+import org.kuali.kra.service.VersionHistoryService;
 import org.kuali.kra.subaward.document.SubAwardDocument;
+import org.kuali.rice.kew.exception.WorkflowException;
 import org.kuali.rice.kew.util.KEWConstants;
 import org.kuali.rice.kns.bo.BusinessObject;
 import org.kuali.rice.kns.lookup.HtmlData;
 import org.kuali.rice.kns.lookup.HtmlData.AnchorHtmlData;
+import org.kuali.rice.kns.service.BusinessObjectService;
+import org.kuali.rice.kns.service.DocumentService;
 import org.kuali.rice.kns.util.KNSConstants;
 import org.kuali.rice.kns.util.UrlFactory;
 import org.kuali.rice.kns.web.ui.Field;
@@ -43,7 +53,7 @@ public class SubAwardLookupableHelperServiceImpl extends KraLookupableHelperServ
     static final String USER_ID = "userId";
     static final String PI_NAME = "principalInvestigatorName";
     static final String OSP_ADMIN_NAME = "ospAdministratorName";
-    
+    private VersionHistoryService versionHistoryService; 
     
     @Override
     public List<? extends BusinessObject> getSearchResults(Map<String, String> fieldValues) {
@@ -58,9 +68,16 @@ public class SubAwardLookupableHelperServiceImpl extends KraLookupableHelperServ
         }
         fieldValues.remove("lookupOspAdministratorName");
         List<SubAward> unboundedResults = (List<SubAward>) super.getSearchResultsUnbounded(fieldValues);
-        
+        List<SubAward> returnResults = new ArrayList<SubAward>();
+        try {
+            returnResults = filterForActiveSubAwards(unboundedResults);
+        }
+        catch (WorkflowException e) {
+            // TODO Auto-generated catch block
+            e.printStackTrace();
+        }
      
-        return unboundedResults;
+        return returnResults;
     }
 
 
@@ -122,6 +139,29 @@ public class SubAwardLookupableHelperServiceImpl extends KraLookupableHelperServ
       protected void addEditHtmlData(List<HtmlData> htmlDataList, BusinessObject businessObject) {
           //no-op
       }
+      
+      @SuppressWarnings("unchecked")
+      protected List<SubAward> filterForActiveSubAwards(Collection<SubAward> collectionByQuery) throws WorkflowException {
+          BusinessObjectService businessObjectService =  KraServiceLocator.getService(BusinessObjectService.class);
+          DocumentService documentService = KraServiceLocator.getService(DocumentService.class);
+          Set<String> subAwardCodes = new TreeSet<String>();
+          for(SubAward subAward: collectionByQuery) {
+              subAwardCodes.add(subAward.getSubAwardCode());
+          }
+          
+          List<SubAward> activeSubAwards = new ArrayList<SubAward>();
+          for(String versionName: subAwardCodes) {
+              VersionHistory versionHistory = versionHistoryService.findActiveVersion(SubAward.class, versionName);
+              if(versionHistory != null) {
+                  SubAward activeSubAward = (SubAward) versionHistory.getSequenceOwner();
+                  if(activeSubAward != null) {
+                      activeSubAwards.add(activeSubAward);
+                  }
+              }
+          } 
+          return activeSubAwards;
+      }
+      
     @Override
     protected String getHtmlAction() {
         return "subAwardHome.do";
@@ -136,5 +176,10 @@ public class SubAwardLookupableHelperServiceImpl extends KraLookupableHelperServ
     protected String getKeyFieldName() {
         return "SubAwardId";
     }
-
+    /**
+     * @param versionHistoryService
+     */
+    public void setVersionHistoryService(VersionHistoryService versionHistoryService) {
+       this.versionHistoryService = versionHistoryService; 
+    }
 }

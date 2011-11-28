@@ -16,21 +16,21 @@
 package org.kuali.kra.subaward.bo;
 
 import org.apache.struts.upload.FormFile;
+import org.kuali.kra.SequenceAssociate;
+import org.kuali.kra.SequenceOwner;
 import org.kuali.kra.bo.AttachmentFile;
-import org.kuali.kra.bo.KraPersistableBusinessObjectBase;
 import java.util.LinkedHashMap;
 import java.sql.Date;
 import org.kuali.kra.subaward.bo.SubAward;
 import org.kuali.rice.kns.util.KualiDecimal;
 
-public class SubAwardAmountInfo extends KraPersistableBusinessObjectBase { 
+public class SubAwardAmountInfo extends SubAwardAssociate{ 
     
     private static final long serialVersionUID = 1L;
 
     private Integer subAwardAmountInfoId; 
     private Integer subAwardId; 
     private String subAwardCode; 
-    private Integer sequenceNumber; 
     private Integer lineNumber; 
     private KualiDecimal obligatedAmount; 
     private KualiDecimal obligatedChange; 
@@ -75,13 +75,6 @@ public class SubAwardAmountInfo extends KraPersistableBusinessObjectBase {
         this.subAwardCode = subAwardCode;
     }
 
-    public Integer getSequenceNumber() {
-        return sequenceNumber;
-    }
-
-    public void setSequenceNumber(Integer sequenceNumber) {
-        this.sequenceNumber = sequenceNumber;
-    }
 
     public Integer getLineNumber() {
         return lineNumber;
@@ -133,13 +126,6 @@ public class SubAwardAmountInfo extends KraPersistableBusinessObjectBase {
         this.mimeType = mimeType;
     }
 
-    public SubAward getSubAward() {
-        return subAward;
-    }
-
-    public void setSubAward(SubAward subAward) {
-        this.subAward = subAward;
-    }
 
     /** {@inheritDoc} */
     @Override 
@@ -234,7 +220,12 @@ public class SubAwardAmountInfo extends KraPersistableBusinessObjectBase {
     public void setFileId(Long fileId) {
         this.fileId = fileId;
     }
-    
+    /**
+     * @see org.kuali.kra.Sequenceable#resetPersistenceState()
+     */
+    public void resetPersistenceState() {
+        this.subAwardAmountInfoId = null;
+    }
   
     
 }

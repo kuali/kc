@@ -15,20 +15,18 @@
  */
 package org.kuali.kra.subaward.bo;
 
-import org.kuali.kra.bo.KraPersistableBusinessObjectBase;
 import java.util.LinkedHashMap;
 import java.sql.Date;
 import org.kuali.kra.subaward.bo.SubAward;
 import org.kuali.rice.kns.util.KualiDecimal;
 
-public class SubAwardAmountReleased extends KraPersistableBusinessObjectBase { 
+public class SubAwardAmountReleased  extends SubAwardAssociate { 
     
     private static final long serialVersionUID = 1L;
 
     private Integer subAwardAmtReleasedId; 
     private Integer subAwardId; 
     private String subAwardCode; 
-    private Integer sequenceNumber; 
     private Integer lineNumber; 
     private KualiDecimal amountReleased; 
    
@@ -78,13 +76,6 @@ public class SubAwardAmountReleased extends KraPersistableBusinessObjectBase {
         this.subAwardCode = subAwardCode;
     }
 
-    public Integer getSequenceNumber() {
-        return sequenceNumber;
-    }
-
-    public void setSequenceNumber(Integer sequenceNumber) {
-        this.sequenceNumber = sequenceNumber;
-    }
 
     public Integer getLineNumber() {
         return lineNumber;
@@ -207,14 +198,6 @@ public class SubAwardAmountReleased extends KraPersistableBusinessObjectBase {
         this.mimeType = mimeType;
     }
 
-    public SubAward getSubAward() {
-        return SubAward;
-    }
-
-    public void setSubAward(SubAward SubAward) {
-        this.SubAward = SubAward;
-    }
-    
     public KualiDecimal getAmountReleased() {
         return amountReleased;
     }
@@ -247,6 +230,12 @@ public class SubAwardAmountReleased extends KraPersistableBusinessObjectBase {
         hashMap.put("createdDate", this.getCreatedDate());
         hashMap.put("mimeType", this.getMimeType());
         return hashMap;
+    }
+
+    @Override
+    public void resetPersistenceState() {
+        
+        this.subAwardAmtReleasedId = null;
     }
     
 }

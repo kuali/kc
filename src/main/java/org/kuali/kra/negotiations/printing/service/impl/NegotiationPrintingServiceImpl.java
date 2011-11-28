@@ -55,6 +55,21 @@ public class NegotiationPrintingServiceImpl implements NegotiationPrintingServic
         this.negotiationActivityPrint = negotiationActivityPrint;
     }   
     
+    /**
+     * This method generates the required report and returns the PDF stream as
+     * {@link AttachmentDataSource}
+     * 
+     * @param negotiationDocument
+     *            Negotiation data using which report is generated
+     * @param reportName
+     *            report to be generated
+     * @param reportParameters
+     *            {@link Map} of parameters required for report generation
+     * @return {@link AttachmentDataSource} which contains the byte array of the
+     *         generated PDF
+     * @throws PrintingException
+     *             if any errors occur during report generation
+     */
     public AttachmentDataSource printNegotiationActivityReport(KraPersistableBusinessObjectBase negotiationDocument,
             NegotiationActivityPrintType negotiationReportType, Map<String, Object> reportParameters) throws PrintingException {                   
                 

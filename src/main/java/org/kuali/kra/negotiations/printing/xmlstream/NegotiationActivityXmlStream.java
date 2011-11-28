@@ -33,8 +33,12 @@ import noNamespace.NegotiationsDocument.Negotiations;
 
 import org.apache.xmlbeans.XmlObject;
 import org.kuali.kra.bo.KraPersistableBusinessObjectBase;
+import org.kuali.kra.document.ResearchDocumentBase;
+import org.kuali.kra.negotiations.bo.Negotiable;
 import org.kuali.kra.negotiations.bo.Negotiation;
 import org.kuali.kra.negotiations.bo.NegotiationActivity;
+import org.kuali.kra.negotiations.bo.NegotiationAssociationType;
+import org.kuali.kra.negotiations.bo.NegotiationUnassociatedDetail;
 import org.kuali.kra.negotiations.printing.NegotiationActivityPrintType;
 import org.kuali.kra.printing.xmlstream.XmlStream;
 import org.kuali.kra.proposaldevelopment.bo.ProposalType;
@@ -53,45 +57,77 @@ public class NegotiationActivityXmlStream implements XmlStream {
     private static final String PROP_LOG = "PL";
     private static final String PROP_TYPE_CODE = "proposalTypeCode";
      
+    /**
+     * This method get's the negotiation
+     */
     public Negotiation getNegotiation() {
         return negotiation;
     }
 
+    /**
+     * This method set's the negotiation
+     */
     public void setNegotiation(Negotiation negotiation) {
         this.negotiation = negotiation;
     }    
     
+    /**
+     * This method get's the documentService
+     */
     public DocumentService getDocumentService() {
         return documentService;
     }    
     
+    /**
+     * This method set's the documentService
+     */
     public void setDocumentService(DocumentService documentService) {
         this.documentService = documentService;
     }  
     
+    /**
+     * This method get's the businessObjectService
+     */
     @Override
     public BusinessObjectService getBusinessObjectService() {
         return businessObjectService;
     }
-
+    
+    /**
+     * This method get's the dateTimeService
+     */
     @Override
     public DateTimeService getDateTimeService() {        
         return  dateTimeService;
     }
 
+    /**
+     * This method set's the businessObjectService
+     */
     @Override
     public void setBusinessObjectService(BusinessObjectService businessObjectService) {
-        this.businessObjectService = businessObjectService;
-        
+        this.businessObjectService = businessObjectService;        
     }
-
+    
+    /**
+     * This method set's the dateTimeService
+     */
     @Override
     public void setDateTimeService(DateTimeService dateTimeService) {
-       this.dateTimeService = dateTimeService;
-        
+       this.dateTimeService = dateTimeService;        
     }    
    
-    @Override
+    /**
+     * This method generates XML for Negotiation Activity Report. It uses data passed in
+     * {@link ResearchDocumentBase} for populating the XML nodes. The XML once
+     * generated is returned as {@link XmlObject}
+     * 
+     * @param printableBusinessObject
+     *            using which XML is generated
+     * @param reportParameters
+     *            parameters related to XML generation
+     * @return {@link XmlObject} representing the XML
+     */
     public Map<String, XmlObject> generateXmlStream(KraPersistableBusinessObjectBase printableBusinessObject,
             Map<String, Object> reportParameters) {
         Map<String, XmlObject> xmlObjectList = new LinkedHashMap<String, XmlObject>(); 
@@ -129,68 +165,84 @@ public class NegotiationActivityXmlStream implements XmlStream {
      */
     protected NegotiationDataType getNegotiationDataType() {
         NegotiationDataType negotiationDataType = NegotiationDataType.Factory.newInstance();   
-               
-        if(negotiation.getNegotiator() != null )
+        NegotiationAssociationType negotiationAssociationType = negotiation.getNegotiationAssociationType(); 
+        
+        if(negotiation.getNegotiator() != null ){
             negotiationDataType.setNegotiator(negotiation.getNegotiator().getFullName());
-        if(negotiation.getNegotiationStartDate() != null )
-            negotiationDataType.setStartDate(getDateTimeService().getCalendar(negotiation.getNegotiationStartDate()));       
+        }    
+        if(negotiation.getNegotiationStartDate() != null){
+            negotiationDataType.setStartDate(getDateTimeService().getCalendar(negotiation.getNegotiationStartDate())); 
+        }
         if(negotiation.getNegotiationStatus() != null){
             StatusType statusType = StatusType.Factory.newInstance();       
             statusType.setStatusDesc(negotiation.getNegotiationStatus().getDescription());
             negotiationDataType.setStatus(statusType);       
-        }    
-        negotiationDataType.setDocFileAddress(negotiation.getDocumentFolder()) ;  
-        
-        if(negotiation.getUnAssociatedDetail() != null){        
-            if( negotiation.getUnAssociatedDetail().getLeadUnit() != null ){
-                LeadUnitType leadUnitType=LeadUnitType.Factory.newInstance();
-                leadUnitType.setUnitNumber(negotiation.getUnAssociatedDetail().getLeadUnit().getUnitNumber());
-                leadUnitType.setUnitName(negotiation.getUnAssociatedDetail().getLeadUnit().getUnitName());
-                negotiationDataType.setLeadUnit(leadUnitType);
-             }        
-            if(negotiation.getUnAssociatedDetail().getSponsor() != null ){
-                SponsorTypes sponsorTypes = SponsorTypes.Factory.newInstance();
-                sponsorTypes.setSponsorName(negotiation.getUnAssociatedDetail().getSponsor().getSponsorName());
-                sponsorTypes.setSponsorCode(negotiation.getUnAssociatedDetail().getSponsorCode());        
-                negotiationDataType.setSponsor(sponsorTypes);
-            }  
-            if(negotiation.getUnAssociatedDetail().getContactAdmin() != null )
-                negotiationDataType.setContractAdmin(negotiation.getUnAssociatedDetail().getContactAdmin().getFullName());   
-        
-                negotiationDataType.setTitle(negotiation.getUnAssociatedDetail().getTitle());
-                negotiationDataType.setInvestigator(negotiation.getUnAssociatedDetail().getPiName()); 
-         }
-               
-         else if(negotiation.getAssociatedDocument() != null){
-           
-                LeadUnitType leadUnitType=LeadUnitType.Factory.newInstance();
-                leadUnitType.setUnitNumber(negotiation.getAssociatedDocument().getLeadUnitNumber());
-                leadUnitType.setUnitName(negotiation.getAssociatedDocument().getLeadUnitName());
-                negotiationDataType.setLeadUnit(leadUnitType);          
-                    
-                SponsorTypes sponsorTypes = SponsorTypes.Factory.newInstance();
-                sponsorTypes.setSponsorName(negotiation.getAssociatedDocument().getSponsorName());
-                sponsorTypes.setSponsorCode(negotiation.getAssociatedDocument().getSponsorCode());        
-                negotiationDataType.setSponsor(sponsorTypes);
-        
-                negotiationDataType.setTitle(negotiation.getAssociatedDocument().getTitle());
-                negotiationDataType.setInvestigator(negotiation.getAssociatedDocument().getPiName()); 
-                negotiationDataType.setContractAdmin(negotiation.getAssociatedDocument().getAdminPersonName());  
-         }       
-        
-        if(negotiation.getNegotiationAssociationType() != null 
-                && negotiation.getNegotiationAssociationType().getCode().equals(PROP_LOG)){            
+        }
+        if(negotiation.getUnAssociatedDetail() != null){
+            setUnAssociatedDetails(negotiationDataType); 
+        }              
+        else if(negotiation.getAssociatedDocument() != null){
+            setAssociatedDetails(negotiationDataType);
+        }         
+        if(negotiationAssociationType != null 
+                && negotiationAssociationType.getCode().equals(PROP_LOG)){            
         negotiationDataType.setProposalNumber(negotiation.getAssociatedNegotiable().getAssociatedDocumentId());        
         ProposalTypes proposalTypes = ProposalTypes.Factory.newInstance();    
         proposalTypes.setProposalTypeDesc(getProposalTypeDescription
                 (Integer.parseInt(negotiation.getAssociatedNegotiable().getNegotiableProposalTypeCode())));
         negotiationDataType.setProposalTypes(proposalTypes);
         }
-        
+        negotiationDataType.setDocFileAddress(negotiation.getDocumentFolder());        
         setActivitiesType(negotiationDataType);  
         
         return negotiationDataType;
     }   
+    
+    /*
+     * This method will set the NegotiationUnassociatedDetail values to NegotiationActivity attributes   
+     */
+    private void setUnAssociatedDetails(NegotiationDataType negotiationDataType){       
+        NegotiationUnassociatedDetail negotiationUnassociatedDetail = negotiation.getUnAssociatedDetail();
+        
+        negotiationDataType.setTitle(negotiationUnassociatedDetail.getTitle());
+        negotiationDataType.setInvestigator(negotiationUnassociatedDetail.getPiName()); 
+        if(negotiationUnassociatedDetail.getLeadUnit() != null ){
+            LeadUnitType leadUnitType=LeadUnitType.Factory.newInstance();
+            leadUnitType.setUnitNumber(negotiationUnassociatedDetail.getLeadUnit().getUnitNumber());
+            leadUnitType.setUnitName(negotiationUnassociatedDetail.getLeadUnit().getUnitName());
+            negotiationDataType.setLeadUnit(leadUnitType);
+        }        
+        if(negotiationUnassociatedDetail.getSponsor() != null ){
+            SponsorTypes sponsorTypes = SponsorTypes.Factory.newInstance();
+            sponsorTypes.setSponsorName(negotiationUnassociatedDetail.getSponsor().getSponsorName());
+            sponsorTypes.setSponsorCode(negotiationUnassociatedDetail.getSponsorCode());        
+            negotiationDataType.setSponsor(sponsorTypes);
+        }  
+        if(negotiationUnassociatedDetail.getContactAdmin() != null ){
+            negotiationDataType.setContractAdmin(negotiationUnassociatedDetail.getContactAdmin().getFullName());
+        }
+    }
+    
+    /*
+     * This method will set the NegotiationAssociatedDocument values to NegotiationActivity attributes   
+     */
+    private void setAssociatedDetails(NegotiationDataType negotiationDataType){       
+        Negotiable negotiable = negotiation.getAssociatedDocument();
+        
+        LeadUnitType leadUnitType=LeadUnitType.Factory.newInstance();
+        leadUnitType.setUnitNumber(negotiable.getLeadUnitNumber());
+        leadUnitType.setUnitName(negotiable.getLeadUnitName());
+        negotiationDataType.setLeadUnit(leadUnitType);          
+            
+        SponsorTypes sponsorTypes = SponsorTypes.Factory.newInstance();
+        sponsorTypes.setSponsorName(negotiable.getSponsorName());
+        sponsorTypes.setSponsorCode(negotiable.getSponsorCode());        
+        negotiationDataType.setSponsor(sponsorTypes);
+
+        negotiationDataType.setTitle(negotiable.getTitle());
+        negotiationDataType.setInvestigator(negotiable.getPiName()); 
+        negotiationDataType.setContractAdmin(negotiable.getAdminPersonName());
+    }
     
     /*
      * This method will set the values to NegotiationActivity attributes     
@@ -199,12 +251,14 @@ public class NegotiationActivityXmlStream implements XmlStream {
         List<ActivitiesType> activitiesTypeList = new ArrayList<ActivitiesType>();
         
         List<NegotiationActivity> negotiationActivities = negotiation.getActivities(); 
-        if(negotiation.getPrintindex() == 0)
+        if(negotiation.getPrintindex() == 0){
            for (NegotiationActivity negotiationActivity : negotiationActivities) {  
               activitiesTypeList.add(getActivitiesType(negotiationActivity));
            }
-        else
+        }
+        else{
             activitiesTypeList.add(getActivitiesType(negotiationActivities.get(negotiation.getPrintindex()-1)));
+        }
         negotiationDataType.setActivitiesArray((ActivitiesType[]) activitiesTypeList.toArray(new ActivitiesType[0]));      
     }
     
@@ -250,5 +304,5 @@ public class NegotiationActivityXmlStream implements XmlStream {
             proposalTypeDescription = proposalType.getDescription();
         }
         return proposalTypeDescription;
-    }        
+    }       
 }
