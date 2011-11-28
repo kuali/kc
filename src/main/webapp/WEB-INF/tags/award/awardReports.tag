@@ -14,7 +14,7 @@
  limitations under the License.
 --%>
 <%@ include file="/WEB-INF/jsp/kraTldHeader.jsp"%>
-
+<c:set var="reportTrackingReadOnly" value="${!KualiForm.permissionsHelper.maintainAwardReportTracking }"/>
 <kul:tab tabTitle="Reports" defaultOpen="false"
 	tabErrorKey="document.awardList[0].awardReportTermItems,document.award.awardTemplate.REPORTS_TAB"
 	auditCluster="reportsAuditErrors"
@@ -44,6 +44,12 @@
 			</br>
 			<c:if test="${(!readOnly)}">
 				<kra-a:awardSyncButton scopeNames="REPORTS_TAB" tabKey="${tabKey}" />
+				<br/>
+			</c:if>
+			<c:if test="${!reportTrackingReadOnly && readOnly}">
+				<html:image property="methodToCall.save" 
+					src='${ConfigProperties.kra.externalizable.images.url}tinybutton-apply.gif' 
+					alt="Save Report Tracking" onclick="" styleClass="tinybutton"/>
 			</c:if>
 		</div>
 	</div>
