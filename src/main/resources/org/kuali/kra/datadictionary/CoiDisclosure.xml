@@ -42,7 +42,8 @@
                 <ref bean="CoiDisclosure-disclosureDispositionCode" />
                 <ref bean="CoiDisclosure-disclosureStatusCode" />
                 <ref bean="CoiDisclosure-expirationDate" />
-                <ref bean="CoiDisclosure-moduleCode" />
+                <ref bean="CoiDisclosure-moduleItemKey" />
+                <ref bean="CoiDisclosure-eventTypeCode" />
                 <ref bean="CoiDisclosure-reviewStatusCode" />
                 <ref bean="CoiDisclosure-discActiveStatus" />
                 <ref bean="CoiDisclosure-versionNumber" />
@@ -212,22 +213,22 @@
         <property name="description" value="Expiration Date" />
     </bean>
 
-    <bean id="CoiDisclosure-moduleCode" parent="CoiDisclosure-moduleCode-parentBean" />
-    <bean id="CoiDisclosure-moduleCode-parentBean" abstract="true" parent="AttributeDefinition" >
-        <property name="name" value="moduleCode" />
+    <bean id="CoiDisclosure-moduleItemKey" parent="CoiDisclosure-moduleItemKey-parentBean" />
+    <bean id="CoiDisclosure-moduleItemKey-parentBean" abstract="true" parent="AttributeDefinition" >
+        <property name="name" value="moduleItemKey" />
         <property name="forceUppercase" value="false" />
-        <property name="label" value="Module Code" />
-        <property name="shortLabel" value="Module Code" />
-        <property name="maxLength" value="22" />
+        <property name="label" value="Module Item Key" />
+        <property name="shortLabel" value="Module Item Key" />
+        <property name="maxLength" value="20" />
         <property name="validationPattern" >
-            <bean parent="NumericValidationPattern" />
+            <bean parent="AnyCharacterValidationPattern" p:allowWhitespace="true"/>
         </property>
         <property name="control" >
             <bean parent="TextControlDefinition"
-                p:size="10" />
+                p:size="20" />
         </property>
-        <property name="summary" value="Module Code" />
-        <property name="description" value="Module Code" />
+        <property name="summary" value="Module Item Key" />
+        <property name="description" value="Module Item Key" />
     </bean>
 
     <bean id="CoiDisclosure-reviewStatusCode" parent="CoiDisclosure-reviewStatusCode-parentBean" />
@@ -246,6 +247,24 @@
         </property>
         <property name="summary" value="Review Status Code" />
         <property name="description" value="Review Status Code" />
+    </bean>
+
+    <bean id="CoiDisclosure-eventTypeCode" parent="CoiDisclosure-eventTypeCode-parentBean" />
+    <bean id="CoiDisclosure-eventTypeCode-parentBean" abstract="true" parent="AttributeDefinition" >
+        <property name="name" value="eventTypeCode" />
+        <property name="forceUppercase" value="false" />
+        <property name="label" value="Event Type Code" />
+        <property name="shortLabel" value="Event Type Code" />
+        <property name="maxLength" value="3" />
+        <property name="validationPattern" >
+            <bean parent="NumericValidationPattern" />
+        </property>
+        <property name="control" >
+            <bean parent="TextControlDefinition"
+                p:size="3" />
+        </property>
+        <property name="summary" value="Event Type Code" />
+        <property name="description" value="Event Type Code" />
     </bean>
 
     <bean id="CoiDisclosure-discActiveStatus" parent="CoiDisclosure-discActiveStatus-parentBean" />
@@ -303,9 +322,11 @@
                             <bean parent="FieldDefinition"
                                 p:attributeName="expirationDate" />
                             <bean parent="FieldDefinition"
-                                p:attributeName="moduleCode" />
+                                p:attributeName="moduleItemKey" />
                             <bean parent="FieldDefinition"
                                 p:attributeName="reviewStatusCode" />
+                            <bean parent="FieldDefinition"
+                                p:attributeName="eventTypeCode" />
                             <bean parent="FieldDefinition"
                                 p:attributeName="discActiveStatus" />
                         </list>
@@ -348,9 +369,11 @@
                 <bean parent="FieldDefinition"
                     p:attributeName="expirationDate" />
                 <bean parent="FieldDefinition"
-                    p:attributeName="moduleCode" />
+                    p:attributeName="moduleItemKey" />
                 <bean parent="FieldDefinition"
                     p:attributeName="reviewStatusCode" />
+                <bean parent="FieldDefinition"
+                    p:attributeName="eventTypeCode" />
                 <bean parent="FieldDefinition"
                     p:attributeName="discActiveStatus" />
             </list>
@@ -379,9 +402,11 @@
                 <bean parent="FieldDefinition"
                     p:attributeName="expirationDate" />
                 <bean parent="FieldDefinition"
-                    p:attributeName="moduleCode" />
+                    p:attributeName="moduleItemKey" />
                 <bean parent="FieldDefinition"
                     p:attributeName="reviewStatusCode" />
+                <bean parent="FieldDefinition"
+                    p:attributeName="eventTypeCode" />
                 <bean parent="FieldDefinition"
                     p:attributeName="discActiveStatus" />
             </list>

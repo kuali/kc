@@ -67,7 +67,8 @@ public class DisclosureHelper implements Serializable {
     private List<InstitutionalProposal> newInstitutionalProposals;
     private List<Award> newAwards;
     private String newProjectId;
-    private String moduleCode;
+    private String newModuleItemKey;
+    private String eventTypeCode;
     private String proposalType;
     private boolean modifyReporter;
 
@@ -292,14 +293,6 @@ public class DisclosureHelper implements Serializable {
         this.newProjectId = newProjectId;
     }
 
-    public String getModuleCode() {
-        return moduleCode;
-    }
-
-    public void setModuleCode(String moduleCode) {
-        this.moduleCode = moduleCode;
-    }
-
     public List<InstitutionalProposal> getNewInstitutionalProposals() {
         return newInstitutionalProposals;
     }
@@ -322,6 +315,22 @@ public class DisclosureHelper implements Serializable {
 
     public void setModifyReporter(boolean modifyReporter) {
         this.modifyReporter = modifyReporter;
+    }
+
+    public String getEventTypeCode() {
+        return eventTypeCode;
+    }
+
+    public void setEventTypeCode(String eventTypeCode) {
+        this.eventTypeCode = eventTypeCode;
+    }
+
+    public String getNewModuleItemKey() {
+        return newModuleItemKey;
+    }
+
+    public void setNewModuleItemKey(String newModuleItemKey) {
+        this.newModuleItemKey = newModuleItemKey;
     }
 
 }

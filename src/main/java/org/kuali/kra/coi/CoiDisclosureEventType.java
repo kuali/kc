@@ -25,7 +25,19 @@ public class CoiDisclosureEventType extends KraPersistableBusinessObjectBase {
     /**
      * Comment for <code>serialVersionUID</code>
      */
-    private static final long serialVersionUID = -933728957419448190L;
+    public static final long serialVersionUID = -933728957419448190L;
+    public static final String ANNUAL = "14";
+    public static final String AWARD = "1";
+    public static final String DEVELOPMENT_PROPOSAL = "2";
+    public static final String INSTITUTIONAL_PROPOSAL = "10";
+    public static final String IRB_PROTOCOL = "3";
+    public static final String IACUC_PROTOCOL = "4";
+    public static final String NEW = "5";
+    public static final String UPDATE = "6";
+    public static final String OTHER = "7";
+    public static final String MANUAL_AWARD = "11";
+    public static final String MANUAL_DEVELOPMENT_PROPOSAL = "12";
+    public static final String MANUAL_IRB_PROTOCOL = "13";
     private String eventTypeCode; 
     private String description; 
     

@@ -75,7 +75,7 @@
         	
            function updateTable(eventType) {
                // alert($j(eventType).attr("value"));
-               if ($j(eventType).attr("value") == '2') {
+               if ($j(eventType).attr("value") == '11') {
                // Award
                    $j("#newpEvent-table tr:eq(3) td:eq(1) input").show();                
                    $j("#newpEvent-table tr:eq(2)").show();
@@ -91,7 +91,7 @@
                    $j("#newpEvent-table tr:eq(3)").hide();
                 }
                 
-               if ($j(eventType).attr("value") == '1') {
+               if ($j(eventType).attr("value") == '12') {
                // Proposal
                    $j("#newpEvent-table tr:eq(4) td:eq(1) input").show();
                    $j("#newpEvent-table tr:eq(4) td:eq(1) img").show();
@@ -112,7 +112,7 @@
                    $j("#disclosureHelper\\.newCoiDisclProject\\.coiProjectType").html(proposalType);
                 }
                 
-               if ($j(eventType).attr("value") == '3') {
+               if ($j(eventType).attr("value") == '13') {
                //IRB Protocol
                    $j("#newpEvent-table tr:eq(4) td:eq(1) input").show();
                    $j("#newpEvent-table tr:eq(4) td:eq(1) img").show();
@@ -150,22 +150,22 @@
 <div align="right"><kul:help documentTypeName="CoiDisclosureDocument" pageName="CoiDisclosure" /></div>
 <kul:documentOverview editingMode="${KualiForm.editingMode}" />
 <kra-coi:disclosureReporter />
-<c:if test="${KualiForm.document.coiDisclosureList[0].moduleCode=='1'}" >
+<c:if test="${KualiForm.document.coiDisclosureList[0].eventTypeCode=='1'}" >
     <%-- <kra-coi:awardProjects /> --%>
     <kra-coi:newAwardFinancialEntities />
 </c:if>
-<c:if test="${KualiForm.document.coiDisclosureList[0].moduleCode=='11' or KualiForm.document.coiDisclosureList[0].moduleCode=='15'}" >
+<c:if test="${KualiForm.document.coiDisclosureList[0].eventTypeCode=='2' or KualiForm.document.coiDisclosureList[0].eventTypeCode=='10'}" >
     <%-- <kra-coi:proposalProjects /> --%>
     <kra-coi:newProposalFinancialEntities />
 </c:if>
-<c:if test="${KualiForm.document.coiDisclosureList[0].moduleCode=='12'}" >
+<c:if test="${KualiForm.document.coiDisclosureList[0].eventTypeCode=='3'}" >
    <%-- <kra-coi:protocolProjects /> --%>
     <kra-coi:newProtocolFinancialEntities />
 </c:if>
-<c:if test="${KualiForm.document.coiDisclosureList[0].moduleCode=='13'}" >
+<c:if test="${KualiForm.document.coiDisclosureList[0].eventTypeCode=='14'}" >
 <kra-coi:disclosureFinancialEntities />
 </c:if>
-<c:if test="${KualiForm.document.coiDisclosureList[0].moduleCode=='14'}" >
+<c:if test="${KualiForm.document.coiDisclosureList[0].eventTypeCode=='11' or KualiForm.document.coiDisclosureList[0].eventTypeCode=='12' or KualiForm.document.coiDisclosureList[0].eventTypeCode=='13'}" >
 <kra-coi:manualProjects />
 </c:if>
 <kra-coi:coiCertification topTab="false" />

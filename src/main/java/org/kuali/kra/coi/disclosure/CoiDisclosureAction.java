@@ -29,6 +29,7 @@ import org.kuali.kra.coi.CoiAction;
 import org.kuali.kra.coi.CoiDisclProject;
 import org.kuali.kra.coi.CoiDisclosure;
 import org.kuali.kra.coi.CoiDisclosureDocument;
+import org.kuali.kra.coi.CoiDisclosureEventType;
 import org.kuali.kra.coi.CoiDisclosureForm;
 import org.kuali.kra.coi.certification.CertifyDisclosureEvent;
 import org.kuali.kra.coi.service.CoiPrintingService;
@@ -115,16 +116,17 @@ public class CoiDisclosureAction extends CoiAction {
         CoiDisclosureForm coiDisclosureForm = (CoiDisclosureForm) form;
         String command = coiDisclosureForm.getCommand();
         ActionForward forward = mapping.findForward(Constants.MAPPING_BASIC);
-        String moduleCode = CoiDisclosure.ANNUAL_DISCL_MODULE_CODE; 
+        String eventTypeCode = CoiDisclosureEventType.ANNUAL; 
         if (command.startsWith(KEWConstants.INITIATE_COMMAND)) {
             if (command.endsWith(CoiDisclosure.PROPOSAL_DISCL_MODULE_CODE)) {
-                moduleCode = CoiDisclosure.PROPOSAL_DISCL_MODULE_CODE;
+                eventTypeCode = CoiDisclosureEventType.DEVELOPMENT_PROPOSAL;
             } else if (command.endsWith(CoiDisclosure.PROTOCOL_DISCL_MODULE_CODE)) {
-                moduleCode = CoiDisclosure.PROTOCOL_DISCL_MODULE_CODE;
+                eventTypeCode = CoiDisclosureEventType.IRB_PROTOCOL;
             } else if (command.endsWith(CoiDisclosure.AWARD_DISCL_MODULE_CODE)) {
-                moduleCode = CoiDisclosure.AWARD_DISCL_MODULE_CODE;
+                eventTypeCode = CoiDisclosureEventType.AWARD;
             } else if (command.endsWith(CoiDisclosure.MANUAL_DISCL_MODULE_CODE)) {
-                moduleCode = CoiDisclosure.MANUAL_DISCL_MODULE_CODE;
+                // this will be reset when 'addmanualproject', and the event type will be selected at that time
+                eventTypeCode = CoiDisclosureEventType.MANUAL_DEVELOPMENT_PROPOSAL;
             }
             coiDisclosureForm.setCommand(KEWConstants.INITIATE_COMMAND);
             forward = super.docHandler(mapping, form, request, response);
@@ -132,24 +134,26 @@ public class CoiDisclosureAction extends CoiAction {
             if (coiDisclosure != null) {
                 coiDisclosureForm.getCoiDisclosureDocument().setCoiDisclosure(coiDisclosure);
             }
-            coiDisclosureForm.getCoiDisclosureDocument().getCoiDisclosure().setModuleCode(moduleCode);
+            coiDisclosureForm.getCoiDisclosureDocument().getCoiDisclosure().setEventTypeCode(eventTypeCode);
         } else {
             forward = super.docHandler(mapping, form, request, response);            
         }
         ((CoiDisclosureForm)form).getDisclosureHelper().prepareView();
-      checkToLoadDisclosureDetails(coiDisclosureForm.getCoiDisclosureDocument().getCoiDisclosure(), ((CoiDisclosureForm) form).getMethodToCall(), coiDisclosureForm.getDisclosureHelper().getNewProjectId());
+      checkToLoadDisclosureDetails(coiDisclosureForm.getCoiDisclosureDocument().getCoiDisclosure(), ((CoiDisclosureForm) form).getMethodToCall(), coiDisclosureForm.getDisclosureHelper().getNewProjectId(), coiDisclosureForm.getDisclosureHelper().getNewModuleItemKey());
 
         return forward;
     }
 
-    private void checkToLoadDisclosureDetails(CoiDisclosure coiDisclosure, String methodToCall, String projectId) {
+    private void checkToLoadDisclosureDetails(CoiDisclosure coiDisclosure, String methodToCall, String projectId, String moduleItemKey) {
         // TODO : load FE disclosure when creating coi disc
         // still need more clarification on whether there is any other occasion this need to be loaded
         if (coiDisclosure.getCoiDisclosureId() == null && CollectionUtils.isEmpty(coiDisclosure.getCoiDiscDetails())) {
             if (StringUtils.equals("newProjectDisclosure", methodToCall) && projectId != null) {
                 getCoiDisclosureService().initializeDisclosureDetails(coiDisclosure, projectId);
+                coiDisclosure.setModuleItemKey(moduleItemKey);
             } else {
                 getCoiDisclosureService().initializeDisclosureDetails(coiDisclosure);
+                coiDisclosure.setModuleItemKey(projectId);
             }
         } else {
             if (!StringUtils.equals("addProposal", methodToCall) && !StringUtils.equals("save", methodToCall)) {
@@ -207,7 +211,10 @@ public class CoiDisclosureAction extends CoiAction {
         disclosureHelper.getNewCoiDisclProject().setCoiDisclosureNumber(coiDisclosure.getCoiDisclosureNumber());
         if (checkRule(new AddManualProjectEvent("disclosureHelper.newCoiDisclProject", disclosureHelper.getNewCoiDisclProject()))) {
             getCoiDisclosureService().initializeDisclosureDetails(disclosureHelper.getNewCoiDisclProject());
+            disclosureHelper.getNewCoiDisclProject().setSequenceNumber(coiDisclosure.getSequenceNumber());
             coiDisclosure.getCoiDisclProjects().add(disclosureHelper.getNewCoiDisclProject());
+            coiDisclosure.setModuleItemKey(disclosureHelper.getNewCoiDisclProject().getCoiProjectId());
+            coiDisclosure.setEventTypeCode(disclosureHelper.getNewCoiDisclProject().getDisclosureEventType());
             disclosureHelper.setNewCoiDisclProject(new CoiDisclProject(coiDisclosure.getCoiDisclosureNumber(), coiDisclosure.getSequenceNumber()));
         }
         return mapping.findForward(Constants.MAPPING_BASIC);
@@ -242,10 +249,10 @@ public class CoiDisclosureAction extends CoiAction {
         if (coiDisclosure != null) {
             coiDisclosureForm.getCoiDisclosureDocument().setCoiDisclosure(coiDisclosure);
         }
-        coiDisclosureForm.getCoiDisclosureDocument().getCoiDisclosure().setModuleCode(coiDisclosureForm.getDisclosureHelper().getModuleCode());
+        coiDisclosureForm.getCoiDisclosureDocument().getCoiDisclosure().setEventTypeCode(coiDisclosureForm.getDisclosureHelper().getEventTypeCode());
         // dochandler may populate discdetails for new doc.  here is just to reset to reload it again.
         coiDisclosureForm.getCoiDisclosureDocument().getCoiDisclosure().setCoiDiscDetails(null);
-        checkToLoadDisclosureDetails(coiDisclosureForm.getCoiDisclosureDocument().getCoiDisclosure(), ((CoiDisclosureForm) form).getMethodToCall(), coiDisclosureForm.getDisclosureHelper().getNewProjectId());
+        checkToLoadDisclosureDetails(coiDisclosureForm.getCoiDisclosureDocument().getCoiDisclosure(), ((CoiDisclosureForm) form).getMethodToCall(), coiDisclosureForm.getDisclosureHelper().getNewProjectId(), coiDisclosureForm.getDisclosureHelper().getNewModuleItemKey());
         return forward;
     }
 
