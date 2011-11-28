@@ -170,9 +170,15 @@ public class NegotiationNegotiationAction extends NegotiationAction {
                                 question.getQuestionId())) {
                     Object buttonClicked = question.getRequest().getParameter(QUESTION_CLICKED_BUTTON);
                     if (ConfirmationQuestion.NO.equals(buttonClicked)) {
-                        negotiation.setNegotiationAssociationType(oldNegotiation.getNegotiationAssociationType());
-                        negotiation.setNegotiationAssociationTypeId(oldNegotiation.getNegotiationAssociationTypeId());
-                        negotiation.setAssociatedDocumentId(oldNegotiation.getAssociatedDocumentId());
+                        if (oldNegotiation != null) {
+                            negotiation.setNegotiationAssociationType(oldNegotiation.getNegotiationAssociationType());
+                            negotiation.setNegotiationAssociationTypeId(oldNegotiation.getNegotiationAssociationTypeId());
+                            negotiation.setAssociatedDocumentId(oldNegotiation.getAssociatedDocumentId());
+                        } else {
+                            negotiation.setNegotiationAssociationType(null);
+                            negotiation.setNegotiationAssociationTypeId(null);
+                            negotiation.setAssociatedDocumentId(null);
+                        }
                         return mapping.findForward(Constants.MAPPING_BASIC);
                     }
                 }
@@ -199,6 +205,16 @@ public class NegotiationNegotiationAction extends NegotiationAction {
         }
        negotiation.refresh();
        return actionForward;
+    }
+    
+    @Override
+    public ActionForward close(ActionMapping mapping, ActionForm form, HttpServletRequest request, HttpServletResponse response)
+            throws Exception {
+        NegotiationForm negotiationForm = (NegotiationForm) form;
+        loadCodeObjects(negotiationForm.getNegotiationDocument().getNegotiation());
+        Negotiation negotiation = negotiationForm.getNegotiationDocument().getNegotiation();
+        copyCustomDataToNegotiation(negotiationForm);
+        return super.close(mapping, negotiationForm, request, response);
     }
     
     /**
