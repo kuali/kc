@@ -38,7 +38,6 @@ public class NotificationTypeMaintenanceDocumentRule extends KraMaintenanceDocum
 
     private static final String MODULE_CODE_FIELD_NAME = "moduleCode";
     private static final String ACTION_CODE_FIELD_NAME = "actionCode";
-    private static final String PROMPT_USER_FIELD_NAME = "promptUser";
     private static final String ROLE_FIELD_NAME = "notificationTypeRecipients[%d].roleName";
     
     private transient BusinessObjectService businessObjectService;
@@ -65,7 +64,6 @@ public class NotificationTypeMaintenanceDocumentRule extends KraMaintenanceDocum
         NotificationType newNotificationType = (NotificationType) document.getNewMaintainableObject().getBusinessObject();
         
         isValid &= checkModuleCodeActionCodeUniqueness(newNotificationType);
-        isValid &= checkPromptUserSystemGeneratedBothNotTrue(newNotificationType);
         isValid &= checkNotificationTypeIdRoleNameUniqueness(newNotificationType);
         
         return isValid;
@@ -96,26 +94,6 @@ public class NotificationTypeMaintenanceDocumentRule extends KraMaintenanceDocum
                     new String[] {moduleCode, actionCode});
                 break;
             }
-        }
-        
-        return isValid;
-    }
-    
-    /**
-     * Validates that {@code promptUser} and {@code systemGenerated} are not both true.
-     * 
-     * @param newNotificationType the new {@code NotificationType} to check
-     * @return true if {@code promptUser} and {@code systemGenerated} are not both true, false otherwise
-     */
-    private boolean checkPromptUserSystemGeneratedBothNotTrue(NotificationType newNotificationType) {
-        boolean isValid = true;
-        
-        boolean promptUser = newNotificationType.getPromptUser();
-        boolean systemGenerated = newNotificationType.getSystemGenerated();
-        
-        if (promptUser && systemGenerated) {
-            isValid = false;
-            putFieldError(PROMPT_USER_FIELD_NAME, KeyConstants.ERROR_NOTIFICATION_PROMPT_USER_SYSTEM_GENERATED_CANNOT_BOTH_BE_TRUE);
         }
         
         return isValid;
