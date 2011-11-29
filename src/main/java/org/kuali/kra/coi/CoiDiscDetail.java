@@ -19,11 +19,8 @@ import java.util.LinkedHashMap;
 
 import org.apache.commons.lang.StringUtils;
 import org.kuali.kra.bo.KraPersistableBusinessObjectBase;
-import org.kuali.kra.coi.personfinancialentity.FinEntitiesDataGroup;
 import org.kuali.kra.coi.personfinancialentity.PersonFinIntDisclosure;
 import org.kuali.kra.infrastructure.KraServiceLocator;
-import org.kuali.kra.irb.Protocol;
-import org.kuali.kra.irb.personnel.ProtocolPersonRole;
 import org.kuali.rice.kns.service.SequenceAccessorService;
 
 public class CoiDiscDetail extends KraPersistableBusinessObjectBase implements Comparable<CoiDiscDetail> { 
@@ -47,8 +44,10 @@ public class CoiDiscDetail extends KraPersistableBusinessObjectBase implements C
     private PersonFinIntDisclosure personFinIntDisclosure;
     private CoiEntityStatusCode coiEntityStatusCode; 
     private CoiDisclosure coiDisclosure; 
-    // TODO : in general this projectType is same as cisclosure eventtypecode.
+    // TODO : in general this projectType is same as disclosure eventtypecode. Can this be replaced by modulecode ?
     // the only exception is annual event which may have several project type.
+    // this is also used for sorting, so annual discl cSan be in proper order, then they can be moved to 
+    // eventbo.
     private String projectType;
     // fk to projects.  easire to retrieve project, especially projects are versioned.  moduleitemkey is not enough
     private String projectIdFk; 

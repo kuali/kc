@@ -445,8 +445,6 @@ public class CoiDisclosureServiceImpl implements CoiDisclosureService {
      * @see org.kuali.kra.coi.disclosure.CoiDisclosureService#updateDisclosureDetails(org.kuali.kra.coi.CoiDisclosure)
      */
     public void updateDisclosureDetails(CoiDisclosure coiDisclosure) {
-        // When creating a disclosure. the detail will be created at first
-        // TODO : this is for protocol now
         Collections.sort(coiDisclosure.getCoiDiscDetails());
         String projectType = Constants.EMPTY_STRING;
         String projectIdFk = Constants.EMPTY_STRING;
@@ -465,7 +463,7 @@ public class CoiDisclosureServiceImpl implements CoiDisclosureService {
             for (CoiDiscDetail coiDiscDetail : coiDisclosure.getCoiDiscDetails()) {
                 if (!StringUtils.equals(projectType, coiDiscDetail.getProjectType()) || !StringUtils.equals(moduleItemKey, coiDiscDetail.getModuleItemKey())) {
                     if (StringUtils.isNotBlank(projectType) && coiDisclEventProject.getEventProjectBo() != null) {
-                        // event bo is found in table. this is especially for PD to check null bo
+                        // when switch to a different project for annual discl, check if there is any new FE need to add to previous project.
                         checkToAddNewFinancialEntity(financialEntities, coiDisclEventProject.getCoiDiscDetails(), disclEntityNumbers, coiDisclEventProject.getProjectId(), coiDisclosure, coiDiscDetail.getProjectType(), coiDiscDetail.getProjectIdFk());
                         disclEventProjects.add(coiDisclEventProject);
                     }
@@ -487,6 +485,15 @@ public class CoiDisclosureServiceImpl implements CoiDisclosureService {
                     coiDisclEventProject.setDisclosureFlag(true);
                 }
             }
+            // TODO : what if coi discl is created first, then create FE, then discl details is empty
+            if (CollectionUtils.isEmpty(coiDisclosure.getCoiDiscDetails()) && CollectionUtils.isNotEmpty(financialEntities)) {
+                CoiDiscDetail coiDiscDetail = new CoiDiscDetail();
+                coiDiscDetail.setModuleItemKey(coiDisclosure.getModuleItemKey());
+                if (!coiDisclosure.isAnnualEvent()) {
+                    coiDisclEventProject = getEventBo(coiDisclosure, coiDiscDetail);
+                }
+                
+            }
             if (coiDisclEventProject.getEventProjectBo() != null) {
                 checkToAddNewFinancialEntity(financialEntities, coiDisclEventProject.getCoiDiscDetails(), disclEntityNumbers, coiDisclEventProject.getProjectId(), coiDisclosure, projectType, projectIdFk);
                 disclEventProjects.add(coiDisclEventProject); // the last project
@@ -497,6 +504,11 @@ public class CoiDisclosureServiceImpl implements CoiDisclosureService {
             if (!coiDisclosure.isAnnualEvent() && !disclEventProjects.isEmpty()) {
                 coiDisclosure.setCoiDiscDetails(disclEventProjects.get(0).getCoiDiscDetails());
             }
+            // TODO : what if coi discl is created first, then create FE, then discl details is empty - annual event
+            if (CollectionUtils.isEmpty(coiDisclosure.getCoiDiscDetails()) && coiDisclosure.isAnnualEvent() && CollectionUtils.isNotEmpty(financialEntities)) {
+                initializeDisclosureDetails(coiDisclosure);                
+            }
+
         }
     }
 
