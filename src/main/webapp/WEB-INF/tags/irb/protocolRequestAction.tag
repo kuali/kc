@@ -15,7 +15,7 @@
 --%>
 <%@ include file="/WEB-INF/jsp/kraTldHeader.jsp"%>
 
-<c:set var="isOpen" value="${KualiForm.auditActivated}" />
+<c:set var="isOpen" value="${KualiForm.auditActivated or KualiForm.actionHelper.openForFollowup}" />
 <c:forEach items="${param}" var="par">
     <c:if test="${fn:startsWith(par.key, 'lookupActionAmendRenewProtocol') and fn:startsWith(par.value, 'true')}">
         <c:set var="isOpen" value="true" />

@@ -157,6 +157,7 @@ import org.kuali.rice.kns.question.ConfirmationQuestion;
 import org.kuali.rice.kns.service.DateTimeService;
 import org.kuali.rice.kns.util.GlobalVariables;
 import org.kuali.rice.kns.util.KNSConstants;
+import org.kuali.rice.kns.util.WebUtils;
 import org.kuali.rice.kns.web.struts.action.AuditModeAction;
 import org.springframework.util.CollectionUtils;
 
@@ -194,6 +195,16 @@ public class ProtocolProtocolActionsAction extends ProtocolAction implements Aud
             put("history", "PROTOCOL_PROTOCOL_HISTORY_REPORT");
             put("comments", "PROTOCOL_REVIEW_COMMENTS_REPORT");
     }};
+
+    // map to decide the followup action page to open.  "value" part is the action tab "title"
+    private static Map<String, String> motionTypeMap = new HashMap<String, String>() {
+        {
+            put("1", "Approve Action");
+            put("2", "Disapprove");
+            put("3", "Return for Specific Minor Revisions");
+            put("4", "Return for Substantive Revisions Required");
+        }
+    };
 
     /** {@inheritDoc} */
     public ActionForward execute(ActionMapping mapping, ActionForm form, HttpServletRequest request, HttpServletResponse response)
@@ -2110,14 +2121,14 @@ public class ProtocolProtocolActionsAction extends ProtocolAction implements Aud
     
     public ActionForward submitCommitteeDecision(ActionMapping mapping, ActionForm form, HttpServletRequest request,
             HttpServletResponse response) throws Exception {
-        
         ProtocolForm protocolForm = (ProtocolForm) form;
         if (!hasDocumentStateChanged(protocolForm)) {
             if (applyRules(new CommitteeDecisionEvent(protocolForm.getProtocolDocument(), protocolForm.getActionHelper().getCommitteeDecision()))){
                 CommitteeDecision actionBean = protocolForm.getActionHelper().getCommitteeDecision();
                 getCommitteeDecisionService().processCommitteeDecision(protocolForm.getProtocolDocument().getProtocol(), actionBean);
                 saveReviewComments(protocolForm, actionBean.getReviewCommentsBean());
-    
+                confirmFollowupAction(mapping, form, request, response, Constants.MAPPING_BASIC);
+                protocolForm.getTabStates().put(":" + WebUtils.generateTabKey(motionTypeMap.get(actionBean.getMotionTypeCode())), "OPEN");
                 recordProtocolActionSuccess("Record Committee Decision");
             }
         } else {
