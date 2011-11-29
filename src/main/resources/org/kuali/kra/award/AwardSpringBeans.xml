@@ -537,15 +537,6 @@
 		<property name="dateTimeService" ref="dateTimeService" />
 	</bean>
 	
-	<bean id="cfdaNotificationService" class="org.kuali.kra.external.Notifications.service.impl.CfdaNotificationServiceImpl">
-		<property name="notificationService" ref="notificationService" />
-		 <property name="notificationTemplates">
-			<list>
-			    <value>/org/kuali/kra/external/Cfda/cfda_notification.xml</value>
-            </list>
-		</property>
-	</bean>
-	
 	<!-- Quartz configuration for CFDA batch job-->
 	<!-- Use JobDetail here since the MethodInvokingJobDetailFactoryBean does not support persistent storage-->
 	<bean id="cfdaBatchJobDetail" class="org.quartz.JobDetail" >
@@ -572,12 +563,12 @@
 				<entry key="cfdaService" > 
 					<ref bean="cfdaService" /> 
 				</entry>
-				<entry key="cfdaNotificationService"> 
-					<ref bean="cfdaNotificationService" /> 
-				</entry>
 				<entry key="parameterService"> 
 					<ref bean="parameterService" /> 
 				</entry>
+				<entry key="kcNotificationService"> 
+                    <ref bean="kcNotificationService" /> 
+                </entry>
 				<entry key="user" value= "${batchJobUserName}" />
 			</map>
 		</property>

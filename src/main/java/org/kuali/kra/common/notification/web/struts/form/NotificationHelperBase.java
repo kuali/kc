@@ -193,7 +193,7 @@ public abstract class NotificationHelperBase<T extends NotificationContext> impl
      * Sends the ad-hoc notification.
      */
     public void sendNotification() {
-        getNotificationService().sendNotification(notification, notificationRecipients, getContext());
+        getNotificationService().sendNotification(getContext(), notification, notificationRecipients);
     }
 
     public KcNotificationService getNotificationService() {

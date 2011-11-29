@@ -16,16 +16,13 @@
 package org.kuali.kra.external.Cfda;
 
 import java.io.IOException;
-
-import javax.xml.parsers.ParserConfigurationException;
-import javax.xml.transform.TransformerException;
+import java.util.Collections;
 
 import org.apache.commons.logging.Log;
 import org.apache.commons.logging.LogFactory;
 import org.apache.cxf.common.util.StringUtils;
-import org.kuali.kra.external.Notifications.service.CfdaNotificationService;
+import org.kuali.kra.common.notification.service.KcNotificationService;
 import org.kuali.kra.infrastructure.Constants;
-import org.kuali.rice.ken.exception.InvalidXMLException;
 import org.kuali.rice.kns.UserSession;
 import org.kuali.rice.kns.service.ParameterService;
 import org.kuali.rice.kns.util.GlobalVariables;
@@ -33,28 +30,31 @@ import org.kuali.rice.kns.util.ObjectUtils;
 import org.quartz.JobExecutionContext;
 import org.quartz.JobExecutionException;
 import org.springframework.scheduling.quartz.QuartzJobBean;
-import org.xml.sax.SAXException;
 
 /**
  * This job is triggered by the quartz scheduler to kick off the CFDA table update.
  * Extends QuartzJobBean for Persistence.
  */
 public class CfdaBatchJob extends QuartzJobBean {
+    
+    private static final String BREAK = "<BR>";
+    private static final String CONTEXT_NAME = "CFDA Batch Job";
+    private static final String SUBJECT = "CFDA batch job result";
+    
+    private static final Log LOG = LogFactory.getLog(CfdaBatchJob.class);
+    
+    private String user;
 
     private CfdaService cfdaService;
-    private String user;
-    private CfdaNotificationService cfdaNotificationService;
     private ParameterService parameterService;
-    private static final String htmlNewLine = "<BR>";
-    private static final Log LOG = LogFactory.getLog(CfdaBatchJob.class);
-    private static final String title = "CFDA batch job result";
+    private KcNotificationService kcNotificationService;
 
     /*
      * This is the method that is called by the Quartz job scheduler.
      */
     @Override
     protected void executeInternal(JobExecutionContext context) throws JobExecutionException {
-        StringBuilder message = new StringBuilder();
+        StringBuilder builder = new StringBuilder();
         // The cron job runs as this user
         UserSession userSession = new UserSession(user);
         GlobalVariables.setUserSession(userSession);        
@@ -64,45 +64,30 @@ public class CfdaBatchJob extends QuartzJobBean {
         } catch (IOException e) {
             updateResults.setMessage("Error occured while updating " + e.getMessage());
         }
-        message.append("Message: " + updateResults.getMessage() + htmlNewLine);
-        message.append("NumberOfRecordsDeactivatedBecauseNoLongerOnWebSite: " 
-                        + updateResults.getNumberOfRecordsDeactivatedBecauseNoLongerOnWebSite() + htmlNewLine);
-        message.append("NumberOfRecordsInKcDatabase: " + updateResults.getNumberOfRecordsInKcDatabase() + htmlNewLine);
-        message.append("NumberOfRecordsNewlyAddedFromWebSite: " + updateResults.getNumberOfRecordsNewlyAddedFromWebSite() + htmlNewLine);
-        message.append("NumberOfRecordsNotUpdatedBecauseManual: " + updateResults.getNumberOfRecordsNotUpdatedBecauseManual() 
-                        + htmlNewLine);
-        message.append("NumberOfRecordsNotUpdatedForHistoricalPurposes: " 
-                        + updateResults.getNumberOfRecordsNotUpdatedForHistoricalPurposes() + htmlNewLine);
-        message.append("NumberOfRecordsReActivated: " + updateResults.getNumberOfRecordsReActivated() + htmlNewLine);
-        message.append("NumberOfRecordsRetrievedFromWebSite: " + updateResults.getNumberOfRecordsRetrievedFromWebSite() + htmlNewLine);
-        message.append("NumberOfRecordsUpdatedBecauseAutomatic: " + updateResults.getNumberOfRecordsUpdatedBecauseAutomatic() + htmlNewLine);
-        LOG.info(message.toString());
+        builder.append("Message: " + updateResults.getMessage() + BREAK);
+        builder.append("NumberOfRecordsDeactivatedBecauseNoLongerOnWebSite: " + updateResults.getNumberOfRecordsDeactivatedBecauseNoLongerOnWebSite() + BREAK);
+        builder.append("NumberOfRecordsInKcDatabase: " + updateResults.getNumberOfRecordsInKcDatabase() + BREAK);
+        builder.append("NumberOfRecordsNewlyAddedFromWebSite: " + updateResults.getNumberOfRecordsNewlyAddedFromWebSite() + BREAK);
+        builder.append("NumberOfRecordsNotUpdatedBecauseManual: " + updateResults.getNumberOfRecordsNotUpdatedBecauseManual() + BREAK);
+        builder.append("NumberOfRecordsNotUpdatedForHistoricalPurposes: " + updateResults.getNumberOfRecordsNotUpdatedForHistoricalPurposes() + BREAK);
+        builder.append("NumberOfRecordsReActivated: " + updateResults.getNumberOfRecordsReActivated() + BREAK);
+        builder.append("NumberOfRecordsRetrievedFromWebSite: " + updateResults.getNumberOfRecordsRetrievedFromWebSite() + BREAK);
+        builder.append("NumberOfRecordsUpdatedBecauseAutomatic: " + updateResults.getNumberOfRecordsUpdatedBecauseAutomatic() + BREAK);
+        
+        String message = builder.toString();
+        
+        LOG.info(message);
         
         String recipient = getRecipient();
         // Send notification only if recipient has been set in the param
         if (ObjectUtils.isNotNull(recipient) && !StringUtils.isEmpty(recipient)) {
-            try {
-                cfdaNotificationService.setTitle(title);
-                cfdaNotificationService.setSender(user);
-                cfdaNotificationService.setMessage(message.toString());
-                cfdaNotificationService.setRecipient(recipient);
-                cfdaNotificationService.sendNotification();
-            } catch (ParserConfigurationException e) {
-                e.printStackTrace();
-            } catch (IOException e) {
-                e.printStackTrace();
-            } catch (SAXException e) {
-                e.printStackTrace();
-            } catch (TransformerException e) {
-                e.printStackTrace();
-            } catch (InvalidXMLException e) {
-                e.printStackTrace();
-            }
+            kcNotificationService.sendNotification(CONTEXT_NAME, SUBJECT, message, Collections.singletonList(recipient));
         }
     }
     
     /**
-     * This method gets the recipient specified in the parameter
+     * This method gets the recipient specified in the parameter.
+     * 
      * @return
      */
     protected String getRecipient() {
@@ -121,26 +106,27 @@ public class CfdaBatchJob extends QuartzJobBean {
     }
     
     /**
-     * This is injected into the scheduler context. 
-     * @param parameterService
-     */
-    public void setParameterService(ParameterService parameterService) {
-        this.parameterService = parameterService;
-    }
-    /**
-     * This is injected into the scheduler context by spring.
-     * @param kcNotificationService
-     */
-    public void setCfdaNotificationService(CfdaNotificationService kcNotificationService) {
-        this.cfdaNotificationService = kcNotificationService;
-    }
-    
-    /**
      * This is injected into the scheduler context by spring.
      * @param cfdaService
      */
     public void setCfdaService(CfdaService cfdaService) {
         this.cfdaService = cfdaService;
+    }
+
+    /**
+     * This is injected into the scheduler context by spring.
+     * @param kcNotificationService
+     */
+    public void setParameterService(ParameterService parameterService) {
+        this.parameterService = parameterService;
+    }
+    
+    /**
+     * This is injected into the scheduler context by spring.
+     * @param kcNotificationService
+     */
+    public void setKcNotificationService(KcNotificationService kcNotificationService) {
+        this.kcNotificationService = kcNotificationService;
     }
 
 }
