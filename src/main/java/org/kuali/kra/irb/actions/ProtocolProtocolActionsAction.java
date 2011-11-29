@@ -975,6 +975,7 @@ public class ProtocolProtocolActionsAction extends ProtocolAction implements Aud
         final AttachmentFile file = attachment.getFile();
            byte[] attachmentFile =null;
            String attachmentFileType=file.getType().replace("\"", "");
+           attachmentFileType=attachmentFileType.replace("\\", "");           
            if(attachmentFileType.equalsIgnoreCase(WatermarkConstants.ATTACHMENT_TYPE_PDF)){
                attachmentFile=getProtocolAttachmentFile(form,attachment);
                if(attachmentFile!=null){          
@@ -1014,7 +1015,8 @@ public class ProtocolProtocolActionsAction extends ProtocolAction implements Aud
         byte[] attachmentFile =null;
         final AttachmentFile file = attachment.getFile();
         Printable printableArtifacts= getProtocolPrintingService().getProtocolPrintArtifacts(form.getProtocolDocument().getProtocol());
-        
+        Protocol protocolCurrent = form.getDocument().getProtocol();
+        int currentProtoSeqNumber= protocolCurrent.getSequenceNumber();
         try {
             if(printableArtifacts.isWatermarkEnabled()){
             Integer attachmentDocumentId =attachment.getDocumentId();
@@ -1022,7 +1024,8 @@ public class ProtocolProtocolActionsAction extends ProtocolAction implements Aud
             if(protocolAttachmentList.size()>0){
                 for (ProtocolAttachmentProtocol protocolAttachment : protocolAttachmentList) {
                     if(attachmentDocumentId.equals(protocolAttachment.getDocumentId())){
-                        if(getProtocolAttachmentService().isNewAttachmentVersion(protocolAttachment)){
+                        int currentAttachmentSequence=protocolAttachment.getSequenceNumber();
+                        if((getProtocolAttachmentService().isNewAttachmentVersion(protocolAttachment))||(currentProtoSeqNumber == currentAttachmentSequence)){
                             attachmentFile = getWatermarkService().applyWatermark(file.getData(),printableArtifacts.getWatermarkable().getWatermark());
                         }else{
                             attachmentFile = getWatermarkService().applyWatermark(file.getData(),printableArtifacts.getWatermarkable().getInvalidWatermark());

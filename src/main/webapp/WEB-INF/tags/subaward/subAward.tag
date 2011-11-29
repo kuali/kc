@@ -135,6 +135,29 @@
                 </td>
 				
             </tr>
+            
+            
+            <tr>
+				<th><div align="right"><kul:htmlAttributeLabel attributeEntry="${subAwardAttributes.totalObligatedAmount}" /></div></th>
+                <td>
+                       ${KualiForm.subAwardDocument.subAward.totalObligatedAmount}&nbsp; 
+                </td>
+				<th><div align="right"><kul:htmlAttributeLabel attributeEntry="${subAwardAttributes.totalAnticipatedAmount}" /></div></th>
+                <td>
+                      ${KualiForm.subAwardDocument.subAward.totalAnticipatedAmount}&nbsp; 
+                </td>
+            </tr>    
+            
+            <tr>
+				<th><div align="right"><kul:htmlAttributeLabel attributeEntry="${subAwardAttributes.totalAmountReleased}" /></div></th>
+                <td>
+                       ${KualiForm.subAwardDocument.subAward.totalAmountReleased}&nbsp; 
+                </td>
+				<th><div align="right"><kul:htmlAttributeLabel attributeEntry="${subAwardAttributes.totalAvailableAmount}" /></div></th>
+                <td>
+                      ${KualiForm.subAwardDocument.subAward.totalAvailableAmount}&nbsp; 
+                </td>
+            </tr>  
         </table>
     </div>
 </kul:tab>

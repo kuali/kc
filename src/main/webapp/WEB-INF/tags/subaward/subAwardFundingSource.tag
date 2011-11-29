@@ -20,10 +20,10 @@
 <c:set var="subAwardFundingSource" value="${KualiForm.document.subAwardList[0].subAwardFundingSourceList}"/>
 <c:set var="newSubAwardFundingSource" value="${KualiForm.newSubAwardFundingSource}" />
 
-<kul:tab tabTitle="SubAward Funding Source" defaultOpen="true" alwaysOpen="true" transparentBackground="true" tabErrorKey="" auditCluster="requiredFieldsAuditErrors" tabAuditKey="" useRiceAuditMode="true">
+<kul:tab tabTitle="Funding Source" defaultOpen="true" alwaysOpen="true" transparentBackground="false" tabErrorKey="" auditCluster="requiredFieldsAuditErrors" tabAuditKey="" useRiceAuditMode="true">
 	<div class="tab-container" align="center">
     	<h3>
-    		<span class="subhead-left"> SubAward Funding Source</span>
+    		<span class="subhead-left"> Funding Source </span>
     		<span class="subhead-right"><kul:help businessObjectClassName="org.kuali.kra.bo.SubAwardFundingSource" altText="help"/></span>
         </h3>
         <table cellpadding=0 cellspacing=0 summary="">

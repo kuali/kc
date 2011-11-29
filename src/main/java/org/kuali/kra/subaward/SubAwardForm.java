@@ -30,6 +30,7 @@ import org.kuali.kra.subaward.bo.SubAwardContact;
 import org.kuali.kra.subaward.bo.SubAwardFundingSource;
 import org.kuali.kra.subaward.document.SubAwardDocument;
 import org.kuali.rice.kew.util.KEWConstants;
+import org.kuali.rice.kns.web.ui.HeaderField;
 import org.kuali.rice.kns.workflow.service.KualiWorkflowDocument;
 import org.kuali.kra.subaward.customdata.CustomDataHelper;
 public class SubAwardForm extends KraTransactionalDocumentFormBase implements PermissionsForm,CustomDataForm,Auditable{
@@ -132,7 +133,25 @@ public class SubAwardForm extends KraTransactionalDocumentFormBase implements Pe
         if (workflowDocument != null) {
             docIdAndStatus = getDocument().getDocumentNumber() + COLUMN + workflowDocument.getStatusDisplayValue();
         }
-        getDocInfo().addAll(getStandardHeaderFields(workflowDocument));
+        String lastUpdated ="";
+        if(subAwardDocument.getSubAward().getUpdateTimestamp()!=null && subAwardDocument.getSubAward().getUpdateUser()!=null){
+            
+            lastUpdated = subAwardDocument.getSubAward().getUpdateTimestamp().toString() +" By " +  subAwardDocument.getSubAward().getUpdateUser();
+        }
+        
+        getDocInfo().add(new HeaderField("DataDictionary.SubAward.attributes.requisitionerId",subAwardDocument.getSubAward().getRequisitionerName()));
+        getDocInfo().add(new HeaderField("DataDictionary.SubAward.attributes.docIdStatus", docIdAndStatus));
+        if(subAwardDocument.getSubAward().getUnit()!=null){
+            getDocInfo().add(new HeaderField("DataDictionary.SubAward.attributes.requisitionerUnit",subAwardDocument.getSubAward().getUnit().getUnitName()));
+        }else{
+            getDocInfo().add(new HeaderField("DataDictionary.SubAward.attributes.requisitionerUnit",""));
+
+        }
+        getDocInfo().add(new HeaderField("DataDictionary.SubAward.attributes.subAwardId",subAwardDocument.getSubAward().getSubAwardCode()));
+        getDocInfo().add(new HeaderField("DataDictionary.SubAward.attributes.organizationId",subAwardDocument.getSubAward().getOrganizationName()));
+        getDocInfo().add(new HeaderField("DataDictionary.SubAward.attributes.lastUpdate",lastUpdated));
+
+
     }
     /**
      * Retrieves the {@link SubAwardDocument SubAwardDocument}.

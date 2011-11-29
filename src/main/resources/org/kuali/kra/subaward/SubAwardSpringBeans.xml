@@ -88,5 +88,8 @@
         <property name="versioningService">
             <ref bean="versioningService" />
         </property>
+        <property name="sequenceAccessorService">
+            <ref bean="sequenceAccessorService" />
+        </property>
     </bean>
 </beans>	
