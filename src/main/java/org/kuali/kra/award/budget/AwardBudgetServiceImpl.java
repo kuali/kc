@@ -326,8 +326,9 @@ public class AwardBudgetServiceImpl implements AwardBudgetService {
         awardBudget.setRateClassTypesReloaded(true);
         setBudgetLimits(awardBudgetDocument, parentDocument);
         if (isPostedBudgetExist(parentDocument)) {
-            rebudget = true;
-            if (!awardBudget.getTotalCostLimit().equals(BudgetDecimal.ZERO)) {
+            if (awardBudget.getTotalCostLimit().equals(BudgetDecimal.ZERO)) {
+                rebudget = true;
+            }else{
                 Budget budget = awardBudgetDocument.getBudget();
                 budget.getBudgetPeriods().clear();
             }
@@ -889,8 +890,10 @@ public class AwardBudgetServiceImpl implements AwardBudgetService {
         for (BudgetPeriod awardBudgetPeriod : awardBudgetPeriods) {
             AwardBudgetPeriodExt budgetPeriod = (AwardBudgetPeriodExt)awardBudgetPeriod;
             BudgetDecimal periodFringeTotal = getPeriodFringeTotal(budgetPeriod, budget);
-            budgetPeriod.setTotalDirectCost(budgetPeriod.getTotalDirectCost().subtract(periodFringeTotal).add(budgetPeriod.getTotalFringeAmount()));
-            budgetPeriod.setTotalCost(budgetPeriod.getTotalDirectCost().add(budgetPeriod.getTotalIndirectCost()));
+            if(!periodFringeTotal.equals(BudgetDecimal.ZERO) || !budgetPeriod.getTotalFringeAmount().equals(BudgetDecimal.ZERO)){
+                budgetPeriod.setTotalDirectCost(budgetPeriod.getTotalDirectCost().subtract(periodFringeTotal).add(budgetPeriod.getTotalFringeAmount()));
+                budgetPeriod.setTotalCost(budgetPeriod.getTotalDirectCost().add(budgetPeriod.getTotalIndirectCost()));
+            }
         }
         setBudgetCostsFromPeriods(budget);
     }
