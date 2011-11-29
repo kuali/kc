@@ -109,9 +109,9 @@ public class ReportTrackingServiceImpl implements ReportTrackingService {
                 /**
                  * if the report tracking has been saved, and it's not in pending status, we need to check for updates.
                  */
-                if (rt.getAwardReportTrackingId() != null && !StringUtils.equals(rt.getStatusCode(), getPendingReportStatus().getReportStatusCode())) {
+                if (rt.getObjectId() != null && !StringUtils.equals(rt.getStatusCode(), getPendingReportStatus().getReportStatusCode())) {
                     Map params = new HashMap();
-                    params.put("AWARD_REPORT_TRACKING_ID", rt.getAwardReportTrackingId());
+                    params.put("OBJ_ID", rt.getObjectId());
                     ReportTracking dbRt = (ReportTracking) this.getBusinessObjectService().findByPrimaryKey(ReportTracking.class, params);
                     if (rt.hasBeenUpdated(dbRt)) {
                         rt.setLastUpdateDate(new java.sql.Timestamp(new java.util.Date().getTime()));

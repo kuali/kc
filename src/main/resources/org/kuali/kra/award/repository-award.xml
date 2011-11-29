@@ -1477,7 +1477,6 @@
 	
     <!-- Award Report Tracking -->
     <class-descriptor class="org.kuali.kra.award.paymentreports.awardreports.reporting.ReportTracking" table="AWARD_REPORT_TRACKING">
-    	<field-descriptor name="awardReportTrackingId" column="AWARD_REPORT_TRACKING_ID" jdbc-type="BIGINT" primarykey="true" autoincrement="true" sequence-name="AWARD_REPORT_TRACKING_S" />
     	<field-descriptor name="awardReportTermId" column="AWARD_REPORT_TERM_ID" jdbc-type="BIGINT" />
     	<field-descriptor name="awardNumber" column="AWARD_NUMBER" jdbc-type="VARCHAR" />
     	<field-descriptor name="piPersonId" column="PI_PERSON_ID" jdbc-type="VARCHAR" />
@@ -1505,7 +1504,8 @@
     	
     	<field-descriptor name="updateTimestamp" column="UPDATE_TIMESTAMP" jdbc-type="TIMESTAMP" />
 		<field-descriptor name="updateUser" column="UPDATE_USER" jdbc-type="VARCHAR" />
-		<field-descriptor name="objectId" column="OBJ_ID" jdbc-type="VARCHAR" />
+		<!-- OBJ_ID isn't a database defined primary key, but it does have a unique constraint.  Primary Key set to true because OJB requires a field be set as primary -->
+		<field-descriptor name="objectId" column="OBJ_ID" jdbc-type="VARCHAR" primarykey = "true"/>
 		<field-descriptor name="versionNumber" column="VER_NBR" jdbc-type="BIGINT" locking="false" />
     	
     	<reference-descriptor name="distribution" class-ref="org.kuali.kra.award.home.Distribution" auto-retrieve="true" auto-update="none" auto-delete="none"> 
