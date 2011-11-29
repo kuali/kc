@@ -145,7 +145,7 @@ public class CostInfo {
 
     // start add costSaring for fedNonFedBudget repport
     public BudgetDecimal getCostSharing() {
-        return costSharing;
+        return costSharing==null?BudgetDecimal.ZERO:costSharing;
     }
 
     public void setCostSharing(BudgetDecimal costSharing) {
