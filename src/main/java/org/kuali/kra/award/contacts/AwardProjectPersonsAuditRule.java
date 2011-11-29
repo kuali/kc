@@ -192,7 +192,7 @@ public class AwardProjectPersonsAuditRule implements DocumentAuditRule {
             }
         }
         for (AwardPerson person : award.getProjectPersons()) {
-            boolean personFound = false;
+            boolean personFoundCheck = devProposals.isEmpty();
             for (DevelopmentProposal proposal : devProposals) {
                 for (ProposalPerson propPerson : proposal.getProposalPersons()) {
                     if ((person != null && StringUtils.equals(person.getPersonId(), propPerson.getPersonId()))
@@ -200,13 +200,13 @@ public class AwardProjectPersonsAuditRule implements DocumentAuditRule {
                         if (StringUtils.equals(propPerson.getProposalPersonRoleId(), Constants.CO_INVESTIGATOR_ROLE)
                                 || StringUtils.equals(propPerson.getProposalPersonRoleId(), Constants.PRINCIPAL_INVESTIGATOR_ROLE)
                                 || StringUtils.equals(propPerson.getOptInCertificationStatus(), "Y")) {
-                            personFound = true;
+                            personFoundCheck = true;
                             break;
                         } //otherwise they are not certified
                     }
                 }
             }
-            if (!personFound) {
+            if (!personFoundCheck) {
                 retval = false;
                 //if the parm says to add an error and the person is not a key person(as they do not require certification)
                 if (error && !person.isKeyPerson()) {
