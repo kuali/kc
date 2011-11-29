@@ -29,7 +29,6 @@
         <property name="titleAttribute" value="awardReportTrackingId" />
         <property name="attributes" >
             <list>
-                <ref bean="ReportTracking-awardReportTrackingId" />
                 <ref bean="ReportTracking-awardReportTermId" />
                 <ref bean="ReportTracking-awardNumber" />
                 <ref bean="ReportTracking-piName" />
@@ -68,24 +67,6 @@
     </bean>
 
     <!-- Attribute Definitions -->
-    
-    <bean id="ReportTracking-awardReportTrackingId" parent="ReportTracking-awardReportTrackingId-parentBean" />
-    <bean id="ReportTracking-awardReportTrackingId-parentBean" abstract="true" parent="AttributeDefinition" >
-        <property name="name" value="awardReportTrackingId" />
-        <property name="forceUppercase" value="false" />
-        <property name="label" value="Award Reporting Id" />
-        <property name="shortLabel" value="Award Reporting Id" />
-        <property name="maxLength" value="22" />
-        <property name="validationPattern" >
-            <bean parent="NumericValidationPattern" />
-        </property>
-        <property name="control" >
-            <bean parent="TextControlDefinition"
-                p:size="10" />
-        </property>
-        <property name="summary" value="Award Reporting Id" />
-        <property name="description" value="Award Reporting Id" />
-    </bean>
         
     <bean id="ReportTracking-awardReportTermId" parent="ReportTracking-awardReportTermId-parentBean" />
 	<bean id="ReportTracking-awardReportTermId-parentBean" abstract="true" parent="AwardReportTerm-awardReportTermId" />
