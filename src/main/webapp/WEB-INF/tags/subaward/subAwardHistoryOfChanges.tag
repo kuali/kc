@@ -20,13 +20,40 @@
 
 <c:set var="newSubAwardAmountInfo" value="${KualiForm.newSubAwardAmountInfo}" />
 
-<kul:tab tabTitle="SubAwardAmountInfo" defaultOpen="true" alwaysOpen="true" transparentBackground="true" tabErrorKey="" auditCluster="requiredFieldsAuditErrors" tabAuditKey="" useRiceAuditMode="true">
+<kul:tab tabTitle="History of Changes" defaultOpen="true" alwaysOpen="true" transparentBackground="true" tabErrorKey="" auditCluster="requiredFieldsAuditErrors" tabAuditKey="" useRiceAuditMode="true">
 	<div class="tab-container" align="center">
+	<h3>
+    		<span class="subhead-left"></span>
+    		<span class="subhead-right"></span>
+        </h3>
+	<table cellpadding=0 cellspacing=0 summary="">
+   				<tr>
+				<th>Obligated Amount</th>
+                <td colspan="2">
+                       ${KualiForm.subAwardDocument.subAward.totalObligatedAmount}&nbsp; 
+                </td>
+				<th>Anticipated Amount</th>
+                <td colspan="2">
+                      ${KualiForm.subAwardDocument.subAward.totalAnticipatedAmount}&nbsp; 
+                </td>
+            </tr>    
+            
+            <tr>
+				<th>Amount Released</th>
+                <td colspan="2">
+                       ${KualiForm.subAwardDocument.subAward.totalAmountReleased}&nbsp; 
+                </td>
+				<th>Available Amount</th>
+                <td colspan="2">
+                      ${KualiForm.subAwardDocument.subAward.totalAvailableAmount}&nbsp; 
+                </td>
+            </tr>
+            </table>
     	<h3>
-    		<span class="subhead-left"> SubAward Amount Info</span>
+    		<span class="subhead-left">History of Changes</span>
     		<span class="subhead-right"><kul:help businessObjectClassName="org.kuali.kra.bo.SubAwardAmountInfo" altText="help"/></span>
         </h3>
-        
+         
    <table cellpadding=0 cellspacing=0 summary="">
             <tr>
               <th><div align="left">&nbsp;</div></th> 
@@ -79,7 +106,7 @@
    			
    			<c:forEach var="newSubAwardAmountInfo" items="${KualiForm.document.subAwardList[0].subAwardAmountInfoList}" varStatus="status">
 		             <tr>
-						<th width="5%" class="infoline" rowspan="2">
+						<th width="9%" class="infoline" rowspan="2">
 							<c:out value="${status.index+1}" />
 						</th>	                
 		                <td width="9%" valign="middle">
@@ -121,6 +148,7 @@
                       			<kul:htmlControlAttribute property="document.subAwardList[0].subAwardAmountInfoList[${status.index}].comments"  attributeEntry="${subAwardAmountInfoAttributes.comments}" />
                 			</td>
            		   </tr>
+           		   
 	        	</c:forEach>
         </table>
     </div>

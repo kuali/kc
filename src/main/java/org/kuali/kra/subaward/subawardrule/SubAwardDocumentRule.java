@@ -43,9 +43,11 @@ public class SubAwardDocumentRule extends ResearchDocumentRuleBase implements Su
     private static final String PURCHASE_ORDER_NUM= ".purchaseOrderNum";
     private static final String SUBCONTRACTOR_ID = ".organization.organizationName";
     private static final String NEW_SUBAWARD = "document.subAwardList[0]";
+    private static final String SUBAWARD_START_DATE =".startDate";
     
     
     private static final String AMOUNT_INFO_EFFECTIVE_DATE = "newSubAwardAmountInfo.effectiveDate";
+    private static final String AMOUNT_INFO_START_DATE = "newSubAwardAmountInfo.startDate";
     private static final String AMOUNT_RELEASED_EFFECTIVE_DATE = "newSubAwardAmountReleased.effectiveDate";
     private static final String INVOICE_NUMBER = "newSubAwardAmountReleased.invoiceNumber";
     private static final String START_DATE = "newSubAwardAmountReleased.startDate";
@@ -100,7 +102,13 @@ public class SubAwardDocumentRule extends ResearchDocumentRuleBase implements Su
             reportError(propertyPrefix+PURCHASE_ORDER_NUM
                     , KeyConstants.ERROR_REQUIRED_PURCHASE_ORDER_NUM); 
         }      
-        
+        if(subAward.getStartDate()!=null && subAward.getEndDate()!=null){
+            if(subAward.getStartDate().after(subAward.getEndDate())){
+                rulePassed = false;
+                reportError(propertyPrefix+SUBAWARD_START_DATE
+                        , KeyConstants.SUBAWARD_ERROR_END_DATE_GREATER_THAN_START); 
+            }
+        }
         return rulePassed;
     }
 
@@ -129,6 +137,17 @@ public class SubAwardDocumentRule extends ResearchDocumentRuleBase implements Su
                     , KeyConstants.ERROR_REQUIRED_EFFECTIVE_DATE);            
             
         }  
+        if(amountInfo!=null && amountInfo.getObligatedChange()!=null && amountInfo.getAnticipatedChange()!=null ){
+            
+            if(amountInfo.getObligatedChange().isGreaterThan(amountInfo.getAnticipatedChange())){
+                
+                rulePassed = false;
+                
+                reportError(AMOUNT_INFO_START_DATE
+                        , KeyConstants.ERROR_AMOUNT_INFO_OBLIGATED_AMOUNT);   
+            }
+            
+        }
         return rulePassed;
     }
     
@@ -181,7 +200,13 @@ public class SubAwardDocumentRule extends ResearchDocumentRuleBase implements Su
             reportError(AMOUNT_RELEASED
                     , KeyConstants.ERROR_REQUIRED_AMOUNT_RELEASED);
         }  
-        
+        if(amountReleased!=null && amountReleased.getStartDate()!=null && amountReleased.getEndDate()!=null){
+            if(amountReleased.getStartDate().after(amountReleased.getEndDate())){
+                rulePassed = false;            
+                reportError(START_DATE
+                        , KeyConstants.SUBAWARD_ERROR_END_DATE_GREATER_THAN_START);
+            }
+        }
         
         return rulePassed;
     }

@@ -31,6 +31,7 @@ import org.kuali.kra.bo.AttachmentFile;
 import org.kuali.kra.infrastructure.Constants;
 import org.kuali.kra.infrastructure.KeyConstants;
 import org.kuali.kra.infrastructure.KraServiceLocator;
+import org.kuali.kra.irb.Protocol;
 import org.kuali.kra.irb.ProtocolAction;
 import org.kuali.kra.irb.ProtocolForm;
 import org.kuali.kra.irb.actions.print.ProtocolPrintingService;
@@ -284,6 +285,7 @@ public class ProtocolNoteAndAttachmentAction extends ProtocolAction {
         final AttachmentFile file = attachment.getFile();
         byte[] attachmentFile =null;
         String attachmentFileType=file.getType().replace("\"", "");
+        attachmentFileType=attachmentFileType.replace("\\", "");
         if(attachmentFileType.equalsIgnoreCase(WatermarkConstants.ATTACHMENT_TYPE_PDF)){
             attachmentFile=getProtocolAttachmentFile(form,attachment);
             if(attachmentFile!=null){
@@ -307,6 +309,8 @@ public class ProtocolNoteAndAttachmentAction extends ProtocolAction {
         byte[] attachmentFile =null;
         final AttachmentFile file = attachment.getFile();
         Printable printableArtifacts= getProtocolPrintingService().getProtocolPrintArtifacts(form.getProtocolDocument().getProtocol());
+        Protocol protocolCurrent = form.getDocument().getProtocol();
+        int currentProtoSeqNumber= protocolCurrent.getSequenceNumber();
         try {
             if(printableArtifacts.isWatermarkEnabled()){
                 Integer attachmentDocumentId =attachment.getDocumentId();
@@ -314,7 +318,8 @@ public class ProtocolNoteAndAttachmentAction extends ProtocolAction {
                 if(protocolAttachmentList.size()>0){
                     for (ProtocolAttachmentProtocol protocolAttachment : protocolAttachmentList) {
                         if(attachmentDocumentId.equals(protocolAttachment.getDocumentId())){
-                            if(getProtocolAttachmentService().isNewAttachmentVersion(protocolAttachment)){
+                            int currentAttachmentSequence=protocolAttachment.getSequenceNumber();
+                            if(getProtocolAttachmentService().isNewAttachmentVersion(protocolAttachment)  ||(currentProtoSeqNumber == currentAttachmentSequence)){
                                 attachmentFile = getWatermarkService().applyWatermark(file.getData(),printableArtifacts.getWatermarkable().getWatermark());
                             }else{
                                 attachmentFile = getWatermarkService().applyWatermark(file.getData(),printableArtifacts.getWatermarkable().getInvalidWatermark());

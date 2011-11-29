@@ -26,16 +26,16 @@ import org.kuali.kra.subaward.bo.SubAwardAmountInfo;
 import org.kuali.kra.test.infrastructure.KcUnitTestBase;
 import org.kuali.rice.kns.util.KualiDecimal;
 
-public class SubAwardAmountInfoActionTest extends KcUnitTestBase{
+public class SubAwardFinancialActionTest extends KcUnitTestBase{
 
-    SubAwardAmountInfoAction subAwardAmountInfoAction; 
+    SubAwardFinancialAction subAwardFinancialAction; 
     SubAward subAward;
     SubAwardAmountInfo amountInfo;  
 
     @Before
     public void setUp() throws Exception {
 
-        subAwardAmountInfoAction = new SubAwardAmountInfoAction();
+        subAwardFinancialAction = new SubAwardFinancialAction();
         subAward = new SubAward();
         amountInfo = new SubAwardAmountInfo();
         amountInfo.setAnticipatedAmount(new KualiDecimal(5));
@@ -48,14 +48,14 @@ public class SubAwardAmountInfoActionTest extends KcUnitTestBase{
     @After
     public void tearDown() throws Exception {
 
-        subAwardAmountInfoAction = null;
+        subAwardFinancialAction = null;
         subAward = null;
         amountInfo = null;
     }
 
     @Test
     public void testAddAmountInfoToSubAward(){
-        Assert.assertTrue(subAwardAmountInfoAction.addAmountInfoToSubAward(subAward, amountInfo));
+        Assert.assertTrue(subAwardFinancialAction.addAmountInfoToSubAward(subAward, amountInfo));
     }
 
 }

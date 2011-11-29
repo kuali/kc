@@ -27,10 +27,12 @@ import org.kuali.kra.infrastructure.Constants;
 import org.kuali.kra.subaward.SubAwardForm;
 import org.kuali.kra.subaward.bo.SubAward;
 import org.kuali.kra.subaward.bo.SubAwardAmountInfo;
+import org.kuali.kra.subaward.bo.SubAwardAmountReleased;
+import org.kuali.kra.subaward.bo.SubAwardFundingSource;
 import org.kuali.kra.subaward.document.SubAwardDocument;
 import org.kuali.kra.subaward.subawardrule.SubAwardDocumentRule;
 
-public class SubAwardAmountInfoAction extends SubAwardAction{
+public class SubAwardFinancialAction extends SubAwardAction{
     
     @Override
     public ActionForward execute(ActionMapping mapping, ActionForm form, ServletRequest request, ServletResponse response) throws Exception {
@@ -61,19 +63,46 @@ public class SubAwardAmountInfoAction extends SubAwardAction{
             addAmountInfoToSubAward(subAwardForm.getSubAwardDocument().getSubAward(),amountInfo); 
             subAwardForm.setNewSubAwardAmountInfo(new SubAwardAmountInfo());
         }
-        return mapping.findForward(Constants.MAPPING_AMOUNT_INFO_PAGE);        
+        return mapping.findForward(Constants.MAPPING_FINANCIAL_PAGE);        
      }
     boolean addAmountInfoToSubAward(SubAward subAward,SubAwardAmountInfo amountInfo){
         amountInfo.setSubAward(subAward);    
         return subAward.getSubAwardAmountInfoList().add(amountInfo);
     }
-    
+   
     public ActionForward deleteAmountInfo(ActionMapping mapping, ActionForm form, HttpServletRequest request, HttpServletResponse response) throws Exception {
         SubAwardForm subAwardForm = (SubAwardForm)form;
         SubAwardDocument subAwardDocument = subAwardForm.getSubAwardDocument();
         int selectedLineNumber = getSelectedLine(request);
+        SubAwardAmountInfo subAwardAmountInfo = subAwardDocument.getSubAward().getSubAwardAmountInfoList().get(selectedLineNumber);
         subAwardDocument.getSubAward().getSubAwardAmountInfoList().remove(selectedLineNumber);
-        return mapping.findForward(Constants.MAPPING_AMOUNT_INFO_PAGE);
+        this.getBusinessObjectService().delete(subAwardAmountInfo);
+        return mapping.findForward(Constants.MAPPING_FINANCIAL_PAGE);
+    }
+    public ActionForward addAmountReleased(ActionMapping mapping, ActionForm form, HttpServletRequest request,
+            HttpServletResponse response) throws Exception {   
+        
+        SubAwardForm subAwardForm=(SubAwardForm) form;
+        SubAwardAmountReleased subAwardAmountReleased =subAwardForm.getNewSubAwardAmountReleased();
+        
+       if(new SubAwardDocumentRule().processAddSubAwardAmountReleasedBusinessRules(subAwardAmountReleased)){ 
+                addAmountReleasedToSubAward(subAwardForm.getSubAwardDocument().getSubAward(), subAwardAmountReleased);
+                subAwardForm.setNewSubAwardAmountReleased(new SubAwardAmountReleased());
+       }
+        return mapping.findForward(Constants.MAPPING_FINANCIAL_PAGE);
     }
 
+    boolean addAmountReleasedToSubAward(SubAward subAward,SubAwardAmountReleased subAwardAmountReleased){
+        subAwardAmountReleased.setSubAward(subAward);    
+        return subAward.getSubAwardAmountReleasedList().add(subAwardAmountReleased);
+    }
+    public ActionForward deleteAmountReleased(ActionMapping mapping, ActionForm form, HttpServletRequest request, HttpServletResponse response) throws Exception {
+        SubAwardForm subAwardForm = (SubAwardForm)form;
+        SubAwardDocument subAwardDocument = subAwardForm.getSubAwardDocument();
+        int selectedLineNumber = getSelectedLine(request);
+        SubAwardAmountReleased  SubAwardAmountReleased = subAwardDocument.getSubAward().getSubAwardAmountReleasedList().get(selectedLineNumber);
+        subAwardDocument.getSubAward().getSubAwardAmountReleasedList().remove(selectedLineNumber);
+        this.getBusinessObjectService().delete(SubAwardAmountReleased);
+        return mapping.findForward(Constants.MAPPING_FINANCIAL_PAGE);
+    }
 }

@@ -26,7 +26,12 @@ import org.kuali.kra.bo.versioning.VersionStatus;
 import org.kuali.kra.infrastructure.Constants;
 import org.kuali.kra.subaward.SubAwardForm;
 import org.kuali.kra.subaward.bo.SubAward;
+import org.kuali.kra.subaward.bo.SubAwardAmountInfo;
+import org.kuali.kra.subaward.bo.SubAwardCloseout;
+import org.kuali.kra.subaward.bo.SubAwardContact;
+import org.kuali.kra.subaward.bo.SubAwardFundingSource;
 import org.kuali.kra.subaward.document.SubAwardDocument;
+import org.kuali.kra.subaward.subawardrule.SubAwardDocumentRule;
 import org.kuali.rice.kew.exception.WorkflowException;
 import org.kuali.rice.kns.util.GlobalVariables;
 import org.kuali.rice.kns.util.KNSConstants;
@@ -120,4 +125,97 @@ public class SubAwardHomeAction extends SubAwardAction{
         document.setDocumentSaveAfterSubAwardLookupEditOrVersion(true);
         subAwardForm.initialize();
     }
+    
+    public ActionForward addFundingSource(ActionMapping mapping, ActionForm form, HttpServletRequest request, HttpServletResponse response) throws Exception {
+        SubAwardForm subAwardForm = (SubAwardForm) form;
+        SubAwardFundingSource fundingSources= subAwardForm.getNewSubAwardFundingSource();
+        
+       if(new SubAwardDocumentRule().processAddSubAwardFundingSourceBusinessRules(fundingSources)){
+        addFundingSourceToSubAward(subAwardForm.getSubAwardDocument().getSubAward(),fundingSources);
+        subAwardForm.setNewSubAwardFundingSource(new SubAwardFundingSource());
+       }
+        return mapping.findForward(Constants.MAPPING_SUBAWARD_PAGE);
+    }
+    boolean addFundingSourceToSubAward(SubAward subAward,SubAwardFundingSource fundingSources){
+        if(subAward.getSubAwardCode()==null){
+            String subAwardCode = getSubAwardService().getNextSubAwardCode();
+            subAward.setSubAwardCode(subAwardCode);
+        }
+        fundingSources.setSubAward(subAward);    
+        return subAward.getSubAwardFundingSourceList().add(fundingSources);
+    }
+    
+    public ActionForward deleteFundingSource(ActionMapping mapping, ActionForm form, HttpServletRequest request, HttpServletResponse response) throws Exception {
+        SubAwardForm subAwardForm = (SubAwardForm)form;
+        SubAwardDocument subAwardDocument = subAwardForm.getSubAwardDocument();
+        int selectedLineNumber = getSelectedLine(request);
+        SubAwardFundingSource  subAwardFundingSource = subAwardDocument.getSubAward().getSubAwardFundingSourceList().get(selectedLineNumber);
+        subAwardDocument.getSubAward().getSubAwardFundingSourceList().remove(selectedLineNumber);
+        this.getBusinessObjectService().delete(subAwardFundingSource);
+        return mapping.findForward(Constants.MAPPING_SUBAWARD_PAGE);
+    }
+   
+    
+    public ActionForward addContacts(ActionMapping mapping, ActionForm form, HttpServletRequest request,
+            HttpServletResponse response) throws Exception {   
+        
+        SubAwardForm subAwardForm=(SubAwardForm) form;
+        SubAwardContact subAwardContact =subAwardForm.getNewSubAwardContact();
+        
+        if(new SubAwardDocumentRule().processAddSubAwardContactBusinessRules(subAwardContact)){
+            addContactsToSubAward(subAwardForm.getSubAwardDocument().getSubAward(), subAwardContact);
+            subAwardForm.setNewSubAwardContact(new SubAwardContact());
+        }
+        return mapping.findForward(Constants.MAPPING_SUBAWARD_PAGE);
+    }
+
+    boolean addContactsToSubAward(SubAward subAward,SubAwardContact subAwardContact){
+        if(subAward.getSubAwardCode()==null){
+            String subAwardCode = getSubAwardService().getNextSubAwardCode();
+            subAward.setSubAwardCode(subAwardCode);
+        }
+        subAwardContact.setSubAward(subAward);    
+        return subAward.getSubAwardContactsList().add(subAwardContact);
+    }
+   
+    public ActionForward deleteContact(ActionMapping mapping, ActionForm form, HttpServletRequest request, HttpServletResponse response) throws Exception {
+        SubAwardForm subAwardForm = (SubAwardForm)form;
+        SubAwardDocument subAwardDocument = subAwardForm.getSubAwardDocument();
+        int selectedLineNumber = getSelectedLine(request);
+        SubAwardContact subAwardContact = subAwardDocument.getSubAward().getSubAwardContactsList().get(selectedLineNumber);
+        subAwardDocument.getSubAward().getSubAwardContactsList().remove(selectedLineNumber);
+        this.getBusinessObjectService().delete(subAwardContact);
+        return mapping.findForward(Constants.MAPPING_SUBAWARD_PAGE);
+    }
+    public ActionForward addCloseouts(ActionMapping mapping, ActionForm form, HttpServletRequest request,
+            HttpServletResponse response) throws Exception {   
+        
+        SubAwardForm subAwardForm=(SubAwardForm) form;
+        SubAwardCloseout subAwardCloseout =subAwardForm.getNewSubAwardCloseout();
+        
+       if(new SubAwardDocumentRule().processAddSubAwardCloseoutBusinessRules(subAwardCloseout)){
+           addCloseoutToSubAward(subAwardForm.getSubAwardDocument().getSubAward(), subAwardCloseout);
+           subAwardForm.setNewSubAwardCloseout(new SubAwardCloseout());
+       }
+        return mapping.findForward(Constants.MAPPING_SUBAWARD_PAGE);
+    }
+
+    boolean addCloseoutToSubAward(SubAward subAward,SubAwardCloseout subAwardCloseout){
+        if(subAward.getSubAwardCode()==null){
+            String subAwardCode = getSubAwardService().getNextSubAwardCode();
+            subAward.setSubAwardCode(subAwardCode);
+        }
+        subAwardCloseout.setSubAward(subAward);    
+        return subAward.getSubAwardCloseoutList().add(subAwardCloseout);
+    }
+   public ActionForward deleteCloseout(ActionMapping mapping, ActionForm form, HttpServletRequest request, HttpServletResponse response) throws Exception {
+        SubAwardForm subAwardForm = (SubAwardForm)form;
+        SubAwardDocument subAwardDocument = subAwardForm.getSubAwardDocument();
+        int selectedLineNumber = getSelectedLine(request);
+        SubAwardCloseout subAwardCloseout =  subAwardDocument.getSubAward().getSubAwardCloseoutList().get(selectedLineNumber);
+        subAwardDocument.getSubAward().getSubAwardCloseoutList().remove(selectedLineNumber);
+        this.getBusinessObjectService().delete(subAwardCloseout);
+        return mapping.findForward(Constants.MAPPING_SUBAWARD_PAGE);
+    }
+
 }

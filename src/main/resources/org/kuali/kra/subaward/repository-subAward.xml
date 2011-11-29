@@ -34,7 +34,7 @@
 		<field-descriptor name="subAwardId" column="SUBAWARD_ID" jdbc-type="INTEGER" primarykey="true"  autoincrement="true" sequence-name="SUBAWARD_ID_S" />
 		<field-descriptor name="documentNumber" column="DOCUMENT_NUMBER" jdbc-type="VARCHAR" access="anonymous" />	
 		<field-descriptor name="sequenceNumber" column="SEQUENCE_NUMBER" jdbc-type="INTEGER"/>	
-		<field-descriptor name="subAwardCode" column="SUBAWARD_CODE" jdbc-type="VARCHAR"   autoincrement="true" sequence-name="SUBAWARD_CODE_S" />
+		<field-descriptor name="subAwardCode" column="SUBAWARD_CODE" jdbc-type="VARCHAR" />
 		<field-descriptor name="organizationId" column="ORGANIZATION_ID" jdbc-type="VARCHAR" />
 		<field-descriptor name="startDate" column="START_DATE" jdbc-type="DATE" />
 		<field-descriptor name="endDate" column="END_DATE" jdbc-type="DATE" />
