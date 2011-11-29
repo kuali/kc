@@ -82,9 +82,20 @@ public interface KcNotificationService {
      * Send a previously saved or edited KC Notification, using the context to populate context-specific role qualifiers within the Role-based Recipients and 
      * additionally sending the notification to other non-role users.
      * 
-     * @param notification
      * @param notificationContext
+     * @param notification
+     * @param notificationRecipients
      */
-    void sendNotification(KcNotification notification, List<NotificationTypeRecipient> notificationRecipients, NotificationContext notificationContext);
+    void sendNotification(NotificationContext notificationContext, KcNotification notification, List<NotificationTypeRecipient> notificationRecipients);
 
+    /**
+     * Send an unedited KC Notification to {@code principalNames} using the given {@code subject} and {@code message}.
+     * 
+     * @param contextName
+     * @param subject
+     * @param message
+     * @param principalNames
+     */
+    void sendNotification(String contextName, String subject, String message, List<String> principalNames);
+    
 }

@@ -159,31 +159,44 @@ public class KcNotificationServiceImpl implements KcNotificationService {
         KcNotification notification = createNotification(context);
         
         if (notification.getNotificationType() != null && notification.getNotificationType().getSendNotification()) {
+            String contextName = context.getContextName();
             String subject = notification.getSubject();
             String message = notification.getMessage();
             Collection<NotificationRecipient> notificationRecipients = getRecipients(context);
     
-            sendNotification(context, subject, message, notificationRecipients);
+            sendNotification(contextName, subject, message, notificationRecipients);
         }
     }
     
     /**
      * {@inheritDoc}
-     * @see org.kuali.kra.common.notification.service.KcNotificationService#sendNotification(org.kuali.kra.common.notification.bo.KcNotification, 
-     *      java.util.List, org.kuali.kra.common.notification.NotificationContext)
+     * @see org.kuali.kra.common.notification.service.KcNotificationService#sendNotification(org.kuali.kra.common.notification.NotificationContext, 
+     *      org.kuali.kra.common.notification.bo.KcNotification, java.util.List)
      */
-    public void sendNotification(KcNotification notification, List<NotificationTypeRecipient> notificationTypeRecipients, NotificationContext context) {        
+    public void sendNotification(NotificationContext context, KcNotification notification, List<NotificationTypeRecipient> notificationTypeRecipients) {        
+        String contextName = context.getContextName();
         String subject = notification.getSubject();
         String message = notification.getMessage();
         Collection<NotificationRecipient> notificationRecipients = getRecipients(notificationTypeRecipients, context);
         
-        sendNotification(context, subject, message, notificationRecipients);
+        sendNotification(contextName, subject, message, notificationRecipients);
     }
     
-    private void sendNotification(NotificationContext context, String subject, String message, Collection<NotificationRecipient> notificationRecipients) {
-        LOG.info("Sending Notification [" + context.getContextName() + "]");
+    /**
+     * {@inheritDoc}
+     * @see org.kuali.kra.common.notification.service.KcNotificationService#sendNotification(java.lang.String, java.lang.String, java.lang.String, 
+     *      java.util.List)
+     */
+    public void sendNotification(String contextName, String subject, String message, List<String> principalNames) {
+        Collection<NotificationRecipient> notificationRecipients = getRecipients(principalNames);
         
-        Notification notification = getNotification(context);
+        sendNotification(contextName, subject, message, notificationRecipients);
+    }
+    
+    private void sendNotification(String contextName, String subject, String message, Collection<NotificationRecipient> notificationRecipients) {
+        LOG.info("Sending Notification [" + contextName + "]");
+        
+        Notification notification = getNotification();
         
         notification.setTitle(subject);
         notification.setContent(NotificationConstants.XML_MESSAGE_CONSTANTS.CONTENT_SIMPLE_OPEN + NotificationConstants.XML_MESSAGE_CONSTANTS.MESSAGE_OPEN 
@@ -193,7 +206,7 @@ public class KcNotificationServiceImpl implements KcNotificationService {
         notificationService.sendNotification(notification);
     }
     
-    private Notification getNotification(NotificationContext context) {
+    private Notification getNotification() {
         Notification notification = new Notification();
         
         NotificationPriority priority = new NotificationPriority();
@@ -281,6 +294,25 @@ public class KcNotificationServiceImpl implements KcNotificationService {
         return uniqueRecipients;
     }
     
+    private Collection<NotificationRecipient> getRecipients(List<String> principalNames) {
+        TreeSet<NotificationRecipient> uniqueRecipients = new TreeSet<NotificationRecipient>(new Comparator<NotificationRecipient>() {
+            public int compare(NotificationRecipient o1, NotificationRecipient o2) {
+                return o1.getRecipientId().compareTo(o2.getRecipientId());
+            }
+        });
+        
+        for (String principalName : principalNames) {
+            LOG.info("Processing recipient: " + principalName + ".");
+            
+            NotificationRecipient recipient = new NotificationRecipient();
+            recipient.setRecipientId(principalName);
+            recipient.setRecipientType(KimConstants.KimGroupMemberTypes.PRINCIPAL_MEMBER_TYPE);
+            uniqueRecipients.add(recipient);
+        }
+        
+        return uniqueRecipients;
+    }
+    
     private List<NotificationRecipient> getRoleRecipients(List<NotificationTypeRecipient> notificationRecipients, NotificationContext context) {
         List<NotificationRecipient> roleRecipients = new ArrayList<NotificationRecipient>();
         
@@ -341,20 +373,12 @@ public class KcNotificationServiceImpl implements KcNotificationService {
     private List<NotificationRecipient> getPersonRecipients(List<NotificationTypeRecipient> notificationRecipients) {
         List<NotificationRecipient> personRecipients = new ArrayList<NotificationRecipient>();
         
-        List<NotificationTypeRecipient> recipients = new ArrayList<NotificationTypeRecipient>();
         Collections.sort(notificationRecipients, new Comparator<NotificationTypeRecipient>() {
             public int compare(NotificationTypeRecipient roleRecipeient1, NotificationTypeRecipient roleRecipeient2) {
                 return roleRecipeient2.getPersonId().compareTo(roleRecipeient1.getPersonId());
             }
         });
-        String personId = null;
-        for (NotificationTypeRecipient personRecipient : notificationRecipients) {
-            if (StringUtils.isBlank(personId)) {
-                recipients.add(personRecipient);
-                personId = personRecipient.getPersonId();
-            }
-        }
-        personRecipients.addAll(createPersonRecipients(recipients));
+        personRecipients.addAll(createPersonRecipients(notificationRecipients));
         
         return personRecipients;
     }
@@ -377,20 +401,12 @@ public class KcNotificationServiceImpl implements KcNotificationService {
     private List<NotificationRecipient> getRolodexRecipients(List<NotificationTypeRecipient> notificationRecipients) {
         List<NotificationRecipient> rolodexRecipients = new ArrayList<NotificationRecipient>();
         
-        List<NotificationTypeRecipient> recipients = new ArrayList<NotificationTypeRecipient>();
         Collections.sort(notificationRecipients, new Comparator<NotificationTypeRecipient>() {
             public int compare(NotificationTypeRecipient roleRecipeient1, NotificationTypeRecipient roleRecipeient2) {
                 return roleRecipeient2.getRolodexId().compareTo(roleRecipeient1.getRolodexId());
             }
         });
-        String rolodexId = null;
-        for (NotificationTypeRecipient rolodexRecipient : notificationRecipients) {
-            if (StringUtils.isBlank(rolodexId)) {
-                recipients.add(rolodexRecipient);
-                rolodexId = rolodexRecipient.getRolodexId();
-            }
-        }
-        rolodexRecipients.addAll(createRolodexRecipients(recipients));
+        rolodexRecipients.addAll(createRolodexRecipients(notificationRecipients));
         
         return rolodexRecipients;
     }
