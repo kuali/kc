@@ -1905,6 +1905,14 @@ public class ActionHelper implements Serializable {
         return hasFollowupAction(ProtocolActionType.SUBSTANTIVE_REVISIONS_REQUIRED);
     }
     
+    /**
+     * 
+     * This method is one of the criteria to decide if there is a followup action for requested action panel to open
+     * @return
+     */
+    public boolean isOpenForFollowup() {
+        return getIsApproveOpenForFollowup() || getIsDisapproveOpenForFollowup() || getIsReturnForSMROpenForFollowup() || getIsReturnForSRROpenForFollowup();
+    }
     
     public Map<String,Boolean> getFollowupActionMap() {
         return followupActionMap;
