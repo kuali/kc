@@ -26,7 +26,7 @@
 <c:set var="reportTrackingReadOnly" value="${!KualiForm.permissionsHelper.maintainAwardReportTracking }"/>
 
 <kul:innerTab parentTab="${innerTabParent}" defaultOpen="false"
-	tabTitle="Details - Report Tracking (New)"
+	tabTitle="Details - Report Tracking"
 	useCurrentTabIndexAsKey="true"
 	tabErrorKey="document.awardList[0].awardReportTermItems[${index}].awardReportings*, document.awardList[0].awardReportTermItems[${index}].frequencyBaseCode">
 
