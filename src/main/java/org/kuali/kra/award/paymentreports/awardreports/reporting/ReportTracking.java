@@ -47,7 +47,6 @@ public class ReportTracking extends KraPersistableBusinessObjectBase implements 
      * Comment for <code>serialVersionUID</code>
      */
     private static final long serialVersionUID = -7660491024739306314L;
-    private Long awardReportTrackingId;
     private Long awardReportTermId;
     private String awardNumber;
     private String piPersonId;
@@ -90,14 +89,7 @@ public class ReportTracking extends KraPersistableBusinessObjectBase implements 
     private transient KcPersonService kcPersonService;
     private transient BusinessObjectService businessObjectService;
     private boolean multiEditSelected;
-
-    public Long getAwardReportTrackingId() {
-        return awardReportTrackingId;
-    }
-
-    public void setAwardReportTrackingId(Long awardReportTrackingId) {
-        this.awardReportTrackingId = awardReportTrackingId;
-    }
+    
 
     public Long getAwardReportTermId() {
         return awardReportTermId;
@@ -271,7 +263,6 @@ public class ReportTracking extends KraPersistableBusinessObjectBase implements 
     @Override
     protected LinkedHashMap toStringMapper() {
         LinkedHashMap result = new LinkedHashMap();
-        result.put("awardReportTrackingId", getAwardReportTrackingId());
         result.put("awardNumber", getAwardNumber());
         result.put("reportClassCode", getReportClassCode());
         result.put("reportCode", getReportCode());
