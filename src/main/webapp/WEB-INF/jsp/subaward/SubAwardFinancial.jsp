@@ -1,3 +1,4 @@
+ 
  <%--
  Copyright 2005-2010 The Kuali Foundation
 
@@ -14,19 +15,19 @@
  limitations under the License.
 --%>
 <%@ include file="/WEB-INF/jsp/kraTldHeader.jsp"%>
-
 <kul:documentPage
 	showDocumentInfo="true"
-	htmlFormAction="subAwardCloseout"
+	htmlFormAction="subAwardFinancial"
 	documentTypeName="SubAwardDocument"
 	renderMultipart="false"
 	showTabButtons="true"
 	auditCount="0"
   	headerDispatch="${KualiForm.headerDispatch}"
-  	headerTabActive="closeouts"> 	
+  	headerTabActive="financial"> 	
   	
 <div id="workarea">
-	<kra-sub:subAwardCloseout/>	
+	<kra-sub:subAwardHistoryOfChanges/>	
+	<kra-sub:subAwardInvoices/>
 	<kul:panelFooter />
 </div>
 
@@ -34,4 +35,3 @@
 <script language="javascript" src="scripts/kuali_application.js"></script>
 
 </kul:documentPage>
- 

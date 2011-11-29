@@ -41,6 +41,7 @@ import org.kuali.kra.subaward.bo.SubAwardCloseout;
 import org.kuali.kra.subaward.bo.SubAwardAmountReleased;
 import org.kuali.kra.subaward.bo.SubAwardAmountInfo;
 import org.kuali.kra.subaward.document.SubAwardDocument;
+import org.kuali.rice.kns.util.KualiDecimal;
 import org.kuali.rice.kns.util.TypedArrayList;
 import org.kuali.kra.subaward.customdata.SubAwardCustomData;
 
@@ -87,6 +88,13 @@ public class SubAward extends KraPersistableBusinessObjectBase implements Permis
     private KcPerson kcPerson;
     private String subAwardSequenceStatus;
     private static boolean newVersion;
+    private KualiDecimal totalObligatedAmount ;
+    private KualiDecimal totalAnticipatedAmount;
+    private KualiDecimal totalAmountReleased;
+    private KualiDecimal totalAvailableAmount;
+    private transient String docIdStatus;
+    private transient String lastUpdate;
+    
     
     public String getSubAwardSequenceStatus() {
         return subAwardSequenceStatus;
@@ -613,6 +621,44 @@ public class SubAward extends KraPersistableBusinessObjectBase implements Permis
     public boolean getNewVersion ()
     {
         return this.newVersion;
+    }
+    public KualiDecimal getTotalObligatedAmount() {
+        return totalObligatedAmount;
+    }
+
+    public void setTotalObligatedAmount(KualiDecimal totalObligatedAmount) {
+            this.totalObligatedAmount = totalObligatedAmount;
+    }
+
+    public KualiDecimal getTotalAnticipatedAmount() {
+        return totalAnticipatedAmount;
+    }
+
+    public void setTotalAnticipatedAmount(KualiDecimal totalAnticipatedAmount) {
+        this.totalAnticipatedAmount = totalAnticipatedAmount;
+    }
+
+    public KualiDecimal getTotalAmountReleased() {
+        return totalAmountReleased;
+    }
+
+    public void setTotalAmountReleased(KualiDecimal totalAmountReleased) {
+        this.totalAmountReleased = totalAmountReleased;
+    }
+
+    public KualiDecimal getTotalAvailableAmount() {
+        return totalAvailableAmount;
+    }
+
+    public void setTotalAvailableAmount(KualiDecimal totalAvailableAmount) {
+        this.totalAvailableAmount = totalAvailableAmount;
+    }
+    
+    public String getDocIdStatus() {
+        return docIdStatus;
+    }
+    public String getLastUpdate() {
+        return lastUpdate;
     }
     
 }

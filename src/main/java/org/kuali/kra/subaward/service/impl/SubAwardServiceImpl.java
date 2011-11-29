@@ -22,14 +22,19 @@ import java.util.Map;
 
 import org.kuali.kra.bo.versioning.VersionHistory;
 import org.kuali.kra.bo.versioning.VersionStatus;
+import org.kuali.kra.infrastructure.Constants;
 import org.kuali.kra.service.VersionException;
 import org.kuali.kra.service.VersioningService;
 import org.kuali.kra.subaward.bo.SubAward;
+import org.kuali.kra.subaward.bo.SubAwardAmountInfo;
+import org.kuali.kra.subaward.bo.SubAwardAmountReleased;
 import org.kuali.kra.subaward.document.SubAwardDocument;
 import org.kuali.kra.subaward.service.SubAwardService;
 import org.kuali.rice.kew.exception.WorkflowException;
 import org.kuali.rice.kns.service.BusinessObjectService;
 import org.kuali.rice.kns.service.DocumentService;
+import org.kuali.rice.kns.service.SequenceAccessorService;
+import org.kuali.rice.kns.util.KualiDecimal;
 
 public class SubAwardServiceImpl implements SubAwardService{
 
@@ -37,7 +42,8 @@ public class SubAwardServiceImpl implements SubAwardService{
     private BusinessObjectService businessObjectService;
     private VersioningService versioningService;
     private DocumentService documentService;
-
+    private SequenceAccessorService sequenceAccessorService;
+    
     public SubAwardDocument createNewSubAwardVersion(SubAwardDocument subAwardDocument) throws VersionException, WorkflowException {
 
         SubAward newVersion = getVersioningService().createNewVersion(subAwardDocument.getSubAward());
@@ -97,5 +103,52 @@ public class SubAwardServiceImpl implements SubAwardService{
 
     public BusinessObjectService getBusinessObjectService() {
         return businessObjectService;
+    }
+    /** {@inheritDoc} */
+    public String getNextSubAwardCode() {
+        Long nextAwardNumber = sequenceAccessorService.getNextAvailableSequenceNumber(Constants.SUBAWARD_SEQUENCE_SUBAWARD_CODE);
+        
+        return nextAwardNumber.toString();
+    }
+    /**
+     * Set the Sequence Accessor Service.
+     * @param sequenceAccessorService the Sequence Accessor Service
+     */
+    public void setSequenceAccessorService(SequenceAccessorService sequenceAccessorService) {
+        this.sequenceAccessorService = sequenceAccessorService;
+    }
+    
+    public SubAward getAmountInfo(SubAward subAward){
+
+        List<SubAwardAmountInfo> subAwardAmountInfoList = subAward.getSubAwardAmountInfoList();  
+        List<SubAwardAmountReleased> subAwardAmountReleasedList = subAward.getSubAwardAmountReleasedList();
+        KualiDecimal totalOblicatedAmount = new KualiDecimal(0.00); ;
+        KualiDecimal totalAnticipatedAmount = new KualiDecimal(0.00) ;
+        KualiDecimal totalAmountReleased = new KualiDecimal(0.00) ;
+        if(subAwardAmountInfoList!=null){
+            for(SubAwardAmountInfo subAwardAmountInfo : subAwardAmountInfoList){
+                if(subAwardAmountInfo.getObligatedChange()!=null){
+                   
+                    subAward.setTotalObligatedAmount(totalOblicatedAmount.add(subAwardAmountInfo.getObligatedChange()));
+                    totalOblicatedAmount = subAward.getTotalObligatedAmount();
+                }
+                if(subAwardAmountInfo.getAnticipatedChange()!=null){
+                    subAward.setTotalAnticipatedAmount(totalAnticipatedAmount.add(subAwardAmountInfo.getAnticipatedChange()));
+                    totalAnticipatedAmount = subAward.getTotalAnticipatedAmount();
+                }
+            }
+            for(SubAwardAmountReleased subAwardAmountReleased:subAwardAmountReleasedList){
+                
+                if(subAwardAmountReleased.getAmountReleased()!=null){
+                    subAward.setTotalAmountReleased(totalAmountReleased.add(subAwardAmountReleased.getAmountReleased()));
+                    totalAmountReleased = subAward.getTotalAmountReleased();
+                }
+            }
+        }
+        subAward.setTotalObligatedAmount(totalOblicatedAmount);
+        subAward.setTotalAnticipatedAmount(totalAnticipatedAmount);
+        subAward.setTotalAmountReleased(totalAmountReleased);
+        subAward.setTotalAvailableAmount(totalOblicatedAmount.subtract(totalAmountReleased));
+        return subAward;
     }
 }

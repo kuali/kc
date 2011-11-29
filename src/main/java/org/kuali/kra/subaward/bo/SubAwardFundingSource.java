@@ -97,7 +97,7 @@ public class SubAwardFundingSource extends SubAwardAssociate {
     }
 
     public void setSubAwardCode(String subAwardCode) {
-        this.subAwardCode = subAwardCode;
+        this.subAwardCode = getSubAward().getSubAwardCode();
     }
 
     
