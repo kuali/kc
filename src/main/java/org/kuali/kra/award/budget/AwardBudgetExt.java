@@ -51,6 +51,7 @@ public class AwardBudgetExt extends Budget {
     private BudgetVersionOverview prevBudget;
     private List<BudgetDecimal> budgetsTotals;
     private List<AwardBudgetLimit> awardBudgetLimits;
+    private BudgetVersionOverview firstBudget;
     
     private SortedMap<CostElement, BudgetDecimal> objectCodeBudgetTotals;
     private SortedMap<RateType, BudgetDecimal> calculatedExpenseBudgetTotals;
@@ -203,7 +204,8 @@ public class AwardBudgetExt extends Budget {
             for (BudgetDocumentVersion budgetDocumentVersion : this.getBudgetDocument().getParentDocument().getBudgetDocumentVersions()) {
                 for (BudgetVersionOverview budgetVersionOverview : budgetDocumentVersion.getBudgetVersionOverviews()) {
                     if (budgetVersionOverview != null && budgetVersionOverview.getBudgetVersionNumber() > version
-                            && "9".equals(((AwardBudgetVersionOverviewExt)budgetVersionOverview).getAwardBudgetStatusCode())
+                            && getParameterValue(KeyConstants.AWARD_BUDGET_STATUS_POSTED).equals(
+                                    ((AwardBudgetVersionOverviewExt)budgetVersionOverview).getAwardBudgetStatusCode())
                             && budgetVersionOverview.getBudgetVersionNumber() < this.getBudgetVersionNumber()) {
                         version = budgetVersionOverview.getBudgetVersionNumber();
                         prevBudget = budgetVersionOverview;
@@ -221,6 +223,30 @@ public class AwardBudgetExt extends Budget {
             }
         }
         return prevBudget;
+    }
+    public BudgetVersionOverview getFirstBudget() {
+        if (firstBudget == null && this.getBudgetDocument() != null) {
+            Integer version = 0;
+            for (BudgetDocumentVersion budgetDocumentVersion : this.getBudgetDocument().getParentDocument().getBudgetDocumentVersions()) {
+                for (BudgetVersionOverview budgetVersionOverview : budgetDocumentVersion.getBudgetVersionOverviews()) {
+                    if (budgetVersionOverview != null && getParameterValue(KeyConstants.AWARD_BUDGET_STATUS_POSTED).equals(
+                                    ((AwardBudgetVersionOverviewExt)budgetVersionOverview).getAwardBudgetStatusCode())) {
+                        firstBudget = budgetVersionOverview;
+                        return firstBudget;
+                    }
+                }
+            }
+            if (firstBudget == null) {
+                firstBudget = new BudgetVersionOverview();
+                firstBudget.setCostSharingAmount(getCostSharingAmount());
+                firstBudget.setTotalCost(getTotalCost());
+                firstBudget.setTotalCostLimit(getTotalCostLimit());
+                firstBudget.setTotalDirectCost(getTotalDirectCost());
+                firstBudget.setTotalIndirectCost(getTotalIndirectCost());
+                firstBudget.setUnderrecoveryAmount(getUnderrecoveryAmount());
+            }
+        }
+        return firstBudget;
     }
     
     
@@ -246,9 +272,12 @@ public class AwardBudgetExt extends Budget {
 
     }
     public String getRebudgetFlag(){
-        String rebudgetTypeCode = KraServiceLocator.getService(ParameterService.class).
-                    getParameterValue(AwardBudgetDocument.class,KeyConstants.AWARD_BUDGET_TYPE_REBUDGET);
+        String rebudgetTypeCode = getParameterValue(KeyConstants.AWARD_BUDGET_TYPE_REBUDGET);
         return Boolean.toString(getAwardBudgetTypeCode().equals(rebudgetTypeCode));
+    }
+    private String getParameterValue(String parameter) {
+        return KraServiceLocator.getService(ParameterService.class).
+                    getParameterValue(AwardBudgetDocument.class,parameter);
     }
     public List<AwardBudgetLimit> getAwardBudgetLimits() {
         return awardBudgetLimits;
