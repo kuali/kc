@@ -39,5 +39,19 @@ public interface SubAwardService {
      * @param status
      */
     public void updateSubAwardSequenceStatus(SubAward subAward, VersionStatus status);
+    
+    /**
+     * This method returns an unused SubAwardCode.
+     * @return
+     */
+    String getNextSubAwardCode();
+    
+    /**
+     * This method will add AmountInfo details to subaward.
+     * @param subAward
+     * @return
+     */
+    public SubAward getAmountInfo(SubAward subAward);
+
 
 }

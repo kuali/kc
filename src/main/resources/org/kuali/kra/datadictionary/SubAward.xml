@@ -38,8 +38,12 @@
         <ref bean="SubAward-organizationName" />
         <ref bean="SubAward-subAwardStatus.description" />
         <ref bean="SubAward-subAwardType.description" />
-        
-        
+        <ref bean="SubAward-totalObligatedAmount" />      
+        <ref bean="SubAward-totalAnticipatedAmount" />      
+        <ref bean="SubAward-totalAmountReleased" />      
+        <ref bean="SubAward-totalAvailableAmount" />    
+        <ref bean="SubAward-docIdStatus" />  
+        <ref bean="SubAward-lastUpdate" />
       </list>
     </property>
   </bean>
@@ -484,6 +488,113 @@
     <property name="description" value="Site Investigator" />    
   </bean>
   
+  
+   <bean id="SubAward-totalObligatedAmount" parent="SubAward-totalObligatedAmount-parentBean" />
+   <bean id="SubAward-totalObligatedAmount-parentBean" abstract="true" parent="AttributeDefinition">
+    <property name="name" value="totalObligatedAmount" />
+    <property name="forceUppercase" value="false" />
+    <property name="label" value="Obligated Amount" />
+    <property name="shortLabel" value="Obligated Amount" />
+    <property name="maxLength" value="22" />
+   <!--  <property name="validationPattern" >
+      <bean parent="NumericValidationPattern" />
+    </property> -->
+    <property name="required" value="false" />
+    <property name="control" >
+      <bean parent="TextControlDefinition"
+            p:size="10" />
+    </property>
+    <property name="summary" value="Obligated Amount" />
+    <property name="description" value="Obligated Amount" />    
+  </bean>
+  
+  <bean id="SubAward-totalAnticipatedAmount" parent="SubAward-totalAnticipatedAmount-parentBean" />
+   <bean id="SubAward-totalAnticipatedAmount-parentBean" abstract="true" parent="AttributeDefinition">
+    <property name="name" value="totalAnticipatedAmount" />
+    <property name="forceUppercase" value="false" />
+    <property name="label" value="Anticipated Amount" />
+    <property name="shortLabel" value="Anticipated Amount" />
+    <property name="maxLength" value="22" />
+    <!-- <property name="validationPattern" >
+      <bean parent="NumericValidationPattern" />
+    </property> -->
+    <property name="required" value="false" />
+    <property name="control" >
+      <bean parent="TextControlDefinition"
+            p:size="10" />
+    </property>
+    <property name="summary" value="Anticipated Amount" />
+    <property name="description" value="Anticipated Amount" />    
+  </bean>
+  
+  <bean id="SubAward-totalAmountReleased" parent="SubAward-totalAmountReleased-parentBean" />
+   <bean id="SubAward-totalAmountReleased-parentBean" abstract="true" parent="AttributeDefinition">
+    <property name="name" value="totalAmountReleased" />
+    <property name="forceUppercase" value="false" />
+    <property name="label" value="Amount Released" />
+    <property name="shortLabel" value="Amount Released" />
+    <property name="maxLength" value="22" />
+   <!--  <property name="validationPattern" >
+      <bean parent="NumericValidationPattern" />
+    </property> -->
+    <property name="required" value="false" />
+    <property name="control" >
+      <bean parent="TextControlDefinition"
+            p:size="10" />
+    </property>
+    <property name="summary" value="Obligated Amount" />
+    <property name="description" value="Obligated Amount" />    
+  </bean>
+  
+  <bean id="SubAward-totalAvailableAmount" parent="SubAward-totalAvailableAmount-parentBean" />
+   <bean id="SubAward-totalAvailableAmount-parentBean" abstract="true" parent="AttributeDefinition">
+    <property name="name" value="totalAvailableAmount" />
+    <property name="forceUppercase" value="false" />
+    <property name="label" value="Available Amount" />
+    <property name="shortLabel" value="Available Amount" />
+    <property name="maxLength" value="22" />
+    <!-- <property name="validationPattern" >
+      <bean parent="NumericValidationPattern" />
+    </property> -->
+    <property name="required" value="false" />
+    <property name="control" >
+      <bean parent="TextControlDefinition"
+            p:size="10" />
+    </property>
+    <property name="summary" value="Obligated Amount" />
+    <property name="description" value="Obligated Amount" />    
+  </bean>
+  
+  <bean id="SubAward-docIdStatus" parent="SubAward-docIdStatus-parentBean" />
+	<bean id="SubAward-docIdStatus-parentBean" abstract="true"
+		parent="AttributeDefinition">
+		<property name="name" value="docIdStatus" />
+		<property name="label" value="Document ID:Status" />
+		<property name="shortLabel" value="Document ID:Status" />
+		<property name="maxLength" value="10" />
+		<property name="required" value="false" />
+		<property name="control">
+			<bean parent="TextControlDefinition" p:size="10" />
+		</property>
+		<property name="summary" value="Label for SubAward header fields" />
+		<property name="description" value="Label for SubAward header fields" />
+	</bean>
+	
+	<bean id="SubAward-lastUpdate" parent="SubAward-lastUpdate-parentBean" />
+	<bean id="SubAward-lastUpdate-parentBean" abstract="true"
+		parent="AttributeDefinition">
+		<property name="name" value="lastUpdate" />
+		<property name="label" value="Last Update" />
+		<property name="shortLabel" value="Last Update" />
+		<property name="maxLength" value="10" />
+		<property name="required" value="false" />
+		<property name="control">
+			<bean parent="TextControlDefinition" p:size="10" />
+		</property>
+		<property name="summary" value="Label for SubAward header fields" />
+		<property name="description" value="Label for SubAward header fields" />
+	</bean>
+	
   <!-- Business Object Inquiry Definition -->
   <bean id="SubAward-inquiryDefinition" parent="SubAward-inquiryDefinition-parentBean" />
 

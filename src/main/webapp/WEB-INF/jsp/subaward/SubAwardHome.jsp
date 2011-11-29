@@ -32,7 +32,9 @@
 <kul:documentOverview editingMode="${KualiForm.editingMode}" />
 
 <kra-sub:subAward/>
-
+<kra-sub:subAwardFundingSource/>
+<kra-sub:subAwardContact/>	
+<kra-sub:subAwardCloseout/>
 <kul:panelFooter />
 
 <SCRIPT type="text/javascript">

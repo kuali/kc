@@ -68,6 +68,8 @@ public class SubAwardAction extends KraTransactionalDocumentActionBase{
         forward = handleDocument(mapping, form, request, response, subAwardForm);
         SubAwardDocument subAwardDocument = (SubAwardDocument) subAwardForm.getDocument();
         subAwardForm.initializeFormOrDocumentBasedOnCommand();
+        SubAward subAward=KraServiceLocator.getService(SubAwardService.class).getAmountInfo(subAwardDocument.getSubAward());
+        subAwardForm.getSubAwardDocument().setSubAward(subAward);
         return forward;
     }
     
@@ -103,11 +105,11 @@ public class SubAwardAction extends KraTransactionalDocumentActionBase{
     * @param response
     * @return
     */    
-    protected void loadDocumentInForm(HttpServletRequest request, SubAwardForm awardForm)
+    protected void loadDocumentInForm(HttpServletRequest request, SubAwardForm subAwardForm)
     throws WorkflowException {
         String docIdRequestParameter = request.getParameter(KNSConstants.PARAMETER_DOC_ID);
         SubAwardDocument retrievedDocument = (SubAwardDocument) KNSServiceLocator.getDocumentService().getByDocumentHeaderId(docIdRequestParameter);
-        awardForm.setDocument(retrievedDocument);
+        subAwardForm.setDocument(retrievedDocument);
         request.setAttribute(KNSConstants.PARAMETER_DOC_ID, docIdRequestParameter);
     }
     
@@ -142,7 +144,8 @@ public class SubAwardAction extends KraTransactionalDocumentActionBase{
         SubAwardForm subAwardForm = (SubAwardForm) form;
         
         SubAward subAward = subAwardForm.getSubAwardDocument().getSubAward();
-        
+        checkSubAwardCode(subAward);
+        subAward = KraServiceLocator.getService(SubAwardService.class).getAmountInfo(subAward);
         if(new SubAwardDocumentRule().processAddSubAwardBusinessRules(subAward)){
             return super.save(mapping, form, request, response);
         }
@@ -189,9 +192,9 @@ public class SubAwardAction extends KraTransactionalDocumentActionBase{
     * @param response
     * @return
     */
-   public ActionForward amountInfo(ActionMapping mapping, ActionForm form, HttpServletRequest request, HttpServletResponse response) {       
+   public ActionForward financial(ActionMapping mapping, ActionForm form, HttpServletRequest request, HttpServletResponse response) {       
 
-       return mapping.findForward(Constants.MAPPING_AMOUNT_INFO_PAGE);
+       return mapping.findForward(Constants.MAPPING_FINANCIAL_PAGE);
    }
    /**
    *
@@ -293,5 +296,14 @@ public SubAwardService getSubAwardService() {
 public void setSubAwardService(SubAwardService subAwardService) {
     this.subAwardService = subAwardService;
 }
-
+/**
+ * This method sets an subAwardCode on an subAward if the subAwardCode hasn't been initialized yet.
+ * @param subAward
+ */
+protected void checkSubAwardCode(SubAward subAward){
+    if(subAward.getSubAwardCode()==null){
+        String subAwardCode = getSubAwardService().getNextSubAwardCode();
+        subAward.setSubAwardCode(subAwardCode);
+    }
+}
 }

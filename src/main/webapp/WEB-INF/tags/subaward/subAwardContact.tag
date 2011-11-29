@@ -21,10 +21,10 @@
 <c:set var="newSubAwardContact" value="${KualiForm.newSubAwardContact}" />
 
 
-<kul:tab tabTitle="SubAwardContact" tabItemCount="${fn:length(subAwardContact)}" transparentBackground="true" defaultOpen="true" tabErrorKey="" auditCluster="requiredFieldsAuditErrors" tabAuditKey="" useRiceAuditMode="true">
+<kul:tab tabTitle="Contacts"  transparentBackground="false" defaultOpen="true" tabErrorKey="" auditCluster="requiredFieldsAuditErrors" tabAuditKey="" useRiceAuditMode="true">
 	<div class="tab-container" align="center">
     	<h3>
-    		<span class="subhead-left"> SubAward Contact</span>
+    		<span class="subhead-left"> Contacts </span>
     		<span class="subhead-right"><kul:help businessObjectClassName="org.kuali.kra.bo.SubAwardContact" altText="help"/></span>
         </h3>
         

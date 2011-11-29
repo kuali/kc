@@ -18,10 +18,34 @@
 <c:set var="subAwardAmountReleasedAttributes" value="${DataDictionary.SubAwardAmountReleased.attributes}" />
 <c:set var="action" value="subAwardAmountReleased" />
 <c:set var="newSubAwardAmountReleased" value="${KualiForm.newSubAwardAmountReleased}" />
-<kul:tab tabTitle="SubAwardAmountReleased" defaultOpen="true" transparentBackground="true" tabErrorKey="" auditCluster="requiredFieldsAuditErrors" tabAuditKey="" useRiceAuditMode="true">
+<kul:tab tabTitle="Invoices" defaultOpen="true" transparentBackground="false" tabErrorKey="" auditCluster="requiredFieldsAuditErrors" tabAuditKey="" useRiceAuditMode="true">
 	<div class="tab-container" align="center">
+	<h3>
+    		<span class="subhead-left"></span>
+    		<span class="subhead-right"></span>
+        </h3>
+	<table cellpadding=0 cellspacing=0 summary="">
+   				<tr>
+				<th>Obligated Amount</th>
+                <td colspan="2">
+                       ${KualiForm.subAwardDocument.subAward.totalObligatedAmount}&nbsp; 
+                </td>
+				<th>Available Amount</th>
+                <td colspan="2">
+                      ${KualiForm.subAwardDocument.subAward.totalAvailableAmount}&nbsp; 
+                </td>
+            </tr>    
+            
+            <tr>
+				<th>Amount Released</th>
+                <td colspan="2">
+                       ${KualiForm.subAwardDocument.subAward.totalAmountReleased}&nbsp; 
+                </td>
+				
+            </tr>
+            </table>
     	<h3>
-    		<span class="subhead-left"> SubAward Amount Released</span>
+    		<span class="subhead-left">Invoices</span>
     		<span class="subhead-right"><kul:help businessObjectClassName="org.kuali.kra.bo.SubAwardAmountReleased" altText="help"/></span>
         </h3>
         
@@ -134,7 +158,7 @@
 						<td width="10%" valign="middle" rowspan="2">    
 						<div align="center">
 						  <c:if test="${!readOnly}">
-	                		<html:image property="methodToCall.deleteFandaRate.line${status.index}.anchor${currentTabIndex}"
+	                		<html:image property="methodToCall.deleteAmountReleased.line${status.index}.anchor${currentTabIndex}"
 								src='${ConfigProperties.kra.externalizable.images.url}tinybutton-delete1.gif' styleClass="tinybutton"/>
 						  </c:if>
 						  <c:if test="${readOnly}">&nbsp;</c:if>

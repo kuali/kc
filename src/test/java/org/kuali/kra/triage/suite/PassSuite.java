@@ -458,11 +458,7 @@ import org.junit.runners.Suite.SuiteClasses;
     org.kuali.kra.subaward.document.SubAwardDocumentTest.class,
     org.kuali.kra.subaward.subawardrule.SubAwardDocumentRuleTest.class,
     org.kuali.kra.subaward.web.struts.action.SubAwardActionTest.class,
-    org.kuali.kra.subaward.web.struts.action.SubAwardAmountInfoActionTest.class,
-    org.kuali.kra.subaward.web.struts.action.SubAwardAmountReleasedActionTest.class,
-    org.kuali.kra.subaward.web.struts.action.SubAwardCloseoutActionTest.class,
-    org.kuali.kra.subaward.web.struts.action.SubAwardContactsActionTest.class,
-    org.kuali.kra.subaward.web.struts.action.SubAwardFundingSourceActionTest.class,
+    org.kuali.kra.subaward.web.struts.action.SubAwardFinancialActionTest.class,
     org.kuali.kra.service.impl.NotificationModuleRoleServiceImplTest.class,
     org.kuali.kra.subaward.document.authorization.TestSubAwardAuthorizers.class
 })
