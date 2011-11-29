@@ -84,7 +84,7 @@ public class ProtocolNotificationEditorAction extends ProtocolAction {
         return mapping.findForward(Constants.MAPPING_BASIC);
     }
     
-    public ActionForward saveNotification(ActionMapping mapping, ActionForm form, HttpServletRequest request, HttpServletResponse response) throws Exception {
+    public ActionForward sendNotification(ActionMapping mapping, ActionForm form, HttpServletRequest request, HttpServletResponse response) throws Exception {
         ProtocolForm protocolForm = (ProtocolForm) form;
         
         protocolForm.getNotificationHelper().sendNotification();
