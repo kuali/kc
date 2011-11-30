@@ -498,9 +498,8 @@ public class ProtocolDocument extends ResearchDocumentBase implements Copyable, 
             if (getDocumentHeader().getWorkflowDocument().getCurrentRouteNodeNames().equalsIgnoreCase(Constants.PROTOCOL_INITIATED_ROUTE_NODE_NAME)) { 
                 isComplete = false;
             }    
-            // The following code is in place to go to the holding page when a 
             // while submitting an amendment for IRB review, the amendment moves from node Initiated to node IRBReview, 
-            //so need to check if protocolSubmissionStatus to avoid the processing page from not going away at all when 
+            //so need to check protocolSubmissionStatus to avoid the processing page from not going away at all when 
             // an amendment is submitted for review
             // Added for KCIRB-1515 & KCIRB-1528
             getProtocol().getProtocolSubmission().refreshReferenceObject("submissionStatus"); 
