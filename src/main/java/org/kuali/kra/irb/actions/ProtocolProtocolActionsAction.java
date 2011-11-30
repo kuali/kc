@@ -2893,6 +2893,50 @@ public class ProtocolProtocolActionsAction extends ProtocolAction implements Aud
     }
     
     /**
+     * Method called when modifying an existing protocol note.
+     * 
+     * @param mapping the action mapping
+     * @param form the form.
+     * @param request the request.
+     * @param response the response.
+     * @return an action forward.
+     * @throws Exception if there is a problem executing the request.
+     */
+    public ActionForward editNote(ActionMapping mapping, ActionForm form, HttpServletRequest request, 
+            HttpServletResponse response) throws Exception {
+        ProtocolForm protocolForm = (ProtocolForm) form;
+        if (protocolForm.getActionHelper().getCanManageNotes()) {
+            protocolForm.getNotesAttachmentsHelper().modifyNote();
+            protocolForm.getNotesAttachmentsHelper().setManageNotesOpen(true);
+        }
+        return mapping.findForward(Constants.MAPPING_BASIC);
+    }
+    
+    /**
+     * Method called when deleting an existing protocol note.
+     * 
+     * @param mapping the action mapping
+     * @param form the form.
+     * @param request the request.
+     * @param response the response.
+     * @return an action forward.
+     * @throws Exception if there is a problem executing the request.
+     */
+    public ActionForward deleteNote(ActionMapping mapping, ActionForm form, HttpServletRequest request, 
+            HttpServletResponse response) throws Exception {
+        ProtocolForm protocolForm = (ProtocolForm) form;
+        
+        if (protocolForm.getActionHelper().getCanManageNotes()) {
+            if (protocolForm.getActionHelper().getCanManageNotes()) {
+                int noteToDelete = getLineToDelete(request);
+                protocolForm.getNotesAttachmentsHelper().deleteNote(noteToDelete);
+                protocolForm.getNotesAttachmentsHelper().setManageNotesOpen(true);
+            }
+        }
+        return mapping.findForward(Constants.MAPPING_BASIC);
+    }
+    
+    /**
      * 
      * This method...
      * @param mapping
