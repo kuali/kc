@@ -47,7 +47,6 @@ public class NegotiationLookupableHelperServiceImpl extends KraLookupableHelperS
     private NegotiationDao negotiationDao;
 
 
-    @SuppressWarnings("unchecked")
     @Override
     public List<? extends BusinessObject> getSearchResults(Map<String, String> fieldValues) {
         super.setBackLocationDocFormKey(fieldValues);
@@ -55,10 +54,8 @@ public class NegotiationLookupableHelperServiceImpl extends KraLookupableHelperS
             fieldValues.put("associatedNegotiable.piId", ((String[]) this.getParameters().get(USER_ID))[0]);
             fieldValues.put("negotiatorPersonId", ((String[]) this.getParameters().get(USER_ID))[0]);
         }
-        List<Negotiation> negotiations = new ArrayList<Negotiation>();
-        negotiations.addAll(getNegotiationDao().getNegotiationResults(fieldValues));
+        return (List<? extends BusinessObject>) getNegotiationDao().getNegotiationResults(fieldValues);
         
-        return negotiations;
     }
     
     @SuppressWarnings("unchecked")

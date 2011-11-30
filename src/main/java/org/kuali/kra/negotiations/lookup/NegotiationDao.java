@@ -15,7 +15,7 @@
  */
 package org.kuali.kra.negotiations.lookup;
 
-import java.util.Collection;
+import java.util.List;
 import java.util.Map;
 
 import org.kuali.kra.negotiations.bo.Negotiation;
@@ -30,5 +30,5 @@ public interface NegotiationDao {
      * @param fieldValues
      * @return
      */
-    Collection<Negotiation> getNegotiationResults(Map<String, String> fieldValues);
+    List<Negotiation> getNegotiationResults(Map<String, String> fieldValues);
 }

@@ -356,7 +356,6 @@
 		<property name="title" value="Negotiation Lookup" />
 		<property name="lookupableID" value="negotiationLookupable" />
 		<property name="menubar" value="&lt;a href=&quot;index.jsp&quot;&gt;Main&lt;/a&gt;" />
-
 		<property name="defaultSort" >
 		  <bean parent="SortDefinition">
 		  </bean>
@@ -400,7 +399,7 @@
 
 		  </list>
 		</property>
-		<property name="resultSetLimit" value="50" />
+		<property name="resultSetLimit" value="500" />
 	</bean>
     
 </beans>
