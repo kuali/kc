@@ -50,7 +50,7 @@ public abstract class NotificationContextBase implements NotificationContext, Se
     public NotificationContextBase(NotificationRenderer renderer) {
         this.renderer = renderer;
     }
-    
+
     /**
      * This method replaces the context variables using the default parameters.
      * @see org.kuali.kra.common.notification.NotificationContext#replaceContextVariables(java.lang.String)
@@ -111,6 +111,14 @@ public abstract class NotificationContextBase implements NotificationContext, Se
 
     public void setNotificationRoleQualifierService(KcNotificationRoleQualifierService notificationRoleQualifierService) {
         this.notificationRoleQualifierService = notificationRoleQualifierService;
+    }
+
+    public NotificationRenderer getRenderer() {
+        return renderer;
+    }
+
+    public void setRenderer(NotificationRenderer renderer) {
+        this.renderer = renderer;
     }
 
 }
