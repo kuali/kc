@@ -20,7 +20,6 @@
 
 <script type='text/javascript' src='dwr/interface/KraPersonService.js'></script>
 
-<c:set var="awardReportingAttributes" value="${DataDictionary.AwardReporting.attributes}" />
 <c:set var="reportTrackingAttributes" value="${DataDictionary.ReportTracking.attributes}" />
 <c:set var="reportTrackingBeanAttributes" value="${DataDictionary.ReportTrackingBean.attributes}" />
 <c:set var="reportTrackingReadOnly" value="${!KualiForm.permissionsHelper.maintainAwardReportTracking }"/>
