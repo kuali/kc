@@ -15,17 +15,17 @@
  */
 package org.kuali.kra.external.budget.impl;
 
+import java.net.MalformedURLException;
 import java.net.URL;
 
-import javax.xml.namespace.QName;
 import javax.xml.ws.WebServiceClient;
-
 
 import org.apache.commons.logging.Log;
 import org.apache.commons.logging.LogFactory;
 import org.kuali.kfs.integration.cg.budgetService.BudgetAdjustmentService;
 import org.kuali.kfs.integration.cg.budgetService.BudgetAdjustmentServiceSOAP;
-import org.kuali.kra.award.budget.document.AwardBudgetDocument;
+import org.kuali.kra.infrastructure.Constants;
+import org.kuali.rice.core.config.ConfigContext;
 
 
 
@@ -35,10 +35,12 @@ import org.kuali.kra.award.budget.document.AwardBudgetDocument;
  * via SOAP.
  */
 public class BudgetAdjustmentClientImpl extends BudgetAdjustmentClientBase {
-    private static final Log LOG = LogFactory.getLog(BudgetAdjustmentClientImpl.class);
+    
     public final static URL WSDL_LOCATION;
-    protected static final QName SERVICE_NAME = new QName("KFS", "budgetAdjustmentServiceSOAP");
+    
     private static BudgetAdjustmentClientImpl client;
+    
+    private static final Log LOG = LogFactory.getLog(BudgetAdjustmentClientImpl.class);
 
     
     private BudgetAdjustmentClientImpl() {
@@ -49,7 +51,7 @@ public class BudgetAdjustmentClientImpl extends BudgetAdjustmentClientBase {
             client = new BudgetAdjustmentClientImpl();
         }
         return client;
-      }
+    }
 
     static
     {
@@ -63,9 +65,21 @@ public class BudgetAdjustmentClientImpl extends BudgetAdjustmentClientBase {
     
     @Override
     protected BudgetAdjustmentService getServiceHandle() {
-        BudgetAdjustmentServiceSOAP ss = new BudgetAdjustmentServiceSOAP(WSDL_LOCATION, SERVICE_NAME);
+        URL wsdlURL = WSDL_LOCATION;
+        
+        boolean getFinSystemURLFromWSDL = getParameterService().getIndicatorParameter("KC-AWARD", "Document", Constants.GET_FIN_SYSTEM_URL_FROM_WSDL);
+        
+        if (!getFinSystemURLFromWSDL) {
+            String serviceEndPointUrl = ConfigContext.getCurrentContextConfig().getProperty(Constants.FIN_SYSTEM_INTEGRATION_SERVICE_URL);
+            try {
+                wsdlURL = new URL(serviceEndPointUrl + SOAP_SERVICE_NAME + "?wsdl");
+            } catch (MalformedURLException mue) {
+                LOG.error("Could not construct financial system URL from config file: " + mue.getMessage());
+            }
+        }
+        
+        BudgetAdjustmentServiceSOAP ss = new BudgetAdjustmentServiceSOAP(wsdlURL, SERVICE_NAME);
         return ss.getBudgetAdjustmentServicePort();  
     }
-
 
 }
