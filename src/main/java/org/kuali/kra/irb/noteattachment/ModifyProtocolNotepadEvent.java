@@ -36,7 +36,7 @@ public class ModifyProtocolNotepadEvent extends KraDocumentEventBase {
      */
     public ModifyProtocolNotepadEvent(final ProtocolDocument document,
         final ProtocolNotepad existingProtocolNotepad) {
-        super("adding new protocol notepad", "notesAttachmentsHelper", document);
+        super("modifying existing protocol notepad", "notesAttachmentsHelper", document);
         
         if (document == null) {
             throw new IllegalArgumentException("the document is null");

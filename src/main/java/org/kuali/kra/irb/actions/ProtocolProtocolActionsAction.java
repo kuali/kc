@@ -2906,7 +2906,8 @@ public class ProtocolProtocolActionsAction extends ProtocolAction implements Aud
             HttpServletResponse response) throws Exception {
         ProtocolForm protocolForm = (ProtocolForm) form;
         if (protocolForm.getActionHelper().getCanManageNotes()) {
-            protocolForm.getNotesAttachmentsHelper().modifyNote();
+            int selection = this.getSelectedLine(request);
+            protocolForm.getNotesAttachmentsHelper().modifyNote(selection);
             protocolForm.getNotesAttachmentsHelper().setManageNotesOpen(true);
         }
         return mapping.findForward(Constants.MAPPING_BASIC);
@@ -2930,7 +2931,7 @@ public class ProtocolProtocolActionsAction extends ProtocolAction implements Aud
             if (protocolForm.getActionHelper().getCanManageNotes()) {
                 int noteToDelete = getLineToDelete(request);
                 protocolForm.getNotesAttachmentsHelper().deleteNote(noteToDelete);
-                protocolForm.getNotesAttachmentsHelper().setManageNotesOpen(true);
+                protocolForm.getNotesAttachmentsHelper().setManageNotesOpen(false);
             }
         }
         return mapping.findForward(Constants.MAPPING_BASIC);

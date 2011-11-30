@@ -378,7 +378,8 @@ public class ProtocolNoteAndAttachmentAction extends ProtocolAction {
     
     public ActionForward editNote(ActionMapping mapping, ActionForm form, HttpServletRequest request,
             HttpServletResponse response) throws Exception {
-            ((ProtocolForm) form).getNotesAttachmentsHelper().modifyNote();
+            final int selection = this.getSelectedLine(request);
+            ((ProtocolForm) form).getNotesAttachmentsHelper().modifyNote(selection);
             return mapping.findForward(Constants.MAPPING_BASIC);
         }
 
