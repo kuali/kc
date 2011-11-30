@@ -42,7 +42,7 @@
             	<tr>
             		<th width="15%">
             			<div align="right">
-            				*Renew:
+            				*Amend:
             			</div>
             		</th>
             		<td>
