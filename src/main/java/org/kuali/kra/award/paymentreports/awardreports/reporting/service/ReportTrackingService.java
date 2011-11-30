@@ -57,6 +57,14 @@ public interface ReportTrackingService {
     
     /**
      * 
+     * This method returns all the report tracking records asociated with an award.
+     * @param award
+     * @return
+     */
+    List<ReportTracking> getReportTacking(Award award);
+    
+    /**
+     * 
      * This method returns true if the award is a root award, otherwise returns false.
      * @param award
      * @return
@@ -80,4 +88,14 @@ public interface ReportTrackingService {
      * @param reportTrackingBean
      */
     void updateMultipleReportTrackingRecords(List<ReportTracking> reportTrackingListing, ReportTrackingBean reportTrackingBean);
+    
+    /**
+     * 
+     * This method compares the passed in award to the DB version of the award and checks to see if any fields
+     * have changed that will cause changes to the report tracking records.  If this message returns true, the 
+     * caller of this function should display a warning message to the user about this change.
+     * @param award
+     * @return
+     */
+    boolean shouldAlertReportTrackingDetailChange(Award award);
 }

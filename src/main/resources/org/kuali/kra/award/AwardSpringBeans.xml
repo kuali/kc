@@ -619,6 +619,7 @@
 	<bean id="reportTrackingService" class="org.kuali.kra.award.paymentreports.awardreports.reporting.service.ReportTrackingServiceImpl">
 		<property name="awardScheduleGenerationService" ref="awardScheduleGenerationService" />
 		<property name="businessObjectService" ref="businessObjectService" />
+		<property name="awardService" ref="awardService" />
 	</bean>
 	
 	<bean id="reportTrackingLookupableHelperService" class="org.kuali.kra.award.paymentreports.awardreports.reporting.service.ReportTrackingLookupableHelperServiceImpl" parent="lookupableHelperService" scope="prototype">
