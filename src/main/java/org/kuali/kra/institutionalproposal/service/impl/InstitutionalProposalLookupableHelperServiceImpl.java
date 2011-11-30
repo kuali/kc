@@ -79,6 +79,7 @@ public class InstitutionalProposalLookupableHelperServiceImpl extends KraLookupa
      * Overriding this to only return the currently Active version of a proposal 
      */
     @Override
+    @SuppressWarnings("unchecked")
     public List<? extends BusinessObject> getSearchResults(Map<String, String> fieldValues) {
         super.setBackLocationDocFormKey(fieldValues);
         
@@ -108,7 +109,7 @@ public class InstitutionalProposalLookupableHelperServiceImpl extends KraLookupa
             fieldValues.put("projectPersons.institutionalProposalContactId", StringUtils.join(ids, '|'));
         }
         
-        List<? extends BusinessObject> searchResults = super.getSearchResults(fieldValues);
+        List<InstitutionalProposal> searchResults = (List<InstitutionalProposal>) super.getSearchResultsUnbounded(fieldValues);
       
         if (lookupIsFromAward(fieldValues)) {
             filterAlreadyLinkedProposals(searchResults, fieldValues);
@@ -116,37 +117,36 @@ public class InstitutionalProposalLookupableHelperServiceImpl extends KraLookupa
             filterInvalidProposalStatus(searchResults);
         }
 
-        List<? extends BusinessObject> filteredResults = filterForPermissions(searchResults);
+        List<InstitutionalProposal> filteredResults = filterForPermissions(searchResults);
 
         return filteredResults;
     }
 
     /**
      * This method filters results so that the person doing the lookup only gets back the documents he can view.
-     * @param searchResults
+     * @param results
      * @return
      */
-    protected List<? extends BusinessObject> filterForPermissions(List<? extends BusinessObject> searchResults) {
+    protected List<InstitutionalProposal> filterForPermissions(List<InstitutionalProposal> results) {
         Person user = UserSession.getAuthenticatedUser().getPerson();
         InstitutionalProposalDocumentAuthorizer authorizer = new InstitutionalProposalDocumentAuthorizer();
-        // check if the user has permission. 
-        for (int j = 0; j < searchResults.size(); j++) {
-            InstitutionalProposal ip = (InstitutionalProposal) searchResults.get(j);   
+        List<InstitutionalProposal> filteredResults = new ArrayList<InstitutionalProposal>();
+        
+        for (InstitutionalProposal institutionalProposal : results) {
+            String documentNumber = institutionalProposal.getInstitutionalProposalDocument().getDocumentNumber();
             try {
-                InstitutionalProposalDocument ipDocument = (InstitutionalProposalDocument) documentService.
-                                                            getByDocumentHeaderId(ip.getInstitutionalProposalDocument().getDocumentNumber());
-                // if user not authorized to open document, do not display in search results. 
-                // Just setting return link to false does not makes sense since person cannot
-                // view document
-                if (!authorizer.canOpen(ipDocument, user)) {
-                    searchResults.remove(ip);               
+                InstitutionalProposalDocument document = (InstitutionalProposalDocument) documentService.getByDocumentHeaderId(documentNumber);
+                
+                if (authorizer.canOpen(document, user)) {
+                    filteredResults.add(institutionalProposal);
                 }
             } catch (WorkflowException e) {
-                // TODO Auto-generated catch block
-                LOG.warn("Cannot find Document with header id " + ip.getInstitutionalProposalDocument().getDocumentNumber());
+                LOG.warn("Cannot find Document with header id " + documentNumber);
             }
         }
-        return searchResults;
+
+        
+        return filteredResults;
     }
     
     
