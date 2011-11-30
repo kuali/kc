@@ -1011,6 +1011,8 @@ public final class KeyConstants {
     public static final String ERROR_DEACTIVATE_FINANCIAL_ENTITY_REASON_REQUIRED = "error.deactivate.financial.entity";
     public static final String ERROR_COI_FINANCIAL_ENTITY_STATUS_REQUIRED = "error.coi.financialentity.status.required";
     public static final String ERROR_COI_DUPLICATE_PROJECT_ID = "error.coi.duplicate.projectid";
+    
+    public static final String REPORT_TRACKING_WARNING_UPDATE_FROM_DATE_CHANGE = "warning.reportTracking.updateFromDateChange";
     /**
      * private utility class ctor.
      * @throws UnsupportedOperationException if called.

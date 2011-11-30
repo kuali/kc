@@ -39,12 +39,14 @@ import org.kuali.kra.award.home.AwardAmountInfo;
 import org.kuali.kra.award.home.AwardService;
 import org.kuali.kra.award.home.approvedsubawards.AwardApprovedSubaward;
 import org.kuali.kra.award.home.keywords.AwardScienceKeyword;
+import org.kuali.kra.award.paymentreports.awardreports.reporting.service.ReportTrackingService;
 import org.kuali.kra.award.specialreview.AwardSpecialReview;
 import org.kuali.kra.bo.versioning.VersionHistory;
 import org.kuali.kra.bo.versioning.VersionStatus;
 import org.kuali.kra.budget.summary.BudgetSummaryService;
 import org.kuali.kra.common.specialreview.rule.event.SaveSpecialReviewLinkEvent;
 import org.kuali.kra.infrastructure.Constants;
+import org.kuali.kra.infrastructure.KeyConstants;
 import org.kuali.kra.infrastructure.KraServiceLocator;
 import org.kuali.kra.service.KeywordsService;
 import org.kuali.kra.service.VersioningService;
@@ -254,7 +256,7 @@ public class AwardHomeAction extends AwardAction {
         AwardForm awardForm = (AwardForm) form;
         AwardDocument awardDocument = awardForm.getAwardDocument();
         
-      //if award is a root Award and direct/indirect view is enabled, then we need to sum the obligated and anticipated totals until we create
+        //if award is a root Award and direct/indirect view is enabled, then we need to sum the obligated and anticipated totals until we create
         //initial T&M doc.
         if(awardDocument.getAward().getAwardNumber().endsWith("-00001") && isDirectIndirectViewEnabled()) {
             setTotalsOnAward(awardDocument.getAward());
@@ -270,11 +272,12 @@ public class AwardHomeAction extends AwardAction {
             }
         }
         awardForm.getProjectPersonnelBean().updateLeadUnit();
-        
+        if (this.getReportTrackingService().shouldAlertReportTrackingDetailChange(awardForm.getAwardDocument().getAward())) {
+            GlobalVariables.getMessageMap().putWarning("document.awardList[0].awardExecutionDate", 
+                    KeyConstants.REPORT_TRACKING_WARNING_UPDATE_FROM_DATE_CHANGE, "");
+        }
         ActionForward forward = super.save(mapping, form, request, response);
-//        if(GlobalVariables.getMessageMap().getErrorCount() == 0) {
-//            ((AwardForm) form).getFundingProposalBean().updateProposalStatuses();   // TODO: This save isn't in same transaction as document save
-//        }
+        
         awardDocument.getAward().refreshReferenceObject("sponsor");
         Award award = awardDocument.getAward();
         award.setSponsorNihMultiplePi(getSponsorService().isSponsorNihMultiplePi(award));
@@ -282,6 +285,7 @@ public class AwardHomeAction extends AwardAction {
         return forward;
     }
     
+
     private void setTotalsOnAward(Award award) {
         AwardAmountInfo aai = award.getLastAwardAmountInfo();
         aai.setAmountObligatedToDate(aai.getObligatedTotalDirect().add(aai.getObligatedTotalIndirect()));
