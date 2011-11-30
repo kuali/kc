@@ -16,6 +16,7 @@
 package org.kuali.kra.external.award.impl;
 
 
+import java.net.MalformedURLException;
 import java.net.URL;
 
 import javax.xml.ws.WebServiceClient;
@@ -25,6 +26,8 @@ import org.apache.commons.logging.LogFactory;
 import org.kuali.kfs.integration.cg.service.AccountCreationService;
 import org.kuali.kfs.integration.cg.service.AccountCreationServiceSOAP;
 import org.kuali.kra.external.award.AccountCreationClient;
+import org.kuali.kra.infrastructure.Constants;
+import org.kuali.rice.core.config.ConfigContext;
 
 
 
@@ -35,33 +38,49 @@ import org.kuali.kra.external.award.AccountCreationClient;
  */
 
 public final class AccountCreationClientImpl extends AccountCreationClientBase {
-    private static final Log LOG = LogFactory.getLog(AccountCreationClientImpl.class);
+    
     public final static URL WSDL_LOCATION;
+    
+    private static AccountCreationClientImpl client;
+    
+    private static final Log LOG = LogFactory.getLog(AccountCreationClientImpl.class);
     
     private AccountCreationClientImpl() {
     }
 
     public static AccountCreationClient getInstance() {
-        if (client == null)
+        if (client == null) {
             client = new AccountCreationClientImpl();
+        }
         return client;
-      }
-
-    private static AccountCreationClientImpl client;
+    }
       
     static
     {
         ClassLoader cl = Thread.currentThread().getContextClassLoader();
-        if ( null == cl ) cl = AccountCreationClientImpl.class.getClassLoader();
+        if (null == cl) {
+            cl = AccountCreationClientImpl.class.getClassLoader();
+        }
         String wsdlPath =  ((WebServiceClient) (AccountCreationServiceSOAP.class.getAnnotation(WebServiceClient.class))).wsdlLocation();
         WSDL_LOCATION = cl.getResource(wsdlPath); 
     }
     
     @Override
     protected AccountCreationService getServiceHandle() {
-        //String serviceEndPointUrl = ConfigContext.getCurrentContextConfig().getProperty(KeyConstants.KFS_ACCOUNT_CREATION_ENDPOINT);
-        //wsdlURL = new URL(serviceEndPointUrl + "?wsdl");
-        AccountCreationServiceSOAP ss = new AccountCreationServiceSOAP(WSDL_LOCATION, SERVICE_NAME);
+        URL wsdlURL = WSDL_LOCATION;
+        
+        boolean getFinSystemURLFromWSDL = getParameterService().getIndicatorParameter("KC-AWARD", "Document", Constants.GET_FIN_SYSTEM_URL_FROM_WSDL);
+        
+        if (!getFinSystemURLFromWSDL) {
+            String serviceEndPointUrl = ConfigContext.getCurrentContextConfig().getProperty(Constants.FIN_SYSTEM_INTEGRATION_SERVICE_URL);
+            try {
+                wsdlURL = new URL(serviceEndPointUrl + SOAP_SERVICE_NAME + "?wsdl");
+            } catch (MalformedURLException mue) {
+                LOG.error("Could not construct financial system URL from config file: " + mue.getMessage());
+            }
+        }
+        
+        AccountCreationServiceSOAP ss = new AccountCreationServiceSOAP(wsdlURL, SERVICE_NAME);
         return ss.getAccountCreationServicePort();   
     }
 

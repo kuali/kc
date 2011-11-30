@@ -429,6 +429,8 @@ public interface Constants {
     // financial system integration
     public static final String FIN_SYSTEM_INTEGRATION_ON_OFF_PARAMETER = "FIN_SYSTEM_INTEGRATION_ON";
     public static final String FIN_SYSTEM_INTEGRATION_ON = "ON";
+    public static final String FIN_SYSTEM_INTEGRATION_SERVICE_URL = "fin.system.integration.service.url";
+    public static final String GET_FIN_SYSTEM_URL_FROM_WSDL = "GET_FIN_SYSTEM_URL_FROM_WSDL";
     //CFDA
     public static final int MAX_ALLOWABLE_CFDA_PGM_TITLE_NAME = 300;
     public static final String CFDA_MAINT_TYP_ID_AUTOMATIC = "Automatic";

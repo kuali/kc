@@ -21,6 +21,7 @@ import org.kuali.kra.award.home.Award;
 import org.kuali.rice.kew.exception.WorkflowException;
 import org.kuali.rice.kns.service.BusinessObjectService;
 import org.kuali.rice.kns.service.DocumentService;
+import org.kuali.rice.kns.service.ParameterService;
 
 public interface AccountCreationClient {
 
@@ -31,8 +32,6 @@ public interface AccountCreationClient {
      * @throws WorkflowException
      */
     void createAwardAccount(Award award)throws DatatypeConfigurationException, WorkflowException;
-    
-    void setDocumentService(DocumentService documentService);
     
     /**
      * This method checks if the financial account number is valid.
@@ -48,6 +47,10 @@ public interface AccountCreationClient {
      * @return
      */
     String isValidChartAccount(String chartOfAccountsCode, String accountNumber);
+    
+    void setDocumentService(DocumentService documentService);
 
     void setBusinessObjectService(BusinessObjectService businessObjectService);
+    
+    void setParameterService(ParameterService parameterService);
 }
