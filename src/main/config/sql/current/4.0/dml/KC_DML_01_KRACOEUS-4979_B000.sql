@@ -1,6 +1,6 @@
 INSERT INTO NOTIFICATION_TYPE (NOTIFICATION_TYPE_ID, MODULE_CODE, ACTION_CODE, DESCRIPTION, SUBJECT, MESSAGE, PROMPT_USER, SEND_NOTIFICATION, UPDATE_USER, UPDATE_TIMESTAMP, VER_NBR, OBJ_ID)
 	VALUES (SEQ_NOTIFICATION_TYPE_ID.NEXTVAL, 5, '100','Negotiation Closed Status','Negotiation activities are complete.',
-	'The negotiation is complete.<br/><br/>Negotiation ID: {NEGOTIATION_ID}<br/>Negotiator: {NEGOTIATOR}<br/>Negotiation Status: {NEGOTIATION_STATUS}<br/>Anticipated Project Start Date: {ANTICIPATED_START_DATE}<br/>Negotiation Start Date: {START_DATE}<br/>Negotiation End Date: {END_DATE}<br/>Title: {TITLE}<br/>Primary Investigator {PI}<br/>Lead Unit: {LEAD_UNIT_NAME} ({LEAD_UNIT_NUMBER})<br/>Sponsor: {SPONSOR_NAME} ({SPONSOR_CODE})<br/>Prime Sponsor: {PRIME_SPONSOR_NAME} ({PRIME_SPONSOR_CODE})<br/>',  'Y', 'Y', 'admin', SYSDATE, 1, SYS_GUID())
+	'The negotiation is complete.<br/><br/>Negotiation ID: {NEGOTIATION_ID}<br/>Negotiator: {NEGOTIATOR}<br/>Negotiation Status: {NEGOTIATION_STATUS}<br/>Anticipated Project Start Date: {ANTICIPATED_START_DATE}<br/>Negotiation Start Date: {START_DATE}<br/>Negotiation End Date: {END_DATE}<br/>Title: {TITLE}<br/>Primary Investigator: {PI}<br/>Lead Unit: {LEAD_UNIT_NAME} ({LEAD_UNIT_NUMBER})<br/>Sponsor: {SPONSOR_NAME} ({SPONSOR_CODE})<br/>Prime Sponsor: {PRIME_SPONSOR_NAME} ({PRIME_SPONSOR_CODE})<br/>',  'Y', 'Y', 'admin', SYSDATE, 1, SYS_GUID())
 /
 
 INSERT INTO NOTIFICATION_TYPE_RECIPIENT (NOTIFICATION_TYPE_RECIPIENT_ID, NOTIFICATION_TYPE_ID, ROLE_NAME, TO_OR_CC, UPDATE_USER, UPDATE_TIMESTAMP, VER_NBR, OBJ_ID)
