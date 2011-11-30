@@ -15,6 +15,7 @@
  */
 package org.kuali.kra.coi.disclosure;
 
+import java.sql.Date;
 import java.util.ArrayList;
 import java.util.Collections;
 import java.util.HashMap;
@@ -24,6 +25,7 @@ import java.util.Map;
 
 import org.apache.commons.collections.CollectionUtils;
 import org.apache.commons.lang.StringUtils;
+import org.kuali.kra.award.awardhierarchy.AwardHierarchy;
 import org.kuali.kra.award.contacts.AwardPerson;
 import org.kuali.kra.award.document.AwardDocument;
 import org.kuali.kra.award.home.Award;
@@ -227,7 +229,7 @@ public class CoiDisclosureServiceImpl implements CoiDisclosureService {
      */
     public void initializeDisclosureDetails(CoiDisclosure coiDisclosure) {
         // When creating a disclosure. the detail will be created at first
-        // TODO : method too long need refactor.  this method should only for annual.  clean it. 
+        //  this method should only for annual.  
         List<CoiDiscDetail> disclosureDetails = new ArrayList<CoiDiscDetail>();
         List<CoiDisclEventProject> disclEventProjects = new ArrayList<CoiDisclEventProject>();
         List<PersonFinIntDisclosure> financialEntities = financialEntityService.getFinancialEntities(GlobalVariables
@@ -316,7 +318,9 @@ public class CoiDisclosureServiceImpl implements CoiDisclosureService {
      */
     private void initAwards(List<CoiDisclEventProject> disclEventProjects, List<CoiDiscDetail> disclosureDetails, List<PersonFinIntDisclosure> financialEntities, CoiDisclosure coiDisclosure) {
         List<Award> awards = getAwards(GlobalVariables.getUserSession().getPrincipalId());
+        List<String> rootAwardNumbers = new ArrayList<String>();
         for (Award award : awards) {
+            if (!isAwardHierarchyIncluded(rootAwardNumbers, award)) {
             CoiDisclEventProject coiDisclEventProject = new CoiDisclEventProject(CoiDisclosureEventType.AWARD, award,
                 new ArrayList<CoiDiscDetail>());
             for (PersonFinIntDisclosure personFinIntDisclosure : financialEntities) {
@@ -329,9 +333,44 @@ public class CoiDisclosureServiceImpl implements CoiDisclosureService {
             }
             disclEventProjects.add(coiDisclEventProject);
         }
+        }
         
     }
     
+    private boolean isAwardHierarchyIncluded(List<String> rootAwardNumbers, Award award) {
+        boolean isIncluded = true;
+        
+        if (rootAwardNumbers.isEmpty()) {
+            String rootAwardNumber = getRootAwardNumber(award.getAwardNumber());
+            if (StringUtils.isNotBlank(rootAwardNumber)) {
+                rootAwardNumbers.add(rootAwardNumber);
+            }
+            isIncluded = false;
+        } else {
+            String rootAwardNumber = getRootAwardNumber(award.getAwardNumber());
+            if (StringUtils.isNotBlank(rootAwardNumber) && !rootAwardNumbers.contains(rootAwardNumber)) {
+                rootAwardNumbers.add(rootAwardNumber);
+                isIncluded = false;
+            }
+            if (StringUtils.isBlank(rootAwardNumber)) {
+                isIncluded = false;
+            }
+        }
+        return isIncluded;
+        
+    }
+    
+    private String getRootAwardNumber(String awardNumber) {
+        HashMap<String, Object> fieldValues = new HashMap<String, Object>();
+        fieldValues.put("awardNumber", awardNumber);
+        List<AwardHierarchy> awardHierarchies  = (List<AwardHierarchy>)businessObjectService.findMatching(AwardHierarchy.class, fieldValues);
+        if (CollectionUtils.isNotEmpty(awardHierarchies)) {
+               return awardHierarchies.get(0).getRootAwardNumber();                
+            
+        }
+        return null;
+        
+    }
     /**
      * 
      * @see org.kuali.kra.coi.disclosure.CoiDisclosureService#initializeDisclosureDetails(org.kuali.kra.coi.CoiDisclosure,
@@ -490,6 +529,7 @@ public class CoiDisclosureServiceImpl implements CoiDisclosureService {
                 CoiDiscDetail coiDiscDetail = new CoiDiscDetail();
                 coiDiscDetail.setModuleItemKey(coiDisclosure.getModuleItemKey());
                 if (!coiDisclosure.isAnnualEvent()) {
+                    projectType = coiDisclosure.getEventTypeCode();
                     coiDisclEventProject = getEventBo(coiDisclosure, coiDiscDetail);
                 }
                 
@@ -699,7 +739,7 @@ public class CoiDisclosureServiceImpl implements CoiDisclosureService {
 //        fieldValues.put("protocolPersonRoleId", "PI");
         List<ProtocolPerson> protocolPersons = (List<ProtocolPerson>) businessObjectService.findMatching(ProtocolPerson.class, fieldValues);
         for (ProtocolPerson protocolPerson : protocolPersons) {
-            if (protocolPerson.getProtocol().isActive() && isProtocolDisclosurable(protocolPerson.getProtocol()) && !isProjectReported(protocolPerson.getProtocol().getProtocolNumber(), CoiDisclosureEventType.IRB_PROTOCOL)) {
+            if (protocolPerson.getProtocol().isActive() && isProtocolDisclosurable(protocolPerson.getProtocol()) && !isProjectReported(protocolPerson.getProtocol().getProtocolNumber(), CoiDisclosureEventType.IRB_PROTOCOL, protocolPerson.getPersonId())) {
                 protocols.add(protocolPerson.getProtocol());
             }
         }
@@ -719,7 +759,7 @@ public class CoiDisclosureServiceImpl implements CoiDisclosureService {
 //        fieldValues.put("proposalPersonRoleId", "PI");
         List<ProposalPerson> proposalPersons = (List<ProposalPerson>) businessObjectService.findMatching(ProposalPerson.class, fieldValues);
         for (ProposalPerson proposalPerson : proposalPersons) {
-            if (isProposalDisclosurable(proposalPerson.getDevelopmentProposal()) && !isProjectReported(proposalPerson.getDevelopmentProposal().getProposalNumber(), CoiDisclosureEventType.DEVELOPMENT_PROPOSAL)) {
+            if (isProposalDisclosurable(proposalPerson.getDevelopmentProposal()) && !isProjectReported(proposalPerson.getDevelopmentProposal().getProposalNumber(), CoiDisclosureEventType.DEVELOPMENT_PROPOSAL, proposalPerson.getPersonId())) {
             // TODO : condition to be implemented              
                 proposals.add(proposalPerson.getDevelopmentProposal());
             }
@@ -740,7 +780,7 @@ public class CoiDisclosureServiceImpl implements CoiDisclosureService {
 //        fieldValues.put("proposalPersonRoleId", "PI");
         List<InstitutionalProposalPerson> proposalPersons = (List<InstitutionalProposalPerson>) businessObjectService.findMatching(InstitutionalProposalPerson.class, fieldValues);
         for (InstitutionalProposalPerson proposalPerson : proposalPersons) {
-            if (isInstitutionalProposalDisclosurable(proposalPerson.getInstitutionalProposal()) && !isProjectReported(proposalPerson.getInstitutionalProposal().getProposalNumber(), CoiDisclosureEventType.INSTITUTIONAL_PROPOSAL)) {
+            if (isInstitutionalProposalDisclosurable(proposalPerson.getInstitutionalProposal()) && !isProjectReported(proposalPerson.getInstitutionalProposal().getProposalNumber(), CoiDisclosureEventType.INSTITUTIONAL_PROPOSAL, proposalPerson.getPersonId())) {
             // TODO : condition to be implemented
                 proposals.add(proposalPerson.getInstitutionalProposal());
             }
@@ -759,9 +799,9 @@ public class CoiDisclosureServiceImpl implements CoiDisclosureService {
         Map<String, Object> fieldValues = new HashMap<String, Object>();
         fieldValues.put("personId", personId);
 //        fieldValues.put("roleCode", "PI");
-        List<AwardPerson> awardPersons = (List<AwardPerson>) businessObjectService.findMatching(AwardPerson.class, fieldValues);
+        List<AwardPerson> awardPersons = (List<AwardPerson>) businessObjectService.findMatchingOrderBy(AwardPerson.class, fieldValues, "awardNumber", true);
         for (AwardPerson awardPerson : awardPersons) {
-            if (isCurrentAward(awardPerson.getAward()) && isAwardDisclosurable(awardPerson.getAward()) && !isProjectReported(awardPerson.getAward().getAwardNumber(), CoiDisclosureEventType.AWARD)) {
+            if (isCurrentAward(awardPerson.getAward()) && isAwardDisclosurable(awardPerson.getAward()) && !isProjectReported(awardPerson.getAward().getAwardNumber(), CoiDisclosureEventType.AWARD, awardPerson.getPersonId())) {
                 awards.add(awardPerson.getAward());
             }
         }
@@ -777,16 +817,23 @@ public class CoiDisclosureServiceImpl implements CoiDisclosureService {
     /*
      * check if project has been reported in the current report year
      */
-    private boolean isProjectReported(String projectId, String projectType) {
+    private boolean isProjectReported(String projectId, String projectType, String personId) {
         boolean isDisclosed = false;
         // TODO : is checking matching moduleitemkey & expiration date sufficient
+        // TODO : uncomment this, so the criteria can be applied
 //        HashMap<String, Object> fieldValues = new HashMap<String, Object>();
-//        fieldValues.put("moduleItemKey", projectId);
+//        if (StringUtils.equals(CoiDisclosureEventType.AWARD, projectType)) {
+//            // all award numbers in that hierarchy.  so any award in that hierarchy is reported, then the others
+//            // don't have to report.
+//            fieldValues.put("moduleItemKey", getAwardNumbersForHierarchy(projectId));
+//        } else {
+//            fieldValues.put("moduleItemKey", projectId);
+//        }
 //        fieldValues.put("projectType", projectType);
 //        List<CoiDiscDetail> discDetails = (List<CoiDiscDetail>)businessObjectService.findMatching(CoiDiscDetail.class, fieldValues);
 //        Date currentDate = dateTimeService.getCurrentSqlDateMidnight();
 //        for (CoiDiscDetail discDetail : discDetails) {
-//            if (discDetail.getCoiDisclosure().getExpirationDate().after(currentDate)) {
+//            if (StringUtils.equals(discDetail.getCoiDisclosure().getPersonId(), personId) && discDetail.getCoiDisclosure().getExpirationDate().after(currentDate)) {
 //                isDisclosed = true;
 //                break;
 //            }
@@ -794,6 +841,28 @@ public class CoiDisclosureServiceImpl implements CoiDisclosureService {
         return isDisclosed;
     }
 
+    /*
+     * get the awardnumbers in the award hierarchy.  projectId can be any awardnumber in that hierarchy 
+     */
+    private List<String> getAwardNumbersForHierarchy(String projectId) {
+        List<String> awardNumbers = new ArrayList<String>();
+        awardNumbers.add(projectId);
+        HashMap<String, Object> fieldValues = new HashMap<String, Object>();
+        fieldValues.put("awardNumber", projectId);
+        List<AwardHierarchy> awardHierarchies  = (List<AwardHierarchy>)businessObjectService.findMatching(AwardHierarchy.class, fieldValues);
+        if (CollectionUtils.isNotEmpty(awardHierarchies)) {
+            fieldValues.clear();
+            fieldValues.put("rootAwardNumber", awardHierarchies.get(0).getRootAwardNumber());
+            awardHierarchies  = (List<AwardHierarchy>)businessObjectService.findMatching(AwardHierarchy.class, fieldValues);
+            for (AwardHierarchy awardHierarchy : awardHierarchies) {
+                awardNumbers.add(awardHierarchy.getAwardNumber());                
+            }
+            
+        }
+        return awardNumbers;
+        
+    }
+    
     /**
      * 
      * @see org.kuali.kra.coi.disclosure.CoiDisclosureService#versionCoiDisclosure()

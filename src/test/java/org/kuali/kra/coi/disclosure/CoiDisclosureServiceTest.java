@@ -331,7 +331,7 @@ public class CoiDisclosureServiceTest extends KcUnitTestBase {
             {
                 Map<String, Object> fieldValues = new HashMap<String, Object>();
                 fieldValues.put("personId", PERSON_ID);
-                one(businessObjectService).findMatching(AwardPerson.class, fieldValues);
+                one(businessObjectService).findMatchingOrderBy(AwardPerson.class, fieldValues, "awardNumber", true);;
                 will(returnValue(awardPersons));
 
             }
@@ -802,7 +802,7 @@ public class CoiDisclosureServiceTest extends KcUnitTestBase {
            {
                Map<String, Object> fieldValues = new HashMap<String, Object>();
                fieldValues.put("personId", PERSON_ID);
-               one(businessObjectService).findMatching(AwardPerson.class, fieldValues);
+               one(businessObjectService).findMatchingOrderBy(AwardPerson.class, fieldValues, "awardNumber", true);;
                will(returnValue(awardPersons));
 
            }
