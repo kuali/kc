@@ -728,17 +728,18 @@ public class NotesAttachmentsHelper {
     }
     
     /**
-     * modifies an existing note in the protocol.  Also performs validation.
+     * modifies an existing note in the protocol.
      */
-    public void modifyNote() {
+    public void modifyNote(int noteToModify) {
     
+        ProtocolNotepad notepadObject = this.getProtocol().getNotepads().get(noteToModify);
         final ModifyProtocolNotepadRule rule = new ModifyProtocolNotepadRuleImpl();
-        final ModifyProtocolNotepadEvent event = new ModifyProtocolNotepadEvent(this.form.getDocument(), this.protocolNotepad);
+        final ModifyProtocolNotepadEvent event = new ModifyProtocolNotepadEvent(this.form.getDocument(), notepadObject);
 
         if (!rule.processModifyProtocolNotepadRules(event)) {
             return;
         }
-        this.modifyNotepad(this.protocolNotepad);
+        modifyNotepad(notepadObject);
     }
     
     /**
@@ -759,7 +760,7 @@ public class NotesAttachmentsHelper {
     
     void updateUserFieldsIfNecessary(ProtocolNotepad currentNote) {
         if (currentNote.isEditable()) {
-                setUpdateFields(currentNote);
+            setUpdateFields(currentNote);
         }
     }
 
@@ -787,11 +788,10 @@ public class NotesAttachmentsHelper {
      * Adds the passed in notepad to the list on the protocol.
      * @param notepad the notepad to add.
      */
-    private void modifyNotepad(ProtocolNotepad notepad) {
-        setUpdateFields(notepad);
+    private void modifyNotepad(ProtocolNotepad notepadObject) {
+        setUpdateFields(notepadObject);
         // set notepad to be editable
-        notepad.setEditable(true);
-        this.getProtocol().getNotepads().add(notepad);
+        notepadObject.setEditable(true);
     }
     
     /**
