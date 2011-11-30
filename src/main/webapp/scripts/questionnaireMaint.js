@@ -2407,7 +2407,7 @@ $("#addUsage")
 				tdtmp = $('<td align="left" valign="middle">').html(qnversion);
 				tdtmp.appendTo(trtmp);
 				inputtmp = $(
-						'<input type="image" id="deleteUsage" name="deleteUsage" title="Delete usage" src="static/images/tinybutton-delete1.gif" class="tinybutton">')
+						'<input type="image" id="deleteUsage" name="deleteUsage" title="Delete Usage" src="static/images/tinybutton-delete1.gif" class="tinybutton">')
 						.attr("id", "deleteUsage" + ucount).click(function() {
 								shiftUsage($(this).attr("id").substring(11));
 								ucount--;
@@ -2903,7 +2903,7 @@ function loadUsages(usages) {
         tdtmp = $('<td align="left" valign="middle">').html(field[3]);  
         tdtmp.appendTo(trtmp);
         var inputtmp = $(
-                '<input type="image" id="deleteUsage" name="deleteUsage" title="Delete usage" src="static/images/tinybutton-delete1.gif" class="tinybutton">')
+                '<input type="image" id="deleteUsage" name="deleteUsage" title="Delete Usage" src="static/images/tinybutton-delete1.gif" class="tinybutton">')
                 .attr("id", "deleteUsage" + ucount).click(
                         function() {
                                                         // alert(sqlScripts);
