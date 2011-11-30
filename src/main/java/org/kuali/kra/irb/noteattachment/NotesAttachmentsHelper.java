@@ -52,6 +52,7 @@ public class NotesAttachmentsHelper {
     private static final String UNSUPPORTED_ATTACHMENT_TYPE = "unsupported attachment type ";
     private static final String CONFIRM_YES_DELETE_ATTACHMENT_PERSONNEL = "confirmDeleteAttachmentPersonnel";
     private static final String CONFIRM_YES_DELETE_ATTACHMENT_PROTOCOL = "confirmDeleteAttachmentProtocol";
+    private static final String CONFIRM_YES_DELETE_NOTE = "confirmDeleteNote";
     
     private final ProtocolAttachmentService notesService;
     private final TaskAuthorizationService authService;
@@ -69,7 +70,7 @@ public class NotesAttachmentsHelper {
     private ProtocolAttachmentFilter newAttachmentFilter;
     private List<AttachmentFile> FilesToDelete;
     
-    private ProtocolNotepad newProtocolNotepad;
+    private ProtocolNotepad protocolNotepad;
 
     
     private boolean modifyAttachments;
@@ -169,7 +170,7 @@ public class NotesAttachmentsHelper {
      * Initialize the permissions for viewing/editing the Custom Data web page.
      */
     private void initializePermissions() {
-        this.modifyAttachments = this.canModifyProtocolAttachments();
+        this.modifyAttachments = this.canEditProtocolAttachments();
         this.modifyNotepads = this.canAddProtocolNotepads();
         this.viewRestricted = this.canViewRestrictedProtocolNotepads();
     }
@@ -178,7 +179,7 @@ public class NotesAttachmentsHelper {
      * Checks if Protocol Attachments can be modified.
      * @return true if can be modified false if cannot
      */
-    private boolean canModifyProtocolAttachments() {
+    private boolean canEditProtocolAttachments() {
         final ProtocolTask task = new ProtocolTask(TaskName.MODIFY_PROTOCOL_ATTACHMENTS, this.getProtocol());
         return this.authService.isAuthorized(this.getUserIdentifier(), task);
     }
@@ -392,7 +393,7 @@ public class NotesAttachmentsHelper {
     
     /**
      * Retrieves the confirmation method based on a type. This method is highly coupled to the corresponding Action class.
-     * This method is here is order to keep the "ByType" methods together.
+     * This method is here in order to keep the "ByType" methods together.
      * 
      * @param <T> the type parameter
      * @param type the type token
@@ -406,6 +407,8 @@ public class NotesAttachmentsHelper {
             confirmMethod = CONFIRM_YES_DELETE_ATTACHMENT_PROTOCOL;
         } else if (ProtocolAttachmentPersonnel.class.equals(type)) {
             confirmMethod = CONFIRM_YES_DELETE_ATTACHMENT_PERSONNEL;
+        } else if (ProtocolNotepad.class.equals(type)) {
+            confirmMethod = CONFIRM_YES_DELETE_NOTE;
         } else {
             throw new IllegalArgumentException(UNSUPPORTED_ATTACHMENT_TYPE + type);
         }
@@ -647,19 +650,19 @@ public class NotesAttachmentsHelper {
      * @return the new protocol notepad
      */
     public ProtocolNotepad getNewProtocolNotepad() {
-        if (this.newProtocolNotepad == null) {
+        if (this.protocolNotepad == null) {
             this.initProtocolNotepad();
         }
         
-        return this.newProtocolNotepad;
+        return this.protocolNotepad;
     }
 
     /**
      * Sets the new protocol notepad.
-     * @param newProtocolNotepad the new protocol notepad
+     * @param protocolNotepad the new protocol notepad
      */
-    public void setNewProtocolNotepad(final ProtocolNotepad newProtocolNotepad) {
-        this.newProtocolNotepad = newProtocolNotepad;
+    public void setNewProtocolNotepad(final ProtocolNotepad protocolNotepad) {
+        this.protocolNotepad = protocolNotepad;
     }
     
     /**
@@ -713,15 +716,45 @@ public class NotesAttachmentsHelper {
     public void addNewNote() {
     
         final AddProtocolNotepadRule rule = new AddProtocolNotepadRuleImpl();
-        final AddProtocolNotepadEvent event = new AddProtocolNotepadEvent(this.form.getDocument(), this.newProtocolNotepad);
+        final AddProtocolNotepadEvent event = new AddProtocolNotepadEvent(this.form.getDocument(), this.protocolNotepad);
         
         if (!rule.processAddProtocolNotepadRules(event)) {
             return;
         }
 
-        this.addNewNotepad(this.newProtocolNotepad);
+        this.addNewNotepad(this.protocolNotepad);
         
         this.initProtocolNotepad();
+    }
+    
+    /**
+     * modifies an existing note in the protocol.  Also performs validation.
+     */
+    public void modifyNote() {
+    
+        final ModifyProtocolNotepadRule rule = new ModifyProtocolNotepadRuleImpl();
+        final ModifyProtocolNotepadEvent event = new ModifyProtocolNotepadEvent(this.form.getDocument(), this.protocolNotepad);
+
+        if (!rule.processModifyProtocolNotepadRules(event)) {
+            return;
+        }
+        this.modifyNotepad(this.protocolNotepad);
+    }
+    
+    /**
+     * deletes a note from the protocol.
+     */
+    public boolean deleteNote(int noteToDelete) {
+    
+        final DeleteProtocolNotepadRule rule = new DeleteProtocolNotepadRuleImpl();
+        final DeleteProtocolNotepadEvent event = new DeleteProtocolNotepadEvent(this.form.getDocument(), this.protocolNotepad);
+        
+        if (!rule.processDeleteProtocolNotepadRules(event)) {
+            return false;
+        }
+
+        this.deleteNotepad(noteToDelete);
+        return true;
     }
     
     void updateUserFieldsIfNecessary(ProtocolNotepad currentNote) {
@@ -748,6 +781,25 @@ public class NotesAttachmentsHelper {
         // set notepad to be editable
         notepad.setEditable(true);
         this.getProtocol().getNotepads().add(notepad);
+    }
+    
+    /**
+     * Adds the passed in notepad to the list on the protocol.
+     * @param notepad the notepad to add.
+     */
+    private void modifyNotepad(ProtocolNotepad notepad) {
+        setUpdateFields(notepad);
+        // set notepad to be editable
+        notepad.setEditable(true);
+        this.getProtocol().getNotepads().add(notepad);
+    }
+    
+    /**
+     * Adds the passed in notepad to the list on the protocol.
+     * @param notepad the notepad to add.
+     */
+    private void deleteNotepad(int noteToDelete) {
+        this.getProtocol().getNotepads().remove(noteToDelete);
     }
     
     /** gets the next entry number based on previously generated numbers. */

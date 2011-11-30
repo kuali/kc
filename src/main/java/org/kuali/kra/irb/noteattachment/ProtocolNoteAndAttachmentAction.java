@@ -329,7 +329,7 @@ public class ProtocolNoteAndAttachmentAction extends ProtocolAction {
                     }
                 }else{
                     attachmentFile = getWatermarkService().applyWatermark(file.getData(),printableArtifacts.getWatermarkable().getWatermark());
-                }
+                } 
             }
         }
         catch (Exception e) {
@@ -361,7 +361,7 @@ public class ProtocolNoteAndAttachmentAction extends ProtocolAction {
     }
     
     /**
-     * Method called when adding a protocol note.
+     * Methods called when adding/editing/deleting notes.
      * 
      * @param mapping the action mapping
      * @param form the form.
@@ -376,6 +376,54 @@ public class ProtocolNoteAndAttachmentAction extends ProtocolAction {
         return mapping.findForward(Constants.MAPPING_BASIC);
     }
     
+    public ActionForward editNote(ActionMapping mapping, ActionForm form, HttpServletRequest request,
+            HttpServletResponse response) throws Exception {
+            ((ProtocolForm) form).getNotesAttachmentsHelper().modifyNote();
+            return mapping.findForward(Constants.MAPPING_BASIC);
+        }
+
+    public ActionForward deleteNote(ActionMapping mapping, ActionForm form, HttpServletRequest request,
+            HttpServletResponse response) throws Exception {
+        return confirmDeleteNote(mapping, (ProtocolForm) form, request, response);
+    }
+
+    public ActionForward deleteNoteConfirmed(ActionMapping mapping, ActionForm form, HttpServletRequest request,
+            HttpServletResponse response) throws Exception {
+        
+        final int selection = this.getSelectedLine(request);
+        
+        if (!((ProtocolForm)form).getNotesAttachmentsHelper().deleteNote(selection)) {
+            LOG.info(NOT_FOUND_SELECTION + selection);
+            //may want to tell the user the selection was invalid.
+        }
+        
+        return mapping.findForward(Constants.MAPPING_BASIC);
+    }
+
+    /**
+     * Finds the attachment selected the by client which is really just an index.
+     * Then deletes the selected attachment based on the passed-in attachmentType.
+     * 
+     * @param mapping the action mapping
+     * @param form the form.
+     * @param request the request.
+     * @param response the response.
+     * @param attachmentType the attachment type.
+     * @return an action forward.
+     * @throws IllegalArgumentException if the attachmentType is not supported
+     * @throws Exception if there is a problem executing the request.
+     */
+    private ActionForward confirmDeleteNote(ActionMapping mapping, ProtocolForm form, HttpServletRequest request,
+            HttpServletResponse response) throws Exception {
+        
+        final int selection = this.getSelectedLine(request);
+        final String confirmMethod = "deleteNoteConfirmed";
+        final StrutsConfirmation confirm = buildParameterizedConfirmationQuestion(mapping, form, request, response, confirmMethod, 
+                                                                                  KeyConstants.QUESTION_DELETE_NOTE_CONFIRMATION);
+        return confirm(confirm, confirmMethod, CONFIRM_NO_DELETE);
+    }
+    
+
     /**
      * attachmentPersonnels is updated thru 'protocol'.  so use this to sync attachmentpersonnels under protocolperson
      * @see org.kuali.kra.irb.ProtocolAction#postSave(org.apache.struts.action.ActionMapping, org.apache.struts.action.ActionForm, javax.servlet.http.HttpServletRequest, javax.servlet.http.HttpServletResponse)

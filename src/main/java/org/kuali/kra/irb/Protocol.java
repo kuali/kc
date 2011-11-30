@@ -636,6 +636,7 @@ public class Protocol extends KraPersistableBusinessObjectBase implements Sequen
         }
         managedLists.add(specialReviewExemptions);
         managedLists.add(getSpecialReviews());
+        managedLists.add(getNotepads());
         
         return managedLists;
     }

@@ -26,6 +26,13 @@
     </c:if>
 </c:forEach>
 
+<script>
+	function makeEditable(selected) {
+		alert('Edit selection still to be implemented, selected element = ' + selected);
+		return false;
+	}
+</script>
+
 <kul:tab tabTitle="Notes" tabItemCount="${tabItemCount}" defaultOpen="false" tabErrorKey="notesAttachmentsHelper.newProtocolNotepad.*,document.protocol.notepads.*">
 	<div class="tab-container" align="center">
     	<h3>
@@ -91,29 +98,35 @@
 							${KualiForm.document.protocol.notepads[status.index].updateUserFullName}
 		                </td>
 		                <td valign="middle">                	
-						<div align="center">
-						<kul:htmlControlAttribute property="document.protocol.notepads[${status.index}].noteTopic" attributeEntry="${protocolNotesAttributes.noteTopic}" readOnly="${!modify || !protocolNotepad.editable}"/>
-						</div>
+							<div align="center">
+								<kul:htmlControlAttribute property="document.protocol.notepads[${status.index}].noteTopic" attributeEntry="${protocolNotesAttributes.noteTopic}" readOnly="${!modify || !protocolNotepad.editable}"/>
+							</div>
 						</td>
 		                <td valign="middle">                	
-						<div align="left">
-						<c:choose>
-						    <c:when test="${!modify || !protocolNotepad.editable}">
-			                   <kra:truncateComment textAreaFieldName="document.protocol.notepads[${status.index}].comments" action="protocolProtocolActions" textAreaLabel="${protocolNotesAttributes.comments.label}" textValue="${KualiForm.document.protocolList[0].notepads[status.index].comments}" displaySize="120"/>
-						    </c:when>
-						    <c:otherwise>
-						        <kul:htmlControlAttribute property="document.protocol.notepads[${status.index}].comments" attributeEntry="${protocolNotesAttributes.comments}" />
-						    </c:otherwise>
-						</c:choose>
-						</div>
+							<div align="left">
+								<c:choose><c:when test="${!modify || !protocolNotepad.editable}">
+		                   			<kra:truncateComment textAreaFieldName="document.protocol.notepads[${status.index}].comments" action="protocolProtocolActions" textAreaLabel="${protocolNotesAttributes.comments.label}" textValue="${KualiForm.document.protocolList[0].notepads[status.index].comments}" displaySize="120"/>
+					    		</c:when><c:otherwise>
+						        	<kul:htmlControlAttribute property="document.protocol.notepads[${status.index}].comments" attributeEntry="${protocolNotesAttributes.comments}" />
+						    	</c:otherwise></c:choose>
+							</div>
 						</td>
 		                <td valign="middle">
-						<div align="center">
-			               <kul:htmlControlAttribute property="document.protocol.notepads[${status.index}].restrictedView" attributeEntry="${protocolNotesAttributes.restrictedView}" readOnly="${!modify || ((!viewRestrictedNotes || !protocolNotepad.editable) && !irbAdmin)}"/>
-						</div>
+							<div align="center">
+				               <kul:htmlControlAttribute property="document.protocol.notepads[${status.index}].restrictedView" attributeEntry="${protocolNotesAttributes.restrictedView}" readOnly="${!modify || ((!viewRestrictedNotes || !protocolNotepad.editable) && !irbAdmin)}"/>
+							</div>
 		                </td>
-						<td>
-		                </td>
+			            <td class="infoline">
+			            	<div align=center><nobr> 	
+							    <c:if test="${!modify || !protocolNotepad.editable}">
+									<html:image property="methodToCall.editNote.line${status.index}.anchor${tabKey}"
+										src='${ConfigProperties.kra.externalizable.images.url}tinybutton-edit1.gif' styleClass='tinybutton' onclick='return makeEditable(${status.index});' />
+									&nbsp;	
+			    	        	</c:if>
+								<html:image property="methodToCall.deleteNote.line${status.index}.anchor${tabKey}"
+									src='${ConfigProperties.kra.externalizable.images.url}tinybutton-delete1.gif' styleClass="tinybutton"/>
+							</nobr></div>
+		            	</td>
 		            </tr>
 	            </c:if>
         	</c:forEach> 
