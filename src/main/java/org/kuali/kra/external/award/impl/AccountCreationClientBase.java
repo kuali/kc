@@ -39,11 +39,8 @@ import org.kuali.kra.award.contacts.AwardUnitContact;
 import org.kuali.kra.award.document.AwardDocument;
 import org.kuali.kra.award.home.Award;
 import org.kuali.kra.award.home.ValidRates;
-import org.kuali.kra.award.paymentreports.awardreports.AwardReportTerm;
-import org.kuali.kra.award.paymentreports.awardreports.AwardReportTermRecipient;
 import org.kuali.kra.bo.KcPerson;
 import org.kuali.kra.bo.UnitAdministratorType;
-import org.kuali.kra.budget.rates.RateClass;
 import org.kuali.kra.external.award.AccountCreationClient;
 import org.kuali.kra.external.award.FinancialIndirectCostRecoveryTypeCode;
 import org.kuali.kra.infrastructure.KeyConstants;
@@ -51,6 +48,7 @@ import org.kuali.rice.kew.exception.WorkflowException;
 import org.kuali.rice.kew.web.session.UserSession;
 import org.kuali.rice.kns.service.BusinessObjectService;
 import org.kuali.rice.kns.service.DocumentService;
+import org.kuali.rice.kns.service.ParameterService;
 import org.kuali.rice.kns.util.GlobalVariables;
 import org.kuali.rice.kns.util.KualiDecimal;
 import org.kuali.rice.kns.util.ObjectUtils;
@@ -68,15 +66,18 @@ import org.kuali.rice.kns.util.ObjectUtils;
  */
 
 public abstract class AccountCreationClientBase implements AccountCreationClient {
+    
+    protected static final String SOAP_SERVICE_NAME = "accountCreationServiceSOAP";
+    protected static final QName SERVICE_NAME = new QName("KFS", SOAP_SERVICE_NAME);
+    
+    private static final String ERROR_MESSAGE = "Cannot connect to the service. The service may be down, please try again later.";
 
+    private static final Log LOG = LogFactory.getLog(AccountCreationClientBase.class);
+    
     private AccountParametersDTO accountParameters;
     private DocumentService documentService;
     private BusinessObjectService businessObjectService;
-    
-    private static final Log LOG = LogFactory.getLog(AccountCreationClientBase.class);
-    protected static final QName SERVICE_NAME = new QName("KFS", "accountCreationServiceSOAP");
-    private static final String ERROR_MESSAGE = "Cannot connect to the service. The service may be down, please try again later.";
-
+    private ParameterService parameterService;
     
     protected abstract AccountCreationService getServiceHandle();
     
@@ -436,4 +437,13 @@ public abstract class AccountCreationClientBase implements AccountCreationClient
     public void setBusinessObjectService(BusinessObjectService businessObjectService) {
         this.businessObjectService = businessObjectService;
     }
+    
+    public ParameterService getParameterService() {
+        return parameterService;
+    }
+    
+    public void setParameterService(ParameterService parameterService) {
+        this.parameterService = parameterService;
+    }
+    
 }

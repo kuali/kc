@@ -595,6 +595,7 @@
 		<property name="sharedRice" value="${shared.rice}" />
 		<property name="documentService" ref="documentService" />
 		<property name="businessObjectService" ref="businessObjectService" />
+		<property name="parameterService" ref="parameterService" />
 	</bean>
 
 	<bean id="awardAccountValidationService" class="org.kuali.kra.external.award.impl.AwardAccountValidationServiceImpl">

@@ -66,17 +66,17 @@ import org.kuali.rice.kns.util.ObjectUtils;
 
 public abstract class BudgetAdjustmentClientBase implements BudgetAdjustmentClient {
 
-   
+    protected static final String SOAP_SERVICE_NAME = "budgetAdjustmentServiceSOAP";
+    protected static final QName SERVICE_NAME = new QName("KFS", SOAP_SERVICE_NAME);
+
+    private static final Log LOG = LogFactory.getLog(BudgetAdjustmentClientBase.class);
+
     private DocumentService documentService;
     private ParameterService parameterService;
     private BudgetCalculationService budgetCalculationService;
     private BusinessObjectService businessObjectService;
     private InstitutionalUnitService institutionalUnitService;
     private BudgetAdjustmentServiceHelper budgetAdjustmentServiceHelper;
-
-    protected static final QName SERVICE_NAME = new QName("KFS", "budgetAdjustmentServiceSOAP");
-
-    private static final Log LOG = LogFactory.getLog(BudgetAdjustmentClientBase.class);    
     
     /**
      * This method gets either the SOAP handle or the KSB handle depending on the configuration. 
@@ -650,6 +650,10 @@ public abstract class BudgetAdjustmentClientBase implements BudgetAdjustmentClie
      */
     public void setBudgetCalculationService(BudgetCalculationService budgetCalculationService) {
         this.budgetCalculationService = budgetCalculationService;
+    }
+    
+    public ParameterService getParameterService() {
+        return parameterService;
     }
     
     /*
