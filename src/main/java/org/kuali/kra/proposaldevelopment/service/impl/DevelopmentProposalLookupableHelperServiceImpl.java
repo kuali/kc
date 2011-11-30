@@ -121,6 +121,7 @@ public class DevelopmentProposalLookupableHelperServiceImpl extends KraLookupabl
                 filteredResults.add(developmentProposal);
             }
         }
+        
         return filteredResults;
     }
 
