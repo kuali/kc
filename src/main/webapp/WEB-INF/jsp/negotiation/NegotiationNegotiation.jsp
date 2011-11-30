@@ -34,6 +34,7 @@
 </script>
 <script type="text/javascript" src="scripts/medusaView.js"></script>  	
   	
+<c:set var="medusaLink" value="${KualiForm.methodToCall eq 'medusa'}"/>
 <div align="right"><kul:help documentTypeName="NegotiationDocument" pageName="Negotiation" /></div>
 <kul:documentOverview editingMode="${KualiForm.editingMode}" />
 
@@ -47,7 +48,7 @@
   
  <kra-negotiation:negotiationActivities />
   
-<kul:tab tabTitle="Medusa" defaultOpen="false" tabErrorKey="">
+<kul:tab tabTitle="Medusa" defaultOpen="${medusaLink}" tabErrorKey="">
 <kra-m:medusa />
 </kul:tab>
 
