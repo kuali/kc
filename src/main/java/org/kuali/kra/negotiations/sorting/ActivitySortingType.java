@@ -34,7 +34,8 @@ public enum ActivitySortingType {
             new MultiComparator<NegotiationActivity>(new Comparator[]{new LastUpdateByComparator(), new LastUpdateComparator()})),
     @SuppressWarnings("unchecked")
     TU ("Activity Type, Last Update",
-            new MultiComparator<NegotiationActivity>(new Comparator[]{new ActivityTypeComparator(), new LastUpdateComparator()}));
+            new MultiComparator<NegotiationActivity>(new Comparator[]{new ActivityTypeComparator(), new LastUpdateComparator()})),
+    L ("Location", new LocationComparator());
     
     private String desc;
     private Comparator<NegotiationActivity> comparator;
@@ -75,5 +76,11 @@ class LastUpdateByComparator implements Comparator<NegotiationActivity> {
     @Override
     public int compare(NegotiationActivity o1, NegotiationActivity o2) {
         return o1.getLastModifiedUser().getUserName().compareTo(o2.getLastModifiedUser().getUserName());
+    } 
+}
+class LocationComparator implements Comparator<NegotiationActivity> {
+    @Override
+    public int compare(NegotiationActivity o1, NegotiationActivity o2) {
+        return o1.getLocation().getDescription().compareTo(o2.getLocation().getDescription());
     } 
 }
