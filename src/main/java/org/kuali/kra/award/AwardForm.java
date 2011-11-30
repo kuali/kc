@@ -53,7 +53,6 @@ import org.kuali.kra.award.notesandattachments.comments.AwardCommentBean;
 import org.kuali.kra.award.notesandattachments.notes.AwardNotepadBean;
 import org.kuali.kra.award.paymentreports.ReportClass;
 import org.kuali.kra.award.paymentreports.awardreports.AwardReportsBean;
-import org.kuali.kra.award.paymentreports.awardreports.reporting.AwardReportingBean;
 import org.kuali.kra.award.paymentreports.awardreports.reporting.ReportTracking;
 import org.kuali.kra.award.paymentreports.awardreports.reporting.ReportTrackingBean;
 import org.kuali.kra.award.paymentreports.awardreports.reporting.service.ReportTrackingService;
@@ -148,7 +147,6 @@ public class AwardForm extends BudgetVersionFormBase
     private PaymentScheduleBean paymentScheduleBean;
     private ApprovedForeignTravelBean approvedForeignTravelBean;
     private AwardReportsBean awardReportsBean;
-    private AwardReportingBean awardReportingBean;
     private AwardCommentBean awardCommentBean;
     private AwardNotepadBean awardNotepadBean;
     private AwardAttachmentFormBean awardAttachmentFormBean;
@@ -256,7 +254,6 @@ public class AwardForm extends BudgetVersionFormBase
         setSpecialReviewHelper(new SpecialReviewHelper(this));
         //sponsorTermTypes = new ArrayList<KeyLabelPair>();
         awardCreditSplitBean = new AwardCreditSplitBean(this);
-        awardReportingBean = new AwardReportingBean(this);
         awardCommentBean = new AwardCommentBean(this);
         awardCloseoutBean = new AwardCloseoutBean(this);
         awardHierarchyNodes = new TreeMap<String, AwardHierarchy>();
@@ -701,22 +698,6 @@ public class AwardForm extends BudgetVersionFormBase
      */
     public void setAwardReportsBean(AwardReportsBean awardReportsBean) {
         this.awardReportsBean = awardReportsBean;
-    }
-
-    /**
-     * Gets the awardReportingBean attribute. 
-     * @return Returns the awardReportingBean.
-     */
-    public AwardReportingBean getAwardReportingBean() {
-        return awardReportingBean;
-    }
-
-    /**
-     * Sets the awardReportingBean attribute value.
-     * @param awardReportingBean The awardReportingBean to set.
-     */
-    public void setAwardReportingBean(AwardReportingBean awardReportingBean) {
-        this.awardReportingBean = awardReportingBean;
     }
 
     /**
