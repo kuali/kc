@@ -50,6 +50,7 @@ public class NegotiationAssociatedDetailBean implements Serializable {
     private String sponsorAward;
     private String subAwardOrganization;
     private List<KcPerson> ospAdministrators;
+    private String proposalType;
     
     /**
      * 
@@ -67,6 +68,7 @@ public class NegotiationAssociatedDetailBean implements Serializable {
         this.primeSponsor = EMPTY_STRING;
         this.sponsorAward = EMPTY_STRING;
         this.subAwardOrganization = EMPTY_STRING;
+        this.proposalType = EMPTY_STRING;
         this.leadUnitNumber = leadUnitNumber;
         this.ospAdministrators = new ArrayList<KcPerson>();
     }
@@ -89,6 +91,7 @@ public class NegotiationAssociatedDetailBean implements Serializable {
             this.primeSponsor = negotiable.getPrimeSponsorName();
             this.sponsorAward = negotiable.getSponsorAwardNumber();
             this.subAwardOrganization = negotiable.getSubAwardOrganizationName();
+            this.proposalType = negotiable.getNegotiableProposalType() != null ? negotiable.getNegotiableProposalType().getDescription() : "";
         }
     }
 
@@ -190,5 +193,13 @@ public class NegotiationAssociatedDetailBean implements Serializable {
 
     public void setAssociatedDocumentId(String associatedDocumentId) {
         this.associatedDocumentId = associatedDocumentId;
+    }
+
+    public String getProposalType() {
+        return proposalType;
+    }
+
+    public void setProposalType(String proposalType) {
+        this.proposalType = proposalType;
     }
 }

@@ -209,10 +209,11 @@
   <bean id="NegotiationUnassociatedDetail-negotiableProposalTypeCode" parent="NegotiationUnassociatedDetail-negotiableProposalTypeCode-parentBean" />
   <bean id="NegotiationUnassociatedDetail-negotiableProposalTypeCode-parentBean" abstract="true" parent="InstitutionalProposal-proposalTypeCode">
     <property name="name" value="negotiableProposalTypeCode" />
-    <property name="label" value="Proposal Type Code" />
-    <property name="shortLabel" value="Proposal Type Code" />
-    <property name="summary" value="Proposal Type Code" />
-    <property name="description" value="Proposal Type Code" />
+    <property name="label" value="Proposal Type" />
+    <property name="shortLabel" value="Proposal Type" />
+    <property name="summary" value="Proposal Type" />
+    <property name="description" value="Proposal Type" />
+    <property name="required" value="false" />
   </bean>
   
   <bean id="NegotiationUnassociatedDetail-inquiryDefinition" parent="NegotiationUnassociatedDetail-inquiryDefinition-parentBean" />
