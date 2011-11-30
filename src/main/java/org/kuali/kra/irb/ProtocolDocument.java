@@ -487,38 +487,71 @@ public class ProtocolDocument extends ResearchDocumentBase implements Copyable, 
      * @throws WorkflowException 
      */
     public boolean isProcessComplete() {
+       
         boolean isComplete = true;
-        
+
+        /*
+         * This happens when you submit your protocol to IRB, the current route node is Initiated
+         */
         if (this.getProtocol().getProtocolStatusCode().equals(ProtocolStatus.SUBMITTED_TO_IRB)) {
+
             if (getDocumentHeader().getWorkflowDocument().getCurrentRouteNodeNames().equalsIgnoreCase(Constants.PROTOCOL_INITIATED_ROUTE_NODE_NAME)) { 
                 isComplete = false;
-            }     
+            }    
+            // The following code is in place to go to the holding page when a 
             // while submitting an amendment for IRB review, the amendment moves from node Initiated to node IRBReview, 
-            //so need to check if protocolSubmissionStatus is "InAgenda" to avoid the processing page from not going away at all when 
+            //so need to check if protocolSubmissionStatus to avoid the processing page from not going away at all when 
             // an amendment is submitted for review
             // Added for KCIRB-1515 & KCIRB-1528
-            if (isAmendment()) {
-                if (StringUtils.isNotEmpty(getProtocol().getProtocolSubmissionStatus())
-                    && getProtocol().getProtocolSubmissionStatus().equals(ProtocolSubmissionStatus.IN_AGENDA)
-                    && getDocumentHeader().getWorkflowDocument().getCurrentRouteNodeNames().equalsIgnoreCase(Constants.PROTOCOL_IRBREVIEW_ROUTE_NODE_NAME)) {
+            getProtocol().getProtocolSubmission().refreshReferenceObject("submissionStatus"); 
+            String status = getProtocol().getProtocolSubmission().getSubmissionStatusCode();
+            if (isAmendment()) {              
+                if (status.equals(ProtocolSubmissionStatus.APPROVED)
+                        && getDocumentHeader().getWorkflowDocument().getCurrentRouteNodeNames().equalsIgnoreCase(Constants.PROTOCOL_IRBREVIEW_ROUTE_NODE_NAME)) {                    
                         isComplete = false;
-               }
+                }
             }
-               
-        } else {
-          
+
+        } else {  
+            /*
+             * If amendment has been merged, need to redirect to the newly created active protocol
+             * Wait for the new active protocol to be created before redirecting to it.
+             */
+            if (getProtocol().getProtocolStatusCode().equals(ProtocolStatus.AMENDMENT_MERGED)) {
+                String protocolId = getNewProtocolDocId();               
+                if (ObjectUtils.isNull(protocolId)) {
+                    isComplete = false;
+                } else {
+                    /*
+                     * The new protocol document is only available after the amendment has been merged. So, once the amendment is merged,
+                     * find the active protocol available and change the return link to point to that.
+                     */
+                    String oldLocation = (String) GlobalVariables.getUserSession().retrieveObject(Constants.HOLDING_PAGE_RETURN_LOCATION);
+                    String oldDocNbr = getProtocol().getProtocolDocument().getDocumentNumber();
+                    String returnLocation = oldLocation.replaceFirst(oldDocNbr, protocolId);
+                    GlobalVariables.getUserSession().addObject(Constants.HOLDING_PAGE_RETURN_LOCATION, (Object) returnLocation);
+                }
+            }
             // approve/expedited approve/response approve
             if (!KEWConstants.ROUTE_HEADER_FINAL_CD.equals(this.getDocumentHeader().getWorkflowDocument().getRouteHeader().getDocRouteStatus())) {
                 isComplete = false;
             } 
         }
-        /*
-        String backLocation = (String) GlobalVariables.getUserSession().retrieveObject(Constants.HOLDING_PAGE_RETURN_LOCATION);
-        if (StringUtils.isNotBlank(backLocation) && backLocation.indexOf(OLR_DOC_ID_PARAM) > -1 ) {
-            isComplete = isOnlineReviewApprovedByAdmin(backLocation.substring(backLocation.indexOf(OLR_DOC_ID_PARAM) + 10));
-        }
-        */
+
+
         return isComplete;
     }
-
+    
+    /**
+     * This method returns the doc number of the current active protocol
+     * @return documentNumber
+     */
+    protected String getNewProtocolDocId() {
+        Map keyMap = new HashMap(); 
+        keyMap.put("protocolNumber", getProtocol().getAmendedProtocolNumber());
+        keyMap.put("active", "Y");
+        BusinessObjectService boService = KraServiceLocator.getService(BusinessObjectService.class);        
+        List<Protocol> protocols = (List<Protocol>) boService.findMatchingOrderBy(Protocol.class, keyMap, "sequenceNumber", false);
+        return (protocols.size() == 0) ? null : protocols.get(0).getProtocolDocument().getDocumentNumber();    
+    }
 }
