@@ -50,6 +50,17 @@ public interface ScheduleService {
      */
     public List<Date> getScheduledDates(Date startDate, Date endDate, Time24HrFmt time, Integer frequencyInDay,
             ScheduleSequence scheduleSequence) throws ParseException;
+    
+    /**
+     * This method must return schedule dates generated between provided parameters.
+     * @param startDate is begin date.
+     * @param endDate is end date.
+     * @param time is time.
+     * @param intervalInDays is the number of days in each repeating interval
+     * @return List<Date> of date sequence generated.
+     * @throws ParseException
+     */
+    public List<Date> getIntervalInDaysScheduledDates(Date startDate, Date endDate, Time24HrFmt time, Integer intervalInDays) throws ParseException;
 
     /**
      * This method must return schedule dates generated between provided parameters.
