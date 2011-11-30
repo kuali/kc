@@ -17,12 +17,16 @@ package org.kuali.kra.proposaldevelopment.service.impl;
 
 import java.util.ArrayList;
 import java.util.List;
+import java.util.Map;
 
 import org.kuali.kra.infrastructure.PermissionConstants;
 import org.kuali.kra.lookup.KraLookupableHelperServiceImpl;
 import org.kuali.kra.proposaldevelopment.bo.DevelopmentProposal;
 import org.kuali.kra.proposaldevelopment.document.ProposalDevelopmentDocument;
+import org.kuali.kra.proposaldevelopment.document.authorization.ProposalDevelopmentDocumentAuthorizer;
 import org.kuali.kra.service.KraAuthorizationService;
+import org.kuali.rice.kew.web.session.UserSession;
+import org.kuali.rice.kim.bo.Person;
 import org.kuali.rice.kns.bo.BusinessObject;
 import org.kuali.rice.kns.lookup.HtmlData;
 import org.kuali.rice.kns.lookup.HtmlData.AnchorHtmlData;
@@ -33,9 +37,21 @@ import org.kuali.rice.kns.util.GlobalVariables;
  */
 public class DevelopmentProposalLookupableHelperServiceImpl extends KraLookupableHelperServiceImpl {
 
-    private static final long serialVersionUID = 1371970456980693936L;
-
+    private static final long serialVersionUID = 8611232870631352662L;
+    
     private KraAuthorizationService kraAuthorizationService;
+    
+    @Override
+    @SuppressWarnings("unchecked")
+    public List<? extends BusinessObject> getSearchResults(Map<String, String> fieldValues) {
+        List<DevelopmentProposal> unboundedResults = (List<DevelopmentProposal>) super.getSearchResultsUnbounded(fieldValues);
+        
+        List<DevelopmentProposal> filteredResults = new ArrayList<DevelopmentProposal>();
+        
+        filteredResults = (List<DevelopmentProposal>) filterForPermissions(unboundedResults);
+
+        return filteredResults;
+    }
     
     /**
      * @see org.kuali.kra.lookup.KraLookupableHelperServiceImpl#getCustomActionUrls(org.kuali.rice.kns.bo.BusinessObject, java.util.List)
@@ -93,6 +109,19 @@ public class DevelopmentProposalLookupableHelperServiceImpl extends KraLookupabl
     @Override
     protected String getKeyFieldName() {
         return "proposalNumber";
+    }
+    
+    private List<DevelopmentProposal> filterForPermissions(List<DevelopmentProposal> results) {
+        Person user = UserSession.getAuthenticatedUser().getPerson();
+        ProposalDevelopmentDocumentAuthorizer authorizer = new ProposalDevelopmentDocumentAuthorizer();
+        List<DevelopmentProposal> filteredResults = new ArrayList<DevelopmentProposal>();
+
+        for (DevelopmentProposal developmentProposal : results) {      
+            if (authorizer.canOpen(developmentProposal.getProposalDocument(), user)) {
+                filteredResults.add(developmentProposal);
+            }
+        }
+        return filteredResults;
     }
 
     /**
