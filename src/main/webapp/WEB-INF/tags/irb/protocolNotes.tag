@@ -16,7 +16,7 @@
 <%@ include file="/WEB-INF/jsp/kraTldHeader.jsp"%>
 
 <c:set var="protocolNotesAttributes" value="${DataDictionary.ProtocolNotepad.attributes}" />
-<c:set var="modify" value="${KualiForm.notesAttachmentsHelper.modifyNotepads}" />
+<c:set var="modifyPermission" value="${KualiForm.notesAttachmentsHelper.modifyNotepads}" />
 <c:set var="viewRestrictedNotes" value="${KualiForm.notesAttachmentsHelper.viewRestricted}" />
 <c:set var="irbAdmin" value="${KualiForm.notesAttachmentsHelper.irbAdmin}" />
 <c:set var="tabItemCount" value="0" />
@@ -25,13 +25,6 @@
         <c:set var="tabItemCount" value="${tabItemCount+1}" />
     </c:if>
 </c:forEach>
-
-<script>
-	function makeEditable(selected) {
-		alert('Edit selection still to be implemented, selected element = ' + selected);
-		return false;
-	}
-</script>
 
 <kul:tab tabTitle="Notes" tabItemCount="${tabItemCount}" defaultOpen="false" tabErrorKey="notesAttachmentsHelper.newProtocolNotepad.*,document.protocol.notepads.*">
 	<div class="tab-container" align="center">
@@ -49,7 +42,7 @@
 				<th><kul:htmlAttributeLabel attributeEntry="${protocolNotesAttributes.restrictedView}" useShortLabel="true" noColon="true"/></th>
 				<th><div align="center">Actions</div></th>
 			</tr>
-			<kra:permission value="${modify}">
+			<kra:permission value="${modifyPermission}">
 				<tr>
 	            	<th width="40" align="center" scope="row"><div align="center">Add:</div></th>
 	            	<td width="80" class="infoline">
@@ -60,18 +53,18 @@
 		            </td>
 		            <td width="150" class="infoline">
 		            	<div align="center">
-	            	    	<kul:htmlControlAttribute property="notesAttachmentsHelper.newProtocolNotepad.noteTopic" attributeEntry="${protocolNotesAttributes.noteTopic}" readOnly="${!modify}" />
+	            	    	<kul:htmlControlAttribute property="notesAttachmentsHelper.newProtocolNotepad.noteTopic" attributeEntry="${protocolNotesAttributes.noteTopic}" readOnly="${!modifyPermission}" />
 	            	  	</div>
 		            </td>
 		            <td width="1000" class="infoline">
 		            	<div align="left">
-	            	    	<kul:htmlControlAttribute property="notesAttachmentsHelper.newProtocolNotepad.comments" attributeEntry="${protocolNotesAttributes.comments}"readOnly="${!modify}" />
+	            	    	<kul:htmlControlAttribute property="notesAttachmentsHelper.newProtocolNotepad.comments" attributeEntry="${protocolNotesAttributes.comments}"readOnly="${!modifyPermission}" />
 	            	  	</div>
 		            </td>
 		            <td class="infoline">
 		            	<div align="center">
         			            <c:if test="${viewRestrictedNotes}" >
-		            	   	 		<kul:htmlControlAttribute property="notesAttachmentsHelper.newProtocolNotepad.restrictedView" attributeEntry="${protocolNotesAttributes.restrictedView}" readOnly="${!modify || !viewRestrictedNotes}" />
+		            	   	 		<kul:htmlControlAttribute property="notesAttachmentsHelper.newProtocolNotepad.restrictedView" attributeEntry="${protocolNotesAttributes.restrictedView}" readOnly="${!modifyPermission || !viewRestrictedNotes}" />
 				            	</c:if>
 		            	 </div>
 			        </td>
@@ -99,12 +92,12 @@
 		                </td>
 		                <td valign="middle">                	
 							<div align="center">
-								<kul:htmlControlAttribute property="document.protocol.notepads[${status.index}].noteTopic" attributeEntry="${protocolNotesAttributes.noteTopic}" readOnly="${!modify || !protocolNotepad.editable}"/>
+								<kul:htmlControlAttribute property="document.protocol.notepads[${status.index}].noteTopic" attributeEntry="${protocolNotesAttributes.noteTopic}" readOnly="${!modifyPermission || !protocolNotepad.editable}"/>
 							</div>
 						</td>
 		                <td valign="middle">                	
 							<div align="left">
-								<c:choose><c:when test="${!modify || !protocolNotepad.editable}">
+								<c:choose><c:when test="${!modifyPermission || !protocolNotepad.editable}">
 		                   			<kra:truncateComment textAreaFieldName="document.protocol.notepads[${status.index}].comments" action="protocolProtocolActions" textAreaLabel="${protocolNotesAttributes.comments.label}" textValue="${KualiForm.document.protocolList[0].notepads[status.index].comments}" displaySize="120"/>
 					    		</c:when><c:otherwise>
 						        	<kul:htmlControlAttribute property="document.protocol.notepads[${status.index}].comments" attributeEntry="${protocolNotesAttributes.comments}" />
@@ -113,18 +106,22 @@
 						</td>
 		                <td valign="middle">
 							<div align="center">
-				               <kul:htmlControlAttribute property="document.protocol.notepads[${status.index}].restrictedView" attributeEntry="${protocolNotesAttributes.restrictedView}" readOnly="${!modify || ((!viewRestrictedNotes || !protocolNotepad.editable) && !irbAdmin)}"/>
+				               <kul:htmlControlAttribute property="document.protocol.notepads[${status.index}].restrictedView" attributeEntry="${protocolNotesAttributes.restrictedView}" readOnly="${!modifyPermission || ((!viewRestrictedNotes || !protocolNotepad.editable) && !irbAdmin)}"/>
 							</div>
 		                </td>
-			            <td class="infoline">
+			            <td>
 			            	<div align=center><nobr> 	
-							    <c:if test="${!modify || !protocolNotepad.editable}">
-									<html:image property="methodToCall.editNote.line${status.index}.anchor${tabKey}"
-										src='${ConfigProperties.kra.externalizable.images.url}tinybutton-edit1.gif' styleClass='tinybutton' onclick='return makeEditable(${status.index});' />
-									&nbsp;	
-			    	        	</c:if>
-								<html:image property="methodToCall.deleteNote.line${status.index}.anchor${tabKey}"
-									src='${ConfigProperties.kra.externalizable.images.url}tinybutton-delete1.gif' styleClass="tinybutton"/>
+								<c:choose><c:when test="${modifyPermission}">
+							    	<c:if test="${!protocolNotepad.editable}">
+										<html:image property="methodToCall.editNote.line${status.index}.anchor${tabKey}"
+											src='${ConfigProperties.kra.externalizable.images.url}tinybutton-edit1.gif' styleClass='tinybutton' />
+										&nbsp;	
+				    	        	</c:if>
+									<html:image property="methodToCall.deleteNote.line${status.index}.anchor${tabKey}"
+										src='${ConfigProperties.kra.externalizable.images.url}tinybutton-delete1.gif' styleClass="tinybutton"/>
+					    		</c:when><c:otherwise>
+					    			&nbsp;
+						    	</c:otherwise></c:choose>
 							</nobr></div>
 		            	</td>
 		            </tr>

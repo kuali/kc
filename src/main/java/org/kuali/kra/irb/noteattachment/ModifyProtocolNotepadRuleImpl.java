@@ -16,20 +16,13 @@
 package org.kuali.kra.irb.noteattachment;
 
 /**
- * Implementation of {@link AddProtocolNotepadRule EditProtocolNotepadRule}.
+ * Implementation of {@link AddProtocolNotepadRule ModifyProtocolNotepadRule}.
  * @see ModifyProtocolNotepadRule for details
  */
 public class ModifyProtocolNotepadRuleImpl implements ModifyProtocolNotepadRule {
     
-    private final ProtocolNotepadRuleHelper notesHelper
-        = new ProtocolNotepadRuleHelper(NoteAndAttachmentPrefix.NEW_NOTEPAD.getPrefixName());
-    
     /** {@inheritDoc} */
     public boolean processModifyProtocolNotepadRules(ModifyProtocolNotepadEvent event) {
-        final ProtocolNotepad existingProtocolNotepad = event.getExistingProtocolNotepad();
-        
-        boolean valid = this.notesHelper.validPrimitiveFields(existingProtocolNotepad);
-               
-        return valid;
+        return true;
     }
 }
