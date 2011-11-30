@@ -36,7 +36,6 @@ import org.kuali.kra.award.paymentreports.Frequency;
 import org.kuali.kra.award.paymentreports.FrequencyBase;
 import org.kuali.kra.award.paymentreports.Report;
 import org.kuali.kra.award.paymentreports.ReportClass;
-import org.kuali.kra.award.paymentreports.awardreports.reporting.AwardReporting;
 import org.kuali.kra.award.paymentreports.awardreports.reporting.ReportTracking;
 
 
@@ -53,7 +52,6 @@ public class AwardReportTerm extends AwardAssociate implements GenericAwardRepor
     private static final long serialVersionUID = -3117988810554700250L;
 
     private Long awardReportTermId;
-    private List<AwardReporting> awardReportings;
     private List<ReportTracking> reportTrackings;
     
     
@@ -92,7 +90,6 @@ public class AwardReportTerm extends AwardAssociate implements GenericAwardRepor
      */
     public AwardReportTerm() {
         awardReportTermRecipients = new ArrayList<AwardReportTermRecipient>();
-        awardReportings = new ArrayList<AwardReporting>();
     } 
     
     /**
@@ -236,36 +233,6 @@ public class AwardReportTerm extends AwardAssociate implements GenericAwardRepor
         
         return isEqual;
     }
-    
-    /**
-     * Gets the awardReportings attribute. 
-     * @return Returns the awardReportings.
-     */
-    public List<AwardReporting> getAwardReportings() {
-        return awardReportings;
-    }
-
-    /**
-     * Sets the awardReportings attribute value.
-     * @param awardReportings The awardReportings to set.
-     */
-    public void setAwardReportings(List<AwardReporting> awardReportings) {
-        this.awardReportings = awardReportings;
-    }
-
-    /**
-     * @see org.kuali.kra.SequenceAssociate#getSequenceOwner()
-     */
-   // public SequenceOwner getSequenceOwner() {
-        //return getAward();
-    //}
-
-    /**
-     * @see org.kuali.kra.SequenceAssociate#setSequenceOwner(org.kuali.kra.SequenceOwner)
-     */
-    //public void setSequenceOwner(SequenceOwner newlyVersionedOwner) {
-       // setAward((Award) newlyVersionedOwner);
-    //}
 
     /**
      * @see org.kuali.kra.Sequenceable#resetPersistenceState()
