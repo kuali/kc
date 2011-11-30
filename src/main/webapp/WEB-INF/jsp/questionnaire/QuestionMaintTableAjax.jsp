@@ -118,7 +118,7 @@
 											style="border: medium none; width: 30px; text-align: center;"><input
 											type="image" alt="add" style="border: medium none;"
 											src="${ConfigProperties.kr.externalizable.images.url}tinybutton-add1.gif"
-											name="addquestionnaire" id="addQn${qidx}"  title="Add a question" onClick="clickAdd(${qidx}); return false;"></td>
+											name="addquestionnaire" id="addQn${qidx}"  title="Add a Question" onClick="clickAdd(${qidx}); return false;"></td>
 									</tr>
 								</c:if>	
 								</tbody>
@@ -135,7 +135,7 @@
 								style="background: none repeat scroll 0% 0% rgb(147, 147, 147); height: 18px; color: rgb(255, 255, 255); text-align: left; padding-left: 4px;">
 								<img
 								  style="width: 45px; height: 15px; border: medium none; cursor: pointer; padding: 2px; vertical-align: middle;"
-								  title="show/hide this panel" alt="show/hide this panel"
+								  title="show/hide panel" alt="show/hide panel"
 								  src="${ConfigProperties.kr.externalizable.images.url}tinybutton-hide.gif" id="HSReqcontrol${qidx}">Requirements for Display
 							</th>
 						</tr>
@@ -158,7 +158,7 @@
 							<th colspan="3"
 								style="background: none repeat scroll 0% 0% rgb(147, 147, 147); height: 18px; color: rgb(255, 255, 255); text-align: left; padding-left: 4px;"><img
 								style="width: 45px; height: 15px; border: medium none; cursor: pointer; padding: 2px; vertical-align: middle;"
-								title="show/hide this panel" alt="show/hide this panel"
+								title="show/hide panel" alt="show/hide panel"
 								src="${ConfigProperties.kr.externalizable.images.url}tinybutton-hide.gif" id="HScontrol${qidx}">Response</th>
 						</tr>
 					</tbody>
