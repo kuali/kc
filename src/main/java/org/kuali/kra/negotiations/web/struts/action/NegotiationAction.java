@@ -23,6 +23,7 @@ import javax.servlet.http.HttpServletResponse;
 import org.apache.struts.action.ActionForm;
 import org.apache.struts.action.ActionForward;
 import org.apache.struts.action.ActionMapping;
+import org.kuali.kra.common.notification.service.KcNotificationService;
 import org.kuali.kra.infrastructure.Constants;
 import org.kuali.kra.infrastructure.KraServiceLocator;
 import org.kuali.kra.negotiations.bo.Negotiation;
@@ -46,6 +47,7 @@ public class NegotiationAction extends KraTransactionalDocumentActionBase {
     private NegotiationService negotiationService;
     private SequenceAccessorService sequenceAccessorService;
     private NegotiationPrintingService negotiationPrintingService;
+    private KcNotificationService notificationService;
 
     @Override
     public ActionForward docHandler(ActionMapping mapping, ActionForm form, 
@@ -118,5 +120,16 @@ public class NegotiationAction extends KraTransactionalDocumentActionBase {
 
     public void setNegotiationPrintingService(NegotiationPrintingService negotiationPrintingService) {
         this.negotiationPrintingService = negotiationPrintingService;
-    }  
+    }
+    
+    protected KcNotificationService getNotificationService() {
+        if (notificationService == null) {
+            notificationService = KraServiceLocator.getService(KcNotificationService.class);
+        }
+        return notificationService;
+    }
+    
+    public void setNotificationService(KcNotificationService notificationService) {
+        this.notificationService = notificationService;
+    }
 }

@@ -15,16 +15,11 @@
  */
 package org.kuali.kra.negotiations.notifications;
 
-import org.kuali.kra.negotiations.document.NegotiationDocument;
+import org.kuali.kra.common.notification.service.KcNotificationRoleQualifierService;
+import org.kuali.kra.negotiations.bo.Negotiation;
 
-/**
- * Negotiation Notification Service
- */
-public interface NegotiationNotificationService {
+public interface NegotiationNotificationRoleQualifierService extends KcNotificationRoleQualifierService {
 
-    /**
-     * send close notification
-     * @param document
-     */
-    void sendCloseNotification(NegotiationDocument document);
+    Negotiation getNegotiation();
+    void setNegotiation(Negotiation negotiation);
 }

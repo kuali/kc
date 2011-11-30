@@ -42,6 +42,7 @@ public class NotificationModuleRoleQualifierValuesFinder extends KeyValuesBase {
         documentList.add(new KeyLabelPair(KcKimAttributes.SUBUNITS, "Descend Heirarchy"));
         documentList.add(new KeyLabelPair("submissionId", "Submission Id"));
         documentList.add(new KeyLabelPair("protocolOnlineReviewId", "Protocol Online Review Id"));
+        documentList.add(new KeyLabelPair("negotiation", "Negotiation Id"));
         return documentList;
     }
 

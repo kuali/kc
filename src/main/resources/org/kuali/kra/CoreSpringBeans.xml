@@ -734,14 +734,10 @@
         </property>    
 	</bean>
 	
-	<bean id="negotiationNotificationService" class="org.kuali.kra.negotiations.notifications.NegotiationNotificationServiceImpl">
-		<property name="kcNotificationService">
-			<ref bean="kcNotificationService"/>
-		</property>
-		<property name="negotiationService">
-			<ref bean="negotiationService"/>
-		</property>
-	</bean>
+	<bean id="negotiationNotificationRoleQualifierService" class="org.kuali.kra.negotiations.notifications.NegotiationNotificationRoleQualifierServiceImpl"
+	  scope="prototype"/>
+	<bean id="negotiationNotificationRenderer" class="org.kuali.kra.negotiations.notifications.NegotiationNotificationRenderer" scope="prototype"/>
+	
 	
 	<bean id="parentNegotiationAuthorizer" abstract="true">
         <property name="unitAuthorizationService" ref="unitAuthorizationService" />
