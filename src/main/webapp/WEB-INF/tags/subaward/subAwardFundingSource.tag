@@ -30,7 +30,7 @@
         
         <tr>
       	<th><div align="left">&nbsp;</div></th>
-        <th><div align="center"><kul:htmlAttributeLabel attributeEntry="${subAwardFundingSourceAttributes.awardId}" /></div></th>
+        <th colspan=3><div align="center"><kul:htmlAttributeLabel attributeEntry="${subAwardFundingSourceAttributes.awardId}" /></div></th>
         <th><div align="center"><kul:htmlAttributeLabel attributeEntry="${subAwardFundingSourceAttributes.accountNumber}" /></div></th>
         <th><div align="center"><kul:htmlAttributeLabel attributeEntry="${subAwardFundingSourceAttributes.statusCode}" /></div></th>
         <th><div align="center"><kul:htmlAttributeLabel attributeEntry="${subAwardFundingSourceAttributes.sponsorCode}" /></div></th>
@@ -42,8 +42,8 @@
                <th class="infoline" >
 						Add:
 				</th>
-     			 <td align="left" valign="middle"><kul:htmlControlAttribute property="newSubAwardFundingSource.award.awardNumber" attributeEntry="${subAwardFundingSourceAttributes.awardId}" />
-                 <kul:lookup boClassName="org.kuali.kra.award.home.Award" fieldConversions="awardNumber:newSubAwardFundingSource.award.awardNumber,awardId:newSubAwardFundingSource.awardId,accountNumber:newSubAwardFundingSource.award.accountNumber,statusCode:newSubAwardFundingSource.award.statusCode,sponsorCode:newSubAwardFundingSource.award.sponsorCode,awardAmountInfos[0].amountObligatedToDate:newSubAwardFundingSource.award.awardAmountInfos[0].amountObligatedToDate,awardAmountInfos[0].obligationExpirationDate:newSubAwardFundingSource.award.awardAmountInfos[0].obligationExpirationDate" anchor="${tabKey}" />
+     			 <td align="center"  colspan=3><kul:htmlControlAttribute property="newSubAwardFundingSource.award.awardNumber" attributeEntry="${subAwardFundingSourceAttributes.awardId}" />
+                 <kul:lookup boClassName="org.kuali.kra.award.home.Award" fieldConversions="awardNumber:newSubAwardFundingSource.award.awardNumber,awardDocument.documentNumber:newSubAwardFundingSource.award.awardDocument.documentNumber,awardId:newSubAwardFundingSource.awardId,accountNumber:newSubAwardFundingSource.award.accountNumber,statusCode:newSubAwardFundingSource.award.statusCode,sponsorCode:newSubAwardFundingSource.award.sponsorCode,awardAmountInfos[0].amountObligatedToDate:newSubAwardFundingSource.award.awardAmountInfos[0].amountObligatedToDate,awardAmountInfos[0].obligationExpirationDate:newSubAwardFundingSource.award.awardAmountInfos[0].obligationExpirationDate" anchor="${tabKey}" />
                	</td>
    				<td><div align="center">
      					<kul:htmlControlAttribute property="newSubAwardFundingSource.award.accountNumber" readOnly="${readOnly}" attributeEntry="${subAwardFundingSourceAttributes.accountNumber}" datePicker="false" />           
@@ -78,8 +78,23 @@
 						<th width="5%" class="infoline" rowspan="1">
 							<c:out value="${status.index+1}" />
 						</th>
-						     
+						<c:set  var="documentNumber" value="${subAwardFundingSource.award.awardDocument.documentNumber}"/> 
+						    <td width="6%" valign="middle"> 
+						    
+						    <a
+						href="${ConfigProperties.application.url}/awardHome.do?methodToCall=docHandler&command=displayDocSearchView&docId=${documentNumber}&medusaOpenedDoc=true"
+						target="_blank" class="medusaOpenLink">Open award</a>
+						</td>
+						  <td width="6%" valign="middle"> 
+						 <a
+						href="${ConfigProperties.application.url}/awardHome.do?methodToCall=medusa&command=displayDocSearchView&docId=${documentNumber}&medusaOpenedDoc=true"
+						target="_blank" class="medusaOpenLink"> medusa </a>
+						 
+						    </td>
 		                 <td width="9%" valign="middle">
+		               
+		                  
+		                 
 						<div align="left">
 	                		<kul:htmlControlAttribute property="document.subAwardList[0].subAwardFundingSourceList[${status.index}].award.awardNumber" attributeEntry="${subAwardFundingSourceAttributes.awardId}" />
 						</div>
