@@ -15,36 +15,26 @@
  */
 package org.kuali.kra.negotiations.web.struts.action;
 
-import static org.apache.commons.lang.StringUtils.isNotBlank;
 import static org.kuali.rice.kns.util.KNSConstants.EMPTY_STRING;
 import static org.kuali.rice.kns.util.KNSConstants.QUESTION_CLICKED_BUTTON;
 
 import java.util.ArrayList;
 import java.util.Collection;
 import java.util.HashMap;
-import java.util.List;
 import java.util.Map;
-import java.util.SortedMap;
 
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 
-import org.apache.commons.lang.ObjectUtils;
 import org.apache.commons.lang.StringUtils;
 import org.apache.struts.action.ActionForm;
 import org.apache.struts.action.ActionForward;
 import org.apache.struts.action.ActionMapping;
 
-import org.kuali.kra.award.AwardForm;
-import org.kuali.kra.award.customdata.AwardCustomData;
-import org.kuali.kra.award.document.AwardDocument;
-import org.kuali.kra.award.home.Award;
 import org.kuali.kra.bo.AttachmentFile;
 import org.kuali.kra.bo.CustomAttribute;
-import org.kuali.kra.bo.CustomAttributeDocument;
 import org.kuali.kra.infrastructure.Constants;
 import org.kuali.kra.infrastructure.KeyConstants;
-import org.kuali.kra.infrastructure.KraServiceLocator;
 import org.kuali.kra.negotiations.bo.Negotiation;
 import org.kuali.kra.negotiations.bo.NegotiationActivity;
 import org.kuali.kra.negotiations.bo.NegotiationActivityAttachment;
@@ -52,7 +42,6 @@ import org.kuali.kra.negotiations.bo.NegotiationAssociationType;
 import org.kuali.kra.negotiations.bo.NegotiationUnassociatedDetail;
 import org.kuali.kra.negotiations.customdata.NegotiationCustomData;
 import org.kuali.kra.negotiations.document.NegotiationDocument;
-import org.kuali.kra.negotiations.notifications.NegotiationNotificationService;
 import org.kuali.kra.negotiations.printing.NegotiationActivityPrintType;
 import org.kuali.kra.negotiations.web.struts.form.NegotiationForm;
 import org.kuali.kra.proposaldevelopment.bo.AttachmentDataSource;
@@ -108,6 +97,7 @@ public class NegotiationNegotiationAction extends NegotiationAction {
     public ActionForward save(ActionMapping mapping, ActionForm form, HttpServletRequest request, HttpServletResponse response)
             throws Exception {
         NegotiationForm negotiationForm = (NegotiationForm) form;
+        boolean sendCloseNotification = false;
         loadCodeObjects(negotiationForm.getNegotiationDocument().getNegotiation());
         Negotiation negotiation = negotiationForm.getNegotiationDocument().getNegotiation();
         Negotiation oldNegotiation = getBusinessObjectService().findBySinglePrimaryKey(Negotiation.class,
@@ -145,8 +135,7 @@ public class NegotiationNegotiationAction extends NegotiationAction {
                 }
             }
             if (StringUtils.equals(negotiation.getNegotiationStatus().getCode(), getNegotiationService().getCompleteStatusCode())) {
-                KraServiceLocator.getService(NegotiationNotificationService.class).sendCloseNotification(
-                        negotiationForm.getDocument());
+                sendCloseNotification = true;
             }
         }
         if (oldNegotiation == null
@@ -189,6 +178,14 @@ public class NegotiationNegotiationAction extends NegotiationAction {
         }
         copyCustomDataToNegotiation(negotiationForm);
         ActionForward actionForward = super.save(mapping, form, request, response);
+        if (sendCloseNotification && GlobalVariables.getMessageMap().getErrorCount() == 0) {
+            if (negotiationForm.getNotificationHelper().getPromptUserForNotificationEditor()) {
+                negotiationForm.getNotificationHelper().prepareView();
+                return mapping.findForward("notificationEditor");
+            } else {
+                getNotificationService().sendNotification(negotiationForm.getNotificationHelper().getContext());
+            }
+        }
         if (negotiation.getUnAssociatedDetail() != null) {
             if (negotiation.getUnAssociatedDetail().getNegotiationId() == null) {
                 negotiation.getUnAssociatedDetail().setNegotiationId(negotiation.getNegotiationId());

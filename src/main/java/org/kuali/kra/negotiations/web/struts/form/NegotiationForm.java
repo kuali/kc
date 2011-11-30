@@ -41,6 +41,7 @@ import org.kuali.kra.negotiations.bo.NegotiationUnassociatedDetail;
 import org.kuali.kra.negotiations.customdata.CustomDataHelper;
 import org.kuali.kra.negotiations.customdata.NegotiationCustomData;
 import org.kuali.kra.negotiations.document.NegotiationDocument;
+import org.kuali.kra.negotiations.notifications.NegotiationNotificationHelper;
 import org.kuali.kra.negotiations.service.NegotiationService;
 import org.kuali.kra.proposaldevelopment.bo.ProposalPerson;
 import org.kuali.kra.proposaldevelopment.bo.ProposalState;
@@ -70,6 +71,7 @@ public class NegotiationForm extends KraTransactionalDocumentFormBase {
     private NegotiationAssociatedDetailBean negotiationAssociatedDetailBean;
     private CustomDataHelper negotiationCustomDataFormHelper;
     private CustomDataHelper customDataHelper = new CustomDataHelper(this);
+    private NegotiationNotificationHelper notificationHelper;
     private String filterActivities;
     
     private MedusaBean medusaBean;
@@ -84,6 +86,7 @@ public class NegotiationForm extends KraTransactionalDocumentFormBase {
         negotiationActivityHelper = new NegotiationActivityHelper(this);
         medusaBean = new MedusaBean();
         negotiationCustomDataFormHelper = new CustomDataHelper(this);
+        notificationHelper = new NegotiationNotificationHelper(this);
         filterActivities = "All";
         init();
     }
@@ -326,5 +329,13 @@ public class NegotiationForm extends KraTransactionalDocumentFormBase {
      */
     public List<NegotiationActivityHistoryLineBean> getNegotiationActivityHistoryLineBeans() {
         return this.getNegotiationService().getNegotiationActivityHistoryLineBeans(this.getNegotiationDocument().getNegotiation().getActivities());
+    }
+
+    public NegotiationNotificationHelper getNotificationHelper() {
+        return notificationHelper;
+    }
+
+    public void setNotificationHelper(NegotiationNotificationHelper notificationHelper) {
+        this.notificationHelper = notificationHelper;
     }
 }
