@@ -435,6 +435,21 @@
                 		<c:out value="${KualiForm.negotiationAssociatedDetailBean.subAwardOrganization}"/>
                 	</td>
             	</tr>
+            	
+            	<tr>
+            		<th>
+            			<div align="right">
+            				<kul:htmlAttributeLabel attributeEntry="${negotiationUnassociatedDetailAttributes.negotiableProposalTypeCode}" />
+            			</div>
+            		</th>
+                	<td>
+                		<c:out value="${KualiForm.negotiationAssociatedDetailBean.proposalType}"/>
+                	</td>
+                	<th>
+                	</th>
+                	<td>
+                	</td>
+            	</tr>
             </c:if>
 		</table>
 	</div>	
