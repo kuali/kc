@@ -26,6 +26,7 @@ import java.util.Map;
 
 import org.apache.commons.lang.StringUtils;
 import org.kuali.kra.award.home.Award;
+import org.kuali.kra.award.home.AwardService;
 import org.kuali.kra.award.paymentreports.ReportRegenerationType;
 import org.kuali.kra.award.paymentreports.ReportStatus;
 import org.kuali.kra.award.paymentreports.awardreports.AwardReportTerm;
@@ -45,6 +46,7 @@ public class ReportTrackingServiceImpl implements ReportTrackingService {
     
     private AwardScheduleGenerationService awardScheduleGenerationService;
     private BusinessObjectService businessObjectService;
+    private AwardService awardService;
     
     @Override
     public void refreshReportTracking(Award award) throws ParseException {
@@ -284,6 +286,17 @@ public class ReportTrackingServiceImpl implements ReportTrackingService {
     }
     
     @Override
+    public List<ReportTracking> getReportTacking(Award award) {
+        Map params = new HashMap();
+        params.put("AWARD_NUMBER", award.getAwardNumber());
+        Collection<ReportTracking> reportTrackingCollection = this.getBusinessObjectService().findMatching(ReportTracking.class, params);
+        List<ReportTracking> reportTrackings = new ArrayList<ReportTracking>();
+        reportTrackings.addAll(reportTrackingCollection);
+        Collections.sort(reportTrackings);
+        return reportTrackings;
+    }
+    
+    @Override
     public boolean autoRegenerateReports(Award award) {
         String rootAwardNumberEnder = "-00001";
         boolean retVal = StringUtils.endsWith(award.getAwardNumber(), rootAwardNumberEnder);
@@ -312,6 +325,14 @@ public class ReportTrackingServiceImpl implements ReportTrackingService {
 
     public void setBusinessObjectService(BusinessObjectService businessObjectService) {
         this.businessObjectService = businessObjectService;
+    }
+
+    public AwardService getAwardService() {
+        return awardService;
+    }
+
+    public void setAwardService(AwardService awardService) {
+        this.awardService = awardService;
     }
 
     @Override
@@ -350,5 +371,46 @@ public class ReportTrackingServiceImpl implements ReportTrackingService {
         ReportStatus rs = (ReportStatus) this.getBusinessObjectService().findByPrimaryKey(ReportStatus.class, params);
         return rs;
     }
-
+    
+    @Override
+    public boolean shouldAlertReportTrackingDetailChange(Award award) {
+        boolean retVal = false;
+        
+        if (award.getAwardId() != null) {
+            Award dbAward = this.getAwardService().getAward(award.getAwardId());
+            if (dbAward != null) {
+                List<ReportTracking> dbReportTrackings = this.getReportTacking(dbAward);
+                if (dbReportTrackings != null && !dbReportTrackings.isEmpty()) {
+                    retVal = !dateCompare(award.getAwardExecutionDate(), dbAward.getAwardExecutionDate()) 
+                        || !dateCompare(award.getAwardEffectiveDate(), dbAward.getAwardEffectiveDate())
+                        || !dateCompare(award.getLastAwardAmountInfo().getObligationExpirationDate(), 
+                                dbAward.getLastAwardAmountInfo().getObligationExpirationDate())
+                        || !dateCompare(award.getLastAwardAmountInfo().getFinalExpirationDate(), dbAward.getLastAwardAmountInfo().getFinalExpirationDate())
+                        || !dateCompare(award.getLastAwardAmountInfo().getCurrentFundEffectiveDate(), 
+                                dbAward.getLastAwardAmountInfo().getCurrentFundEffectiveDate());
+                }
+            }
+        }
+        
+        return retVal;
+    }
+    
+    /**
+     * 
+     * This method returns true if the two are the same, returns false otherwise.
+     * @param formDate
+     * @param dbDate
+     * @return
+     */
+    private boolean dateCompare(Date formDate, Date dbDate) {
+        boolean retVal = false;
+        if (formDate == null && dbDate == null) {
+            retVal = true;
+        } else {
+            if (formDate != null && dbDate != null && formDate.equals(dbDate)) {
+                retVal = true;
+            }
+        }
+        return retVal;
+    }
 }
