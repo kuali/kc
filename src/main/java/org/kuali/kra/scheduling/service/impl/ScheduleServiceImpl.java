@@ -16,6 +16,7 @@
 package org.kuali.kra.scheduling.service.impl;
 
 import java.text.ParseException;
+import java.util.ArrayList;
 import java.util.Calendar;
 import java.util.Date;
 import java.util.GregorianCalendar;
@@ -37,6 +38,8 @@ import org.kuali.kra.scheduling.sequence.ScheduleSequence;
 import org.kuali.kra.scheduling.sequence.TrimDatesScheduleSequenceDecorator;
 import org.kuali.kra.scheduling.service.ScheduleService;
 import org.kuali.kra.scheduling.util.Time24HrFmt;
+import org.quartz.SimpleTrigger;
+import org.quartz.TriggerUtils;
 import org.springframework.transaction.annotation.Transactional;
 
 /**
@@ -47,7 +50,8 @@ import org.springframework.transaction.annotation.Transactional;
 public class ScheduleServiceImpl implements ScheduleService {
 
     @SuppressWarnings("unused")
-    private static final org.apache.commons.logging.Log LOG = org.apache.commons.logging.LogFactory.getLog(ScheduleServiceImpl.class);
+    private static final org.apache.commons.logging.Log LOG = org.apache.commons.logging.LogFactory
+            .getLog(ScheduleServiceImpl.class);
 
     /**
      * This overloaded implementation uses NeverCronExpression, which generates schedule for specific DAY only.
@@ -104,15 +108,15 @@ public class ScheduleServiceImpl implements ScheduleService {
         CronExpression expr = new MonthDayCronExpression(startDate, time, day, frequencyInMonth);
         return getScheduledDates(expr, startDate, endDate, time, scheduleSequence);
     }
-    
+
     /**
      * This overloaded implementation uses MonthDayMultipleYearsCronExpression targeting monthly types of schedule generation.
      * 
-     * @see org.kuali.kra.scheduling.service.ScheduleService#getScheduledDates(java.util.Date, java.util.Date, org.kuali.kra.scheduling.util.Time24HrFmt,
-     * org.kuali.kra.scheduling.sequence.ScheduleSequence, java.lang.Integer)
+     * @see org.kuali.kra.scheduling.service.ScheduleService#getScheduledDates(java.util.Date, java.util.Date,
+     *      org.kuali.kra.scheduling.util.Time24HrFmt, org.kuali.kra.scheduling.sequence.ScheduleSequence, java.lang.Integer)
      */
-    public List<Date> getScheduledDates(Date startDate, Date endDate, Time24HrFmt time, ScheduleSequence scheduleSequence
-            , Integer dayOfMonth) throws ParseException {
+    public List<Date> getScheduledDates(Date startDate, Date endDate, Time24HrFmt time, ScheduleSequence scheduleSequence,
+            Integer dayOfMonth) throws ParseException {
 
         CronExpression expr = new MonthDayMultipleYearsCronExpression(startDate, time, dayOfMonth);
         return getScheduledDates(expr, startDate, endDate, time, scheduleSequence);
@@ -196,12 +200,13 @@ public class ScheduleServiceImpl implements ScheduleService {
         int hour = calendar.get(Calendar.HOUR);
         int min = calendar.get(Calendar.MINUTE);
         int am_pm = calendar.get(Calendar.AM_PM);
-        if(am_pm == Calendar.AM) {
+        if (am_pm == Calendar.AM) {
             date = DateUtils.addHours(date, -hour);
             date = DateUtils.addMinutes(date, -min);
-        } else {
-            date = DateUtils.addHours(date, -hour-12);
-            date = DateUtils.addMinutes(date, -min);    
+        }
+        else {
+            date = DateUtils.addHours(date, -hour - 12);
+            date = DateUtils.addMinutes(date, -min);
         }
         if (null != time) {
             date = DateUtils.addHours(date, new Integer(time.getHours()));
@@ -221,6 +226,64 @@ public class ScheduleServiceImpl implements ScheduleService {
             scheduleSequence = new TrimDatesScheduleSequenceDecorator(new DefaultScheduleSequence());
         }
         return scheduleSequence;
+    }
+
+    /**
+     * This implementation uses the SimpleTrigger class instead of the CronTrigger class used everywhere else. We need repeating
+     * intervals of some particular number of days and cron expressions are not suited for creating absolute-interval based
+     * repeating schedules. We also do some post processing to the dates obtained via simple trigger in order to keep the same time
+     * of day even if the schedule dates cross daylight savings boundaries.
+     * 
+     * 
+     * @see org.kuali.kra.scheduling.service.ScheduleService#getIntervalInDaysScheduledDates(java.util.Date, java.util.Date,
+     *      org.kuali.kra.scheduling.util.Time24HrFmt, java.lang.Integer)
+     */
+    @Override
+    public List<Date> getIntervalInDaysScheduledDates(Date startDate, Date endDate, Time24HrFmt time, Integer intervalInDays)
+            throws ParseException {
+
+        // create the start time for the simple trigger by setting the time of the startDate to noon---24 hour jumps will
+        // still go to the next day irrespective of US daylight savings.
+        Calendar cal = Calendar.getInstance();
+        cal.setTime(startDate);
+        cal.set(Calendar.HOUR_OF_DAY, 12);
+        cal.set(Calendar.MINUTE, 0);
+        cal.set(Calendar.SECOND, 0);
+        cal.set(Calendar.MILLISECOND, 0);
+
+        Date triggerStartDate = cal.getTime();
+
+        // create the end time for the simple trigger by setting the time of the endDate to 2 pm
+        cal = Calendar.getInstance();
+        cal.setTime(endDate);
+        cal.set(Calendar.HOUR_OF_DAY, 14);
+        cal.set(Calendar.MINUTE, 0);
+        cal.set(Calendar.SECOND, 0);
+        cal.set(Calendar.MILLISECOND, 0);
+
+        Date triggerEndDate = cal.getTime();
+
+        SimpleTrigger trigger = new SimpleTrigger("myTrigger", "default", triggerStartDate, triggerEndDate,
+            SimpleTrigger.REPEAT_INDEFINITELY, ((long) intervalInDays) * 24L * 60L * 60L * 1000L);
+
+
+        @SuppressWarnings("unchecked")
+        List<Date> dates = TriggerUtils.computeFireTimesBetween(trigger, null, triggerStartDate, triggerEndDate);
+
+        // iterate through the dates and set each date's hour and minute as per the given argument (to avoid daylight savings timing
+        // issues)
+        List<Date> returnDates = new ArrayList<Date>();
+        for (Date date : dates) {
+            cal = Calendar.getInstance();
+            cal.setTime(date);
+            cal.set(Calendar.HOUR_OF_DAY, Integer.valueOf(time.getHours()));
+            cal.set(Calendar.MINUTE, Integer.valueOf(time.getMinutes()));
+            cal.set(Calendar.SECOND, 0);
+            cal.set(Calendar.MILLISECOND, 0);
+            returnDates.add(cal.getTime());
+        }
+
+        return returnDates;
     }
 
 }
