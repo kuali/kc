@@ -5,9 +5,10 @@
 <c:set var="action" value="negotiationNegotiation" />
 <c:set var="className" value="org.kuali.kra.negotiations.document.NegotiationDocument" />
 <c:set var="readOnly" value="${not KualiForm.editingMode['modify']}"/>
+<c:set var="medusaLink" value="${KualiForm.methodToCall eq 'medusa'}"/>
 <script type='text/javascript' src='dwr/interface/KraPersonService.js'></script>
 
-<kul:tab tabTitle="Negotiation" defaultOpen="true" 
+<kul:tab tabTitle="Negotiation" defaultOpen="${!medusaLink}" 
 					tabErrorKey="document.negotiationList[0].negotiation*,document.negotiationList[0].negotiator*,document.negotiationList[0].anticipatedAwardDate,document.negotiationList[0].documentFolder,document.negotiationList[0].associatedDocumentId,document.negotiation.unAssociatedDetail*" 
 					auditCluster="requiredFieldsAuditErrors" tabAuditKey="document.title" useRiceAuditMode="true">
 					

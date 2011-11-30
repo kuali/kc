@@ -63,6 +63,7 @@ public class NegotiationLookupableHelperServiceImpl extends KraLookupableHelperS
     public List<HtmlData> getCustomActionUrls(BusinessObject businessObject, List pkNames) {
         List<HtmlData> htmlDataList = new ArrayList<HtmlData>();
         htmlDataList.add(getOpenLink(((Negotiation) businessObject).getDocument()));
+        htmlDataList.add(getMedusaLink(((Negotiation) businessObject).getDocument(), false));
         return htmlDataList;
     }
     
