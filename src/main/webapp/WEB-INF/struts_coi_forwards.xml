@@ -8,7 +8,5 @@
  -->
 <forward name="disclosure" path="/WEB-INF/jsp/coi/CoiDisclosure.jsp" />
 <forward name="committee" path="/WEB-INF/jsp/coi/CoiCommittee.jsp" />
-<forward name="financialInterests" path="/WEB-INF/jsp/coi/CoiFinancialInterests.jsp" />
 <forward name="certification" path="/WEB-INF/jsp/coi/CoiCertification.jsp" />
-<forward name="noteAndAttachment" path="/WEB-INF/jsp/coi/CoiNoteAndAttachment.jsp" />
 <forward name="disclosureActions" path="/WEB-INF/jsp/coi/CoiDisclosureActions.jsp" />
