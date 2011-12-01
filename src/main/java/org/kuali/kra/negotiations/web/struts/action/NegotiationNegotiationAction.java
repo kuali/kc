@@ -219,7 +219,7 @@ public class NegotiationNegotiationAction extends NegotiationAction {
         ActionForward actionForward = super.save(mapping, form, request, response);
         if (sendCloseNotification && GlobalVariables.getMessageMap().getErrorCount() == 0) {
             if (negotiationForm.getNotificationHelper().getPromptUserForNotificationEditor()) {
-                negotiationForm.getNotificationHelper().prepareView();
+                negotiationForm.getNotificationHelper().initializeDefaultValues();
                 return mapping.findForward("notificationEditor");
             } else {
                 getNotificationService().sendNotification(negotiationForm.getNotificationHelper().getContext());

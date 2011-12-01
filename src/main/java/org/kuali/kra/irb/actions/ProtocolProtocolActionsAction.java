@@ -1278,7 +1278,7 @@ public class ProtocolProtocolActionsAction extends ProtocolAction implements Aud
                     recordProtocolActionSuccess("Assign to Agenda");
                     
                     if (protocolForm.getNotificationHelper().getPromptUserForNotificationEditor()) {
-                        protocolForm.getNotificationHelper().prepareView();
+                        protocolForm.getNotificationHelper().initializeDefaultValues();
                         forward = mapping.findForward("protocolNotificationEditor");
                     } else {
                         getNotificationService().sendNotification(protocolForm.getNotificationHelper().getContext());
