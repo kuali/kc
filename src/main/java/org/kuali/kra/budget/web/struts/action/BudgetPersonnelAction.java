@@ -217,6 +217,7 @@ public class BudgetPersonnelAction extends BudgetExpensesAction {
                 //If flag not set, then create a new Budget Line Item - ObjCode / Group Name combo is new
                 if(!existingCeGroupCombo) {
                     newBudgetLineItem.setBudgetPeriod(budgetPeriod.getBudgetPeriod());
+                    newBudgetLineItem.setBudgetPeriodId(budgetPeriod.getBudgetPeriodId());
                     newBudgetLineItem.setBudgetCategory(newBudgetCategory);
                     
                     newBudgetLineItem.setStartDate(budget.getBudgetPeriod(budgetPeriod.getBudgetPeriod() - 1).getStartDate());
