@@ -471,16 +471,8 @@
           <forward name="basic" path="/WEB-INF/jsp/coi/CoiCommittee.jsp" />
           &coi_forwards;
        </action>
-      <action path="/coiFinancialInterests" name="CoiDisclosureForm" input="/WEB-INF/jsp/coi/CoiFinancialInterests.jsp" type="org.kuali.kra.coi.financialinterests.CoiFinancialInterestsAction"  scope="request" parameter="methodToCall" validate="true" attribute="KualiForm">
-          <forward name="basic" path="/WEB-INF/jsp/coi/CoiFinancialInterests.jsp" />
-          &coi_forwards;
-       </action>
        <action path="/coiDisclosureActions" name="CoiDisclosureForm" input="/WEB-INF/jsp/coi/CoiDisclosure.jsp" type="org.kuali.kra.coi.actions.CoiDisclosureActionsAction"  scope="request" parameter="methodToCall" validate="true" attribute="KualiForm">
           <forward name="basic" path="/WEB-INF/jsp/coi/CoiDisclosureActions.jsp" />
-          &coi_forwards;
-       </action>
-       <action path="/coiNoteAndAttachment" name="CoiDisclosureForm" input="/WEB-INF/jsp/coi/CoiDisclosure.jsp" type="org.kuali.kra.coi.noteandattachment.CoiNoteAndAttachmentAction"  scope="request" parameter="methodToCall" validate="true" attribute="KualiForm">
-          <forward name="basic" path="/WEB-INF/jsp/coi/CoiNoteAndAttachment.jsp" />
           &coi_forwards;
        </action>
        
