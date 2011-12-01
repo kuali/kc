@@ -69,6 +69,7 @@ import org.kuali.kra.bo.versioning.VersionHistory;
 import org.kuali.kra.budget.BudgetDecimal;
 import org.kuali.kra.common.customattributes.CustomDataForm;
 import org.kuali.kra.common.permissions.web.struts.form.PermissionsForm;
+import org.kuali.kra.external.award.web.AccountCreationPresentationHelper;
 import org.kuali.kra.infrastructure.Constants;
 import org.kuali.kra.infrastructure.KraServiceLocator;
 import org.kuali.kra.medusa.MedusaBean;
@@ -208,7 +209,8 @@ public class AwardForm extends BudgetVersionFormBase
     private transient ReportTrackingService reportTrackingService;
     
     private List<ReportTrackingBean> reportTrackingBeans;
-
+    
+    private AccountCreationPresentationHelper accountCreationHelper;
 
     /**
      * Constructs a AwardForm with an existing AwardDocument. Used primarily by tests outside of Struts
@@ -273,6 +275,7 @@ public class AwardForm extends BudgetVersionFormBase
         setDirectIndirectViewEnabled(getParameterService().getParameterValue(Constants.PARAMETER_MODULE_AWARD, ParameterConstants.DOCUMENT_COMPONENT, "ENABLE_AWD_ANT_OBL_DIRECT_INDIRECT_COST"));
         budgetLimitSummary = new BudgetLimitSummaryHelper();
         awardBudgetLimitsBean = new AwardBudgetLimitsBean(this);
+        accountCreationHelper = new AccountCreationPresentationHelper();
     }
     
     public List<ReportTrackingBean> buildReportTrackingBeans() {
@@ -436,6 +439,10 @@ public class AwardForm extends BudgetVersionFormBase
         return sponsorContactsBean;
     }
     
+    public AccountCreationPresentationHelper getAccountCreationHelper() {
+        return accountCreationHelper;
+    }
+
     public AwardUnitContactsBean getUnitContactsBean() {
         return unitContactsBean;
     }

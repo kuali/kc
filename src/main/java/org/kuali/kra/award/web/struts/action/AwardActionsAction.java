@@ -19,6 +19,7 @@ import java.util.ArrayList;
 import java.util.Enumeration;
 import java.util.HashMap;
 import java.util.HashSet;
+import java.util.Iterator;
 import java.util.List;
 import java.util.ListIterator;
 import java.util.Map;
@@ -38,8 +39,10 @@ import org.kuali.kra.award.awardhierarchy.AwardHierarchyTempObject;
 import org.kuali.kra.award.awardhierarchy.sync.AwardSyncPendingChangeBean;
 import org.kuali.kra.award.awardhierarchy.sync.AwardSyncChange;
 import org.kuali.kra.award.awardhierarchy.sync.AwardSyncType;
+import org.kuali.kra.award.commitments.AwardFandaRateService;
 import org.kuali.kra.award.document.AwardDocument;
 import org.kuali.kra.award.home.Award;
+import org.kuali.kra.award.home.ValidRates;
 import org.kuali.kra.award.home.fundingproposal.AwardFundingProposal;
 import org.kuali.kra.award.printing.AwardPrintParameters;
 import org.kuali.kra.award.printing.AwardPrintType;
@@ -739,12 +742,26 @@ public class AwardActionsAction extends AwardAction implements AuditModeAction {
             AwardAccountValidationService accountValidationService = getAwardAccountValidationService();
             boolean rulePassed = accountValidationService.validateAwardAccountDetails(award);
             if (rulePassed) {
+                
                 AccountCreationClient client = (AccountCreationClient) KraServiceLocator.getService("accountCreationClient");
                 /*
                  * If account hasn't already been created, create it or
                  * display an error
                  */
                 if (award.getFinancialAccountDocumentNumber() == null) {
+                    
+                    // Determine the ICR Rate Code to send - may require user interaction
+                    if (StringUtils.isBlank(award.getIcrRateCode())) {
+                        List<ValidRates> validRates = awardForm.getAccountCreationHelper().getMatchingValidRates(award.getCurrentFandaRate());
+                        if (validRates.size() > 1) {
+                            awardForm.getAccountCreationHelper().setValidRateCandidates(validRates);
+                            return mapping.findForward(Constants.MAPPING_ICR_RATE_CODE_PROMPT);
+                        } else if (validRates.size() == 1) {
+                            award.setIcrRateCode(validRates.get(0).getIcrRateCode());
+                        } else {
+                            award.setIcrRateCode(Award.ICR_RATE_CODE_NONE);
+                        }
+                    }
                     client.createAwardAccount(award);
                 } else {
                     GlobalVariables.getMessageMap().putError(ACCOUNT_ALREADY_CREATED, KeyConstants.ACCOUNT_ALREADY_CREATED);

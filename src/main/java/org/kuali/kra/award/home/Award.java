@@ -96,6 +96,7 @@ public class Award extends KraPersistableBusinessObjectBase implements KeywordsM
         SequenceOwner<Award>, BudgetParent, Sponsorable, Negotiable {
     public static final String DEFAULT_AWARD_NUMBER = "000000-00000";
     public static final String BLANK_COMMENT = "";
+    public static final String ICR_RATE_CODE_NONE = "ICRNONE";
 
     private static final String NO_FLAG = "N";
     private static final int TOTAL_STATIC_REPORTS = 5;
@@ -232,6 +233,9 @@ public class Award extends KraPersistableBusinessObjectBase implements KeywordsM
     private String principalInvestigatorName;
     private String statusDescription;
     private String sponsorName;
+    
+    // For award-account integration
+    private String icrRateCode;
 
     private transient boolean awardInMultipleNodeHierarchy;
     private transient boolean awardHasAssociatedTandMOrIsVersioned;
@@ -2318,6 +2322,14 @@ public class Award extends KraPersistableBusinessObjectBase implements KeywordsM
         sponsorName = sponsor != null ? sponsor.getSponsorName() : null;
         return sponsorName;
     }
+    
+    public String getIcrRateCode() {
+        return icrRateCode;
+    }
+
+    public void setIcrRateCode(String icrRateCode) {
+        this.icrRateCode = icrRateCode;
+    }
 
     /**
      * This method adds an approved foreign travel trip
@@ -3474,6 +3486,33 @@ public class Award extends KraPersistableBusinessObjectBase implements KeywordsM
             }
         }
         return flag;
+    }
+    
+    /**
+     * This method gets the current rate.
+     * If there are multiple current rates, return the one with the higher rate
+     * @param award
+     * @return currentFandaRate
+     */
+    public AwardFandaRate getCurrentFandaRate() {
+        List<AwardFandaRate> rates = this.getAwardFandaRate();
+        Calendar calendar = Calendar.getInstance();
+        int currentYear = calendar.get(Calendar.YEAR);
+        
+        AwardFandaRate currentFandaRate;
+        // when both On and Off campus rates are in, send the higher one. Ideally only one should be there
+        // the single rate validation parameter needs to be set on award
+        KualiDecimal currentRateValue = new KualiDecimal(0.0);
+        currentFandaRate = rates.get(0);
+        for (AwardFandaRate rate : rates) {
+            if (Integer.parseInt(rate.getFiscalYear()) == currentYear) {
+                if (rate.getApplicableFandaRate().isGreaterThan(currentRateValue)) {
+                    currentFandaRate = rate;
+                    currentRateValue = rate.getApplicableFandaRate();
+                }
+            }      
+        }
+        return currentFandaRate;
     }
     
     public String getParentTypeName(){

@@ -147,7 +147,10 @@
 	<bean id="awardFandaRateService" class="org.kuali.kra.award.commitments.AwardFandaRateServiceImpl">
 		<property name="parameterService">
 			<ref bean="parameterService" />
-		</property>		
+		</property>
+		<property name="businessObjectService">
+            <ref bean="businessObjectService" />
+        </property>
 	</bean>
 	
 	<bean id="awardReportsService" class="org.kuali.kra.service.impl.AwardReportsServiceImpl">
