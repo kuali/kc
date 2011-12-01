@@ -55,6 +55,7 @@ public class Negotiation extends KraPersistableBusinessObjectBase implements Per
     private Long negotiationAgreementTypeId;
     private Long negotiationAssociationTypeId;
     private String negotiatorPersonId;
+    private String negotiatorName;
     private Date negotiationStartDate;
     private Date negotiationEndDate;
     private Date anticipatedAwardDate;
@@ -180,6 +181,9 @@ public class Negotiation extends KraPersistableBusinessObjectBase implements Per
 
     public void setNegotiatorPersonId(String negotiatorPersonId) {
         this.negotiatorPersonId = negotiatorPersonId;
+        if (getNegotiator() != null) {
+            setNegotiatorName(getNegotiator().getFullName());
+        }
     }
 
     public KcPerson getNegotiator() {
@@ -426,5 +430,13 @@ public class Negotiation extends KraPersistableBusinessObjectBase implements Per
 
     public void setAssociatedDocument(Negotiable associatedDocument) {
         this.associatedDocument = associatedDocument;
+    }
+
+    public String getNegotiatorName() {
+        return negotiatorName;
+    }
+
+    public void setNegotiatorName(String negotiatorName) {
+        this.negotiatorName = negotiatorName;
     }
 }
