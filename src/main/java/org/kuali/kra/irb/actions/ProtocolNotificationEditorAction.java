@@ -72,7 +72,7 @@ public class ProtocolNotificationEditorAction extends ProtocolAction {
      * @param request the request
      * @param response the response
      * @return the action forward
-     * @throws Exception if unable to delete the special review
+     * @throws Exception
      */
     public ActionForward deleteNotificationRecipient(ActionMapping mapping, ActionForm form, HttpServletRequest request, HttpServletResponse response) 
         throws Exception {
