@@ -17,6 +17,8 @@ package org.kuali.kra.award.commitments;
 
 import java.util.List;
 
+import org.kuali.kra.award.home.ValidRates;
+
 
 /**
  * 
@@ -33,5 +35,7 @@ public interface AwardFandaRateService {
      * @return
      */
     public List<String> getStartAndEndDatesBasedOnFiscalYear(String fiscalYear);
+    
+    public List<ValidRates> getValidRates(AwardFandaRate awardFandaRate);
     
 }

@@ -38,7 +38,6 @@ import org.kuali.kra.award.commitments.AwardFandaRate;
 import org.kuali.kra.award.contacts.AwardUnitContact;
 import org.kuali.kra.award.document.AwardDocument;
 import org.kuali.kra.award.home.Award;
-import org.kuali.kra.award.home.ValidRates;
 import org.kuali.kra.bo.KcPerson;
 import org.kuali.kra.bo.UnitAdministratorType;
 import org.kuali.kra.external.award.AccountCreationClient;
@@ -50,10 +49,7 @@ import org.kuali.rice.kns.service.BusinessObjectService;
 import org.kuali.rice.kns.service.DocumentService;
 import org.kuali.rice.kns.service.ParameterService;
 import org.kuali.rice.kns.util.GlobalVariables;
-import org.kuali.rice.kns.util.KualiDecimal;
 import org.kuali.rice.kns.util.ObjectUtils;
-
-
 
 /**
  * This class is the implementation of the client that
@@ -64,11 +60,10 @@ import org.kuali.rice.kns.util.ObjectUtils;
  * Generated source version: 2.2.9
  * 
  */
-
 public abstract class AccountCreationClientBase implements AccountCreationClient {
     
-    protected static final String SOAP_SERVICE_NAME = "accountCreationServiceSOAP";
-    protected static final QName SERVICE_NAME = new QName("KFS", SOAP_SERVICE_NAME);
+	protected static final String SOAP_SERVICE_NAME = "accountCreationServiceSOAP";
+    protected static final QName SERVICE_NAME = new QName("KFS", "accountCreationServiceSOAP");
     
     private static final String ERROR_MESSAGE = "Cannot connect to the service. The service may be down, please try again later.";
 
@@ -231,7 +226,7 @@ public abstract class AccountCreationClientBase implements AccountCreationClient
         accountParameters.setPrincipalId(UserSession.getAuthenticatedUser().getPrincipalId());
 
         // get the current FandaRate
-        AwardFandaRate currentFandaRate = getCurrentFandaRate(award);    
+        AwardFandaRate currentFandaRate = award.getCurrentFandaRate();
         
         String rateClassCode = currentFandaRate.getFandaRateType().getRateClassCode();
         String rateTypeCode = currentFandaRate.getFandaRateType().getRateTypeCode();
@@ -239,8 +234,12 @@ public abstract class AccountCreationClientBase implements AccountCreationClient
         //campus on/off indicator
         accountParameters.setOffCampusIndicator(!currentFandaRate.getOnOffCampusFlag()); 
         //indirect cost rate
-        String icrRateCode = getIcrRateCode(currentFandaRate);
-        accountParameters.setIndirectCostRate(icrRateCode);
+        String icrRateCode = award.getIcrRateCode();
+        if (Award.ICR_RATE_CODE_NONE.equals(icrRateCode)) {
+            accountParameters.setIndirectCostRate("");
+        } else {
+            accountParameters.setIndirectCostRate(icrRateCode);
+        }
         
         // indirect cost type code
         accountParameters.setIndirectCostTypeCode(icrTypeCode + "");
@@ -251,30 +250,11 @@ public abstract class AccountCreationClientBase implements AccountCreationClient
     }
    
     protected String getIndirectCostTypeCode(String rateClassCode, String rateTypeCode) {
-        Map <String, Object> criteria = new HashMap<String, Object>();
+        Map<String, Object> criteria = new HashMap<String, Object>();
         criteria.put("rateClassCode", rateClassCode);
         criteria.put("rateTypeCode", rateTypeCode);
-        FinancialIndirectCostRecoveryTypeCode icrCostTypeCode= (FinancialIndirectCostRecoveryTypeCode) businessObjectService.findByPrimaryKey(FinancialIndirectCostRecoveryTypeCode.class, criteria);
-        return ObjectUtils.isNotNull(icrCostTypeCode)? icrCostTypeCode.getIcrTypeCode() : "";
-    }
-
-    protected String getIcrRateCode(AwardFandaRate currentFandaRate) { 
-        String icrRateCode = "";
-        Map <String, Object> criteria = new HashMap<String, Object>();
-        if (currentFandaRate.getOnCampusFlag().equalsIgnoreCase("N")) {
-            criteria.put("onCampusRate", currentFandaRate.getApplicableFandaRate());
-        } else {
-            criteria.put("offCampusRate", currentFandaRate.getApplicableFandaRate());
-        }
-        // TODO Auto-generated method stub
-        List<ValidRates> rates = (List<ValidRates>) businessObjectService.findMatching(ValidRates.class, criteria);
-        
-        // you should only find one rate that matches this criteria, this check happens in the award
-        //business rules
-        if (ObjectUtils.isNotNull(rates) && !rates.isEmpty()) {
-            icrRateCode = rates.get(0).getIcrRateCode();
-        } 
-        return icrRateCode;
+        FinancialIndirectCostRecoveryTypeCode icrCostTypeCode = (FinancialIndirectCostRecoveryTypeCode) businessObjectService.findByPrimaryKey(FinancialIndirectCostRecoveryTypeCode.class, criteria);
+        return ObjectUtils.isNotNull(icrCostTypeCode) ? icrCostTypeCode.getIcrTypeCode() : "";
     }
 
     /**
@@ -387,38 +367,6 @@ public abstract class AccountCreationClientBase implements AccountCreationClient
             incomeGuidelineText += " " + paymentMethod;
         }
         accountParameters.setIncomeGuidelineText(incomeGuidelineText);
-    }
-    
-    
-    /**
-     * This method gets the current rate.
-         * If there are multiple current rates, return the one with the higher rate
-     * @param award
-     * @return currentFandaRate
-     */
-    protected AwardFandaRate getCurrentFandaRate(Award award) {
-        List<AwardFandaRate> rates = award.getAwardFandaRate();
-        Calendar calendar = Calendar.getInstance();
-        int currentYear = calendar.get(Calendar.YEAR);
-       
-        if (rates.size() == 0) {
-            LOG.warn("No F and A rates provided");
-        }
-        
-        AwardFandaRate currentFandaRate;
-        // when both On and Off campus rates are in, send the higher one. Ideally only one should be there
-        // the single rate validation parameter needs to be set on award
-        KualiDecimal currentRateValue = new KualiDecimal(0.0);
-        currentFandaRate = rates.get(0);
-        for (AwardFandaRate rate : rates) {
-            if (Integer.parseInt(rate.getFiscalYear()) == currentYear) {
-                if (rate.getApplicableFandaRate().isGreaterThan(currentRateValue)) {
-                    currentFandaRate = rate;
-                    currentRateValue = rate.getApplicableFandaRate();
-                }
-            }      
-        }
-        return currentFandaRate;
     }
     
     protected AccountParametersDTO getAccountParameters() {
