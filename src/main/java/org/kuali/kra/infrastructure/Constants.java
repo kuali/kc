@@ -765,6 +765,8 @@ public interface Constants {
     public static final String MAPPING_CLOSEOUT_PAGE="closeout";
     public static final String MAPPING_SUBAWARD_ACTION_PAGE="subAwardActions";
     public static final String SUBAWARD_SEQUENCE_SUBAWARD_CODE = "SUBAWARD_CODE_S";
+    public static final String SUBAWARD_AUDIT_RULE_ERROR_KEY = "document.subAwardAuditRule";
+    public static final String MAPPING_SUBAWARD_CONTACT_PANEL = "Contacts";
     // coi
     public static final String MODULE_NAMESPACE_COIDISCLOSURE = "KC-COIDISCLOSURE";
     
