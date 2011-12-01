@@ -142,6 +142,23 @@ public abstract class NotificationHelperBase<T extends NotificationContext> impl
     public abstract T getContext();
     
     /**
+     * Initializes the helper with the default values from the Notification Type.
+     */
+    public void initializeDefaultValues() {
+        NotificationType notificationType = getNotificationService().getNotificationType(getContext());
+        if (notificationType != null) {
+            for (NotificationTypeRecipient notificationRecipient : notificationType.getNotificationTypeRecipients()) {
+                if (!getNotificationRecipients().contains(notificationRecipient)) {
+                    notificationRecipient.setFullName(notificationRecipient.getRoleName());
+                    getNotificationRecipients().add(notificationRecipient);
+                }
+            }
+        }
+        
+        setNotification(getNotificationService().createNotification(getContext()));
+    }
+    
+    /**
      * Prepares the user view from the context.
      */
     public void prepareView() {        
@@ -159,18 +176,6 @@ public abstract class NotificationHelperBase<T extends NotificationContext> impl
             getNewNotificationRecipient().setRolodexId(rolodex.getRolodexId().toString());
             getNewNotificationRecipient().setFullName(rolodex.getFullName());
         }
-    
-        NotificationType notificationType = getNotificationService().getNotificationType(getContext());
-        if (notificationType != null) {
-            for (NotificationTypeRecipient notificationRecipient : notificationType.getNotificationTypeRecipients()) {
-                if (!getNotificationRecipients().contains(notificationRecipient)) {
-                    notificationRecipient.setFullName(notificationRecipient.getRoleName());
-                    getNotificationRecipients().add(notificationRecipient);
-                }
-            }
-        }
-        
-        setNotification(getNotificationService().createNotification(getContext()));
     }
 
     /**
