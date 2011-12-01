@@ -30,7 +30,6 @@ public class NotificationTypeRecipient extends KraPersistableBusinessObjectBase 
     private Long notificationTypeRecipientId;
     private Long notificationTypeId;
     private String roleName;
-    private String toOrCC;
     
     // Non-persistent field for tracking the qualifier value.
     private AttributeSet roleQualifiers;
@@ -62,14 +61,6 @@ public class NotificationTypeRecipient extends KraPersistableBusinessObjectBase 
 
     public void setRoleName(String roleName) {
         this.roleName = roleName;
-    }
-
-    public String getToOrCC() {
-        return toOrCC;
-    }
-
-    public void setToOrCC(String toOrCC) {
-        this.toOrCC = toOrCC;
     }
 
     public AttributeSet getRoleQualifiers() {
@@ -110,7 +101,6 @@ public class NotificationTypeRecipient extends KraPersistableBusinessObjectBase 
         propMap.put("notificationTypeRecipientId", getNotificationTypeRecipientId());
         propMap.put("notificationTypeId", getNotificationTypeId());
         propMap.put("roleName", getRoleName());
-        propMap.put("toOrCC", getToOrCC());
         return propMap;
     }
 

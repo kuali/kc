@@ -38,7 +38,6 @@
       <list>
         <bean parent="MaintainableFieldDefinition" p:name="notificationTypeId" p:required="true"/>
         <bean parent="MaintainableFieldDefinition" p:name="roleName" p:required="true"/>
-        <bean parent="MaintainableFieldDefinition" p:name="toOrCC" p:required="true"/>
       </list>
     </property>
   </bean>
@@ -65,7 +64,6 @@
           <property name="maintainableFields">
             <list>
 	          <bean parent="MaintainableFieldDefinition" p:name="roleName" p:required="true"/>
-	          <bean parent="MaintainableFieldDefinition" p:name="toOrCC" p:required="true"/>
             </list>
           </property>
         </bean>
