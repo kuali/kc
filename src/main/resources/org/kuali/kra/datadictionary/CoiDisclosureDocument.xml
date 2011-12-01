@@ -51,20 +51,6 @@
           		<property name="headerTabDisplayName" value="Committee"/>
           		<property name="headerTabNavigateTo" value="committee"/>
         	</bean>
-        	<bean parent="HeaderNavigation">
-	          	<property name="helpDefinition">
-	            	<bean parent="HelpDefinition" p:parameterNamespace="KC-COIDISCLOSURE" p:parameterName="coiFinancialInterestsHelp" p:parameterDetailType="Document"/>
-	          	</property>
-	          	<property name="headerTabDisplayName" value="Financial Interests"/>
-	          	<property name="headerTabNavigateTo" value="financialInterests"/>
-        	</bean>
-        	<bean parent="HeaderNavigation">
-          		<property name="helpDefinition">
-            		<bean parent="HelpDefinition" p:parameterNamespace="KC-COIDISCLOSURE" p:parameterName="coiNotesAndAttachmentsHelp" p:parameterDetailType="Document"/>
-          		</property>
-          		<property name="headerTabDisplayName" value="Notes &amp; Attachments"/>
-          		<property name="headerTabNavigateTo" value="noteAndAttachment"/>
-        	</bean>
         	
       	</list>
     	</property>
