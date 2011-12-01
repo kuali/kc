@@ -91,6 +91,7 @@ public class NegotiationBasicTests extends KcUnitTestBase {
         negotiation.setDocumentFolder("document folder");
         negotiation.setDocumentNumber("123321");
         negotiation.setNegotiatorPersonId("jdh34");
+        negotiation.setNegotiatorName("quickstart");
         
         assertNull(negotiation.getUpdateUser());
         
@@ -136,6 +137,7 @@ public class NegotiationBasicTests extends KcUnitTestBase {
         negotiation.setDocumentFolder("document folder");
         negotiation.setDocumentNumber("123321");
         negotiation.setNegotiatorPersonId("jdh34");
+        negotiation.setNegotiatorName("quickstart");
         businessObjectService.save(negotiation);
         
         primaryKey = new HashMap();
