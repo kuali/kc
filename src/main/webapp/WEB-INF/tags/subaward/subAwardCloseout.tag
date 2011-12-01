@@ -20,7 +20,7 @@
 <c:set var="subAwardCloseouts" value="${KualiForm.document.subAwardList[0].subAwardCloseoutList}"/>
 <c:set var="newSubAwardCloseout" value="${KualiForm.newSubAwardCloseout}" />
 
-<kul:tab tabTitle="Closeout"  transparentBackground="false" defaultOpen="true" tabErrorKey="" auditCluster="requiredFieldsAuditErrors" tabAuditKey="" useRiceAuditMode="true">
+<kul:tab tabTitle="Closeout"  transparentBackground="false" defaultOpen="true" tabErrorKey="newSubAwardCloseout.closeoutTypeCode*" auditCluster="requiredFieldsAuditErrors" tabAuditKey="" useRiceAuditMode="true">
 	<div class="tab-container" align="center">
     	<h3>
     		<span class="subhead-left"> Closeout </span>

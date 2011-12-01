@@ -20,8 +20,8 @@ import javax.servlet.http.HttpServletResponse;
 import org.apache.struts.action.ActionForm;
 import org.apache.struts.action.ActionForward;
 import org.apache.struts.action.ActionMapping;
-import org.kuali.kra.award.home.AwardService;
 import org.kuali.kra.infrastructure.Constants;
+import org.kuali.kra.infrastructure.KeyConstants;
 import org.kuali.kra.infrastructure.KraServiceLocator;
 import org.kuali.kra.service.KeywordsService;
 import org.kuali.kra.service.VersionHistoryService;
@@ -30,7 +30,9 @@ import org.kuali.kra.subaward.bo.SubAward;
 import org.kuali.kra.subaward.document.SubAwardDocument;
 import org.kuali.kra.subaward.service.SubAwardService;
 import org.kuali.kra.subaward.subawardrule.SubAwardDocumentRule;
+import org.kuali.kra.web.struts.action.AuditActionHelper;
 import org.kuali.kra.web.struts.action.KraTransactionalDocumentActionBase;
+import org.kuali.kra.web.struts.action.AuditActionHelper.ValidationState;
 import org.kuali.rice.kew.exception.WorkflowException;
 import org.kuali.rice.kew.util.KEWConstants;
 import org.kuali.rice.kns.service.KNSServiceLocator;
@@ -50,6 +52,9 @@ public class SubAwardAction extends KraTransactionalDocumentActionBase{
        
         SubAwardForm subAwardForm = (SubAwardForm)form;
         ActionForward actionForward = super.execute(mapping, form, request, response);
+        if (GlobalVariables.getAuditErrorMap().isEmpty()) {
+            new AuditActionHelper().auditConditionally((SubAwardForm) form);
+        }
         
         
         
@@ -304,6 +309,43 @@ protected void checkSubAwardCode(SubAward subAward){
     if(subAward.getSubAwardCode()==null){
         String subAwardCode = getSubAwardService().getNextSubAwardCode();
         subAward.setSubAwardCode(subAwardCode);
+    }
+}
+
+@Override
+public ActionForward route(ActionMapping mapping, ActionForm form, HttpServletRequest request, HttpServletResponse response) throws Exception {
+    
+    SubAwardForm subAwardForm = (SubAwardForm)form;
+    ActionForward forward = mapping.findForward(Constants.MAPPING_BASIC);
+    ValidationState status = new AuditActionHelper().isValidSubmission(subAwardForm, true);
+    
+    if(status == ValidationState.OK){
+        return forward = super.route(mapping, form, request, response);
+    }
+    else{
+        GlobalVariables.getErrorMap().clear(); 
+        GlobalVariables.getErrorMap().putError("datavalidation",KeyConstants.ERROR_WORKFLOW_SUBMISSION,  new String[] {});
+
+        return forward;
+    }
+    
+}
+
+@Override
+public ActionForward blanketApprove(ActionMapping mapping, ActionForm form, HttpServletRequest request,
+        HttpServletResponse response) throws Exception {
+    SubAwardForm subAwardForm = (SubAwardForm)form;
+    ActionForward forward = mapping.findForward(Constants.MAPPING_BASIC);
+    ValidationState status = new AuditActionHelper().isValidSubmission(subAwardForm, true);
+    
+    if(status == ValidationState.OK){
+        return forward = super.blanketApprove(mapping, form, request, response);
+    }
+    else{
+        GlobalVariables.getErrorMap().clear(); 
+        GlobalVariables.getErrorMap().putError("datavalidation",KeyConstants.ERROR_WORKFLOW_SUBMISSION,  new String[] {});
+
+        return forward;
     }
 }
 }

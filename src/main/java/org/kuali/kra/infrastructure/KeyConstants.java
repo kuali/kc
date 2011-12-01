@@ -972,7 +972,7 @@ public final class KeyConstants {
     public static final String ERROR_DATA_GROUP_NOT_EXIST = "error.datagroup.not.exist";
     
   //Subaward    
-    public static final String ERROR_REQUIRED_SUBCONTRACTOR_ID = "error.required.subcontractor.id";
+    public static final String ERROR_REQUIRED_SUBRECIPIENT_ID = "error.required.subrecipient.id";
     public static final String ERROR_REQUIRED_STATUS = "error.required.statuscode";
     public static final String ERROR_REQUIRED_SUBAWARD_TYPE = "error.required.subaward.typecode";
     public static final String ERROR_REQUIRED_REQUISITIONER = "error.required.requisitioner";
@@ -989,6 +989,11 @@ public final class KeyConstants {
     public static final String ERROR_REQUIRED_SUBAWARD_FUNDING_SOURCE_AWARD_NUMBER= "error.required.subaward.funding.source.award.number";
     public static final String SUBAWARD_ERROR_END_DATE_GREATER_THAN_START = "subaward.error.end.date.greater.than.start";
     public static final String ERROR_AMOUNT_INFO_OBLIGATED_AMOUNT = "subaward.error.obligated.amount.greater.than.anticipated.amount";
+    public static final String ERROR_AMOUNT_INFO_OBLIGATED_AMOUNT_NEGATIVE = "subaward.error.obligated.amount.less.than.zero";
+    public static final String ERROR_AMOUNT_INFO_OBLIGATED_AMOUNT_ZERO = "subaward.error.obligated.amount.equal.to.zero";
+    public static final String ERROR_AMOUNT_INFO_ANTICIPATED_AMOUNT_NEGATIVE = "subaward.error.anticipated.amount.less.than.zero";
+    public static final String ERROR_AMOUNT_INFO_ANTICIPATED_AMOUNT_ZERO = "subaward.error.anticipated.amount.equal.to.zero";
+    public static final String ERROR_SUBAWARD_CONTACT = "subaward.contact.not.added";
 
     
     //negotiations
