@@ -54,6 +54,7 @@ public class NegotiationActivityHelper implements Serializable {
      */
     public NegotiationActivityHelper(NegotiationForm form) {
         this.form = form;
+        newActivity = new NegotiationActivity();
     }
     
     /**

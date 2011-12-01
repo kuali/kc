@@ -173,13 +173,13 @@ public class NegotiationActivityHistoryLineBean extends ResultRow implements Com
     @Override
     public int compareTo(NegotiationActivityHistoryLineBean o) {
         int retVal = this.getLocation().compareTo(o.getLocation());
-        if (retVal == 0) {
+        if (retVal == 0 && this.startDate != null) {
             retVal = this.getStartDate().compareTo(o.getStartDate());
         }
-        if (retVal == 0) {
+        if (retVal == 0 && this.getEndDate() != null) {
             retVal = this.getEndDate().compareTo(o.getEndDate());
         }
-        if (retVal == 0) {
+        if (retVal == 0 && this.getActivityType() != null) {
             retVal = this.getActivityType().compareTo(o.getActivityType());
         }
         return retVal;
