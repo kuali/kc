@@ -49,7 +49,8 @@ public class NegotiationFixtureFactory {
         negotiation.setNegotiationStartDate(testStartDate);
         negotiation.setDocumentFolder("document folder");
         negotiation.setDocumentNumber("123321");
-        negotiation.setNegotiatorPersonId("jdh34");
+        negotiation.setNegotiatorUserName("quickstart");
+        negotiation.setNegotiatorName("quickstart");
 
         return negotiation;
     }
