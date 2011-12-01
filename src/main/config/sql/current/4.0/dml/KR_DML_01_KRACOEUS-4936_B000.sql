@@ -11,5 +11,5 @@ INSERT INTO KRNS_PARM_T (APPL_NMSPC_CD,NMSPC_CD,PARM_TYP_CD,PARM_DTL_TYP_CD,PARM
 /
 
 INSERT INTO KRNS_PARM_T (APPL_NMSPC_CD,NMSPC_CD,PARM_TYP_CD,PARM_DTL_TYP_CD,PARM_NM,PARM_DESC_TXT,TXT,CONS_CD,OBJ_ID,VER_NBR)
-    VALUES ('KC', 'KC-NEGOTIATION', 'CONFG', 'Document', 'negotiationCompletedStatusCodes', 'A comma delimited list of the negotiation status codes that are considered in progress.', 'COM,SP', 'A', SYS_GUID(), 1)
+    VALUES ('KC', 'KC-NEGOTIATION', 'CONFG', 'Document', 'negotiationCompletedStatusCodes', 'A comma delimited list of the negotiation status codes that are considered completed.', 'COM,SP', 'A', SYS_GUID(), 1)
 /
