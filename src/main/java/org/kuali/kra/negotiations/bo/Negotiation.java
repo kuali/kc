@@ -191,7 +191,11 @@ public class Negotiation extends KraPersistableBusinessObjectBase implements Per
             return null;
         }
         else {
-            return getKcPersonService().getKcPersonByPersonId(this.getNegotiatorPersonId());
+            try {
+                return getKcPersonService().getKcPersonByPersonId(this.getNegotiatorPersonId());
+            } catch (IllegalArgumentException e) {
+                return null;
+            }
         }
     }
 
