@@ -412,6 +412,7 @@ public interface Constants {
     public static final String MAPPING_AWARD_MEDUSA_PAGE = "medusa";
     public static final String MAPPING_REPORTS_TAB = "reports";
     public static final String MAPPING_AWARD_BUDGET_VERSIONS_PAGE = "budgets";
+    public static final String MAPPING_ICR_RATE_CODE_PROMPT = "icrRateCodePrompt";
     
     //COI
     public static final String MAPPING_COI_EDIT_LIST = "editList";

@@ -230,6 +230,7 @@
           <forward name="notesAndAttachments" path="/WEB-INF/jsp/award/AwardNotesAndAttachments.jsp" />
           <forward name="awardActions" path="/WEB-INF/jsp/award/AwardActions.jsp" />
           <forward name="medusa" path="/WEB-INF/jsp/award/AwardMedusa.jsp" />   
+          <forward name="icrRateCodePrompt" path="/WEB-INF/jsp/award/IcrRateCodePrompt.jsp" />
           <!--<forward name="commentViewHistory" path="/WEB-INF/jsp/award/AwardCommentViewHistory.jsp" />-->                                  
       </action>
       <action path="/awardCommentViewHistory" name="AwardForm" input="/WEB-INF/jsp/award/AwardCommentViewHistory.jsp" type="org.kuali.kra.award.web.struts.action.AwardNotesAndAttachmentsAction" scope="request" parameter="methodToCall" validate="true" attribute="KualiForm">
@@ -255,6 +256,11 @@
       <action path="/reportTrackingLookup" name="ReportTrackingLookupForm" type="org.kuali.kra.award.web.struts.action.ReportTrackingLookupAction" attribute="KualiForm">
           <forward name="basic" path="/WEB-INF/jsp/award/ReportTrackingSearch.jsp"/>
           <forward name="ajaxDetails" path="/WEB-INF/jsp/award/ReportTrackingAjaxDetails.jsp"/>
+      </action>
+      
+      <action path="/icrRateCodePrompt" name="AwardForm" attribute="KualiForm" scope="request" parameter="methodToCall" validate="false" input="/WEB-INF/jsp/award/IcrRateCodePrompt.jsp" type="org.kuali.kra.external.award.web.IcrRateCodePromptAction">
+          <forward name="awardActions" path="/WEB-INF/jsp/award/AwardActions.jsp" />
+          <forward name="basic" path="/WEB-INF/jsp/award/IcrRateCodePrompt.jsp" />
       </action>
                         
       <!-- Time And Money -->
