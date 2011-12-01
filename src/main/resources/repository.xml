@@ -2349,6 +2349,7 @@
         <field-descriptor name="negotiationAgreementTypeId" column="NEGOTIATION_AGREEMENT_TYPE_ID" jdbc-type="BIGINT" />
         <field-descriptor name="negotiationAssociationTypeId" column="NEGOTIATION_ASSC_TYPE_ID" jdbc-type="BIGINT" />
         <field-descriptor name="negotiatorPersonId" column="NEGOTIATOR_PERSON_ID" jdbc-type="VARCHAR" />
+        <field-descriptor name="negotiatorName" column="NEGOTIATOR_FULL_NAME" jdbc-type="VARCHAR" />
         <field-descriptor name="negotiationStartDate" column="NEGOTIATION_START_DATE" jdbc-type="DATE" />
         <field-descriptor name="negotiationEndDate" column="NEGOTIATION_END_DATE" jdbc-type="DATE" />
         <field-descriptor name="anticipatedAwardDate" column="ANTICIPATED_AWARD_DATE" jdbc-type="DATE" />

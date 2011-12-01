@@ -24,7 +24,7 @@
         <ref bean="Negotiation-negotiationAssociationType.description"/>
         <ref bean="Negotiation-negotiatorPersonId"/>
         <ref bean="Negotiation-negotiatorUserName"/>
-        <ref bean="Negotiation-negotiator.fullName"/>
+        <ref bean="Negotiation-negotiatorName"/>
         <ref bean="Negotiation-negotiationStartDate"/> 
         <ref bean="Negotiation-negotiationEndDate"/>
         <ref bean="Negotiation-anticipatedAwardDate"/>
@@ -185,9 +185,9 @@
     <property name="description" value="Negotiator's Username" />
   </bean>
   
-  <bean id="Negotiation-negotiator.fullName" parent="Negotiation-negotiator.fullName-parentBean" />
-    <bean id="Negotiation-negotiator.fullName-parentBean" abstract="true" parent="KcPerson-fullName">
-        <property name="name" value="negotiator.fullName" />
+  <bean id="Negotiation-negotiatorName" parent="Negotiation-negotiatorName-parentBean" />
+    <bean id="Negotiation-negotiatorName-parentBean" abstract="true" parent="KcPerson-fullName">
+        <property name="name" value="negotiatorName" />
         <property name="label" value="Negotiator" />
         <property name="shortLabel" value="Negotiator" />
     </bean>  
@@ -370,7 +370,7 @@
 		    <bean p:attributeName="associatedNegotiable.sponsorCode" parent="FieldDefinition" />
 		    <bean p:attributeName="associatedNegotiable.sponsorName" parent="FieldDefinition" />
 		    <bean p:attributeName="associatedNegotiable.title" parent="FieldDefinition" />
-		    <bean p:attributeName="negotiator.fullName" parent="FieldDefinition" />
+		    <bean p:attributeName="negotiatorName" parent="FieldDefinition" />
 		    <bean p:attributeName="negotiationStartDate" parent="FieldDefinition" />
 		    <bean p:attributeName="negotiationStatusId" parent="FieldDefinition" />
 		    <bean p:attributeName="associatedNegotiable.negotiableProposalTypeCode" parent="FieldDefinition" />
@@ -390,7 +390,7 @@
 		    <bean p:attributeName="associatedNegotiable.sponsorCode" parent="FieldDefinition" />
 		    <bean p:attributeName="associatedNegotiable.sponsorName" parent="FieldDefinition" />
 		    <bean p:attributeName="associatedNegotiable.title" parent="FieldDefinition" />
-		    <bean p:attributeName="negotiator.fullName" parent="FieldDefinition" />
+		    <bean p:attributeName="negotiatorName" parent="FieldDefinition" />
 		    <bean p:attributeName="negotiationStartDate" parent="FieldDefinition" />
 		    <bean p:attributeName="negotiationStatus.description" parent="FieldDefinition" />
 		    <bean p:attributeName="associatedNegotiable.negotiableProposalType.description" parent="FieldDefinition" />
