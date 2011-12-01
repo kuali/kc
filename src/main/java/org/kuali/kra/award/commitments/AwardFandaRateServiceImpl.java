@@ -21,12 +21,17 @@ import java.text.SimpleDateFormat;
 import java.util.ArrayList;
 import java.util.Calendar;
 import java.util.GregorianCalendar;
+import java.util.HashMap;
 import java.util.List;
+import java.util.Map;
 
 import org.apache.commons.lang.StringUtils;
+import org.kuali.kra.award.home.ValidRates;
 import org.kuali.kra.budget.document.BudgetDocument;
 import org.kuali.kra.infrastructure.Constants;
+import org.kuali.rice.kns.service.BusinessObjectService;
 import org.kuali.rice.kns.service.ParameterService;
+import org.kuali.rice.kns.util.ObjectUtils;
 
 /**
  * 
@@ -38,6 +43,9 @@ public class AwardFandaRateServiceImpl implements AwardFandaRateService {
     public static final long MILLIS_IN_LEAP_YEAR = new Long("31536000000");//365 * 24 * 60 * 60 * 1000
     public static final long MILLIS_IN_NON_LEAP_YEAR = new Long("31449600000");//364 * 24 * 60 * 60 * 1000
     
+    protected static final String F_AND_A_RATE_CLASS_TYPE_CODE = "O";
+    
+    protected BusinessObjectService businessObjectService;
     private ParameterService parameterService;
     
     /**
@@ -68,6 +76,22 @@ public class AwardFandaRateServiceImpl implements AwardFandaRateService {
         return listDates;
     }
     
+    public List<ValidRates> getValidRates(AwardFandaRate awardFandaRate) {
+        if (ObjectUtils.isNull(awardFandaRate)) {
+            return new ArrayList<ValidRates>();
+        }
+        Map<String, Object> criteria = new HashMap<String, Object>();
+        if (awardFandaRate.getOnCampusFlag().equalsIgnoreCase("N")) {
+            criteria.put("onCampusRate", awardFandaRate.getApplicableFandaRate());
+        } else {
+            criteria.put("offCampusRate", awardFandaRate.getApplicableFandaRate());
+        }
+        criteria.put("rateClassType", F_AND_A_RATE_CLASS_TYPE_CODE);
+        @SuppressWarnings("unchecked")
+        List<ValidRates> rates = (ArrayList<ValidRates>) businessObjectService.findMatching(ValidRates.class, criteria);
+        return rates;
+    }
+    
     /**
      * 
      * This method retrieves the fiscal year start date using the fiscal year and 
@@ -93,6 +117,10 @@ public class AwardFandaRateServiceImpl implements AwardFandaRateService {
         calendar.add(Calendar.DAY_OF_YEAR, -1);
         dates.add(new Date(calendar.getTimeInMillis()));
         return dates; 
+    }
+
+    public void setBusinessObjectService(BusinessObjectService businessObjectService) {
+        this.businessObjectService = businessObjectService;
     }
    
 }
