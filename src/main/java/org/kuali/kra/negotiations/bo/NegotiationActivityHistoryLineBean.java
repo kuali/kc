@@ -159,11 +159,7 @@ public class NegotiationActivityHistoryLineBean extends ResultRow implements Com
     }
 
     public String getLineNumber() {
-        if (StringUtils.isEmpty(lineNumber)){
-            return "&nbsp;";
-        }else {
-            return lineNumber;
-        }
+        return lineNumber;
     }
 
     public void setLineNumber(String lineNumber) {

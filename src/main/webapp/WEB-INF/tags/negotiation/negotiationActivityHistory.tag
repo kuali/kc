@@ -7,9 +7,9 @@
     <c:param name="docId" value="${KualiForm.docId}"/>
   </c:url>
 
-<display:table name="${KualiForm.negotiationActivityHistoryLineBeans}" export="true" id="row"  
+<display:table name="${KualiForm.negotiationActivityHistoryLineBeans}" export="true" id="row"   
 	class="datatable-100" cellpadding="2" cellspacing="0" requestURIcontext="false" requestURI="${NegotiationURI }">
-  <display:column property="lineNumber" title="History Line #"/>
+  <display:column property="lineNumber" title="History Line #" style="height:20px;"/>
   <display:column property="activityType" title="Activity Type"/>
   <display:column property="location" title="Location"/>
   <display:column property="startDate" title="Start Date"/>
