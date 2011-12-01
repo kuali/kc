@@ -92,7 +92,7 @@
     <property name="validationPattern" >
       <bean parent="NumericValidationPattern" />
     </property>
-    <property name="required" value="false" />
+    <property name="required" value="true" />
     <property name="control" >
       <bean parent="TextControlDefinition"
             p:size="10" />
