@@ -28,7 +28,7 @@
     headerTabActive="actions">
     
     <div align="center">
-    <b>Selected F&A rate maps to more than one possible ICR Rate Code. Please select an ICR Rate Code for the Account, or select 'Create Account with no ICR Code' to fill it in later.</b>
+    <b>Selected F&A Rate maps to more than one possible ICR Rate Code. Please select an ICR Rate Code for the Account, or select 'Create Account with no ICR Rate Code' to fill it in later.</b>
     </div>
     <br />
     
@@ -61,7 +61,7 @@
         </c:forEach>
         <tr>
             <th align="center" valign="middle"><html:radio property="accountCreationHelper.selectedIcrRateCode" value="ICRNONE"/></th>
-            <td colspan="5">Create Account with no ICR Code</td>
+            <td colspan="5">Create Account with no ICR Rate Code</td>
         </tr>
         </table>
     </div>
