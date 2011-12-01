@@ -852,6 +852,15 @@ public class ProtocolProtocolActionsAction extends ProtocolAction implements Aud
             HttpServletResponse response) throws Exception {
         ProtocolForm protocolForm = (ProtocolForm) form;
         Protocol protocol = protocolForm.getProtocolDocument().getProtocol();
+        List<ProtocolNotepad>  notepadList = protocol.getNotepads();
+          List <ProtocolNotepad>notepadNewList = new ArrayList<ProtocolNotepad>();
+        for(ProtocolNotepad protocolNotepad: notepadList){
+           boolean restrictedView=protocolNotepad.getRestrictedView();
+            if(restrictedView==false) {
+                notepadNewList.add(protocolNotepad);
+            }
+        }
+        protocolForm.getProtocolDocument().getProtocol().setNotepads(notepadNewList);
         ActionForward forward = mapping.findForward(Constants.MAPPING_BASIC);
         String fileName = "Protocol_Summary_Report.pdf";
         ProtocolPrintType printType = ProtocolPrintType.PROTOCOL_FULL_PROTOCOL_REPORT;

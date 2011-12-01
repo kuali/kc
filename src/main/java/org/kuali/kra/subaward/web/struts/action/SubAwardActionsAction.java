@@ -25,17 +25,20 @@ import org.apache.struts.action.ActionForward;
 import org.apache.struts.action.ActionMapping;
 import org.kuali.kra.subaward.SubAwardForm;
 import org.kuali.kra.web.struts.action.AuditActionHelper;
+import org.kuali.rice.kns.web.struts.action.AuditModeAction;
 
-public class SubAwardActionsAction  extends SubAwardAction{
+public class SubAwardActionsAction  extends SubAwardAction implements AuditModeAction{
     @Override
     public ActionForward execute(ActionMapping mapping, ActionForm form, ServletRequest request, ServletResponse response) throws Exception {
         ActionForward actionForward = super.execute(mapping, form, request, response);
         return actionForward;
     }
+    /** {@inheritDoc} */
     public ActionForward activate(ActionMapping mapping, ActionForm form, HttpServletRequest request, HttpServletResponse response)
     throws Exception {
         return new AuditActionHelper().setAuditMode(mapping, (SubAwardForm) form, true);
     }
+    /** {@inheritDoc} */
     public ActionForward deactivate(ActionMapping mapping, ActionForm form, HttpServletRequest request, HttpServletResponse response)
     throws Exception {
         return new AuditActionHelper().setAuditMode(mapping, (SubAwardForm) form, false);

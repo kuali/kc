@@ -174,6 +174,7 @@ public class ProposalDevelopmentForm extends BudgetVersionFormBase implements Re
     private Budget budgetToSummarize;
     private String proposalNumberToSummarize;
     private String budgetNumberToSummarize;
+    private transient boolean showSubmissionDetails;
     
 
     private String proposalFormTabTitle = "Print Sponsor Form Packages ";
@@ -1140,6 +1141,13 @@ public class ProposalDevelopmentForm extends BudgetVersionFormBase implements Re
                 String submitToGrantsGovImage = KraServiceLocator.getService(KualiConfigurationService.class).getPropertyString(externalImageURL) + "buttonsmall_submittosponsor.gif";
                 addExtraButton("methodToCall.submitToSponsor", submitToGrantsGovImage, "Submit To Sponsor");
             }
+            if(isCanSubmitToGrantsGov()) {
+              if(doc.getDevelopmentProposal().getS2sOpportunity() != null 
+                      && doc.getDevelopmentProposal().getS2sAppSubmission().size() == 0 ){ 
+                     String grantsGovSubmitImage = KraServiceLocator.getService(KualiConfigurationService.class).getPropertyString(externalImageURL) + "buttonsmall_submitgrantsgov.gif";
+                     addExtraButton("methodToCall.submitToGrantsGov", grantsGovSubmitImage, "Submit To GrantsGov");
+              }  
+          }             
         }
         //check to see if they are authorized to reject the document
         
@@ -1240,6 +1248,13 @@ public class ProposalDevelopmentForm extends BudgetVersionFormBase implements Re
         .getDocRouteStatus();
         return ( KEWConstants.ROUTE_HEADER_PROCESSED_CD.equals(routeStatus) || KEWConstants.ROUTE_HEADER_FINAL_CD.equals(routeStatus) || KEWConstants.ROUTE_HEADER_ENROUTE_CD.equals(routeStatus) ) 
                     && !this.getDocument().getDevelopmentProposal().getSubmitFlag() && !isSubmissionStatusReadOnly();
+    }
+    
+    public boolean isCanSubmitToGrantsGov() {
+        String routeStatus = this.getDocument().getDocumentHeader().getWorkflowDocument().getRouteHeader()
+        .getDocRouteStatus();
+        return ( KEWConstants.ROUTE_HEADER_PROCESSED_CD.equals(routeStatus) || KEWConstants.ROUTE_HEADER_FINAL_CD.equals(routeStatus) || KEWConstants.ROUTE_HEADER_ENROUTE_CD.equals(routeStatus) ) 
+                    &&  !isSubmissionStatusReadOnly();
     }
 
     public Long getVersionNumberForS2sOpportunity() {
@@ -1700,6 +1715,22 @@ public class ProposalDevelopmentForm extends BudgetVersionFormBase implements Re
         return budgetNumberToSummarize;
     }
     
+    /**
+     * Gets the showSubmissionDetails attribute. 
+     * @return Returns the showSubmissionDetails.
+     */
+    public boolean isShowSubmissionDetails() {
+        return showSubmissionDetails;
+    }
+    
+    /**
+     * Sets the showSubmissionDetails attribute value.
+     * @param showSubmissionDetails The showSubmissionDetails to set.
+     */
+    public void setShowSubmissionDetails(boolean showSubmissionDetails) {
+        this.showSubmissionDetails = showSubmissionDetails;
+    }
+
     /**
      * 
      * This method is to be used whether user can copy proposal.  The copy tab will work even after PD is submitted.

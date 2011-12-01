@@ -77,7 +77,7 @@
     <property name="name" value="awardId" />
     <property name="label" value="Award Number" />
     <property name="shortLabel" value="Award Number" />
-    <property name="required" value="false" />
+    <property name="required" value="true" />
      <property name="summary" value="Award Number" />
     <property name="description" 
     	value="A unique institutionally assigned number of a previously funded application." />
@@ -134,7 +134,7 @@
     <property name="validationPattern" >
       <bean parent="AnyCharacterValidationPattern" />
     </property>
-    <property name="required" value="true" />
+    <property name="required" value="false" />
     <property name="control" >
       <bean parent="TextControlDefinition"
             p:size="12" />

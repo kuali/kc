@@ -15,7 +15,6 @@
  */
 package org.kuali.kra.subaward.subawardrule;
 
-import org.kuali.kra.award.document.AwardDocument;
 import org.kuali.kra.infrastructure.KeyConstants;
 import org.kuali.kra.rules.ResearchDocumentRuleBase;
 import org.kuali.kra.subaward.bo.SubAward;
@@ -38,7 +37,7 @@ public class SubAwardDocumentRule extends ResearchDocumentRuleBase implements Su
                                                                                  SubAwardFundingSourceRule{
     
     private static final String STATUS_CODE = ".statusCode";
-    private static final String SUBAWARD_TYPE_CODE = ".subawardTypeCode";
+    private static final String SUBAWARD_TYPE_CODE = ".subAwardTypeCode";
     private static final String REQUISITIONER = ".requisitionerName";
     private static final String PURCHASE_ORDER_NUM= ".purchaseOrderNum";
     private static final String SUBCONTRACTOR_ID = ".organization.organizationName";
@@ -47,7 +46,9 @@ public class SubAwardDocumentRule extends ResearchDocumentRuleBase implements Su
     
     
     private static final String AMOUNT_INFO_EFFECTIVE_DATE = "newSubAwardAmountInfo.effectiveDate";
-    private static final String AMOUNT_INFO_START_DATE = "newSubAwardAmountInfo.startDate";
+    private static final String AMOUNT_INFO_OBLIGATED_AMOUNT = "newSubAwardAmountInfo.obligatedChange";
+    private static final String AMOUNT_INFO_ANTICIPATED_AMOUNT = "newSubAwardAmountInfo.anticipatedChange";
+
     private static final String AMOUNT_RELEASED_EFFECTIVE_DATE = "newSubAwardAmountReleased.effectiveDate";
     private static final String INVOICE_NUMBER = "newSubAwardAmountReleased.invoiceNumber";
     private static final String START_DATE = "newSubAwardAmountReleased.startDate";
@@ -78,7 +79,7 @@ public class SubAwardDocumentRule extends ResearchDocumentRuleBase implements Su
         if(subAward.getOrganizationId()==null ){ 
             rulePassed = false;            
             reportError(propertyPrefix+SUBCONTRACTOR_ID
-                    , KeyConstants.ERROR_REQUIRED_SUBCONTRACTOR_ID); 
+                    , KeyConstants.ERROR_REQUIRED_SUBRECIPIENT_ID); 
         }   
         
         if(subAward.getStatusCode()==null ){ 
@@ -143,10 +144,42 @@ public class SubAwardDocumentRule extends ResearchDocumentRuleBase implements Su
                 
                 rulePassed = false;
                 
-                reportError(AMOUNT_INFO_START_DATE
+                reportError(AMOUNT_INFO_ANTICIPATED_AMOUNT
                         , KeyConstants.ERROR_AMOUNT_INFO_OBLIGATED_AMOUNT);   
             }
             
+        }
+        if(amountInfo!=null && amountInfo.getObligatedChange()!=null){
+            if(amountInfo.getObligatedChange().isNegative()){
+                rulePassed = false;
+                
+                reportError(AMOUNT_INFO_OBLIGATED_AMOUNT
+                        , KeyConstants.ERROR_AMOUNT_INFO_OBLIGATED_AMOUNT_NEGATIVE); 
+            }
+        }
+        if(amountInfo!=null && amountInfo.getObligatedChange()!=null){
+            if(amountInfo.getObligatedChange().isZero()){
+                rulePassed = false;
+                
+                reportError(AMOUNT_INFO_OBLIGATED_AMOUNT
+                        , KeyConstants.ERROR_AMOUNT_INFO_OBLIGATED_AMOUNT_ZERO); 
+            }
+        }
+        if(amountInfo!=null && amountInfo.getAnticipatedChange()!=null){
+            if(amountInfo.getAnticipatedChange().isNegative()){
+                rulePassed = false;
+                
+                reportError(AMOUNT_INFO_ANTICIPATED_AMOUNT
+                        , KeyConstants.ERROR_AMOUNT_INFO_ANTICIPATED_AMOUNT_NEGATIVE); 
+            }
+        }
+        if(amountInfo!=null && amountInfo.getAnticipatedChange()!=null){
+            if(amountInfo.getAnticipatedChange().isZero()){
+                rulePassed = false;
+                
+                reportError(AMOUNT_INFO_ANTICIPATED_AMOUNT
+                        , KeyConstants.ERROR_AMOUNT_INFO_ANTICIPATED_AMOUNT_ZERO); 
+            }
         }
         return rulePassed;
     }
@@ -275,7 +308,7 @@ public class SubAwardDocumentRule extends ResearchDocumentRuleBase implements Su
         return rulePassed;
     }
     protected boolean processSaveSubAwardFundingSourceBusinessRules(SubAwardFundingSource subAwardFundingSource){
-boolean rulePassed = true;   
+        boolean rulePassed = true;   
         
         if(subAwardFundingSource==null 
                 || subAwardFundingSource.getAwardId()==null){
@@ -284,5 +317,14 @@ boolean rulePassed = true;
                     , KeyConstants.ERROR_REQUIRED_SUBAWARD_FUNDING_SOURCE_AWARD_NUMBER);
         }  
         return rulePassed;
+    }
+    /**
+     * @see org.kuali.rice.kns.rule.DocumentAuditRule#processRunAuditBusinessRules(org.kuali.rice.kns.document.Document)
+     */
+    @Override
+    public boolean processRunAuditBusinessRules(Document document){
+        boolean retval = true;
+        retval &= new SubAwardAuditRule().processRunAuditBusinessRules(document);
+        return retval;
     }
 }

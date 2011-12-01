@@ -86,8 +86,8 @@
       <bean parent="TextControlDefinition"
             p:size="60" />
     </property>
-    <property name="summary" value="Subcontractor Id" />
-    <property name="description" value="Subcontractor Id" />    
+    <property name="summary" value="Subrecipient Id" />
+    <property name="description" value="Subrecipient Id" />    
   </bean>
   
    
@@ -104,8 +104,8 @@
       <bean parent="TextControlDefinition"
             p:size="60" />
     </property>
-    <property name="summary" value="Subcontractor Name" />
-    <property name="description" value="Subcontractor Name" />    
+    <property name="summary" value="Subrecipient Name" />
+    <property name="description" value="Subrecipient Name" />    
   </bean>
   
   

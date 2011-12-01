@@ -653,6 +653,38 @@ public class ProposalDevelopmentActionsAction extends ProposalDevelopmentAction 
         return forward;      
     }
     
+    /**
+     * Submit a proposal to GrantsGov.  
+     * @param mapping
+     * @param form
+     * @param request
+     * @param response
+     * @return
+     * @throws Exception
+     */
+    public ActionForward submitToGrantsGov(ActionMapping mapping, ActionForm form, HttpServletRequest request,
+            HttpServletResponse response)throws Exception{
+      
+        ProposalDevelopmentForm proposalDevelopmentForm = (ProposalDevelopmentForm) form;
+        ProposalDevelopmentDocument proposalDevelopmentDocument = (ProposalDevelopmentDocument)proposalDevelopmentForm.getDocument();
+        ActionForward forward = mapping.findForward(Constants.MAPPING_BASIC);        
+        
+        if(proposalDevelopmentDocument.getDevelopmentProposal().getSubmitFlag()!= true){
+            forward = submitToSponsor(mapping, form, request, response);
+        }        
+    try{
+        submitS2sApplication(proposalDevelopmentDocument);
+        proposalDevelopmentForm.setShowSubmissionDetails(true);
+        forward = mapping.findForward(Constants.GRANTS_GOV_PAGE);        
+        
+    }catch(S2SException ex){
+        LOG.error(ex.getMessage(), ex);
+        GlobalVariables.getMessageList().add(new ErrorMessage(KeyConstants.ERROR_ON_GRANTS_GOV_SUBMISSION));
+        return mapping.findForward(Constants.MAPPING_BASIC);
+    }    
+    return forward;
+    }   
+    
     private boolean requiresResubmissionPrompt(ProposalDevelopmentForm proposalDevelopmentForm) {
         DevelopmentProposal developmentProposal = proposalDevelopmentForm.getDocument().getDevelopmentProposal();
         return (ProposalType.RESUBMISSION_TYPE_CODE.equals(developmentProposal.getProposalTypeCode())
@@ -812,19 +844,7 @@ public class ProposalDevelopmentActionsAction extends ProposalDevelopmentAction 
         List<ProposalSpecialReview> specialReviews = proposalDevelopmentDocument.getDevelopmentProposal().getPropSpecialReviews();
         if (!isIPProtocolLinkingEnabled 
             || applyRules(new SaveSpecialReviewLinkEvent<ProposalSpecialReview>(proposalDevelopmentDocument, specialReviews, new ArrayList<String>()))) {
-            /*
-             * If there is an opportunity, then this is a Grants.gov submission.  
-             */
-            if (proposalDevelopmentDocument.getDevelopmentProposal().getS2sOpportunity() != null) {
-                try{
-                    submitS2sApplication(proposalDevelopmentDocument);
-                }catch(S2SException ex){
-                    LOG.error(ex.getMessage(), ex);
-                    GlobalVariables.getMessageList().add(new ErrorMessage(KeyConstants.ERROR_ON_GRANTS_GOV_SUBMISSION));
-                    return mapping.findForward(Constants.MAPPING_BASIC);
-                }
-            }
-           
+                       
             if (!(autogenerateInstitutionalProposal() && "X".equals(proposalDevelopmentForm.getResubmissionOption()))) {
                 proposalDevelopmentDocument.getDevelopmentProposal().setSubmitFlag(true);
     
