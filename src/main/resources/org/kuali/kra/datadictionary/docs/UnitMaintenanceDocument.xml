@@ -38,7 +38,7 @@
       <list>
         <bean parent="MaintainableFieldDefinition" p:name="unitNumber" p:required="true"/>
         <bean parent="MaintainableFieldDefinition" p:name="parentUnitNumber" p:required="true"/>
-        <bean parent="MaintainableFieldDefinition" p:name="organizationId" p:required="true"/>
+        <bean parent="MaintainableFieldDefinition" p:name="organizationId"/>
         <bean parent="MaintainableFieldDefinition" p:name="unitName" p:required="true"/>
         <bean parent="MaintainableFieldDefinition" p:name="versionNumber"/>
       </list>
