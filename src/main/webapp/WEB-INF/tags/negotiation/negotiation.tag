@@ -137,9 +137,9 @@
                 					fieldConversions="awardNumber:document.negotiationList[0].associatedDocumentId" />
 					      	</c:when>
 					      	<c:when test="${KualiForm.displaySubAward}">
-					      		<img src="${ConfigProperties.kra.externalizable.images.url}searchicon.gif" name="subAwardImage" id="subAwardImage"
-					      		onClick="window.alert('Sub Award association is not yet implemented.')"
-					      		onmouseover="this.style.cursor='pointer';"/>
+					      		<kul:lookup boClassName="org.kuali.kra.subaward.bo.SubAward" 
+					        		fieldConversions="subAwardId:document.negotiationList[0].associatedDocumentId" /> 
+					        		<div align="center"><b>WARNING SUB AWARDS IN DEVELOPMENT, NOT READY TO TEST</b></div>
 					      	</c:when>
 					      	<c:when test="${KualiForm.displayProposalLog}">
 					        	<kul:lookup boClassName="org.kuali.kra.institutionalproposal.proposallog.ProposalLog" 

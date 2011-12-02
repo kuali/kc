@@ -27,6 +27,9 @@ import org.kuali.kra.bo.versioning.VersionStatus;
 import org.kuali.kra.common.permissions.Permissionable;
 import org.kuali.kra.infrastructure.Constants;
 import org.kuali.kra.infrastructure.KraServiceLocator;
+import org.kuali.kra.negotiations.bo.Negotiable;
+import org.kuali.kra.negotiations.bo.NegotiationPersonDTO;
+import org.kuali.kra.proposaldevelopment.bo.ProposalType;
 
 import java.util.ArrayList;
 import java.util.LinkedHashMap;
@@ -45,7 +48,7 @@ import org.kuali.rice.kns.util.KualiDecimal;
 import org.kuali.rice.kns.util.TypedArrayList;
 import org.kuali.kra.subaward.customdata.SubAwardCustomData;
 
-public class SubAward extends KraPersistableBusinessObjectBase implements Permissionable,SequenceOwner<SubAward>{ 
+public class SubAward extends KraPersistableBusinessObjectBase implements Permissionable,SequenceOwner<SubAward>, Negotiable{ 
     
     private static final long serialVersionUID = 1L;
 
@@ -659,6 +662,83 @@ public class SubAward extends KraPersistableBusinessObjectBase implements Permis
     }
     public String getLastUpdate() {
         return lastUpdate;
+    }
+
+    @Override
+    public String getAssociatedDocumentId() {
+        return this.getSubAwardId().toString();
+    }
+
+    @Override
+    public String getLeadUnitName() {
+        return this.getUnit() != null ? this.getUnit().getUnitName() : EMPTY_STRING;
+    }
+
+    @Override
+    public String getPiName() {
+        return this.getKcPerson() != null ? this.getKcPerson().getFullName() : EMPTY_STRING;
+    }
+
+    @Override
+    public String getPiEmployeeName() {
+        return this.getKcPerson() != null ? this.getKcPerson().getFullName() : EMPTY_STRING;
+    }
+
+    @Override
+    public String getPiNonEmployeeName() {
+        return EMPTY_STRING;
+    }
+
+    @Override
+    public String getAdminPersonName() {
+        return EMPTY_STRING;
+    }
+
+    @Override
+    public String getSponsorCode() {
+        return EMPTY_STRING;
+    }
+
+    @Override
+    public String getSponsorName() {
+        return EMPTY_STRING;
+    }
+
+    @Override
+    public String getPrimeSponsorCode() {
+        return EMPTY_STRING;
+    }
+
+    @Override
+    public String getPrimeSponsorName() {
+        return EMPTY_STRING;
+    }
+
+    @Override
+    public String getSponsorAwardNumber() {
+        return EMPTY_STRING;
+    }
+
+    @Override
+    public String getSubAwardOrganizationName() {
+        return this.getOrganization() != null ? this.getOrganization().getOrganizationName() : EMPTY_STRING;
+    }
+
+    @Override
+    public List<NegotiationPersonDTO> getProjectPeople() {
+        List<NegotiationPersonDTO> people = new ArrayList<NegotiationPersonDTO>();
+        people.add(new NegotiationPersonDTO(this.getKcPerson(), "admin"));
+        return people;
+    }
+
+    @Override
+    public String getNegotiableProposalTypeCode() {
+        return EMPTY_STRING;
+    }
+
+    @Override
+    public ProposalType getNegotiableProposalType() {
+        return null;
     }
     
 }
