@@ -270,7 +270,7 @@
 	
 	
 	<class-descriptor class="org.kuali.kra.institutionalproposal.contacts.InstitutionalProposalPerson" table="PROPOSAL_PERSONS">
-		<field-descriptor name="institutionalProposalContactId" column="PROPOSAL_PERSON_ID" jdbc-type="BIGINT" primarykey="true" autoincrement="true" sequence-name="SEQUENCE_AWARD_ID" />
+		<field-descriptor name="institutionalProposalContactId" column="PROPOSAL_PERSON_ID" jdbc-type="BIGINT" primarykey="true" autoincrement="true" sequence-name="SEQ_PROPOSAL_PROPOSAL_ID" />
 		
 		<field-descriptor name="personId" column="PERSON_ID" jdbc-type="VARCHAR" nullable="true" />
 		<field-descriptor name="rolodexId" column="ROLODEX_ID" jdbc-type="INTEGER" nullable="true" />
@@ -335,7 +335,7 @@
     </class-descriptor>
 	 
 	<class-descriptor class="org.kuali.kra.institutionalproposal.contacts.InstitutionalProposalPersonUnit" table="PROPOSAL_PERSON_UNITS">
-		<field-descriptor name="institutionalProposalPersonUnitId" column="PROPOSAL_PERSON_UNIT_ID" jdbc-type="BIGINT" primarykey="true" autoincrement="true" sequence-name="SEQUENCE_AWARD_ID" />
+		<field-descriptor name="institutionalProposalPersonUnitId" column="PROPOSAL_PERSON_UNIT_ID" jdbc-type="BIGINT" primarykey="true" autoincrement="true" sequence-name="SEQ_PROPOSAL_PROPOSAL_ID" />
 		
 		<field-descriptor name="institutionalProposalContactId" column="PROPOSAL_PERSON_ID" jdbc-type="BIGINT" nullable="false" />
 		<field-descriptor name="unitNumber" column="UNIT_NUMBER" jdbc-type="VARCHAR" nullable="false" />
