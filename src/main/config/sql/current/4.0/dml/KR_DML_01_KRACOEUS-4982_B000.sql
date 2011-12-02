@@ -11,7 +11,7 @@ INSERT INTO KRNS_PARM_T (APPL_NMSPC_CD,NMSPC_CD,PARM_TYP_CD,PARM_DTL_TYP_CD,PARM
 /
 
 INSERT INTO KRNS_PARM_T (APPL_NMSPC_CD,NMSPC_CD,PARM_TYP_CD,PARM_DTL_TYP_CD,PARM_NM,PARM_DESC_TXT,TXT,CONS_CD,OBJ_ID,VER_NBR)
-    VALUES ('KC', 'KC-NEGOTIATION', 'CONFG', 'Document', 'ENABLE_NEGOTIATION_TO_SUBAWARD_LINK', 'Controls the ability to link a negotiation to a Subaward document. Set to 1 to enable linking, 0 to disable it.', '0', 'A', SYS_GUID(), 1)
+    VALUES ('KC', 'KC-NEGOTIATION', 'CONFG', 'Document', 'ENABLE_NEGOTIATION_TO_SUBAWARD_LINK', 'Controls the ability to link a negotiation to a Subaward document. Set to 1 to enable linking, 0 to disable it.', '1', 'A', SYS_GUID(), 1)
 /
 
 INSERT INTO KRNS_PARM_T (APPL_NMSPC_CD,NMSPC_CD,PARM_TYP_CD,PARM_DTL_TYP_CD,PARM_NM,PARM_DESC_TXT,TXT,CONS_CD,OBJ_ID,VER_NBR)
