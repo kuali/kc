@@ -145,13 +145,12 @@ public abstract class NotificationHelperBase<T extends NotificationContext> impl
      * Initializes the helper with the default values from the Notification Type.
      */
     public void initializeDefaultValues() {
+        getNotificationRecipients().clear();
         NotificationType notificationType = getNotificationService().getNotificationType(getContext());
         if (notificationType != null) {
             for (NotificationTypeRecipient notificationRecipient : notificationType.getNotificationTypeRecipients()) {
-                if (!getNotificationRecipients().contains(notificationRecipient)) {
-                    notificationRecipient.setFullName(notificationRecipient.getRoleName());
-                    getNotificationRecipients().add(notificationRecipient);
-                }
+                notificationRecipient.setFullName(notificationRecipient.getRoleName());
+                getNotificationRecipients().add(notificationRecipient);
             }
         }
         
