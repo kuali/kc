@@ -47,6 +47,7 @@ import org.kuali.kra.negotiations.bo.NegotiationStatus;
 import org.kuali.kra.negotiations.bo.NegotiationUnassociatedDetail;
 import org.kuali.kra.negotiations.document.NegotiationDocument;
 import org.kuali.kra.service.KcPersonService;
+import org.kuali.kra.subaward.bo.SubAward;
 import org.kuali.rice.kim.bo.role.dto.RoleMembershipInfo;
 import org.kuali.rice.kim.bo.types.dto.AttributeSet;
 import org.kuali.rice.kns.bo.BusinessObject;
@@ -113,7 +114,7 @@ public class NegotiationServiceImpl implements NegotiationService {
                 bo = getProposalLog(negotiation.getAssociatedDocumentId());
             } else if (StringUtils.equals(negotiation.getNegotiationAssociationType().getCode(), 
                     NegotiationAssociationType.SUB_AWARD_ASSOCIATION)) {
-                bo = null;
+                bo = getSubAward(negotiation.getAssociatedDocumentId());
             }
             return bo;
         } else {
@@ -149,6 +150,13 @@ public class NegotiationServiceImpl implements NegotiationService {
         primaryKeys.put("PROPOSAL_NUMBER", proposalNumber);
         ProposalLog pl = (ProposalLog) this.getBusinessObjectService().findByPrimaryKey(ProposalLog.class, primaryKeys);
         return pl;
+    }
+    
+    private SubAward getSubAward(String subAwardId) {
+        Map<String, String> primaryKeys = new HashMap<String, String>();
+        primaryKeys.put("SUBAWARD_ID", subAwardId);
+        SubAward sa = (SubAward) this.getBusinessObjectService().findByPrimaryKey(SubAward.class, primaryKeys);
+        return sa;
     }
     
     private InstitutionalProposal getInstitutionalProposal(String proposalNumber) {
