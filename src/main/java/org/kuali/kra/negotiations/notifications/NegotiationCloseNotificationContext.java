@@ -15,6 +15,8 @@
  */
 package org.kuali.kra.negotiations.notifications;
 
+import java.util.List;
+
 import org.apache.commons.lang.StringUtils;
 import org.kuali.kra.common.notification.NotificationContextBase;
 import org.kuali.kra.common.notification.bo.NotificationTypeRecipient;
@@ -25,6 +27,7 @@ import org.kuali.kra.infrastructure.KraServiceLocator;
 import org.kuali.kra.kim.bo.KcKimAttributes;
 import org.kuali.kra.negotiations.bo.Negotiable;
 import org.kuali.kra.negotiations.document.NegotiationDocument;
+import org.kuali.kra.util.EmailAttachment;
 import org.kuali.rice.kim.bo.types.dto.AttributeSet;
 
 /**
@@ -37,6 +40,7 @@ public class NegotiationCloseNotificationContext extends NotificationContextBase
     private static final String NEGOTIATION_CLOSE_NOTIFICATION_ACTION_CODE = "100";
     
     private NegotiationDocument negotiationDocument;
+    private List<EmailAttachment> emailAttachments;
     
     public NegotiationCloseNotificationContext(NegotiationDocument negotiationDocument) {
         super(KraServiceLocator.getService(NegotiationNotificationRenderer.class));
@@ -76,5 +80,14 @@ public class NegotiationCloseNotificationContext extends NotificationContextBase
     public void setNegotiationDocument(NegotiationDocument negotiationDocument) {
         this.negotiationDocument = negotiationDocument;
     }
+
+    public List<EmailAttachment> getEmailAttachments() {
+        return emailAttachments;
+    }
+
+    public void setEmailAttachments(List<EmailAttachment> emailAttachments) {
+        this.emailAttachments = emailAttachments;
+    }
+
 
 }

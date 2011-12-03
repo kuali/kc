@@ -50,11 +50,14 @@ import org.kuali.kra.irb.notification.IRBNotificationContext;
 import org.kuali.kra.printing.Printable;
 import org.kuali.kra.printing.PrintingException;
 import org.kuali.kra.printing.print.AbstractPrint;
+import org.kuali.kra.service.KcEmailService;
 import org.kuali.kra.service.KcPersonService;
+import org.kuali.kra.util.EmailAttachment;
 import org.kuali.rice.kns.service.BusinessObjectService;
 import org.kuali.rice.kns.service.DocumentService;
 import org.kuali.rice.kns.service.SequenceAccessorService;
 import org.kuali.rice.kns.util.DateUtils;
+import org.kuali.rice.kns.util.ObjectUtils;
 
 /**
  * 
@@ -77,6 +80,7 @@ public class CommitteeBatchCorrespondenceServiceImpl implements CommitteeBatchCo
     private DocumentService documentService;
     private KcPersonService kcPersonService;
     private KcNotificationService kcNotificationService;
+    private KcEmailService kcEmailService;
     
     private int finalActionCounter;
 
@@ -132,7 +136,8 @@ public class CommitteeBatchCorrespondenceServiceImpl implements CommitteeBatchCo
                         = new BatchCorrespondenceNotificationRenderer(protocol, detailId, description, userFullName);
                     IRBNotificationContext context 
                         = new IRBNotificationContext(protocol, ProtocolActionType.RENEWAL_REMINDER_GENERATED, "Renewal Reminder Generated", renderer);
-                    kcNotificationService.sendNotification(context);
+                    context.setEmailAttachments(getEmailAttachments(batchCorrespondenceDetail.getProtocolCorrespondence()));
+                    kcNotificationService.sendNotification(context);                 
                 }
             }
         }
@@ -368,6 +373,28 @@ public class CommitteeBatchCorrespondenceServiceImpl implements CommitteeBatchCo
         return protocolCorrespondence;
     }
     
+    private List<EmailAttachment> getEmailAttachments(ProtocolCorrespondence protocolCorrespondence) {
+        List<EmailAttachment> attachments = null;
+        
+        try {
+            byte[] attachmentContents = protocolCorrespondence.getCorrespondence();
+            if (attachmentContents != null) {
+                    attachments = new ArrayList<EmailAttachment>();
+                    String attachmentName = "correspondence_" + protocolCorrespondence.getProtocolNumber() + ".pdf";
+                    
+                    EmailAttachment attachment = new EmailAttachment();
+                    attachment.setFileName(attachmentName);
+                    attachment.setMimeType("application/pdf");
+                    attachment.setContents(attachmentContents);
+                    attachments.add(attachment);         
+            }
+        } catch (Exception e) {
+            LOG.error("Failed to get email attachments for batch correspondence.", e);
+        }
+        
+        return attachments;
+    }
+    
     /**
      * 
      * This method looks up the BatchCorrespondence business object via the batchCorrespondenceTypeCode.
@@ -439,5 +466,4 @@ public class CommitteeBatchCorrespondenceServiceImpl implements CommitteeBatchCo
     public void setKcNotificationService(KcNotificationService kcNotificationService) {
         this.kcNotificationService = kcNotificationService;
     }
-
 }
