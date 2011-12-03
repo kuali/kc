@@ -706,6 +706,12 @@
 		<property name="parameterService">
             <ref bean="parameterService" />
         </property>
+        <property name="identityManagementService">
+            <ref bean="identityManagementService" />
+        </property>
+        <property name="kcEmailService">
+            <ref bean="kcEmailService" />
+        </property>                
 	</bean>
 	
     <bean id="kcNotificationModuleRoleService" class="org.kuali.kra.common.notification.service.impl.KcNotificationModuleRoleServiceImpl">
@@ -826,7 +832,10 @@
         <property name="businessObjectService">
             <ref bean="businessObjectService" />
         </property>
-    </bean>    
+    </bean> 
+    
+    <bean id="kcEmailService" class="org.kuali.kra.service.impl.KcEmailServiceImpl">
+    </bean>   
 	
 	<bean id="negotiationActivityXmlStream"
 			class="org.kuali.kra.negotiations.printing.xmlstream.NegotiationActivityXmlStream">

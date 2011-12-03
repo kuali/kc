@@ -98,4 +98,11 @@ public interface KcNotificationService {
      */
     void sendNotification(String contextName, String subject, String message, List<String> principalNames);
     
+    /**
+     * Send an unedited KC Notification Email, using the context to populate context-specific role qualifiers within the Role-based Recipients.
+     * 
+     * @param notificationContext
+     */
+    void sendEmailNotification(NotificationContext notificationContext);
+    
 }

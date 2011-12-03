@@ -16,6 +16,8 @@
 package org.kuali.kra.irb.notification;
 
 
+import java.util.List;
+
 import org.kuali.kra.bo.CoeusModule;
 import org.kuali.kra.common.notification.NotificationRenderer;
 import org.kuali.kra.common.notification.NotificationContextBase;
@@ -24,6 +26,7 @@ import org.kuali.kra.common.notification.service.KcNotificationService;
 import org.kuali.kra.infrastructure.KraServiceLocator;
 import org.kuali.kra.irb.Protocol;
 import org.kuali.kra.irb.onlinereview.ProtocolOnlineReview;
+import org.kuali.kra.util.EmailAttachment;
 
 /**
  * This class extends the notification context base and provides some helpful functions for
@@ -36,6 +39,7 @@ public class IRBNotificationContext extends NotificationContextBase {
     private String documentNumber;
     private String actionTypeCode;
     private String contextName;
+    private List<EmailAttachment> emailAttachments;
     
     /**
      * Constructs an IRB notification context and sets the necessary services.
@@ -100,6 +104,23 @@ public class IRBNotificationContext extends NotificationContextBase {
      */
     public String getContextName() {
         return contextName;
+    }
+
+    /**
+     * 
+     * @see org.kuali.kra.common.notification.NotificationContext#getEmailAttachments()
+     */
+    public List<EmailAttachment> getEmailAttachments() {
+        return emailAttachments;
+    }
+
+    /**
+     * 
+     * This method sets a list of email attachments
+     * @param emailAttachments
+     */
+    public void setEmailAttachments(List<EmailAttachment> emailAttachments) {
+        this.emailAttachments = emailAttachments;
     }
     
 }
