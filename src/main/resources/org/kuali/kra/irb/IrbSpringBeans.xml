@@ -822,6 +822,7 @@
         <property name="protocolCorrespondenceTemplateService" ref="protocolCorrespondenceTemplateService" />
         <property name="documentService" ref="documentService" />
         <property name="kcPersonService" ref="kcPersonService" />
+        <property name="kcNotificationService" ref="kcNotificationService" />
     </bean>
     
     <bean id="protocolActionCorrespondenceGenerationService" class="org.kuali.kra.irb.actions.correspondence.ProtocolActionCorrespondenceGenerationServiceImpl">
