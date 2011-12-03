@@ -15,8 +15,11 @@
  */
 package org.kuali.kra.common.notification;
 
+import java.util.List;
+
 import org.kuali.kra.common.notification.bo.NotificationTypeRecipient;
 import org.kuali.kra.common.notification.exception.UnknownRoleException;
+import org.kuali.kra.util.EmailAttachment;
 
 /**
  * A context from which a Notification is sent. Contains instance-specific information 
@@ -70,5 +73,12 @@ public interface NotificationContext {
      * @throws UnknownRoleException if the role is unknown for this context.
      */
     void populateRoleQualifiers(NotificationTypeRecipient notificationRecipient) throws UnknownRoleException;
+    
+    /**
+     * This method provides support for email attachments for email notifications
+     * 
+     * @return a list of email attachments or null if none are available.
+     */
+    List<EmailAttachment> getEmailAttachments();
 
 }

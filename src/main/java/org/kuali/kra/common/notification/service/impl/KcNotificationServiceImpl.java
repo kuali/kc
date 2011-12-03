@@ -20,11 +20,13 @@ import java.util.Collection;
 import java.util.Collections;
 import java.util.Comparator;
 import java.util.HashMap;
+import java.util.HashSet;
 import java.util.List;
 import java.util.Map;
 import java.util.Set;
 import java.util.TreeSet;
 
+import org.apache.commons.collections.CollectionUtils;
 import org.apache.commons.lang.StringUtils;
 import org.apache.commons.logging.Log;
 import org.apache.commons.logging.LogFactory;
@@ -35,16 +37,22 @@ import org.kuali.kra.common.notification.bo.NotificationTypeRecipient;
 import org.kuali.kra.common.notification.exception.UnknownRoleException;
 import org.kuali.kra.common.notification.service.KcNotificationService;
 import org.kuali.kra.infrastructure.Constants;
+import org.kuali.kra.service.KcEmailService;
 import org.kuali.kra.service.KcPersonService;
 import org.kuali.kra.service.RolodexService;
+import org.kuali.kra.util.EmailAttachment;
 import org.kuali.rice.ken.bo.Notification;
 import org.kuali.rice.ken.bo.NotificationChannel;
 import org.kuali.rice.ken.bo.NotificationContentType;
 import org.kuali.rice.ken.bo.NotificationPriority;
 import org.kuali.rice.ken.bo.NotificationProducer;
 import org.kuali.rice.ken.bo.NotificationRecipient;
+import org.kuali.rice.ken.bo.NotificationSender;
 import org.kuali.rice.ken.service.NotificationService;
 import org.kuali.rice.ken.util.NotificationConstants;
+import org.kuali.rice.kim.bo.entity.dto.KimEntityEntityTypeInfo;
+import org.kuali.rice.kim.bo.entity.dto.KimEntityInfo;
+import org.kuali.rice.kim.service.IdentityManagementService;
 import org.kuali.rice.kim.service.RoleManagementService;
 import org.kuali.rice.kim.util.KimConstants;
 import org.kuali.rice.kns.service.BusinessObjectService;
@@ -71,6 +79,8 @@ public class KcNotificationServiceImpl implements KcNotificationService {
     private KcPersonService kcPersonService;
     private RolodexService rolodexService;
     private ParameterService parameterService;
+    private IdentityManagementService identityManagementService;
+    private KcEmailService kcEmailService;
     
     /**
      * {@inheritDoc}
@@ -165,7 +175,8 @@ public class KcNotificationServiceImpl implements KcNotificationService {
             Collection<NotificationRecipient> notificationRecipients = getRecipients(context);
     
             sendNotification(contextName, subject, message, notificationRecipients);
-        }
+            sendEmailNotification(subject, message, notificationRecipients, context.getEmailAttachments());
+        }      
     }
     
     /**
@@ -180,6 +191,7 @@ public class KcNotificationServiceImpl implements KcNotificationService {
         Collection<NotificationRecipient> notificationRecipients = getRecipients(notificationTypeRecipients, context);
         
         sendNotification(contextName, subject, message, notificationRecipients);
+        sendEmailNotification(subject, message, notificationRecipients, context.getEmailAttachments());
     }
     
     /**
@@ -222,6 +234,8 @@ public class KcNotificationServiceImpl implements KcNotificationService {
         notification.setProducer(getSystemNotificationProducer());
         notification.setChannel(getKcNotificationChannel());
         
+        notification.setSenders(getNotificationSenders());
+        
         return notification;
     }
     
@@ -244,6 +258,27 @@ public class KcNotificationServiceImpl implements KcNotificationService {
             this.kcNotificationChannel = nc;
         }
         return kcNotificationChannel;
+    }
+    
+    private List<NotificationSender> getNotificationSenders() {
+        List<NotificationSender> senders = new ArrayList<NotificationSender>();
+        NotificationSender sender = new NotificationSender();
+        sender.setSenderName(getConfiguredSender());
+        senders.add(sender);
+
+        return senders;
+    }
+    
+    private String getConfiguredSender() {
+        String senderName = parameterService.getParameterValue(
+                Constants.KC_GENERIC_PARAMETER_NAMESPACE, Constants.KC_ALL_PARAMETER_DETAIL_TYPE_CODE, 
+                "ACTION_LIST_DEFAULT_FROM_USER");
+        if (StringUtils.isBlank(senderName)) {
+            //If not configured fall back to admin
+            senderName = "admin";
+        }
+        
+        return senderName;
     }
     
     private Long getNotificationParameter(String parameterName) {
@@ -426,6 +461,77 @@ public class KcNotificationServiceImpl implements KcNotificationService {
         
         return recipients;
     }
+    
+    public void sendEmailNotification(NotificationContext context) {
+        if (isEmailEnabled()) {
+            KcNotification notification = createNotification(context);
+            
+            if (notification.getNotificationType() != null && notification.getNotificationType().getSendNotification()) {
+                String subject = notification.getSubject();
+                String message = notification.getMessage();
+                Collection<NotificationRecipient> notificationRecipients = getRecipients(context);
+                Set<String> toAddresses = getRecipientEmailAddresses(notificationRecipients);
+                
+                String fromAddress = getKcEmailService().getDefaultFromAddress();
+                
+                sendEmailNotification(fromAddress, toAddresses, subject, message, context.getEmailAttachments());
+            }        
+        }
+    }
+    
+    private void sendEmailNotification(String subject, String message, Collection<NotificationRecipient> notificationRecipients, List<EmailAttachment> attachments) {
+        if (isEmailEnabled()) {
+            Set<String> toAddresses = getRecipientEmailAddresses(notificationRecipients);              
+            sendEmailNotification(getKcEmailService().getDefaultFromAddress(), toAddresses, subject, message, attachments);
+        }
+    }
+
+    
+    private void sendEmailNotification(String fromAddress, Set<String> toAddresses, String subject, String message, List<EmailAttachment> attachments) {
+        if (isEmailEnabled()) {
+            getKcEmailService().sendEmailWithAttachments(fromAddress, toAddresses, subject, null, null, 
+                                                     message, true, attachments);
+        }
+    }
+    
+    private Set<String> getRecipientEmailAddresses(Collection<NotificationRecipient> recipients) {
+        Set<String> emailAddresses = new HashSet<String>();
+        
+        if (CollectionUtils.isNotEmpty(recipients)) {
+            for (NotificationRecipient recipient : recipients) {
+                KimEntityInfo entityInfo = 
+                    getIdentityManagementService().getEntityInfoByPrincipalName(recipient.getRecipientId());
+                List<KimEntityEntityTypeInfo> entityTypes = entityInfo.getEntityTypes();
+                if (CollectionUtils.isNotEmpty(entityTypes)) {
+                    for (KimEntityEntityTypeInfo entityType : entityTypes) {
+                        if (StringUtils.equals(KimConstants.EntityTypes.PERSON, entityType.getEntityTypeCode())) {
+                            if (entityType.getDefaultEmailAddress() != null &&
+                                    StringUtils.isNotBlank(entityType.getDefaultEmailAddress().getEmailAddress())) {
+                                emailAddresses.add(entityType.getDefaultEmailAddress().getEmailAddress());
+                                LOG.info("Added recipient email: " + entityType.getDefaultEmailAddress().getEmailAddress() +
+                                         " for KIM user: " + recipient.getRecipientId());
+                            }
+                        }
+                    }
+                }
+            }
+        }
+        
+        return emailAddresses;
+    }
+    
+    private boolean isEmailEnabled() {
+        boolean emailEnabled = false;
+        
+        try {
+            emailEnabled = parameterService.getIndicatorParameter(Constants.KC_GENERIC_PARAMETER_NAMESPACE,  
+                Constants.KC_ALL_PARAMETER_DETAIL_TYPE_CODE, "EMAIL_NOTIFICATIONS_ENABLED");
+        } catch (Exception e) {
+            LOG.warn("Email Notifications parameter not configured, defaulting to disabled.");
+        }
+        
+        return emailEnabled;
+    }
 
     public BusinessObjectService getBusinessObjectService() {
         return businessObjectService;
@@ -474,5 +580,22 @@ public class KcNotificationServiceImpl implements KcNotificationService {
     public void setParameterService(ParameterService parameterService) {
         this.parameterService = parameterService;
     }
+
+    public IdentityManagementService getIdentityManagementService() {
+        return identityManagementService;
+    }
+
+    public void setIdentityManagementService(IdentityManagementService identityManagementService) {
+        this.identityManagementService = identityManagementService;
+    }
+
+    public KcEmailService getKcEmailService() {
+        return kcEmailService;
+    }
+
+    public void setKcEmailService(KcEmailService kcEmailService) {
+        this.kcEmailService = kcEmailService;
+    }
+    
 
 }
