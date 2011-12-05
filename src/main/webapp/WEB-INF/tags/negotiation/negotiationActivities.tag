@@ -6,7 +6,7 @@
 
 <script>
 function doFilterActivities() {
-	var showAll = $jq('input[name="filterActivities"]:checked').val() == 'All';
+	var showAll = $jq('input[name="filterActivities"]:checked').val() == '${KualiForm.filterAllActivities}';
 	$jq('input[id*="endDate"]').filter('[id*="activities["]').each(function() {
 		if ($jq(this).val() != '') {
 			if (showAll) {
@@ -57,8 +57,8 @@ $jq(document).ready(function() {
    </tr>
     <th style="text-align: right; width: 5em;">Display:</th>
     <th colspan="2" style="text-align:left;">
-      <label><html:radio property="filterActivities" value="All" onchange="doFilterActivities();">All</html:radio></label> 
-      <label><html:radio property="filterActivities" value="Pending" onchange="doFilterActivities();">Pending</html:radio></label>
+      <label><html:radio property="filterActivities" value="${KualiForm.filterAllActivities}" onchange="doFilterActivities();">All</html:radio></label> 
+      <label><html:radio property="filterActivities" value="${KualiForm.filterPendingActivities}" onchange="doFilterActivities();">Pending</html:radio></label>
       <html:image property="methodToCall.printNegotiationActivity"
 						src='${ConfigProperties.kra.externalizable.images.url}tinybutton-print.gif' 
 						alt="Print Negotiation Activity" styleClass="tinybutton" onclick="excludeSubmitRestriction=true" align="right"/>

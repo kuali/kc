@@ -253,7 +253,9 @@ public class NegotiationActivityXmlStream implements XmlStream {
         List<NegotiationActivity> negotiationActivities = negotiation.getActivities(); 
         if(negotiation.getPrintindex() == 0){
            for (NegotiationActivity negotiationActivity : negotiationActivities) {  
-              activitiesTypeList.add(getActivitiesType(negotiationActivity));
+              if (negotiation.isPrintAll() || negotiationActivity.getEndDate() == null) {
+                  activitiesTypeList.add(getActivitiesType(negotiationActivity));
+              }
            }
         }
         else{
