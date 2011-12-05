@@ -60,11 +60,14 @@ import org.kuali.rice.kns.workflow.service.KualiWorkflowDocument;
 public class NegotiationForm extends KraTransactionalDocumentFormBase {
     
     private static final org.apache.commons.logging.Log LOG = org.apache.commons.logging.LogFactory.getLog(NegotiationForm.class);
-
+    
     /**
      * Comment for <code>serialVersionUID</code>
      */
     private static final long serialVersionUID = -3641922366447898075L;
+    private final String filterAllActivities = "All";
+    private final String filterPendingActivities = "Pending";
+
     
     private List<NegotiationUnassociatedDetail> negotiationUnassociatedDetailsToDelete;
     private NegotiationActivityHelper negotiationActivityHelper;
@@ -337,5 +340,13 @@ public class NegotiationForm extends KraTransactionalDocumentFormBase {
 
     public void setNotificationHelper(NegotiationNotificationHelper notificationHelper) {
         this.notificationHelper = notificationHelper;
+    }
+
+    public String getFilterAllActivities() {
+        return filterAllActivities;
+    }
+
+    public String getFilterPendingActivities() {
+        return filterPendingActivities;
     }
 }
