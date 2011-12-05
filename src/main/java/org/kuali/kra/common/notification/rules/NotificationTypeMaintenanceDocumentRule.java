@@ -56,7 +56,12 @@ public class NotificationTypeMaintenanceDocumentRule extends KraMaintenanceDocum
     protected boolean processCustomSaveDocumentBusinessRules(MaintenanceDocument document) {
         return checkUniqueness(document);
     }
-    
+
+    @Override 
+    public boolean isDocumentValidForSave(MaintenanceDocument document) {
+        return checkUniqueness(document);
+    }
+
     /**
      * Validates the uniqueness constraints for {@code NotificationType} and {@code NotificationTypeRecipient}.
      *
