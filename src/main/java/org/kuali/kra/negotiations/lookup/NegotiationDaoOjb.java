@@ -35,6 +35,7 @@ import org.kuali.kra.negotiations.bo.Negotiation;
 import org.kuali.kra.negotiations.bo.NegotiationAssociationType;
 import org.kuali.kra.negotiations.bo.NegotiationUnassociatedDetail;
 import org.kuali.kra.negotiations.service.NegotiationService;
+import org.kuali.kra.subaward.bo.SubAward;
 import org.kuali.rice.kns.bo.BusinessObject;
 import org.kuali.rice.kns.dao.impl.LookupDaoOjb;
 import org.kuali.rice.kns.lookup.CollectionIncomplete;
@@ -60,6 +61,7 @@ public class NegotiationDaoOjb extends LookupDaoOjb implements NegotiationDao {
     private static Map<String, String> proposalTransform;
     private static Map<String, String> proposalLogTransform;
     private static Map<String, String> unassociatedTransform;
+    private static Map<String, String> subAwardTransform;
     
     private static Integer maxSearchResults;
     
@@ -95,6 +97,13 @@ public class NegotiationDaoOjb extends LookupDaoOjb implements NegotiationDao {
         //searching for proposal type
         unassociatedTransform.put("negotiableProposalTypeCode", INVALID_COLUMN_NAME);
         unassociatedTransform.put("leadUnitName", "leadUnit.unitName");
+        
+        subAwardTransform = new HashMap<String, String>();
+        subAwardTransform.put("sponsorName", INVALID_COLUMN_NAME);
+        subAwardTransform.put("piName", INVALID_COLUMN_NAME);
+        subAwardTransform.put("negotiableProposalTypeCode", INVALID_COLUMN_NAME);
+        subAwardTransform.put("leadUnitNumber", "unitNumber");
+        subAwardTransform.put("leadUnitName", "leadUnit.unitName");
 
         
     }
@@ -120,7 +129,7 @@ public class NegotiationDaoOjb extends LookupDaoOjb implements NegotiationDao {
             addListToList(result, getNegotiationsLinkedToProposal(fieldValues, associationDetails));
             addListToList(result, getNegotiationsLinkedToProposalLog(fieldValues, associationDetails));
             addListToList(result, getNegotiationsUnassociated(fieldValues, associationDetails));
-            //TODO - need to search for subaward once implemented.
+            addListToList(result, getNegotiationsLinedToSubAward(fieldValues, associationDetails));
         } else {
             result = findCollectionBySearchHelper(Negotiation.class, fieldValues, false, false, null);
         }
@@ -295,7 +304,24 @@ public class NegotiationDaoOjb extends LookupDaoOjb implements NegotiationDao {
                 getNegotiationService().getNegotiationAssociationType(NegotiationAssociationType.PROPOSAL_LOG_ASSOCIATION).getId());
         List<Negotiation> result = this.findCollectionBySearchHelper(Negotiation.class, negotiationValues, false, false, negotiationCrit);
         return result;
-    }  
+    } 
+    
+    protected List<Negotiation> getNegotiationsLinedToSubAward(Map<String, String> negotiationValues, Map<String, String> associatedValues) {
+        System.err.println("Got here to getNegotiationsLinedToSubAward");
+        Map<String, String> values = transformMap(associatedValues, subAwardTransform);
+        if (values == null) {
+            return new ArrayList<Negotiation>();
+        }
+        Criteria criteria = getCollectionCriteriaFromMap(new ProposalLog(), values);
+        Criteria negotiationCrit = new Criteria();
+        ReportQueryByCriteria subQuery = QueryFactory.newReportQuery(SubAward.class, criteria);
+        subQuery.setAttributes(new String[] {"subAwardId"});
+        negotiationCrit.addIn(ASSOCIATED_DOC_ID_ATTR, subQuery);
+        negotiationCrit.addEqualTo(NEGOTIATION_TYPE_ATTR, 
+                getNegotiationService().getNegotiationAssociationType(NegotiationAssociationType.SUB_AWARD_ASSOCIATION).getId());
+        List<Negotiation> result = this.findCollectionBySearchHelper(Negotiation.class, negotiationValues, false, false, negotiationCrit);
+        return result; 
+    }
     
     /**
      * Search for unassociated negotiations using criteria from the unassociated detail.
