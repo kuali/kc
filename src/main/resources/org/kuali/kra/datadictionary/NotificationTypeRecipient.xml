@@ -89,7 +89,6 @@
         <property name="forceUppercase" value="false" />
         <property name="label" value="Role" />
         <property name="shortLabel" value="Role" />
-        <property name="required" value="true" />
         <property name="maxLength" value="125" />
         <property name="validationPattern" >
             <bean parent="AnyCharacterValidationPattern" 

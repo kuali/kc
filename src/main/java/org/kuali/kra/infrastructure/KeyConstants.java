@@ -41,6 +41,9 @@ public final class KeyConstants {
     // Notification
     public static final String ERROR_NOTIFICATION_MODULE_CODE_ACTION_CODE_COMBINATION_EXISTS = "error.notification.moduleCode.actionCode.combination.exists";
     public static final String ERROR_NOTIFICATION_ROLE_NAME_EXISTS = "error.notification.roleNamespace.roleName.exists";
+    public static final String ERROR_NOTIFICATION_EMPTY_NOTIFICATION_RECIPIENT = "error.notification.empty.notifcation.recipient";
+    public static final String ERROR_NOTIFICATION_DUPLICATE_NOTIFICATION_RECIPIENT = "error.notification.duplicate.notification.recipient";
+    public static final String ERROR_NOTIFICATION_RECIPIENTS_REQUIRED = "error.notification.recipients.required";
     
     // Special Review
     public static final String ERROR_SPECIAL_REVIEW_PROTOCOL_NUMBER_INVALID = "error.special.review.protocol.number.invalid";

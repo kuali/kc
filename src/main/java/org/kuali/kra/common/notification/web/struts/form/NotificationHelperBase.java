@@ -165,12 +165,18 @@ public abstract class NotificationHelperBase<T extends NotificationContext> impl
             Role role = getRoleService().getRole(getNewRoleId());
             String roleName = role.getNamespaceCode() + ":" + role.getRoleName();
             getNewNotificationRecipient().setRoleName(roleName);
+            getNewNotificationRecipient().setPersonId(null);
+            getNewNotificationRecipient().setRolodexId(null);
             getNewNotificationRecipient().setFullName(roleName);
         } else if (StringUtils.isNotBlank(getNewPersonId())) {
+            getNewNotificationRecipient().setRoleName(null);
             KcPerson person = getKcPersonService().getKcPersonByPersonId(getNewPersonId());
             getNewNotificationRecipient().setPersonId(person.getPersonId());
             getNewNotificationRecipient().setFullName(person.getFullName());
+            getNewNotificationRecipient().setRolodexId(null);
         } else if (StringUtils.isNotBlank(getNewRolodexId())) {
+            getNewNotificationRecipient().setRoleName(null);
+            getNewNotificationRecipient().setPersonId(null);
             Rolodex rolodex = getRolodexService().getRolodex(Integer.valueOf(getNewRolodexId()));
             getNewNotificationRecipient().setRolodexId(rolodex.getRolodexId().toString());
             getNewNotificationRecipient().setFullName(rolodex.getFullName());
