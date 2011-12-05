@@ -844,10 +844,10 @@
 		<property name="businessObjectService" ref="businessObjectService" />
 		<property name="dateTimeService" ref="dateTimeService" />
 	</bean>
-	<bean id="currentProposalPrint" class="org.kuali.kra.printing.print.CurrentProposalPrint">
+	<bean id="currentProposalPrint" class="org.kuali.kra.printing.print.CurrentProposalPrint"  scope="prototype">
 		<property name="xmlStream" ref="currentProposalXmlStream" />
 	</bean>
-	<bean id="pendingProposalPrint" class="org.kuali.kra.printing.print.PendingProposalPrint">
+	<bean id="pendingProposalPrint" class="org.kuali.kra.printing.print.PendingProposalPrint"  scope="prototype">
 		<property name="xmlStream" ref="pendingProposalXmlStream" />
 	</bean>
 
@@ -855,8 +855,8 @@
 		class="org.kuali.kra.printing.service.impl.CurrentAndPendingReportServiceImpl">
 		<property name="currentReportDao" ref="currentReportDao" />
 		<property name="pendingReportDao" ref="pendingReportDao" />
-		<property name="currentProposalPrint" ref="currentProposalPrint" />
-		<property name="pendingProposalPrint" ref="pendingProposalPrint" />
+		<property name="currentProposalPrint" ref="currentProposalPrint"/>
+		<property name="pendingProposalPrint" ref="pendingProposalPrint"/>
 		<property name="printingService" ref="printingService" />
 	</bean>
 	<!-- Current And Pending Support-related Beans End -->
