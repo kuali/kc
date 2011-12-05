@@ -312,7 +312,7 @@
   </bean>
   
   <bean id="Negotiation-associatedNegotiable.piName" parent="Negotiation-associatedNegotiable.piName-parentBean" />
-  <bean id="Negotiation-associatedNegotiable.piName-parentBean" abstract="true" parent="PersonImpl-principalName">
+  <bean id="Negotiation-associatedNegotiable.piName-parentBean" abstract="true" parent="NegotiationUnassociatedDetail-piName">
     <property name="name" value="associatedNegotiable.piName" />
     <property name="label" value="Principal Investigator" />
     <property name="shortLabel" value="PI" />
