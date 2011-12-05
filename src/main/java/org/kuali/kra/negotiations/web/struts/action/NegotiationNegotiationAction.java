@@ -538,6 +538,7 @@ public class NegotiationNegotiationAction extends NegotiationAction {
         NegotiationDocument negotiationDocument = negotiationForm.getDocument();     
         Negotiation negotiation = negotiationDocument.getNegotiation();
         negotiation.setPrintindex(0);
+        negotiation.setPrintAll(StringUtils.equals(negotiationForm.getFilterActivities(), negotiationForm.getFilterAllActivities()));
         AttachmentDataSource dataStream = getNegotiationPrintingService().printNegotiationActivityReport
                           (negotiation, NegotiationActivityPrintType.NEGOTIATION_ACTIVITY_REPORT, reportParameters);                                                  
         streamToResponse(dataStream,response);       
