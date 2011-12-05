@@ -15,14 +15,20 @@
  */
 package org.kuali.kra.negotiations.web.struts.action;
 
+import java.util.List;
+
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 
 import org.apache.struts.action.ActionForm;
 import org.apache.struts.action.ActionForward;
 import org.apache.struts.action.ActionMapping;
+import org.kuali.kra.common.notification.bo.KcNotification;
 import org.kuali.kra.common.notification.bo.NotificationTypeRecipient;
+import org.kuali.kra.common.notification.rule.event.AddNotificationRecipientEvent;
+import org.kuali.kra.common.notification.rule.event.SendNotificationEvent;
 import org.kuali.kra.infrastructure.Constants;
+import org.kuali.kra.negotiations.document.NegotiationDocument;
 import org.kuali.kra.negotiations.web.struts.form.NegotiationForm;
 
 public class NegotiationNotificationAction extends NegotiationAction {
@@ -52,13 +58,17 @@ public class NegotiationNotificationAction extends NegotiationAction {
         throws Exception {
         
         NegotiationForm negotiationForm = (NegotiationForm) form;
+        NegotiationDocument document = negotiationForm.getDocument();
         NotificationTypeRecipient notificationRecipient = negotiationForm.getNotificationHelper().getNewNotificationRecipient();
+        List<NotificationTypeRecipient> notificationRecipients = negotiationForm.getNotificationHelper().getNotificationRecipients();
         
-        negotiationForm.getNotificationHelper().getNotificationRecipients().add(notificationRecipient);
-        negotiationForm.getNotificationHelper().setNewNotificationRecipient(new NotificationTypeRecipient());
-        negotiationForm.getNotificationHelper().setNewRoleId(null);
-        negotiationForm.getNotificationHelper().setNewPersonId(null);
-        negotiationForm.getNotificationHelper().setNewRolodexId(null);
+        if (applyRules(new AddNotificationRecipientEvent(document, notificationRecipient, notificationRecipients))) {
+            negotiationForm.getNotificationHelper().getNotificationRecipients().add(notificationRecipient);
+            negotiationForm.getNotificationHelper().setNewNotificationRecipient(new NotificationTypeRecipient());
+            negotiationForm.getNotificationHelper().setNewRoleId(null);
+            negotiationForm.getNotificationHelper().setNewPersonId(null);
+            negotiationForm.getNotificationHelper().setNewRolodexId(null);
+        }
         
         return mapping.findForward(Constants.MAPPING_BASIC);
     }
@@ -83,14 +93,43 @@ public class NegotiationNotificationAction extends NegotiationAction {
         return mapping.findForward(Constants.MAPPING_BASIC);
     }
     
-    public ActionForward saveNotification(ActionMapping mapping, ActionForm form, HttpServletRequest request, HttpServletResponse response) throws Exception {
+    /**
+     * Sends a Notification.
+     * 
+     * @param mapping the action mapping
+     * @param form the action form
+     * @param request the request
+     * @param response the response
+     * @return the action forward
+     * @throws Exception
+     */
+    public ActionForward sendNotification(ActionMapping mapping, ActionForm form, HttpServletRequest request, HttpServletResponse response) throws Exception {
+        ActionForward actionForward = mapping.findForward(Constants.MAPPING_BASIC);
+        
         NegotiationForm negotiationForm = (NegotiationForm) form;
+        NegotiationDocument document = negotiationForm.getDocument();
+        KcNotification notification = negotiationForm.getNotificationHelper().getNotification();
+        List<NotificationTypeRecipient> notificationRecipients = negotiationForm.getNotificationHelper().getNotificationRecipients();
         
-        negotiationForm.getNotificationHelper().sendNotification();
+        if (applyRules(new SendNotificationEvent(document, notification, notificationRecipients))) {
+            negotiationForm.getNotificationHelper().sendNotification();
+            
+            actionForward = mapping.findForward("negotiation");
+        }
         
-        return mapping.findForward("negotiation");
+        return actionForward;
     }
     
+    /**
+     * Cancels a Notification.
+     * 
+     * @param mapping the action mapping
+     * @param form the action form
+     * @param request the request
+     * @param response the response
+     * @return the action forward
+     * @throws Exception
+     */
     public ActionForward cancelNotification(ActionMapping mapping, ActionForm form, HttpServletRequest request, HttpServletResponse response) throws Exception {
         return mapping.findForward("negotiation");
     }
