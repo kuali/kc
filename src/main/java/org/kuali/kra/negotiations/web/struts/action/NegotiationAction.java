@@ -33,6 +33,8 @@ import org.kuali.kra.negotiations.service.NegotiationService;
 import org.kuali.kra.negotiations.web.struts.form.NegotiationForm;
 import org.kuali.kra.web.struts.action.KraTransactionalDocumentActionBase;
 import org.kuali.rice.kew.exception.WorkflowException;
+import org.kuali.rice.kns.rule.event.KualiDocumentEvent;
+import org.kuali.rice.kns.service.KualiRuleService;
 import org.kuali.rice.kns.service.SequenceAccessorService;
 import org.kuali.rice.kns.web.struts.form.KualiDocumentFormBase;
 
@@ -48,6 +50,7 @@ public class NegotiationAction extends KraTransactionalDocumentActionBase {
     private SequenceAccessorService sequenceAccessorService;
     private NegotiationPrintingService negotiationPrintingService;
     private KcNotificationService notificationService;
+    private KualiRuleService kualiRuleService;
 
     @Override
     public ActionForward docHandler(ActionMapping mapping, ActionForm form, 
@@ -88,6 +91,10 @@ public class NegotiationAction extends KraTransactionalDocumentActionBase {
         actionForward = super.save(mapping, form, request, response);
         return actionForward;
     }
+
+    protected final boolean applyRules(KualiDocumentEvent event) {
+        return getKualiRuleService().applyRules(event);
+    }
     
     protected NegotiationService getNegotiationService() {
         if (negotiationService == null) {
@@ -113,7 +120,7 @@ public class NegotiationAction extends KraTransactionalDocumentActionBase {
 
     public NegotiationPrintingService getNegotiationPrintingService() {
         if (negotiationPrintingService == null) {
-            negotiationPrintingService =KraServiceLocator.getService(NegotiationPrintingService.class);
+            negotiationPrintingService = KraServiceLocator.getService(NegotiationPrintingService.class);
         }
         return negotiationPrintingService;
     }
@@ -132,4 +139,12 @@ public class NegotiationAction extends KraTransactionalDocumentActionBase {
     public void setNotificationService(KcNotificationService notificationService) {
         this.notificationService = notificationService;
     }
+    
+    protected KualiRuleService getKualiRuleService() {
+        if (kualiRuleService == null) {
+            kualiRuleService = KraServiceLocator.getService(KualiRuleService.class);
+        }
+        return kualiRuleService;
+    }
+    
 }

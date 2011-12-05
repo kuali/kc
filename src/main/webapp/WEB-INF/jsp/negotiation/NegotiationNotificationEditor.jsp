@@ -28,7 +28,7 @@
 </div>
 
 <div id="globalbuttons" class="globalbuttons">
-    <html:image src="${ConfigProperties.kr.externalizable.images.url}buttonsmall_save.gif" styleClass="globalbuttons" property="methodToCall.saveNotification" title="save" alt="save" tabindex="${tabindex}" />
+    <html:image src="${ConfigProperties.kr.externalizable.images.url}buttonsmall_save.gif" styleClass="globalbuttons" property="methodToCall.sendNotification" title="save" alt="save" tabindex="${tabindex}" />
     <html:image src="${ConfigProperties.kr.externalizable.images.url}buttonsmall_cancel.gif" styleClass="globalbuttons" property="methodToCall.cancelNotification" title="cancel" alt="cancel" tabindex="${tabindex}" />
 </div>
   
