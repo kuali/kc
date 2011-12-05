@@ -703,6 +703,9 @@
 		<property name="kcPersonService">
 			<ref bean="kcPersonService" />
 		</property>
+		<property name="rolodexService">
+            <ref bean="rolodexService" />
+        </property>
 		<property name="parameterService">
             <ref bean="parameterService" />
         </property>
