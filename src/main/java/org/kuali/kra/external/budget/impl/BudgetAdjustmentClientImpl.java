@@ -65,23 +65,23 @@ public class BudgetAdjustmentClientImpl extends BudgetAdjustmentClientBase {
     
     @Override
     protected BudgetAdjustmentService getServiceHandle() {
-        URL wsdlURL = WSDL_LOCATION;
+        URL wsdlURL = null;
         
         boolean getFinSystemURLFromWSDL = getParameterService().getIndicatorParameter("KC-AWARD", "Document", Constants.GET_FIN_SYSTEM_URL_FROM_WSDL);
         
-        if (!getFinSystemURLFromWSDL) {
+        if (getFinSystemURLFromWSDL) {
+            wsdlURL = WSDL_LOCATION;
+        } else {
             String serviceEndPointUrl = ConfigContext.getCurrentContextConfig().getProperty(Constants.FIN_SYSTEM_INTEGRATION_SERVICE_URL);
             try {
                 wsdlURL = new URL(serviceEndPointUrl + SOAP_SERVICE_NAME + "?wsdl");
             } catch (MalformedURLException mue) {
                 LOG.error("Could not construct financial system URL from config file: " + mue.getMessage());
-            } finally {
-                wsdlURL = null;
             }
         }
         
         BudgetAdjustmentServiceSOAP ss = new BudgetAdjustmentServiceSOAP(wsdlURL, SERVICE_NAME);
-        return ss.getBudgetAdjustmentServicePort();  
+        return ss.getBudgetAdjustmentServicePort();
     }
 
 }
