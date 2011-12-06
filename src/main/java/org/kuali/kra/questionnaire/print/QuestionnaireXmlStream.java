@@ -556,6 +556,7 @@ public class QuestionnaireXmlStream implements XmlStream {
             int selectedAnswer = 0;
             for (AnswerHeader answerHeader : answerHeaders) {
                 String answerName="";
+                String answerPerson="";
                 String answerDescription = null;
                 if (questionnaireQuestion.getQuestionnaireRefIdFk().equals(answerHeader.getQuestionnaireRefIdFk())) {
                     List<Answer> answers = answerHeader.getAnswers();
@@ -570,14 +571,7 @@ public class QuestionnaireXmlStream implements XmlStream {
                                 if(isAnswerNamePresent==true)
                                     answerName+=", ";
                                 answerName += answer.getAnswer().trim();
-                                if((questionnaireQuestion.getQuestion().getQuestionTypeId().equals(6)) && (questionnaireQuestion.getQuestion().getLookupClass().equals("org.kuali.kra.bo.KcPerson"))) {
-                                    if((questionnaireQuestion.getQuestion().getLookupReturn().equals("personId"))){
-                                        KcPerson kcPerson=kcPersonService.getKcPersonByPersonId(answerName);
-                                        if(kcPerson != null)
-                                            answerName=kcPerson.getFullName();
-                                    }
-                                }
-                                if (answerName != null) {
+                                 if (answerName != null) {
                                     if (answerName.trim().equalsIgnoreCase("Y")) {
                                         answerDescription = "Yes";
                                         if (updateQuestionDescription) {
@@ -596,28 +590,47 @@ public class QuestionnaireXmlStream implements XmlStream {
                                 }
                                 selectedAnswer = answer.getAnswerNumber();
                                 isAnswerNamePresent=true;
-                                //break;
+                               //break;
                             }
                         }
 
                     }
                 }
-                if ((isAnswerPresent || !questionnaireCompletionFlag) && !(printableBusinessObject instanceof ProposalPerson)) {
+                
                 //if (isAnswerPresent || !questionnaireCompletionFlag) {
                     AnswerInfoType answerInfo = questionInfo.addNewAnswerInfo();
                     answerInfo.setAnswerNumber(selectedAnswer);
 //                    if(answerDescription==null||answerDescription.isEmpty())
 //                        answerDescription="notAnswered";
+                    if((questionnaireQuestion.getQuestion().getQuestionTypeId().equals(6)) && (questionnaireQuestion.getQuestion().getLookupClass().equals("org.kuali.kra.bo.KcPerson"))) {
+                        if((questionnaireQuestion.getQuestion().getLookupReturn().equals("personId"))){
+                            if(answerDescription!=null && !answerDescription.equals("")){
+                        String personAnswers[]=answerDescription.split(",");
+                        answerDescription = "";
+                       for (int personAnswer = 0; personAnswer < personAnswers.length; personAnswer++) {
+                           KcPerson kcPerson=kcPersonService.getKcPersonByPersonId(personAnswers[personAnswer].trim());
+                           if(kcPerson != null)
+                               answerDescription = answerDescription + kcPerson.getFullName()+ ",";
+                           }
+                       answerDescription = answerDescription.substring(0, answerDescription.lastIndexOf(",")-1);
+                        }
+                            
+                        }}
                     answerInfo.setAnswer(answerDescription);
                 }
             }
         }
-            
-            
-        
-    }
     
-    
+    /**
+     * 
+     * This method for setting the question and answers corresponding to the questionnaire.
+     * @param questionnaire
+     * @param moduleQuestionnaireBean
+     * @param questionnaireType
+     * @param questionnaireCompletionFlag
+     * @param printableBusinessObject
+     * @throws PrintingException
+     */
     private void setQuestionInfoData(org.kuali.kra.questionnaire.Questionnaire questionnaire,
             ModuleQuestionnaireBean moduleQuestionnaireBean, Questionnaire questionnaireType, boolean questionnaireCompletionFlag,
             KraPersistableBusinessObjectBase printableBusinessObject) throws PrintingException {

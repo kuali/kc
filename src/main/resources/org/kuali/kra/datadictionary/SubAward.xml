@@ -44,6 +44,7 @@
         <ref bean="SubAward-totalAvailableAmount" />    
         <ref bean="SubAward-docIdStatus" />  
         <ref bean="SubAward-lastUpdate" />
+        <ref bean="SubAward-subAwardCode" />    
       </list>
     </property>
   </bean>
@@ -69,6 +70,24 @@
     <property name="description" value="SubAward Id" />    
   </bean>
     
+  <bean id="SubAward-subAwardCode" parent="SubAward-subAwardCode-parentBean" />
+  <bean id="SubAward-subAwardCode-parentBean" abstract="true" parent="AttributeDefinition">
+    <property name="name" value="subAwardCode" />
+    <property name="forceUppercase" value="false" />
+    <property name="label" value="Subaward Id" />
+    <property name="shortLabel" value="Subaward Id" />
+    <property name="maxLength" value="22" />
+    <property name="validationPattern" >
+      <bean parent="NumericValidationPattern" />
+    </property>
+    <property name="required" value="true" />
+    <property name="control" >
+      <bean parent="TextControlDefinition"
+            p:size="10" />
+    </property>
+    <property name="summary" value="SubAward Id" />
+    <property name="description" value="SubAward Id" />    
+  </bean>
    
   <bean id="SubAward-organizationId" parent="SubAward-organizationId-parentBean" />
   
@@ -171,8 +190,8 @@
             p:keyAttribute="awardTypeCode"
             p:labelAttribute="description" />
     </property>
-    <property name="summary" value="Subaward Type Code" />
-    <property name="description" value="Subaward Type Code" />    
+    <property name="summary" value="Subaward Type" />
+    <property name="description" value="Subaward Type" />    
   </bean>
   
   
@@ -632,7 +651,7 @@
     </property>
     <property name="lookupFields" >
       <list>
-        <bean p:attributeName="subAwardId" parent="FieldDefinition" p:forceInquiry="true" />
+        <bean p:attributeName="subAwardCode" parent="FieldDefinition" p:forceInquiry="true" />
         <bean p:attributeName="organizationId" parent="FieldDefinition" p:forceInquiry="true" />
         <bean p:attributeName="organizationName" parent="FieldDefinition" p:forceInquiry="true" />
         <bean p:attributeName="startDate" parent="FieldDefinition" p:forceInquiry="true" />
@@ -659,7 +678,7 @@
     </property>
     <property name="resultFields" >
       <list>
-        <bean p:attributeName="subAwardId" parent="FieldDefinition" p:forceInquiry="true" />
+        <bean p:attributeName="subAwardCode" parent="FieldDefinition" p:forceInquiry="true" />
         <bean p:attributeName="organizationId" parent="FieldDefinition" p:forceInquiry="true" />
         <bean p:attributeName="organizationName" parent="FieldDefinition" p:forceInquiry="true" />
         <bean p:attributeName="startDate" parent="FieldDefinition" p:forceInquiry="true" />

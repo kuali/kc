@@ -97,7 +97,7 @@
   <bean id="SubAwardCloseout-closeoutTypeCode-parentBean" abstract="true" parent="AttributeDefinition">
     <property name="name" value="closeoutTypeCode" />
     <property name="forceUppercase" value="false" />
-    <property name="label" value="Closeout Type Code" />
+    <property name="label" value="Closeout Type" />
     <property name="shortLabel" value="Closeout Type Code" />
     <property name="maxLength" value="22" />
     <property name="validationPattern" >

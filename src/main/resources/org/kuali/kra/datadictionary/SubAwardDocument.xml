@@ -33,6 +33,10 @@
           <property name="headerTabDisplayName" value="Custom Data"/>
           <property name="headerTabNavigateTo" value="customData"/>
         </bean>
+          <bean parent="HeaderNavigation">
+          <property name="headerTabDisplayName" value="Medusa"/>
+          <property name="headerTabNavigateTo" value="medusa"/>
+        </bean>
       </list>  
     </property>
     
