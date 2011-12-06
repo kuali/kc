@@ -198,4 +198,10 @@ public interface ProtocolPersonnelService {
      */
     public boolean isPISameAsCoI(ProtocolPerson piProtocolPerson, ProtocolPerson newProtocolPerson);
 
+    /**
+     * This method returns a list of affiliated students from a list of personnel.
+     * @param protocolPersons
+     * @return affiliatedStudents
+     */
+    public List<Integer>getAffiliationStudentMap(List<ProtocolPerson> protocolPersons);
 }

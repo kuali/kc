@@ -31,9 +31,9 @@
     	<c:set var="descri" value="${person.protocolPersonRole.description}" />
 	<c:set var="personIndex" value="${status.index}" />
 	<kul:tab tabTitle="${fn:substring(person.personName, 0, 22)}"
-			 tabErrorKey="document.protocolList[0].protocolPersons[${personIndex}]*"
-			 auditCluster="requiredFieldsAuditErrors" 
-			 tabAuditKey="" 
+			 tabErrorKey="document.protocolList[0].protocolPersons[${personIndex}].*"
+			 auditCluster="personnelAuditErrors" 
+			 tabAuditKey="document.protocolList[0].protocolPersons[${personIndex}].*" 
 			 useRiceAuditMode="true"
 	         tabDescription="${descri}"
 	         leftSideHtmlProperty="${leftSideHtmlProperty}" 
@@ -44,22 +44,16 @@
 	         transparentBackground="${transparent}">
         <div class="tab-container" align="center">
 		    <div id="workarea">
-<%-- seems to cause an extra set of vertical lines...   
-                <div class="tab-container" align="center" id="G100"> 
---%>
-				    <h3>
-				       	<span class="subhead-left"><bean:write name="KualiForm" property="${protocolPersonProperty}.personName"/></span>
-				        <span class="subhead-right"><kul:help businessObjectClassName="org.kuali.kra.irb.personnel.ProtocolPerson" altText="help"/></span>
-				    </h3>
-				    <kra-irb:personDetailsSection personIndex="${status.index}" protocolPerson="${protocolPersonProperty}"/>
-					<kra-irb:personContactInformationSection personIndex="${status.index}" protocolPerson="${protocolPersonProperty}"/>
-  					<kra-irb:personAttachmentSection personIndex="${status.index}" protocolPerson="${protocolPersonProperty}"/> 
-  					<c:if test="${personUnitRequired}">
-						<kra-irb:personUnitsSection personIndex="${status.index}" protocolPerson="${protocolPersonProperty}"/>
-  					</c:if>
-<%--
-			  	</div>
---%>			  	
+				<h3>
+					<span class="subhead-left"><bean:write name="KualiForm" property="${protocolPersonProperty}.personName"/></span>
+				    <span class="subhead-right"><kul:help businessObjectClassName="org.kuali.kra.irb.personnel.ProtocolPerson" altText="help"/></span>
+				</h3>
+				<kra-irb:personDetailsSection personIndex="${status.index}" protocolPerson="${protocolPersonProperty}"/>
+				<kra-irb:personContactInformationSection personIndex="${status.index}" protocolPerson="${protocolPersonProperty}"/>
+  				<kra-irb:personAttachmentSection personIndex="${status.index}" protocolPerson="${protocolPersonProperty}"/> 
+  				<c:if test="${personUnitRequired}">
+					<kra-irb:personUnitsSection personIndex="${status.index}" protocolPerson="${protocolPersonProperty}"/>
+  				</c:if>
 			</div>
 		 </div>
 	</kul:tab>

@@ -50,7 +50,9 @@ public class ProtocolPersonnelAuditRule extends ResearchDocumentRuleBase impleme
         isValid = getProtocolPersonnelService().isValidStudentFacultyMatch(protocolDocument.getProtocol().getProtocolPersons());
 
         if (!isValid) {
-            addErrorToAuditErrors();
+            for (Integer errorIndex: getProtocolPersonnelService().getAffiliationStudentMap(protocolDocument.getProtocol().getProtocolPersons())) {
+                addErrorToAuditErrors(errorIndex.intValue());
+            }
         }
         reportAndCreateAuditCluster();
         
@@ -61,14 +63,10 @@ public class ProtocolPersonnelAuditRule extends ResearchDocumentRuleBase impleme
     /**
      * This method creates and adds the Audit Error to the <code>{@link List<AuditError>}</code> auditError.
      */
-    protected void addErrorToAuditErrors() {
-        StringBuilder sb = new StringBuilder();
-        sb.append(Constants.PROTOCOL_PERSONNEL_PAGE);
-        sb.append(".");
-        sb.append(Constants.PROTOCOL_PERSONNEL_PANEL_ANCHOR);
-        auditErrors.add(new AuditError(Constants.PROTOCOL_PRINCIPAL_INVESTIGATOR_KEY, 
-                                        KeyConstants.ERROR_PROTOCOL_INVESTIGATOR_INVALID, 
-                                        sb.toString()));   
+    protected void addErrorToAuditErrors(int personIndex) {
+        String label = Constants.PROTOCOL_FROM_DOCUMENT + ".protocolPersons[" + personIndex + "].protocolPersonRoleId"; 
+        String cat = Constants.PROTOCOL_PERSONNEL_PAGE + "." + Constants.PROTOCOL_PERSONNEL_PANEL_ANCHOR;
+        auditErrors.add(new AuditError(label, KeyConstants.ERROR_PROTOCOL_INVESTIGATOR_INVALID, cat));   
     }
 
     /**
