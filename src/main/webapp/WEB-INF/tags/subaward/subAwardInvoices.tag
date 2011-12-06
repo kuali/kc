@@ -64,6 +64,7 @@
               	    <kul:htmlAttributeHeaderCell literalLabel="Actions" scope="col"/>
           	    <%-- </c:if> --%>
             </tr>
+             <c:if test="${readOnly!='true'}">
             <tr>
     
     				<th class="infoline" rowspan="2">
@@ -85,7 +86,9 @@
    				</td>
    				
    				   <td class="infoline">
+   				   <c:if test="${readOnly!='true'}">
                 	<html:file property="newSubAwardAmountReleased.fileName" />
+                	</c:if>
                 </td>
                 <td><div align="center">
      					<kul:htmlControlAttribute property="newSubAwardAmountReleased.effectiveDate" readOnly="${readOnly}" attributeEntry="${subAwardAmountReleasedAttributes.effectiveDate}" datePicker="true"/>         
@@ -97,19 +100,22 @@
    				</td>
    				 				
    				<td class="infoline" rowspan="2"><div align="center">
+   					<c:if test="${readOnly!='true'}">
 						<html:image property="methodToCall.addAmountReleased.anchor${tabKey}" 
 						            src='${ConfigProperties.kra.externalizable.images.url}tinybutton-add1.gif' 
 						            styleClass="tinybutton"/>
+				   </c:if>
 	                </div>
 	            </td>   				
    			</tr> 
+   		
         	<tr>				
 				<th><div align="right"><kul:htmlAttributeLabel attributeEntry="${subAwardAmountReleasedAttributes.comments}" /></div></th>
                 <td colspan="5">
                       <kul:htmlControlAttribute property="newSubAwardAmountReleased.comments" readOnly="${readOnly}" attributeEntry="${subAwardAmountReleasedAttributes.comments}" />
                 </td>
             </tr>     
-   			
+   				</c:if>
    			
    			<c:forEach var="newSubAwardAmountReleased" items="${KualiForm.document.subAwardList[0].subAwardAmountReleasedList}" varStatus="status">
 		             <tr>
@@ -118,37 +124,37 @@
 						</th>	                
 		                <td width="9%" valign="middle">
 						<div align="center">
-	                		<kul:htmlControlAttribute property="document.subAwardList[0].subAwardAmountReleasedList[${status.index}].invoiceNumber" attributeEntry="${subAwardAmountReleasedAttributes.invoiceNumber}" readOnly="false" />
+	                		<kul:htmlControlAttribute property="document.subAwardList[0].subAwardAmountReleasedList[${status.index}].invoiceNumber"  readOnly="${readOnly}" attributeEntry="${subAwardAmountReleasedAttributes.invoiceNumber}" />
 						</div>
 						</td>
 		                <td width="9%" valign="middle">
 						<div align="center">
-	                		<kul:htmlControlAttribute property="document.subAwardList[0].subAwardAmountReleasedList[${status.index}].startDate" attributeEntry="${subAwardAmountReleasedAttributes.startDate}" datePicker="true" readOnly="false"  />                		
+	                		<kul:htmlControlAttribute property="document.subAwardList[0].subAwardAmountReleasedList[${status.index}].startDate" readOnly="${readOnly}" attributeEntry="${subAwardAmountReleasedAttributes.startDate}" datePicker="true" />                		
 						</div>
 						</td>
 		                <td width="9%" valign="middle">
 						<div align="center">
-	                		<kul:htmlControlAttribute property="document.subAwardList[0].subAwardAmountReleasedList[${status.index}].endDate" attributeEntry="${subAwardAmountReleasedAttributes.endDate}" datePicker="true" readOnly="false"   />
+	                		<kul:htmlControlAttribute property="document.subAwardList[0].subAwardAmountReleasedList[${status.index}].endDate" readOnly="${readOnly}" attributeEntry="${subAwardAmountReleasedAttributes.endDate}" datePicker="true" />
 						</div>
 						<%-- </td><kra:fileicon attachment="${subAward.fileName}"/><td> --%>
 					
 						<td width="9%" valign="middle">
 						<div align="center">
 						
-	                		<kul:htmlControlAttribute property="document.subAwardList[0].subAwardAmountReleasedList[${status.index}].fileName" attributeEntry="${subAwardAmountReleasedAttributes.fileName}" readOnly="true" />
+	                		<kul:htmlControlAttribute property="document.subAwardList[0].subAwardAmountReleasedList[${status.index}].fileName" readOnly="true" attributeEntry="${subAwardAmountReleasedAttributes.fileName}" />
 						</div>
 						</td>		
 						<td width="9%" valign="middle">
 						<div align="center">
 						
-	                		<kul:htmlControlAttribute property="document.subAwardList[0].subAwardAmountReleasedList[${status.index}].effectiveDate" attributeEntry="${subAwardAmountReleasedAttributes.effectiveDate}" datePicker="true" readOnly="false" />
+	                		<kul:htmlControlAttribute property="document.subAwardList[0].subAwardAmountReleasedList[${status.index}].effectiveDate" readOnly="${readOnly}" attributeEntry="${subAwardAmountReleasedAttributes.effectiveDate}" datePicker="true" />
 						</div>
 						</td>	
 						
 						<td width="9%" valign="middle">
 						<div align="center">
 						
-	                		<kul:htmlControlAttribute property="document.subAwardList[0].subAwardAmountReleasedList[${status.index}].amountReleased" attributeEntry="${subAwardAmountReleasedAttributes.amountReleased}" readOnly="false" />
+	                		<kul:htmlControlAttribute property="document.subAwardList[0].subAwardAmountReleasedList[${status.index}].amountReleased" readOnly="${readOnly}" attributeEntry="${subAwardAmountReleasedAttributes.amountReleased}" />
 						</div>
 						</td>	
 						

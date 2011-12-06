@@ -29,7 +29,7 @@ public class SubAwardAmountInfo extends SubAwardAssociate{
     private static final long serialVersionUID = 1L;
 
     private Integer subAwardAmountInfoId; 
-    private Integer subAwardId; 
+    private Long subAwardId; 
     private String subAwardCode; 
     private Integer lineNumber; 
     private KualiDecimal obligatedAmount; 
@@ -59,11 +59,11 @@ public class SubAwardAmountInfo extends SubAwardAssociate{
         this.subAwardAmountInfoId = subAwardAmountInfoId;
     }
 
-    public Integer getSubAwardId() {
+    public Long getSubAwardId() {
         return subAwardId;
     }
 
-    public void setSubAwardId(Integer subAwardId) {
+    public void setSubAwardId(Long subAwardId) {
         this.subAwardId = subAwardId;
     }
 

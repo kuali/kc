@@ -20,6 +20,8 @@ import javax.servlet.http.HttpServletResponse;
 import org.apache.struts.action.ActionForm;
 import org.apache.struts.action.ActionForward;
 import org.apache.struts.action.ActionMapping;
+import org.kuali.kra.award.AwardForm;
+import org.kuali.kra.bo.versioning.VersionStatus;
 import org.kuali.kra.infrastructure.Constants;
 import org.kuali.kra.infrastructure.KeyConstants;
 import org.kuali.kra.infrastructure.KraServiceLocator;
@@ -150,6 +152,8 @@ public class SubAwardAction extends KraTransactionalDocumentActionBase{
         
         SubAward subAward = subAwardForm.getSubAwardDocument().getSubAward();
         checkSubAwardCode(subAward);
+        String userId = GlobalVariables.getUserSession().getPrincipalName();
+        getVersionHistoryService().createVersionHistory(subAward, VersionStatus.PENDING, userId);
         subAward = KraServiceLocator.getService(SubAwardService.class).getAmountInfo(subAward);
         if(new SubAwardDocumentRule().processAddSubAwardBusinessRules(subAward)){
             return super.save(mapping, form, request, response);
@@ -348,4 +352,18 @@ public ActionForward blanketApprove(ActionMapping mapping, ActionForm form, Http
         return forward;
     }
 }
+
+
+ public ActionForward medusa(ActionMapping mapping, ActionForm form, HttpServletRequest request, HttpServletResponse response) throws Exception {
+       SubAwardForm subAwardForm = (SubAwardForm) form;
+         if (subAwardForm.getDocument().getDocumentNumber() == null) {
+                loadDocumentInForm(request, subAwardForm);
+            }
+            subAwardForm.getMedusaBean().setMedusaViewRadio("0");
+            subAwardForm.getMedusaBean().setModuleName("subaward");
+            subAwardForm.getMedusaBean().setModuleIdentifier(subAwardForm.getSubAwardDocument().getSubAward().getSubAwardId());
+            return mapping.findForward(Constants.MAPPING_AWARD_MEDUSA_PAGE);
+            }
+   
+
 }

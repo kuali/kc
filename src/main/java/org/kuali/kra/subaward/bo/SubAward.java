@@ -52,7 +52,7 @@ public class SubAward extends KraPersistableBusinessObjectBase implements Permis
     
     private static final long serialVersionUID = 1L;
 
-    private Integer subAwardId; 
+    private Long subAwardId; 
     private String subAwardCode; 
     private Integer sequenceNumber; 
     private String organizationId; 
@@ -200,11 +200,11 @@ public class SubAward extends KraPersistableBusinessObjectBase implements Permis
         subAwardSequenceStatus = VersionStatus.PENDING.name();
         setNewVersion(false);
     }
-    public Integer getSubAwardId() {
+    public Long getSubAwardId() {
         return subAwardId;
     }
 
-    public void setSubAwardId(Integer subAwardId) {
+    public void setSubAwardId(Long subAwardId) {
         this.subAwardId = subAwardId;
     }
 

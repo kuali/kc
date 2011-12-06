@@ -38,40 +38,46 @@
         <th><div align="center"><kul:htmlAttributeLabel attributeEntry="${subAwardFundingSourceAttributes.obligationExpirationDate}" /></div></th>
          <kul:htmlAttributeHeaderCell literalLabel="Actions" scope="col"/>
           	   </tr>     
+          	    <c:if test="${readOnly!='true'}">
 			   <tr>
                <th class="infoline" >
 						Add:
 				</th>
      			 <td align="center"  colspan=3><kul:htmlControlAttribute property="newSubAwardFundingSource.award.awardNumber" attributeEntry="${subAwardFundingSourceAttributes.awardId}" />
-                 <kul:lookup boClassName="org.kuali.kra.award.home.Award" fieldConversions="awardNumber:newSubAwardFundingSource.award.awardNumber,awardDocument.documentNumber:newSubAwardFundingSource.award.awardDocument.documentNumber,awardId:newSubAwardFundingSource.awardId,accountNumber:newSubAwardFundingSource.award.accountNumber,statusCode:newSubAwardFundingSource.award.statusCode,sponsorCode:newSubAwardFundingSource.award.sponsorCode,awardAmountInfos[0].amountObligatedToDate:newSubAwardFundingSource.award.awardAmountInfos[0].amountObligatedToDate,awardAmountInfos[0].obligationExpirationDate:newSubAwardFundingSource.award.awardAmountInfos[0].obligationExpirationDate" anchor="${tabKey}" />
+     			 <c:if test="${readOnly!='true'}">
+                 <kul:lookup boClassName="org.kuali.kra.award.home.Award" fieldConversions="awardNumber:newSubAwardFundingSource.award.awardNumber,awardDocument.documentNumber:newSubAwardFundingSource.award.awardDocument.documentNumber,awardId:newSubAwardFundingSource.awardId,accountNumber:newSubAwardFundingSource.award.accountNumber,statusCode:newSubAwardFundingSource.award.statusCode,sponsorCode:newSubAwardFundingSource.award.sponsorCode,awardAmountInfos[0].amountObligatedToDate:newSubAwardFundingSource.award.awardAmountInfos[0].amountObligatedToDate,awardAmountInfos[0].obligationExpirationDate:newSubAwardFundingSource.award.awardAmountInfos[0].obligationExpirationDate,awardStatus.description:newSubAwardFundingSource.award.awardStatus.description" anchor="${tabKey}" />
+                 </c:if>
                	</td>
    				<td><div align="center">
-     					<kul:htmlControlAttribute property="newSubAwardFundingSource.award.accountNumber" readOnly="${readOnly}" attributeEntry="${subAwardFundingSourceAttributes.accountNumber}" datePicker="false" />           
+     					<kul:htmlControlAttribute property="newSubAwardFundingSource.award.accountNumber" readOnly="true" attributeEntry="${subAwardFundingSourceAttributes.accountNumber}" datePicker="false" />           
    					</div> 
    				</td>
    				<td><div align="center">
-     					<kul:htmlControlAttribute property="newSubAwardFundingSource.award.statusCode" readOnly="${readOnly}" attributeEntry="${subAwardFundingSourceAttributes.statusCode}" datePicker="false" />         
+     					<kul:htmlControlAttribute property="newSubAwardFundingSource.award.awardStatus.description" readOnly="true" attributeEntry="${subAwardFundingSourceAttributes.statusCode}" datePicker="false" />         
    					</div> 
    				</td>
    				<td><div align="center">
-     					<kul:htmlControlAttribute property="newSubAwardFundingSource.award.sponsorCode" readOnly="${readOnly}" attributeEntry="${subAwardFundingSourceAttributes.sponsorCode}" datePicker="false" />         
+     					<kul:htmlControlAttribute property="newSubAwardFundingSource.award.sponsorCode" readOnly="true" attributeEntry="${subAwardFundingSourceAttributes.sponsorCode}" datePicker="false" />         
    					</div> 
    					</td>	
    				<td><div align="center">
-     					<kul:htmlControlAttribute property="newSubAwardFundingSource.award.awardAmountInfos[0].amountObligatedToDate" readOnly="${readOnly}" attributeEntry="${subAwardFundingSourceAttributes.amountObligatedToDate}" datePicker="false" />         
+     					<kul:htmlControlAttribute property="newSubAwardFundingSource.award.awardAmountInfos[0].amountObligatedToDate" readOnly="true" attributeEntry="${subAwardFundingSourceAttributes.amountObligatedToDate}" datePicker="false" />         
    					</div> 
    				</td>	
    				<td><div align="center">
-     					<kul:htmlControlAttribute property="newSubAwardFundingSource.award.awardAmountInfos[0].obligationExpirationDate" readOnly="${readOnly}" attributeEntry="${subAwardFundingSourceAttributes.obligationExpirationDate}" datePicker="false" />         
+     					<kul:htmlControlAttribute property="newSubAwardFundingSource.award.awardAmountInfos[0].obligationExpirationDate" readOnly="true" attributeEntry="${subAwardFundingSourceAttributes.obligationExpirationDate}" datePicker="false" />         
    					</div> 
    				</td>		
    				<td class="infoline" rowspan="1"><div align="center">
+   				 <c:if test="${readOnly!='true'}">
 						<html:image property="methodToCall.addFundingSource.anchor${tabKey}" 
 						            src='${ConfigProperties.kra.externalizable.images.url}tinybutton-add1.gif' 
 						            styleClass="tinybutton"/>
+				 </c:if>
 	                </div>
 	            </td>   
    			</tr> 
+   			</c:if>
      	<c:forEach var="subAwardFundingSource" items="${KualiForm.document.subAwardList[0].subAwardFundingSourceList}" varStatus="status">
 		             <tr>
 		             
@@ -96,32 +102,32 @@
 		                  
 		                 
 						<div align="left">
-	                		<kul:htmlControlAttribute property="document.subAwardList[0].subAwardFundingSourceList[${status.index}].award.awardNumber" attributeEntry="${subAwardFundingSourceAttributes.awardId}" />
+	                		<kul:htmlControlAttribute property="document.subAwardList[0].subAwardFundingSourceList[${status.index}].award.awardNumber" readOnly="true" attributeEntry="${subAwardFundingSourceAttributes.awardId}" />
 						</div>
 						</td> 
 		                <td width="9%" valign="middle">
 						<div align="center">
-	                		<kul:htmlControlAttribute property="document.subAwardList[0].subAwardFundingSourceList[${status.index}].award.accountNumber" attributeEntry="${subAwardFundingSourceAttributes.accountNumber}"/>                		
+	                		<kul:htmlControlAttribute property="document.subAwardList[0].subAwardFundingSourceList[${status.index}].award.accountNumber" readOnly="true" attributeEntry="${subAwardFundingSourceAttributes.accountNumber}"/>                		
 						</div>
 						</td>
 		                <td width="9%" valign="middle">
 						<div align="center">
-	                		<kul:htmlControlAttribute property="document.subAwardList[0].subAwardFundingSourceList[${status.index}].award.statusCode" attributeEntry="${subAwardFundingSourceAttributes.statusCode}"/>
+	                		<kul:htmlControlAttribute property="document.subAwardList[0].subAwardFundingSourceList[${status.index}].award.awardStatus.description" readOnly="true" attributeEntry="${subAwardFundingSourceAttributes.statusCode}"/>
 						</div>
 						</td>
 						<td width="9%" valign="middle">
 						<div align="center">
-							<kul:htmlControlAttribute property="document.subAwardList[0].subAwardFundingSourceList[${status.index}].award.sponsorCode" attributeEntry="${subAwardFundingSourceAttributes.sponsorCode}"/>         
+							<kul:htmlControlAttribute property="document.subAwardList[0].subAwardFundingSourceList[${status.index}].award.sponsorCode" readOnly="true" attributeEntry="${subAwardFundingSourceAttributes.sponsorCode}"/>         
 						</div>
 						</td>
 						<td width="9%" valign="middle">
 						<div align="center">
-							<kul:htmlControlAttribute property="document.subAwardList[0].subAwardFundingSourceList[${status.index}].award.awardAmountInfos[0].amountObligatedToDate" attributeEntry="${subAwardFundingSourceAttributes.amountObligatedToDate}"/>
+							<kul:htmlControlAttribute property="document.subAwardList[0].subAwardFundingSourceList[${status.index}].award.awardAmountInfos[0].amountObligatedToDate" readOnly="true" attributeEntry="${subAwardFundingSourceAttributes.amountObligatedToDate}"/>
 						</div>
 						</td>
 						<td width="9%" valign="middle">
 						<div align="center">
-							<kul:htmlControlAttribute property="document.subAwardList[0].subAwardFundingSourceList[${status.index}].award.awardAmountInfos[0].obligationExpirationDate" attributeEntry="${subAwardFundingSourceAttributes.obligationExpirationDate}" datePicker="false"/>
+							<kul:htmlControlAttribute property="document.subAwardList[0].subAwardFundingSourceList[${status.index}].award.awardAmountInfos[0].obligationExpirationDate" readOnly="true" attributeEntry="${subAwardFundingSourceAttributes.obligationExpirationDate}" datePicker="false"/>
 						</div>
 						</td>
 						

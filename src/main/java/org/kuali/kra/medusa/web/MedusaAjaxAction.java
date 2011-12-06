@@ -29,6 +29,7 @@ import org.kuali.kra.institutionalproposal.home.InstitutionalProposal;
 import org.kuali.kra.medusa.MedusaNode;
 import org.kuali.kra.medusa.service.MedusaService;
 import org.kuali.kra.proposaldevelopment.bo.DevelopmentProposal;
+import org.kuali.kra.subaward.bo.SubAward;
 import org.kuali.rice.kns.web.struts.action.KualiDocumentActionBase;
 
 public class MedusaAjaxAction extends KualiDocumentActionBase {
@@ -57,6 +58,9 @@ public class MedusaAjaxAction extends KualiDocumentActionBase {
         } else if (StringUtils.equals(node.getType(), "DP")) {
             DevelopmentProposal devProposal = (DevelopmentProposal)node.getBo();
             medusaForm.setDocId(devProposal.getProposalDocument().getDocumentNumber());
+        }else if (StringUtils.equals(node.getType(), "subaward")) {
+            SubAward subAward = (SubAward)node.getBo();
+            medusaForm.setDocId(subAward.getSubAwardDocument().getDocumentNumber());
         }
             
         return super.docHandler(mapping, form, request, response);

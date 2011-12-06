@@ -56,7 +56,7 @@ public class SubAwardServiceImpl implements SubAwardService{
     }
 
     protected void incrementVersionNumberIfCanceledVersionsExist(SubAward subAward) {
-        List<VersionHistory> versionHistory = (List<VersionHistory>) getBusinessObjectService().findMatching(VersionHistory.class, getHashMap(Integer.toString(subAward.getSubAwardId())));
+        List<VersionHistory> versionHistory = (List<VersionHistory>) getBusinessObjectService().findMatching(VersionHistory.class, getHashMap(Long.toString(subAward.getSubAwardId())));
         subAward.setSequenceNumber(versionHistory.size() + 1);
     }
     protected Map<String, String> getHashMap(String subAwardNumber) {
@@ -86,9 +86,9 @@ public class SubAwardServiceImpl implements SubAwardService{
         subAward.setSubAwardSequenceStatus(status.toString());
         getBusinessObjectService().save(subAward);   
     }
-    protected void archiveCurrentActiveSubAward(Integer subAwardId) {
+    protected void archiveCurrentActiveSubAward(Long subAwardId) {
         Map<String, Object> values = new HashMap<String, Object>();
-        values.put("subAwardId", Integer.toString(subAwardId));
+        values.put("subAwardId", Long.toString(subAwardId));
         values.put("subAwardSequenceStatus", VersionStatus.ACTIVE.name());
         Collection<SubAward> subAwards = getBusinessObjectService().findMatching(SubAward.class, values);
         for (SubAward subAward : subAwards) {
