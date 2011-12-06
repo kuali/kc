@@ -101,6 +101,7 @@ public class PerformanceSiteV1_4Generator extends S2SBaseFormGenerator {
                         siteLocationDataType = performanceSite.addNewOtherSite();
                         break;
                     case(PERFORMANCE_SITE_LOCATION_TYPE_CODE):
+                        organization = proposalSite.getOrganization();
                         rolodex = proposalSite.getRolodex();
                         siteLocationDataType = performanceSite.addNewOtherSite();
                         break;
