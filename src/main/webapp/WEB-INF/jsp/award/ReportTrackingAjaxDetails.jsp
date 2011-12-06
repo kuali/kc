@@ -27,6 +27,7 @@
   			<c:forEach items="${KualiForm.detailFields}" var="col">
   				<th><kul:htmlAttributeLabel attributeEntry="${reportTrackingAttributes[col]}" noColon="true" readOnly="true"/></th>
   			</c:forEach>
+  			<th>&nbsp;</th>
   		</tr>
   		</thead>
   		<tbody>
@@ -37,6 +38,10 @@
   						<bean:write name="KualiForm" property="detailResults[${ctr.index}].${col}"/>
   					</td>
   				</c:forEach>
+  				<td style="text-align: center;">
+  				  <html:image property="methodToCall.openAwardReports.awardNumber${KualiForm.detailResults[ctr.index].awardNumber}.anchor${currentTabIndex}"
+						src='${ConfigProperties.kra.externalizable.images.url}tinybutton-openaward.gif' styleClass="tinybutton"/>
+				</td>
   				</tr>	
   			</c:forEach>
   		</tbody>
