@@ -641,6 +641,9 @@
 	    <property name="persistenceStructureService">
     		<ref bean="persistenceStructureService"/>
     	</property>
+	    <property name="persistenceStructureServiceLocal">
+    		<ref bean="persistenceStructureService"/>
+    	</property>    	
     	<property name="dateTimeService">
     		<ref bean="dateTimeService"/>
     	</property>
@@ -674,7 +677,7 @@
 		    			<value>overdue</value>
 		    			<value>activityDate</value>
 		    			<value>comments</value>
-		    			<value>preparer.fullName</value>
+		    			<value>preparerName</value>
 		    		</list>
 		    	</property>
 		    </bean>
@@ -700,7 +703,7 @@
 		    			<value>distribution.description</value>
 		    			<value>activityDate</value>
 		    			<value>comments</value>
-		    			<value>preparer.fullName</value>
+		    			<value>preparerName</value>
 		    		</list>
 		    	</property>
 		    </bean>
@@ -747,7 +750,7 @@
 		    			<value>overdue</value>
 		    			<value>activityDate</value>
 		    			<value>comments</value>
-		    			<value>preparer.fullName</value>
+		    			<value>preparerName</value>
 		    		</list>
 		    	</property>
 		    	
@@ -771,7 +774,7 @@
 				<value>overdue</value>
 				<value>activityDate</value>
 				<value>comments</value>
-				<value>preparer.fullName</value>
+				<value>preparerName</value>
 				<value>lastUpdateDate</value>
 				<value>lastUpdateUser</value>
 				<value>sponsorCode</value>
