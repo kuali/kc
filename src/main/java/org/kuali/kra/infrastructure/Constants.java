@@ -573,7 +573,8 @@ public interface Constants {
     
     // Protocol Research Area Audit Rules
     public static final String PROTOCOL_PROTOCOL_RESEARCH_AREA_PANEL_ANCHOR = "Area of Research";
-    public static final String PROTOCOL_RESEARCH_AREA_KEY = "document.protocolList[0].newDescription";
+    public static final String PROTOCOL_FROM_DOCUMENT = "document.protocolList[0]";
+    public static final String PROTOCOL_RESEARCH_AREA_KEY = PROTOCOL_FROM_DOCUMENT + ".newDescription";
     
     // Protocol Funding Source Audit Rules
     public static final String PROTOCOL_PROTOCOL_FUNDING_SRC_PANEL_ANCHOR = "Funding Source";

@@ -571,11 +571,14 @@ public class ProtocolPersonnelServiceImpl implements ProtocolPersonnelService {
      */
     public boolean isValidStudentFacultyMatch(List<ProtocolPerson> protocolPersons) {
         boolean validInvestigator = true;
+System.out.println("\n\n");
         HashMap<Integer, Integer> investigatorAffiliation = new HashMap<Integer, Integer>();
         for(ProtocolPerson protocolPerson : protocolPersons) {
             if(isAffiliationStudentInvestigatorOrFacultySupervisor(protocolPerson)) {
                 updateAffiliationCount(protocolPerson, investigatorAffiliation);
             }
+System.out.println("protocolPerson, name = " + protocolPerson.getUserName() + ", is student inv = " + isAffiliationStudentInvestigatorOrFacultySupervisor(protocolPerson)
+                   + ", count = " + investigatorAffiliation.size());
         }
         Integer studentAffiliationCount = investigatorAffiliation.get(getStudentAffiliationType()) == null
                                           ? 0 : investigatorAffiliation.get(getStudentAffiliationType());
@@ -584,6 +587,7 @@ public class ProtocolPersonnelServiceImpl implements ProtocolPersonnelService {
         if(studentAffiliationCount > 0 && studentAffiliationCount.compareTo(facultySupervisorAffiliationCount) != 0) {
             validInvestigator = false;
         }
+System.out.println("\n\n");
         return validInvestigator;
     }
     
@@ -618,6 +622,16 @@ public class ProtocolPersonnelServiceImpl implements ProtocolPersonnelService {
         }
     }
     
+    public List<Integer>getAffiliationStudentMap(List<ProtocolPerson> protocolPersons) {
+        List<Integer> results = new ArrayList<Integer>();
+        for(int i=0; i<protocolPersons.size(); i++) {
+            ProtocolPerson protocolPerson = protocolPersons.get(i);
+            if (isAffiliationStudentInvestigatorOrFacultySupervisor(protocolPerson)) {
+                results.add(new Integer(i));
+            }
+        }
+        return results;
+    }
     
     /**
      * Gets the businessObjectService attribute.
