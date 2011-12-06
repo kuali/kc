@@ -25,7 +25,7 @@ public class SubAwardContact extends SubAwardAssociate {
     private static final long serialVersionUID = 1L;
 
     private Integer subAwardContactId; 
-    private Integer subAwardId; 
+    private Long subAwardId; 
     private String subAwardCode; 
     private String contactTypeCode; 
     private Integer rolodexId;
@@ -64,11 +64,11 @@ public class SubAwardContact extends SubAwardAssociate {
         this.subAwardContactId = subAwardContactId;
     }
 
-    public Integer getSubAwardId() {
+    public Long getSubAwardId() {
         return subAwardId;
     }
 
-    public void setSubAwardId(Integer subAwardId) {
+    public void setSubAwardId(Long subAwardId) {
         this.subAwardId = subAwardId;
     }
 

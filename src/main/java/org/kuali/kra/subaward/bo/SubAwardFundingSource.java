@@ -29,7 +29,7 @@ public class SubAwardFundingSource extends SubAwardAssociate {
     private static final long serialVersionUID = 1L;
 
     private Integer subAwardFundingSourceId; 
-    private Integer subAwardId; 
+    private Long subAwardId; 
     private String subAwardCode; 
     private Long awardId; 
     private String accountNumber;
@@ -84,11 +84,11 @@ public class SubAwardFundingSource extends SubAwardAssociate {
         this.subAwardFundingSourceId = subAwardFundingSourceId;
     }
 
-    public Integer getSubAwardId() {
+    public Long getSubAwardId() {
         return subAwardId;
     }
 
-    public void setSubAwardId(Integer subAwardId) {
+    public void setSubAwardId(Long subAwardId) {
         this.subAwardId = subAwardId;
     }
 
