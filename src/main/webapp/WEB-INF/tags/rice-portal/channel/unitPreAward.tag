@@ -50,6 +50,11 @@
         <portal:portalLink displayTitle="false" title="Negotiation Search" url="kr/lookup.do?methodToCall=start&businessObjectClassName=org.kuali.kra.negotiations.bo.Negotiation&docFormKey=88888888&includeCustomActionUrls=true&returnLocation=${ConfigProperties.application.url}/portal.do&hideReturnLink=true"><img src="static/images/searchicon.gif" alt="lookup" width="16" height="16" align="absmiddle" border="0"></portal:portalLink>
       </td>
    </tr>
+   <tr>
+   	<td colspan="2">
+   		<portal:portalLink displayTitle="false" title='All My Negotiations' url='kr/lookup.do?methodToCall=start&businessObjectClassName=org.kuali.kra.negotiations.bo.Negotiation&docFormKey=88888888&includeCustomActionUrls=true&returnLocation=${ConfigProperties.application.url}/portal.do&hideReturnLink=true&negotiatorName=${UserSession.person.firstName}*${UserSession.person.lastName}&searchCriteriaEnabled=false'>All My Negotiations</portal:portalLink>
+   	</td>
+   </tr>
 </table>
 </div>
 <channel:portalChannelBottom />
