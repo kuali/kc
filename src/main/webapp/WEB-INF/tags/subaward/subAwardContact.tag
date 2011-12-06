@@ -37,6 +37,7 @@
               	    <kul:htmlAttributeHeaderCell literalLabel="Actions" scope="col"/>
           	    <%-- </c:if> --%>
             </tr>
+             <c:if test="${readOnly!='true'}">
             <tr>    
     				<th class="infoline" rowspan="1">
 						Add:
@@ -44,9 +45,11 @@
      			 
      			<td><div align="center">
      					 <kul:htmlControlAttribute property="newSubAwardContact.rolodex.firstName" readOnly="${readOnly}" attributeEntry="${subAwardContactAttributes.rolodexName}" />
+     					  <c:if test="${readOnly!='true'}">
 							<kul:lookup boClassName="org.kuali.kra.bo.NonOrganizationalRolodex" 
 								fieldConversions="firstName:newSubAwardContact.rolodex.firstName,rolodexId:newSubAwardContact.rolodexId,sponsorCode:newSubAwardContact.rolodex.sponsorCode,organization:newSubAwardContact.rolodex.organization,addressLine1:newSubAwardContact.rolodex.addressLine1,addressLine2:newSubAwardContact.rolodex.addressLine2,addressLine3:newSubAwardContact.rolodex.addressLine3,city:newSubAwardContact.rolodex.city,county:newSubAwardContact.rolodex.county,state:newSubAwardContact.rolodex.state,postalCode:newSubAwardContact.rolodex.postalCode,countryCode:newSubAwardContact.rolodex.countryCode,phoneNumber:newSubAwardContact.rolodex.phoneNumber,emailAddress:newSubAwardContact.rolodex.emailAddress,faxNumber:newSubAwardContact.rolodex.faxNumber,comments:newSubAwardContact.rolodex.comments" 			
-          						anchor="${tabKey}"/>         
+          						anchor="${tabKey}"/>    
+          				  </c:if>     
    					</div> 
    				</td>
    				<td><div align="center">
@@ -54,13 +57,15 @@
    					</div> 
    				</td>   							
    				<td class="infoline" rowspan="1"><div align="center">
+   						<c:if test="${readOnly!='true'}">
 						<html:image property="methodToCall.addContacts.anchor${tabKey}" 
 						            src='${ConfigProperties.kra.externalizable.images.url}tinybutton-add1.gif' 
 						            styleClass="tinybutton"/>
+						</c:if>
 	                </div>
 	            </td>   				
    			</tr> 
-   			
+   			</c:if>
    			<c:forEach var="subAwardContacts" items="${KualiForm.document.subAwardList[0].subAwardContactsList}" varStatus="status">
 		              <tr>
 						<th width="5%" class="infoline" rowspan="2">

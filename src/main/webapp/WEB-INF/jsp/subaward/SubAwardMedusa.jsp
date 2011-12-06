@@ -1,5 +1,4 @@
- 
- <%--
+<%--
  Copyright 2005-2010 The Kuali Foundation
 
  Licensed under the Educational Community License, Version 2.0 (the "License");
@@ -14,26 +13,26 @@
  See the License for the specific language governing permissions and
  limitations under the License.
 --%>
+
+
 <%@ include file="/WEB-INF/jsp/kraTldHeader.jsp"%>
+
 <kul:documentPage
 	showDocumentInfo="true"
-	htmlFormAction="subAwardFinancial"
+	htmlFormAction="subAwardMedusa"
 	documentTypeName="SubAwardDocument"
 	renderMultipart="false"
 	showTabButtons="true"
 	auditCount="0"
   	headerDispatch="${KualiForm.headerDispatch}"
-  	headerTabActive="financial"> 	
-  	
-<c:set var="readOnly" value="${not KualiForm.editingMode['fullEntry']}" scope="request" />
+  	headerTabActive="medusa">
 
-<div id="workarea">
-	<kra-sub:subAwardHistoryOfChanges/>	
-	<kra-sub:subAwardInvoices/>
-	<kul:panelFooter />
-</div>
-
+<kul:tabTop tabTitle="Medusa" defaultOpen="true" tabErrorKey="">
+<kra-m:medusa />
+</kul:tabTop>
+<kul:panelFooter />
 <kul:documentControls transactionalDocument="true" suppressRoutingControls="true" suppressCancelButton="true" />
-<script language="javascript" src="scripts/kuali_application.js"></script>
 
+	<script type="text/javascript" src="scripts/medusaView.js"></script>	
+	
 </kul:documentPage>

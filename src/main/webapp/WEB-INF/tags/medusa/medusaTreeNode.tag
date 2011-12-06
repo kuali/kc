@@ -37,6 +37,13 @@
     </c:if>
     <span class="medusaNode"><a name="${node.type}-${node.bo.negotiationId}" class="${hideOpen}"><img src="static/images/negotiations12.png"/>Negotiation ${node.bo.negotiationId}</a></span><!-- hack for treeview --><a></a>    
   </c:when>
+   <c:when test="${node.type == 'subaward'}">
+    <c:if test="${KualiForm.medusaBean.moduleName == node.type && KualiForm.medusaBean.moduleIdentifier == node.bo.subAwardId}">
+      <c:set var="hideOpen" value="hideOpen"/>
+      <c:set var="currentDoc" value="true"/>
+    </c:if>
+    <span class="medusaNode"><a name="${node.type}-${node.bo.subAwardId}" class="${hideOpen}"><img src="static/images/sponsor12.gif"/>Subaward ${node.bo.subAwardId}</a></span><a></a>    
+  </c:when>
 </c:choose>
 
 <c:choose>
