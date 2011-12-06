@@ -17,6 +17,8 @@ package org.kuali.kra.award.paymentreports.awardreports.reporting.service;
 
 import java.lang.reflect.InvocationTargetException;
 import java.math.BigDecimal;
+import java.sql.Date;
+import java.sql.Timestamp;
 import java.util.ArrayList;
 import java.util.Collections;
 import java.util.Comparator;
@@ -32,11 +34,15 @@ import org.apache.ojb.broker.query.ReportQueryByCriteria;
 import org.kuali.kra.award.paymentreports.awardreports.reporting.ReportTracking;
 import org.kuali.kra.logging.BufferedLogger;
 import org.kuali.rice.kns.dao.impl.LookupDaoOjb;
+import org.kuali.rice.kns.service.PersistenceStructureService;
+import org.kuali.rice.kns.util.ObjectUtils;
 
 /**
  * Report Tracking Dao for OJB.
  */
 public class ReportTrackingDaoOjb extends LookupDaoOjb implements ReportTrackingDao {
+    
+    private PersistenceStructureService persistenceStructureServiceLocal;
 
     /**
      * @see org.kuali.kra.award.paymentreports.awardreports.reporting.service.ReportTrackingDao#getResultsGroupedBy(java.util.Map, java.util.List, java.util.List)
@@ -61,7 +67,12 @@ public class ReportTrackingDaoOjb extends LookupDaoOjb implements ReportTracking
             for (; i < groupedByAttrs.size(); i++) {
                 String column = groupedByAttrs.get(i);
                 if (curLine[i] != null) {
-                    BeanUtils.setProperty(curItem, column, curLine[i]);
+                    if (ObjectUtils.getPropertyType(curItem, column, persistenceStructureServiceLocal).isAssignableFrom(Timestamp.class)
+                            && curLine[i] instanceof Date) {
+                        BeanUtils.setProperty(curItem, column, new Timestamp(((Date) curLine[i]).getTime()));
+                    } else {
+                        BeanUtils.setProperty(curItem, column, curLine[i]);
+                    }
                 }
             }
             curItem.setItemCount(((BigDecimal) curLine[i]).intValue());
@@ -121,6 +132,14 @@ public class ReportTrackingDaoOjb extends LookupDaoOjb implements ReportTracking
             return result;
         }
         
+    }
+
+    protected PersistenceStructureService getPersistenceStructureServiceLocal() {
+        return persistenceStructureServiceLocal;
+    }
+
+    public void setPersistenceStructureServiceLocal(PersistenceStructureService persistenceStructureServiceLocal) {
+        this.persistenceStructureServiceLocal = persistenceStructureServiceLocal;
     }
 
 }
