@@ -110,7 +110,7 @@
 	<bean id="SubAwardFundingSource-statusCode-parentBean" abstract="true" parent="AttributeDefinition">
 		<property name="name" value="statusCode" />
 		<property name="forceUppercase" value="false" />
-		<property name="label" value="Award statusCode" />
+		<property name="label" value="Award status" />
 		<property name="shortLabel" value="Award statusCode" />
 		<property name="maxLength" value="150" />
 		<property name="validationPattern" >

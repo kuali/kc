@@ -105,7 +105,7 @@
   <bean id="SubAwardContact-contactTypeCode-parentBean" abstract="true" parent="AttributeDefinition">
        <property name="name" value="contactTypeCode" />
     <property name="forceUppercase" value="false" />
-    <property name="label" value="Contact Type Code" />
+    <property name="label" value="Contact Type" />
     <property name="shortLabel" value="Contact Type Code" />
     <property name="maxLength" value="22" />
     <property name="validationPattern" >
@@ -152,7 +152,7 @@
   <bean id="SubAwardContact-sponsorCode-parentBean" abstract="true" parent="AttributeDefinition">
        <property name="name" value="sponsorCode" />
     <property name="forceUppercase" value="false" />
-    <property name="label" value="Sponsor Code" />
+    <property name="label" value="Sponsor" />
     <property name="shortLabel" value="Sponsor Code" />
     <property name="maxLength" value="6" />
     <property name="validationPattern" >
