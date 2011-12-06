@@ -448,6 +448,7 @@
           <forward name="financial" path="/WEB-INF/jsp/subaward/SubAwardFinancial.jsp" />
           <forward name="customData" path="/WEB-INF/jsp/subaward/SubAwardCustomData.jsp" /> 
           <forward name="subAwardActions" path="/WEB-INF/jsp/subaward/SubAwardActions.jsp" />
+          <forward name="medusa" path="/WEB-INF/jsp/subaward/SubAwardMedusa.jsp" />
       </action>
 <!-- end -->
 	<action path="/currentOrPendingReport" name="CurrentOrPendingReportForm" input="/WEB-INF/jsp/currentOrPendingReport.jsp" type="org.kuali.kra.proposaldevelopment.web.struts.action.CurrentOrPendingReportAction"

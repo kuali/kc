@@ -22,6 +22,7 @@ import org.kuali.kra.web.struts.form.KraTransactionalDocumentFormBase;
 import org.kuali.kra.common.customattributes.CustomDataForm;
 import org.kuali.kra.common.permissions.web.struts.form.PermissionsForm;
 import org.kuali.kra.common.permissions.web.struts.form.PermissionsHelperBase;
+import org.kuali.kra.medusa.MedusaBean;
 import org.kuali.kra.subaward.bo.SubAward;
 import org.kuali.kra.subaward.bo.SubAwardAmountInfo;
 import org.kuali.kra.subaward.bo.SubAwardAmountReleased;
@@ -48,6 +49,7 @@ public class SubAwardForm extends KraTransactionalDocumentFormBase implements Pe
     private SubAwardAmountReleased newSubAwardAmountReleased;
     private CustomDataHelper customDataHelper = new CustomDataHelper(this);
     private boolean auditActivated;
+    private MedusaBean medusaBean;
     
     public boolean isAuditActivated() {
         return auditActivated;
@@ -101,7 +103,7 @@ public class SubAwardForm extends KraTransactionalDocumentFormBase implements Pe
      * This method initialize all form variables
      */
     public void initialize() {
-        
+        medusaBean = new MedusaBean();
     }
   
     /**
@@ -235,7 +237,21 @@ public class SubAwardForm extends KraTransactionalDocumentFormBase implements Pe
         return newSubAwardContact;
     }
 
-  
+    /**
+     * Gets the medusaBean attribute. 
+     * @return Returns the medusaBean.
+     */
+    public MedusaBean getMedusaBean() {
+        return medusaBean;
+    }
+
+    /**
+     * Sets the medusaBean attribute value.
+     * @param medusaBean The medusaBean to set.
+     */
+    public void setMedusaBean(MedusaBean medusaBean) {
+        this.medusaBean = medusaBean;
+    }
   
 
 }

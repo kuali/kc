@@ -31,7 +31,7 @@
     	
 	</class-descriptor>
 	<class-descriptor class="org.kuali.kra.subaward.bo.SubAward" table="SUBAWARD">
-		<field-descriptor name="subAwardId" column="SUBAWARD_ID" jdbc-type="INTEGER" primarykey="true"  autoincrement="true" sequence-name="SUBAWARD_ID_S" />
+		<field-descriptor name="subAwardId" column="SUBAWARD_ID" jdbc-type="BIGINT" primarykey="true"  autoincrement="true" sequence-name="SUBAWARD_ID_S" />
 		<field-descriptor name="documentNumber" column="DOCUMENT_NUMBER" jdbc-type="VARCHAR" access="anonymous" />	
 		<field-descriptor name="sequenceNumber" column="SEQUENCE_NUMBER" jdbc-type="INTEGER"/>	
 		<field-descriptor name="subAwardCode" column="SUBAWARD_CODE" jdbc-type="VARCHAR" />
@@ -109,7 +109,8 @@
 	</class-descriptor>
 	<class-descriptor class="org.kuali.kra.subaward.bo.SubAwardFundingSource" table="SUBAWARD_FUNDING_SOURCE">
 		<field-descriptor name="subAwardFundingSourceId" column="SUBAWARD_FUNDING_SOURCE_ID" jdbc-type="INTEGER" primarykey="true"  autoincrement="true"  sequence-name="SUBAWARD_FUNDING_SOURCE_ID_S" />
-		<field-descriptor name="subAwardId" column="SUBAWARD_ID" jdbc-type="INTEGER" /><field-descriptor name="updateTimestamp" column="UPDATE_TIMESTAMP" jdbc-type="TIMESTAMP" />
+		<field-descriptor name="subAwardId" column="SUBAWARD_ID" jdbc-type="BIGINT" />
+		<field-descriptor name="updateTimestamp" column="UPDATE_TIMESTAMP" jdbc-type="TIMESTAMP" />
 		<field-descriptor name="subAwardCode" column="SUBAWARD_CODE" jdbc-type="VARCHAR" />
 		<field-descriptor name="sequenceNumber" column="SEQUENCE_NUMBER" jdbc-type="INTEGER"/>
 		<field-descriptor name="updateUser" column="UPDATE_USER" jdbc-type="VARCHAR" />
@@ -122,7 +123,7 @@
 	</class-descriptor>
 		<class-descriptor class="org.kuali.kra.subaward.bo.SubAwardAmountInfo" table="SUBAWARD_AMOUNT_INFO">
 		<field-descriptor name="subAwardAmountInfoId" column="SUBAWARD_AMOUNT_INFO_ID" jdbc-type="INTEGER" primarykey="true" autoincrement="true" sequence-name="SUBAWARD_AMT_INFO_ID_S"/>
-		<field-descriptor name="subAwardId" column="SUBAWARD_ID" jdbc-type="INTEGER" />
+		<field-descriptor name="subAwardId" column="SUBAWARD_ID" jdbc-type="BIGINT" />
 		<field-descriptor name="sequenceNumber" column="SEQUENCE_NUMBER" jdbc-type="INTEGER"/>
 		<field-descriptor name="subAwardCode" column="SUBAWARD_CODE" jdbc-type="VARCHAR" />
 		<field-descriptor name="obligatedAmount" column="OBLIGATED_AMOUNT" jdbc-type="DECIMAL" conversion="org.kuali.rice.kns.util.OjbKualiDecimalFieldConversion" />
@@ -147,7 +148,7 @@
 	</class-descriptor>
 	<class-descriptor class="org.kuali.kra.subaward.bo.SubAwardAmountReleased" table="SUBAWARD_AMT_RELEASED">
 		<field-descriptor name="subAwardAmtReleasedId" column="SUBAWARD_AMT_RELEASED_ID" jdbc-type="INTEGER" primarykey="true"  autoincrement="true"  sequence-name="SUBAWARD_AMT_REL_ID_S"/>
-		<field-descriptor name="subAwardId" column="SUBAWARD_ID" jdbc-type="INTEGER" />
+		<field-descriptor name="subAwardId" column="SUBAWARD_ID" jdbc-type="BIGINT" />
 		<field-descriptor name="sequenceNumber" column="SEQUENCE_NUMBER" jdbc-type="INTEGER"/>
 		<field-descriptor name="subAwardCode" column="SUBAWARD_CODE" jdbc-type="VARCHAR" />
 		<field-descriptor name="amountReleased" column="AMOUNT_RELEASED" jdbc-type="DECIMAL" conversion="org.kuali.rice.kns.util.OjbKualiDecimalFieldConversion" />
@@ -173,7 +174,7 @@
 	
 	<class-descriptor class="org.kuali.kra.subaward.bo.SubAwardContact" table="SUBAWARD_CONTACT">
 		<field-descriptor name="subAwardContactId" column="SUBAWARD_CONTACT_ID" jdbc-type="INTEGER" primarykey="true" autoincrement="true"  sequence-name="SUBAWARD_CONTACT_ID_S"/>
-		<field-descriptor name="subAwardId" column="SUBAWARD_ID" jdbc-type="INTEGER" />
+		<field-descriptor name="subAwardId" column="SUBAWARD_ID" jdbc-type="BIGINT" />
 		<field-descriptor name="sequenceNumber" column="SEQUENCE_NUMBER" jdbc-type="INTEGER"/>
 		<field-descriptor name="subAwardCode" column="SUBAWARD_CODE" jdbc-type="VARCHAR" />
 		<field-descriptor name="contactTypeCode" column="CONTACT_TYPE_CODE" jdbc-type="VARCHAR" />
@@ -192,7 +193,7 @@
 	
 		<class-descriptor class="org.kuali.kra.subaward.bo.SubAwardCloseout" table="SUBAWARD_CLOSEOUT">
 		<field-descriptor name="subAwardCloseoutId" column="SUBAWARD_CLOSEOUT_ID" jdbc-type="INTEGER" primarykey="true" autoincrement="true"  sequence-name="SUBAWARD_CLOSEOUT_ID_S"/>
-		<field-descriptor name="subAwardId" column="SUBAWARD_ID" jdbc-type="INTEGER" />
+		<field-descriptor name="subAwardId" column="SUBAWARD_ID" jdbc-type="BIGINT" />
 		<field-descriptor name="sequenceNumber" column="SEQUENCE_NUMBER" jdbc-type="INTEGER"/>
 		<field-descriptor name="subAwardCode" column="SUBAWARD_CODE" jdbc-type="VARCHAR" />
 		<field-descriptor name="closeoutNumber" column="CLOSEOUT_NUMBER" jdbc-type="INTEGER" />
