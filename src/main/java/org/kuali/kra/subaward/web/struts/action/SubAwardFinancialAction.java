@@ -24,12 +24,14 @@ import org.apache.struts.action.ActionForm;
 import org.apache.struts.action.ActionForward;
 import org.apache.struts.action.ActionMapping;
 import org.kuali.kra.infrastructure.Constants;
+import org.kuali.kra.infrastructure.KraServiceLocator;
 import org.kuali.kra.subaward.SubAwardForm;
 import org.kuali.kra.subaward.bo.SubAward;
 import org.kuali.kra.subaward.bo.SubAwardAmountInfo;
 import org.kuali.kra.subaward.bo.SubAwardAmountReleased;
 import org.kuali.kra.subaward.bo.SubAwardFundingSource;
 import org.kuali.kra.subaward.document.SubAwardDocument;
+import org.kuali.kra.subaward.service.SubAwardService;
 import org.kuali.kra.subaward.subawardrule.SubAwardDocumentRule;
 
 public class SubAwardFinancialAction extends SubAwardAction{
@@ -63,6 +65,8 @@ public class SubAwardFinancialAction extends SubAwardAction{
             addAmountInfoToSubAward(subAwardForm.getSubAwardDocument().getSubAward(),amountInfo); 
             subAwardForm.setNewSubAwardAmountInfo(new SubAwardAmountInfo());
         }
+        SubAward subAward = KraServiceLocator.getService(SubAwardService.class).getAmountInfo(subAwardForm.getSubAwardDocument().getSubAward());
+        subAwardForm.getSubAwardDocument().setSubAward(subAward);
         return mapping.findForward(Constants.MAPPING_FINANCIAL_PAGE);        
      }
     boolean addAmountInfoToSubAward(SubAward subAward,SubAwardAmountInfo amountInfo){
@@ -89,6 +93,8 @@ public class SubAwardFinancialAction extends SubAwardAction{
                 addAmountReleasedToSubAward(subAwardForm.getSubAwardDocument().getSubAward(), subAwardAmountReleased);
                 subAwardForm.setNewSubAwardAmountReleased(new SubAwardAmountReleased());
        }
+       SubAward subAward = KraServiceLocator.getService(SubAwardService.class).getAmountInfo(subAwardForm.getSubAwardDocument().getSubAward());
+       subAwardForm.getSubAwardDocument().setSubAward(subAward);
         return mapping.findForward(Constants.MAPPING_FINANCIAL_PAGE);
     }
 

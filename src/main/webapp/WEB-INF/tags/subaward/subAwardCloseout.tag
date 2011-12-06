@@ -38,6 +38,7 @@
               	    <kul:htmlAttributeHeaderCell literalLabel="Actions" scope="col"/>
           	    <%-- </c:if> --%>
             </tr>
+             <c:if test="${readOnly!='true'}">
             <tr>
     
     				<th class="infoline" rowspan="2">
@@ -61,9 +62,11 @@
    					</div> 
    				</td>   				
    				<td class="infoline" rowspan="2"><div align="center">
+   					<c:if test="${readOnly!='true'}">
 						<html:image property="methodToCall.addCloseouts.anchor${tabKey}" 
 						            src='${ConfigProperties.kra.externalizable.images.url}tinybutton-add1.gif' 
 						            styleClass="tinybutton"/>
+					</c:if>
 	                </div>
 	            </td>   				
    			</tr> 
@@ -73,7 +76,7 @@
                       <kul:htmlControlAttribute property="newSubAwardCloseout.comments" readOnly="${readOnly}" attributeEntry="${subAwardCloseoutAttributes.comments}" />
                 </td>
             </tr>     
-   			
+   			</c:if>
    			
    			<c:forEach var="subAwardCloseouts" items="${KualiForm.document.subAwardList[0].subAwardCloseoutList}" varStatus="status">
 		             <tr>

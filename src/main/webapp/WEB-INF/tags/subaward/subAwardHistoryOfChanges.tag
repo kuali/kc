@@ -65,6 +65,7 @@
               	    <kul:htmlAttributeHeaderCell literalLabel="Actions" scope="col"/>
           	    <%-- </c:if> --%>
             </tr>
+              <c:if test="${readOnly!='true'}">
             <tr>
     
     				<th class="infoline" rowspan="2">
@@ -86,23 +87,28 @@
    				</td>
    				
    				   <td class="infoline">
+   				   <c:if test="${readOnly!='true'}">
                 	<html:file property="newSubAwardAmountInfo.fileName" />
+                	</c:if>
                 </td>
    				 				
    				<td class="infoline" rowspan="2"><div align="center">
+   					<c:if test="${readOnly!='true'}">
 						<html:image property="methodToCall.addAmountInfo.anchor${tabKey}" 
 						            src='${ConfigProperties.kra.externalizable.images.url}tinybutton-add1.gif' 
 						            styleClass="tinybutton"/>
+					</c:if>
 	                </div>
 	            </td>   				
    			</tr> 
+   			
         	<tr>				
 				<th><div align="right"><kul:htmlAttributeLabel attributeEntry="${subAwardAmountInfoAttributes.comments}" /></div></th>
                 <td colspan="3">
                       <kul:htmlControlAttribute property="newSubAwardAmountInfo.comments" readOnly="${readOnly}" attributeEntry="${subAwardAmountInfoAttributes.comments}" />
                 </td>
             </tr>     
-   			
+   			</c:if>
    			
    			<c:forEach var="newSubAwardAmountInfo" items="${KualiForm.document.subAwardList[0].subAwardAmountInfoList}" varStatus="status">
 		             <tr>

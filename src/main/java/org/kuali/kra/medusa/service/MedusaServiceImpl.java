@@ -39,6 +39,8 @@ import org.kuali.kra.negotiations.service.NegotiationService;
 import org.kuali.kra.proposaldevelopment.bo.DevelopmentProposal;
 import org.kuali.kra.service.AwardHierarchyUIService;
 import org.kuali.kra.service.VersionHistoryService;
+import org.kuali.kra.subaward.bo.SubAward;
+import org.kuali.kra.subaward.bo.SubAwardFundingSource;
 import org.kuali.rice.kns.bo.BusinessObject;
 import org.kuali.rice.kns.service.BusinessObjectService;
 
@@ -53,7 +55,8 @@ public class MedusaServiceImpl implements MedusaService {
     public static final String DEVELOPMENT_PROPOSAL_MODULE = "DP";    
     public static final String NEGOTIATION_MODULE = "neg";
     private static final int INST_PROPOSAL_STATUS_FUNDED = 2;
-
+    private static final String SUBAWARD_MODULE = "subaward";
+    
     private BusinessObjectService businessObjectService;
     private AwardAmountInfoService awardAmountInfoService;
     private VersionHistoryService versionHistoryService;
@@ -83,6 +86,10 @@ public class MedusaServiceImpl implements MedusaService {
         } else if (StringUtils.equalsIgnoreCase(NEGOTIATION_MODULE, moduleName)) {
             Negotiation negotiation = getNegotiation(moduleId);
             curNode.setBo(negotiation);
+        }
+        else if (StringUtils.equalsIgnoreCase(SUBAWARD_MODULE, moduleName)) {
+            SubAward subaward = getSubAward(moduleId);
+            curNode.setBo(subaward);
         }
         return curNode;
     }
@@ -153,6 +160,14 @@ public class MedusaServiceImpl implements MedusaService {
                 addVertex(graph, negotiation);
                 buildGraph(graph, negotiation);
                 nodes = getParentNodes(graph, new String[]{preferredModule, NEGOTIATION_MODULE});
+            }
+        }else if (StringUtils.equals(moduleName, SUBAWARD_MODULE)) {
+            SubAward subAward = getSubAward(moduleIdentifier);
+            
+            if (subAward != null) {
+                addVertex(graph, subAward);
+                buildGraph(graph, subAward);
+                nodes = getParentNodes(graph, new String[]{preferredModule, SUBAWARD_MODULE});
             }
         }
         return nodes;
@@ -261,6 +276,20 @@ public class MedusaServiceImpl implements MedusaService {
         }
         return false;
     }
+    
+    protected void buildGraph(HashMap<BusinessObject, List<BusinessObject>> graph, SubAward subAward) {
+        
+        Collection<Award> awards = getAwards(subAward);
+        for (Award award : awards) {
+            if (findMatchingBo(graph.keySet(), award) == null) {
+                addEdge(graph, subAward, award);
+                buildGraph(graph, award);
+            } else {
+                addEdge(graph, subAward, award);                
+            }
+        }
+    }
+    
     
     /**
      * 
@@ -411,6 +440,12 @@ public class MedusaServiceImpl implements MedusaService {
                 return true;
             }
         }        
+        else if (bo1 instanceof SubAward && bo2 instanceof SubAward) {
+            if (ObjectUtils.equals(((SubAward) bo1).getSubAwardId(),
+                    ((SubAward) bo2).getSubAwardId())) {
+                return true;
+            }
+        } 
         return false;
     }
     
@@ -459,6 +494,10 @@ public class MedusaServiceImpl implements MedusaService {
         return negotiation;
     }
     
+    protected SubAward getSubAward(Long subAwardId) {
+        SubAward subAward = (SubAward) businessObjectService.findBySinglePrimaryKey(SubAward.class, subAwardId);
+        return subAward;
+    }
     /**
      * 
      * Gets the active or if not available the most current, not cancelled version of a 
@@ -505,7 +544,9 @@ public class MedusaServiceImpl implements MedusaService {
             return getNode((DevelopmentProposal)bo);
         } else if (bo instanceof Negotiation) {
             return getNode((Negotiation)bo);
-        } else {
+        } else if (bo instanceof SubAward) {
+            return getNode((SubAward)bo);
+        }else {
             return null;
         }
     }
@@ -539,7 +580,12 @@ public class MedusaServiceImpl implements MedusaService {
         node.setType(NEGOTIATION_MODULE);
         return node;
     }
-    
+    protected MedusaNode getNode(SubAward subAward) {
+        MedusaNode node = new MedusaNode();
+        node.setBo(subAward);
+        node.setType(SUBAWARD_MODULE);
+        return node;
+    }
     /**
      * 
      * Returns a list of the Development Proposals linked to the institutional proposal.
@@ -565,6 +611,27 @@ public class MedusaServiceImpl implements MedusaService {
         return devProposals;
     }
     
+    @SuppressWarnings("unchecked")
+    protected Collection<Award> getAwards(SubAward subAward) {
+        
+        Collection<Award> awards = new ArrayList<Award>();
+        Collection<SubAward> subAwardVersions = businessObjectService.findMatching(SubAward.class, getFieldValues("subAwardCode", subAward.getSubAwardCode()));
+        SubAward newestSubAaward = null;
+        for (SubAward currenSubAward : subAwardVersions) {
+            
+            if(newestSubAaward==null){
+                newestSubAaward = currenSubAward;
+            }
+            else if (currenSubAward.getSequenceNumber() > newestSubAaward.getSequenceNumber()) {
+                newestSubAaward = currenSubAward;
+            }
+        }
+        Collection<SubAwardFundingSource> subAwardFundingSources =newestSubAaward.getSubAwardFundingSourceList();
+        for (SubAwardFundingSource subAwardFundingSource :subAwardFundingSources){
+            awards.add(getAward(subAwardFundingSource.getAwardId()));
+        }
+        return awards;
+    }
     /**
      * 
      * Generates and returns a collection of all awards linked to the 

@@ -128,7 +128,7 @@
                                                           readOnly="false" styleClass="printOptions"/>References
                             </div>
                         </td>
-                    </tr>
+                       </tr>
                     <tr>
                         <td>
                           <div align="left">
@@ -144,6 +144,15 @@
                                                           readOnly="false" styleClass="printOptions"/>Risk Levels
                             </div>
                         </td>
+                           <kra:section permission="${canViewReviewComments}">
+                            <td>
+                           		<div align="left">
+                                	<kul:htmlControlAttribute property="actionHelper.protocolPrintOption.reviewComments" 
+                                    	                      attributeEntry="${kraAttributeReferenceDummyAttributes.checkBox}" 
+                                        	                  readOnly="false" styleClass="printOptions"/>Review Comments
+                            	</div>
+                        	</td>
+                        	</kra:section>
                         <td>
                            <div align="left">
                                 &nbsp;
@@ -171,23 +180,7 @@
                             </div>
                         </td>
                     </tr>
-                    <kra:section permission="${canViewReviewComments}">
-	                    <tr>
-    	                    <th class="infoline">
-        	                    <div align="left">
-            	                    Review Comments
-                	            </div>
-                    	    </th>
-                        	<td colspan="2">
-                           		<div align="center">
-                                	<kul:htmlControlAttribute property="actionHelper.protocolPrintOption.reviewComments" 
-                                    	                      attributeEntry="${kraAttributeReferenceDummyAttributes.checkBox}" 
-                                        	                  readOnly="false" styleClass="printOptions"/>
-                            	</div>
-                        	</td>
-                    	</tr>
-                    </kra:section>
-             		<%-- kcirb-1159 is closed (not fix, so comment out this       
+                   <%-- kcirb-1159 is closed (not fix, so comment out this       
                     <tr>
                         <th class="infoline">
                             <div align="left">

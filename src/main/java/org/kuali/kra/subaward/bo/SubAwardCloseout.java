@@ -24,7 +24,7 @@ public class SubAwardCloseout extends SubAwardAssociate {
     private static final long serialVersionUID = 1L;
 
     private Integer subAwardCloseoutId; 
-    private Integer subAwardId; 
+    private Long subAwardId; 
     private String subAwardCode; 
     private Integer closeoutNumber; 
     private Integer closeoutTypeCode; 
@@ -47,11 +47,11 @@ public class SubAwardCloseout extends SubAwardAssociate {
         this.subAwardCloseoutId = subAwardCloseoutId;
     }
 
-    public Integer getSubAwardId() {
+    public Long getSubAwardId() {
         return subAwardId;
     }
 
-    public void setSubAwardId(Integer subAwardId) {
+    public void setSubAwardId(Long subAwardId) {
         this.subAwardId = subAwardId;
     }
 
