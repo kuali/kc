@@ -80,8 +80,8 @@ public class NegotiationDaoOjb extends LookupDaoOjb implements NegotiationDao {
         proposalTransform = new HashMap<String, String>();
         proposalTransform.put("sponsorName", "sponsor.sponsorName");
         proposalTransform.put("piName", "projectPersons.fullName");
-        proposalTransform.put("leadUnitNumber", "units.unitNumber");
-        proposalTransform.put("leadUnitName", "units.unit.unitName");
+        proposalTransform.put("leadUnitNumber", "unitNumber");
+        proposalTransform.put("leadUnitName", "leadUnit.unitName");
         proposalTransform.put("negotiableProposalTypeCode", "proposalTypeCode");
         
         proposalLogTransform = new HashMap<String, String>();
@@ -100,6 +100,7 @@ public class NegotiationDaoOjb extends LookupDaoOjb implements NegotiationDao {
         
         subAwardTransform = new HashMap<String, String>();
         subAwardTransform.put("sponsorName", INVALID_COLUMN_NAME);
+        subAwardTransform.put("sponsorCode", INVALID_COLUMN_NAME);
         subAwardTransform.put("piName", INVALID_COLUMN_NAME);
         subAwardTransform.put("negotiableProposalTypeCode", INVALID_COLUMN_NAME);
         subAwardTransform.put("leadUnitNumber", "unitNumber");

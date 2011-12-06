@@ -29,12 +29,15 @@ import org.kuali.rice.kew.util.KEWConstants;
 import org.kuali.rice.kns.bo.BusinessObject;
 import org.kuali.rice.kns.document.Document;
 import org.kuali.rice.kns.lookup.HtmlData;
+import org.kuali.rice.kns.lookup.LookupUtils;
 import org.kuali.rice.kns.lookup.HtmlData.AnchorHtmlData;
 import org.kuali.rice.kns.util.KNSConstants;
 import org.kuali.rice.kns.util.UrlFactory;
 import org.kuali.rice.kns.web.struts.form.LookupForm;
 import org.kuali.rice.kns.web.ui.Column;
+import org.kuali.rice.kns.web.ui.Field;
 import org.kuali.rice.kns.web.ui.ResultRow;
+import org.kuali.rice.kns.web.ui.Row;
 
 /**
  * Negotiation Lookup Helper Service
@@ -154,6 +157,38 @@ public class NegotiationLookupableHelperServiceImpl extends KraLookupableHelperS
             }
         }
         return lookupStuff;
+    }
+    
+    @Override
+    protected void setRows() {
+        super.setRows();
+        List<String> lookupFieldAttributeList = null;
+        if (getBusinessObjectMetaDataService().isLookupable(getBusinessObjectClass())) {
+            lookupFieldAttributeList = getBusinessObjectMetaDataService().getLookupableFieldNames(
+                    getBusinessObjectClass());
+        }
+        for (Row row : getRows()) {
+            for (Field field : row.getFields()) {
+                if (StringUtils.equalsIgnoreCase(field.getPropertyName(), "associatedNegotiable.sponsorCode")) {
+                    field.setQuickFinderClassNameImpl("org.kuali.kra.bo.Sponsor");
+                    field.setFieldConversions("sponsorCode:associatedNegotiable.sponsorCode");
+                    field.setLookupParameters("");
+                    field.setBaseLookupUrl(LookupUtils.getBaseLookupUrl(false));
+                    field.setImageSrc(null);
+                    field.setInquiryParameters("associatedNegotiable.sponsorCode:sponsorCode");
+                    field.setFieldDirectInquiryEnabled(true);
+                } else if (StringUtils.equalsIgnoreCase(field.getPropertyName(), "associatedNegotiable.leadUnitNumber")) {
+                    field.setQuickFinderClassNameImpl("org.kuali.kra.bo.Unit");
+                    field.setFieldConversions("unitNumber:associatedNegotiable.leadUnitNumber");
+                    field.setLookupParameters("");
+                    field.setBaseLookupUrl(LookupUtils.getBaseLookupUrl(false));
+                    field.setImageSrc(null);
+                    field.setInquiryParameters("associatedNegotiable.leadUnitNumber:unitNumber");
+                    field.setFieldDirectInquiryEnabled(true);
+                }
+            }
+        }
+
     }
 
 }
