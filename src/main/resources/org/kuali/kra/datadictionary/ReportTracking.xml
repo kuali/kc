@@ -26,7 +26,6 @@
         <property name="lookupDefinition" >
             <ref bean="ReportTracking-lookupDefinition" />
         </property>
-        <property name="titleAttribute" value="awardReportTrackingId" />
         <property name="attributes" >
             <list>
                 <ref bean="ReportTracking-awardReportTermId" />
@@ -435,11 +434,11 @@
                 <bean parent="FieldDefinition"
                     p:attributeName="dueDate" />
                 <bean parent="FieldDefinition"
-                    p:attributeName="reportClassCode" />                    
+                    p:attributeName="reportClass.description" />                    
                 <bean parent="FieldDefinition"
-                    p:attributeName="reportCode" />
+                    p:attributeName="report.description" />
                 <bean parent="FieldDefinition"
-                    p:attributeName="statusCode" />
+                    p:attributeName="reportStatus.description" />
                 <bean parent="FieldDefinition"
                     p:attributeName="leadUnitNumber" />
                 <bean parent="FieldDefinition"
@@ -447,21 +446,28 @@
                 <bean parent="FieldDefinition"
                     p:attributeName="overdue" />
                 <bean parent="FieldDefinition"
-                    p:attributeName="frequencyCode" />
+                    p:attributeName="frequency.description" />
                 <bean parent="FieldDefinition"
-                    p:attributeName="frequencyBaseCode" />                
+                    p:attributeName="frequencyBase.description" />                
                 <bean parent="FieldDefinition"
                     p:attributeName="activityDate" />                
                 <bean parent="FieldDefinition"
                     p:attributeName="comments" />                
                 <bean parent="FieldDefinition"
-                    p:attributeName="preparerId" />                
+                    p:attributeName="preparerName" />                
                 <bean parent="FieldDefinition"
                     p:attributeName="sponsorCode" />                
                 <bean parent="FieldDefinition"
                     p:attributeName="sponsor.sponsorName" />
                 <bean parent="FieldDefinition"
-                    p:attributeName="sponsorAwardNumber" />            
+                    p:attributeName="sponsorAwardNumber" />      
+                <bean parent="FieldDefinition"
+                    p:attributeName="baseDate" />
+                <bean parent="FieldDefinition"
+                    p:attributeName="distribution.description" />    
+                <bean parent="FieldDefinition"
+                    p:attributeName="title" />    
+                        
             </list>
         </property>
     </bean>
