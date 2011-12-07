@@ -30,6 +30,7 @@ import org.apache.commons.lang.StringUtils;
 import org.apache.struts.action.ActionForm;
 import org.apache.struts.action.ActionForward;
 import org.apache.struts.action.ActionMapping;
+import org.displaytag.model.TableModel;
 import org.kuali.kra.award.document.AwardDocument;
 import org.kuali.kra.award.home.Award;
 import org.kuali.kra.award.paymentreports.awardreports.reporting.ReportTracking;
@@ -71,10 +72,14 @@ public class ReportTrackingLookupAction extends KualiLookupAction {
         // validate search parameters
         kualiLookupable.validateSearchParameters(lookupForm.getFields());
         
-        List<ReportTracking> groupedResults = getReportTrackingDao().getResultsGroupedBy(lookupForm.getFields(), lookupForm.getGroupedByFields(), lookupForm.getGroupedByDisplayFields());
-        lookupForm.setGroupedByResults(groupedResults);
-        
-        return mapping.findForward(Constants.MAPPING_BASIC);
+        if (lookupForm.isViewRawResults()) {
+            return super.search(mapping, lookupForm, request, response);
+        } else {
+            List<ReportTracking> groupedResults = 
+                getReportTrackingDao().getResultsGroupedBy(lookupForm.getFields(), lookupForm.getGroupedByFields(), lookupForm.getGroupedByDisplayFields());
+            lookupForm.setGroupedByResults(groupedResults);
+            return mapping.findForward(Constants.MAPPING_BASIC);
+        }
     }
     
     public ActionForward getDetails(ActionMapping mapping, ActionForm form, HttpServletRequest request, HttpServletResponse response) throws Exception {
@@ -89,6 +94,7 @@ public class ReportTrackingLookupAction extends KualiLookupAction {
     public ActionForward updateView(ActionMapping mapping, ActionForm form, HttpServletRequest request, HttpServletResponse response) throws Exception {
         ReportTrackingLookupForm lookupForm = (ReportTrackingLookupForm) form;
         lookupForm.setCurrentView();
+        lookupForm.setViewRawResults(false);
         return this.search(mapping, lookupForm, request, response);
     }
     
@@ -98,6 +104,20 @@ public class ReportTrackingLookupAction extends KualiLookupAction {
         lookupForm.setCurrentView();
         return this.search(mapping, lookupForm, request, response);        
     }
+    
+    public ActionForward viewRawResults(ActionMapping mapping, ActionForm form, HttpServletRequest request, HttpServletResponse response) throws Exception {
+        ReportTrackingLookupForm lookupForm = (ReportTrackingLookupForm) form;
+        lookupForm.setViewRawResults(true);
+        lookupForm.setHideReturnLink(true);
+        lookupForm.setSuppressActions(true);
+        return this.search(mapping, lookupForm, request, response);        
+    }
+    
+    public ActionForward viewAggregateResults(ActionMapping mapping, ActionForm form, HttpServletRequest request, HttpServletResponse response) throws Exception {
+        ReportTrackingLookupForm lookupForm = (ReportTrackingLookupForm) form;
+        lookupForm.setViewRawResults(false);
+        return this.search(mapping, lookupForm, request, response);        
+    }    
     
     public ActionForward openAwardReports(ActionMapping mapping, ActionForm form, HttpServletRequest request, HttpServletResponse response) throws Exception {
         String awardNumber = getSelectedAwardNumber(request);
@@ -113,7 +133,7 @@ public class ReportTrackingLookupAction extends KualiLookupAction {
         final AwardDocument awardDocument = (AwardDocument) getDocumentService().getByDocumentHeaderId(docNumber);
         String forwardUrl = buildForwardUrl(awardDocument.getDocumentHeader().getWorkflowDocument().getRouteHeaderId());
         return new ActionForward(forwardUrl, true);
-    }
+    }    
     
     protected String getSelectedAwardNumber(HttpServletRequest request) {
         String parameterName = (String) request.getAttribute(KNSConstants.METHOD_TO_CALL_ATTRIBUTE);
