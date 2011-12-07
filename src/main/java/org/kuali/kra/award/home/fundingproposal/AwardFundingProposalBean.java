@@ -74,7 +74,6 @@ public class AwardFundingProposalBean implements Serializable {
      * This method adds a Funding Proposal
      */
     public void addFundingProposal() {
-        
         if (getNewFundingProposal() != null) {
             if (validateForAdd()) {
                 getAward().add(newFundingProposal);                
@@ -220,8 +219,7 @@ public class AwardFundingProposalBean implements Serializable {
 
     private void performDataFeeds(Award award, InstitutionalProposal proposal) {
         FundingProposalMergeType mergeType = getMergeType();
-        new BaseFieldsDataFeedCommand(award, proposal, mergeType).performDataFeed();
-        new SponsorDataFeedCommand(award, proposal, mergeType).performDataFeed();
+        //removed BaseFieldDataFeed and SponsorDataFeed not to overWrite related award fields
         new CommentsDataFeedCommand(award, proposal, mergeType).performDataFeed();
         new SpecialReviewDataFeedCommand(award, proposal, mergeType).performDataFeed();
         proposal.refreshReferenceObject("institutionalProposalCostShares");
