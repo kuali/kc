@@ -206,6 +206,28 @@ public class KcNotificationServiceImpl implements KcNotificationService {
         Collection<NotificationRecipient> notificationRecipients = getNotificationRecipients(principalNames);
         
         sendNotification(contextName, subject, message, notificationRecipients);
+        sendEmailNotification(subject, message, notificationRecipients, Collections.<EmailAttachment>emptyList());
+    }
+    
+    /**
+     * {@inheritDoc}
+     * @see org.kuali.kra.common.notification.service.KcNotificationService#sendEmailNotification(org.kuali.kra.common.notification.NotificationContext)
+     */
+    public void sendEmailNotification(NotificationContext context) {
+        if (isEmailEnabled()) {
+            KcNotification notification = createNotification(context);
+            
+            if (notification.getNotificationType() != null && notification.getNotificationType().getSendNotification()) {
+                String subject = notification.getSubject();
+                String message = notification.getMessage();
+                Collection<NotificationRecipient> notificationRecipients = getNotificationRecipients(context);
+                Set<String> toAddresses = getRecipientEmailAddresses(notificationRecipients);
+                
+                String fromAddress = getKcEmailService().getDefaultFromAddress();
+                
+                sendEmailNotification(fromAddress, toAddresses, subject, message, context.getEmailAttachments());
+            }        
+        }
     }
     
     private void sendNotification(String contextName, String subject, String message, Collection<NotificationRecipient> notificationRecipients) {
@@ -454,23 +476,6 @@ public class KcNotificationServiceImpl implements KcNotificationService {
         }
              
         return recipients;
-    }
-    
-    public void sendEmailNotification(NotificationContext context) {
-        if (isEmailEnabled()) {
-            KcNotification notification = createNotification(context);
-            
-            if (notification.getNotificationType() != null && notification.getNotificationType().getSendNotification()) {
-                String subject = notification.getSubject();
-                String message = notification.getMessage();
-                Collection<NotificationRecipient> notificationRecipients = getNotificationRecipients(context);
-                Set<String> toAddresses = getRecipientEmailAddresses(notificationRecipients);
-                
-                String fromAddress = getKcEmailService().getDefaultFromAddress();
-                
-                sendEmailNotification(fromAddress, toAddresses, subject, message, context.getEmailAttachments());
-            }        
-        }
     }
     
     private void sendEmailNotification(String subject, String message, Collection<NotificationRecipient> notificationRecipients, List<EmailAttachment> attachments) {

@@ -75,7 +75,7 @@ public interface NotificationContext {
     void populateRoleQualifiers(NotificationTypeRecipient notificationRecipient) throws UnknownRoleException;
     
     /**
-     * This method provides support for email attachments for email notifications
+     * This method provides support for email attachments for email notifications.
      * 
      * @return a list of email attachments or null if none are available.
      */
