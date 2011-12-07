@@ -101,7 +101,7 @@ public class NegotiationDaoOjb extends LookupDaoOjb implements NegotiationDao {
         subAwardTransform = new HashMap<String, String>();
         subAwardTransform.put("sponsorName", INVALID_COLUMN_NAME);
         subAwardTransform.put("sponsorCode", INVALID_COLUMN_NAME);
-        subAwardTransform.put("piName", INVALID_COLUMN_NAME);
+        subAwardTransform.put("piName", "requisitionerName");
         subAwardTransform.put("negotiableProposalTypeCode", INVALID_COLUMN_NAME);
         subAwardTransform.put("leadUnitNumber", "unitNumber");
         subAwardTransform.put("leadUnitName", "leadUnit.unitName");
