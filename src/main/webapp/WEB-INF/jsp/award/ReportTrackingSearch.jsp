@@ -16,7 +16,6 @@
 
 <%@ include file="/WEB-INF/jsp/kraTldHeader.jsp"%>
 <c:set var="reportTrackingAttributes" value="${DataDictionary.ReportTracking.attributes}" />
-<jsp:useBean id="paramMap1" class="java.util.HashMap"/>
 
 <%--NOTE: DO NOT FORMAT THIS FILE, DISPLAY:COLUMN WILL NOT WORK CORRECTLY IF IT CONTAINS LINE BREAKS --%>
 <c:set var="headerMenu" value="" />
@@ -200,6 +199,11 @@
 					  <div class="customSearchButtons">
 				        <a class="showHideSearch hideSearch" onclick="toggleSearchTable(this);">show or hide search details</a>
 						<a href="#customSelection" id="customSelLink"><img src="${ConfigProperties.kra.externalizable.images.url}buttonsmall-changeview.gif" alt="Change view"/></a>
+				     	<c:choose><c:when test="${KualiForm.viewRawResults}">
+							<html:image property="methodToCall.viewAggregateResults" src="${ConfigProperties.kra.externalizable.images.url}buttonsmall-aggregateview.gif" styleClass="tinybutton"/>
+						</c:when><c:otherwise>
+							<html:image property="methodToCall.viewRawResults" src="${ConfigProperties.kra.externalizable.images.url}buttonsmall-reportview.gif" styleClass="tinybutton"/>
+						</c:otherwise></c:choose>						
 						<!--  hidden image used by fancybox.close to call updateView on close -->
 						${kfunc:registerEditableProperty(KualiForm, "methodToCall.resetCustomView")}			  
 				  		<html:image styleId="onChangeViewClose" property="methodToCall.updateView" style="display:none;"
@@ -212,43 +216,12 @@
 			
 			
 			<style>
-			  .hideTableCurveLeft {
-			    background: white;
-			    float: left;
-			    width: 25px;
-			    height: 65px;
-				-moz-border-radius-topright: 25px;
-				border-top-right-radius: 25px;							    
-			  }
-			  .hideTableCurveRight {
-			    background: white;
-			    float: right;
-			    width: 25px;
-			    height: 65px;
-				-moz-border-radius-topleft: 25px;
-				border-top-left-radius: 25px;
-			  }
-			  #hideTable {
-			    background: yellow;
-			    width: 225px;
-			  }
-			  .hideTableInner {
-			  	text-align: center;
-			  	height: 65px;
-				width:175px;
-				-moz-border-radius-bottomright: 25px;
-				border-bottom-right-radius: 25px;
-				-moz-border-radius-bottomleft: 25px;
-				border-bottom-left-radius: 25px;				
-			  }			
 			  .reportTrackingResults {
 			    margin-top: 2em;
-			  }
-			  
+			  }			  
 			  .aggregateTable {
 			    width: 100%;
 			  }
-			  
 			  .detailTable {
 			    width: 100%;
 			  }
@@ -279,7 +252,7 @@
 			  .customSearchButtons {
 			    margin-left: auto;
 			    margin-right: auto;
-			    width: 211px;
+			    width: 315px;
 			  }
 			  .showLink {
 			    background-image: url("${ConfigProperties.kr.externalizable.images.url}tinybutton-show.gif");
@@ -302,7 +275,6 @@
 			  div#fancyboxwrap{
 			  	top:120px
 			  }
-
 			</style>
 			<script>
 				var showHideSearchClass = ".showHideSearch";
@@ -393,72 +365,16 @@
 						 });
 				});
 			</script>
-			<div id="workarea" class="tab-container reportTrackingResults">			  
-			  ${kfunc:registerEditableProperty(KualiForm, "groupByResultIndex")}
-				<c:if test="${not empty KualiForm.groupedByResults}">
-				    <script>$jq(document).ready(function() { toggleSearchTable($jq('.showHideSearch')); });</script>
-					<table cellpadding="0" cellspacing="0" class="aggregateTable">
-						<tr>
-							<th>&nbsp;</th>
-							<c:forEach items="${KualiForm.groupedByDisplayFields}" var="col">
-								<th><kul:htmlAttributeLabel attributeEntry="${reportTrackingAttributes[col]}" noColon="true" readOnly="true"/></th>
-							</c:forEach>
-							<th>Count</th>
-						</tr>
-						<c:forEach items="${KualiForm.groupedByResults}" var="resultLine" varStatus="ctr">
-							<tr class="aggregateResult">
-							    <td><a class="showHideLink showLink">show and hide details</a><div style="display:none;" title="none"><c:out value="${ctr.index}"/></div></td>
-								<c:forEach items="${KualiForm.groupedByDisplayFields}" var="col">
-									<td>
-									  <bean:write name="KualiForm" property="groupedByResults[${ctr.index}].${col}"/>
-									 </td>
-								</c:forEach>
-								<td><c:out value="${resultLine['itemCount']}"/></td>
-							</tr>
-							<tr class="detailRow" style="display: none;">
-							  <td colspan="${fn:length(KualiForm.groupedByDisplayFields)+2}">
-							    <div></div>
-							  </td>
-							</tr>
-						</c:forEach>
-				</c:if>
-			</div>
-			
-		</td>
-	  </tr>
-  </table>
-  <div style="display:none;"><div id="customSelection">
-           <html:image property="methodToCall.updateView"
-     src="${ConfigProperties.kra.externalizable.images.url}tinybutton-updateview.gif" styleClass="tinybutton"
-     onclick="$jq.fancybox.close(); return false;"/><br/>			  
-           <c:forEach items="${krafn:getOptionList('org.kuali.kra.award.paymentreports.ReportTrackingViewValuesFinder', paramMap)}" var="option">
-             <html:radio property="currentViewIndex" value="${option.key}" onchange="toggleCustomView(this);">${option.label}</html:radio>
-           </c:forEach>
-           <table id="customViewColumnSelection">
-             <tr>
-               <th>Columns</th>
-               <th>Group</th>
-               <th>Detail</th>
-             </tr>
-           	<c:forEach items="${KualiForm.reportTrackingViews.allFields}" var="col" varStatus="ctr">
-           	  <tr>
-           	    <th><kul:htmlAttributeLabel attributeEntry="${reportTrackingAttributes[col]}" noColon="true" readOnly="true"/></th>
-           	    <td><c:set var="propertyName" value="customGroupByFields"/><html:multibox property="${propertyName}"><c:out value="${col}"/></html:multibox>${kfunc:registerEditableProperty(KualiForm, propertyName)}</td>
-           	    <td><c:set var="propertyName" value="customDetailFields"/><html:multibox property="${propertyName}" value="${col}"/>${kfunc:registerEditableProperty(KualiForm, propertyName)}</td>
-           	  </tr>
-           	</c:forEach>
-           	<tr>
-           	  <td colspan="3">
-	           <html:image property="methodToCall.resetCustomView"
-			     src="${ConfigProperties.kra.externalizable.images.url}tinybutton-resetcustomview.gif" styleClass="tinybutton"
-			     onclick="$jq('#onChangeViewClose').attr('name', 'methodToCall.resetCustomView'); $jq.fancybox.close(); return false;"/>
-           	  </td>
-           	</tr>
-           </table>
-           <html:image property="methodToCall.updateView"
-     src="${ConfigProperties.kra.externalizable.images.url}tinybutton-updateview.gif" styleClass="tinybutton"
-     onclick="$jq.fancybox.close(); return false;"/> 
-           
-  </div></div>  
+
+<c:choose><c:when test="${KualiForm.viewRawResults}">
+	<kra-a:reportTrackingRawResults/>
+</c:when><c:otherwise>
+	<kra-a:reportTrackingAggregateResults/>
+</c:otherwise></c:choose>
+</td>
+</tr>
+</table>
+<kra-a:reportTrackingViewSelection/>
+  
 </kul:page>
 			

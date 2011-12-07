@@ -42,6 +42,7 @@ public class ReportTrackingLookupForm extends LookupForm {
     private List<String> customGroupByFields;
     private List<String> customDetailFields;
     private ReportTrackingSearchViews reportTrackingViews;
+    private boolean viewRawResults;
     
     public ReportTrackingLookupForm() {
         init();
@@ -165,6 +166,14 @@ public class ReportTrackingLookupForm extends LookupForm {
 
     public void setCustomDetailFields(List<String> customDetailFields) {
         this.customDetailFields = customDetailFields;
+    }
+
+    public boolean isViewRawResults() {
+        return viewRawResults;
+    }
+
+    public void setViewRawResults(boolean viewRawResults) {
+        this.viewRawResults = viewRawResults;
     }
 
 }
