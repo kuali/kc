@@ -676,12 +676,12 @@ public class SubAward extends KraPersistableBusinessObjectBase implements Permis
 
     @Override
     public String getPiName() {
-        return this.getKcPerson() != null ? this.getKcPerson().getFullName() : EMPTY_STRING;
+        return this.getRequisitionerName();
     }
 
     @Override
     public String getPiEmployeeName() {
-        return this.getKcPerson() != null ? this.getKcPerson().getFullName() : EMPTY_STRING;
+        return this.getRequisitionerName();
     }
 
     @Override
