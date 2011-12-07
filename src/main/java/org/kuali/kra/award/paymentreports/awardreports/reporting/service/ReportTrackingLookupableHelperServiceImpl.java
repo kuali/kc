@@ -38,7 +38,7 @@ public class ReportTrackingLookupableHelperServiceImpl extends KraLookupableHelp
 
     @Override
     protected String getKeyFieldName() {
-        return "awardReportTrackingId";
+        return "objectId";
     }
 
     protected ReportTrackingDao getReportTrackingDao() {
