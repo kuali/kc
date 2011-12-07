@@ -2224,7 +2224,7 @@ public class ActionHelper implements Serializable {
         return reviewComments;
     }
 
-    private void setReviewComments(List<CommitteeScheduleMinute> reviewComments) {
+    private void setReviewComments(List<CommitteeScheduleMinute> reviewComments) {        
         this.reviewComments = reviewComments;
     }
 
@@ -2331,6 +2331,9 @@ public class ActionHelper implements Serializable {
 
         setReviewComments(getReviewerCommentsService().getReviewerComments(getProtocol().getProtocolNumber(),
                 currentSubmissionNumber));
+        if (CollectionUtils.isNotEmpty(getReviewComments())) {
+            getReviewerCommentsService().setHideReviewerName(getReviewComments());
+        }
         setReviewAttachments(getReviewerCommentsService().getReviewerAttachments(getProtocol().getProtocolNumber(),
                 currentSubmissionNumber));
         if (CollectionUtils.isNotEmpty(getReviewAttachments())) {
