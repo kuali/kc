@@ -73,6 +73,13 @@ public class NotificationModuleRole extends KraPersistableBusinessObjectBase {
         this.roleQualifiers = roleQualifiers;
     }
 
+    @Override
+    public List buildListOfDeletionAwareLists() {
+        List deleteAwareList = super.buildListOfDeletionAwareLists();
+        deleteAwareList.add(getRoleQualifiers());
+        
+        return deleteAwareList;
+    }
 
     @Override
     protected LinkedHashMap toStringMapper() {

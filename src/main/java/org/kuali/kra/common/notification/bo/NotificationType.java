@@ -122,6 +122,13 @@ public class NotificationType extends KraPersistableBusinessObjectBase {
     public void setNotificationTypeRecipients(List<NotificationTypeRecipient> notificationTypeRecipients) {
         this.notificationTypeRecipients = notificationTypeRecipients;
     }
+    
+    @Override
+    public List buildListOfDeletionAwareLists() {
+        List deleteAwareList = super.buildListOfDeletionAwareLists();
+        deleteAwareList.add(getNotificationTypeRecipients());
+        return deleteAwareList;
+    }
 
     @Override
     protected LinkedHashMap<String, Object> toStringMapper() {
