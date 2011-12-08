@@ -45,6 +45,7 @@ import org.kuali.kra.bo.DocumentNextvalue;
 import org.kuali.kra.budget.versions.BudgetDocumentVersion;
 import org.kuali.kra.budget.web.struts.action.BudgetParentActionBase;
 import org.kuali.kra.budget.web.struts.action.BudgetTDCValidator;
+import org.kuali.kra.common.customattributes.CustomDataHelperBase.LabelComparator;
 import org.kuali.kra.infrastructure.Constants;
 import org.kuali.kra.infrastructure.KeyConstants;
 import org.kuali.kra.infrastructure.KraServiceLocator;
@@ -710,11 +711,43 @@ public class ProposalDevelopmentAction extends BudgetParentActionBase {
                 customAttributeGroups.put(groupName, customAttributeDocumentList);
             }
             customAttributeDocumentList.add(customAttributeDocument);
+            Collections.sort(customAttributeDocumentList, new LabelComparator());
+           
         }
 
         ((ProposalDevelopmentForm)form).setCustomAttributeGroups(customAttributeGroups);
 
         return mapping.findForward(Constants.CUSTOM_ATTRIBUTES_PAGE);
+    }
+    
+    /**
+     * Sorts custom data attributes by label for alphabetical order on custom data panels.
+     */
+    public class LabelComparator implements Comparator
+    {    
+        public LabelComparator(){}
+        
+        public int compare(Object cad1, Object cad2 )
+        {    
+            try
+            {
+                String label1 = ((CustomAttributeDocument)cad1).getCustomAttribute().getLabel();
+                String label2 = ((CustomAttributeDocument)cad2).getCustomAttribute().getLabel();
+                if (label1 == null)
+                {
+                    label1 = "";
+                }
+                if (label2 == null)
+                {
+                    label2 = "";
+                }
+                return label1.compareTo(label2);  
+            }
+            catch (Exception e)
+            {
+                return 0;
+            }
+        }
     }
 
     public ActionForward actions(ActionMapping mapping, ActionForm form, HttpServletRequest request, HttpServletResponse response)
