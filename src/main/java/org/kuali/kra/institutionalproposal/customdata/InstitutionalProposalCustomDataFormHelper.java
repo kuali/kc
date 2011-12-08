@@ -17,6 +17,7 @@ package org.kuali.kra.institutionalproposal.customdata;
 
 import java.io.Serializable;
 import java.util.ArrayList;
+import java.util.Collections;
 import java.util.List;
 import java.util.Map;
 import java.util.SortedMap;
@@ -33,6 +34,7 @@ import org.kuali.kra.award.customdata.CustomDataHelper.AwardStringObjectBO;
 import org.kuali.kra.bo.CustomAttributeDocument;
 import org.kuali.kra.common.customattributes.CustomDataForm;
 import org.kuali.kra.common.customattributes.CustomDataHelperBase;
+import org.kuali.kra.common.customattributes.CustomDataHelperBase.LabelComparator;
 import org.kuali.kra.institutionalproposal.web.struts.form.InstitutionalProposalForm;
 
 public class InstitutionalProposalCustomDataFormHelper extends CustomDataHelperBase {
@@ -197,6 +199,7 @@ public class InstitutionalProposalCustomDataFormHelper extends CustomDataHelperB
                 }
                 customAttributeDocumentList.add(customAttributeDocuments.get(loopInstitutionalProposalCustomData
                         .getCustomAttributeId().toString()));
+                Collections.sort(customAttributeDocumentList, new LabelComparator());
             }
         }
         populateCustomDataValuesFromParentMap();
@@ -226,6 +229,7 @@ public class InstitutionalProposalCustomDataFormHelper extends CustomDataHelperB
                 customAttributeGroups.put(groupName, customAttributeDocumentList);
             }
             customAttributeDocumentList.add(customAttributeDocuments.get(customAttributeDocumentEntry.getValue().getCustomAttributeId().toString()));
+            Collections.sort(customAttributeDocumentList, new LabelComparator());
         }
         populateCustomDataValuesFromParentMap();
     }

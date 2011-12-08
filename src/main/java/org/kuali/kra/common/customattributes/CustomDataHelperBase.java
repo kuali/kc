@@ -17,6 +17,7 @@ package org.kuali.kra.common.customattributes;
 
 import java.io.Serializable;
 import java.util.ArrayList;
+import java.util.Comparator;
 import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
@@ -164,4 +165,35 @@ public abstract class CustomDataHelperBase implements Serializable {
     protected String getUserIdentifier() {
          return GlobalVariables.getUserSession().getPrincipalId();
     }
+    
+    /**
+     * Sorts custom data attributes by label for alphabetical order on custom data panels.
+     */
+    public class LabelComparator implements Comparator
+    {    
+        public LabelComparator(){}
+        
+        public int compare(Object cad1, Object cad2 )
+        {    
+            try
+            {
+                String label1 = ((CustomAttributeDocument)cad1).getCustomAttribute().getLabel();
+                String label2 = ((CustomAttributeDocument)cad2).getCustomAttribute().getLabel();
+                if (label1 == null)
+                {
+                    label1 = "";
+                }
+                if (label2 == null)
+                {
+                    label2 = "";
+                }
+                return label1.compareTo(label2);  
+            }
+            catch (Exception e)
+            {
+                return 0;
+            }
+        }
+    }
+
 }

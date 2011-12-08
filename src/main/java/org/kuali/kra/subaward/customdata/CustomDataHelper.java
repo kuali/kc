@@ -17,6 +17,7 @@ package org.kuali.kra.subaward.customdata;
 
 import java.io.Serializable;
 import java.util.ArrayList;
+import java.util.Collections;
 import java.util.List;
 import java.util.Map;
 import java.util.SortedMap;
@@ -201,6 +202,7 @@ public class CustomDataHelper extends CustomDataHelperBase{
                     customAttributeGroups.put(groupName, customAttributeDocumentList);
                 }
                 customAttributeDocumentList.add(customAttributeDocuments.get(loopsubAwardCustomData.getCustomAttributeId().toString()));
+                Collections.sort(customAttributeDocumentList, new LabelComparator());
             }
         }
         populateCustomDataValuesFromParentMap();
@@ -225,6 +227,7 @@ public class CustomDataHelper extends CustomDataHelperBase{
                 customAttributeGroups.put(groupName, customAttributeDocumentList);
             }
             customAttributeDocumentList.add(customAttributeDocuments.get(customAttributeDocumentEntry.getValue().getCustomAttributeId().toString()));
+            Collections.sort(customAttributeDocumentList, new LabelComparator());
         }
         populateCustomDataValuesFromParentMap();
     }
