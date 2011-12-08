@@ -30,19 +30,21 @@ import org.apache.commons.lang.StringUtils;
 import org.apache.struts.action.ActionForm;
 import org.apache.struts.action.ActionForward;
 import org.apache.struts.action.ActionMapping;
-import org.displaytag.model.TableModel;
 import org.kuali.kra.award.document.AwardDocument;
 import org.kuali.kra.award.home.Award;
 import org.kuali.kra.award.paymentreports.awardreports.reporting.ReportTracking;
 import org.kuali.kra.award.paymentreports.awardreports.reporting.service.ReportTrackingDao;
 import org.kuali.kra.bo.versioning.VersionHistory;
 import org.kuali.kra.bo.versioning.VersionStatus;
+import org.kuali.kra.infrastructure.AwardPermissionConstants;
 import org.kuali.kra.infrastructure.Constants;
 import org.kuali.kra.infrastructure.KraServiceLocator;
 import org.kuali.kra.service.ResearchDocumentService;
+import org.kuali.kra.service.UnitAuthorizationService;
 import org.kuali.kra.service.VersionHistoryService;
 import org.kuali.rice.ken.util.NotificationConstants;
 import org.kuali.rice.kew.util.KEWConstants;
+import org.kuali.rice.kns.exception.AuthorizationException;
 import org.kuali.rice.kns.lookup.Lookupable;
 import org.kuali.rice.kns.service.DateTimeService;
 import org.kuali.rice.kns.service.DocumentService;
@@ -59,6 +61,12 @@ public class ReportTrackingLookupAction extends KualiLookupAction {
     private DateTimeService dateTimeService;
     private DocumentService documentService;
     private VersionHistoryService versionHistoryService;
+    private UnitAuthorizationService unitAuthorizationService;
+    
+    public ActionForward execute(ActionMapping mapping, ActionForm form, HttpServletRequest request, HttpServletResponse response) throws Exception {
+        isAuthorized();
+        return super.execute(mapping, form, request, response);
+    }
     
     public ActionForward search(ActionMapping mapping, ActionForm form, HttpServletRequest request, HttpServletResponse response) throws Exception {
         ReportTrackingLookupForm lookupForm = (ReportTrackingLookupForm) form;
@@ -191,6 +199,24 @@ public class ReportTrackingLookupAction extends KualiLookupAction {
         }
     }
     
+    protected void isAuthorized() {
+        //check permissions
+        boolean userHasPermission = false;
+        String permissionName = AwardPermissionConstants.VIEW_AWARD.getAwardPermission();
+        userHasPermission = getUnitAuthorizationService().hasPermission(GlobalVariables.getUserSession().getPrincipalId(), "KC-AWARD", permissionName);
+        if (!userHasPermission) {
+            permissionName = AwardPermissionConstants.MODIFY_AWARD.getAwardPermission();
+            userHasPermission = getUnitAuthorizationService().hasPermission(GlobalVariables.getUserSession().getPrincipalId(), "KC-AWARD", permissionName);
+        }
+        if (!userHasPermission) {
+            permissionName = AwardPermissionConstants.MODIFY_AWARD_REPORT_TRACKING.getAwardPermission();
+            userHasPermission = getUnitAuthorizationService().hasPermission(GlobalVariables.getUserSession().getPrincipalId(), "KC-AWARD", permissionName);            
+        }
+        if (!userHasPermission) {
+            throw new AuthorizationException(GlobalVariables.getUserSession().getPrincipalName(), "Search", "Report Tracking");
+        }
+    }
+    
     protected ReportTrackingDao getReportTrackingDao() {
         if (reportTrackingDao == null) {
             reportTrackingDao = KraServiceLocator.getService(ReportTrackingDao.class);
@@ -226,7 +252,11 @@ public class ReportTrackingLookupAction extends KualiLookupAction {
         }
         return versionHistoryService;
     }
-    
-    
 
+    public UnitAuthorizationService getUnitAuthorizationService() {
+        if (unitAuthorizationService == null) {
+            unitAuthorizationService = KraServiceLocator.getService(UnitAuthorizationService.class);
+        }
+        return unitAuthorizationService;
+    }
 }
