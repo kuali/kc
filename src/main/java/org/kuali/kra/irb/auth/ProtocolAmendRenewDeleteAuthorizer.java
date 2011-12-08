@@ -31,7 +31,7 @@ public class ProtocolAmendRenewDeleteAuthorizer extends ProtocolAuthorizer {
     public boolean isAuthorized(String userId, ProtocolTask task) {
         return !task.getProtocol().getProtocolDocument().isViewOnly() &&
                inProgress(task.getProtocol()) &&
-               hasPermission(userId, task.getProtocol(), PermissionConstants.MODIFY_PROTOCOL);
+               hasPermission(userId, task.getProtocol(), PermissionConstants.DELETE_PROTOCOL);
     }
     
     private boolean inProgress(Protocol protocol) {

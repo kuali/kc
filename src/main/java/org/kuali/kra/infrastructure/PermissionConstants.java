@@ -46,6 +46,7 @@ public interface PermissionConstants {
     
     public static final String CREATE_PROTOCOL = "Create ProtocolDocument";
     public static final String MODIFY_PROTOCOL = "Modify Protocol";
+    public static final String DELETE_PROTOCOL = "Delete Protocol";
     public static final String MODIFY_ANY_PROTOCOL = "Modify Any Protocol";
     public static final String VIEW_PROTOCOL = "View Protocol";
     public static final String SUBMIT_PROTOCOL = "Submit Protocol";

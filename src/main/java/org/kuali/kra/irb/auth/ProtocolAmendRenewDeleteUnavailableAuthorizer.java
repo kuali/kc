@@ -29,7 +29,7 @@ public class ProtocolAmendRenewDeleteUnavailableAuthorizer extends ProtocolAutho
      * @see org.kuali.kra.irb.auth.ProtocolAuthorizer#isAuthorized(java.lang.String, org.kuali.kra.irb.auth.ProtocolTask)
      */
     public boolean isAuthorized(String userId, ProtocolTask task) {
-        return hasPermission(userId, task.getProtocol(), PermissionConstants.MODIFY_PROTOCOL) &&
+        return hasPermission(userId, task.getProtocol(), PermissionConstants.DELETE_PROTOCOL) &&
                (task.getProtocol().getProtocolDocument().isViewOnly() ||
                 !inProgress(task.getProtocol()));
     }
