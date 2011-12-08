@@ -77,6 +77,7 @@ public class ProtocolActionCorrespondenceGenerationServiceImpl implements Protoc
             List<ProtocolCorrespondence> correspondences = new ArrayList<ProtocolCorrespondence>();
             correspondences.add(protocolCorrespondence);
             lastAction.setProtocolCorrespondences(correspondences);
+            protocol.refreshReferenceObject("protocolSubmissions");
         } else {
             lastAction.getProtocolCorrespondences().add(protocolCorrespondence);
         }
