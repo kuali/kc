@@ -549,8 +549,7 @@ public class SubAward extends KraPersistableBusinessObjectBase implements Permis
 
     @Override
     public String getLeadUnitNumber() {
-        // TODO Auto-generated method stub
-        return null;
+        return this.getUnit() != null ? this.getUnit().getUnitNumber() : EMPTY_STRING;
     }
 
     @Override
@@ -686,7 +685,7 @@ public class SubAward extends KraPersistableBusinessObjectBase implements Permis
 
     @Override
     public String getPiNonEmployeeName() {
-        return EMPTY_STRING;
+        return this.getRolodex() != null ? this.getRolodex().getFullName() : EMPTY_STRING;
     }
 
     @Override
@@ -727,7 +726,9 @@ public class SubAward extends KraPersistableBusinessObjectBase implements Permis
     @Override
     public List<NegotiationPersonDTO> getProjectPeople() {
         List<NegotiationPersonDTO> people = new ArrayList<NegotiationPersonDTO>();
-        people.add(new NegotiationPersonDTO(this.getKcPerson(), "admin"));
+        if (this.getKcPerson() != null) {
+            people.add(new NegotiationPersonDTO(this.getKcPerson(), "admin"));
+        }
         return people;
     }
 
