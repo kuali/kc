@@ -247,24 +247,20 @@
 	                    </c:if>
 	                    <br/><span id="contactAdmin.fullName"><c:out value="${KualiForm.document.negotiation.unAssociatedDetail.contactAdmin.fullName}"/></span>
 	                </td>
-	                <th></th>
-	                <td></td>
-            	</tr>
-            	
-            	<c:if test="${KualiForm.negotiationAssociatedDetailBean.displayOSPAdministrators}">
-            		<tr>
-            			<th><div align="right">OSP Administrators:</div></th>
-            			<td>
-            				<c:forEach items="${KualiForm.negotiationAssociatedDetailBean.ospAdministrators}" var="current">
+	                <th>
+	                	<c:if test="${KualiForm.negotiationAssociatedDetailBean.displayOSPAdministrators}">
+	                		<div align="right">OSP Administrators:</div>
+	                	</c:if>
+	                </th>
+	                <td>
+	                	<c:if test="${KualiForm.negotiationAssociatedDetailBean.displayOSPAdministrators}">
+	                		<c:forEach items="${KualiForm.negotiationAssociatedDetailBean.ospAdministrators}" var="current">
             					<c:out value="${current.fullName}"/>
             					<Br/>
             				</c:forEach>
-            			</td>
-            			<th></th>
-            			<td></td>
-            		</tr>
-            	</c:if>
-            	            	
+	                	</c:if>
+	                </td>
+            	</tr>    	
             	<tr>
             		<th>
             			<div align="right">
@@ -379,24 +375,20 @@
 	                <td>
 	                	<c:out value="${KualiForm.negotiationAssociatedDetailBean.adminPerson}"/>
 	                </td>
-	                <th></th>
-	                <td></td>
-            	</tr>
-            	
-            	<c:if test="${KualiForm.negotiationAssociatedDetailBean.displayOSPAdministrators}">
-            		<tr>
-            			<th><div align="right">OSP Administrators:</div></th>
-            			<td>
-            				<c:forEach items="${KualiForm.negotiationAssociatedDetailBean.ospAdministrators}" var="current">
+	                <th>
+	                	<c:if test="${KualiForm.negotiationAssociatedDetailBean.displayOSPAdministrators}">
+	                		<div align="right">OSP Administrators:</div>
+	                	</c:if>
+	                </th>
+	                <td>
+	                	<c:if test="${KualiForm.negotiationAssociatedDetailBean.displayOSPAdministrators}">
+	                		<c:forEach items="${KualiForm.negotiationAssociatedDetailBean.ospAdministrators}" var="current">
             					<c:out value="${current.fullName}"/>
             					<Br/>
             				</c:forEach>
-            			</td>
-            			<th></th>
-            			<td></td>
-            		</tr>
-            	</c:if>
-            	            	
+	                	</c:if>
+	                </td>
+            	</tr>	            	
             	<tr>
             		<th>
             			<div align="right">
