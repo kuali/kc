@@ -844,10 +844,10 @@
 		<property name="businessObjectService" ref="businessObjectService" />
 		<property name="dateTimeService" ref="dateTimeService" />
 	</bean>
-	<bean id="currentProposalPrint" class="org.kuali.kra.printing.print.CurrentProposalPrint"  scope="prototype">
+	<bean id="currentProposalPrint" class="org.kuali.kra.printing.print.CurrentProposalPrint">
 		<property name="xmlStream" ref="currentProposalXmlStream" />
 	</bean>
-	<bean id="pendingProposalPrint" class="org.kuali.kra.printing.print.PendingProposalPrint"  scope="prototype">
+	<bean id="pendingProposalPrint" class="org.kuali.kra.printing.print.PendingProposalPrint">
 		<property name="xmlStream" ref="pendingProposalXmlStream" />
 	</bean>
 
