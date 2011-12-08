@@ -44,7 +44,7 @@ public class ProtocolAmendRenewDeleteAuthorizerTest extends ProtocolAuthorizerTe
     @Override
     protected ProtocolAuthorizer createProtocolAuthorizer(ProtocolDocument protocolDocument, boolean hasPermission, boolean isActionAllowed, boolean isInWorkflow) {
         ProtocolAuthorizer authorizer = new ProtocolAmendRenewDeleteAuthorizer();
-        authorizer.setKraAuthorizationService(buildKraAuthorizationService(protocolDocument, PermissionConstants.MODIFY_PROTOCOL, hasPermission));
+        authorizer.setKraAuthorizationService(buildKraAuthorizationService(protocolDocument, PermissionConstants.DELETE_PROTOCOL, hasPermission));
         return authorizer;
     }
     
