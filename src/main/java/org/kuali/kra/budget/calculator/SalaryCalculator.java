@@ -641,24 +641,34 @@ public class SalaryCalculator {
 
         
         BudgetDecimal calBase = newBudgetPerson.getCalculationBase();
+        if(budgetPerson.getEffectiveDate().before(p1StartDate)){
+            p1StartDate = budgetPerson.getEffectiveDate();
+        }
         /* 
          * Start with the period that the effective date is in
          * check the budget period before the current period and that has inflation rate
          * increase the calculation base by that base
          * 
          */ 
-        for (BudgetPeriod budgetPeriod : budget.getBudgetPeriods()) {
-            if (budgetPeriod.getEndDate().compareTo(newBudgetPerson.getEffectiveDate()) >= 0) {
-                QueryList<BudgetRate> qlist = filterInflationRates(budgetPeriod.getStartDate(), budgetPeriod.getEndDate());
-                for (BudgetRate budgetProposalrate : qlist) {
-                    if (!budgetProposalrate.getStartDate().equals(p1StartDate) && budgetProposalrate.getStartDate().after(newBudgetPerson.getEffectiveDate())) {
-                        if (budgetPeriod.getEndDate().before(startDate) || budgetProposalrate.getStartDate().before(boundary.getStartDate())) {
-                            calBase = calBase.add(calBase.multiply(budgetProposalrate.getApplicableRate()).divide(new BudgetDecimal(100.00)));
-                        }
-                    }
-                }
+        QueryList<BudgetRate> qlist = filterInflationRates(p1StartDate, startDate);
+        for (BudgetRate budgetProposalrate : qlist) {
+            if (budgetProposalrate.getStartDate().after(budgetPerson.getEffectiveDate()) && budgetProposalrate.getStartDate().before(startDate)){
+                calBase = calBase.add(calBase.multiply(budgetProposalrate.getApplicableRate()).divide(new BudgetDecimal(100.00)));
             }
         }
+
+//        for (BudgetPeriod budgetPeriod : budget.getBudgetPeriods()) {
+//            if (budgetPeriod.getEndDate().compareTo(newBudgetPerson.getEffectiveDate()) >= 0) {
+//                QueryList<BudgetRate> qlist = filterInflationRates(p1StartDate, budgetPeriod.getEndDate());
+//                for (BudgetRate budgetProposalrate : qlist) {
+//                    if (!budgetProposalrate.getStartDate().equals(p1StartDate) && budgetProposalrate.getStartDate().after(newBudgetPerson.getEffectiveDate())) {
+//                        if (budgetPeriod.getEndDate().before(startDate) || budgetProposalrate.getStartDate().before(boundary.getStartDate())) {
+//                            calBase = calBase.add(calBase.multiply(budgetProposalrate.getApplicableRate()).divide(new BudgetDecimal(100.00)));
+//                        }
+//                    }
+//                }
+//            }
+//        }
         return calBase;
         
     }
