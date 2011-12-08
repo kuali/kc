@@ -23,7 +23,8 @@ import java.util.List;
  * This class is a Unit
  */
 public class Unit extends KraPersistableBusinessObjectBase {
-    private static final long serialVersionUID = 476388156554589984L;
+
+    private static final long serialVersionUID = -2473668965878807557L;
     
     private String unitNumber;
     private String parentUnitNumber;
@@ -58,9 +59,13 @@ public class Unit extends KraPersistableBusinessObjectBase {
         this.parentUnitNumber = parentUnitNumber;
     }
 
+    /**
+     * Returns the organization id.  If no organization id is found, recurses up the hierarchy until a valid organization id is found.
+     * 
+     * @return an organization id in the hierarchy
+     */
     public String getOrganizationId() {
         if (organizationId == null && this.getParentUnit() != null && this.getParentUnit().getUnitNumber() != null) {
-            //will recurse up hierarchy until an Organization Id is found
             return this.getParentUnit().getOrganizationId();
         }
         return organizationId;
@@ -99,17 +104,18 @@ public class Unit extends KraPersistableBusinessObjectBase {
     }
 
     /**
-     * Gets the organization attribute. 
-     * @return Returns the organization.
+     * Returns the organization.  If no organization is found, recurses up the hierarchy until a valid organization is found.
+     * 
+     * @return an organization in the hierarchy
      */
     public Organization getOrganization() {
+        if (organization == null && this.getParentUnit() != null && this.getParentUnit().getUnitNumber() != null) {
+            //will recurse up hierarchy until an Organization is found
+            return this.getParentUnit().getOrganization();
+        }
         return organization;
     }
 
-    /**
-     * Sets the organization attribute value.
-     * @param organization The organization to set.
-     */
     public void setOrganization(Organization organization) {
         this.organization = organization;
     }
