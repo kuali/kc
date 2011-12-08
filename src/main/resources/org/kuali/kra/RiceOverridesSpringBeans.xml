@@ -184,6 +184,8 @@
 				<value>proposalLogLookupable</value>
 				<value>proposalDevelopmentLookupable</value>
 				<value>unitAdministratorLookupable</value>
+				<value>organizationCorrespondentLookupable</value>
+				<value>unitCorrespondentLookupable</value>
 				<value>customAttributeDocumentLookupable</value>
 				<value>noEditLookupable</value>
 				<value>budgetPeriodLookupable</value>	

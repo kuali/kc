@@ -167,6 +167,7 @@
     <bean id="OrganizationCorrespondent-lookupDefinition" parent="OrganizationCorrespondent-lookupDefinition-parentBean" />
     <bean id="OrganizationCorrespondent-lookupDefinition-parentBean" abstract="true" parent="LookupDefinition">
         <property name="title" value="Organization Correspondent Lookup" />
+	    <property name="lookupableID" value="organizationCorrespondentLookupable" />
         <property name="menubar" value="&lt;a href=&quot;index.jsp&quot;&gt;Main&lt;/a&gt;" />
         <property name="defaultSort" >
             <bean parent="SortDefinition" >

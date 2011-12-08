@@ -462,6 +462,30 @@
 		scope="prototype" parent="lookupableHelperService">
 	</bean>
 
+	<bean id="organizationCorrespondentLookupable" class="org.kuali.rice.kns.lookup.KualiLookupableImpl"
+		scope="prototype">
+		<property name="lookupableHelperService">
+			<ref bean="organizationCorrespondentLookupableHelperService" />
+		</property>
+	</bean>
+
+	<bean id="organizationCorrespondentLookupableHelperService"
+		class="org.kuali.kra.service.impl.OrganizationCorrespondentLookupableHelperServiceImpl"
+		scope="prototype" parent="lookupableHelperService">
+	</bean>
+
+	<bean id="unitCorrespondentLookupable" class="org.kuali.rice.kns.lookup.KualiLookupableImpl"
+		scope="prototype">
+		<property name="lookupableHelperService">
+			<ref bean="unitCorrespondentLookupableHelperService" />
+		</property>
+	</bean>
+
+	<bean id="unitCorrespondentLookupableHelperService"
+		class="org.kuali.kra.service.impl.UnitCorrespondentLookupableHelperServiceImpl"
+		scope="prototype" parent="lookupableHelperService">
+	</bean>
+
 	<bean id="customAttributeDocumentLookupable" class="org.kuali.rice.kns.lookup.KualiLookupableImpl"
 		scope="prototype">
 		<property name="lookupableHelperService">

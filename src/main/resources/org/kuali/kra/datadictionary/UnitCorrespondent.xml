@@ -167,6 +167,7 @@
     <bean id="UnitCorrespondent-lookupDefinition" parent="UnitCorrespondent-lookupDefinition-parentBean" />
     <bean id="UnitCorrespondent-lookupDefinition-parentBean" abstract="true" parent="LookupDefinition">
         <property name="title" value="Unit Correspondent Lookup" />
+	    <property name="lookupableID" value="unitCorrespondentLookupable" />
         <property name="menubar" value="&lt;a href=&quot;index.jsp&quot;&gt;Main&lt;/a&gt;" />
         <property name="defaultSort" >
             <bean parent="SortDefinition" >
