@@ -21,11 +21,11 @@
 	headerTitle="Lookup Ajax Details" docTitle="" transactionalDocument="false"
 	htmlFormAction="reportTrackingLookup" >
 	
-  	<table cellpadding="0" cellspacing="0" class="detailTable">
+  	<table cellpadding="0" cellspacing="0" class="Detail">
   		<thead>
   		<tr>
   			<c:forEach items="${KualiForm.detailFields}" var="col">
-  				<th><kul:htmlAttributeLabel attributeEntry="${reportTrackingAttributes[col]}" noColon="true" readOnly="true"/></th>
+  				<th class="draggableColumn Detail"><kul:htmlAttributeLabel attributeEntry="${reportTrackingAttributes[col]}" noColon="true" readOnly="true"/><div style="display:none;"><c:out value="${col}"/></div></th>
   			</c:forEach>
   			<th>&nbsp;</th>
   		</tr>

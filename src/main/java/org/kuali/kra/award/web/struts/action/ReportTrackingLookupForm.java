@@ -43,6 +43,8 @@ public class ReportTrackingLookupForm extends LookupForm {
     private List<String> customDetailFields;
     private ReportTrackingSearchViews reportTrackingViews;
     private boolean viewRawResults;
+    private String moveField;
+    private Integer newColumnIndex;
     
     public ReportTrackingLookupForm() {
         init();
@@ -174,6 +176,22 @@ public class ReportTrackingLookupForm extends LookupForm {
 
     public void setViewRawResults(boolean viewRawResults) {
         this.viewRawResults = viewRawResults;
+    }
+
+    public Integer getNewColumnIndex() {
+        return newColumnIndex;
+    }
+
+    public void setNewColumnIndex(Integer newColumnIndex) {
+        this.newColumnIndex = newColumnIndex;
+    }
+
+    public String getMoveField() {
+        return moveField;
+    }
+
+    public void setMoveField(String moveField) {
+        this.moveField = moveField;
     }
 
 }
