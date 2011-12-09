@@ -340,7 +340,7 @@ public class NegotiationNegotiationAction extends NegotiationAction {
             String newAssociation = asscType != null ? asscType.getDescription() : "nothing";
             if (StringUtils.equals(negotiationForm.getNegotiationDocument().getNegotiation().getNegotiationAssociationType()
                     .getCode(), NegotiationAssociationType.NONE_ASSOCIATION)) {
-                newAssociation = newAssociation + ", you will lose any negotiation attributes that have been entered";
+                newAssociation = newAssociation + ".  You will lose any Negotiation attributes that have been entered";
             }
             request.setAttribute(KNSConstants.METHOD_TO_CALL_ATTRIBUTE, "methodToCall.changeAssociationRedirector");
             ActionForward confirmAction = confirm(
