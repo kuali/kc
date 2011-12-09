@@ -39,7 +39,8 @@
     <script type="text/javascript" src="${pageContext.request.contextPath}/dwr/interface/DocumentTypeService.js"></script>
     <script src="scripts/jquery/jquery.js"></script>
     <script type="text/javascript" src="scripts/jquery/jquery.fancybox-1.3.4jh.js"></script>
-    <link rel="stylesheet" type="text/css" href="scripts/jquery/fancybox/jquery.fancybox-1.3.4.css"" media="screen"/>    
+    <script type="text/javascript" src="scripts/jquery/jquery-ui-1.8.16.custom.min.js"></script>
+    <link rel="stylesheet" type="text/css" href="scripts/jquery/fancybox/jquery.fancybox-1.3.4.css" media="screen"/>   
     
 	<script type="text/javascript"> 
    		var $jq = jQuery.noConflict();
@@ -219,10 +220,10 @@
 			  .reportTrackingResults {
 			    margin-top: 2em;
 			  }			  
-			  .aggregateTable {
+			  table.GroupBy {
 			    width: 100%;
 			  }
-			  .detailTable {
+			  table.Detail {
 			    width: 100%;
 			  }
 			  .showHideLink {
@@ -275,7 +276,42 @@
 			  div#fancyboxwrap{
 			  	top:120px
 			  }
+			  #workarea th {
+			    border: 1px solid #999999;
+			  }
+			  .draggableColumn {
+			    cursor: pointer;
+			    margin: 0;
+			    padding: 5px;
+			    border: 1px solid #999999;
+			  }
+			.col-move-top, .col-move-bottom{
+				display: none;
+				width:9px;
+				height:9px;
+				position:absolute;
+				top:0;
+				line-height:1px;
+				font-size:1px;
+				overflow:hidden;
+				z-index:20000;
+				background:transparent no-repeat left top;
+			}
+			.col-move-top{
+				background-image:url(static/images/col-move-top.gif);
+			}
+			.col-move-bottom{
+				background-image:url(static/images/col-move-bottom.gif);
+			} 	
+			div.resort {
+				text-align: center;
+				margin-top: 10px;
+				margin-bottom: 10px;
+			}		  
 			</style>
+			${kfunc:registerEditableProperty(KualiForm, "oldColumnIndex")}
+			${kfunc:registerEditableProperty(KualiForm, "moveField")}
+			${kfunc:registerEditableProperty(KualiForm, "newColumnIndex")}
 			<script>
 				var showHideSearchClass = ".showHideSearch";
 				var showSearchClass = "showSearch";
@@ -308,7 +344,14 @@
 						$jq(link).removeClass(hideClass);
 						$jq(link).addClass(showClass);
 					} else {
-						getDetails(link);
+						if ($jq(link).hasClass('loaded')) {
+							  $jq(detailRow).show();
+							  $jq(detailRow).children().children().slideDown(100);
+							  $jq(link).addClass(hideClass);
+							  $jq(link).removeClass(showClass);
+						} else {
+							getDetails(link);
+						}
 					}					
 				} 
 				function buildAggregateQueryString(jsonStr) {
@@ -333,17 +376,33 @@
 		              success: function(xml){
 		            	  try {
 		            		  var detailRow = $jq(link).parents('.aggregateResult').next('.detailRow');
-		            		  $(detailRow).find('div').html(xml);
+		            		  $jq(detailRow).find('div').html(xml);
+		            		  $jq(link).addClass('loaded');
 							  $jq(detailRow).show();
 							  $jq(detailRow).children().children().slideDown(100);
 							  $jq(link).addClass(hideClass);
-							  $jq(link).removeClass(showClass);			            		  
+							  $jq(link).removeClass(showClass);
+							  prepareSortableColumns();
 		            	  } catch(e) {
 			            	  alert(e);
 		            	  }
 		              }
 		          });
 				}
+				function moveColumns(fieldName, fieldType, newIndex) {
+					var data = $jq('form').serialize() + "&" + "&methodToCall=move" + fieldType + "Columns&newColumnIndex=" + newIndex +
+					"&moveField=" + fieldName;
+					console.log(data);
+		          $jq.ajax({
+		              type: 'GET',
+		              dataType: 'html',
+		              data: data,
+		              cache: false,
+		              async: true,
+		              timeout: 30000
+		          });
+				}
+					
 				function toggleCustomView(radioBtn) {
 					if ($jq(radioBtn).val() != ${KualiForm.reportTrackingViews.customViewIndex}) {
 						$jq("input[name='customGroupByFields']").attr('disabled', true);
@@ -352,7 +411,68 @@
 						$jq("input[name='customGroupByFields']").removeAttr('disabled');
 						$jq("input[name='customDetailFields']").removeAttr('disabled');
 					}
-				} 
+				}
+				var groupByClass = 'GroupBy';
+				var detailClass = 'Detail';
+				function prepareSortableColumns() {
+					$jq('th.draggableColumn').droppable({
+						over: function(event, ui) {
+							// get column index
+							var index = $jq(this).index();
+							var pos = $jq(this).position();
+							$jq('.col-move').css('left', (pos.left- ($jq('.col-move').height()/2)));
+							$jq('.col-move-top').css('top', (pos.top - $jq('.col-move').height()));
+							$jq('.col-move-bottom').css('top', (pos.top + $jq(this).outerHeight()));
+							$jq('.col-move').show();
+						},
+						out: function(event, ui) {
+							$jq('.col-move').hide();
+						},
+						drop: function(event, ui) {
+							var fieldType = ui.draggable.hasClass(groupByClass) ? groupByClass : detailClass;
+							// get table element
+							var $table = $jq('table.'+fieldType);
+							// get source index
+							var orig_index = $table.first().data('drag_col_index');
+							// get new index
+							var new_index = $jq(this).index();
+							//get the name of the field being moved. It is stored in a hidden div in the th.
+							var fieldName = ui.draggable.find('div').text();
+							
+							$table.find('tr').each(function(row_index, row_element) {
+								//console.log('move = '+orig_index+' before '+new_index);
+								if($jq(row_element).parent('thead').length) {
+									var orig_head = $jq(row_element).find('th').eq(orig_index).text();
+									var new_head = $jq(row_element).find('th').eq(new_index).text();
+									$jq(row_element).find('th').eq(orig_index).insertBefore($jq(row_element).find('th').eq(new_index));
+								} else {
+									var orig_head = $jq(row_element).find('td').eq(orig_index).text();
+									var new_head = $jq(row_element).find('td').eq(new_index).text();
+									$jq(row_element).find('td').eq(orig_index).insertBefore($jq(row_element).find('td').eq(new_index));
+								}
+								
+								$jq('.col-move').hide();
+							});
+							//send an ajax request to the server to reorder the columns. Index is -1 as the first column
+							//is the show details link rendered only in jsp.
+							moveColumns(fieldName, fieldType, new_index);
+							$jq('.resort').show();
+						}
+					});
+					$jq('th.' + groupByClass).droppable( "option", "accept", "."+groupByClass);
+					$jq('th.' + detailClass).droppable("option", "accept", "."+detailClass);
+					$jq('table th.draggableColumn').draggable({
+						helper: 'clone',
+						containment: 'body',
+						start: function(event, ui){
+							// get column index
+							var index = $jq(this).index();
+							var fieldType = $jq(this).hasClass(groupByClass) ? groupByClass : detailClass;
+							// add column index to data store
+							$jq('table.'+fieldType).data('drag_col_index', index);
+						}
+					});
+				}					
 				$jq(document).ready(function() {
 					$jq('a.showHideLink').each(function() { $jq(this).click(function() { toggleDetails(this); })});
 					toggleCustomView($jq("input[name=currentViewIndex]:checked"));
@@ -364,6 +484,9 @@
 						'onStart' : function() { showSearchTable(); }
 						 });
 				});
+				$jq(document).ready(function() {
+					prepareSortableColumns();
+				}); 				
 			</script>
 
 <c:choose><c:when test="${KualiForm.viewRawResults}">
@@ -375,6 +498,8 @@
 </tr>
 </table>
 <kra-a:reportTrackingViewSelection/>
+<div class="col-move col-move-top" style="display: none;">&nbsp;</div>
+<div class="col-move col-move-bottom" style="display: none;">&nbsp;</div>
   
 </kul:page>
 			

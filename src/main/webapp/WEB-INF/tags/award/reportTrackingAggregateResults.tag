@@ -21,14 +21,15 @@
 	${kfunc:registerEditableProperty(KualiForm, "groupByResultIndex")}
 	<c:if test="${not empty KualiForm.groupedByResults}">
 		<script>$jq(document).ready(function() { toggleSearchTable($jq('.showHideSearch')); });</script>
-		<table cellpadding="0" cellspacing="0" class="aggregateTable">
-			<tr>
+		<div class="resort"><html:image property="methodToCall.search" src="${ConfigProperties.kra.externalizable.images.url}buttonsmall-sorttable.gif" style="display:none;" styleClass="tinybutton resort"/></div>
+		<table cellpadding="0" cellspacing="0" class="GroupBy">
+			<thead><tr>
 				<th>&nbsp;</th>
 				<c:forEach items="${KualiForm.groupedByDisplayFields}" var="col">
-					<th><kul:htmlAttributeLabel attributeEntry="${reportTrackingAttributes[col]}" noColon="true" readOnly="true"/></th>
+					<th class="draggableColumn GroupBy"><kul:htmlAttributeLabel attributeEntry="${reportTrackingAttributes[col]}" noColon="true" readOnly="true"/><div style="display:none;"><c:out value="${col}"/></div></th>
 				</c:forEach>
 				<th>Count</th>
-			</tr>
+			</tr></thead>
 			<c:forEach items="${KualiForm.groupedByResults}" var="resultLine" varStatus="ctr">
 				<tr class="aggregateResult">
 			    	<td><a class="showHideLink showLink">show and hide details</a><div style="display:none;" title="none"><c:out value="${ctr.index}"/></div></td>
@@ -45,5 +46,7 @@
 			  		</td>
 				</tr>
 			</c:forEach>
+		</table>
+		<div class="resort"><html:image property="methodToCall.search" src="${ConfigProperties.kra.externalizable.images.url}buttonsmall-sorttable.gif" style="display:none;" styleClass="tinybutton resort"/></div>
 	</c:if>
 </div>
