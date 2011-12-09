@@ -132,4 +132,41 @@ public class NegotiationServiceImplTest extends KcUnitTestBase {
         codes.put("NEGOTIATION_ASSC_TYPE_CODE", code);
         return (NegotiationAssociationType) this.businessObjectService.findMatching(NegotiationAssociationType.class, codes).iterator().next();
     }
+    
+    @Test
+    public void testIsAwardLinkingEnabled() {
+        boolean checkVal = this.negotiationService.isAwardLinkingEnabled();
+        assertTrue(checkVal);
+        
+        NegotiationAssociationType awardType = this.negotiationService.getNegotiationAssociationType(NegotiationAssociationType.AWARD_ASSOCIATION);
+        awardType.setActive(false);
+        this.businessObjectService.save(awardType);
+        
+        checkVal = this.negotiationService.isAwardLinkingEnabled();
+        assertFalse(checkVal);
+    }
+    
+    @Test
+    public void testIsInstitutionalProposalLinkingEnabled() {
+        boolean checkVal = this.negotiationService.isInstitutionalProposalLinkingEnabled();
+        assertTrue(checkVal);
+    }
+    
+    @Test
+    public void testIsNoModuleLinkingEnabled() {
+        boolean checkVal = this.negotiationService.isNoModuleLinkingEnabled();
+        assertTrue(checkVal);
+    }
+    
+    @Test
+    public void testIsProposalLogLinkingEnabled() {
+        boolean checkVal = this.negotiationService.isProposalLogLinkingEnabled();
+        assertTrue(checkVal);
+    }
+    
+    @Test
+    public void testIsSubawardLinkingEnabled() {
+        boolean checkVal = this.negotiationService.isSubawardLinkingEnabled();
+        assertTrue(checkVal);
+    }
 }
