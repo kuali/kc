@@ -215,32 +215,38 @@ public class NegotiationServiceImpl implements NegotiationService {
 
     @Override
     public boolean isAwardLinkingEnabled() {
-        String value = getParameterService().getParameterValue(NegotiationDocument.class, "ENABLE_NEGOTIATION_TO_AWARD_LINK");
-        return StringUtils.equals(value, "1");
+        return this.isNegotaitionAssociationTypeActive(NegotiationAssociationType.AWARD_ASSOCIATION);
     }
 
     @Override
     public boolean isInstitutionalProposalLinkingEnabled() {
-        String value = getParameterService().getParameterValue(NegotiationDocument.class, "ENABLE_NEGOTIATION_TO_INSTPROP_LINK");
-        return StringUtils.equals(value, "1");
+        return this.isNegotaitionAssociationTypeActive(NegotiationAssociationType.INSTITUATIONAL_PROPOSAL_ASSOCIATION);
     }
 
     @Override
     public boolean isNoModuleLinkingEnabled() {
-        String value = getParameterService().getParameterValue(NegotiationDocument.class, "ENABLE_NEGOTIATION_TO_NO_MODULE");
-        return StringUtils.equals(value, "1");
+        return this.isNegotaitionAssociationTypeActive(NegotiationAssociationType.NONE_ASSOCIATION);
     }
 
     @Override
     public boolean isProposalLogLinkingEnabled() {
-        String value = getParameterService().getParameterValue(NegotiationDocument.class, "ENABLE_NEGOTIATION_TO_PROPOSALLOG_LINK");
-        return StringUtils.equals(value, "1");
+        return this.isNegotaitionAssociationTypeActive(NegotiationAssociationType.PROPOSAL_LOG_ASSOCIATION);
     }
 
     @Override
     public boolean isSubawardLinkingEnabled() {
-        String value = getParameterService().getParameterValue(NegotiationDocument.class, "ENABLE_NEGOTIATION_TO_SUBAWARD_LINK");
-        return StringUtils.equals(value, "1");
+        return this.isNegotaitionAssociationTypeActive(NegotiationAssociationType.SUB_AWARD_ASSOCIATION);
+    }
+    
+    /**
+     * 
+     * This method is a helper method for the isXXXLinkingEnabled functions.  It checks the association type object's active value.
+     * @param associationTypeCode
+     * @return
+     */
+    protected boolean isNegotaitionAssociationTypeActive(String associationTypeCode) {
+        NegotiationAssociationType nat = this.getNegotiationAssociationType(associationTypeCode);
+        return nat.isActive();
     }
 
     /**

@@ -43,16 +43,7 @@ public class NegotiationAssociationTypeValuesFinder extends ExtendedPersistableB
         List<KeyLabelPair> labels = new ArrayList<KeyLabelPair>();
         Collection<NegotiationAssociationType> associations = getBusinessObjectService().findAll(NegotiationAssociationType.class);
         for (NegotiationAssociationType type : associations) {
-            if ((StringUtils.equals(type.getCode(), NegotiationAssociationType.AWARD_ASSOCIATION)
-                    && getNegotiationService().isAwardLinkingEnabled())
-                || (StringUtils.equals(type.getCode(), NegotiationAssociationType.INSTITUATIONAL_PROPOSAL_ASSOCIATION)
-                        && getNegotiationService().isInstitutionalProposalLinkingEnabled())
-                || (StringUtils.equals(type.getCode(), NegotiationAssociationType.NONE_ASSOCIATION)
-                        && getNegotiationService().isNoModuleLinkingEnabled())
-                || (StringUtils.equals(type.getCode(), NegotiationAssociationType.PROPOSAL_LOG_ASSOCIATION)
-                        && getNegotiationService().isProposalLogLinkingEnabled())
-                || (StringUtils.equals(type.getCode(), NegotiationAssociationType.SUB_AWARD_ASSOCIATION)
-                        && getNegotiationService().isSubawardLinkingEnabled())) {
+            if (type.isActive()){
                 labels.add(new KeyLabelPair(type.getId(), type.getDescription()));
             }
         }
