@@ -125,7 +125,44 @@ public class ReportTrackingLookupAction extends KualiLookupAction {
         ReportTrackingLookupForm lookupForm = (ReportTrackingLookupForm) form;
         lookupForm.setViewRawResults(false);
         return this.search(mapping, lookupForm, request, response);        
-    }    
+    }
+    
+    public ActionForward moveGroupByColumns(ActionMapping mapping, ActionForm form, HttpServletRequest request, HttpServletResponse response) throws Exception {
+        ReportTrackingLookupForm lookupForm = (ReportTrackingLookupForm) form;
+        String fieldName = lookupForm.getMoveField();
+        Integer newIndex = lookupForm.getNewColumnIndex() - 1;
+        Integer oldIndex = lookupForm.getGroupedByDisplayFields().indexOf(fieldName);
+        if (newIndex >= 0 && oldIndex >= 0) {
+            lookupForm.getGroupedByDisplayFields().remove(fieldName);
+            if (newIndex > oldIndex) {
+                newIndex--;
+            }
+            lookupForm.getGroupedByDisplayFields().add(newIndex, fieldName);
+            
+            String origItem = lookupForm.getGroupedByFields().get(oldIndex);
+            lookupForm.getGroupedByFields().remove(origItem);
+            lookupForm.getGroupedByFields().add(newIndex, origItem);
+        }
+        
+        return mapping.findForward(Constants.MAPPING_BASIC);
+    }
+    
+    public ActionForward moveDetailColumns(ActionMapping mapping, ActionForm form, HttpServletRequest request, HttpServletResponse response) throws Exception {
+        ReportTrackingLookupForm lookupForm = (ReportTrackingLookupForm) form;
+        String fieldName = lookupForm.getMoveField();
+        Integer newIndex = lookupForm.getNewColumnIndex();
+        Integer oldIndex = lookupForm.getDetailFields().indexOf(fieldName);
+        if (newIndex >= 0 && oldIndex >= 0) {
+            lookupForm.getDetailFields().remove(fieldName);
+            if (newIndex > oldIndex) {
+                newIndex--;
+            }
+            lookupForm.getDetailFields().add(newIndex, fieldName);
+        }
+        
+        return mapping.findForward(Constants.MAPPING_BASIC);
+    }
+    
     
     public ActionForward openAwardReports(ActionMapping mapping, ActionForm form, HttpServletRequest request, HttpServletResponse response) throws Exception {
         String awardNumber = getSelectedAwardNumber(request);
