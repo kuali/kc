@@ -31,6 +31,7 @@ public class Unit extends KraPersistableBusinessObjectBase {
     private String organizationId;
     private String unitName;
     private String campusCode;
+ 
     
     private Unit parentUnit;
     private List<UnitAdministrator> unitAdministrators;
@@ -134,6 +135,23 @@ public class Unit extends KraPersistableBusinessObjectBase {
 
     public void setUnitAdministrators(List<UnitAdministrator> unitAdministrators) {
         this.unitAdministrators = unitAdministrators;
+    }
+    
+
+    /**
+     * Gets the organizationIdForMaintenance attribute. 
+     * @return Returns the organizationIdForMaintenance.
+     */
+    public String getOrganizationIdForMaintenance() {
+        return organizationId;
+    }
+
+    /**
+     * Sets the organizationIdForMaintenance attribute value.
+     * @param organizationIdForMaintenance The organizationIdForMaintenance to set.
+     */
+    public void setOrganizationIdForMaintenance(String organizationIdForMaintenance) {
+        this.organizationId = organizationIdForMaintenance;
     }
 
     @SuppressWarnings("unchecked")
