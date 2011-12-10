@@ -23,6 +23,7 @@
         <ref bean="Unit-parentUnit.unitName" />
         <ref bean="Unit-parentUnit.unitNumber" />
         <ref bean="Unit-organizationId" />
+        <ref bean="Unit-organizationIdForMaintenance" />
         <ref bean="Unit-organization.organizationName" />
         <ref bean="Unit-unitName" />
         <ref bean="Unit-campusCode" />
@@ -67,6 +68,16 @@
             </list>
           </property>
         </bean>
+        <bean parent="RelationshipDefinition">
+          <property name="objectAttributeName" value="organization" />
+          <property name="primitiveAttributes" >
+            <list>
+              <bean parent="PrimitiveAttributeDefinition"
+                    p:sourceName="organizationIdForMaintenance"
+                    p:targetName="organizationId" />
+            </list>
+          </property>
+        </bean>
       </list>
     </property>
   </bean>
@@ -80,7 +91,7 @@
     <property name="name" value="unitNumber" />
     <property name="forceUppercase" value="true" />
     <property name="label" value="Unit Number" />
-    <property name="shortLabel" value="Unit Number" />
+    <property name="shortLabel" value="Unit Number" /> 
     <property name="maxLength" value="8" />
     <property name="validationPattern" >
       <bean parent="AnyCharacterValidationPattern" />
@@ -130,6 +141,24 @@
 
   <bean id="Unit-organizationId-parentBean" abstract="true" parent="AttributeDefinition">
     <property name="name" value="organizationId" />
+    <property name="forceUppercase" value="false" />
+    <property name="label" value="Organization Id" />
+    <property name="shortLabel" value="Organization Id" />
+    <property name="maxLength" value="8" />
+    <property name="validationPattern" >
+      <bean parent="AlphaNumericValidationPattern" />
+    </property>
+    <property name="control" >
+      <bean parent="TextControlDefinition"
+            p:size="8" />
+    </property>
+    <property name="summary" value="Organization Id" />
+    <property name="description" value="Organization Id" />
+  </bean>
+  <bean id="Unit-organizationIdForMaintenance" parent="Unit-organizationIdForMaintenance-parentBean" />
+
+  <bean id="Unit-organizationIdForMaintenance-parentBean" abstract="true" parent="AttributeDefinition">
+    <property name="name" value="organizationIdForMaintenance" />
     <property name="forceUppercase" value="false" />
     <property name="label" value="Organization Id" />
     <property name="shortLabel" value="Organization Id" />
@@ -259,6 +288,8 @@
               p:attributeName="unitName" />
         <bean parent="FieldDefinition"
               p:attributeName="campusCode" />
+              <bean parent="FieldDefinition"
+              p:attributeName="organizationIdForMaintenance" p:hidden="true"/>
       </list>
     </property>
     <property name="resultFields" >
