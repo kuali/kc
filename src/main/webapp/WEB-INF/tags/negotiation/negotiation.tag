@@ -9,7 +9,7 @@
 <script type='text/javascript' src='dwr/interface/KraPersonService.js'></script>
 
 <kul:tab tabTitle="Negotiation" defaultOpen="${!medusaLink}" 
-					tabErrorKey="document.negotiationList[0].negotiation*,document.negotiationList[0].negotiator*,document.negotiationList[0].anticipatedAwardDate,document.negotiationList[0].documentFolder,document.negotiationList[0].associatedDocumentId,document.negotiation.unAssociatedDetail*" 
+					tabErrorKey="document.negotiationList[0].negotiation*,document.negotiationList[0].negotiator*,document.negotiationList[0].anticipatedAwardDate,document.negotiationList[0].documentFolder,document.negotiationList[0].associatedDocumentId,document.negotiationList[0].unAssociatedDetail*" 
 					auditCluster="requiredFieldsAuditErrors" tabAuditKey="document.title" useRiceAuditMode="true">
 					
 	<div class="tab-container" align="center">
@@ -167,7 +167,7 @@
             			</div>
             		</th>
                 	<td>
-                		<kul:htmlControlAttribute property="document.negotiation.unAssociatedDetail.title" 
+                		<kul:htmlControlAttribute property="document.negotiationList[0].unAssociatedDetail.title" 
                 			attributeEntry="${negotiationUnassociatedDetailAttributes.title}" readOnly="${readOnly}"/>
                 	</td>
                 	<th>
@@ -176,12 +176,12 @@
             			</div>
                 	</th>
                 	<td>
-                		<kul:htmlControlAttribute property="document.negotiation.unAssociatedDetail.leadUnitNumber" 
+                		<kul:htmlControlAttribute property="document.negotiationList[0].unAssociatedDetail.leadUnitNumber" 
                 			attributeEntry="${negotiationUnassociatedDetailAttributes.leadUnitNumber}" readOnly="${readOnly}"/>
                 		<c:if test="${!readOnly}">
-	                		${kfunc:registerEditableProperty(KualiForm, "document.negotiation.unAssociatedDetail.leadUnitNumber")}
+	                		${kfunc:registerEditableProperty(KualiForm, "document.negotiationList[0].unAssociatedDetail.leadUnitNumber")}
 	                		<kul:lookup boClassName="org.kuali.kra.bo.Unit" 
-						        		fieldConversions="unitNumber:document.negotiation.unAssociatedDetail.leadUnitNumber" />
+						        		fieldConversions="unitNumber:document.negotiationList[0].unAssociatedDetail.leadUnitNumber" />
 					    </c:if> 
                 	</td>
             	</tr>
@@ -194,21 +194,21 @@
                 	</th>
                 	<td>
                 		<c:if test="${!readOnly}">
-	                		<html:text property="document.negotiation.unAssociatedDetail.PIEmployee.userName" 
-								onblur="loadContactPersonName('document.negotiation.unAssociatedDetail.PIEmployee.userName',
+	                		<html:text property="document.negotiationList[0].unAssociatedDetail.PIEmployee.userName" 
+								onblur="loadContactPersonName('document.negotiationList[0].unAssociatedDetail.PIEmployee.userName',
 											'PIEmployee.fullName',
 											'na',
 											'na',
 											'na',
-											'document.negotiation.unAssociatedDetail.piPersonId');"
+											'document.negotiationList[0].unAssociatedDetail.piPersonId');"
 		                    	readonly="${readOnly}"/>
 	                    
-	                        ${kfunc:registerEditableProperty(KualiForm, "document.negotiation.unAssociatedDetail.piPersonId")}
-		                    <html:hidden property="document.negotiation.unAssociatedDetail.piPersonId" styleId="document.negotiation.unAssociatedDetail.piPersonId"/>
+	                        ${kfunc:registerEditableProperty(KualiForm, "document.negotiationList[0].unAssociatedDetail.piPersonId")}
+		                    <html:hidden property="document.negotiationList[0].unAssociatedDetail.piPersonId" styleId="document.negotiationList[0].unAssociatedDetail.piPersonId"/>
 		                	<kul:lookup boClassName="org.kuali.kra.bo.KcPerson" 
-		                                fieldConversions="personId:document.negotiation.unAssociatedDetail.piPersonId" />
+		                                fieldConversions="personId:document.negotiationList[0].unAssociatedDetail.piPersonId" />
 	                    </c:if>
-	                    <br/><span id="PIEmployee.fullName"><c:out value="${KualiForm.document.negotiation.unAssociatedDetail.PIEmployee.fullName}"/></span>
+	                    <br/><span id="PIEmployee.fullName"><c:out value="${KualiForm.document.negotiationList[0].unAssociatedDetail.PIEmployee.fullName}"/></span>
 	                </td>
 	                <th>
 	                	<div align="right">
@@ -216,17 +216,17 @@
             			</div>
 	                </th>
 	                <td>
-	                	<kul:htmlControlAttribute property="document.negotiation.unAssociatedDetail.piRolodexId" 
+	                	<kul:htmlControlAttribute property="document.negotiationList[0].unAssociatedDetail.piRolodexId" 
                 			attributeEntry="${negotiationUnassociatedDetailAttributes.piRolodexId}" readOnly="${readOnly}"/>
                 		
                 		
                 		<c:if test="${!readOnly}">
-	                		${kfunc:registerEditableProperty(KualiForm, "document.negotiation.unAssociatedDetail.piRolodexId")}
+	                		${kfunc:registerEditableProperty(KualiForm, "document.negotiationList[0].unAssociatedDetail.piRolodexId")}
 	                		<kul:lookup boClassName="org.kuali.kra.bo.Rolodex" 
-						        		fieldConversions="rolodexId:document.negotiation.unAssociatedDetail.piRolodexId" />
+						        		fieldConversions="rolodexId:document.negotiationList[0].unAssociatedDetail.piRolodexId" />
 					    </c:if> 
 					    <Br/>
-					    <c:out value="${KualiForm.document.negotiation.unAssociatedDetail.PINonEmployee.organization}"/>
+					    <c:out value="${KualiForm.document.negotiationList[0].unAssociatedDetail.PINonEmployee.organization}"/>
 	                </td>
             	</tr>
             	
@@ -238,21 +238,21 @@
 	                </th>
 	                <td>
 	                	<c:if test="${!readOnly}">
-		                	<html:text property="document.negotiation.unAssociatedDetail.contactAdmin.userName" 
-								onblur="loadContactPersonName('document.negotiation.unAssociatedDetail.contactAdmin.userName',
+		                	<html:text property="document.negotiationList[0].unAssociatedDetail.contactAdmin.userName" 
+								onblur="loadContactPersonName('document.negotiationList[0].unAssociatedDetail.contactAdmin.userName',
 											'PINonEmployee.fullName',
 											'na',
 											'na',
 											'na',
-											'document.negotiation.unAssociatedDetail.contactAdminPersonId');"
+											'document.negotiationList[0].unAssociatedDetail.contactAdminPersonId');"
 		                    	readonly="${readOnly}"/>
 	                    
-	                        ${kfunc:registerEditableProperty(KualiForm, "document.negotiation.unAssociatedDetail.contactAdminPersonId")}
-		                    <html:hidden property="document.negotiation.unAssociatedDetail.contactAdminPersonId" styleId="document.negotiation.unAssociatedDetail.contactAdminPersonId"/>
+	                        ${kfunc:registerEditableProperty(KualiForm, "document.negotiationList[0].unAssociatedDetail.contactAdminPersonId")}
+		                    <html:hidden property="document.negotiationList[0].unAssociatedDetail.contactAdminPersonId" styleId="document.negotiationList[0].unAssociatedDetail.contactAdminPersonId"/>
 		                	<kul:lookup boClassName="org.kuali.kra.bo.KcPerson" 
-		                                fieldConversions="personId:document.negotiation.unAssociatedDetail.contactAdminPersonId" />
+		                                fieldConversions="personId:document.negotiationList[0].unAssociatedDetail.contactAdminPersonId" />
 	                    </c:if>
-	                    <br/><span id="contactAdmin.fullName"><c:out value="${KualiForm.document.negotiation.unAssociatedDetail.contactAdmin.fullName}"/></span>
+	                    <br/><span id="contactAdmin.fullName"><c:out value="${KualiForm.document.negotiationList[0].unAssociatedDetail.contactAdmin.fullName}"/></span>
 	                </td>
 	                <th>
 	                	<c:if test="${KualiForm.negotiationAssociatedDetailBean.displayOSPAdministrators}">
@@ -275,15 +275,15 @@
             			</div>
             		</th>
                 	<td>
-                		<kul:htmlControlAttribute property="document.negotiation.unAssociatedDetail.sponsorCode" 
+                		<kul:htmlControlAttribute property="document.negotiationList[0].unAssociatedDetail.sponsorCode" 
                 			attributeEntry="${negotiationUnassociatedDetailAttributes.sponsorCode}" readOnly="${readOnly}"/>
                 		<c:if test="${!readOnly}">
-	                		${kfunc:registerEditableProperty(KualiForm, "document.negotiation.unAssociatedDetail.sponsorCode")}
+	                		${kfunc:registerEditableProperty(KualiForm, "document.negotiationList[0].unAssociatedDetail.sponsorCode")}
 	                		<kul:lookup boClassName="org.kuali.kra.bo.Sponsor" 
-						        		fieldConversions="sponsorCode:document.negotiation.unAssociatedDetail.sponsorCode" />
+						        		fieldConversions="sponsorCode:document.negotiationList[0].unAssociatedDetail.sponsorCode" />
 					    </c:if>
 					    <Br/>
-					    <c:out value="${KualiForm.document.negotiation.unAssociatedDetail.sponsor.sponsorName}"/>
+					    <c:out value="${KualiForm.document.negotiationList[0].unAssociatedDetail.sponsor.sponsorName}"/>
                 	</td>
                 	<th>
                 		<div align="right">
@@ -291,15 +291,15 @@
             			</div>
                 	</th>
                 	<td>
-                		<kul:htmlControlAttribute property="document.negotiation.unAssociatedDetail.primeSponsorCode" 
+                		<kul:htmlControlAttribute property="document.negotiationList[0].unAssociatedDetail.primeSponsorCode" 
                 			attributeEntry="${negotiationUnassociatedDetailAttributes.primeSponsorCode}" readOnly="${readOnly}"/>
                 		<c:if test="${!readOnly}">
-	                		${kfunc:registerEditableProperty(KualiForm, "document.negotiation.unAssociatedDetail.primeSponsorCode")}
+	                		${kfunc:registerEditableProperty(KualiForm, "document.negotiationList[0].unAssociatedDetail.primeSponsorCode")}
 	                		<kul:lookup boClassName="org.kuali.kra.bo.Sponsor" 
-						        		fieldConversions="sponsorCode:document.negotiation.unAssociatedDetail.primeSponsorCode" />
+						        		fieldConversions="sponsorCode:document.negotiationList[0].unAssociatedDetail.primeSponsorCode" />
 					    </c:if> 
 					    <Br/>
-					    <c:out value="${KualiForm.document.negotiation.unAssociatedDetail.primeSponsor.sponsorName}"/>
+					    <c:out value="${KualiForm.document.negotiationList[0].unAssociatedDetail.primeSponsor.sponsorName}"/>
                 	</td>
             	</tr>
             	
@@ -310,7 +310,7 @@
             			</div>
             		</th>
                 	<td>
-                		<kul:htmlControlAttribute property="document.negotiation.unAssociatedDetail.sponsorAwardNumber" 
+                		<kul:htmlControlAttribute property="document.negotiationList[0].unAssociatedDetail.sponsorAwardNumber" 
                 			attributeEntry="${negotiationUnassociatedDetailAttributes.sponsorAwardNumber}" readOnly="${readOnly}"/>
                 	</td>
                 	<th>
@@ -319,15 +319,15 @@
             			</div>
                 	</th>
                 	<td>
-                		<kul:htmlControlAttribute property="document.negotiation.unAssociatedDetail.subAwardOrganizationId" 
+                		<kul:htmlControlAttribute property="document.negotiationList[0].unAssociatedDetail.subAwardOrganizationId" 
                 			attributeEntry="${negotiationUnassociatedDetailAttributes.subAwardOrganizationId}" readOnly="${readOnly}"/>
                 		<c:if test="${!readOnly}">
-	                		${kfunc:registerEditableProperty(KualiForm, "document.negotiation.unAssociatedDetail.subAwardOrganizationId")}
+	                		${kfunc:registerEditableProperty(KualiForm, "document.negotiationList[0].unAssociatedDetail.subAwardOrganizationId")}
 	                		<kul:lookup boClassName="org.kuali.kra.bo.Organization" 
-						        		fieldConversions="organizationId:document.negotiation.unAssociatedDetail.subAwardOrganizationId" />
+						        		fieldConversions="organizationId:document.negotiationList[0].unAssociatedDetail.subAwardOrganizationId" />
 					    </c:if> 
 					    <Br/>
-					    <c:out value="${KualiForm.document.negotiation.unAssociatedDetail.subAwardOrganization.organizationName}"/>
+					    <c:out value="${KualiForm.document.negotiationList[0].unAssociatedDetail.subAwardOrganization.organizationName}"/>
                 	</td>
             	</tr>
             	

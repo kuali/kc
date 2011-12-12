@@ -26,14 +26,17 @@ import org.kuali.kra.negotiations.bo.Negotiation;
 import org.kuali.kra.negotiations.bo.NegotiationActivity;
 import org.kuali.kra.negotiations.bo.NegotiationActivityAttachment;
 import org.kuali.kra.negotiations.bo.NegotiationAssociationType;
+import org.kuali.kra.negotiations.bo.NegotiationUnassociatedDetail;
 import org.kuali.kra.negotiations.customdata.NegotiationCustomDataRuleImpl;
 import org.kuali.kra.negotiations.customdata.NegotiationSaveCustomDataRuleEvent;
 import org.kuali.kra.negotiations.document.NegotiationDocument;
 import org.kuali.kra.negotiations.service.NegotiationService;
+import org.kuali.kra.proposaldevelopment.bo.DevelopmentProposal;
 import org.kuali.kra.rule.event.KraDocumentEventBaseExtension;
 import org.kuali.kra.rule.event.SaveCustomAttributeEvent;
 import org.kuali.kra.rules.ResearchDocumentRuleBase;
 import org.kuali.rice.kns.document.Document;
+import org.kuali.rice.kns.service.DataDictionaryService;
 import org.kuali.rice.kns.util.ErrorMap;
 import org.kuali.rice.kns.util.GlobalVariables;
 
@@ -51,6 +54,7 @@ public class NegotiationDocumentRule extends ResearchDocumentRuleBase {
     private static final String ATTACHMENTS_PREFIX = "attachments[";
     
     private NegotiationService negotiationService;
+    private DataDictionaryService dataDictionaryService;
     
     /**
      * 
@@ -80,6 +84,7 @@ public class NegotiationDocumentRule extends ResearchDocumentRuleBase {
         result &= validateEndDate(negotiation);
         result &= validateNegotiator(negotiation);
         result &= validateNegotiationAssociations(negotiation);
+        result &= validateNegotiationUnassociatedDetails(negotiation);
         result &= validateNegotiationActivities(negotiation); 
         String errorPath = "negotiationCustomData";
         NegotiationSaveCustomDataRuleEvent event = new NegotiationSaveCustomDataRuleEvent(errorPath, 
@@ -141,7 +146,6 @@ public class NegotiationDocumentRule extends ResearchDocumentRuleBase {
      * @return
      */
     public boolean validateNegotiationAssociations(Negotiation negotiation) {
-        System.err.println("validateNegotiationAssociations");
         boolean valid = true;
         if (negotiation.getNegotiationAssociationType() != null 
                 && !StringUtils.equals(negotiation.getNegotiationAssociationType().getCode(), NegotiationAssociationType.NONE_ASSOCIATION)
@@ -149,6 +153,43 @@ public class NegotiationDocumentRule extends ResearchDocumentRuleBase {
             getErrorReporter().reportWarning(ASSOCIATED_DOCMENT_ID, KeyConstants.NEGOTIATION_WARNING_ASSOCIATEDID_NOT_SET, 
                     negotiation.getNegotiationAssociationType().getDescription());
         }
+        return valid;
+    }
+    
+    public boolean validateNegotiationUnassociatedDetails(Negotiation negotiation) {
+        boolean valid = true;
+        GlobalVariables.getMessageMap().addToErrorPath("unAssociatedDetail");
+        if (negotiation.getNegotiationAssociationType() != null 
+                && StringUtils.equals(negotiation.getNegotiationAssociationType().getCode(), NegotiationAssociationType.NONE_ASSOCIATION)
+                && negotiation.getUnAssociatedDetail() != null) {
+            NegotiationUnassociatedDetail detail = negotiation.getUnAssociatedDetail();
+            detail.refreshReferenceObject("sponsor");
+            if (detail.getSponsorCode() != null && detail.getSponsor() == null) {
+                valid = false;
+                getErrorReporter().reportError("sponsorCode", KeyConstants.ERROR_MISSING, getDataDictionaryService().getAttributeErrorLabel(
+                        NegotiationUnassociatedDetail.class, "sponsorCode"));
+            }
+            detail.refreshReferenceObject("leadUnit");
+            if (detail.getLeadUnitNumber() != null && detail.getLeadUnit() == null) {
+                valid = false;
+                getErrorReporter().reportError("leadUnitNumber", KeyConstants.ERROR_MISSING, getDataDictionaryService().getAttributeErrorLabel(
+                        NegotiationUnassociatedDetail.class, "leadUnitNumber"));
+            }
+            detail.refreshReferenceObject("primeSponsor");
+            if (detail.getPrimeSponsorCode() != null && detail.getPrimeSponsor() == null) {
+                valid = false;
+                getErrorReporter().reportError("primeSponsorCode", KeyConstants.ERROR_MISSING, getDataDictionaryService().getAttributeErrorLabel(
+                        NegotiationUnassociatedDetail.class, "primeSponsorCode"));
+            }
+            detail.refreshReferenceObject("subAwardOrganization");
+            if (detail.getSubAwardOrganizationId() != null && detail.getSubAwardOrganization() == null) {
+                valid = false;
+                getErrorReporter().reportError("subAwardOrganizationId", KeyConstants.ERROR_MISSING, getDataDictionaryService().getAttributeErrorLabel(
+                        NegotiationUnassociatedDetail.class, "subAwardOrganizationId"));
+            }           
+            
+        }
+        GlobalVariables.getMessageMap().removeFromErrorPath("unAssociatedDetail");
         return valid;
     }
     
@@ -201,6 +242,17 @@ public class NegotiationDocumentRule extends ResearchDocumentRuleBase {
 
     public void setNegotiationService(NegotiationService negotiationService) {
         this.negotiationService = negotiationService;
+    }
+
+    public DataDictionaryService getDataDictionaryService() {
+        if (dataDictionaryService == null) {
+            dataDictionaryService = KraServiceLocator.getService(DataDictionaryService.class);
+        }
+        return dataDictionaryService;
+    }
+
+    public void setDataDictionaryService(DataDictionaryService dataDictionaryService) {
+        this.dataDictionaryService = dataDictionaryService;
     }
 
 }
