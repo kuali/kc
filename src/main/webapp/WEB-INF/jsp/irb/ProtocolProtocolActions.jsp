@@ -140,7 +140,13 @@
                            6: {
                         	  sorter: false  },
                           }
-                      });    		    
+                      });    	
+                      
+               if ($j("#Csequence01").length >0)     {   
+                  //$j("#Csequence01").click();
+                  $j("#Dsequence01").hide()
+                 // $j("#Csequence01").click();
+                }      	    
 		});
 
  </script>
