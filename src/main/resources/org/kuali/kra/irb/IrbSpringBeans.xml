@@ -652,7 +652,8 @@
     <bean id="protocolNotifyIrbService" class="org.kuali.kra.irb.actions.notifyirb.ProtocolNotifyIrbServiceImpl">
         <property name="businessObjectService" ref="businessObjectService" />
         <property name="protocolActionService" ref="protocolActionService" />
-       <property name="documentService" ref="documentService" />
+       	<property name="documentService" ref="documentService" />
+       	<property name="kcNotificationService" ref="kcNotificationService" />
     </bean>
     
     <bean id="protocolActionService" class="org.kuali.kra.irb.actions.submit.ProtocolActionServiceImpl">
