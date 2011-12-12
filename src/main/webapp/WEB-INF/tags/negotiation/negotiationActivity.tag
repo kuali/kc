@@ -25,9 +25,9 @@
   <c:set var="tabTitle" value="${activity.activityType.description} - ${activity.location.description} - ${startDate} - ${activity.lastModifiedUser.fullName} - ${lastUpdate}"/>
   
 </c:otherwise></c:choose>
-
-<kul:innerTab parentTab="${parentTab}" tabTitle="${tabTitle}" defaultOpen="false" tabErrorKey="${activityPath}*" useCurrentTabIndexAsKey="true" overrideDivClass="${tabDivClass}">
-            <div class="innerTab-container" align="left">
+<span class="subhead-right"><kul:help parameterNamespace="KC-NEGOTIATION" parameterDetailType="Document" parameterName="negotiationActivitiesHelp" altText="help"/></span>
+<kul:innerTab  parentTab="${parentTab}" tabTitle="${tabTitle}" defaultOpen="false" tabErrorKey="${activityPath}*" useCurrentTabIndexAsKey="true" overrideDivClass="${tabDivClass}">
+        <div class="innerTab-container" align="left">
         
         <table cellpadding="4" cellspacing="0" summary="">
             <tr>
@@ -146,7 +146,6 @@
 				</tr>
 			 </c:if>			
         </table>
-        
         </div>
 </kul:innerTab>
 
