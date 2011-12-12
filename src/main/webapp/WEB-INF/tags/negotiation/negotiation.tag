@@ -242,7 +242,7 @@
 	                	<c:if test="${!readOnly}">
 		                	<html:text property="document.negotiationList[0].unAssociatedDetail.contactAdmin.userName" 
 								onblur="loadContactPersonName('document.negotiationList[0].unAssociatedDetail.contactAdmin.userName',
-											'PINonEmployee.fullName',
+											'contactAdmin.fullName',
 											'na',
 											'na',
 											'na',
