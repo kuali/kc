@@ -18,7 +18,6 @@ package org.kuali.kra.negotiations.web.struts.form;
 import static org.kuali.rice.kns.util.KNSConstants.EMPTY_STRING;
 
 import java.util.ArrayList;
-import java.util.Collections;
 import java.util.HashMap;
 import java.util.Iterator;
 import java.util.List;
@@ -31,8 +30,6 @@ import org.kuali.kra.authorization.KraAuthorizationConstants;
 import org.kuali.kra.infrastructure.KraServiceLocator;
 import org.kuali.kra.medusa.MedusaBean;
 import org.kuali.kra.negotiations.bo.Negotiation;
-
-import org.kuali.kra.negotiations.bo.NegotiationActivity;
 import org.kuali.kra.negotiations.bo.NegotiationActivityHistoryLineBean;
 import org.kuali.kra.negotiations.bo.NegotiationAssociatedDetailBean;
 import org.kuali.kra.negotiations.bo.NegotiationAssociationType;
@@ -43,9 +40,6 @@ import org.kuali.kra.negotiations.customdata.NegotiationCustomData;
 import org.kuali.kra.negotiations.document.NegotiationDocument;
 import org.kuali.kra.negotiations.notifications.NegotiationNotificationHelper;
 import org.kuali.kra.negotiations.service.NegotiationService;
-import org.kuali.kra.proposaldevelopment.bo.ProposalPerson;
-import org.kuali.kra.proposaldevelopment.bo.ProposalState;
-import org.kuali.kra.proposaldevelopment.document.ProposalDevelopmentDocument;
 import org.kuali.kra.service.TaskAuthorizationService;
 import org.kuali.kra.web.struts.form.KraTransactionalDocumentFormBase;
 import org.kuali.rice.kns.service.BusinessObjectService;
@@ -348,5 +342,36 @@ public class NegotiationForm extends KraTransactionalDocumentFormBase {
 
     public String getFilterPendingActivities() {
         return filterPendingActivities;
+    }
+    
+    /**
+     * 
+     * This method returns true if the negotiable select icon's need a div tag surrounding it,to generate a javascript warning.
+     * @return
+     */
+    public boolean getDispayChangeAssociatedDocumentWarning() {
+        boolean retVal = !StringUtils.isEmpty(this.getNegotiationDocument().getNegotiation().getAssociatedDocumentId());
+        return retVal;
+    }
+    
+    /**
+     * 
+     * This method creates creates the opening div tag for the warning javascript message.
+     * @return
+     */
+    public String getDispayChangeAssociatedDocumentWarningMessage() {
+        if (getDispayChangeAssociatedDocumentWarning()) {
+            StringBuffer sb = new StringBuffer("<div id=\"searchIconDiv\" onclick=\"return confirm('");
+            String associatedType = this.getNegotiationDocument().getNegotiation().getNegotiationAssociationType().getDescription();
+            String docNumber = this.getNegotiationDocument().getNegotiation().getAssociatedNegotiable().getAssociatedDocumentId();
+            sb.append("This Negotiation is already associated with ").append(associatedType).append(" number ").append(docNumber);
+            sb.append(".  Selecting a different ").append(associatedType).append(" document will disassociate this Negotiation with "); 
+            sb.append(docNumber).append(".  Are you sure?").append("')\">");
+            System.err.println("  " + sb.toString());
+            return sb.toString();
+            
+        } else {
+            return "";
+        }
     }
 }
