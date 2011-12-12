@@ -193,6 +193,7 @@ public class NegotiationActivityXmlStream implements XmlStream {
         negotiationDataType.setProposalTypes(proposalTypes);
         }
         negotiationDataType.setDocFileAddress(negotiation.getDocumentFolder());        
+        negotiationDataType.setNegotiationId(negotiation.getNegotiationId().toString());
         setActivitiesType(negotiationDataType);  
         
         return negotiationDataType;

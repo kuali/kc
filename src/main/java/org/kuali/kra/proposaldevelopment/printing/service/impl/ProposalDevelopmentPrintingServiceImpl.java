@@ -176,9 +176,10 @@ public class ProposalDevelopmentPrintingServiceImpl implements
             retval.addAll(sponsorForm.getSponsorFormTemplates());
         }
         
-        String hierarchyName = getParameterService().getParameterValue(
+        /*String hierarchyName = getParameterService().getParameterValue(
                 Constants.KC_GENERIC_PARAMETER_NAMESPACE, Constants.KC_ALL_PARAMETER_DETAIL_TYPE_CODE, 
-                Constants.SPONSOR_HIERARCHY_PRINTING_NAME_PARAM);
+                Constants.SPONSOR_HIERARCHY_PRINTING_NAME_PARAM);*/
+        String hierarchyName = "";
         sponsorCodeMap.put(Constants.HIERARCHY_NAME, hierarchyName);
         SponsorHierarchy hierarchyEntry = (SponsorHierarchy) getBusinessObjectService().findByPrimaryKey(SponsorHierarchy.class, sponsorCodeMap);
         if (hierarchyEntry != null) {

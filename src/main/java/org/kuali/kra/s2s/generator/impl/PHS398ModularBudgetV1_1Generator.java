@@ -352,7 +352,7 @@ public class PHS398ModularBudgetV1_1Generator extends
 		Organization organization = pdDoc.getDevelopmentProposal()
 				.getApplicantOrganization().getOrganization();
 		if (organization != null) {
-			Rolodex rolodex = organization.getRolodex();
+			Rolodex rolodex = organization.getCognizantAuditorRolodex();
 			if (rolodex != null) {
 				indirectCost
 						.setCognizantFederalAgency(getCognizantFederalAgency(rolodex));
@@ -502,7 +502,7 @@ public class PHS398ModularBudgetV1_1Generator extends
 		Organization organization = pdDoc.getDevelopmentProposal()
 				.getApplicantOrganization().getOrganization();
 		if (organization != null) {
-			Rolodex rolodex = organization.getRolodex();
+			Rolodex rolodex = organization.getCognizantAuditorRolodex();
 			if (rolodex != null) {
 				indirectCost2
 						.setCognizantFederalAgency2(getCognizantFederalAgency(rolodex));
@@ -648,7 +648,7 @@ public class PHS398ModularBudgetV1_1Generator extends
 		Organization organization = pdDoc.getDevelopmentProposal()
 				.getApplicantOrganization().getOrganization();
 		if (organization != null) {
-			Rolodex rolodex = organization.getRolodex();
+			Rolodex rolodex = organization.getCognizantAuditorRolodex();
 			if (rolodex != null) {
 				indirectCost3
 						.setCognizantFederalAgency3(getCognizantFederalAgency(rolodex));
@@ -791,7 +791,7 @@ public class PHS398ModularBudgetV1_1Generator extends
 		Organization organization = pdDoc.getDevelopmentProposal()
 				.getApplicantOrganization().getOrganization();
 		if (organization != null) {
-			Rolodex rolodex = organization.getRolodex();
+			Rolodex rolodex = organization.getCognizantAuditorRolodex();
 			if (rolodex != null) {
 				indirectCost4
 						.setCognizantFederalAgency4(getCognizantFederalAgency(rolodex));
@@ -935,7 +935,7 @@ public class PHS398ModularBudgetV1_1Generator extends
 		Organization organization = pdDoc.getDevelopmentProposal()
 				.getApplicantOrganization().getOrganization();
 		if (organization != null) {
-			Rolodex rolodex = organization.getRolodex();
+			Rolodex rolodex = organization.getCognizantAuditorRolodex();
 			if (rolodex != null) {
 				indirectCost5
 						.setCognizantFederalAgency5(getCognizantFederalAgency(rolodex));

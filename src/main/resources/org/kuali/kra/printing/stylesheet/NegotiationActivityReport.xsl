@@ -125,6 +125,40 @@
 															<fo:table-cell padding="2pt" display-align="center">
 																<fo:block>
 																	<fo:inline font-weight="bold">
+																		<xsl:text>Negotiation Id:</xsl:text>
+																	</fo:inline>
+																</fo:block>
+															</fo:table-cell>
+															<fo:table-cell number-columns-spanned="3" padding="2pt" display-align="center">
+																<fo:block>
+																	<xsl:for-each select="negotiations">
+																		<xsl:for-each select="negotiationData">
+																			<xsl:for-each select="negotiationId">																				
+																					<xsl:variable name="value-of-template">
+																						<xsl:apply-templates/>
+																					</xsl:variable>
+																					<xsl:choose>
+																						<xsl:when test="contains(string($value-of-template),'&#x2029;')">
+																							<fo:block>
+																								<xsl:copy-of select="$value-of-template"/>
+																							</fo:block>
+																						</xsl:when>
+																						<xsl:otherwise>
+																							<fo:inline>
+																								<xsl:copy-of select="$value-of-template"/>
+																							</fo:inline>
+																						</xsl:otherwise>
+																					</xsl:choose>
+																			</xsl:for-each>
+																		</xsl:for-each>
+																	</xsl:for-each>
+																</fo:block>
+															</fo:table-cell>
+														</fo:table-row>
+														<fo:table-row>
+															<fo:table-cell padding="2pt" display-align="center">
+																<fo:block>
+																	<fo:inline font-weight="bold">
 																		<xsl:text>Sponsor:</xsl:text>
 																	</fo:inline>
 																</fo:block>
