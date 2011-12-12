@@ -131,9 +131,6 @@ public class NegotiationServiceImpl implements NegotiationService {
         if (negotiation.getNegotiationAssociationType() != null) {
             Negotiable negotiable = negotiation.getAssociatedDocument();
             NegotiationAssociatedDetailBean bean = new NegotiationAssociatedDetailBean(negotiable);
-            if (bean.getDisplayOSPAdministrators()) {
-                bean.setOspAdministrators(this.getOSPAdministrators(bean.getLeadUnitNumber()));
-            }
             return bean;
         } else {
             return new NegotiationAssociatedDetailBean("");
@@ -303,38 +300,7 @@ public class NegotiationServiceImpl implements NegotiationService {
             return null;
         }
     }
-    
-    /**
-     * 
-     * @see org.kuali.kra.negotiations.service.NegotiationService#getOSPAdministrators(java.lang.String)
-     */
-    public List<KcPerson> getOSPAdministrators(String unitNumber) {
-        List<KcPerson> kcPeople = new ArrayList<KcPerson>();
-        AttributeSet qualification = new AttributeSet();
-        qualification.put(KcKimAttributes.UNIT_NUMBER, unitNumber);
-        List<RoleMembershipInfo> roleMembershipInfos = this.getUnitAdministratorDerivedRoleTypeServiceImpl().getRoleMembersFromApplicationRole(
-                Constants.MODULE_NAMESPACE_NEGOTIATION, RoleConstants.OSP_ADMINISTRATOR, qualification);
-        for (RoleMembershipInfo info : roleMembershipInfos) {
-            if (StringUtils.equalsIgnoreCase(info.getMemberTypeCode(), "p")) {
-                //this is a person
-                KcPerson person = this.getKcPersonService().getKcPersonByPersonId(info.getMemberId());
-                if (!IsPersonInList(kcPeople, person)){
-                    kcPeople.add(person);
-                }
-                
-            }
-        }
-        return kcPeople;
-    }
-    
-    private boolean IsPersonInList(List<KcPerson> kcPeople, KcPerson person) {
-        for (KcPerson thisPerson : kcPeople) {
-            if (StringUtils.equals(thisPerson.getPersonId(), person.getPersonId())) {
-                return true;
-            }
-        }
-        return false;
-    }
+        
     /**
      * 
      * @see org.kuali.kra.negotiations.service.NegotiationService#getNegotiationActivityHistoryLineBeans(java.util.List)
