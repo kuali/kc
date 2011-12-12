@@ -671,7 +671,7 @@ public class QuestionnaireXmlStream implements XmlStream {
             try
             {
                 rootQuestionInfo.setQuestionNumber(parentQuestionNumbercheck);
-                if(sortedQuestionnaireQuestions.size()>1)
+                if(sortedQuestionnaireQuestions.size()>=1)
                 {
                     allocateQuestionHierarchy(questionsType,rootQuestionInfo,questionnaireCompletionFlag,printableBusinessObject,answerHeaders);
                 }
