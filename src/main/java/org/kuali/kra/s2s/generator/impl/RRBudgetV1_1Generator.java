@@ -145,6 +145,12 @@ public class RRBudgetV1_1Generator extends RRBudgetBaseGenerator {
 						.setBudgetYear5(getBudgetYearDataType(budgetPeriodData));
 			}
 		}
+		for (BudgetPeriodInfo budgetPeriodData : budgetperiodList) {
+		    if (budgetPeriodData.getBudgetPeriod() == BudgetPeriodInfo.BUDGET_PERIOD_1) {
+                rrBudget
+                        .setBudgetYear1(getBudgetJustificationAttachment());
+            }
+		}
 		rrBudget.setBudgetSummary(getBudgetSummary(budgetSummary));
 		rrBudgetDocument.setRRBudget(rrBudget);
 		return rrBudgetDocument;
@@ -154,8 +160,7 @@ public class RRBudgetV1_1Generator extends RRBudgetBaseGenerator {
 	 * This method gets BudgetYear1DataType details like
 	 * BudgetPeriodStartDate,BudgetPeriodEndDate,BudgetPeriod
 	 * KeyPersons,OtherPersonnel,TotalCompensation,Equipment,ParticipantTraineeSupportCosts,Travel,OtherDirectCosts
-	 * DirectCosts,IndirectCosts,CognizantFederalAgency,TotalCosts and
-	 * BudgetJustificationAttachment based on BudgetPeriodInfo for the RRBudget.
+	 * DirectCosts,IndirectCosts,CognizantFederalAgency,TotalCosts 
 	 * 
 	 * @param periodInfo
 	 *            (BudgetPeriodInfo) budget summary entry.
@@ -198,20 +203,28 @@ public class RRBudgetV1_1Generator extends RRBudgetBaseGenerator {
 			budgetYear.setCognizantFederalAgency(periodInfo
 					.getCognizantFedAgency());
 		}
-		AttachedFileDataType attachedFileDataType = AttachedFileDataType.Factory.newInstance();
-		for (Narrative narrative : pdDoc.getDevelopmentProposal().getNarratives()) {
-			if (narrative.getNarrativeTypeCode() != null
-					&& Integer.parseInt(narrative.getNarrativeTypeCode()) == BUDGET_JUSTIFICATION_ATTACHMENT) {
-				attachedFileDataType = getAttachedFileType(narrative);
-				if (attachedFileDataType != null) {
-					break;
-				}
-			}
-		}
-        budgetYear.setBudgetJustificationAttachment(attachedFileDataType);
 		return budgetYear;
 	}
+	/*
+	 * This method gets BudgetJustificationAttachment from proposalDevelopmentDocument for the RRBudget.
+	 */
+	private BudgetYear1DataType getBudgetJustificationAttachment() {
 
+        BudgetYear1DataType budgetYear = BudgetYear1DataType.Factory
+                .newInstance();
+        AttachedFileDataType attachedFileDataType = AttachedFileDataType.Factory.newInstance();
+        for (Narrative narrative : pdDoc.getDevelopmentProposal().getNarratives()) {
+            if (narrative.getNarrativeTypeCode() != null
+                    && Integer.parseInt(narrative.getNarrativeTypeCode()) == BUDGET_JUSTIFICATION_ATTACHMENT) {
+                attachedFileDataType = getAttachedFileType(narrative);
+                if (attachedFileDataType != null) {
+                    break;
+                }
+            }
+        }
+        budgetYear.setBudgetJustificationAttachment(attachedFileDataType);
+        return budgetYear;
+    }
 	/**
 	 * This method gets BudgetYearDataType details like
 	 * BudgetPeriodStartDate,BudgetPeriodEndDate,BudgetPeriod

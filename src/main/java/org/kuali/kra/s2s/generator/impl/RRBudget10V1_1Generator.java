@@ -106,6 +106,10 @@ public class RRBudget10V1_1Generator extends RRBudgetBaseGenerator {
         }
 
         rrBudget.setBudgetSummary(getBudgetSummary(budgetSummary));
+        
+        for (BudgetPeriodInfo budgetPeriodData : budgetperiodList) {
+            setBudgetYearDataType(rrBudget,budgetPeriodData);
+        }
         AttachedFileDataType attachedFileDataType = AttachedFileDataType.Factory.newInstance();
         for (Narrative narrative : pdDoc.getDevelopmentProposal().getNarratives()) {
             if (narrative.getNarrativeTypeCode() != null
@@ -116,10 +120,8 @@ public class RRBudget10V1_1Generator extends RRBudgetBaseGenerator {
                 }
             }
         }
+        
         rrBudget.setBudgetJustificationAttachment(attachedFileDataType);
-        for (BudgetPeriodInfo budgetPeriodData : budgetperiodList) {
-            setBudgetYearDataType(rrBudget,budgetPeriodData);
-        }
         rrBudgetDocument.setRRBudget10(rrBudget);
         return rrBudgetDocument;
     }

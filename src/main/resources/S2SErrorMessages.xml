@@ -1173,6 +1173,21 @@
  		<Message>Performance Sites attachment is required since Performance Site Locations exceed the maximum of 29.</Message> 
   		<FixLink>abstractsAttachments</FixLink> 
 	</Error>
+	<Error>
+ 		<MessageKey>performancesite.district.notfound</MessageKey> 
+ 		<Message>Organization's Congressional District is not valid</Message> 
+  		<FixLink>proposal.Organization/Location</FixLink> 
+	</Error>
+	<Error>
+ 		<MessageKey>/GrantApplication/Forms/PerformanceSite_1_4/PrimarySite</MessageKey> 
+ 		<Message>Organization's primary site is not valid</Message> 
+  		<FixLink>proposal.Organization/Location</FixLink> 
+	</Error>
+	<Error>
+ 		<MessageKey>/GrantApplication/Forms/PerformanceSite_1_4/OtherSite</MessageKey> 
+ 		<Message>Organization's other site is not valid</Message> 
+  		<FixLink>proposal.Organization/Location</FixLink> 
+	</Error>
 	<!-- #PHS_Fellowship_Supplemental V1_1-->
 	<Error>
  		<MessageKey>/GrantApplication/Forms/PHS_Fellowship_Supplemental_1_1/ResearchTrainingPlan/HumanSubjectsInvolved</MessageKey> 

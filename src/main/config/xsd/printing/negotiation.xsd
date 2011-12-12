@@ -21,6 +21,7 @@
 			<xs:element name="status" type="statusType" minOccurs="0"/>
 			<xs:element name="investigator" type="xs:string" minOccurs="0"/>
 			<xs:element name="negotiator" type="xs:string" minOccurs="0"/>
+			<xs:element name="negotiationId" type="xs:string" minOccurs="0"/>
 			<xs:element name="contractAdmin" type="xs:string" minOccurs="0"/>
 			<xs:element name="docFileAddress" type="xs:string" minOccurs="0"/>
 			<xs:element name="startDate" type="xs:date" minOccurs="0"/>

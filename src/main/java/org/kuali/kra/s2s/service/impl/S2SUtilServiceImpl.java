@@ -179,8 +179,11 @@ public class S2SUtilServiceImpl implements S2SUtilService {
 			ProposalDevelopmentDocument pdDoc) {
 		int count = 0;
 		DepartmentalPerson depPerson = new DepartmentalPerson();
-		// TODO fetch count from institute proposal tables after its
-		// implementation
+		Map<String, Object> fieldValues = new HashMap<String, Object>();
+        fieldValues.put("devProposalNumber", pdDoc.getDevelopmentProposal().getProposalNumber());
+        List<ProposalAdminDetails> proposalAdminDetailsList = 
+             (List<ProposalAdminDetails>) businessObjectService.findMatching(ProposalAdminDetails.class, fieldValues);
+        count=proposalAdminDetailsList.size();
 		if (count < 1) {
 			// Proposal has not been submitted
 
@@ -222,10 +225,30 @@ public class S2SUtilServiceImpl implements S2SUtilService {
 				depPerson.setDirDept(organization.getOrganizationName());
 			}
 		} else {
-			// proposal has been submitted
-			// TODO fetched SIGNED_BY fromPROPOSAL_ADMIN_DETAILS after
-			// implementation and complete the remaining logic
-
+			 ProposalAdminDetails proposalAdminDetails=proposalAdminDetailsList.get(0);
+             KcPerson person = null;             
+             person = this.kcPersonService.getKcPersonByUserName(proposalAdminDetails.getSignedBy());
+                                
+             if(person!=null){
+                depPerson.setFirstName(person.getFirstName());
+                depPerson.setMiddleName(person.getMiddleName());
+                depPerson.setLastName(person.getLastName());
+                depPerson.setFullName(person.getFullName());
+                depPerson.setEmailAddress(person.getEmailAddress());
+                depPerson.setOfficePhone(person.getPhoneNumber());
+                depPerson.setPrimaryTitle(person.getPrimaryTitle());
+                depPerson.setAddress1(person.getAddressLine1());
+                depPerson.setAddress2(person.getAddressLine2());
+                depPerson.setAddress3(person.getAddressLine3());
+                depPerson.setCity(person.getCity());
+                depPerson.setCounty(person.getCounty());
+                depPerson.setCountryCode(person.getCountryCode());
+                depPerson.setFaxNumber(person.getFaxNumber());
+                depPerson.setPostalCode(person.getPostalCode());
+                depPerson.setState(person.getState());
+                depPerson.setPersonId(person.getPersonId());
+                depPerson.setDirDept(person.getContactOrganizationName());
+            }
 		}
 		return depPerson;
 	}
