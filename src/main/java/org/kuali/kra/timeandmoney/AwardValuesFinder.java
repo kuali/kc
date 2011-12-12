@@ -35,9 +35,13 @@ public class AwardValuesFinder extends KeyValuesBase{
     
     public List<KeyLabelPair> getKeyValues() {
         List<KeyLabelPair> keyValues = new ArrayList<KeyLabelPair>();
-        TimeAndMoneyForm timeAndMoneyForm = (TimeAndMoneyForm) GlobalVariables.getKualiForm();        
-        TimeAndMoneyDocument document = timeAndMoneyForm.getTimeAndMoneyDocument();
-        
+        TimeAndMoneyForm timeAndMoneyForm = (TimeAndMoneyForm) GlobalVariables.getKualiForm();
+        TimeAndMoneyDocument document;
+        if(timeAndMoneyForm == null) {
+            document = updateDocumentFromSession();
+        }else {
+            document = timeAndMoneyForm.getTimeAndMoneyDocument();
+        }
         document.setAwardHierarchyItems(((TimeAndMoneyDocument)GlobalVariables.getUserSession().retrieveObject(
                 GlobalVariables.getUserSession().getKualiSessionId() + Constants.TIME_AND_MONEY_DOCUMENT_STRING_FOR_SESSION)).getAwardHierarchyItems());    
         
@@ -50,6 +54,40 @@ public class AwardValuesFinder extends KeyValuesBase{
         }
         
         return keyValues;
+    }
+    
+    /*
+     * This method...
+     * @param doc
+     */
+    private TimeAndMoneyDocument updateDocumentFromSession() {
+        TimeAndMoneyDocument document;
+        if(GlobalVariables.getUserSession().retrieveObject(GlobalVariables.getUserSession().getKualiSessionId()+Constants.TIME_AND_MONEY_DOCUMENT_STRING_FOR_SESSION)!=null){
+            document = (TimeAndMoneyDocument)GlobalVariables.getUserSession().retrieveObject(GlobalVariables.getUserSession().getKualiSessionId()+Constants.TIME_AND_MONEY_DOCUMENT_STRING_FOR_SESSION);
+            document.setAwardHierarchyItems(document.getAwardHierarchyItems());
+            document.setAwardHierarchyNodes(document.getAwardHierarchyNodes());
+            document.setRootAwardNumber(getRootAwardFromHierarchyNodes(document));
+        }else {
+            throw new RuntimeException("Can't Retrieve Time And Money Document from Session");
+        }
+        return document;
+    }
+    
+    
+    /**
+     * This method grabs the root award number from the hierarchy nodes since it is not set when add the T&M document to the session data.
+     * 
+     * @param document
+     * @return
+     */
+    private String getRootAwardFromHierarchyNodes(TimeAndMoneyDocument document) {
+        String rootAwardNumber = null;
+        for(Entry<String, AwardHierarchyNode> awardHierarchyNode : document.getAwardHierarchyNodes().entrySet()){
+            if(awardHierarchyNode != null) {
+               rootAwardNumber = awardHierarchyNode.getValue().getRootAwardNumber();
+            }
+        }
+        return rootAwardNumber;
     }
     
     public AwardHierarchyService getAwardHierarchyService(){        
