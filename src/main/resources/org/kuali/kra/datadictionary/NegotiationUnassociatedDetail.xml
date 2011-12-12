@@ -42,7 +42,7 @@
     <property name="forceUppercase" value="false" />
     <property name="label" value="negotiationUnassociatedDetailId" />
     <property name="shortLabel" value="negotiationUnassociatedDetailId" />
-    <property name="required" value="true" />
+    <property name="required" value="false" />
     <property name="maxLength" value="22" />
     <property name="validationPattern" >
       <bean parent="NumericValidationPattern" />
@@ -92,19 +92,11 @@
   </bean>
   
   <bean id="NegotiationUnassociatedDetail-piRolodexId" parent="NegotiationUnassociatedDetail-piRolodexId-parentBean" />
-  <bean id="NegotiationUnassociatedDetail-piRolodexId-parentBean" abstract="true" parent="AttributeDefinition">
+  <bean id="NegotiationUnassociatedDetail-piRolodexId-parentBean" abstract="true" parent="Rolodex-rolodexId">
     <property name="name" value="piRolodexId" />
-    <property name="forceUppercase" value="false" />
     <property name="label" value="Principal Investigator Non-Employee" />
     <property name="shortLabel" value="PI Rolodex" />
     <property name="required" value="false" />
-    <property name="maxLength" value="40" />
-    <property name="validationPattern" >
-      <bean parent="AnyCharacterValidationPattern" />
-    </property>
-    <property name="control" >
-      <bean parent="TextControlDefinition" p:size="40" />
-    </property>
     <property name="summary" value="Principal Investigator Non-Employee" />
     <property name="description" value="Principal Investigator Non-Employee" />
   </bean>

@@ -163,6 +163,7 @@ public class NegotiationDocumentRule extends ResearchDocumentRuleBase {
                 && StringUtils.equals(negotiation.getNegotiationAssociationType().getCode(), NegotiationAssociationType.NONE_ASSOCIATION)
                 && negotiation.getUnAssociatedDetail() != null) {
             NegotiationUnassociatedDetail detail = negotiation.getUnAssociatedDetail();
+            valid &= getDictionaryValidationService().isBusinessObjectValid(detail);
             detail.refreshReferenceObject("sponsor");
             if (detail.getSponsorCode() != null && detail.getSponsor() == null) {
                 valid = false;
