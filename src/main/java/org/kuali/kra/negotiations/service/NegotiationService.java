@@ -141,15 +141,7 @@ public interface NegotiationService {
      * @return
      */
     NegotiationUnassociatedDetail findAndLoadNegotiationUnassociatedDetail(Negotiation negotiation);
-    
-    /**
-     * 
-     * This method gets all the OSP Administrators for a given UNIT.
-     * @param unitNumber
-     * @return
-     */
-    List<KcPerson> getOSPAdministrators(String unitNumber);
-    
+        
     List<NegotiationActivityHistoryLineBean> getNegotiationActivityHistoryLineBeans(List<NegotiationActivity> activities);
     
     /**

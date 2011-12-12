@@ -175,18 +175,6 @@ public class NegotiationAssociatedDetailBean implements Serializable {
         this.leadUnitNumber = leadUnitNumber;
     }
     
-    public boolean getDisplayOSPAdministrators() {
-        return !StringUtils.isEmpty(this.getLeadUnitNumber());
-    }
-
-    public List<KcPerson> getOspAdministrators() {
-        return ospAdministrators;
-    }
-
-    public void setOspAdministrators(List<KcPerson> ospAdministrators) {
-        this.ospAdministrators = ospAdministrators;
-    }
-
     public String getAssociatedDocumentId() {
         return associatedDocumentId;
     }
