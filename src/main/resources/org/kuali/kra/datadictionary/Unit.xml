@@ -68,16 +68,6 @@
             </list>
           </property>
         </bean>
-        <bean parent="RelationshipDefinition">
-          <property name="objectAttributeName" value="organization" />
-          <property name="primitiveAttributes" >
-            <list>
-              <bean parent="PrimitiveAttributeDefinition"
-                    p:sourceName="organizationIdForMaintenance"
-                    p:targetName="organizationId" />
-            </list>
-          </property>
-        </bean>
       </list>
     </property>
   </bean>
