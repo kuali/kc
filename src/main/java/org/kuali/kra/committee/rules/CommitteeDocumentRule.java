@@ -257,6 +257,7 @@ public class CommitteeDocumentRule extends ResearchDocumentRuleBase implements B
      * get a list of committeeIds that are in approved or saved committee docs.
      */
     private List<String> getCommitteeIds(String docNumber) {
+        /*
         // TODO : committeeId & docStatusCode are added to committeedocumnet.  It should not need to retrieve from committee
         //, but for existing data in kc-dly30; keep this till its data is wiped out; then we can remove the retrieval of Committee
         List<Committee> committees = (List<Committee>) KraServiceLocator.getService(BusinessObjectService.class).findAll(
@@ -267,6 +268,8 @@ public class CommitteeDocumentRule extends ResearchDocumentRuleBase implements B
                 result.add(committee.getCommitteeId());
             }
         }
+        */
+        List<String> result = new ArrayList<String>();
         List<CommitteeDocument> committeeDocss = (List<CommitteeDocument>) KraServiceLocator.getService(BusinessObjectService.class).findAll(
                 CommitteeDocument.class);
         for (CommitteeDocument committeeDoc : committeeDocss) {
