@@ -40,6 +40,7 @@ import org.kuali.kra.irb.ProtocolAction;
 import org.kuali.kra.irb.ProtocolForm;
 import org.kuali.kra.irb.ProtocolOnlineReviewDocument;
 import org.kuali.kra.irb.actions.ProtocolActionType;
+import org.kuali.kra.irb.actions.notification.AssignReviewerNotificationRenderer;
 import org.kuali.kra.irb.actions.notification.DeleteReviewNotificationRenderer;
 import org.kuali.kra.irb.actions.notification.RejectReviewNotificationRenderer;
 import org.kuali.kra.irb.actions.reviewcomments.ReviewAttachmentsBean;
@@ -207,6 +208,13 @@ public class ProtocolOnlineReviewAction extends ProtocolAction implements AuditM
 
             protocolForm.getOnlineReviewsActionHelper().init(true);
             recordOnlineReviewActionSuccess("created", document);
+            
+            //send notification now that the online review has been created.
+            Protocol protocol = submission.getProtocol();
+            ProtocolOnlineReview protocolOnlineReview = document.getProtocolOnlineReview();
+            AssignReviewerNotificationRenderer renderer = new AssignReviewerNotificationRenderer(protocol, "added");
+            IRBNotificationContext context = new IRBNotificationContext(protocol, protocolOnlineReview, ProtocolActionType.ASSIGN_REVIEWER, "Assign Reviewer", renderer);
+            getKcNotificationService().sendNotification(context);
         }
         
         return mapping.findForward(Constants.MAPPING_BASIC);
