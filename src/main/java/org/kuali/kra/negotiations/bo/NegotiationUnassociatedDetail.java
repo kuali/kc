@@ -305,7 +305,11 @@ public class NegotiationUnassociatedDetail extends KraPersistableBusinessObjectB
         if (this.getPiRolodexId() == null) {
             return null;
         } else {
-            return getRolodexService().getRolodex(Integer.parseInt(this.getPiRolodexId()));
+            try {
+                return getRolodexService().getRolodex(Integer.parseInt(this.getPiRolodexId()));
+            } catch (Exception e) {
+                return null;
+            }
         }
     }
     
