@@ -329,16 +329,16 @@ public class NegotiationNegotiationAction extends NegotiationAction {
             HttpServletResponse response) throws Exception {
         NegotiationForm negotiationForm = (NegotiationForm) form;
 
-        if (negotiationForm.getNegotiationDocument().getNegotiation().getNegotiationAssociationType() != null) {
-            String oldAssociation = negotiationForm.getNegotiationDocument().getNegotiation().getNegotiationAssociationType()
+        Negotiation negotiation = negotiationForm.getNegotiationDocument().getNegotiation();
+        if (negotiation.getNegotiationAssociationType() != null) {
+            negotiation.setOldNegotiationAssociationTypeId(negotiation.getNegotiationAssociationType().getId());
+            String oldAssociation = negotiation.getNegotiationAssociationType()
                     .getDescription();
-            Long newAssociationTypeId = negotiationForm.getNegotiationDocument().getNegotiation().getNegotiationAssociationTypeId();
-            Map params = new HashMap();
-            params.put("NEGOTIATION_ASSC_TYPE_ID", newAssociationTypeId);
-            NegotiationAssociationType asscType = (NegotiationAssociationType) this.getBusinessObjectService().findByPrimaryKey(
-                    NegotiationAssociationType.class, params);
+            Long newAssociationTypeId = negotiation.getNegotiationAssociationTypeId();
+            NegotiationAssociationType asscType = (NegotiationAssociationType) this.getBusinessObjectService().findBySinglePrimaryKey(
+                    NegotiationAssociationType.class, newAssociationTypeId);
             String newAssociation = asscType != null ? asscType.getDescription() : "nothing";
-            if (StringUtils.equals(negotiationForm.getNegotiationDocument().getNegotiation().getNegotiationAssociationType()
+            if (StringUtils.equals(negotiation.getNegotiationAssociationType()
                     .getCode(), NegotiationAssociationType.NONE_ASSOCIATION)) {
                 newAssociation = newAssociation + ".  You will lose any Negotiation attributes that have been entered";
             }
@@ -373,10 +373,8 @@ public class NegotiationNegotiationAction extends NegotiationAction {
         ActionForward actionForward = mapping.findForward(Constants.MAPPING_BASIC);
         NegotiationForm negotiationForm = (NegotiationForm) form;
         Long newAssociationTypeId = negotiationForm.getNegotiationDocument().getNegotiation().getNegotiationAssociationTypeId();
-        Map params = new HashMap();
-        params.put("NEGOTIATION_ASSC_TYPE_ID", newAssociationTypeId);
-        NegotiationAssociationType asscType = (NegotiationAssociationType) this.getBusinessObjectService().findByPrimaryKey(
-                NegotiationAssociationType.class, params);
+        NegotiationAssociationType asscType = (NegotiationAssociationType) this.getBusinessObjectService().findBySinglePrimaryKey(
+                NegotiationAssociationType.class, newAssociationTypeId);
         negotiationForm.getNegotiationDocument().getNegotiation().setNegotiationAssociationType(asscType);
         negotiationForm.getNegotiationDocument().getNegotiation().setAssociatedDocumentId("");
 
@@ -399,14 +397,7 @@ public class NegotiationNegotiationAction extends NegotiationAction {
         NegotiationForm negotiationForm = (NegotiationForm) form;
 
         Negotiation negotiation = negotiationForm.getNegotiationDocument().getNegotiation();
-        Map params = new HashMap();
-        params.put("NEGOTIATION_ID", negotiation.getNegotiationId());
-
-        Negotiation dbNegotiation = (Negotiation) this.getBusinessObjectService().findByPrimaryKey(Negotiation.class, params);
-        if (dbNegotiation !=  null) {
-            negotiation.setNegotiationAssociationTypeId(dbNegotiation.getNegotiationAssociationType().getId());
-            negotiation.setNegotiationAssociationType(dbNegotiation.getNegotiationAssociationType());
-        }
+        negotiation.setNegotiationAssociationTypeId(negotiation.getOldNegotiationAssociationTypeId());
         return actionForward;
     }
 
