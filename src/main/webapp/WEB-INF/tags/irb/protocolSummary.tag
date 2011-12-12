@@ -167,11 +167,22 @@
 				                <td><div align="left"><fmt:formatDate value="${attachment.updateTimestamp}" pattern="MM/dd/yyyy KK:mm a" /></div></td>
 				                <td><div align="left">${attachment.updateUser}</div></td>
 				                <td style="width:90%">
+				                <c:choose>
+				                    <c:when test="${fn:contains(prefix, 'prevProtocolSummary')}">
+				                    <html:image property="methodToCall.viewAttachmentProtocol.prev.line${status.index}.anchor${currentTabIndex}"
+				                                src='${ConfigProperties.kra.externalizable.images.url}tinybutton-view.gif' 
+				                                styleClass="tinybutton"
+				                                alt="View Protocol Attachment" 
+				                                onclick="excludeSubmitRestriction = true;"/>
+				                    </c:when>
+				                    <c:otherwise>
 				                    <html:image property="methodToCall.viewAttachmentProtocol.line${status.index}.anchor${currentTabIndex}"
 				                                src='${ConfigProperties.kra.externalizable.images.url}tinybutton-view.gif' 
 				                                styleClass="tinybutton"
 				                                alt="View Protocol Attachment" 
 				                                onclick="excludeSubmitRestriction = true;"/>
+				                    </c:otherwise>
+				                </c:choose>
 				                </td>
 				           </tr>
 				        </c:forEach>

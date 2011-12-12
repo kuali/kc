@@ -1129,6 +1129,9 @@ public class ProtocolProtocolActionsAction extends ProtocolAction implements Aud
 
         ProtocolForm protocolForm = (ProtocolForm) form;
         ProtocolSummary protocolSummary = protocolForm.getActionHelper().getProtocolSummary();
+        if (((String)request.getAttribute(KNSConstants.METHOD_TO_CALL_ATTRIBUTE)).contains(".prev.")) {
+            protocolSummary = protocolForm.getActionHelper().getPrevProtocolSummary();
+        }
         int selectedIndex = getSelectedLine(request);
         AttachmentSummary attachmentSummary = protocolSummary.getAttachments().get(selectedIndex);
         
@@ -1142,7 +1145,6 @@ public class ProtocolProtocolActionsAction extends ProtocolAction implements Aud
         
         return printAttachmentProtocol(mapping, response, attachment, protocolForm);
     }
-       
 
     /**
      * Go to the previous summary.
