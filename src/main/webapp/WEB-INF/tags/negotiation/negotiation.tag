@@ -182,7 +182,8 @@
 	                		${kfunc:registerEditableProperty(KualiForm, "document.negotiationList[0].unAssociatedDetail.leadUnitNumber")}
 	                		<kul:lookup boClassName="org.kuali.kra.bo.Unit" 
 						        		fieldConversions="unitNumber:document.negotiationList[0].unAssociatedDetail.leadUnitNumber" />
-					    </c:if> 
+					    </c:if>
+					    <kul:directInquiry boClassName="org.kuali.kra.bo.Unit" inquiryParameters="document.negotiationList[0].unAssociatedDetail.leadUnitNumber:unitNumber" anchor="${tabKey}" /> 
                 	</td>
             	</tr>
             	
@@ -225,6 +226,7 @@
 	                		<kul:lookup boClassName="org.kuali.kra.bo.Rolodex" 
 						        		fieldConversions="rolodexId:document.negotiationList[0].unAssociatedDetail.piRolodexId" />
 					    </c:if> 
+					    <kul:directInquiry boClassName="org.kuali.kra.bo.Rolodex" inquiryParameters="document.negotiationList[0].unAssociatedDetail.piRolodexId:rolodexId" anchor="${tabKey}" />
 					    <Br/>
 					    <c:out value="${KualiForm.document.negotiationList[0].unAssociatedDetail.PINonEmployee.organization}"/>
 	                </td>
@@ -254,19 +256,8 @@
 	                    </c:if>
 	                    <br/><span id="contactAdmin.fullName"><c:out value="${KualiForm.document.negotiationList[0].unAssociatedDetail.contactAdmin.fullName}"/></span>
 	                </td>
-	                <th>
-	                	<c:if test="${KualiForm.negotiationAssociatedDetailBean.displayOSPAdministrators}">
-	                		<div align="right">OSP Administrators:</div>
-	                	</c:if>
-	                </th>
-	                <td>
-	                	<c:if test="${KualiForm.negotiationAssociatedDetailBean.displayOSPAdministrators}">
-	                		<c:forEach items="${KualiForm.negotiationAssociatedDetailBean.ospAdministrators}" var="current">
-            					<c:out value="${current.fullName}"/>
-            					<Br/>
-            				</c:forEach>
-	                	</c:if>
-	                </td>
+	                <th>&nbsp;</th>
+	                <td>&nbsp;</td>
             	</tr>    	
             	<tr>
             		<th>
@@ -282,6 +273,7 @@
 	                		<kul:lookup boClassName="org.kuali.kra.bo.Sponsor" 
 						        		fieldConversions="sponsorCode:document.negotiationList[0].unAssociatedDetail.sponsorCode" />
 					    </c:if>
+					    <kul:directInquiry boClassName="org.kuali.kra.bo.Sponsor" inquiryParameters="document.negotiationList[0].unAssociatedDetail.sponsorCode:sponsorCode" anchor="${tabKey}" />
 					    <Br/>
 					    <c:out value="${KualiForm.document.negotiationList[0].unAssociatedDetail.sponsor.sponsorName}"/>
                 	</td>
@@ -298,6 +290,7 @@
 	                		<kul:lookup boClassName="org.kuali.kra.bo.Sponsor" 
 						        		fieldConversions="sponsorCode:document.negotiationList[0].unAssociatedDetail.primeSponsorCode" />
 					    </c:if> 
+					    <kul:directInquiry boClassName="org.kuali.kra.bo.Sponsor" inquiryParameters="document.negotiationList[0].unAssociatedDetail.primeSponsorCode:sponsorCode" anchor="${tabKey}" />
 					    <Br/>
 					    <c:out value="${KualiForm.document.negotiationList[0].unAssociatedDetail.primeSponsor.sponsorName}"/>
                 	</td>
@@ -326,6 +319,7 @@
 	                		<kul:lookup boClassName="org.kuali.kra.bo.Organization" 
 						        		fieldConversions="organizationId:document.negotiationList[0].unAssociatedDetail.subAwardOrganizationId" />
 					    </c:if> 
+					    <kul:directInquiry boClassName="org.kuali.kra.bo.Organization" inquiryParameters="document.negotiationList[0].unAssociatedDetail.subAwardOrganizationId:organizationId" anchor="${tabKey}" />
 					    <Br/>
 					    <c:out value="${KualiForm.document.negotiationList[0].unAssociatedDetail.subAwardOrganization.organizationName}"/>
                 	</td>
@@ -347,10 +341,13 @@
                 	<th>
                 		<div align="right">
             				<kul:htmlAttributeLabel attributeEntry="${negotiationUnassociatedDetailAttributes.leadUnitNumber}" />
+            				
             			</div>
                 	</th>
                 	<td>
                 		<c:out value="${KualiForm.negotiationAssociatedDetailBean.leadUnit}"/> 
+                		<html:hidden property="negotiationAssociatedDetailBean.leadUnitNumber"/>
+                		<kul:directInquiry boClassName="org.kuali.kra.bo.Unit" inquiryParameters="negotiationAssociatedDetailBean.leadUnitNumber:unitNumber" anchor="${tabKey}" />
                 	</td>
             	</tr>
             	
@@ -382,19 +379,8 @@
 	                <td>
 	                	<c:out value="${KualiForm.negotiationAssociatedDetailBean.adminPerson}"/>
 	                </td>
-	                <th>
-	                	<c:if test="${KualiForm.negotiationAssociatedDetailBean.displayOSPAdministrators}">
-	                		<div align="right">OSP Administrators:</div>
-	                	</c:if>
-	                </th>
-	                <td>
-	                	<c:if test="${KualiForm.negotiationAssociatedDetailBean.displayOSPAdministrators}">
-	                		<c:forEach items="${KualiForm.negotiationAssociatedDetailBean.ospAdministrators}" var="current">
-            					<c:out value="${current.fullName}"/>
-            					<Br/>
-            				</c:forEach>
-	                	</c:if>
-	                </td>
+	                <th>&nbsp;</th>
+	                <td>&nbsp;</td>
             	</tr>	            	
             	<tr>
             		<th>
