@@ -84,6 +84,7 @@ public class Negotiation extends KraPersistableBusinessObjectBase implements Per
     
     private int printindex;
     private boolean printAll = true;
+    private Long oldNegotiationAssociationTypeId;
 
     public int getPrintindex() {
         return printindex;
@@ -451,5 +452,13 @@ public class Negotiation extends KraPersistableBusinessObjectBase implements Per
 
     public void setPrintAll(boolean printAll) {
         this.printAll = printAll;
+    }
+
+    public Long getOldNegotiationAssociationTypeId() {
+        return oldNegotiationAssociationTypeId;
+    }
+
+    public void setOldNegotiationAssociationTypeId(Long oldNegotiationAssociationTypeId) {
+        this.oldNegotiationAssociationTypeId = oldNegotiationAssociationTypeId;
     }
 }
