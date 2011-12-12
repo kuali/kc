@@ -111,9 +111,9 @@ INSERT INTO ARG_VALUE_LOOKUP ( ARG_VALUE_LOOKUP_ID, ARGUMENT_NAME, VALUE, DESCRI
 VALUES (529, 'remuneration_range', '2', '51 - 100K', NOW(), 'admin',  UUID() )
 /
 INSERT INTO ARG_VALUE_LOOKUP ( ARG_VALUE_LOOKUP_ID, ARGUMENT_NAME, VALUE, DESCRIPTION, UPDATE_TIMESTAMP, UPDATE_USER, OBJ_ID ) 
-VALUES (530, 'remuneration_range', '3', 'Over 100K', NOW(), 'admin',  UUID() )
+VALUES (530, 'remuneration_range', '3', '100 - 200K', NOW(), 'admin',  UUID() )
 /
 INSERT INTO ARG_VALUE_LOOKUP ( ARG_VALUE_LOOKUP_ID, ARGUMENT_NAME, VALUE, DESCRIPTION, UPDATE_TIMESTAMP, UPDATE_USER, OBJ_ID ) 
-VALUES (531, 'remuneration_range', '4', '100 - 200K', NOW(), 'admin',  UUID() )
+VALUES (531, 'remuneration_range', '4', 'Over 200K', NOW(), 'admin',  UUID() )
 /
 DELIMITER ;
