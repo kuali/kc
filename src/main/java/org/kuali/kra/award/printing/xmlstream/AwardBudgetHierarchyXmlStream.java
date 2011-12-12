@@ -17,9 +17,12 @@ package org.kuali.kra.award.printing.xmlstream;
 
 import java.math.BigDecimal;
 import java.util.ArrayList;
+import java.util.Collection;
 import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
+
+import javassist.bytecode.Descriptor.Iterator;
 
 import noNamespace.AmountInfoType;
 import noNamespace.AwardNoticeDocument;
@@ -27,13 +30,18 @@ import noNamespace.AwardType;
 import noNamespace.AwardNoticeDocument.AwardNotice;
 import noNamespace.AwardType.AwardAmountInfo;
 
+import org.apache.commons.lang.StringUtils;
 import org.apache.xmlbeans.XmlObject;
+import org.kuali.kra.award.awardhierarchy.AwardHierarchy;
+import org.kuali.kra.award.awardhierarchy.AwardHierarchyService;
 import org.kuali.kra.award.document.AwardDocument;
 import org.kuali.kra.award.home.Award;
 import org.kuali.kra.award.printing.AwardPrintType;
 import org.kuali.kra.bo.KraPersistableBusinessObjectBase;
 import org.kuali.kra.document.ResearchDocumentBase;
-
+import org.kuali.kra.infrastructure.Constants;
+import org.kuali.kra.infrastructure.KraServiceLocator;
+import org.kuali.kra.service.ServiceHelper;
 /**
  * This class generates XML that conforms with the XSD related to Award Budget
  * hierarchy Report. The data for XML is derived from
@@ -54,6 +62,8 @@ public class AwardBudgetHierarchyXmlStream extends AwardBudgetBaseStream {
 	 *            parameters related to XML generation
 	 * @return {@link XmlObject} representing the XML
 	 */
+
+  
 	public Map<String, XmlObject> generateXmlStream(
 			KraPersistableBusinessObjectBase printableBusinessObject, Map<String, Object> reportParameters) {
 		Map<String, XmlObject> budgetHierarchyMap = new HashMap<String, XmlObject>();
@@ -89,13 +99,15 @@ public class AwardBudgetHierarchyXmlStream extends AwardBudgetBaseStream {
 		AmountInfoType amountInfoType = null;
 		AwardAmountInfo awardAmountInfo = AwardAmountInfo.Factory.newInstance();
 		List<AmountInfoType> amountInfoTypes = new ArrayList<AmountInfoType>();
-		for (org.kuali.kra.award.home.AwardAmountInfo awardAmount : award
-				.getAwardAmountInfos()) {
+	
+	  AwardHierarchy branchNode = award.getAwardHierarchyService().loadAwardHierarchy(award.getAwardNumber());
+      org.kuali.kra.award.home.AwardAmountInfo awardAmount=award.getLastAwardAmountInfo();
+      if(branchNode!=null){
 			amountInfoType = setAwardAmountInfo(award, awardAmount);
-			amountInfoTypes.add(amountInfoType);
-		}
-		awardAmountInfo.setAmountInfoArray(amountInfoTypes
-				.toArray(new AmountInfoType[0]));
+			amountInfoTypes = recurseAwardTree(branchNode);
+			amountInfoTypes.add(0,amountInfoType);
+			awardAmountInfo.setAmountInfoArray(amountInfoTypes.toArray(new AmountInfoType[0]));
+      }
 		return awardAmountInfo;
 	}
 
@@ -103,10 +115,10 @@ public class AwardBudgetHierarchyXmlStream extends AwardBudgetBaseStream {
 	 * This method will set the values to award amount info xml object
 	 * attributes .
 	 */
+	
 	private AmountInfoType setAwardAmountInfo(Award award,
-			org.kuali.kra.award.home.AwardAmountInfo awardAmount) {
-		AmountInfoType amountInfoType;
-		amountInfoType = AmountInfoType.Factory.newInstance();
+			org.kuali.kra.award.home.AwardAmountInfo awardAmount) {	   
+	    AmountInfoType amountInfoType = AmountInfoType.Factory.newInstance();
 		if (award.getAccountNumber() != null) {
 			amountInfoType.setAccountNumber(award.getAccountNumber());
 		}
@@ -146,7 +158,7 @@ public class AwardBudgetHierarchyXmlStream extends AwardBudgetBaseStream {
 		}
 		if (award.getAwardNumber() != null) {
 			amountInfoType.setAwardNumber(award.getAwardNumber());
-		}
+		 }
 		if (awardAmount.getObligationExpirationDate() != null) {
 			amountInfoType.setObligationExpirationDate(dateTimeService
 					.getCalendar(awardAmount.getObligationExpirationDate()));
@@ -167,4 +179,25 @@ public class AwardBudgetHierarchyXmlStream extends AwardBudgetBaseStream {
 		// amountInfoType.setTreeLevel(awardAmount.get);
 		return amountInfoType;
 	}
+	
+
+    private List<AmountInfoType> recurseAwardTree(AwardHierarchy branchNode) {
+        List<AmountInfoType> amountInfoTypes = new ArrayList<AmountInfoType>();
+        Map<String, Object> criteria = ServiceHelper.getInstance().buildCriteriaMap(new String[]{"parentAwardNumber", "active"}, new Object[]{branchNode.getAwardNumber(), Boolean.TRUE});
+        Collection c = businessObjectService.findMatchingOrderBy(AwardHierarchy.class, criteria, AwardHierarchy.UNIQUE_IDENTIFIER_FIELD, true);
+        branchNode.setChildren(new ArrayList<AwardHierarchy>(c));
+        if(branchNode.hasChildren()) {
+          for(AwardHierarchy childNode: branchNode.getChildren()) {
+              org.kuali.kra.award.home.AwardAmountInfo awardAmount= childNode.getAward().getLastAwardAmountInfo();
+                childNode.setParent(branchNode);
+                childNode.setRoot(branchNode.getRoot());
+                recurseAwardTree(childNode);
+             amountInfoTypes.add(setAwardAmountInfo(childNode.getAward(), awardAmount));
+            }
+        } 
+       return amountInfoTypes;
+    }
+    
+ 
 }
+

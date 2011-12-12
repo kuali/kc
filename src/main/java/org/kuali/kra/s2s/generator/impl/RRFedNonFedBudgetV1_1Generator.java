@@ -149,6 +149,11 @@ public class RRFedNonFedBudgetV1_1Generator extends RRFedNonFedBudgetBaseGenerat
                 rrFedNonFedBudget.setBudgetYear5(getBudgetYearDataType(budgetPeriodData));
             }
         }
+        for (BudgetPeriodInfo budgetPeriodData : budgetPeriodList) {
+            if (budgetPeriodData.getBudgetPeriod() == BudgetPeriodInfo.BUDGET_PERIOD_1) {
+                rrFedNonFedBudget.setBudgetYear1(getBudgetJustificationAttachment());
+            }
+        }
         rrFedNonFedBudget.setBudgetSummary(getBudgetSummary(budgetSummary));
         rrFedNonFedBudgetDocument.setRRFedNonFedBudget(rrFedNonFedBudget);
         return rrFedNonFedBudgetDocument;
@@ -696,7 +701,7 @@ public class RRFedNonFedBudgetV1_1Generator extends RRFedNonFedBudgetBaseGenerat
     /**
      * This method gets BudgetYear1DataType details like BudgetPeriodStartDate,BudgetPeriodEndDate,BudgetPeriod
      * KeyPersons,OtherPersonnel,TotalCompensation,Equipment,ParticipantTraineeSupportCosts,Travel,OtherDirectCosts
-     * DirectCosts,IndirectCosts,CognizantFederalAgency,TotalCosts and BudgetJustificationAttachment based on BudgetPeriodInfo for
+     * DirectCosts,IndirectCosts,CognizantFederalAgency,TotalCosts  based on BudgetPeriodInfo for
      * the RRFedNonFedBudget.
      * 
      * @param periodInfo (BudgetPeriodInfo) budget period entry.
@@ -763,20 +768,27 @@ public class RRFedNonFedBudgetV1_1Generator extends RRFedNonFedBudgetBaseGenerat
             }
             budgetYear.setTotalCosts(summaryTotal);
         }
+        
+        return budgetYear;
+    }
+    /*
+     * This method gets BudgetJustificationAttachment from proposalDevelopmentDocument for the RRFedNonFedBudget.
+     */
+    private BudgetYear1DataType getBudgetJustificationAttachment() {
+        BudgetYear1DataType budgetYear = BudgetYear1DataType.Factory.newInstance();
         AttachedFileDataType attachedFileDataType = null;
         for (Narrative narrative : pdDoc.getDevelopmentProposal().getNarratives()) {
             if (narrative.getNarrativeTypeCode() != null
                     && Integer.parseInt(narrative.getNarrativeTypeCode()) == BUDGET_JUSTIFICATION_ATTACHMENT) {
-            	attachedFileDataType = getAttachedFileType(narrative);
-            	if(attachedFileDataType != null){
-            		budgetYear.setBudgetJustificationAttachment(attachedFileDataType);
-            		break;
-            	}
+                attachedFileDataType = getAttachedFileType(narrative);
+                if(attachedFileDataType != null){
+                    budgetYear.setBudgetJustificationAttachment(attachedFileDataType);
+                    break;
+                }
             }
         }
         return budgetYear;
     }
-
     /**
      * This method returns IndirectCosts details such as Base,CostType,FundRequested,Rate and TotalIndirectCosts in
      * BudgetYearDataType based on BudgetPeriodInfo for the RRFedNonFedBudget.

@@ -80,13 +80,17 @@ public abstract class PHS398ModularBudgetBaseGenerator extends
 	 */
 	protected String getCognizantFederalAgency(Rolodex rolodex) {
 		StringBuilder agency = new StringBuilder();
+		if(rolodex.getOrganization()!=null){
 		agency.append(rolodex.getOrganization());
-		agency.append(COMMA_SEPERATOR);
+		}agency.append(COMMA_SEPERATOR);
+		if(rolodex.getFirstName()!=null){
 		agency.append(rolodex.getFirstName());
-		agency.append(EMPTY_STRING);
+		}agency.append(EMPTY_STRING);
+		if(rolodex.getLastName()!=null){
 		agency.append(rolodex.getLastName());
-		agency.append(EMPTY_STRING);
+		}agency.append(EMPTY_STRING);
+		if(rolodex.getPhoneNumber()!=null){
 		agency.append(rolodex.getPhoneNumber());
-		return agency.toString();
+		}return agency.toString();
 	}
 }

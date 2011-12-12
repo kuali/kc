@@ -955,6 +955,8 @@ public class ProposalDevelopmentActionsAction extends ProposalDevelopmentAction 
         ProposalAdminDetails proposalAdminDetails = new ProposalAdminDetails();
         proposalAdminDetails.setDevProposalNumber(devProposalNumber);
         proposalAdminDetails.setInstProposalId(instProposalId);
+        String loggedInUser = GlobalVariables.getUserSession().getPrincipalName();        
+        proposalAdminDetails.setSignedBy(loggedInUser);
         BusinessObjectService businessObjectService = KraServiceLocator.getService(BusinessObjectService.class);
         businessObjectService.save(proposalAdminDetails);
     }
