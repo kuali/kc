@@ -19,7 +19,7 @@
     		</c:when><c:otherwise>
     		<span class="subhead-left">Negotiation ${KualiForm.document.negotiationList[0].negotiationId}</span>
     		</c:otherwise></c:choose>
-    		<span class="subhead-right"><kul:help businessObjectClassName="org.kuali.kra.negotiations.bo.Negotiation" altText="help"/></span>
+    		<span class="subhead-right"><kul:help parameterNamespace="KC-NEGOTIATION" parameterDetailType="Document" parameterName="negotiation" altText="help"/></span>
         </h3>
 		
 		<table cellpadding="4" cellspacing="0" summary="">
