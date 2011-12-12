@@ -177,44 +177,6 @@ public class NegotiationNegotiationAction extends NegotiationAction {
                 sendCloseNotification = true;
             }
         }
-        if (oldNegotiation == null
-                || !StringUtils.equals(negotiation.getAssociatedDocumentId(), oldNegotiation.getAssociatedDocumentId())) {
-            Collection<Negotiation> otherNegotiations;
-            if (negotiation.getNegotiationAssociationType() != null) {
-                Map<String, Object> values = new HashMap<String, Object>();
-                values.put("associatedDocumentId", negotiation.getAssociatedDocumentId());
-                values.put("negotiationAssociationTypeId", negotiation.getNegotiationAssociationType().getId());
-                otherNegotiations = getBusinessObjectService().findMatching(Negotiation.class, values);
-            } else {
-                otherNegotiations = new ArrayList<Negotiation>();
-            }
-            if (!otherNegotiations.isEmpty()) {
-                StrutsConfirmation question = buildParameterizedConfirmationQuestion(mapping, form, request, response,
-                        "duplicateLinkedNegotiations", KeyConstants.NEGOTIATION_DUPLICATE_LINKING, negotiation
-                                .getNegotiationAssociationType().getDescription());
-                question.setCaller(((KualiForm) question.getForm()).getMethodToCall());
-                if (question.hasQuestionInstAttributeName()
-                        && StringUtils.equals(question.getRequest().getParameter(KNSConstants.QUESTION_INST_ATTRIBUTE_NAME),
-                                question.getQuestionId())) {
-                    Object buttonClicked = question.getRequest().getParameter(QUESTION_CLICKED_BUTTON);
-                    if (ConfirmationQuestion.NO.equals(buttonClicked)) {
-                        if (oldNegotiation != null) {
-                            negotiation.setNegotiationAssociationType(oldNegotiation.getNegotiationAssociationType());
-                            negotiation.setNegotiationAssociationTypeId(oldNegotiation.getNegotiationAssociationTypeId());
-                            negotiation.setAssociatedDocumentId(oldNegotiation.getAssociatedDocumentId());
-                        } else {
-                            negotiation.setNegotiationAssociationType(null);
-                            negotiation.setNegotiationAssociationTypeId(null);
-                            negotiation.setAssociatedDocumentId(null);
-                        }
-                        return mapping.findForward(Constants.MAPPING_BASIC);
-                    }
-                }
-                else {
-                    return performQuestionWithoutInput(question, EMPTY_STRING);
-                }
-            }
-        }
         copyCustomDataToNegotiation(negotiationForm);
         ActionForward actionForward = super.save(mapping, form, request, response);
         if (sendCloseNotification && GlobalVariables.getMessageMap().getErrorCount() == 0) {
@@ -242,6 +204,51 @@ public class NegotiationNegotiationAction extends NegotiationAction {
        negotiation.refresh();
        return actionForward;
     }
+    
+    @Override
+    public ActionForward refresh(ActionMapping mapping, ActionForm form, HttpServletRequest request, HttpServletResponse response) throws Exception {
+        NegotiationForm negotiationForm = (NegotiationForm) form;
+        Negotiation negotiation = negotiationForm.getNegotiationDocument().getNegotiation();
+        Negotiation oldNegotiation = getBusinessObjectService().findBySinglePrimaryKey(Negotiation.class,
+                negotiation.getNegotiationId());
+        if (oldNegotiation == null
+                || !StringUtils.equals(negotiation.getAssociatedDocumentId(), oldNegotiation.getAssociatedDocumentId())) {
+            Collection<Negotiation> otherNegotiations;
+            if (negotiation.getNegotiationAssociationType() != null) {
+                Map<String, Object> values = new HashMap<String, Object>();
+                values.put("associatedDocumentId", negotiation.getAssociatedDocumentId());
+                values.put("negotiationAssociationTypeId", negotiation.getNegotiationAssociationType().getId());
+                otherNegotiations = getBusinessObjectService().findMatching(Negotiation.class, values);
+            } else {
+                otherNegotiations = new ArrayList<Negotiation>();
+            }
+            if (!otherNegotiations.isEmpty()) {
+                StrutsConfirmation question = buildParameterizedConfirmationQuestion(mapping, form, request, response,
+                        "duplicateLinkedNegotiations", KeyConstants.NEGOTIATION_DUPLICATE_LINKING, negotiation
+                                .getNegotiationAssociationType().getDescription());
+                question.setCaller(((KualiForm) question.getForm()).getMethodToCall());
+                if (question.hasQuestionInstAttributeName()
+                        && StringUtils.equals(question.getRequest().getParameter(KNSConstants.QUESTION_INST_ATTRIBUTE_NAME),
+                                question.getQuestionId())) {
+                    Object buttonClicked = question.getRequest().getParameter(QUESTION_CLICKED_BUTTON);
+                    if (ConfirmationQuestion.NO.equals(buttonClicked)) {
+                        if (oldNegotiation != null) {
+                            negotiation.setAssociatedDocumentId(oldNegotiation.getAssociatedDocumentId());
+                        } else {
+                            negotiation.setAssociatedDocumentId(null);
+                        }
+                        return mapping.findForward(Constants.MAPPING_BASIC);
+                    }
+                }
+                else {
+                    return performQuestionWithoutInput(question, EMPTY_STRING);
+                }
+            }
+        }
+        return super.refresh(mapping, form, request, response);
+        
+    }
+    
     
     @Override
     public ActionForward close(ActionMapping mapping, ActionForm form, HttpServletRequest request, HttpServletResponse response)
