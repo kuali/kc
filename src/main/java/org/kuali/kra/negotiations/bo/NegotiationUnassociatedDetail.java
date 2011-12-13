@@ -64,6 +64,10 @@ public class NegotiationUnassociatedDetail extends KraPersistableBusinessObjectB
     private Sponsor primeSponsor;
     private Organization subAwardOrganization;
     
+    //transient
+    private String piEmployeeUserName;
+    private String contactAdminUserName;
+    
     /**
      * 
      * Constructs a NegotiationUnassociatedDetail.java.
@@ -426,6 +430,61 @@ public class NegotiationUnassociatedDetail extends KraPersistableBusinessObjectB
         return null;
     }
 
+    public String getPiEmployeeUserName() {
+        KcPerson pi = getPIEmployee();
+        if (pi == null) {
+            return piEmployeeUserName;
+        }
+        else {
+            return pi.getUserName();
+        }
+    }
+
+
+    public void setPiEmployeeUserName(String piEmployeeUserName) {
+        this.piEmployeeUserName = piEmployeeUserName;
+        KcPerson pi = null;
+        try {
+            pi = getKcPersonService().getKcPersonByUserName(piEmployeeUserName);
+        }
+        catch (IllegalArgumentException e) {
+            // invalid username, will be caught by validation routines
+        }
+        if (pi != null) {
+            setPiPersonId(pi.getPersonId());
+        }
+        else {
+            setPiPersonId(null);
+        }
+    }
+
+
+    public String getContactAdminUserName() {
+        KcPerson admin = getContactAdmin();
+        if (admin == null) {
+            return contactAdminUserName;
+        } else {
+            return admin.getUserName();
+        }
+    }
+
+
+    public void setContactAdminUserName(String adminUserName) {
+        this.contactAdminUserName = adminUserName;
+        KcPerson admin = null;
+        try {
+            admin = getKcPersonService().getKcPersonByUserName(adminUserName);
+        }
+        catch (IllegalArgumentException e) {
+            // invalid username, will be caught by validation routines
+        }
+        if (admin != null) {
+            setContactAdminPersonId(admin.getPersonId());
+        }
+        else {
+            setContactAdminPersonId(null);
+        }
+    }
 
     @Override
     public String getSubAwardRequisitionerName() {
