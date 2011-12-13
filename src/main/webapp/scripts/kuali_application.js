@@ -1058,7 +1058,7 @@ function loadContactPersonName(usernameFieldName, fullnameElementId,
 
 		if (username == '') {
 			if (fullNameElement != null) fullNameElement.innerHTML = "&nbsp;";
-			if (personIdElement != null) personIdElement.value = null;
+			if (personIdElement != null) personIdElement.value = "";
 		} else {
 			var dwrReply = {
 				callback:function(data) {
@@ -1069,7 +1069,7 @@ function loadContactPersonName(usernameFieldName, fullnameElementId,
 						if (personIdElement != null) personIdElement.value= data.personId;
 						if (unitNumberElement != null) unitNumberElement.innerHTML= data.unit['unitNumber']
 					} else {
-						if (personIdElement != null) personIdElement.value = null;
+						if (personIdElement != null) personIdElement.value = "";
 						if (fullNameElement != null) fullNameElement.innerHTML = wrapError( "not found" );
 						if (phoneNumberElement != null) phoneNumberElement.innerHTML= wrapError( "not found" );
 						if (emailElement != null) emailElement.innerHTML= wrapError( "not found" );
