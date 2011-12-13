@@ -1812,4 +1812,19 @@ public class InstitutionalProposal extends KraPersistableBusinessObjectBase impl
     public ProposalType getNegotiableProposalType() {
         return this.getProposalType();
     }
+
+    @Override
+    public String getSubAwardRequisitionerName() {
+        return EMPTY_STRING;
+    }
+
+    @Override
+    public String getSubAwardRequisitionerUnitNumber() {
+        return EMPTY_STRING;
+    }
+
+    @Override
+    public String getSubAwardRequisitionerUnitName() {
+        return EMPTY_STRING;
+    }
 }

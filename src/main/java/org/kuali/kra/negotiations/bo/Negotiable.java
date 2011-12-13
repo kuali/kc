@@ -140,6 +140,32 @@ public interface Negotiable {
      */
     String getNegotiableProposalTypeCode();
     
+    /**
+     * 
+     * This method a proposal type if it is an institutional proposal or a proposal log.
+     * @return
+     */
     ProposalType getNegotiableProposalType();
+    
+    /**
+     * 
+     * This method returns the Requisitioner's Name if it is a subaward, otherwise returns an empty string.
+     * @return
+     */
+    String getSubAwardRequisitionerName();
+    
+    /**
+     * 
+     * This method returns the Requisitioner's Unit Number if it is a subaward, otherwise returns an empty string.
+     * @return
+     */
+    String getSubAwardRequisitionerUnitNumber();
+    
+    /**
+     * 
+     * This method returns the Requisitioner's Unit Name if it is a subaward, otherwise returns an empty string.
+     * @return
+     */
+    String getSubAwardRequisitionerUnitName();
     
 }
