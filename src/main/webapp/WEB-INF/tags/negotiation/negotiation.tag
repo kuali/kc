@@ -52,8 +52,9 @@
 										'na',
 										'na',
 										'na');"
-	                    	readonly="${readOnly}"/>
-						<kul:checkErrors keyMatch="document.negotiationList[0].negotiatorUserName" auditMatch="document.negotiationList[0].negotiatorUserName"/>
+	                    	readonly="${readOnly}" tabindex="7"/>
+						<kul:checkErrors keyMatch="document.negotiationList[0].negotiatorUserName" 
+							auditMatch="document.negotiationList[0].negotiatorUserName"/>
 					</c:if>  
             		<c:if test="${hasErrors}">
 	 					<kul:fieldShowErrorIcon />
