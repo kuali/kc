@@ -187,8 +187,17 @@ public class NegotiationDocumentRule extends ResearchDocumentRuleBase {
                 valid = false;
                 getErrorReporter().reportError("subAwardOrganizationId", KeyConstants.ERROR_MISSING, getDataDictionaryService().getAttributeErrorLabel(
                         NegotiationUnassociatedDetail.class, "subAwardOrganizationId"));
-            }           
-            
+            }
+            if (detail.getContactAdminUserName() != null && detail.getContactAdmin() == null) {
+                valid = false;
+                getErrorReporter().reportError("contactAdminUserName", KeyConstants.ERROR_MISSING, getDataDictionaryService().getAttributeErrorLabel(
+                        NegotiationUnassociatedDetail.class, "contactAdminPersonId"));
+            }
+            if (detail.getPiEmployeeUserName() != null && detail.getPIEmployee() == null) {
+                valid = false;
+                getErrorReporter().reportError("piEmployeeUserName", KeyConstants.ERROR_MISSING, getDataDictionaryService().getAttributeErrorLabel(
+                        NegotiationUnassociatedDetail.class, "piPersonId"));                
+            }
         }
         GlobalVariables.getMessageMap().removeFromErrorPath("unAssociatedDetail");
         return valid;
