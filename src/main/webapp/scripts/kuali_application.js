@@ -1818,7 +1818,7 @@ function selectAllAwardKeywords(document) {
 
 function loadApplicableTransactionIds(versionId, transactionId, awardNumber) {
 	var sequenceNumber = $(versionId).val();
-	var docFormKey = DWRUtil.getValue( "docFormKey" );
+	var docFormKey = $('input[name="docFormKey"]').val();
 	var dwrReply = {
 		callback:function(data) {
 			if ( data != null ) {
