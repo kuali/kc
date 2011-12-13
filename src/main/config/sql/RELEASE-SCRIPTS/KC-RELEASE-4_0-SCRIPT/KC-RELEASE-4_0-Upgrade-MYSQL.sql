@@ -124,6 +124,8 @@
 \. ./../../current_mysql/4.0/dml/KC_DML_01_KRACOEUS-4979_B000.sql
 \. ./../../current_mysql/4.0/dml/KC_DML_01_KRACOEUS-4998_B000.sql
 \. ./../../current_mysql/4.0/dml/KC_DML_01_KRACOEUS-5083_B000.sql
+\. ./../../current_mysql/4.0/dml/KC_DML_02_KCIRB-1567_B000.sql
+\. ./../../current_mysql/4.0/dml/KC_DML_02_KCIRB-1568_B000.sql
 \. ./../../current_mysql/4.0/constraints/KC_FK2_AWARD_PAYMENT_SCHEDULE.sql
 \. ./../../current_mysql/4.0/constraints/KC_FK_AWARD_REPORT_TRACKING.sql
 \. ./../../current_mysql/4.0/constraints/KC_FK_COI_DISCLOSURE_PERSON_UNITS.sql
@@ -156,6 +158,9 @@
 \. ./../../current_mysql/4.0/constraints/KC_UQ_FINANCIAL_ENTITY_REPORTER.sql
 \. ./../../current_mysql/4.0/constraints/KC_UQ_FIN_INT_ENTITY_YNQ.sql
 \. ./../../current_mysql/4.0/constraints/KC_UQ_INV_COI_DISC_DETAILS.sql
+\. ./../../current_mysql/4.0/constraints/KC_UQ_NEGOTIATION_AGREEMENT_TYPE.sql
+\. ./../../current_mysql/4.0/constraints/KC_UQ_NEGOTIATION_ASSC_TYPE.sql
+\. ./../../current_mysql/4.0/constraints/KC_UQ_NEGOTIATION_STATUS.sql
 \. ./../../current_mysql/4.0/constraints/KC_UQ_PERSON_FIN_INT_DISCLOSURE.sql
 \. ./../../current_mysql/4.0/constraints/KC_UQ_PER_FIN_INT_DISCL_DET.sql
 commit;
