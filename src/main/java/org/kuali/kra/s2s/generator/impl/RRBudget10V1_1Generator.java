@@ -775,10 +775,10 @@ public class RRBudget10V1_1Generator extends RRBudgetBaseGenerator {
         BudgetDecimal extraFunds = BudgetDecimal.ZERO;
         if (periodInfo != null) {
             if (periodInfo.getKeyPersons() != null) {
-                KeyPerson[] keyPersonArray = new KeyPerson[periodInfo
-                        .getKeyPersons().size()];
+                List<KeyPerson> keyPersonList = new ArrayList<KeyPerson>();
                 int keyPersonCount = 0;
                 for (KeyPersonInfo keyPerson : periodInfo.getKeyPersons()) {
+                  if(keyPerson.getRole().equals(NID_PD_PI) || hasPersonnelBudget(keyPerson,periodInfo.getBudgetPeriod())){
                     KeyPerson keyPersonDataType = KeyPerson.Factory.newInstance();
                     keyPersonDataType.setName(globLibV20Generator
                             .getHumanNameDataType(keyPerson));
@@ -808,11 +808,12 @@ public class RRBudget10V1_1Generator extends RRBudgetBaseGenerator {
                     keyPersonDataType.setFundsRequested(keyPerson.getFundsRequested().bigDecimalValue());
                     keyPersonDataType.setSummerMonths(keyPerson.getSummerMonths().bigDecimalValue());
 
-                    keyPersonArray[keyPersonCount] = keyPersonDataType;
+                    keyPersonList.add(keyPersonDataType);
                     keyPersonCount++;
                     LOG.info("keyPersonCount:" + keyPersonCount);
                 }
-                keyPersons.setKeyPersonArray(keyPersonArray);
+               }
+                keyPersons.setKeyPersonArray(keyPersonList.toArray(new KeyPerson[0]));
             }
             if (periodInfo.getTotalFundsKeyPersons() != null) {
                 keyPersons.setTotalFundForKeyPersons(periodInfo

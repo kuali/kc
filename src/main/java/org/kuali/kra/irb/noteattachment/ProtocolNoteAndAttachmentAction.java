@@ -219,8 +219,7 @@ public class ProtocolNoteAndAttachmentAction extends ProtocolAction {
             LOG.info(NOT_FOUND_SELECTION + selection);
             //may want to tell the user the selection was invalid.
             return mapping.findForward(Constants.MAPPING_BASIC);
-        }
-        
+        }        
         final String confirmMethod = form.getNotesAttachmentsHelper().retrieveConfirmMethodByType(attachmentType);
         final StrutsConfirmation confirm 
         = buildParameterizedConfirmationQuestion(mapping, form, request, response, confirmMethod, 
@@ -319,7 +318,7 @@ public class ProtocolNoteAndAttachmentAction extends ProtocolAction {
                     for (ProtocolAttachmentProtocol protocolAttachment : protocolAttachmentList) {
                         if(attachmentDocumentId.equals(protocolAttachment.getDocumentId())){
                             int currentAttachmentSequence=protocolAttachment.getSequenceNumber();
-                            if(getProtocolAttachmentService().isNewAttachmentVersion(protocolAttachment)  ||(currentProtoSeqNumber == currentAttachmentSequence)){
+                            if(getProtocolAttachmentService().isNewAttachmentVersion(protocolAttachment)&&(currentProtoSeqNumber == currentAttachmentSequence)){
                                 attachmentFile = getWatermarkService().applyWatermark(file.getData(),printableArtifacts.getWatermarkable().getWatermark());
                             }else{
                                 attachmentFile = getWatermarkService().applyWatermark(file.getData(),printableArtifacts.getWatermarkable().getInvalidWatermark());

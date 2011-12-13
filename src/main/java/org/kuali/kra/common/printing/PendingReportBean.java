@@ -199,9 +199,9 @@ public class PendingReportBean extends ReportBean {
         columns.add(createColumn("Effective Date", "requestedStartDateInitial", requestedStartDateInitial, Date.class));
         columns.add(createColumn("End Date", "requestedEndDateTotal", requestedEndDateTotal, Date.class));
         columns.add(createColumn("% Effort", "totalEffort", totalEffort, KualiDecimal.class));
-        columns.add(createColumn("Academic Year Effort", "academicYearEffort", academicYearEffort, KualiDecimal.class));
-        columns.add(createColumn("Summer Year Effort", "summerYearEffort", summerEffort, KualiDecimal.class));
-        columns.add(createColumn("Calendar Year Effort", "calendarYearEffort", calendarYearEffort, KualiDecimal.class));
+        columns.add(createColumn("Academic Year Effort %", "academicYearEffort", academicYearEffort, KualiDecimal.class));
+        columns.add(createColumn("Summer Year Effort %", "summerYearEffort", summerEffort, KualiDecimal.class));
+        columns.add(createColumn("Calendar Year Effort %", "calendarYearEffort", calendarYearEffort, KualiDecimal.class));
         if(institutionalProposalCustomDataList.size()>0){
             for(InstitutionalProposalCustomData institutionalProposalCustomData :institutionalProposalCustomDataList) {
                 columns.add(createColumn(institutionalProposalCustomData.getCustomAttribute().getLabel(), "institutionalProposalCustomDataList", institutionalProposalCustomData.getValue(), String.class));
