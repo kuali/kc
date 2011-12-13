@@ -364,7 +364,7 @@ public class NegotiationForm extends KraTransactionalDocumentFormBase {
      */
     public String getDispayChangeAssociatedDocumentWarningMessage() {
         if (getDispayChangeAssociatedDocumentWarning()) {
-            StringBuffer sb = new StringBuffer("<div id=\"searchIconDiv\" onclick=\"return confirm('");
+            StringBuffer sb = new StringBuffer("<div id=\"searchIconDiv\" style=\"display: inline;\" onclick=\"return confirm('");
             String associatedType = this.getNegotiationDocument().getNegotiation().getNegotiationAssociationType().getDescription();
             String docNumber = this.getNegotiationDocument().getNegotiation().getAssociatedNegotiable().getAssociatedDocumentId();
             sb.append("This Negotiation is already associated with ").append(associatedType).append(" number ").append(docNumber);
