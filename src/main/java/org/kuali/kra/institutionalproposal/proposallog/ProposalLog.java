@@ -533,5 +533,20 @@ public class ProposalLog extends KraPersistableBusinessObjectBase implements Neg
     @Override
     public ProposalType getNegotiableProposalType() {
         return this.getProposalType();
+    }
+
+    @Override
+    public String getSubAwardRequisitionerName() {
+        return EMPTY_STRING;
+    }
+
+    @Override
+    public String getSubAwardRequisitionerUnitNumber() {
+        return EMPTY_STRING;
+    }
+
+    @Override
+    public String getSubAwardRequisitionerUnitName() {
+        return EMPTY_STRING;
     }    
 }
