@@ -442,6 +442,24 @@
                 	<td>
                 	</td>
             	</tr>
+            	<tr>
+            		<th>
+            			<div align="right">
+            				<kul:htmlAttributeLabel attributeEntry="${negotiationUnassociatedDetailAttributes.subAwardRequisitionerName}" />
+            			</div>
+            		</th>
+                	<td>
+                		<c:out value="${KualiForm.negotiationAssociatedDetailBean.requestionerName}"/>
+                	</td>
+                	<th>
+                		<div align="right">
+            				<kul:htmlAttributeLabel attributeEntry="${negotiationUnassociatedDetailAttributes.subAwardRequisitionerUnitName}" /> 
+            			</div>
+                	</th>
+                	<td>
+                		<c:out value="${KualiForm.negotiationAssociatedDetailBean.requestionerUnit}"/>
+                	</td>
+            	</tr>
             </c:if>
 		</table>
 	</div>	

@@ -16,6 +16,12 @@
 package org.kuali.kra.subaward.bo;
 
 
+import java.sql.Date;
+import java.util.ArrayList;
+import java.util.LinkedHashMap;
+import java.util.List;
+import java.util.Map;
+
 import org.kuali.kra.SequenceOwner;
 import org.kuali.kra.award.home.AwardType;
 import org.kuali.kra.bo.KcPerson;
@@ -30,24 +36,16 @@ import org.kuali.kra.infrastructure.KraServiceLocator;
 import org.kuali.kra.negotiations.bo.Negotiable;
 import org.kuali.kra.negotiations.bo.NegotiationPersonDTO;
 import org.kuali.kra.proposaldevelopment.bo.ProposalType;
-
-import java.util.ArrayList;
-import java.util.LinkedHashMap;
-import java.util.List;
-import java.util.Map;
-import java.sql.Date;
-
 import org.kuali.kra.service.KcPersonService;
-import org.kuali.kra.subaward.bo.SubAwardFundingSource;
-import org.kuali.kra.subaward.bo.SubAwardContact;
-import org.kuali.kra.subaward.bo.SubAwardCloseout;
-import org.kuali.kra.subaward.bo.SubAwardAmountReleased;
-import org.kuali.kra.subaward.bo.SubAwardAmountInfo;
+import org.kuali.kra.subaward.customdata.SubAwardCustomData;
 import org.kuali.kra.subaward.document.SubAwardDocument;
 import org.kuali.rice.kns.util.KualiDecimal;
 import org.kuali.rice.kns.util.TypedArrayList;
-import org.kuali.kra.subaward.customdata.SubAwardCustomData;
 
+/**
+ * 
+ * This class...
+ */
 public class SubAward extends KraPersistableBusinessObjectBase implements Permissionable,SequenceOwner<SubAward>, Negotiable{ 
     
     private static final long serialVersionUID = 1L;
@@ -675,17 +673,17 @@ public class SubAward extends KraPersistableBusinessObjectBase implements Permis
 
     @Override
     public String getPiName() {
-        return this.getRequisitionerName();
+        return EMPTY_STRING;
     }
 
     @Override
     public String getPiEmployeeName() {
-        return this.getRequisitionerName();
+        return EMPTY_STRING;
     }
 
     @Override
     public String getPiNonEmployeeName() {
-        return this.getRolodex() != null ? this.getRolodex().getFullName() : EMPTY_STRING;
+        return EMPTY_STRING;
     }
 
     @Override
@@ -740,6 +738,21 @@ public class SubAward extends KraPersistableBusinessObjectBase implements Permis
     @Override
     public ProposalType getNegotiableProposalType() {
         return null;
+    }
+
+    @Override
+    public String getSubAwardRequisitionerName() {
+        return this.getRequisitionerName();
+    }
+
+    @Override
+    public String getSubAwardRequisitionerUnitNumber() {
+        return this.getUnit() != null ? this.getUnit().getUnitNumber() : EMPTY_STRING;
+    }
+
+    @Override
+    public String getSubAwardRequisitionerUnitName() {
+        return this.getUnit() != null ? this.getUnit().getUnitName() : EMPTY_STRING;
     }
     
 }

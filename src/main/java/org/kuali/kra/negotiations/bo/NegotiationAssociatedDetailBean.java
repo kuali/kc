@@ -51,6 +51,8 @@ public class NegotiationAssociatedDetailBean implements Serializable {
     private String subAwardOrganization;
     private List<KcPerson> ospAdministrators;
     private String proposalType;
+    private String requestionerName;
+    private String requestionerUnit;
     
     /**
      * 
@@ -70,6 +72,8 @@ public class NegotiationAssociatedDetailBean implements Serializable {
         this.subAwardOrganization = EMPTY_STRING;
         this.proposalType = EMPTY_STRING;
         this.leadUnitNumber = leadUnitNumber;
+        this.requestionerName = EMPTY_STRING;
+        this.requestionerUnit = EMPTY_STRING;
         this.ospAdministrators = new ArrayList<KcPerson>();
     }
     
@@ -92,6 +96,8 @@ public class NegotiationAssociatedDetailBean implements Serializable {
             this.sponsorAward = negotiable.getSponsorAwardNumber();
             this.subAwardOrganization = negotiable.getSubAwardOrganizationName();
             this.proposalType = negotiable.getNegotiableProposalType() != null ? negotiable.getNegotiableProposalType().getDescription() : "";
+            this.requestionerName = negotiable.getSubAwardRequisitionerName();
+            this.requestionerUnit = negotiable.getSubAwardRequisitionerUnitName();
         }
     }
 
@@ -189,5 +195,29 @@ public class NegotiationAssociatedDetailBean implements Serializable {
 
     public void setProposalType(String proposalType) {
         this.proposalType = proposalType;
+    }
+
+    public List<KcPerson> getOspAdministrators() {
+        return ospAdministrators;
+    }
+
+    public void setOspAdministrators(List<KcPerson> ospAdministrators) {
+        this.ospAdministrators = ospAdministrators;
+    }
+
+    public String getRequestionerName() {
+        return requestionerName;
+    }
+
+    public void setRequestionerName(String requestionerName) {
+        this.requestionerName = requestionerName;
+    }
+
+    public String getRequestionerUnit() {
+        return requestionerUnit;
+    }
+
+    public void setRequestionerUnit(String requestionerUnit) {
+        this.requestionerUnit = requestionerUnit;
     }
 }
