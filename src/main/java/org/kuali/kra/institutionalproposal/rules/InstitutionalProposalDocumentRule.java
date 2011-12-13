@@ -219,7 +219,6 @@ public class InstitutionalProposalDocumentRule extends ResearchDocumentRuleBase 
             if (!awardCol.isEmpty()) {
                 Award award = (Award) (awardCol.toArray())[0];
                 String awardAccountNumber = award.getAccountNumber();
-                System.err.println("awardAccountNumber:" + awardAccountNumber);
                 if (!StringUtils.equalsIgnoreCase(ipAccountNumber, awardAccountNumber)) {
                     GlobalVariables.getMessageMap().putError("document.institutionalProposal.currentAccountNumber",
                             "error.institutionalProposal.accountNumber.invalid", ipAccountNumber);
