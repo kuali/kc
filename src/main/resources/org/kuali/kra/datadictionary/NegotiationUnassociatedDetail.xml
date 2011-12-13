@@ -95,7 +95,7 @@
   <bean id="NegotiationUnassociatedDetail-piRolodexId-parentBean" abstract="true" parent="Rolodex-rolodexId">
     <property name="name" value="piRolodexId" />
     <property name="label" value="Principal Investigator Non-Employee" />
-    <property name="shortLabel" value="PI Rolodex" />
+    <property name="shortLabel" value="PI Address Book" />
     <property name="required" value="false" />
     <property name="summary" value="Principal Investigator Non-Employee" />
     <property name="description" value="Principal Investigator Non-Employee" />
