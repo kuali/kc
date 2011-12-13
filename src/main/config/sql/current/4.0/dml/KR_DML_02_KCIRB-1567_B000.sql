@@ -1,10 +1,18 @@
---create role types
+--create new role type
 INSERT INTO KRIM_TYP_T (KIM_TYP_ID, OBJ_ID, VER_NBR, NM, SRVC_NM, ACTV_IND, NMSPC_CD)
-  VALUES( KRIM_TYP_ID_BS_S.NEXTVAL, SYS_GUID(), 1, 'Role', 'unitCorrespondentDerivedRoleType', 'Y', 'KC-PROTOCOL') 
+  VALUES( KRIM_TYP_ID_BS_S.NEXTVAL, SYS_GUID(), 1, 'Derived Role: IRB Correspondent', 'irbCorrespondentDerivedRoleTypeService', 'Y', 'KC-PROTOCOL') 
 /
---create new roles
+--create new role
 INSERT INTO KRIM_ROLE_T (ROLE_ID, OBJ_ID, VER_NBR, ROLE_NM, NMSPC_CD, DESC_TXT, KIM_TYP_ID, ACTV_IND, LAST_UPDT_DT)
-  VALUES (KRIM_ROLE_PERM_ID_BS_S.NEXTVAL, SYS_GUID(), 1, 'Unit Correspondent', 'KC-PROTOCOL', 'The Unit Correspondent role', (SELECT KIM_TYP_ID FROM KRIM_TYP_T WHERE SRVC_NM = 'unitCorrespondentDerivedRoleType'), 'Y', SYSDATE)
+  VALUES (KRIM_ROLE_PERM_ID_BS_S.NEXTVAL, SYS_GUID(), 1, 'Unit Correspondent', 'KC-PROTOCOL', 'The Unit Correspondent role', (SELECT KIM_TYP_ID FROM KRIM_TYP_T WHERE SRVC_NM = 'irbCorrespondentDerivedRoleTypeService'), 'Y', SYSDATE)
+/
+--create new notification role
+INSERT INTO NOTIFICATION_MODULE_ROLE ( NOTIFICATION_MODULE_ROLE_ID, OBJ_ID, VER_NBR, UPDATE_TIMESTAMP, UPDATE_USER, MODULE_CODE, ROLE_NAME ) 
+VALUES ( SEQ_NTFCTN_MODULE_ROLE_ID.nextval, SYS_GUID(), 1, SYSDATE, 'admin', 7, 'KC-PROTOCOL:Unit Correspondent' )
+/
+--specify required qualifier
+INSERT INTO NOTIFICATION_MDL_ROLE_QLFR (NOTIFICATION_MDL_ROLE_QLFR_ID, NOTIFICATION_MODULE_ROLE_ID, OBJ_ID, VER_NBR, UPDATE_TIMESTAMP, UPDATE_USER, QUALIFIER)
+values ( SEQ_NTFCTN_MDL_ROLE_QLFR_ID.nextval, (select NOTIFICATION_MODULE_ROLE_ID from NOTIFICATION_MODULE_ROLE where MODULE_CODE = 7 and ROLE_NAME = 'KC-PROTOCOL:Unit Correspondent'), SYS_GUID(), 1, SYSDATE, 'admin', 'protocol')
 /
 COMMIT
 /

@@ -975,6 +975,19 @@
                   p:localServiceName="protocolAffiliateTypeDerivedRoleTypeService" />
       </property>
     </bean>    
+
+    <bean id="irbCorrespondentDerivedRoleTypeService"
+          class="org.kuali.kra.kim.service.impl.IrbCorrespondentDerivedRoleTypeServiceImpl">
+    </bean>
+    
+    <bean class="org.kuali.rice.ksb.messaging.KSBExporter">
+	  <property name="serviceDefinition">
+			<bean parent="kcService" p:service-ref="irbCorrespondentDerivedRoleTypeService"
+	      p:localServiceName="irbCorrespondentDerivedRoleTypeService" />
+	  </property>
+	</bean>
+
+    
 </beans>
 
 
