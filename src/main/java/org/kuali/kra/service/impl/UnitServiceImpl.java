@@ -162,7 +162,6 @@ public class UnitServiceImpl implements UnitService {
                 subUnits = unit.getUnitNumber()+KNSConstants.BLANK_SPACE+COLUMN+KNSConstants.BLANK_SPACE+unit.getUnitName();                
             }
         }
-        System.err.println("about to return : " + subUnits);
         return subUnits;
         
     }

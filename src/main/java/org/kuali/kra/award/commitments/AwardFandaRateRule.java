@@ -224,18 +224,15 @@ public class AwardFandaRateRule  extends ResearchDocumentRuleBase implements Add
             validRates =  getValidRatesForFandA(OFF_CAMPUS_RATE, awardFandaRate.getApplicableFandaRate());
             onOFFCampusRate = OFF_CAMPUS;
         }
-        System.err.println("validRates.size(): " + validRates.size());
         if (validRates.size() == 0) {
             valid = false;
             if (StringUtils.equalsIgnoreCase(
                     this.getParameterService().getParameterValue(AwardDocument.class, KeyConstants.OPTION_WARNING_ERROR_AWARD_FANDA_VALIDATION),
                     KeyConstants.ERROR)) {
-                System.err.println("first condition");
                 reportError(propertyPrefix + ".applicableFandaRate", 
                         KeyConstants.ERROR_AWARD_FANDA_INVALID_RTAES_FOR_SINGLE_RATE,
                         awardFandaRate.getApplicableFandaRate().toString(),onOFFCampusRate);
             } else {
-                System.err.println("second condition");
                 valid = true;
                 reportWarning(propertyPrefix + ".applicableFandaRate", 
                         KeyConstants.ERROR_AWARD_FANDA_INVALID_RTAES_FOR_SINGLE_RATE,
