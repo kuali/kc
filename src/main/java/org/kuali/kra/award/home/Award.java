@@ -3536,4 +3536,19 @@ public class Award extends KraPersistableBusinessObjectBase implements KeywordsM
     public ProposalType getNegotiableProposalType() {
         return null;
     }
+
+    @Override
+    public String getSubAwardRequisitionerName() {
+        return EMPTY_STRING;
+    }
+
+    @Override
+    public String getSubAwardRequisitionerUnitNumber() {
+        return EMPTY_STRING;
+    }
+
+    @Override
+    public String getSubAwardRequisitionerUnitName() {
+        return EMPTY_STRING;
+    }
 }

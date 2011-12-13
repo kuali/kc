@@ -30,6 +30,8 @@
         <ref bean="NegotiationUnassociatedDetail-contactAdminPersonId" />
         <ref bean="NegotiationUnassociatedDetail-subAwardOrganizationId" />
         <ref bean="NegotiationUnassociatedDetail-negotiableProposalTypeCode" />
+        <ref bean="NegotiationUnassociatedDetail-subAwardRequisitionerName" />
+        <ref bean="NegotiationUnassociatedDetail-subAwardRequisitionerUnitName" />
       </list>
     </property>
   </bean>
@@ -198,6 +200,24 @@
     <property name="summary" value="Proposal Type" />
     <property name="description" value="Proposal Type" />
     <property name="required" value="false" />
+  </bean>
+  
+  <bean id="NegotiationUnassociatedDetail-subAwardRequisitionerName" parent="NegotiationUnassociatedDetail-subAwardRequisitionerName-parentBean" />
+  <bean id="NegotiationUnassociatedDetail-subAwardRequisitionerName-parentBean" abstract="true" parent="NegotiationUnassociatedDetail-piName">
+  	<property name="name" value="subAwardRequisitionerName" />
+    <property name="label" value="Requisitioner Name" />
+    <property name="shortLabel" value="Requisitioner Name" />
+    <property name="summary" value="Requisitioner Name" />
+    <property name="description" value="Requisitioner Name" />
+  </bean>
+  
+  <bean id="NegotiationUnassociatedDetail-subAwardRequisitionerUnitName" parent="NegotiationUnassociatedDetail-subAwardRequisitionerUnitName-parentBean" />
+  <bean id="NegotiationUnassociatedDetail-subAwardRequisitionerUnitName-parentBean" abstract="true" parent="NegotiationUnassociatedDetail-leadUnitNumber">
+  	<property name="name" value="subAwardRequisitionerUnitName" />
+    <property name="label" value="Requisitioner Unit" />
+    <property name="shortLabel" value="Requisitioner Unit" />
+    <property name="summary" value="Requisitioner Unit" />
+    <property name="description" value="Requisitioner Unit" />
   </bean>
   
   <bean id="NegotiationUnassociatedDetail-inquiryDefinition" parent="NegotiationUnassociatedDetail-inquiryDefinition-parentBean" />
