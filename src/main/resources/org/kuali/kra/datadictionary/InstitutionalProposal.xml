@@ -130,8 +130,8 @@
     <bean id="InstitutionalProposal-proposalId-parentBean" abstract="true" parent="AttributeDefinition" >
         <property name="name" value="proposalId" />
         <property name="forceUppercase" value="false" />
-        <property name="label" value="InstitutionalProposal Id" />
-        <property name="shortLabel" value="InstitutionalProposal Id" />
+        <property name="label" value="Institutional Proposal ID" />
+        <property name="shortLabel" value="Institutional Proposal ID" />
         <property name="maxLength" value="22" />
         <property name="validationPattern" >
             <bean parent="NumericValidationPattern" />
@@ -140,8 +140,8 @@
             <bean parent="TextControlDefinition"
                 p:size="10" />
         </property>
-        <property name="summary" value="InstitutionalProposal Id" />
-        <property name="description" value="InstitutionalProposal Id" />
+        <property name="summary" value="Institutional Proposal ID" />
+        <property name="description" value="Institutional Proposal ID" />
     </bean>
     
     <bean id="InstitutionalProposal-fiscalMonth" parent="InstitutionalProposal-fiscalMonth-parentBean" />
@@ -184,8 +184,8 @@
     <bean id="InstitutionalProposal-proposalNumber-parentBean" abstract="true" parent="AttributeDefinition" >
         <property name="name" value="proposalNumber" />
         <property name="forceUppercase" value="false" />
-        <property name="label" value="Institutional Proposal ID" />
-        <property name="shortLabel" value="IP ID" />
+        <property name="label" value="Institutional Proposal Number" />
+        <property name="shortLabel" value="IP Num" />
         <property name="maxLength" value="8" />
         <property name="validationPattern" >
             <bean parent="AlphaNumericValidationPattern" />
