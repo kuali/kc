@@ -39,6 +39,11 @@
         <property name="documentTypeName" value="ProposalLogMaintenanceDocument" />
         <property name="documentPresentationControllerClass" value="org.kuali.kra.institutionalproposal.proposallog.ProposalLogDocumentPresentationController" />
         <property name="documentAuthorizerClass" value="org.kuali.kra.institutionalproposal.proposallog.ProposalLogDocumentAuthorizer" />
+        <property name="webScriptFiles">
+        <list>
+            <value>../dwr/interface/RolodexServiceRight.js</value>
+        </list>
+       </property>
     </bean>
 
     <!-- Maintenance Section Definitions -->
@@ -83,7 +88,8 @@
                     p:required="false" />
                 <bean parent="MaintainableFieldDefinition"
                     p:name="rolodexId"
-                    p:required="false" />
+                    p:required="false" 
+                    p:webUILeaveFieldFunction="loadRolodexInfoById"/>
                 <bean parent="MaintainableFieldDefinition"
                     p:name="leadUnit"
                     p:required="true" />

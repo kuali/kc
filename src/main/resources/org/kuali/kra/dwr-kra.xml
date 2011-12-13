@@ -163,6 +163,10 @@
 			<include method="getPhoneNumber" />
             <include method="getOrganization" />
 		</create>
+		<create creator="spring" javascript="RolodexServiceRight">
+			<param name="beanName" value="rolodexService" />
+			<include method="getRolodex" />
+		</create>
         <create creator="spring" javascript="NotificationModuleRoleService">
             <param name="beanName" value="notificationModuleRoleService" />
             <include method="getModuleRolesByModuleName" />
