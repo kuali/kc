@@ -76,8 +76,8 @@ public class OrganizationCorrespondentLookupableHelperServiceImpl extends KualiL
     @Override
     public Collection performLookup(LookupForm lookupForm, Collection resultTable, boolean bounded) {
         String userName = (String) lookupForm.getFieldsForLookup().get("person.userName");
-            if (StringUtils.isNotEmpty(userName)) {
-                KcPerson person = getKcPersonService().getKcPersonByUserName(userName);
+        if (StringUtils.isNotEmpty(userName)) {
+            KcPerson person = getKcPersonService().getKcPersonByUserName(userName);
             if (person != null) {
                 lookupForm.getFieldsForLookup().put("personId", person.getPersonId());
             }
@@ -93,7 +93,6 @@ public class OrganizationCorrespondentLookupableHelperServiceImpl extends KualiL
     @Override
     public List<? extends BusinessObject> getSearchResults(Map<String, String> fieldValues) {
         List<OrganizationCorrespondent> searchResults = (List<OrganizationCorrespondent>)super.getSearchResults(fieldValues);
-System.out.println("\n\nOrganizationCorr.getSearchResults called, # results = " + searchResults.size());
         if (!searchResults.isEmpty()) {
             if (StringUtils.isNotBlank(fieldValues.get("person.userName"))) {
                 return filterSearchResults(searchResults, fieldValues.get("person.userName"));
