@@ -128,14 +128,14 @@
   <bean id="NegotiationActivity-followupDate-parentBean" abstract="true" parent="AttributeReferenceDummy-genericDate">
     <property name="name" value="followupDate" />
     <property name="forceUppercase" value="false" />
-    <property name="label" value="Followup Date" />
-    <property name="shortLabel" value="Followup Date" />
+    <property name="label" value="Follow-up Date" />
+    <property name="shortLabel" value="Follow-up Date" />
     <property name="required" value="false" />
     <property name="validationPattern" >
 		<bean parent="DateValidationPattern" />
 	</property>
-    <property name="summary" value="Followup Date" />
-    <property name="description" value="Followup Date" />
+    <property name="summary" value="Follow-up Date" />
+    <property name="description" value="Follow-up Date" />
   </bean>
   
   <bean id="NegotiationActivity-createDate" parent="NegotiationActivity-createDate-parentBean" />
