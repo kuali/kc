@@ -1,13 +1,13 @@
 DELIMITER /
 CREATE TABLE COI_DISCLOSURE_PERSON  ( 
-    COI_DISCLOSURE_PERSON_ID   NUMBER(12,0) NOT NULL,
-    COI_DISCLOSURE_ID          NUMBER(12,0) NOT NULL,
-    PERSON_ID                      VARCHAR2(40) NULL,
-    PERSON_ROLE_ID                 VARCHAR2(12) NULL,
+    COI_DISCLOSURE_PERSON_ID   DECIMAL(12,0) NOT NULL,
+    COI_DISCLOSURE_ID          DECIMAL(12,0) NOT NULL,
+    PERSON_ID                      VARCHAR(40) NULL,
+    PERSON_ROLE_ID                 VARCHAR(12) NULL,
     UPDATE_TIMESTAMP               DATE NULL,
-    UPDATE_USER                    VARCHAR2(60) NULL,
-    VER_NBR                        NUMBER(8,0) DEFAULT 1 NOT NULL,
-    OBJ_ID                         VARCHAR2(36) NOT NULL
+    UPDATE_USER                    VARCHAR(60) NULL,
+    VER_NBR                        DECIMAL(8,0) DEFAULT 1 NOT NULL,
+    OBJ_ID                         VARCHAR(36) NOT NULL
 )
 /
 ALTER TABLE COI_DISCLOSURE_PERSON 

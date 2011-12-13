@@ -1,5 +1,5 @@
 DELIMITER /
-alter table AWARD add AWARD_SEQUENCE_STATUS VARCHAR2(10) default 'PENDING' not null
+alter table AWARD add AWARD_SEQUENCE_STATUS VARCHAR(10) default 'PENDING' not null
 /
 
 update award aw
