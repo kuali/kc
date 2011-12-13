@@ -1,22 +1,50 @@
 DELIMITER /
-INSERT INTO KRIM_ROLE_ID_BS_S VALUES(NULL)
-/
-INSERT INTO KRIM_ROLE_PERM_ID_BS_S VALUES(NULL)
-/
-DECLARE CURSOR cur IS SELECT PERM_ID FROM KRIM_PERM_T WHERE NMSPC_CD LIKE 'KC%';
-BEGIN
-INSERT INTO KRIM_ROLE_T (ROLE_ID,KIM_TYP_ID,NMSPC_CD,ROLE_NM,DESC_TXT,ACTV_IND,LAST_UPDT_DT,OBJ_ID,VER_NBR)
-VALUES ((SELECT (MAX(ID)) FROM KRIM_ROLE_ID_BS_S),(SELECT KIM_TYP_ID FROM KRIM_TYP_T WHERE NM = 'Default'),'KC-SYS','KC Superuser','KC Superuser role for administration access','Y',NOW(),UUID(),1);
 
-FOR rec IN cur
-LOOP
-EXECUTE IMMEDIATE 'INSERT INTO KRIM_ROLE_PERM_T (ROLE_PERM_ID, ROLE_ID, PERM_ID, ACTV_IND, OBJ_ID, VER_NBR) VALUES ((SELECT (MAX(ID)) FROM KRIM_ROLE_PERM_ID_BS_S),(SELECT (MAX(ID)) FROM KRIM_ROLE_ID_BS_S),' || rec.PERM_ID || ',''Y'',UUID(), 1)';
-END LOOP;
+DROP PROCEDURE IF EXISTS p
+/
+CREATE PROCEDURE p ()
+BEGIN
+    DECLARE id VARCHAR(40);
+    DECLARE done INT DEFAULT FALSE;
+    DECLARE cur CURSOR FOR SELECT PERM_ID FROM KRIM_PERM_T WHERE NMSPC_CD LIKE 'KC%';
+    DECLARE CONTINUE HANDLER FOR NOT FOUND SET done = TRUE;
+    
+    OPEN cur;
+    
+    SET @insert_role_seq := 'INSERT INTO KRIM_ROLE_ID_BS_S VALUES (null)';
+    PREPARE insert_role_seq_stmt FROM @insert_role_seq;
+    EXECUTE insert_role_seq_stmt;
+    DEALLOCATE PREPARE insert_role_seq_stmt;
+    SET @insert_role := 'INSERT INTO KRIM_ROLE_T (ROLE_ID,KIM_TYP_ID,NMSPC_CD,ROLE_NM,DESC_TXT,ACTV_IND,LAST_UPDT_DT,OBJ_ID,VER_NBR) VALUES ((SELECT (MAX(ID)) FROM KRIM_ROLE_ID_BS_S),(SELECT KIM_TYP_ID FROM KRIM_TYP_T WHERE NM = ''Default''),''KC-SYS'',''KC Superuser'',''KC Superuser role for administration access'',''Y'',NOW(),UUID(),1)';
+    PREPARE insert_role_stmt FROM @insert_role;
+    EXECUTE insert_role_stmt;
+    DEALLOCATE PREPARE insert_role_stmt;
+
+    insert_loop: LOOP
+        FETCH cur INTO id;
+        IF done THEN
+            LEAVE insert_loop;
+        END IF;
+        SET @insert_role_perm_seq := 'INSERT INTO KRIM_ROLE_PERM_ID_BS_S VALUES (null)';
+        PREPARE insert_role_perm_seq_stmt FROM @insert_role_perm_seq;
+        EXECUTE insert_role_perm_seq_stmt;
+        DEALLOCATE PREPARE insert_role_perm_seq_stmt;
+        SET @insert_role_perm := CONCAT('INSERT INTO KRIM_ROLE_PERM_T (ROLE_PERM_ID,ROLE_ID,PERM_ID,ACTV_IND,OBJ_ID,VER_NBR) VALUES ((SELECT (MAX(ID)) FROM KRIM_ROLE_PERM_ID_BS_S),(SELECT (MAX(ID)) FROM KRIM_ROLE_ID_BS_S),',id,',''Y'',UUID(),1)');        
+        PREPARE insert_role_perm_stmt FROM @insert_role_perm;
+        EXECUTE insert_role_perm_stmt;
+        DEALLOCATE PREPARE insert_role_perm_stmt;
+    END LOOP;
+    
+    CLOSE cur;
 END;
 /
-INSERT INTO KRIM_ROLE_MBR_ID_BS_S VALUES(NULL)
+CALL p ()
+/
+DROP PROCEDURE IF EXISTS p
 /
 
+INSERT INTO KRIM_ROLE_MBR_ID_BS_S VALUES(NULL)
+/
 INSERT INTO KRIM_ROLE_MBR_T (ROLE_MBR_ID,ROLE_ID,MBR_ID,MBR_TYP_CD,LAST_UPDT_DT,OBJ_ID,VER_NBR)
 VALUES ((SELECT (MAX(ID)) FROM KRIM_ROLE_MBR_ID_BS_S),(SELECT ROLE_ID FROM KRIM_ROLE_T WHERE NMSPC_CD = 'KC-SYS' AND ROLE_NM = 'KC Superuser'),(SELECT PRNCPL_ID FROM KRIM_PRNCPL_T WHERE PRNCPL_NM = 'admin'),'P',NOW(),UUID(),1)
 /
