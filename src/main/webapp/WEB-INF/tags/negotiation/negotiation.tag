@@ -116,7 +116,7 @@
 					        	Award: 
 					      	</c:when>
 					      	<c:when test="${KualiForm.displaySubAward}">
-					        	Sub Award: 
+					        	Subaward: 
 					      	</c:when>
 					      	<c:when test="${KualiForm.displayProposalLog}">
 					        	Proposal Log: 
