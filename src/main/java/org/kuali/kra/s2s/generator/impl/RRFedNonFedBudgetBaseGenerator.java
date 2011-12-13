@@ -15,10 +15,19 @@
  */
 package org.kuali.kra.s2s.generator.impl;
 
+import java.util.ArrayList;
+import java.util.List;
+
+import org.kuali.kra.budget.document.BudgetDocument;
+import org.kuali.kra.budget.nonpersonnel.BudgetLineItem;
+import org.kuali.kra.budget.personnel.BudgetPersonnelDetails;
 import org.kuali.kra.infrastructure.KraServiceLocator;
 import org.kuali.kra.s2s.generator.S2SBaseFormGenerator;
+import org.kuali.kra.s2s.generator.bo.KeyPersonInfo;
 import org.kuali.kra.s2s.service.S2SBudgetCalculatorService;
 import org.kuali.kra.s2s.service.S2SUtilService;
+import org.kuali.rice.kew.exception.WorkflowException;
+import org.kuali.rice.kns.service.DocumentService;
 
 /**
  * This abstract class has methods that are common to all the versions of RRFedNonFedBudget form.
@@ -28,11 +37,13 @@ import org.kuali.kra.s2s.service.S2SUtilService;
 public abstract class RRFedNonFedBudgetBaseGenerator extends S2SBaseFormGenerator {
     protected S2SBudgetCalculatorService s2sBudgetCalculatorService;
     protected S2SUtilService s2sUtilService;
+    private DocumentService documentService ;
     public static final String OTHERPERSONNEL_POSTDOC = "PostDoc";
     public static final String OTHERPERSONNEL_GRADUATE = "Grad";
     public static final String OTHERPERSONNEL_UNDERGRADUATE = "UnderGrad";
     public static final String OTHERPERSONNEL_SECRETARIAL = "Sec";
     public static final String OTHERCOST_DESCRIPTION = "Other";
+    protected static final String NID_PD_PI = "PD/PI";
     public static final int ADDITIONAL_KEYPERSONS_ATTACHMENT = 11;
     public static final int BUDGET_JUSTIFICATION_ATTACHMENT = 131;
     public static final int ADDITIONAL_EQUIPMENT_ATTACHMENT = 12;
@@ -48,5 +59,53 @@ public abstract class RRFedNonFedBudgetBaseGenerator extends S2SBaseFormGenerato
         s2sUtilService = KraServiceLocator.getService(S2SUtilService.class);
         s2sBudgetCalculatorService = KraServiceLocator.getService(S2SBudgetCalculatorService.class);
     }
+    
+    /**
+     * This method check whether the key person has a personnel budget  
+     * 
+     * @param keyPerson
+     *            (KeyPersonInfo) key person entry.
+     * @param period
+     *            budget period
+     * @return true if key person has personnel budget else false.
+     */
+    protected Boolean hasPersonnelBudget(KeyPersonInfo keyPerson,int period){
+        BudgetDocument budgetDocument = null;
+        List<BudgetLineItem> budgetLineItemList = new ArrayList<BudgetLineItem>();
+        List<BudgetPersonnelDetails> budgetPersonnelDetailsList = new ArrayList<BudgetPersonnelDetails>();
+        
+        try {
+            budgetDocument = (BudgetDocument) getDocumentService()
+            .getByDocumentHeaderId(pdDoc.getBudgetDocumentVersion(0).getDocumentNumber());
+            }
+            catch (WorkflowException e) {
+                e.printStackTrace();
+            }           
+           budgetLineItemList = budgetDocument.getBudget().getBudgetPeriod(period-1).getBudgetLineItems();
+           
+           for(BudgetLineItem budgetLineItem : budgetLineItemList) {
+             for(BudgetPersonnelDetails budgetPersonnelDetails : budgetLineItem.getBudgetPersonnelDetailsList()){                 
+                if( budgetPersonnelDetails.getPersonId().equals(keyPerson.getPersonId())){
+                    return true;
+                }                 
+             }
+           }        
+        return false;       
+    }
+    
+    /**
+     * @return the documentService
+     */
+    public DocumentService getDocumentService() {
+        return KraServiceLocator.getService(DocumentService.class);
+    }
+
+    /**
+     * @param documentService
+     *            the documentService to set
+     */
+    public void setDocumentService(DocumentService documentService) {
+        this.documentService = documentService;
+    }   
 
 }

@@ -151,7 +151,7 @@ public class RRFedNonFedBudgetV1_1Generator extends RRFedNonFedBudgetBaseGenerat
         }
         for (BudgetPeriodInfo budgetPeriodData : budgetPeriodList) {
             if (budgetPeriodData.getBudgetPeriod() == BudgetPeriodInfo.BUDGET_PERIOD_1) {
-                rrFedNonFedBudget.setBudgetYear1(getBudgetJustificationAttachment());
+                rrFedNonFedBudget.setBudgetYear1(getBudgetJustificationAttachment(rrFedNonFedBudget.getBudgetYear1()));
             }
         }
         rrFedNonFedBudget.setBudgetSummary(getBudgetSummary(budgetSummary));
@@ -774,8 +774,7 @@ public class RRFedNonFedBudgetV1_1Generator extends RRFedNonFedBudgetBaseGenerat
     /*
      * This method gets BudgetJustificationAttachment from proposalDevelopmentDocument for the RRFedNonFedBudget.
      */
-    private BudgetYear1DataType getBudgetJustificationAttachment() {
-        BudgetYear1DataType budgetYear = BudgetYear1DataType.Factory.newInstance();
+    private BudgetYear1DataType getBudgetJustificationAttachment(BudgetYear1DataType budgetYear) {
         AttachedFileDataType attachedFileDataType = null;
         for (Narrative narrative : pdDoc.getDevelopmentProposal().getNarratives()) {
             if (narrative.getNarrativeTypeCode() != null
@@ -1642,9 +1641,10 @@ public class RRFedNonFedBudgetV1_1Generator extends RRFedNonFedBudgetBaseGenerat
         KeyPersons keyPersons = KeyPersons.Factory.newInstance();
         if (periodInfo != null) {
             if (periodInfo.getKeyPersons() != null) {
-                KeyPersonDataType[] keyPersonDataTypeArray = new KeyPersonDataType[periodInfo.getKeyPersons().size()];
+                List<KeyPersonDataType> keyPersonList = new ArrayList<KeyPersonDataType>();
                 int keyPersonCount = 0;
                 for (KeyPersonInfo keyPerson : periodInfo.getKeyPersons()) {
+                  if(keyPerson.getRole().equals(NID_PD_PI) || hasPersonnelBudget(keyPerson,periodInfo.getBudgetPeriod())){
                     KeyPersonDataType keyPersonDataType = KeyPersonDataType.Factory.newInstance();
                     keyPersonDataType.setName(globLibV20Generator.getHumanNameDataType(keyPerson));                
                     if(keyPerson.getKeyPersonRole()!=null){
@@ -1654,11 +1654,12 @@ public class RRFedNonFedBudgetV1_1Generator extends RRFedNonFedBudgetBaseGenerat
                         keyPersonDataType.setProjectRole(keyPerson.getRole());                        
                     }
                     keyPersonDataType.setCompensation(getCompensation(keyPerson));
-                    keyPersonDataTypeArray[keyPersonCount] = keyPersonDataType;
+                    keyPersonList.add(keyPersonDataType);
                     keyPersonCount++;
                     LOG.info("keyPersonCount:" + keyPersonCount);
                 }
-                keyPersons.setKeyPersonArray(keyPersonDataTypeArray);
+               }
+                keyPersons.setKeyPersonArray(keyPersonList.toArray(new KeyPersonDataType[0]));
             }
             SummaryDataType summary = SummaryDataType.Factory.newInstance();
             if (periodInfo.getTotalFundsKeyPersons() != null) {
