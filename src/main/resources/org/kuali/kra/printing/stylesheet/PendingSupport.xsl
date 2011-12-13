@@ -65,7 +65,7 @@
 											<fo:table-cell border="solid 0.3pt black" font-size="6" padding="4pt" padding-right="4pt" text-align="left" display-align="center">
 												<fo:block>
 													<fo:inline font-weight="bold">
-														<xsl:text>Proposal No</xsl:text>
+														<xsl:text>Proposal Number</xsl:text>
 													</fo:inline>
 												</fo:block>
 											</fo:table-cell>
@@ -79,7 +79,7 @@
 											<fo:table-cell border="solid 0.3pt black" font-size="6" padding="4pt" padding-right="4pt" text-align="left" display-align="center">
 												<fo:block>
 													<fo:inline font-weight="bold">
-														<xsl:text>PI</xsl:text>
+														<xsl:text>Role</xsl:text>
 													</fo:inline>
 												</fo:block>
 											</fo:table-cell>
@@ -107,14 +107,14 @@
 											<fo:table-cell border="solid 0.3pt black" font-size="6" padding="4pt" padding-right="4pt" text-align="left" display-align="center">
 												<fo:block>
 													<fo:inline font-weight="bold">
-														<xsl:text>Total Requested</xsl:text>
+														<xsl:text>Total Requested Cost</xsl:text>
 													</fo:inline>
 												</fo:block>
 											</fo:table-cell>
 											<fo:table-cell border="solid 0.3pt black" font-size="6" padding="4pt" padding-right="4pt" text-align="left" display-align="center">
 												<fo:block>
 													<fo:inline font-weight="bold">
-														<xsl:text>Eff. Date</xsl:text>
+														<xsl:text>Effective Date</xsl:text>
 													</fo:inline>
 												</fo:block>
 											</fo:table-cell>

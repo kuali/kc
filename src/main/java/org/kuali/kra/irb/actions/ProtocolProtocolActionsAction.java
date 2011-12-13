@@ -1034,7 +1034,7 @@ public class ProtocolProtocolActionsAction extends ProtocolAction implements Aud
                 for (ProtocolAttachmentProtocol protocolAttachment : protocolAttachmentList) {
                     if(attachmentDocumentId.equals(protocolAttachment.getDocumentId())){
                         int currentAttachmentSequence=protocolAttachment.getSequenceNumber();
-                        if((getProtocolAttachmentService().isNewAttachmentVersion(protocolAttachment))||(currentProtoSeqNumber == currentAttachmentSequence)){
+                         if((getProtocolAttachmentService().isNewAttachmentVersion(protocolAttachment))&&(currentProtoSeqNumber == currentAttachmentSequence)){
                             attachmentFile = getWatermarkService().applyWatermark(file.getData(),printableArtifacts.getWatermarkable().getWatermark());
                         }else{
                             attachmentFile = getWatermarkService().applyWatermark(file.getData(),printableArtifacts.getWatermarkable().getInvalidWatermark());

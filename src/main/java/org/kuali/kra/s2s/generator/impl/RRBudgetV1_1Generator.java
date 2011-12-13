@@ -148,7 +148,7 @@ public class RRBudgetV1_1Generator extends RRBudgetBaseGenerator {
 		for (BudgetPeriodInfo budgetPeriodData : budgetperiodList) {
 		    if (budgetPeriodData.getBudgetPeriod() == BudgetPeriodInfo.BUDGET_PERIOD_1) {
                 rrBudget
-                        .setBudgetYear1(getBudgetJustificationAttachment());
+                        .setBudgetYear1(getBudgetJustificationAttachment(rrBudget.getBudgetYear1()));
             }
 		}
 		rrBudget.setBudgetSummary(getBudgetSummary(budgetSummary));
@@ -208,10 +208,8 @@ public class RRBudgetV1_1Generator extends RRBudgetBaseGenerator {
 	/*
 	 * This method gets BudgetJustificationAttachment from proposalDevelopmentDocument for the RRBudget.
 	 */
-	private BudgetYear1DataType getBudgetJustificationAttachment() {
+	private BudgetYear1DataType getBudgetJustificationAttachment(BudgetYear1DataType budgetYear) {
 
-        BudgetYear1DataType budgetYear = BudgetYear1DataType.Factory
-                .newInstance();
         AttachedFileDataType attachedFileDataType = AttachedFileDataType.Factory.newInstance();
         for (Narrative narrative : pdDoc.getDevelopmentProposal().getNarratives()) {
             if (narrative.getNarrativeTypeCode() != null
@@ -1081,10 +1079,10 @@ public class RRBudgetV1_1Generator extends RRBudgetBaseGenerator {
 		BudgetDecimal extraFunds = BudgetDecimal.ZERO;
 		if (periodInfo != null) {
 			if (periodInfo.getKeyPersons() != null) {
-				KeyPersonDataType[] keyPersonArray = new KeyPersonDataType[periodInfo
-						.getKeyPersons().size()];
+			    List<KeyPersonDataType> keyPersonList = new ArrayList<KeyPersonDataType>();
 				int keyPersonCount = 0;
 				for (KeyPersonInfo keyPerson : periodInfo.getKeyPersons()) {
+				  if(keyPerson.getRole().equals(NID_PD_PI) || hasPersonnelBudget(keyPerson,periodInfo.getBudgetPeriod())){
 					KeyPersonDataType keyPersonDataType = KeyPersonDataType.Factory
 							.newInstance();
 					keyPersonDataType.setName(globLibV20Generator
@@ -1110,11 +1108,12 @@ public class RRBudgetV1_1Generator extends RRBudgetBaseGenerator {
 					}
 					keyPersonDataType
 							.setCompensation(getCompensation(keyPerson));
-					keyPersonArray[keyPersonCount] = keyPersonDataType;
+					keyPersonList.add(keyPersonDataType);
 					keyPersonCount++;
 					LOG.info("keyPersonCount:" + keyPersonCount);
 				}
-				keyPersons.setKeyPersonArray(keyPersonArray);
+			  }
+				keyPersons.setKeyPersonArray(keyPersonList.toArray(new KeyPersonDataType[0]));
 			}
 			if (periodInfo.getTotalFundsKeyPersons() != null) {
 				keyPersons.setTotalFundForKeyPersons(periodInfo

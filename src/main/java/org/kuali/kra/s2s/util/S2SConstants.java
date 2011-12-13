@@ -77,5 +77,6 @@ public interface S2SConstants {
     public static final String SUB_AWARD_BUDGET_NOT_FOUND = "budget.subaward.notfound";
     public static final String FORMVERSION_1_4 = "1.4";
     public static final String CONGRESSIONAL_DISTRICT = "performancesite.district.notfound";
+    public static final String STATUS_PUREGED = "PURGED";
     
 }

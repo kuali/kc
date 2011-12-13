@@ -1568,9 +1568,10 @@ public class RRFedNonFedBudget10V1_1Generator extends RRFedNonFedBudgetBaseGener
         KeyPersons keyPersons = KeyPersons.Factory.newInstance();
         if (periodInfo != null) {
             if (periodInfo.getKeyPersons() != null) {
-                KeyPersonDataType[] keyPersonDataTypeArray = new KeyPersonDataType[periodInfo.getKeyPersons().size()];
+                List<KeyPersonDataType> keyPersonList = new ArrayList<KeyPersonDataType>();
                 int keyPersonCount = 0;
                 for (KeyPersonInfo keyPerson : periodInfo.getKeyPersons()) {
+                  if(keyPerson.getRole().equals(NID_PD_PI) || hasPersonnelBudget(keyPerson,periodInfo.getBudgetPeriod())){
                     KeyPersonDataType keyPersonDataType = KeyPersonDataType.Factory.newInstance();
                     keyPersonDataType.setName(globLibV20Generator.getHumanNameDataType(keyPerson));
                     if(keyPerson.getKeyPersonRole()!=null){
@@ -1579,11 +1580,12 @@ public class RRFedNonFedBudget10V1_1Generator extends RRFedNonFedBudgetBaseGener
                         keyPersonDataType.setProjectRole(keyPerson.getRole());
                     }
                     keyPersonDataType.setCompensation(getCompensation(keyPerson));
-                    keyPersonDataTypeArray[keyPersonCount] = keyPersonDataType;
+                    keyPersonList.add(keyPersonDataType);
                     keyPersonCount++;
                     LOG.info("keyPersonCount:" + keyPersonCount);
                 }
-                keyPersons.setKeyPersonArray(keyPersonDataTypeArray);
+               }
+                keyPersons.setKeyPersonArray(keyPersonList.toArray(new KeyPersonDataType[0]));
             }
             SummaryDataType summary = SummaryDataType.Factory.newInstance();
             if (periodInfo.getTotalFundsKeyPersons() != null) {
