@@ -30,6 +30,9 @@ import java.util.Map;
 import javax.xml.transform.Source;
 import javax.xml.transform.stream.StreamSource;
 
+import org.kuali.kra.budget.document.BudgetDocument;
+import org.kuali.kra.budget.nonpersonnel.BudgetLineItem;
+import org.kuali.kra.budget.personnel.BudgetPersonnelDetails;
 import org.kuali.kra.infrastructure.KraServiceLocator;
 import org.kuali.kra.printing.PrintingException;
 import org.kuali.kra.printing.print.GenericPrintable;
@@ -44,7 +47,9 @@ import org.kuali.kra.s2s.generator.bo.EquipmentInfo;
 import org.kuali.kra.s2s.generator.bo.KeyPersonInfo;
 import org.kuali.kra.s2s.service.S2SBudgetCalculatorService;
 import org.kuali.kra.s2s.service.S2SUtilService;
+import org.kuali.rice.kew.exception.WorkflowException;
 import org.kuali.rice.kns.service.BusinessObjectService;
+import org.kuali.rice.kns.service.DocumentService;
 
 /**
  * This abstract class has methods that are common to all the versions of
@@ -57,6 +62,7 @@ public abstract class RRBudgetBaseGenerator extends S2SBaseFormGenerator {
     protected S2SBudgetCalculatorService s2sBudgetCalculatorService;
 	protected S2SUtilService s2sUtilService;
 	protected BusinessObjectService businessObjectService;
+	private DocumentService documentService ;
 	public static final String OTHERCOST_DESCRIPTION = "Other";
 	public static final String OTHERPERSONNEL_POSTDOC = "PostDoc";
 	public static final String OTHERPERSONNEL_GRADUATE = "Grad";
@@ -245,5 +251,54 @@ public abstract class RRBudgetBaseGenerator extends S2SBaseFormGenerator {
         }
         return false;
     }
+   
+   /**
+    * This method check whether the key person has a personnel budget  
+    * 
+    * @param keyPerson
+    *            (KeyPersonInfo) key person entry.
+    * @param period
+    *            budget period
+    * @return true if key person has personnel budget else false.
+    */
+   protected Boolean hasPersonnelBudget(KeyPersonInfo keyPerson,int period){
+       BudgetDocument budgetDocument = null;
+       List<BudgetLineItem> budgetLineItemList = new ArrayList<BudgetLineItem>();
+       List<BudgetPersonnelDetails> budgetPersonnelDetailsList = new ArrayList<BudgetPersonnelDetails>();
+       
+       try {
+           budgetDocument = (BudgetDocument) getDocumentService()
+           .getByDocumentHeaderId(pdDoc.getBudgetDocumentVersion(0).getDocumentNumber());
+           }
+           catch (WorkflowException e) {
+               e.printStackTrace();
+           }           
+          budgetLineItemList = budgetDocument.getBudget().getBudgetPeriod(period-1).getBudgetLineItems();
+          
+          for(BudgetLineItem budgetLineItem : budgetLineItemList) {
+            for(BudgetPersonnelDetails budgetPersonnelDetails : budgetLineItem.getBudgetPersonnelDetailsList()){                 
+               if( budgetPersonnelDetails.getPersonId().equals(keyPerson.getPersonId())){
+                   return true;
+               }                 
+            }
+          }        
+       return false;       
+   }
+   
+   /**
+    * @return the documentService
+    */
+   public DocumentService getDocumentService() {
+       return KraServiceLocator.getService(DocumentService.class);
+   }
+
+   /**
+    * @param documentService
+    *            the documentService to set
+    */
+   public void setDocumentService(DocumentService documentService) {
+       this.documentService = documentService;
+   }
+
 
 }
