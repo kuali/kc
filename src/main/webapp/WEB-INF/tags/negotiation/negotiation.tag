@@ -203,7 +203,8 @@
 											'na',
 											'na',
 											'document.negotiationList[0].unAssociatedDetail.piPersonId');"
-		                    	readonly="${readOnly}"/>
+		                    	readonly="${readOnly}"
+		                    	tabindex="15"/>
 	                    
 	                        ${kfunc:registerEditableProperty(KualiForm, "document.negotiationList[0].unAssociatedDetail.piPersonId")}
 		                    <html:hidden property="document.negotiationList[0].unAssociatedDetail.piPersonId" styleId="document.negotiationList[0].unAssociatedDetail.piPersonId"/>
@@ -248,7 +249,8 @@
 											'na',
 											'na',
 											'document.negotiationList[0].unAssociatedDetail.contactAdminPersonId');"
-		                    	readonly="${readOnly}"/>
+		                    	readonly="${readOnly}"
+		                    	tabindex="17"/>
 	                    
 	                        ${kfunc:registerEditableProperty(KualiForm, "document.negotiationList[0].unAssociatedDetail.contactAdminPersonId")}
 		                    <html:hidden property="document.negotiationList[0].unAssociatedDetail.contactAdminPersonId" styleId="document.negotiationList[0].unAssociatedDetail.contactAdminPersonId"/>
