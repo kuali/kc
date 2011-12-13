@@ -544,57 +544,22 @@ public class TimeAndMoneyForm extends KraTransactionalDocumentFormBase {
         this.nextNodeMap = nextNodeMap;
     }
 
+    
     public String getAwardHierarchy() throws ParseException {
         awardHierarchy = "";
-        TimeAndMoneyDocument timeAndMoneyDocument = this.getTimeAndMoneyDocument();
         if(StringUtils.isBlank(awardNumber)){
-            if(timeAndMoneyDocument.getRootAwardNumber() == null || timeAndMoneyDocument.getRootAwardNumber().equals("undefined")) {
-                updateDocumentFromSession(timeAndMoneyDocument);
-            }
-            awardNumber = timeAndMoneyDocument.getRootAwardNumber();
+            awardNumber = this.getTimeAndMoneyDocument().getRootAwardNumber();
         }
         
         if (awardNumber!=null && StringUtils.isNotBlank(addRA) && addRA.equals("E")){
-            setAwardHierarchy(getAwardHierarchyUIService().getSubAwardHierarchiesForTreeViewTandM(awardNumber, currentAwardNumber, currentSeqNumber));
+            setAwardHierarchy(getAwardHierarchyUIService().getSubAwardHierarchiesForTreeView(awardNumber, currentAwardNumber, currentSeqNumber));
         } else if (awardNumber!=null && StringUtils.isNotBlank(addRA) && addRA.equals("N")){
             setAwardHierarchy(getAwardHierarchyUIService().getRootAwardNode(awardNumber, currentAwardNumber, currentSeqNumber));
         }
         return awardHierarchy;
     }
     
-    /*
-     * This method...
-     * @param doc
-     */
-    private void updateDocumentFromSession(TimeAndMoneyDocument doc) {
-        if(doc.getAwardHierarchyNodes()==null || doc.getAwardHierarchyNodes().size()==0 || doc.getRootAwardNumber().equals("undefined") || doc.getRootAwardNumber() == null){
-            if(GlobalVariables.getUserSession().retrieveObject(GlobalVariables.getUserSession().getKualiSessionId()+Constants.TIME_AND_MONEY_DOCUMENT_STRING_FOR_SESSION)!=null){
-                TimeAndMoneyDocument document = (TimeAndMoneyDocument)GlobalVariables.getUserSession().retrieveObject(GlobalVariables.getUserSession().getKualiSessionId()+Constants.TIME_AND_MONEY_DOCUMENT_STRING_FOR_SESSION);
-                doc.setAwardHierarchyItems(document.getAwardHierarchyItems());
-                doc.setAwardHierarchyNodes(document.getAwardHierarchyNodes());
-                doc.setRootAwardNumber(getRootAwardFromHierarchyNodes(document));
-            }else {
-                throw new RuntimeException("Can't Retrieve Time And Money Document from Session");
-            }
-        }
-    }
     
-    
-    /**
-     * This method grabs the root award number from the hierarchy nodes since it is not set when add the T&M document to the session data.
-     * 
-     * @param document
-     * @return
-     */
-    private String getRootAwardFromHierarchyNodes(TimeAndMoneyDocument document) {
-        String rootAwardNumber = null;
-        for(Entry<String, AwardHierarchyNode> awardHierarchyNode : document.getAwardHierarchyNodes().entrySet()){
-            if(awardHierarchyNode != null) {
-               rootAwardNumber = awardHierarchyNode.getValue().getRootAwardNumber();
-            }
-        }
-        return rootAwardNumber;
-    }
     
     public void setAwardHierarchy(String awardHierarchy) {
         this.awardHierarchy = awardHierarchy;
