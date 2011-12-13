@@ -273,6 +273,7 @@ public class NegotiationForm extends KraTransactionalDocumentFormBase {
         sb.append("var statusField = document.getElementById('document.negotiationList[0].negotiationStatusId');").append(newLine);
         sb.append("var dateField = document.getElementById('document.negotiationList[0].negotiationEndDate');").append(newLine);
         sb.append("var statusFieldSelectedVal = statusField.options[statusField.selectedIndex].value;").append(newLine);
+        sb.append("var dateFieldPicker = document.getElementById('document.negotiationList[0].negotiationEndDate_datepicker');").append(newLine);
         
         sb.append("if (");
         int currentIndex = 0;
@@ -291,8 +292,10 @@ public class NegotiationForm extends KraTransactionalDocumentFormBase {
         sb.append("  if (dateField.value == '' && doUpdateDate) {").append(newLine);
         sb.append("    var currentTime = new Date();").append(newLine);
         sb.append("    dateField.value = currentTime.getMonth() + 1 + \"/\" +  currentTime.getDate() + \"/\" + currentTime.getFullYear();").append(newLine);
+        sb.append("  dateFieldPicker.style.display='block';").append(newLine);
         sb.append("  }").append(newLine).append("} else {").append(newLine);
         sb.append("  dateField.disabled = true;").append(newLine).append("  dateField.value = '';").append(newLine);
+        sb.append("  dateFieldPicker.style.display='none';").append(newLine);
         sb.append("}").append(newLine).append("}").append(newLine);
         sb.append("manageStatusEndDate(false);");
 
@@ -367,7 +370,6 @@ public class NegotiationForm extends KraTransactionalDocumentFormBase {
             sb.append("This Negotiation is already associated with ").append(associatedType).append(" number ").append(docNumber);
             sb.append(".  Selecting a different ").append(associatedType).append(" document will disassociate this Negotiation with "); 
             sb.append(docNumber).append(".  Are you sure?").append("')\">");
-            System.err.println("  " + sb.toString());
             return sb.toString();
             
         } else {

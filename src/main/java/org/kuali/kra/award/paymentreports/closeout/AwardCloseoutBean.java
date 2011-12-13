@@ -81,7 +81,6 @@ public class AwardCloseoutBean implements Serializable {
      * @return
      */
     public boolean addAwardCloseoutItem() {
-        System.err.println("Got here addAwardCloseoutItem");
         AddAwardCloseoutRuleEvent event = generateAddEvent();
         boolean success = getRuleService().applyRules(event);
         getNewAwardCloseout().setCloseoutReportCode(this.getCloseoutReportTypeUserDefined());

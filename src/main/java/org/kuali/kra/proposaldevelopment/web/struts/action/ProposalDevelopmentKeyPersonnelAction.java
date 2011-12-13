@@ -835,7 +835,6 @@ public class ProposalDevelopmentKeyPersonnelAction extends ProposalDevelopmentAc
         ProposalDevelopmentDocument document = pdform.getDocument();
         
         final String formProperty = getFormProperty(request,"updateAnswerToNewVersion");
-        System.err.println("formProperty: " + formProperty);
         
         if (StringUtils.contains(formProperty, ".proposalPersonQuestionnaireHelpers[")) {
             int selectedPersonIndex = Integer.parseInt(formProperty.substring(36, formProperty.length()-1));

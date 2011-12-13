@@ -138,7 +138,6 @@ public class InstitutionalProposalAddCostShareRuleImpl extends CostShareRuleRese
     private boolean validateAmount(KualiDecimal commitmentAmount) {
         boolean isValid = true;
         String commitmentAmountField = this.fieldStarter + ".amount";
-        System.err.println("commitmentAmountField: " + commitmentAmountField);
         if (commitmentAmount == null) {
             isValid = false;
             if (displayNullFieldErrors) {
