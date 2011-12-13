@@ -308,8 +308,10 @@ public class NegotiationServiceImpl implements NegotiationService {
     public List<NegotiationActivityHistoryLineBean> getNegotiationActivityHistoryLineBeans(List<NegotiationActivity> activities) {
         List<NegotiationActivityHistoryLineBean> beans = new ArrayList<NegotiationActivityHistoryLineBean>();
         for (NegotiationActivity activity : activities) {
-            NegotiationActivityHistoryLineBean bean = new NegotiationActivityHistoryLineBean(activity);
-            beans.add(bean);
+            if (activity.getLocation() != null && activity.getActivityType() != null) {
+                NegotiationActivityHistoryLineBean bean = new NegotiationActivityHistoryLineBean(activity);
+                beans.add(bean);
+            }
         }
         Collections.sort(beans);
         
