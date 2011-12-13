@@ -130,7 +130,7 @@ public class NegotiationDaoOjb extends LookupDaoOjb implements NegotiationDao {
             addListToList(result, getNegotiationsLinkedToProposal(fieldValues, associationDetails));
             addListToList(result, getNegotiationsLinkedToProposalLog(fieldValues, associationDetails));
             addListToList(result, getNegotiationsUnassociated(fieldValues, associationDetails));
-            addListToList(result, getNegotiationsLinedToSubAward(fieldValues, associationDetails));
+            addListToList(result, getNegotiationsLinkedToSubAward(fieldValues, associationDetails));
         } else {
             result = findCollectionBySearchHelper(Negotiation.class, fieldValues, false, false, null);
         }
@@ -307,8 +307,14 @@ public class NegotiationDaoOjb extends LookupDaoOjb implements NegotiationDao {
         return result;
     } 
     
-    protected List<Negotiation> getNegotiationsLinedToSubAward(Map<String, String> negotiationValues, Map<String, String> associatedValues) {
-        System.err.println("Got here to getNegotiationsLinedToSubAward");
+    /**
+     * 
+     * This method returns Negotiations linked to subawards based on search.
+     * @param negotiationValues
+     * @param associatedValues
+     * @return
+     */
+    protected List<Negotiation> getNegotiationsLinkedToSubAward(Map<String, String> negotiationValues, Map<String, String> associatedValues) {
         Map<String, String> values = transformMap(associatedValues, subAwardTransform);
         if (values == null) {
             return new ArrayList<Negotiation>();

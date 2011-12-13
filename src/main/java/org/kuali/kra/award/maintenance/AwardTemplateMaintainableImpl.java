@@ -76,7 +76,6 @@ public class AwardTemplateMaintainableImpl extends KraMaintainableImpl {
     public void processBeforeAddLine(String colName, Class colClass, BusinessObject addBO) {
         if (colName.contains("[") && colName.contains("]")) {
             String numString = (String) colName.subSequence(colName.indexOf("[") + 1, colName.indexOf("]"));
-            System.err.println("numString: " + numString);
             try {
                 this.columnNumber = Integer.parseInt(numString);
             } catch (Exception e) {
@@ -154,7 +153,6 @@ public class AwardTemplateMaintainableImpl extends KraMaintainableImpl {
                 // add error, one of the fields has to be selected
                 addLine.setRolodexNameOrganization("");
                 String errorKey = ERROR_KEY_PREFIX + this.columnNumber + "].awardTemplateReportTermRecipients.contactTypeCodeAndRolodexId";
-                System.err.println("errorKey:     " + errorKey);
                 errorReporter.reportError(
                         errorKey, 
                         KeyConstants.ERROR_ONE_FIELD_MUST_BE_SELECTED);
