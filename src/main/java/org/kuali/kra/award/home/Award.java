@@ -3551,4 +3551,9 @@ public class Award extends KraPersistableBusinessObjectBase implements KeywordsM
     public String getSubAwardRequisitionerUnitName() {
         return EMPTY_STRING;
     }
+
+    @Override
+    public String getSubAwardRequisitionerId() {
+        return EMPTY_STRING;
+    }
 }
