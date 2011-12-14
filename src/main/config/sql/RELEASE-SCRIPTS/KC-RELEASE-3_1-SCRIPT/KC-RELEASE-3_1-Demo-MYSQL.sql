@@ -2,12 +2,12 @@
 \. ./../../current_mysql/3.1/dml/KC_DML_01_COST_ELEMENT_0TSD.sql
 \. ./../../current_mysql/3.1/dml/KC_DML_01_CUSTOM_ATTRIBUTE_0TSD.sql
 \. ./../../current_mysql/3.1/dml/KC_DML_01_INV_CREDIT_TYPE_0TSD.sql
-\. ./../../current_mysql/3.1/dml/KC_DML_01_JOB_CODE_00SD.sql
+\. ./../../current_mysql/3.1/dml/KC_DML_01_JOB_CODE_0TSD.sql
 \. ./../../current_mysql/3.1/dml/KC_DML_01_KRA_USER_0TSD.sql
 \. ./../../current_mysql/3.1/dml/KC_DML_01_PERSON_EXT_T_0TSD.sql
 \. ./../../current_mysql/3.1/dml/KC_DML_01_PERSON_TRAINING_0TSD.sql
 \. ./../../current_mysql/3.1/dml/KC_DML_01_QUESTIONNAIRE_0TSD.sql
-\. ./../../current_mysql/3.1/dml/KC_DML_01_SCIENCE_KEYWORD_00SD.sql
+\. ./../../current_mysql/3.1/dml/KC_DML_01_SCIENCE_KEYWORD_0TSD.sql
 \. ./../../current_mysql/3.1/dml/KC_DML_01_UNIT_0TSD.sql
 \. ./../../current_mysql/3.1/dml/KC_DML_01_VALID_SP_REV_APPROVAL_0TSD.sql
 \. ./../../current_mysql/3.1/dml/KC_DML_02_COMMITTEE_0TSD.sql
@@ -27,9 +27,9 @@
 \. ./../../current_mysql/3.1/dml/KC_DML_03_INSTITUTE_RATES_0TSD.sql
 \. ./../../current_mysql/3.1/dml/KC_DML_03_ORGANIZATION_0TSD.sql
 \. ./../../current_mysql/3.1/dml/KC_DML_03_SPONSOR_FORMS_00SD.sql
-\. ./../../current_mysql/3.1/dml/KC_DML_03_VALID_CE_JOB_CODES_00SD.sql
-\. ./../../current_mysql/3.1/dml/KC_DML_03_VALID_CE_RATE_TYPES_00SD.sql
-\. ./../../current_mysql/3.1/dml/KC_DML_03_VALID_RATES_00SD.sql
+\. ./../../current_mysql/3.1/dml/KC_DML_03_VALID_CE_JOB_CODES_0TSD.sql
+\. ./../../current_mysql/3.1/dml/KC_DML_03_VALID_CE_RATE_TYPES_0TSD.sql
+\. ./../../current_mysql/3.1/dml/KC_DML_03_VALID_RATES_0TSD.sql
 \. ./../../current_mysql/3.1/dml/KC_DML_04_AWARD_TEMPLATE_COMMENTS_0TSD.sql
 \. ./../../current_mysql/3.1/dml/KC_DML_04_AWARD_TEMPLATE_CONTACT_0TSD.sql
 \. ./../../current_mysql/3.1/dml/KC_DML_04_AWARD_TEMPLATE_REPORT_TERMS_0TSD.sql

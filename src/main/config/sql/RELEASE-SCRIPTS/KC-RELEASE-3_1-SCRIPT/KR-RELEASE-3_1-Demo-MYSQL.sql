@@ -11,7 +11,6 @@
 \. ./../../current_mysql/3.1/dml/KR_DML_03_KRIM_ENTITY_PHONE_T_0TSD.sql
 \. ./../../current_mysql/3.1/dml/KR_DML_04_KREW_ACTN_TKN_T_0TSD.sql
 \. ./../../current_mysql/3.1/dml/KR_DML_04_KREW_DOC_HDR_CNTNT_T_0TSD.sql
-\. ./../../current_mysql/3.1/dml/KR_DML_04_KREW_RTE_BRCH_T_0TSD.sql
 \. ./../../current_mysql/3.1/dml/KR_DML_04_KRIM_GRP_MBR_T_0TSD.sql
 \. ./../../current_mysql/3.1/dml/KR_DML_04_KRIM_ROLE_MBR_T_0TSD.sql
 \. ./../../current_mysql/3.1/dml/KR_DML_05_KREW_ACTN_RQST_T_0TSD.sql
