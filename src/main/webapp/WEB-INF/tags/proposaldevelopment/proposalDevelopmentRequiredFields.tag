@@ -25,7 +25,7 @@
 	<div class="tab-container" align="center">
     	<h3>
     		<span class="subhead-left">Required Fields for Saving Document</span>
-    		<span class="subhead-right"><kul:help businessObjectClassName="org.kuali.kra.proposaldevelopment.bo.ProposalType" altText="help"/></span>
+    		<span class="subhead-right"><kul:help parameterNamespace="KC-PD" parameterDetailType="Document" parameterName="requiredFieldForSavingDocumentHelpUrl" altText="help"/></span>
         </h3>
         
         <table cellpadding=0 cellspacing=0 summary="">
@@ -97,7 +97,7 @@
          <br>
             <h3>
               <span class="subhead-left">Institutional Fields Conditionally Required</span>
-              <span class="subhead-right"><kul:help businessObjectClassName="org.kuali.kra.proposaldevelopment.bo.ProposalType" altText="help"/></span>
+        		<span class="subhead-right"><kul:help parameterNamespace="KC-PD" parameterDetailType="Document" parameterName="institutionalFieldsConditionallyRequiredHelpUrl" altText="help"/></span>
             </h3>
             
             <table summary="" cellpadding="0" cellspacing="0">
