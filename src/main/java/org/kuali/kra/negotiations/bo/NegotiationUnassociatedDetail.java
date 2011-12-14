@@ -502,4 +502,10 @@ public class NegotiationUnassociatedDetail extends KraPersistableBusinessObjectB
     public String getSubAwardRequisitionerUnitName() {
         return EMPTY_STRING;
     }
+
+
+    @Override
+    public String getSubAwardRequisitionerId() {
+        return EMPTY_STRING;
+    }
 }

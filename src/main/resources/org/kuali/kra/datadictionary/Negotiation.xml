@@ -40,6 +40,9 @@
         <ref bean="Negotiation-associatedNegotiable.leadUnitNumber"/>
         <ref bean="Negotiation-associatedNegotiable.leadUnitName"/>
         <ref bean="Negotiation-associatedNegotiable.associatedDocumentId"/>
+        <ref bean="Negotiation-associatedNegotiable.subAwardRequisitionerName"/>
+        <ref bean="Negotiation-associatedNegotiable.subAwardRequisitionerId"/>
+        <ref bean="Negotiation-associatedNegotiable.subAwardRequisitionerUnitNumber"/>
         <ref bean="Negotiation-activities.followupDate"/>
       </list>
     </property>
@@ -273,6 +276,21 @@
   	<property name="name" value="associatedNegotiable.associatedDocumentId" />
   </bean>
   
+  <bean id="Negotiation-associatedNegotiable.subAwardRequisitionerName" parent="Negotiation-associatedNegotiable.subAwardRequisitionerName-parentBean"/>
+  <bean id="Negotiation-associatedNegotiable.subAwardRequisitionerName-parentBean" parent="NegotiationUnassociatedDetail-subAwardRequisitionerName">
+  	<property name="name" value="associatedNegotiable.subAwardRequisitionerName" />
+  </bean>
+  
+  <bean id="Negotiation-associatedNegotiable.subAwardRequisitionerId" parent="Negotiation-associatedNegotiable.subAwardRequisitionerId-parentBean"/>
+  <bean id="Negotiation-associatedNegotiable.subAwardRequisitionerId-parentBean" parent="SubAward-requisitionerId">
+  	<property name="name" value="associatedNegotiable.subAwardRequisitionerId" />
+  </bean>
+  
+  <bean id="Negotiation-associatedNegotiable.subAwardRequisitionerUnitNumber" parent="Negotiation-associatedNegotiable.subAwardRequisitionerUnitNumber-parentBean"/>
+  <bean id="Negotiation-associatedNegotiable.subAwardRequisitionerUnitNumber-parentBean" parent="NegotiationUnassociatedDetail-subAwardRequisitionerUnitNumber">
+  	<property name="name" value="associatedNegotiable.subAwardRequisitionerUnitNumber" />
+  </bean>
+  
   <bean id="Negotiation-negotiationAge" parent="Negotiation-negotiationAge-parentBean" />
   <bean id="Negotiation-negotiationAge-parentBean" abstract="true" parent="AttributeDefinition">
     <property name="name" value="negotiationAge" />
@@ -367,6 +385,7 @@
 		    <bean p:attributeName="associatedDocumentId" parent="FieldDefinition" />
 		    <bean p:attributeName="negotiationAge" parent="FieldDefinition" />
 		    <bean p:attributeName="associatedNegotiable.piName" parent="FieldDefinition" />
+		    <bean p:attributeName="associatedNegotiable.subAwardRequisitionerId" parent="FieldDefinition" />
 		    <bean p:attributeName="associatedNegotiable.sponsorCode" parent="FieldDefinition" />
 		    <bean p:attributeName="associatedNegotiable.sponsorName" parent="FieldDefinition" />
 		    <bean p:attributeName="associatedNegotiable.title" parent="FieldDefinition" />
@@ -377,6 +396,7 @@
 		    <bean p:attributeName="associatedNegotiable.negotiableProposalTypeCode" parent="FieldDefinition" />
 		    <bean p:attributeName="associatedNegotiable.leadUnitNumber" parent="FieldDefinition" />
 		    <bean p:attributeName="associatedNegotiable.leadUnitName" parent="FieldDefinition" />
+		    <!-- <bean p:attributeName="associatedNegotiable.subAwardRequisitionerUnitNumber" parent="FieldDefinition" /> -->
 		    <bean p:attributeName="activities.followupDate" parent="FieldDefinition" />
 		    
 		  </list>
@@ -388,6 +408,7 @@
 		    <bean p:attributeName="associatedNegotiable.associatedDocumentId" parent="FieldDefinition" />
 		    <bean p:attributeName="negotiationAge" parent="FieldDefinition" />
 		    <bean p:attributeName="associatedNegotiable.piName" parent="FieldDefinition" />
+		    <bean p:attributeName="associatedNegotiable.subAwardRequisitionerName" parent="FieldDefinition" />
 		    <bean p:attributeName="associatedNegotiable.sponsorCode" parent="FieldDefinition" />
 		    <bean p:attributeName="associatedNegotiable.sponsorName" parent="FieldDefinition" />
 		    <bean p:attributeName="associatedNegotiable.title" parent="FieldDefinition" />
@@ -396,6 +417,7 @@
 		    <bean p:attributeName="negotiationStatus.description" parent="FieldDefinition" />
 		    <bean p:attributeName="associatedNegotiable.negotiableProposalType.description" parent="FieldDefinition" />
 		    <bean p:attributeName="associatedNegotiable.leadUnitNumber" parent="FieldDefinition" />
+		    <!-- <bean p:attributeName="associatedNegotiable.subAwardRequisitionerUnitNumber" parent="FieldDefinition" /> -->
 		    <bean p:attributeName="associatedNegotiable.leadUnitName" parent="FieldDefinition" />
 
 		  </list>

@@ -754,5 +754,10 @@ public class SubAward extends KraPersistableBusinessObjectBase implements Permis
     public String getSubAwardRequisitionerUnitName() {
         return this.getUnit() != null ? this.getUnit().getUnitName() : EMPTY_STRING;
     }
+
+    @Override
+    public String getSubAwardRequisitionerId() {
+        return this.getRequisitionerId();
+    }
     
 }

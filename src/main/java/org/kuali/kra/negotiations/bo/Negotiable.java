@@ -156,6 +156,13 @@ public interface Negotiable {
     
     /**
      * 
+     * This method returns the Requisitioner's ID if it is a subaward, otherwise returns an empty string.
+     * @return
+     */
+    String getSubAwardRequisitionerId();
+    
+    /**
+     * 
      * This method returns the Requisitioner's Unit Number if it is a subaward, otherwise returns an empty string.
      * @return
      */

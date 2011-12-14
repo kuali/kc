@@ -32,6 +32,7 @@
         <ref bean="NegotiationUnassociatedDetail-negotiableProposalTypeCode" />
         <ref bean="NegotiationUnassociatedDetail-subAwardRequisitionerName" />
         <ref bean="NegotiationUnassociatedDetail-subAwardRequisitionerUnitName" />
+        <ref bean="NegotiationUnassociatedDetail-subAwardRequisitionerUnitNumber" />
       </list>
     </property>
   </bean>
@@ -218,6 +219,15 @@
     <property name="shortLabel" value="Requisitioner Unit" />
     <property name="summary" value="Requisitioner Unit" />
     <property name="description" value="Requisitioner Unit" />
+  </bean>
+  
+  <bean id="NegotiationUnassociatedDetail-subAwardRequisitionerUnitNumber" parent="NegotiationUnassociatedDetail-subAwardRequisitionerUnitNumber-parentBean" />
+  <bean id="NegotiationUnassociatedDetail-subAwardRequisitionerUnitNumber-parentBean" abstract="true" parent="NegotiationUnassociatedDetail-leadUnitNumber">
+  	<property name="name" value="subAwardRequisitionerUnitNumber" />
+    <property name="label" value="Requisitioner Unit Number" />
+    <property name="shortLabel" value="Requisitioner Unit Number" />
+    <property name="summary" value="Requisitioner Unit Number" />
+    <property name="description" value="Requisitioner Unit Number" />
   </bean>
   
   <bean id="NegotiationUnassociatedDetail-inquiryDefinition" parent="NegotiationUnassociatedDetail-inquiryDefinition-parentBean" />
