@@ -32,6 +32,7 @@ import org.kuali.kra.proposaldevelopment.bo.ProposalSite;
 import org.kuali.kra.proposaldevelopment.document.ProposalDevelopmentDocument;
 import org.kuali.kra.s2s.generator.S2SBaseFormGenerator;
 import org.kuali.kra.s2s.util.S2SConstants;
+import org.kuali.kra.s2s.validator.S2SErrorHandler;
 
 /**
  * 
@@ -113,7 +114,10 @@ public class PerformanceSiteV1_4Generator extends S2SBaseFormGenerator {
                         siteLocationDataType.setDUNSNumber(organization.getDunsNumber());
                     }
                     String congressionalDistrict = getCongressionalDistrict(proposalSite);
-                    if (congressionalDistrict != null) {
+                    if (congressionalDistrict == null) {
+                        getAuditErrors().add(S2SErrorHandler.getError(S2SConstants.CONGRESSIONAL_DISTRICT));
+                        siteLocationDataType.setCongressionalDistrictProgramProject(null);
+                    }else{
                         siteLocationDataType.setCongressionalDistrictProgramProject(congressionalDistrict);
                     }
                 }
