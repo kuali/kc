@@ -23,7 +23,7 @@
     
     <property name="documentTypeName" value="NotificationTypeMaintenanceDocument"/>
     <property name="businessRulesClass" value="org.kuali.kra.common.notification.rules.NotificationTypeMaintenanceDocumentRule"/>
-    <property name="documentAuthorizerClass" value="org.kuali.rice.kns.document.authorization.MaintenanceDocumentAuthorizerBase"/>
+    <property name="documentAuthorizerClass" value="org.kuali.kra.common.notification.NotificationMaintenanceDocumentAuthorizer"/>
 
     <property name="webScriptFiles">
       <list>

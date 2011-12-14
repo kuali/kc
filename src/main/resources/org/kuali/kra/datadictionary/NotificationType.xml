@@ -215,6 +215,7 @@
     <bean id="NotificationType-lookupDefinition" parent="NotificationType-lookupDefinition-parentBean" />
     <bean id="NotificationType-lookupDefinition-parentBean" abstract="true" parent="LookupDefinition">
         <property name="title" value="Notification Lookup" />
+        <property name="lookupableID" value="notificationLookupable" />
         <property name="menubar" value="&lt;a href=&quot;index.jsp&quot;&gt;Main&lt;/a&gt;" />
         <property name="defaultSort" >
             <bean parent="SortDefinition" />
