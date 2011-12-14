@@ -39,13 +39,15 @@ import org.kuali.rice.kim.service.RoleService;
  * 
  * @param <T> the notification context
  */
-public abstract class NotificationHelperBase<T extends NotificationContext> implements Serializable {
+public class NotificationHelper<T extends NotificationContext> implements Serializable {
 
-    private static final long serialVersionUID = 7775917415827067116L;
+    private static final long serialVersionUID = -3405035537522284062L;
     
     private NotificationTypeRecipient newNotificationRecipient;
     private List<NotificationTypeRecipient> notificationRecipients;
     private KcNotification notification;
+    
+    private T notificationContext;
     
     private String newRoleId;
     private String newPersonId;
@@ -59,7 +61,7 @@ public abstract class NotificationHelperBase<T extends NotificationContext> impl
     /**
      * Constructs a NotificationHelperBase.
      */
-    public NotificationHelperBase() {
+    public NotificationHelper() {
         this.setNewNotificationRecipient(new NotificationTypeRecipient());
         this.setNotificationRecipients(new ArrayList<NotificationTypeRecipient>());
         this.setNotification(new KcNotification());
@@ -87,6 +89,14 @@ public abstract class NotificationHelperBase<T extends NotificationContext> impl
     
     public void setNotification(KcNotification notification) {
         this.notification = notification;
+    }
+    
+    public T getNotificationContext() {
+        return notificationContext;
+    }
+    
+    public void setNotificationContext(T notificationContext) {
+        this.notificationContext = notificationContext;
     }
 
     public String getNewRoleId() {
@@ -133,20 +143,15 @@ public abstract class NotificationHelperBase<T extends NotificationContext> impl
         this.newPersonId = null;
         this.newRolodexId = newRolodexId;
     }
-
-    /**
-     * Returns the context for this notification.
-     * 
-     * @return the context for this notification
-     */
-    public abstract T getContext();
     
     /**
      * Initializes the helper with the default values from the Notification Type.
+     * 
+     * @param context the notification context
      */
-    public void initializeDefaultValues() {
+    public void initializeDefaultValues(T context) {
         getNotificationRecipients().clear();
-        NotificationType notificationType = getNotificationService().getNotificationType(getContext());
+        NotificationType notificationType = getNotificationService().getNotificationType(context);
         if (notificationType != null) {
             for (NotificationTypeRecipient notificationRecipient : notificationType.getNotificationTypeRecipients()) {
                 notificationRecipient.setFullName(notificationRecipient.getRoleName());
@@ -154,7 +159,9 @@ public abstract class NotificationHelperBase<T extends NotificationContext> impl
             }
         }
         
-        setNotification(getNotificationService().createNotification(getContext()));
+        setNotification(getNotificationService().createNotification(context));
+        
+        setNotificationContext(context);
     }
     
     /**
@@ -186,12 +193,14 @@ public abstract class NotificationHelperBase<T extends NotificationContext> impl
     /**
      * Determines whether the ad-hoc notification editor for this context should be shown.
      * 
+     * @param context the notification context
+     * 
      * @return true if the ad-hoc notification editor should be shown, false otherwise
      */
-    public boolean getPromptUserForNotificationEditor() {
+    public boolean getPromptUserForNotificationEditor(T context) {
         boolean promptUser = false;
         
-        NotificationType notificationType = getNotificationService().getNotificationType(getContext());
+        NotificationType notificationType = getNotificationService().getNotificationType(context);
         if (notificationType != null && notificationType.getSendNotification() && notificationType.getPromptUser()) {
             promptUser = true;
         }
@@ -203,7 +212,7 @@ public abstract class NotificationHelperBase<T extends NotificationContext> impl
      * Sends the ad-hoc notification.
      */
     public void sendNotification() {
-        getNotificationService().sendNotification(getContext(), notification, notificationRecipients);
+        getNotificationService().sendNotification(notificationContext, notification, notificationRecipients);
     }
 
     public KcNotificationService getNotificationService() {

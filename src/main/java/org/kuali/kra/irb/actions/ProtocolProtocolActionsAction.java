@@ -37,6 +37,7 @@ import org.kuali.kra.bo.CoeusSubModule;
 import org.kuali.kra.committee.bo.Committee;
 import org.kuali.kra.committee.bo.CommitteeSchedule;
 import org.kuali.kra.committee.service.CommitteeService;
+import org.kuali.kra.common.notification.NotificationContext;
 import org.kuali.kra.common.notification.service.KcNotificationService;
 import org.kuali.kra.infrastructure.Constants;
 import org.kuali.kra.infrastructure.KeyConstants;
@@ -129,6 +130,8 @@ import org.kuali.kra.irb.noteattachment.ProtocolAttachmentPersonnel;
 import org.kuali.kra.irb.noteattachment.ProtocolAttachmentProtocol;
 import org.kuali.kra.irb.noteattachment.ProtocolAttachmentService;
 import org.kuali.kra.irb.noteattachment.ProtocolNotepad;
+import org.kuali.kra.irb.notification.IRBNotificationContext;
+import org.kuali.kra.irb.notification.IRBNotificationRenderer;
 import org.kuali.kra.irb.onlinereview.ProtocolReviewAttachment;
 import org.kuali.kra.irb.questionnaire.ProtocolQuestionnaireAuditRule;
 import org.kuali.kra.irb.summary.AttachmentSummary;
@@ -1269,6 +1272,7 @@ public class ProtocolProtocolActionsAction extends ProtocolAction implements Aud
         ActionForward forward = mapping.findForward(Constants.MAPPING_BASIC);
         
         ProtocolForm protocolForm = (ProtocolForm) form;
+        Protocol protocol = protocolForm.getProtocolDocument().getProtocol();
        
         if (!hasDocumentStateChanged(protocolForm)) {
             ProtocolTask task = new ProtocolTask(TaskName.ASSIGN_TO_AGENDA, protocolForm.getProtocolDocument().getProtocol());
@@ -1279,11 +1283,17 @@ public class ProtocolProtocolActionsAction extends ProtocolAction implements Aud
                     saveReviewComments(protocolForm, actionBean.getReviewCommentsBean());
                     recordProtocolActionSuccess("Assign to Agenda");
                     
-                    if (protocolForm.getNotificationHelper().getPromptUserForNotificationEditor()) {
-                        protocolForm.getNotificationHelper().initializeDefaultValues();
+                    org.kuali.kra.irb.actions.ProtocolAction lastAction = protocolForm.getProtocolDocument().getProtocol().getLastProtocolAction();
+                    ProtocolActionType lastActionType = lastAction.getProtocolActionType();
+                    String description = lastActionType.getDescription();
+                    IRBNotificationRenderer renderer = new IRBNotificationRenderer(protocol);
+                    IRBNotificationContext context = new IRBNotificationContext(protocol, ProtocolActionType.ASSIGN_TO_AGENDA, description, renderer);
+                    
+                    if (protocolForm.getNotificationHelper().getPromptUserForNotificationEditor(context)) {
+                        protocolForm.getNotificationHelper().initializeDefaultValues(context);
                         forward = mapping.findForward("protocolNotificationEditor");
                     } else {
-                        getNotificationService().sendNotification(protocolForm.getNotificationHelper().getContext());
+                        getNotificationService().sendNotification(context);
                     }
                 }
             }
