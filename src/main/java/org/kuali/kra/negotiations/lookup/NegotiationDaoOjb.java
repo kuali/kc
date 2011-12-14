@@ -76,6 +76,7 @@ public class NegotiationDaoOjb extends LookupDaoOjb implements NegotiationDao {
         awardTransform.put("negotiableProposalTypeCode", INVALID_COLUMN_NAME);
         awardTransform.put("leadUnitNumber", "unitNumber");
         awardTransform.put("leadUnitName", "leadUnit.unitName");
+        awardTransform.put("subAwardRequisitionerId", INVALID_COLUMN_NAME);
                 
         proposalTransform = new HashMap<String, String>();
         proposalTransform.put("sponsorName", "sponsor.sponsorName");
@@ -83,12 +84,14 @@ public class NegotiationDaoOjb extends LookupDaoOjb implements NegotiationDao {
         proposalTransform.put("leadUnitNumber", "unitNumber");
         proposalTransform.put("leadUnitName", "leadUnit.unitName");
         proposalTransform.put("negotiableProposalTypeCode", "proposalTypeCode");
+        proposalTransform.put("subAwardRequisitionerId", INVALID_COLUMN_NAME);
         
         proposalLogTransform = new HashMap<String, String>();
         proposalLogTransform.put("sponsorName", "sponsor.sponsorName");
         proposalLogTransform.put("leadUnitNumber", "leadUnit");
         proposalLogTransform.put("leadUnitName", "unit.unitName");
         proposalLogTransform.put("negotiableProposalTypeCode", "proposalTypeCode");
+        proposalLogTransform.put("subAwardRequisitionerId", INVALID_COLUMN_NAME);
 
         unassociatedTransform = new HashMap<String, String>();
         unassociatedTransform.put("sponsorName", "sponsor.sponsorName");
@@ -97,6 +100,7 @@ public class NegotiationDaoOjb extends LookupDaoOjb implements NegotiationDao {
         //searching for proposal type
         unassociatedTransform.put("negotiableProposalTypeCode", INVALID_COLUMN_NAME);
         unassociatedTransform.put("leadUnitName", "leadUnit.unitName");
+        unassociatedTransform.put("subAwardRequisitionerId", INVALID_COLUMN_NAME);
         
         subAwardTransform = new HashMap<String, String>();
         subAwardTransform.put("sponsorName", INVALID_COLUMN_NAME);
@@ -105,6 +109,7 @@ public class NegotiationDaoOjb extends LookupDaoOjb implements NegotiationDao {
         subAwardTransform.put("negotiableProposalTypeCode", INVALID_COLUMN_NAME);
         subAwardTransform.put("leadUnitNumber", "unitNumber");
         subAwardTransform.put("leadUnitName", "leadUnit.unitName");
+        subAwardTransform.put("subAwardRequisitionerId", "requisitionerId");
 
         
     }
@@ -315,11 +320,14 @@ public class NegotiationDaoOjb extends LookupDaoOjb implements NegotiationDao {
      * @return
      */
     protected List<Negotiation> getNegotiationsLinkedToSubAward(Map<String, String> negotiationValues, Map<String, String> associatedValues) {
+        System.err.println("Got to getNegotiationsLinkedToSubAward ****************************** ");
+        //List<Negotiation> result = new ArrayList<Negotiation>();
+        
         Map<String, String> values = transformMap(associatedValues, subAwardTransform);
         if (values == null) {
             return new ArrayList<Negotiation>();
         }
-        Criteria criteria = getCollectionCriteriaFromMap(new ProposalLog(), values);
+        Criteria criteria = getCollectionCriteriaFromMap(new SubAward(), values);
         Criteria negotiationCrit = new Criteria();
         ReportQueryByCriteria subQuery = QueryFactory.newReportQuery(SubAward.class, criteria);
         subQuery.setAttributes(new String[] {"subAwardId"});
@@ -327,6 +335,7 @@ public class NegotiationDaoOjb extends LookupDaoOjb implements NegotiationDao {
         negotiationCrit.addEqualTo(NEGOTIATION_TYPE_ATTR, 
                 getNegotiationService().getNegotiationAssociationType(NegotiationAssociationType.SUB_AWARD_ASSOCIATION).getId());
         List<Negotiation> result = this.findCollectionBySearchHelper(Negotiation.class, negotiationValues, false, false, negotiationCrit);
+        
         return result; 
     }
     

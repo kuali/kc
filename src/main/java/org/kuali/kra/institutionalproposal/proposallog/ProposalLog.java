@@ -548,5 +548,10 @@ public class ProposalLog extends KraPersistableBusinessObjectBase implements Neg
     @Override
     public String getSubAwardRequisitionerUnitName() {
         return EMPTY_STRING;
+    }
+
+    @Override
+    public String getSubAwardRequisitionerId() {
+        return EMPTY_STRING;
     }    
 }
