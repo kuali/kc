@@ -1827,4 +1827,9 @@ public class InstitutionalProposal extends KraPersistableBusinessObjectBase impl
     public String getSubAwardRequisitionerUnitName() {
         return EMPTY_STRING;
     }
+
+    @Override
+    public String getSubAwardRequisitionerId() {
+        return EMPTY_STRING;
+    }
 }
