@@ -42,6 +42,7 @@ import org.kuali.kra.negotiations.bo.NegotiationAssociationType;
 import org.kuali.kra.negotiations.bo.NegotiationUnassociatedDetail;
 import org.kuali.kra.negotiations.customdata.NegotiationCustomData;
 import org.kuali.kra.negotiations.document.NegotiationDocument;
+import org.kuali.kra.negotiations.notifications.NegotiationCloseNotificationContext;
 import org.kuali.kra.negotiations.printing.NegotiationActivityPrintType;
 import org.kuali.kra.negotiations.web.struts.form.NegotiationForm;
 import org.kuali.kra.proposaldevelopment.bo.AttachmentDataSource;
@@ -179,12 +180,15 @@ public class NegotiationNegotiationAction extends NegotiationAction {
         }
         copyCustomDataToNegotiation(negotiationForm);
         ActionForward actionForward = super.save(mapping, form, request, response);
+        
+        NegotiationCloseNotificationContext context = new NegotiationCloseNotificationContext(negotiationForm.getNegotiationDocument());
+        
         if (sendCloseNotification && GlobalVariables.getMessageMap().getErrorCount() == 0) {
-            if (negotiationForm.getNotificationHelper().getPromptUserForNotificationEditor()) {
-                negotiationForm.getNotificationHelper().initializeDefaultValues();
+            if (negotiationForm.getNotificationHelper().getPromptUserForNotificationEditor(context)) {
+                negotiationForm.getNotificationHelper().initializeDefaultValues(context);
                 return mapping.findForward("notificationEditor");
             } else {
-                getNotificationService().sendNotification(negotiationForm.getNotificationHelper().getContext());
+                getNotificationService().sendNotification(context);
             }
         }
         if (negotiation.getUnAssociatedDetail() != null) {

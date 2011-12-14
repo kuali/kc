@@ -27,6 +27,7 @@ import java.util.SortedMap;
 
 import org.apache.commons.lang.StringUtils;
 import org.kuali.kra.authorization.KraAuthorizationConstants;
+import org.kuali.kra.common.notification.web.struts.form.NotificationHelper;
 import org.kuali.kra.infrastructure.KraServiceLocator;
 import org.kuali.kra.medusa.MedusaBean;
 import org.kuali.kra.negotiations.bo.Negotiation;
@@ -38,7 +39,7 @@ import org.kuali.kra.negotiations.bo.NegotiationUnassociatedDetail;
 import org.kuali.kra.negotiations.customdata.CustomDataHelper;
 import org.kuali.kra.negotiations.customdata.NegotiationCustomData;
 import org.kuali.kra.negotiations.document.NegotiationDocument;
-import org.kuali.kra.negotiations.notifications.NegotiationNotificationHelper;
+import org.kuali.kra.negotiations.notifications.NegotiationCloseNotificationContext;
 import org.kuali.kra.negotiations.service.NegotiationService;
 import org.kuali.kra.service.TaskAuthorizationService;
 import org.kuali.kra.web.struts.form.KraTransactionalDocumentFormBase;
@@ -52,13 +53,12 @@ import org.kuali.rice.kns.workflow.service.KualiWorkflowDocument;
  * This class holds all the objects required for a negotiation web object.
  */
 public class NegotiationForm extends KraTransactionalDocumentFormBase {
-    
+
+    private static final long serialVersionUID = 6245888664423593163L;
+
+
     private static final org.apache.commons.logging.Log LOG = org.apache.commons.logging.LogFactory.getLog(NegotiationForm.class);
-    
-    /**
-     * Comment for <code>serialVersionUID</code>
-     */
-    private static final long serialVersionUID = -3641922366447898075L;
+
     private final String filterAllActivities = "All";
     private final String filterPendingActivities = "Pending";
 
@@ -68,7 +68,7 @@ public class NegotiationForm extends KraTransactionalDocumentFormBase {
     private NegotiationAssociatedDetailBean negotiationAssociatedDetailBean;
     private CustomDataHelper negotiationCustomDataFormHelper;
     private CustomDataHelper customDataHelper = new CustomDataHelper(this);
-    private NegotiationNotificationHelper notificationHelper;
+    private NotificationHelper<NegotiationCloseNotificationContext> notificationHelper;
     private String filterActivities;
     
     private MedusaBean medusaBean;
@@ -83,7 +83,7 @@ public class NegotiationForm extends KraTransactionalDocumentFormBase {
         negotiationActivityHelper = new NegotiationActivityHelper(this);
         medusaBean = new MedusaBean();
         negotiationCustomDataFormHelper = new CustomDataHelper(this);
-        notificationHelper = new NegotiationNotificationHelper(this);
+        notificationHelper = new NotificationHelper<NegotiationCloseNotificationContext>();
         filterActivities = "All";
         init();
     }
@@ -331,11 +331,11 @@ public class NegotiationForm extends KraTransactionalDocumentFormBase {
         return this.getNegotiationService().getNegotiationActivityHistoryLineBeans(this.getNegotiationDocument().getNegotiation().getActivities());
     }
 
-    public NegotiationNotificationHelper getNotificationHelper() {
+    public NotificationHelper<NegotiationCloseNotificationContext> getNotificationHelper() {
         return notificationHelper;
     }
 
-    public void setNotificationHelper(NegotiationNotificationHelper notificationHelper) {
+    public void setNotificationHelper(NotificationHelper<NegotiationCloseNotificationContext> notificationHelper) {
         this.notificationHelper = notificationHelper;
     }
 

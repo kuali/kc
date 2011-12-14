@@ -28,6 +28,7 @@ import org.kuali.kra.authorization.KraAuthorizationConstants;
 import org.kuali.kra.bo.CoeusModule;
 import org.kuali.kra.bo.CoeusSubModule;
 import org.kuali.kra.common.customattributes.CustomDataForm;
+import org.kuali.kra.common.notification.web.struts.form.NotificationHelper;
 import org.kuali.kra.common.permissions.web.struts.form.PermissionsForm;
 import org.kuali.kra.infrastructure.Constants;
 import org.kuali.kra.infrastructure.KraServiceLocator;
@@ -36,7 +37,7 @@ import org.kuali.kra.irb.actions.ProtocolStatus;
 import org.kuali.kra.irb.actions.submit.ProtocolSubmission;
 import org.kuali.kra.irb.customdata.CustomDataHelper;
 import org.kuali.kra.irb.noteattachment.NotesAttachmentsHelper;
-import org.kuali.kra.irb.notification.NotificationHelper;
+import org.kuali.kra.irb.notification.IRBNotificationContext;
 import org.kuali.kra.irb.onlinereview.OnlineReviewsActionHelper;
 import org.kuali.kra.irb.onlinereview.ProtocolOnlineReviewService;
 import org.kuali.kra.irb.permission.PermissionsHelper;
@@ -70,8 +71,8 @@ import org.kuali.rice.kns.workflow.service.KualiWorkflowDocument;
  * @author Kuali Nervous System Team (kualidev@oncourse.iu.edu)
  */
 public class ProtocolForm extends KraTransactionalDocumentFormBase implements PermissionsForm, CustomDataForm, Auditable {
-    
-    private static final long serialVersionUID = -7633960906991275328L;
+
+    private static final long serialVersionUID = 3736148760520952504L;
     
     /**
      * When true, the online review header will not be displayed when it is disabled.
@@ -88,7 +89,7 @@ public class ProtocolForm extends KraTransactionalDocumentFormBase implements Pe
     private ActionHelper actionHelper;
     private OnlineReviewsActionHelper onlineReviewsActionHelper;
     private QuestionnaireHelper questionnaireHelper;
-    private NotificationHelper notificationHelper;
+    private NotificationHelper<IRBNotificationContext> notificationHelper;
     //transient so that the helper and its members don't have to be serializable or transient
     //reinitialized in the getter
     private transient NotesAttachmentsHelper notesAttachmentsHelper;
@@ -134,7 +135,7 @@ public class ProtocolForm extends KraTransactionalDocumentFormBase implements Pe
         this.notesAttachmentsHelper.prepareView();
         setNewProtocolReferenceBean(new ProtocolReferenceBean());
         setOnlineReviewsActionHelper(new OnlineReviewsActionHelper(this));
-        setNotificationHelper(new NotificationHelper(this));
+        setNotificationHelper(new NotificationHelper<IRBNotificationContext>());
     }
 
     /**
@@ -469,11 +470,11 @@ public class ProtocolForm extends KraTransactionalDocumentFormBase implements Pe
         return onlineReviewsActionHelper;
     }
 
-    public NotificationHelper getNotificationHelper() {
+    public NotificationHelper<IRBNotificationContext> getNotificationHelper() {
         return notificationHelper;
     }
 
-    public void setNotificationHelper(NotificationHelper notificationHelper) {
+    public void setNotificationHelper(NotificationHelper<IRBNotificationContext> notificationHelper) {
         this.notificationHelper = notificationHelper;
     }
 
