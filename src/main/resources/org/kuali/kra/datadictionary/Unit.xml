@@ -57,6 +57,9 @@
               <bean parent="PrimitiveAttributeDefinition"
                     p:sourceName="organizationId"
                     p:targetName="organizationId" />
+              <bean parent="PrimitiveAttributeDefinition"
+                    p:sourceName="organizationIdForMaintenance"
+                    p:targetName="organizationId" />
             </list>
           </property>
           <property name="supportAttributes" >
@@ -68,7 +71,7 @@
             </list>
           </property>
         </bean>
-      </list>
+       </list>
     </property>
   </bean>
 
@@ -278,8 +281,7 @@
               p:attributeName="unitName" />
         <bean parent="FieldDefinition"
               p:attributeName="campusCode" />
-              <bean parent="FieldDefinition"
-              p:attributeName="organizationIdForMaintenance" p:hidden="true"/>
+
       </list>
     </property>
     <property name="resultFields" >
