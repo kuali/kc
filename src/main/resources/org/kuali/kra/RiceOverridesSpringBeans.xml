@@ -200,6 +200,7 @@
 				<value>financialEntityLookupable</value>
 				<value>reportTrackingLookupable</value>
 				<value>subAwardLookupable</value>
+				<value>notificationLookupable</value>
 			</set>
 		</property>
 	</bean>	
