@@ -137,6 +137,7 @@ public class CommitteeServiceImpl implements CommitteeService {
         Committee committee = getCommitteeById(committeeId);
         if (committee != null) {
             List<CommitteeSchedule> schedules = committee.getCommitteeSchedules();
+            Collections.sort(schedules);
             for (CommitteeSchedule schedule : schedules) {
                 if (isOkayToScheduleReview(committee, schedule)) {
                     keyValues.add(new KeyLabelPair(schedule.getScheduleId(), getDescription(schedule)));
