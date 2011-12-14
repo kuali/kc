@@ -430,6 +430,31 @@ public class S2SBudgetCalculatorServiceImpl implements
     				cumPartOtherCostSharing = cumPartOtherCostSharing
     						.add(otherDirectCostInfo.getPartOtherCostSharing() == null ? BudgetDecimal.ZERO
     								: otherDirectCostInfo.getPartOtherCostSharing());
+				}else{
+				    cumAlterationsCostSharing = cumAlterationsCostSharing
+                            .add(BudgetDecimal.ZERO);
+                    cumConsultantsCostSharing = cumConsultantsCostSharing
+                            .add(BudgetDecimal.ZERO);
+                    cumMaterialsCostSharing = cumMaterialsCostSharing
+                            .add(BudgetDecimal.ZERO);
+                    cumPubsCostSharing = cumPubsCostSharing.add(BudgetDecimal.ZERO);
+                    cumSubAwardCostSharing = cumSubAwardCostSharing
+                            .add(BudgetDecimal.ZERO);
+                    cumComputerCostSharing = cumComputerCostSharing
+                            .add(BudgetDecimal.ZERO);
+                    cumEquipRentalCostSharing = cumEquipRentalCostSharing
+                            .add(BudgetDecimal.ZERO);
+                    cumAllCostSharing = cumAllCostSharing.add(BudgetDecimal.ZERO);
+                    cumPartStipendsCostSharing = cumPartStipendsCostSharing
+                            .add(BudgetDecimal.ZERO);
+                    cumPartTravelCostSharing = cumPartTravelCostSharing
+                            .add(BudgetDecimal.ZERO);
+                    cumPartSubsistenceCostSharing = cumPartSubsistenceCostSharing
+                            .add(BudgetDecimal.ZERO);
+                    cumPartTuitionCostSharing = cumPartTuitionCostSharing
+                            .add(BudgetDecimal.ZERO);
+                    cumPartOtherCostSharing = cumPartOtherCostSharing
+                            .add(BudgetDecimal.ZERO);
 				}
 				totalDomesticTravel = totalDomesticTravel.add(budgetPeriodInfo
 						.getDomesticTravelCost());
@@ -488,6 +513,7 @@ public class S2SBudgetCalculatorServiceImpl implements
     				.setPartSubsistenceCostSharing(cumPartSubsistenceCostSharing);
     		budgetSummaryInfo.setPartTuitionCostSharing(cumPartTuitionCostSharing);
 		}
+		
 		OtherDirectCostInfo summaryOtherDirectCostInfo = new OtherDirectCostInfo();
 		summaryOtherDirectCostInfo.setAlterations(cumAlterations);
 		summaryOtherDirectCostInfo.setcomputer(cumComputer);
@@ -508,7 +534,7 @@ public class S2SBudgetCalculatorServiceImpl implements
 						.add(cumPartTravel)))));
 		summaryOtherDirectCostInfo
 				.setParticipantTotalCount(cumParticipantCount);
-		if(budget.getSubmitCostSharingFlag()){
+		
     		// start add costSaring for fedNonFedBudget report
     		summaryOtherDirectCostInfo
     				.setAlterationsCostSharing(cumAlterationsCostSharing);
@@ -550,7 +576,7 @@ public class S2SBudgetCalculatorServiceImpl implements
     				.add(cumPartSubsistenceCostSharing);
     		summaryOtherDirectCostInfo
     				.setParticipantTotalCostSharing(participantTotalCostSharing);
-		}
+	
 		List<Map<String, String>> cvAllOthers = new ArrayList<Map<String, String>>();
 		HashMap<String, String> hmAllOthers = new HashMap<String, String>();
 		hmAllOthers.put(S2SConstants.KEY_COST, cumOtherType1.toString());
