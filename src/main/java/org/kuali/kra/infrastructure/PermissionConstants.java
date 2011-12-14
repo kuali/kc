@@ -116,6 +116,10 @@ public interface PermissionConstants {
     // notification template
     public static final String VIEW_NOTIFICATION_TEMPLATE = "View Notification Template";
     public static final String MODIFY_NOTIFICATION_TEMPLATE = "Modify Notification Template";
+    
+    // Notifications Permissions
+    public static final String VIEW_NOTIFICATION = "View Notification";
+    public static final String MODIFY_NOTIFICATION = "Modify Notification";
 
     /*
      * Batch Correspondence Detail Permissions
