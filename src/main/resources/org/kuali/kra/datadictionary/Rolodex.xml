@@ -467,7 +467,7 @@
   <bean id="Rolodex-inquiryDefinition" parent="Rolodex-inquiryDefinition-parentBean"/>
 
   <bean abstract="true" id="Rolodex-inquiryDefinition-parentBean" parent="InquiryDefinition">
-    <property name="title" value="Rolodex"/>
+    <property name="title" value="Address Book"/>
     <property name="inquirySections">
       <list>
         <bean parent="InquirySectionDefinition">
