@@ -1,6 +1,7 @@
 \. ./../../current_mysql/4.0/dml/KR_DML_01_KCCOI-13_B000.sql
 \. ./../../current_mysql/4.0/dml/KR_DML_01_KCCOI-2_B000.sql
 \. ./../../current_mysql/4.0/dml/KR_DML_01_KCINFR-419_B000.sql
+\. ./../../current_mysql/4.0/dml/KR_DML_01_KCINFR-433_B000.sql
 \. ./../../current_mysql/4.0/dml/KR_DML_01_KCIRB-1299_B000.sql
 \. ./../../current_mysql/4.0/dml/KR_DML_01_KCIRB-1475_B000.sql
 \. ./../../current_mysql/4.0/dml/KR_DML_01_KCIRB-1476_B000.sql
