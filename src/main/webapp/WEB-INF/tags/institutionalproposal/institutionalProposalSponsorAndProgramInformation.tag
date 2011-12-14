@@ -102,7 +102,7 @@
             		<c:if test="${!readOnly}">
     					<kul:lookup boClassName="org.kuali.kra.award.home.CFDA" fieldConversions="cfdaNumber:document.institutionalProposal.cfdaNumber" anchor="${tabKey}" />
     				</c:if>
-    				<c:if test="${!readOnly or !empty KualiForm.document.awardList[0].cfdaNumber}">
+    				<c:if test="${!readOnly or !empty KualiForm.document.institutionalProposalList[0].cfdaNumber}">
     					<kul:directInquiry boClassName="org.kuali.kra.award.home.CFDA" inquiryParameters="document.institutionalProposal.cfdaNumber:cfdaNumber" anchor="${tabKey}" />
     				</c:if>
     			</c:if>
