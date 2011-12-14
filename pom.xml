@@ -991,8 +991,8 @@
 		</dependency>
 		<dependency>
 			<groupId>org.kuali.kra.s2s</groupId>
-			<artifactId>phs398modularbudget</artifactId>
-			<version>1.1</version>
+			<artifactId>phs398modularbudget-1.2</artifactId>
+			<version>1.0.2</version> 
 		</dependency>
 		<dependency>
 			<groupId>org.kuali.kra.s2s</groupId>
