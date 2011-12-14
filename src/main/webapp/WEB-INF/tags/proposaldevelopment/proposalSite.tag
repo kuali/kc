@@ -57,7 +57,14 @@
 <c:if test="${showTabTitle}">
     <h3>
         <span class="subhead-left">${tabTitle}</span>
-        <span class="subhead-right"><kul:help businessObjectClassName="org.kuali.kra.proposaldevelopment.bo.ProposalSite" altText="help"/></span>
+        <c:choose>
+    	   <c:when test="${fn:contains(tabTitle,'Performing Organization')}"> 
+     	  	 <span class="subhead-right"><kul:help parameterNamespace="KC-PD" parameterDetailType="Document" parameterName="performingOrganizationDocumentHelpUrl" altText="help"/></span>
+			</c:when>
+			<c:otherwise>
+        		<span class="subhead-right"><kul:help businessObjectClassName="org.kuali.kra.proposaldevelopment.bo.ProposalSite" altText="help"/></span>
+ 	    	</c:otherwise>
+ 	    </c:choose>
     </h3>
 </c:if>
 
