@@ -17,7 +17,6 @@
 <%@ include file="/WEB-INF/jsp/kraTldHeader.jsp"%>
 
 <c:set var="readOnly" value="${!KualiForm.committeeHelper.performAction}"  scope="request" />
-
 <kul:documentPage 
     showDocumentInfo="true"
     htmlFormAction="committeeActions" 
@@ -47,10 +46,38 @@
         extraButtonProperty="${extraButtonProperty}"
         extraButtonAlt="${extraButtonAlt}"
         viewOnly="${KualiForm.editingMode['viewOnly']}" />
-
+       
+    <script type="text/javascript" src="scripts/jquery/jquery.js"></script>      
     <script type="text/javascript">
         var kualiForm = document.forms['KualiForm'];
         var kualiElements = kualiForm.elements;
+        var $j = jQuery.noConflict(); 
+        // jquery checks if any checkbox has been select for viewing
+        $j("a#viewBatchCorrespondenceGenerated").click(function() {
+            var checked = false;           
+            $j("#correspondanceDetails").find(":checkbox").each(function () {
+                if (this.checked) {
+                    checked = true;
+                }
+           	});
+           	if (checked == false) {
+               	alert ("No correspondence selected for viewing.");
+               	return false;
+           	}		
+    	});
+        $j("a#viewBatchCorrespondenceHistory").click(function() {
+            var checked = false;
+            
+            $j("#historyDetails").find(":checkbox").each(function () {
+                if (this.checked) {
+                    checked = true;
+                }
+           	});
+           	if (checked == false) {
+               	alert ("No correspondence in history selected for viewing.");
+               	return false;
+           	}		
+    	});
     </script>
 
     <script language="javascript" src="scripts/kuali_application.js"></script>
