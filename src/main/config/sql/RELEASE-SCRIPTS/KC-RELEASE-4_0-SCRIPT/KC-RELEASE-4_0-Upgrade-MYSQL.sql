@@ -85,6 +85,7 @@
 \. ./../../current_mysql/4.0/tables/KC_TBL_PERSON_EXT_T.sql
 \. ./../../current_mysql/4.0/tables/KC_TBL_PERSON_FIN_INT_DISCLOSURE.sql
 \. ./../../current_mysql/4.0/tables/KC_TBL_PER_FIN_INT_DISCL_DET.sql
+\. ./../../current_mysql/4.0/tables/KC_TBL_PROPOSAL_ADMIN_DETAILS.sql
 \. ./../../current_mysql/4.0/tables/KC_TBL_PROTOCOL_REVIEW_TYPE.sql
 \. ./../../current_mysql/4.0/tables/KC_TBL_QUESTION.sql
 \. ./../../current_mysql/4.0/tables/KC_TBL_REPORT.sql
@@ -123,6 +124,7 @@
 \. ./../../current_mysql/4.0/dml/KC_DML_01_KRACOEUS-4969_B000.sql
 \. ./../../current_mysql/4.0/dml/KC_DML_01_KRACOEUS-4979_B000.sql
 \. ./../../current_mysql/4.0/dml/KC_DML_01_KRACOEUS-4998_B000.sql
+\. ./../../current_mysql/4.0/dml/KC_DML_01_KRACOEUS-5071_B000.sql
 \. ./../../current_mysql/4.0/dml/KC_DML_01_KRACOEUS-5083_B000.sql
 \. ./../../current_mysql/4.0/dml/KC_DML_02_KCIRB-1567_B000.sql
 \. ./../../current_mysql/4.0/dml/KC_DML_02_KCIRB-1568_B000.sql
