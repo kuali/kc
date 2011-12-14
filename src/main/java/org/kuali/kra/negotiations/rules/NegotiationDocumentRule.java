@@ -90,7 +90,7 @@ public class NegotiationDocumentRule extends ResearchDocumentRuleBase {
         NegotiationSaveCustomDataRuleEvent event = new NegotiationSaveCustomDataRuleEvent(errorPath, 
                                                                negotiationDocument);
         result &= new NegotiationCustomDataRuleImpl().processSaveNegotiationCustomDataBusinessRules(event);
-           
+        
         GlobalVariables.getMessageMap().removeFromErrorPath(NEGOTIATION_ERROR_PATH);
         
         return result;
@@ -197,6 +197,11 @@ public class NegotiationDocumentRule extends ResearchDocumentRuleBase {
                 valid = false;
                 getErrorReporter().reportError("piEmployeeUserName", KeyConstants.ERROR_MISSING, getDataDictionaryService().getAttributeErrorLabel(
                         NegotiationUnassociatedDetail.class, "piPersonId"));                
+            }
+            if (detail.getPIEmployee() != null && detail.getPINonEmployee() != null) {
+                valid = false;
+                getErrorReporter().reportError("piEmployeeUserName", KeyConstants.NEGOTIATION_MULTIPLE_PI, getDataDictionaryService().getAttributeErrorLabel(
+                        NegotiationUnassociatedDetail.class, "piPersonId"));                                
             }
         }
         GlobalVariables.getMessageMap().removeFromErrorPath("unAssociatedDetail");
