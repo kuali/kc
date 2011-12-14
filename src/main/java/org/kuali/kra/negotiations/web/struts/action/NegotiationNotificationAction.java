@@ -113,6 +113,7 @@ public class NegotiationNotificationAction extends NegotiationAction {
         
         if (applyRules(new SendNotificationEvent(document, notification, notificationRecipients))) {
             negotiationForm.getNotificationHelper().sendNotification();
+            negotiationForm.getNotificationHelper().setNotificationContext(null);
             
             actionForward = mapping.findForward("negotiation");
         }
@@ -131,6 +132,10 @@ public class NegotiationNotificationAction extends NegotiationAction {
      * @throws Exception
      */
     public ActionForward cancelNotification(ActionMapping mapping, ActionForm form, HttpServletRequest request, HttpServletResponse response) throws Exception {
+        NegotiationForm negotiationForm = (NegotiationForm) form;
+        
+        negotiationForm.getNotificationHelper().setNotificationContext(null);
+        
         return mapping.findForward("negotiation");
     }
     

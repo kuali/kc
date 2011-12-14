@@ -114,6 +114,7 @@ public class ProtocolNotificationEditorAction extends ProtocolAction {
         
         if (applyRules(new SendNotificationEvent(document, notification, notificationRecipients))) {
             protocolForm.getNotificationHelper().sendNotification();
+            protocolForm.getNotificationHelper().setNotificationContext(null);
             
             actionForward = mapping.findForward("protocolActions");
         }
@@ -132,6 +133,10 @@ public class ProtocolNotificationEditorAction extends ProtocolAction {
      * @throws Exception
      */
     public ActionForward cancelNotification(ActionMapping mapping, ActionForm form, HttpServletRequest request, HttpServletResponse response) throws Exception {
+        ProtocolForm protocolForm = (ProtocolForm) form;
+        
+        protocolForm.getNotificationHelper().setNotificationContext(null);
+        
         return mapping.findForward("protocolActions");
     }
     
