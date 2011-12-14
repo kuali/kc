@@ -111,7 +111,7 @@ public class AwardPaymentAndInvoicesAuditRule implements DocumentAuditRule {
            for( ValidAwardBasisPayment basisPayment : basisPayments )
                if( StringUtils.equals( basisPayment.getBasisOfPaymentCode(), document.getAward().getBasisOfPaymentCode() ) ) valid = true;
                
-           
+           document.getAward().refreshReferenceObject("awardType");
            if( !valid ) //todo lookup basis of payment description to use instead of code.
                errors.add(new AuditError(Constants.PAYMENT_AND_INVOICES_AUDIT_RULES_ERROR_KEY,
                        KeyConstants.ERROR_AWARD_INVALID_BASIS_OF_PAYMENT_FOR_AWARD_TYPE,
