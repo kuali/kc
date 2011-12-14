@@ -504,7 +504,7 @@ public class ProtocolDocument extends ResearchDocumentBase implements Copyable, 
             // Added for KCIRB-1515 & KCIRB-1528
             getProtocol().getProtocolSubmission().refreshReferenceObject("submissionStatus"); 
             String status = getProtocol().getProtocolSubmission().getSubmissionStatusCode();
-            if (isAmendment()) {              
+            if (isAmendment() || isRenewal()) {              
                 if (status.equals(ProtocolSubmissionStatus.APPROVED)
                         && getDocumentHeader().getWorkflowDocument().getCurrentRouteNodeNames().equalsIgnoreCase(Constants.PROTOCOL_IRBREVIEW_ROUTE_NODE_NAME)) {                    
                         isComplete = false;
@@ -516,7 +516,8 @@ public class ProtocolDocument extends ResearchDocumentBase implements Copyable, 
              * If amendment has been merged, need to redirect to the newly created active protocol
              * Wait for the new active protocol to be created before redirecting to it.
              */
-            if (getProtocol().getProtocolStatusCode().equals(ProtocolStatus.AMENDMENT_MERGED)) {
+            if (getProtocol().getProtocolStatusCode().equals(ProtocolStatus.AMENDMENT_MERGED) || 
+                getProtocol().getProtocolStatusCode().equals(ProtocolStatus.RENEWAL_MERGED)) {
                 String protocolId = getNewProtocolDocId();               
                 if (ObjectUtils.isNull(protocolId)) {
                     isComplete = false;
