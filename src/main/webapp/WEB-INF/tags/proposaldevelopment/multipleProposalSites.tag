@@ -39,7 +39,14 @@
 
 <h3>
     <span class="subhead-left">${tabTitle}</span>
-    <span class="subhead-right"><kul:help businessObjectClassName="org.kuali.kra.proposaldevelopment.bo.ProposalSite" altText="help"/></span>
+        <c:choose>
+    	   <c:when test="${fn:contains(tabTitle,'Other Organizations')}"> 
+     	  	 <span class="subhead-right"><kul:help parameterNamespace="KC-PD" parameterDetailType="Document" parameterName="otherOrganizationDocumentHelpUrl" altText="help"/></span>
+			</c:when>
+			<c:otherwise>
+        		<span class="subhead-right"><kul:help businessObjectClassName="org.kuali.kra.proposaldevelopment.bo.ProposalSite" altText="help"/></span>
+ 	    	</c:otherwise>
+ 	    </c:choose>
 </h3>
 <table cellpadding=0 cellspacing="0" summary="">
     <tr>
