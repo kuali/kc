@@ -879,5 +879,25 @@
          <property name="negotiationActivityPrint">  <ref bean="negotiationActivityPrint" />    </property>
          
 	</bean>
+	
+	<bean id="notificationAuthorizationService" class="org.kuali.kra.common.notification.NotificationAuthorizationServiceImpl">
+	   <property name="unitAuthorizationService" ref="unitAuthorizationService" />
+	   <property name="kcPersonService" ref="kcPersonService" />
+	</bean>
+	
+    <bean id="notificationLookupable" class="org.kuali.kra.common.notification.NotificationLookupableImpl" scope="prototype">
+        <property name="lookupableHelperService">
+            <ref bean="notificationLookupableHelperService" />
+        </property>
+        <property name="notificationAuthorizationService">
+            <ref bean="notificationAuthorizationService" />
+        </property>
+    </bean>
     
+    <bean id="notificationLookupableHelperService" class="org.kuali.kra.common.notification.NotificationLookupableHelperServiceImpl" 
+         scope="prototype" parent="lookupableHelperService">
+        <property name="notificationAuthorizationService">
+            <ref bean="notificationAuthorizationService" />
+        </property>
+    </bean>    
 </beans>

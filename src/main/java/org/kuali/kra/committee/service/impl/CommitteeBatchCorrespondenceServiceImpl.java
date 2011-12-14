@@ -380,11 +380,11 @@ public class CommitteeBatchCorrespondenceServiceImpl implements CommitteeBatchCo
             byte[] attachmentContents = protocolCorrespondence.getCorrespondence();
             if (attachmentContents != null) {
                     attachments = new ArrayList<EmailAttachment>();
-                    String attachmentName = "correspondence_" + protocolCorrespondence.getProtocolNumber() + ".pdf";
+                    String attachmentName = "correspondence_" + protocolCorrespondence.getProtocolNumber() + Constants.PDF_FILE_EXTENSION;
                     
                     EmailAttachment attachment = new EmailAttachment();
                     attachment.setFileName(attachmentName);
-                    attachment.setMimeType("application/pdf");
+                    attachment.setMimeType(Constants.PDF_REPORT_CONTENT_TYPE);
                     attachment.setContents(attachmentContents);
                     attachments.add(attachment);         
             }
