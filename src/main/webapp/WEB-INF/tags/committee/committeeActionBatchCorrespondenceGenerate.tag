@@ -99,7 +99,9 @@
     <table cellpadding=0 cellspacing=0 border=0>
         <tr>
             <td class="infoline" colspan="2">
+                <div id="correspondanceDetails">  
                 <kra-committee:committeeActionBatchCorrespondenceRun committeeBatchCorrespondence="${KualiForm.committeeHelper.generateBatchCorrespondence[0]}" committeeBatchCorrespondenceProperty="committeeHelper.generateBatchCorrespondence[0]" />
+            	</div>
             </td>
         </tr>
         <tr>
@@ -108,10 +110,11 @@
             </td>
             <td  style="background-color: #e4e4e4;" >
                 <div align="center">
-                    <html:image property="methodToCall.viewBatchCorrespondenceGenerated"
+                    <a id="viewBatchCorrespondenceGenerated" href="#"><html:image property="methodToCall.viewBatchCorrespondenceGenerated"
                                 src='${ConfigProperties.kra.externalizable.images.url}tinybutton-view.gif' 
                                 styleClass="tinybutton"
                                 onclick="excludeSubmitRestriction = true;" />
+                    </a>
                 </div>                         
             </td>
         </tr>

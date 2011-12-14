@@ -98,6 +98,8 @@
     </h3>
     
     <c:if test="${not empty KualiForm.committeeHelper.batchCorrespondenceHistory}">
+        <div id="historyDetails">  
+    
         <table cellpadding=0 cellspacing=0 border=0>
             <c:forEach items="${KualiForm.committeeHelper.batchCorrespondenceHistory}" var="batchCorrespondenceHistory" varStatus="status">
                 <tr>
@@ -112,13 +114,16 @@
                     </td>
                     <td  style="background-color: #e4e4e4;" >
                         <div align="center">
-                            <html:image property="methodToCall.viewBatchCorrespondenceHistory"
+                           <a id= "viewBatchCorrespondenceHistory" href="#"> <html:image property="methodToCall.viewBatchCorrespondenceHistory"
                                         src='${ConfigProperties.kra.externalizable.images.url}tinybutton-view.gif' 
                                         styleClass="tinybutton"
                                         onclick="excludeSubmitRestriction = true;" />
+                           </a>
                         </div>                         
                     </td>
                 </tr>
         </table>
+        </div>
+        
     </c:if>            
 </c:if>            
