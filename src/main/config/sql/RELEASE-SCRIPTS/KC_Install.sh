@@ -46,7 +46,7 @@ fi
 
 dbtype=`getChoice 'Enter Database Type' ORACLE MYSQL`
 
-version=`getChoice 'Enter Version' NEW 3.0 3.0.1 3.1 3.1.1`
+version=`getChoice 'Enter Currently Installed Version' NEW 3.0 3.0.1 3.1 3.1.1`
 
 un=`getAnswer 'Enter KC Database Username'`
 
@@ -173,7 +173,7 @@ case "${dbtype}" in
             cd ..
         fi
 
-		if [ "${version}" = "3.1"] || [ "${version}" = "3.0.1" ] || [ "${version}" = "3.0" ] || [ "${version}" = "NEW" ]
+		if [ "${version}" = "3.1" ] || [ "${version}" = "3.0.1" ] || [ "${version}" = "3.0" ] || [ "${version}" = "NEW" ]
 		then
 			cd KC-RELEASE-3_1_1-SCRIPT
 			sqlplus "${un}"/"${pw}${DBSvrNm}" < KC-RELEASE-3_1_1-Upgrade-ORACLE.sql
@@ -182,7 +182,7 @@ case "${dbtype}" in
 			cd ..
 		fi
 		
-		if [ "${version}" = "3.1.1"] || [ "${version}" = "3.1"] || [ "${version}" = "3.0.1" ] || [ "${version}" = "3.0" ] || [ "${version}" = "NEW" ]
+		if [ "${version}" = "3.1.1" ] || [ "${version}" = "3.1" ] || [ "${version}" = "3.0.1" ] || [ "${version}" = "3.0" ] || [ "${version}" = "NEW" ]
         then
             cd KC-RELEASE-3_2-SCRIPT
             sqlplus "${un}"/"${pw}${DBSvrNm}" < KC-RELEASE-3_2-Upgrade-ORACLE.sql
