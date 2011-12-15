@@ -20,6 +20,7 @@ import static org.kuali.kra.infrastructure.KraServiceLocator.getService;
 import static org.kuali.rice.kns.util.KNSConstants.CONFIRMATION_QUESTION;
 
 import java.util.ArrayList;
+import java.util.Collection;
 import java.util.HashMap;
 import java.util.Iterator;
 import java.util.List;
@@ -88,6 +89,9 @@ import org.kuali.kra.service.SponsorService;
 import org.kuali.kra.service.TimeAndMoneyExistenceService;
 import org.kuali.kra.service.UnitAuthorizationService;
 import org.kuali.kra.service.VersionHistoryService;
+import org.kuali.kra.subaward.bo.SubAward;
+import org.kuali.kra.subaward.bo.SubAwardFundingSource;
+import org.kuali.kra.subaward.service.SubAwardService;
 import org.kuali.kra.timeandmoney.AwardHierarchyNode;
 import org.kuali.kra.timeandmoney.document.TimeAndMoneyDocument;
 import org.kuali.kra.timeandmoney.history.TransactionDetail;
@@ -190,7 +194,7 @@ public class AwardAction extends BudgetParentActionBase {
         awardForm.initializeFormOrDocumentBasedOnCommand();
         setBooleanAwardInMultipleNodeHierarchyOnForm (awardDocument.getAward());
         setBooleanAwardHasTandMOrIsVersioned(awardDocument.getAward());
-        
+        setSubAwardDetails(awardDocument.getAward());
         return forward;
     }
 
@@ -1841,5 +1845,25 @@ public class AwardAction extends BudgetParentActionBase {
             reportTrackingService = KraServiceLocator.getService(ReportTrackingService.class);
         }
         return reportTrackingService;
+    }
+    /**
+     * This method will populate the subawards  if award is added as a funding source to perticular subaward
+     * @param award
+     */
+    private void setSubAwardDetails(Award award){
+        BusinessObjectService businessObjectService = KraServiceLocator.getService(BusinessObjectService.class);        
+        Collection<SubAward> subAwards = businessObjectService.findAll(SubAward.class);
+        List<SubAward> subAwardList = new ArrayList<SubAward>();
+        for(SubAward subAward:subAwards){
+            List<SubAwardFundingSource> subAwardFundingSourceList =subAward.getSubAwardFundingSourceList();
+            for(SubAwardFundingSource subAwardFundingSource : subAwardFundingSourceList){
+                if(subAwardFundingSource.getAwardId().equals(award.getAwardId())){
+                    subAward = KraServiceLocator.getService(SubAwardService.class).getAmountInfo(subAward);
+                    subAwardList.add(subAward);
+                    break;
+                }
+            }
+        }
+        award.setSubAwardList(subAwardList);
     }
 }

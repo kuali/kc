@@ -25,14 +25,16 @@
           <property name="headerTabNavigateTo" value="financial"/>
         </bean>
        
+       <bean parent="HeaderNavigation">
+          <property name="headerTabDisplayName" value="Custom Data"/>
+          <property name="headerTabNavigateTo" value="customData"/>
+        </bean>
+        
         <bean parent="HeaderNavigation">
           <property name="headerTabDisplayName" value="Subaward Actions"/>
           <property name="headerTabNavigateTo" value="subAwardActions"/>
         </bean>
-        <bean parent="HeaderNavigation">
-          <property name="headerTabDisplayName" value="Custom Data"/>
-          <property name="headerTabNavigateTo" value="customData"/>
-        </bean>
+        
           <bean parent="HeaderNavigation">
           <property name="headerTabDisplayName" value="Medusa"/>
           <property name="headerTabNavigateTo" value="medusa"/>

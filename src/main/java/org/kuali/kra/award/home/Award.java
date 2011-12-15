@@ -81,6 +81,7 @@ import org.kuali.kra.proposaldevelopment.bo.ActivityType;
 import org.kuali.kra.proposaldevelopment.bo.ProposalType;
 import org.kuali.kra.service.Sponsorable;
 import org.kuali.kra.service.UnitService;
+import org.kuali.kra.subaward.bo.SubAward;
 import org.kuali.kra.timeandmoney.transactions.AwardTransactionType;
 import org.kuali.rice.kew.exception.WorkflowException;
 import org.kuali.rice.kns.service.BusinessObjectService;
@@ -253,7 +254,7 @@ public class Award extends KraPersistableBusinessObjectBase implements KeywordsM
     private transient AwardHierarchyService awardHierarchyService;
 
     private transient List<AwardUnitContact> centralAdminContacts;
-
+    private List<SubAward> subAwardList;
     /**
      * 
      * Constructs an Award BO.
@@ -2074,6 +2075,7 @@ public class Award extends KraPersistableBusinessObjectBase implements KeywordsM
 
         syncChanges = new ArrayList<AwardSyncChange>();
         syncStatuses = new ArrayList<AwardSyncStatus>();
+        subAwardList = new ArrayList<SubAward>();
     }
 
     public void initializeAwardAmountInfoObjects() {
@@ -3555,5 +3557,12 @@ public class Award extends KraPersistableBusinessObjectBase implements KeywordsM
     @Override
     public String getSubAwardRequisitionerId() {
         return EMPTY_STRING;
+    }
+    public List<SubAward> getSubAwardList() {
+        return subAwardList;
+    }
+    
+    public void setSubAwardList(List<SubAward> subAwardList) {
+        this.subAwardList = subAwardList;
     }
 }

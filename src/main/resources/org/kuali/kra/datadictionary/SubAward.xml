@@ -246,9 +246,6 @@
     <property name="label" value="Title" />
     <property name="shortLabel" value="Title" />
     <property name="maxLength" value="100" />
-    <property name="validationPattern" >
-      <bean parent="AlphaNumericValidationPattern" />
-    </property>
     <property name="required" value="false" />
     <property name="control">
 			<bean parent="TextareaControlDefinition" p:rows="3" p:cols="50" />
@@ -476,9 +473,6 @@
     <property name="label" value="Comments" />
     <property name="shortLabel" value="Comments" />
     <property name="maxLength" value="4000" />
-    <property name="validationPattern" >
-      <bean parent="AlphaNumericValidationPattern" />
-    </property>
     <property name="required" value="false" />
     <property name="control">
 			<bean parent="TextareaControlDefinition" p:rows="3" p:cols="60" />

@@ -24,7 +24,7 @@
 	<script type="text/javascript">
 	   var $jq = jQuery.noConflict();
 	</script>	
-
+	
 <div class="tab-container"  align="center">
     <c:if test="${fn:contains(helpIcon,'negotiation')}"> 
     <span class="subhead-right"><kul:help parameterNamespace="KC-NEGOTIATION" parameterDetailType="Document" parameterName="negotiationMedusaHelp" altText="help"/></span>
@@ -48,8 +48,15 @@
         		<c:otherwise>
         			<input class="nobord" type="radio" value="0" name="medusaBean.medusaViewRadio"/>
         		</c:otherwise>
-        	</c:choose>	        	
-        	Proposal > Award
+        	</c:choose>	  
+        	<c:choose>
+        	 <c:when test="${KualiForm.medusaBean.moduleName == 'subaward'}">
+        	 	    Subaward > Award      	
+        	 	</c:when>   
+        	 	<c:otherwise>
+        			Proposal > Award
+        		</c:otherwise>
+        	</c:choose>	 
         </th>	
         <th style="text-align: center;">        
         	<c:choose>
@@ -60,8 +67,14 @@
         			<input class="nobord" type="radio" value="1" name="medusaBean.medusaViewRadio"/>
         		</c:otherwise>
         	</c:choose>
-        	
-        	Award > Proposal
+        	<c:choose>
+        	 	<c:when test="${KualiForm.medusaBean.moduleName == 'subaward'}">
+        	 		Award > Subaward
+        	 	</c:when>   
+        	 	<c:otherwise>
+        			Award > Proposal
+        		</c:otherwise>
+        	</c:choose>	
         </th>
         <th style="text-align: center; background-color: rgb(195, 195, 195); width: 60px;">				
 				<html:image src="${ConfigProperties.kra.externalizable.images.url}tinybutton-refresh.gif" styleClass="tinybutton" alt="Refresh" property="methodToCall.refreshView" />
