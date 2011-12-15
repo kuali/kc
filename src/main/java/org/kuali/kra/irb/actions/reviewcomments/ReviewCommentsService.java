@@ -191,6 +191,14 @@ public interface ReviewCommentsService {
 
     /**
      * 
+     * This method is to delete all saved attachments
+     * @param reviewAttachments
+     * @param deletedReviewAttachments
+     */
+    void deleteAllReviewAttachments(List<ProtocolReviewAttachment> reviewAttachments,
+            List<ProtocolReviewAttachment> deletedReviewAttachments);
+    /**
+     * 
      * This method is to add review attachment in OLR or manage review attachment
      * @param newReviewAttachment
      * @param reviewAttachments
