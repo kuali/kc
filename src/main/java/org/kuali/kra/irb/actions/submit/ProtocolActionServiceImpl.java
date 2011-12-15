@@ -22,6 +22,7 @@ import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
 
+import org.apache.commons.lang.StringUtils;
 import org.kuali.kra.bo.CoeusModule;
 import org.kuali.kra.bo.CoeusSubModule;
 import org.kuali.kra.drools.util.DroolsRuleHandler;
@@ -30,9 +31,12 @@ import org.kuali.kra.irb.ProtocolDao;
 import org.kuali.kra.irb.actions.ProtocolAction;
 import org.kuali.kra.irb.actions.ProtocolSubmissionDoc;
 import org.kuali.kra.irb.actions.followup.FollowupActionService;
+import org.kuali.kra.irb.onlinereview.ProtocolReviewable;
+import org.kuali.kra.irb.personnel.ProtocolPerson;
 import org.kuali.kra.questionnaire.answer.AnswerHeader;
 import org.kuali.kra.service.KraAuthorizationService;
 import org.kuali.kra.service.UnitAuthorizationService;
+import org.kuali.rice.kim.bo.Person;
 import org.kuali.rice.kns.service.BusinessObjectService;
 import org.kuali.rice.kns.util.GlobalVariables;
 
@@ -201,7 +205,27 @@ public class ProtocolActionServiceImpl implements ProtocolActionService {
         return rightMapper.isAllowed() ? kraAuthorizationService.hasPermission(getUserIdentifier(), protocol, rightMapper
                 .getRightId()) : false;
     } 
-
+    
+    private List<String> getPersonnelIds(Protocol protcol) {
+        List<String> PersonnelIds = new ArrayList<String>();
+       
+            for (ProtocolPerson person : protcol.getProtocolPersons()) {
+                if (StringUtils.isNotBlank(person.getPersonId())) {
+                    PersonnelIds.add(person.getPersonId());
+                }
+                else {
+                    PersonnelIds.add(person.getRolodexId().toString());
+                }
+            
+        }
+        return PersonnelIds;
+    }
+   
+    
+   public boolean isProtocolPersonnel(Protocol protocol) {
+        Person person = GlobalVariables.getUserSession().getPerson();
+        return getPersonnelIds(protocol).contains(person.getPrincipalId());        
+    }
     /**
      * This method is to check if user has permission in committee home unit
      */
