@@ -27,6 +27,7 @@ import org.kuali.kra.infrastructure.KraServiceLocator;
 import org.kuali.kra.irb.actions.reviewcomments.ReviewCommentsService;
 import org.kuali.kra.irb.onlinereview.ProtocolOnlineReview;
 import org.kuali.kra.irb.onlinereview.ProtocolOnlineReviewStatus;
+import org.kuali.kra.irb.onlinereview.ProtocolReviewAttachment;
 import org.kuali.kra.meeting.CommitteeScheduleMinute;
 import org.kuali.kra.service.KraAuthorizationService;
 import org.kuali.rice.kew.dto.ActionTakenEventDTO;
@@ -180,6 +181,11 @@ public class ProtocolOnlineReviewDocument extends ResearchDocumentBase implement
             List<CommitteeScheduleMinute> deletedReviewComments = new ArrayList<CommitteeScheduleMinute>();
             getReviewerCommentsService().deleteAllReviewComments(reviewComments, deletedReviewComments);
             getReviewerCommentsService().saveReviewComments(reviewComments, deletedReviewComments);
+
+            List<ProtocolReviewAttachment> reviewAttachments = getProtocolOnlineReview().getReviewAttachments();
+            List<ProtocolReviewAttachment> deletedReviewAttachments = new ArrayList<ProtocolReviewAttachment>();
+            getReviewerCommentsService().deleteAllReviewAttachments(reviewAttachments, deletedReviewAttachments);
+            getReviewerCommentsService().saveReviewAttachments(reviewAttachments, deletedReviewAttachments);
 
             getProtocolOnlineReview().setProtocolOnlineReviewStatusCode(ProtocolOnlineReviewStatus.REMOVED_CANCELLED_STATUS_CD);
             getBusinessObjectService().save(getProtocolOnlineReview());
