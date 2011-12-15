@@ -7,9 +7,10 @@
   <bean id="Negotiation" parent="Negotiation-parentBean" />
   <bean id="Negotiation-parentBean" abstract="true" parent="BusinessObjectEntry">
     <property name="businessObjectClass" value="org.kuali.kra.negotiations.bo.Negotiation" />
+    <property name="boNotesEnabled" value="true"/> 
 	<property name="objectLabel" value="Negotiation" />
     <property name="titleAttribute" value="negotiationId" />
-        <property name="lookupDefinition" >
+    <property name="lookupDefinition" >
       <ref bean="Negotiation-lookupDefinition" />
     </property>
     
