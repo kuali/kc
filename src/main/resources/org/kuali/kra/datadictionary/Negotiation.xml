@@ -377,6 +377,11 @@
 		<property name="menubar" value="&lt;a href=&quot;index.jsp&quot;&gt;Main&lt;/a&gt;" />
 		<property name="defaultSort" >
 		  <bean parent="SortDefinition">
+		  	<property name="attributeNames">
+		  		<list>
+		  			<value>negotiationId</value>
+		  		</list>
+		  	</property>
 		  </bean>
 		</property>
 		<property name="lookupFields" >
