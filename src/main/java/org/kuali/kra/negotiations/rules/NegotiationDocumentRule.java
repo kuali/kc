@@ -37,6 +37,7 @@ import org.kuali.kra.rule.event.SaveCustomAttributeEvent;
 import org.kuali.kra.rules.ResearchDocumentRuleBase;
 import org.kuali.rice.kns.document.Document;
 import org.kuali.rice.kns.service.DataDictionaryService;
+import org.kuali.rice.kns.service.KualiConfigurationService;
 import org.kuali.rice.kns.util.ErrorMap;
 import org.kuali.rice.kns.util.GlobalVariables;
 
@@ -150,11 +151,34 @@ public class NegotiationDocumentRule extends ResearchDocumentRuleBase {
         if (negotiation.getNegotiationAssociationType() != null 
                 && !StringUtils.equals(negotiation.getNegotiationAssociationType().getCode(), NegotiationAssociationType.NONE_ASSOCIATION)
                 && StringUtils.isEmpty(negotiation.getAssociatedDocumentId())) {
-            getErrorReporter().reportWarning(ASSOCIATED_DOCMENT_ID, KeyConstants.NEGOTIATION_WARNING_ASSOCIATEDID_NOT_SET, 
-                    negotiation.getNegotiationAssociationType().getDescription());
+            negotiation.setAssociatedDocumentWarning(expandErrorString(KeyConstants.NEGOTIATION_WARNING_ASSOCIATEDID_NOT_SET, 
+                    new String[]{negotiation.getNegotiationAssociationType().getDescription()}));
+            //can't do this because the document is final, when final and without error the messagemap is cleared during save
+            //so must workaround to display this warning.
+            //getErrorReporter().reportWarning(ASSOCIATED_DOCMENT_ID, KeyConstants.NEGOTIATION_WARNING_ASSOCIATEDID_NOT_SET, 
+            //        negotiation.getNegotiationAssociationType().getDescription());
         }
         return valid;
     }
+    
+    /**
+     * 
+     * Take the error key and expand as would happen when displaying error
+     * to the client.
+     * @param errorKey
+     * @param params
+     * @return
+     */
+    protected String expandErrorString(String errorKey, String[] params) {
+        KualiConfigurationService kualiConfiguration = getKualiConfigurationService();
+        String questionText = kualiConfiguration.getPropertyString(errorKey);
+
+        for (int i = 0; i < params.length; i++) {
+            questionText = StringUtils.replace(questionText, "{" + i + "}", params[i]);
+        }
+        return questionText;    
+    }
+
     
     public boolean validateNegotiationUnassociatedDetails(Negotiation negotiation) {
         boolean valid = true;
