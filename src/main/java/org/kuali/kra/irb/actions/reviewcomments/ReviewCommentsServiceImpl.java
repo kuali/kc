@@ -1010,4 +1010,16 @@ public class ReviewCommentsServiceImpl implements ReviewCommentsService {
         }
         
     }
+
+    @Override
+    public void deleteAllReviewAttachments(List<ProtocolReviewAttachment> reviewAttachments,
+            List<ProtocolReviewAttachment> deletedReviewAttachments) {
+        for (ProtocolReviewAttachment reviewerAttachment : reviewAttachments) {
+            if (reviewerAttachment.getReviewerAttachmentId() != null) {
+                deletedReviewAttachments.add(reviewerAttachment);
+            }
+        }
+        reviewAttachments.clear();
+        
+    }
 }
