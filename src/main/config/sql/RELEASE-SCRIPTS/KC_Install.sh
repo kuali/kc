@@ -285,8 +285,8 @@ case "${dbtype}" in
 		if [ "${version}" = "3.1.1" ] || [ "${version}" = "3.1" ] || [ "${version}" = "3.0.1" ] || [ "${version}" = "3.0" ] || [ "${version}" = "NEW" ]
         then
             cd KC-RELEASE-3_2-SCRIPT
-            mysql -u ${un} -p${pw} -D ${DBSvrNm} -s -f < KC-RELEASE-3_2-Upgrade-MYSQL.sql > KC-RELEASE-4_0-Upgrade-MYSQL-Install.log 2>&1
-            mysql -u ${Riceun} -p${Ricepw} -D ${RiceDBSvrNm} -s -f < KR-RELEASE-3_2-Upgrade-MYSQL.sql > KR-RELEASE-4_0-Upgrade-MYSQL-Install.log 2>&1
+            mysql -u ${un} -p${pw} -D ${DBSvrNm} -s -f < KC-RELEASE-3_2-Upgrade-MYSQL.sql > KC-RELEASE-3_2-Upgrade-MYSQL-Install.log 2>&1
+            mysql -u ${Riceun} -p${Ricepw} -D ${RiceDBSvrNm} -s -f < KR-RELEASE-3_2-Upgrade-MYSQL.sql > KR-RELEASE-3_2-Upgrade-MYSQL-Install.log 2>&1
             mv *.log ../LOGS/
             cd ..
         fi
