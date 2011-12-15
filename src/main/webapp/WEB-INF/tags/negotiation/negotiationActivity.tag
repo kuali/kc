@@ -133,7 +133,49 @@
 			<tr>
 			    <td class="infoline" style="text-align:center;" colspan="6">
 					<html:image property="methodToCall.addActivity"
-   		  				src="${ConfigProperties.kra.externalizable.images.url}tinybutton-addactivity.gif" styleClass="tinybutton"/>
+   		  				src="${ConfigProperties.kra.externalizable.images.url}tinybutton-addactivity.gif" styleClass="tinybutton"
+   		  				onclick="return validateForm()"/>
+   		  			<script language="javascript">
+   		  			<!--
+   		  				function validateForm() {
+   		  					var fileField = document.getElementsByName('negotiationActivityHelper.newActivity.newAttachment.newFile')[0];
+   		  					if (fileField.value != '') {
+   		  						var errorString = '';
+   		  						var activityDescriptionField = document.getElementsByName('negotiationActivityHelper.newActivity.description')[0];
+   		  						var fileFieldDescriptionField = document.getElementsByName('negotiationActivityHelper.newActivity.newAttachment.description')[0];
+   		  						var activityStartDateField = document.getElementsByName('negotiationActivityHelper.newActivity.startDate')[0];
+   		  						var locationField = document.getElementsByName('negotiationActivityHelper.newActivity.locationId')[0];
+   		  						var locationValue = locationField.options[locationField.selectedIndex].text;
+   		  						var activityTypeField = document.getElementsByName('negotiationActivityHelper.newActivity.activityTypeId')[0];
+   		  						var activityTypeValue = activityTypeField.options[activityTypeField.selectedIndex].text;
+   		  						if (activityDescriptionField.value == '') {
+   		  							errorString = errorString + 'Please enter an Activity Description.\n';
+   		  						}
+   		  						if (fileFieldDescriptionField.value == '') {
+		  							errorString = errorString + 'Please enter an Attachment Description.\n';
+		  						}
+   		  						if (activityStartDateField.value == '') {
+	  								errorString = errorString + 'Please enter an Activity Start Date.\n';
+	  							}
+   		  						if (locationValue == 'select') {
+  									errorString = errorString + 'Please enter a Location.\n';
+  								}
+   		  						if (activityTypeValue == 'select') {
+									errorString = errorString + 'Please enter an Activity Type.\n';
+								}
+   		  						if (errorString != '') {
+   		  							window.alert(errorString);
+   		  							return false;
+   		  						} else {
+   		  							return true;
+   		  						}
+   		  						//return confirm('validateForm');
+   		  					} else {
+   		  						return true;
+   		  					}
+   		  				}
+   		  			-->
+   		  			</script>
 			    </td>
 			</tr>
 			</c:if>

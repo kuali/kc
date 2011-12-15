@@ -172,7 +172,7 @@ public class NegotiationActivityHistoryLineBean extends ResultRow implements Com
         if (retVal == 0 && this.startDate != null) {
             retVal = this.getStartDate().compareTo(o.getStartDate());
         }
-        if (retVal == 0 && this.getEndDate() != null) {
+        if (retVal == 0 && this.getEndDate() != null && o.getEndDate() != null) {
             retVal = this.getEndDate().compareTo(o.getEndDate());
         }
         if (retVal == 0 && this.getActivityType() != null) {
