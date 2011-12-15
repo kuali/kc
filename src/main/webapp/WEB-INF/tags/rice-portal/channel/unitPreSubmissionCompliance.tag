@@ -24,17 +24,16 @@
    <tr>
     <td nowrap class="disabled-text">Disclosure</td>
     <td>
-      <portal:portalLink displayTitle="false" title="Disclosure" url="coiDisclosure.do?methodToCall=docHandler&command=initiate&docTypeName=CoiDisclosureDocument"><img src="static/images/add.png" alt="add" width="16" height="16" border="0" align="absmiddle"></portal:portalLink>
+      <img src="static/images/add1.png" alt="add" width="16" height="16" border="0" align="absmiddle">
       <img src="static/images/searchicon1.gif" alt="lookup" width="16" height="16" align="absmiddle">
     </td>
   </tr>
   <tr>
     <td nowrap class="disabled-text">Financial Entity</td>
     <td>
-      <portal:portalLink displayTitle="false" title="Financial Entities" url="financialEntityManagement.do?methodToCall=management"><img src="static/images/add.png" alt="add" width="16" height="16" border="0" align="absmiddle"></portal:portalLink>
-     	  <portal:portalLink displayTitle="false" title="Protocol" 
-		   url="kr/lookup.do?methodToCall=start&businessObjectClassName=org.kuali.kra.coi.personfinancialentity.PersonFinIntDisclosure&docFormKey=88888888&returnLocation=${ConfigProperties.application.url}/portal.do&hideReturnLink=true" >
-            <img src="static/images/searchicon.gif" alt="lookup" width="16" border="0" align="absmiddle"></portal:portalLink>
+      <img src="static/images/add1.png" alt="add" width="16" height="16" border="0" align="absmiddle">
+     	 
+            <img src="static/images/searchicon1.gif" alt="lookup" width="16" border="0" align="absmiddle">
             
     </td>
   </tr>
