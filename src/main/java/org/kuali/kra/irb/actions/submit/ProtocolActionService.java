@@ -65,5 +65,13 @@ public interface ProtocolActionService {
      * @return true, if the Drools rules state that the action should now be open for followup, false otherwise
      */
     public boolean isActionOpenForFollowup(String protocolActionTypeCode, Protocol protocol);
-
+    
+    
+    /**
+     * Determines whether the logged in user is Protocol Personnel
+     *@param protocol The Protocol
+     * @return true, if the logged in user is protocol personnel else returns false
+     */
+    
+    public boolean isProtocolPersonnel(Protocol protocol) ;
 }
