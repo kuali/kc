@@ -18,7 +18,7 @@
 <c:set var="subAwardAmountReleasedAttributes" value="${DataDictionary.SubAwardAmountReleased.attributes}" />
 <c:set var="action" value="subAwardAmountReleased" />
 <c:set var="newSubAwardAmountReleased" value="${KualiForm.newSubAwardAmountReleased}" />
-<kul:tab tabTitle="Invoices" defaultOpen="true" transparentBackground="false" tabErrorKey="newSubAwardAmountReleased.invoiceNumber*,newSubAwardAmountReleased.startDate*,newSubAwardAmountReleased.endDate*,newSubAwardAmountReleased.effectiveDate*,newSubAwardAmountReleased.effectiveDate*,newSubAwardAmountReleased.amountReleased*" auditCluster="requiredFieldsAuditErrors" tabAuditKey="" useRiceAuditMode="true">
+<kul:tab tabTitle="Invoices" defaultOpen="true" transparentBackground="false" tabErrorKey="newSubAwardAmountReleased.invoiceNumber*,newSubAwardAmountReleased.startDate*,newSubAwardAmountReleased.endDate*,newSubAwardAmountReleased.effectiveDate*,newSubAwardAmountReleased.effectiveDate*,newSubAwardAmountReleased.amountReleased*,newSubAwardAmountReleased.comments*" auditCluster="requiredFieldsAuditErrors" tabAuditKey="" useRiceAuditMode="true">
 	<div class="tab-container" align="center">
 	<h3>
     		<span class="subhead-left"></span>
@@ -175,7 +175,7 @@
 		            <tr>		            			
 						<th><div align="right"><kul:htmlAttributeLabel attributeEntry="${subAwardAmountReleasedAttributes.comments}" /></div></th>
                 			<td colspan="5">
-                      			<kul:htmlControlAttribute property="document.subAwardList[0].subAwardAmountReleasedList[${status.index}].comments" readOnly="true" attributeEntry="${subAwardAmountReleasedAttributes.comments}" />
+                      			<kul:htmlControlAttribute property="document.subAwardList[0].subAwardAmountReleasedList[${status.index}].comments" readOnly="${readOnly}" attributeEntry="${subAwardAmountReleasedAttributes.comments}" />
                 			</td>
            		   </tr>
 	        	</c:forEach>

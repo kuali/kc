@@ -1031,22 +1031,23 @@ public class ProtocolProtocolActionsAction extends ProtocolAction implements Aud
         int currentProtoSeqNumber= protocolCurrent.getSequenceNumber();
         try {
             if(printableArtifacts.isWatermarkEnabled()){
-            Integer attachmentDocumentId =attachment.getDocumentId();
-            List<ProtocolAttachmentProtocol> protocolAttachmentList=form.getDocument().getProtocol().getAttachmentProtocols();
-            if(protocolAttachmentList.size()>0){
-                for (ProtocolAttachmentProtocol protocolAttachment : protocolAttachmentList) {
-                    if(attachmentDocumentId.equals(protocolAttachment.getDocumentId())){
-                        int currentAttachmentSequence=protocolAttachment.getSequenceNumber();
-                         if((getProtocolAttachmentService().isNewAttachmentVersion(protocolAttachment))&&(currentProtoSeqNumber == currentAttachmentSequence)){
-                            attachmentFile = getWatermarkService().applyWatermark(file.getData(),printableArtifacts.getWatermarkable().getWatermark());
-                        }else{
-                            attachmentFile = getWatermarkService().applyWatermark(file.getData(),printableArtifacts.getWatermarkable().getInvalidWatermark());
-                            LOG.info(INVALID_ATTACHMENT + attachmentDocumentId);
+                Integer attachmentDocumentId =attachment.getDocumentId();
+                List<ProtocolAttachmentProtocol> protocolAttachmentList=form.getDocument().getProtocol().getAttachmentProtocols();
+                if(protocolAttachmentList.size()>0){
+                    for (ProtocolAttachmentProtocol protocolAttachment : protocolAttachmentList) {
+                        if(attachmentDocumentId.equals(protocolAttachment.getDocumentId())){
+                            int currentAttachmentSequence=protocolAttachment.getSequenceNumber();
+                             if((getProtocolAttachmentService().isNewAttachmentVersion(protocolAttachment))&&(currentProtoSeqNumber == currentAttachmentSequence)){
+                                attachmentFile = getWatermarkService().applyWatermark(file.getData(),printableArtifacts.getWatermarkable().getWatermark());
+                            }else{
+                                attachmentFile = getWatermarkService().applyWatermark(file.getData(),printableArtifacts.getWatermarkable().getInvalidWatermark());
+                                LOG.info(INVALID_ATTACHMENT + attachmentDocumentId);
+                            }
                         }
                     }
                 }
             }else{
-                attachmentFile = getWatermarkService().applyWatermark(file.getData(),printableArtifacts.getWatermarkable().getWatermark()); }
+                attachmentFile = getWatermarkService().applyWatermark(file.getData(),printableArtifacts.getWatermarkable().getWatermark()); 
             }
         }
         catch (Exception e) {

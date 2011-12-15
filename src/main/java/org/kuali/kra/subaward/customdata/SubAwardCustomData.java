@@ -31,19 +31,11 @@ public class SubAwardCustomData extends SubAwardAssociate{
     private String value;
     private Long customAttributeId;
     private CustomAttribute customAttribute;
-    
+    private String subAwardCode; 
+   
+  
     private SubAward subAward;
-    public SubAward getSubAward() {
-        return subAward;
-    }
-    public void setSubAward(SubAward subAward) {
-        this.subAward = subAward;
-        if(subAward != null) {
-            setSequenceNumber(subAward.getSequenceNumber());
-        } else {
-            setSequenceNumber(0);
-        }
-    }
+   
     /**
      * Gets the customAttributeId attribute. 
      * @return Returns the customAttributeId.
@@ -105,6 +97,7 @@ public class SubAwardCustomData extends SubAwardAssociate{
         map.put("subAwardCustomDataId", getSubAwardCustomDataId());
         map.put("value", getValue());
         map.put("customAttributeId", getCustomAttributeId());
+        map.put("subAwardCode", this.getSubAwardCode());
         return map;
     }
     
@@ -174,7 +167,12 @@ public class SubAwardCustomData extends SubAwardAssociate{
         this.customAttribute = customAttribute;
     }
     
-    
+    public String getSubAwardCode() {
+        return subAwardCode;
+    }
+    public void setSubAwardCode(String subAwardCode) {
+        this.subAwardCode = subAwardCode;
+    }
     
     
     
