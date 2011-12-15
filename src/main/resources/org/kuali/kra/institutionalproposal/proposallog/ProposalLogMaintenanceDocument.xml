@@ -39,11 +39,16 @@
         <property name="documentTypeName" value="ProposalLogMaintenanceDocument" />
         <property name="documentPresentationControllerClass" value="org.kuali.kra.institutionalproposal.proposallog.ProposalLogDocumentPresentationController" />
         <property name="documentAuthorizerClass" value="org.kuali.kra.institutionalproposal.proposallog.ProposalLogDocumentAuthorizer" />
+        
         <property name="webScriptFiles">
         <list>
             <value>../dwr/interface/RolodexServiceRight.js</value>
+            <value>../scripts/jquery/jquery.js</value>
+            <value>../scripts/jqueryIncludes.js</value>
+            <value>../scripts/jqLoadRolodex.js</value>       
         </list>
        </property>
+       
     </bean>
 
     <!-- Maintenance Section Definitions -->
