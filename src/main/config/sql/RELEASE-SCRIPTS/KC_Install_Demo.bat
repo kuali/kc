@@ -91,9 +91,9 @@ sqlplus "%un%"/"%pw%"@"%DBSvrNm%" < KC-RELEASE-3_1_1-Demo-ORACLE.sql
 move *.log ../LOGS
 cd ..
 
-cd KC-RELEASE-4_0-SCRIPT
-sqlplus "%un%"/"%pw%"@"%DBSvrNm%" < KC-RELEASE-4_0-Demo-ORACLE.sql
-sqlplus "%Riceun%"/"%Ricepw%"@"%RiceDBSvrNm%" < KR-RELEASE-4_0-Demo-ORACLE.sql
+cd KC-RELEASE-3_2-SCRIPT
+sqlplus "%un%"/"%pw%"@"%DBSvrNm%" < KC-RELEASE-3_2-Demo-ORACLE.sql
+sqlplus "%Riceun%"/"%Ricepw%"@"%RiceDBSvrNm%" < KR-RELEASE-3_2-Demo-ORACLE.sql
 move *.log ../LOGS
 cd ..
 
@@ -112,9 +112,9 @@ mysql -u %un% -p%pw% -D %un% -s -f < KC-RELEASE-3_1_1-Demo-MYSQL.sql > KC-RELEAS
 move *.log ../LOGS/
 cd ..
 
-cd KC-RELEASE-4_0-SCRIPT
-mysql -u %un% -p%pw% -D %un% -s -f < KC-RELEASE-4_0-Demo-MYSQL.sql > KC-RELEASE-4_0-Demo-MYSQL-Install.log 2>&1
-mysql -u %Riceun% -p%Ricepw% -D %Riceun% -s -f < KR-RELEASE-4_0-Demo-MYSQL.sql > KR-RELEASE-4_0-Demo-MYSQL-Install.log 2>&1
+cd KC-RELEASE-3_2-SCRIPT
+mysql -u %un% -p%pw% -D %un% -s -f < KC-RELEASE-3_2-Demo-MYSQL.sql > KC-RELEASE-3_2-Demo-MYSQL-Install.log 2>&1
+mysql -u %Riceun% -p%Ricepw% -D %Riceun% -s -f < KR-RELEASE-3_2-Demo-MYSQL.sql > KR-RELEASE-3_2-Demo-MYSQL-Install.log 2>&1
 move *.log ../LOGS/
 cd ..
 
