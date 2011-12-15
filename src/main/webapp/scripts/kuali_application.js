@@ -3035,3 +3035,27 @@ function updateNotificationRecipients_Callback(data) {
 		}
 	}
 }
+
+function loadRolodexInfoById() {
+	var fullNameElement = $jq('input[name="document.newMaintainableObject.rolodexId"]');
+	if ($jq(fullNameElement) != null) {
+		var rolodexId = $jq(fullNameElement).val();
+		if ($jq(fullNameElement).parent().find('div').length == 0) {
+			$jq(fullNameElement).parent().append('<div>&nbsp;</div>');
+		}
+		if (rolodexId == '') {
+			$jq(fullNameElement).parent().find('div').html("&nbsp;");
+		}
+		else
+		{
+			var dwrReply = {
+					callback:function(data) {
+				if ( data != null ) {
+					$jq(fullNameElement).parent().find('div').html(data.fullName);}
+			},
+			};
+			RolodexServiceRight.getRolodex(rolodexId, dwrReply);
+		}
+	}
+}
+
