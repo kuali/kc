@@ -579,7 +579,7 @@
 																			<fo:table-cell padding="2pt" display-align="center">
 																				<fo:block>
 																					<fo:inline font-weight="bold">
-																						<xsl:text>Followup Date: </xsl:text>
+																						<xsl:text>Follow-up Date: </xsl:text>
 																					</fo:inline>
 																					<xsl:for-each select="followupDate">
 																						<fo:inline>
