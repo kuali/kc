@@ -31,14 +31,12 @@
                 		onchange="manageStatusEndDate(true);"/>
                 </td>
                 <th><div align="right">Negotiation Dates:</div></th>
-                <td align="left" valign="middle" style="nowrap;">
-                	<nobr>
+                <td align="left" valign="middle" style="white-space: nowrap;">
                 	Start: <kul:htmlControlAttribute property="document.negotiationList[0].negotiationStartDate" 
-                				attributeEntry="${negotiationAttributes.negotiationStartDate}" readOnly="${readOnly}"/>
-                				
+                				attributeEntry="${negotiationAttributes.negotiationStartDate}" readOnly="${readOnly}"/>		
+                	
                 	End: <kul:htmlControlAttribute property="document.negotiationList[0].negotiationEndDate" 
                 			attributeEntry="${negotiationAttributes.negotiationEndDate}" readOnly="${readOnly}"/>
-                	</nobr>
                 </td>
             </tr>
             <script language="javascript">
