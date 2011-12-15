@@ -13,3 +13,10 @@ INSERT INTO KRNS_PARM_T (APPL_NMSPC_CD,CONS_CD,NMSPC_CD,OBJ_ID,PARM_DESC_TXT,PAR
 INSERT INTO KRNS_PARM_T (APPL_NMSPC_CD,CONS_CD,NMSPC_CD,OBJ_ID,PARM_DESC_TXT,PARM_DTL_TYP_CD,PARM_NM,PARM_TYP_CD,TXT,VER_NBR)
   VALUES ('KC','A','KC-NEGOTIATION',SYS_GUID(),'Negotiation Medusa','Document','negotiationMedusaHelp','HELP','default.htm?turl=Documents/medusa5.htm',1)
 /
+
+UPDATE KRNS_PARM_T
+SET TXT = 'default.htm?turl=Documents/customattribute.htm'
+WHERE NMSPC_CD = 'KC-PD'
+AND PARM_DTL_TYP_CD = 'Document'
+AND PARM_NM = 'proposalDevelopmentCustomAttributeHelpUrl';
+/
