@@ -33,6 +33,7 @@ import org.kuali.kra.bo.Rolodex;
 import org.kuali.kra.common.permissions.web.bean.AssignedRole;
 import org.kuali.kra.infrastructure.Constants;
 import org.kuali.kra.infrastructure.KraServiceLocator;
+import org.kuali.kra.infrastructure.PermissionConstants;
 import org.kuali.kra.institutionalproposal.home.InstitutionalProposal;
 import org.kuali.kra.institutionalproposal.service.InstitutionalProposalService;
 import org.kuali.kra.irb.Protocol;
@@ -42,6 +43,7 @@ import org.kuali.kra.irb.actions.ProtocolSummaryPrintOptions;
 import org.kuali.kra.irb.actions.amendrenew.ProtocolAmendRenewModule;
 import org.kuali.kra.irb.actions.amendrenew.ProtocolAmendRenewal;
 import org.kuali.kra.irb.actions.risklevel.ProtocolRiskLevel;
+import org.kuali.kra.irb.actions.submit.ProtocolActionService;
 import org.kuali.kra.irb.noteattachment.ProtocolAttachmentProtocol;
 import org.kuali.kra.irb.noteattachment.ProtocolNotepad;
 import org.kuali.kra.irb.personnel.ProtocolPerson;
@@ -56,10 +58,12 @@ import org.kuali.kra.irb.specialreview.ProtocolSpecialReview;
 import org.kuali.kra.printing.xmlstream.PrintBaseXmlStream;
 import org.kuali.kra.proposaldevelopment.bo.DevelopmentProposal;
 import org.kuali.kra.proposaldevelopment.document.ProposalDevelopmentDocument;
+import org.kuali.kra.service.KraAuthorizationService;
 import org.kuali.kra.service.SponsorService;
 import org.kuali.kra.service.UnitService;
 import org.kuali.rice.kns.service.BusinessObjectService;
 import org.kuali.rice.kns.service.ParameterService;
+import org.kuali.rice.kns.util.GlobalVariables;
 import org.kuali.rice.kns.util.KNSPropertyConstants;
 import org.w3.x2001.protocolSummarySchema.ProtoAmendRenewalType;
 import org.w3.x2001.protocolSummarySchema.ProtocolActionsType;
@@ -347,21 +351,30 @@ public class ProtocolSummaryXmlStream extends PrintBaseXmlStream {
             }
         }
     }
+    
+   
+    
     private void setProtocolNotes(ProtocolSummary protocolSummary, Protocol protocol) {
         List<ProtocolNotepad> protocolNotes = protocol.getNotepads();
+        String loggedInUser = GlobalVariables.getUserSession().getPrincipalName();
+        boolean isProtocolPerson = KraServiceLocator.getService(ProtocolActionService.class).isProtocolPersonnel(protocol);
+        boolean hasPermission = hasPermission(loggedInUser, protocol, PermissionConstants.VIEW_RESTRICTED_NOTES);
         for (ProtocolNotepad protocolNotepad : protocolNotes) {
-            ProtocolNotesType protocolNotesType = protocolSummary.addNewProtocolNotes();
-            protocolNotesType.setComments(protocolNotepad.getComments());
-            protocolNotesType.setEntryNumber(protocolNotepad.getEntryNumber());
-            protocolNotesType.setProtocolNumber(protocolNotepad.getProtocolNumber());
-            protocolNotesType.setSequenceNumber(protocolNotepad.getSequenceNumber());
-            protocolNotesType.setUpdateUser(protocolNotepad.getUpdateUser());
-            if (protocolNotepad.getUpdateTimestamp()!=null) {
-                protocolNotesType.setUpdateTimestamp(getDateTimeService().getCalendar(protocolNotepad.getUpdateTimestamp()));
+            if (!(isProtocolPerson) || (hasPermission)) {
+                ProtocolNotesType protocolNotesType = protocolSummary.addNewProtocolNotes();
+                protocolNotesType.setComments(protocolNotepad.getComments());
+                protocolNotesType.setEntryNumber(protocolNotepad.getEntryNumber());
+                protocolNotesType.setProtocolNumber(protocolNotepad.getProtocolNumber());
+                protocolNotesType.setSequenceNumber(protocolNotepad.getSequenceNumber());
+                protocolNotesType.setUpdateUser(protocolNotepad.getUpdateUser());
+                if (protocolNotepad.getUpdateTimestamp() != null) {
+                    protocolNotesType.setUpdateTimestamp(getDateTimeService().getCalendar(protocolNotepad.getUpdateTimestamp()));
+                }
             }
         }
-        
+
     }
+
     private Calendar convertDateToCalendar(Date date){
         return date==null?null:getDateTimeService().getCalendar(date);
     }
@@ -749,6 +762,11 @@ public class ProtocolSummaryXmlStream extends PrintBaseXmlStream {
         this.institutionalProposalService = institutionalProposalService;
     }
 
+ protected final boolean hasPermission(String userId, Protocol protocol, String permissionName) {
+        
+        return KraServiceLocator.getService(KraAuthorizationService.class).hasPermission(userId, protocol, permissionName);
+    }
+ 
     public AwardService getAwardService() {
         if (awardService == null) {
             awardService = KraServiceLocator.getService(AwardService.class);
