@@ -18,7 +18,8 @@
 <c:set var="subAwardAttributes" value="${DataDictionary.SubAward.attributes}" />
 <c:set var="action" value="subAward" />
 
-<kul:tab tabTitle="SubAward" defaultOpen="true" tabErrorKey="document.subAwardList[0].statusCode*,document.subAwardList[0].purchaseOrderNum*,document.subAwardList[0].organization.organizationName*,document.subAwardList[0].requisitionerName*,document.subAwardList[0].subAwardTypeCode*" auditCluster="requiredFieldsAuditErrors" tabAuditKey="" useRiceAuditMode="true">
+<kul:tab tabTitle="SubAward" defaultOpen="true" tabErrorKey="document.subAwardList[0].statusCode*,document.subAwardList[0].purchaseOrderNum*,document.subAwardList[0].organization.organizationName*,document.subAwardList[0].requisitionerName*,document.subAwardList[0].subAwardTypeCode*,document.subAwardList[0].title*,document.subAwardList[0].startDate*,document.subAwardList[0].endDate*,document.subAwardList[0].accountNumber*,document.subAwardList[0].vendorNumber*,document.subAwardList[0].requisitionerUnit*,document.subAwardList[0].archiveLocation*,document.subAwardList[0].closeoutDate*,document.subAwardList[0].comments*"
+ auditCluster="requiredFieldsAuditErrors" tabAuditKey="" useRiceAuditMode="true">
 	<div class="tab-container" align="center">
     	<h3>
     		<span class="subhead-left"> SubAward</span>
