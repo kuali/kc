@@ -18,5 +18,5 @@ UPDATE KRNS_PARM_T
 SET TXT = 'default.htm?turl=Documents/customattribute.htm'
 WHERE NMSPC_CD = 'KC-PD'
 AND PARM_DTL_TYP_CD = 'Document'
-AND PARM_NM = 'proposalDevelopmentCustomAttributeHelpUrl';
+AND PARM_NM = 'proposalDevelopmentCustomAttributeHelpUrl'
 /
