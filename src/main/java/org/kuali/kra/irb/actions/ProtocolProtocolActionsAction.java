@@ -20,6 +20,7 @@ import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
+import java.util.Set;
 
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
@@ -34,6 +35,7 @@ import org.kuali.kra.authorization.ApplicationTask;
 import org.kuali.kra.bo.AttachmentFile;
 import org.kuali.kra.bo.CoeusModule;
 import org.kuali.kra.bo.CoeusSubModule;
+import org.kuali.kra.bo.KcPerson;
 import org.kuali.kra.committee.bo.Committee;
 import org.kuali.kra.committee.bo.CommitteeSchedule;
 import org.kuali.kra.committee.service.CommitteeService;
@@ -42,6 +44,7 @@ import org.kuali.kra.common.notification.service.KcNotificationService;
 import org.kuali.kra.infrastructure.Constants;
 import org.kuali.kra.infrastructure.KeyConstants;
 import org.kuali.kra.infrastructure.KraServiceLocator;
+import org.kuali.kra.infrastructure.RoleConstants;
 import org.kuali.kra.infrastructure.TaskName;
 import org.kuali.kra.irb.Protocol;
 import org.kuali.kra.irb.ProtocolAction;
@@ -146,14 +149,15 @@ import org.kuali.kra.proposaldevelopment.bo.AttachmentDataSource;
 import org.kuali.kra.questionnaire.answer.AnswerHeader;
 import org.kuali.kra.questionnaire.answer.ModuleQuestionnaireBean;
 import org.kuali.kra.questionnaire.answer.QuestionnaireAnswerService;
+import org.kuali.kra.service.KcPersonService;
 import org.kuali.kra.service.TaskAuthorizationService;
 import org.kuali.kra.util.watermark.WatermarkConstants;
 import org.kuali.kra.web.struts.action.AuditActionHelper;
-import org.kuali.kra.web.struts.action.KraTransactionalDocumentActionBase;
 import org.kuali.kra.web.struts.action.StrutsConfirmation;
 import org.kuali.rice.kew.util.KEWConstants;
 import org.kuali.rice.kim.bo.Person;
 import org.kuali.rice.kim.service.PersonService;
+import org.kuali.rice.kim.service.RoleService;
 import org.kuali.rice.kns.document.Document;
 import org.kuali.rice.kns.document.authorization.PessimisticLock;
 import org.kuali.rice.kns.question.ConfirmationQuestion;
@@ -184,13 +188,15 @@ public class ProtocolProtocolActionsAction extends ProtocolAction implements Aud
     private static final String NOT_FOUND_SELECTION = "The attachment was not found for selection ";
 
     private static final String CONFIRM_DELETE_PROTOCOL_KEY = "confirmDeleteProtocol";
+    
     private static final String INVALID_ATTACHMENT = "this attachment version is invalid ";
 
     /** signifies that a response has already be handled therefore forwarding to obtain a response is not needed. */
     private static final ActionForward RESPONSE_ALREADY_HANDLED = null;
     private static final String SUBMISSION_ID = "submissionId";
-     
-    
+   
+  
+      
     private static final Map<String, String> PRINTTAG_MAP = new HashMap<String, String>() {
         {
             put("summary", "PROTOCOL_SUMMARY_VIEW_REPORT");
@@ -841,6 +847,7 @@ public class ProtocolProtocolActionsAction extends ProtocolAction implements Aud
         return reportParameters;
     }
 
+    
     /**
      * 
      * This method is to print the sections selected.  This is more like coeus implementation.
@@ -853,17 +860,8 @@ public class ProtocolProtocolActionsAction extends ProtocolAction implements Aud
      */
     public ActionForward printProtocolSelectedItems(ActionMapping mapping, ActionForm form, HttpServletRequest request,
             HttpServletResponse response) throws Exception {
-        ProtocolForm protocolForm = (ProtocolForm) form;
-        Protocol protocol = protocolForm.getProtocolDocument().getProtocol();
-        List<ProtocolNotepad>  notepadList = protocol.getNotepads();
-          List <ProtocolNotepad>notepadNewList = new ArrayList<ProtocolNotepad>();
-        for(ProtocolNotepad protocolNotepad: notepadList){
-           boolean restrictedView=protocolNotepad.getRestrictedView();
-            if(restrictedView==false) {
-                notepadNewList.add(protocolNotepad);
-            }
-        }
-        protocolForm.getProtocolDocument().getProtocol().setNotepads(notepadNewList);
+       ProtocolForm protocolForm = (ProtocolForm) form;
+      Protocol protocol = protocolForm.getProtocolDocument().getProtocol();
         ActionForward forward = mapping.findForward(Constants.MAPPING_BASIC);
         String fileName = "Protocol_Summary_Report.pdf";
         ProtocolPrintType printType = ProtocolPrintType.PROTOCOL_FULL_PROTOCOL_REPORT;
@@ -3095,6 +3093,7 @@ public class ProtocolProtocolActionsAction extends ProtocolAction implements Aud
     private WatermarkService getWatermarkService() {
         return  KraServiceLocator.getService(WatermarkService.class);  
     }
+  
 
     /**
      * 
