@@ -318,7 +318,8 @@ public class ProtocolNoteAndAttachmentAction extends ProtocolAction {
                     for (ProtocolAttachmentProtocol protocolAttachment : protocolAttachmentList) {
                         if(attachmentDocumentId.equals(protocolAttachment.getDocumentId())){
                             int currentAttachmentSequence=protocolAttachment.getSequenceNumber();
-                            if(getProtocolAttachmentService().isNewAttachmentVersion(protocolAttachment)&&(currentProtoSeqNumber == currentAttachmentSequence)){
+                            String docStatusCode=protocolAttachment.getDocumentStatusCode();
+                            if(getProtocolAttachmentService().isNewAttachmentVersion(protocolAttachment)&&(currentProtoSeqNumber == currentAttachmentSequence)||(docStatusCode.equals("1"))){
                                 attachmentFile = getWatermarkService().applyWatermark(file.getData(),printableArtifacts.getWatermarkable().getWatermark());
                             }else{
                                 attachmentFile = getWatermarkService().applyWatermark(file.getData(),printableArtifacts.getWatermarkable().getInvalidWatermark());
