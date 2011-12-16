@@ -360,7 +360,9 @@ public class RROtherProjectInfoV1_2Generator extends
 				humanSubjectsSupplement.setExemptionNumbers(exemptionNumbers);
 			}
 			humanSubjectsSupplement.setExemptFedReg(YesNoDataType.Y_YES);
-		}
+		}else{
+            humanSubjectsSupplement.setExemptFedReg(YesNoDataType.N_NO);
+        }
 	}
 
 	/*
