@@ -124,6 +124,7 @@ spool KC-RELEASE-3_2-Upgrade-ORACLE-Install.log
 @../../current/3.2/dml/KC_DML_01_KRACOEUS-4930_B000.sql
 @../../current/3.2/dml/KC_DML_01_KRACOEUS-4937_B000.sql
 @../../current/3.2/dml/KC_DML_01_KRACOEUS-4956_B000.sql
+@../../current/3.2/dml/KC_DML_01_KRACOEUS-4962_B000.sql
 @../../current/3.2/dml/KC_DML_01_KRACOEUS-4969_B000.sql
 @../../current/3.2/dml/KC_DML_01_KRACOEUS-4979_B000.sql
 @../../current/3.2/dml/KC_DML_01_KRACOEUS-4998_B000.sql
