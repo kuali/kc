@@ -64,7 +64,6 @@ public class AwardBudgetHierarchyXmlStream extends AwardBudgetBaseStream {
 	 * @return {@link XmlObject} representing the XML
 	 */
 
-  
 	public Map<String, XmlObject> generateXmlStream(
 			KraPersistableBusinessObjectBase printableBusinessObject, Map<String, Object> reportParameters) {
 		Map<String, XmlObject> budgetHierarchyMap = new HashMap<String, XmlObject>();
@@ -97,39 +96,27 @@ public class AwardBudgetHierarchyXmlStream extends AwardBudgetBaseStream {
 	 * attributes.
 	 */
 	private AwardAmountInfo getAwardAmountInfo(Award award) {
-	
+		AmountInfoType amountInfoType = null;
 		AwardAmountInfo awardAmountInfo = AwardAmountInfo.Factory.newInstance();
 		List<AmountInfoType> amountInfoTypes = new ArrayList<AmountInfoType>();
-		AwardHierarchy branchNode = award.getAwardHierarchyService().loadAwardHierarchy(award.getAwardNumber());
-	     List<Award> order=new ArrayList<Award>();
-	      AwardHierarchy rootNode = branchNode.getRoot();
-	      List<Award> awardList = new ArrayList<Award>();
-	      Award parentAward=null;
-	     if(branchNode!=null){
-          Map<String, Collection<AwardHierarchy>> mapOfChildren = new HashMap<String, Collection<AwardHierarchy>>();
-          Map<String, AwardHierarchy> awardHierarchies = createAwardHierarchy(rootNode, mapOfChildren);
-          String parentAwardNumber = branchNode.getRootAwardNumber();        
-          BusinessObjectService businessObjectService = KraServiceLocator.getService(BusinessObjectService.class);   
-          Collection<Award> awards = businessObjectService.findAll(Award.class);
-	      for(Award awardParent : awards){
-	       if(awardParent.getAwardNumber().equals(parentAwardNumber)){
-	         parentAward = awardParent;
-	         break;
-	        }
-	    }
-          if(awardHierarchies.size() >= 1){
-               awardList = createSortHierarchy(order, awardHierarchies, mapOfChildren, parentAwardNumber, null, null);
-          }
-             awardList.add(0,parentAward);
-          for(Award awardNode :awardList){
-              org.kuali.kra.award.home.AwardAmountInfo awardAmount=awardNode.getLastAwardAmountInfo();
-              AmountInfoType amountInfoType =AmountInfoType.Factory.newInstance();
-              amountInfoType = setAwardAmountInfo(awardNode, awardAmount,amountInfoType);
-              amountInfoTypes.add(amountInfoType);
-          }
-        		
+		AwardHierarchy branchNode=award.getAwardHierarchyService().loadFullHierarchyFromAnyNode(award.getParentNumber());
+        org.kuali.kra.award.home.AwardAmountInfo awardAmount=award.getLastAwardAmountInfo();
+        BusinessObjectService businessObjectService = KraServiceLocator.getService(BusinessObjectService.class);   
+        Collection<Award> awards = businessObjectService.findAll(Award.class);
+        Award parentAward = null;
+        for(Award awardParent : awards){
+         if(awardParent.getAwardNumber().equals(branchNode.getAwardNumber())){
+         parentAward = awardParent;
+         break;
+        }
+      }
+      if(branchNode!=null){
+          
+			amountInfoType = setAwardAmountInfo(parentAward, parentAward.getLastAwardAmountInfo());
+			amountInfoTypes = recurseTree(branchNode,amountInfoTypes);
+			amountInfoTypes.add(0,amountInfoType);
 			awardAmountInfo.setAmountInfoArray(amountInfoTypes.toArray(new AmountInfoType[0]));
-			 }
+      }
 		return awardAmountInfo;
 	}
 
@@ -139,9 +126,9 @@ public class AwardBudgetHierarchyXmlStream extends AwardBudgetBaseStream {
 	 */
 	
 	private AmountInfoType setAwardAmountInfo(Award award,
-			org.kuali.kra.award.home.AwardAmountInfo awardAmount,AmountInfoType amountInfoType )
-	       {	   
-	   		if (award.getAccountNumber() != null) {
+			org.kuali.kra.award.home.AwardAmountInfo awardAmount) {	   
+	    AmountInfoType amountInfoType = AmountInfoType.Factory.newInstance();
+		if (award.getAccountNumber() != null) {
 			amountInfoType.setAccountNumber(award.getAccountNumber());
 		}
 		if (awardAmount.getTransactionId() != null) {
@@ -178,7 +165,7 @@ public class AwardBudgetHierarchyXmlStream extends AwardBudgetBaseStream {
 			amountInfoType.setAnticipatedTotalIndirect(awardAmount
 					.getAnticipatedTotalIndirect().bigDecimalValue());
 		}
-		if (award.getAwardNumber()!= null) {
+		if (award.getAwardNumber() != null) {
 			amountInfoType.setAwardNumber(award.getAwardNumber());
 		 }
 		if (awardAmount.getObligationExpirationDate() != null) {
@@ -201,53 +188,26 @@ public class AwardBudgetHierarchyXmlStream extends AwardBudgetBaseStream {
 		// amountInfoType.setTreeLevel(awardAmount.get);
 		return amountInfoType;
 	}
+	
 
+    private List<AmountInfoType> recurseTree(AwardHierarchy branchNode,List<AmountInfoType> amountInfoTypes) {
+
+        Map<String, Object> criteria = ServiceHelper.getInstance().buildCriteriaMap(new String[]{"parentAwardNumber", "active"}, new Object[]{branchNode.getAwardNumber(), Boolean.TRUE});
+        Collection c = businessObjectService.findMatchingOrderBy(AwardHierarchy.class, criteria, AwardHierarchy.UNIQUE_IDENTIFIER_FIELD, true);
+        branchNode.setChildren(new ArrayList<AwardHierarchy>(c));
+        if(branchNode.hasChildren()) {
+          for(AwardHierarchy childNode: branchNode.getChildren()) {
+              org.kuali.kra.award.home.AwardAmountInfo awardAmount= childNode.getAward().getLastAwardAmountInfo();
+              amountInfoTypes.add(setAwardAmountInfo(childNode.getAward(), awardAmount));
+              childNode.setParent(branchNode);
+              childNode.setRoot(branchNode.getRoot());  
+              recurseTree(childNode,amountInfoTypes);
+             
+            }
+        } 
+       return amountInfoTypes;
+    }
     
-    protected Map<String, AwardHierarchy> createAwardHierarchy(AwardHierarchy awardHierarchyRootNode,
-            Map<String, Collection<AwardHierarchy>> mapOfChildren) {
-            Map<String, AwardHierarchy> hierarchyMap = new HashMap<String, AwardHierarchy>();
-            createAwardHierarchyMap(hierarchyMap, awardHierarchyRootNode, mapOfChildren);
-            return hierarchyMap;
-        }
-            protected void createAwardHierarchyMap(Map<String, AwardHierarchy> hierarchyMap, AwardHierarchy node, Map<String, Collection<AwardHierarchy>> mapOfChildren) {
-            if(node != null) {
-            hierarchyMap.put(node.getAwardNumber(), node);
-           mapOfChildren.put(node.getAwardNumber(), new ArrayList<AwardHierarchy>(node.getChildren()));
-            for(AwardHierarchy childNode: node.getChildren()) {
-            createAwardHierarchyMap(hierarchyMap, childNode, mapOfChildren);
-            }
-            }
-           }
-
-    private List createSortHierarchy(List<Award> listForAwardHierarchySort, Map<String, AwardHierarchy> awardHierarchies,
-            Map<String, Collection<AwardHierarchy>> mapOfChildren, String parentAwardNumber,
-            Collection<AwardHierarchy> ahCollection, AwardHierarchy awardHierarchy) {
-
-                while(!StringUtils.equalsIgnoreCase(parentAwardNumber,Constants.AWARD_HIERARCHY_DEFAULT_PARENT_OF_ROOT)){
-                if(mapOfChildren.get(parentAwardNumber).size()!=0){
-                    ahCollection = mapOfChildren.get(parentAwardNumber);
-                    awardHierarchy = ahCollection.iterator().next();
-                    parentAwardNumber = awardHierarchy.getAwardNumber();
-                    listForAwardHierarchySort.add(awardHierarchy.getAward());
-                    }else if(ahCollection!=null && ahCollection.size() ==0){
-                        awardHierarchy = awardHierarchies.get(awardHierarchies.get(parentAwardNumber).getAwardNumber());
-                    if(awardHierarchy!=null){
-                    parentAwardNumber = awardHierarchy.getParentAwardNumber();
-                if(!StringUtils.equalsIgnoreCase(parentAwardNumber,Constants.AWARD_HIERARCHY_DEFAULT_PARENT_OF_ROOT)){
-                   mapOfChildren.get(parentAwardNumber).remove(awardHierarchy);
-                    }
-                    }else{
-                        parentAwardNumber = Constants.AWARD_HIERARCHY_DEFAULT_PARENT_OF_ROOT;
-                    }
-                    }
-                    else if(awardHierarchy!=null){
-                    parentAwardNumber = awardHierarchy.getParentAwardNumber();
-                    ahCollection.remove(awardHierarchy);
-                    }
-                  
-                }
-        return listForAwardHierarchySort;
-        }
  
 }
 
