@@ -142,6 +142,9 @@ public class PHS398FellowshipSupplementalV1_2Generator extends PHS398FellowshipS
 
     private static final int APPENDIX = 96;
     private static final int SPONSOR_COSPONSOR = 134;
+    
+    private static final String ANSWER_YES = "Yes";
+    private static final String ANSWER_NO = "No";
 
     /*
      * This method is used to get PHSFellowshipSupplemental12 XMLObject and set the data to it from DevelopmentProposal data.
@@ -191,6 +194,7 @@ public class PHS398FellowshipSupplementalV1_2Generator extends PHS398FellowshipS
                 Integer parentQuestionNumber = questionnaireQuestion.getParentQuestionNumber();
                 Integer questionId = question.getQuestionIdAsInteger();
                 if (answer != null) {
+                   if( !answer .equalsIgnoreCase(ANSWER_YES) || !answer.equalsIgnoreCase(ANSWER_NO)) {
                     switch (questionId) {
                         case HUMAN:
                             researchTrainingPlan.setHumanSubjectsIndefinite(getYesNoEnum(answer));
@@ -333,6 +337,65 @@ public class PHS398FellowshipSupplementalV1_2Generator extends PHS398FellowshipS
                             break;
 
                     }
+                   }
+                   if( answer.equalsIgnoreCase(ANSWER_YES) || answer.equalsIgnoreCase(ANSWER_NO)){
+                       switch (questionId) {
+                           case HUMAN:
+                               researchTrainingPlan.setHumanSubjectsIndefinite(null);
+                               researchTrainingPlan.setHumanSubjectsInvolved(null);
+                               break;
+                           case VERT:                                                              
+                               researchTrainingPlan.setVertebrateAnimalsIndefinite(null);
+                               researchTrainingPlan.setVertebrateAnimalsUsed(null);
+                               break;
+                           case CLINICAL:                              
+                               researchTrainingPlan.setClinicalTrial(null);
+                               break;
+                           case PHASE3CLINICAL:                               
+                               researchTrainingPlan.setPhase3ClinicalTrial(null);
+                               break;
+                           case FIELD_TRAINING:                               
+                               additionalInfoType.setFieldOfTraining(null);
+                               break;
+                           case STEMCELLS:
+                              stemCellstype.setIsHumanStemCellsInvolved(null);
+                               break;
+                           case NRSA_SUPPORT:
+                               additionalInfoType.setCurrentPriorNRSASupportIndicator(null);
+                               break;
+                           default:
+                               break;
+                       }
+                   }
+                }
+                else if (answer == null ) {
+                    switch (questionId) {
+                        case HUMAN:
+                            researchTrainingPlan.setHumanSubjectsIndefinite(null);
+                            researchTrainingPlan.setHumanSubjectsInvolved(null);
+                            break;
+                        case VERT:                           
+                            researchTrainingPlan.setVertebrateAnimalsIndefinite(null);
+                            researchTrainingPlan.setVertebrateAnimalsUsed(null);
+                            break;
+                        case CLINICAL:
+                           researchTrainingPlan.setClinicalTrial(null);
+                            break;
+                        case PHASE3CLINICAL:
+                           researchTrainingPlan.setPhase3ClinicalTrial(null);
+                            break; 
+                        case FIELD_TRAINING:                               
+                           additionalInfoType.setFieldOfTraining(null);
+                        break; 
+                        case STEMCELLS:
+                           stemCellstype.setIsHumanStemCellsInvolved(null);
+                            break;
+                        case NRSA_SUPPORT:
+                           additionalInfoType.setCurrentPriorNRSASupportIndicator(null);
+                            break;
+                        default:
+                            break;
+                    }                    
                 }
             }
         }
@@ -570,7 +633,11 @@ public class PHS398FellowshipSupplementalV1_2Generator extends PHS398FellowshipS
     private void setNarrativeDataForResearchTrainingPlan(PHSFellowshipSupplemental12 phsFellowshipSupplemental,
             ResearchTrainingPlan researchTrainingPlan) {
         AttachedFileDataType attachedFileDataType = null;
-        SpecificAims specificAims = researchTrainingPlan.addNewSpecificAims();
+        researchTrainingPlan.addNewSpecificAims();
+        researchTrainingPlan.addNewResearchStrategy();
+        researchTrainingPlan.addNewRespectiveContributions();
+        researchTrainingPlan.addNewSelectionOfSponsorAndInstitution();
+        researchTrainingPlan.addNewResponsibleConductOfResearch();
         Sponsors sponsors = phsFellowshipSupplemental.addNewSponsors();
         SponsorCosponsorInformation sponsorCosponsorInfo = sponsors.addNewSponsorCosponsorInformation();
         for (Narrative narrative : pdDoc.getDevelopmentProposal().getNarratives()) {
@@ -590,7 +657,9 @@ public class PHS398FellowshipSupplementalV1_2Generator extends PHS398FellowshipS
                         if (attachedFileDataType == null) {
                             continue;
                         }
+                        SpecificAims specificAims =SpecificAims.Factory.newInstance();
                         specificAims.setAttFile(attachedFileDataType);
+                        researchTrainingPlan.setSpecificAims(specificAims);
                         break;
                     case RESEARCH_STRATEGY:
                         attachedFileDataType = getAttachedFileType(narrative);
@@ -759,12 +828,8 @@ public class PHS398FellowshipSupplementalV1_2Generator extends PHS398FellowshipS
      * @param researchTrainingPlan
      */
     private void setHumanSubjectInvolvedAndVertebrateAnimalUsed(ResearchTrainingPlan researchTrainingPlan) {
-        researchTrainingPlan.setHumanSubjectsInvolved(YesNoDataType.N_NO);
-        researchTrainingPlan.setHumanSubjectsIndefinite(YesNoDataType.N_NO);
-        researchTrainingPlan.setVertebrateAnimalsUsed(YesNoDataType.N_NO);
-        researchTrainingPlan.setVertebrateAnimalsIndefinite(YesNoDataType.N_NO);
-        researchTrainingPlan.setClinicalTrial(YesNoDataType.N_NO);
-        researchTrainingPlan.setPhase3ClinicalTrial(YesNoDataType.N_NO);
+        researchTrainingPlan.setHumanSubjectsInvolved(YesNoDataType.N_NO);       
+        researchTrainingPlan.setVertebrateAnimalsUsed(YesNoDataType.N_NO);        
         for (ProposalSpecialReview propSpecialReview : pdDoc.getDevelopmentProposal().getPropSpecialReviews()) {
             switch (Integer.parseInt(propSpecialReview.getSpecialReviewTypeCode())) {
                 case 1:
@@ -805,13 +870,13 @@ public class PHS398FellowshipSupplementalV1_2Generator extends PHS398FellowshipS
      * ProposalYnq
      */
     private void setAdditionalInformation(AdditionalInformation additionalInformation) {
+        Boolean hasInvestigator = false;
         additionalInformation.setAlernatePhoneNumber("None");
-        additionalInformation.setConcurrentSupport(YesNoDataType.N_NO); // default
-        additionalInformation.setCurrentPriorNRSASupportIndicator(YesNoDataType.N_NO);
-        additionalInformation.setCitizenship(CitizenshipDataType.U_S_CITIZEN_OR_NONCITIZEN_NATIONAL);
+        additionalInformation.addNewFellowshipTrainingAndCareerGoals();
+        additionalInformation.addNewActivitiesPlannedUnderThisAward();        
         for (ProposalPerson proposalPerson : pdDoc.getDevelopmentProposal().getProposalPersons()) {
             if (proposalPerson.isInvestigator()) {
-
+                hasInvestigator = true;
                 CitizenshipTypes citizenShip = s2sUtilService.getCitizenship(proposalPerson);
                 if (citizenShip.getCitizenShip().trim().equals(CitizenshipDataType.NON_U_S_CITIZEN_WITH_TEMPORARY_VISA.toString())) {
                     additionalInformation.setCitizenship(CitizenshipDataType.NON_U_S_CITIZEN_WITH_TEMPORARY_VISA);
@@ -830,6 +895,9 @@ public class PHS398FellowshipSupplementalV1_2Generator extends PHS398FellowshipS
 
 
             }
+        }
+        if(!hasInvestigator){
+            additionalInformation.setCitizenship(null);
         }
 
         additionalInformation.setConcurrentSupport(YesNoDataType.N_NO);
