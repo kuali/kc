@@ -192,8 +192,8 @@
   <bean id="Negotiation-negotiatorName" parent="Negotiation-negotiatorName-parentBean" />
     <bean id="Negotiation-negotiatorName-parentBean" abstract="true" parent="KcPerson-fullName">
         <property name="name" value="negotiatorName" />
-        <property name="label" value="Negotiator" />
-        <property name="shortLabel" value="Negotiator" />
+        <property name="label" value="Negotiator Full Name" />
+        <property name="shortLabel" value="Negotiator Full Name" />
     </bean>  
   
   <bean id="Negotiation-negotiationStartDate" parent="Negotiation-negotiationStartDate-parentBean" />
@@ -285,6 +285,9 @@
   <bean id="Negotiation-associatedNegotiable.subAwardRequisitionerId" parent="Negotiation-associatedNegotiable.subAwardRequisitionerId-parentBean"/>
   <bean id="Negotiation-associatedNegotiable.subAwardRequisitionerId-parentBean" parent="SubAward-requisitionerId">
   	<property name="name" value="associatedNegotiable.subAwardRequisitionerId" />
+  	<property name="label" value="Requesitioner Id" />
+  	<property name="summary" value="Requesitioner Id" />
+    <property name="description" value="Requesitioner Id" />
   </bean>
   
   <bean id="Negotiation-associatedNegotiable.subAwardRequisitionerUnitNumber" parent="Negotiation-associatedNegotiable.subAwardRequisitionerUnitNumber-parentBean"/>
@@ -333,10 +336,10 @@
   <bean id="Negotiation-associatedNegotiable.piName" parent="Negotiation-associatedNegotiable.piName-parentBean" />
   <bean id="Negotiation-associatedNegotiable.piName-parentBean" abstract="true" parent="NegotiationUnassociatedDetail-piName">
     <property name="name" value="associatedNegotiable.piName" />
-    <property name="label" value="Principal Investigator" />
+    <property name="label" value="Principal Investigator Full Name" />
     <property name="shortLabel" value="PI" />
-    <property name="summary" value="Principal Investigator" />
-    <property name="description" value="Principal Investigator" />
+    <property name="summary" value="Principal Investigator Full Name" />
+    <property name="description" value="Principal Investigator Full Name" />
   </bean>
   
   <bean id="Negotiation-associatedNegotiable.negotiableProposalTypeCode" parent="Negotiation-associatedNegotiable.negotiableProposalTypeCode-parentBean" />
