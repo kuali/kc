@@ -102,8 +102,30 @@
   					</c:if>
             	</th>
             	<th><kul:htmlAttributeLabel attributeEntry="${attachmentAttributes.description}" useShortLabel="true" /> <kul:htmlControlAttribute property="${activityPath}.newAttachment.description" attributeEntry="${attachmentAttributes.description}" readOnly="${readOnly}"/></th>
-            	<th><html:image property="methodToCall.addAttachment.activityIndex${activityIndex}"
-   		  				src="${ConfigProperties.kra.externalizable.images.url}tinybutton-add1.gif" styleClass="tinybutton"/>
+            	<th>
+            		<html:image property="methodToCall.addAttachment.activityIndex${activityIndex}"
+            			src="${ConfigProperties.kra.externalizable.images.url}tinybutton-add1.gif" styleClass="tinybutton"
+   		  				onclick="return validateFileDescriptionField${activityIndex}();"/>
+   		  				<script language="javascript">
+   		  					<!--
+   		  						function validateFileDescriptionField${activityIndex}() {
+				  					var fileField = document.getElementsByName('${activityPath}.newAttachment.newFile')[0];
+				  					if (fileField.value != '') {
+				  						var errorString = '';
+				  						var fileFieldDescriptionField = document.getElementsByName('${activityPath}.newAttachment.description')[0];
+				  						
+				  						if (fileFieldDescriptionField.value == '') {
+			  								window.alert('Please enter an Attachment Description.');
+			  								return false;
+			  							} else {
+			  								return true;
+			  							}
+				  					} else {
+				  						return true;
+				  					}
+				  				}
+   		  					-->
+   		  				</script>
             	</th>
             </tr>
             </c:if>
