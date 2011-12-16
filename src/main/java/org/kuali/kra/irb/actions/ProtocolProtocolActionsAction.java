@@ -1035,7 +1035,8 @@ public class ProtocolProtocolActionsAction extends ProtocolAction implements Aud
                     for (ProtocolAttachmentProtocol protocolAttachment : protocolAttachmentList) {
                         if(attachmentDocumentId.equals(protocolAttachment.getDocumentId())){
                             int currentAttachmentSequence=protocolAttachment.getSequenceNumber();
-                             if((getProtocolAttachmentService().isNewAttachmentVersion(protocolAttachment))&&(currentProtoSeqNumber == currentAttachmentSequence)){
+                            String docStatusCode=protocolAttachment.getDocumentStatusCode();
+                             if(((getProtocolAttachmentService().isNewAttachmentVersion(protocolAttachment))&&(currentProtoSeqNumber == currentAttachmentSequence))||(docStatusCode.equals("1"))){
                                 attachmentFile = getWatermarkService().applyWatermark(file.getData(),printableArtifacts.getWatermarkable().getWatermark());
                             }else{
                                 attachmentFile = getWatermarkService().applyWatermark(file.getData(),printableArtifacts.getWatermarkable().getInvalidWatermark());
@@ -1043,12 +1044,11 @@ public class ProtocolProtocolActionsAction extends ProtocolAction implements Aud
                             }
                         }
                     }
+                }else{
+                    attachmentFile = getWatermarkService().applyWatermark(file.getData(),printableArtifacts.getWatermarkable().getWatermark()); 
                 }
-            }else{
-                attachmentFile = getWatermarkService().applyWatermark(file.getData(),printableArtifacts.getWatermarkable().getWatermark()); 
             }
-        }
-        catch (Exception e) {
+        }catch (Exception e) {
             LOG.error("Exception Occured in ProtocolNoteAndAttachmentAction. : ",e);    
         }        
         return attachmentFile;
