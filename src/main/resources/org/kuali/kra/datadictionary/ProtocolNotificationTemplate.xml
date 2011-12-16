@@ -65,8 +65,8 @@
     <bean id="ProtoNotificationTempl-actionTypeCode-parentBean" abstract="true" parent="AttributeDefinition" >
         <property name="name" value="actionTypeCode" />
         <property name="forceUppercase" value="false" />
-        <property name="label" value="Protool Action Type" />
-        <property name="shortLabel" value="Protool Action Type" />
+        <property name="label" value="Protocol Action Type" />
+        <property name="shortLabel" value="Protocol Action Type" />
         <property name="maxLength" value="3" />
         <property name="required" value="true" />
         <property name="validationPattern" >
@@ -76,8 +76,8 @@
             <bean parent="TextControlDefinition"
                 p:size="3" />
         </property>
-        <property name="summary" value="Protool Action Type Code" />
-        <property name="description" value="Protool Action Type Code" />
+        <property name="summary" value="Protocol Action Type Code" />
+        <property name="description" value="Protocol Action Type Code" />
     </bean>
 
     <bean id="ProtoNotificationTempl-fileName" parent="ProtoNotificationTempl-fileName-parentBean" />
