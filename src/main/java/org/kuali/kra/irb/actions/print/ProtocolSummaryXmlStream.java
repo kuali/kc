@@ -42,6 +42,7 @@ import org.kuali.kra.irb.actions.ProtocolAction;
 import org.kuali.kra.irb.actions.ProtocolSummaryPrintOptions;
 import org.kuali.kra.irb.actions.amendrenew.ProtocolAmendRenewModule;
 import org.kuali.kra.irb.actions.amendrenew.ProtocolAmendRenewal;
+import org.kuali.kra.irb.actions.notification.ProtocolNotificationTemplateAuthorizationService;
 import org.kuali.kra.irb.actions.risklevel.ProtocolRiskLevel;
 import org.kuali.kra.irb.actions.submit.ProtocolActionService;
 import org.kuali.kra.irb.noteattachment.ProtocolAttachmentProtocol;
@@ -63,7 +64,6 @@ import org.kuali.kra.service.SponsorService;
 import org.kuali.kra.service.UnitService;
 import org.kuali.rice.kns.service.BusinessObjectService;
 import org.kuali.rice.kns.service.ParameterService;
-import org.kuali.rice.kns.util.GlobalVariables;
 import org.kuali.rice.kns.util.KNSPropertyConstants;
 import org.w3.x2001.protocolSummarySchema.ProtoAmendRenewalType;
 import org.w3.x2001.protocolSummarySchema.ProtocolActionsType;
@@ -105,7 +105,7 @@ public class ProtocolSummaryXmlStream extends PrintBaseXmlStream {
     private BusinessObjectService businessObjectService;
     private InstitutionalProposalService institutionalProposalService;
     private AwardService awardService;
-
+    
 
     /**
      * @see org.kuali.kra.printing.xmlstream.XmlStream#generateXmlStream(org.kuali.kra.bo.KraPersistableBusinessObjectBase, java.util.Map)
@@ -356,11 +356,12 @@ public class ProtocolSummaryXmlStream extends PrintBaseXmlStream {
     
     private void setProtocolNotes(ProtocolSummary protocolSummary, Protocol protocol) {
         List<ProtocolNotepad> protocolNotes = protocol.getNotepads();
-        String loggedInUser = GlobalVariables.getUserSession().getPrincipalName();
         boolean isProtocolPerson = KraServiceLocator.getService(ProtocolActionService.class).isProtocolPersonnel(protocol);
-        boolean hasPermission = hasPermission(loggedInUser, protocol, PermissionConstants.VIEW_RESTRICTED_NOTES);
+        boolean hasPermission = KraServiceLocator.getService(ProtocolNotificationTemplateAuthorizationService.class).hasPermission(
+                PermissionConstants.VIEW_RESTRICTED_NOTES);
         for (ProtocolNotepad protocolNotepad : protocolNotes) {
-            if (!(isProtocolPerson) || (hasPermission)) {
+            boolean restrictedView = protocolNotepad.getRestrictedView();
+            if (!(isProtocolPerson) && (hasPermission) || (!restrictedView)) {
                 ProtocolNotesType protocolNotesType = protocolSummary.addNewProtocolNotes();
                 protocolNotesType.setComments(protocolNotepad.getComments());
                 protocolNotesType.setEntryNumber(protocolNotepad.getEntryNumber());
