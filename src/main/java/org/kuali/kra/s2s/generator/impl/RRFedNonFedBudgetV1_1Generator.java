@@ -816,6 +816,9 @@ public class RRFedNonFedBudgetV1_1Generator extends RRFedNonFedBudgetBaseGenerat
                 if (indirectCostDetails.getFunds() != null) {
                     total.setFederal(indirectCostDetails.getFunds().bigDecimalValue());
                 }
+                else{
+                    total.setFederal(new BigDecimal(0.00));
+                }
                 if (indirectCostDetails.getCostSharing() != null) {
                     total.setNonFederal(indirectCostDetails.getCostSharing().bigDecimalValue());
                     if (indirectCostDetails.getFunds() != null) {
@@ -825,6 +828,14 @@ public class RRFedNonFedBudgetV1_1Generator extends RRFedNonFedBudgetBaseGenerat
                     else {
                         total.setTotalFedNonFed(indirectCostDetails.getCostSharing().bigDecimalValue());
                     }
+                }
+                else if(indirectCostDetails.getFunds() != null){
+                    total.setTotalFedNonFed(indirectCostDetails.getFunds().bigDecimalValue());
+                    total.setNonFederal(new BigDecimal(0.00));
+                }
+                else{
+                    total.setNonFederal(new BigDecimal(0.00));
+                    total.setTotalFedNonFed(new BigDecimal(0.00));
                 }
                 indirectCost.setFundRequested(total);
                 indirectCostList.add(indirectCost);
