@@ -90,20 +90,26 @@ public class AwardActionsAction extends AwardAction implements AuditModeAction {
     public static final String AWARD_COPY_CHILD_OF_OPTION = "b";
     
     @Override
-    public ActionForward docHandler(ActionMapping mapping, ActionForm form
-            , HttpServletRequest request, HttpServletResponse response) throws Exception { AwardForm awardForm = (AwardForm) form;
-            String command = request.getParameter(KEWConstants.COMMAND_PARAMETER);
-            if(StringUtils.isNotEmpty(command) && KEWConstants.DOCSEARCH_COMMAND.equals(command)) {
-                loadDocumentInForm(request, awardForm); 
-                KualiWorkflowDocument workflowDoc = awardForm.getAwardDocument().getDocumentHeader().getWorkflowDocument();
-                if(workflowDoc != null)
-                    awardForm.setDocTypeName(workflowDoc.getDocumentType());
-                request.setAttribute("selectedAwardNumber", awardForm.getAwardDocument().getAward().getAwardNumber());   
-            } 
-            populateAwardHierarchy(form); 
-
-            return mapping.findForward(Constants.MAPPING_AWARD_ACTIONS_PAGE);
+    public ActionForward docHandler(ActionMapping mapping, ActionForm form, HttpServletRequest request, HttpServletResponse response) 
+        throws Exception { 
+        AwardForm awardForm = (AwardForm) form;
+        String command = request.getParameter(KEWConstants.COMMAND_PARAMETER);
+        ActionForward forward = mapping.findForward(Constants.MAPPING_AWARD_BASIC);
+        if (StringUtils.isNotEmpty(command) && KEWConstants.DOCSEARCH_COMMAND.equals(command)) {
+            loadDocumentInForm(request, awardForm); 
+            KualiWorkflowDocument workflowDoc = awardForm.getAwardDocument().getDocumentHeader().getWorkflowDocument();
+            if (workflowDoc != null) {
+                awardForm.setDocTypeName(workflowDoc.getDocumentType());
             }
+            request.setAttribute("selectedAwardNumber", awardForm.getAwardDocument().getAward().getAwardNumber());
+        } else {
+            forward = super.docHandler(mapping, awardForm, request, response);
+        }
+        populateAwardHierarchy(form);
+
+        return forward;
+    }
+    
     @Override
     public ActionForward execute(ActionMapping mapping, ActionForm form, HttpServletRequest request, HttpServletResponse response)
             throws Exception {
