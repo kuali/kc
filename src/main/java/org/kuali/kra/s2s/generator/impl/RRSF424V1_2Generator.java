@@ -54,6 +54,7 @@ import org.kuali.kra.budget.BudgetDecimal;
 import org.kuali.kra.budget.core.Budget;
 import org.kuali.kra.budget.distributionincome.BudgetProjectIncome;
 import org.kuali.kra.budget.document.BudgetDocument;
+import org.kuali.kra.budget.nonpersonnel.BudgetLineItem;
 import org.kuali.kra.budget.parameters.BudgetPeriod;
 import org.kuali.kra.proposaldevelopment.bo.Narrative;
 import org.kuali.kra.proposaldevelopment.bo.ProposalPerson;
@@ -171,8 +172,14 @@ public class RRSF424V1_2Generator extends RRSF424BaseGenerator {
 
 			BudgetDecimal fedNonFedCost = BudgetDecimal.ZERO;
 			fedNonFedCost = fedNonFedCost.add(budget.getTotalCost());
-			fedNonFedCost = fedNonFedCost.add(budget.getCostSharingAmount());
 
+			for (BudgetPeriod budgetPeriod : budget.getBudgetPeriods()) {
+                for (BudgetLineItem lineItem : budgetPeriod.getBudgetLineItems()) {
+                    if(budget.getSubmitCostSharingFlag() && lineItem.getSubmitCostSharingFlag())
+                    fedNonFedCost=fedNonFedCost.add(lineItem.getCostSharingAmount());
+                    }
+            }
+			
 			funding = EstimatedProjectFunding.Factory.newInstance();
 			funding.setTotalEstimatedAmount(budget.getTotalCost()
 					.bigDecimalValue());

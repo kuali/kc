@@ -231,7 +231,12 @@ public class SF424AV1_0Generator extends SF424BaseGenerator {
         }
         if (budget != null) {
         	budget.refreshNonUpdateableReferences();
-            costSharing = budget.getCostSharingAmount();
+        	for (BudgetPeriod budgetPeriod : budget.getBudgetPeriods()) {
+                for (BudgetLineItem lineItem : budgetPeriod.getBudgetLineItems()) {
+                    if(budget.getSubmitCostSharingFlag() && lineItem.getSubmitCostSharingFlag())
+                        costSharing=costSharing.add(lineItem.getCostSharingAmount());
+                    }
+            }
             totalFedCost = budget.getTotalCost().subtract(costSharing);
             summaryLineItem.setBudgetFederalNewOrRevisedAmount(totalFedCost.bigDecimalValue());
             summaryLineItem.setBudgetNonFederalNewOrRevisedAmount(costSharing.bigDecimalValue());
@@ -264,14 +269,21 @@ public class SF424AV1_0Generator extends SF424BaseGenerator {
             resourceLineItem.setActivityTitle(pdDoc.getDevelopmentProposal().getS2sOpportunity().getOpportunityTitle());
         }
         if (budget != null) {
-            resourceLineItem.setBudgetApplicantContributionAmount(budget.getCostSharingAmount().bigDecimalValue());
-            resourceLineItem.setBudgetTotalContributionAmount(budget.getCostSharingAmount().bigDecimalValue());
+            BudgetDecimal fedNonFedCost = BudgetDecimal.ZERO;
+            for (BudgetPeriod budgetPeriod : budget.getBudgetPeriods()) {
+                for (BudgetLineItem lineItem : budgetPeriod.getBudgetLineItems()) {
+                    if(budget.getSubmitCostSharingFlag() && lineItem.getSubmitCostSharingFlag())
+                        fedNonFedCost=fedNonFedCost.add(lineItem.getCostSharingAmount());
+                    }
+            }
+            resourceLineItem.setBudgetApplicantContributionAmount(fedNonFedCost.bigDecimalValue());
+            resourceLineItem.setBudgetTotalContributionAmount(fedNonFedCost.bigDecimalValue());
             resourceLineItemArray[0] = resourceLineItem;
             nonFederalResources.setResourceLineItemArray(resourceLineItemArray);
 
             ResourceTotals resourceTotals = ResourceTotals.Factory.newInstance();
-            resourceTotals.setBudgetApplicantContributionAmount(budget.getCostSharingAmount().bigDecimalValue());
-            resourceTotals.setBudgetTotalContributionAmount(budget.getCostSharingAmount().bigDecimalValue());
+            resourceTotals.setBudgetApplicantContributionAmount(fedNonFedCost.bigDecimalValue());
+            resourceTotals.setBudgetTotalContributionAmount(fedNonFedCost.bigDecimalValue());
             nonFederalResources.setResourceTotals(resourceTotals);
         }
 

@@ -649,7 +649,9 @@ public class S2SBudgetCalculatorServiceImpl implements
 			bpData.setLineItemCount(budgetPeriod.getBudgetLineItems().size());
             if(budget.getSubmitCostSharingFlag()){
     			for (BudgetLineItem lineItem : budgetPeriod.getBudgetLineItems()) {
-    		        totalCostSharing = totalCostSharing.add(lineItem.getCostSharingAmount());
+    			    if(lineItem.getSubmitCostSharingFlag()){
+    			        totalCostSharing = totalCostSharing.add(lineItem.getCostSharingAmount());
+    			    }
     				for (BudgetLineItemCalculatedAmount lineItemCalculatedAmt : lineItem
     				        .getBudgetLineItemCalculatedAmounts()) {
     				    lineItemCalculatedAmt.refreshReferenceObject("rateClass");
@@ -1137,11 +1139,13 @@ public class S2SBudgetCalculatorServiceImpl implements
 									.setBaseCostSharing(rateBase
 											.getBaseCostSharing() == null ? BudgetDecimal.ZERO
 											: rateBase.getBaseCostSharing());
-							indirectCostDetails
-									.setCostSharing(rateBase
-											.getCalculatedCostSharing() == null ? BudgetDecimal.ZERO
-											: rateBase
-													.getCalculatedCostSharing());
+							if(canBudgetLineItemCostSharingInclude(budget, lineItem)){
+							    indirectCostDetails
+							    .setCostSharing(rateBase
+							            .getCalculatedCostSharing() == null ? BudgetDecimal.ZERO
+							                    : rateBase
+							                    .getCalculatedCostSharing());
+							}
 							indirectCostDetails.setCostType(rateClass
 									.getDescription());
 							indirectCostDetails
@@ -1167,12 +1171,14 @@ public class S2SBudgetCalculatorServiceImpl implements
 											rateBase.getCalculatedCost() == null ? BudgetDecimal.ZERO
 													: rateBase
 															.getCalculatedCost());
-							calculatedCostSharing = indirectCostDetails
-									.getCostSharing()
-									.add(
-											rateBase.getCalculatedCostSharing() == null ? BudgetDecimal.ZERO
-													: rateBase
-															.getCalculatedCostSharing());
+							if(canBudgetLineItemCostSharingInclude(budget, lineItem)){
+							    calculatedCostSharing = indirectCostDetails
+							    .getCostSharing()
+							    .add(
+							            rateBase.getCalculatedCostSharing() == null ? BudgetDecimal.ZERO
+							                    : rateBase
+							                    .getCalculatedCostSharing());
+							}
 							indirectCostDetails.setBase(baseCost);
 							indirectCostDetails
 									.setBaseCostSharing(baseCostSharing);
@@ -1187,9 +1193,11 @@ public class S2SBudgetCalculatorServiceImpl implements
 						totalIndirectCosts = totalIndirectCosts
 								.add(rateBase.getCalculatedCost() == null ? BudgetDecimal.ZERO
 										: rateBase.getCalculatedCost());
+						if(canBudgetLineItemCostSharingInclude(budget, lineItem)){
 						totalIndirectCostSharing = totalIndirectCostSharing
 								.add(rateBase.getCalculatedCostSharing() == null ? BudgetDecimal.ZERO
 										: rateBase.getCalculatedCostSharing());
+						}
 					}
 				}
 			}
