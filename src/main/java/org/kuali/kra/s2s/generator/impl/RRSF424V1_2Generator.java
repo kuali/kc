@@ -98,6 +98,9 @@ public class RRSF424V1_2Generator extends RRSF424BaseGenerator {
 		rrsf42412.setApplicantInfo(getApplicationInfo());
 		rrsf42412.setEmployerID(getEmployerId());
 		rrsf42412.setApplicantType(getApplicantType());
+		if(getAgencyRoutingNumber()!=null){
+	        rrsf42412.setAgencyRoutingNumber(getAgencyRoutingNumber());
+	        }
 		rrsf42412.setApplicationType(getApplicationType());
 		rrsf42412.setApplicantID(pdDoc.getDevelopmentProposal()
 				.getProposalNumber());
@@ -845,7 +848,10 @@ public class RRSF424V1_2Generator extends RRSF424BaseGenerator {
 		}
 		return title;
 	}
-
+	private String getAgencyRoutingNumber(){
+	       String sponserProgramCode= pdDoc.getDevelopmentProposal().getAgencyProgramCode();
+	       return sponserProgramCode;
+	    }
 	/**
 	 * This method creates {@link XmlObject} of type {@link RRSF42412Document}
 	 * by populating data from the given {@link ProposalDevelopmentDocument}

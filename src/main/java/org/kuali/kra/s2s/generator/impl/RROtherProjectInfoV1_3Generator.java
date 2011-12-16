@@ -366,6 +366,9 @@ public class RROtherProjectInfoV1_3Generator extends
 			}
 			humanSubjectsSupplement.setExemptFedReg(YesNoDataType.Y_YES);
 		}
+		else{
+		    humanSubjectsSupplement.setExemptFedReg(YesNoDataType.N_NO);
+		}
 	}
 
 	/*
