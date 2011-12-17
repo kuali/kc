@@ -978,7 +978,7 @@ public class ProtocolProtocolActionsAction extends ProtocolAction implements Aud
     /*
      * This is to view attachment if attachment is selected in print panel.
      */
-    private ActionForward printAttachmentProtocol(ActionMapping mapping, HttpServletResponse response, ProtocolAttachmentBase attachment,ProtocolForm form) throws Exception {
+    private ActionForward printAttachmentProtocol(ActionMapping mapping, HttpServletResponse response, ProtocolAttachmentProtocol attachment,ProtocolForm form) throws Exception {
         if (attachment == null) {
             return mapping.findForward(Constants.MAPPING_BASIC);
         }
@@ -1020,7 +1020,7 @@ public class ProtocolProtocolActionsAction extends ProtocolAction implements Aud
      * @param protocolAttachmentBase attachment
      * @return attachment file
      */
-    private byte[] getProtocolAttachmentFile(ProtocolForm form,ProtocolAttachmentBase attachment){
+    private byte[] getProtocolAttachmentFile(ProtocolForm form,ProtocolAttachmentProtocol attachment){
         
         byte[] attachmentFile =null;
         final AttachmentFile file = attachment.getFile();
@@ -1029,23 +1029,13 @@ public class ProtocolProtocolActionsAction extends ProtocolAction implements Aud
         int currentProtoSeqNumber= protocolCurrent.getSequenceNumber();
         try {
             if(printableArtifacts.isWatermarkEnabled()){
-                Integer attachmentDocumentId =attachment.getDocumentId();
-                List<ProtocolAttachmentProtocol> protocolAttachmentList=form.getDocument().getProtocol().getAttachmentProtocols();
-                if(protocolAttachmentList.size()>0){
-                    for (ProtocolAttachmentProtocol protocolAttachment : protocolAttachmentList) {
-                        if(attachmentDocumentId.equals(protocolAttachment.getDocumentId())){
-                            int currentAttachmentSequence=protocolAttachment.getSequenceNumber();
-                            String docStatusCode=protocolAttachment.getDocumentStatusCode();
-                             if(((getProtocolAttachmentService().isNewAttachmentVersion(protocolAttachment))&&(currentProtoSeqNumber == currentAttachmentSequence))||(docStatusCode.equals("1"))){
-                                attachmentFile = getWatermarkService().applyWatermark(file.getData(),printableArtifacts.getWatermarkable().getWatermark());
-                            }else{
-                                attachmentFile = getWatermarkService().applyWatermark(file.getData(),printableArtifacts.getWatermarkable().getInvalidWatermark());
-                                LOG.info(INVALID_ATTACHMENT + attachmentDocumentId);
-                            }
-                        }
-                    }
+                int currentAttachmentSequence=attachment.getSequenceNumber();
+                String docStatusCode=attachment.getDocumentStatusCode();
+                 if(((getProtocolAttachmentService().isNewAttachmentVersion(attachment))&&(currentProtoSeqNumber == currentAttachmentSequence))||(docStatusCode.equals("1"))){
+                    attachmentFile = getWatermarkService().applyWatermark(file.getData(),printableArtifacts.getWatermarkable().getWatermark());
                 }else{
-                    attachmentFile = getWatermarkService().applyWatermark(file.getData(),printableArtifacts.getWatermarkable().getWatermark()); 
+                    attachmentFile = getWatermarkService().applyWatermark(file.getData(),printableArtifacts.getWatermarkable().getInvalidWatermark());
+                    LOG.info(INVALID_ATTACHMENT + attachment.getDocumentId());
                 }
             }
         }catch (Exception e) {
@@ -1137,12 +1127,12 @@ public class ProtocolProtocolActionsAction extends ProtocolAction implements Aud
         int selectedIndex = getSelectedLine(request);
         AttachmentSummary attachmentSummary = protocolSummary.getAttachments().get(selectedIndex);
         
-        ProtocolAttachmentBase attachment; 
+        ProtocolAttachmentProtocol attachment; 
         if (attachmentSummary.getAttachmentType().startsWith("Protocol: ")) {
             attachment = getProtocolAttachmentService().getAttachment(ProtocolAttachmentProtocol.class, attachmentSummary.getAttachmentId());
         } else {
-            attachment = getProtocolAttachmentService().getAttachment(ProtocolAttachmentPersonnel.class, attachmentSummary.getAttachmentId());
-            return printPersonnelAttachmentProtocol(mapping, response, attachment, protocolForm);
+            ProtocolAttachmentBase personnelAttachment = getProtocolAttachmentService().getAttachment(ProtocolAttachmentPersonnel.class, attachmentSummary.getAttachmentId());
+            return printPersonnelAttachmentProtocol(mapping, response, personnelAttachment, protocolForm);
         }
         
         return printAttachmentProtocol(mapping, response, attachment, protocolForm);
