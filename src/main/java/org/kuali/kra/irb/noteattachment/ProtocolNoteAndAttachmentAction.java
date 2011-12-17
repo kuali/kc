@@ -36,8 +36,10 @@ import org.kuali.kra.irb.ProtocolAction;
 import org.kuali.kra.irb.ProtocolForm;
 import org.kuali.kra.irb.actions.print.ProtocolPrintingService;
 import org.kuali.kra.irb.personnel.ProtocolPerson;
+import org.kuali.kra.irb.summary.AttachmentSummary;
 import org.kuali.kra.printing.Printable;
 import org.kuali.kra.printing.service.WatermarkService;
+import org.kuali.kra.util.CollectionUtil;
 import org.kuali.kra.util.watermark.WatermarkConstants;
 import org.kuali.kra.web.struts.action.StrutsConfirmation;
 import org.kuali.rice.kns.service.DictionaryValidationService;
@@ -126,7 +128,7 @@ public class ProtocolNoteAndAttachmentAction extends ProtocolAction {
      */
     public ActionForward viewAttachmentProtocol(ActionMapping mapping, ActionForm form, HttpServletRequest request,
             HttpServletResponse response) throws Exception {
-        return this.viewAttachment(mapping, (ProtocolForm) form, request, response, ProtocolAttachmentProtocol.class);
+        return this.viewAttachment(mapping, (ProtocolForm) form, request, response);
     }
     
     /**
@@ -270,11 +272,11 @@ public class ProtocolNoteAndAttachmentAction extends ProtocolAction {
      * @throws Exception if there is a problem executing the request.
      */
     private ActionForward viewAttachment(ActionMapping mapping, ProtocolForm form, HttpServletRequest request,
-            HttpServletResponse response, Class<? extends ProtocolAttachmentBase> attachmentType) throws Exception {
+            HttpServletResponse response) throws Exception {
         
         final int selection = this.getSelectedLine(request);
-        final ProtocolAttachmentBase attachment = form.getNotesAttachmentsHelper().retrieveExistingAttachmentByType(selection, attachmentType);
-               
+        ProtocolAttachmentProtocol attachment = (ProtocolAttachmentProtocol)CollectionUtil.getFromList(selection, form.getProtocolDocument().getProtocol().getAttachmentProtocols());
+
         if (attachment == null) {
             LOG.info(NOT_FOUND_SELECTION + selection);
             //may want to tell the user the selection was invalid.
@@ -303,7 +305,7 @@ public class ProtocolNoteAndAttachmentAction extends ProtocolAction {
      * @param protocolAttachmentBase attachment
      * @return attachment file
      */
-    private byte[] getProtocolAttachmentFile(ProtocolForm form,ProtocolAttachmentBase attachment){
+    private byte[] getProtocolAttachmentFile(ProtocolForm form, ProtocolAttachmentProtocol attachment){
         
         byte[] attachmentFile =null;
         final AttachmentFile file = attachment.getFile();
@@ -312,24 +314,14 @@ public class ProtocolNoteAndAttachmentAction extends ProtocolAction {
         int currentProtoSeqNumber= protocolCurrent.getSequenceNumber();
         try {
             if(printableArtifacts.isWatermarkEnabled()){
-                Integer attachmentDocumentId =attachment.getDocumentId();
-                List<ProtocolAttachmentProtocol> protocolAttachmentList=form.getDocument().getProtocol().getAttachmentProtocols();
-                if(protocolAttachmentList.size()>0){
-                    for (ProtocolAttachmentProtocol protocolAttachment : protocolAttachmentList) {
-                        if(attachmentDocumentId.equals(protocolAttachment.getDocumentId())){
-                            int currentAttachmentSequence=protocolAttachment.getSequenceNumber();
-                            String docStatusCode=protocolAttachment.getDocumentStatusCode();
-                            if(getProtocolAttachmentService().isNewAttachmentVersion(protocolAttachment)&&(currentProtoSeqNumber == currentAttachmentSequence)||(docStatusCode.equals("1"))){
-                                attachmentFile = getWatermarkService().applyWatermark(file.getData(),printableArtifacts.getWatermarkable().getWatermark());
-                            }else{
-                                attachmentFile = getWatermarkService().applyWatermark(file.getData(),printableArtifacts.getWatermarkable().getInvalidWatermark());
-                                LOG.info(INVALID_ATTACHMENT + attachmentDocumentId);
-                            }
-                        }
-                    }
-                }else{
+                int currentAttachmentSequence=attachment.getSequenceNumber();
+                String docStatusCode=attachment.getDocumentStatusCode();
+                if(getProtocolAttachmentService().isNewAttachmentVersion(attachment)&&(currentProtoSeqNumber == currentAttachmentSequence)||(docStatusCode.equals("1"))){
                     attachmentFile = getWatermarkService().applyWatermark(file.getData(),printableArtifacts.getWatermarkable().getWatermark());
-                } 
+                }else{
+                    attachmentFile = getWatermarkService().applyWatermark(file.getData(),printableArtifacts.getWatermarkable().getInvalidWatermark());
+                    LOG.info(INVALID_ATTACHMENT + attachment.getDocumentId());
+                }
             }
         }
         catch (Exception e) {
