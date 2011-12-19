@@ -48,7 +48,7 @@
         			'autoscale' : 'false',
         		});
         		
-        		           if ($j(".financialEntitySubpanel").length > 0) {
+        	if ($j(".financialEntitySubpanel").length > 0) {
                $j(".financialEntitySubpanel").toggle(
                         function()
                         {
@@ -73,66 +73,6 @@
         		 updateTable($j("#disclosureHelper\\.newCoiDisclProject\\.disclosureEventType"));
         	}) // end document ready
         	
-           function updateTable(eventType) {
-               // alert($j(eventType).attr("value"));
-               if ($j(eventType).attr("value") == '11') {
-               // Award
-                   $j("#newpEvent-table tr:eq(3) td:eq(1) input").show();                
-                   $j("#newpEvent-table tr:eq(2)").show();
-                   $j("#newpEvent-table tr:eq(4)").show();
-                   $j("#newpEvent-table tr:eq(1) th:eq(0)").html("Award Title:");
-                   $j("#newpEvent-table tr:eq(1) th:eq(1)").html("Award Number:");
-                   $j("#newpEvent-table tr:eq(4) th:eq(0)").html("Award Date:");
-                   $j("#newpEvent-table tr:eq(4) th:eq(1)").html("");
-                   $j("#newpEvent-table tr:eq(4) td:eq(1) input").hide();
-                   $j("#newpEvent-table tr:eq(4) td:eq(1) img").hide();
-                
-                   $j("#newpEvent-table tr:eq(2)").hide();
-                   $j("#newpEvent-table tr:eq(3)").hide();
-                }
-                
-               if ($j(eventType).attr("value") == '12') {
-               // Proposal
-                   $j("#newpEvent-table tr:eq(4) td:eq(1) input").show();
-                   $j("#newpEvent-table tr:eq(4) td:eq(1) img").show();
-                
-                   $j("#newpEvent-table tr:eq(2)").show();
-                   $j("#newpEvent-table tr:eq(3)").show();
-                   $j("#newpEvent-table tr:eq(3) td:eq(1) input").show();                
-                   $j("#newpEvent-table tr:eq(2)").show();
-                   $j("#newpEvent-table tr:eq(4)").show();
-                   $j("#newpEvent-table tr:eq(1) th:eq(0)").html("Project Title:");
-                   $j("#newpEvent-table tr:eq(1) th:eq(1)").html("Project Id:");
-                   $j("#newpEvent-table tr:eq(2) th:eq(0)").html("Project Role:");
-                   $j("#newpEvent-table tr:eq(2) th:eq(1)").html("Sponsor:");
-                   $j("#newpEvent-table tr:eq(3) th:eq(0)").html("Project Type:");
-                   $j("#newpEvent-table tr:eq(3) th:eq(1)").html("Project Funding Amount");
-                   $j("#newpEvent-table tr:eq(4) th:eq(0)").html("Project Start Date:");
-                   $j("#newpEvent-table tr:eq(4) th:eq(1)").html("Project End Date:");
-                   $j("#disclosureHelper\\.newCoiDisclProject\\.coiProjectType").html(proposalType);
-                }
-                
-               if ($j(eventType).attr("value") == '13') {
-               //IRB Protocol
-                   $j("#newpEvent-table tr:eq(4) td:eq(1) input").show();
-                   $j("#newpEvent-table tr:eq(4) td:eq(1) img").show();
-                
-                   $j("#newpEvent-table tr:eq(2)").show();
-                   $j("#newpEvent-table tr:eq(3)").show();
-                   $j("#newpEvent-table tr:eq(1) th:eq(0)").html("Protocol Name:");
-                   $j("#newpEvent-table tr:eq(1) th:eq(1)").html("Protocol Number:");
-                   $j("#newpEvent-table tr:eq(3) th:eq(0)").html("Protocol Type:");
-                   $j("#newpEvent-table tr:eq(3) th:eq(1)").html("");
-                   // if use "id", then need "\\" to escape "."
-                   $j("#disclosureHelper\\.newCoiDisclProject\\.coiProjectType").html(protocolType);
-                  // $j("select[name^=disclosureHelper.newCoiDisclProject.coiProjectType]").html($j("#disclosureHelper\\.protocolType").html());
-                   $j("#newpEvent-table tr:eq(3) td:eq(1) input").hide();
-                
-                   $j("#newpEvent-table tr:eq(2)").hide();
-                   $j("#newpEvent-table tr:eq(4)").hide();
-                }
-                
-           }
 
         </script>
  
@@ -144,31 +84,38 @@
 	showTabButtons="true"
 	auditCount="0"
   	headerDispatch="${KualiForm.headerDispatch}"
-  	headerTabActive="disclosure">
+  	headerTabActive="disclosure"
+  	>
   	
 <%-- --%>
 <div align="right"><kul:help documentTypeName="CoiDisclosureDocument" pageName="CoiDisclosure" /></div>
 <kul:documentOverview editingMode="${KualiForm.editingMode}" />
 <kra-coi:disclosureReporter />
-<c:if test="${KualiForm.document.coiDisclosureList[0].eventTypeCode=='1'}" >
-    <%-- <kra-coi:awardProjects /> --%>
-    <kra-coi:newAwardFinancialEntities />
-</c:if>
-<c:if test="${KualiForm.document.coiDisclosureList[0].eventTypeCode=='2' or KualiForm.document.coiDisclosureList[0].eventTypeCode=='10'}" >
+<c:set var="masterDisclosure" value="${KualiForm.disclosureHelper.masterDisclosureBean}" />
+<c:if test="${fn:length(masterDisclosure.manualAwardProjects) > 0}" >
     <%-- <kra-coi:proposalProjects /> --%>
-    <kra-coi:newProposalFinancialEntities />
+    <kra-coi:masterManualAward masterDisclosureProjects="${masterDisclosure.manualAwardProjects}"/>
 </c:if>
-<c:if test="${KualiForm.document.coiDisclosureList[0].eventTypeCode=='3'}" >
-   <%-- <kra-coi:protocolProjects /> --%>
-    <kra-coi:newProtocolFinancialEntities />
+<c:if test="${fn:length(masterDisclosure.manualProposalProjects) > 0}" >
+    <%-- <kra-coi:proposalProjects /> --%>
+    <kra-coi:masterManualProposal masterDisclosureProjects="${masterDisclosure.manualProposalProjects}"/>
 </c:if>
-<c:if test="${KualiForm.document.coiDisclosureList[0].eventTypeCode=='14'}" >
-<kra-coi:disclosureFinancialEntities />
+<c:if test="${fn:length(masterDisclosure.manualProtocolProjects) > 0}" >
+    <%-- <kra-coi:proposalProjects /> --%>
+    <kra-coi:masterManualProtocol masterDisclosureProjects="${masterDisclosure.manualProtocolProjects}"/>
 </c:if>
-<c:if test="${KualiForm.document.coiDisclosureList[0].eventTypeCode=='11' or KualiForm.document.coiDisclosureList[0].eventTypeCode=='12' or KualiForm.document.coiDisclosureList[0].eventTypeCode=='13'}" >
-<kra-coi:manualProjects />
+<c:if test="${fn:length(masterDisclosure.awardProjects) > 0}" >
+    <%-- <kra-coi:proposalProjects /> --%>
+    <kra-coi:masterAward masterDisclosureProjects="${masterDisclosure.awardProjects}"/>
 </c:if>
-<kra-coi:coiCertification topTab="false" />
+<c:if test="${fn:length(masterDisclosure.proposalProjects) > 0}" >
+    <%-- <kra-coi:proposalProjects /> --%>
+    <kra-coi:masterProposal masterDisclosureProjects="${masterDisclosure.proposalProjects}"/>
+</c:if>
+<c:if test="${fn:length(masterDisclosure.protocolProjects) > 0}" >
+    <%-- <kra-coi:proposalProjects /> --%>
+    <kra-coi:masterProtocol masterDisclosureProjects="${masterDisclosure.protocolProjects}"/>
+</c:if>
 
 <kul:panelFooter />
 	<kul:documentControls 
@@ -177,7 +124,7 @@
 		extraButtonSource="${extraButtonSource}"
 		extraButtonProperty="${extraButtonProperty}"
 		extraButtonAlt="${extraButtonAlt}"
-		viewOnly="${KualiForm.editingMode['viewOnly']}"
+		viewOnly="true"
 		/>
 
 <SCRIPT type="text/javascript">

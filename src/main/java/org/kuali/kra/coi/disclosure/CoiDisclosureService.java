@@ -155,4 +155,7 @@ public interface CoiDisclosureService {
      * @return
      */
     boolean isReporter();
+    
+    
+    MasterDisclosureBean getMasterDisclosureDetail(CoiDisclosure coiDisclosure);
 }
