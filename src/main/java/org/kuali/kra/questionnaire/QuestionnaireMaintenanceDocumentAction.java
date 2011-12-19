@@ -43,8 +43,10 @@ import org.kuali.kra.questionnaire.question.Question;
 import org.kuali.kra.service.VersioningService;
 import org.kuali.kra.service.impl.VersioningServiceImpl;
 import org.kuali.rice.kns.document.MaintenanceDocumentBase;
+import org.kuali.rice.kns.exception.AuthorizationException;
 import org.kuali.rice.kns.question.ConfirmationQuestion;
 import org.kuali.rice.kns.service.SequenceAccessorService;
+import org.kuali.rice.kns.util.GlobalVariables;
 import org.kuali.rice.kns.util.KNSConstants;
 import org.kuali.rice.kns.util.ObjectUtils;
 import org.kuali.rice.kns.web.struts.action.KualiMaintenanceDocumentAction;
@@ -123,7 +125,7 @@ public class QuestionnaireMaintenanceDocumentAction extends KualiMaintenanceDocu
         QuestionnaireMaintenanceForm qnForm = (QuestionnaireMaintenanceForm) form;
         if (!getQuestionnaireAuthorizationService().hasPermission(PermissionConstants.MODIFY_QUESTIONNAIRE)) {
             if (!getQuestionnaireAuthorizationService().hasPermission(PermissionConstants.VIEW_QUESTIONNAIRE)) {
-                throw new RuntimeException("Don't have permission to edit/view Questionnaire");
+                throw new AuthorizationException(GlobalVariables.getUserSession().getPerson().getPrincipalName(), "Edit/View", "Questionnaire");
             }
             else {
                 if (!qnForm.isReadOnly()) {
