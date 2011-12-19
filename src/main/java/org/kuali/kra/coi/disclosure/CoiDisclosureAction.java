@@ -16,6 +16,7 @@
 package org.kuali.kra.coi.disclosure;
 
 import java.util.HashMap;
+import java.util.List;
 import java.util.Map;
 
 import javax.servlet.http.HttpServletRequest;
@@ -31,12 +32,13 @@ import org.kuali.kra.coi.CoiDisclosure;
 import org.kuali.kra.coi.CoiDisclosureDocument;
 import org.kuali.kra.coi.CoiDisclosureEventType;
 import org.kuali.kra.coi.CoiDisclosureForm;
+import org.kuali.kra.coi.CoiDisclosureHistory;
+import org.kuali.kra.coi.CoiDisclosureStatus;
 import org.kuali.kra.coi.certification.CertifyDisclosureEvent;
 import org.kuali.kra.coi.service.CoiPrintingService;
 import org.kuali.kra.infrastructure.Constants;
 import org.kuali.kra.infrastructure.KraServiceLocator;
 import org.kuali.kra.proposaldevelopment.bo.AttachmentDataSource;
-import org.kuali.kra.rule.event.KraDocumentEventBaseExtension;
 import org.kuali.rice.core.config.ConfigContext;
 import org.kuali.rice.kew.util.KEWConstants;
 import org.kuali.rice.kns.util.GlobalVariables;
@@ -68,10 +70,6 @@ public class CoiDisclosureAction extends CoiAction {
         DisclosureHelper disclosureHelper = coiDisclosureForm.getDisclosureHelper();
         getCoiDisclosureService().deleteDisclosureReporterUnit(((CoiDisclosureDocument)coiDisclosureForm.getDocument()).getCoiDisclosure().getDisclosureReporter(), disclosureHelper.getDeletedUnits(), getSelectedLine(request));
         return mapping.findForward(Constants.MAPPING_BASIC);
-    }
-
-    private boolean checkRule(KraDocumentEventBaseExtension event) {
-        return event.getRule().processRules(event);
     }
 
     @Override
@@ -106,6 +104,10 @@ public class CoiDisclosureAction extends CoiAction {
         coiDisclosureDocument.getCoiDisclosure().initSelectedUnit();
         // TODO : 'checkToLoadDisclosureDetails' should not need to be executed for every action.  need to make it somewhere ?
 //        checkToLoadDisclosureDetails(coiDisclosureDocument.getCoiDisclosure(), ((CoiDisclosureForm) form).getMethodToCall(), coiDisclosureForm.getDisclosureHelper().getNewProjectId());
+        if ((StringUtils.equals("reload", coiDisclosureForm.getMethodToCall()) || StringUtils.equals("headerTab", coiDisclosureForm.getMethodToCall()) || StringUtils.equals("docHandler", coiDisclosureForm.getMethodToCall())) && coiDisclosureDocument.getCoiDisclosure().isApprovedDisclosure()) {
+            coiDisclosureForm.getDisclosureHelper().setMasterDisclosureBean(getCoiDisclosureService().getMasterDisclosureDetail(coiDisclosureDocument.getCoiDisclosure()));
+            actionForward = mapping.findForward("masterDisclosure");            
+        }
         return actionForward;
 
     }
@@ -156,7 +158,7 @@ public class CoiDisclosureAction extends CoiAction {
                 coiDisclosure.setModuleItemKey(projectId);
             }
         } else {
-            if (!StringUtils.equals("addProposal", methodToCall) && !StringUtils.equals("save", methodToCall)) {
+            if (!StringUtils.equals("addProposal", methodToCall) && !StringUtils.equals("save", methodToCall) && !coiDisclosure.isApprovedDisclosure()) {
                 getCoiDisclosureService().updateDisclosureDetails(coiDisclosure);
             }
         }
@@ -281,4 +283,35 @@ public class CoiDisclosureAction extends CoiAction {
     private String getUserId() {
     	return GlobalVariables.getUserSession().getPrincipalId();
     }
+    
+    public ActionForward viewMasterDisclosure(ActionMapping mapping, ActionForm form, HttpServletRequest request,
+            HttpServletResponse response) throws Exception {
+
+        CoiDisclosureForm coiDisclosureForm = (CoiDisclosureForm) form;
+        DisclosureHelper disclosureHelper = coiDisclosureForm.getDisclosureHelper();
+        Map fieldValues = new HashMap();
+        fieldValues.put("personId", GlobalVariables.getUserSession().getPrincipalId());
+        fieldValues.put("currentDisclosure", "Y");
+
+        List<CoiDisclosure> disclosures = (List<CoiDisclosure>) getBusinessObjectService().findMatching(CoiDisclosure.class,
+                fieldValues);
+        disclosureHelper.prepareView();
+        if (CollectionUtils.isEmpty(disclosures)) {
+            return mapping.findForward("masterDisclosureNotAvailable");
+        } else {
+            coiDisclosureForm.setDocId(disclosures.get(0).getCoiDisclosureDocument().getDocumentNumber());
+            loadDocument(coiDisclosureForm);
+            disclosureHelper.setMasterDisclosureBean(getCoiDisclosureService().getMasterDisclosureDetail(
+                    coiDisclosureForm.getCoiDisclosureDocument().getCoiDisclosure()));
+            return mapping.findForward("masterDisclosure");
+        }
+    }
+
+//    private boolean isApprovedDisclosure(CoiDisclosure coiDisclosure) {
+//
+//        Map fieldValues = new HashMap();
+//        fieldValues.put("coiDisclosureId", coiDisclosure.getCoiDisclosureId());
+//        fieldValues.put("disclosureStatus", CoiDisclosureStatus.APPROVE_DISCLOSURE_CODES);
+//        return getBusinessObjectService().countMatching(CoiDisclosureHistory.class, fieldValues) > 0;
+//    }
 }

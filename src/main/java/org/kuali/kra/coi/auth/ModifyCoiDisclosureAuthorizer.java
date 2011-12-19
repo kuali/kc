@@ -46,6 +46,7 @@ public class ModifyCoiDisclosureAuthorizer extends CoiDisclosureAuthorizer {
             hasPermission = !coiDisclosure.getCoiDisclosureDocument().isViewOnly() && 
                             !isPessimisticLocked(coiDisclosure.getCoiDisclosureDocument()) &&
                             !kraWorkflowService.isInWorkflow(coiDisclosure.getCoiDisclosureDocument()) &&
+                            !coiDisclosure.isApprovedDisclosure() &&
                             (hasPermission(userId, coiDisclosure, PermissionConstants.MAINTAIN_COI_DISCLOSURE)
                                     || StringUtils.equals(userId, coiDisclosure.getPersonId()));
 

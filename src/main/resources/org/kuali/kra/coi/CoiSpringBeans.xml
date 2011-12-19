@@ -126,6 +126,10 @@
                 
 	</bean>
 	
+     <bean id="coiDisclosureActionService" class="org.kuali.kra.coi.actions.CoiDisclosureActionServiceImpl">
+        <property name="businessObjectService" ref="businessObjectService" />
+    </bean>
+    
 
 </beans>
 

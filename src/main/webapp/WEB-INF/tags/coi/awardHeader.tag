@@ -14,39 +14,41 @@
  limitations under the License.
 --%>
 <%@ include file="/WEB-INF/jsp/kraTldHeader.jsp"%>
-<%@ attribute name="idx" required="true" description="Coi disl project list index" %>
-<%@ attribute name="disclProject" required="true" type="org.kuali.kra.coi.CoiDisclProject" %>
+<%@ attribute name="disclProject" required="true" type="org.kuali.kra.award.home.Award" %>
 
 <c:set var="coiDisclProjectAttributes" value="${DataDictionary.CoiDisclProject.attributes}" />
 <c:set var="coiDiscDetailAttributes" value="${DataDictionary.CoiDiscDetail.attributes}" />
+<c:set var="readOnly" value="${!KualiForm.disclosureHelper.canEditDisclosureFinancialEntity}" />
                 <div>
-                <h3>
-    		        <span class="subhead-left">Award Number: ${disclProject.coiProjectId}</span>
-    		        <span class="subhead-right"><kul:help businessObjectClassName="org.kuali.kra.coi.CoiDiscDetail" altText="help"/></span>
-                </h3>
-              
+    	<h3>
+            <span class="subhead-left"> 
+                Award Number: ${disclProject.awardNumber} </span>
+    		<span class="subhead-right"><kul:help businessObjectClassName="org.kuali.kra.coi.CoiDiscDetail" altText="help"/></span>
+        </h3>
+                  
                     <table class=tab cellpadding="0" cellspacing="0" summary="">
                         <tbody>
                         <%-- Header --%>
                                  <tr>
-                                    <th><div align="right">Title:</div></th> 
+                   <th><div align="right">Title:</div></th> 
                   <td align="left" valign="middle">
 					<div align="left">
-					    ${disclProject.coiProjectTitle}
-					    <%-- 
-                		<kul:htmlControlAttribute property="document.coiDisclosureList[0].coiDisclProjects[${idx}].coiProjectTitle" readOnly="true" attributeEntry="${coiDisclProjectAttributes.coiProjectTitle}" /> 
-                        --%>
+					${disclProject.title}
 					</div>
 				  </td>
                                     <th><div align="right">Award Date:</div></th> 
                   <td align="left" valign="middle">
 					<div align="left">
-					    ${disclProject.coiProjectStartDate}
-					    <%-- 
-                		<kul:htmlControlAttribute property="document.coiDisclosureList[0].coiDisclProjects[${idx}].coiProjectStartDate" readOnly="true" attributeEntry="${coiDisclProjectAttributes.coiProjectStartDate}" /> 
-                        --%>
+					${disclProject.awardEffectiveDate}
+					    <%-- TODO : not sure what award date is; so use award effectivedate for now --%>
 					</div>
 				  </td>
+                                </tr>
+                        <%-- Header --%>
+                        
+                         <%-- New data --%>
+                        <%-- kra:permission value="${KualiForm.disclosureHelper.modifyPersonnel}" --%>
 
                </table>
-               </div>
+              
+        </div>
