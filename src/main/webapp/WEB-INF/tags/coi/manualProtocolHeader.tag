@@ -21,7 +21,7 @@
 <c:set var="coiDiscDetailAttributes" value="${DataDictionary.CoiDiscDetail.attributes}" />
                 <div>
                 <h3>
-    		        <span class="subhead-left">Protocol Number: ${KualiForm.document.coiDisclosureList[0].coiDisclProjects[idx].coiProjectId}</span>
+    		        <span class="subhead-left">Protocol Number: ${disclProject.coiProjectId}</span>
     		        <span class="subhead-right"><kul:help businessObjectClassName="org.kuali.kra.coi.CoiDiscDetail" altText="help"/></span>
                 </h3>
               
@@ -32,13 +32,13 @@
                                     <th><div align="right">Protocol Name:</div></th> 
                   <td align="left" valign="middle">
 					<div align="left">
-                		<kul:htmlControlAttribute property="document.coiDisclosureList[0].coiDisclProjects[${idx}].coiProjectTitle" readOnly="true" attributeEntry="${coiDisclProjectAttributes.coiProjectTitle}" /> 
+					${disclProject.coiProjectTitle}
 					</div>
 				  </td>
                                     <th><div align="right">Protocol Type:</div></th> 
                   <td align="left" valign="middle">
 					<div align="left">
-                		<kul:htmlControlAttribute property="document.coiDisclosureList[0].coiDisclProjects[${idx}].protocolType.description" readOnly="true" attributeEntry="${coiDisclProjectAttributes.coiProjectStartDate}" /> 
+					${disclProject.protocolType.description}
 					</div>
 				  </td>
                                 </tr>

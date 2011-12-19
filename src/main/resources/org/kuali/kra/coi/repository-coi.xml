@@ -55,6 +55,7 @@
 		<field-descriptor name="moduleItemKey" column="MODULE_ITEM_KEY" jdbc-type="VARCHAR" />
 		<field-descriptor name="reviewStatusCode" column="REVIEW_STATUS_CODE" jdbc-type="VARCHAR" />
 		<field-descriptor name="discActiveStatus" column="DISC_ACTIVE_STATUS" jdbc-type="INTEGER" />
+        <field-descriptor name="currentDisclosure" column="CURRENT_DISCLOSURE" jdbc-type="VARCHAR" conversion="org.kuali.rice.kns.util.OjbCharBooleanConversion"/>
 		<field-descriptor name="versionNumber" column="VER_NBR" jdbc-type="BIGINT" locking="true" />
 		<field-descriptor name="objectId" column="OBJ_ID" jdbc-type="VARCHAR" />
         <reference-descriptor name="coiDisclosureDocument" class-ref="org.kuali.kra.coi.CoiDisclosureDocument" auto-retrieve="true" auto-update="none" auto-delete="none">
@@ -412,6 +413,7 @@
 		<field-descriptor name="comments" column="COMMENTS" jdbc-type="VARCHAR" />
 		<field-descriptor name="projectType" column="PROJECT_TYPE" jdbc-type="VARCHAR" />
 		<field-descriptor name="projectIdFk" column="PROJECT_ID_FK" jdbc-type="VARCHAR" />
+		<field-descriptor name="copiedCoiDiscDetailId" column="COPIED_COI_DISC_DETAILS_ID" jdbc-type="BIGINT" />
 		<field-descriptor name="versionNumber" column="VER_NBR" jdbc-type="BIGINT" locking="true" />
 		<field-descriptor name="objectId" column="OBJ_ID" jdbc-type="VARCHAR" />
 		<reference-descriptor name="coiEntityStatusCode" class-ref="org.kuali.kra.coi.CoiEntityStatusCode" auto-retrieve="true" auto-update="none" auto-delete="none"> 
@@ -497,5 +499,16 @@
         <field-descriptor name="objectId" column="OBJ_ID" jdbc-type="VARCHAR" />
         <field-descriptor name="versionNumber" column="VER_NBR" jdbc-type="BIGINT" locking="false" />
     </class-descriptor>
-    
+	<class-descriptor class="org.kuali.kra.coi.CoiDisclosureHistory" table="COI_DISCLOSURE_HISTORY">
+		<field-descriptor name="coiDisclosureHistoryId" column="COI_DISCLOSURE_HISTORY_ID" jdbc-type="BIGINT" sequence-name="SEQ_COI_DISCLOSURE_HISTORY_ID" primarykey="true"  autoincrement="true" />
+		<field-descriptor name="coiDisclosureId" column="COI_DISCLOSURE_ID" jdbc-type="BIGINT" />
+		<field-descriptor name="coiDisclosureNumber" column="COI_DISCLOSURE_NUMBER" jdbc-type="VARCHAR" />
+		<field-descriptor name="sequenceNumber" column="SEQUENCE_NUMBER" jdbc-type="INTEGER" />
+		<field-descriptor name="disclosureStatus" column="DISCLOSURE_STATUS" jdbc-type="VARCHAR" />
+		<field-descriptor name="disclosureDispositionStatus" column="DISCLOSURE_DISPOSITION_STATUS" jdbc-type="VARCHAR" />
+		<field-descriptor name="updateTimestamp" column="UPDATE_TIMESTAMP" jdbc-type="TIMESTAMP" />
+		<field-descriptor name="updateUser" column="UPDATE_USER" jdbc-type="VARCHAR" />
+		<field-descriptor name="versionNumber" column="VER_NBR" jdbc-type="BIGINT" locking="true" />
+		<field-descriptor name="objectId" column="OBJ_ID" jdbc-type="VARCHAR" />
+	</class-descriptor>    
 </descriptor-repository>

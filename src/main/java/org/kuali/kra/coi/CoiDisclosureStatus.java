@@ -15,9 +15,12 @@
  */
 package org.kuali.kra.coi;
 
+import java.util.ArrayList;
 import java.util.LinkedHashMap;
+import java.util.List;
 
 import org.kuali.kra.bo.KraPersistableBusinessObjectBase;
+import org.kuali.kra.irb.actions.ProtocolActionType;
 
 public class CoiDisclosureStatus extends KraPersistableBusinessObjectBase{
    
@@ -25,6 +28,17 @@ public class CoiDisclosureStatus extends KraPersistableBusinessObjectBase{
      * Comment for <code>serialVersionUID</code>
      */
     private static final long serialVersionUID = -204509679832775700L;
+    public static final String DISCLOSURE_PENDING = "100";
+    public static final String RESOLVED = "201";                                
+    public static final String NO_CONFLICT = "200";                                
+    public static final List<String> APPROVE_DISCLOSURE_CODES;
+    static {
+        final List<String> codes = new ArrayList<String>();     
+        codes.add(RESOLVED);
+        codes.add(NO_CONFLICT);
+        APPROVE_DISCLOSURE_CODES = codes;
+    }
+
     private String coiDisclosureStatusCode; 
     private String description;
     

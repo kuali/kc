@@ -22,6 +22,7 @@ import java.sql.Timestamp;
 import java.text.SimpleDateFormat;
 import java.util.ArrayList;
 import java.util.Calendar;
+import java.util.HashMap;
 import java.util.LinkedHashMap;
 import java.util.List;
 import java.util.Map;
@@ -56,8 +57,7 @@ public class CoiDisclosure extends KraPersistableBusinessObjectBase implements S
      * Comment for <code>serialVersionUID</code>
      */
     private static final long serialVersionUID = 1056040995591476518L;
-    private static final String DISPOSITION_PENDING = "3";
-    private static final String DISCLOSURE_PENDING = "100";
+    public static final String DISPOSITION_PENDING = "3";
     public static final String MANUAL_DISCL_MODULE_CODE = "14";
     public static final String PROPOSAL_DISCL_MODULE_CODE = "11";
     public static final String INSTITUTIONAL_PROPOSAL_DISCL_MODULE_CODE = "15";
@@ -80,6 +80,7 @@ public class CoiDisclosure extends KraPersistableBusinessObjectBase implements S
     private String moduleItemKey; 
     private String reviewStatusCode; 
     private Integer discActiveStatus; 
+    private boolean currentDisclosure; 
     private CoiDisclosureDocument coiDisclosureDocument;
     private List<DisclosurePerson> disclosurePersons;
     
@@ -386,7 +387,7 @@ public class CoiDisclosure extends KraPersistableBusinessObjectBase implements S
 
     public void initRequiredFields() {
         this.setDisclosureDispositionCode(DISPOSITION_PENDING);
-        this.setDisclosureStatusCode(DISCLOSURE_PENDING);
+        this.setDisclosureStatusCode(CoiDisclosureStatus.DISCLOSURE_PENDING);
         this.setPersonId(this.getDisclosureReporter().getPersonId());
         initCoiDisclosureNumber();
         this.setExpirationDate(new Date(DateUtils.addDays(new Date(System.currentTimeMillis()), 365).getTime()));
@@ -626,6 +627,19 @@ public class CoiDisclosure extends KraPersistableBusinessObjectBase implements S
 
     public void setModuleItemKey(String moduleItemKey) {
         this.moduleItemKey = moduleItemKey;
+    }
+
+    public boolean isCurrentDisclosure() {
+        return currentDisclosure;
+    }
+
+    public void setCurrentDisclosure(boolean currentDisclosure) {
+        this.currentDisclosure = currentDisclosure;
+    }
+
+    public boolean isApprovedDisclosure() {
+
+        return CoiDisclosureStatus.APPROVE_DISCLOSURE_CODES.contains(this.disclosureStatusCode);
     }
 
  }

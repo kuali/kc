@@ -71,7 +71,8 @@ public class DisclosureHelper implements Serializable {
     private String eventTypeCode;
     private String proposalType;
     private boolean modifyReporter;
-
+    MasterDisclosureBean masterDisclosureBean;
+    
     public DisclosureHelper(CoiDisclosureForm form) {
         this.form = form;
         setNewDisclosurePersonUnit(new DisclosurePersonUnit());
@@ -331,6 +332,14 @@ public class DisclosureHelper implements Serializable {
 
     public void setNewModuleItemKey(String newModuleItemKey) {
         this.newModuleItemKey = newModuleItemKey;
+    }
+
+    public MasterDisclosureBean getMasterDisclosureBean() {
+        return masterDisclosureBean;
+    }
+
+    public void setMasterDisclosureBean(MasterDisclosureBean masterDisclosureBean) {
+        this.masterDisclosureBean = masterDisclosureBean;
     }
 
 }
