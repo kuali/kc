@@ -19,20 +19,17 @@
 <div class="body">
   <strong>My Financial Entities </strong>
   <ul class="chan">
-    <li>Financial Entity</li>
-    <li>View/Edit Financial Entities</li>
+    <li><portal:portalLink displayTitle="false" title="Create New Financial Entity" url="financialEntityManagement.do?methodToCall=management&financialEntityHelper.reporterId=&coiDocId=">Financial Entity</portal:portalLink></li>
+    <li><portal:portalLink displayTitle="false" title="View/Edit Financial Entities" url="financialEntityManagement.do?methodToCall=editList&financialEntityHelper.reporterId=&coiDocId=">View/Edit Financial Entities</portal:portalLink></li>
   </ul>
   <strong>My Disclosures </strong>
   <ul class="chan">
-    <li>Master Disclosure</li>
-    <li>Create Annual Disclosure</li>
-    <li>Create Manual Disclosure</li>
-    <li>New Award Disclosure</li>
-    <li>New Proposal Disclosure</li>
-    <li>New Protocol Disclosure</li>
+    <li><portal:portalLink displayTitle="false" title="Master Disclosure" url="coiDisclosure.do?methodToCall=viewMasterDisclosure">Master Disclosure</portal:portalLink></li>
+    <li><portal:portalLink displayTitle="false" title="Create Annual Disclosure" url="coiDisclosure.do?methodToCall=docHandler&command=initiate&docTypeName=CoiDisclosureDocument">Create Annual Disclosure</portal:portalLink></li>
+    <li><portal:portalLink displayTitle="false" title="Create Manual Disclosure" url="coiDisclosure.do?methodToCall=docHandler&command=initiate_14&docTypeName=CoiDisclosureDocument">Create Manual Disclosure</portal:portalLink></li>
+    <li><portal:portalLink displayTitle="false" title="New Award Disclosure" url="awardEventDisclosure.do?methodToCall=getNewAwardsForDisclosure">New Award Disclosure</portal:portalLink></li>
+    <li><portal:portalLink displayTitle="false" title="New Proposal Disclosure " url="proposalEventDisclosure.do?methodToCall=getNewProposalsForDisclosure">New Proposal Disclosure</portal:portalLink></li>
+    <li><portal:portalLink displayTitle="false" title="New Protocol Disclosure" url="protocolEventDisclosure.do?methodToCall=getNewProtocolsForDisclosure">New Protocol Disclosure</portal:portalLink></li>
     <li>View/Edit Disclosure</li>
   </ul>
- 
-</div>
-   
 <channel:portalChannelBottom />
