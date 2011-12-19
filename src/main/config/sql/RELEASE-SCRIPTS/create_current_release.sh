@@ -21,11 +21,6 @@ fi
 
 cd "${script_dir_name}"
 
-#main_dir=`pwd`
-#main_dir=`basename $main_dir`
-#release_version="${main_dir%-*}"
-#base_version="${release_version#KC-*}"
-
 app_names='KC KR KRC'
 db_types='ORACLE MYSQL'
 sql_dirs='sequences tables views dml constraints'
