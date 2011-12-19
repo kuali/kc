@@ -24,6 +24,8 @@ import org.kuali.rice.kim.bo.Person;
 import org.kuali.rice.kns.document.Document;
 import org.kuali.rice.kns.document.MaintenanceDocumentBase;
 import org.kuali.rice.kns.document.authorization.MaintenanceDocumentAuthorizerBase;
+import org.kuali.rice.kns.exception.AuthorizationException;
+import org.kuali.rice.kns.util.GlobalVariables;
 import org.kuali.rice.kns.util.KNSConstants;
 
 /**
@@ -53,7 +55,7 @@ public class QuestionnaireMaintenanceDocumentAuthorizer extends MaintenanceDocum
             documentActions = getDocumentActionsWithViewPermission(document);
         }
         else {
-            throw new RuntimeException("Don't have permission to edit/view Questionnaire");
+            throw new AuthorizationException(GlobalVariables.getUserSession().getPerson().getPrincipalName(), "Edit/View", "Questionnaire");
         }
         return documentActions;
     }
@@ -87,10 +89,10 @@ public class QuestionnaireMaintenanceDocumentAuthorizer extends MaintenanceDocum
         String maintAction = ((MaintenanceDocumentBase) document).getNewMaintainableObject().getMaintenanceAction();
         if (document.getDocumentHeader().getWorkflowDocument().getRouteHeader().getDocRouteStatus().equals("I")) {
             if (maintAction.equals(KNSConstants.MAINTENANCE_COPY_ACTION)) {
-                throw new RuntimeException("Don't have permission to Copy Questionnaire");
+                throw new AuthorizationException(GlobalVariables.getUserSession().getPerson().getPrincipalName(), "Copy", "Questionnaire");
             }
             else if (maintAction.equals(KNSConstants.MAINTENANCE_NEW_ACTION)) {
-                throw new RuntimeException("Don't have permission to Create Questionnaire");
+                throw new AuthorizationException(GlobalVariables.getUserSession().getPerson().getPrincipalName(), "Create", "Questionnaire");
             }
             else {
                 documentActions.add(KNSConstants.KUALI_ACTION_CAN_RELOAD);

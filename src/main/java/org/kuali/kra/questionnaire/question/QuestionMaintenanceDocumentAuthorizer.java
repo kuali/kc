@@ -25,6 +25,8 @@ import org.kuali.rice.kew.util.KEWConstants;
 import org.kuali.rice.kim.bo.Person;
 import org.kuali.rice.kns.document.Document;
 import org.kuali.rice.kns.document.authorization.MaintenanceDocumentAuthorizerBase;
+import org.kuali.rice.kns.exception.AuthorizationException;
+import org.kuali.rice.kns.util.GlobalVariables;
 import org.kuali.rice.kns.util.KNSConstants;
 
 /**
@@ -78,7 +80,7 @@ public class QuestionMaintenanceDocumentAuthorizer extends MaintenanceDocumentAu
                 || getQuestionnaireAuthorizationService().hasPermission(PermissionConstants.MODIFY_QUESTION)) {
             documentActions.add(KNSConstants.KUALI_ACTION_CAN_CLOSE);
         } else {
-            throw new RuntimeException("Don't have permission to edit/view Question");
+            throw new AuthorizationException(GlobalVariables.getUserSession().getPerson().getPrincipalName(), "Edit/View", "Question");
         }
 
         return documentActions;
