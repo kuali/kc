@@ -558,6 +558,7 @@ public class CoiDisclosureServiceImpl implements CoiDisclosureService {
                     projectType = coiDisclosure.getEventTypeCode();
                     coiDisclEventProject = getEventBo(coiDisclosure, coiDiscDetail);
                     coiDiscDetail.setProjectIdFk(getProjectIdFk(coiDisclosure, coiDisclosure.getEventBo()));
+                    projectIdFk = coiDiscDetail.getProjectIdFk();
                 }
                 
             }
