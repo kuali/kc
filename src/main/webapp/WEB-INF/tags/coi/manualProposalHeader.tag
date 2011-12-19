@@ -21,7 +21,7 @@
 <c:set var="coiDiscDetailAttributes" value="${DataDictionary.CoiDiscDetail.attributes}" />
                 <div>
                 <h3>
-    		        <span class="subhead-left">Proposal Number: ${KualiForm.document.coiDisclosureList[0].coiDisclProjects[idx].coiProjectId}</span>
+    		        <span class="subhead-left">Proposal Number: ${disclProject.coiProjectId}</span>
     		        <span class="subhead-right"><kul:help businessObjectClassName="org.kuali.kra.coi.CoiDiscDetail" altText="help"/></span>
                 </h3>
               
@@ -32,13 +32,13 @@
                                     <th><div align="right">Proposal Name</div></th> 
                   <td align="left" valign="middle">
 					<div align="left">
-                		<kul:htmlControlAttribute property="document.coiDisclosureList[0].coiDisclProjects[${idx}].coiProjectTitle" readOnly="true" attributeEntry="${coiDisclProjectAttributes.coiProjectTitle}" /> 
+					${disclProject.coiProjectTitle}
 					</div>
 				  </td>
                                     <th><div align="right">Sponsor</div></th> 
                   <td align="left" valign="middle">
 					<div align="left">
-                		<kul:htmlControlAttribute property="document.coiDisclosureList[0].coiDisclProjects[${idx}].coiProjectSponsor" readOnly="true" attributeEntry="${coiDisclProjectAttributes.coiProjectSponsor}" /> 
+					${disclProject.coiProjectSponsor}
 					</div>
 				  </td>
                                   </tr>
@@ -46,13 +46,13 @@
                                     <th><div align="right">start Date</div></th> 
                   <td align="left" valign="middle">
 					<div align="left">
-                		<kul:htmlControlAttribute property="document.coiDisclosureList[0].coiDisclProjects[${idx}].coiProjectStartDate" readOnly="true" attributeEntry="${coiDisclProjectAttributes.coiProjectStartDate}" /> 
+					${disclProject.coiProjectStartDate}
 					</div>
 				  </td>
                                     <th><div align="right">End Date</div></th> 
                  <td align="left" valign="middle">
 					<div align="left">
-                		<kul:htmlControlAttribute property="document.coiDisclosureList[0].coiDisclProjects[${idx}].coiProjectEndDate" readOnly="true" attributeEntry="${coiDisclProjectAttributes.coiProjectEndDate}" /> 
+					${disclProject.coiProjectEndDate}
 					</div>
 				  </td>
 	            </tr>

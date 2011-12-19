@@ -21,12 +21,12 @@ import javax.servlet.http.HttpServletResponse;
 import org.apache.struts.action.ActionForm;
 import org.apache.struts.action.ActionForward;
 import org.apache.struts.action.ActionMapping;
+import org.kuali.kra.coi.actions.CoiDisclosureActionService;
 import org.kuali.kra.coi.disclosure.CoiDisclosureService;
-import org.kuali.kra.infrastructure.Constants;
 import org.kuali.kra.infrastructure.KraServiceLocator;
+import org.kuali.kra.rule.event.KraDocumentEventBaseExtension;
 import org.kuali.kra.web.struts.action.AuditActionHelper;
 import org.kuali.kra.web.struts.action.KraTransactionalDocumentActionBase;
-import org.kuali.rice.kew.util.KEWConstants;
 import org.kuali.rice.kns.util.GlobalVariables;
 
 public abstract class CoiAction extends KraTransactionalDocumentActionBase {
@@ -61,6 +61,14 @@ public abstract class CoiAction extends KraTransactionalDocumentActionBase {
 
     protected CoiDisclosureService getCoiDisclosureService() {
         return KraServiceLocator.getService(CoiDisclosureService.class);
+    }
+
+    protected CoiDisclosureActionService getCoiDisclosureActionService() {
+        return KraServiceLocator.getService(CoiDisclosureActionService.class);
+    }
+
+    protected boolean checkRule(KraDocumentEventBaseExtension event) {
+        return event.getRule().processRules(event);
     }
 
 

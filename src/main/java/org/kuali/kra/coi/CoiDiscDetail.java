@@ -41,6 +41,8 @@ public class CoiDiscDetail extends KraPersistableBusinessObjectBase implements C
     private String description; 
     private String comments; 
     private Long personFinIntDisclosureId;
+    // for master disclosure.  if this is not null, then it is copied from previous master disclosure
+    private Long copiedCoiDiscDetailId; 
     private PersonFinIntDisclosure personFinIntDisclosure;
     private CoiEntityStatusCode coiEntityStatusCode; 
     private CoiDisclosure coiDisclosure; 
@@ -258,12 +260,37 @@ public class CoiDiscDetail extends KraPersistableBusinessObjectBase implements C
         return StringUtils.equals(CoiDisclosureEventType.IRB_PROTOCOL, this.projectType);
     }
 
+    public boolean isManualAwardEvent() {
+        return StringUtils.equals(CoiDisclosureEventType.MANUAL_AWARD, this.projectType);
+    }
+
+    public boolean isManualProposalEvent() {
+        return StringUtils.equals(CoiDisclosureEventType.MANUAL_DEVELOPMENT_PROPOSAL, this.projectType);
+    }
+
+    public boolean isManualProtocolEvent() {
+        return StringUtils.equals(CoiDisclosureEventType.MANUAL_IRB_PROTOCOL, this.projectType);
+    }
+
+
+    public boolean isManualEvent() {
+        return isManualAwardEvent() || isManualProposalEvent() || isManualProtocolEvent();
+    }
+
     public String getProjectIdFk() {
         return projectIdFk;
     }
 
     public void setProjectIdFk(String projectIdFk) {
         this.projectIdFk = projectIdFk;
+    }
+
+    public Long getCopiedCoiDiscDetailId() {
+        return copiedCoiDiscDetailId;
+    }
+
+    public void setCopiedCoiDiscDetailId(Long copiedCoiDiscDetailId) {
+        this.copiedCoiDiscDetailId = copiedCoiDiscDetailId;
     }
 
 
