@@ -20,19 +20,21 @@ import java.util.Set;
 
 import org.kuali.kra.infrastructure.KraServiceLocator;
 import org.kuali.kra.infrastructure.PermissionConstants;
-import org.kuali.kra.questionnaire.QuestionnaireAuthorizationService;
 import org.kuali.rice.kim.bo.Person;
 import org.kuali.rice.kns.document.Document;
 import org.kuali.rice.kns.document.MaintenanceDocumentBase;
 import org.kuali.rice.kns.document.authorization.MaintenanceDocumentAuthorizerBase;
+import org.kuali.rice.kns.exception.AuthorizationException;
+import org.kuali.rice.kns.util.GlobalVariables;
 import org.kuali.rice.kns.util.KNSConstants;
 
 public class NotificationMaintenanceDocumentAuthorizer extends MaintenanceDocumentAuthorizerBase {
 
     @Override
     public Set<String> getDocumentActions(Document document, Person user, Set<String> documentActions) {
-        super.getDocumentActions(document, user, documentActions);
-        return getDocumentActions(document);
+        Set<String> actions = getDocumentActions(document);
+        actions = super.getDocumentActions(document, user, actions);
+        return actions;
     }
 
     protected Set<String> getDocumentActions(Document document) {
@@ -49,7 +51,7 @@ public class NotificationMaintenanceDocumentAuthorizer extends MaintenanceDocume
             documentActions = getDocumentActionsWithViewPermission(document);
         }
         else {
-            throw new RuntimeException("Don't have permission to edit/view Notification");
+            throw new AuthorizationException(GlobalVariables.getUserSession().getPerson().getPrincipalName(), "Edit/View", "Notification");
         }
         return documentActions;
     }
@@ -83,10 +85,10 @@ public class NotificationMaintenanceDocumentAuthorizer extends MaintenanceDocume
         String maintAction = ((MaintenanceDocumentBase) document).getNewMaintainableObject().getMaintenanceAction();
         if (document.getDocumentHeader().getWorkflowDocument().getRouteHeader().getDocRouteStatus().equals("I")) {
             if (maintAction.equals(KNSConstants.MAINTENANCE_COPY_ACTION)) {
-                throw new RuntimeException("Don't have permission to Copy Notification");
+                throw new AuthorizationException(GlobalVariables.getUserSession().getPerson().getPrincipalName(), "Copy", "Notification");
             }
             else if (maintAction.equals(KNSConstants.MAINTENANCE_NEW_ACTION)) {
-                throw new RuntimeException("Don't have permission to Create Notification");
+                throw new AuthorizationException(GlobalVariables.getUserSession().getPerson().getPrincipalName(), "Create", "Notification");
             }
             else {
                 documentActions.add(KNSConstants.KUALI_ACTION_CAN_RELOAD);
