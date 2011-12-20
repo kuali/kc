@@ -56,9 +56,11 @@ public class ProtocolAbandonServiceImpl implements ProtocolAbandonService {
         protocol.setActive(false);
         documentService.cancelDocument(protocol.getProtocolDocument(), null);
         try {
-            IRBNotificationRenderer renderer = new IRBNotificationRenderer(protocol);
-            IRBNotificationContext context = new IRBNotificationContext(protocol, ProtocolActionType.ABANDON_PROTOCOL, "Abandon", renderer);
-            kcNotificationService.sendNotification(context);
+//            IRBNotificationRenderer renderer = new IRBNotificationRenderer(protocol);
+//            IRBNotificationContext context = new IRBNotificationContext(protocol, ProtocolActionType.ABANDON_PROTOCOL, "Abandon", renderer);
+//            if (!isPromptUserForNotification) {
+//                kcNotificationService.sendNotification(context);
+//            }
             createCorrespondenceAndAttach(protocol, ProtocolActionType.ABANDON_PROTOCOL);
         } catch (Exception e) {
             LOG.info("Abandon Protocol Notification exception " + e.getStackTrace());

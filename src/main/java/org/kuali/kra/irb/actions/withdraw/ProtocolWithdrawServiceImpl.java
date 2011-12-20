@@ -33,8 +33,6 @@ import org.kuali.kra.irb.actions.submit.ProtocolActionService;
 import org.kuali.kra.irb.actions.submit.ProtocolSubmission;
 import org.kuali.kra.irb.actions.submit.ProtocolSubmissionStatus;
 import org.kuali.kra.irb.actions.submit.ProtocolSubmissionType;
-import org.kuali.kra.irb.notification.IRBNotificationContext;
-import org.kuali.kra.irb.notification.IRBNotificationRenderer;
 import org.kuali.kra.irb.onlinereview.ProtocolOnlineReviewService;
 import org.kuali.kra.printing.PrintingException;
 import org.kuali.rice.kew.exception.WorkflowException;
@@ -121,9 +119,17 @@ public class ProtocolWithdrawServiceImpl implements ProtocolWithdrawService {
             protocolOnlineReviewService.finalizeOnlineReviews(submission, WITHDRAW_FINALIZE_OLR_ANNOTATION);
         }
         businessObjectService.save(protocol.getProtocolDocument());
-        IRBNotificationRenderer renderer = new IRBNotificationRenderer(protocol);
-        IRBNotificationContext context = new IRBNotificationContext(protocol, ProtocolActionType.WITHDRAWN, "Withdrawn", renderer);
-        kcNotificationService.sendNotification(context);
+//        IRBNotificationRenderer renderer = new IRBNotificationRenderer(protocol);
+//        IRBNotificationContext context = new IRBNotificationContext(protocol, ProtocolActionType.WITHDRAWN, "Withdrawn", renderer);
+//        /*
+//         * TODO : has to pass notificationHelper in this method call because the 'getContext'
+//         * method is based on protocol last action.  Here is the point that last action is created.
+//         * There are other action is similar to this use case.  'assign to agenda' is different because 
+//         * it is calling sendnotification in action class
+//         */
+//        if (!isPromptUserForNotification) {
+//            kcNotificationService.sendNotification(context);
+//        }
         
         if (isVersion) {
             /*

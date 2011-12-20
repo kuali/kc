@@ -86,13 +86,13 @@ public class ProtocolNotifyIrbServiceImpl implements ProtocolNotifyIrbService {
         cleanUnreferencedQuestionnaire(protocol.getProtocolNumber());
         documentService.saveDocument(protocol.getProtocolDocument());
         protocol.refreshReferenceObject("protocolSubmissions");
-        try {
-            NotifyIrbNotificationRenderer renderer = new NotifyIrbNotificationRenderer(protocol, protocolAction.getComments());
-            IRBNotificationContext context = new IRBNotificationContext(protocol, ProtocolActionType.NOTIFY_IRB, "Notify IRB", renderer);
-            kcNotificationService.sendNotification(context);
-        } catch (Exception e) {
-            LOG.info("Notify Irb Notification exception " + e.getStackTrace());
-        }
+//        try {
+//            NotifyIrbNotificationRenderer renderer = new NotifyIrbNotificationRenderer(protocol, protocolAction.getComments());
+//            IRBNotificationContext context = new IRBNotificationContext(protocol, ProtocolActionType.NOTIFY_IRB, "Notify IRB", renderer);
+//            kcNotificationService.sendNotification(context);
+//        } catch (Exception e) {
+//            LOG.info("Notify Irb Notification exception " + e.getStackTrace());
+//        }
     }
     
     private void saveQuestionnaire(ProtocolNotifyIrbBean notifyIrbBean, Integer submissionNumber) {
