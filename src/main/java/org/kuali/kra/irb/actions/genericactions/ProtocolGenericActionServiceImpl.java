@@ -71,9 +71,11 @@ public class ProtocolGenericActionServiceImpl implements ProtocolGenericActionSe
     /**{@inheritDoc}**/
     public ProtocolDocument defer(Protocol protocol, ProtocolGenericActionBean actionBean) throws Exception {
         performGenericAction(protocol, actionBean, ProtocolActionType.DEFERRED, ProtocolStatus.DEFERRED);
-        IRBNotificationRenderer renderer = new IRBNotificationRenderer(protocol);
-        IRBNotificationContext context = new IRBNotificationContext(protocol, ProtocolActionType.DEFERRED, "Deferred", renderer);
-        kcNotificationService.sendNotification(context);
+//        IRBNotificationRenderer renderer = new IRBNotificationRenderer(protocol);
+//        IRBNotificationContext context = new IRBNotificationContext(protocol, ProtocolActionType.DEFERRED, "Deferred", renderer);
+//        if (!isPromptUserForNotification) {
+//            kcNotificationService.sendNotification(context);
+//        }
         
         return getDeferredVersionedDocument(protocol);
     }
@@ -92,9 +94,9 @@ public class ProtocolGenericActionServiceImpl implements ProtocolGenericActionSe
     /**{@inheritDoc}**/
     public void irbAcknowledgement(Protocol protocol, ProtocolGenericActionBean actionBean) throws Exception {
         performGenericAction(protocol, actionBean, ProtocolActionType.IRB_ACKNOWLEDGEMENT);
-        IRBNotificationRenderer renderer = new IRBNotificationRenderer(protocol);
-        IRBNotificationContext context = new IRBNotificationContext(protocol, ProtocolActionType.IRB_ACKNOWLEDGEMENT, "IRB Acknowledgement", renderer);
-        kcNotificationService.sendNotification(context);
+//        IRBNotificationRenderer renderer = new IRBNotificationRenderer(protocol);
+//        IRBNotificationContext context = new IRBNotificationContext(protocol, ProtocolActionType.IRB_ACKNOWLEDGEMENT, "IRB Acknowledgement", renderer);
+//        kcNotificationService.sendNotification(context);
     }
 
     /**{@inheritDoc}**/
@@ -110,9 +112,9 @@ public class ProtocolGenericActionServiceImpl implements ProtocolGenericActionSe
     /**{@inheritDoc}**/
     public ProtocolDocument returnForSMR(Protocol protocol, ProtocolGenericActionBean actionBean) throws Exception {
         performGenericAction(protocol, actionBean, ProtocolActionType.SPECIFIC_MINOR_REVISIONS_REQUIRED, ProtocolStatus.SPECIFIC_MINOR_REVISIONS_REQUIRED);
-        IRBNotificationRenderer renderer = new IRBNotificationRenderer(protocol);
-        IRBNotificationContext context = new IRBNotificationContext(protocol, ProtocolActionType.SPECIFIC_MINOR_REVISIONS_REQUIRED, "Specific Minor Revisions Required", renderer);
-        kcNotificationService.sendNotification(context);
+//        IRBNotificationRenderer renderer = new IRBNotificationRenderer(protocol);
+//        IRBNotificationContext context = new IRBNotificationContext(protocol, ProtocolActionType.SPECIFIC_MINOR_REVISIONS_REQUIRED, "Specific Minor Revisions Required", renderer);
+//        kcNotificationService.sendNotification(context);
 
         return getReturnedVersionedDocument(protocol);
     }
@@ -120,9 +122,9 @@ public class ProtocolGenericActionServiceImpl implements ProtocolGenericActionSe
     /**{@inheritDoc}**/
     public ProtocolDocument returnForSRR(Protocol protocol, ProtocolGenericActionBean actionBean) throws Exception {
         performGenericAction(protocol, actionBean, ProtocolActionType.SUBSTANTIVE_REVISIONS_REQUIRED, ProtocolStatus.SUBSTANTIVE_REVISIONS_REQUIRED);
-        IRBNotificationRenderer renderer = new IRBNotificationRenderer(protocol);
-        IRBNotificationContext context = new IRBNotificationContext(protocol, ProtocolActionType.SUBSTANTIVE_REVISIONS_REQUIRED, "Substantive Revisions Required", renderer);
-        kcNotificationService.sendNotification(context);
+//        IRBNotificationRenderer renderer = new IRBNotificationRenderer(protocol);
+//        IRBNotificationContext context = new IRBNotificationContext(protocol, ProtocolActionType.SUBSTANTIVE_REVISIONS_REQUIRED, "Substantive Revisions Required", renderer);
+//        kcNotificationService.sendNotification(context);
 
         return getReturnedVersionedDocument(protocol);
     }

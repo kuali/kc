@@ -107,11 +107,11 @@ public class ProtocolRequestServiceImpl implements ProtocolRequestService {
         cleanUnreferencedQuestionnaire(protocol.getProtocolNumber());
 //        businessObjectService.save(protocol.getProtocolDocument());
         documentService.saveDocument(protocol.getProtocolDocument());
-        try {
-            sendRequestNotification(protocol, requestBean);
-        } catch (Exception e) {
-            LOG.info("Request notification exception " + e.getStackTrace());
-        }
+//        try {
+//            sendRequestNotification(protocol, requestBean);
+//        } catch (Exception e) {
+//            LOG.info("Request notification exception " + e.getStackTrace());
+//        }
     }
     
     private void saveQuestionnaire(ProtocolRequestBean requestBean, Integer submissionNumber) {

@@ -40,6 +40,7 @@ public class IRBNotificationContext extends NotificationContextBase {
     private String actionTypeCode;
     private String contextName;
     private List<EmailAttachment> emailAttachments;
+    private String forwardName;
     
     /**
      * Constructs an IRB notification context and sets the necessary services.
@@ -121,6 +122,14 @@ public class IRBNotificationContext extends NotificationContextBase {
      */
     public void setEmailAttachments(List<EmailAttachment> emailAttachments) {
         this.emailAttachments = emailAttachments;
+    }
+
+    public String getForwardName() {
+        return forwardName;
+    }
+
+    public void setForwardName(String forwardName) {
+        this.forwardName = forwardName;
     }
     
 }
