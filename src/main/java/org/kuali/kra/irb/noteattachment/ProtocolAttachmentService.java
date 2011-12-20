@@ -117,6 +117,15 @@ public interface ProtocolAttachmentService {
      */
     boolean isNewAttachmentVersion(ProtocolAttachmentProtocol attachment);
      
+    
+    /**
+     * 
+     * This method will check if the given attachment is currently active (for the active version of the protocol it is attached to).
+     * @param attachment
+     * @return
+     */
+    boolean isAttachmentActive(ProtocolAttachmentProtocol attachment);
+    
      /**
       * 
       * This method is to check whether the attachment file is shared by old version of attachments.
