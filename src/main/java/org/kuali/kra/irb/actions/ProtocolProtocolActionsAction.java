@@ -20,7 +20,6 @@ import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
-import java.util.Set;
 
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
@@ -35,16 +34,13 @@ import org.kuali.kra.authorization.ApplicationTask;
 import org.kuali.kra.bo.AttachmentFile;
 import org.kuali.kra.bo.CoeusModule;
 import org.kuali.kra.bo.CoeusSubModule;
-import org.kuali.kra.bo.KcPerson;
 import org.kuali.kra.committee.bo.Committee;
 import org.kuali.kra.committee.bo.CommitteeSchedule;
 import org.kuali.kra.committee.service.CommitteeService;
-import org.kuali.kra.common.notification.NotificationContext;
 import org.kuali.kra.common.notification.service.KcNotificationService;
 import org.kuali.kra.infrastructure.Constants;
 import org.kuali.kra.infrastructure.KeyConstants;
 import org.kuali.kra.infrastructure.KraServiceLocator;
-import org.kuali.kra.infrastructure.RoleConstants;
 import org.kuali.kra.infrastructure.TaskName;
 import org.kuali.kra.irb.Protocol;
 import org.kuali.kra.irb.ProtocolAction;
@@ -92,6 +88,8 @@ import org.kuali.kra.irb.actions.modifysubmission.ProtocolModifySubmissionServic
 import org.kuali.kra.irb.actions.noreview.ProtocolReviewNotRequiredBean;
 import org.kuali.kra.irb.actions.noreview.ProtocolReviewNotRequiredEvent;
 import org.kuali.kra.irb.actions.noreview.ProtocolReviewNotRequiredService;
+import org.kuali.kra.irb.actions.notification.NotifyIrbNotificationRenderer;
+import org.kuali.kra.irb.actions.notification.ProtocolNotificationRequestBean;
 import org.kuali.kra.irb.actions.notifyirb.ProtocolActionAttachment;
 import org.kuali.kra.irb.actions.notifyirb.ProtocolNotifyIrbBean;
 import org.kuali.kra.irb.actions.notifyirb.ProtocolNotifyIrbService;
@@ -149,15 +147,14 @@ import org.kuali.kra.proposaldevelopment.bo.AttachmentDataSource;
 import org.kuali.kra.questionnaire.answer.AnswerHeader;
 import org.kuali.kra.questionnaire.answer.ModuleQuestionnaireBean;
 import org.kuali.kra.questionnaire.answer.QuestionnaireAnswerService;
-import org.kuali.kra.service.KcPersonService;
 import org.kuali.kra.service.TaskAuthorizationService;
 import org.kuali.kra.util.watermark.WatermarkConstants;
 import org.kuali.kra.web.struts.action.AuditActionHelper;
+import org.kuali.kra.web.struts.action.KraTransactionalDocumentActionBase;
 import org.kuali.kra.web.struts.action.StrutsConfirmation;
 import org.kuali.rice.kew.util.KEWConstants;
 import org.kuali.rice.kim.bo.Person;
 import org.kuali.rice.kim.service.PersonService;
-import org.kuali.rice.kim.service.RoleService;
 import org.kuali.rice.kns.document.Document;
 import org.kuali.rice.kns.document.authorization.PessimisticLock;
 import org.kuali.rice.kns.question.ConfirmationQuestion;
@@ -179,6 +176,8 @@ public class ProtocolProtocolActionsAction extends ProtocolAction implements Aud
     private static final String CONFIRM_FOLLOWUP_ACTION = "confirmAddFollowupAction";
     
     private static final String PROTOCOL_TAB = "protocol";
+    private static final String PROTOCOL_ACTIONS_TAB = "protocolActions";
+    
     private static final String CONFIRM_SUBMIT_FOR_REVIEW_KEY = "confirmSubmitForReview";
     private static final String CONFIRM_ASSIGN_TO_AGENDA_KEY = "confirmAssignToAgenda";
     private static final String CONFIRM_ASSIGN_CMT_SCHED_KEY = "confirmAssignCmtSched";
@@ -464,8 +463,9 @@ public class ProtocolProtocolActionsAction extends ProtocolAction implements Aud
                 protocolForm.getProtocolHelper().prepareView();
                 
                 recordProtocolActionSuccess("Withdraw");
+                return checkToSendNotification(mapping, mapping.findForward(PROTOCOL_TAB), protocolForm, new ProtocolNotificationRequestBean(protocolForm.getProtocolDocument().getProtocol(), ProtocolActionType.WITHDRAWN, "Withdrawn"));
     
-                return mapping.findForward(PROTOCOL_TAB);
+//                return mapping.findForward(PROTOCOL_TAB);
             }
         } else {
             GlobalVariables.getMessageMap().clearErrorMessages();
@@ -497,6 +497,7 @@ public class ProtocolProtocolActionsAction extends ProtocolAction implements Aud
             LOG.info("notifyIrbProtocol " + protocolForm.getProtocolDocument().getDocumentNumber());
 
             recordProtocolActionSuccess("Notify IRB");
+            return checkToSendNotification(mapping, mapping.findForward(PROTOCOL_ACTIONS_TAB), protocolForm, new ProtocolNotificationRequestBean(protocolForm.getProtocolDocument().getProtocol(),ProtocolActionType.NOTIFY_IRB, "Notify IRB"));
         }
         return mapping.findForward(Constants.MAPPING_BASIC);
     }
@@ -1634,6 +1635,7 @@ public class ProtocolProtocolActionsAction extends ProtocolAction implements Aud
                 if (valid) {
                     getProtocolRequestService().submitRequest(protocolForm.getProtocolDocument().getProtocol(), requestBean);            
                     recordProtocolActionSuccess(requestAction.getActionName());
+                    return sendRequestNotification(mapping, form, protocol, requestBean);
                 }
             }
         }
@@ -1641,6 +1643,15 @@ public class ProtocolProtocolActionsAction extends ProtocolAction implements Aud
         return mapping.findForward(Constants.MAPPING_BASIC);
     }
     
+    private ActionForward sendRequestNotification(ActionMapping mapping, ActionForm form, Protocol protocol, ProtocolRequestBean requestBean) throws Exception {
+        ProtocolForm protocolForm = (ProtocolForm) form;
+        ProtocolActionType protocolActionType = getBusinessObjectService().findBySinglePrimaryKey(ProtocolActionType.class, requestBean.getProtocolActionTypeCode());
+        String protocolActionTypeCode = protocolActionType.getProtocolActionTypeCode();
+        String description = protocolActionType.getDescription();
+        
+        return checkToSendNotification(mapping, mapping.findForward(PROTOCOL_ACTIONS_TAB), protocolForm, new ProtocolNotificationRequestBean(protocolForm.getProtocolDocument().getProtocol(), protocolActionTypeCode, description));
+    }
+
     private ProtocolRequestBean getProtocolRequestBean(ActionForm form, HttpServletRequest request) {
         ProtocolRequestBean protocolRequestBean = null;
         
@@ -1735,7 +1746,8 @@ public class ProtocolProtocolActionsAction extends ProtocolAction implements Aud
                     
                     recordProtocolActionSuccess("Defer");
                     
-                    forward = mapping.findForward(PROTOCOL_TAB);
+                    forward = checkToSendNotification(mapping, mapping.findForward(PROTOCOL_TAB), protocolForm, new ProtocolNotificationRequestBean(protocolForm.getProtocolDocument().getProtocol(),ProtocolActionType.DEFERRED, "Deferred"));
+//                    forward = mapping.findForward(PROTOCOL_TAB);
                 }
             }
         } else {
@@ -1821,6 +1833,7 @@ public class ProtocolProtocolActionsAction extends ProtocolAction implements Aud
                 saveReviewComments(protocolForm, actionBean.getReviewCommentsBean());
                     
                 recordProtocolActionSuccess("IRB Acknowledgement");
+                return checkToSendNotification(mapping, mapping.findForward(PROTOCOL_ACTIONS_TAB), protocolForm, new ProtocolNotificationRequestBean(protocolForm.getProtocolDocument().getProtocol(),ProtocolActionType.IRB_ACKNOWLEDGEMENT, "IRB Acknowledgement"));
             }
         }
         
@@ -1909,8 +1922,20 @@ public class ProtocolProtocolActionsAction extends ProtocolAction implements Aud
                 protocolForm.getProtocolHelper().prepareView();
                 
                 recordProtocolActionSuccess("Return for Specific Minor Revisions");
-                
-                forward = mapping.findForward(PROTOCOL_TAB);
+//              org.kuali.kra.irb.actions.ProtocolAction lastAction = protocolForm.getProtocolDocument().getProtocol().getLastProtocolAction();
+//              ProtocolActionType lastActionType = lastAction.getProtocolActionType();
+//              String description = lastActionType.getDescription();
+//              IRBNotificationRenderer renderer = new IRBNotificationRenderer(protocolForm.getProtocolDocument().getProtocol());
+//              IRBNotificationContext context = new IRBNotificationContext(protocolForm.getProtocolDocument().getProtocol(), ProtocolActionType.SPECIFIC_MINOR_REVISIONS_REQUIRED, "Specific Minor Revisions Required", renderer);
+//              
+//              if (protocolForm.getNotificationHelper().getPromptUserForNotificationEditor(context)) {
+//                  protocolForm.getNotificationHelper().initializeDefaultValues(context);
+//                  return mapping.findForward("protocolNotificationEditor");
+//              } else {
+//                  getNotificationService().sendNotification(context);
+//              }
+                forward = checkToSendNotification(mapping, mapping.findForward(PROTOCOL_TAB), protocolForm, new ProtocolNotificationRequestBean(protocolForm.getProtocolDocument().getProtocol(),ProtocolActionType.SPECIFIC_MINOR_REVISIONS_REQUIRED, "Specific Minor Revisions Required"));
+//                forward = mapping.findForward(PROTOCOL_TAB);
             }
         }
         
@@ -1945,7 +1970,7 @@ public class ProtocolProtocolActionsAction extends ProtocolAction implements Aud
                 
                 recordProtocolActionSuccess("Return for Substantive Revisions Required");
                 
-                forward = mapping.findForward(PROTOCOL_TAB);
+                forward = checkToSendNotification(mapping, mapping.findForward(PROTOCOL_TAB), protocolForm, new ProtocolNotificationRequestBean(protocolForm.getProtocolDocument().getProtocol(),ProtocolActionType.SUBSTANTIVE_REVISIONS_REQUIRED, "Substantive Revisions Required"));
             }
         }
         
@@ -2455,8 +2480,9 @@ public class ProtocolProtocolActionsAction extends ProtocolAction implements Aud
             protocolForm.getProtocolHelper().prepareView();
             
             recordProtocolActionSuccess("Abandon");
+            org.kuali.kra.irb.actions.ProtocolAction lastAction = protocolForm.getProtocolDocument().getProtocol().getLastProtocolAction();
+            return checkToSendNotification(mapping, mapping.findForward(PROTOCOL_ACTIONS_TAB), protocolForm, new ProtocolNotificationRequestBean(protocolForm.getProtocolDocument().getProtocol(),ProtocolActionType.ABANDON_PROTOCOL, "Abandon"));
 
-            return mapping.findForward(KNSConstants.MAPPING_PORTAL);
         }
 
         // should it return to portal page ?
@@ -3313,6 +3339,24 @@ public class ProtocolProtocolActionsAction extends ProtocolAction implements Aud
         }
         
         return isPessimisticallyLocked;
+    }
+    
+    private ActionForward checkToSendNotification(ActionMapping mapping, ActionForward forward, ProtocolForm protocolForm, ProtocolNotificationRequestBean notificationRequestBean) {
+        
+        IRBNotificationRenderer renderer = new IRBNotificationRenderer(notificationRequestBean.getProtocol());
+        if (StringUtils.equals(ProtocolActionType.NOTIFY_IRB, notificationRequestBean.getActionType())) {
+            renderer = new NotifyIrbNotificationRenderer(notificationRequestBean.getProtocol(), notificationRequestBean.getProtocol().getLastProtocolAction().getComments());
+        }
+        IRBNotificationContext context = new IRBNotificationContext(notificationRequestBean.getProtocol(), notificationRequestBean.getActionType(), notificationRequestBean.getDescription(), renderer);
+        
+        if (protocolForm.getNotificationHelper().getPromptUserForNotificationEditor(context)) {
+            context.setForwardName(forward.getName());
+            protocolForm.getNotificationHelper().initializeDefaultValues(context);
+             return mapping.findForward("protocolNotificationEditor");
+        } else {
+            getNotificationService().sendNotification(context);
+            return forward;
+        }
     }
     
     protected PersonService<Person> getPersonService() {
