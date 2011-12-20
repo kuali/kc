@@ -36,8 +36,8 @@
                            http://www.springframework.org/schema/util
                            http://www.springframework.org/schema/util/spring-util-2.5.xsd">
                            
-    <bean id="coiModuleConfiguration" parent="coiModuleConfiguration-parentBean" />
-    <bean id="coiModuleConfiguration-parentBean" class="org.kuali.rice.kns.bo.ModuleConfiguration" abstract="true">
+    <bean id="pmcModuleConfiguration" parent="pmcModuleConfiguration-parentBean" />
+    <bean id="pmcModuleConfiguration-parentBean" class="org.kuali.rice.kns.bo.ModuleConfiguration" abstract="true">
         <property name="databaseRepositoryFilePaths">
             <list>
                 <value>org/kuali/kra/personmasschange/repository-personmasschange.xml</value>
