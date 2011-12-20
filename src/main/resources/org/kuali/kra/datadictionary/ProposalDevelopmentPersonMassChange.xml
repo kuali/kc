@@ -1,0 +1,120 @@
+<!--
+ Copyright 2005-2010 The Kuali Foundation
+
+ Licensed under the Educational Community License, Version 2.0 (the "License");
+ you may not use this file except in compliance with the License.
+ You may obtain a copy of the License at
+
+ http://www.osedu.org/licenses/ECL-2.0
+
+ Unless required by applicable law or agreed to in writing, software
+ distributed under the License is distributed on an "AS IS" BASIS,
+ WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
+ See the License for the specific language governing permissions and
+ limitations under the License.
+-->
+<beans xmlns="http://www.springframework.org/schema/beans"
+       xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+       xmlns:p="http://www.springframework.org/schema/p"
+       xsi:schemaLocation="http://www.springframework.org/schema/beans http://www.springframework.org/schema/beans/spring-beans-2.0.xsd">
+
+    <bean id="ProposalDevelopmentPersonMassChange" parent="ProposalDevelopmentPersonMassChange-parentBean" />
+    <bean id="ProposalDevelopmentPersonMassChange-parentBean" abstract="true" parent="BusinessObjectEntry">
+        <property name="businessObjectClass" value="org.kuali.kra.personmasschange.bo.ProposalDevelopmentPersonMassChange" />
+        <property name="objectLabel" value="Proposal Development Person Mass Change" />
+        <property name="attributes" >
+            <list>
+                <ref bean="ProposalDevelopmentPersonMassChange-proposalDevelopmentPersonMassChangeId" />
+                <ref bean="ProposalDevelopmentPersonMassChange-personMassChangeId" />
+                <ref bean="ProposalDevelopmentPersonMassChange-investigator" />
+                <ref bean="ProposalDevelopmentPersonMassChange-mailingInformation" />
+                <ref bean="ProposalDevelopmentPersonMassChange-keyStudyPerson" />
+                <ref bean="ProposalDevelopmentPersonMassChange-budgetPerson" />
+                <ref bean="ProposalDevelopmentPersonMassChange-versionNumber" />
+            </list>
+        </property>
+    </bean>
+
+    <!-- Attribute Definitions -->
+    
+    <bean id="ProposalDevelopmentPersonMassChange-proposalDevelopmentPersonMassChangeId" parent="ProposalDevelopmentPersonMassChange-proposalDevelopmentPersonMassChangeId-parentBean" />
+    <bean id="ProposalDevelopmentPersonMassChange-proposalDevelopmentPersonMassChangeId-parentBean" abstract="true" parent="AttributeDefinition" >
+        <property name="name" value="proposalDevelopmentPersonMassChangeId" />
+        <property name="forceUppercase" value="false" />
+        <property name="label" value="Proposal Development Person Mass Change Id" />
+        <property name="shortLabel" value="Proposal Development Person Mass Change Id" />
+        <property name="maxLength" value="12" />
+        <property name="validationPattern" >
+            <bean parent="NumericValidationPattern" />
+        </property>
+        <property name="control" >
+            <bean parent="TextControlDefinition"
+                p:size="12" />
+        </property>
+        <property name="summary" value="Proposal Development Person Mass Change Id" />
+        <property name="description" value="Proposal Development Person Mass Change Id" />
+    </bean>
+    
+    <bean id="ProposalDevelopmentPersonMassChange-personMassChangeId" parent="ProposalDevelopmentPersonMassChange-personMassChangeId-parentBean" />
+    <bean id="ProposalDevelopmentPersonMassChange-personMassChangeId-parentBean" abstract="true" parent="PersonMassChange-personMassChangeId" />
+    
+    <bean id="ProposalDevelopmentPersonMassChange-investigator" parent="ProposalDevelopmentPersonMassChange-investigator-parentBean" />
+    <bean id="ProposalDevelopmentPersonMassChange-investigator-parentBean" abstract="true" parent="AttributeDefinition" >
+        <property name="name" value="investigator" />
+        <property name="forceUppercase" value="false" />
+        <property name="label" value="Investigator" />
+        <property name="shortLabel" value="Investigator" />
+        <property name="maxLength" value="1" />
+        <property name="control" >
+            <bean parent="CheckboxControlDefinition" />
+        </property>
+        <property name="summary" value="Investigator" />
+        <property name="description" value="Investigator" />
+    </bean>
+    
+    <bean id="ProposalDevelopmentPersonMassChange-mailingInformation" parent="ProposalDevelopmentPersonMassChange-mailingInformation-parentBean" />
+    <bean id="ProposalDevelopmentPersonMassChange-mailingInformation-parentBean" abstract="true" parent="AttributeDefinition" >
+        <property name="name" value="mailingInformation" />
+        <property name="forceUppercase" value="false" />
+        <property name="label" value="Mailing Information" />
+        <property name="shortLabel" value="Mailing Information" />
+        <property name="maxLength" value="1" />
+        <property name="control" >
+            <bean parent="CheckboxControlDefinition" />
+        </property>
+        <property name="summary" value="Mailing Information" />
+        <property name="description" value="Mailing Information" />
+    </bean>
+    
+    <bean id="ProposalDevelopmentPersonMassChange-keyStudyPerson" parent="ProposalDevelopmentPersonMassChange-keyStudyPerson-parentBean" />
+    <bean id="ProposalDevelopmentPersonMassChange-keyStudyPerson-parentBean" abstract="true" parent="AttributeDefinition" >
+        <property name="name" value="keyStudyPerson" />
+        <property name="forceUppercase" value="false" />
+        <property name="label" value="Key Study Person" />
+        <property name="shortLabel" value="Key Study Person" />
+        <property name="maxLength" value="1" />
+        <property name="control" >
+            <bean parent="CheckboxControlDefinition" />
+        </property>
+        <property name="summary" value="Key Study Person" />
+        <property name="description" value="Key Study Person" />
+    </bean>
+    
+    <bean id="ProposalDevelopmentPersonMassChange-budgetPerson" parent="ProposalDevelopmentPersonMassChange-budgetPerson-parentBean" />
+    <bean id="ProposalDevelopmentPersonMassChange-budgetPerson-parentBean" abstract="true" parent="AttributeDefinition" >
+        <property name="name" value="budgetPerson" />
+        <property name="forceUppercase" value="false" />
+        <property name="label" value="Budget Person" />
+        <property name="shortLabel" value="Budget Person" />
+        <property name="maxLength" value="1" />
+        <property name="control" >
+            <bean parent="CheckboxControlDefinition" />
+        </property>
+        <property name="summary" value="Budget Person" />
+        <property name="description" value="Budget Person" />
+    </bean>
+    
+    <bean id="ProposalDevelopmentPersonMassChange-versionNumber" parent="ProposalDevelopmentPersonMassChange-versionNumber-parentBean" />
+    <bean id="ProposalDevelopmentPersonMassChange-versionNumber-parentBean" abstract="true" parent="AttributeReferenceDummy-versionNumber" />
+    
+</beans>

@@ -47,6 +47,7 @@
 		<form-bean name="CoiDisclosureForm" type="org.kuali.kra.coi.CoiDisclosureForm" />
 		<form-bean name="FinancialEntityForm" type="org.kuali.kra.coi.personfinancialentity.FinancialEntityForm" />
 		<form-bean name="NegotiationForm" type="org.kuali.kra.negotiations.web.struts.form.NegotiationForm" />
+		<form-bean name="PersonMassChangeForm" type="org.kuali.kra.personmasschange.web.struts.form.PersonMassChangeForm" />
 		<form-bean name="ReportTrackingLookupForm" type="org.kuali.kra.award.web.struts.action.ReportTrackingLookupForm" />
     </form-beans>
 
@@ -510,10 +511,14 @@
        	  <forward name="basic" path="/WEB-INF/jsp/negotiation/NegotiationNotificationEditor.jsp" />
        	  <forward name="negotiation" path="/WEB-INF/jsp/negotiation/NegotiationNegotiation.jsp" />
        </action>
-     
+    
+        <action path="/personMassChange*" name="PersonMassChangeForm" input="/WEB-INF/jsp/personmasschange/PersonMassChange{1}.jsp" type="org.kuali.kra.personmasschange.web.struts.action.PersonMassChange{1}Action" attribute="KualiForm">
+            <forward name="basic" path="/WEB-INF/jsp/personmasschange/PersonMassChange{1}.jsp" />
+            <forward name="home" path="/WEB-INF/jsp/personmasschange/PersonMassChangeHome.jsp" />
+            <forward name="view" path="/WEB-INF/jsp/personmasschange/PersonMassChangeView.jsp" />
+        </action>
+    
     </action-mappings>
-
-
 
     <controller processorClass="org.kuali.kra.web.struts.action.KraRequestProcessor" />
     <message-resources factory="org.kuali.rice.kns.web.struts.action.KualiPropertyMessageResourcesFactory" parameter="" /> 
