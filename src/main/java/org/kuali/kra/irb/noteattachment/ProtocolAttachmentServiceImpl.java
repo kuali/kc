@@ -175,6 +175,28 @@ class ProtocolAttachmentServiceImpl implements ProtocolAttachmentService {
         return this.boService.findMatching(ProtocolAttachmentProtocol.class, keyMap).isEmpty();
     }
 
+    
+
+    @Override
+    public boolean isAttachmentActive(ProtocolAttachmentProtocol attachment) {
+        boolean retValue;
+        // first get the active version of the protocol with the number given in the attachment
+        String protocolNumber = attachment.getProtocol().getProtocolNumber();
+        if ( (attachment.getProtocol().isAmendment()) || (attachment.getProtocol().isRenewal()) ) {
+            protocolNumber = attachment.getProtocol().getAmendedProtocolNumber(); 
+        }
+        Protocol activeProtocol = getActiveProtocol(protocolNumber);
+        // now check if the current attachment is in the list of the active, 'non-deleted' attachments for this protocol
+        // note: see equals methods for protocol attachment for the appropriate semantics for "contains" below
+        if(activeProtocol.getActiveAttachmentProtocolsNoDelete().contains(attachment)) {
+            retValue = true;
+        }
+        else {
+            retValue = false;
+        }
+        return retValue;
+    }
+    
     /*
      * This method is to get the current protocol.  The protocol with the highest sequence number.
      */
@@ -254,6 +276,7 @@ class ProtocolAttachmentServiceImpl implements ProtocolAttachmentService {
      */
     public void setPersonService(PersonService<Person> personService) {
         this.personService = personService;
-    }   
+    }
+
 
 }
