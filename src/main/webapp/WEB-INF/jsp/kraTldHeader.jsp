@@ -43,3 +43,4 @@ This is where application specific (kra) tag includes would go.
 <%@ taglib tagdir="/WEB-INF/tags/negotiation" prefix="kra-negotiation"%>
 <%@ taglib tagdir="/WEB-INF/tags/subaward" prefix="kra-sub"%>
 <%@ taglib tagdir="/WEB-INF/tags/notification" prefix="kra-notification"%>
+<%@ taglib tagdir="/WEB-INF/tags/personmasschange" prefix ="kra-personmasschange"%>
