@@ -25,6 +25,8 @@
     <li><portal:portalLink displayTitle="true" title="Sponsor Lookup" url="kr/lookup.do?methodToCall=start&businessObjectClassName=org.kuali.kra.bo.Sponsor&docFormKey=88888888&returnLocation=${ConfigProperties.application.url}/portal.do&hideReturnLink=true" /></li>
     <li>Change Password</li>
     <li><portal:portalLink displayTitle="true" title="Keyword Lookup" url="kr/lookup.do?methodToCall=start&businessObjectClassName=org.kuali.kra.bo.ScienceKeyword&docFormKey=88888888&returnLocation=${ConfigProperties.application.url}/portal.do&hideReturnLink=true" /></li>
+  
+    <li><portal:portalLink displayTitle="false" title="Perform Person Mass Change" url="personMassChangeHome.do?methodToCall=docHandler&command=initiate&docTypeName=PersonMassChangeDocument">Perform Person Mass Change</portal:portalLink></li>
   </ul>
 </div>
 <channel:portalChannelBottom />
