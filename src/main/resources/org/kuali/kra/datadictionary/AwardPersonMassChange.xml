@@ -1,0 +1,120 @@
+<!--
+ Copyright 2005-2010 The Kuali Foundation
+
+ Licensed under the Educational Community License, Version 2.0 (the "License");
+ you may not use this file except in compliance with the License.
+ You may obtain a copy of the License at
+
+ http://www.osedu.org/licenses/ECL-2.0
+
+ Unless required by applicable law or agreed to in writing, software
+ distributed under the License is distributed on an "AS IS" BASIS,
+ WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
+ See the License for the specific language governing permissions and
+ limitations under the License.
+-->
+<beans xmlns="http://www.springframework.org/schema/beans"
+       xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+       xmlns:p="http://www.springframework.org/schema/p"
+       xsi:schemaLocation="http://www.springframework.org/schema/beans http://www.springframework.org/schema/beans/spring-beans-2.0.xsd">
+
+    <bean id="AwardPersonMassChange" parent="AwardPersonMassChange-parentBean" />
+    <bean id="AwardPersonMassChange-parentBean" abstract="true" parent="BusinessObjectEntry">
+        <property name="businessObjectClass" value="org.kuali.kra.personmasschange.bo.AwardPersonMassChange" />
+        <property name="objectLabel" value="Award Person Mass Change" />
+        <property name="attributes" >
+            <list>
+                <ref bean="AwardPersonMassChange-awardPersonMassChangeId" />
+                <ref bean="AwardPersonMassChange-personMassChangeId" />
+                <ref bean="AwardPersonMassChange-investigator" />
+                <ref bean="AwardPersonMassChange-contactPerson" />
+                <ref bean="AwardPersonMassChange-foreignTrip" />
+                <ref bean="AwardPersonMassChange-unitAdministrator" />
+                <ref bean="AwardPersonMassChange-versionNumber" />
+            </list>
+        </property>
+    </bean>
+
+    <!-- Attribute Definitions -->
+    
+    <bean id="AwardPersonMassChange-awardPersonMassChangeId" parent="AwardPersonMassChange-awardPersonMassChangeId-parentBean" />
+    <bean id="AwardPersonMassChange-awardPersonMassChangeId-parentBean" abstract="true" parent="AttributeDefinition" >
+        <property name="name" value="awardPersonMassChangeId" />
+        <property name="forceUppercase" value="false" />
+        <property name="label" value="Award Person Mass Change Id" />
+        <property name="shortLabel" value="Award Person Mass Change Id" />
+        <property name="maxLength" value="12" />
+        <property name="validationPattern" >
+            <bean parent="NumericValidationPattern" />
+        </property>
+        <property name="control" >
+            <bean parent="TextControlDefinition"
+                p:size="12" />
+        </property>
+        <property name="summary" value="Award Person Mass Change Id" />
+        <property name="description" value="Award Person Mass Change Id" />
+    </bean>
+    
+    <bean id="AwardPersonMassChange-personMassChangeId" parent="AwardPersonMassChange-personMassChangeId-parentBean" />
+    <bean id="AwardPersonMassChange-personMassChangeId-parentBean" abstract="true" parent="PersonMassChange-personMassChangeId" />
+    
+    <bean id="AwardPersonMassChange-investigator" parent="AwardPersonMassChange-investigator-parentBean" />
+    <bean id="AwardPersonMassChange-investigator-parentBean" abstract="true" parent="AttributeDefinition" >
+        <property name="name" value="investigator" />
+        <property name="forceUppercase" value="false" />
+        <property name="label" value="Investigator" />
+        <property name="shortLabel" value="Investigator" />
+        <property name="maxLength" value="1" />
+        <property name="control" >
+            <bean parent="CheckboxControlDefinition" />
+        </property>
+        <property name="summary" value="Investigator" />
+        <property name="description" value="Investigator" />
+    </bean>
+    
+    <bean id="AwardPersonMassChange-contactPerson" parent="AwardPersonMassChange-contactPerson-parentBean" />
+    <bean id="AwardPersonMassChange-contactPerson-parentBean" abstract="true" parent="AttributeDefinition" >
+        <property name="name" value="contactPerson" />
+        <property name="forceUppercase" value="false" />
+        <property name="label" value="Contact Person" />
+        <property name="shortLabel" value="Contact Person" />
+        <property name="maxLength" value="1" />
+        <property name="control" >
+            <bean parent="CheckboxControlDefinition" />
+        </property>
+        <property name="summary" value="Contact Person" />
+        <property name="description" value="Contact Person" />
+    </bean>
+    
+    <bean id="AwardPersonMassChange-foreignTrip" parent="AwardPersonMassChange-foreignTrip-parentBean" />
+    <bean id="AwardPersonMassChange-foreignTrip-parentBean" abstract="true" parent="AttributeDefinition" >
+        <property name="name" value="foreignTrip" />
+        <property name="forceUppercase" value="false" />
+        <property name="label" value="Foreign Trip" />
+        <property name="shortLabel" value="Foreign Trip" />
+        <property name="maxLength" value="1" />
+        <property name="control" >
+            <bean parent="CheckboxControlDefinition" />
+        </property>
+        <property name="summary" value="Foreign Trip" />
+        <property name="description" value="Foreign Trip" />
+    </bean>
+
+    <bean id="AwardPersonMassChange-unitAdministrator" parent="AwardPersonMassChange-unitAdministrator-parentBean" />
+    <bean id="AwardPersonMassChange-unitAdministrator-parentBean" abstract="true" parent="AttributeDefinition" >
+        <property name="name" value="unitAdministrator" />
+        <property name="forceUppercase" value="false" />
+        <property name="label" value="Unit Administrator" />
+        <property name="shortLabel" value="Unit Administrator" />
+        <property name="maxLength" value="1" />
+        <property name="control" >
+            <bean parent="CheckboxControlDefinition" />
+        </property>
+        <property name="summary" value="Unit Administrator" />
+        <property name="description" value="Unit Administrator" />
+    </bean>
+    
+    <bean id="AwardPersonMassChange-versionNumber" parent="AwardPersonMassChange-versionNumber-parentBean" />
+    <bean id="AwardPersonMassChange-versionNumber-parentBean" abstract="true" parent="AttributeReferenceDummy-versionNumber" />
+
+</beans>
