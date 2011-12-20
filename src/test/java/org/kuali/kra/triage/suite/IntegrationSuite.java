@@ -145,7 +145,7 @@ import org.kuali.kra.workflow.test.ProposalDevelopmentDocumentRoutingSeleniumTes
     ProtocolSubmitActionSeleniumTest.class,
     ProtocolWithdrawActionSeleniumTest.class,
     SponsorFormMaintenanceDocumentSeleniumTest.class,
-    ValidCalcTypeMaintenanceDocumentSeleniumTest.class
-   // FinancialEntitySeleniumWebTest.class
+    ValidCalcTypeMaintenanceDocumentSeleniumTest.class,
+    FinancialEntitySeleniumWebTest.class
 })
 public class IntegrationSuite {}
