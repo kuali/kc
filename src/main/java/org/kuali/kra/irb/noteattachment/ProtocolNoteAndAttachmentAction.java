@@ -316,7 +316,8 @@ public class ProtocolNoteAndAttachmentAction extends ProtocolAction {
             if(printableArtifacts.isWatermarkEnabled()){
                 int currentAttachmentSequence=attachment.getSequenceNumber();
                 String docStatusCode=attachment.getDocumentStatusCode();
-                if(getProtocolAttachmentService().isNewAttachmentVersion(attachment)&&(currentProtoSeqNumber == currentAttachmentSequence)||(docStatusCode.equals("1"))){
+                // TODO perhaps the check for equality of protocol and attachment sequence numbers, below, is now redundant
+                if(((getProtocolAttachmentService().isAttachmentActive(attachment))&&(currentProtoSeqNumber == currentAttachmentSequence))||(docStatusCode.equals("1"))){
                     attachmentFile = getWatermarkService().applyWatermark(file.getData(),printableArtifacts.getWatermarkable().getWatermark());
                 }else{
                     attachmentFile = getWatermarkService().applyWatermark(file.getData(),printableArtifacts.getWatermarkable().getInvalidWatermark());
