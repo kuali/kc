@@ -44,5 +44,48 @@
             </list>
         </property>
     </bean>
+    
+    <bean id="awardPersonMassChangeService" class="org.kuali.kra.personmasschange.service.impl.AwardPersonMassChangeServiceImpl">
+    </bean>
+    
+    <bean id="institutionalProposalPersonMassChangeService" class="org.kuali.kra.personmasschange.service.impl.InstitutionalProposalPersonMassChangeServiceImpl">
+    </bean>
+    
+    <bean id="proposalDevelopmentPersonMassChangeService" class="org.kuali.kra.personmasschange.service.impl.ProposalDevelopmentPersonMassChangeServiceImpl">
+    </bean>
+    
+    <bean id="proposalLogPersonMassChangeService" class="org.kuali.kra.personmasschange.service.impl.ProposalLogPersonMassChangeServiceImpl">
+    </bean>
+    
+    <bean id="subawardPersonMassChangeService" class="org.kuali.kra.personmasschange.service.impl.SubawardPersonMassChangeServiceImpl">
+    </bean>
+    
+    <bean id="negotiationPersonMassChangeService" class="org.kuali.kra.personmasschange.service.impl.NegotiationPersonMassChangeServiceImpl">
+    </bean>
+    
+    <bean id="committeePersonMassChangeService" class="org.kuali.kra.personmasschange.service.impl.CommitteePersonMassChangeServiceImpl">
+    </bean>
+    
+    <bean id="protocolPersonMassChangeService" class="org.kuali.kra.personmasschange.service.impl.ProtocolPersonMassChangeServiceImpl">
+    </bean>
+    
+    <bean id="schedulePersonMassChangeService" class="org.kuali.kra.personmasschange.service.impl.SchedulePersonMassChangeServiceImpl">
+    </bean>
+    
+    <bean id="unitPersonMassChangeService" class="org.kuali.kra.personmasschange.service.impl.UnitPersonMassChangeServiceImpl">
+    </bean>
+    
+    <bean id="personMassChangeService" class="org.kuali.kra.personmasschange.service.impl.PersonMassChangeServiceImpl">
+        <property name="awardPersonMassChangeService" ref="awardPersonMassChangeService" />
+        <property name="institutionalProposalPersonMassChangeService" ref="institutionalProposalPersonMassChangeService" />
+        <property name="proposalDevelopmentPersonMassChangeService" ref="proposalDevelopmentPersonMassChangeService" />
+        <property name="proposalLogPersonMassChangeService" ref="proposalLogPersonMassChangeService" />
+        <property name="subawardPersonMassChangeService" ref="subawardPersonMassChangeService" />
+        <property name="negotiationPersonMassChangeService" ref="negotiationPersonMassChangeService" />
+        <property name="committeePersonMassChangeService" ref="committeePersonMassChangeService" />
+        <property name="protocolPersonMassChangeService" ref="protocolPersonMassChangeService" />
+        <property name="schedulePersonMassChangeService" ref="schedulePersonMassChangeService" />
+        <property name="unitPersonMassChangeService" ref="unitPersonMassChangeService" />
+    </bean>
 
 </beans>
