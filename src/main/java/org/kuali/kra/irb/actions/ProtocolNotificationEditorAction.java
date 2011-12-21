@@ -131,8 +131,12 @@ public class ProtocolNotificationEditorAction extends ProtocolAction {
             protocolForm.getNotificationHelper().setNotificationContext(null);
             if (StringUtils.isNotBlank(forwardName)) {
                 if (StringUtils.startsWith(forwardName, "holdingPage")) {
-                    String[] params = StringUtils.split(forwardName, ":");
-                    return routeProtocolOLRToHoldingPage(mapping, protocolForm, params[1], params[2]);
+                    if (StringUtils.equals(forwardName, "holdingPage")) {
+                        return routeProtocolToHoldingPage(mapping, protocolForm);
+                    } else {
+                       String[] params = StringUtils.split(forwardName, ":");
+                        return routeProtocolOLRToHoldingPage(mapping, protocolForm, params[1], params[2]);
+                    }
                 } else {
                     actionForward = mapping.findForward(forwardName);
                 }
@@ -266,6 +270,16 @@ public class ProtocolNotificationEditorAction extends ProtocolAction {
         ActionForward holdingPageForward = mapping.findForward(Constants.MAPPING_IRB_HOLDING_PAGE);
         GlobalVariables.getUserSession().addObject(Constants.HOLDING_PAGE_DOCUMENT_ID, (Object)olrDocId);
         
+        return routeToHoldingPage(basicForward, basicForward, holdingPageForward, returnLocation);
+
+    }
+
+    private ActionForward routeProtocolToHoldingPage(ActionMapping mapping, ProtocolForm protocolForm) {
+        Long routeHeaderId = Long.parseLong(protocolForm.getDocument().getDocumentNumber());
+        String returnLocation = buildActionUrl(routeHeaderId, Constants.MAPPING_PROTOCOL_ACTIONS, "ProtocolDocument");
+        
+        ActionForward basicForward = mapping.findForward(KNSConstants.MAPPING_PORTAL);
+        ActionForward holdingPageForward = mapping.findForward(Constants.MAPPING_HOLDING_PAGE);
         return routeToHoldingPage(basicForward, basicForward, holdingPageForward, returnLocation);
 
     }
