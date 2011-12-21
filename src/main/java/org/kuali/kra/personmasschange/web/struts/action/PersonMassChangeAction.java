@@ -24,6 +24,7 @@ import org.apache.struts.action.ActionMapping;
 import org.kuali.kra.irb.ProtocolForm;
 import org.kuali.kra.personmasschange.document.PersonMassChangeDocument;
 import org.kuali.kra.personmasschange.web.struts.form.PersonMassChangeForm;
+import org.kuali.kra.personmasschange.web.struts.form.PersonMassChangeHelper;
 import org.kuali.kra.web.struts.action.KraTransactionalDocumentActionBase;
 
 /**
@@ -47,6 +48,10 @@ public class PersonMassChangeAction extends KraTransactionalDocumentActionBase {
     }
 
     public ActionForward view(ActionMapping mapping, ActionForm form, HttpServletRequest request, HttpServletResponse response) {
+        PersonMassChangeForm personMassChangeForm = (PersonMassChangeForm) form;
+        PersonMassChangeHelper personMassChangeHelper = personMassChangeForm.getPersonMassChangeHelper();
+        personMassChangeHelper.prepareView();
+        
         return mapping.findForward("view");
     }
 
