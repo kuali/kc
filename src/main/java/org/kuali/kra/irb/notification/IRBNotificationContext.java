@@ -21,12 +21,15 @@ import java.util.List;
 import org.kuali.kra.bo.CoeusModule;
 import org.kuali.kra.common.notification.NotificationRenderer;
 import org.kuali.kra.common.notification.NotificationContextBase;
+import org.kuali.kra.common.notification.bo.NotificationTypeRecipient;
+import org.kuali.kra.common.notification.exception.UnknownRoleException;
 import org.kuali.kra.common.notification.service.KcNotificationModuleRoleService;
 import org.kuali.kra.common.notification.service.KcNotificationService;
 import org.kuali.kra.infrastructure.KraServiceLocator;
 import org.kuali.kra.irb.Protocol;
 import org.kuali.kra.irb.onlinereview.ProtocolOnlineReview;
 import org.kuali.kra.util.EmailAttachment;
+import org.springframework.util.CollectionUtils;
 
 /**
  * This class extends the notification context base and provides some helpful functions for
@@ -41,6 +44,7 @@ public class IRBNotificationContext extends NotificationContextBase {
     private String contextName;
     private List<EmailAttachment> emailAttachments;
     private String forwardName;
+    private boolean populateRole;
     
     /**
      * Constructs an IRB notification context and sets the necessary services.
@@ -130,6 +134,21 @@ public class IRBNotificationContext extends NotificationContextBase {
 
     public void setForwardName(String forwardName) {
         this.forwardName = forwardName;
+    }
+
+    public boolean isPopulateRole() {
+        return populateRole;
+    }
+
+    public void setPopulateRole(boolean populateRole) {
+        this.populateRole = populateRole;
+    }
+
+    @Override
+    public void populateRoleQualifiers(NotificationTypeRecipient notificationRecipient) throws UnknownRoleException {
+        if (!isPopulateRole() || CollectionUtils.isEmpty(notificationRecipient.getRoleQualifiers())) {
+            super.populateRoleQualifiers(notificationRecipient);
+        }
     }
     
 }
