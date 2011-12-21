@@ -14,6 +14,11 @@
  limitations under the License.
 --%>
 <%@ include file="/WEB-INF/jsp/kraTldHeader.jsp"%>
+
+<script src="scripts/jquery/jquery.js"></script>
+<script type="text/javascript">
+   var $j = jQuery.noConflict();
+</script>
  
 <kul:documentPage showDocumentInfo="true"
                   htmlFormAction="personMassChangeHome"
