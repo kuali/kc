@@ -19,6 +19,7 @@ import java.util.LinkedHashMap;
 
 import org.apache.commons.lang.StringUtils;
 import org.kuali.kra.committee.bo.CommitteeMembership;
+import org.kuali.kra.irb.actions.notification.ProtocolNotificationRequestBean;
 import org.kuali.rice.kns.bo.BusinessObjectBase;
 
 /**
@@ -30,10 +31,16 @@ import org.kuali.rice.kns.bo.BusinessObjectBase;
 @SuppressWarnings("serial")
 public class ProtocolReviewerBean extends BusinessObjectBase {
 
+    public static final String CREATE = "create";
+    public static final String UPDATE = "update";
+    public static final String REMOVE = "remove";
     private String personId;
     private String fullName;
     private String reviewerTypeCode;
     private boolean nonEmployeeFlag;
+    // create/update/remove
+    private String actionFlag;
+    private ProtocolNotificationRequestBean notificationRequestBean;
     
     public ProtocolReviewerBean() {
         
@@ -110,6 +117,22 @@ public class ProtocolReviewerBean extends BusinessObjectBase {
                          ||
                          ( membership.getPersonId()!=null && membership.getPersonId()!=null && StringUtils.equals(membership.getPersonId(), this.getPersonId()));
         return result;
+    }
+
+    public String getActionFlag() {
+        return actionFlag;
+    }
+
+    public void setActionFlag(String actionFlag) {
+        this.actionFlag = actionFlag;
+    }
+
+    public ProtocolNotificationRequestBean getNotificationRequestBean() {
+        return notificationRequestBean;
+    }
+
+    public void setNotificationRequestBean(ProtocolNotificationRequestBean notificationRequestBean) {
+        this.notificationRequestBean = notificationRequestBean;
     }   
     
     

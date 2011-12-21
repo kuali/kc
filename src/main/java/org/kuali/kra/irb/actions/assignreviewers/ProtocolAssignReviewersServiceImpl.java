@@ -19,12 +19,14 @@ import java.sql.Date;
 import java.util.List;
 
 import org.apache.commons.lang.StringUtils;
+import org.kuali.kra.common.notification.bo.NotificationType;
 import org.kuali.kra.common.notification.service.KcNotificationService;
 import org.kuali.kra.infrastructure.Constants;
 import org.kuali.kra.irb.Protocol;
 import org.kuali.kra.irb.ProtocolOnlineReviewDocument;
 import org.kuali.kra.irb.actions.ProtocolActionType;
 import org.kuali.kra.irb.actions.notification.AssignReviewerNotificationRenderer;
+import org.kuali.kra.irb.actions.notification.ProtocolNotificationRequestBean;
 import org.kuali.kra.irb.actions.submit.ProtocolReviewer;
 import org.kuali.kra.irb.actions.submit.ProtocolReviewerBean;
 import org.kuali.kra.irb.actions.submit.ProtocolSubmission;
@@ -58,6 +60,7 @@ public class ProtocolAssignReviewersServiceImpl implements ProtocolAssignReviewe
                         createReviewer(protocolSubmission, bean);
                     } else {
                         updateReviewer(protocolSubmission, bean);
+                        bean.setActionFlag(ProtocolReviewerBean.UPDATE);
                     }
                 } else {
                     //need to check if this person is currently a reviewer...
@@ -78,14 +81,29 @@ public class ProtocolAssignReviewersServiceImpl implements ProtocolAssignReviewe
         if (onlineReviewDocument != null) {   
             Protocol protocol = protocolSubmission.getProtocol();
             ProtocolOnlineReview protocolOnlineReview = onlineReviewDocument.getProtocolOnlineReview();
+            protocolReviewBean.setNotificationRequestBean(new ProtocolNotificationRequestBean(protocol, protocolOnlineReview, ProtocolActionType.ASSIGN_REVIEWER, "Assign Reviewer", null, null));
+            protocolReviewBean.setActionFlag(ProtocolReviewerBean.REMOVE);
             AssignReviewerNotificationRenderer renderer = new AssignReviewerNotificationRenderer(protocol, "removed");
             IRBNotificationContext context = new IRBNotificationContext(protocol, protocolOnlineReview, ProtocolActionType.ASSIGN_REVIEWER, "Assign Reviewer", renderer);
-            kcNotificationService.sendNotification(context);
+            if (!getPromptUserForNotificationEditor(context)) {
+                kcNotificationService.sendNotification(context);
+            }
         }
         
         protocolOnlineReviewService.removeOnlineReviewDocument(protocolReviewBean.getPersonId(), protocolReviewBean.getNonEmployeeFlag(), protocolSubmission, annotation);
     }
     
+    private boolean getPromptUserForNotificationEditor(IRBNotificationContext context) {
+        boolean promptUser = false;
+        
+        NotificationType notificationType = kcNotificationService.getNotificationType(context);
+        if (notificationType != null && notificationType.getSendNotification() && notificationType.getPromptUser()) {
+            promptUser = true;
+        }
+        
+        return promptUser;
+    }
+
     protected void createReviewer(ProtocolSubmission protocolSubmission, ProtocolReviewerBean protocolReviewerBean) {
         String principalId = protocolReviewerBean.getPersonId();
         boolean nonEmployeeFlag = protocolReviewerBean.getNonEmployeeFlag();
@@ -109,9 +127,13 @@ public class ProtocolAssignReviewersServiceImpl implements ProtocolAssignReviewe
         //send notification now that the online review has been created.
         Protocol protocol = protocolSubmission.getProtocol();
         ProtocolOnlineReview protocolOnlineReview = document.getProtocolOnlineReview();
+        protocolReviewerBean.setNotificationRequestBean(new ProtocolNotificationRequestBean(protocol, protocolOnlineReview, ProtocolActionType.ASSIGN_REVIEWER, "Assign Reviewer", null, null));
+        protocolReviewerBean.setActionFlag(ProtocolReviewerBean.CREATE);
         AssignReviewerNotificationRenderer renderer = new AssignReviewerNotificationRenderer(protocol, "added");
         IRBNotificationContext context = new IRBNotificationContext(protocol, protocolOnlineReview, ProtocolActionType.ASSIGN_REVIEWER, "Assign Reviewer", renderer);
-        kcNotificationService.sendNotification(context);
+        if (!getPromptUserForNotificationEditor(context)) {
+            kcNotificationService.sendNotification(context);
+        }
     }
     
     protected void updateReviewer(ProtocolSubmission protocolSubmission, ProtocolReviewerBean protocolReviewerBean) {
