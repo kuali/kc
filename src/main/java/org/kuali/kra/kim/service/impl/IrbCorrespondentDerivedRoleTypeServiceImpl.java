@@ -104,7 +104,6 @@ public class IrbCorrespondentDerivedRoleTypeServiceImpl extends KimDerivedRoleTy
         String protocolNumber = qualification.get(KcKimAttributes.PROTOCOL);
         if (protocolNumber != null) {
             Protocol protocol = getProtocolByNumber(protocolNumber);
-            System.out.println("    protocolNumber = " + protocolNumber + ", protocol = " + protocol);
             if (ROLE_NAME_ORGANIZATION_CORRESPONDENT.equals(roleName)) {
                 return getRoleMembersFromApplicationRoleOrganization(protocol, namespaceCode, roleName, qualification);
             } else if (ROLE_NAME_UNIT_CORRESPONDENT.equals(roleName)) {
