@@ -432,7 +432,7 @@ public class ProtocolProtocolActionsAction extends ProtocolAction implements Aud
                     notificationBean.getProtocolOnlineReview(), notificationBean.getActionType(),
                     notificationBean.getDescription(), renderer);
             if (protocolForm.getNotificationHelper().getPromptUserForNotificationEditor(context)) {
-                return checkToSendNotification(mapping, mapping.findForward(PROTOCOL_ACTIONS_TAB), protocolForm, renderer, addReviewerNotificationBeans);
+                return checkToSendNotification(mapping, null, protocolForm, renderer, addReviewerNotificationBeans);
             }
         }
         return routeProtocolToHoldingPage(mapping, protocolForm);
@@ -3424,7 +3424,7 @@ public class ProtocolProtocolActionsAction extends ProtocolAction implements Aud
             notificationRequestBeans.get(0).getDescription(), renderer);
         context.setPopulateRole(true);
         if (protocolForm.getNotificationHelper().getPromptUserForNotificationEditor(context)) {
-            context.setForwardName(forward.getName());
+//            context.setForwardName(forward.getName());
             protocolForm.getNotificationHelper().initializeDefaultValues(context);
             List<NotificationTypeRecipient> notificationRecipients = protocolForm.getNotificationHelper()
                     .getNotificationRecipients();
@@ -3467,7 +3467,12 @@ public class ProtocolProtocolActionsAction extends ProtocolAction implements Aud
                 i++;
             }
             protocolForm.getNotificationHelper().setNotificationRecipients(allRecipients);
-            return mapping.findForward("protocolNotificationEditor");
+            if (forward == null) {
+                context.setForwardName("holdingPage");
+            } else {
+                context.setForwardName(forward.getName());
+            }
+        return mapping.findForward("protocolNotificationEditor");
         }
         else {
 //            int i = 0;
