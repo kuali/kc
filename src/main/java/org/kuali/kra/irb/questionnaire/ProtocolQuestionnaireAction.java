@@ -50,6 +50,7 @@ import org.kuali.rice.kns.document.Document;
  */
 public class ProtocolQuestionnaireAction extends ProtocolAction {
     private static final String PROTOCOL_NUMBER = "protocolNumber";
+    private static final String SEQUENCE_NUMBER = "sequenceNumber";
     private static final String SUBMISSION_NUMBER = "submissionNumber";
     private static final String SUBMISSION_QUESTIONNAIRE = "submissionQuestionnaire";
     private static final String SUFFIX_T = "T";
@@ -253,13 +254,17 @@ public class ProtocolQuestionnaireAction extends ProtocolAction {
         return forward;
     }
 
+    @SuppressWarnings({ "rawtypes", "unchecked" })
     public ActionForward summaryQuestionnaireAjax(ActionMapping mapping, ActionForm form, HttpServletRequest request,
             HttpServletResponse response) throws Exception {
         ActionForward forward;
         ProtocolForm protocolForm = (ProtocolForm) form;
-        String sequenceNumber = request.getParameter("sequenceNumber");
+        String sequenceNumber = request.getParameter(SEQUENCE_NUMBER);
         String protocolNumber = request.getParameter(PROTOCOL_NUMBER);
-        Protocol protocol = protocolForm.getProtocolDocument().getProtocol();
+        Map keyValues= new HashMap();
+        keyValues.put(PROTOCOL_NUMBER, protocolNumber);
+        keyValues.put(SEQUENCE_NUMBER, sequenceNumber);
+        Protocol protocol = ((List<Protocol>)getBusinessObjectService().findMatching(Protocol.class, keyValues)).get(0);
         String subModuleCode = CoeusSubModule.ZERO_SUBMODULE;
         if (protocol.isRenewal()) {
             subModuleCode = CoeusSubModule.AMENDMENT_RENEWAL;
