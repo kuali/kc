@@ -17,6 +17,7 @@ package org.kuali.kra.negotiations.lookup;
 
 import java.util.ArrayList;
 import java.util.Collection;
+import java.util.Collections;
 import java.util.Iterator;
 import java.util.List;
 import java.util.Map;
@@ -31,6 +32,7 @@ import org.kuali.rice.kns.document.Document;
 import org.kuali.rice.kns.lookup.HtmlData;
 import org.kuali.rice.kns.lookup.LookupUtils;
 import org.kuali.rice.kns.lookup.HtmlData.AnchorHtmlData;
+import org.kuali.rice.kns.util.BeanPropertyComparator;
 import org.kuali.rice.kns.util.KNSConstants;
 import org.kuali.rice.kns.util.UrlFactory;
 import org.kuali.rice.kns.web.struts.form.LookupForm;
@@ -50,6 +52,7 @@ public class NegotiationLookupableHelperServiceImpl extends KraLookupableHelperS
     private NegotiationDao negotiationDao;
 
 
+    @SuppressWarnings("unchecked")
     @Override
     public List<? extends BusinessObject> getSearchResults(Map<String, String> fieldValues) {
         super.setBackLocationDocFormKey(fieldValues);
@@ -57,7 +60,12 @@ public class NegotiationLookupableHelperServiceImpl extends KraLookupableHelperS
             fieldValues.put("associatedNegotiable.piId", ((String[]) this.getParameters().get(USER_ID))[0]);
             fieldValues.put("negotiatorPersonId", ((String[]) this.getParameters().get(USER_ID))[0]);
         }
-        return (List<? extends BusinessObject>) getNegotiationDao().getNegotiationResults(fieldValues);
+        List<? extends BusinessObject> searchResults = getNegotiationDao().getNegotiationResults(fieldValues);
+        List defaultSortColumns = getDefaultSortColumns();
+        if (defaultSortColumns.size() > 0) {
+            Collections.sort(searchResults, new BeanPropertyComparator(defaultSortColumns, true));
+        }
+        return searchResults;
         
     }
     
