@@ -42,8 +42,10 @@
 	                <tr>
 	                    <td />
 	                    <td><div align="left">
-	                        <html:image src='${ConfigProperties.kra.externalizable.images.url}tinybutton-selectall.gif' alt="Select All" styleClass="tinybutton" />
-	                        <html:image src='${ConfigProperties.kra.externalizable.images.url}tinybutton-selectnone.gif' alt="Select None" styleClass="tinybutton" />
+	                        <html:image src='${ConfigProperties.kra.externalizable.images.url}tinybutton-selectall.gif' alt="Select All" styleClass="tinybutton" 
+	                                    onclick="selectAllPersonMassChangeCategory('document.personMassChange.awardPersonMassChange', 'investigator', 'contactPerson', 'foreignTrip', 'unitAdministrator')" />
+	                        <html:image src='${ConfigProperties.kra.externalizable.images.url}tinybutton-selectnone.gif' alt="Select None" styleClass="tinybutton" 
+	                                    onclick="unselectAllPersonMassChangeCategory('document.personMassChange.awardPersonMassChange', 'investigator', 'contactPerson', 'foreignTrip', 'unitAdministrator')"/>
 	                    </div></td>
 	                </tr>
 	            </table>
@@ -74,12 +76,14 @@
 	                                                  attributeEntry="${institutionalProposalPersonMassChangeAttributes.ipReviewer}" readOnly="false" /></td>
 	                </tr>
 	                <tr>
-	                    <td />
-	                    <td><div align="left">
-	                        <html:image src='${ConfigProperties.kra.externalizable.images.url}tinybutton-selectall.gif' alt="Select All" styleClass="tinybutton" />
-	                        <html:image src='${ConfigProperties.kra.externalizable.images.url}tinybutton-selectnone.gif' alt="Select None" styleClass="tinybutton" />
-	                    </div></td>
-	                </tr>
+                        <td />
+                        <td><div align="left">
+                            <html:image src='${ConfigProperties.kra.externalizable.images.url}tinybutton-selectall.gif' alt="Select All" styleClass="tinybutton" 
+                                        onclick="selectAllPersonMassChangeCategory('document.personMassChange.institutionalProposalPersonMassChange', 'investigator', 'unitAdministrator', 'mailingInformation', 'ipReviewer')" />
+                            <html:image src='${ConfigProperties.kra.externalizable.images.url}tinybutton-selectnone.gif' alt="Select None" styleClass="tinybutton" 
+                                        onclick="unselectAllPersonMassChangeCategory('document.personMassChange.institutionalProposalPersonMassChange', 'investigator', 'unitAdministrator', 'mailingInformation', 'ipReviewer')"/>
+                        </div></td>
+                    </tr>
 	            </table>
 	        </div>
 	    </kul:innerTab>
@@ -108,12 +112,14 @@
 	                                                  attributeEntry="${proposalDevelopmentPersonMassChangeAttributes.budgetPerson}" readOnly="false" /></td>
 	                </tr>
 	                <tr>
-	                    <td />
-	                    <td><div align="left">
-	                        <html:image src='${ConfigProperties.kra.externalizable.images.url}tinybutton-selectall.gif' alt="Select All" styleClass="tinybutton" />
-	                        <html:image src='${ConfigProperties.kra.externalizable.images.url}tinybutton-selectnone.gif' alt="Select None" styleClass="tinybutton" />
-	                    </div></td>
-	                </tr>
+                        <td />
+                        <td><div align="left">
+                            <html:image src='${ConfigProperties.kra.externalizable.images.url}tinybutton-selectall.gif' alt="Select All" styleClass="tinybutton" 
+                                        onclick="selectAllPersonMassChangeCategory('document.personMassChange.proposalDevelopmentPersonMassChange', 'investigator', 'mailingInformation', 'keyStudyPerson', 'budgetPerson')" />
+                            <html:image src='${ConfigProperties.kra.externalizable.images.url}tinybutton-selectnone.gif' alt="Select None" styleClass="tinybutton" 
+                                        onclick="unselectAllPersonMassChangeCategory('document.personMassChange.proposalDevelopmentPersonMassChange', 'investigator', 'mailingInformation', 'keyStudyPerson', 'budgetPerson')"/>
+                        </div></td>
+                    </tr>
 	            </table>
 	        </div>
 	    </kul:innerTab>
@@ -127,12 +133,14 @@
 	                                                  attributeEntry="${proposalLogPersonMassChangeAttributes.principalInvestigator}" readOnly="false" /></td>
 	                </tr>
 	                <tr>
-	                    <td />
-	                    <td><div align="left">
-	                        <html:image src='${ConfigProperties.kra.externalizable.images.url}tinybutton-selectall.gif' alt="Select All" styleClass="tinybutton" />
-	                        <html:image src='${ConfigProperties.kra.externalizable.images.url}tinybutton-selectnone.gif' alt="Select None" styleClass="tinybutton" />
-	                    </div></td>
-	                </tr>
+                        <td />
+                        <td><div align="left">
+                            <html:image src='${ConfigProperties.kra.externalizable.images.url}tinybutton-selectall.gif' alt="Select All" styleClass="tinybutton" 
+                                        onclick="selectAllPersonMassChangeCategory('document.personMassChange.proposalLogPersonMassChange', 'principalInvestigator')" />
+                            <html:image src='${ConfigProperties.kra.externalizable.images.url}tinybutton-selectnone.gif' alt="Select None" styleClass="tinybutton" 
+                                        onclick="unselectAllPersonMassChangeCategory('document.personMassChange.proposalLogPersonMassChange', 'principalInvestigator')"/>
+                        </div></td>
+                    </tr>
 	            </table>
 	        </div>
 	    </kul:innerTab>
@@ -151,12 +159,14 @@
 	                                                  attributeEntry="${subawardPersonMassChangeAttributes.requisitioner}" readOnly="false" /></td>
 	                </tr>
 	                <tr>
-	                    <td />
-	                    <td><div align="left">
-	                        <html:image src='${ConfigProperties.kra.externalizable.images.url}tinybutton-selectall.gif' alt="Select All" styleClass="tinybutton" />
-	                        <html:image src='${ConfigProperties.kra.externalizable.images.url}tinybutton-selectnone.gif' alt="Select None" styleClass="tinybutton" />
-	                    </div></td>
-	                </tr>
+                        <td />
+                        <td><div align="left">
+                            <html:image src='${ConfigProperties.kra.externalizable.images.url}tinybutton-selectall.gif' alt="Select All" styleClass="tinybutton" 
+                                        onclick="selectAllPersonMassChangeCategory('document.personMassChange.subawardPersonMassChange', 'contactPerson', 'requisitioner')" />
+                            <html:image src='${ConfigProperties.kra.externalizable.images.url}tinybutton-selectnone.gif' alt="Select None" styleClass="tinybutton" 
+                                        onclick="unselectAllPersonMassChangeCategory('document.personMassChange.subawardPersonMassChange', 'contactPerson', 'requisitioner')"/>
+                        </div></td>
+                    </tr>
 	            </table>
 	        </div>
 	    </kul:innerTab>
@@ -170,12 +180,14 @@
 	                                                  attributeEntry="${negotiationPersonMassChangeAttributes.negotiator}" readOnly="false" /></td>
 	                </tr>
 	                <tr>
-	                    <td />
-	                    <td><div align="left">
-	                        <html:image src='${ConfigProperties.kra.externalizable.images.url}tinybutton-selectall.gif' alt="Select All" styleClass="tinybutton" />
-	                        <html:image src='${ConfigProperties.kra.externalizable.images.url}tinybutton-selectnone.gif' alt="Select None" styleClass="tinybutton" />
-	                    </div></td>
-	                </tr>
+                        <td />
+                        <td><div align="left">
+                            <html:image src='${ConfigProperties.kra.externalizable.images.url}tinybutton-selectall.gif' alt="Select All" styleClass="tinybutton" 
+                                        onclick="selectAllPersonMassChangeCategory('document.personMassChange.negotiationPersonMassChange', 'negotiator')" />
+                            <html:image src='${ConfigProperties.kra.externalizable.images.url}tinybutton-selectnone.gif' alt="Select None" styleClass="tinybutton" 
+                                        onclick="unselectAllPersonMassChangeCategory('document.personMassChange.negotiationPersonMassChange', 'negotiator')"/>
+                        </div></td>
+                    </tr>
 	            </table>
 	        </div>
 	    </kul:innerTab>
@@ -189,12 +201,14 @@
 	                                                  attributeEntry="${committeePersonMassChangeAttributes.member}" readOnly="false" /></td>
 	                </tr>
 	                <tr>
-	                    <td />
-	                    <td><div align="left">
-	                        <html:image src='${ConfigProperties.kra.externalizable.images.url}tinybutton-selectall.gif' alt="Select All" styleClass="tinybutton" />
-	                        <html:image src='${ConfigProperties.kra.externalizable.images.url}tinybutton-selectnone.gif' alt="Select None" styleClass="tinybutton" />
-	                    </div></td>
-	                </tr>
+                        <td />
+                        <td><div align="left">
+                            <html:image src='${ConfigProperties.kra.externalizable.images.url}tinybutton-selectall.gif' alt="Select All" styleClass="tinybutton" 
+                                        onclick="selectAllPersonMassChangeCategory('document.personMassChange.committeePersonMassChange', 'member')" />
+                            <html:image src='${ConfigProperties.kra.externalizable.images.url}tinybutton-selectnone.gif' alt="Select None" styleClass="tinybutton" 
+                                        onclick="unselectAllPersonMassChangeCategory('document.personMassChange.committeePersonMassChange', 'member')"/>
+                        </div></td>
+                    </tr>
 	            </table>
 	        </div>
 	    </kul:innerTab>
@@ -223,12 +237,14 @@
 	                                                  attributeEntry="${protocolPersonMassChangeAttributes.reviewer}" readOnly="false" /></td>
 	                </tr>
 	                <tr>
-	                    <td />
-	                    <td><div align="left">
-	                        <html:image src='${ConfigProperties.kra.externalizable.images.url}tinybutton-selectall.gif' alt="Select All" styleClass="tinybutton" />
-	                        <html:image src='${ConfigProperties.kra.externalizable.images.url}tinybutton-selectnone.gif' alt="Select None" styleClass="tinybutton" />
-	                    </div></td>
-	                </tr>
+                        <td />
+                        <td><div align="left">
+                            <html:image src='${ConfigProperties.kra.externalizable.images.url}tinybutton-selectall.gif' alt="Select All" styleClass="tinybutton" 
+                                        onclick="selectAllPersonMassChangeCategory('document.personMassChange.protocolPersonMassChange', 'investigator', 'keyStudyPerson', 'correspondents', 'reviewer')" />
+                            <html:image src='${ConfigProperties.kra.externalizable.images.url}tinybutton-selectnone.gif' alt="Select None" styleClass="tinybutton" 
+                                        onclick="unselectAllPersonMassChangeCategory('document.personMassChange.protocolPersonMassChange', 'investigator', 'keyStudyPerson', 'correspondents', 'reviewer')"/>
+                        </div></td>
+                    </tr>
 	            </table>
 	        </div>
 	    </kul:innerTab>
@@ -242,12 +258,14 @@
 	                                                  attributeEntry="${schedulePersonMassChangeAttributes.attendees}" readOnly="false" /></td>
 	                </tr>
 	                <tr>
-	                    <td />
-	                    <td><div align="left">
-	                        <html:image src='${ConfigProperties.kra.externalizable.images.url}tinybutton-selectall.gif' alt="Select All" styleClass="tinybutton" />
-	                        <html:image src='${ConfigProperties.kra.externalizable.images.url}tinybutton-selectnone.gif' alt="Select None" styleClass="tinybutton" />
-	                    </div></td>
-	                </tr>
+                        <td />
+                        <td><div align="left">
+                            <html:image src='${ConfigProperties.kra.externalizable.images.url}tinybutton-selectall.gif' alt="Select All" styleClass="tinybutton" 
+                                        onclick="selectAllPersonMassChangeCategory('document.personMassChange.schedulePersonMassChange', 'attendees')" />
+                            <html:image src='${ConfigProperties.kra.externalizable.images.url}tinybutton-selectnone.gif' alt="Select None" styleClass="tinybutton" 
+                                        onclick="unselectAllPersonMassChangeCategory('document.personMassChange.schedulePersonMassChange', 'attendees')"/>
+                        </div></td>
+                    </tr>
 	            </table>
 	        </div>
 	    </kul:innerTab>
@@ -261,12 +279,14 @@
 	                                                  attributeEntry="${unitPersonMassChangeAttributes.administrator}" readOnly="false" /></td>
 	                </tr>
 	                <tr>
-	                    <td />
-	                    <td><div align="left">
-	                        <html:image src='${ConfigProperties.kra.externalizable.images.url}tinybutton-selectall.gif' alt="Select All" styleClass="tinybutton" />
-	                        <html:image src='${ConfigProperties.kra.externalizable.images.url}tinybutton-selectnone.gif' alt="Select None" styleClass="tinybutton" />
-	                    </div></td>
-	                </tr>
+                        <td />
+                        <td><div align="left">
+                            <html:image src='${ConfigProperties.kra.externalizable.images.url}tinybutton-selectall.gif' alt="Select All" styleClass="tinybutton" 
+                                        onclick="selectAllPersonMassChangeCategory('document.personMassChange.unitPersonMassChange', 'administrator')" />
+                            <html:image src='${ConfigProperties.kra.externalizable.images.url}tinybutton-selectnone.gif' alt="Select None" styleClass="tinybutton" 
+                                        onclick="unselectAllPersonMassChangeCategory('document.personMassChange.unitPersonMassChange', 'administrator')"/>
+                        </div></td>
+                    </tr>
 	            </table>
 	        </div>
 	    </kul:innerTab>

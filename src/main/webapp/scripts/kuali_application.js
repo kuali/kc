@@ -3059,3 +3059,16 @@ function loadRolodexInfoById() {
 	}
 }
 
+function selectAllPersonMassChangeCategory(prefix) {
+	for (var i = 1; i < arguments.length; i++) {
+		var item = prefix + '.' + arguments[i];
+		$j('input[id=' + item + ']').attr('checked', true);
+	}
+}
+
+function unselectAllPersonMassChangeCategory(prefix) {
+	for (var i = 1; i < arguments.length; i++) {
+		var item = prefix + '.' + arguments[i];
+		$j('input[id=' + item + ']').attr('checked', false);
+	}
+}
