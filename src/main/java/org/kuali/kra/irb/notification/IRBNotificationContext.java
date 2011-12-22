@@ -44,6 +44,7 @@ public class IRBNotificationContext extends NotificationContextBase {
     private String contextName;
     private List<EmailAttachment> emailAttachments;
     private String forwardName;
+    // This is for assign reviewer.
     private boolean populateRole;
     
     /**
@@ -144,6 +145,18 @@ public class IRBNotificationContext extends NotificationContextBase {
         this.populateRole = populateRole;
     }
 
+    /**
+     * This is a hook/hack for assign reviewer/submit for review, which has potential of multiple reviewers
+     * reviewers are supposed to be processed separately, but for 'prompt user', it merged into one prompt.
+     * 'reviewer role' are the same, but the role qualifiers' are different which is based on context.
+     * the role qualifier are populated when we merge all recipients in to one list.
+     * So, when sendnotification, it is just using the last 'context', so at this point, we don't want
+     * rolequalifiers being populated again.  If it is populated again, all reviewer role will retrieve same reviewer because 
+     * the context are the same at the point of 'send'.
+     * Unless, there is better approach, we'll stick with this hack for now.
+     * isPopulateRole is only 'true' for this case, so the other cases will stay the same as before this change.
+     * @see org.kuali.kra.common.notification.NotificationContextBase#populateRoleQualifiers(org.kuali.kra.common.notification.bo.NotificationTypeRecipient)
+     */
     @Override
     public void populateRoleQualifiers(NotificationTypeRecipient notificationRecipient) throws UnknownRoleException {
         if (!isPopulateRole() || CollectionUtils.isEmpty(notificationRecipient.getRoleQualifiers())) {
