@@ -16,26 +16,58 @@
 package org.kuali.kra.personmasschange.service.impl;
 
 import java.util.ArrayList;
+import java.util.Collection;
 import java.util.List;
 
+import org.apache.commons.lang.StringUtils;
 import org.kuali.kra.bo.Unit;
+import org.kuali.kra.bo.UnitAdministrator;
 import org.kuali.kra.personmasschange.bo.PersonMassChange;
 import org.kuali.kra.personmasschange.service.UnitPersonMassChangeService;
+import org.kuali.rice.kns.service.BusinessObjectService;
 
 /**
  * Defines the service for performing a Person Mass Change on Units.
  */
 public class UnitPersonMassChangeServiceImpl implements UnitPersonMassChangeService {
+    
+    private BusinessObjectService businessObjectService;
 
     @Override
+    @SuppressWarnings("unchecked")
     public List<Unit> getUnitChangeCandidates(PersonMassChange personMassChange) {
-        // TODO Auto-generated method stub
-        return new ArrayList<Unit>();
+        List<Unit> unitChangeCandidates = new ArrayList<Unit>();
+
+        Collection<Unit> units = getBusinessObjectService().findAll(Unit.class);
+        for (Unit unit : units) {
+            for (UnitAdministrator unitAdministrator : unit.getUnitAdministrators()) {
+                if (StringUtils.equals(personMassChange.getReplaceePersonId(), unitAdministrator.getPersonId())) {
+                    unitChangeCandidates.add(unit);
+                    break;
+                }
+            }
+        }
+        
+        return unitChangeCandidates;
     }
 
     @Override
     public void performPersonMassChange(PersonMassChange personMassChange, List<Unit> unitChangeCandidates) {
-        // TODO Auto-generated method stub
+        for (Unit unitChangeCandidate : unitChangeCandidates) {
+            for (UnitAdministrator unitAdministratorChangeCandidate : unitChangeCandidate.getUnitAdministrators()) {
+                unitAdministratorChangeCandidate.setPersonId(personMassChange.getReplacerPersonId());
+            }
+        }
+        
+        getBusinessObjectService().save(unitChangeCandidates);
+    }
+    
+    public BusinessObjectService getBusinessObjectService() {
+        return businessObjectService;
+    }
+    
+    public void setBusinessObjectService(BusinessObjectService businessObjectService) {
+        this.businessObjectService = businessObjectService;
     }
 
 }
