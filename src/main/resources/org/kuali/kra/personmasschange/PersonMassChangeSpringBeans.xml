@@ -73,6 +73,7 @@
     </bean>
     
     <bean id="unitPersonMassChangeService" class="org.kuali.kra.personmasschange.service.impl.UnitPersonMassChangeServiceImpl">
+        <property name="businessObjectService" ref="businessObjectService" />
     </bean>
     
     <bean id="personMassChangeService" class="org.kuali.kra.personmasschange.service.impl.PersonMassChangeServiceImpl">
