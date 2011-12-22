@@ -2,7 +2,7 @@
 
 <c:set var="attributes" value="${DataDictionary.PersonMassChange.attributes}" />
 
-<kul:tab tabTitle="Replace Person" defaultOpen="true" tabErrorKey="document.personMassChange*">
+<kul:tab tabTitle="Replace Person" defaultOpen="true" tabErrorKey="document.personMassChange.replaceeFullName,document.personMassChange.replacerFullName">
     
     <div class="tab-container" align="center">
         <h3>
@@ -20,7 +20,7 @@
                                 </td>
                                 <td style="border: medium none;">
                                     <kul:lookup boClassName="org.kuali.kra.bo.KcPerson" 
-                                                fieldConversions="personId:document.personMassChange.replaceePersonId" />
+                                                fieldConversions="personId:personMassChangeHomeHelper.replaceePersonId" />
                                 </td>
                             </tr>
                             <tr>
@@ -29,12 +29,12 @@
                                 </td>
                                 <td style="border: medium none;">
                                     <kul:lookup boClassName="org.kuali.kra.bo.NonOrganizationalRolodex" 
-                                                fieldConversions="rolodexId:document.personMassChange.replaceeRolodexId" />
+                                                fieldConversions="rolodexId:personMassChangeHomeHelper.replaceeRolodexId" />
                                 </td>
                             </tr>
                          </tbody>
                     </table>
-                    <div id="notificationRecipientFullName" align="left">
+                    <div id="personMassChangeReplaceeFullName" align="left">
                         <kul:htmlControlAttribute property="document.personMassChange.replaceeFullName" 
                                                   attributeEntry="${attributes.replaceeFullName}" 
                                                   readOnly="true" />
@@ -60,7 +60,7 @@
                                 </td>
                                 <td style="border: medium none;">
                                     <kul:lookup boClassName="org.kuali.kra.bo.KcPerson" 
-                                                fieldConversions="personId:document.personMassChange.replacerPersonId" />
+                                                fieldConversions="personId:personMassChangeHomeHelper.replacerPersonId" />
                                 </td>
                             </tr>
                             <tr>
@@ -69,12 +69,12 @@
                                 </td>
                                 <td style="border: medium none;">
                                     <kul:lookup boClassName="org.kuali.kra.bo.NonOrganizationalRolodex" 
-                                                fieldConversions="rolodexId:document.personMassChange.replacerRolodexId" />
+                                                fieldConversions="rolodexId:personMassChangeHomeHelper.replacerRolodexId" />
                                 </td>
                             </tr>
                          </tbody>
                     </table>
-                    <div id="notificationRecipientFullName" align="left">
+                    <div id="personMassChangeReplacerFullName" align="left">
                         <kul:htmlControlAttribute property="document.personMassChange.replacerFullName" 
                                                   attributeEntry="${attributes.replacerFullName}" 
                                                   readOnly="true" />

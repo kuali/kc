@@ -14,7 +14,7 @@
 <c:set var="className" value="org.kuali.kra.personmasschange.document.PersonMassChangeDocument" />
 <c:set var="readOnly" value="${not KualiForm.editingMode['modify']}"/>
 
-<kul:tabTop tabTitle="Change View" defaultOpen="true">
+<kul:tabTop tabTitle="Replacing ${KualiForm.document.personMassChange.replaceeFullName} with ${KualiForm.document.personMassChange.replacerFullName}" defaultOpen="true">
 	<div class="tab-container" align="center">
 	    <kul:innerTab parentTab="${parentTab}" tabTitle="Award ${tabTitle}" defaultOpen="false" >
 	        <div class="tab-container" align="center">
@@ -23,7 +23,12 @@
 	                    <td><div align="left"><kul:htmlAttributeLabel attributeEntry="${awardAttributes.awardNumber}" /></div></td>
 	                    <td><div align="left"><kul:htmlAttributeLabel attributeEntry="${awardAttributes.title}" /></div></td>
 	                </tr>
-	                <c:forEach var="awardChangeCandidate" items="${KualiForm.personMassChangeHelper.awardChangeCandidates}" varStatus="status">
+	                <c:if test="${empty KualiForm.personMassChangeViewHelper.awardChangeCandidates}">
+	                   <tr>
+	                       <td colspan="2"><div align="center"><c:out value="${KualiForm.personMassChangeViewHelper.emptyCandidatesMessage}" /></div></td>
+	                   </tr>
+	                </c:if>
+	                <c:forEach var="awardChangeCandidate" items="${KualiForm.personMassChangeViewHelper.awardChangeCandidates}" varStatus="status">
 		                <tr>
 		                    <td><kul:htmlControlAttribute property="awardChangeCandidate.awardNumber" 
 		                                                  attributeEntry="${awardAttributes.awardNumber}" readOnly="true" /></td>
@@ -42,7 +47,12 @@
 	                    <td><div align="left"><kul:htmlAttributeLabel attributeEntry="${institutionalProposalAttributes.proposalNumber}" /></div></td>
 	                    <td><div align="left"><kul:htmlAttributeLabel attributeEntry="${institutionalProposalAttributes.title}" /></div></td>
 	                </tr>
-	                <c:forEach var="institutionalProposalChangeCandidate" items="${KualiForm.personMassChangeHelper.institutionalProposalChangeCandidates}" varStatus="status">
+	                <c:if test="${empty KualiForm.personMassChangeViewHelper.institutionalProposalChangeCandidates}">
+                       <tr>
+                           <td colspan="2"><div align="center"><c:out value="${KualiForm.personMassChangeViewHelper.emptyCandidatesMessage}" /></div></td>
+                       </tr>
+                    </c:if>
+	                <c:forEach var="institutionalProposalChangeCandidate" items="${KualiForm.personMassChangeViewHelper.institutionalProposalChangeCandidates}" varStatus="status">
 	                    <tr>
 	                        <td><kul:htmlControlAttribute property="institutionalProposalChangeCandidate.proposalNumber" 
 	                                                      attributeEntry="${institutionalProposalAttributes.proposalNumber}" readOnly="true" /></td>
@@ -61,7 +71,12 @@
 	                    <td><div align="left"><kul:htmlAttributeLabel attributeEntry="${proposalDevelopmentAttributes.proposalNumber}" /></div></td>
 	                    <td><div align="left"><kul:htmlAttributeLabel attributeEntry="${proposalDevelopmentAttributes.title}" /></div></td>
 	                </tr>
-	                <c:forEach var="proposalDevelopmentChangeCandidate" items="${KualiForm.personMassChangeHelper.proposalDevelopmentChangeCandidates}" varStatus="status">
+	                <c:if test="${empty KualiForm.personMassChangeViewHelper.proposalDevelopmentChangeCandidates}">
+                       <tr>
+                           <td colspan="2"><div align="center"><c:out value="${KualiForm.personMassChangeViewHelper.emptyCandidatesMessage}" /></div></td>
+                       </tr>
+                    </c:if>
+	                <c:forEach var="proposalDevelopmentChangeCandidate" items="${KualiForm.personMassChangeViewHelper.proposalDevelopmentChangeCandidates}" varStatus="status">
 	                    <tr>
 	                        <td><kul:htmlControlAttribute property="proposalDevelopmentChangeCandidate.proposalNumber" 
 	                                                      attributeEntry="${proposalDevelopmentAttributes.proposalNumber}" readOnly="true" /></td>
@@ -80,7 +95,12 @@
 	                    <td><div align="left"><kul:htmlAttributeLabel attributeEntry="${proposalLogAttributes.proposalNumber}" /></div></td>
 	                    <td><div align="left"><kul:htmlAttributeLabel attributeEntry="${proposalLogAttributes.title}" /></div></td>
 	                </tr>
-	                <c:forEach var="proposalLogChangeCandidate" items="${KualiForm.personMassChangeHelper.proposalLogChangeCandidates}" varStatus="status">
+	                <c:if test="${empty KualiForm.personMassChangeViewHelper.proposalLogChangeCandidates}">
+                       <tr>
+                           <td colspan="2"><div align="center"><c:out value="${KualiForm.personMassChangeViewHelper.emptyCandidatesMessage}" /></div></td>
+                       </tr>
+                    </c:if>
+	                <c:forEach var="proposalLogChangeCandidate" items="${KualiForm.personMassChangeViewHelper.proposalLogChangeCandidates}" varStatus="status">
 	                    <tr>
 	                        <td><kul:htmlControlAttribute property="proposalLogChangeCandidate.proposalNumber" 
 	                                                      attributeEntry="${proposalLogAttributes.proposalNumber}" readOnly="true" /></td>
@@ -99,7 +119,12 @@
 	                    <td><div align="left"><kul:htmlAttributeLabel attributeEntry="${subawardAttributes.subAwardCode}" /></div></td>
 	                    <td><div align="left"><kul:htmlAttributeLabel attributeEntry="${subawardAttributes.title}" /></div></td>
 	                </tr>
-	                <c:forEach var="subawardChangeCandidate" items="${KualiForm.personMassChangeHelper.subawardChangeCandidates}" varStatus="status">
+	                <c:if test="${empty KualiForm.personMassChangeViewHelper.subawardChangeCandidates}">
+                       <tr>
+                           <td colspan="2"><div align="center"><c:out value="${KualiForm.personMassChangeViewHelper.emptyCandidatesMessage}" /></div></td>
+                       </tr>
+                    </c:if>
+	                <c:forEach var="subawardChangeCandidate" items="${KualiForm.personMassChangeViewHelper.subawardChangeCandidates}" varStatus="status">
 	                    <tr>
 	                        <td><kul:htmlControlAttribute property="subawardChangeCandidate.subAwardCode" 
 	                                                      attributeEntry="${subawardAttributes.subAwardCode}" readOnly="true" /></td>
@@ -118,7 +143,12 @@
 	                    <td><div align="left"><kul:htmlAttributeLabel attributeEntry="${negotiationAttributes.associatedDocumentId}" /></div></td>
 	                    <td><div align="left"><kul:htmlAttributeLabel attributeEntry="${negotiationAttributes.associatedNegotiable.title}" /></div></td>
 	                </tr>
-	                <c:forEach var="negotiationChangeCandidate" items="${KualiForm.personMassChangeHelper.negotiationChangeCandidates}" varStatus="status">
+	                <c:if test="${empty KualiForm.personMassChangeViewHelper.negotiationChangeCandidates}">
+                       <tr>
+                           <td colspan="2"><div align="center"><c:out value="${KualiForm.personMassChangeViewHelper.emptyCandidatesMessage}" /></div></td>
+                       </tr>
+                    </c:if>
+	                <c:forEach var="negotiationChangeCandidate" items="${KualiForm.personMassChangeViewHelper.negotiationChangeCandidates}" varStatus="status">
 	                    <tr>
 	                        <td><kul:htmlControlAttribute property="negotiationChangeCandidate.associatedDocumentId" 
 	                                                      attributeEntry="${negotiationAttributes.associatedDocumentId}" readOnly="true" /></td>
@@ -137,7 +167,12 @@
 	                    <td><div align="left"><kul:htmlAttributeLabel attributeEntry="${committeeAttributes.committeeId}" /></div></td>
 	                    <td><div align="left"><kul:htmlAttributeLabel attributeEntry="${committeeAttributes.committeeName}" /></div></td>
 	                </tr>
-	                <c:forEach var="committeeChangeCandidate" items="${KualiForm.personMassChangeHelper.committeeChangeCandidates}" varStatus="status">
+	                <c:if test="${empty KualiForm.personMassChangeViewHelper.committeeChangeCandidates}">
+                       <tr>
+                           <td colspan="2"><div align="center"><c:out value="${KualiForm.personMassChangeViewHelper.emptyCandidatesMessage}" /></div></td>
+                       </tr>
+                    </c:if>
+	                <c:forEach var="committeeChangeCandidate" items="${KualiForm.personMassChangeViewHelper.committeeChangeCandidates}" varStatus="status">
 	                    <tr>
 	                        <td><kul:htmlControlAttribute property="committeeChangeCandidate.committeeId" 
 	                                                      attributeEntry="${committeeAttributes.committeeId}" readOnly="true" /></td>
@@ -156,7 +191,12 @@
 	                    <td><div align="left"><kul:htmlAttributeLabel attributeEntry="${protocolAttributes.protocolNumber}" /></div></td>
 	                    <td><div align="left"><kul:htmlAttributeLabel attributeEntry="${protocolAttributes.title}" /></div></td>
 	                </tr>
-	                <c:forEach var="protocolChangeCandidate" items="${KualiForm.personMassChangeHelper.protocolChangeCandidates}" varStatus="status">
+	                <c:if test="${empty KualiForm.personMassChangeViewHelper.protocolChangeCandidates}">
+                       <tr>
+                           <td colspan="2"><div align="center"><c:out value="${KualiForm.personMassChangeViewHelper.emptyCandidatesMessage}" /></div></td>
+                       </tr>
+                    </c:if>
+	                <c:forEach var="protocolChangeCandidate" items="${KualiForm.personMassChangeViewHelper.protocolChangeCandidates}" varStatus="status">
 	                    <tr>
 	                        <td><kul:htmlControlAttribute property="protocolChangeCandidate.protocolNumber" 
 	                                                      attributeEntry="${protocolAttributes.protocolNumber}" readOnly="true" /></td>
@@ -175,7 +215,12 @@
 	                    <td><div align="left"><kul:htmlAttributeLabel attributeEntry="${scheduleAttributes.id}" /></div></td>
 	                    <td><div align="left"><kul:htmlAttributeLabel attributeEntry="${scheduleAttributes.scheduleId}" /></div></td>
 	                </tr>
-	                <c:forEach var="scheduleChangeCandidate" items="${KualiForm.personMassChangeHelper.scheduleChangeCandidates}" varStatus="status">
+	                <c:if test="${empty KualiForm.personMassChangeViewHelper.scheduleChangeCandidates}">
+                       <tr>
+                           <td colspan="2"><div align="center"><c:out value="${KualiForm.personMassChangeViewHelper.emptyCandidatesMessage}" /></div></td>
+                       </tr>
+                    </c:if>
+	                <c:forEach var="scheduleChangeCandidate" items="${KualiForm.personMassChangeViewHelper.scheduleChangeCandidates}" varStatus="status">
 	                    <tr>
 	                        <td><kul:htmlControlAttribute property="scheduleChangeCandidate.id" 
 	                                                      attributeEntry="${scheduleAttributes.id}" readOnly="true" /></td>
@@ -194,7 +239,12 @@
 	                    <td><div align="left"><kul:htmlAttributeLabel attributeEntry="${unitAttributes.unitNumber}" /></div></td>
 	                    <td><div align="left"><kul:htmlAttributeLabel attributeEntry="${unitAttributes.unitName}" /></div></td>
 	                </tr>
-	                <c:forEach var="unitChangeCandidate" items="${KualiForm.personMassChangeHelper.unitChangeCandidates}" varStatus="status">
+	                <c:if test="${empty KualiForm.personMassChangeViewHelper.unitChangeCandidates}">
+                       <tr>
+                           <td colspan="2"><div align="center"><c:out value="${KualiForm.personMassChangeViewHelper.emptyCandidatesMessage}" /></div></td>
+                       </tr>
+                    </c:if>
+	                <c:forEach var="unitChangeCandidate" items="${KualiForm.personMassChangeViewHelper.unitChangeCandidates}" varStatus="status">
 	                    <tr>
 	                        <td><kul:htmlControlAttribute property="unitChangeCandidate.unitNumber" 
 	                                                      attributeEntry="${unitAttributes.unitNumber}" readOnly="true" /></td>
