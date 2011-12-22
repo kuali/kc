@@ -22,7 +22,7 @@ import org.apache.struts.action.ActionForm;
 import org.apache.struts.action.ActionForward;
 import org.apache.struts.action.ActionMapping;
 import org.kuali.kra.personmasschange.web.struts.form.PersonMassChangeForm;
-import org.kuali.kra.personmasschange.web.struts.form.PersonMassChangeHelper;
+import org.kuali.kra.personmasschange.web.struts.form.PersonMassChangeViewHelper;
 
 public class PersonMassChangeViewAction extends PersonMassChangeAction {
     
@@ -31,8 +31,8 @@ public class PersonMassChangeViewAction extends PersonMassChangeAction {
         ActionForward forward = super.execute(mapping, form, request, response);
         
         PersonMassChangeForm personMassChangeForm = (PersonMassChangeForm) form;
-        PersonMassChangeHelper personMassChangeHelper = personMassChangeForm.getPersonMassChangeHelper();
-        personMassChangeHelper.prepareView();
+        PersonMassChangeViewHelper personMassChangeViewHelper = personMassChangeForm.getPersonMassChangeViewHelper();
+        personMassChangeViewHelper.prepareView();
         
         return forward;
     }

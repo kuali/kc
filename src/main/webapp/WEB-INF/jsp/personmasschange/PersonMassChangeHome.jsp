@@ -28,7 +28,8 @@
                   auditCount="0"
                   headerDispatch="${KualiForm.headerDispatch}"
                   headerTabActive="home">
-                  
+
+<kul:documentOverview editingMode="${KualiForm.editingMode}" />
 <kra-personmasschange:personMassChangePersonType />
 <kra-personmasschange:personMassChangeReplace />
 

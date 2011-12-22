@@ -1024,6 +1024,13 @@ public final class KeyConstants {
     public static final String ERROR_FINANCIAL_ENTITY_STATUS_INCOMPLETE = "error.coi.financialentity.status.incomplete";
     
     public static final String REPORT_TRACKING_WARNING_UPDATE_FROM_DATE_CHANGE = "warning.reportTracking.updateFromDateChange";
+    
+    // Person Mass Change
+    public static final String ERROR_PERSON_MASS_CHANGE_REPLACEE_EMPTY = "error.personMassChange.replacee.empty";
+    public static final String ERROR_PERSON_MASS_CHANGE_REPLACER_EMPTY = "error.personMassChange.replacer.empty";
+    public static final String ERROR_PERSON_MASS_CHANGE_REPLACEE_SELECTION = "error.personMassChange.replacee.selection";
+    public static final String ERROR_PERSON_MASS_CHANGE_REPLACER_SELECTION = "error.personMassChange.replacer.selection";
+    
     /**
      * private utility class ctor.
      * @throws UnsupportedOperationException if called.

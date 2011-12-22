@@ -27,6 +27,7 @@
         
         <property name="documentTypeName" value="PersonMassChangeDocument"/>
         <property name="documentClass" value="org.kuali.kra.personmasschange.document.PersonMassChangeDocument"/>
+        <property name="businessRulesClass" value="org.kuali.kra.personmasschange.rules.PersonMassChangeDocumentRule"/>
         <property name="documentAuthorizerClass" value="org.kuali.kra.personmasschange.document.authorization.PersonMassChangeDocumentAuthorizer"/>
         
         <property name="allowsCopy" value="true"/>

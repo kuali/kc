@@ -42,9 +42,11 @@ import org.kuali.kra.personmasschange.service.UnitPersonMassChangeService;
 import org.kuali.kra.proposaldevelopment.bo.DevelopmentProposal;
 import org.kuali.kra.subaward.bo.SubAward;
 
-public class PersonMassChangeHelper implements Serializable {
+public class PersonMassChangeViewHelper implements Serializable {
 
-    private static final long serialVersionUID = 1525865377303271196L;
+    private static final long serialVersionUID = -6979150906749078161L;
+
+    private static final String EMPTY_CANDIDATES_MESSAGE = "No records need to be changed.";
 
     private PersonMassChangeForm form;
     
@@ -70,7 +72,7 @@ public class PersonMassChangeHelper implements Serializable {
     private transient SchedulePersonMassChangeService schedulePersonMassChangeService;
     private transient UnitPersonMassChangeService unitPersonMassChangeService;
     
-    public PersonMassChangeHelper(PersonMassChangeForm form) {
+    public PersonMassChangeViewHelper(PersonMassChangeForm form) {
         this.form = form;
         
         awardChangeCandidates = new ArrayList<Award>();
@@ -85,12 +87,8 @@ public class PersonMassChangeHelper implements Serializable {
         unitChangeCandidates = new ArrayList<Unit>();
     }
     
-    public String getReplaceeName() {
-        return form.getDocument().getPersonMassChange().getReplaceeFullName();
-    }
-    
-    public String getReplacerName() {
-        return form.getDocument().getPersonMassChange().getReplacerFullName();
+    public String getEmptyCandidatesMessage() {
+        return EMPTY_CANDIDATES_MESSAGE;
     }
 
     public List<Award> getAwardChangeCandidates() {
