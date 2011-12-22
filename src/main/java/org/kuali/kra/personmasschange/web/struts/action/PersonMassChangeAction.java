@@ -21,11 +21,14 @@ import javax.servlet.http.HttpServletResponse;
 import org.apache.struts.action.ActionForm;
 import org.apache.struts.action.ActionForward;
 import org.apache.struts.action.ActionMapping;
-import org.kuali.kra.irb.ProtocolForm;
+import org.kuali.kra.infrastructure.KraServiceLocator;
 import org.kuali.kra.personmasschange.document.PersonMassChangeDocument;
 import org.kuali.kra.personmasschange.web.struts.form.PersonMassChangeForm;
-import org.kuali.kra.personmasschange.web.struts.form.PersonMassChangeHelper;
+import org.kuali.kra.personmasschange.web.struts.form.PersonMassChangeHomeHelper;
+import org.kuali.kra.personmasschange.web.struts.form.PersonMassChangeViewHelper;
 import org.kuali.kra.web.struts.action.KraTransactionalDocumentActionBase;
+import org.kuali.rice.kns.rule.event.KualiDocumentEvent;
+import org.kuali.rice.kns.service.KualiRuleService;
 
 /**
  * Defines the overall action class for Person Mass Change.
@@ -44,15 +47,28 @@ public class PersonMassChangeAction extends KraTransactionalDocumentActionBase {
     }
     
     public ActionForward home(ActionMapping mapping, ActionForm form, HttpServletRequest request, HttpServletResponse response) {
+        PersonMassChangeForm personMassChangeForm = (PersonMassChangeForm) form;
+        PersonMassChangeHomeHelper personMassChangeHomeHelper = personMassChangeForm.getPersonMassChangeHomeHelper();
+        personMassChangeHomeHelper.prepareView();
+        
         return mapping.findForward("home");
     }
 
     public ActionForward view(ActionMapping mapping, ActionForm form, HttpServletRequest request, HttpServletResponse response) {
         PersonMassChangeForm personMassChangeForm = (PersonMassChangeForm) form;
-        PersonMassChangeHelper personMassChangeHelper = personMassChangeForm.getPersonMassChangeHelper();
-        personMassChangeHelper.prepareView();
+        PersonMassChangeViewHelper personMassChangeViewHelper = personMassChangeForm.getPersonMassChangeViewHelper();
+        personMassChangeViewHelper.prepareView();
         
         return mapping.findForward("view");
+    }
+
+    public final boolean applyRules(KualiDocumentEvent event) {
+        return getKualiRuleService().applyRules(event);
+    }
+    
+    @Override
+    protected KualiRuleService getKualiRuleService() {
+        return KraServiceLocator.getService(KualiRuleService.class);
     }
 
 }

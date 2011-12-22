@@ -25,22 +25,32 @@ public class PersonMassChangeForm extends KraTransactionalDocumentFormBase {
 
     private static final long serialVersionUID = 6324968980895876372L;
     
-    private PersonMassChangeHelper personMassChangeHelper;
+    private PersonMassChangeHomeHelper personMassChangeHomeHelper;
+    private PersonMassChangeViewHelper personMassChangeViewHelper;
     
     public PersonMassChangeForm() {
         initialize();
     }
     
     public void initialize() {
-        setPersonMassChangeHelper(new PersonMassChangeHelper(this));
+        setPersonMassChangeHomeHelper(new PersonMassChangeHomeHelper(this));
+        setPersonMassChangeViewHelper(new PersonMassChangeViewHelper(this));
     }
 
-    public PersonMassChangeHelper getPersonMassChangeHelper() {
-        return personMassChangeHelper;
+    public PersonMassChangeHomeHelper getPersonMassChangeHomeHelper() {
+        return personMassChangeHomeHelper;
     }
 
-    public void setPersonMassChangeHelper(PersonMassChangeHelper personMassChangeHelper) {
-        this.personMassChangeHelper = personMassChangeHelper;
+    public void setPersonMassChangeHomeHelper(PersonMassChangeHomeHelper personMassChangeHomeHelper) {
+        this.personMassChangeHomeHelper = personMassChangeHomeHelper;
+    }
+
+    public PersonMassChangeViewHelper getPersonMassChangeViewHelper() {
+        return personMassChangeViewHelper;
+    }
+
+    public void setPersonMassChangeViewHelper(PersonMassChangeViewHelper personMassChangeViewHelper) {
+        this.personMassChangeViewHelper = personMassChangeViewHelper;
     }
 
     @Override
