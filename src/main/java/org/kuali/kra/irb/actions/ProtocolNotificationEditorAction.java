@@ -154,6 +154,11 @@ public class ProtocolNotificationEditorAction extends ProtocolAction {
     }
 
     
+    /*
+     * This is for assign reviewer (remove portion).  The notificationRequestBeans contains all 'added' or 'removed'
+     * reviewers.  All the roles recipient will be merged, then forward to protocolnotificationeditor for ad hoc notification 
+     * process. This is needed if 'add' and remove in the same submit, but specifically for 'remove'; add is done in protocolprotocolactionsaction
+     */
     private ActionForward checkToSendNotification(ActionMapping mapping, ActionForward forward, ProtocolForm protocolForm,
             List<ProtocolNotificationRequestBean> notificationRequestBeans) {
 
@@ -210,30 +215,31 @@ public class ProtocolNotificationEditorAction extends ProtocolAction {
             return mapping.findForward("protocolNotificationEditor");
         }
         else {
+            // should not need this 'no prompt' here because it is processed in service.
             int i = 0;
-            while (notificationRequestBeans.size() > i) {
-                context = new IRBNotificationContext(notificationRequestBeans.get(i).getProtocol(), notificationRequestBeans.get(i)
-                        .getProtocolOnlineReview(), notificationRequestBeans.get(i).getActionType(), notificationRequestBeans
-                        .get(i).getDescription(), renderer);
-                protocolForm.getNotificationHelper().initializeDefaultValues(context);
-                List<NotificationTypeRecipient> recipients = protocolForm.getNotificationHelper().getNotificationRecipients();
-                List<NotificationTypeRecipient> allRecipients = new ArrayList<NotificationTypeRecipient>();
-                for (NotificationTypeRecipient recipient : recipients) {
-                    try {
-                        // note : need to deepcopy here. If I don't do that, then all reviewer role will have same
-                        // notificationrecipient object returned from service call
-                        // probably the object service/ojb has a cache ?
-                        NotificationTypeRecipient copiedRecipient = (NotificationTypeRecipient) ObjectUtils.deepCopy(recipient);
-                        context.populateRoleQualifiers(copiedRecipient);
-                        allRecipients.add(copiedRecipient);
-                    } catch (Exception e) {
-                        
-                    }
-                }
-                protocolForm.getNotificationHelper().setNotificationRecipients(allRecipients);
-                getNotificationService().sendNotification(context);
-                i++;
-            }
+//            while (notificationRequestBeans.size() > i) {
+//                context = new IRBNotificationContext(notificationRequestBeans.get(i).getProtocol(), notificationRequestBeans.get(i)
+//                        .getProtocolOnlineReview(), notificationRequestBeans.get(i).getActionType(), notificationRequestBeans
+//                        .get(i).getDescription(), renderer);
+//                protocolForm.getNotificationHelper().initializeDefaultValues(context);
+//                List<NotificationTypeRecipient> recipients = protocolForm.getNotificationHelper().getNotificationRecipients();
+//                List<NotificationTypeRecipient> allRecipients = new ArrayList<NotificationTypeRecipient>();
+//                for (NotificationTypeRecipient recipient : recipients) {
+//                    try {
+//                        // note : need to deepcopy here. If I don't do that, then all reviewer role will have same
+//                        // notificationrecipient object returned from service call
+//                        // probably the object service/ojb has a cache ?
+//                        NotificationTypeRecipient copiedRecipient = (NotificationTypeRecipient) ObjectUtils.deepCopy(recipient);
+//                        context.populateRoleQualifiers(copiedRecipient);
+//                        allRecipients.add(copiedRecipient);
+//                    } catch (Exception e) {
+//                        
+//                    }
+//                }
+//                protocolForm.getNotificationHelper().setNotificationRecipients(allRecipients);
+//                getNotificationService().sendNotification(context);
+//                i++;
+//            }
             return forward;
         }
     }

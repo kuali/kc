@@ -1481,6 +1481,8 @@ public class ProtocolProtocolActionsAction extends ProtocolAction implements Aud
                                 forward = checkToSendNotification(mapping, mapping.findForward(PROTOCOL_ACTIONS_TAB), protocolForm,
                                         renderer, addReviewerNotificationBeans);
                                 if (!CollectionUtils.isEmpty(removeReviewerNotificationBeans)) {
+                                    // save to session.  this will be processed after 'add reviewer' ad hoc notification is sent.
+                                    // in this case, there are 2 ad hoc notification.
                                     GlobalVariables.getUserSession().addObject("removeReviewer", removeReviewerNotificationBeans);
                                 }
                             }
@@ -3415,6 +3417,11 @@ public class ProtocolProtocolActionsAction extends ProtocolAction implements Aud
         }
     }
     
+    /*
+     * This is for assign reviewer and submit for review.  The notificationRequestBeans contains all 'added' or 'removed'
+     * reviewers.  All the roles recipient will be merged, then forward to protocolnotificationeditor for ad hoc notification 
+     * process.
+     */
     private ActionForward checkToSendNotification(ActionMapping mapping, ActionForward forward, ProtocolForm protocolForm,
             IRBNotificationRenderer renderer, List<ProtocolNotificationRequestBean> notificationRequestBeans) {
 
@@ -3432,6 +3439,7 @@ public class ProtocolProtocolActionsAction extends ProtocolAction implements Aud
             for (NotificationTypeRecipient recipient : notificationRecipients) {
                 try {
                     NotificationTypeRecipient copiedRecipient = (NotificationTypeRecipient) ObjectUtils.deepCopy(recipient);
+                    // populate role qualifier with proper context
                     context.populateRoleQualifiers(copiedRecipient);
                     allRecipients.add(copiedRecipient);
                 }
