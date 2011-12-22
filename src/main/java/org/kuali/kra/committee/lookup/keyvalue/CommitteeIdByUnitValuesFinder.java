@@ -93,7 +93,8 @@ public class CommitteeIdByUnitValuesFinder extends KeyValuesBase {
                 //Use the lead unit of the protocol to determine committees
                 getProtocolUnitIds();
                 for (Committee committee : committees) {
-                    if (unitIds.contains(committee.getHomeUnit().getUnitNumber())) {
+                    if (StringUtils.equalsIgnoreCase(committee.getCommitteeDocument().getDocStatusCode(), "F") 
+                            && unitIds.contains(committee.getHomeUnit().getUnitNumber())) {
                         keyValues.add(new KeyLabelPair(committee.getCommitteeId(), committee.getCommitteeName()));
                     }
                 }
