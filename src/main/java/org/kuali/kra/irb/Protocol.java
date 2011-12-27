@@ -1712,7 +1712,7 @@ public class Protocol extends KraPersistableBusinessObjectBase implements Sequen
 
     private void addAttachmentSummaries(ProtocolSummary protocolSummary) {
         for (ProtocolAttachmentProtocol attachment : getActiveAttachmentProtocols()) {
-         //   if (!StringUtils.equals(attachment.getDocumentStatusCode(), DELETED_DOCUMENT)) {
+            if (!StringUtils.equals(attachment.getDocumentStatusCode(), DELETED_DOCUMENT)) {
                 AttachmentSummary attachmentSummary = new AttachmentSummary();
                 attachmentSummary.setAttachmentId(attachment.getId());
                 attachmentSummary.setFileType(attachment.getFile().getType());
@@ -1723,7 +1723,7 @@ public class Protocol extends KraPersistableBusinessObjectBase implements Sequen
                 attachmentSummary.setUpdateTimestamp(attachment.getUpdateTimestamp());
                 attachmentSummary.setUpdateUser(attachment.getUpdateUser());
                 protocolSummary.add(attachmentSummary);
-         //   }
+            }
         }
         for (ProtocolPerson person : getProtocolPersons()) {
             for (ProtocolAttachmentPersonnel attachment : person.getAttachmentPersonnels()) {
@@ -1900,6 +1900,14 @@ public class Protocol extends KraPersistableBusinessObjectBase implements Sequen
         return true;
     }
     
+    /**
+     * This method will return the list of all active attachments for this protocol; an attachment A is active for a 
+     * protocol if either A has a doc status code of 'draft' or 
+     * if for all other attachments for that protocol having the same doc id as A's doc id, none have a version number
+     * greater than A's version number. 
+     * is defined as the o 
+     * @return
+     */
     public List<ProtocolAttachmentProtocol> getActiveAttachmentProtocols() {
         List<ProtocolAttachmentProtocol> activeAttachments = new ArrayList<ProtocolAttachmentProtocol>();
         for (ProtocolAttachmentProtocol attachment1 : getAttachmentProtocols()) {
@@ -1927,6 +1935,15 @@ public class Protocol extends KraPersistableBusinessObjectBase implements Sequen
         return activeAttachments;
     }
     
+    /**
+     * This method will return the list of undeleted attachments that are still active for this protocol.
+     * Essentially it filters out all the deleted elements from the list of active attachments.
+     * See getActiveAttachmentProtocols() for a specification of what is an 'active attachment'. 
+     * 
+     * 
+     * @return
+     */
+    // TODO the method code below could be restructured to combine the two for loops into one loop.
     public List<ProtocolAttachmentProtocol> getActiveAttachmentProtocolsNoDelete() {
         List<Integer> documentIds = new ArrayList<Integer>();
         List<ProtocolAttachmentProtocol> activeAttachments = new ArrayList<ProtocolAttachmentProtocol>();
