@@ -799,7 +799,7 @@ public class AwardBudgetServiceImpl implements AwardBudgetService {
         for (VersionHistory version: versions) {
             if (version.getStatus() == VersionStatus.ACTIVE) {
                 newest = version;
-                break;
+//                break;
             } else if (newest == null || (version.getStatus() != VersionStatus.CANCELED && version.getSequenceOwnerSequenceNumber() > newest.getSequenceOwnerSequenceNumber())) {
                 newest = version;
             }  
