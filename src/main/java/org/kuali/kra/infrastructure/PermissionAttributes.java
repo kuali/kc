@@ -277,9 +277,9 @@ public class PermissionAttributes {
         attributes = new HashMap<String, String>();  
         attributes.put(ATTR_DOCUMENT_TYPE_NAME, DOC_TYPE_AWARD); 
         attributes.put(ATTR_SECTION_NAME, SECTION_ATTACHMENTS);
-        tempAttributesMap.put(AwardPermissionConstants.MAINTAIN_AWARD_DOCUMENTS.getAwardPermission(), attributes);
+        tempAttributesMap.put(AwardPermissionConstants.MAINTAIN_AWARD_ATTACHMENTS.getAwardPermission(), attributes);
         
-        tempAttributesMap.put(AwardPermissionConstants.VIEW_AWARD_DOCUMENTS.getAwardPermission(), attributes);
+        tempAttributesMap.put(AwardPermissionConstants.VIEW_AWARD_ATTACHMENTS.getAwardPermission(), attributes);
 
         //Need to verify how this is going to be used
         attributes = new HashMap<String, String>();  
