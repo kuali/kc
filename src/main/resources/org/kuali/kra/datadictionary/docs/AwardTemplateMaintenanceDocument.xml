@@ -34,7 +34,7 @@
 			</list>
 		</property>
 		<property name="documentTypeName" value="AwardTemplateMaintenanceDocument"/>
-		<property name="documentAuthorizerClass" value="org.kuali.rice.kns.document.authorization.MaintenanceDocumentAuthorizerBase"/>
+		<property name="documentAuthorizerClass" value="org.kuali.kra.award.document.authorization.AwardTemplateDocumentAuthorizer"/>
 	</bean>
 
 	<!-- Maintenance Section Definitions -->
