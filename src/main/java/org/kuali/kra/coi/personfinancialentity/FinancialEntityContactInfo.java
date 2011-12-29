@@ -17,6 +17,7 @@ package org.kuali.kra.coi.personfinancialentity;
 
 import java.util.LinkedHashMap;
 
+import org.apache.commons.lang.StringUtils;
 import org.kuali.kra.bo.KraPersistableBusinessObjectBase;
 import org.kuali.kra.bo.Organization;
 
@@ -154,5 +155,27 @@ public class FinancialEntityContactInfo extends KraPersistableBusinessObjectBase
     public void setPersonFinIntDisclosure(PersonFinIntDisclosure personFinIntDisclosure) {
         this.personFinIntDisclosure = personFinIntDisclosure;
     }
-
+    
+    public boolean infoMatches(FinancialEntityContactInfo comparator) {
+        return (StringUtils.equalsIgnoreCase(getAddressLine1(), comparator.getAddressLine1()) &&
+                StringUtils.equalsIgnoreCase(getAddressLine2(), comparator.getAddressLine2()) &&
+                StringUtils.equalsIgnoreCase(getAddressLine3(), comparator.getAddressLine3()) &&
+                StringUtils.equalsIgnoreCase(getCity(), comparator.getCity()) &&
+                StringUtils.equalsIgnoreCase(getState(), comparator.getState()) &&
+                StringUtils.equalsIgnoreCase(getPostalCode(), comparator.getPostalCode()));
+    }
+    
+    @Override
+    public String toString() {
+        return "FinancialEntityContactInfo: addressLine1 = " + getAddressLine1() +
+               ", addressLine2 = " + getAddressLine2() +
+               ", addressLine3 = " + getAddressLine3() +
+               ", city = " + getCity() +
+               ", country = " + getCountryCode() +
+               ", webAddress1 = " + getWebAddress1() +
+               ", webAddress2 = " + getWebAddress2() +
+               ", postalCode = " + getPostalCode() +
+               ", state = " + getState();
+               
+    }
 }
