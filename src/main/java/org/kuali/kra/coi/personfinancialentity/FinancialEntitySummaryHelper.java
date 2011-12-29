@@ -170,19 +170,19 @@ public class FinancialEntitySummaryHelper implements Serializable {
         if (!StringUtils.equalsIgnoreCase(currentSummary.getAddress(), previousSummary.getAddress())) {
             currentSummary.setAddress(addSpan(currentSummary.getAddress()));
         }
-        if (!StringUtils.equalsIgnoreCase(currentSummary.getStatusCode(), previousSummary.getStatusCode())) {
-            currentSummary.setStatusCode(addSpan(currentSummary.getStatusCode()));
+        if (!StringUtils.equalsIgnoreCase(currentSummary.getStatusDescription(), previousSummary.getStatusDescription())) {
+            currentSummary.setStatusDescription(addSpan(currentSummary.getStatusDescription()));
         }
         if (!StringUtils.equalsIgnoreCase(currentSummary.getDetails(), previousSummary.getDetails())) {
             currentSummary.setDetails(addSpan(currentSummary.getDetails()));
         }
-        if (ObjectUtils.isNotNull(currentSummary.getSponsorCode())) {
-            if (ObjectUtils.isNotNull(previousSummary.getSponsorCode())) {
-                if (!StringUtils.equalsIgnoreCase(currentSummary.getSponsorCode().toString(), previousSummary.getSponsorCode().toString())) {
-                    currentSummary.setSponsorCode(addSpan(currentSummary.getSponsorCode().toString()));
+        if (ObjectUtils.isNotNull(currentSummary.getSponsorName())) {
+            if (ObjectUtils.isNotNull(previousSummary.getSponsorName())) {
+                if (!StringUtils.equalsIgnoreCase(currentSummary.getSponsorName().toString(), previousSummary.getSponsorName().toString())) {
+                    currentSummary.setSponsorName(addSpan(currentSummary.getSponsorName().toString()));
                 } 
             } else {
-                currentSummary.setSponsorCode(addSpan(currentSummary.getSponsorCode().toString()));
+                currentSummary.setSponsorName(addSpan(currentSummary.getSponsorName().toString()));
             }
         }
         if (!StringUtils.equalsIgnoreCase(currentSummary.getOwnershipType(), previousSummary.getOwnershipType())) {
@@ -261,6 +261,7 @@ public class FinancialEntitySummaryHelper implements Serializable {
      */
     protected void setSummaryInformation(PersonFinIntDisclosure financialEntity, FinancialEntitySummaryBean summary) {
         String entityAddress = "";
+        String webAddress = "";
         for (FinancialEntityContactInfo address : financialEntity.getFinEntityContactInfos()) {
             entityAddress += ObjectUtils.isNull(address.getAddressLine1()) ? "" : address.getAddressLine1() + newLine;
             entityAddress += ObjectUtils.isNull(address.getAddressLine2()) ? "" : address.getAddressLine2() + newLine;
@@ -268,9 +269,12 @@ public class FinancialEntitySummaryHelper implements Serializable {
             entityAddress += ObjectUtils.isNull(address.getCity()) ? "" : address.getCity() + newLine;
             entityAddress += ObjectUtils.isNull(address.getPostalCode()) ? "" : address.getPostalCode() + newLine;
             entityAddress += ObjectUtils.isNull(address.getCountryCode()) ? "" : address.getCountryCode() + newLine;
+            webAddress += ObjectUtils.isNull(address.getWebAddress1()) ? "" : address.getWebAddress1() + newLine;
+            webAddress += ObjectUtils.isNull(address.getWebAddress2()) ? "" : address.getWebAddress2() + newLine;
         }
 
         summary.setAddress(entityAddress);
+        summary.setWebAddress(webAddress);
         summary.setOwnershipType(
                 StringUtils.equalsIgnoreCase(financialEntity.getEntityOwnershipType(), Constants.ENTITY_OWNERSHIP_TYPE_CODE_PRIVATE) ? "Private" : "Public");
         
@@ -285,8 +289,8 @@ public class FinancialEntitySummaryHelper implements Serializable {
             details += "Entity Principal Business/Activity: " + newLine + financialEntity.getPrincipalBusinessActivity() + newLine;
         }
         summary.setDetails(details);
-        summary.setStatusCode(ObjectUtils.isNotNull(financialEntity.getStatusCode()) ? financialEntity.getStatusCode().toString() : "");
-        summary.setSponsorCode(ObjectUtils.isNotNull(financialEntity.getSponsorCode()) ? financialEntity.getSponsorCode().toString() : "");
+        summary.setStatusDescription(financialEntity.getFinIntEntityStatus() != null ? financialEntity.getFinIntEntityStatus().getDescription(): "");
+        summary.setSponsorName(financialEntity.getSponsor() != null ? financialEntity.getSponsor().getSponsorName() : "");
        
     }
     

@@ -11,21 +11,27 @@
 </c:choose>
 <c:set var="relationshipDetails" value= "${bean.relationshipDetails}" />
 <tr>
-	<td class="content_grey" rowspan="3" style="vertical-align: top;" width="30%">
+	<td class="content_grey" rowspan="2" style="vertical-align: top;" width="15%">
 	<p>Address:</p>
 	</td>
-	<td class="content_white" rowspan="3" style="vertical-align: top;" width="70%">
+	<td class="content_white" rowspan="2" style="vertical-align: top;" width="35%">
 	<p>${bean.address}</p>
 	</td>
-	<td class="content_grey">Sponsor code:</td>
-	<td>${bean.sponsorCode}</td>
+	<td class="content_grey" width="15%">Sponsor:</td>
+	<td>${bean.sponsorName}</td>
 </tr>
 <tr>
-	<td class="content_grey" style="vertical-align: top;">Status code:
+	<td class="content_grey" style="vertical-align: top;">Status:
 	</td>
-	<td>${bean.statusCode}</td>
+	<td>${bean.statusDescription}</td>
 </tr>
 <tr>
+	<td class="content_grey" style="vertical-align: top;">
+	<p>Web Address:</p>
+	</td>
+	<td class="content_white" style="vertical-align: top;">
+	<p>${bean.webAddress}</p>
+	</td>
 	<td class="content_grey" style="vertical-align: top;">
 	OwnershipType:</td>
 	<td>${bean.ownershipType}</td>
