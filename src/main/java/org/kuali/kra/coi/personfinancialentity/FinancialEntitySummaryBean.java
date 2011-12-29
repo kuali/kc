@@ -25,9 +25,10 @@ public class FinancialEntitySummaryBean implements Serializable {
      */
     private static final long serialVersionUID = -8525835671837464825L;
     private String address;
+    private String webAddress;
     private String relationshipDescription;
-    private String sponsorCode;
-    private String statusCode;
+    private String sponsorName;
+    private String statusDescription;
     private String ownershipType;
     private String details;
     private Map<String, String> relationshipDetails;
@@ -61,23 +62,29 @@ public class FinancialEntitySummaryBean implements Serializable {
     public void setAddress(String address) {
         this.address = address;
     }
+    public String getWebAddress() {
+        return webAddress;
+    }
+    public void setWebAddress(String webAddress) {
+        this.webAddress = webAddress;
+    }
     public String getRelationshipDescription() {
         return relationshipDescription;
     }
     public void setRelationshipDescription(String relationshipDescription) {
         this.relationshipDescription = relationshipDescription;
     }
-    public String getSponsorCode() {
-        return sponsorCode;
+    public String getSponsorName() {
+        return sponsorName;
     }
-    public void setSponsorCode(String string) {
-        this.sponsorCode = string;
+    public void setSponsorName(String sponsorName) {
+        this.sponsorName = sponsorName;
     }
-    public String getStatusCode() {
-        return statusCode;
+    public String getStatusDescription() {
+        return statusDescription;
     }
-    public void setStatusCode(String statusCode) {
-        this.statusCode = statusCode;
+    public void setStatusDescription(String statusDescription) {
+        this.statusDescription = statusDescription;
     }
     public String getOwnershipType() {
         return ownershipType;
