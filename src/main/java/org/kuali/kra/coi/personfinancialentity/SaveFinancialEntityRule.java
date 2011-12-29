@@ -67,7 +67,6 @@ public class SaveFinancialEntityRule extends ResearchDocumentRuleBase implements
      * validate that entity name is unique.
      */
     private boolean checkUniqueEntityName(SaveFinancialEntityEvent event) {
-        boolean isValid = true;
         if (StringUtils.isNotBlank(event.getPersonFinIntDisclosure().getEntityName())) {
             String entityNumber = event.getPersonFinIntDisclosure().getEntityNumber();
             Map<String, Object> fieldValues = new HashMap<String, Object>();
@@ -77,17 +76,25 @@ public class SaveFinancialEntityRule extends ResearchDocumentRuleBase implements
                     .findMatching(PersonFinIntDisclosure.class, fieldValues);
             for (PersonFinIntDisclosure personFinIntDisclosure : personFinIntDisclosures) {
                 if (!StringUtils.equalsIgnoreCase(entityNumber, personFinIntDisclosure.getEntityNumber())) {
-                    GlobalVariables.getMessageMap().addToErrorPath(event.getPropertyName());
-                    GlobalVariables.getMessageMap().putError("entityName", KeyConstants.ERROR_DUPLICATE_PROPERTY, 
-                            new String[] {"Entity Name"});
-                    isValid = false;
-                    GlobalVariables.getMessageMap().removeFromErrorPath(event.getPropertyName());
-                    break;
+                    boolean result = false;
+                    for (FinancialEntityContactInfo oldFeci:personFinIntDisclosure.getFinEntityContactInfos()) {
+                        for (FinancialEntityContactInfo newFeci: event.getPersonFinIntDisclosure().getFinEntityContactInfos()) {
+                            if (newFeci.infoMatches(oldFeci)) {
+                                GlobalVariables.getMessageMap().addToErrorPath(event.getPropertyName());
+                                GlobalVariables.getMessageMap().putError("entityName", KeyConstants.ERROR_DUPLICATE_PROPERTY, 
+                                        new String[] {"Entity Name and Contact Info"});
+                                GlobalVariables.getMessageMap().removeFromErrorPath(event.getPropertyName());
+                                return false;
+                            }
+                        }
+                    }
+                    if (result) {
+                    }
                 }
             }
         }
 
-        return isValid;
+        return true;
 
     }
 
