@@ -2792,6 +2792,9 @@ function ajaxLoadQn(protocolNumber, submissionNumber,  docFormKey, documentWebSc
             }
         );
 		    var firstQn = true;
+			if ($j(qnhtml).find('div[id^=questionpanelcontent]').size() > 1) {
+				firstQn = false;
+			}
 			$j(qnhtml).find('div[id^=questionpanelcontent]').each(function() {
 				//alert('hide')
 				if (firstQn) {
