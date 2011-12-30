@@ -117,8 +117,8 @@
     		    $j(".printQnSubpanelContent").hide();  
     		    
     		    $j("#protocolActionPrint-protocolAttachment-table").tablesorter({         
-                    // pass the headers argument and assing a object         
-                       headers: {             // assign the first column (we start counting zero)             
+                    // pass the headers argument and assign an object         
+                       headers: {               // assign the first column (we start counting zero)             
                            5: {                 // disable it by setting the property sorter to false                 
                               sorter: false  },             
                           }
