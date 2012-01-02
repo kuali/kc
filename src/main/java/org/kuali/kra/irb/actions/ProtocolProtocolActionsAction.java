@@ -3403,7 +3403,9 @@ public class ProtocolProtocolActionsAction extends ProtocolAction implements Aud
         
         IRBNotificationRenderer renderer = new IRBNotificationRenderer(notificationRequestBean.getProtocol());
         if (StringUtils.equals(ProtocolActionType.NOTIFY_IRB, notificationRequestBean.getActionType())) {
-            renderer = new NotifyIrbNotificationRenderer(notificationRequestBean.getProtocol(), notificationRequestBean.getProtocol().getLastProtocolAction().getComments());
+            //renderer = new NotifyIrbNotificationRenderer(notificationRequestBean.getProtocol(), notificationRequestBean.getProtocol().getLastProtocolAction().getComments());
+            renderer = new NotifyIrbNotificationRenderer(notificationRequestBean.getProtocol(), protocolForm.getActionHelper().getProtocolNotifyIrbBean().getComment());
+
         }
         IRBNotificationContext context = new IRBNotificationContext(notificationRequestBean.getProtocol(), notificationRequestBean.getActionType(), notificationRequestBean.getDescription(), renderer);
         
