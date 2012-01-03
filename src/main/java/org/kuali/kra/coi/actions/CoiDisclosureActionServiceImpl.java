@@ -29,10 +29,21 @@ import org.kuali.kra.coi.CoiDisclosureHistory;
 import org.kuali.rice.kns.service.BusinessObjectService;
 import org.kuali.rice.kns.util.ObjectUtils;
 
+/**
+ * 
+ * This class implement methods defined in CoiDisclosureActionService.
+ * This is mostly for disclosure actions page.
+ */
 public class CoiDisclosureActionServiceImpl implements CoiDisclosureActionService {
 
     private BusinessObjectService businessObjectService;
 
+    /**
+     * copy disc detailsn from previous master disclosure if it exists.
+     * create a disclosure history methods.
+     * set current disclosure flag for this approved disclosure, and reset it for previous mater disclosure
+     * @see org.kuali.kra.coi.actions.CoiDisclosureActionService#approveDisclosure(org.kuali.kra.coi.CoiDisclosure, java.lang.String)
+     */
     public void approveDisclosure(CoiDisclosure coiDisclosure, String coiDisclosureStatusCode) {
 
         CoiDisclosure masterCoiDisclosure = getMasterDisclosure(coiDisclosure.getCoiDisclosureNumber());
@@ -52,6 +63,9 @@ public class CoiDisclosureActionServiceImpl implements CoiDisclosureActionServic
         businessObjectService.save(disclosures);
     }
     
+    /*
+     * retrieve current master disclosure
+     */
     private CoiDisclosure getMasterDisclosure(String coiDisclosureNumber) {
         Map<String, Object> fieldValues = new HashMap<String, Object>();
         fieldValues.put("coiDisclosureNumber", coiDisclosureNumber);
@@ -65,6 +79,9 @@ public class CoiDisclosureActionServiceImpl implements CoiDisclosureActionServic
         }
     }
     
+    /*
+     * copy disclosure details of current master disclosure to the disclosure that is bing approved
+     */
     private void copyDisclosureDetails(CoiDisclosure masterCoiDisclosure, CoiDisclosure coiDisclosure) {
         // may also need to add note/attachment to new master disclosure
         CoiDisclosure copiedDisclosure = (CoiDisclosure) ObjectUtils.deepCopy(masterCoiDisclosure);
@@ -78,10 +95,14 @@ public class CoiDisclosureActionServiceImpl implements CoiDisclosureActionServic
         }
     }
 
+    /*
+     * check if disclosure detail is exist in the disclosure being approved
+     * if it is, then there is no need to copy over.
+     */
     private boolean isDisclosureDetailExist(CoiDisclosure coiDisclosure,CoiDiscDetail coiDiscDetail) {
         boolean isExist = false;
         for (CoiDiscDetail discDetail : coiDisclosure.getCoiDiscDetails()) {
-            if (StringUtils.endsWith(discDetail.getProjectType(), coiDiscDetail.getProjectType()) && StringUtils.endsWith(discDetail.getProjectIdFk(), coiDiscDetail.getProjectIdFk())) {
+            if (StringUtils.equals(discDetail.getProjectType(), coiDiscDetail.getProjectType()) && StringUtils.equals(discDetail.getProjectIdFk(), coiDiscDetail.getProjectIdFk())) {
                 isExist = true;
                 break;
             }
@@ -89,6 +110,9 @@ public class CoiDisclosureActionServiceImpl implements CoiDisclosureActionServic
         return isExist;
     }
     
+    /*
+     * create a disclosure history record for the disclosure being approved
+     */
     private CoiDisclosureHistory createDisclosureHistory(CoiDisclosure coiDisclosure) {
         CoiDisclosureHistory coiDisclosureHistory = new CoiDisclosureHistory();
         coiDisclosureHistory.setCoiDisclosureId(coiDisclosure.getCoiDisclosureId());
