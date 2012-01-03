@@ -26,6 +26,7 @@ import org.kuali.kra.bo.KraPersistableBusinessObjectBase;
 import org.kuali.kra.bo.Watermark;
 import org.kuali.kra.infrastructure.KraServiceLocator;
 import org.kuali.kra.irb.Protocol;
+import org.kuali.kra.irb.notification.IRBNotificationRenderer;
 import org.kuali.kra.util.watermark.Font;
 import org.kuali.kra.util.watermark.WatermarkBean;
 import org.kuali.kra.util.watermark.WatermarkConstants;
@@ -92,7 +93,7 @@ public class ProtocolPrintWatermark implements Watermarkable {
     }
 
     /**
-     * This method for getting the watermark from the database.
+     * This method for getting the watermark from the database. It will also replace the parameters in the watermark text. 
      * 
      * @param statusCode is the status of the protocol
      * @return WatermarkBean LOG Exception
@@ -127,8 +128,9 @@ public class ProtocolPrintWatermark implements Watermarkable {
                
                 watermarkBean.setFont(getWatermarkFont(WatermarkConstants.FONT, watermarkFontSize, watermarkFontColour));
                 watermarkBean.setPositionFont(getWatermarkPositionFont(WatermarkConstants.FONT, watermarkPositionFontSize, watermarkFontColour));
-                
-                watermarkBean.setText(watermark.getWatermarkText());
+                // create a renderer instance so as to replace the parameters in the watermark's text with values obtained from the protocol
+                IRBNotificationRenderer renderer = new IRBNotificationRenderer((Protocol) getPersistableBusinessObject());
+                watermarkBean.setText(renderer.render(watermark.getWatermarkText()));
                 if (watermarkBean.getType().equals(WatermarkConstants.WATERMARK_TYPE_IMAGE)) {
                     watermarkBean.setText(watermark.getFileName());
                     byte[] imageData = watermark.getAttachmentContent();
@@ -181,6 +183,7 @@ public class ProtocolPrintWatermark implements Watermarkable {
         }
         return watermarkFont;
     }
+    
     private Font getWatermarkPositionFont(String watermarkFontName, String watermarkSize, String watermarkColour) {
         Font watermarkFont = new Font(WatermarkConstants.DEFAULT_FONT_SIZE);
         watermarkFont.setFont(watermarkFontName);
