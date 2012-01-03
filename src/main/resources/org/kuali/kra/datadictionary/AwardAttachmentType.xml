@@ -52,14 +52,8 @@
     	</property>
     	<property name="required" value="true" />
     	<property name="control" >
-      		<bean parent="SelectControlDefinition"
-            	p:businessObjectClass="org.kuali.kra.award.notesandattachments.attachments.AwardAttachmentType"
-            	p:valuesFinderClass="org.kuali.kra.lookup.keyvalue.ExtendedPersistableBusinessObjectValuesFinder"
-           	 	p:includeKeyInLabel="false"
-           	 	p:includeBlankRow="false"
-            	p:keyAttribute="typeCode"
-            	p:labelAttribute="description" />
-    	</property>
+	      <bean parent="TextControlDefinition" p:size="3" />
+	    </property>
         <property name="summary" value="Code" />
         <property name="description" value="Code" />
     </bean>
