@@ -156,6 +156,8 @@ AbstractResearchAndRelatedStream {
 
     private static final Object PROPOSAL_YNQ_QUESTION_17 = "17";
 
+    private static final int BUDGET_PERIOD_5 = 5;
+
     private static final String BUDGET_PERIOD_TYPE_4 = "4";
 
     private static final String BUDGET_PERIOD_TYPE_2 = "2";
@@ -164,6 +166,7 @@ AbstractResearchAndRelatedStream {
 
     protected ParameterService parameterService;
     private SponsorService sponsorService;
+    private BudgetDecimal cumulativeCalendarMonthsFunded = BudgetDecimal.ZERO;
 
     /**
      * This method generates XML for Proposal Submission Report or Sponsor
@@ -776,12 +779,16 @@ AbstractResearchAndRelatedStream {
             NSFSeniorPersonnelType nsfSeniorPersonnelType) {
         List<KeyPersonInfo> nsfSeniorPersons = getBudgetPersonsForCategoryMap(developmentProposal, budgetPeriod, "01", "NSF_PRINTING");
         int rowNumber = 0;
+        int period = budgetPeriod.getBudgetPeriod();
         for (KeyPersonInfo keyPersonInfo : nsfSeniorPersons) {
-            setNSFSeniorPersonnel(keyPersonInfo, nsfSeniorPersonnelType,++rowNumber);
+            setNSFSeniorPersonnel(keyPersonInfo, nsfSeniorPersonnelType,++rowNumber,period);
         }
         return rowNumber;
     }
-    public void setNSFSeniorPersonnel(KeyPersonInfo seniorPersonnelBean,NSFSeniorPersonnelType nsfSeniorPersonnelType, int rowNumber){    
+    public void setNSFSeniorPersonnel(KeyPersonInfo seniorPersonnelBean,NSFSeniorPersonnelType nsfSeniorPersonnelType, int rowNumber,int period){
+        if(period <= BUDGET_PERIOD_5){
+        cumulativeCalendarMonthsFunded = cumulativeCalendarMonthsFunded.add(seniorPersonnelBean.getCalendarMonths());
+        }
         nsfSeniorPersonnelType.setFullName(getFullName(seniorPersonnelBean));
         nsfSeniorPersonnelType.setTitle(seniorPersonnelBean.getRole());      
         nsfSeniorPersonnelType.setAcademicMonthsFunded( seniorPersonnelBean.getAcademicMonths().bigDecimalValue());     
@@ -790,6 +797,18 @@ AbstractResearchAndRelatedStream {
         nsfSeniorPersonnelType.setFundsRequested(seniorPersonnelBean.getRequestedSalary().bigDecimalValue());
         nsfSeniorPersonnelType.setPersonID(seniorPersonnelBean.getPersonId());
         nsfSeniorPersonnelType.setRownumber(BigInteger.valueOf(rowNumber));
+    }
+    
+    public void setNSFSeniorPersonnel(KeyPersonInfo seniorPersonnelBean,NSFSeniorPersonnelType nsfSeniorPersonnelType, int rowNumber){
+        nsfSeniorPersonnelType.setFullName(getFullName(seniorPersonnelBean));
+        nsfSeniorPersonnelType.setTitle(seniorPersonnelBean.getRole());      
+        nsfSeniorPersonnelType.setAcademicMonthsFunded( seniorPersonnelBean.getAcademicMonths().bigDecimalValue()); 
+        nsfSeniorPersonnelType.setCalendarMonthsFunded(cumulativeCalendarMonthsFunded.bigDecimalValue());         
+        nsfSeniorPersonnelType.setSummerMonthsFunded(seniorPersonnelBean.getSummerMonths().bigDecimalValue()); 
+        nsfSeniorPersonnelType.setFundsRequested(seniorPersonnelBean.getRequestedSalary().bigDecimalValue());
+        nsfSeniorPersonnelType.setPersonID(seniorPersonnelBean.getPersonId());
+        nsfSeniorPersonnelType.setRownumber(BigInteger.valueOf(rowNumber));
+        cumulativeCalendarMonthsFunded = BudgetDecimal.ZERO;
     }
     private String getFullName(KeyPersonInfo seniorPersonnelBean) {
         return seniorPersonnelBean.getLastName() + ", "+seniorPersonnelBean.getFirstName();

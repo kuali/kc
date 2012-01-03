@@ -26,13 +26,21 @@ import org.kuali.kra.util.watermark.WatermarkBean;
 import org.kuali.kra.util.watermark.WatermarkConstants;
 
 import com.lowagie.text.BadElementException;
+import com.lowagie.text.Document;
 import com.lowagie.text.DocumentException;
 import com.lowagie.text.Element;
+import com.lowagie.text.Font;
+import com.lowagie.text.HeaderFooter;
 import com.lowagie.text.Image;
+import com.lowagie.text.Phrase;
 import com.lowagie.text.Rectangle;
+import com.lowagie.text.pdf.BaseFont;
 import com.lowagie.text.pdf.PdfContentByte;
+import com.lowagie.text.pdf.PdfImportedPage;
+import com.lowagie.text.pdf.PdfOutline;
 import com.lowagie.text.pdf.PdfReader;
 import com.lowagie.text.pdf.PdfStamper;
+import com.lowagie.text.pdf.PdfWriter;
 
 /**
  * 
@@ -77,10 +85,61 @@ public class WatermarkServiceImpl implements WatermarkService {
     private ByteArrayOutputStream attachWatermarking(WatermarkBean watermarkBean, byte pdfContent[]) {
 
         PdfReader pdfReader;
+        PdfReader reader;
         ByteArrayOutputStream byteArrayOutputStream = new ByteArrayOutputStream();
         PdfStamper pdfStamp;
+        Document document = null;
+        PdfWriter writer = null;
+    
+        int nop;
         try {
+            reader = new PdfReader(pdfContent);
             pdfReader = new PdfReader(pdfContent);
+            nop = reader.getNumberOfPages();
+            document = nop > 0 ? new com.lowagie.text.Document(reader
+                    .getPageSizeWithRotation(1))
+                    : new com.lowagie.text.Document();
+            writer = PdfWriter.getInstance(document, byteArrayOutputStream);
+            BaseFont bf_courier = BaseFont.createFont(BaseFont.COURIER, "Cp1252", false);
+            BaseFont bf_courier1 = BaseFont.createFont(BaseFont.COURIER, "Cp1252", false); 
+            if(watermarkBean.getPosition().equals(WatermarkConstants.WATERMARK_POSITION_FOOTER)){
+             HeaderFooter footer = new HeaderFooter(new Phrase(watermarkBean.getText(), new Font(bf_courier1)), true);
+             footer.setBorder(Rectangle.NO_BORDER);
+            footer.setBorderColor(watermarkBean.getFont().getColor());
+            if(watermarkBean.getAlignment().equals(WatermarkConstants.ALIGN_CENTER)){
+             footer.setAlignment(Element.ALIGN_CENTER);}
+            else if(watermarkBean.getAlignment().equals(WatermarkConstants.ALIGN_RIGHT)){
+                footer.setAlignment(Element.ALIGN_RIGHT); 
+            }
+            else if(watermarkBean.getAlignment().equals(WatermarkConstants.ALIGN_LEFT)){
+                footer.setAlignment(Element.ALIGN_LEFT); 
+            }
+             document.setFooter(footer);}
+            else
+            {
+              HeaderFooter header = new HeaderFooter(
+                         new Phrase(watermarkBean.getText(), new Font(bf_courier)), true);
+             header.setBorder(Rectangle.NO_BORDER);
+             if(watermarkBean.getAlignment().equals(WatermarkConstants.ALIGN_CENTER)){
+                 header.setAlignment(Element.ALIGN_CENTER);}
+                else if(watermarkBean.getAlignment().equals(WatermarkConstants.ALIGN_RIGHT)){
+                    header.setAlignment(Element.ALIGN_RIGHT); 
+                }
+                else if(watermarkBean.getAlignment().equals(WatermarkConstants.ALIGN_LEFT)){
+                    header.setAlignment(Element.ALIGN_LEFT); 
+                }
+              document.setHeader(header);}
+              document.open();
+              int pageCount = 1;
+              PdfContentByte cb = writer.getDirectContent();
+              document.setPageSize(reader.getPageSize(pageCount));
+              document.newPage();
+              PdfImportedPage page = writer.getImportedPage(reader, pageCount);
+              cb.addTemplate(page, 1, 0, 0, 1, 0, 0);
+      PdfOutline root = cb.getRootOutline();
+      document.close();
+      byte[]bs=byteArrayOutputStream.toByteArray();
+      pdfReader=new PdfReader(bs);
             pdfStamp = new PdfStamper(pdfReader, byteArrayOutputStream);
             decorateWatermark(pdfStamp, watermarkBean);
         }

@@ -36,9 +36,24 @@ public class Watermark extends KraPersistableBusinessObjectBase implements Persi
     private String watermarkText;
     private boolean watermarkStatus;
     private String fontSize;
+    private String positionFontSize;
+    
+    public String getPositionFontSize() {
+        return positionFontSize;
+    }
+
+
+    public void setPositionFontSize(String positionFontSize) {
+        this.positionFontSize = positionFontSize;
+    }
+
+
     private String fontColor;
     private String watermarkType;
     private transient FormFile templateFile;
+    private String watermarkPosition;
+    private String watermarkAlignment;
+    
 
     public Long getWatermarkId() {
         return watermarkId;
@@ -140,6 +155,26 @@ public class Watermark extends KraPersistableBusinessObjectBase implements Persi
         this.contentType = contentType;
     }
 
+    public String getWatermarkPosition() {
+        return watermarkPosition;
+    }
+
+
+    public void setWatermarkPosition(String watermarkPosition) {
+        this.watermarkPosition = watermarkPosition;
+    }
+
+
+    public String getWatermarkAlignment() {
+        return watermarkAlignment;
+    }
+
+
+    public void setWatermarkAlignment(String watermarkAlignment) {
+        this.watermarkAlignment = watermarkAlignment;
+    }
+
+
     @Override
     protected LinkedHashMap toStringMapper() {
         LinkedHashMap propMap = new LinkedHashMap();
@@ -148,7 +183,10 @@ public class Watermark extends KraPersistableBusinessObjectBase implements Persi
         propMap.put("watermarkText", this.getWatermarkText());
         propMap.put("watermarkStatus", this.isWatermarkStatus());
         propMap.put("watermarkType", this.getWatermarkType());
+        propMap.put("watermarkPosition", this.getWatermarkPosition());
+        propMap.put("watermarkAlignment", this.getWatermarkAlignment());
         propMap.put("fontSize", this.getFontSize());
+        propMap.put("positionFontSize", this.getPositionFontSize()); 
         propMap.put("fontColor", this.getFontColor());
         propMap.put("updateTimestamp", this.getUpdateTimestamp());
         propMap.put("updateUser", this.getUpdateUser());

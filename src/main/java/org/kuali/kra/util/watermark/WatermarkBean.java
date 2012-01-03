@@ -20,6 +20,7 @@
 
 package org.kuali.kra.util.watermark;
 
+
 import com.lowagie.text.Image;
 
 
@@ -39,7 +40,35 @@ public class WatermarkBean {
     private Font font; 
     
     private Image fileImage;
-  
+    
+    private String position;
+    
+    public Font getPositionFont() {
+        return positionFont;
+    }
+
+    public void setPositionFont(Font positionFont) {
+        this.positionFont = positionFont;
+    }
+
+
+    private String alignment;
+    
+    private Font positionFont;
+    
+    
+    public String getAlignment() {
+        return alignment;
+    }
+
+    public void setAlignment(String alignment) {
+        this.alignment = alignment;
+    }
+
+    public String getPosition() {
+        return position;
+    }
+
 
     public Image getFileImage() {
         return fileImage;
@@ -88,4 +117,11 @@ public class WatermarkBean {
     public void setFont(Font font) {
         this.font = font;
     }
+
+
+public void setPosition(String position) {
+    this.position = position;
+}
+
+
 }
