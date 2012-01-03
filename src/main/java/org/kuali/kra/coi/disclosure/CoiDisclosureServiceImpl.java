@@ -1101,13 +1101,18 @@ public class CoiDisclosureServiceImpl implements CoiDisclosureService {
 
     }
     
+    /**
+     * 
+     * @see org.kuali.kra.coi.disclosure.CoiDisclosureService#getMasterDisclosureDetail(org.kuali.kra.coi.CoiDisclosure)
+     */
     public MasterDisclosureBean getMasterDisclosureDetail(CoiDisclosure coiDisclosure) {
         MasterDisclosureBean masterDisclosureBean = new MasterDisclosureBean();
         String moduleItemKey = Constants.EMPTY_STRING;
         String projectType = Constants.EMPTY_STRING;
         CoiDisclosureProjectBean disclosureProjectBean = null;
+        Collections.sort(coiDisclosure.getCoiDiscDetails());
         for (CoiDiscDetail coiDiscDetail : coiDisclosure.getCoiDiscDetails()) {
-            if (!StringUtils.equals(projectType, coiDiscDetail.getProjectType()) || !StringUtils.equals(projectType, coiDiscDetail.getProjectType())) {
+            if (!StringUtils.equals(projectType, coiDiscDetail.getProjectType()) || !StringUtils.equals(moduleItemKey, coiDiscDetail.getModuleItemKey())) {
                 disclosureProjectBean = getCoiDisclosureProjectBean(coiDiscDetail);
                 masterDisclosureBean.addProject(disclosureProjectBean, coiDiscDetail.getProjectType());
                 if (!StringUtils.equals(projectType, coiDiscDetail.getProjectType())) {
@@ -1122,6 +1127,9 @@ public class CoiDisclosureServiceImpl implements CoiDisclosureService {
         return masterDisclosureBean;
     }
     
+    /*
+     * set up form bean for each project
+     */
     private CoiDisclosureProjectBean getCoiDisclosureProjectBean(CoiDiscDetail coiDiscDetail) {
         CoiDisclosureProjectBean disclosureProjectBean = new CoiDisclosureProjectBean();
         if (coiDiscDetail.isManualEvent()) {
@@ -1132,6 +1140,9 @@ public class CoiDisclosureServiceImpl implements CoiDisclosureService {
         return disclosureProjectBean;
     }
     
+    /*
+     * retrieve manual project
+     */
     private CoiDisclProject getCoiDisclProject(CoiDiscDetail coiDiscDetail) {
         Map <String, Object> fieldValues = new HashMap<String, Object>();
         fieldValues.put("coiDisclosureNumber", coiDiscDetail.getCoiDisclosureNumber());
