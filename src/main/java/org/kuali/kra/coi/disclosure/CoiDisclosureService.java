@@ -156,6 +156,11 @@ public interface CoiDisclosureService {
      */
     boolean isReporter();
     
-    
+    /**
+     * 
+     * This method is to set up form bean to display master displosure projects
+     * @param coiDisclosure
+     * @return
+     */
     MasterDisclosureBean getMasterDisclosureDetail(CoiDisclosure coiDisclosure);
 }
