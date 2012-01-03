@@ -15,6 +15,7 @@
  */
 package org.kuali.kra.irb.notification;
 
+import java.text.SimpleDateFormat;
 import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
@@ -131,6 +132,20 @@ public class IRBNotificationRenderer extends NotificationRendererBase {
             } else if (StringUtils.equals(key, IRBReplacementParameters.COMMITTEE_NAME)) {
                 if (protocol.getProtocolSubmission() != null) {
                     params.put(key, getCommitteeName(protocol.getProtocolSubmission().getCommitteeId()));
+                }
+            } else if (StringUtils.equals(key, IRBReplacementParameters.PROTOCOL_INITIAL_APPROVAL_DATE)) {
+                if ( (protocol.getProtocolSubmission() != null) && (protocol.getApprovalDate() != null) ) {
+                    params.put(key, (new SimpleDateFormat("d'-'MMM'-'yyyy")).format(protocol.getApprovalDate()));
+                }
+            }
+            else if (StringUtils.equals(key, IRBReplacementParameters.PROTOCOL_LAST_APPROVAL_DATE)) {
+                if ( (protocol.getProtocolSubmission() != null) && (protocol.getLastApprovalDate() != null) ) {
+                    params.put(key, (new SimpleDateFormat("d'-'MMM'-'yyyy")).format(protocol.getLastApprovalDate()));
+                }
+            }
+            else if (StringUtils.equals(key, IRBReplacementParameters.PROTOCOL_EXPIRATION_DATE)) {
+                if ( (protocol.getProtocolSubmission() != null) && (protocol.getExpirationDate() != null) ) {
+                    params.put(key, (new SimpleDateFormat("d'-'MMM'-'yyyy")).format(protocol.getExpirationDate()));
                 }
             }
         }
