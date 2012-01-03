@@ -102,7 +102,7 @@ public class CoiDisclosureActionServiceImpl implements CoiDisclosureActionServic
     private boolean isDisclosureDetailExist(CoiDisclosure coiDisclosure,CoiDiscDetail coiDiscDetail) {
         boolean isExist = false;
         for (CoiDiscDetail discDetail : coiDisclosure.getCoiDiscDetails()) {
-            if (StringUtils.equals(discDetail.getProjectType(), coiDiscDetail.getProjectType()) && StringUtils.equals(discDetail.getProjectIdFk(), coiDiscDetail.getProjectIdFk())) {
+            if (StringUtils.equals(discDetail.getProjectType(), coiDiscDetail.getProjectType()) && StringUtils.equals(discDetail.getProjectIdFk(), coiDiscDetail.getProjectIdFk()) && discDetail.getPersonFinIntDisclosureId().equals(coiDiscDetail.getPersonFinIntDisclosureId())) {
                 isExist = true;
                 break;
             }
