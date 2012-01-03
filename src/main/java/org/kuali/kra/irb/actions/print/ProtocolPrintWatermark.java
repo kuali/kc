@@ -116,8 +116,18 @@ public class ProtocolPrintWatermark implements Watermarkable {
                         .getFontColor();
                 watermarkBean.setType(watermark.getWatermarkType() == null ? WatermarkConstants.WATERMARK_TYPE_TEXT : watermark
                         .getWatermarkType());
-
+                watermarkBean.setPosition(watermark.getWatermarkPosition() == null ? WatermarkConstants.WATERMARK_POSITION_HEADER : watermark
+                        .getWatermarkPosition());
+                
+                String watermarkPositionFontSize = watermark.getPositionFontSize() == null ? WatermarkConstants.DEFAULT_FONT_SIZE_CHAR: watermark
+                        .getPositionFontSize();
+                
+                watermarkBean.setAlignment(watermark.getWatermarkAlignment() == null ? WatermarkConstants.ALIGN_CENTER : watermark
+                        .getWatermarkAlignment());
+               
                 watermarkBean.setFont(getWatermarkFont(WatermarkConstants.FONT, watermarkFontSize, watermarkFontColour));
+                watermarkBean.setPositionFont(getWatermarkPositionFont(WatermarkConstants.FONT, watermarkPositionFontSize, watermarkFontColour));
+                
                 watermarkBean.setText(watermark.getWatermarkText());
                 if (watermarkBean.getType().equals(WatermarkConstants.WATERMARK_TYPE_IMAGE)) {
                     watermarkBean.setText(watermark.getFileName());
@@ -171,7 +181,31 @@ public class ProtocolPrintWatermark implements Watermarkable {
         }
         return watermarkFont;
     }
-
+    private Font getWatermarkPositionFont(String watermarkFontName, String watermarkSize, String watermarkColour) {
+        Font watermarkFont = new Font(WatermarkConstants.DEFAULT_FONT_SIZE);
+        watermarkFont.setFont(watermarkFontName);
+        if (StringUtils.isNotBlank(watermarkSize)) {
+            try {
+                watermarkFont.setSize(Integer.parseInt(watermarkSize));
+            }
+            catch (NumberFormatException numberFormatException) {
+                watermarkFont.setSize(WatermarkConstants.DEFAULT_WATERMARK_FONT_SIZE);
+                LOG.error("Exception Occuring in ProtocolPrintWatermark:(getFont:numberFormatException)");
+            }
+        }
+        else {
+            watermarkFont.setSize(WatermarkConstants.DEFAULT_WATERMARK_FONT_SIZE);
+        }
+        if (StringUtils.isNotBlank(watermarkColour)) {
+            watermarkFont.setColor(watermarkColour);
+        }
+        else {
+            watermarkFont.setColor(WatermarkConstants.DEFAULT_WATERMARK_COLOR);
+           
+        }
+        return watermarkFont;
+    }
+    
     public WatermarkBean getWatermarkBean() {
         return watermarkBean;
     }

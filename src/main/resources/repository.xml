@@ -2184,17 +2184,22 @@
 		<field-descriptor name="objectId" column="OBJ_ID" jdbc-type="VARCHAR" />    
 	</class-descriptor>
 	
-		<class-descriptor class="org.kuali.kra.bo.Watermark" table="WATERMARK">
+	<class-descriptor class="org.kuali.kra.bo.Watermark" table="WATERMARK">
 		<field-descriptor name="watermarkId" column="WATERMARK_ID" jdbc-type="BIGINT" primarykey="true" sequence-name="SEQUENCE_WATERMARK_ID" autoincrement="true"/>
 		<field-descriptor name="statusCode" column="STATUS_CODE" jdbc-type="VARCHAR" />
 		<field-descriptor name="watermarkText" column="WATERMARK_TEXT" jdbc-type="VARCHAR" />
 		<field-descriptor name="watermarkStatus" column="WATERMARK_STATUS" jdbc-type="CHAR" conversion="org.kuali.rice.kns.util.OjbCharBooleanConversion" />
 		<field-descriptor name="fontSize" column="FONT_SIZE" jdbc-type="VARCHAR" />
 		<field-descriptor name="fontColor" column="FONT_COLOUR" jdbc-type="VARCHAR" />
-		<field-descriptor name="watermarkType" column="WATERMARK_TYPE" jdbc-type="VARCHAR" />		
+		<field-descriptor name="watermarkType" column="WATERMARK_TYPE" jdbc-type="VARCHAR" />
+	   <field-descriptor name="watermarkPosition" column="POSITION" jdbc-type="VARCHAR" />
+        <field-descriptor name="watermarkAlignment" column="ALIGNMENT" jdbc-type="VARCHAR" />
+       <field-descriptor name="positionFontSize" column="POSITION_FONT" jdbc-type="VARCHAR" />		
 		 <field-descriptor name="fileName" column="FILE_NAME" jdbc-type="VARCHAR"/>
         <field-descriptor name="contentType" column="CONTENT_TYPE" jdbc-type="VARCHAR"/>
-		<field-descriptor name="attachmentContent" column="IMAGE_FILE" jdbc-type="BLOB" />				
+		<field-descriptor name="attachmentContent" column="IMAGE_FILE" jdbc-type="BLOB" />			
+
+	
 		<field-descriptor name="updateTimestamp" column="UPDATE_TIMESTAMP" jdbc-type="TIMESTAMP" />
 		<field-descriptor name="updateUser" column="UPDATE_USER" jdbc-type="VARCHAR" />
 		<field-descriptor name="objectId" column="OBJ_ID" jdbc-type="VARCHAR" />
