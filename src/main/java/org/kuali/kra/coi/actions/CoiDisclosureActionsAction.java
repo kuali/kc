@@ -32,16 +32,47 @@ import org.kuali.kra.web.struts.action.AuditActionHelper;
 import org.kuali.rice.kns.util.GlobalVariables;
 
 public class CoiDisclosureActionsAction extends CoiAction {
+    
+    /**
+     * 
+     * This method is to activate data validation
+     * @param mapping
+     * @param form
+     * @param request
+     * @param response
+     * @return
+     * @throws Exception
+     */
     public ActionForward activate(ActionMapping mapping, ActionForm form, HttpServletRequest request, 
             HttpServletResponse response) throws Exception {
         return new AuditActionHelper().setAuditMode(mapping, (CoiDisclosureForm) form, true);
     }
 
+    /**
+     * 
+     * This method is to deactivate data validation
+     * @param mapping
+     * @param form
+     * @param request
+     * @param response
+     * @return
+     * @throws Exception
+     */
     public ActionForward deactivate(ActionMapping mapping, ActionForm form, HttpServletRequest request, 
             HttpServletResponse response) throws Exception {
         return new AuditActionHelper().setAuditMode(mapping, (CoiDisclosureForm) form, false);
     }
 
+    /**
+     * 
+     * This method is for approving coi disclosure
+     * @param mapping
+     * @param form
+     * @param request
+     * @param response
+     * @return
+     * @throws Exception
+     */
     public ActionForward approveDisclosure(ActionMapping mapping, ActionForm form, HttpServletRequest request, HttpServletResponse response)
             throws Exception {
         /* what include here

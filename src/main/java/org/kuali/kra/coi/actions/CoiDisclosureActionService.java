@@ -17,8 +17,18 @@ package org.kuali.kra.coi.actions;
 
 import org.kuali.kra.coi.CoiDisclosure;
 
+/**
+ * 
+ * This is an interface for methods needed for business logic in disclosure actions page
+ */
 public interface CoiDisclosureActionService {
 
+    /**
+     * 
+     * This method implements the business logic for approving disclosure
+     * @param coiDisclosure
+     * @param coiDisclosureStatusCode
+     */
     void approveDisclosure(CoiDisclosure coiDisclosure, String coiDisclosureStatusCode);
 
 }
