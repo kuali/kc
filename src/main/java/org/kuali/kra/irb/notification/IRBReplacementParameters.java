@@ -43,6 +43,10 @@ public class IRBReplacementParameters {
     public static final String USER_FULLNAME = "{USER_FULLNAME}";
     public static final String PROTOCOL_REVIEW_TYPE_DESC = "{PROTOCOL_REVIEW_TYPE_DESC}";
     public static final String COMMITTEE_NAME = "{COMMITTEE_NAME}";
+    // parameters below were added for watermark subtext replacement
+    public static final String PROTOCOL_INITIAL_APPROVAL_DATE = "{PROTOCOL_INITIAL_APPROVAL_DATE}";
+    public static final String PROTOCOL_LAST_APPROVAL_DATE = "{PROTOCOL_LAST_APPROVAL_DATE}";
+    public static final String PROTOCOL_EXPIRATION_DATE = "{PROTOCOL_EXPIRATION_DATE}";
     
     public static final String[] REPLACEMENT_PARAMETERS = new String[] { DOCUMENT_NUMBER,
                                                                          PROTOCOL_NUMBER, 
@@ -65,7 +69,11 @@ public class IRBReplacementParameters {
                                                                          SUBMISSION_STATUS_NAME,
                                                                          USER_FULLNAME,
                                                                          PROTOCOL_REVIEW_TYPE_DESC,
-                                                                         COMMITTEE_NAME
+                                                                         COMMITTEE_NAME, 
+                                                                         // parameters below were added for watermark text
+                                                                         PROTOCOL_INITIAL_APPROVAL_DATE,
+                                                                         PROTOCOL_LAST_APPROVAL_DATE,
+                                                                         PROTOCOL_EXPIRATION_DATE
                                                                        };
     
 }
