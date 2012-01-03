@@ -307,8 +307,12 @@ public class SF424AV1_0Generator extends SF424BaseGenerator {
             BudgetSecondQuarterAmounts budgetSecondQuarterAmounts = BudgetSecondQuarterAmounts.Factory.newInstance();
             BudgetThirdQuarterAmounts budgetThirdQuarterAmounts = BudgetThirdQuarterAmounts.Factory.newInstance();
             BudgetFourthQuarterAmounts budgetFourthQuarterAmounts = BudgetFourthQuarterAmounts.Factory.newInstance();
-
-            costSharing = budget.getCostSharingAmount();
+            for (BudgetPeriod budgetPeriod : budget.getBudgetPeriods()) {
+                for (BudgetLineItem lineItem : budgetPeriod.getBudgetLineItems()) {
+                    if(budget.getSubmitCostSharingFlag() && lineItem.getSubmitCostSharingFlag())
+                        costSharing=costSharing.add(lineItem.getCostSharingAmount());
+                    }
+            }
             totalFedCost = budget.getTotalCost().subtract(costSharing);
             BudgetDecimal totalEstimation = budget.getTotalCost().divide(new BudgetDecimal(4));
             BudgetDecimal costShareEstimation = costSharing.divide(new BudgetDecimal(4));
