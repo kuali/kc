@@ -18,6 +18,10 @@ package org.kuali.kra.coi;
 import org.kuali.kra.bo.KraPersistableBusinessObjectBase;
 import java.util.LinkedHashMap;
 
+/**
+ * 
+ * This class is the bo class of coi disclosure history
+ */
 public class CoiDisclosureHistory extends KraPersistableBusinessObjectBase { 
     
 

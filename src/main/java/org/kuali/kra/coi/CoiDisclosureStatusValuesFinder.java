@@ -49,6 +49,9 @@ public class CoiDisclosureStatusValuesFinder extends KeyValuesBase {
         return keyValues;
     }
 
+    /*
+     * based on the parameter from jsp, and check if the status code should be included in keyvalue pairs list
+     */
     private boolean validStatus(String statusCode) {
         boolean isValid;
         if (StringUtils.equals(APPROVE, getActionType())) {
@@ -67,6 +70,7 @@ public class CoiDisclosureStatusValuesFinder extends KeyValuesBase {
         return  (List<CoiDisclosureStatus>)KraServiceLocator.getService(BusinessObjectService.class).findAll(CoiDisclosureStatus.class);
 
     }
+    
     public String getActionType() {
         return actionType;
     }
