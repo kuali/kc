@@ -116,6 +116,10 @@
     <%-- <kra-coi:proposalProjects /> --%>
     <kra-coi:masterProtocol masterDisclosureProjects="${masterDisclosure.protocolProjects}"/>
 </c:if>
+<c:if test="${fn:length(masterDisclosure.allProjects) > 0}" >
+    <%-- <kra-coi:proposalProjects /> --%>
+    <kra-coi:masterDisclosures />
+</c:if>
 
 <kul:panelFooter />
 	<kul:documentControls 
