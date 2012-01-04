@@ -268,6 +268,7 @@ public class FinancialEntitySummaryHelper implements Serializable {
             entityAddress += ObjectUtils.isNull(address.getAddressLine3()) ? "" : address.getAddressLine3() + newLine;
             entityAddress += ObjectUtils.isNull(address.getCity()) ? "" : address.getCity() + newLine;
             entityAddress += ObjectUtils.isNull(address.getPostalCode()) ? "" : address.getPostalCode() + newLine;
+            entityAddress += ObjectUtils.isNull(address.getState()) ? "" : address.getState() + newLine;
             entityAddress += ObjectUtils.isNull(address.getCountryCode()) ? "" : address.getCountryCode() + newLine;
             webAddress += ObjectUtils.isNull(address.getWebAddress1()) ? "" : address.getWebAddress1() + newLine;
             webAddress += ObjectUtils.isNull(address.getWebAddress2()) ? "" : address.getWebAddress2() + newLine;
