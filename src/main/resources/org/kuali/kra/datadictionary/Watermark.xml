@@ -20,13 +20,17 @@
       <list>
         <ref bean="Watermark-watermarkId" />
          <ref bean="Watermark-statusCode" />
-          <ref bean="Watermark-watermarkText" />
+           <ref bean="Watermark-watermarkPosition" />
+            <ref bean="Watermark-watermarkAlignment" /> 
+              <ref bean="Watermark-positionFontSize" />
+              <ref bean="Watermark-watermarkText" />
            <ref bean="Watermark-watermarkStatus" />
             <ref bean="Watermark-watermarkType" />
              <ref bean="Watermark-fontSize" />
-              <ref bean="Watermark-fontColor" />
+            <ref bean="Watermark-fontColor" />
   			   <ref bean="Watermark-templateFile" />
         	   <ref bean="Watermark-versionNumber" />
+        	   
       </list>
     </property>
   </bean>
@@ -84,7 +88,7 @@
     <property name="forceUppercase" value="false" />
     <property name="label" value="Status Code" />
     <property name="shortLabel" value="Watermark status Code" />
-    <property name="maxLength" value="8" />
+	<property name="maxLength" value="8" />
     <property name="validationPattern" >
       <bean parent="AlphaNumericValidationPattern" />
     </property>
@@ -106,9 +110,30 @@
     <property name="validationPattern" >
       <bean parent="NumericValidationPattern" />
     </property>
+    
+     
     <property name="control" >
       <bean parent="SelectControlDefinition"
             p:valuesFinderClass="org.kuali.kra.lookup.keyvalue.WatermarkFontValuesFinder"
+            p:includeKeyInLabel="false" />
+    </property>
+    <property name="summary" value="Font Size" />
+    <property name="description" value="Font Size" />
+  </bean>
+   <bean id="Watermark-positionFontSize" parent="Watermark-positionFontSize-parentBean" />
+  <bean id="Watermark-positionFontSize-parentBean" abstract="true" parent="AttributeDefinition">
+    <property name="name" value="positionFontSize" />
+    <property name="forceUppercase" value="false" />
+    <property name="label" value="Position Font Size" />
+    <property name="shortLabel" value="Position Font Size" />
+    <property name="maxLength" value="5" />
+    <property name="validationPattern" >
+      <bean parent="NumericValidationPattern" />
+    </property>
+    
+     <property name="control" >
+      <bean parent="SelectControlDefinition"
+            p:valuesFinderClass="org.kuali.kra.lookup.keyvalue.WatermarkPositionFontValuesFinder"
             p:includeKeyInLabel="false" />
     </property>
     <property name="summary" value="Font Size" />
@@ -135,6 +160,45 @@
     <property name="description" value="Font Color" />
   </bean>
   
+    <bean id="Watermark-watermarkPosition" parent="Watermark-watermarkPosition-parentBean" />
+  <bean id="Watermark-watermarkPosition-parentBean" abstract="true" parent="AttributeDefinition">
+    <property name="name" value="watermarkPosition" />
+    <property name="forceUppercase" value="true" />
+    <property name="label" value="Position" />
+    <property name="shortLabel" value="Watermark Position" />
+    <property name="maxLength" value="40" />
+    <property name="validationPattern" >
+      <bean parent="AnyCharacterValidationPattern"
+            p:allowWhitespace="true" />
+    </property>
+   <property name="control" >
+      <bean parent="SelectControlDefinition"
+            p:valuesFinderClass="org.kuali.kra.lookup.keyvalue.WatermarkPositionValuesFinder"
+            p:includeKeyInLabel="false" />
+    </property>
+    <property name="summary" value="Position" />
+    <property name="description" value="Position" />
+  </bean>
+  
+  <bean id="Watermark-watermarkAlignment" parent="Watermark-watermarkAlignment-parentBean" />
+  <bean id="Watermark-watermarkAlignment-parentBean" abstract="true" parent="AttributeDefinition">
+    <property name="name" value="watermarkAlignment" />
+    <property name="forceUppercase" value="true" />
+    <property name="label" value="Alignment" />
+    <property name="shortLabel" value="Watermark Alignment" />
+    <property name="maxLength" value="40" />
+    <property name="validationPattern" >
+      <bean parent="AnyCharacterValidationPattern"
+            p:allowWhitespace="true" />
+    </property>
+   <property name="control" >
+      <bean parent="SelectControlDefinition"
+            p:valuesFinderClass="org.kuali.kra.lookup.keyvalue.WatermarkAlignmentValuesFinder"
+            p:includeKeyInLabel="false" />
+    </property>
+    <property name="summary" value="Alignment" />
+    <property name="description" value="Alignment" />
+  </bean>
   <bean id="Watermark-watermarkText" parent="Watermark-watermarkText-parentBean" />
 
   <bean id="Watermark-watermarkText-parentBean" abstract="true" parent="AttributeDefinition">
@@ -210,7 +274,13 @@
               <bean parent="FieldDefinition"
                     p:attributeName="watermarkType" />
               <bean parent="FieldDefinition"
+                    p:attributeName="watermarkPosition" />
+               <bean parent="FieldDefinition"
+                    p:attributeName="watermarkAlignment" />      
+              <bean parent="FieldDefinition"
                     p:attributeName="fontSize" />
+             <bean parent="FieldDefinition"
+                    p:attributeName="positionFontSize" />
               <bean parent="FieldDefinition"
                     p:attributeName="fontColor" /> 
               
@@ -257,8 +327,14 @@
               p:attributeName="watermarkStatus" />
          <bean parent="FieldDefinition"
               p:attributeName="watermarkType" />
+        <bean parent="FieldDefinition"
+              p:attributeName="watermarkPosition" />  
+         <bean parent="FieldDefinition"
+              p:attributeName="watermarkAlignment" />        
          <bean parent="FieldDefinition"
               p:attributeName="fontSize" />
+             <bean parent="FieldDefinition"
+              p:attributeName="positionFontSize" />     
          <bean parent="FieldDefinition"
               p:attributeName="fontColor" />
          <bean parent="FieldDefinition"
