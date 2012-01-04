@@ -107,7 +107,7 @@ public class IndirectCostDetails {
     // start add costSaring for fedNonFedBudget repport
 
     public BudgetDecimal getBaseCostSharing() {
-        return baseCostSharing;
+        return baseCostSharing==null?BudgetDecimal.ZERO:baseCostSharing;
     }
 
     public void setBaseCostSharing(BudgetDecimal baseCostSharing) {
@@ -115,7 +115,7 @@ public class IndirectCostDetails {
     }
 
     public BudgetDecimal getCostSharing() {
-        return costSharing;
+        return costSharing==null?BudgetDecimal.ZERO:costSharing;
     }
 
     public void setCostSharing(BudgetDecimal costSharing) {
