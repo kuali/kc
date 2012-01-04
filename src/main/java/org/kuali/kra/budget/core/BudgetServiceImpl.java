@@ -704,7 +704,7 @@ public class BudgetServiceImpl<T extends BudgetParent> implements BudgetService<
         if (projectIncomes != null && !projectIncomes.isEmpty()) {
             updateProjectIncomes(budgetDocument, projectIncomes);
         }
-        budgetSummaryService.calculateBudget(budgetDocument.getBudget());
+        getBudgetCommonService(budget.getBudgetDocument().getParentDocument()).calculateBudgetOnSave(budget);
         for(BudgetPeriod tmpBudgetPeriod: budgetDocument.getBudget().getBudgetPeriods()) {
             BudgetModular tmpBudgetModular = tmpBudgetModulars.get(""+tmpBudgetPeriod.getBudget().getVersionNumber() + tmpBudgetPeriod.getBudgetPeriod());
             if(tmpBudgetModular != null) {
@@ -717,7 +717,10 @@ public class BudgetServiceImpl<T extends BudgetParent> implements BudgetService<
         budgetDocument.getParentDocument().refreshBudgetDocumentVersions();
         return budgetDocument;
     }
-    
+
+    protected BudgetCommonService<BudgetParent> getBudgetCommonService(BudgetParentDocument parentBudgetDocument) {
+        return BudgetCommonServiceFactory.createInstance(parentBudgetDocument);
+    }    
     /**
      * 
      * This method is to handle budgetprojectincomes independently.

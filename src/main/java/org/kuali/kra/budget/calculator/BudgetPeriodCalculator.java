@@ -348,7 +348,7 @@ public class BudgetPeriodCalculator {
     public void syncToPeriodDirectCostLimit(Budget budget, BudgetPeriod budgetPeriodBean, BudgetLineItem budgetDetailBean) {
         // If total_cost equals total_cost_limit, disp msg "Cost limit and total cost for this period is already in sync."
         BudgetDecimal directCostLimit = budgetPeriodBean.getDirectCostLimit();
-        if(!checkSyncToLimitErrors(budgetDetailBean,directCostLimit)){
+        if(!checkSyncToLimitErrors(budget,budgetDetailBean,directCostLimit)){
             return;
         }
         calculate(budget, budgetPeriodBean);
@@ -390,7 +390,7 @@ public class BudgetPeriodCalculator {
             totalCost = BudgetDecimal.ZERO;
         }
 
-        if ((totalCost.add(difference)).isLessEqual(BudgetDecimal.ZERO)) {
+        if (isProposalBudget(budget) && (totalCost.add(difference)).isLessEqual(BudgetDecimal.ZERO)) {
             errorMessages.add(KeyConstants.INSUFFICIENT_AMOUNT_TO_PERIOD_DIRECT_COST_LIMIT_SYNC);
             return;
         }
@@ -406,7 +406,7 @@ public class BudgetPeriodCalculator {
 
         // If total_cost equals total_cost_limit, disp msg "Cost limit and total cost for this period is already in sync."
         BudgetDecimal costLimit = budgetPeriodBean.getTotalCostLimit();
-        if(!checkSyncToLimitErrors(budgetDetailBean,costLimit)){
+        if(!checkSyncToLimitErrors(budget,budgetDetailBean,costLimit)){
             return;
         }
         calculate(budget, budgetPeriodBean);
@@ -452,7 +452,7 @@ public class BudgetPeriodCalculator {
             totalCost = BudgetDecimal.ZERO;
         }
 
-        if ((totalCost.add(difference)).isLessEqual(BudgetDecimal.ZERO)) {
+        if (isProposalBudget(budget) && (totalCost.add(difference)).isLessEqual(BudgetDecimal.ZERO)) {
             errorMessages.add(KeyConstants.INSUFFICIENT_AMOUNT_TO_SYNC);
             return;
         }
@@ -468,7 +468,7 @@ public class BudgetPeriodCalculator {
      * @param budgetPeriodBean
      * @param budgetDetailBean
      */
-    private boolean checkSyncToLimitErrors(BudgetLineItem budgetDetailBean,BudgetDecimal costLimit) {
+    private boolean checkSyncToLimitErrors(Budget budget,BudgetLineItem budgetDetailBean,BudgetDecimal costLimit) {
         if (budgetDetailBean.getBudgetCategory().getBudgetCategoryTypeCode().equals(KeyConstants.PERSONNEL_CATEGORY) && 
               !budgetDetailBean.getBudgetPersonnelDetailsList().isEmpty()) {
             errorMessages.add(KeyConstants.PERSONNEL_LINE_ITEM_EXISTS);
@@ -476,11 +476,14 @@ public class BudgetPeriodCalculator {
         }
 
         // if cost_limit is 0 disp msg "Cost limit for this period is set to 0. Cannot sync a line item cost to zero limit."
-        if (costLimit.equals(BudgetDecimal.ZERO)) {
+        if (isProposalBudget(budget) && costLimit.equals(BudgetDecimal.ZERO)) {
             errorMessages.add(KeyConstants.CANNOT_SYNC_TO_ZERO_LIMIT);
             return false;
         }
         return true;
+    }
+    private boolean isProposalBudget(Budget budget){
+        return budget.getBudgetDocument().getProposalBudgetFlag().equals("true");
     }
 
     public List<String> getErrorMessages() {
