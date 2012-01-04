@@ -32,8 +32,6 @@ import org.kuali.kra.coi.CoiDisclosure;
 import org.kuali.kra.coi.CoiDisclosureDocument;
 import org.kuali.kra.coi.CoiDisclosureEventType;
 import org.kuali.kra.coi.CoiDisclosureForm;
-import org.kuali.kra.coi.CoiDisclosureHistory;
-import org.kuali.kra.coi.CoiDisclosureStatus;
 import org.kuali.kra.coi.certification.CertifyDisclosureEvent;
 import org.kuali.kra.coi.service.CoiPrintingService;
 import org.kuali.kra.infrastructure.Constants;
@@ -43,10 +41,12 @@ import org.kuali.rice.core.config.ConfigContext;
 import org.kuali.rice.kew.util.KEWConstants;
 import org.kuali.rice.kns.util.GlobalVariables;
 import org.kuali.rice.kns.util.KNSConstants;
+import org.kuali.rice.kns.web.struts.form.KualiDocumentFormBase;
 import org.springframework.util.CollectionUtils;
 
 public class CoiDisclosureAction extends CoiAction {
 
+   private static final String MASTER_DISCLOSURE = "masterDisclosure";
    
     public ActionForward addDisclosurePersonUnit(ActionMapping mapping, ActionForm form, HttpServletRequest request,
             HttpServletResponse response) throws Exception {
@@ -104,9 +104,25 @@ public class CoiDisclosureAction extends CoiAction {
         coiDisclosureDocument.getCoiDisclosure().initSelectedUnit();
         // TODO : 'checkToLoadDisclosureDetails' should not need to be executed for every action.  need to make it somewhere ?
 //        checkToLoadDisclosureDetails(coiDisclosureDocument.getCoiDisclosure(), ((CoiDisclosureForm) form).getMethodToCall(), coiDisclosureForm.getDisclosureHelper().getNewProjectId());
-        if ((StringUtils.equals("reload", coiDisclosureForm.getMethodToCall()) || StringUtils.equals("headerTab", coiDisclosureForm.getMethodToCall()) || StringUtils.equals("docHandler", coiDisclosureForm.getMethodToCall())) && coiDisclosureDocument.getCoiDisclosure().isApprovedDisclosure()) {
-            coiDisclosureForm.getDisclosureHelper().setMasterDisclosureBean(getCoiDisclosureService().getMasterDisclosureDetail(coiDisclosureDocument.getCoiDisclosure()));
-            actionForward = mapping.findForward("masterDisclosure");            
+        if ((StringUtils.equals("reload", coiDisclosureForm.getMethodToCall())
+                || StringUtils.equals("headerTab", coiDisclosureForm.getMethodToCall()) || StringUtils.equals("docHandler",
+                coiDisclosureForm.getMethodToCall())) && coiDisclosureDocument.getCoiDisclosure().isApprovedDisclosure()) {
+            coiDisclosureForm.getDisclosureHelper().setMasterDisclosureBean(
+                    getCoiDisclosureService().getMasterDisclosureDetail(coiDisclosureDocument.getCoiDisclosure()));
+            actionForward = mapping.findForward(MASTER_DISCLOSURE);
+        }
+        else {
+            String command = request.getParameter("command");
+            if (StringUtils.isNotBlank(command) && MASTER_DISCLOSURE.equals(command)) {
+                // 'view' in master disclosure's 'Disclosures' list
+                super.loadDocument((KualiDocumentFormBase) form);
+                coiDisclosureDocument = (CoiDisclosureDocument) coiDisclosureForm.getDocument();
+                coiDisclosureDocument.getCoiDisclosure().initSelectedUnit();
+                coiDisclosureForm.getDisclosureHelper().setMasterDisclosureBean(
+                        getCoiDisclosureService().getMasterDisclosureDetail(coiDisclosureDocument.getCoiDisclosure()));
+                actionForward = mapping.findForward(MASTER_DISCLOSURE);
+            }
+
         }
         return actionForward;
 

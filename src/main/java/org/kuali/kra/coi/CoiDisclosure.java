@@ -99,7 +99,9 @@ public class CoiDisclosure extends KraPersistableBusinessObjectBase implements S
     private SimpleDateFormat dateFormatter = new SimpleDateFormat("MM/dd/yyyy");
 
 //    private CoiStatus coiStatus; 
-//    private CoiDispositionStatus coiDispositionStatus; 
+    private CoiDisclosureStatus coiDisclosureStatus; 
+    private CoiDispositionStatus coiDispositionStatus; 
+    private CoiDisclosureEventType coiDisclosureEventType;
     @SkipVersioning
     private List<CoiDisclProject> coiDisclProjects; 
     @SkipVersioning
@@ -640,6 +642,33 @@ public class CoiDisclosure extends KraPersistableBusinessObjectBase implements S
     public boolean isApprovedDisclosure() {
 
         return CoiDisclosureStatus.APPROVE_DISCLOSURE_CODES.contains(this.disclosureStatusCode);
+    }
+
+    public CoiDispositionStatus getCoiDispositionStatus() {
+        if (StringUtils.isNotEmpty(disclosureDispositionCode) && coiDispositionStatus == null) {
+            this.refreshReferenceObject("coiDispositionStatus");
+        }
+        return coiDispositionStatus;
+    }
+
+    public void setCoiDispositionStatus(CoiDispositionStatus coiDispositionStatus) {
+        this.coiDispositionStatus = coiDispositionStatus;
+    }
+
+    public CoiDisclosureStatus getCoiDisclosureStatus() {
+        return coiDisclosureStatus;
+    }
+
+    public void setCoiDisclosureStatus(CoiDisclosureStatus coiDisclosureStatus) {
+        this.coiDisclosureStatus = coiDisclosureStatus;
+    }
+
+    public CoiDisclosureEventType getCoiDisclosureEventType() {
+        return coiDisclosureEventType;
+    }
+
+    public void setCoiDisclosureEventType(CoiDisclosureEventType coiDisclosureEventType) {
+        this.coiDisclosureEventType = coiDisclosureEventType;
     }
 
  }

@@ -19,8 +19,12 @@ import java.io.Serializable;
 import java.util.ArrayList;
 import java.util.List;
 
+import org.apache.commons.collections.CollectionUtils;
+import org.drools.core.util.StringUtils;
 import org.kuali.kra.bo.KraPersistableBusinessObjectBase;
 import org.kuali.kra.coi.CoiDiscDetail;
+import org.kuali.kra.coi.CoiDisclosure;
+import org.kuali.kra.coi.Disclosurable;
 
 public class CoiDisclosureProjectBean implements Serializable {
     /**
@@ -31,7 +35,10 @@ public class CoiDisclosureProjectBean implements Serializable {
     // so wait after 4.0
     private KraPersistableBusinessObjectBase disclosureProject;
     private List<CoiDiscDetail> projectDiscDetails;
-
+    private CoiDisclosure coiDisclosure;
+    private String projectName;
+    private String projectId;
+    
     public CoiDisclosureProjectBean() {
         projectDiscDetails = new ArrayList<CoiDiscDetail> ();
     }
@@ -51,6 +58,56 @@ public class CoiDisclosureProjectBean implements Serializable {
 
     public void setProjectDiscDetails(List<CoiDiscDetail> projectDiscDetails) {
         this.projectDiscDetails = projectDiscDetails;
+    }
+
+    public CoiDisclosure getCoiDisclosure() {
+        if (coiDisclosure == null) {
+            coiDisclosure = getOriginalCoiDisclosure();
+        }
+        return coiDisclosure;
+    }
+
+    private CoiDisclosure getOriginalCoiDisclosure() {
+        
+        if (CollectionUtils.isNotEmpty(projectDiscDetails)) {
+            if (projectDiscDetails.get(0).getOriginalCoiDisclosure() == null) {
+                return projectDiscDetails.get(0).getCoiDisclosure();
+            } else {
+                return projectDiscDetails.get(0).getOriginalCoiDisclosure();
+            }
+        } else {
+            return null;
+        }
+    }
+    
+    public void setCoiDisclosure(CoiDisclosure coiDisclosure) {
+        this.coiDisclosure = coiDisclosure;
+    }
+
+
+    public String getProjectName() {
+        if (StringUtils.isEmpty(projectName)) {
+                projectName = ((Disclosurable)disclosureProject).getProjectName();
+        }
+        return projectName;
+    }
+
+
+    public void setProjectName(String projectName) {
+        this.projectName = projectName;
+    }
+
+
+    public String getProjectId() {
+        if (StringUtils.isEmpty(projectId)) {
+                projectId = ((Disclosurable)disclosureProject).getProjectId();
+        }
+        return projectId;
+    }
+
+
+    public void setProjectId(String projectId) {
+        this.projectId = projectId;
     }
 
 }

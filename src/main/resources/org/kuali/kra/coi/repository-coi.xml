@@ -83,10 +83,16 @@
 		<reference-descriptor name="coiStatus" class-ref="org.kuali.kra.bo.CoiStatus" auto-retrieve="false" auto-update="none" auto-delete="none"> 
 			<foreignkey field-ref="coiStatusCode"/>
 		</reference-descriptor>
-		<reference-descriptor name="coiDispositionStatus" class-ref="org.kuali.kra.bo.CoiDispositionStatus" auto-retrieve="false" auto-update="none" auto-delete="none"> 
-			<foreignkey field-ref="coiDispositionCode"/>
-		</reference-descriptor>
  -->		
+		<reference-descriptor name="coiDisclosureStatus" class-ref="org.kuali.kra.coi.CoiDisclosureStatus" auto-retrieve="true" auto-update="none" auto-delete="none"> 
+			<foreignkey field-ref="disclosureStatusCode"/>
+		</reference-descriptor>
+		<reference-descriptor name="coiDispositionStatus" class-ref="org.kuali.kra.coi.CoiDispositionStatus" auto-retrieve="true" auto-update="none" auto-delete="none"> 
+			<foreignkey field-ref="disclosureDispositionCode"/>
+		</reference-descriptor>
+		<reference-descriptor name="coiDisclosureEventType" class-ref="org.kuali.kra.coi.CoiDisclosureEventType" auto-retrieve="true" auto-update="none" auto-delete="none"> 
+			<foreignkey field-ref="eventTypeCode"/>
+		</reference-descriptor>
 	</class-descriptor>
 
 
@@ -414,6 +420,7 @@
 		<field-descriptor name="projectType" column="PROJECT_TYPE" jdbc-type="VARCHAR" />
 		<field-descriptor name="projectIdFk" column="PROJECT_ID_FK" jdbc-type="VARCHAR" />
 		<field-descriptor name="copiedCoiDiscDetailId" column="COPIED_COI_DISC_DETAILS_ID" jdbc-type="BIGINT" />
+		<field-descriptor name="originalCoiDisclosureId" column="ORIGINAL_COI_DISCLOSURE_ID" jdbc-type="BIGINT" />
 		<field-descriptor name="versionNumber" column="VER_NBR" jdbc-type="BIGINT" locking="true" />
 		<field-descriptor name="objectId" column="OBJ_ID" jdbc-type="VARCHAR" />
 		<reference-descriptor name="coiEntityStatusCode" class-ref="org.kuali.kra.coi.CoiEntityStatusCode" auto-retrieve="true" auto-update="none" auto-delete="none"> 
@@ -424,6 +431,9 @@
 		</reference-descriptor>
 		<reference-descriptor name="personFinIntDisclosure" class-ref="org.kuali.kra.coi.personfinancialentity.PersonFinIntDisclosure" auto-retrieve="true" auto-update="none" auto-delete="none"> 
 			<foreignkey field-ref="personFinIntDisclosureId"/>
+		</reference-descriptor>
+		<reference-descriptor name="originalCoiDisclosure" class-ref="org.kuali.kra.coi.CoiDisclosure" auto-retrieve="true" auto-update="none" auto-delete="none"> 
+			<foreignkey field-ref="originalCoiDisclosureId"/>
 		</reference-descriptor>
 	</class-descriptor>	
 	
@@ -511,4 +521,12 @@
 		<field-descriptor name="versionNumber" column="VER_NBR" jdbc-type="BIGINT" locking="true" />
 		<field-descriptor name="objectId" column="OBJ_ID" jdbc-type="VARCHAR" />
 	</class-descriptor>    
+	<class-descriptor class="org.kuali.kra.coi.CoiDispositionStatus" table="COI_DISPOSITION_STATUS">
+		<field-descriptor name="coiDispositionCode" column="COI_DISPOSITION_CODE" jdbc-type="INTEGER" primarykey="true" />
+		<field-descriptor name="description" column="DESCRIPTION" jdbc-type="VARCHAR" />
+		<field-descriptor name="updateTimestamp" column="UPDATE_TIMESTAMP" jdbc-type="TIMESTAMP" />
+		<field-descriptor name="updateUser" column="UPDATE_USER" jdbc-type="VARCHAR" />
+		<field-descriptor name="versionNumber" column="VER_NBR" jdbc-type="BIGINT" locking="true" />
+		<field-descriptor name="objectId" column="OBJ_ID" jdbc-type="VARCHAR" />
+	</class-descriptor>
 </descriptor-repository>

@@ -26,7 +26,7 @@ import org.kuali.kra.irb.protocol.ProtocolType;
 import org.kuali.kra.proposaldevelopment.bo.ProposalType;
 import org.kuali.rice.kns.util.KualiDecimal;
 
-public class CoiDisclProject extends KraPersistableBusinessObjectBase { 
+public class CoiDisclProject extends KraPersistableBusinessObjectBase implements Disclosurable { 
     
 
     /**
@@ -307,6 +307,16 @@ public class CoiDisclProject extends KraPersistableBusinessObjectBase {
             }
         }
         return isComplete;
+    }
+    @Override
+    public String getProjectName() {
+        // TODO Auto-generated method stub
+        return getCoiProjectTitle();
+    }
+    @Override
+    public String getProjectId() {
+        // TODO Auto-generated method stub
+        return getCoiProjectId();
     }
 
 }

@@ -26,6 +26,8 @@ import org.kuali.kra.bo.KraPersistableBusinessObjectBase;
 import org.kuali.kra.coi.CoiDiscDetail;
 import org.kuali.kra.coi.CoiDisclosure;
 import org.kuali.kra.coi.CoiDisclosureHistory;
+import org.kuali.kra.coi.CoiDisclosureStatus;
+import org.kuali.kra.coi.CoiDispositionStatus;
 import org.kuali.rice.kns.service.BusinessObjectService;
 import org.kuali.rice.kns.util.ObjectUtils;
 
@@ -49,16 +51,17 @@ public class CoiDisclosureActionServiceImpl implements CoiDisclosureActionServic
         CoiDisclosure masterCoiDisclosure = getMasterDisclosure(coiDisclosure.getCoiDisclosureNumber());
         List<KraPersistableBusinessObjectBase> disclosures = new ArrayList<KraPersistableBusinessObjectBase>();
         coiDisclosure.setDisclosureStatusCode(coiDisclosureStatusCode);
+        coiDisclosure.setDisclosureDispositionCode(CoiDispositionStatus.APPROVED);
         disclosures.add(coiDisclosure);
         if (masterCoiDisclosure != null) {
             copyDisclosureDetails(masterCoiDisclosure, coiDisclosure);
             masterCoiDisclosure.setCurrentDisclosure(false);
-            coiDisclosure.setCurrentDisclosure(true);
+//            coiDisclosure.setCurrentDisclosure(true);
             disclosures.add(masterCoiDisclosure);
 
-        } else {
-            coiDisclosure.setCurrentDisclosure(true);
-        }
+        } 
+        coiDisclosure.setCurrentDisclosure(true);
+        
         disclosures.add(createDisclosureHistory(coiDisclosure));
         businessObjectService.save(disclosures);
     }
@@ -90,6 +93,9 @@ public class CoiDisclosureActionServiceImpl implements CoiDisclosureActionServic
                 coiDiscDetail.setCopiedCoiDiscDetailId(coiDiscDetail.getCoiDiscDetailId());
                 coiDiscDetail.setSequenceNumber(coiDisclosure.getSequenceNumber());
                 coiDiscDetail.setCoiDiscDetailId(null);
+                if (coiDiscDetail.getOriginalCoiDisclosureId() == null) {
+                    coiDiscDetail.setOriginalCoiDisclosureId(masterCoiDisclosure.getCoiDisclosureId());
+                }
                 coiDisclosure.getCoiDiscDetails().add(coiDiscDetail);
             }
         }
