@@ -31,9 +31,7 @@
 
 <script language="JavaScript" type="text/javascript" src="dwr/engine.js"></script>
 
-<script language="JavaScript" type="text/javascript" src="dwr/util.js"></script>
-	
-<script language="JavaScript" type="text/javascript" src="dwr/interface/AwardHierarchyUIService.js"></script>	
+<script language="JavaScript" type="text/javascript" src="dwr/util.js"></script>	
 
 <script type="text/javascript" src="scripts/jquery/jquery.js"></script>
 <link rel="stylesheet" href="css/jquery/screen.css" type="text/css" />
