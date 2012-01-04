@@ -18,10 +18,13 @@ package org.kuali.kra.coi.disclosure;
 import java.sql.Date;
 import java.util.ArrayList;
 import java.util.Collections;
+import java.util.Comparator;
 import java.util.HashMap;
 import java.util.Iterator;
 import java.util.List;
 import java.util.Map;
+
+import noNamespace.ReportType;
 
 import org.apache.commons.collections.CollectionUtils;
 import org.apache.commons.lang.StringUtils;
@@ -1123,7 +1126,13 @@ public class CoiDisclosureServiceImpl implements CoiDisclosureService {
             disclosureProjectBean.getProjectDiscDetails().add(coiDiscDetail);            
         }
         
-        
+        Collections.sort(masterDisclosureBean.getAllProjects(), new Comparator<CoiDisclosureProjectBean>() {
+            public int compare(CoiDisclosureProjectBean disclosureProjectBean1, CoiDisclosureProjectBean disclosureProjectBean2) {
+                return disclosureProjectBean1.getCoiDisclosure().getSequenceNumber().compareTo(
+                        disclosureProjectBean2.getCoiDisclosure().getSequenceNumber());
+            }
+        });
+
         return masterDisclosureBean;
     }
     

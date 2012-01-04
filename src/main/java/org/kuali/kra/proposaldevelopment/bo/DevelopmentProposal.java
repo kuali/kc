@@ -38,6 +38,7 @@ import org.kuali.kra.bo.Unit;
 import org.kuali.kra.budget.core.BudgetParent;
 import org.kuali.kra.budget.document.BudgetDocument;
 import org.kuali.kra.budget.personnel.PersonRolodex;
+import org.kuali.kra.coi.Disclosurable;
 import org.kuali.kra.infrastructure.Constants;
 import org.kuali.kra.infrastructure.KraServiceLocator;
 import org.kuali.kra.proposaldevelopment.document.ProposalDevelopmentDocument;
@@ -64,7 +65,7 @@ import org.kuali.rice.kns.util.TypedArrayList;
 /**
  * This class...
  */
-public class DevelopmentProposal extends KraPersistableBusinessObjectBase implements BudgetParent, Sponsorable {
+public class DevelopmentProposal extends KraPersistableBusinessObjectBase implements BudgetParent, Sponsorable, Disclosurable {
 
     private static final long serialVersionUID = -9211313487776934111L;
     private static final String ATTACHMENTS_COMPLETE = "Complete";
@@ -2060,4 +2061,16 @@ public class DevelopmentProposal extends KraPersistableBusinessObjectBase implem
    public String getParentTypeName(){
        return "Proposal";
    }
+
+@Override
+public String getProjectName() {
+    // TODO Auto-generated method stub
+    return getTitle();
+}
+
+@Override
+public String getProjectId() {
+    // TODO Auto-generated method stub
+    return getProposalNumber();
+}
 }

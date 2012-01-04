@@ -33,6 +33,7 @@ import org.kuali.kra.UnitAclLoadable;
 import org.kuali.kra.bo.AttachmentFile;
 import org.kuali.kra.bo.CustomAttributeDocument;
 import org.kuali.kra.bo.KraPersistableBusinessObjectBase;
+import org.kuali.kra.coi.Disclosurable;
 import org.kuali.kra.committee.bo.Committee;
 import org.kuali.kra.committee.bo.CommitteeMembership;
 import org.kuali.kra.committee.bo.CommitteeMembershipType;
@@ -99,7 +100,8 @@ import org.kuali.rice.kns.util.ObjectUtils;
  */
 public class Protocol extends KraPersistableBusinessObjectBase implements SequenceOwner<Protocol>, 
                                                                           Permissionable,
-                                                                          UnitAclLoadable {
+                                                                          UnitAclLoadable,
+                                                                          Disclosurable {
 
     private static final long serialVersionUID = 4396393806439396971L;
     
@@ -2190,5 +2192,17 @@ public class Protocol extends KraPersistableBusinessObjectBase implements Sequen
         } else {
             return null;
         }
+    }
+
+    @Override
+    public String getProjectName() {
+        // TODO Auto-generated method stub
+        return getTitle();
+    }
+
+    @Override
+    public String getProjectId() {
+        // TODO Auto-generated method stub
+        return getProtocolNumber();
     }
 }

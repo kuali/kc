@@ -35,6 +35,7 @@ public class MasterDisclosureBean implements Serializable {
     private List<CoiDisclosureProjectBean> manualAwardProjects;
     private List<CoiDisclosureProjectBean> manualProposalProjects;
     private List<CoiDisclosureProjectBean> manualProtocolProjects;
+    private List<CoiDisclosureProjectBean> allProjects;
 
     
     public MasterDisclosureBean() {
@@ -44,6 +45,7 @@ public class MasterDisclosureBean implements Serializable {
         manualAwardProjects = new ArrayList<CoiDisclosureProjectBean>();
         manualProposalProjects = new ArrayList<CoiDisclosureProjectBean>();
         manualProtocolProjects = new ArrayList<CoiDisclosureProjectBean>();
+        allProjects = new ArrayList<CoiDisclosureProjectBean>();
     }
     
     public CoiDisclosure getCoiDisclosure() {
@@ -103,6 +105,7 @@ public class MasterDisclosureBean implements Serializable {
     }
 
     public void addProject(CoiDisclosureProjectBean coiDisclosureProjectBean, String projectTypeCode) {
+        allProjects.add(coiDisclosureProjectBean);
         int projectType = Integer.parseInt(projectTypeCode);
         switch (projectType) {
             case 1 :
@@ -124,5 +127,13 @@ public class MasterDisclosureBean implements Serializable {
                 getManualProtocolProjects().add(coiDisclosureProjectBean);
                 break;
         }
+    }
+
+    public List<CoiDisclosureProjectBean> getAllProjects() {
+        return allProjects;
+    }
+
+    public void setAllProjects(List<CoiDisclosureProjectBean> allProjects) {
+        this.allProjects = allProjects;
     }
 }

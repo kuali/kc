@@ -67,6 +67,7 @@ import org.kuali.kra.bo.UnitAdministrator;
 import org.kuali.kra.bo.versioning.VersionStatus;
 import org.kuali.kra.budget.core.BudgetParent;
 import org.kuali.kra.budget.personnel.PersonRolodex;
+import org.kuali.kra.coi.Disclosurable;
 import org.kuali.kra.common.permissions.Permissionable;
 import org.kuali.kra.document.KeywordsManager;
 import org.kuali.kra.infrastructure.AwardRoleConstants;
@@ -94,7 +95,7 @@ import org.kuali.rice.kns.util.TypedArrayList;
  * It implements ProcessKeywords to process all operations related to AwardScenceKeywords.
  */
 public class Award extends KraPersistableBusinessObjectBase implements KeywordsManager<AwardScienceKeyword>, Permissionable,
-        SequenceOwner<Award>, BudgetParent, Sponsorable, Negotiable {
+        SequenceOwner<Award>, BudgetParent, Sponsorable, Negotiable, Disclosurable {
     public static final String DEFAULT_AWARD_NUMBER = "000000-00000";
     public static final String BLANK_COMMENT = "";
     public static final String ICR_RATE_CODE_NONE = "ICRNONE";
@@ -3564,5 +3565,17 @@ public class Award extends KraPersistableBusinessObjectBase implements KeywordsM
     
     public void setSubAwardList(List<SubAward> subAwardList) {
         this.subAwardList = subAwardList;
+    }
+
+    @Override
+    public String getProjectName() {
+        // TODO Auto-generated method stub
+        return getTitle();
+    }
+
+    @Override
+    public String getProjectId() {
+        // TODO Auto-generated method stub
+        return getAwardNumber();
     }
 }
