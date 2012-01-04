@@ -43,9 +43,13 @@ public class CoiDiscDetail extends KraPersistableBusinessObjectBase implements C
     private Long personFinIntDisclosureId;
     // for master disclosure.  if this is not null, then it is copied from previous master disclosure
     private Long copiedCoiDiscDetailId; 
+    
     private PersonFinIntDisclosure personFinIntDisclosure;
     private CoiEntityStatusCode coiEntityStatusCode; 
     private CoiDisclosure coiDisclosure; 
+    // originalxxxx is for master disclosure ui bean
+    private Long originalCoiDisclosureId; 
+    private CoiDisclosure originalCoiDisclosure; 
     // TODO : in general this projectType is same as disclosure eventtypecode. Can this be replaced by modulecode ?
     // the only exception is annual event which may have several project type.
     // this is also used for sorting, so annual discl cSan be in proper order, then they can be moved to 
@@ -291,6 +295,22 @@ public class CoiDiscDetail extends KraPersistableBusinessObjectBase implements C
 
     public void setCopiedCoiDiscDetailId(Long copiedCoiDiscDetailId) {
         this.copiedCoiDiscDetailId = copiedCoiDiscDetailId;
+    }
+
+    public Long getOriginalCoiDisclosureId() {
+        return originalCoiDisclosureId;
+    }
+
+    public void setOriginalCoiDisclosureId(Long originalCoiDisclosureId) {
+        this.originalCoiDisclosureId = originalCoiDisclosureId;
+    }
+
+    public CoiDisclosure getOriginalCoiDisclosure() {
+        return originalCoiDisclosure;
+    }
+
+    public void setOriginalCoiDisclosure(CoiDisclosure originalCoiDisclosure) {
+        this.originalCoiDisclosure = originalCoiDisclosure;
     }
 
 
