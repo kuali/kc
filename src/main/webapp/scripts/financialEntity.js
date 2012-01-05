@@ -72,7 +72,7 @@
         }); 
  
  
- // there is no proper parser for data/time field.  'shortDate is only for date'
+ // there is no proper parser for date/time field.  'shortDate is only for date'
  // add this parser for 'last update' column
         $j.tablesorter.addParser({
             id: "datetime",
@@ -91,7 +91,6 @@
            
       try {
       $j("#activeEntities-table").tablesorter(
-      
                
         // pass the headers argument and assing a object 
          {  widgets: ['zebra','relocaterow'],
@@ -192,27 +191,37 @@
          }, timeOut * 1000);
     }
 
-    function updateStateCode(countryCodeFieldName, state) {
-    var stateField = findElPrefix( countryCodeFieldName )+".state";
-    var countryCode = DWRUtil.getValue( countryCodeFieldName);
+    function updateStateOnClick(countryCodeFieldName) {
+    	var stateField = findElPrefix( countryCodeFieldName )+".state";
+	    var countryCode = DWRUtil.getValue( countryCodeFieldName );
+        updateStateCode(countryCodeFieldName, $(stateField).value);
+    }
     
-    var dwrReply = {
-        callback:function(data) {
-            if ( data != null ) {
-                DWRUtil.removeAllOptions( stateField );
-                $(stateField).options[0] = new Option('', '');
-                DWRUtil.addOptions( stateField, data, 'postalStateCode', 'postalStateName' );
-                if (state != '') {
-                        DWRUtil.setValue(stateField, state);
-                }
-            } 
-        },
-        errorHandler:function( errorMessage ) {
-            window.status = errorMessage;
-        }
-    };
+    function updateStateCode(countryCodeFieldName, state) {
+    	var stateField = findElPrefix( countryCodeFieldName )+".state";
+	    var countryCode = DWRUtil.getValue( countryCodeFieldName );
+    
+    	var dwrReply = {
+        	callback:function(data) {
+            	if ( data != null && data.length > 0 ) {
+            		$(stateField).disabled = false;
+                	DWRUtil.removeAllOptions( stateField );
+	                $(stateField).options[0] = new Option('', '');
+    	            DWRUtil.addOptions( stateField, data, 'postalStateCode', 'postalStateName' );
+        	        if (state != '') {
+            	        DWRUtil.setValue(stateField, state);
+                	}
+	            } else { 
+	                DWRUtil.setValue(stateField, '');
+       	    		$(stateField).disabled = true;
+       	    	}
+    	    },
+        	errorHandler:function( errorMessage ) {
+            	window.status = errorMessage;
+	        }
+    	};
 
-    StateService.findAllStatesByAltCountryCode(countryCode, dwrReply);
+    	StateService.findAllStatesByAltCountryCode(countryCode, dwrReply);
     }
     
     function loadEntityContactInfoFromRolodex(rolodexId, prefix) {
