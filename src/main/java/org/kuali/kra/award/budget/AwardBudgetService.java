@@ -19,6 +19,7 @@ import java.util.Collection;
 import java.util.List;
 
 import org.kuali.kra.award.budget.document.AwardBudgetDocument;
+import org.kuali.kra.award.commitments.AwardFandaRate;
 import org.kuali.kra.award.document.AwardDocument;
 import org.kuali.kra.award.home.Award;
 import org.kuali.kra.budget.BudgetDecimal;
@@ -26,6 +27,7 @@ import org.kuali.kra.budget.core.BudgetCommonService;
 import org.kuali.kra.budget.document.BudgetDocument;
 import org.kuali.kra.budget.document.BudgetParentDocument;
 import org.kuali.kra.budget.parameters.BudgetPeriod;
+import org.kuali.kra.budget.rates.BudgetRate;
 import org.kuali.kra.budget.versions.BudgetDocumentVersion;
 import org.kuali.rice.kew.exception.WorkflowException;
 
@@ -127,6 +129,15 @@ public interface AwardBudgetService extends BudgetCommonService<Award> {
      * @throws WorkflowException
      */
     boolean checkForOutstandingBudgets(BudgetParentDocument parentDoc);
+
+    /**
+     * 
+     * This method checks if Award rates changed, then display confirmation message on 'open' budget version.
+     * @param saved award budget rates
+     * @param Award award
+     * @return
+     */
+    public boolean checkRateChange(Collection<BudgetRate> allPropRates,Award award);
     
     
 }

@@ -26,10 +26,12 @@ import java.util.Iterator;
 import java.util.List;
 import java.util.Map;
 
+import org.apache.commons.collections.CollectionUtils;
 import org.apache.commons.lang.ObjectUtils;
 import org.apache.commons.lang.StringUtils;
 import org.kuali.kra.award.budget.calculator.AwardBudgetCalculationService;
 import org.kuali.kra.award.budget.document.AwardBudgetDocument;
+import org.kuali.kra.award.commitments.AwardFandaRate;
 import org.kuali.kra.award.document.AwardDocument;
 import org.kuali.kra.award.home.Award;
 import org.kuali.kra.award.home.fundingproposal.AwardFundingProposal;
@@ -39,6 +41,7 @@ import org.kuali.kra.budget.BudgetDecimal;
 import org.kuali.kra.budget.calculator.BudgetCalculationService;
 import org.kuali.kra.budget.calculator.QueryList;
 import org.kuali.kra.budget.calculator.RateClassType;
+import org.kuali.kra.budget.calculator.query.And;
 import org.kuali.kra.budget.calculator.query.Equals;
 import org.kuali.kra.budget.core.Budget;
 import org.kuali.kra.budget.core.BudgetParent;
@@ -50,6 +53,8 @@ import org.kuali.kra.budget.nonpersonnel.BudgetLineItem;
 import org.kuali.kra.budget.parameters.BudgetPeriod;
 import org.kuali.kra.budget.personnel.BudgetPerson;
 import org.kuali.kra.budget.personnel.BudgetPersonnelDetails;
+import org.kuali.kra.budget.rates.BudgetRate;
+import org.kuali.kra.budget.rates.RateType;
 import org.kuali.kra.budget.summary.BudgetSummaryService;
 import org.kuali.kra.budget.versions.AddBudgetVersionEvent;
 import org.kuali.kra.budget.versions.BudgetDocumentVersion;
@@ -311,15 +316,15 @@ public class AwardBudgetServiceImpl implements AwardBudgetService {
         awardBudget.setStartDate(budgetParent.getRequestedStartDateInitial());
         awardBudget.setEndDate(budgetParent.getRequestedEndDateInitial());
         if(awardBudget.getOhRatesNonEditable()){
-            awardBudget.setOhRateClassCode(this.parameterService.getParameterValue(AwardBudgetDocument.class, Constants.AWARD_BUDGET_DEFAULT_FNA_RATE_CLASS_CODE));
-            awardBudget.setUrRateClassCode(this.parameterService.getParameterValue(AwardBudgetDocument.class, Constants.AWARD_BUDGET_DEFAULT_UNDERRECOVERY_RATE_CLASS_CODE));
+            awardBudget.setOhRateClassCode(getAwardParameterValue(Constants.AWARD_BUDGET_DEFAULT_FNA_RATE_CLASS_CODE));
+            awardBudget.setUrRateClassCode(getAwardParameterValue( Constants.AWARD_BUDGET_DEFAULT_UNDERRECOVERY_RATE_CLASS_CODE));
         }else{
-            awardBudget.setOhRateClassCode(this.parameterService.getParameterValue(BudgetDocument.class, Constants.BUDGET_DEFAULT_OVERHEAD_RATE_CODE));
-            awardBudget.setUrRateClassCode(this.parameterService.getParameterValue(BudgetDocument.class, Constants.BUDGET_DEFAULT_UNDERRECOVERY_RATE_CODE));
+            awardBudget.setOhRateClassCode(getBudgetParameterValue(Constants.BUDGET_DEFAULT_OVERHEAD_RATE_CODE));
+            awardBudget.setUrRateClassCode(getBudgetParameterValue( Constants.BUDGET_DEFAULT_UNDERRECOVERY_RATE_CODE));
         }
-        awardBudget.setOhRateTypeCode(this.parameterService.getParameterValue(BudgetDocument.class, Constants.BUDGET_DEFAULT_OVERHEAD_RATE_TYPE_CODE));
-        awardBudget.setModularBudgetFlag(this.parameterService.getIndicatorParameter(BudgetDocument.class, Constants.BUDGET_DEFAULT_MODULAR_FLAG));
-        awardBudget.setBudgetStatus(this.parameterService.getParameterValue(AwardBudgetDocument.class, KeyConstants.AWARD_BUDGET_STATUS_IN_PROGRESS));
+        awardBudget.setOhRateTypeCode(getBudgetParameterValue( Constants.BUDGET_DEFAULT_OVERHEAD_RATE_TYPE_CODE));
+        awardBudget.setModularBudgetFlag(parameterService.getIndicatorParameter(BudgetDocument.class, Constants.BUDGET_DEFAULT_MODULAR_FLAG));
+        awardBudget.setBudgetStatus(getAwardParameterValue( KeyConstants.AWARD_BUDGET_STATUS_IN_PROGRESS));
         // do not want the Budget adjustment doc number to be copied over to the new budget.
         // this should be null so the budget can be posted again to the financial system.
         awardBudget.setBudgetAdjustmentDocumentNumber("");
@@ -339,6 +344,22 @@ public class AwardBudgetServiceImpl implements AwardBudgetService {
         parentDocument.refreshBudgetDocumentVersions();
 
         return awardBudgetDocument;
+    }
+
+    /**
+     * This method...
+     * @return
+     */
+    private String getBudgetParameterValue(String parameter) {
+        return parameterService.getParameterValue(BudgetDocument.class, parameter);
+    }
+
+    /**
+     * This method...
+     * @return
+     */
+    private String getAwardParameterValue(String parameter) {
+        return parameterService.getParameterValue(AwardBudgetDocument.class, parameter);
     }
     
     public void setBudgetLimits(AwardBudgetDocument awardBudgetDocument, AwardDocument parentDocument) {
@@ -1006,5 +1027,96 @@ public class AwardBudgetServiceImpl implements AwardBudgetService {
     public boolean validateAddingNewBudget(BudgetParentDocument<Award> parentDocument) {
         return !checkForOutstandingBudgets(parentDocument);
     }
+    public boolean checkRateChange(Collection<BudgetRate> savedBudgetRates,Award award){
+        award.refreshReferenceObject("awardFandaRate");
+        List<AwardFandaRate> awardFandaRates = award.getAwardFandaRate();
+        boolean changeFlag = false;
+//        if (CollectionUtils.isNotEmpty(savedBudgetRates)) {
+        for (AwardFandaRate budgetFnARate : awardFandaRates) {
+            RateType fnaRateType = budgetFnARate.getFandaRateType();
+            Equals eqRateClasCode = new Equals("rateClassCode", fnaRateType.getRateClassCode());
+            Equals eqRateTypeCode = new Equals("rateTypeCode", fnaRateType.getRateTypeCode());
+            Equals eqCampusFlag = new Equals("onOffCampusFlag", budgetFnARate.getOnOffCampusFlag());
+            And rateClassAndRateType = new And(eqRateClasCode,eqRateTypeCode);
+            And rateClassAndRateTypeAndCampusFlag = new And(rateClassAndRateType,eqCampusFlag);
+            QueryList<BudgetRate> matchAwardFnARate = new QueryList<BudgetRate>(savedBudgetRates).filter(rateClassAndRateTypeAndCampusFlag);
+            if(matchAwardFnARate.isEmpty() || matchAwardFnARate.size()>1 ||
+                    !matchAwardFnARate.get(0).getApplicableRate().equals(
+                            budgetFnARate.getApplicableFandaRate())) {
+                changeFlag = true;
+            }
+        }
+        Equals eqRateClasCode = new Equals("rateClassCode", "5");
+        Equals eqRateTypeCode = new Equals("rateTypeCode", "6");
+        Equals eqCampusFlag = new Equals("onOffCampusFlag", Boolean.TRUE);
+        And rateClassAndRateType = new And(eqRateClasCode,eqRateTypeCode);
+        And rateClassAndRateTypeAndCampusFlag = new And(rateClassAndRateType,eqCampusFlag);
+        QueryList<BudgetRate> matchAwardEBCampusRates = new QueryList<BudgetRate>(savedBudgetRates).filter(rateClassAndRateType);
+        for (BudgetRate budgetEBRate : matchAwardEBCampusRates) {
+            if(budgetEBRate.getOnOffCampusFlag()) {
+                if(award.getSpecialEbRateOnCampus()!=null && !award.getSpecialEbRateOnCampus().equals(budgetEBRate.getApplicableRate())){
+                    changeFlag = true;
+                }
+            }else{
+                if(award.getSpecialEbRateOffCampus()!=null && !award.getSpecialEbRateOffCampus().equals(budgetEBRate.getApplicableRate())){
+                    changeFlag = true;
+                }
+            }
+        }
+        if((award.getSpecialEbRateOnCampus()!=null ||  award.getSpecialEbRateOffCampus()!=null) && matchAwardEBCampusRates.isEmpty()){
+            changeFlag = true;
+        }
+        return changeFlag;
+    }            
+//            for (AwardFandaRate budgetFnARate : awardFandaRates) {
+//                RateType fnaRateType = budgetFnARate.getFandaRateType();
+//                Equals eqRateClasCode = new Equals("rateClassCode", fnaRateType.getRateClassCode());
+//                Equals eqRateTypeCode = new Equals("rateTypeCode", fnaRateType.getRateTypeCode());
+//                And rateClassAndRateType = new And(eqRateClasCode,eqRateTypeCode);
+//                QueryList<BudgetRate> matchAwardFnARate = new QueryList<BudgetRate>(savedBudgetRates).filter(rateClassAndRateType);
+//                if(matchAwardFnARate.isEmpty() || matchAwardFnARate.size()>1 ||
+//                        !matchAwardFnARate.get(0).getApplicableRate().equals(
+//                                budgetFnARate.getApplicableFandaRate())) 
+//                    return true;
+//                
+//            }
+//            List<String> awardRates=new ArrayList<String>();
+//            List<String> matchAwardRates=new ArrayList<String>();
+//            List<String> matchAwardEbRates=new ArrayList<String>();
+//            Equals equalsAwardClassType = new Equals("rateClassCode", getAwardParameterValue(Constants.AWARD_BUDGET_DEFAULT_FNA_RATE_CLASS_CODE));
+//            QueryList<BudgetRate> matchAwardFnRate = new QueryList<BudgetRate>(savedBudgetRates).filter(equalsAwardClassType);
+//            Equals equalsAwardClassTypes = new Equals("rateClassCode", "5");
+//            QueryList<BudgetRate> matchAwardBenfitRate = new QueryList<BudgetRate>(savedBudgetRates).filter(equalsAwardClassTypes);
+//            for(AwardFandaRate awardrate:awardFandaRates){
+//                awardRates.add(awardrate.getApplicableFandaRate().toString());
+//                Equals equalsAwardRate = new Equals("instituteRate", awardrate.getApplicableFandaRate());
+//                QueryList<BudgetRate> matchAwardFnRates = new QueryList<BudgetRate>(matchAwardFnRate).filter(equalsAwardRate);
+//                    if (CollectionUtils.isNotEmpty(matchAwardFnRates)){
+//                        for(int index=0;index<matchAwardFnRates.size();index++){
+//                            if(!matchAwardRates.contains(matchAwardFnRates.get(index).toString())){
+//                                matchAwardRates.add(matchAwardFnRates.get(index).toString());
+//                                break;
+//                            }
+//                        }
+//                    }
+//            }        
+//            for(int ebRate=0;ebRate<ebRates.size();ebRate++){
+//                KualiDecimal specialEbRate=(KualiDecimal)ebRates.get(ebRate);
+//                Equals equalsAwardEbRate = new Equals("instituteRate",specialEbRate);
+//                QueryList<BudgetRate> matchAwardBenfitRates = new QueryList<BudgetRate>(matchAwardBenfitRate).filter(equalsAwardEbRate);  
+//                    if (CollectionUtils.isNotEmpty(matchAwardBenfitRates)){
+//                        for(int index=0;index<matchAwardBenfitRates.size();index++){
+//                            if(!matchAwardEbRates.contains(matchAwardBenfitRates.get(index).toString())){
+//                                matchAwardEbRates.add(matchAwardBenfitRates.get(index).toString());
+//                                break;
+//                            }
+//                        }
+//                    }
+//            }
+//            if(matchAwardRates.size()!=awardRates.size()||matchAwardEbRates.size()!=ebRates.size()){
+//                 return true;
+//            }
+//        }
+//         return false;
 
 }

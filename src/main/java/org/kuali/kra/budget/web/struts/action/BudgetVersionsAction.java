@@ -139,29 +139,30 @@ public class BudgetVersionsAction extends BudgetAction {
         BudgetParentDocument parentDocument = budgetDocument.getParentDocument();
         budgetForm.setFinalBudgetVersion(getFinalBudgetVersion(parentDocument.getBudgetDocumentVersions()));
         setBudgetStatuses(parentDocument);
+        AwardBudgetService awardBudgetService = KraServiceLocator.getService(AwardBudgetService.class);
         BudgetService budgetService = KraServiceLocator.getService(BudgetService.class);
-        Collection<BudgetRate> allPropRates = budgetService.getSavedProposalRates(budget);
+        Collection<BudgetRate> savedBudgetRates = budgetService.getSavedProposalRates(budget);
 	      if(parentDocument.getBudgetParent() instanceof Award){
 	    	Award award=(Award)parentDocument.getBudgetParent();
-	    	List ebRates =new ArrayList();
-	    	if(award.getSpecialEbRateOffCampus()!=null)
-	    		ebRates.add(award.getSpecialEbRateOffCampus());
-	    	if(award.getAwardDocument().getAward().getSpecialEbRateOnCampus()!=null)
-	    		ebRates.add(award.getAwardDocument().getAward().getSpecialEbRateOnCampus());
-	        List<AwardFandaRate> fandaRates = award.getAwardFandaRate();
-	    	if(budgetService.checkRateChange(allPropRates, fandaRates,ebRates)){
-	        	StrutsConfirmation question=syncAwardBudgetRateConfirmationQuestion(mapping, form, request, response,
-	                    KeyConstants.QUESTION_SYNCH_AWARD_RATE);
-	        	 question.setCaller(((KualiForm) question.getForm()).getMethodToCall());
-	        	 Object buttonClicked = question.getRequest().getParameter(QUESTION_CLICKED_BUTTON);
-	        	 if (buttonClicked==null||ConfirmationQuestion.YES.equals(buttonClicked)){
+//	    	List ebRates =new ArrayList();
+//	    	if(award.getSpecialEbRateOffCampus()!=null)
+//	    		ebRates.add(award.getSpecialEbRateOffCampus());
+//	    	if(award.getAwardDocument().getAward().getSpecialEbRateOnCampus()!=null)
+//	    		ebRates.add(award.getAwardDocument().getAward().getSpecialEbRateOnCampus());
+//	        List<AwardFandaRate> fandaRates = award.getAwardFandaRate();
+	    	if(awardBudgetService.checkRateChange(savedBudgetRates, award)){
+//	        	StrutsConfirmation question=syncAwardBudgetRateConfirmationQuestion(mapping, form, request, response,
+//	                    KeyConstants.QUESTION_SYNCH_AWARD_RATE);
+//	        	 question.setCaller(((KualiForm) question.getForm()).getMethodToCall());
+//	        	 Object buttonClicked = question.getRequest().getParameter(QUESTION_CLICKED_BUTTON);
+//	        	 if (buttonClicked==null||ConfirmationQuestion.YES.equals(buttonClicked)){
 	        	return confirm(syncAwardBudgetRateConfirmationQuestion(mapping, form, request, response,
 	                    KeyConstants.QUESTION_SYNCH_AWARD_RATE), CONFIRM_SYNCH_AWARD_RATES, NO_SYNCH_AWARD_RATES);
-	        	 }
-	        	 else{
-	        		   return mapping.findForward(Constants.MAPPING_LOOKUP_PAGE);
-	        		 
-	        	 }
+//	        	 }
+//	        	 else{
+//	        		   return mapping.findForward(Constants.MAPPING_LOOKUP_PAGE);
+//	        		 
+//	        	 }
 	        }
 	    	
 	    }
