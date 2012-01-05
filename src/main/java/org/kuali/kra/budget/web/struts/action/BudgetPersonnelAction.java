@@ -81,6 +81,7 @@ public class BudgetPersonnelAction extends BudgetExpensesAction {
     
     private static final String CONFIRM_DELETE_BUDGET_PERSON = "confirmDeleteBudgetPerson";
     private static final String EMPTY_GROUP_NAME = "";
+    private static final String DEFAULT_GROUP_NAME = "(new group)";
     
     @Override
     public ActionForward execute(ActionMapping mapping, ActionForm form, HttpServletRequest request, HttpServletResponse response)
@@ -148,7 +149,8 @@ public class BudgetPersonnelAction extends BudgetExpensesAction {
             groupErrorKey = "newGroupName";
         }
         
-        if(StringUtils.isEmpty(newBudgetLineItem.getGroupName())) {
+        //if the group name is empty or still the default group name(JS error?) then set the group name to the empty string.
+        if(StringUtils.isEmpty(newBudgetLineItem.getGroupName()) || StringUtils.equals(newBudgetLineItem.getGroupName(), DEFAULT_GROUP_NAME)) {
             newBudgetLineItem.setGroupName(EMPTY_GROUP_NAME);  
         }
         
