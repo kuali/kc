@@ -70,7 +70,7 @@
                                                 </th>
                                                 <td align="left" valign="middle" colspan="3">
                                                     <kul:htmlControlAttribute property="${prop}.finEntityContactInfos[0].countryCode" 
-                                              attributeEntry="${entityContactInfoAttribute.countryCode}" onchange="updateStateCode('${prop}.finEntityContactInfos[0].countryCode','');"/> 
+                                              attributeEntry="${entityContactInfoAttribute.countryCode}" onchange="updateStateOnClick('${prop}.finEntityContactInfos[0].countryCode');"/> 
                                                 </td>
                                             </tr>    
                                              <tr>

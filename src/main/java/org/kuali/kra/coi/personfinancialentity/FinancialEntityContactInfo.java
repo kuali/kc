@@ -157,25 +157,17 @@ public class FinancialEntityContactInfo extends KraPersistableBusinessObjectBase
     }
     
     public boolean infoMatches(FinancialEntityContactInfo comparator) {
-        return (StringUtils.equalsIgnoreCase(getAddressLine1(), comparator.getAddressLine1()) &&
-                StringUtils.equalsIgnoreCase(getAddressLine2(), comparator.getAddressLine2()) &&
-                StringUtils.equalsIgnoreCase(getAddressLine3(), comparator.getAddressLine3()) &&
-                StringUtils.equalsIgnoreCase(getCity(), comparator.getCity()) &&
-                StringUtils.equalsIgnoreCase(getState(), comparator.getState()) &&
-                StringUtils.equalsIgnoreCase(getPostalCode(), comparator.getPostalCode()));
+        return (StringUtils.equalsIgnoreCase(toString(), comparator.toString()));
     }
     
     @Override
     public String toString() {
-        return "FinancialEntityContactInfo: addressLine1 = " + getAddressLine1() +
-               ", addressLine2 = " + getAddressLine2() +
-               ", addressLine3 = " + getAddressLine3() +
-               ", city = " + getCity() +
-               ", country = " + getCountryCode() +
-               ", webAddress1 = " + getWebAddress1() +
-               ", webAddress2 = " + getWebAddress2() +
-               ", postalCode = " + getPostalCode() +
-               ", state = " + getState();
-               
+        return "FE Contact info, a1 = " + getAddressLine1() +
+        ", a2 = " + getAddressLine2() +
+        ", a3 = " + getAddressLine3() +
+        ", ci = " + getCity() +
+        ", st = " + getState() +
+        ", pc = " + getPostalCode() +
+        ", cc = " + getCountryCode();
     }
 }
