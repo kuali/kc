@@ -46,7 +46,6 @@ import org.springframework.util.CollectionUtils;
 
 public class CoiDisclosureAction extends CoiAction {
 
-   private static final String MASTER_DISCLOSURE = "masterDisclosure";
    
     public ActionForward addDisclosurePersonUnit(ActionMapping mapping, ActionForm form, HttpServletRequest request,
             HttpServletResponse response) throws Exception {
