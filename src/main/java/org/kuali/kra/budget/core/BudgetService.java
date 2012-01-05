@@ -18,7 +18,6 @@ package org.kuali.kra.budget.core;
 import java.util.Collection;
 import java.util.List;
 
-import org.kuali.kra.award.commitments.AwardFandaRate;
 import org.kuali.kra.budget.document.BudgetDocument;
 import org.kuali.kra.budget.document.BudgetParentDocument;
 import org.kuali.kra.budget.nonpersonnel.BudgetLineItemBase;
@@ -66,14 +65,6 @@ public interface BudgetService<T extends BudgetParent>  {
      */
     public boolean checkActivityTypeChange(Collection<BudgetRate> allPropRates, String proposalActivityTypeCode);
    
-    /**
-     * 
-     * This method checks if Award rates changed, then display confirmation message on 'open' budget version.
-     * @param allPropRates
-     * @param proposalActivityTypeCode
-     * @return
-     */
-    public boolean checkRateChange(Collection<BudgetRate> allPropRates,List<AwardFandaRate> awardFandaRate,List ebRates);
     /**
      * 
      * This method returns the saved Proposal Rates collection.
