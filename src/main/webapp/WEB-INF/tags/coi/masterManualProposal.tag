@@ -12,7 +12,8 @@
             <%-- Existing data --%>
 
         	<c:forEach var="disclProjectBean" items="${masterDisclosureProjects}" varStatus="status">
-                     <kra-coi:manualProposalHeader disclProject="${disclProjectBean.disclosureProject}" idx = "0"/>                    
+                     <kra-coi:projectStyle disclProjectBean="${disclProjectBean}"/>                    
+                     <kra-coi:manualProposalHeader disclProject="${disclProjectBean.disclosureProject}" idx = "0" style="${style}"/>                    
                      <kra-coi:masterProjectFE disclProjectBean="${disclProjectBean}" projectDivNamePrefix="masterManualProposalFE"  idx="${status.index}"/>                    
         	</c:forEach> 
             <%-- Existing data --%>

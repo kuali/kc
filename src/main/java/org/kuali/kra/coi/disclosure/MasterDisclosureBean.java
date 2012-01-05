@@ -105,7 +105,7 @@ public class MasterDisclosureBean implements Serializable {
     }
 
     public void addProject(CoiDisclosureProjectBean coiDisclosureProjectBean, String projectTypeCode) {
-        allProjects.add(coiDisclosureProjectBean);
+//        allProjects.add(coiDisclosureProjectBean);
         int projectType = Integer.parseInt(projectTypeCode);
         switch (projectType) {
             case 1 :
