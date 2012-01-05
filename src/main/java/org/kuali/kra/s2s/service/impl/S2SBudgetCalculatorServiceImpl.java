@@ -967,13 +967,15 @@ public class S2SBudgetCalculatorServiceImpl implements
 							lineItemCalculatedAmount.refreshReferenceObject("rateClass");
 
 							// Calculate fringe cost
+							if(lineItemCalculatedAmount.getRateClass().getRateClassType().equalsIgnoreCase("E")){
+							    fringeCost = fringeCost.add(lineItemCalculatedAmount.getCalculatedCost());
+							}
 							if ((lineItemCalculatedAmount.getRateClassCode()
 									.equals(RATE_CLASS_CODE_EMPLOYEE_BENEFITS) && !lineItemCalculatedAmount
 									.getRateTypeCode().equals(RATE_TYPE_SUPPORT_STAFF_SALARIES))
 									|| (lineItemCalculatedAmount.getRateClassCode().equals(
 													RATE_CLASS_CODE_VACATION) && !lineItemCalculatedAmount
 											.getRateTypeCode().equals(RATE_TYPE_ADMINISTRATIVE_SALARIES))) {
-								fringeCost = fringeCost.add(lineItemCalculatedAmount.getCalculatedCost());
 								fringeCostSharingAmount = fringeCostSharingAmount.add(lineItemCalculatedAmount.getCalculatedCostSharing());
 							}
 
