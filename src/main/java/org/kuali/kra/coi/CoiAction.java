@@ -30,7 +30,8 @@ import org.kuali.kra.web.struts.action.KraTransactionalDocumentActionBase;
 import org.kuali.rice.kns.util.GlobalVariables;
 
 public abstract class CoiAction extends KraTransactionalDocumentActionBase {
-    
+    protected static final String MASTER_DISCLOSURE = "masterDisclosure";
+
     @Override
     public ActionForward execute(ActionMapping mapping, ActionForm form, HttpServletRequest request, HttpServletResponse response)
             throws Exception {
