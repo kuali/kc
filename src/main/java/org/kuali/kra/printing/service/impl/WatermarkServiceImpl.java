@@ -103,7 +103,7 @@ public class WatermarkServiceImpl implements WatermarkService {
             BaseFont bf_courier = BaseFont.createFont(BaseFont.COURIER, "Cp1252", false);
             BaseFont bf_courier1 = BaseFont.createFont(BaseFont.COURIER, "Cp1252", false); 
             if(watermarkBean.getPosition().equals(WatermarkConstants.WATERMARK_POSITION_FOOTER)){
-             HeaderFooter footer = new HeaderFooter(new Phrase(watermarkBean.getText(), new Font(bf_courier1)), true);
+             HeaderFooter footer = new HeaderFooter(new Phrase(watermarkBean.getText(), new Font(bf_courier1)), false);
              footer.setBorder(Rectangle.NO_BORDER);
             footer.setBorderColor(watermarkBean.getFont().getColor());
             if(watermarkBean.getAlignment().equals(WatermarkConstants.ALIGN_CENTER)){
@@ -118,7 +118,7 @@ public class WatermarkServiceImpl implements WatermarkService {
             else
             {
               HeaderFooter header = new HeaderFooter(
-                         new Phrase(watermarkBean.getText(), new Font(bf_courier)), true);
+                         new Phrase(watermarkBean.getText(), new Font(bf_courier)), false);
              header.setBorder(Rectangle.NO_BORDER);
              if(watermarkBean.getAlignment().equals(WatermarkConstants.ALIGN_CENTER)){
                  header.setAlignment(Element.ALIGN_CENTER);}
