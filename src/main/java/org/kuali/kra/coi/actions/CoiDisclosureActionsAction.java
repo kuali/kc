@@ -85,10 +85,14 @@ public class CoiDisclosureActionsAction extends CoiAction {
          */
         CoiDisclosureForm coiDisclosureForm = (CoiDisclosureForm) form;
         CoiDisclosureDocument coiDisclosureDocument = coiDisclosureForm.getCoiDisclosureDocument();
+        ActionForward forward = mapping.findForward(Constants.MAPPING_BASIC);
         if (StringUtils.isNotBlank(coiDisclosureForm.getCoiDisclosureStatusCode())) {
             AuditActionHelper auditActionHelper = new AuditActionHelper();
             if (auditActionHelper.auditUnconditionally(coiDisclosureDocument)) {                
                 getCoiDisclosureActionService().approveDisclosure(coiDisclosureDocument.getCoiDisclosure(), coiDisclosureForm.getCoiDisclosureStatusCode());
+                coiDisclosureForm.getDisclosureHelper().setMasterDisclosureBean(
+                        getCoiDisclosureService().getMasterDisclosureDetail(coiDisclosureDocument.getCoiDisclosure()));
+                forward = mapping.findForward(MASTER_DISCLOSURE);
             } else {
                 GlobalVariables.getMessageMap().clearErrorMessages();
                 GlobalVariables.getMessageMap().putError("datavalidation", KeyConstants.ERROR_FINANCIAL_ENTITY_STATUS_INCOMPLETE,  new String[] {});
@@ -97,7 +101,7 @@ public class CoiDisclosureActionsAction extends CoiAction {
             GlobalVariables.getMessageMap().putError("coiDisclosureStatusCode", 
                     KeyConstants.ERROR_COI_DISCLOSURE_STATUS_REQUIRED);        }
 
-        return mapping.findForward(Constants.MAPPING_BASIC);
+        return forward;
 
     }
 
