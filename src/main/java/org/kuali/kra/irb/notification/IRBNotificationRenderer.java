@@ -33,7 +33,7 @@ import org.kuali.kra.irb.actions.submit.ProtocolSubmissionType;
 import org.kuali.kra.service.KcPersonService;
 import org.kuali.rice.kns.service.BusinessObjectService;
 import org.kuali.rice.kns.service.KNSServiceLocator;
-import org.kuali.rice.kns.util.GlobalVariables;
+import org.kuali.rice.kns.service.KualiConfigurationService;
 
 /**
  * Renders fields for the IRB notifications.
@@ -62,7 +62,7 @@ public class IRBNotificationRenderer extends NotificationRendererBase {
     public Map<String, String> getDefaultReplacementParameters() {
         String[] replacementParameters = IRBReplacementParameters.REPLACEMENT_PARAMETERS;
         
-        Map<String, String> params = new HashMap<String, String>();
+        Map<String, String> params = super.getDefaultReplacementParameters();
         
         String key = null;
         for (int i = 0; i < replacementParameters.length; i++) {
@@ -121,10 +121,6 @@ public class IRBNotificationRenderer extends NotificationRendererBase {
                 params.put(key, protocol.getProtocolSubmissionStatus());
             } else if (StringUtils.equals(key, IRBReplacementParameters.DOCUMENT_NUMBER)) {
                 params.put(key, protocol.getProtocolDocument().getDocumentNumber());
-            } else if (StringUtils.equals(key, IRBReplacementParameters.USER_FULLNAME)) {
-                if (GlobalVariables.getUserSession() != null) {
-                    params.put(key, getKcPersonService().getKcPersonByPersonId(GlobalVariables.getUserSession().getPrincipalId()).getFullName());
-                }
             } else if (StringUtils.equals(key, IRBReplacementParameters.PROTOCOL_REVIEW_TYPE_DESC)) {
                 if (protocol.getProtocolSubmission() != null) {
                     params.put(key, getProtocolReviewTypeDescription(protocol.getProtocolSubmission().getProtocolReviewTypeCode()));
@@ -149,7 +145,6 @@ public class IRBNotificationRenderer extends NotificationRendererBase {
                 }
             }
         }
-        
         return params;
     }
 
@@ -244,4 +239,9 @@ public class IRBNotificationRenderer extends NotificationRendererBase {
         }        
         return result;        
     }
+
+    private KualiConfigurationService getKualiConfigurationService() {
+        return KraServiceLocator.getService(KualiConfigurationService.class);
+    }
+    
 }
