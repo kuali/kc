@@ -1137,6 +1137,7 @@ public class CoiDisclosureServiceImpl implements CoiDisclosureService {
     private void setupDisclosures(MasterDisclosureBean masterDisclosureBean, CoiDisclosure coiDisclosure) {
         List<CoiDisclosureHistory> disclosureHistories = getDisclosureHistory(coiDisclosure.getCoiDisclosureNumber());
         CoiDisclosureHistory disclosureHistoryForView = getDisclosureHistoryForSelectedDiscl(disclosureHistories, coiDisclosure);
+        disclosureHistoryForView.refreshReferenceObject("coiDisclosure");
         for (CoiDisclosureHistory disclosureHistory : disclosureHistories) {
             if (disclosureHistory.getCoiDisclosureHistoryId().compareTo(disclosureHistoryForView.getCoiDisclosureHistoryId()) <= 0) {
                 // only list the history list up to the history associated to the disclosure selected
@@ -1179,6 +1180,9 @@ public class CoiDisclosureServiceImpl implements CoiDisclosureService {
      * get the first disc detail for this disclosure.  if orginaldisclosureid is not null, then it is from previous master discl
      */
     private CoiDiscDetail getCurrentProjectDetail(CoiDisclosure coiDisclosure) {
+        if (CollectionUtils.isEmpty(coiDisclosure.getCoiDiscDetails())) {
+            coiDisclosure.refreshReferenceObject("coiDiscDetails");
+        }
         for (CoiDiscDetail coiDiscDetail : coiDisclosure.getCoiDiscDetails()) {
             if (coiDiscDetail.getOriginalCoiDisclosure() == null) {
                 return coiDiscDetail;
