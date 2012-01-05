@@ -15,13 +15,14 @@
 --%>
 <%@ include file="/WEB-INF/jsp/kraTldHeader.jsp"%>
 <%@ attribute name="disclProject" required="true" type="org.kuali.kra.award.home.Award" %>
+<%@ attribute name="style" required="false" description="style for current project" %>
 
 <c:set var="coiDisclProjectAttributes" value="${DataDictionary.CoiDisclProject.attributes}" />
 <c:set var="coiDiscDetailAttributes" value="${DataDictionary.CoiDiscDetail.attributes}" />
 <c:set var="readOnly" value="${!KualiForm.disclosureHelper.canEditDisclosureFinancialEntity}" />
                 <div>
     	<h3>
-            <span class="subhead-left"> 
+            <span class="subhead-left"  style="${style}"> 
                 Award Number: ${disclProject.awardNumber} </span>
     		<span class="subhead-right"><kul:help businessObjectClassName="org.kuali.kra.coi.CoiDiscDetail" altText="help"/></span>
         </h3>

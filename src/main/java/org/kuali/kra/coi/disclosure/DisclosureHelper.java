@@ -97,8 +97,8 @@ public class DisclosureHelper implements Serializable {
     
     private void initializePermissions(CoiDisclosure coiDisclosure) {
         initializeModifyCoiDisclosurePermission(coiDisclosure);
-        canViewDisclosureFeHistory = hasCanViewDisclosureFeHistoryPermission(coiDisclosure);
         canEditDisclosureFinancialEntity = hasCanEditDisclosureFinancialEntityPermission(coiDisclosure);
+        canViewDisclosureFeHistory = canEditDisclosureFinancialEntity || hasCanViewDisclosureFeHistoryPermission(coiDisclosure);
     }
 
     private void initializeModifyCoiDisclosurePermission(CoiDisclosure coiDisclosure) {
