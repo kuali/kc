@@ -56,6 +56,7 @@ public interface Constants {
     public static final String MAPPING_PROTOCOL_ACTIONS = "protocolActions";
     public static final String MAPPING_PROTOCOL_ONLINE_REVIEW = "onlineReview";
     public static final String MAPPING_PROPOSAL_MEDUSA_PAGE = "proposalMedusa";
+    public static final String MAPPING_PROPOSAL_APPROVER_PAGE = "approverView";
     public static final String MAPPING_PROPOSAL_DISPLAY_INACTIVE = "displayInactive";
     public static final String NEW_PROPOSAL_PERSON_PROPERTY_NAME = "newProposalPerson";
     public static final String NEW_PERSON_LOOKUP_FLAG = "newPersonLookupFlag";
