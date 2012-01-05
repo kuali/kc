@@ -1030,6 +1030,10 @@ public class ProposalDevelopmentAction extends BudgetParentActionBase {
         return mapping.findForward(Constants.QUESTIONS_PAGE);
     }
     
+    public ActionForward approverView(ActionMapping mapping, ActionForm form, HttpServletRequest request, HttpServletResponse response) {
+        return mapping.findForward(Constants.MAPPING_PROPOSAL_APPROVER_PAGE);
+    }
+    
     
     /**
      * This method allows logic to be executed before a save, after authorization is confirmed.
