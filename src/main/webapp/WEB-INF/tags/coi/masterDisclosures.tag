@@ -44,7 +44,9 @@
 	                	                       <div align="left"> ${disclProjectBean.coiDisclosure.coiDispositionStatus.description}</div>
 	                                       </td>
 	                                       <td align="left" valign="middle">
-	                                           <div align="left"> ${disclProjectBean.coiDisclosure.updateTimestamp} </div>
+	                                           <div align="left"> 
+		                                            <fmt:formatDate value="${disclProjectBean.approvalDate}" pattern="MM/dd/yyyy" />
+	                                            </div>
 					                       </td>
 	                                       <td align="left" valign="middle">
 	                                           <div align="left"> ${disclProjectBean.projectName} </div>

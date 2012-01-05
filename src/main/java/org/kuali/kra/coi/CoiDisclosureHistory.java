@@ -35,7 +35,7 @@ public class CoiDisclosureHistory extends KraPersistableBusinessObjectBase {
     private Integer sequenceNumber; 
     private String disclosureStatus; 
     private String disclosureDispositionStatus; 
-    
+    private CoiDisclosure coiDisclosure;
     
     public CoiDisclosureHistory() { 
 
@@ -98,6 +98,14 @@ public class CoiDisclosureHistory extends KraPersistableBusinessObjectBase {
 
     public void setCoiDisclosureId(Long coiDisclosureId) {
         this.coiDisclosureId = coiDisclosureId;
+    }
+
+    public CoiDisclosure getCoiDisclosure() {
+        return coiDisclosure;
+    }
+
+    public void setCoiDisclosure(CoiDisclosure coiDisclosure) {
+        this.coiDisclosure = coiDisclosure;
     }
     
 }
