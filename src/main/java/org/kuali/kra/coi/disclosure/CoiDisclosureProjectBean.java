@@ -16,6 +16,7 @@
 package org.kuali.kra.coi.disclosure;
 
 import java.io.Serializable;
+import java.sql.Date;
 import java.util.ArrayList;
 import java.util.List;
 
@@ -38,6 +39,7 @@ public class CoiDisclosureProjectBean implements Serializable {
     private CoiDisclosure coiDisclosure;
     private String projectName;
     private String projectId;
+    private Date approvalDate; 
     
     public CoiDisclosureProjectBean() {
         projectDiscDetails = new ArrayList<CoiDiscDetail> ();
@@ -86,7 +88,7 @@ public class CoiDisclosureProjectBean implements Serializable {
 
 
     public String getProjectName() {
-        if (StringUtils.isEmpty(projectName)) {
+        if (StringUtils.isEmpty(projectName) && !getCoiDisclosure().isAnnualEvent()) {
                 projectName = ((Disclosurable)disclosureProject).getProjectName();
         }
         return projectName;
@@ -98,8 +100,17 @@ public class CoiDisclosureProjectBean implements Serializable {
     }
 
 
+    public boolean isCurrentProject() {
+        
+        if (CollectionUtils.isNotEmpty(projectDiscDetails)) {
+            return projectDiscDetails.get(0).getOriginalCoiDisclosure() == null;
+        } else {
+            return false;
+        }
+    }
+
     public String getProjectId() {
-        if (StringUtils.isEmpty(projectId)) {
+        if (StringUtils.isEmpty(projectId)  && !getCoiDisclosure().isAnnualEvent()) {
                 projectId = ((Disclosurable)disclosureProject).getProjectId();
         }
         return projectId;
@@ -108,6 +119,16 @@ public class CoiDisclosureProjectBean implements Serializable {
 
     public void setProjectId(String projectId) {
         this.projectId = projectId;
+    }
+
+
+    public Date getApprovalDate() {
+        return approvalDate;
+    }
+
+
+    public void setApprovalDate(Date approvalDate) {
+        this.approvalDate = approvalDate;
     }
 
 }

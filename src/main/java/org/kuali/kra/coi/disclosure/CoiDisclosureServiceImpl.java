@@ -41,6 +41,7 @@ import org.kuali.kra.coi.CoiDisclosure;
 import org.kuali.kra.coi.CoiDisclosureEventType;
 import org.kuali.kra.coi.CoiDisclosureHistory;
 import org.kuali.kra.coi.CoiDisclosureStatus;
+import org.kuali.kra.coi.CoiDispositionStatus;
 import org.kuali.kra.coi.DisclosureReporter;
 import org.kuali.kra.coi.DisclosureReporterUnit;
 import org.kuali.kra.coi.personfinancialentity.FinancialEntityService;
@@ -1126,14 +1127,65 @@ public class CoiDisclosureServiceImpl implements CoiDisclosureService {
             disclosureProjectBean.getProjectDiscDetails().add(coiDiscDetail);            
         }
         
-        Collections.sort(masterDisclosureBean.getAllProjects(), new Comparator<CoiDisclosureProjectBean>() {
-            public int compare(CoiDisclosureProjectBean disclosureProjectBean1, CoiDisclosureProjectBean disclosureProjectBean2) {
-                return disclosureProjectBean1.getCoiDisclosure().getSequenceNumber().compareTo(
-                        disclosureProjectBean2.getCoiDisclosure().getSequenceNumber());
-            }
-        });
-
+        setupDisclosures(masterDisclosureBean, coiDisclosure);
         return masterDisclosureBean;
+    }
+    
+    /*
+     * set up a list of disclosures that will be rendered in 'Disclosures' panel for master disclosure
+     */
+    private void setupDisclosures(MasterDisclosureBean masterDisclosureBean, CoiDisclosure coiDisclosure) {
+        List<CoiDisclosureHistory> disclosureHistories = getDisclosureHistory(coiDisclosure.getCoiDisclosureNumber());
+        CoiDisclosureHistory disclosureHistoryForView = getDisclosureHistoryForSelectedDiscl(disclosureHistories, coiDisclosure);
+        for (CoiDisclosureHistory disclosureHistory : disclosureHistories) {
+            if (disclosureHistory.getCoiDisclosureHistoryId().compareTo(disclosureHistoryForView.getCoiDisclosureHistoryId()) <= 0) {
+                // only list the history list up to the history associated to the disclosure selected
+                // may need to revise this 
+                CoiDiscDetail coiDiscDetail = getCurrentProjectDetail(disclosureHistory.getCoiDisclosure());
+                CoiDisclosureProjectBean disclosureProjectBean = getCoiDisclosureProjectBean(coiDiscDetail);
+                disclosureProjectBean.getProjectDiscDetails().add(coiDiscDetail);
+                disclosureProjectBean.setApprovalDate(new Date(disclosureHistory.getUpdateTimestamp().getTime()));
+                masterDisclosureBean.getAllProjects().add(disclosureProjectBean);
+            }
+        }
+    }
+    
+    /*
+     * get the approved disclosure history record for the associated disclosure
+     */
+    private CoiDisclosureHistory getDisclosureHistoryForSelectedDiscl(List<CoiDisclosureHistory> disclosureHistories, CoiDisclosure coiDisclosure) {
+        for (CoiDisclosureHistory disclosureHistory : disclosureHistories) {
+            if (disclosureHistory.getCoiDisclosureId().equals(coiDisclosure.getCoiDisclosureId())) {
+                return disclosureHistory;
+            }
+        }
+        return null;
+    }
+    
+    /*
+     * get the approved disclosure history for the specified disclosurenumber
+     */
+    @SuppressWarnings({ "unused", "unchecked" })
+    private List<CoiDisclosureHistory> getDisclosureHistory(String coiDisclosureNumber) {
+        Map<String, Object> fieldValues = new HashMap<String, Object>();
+        fieldValues.put("coiDisclosureNumber", coiDisclosureNumber);
+        fieldValues.put("disclosureDispositionStatus", CoiDispositionStatus.APPROVED);
+        return (List<CoiDisclosureHistory>) businessObjectService.findMatchingOrderBy(CoiDisclosureHistory.class, fieldValues,
+                "sequenceNumber", true);
+
+    }
+
+    /*
+     * get the first disc detail for this disclosure.  if orginaldisclosureid is not null, then it is from previous master discl
+     */
+    private CoiDiscDetail getCurrentProjectDetail(CoiDisclosure coiDisclosure) {
+        for (CoiDiscDetail coiDiscDetail : coiDisclosure.getCoiDiscDetails()) {
+            if (coiDiscDetail.getOriginalCoiDisclosure() == null) {
+                return coiDiscDetail;
+            }
+
+        }
+        return null;
     }
     
     /*

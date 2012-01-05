@@ -11,12 +11,12 @@
             <%-- Existing data --%>
 
              <div class="financialentity">
-                <h3>
+                 <div class="h2-container" style="height:20px; vertical-align:middle; background-color:#999; border-top:none; border-bottom:none; color:#FFF; font-weight:bold;">
     		        <span class="subhead-left">
                      <a href="#" id ="${projectDivNamePrefix}Control${idx}" class="financialEntitySubpanel"><img src='kr/images/tinybutton-hide.gif' alt='show/hide panel' width='45' height='15' border='0' align='absmiddle'></a> 
     		        Financial Entities </span>
-    		        <span class="subhead-right"><kul:help businessObjectClassName="org.kuali.kra.coi.CoiDiscDetail" altText="help"/></span>
-                </h3>
+    		        <span style="float: right;text-align: right;"><kul:help businessObjectClassName="org.kuali.kra.coi.CoiDiscDetail" altText="help"/></span>
+                </div>
 
                  <div  id="${projectDivNamePrefix}Details${idx}" style="margin-bottom:15px;">
                  <div  id="${projectDivNamePrefix}Content${idx}" class="financialEntitySubpanelContent" style="margin-bottom:15px;">

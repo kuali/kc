@@ -16,12 +16,13 @@
 <%@ include file="/WEB-INF/jsp/kraTldHeader.jsp"%>
 <%@ attribute name="idx" required="true" description="Coi disl project list index" %>
 <%@ attribute name="disclProject" required="true" type="org.kuali.kra.coi.CoiDisclProject" %>
+<%@ attribute name="style" required="false" description="style for current project" %>
 
 <c:set var="coiDisclProjectAttributes" value="${DataDictionary.CoiDisclProject.attributes}" />
 <c:set var="coiDiscDetailAttributes" value="${DataDictionary.CoiDiscDetail.attributes}" />
                 <div>
                 <h3>
-    		        <span class="subhead-left">Protocol Number: ${disclProject.coiProjectId}</span>
+    		        <span class="subhead-left" style="${style}">Protocol Number: ${disclProject.coiProjectId}</span>
     		        <span class="subhead-right"><kul:help businessObjectClassName="org.kuali.kra.coi.CoiDiscDetail" altText="help"/></span>
                 </h3>
               
