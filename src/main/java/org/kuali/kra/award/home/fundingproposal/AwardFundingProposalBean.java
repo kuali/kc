@@ -217,9 +217,10 @@ public class AwardFundingProposalBean implements Serializable {
         return getInstitutionalProposalService().getActiveInstitutionalProposalVersion(proposalNumber);
     }
 
-    private void performDataFeeds(Award award, InstitutionalProposal proposal) {
+    protected void performDataFeeds(Award award, InstitutionalProposal proposal) {
         FundingProposalMergeType mergeType = getMergeType();
-        //removed BaseFieldDataFeed and SponsorDataFeed not to overWrite related award fields
+        new BaseFieldsDataFeedCommand(award, proposal, mergeType).performDataFeed();
+        new SponsorDataFeedCommand(award, proposal, mergeType).performDataFeed();
         new CommentsDataFeedCommand(award, proposal, mergeType).performDataFeed();
         new SpecialReviewDataFeedCommand(award, proposal, mergeType).performDataFeed();
         proposal.refreshReferenceObject("institutionalProposalCostShares");

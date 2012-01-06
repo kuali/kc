@@ -60,7 +60,7 @@ class CostSharingDataFeedCommand extends ProposalDataFeedCommandBase {
 
     private void addCostShareComment(Award award, InstitutionalProposal proposal) {
         String newComment = String.format(COST_SHARE_COMMENT_PATTERN, proposal.getProposalNumber());
-        appendComments(findOrCreateCommentOfSpecifiedType(new AwardCommentFactory().createSpecialReviewComment()), newComment);
+        appendComments(findOrCreateCommentOfSpecifiedType(new AwardCommentFactory().createCostShareComment()), newComment);
     }
     
     /**

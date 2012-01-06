@@ -21,20 +21,29 @@ import java.util.List;
 import java.util.Set;
 import java.util.TreeSet;
 
+import org.apache.commons.lang.StringUtils;
 import org.junit.After;
 import org.junit.Assert;
 import org.junit.Before;
 import org.junit.Test;
+import org.kuali.kra.award.customdata.AwardCustomData;
 import org.kuali.kra.award.home.Award;
 import org.kuali.kra.award.home.AwardService;
 import org.kuali.kra.award.home.AwardServiceImpl;
+import org.kuali.kra.bo.NsfCode;
+import org.kuali.kra.bo.Sponsor;
+import org.kuali.kra.institutionalproposal.home.InstitutionalProposal;
+import org.kuali.kra.proposaldevelopment.bo.ActivityType;
+import org.kuali.kra.test.infrastructure.KcUnitTestBase;
 
-public class AwardFundingProposalBeanTest {
+public class AwardFundingProposalBeanTest extends KcUnitTestBase {
     private AwardFundingProposalBean bean;
     
     private Award award1;
     private Award award2;
     private Award award3;
+    
+    private InstitutionalProposal instProp;
     
     final MockAwardService awardService = new MockAwardService();
     
@@ -45,7 +54,19 @@ public class AwardFundingProposalBeanTest {
         award2 = createAward(2L, "100002-001", 1);
         award3 = createAward(3L, "100001-001", 2);
         
-        
+        Sponsor testSponsor = new Sponsor();
+        testSponsor.setSponsorCode("testsp");
+       
+        instProp = new InstitutionalProposal();
+        instProp.setProposalNumber(InstitutionalProposal.PROPOSAL_NUMBER_TEST_DEFAULT_STRING);
+        instProp.setTitle("Test Title");
+        instProp.setActivityTypeCode("RES");
+        instProp.setCfdaNumber("11.111a");
+        instProp.setNsfCode("0A");        
+        instProp.setActivityType(new ActivityType());
+        instProp.setSponsor(testSponsor);
+        instProp.setPrimeSponsor(testSponsor);
+        instProp.setNsfCodeBo(new NsfCode());
         
         bean = new AwardFundingProposalBean() {
             Award getAward() {
@@ -87,6 +108,40 @@ public class AwardFundingProposalBeanTest {
         Assert.assertEquals(1, actualResults.get(0).getSequenceNumber().intValue());
         Assert.assertEquals(2, actualResults.get(1).getSequenceNumber().intValue());
     }
+    
+    /**
+     * Much of the functionality here is tested in respective feed commands.
+     * This is just to ensure some of the basics are handled correctly but
+     * more could be easily added.
+     */
+    @Test
+    public void testPerformDataFeedsNewAward() {
+        bean.setMergeType(FundingProposalMergeType.NEWAWARD);
+        //hack to avoid trying to build custom data
+        award3.getAwardCustomDataList().add(new AwardCustomData());
+        bean.performDataFeeds(award3, instProp);
+        assertEquals(instProp.getTitle(), award3.getTitle());
+        assertEquals(instProp.getActivityTypeCode(), award3.getActivityTypeCode());
+        assertEquals(instProp.getSponsorCode(), award3.getSponsorCode());
+        assertEquals(instProp.getPrimeSponsorCode(), award3.getPrimeSponsorCode());
+        assertEquals(instProp.getCfdaNumber(), award3.getCfdaNumber());
+        assertEquals(instProp.getNsfCode(), award3.getNsfCode());
+    }
+    
+    @Test
+    public void testPerformDataFeedsNoChange() {
+        bean.setMergeType(FundingProposalMergeType.NOCHANGE);
+        //hack to avoid trying to build custom data
+        award3.getAwardCustomDataList().add(new AwardCustomData());
+        bean.performDataFeeds(award3, instProp);
+        assertFalse(StringUtils.equals(instProp.getTitle(), award3.getTitle()));
+        assertFalse(StringUtils.equals(instProp.getActivityTypeCode(), award3.getActivityTypeCode()));
+        assertFalse(StringUtils.equals(instProp.getSponsorCode(), award3.getSponsorCode()));
+        assertFalse(StringUtils.equals(instProp.getPrimeSponsorCode(), award3.getPrimeSponsorCode()));
+        assertFalse(StringUtils.equals(instProp.getCfdaNumber(), award3.getCfdaNumber()));
+        assertFalse(StringUtils.equals(instProp.getNsfCode(), award3.getNsfCode()));
+    }
+    
     
     private Award createAward(Long id, String awardNumber, Integer sequenceNumber) {
         Award award = new Award();
