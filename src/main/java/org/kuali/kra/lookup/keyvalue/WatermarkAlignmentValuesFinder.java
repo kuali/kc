@@ -24,9 +24,9 @@ import org.kuali.rice.kns.lookup.keyvalues.KeyValuesBase;
 public class WatermarkAlignmentValuesFinder extends KeyValuesBase {
     public List<KeyLabelPair> getKeyValues() {
         List<KeyLabelPair> keyValues = new ArrayList<KeyLabelPair>();
-        keyValues.add(new KeyLabelPair("LEFT", WatermarkConstants.ALIGN_RIGHT));
+        keyValues.add(new KeyLabelPair("LEFT", WatermarkConstants.ALIGN_LEFT));
         keyValues.add(new KeyLabelPair("CENTER", WatermarkConstants.ALIGN_CENTER));
-        keyValues.add(new KeyLabelPair("RIGHT", WatermarkConstants.ALIGN_LEFT ));
+        keyValues.add(new KeyLabelPair("RIGHT", WatermarkConstants.ALIGN_RIGHT ));
         return keyValues;
     }
 }
