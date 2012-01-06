@@ -87,16 +87,17 @@ public class CoiDisclosureActionServiceImpl implements CoiDisclosureActionServic
      */
     private void copyDisclosureDetails(CoiDisclosure masterCoiDisclosure, CoiDisclosure coiDisclosure) {
         // may also need to add note/attachment to new master disclosure
-        CoiDisclosure copiedDisclosure = (CoiDisclosure) ObjectUtils.deepCopy(masterCoiDisclosure);
-        for (CoiDiscDetail coiDiscDetail : copiedDisclosure.getCoiDiscDetails()) {
+//        CoiDisclosure copiedDisclosure = (CoiDisclosure) ObjectUtils.deepCopy(masterCoiDisclosure);
+        for (CoiDiscDetail coiDiscDetail : masterCoiDisclosure.getCoiDiscDetails()) {
             if (!isDisclosureDetailExist(coiDisclosure, coiDiscDetail)) {
-                coiDiscDetail.setCopiedCoiDiscDetailId(coiDiscDetail.getCoiDiscDetailId());
-                coiDiscDetail.setSequenceNumber(coiDisclosure.getSequenceNumber());
-                coiDiscDetail.setCoiDiscDetailId(null);
-                if (coiDiscDetail.getOriginalCoiDisclosureId() == null) {
-                    coiDiscDetail.setOriginalCoiDisclosureId(masterCoiDisclosure.getCoiDisclosureId());
+                CoiDiscDetail copiedDiscDetail = (CoiDiscDetail) ObjectUtils.deepCopy(coiDiscDetail);
+                copiedDiscDetail.setCopiedCoiDiscDetailId(copiedDiscDetail.getCoiDiscDetailId());
+                copiedDiscDetail.setSequenceNumber(coiDisclosure.getSequenceNumber());
+                copiedDiscDetail.setCoiDiscDetailId(null);
+                if (copiedDiscDetail.getOriginalCoiDisclosureId() == null) {
+                    copiedDiscDetail.setOriginalCoiDisclosureId(masterCoiDisclosure.getCoiDisclosureId());
                 }
-                coiDisclosure.getCoiDiscDetails().add(coiDiscDetail);
+                coiDisclosure.getCoiDiscDetails().add(copiedDiscDetail);
             }
         }
     }
