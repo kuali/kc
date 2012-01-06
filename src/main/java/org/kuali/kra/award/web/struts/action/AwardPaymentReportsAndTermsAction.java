@@ -310,6 +310,29 @@ public class AwardPaymentReportsAndTermsAction extends AwardAction {
         return af;
     }
     
+    public ActionForward deleteReportTrackingRecord(ActionMapping mapping, ActionForm form,
+            HttpServletRequest request, HttpServletResponse response) throws Exception {
+        AwardForm awardForm =(AwardForm) form;
+        int reportTrackingRecordToDelete = getLineToDelete(request);
+        int awardReportTermRecord = getSelectedAwardTermRecord(request);
+        AwardReportTerm art = awardForm.getAwardDocument().getAward().getAwardReportTermItems().get(awardReportTermRecord);
+        ReportTracking rt = art.getReportTrackings().get(reportTrackingRecordToDelete);
+        art.getReportTrackings().remove(reportTrackingRecordToDelete);
+        awardForm.getReportTrackingsToDelete().add(rt);
+        return mapping.findForward(Constants.MAPPING_AWARD_BASIC);
+    }
+    
+    protected int getSelectedAwardTermRecord(HttpServletRequest request) {
+        int selectedLine = -1;
+        String parameterName = (String) request.getAttribute(KNSConstants.METHOD_TO_CALL_ATTRIBUTE);
+        if (StringUtils.isNotBlank(parameterName)) {
+            String lineNumber = StringUtils.substringBetween(parameterName, ".awardReportTermItems", ".");
+            selectedLine = Integer.parseInt(lineNumber);
+        }
+
+        return selectedLine;
+    }
+    
     /**
      * 
      * This method adds an AwardCloseout Item.
