@@ -106,13 +106,11 @@ public class BudgetSummaryServiceImpl implements BudgetSummaryService {
                     /* add line items for following periods */
                     for(BudgetLineItem periodLineItem: budgetLineItems) {
                         BudgetLineItem budgetLineItem = (BudgetLineItem)(KraServiceLocator.getService(DeepCopyPostProcessor.class).processDeepCopyWithDeepCopyIgnore(periodLineItem));
-                        //required to avoid deep copying multiple versions of the budget. With only a few line items 
-                        //this would cause deep copy to hang and possibly crash the server.
-                        budgetLineItem.setBudgetPeriodBO(budgetPeriod);
                         budgetLineItem.setBudgetId(budget.getBudgetId());
                         budgetLineItem.getBudgetCalculatedAmounts().clear();
                         budgetLineItem.setBudgetPeriod(budPeriod);
                         budgetLineItem.setBudgetPeriodId(budgetPeriodId);
+                        budgetLineItem.setBudgetPeriodBO(budgetPeriod);
                         boolean isLeapDateInPeriod = isLeapDaysInPeriod(budgetLineItem.getStartDate(), budgetLineItem.getEndDate()) ;
                         gap=KraServiceLocator.getService(DateTimeService.class).dateDiff(budgetPeriod1.getStartDate(), budgetLineItem.getStartDate(), false);
                         boolean isLeapDayInGap = isLeapDaysInPeriod(budgetPeriod1.getStartDate(), budgetLineItem.getStartDate());

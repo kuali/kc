@@ -67,6 +67,9 @@ public abstract class BudgetLineItemBase extends BudgetAssociate {
     private boolean validToApplyInRate;
     private String groupName;
     
+    //ignore the budget period bo during deep copy as any link up the budget object graph
+    //will cause generateAllPeriods to consume large amounts of memory
+    @DeepCopyIgnore
     private BudgetPeriod budgetPeriodBO;
 	public String getGroupName() {
         return groupName;
