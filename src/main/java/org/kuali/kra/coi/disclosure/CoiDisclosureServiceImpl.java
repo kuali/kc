@@ -1146,6 +1146,15 @@ public class CoiDisclosureServiceImpl implements CoiDisclosureService {
                 CoiDisclosureProjectBean disclosureProjectBean = getCoiDisclosureProjectBean(coiDiscDetail);
                 disclosureProjectBean.getProjectDiscDetails().add(coiDiscDetail);
                 disclosureProjectBean.setApprovalDate(new Date(disclosureHistory.getUpdateTimestamp().getTime()));
+                if (disclosureHistory.getCoiDisclosure() == null) {
+                    // immediatly after approve may need this
+                    disclosureHistory.refreshReferenceObject("coiDisclosure");
+                }
+                // immediatly after approve may need this.  pretty annoying.  TODO : ?
+                disclosureHistory.getCoiDisclosure().refreshReferenceObject("coiDisclosureEventType");
+                disclosureHistory.getCoiDisclosure().refreshReferenceObject("coiDisclosureStatus");
+                disclosureHistory.getCoiDisclosure().refreshReferenceObject("coiDispositionStatus");
+                disclosureProjectBean.setCoiDisclosure(disclosureHistory.getCoiDisclosure());
                 masterDisclosureBean.getAllProjects().add(disclosureProjectBean);
             }
         }
@@ -1184,7 +1193,11 @@ public class CoiDisclosureServiceImpl implements CoiDisclosureService {
             coiDisclosure.refreshReferenceObject("coiDiscDetails");
         }
         for (CoiDiscDetail coiDiscDetail : coiDisclosure.getCoiDiscDetails()) {
-            if (coiDiscDetail.getOriginalCoiDisclosure() == null) {
+            if (coiDiscDetail.getOriginalCoiDisclosure() == null || coiDiscDetail.getCoiDisclosureId().equals(coiDiscDetail.getOriginalCoiDisclosureId())) {
+                if (coiDiscDetail.getCoiDisclosure() == null) {
+                    // immediatly after approve may need this
+                    coiDiscDetail.refreshReferenceObject("coiDisclosure");
+                }
                 return coiDiscDetail;
             }
 

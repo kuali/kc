@@ -306,6 +306,9 @@ public class CoiDiscDetail extends KraPersistableBusinessObjectBase implements C
     }
 
     public CoiDisclosure getOriginalCoiDisclosure() {
+        if (originalCoiDisclosureId != null && originalCoiDisclosure ==null) {
+            this.refreshReferenceObject("originalCoiDisclosure");
+        }
         return originalCoiDisclosure;
     }
 
