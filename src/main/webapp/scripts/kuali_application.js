@@ -3052,10 +3052,11 @@ function loadRolodexInfoById() {
 		else
 		{
 			var dwrReply = {
-					callback:function(data) {
-				if ( data != null ) {
-					$jq(fullNameElement).parent().find('div').html(data.fullName);}
-			},
+				callback:function(data) {
+					if ( data != null ) {
+						$jq(fullNameElement).parent().find('div').html(data.fullName);
+					}
+				}
 			};
 			RolodexServiceRight.getRolodex(rolodexId, dwrReply);
 		}
