@@ -207,10 +207,6 @@ public class AwardHomeAction extends AwardAction {
             Award award = findSelectedAward(request.getParameter(AWARD_ID_PARAMETER_NAME));
             initializeFormWithAward(awardForm, award);
         }
-        //if award is new then we need to not cache values finder results so funding proposal type will be refreshed
-        if (awardForm.getAwardDocument().getAward().isNew()) {
-            ((ActionFormUtilMap) awardForm.getActionFormUtilMap()).clear();
-        }
         
         return actionForward;
     }
