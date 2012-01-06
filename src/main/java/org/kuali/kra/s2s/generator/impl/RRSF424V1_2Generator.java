@@ -174,6 +174,7 @@ public class RRSF424V1_2Generator extends RRSF424BaseGenerator {
 			}
 
 			BudgetDecimal fedNonFedCost = BudgetDecimal.ZERO;
+			BudgetDecimal nonFedCost = BudgetDecimal.ZERO;
 			fedNonFedCost = fedNonFedCost.add(budget.getTotalCost());
 
 			for (BudgetPeriod budgetPeriod : budget.getBudgetPeriods()) {
@@ -182,14 +183,14 @@ public class RRSF424V1_2Generator extends RRSF424BaseGenerator {
                     fedNonFedCost=fedNonFedCost.add(lineItem.getCostSharingAmount());
                     }
             }
+			if(budget.getSubmitCostSharingFlag()){
+			    nonFedCost = budget.getCostSharingAmount();			    
+			}
 			
 			funding = EstimatedProjectFunding.Factory.newInstance();
 			funding.setTotalEstimatedAmount(budget.getTotalCost()
 					.bigDecimalValue());
-			funding.setTotalNonfedrequested(budget.getCostSharingAmount()
-					.bigDecimalValue());
-			funding.setTotalNonfedrequested(budget.getCostSharingAmount()
-					.bigDecimalValue());
+			funding.setTotalNonfedrequested(nonFedCost.bigDecimalValue());
 			funding.setTotalfedNonfedrequested(fedNonFedCost.bigDecimalValue());
 			funding.setEstimatedProgramIncome(getTotalProjectIncome(budget));
 		}
