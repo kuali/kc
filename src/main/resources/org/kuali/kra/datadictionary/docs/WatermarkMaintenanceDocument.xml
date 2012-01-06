@@ -64,8 +64,7 @@
                     p:name="watermarkPosition" 
                     p:required="true"/>    
                   <bean parent="MaintainableFieldDefinition"
-                    p:name="watermarkAlignment" 
-                    p:required="true"/>        
+                    p:name="watermarkAlignment" />        
                <bean parent="MaintainableFieldDefinition"
                     p:name="fontSize"  />
                  <bean parent="MaintainableFieldDefinition"
