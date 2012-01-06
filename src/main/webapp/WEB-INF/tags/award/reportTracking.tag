@@ -46,7 +46,7 @@
 				<th> <div align="center">
 					<kul:htmlAttributeLabel attributeEntry="${reportTrackingBeanAttributes.comments}" noColon="true" />
 				</div></th>
-				<th> <div align="center">Action</div></th>	
+				<th colspan="2"> <div align="center">Action</div></th>	
 			</tr>
 			<tr>
 				<th colspan="3">
@@ -88,7 +88,7 @@
 					<kul:htmlControlAttribute property="reportTrackingBeans[${index}].comments" 
 							attributeEntry="${reportTrackingBeanAttributes.comments}" readOnly="${reportTrackingReadOnly }"  />
 				</td>
-				<td>
+				<td colspam="2">
 					<div align="center">
 					<html:image property="methodToCall.updateMultileReportTracking.AwardReportTermItemsIndex${index}"
 											src='${ConfigProperties.kra.externalizable.images.url}tinybutton-update.gif' 
@@ -122,6 +122,7 @@
 			<th> <div align="center">
 				Last Update
 			</div></th>
+			<th> <div align="center">Action</div></th>
 		</tr>
 		<c:forEach var="reportTracking" items="${KualiForm.document.award.awardReportTermItems[index].reportTrackings}" varStatus="status">
 			<tr>
@@ -169,6 +170,12 @@
 					${reportTracking.lastUpdateUser } : 
 					<fmt:formatDate value="${reportTracking.lastUpdateDate}" pattern="MM/dd/yyyy HH:mm:ss"/>
 					
+				</td>
+				<td>
+					<c:if test="${reportTracking.statusCode == '1'}">
+						<html:image property="methodToCall.deleteReportTrackingRecord.awardReportTermItems${index}.line${status.index}.anchor${currentTabIndex}"
+				        src='${ConfigProperties.kra.externalizable.images.url}tinybutton-delete1.gif' styleClass="tinybutton"/>
+			        </c:if>
 				</td>
 			</tr>			
 		</c:forEach>
