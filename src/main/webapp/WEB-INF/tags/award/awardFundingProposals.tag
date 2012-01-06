@@ -53,11 +53,13 @@
 			    	</td>
 			    	<td class="infoline">
 			    	    <div align="center">
+			    	    	${KualiForm.valueFinderResultDoNotCache}
 			    	        <kul:htmlAttributeLabel attributeEntry="${fundingProposalBeanAttributes.mergeTypeCode}" skipHelpUrl="true"/>
 			    	  	 	&nbsp;
 			    	    	<kul:htmlControlAttribute property="fundingProposalBean.mergeTypeCode"
 			    	    							  attributeEntry="${fundingProposalBeanAttributes.mergeTypeCode}"
 			    	    							  readOnly="false" />
+			    			${KualiForm.valueFinderResultCache}
 			    	    </div></td>
 			        <td class="infoline">
 			        	<div align="center">
