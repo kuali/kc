@@ -108,6 +108,7 @@ public class BudgetSummaryServiceImpl implements BudgetSummaryService {
                         BudgetLineItem budgetLineItem = (BudgetLineItem)(KraServiceLocator.getService(DeepCopyPostProcessor.class).processDeepCopyWithDeepCopyIgnore(periodLineItem));
                         //required to avoid deep copying multiple versions of the budget. With only a few line items 
                         //this would cause deep copy to hang and possibly crash the server.
+                        budgetLineItem.setBudgetPeriodBO(budgetPeriod);
                         budgetLineItem.setBudgetId(budget.getBudgetId());
                         budgetLineItem.getBudgetCalculatedAmounts().clear();
                         budgetLineItem.setBudgetPeriod(budPeriod);
