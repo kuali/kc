@@ -100,22 +100,23 @@ public class WatermarkServiceImpl implements WatermarkService {
                     .getPageSizeWithRotation(1))
                     : new com.lowagie.text.Document();
             writer = PdfWriter.getInstance(document, byteArrayOutputStream);
-            BaseFont bf_courier = BaseFont.createFont(BaseFont.COURIER, "Cp1252", false);
-            BaseFont bf_courier1 = BaseFont.createFont(BaseFont.COURIER, "Cp1252", false); 
+            Font bf_courier=new Font(Font.TIMES_ROMAN, watermarkBean.getPositionFont().getSize(), Font.BOLD, watermarkBean.getFont().getColor());
             if(watermarkBean.getPosition().equals(WatermarkConstants.WATERMARK_POSITION_FOOTER)){
-             HeaderFooter footer = new HeaderFooter(new Phrase(watermarkBean.getText(), new Font(bf_courier1)), false);
+             HeaderFooter footer = new HeaderFooter(new Phrase(watermarkBean.getText(), new Font(bf_courier)), false);
              footer.setBorder(Rectangle.NO_BORDER);
             footer.setBorderColor(watermarkBean.getFont().getColor());
             if(watermarkBean.getAlignment().equals(WatermarkConstants.ALIGN_CENTER)){
-             footer.setAlignment(Element.ALIGN_CENTER);}
+           footer.setAlignment(Element.ALIGN_CENTER);}
             else if(watermarkBean.getAlignment().equals(WatermarkConstants.ALIGN_RIGHT)){
                 footer.setAlignment(Element.ALIGN_RIGHT); 
             }
             else if(watermarkBean.getAlignment().equals(WatermarkConstants.ALIGN_LEFT)){
                 footer.setAlignment(Element.ALIGN_LEFT); 
             }
-             document.setFooter(footer);}
-            else
+             document.setFooter(footer);
+             watermarkPageDocument(document,writer,reader);
+           }
+            else if(watermarkBean.getPosition().equals(WatermarkConstants.WATERMARK_POSITION_HEADER))
             {
               HeaderFooter header = new HeaderFooter(
                          new Phrase(watermarkBean.getText(), new Font(bf_courier)), false);
@@ -128,21 +129,16 @@ public class WatermarkServiceImpl implements WatermarkService {
                 else if(watermarkBean.getAlignment().equals(WatermarkConstants.ALIGN_LEFT)){
                     header.setAlignment(Element.ALIGN_LEFT); 
                 }
-              document.setHeader(header);}
-              document.open();
-              int pageCount = 1;
-              PdfContentByte cb = writer.getDirectContent();
-              document.setPageSize(reader.getPageSize(pageCount));
-              document.newPage();
-              PdfImportedPage page = writer.getImportedPage(reader, pageCount);
-              cb.addTemplate(page, 1, 0, 0, 1, 0, 0);
-      PdfOutline root = cb.getRootOutline();
-      document.close();
-      byte[]bs=byteArrayOutputStream.toByteArray();
-      pdfReader=new PdfReader(bs);
+               document.setHeader(header);
+               watermarkPageDocument(document,writer,reader);
+             }
+            else if(watermarkBean.getPosition().equals(WatermarkConstants.WATERMARK_POSITION_DIAGONAL)){
+                watermarkPageDocument(document,writer,reader);
+                 byte[]bs=byteArrayOutputStream.toByteArray();
+               pdfReader=new PdfReader(bs);
             pdfStamp = new PdfStamper(pdfReader, byteArrayOutputStream);
             decorateWatermark(pdfStamp, watermarkBean);
-        }
+        }}
         catch (IOException decorateWatermark) {
             LOG.error("Exception occured in WatermarkServiceImpl. Water mark Exception: " + decorateWatermark.getMessage());
         }
@@ -164,7 +160,6 @@ public class WatermarkServiceImpl implements WatermarkService {
         PdfReader pdfReader = watermarkPdfStamper.getReader();
         int pageCount = pdfReader.getNumberOfPages();
         int pdfPageNumber = 0;
-
         PdfContentByte pdfContents;
         Rectangle rectangle;
         while (pdfPageNumber < pageCount) {
@@ -233,7 +228,25 @@ public class WatermarkServiceImpl implements WatermarkService {
 
 
     }
-
+    /**
+     * This method is for setting the page properties of the document.
+     * 
+     * @param Document
+     * @param PdfWriter
+     * @param PdfReader
+     
+     */
+    
+    private void watermarkPageDocument(Document document,PdfWriter writer,PdfReader reader){
+        document.open();
+        int pageCount = 1;
+        PdfContentByte cb = writer.getDirectContent();
+        document.setPageSize(reader.getPageSize(pageCount));
+        document.newPage();
+        PdfImportedPage page = writer.getImportedPage(reader, pageCount);
+        cb.addTemplate(page, 1, 0, 0, 1, 0, 0);
+      document.close();
+    }
     /**
      * This method is for setting the properties of watermark Image.
      * 

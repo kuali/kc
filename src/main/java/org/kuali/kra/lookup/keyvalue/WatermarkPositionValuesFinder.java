@@ -26,6 +26,7 @@ public class WatermarkPositionValuesFinder extends KeyValuesBase{
         List<KeyLabelPair> keyValues = new ArrayList<KeyLabelPair>();
         keyValues.add(new KeyLabelPair("HEADER", WatermarkConstants.WATERMARK_POSITION_HEADER));
         keyValues.add(new KeyLabelPair("FOOTER", WatermarkConstants.WATERMARK_POSITION_FOOTER));
+        keyValues.add(new KeyLabelPair("DIAGONAL", WatermarkConstants.WATERMARK_POSITION_DIAGONAL));
         return keyValues;
     }
 }
