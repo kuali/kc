@@ -467,7 +467,10 @@ import org.junit.runners.Suite.SuiteClasses;
     org.kuali.kra.common.notification.rules.SendNotificationRuleTest.class,
     org.kuali.kra.common.notification.KcNotificationServiceTest.class,
     org.kuali.kra.award.paymentreports.ReportTrackingViewValuesFinderTest.class,
-    org.kuali.kra.proposaldevelopment.rules.ProposalDevelopmentProposalAttachmentsAuditRuleTest.class
+    org.kuali.kra.proposaldevelopment.rules.ProposalDevelopmentProposalAttachmentsAuditRuleTest.class,
+    org.kuali.kra.common.notification.NotificationRendererBaseTest.class,
+    org.kuali.kra.irb.notification.IRBNotificationRendererTest.class
+    
 })
 /** these are all the test class where all the test methods are currently passing. */
 public class PassSuite {
