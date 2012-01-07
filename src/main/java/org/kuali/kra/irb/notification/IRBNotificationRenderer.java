@@ -33,7 +33,6 @@ import org.kuali.kra.irb.actions.submit.ProtocolSubmissionType;
 import org.kuali.kra.service.KcPersonService;
 import org.kuali.rice.kns.service.BusinessObjectService;
 import org.kuali.rice.kns.service.KNSServiceLocator;
-import org.kuali.rice.kns.service.KualiConfigurationService;
 
 /**
  * Renders fields for the IRB notifications.
@@ -238,10 +237,6 @@ public class IRBNotificationRenderer extends NotificationRendererBase {
             result = committees.get(0).getCommitteeName();
         }        
         return result;        
-    }
-
-    private KualiConfigurationService getKualiConfigurationService() {
-        return KraServiceLocator.getService(KualiConfigurationService.class);
     }
     
 }
