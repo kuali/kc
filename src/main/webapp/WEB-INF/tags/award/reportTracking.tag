@@ -172,9 +172,10 @@
 					
 				</td>
 				<td>
-					<c:if test="${reportTracking.statusCode == '1'}">
+					<c:if test="${reportTracking.displayDeleteButton}">
 						<html:image property="methodToCall.deleteReportTrackingRecord.awardReportTermItems${index}.line${status.index}.anchor${currentTabIndex}"
-				        src='${ConfigProperties.kra.externalizable.images.url}tinybutton-delete1.gif' styleClass="tinybutton"/>
+				        src='${ConfigProperties.kra.externalizable.images.url}tinybutton-delete1.gif' styleClass="tinybutton"
+				        onclick="return confirm('Are you sure you want to delete this report tracking detail?  Note, this record may be regenerated on the next save, based on the selected frequency and frequency base.')"/>
 			        </c:if>
 				</td>
 			</tr>			
