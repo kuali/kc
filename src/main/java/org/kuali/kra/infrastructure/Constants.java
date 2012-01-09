@@ -783,6 +783,8 @@ public interface Constants {
     public static final String DISCLOSURE_MANUAL_FINANCIAL_ENTITY_KEY = "document.coiDisclosureList[0].coiDisclProjects[0].coiDiscDetails[%s].entityStatusCode";
     public static final String DISCLOSURE_ANNUAL_FINANCIAL_ENTITY_KEY = "document.coiDisclosureList[0].coiDisclEventProjects[%s].coiDiscDetails[%s].entityStatusCode";
     
-    
+    // Person Mass Change
+    public static final String MAPPING_PMC_HOME_PAGE = "home";
+    public static final String MAPPING_PMC_VIEW_PAGE = "view";
 
 }

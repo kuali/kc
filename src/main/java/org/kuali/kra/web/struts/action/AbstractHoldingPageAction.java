@@ -27,6 +27,7 @@ import org.kuali.kra.infrastructure.KraServiceLocator;
 import org.kuali.kra.institutionalproposal.document.InstitutionalProposalDocument;
 import org.kuali.kra.irb.ProtocolDocument;
 import org.kuali.kra.irb.ProtocolOnlineReviewDocument;
+import org.kuali.kra.personmasschange.document.PersonMassChangeDocument;
 import org.kuali.kra.proposaldevelopment.document.ProposalDevelopmentDocument;
 import org.kuali.kra.timeandmoney.document.TimeAndMoneyDocument;
 import org.kuali.rice.kew.util.KEWConstants;
@@ -102,10 +103,12 @@ public abstract class AbstractHoldingPageAction extends KualiAction {
             isProcessComplete = ((ProposalDevelopmentDocument) document).isProcessComplete();
         } else if (document instanceof ProtocolDocument) {
             isProcessComplete = ((ProtocolDocument) document).isProcessComplete();
-        }else if (document instanceof TimeAndMoneyDocument) {
+        } else if (document instanceof TimeAndMoneyDocument) {
             isProcessComplete = ((TimeAndMoneyDocument) document).isProcessComplete();
         } else if (document instanceof ProtocolOnlineReviewDocument) {
             isProcessComplete = ((ProtocolOnlineReviewDocument) document).isProcessComplete();
+        } else if (document instanceof PersonMassChangeDocument) {
+            isProcessComplete = ((PersonMassChangeDocument) document).isProcessComplete();
         }
         
         return isProcessComplete;

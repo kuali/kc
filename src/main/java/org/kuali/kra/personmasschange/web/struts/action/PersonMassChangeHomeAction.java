@@ -22,9 +22,6 @@ import org.apache.struts.action.ActionForm;
 import org.apache.struts.action.ActionForward;
 import org.apache.struts.action.ActionMapping;
 import org.kuali.kra.infrastructure.Constants;
-import org.kuali.kra.personmasschange.bo.PersonMassChange;
-import org.kuali.kra.personmasschange.document.PersonMassChangeDocument;
-import org.kuali.kra.personmasschange.rule.event.PerformPersonMassChangeEvent;
 import org.kuali.kra.personmasschange.web.struts.form.PersonMassChangeForm;
 import org.kuali.kra.personmasschange.web.struts.form.PersonMassChangeHomeHelper;
 
@@ -39,6 +36,20 @@ public class PersonMassChangeHomeAction extends PersonMassChangeAction {
         personMassChangeHomeHelper.prepareView();
         
         return forward;
+    }
+    
+    @Override
+    public ActionForward approve(ActionMapping mapping, ActionForm form, HttpServletRequest request, HttpServletResponse response) throws Exception {
+        super.approve(mapping, form, request, response);
+        
+        return routeToHoldingPage(mapping, form, request, response, Constants.MAPPING_PMC_HOME_PAGE);
+    }
+    
+    @Override
+    public ActionForward blanketApprove(ActionMapping mapping, ActionForm form, HttpServletRequest request, HttpServletResponse response) throws Exception {
+        super.blanketApprove(mapping, form, request, response);
+        
+        return routeToHoldingPage(mapping, form, request, response, Constants.MAPPING_PMC_HOME_PAGE);
     }
 
 }
