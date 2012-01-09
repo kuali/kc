@@ -145,7 +145,8 @@ public class PHS398FellowshipSupplementalV1_2Generator extends PHS398FellowshipS
     
     private static final String ANSWER_YES = "Yes";
     private static final String ANSWER_NO = "No";
-
+    private static final String ANSWER_Y = "Y";
+    private static final String ANSWER_N = "N";
     /*
      * This method is used to get PHSFellowshipSupplemental12 XMLObject and set the data to it from DevelopmentProposal data.
      */
@@ -194,7 +195,7 @@ public class PHS398FellowshipSupplementalV1_2Generator extends PHS398FellowshipS
                 Integer parentQuestionNumber = questionnaireQuestion.getParentQuestionNumber();
                 Integer questionId = question.getQuestionIdAsInteger();
                 if (answer != null) {
-                   if( !answer .equalsIgnoreCase(ANSWER_YES) || !answer.equalsIgnoreCase(ANSWER_NO)) {
+                        if( answer .equalsIgnoreCase(ANSWER_Y) || answer.equalsIgnoreCase(ANSWER_N)) {
                     switch (questionId) {
                         case HUMAN:
                             researchTrainingPlan.setHumanSubjectsIndefinite(getYesNoEnum(answer));
@@ -352,7 +353,12 @@ public class PHS398FellowshipSupplementalV1_2Generator extends PHS398FellowshipS
                                researchTrainingPlan.setClinicalTrial(null);
                                break;
                            case PHASE3CLINICAL:                               
-                               researchTrainingPlan.setPhase3ClinicalTrial(null);
+                               if(researchTrainingPlan.getClinicalTrial()!=null){
+                                   if((researchTrainingPlan.getClinicalTrial().equals(getYesNoEnum("N"))))
+                                       researchTrainingPlan.setPhase3ClinicalTrial(getYesNoEnum(answer));
+                                   else
+                                       researchTrainingPlan.setPhase3ClinicalTrial(null);
+                               }
                                break;
                            case FIELD_TRAINING:                               
                                additionalInfoType.setFieldOfTraining(null);
@@ -382,6 +388,7 @@ public class PHS398FellowshipSupplementalV1_2Generator extends PHS398FellowshipS
                            researchTrainingPlan.setClinicalTrial(null);
                             break;
                         case PHASE3CLINICAL:
+                            if(researchTrainingPlan.getClinicalTrial() != null)
                            researchTrainingPlan.setPhase3ClinicalTrial(null);
                             break; 
                         case FIELD_TRAINING:                               
