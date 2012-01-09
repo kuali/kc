@@ -1310,6 +1310,56 @@
  		<Message>Sponsors is not valid, please make sure the appropriate attachments and questions have been answered.</Message> 
   		<FixLink>abstractsAttachments</FixLink> 
 	</Error>
+	<Error>
+ 		<MessageKey>/GrantApplication/Forms/PHS_Fellowship_Supplemental_1_2/AdditionalInformation/FieldOfTraining</MessageKey> 
+ 		<Message>Field of training response is not valid, please answer all required questions for this form within the Questions tab.</Message>  
+  		<FixLink>questions</FixLink> 
+	</Error>
+	<Error>
+ 		<MessageKey>/GrantApplication/Forms/PHS_Fellowship_Supplemental_1_2/AdditionalInformation/StemCells/isHumanStemCellsInvolved</MessageKey> 
+ 		<Message>Human Stem Cells response is not valid, please answer all required questions for this form within the Questions tab.</Message> 
+  		<FixLink>questions</FixLink> 
+	</Error>
+	<Error>
+ 		<MessageKey>/GrantApplication/Forms/PHS_Fellowship_Supplemental_1_2/ResearchTrainingPlan/SpecificAims</MessageKey> 
+ 		<Message>Specific Aims is a required attachment for the PHS Fellowship Supplemental Form, please add this file in the proposal attachments panel.</Message> 
+  		<FixLink>abstractsAttachments</FixLink> 
+	</Error>
+	<Error>
+ 		<MessageKey>/GrantApplication/Forms/PHS_Fellowship_Supplemental_1_2/ResearchTrainingPlan/ResearchStrategy</MessageKey> 
+ 		<Message>Research Strategy is a required attachment for the PHS Fellowship Supplemental Form, please add this file in the proposal attachments panel.</Message> 
+  		<FixLink>abstractsAttachments</FixLink> 
+	</Error>
+	<Error>
+ 		<MessageKey>/GrantApplication/Forms/PHS_Fellowship_Supplemental_1_2/ResearchTrainingPlan/RespectiveContributions</MessageKey> 
+ 		<Message>Respective Contributions is a required attachment for the PHS Fellowship Supplemental Form, please add this file in the proposal attachments panel.</Message> 
+  		<FixLink>abstractsAttachments</FixLink> 
+	</Error>
+	<Error>
+ 		<MessageKey>/GrantApplication/Forms/PHS_Fellowship_Supplemental_1_2/ResearchTrainingPlan/SelectionOfSponsorAndInstitution</MessageKey> 
+ 		<Message>Selection of Sponsor and Institution is a required attachment for the PHS Fellowship Supplemental Form, please add this file in the proposal attachments  panel.</Message> 
+  		<FixLink>abstractsAttachments</FixLink> 
+	</Error>
+	<Error>
+ 		<MessageKey>/GrantApplication/Forms/PHS_Fellowship_Supplemental_1_2/ResearchTrainingPlan/ResponsibleConductOfResearch</MessageKey> 
+ 		<Message>Responsible Conduct of Research is a required attachment for the PHS Fellowship Supplemental Form, please add this file in the proposal attachments panel.</Message> 
+  		<FixLink>abstractsAttachments</FixLink> 
+	</Error>
+	<Error>
+ 		<MessageKey>/GrantApplication/Forms/PHS_Fellowship_Supplemental_1_2/ResearchTrainingPlan/FellowshipTrainingAndCareerGoals</MessageKey> 
+ 		<Message>Goals for Fellowship Training and Career is a required attachment for the PHS Fellowship Supplemental Form, please add this file in the proposal attachments panel.</Message> 
+  		<FixLink>abstractsAttachments</FixLink> 
+	</Error>
+	<Error>
+ 		<MessageKey>/GrantApplication/Forms/PHS_Fellowship_Supplemental_1_2/ResearchTrainingPlan/ActivitiesPlannedUnderThisAward</MessageKey> 
+ 		<Message>Activities Planned Under This Award is a required attachment for the PHS Fellowship Supplemental Form, please add this file in the proposal attachments panel.</Message> 
+  		<FixLink>abstractsAttachments</FixLink> 
+	</Error>
+	<Error>
+ 		<MessageKey>/GrantApplication/Forms/PHS_Fellowship_Supplemental_1_2/ResearchTrainingPlan/SponsorCosponsorInformation</MessageKey> 
+ 		<Message>Sponsor(s) and Co-Sponsor(s) Information is a required attachment for the PHS Fellowship Supplemental Form, please add this file in the proposal attachments panel.</Message> 
+  		<FixLink>abstractsAttachments</FixLink> 
+	</Error>
 	<!-- #NSF_CoverPage_1_3-V1_3-->
 	<Error>
  		<MessageKey>/GrantApplication/Forms/NSF_CoverPage_1_3/NSFUnitConsideration/DivisionCode</MessageKey> 
@@ -1379,7 +1429,7 @@
 		<MessageKey>/GrantApplication/Forms/RR_FedNonFedBudget/BudgetYear1/Equipment/EquipmentList/EquipmentItem</MessageKey>
 		<Message>A description is required for each Equipment budget line item.</Message>
 		<FixLink>budgetVersions</FixLink>
-	</Error> 
+	</Error>
 </S2SErrors>
 
 	
