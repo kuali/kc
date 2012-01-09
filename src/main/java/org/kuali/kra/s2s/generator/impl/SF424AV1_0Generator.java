@@ -224,6 +224,8 @@ public class SF424AV1_0Generator extends SF424BaseGenerator {
         BudgetSummary budgetSummary = BudgetSummary.Factory.newInstance();
         SummaryLineItem[] summaryLineItemArray = new SummaryLineItem[1];
         SummaryLineItem summaryLineItem = SummaryLineItem.Factory.newInstance();
+        boolean hasBudgetLineItem = false;
+        
         if (pdDoc.getDevelopmentProposal().getS2sOpportunity() != null && pdDoc.getDevelopmentProposal().getS2sOpportunity().getS2sSubmissionTypeCode() != null) {
             pdDoc.getDevelopmentProposal().getS2sOpportunity().refreshNonUpdateableReferences();
             summaryLineItem.setActivityTitle(pdDoc.getDevelopmentProposal().getS2sOpportunity().getOpportunityTitle());
@@ -233,10 +235,14 @@ public class SF424AV1_0Generator extends SF424BaseGenerator {
         	budget.refreshNonUpdateableReferences();
         	for (BudgetPeriod budgetPeriod : budget.getBudgetPeriods()) {
                 for (BudgetLineItem lineItem : budgetPeriod.getBudgetLineItems()) {
+                     hasBudgetLineItem = true;
                     if(budget.getSubmitCostSharingFlag() && lineItem.getSubmitCostSharingFlag())
                         costSharing=costSharing.add(lineItem.getCostSharingAmount());
                     }
             }
+        	 if(!hasBudgetLineItem && budget.getSubmitCostSharingFlag()){
+        	     costSharing=costSharing.add(budget.getCostSharingAmount());
+        	 }
             totalFedCost = budget.getTotalCost().subtract(costSharing);
             summaryLineItem.setBudgetFederalNewOrRevisedAmount(totalFedCost.bigDecimalValue());
             summaryLineItem.setBudgetNonFederalNewOrRevisedAmount(costSharing.bigDecimalValue());
@@ -264,6 +270,7 @@ public class SF424AV1_0Generator extends SF424BaseGenerator {
         NonFederalResources nonFederalResources = NonFederalResources.Factory.newInstance();
         ResourceLineItem[] resourceLineItemArray = new ResourceLineItem[1];
         ResourceLineItem resourceLineItem = ResourceLineItem.Factory.newInstance();
+        boolean hasBudegetLineItem = false;
         if (pdDoc.getDevelopmentProposal().getS2sOpportunity() != null && pdDoc.getDevelopmentProposal().getS2sOpportunity().getS2sSubmissionTypeCode() != null) {
             pdDoc.getDevelopmentProposal().getS2sOpportunity().refreshNonUpdateableReferences();
             resourceLineItem.setActivityTitle(pdDoc.getDevelopmentProposal().getS2sOpportunity().getOpportunityTitle());
@@ -272,9 +279,13 @@ public class SF424AV1_0Generator extends SF424BaseGenerator {
             BudgetDecimal fedNonFedCost = BudgetDecimal.ZERO;
             for (BudgetPeriod budgetPeriod : budget.getBudgetPeriods()) {
                 for (BudgetLineItem lineItem : budgetPeriod.getBudgetLineItems()) {
+                    hasBudegetLineItem = true;
                     if(budget.getSubmitCostSharingFlag() && lineItem.getSubmitCostSharingFlag())
                         fedNonFedCost=fedNonFedCost.add(lineItem.getCostSharingAmount());
-                    }
+                }
+            }
+            if(!hasBudegetLineItem && budget.getSubmitCostSharingFlag()){
+                fedNonFedCost=fedNonFedCost.add(budget.getCostSharingAmount());
             }
             resourceLineItem.setBudgetApplicantContributionAmount(fedNonFedCost.bigDecimalValue());
             resourceLineItem.setBudgetTotalContributionAmount(fedNonFedCost.bigDecimalValue());

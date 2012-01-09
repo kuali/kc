@@ -210,7 +210,7 @@ public class RRSF424V1_1Generator extends RRSF424BaseGenerator {
 		funding.setTotalEstimatedAmount(BigDecimal.ZERO);
 		funding.setTotalfedNonfedrequested(BigDecimal.ZERO);
 		funding.setEstimatedProgramIncome(BigDecimal.ZERO);
-
+		boolean hasBudgetLineItem = false;
 		if (budget != null) {
 			if (budget.getModularBudgetFlag()) {
 				BudgetDecimal fundsRequested = BudgetDecimal.ZERO;
@@ -238,9 +238,13 @@ public class RRSF424V1_1Generator extends RRSF424BaseGenerator {
 
 			for (BudgetPeriod budgetPeriod : budget.getBudgetPeriods()) {
 	            for (BudgetLineItem lineItem : budgetPeriod.getBudgetLineItems()) {
+	                hasBudgetLineItem = true;
 	                if(budget.getSubmitCostSharingFlag() && lineItem.getSubmitCostSharingFlag())
 	                fedNonFedCost=fedNonFedCost.add(lineItem.getCostSharingAmount());
 	                }
+			}
+			if(!hasBudgetLineItem && budget.getSubmitCostSharingFlag()){
+			    fedNonFedCost=fedNonFedCost.add(budget.getCostSharingAmount());
 			}
 			for (BudgetProjectIncome budgetProjectIncome : budget
 					.getBudgetProjectIncomes()) {
