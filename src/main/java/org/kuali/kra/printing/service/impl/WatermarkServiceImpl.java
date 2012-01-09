@@ -239,13 +239,16 @@ public class WatermarkServiceImpl implements WatermarkService {
     
     private void watermarkPageDocument(Document document,PdfWriter writer,PdfReader reader){
         document.open();
-        int pageCount = 1;
-        PdfContentByte cb = writer.getDirectContent();
-        document.setPageSize(reader.getPageSize(pageCount));
-        document.newPage();
-        PdfImportedPage page = writer.getImportedPage(reader, pageCount);
-        cb.addTemplate(page, 1, 0, 0, 1, 0, 0);
-      document.close();
+        int totalPages;
+        totalPages = reader.getNumberOfPages();
+        for(int pageCount= 1; pageCount<=totalPages;pageCount++){
+            PdfContentByte contents = writer.getDirectContent();
+            document.setPageSize(reader.getPageSize(pageCount));
+            document.newPage();
+            PdfImportedPage page = writer.getImportedPage(reader, pageCount);
+            contents.addTemplate(page, 1, 0, 0, 1, 0, 0);
+            }
+        document.close();
     }
     /**
      * This method is for setting the properties of watermark Image.
