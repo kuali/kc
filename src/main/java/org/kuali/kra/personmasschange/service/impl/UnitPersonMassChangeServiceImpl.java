@@ -54,12 +54,29 @@ public class UnitPersonMassChangeServiceImpl implements UnitPersonMassChangeServ
     @Override
     public void performPersonMassChange(PersonMassChange personMassChange, List<Unit> unitChangeCandidates) {
         for (Unit unitChangeCandidate : unitChangeCandidates) {
-            for (UnitAdministrator unitAdministratorChangeCandidate : unitChangeCandidate.getUnitAdministrators()) {
-                unitAdministratorChangeCandidate.setPersonId(personMassChange.getReplacerPersonId());
+            List<UnitAdministrator> unitAdministratorChangeCandidates = new ArrayList<UnitAdministrator>();
+            
+            for (UnitAdministrator unitAdministrator : unitChangeCandidate.getUnitAdministrators()) {
+                if (StringUtils.equals(personMassChange.getReplaceePersonId(), unitAdministrator.getPersonId())) {
+                    unitAdministratorChangeCandidates.add(unitAdministrator);
+                }
+            }
+            
+            for (UnitAdministrator unitAdministratorChangeCandidate : unitAdministratorChangeCandidates) {
+                UnitAdministrator newUnitAdministrator = new UnitAdministrator();
+                newUnitAdministrator.setUnitNumber(unitAdministratorChangeCandidate.getUnitNumber());
+                newUnitAdministrator.setPersonId(personMassChange.getReplacerPersonId());
+                newUnitAdministrator.setUnitAdministratorTypeCode(unitAdministratorChangeCandidate.getUnitAdministratorTypeCode());
+                newUnitAdministrator.setUnit(unitAdministratorChangeCandidate.getUnit());
+                newUnitAdministrator.setUnitAdministratorType(unitAdministratorChangeCandidate.getUnitAdministratorType());
+                
+                unitChangeCandidate.getUnitAdministrators().remove(unitAdministratorChangeCandidate);
+                unitChangeCandidate.getUnitAdministrators().add(newUnitAdministrator);
+                
+                getBusinessObjectService().delete(unitAdministratorChangeCandidate);
+                getBusinessObjectService().save(newUnitAdministrator);
             }
         }
-        
-        getBusinessObjectService().save(unitChangeCandidates);
     }
     
     public BusinessObjectService getBusinessObjectService() {
