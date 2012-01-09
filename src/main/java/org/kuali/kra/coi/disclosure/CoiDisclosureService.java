@@ -158,7 +158,7 @@ public interface CoiDisclosureService {
     
     /**
      * 
-     * This method is to set up form bean to display master displosure projects
+     * This method is to set up form bean to display master disclosure projects
      * @param coiDisclosure
      * @return
      */
