@@ -15,6 +15,7 @@
  */
 package org.kuali.kra.coi.disclosure;
 
+import java.sql.Timestamp;
 import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.List;
@@ -32,6 +33,9 @@ import org.kuali.kra.coi.CoiDiscDetail;
 import org.kuali.kra.coi.CoiDisclProject;
 import org.kuali.kra.coi.CoiDisclosure;
 import org.kuali.kra.coi.CoiDisclosureEventType;
+import org.kuali.kra.coi.CoiDisclosureHistory;
+import org.kuali.kra.coi.CoiDisclosureStatus;
+import org.kuali.kra.coi.CoiDispositionStatus;
 import org.kuali.kra.coi.personfinancialentity.FinancialEntityService;
 import org.kuali.kra.coi.personfinancialentity.PersonFinIntDisclosure;
 import org.kuali.kra.institutionalproposal.contacts.InstitutionalProposalPerson;
@@ -828,4 +832,138 @@ public class CoiDisclosureServiceTest extends KcUnitTestBase {
    }
 
 
+    @Test
+    public void testGetMasterDisclosureDetail() throws Exception {
+        GlobalVariables.setUserSession(new UserSession("quickstart"));
+       CoiDisclosureServiceImpl coiDisclosureService = new CoiDisclosureServiceImpl();
+        PersonFinIntDisclosure personFinIntDisclosure = createPersonFinIntDisclosure(PERSON_ID, ENTITY_NUMBER,ENTITY_NAME_1);
+
+        // this will be new FE, and it will be added to coi FE
+        PersonFinIntDisclosure personFinIntDisclosure1 = createPersonFinIntDisclosure(PERSON_ID, ENTITY_NUMBER_2,ENTITY_NAME_2);
+        final BusinessObjectService businessObjectService = context.mock(BusinessObjectService.class);
+
+        // create previous master disclosure
+        CoiDisclosure coiDisclosure0 = createCoiDisclosure();
+        CoiDiscDetail coiDisDetail0 = createNewCoiDiscDetail(CoiDisclosure.MANUAL_DISCL_MODULE_CODE, personFinIntDisclosure, CoiDisclosureEventType.MANUAL_DEVELOPMENT_PROPOSAL);
+        coiDisDetail0.setModuleItemKey("1");
+        coiDisDetail0.setCoiDiscDetailId(1L);
+        final List<CoiDiscDetail> coiDisDetails0 = new ArrayList<CoiDiscDetail>();
+        coiDisDetails0.add(coiDisDetail0);
+        coiDisclosure0.setCoiDiscDetails(coiDisDetails0);
+
+
+//        final CoiDisclEventProject coiDisclProject = new CoiDisclEventProject();
+//        coiDisclProject.setEventType(CoiDisclosureEventType.DEVELOPMENT_PROPOSAL);
+ 
+        CoiDiscDetail coiDisDetail = createNewCoiDiscDetail(CoiDisclosure.MANUAL_DISCL_MODULE_CODE, personFinIntDisclosure, CoiDisclosureEventType.MANUAL_DEVELOPMENT_PROPOSAL);
+        coiDisDetail.setModuleItemKey("1");
+        coiDisDetail.setCoiDiscDetailId(1L);
+        coiDisDetail.setCopiedCoiDiscDetailId(1L);
+        coiDisDetail.setOriginalCoiDisclosureId(1L);
+        CoiDiscDetail coiDisDetail1 = createNewCoiDiscDetail(CoiDisclosure.MANUAL_DISCL_MODULE_CODE, personFinIntDisclosure1, CoiDisclosureEventType.MANUAL_AWARD);
+        coiDisDetail1.setCoiDiscDetailId(2L);
+        coiDisDetail1.setModuleItemKey("2");
+        // current disclosure
+       CoiDisclosure coiDisclosure = createCoiDisclosure();
+       coiDisclosure.setCoiDisclosureId(2L);
+       coiDisclosure.setEventTypeCode(CoiDisclosureEventType.AWARD);
+       final List<CoiDiscDetail> coiDisDetails = new ArrayList<CoiDiscDetail>();
+       coiDisDetails.add(coiDisDetail);
+       coiDisDetails.add(coiDisDetail1);
+       coiDisclosure.setCoiDiscDetails(coiDisDetails);
+        
+        
+        final List<CoiDisclProject> coiDisclProjects = new ArrayList<CoiDisclProject>();
+        CoiDisclProject coiDisclProject = createCoiDIsclProject(1L);
+        coiDisclProjects.add(coiDisclProject);
+        
+        final List<CoiDisclProject> coiDisclProjects1 = new ArrayList<CoiDisclProject>();
+        CoiDisclProject coiDisclProject1 = createCoiDIsclProject(2L);
+        coiDisclProjects1.add(coiDisclProject1);
+        
+        final List<CoiDisclosureHistory> histories = new ArrayList<CoiDisclosureHistory>();
+        CoiDisclosureHistory history1 = createCoidisclosureHistory(1L, 1);
+        CoiDisclosureHistory history2 = createCoidisclosureHistory(2L, 2);
+        history1.setCoiDisclosure(coiDisclosure0);
+        history2.setCoiDisclosure(coiDisclosure);
+        histories.add(history1);
+        histories.add(history2);
+        context.checking(new Expectations() {
+            {
+                Map <String, Object> fieldValues = new HashMap<String, Object>();
+                fieldValues.put("coiDisclosureNumber", "1");
+                // this is unique
+                fieldValues.put("coiProjectId", "1");
+                atLeast(1).of(businessObjectService).findMatching(CoiDisclProject.class, fieldValues);;
+                will(returnValue(coiDisclProjects));
+                Map <String, Object> fieldValues1 = new HashMap<String, Object>();
+                fieldValues1.put("coiDisclosureNumber", "1");
+                // this is unique
+                fieldValues1.put("coiProjectId", "2");
+                atLeast(1).of(businessObjectService).findMatching(CoiDisclProject.class, fieldValues1);
+                will(returnValue(coiDisclProjects1));
+                Map<String, Object> fieldValues2 = new HashMap<String, Object>();
+                fieldValues2.put("coiDisclosureNumber", "1");
+                fieldValues2.put("disclosureDispositionStatus", CoiDispositionStatus.APPROVED);
+                one(businessObjectService).findMatchingOrderBy(CoiDisclosureHistory.class, fieldValues2,
+                        "sequenceNumber", true);
+                will(returnValue(histories));
+
+            }
+        });
+
+        coiDisclosureService.setBusinessObjectService(businessObjectService);
+//        coiDisclosure.setCoiDisclEventProjects(new ArrayList<CoiDisclProject>());
+//        coiDisclosure.getCoiDisclEventProjects().add(coiDisclProject);
+        MasterDisclosureBean masterDisclosureBean = coiDisclosureService.getMasterDisclosureDetail(coiDisclosure);
+        Assert.assertEquals(coiDisclosure.getCoiDiscDetails().size(), 2);
+        Assert.assertEquals(masterDisclosureBean.getAllProjects().size(), 2);
+        Assert.assertEquals(masterDisclosureBean.getManualAwardProjects().size(), 1);
+        Assert.assertEquals(masterDisclosureBean.getManualProposalProjects().size(), 1);
+
+    }
+
+    private CoiDisclProject createCoiDIsclProject(Long coiDisclosureId) {
+        CoiDisclProject coiDisclProject = new CoiDisclProject();
+        coiDisclProject.setCoiDisclosureId(coiDisclosureId);
+        coiDisclProject.setCoiDisclosureNumber("1");
+        coiDisclProject.setCoiProjectId("1");
+        return coiDisclProject;
+    
+    }
+    
+    private CoiDisclosure createCoiDisclosure() {
+        CoiDisclosure coiDisclosure = new CoiDisclosure() {
+            public void initCoiDisclosureNumber()  {
+                this.setCoiDisclosureNumber("1");
+            }
+            public DisclosurePerson getDisclosureReporter() {
+                DisclosurePerson reporter = new DisclosurePerson();
+                reporter.setPersonId(PERSON_ID);
+                reporter.setPersonRoleId(ROLE_ID);
+                reporter.setCoiDisclosureId(1L);
+                return reporter;
+                
+            }
+        };
+        return coiDisclosure;
+    }
+    
+    private CoiDisclosureHistory createCoidisclosureHistory(Long coiDisclosureId, Integer sequenceNumber) {
+        CoiDisclosureHistory history = new CoiDisclosureHistory() {
+            @Override
+            public void refreshReferenceObject(String referenceObjectName) {
+                // do nothing
+                
+            }
+        };
+        history.setCoiDisclosureId(coiDisclosureId);
+        history.setCoiDisclosureHistoryId(coiDisclosureId);
+        history.setCoiDisclosureNumber("1");
+        history.setSequenceNumber(sequenceNumber);
+        history.setDisclosureStatus(CoiDisclosureStatus.RESOLVED);
+        history.setDisclosureDispositionStatus(CoiDispositionStatus.APPROVED);
+        history.setUpdateTimestamp(new Timestamp(new java.util.Date().getTime()));
+        return history;
+    }
 }
