@@ -99,6 +99,7 @@ public class SF424V2_0Generator extends SF424BaseGenerator {
 
         SF424 sf424V2 = SF424.Factory.newInstance();
         sf424V2.setFormVersion(S2SConstants.FORMVERSION_2_0);
+        boolean hasBudgetLineItem = false;
         S2sOpportunity s2sOpportunity = pdDoc.getDevelopmentProposal().getS2sOpportunity();
         if (s2sOpportunity != null && s2sOpportunity.getS2sSubmissionTypeCode() != null) {
             s2sOpportunity.refreshNonUpdateableReferences();
@@ -332,12 +333,16 @@ public class SF424V2_0Generator extends SF424BaseGenerator {
             if (budgetDoc.getCostSharingAmount() != null) {
                 for (BudgetPeriod budgetPeriod : budgetDoc.getBudgetPeriods()) {
                     for (BudgetLineItem lineItem : budgetPeriod.getBudgetLineItems()) {
+                        hasBudgetLineItem = true;
                         if(budgetDoc.getSubmitCostSharingFlag() && lineItem.getSubmitCostSharingFlag())
                         fedNonFedCost=fedNonFedCost.add(lineItem.getCostSharingAmount());
                         }
                 }
-                sf424V2.setApplicantEstimatedFunding(fedNonFedCost.bigDecimalValue());
+                if(!hasBudgetLineItem && budgetDoc.getSubmitCostSharingFlag()){
+                    fedNonFedCost = fedNonFedCost.add(budgetDoc.getCostSharingAmount());
+                }
             }
+            sf424V2.setApplicantEstimatedFunding(fedNonFedCost.bigDecimalValue());
             BigDecimal projectIncome = BigDecimal.ZERO;
             for (BudgetProjectIncome budgetProjectIncome : budgetDoc.getBudgetProjectIncomes()) {
                 projectIncome = projectIncome.add(budgetProjectIncome.getProjectIncome().bigDecimalValue());
