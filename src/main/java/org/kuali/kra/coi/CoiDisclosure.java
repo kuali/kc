@@ -641,7 +641,7 @@ public class CoiDisclosure extends KraPersistableBusinessObjectBase implements S
 
     public boolean isApprovedDisclosure() {
 
-        return CoiDisclosureStatus.APPROVE_DISCLOSURE_CODES.contains(this.disclosureStatusCode);
+        return StringUtils.equals(CoiDispositionStatus.APPROVED, disclosureDispositionCode);
     }
 
     public CoiDispositionStatus getCoiDispositionStatus() {

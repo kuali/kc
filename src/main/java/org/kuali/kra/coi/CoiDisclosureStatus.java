@@ -31,13 +31,13 @@ public class CoiDisclosureStatus extends KraPersistableBusinessObjectBase{
     public static final String DISCLOSURE_PENDING = "100";
     public static final String RESOLVED = "201";                                
     public static final String NO_CONFLICT = "200";                                
-    public static final List<String> APPROVE_DISCLOSURE_CODES;
-    static {
-        final List<String> codes = new ArrayList<String>();     
-        codes.add(RESOLVED);
-        codes.add(NO_CONFLICT);
-        APPROVE_DISCLOSURE_CODES = codes;
-    }
+//    public static final List<String> APPROVE_DISCLOSURE_CODES;
+//    static {
+//        final List<String> codes = new ArrayList<String>();     
+//        codes.add(RESOLVED);
+//        codes.add(NO_CONFLICT);
+//        APPROVE_DISCLOSURE_CODES = codes;
+//    }
 
     private String coiDisclosureStatusCode; 
     private String description;
