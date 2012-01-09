@@ -25,6 +25,7 @@ import org.kuali.kra.award.paymentreports.Frequency;
 import org.kuali.kra.award.paymentreports.FrequencyBase;
 import org.kuali.kra.award.paymentreports.Report;
 import org.kuali.kra.award.paymentreports.ReportClass;
+import org.kuali.kra.award.paymentreports.ReportRegenerationType;
 import org.kuali.kra.award.paymentreports.ReportStatus;
 import org.kuali.kra.bo.Contactable;
 import org.kuali.kra.bo.KcPerson;
@@ -481,6 +482,26 @@ public class ReportTracking extends KraPersistableBusinessObjectBase implements 
             retVal = true;
         } else if (date1 != null && date2 != null && date1.equals(date2)) {
             return true;
+        }
+        return retVal;
+    }
+    
+    /**
+     * 
+     * This method returns true if the report is in pending status, the reports regeneration type is add only.
+     * Note, that there is no way of determining if this report is based on the same frequency date as is currently set in the award,
+     * so this record MAY be generated on the next save.
+     * @return
+     */
+    public boolean getDisplayDeleteButton() {
+        boolean retVal = false;
+        //only pending reports
+        if (StringUtils.equals("1", getStatusCode())) {
+            //only should delete report tracking records that won't be automatically deleted with the regeneration routines.
+            if (StringUtils.equals(ReportRegenerationType.ADDONLY.getDescription(), 
+                    this.getFrequencyBase().getReportRegenerationType().getDescription())) {
+                retVal = true;
+            }
         }
         return retVal;
     }
