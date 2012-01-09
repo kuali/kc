@@ -142,6 +142,7 @@ public class RRSF424V1_2Generator extends RRSF424BaseGenerator {
 		funding.setTotalNonfedrequested(BigDecimal.ZERO);
 		funding.setTotalfedNonfedrequested(BigDecimal.ZERO);
 		funding.setEstimatedProgramIncome(BigDecimal.ZERO);
+		boolean hasBudgetLineItem = false;
 		try {
 			budgetDoc = s2sBudgetCalculatorService.getFinalBudgetVersion(pdDoc);
 		} catch (Exception e) {
@@ -178,13 +179,17 @@ public class RRSF424V1_2Generator extends RRSF424BaseGenerator {
 			fedNonFedCost = fedNonFedCost.add(budget.getTotalCost());
 
 			for (BudgetPeriod budgetPeriod : budget.getBudgetPeriods()) {
-                for (BudgetLineItem lineItem : budgetPeriod.getBudgetLineItems()) {
-                    if(budget.getSubmitCostSharingFlag() && lineItem.getSubmitCostSharingFlag())
-                    fedNonFedCost=fedNonFedCost.add(lineItem.getCostSharingAmount());
-                    }
-            }
-			if(budget.getSubmitCostSharingFlag()){
-			    nonFedCost = budget.getCostSharingAmount();			    
+			    for (BudgetLineItem lineItem : budgetPeriod.getBudgetLineItems()) {
+			        hasBudgetLineItem = true;
+			        if(budget.getSubmitCostSharingFlag() && lineItem.getSubmitCostSharingFlag()){
+			            fedNonFedCost=fedNonFedCost.add(lineItem.getCostSharingAmount());
+			            nonFedCost =  nonFedCost.add(lineItem.getCostSharingAmount());
+			        }
+			    }
+			}
+			if(!hasBudgetLineItem && budget.getSubmitCostSharingFlag()){
+			    nonFedCost = budget.getCostSharingAmount();		
+			    fedNonFedCost = budget.getCostSharingAmount();       
 			}
 			
 			funding = EstimatedProjectFunding.Factory.newInstance();
