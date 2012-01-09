@@ -21,14 +21,18 @@ import javax.servlet.http.HttpServletResponse;
 import org.apache.struts.action.ActionForm;
 import org.apache.struts.action.ActionForward;
 import org.apache.struts.action.ActionMapping;
+import org.kuali.kra.infrastructure.Constants;
 import org.kuali.kra.infrastructure.KraServiceLocator;
-import org.kuali.kra.personmasschange.document.PersonMassChangeDocument;
 import org.kuali.kra.personmasschange.web.struts.form.PersonMassChangeForm;
 import org.kuali.kra.personmasschange.web.struts.form.PersonMassChangeHomeHelper;
 import org.kuali.kra.personmasschange.web.struts.form.PersonMassChangeViewHelper;
 import org.kuali.kra.web.struts.action.KraTransactionalDocumentActionBase;
+import org.kuali.rice.kew.util.KEWConstants;
+import org.kuali.rice.kns.document.Document;
 import org.kuali.rice.kns.rule.event.KualiDocumentEvent;
+import org.kuali.rice.kns.service.KNSServiceLocator;
 import org.kuali.rice.kns.service.KualiRuleService;
+import org.kuali.rice.kns.util.KNSConstants;
 
 /**
  * Defines the overall action class for Person Mass Change.
@@ -37,11 +41,33 @@ public class PersonMassChangeAction extends KraTransactionalDocumentActionBase {
 
     @Override
     public ActionForward docHandler(ActionMapping mapping, ActionForm form, HttpServletRequest request, HttpServletResponse response) throws Exception {
-        ActionForward forward = super.docHandler(mapping, form, request, response);
+        ActionForward forward = null;
         
         PersonMassChangeForm personMassChangeForm = (PersonMassChangeForm) form;
-        PersonMassChangeDocument personMassChangeDocument = (PersonMassChangeDocument) personMassChangeForm.getDocument();
-        personMassChangeDocument.initialize();
+        String command = personMassChangeForm.getCommand();
+        
+        if (Constants.MAPPING_PMC_HOME_PAGE.equals(command) || Constants.MAPPING_PMC_VIEW_PAGE.equals(command)) {
+            String docIdRequestParameter = request.getParameter(KNSConstants.PARAMETER_DOC_ID);
+            Document retrievedDocument = KNSServiceLocator.getDocumentService().getByDocumentHeaderId(docIdRequestParameter);
+            personMassChangeForm.setDocument(retrievedDocument);
+            request.setAttribute(KNSConstants.PARAMETER_DOC_ID, docIdRequestParameter);
+            loadDocument(personMassChangeForm);
+        } else {
+            forward = super.docHandler(mapping, form, request, response);
+        }
+
+        if (KEWConstants.INITIATE_COMMAND.equals(command)) {
+            personMassChangeForm.getDocument().initialize();
+        } else {
+            personMassChangeForm.initialize();
+        }
+        
+        if (Constants.MAPPING_PMC_HOME_PAGE.equals(command)) {
+            forward = home(mapping, personMassChangeForm, request, response);
+        }
+        if (Constants.MAPPING_PMC_VIEW_PAGE.equals(command)) {
+            forward = view(mapping, personMassChangeForm, request, response);
+        }
         
         return forward;
     }
@@ -51,7 +77,7 @@ public class PersonMassChangeAction extends KraTransactionalDocumentActionBase {
         PersonMassChangeHomeHelper personMassChangeHomeHelper = personMassChangeForm.getPersonMassChangeHomeHelper();
         personMassChangeHomeHelper.prepareView();
         
-        return mapping.findForward("home");
+        return mapping.findForward(Constants.MAPPING_PMC_HOME_PAGE);
     }
 
     public ActionForward view(ActionMapping mapping, ActionForm form, HttpServletRequest request, HttpServletResponse response) {
@@ -59,9 +85,19 @@ public class PersonMassChangeAction extends KraTransactionalDocumentActionBase {
         PersonMassChangeViewHelper personMassChangeViewHelper = personMassChangeForm.getPersonMassChangeViewHelper();
         personMassChangeViewHelper.prepareView();
         
-        return mapping.findForward("view");
+        return mapping.findForward(Constants.MAPPING_PMC_VIEW_PAGE);
     }
-
+    
+    public ActionForward routeToHoldingPage(ActionMapping mapping, ActionForm form, HttpServletRequest request, HttpServletResponse response, String command) {
+        PersonMassChangeForm personMassChangeForm = (PersonMassChangeForm) form;
+        Long routeHeaderId = Long.parseLong(personMassChangeForm.getDocument().getDocumentNumber());
+        String returnLocation = buildActionUrl(routeHeaderId, command, "PersonMassChangeDocument");
+        
+        ActionForward basicForward = mapping.findForward(Constants.MAPPING_BASIC);
+        ActionForward holdingPageForward = mapping.findForward(Constants.MAPPING_HOLDING_PAGE);
+        return routeToHoldingPage(basicForward, basicForward, holdingPageForward, returnLocation);
+    }
+    
     public final boolean applyRules(KualiDocumentEvent event) {
         return getKualiRuleService().applyRules(event);
     }
