@@ -41,7 +41,7 @@
         <table id="specialReviewTableId" cellpadding="0" cellspacing="0" summary="">
           	<tr>
           		<th><div align="left">&nbsp;</div></th> 
-          		<th><div align="center" class="fixed-size-270-div"><kul:htmlAttributeLabel attributeEntry="${attributes.specialReviewTypeCode}" noColon="true" /></div></th>
+          		<th><div align="center"><kul:htmlAttributeLabel attributeEntry="${attributes.specialReviewTypeCode}" noColon="true" /></div></th>
           		<th><div align="center"><kul:htmlAttributeLabel attributeEntry="${attributes.approvalTypeCode}" noColon="true" /></div></th>
           		<th><div align="center"><kul:htmlAttributeLabel attributeEntry="${attributes.protocolNumber}" noColon="true" /></nobr></div></th>
           		<th><div align="center"><kul:htmlAttributeLabel attributeEntry="${attributes.applicationDate}" noColon="true" /></div></th>
@@ -68,9 +68,10 @@
 					<th class="infoline" rowspan="2">
 						Add:
 					</th>
-	                <td align="left" valign="middle" class="infoline"><div align="center" class="fixed-size-270-div">
+	                <td align="left" valign="middle" class="infoline"><div align="center">
 	                   <kul:htmlControlAttribute property="specialReviewHelper.newSpecialReview.specialReviewTypeCode" 
 		                                         attributeEntry="${attributes.specialReviewTypeCode}"
+		                                         styleClass="fixed-size-200-select"
 		                                         onchange="showHideSpecialReviewProtocolLink(this, 'specialReviewHelper.newSpecialReview');return false"/>
 					</div></td>
 	                <td class="infoline"><div align="center">
@@ -116,7 +117,7 @@
                                                          initialReadOnly="${protocolLinkingReadOnly}" 
                                                          staticOnly="${!enableProtocolLinking}" />  			
 	                </div></td>
-					<td class="infoline" rowspan="2"><div align="center">
+					<td class="infoline" rowspan="1"><div align="center">
 						<html:image property="methodToCall.addSpecialReview.anchor${tabKey}" 
 						            src='${ConfigProperties.kra.externalizable.images.url}tinybutton-add1.gif' 
 						            styleClass="tinybutton"/>
@@ -125,7 +126,7 @@
 	            
 	            <tr>
 	            	<th><div align="right"><kul:htmlAttributeLabel attributeEntry="${attributes.comments}" noColon="false" /></div></th>
-	            	<td colspan="6">
+	            	<td colspan="7">
 	            		<kul:htmlControlAttribute property="specialReviewHelper.newSpecialReview.comments" 
 	            		                          attributeEntry="${attributes.comments}" />
 	            	</td>  
@@ -147,10 +148,11 @@
 					<th class="infoline" rowspan="2">
 					   <c:out value="${status.index+1}" />
 					</th>
-                    <td align="left" valign="middle"><div align="center" class="fixed-size-270-div">
+                    <td align="left" valign="middle"><div align="center">
                         <kul:htmlControlAttribute property="${collectionProperty}[${status.index}].specialReviewTypeCode" 
 	                                              attributeEntry="${attributes.specialReviewTypeCode}"  
 	                                              readOnly="${not canModify}"
+	                                              styleClass="fixed-size-200-select"
 	                                              readOnlyAlternateDisplay="${specialReview.specialReviewType.description}" 
 	                                              onchange="showHideSpecialReviewProtocolLink(this, '${collectionProperty}[${status.index}]');return false" />
 					</div></td>
@@ -210,7 +212,7 @@
                                                          readOnly="${not canModify}"
                                                          staticOnly="${!enableProtocolLinking}"/>
 	                </div></td>
-					<td rowspan="2"><div align=center>
+					<td rowspan="1"><div align=center>
                         <c:if test="${canModify}">
                             <html:image property="methodToCall.deleteSpecialReview.line${status.index}.anchor${currentTabIndex}.validate0"
 									    src='${ConfigProperties.kra.externalizable.images.url}tinybutton-delete1.gif' styleClass="tinybutton"/>
@@ -224,7 +226,7 @@
 	            </tr>
 	            <tr>
 	            	<th><div align="right"><kul:htmlAttributeLabel attributeEntry="${attributes.comments}" noColon="false" /></div></th>
-	            	<td colspan="6">
+	            	<td colspan="7">
 		            	<nobr>
 	                        <c:choose>
 	                            <c:when test="${canModify}">
