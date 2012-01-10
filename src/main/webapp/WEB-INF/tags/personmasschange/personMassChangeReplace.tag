@@ -3,7 +3,6 @@
 <c:set var="attributes" value="${DataDictionary.PersonMassChange.attributes}" />
 
 <kul:tab tabTitle="Replace Person" defaultOpen="true" tabErrorKey="document.personMassChange.replaceeFullName,document.personMassChange.replacerFullName">
-    
     <div class="tab-container" align="center">
         <h3>
             <span class="subhead-left">Replace the Person...</span>
@@ -83,5 +82,4 @@
             </tr>
         </table>
     </div>
-    
 </kul:tab>
