@@ -513,7 +513,7 @@
        	  <forward name="negotiation" path="/WEB-INF/jsp/negotiation/NegotiationNegotiation.jsp" />
        </action>
     
-        <action path="/personMassChange*" name="PersonMassChangeForm" input="/WEB-INF/jsp/personmasschange/PersonMassChange{1}.jsp" type="org.kuali.kra.personmasschange.web.struts.action.PersonMassChange{1}Action" attribute="KualiForm">
+        <action path="/personMassChange*" name="PersonMassChangeForm" input="/WEB-INF/jsp/personmasschange/PersonMassChange{1}.jsp" type="org.kuali.kra.personmasschange.web.struts.action.PersonMassChange{1}Action" scope="request" parameter="methodToCall" validate="true" attribute="KualiForm">
             <forward name="basic" path="/WEB-INF/jsp/personmasschange/PersonMassChange{1}.jsp" />
             <forward name="home" path="/WEB-INF/jsp/personmasschange/PersonMassChangeHome.jsp" />
             <forward name="view" path="/WEB-INF/jsp/personmasschange/PersonMassChangeView.jsp" />
