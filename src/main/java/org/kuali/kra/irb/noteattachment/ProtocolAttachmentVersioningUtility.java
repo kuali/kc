@@ -236,6 +236,7 @@ public class ProtocolAttachmentVersioningUtility {
      * because there is complication of delete attachment also delete file, and subsequently all attachment that reference this file.
      */
     private void restoreAttachment(ProtocolAttachmentProtocol persistedAttachment, ProtocolAttachmentProtocol attachment) {
+        attachment.setStatusCode(persistedAttachment.getStatusCode());
         attachment.setComments(persistedAttachment.getComments());
         attachment.setContactEmailAddress(persistedAttachment.getContactEmailAddress());
         attachment.setContactName(persistedAttachment.getContactName());
