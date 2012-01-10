@@ -42,6 +42,7 @@
         <field-descriptor name="replaceeRolodexId" column="REPLACEE_ROLODEX_ID" jdbc-type="INTEGER" />
         <field-descriptor name="replacerPersonId" column="REPLACER_PERSON_ID" jdbc-type="VARCHAR" />
         <field-descriptor name="replacerRolodexId" column="REPLACER_ROLODEX_ID" jdbc-type="INTEGER" />
+        <field-descriptor name="changeAllSequences" column="CHANGE_ALL_SEQUENCES" jdbc-type="VARCHAR" conversion="org.kuali.rice.kns.util.OjbCharBooleanConversion"/>
         <field-descriptor name="updateUser" column="UPDATE_USER" jdbc-type="VARCHAR" />
         <field-descriptor name="updateTimestamp" column="UPDATE_TIMESTAMP" jdbc-type="TIMESTAMP" />
         <field-descriptor name="objectId" column="OBJ_ID" jdbc-type="VARCHAR" />
