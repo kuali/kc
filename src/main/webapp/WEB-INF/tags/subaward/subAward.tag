@@ -103,7 +103,7 @@
              <td>
                 <kul:htmlControlAttribute property="document.subAwardList[0].requisitionerName" readOnly="${readOnly}" attributeEntry="${subAwardAttributes.requisitionerId}" />
                   <kul:lookup boClassName="org.kuali.kra.bo.KcPerson" fieldConversions="personId:document.subAwardList[0].requisitionerId,fullName:document.subAwardList[0].requisitionerName,unit.unitNumber:document.subAwardList[0].requisitionerUnit,unit.unitName:document.subAwardList[0].unit.unitName" anchor="${tabKey}" />
-            	  	    <kul:directInquiry boClassName="org.kuali.kra.bo.KcPerson" inquiryParameters="document.subAwardList[0].subAwardorId:subAwardorId" anchor="${tabKey}" /> 
+            	  	    <kul:directInquiry boClassName="org.kuali.kra.bo.KcPerson" inquiryParameters="document.subAwardList[0].requisitionerId:personId" anchor="${tabKey}" /> 
                       <%-- <kul:htmlControlAttribute property="document.subAwardList[0].subAwardorId" readOnly="${readOnly}" attributeEntry="${subAwardAttributes.subAwardorId}" /> --%>
                 </td> 
 				<%-- <td>           
