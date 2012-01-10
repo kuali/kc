@@ -369,7 +369,7 @@
     <property name="forceUppercase" value="false" />
     <property name="label" value="Requisitioner" />
     <property name="shortLabel" value="Requisitioner" />
-    <property name="maxLength" value="20" />
+    <property name="maxLength" value="90" />
    
     <property name="required" value="true" />
     <property name="control" >
