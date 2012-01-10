@@ -15,19 +15,12 @@
  */
 package org.kuali.kra.personmasschange.web.struts.form;
 
-import java.io.Serializable;
-
 import org.apache.commons.lang.StringUtils;
-import org.kuali.kra.bo.KcPerson;
-import org.kuali.kra.bo.Rolodex;
-import org.kuali.kra.infrastructure.KraServiceLocator;
 import org.kuali.kra.personmasschange.bo.PersonMassChange;
-import org.kuali.kra.service.KcPersonService;
-import org.kuali.kra.service.RolodexService;
 
-public class PersonMassChangeHomeHelper implements Serializable {
+public class PersonMassChangeHomeHelper extends PersonMassChangeHelperBase {
 
-    private static final long serialVersionUID = -2635806838524822236L;
+    private static final long serialVersionUID = 185913414312936865L;
 
     private PersonMassChangeForm form;
     
@@ -36,9 +29,6 @@ public class PersonMassChangeHomeHelper implements Serializable {
     
     private String replacerPersonId;
     private String replacerRolodexId;
-    
-    private transient KcPersonService kcPersonService;
-    private transient RolodexService rolodexService;
     
     public PersonMassChangeHomeHelper(PersonMassChangeForm form) {
         this.form = form;
@@ -106,53 +96,25 @@ public class PersonMassChangeHomeHelper implements Serializable {
     public void prepareView() {
         PersonMassChange personMassChange = form.getDocument().getPersonMassChange();
         
-        if (StringUtils.isNotBlank(getReplaceePersonId())) {
-            KcPerson person = getKcPersonService().getKcPersonByPersonId(getReplaceePersonId());
-            personMassChange.setReplaceePersonId(person.getPersonId());
-            personMassChange.setReplaceeFullName(person.getFullName());
-            personMassChange.setReplaceeRolodexId(null);
-        } else if (StringUtils.isNotBlank(getReplaceeRolodexId())) {
-            personMassChange.setReplaceePersonId(null);
-            Rolodex rolodex = getRolodexService().getRolodex(Integer.valueOf(getReplaceeRolodexId()));
-            personMassChange.setReplaceeRolodexId(rolodex.getRolodexId().toString());
-            personMassChange.setReplaceeFullName(rolodex.getFullName());
+        if (StringUtils.isBlank(getReplaceePersonId()) && StringUtils.isBlank(getReplaceeRolodexId())) {
+            if (StringUtils.isNotBlank(personMassChange.getReplaceePersonId())) {
+                setReplaceePersonId(personMassChange.getReplaceePersonId());
+            } else if (StringUtils.isNotBlank(personMassChange.getReplaceeRolodexId())) {
+                setReplaceeRolodexId(personMassChange.getReplaceeRolodexId());
+            }
         }
         
-        if (StringUtils.isNotBlank(getReplacerPersonId())) {
-            KcPerson person = getKcPersonService().getKcPersonByPersonId(getReplacerPersonId());
-            personMassChange.setReplacerPersonId(person.getPersonId());
-            personMassChange.setReplacerFullName(person.getFullName());
-            personMassChange.setReplacerRolodexId(null);
-        } else if (StringUtils.isNotBlank(getReplacerRolodexId())) {
-            personMassChange.setReplacerPersonId(null);
-            Rolodex rolodex = getRolodexService().getRolodex(Integer.valueOf(getReplacerRolodexId()));
-            personMassChange.setReplacerRolodexId(rolodex.getRolodexId().toString());
-            personMassChange.setReplacerFullName(rolodex.getFullName());
-        }
-    }
-    
-    public KcPersonService getKcPersonService() {
-        if (kcPersonService == null) {
-            kcPersonService = KraServiceLocator.getService(KcPersonService.class);
+        prepareReplaceeView(personMassChange, getReplaceePersonId(), getReplaceeRolodexId());
+        
+        if (StringUtils.isBlank(getReplacerPersonId()) && StringUtils.isBlank(getReplacerRolodexId())) {
+            if (StringUtils.isNotBlank(personMassChange.getReplacerPersonId())) {
+                setReplacerPersonId(personMassChange.getReplacerPersonId());
+            } else if (StringUtils.isNotBlank(personMassChange.getReplacerRolodexId())) {
+                setReplacerRolodexId(personMassChange.getReplacerRolodexId());
+            }
         }
         
-        return kcPersonService;
-    }
-
-    public void setKcPersonService(KcPersonService kcPersonService) {
-        this.kcPersonService = kcPersonService;
-    }
-
-    public RolodexService getRolodexService() {
-        if (rolodexService == null) {
-            rolodexService = KraServiceLocator.getService(RolodexService.class);
-        }
-        
-        return rolodexService;
-    }
-    
-    public void setRolodexService(RolodexService rolodexService) {
-        this.rolodexService = rolodexService;
+        prepareReplacerView(personMassChange, getReplacerPersonId(), getReplacerRolodexId());
     }
 
 }

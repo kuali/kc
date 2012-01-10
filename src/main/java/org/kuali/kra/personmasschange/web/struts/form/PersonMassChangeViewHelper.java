@@ -15,13 +15,11 @@
  */
 package org.kuali.kra.personmasschange.web.struts.form;
 
-import java.io.Serializable;
 import java.util.ArrayList;
 import java.util.List;
 
 import org.kuali.kra.award.home.Award;
 import org.kuali.kra.bo.Unit;
-import org.kuali.kra.bo.UnitAdministrator;
 import org.kuali.kra.committee.bo.Committee;
 import org.kuali.kra.committee.bo.CommitteeSchedule;
 import org.kuali.kra.infrastructure.KraServiceLocator;
@@ -43,9 +41,9 @@ import org.kuali.kra.personmasschange.service.UnitPersonMassChangeService;
 import org.kuali.kra.proposaldevelopment.bo.DevelopmentProposal;
 import org.kuali.kra.subaward.bo.SubAward;
 
-public class PersonMassChangeViewHelper implements Serializable {
+public class PersonMassChangeViewHelper extends PersonMassChangeHelperBase {
 
-    private static final long serialVersionUID = -6979150906749078161L;
+    private static final long serialVersionUID = -2800122326898510358L;
 
     private static final String EMPTY_CANDIDATES_MESSAGE = "No records need to be changed.";
 
@@ -177,6 +175,9 @@ public class PersonMassChangeViewHelper implements Serializable {
      */
     public void prepareView() {
         PersonMassChange personMassChange = form.getDocument().getPersonMassChange();
+
+        prepareReplaceeView(personMassChange, personMassChange.getReplaceePersonId(), personMassChange.getReplaceeRolodexId());
+        prepareReplacerView(personMassChange, personMassChange.getReplacerPersonId(), personMassChange.getReplacerRolodexId());
         
         setAwardChangeCandidates(getAwardPersonMassChangeService().getAwardChangeCandidates(personMassChange));
         setInstitutionalProposalChangeCandidates(getInstitutionalProposalPersonMassChangeService().getInstitutionalProposalChangeCandidates(personMassChange));
