@@ -24,7 +24,7 @@ import org.kuali.kra.personmasschange.document.PersonMassChangeDocument;
 
 public class PersonMassChange extends KraPersistableBusinessObjectBase {
 
-    private static final long serialVersionUID = 564388913686346670L;
+    private static final long serialVersionUID = -3623048013289266430L;
 
     private long personMassChangeId;
     
@@ -35,6 +35,8 @@ public class PersonMassChange extends KraPersistableBusinessObjectBase {
     private String replacerPersonId;
     private String replacerRolodexId;
     private String replacerFullName;
+    
+    private boolean changeAllSequences;
     
     private PersonMassChangeDocument personMassChangeDocument;
     
@@ -155,6 +157,14 @@ public class PersonMassChange extends KraPersistableBusinessObjectBase {
 
     public void setReplacerFullName(String replacerFullName) {
         this.replacerFullName = replacerFullName;
+    }
+    
+    public boolean isChangeAllSequences() {
+        return changeAllSequences;
+    }
+    
+    public void setChangeAllSequences(boolean changeAllSequences) {
+        this.changeAllSequences = changeAllSequences;
     }
     
     public PersonMassChangeDocument getPersonMassChangeDocument() {
@@ -333,6 +343,7 @@ public class PersonMassChange extends KraPersistableBusinessObjectBase {
         propMap.put("replaceeRolodexId", getReplaceeRolodexId());
         propMap.put("replacerPersonId", getReplacerPersonId());
         propMap.put("replacerRolodexId", getReplacerRolodexId());
+        propMap.put("changeAllSequences", isChangeAllSequences());
         return propMap;
     }
 
