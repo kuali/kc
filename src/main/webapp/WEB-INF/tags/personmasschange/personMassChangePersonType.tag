@@ -1,5 +1,6 @@
 <%@ include file="/WEB-INF/jsp/kraTldHeader.jsp"%>
 
+<c:set var="personMassChangeAttributes" value="${DataDictionary.PersonMassChange.attributes}" />
 <c:set var="awardPersonMassChangeAttributes" value="${DataDictionary.AwardPersonMassChange.attributes}" />
 <c:set var="institutionalProposalPersonMassChangeAttributes" value="${DataDictionary.InstitutionalProposalPersonMassChange.attributes}" />
 <c:set var="proposalDevelopmentPersonMassChangeAttributes" value="${DataDictionary.ProposalDevelopmentPersonMassChange.attributes}" />
@@ -16,6 +17,10 @@
 
 <kul:tab tabTitle="Person Type" defaultOpen="true" innerTabErrorKey="document.personMassChange*">
 	<div class="tab-container" align="center">
+        <h3>
+            <span class="subhead-left">Modules</span>
+        </h3>
+        
 	    <kul:innerTab parentTab="${parentTab}" tabTitle="Award ${tabTitle}" tabErrorKey="document.personMassChange.awardPersonMassChange.*" defaultOpen="false" >
 	        <div class="tab-container" align="center">
 	            <table cellpadding="4" cellspacing="0" summary="">
@@ -280,5 +285,19 @@
 	            </table>
 	        </div>
 	    </kul:innerTab>
+    </div>
+    
+    <div class="tab-container" align="center">
+        <h3>
+            <span class="subhead-left">Options</span>
+        </h3>
+        
+        <table cellpadding="4" cellspacing="0" summary="">
+            <tr>
+                <th style="width:50%"><div align="left"><kul:htmlAttributeLabel attributeEntry="${personMassChangeAttributes.changeAllSequences}" /></div></th>
+                <td style="width:50%"><kul:htmlControlAttribute property="document.personMassChange.changeAllSequences" 
+                                                                attributeEntry="${personMassChangeAttributes.changeAllSequences}" readOnly="false" /></td>
+            </tr>
+        </table>
     </div>
 </kul:tab>
