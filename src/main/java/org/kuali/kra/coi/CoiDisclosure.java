@@ -108,7 +108,7 @@ public class CoiDisclosure extends KraPersistableBusinessObjectBase implements S
     private List<CoiDiscDetail> coiDiscDetails; 
 //    private CoiDocuments coiDocuments; 
 //    private CoiNotepad coiNotepad; 
-//    private CoiUserRoles coiUserRoles; 
+    private List<CoiUserRole> coiUserRoles; 
 
     // help UI purposes
     private transient List<CoiDisclEventProject> coiDisclEventProjects; 
@@ -123,6 +123,7 @@ public class CoiDisclosure extends KraPersistableBusinessObjectBase implements S
         this.setSequenceNumber(1);
         initCoiDisclosureNumber();
         getDisclosureReporter();
+        coiUserRoles = new ArrayList<CoiUserRole>();
 
     } 
     
@@ -383,6 +384,7 @@ public class CoiDisclosure extends KraPersistableBusinessObjectBase implements S
         managedLists.add(disclosurePersonUnits);
         managedLists.add(getDisclosurePersons());
         managedLists.add(getCoiDiscDetails());
+        managedLists.add(getCoiUserRoles());
         return managedLists;
     }
 
@@ -641,6 +643,7 @@ public class CoiDisclosure extends KraPersistableBusinessObjectBase implements S
 
     public boolean isApprovedDisclosure() {
 
+    	
         return StringUtils.equals(CoiDispositionStatus.APPROVED, disclosureDispositionCode);
     }
 
@@ -669,6 +672,14 @@ public class CoiDisclosure extends KraPersistableBusinessObjectBase implements S
 
     public void setCoiDisclosureEventType(CoiDisclosureEventType coiDisclosureEventType) {
         this.coiDisclosureEventType = coiDisclosureEventType;
+    }
+
+    public List<CoiUserRole> getCoiUserRoles() {
+        return coiUserRoles;
+    }
+
+    public void setCoiUserRoles(List<CoiUserRole> coiUserRoles) {
+        this.coiUserRoles = coiUserRoles;
     }
 
  }

@@ -104,5 +104,25 @@ public class CoiDisclosureActionsAction extends CoiAction {
         return forward;
 
     }
+    
+    public ActionForward addCoiUserRole(ActionMapping mapping, ActionForm form, HttpServletRequest request, HttpServletResponse response)
+            throws Exception {
+        CoiDisclosureForm coiDisclosureForm = (CoiDisclosureForm) form;
+        CoiDisclosureDocument coiDisclosureDocument = coiDisclosureForm.getCoiDisclosureDocument();
+        String userName = coiDisclosureForm.getDisclosureActionHelper().getNewCoiUserRole().getUserId();
+        String reviewerType = coiDisclosureForm.getDisclosureActionHelper().getNewCoiUserRole().getReviewerCode();
+        getCoiDisclosureActionService().addCoiUserRole(coiDisclosureDocument.getCoiDisclosure(), userName, reviewerType);
+         
+        return mapping.findForward(Constants.MAPPING_BASIC);
 
+    }
+
+    public ActionForward deleteCoiUserRole(ActionMapping mapping, ActionForm form, HttpServletRequest request, HttpServletResponse response) {
+        CoiDisclosureForm coiDisclosureForm = (CoiDisclosureForm) form;
+        CoiDisclosureDocument coiDisclosureDocument = coiDisclosureForm.getCoiDisclosureDocument();
+        int index = getSelectedLine(request);
+        getCoiDisclosureActionService().deleteCoiUserRole(coiDisclosureDocument.getCoiDisclosure(), index);
+        
+        return mapping.findForward(Constants.MAPPING_BASIC);
+    }
 }
