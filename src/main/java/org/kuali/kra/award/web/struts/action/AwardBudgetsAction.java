@@ -199,16 +199,8 @@ public class AwardBudgetsAction extends AwardAction implements AuditModeAction {
         }
         
         if(awardBudgetService.checkRateChange(allBudgetRates, newestAward)){
-//        	StrutsConfirmation question=syncBudgetRateConfirmationQuestion(mapping, form, request, response,
-//                    KeyConstants.QUESTION_SYNCH_AWARD_RATE);
-//        	 question.setCaller(((KualiForm) question.getForm()).getMethodToCall());
-//        	 Object buttonClicked = question.getRequest().getParameter(QUESTION_CLICKED_BUTTON);
-//        	 if (buttonClicked==null||ConfirmationQuestion.YES.equals(buttonClicked)){
-        	     return confirm(syncBudgetRateConfirmationQuestion(mapping, form, request, response,
-                    KeyConstants.QUESTION_SYNCH_AWARD_RATE), CONFIRM_SYNCH_BUDGET_RATE, NO_SYNCH_BUDGET_RATE);
-//        	 }else{
-//        		 return mapping.findForward(Constants.MAPPING_BASIC);
-//        	 }
+    	     return confirm(syncBudgetRateConfirmationQuestion(mapping, form, request, response,
+                KeyConstants.QUESTION_SYNCH_AWARD_RATE), CONFIRM_SYNCH_BUDGET_RATE, NO_SYNCH_BUDGET_RATE);
         }
         if (budgetService.checkActivityTypeChange(allBudgetRates, newestAward.getActivityTypeCode())) {
             return confirm(syncBudgetRateConfirmationQuestion(mapping, form, request, response,

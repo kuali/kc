@@ -756,8 +756,15 @@ public interface Constants {
     public static final String PARAMETER_MULTI_CAMPUS_ENABLED = "MULTI_CAMPUS_ENABLED";
     public static final String ENABLE_COST_SHARE_SUBMIT = "ENABLE_COST_SHARE_SUBMIT";
     public static final String INSTITUTE_PROPOSAL_OTHER_GROUP = "INSTITUTE_PROPOSAL_OTHER_GROUP";
+
+    //award budget rates
     public static final String AWARD_BUDGET_DEFAULT_FNA_RATE_CLASS_CODE = "awardBudgetDefaultFnARateClassCode";
     public static final String AWARD_BUDGET_DEFAULT_UNDERRECOVERY_RATE_CLASS_CODE = "awardBudgetDefaultUnderrecoveryRateClassCode";
+    public static final String AWARD_BUDGET_EB_RATE_CLASS_CODE = "awardBudgetEbRateClassCode";
+    public static final String AWARD_BUDGET_EB_RATE_TYPE_CODE = "awardBudgetEbRateTypeCode";
+    public static final String DEFAULT_FNA_RATE_CLASS_CODE = "defaultFnARateClassCode";
+
+    
     //Subaward
     public static final String MAPPING_SUBAWARD_PAGE = "subAward";
     public static final String MAPPING_FUNDING_SOURCE_PAGE = "fundingSource";
