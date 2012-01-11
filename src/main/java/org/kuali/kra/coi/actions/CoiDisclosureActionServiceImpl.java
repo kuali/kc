@@ -26,6 +26,7 @@ import org.kuali.kra.bo.KraPersistableBusinessObjectBase;
 import org.kuali.kra.coi.CoiDiscDetail;
 import org.kuali.kra.coi.CoiDisclosure;
 import org.kuali.kra.coi.CoiDisclosureHistory;
+import org.kuali.kra.coi.CoiUserRole;
 import org.kuali.kra.coi.CoiDisclosureStatus;
 import org.kuali.kra.coi.CoiDispositionStatus;
 import org.kuali.rice.kns.service.BusinessObjectService;
@@ -60,12 +61,32 @@ public class CoiDisclosureActionServiceImpl implements CoiDisclosureActionServic
             disclosures.add(masterCoiDisclosure);
 
         } 
-        coiDisclosure.setCurrentDisclosure(true);
+            coiDisclosure.setCurrentDisclosure(true);
         
         disclosures.add(createDisclosureHistory(coiDisclosure));
         businessObjectService.save(disclosures);
     }
     
+    public void addCoiUserRole(CoiDisclosure coiDisclosure, String userName, String reviewerType) {
+        CoiUserRole coiUserRole = new CoiUserRole();
+        coiUserRole.setCoiDisclosureNumber(coiDisclosure.getCoiDisclosureNumber());
+        coiUserRole.setSequenceNumber(coiDisclosure.getSequenceNumber());
+        coiUserRole.setUserId(userName);
+        coiUserRole.setRoleName("COI Reviewer");
+        coiUserRole.setReviewerCode(reviewerType);
+        
+        coiDisclosure.getCoiUserRoles().add(coiUserRole);
+        businessObjectService.save(coiDisclosure);
+    }
+    
+    public void deleteCoiUserRole(CoiDisclosure coiDisclosure, int index) {
+        if (index >= 0 && index < coiDisclosure.getCoiUserRoles().size()) {
+            coiDisclosure.getCoiUserRoles().remove(index);
+            
+            businessObjectService.save(coiDisclosure);
+        }
+    }
+
     /*
      * retrieve current master disclosure
      */
@@ -130,6 +151,8 @@ public class CoiDisclosureActionServiceImpl implements CoiDisclosureActionServic
         return coiDisclosureHistory;
 
     }
+    
+
 
     public void setBusinessObjectService(BusinessObjectService businessObjectService) {
         this.businessObjectService = businessObjectService;
