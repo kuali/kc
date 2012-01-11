@@ -36,7 +36,6 @@ public class CoiDisclosureDocument extends ResearchDocumentBase implements Copya
     
     public static final String DOCUMENT_TYPE_CODE = "COI";
     private List<CoiDisclosure> coiDisclosureList;
-    
     /**
      * Constructs a CoiDisclosureDocument object.
      */
@@ -46,7 +45,6 @@ public class CoiDisclosureDocument extends ResearchDocumentBase implements Copya
         CoiDisclosure newCoiDisclosure = new CoiDisclosure();
         newCoiDisclosure.setCoiDisclosureDocument(this);
         coiDisclosureList.add(newCoiDisclosure);
-
     }
 
     public List<CoiDisclosure> getCoiDisclosureList() {

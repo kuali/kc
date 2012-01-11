@@ -140,7 +140,7 @@
 	showDocumentInfo="true"
 	htmlFormAction="coiDisclosure"
 	documentTypeName="CoiDisclosureDocument"
-	renderMultipart="false"
+	renderMultipart="true"
 	showTabButtons="true"
 	auditCount="0"
   	headerDispatch="${KualiForm.headerDispatch}"
@@ -168,8 +168,10 @@
 <c:if test="${KualiForm.document.coiDisclosureList[0].eventTypeCode=='11' or KualiForm.document.coiDisclosureList[0].eventTypeCode=='12' or KualiForm.document.coiDisclosureList[0].eventTypeCode=='13'}" >
 <kra-coi:manualProjects />
 </c:if>
-<kra-coi:coiCertification topTab="false" />
 
+<kra-coi:coiNoteAndAttachment/>
+
+<kra-coi:coiCertification topTab="false" />
 <kul:panelFooter />
 	<kul:documentControls 
 		transactionalDocument="false"

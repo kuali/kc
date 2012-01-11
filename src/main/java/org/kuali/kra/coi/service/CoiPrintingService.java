@@ -19,6 +19,7 @@ import java.util.List;
 import java.util.Map;
 
 import org.kuali.kra.bo.KraPersistableBusinessObjectBase;
+import org.kuali.kra.coi.CoiDisclosure;
 import org.kuali.kra.coi.print.CoiReportType;
 import org.kuali.kra.coi.service.CoiPrintingService;
 import org.kuali.kra.printing.Printable;
@@ -59,4 +60,9 @@ public interface CoiPrintingService {
     public AttachmentDataSource printDisclosureCertification( KraPersistableBusinessObjectBase institutionalProposal, 
                                                               String reportName,
                                                               Map<String, Object> reportParameters) throws PrintingException;
-}
+
+    public AbstractPrint getCoiPrintable(CoiReportType reportType);
+    
+    public Printable getCoiPrintArtifacts(CoiDisclosure coiDisclosure);
+    
+    }

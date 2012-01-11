@@ -579,6 +579,10 @@ public final class KeyConstants {
     public static final String ERROR_SYNC_DESCENDANT_BLANK = "error.award.awardhierarchy.sync.whichdescendants";
     public static final String ERROR_SYNC_AWARD_STATUS = "error.award.awardhierarchy.sync.invalidstatus";
     
+    //COI Required Fields validation messages
+    public static final String ERROR_COI_ATTACHMENT_MISSING_DESC = "error.coi.attachment.description.required";
+    public static final String ERROR_COI_ATTACHMENT_MISSING_FILE = "error.coi.attachment.missing.file";
+    
     // IRB Protocol Research Area Validation messages
     public static final String ERROR_PROTOCOL_RESEARCH_AREA_REQUIRED = "error.protocol.researchArea.required";
     public static final String ERROR_PROTOCOL_RESEARCH_AREA_NOT_ACTIVE = "error.protocol.researchArea.notactive";
