@@ -998,7 +998,7 @@ public final class KeyConstants {
     public static final String ERROR_AMOUNT_INFO_ANTICIPATED_AMOUNT_NEGATIVE = "subaward.error.anticipated.amount.less.than.zero";
     public static final String ERROR_AMOUNT_INFO_ANTICIPATED_AMOUNT_ZERO = "subaward.error.anticipated.amount.equal.to.zero";
     public static final String ERROR_SUBAWARD_CONTACT = "subaward.contact.not.added";
-
+    public static final String ERROR_SUBAWARD_AMOUNT_RELEASED_GREATER_OBLIGATED_AMOUNT ="subaward.error.amount.released.greater.than.obligated.amount";
     
     //negotiations
     public static final String NEGOTIATION_STATUS_USED = "error.negotiations.codeAlreadyUsed";

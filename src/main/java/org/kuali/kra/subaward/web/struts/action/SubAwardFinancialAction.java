@@ -88,12 +88,12 @@ public class SubAwardFinancialAction extends SubAwardAction{
         
         SubAwardForm subAwardForm=(SubAwardForm) form;
         SubAwardAmountReleased subAwardAmountReleased =subAwardForm.getNewSubAwardAmountReleased();
-        
-       if(new SubAwardDocumentRule().processAddSubAwardAmountReleasedBusinessRules(subAwardAmountReleased)){ 
+        SubAward subAward = subAwardForm.getSubAwardDocument().getSubAward();
+       if(new SubAwardDocumentRule().processAddSubAwardAmountReleasedBusinessRules(subAwardAmountReleased, subAward)){ 
                 addAmountReleasedToSubAward(subAwardForm.getSubAwardDocument().getSubAward(), subAwardAmountReleased);
                 subAwardForm.setNewSubAwardAmountReleased(new SubAwardAmountReleased());
        }
-       SubAward subAward = KraServiceLocator.getService(SubAwardService.class).getAmountInfo(subAwardForm.getSubAwardDocument().getSubAward());
+       subAward = KraServiceLocator.getService(SubAwardService.class).getAmountInfo(subAwardForm.getSubAwardDocument().getSubAward());
        subAwardForm.getSubAwardDocument().setSubAward(subAward);
         return mapping.findForward(Constants.MAPPING_FINANCIAL_PAGE);
     }
