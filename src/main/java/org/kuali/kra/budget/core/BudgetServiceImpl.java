@@ -311,7 +311,7 @@ public class BudgetServiceImpl<T extends BudgetParent> implements BudgetService<
     }
     
     @SuppressWarnings("unchecked")
-    public Collection<BudgetRate> getSavedProposalRates(Budget budget) {
+    public Collection<BudgetRate> getSavedBudgetRates(Budget budget) {
         Map<String,Long> qMap = new HashMap<String, Long>();
         qMap.put("budgetId",budget.getBudgetId());
         return businessObjectService.findMatching(BudgetRate.class, qMap);
@@ -331,7 +331,7 @@ public class BudgetServiceImpl<T extends BudgetParent> implements BudgetService<
     }
     
     public boolean checkActivityTypeChange(BudgetParentDocument<T> budgetParentDoc, Budget budget) {
-        return checkActivityTypeChange(getSavedProposalRates(budget), budgetParentDoc.getBudgetParent().getActivityTypeCode());
+        return checkActivityTypeChange(getSavedBudgetRates(budget), budgetParentDoc.getBudgetParent().getActivityTypeCode());
     }
     
     public boolean ValidInflationCeRate(BudgetLineItemBase budgetLineItem) {

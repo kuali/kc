@@ -71,7 +71,7 @@ public class ActivityTypeAuditRule  implements DocumentAuditRule{
     private boolean isActivityTypeChanged(BudgetDocument budgetDocument) {
         BudgetParentDocument parentDocument = budgetDocument.getParentDocument();
         boolean syncRate = false;
-        Collection<BudgetRate> allBudgetRates = KraServiceLocator.getService(BudgetService.class).getSavedProposalRates(budgetDocument.getBudget());
+        Collection<BudgetRate> allBudgetRates = KraServiceLocator.getService(BudgetService.class).getSavedBudgetRates(budgetDocument.getBudget());
         syncRate = getBudgetService().checkActivityTypeChange(allBudgetRates,
                                     parentDocument.getBudgetParent().getActivityTypeCode());
 //        
