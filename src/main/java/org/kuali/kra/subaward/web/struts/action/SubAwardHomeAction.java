@@ -128,9 +128,10 @@ public class SubAwardHomeAction extends SubAwardAction{
     
     public ActionForward addFundingSource(ActionMapping mapping, ActionForm form, HttpServletRequest request, HttpServletResponse response) throws Exception {
         SubAwardForm subAwardForm = (SubAwardForm) form;
+        SubAward subAward = subAwardForm.getSubAwardDocument().getSubAward();
         SubAwardFundingSource fundingSources= subAwardForm.getNewSubAwardFundingSource();
         
-       if(new SubAwardDocumentRule().processAddSubAwardFundingSourceBusinessRules(fundingSources)){
+       if(new SubAwardDocumentRule().processAddSubAwardFundingSourceBusinessRules(fundingSources,subAward)){
         addFundingSourceToSubAward(subAwardForm.getSubAwardDocument().getSubAward(),fundingSources);
         subAwardForm.setNewSubAwardFundingSource(new SubAwardFundingSource());
        }
