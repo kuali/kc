@@ -30,5 +30,21 @@ public interface CoiDisclosureActionService {
      * @param coiDisclosureStatusCode
      */
     void approveDisclosure(CoiDisclosure coiDisclosure, String coiDisclosureStatusCode);
+    
+    /**
+     * This method adds a coi reviewer to the disclosure
+     * @param coiDisclosure
+     * @param userName
+     * @param reviewerType
+     */
+    void addCoiUserRole(CoiDisclosure coiDisclosure, String userName, String reviewerType);
+    
+    /**
+     *
+     * This method removes a coi reviewer from the disclosure
+     * @param coiDisclosure
+     * @param index
+     */
+    void deleteCoiUserRole(CoiDisclosure coiDisclosure, int index);
 
 }

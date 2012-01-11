@@ -26,6 +26,7 @@ import org.apache.commons.lang.StringUtils;
 import org.apache.struts.action.ActionErrors;
 import org.apache.struts.action.ActionMapping;
 import org.kuali.kra.authorization.KraAuthorizationConstants;
+import org.kuali.kra.coi.actions.DisclosureActionHelper;
 import org.kuali.kra.coi.disclosure.DisclosureHelper;
 import org.kuali.kra.institutionalproposal.document.InstitutionalProposalDocument;
 import org.kuali.kra.web.struts.form.Auditable;
@@ -40,6 +41,7 @@ public class CoiDisclosureForm extends KraTransactionalDocumentFormBase implemen
      */
     private static final long serialVersionUID = -5620344612882618024L;
     private DisclosureHelper disclosureHelper;
+    private DisclosureActionHelper disclosureActionHelper;
     private boolean auditActivated;
     
     //TODO : coiDisclosureStatusCode : this is just a quick set up here for 'approve' action to test 'master disclosure'
@@ -146,5 +148,13 @@ public class CoiDisclosureForm extends KraTransactionalDocumentFormBase implemen
 
     public void setCoiDisclosureStatusCode(String coiDisclosureStatusCode) {
         this.coiDisclosureStatusCode = coiDisclosureStatusCode;
+    }
+
+    public DisclosureActionHelper getDisclosureActionHelper() {
+        return disclosureActionHelper;
+    }
+
+    public void setDisclosureActionHelper(DisclosureActionHelper disclosureActionHelper) {
+        this.disclosureActionHelper = disclosureActionHelper;
     }
 }
