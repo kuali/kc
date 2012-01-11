@@ -18,6 +18,7 @@ package org.kuali.kra.budget.web.struts.action;
 import java.io.ByteArrayOutputStream;
 import java.io.IOException;
 import java.util.ArrayList;
+import java.util.Collection;
 import java.util.List;
 
 import javax.servlet.http.HttpServletRequest;
@@ -29,6 +30,7 @@ import org.apache.commons.logging.LogFactory;
 import org.apache.struts.action.ActionForm;
 import org.apache.struts.action.ActionForward;
 import org.apache.struts.action.ActionMapping;
+import org.kuali.kra.award.budget.AwardBudgetService;
 import org.kuali.kra.award.document.AwardDocument;
 import org.kuali.kra.award.home.Award;
 import org.kuali.kra.award.home.ContactRole;
@@ -53,6 +55,7 @@ import org.kuali.kra.budget.personnel.BudgetPersonnelCalculatedAmount;
 import org.kuali.kra.budget.personnel.BudgetPersonnelDetails;
 import org.kuali.kra.budget.personnel.HierarchyPersonnelSummary;
 import org.kuali.kra.budget.personnel.PersonRolodex;
+import org.kuali.kra.budget.rates.BudgetRate;
 import org.kuali.kra.budget.rates.BudgetRatesService;
 import org.kuali.kra.budget.service.BudgetLockService;
 import org.kuali.kra.budget.summary.BudgetSummaryService;
@@ -73,6 +76,7 @@ import org.kuali.kra.proposaldevelopment.hierarchy.ProposalHierarcyActionHelper;
 import org.kuali.kra.proposaldevelopment.service.ProposalStatusService;
 import org.kuali.kra.service.VersionHistoryService;
 import org.kuali.kra.web.struts.action.BudgetActionBase;
+import org.kuali.kra.web.struts.action.StrutsConfirmation;
 import org.kuali.rice.core.util.KeyLabelPair;
 import org.kuali.rice.kew.exception.WorkflowException;
 import org.kuali.rice.kew.util.KEWConstants;
@@ -97,6 +101,11 @@ public class BudgetAction extends BudgetActionBase {
     private static final Log LOG = LogFactory.getLog(BudgetAction.class);
     
     private static final String DOCUMENT_REJECT_QUESTION="DocReject";
+    protected static final String CONFIRM_SYNCH_BUDGET_RATE = "confirmSynchBudgetRate";
+    protected static final String NO_SYNCH_BUDGET_RATE = "noSynchBudgetRate";
+    protected static final String CONFIRM_SYNCH_AWARD_RATES = "confirmSynchAwardRates";
+    protected static final String NO_SYNCH_AWARD_RATES = "noSynchAwardRates";
+
     private ProposalHierarcyActionHelper hierarchyHelper;
     /**
      * @see org.kuali.core.web.struts.action.KualiDocumentActionBase#docHandler(org.apache.struts.action.ActionMapping, org.apache.struts.action.ActionForm, javax.servlet.http.HttpServletRequest, javax.servlet.http.HttpServletResponse)
@@ -128,16 +137,49 @@ public class BudgetAction extends BudgetActionBase {
             ((BudgetForm)GlobalVariables.getKualiForm()).setUrRateClassCodePrevValue(budget.getUrRateClassCode());
         }
         
-        if (budgetDocument.getParentDocument() instanceof AwardDocument && StringUtils.isNotBlank(budgetForm.getSyncBudgetRate()) && budgetForm.getSyncBudgetRate().equals("Y")) {
+        if (isAwardBudget(budgetDocument) && StringUtils.isNotBlank(budgetForm.getSyncBudgetRate()) && budgetForm.getSyncBudgetRate().equals("Y")) {
             getBudgetRatesService().syncParentDocumentRates(budgetDocument);
-            getBudgetCommonService(budgetDocument.getParentDocument()).calculateBudgetOnSave(budget);
+            getBudgetCommonService(budgetDocument.getParentDocument()).recalculateBudget(budget);
         }
         
         reconcileBudgetStatus(budgetForm);
+        
         if ("Personnel".equals(budgetForm.getActivePanelName())) {
             forward = personnel(mapping, budgetForm, request, response);
         }
         return forward;
+    }
+
+    protected StrutsConfirmation syncAwardBudgetRateConfirmationQuestion(ActionMapping mapping, ActionForm form,
+            HttpServletRequest request, HttpServletResponse response, String message) throws Exception {
+        return buildParameterizedConfirmationQuestion(mapping, form, request, response, CONFIRM_SYNCH_AWARD_RATES,
+                message, "");
+    }
+    public ActionForward confirmSynchAwardRates(ActionMapping mapping, ActionForm form, HttpServletRequest request, HttpServletResponse response) throws Exception {
+        return synchAwardBudgetRate(mapping, form, request, response, true);
+    }
+    public ActionForward noSynchAwardRates(ActionMapping mapping, ActionForm form, HttpServletRequest request, HttpServletResponse response) throws Exception {
+        return synchAwardBudgetRate(mapping, form, request, response, false);
+    }
+    private ActionForward synchAwardBudgetRate(ActionMapping mapping, ActionForm form, HttpServletRequest request, HttpServletResponse response, boolean confirm) throws Exception {
+        BudgetForm budgetForm = (BudgetForm) form;
+        BudgetDocument budgetDoc = budgetForm.getDocument();
+        BudgetParentDocument pdDoc = budgetDoc.getParentDocument();
+        Long routeHeaderId = budgetDoc.getDocumentHeader().getWorkflowDocument().getRouteHeaderId();
+        String forward = buildForwardUrl(routeHeaderId);
+        if (confirm) {
+            forward = forward.replace("awardBudgetParameters.do?", "awardBudgetParameters.do?syncBudgetRate=Y&");
+         }
+        return new ActionForward(forward, true);
+    }
+
+    /**
+     * This method returns true if the BudgetDocument is an AwardBudgetDocument instance
+     * @param budgetDocument
+     * @return
+     */
+    protected boolean isAwardBudget(BudgetDocument budgetDocument) {
+        return !Boolean.parseBoolean(budgetDocument.getParentDocument().getProposalBudgetFlag());
     }
 
     

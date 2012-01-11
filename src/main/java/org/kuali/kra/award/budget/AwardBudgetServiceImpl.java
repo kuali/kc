@@ -1031,7 +1031,6 @@ public class AwardBudgetServiceImpl implements AwardBudgetService {
         award.refreshReferenceObject("awardFandaRate");
         List<AwardFandaRate> awardFandaRates = award.getAwardFandaRate();
         boolean changeFlag = false;
-//        if (CollectionUtils.isNotEmpty(savedBudgetRates)) {
         for (AwardFandaRate budgetFnARate : awardFandaRates) {
             RateType fnaRateType = budgetFnARate.getFandaRateType();
             Equals eqRateClasCode = new Equals("rateClassCode", fnaRateType.getRateClassCode());
@@ -1041,16 +1040,13 @@ public class AwardBudgetServiceImpl implements AwardBudgetService {
             And rateClassAndRateTypeAndCampusFlag = new And(rateClassAndRateType,eqCampusFlag);
             QueryList<BudgetRate> matchAwardFnARate = new QueryList<BudgetRate>(savedBudgetRates).filter(rateClassAndRateTypeAndCampusFlag);
             if(matchAwardFnARate.isEmpty() || matchAwardFnARate.size()>1 ||
-                    !matchAwardFnARate.get(0).getApplicableRate().equals(
-                            budgetFnARate.getApplicableFandaRate())) {
+                    !matchAwardFnARate.get(0).getApplicableRate().equals(budgetFnARate.getApplicableFandaRate())) {
                 changeFlag = true;
             }
         }
-        Equals eqRateClasCode = new Equals("rateClassCode", "5");
-        Equals eqRateTypeCode = new Equals("rateTypeCode", "6");
-        Equals eqCampusFlag = new Equals("onOffCampusFlag", Boolean.TRUE);
+        Equals eqRateClasCode = new Equals("rateClassCode", getBudgetParameterValue(Constants.AWARD_BUDGET_EB_RATE_CLASS_CODE));
+        Equals eqRateTypeCode = new Equals("rateTypeCode", getBudgetParameterValue(Constants.AWARD_BUDGET_EB_RATE_TYPE_CODE));
         And rateClassAndRateType = new And(eqRateClasCode,eqRateTypeCode);
-        And rateClassAndRateTypeAndCampusFlag = new And(rateClassAndRateType,eqCampusFlag);
         QueryList<BudgetRate> matchAwardEBCampusRates = new QueryList<BudgetRate>(savedBudgetRates).filter(rateClassAndRateType);
         for (BudgetRate budgetEBRate : matchAwardEBCampusRates) {
             if(budgetEBRate.getOnOffCampusFlag()) {
@@ -1068,55 +1064,5 @@ public class AwardBudgetServiceImpl implements AwardBudgetService {
         }
         return changeFlag;
     }            
-//            for (AwardFandaRate budgetFnARate : awardFandaRates) {
-//                RateType fnaRateType = budgetFnARate.getFandaRateType();
-//                Equals eqRateClasCode = new Equals("rateClassCode", fnaRateType.getRateClassCode());
-//                Equals eqRateTypeCode = new Equals("rateTypeCode", fnaRateType.getRateTypeCode());
-//                And rateClassAndRateType = new And(eqRateClasCode,eqRateTypeCode);
-//                QueryList<BudgetRate> matchAwardFnARate = new QueryList<BudgetRate>(savedBudgetRates).filter(rateClassAndRateType);
-//                if(matchAwardFnARate.isEmpty() || matchAwardFnARate.size()>1 ||
-//                        !matchAwardFnARate.get(0).getApplicableRate().equals(
-//                                budgetFnARate.getApplicableFandaRate())) 
-//                    return true;
-//                
-//            }
-//            List<String> awardRates=new ArrayList<String>();
-//            List<String> matchAwardRates=new ArrayList<String>();
-//            List<String> matchAwardEbRates=new ArrayList<String>();
-//            Equals equalsAwardClassType = new Equals("rateClassCode", getAwardParameterValue(Constants.AWARD_BUDGET_DEFAULT_FNA_RATE_CLASS_CODE));
-//            QueryList<BudgetRate> matchAwardFnRate = new QueryList<BudgetRate>(savedBudgetRates).filter(equalsAwardClassType);
-//            Equals equalsAwardClassTypes = new Equals("rateClassCode", "5");
-//            QueryList<BudgetRate> matchAwardBenfitRate = new QueryList<BudgetRate>(savedBudgetRates).filter(equalsAwardClassTypes);
-//            for(AwardFandaRate awardrate:awardFandaRates){
-//                awardRates.add(awardrate.getApplicableFandaRate().toString());
-//                Equals equalsAwardRate = new Equals("instituteRate", awardrate.getApplicableFandaRate());
-//                QueryList<BudgetRate> matchAwardFnRates = new QueryList<BudgetRate>(matchAwardFnRate).filter(equalsAwardRate);
-//                    if (CollectionUtils.isNotEmpty(matchAwardFnRates)){
-//                        for(int index=0;index<matchAwardFnRates.size();index++){
-//                            if(!matchAwardRates.contains(matchAwardFnRates.get(index).toString())){
-//                                matchAwardRates.add(matchAwardFnRates.get(index).toString());
-//                                break;
-//                            }
-//                        }
-//                    }
-//            }        
-//            for(int ebRate=0;ebRate<ebRates.size();ebRate++){
-//                KualiDecimal specialEbRate=(KualiDecimal)ebRates.get(ebRate);
-//                Equals equalsAwardEbRate = new Equals("instituteRate",specialEbRate);
-//                QueryList<BudgetRate> matchAwardBenfitRates = new QueryList<BudgetRate>(matchAwardBenfitRate).filter(equalsAwardEbRate);  
-//                    if (CollectionUtils.isNotEmpty(matchAwardBenfitRates)){
-//                        for(int index=0;index<matchAwardBenfitRates.size();index++){
-//                            if(!matchAwardEbRates.contains(matchAwardBenfitRates.get(index).toString())){
-//                                matchAwardEbRates.add(matchAwardBenfitRates.get(index).toString());
-//                                break;
-//                            }
-//                        }
-//                    }
-//            }
-//            if(matchAwardRates.size()!=awardRates.size()||matchAwardEbRates.size()!=ebRates.size()){
-//                 return true;
-//            }
-//        }
-//         return false;
 
 }

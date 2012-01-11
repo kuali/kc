@@ -144,7 +144,7 @@ public class ProposalDevelopmentBudgetVersionsAction extends ProposalDevelopment
         this.checkProjectStartEndDateWarning(budgetDocument);
         
         Budget budget = budgetDocument.getBudget();
-        Collection<BudgetRate> allPropRates = budgetService.getSavedProposalRates(budget);
+        Collection<BudgetRate> allPropRates = budgetService.getSavedBudgetRates(budget);
         
         if (budgetService.checkActivityTypeChange(allPropRates, pdDoc.getDevelopmentProposal().getActivityTypeCode())) {
             return confirm(syncBudgetRateConfirmationQuestion(mapping, form, request, response,
