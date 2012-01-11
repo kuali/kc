@@ -480,6 +480,10 @@
           <forward name="masterDisclosure" path="/WEB-INF/jsp/coi/MasterDisclosure.jsp" />
           &coi_forwards;
        </action>
+       <action path="/coiNoteAndAttachment" name="CoiDisclosureForm" input="/WEB-INF/jsp/coi/CoiDisclosure.jsp" type="org.kuali.kra.coi.notesandattachments.CoiNoteAndAttachmentAction"  scope="request" parameter="methodToCall" validate="true" attribute="KualiForm">
+          <forward name="basic" path="/WEB-INF/jsp/coi/CoiNoteAndAttachment.jsp" />
+          &coi_forwards;
+       </action>
        
      <action path="/protocolEventDisclosure" name="CoiDisclosureForm" input="/WEB-INF/jsp/coi/ProtocolEvent.jsp" type="org.kuali.kra.coi.disclosure.CoiDisclosureAction" parameter="methodToCall" validate="true" attribute="KualiForm">
         <forward name="basic" path="/WEB-INF/jsp/coi/ProtocolEvent.jsp" />

@@ -1,0 +1,41 @@
+<beans xmlns="http://www.springframework.org/schema/beans"
+    xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+    xmlns:p="http://www.springframework.org/schema/p"
+    xsi:schemaLocation="http://www.springframework.org/schema/beans
+        http://www.springframework.org/schema/beans/spring-beans-2.0.xsd">
+
+  <bean id="CoiDisclosureAttachmentFilter" parent="CoiDisclosureAttachmentFilter-parentBean" />
+
+  <bean id="CoiDisclosureAttachmentFilter-parentBean" abstract="true" parent="BusinessObjectEntry">
+    <property name="businessObjectClass" value="org.kuali.kra.coi.notesandattachments.attachments.CoiDisclosureAttachmentFilter" />
+		<property name="objectLabel" value="Attachment Filter" />
+    <property name="titleAttribute" value="attachmentFilter" />
+    <property name="helpDefinition" >
+      <bean parent="HelpDefinition"
+            p:parameterNamespace="KC-PROTOCOL"
+            p:parameterName="protocolAddProtocolAttachmentHelpUrl"
+            p:parameterDetailType="Document" />
+    </property>
+    <property name="attributes" >
+      <list>
+        <ref bean="CoiDisclosureAttachmentFilter-sortBy" /> 
+      </list>
+    </property>
+  </bean>
+
+<!-- Attribute Definitions -->
+
+    <bean id="CoiDisclosureAttachmentFilter-sortBy" parent="CoiDisclosureAttachmentFilter-sortBy-parentBean" />
+       <bean id="CoiDisclosureAttachmentFilter-sortBy-parentBean" abstract="true" parent="AttributeDefinition">
+        <property name="name" value="sortBy" />
+        <property name="label" value="Sort By" />
+        <property name="shortLabel" value="Sort By" />
+        <property name="summary" value="Sort By" />
+        <property name="description" value="Sort By" />
+        <property name="maxLength" value="4" />
+        <property name="control" >
+          <bean parent="SelectControlDefinition"
+                p:valuesFinderClass="org.kuali.kra.coi.notesandattachments.SortByValuesFinder" />
+        </property>
+    </bean>
+</beans>
