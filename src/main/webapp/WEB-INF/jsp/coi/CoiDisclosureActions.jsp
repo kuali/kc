@@ -31,10 +31,11 @@
 	auditCount="0"
   	headerDispatch="${KualiForm.headerDispatch}"
   	headerTabActive="disclosureActions">
-  	
+  
   	<%-- TODO : 'data validation' is not in mock.  however, for audit rule consistency, we should
   	             consider to add it. If we don't need it, then remove this. --%>
     <kra:dataValidation auditActivated="${KualiForm.auditActivated}" topTab="true"/>
+    <kra-coi:disclosureReviewerActions/>
     <kra-coi:disclosureActions />
 <kul:panelFooter />
 	<kul:documentControls 
