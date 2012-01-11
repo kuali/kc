@@ -15,11 +15,12 @@
  */
 package org.kuali.kra.subaward.subawardrule;
 
+import org.kuali.kra.subaward.bo.SubAward;
 import org.kuali.kra.subaward.bo.SubAwardAmountInfo;
 import org.kuali.kra.subaward.bo.SubAwardAmountReleased;
 import org.kuali.rice.kns.rule.BusinessRule;
 
 public interface SubAwardAmountReleasedRule extends BusinessRule{
 
-    public boolean processAddSubAwardAmountReleasedBusinessRules(SubAwardAmountReleased amountReleased);
+    public boolean processAddSubAwardAmountReleasedBusinessRules(SubAwardAmountReleased amountReleased,SubAward subAward);
 }

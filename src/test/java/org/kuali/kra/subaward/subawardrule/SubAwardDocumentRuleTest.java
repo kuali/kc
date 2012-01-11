@@ -104,7 +104,7 @@ public class SubAwardDocumentRuleTest extends KcUnitTestBase {
     @Test
     public void testProcessAddSubAwardAmountReleasedBusinessRules() {
         
-        Assert.assertTrue(subAwardDocumentRule.processAddSubAwardAmountReleasedBusinessRules(subAwardAmountReleased));
+        Assert.assertTrue(subAwardDocumentRule.processAddSubAwardAmountReleasedBusinessRules(subAwardAmountReleased,subAward));
     }    
     
     @Test
