@@ -31,16 +31,15 @@
 				<th><div align="right"><kul:htmlAttributeLabel attributeEntry="${subAwardAttributes.subAwardId}" /></div></th>
                 <td>
                     ${KualiForm.subAwardDocument.subAward.subAwardCode}&nbsp; 
-                      
-                     <%--  <kul:htmlControlAttribute property="document.subAwardList[0].subAwardId" readOnly="${readOnly}" attributeEntry="${subAwardAttributes.subAwardId}" /> --%>
-                </td>
+               </td>
 				<th><div align="right"><kul:htmlAttributeLabel attributeEntry="${subAwardAttributes.siteInvestigator}" /></div></th>
                 <td>
-                      <kul:htmlControlAttribute property="document.subAwardList[0].rolodex.firstName" readOnly="${readOnly}" attributeEntry="${subAwardAttributes.siteInvestigator}" />
+                      <kul:htmlControlAttribute property="document.subAwardList[0].siteInvestigator" readOnly="${readOnly}" attributeEntry="${subAwardAttributes.siteInvestigator}" />
                       <kul:lookup boClassName="org.kuali.kra.bo.NonOrganizationalRolodex" 
 								fieldConversions="firstName:document.subAwardList[0].rolodex.firstName,rolodexId:document.subAwardList[0].siteInvestigator" 			
           						anchor="${tabKey}"/> 
-          			   <kul:directInquiry boClassName="org.kuali.kra.bo.NonOrganizationalRolodex" inquiryParameters="document.subAwardList[0].siteInvestigator:siteInvestigator" anchor="${tabKey}" />			
+          			   <kul:directInquiry boClassName="org.kuali.kra.bo.NonOrganizationalRolodex" inquiryParameters="document.subAwardList[0].siteInvestigator:rolodexId" anchor="${tabKey}" />
+          			   <div>${KualiForm.document.subAwardList[0].rolodex.firstName}&nbsp;</div>			
                 </td>
             </tr>
         	<tr>
@@ -50,10 +49,10 @@
 					<td>${KualiForm.subAwardDocument.subAward.sequenceNumber}&nbsp; </td>              
 				<th><div align="right"><kul:htmlAttributeLabel attributeEntry="${subAwardAttributes.organizationId}" /></div></th>
                 <td>
-                <kul:htmlControlAttribute property="document.subAwardList[0].organization.organizationName" readOnly="${readOnly}" attributeEntry="${subAwardAttributes.organizationId}" />
+                  <kul:htmlControlAttribute property="document.subAwardList[0].organizationId" readOnly="${readOnly}" attributeEntry="${subAwardAttributes.organizationId}" />
                   <kul:lookup boClassName="org.kuali.kra.bo.Organization" fieldConversions="organizationId:document.subAwardList[0].organizationId,organizationName:document.subAwardList[0].organization.organizationName" anchor="${tabKey}" />
-            	  	    <kul:directInquiry boClassName="org.kuali.kra.bo.Organization" inquiryParameters="document.subAwardList[0].organizationId:organizationId" anchor="${tabKey}" /> 
-                      <%-- <kul:htmlControlAttribute property="document.subAwardList[0].subAwardorId" readOnly="${readOnly}" attributeEntry="${subAwardAttributes.subAwardorId}" /> --%>
+            	  <kul:directInquiry boClassName="org.kuali.kra.bo.Organization" inquiryParameters="document.subAwardList[0].organizationId:organizationId" anchor="${tabKey}" /> 
+                 <div>${KualiForm.document.subAwardList[0].organization.organizationName}&nbsp;</div>
                 </td>
             </tr>
         	<tr>
@@ -101,20 +100,17 @@
               
                       
              <td>
-                <kul:htmlControlAttribute property="document.subAwardList[0].requisitionerName" readOnly="${readOnly}" attributeEntry="${subAwardAttributes.requisitionerId}" />
-                  <kul:lookup boClassName="org.kuali.kra.bo.KcPerson" fieldConversions="personId:document.subAwardList[0].requisitionerId,fullName:document.subAwardList[0].requisitionerName,unit.unitNumber:document.subAwardList[0].requisitionerUnit,unit.unitName:document.subAwardList[0].unit.unitName" anchor="${tabKey}" />
-            	  	    <kul:directInquiry boClassName="org.kuali.kra.bo.KcPerson" inquiryParameters="document.subAwardList[0].requisitionerId:personId" anchor="${tabKey}" /> 
-                      <%-- <kul:htmlControlAttribute property="document.subAwardList[0].subAwardorId" readOnly="${readOnly}" attributeEntry="${subAwardAttributes.subAwardorId}" /> --%>
-                </td> 
-				<%-- <td>           
                 <kul:htmlControlAttribute property="document.subAwardList[0].requisitionerId" readOnly="${readOnly}" attributeEntry="${subAwardAttributes.requisitionerId}" />
-                </td>  --%>
+                  <kul:lookup boClassName="org.kuali.kra.bo.KcPerson" fieldConversions="personId:document.subAwardList[0].requisitionerId,fullName:document.subAwardList[0].requisitionerName,unit.unitNumber:document.subAwardList[0].requisitionerUnit,unit.unitName:document.subAwardList[0].unit.unitName" anchor="${tabKey}" />
+            	  	  <kul:directInquiry boClassName="org.kuali.kra.bo.KcPerson" inquiryParameters="document.subAwardList[0].requisitionerId:personId" anchor="${tabKey}" /> 
+                      <div>${KualiForm.document.subAwardList[0].requisitionerName}&nbsp;</div>
+                </td> 
 				<th><div align="right"><kul:htmlAttributeLabel attributeEntry="${subAwardAttributes.requisitionerUnit}" /></div></th>
                 <td>                       
                     
                       <kul:htmlControlAttribute property="document.subAwardList[0].requisitionerUnit" readOnly="${readOnly}" attributeEntry="${subAwardAttributes.requisitionerUnit}" />
                       <kul:lookup boClassName="org.kuali.kra.bo.Unit" fieldConversions="unitNumber:document.subAwardList[0].requisitionerUnit,unitName:document.subAwardList[0].unit.unitName" anchor="${tabKey}" />
-            	  	    <kul:directInquiry boClassName="org.kuali.kra.bo.Unit" inquiryParameters="document.subAwardList[0].requisitionerUnit:requisitionerUnit" anchor="${tabKey}" /> 
+            	  	    <kul:directInquiry boClassName="org.kuali.kra.bo.Unit" inquiryParameters="document.subAwardList[0].requisitionerUnit:unitNumber" anchor="${tabKey}" /> 
             	  	   
             	  	   <div>${KualiForm.document.subAwardList[0].unit.unitName}&nbsp;</div>  
                 </td>
