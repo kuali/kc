@@ -39,6 +39,7 @@ public class ProposalDevelopmentSeleniumHelper extends KcSeleniumHelper {
     
     private static final String PERSONNEL_ITEMS_FOR_REVIEW_TAB_ID = "Personnel Items for Review";
     private static final String ASDF_TAB_ID = "asdf asdf asdf asdf asdf asdf asdf asdf asdf asdf asdf asdf asdf asdf asdf asdf asdf asdf";
+    private static final String GRANTS_GOV_AGENCY_SPECIFIC_QUESTIONS_TAB_ID = "Grants gov Agency Specific Questions";
     private static final String PROPOSAL_QUESTIONS_TAB_ID = "Proposal Questions";
     
     private static final String DOCUMENT_DESCRIPTION_ID = "document.documentHeader.documentDescription";
@@ -258,6 +259,9 @@ public class ProposalDevelopmentSeleniumHelper extends KcSeleniumHelper {
     public void addQuestions() {
         clickProposalDevelopmentQuestionsPage();
 
+        openTab(GRANTS_GOV_AGENCY_SPECIFIC_QUESTIONS_TAB_ID);
+        set(String.format(YNQS_ID, 20), YES_RADIO_FIELD_VALUE);
+        
         openTab(PROPOSAL_QUESTIONS_TAB_ID);
         set(String.format(YNQS_ID, 0), NO_RADIO_FIELD_VALUE);
         set(String.format(YNQS_ID, 1), NO_RADIO_FIELD_VALUE);
@@ -279,10 +283,9 @@ public class ProposalDevelopmentSeleniumHelper extends KcSeleniumHelper {
         set(String.format(YNQS_ID, 17), NO_RADIO_FIELD_VALUE);
         set(String.format(YNQS_ID, 18), NO_RADIO_FIELD_VALUE);
         set(String.format(YNQS_ID, 19), NO_RADIO_FIELD_VALUE);
-        set(String.format(YNQS_ID, 20), YES_RADIO_FIELD_VALUE);
         set(String.format(YNQS_ID, 21), NO_RADIO_FIELD_VALUE);
-        set(String.format(YNQS_ID, 22), YES_RADIO_FIELD_VALUE);
-        set(String.format(YNQS_ID, 23), NO_RADIO_FIELD_VALUE);
+        set(String.format(YNQS_ID, 22), NO_RADIO_FIELD_VALUE);
+        set(String.format(YNQS_ID, 23), YES_RADIO_FIELD_VALUE);
         set(String.format(YNQS_ID, 24), NO_RADIO_FIELD_VALUE);
         set(String.format(YNQS_ID, 25), NO_RADIO_FIELD_VALUE);
         set(String.format(YNQS_ID, 26), NO_RADIO_FIELD_VALUE);
@@ -290,6 +293,7 @@ public class ProposalDevelopmentSeleniumHelper extends KcSeleniumHelper {
         set(String.format(YNQS_ID, 28), NO_RADIO_FIELD_VALUE);
         set(String.format(YNQS_ID, 29), NO_RADIO_FIELD_VALUE);
         set(String.format(YNQS_ID, 30), NO_RADIO_FIELD_VALUE);
+        set(String.format(YNQS_ID, 31), NO_RADIO_FIELD_VALUE);
     }
     
     /**
