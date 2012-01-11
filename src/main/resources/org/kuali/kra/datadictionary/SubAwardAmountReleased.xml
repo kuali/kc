@@ -163,7 +163,7 @@
     <property name="shortLabel" value="Invoice Number" />
     <property name="maxLength" value="10" />
     <property name="validationPattern" >
-    <bean parent="NumericValidationPattern" />
+    <bean parent="AnyCharacterValidationPattern" p:allowWhitespace="true" />
     </property>
     <property name="required" value="true" />
     <property name="control" >
