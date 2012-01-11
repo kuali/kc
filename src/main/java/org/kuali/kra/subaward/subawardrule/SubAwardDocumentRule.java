@@ -190,16 +190,16 @@ public class SubAwardDocumentRule extends ResearchDocumentRuleBase implements Su
     
     
 
-    public boolean processAddSubAwardAmountReleasedBusinessRules(SubAwardAmountReleased amountReleased) {
+    public boolean processAddSubAwardAmountReleasedBusinessRules(SubAwardAmountReleased amountReleased,SubAward subAward ) {
         
         boolean rulePassed = true;
-        rulePassed &= processSaveSubAwardAmountReleasedBusinessRules(amountReleased);
+        rulePassed &= processSaveSubAwardAmountReleasedBusinessRules(amountReleased,subAward);
         
         return rulePassed;
         
     }
     
-    protected boolean  processSaveSubAwardAmountReleasedBusinessRules(SubAwardAmountReleased amountReleased){    
+    protected boolean  processSaveSubAwardAmountReleasedBusinessRules(SubAwardAmountReleased amountReleased,SubAward subAward ){    
         
         boolean rulePassed = true;   
         
@@ -240,7 +240,13 @@ public class SubAwardDocumentRule extends ResearchDocumentRuleBase implements Su
                         , KeyConstants.SUBAWARD_ERROR_END_DATE_GREATER_THAN_START);
             }
         }
-        
+        if(amountReleased.getAmountReleased()!=null && subAward.getTotalObligatedAmount()!=null){
+            if(amountReleased.getAmountReleased().isGreaterThan(subAward.getTotalObligatedAmount())){
+                rulePassed = false;
+                reportError(AMOUNT_RELEASED
+                        , KeyConstants.ERROR_SUBAWARD_AMOUNT_RELEASED_GREATER_OBLIGATED_AMOUNT ); 
+            }
+        }
         return rulePassed;
     }
     
