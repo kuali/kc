@@ -18,8 +18,10 @@ package org.kuali.kra.coi.service.impl;
 import java.util.Map;
 
 import org.kuali.kra.bo.KraPersistableBusinessObjectBase;
+import org.kuali.kra.coi.CoiDisclosure;
 import org.kuali.kra.coi.print.*;
 import org.kuali.kra.coi.service.CoiPrintingService;
+import org.kuali.kra.printing.Printable;
 import org.kuali.kra.printing.PrintingException;
 import org.kuali.kra.printing.print.AbstractPrint;
 import org.kuali.kra.printing.service.PrintingService;
@@ -69,6 +71,25 @@ System.out.println("\nNew printDisclosureCertification event occurred.... ");
 
     public void setBusinessObjectService(BusinessObjectService businessObjectService) {
         this.businessObjectService = businessObjectService;
+    }
+
+    /**
+     * 
+     * @see org.kuali.kra.irb.actions.print.ProtocolPrintingService#getProtocolPrintArtifacts(org.kuali.kra.irb.Protocol)
+     */
+     public Printable getCoiPrintArtifacts(CoiDisclosure coiDisclosure) { 
+         
+         CoiReportType reportType = CoiReportType.COI_BATCH_CORRESPONDENCE;
+         AbstractPrint printable = (AbstractPrint)getCoiPrintable(reportType);
+         printable.setPrintableBusinessObject(coiDisclosure);
+         return printable;
+     }
+     
+
+    @Override
+    public AbstractPrint getCoiPrintable(CoiReportType reportType) {
+        // TODO Auto-generated method stub
+        return null;
     }
 
 }

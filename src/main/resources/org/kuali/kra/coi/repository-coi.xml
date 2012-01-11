@@ -70,6 +70,12 @@
 		<collection-descriptor name="coiDisclProjects" proxy="true" element-class-ref="org.kuali.kra.coi.CoiDisclProject" collection-class="org.apache.ojb.broker.util.collections.ManageableArrayList" auto-retrieve="true" auto-update="object" auto-delete="none">
 			<inverse-foreignkey field-ref="coiDisclosureId"/>
 		</collection-descriptor>
+		 <collection-descriptor name="coiDisclosureAttachments" proxy="true" element-class-ref="org.kuali.kra.coi.notesandattachments.attachments.CoiDisclosureAttachment" collection-class="org.apache.ojb.broker.util.collections.ManageableArrayList" auto-retrieve="true" auto-update="object" auto-delete="none">
+            <inverse-foreignkey field-ref="coiDisclosureId" />
+        </collection-descriptor>
+        <collection-descriptor name="coiDisclosureNotepads" proxy="true" element-class-ref="org.kuali.kra.coi.notesandattachments.notes.CoiDisclosureNotepad" collection-class="org.apache.ojb.broker.util.collections.ManageableArrayList" auto-retrieve="true" auto-update="object" auto-delete="none">
+            <inverse-foreignkey field-ref="coiDisclosureId" />
+        </collection-descriptor>
         <collection-descriptor name="coiUserRoles" proxy="true" element-class-ref="org.kuali.kra.coi.CoiUserRole" collection-class="org.apache.ojb.broker.util.collections.ManageableArrayList" auto-retrieve="true" auto-update="object" auto-delete="none">
             <inverse-foreignkey field-ref="coiUserRolesId"/>
         </collection-descriptor>		
@@ -95,6 +101,56 @@
 		</reference-descriptor>
 	</class-descriptor>
 
+	<class-descriptor class="org.kuali.kra.coi.notesandattachments.attachments.CoiDisclosureAttachment" table="COI_DISCLOSURE_ATTACHMENT">
+        <field-descriptor name="attachmentId" column="COIA_COI_DISCLOSURE_ID" jdbc-type="BIGINT" primarykey="true" sequence-name="SEQ_DISCLOSURE_ID" autoincrement="true"/>
+        <field-descriptor name="coiDisclosureId" column="COI_DISCLOSURE_ID_FK" jdbc-type="BIGINT" />
+        <field-descriptor name="coiDisclosureNumber" column="COI_DISCLOSURE_NUMBER" jdbc-type="VARCHAR" />
+        <field-descriptor name="sequenceNumber" column="SEQUENCE_NUMBER" jdbc-type="INTEGER" />
+        <field-descriptor name="documentId" column="DOCUMENT_ID" jdbc-type="INTEGER" />
+        <field-descriptor name="fileId" column="FILE_ID" jdbc-type="BIGINT"/>
+        <field-descriptor name="description" column="DESCRIPTION" jdbc-type="VARCHAR" />
+        <field-descriptor name="documentStatusCode" column="DOCUMENT_STATUS_CODE" jdbc-type="VARCHAR"/>
+        <field-descriptor name="contactName" column="CONTACT_NAME" jdbc-type="VARCHAR" />
+        <field-descriptor name="contactEmailAddress" column="EMAIL_ADDRESS" jdbc-type="VARCHAR" />
+        <field-descriptor name="contactPhoneNumber" column="PHONE_NUMBER" jdbc-type="VARCHAR" />
+        <field-descriptor name="comments" column="COMMENTS" jdbc-type="VARCHAR" />
+        <field-descriptor name="updateTimestamp" column="UPDATE_TIMESTAMP" jdbc-type="TIMESTAMP" />
+        <field-descriptor name="updateUser" column="UPDATE_USER" jdbc-type="VARCHAR" />
+        <field-descriptor name="projectId" column="PROJECT_ID" jdbc-type="VARCHAR" />
+        <field-descriptor name="entityNumber" column="ENTITY_NUMBER" jdbc-type="VARCHAR" />
+        <field-descriptor name="entitySequenceNumber" column="ENTITY_SEQUENCE_NUMBER" jdbc-type="BIGINT" />
+        <field-descriptor name="versionNumber" column="VER_NBR" jdbc-type="BIGINT" locking="false" />
+        <field-descriptor name="objectId" column="OBJ_ID" jdbc-type="VARCHAR" />
+        <reference-descriptor name="coiDisclosure" class-ref="org.kuali.kra.coi.CoiDisclosure" auto-retrieve="true" auto-update="none" auto-delete="none"> 
+            <foreignkey field-ref="coiDisclosureId"/>
+        </reference-descriptor>
+        
+        <reference-descriptor name="file" proxy="true" class-ref="org.kuali.kra.bo.AttachmentFile" auto-retrieve="true" auto-update="object" auto-delete="true"> 
+			<foreignkey field-ref="fileId"/>
+		</reference-descriptor>
+        
+    </class-descriptor>
+      
+    <class-descriptor class="org.kuali.kra.coi.notesandattachments.notes.CoiDisclosureNotepad" table="COI_DISCLOSURE_NOTEPAD">
+        <field-descriptor name="id" column="COI_DISCLOSURE_NOTEPAD_ID" jdbc-type="BIGINT" primarykey="true" sequence-name="SEQ_DISCLOSURE_ID" autoincrement="true"/>
+       	<field-descriptor name="coiDisclosureId" column="COI_DISCLOSURE_ID_FK" jdbc-type="BIGINT" />
+        <field-descriptor name="coiDisclosureNumber" column="COI_DISCLOSURE_NUMBER" jdbc-type="VARCHAR" />
+        <field-descriptor name="sequenceNumber" column="SEQUENCE_NUMBER" jdbc-type="INTEGER" />
+        <field-descriptor name="entryNumber" column="ENTRY_NUMBER" jdbc-type="INTEGER" />
+        <field-descriptor name="comments" column="COMMENTS" jdbc-type="CLOB" />
+        <field-descriptor name="restrictedView" column="RESTRICTED_VIEW" jdbc-type="VARCHAR" conversion="org.kuali.rice.kns.util.OjbCharBooleanConversion"/>
+        <field-descriptor name="noteTopic" column="NOTE_TYPE" jdbc-type="VARCHAR" />
+        <field-descriptor name="updateTimestamp" column="UPDATE_TIMESTAMP" jdbc-type="TIMESTAMP" />
+        <field-descriptor name="updateUser" column="UPDATE_USER" jdbc-type="VARCHAR" />
+        <field-descriptor name="projectId" column="PROJECT_ID" jdbc-type="VARCHAR" />
+        <field-descriptor name="entityNumber" column="ENTITY_NUMBER" jdbc-type="VARCHAR" />
+        <field-descriptor name="entitySequenceNumber" column="ENTITY_SEQUENCE_NUMBER" jdbc-type="BIGINT" />
+        <field-descriptor name="versionNumber" column="VER_NBR" jdbc-type="BIGINT" locking="false" />
+        <field-descriptor name="objectId" column="OBJ_ID" jdbc-type="VARCHAR" />       
+        <reference-descriptor name="coiDisclosure" class-ref="org.kuali.kra.coi.CoiDisclosure" auto-retrieve="true" auto-update="none" auto-delete="none"> 
+            <foreignkey field-ref="coiDisclosureId"/>
+        </reference-descriptor>
+    </class-descriptor>
 
     <class-descriptor class="org.kuali.kra.coi.disclosure.DisclosurePersonUnit" table="COI_DISCLOSURE_PERSON_UNITS">
         <field-descriptor name="disclosurePersonUnitsId" column="COI_DISCLOSURE_PERSON_UNITS_ID" jdbc-type="BIGINT" primarykey="true" autoincrement="true" sequence-name="SEQ_DISCL_PERSON_UNITS_ID" />
@@ -532,7 +588,7 @@
 		<field-descriptor name="versionNumber" column="VER_NBR" jdbc-type="BIGINT" locking="false" />
 		<field-descriptor name="objectId" column="OBJ_ID" jdbc-type="VARCHAR" />
 	</class-descriptor>
-    <class-descriptor class="org.kuali.kra.coi.CoiUserRole" table="COI_USER_ROLES">
+	<class-descriptor class="org.kuali.kra.coi.CoiUserRole" table="COI_USER_ROLES">
         <field-descriptor name="coiUserRolesId" column="COI_USER_ROLES_ID" jdbc-type="BIGINT" sequence-name="SEQ_COI_USER_ROLES_ID" primarykey="true"  autoincrement="true" />
         <field-descriptor name="coiDisclosureNumber" column="COI_DISCLOSURE_NUMBER" jdbc-type="VARCHAR" /> 
         <field-descriptor name="sequenceNumber" column="SEQUENCE_NUMBER" jdbc-type="INTEGER" />       
@@ -543,5 +599,5 @@
         <field-descriptor name="updateUser" column="UPDATE_USER" jdbc-type="VARCHAR" />
         <field-descriptor name="objectId" column="OBJ_ID" jdbc-type="VARCHAR" />
         <field-descriptor name="versionNumber" column="VER_NBR" jdbc-type="BIGINT" locking="false" />
-    </class-descriptor>	    
+    </class-descriptor>	  
 </descriptor-repository>
