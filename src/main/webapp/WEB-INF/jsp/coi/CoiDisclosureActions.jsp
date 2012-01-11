@@ -36,7 +36,7 @@
   	             consider to add it. If we don't need it, then remove this. --%>
     <kra:dataValidation auditActivated="${KualiForm.auditActivated}" topTab="true"/>
     <kra-coi:disclosureReviewerActions/>
-    <kra-coi:disclosureActions />
+    <kra-coi:coiAdministratorActions />
 <kul:panelFooter />
 	<kul:documentControls 
 		transactionalDocument="false"

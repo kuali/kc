@@ -16,7 +16,7 @@
 <%@ include file="/WEB-INF/jsp/kraTldHeader.jsp"%>
 
 
-<kul:tab tabTitle="Disclosure Action" defaultOpen="false" tabErrorKey="">
+<kul:tab tabTitle="Administrator Action" defaultOpen="false" tabErrorKey="">
 	<div class="tab-container"  align="center">
 		<h3> 
 			<span class="subhead-left">Disclosure Actions</span>
