@@ -301,13 +301,13 @@ public class SubAwardDocumentRule extends ResearchDocumentRuleBase implements Su
     
     
 
-    public boolean processAddSubAwardFundingSourceBusinessRules(SubAwardFundingSource subAwardFundingSource) {
+    public boolean processAddSubAwardFundingSourceBusinessRules(SubAwardFundingSource subAwardFundingSource,SubAward subAward) {
         boolean rulePassed = true;
-        rulePassed &= processSaveSubAwardFundingSourceBusinessRules(subAwardFundingSource);
+        rulePassed &= processSaveSubAwardFundingSourceBusinessRules(subAwardFundingSource,subAward);
         
         return rulePassed;
     }
-    protected boolean processSaveSubAwardFundingSourceBusinessRules(SubAwardFundingSource subAwardFundingSource){
+    protected boolean processSaveSubAwardFundingSourceBusinessRules(SubAwardFundingSource subAwardFundingSource,SubAward subAward){
         boolean rulePassed = true;   
         
         if(subAwardFundingSource==null 
@@ -316,6 +316,14 @@ public class SubAwardDocumentRule extends ResearchDocumentRuleBase implements Su
             reportError(AWARD_NUMBER
                     , KeyConstants.ERROR_REQUIRED_SUBAWARD_FUNDING_SOURCE_AWARD_NUMBER);
         }  
+        else{
+            for(SubAwardFundingSource fundingSource : subAward.getSubAwardFundingSourceList()){
+                if(fundingSource.getAwardId().equals(subAwardFundingSource.getAwardId())){
+                    rulePassed = false;
+                    reportError(AWARD_NUMBER, KeyConstants.ERROR_REQUIRED_SUBAWARD_FUNDING_SOURCE_AWARD_NUMBER_DUPLICATE, new String[] {subAwardFundingSource.getAwardId().toString()});
+                }
+            }
+        }
         return rulePassed;
     }
     /**
