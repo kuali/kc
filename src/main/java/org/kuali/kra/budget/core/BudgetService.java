@@ -73,7 +73,7 @@ public interface BudgetService<T extends BudgetParent>  {
      * @return Collection<BudgetRate>
      */
 
-    public Collection<BudgetRate> getSavedProposalRates(Budget budget);
+    public Collection<BudgetRate> getSavedBudgetRates(Budget budget);
     
     /**
      * check if this line item CE has inflation rate
