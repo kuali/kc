@@ -54,7 +54,10 @@ public abstract class CoiAction extends KraTransactionalDocumentActionBase {
     public ActionForward certification(ActionMapping mapping, ActionForm form, HttpServletRequest request, HttpServletResponse response) {
         return mapping.findForward("certification");
     }
-
+    public ActionForward noteAndAttachment(ActionMapping mapping, ActionForm form, HttpServletRequest request, HttpServletResponse response) {
+        ((CoiDisclosureForm) form).getCoiNotesAndAttachmentsHelper().prepareView();
+        return mapping.findForward("noteAndAttachment");
+    }
     public ActionForward disclosureActions(ActionMapping mapping, ActionForm form, HttpServletRequest request, HttpServletResponse response) {
         return mapping.findForward("disclosureActions");
     }
@@ -64,6 +67,11 @@ public abstract class CoiAction extends KraTransactionalDocumentActionBase {
         return KraServiceLocator.getService(CoiDisclosureService.class);
     }
 
+    public void preSave(ActionMapping mapping, ActionForm form, HttpServletRequest request, HttpServletResponse response)
+            throws Exception {
+        // TODO Auto-generated method stub
+        
+    }
     protected CoiDisclosureActionService getCoiDisclosureActionService() {
         return KraServiceLocator.getService(CoiDisclosureActionService.class);
     }
@@ -73,15 +81,21 @@ public abstract class CoiAction extends KraTransactionalDocumentActionBase {
     }
 
 
-//    @Override
-//    public final ActionForward save(ActionMapping mapping, ActionForm form, HttpServletRequest request, HttpServletResponse response)
-//        throws Exception {
-//        
-//        ActionForward actionForward = mapping.findForward(Constants.MAPPING_BASIC);
-//        // TODO : fill in detail here
-//        actionForward = super.save(mapping, form, request, response);
-//        
-//        return actionForward;
-//    }
+    public void postSave(ActionMapping mapping, ActionForm form, HttpServletRequest request, HttpServletResponse response)
+            throws Exception {
+        // TODO Auto-generated method stub
+        
+    }
+
+
+    //  @Override
+   /* public final ActionForward save(ActionMapping mapping, ActionForm form, HttpServletRequest request, HttpServletResponse response)
+        throws Exception {
+        
+        ActionForward actionForward = mapping.findForward(Constants.MAPPING_BASIC);
+        actionForward = super.save(mapping, form, request, response);
+        
+        return actionForward;
+    }*/
 
 }

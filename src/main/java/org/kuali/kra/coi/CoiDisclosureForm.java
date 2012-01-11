@@ -16,19 +16,15 @@
 package org.kuali.kra.coi;
 
 import java.util.ArrayList;
-import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
 
-import javax.servlet.ServletRequest;
 
 import org.apache.commons.lang.StringUtils;
-import org.apache.struts.action.ActionErrors;
-import org.apache.struts.action.ActionMapping;
 import org.kuali.kra.authorization.KraAuthorizationConstants;
 import org.kuali.kra.coi.actions.DisclosureActionHelper;
 import org.kuali.kra.coi.disclosure.DisclosureHelper;
-import org.kuali.kra.institutionalproposal.document.InstitutionalProposalDocument;
+import org.kuali.kra.coi.notesandattachments.CoiNotesAndAttachmentsHelper;
 import org.kuali.kra.web.struts.form.Auditable;
 import org.kuali.kra.web.struts.form.KraTransactionalDocumentFormBase;
 import org.kuali.rice.kns.datadictionary.HeaderNavigation;
@@ -43,6 +39,7 @@ public class CoiDisclosureForm extends KraTransactionalDocumentFormBase implemen
     private DisclosureHelper disclosureHelper;
     private DisclosureActionHelper disclosureActionHelper;
     private boolean auditActivated;
+    private transient CoiNotesAndAttachmentsHelper coiNotesAndAttachmentsHelper;
     
     //TODO : coiDisclosureStatusCode : this is just a quick set up here for 'approve' action to test 'master disclosure'
     // this should be moved to disclosureactionhelper when 'action' is really implemented
@@ -59,9 +56,20 @@ public class CoiDisclosureForm extends KraTransactionalDocumentFormBase implemen
      */
     public void initialize() {
        setDisclosureHelper(new DisclosureHelper(this));
+       setCoiNotesAndAttachmentsHelper(new CoiNotesAndAttachmentsHelper(this));
+       coiNotesAndAttachmentsHelper.prepareView();
     }
     
-   @Override
+   public void setCoiNotesAndAttachmentsHelper(CoiNotesAndAttachmentsHelper coiNotesAndAttachmentsHelper) {
+        this.coiNotesAndAttachmentsHelper = coiNotesAndAttachmentsHelper;
+        
+    }
+   
+   public CoiNotesAndAttachmentsHelper getCoiNotesAndAttachmentsHelper() {
+       return coiNotesAndAttachmentsHelper;
+   }
+
+@Override
     protected String getDefaultDocumentTypeName() {
         // TODO Auto-generated method stub
         return "CoiDisclosureDocument";

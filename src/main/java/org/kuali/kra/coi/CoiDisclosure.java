@@ -22,6 +22,7 @@ import java.sql.Timestamp;
 import java.text.SimpleDateFormat;
 import java.util.ArrayList;
 import java.util.Calendar;
+import java.util.Collections;
 import java.util.HashMap;
 import java.util.LinkedHashMap;
 import java.util.List;
@@ -36,9 +37,13 @@ import org.kuali.kra.coi.disclosure.CoiDisclEventProject;
 import org.kuali.kra.coi.disclosure.CoiDisclosureService;
 import org.kuali.kra.coi.disclosure.DisclosurePerson;
 import org.kuali.kra.coi.disclosure.DisclosurePersonUnit;
+import org.kuali.kra.coi.notesandattachments.attachments.CoiDisclosureAttachment;
+import org.kuali.kra.coi.notesandattachments.attachments.CoiDisclosureAttachmentFilter;
+import org.kuali.kra.coi.notesandattachments.notes.CoiDisclosureNotepad;
 import org.kuali.kra.common.permissions.Permissionable;
 import org.kuali.kra.infrastructure.Constants;
 import org.kuali.kra.infrastructure.KraServiceLocator;
+import org.kuali.rice.kns.service.DateTimeService;
 import org.kuali.kra.infrastructure.RoleConstants;
 import org.kuali.rice.kns.service.KualiConfigurationService;
 import org.kuali.rice.kns.service.ParameterService;
@@ -58,6 +63,7 @@ public class CoiDisclosure extends KraPersistableBusinessObjectBase implements S
      */
     private static final long serialVersionUID = 1056040995591476518L;
     public static final String DISPOSITION_PENDING = "3";
+    public static final String DISCLOSURE_PENDING = "100";
     public static final String MANUAL_DISCL_MODULE_CODE = "14";
     public static final String PROPOSAL_DISCL_MODULE_CODE = "11";
     public static final String INSTITUTIONAL_PROPOSAL_DISCL_MODULE_CODE = "15";
@@ -75,15 +81,17 @@ public class CoiDisclosure extends KraPersistableBusinessObjectBase implements S
     private String disclosureDispositionCode; 
     private String disclosureStatusCode; 
     private Date expirationDate; 
+    private boolean currentDisclosure; 
+
 //    private String moduleCode; 
     private String eventTypeCode; 
     private String moduleItemKey; 
     private String reviewStatusCode; 
     private Integer discActiveStatus; 
-    private boolean currentDisclosure; 
     private CoiDisclosureDocument coiDisclosureDocument;
     private List<DisclosurePerson> disclosurePersons;
-    
+    private List<CoiDisclosureAttachment> coiDisclosureAttachments;
+    private List<CoiDisclosureNotepad> coiDisclosureNotepads;
     private transient ParameterService parameterService;
     private transient boolean certifiedFlag;
 
@@ -112,6 +120,8 @@ public class CoiDisclosure extends KraPersistableBusinessObjectBase implements S
 
     // help UI purposes
     private transient List<CoiDisclEventProject> coiDisclEventProjects; 
+    private transient DateTimeService dateTimeService;
+    private CoiDisclosureAttachmentFilter newAttachmentFilter; 
     private KraPersistableBusinessObjectBase eventBo; 
 
 
@@ -123,10 +133,27 @@ public class CoiDisclosure extends KraPersistableBusinessObjectBase implements S
         this.setSequenceNumber(1);
         initCoiDisclosureNumber();
         getDisclosureReporter();
+
         coiUserRoles = new ArrayList<CoiUserRole>();
 
     } 
     
+    
+    public List<CoiDisclosureNotepad> getCoiDisclosureNotepads() {
+        
+        if (this.coiDisclosureNotepads == null) {
+            this.coiDisclosureNotepads = new ArrayList<CoiDisclosureNotepad>();
+        }
+        Collections.sort(coiDisclosureNotepads, Collections.reverseOrder());
+        return this.coiDisclosureNotepads;
+    }
+
+
+    public void setCoiDisclosureNotepads(List<CoiDisclosureNotepad> coiDisclosureNotepads) {
+        this.coiDisclosureNotepads = coiDisclosureNotepads;
+    }
+
+
     public Long getCoiDisclosureId() {
         return coiDisclosureId;
     }
@@ -245,61 +272,6 @@ public class CoiDisclosure extends KraPersistableBusinessObjectBase implements S
         this.discActiveStatus = discActiveStatus;
     }
 
-//    public CoiStatus getCoiStatus() {
-//        return coiStatus;
-//    }
-//
-//    public void setCoiStatus(CoiStatus coiStatus) {
-//        this.coiStatus = coiStatus;
-//    }
-//
-//    public CoiDispositionStatus getCoiDispositionStatus() {
-//        return coiDispositionStatus;
-//    }
-//
-//    public void setCoiDispositionStatus(CoiDispositionStatus coiDispositionStatus) {
-//        this.coiDispositionStatus = coiDispositionStatus;
-//    }
-//
-//    public CoiDisclProjects getCoiDisclProjects() {
-//        return coiDisclProjects;
-//    }
-//
-//    public void setCoiDisclProjects(CoiDisclProjects coiDisclProjects) {
-//        this.coiDisclProjects = coiDisclProjects;
-//    }
-//
-//    public CoiDiscDetails getCoiDiscDetails() {
-//        return coiDiscDetails;
-//    }
-//
-//    public void setCoiDiscDetails(CoiDiscDetails coiDiscDetails) {
-//        this.coiDiscDetails = coiDiscDetails;
-//    }
-//
-//    public CoiDocuments getCoiDocuments() {
-//        return coiDocuments;
-//    }
-//
-//    public void setCoiDocuments(CoiDocuments coiDocuments) {
-//        this.coiDocuments = coiDocuments;
-//    }
-//
-//    public CoiNotepad getCoiNotepad() {
-//        return coiNotepad;
-//    }
-//
-//    public void setCoiNotepad(CoiNotepad coiNotepad) {
-//        this.coiNotepad = coiNotepad;
-//    }
-//
-//    public CoiUserRoles getCoiUserRoles() {
-//        return coiUserRoles;
-//    }
-//
-//    public void setCoiUserRoles(CoiUserRoles coiUserRoles) {
-//        this.coiUserRoles = coiUserRoles;
-//    }
 
     /** {@inheritDoc} */
     @Override 
@@ -391,7 +363,7 @@ public class CoiDisclosure extends KraPersistableBusinessObjectBase implements S
 
     public void initRequiredFields() {
         this.setDisclosureDispositionCode(DISPOSITION_PENDING);
-        this.setDisclosureStatusCode(CoiDisclosureStatus.DISCLOSURE_PENDING);
+        this.setDisclosureStatusCode(DISCLOSURE_PENDING);
         this.setPersonId(this.getDisclosureReporter().getPersonId());
         initCoiDisclosureNumber();
         this.setExpirationDate(new Date(DateUtils.addDays(new Date(System.currentTimeMillis()), 365).getTime()));
@@ -402,7 +374,7 @@ public class CoiDisclosure extends KraPersistableBusinessObjectBase implements S
         // TODO : not sure about disclosurenumber & expirationdate
         if (StringUtils.isBlank(this.getCoiDisclosureNumber())) {
             Long nextNumber = KraServiceLocator.getService(SequenceAccessorService.class).getNextAvailableSequenceNumber("SEQ_COI_DISCL_NUMBER");
-            this.setCoiDisclosureNumber(nextNumber.toString());
+            setCoiDisclosureNumber(nextNumber.toString());
         }
         
     }
@@ -500,6 +472,7 @@ public class CoiDisclosure extends KraPersistableBusinessObjectBase implements S
     }
 
     public String getCompleteMessage() {
+        String completeMessage = "Disclosure is complete";
         int completeCount = 0;
         if (CollectionUtils.isNotEmpty(this.getCoiDiscDetails())) {
             for (CoiDiscDetail coiDiscDetail : this.getCoiDiscDetails()) {
@@ -511,27 +484,141 @@ public class CoiDisclosure extends KraPersistableBusinessObjectBase implements S
         }
         return completeCount + "/" +this.getCoiDiscDetails().size() + " Reviews Complete";
     }
-
+    protected void updateUserFields(KraPersistableBusinessObjectBase bo) {
+        bo.setUpdateUser(GlobalVariables.getUserSession().getPrincipalName());
+        bo.setUpdateTimestamp(getDateTimeService().getCurrentTimestamp());
+    }
     
-    public boolean isComplete() {
-        // TODO : this is kind of duplicate with getCompleteMessage.
-        // may want to merge for better solution
-        boolean isComplete = true;
-        if (CollectionUtils.isNotEmpty(this.getCoiDiscDetails())) {
-            for (CoiDiscDetail coiDiscDetail : this.getCoiDiscDetails()) {
-                if (StringUtils.isBlank(coiDiscDetail.getEntityStatusCode())) {
-                    isComplete = false;
-                    break;
-                }
-                
+    protected DateTimeService getDateTimeService() {
+        if(dateTimeService == null) {
+            dateTimeService = (DateTimeService) KraServiceLocator.getService(DateTimeService.class);
+        }
+        return dateTimeService;
+    }
+    /**
+     * Adds a attachment to a Protocol where the type of attachment is used to determine
+     * where to add the attachment.
+     * @param attachment the attachment
+     * @throws IllegalArgumentException if attachment is null or if an unsupported attachment is found
+     */
+    public <T extends CoiDisclosureAttachment> void addAttachmentsByType(T attachment) {
+        if (attachment == null) {
+            throw new IllegalArgumentException("the attachment is null");
+        }
+        
+        updateUserFields(attachment);
+        attachment.setCoiDisclosureId(coiDisclosureId);
+        attachment.setCoiDisclosureNumber(coiDisclosureNumber);
+        if (attachment instanceof CoiDisclosureAttachment) {
+            // do this in the versioning service if you add one
+            assert attachment != null : "the attachment is null";
+            if (attachment instanceof CoiDisclosureAttachment) {
+                String ATTACHMENT_DRAFTED = "1";
+                ((CoiDisclosureAttachment)attachment).setDocumentStatusCode(ATTACHMENT_DRAFTED);
+                attachment.setDocumentId(getNextDocumentId(coiDisclosureDocument.getCoiDisclosure().getCoiDisclosureAttachments()));
+            }
+            coiDisclosureDocument.getCoiDisclosure().addCoiDisclosureAttachment(attachment);
+            addAttachment((CoiDisclosureAttachment) attachment);
+
+        } else {
+            throw new IllegalArgumentException("unsupported type: " + attachment.getClass().getName());
+        }
+    }
+    
+    /*
+     * Move to versioning service
+     */
+    private int getNextDocumentId(List<? extends CoiDisclosureAttachment> attachments) {
+        int nextDocumentId = 0;
+        for (CoiDisclosureAttachment attachment : attachments) {
+            if (attachment.getDocumentId() > nextDocumentId) {
+                nextDocumentId = attachment.getDocumentId();
             }
         }
-        return isComplete;
+        return ++nextDocumentId;
     }
+    
+    public void addAttachment(CoiDisclosureAttachment attachment) {
+        this.getCoiDisclosureAttachments().add(attachment);
+    }
+    
+    public List<CoiDisclosureAttachment> getCoiDisclosureAttachments() {
+        if (this.coiDisclosureAttachments == null) {
+            this.coiDisclosureAttachments = new ArrayList<CoiDisclosureAttachment>();
+        }
 
+        return coiDisclosureAttachments;
+    }    
+
+
+    public void setCoiDisclosureAttachments(List<CoiDisclosureAttachment> coiDisclosureAttachments) {
+        this.coiDisclosureAttachments = coiDisclosureAttachments;
+    }
+    
+    protected void addCoiDisclosureAttachment(CoiDisclosureAttachment coiDisclosureAttachment) {
+        CoiDisclosureAttachment.addAttachmentToCollection(coiDisclosureAttachment, this.getCoiDisclosureAttachments());
+    }
+    
+    /**
+     * removes an attachment to a Protocol where the type of attachment is used to determine
+     * where to add the attachment.
+     * @param attachment the attachment
+     * @throws IllegalArgumentException if attachment is null or if an unsupported attachment is found
+     */
+  /*  public <T extends ProtocolAttachmentBase> void removeAttachmentsByType(T attachment) {
+        if (attachment == null) {
+            throw new IllegalArgumentException("the attachment is null");
+        }
+        
+        if (attachment instanceof ProtocolAttachmentProtocol) {
+            this.removeAttachmentProtocol((ProtocolAttachmentProtocol) attachment);
+        } else {
+            throw new IllegalArgumentException("unsupported type: " + attachment.getClass().getName());
+        }
+    }*/
+    
+    public void setCoiDisclosureAttachmentFilter(CoiDisclosureAttachmentFilter newAttachmentFilter) {
+        this.newAttachmentFilter = newAttachmentFilter;      
+     }
+
+     public CoiDisclosureAttachmentFilter getCoiDisclosureAttachmentFilter() {
+         return newAttachmentFilter;
+     }
+     
+     public List<CoiDisclosureAttachment> getFilteredAttachments() {
+         List<CoiDisclosureAttachment> filteredAttachments = new ArrayList<CoiDisclosureAttachment>();
+         CoiDisclosureAttachmentFilter attachmentFilter = getCoiDisclosureAttachmentFilter();
+         if (attachmentFilter != null && StringUtils.isNotBlank(attachmentFilter.getFilterBy())) {            
+             
+         } else {
+             filteredAttachments = getCoiDisclosureAttachments();
+         }
+         
+         if (attachmentFilter != null && StringUtils.isNotBlank(attachmentFilter.getSortBy())) {
+             Collections.sort(filteredAttachments, attachmentFilter.getCoiDisclosureAttachmentComparator()); 
+         }   
+         
+         return filteredAttachments;
+     }
+     
+     public boolean isComplete() {
+         // TODO : this is kind of duplicate with getCompleteMessage.
+         // may want to merge for better solution
+         boolean isComplete = true;
+         if (CollectionUtils.isNotEmpty(this.getCoiDiscDetails())) {
+             for (CoiDiscDetail coiDiscDetail : this.getCoiDiscDetails()) {
+                 if (StringUtils.isBlank(coiDiscDetail.getEntityStatusCode())) {
+                     isComplete = false;
+                     break;
+                 }
+                 
+             }
+         }
+         return isComplete;
+     }
+     
     @Override
     public void setSequenceOwner(CoiDisclosure newlyVersionedOwner) {
-        // TODO Auto-generated method stub
         
     }
 

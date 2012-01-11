@@ -35,6 +35,7 @@ import org.kuali.kra.award.home.Award;
 import org.kuali.kra.bo.CoeusModule;
 import org.kuali.kra.bo.KcPerson;
 import org.kuali.kra.bo.KraPersistableBusinessObjectBase;
+import org.kuali.kra.bo.SponsorHierarchy;
 import org.kuali.kra.coi.CoiDiscDetail;
 import org.kuali.kra.coi.CoiDisclProject;
 import org.kuali.kra.coi.CoiDisclosure;
@@ -702,7 +703,7 @@ public class CoiDisclosureServiceImpl implements CoiDisclosureService {
     private InstitutionalProposal getInstitutionalProposal(String proposalNumber) {
         // TODO : not sure IP pk is proposal#
         Map<String, Object> primaryKeys = new HashMap<String, Object>();
-        primaryKeys.put("proposalNumber", proposalNumber);
+        primaryKeys.put("proposalId", proposalNumber);
         InstitutionalProposal currentProposal = (InstitutionalProposal) businessObjectService.findByPrimaryKey(InstitutionalProposal.class, primaryKeys);
         return currentProposal;
     }
@@ -909,6 +910,8 @@ public class CoiDisclosureServiceImpl implements CoiDisclosureService {
             newDisclosure = versioningService.createNewVersion(disclosures.get(0));
             newDisclosure.setCoiDisclProjects(null);
             newDisclosure.setCoiDiscDetails(null);
+            newDisclosure.setCoiDisclosureAttachments(null);
+            newDisclosure.setCoiDisclosureNotepads(null);
             newDisclosure.setCurrentDisclosure(false);
             newDisclosure.setDisclosureDispositionCode(CoiDisclosure.DISPOSITION_PENDING);
             newDisclosure.setDisclosureStatusCode(CoiDisclosureStatus.DISCLOSURE_PENDING);
@@ -949,7 +952,6 @@ public class CoiDisclosureServiceImpl implements CoiDisclosureService {
         try {
             params = parameterService.getParameterValues(AwardDocument.class, AWARD_DISCLOSE_STATUS_CODES);
         } catch (Exception e) {
-            
         }
         if (params.isEmpty()) {
             // TODO : what if param is not set or not set properly ?
@@ -1053,9 +1055,13 @@ public class CoiDisclosureServiceImpl implements CoiDisclosureService {
         }
         List<String> sponsorCodes = new ArrayList<String>();
         for (String hierarchyName : params) {
-            Iterator sponsorHierarchyList = sponsorHierarchyDao.getAllSponsors(hierarchyName);
-            while (sponsorHierarchyList.hasNext()) {
-                sponsorCodes.add(((Object[])sponsorHierarchyList.next())[0].toString());
+            /*
+             * Changed this to use the bo service instead of the sponsor hierarchy service
+             * which uses the sponsorHierarchyDAO which is not transactional
+             */
+            List<SponsorHierarchy> sponsors = getAllSponsors(hierarchyName);
+            for (SponsorHierarchy sponsor : sponsors) {
+                sponsorCodes.add(sponsor.getSponsorCode());
             }
             
         }
@@ -1066,7 +1072,13 @@ public class CoiDisclosureServiceImpl implements CoiDisclosureService {
             return sponsorCodes.contains(sponsorCode);
         }
     }
-
+    
+    protected List<SponsorHierarchy> getAllSponsors(String hierarchyName) {
+        Map<String, String> criteria = new HashMap();
+        criteria.put("hierarchyName", hierarchyName);
+        List<SponsorHierarchy> sponsors = (List<SponsorHierarchy>) businessObjectService.findMatching(SponsorHierarchy.class, criteria);
+        return sponsors;
+    }
     /*
      * check if the all sponsor active for disclosure flag is true
      */
