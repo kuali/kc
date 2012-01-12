@@ -27,6 +27,7 @@ import javax.servlet.http.HttpServletResponse;
 import org.apache.struts.action.ActionForm;
 import org.apache.struts.action.ActionForward;
 import org.apache.struts.action.ActionMapping;
+import org.kuali.kra.committee.bo.Committee;
 import org.kuali.kra.committee.bo.CommitteeBatchCorrespondence;
 import org.kuali.kra.committee.bo.CommitteeBatchCorrespondenceDetail;
 import org.kuali.kra.committee.dao.CommitteeBatchCorrespondenceDao;
@@ -69,6 +70,7 @@ public class CommitteeActionsAction extends CommitteeAction {
 
     // signifies that a response has already be handled therefore forwarding to obtain a response is not needed. 
     private static final ActionForward RESPONSE_ALREADY_HANDLED = null;
+  
     
     /**
      * This method is perform the action - Generate Batch Correspondence.
@@ -306,12 +308,10 @@ public class CommitteeActionsAction extends CommitteeAction {
     public ActionForward printCommitteeDocument(ActionMapping mapping, ActionForm form, HttpServletRequest request, 
             HttpServletResponse response) throws Exception {
         ActionForward actionForward = mapping.findForward(Constants.MAPPING_BASIC);
-        
         CommitteeForm committeeForm = (CommitteeForm) form;
         CommitteeDocument committeeDocument = committeeForm.getCommitteeDocument();
         Boolean printRooster = committeeForm.getCommitteeHelper().getPrintRooster();
         Boolean printFutureScheduledMeeting = committeeForm.getCommitteeHelper().getPrintFutureScheduledMeeting();
-        
         CommitteeTask task = new CommitteeTask(TaskName.PERFORM_COMMITTEE_ACTIONS, committeeDocument.getCommittee());
         if (isAuthorized(task)) {
             if (applyRules(new CommitteeActionPrintCommitteeDocumentEvent(Constants.EMPTY_STRING, committeeForm.getDocument(), 
@@ -321,11 +321,13 @@ public class CommitteeActionsAction extends CommitteeAction {
                 if (printRooster) {
                     printable = getCommitteePrintingService().getCommitteePrintable(CommitteeReportType.ROSTER);
                     printable.setPrintableBusinessObject(committeeForm.getCommitteeDocument().getCommittee());
+                    committeeForm.getCommitteeDocument().getCommittee().setPrintRooster(true);
                     printableArtifactList.add(printable);
                 }
                 if (printFutureScheduledMeeting) {
                     printable = getCommitteePrintingService().getCommitteePrintable(CommitteeReportType.FUTURE_SCHEDULED_MEETINGS);
                     printable.setPrintableBusinessObject(committeeForm.getCommitteeDocument().getCommittee());
+                    committeeForm.getCommitteeDocument().getCommittee().setPrintRooster(false);
                     printableArtifactList.add(printable);
                 }
                 AttachmentDataSource dataStream = getCommitteePrintingService().print(printableArtifactList);
