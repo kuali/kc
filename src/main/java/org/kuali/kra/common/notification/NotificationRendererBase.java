@@ -34,7 +34,7 @@ public abstract class NotificationRendererBase implements NotificationRenderer, 
 
     public static final String USER_FULLNAME = "{USER_FULLNAME}";
     public static final String DOCHANDLER_PREFIX = "{DOCUMENT_PREFIX}";
-    public static final String DOCHANDLER_PREFIX_PROPERTY = "kuali.docHandler.url.prefix";
+    public static final String DOCHANDLER_PREFIX_PROPERTY = "appserver.url";
     private transient KcPersonService kcPersonService;
     
     public static final String[] REPLACEMENT_PARAMETERS = new String[] { USER_FULLNAME,
@@ -71,8 +71,8 @@ public abstract class NotificationRendererBase implements NotificationRenderer, 
      * @see org.kuali.kra.common.notification.NotificationRenderer#getReplacementParameters()
      */
     public Map<String, String> getDefaultReplacementParameters() {
+
         String[] replacementParameters = REPLACEMENT_PARAMETERS;
-        
         Map<String, String> params = new HashMap<String, String>();
         
         String key = null;
