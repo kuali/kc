@@ -17,24 +17,11 @@ package org.kuali.kra.common.notification;
 
 import java.io.Serializable;
 import java.util.HashMap;
-import java.util.Iterator;
-import java.util.List;
 import java.util.Map;
-import java.util.Properties;
 
-import org.apache.commons.collections.CollectionUtils;
 import org.apache.commons.lang.StringUtils;
-import org.kuali.kra.committee.bo.Committee;
 import org.kuali.kra.infrastructure.KraServiceLocator;
-import org.kuali.kra.irb.Protocol;
-import org.kuali.kra.irb.actions.ProtocolActionType;
-import org.kuali.kra.irb.actions.submit.ProtocolReviewType;
-import org.kuali.kra.irb.actions.submit.ProtocolSubmissionQualifierType;
-import org.kuali.kra.irb.actions.submit.ProtocolSubmissionType;
-import org.kuali.kra.irb.notification.IRBReplacementParameters;
 import org.kuali.kra.service.KcPersonService;
-import org.kuali.rice.kns.service.BusinessObjectService;
-import org.kuali.rice.kns.service.KNSServiceLocator;
 import org.kuali.rice.kns.service.KualiConfigurationService;
 import org.kuali.rice.kns.util.GlobalVariables;
 
@@ -46,12 +33,12 @@ public abstract class NotificationRendererBase implements NotificationRenderer, 
     private static final long serialVersionUID = 7355369114077509177L;
 
     public static final String USER_FULLNAME = "{USER_FULLNAME}";
-    public static final String APPLICATION_URL = "{APPLICATION_URL}";
-    public static final String APPLICATION_URL_PARM = "application.url";
+    public static final String DOCHANDLER_PREFIX = "{DOCUMENT_PREFIX}";
+    public static final String DOCHANDLER_PREFIX_PROPERTY = "kuali.docHandler.url.prefix";
     private transient KcPersonService kcPersonService;
     
     public static final String[] REPLACEMENT_PARAMETERS = new String[] { USER_FULLNAME,
-                                                                         APPLICATION_URL
+                                                                         DOCHANDLER_PREFIX,
                                                                        };
     
     
@@ -95,7 +82,7 @@ public abstract class NotificationRendererBase implements NotificationRenderer, 
                 if (GlobalVariables.getUserSession() != null) {
                     params.put(key, getKcPersonService().getKcPersonByPersonId(GlobalVariables.getUserSession().getPrincipalId()).getFullName());
                 }
-            } else if (StringUtils.equals(key, APPLICATION_URL)) {
+            } else if (StringUtils.equals(key, DOCHANDLER_PREFIX)) {
                 params.put(key, getDocumentLocation());
             }
         }
@@ -115,9 +102,9 @@ public abstract class NotificationRendererBase implements NotificationRenderer, 
     }
 
     private String getDocumentLocation() {
-        String result = getKualiConfigurationService().getPropertyString(APPLICATION_URL_PARM);
+        String result = getKualiConfigurationService().getPropertyString(DOCHANDLER_PREFIX_PROPERTY);
         if (result == null) {
-            result = "..";   // default is current relative location
+            result = ".";   // default is current relative location
         }
         return result;
     }
