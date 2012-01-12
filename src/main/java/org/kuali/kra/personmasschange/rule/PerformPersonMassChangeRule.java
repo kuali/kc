@@ -224,7 +224,7 @@ public class PerformPersonMassChangeRule extends ResearchDocumentRuleBase implem
             reportError(propertyName, KeyConstants.ERROR_PERSON_MASS_CHANGE_REPLACEE_SELECTION, NON_EMPLOYEE, typeText);
         }
         
-        if (!isReplacerPerson(personMassChange.getReplaceePersonId(), personMassChange.getReplaceeRolodexId())) {
+        if (!isReplacerPerson(personMassChange.getReplacerPersonId(), personMassChange.getReplacerRolodexId())) {
             isValid = false;
             reportError(propertyName, KeyConstants.ERROR_PERSON_MASS_CHANGE_REPLACER_SELECTION, typeText, NON_EMPLOYEE);
         }
@@ -240,7 +240,7 @@ public class PerformPersonMassChangeRule extends ResearchDocumentRuleBase implem
             reportError(propertyName, KeyConstants.ERROR_PERSON_MASS_CHANGE_REPLACEE_SELECTION, EMPLOYEE, typeText);
         }
         
-        if (!isReplacerRolodex(personMassChange.getReplaceePersonId(), personMassChange.getReplaceeRolodexId())) {
+        if (!isReplacerRolodex(personMassChange.getReplacerPersonId(), personMassChange.getReplacerRolodexId())) {
             isValid = false;
             reportError(propertyName, KeyConstants.ERROR_PERSON_MASS_CHANGE_REPLACER_SELECTION, typeText, EMPLOYEE);
         }
