@@ -1,4 +1,4 @@
-UPDATE NOTIFICATION_TYPE SET MESSAGE='Funding source {FUNDING_TYPE} {ACTION} protocol <a title="" target="_self" href="{DOCUMENT_PREFIX}/kew/DocHandler.do?command=displayDocSearchView&amp;docId={DOCUMENT_NUMBER}">{PROTOCOL_NUMBER}</a><br/>And location = {DOCUMENT_PREFIX}' where notification_type_id=10007
+UPDATE NOTIFICATION_TYPE SET MESSAGE='Funding source {FUNDING_TYPE} {ACTION} protocol <a title="" target="_self" href="{DOCUMENT_PREFIX}/kew/DocHandler.do?command=displayDocSearchView&amp;docId={DOCUMENT_NUMBER}">{PROTOCOL_NUMBER}</a>' where notification_type_id=10007
 /
 UPDATE NOTIFICATION_TYPE SET MESSAGE='Review comments for protocol <a title="" target="_self" href="{DOCUMENT_PREFIX}/kew/DocHandler.do?command=displayDocSearchView&amp;docId={DOCUMENT_NUMBER}">{PROTOCOL_NUMBER}</a> deleted by {USER_FULLNAME}. <br/>The reason is: {REASON}' where notification_type_id=10062
 /
