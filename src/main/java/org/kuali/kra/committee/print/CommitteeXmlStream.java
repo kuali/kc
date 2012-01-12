@@ -17,6 +17,7 @@ package org.kuali.kra.committee.print;
 
 import java.math.BigInteger;
 import java.util.Calendar;
+import java.util.Date;
 import java.util.LinkedHashMap;
 import java.util.List;
 import java.util.Map;
@@ -91,14 +92,26 @@ public class CommitteeXmlStream extends PrintBaseXmlStream {
     }
 
     private void setScheduleForcommittee(org.kuali.kra.committee.bo.Committee committee, Committee committeeType) {
+        Date currentDate = new Date();
+        Boolean isRooster=committee.getPrintRooster();
         List<CommitteeSchedule> vecSchedule = committee.getCommitteeSchedules();
         if (vecSchedule.isEmpty()) return;
         for (CommitteeSchedule scheduleDetailsBean : vecSchedule) {
-            Schedule scheduleType = committeeType.addNewSchedule();
+           Date scheduleDate =  scheduleDetailsBean.getScheduledDate();
+           int dateCount = scheduleDate.compareTo(currentDate);
+           if(isRooster){
+             Schedule scheduleType = committeeType.addNewSchedule();
             getScheduleXmlStream().setScheduleMasterData(scheduleDetailsBean,scheduleType.addNewScheduleMasterData()) ;
             NextSchedule nextSchedule = scheduleType.addNewNextSchedule();
             getScheduleXmlStream().setNextSchedule(scheduleDetailsBean,nextSchedule.addNewScheduleMasterData());
         }
+           if(!isRooster){
+               if(dateCount>0){
+                   Schedule scheduleType = committeeType.addNewSchedule();
+                   getScheduleXmlStream().setScheduleMasterData(scheduleDetailsBean,scheduleType.addNewScheduleMasterData()) ;
+                   NextSchedule nextSchedule = scheduleType.addNewNextSchedule();
+                   getScheduleXmlStream().setNextSchedule(scheduleDetailsBean,nextSchedule.addNewScheduleMasterData());   
+           }}}
     }
 
     public void setCommitteeMembers(org.kuali.kra.committee.bo.Committee committee, Committee committeeType) {

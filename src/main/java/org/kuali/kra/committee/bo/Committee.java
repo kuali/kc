@@ -72,6 +72,7 @@ public class Committee extends KraPersistableBusinessObjectBase implements Compa
     private static final String CHAIR_MEMBERSHIP_ROLE_CODE = "1";
     private String committeeChair;
     private String unitName;
+    private Boolean printRooster;
 
     /**
      * Constructs a Committee.
@@ -249,6 +250,13 @@ public class Committee extends KraPersistableBusinessObjectBase implements Compa
 
     public void setCommitteeResearchAreas(List<CommitteeResearchArea> committeeResearchAreas) {
         this.committeeResearchAreas = committeeResearchAreas;
+    }
+    public Boolean getPrintRooster() {
+        return printRooster;
+    }
+
+    public void setPrintRooster(Boolean printRooster) {
+        this.printRooster = printRooster;
     }
     
     @SuppressWarnings("unchecked")
