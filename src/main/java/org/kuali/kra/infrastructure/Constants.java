@@ -65,6 +65,7 @@ public interface Constants {
     public static final String MAPPING_INSTITUTE_ATTACHMENT_RIGHTS_PAGE = "instituteAttachmentRights";
     public static final String MAPPING_RESUBMISSION_PROMPT = "resubmissionPrompt";
     public static final String MAPPING_HOLDING_PAGE = "kraHoldingPage";
+    public static final String ALTERNATE_DOC_ID_SESSION_KEY = "alternateDocIdSessionKey";
     public static final String MAPPING_IRB_HOLDING_PAGE = "irbHoldingPage";
     public static final String MAPPING_LOOKUP_PAGE ="lookUpPage";
     
@@ -793,5 +794,6 @@ public interface Constants {
     // Person Mass Change
     public static final String MAPPING_PMC_HOME_PAGE = "home";
     public static final String MAPPING_PMC_VIEW_PAGE = "view";
+    
 
 }
