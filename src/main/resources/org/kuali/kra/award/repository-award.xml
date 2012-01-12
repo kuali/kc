@@ -1456,7 +1456,7 @@
     <field-descriptor name="objectId" column="OBJ_ID" jdbc-type="VARCHAR" index="true" />
     <field-descriptor name="versionNumber" column="VER_NBR" jdbc-type="BIGINT" locking="true" />
     <field-descriptor name="cfdaProgramTitleName" column="CFDA_PGM_TTL_NM" jdbc-type="VARCHAR" />
-    <field-descriptor name="activeFlag" column="ACTIVE_FLAG" jdbc-type="CHAR" conversion="org.kuali.kra.infrastructure.OjbActiveFlagFieldConversion"/>
+    <field-descriptor name="activeFlag" column="ACTIVE_FLAG" jdbc-type="CHAR" conversion="org.kuali.rice.kns.util.OjbCharBooleanConversion"/>
     <field-descriptor name="cfdaMaintenanceTypeId" column="CFDA_MAINT_TYP_ID" jdbc-type="VARCHAR" />
     
 	</class-descriptor>
