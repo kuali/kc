@@ -155,6 +155,7 @@
 
     <bean id="proposalLogLookupableHelperService" class="org.kuali.kra.institutionalproposal.proposallog.ProposalLogLookupableHelperServiceImpl" 
         scope="prototype" parent="lookupableHelperService">
+        <property name="documentService" ref="documentService" />
     </bean>
     
     <bean id="proposalLogService" class="org.kuali.kra.institutionalproposal.proposallog.service.impl.ProposalLogServiceImpl">
