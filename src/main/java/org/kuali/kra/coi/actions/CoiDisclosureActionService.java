@@ -16,6 +16,7 @@
 package org.kuali.kra.coi.actions;
 
 import org.kuali.kra.coi.CoiDisclosure;
+import org.kuali.kra.coi.CoiUserRole;
 
 /**
  * 
@@ -34,10 +35,9 @@ public interface CoiDisclosureActionService {
     /**
      * This method adds a coi reviewer to the disclosure
      * @param coiDisclosure
-     * @param userName
-     * @param reviewerType
+     * @param coiUserRole
      */
-    void addCoiUserRole(CoiDisclosure coiDisclosure, String userName, String reviewerType);
+    void addCoiUserRole(CoiDisclosure coiDisclosure, CoiUserRole coiUserRole);
     
     /**
      *
