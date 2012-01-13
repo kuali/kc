@@ -104,7 +104,7 @@ public abstract class NotificationRendererBase implements NotificationRenderer, 
     private String getDocumentLocation() {
         String result = getKualiConfigurationService().getPropertyString(DOCHANDLER_PREFIX_PROPERTY);
         if (result == null) {
-            result = ".";   // default is current relative location
+            result = "..";   // default is current relative location (relative to base at this server)
         }
         return result;
     }
