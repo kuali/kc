@@ -90,8 +90,8 @@ public class DisclosureActionHelper implements Serializable {
     }
     
     private boolean canMaintainReviewers() {
-        //TODO: Hook in permissions
-        return true;
+        CoiDisclosureTask task = new CoiDisclosureTask(TaskName.MAINTAIN_COI_REVIEWERS, getCoiDisclosure());
+        return getTaskAuthorizationService().isAuthorized(getUserIdentifier(), task);
     }
 
     public CoiDisclosure getCoiDisclosure() {
@@ -203,6 +203,7 @@ public class DisclosureActionHelper implements Serializable {
         return coiReviewer;
     }
    
+
     public KcPersonService getKcPersonService() {        
         return kcPersonService;
     }
