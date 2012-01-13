@@ -15,11 +15,16 @@
  */
 package org.kuali.kra.subaward.service.impl;
 
+import java.io.ByteArrayOutputStream;
+import java.io.IOException;
 import java.util.Collection;
 import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
 
+import javax.servlet.http.HttpServletResponse;
+
+import org.kuali.kra.bo.KraPersistableBusinessObjectBase;
 import org.kuali.kra.bo.versioning.VersionHistory;
 import org.kuali.kra.bo.versioning.VersionStatus;
 import org.kuali.kra.infrastructure.Constants;
@@ -35,6 +40,7 @@ import org.kuali.rice.kns.service.BusinessObjectService;
 import org.kuali.rice.kns.service.DocumentService;
 import org.kuali.rice.kns.service.SequenceAccessorService;
 import org.kuali.rice.kns.util.KualiDecimal;
+import org.kuali.rice.kns.util.WebUtils;
 
 public class SubAwardServiceImpl implements SubAwardService{
 
@@ -150,5 +156,46 @@ public class SubAwardServiceImpl implements SubAwardService{
         subAward.setTotalAmountReleased(totalAmountReleased);
         subAward.setTotalAvailableAmount(totalOblicatedAmount.subtract(totalAmountReleased));
         return subAward;
+    }
+    /**
+     * This method will downloadAttachment  to subaward.
+     * @param subAward
+     * @return
+     */
+    public void downloadAttachment(KraPersistableBusinessObjectBase attachmentDataSource, HttpServletResponse response) throws Exception {
+        
+        SubAwardAmountInfo subAwardAmountInfo = new SubAwardAmountInfo();
+        SubAwardAmountReleased subAwardAmountReleased = new SubAwardAmountReleased();
+        byte[] data = null;
+        String contentType = null;
+        String fileName = null;
+        if(attachmentDataSource.getClass().isInstance(subAwardAmountInfo)){
+            subAwardAmountInfo =(SubAwardAmountInfo)attachmentDataSource;
+            data = subAwardAmountInfo.getData();
+            contentType = subAwardAmountInfo.getContentType();
+            fileName = subAwardAmountInfo.getFileName();
+        }
+        else if(attachmentDataSource.getClass().isInstance(subAwardAmountReleased)){
+            subAwardAmountReleased = (SubAwardAmountReleased)attachmentDataSource;  
+            data = subAwardAmountReleased.getData();
+            contentType = subAwardAmountReleased.getContentType();
+            fileName = subAwardAmountReleased.getFileName();
+        }
+         
+        ByteArrayOutputStream baos = null;
+        try {
+            baos = new ByteArrayOutputStream(data.length);
+            baos.write(data);
+            WebUtils.saveMimeOutputStreamAsFile(response, contentType, baos, fileName);
+        } finally {
+            try {
+                if (baos != null) {
+                    baos.close();
+                    baos = null;
+                }
+            } catch (IOException ioEx) {
+               // LOG.warn(ioEx.getMessage(), ioEx);
+            }
+        }
     }
 }

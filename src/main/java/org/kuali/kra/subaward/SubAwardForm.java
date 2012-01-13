@@ -17,6 +17,7 @@ package org.kuali.kra.subaward;
 
 import java.util.Map;
 
+import org.apache.struts.upload.FormFile;
 import org.kuali.kra.web.struts.form.Auditable;
 import org.kuali.kra.web.struts.form.KraTransactionalDocumentFormBase;
 import org.kuali.kra.common.customattributes.CustomDataForm;
@@ -50,7 +51,15 @@ public class SubAwardForm extends KraTransactionalDocumentFormBase implements Pe
     private CustomDataHelper customDataHelper = new CustomDataHelper(this);
     private boolean auditActivated;
     private MedusaBean medusaBean;
-    
+    private FormFile newFile;
+    public FormFile getNewFile() {
+        return newFile;
+    }
+
+    public void setNewFile(FormFile newFile) {
+        this.newFile = newFile;
+    }
+
     public boolean isAuditActivated() {
         return auditActivated;
     }

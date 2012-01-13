@@ -16,11 +16,19 @@
 package org.kuali.kra.subaward.bo;
 
 import java.util.LinkedHashMap;
+import java.io.FileNotFoundException;
+import java.io.IOException;
 import java.sql.Date;
+
+import org.apache.struts.upload.FormFile;
+import org.kuali.kra.bo.AttachmentFile;
+import org.kuali.kra.bo.KcAttachment;
+import org.kuali.kra.infrastructure.KraServiceLocator;
+import org.kuali.kra.service.KcAttachmentService;
 import org.kuali.kra.subaward.bo.SubAward;
 import org.kuali.rice.kns.util.KualiDecimal;
 
-public class SubAwardAmountReleased  extends SubAwardAssociate { 
+public class SubAwardAmountReleased  extends SubAwardAssociate implements KcAttachment{ 
     
     private static final long serialVersionUID = 1L;
 
@@ -45,8 +53,10 @@ public class SubAwardAmountReleased  extends SubAwardAssociate {
     private String createdBy; 
     private Date createdDate; 
     private String mimeType; 
-    
+    private AttachmentFile file;
     private SubAward SubAward; 
+    private String contentType;
+    transient private FormFile newFile;
     
     public SubAwardAmountReleased() { 
 
@@ -205,6 +215,19 @@ public class SubAwardAmountReleased  extends SubAwardAssociate {
     public void setAmountReleased(KualiDecimal amountReleased) {
         this.amountReleased = amountReleased;
     }
+    /**
+     * Gets the  Attachment File.
+     */
+    public AttachmentFile getFile() {
+        return this.file;
+    }
+    
+    /**
+     * Sets the  Attachment File.
+     */
+    public void setFile(AttachmentFile file) {
+        this.file = file;
+    }
     /** {@inheritDoc} */
     @Override 
     protected LinkedHashMap<String, Object> toStringMapper() {
@@ -231,11 +254,65 @@ public class SubAwardAmountReleased  extends SubAwardAssociate {
         hashMap.put("mimeType", this.getMimeType());
         return hashMap;
     }
+    /**
+     * 
+     * This method used to populate the attachment to subAwardReleased object by reading FormFile 
+     */
+    public void populateAttachment() {
+        FormFile newFile = getNewFile();
+        if(newFile==null) return;
+        byte[] newFileData;
+        try {
+            newFileData = newFile.getFileData();
+            setDocument(newFileData);
+            if (newFileData.length > 0) {
+                setContentType(newFile.getContentType());
+                setFileName(newFile.getFileName());
+            }
+        }catch (FileNotFoundException e) {
+        }catch (IOException e) {
+        }
+    }
+    
+    public FormFile getNewFile() {
+        return this.newFile;
+    }
 
+    
+    public void setNewFile(FormFile newFile) {
+        this.newFile = newFile;
+    }
+    
     @Override
     public void resetPersistenceState() {
         
         this.subAwardAmtReleasedId = null;
     }
-    
+
+    @Override
+    public String getName() {
+        return getFileName();
+    }
+
+    @Override
+    public String getType() {
+        return getContentType();
+    }
+
+    @Override
+    public byte[] getData() {
+        return getDocument();
+    }
+
+    @Override
+    public String getIconPath() {
+        return KraServiceLocator.getService(KcAttachmentService.class).getFileTypeIcon(this);
+    }
+    public void setContentType(String contentType) {
+        this.contentType = contentType;
+    }
+
+    public String getContentType() {
+        return contentType;
+    }
 }
