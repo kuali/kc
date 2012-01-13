@@ -22,14 +22,23 @@ import java.util.Map;
 
 import org.apache.commons.collections.CollectionUtils;
 import org.apache.commons.lang.StringUtils;
+import org.apache.commons.logging.Log;
+import org.apache.commons.logging.LogFactory;
 import org.kuali.kra.bo.KraPersistableBusinessObjectBase;
 import org.kuali.kra.coi.CoiDiscDetail;
 import org.kuali.kra.coi.CoiDisclosure;
+import org.kuali.kra.coi.CoiDisclosureDocument;
+import org.kuali.kra.coi.CoiDisclosureForm;
 import org.kuali.kra.coi.CoiDisclosureHistory;
 import org.kuali.kra.coi.CoiUserRole;
-import org.kuali.kra.coi.CoiDisclosureStatus;
 import org.kuali.kra.coi.CoiDispositionStatus;
+import org.kuali.kra.coi.certification.SubmitDisclosureAction;
+import org.kuali.kra.coi.notification.CoiNotificationContext;
+import org.kuali.kra.coi.notification.DisclosureCertifiedNotificationRenderer;
+import org.kuali.kra.coi.notification.DisclosureCertifiedNotificationRequestBean;
+import org.kuali.rice.kew.exception.WorkflowException;
 import org.kuali.rice.kns.service.BusinessObjectService;
+import org.kuali.rice.kns.service.DocumentService;
 import org.kuali.rice.kns.util.ObjectUtils;
 
 /**
@@ -40,6 +49,8 @@ import org.kuali.rice.kns.util.ObjectUtils;
 public class CoiDisclosureActionServiceImpl implements CoiDisclosureActionService {
 
     private BusinessObjectService businessObjectService;
+    private DocumentService documentService;
+    private static final Log LOG = LogFactory.getLog(CoiDisclosureActionServiceImpl.class);
 
     /**
      * copy disc detailsn from previous master disclosure if it exists.
@@ -83,6 +94,7 @@ public class CoiDisclosureActionServiceImpl implements CoiDisclosureActionServic
     /*
      * retrieve current master disclosure
      */
+    @SuppressWarnings("unchecked")
     private CoiDisclosure getMasterDisclosure(String coiDisclosureNumber) {
         Map<String, Object> fieldValues = new HashMap<String, Object>();
         fieldValues.put("coiDisclosureNumber", coiDisclosureNumber);
@@ -145,11 +157,50 @@ public class CoiDisclosureActionServiceImpl implements CoiDisclosureActionServic
 
     }
     
+    /**
+     * This method submits a disclosure to workflow
+     * @param coiDisclosure
+     * @param submitDisclosureAction
+     */
+    public void submitToWorkflow(CoiDisclosureDocument coiDisclosureDocument, CoiDisclosureForm coiDisclosureForm, SubmitDisclosureAction submitDisclosureAction) {
+        DisclosureCertifiedNotificationRenderer renderer = new DisclosureCertifiedNotificationRenderer(coiDisclosureDocument.getCoiDisclosure(), CoiDisclosure.CERTIFIED);
+        List<DisclosureCertifiedNotificationRequestBean> disclosureCertifiedNotificationBeans = getDisclosureCertifiedRequestBeans(submitDisclosureAction.getReviewers());
+        
+        for (DisclosureCertifiedNotificationRequestBean disclosureRequestBean: disclosureCertifiedNotificationBeans) {
+            CoiNotificationContext context = new CoiNotificationContext(disclosureRequestBean.getDocNumber(),
+                    disclosureRequestBean.getActionType(), disclosureRequestBean.getDescription(), renderer);
+//TODO            
+//            if (coiDisclosureForm.getNotificationHelper().getPromptUserForNotificationEditor(context)) {
+//                return checkToSendNotification(mapping, null, coiDisclosureForm, renderer, disclosureRequestBeans);
+//            }
+        }
 
+        try {
+            documentService.routeDocument(coiDisclosureDocument, "Disclosure has been certified and submitted.", new ArrayList<String>());
+        } catch (WorkflowException e) {
+            String errorString = "WorkflowException certifying Disclosure for user col %s" + coiDisclosureDocument.getCoiDisclosure().getAuthorPersonName(); 
+            LOG.error(errorString, e);
+            throw new RuntimeException(errorString, e);
+        }
+    }
 
+    
+    List<DisclosureCertifiedNotificationRequestBean> getDisclosureCertifiedRequestBeans(List<CoiUserRole> userRoles) {
+        List<DisclosureCertifiedNotificationRequestBean> result = new ArrayList<DisclosureCertifiedNotificationRequestBean>();
+        return result;
+    }
+
+    
     public void setBusinessObjectService(BusinessObjectService businessObjectService) {
         this.businessObjectService = businessObjectService;
     }
-    
+
+    public void setDocumentService(DocumentService documentService) {
+        this.documentService = documentService;
+    }
+    public DocumentService getDocumentService() {
+        return documentService;
+    }
+
 
 }

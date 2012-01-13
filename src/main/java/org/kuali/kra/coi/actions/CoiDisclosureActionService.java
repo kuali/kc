@@ -16,6 +16,9 @@
 package org.kuali.kra.coi.actions;
 
 import org.kuali.kra.coi.CoiDisclosure;
+import org.kuali.kra.coi.CoiDisclosureDocument;
+import org.kuali.kra.coi.CoiDisclosureForm;
+import org.kuali.kra.coi.certification.SubmitDisclosureAction;
 import org.kuali.kra.coi.CoiUserRole;
 
 /**
@@ -40,11 +43,17 @@ public interface CoiDisclosureActionService {
     void addCoiUserRole(CoiDisclosure coiDisclosure, CoiUserRole coiUserRole);
     
     /**
-     *
      * This method removes a coi reviewer from the disclosure
      * @param coiDisclosure
      * @param index
      */
     void deleteCoiUserRole(CoiDisclosure coiDisclosure, int index);
+
+    /**
+     * This method submits a disclosure to workflow
+     * @param coiDisclosure
+     * @param submitDisclosureAction
+     */
+    void submitToWorkflow(CoiDisclosureDocument coiDisclosureDocument, CoiDisclosureForm coiDisclosureForm, SubmitDisclosureAction submitDisclosureAction);
 
 }

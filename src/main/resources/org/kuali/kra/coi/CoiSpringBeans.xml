@@ -141,6 +141,7 @@
 	
      <bean id="coiDisclosureActionService" class="org.kuali.kra.coi.actions.CoiDisclosureActionServiceImpl">
         <property name="businessObjectService" ref="businessObjectService" />
+        <property name="documentService" ref="documentService" />
     </bean>
     
 

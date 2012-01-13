@@ -34,7 +34,9 @@ import org.kuali.kra.coi.CoiDisclosure;
 import org.kuali.kra.coi.CoiDisclosureDocument;
 import org.kuali.kra.coi.CoiDisclosureEventType;
 import org.kuali.kra.coi.CoiDisclosureForm;
+import org.kuali.kra.coi.actions.CoiDisclosureActionService;
 import org.kuali.kra.coi.certification.CertifyDisclosureEvent;
+import org.kuali.kra.coi.certification.SubmitDisclosureAction;
 import org.kuali.kra.coi.notesandattachments.CoiNotesAndAttachmentsHelper;
 import org.kuali.kra.coi.notesandattachments.attachments.CoiDisclosureAttachment;
 import org.kuali.kra.coi.service.CoiPrintingService;
@@ -47,6 +49,7 @@ import org.kuali.kra.printing.Printable;
 import org.kuali.kra.printing.service.WatermarkService;
 import org.kuali.kra.proposaldevelopment.bo.AttachmentDataSource;
 import org.kuali.kra.util.watermark.WatermarkConstants;
+import org.kuali.kra.web.struts.action.AuditActionHelper;
 import org.kuali.kra.web.struts.action.StrutsConfirmation;
 import org.kuali.rice.core.config.ConfigContext;
 import org.kuali.rice.kew.util.KEWConstants;
@@ -294,16 +297,27 @@ public class CoiDisclosureAction extends CoiAction {
         return forward;
     }
 
-    //TODO: This may need some work...
-    public ActionForward saveDisclosureCertification(ActionMapping mapping, ActionForm form, HttpServletRequest request,
+    public ActionForward submitDisclosureCertification(ActionMapping mapping, ActionForm form, HttpServletRequest request,
             HttpServletResponse response) throws Exception {
 
+        ActionForward forward = mapping.findForward(Constants.MAPPING_BASIC);
+        
         CoiDisclosureForm coiDisclosureForm = (CoiDisclosureForm) form;
-        CoiDisclosure disclosure = ((CoiDisclosureDocument)coiDisclosureForm.getDocument()).getCoiDisclosure();
-        if (checkRule(new CertifyDisclosureEvent("disclosureHelper.certifyDisclosure", disclosure))) {
-            disclosure.certifyDisclosure();
+        CoiDisclosureDocument coiDisclosureDocument = (CoiDisclosureDocument)coiDisclosureForm.getDocument();
+        CoiDisclosure coiDisclosure = coiDisclosureDocument.getCoiDisclosure();
+        if (checkRule(new CertifyDisclosureEvent("disclosureHelper.certifyDisclosure", coiDisclosure))) {
+            coiDisclosure.certifyDisclosure();
+            coiDisclosureForm.setAuditActivated(true);
+            AuditActionHelper auditActionHelper = new AuditActionHelper();
+            if (auditActionHelper.auditUnconditionally(coiDisclosureDocument)) {
+                forward = submitForReviewAndRedirect(mapping, form, request, response, coiDisclosureForm, coiDisclosure, coiDisclosureDocument);
+            } else {
+                GlobalVariables.getMessageMap().clearErrorMessages();
+                GlobalVariables.getMessageMap().putError("datavalidation", KeyConstants.ERROR_WORKFLOW_SUBMISSION,  new String[] {});
+            }
         }
-        return mapping.findForward(Constants.MAPPING_BASIC);
+
+        return forward;
     }
 
     //TODO: This will need some work...
@@ -540,6 +554,11 @@ public class CoiDisclosureAction extends CoiAction {
         return  KraServiceLocator.getService(WatermarkService.class);  
     }
     
+    protected CoiDisclosureActionService getDisclosureActionService() {
+        return  KraServiceLocator.getService(CoiDisclosureActionService.class);  
+    }
+    
+    @SuppressWarnings({ "rawtypes", "unchecked" })
     public ActionForward viewMasterDisclosure(ActionMapping mapping, ActionForm form, HttpServletRequest request,
             HttpServletResponse response) throws Exception {
 
@@ -563,6 +582,29 @@ public class CoiDisclosureAction extends CoiAction {
         }
     }
 
+    private ActionForward submitForReviewAndRedirect(ActionMapping mapping, ActionForm form, 
+                                                     HttpServletRequest request, HttpServletResponse response,
+                                                     CoiDisclosureForm coiDisclosureForm, CoiDisclosure coiDisclosure, 
+                                                     CoiDisclosureDocument coiDisclosureDocument) throws Exception {
+    
+        SubmitDisclosureAction submitAction = coiDisclosureForm.getDisclosureActionHelper().getSubmitDisclosureAction();
+        getDisclosureActionService().submitToWorkflow(coiDisclosureDocument, coiDisclosureForm, submitAction);
+        super.route(mapping, coiDisclosureForm, request, response);
+        return routeDisclosureToHoldingPage(mapping, coiDisclosureForm);
+    }
+    
+    private ActionForward routeDisclosureToHoldingPage(ActionMapping mapping, CoiDisclosureForm coiDisclosureForm) {
+        Long routeHeaderId = Long.parseLong(coiDisclosureForm.getDocument().getDocumentNumber());
+        String returnLocation = buildActionUrl(routeHeaderId, Constants.MAPPING_BASIC, "ProtocolDocument");
+        
+        ActionForward basicForward = mapping.findForward(KNSConstants.MAPPING_PORTAL);
+        ActionForward holdingPageForward = mapping.findForward(Constants.MAPPING_HOLDING_PAGE);
+        return routeToHoldingPage(basicForward, basicForward, holdingPageForward, returnLocation);
+
+    }
+
+
+    
 //    private boolean isApprovedDisclosure(CoiDisclosure coiDisclosure) {
 //
 //        Map fieldValues = new HashMap();
