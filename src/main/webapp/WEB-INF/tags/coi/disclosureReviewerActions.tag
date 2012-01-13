@@ -16,10 +16,10 @@
 <%@ include file="/WEB-INF/jsp/kraTldHeader.jsp"%>
 
 <c:set var="permissionsUserAttributes" value="${DataDictionary.PermissionsUser.attributes}" />
-<c:set var="modifyPermissions" value="true" />
+<c:set var="modifyPermissions" value="${KualiForm.disclosureActionHelper.maintainReviewers}" />
 
 
-<kul:tab tabTitle="Reviewer Actions" defaultOpen="false" tabErrorKey="">
+<kul:tab tabTitle="Reviewer Actions" defaultOpen="false" tabErrorKey="disclosureActionHelper.newCoiUserRole.*">
     <div class="tab-container"  align="center">
         <h3> 
             <span class="subhead-left">Reviewer Actions</span>
@@ -34,6 +34,7 @@
             <tr>
                 <th><div align="left">&nbsp;</div></th> 
                 <th><div align="center"><kul:htmlAttributeLabel attributeEntry="${permissionsUserAttributes.userName}" skipHelpUrl="true" noColon="true" /></div></th>
+                <th><div align="center">Full Name</div></th>
                 <th><div align="center">Reviewer Type</div></th>
                 <kra:permission value="${modifyPermissions}">
                     <kul:htmlAttributeHeaderCell literalLabel="Actions" scope="col"/>
@@ -53,16 +54,16 @@
                         <kul:lookup boClassName="org.kuali.kra.bo.KcPerson" 
                                     fieldConversions="userName:disclosureActionHelper.newCoiUserRole.userId" 
                                     anchor="${tabKey}" />                        
-                    </td>   
+                    </td>
+                    <td>&nbsp;</td>
                     <td>
                         <html:select property="disclosureActionHelper.newCoiUserRole.reviewerCode">                               
                            <c:forEach items="${krafn:getOptionList('org.kuali.kra.coi.lookup.CoiReviewerValuesFinder', paramMap)}" var="option">   
                                <c:choose>                      
-                                   <c:when test="'RVW' == option.key}">
+                                   <c:when test="${option.key eq 'RVW'}">
                                        <option value="${option.key}" selected="selected">${option.label}</option>
                                    </c:when>
                                    <c:otherwise>                               
-                                       <c:out value="${option.label}"/>
                                        <option value="${option.key}">${option.label}</option>
                                    </c:otherwise>
                                </c:choose>                                                
@@ -80,11 +81,12 @@
             
             <%-- The list of current users --%>
             
-            <c:forEach var="user" items="${KualiForm.coiDisclosureDocument.coiDisclosure.coiUserRoles}" varStatus="status">
+            <c:forEach var="user" items="${KualiForm.disclosureActionHelper.coiUserRoles}" varStatus="status">
                  <tr>
                     <th>${status.index + 1}</th>
                     <td align="left" valign="middle">${user.userId}</td>
-                    <td align="left" valign="middle">${user.reviewerCode}</td>
+                    <td align="left" valign="middle">${user.person.fullName}</td>
+                    <td align="left" valign="middle">${user.coiReviewer.description} (${user.reviewerCode})</td>
                     <kra:permission value="${modifyPermissions}">
                         <td align="center" valign="middle">
                             <div align="center">

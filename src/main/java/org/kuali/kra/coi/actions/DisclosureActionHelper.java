@@ -16,7 +16,12 @@
 package org.kuali.kra.coi.actions;
 
 import java.io.Serializable;
+import java.util.HashMap;
+import java.util.List;
+import java.util.Map;
 
+import org.apache.commons.collections.CollectionUtils;
+import org.kuali.kra.bo.KcPerson;
 import org.kuali.kra.coi.CoiDisclosure;
 import org.kuali.kra.coi.CoiDisclosureForm;
 import org.kuali.kra.coi.CoiReviewer;
@@ -24,6 +29,7 @@ import org.kuali.kra.coi.CoiUserRole;
 import org.kuali.kra.coi.auth.CoiDisclosureTask;
 import org.kuali.kra.infrastructure.KraServiceLocator;
 import org.kuali.kra.infrastructure.TaskName;
+import org.kuali.kra.service.KcPersonService;
 import org.kuali.kra.service.TaskAuthorizationService;
 import org.kuali.rice.kns.service.BusinessObjectService;
 import org.kuali.rice.kns.service.DateTimeService;
@@ -39,21 +45,25 @@ public class DisclosureActionHelper implements Serializable {
     
     private CoiUserRole newCoiUserRole;
     private CoiDisclosureForm coiDisclosureForm;
-    private BusinessObjectService businessObjectService;
-    private ParameterService parameterService;
-    private TaskAuthorizationService taskAuthorizationService;
+    private transient BusinessObjectService businessObjectService;
+    private transient ParameterService parameterService;
+    private transient TaskAuthorizationService taskAuthorizationService;
+    private transient KcPersonService kcPersonService;
     private boolean disapproveDisclosure;
     private boolean approveDisclosure;
+    private boolean maintainReviewers;
 
     public DisclosureActionHelper(CoiDisclosureForm coiDisclosureForm) {
         this.coiDisclosureForm = coiDisclosureForm;
         businessObjectService = KraServiceLocator.getService(BusinessObjectService.class);
         parameterService = KraServiceLocator.getService(ParameterService.class);
         taskAuthorizationService = KraServiceLocator.getService(TaskAuthorizationService.class);
+        kcPersonService = KraServiceLocator.getService(KcPersonService.class);
     }
 
     public void prepareView() {
-        this.initializePermissions();      
+        this.initializePermissions(); 
+        this.populateCoiUserRoleData();
     }
     
     /**
@@ -62,6 +72,7 @@ public class DisclosureActionHelper implements Serializable {
     private void initializePermissions() {
         approveDisclosure = canApproveCoiDisclosure();
         disapproveDisclosure = canDisapproveCoiDisclosure();
+        maintainReviewers = canMaintainReviewers();
     }
     
 
@@ -73,6 +84,11 @@ public class DisclosureActionHelper implements Serializable {
     private boolean canApproveCoiDisclosure() {
         CoiDisclosureTask task = new CoiDisclosureTask(TaskName.APPROVE_COI_DISCLOSURE, getCoiDisclosure());
         return getTaskAuthorizationService().isAuthorized(getUserIdentifier(), task);
+    }
+    
+    private boolean canMaintainReviewers() {
+        //TODO: Hook in permissions
+        return true;
     }
 
     public CoiDisclosure getCoiDisclosure() {
@@ -111,6 +127,14 @@ public class DisclosureActionHelper implements Serializable {
         this.approveDisclosure = approveDisclosure;
     }
 
+    public boolean isMaintainReviewers() {
+        return maintainReviewers;
+    }
+
+    public void setMaintainReviewers(boolean maintainReviewers) {
+        this.maintainReviewers = maintainReviewers;
+    }
+
     public CoiUserRole getNewCoiUserRole() {
         return newCoiUserRole;
     }
@@ -134,6 +158,47 @@ public class DisclosureActionHelper implements Serializable {
     public void setCoiDisclosureForm(CoiDisclosureForm coiDisclosureForm) {
         this.coiDisclosureForm = coiDisclosureForm;
     }
+
+    private void populateCoiUserRoleData() {
+        List<CoiUserRole> userRoles = coiDisclosureForm.getCoiDisclosureDocument().getCoiDisclosure().getCoiUserRoles();
+        
+        if (CollectionUtils.isNotEmpty(userRoles)) {
+            for (CoiUserRole userRole : userRoles) {
+                userRole.setPerson(getKcPerson(userRole.getUserId()));
+                userRole.setCoiReviewer(getCoiReviewer(userRole.getReviewerCode()));
+            }
+            
+        }
+    }
     
+    public List<CoiUserRole> getCoiUserRoles() {
+        this.populateCoiUserRoleData();
+        return coiDisclosureForm.getCoiDisclosureDocument().getCoiDisclosure().getCoiUserRoles();
+    }
+    
+    public KcPerson getKcPerson(String userName) {
+        return getKcPersonService().getKcPersonByUserName(userName);
+    }
+    
+    public CoiReviewer getCoiReviewer(String reviewerCode) {
+        CoiReviewer coiReviewer = null;
+        Map<String, String>fieldValues = new HashMap<String, String>();
+        fieldValues.put("reviewerCode", reviewerCode);
+        List<CoiReviewer> reviewers = (List<CoiReviewer>) getBusinessObjectService().findMatching(CoiReviewer.class, fieldValues);
+        if (CollectionUtils.isNotEmpty(reviewers)) {
+            coiReviewer = reviewers.get(0);
+        }
+        
+        return coiReviewer;
+    }
+   
+
+    public KcPersonService getKcPersonService() {        
+        return kcPersonService;
+    }
+    
+    public void setKcPersonService(KcPersonService kcPersonService) {
+        this.kcPersonService = kcPersonService;
+    }
 
 }

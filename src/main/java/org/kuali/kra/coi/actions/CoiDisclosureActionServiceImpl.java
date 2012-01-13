@@ -67,14 +67,7 @@ public class CoiDisclosureActionServiceImpl implements CoiDisclosureActionServic
         businessObjectService.save(disclosures);
     }
     
-    public void addCoiUserRole(CoiDisclosure coiDisclosure, String userName, String reviewerType) {
-        CoiUserRole coiUserRole = new CoiUserRole();
-        coiUserRole.setCoiDisclosureNumber(coiDisclosure.getCoiDisclosureNumber());
-        coiUserRole.setSequenceNumber(coiDisclosure.getSequenceNumber());
-        coiUserRole.setUserId(userName);
-        coiUserRole.setRoleName("COI Reviewer");
-        coiUserRole.setReviewerCode(reviewerType);
-        
+    public void addCoiUserRole(CoiDisclosure coiDisclosure, CoiUserRole coiUserRole) {
         coiDisclosure.getCoiUserRoles().add(coiUserRole);
         businessObjectService.save(coiDisclosure);
     }

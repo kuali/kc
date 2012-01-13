@@ -20,6 +20,7 @@ import java.util.List;
 import java.util.Map;
 
 
+
 import org.apache.commons.lang.StringUtils;
 import org.kuali.kra.authorization.KraAuthorizationConstants;
 import org.kuali.kra.coi.actions.DisclosureActionHelper;
@@ -69,9 +70,9 @@ public class CoiDisclosureForm extends KraTransactionalDocumentFormBase implemen
    
    public CoiNotesAndAttachmentsHelper getCoiNotesAndAttachmentsHelper() {
        return coiNotesAndAttachmentsHelper;
-   }
-
-@Override
+    }
+    
+   @Override
     protected String getDefaultDocumentTypeName() {
         // TODO Auto-generated method stub
         return "CoiDisclosureDocument";

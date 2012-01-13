@@ -64,6 +64,9 @@ public interface RoleConstants {
     public static final String NEGOTIATION_COI = "Negotiation COI";
     public static final String NEGOTIATION_KP = "Negotiation KP";
     
+    public static final String COI_ADMINISTRATOR = "COI Administrator";
+    public static final String COI_REVIEWER = "COI Reviewer";
+    
     public static final String PI = "PI";
 }
 
