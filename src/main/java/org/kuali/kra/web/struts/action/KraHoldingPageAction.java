@@ -28,20 +28,39 @@ import org.kuali.rice.kns.util.KNSConstants;
 
 
 /**
- * Checks to see whether the document specified in the session has completed its asynchronous processing and is ready to be reloaded.
+ * Checks to see whether the document specified in the session has completed its asynchronous processing and is ready to be
+ * reloaded.
  */
 public class KraHoldingPageAction extends AbstractHoldingPageAction {
-    
+
     private static final String RETURN_TO_PORTAL = "returnToPortal";
 
+    /**
+     * If this method is invoked due to a simple refresh from the holding page JSP, and not because the user has clicked 'return
+     * to portal', then it will check if the 'current document' has completed its processing and if so it will return the back
+     * location for that document as given in the user session by the key Constants.HOLDING_PAGE_RETURN_LOCATION. 
+     * The 'current document' is the one that is obtained via the document service using the doc id provided in the session. 
+     * By default this method will get this doc id from the top-level http session using the key KNSConstants.DOCUMENT_HTTP_SESSION_KEY. 
+     * However, if you want a different doc id to be used, then before calling this method, then the following two steps must be performed: 
+     *      1. insert the alternate doc id in the user session with some key constant, say 'X'. 
+     *      2. insert 'X' also into the user session using the key Constants.ALTERNATE_DOC_ID_SESSION_KEY.
+     * Basically, this method performs double indirection on the user session key. It will first check if the user session key
+     * Constants.ALTERNATE_DOC_ID_SESSION_KEY has any value inserted for it, and if so will use that value again as a key into the
+     * user session to get the alternate doc id (and then use that doc id to obtain the document from the doc service).
+     * 
+     * @see org.kuali.rice.kns.web.struts.action.KualiAction#execute(org.apache.struts.action.ActionMapping,
+     *      org.apache.struts.action.ActionForm, javax.servlet.http.HttpServletRequest, javax.servlet.http.HttpServletResponse)
+     */
     @Override
-    public ActionForward execute(ActionMapping mapping, ActionForm form, HttpServletRequest request, HttpServletResponse response) throws Exception {
-        
+    public ActionForward execute(ActionMapping mapping, ActionForm form, HttpServletRequest request, HttpServletResponse response)
+            throws Exception {
+
         ActionForward forward = super.execute(mapping, form, request, response);
         // before getting the document id, we check if there is an alternate doc id session key set
-        String alternateDocIdSessionKey = (String) GlobalVariables.getUserSession().retrieveObject(Constants.ALTERNATE_DOC_ID_SESSION_KEY);
+        String alternateDocIdSessionKey = (String) GlobalVariables.getUserSession().retrieveObject(
+                Constants.ALTERNATE_DOC_ID_SESSION_KEY);
         Object documentId = null;
-        if(alternateDocIdSessionKey != null) {
+        if (alternateDocIdSessionKey != null) {
             // double indirection on the user session
             documentId = GlobalVariables.getUserSession().retrieveObject(alternateDocIdSessionKey);
         }
@@ -50,8 +69,8 @@ public class KraHoldingPageAction extends AbstractHoldingPageAction {
         }
         Document document = getDocumentService().getByDocumentHeaderId(documentId.toString());
         // check if the user clicked the 'Return to Portal' button
-        if(RETURN_TO_PORTAL.equals(findMethodToCall(form, request))) {
-            // just clean up the session 
+        if (RETURN_TO_PORTAL.equals(findMethodToCall(form, request))) {
+            // just clean up the session
             cleanupUserSession(alternateDocIdSessionKey);
         }
         else if (isDocumentPostprocessingComplete(document)) {
@@ -60,13 +79,13 @@ public class KraHoldingPageAction extends AbstractHoldingPageAction {
             cleanupUserSession(alternateDocIdSessionKey);
             forward = new ActionForward(backLocation, true);
         }
-        
+
         return forward;
     }
-    
+
     private void cleanupUserSession(String alternateDocIdSessionKey) {
         GlobalVariables.getUserSession().removeObject(Constants.HOLDING_PAGE_RETURN_LOCATION);
-        if(alternateDocIdSessionKey != null) {
+        if (alternateDocIdSessionKey != null) {
             GlobalVariables.getUserSession().removeObject(Constants.ALTERNATE_DOC_ID_SESSION_KEY);
             GlobalVariables.getUserSession().removeObject(alternateDocIdSessionKey);
         }
