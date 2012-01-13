@@ -2329,9 +2329,27 @@ public class ActionHelper implements Serializable {
             setNextDisabled(true);
         }
 
-        setReviewComments(getReviewerCommentsService().getReviewerComments(getProtocol().getProtocolNumber(),
-                currentSubmissionNumber));
+        setReviewComments(getReviewerCommentsService().getReviewerComments(getProtocol().getProtocolNumber(), currentSubmissionNumber));
         if (CollectionUtils.isNotEmpty(getReviewComments())) {
+            // check if our comments bean has empty list of review comments, this can happen if the submission has no schedule assigned
+            if(protocolManageReviewCommentsBean.getReviewCommentsBean().getReviewComments().size() == 0) {
+                List<CommitteeScheduleMinute> reviewComments = getReviewerCommentsService().getReviewerComments(getProtocol().getProtocolNumber(), 
+                        currentSubmissionNumber);
+                Collections.sort(reviewComments, new Comparator<CommitteeScheduleMinute>() {
+
+                    @Override
+                    public int compare(CommitteeScheduleMinute csm1, CommitteeScheduleMinute csm2) {
+                        int retVal = 0;
+                        if( (csm1 != null) && (csm2 != null) && (csm1.getEntryNumber() != null) && (csm2.getEntryNumber() != null) ) {
+                            retVal = csm1.getEntryNumber().compareTo(csm2.getEntryNumber());
+                        }
+                        return retVal;
+                    }
+                    
+                });
+                protocolManageReviewCommentsBean.getReviewCommentsBean().setReviewComments(reviewComments);
+                getReviewerCommentsService().setHideReviewerName(reviewComments);
+            }
             getReviewerCommentsService().setHideReviewerName(getReviewComments());
         }
         setReviewAttachments(getReviewerCommentsService().getReviewerAttachments(getProtocol().getProtocolNumber(),
