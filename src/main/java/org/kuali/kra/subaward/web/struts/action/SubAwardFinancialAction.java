@@ -15,6 +15,8 @@
  */
 package org.kuali.kra.subaward.web.struts.action;
 
+import static org.kuali.kra.infrastructure.Constants.MAPPING_BASIC;
+
 import javax.servlet.ServletRequest;
 import javax.servlet.ServletResponse;
 import javax.servlet.http.HttpServletRequest;
@@ -29,13 +31,13 @@ import org.kuali.kra.subaward.SubAwardForm;
 import org.kuali.kra.subaward.bo.SubAward;
 import org.kuali.kra.subaward.bo.SubAwardAmountInfo;
 import org.kuali.kra.subaward.bo.SubAwardAmountReleased;
-import org.kuali.kra.subaward.bo.SubAwardFundingSource;
 import org.kuali.kra.subaward.document.SubAwardDocument;
 import org.kuali.kra.subaward.service.SubAwardService;
 import org.kuali.kra.subaward.subawardrule.SubAwardDocumentRule;
 
 public class SubAwardFinancialAction extends SubAwardAction{
     
+    private static final String LINE_NUMBER = "line";
     @Override
     public ActionForward execute(ActionMapping mapping, ActionForm form, ServletRequest request, ServletResponse response) throws Exception {
         ActionForward actionForward = super.execute(mapping, form, request, response);
@@ -71,6 +73,7 @@ public class SubAwardFinancialAction extends SubAwardAction{
      }
     boolean addAmountInfoToSubAward(SubAward subAward,SubAwardAmountInfo amountInfo){
         amountInfo.setSubAward(subAward);    
+        amountInfo.populateAttachment();
         return subAward.getSubAwardAmountInfoList().add(amountInfo);
     }
    
@@ -97,9 +100,9 @@ public class SubAwardFinancialAction extends SubAwardAction{
        subAwardForm.getSubAwardDocument().setSubAward(subAward);
         return mapping.findForward(Constants.MAPPING_FINANCIAL_PAGE);
     }
-
     boolean addAmountReleasedToSubAward(SubAward subAward,SubAwardAmountReleased subAwardAmountReleased){
-        subAwardAmountReleased.setSubAward(subAward);    
+        subAwardAmountReleased.setSubAward(subAward);  
+        subAwardAmountReleased.populateAttachment();
         return subAward.getSubAwardAmountReleasedList().add(subAwardAmountReleased);
     }
     public ActionForward deleteAmountReleased(ActionMapping mapping, ActionForm form, HttpServletRequest request, HttpServletResponse response) throws Exception {
@@ -111,4 +114,54 @@ public class SubAwardFinancialAction extends SubAwardAction{
         this.getBusinessObjectService().delete(SubAwardAmountReleased);
         return mapping.findForward(Constants.MAPPING_FINANCIAL_PAGE);
     }
+    
+    public ActionForward downloadHistoryOfChangesAttachment(ActionMapping mapping, ActionForm form, HttpServletRequest request,
+            HttpServletResponse response) throws Exception {
+        SubAwardForm subAwardForm = (SubAwardForm)form;
+        SubAwardDocument subAwardDocument = subAwardForm.getSubAwardDocument();
+        String line = request.getParameter(LINE_NUMBER);
+        int lineNumber = line == null ? 0 : Integer.parseInt(line);
+        SubAwardAmountInfo subAwardAmountInfo = subAwardDocument.getSubAward().getSubAwardAmountInfoList().get(lineNumber);
+        subAwardAmountInfo.getFile();
+        if(subAwardAmountInfo.getDocument()!=null){
+            KraServiceLocator.getService(SubAwardService.class).downloadAttachment(subAwardAmountInfo,response);
+        }
+        return null;
+    }
+
+       public ActionForward replaceHistoryOfChangesAttachment(ActionMapping mapping, ActionForm form, HttpServletRequest request,
+               HttpServletResponse response) throws Exception {
+           SubAwardForm subAwardForm = (SubAwardForm)form;
+           SubAwardDocument subAwardDocument = subAwardForm.getSubAwardDocument();
+           SubAwardAmountInfo subAwardAmountInfo = subAwardDocument.getSubAward().getSubAwardAmountInfoList().get(getSelectedLine(request));
+           subAwardAmountInfo.populateAttachment();
+           if(subAwardAmountInfo.getSubAwardId()!=null){
+               getBusinessObjectService().save(subAwardAmountInfo);
+           }
+           return mapping.findForward(MAPPING_BASIC);
+       }
+       public ActionForward downloadInvoiceAttachment(ActionMapping mapping, ActionForm form, HttpServletRequest request,
+               HttpServletResponse response) throws Exception {
+           SubAwardForm subAwardForm = (SubAwardForm)form;
+           SubAwardDocument subAwardDocument = subAwardForm.getSubAwardDocument();
+           String line = request.getParameter(LINE_NUMBER);
+           int lineNumber = line == null ? 0 : Integer.parseInt(line);
+           SubAwardAmountReleased subAwardAmountReleased = subAwardDocument.getSubAward().getSubAwardAmountReleasedList().get(lineNumber);
+           subAwardAmountReleased.getFile();
+           if(subAwardAmountReleased.getDocument()!=null){
+               KraServiceLocator.getService(SubAwardService.class).downloadAttachment(subAwardAmountReleased,response);
+           }
+           return null;
+       }
+       public ActionForward replaceInvoiceAttachment(ActionMapping mapping, ActionForm form, HttpServletRequest request,
+               HttpServletResponse response) throws Exception {
+           SubAwardForm subAwardForm = (SubAwardForm)form;
+           SubAwardDocument subAwardDocument = subAwardForm.getSubAwardDocument();
+           SubAwardAmountReleased subAwardAmountReleased = subAwardDocument.getSubAward().getSubAwardAmountReleasedList().get(getSelectedLine(request));
+           subAwardAmountReleased.populateAttachment();
+           if(subAwardAmountReleased.getSubAwardId()!=null){
+               getBusinessObjectService().save(subAwardAmountReleased);
+           }
+           return mapping.findForward(MAPPING_BASIC);
+       }
 }

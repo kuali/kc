@@ -14,9 +14,10 @@
  limitations under the License.
 --%>
 <%@ include file="/WEB-INF/jsp/kraTldHeader.jsp"%>
-
+<%@ attribute name="htmlFormAction" required="false" %>
+<%@ attribute name="renderMultipart" required="false" %>
 <c:set var="subAwardAmountReleasedAttributes" value="${DataDictionary.SubAwardAmountReleased.attributes}" />
-<c:set var="action" value="subAwardAmountReleased" />
+<c:set var="action" value="subAwardFinancial" />
 <c:set var="newSubAwardAmountReleased" value="${KualiForm.newSubAwardAmountReleased}" />
 <kul:tab tabTitle="Invoices" defaultOpen="true" transparentBackground="false" tabErrorKey="newSubAwardAmountReleased.invoiceNumber*,newSubAwardAmountReleased.startDate*,newSubAwardAmountReleased.endDate*,newSubAwardAmountReleased.effectiveDate*,newSubAwardAmountReleased.effectiveDate*,newSubAwardAmountReleased.amountReleased*,newSubAwardAmountReleased.comments*" auditCluster="requiredFieldsAuditErrors" tabAuditKey="" useRiceAuditMode="true">
 	<div class="tab-container" align="center">
@@ -87,7 +88,7 @@
    				
    				   <td class="infoline">
    				   <c:if test="${readOnly!='true'}">
-                	<html:file property="newSubAwardAmountReleased.fileName" />
+                	<html:file property="newSubAwardAmountReleased.newFile" />
                 	</c:if>
                 </td>
                 <td><div align="center">
@@ -136,14 +137,26 @@
 						<div align="center">
 	                		<kul:htmlControlAttribute property="document.subAwardList[0].subAwardAmountReleasedList[${status.index}].endDate" readOnly="${readOnly}" attributeEntry="${subAwardAmountReleasedAttributes.endDate}" datePicker="true" />
 						</div>
-						<%-- </td><kra:fileicon attachment="${subAward.fileName}"/><td> --%>
 					
 						<td width="9%" valign="middle">
-						<div align="center">
-						
-	                		<kul:htmlControlAttribute property="document.subAwardList[0].subAwardAmountReleasedList[${status.index}].fileName" readOnly="true" attributeEntry="${subAwardAmountReleasedAttributes.fileName}" />
+						<div id="invoiceReplaceDiv${status.index}" style="display: block;">
+							<c:if test="${newSubAwardAmountReleased.fileName!=null}">
+								<kra:fileicon attachment="${newSubAwardAmountReleased}" />
+							</c:if>
+							<kul:htmlControlAttribute
+								property="document.subAwardList[0].subAwardAmountReleasedList[${status.index}].fileName"
+								readOnly="true"
+								attributeEntry="${subAwardAmountReleasedAttributes.fileName}" />
 						</div>
-						</td>		
+						<div id="invoiceFileDiv${status.index}" valign="middle"
+							style="display: none;">
+							<html:file
+								property="document.subAwardList[0].subAwardAmountReleasedList[${status.index}].newFile" />
+							<html:image
+								property="methodToCall.replaceInvoiceAttachment.line${status.index}.anchor${currentTabIndex}"
+								src='${ConfigProperties.kra.externalizable.images.url}tinybutton-add1.gif'
+								styleClass="tinybutton" />
+						</div></td>		
 						<td width="9%" valign="middle">
 						<div align="center">
 						
@@ -163,13 +176,28 @@
 						               
 						<td width="10%" valign="middle" rowspan="2">    
 						<div align="center">
-						  <c:if test="${!readOnly}">
-	                		<html:image property="methodToCall.deleteAmountReleased.line${status.index}.anchor${currentTabIndex}"
-								src='${ConfigProperties.kra.externalizable.images.url}tinybutton-delete1.gif' styleClass="tinybutton"/>
-						  </c:if>
-						  <c:if test="${readOnly}">&nbsp;</c:if>
-						</div>
-						</td>	
+							<c:if test="${!readOnly}">
+								<c:if test="${newSubAwardAmountReleased.fileName!=null}">
+									<html:image
+										styleId="downloadInvoiceAttachment.line${status.index}"
+										property="methodToCall.downloadInvoiceAttachment.line${status.index}.anchor${currentTabIndex}"
+										src='${ConfigProperties.kra.externalizable.images.url}tinybutton-view.gif'
+										styleClass="tinybutton"
+										onclick="javascript: openNewWindow('${action}','downloadInvoiceAttachment','${status.index}',${KualiForm.formKey},'${KualiForm.document.sessionDocument}'); return false" />
+								</c:if>
+								<html:image
+									styleId="replaceInvoiceAttachment.line${status.index}"
+									onclick="javascript: showHide('invoiceFileDiv${status.index}','invoiceReplaceDiv${status.index}') ; return false"
+									src='${ConfigProperties.kra.externalizable.images.url}tinybutton-replace.gif'
+									styleClass="tinybutton"
+									property="methodToCall.replaceNarrativeAttachment.line${status.index}.anchor${currentTabIndex};return false" />
+								<html:image
+									property="methodToCall.deleteAmountReleased.line${status.index}.anchor${currentTabIndex}"
+									src='${ConfigProperties.kra.externalizable.images.url}tinybutton-delete1.gif'
+									styleClass="tinybutton" />
+							</c:if>
+							<c:if test="${readOnly}">&nbsp;</c:if>
+						</div></td>	
 		            </tr>
 		            
 		            <tr>		            			
