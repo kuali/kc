@@ -70,6 +70,7 @@ public class CoiDisclosure extends KraPersistableBusinessObjectBase implements S
     public static final String PROTOCOL_DISCL_MODULE_CODE = "12";
     public static final String AWARD_DISCL_MODULE_CODE = "1";
     public static final String ANNUAL_DISCL_MODULE_CODE = "13";
+    public static final String CERTIFIED = "certified";
 
     private Long coiDisclosureId; 
     private String coiDisclosureNumber; 
