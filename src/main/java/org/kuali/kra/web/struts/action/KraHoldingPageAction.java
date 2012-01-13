@@ -56,22 +56,24 @@ public class KraHoldingPageAction extends AbstractHoldingPageAction {
             throws Exception {
 
         ActionForward forward = super.execute(mapping, form, request, response);
-        // before getting the document id, we check if there is an alternate doc id session key set
+        // check if there is an alternate doc id key set in the user session
         String alternateDocIdSessionKey = (String) GlobalVariables.getUserSession().retrieveObject(
                 Constants.ALTERNATE_DOC_ID_SESSION_KEY);
         Object documentId = null;
         if (alternateDocIdSessionKey != null) {
-            // double indirection on the user session
+            // get the id from the user session (double indirection)
             documentId = GlobalVariables.getUserSession().retrieveObject(alternateDocIdSessionKey);
         }
         else {
+            // get the id from the top level http session
             documentId = request.getSession().getAttribute(KNSConstants.DOCUMENT_HTTP_SESSION_KEY);
         }
         Document document = getDocumentService().getByDocumentHeaderId(documentId.toString());
         // check if the user clicked the 'Return to Portal' button
         if (RETURN_TO_PORTAL.equals(findMethodToCall(form, request))) {
-            // just clean up the session
+            // clean up the session and also remove the messages meant for the return page
             cleanupUserSession(alternateDocIdSessionKey);
+            GlobalVariables.getUserSession().removeObject(Constants.HOLDING_PAGE_MESSAGES);
         }
         else if (isDocumentPostprocessingComplete(document)) {
             // get the return location and clean up session
