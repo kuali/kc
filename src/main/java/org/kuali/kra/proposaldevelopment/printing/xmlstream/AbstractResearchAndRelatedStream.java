@@ -89,6 +89,7 @@ public abstract class AbstractResearchAndRelatedStream extends ProposalBaseStrea
     private static final String CATEGORY_CODE_PARTICIPANT_SUBSISTANCE = "36";
     private static final String CATEGORY_CODE_PARTICIPANT_STIPENDS = "32";
     private static final String CATEGORY_CODE_PARTICIPANT_OTHER = "2";
+    private static final String CATEGORY_CODE_PARTICIPANT_TUITION = "35"; 
     private static final String CATEGORY_CODE_OUTPATIENT = "33";
     private static final String CATEGORY_CODE_INPATIENT = "9";
     protected static final String DEFAULT_VALUE_UNKNOWN = "Unknown";
@@ -107,7 +108,6 @@ public abstract class AbstractResearchAndRelatedStream extends ProposalBaseStrea
     private static final String ANSWER_PARAMETER = "answer";
     private static final String QUESTION_ID_PARAMETER = "questionId";
     private static final String ORGANIZATION_ID_PARAMETER = "organizationId";
-
     public static final String KEY_MAPPING_NAME = "mappingName";
     public static final String KEY_TARGET_CATEGORY_CODE = "targetCategoryCode";
     private static final String RATE_CLASS_TYPE_EMPLOYEE_BENEFITS = "E";
@@ -299,7 +299,7 @@ public abstract class AbstractResearchAndRelatedStream extends ProposalBaseStrea
         boolean isOther = true;
         if (isBudgetCategoryEquipment(budgetLineItem) || isBudgetCategoryTravel(budgetLineItem)
                 || isBudgetCategoryParticipantPatient(budgetLineItem) || 
-                budgetLineItem.getBudgetCategory().getBudgetCategoryTypeCode().equals("P")) {
+                budgetLineItem.getBudgetCategory().getBudgetCategoryTypeCode().equals("P") || budgetLineItem.getBudgetCategoryCode().equals(CATEGORY_CODE_PARTICIPANT_TUITION) ) {
             isOther = false;
         }
         return isOther;
@@ -345,7 +345,8 @@ public abstract class AbstractResearchAndRelatedStream extends ProposalBaseStrea
                 budgetLineItem.getBudgetCategoryCode().equals(CATEGORY_CODE_PARTICIPANT_SUBSISTANCE) ||
                budgetLineItem.getBudgetCategoryCode().equals(CATEGORY_CODE_PARTICIPANT_TRAVEL) ||
                 budgetLineItem.getBudgetCategoryCode().equals(CATEGORY_CODE_INPATIENT)
-                || budgetLineItem.getBudgetCategoryCode().equals(CATEGORY_CODE_OUTPATIENT);
+                || budgetLineItem.getBudgetCategoryCode().equals(CATEGORY_CODE_OUTPATIENT)||
+                budgetLineItem.getBudgetCategoryCode().equals(CATEGORY_CODE_PARTICIPANT_TUITION);
     }
 
     /*
