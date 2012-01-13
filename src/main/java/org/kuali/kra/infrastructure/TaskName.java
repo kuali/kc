@@ -210,6 +210,7 @@ public interface TaskName {
     public static final String DISAPPROVE_COI_DISCLOSURE = "disapproveCoiDisclosure";
     public static final String MAINTAIN_COI_DISCLOSURE_NOTES = "maintainCoiDisclosureNotes";
     public static final String MAINTAIN_COI_DISCLOSURE_ATTACHMENTS = "maintainCoiDisclosureAttachments";
+    public static final String MAINTAIN_COI_REVIEWERS = "maintainCoiReviewers";
     
     
     /**
