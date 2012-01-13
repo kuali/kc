@@ -14,9 +14,10 @@
  limitations under the License.
 --%>
 <%@ include file="/WEB-INF/jsp/kraTldHeader.jsp"%>
-
+<%@ attribute name="htmlFormAction" required="false" %>
+<%@ attribute name="renderMultipart" required="false" %>
 <c:set var="subAwardAmountInfoAttributes" value="${DataDictionary.SubAwardAmountInfo.attributes}" />
-<c:set var="action" value="subAward" />
+<c:set var="action" value="subAwardFinancial" />
 
 <c:set var="newSubAwardAmountInfo" value="${KualiForm.newSubAwardAmountInfo}" />
 
@@ -88,7 +89,7 @@
    				
    				   <td class="infoline">
    				   <c:if test="${readOnly!='true'}">
-                	<html:file property="newSubAwardAmountInfo.fileName" />
+                	<html:file property="newSubAwardAmountInfo.newFile"  />
                 	</c:if>
                 </td>
    				 				
@@ -132,20 +133,50 @@
 						<%-- </td><kra:fileicon attachment="${subAward.fileName}"/><td> --%>
 					
 						<td width="9%" valign="middle">
-						<div align="center">
-						
-	                		<kul:htmlControlAttribute property="document.subAwardList[0].subAwardAmountInfoList[${status.index}].fileName" attributeEntry="${subAwardAmountInfoAttributes.fileName}" readOnly="true" />
+
+						<div align="center"></div>
+						<div id="replaceDiv${status.index}" style="display: block;">
+						 <c:if test="${newSubAwardAmountInfo.fileName!=null}">
+							<kra:fileicon attachment="${newSubAwardAmountInfo}" />
+							</c:if>
+							<kul:htmlControlAttribute
+								property="document.subAwardList[0].subAwardAmountInfoList[${status.index}].fileName"
+								readOnly="true"
+								attributeEntry="${subAwardAmountInfoAttributes.fileName}" />
 						</div>
-						</td>		               
-						<td width="10%" valign="middle" rowspan="2">
+						<div id="fileDiv${status.index}" valign="middle"
+							style="display: none;">
+							<html:file
+								property="document.subAwardList[0].subAwardAmountInfoList[${status.index}].newFile" />
+							<html:image
+								property="methodToCall.replaceHistoryOfChangesAttachment.line${status.index}.anchor${currentTabIndex}"
+								src='${ConfigProperties.kra.externalizable.images.url}tinybutton-add1.gif'
+								styleClass="tinybutton" />
+						</div></td>
+					<td width="10%" valign="middle" rowspan="2">
 						<div align="center">
-						  <c:if test="${!readOnly}">
-	                		<html:image property="methodToCall.deleteAmountInfo.line${status.index}.anchor${currentTabIndex}"
-								src='${ConfigProperties.kra.externalizable.images.url}tinybutton-delete1.gif' styleClass="tinybutton"/>
-						  </c:if>
-						  <c:if test="${readOnly}">&nbsp;</c:if>
-						</div>
-						</td>	
+							<c:if test="${!readOnly}">
+								<c:if test="${newSubAwardAmountInfo.fileName!=null}">
+									<html:image
+										styleId="downloadHistoryOfChangesAttachment.line${status.index}"
+										property="methodToCall.downloadHistoryOfChangesAttachment.line${status.index}.anchor${currentTabIndex}"
+										src='${ConfigProperties.kra.externalizable.images.url}tinybutton-view.gif'
+										styleClass="tinybutton"
+										onclick="javascript: openNewWindow('${action}','downloadHistoryOfChangesAttachment','${status.index}',${KualiForm.formKey},'${KualiForm.document.sessionDocument}'); return false" />
+								</c:if>
+								<html:image
+									styleId="replaceHistoryOfChangesAttachment.line${status.index}"
+									onclick="javascript: showHide('fileDiv${status.index}','replaceDiv${status.index}') ; return false"
+									src='${ConfigProperties.kra.externalizable.images.url}tinybutton-replace.gif'
+									styleClass="tinybutton"
+									property="methodToCall.replaceNarrativeAttachment.line${status.index}.anchor${currentTabIndex};return false" />
+								<html:image
+									property="methodToCall.deleteAmountInfo.line${status.index}.anchor${currentTabIndex}"
+									src='${ConfigProperties.kra.externalizable.images.url}tinybutton-delete1.gif'
+									styleClass="tinybutton" />
+							</c:if>
+							<c:if test="${readOnly}">&nbsp;</c:if>
+						</div></td>	
 		            </tr>
 		            
 		            <tr>		            			

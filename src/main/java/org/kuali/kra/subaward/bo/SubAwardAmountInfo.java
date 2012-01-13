@@ -16,15 +16,20 @@
 package org.kuali.kra.subaward.bo;
 
 import org.apache.struts.upload.FormFile;
-import org.kuali.kra.SequenceAssociate;
-import org.kuali.kra.SequenceOwner;
 import org.kuali.kra.bo.AttachmentFile;
+import org.kuali.kra.bo.KcAttachment;
+import org.kuali.kra.infrastructure.KraServiceLocator;
+
 import java.util.LinkedHashMap;
+import java.io.FileNotFoundException;
+import java.io.IOException;
 import java.sql.Date;
+
+import org.kuali.kra.service.KcAttachmentService;
 import org.kuali.kra.subaward.bo.SubAward;
 import org.kuali.rice.kns.util.KualiDecimal;
 
-public class SubAwardAmountInfo extends SubAwardAssociate{ 
+public class SubAwardAmountInfo extends SubAwardAssociate implements KcAttachment{ 
     
     private static final long serialVersionUID = 1L;
 
@@ -42,10 +47,10 @@ public class SubAwardAmountInfo extends SubAwardAssociate{
     private byte[] document; 
     private String mimeType; 
     private AttachmentFile file;
-    private transient FormFile newFile;
+    transient private FormFile newFile;
     private SubAward subAward; 
     private Long fileId;
-    
+    private String contentType;
 
     public SubAwardAmountInfo() { 
         
@@ -125,7 +130,25 @@ public class SubAwardAmountInfo extends SubAwardAssociate{
     public void setMimeType(String mimeType) {
         this.mimeType = mimeType;
     }
-
+    /**
+     * 
+     * This method used to populate the attachment to subAwardInfo object by reading FormFile 
+     */
+    public void populateAttachment() {
+        FormFile newFile = getNewFile();
+        if(newFile==null) return;
+        byte[] newFileData;
+        try {
+            newFileData = newFile.getFileData();
+            setDocument(newFileData);
+            if (newFileData.length > 0) {
+                setContentType(newFile.getContentType());
+                setFileName(newFile.getFileName());
+            }
+        }catch (FileNotFoundException e) {
+        }catch (IOException e) {
+        }
+    }
 
     /** {@inheritDoc} */
     @Override 
@@ -225,6 +248,34 @@ public class SubAwardAmountInfo extends SubAwardAssociate{
      */
     public void resetPersistenceState() {
         this.subAwardAmountInfoId = null;
+    }
+
+    @Override
+    public String getName() {
+        return getFileName();
+    }
+
+    @Override
+    public String getType() {
+        return getContentType();
+    }
+
+    @Override
+    public byte[] getData() {
+        return getDocument();
+    }
+
+    @Override
+    public String getIconPath() {
+        return KraServiceLocator.getService(KcAttachmentService.class).getFileTypeIcon(this);
+    }
+
+    public void setContentType(String contentType) {
+        this.contentType = contentType;
+    }
+
+    public String getContentType() {
+        return contentType;
     }
   
     

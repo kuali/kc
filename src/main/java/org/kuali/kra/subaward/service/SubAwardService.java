@@ -15,6 +15,9 @@
  */
 package org.kuali.kra.subaward.service;
 
+import javax.servlet.http.HttpServletResponse;
+
+import org.kuali.kra.bo.KraPersistableBusinessObjectBase;
 import org.kuali.kra.bo.versioning.VersionStatus;
 import org.kuali.kra.service.VersionException;
 import org.kuali.kra.subaward.bo.SubAward;
@@ -52,6 +55,13 @@ public interface SubAwardService {
      * @return
      */
     public SubAward getAmountInfo(SubAward subAward);
+    
+    /**
+     * This method will downloadAttachment  to subaward.
+     * @param subAward
+     * @return
+     */
+     public void downloadAttachment(KraPersistableBusinessObjectBase attachmentDataSource, HttpServletResponse response) throws Exception; 
 
 
 }
