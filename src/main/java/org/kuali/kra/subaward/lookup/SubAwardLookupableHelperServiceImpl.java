@@ -17,6 +17,7 @@ package org.kuali.kra.subaward.lookup;
 
 import java.util.ArrayList;
 import java.util.Collection;
+import java.util.Collections;
 import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
@@ -145,12 +146,20 @@ public class SubAwardLookupableHelperServiceImpl extends KraLookupableHelperServ
           BusinessObjectService businessObjectService =  KraServiceLocator.getService(BusinessObjectService.class);
           DocumentService documentService = KraServiceLocator.getService(DocumentService.class);
           Set<String> subAwardCodes = new TreeSet<String>();
+          List<Integer> subAwardCodeList = new ArrayList<Integer>();
+          List<String> subAwardCodeSortedList = new ArrayList<String>();
           for(SubAward subAward: collectionByQuery) {
               subAwardCodes.add(subAward.getSubAwardCode());
           }
-          
+          for(String subAwardCode: subAwardCodes) {
+              subAwardCodeList.add(Integer.parseInt(subAwardCode));
+          }
+          Collections.sort(subAwardCodeList);
+          for(Integer subAward: subAwardCodeList){
+              subAwardCodeSortedList.add(Integer.toString(subAward));
+          }
           List<SubAward> activeSubAwards = new ArrayList<SubAward>();
-          for(String versionName: subAwardCodes) {
+          for(String versionName: subAwardCodeSortedList) {
               VersionHistory versionHistory = versionHistoryService.findActiveVersion(SubAward.class, versionName);
               if(versionHistory != null) {
                   SubAward activeSubAward = (SubAward) versionHistory.getSequenceOwner();
@@ -161,7 +170,6 @@ public class SubAwardLookupableHelperServiceImpl extends KraLookupableHelperServ
           } 
           return activeSubAwards;
       }
-      
     @Override
     protected String getHtmlAction() {
         return "subAwardHome.do";
