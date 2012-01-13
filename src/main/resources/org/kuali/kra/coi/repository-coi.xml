@@ -77,7 +77,7 @@
             <inverse-foreignkey field-ref="coiDisclosureId" />
         </collection-descriptor>
         <collection-descriptor name="coiUserRoles" proxy="true" element-class-ref="org.kuali.kra.coi.CoiUserRole" collection-class="org.apache.ojb.broker.util.collections.ManageableArrayList" auto-retrieve="true" auto-update="object" auto-delete="none">
-            <inverse-foreignkey field-ref="coiUserRolesId"/>
+            <inverse-foreignkey field-ref="coiDisclosureId"/>
         </collection-descriptor>		
 <!-- 
 		<collection-descriptor name="coiDocuments" proxy="true" element-class-ref="org.kuali.kra.bo.CoiDocuments" collection-class="org.apache.ojb.broker.util.collections.ManageableArrayList" auto-retrieve="true" auto-update="object" auto-delete="none">
@@ -590,6 +590,7 @@
 	</class-descriptor>
 	<class-descriptor class="org.kuali.kra.coi.CoiUserRole" table="COI_USER_ROLES">
         <field-descriptor name="coiUserRolesId" column="COI_USER_ROLES_ID" jdbc-type="BIGINT" sequence-name="SEQ_COI_USER_ROLES_ID" primarykey="true"  autoincrement="true" />
+        <field-descriptor name="coiDisclosureId" column="COI_DISCLOSURE_ID" jdbc-type="BIGINT" />
         <field-descriptor name="coiDisclosureNumber" column="COI_DISCLOSURE_NUMBER" jdbc-type="VARCHAR" /> 
         <field-descriptor name="sequenceNumber" column="SEQUENCE_NUMBER" jdbc-type="INTEGER" />       
         <field-descriptor name="roleName" column="ROLE_NM" jdbc-type="VARCHAR" />

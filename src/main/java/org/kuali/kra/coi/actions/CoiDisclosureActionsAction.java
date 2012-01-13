@@ -25,8 +25,10 @@ import org.apache.struts.action.ActionMapping;
 import org.kuali.kra.coi.CoiAction;
 import org.kuali.kra.coi.CoiDisclosureDocument;
 import org.kuali.kra.coi.CoiDisclosureForm;
+import org.kuali.kra.coi.CoiUserRole;
 import org.kuali.kra.infrastructure.Constants;
 import org.kuali.kra.infrastructure.KeyConstants;
+import org.kuali.kra.infrastructure.RoleConstants;
 import org.kuali.kra.irb.actions.submit.ProtocolSubmitActionEvent;
 import org.kuali.kra.web.struts.action.AuditActionHelper;
 import org.kuali.rice.kns.util.GlobalVariables;
@@ -110,9 +112,22 @@ public class CoiDisclosureActionsAction extends CoiAction {
         CoiDisclosureForm coiDisclosureForm = (CoiDisclosureForm) form;
         CoiDisclosureDocument coiDisclosureDocument = coiDisclosureForm.getCoiDisclosureDocument();
         String userName = coiDisclosureForm.getDisclosureActionHelper().getNewCoiUserRole().getUserId();
-        String reviewerType = coiDisclosureForm.getDisclosureActionHelper().getNewCoiUserRole().getReviewerCode();
-        getCoiDisclosureActionService().addCoiUserRole(coiDisclosureDocument.getCoiDisclosure(), userName, reviewerType);
-         
+        String reviewerCode = coiDisclosureForm.getDisclosureActionHelper().getNewCoiUserRole().getReviewerCode();
+        CoiUserRole coiUserRole = new CoiUserRole();
+        coiUserRole.setCoiDisclosureId(coiDisclosureDocument.getCoiDisclosure().getCoiDisclosureId());
+        coiUserRole.setCoiDisclosureNumber(coiDisclosureDocument.getCoiDisclosure().getCoiDisclosureNumber());
+        coiUserRole.setSequenceNumber(coiDisclosureDocument.getCoiDisclosure().getSequenceNumber());
+        coiUserRole.setUserId(userName);
+        coiUserRole.setRoleName(RoleConstants.COI_REVIEWER);
+        coiUserRole.setReviewerCode(reviewerCode);
+        
+        if (checkRule(new AddCoiReviewerEvent("", coiDisclosureDocument.getCoiDisclosure(), coiUserRole))) {
+            coiUserRole.setCoiReviewer(coiDisclosureForm.getDisclosureActionHelper().getCoiReviewer(reviewerCode));
+            coiUserRole.setPerson(coiDisclosureForm.getDisclosureActionHelper().getKcPerson(userName));
+            getCoiDisclosureActionService().addCoiUserRole(coiDisclosureDocument.getCoiDisclosure(), coiUserRole);
+            coiDisclosureForm.getDisclosureActionHelper().setNewCoiUserRole(new CoiUserRole());
+        }
+        
         return mapping.findForward(Constants.MAPPING_BASIC);
 
     }

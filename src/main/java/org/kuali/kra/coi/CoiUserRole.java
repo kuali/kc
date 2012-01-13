@@ -17,16 +17,22 @@ package org.kuali.kra.coi;
 
 import java.util.LinkedHashMap;
 
+import org.kuali.kra.bo.KcPerson;
 import org.kuali.kra.bo.KraPersistableBusinessObjectBase;
 
 public class CoiUserRole extends KraPersistableBusinessObjectBase {
 
     private Long coiUserRolesId; 
+    private Long coiDisclosureId; 
     private String coiDisclosureNumber;
     private Integer sequenceNumber; 
     private String roleName;
     private String userId;
     private String reviewerCode;
+    
+    //transient fields used for display purposes
+    private transient KcPerson person;
+    private transient CoiReviewer coiReviewer;
     
     public Long getCoiUserRolesId() {
         return coiUserRolesId;
@@ -34,6 +40,14 @@ public class CoiUserRole extends KraPersistableBusinessObjectBase {
 
     public void setCoiUserRolesId(Long coiUserRolesId) {
         this.coiUserRolesId = coiUserRolesId;
+    }
+
+    public Long getCoiDisclosureId() {
+        return coiDisclosureId;
+    }
+
+    public void setCoiDisclosureId(Long coiDisclosureId) {
+        this.coiDisclosureId = coiDisclosureId;
     }
 
     public String getCoiDisclosureNumber() {
@@ -87,6 +101,22 @@ public class CoiUserRole extends KraPersistableBusinessObjectBase {
         hashMap.put("reviewerCode", this.getReviewerCode());
         
         return hashMap;
+    }
+
+    public KcPerson getPerson() {
+        return person;
+    }
+
+    public void setPerson(KcPerson person) {
+        this.person = person;
+    }
+
+    public CoiReviewer getCoiReviewer() {
+        return coiReviewer;
+    }
+
+    public void setCoiReviewer(CoiReviewer coiReviewer) {
+        this.coiReviewer = coiReviewer;
     }
 
 }
