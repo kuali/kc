@@ -27,6 +27,7 @@ import org.kuali.kra.coi.CoiDisclosureForm;
 import org.kuali.kra.coi.CoiReviewer;
 import org.kuali.kra.coi.CoiUserRole;
 import org.kuali.kra.coi.auth.CoiDisclosureTask;
+import org.kuali.kra.coi.certification.SubmitDisclosureAction;
 import org.kuali.kra.infrastructure.KraServiceLocator;
 import org.kuali.kra.infrastructure.TaskName;
 import org.kuali.kra.service.KcPersonService;
@@ -45,6 +46,7 @@ public class DisclosureActionHelper implements Serializable {
     
     private CoiUserRole newCoiUserRole;
     private CoiDisclosureForm coiDisclosureForm;
+    private SubmitDisclosureAction submitDisclosureAction;
     private transient BusinessObjectService businessObjectService;
     private transient ParameterService parameterService;
     private transient TaskAuthorizationService taskAuthorizationService;
@@ -58,6 +60,7 @@ public class DisclosureActionHelper implements Serializable {
         businessObjectService = KraServiceLocator.getService(BusinessObjectService.class);
         parameterService = KraServiceLocator.getService(ParameterService.class);
         taskAuthorizationService = KraServiceLocator.getService(TaskAuthorizationService.class);
+        submitDisclosureAction = new SubmitDisclosureAction(this);
         kcPersonService = KraServiceLocator.getService(KcPersonService.class);
     }
 
@@ -159,6 +162,10 @@ public class DisclosureActionHelper implements Serializable {
         this.coiDisclosureForm = coiDisclosureForm;
     }
 
+    public SubmitDisclosureAction getSubmitDisclosureAction() {
+        return submitDisclosureAction;
+    }
+
     private void populateCoiUserRoleData() {
         List<CoiUserRole> userRoles = coiDisclosureForm.getCoiDisclosureDocument().getCoiDisclosure().getCoiUserRoles();
         
@@ -171,6 +178,10 @@ public class DisclosureActionHelper implements Serializable {
         }
     }
     
+    public void setSubmitDisclosureAction(SubmitDisclosureAction submitDisclosureAction) {
+        this.submitDisclosureAction = submitDisclosureAction;
+    }
+
     public List<CoiUserRole> getCoiUserRoles() {
         this.populateCoiUserRoleData();
         return coiDisclosureForm.getCoiDisclosureDocument().getCoiDisclosure().getCoiUserRoles();
@@ -192,7 +203,6 @@ public class DisclosureActionHelper implements Serializable {
         return coiReviewer;
     }
    
-
     public KcPersonService getKcPersonService() {        
         return kcPersonService;
     }
