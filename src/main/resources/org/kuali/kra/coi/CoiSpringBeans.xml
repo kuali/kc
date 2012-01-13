@@ -107,6 +107,10 @@
                 	 <property name="taskName" value="viewCoiRestrictedNotes" />               	
                 </bean>
                 
+                <bean class="org.kuali.kra.coi.auth.MaintainCoiReviewersAuthorizer" parent="parentCoiDisclosureAuthorizer" >
+                     <property name="taskName" value="maintainCoiReviewers" />                
+                </bean>     
+                           
             </list>
         </property>
     </bean>
