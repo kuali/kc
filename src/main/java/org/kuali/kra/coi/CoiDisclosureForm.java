@@ -26,6 +26,8 @@ import org.kuali.kra.authorization.KraAuthorizationConstants;
 import org.kuali.kra.coi.actions.DisclosureActionHelper;
 import org.kuali.kra.coi.disclosure.DisclosureHelper;
 import org.kuali.kra.coi.notesandattachments.CoiNotesAndAttachmentsHelper;
+import org.kuali.kra.coi.notification.CoiNotificationContext;
+import org.kuali.kra.common.notification.web.struts.form.NotificationHelper;
 import org.kuali.kra.web.struts.form.Auditable;
 import org.kuali.kra.web.struts.form.KraTransactionalDocumentFormBase;
 import org.kuali.rice.kns.datadictionary.HeaderNavigation;
@@ -37,10 +39,11 @@ public class CoiDisclosureForm extends KraTransactionalDocumentFormBase implemen
      * Comment for <code>serialVersionUID</code>
      */
     private static final long serialVersionUID = -5620344612882618024L;
-    private DisclosureHelper disclosureHelper;
-    private DisclosureActionHelper disclosureActionHelper;
+    private transient DisclosureHelper disclosureHelper;
+    private transient DisclosureActionHelper disclosureActionHelper;
     private boolean auditActivated;
     private transient CoiNotesAndAttachmentsHelper coiNotesAndAttachmentsHelper;
+    private transient NotificationHelper<CoiNotificationContext> notificationHelper;
     
     //TODO : coiDisclosureStatusCode : this is just a quick set up here for 'approve' action to test 'master disclosure'
     // this should be moved to disclosureactionhelper when 'action' is really implemented
@@ -168,4 +171,13 @@ public class CoiDisclosureForm extends KraTransactionalDocumentFormBase implemen
     public void setDisclosureActionHelper(DisclosureActionHelper disclosureActionHelper) {
         this.disclosureActionHelper = disclosureActionHelper;
     }
+
+    public NotificationHelper<CoiNotificationContext> getNotificationHelper() {
+        return notificationHelper;
+    }
+
+    public void setNotificationHelper(NotificationHelper<CoiNotificationContext> notificationHelper) {
+        this.notificationHelper = notificationHelper;
+    }
+    
 }

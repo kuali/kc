@@ -109,7 +109,7 @@
 										</c:choose>
                                     </td>
                                     <td id="certSubmit" style="border:none; background:none; text-align:center;" rowspan="2">
-											<html:image property="methodToCall.saveDisclosureCertification"
+											<html:image property="methodToCall.submitDisclosureCertification"
 													    src="${ConfigProperties.kra.externalizable.images.url}tinybutton-submit.gif" 
 														title="Submit disclosure certification" alt="Submit disclosure certification" 
 														styleClass="tinybutton" />
