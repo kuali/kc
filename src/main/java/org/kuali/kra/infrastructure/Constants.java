@@ -779,6 +779,8 @@ public interface Constants {
     public static final String MAPPING_SUBAWARD_CONTACT_PANEL = "Contacts";
     // coi
     public static final String MODULE_NAMESPACE_COIDISCLOSURE = "KC-COIDISCLOSURE";
+    public static final String PARAMETER_COI_ATTACHMENT_DEFAULT_SORT = "coiAttachmentDefaultSort";
+
     
     //Negotiations
     public static final String NEGOTIATION_SEQUENCE_NAME = "NEGOTIATION_S";
