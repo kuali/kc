@@ -23,7 +23,6 @@ import java.text.SimpleDateFormat;
 import java.util.ArrayList;
 import java.util.Calendar;
 import java.util.Collections;
-import java.util.HashMap;
 import java.util.LinkedHashMap;
 import java.util.List;
 import java.util.Map;
@@ -134,7 +133,7 @@ public class CoiDisclosure extends KraPersistableBusinessObjectBase implements S
         this.setSequenceNumber(1);
         initCoiDisclosureNumber();
         getDisclosureReporter();
-
+        initializeCoiAttachmentFilter();
         coiUserRoles = new ArrayList<CoiUserRole>();
 
     } 
@@ -497,7 +496,7 @@ public class CoiDisclosure extends KraPersistableBusinessObjectBase implements S
         return dateTimeService;
     }
     /**
-     * Adds a attachment to a Protocol where the type of attachment is used to determine
+     * Adds a attachment to a CoiDisclosure
      * where to add the attachment.
      * @param attachment the attachment
      * @throws IllegalArgumentException if attachment is null or if an unsupported attachment is found
@@ -559,24 +558,20 @@ public class CoiDisclosure extends KraPersistableBusinessObjectBase implements S
     protected void addCoiDisclosureAttachment(CoiDisclosureAttachment coiDisclosureAttachment) {
         CoiDisclosureAttachment.addAttachmentToCollection(coiDisclosureAttachment, this.getCoiDisclosureAttachments());
     }
-    
-    /**
-     * removes an attachment to a Protocol where the type of attachment is used to determine
-     * where to add the attachment.
-     * @param attachment the attachment
-     * @throws IllegalArgumentException if attachment is null or if an unsupported attachment is found
-     */
-  /*  public <T extends ProtocolAttachmentBase> void removeAttachmentsByType(T attachment) {
-        if (attachment == null) {
-            throw new IllegalArgumentException("the attachment is null");
-        }
+  
+    public void initializeCoiAttachmentFilter() {
+        newAttachmentFilter = new CoiDisclosureAttachmentFilter();
         
-        if (attachment instanceof ProtocolAttachmentProtocol) {
-            this.removeAttachmentProtocol((ProtocolAttachmentProtocol) attachment);
-        } else {
-            throw new IllegalArgumentException("unsupported type: " + attachment.getClass().getName());
-        }
-    }*/
+        //Lets see if there is a default set for the attachment sort
+        try {
+            String defaultSortBy = getParameterService().getParameterValue(CoiDisclosureDocument.class, Constants.PARAMETER_COI_ATTACHMENT_DEFAULT_SORT);
+            if (StringUtils.isNotBlank(defaultSortBy)) {
+                newAttachmentFilter.setSortBy(defaultSortBy);
+            }
+        } catch (Exception e) {
+            //No default found, do nothing.
+        }        
+    }
     
     public void setCoiDisclosureAttachmentFilter(CoiDisclosureAttachmentFilter newAttachmentFilter) {
         this.newAttachmentFilter = newAttachmentFilter;      
