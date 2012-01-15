@@ -46,12 +46,12 @@ public class CoiDisclosureAttachmentFilter implements Serializable {
     }
 
     class CoiDisclosureAttachmentComparatorFactory {
-        public Comparator<CoiDisclosureAttachment> getCoiDisclosureAttachmentComparator(String sortBy) {
-            if ("DESC".equalsIgnoreCase(sortBy)) {
+        public Comparator<CoiDisclosureAttachment> getCoiDisclosureAttachmentComparator(String sortByCriteria) {
+            if ("DESC".equalsIgnoreCase(sortByCriteria)) {
                 return new CoiDisclosureAttachmentDescriptionComparator();
-            } else if ("LAUP".equalsIgnoreCase(sortBy)) {
+            } else if ("LAUP".equalsIgnoreCase(sortByCriteria)) {
                 return new CoiDisclosureAttachmentLastUpdatedComparator();
-            } else if ("UPBY".equalsIgnoreCase(sortBy)) {
+            } else if ("UPBY".equalsIgnoreCase(sortByCriteria)) {
                 return new CoiDisclosureAttachmentLastUpdatedByComparator();
             } else {
                 return null;
@@ -59,30 +59,21 @@ public class CoiDisclosureAttachmentFilter implements Serializable {
         }
     }
 
-    private class CoiDisclosureAttachmentDescriptionComparator implements Comparator<CoiDisclosureAttachment>
-    {
-    
+    private class CoiDisclosureAttachmentDescriptionComparator implements Comparator<CoiDisclosureAttachment> {
         public int compare(CoiDisclosureAttachment arg0, CoiDisclosureAttachment arg1) {
             return arg0.getDescription().compareTo(arg1.getDescription());
         }
-        
     }
     
-    private class CoiDisclosureAttachmentLastUpdatedComparator implements Comparator<CoiDisclosureAttachment>
-    {
-    
+    private class CoiDisclosureAttachmentLastUpdatedComparator implements Comparator<CoiDisclosureAttachment> {
         public int compare(CoiDisclosureAttachment o1, CoiDisclosureAttachment o2) {
             return o1.getUpdateTimestamp().compareTo(o2.getUpdateTimestamp());
         }
-        
     }
     
-    private class CoiDisclosureAttachmentLastUpdatedByComparator implements Comparator<CoiDisclosureAttachment>
-    {
-    
+    private class CoiDisclosureAttachmentLastUpdatedByComparator implements Comparator<CoiDisclosureAttachment> {
         public int compare(CoiDisclosureAttachment o1, CoiDisclosureAttachment o2) {
-            return o1.getUpdateUserFullName().compareTo(o2.getUpdateUserFullName());
+            return o1.getUpdateUser().compareTo(o2.getUpdateUser());
         }
-        
     }
 }

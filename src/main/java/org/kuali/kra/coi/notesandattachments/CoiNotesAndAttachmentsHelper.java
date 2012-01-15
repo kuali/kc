@@ -73,7 +73,7 @@ public class CoiNotesAndAttachmentsHelper {
     private boolean modifyAttachments;
     private boolean modifyNotepads;
 
-    
+
     public CoiNotesAndAttachmentsHelper(CoiDisclosureForm coiDisclosureForm) {
         this.coiDisclosureForm = coiDisclosureForm;
         this.businessObjectService = KraServiceLocator.getService(BusinessObjectService.class);
@@ -81,19 +81,19 @@ public class CoiNotesAndAttachmentsHelper {
         this.dateTimeService = KraServiceLocator.getService(DateTimeService.class);       
         filesToDelete = new ArrayList<AttachmentFile>();
     }
-    
+
     public CoiDisclosureAttachment getNewCoiDisclosureAttachment() {
         if (this.newCoiDisclosureAttachment == null) {
             this.initCoiDisclosureAttachment();
         }
-        
+
         return this.newCoiDisclosureAttachment;
     }
-    
+
     public void prepareView() {
         this.initializePermissions();      
     }
-    
+
     /**
      * Initialize the permissions for viewing/editing the Custom Data web page.
      */
@@ -102,19 +102,19 @@ public class CoiNotesAndAttachmentsHelper {
         modifyNotepads = canMaintainCoiDisclosureNotes();
         viewRestricted = canViewRestrictedProtocolNotepads();
     }
-   
+
     public boolean isModifyAttachments() {
         return this.modifyAttachments;
     }
-    
+
     public boolean isModifyNotepads() {
         return modifyNotepads;
     }
-    
+
     public void setNewCoiDisclosureAttachment(CoiDisclosureAttachment coiDisclosureAttachment) {
         this.newCoiDisclosureAttachment = coiDisclosureAttachment;
     }
-    
+
     private void initCoiDisclosureAttachment() {
         this.setNewCoiDisclosureAttachment(new CoiDisclosureAttachment(this.getCoiDisclosure()));
     }
@@ -122,11 +122,11 @@ public class CoiNotesAndAttachmentsHelper {
     public CoiDisclosureForm getCoiDisclosureForm() {
         return coiDisclosureForm;
     }
-    
+
     public void setCoiDisclosureForm(CoiDisclosureForm coiDisclosureForm) {
         this.coiDisclosureForm = coiDisclosureForm;
     }
-    
+
     public boolean isViewRestricted() {
         return viewRestricted;
     }
@@ -143,34 +143,34 @@ public class CoiNotesAndAttachmentsHelper {
         CoiDisclosureTask task = new CoiDisclosureTask(TaskName.MAINTAIN_COI_DISCLOSURE_NOTES, getCoiDisclosure());
         return getTaskAuthorizationService().isAuthorized(getUserIdentifier(), task); 
     }
-    
+
     protected boolean canMaintainCoiDisclosureAttachments() {
         CoiDisclosureTask task = new CoiDisclosureTask(TaskName.MAINTAIN_COI_DISCLOSURE_ATTACHMENTS, getCoiDisclosure());
         return getTaskAuthorizationService().isAuthorized(getUserIdentifier(), task); 
     }
-    
+
     protected TaskAuthorizationService getTaskAuthorizationService() {
         return KraServiceLocator.getService(TaskAuthorizationService.class);
     }
-    
+
     protected String getUserIdentifier() {
         return GlobalVariables.getUserSession().getPrincipalId();
     }
-    
-    
+
+
     /**
-     * Adds the "new" ProtocolAttachmentProtocol to the Protocol Document.  Before
+     * Adds the "new" coiDisclosureAttachment to the CoiDisclosure Document.  Before
      * adding this method executes validation.  If the validation fails the attachment is not added.
      */
     public void addNewCoiDisclosureAttachment() {
         this.refreshAttachmentReferences(Collections.singletonList(this.getNewCoiDisclosureAttachment()));
         this.syncNewFiles(Collections.singletonList(this.getNewCoiDisclosureAttachment()));
-      
-        
+
+
         final AddCoiDisclosureAttachmentRule rule = new AddCoiDisclosureAttachmentRuleImpl();
         final AddCoiDisclosureAttachmentEvent event = new AddCoiDisclosureAttachmentEvent(coiDisclosureForm.getDocument(), newCoiDisclosureAttachment);
-        
-        
+
+
         assignDocumentId(Collections.singletonList(this.getNewCoiDisclosureAttachment()), 
                 this.createTypeToMaxDocNumber(getCoiDisclosure().getCoiDisclosureAttachments()));
         if (rule.processAddCoiDisclosureAttachmentRules(event)) {
@@ -181,9 +181,9 @@ public class CoiNotesAndAttachmentsHelper {
 
             this.initCoiDisclosureAttachment();
         }
-       
+
     }
- 
+
     public BusinessObjectService getBusinessObjectService() {
         return businessObjectService;
     }
@@ -199,43 +199,43 @@ public class CoiNotesAndAttachmentsHelper {
     /**
      * initializes a new attachment personnel setting the protocol id.
      */
-  /*  protected void initNewAttachment() {
+    /*  protected void initNewAttachment() {
         this.setNewCoiDisclosureAttachment(new CoiDisclosureAttachment(this.getCoiDisclosure()));
     }*/
-   
+
     public <T extends CoiDisclosureAttachment> String retrieveConfirmMethodByType() {
         final String confirmMethod;
-         
-            confirmMethod = CONFIRM_YES_DELETE_ATTACHMENT;
-        
+
+        confirmMethod = CONFIRM_YES_DELETE_ATTACHMENT;
+
         return confirmMethod;
     }
-    
+
     public <T extends CoiDisclosureAttachment> T retrieveExistingAttachmentByType(final int attachmentNumber) {
         final T attachment;
         attachment = (T) retrieveExistingAttachment(attachmentNumber, getCoiDisclosure().getCoiDisclosureAttachments());
         return attachment;
     }
-    
+
     private static <T extends CoiDisclosureAttachment> T retrieveExistingAttachment(final int index, final List<T> attachments) {
         return CollectionUtil.getFromList(index, attachments);
     }
-    
+
     private <T extends CoiDisclosureAttachment> Map<String, Integer> createTypeToMaxDocNumber(final Collection<T> attachments) {
         assert attachments != null : "the attachments was null";
-       
+
         final Map<String, Integer> typeToDocNumber = new HashMap<String, Integer>();
-        
+
         for (final T attachment : attachments) {
             final Integer curMax = typeToDocNumber.get(ATTACHMENT_TYPE_CD);
             if (curMax == null || curMax.intValue() < attachment.getDocumentId().intValue()) {
                 typeToDocNumber.put(ATTACHMENT_TYPE_CD, attachment.getDocumentId());
             }
         }
-        
+
         return typeToDocNumber;
     }
-    
+
     /**
      * Creates the next doc number from a passed in doc number.  If null 1 is returned.
      * @param docNumber the doc number to base the new number off of.
@@ -244,32 +244,16 @@ public class CoiNotesAndAttachmentsHelper {
     private static Integer createNextDocNumber(final Integer docNumber) {
         return docNumber == null ? NumberUtils.INTEGER_ONE : Integer.valueOf(docNumber.intValue() + 1);
     }
-    
+
     /**
      * This method...
      * @param attachments
      */
     private void assignDocumentId(List<CoiDisclosureAttachment> attachments, final Map<String, Integer> typeToDocNumber) {
         for (CoiDisclosureAttachment attachment : attachments) {
-           // if (attachment.isNew()) {
-                final Integer nextDocNumber = createNextDocNumber(typeToDocNumber.get(ATTACHMENT_TYPE_CD));
-                attachment.setDocumentId(nextDocNumber);
-            //}
+            final Integer nextDocNumber = createNextDocNumber(typeToDocNumber.get(ATTACHMENT_TYPE_CD));
+            attachment.setDocumentId(nextDocNumber);
         }
-    }
-     
-
-    /** 
-     * Removes an attachment from the passed in List if a valid index.
-     * @param <T> the attachment type
-     * @param the attachment to add
-     * @param attachments the attachment list to add the attachment to
-     */
-    private <T extends CoiDisclosureAttachment> void addNewAttachment(final T attachment) {
-    
-            getCoiDisclosure().addAttachmentsByType(attachment);
-            getBusinessObjectService().save(attachment);
-  
     }
 
     /**
@@ -277,13 +261,10 @@ public class CoiNotesAndAttachmentsHelper {
      */
     private void initAttachmentFilter() {
         CoiDisclosureAttachmentFilter disclosureFilter = new CoiDisclosureAttachmentFilter();
-        
+
         //Lets see if there is a default set for the attachment sort
         try {
-            /*
-             * Change this to coi param
-             */
-            String defaultSortBy = parameterService.getParameterValue(ProtocolDocument.class, Constants.PARAMETER_PROTOCOL_ATTACHMENT_DEFAULT_SORT);
+            String defaultSortBy = parameterService.getParameterValue(ProtocolDocument.class, Constants.PARAMETER_COI_ATTACHMENT_DEFAULT_SORT);
             if (StringUtils.isNotBlank(defaultSortBy)) {
                 disclosureFilter.setSortBy(defaultSortBy);
             }
@@ -299,13 +280,13 @@ public class CoiNotesAndAttachmentsHelper {
         if (this.coiDisclosureForm.getDocument() == null) {
             throw new IllegalArgumentException("the document is null");
         }
-        
+
         if (this.coiDisclosureForm.getCoiDisclosureDocument().getCoiDisclosure() == null) {
             throw new IllegalArgumentException("the coiDisclosure is null");
         }
         return this.coiDisclosureForm.getCoiDisclosureDocument().getCoiDisclosure();
     }
-    
+
     public CoiDisclosureAttachmentFilter getNewAttachmentFilter() {
         if (newAttachmentFilter == null) {
             this.initAttachmentFilter();
@@ -316,26 +297,26 @@ public class CoiNotesAndAttachmentsHelper {
     public void setNewAttachmentFilter(CoiDisclosureAttachmentFilter newAttachmentFilter) {
         this.newAttachmentFilter = newAttachmentFilter;
     }
-    
+
     public void addNewCoiDisclosureAttachmentFilter() {
         this.getCoiDisclosure().setCoiDisclosureAttachmentFilter(getNewAttachmentFilter());
     }
 
     public void processSave() {
-       refreshAttachmentReferences(this.getCoiDisclosure().getCoiDisclosureAttachments());
-        
+        refreshAttachmentReferences(this.getCoiDisclosure().getCoiDisclosureAttachments());
+
         syncNewFiles(getCoiDisclosure().getCoiDisclosureAttachments());
-        
-       /* if (this.versioningUtil.versioningRequired()) {
+
+        /* if (this.versioningUtil.versioningRequired()) {
             this.versioningUtil.versionExstingAttachments();
         }*/
-       
+
     }
 
-    
+
     protected void syncNewFiles(List<CoiDisclosureAttachment> coiDisclosureAttachments) {
         assert coiDisclosureAttachments != null : "the attachments was null";
-        
+
         for (final CoiDisclosureAttachment attachment : coiDisclosureAttachments) {
             if (CoiNotesAndAttachmentsHelper.doesNewFileExist(attachment)) {
                 final AttachmentFile newFile = AttachmentFile.createFromFormFile(attachment.getNewFile());
@@ -348,7 +329,7 @@ public class CoiNotesAndAttachmentsHelper {
                 attachment.setNewFile(null);
             }
         }
-        
+
     }
 
     private static boolean doesNewFileExist(CoiDisclosureAttachment attachment) {
@@ -358,14 +339,14 @@ public class CoiNotesAndAttachmentsHelper {
 
     private void refreshAttachmentReferences(List<CoiDisclosureAttachment> coiDisclosureAttachments) {
         assert coiDisclosureAttachments != null : "the attachments was null";
-        
+
         for (final CoiDisclosureAttachment attachment : coiDisclosureAttachments) {   
             if (attachment instanceof CoiDisclosureAttachment) {
                 attachment.refreshReferenceObject("status");   
             }
-            
+
         }
-        
+
     }
 
     public List<AttachmentFile> getFilesToDelete() {
@@ -375,12 +356,8 @@ public class CoiNotesAndAttachmentsHelper {
     public void setFilesToDelete(List<AttachmentFile> filesToDelete) {
         this.filesToDelete = filesToDelete;
     }
-    
-    /*
-     * Narrative = CoiDisclosureAttachment
-     * NarrativeAttachment = newFile
-     */
-    
+
+
     public void fixReloadedAttachments(Map parameterMap) {
         Iterator keys = parameterMap.keySet().iterator();
         while (keys.hasNext()) {
@@ -409,16 +386,16 @@ public class CoiNotesAndAttachmentsHelper {
                                 getBusinessObjectService().save(attachment);
                             }
                         } catch (Exception e) {
-                            
+
                         }
 
                     }
                 }
             } catch(Exception e) {
-                
+
             }
         }
-        
+
     }
 
     public boolean deleteExistingAttachmentByType(final int attachmentNumber) {
@@ -429,25 +406,11 @@ public class CoiNotesAndAttachmentsHelper {
     }
 
     protected <T extends CoiDisclosureAttachment> boolean deleteExistingAttachment(final int index, final List<T> attachments) {
-        
+
         if (!CollectionUtil.validIndexForList(index, attachments)) {
             return false;
         }
-        // original
-       /* //filesToDelete.add(attachments.get(index).getFile());
-        attachments.remove(index);
-        
-        for ( CoiDisclosureAttachment coiDisclosureAttachment : attachments) {
-            System.out.println("attachment is " + coiDisclosureAttachment);
-        }
-       // (List<CoiDisclosureAttachment>) attachments;
-        getCoiDisclosure().setCoiDisclosureAttachments((List<CoiDisclosureAttachment>) attachments);
-        for ( CoiDisclosureAttachment coiDisclosureAttachment : getCoiDisclosure().getCoiDisclosureAttachments()) {
-            System.out.println("attachment is " + coiDisclosureAttachment);
-        }
-        getBusinessObjectService().save(getCoiDisclosure());
-        */
-        // original
+
         CoiDisclosureAttachment attachment = attachments.get(index);
         getBusinessObjectService().delete(attachment);
         attachments.remove(attachment);
@@ -463,7 +426,7 @@ public class CoiNotesAndAttachmentsHelper {
             initCoiDisclosureNotepad();
         }
         return newCoiDisclosureNotepad;
-        
+
     }
 
     private void initCoiDisclosureNotepad() {
@@ -471,11 +434,11 @@ public class CoiNotesAndAttachmentsHelper {
         notepad.setEntryNumber(getNextEntryNumber());
         this.setNewCoiDisclosureNotepad(notepad);
     }
-    
+
     public void addNewNote() {
         final AddCoiDisclosureNotepadRule rule = new AddCoiDisclosureNotepadRuleImpl();
         final AddCoiDisclosureNotepadEvent event = new AddCoiDisclosureNotepadEvent((CoiDisclosureDocument) coiDisclosureForm.getDocument(), this.newCoiDisclosureNotepad);
-        
+
         if (!rule.processAddCoiDisclosureNotepadRules(event)) {
             return;
         }
@@ -493,36 +456,36 @@ public class CoiNotesAndAttachmentsHelper {
         notepad.setSequenceNumber(getCoiDisclosure().getSequenceNumber());        
         notepad.setEntryNumber(getNextEntryNumber());
         this.getCoiDisclosure().getCoiDisclosureNotepads().add(notepad);   
-        
+
     }
 
     protected DocumentService getDocumentService() {
         return KraServiceLocator.getService(DocumentService.class);    
     }
-    
+
     protected void setUpdateFields(KraPersistableBusinessObjectBase bo) {
         bo.setUpdateUser(GlobalVariables.getUserSession().getPrincipalName());
         bo.setUpdateTimestamp(dateTimeService.getCurrentTimestamp());
     }
 
-   
+
     /** gets the next entry number based on previously generated numbers. */
     private Integer getNextEntryNumber() {       
         return getCoiDisclosure().getCoiDisclosureNotepads().size() + 1;
     }
-    
+
     public void setManageNotesOpen() {
-        
+
     }
 
     public boolean deleteNote(int noteToDelete) {
-       // rules check?
+        // rules check?
         this.deleteNotepad(noteToDelete);
         return true;
     }
-   
+
     private void deleteNotepad(int noteToDelete) {
         this.getCoiDisclosure().getCoiDisclosureNotepads().remove(noteToDelete);
     }
-  
+
 }
