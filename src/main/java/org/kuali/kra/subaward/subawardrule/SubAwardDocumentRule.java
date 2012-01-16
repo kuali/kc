@@ -15,7 +15,10 @@
  */
 package org.kuali.kra.subaward.subawardrule;
 
+import org.kuali.kra.award.home.Award;
+import org.kuali.kra.award.home.AwardService;
 import org.kuali.kra.infrastructure.KeyConstants;
+import org.kuali.kra.infrastructure.KraServiceLocator;
 import org.kuali.kra.rules.ResearchDocumentRuleBase;
 import org.kuali.kra.subaward.bo.SubAward;
 import org.kuali.kra.subaward.bo.SubAwardAmountInfo;
@@ -326,7 +329,10 @@ public class SubAwardDocumentRule extends ResearchDocumentRuleBase implements Su
             for(SubAwardFundingSource fundingSource : subAward.getSubAwardFundingSourceList()){
                 if(fundingSource.getAwardId().equals(subAwardFundingSource.getAwardId())){
                     rulePassed = false;
-                    reportError(AWARD_NUMBER, KeyConstants.ERROR_REQUIRED_SUBAWARD_FUNDING_SOURCE_AWARD_NUMBER_DUPLICATE, new String[] {subAwardFundingSource.getAwardId().toString()});
+                   	AwardService awardService = KraServiceLocator.getService(AwardService.class);
+                   	Award award = awardService.getAward(fundingSource.getAwardId());
+                    
+                    reportError(AWARD_NUMBER, KeyConstants.ERROR_REQUIRED_SUBAWARD_FUNDING_SOURCE_AWARD_NUMBER_DUPLICATE, new String[] {award.getAwardNumber()});
                 }
             }
         }
