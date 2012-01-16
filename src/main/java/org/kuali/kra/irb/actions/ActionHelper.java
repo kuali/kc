@@ -125,7 +125,6 @@ public class ActionHelper implements Serializable {
     private boolean canSubmitProtocol = false;
     private boolean canSubmitProtocolUnavailable = false;
     private String submissionConstraint;
-    
     private boolean canCreateAmendment = false;
     private boolean canCreateAmendmentUnavailable = false;
     private boolean canModifyAmendmentSections = false;
@@ -954,7 +953,7 @@ public class ActionHelper implements Serializable {
     
     private boolean hasModifyAmendmentSectionsPermission() {
         ProtocolTask task = new ProtocolTask(TaskName.MODIFY_PROTOCOL_AMMENDMENT_SECTIONS, getProtocol());
-        return getTaskAuthorizationService().isAuthorized(getUserIdentifier(), task);
+        return ((!getProtocol().isRenewalWithoutAmendment())&&(getTaskAuthorizationService().isAuthorized(getUserIdentifier(), task)));
     }
     
     private boolean hasModifyAmendmentSectionsUnavailablePermission() {
