@@ -17,6 +17,7 @@ package org.kuali.kra.irb.actions.notification;
 
 import java.util.Map;
 
+import org.apache.commons.lang.StringUtils;
 import org.kuali.kra.irb.Protocol;
 import org.kuali.kra.irb.notification.IRBNotificationRenderer;
 
@@ -55,7 +56,8 @@ public class NotifyIrbNotificationRenderer extends IRBNotificationRenderer {
     @Override
     public Map<String, String> getDefaultReplacementParameters() {
         Map<String, String> params = super.getDefaultReplacementParameters();
-        params.put("{ACTION_COMMENTS}", actionComments);
+        params.put("{ACTION_COMMENTS}", getSafeMessage("{ACTION_COMMENTS}", actionComments));
+
         return params;
     }
 
