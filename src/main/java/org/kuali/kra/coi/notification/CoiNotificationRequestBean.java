@@ -17,35 +17,32 @@ package org.kuali.kra.coi.notification;
 
 import java.io.Serializable;
 
-import org.kuali.kra.irb.Protocol;
-import org.kuali.kra.irb.onlinereview.ProtocolOnlineReview;
+import org.kuali.kra.coi.CoiDisclosure;
 
 public class CoiNotificationRequestBean implements Serializable {
 
-    private Protocol protocol;
+    private CoiDisclosure coiDisclosure;
     private String actionType;
     private String description;
     private String docNumber;
 
-    public CoiNotificationRequestBean(Protocol protocol, String actionType, String description) {
-        this.protocol = protocol;
+    public CoiNotificationRequestBean(CoiDisclosure coiDisclosure, String actionType, String description) {
+        this.coiDisclosure = coiDisclosure;
         this.actionType = actionType;
         this.description = description;
-        
     }
     
-    public CoiNotificationRequestBean(Protocol protocol, String actionType, String description, String docNumber) {
-        this(protocol, actionType, description);
+    public CoiNotificationRequestBean(CoiDisclosure coiDisclosure, String actionType, String description, String docNumber) {
+        this(coiDisclosure, actionType, description);
         this.docNumber = docNumber;
-        
     }
     
-    public Protocol getProtocol() {
-        return protocol;
+    public CoiDisclosure getCoiDisclosure() {
+        return coiDisclosure;
     }
 
-    public void setProtocol(Protocol protocol) {
-        this.protocol = protocol;
+    public void setCoiDisclosure(CoiDisclosure coiDisclosure) {
+        this.coiDisclosure = coiDisclosure;
     }
 
     public String getActionType() {
