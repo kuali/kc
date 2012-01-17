@@ -25,11 +25,13 @@ public class CoeusModule extends KraPersistableBusinessObjectBase {
     public static final String INSTITUTIONAL_PROPOSAL_MODULE_CODE = "2";
     public static final String PROPOSAL_DEVELOPMENT_MODULE_CODE = "3";
     public static final String IRB_MODULE_CODE = "7";
+    public static final String COMMITTEE_MODULE_CODE = "9";
     
     public static final int AWARD_MODULE_CODE_INT = 1;
     public static final int INSTITUTIONAL_PROPOSAL_MODULE_CODE_INT = 2;
     public static final int PROPOSAL_DEVELOPMENT_MODULE_CODE_INT = 3;
     public static final int IRB_MODULE_CODE_INT = 7;
+    public static final int COMMITEE_MODULE_CODE_INT = 9;
     
     private static final long serialVersionUID = 1L;
 
