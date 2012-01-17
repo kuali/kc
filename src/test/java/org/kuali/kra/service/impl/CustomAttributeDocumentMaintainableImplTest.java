@@ -37,7 +37,7 @@ public class CustomAttributeDocumentMaintainableImplTest extends KcUnitTestBase 
     CustomAttributeDocumentMaintainableImpl maintainable;
     
     private static final String IMPLEMENTED_MODS = "1,2,3,7";
-    private static final String NON_IMPLEMENTED_MODS = "4,5,6,8";
+    private static final String NON_IMPLEMENTED_MODS = "4,5,6,8,11";
 
     @Before
     public void setUp() throws Exception {
@@ -53,7 +53,7 @@ public class CustomAttributeDocumentMaintainableImplTest extends KcUnitTestBase 
 
     @Test
     public void testConvertModuleNumberToDocumentTypeCode() {
-        assertEquals(8, modules.size());
+        assertEquals(9, modules.size());
         for(CoeusModule module : modules) {
             if (IMPLEMENTED_MODS.contains(module.getModuleCode())) {
                 String results = maintainable.convertModuleNumberToDocumentTypeCode(Integer.parseInt(module.getModuleCode()));
