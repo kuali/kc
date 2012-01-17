@@ -15,6 +15,8 @@
  */
 package org.kuali.kra.coi.actions;
 
+import org.apache.struts.action.ActionForward;
+import org.apache.struts.action.ActionMapping;
 import org.kuali.kra.coi.CoiDisclosure;
 import org.kuali.kra.coi.CoiDisclosureDocument;
 import org.kuali.kra.coi.CoiDisclosureForm;
@@ -54,6 +56,10 @@ public interface CoiDisclosureActionService {
      * @param coiDisclosure
      * @param submitDisclosureAction
      */
-    void submitToWorkflow(CoiDisclosureDocument coiDisclosureDocument, CoiDisclosureForm coiDisclosureForm, SubmitDisclosureAction submitDisclosureAction);
+    void submitToWorkflow(CoiDisclosureDocument coiDisclosureDocument, CoiDisclosureForm coiDisclosureForm, 
+                          SubmitDisclosureAction submitDisclosureAction);
+
+    public ActionForward sendCertificationNotifications(CoiDisclosureDocument coiDisclosureDocument, CoiDisclosureForm coiDisclosureForm, 
+                                                        SubmitDisclosureAction submitDisclosureAction, ActionMapping mapping);
 
 }
