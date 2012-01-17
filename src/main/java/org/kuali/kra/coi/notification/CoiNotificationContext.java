@@ -40,6 +40,7 @@ public class CoiNotificationContext extends NotificationContextBase {
     private String coiDisclosureDocumentNumber;
     private String actionTypeCode;
     private String contextName;
+    private String forwardName;
     private CoiNotificationRoleQualifierService coiNotificationRoleQualifierService;
     
     /**
@@ -66,7 +67,7 @@ public class CoiNotificationContext extends NotificationContextBase {
      * @see org.kuali.kra.common.notification.NotificationContextBase#getModuleCode()
      */
     public String getModuleCode() {
-        return CoeusModule.IRB_MODULE_CODE;
+        return CoeusModule.COI_DISCLOSURE_MODULE_CODE;
     }
     
     /**
@@ -118,12 +119,20 @@ public class CoiNotificationContext extends NotificationContextBase {
         return null;
     }
  
-    public CoiNotificationRoleQualifierService getCommitteeNotificationRoleQualifierService() {
+    public CoiNotificationRoleQualifierService getCoiNotificationRoleQualifierService() {
         return coiNotificationRoleQualifierService;
     }
     
-    public void setCommitteeNotificationRoleQualifierService(CoiNotificationRoleQualifierService committeeNotificationRoleQualifierService) {
-        this.coiNotificationRoleQualifierService= coiNotificationRoleQualifierService;
+    public void setCoiNotificationRoleQualifierService(CoiNotificationRoleQualifierService coiNotificationRoleQualifierService) {
+        this.coiNotificationRoleQualifierService = coiNotificationRoleQualifierService;
+    }
+
+    public String getForwardName() {
+        return forwardName;
+    }
+
+    public void setForwardName(String forwardName) {
+        this.forwardName = forwardName;
     }
 
     

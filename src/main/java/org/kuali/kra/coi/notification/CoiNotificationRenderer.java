@@ -21,12 +21,10 @@ import org.apache.commons.lang.StringUtils;
 import org.kuali.kra.coi.CoiDisclosure;
 import org.kuali.kra.common.notification.NotificationRendererBase;
 import org.kuali.kra.infrastructure.KraServiceLocator;
-import org.kuali.kra.irb.notification.IRBReplacementParameters;
 import org.kuali.kra.service.KcPersonService;
 import org.kuali.rice.kns.service.BusinessObjectService;
 import org.kuali.rice.kns.service.KNSServiceLocator;
 import org.kuali.rice.kns.service.KualiConfigurationService;
-import org.kuali.rice.kns.util.GlobalVariables;
 
 /**
  * Renders fields for the IRB notifications.
@@ -58,13 +56,15 @@ public class CoiNotificationRenderer extends NotificationRendererBase {
         String key = null;
         for (int i = 0; i < replacementParameters.length; i++) {
             key = replacementParameters[i];
-            if (StringUtils.equals(key, CoiReplacementParameters.DISCLOSURE_TYPE)) {
-//TODO: following is not right. Where do we get disclosure type?
-                params.put(key, coiDisclosure.getEventTypeCode());
-            } else if (StringUtils.equals(key, IRBReplacementParameters.SEQUENCE_NUMBER)) {
-                params.put(key, coiDisclosure.getSequenceNumber().toString());
-            } else if (StringUtils.equals(key, IRBReplacementParameters.DOCUMENT_NUMBER)) {
-                params.put(key, coiDisclosure.getCoiDisclosureDocument().getDocumentNumber());
+            if (StringUtils.equals(key, CoiReplacementParameters.SEQUENCE_NUMBER)) {
+                params.put(key, getCoiDisclosure().getSequenceNumber().toString());
+            } else if (StringUtils.equals(key, CoiReplacementParameters.DISCLOSURE_TYPE)) {
+            	//TODO: following is not right. Where do we get disclosure type?
+                params.put(key, coiDisclosure.getEventTypeCode());            	
+            } else if (StringUtils.equals(key, CoiReplacementParameters.DOCUMENT_NUMBER)) {
+                params.put(key, getCoiDisclosure().getCoiDisclosureDocument().getDocumentNumber());
+            } else if (StringUtils.equals(key, CoiReplacementParameters.DISCLOSURE_ID)) {
+                params.put(key,getCoiDisclosure().getCoiDisclosureId().toString());
             }
         }
         return params;

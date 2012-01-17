@@ -480,6 +480,10 @@
           <forward name="basic" path="/WEB-INF/jsp/coi/CoiNoteAndAttachment.jsp" />
           &coi_forwards;
        </action>
+       <action path="/coiDisclosureNotificationEditor" name="CoiDisclosureForm" input="/WEB-INF/jsp/coi/CoiDisclosureNotificationEditor.jsp" type="org.kuali.kra.coi.CoiNotificationEditorAction" scope="request" parameter="methodToCall" validate="true" attribute="KualiForm">
+          <forward name="basic" path="/WEB-INF/jsp/coi/CoiDisclosureNotificationEditor.jsp"/>
+          &coi_forwards;
+       </action>
        
      <action path="/protocolEventDisclosure" name="CoiDisclosureForm" input="/WEB-INF/jsp/coi/ProtocolEvent.jsp" type="org.kuali.kra.coi.disclosure.CoiDisclosureAction" parameter="methodToCall" validate="true" attribute="KualiForm">
         <forward name="basic" path="/WEB-INF/jsp/coi/ProtocolEvent.jsp" />
