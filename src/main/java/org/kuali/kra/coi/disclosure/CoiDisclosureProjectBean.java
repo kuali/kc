@@ -26,6 +26,7 @@ import org.kuali.kra.bo.KraPersistableBusinessObjectBase;
 import org.kuali.kra.coi.CoiDiscDetail;
 import org.kuali.kra.coi.CoiDisclosure;
 import org.kuali.kra.coi.Disclosurable;
+import org.kuali.rice.kns.util.ObjectUtils;
 
 public class CoiDisclosureProjectBean implements Serializable {
     /**
@@ -89,7 +90,9 @@ public class CoiDisclosureProjectBean implements Serializable {
 
     public String getProjectName() {
         if (StringUtils.isEmpty(projectName) && !getCoiDisclosure().isAnnualEvent()) {
+            if (ObjectUtils.isNotNull(disclosureProject)) {
                 projectName = ((Disclosurable)disclosureProject).getProjectName();
+            } 
         }
         return projectName;
     }
@@ -111,7 +114,9 @@ public class CoiDisclosureProjectBean implements Serializable {
 
     public String getProjectId() {
         if (StringUtils.isEmpty(projectId)  && !getCoiDisclosure().isAnnualEvent()) {
+            if (ObjectUtils.isNotNull(disclosureProject)) {
                 projectId = ((Disclosurable)disclosureProject).getProjectId();
+            }
         }
         return projectId;
     }

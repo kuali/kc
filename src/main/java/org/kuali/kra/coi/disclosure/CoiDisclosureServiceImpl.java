@@ -1188,7 +1188,7 @@ public class CoiDisclosureServiceImpl implements CoiDisclosureService {
      * get the approved disclosure history for the specified disclosurenumber
      */
     @SuppressWarnings({ "unused", "unchecked" })
-    private List<CoiDisclosureHistory> getDisclosureHistory(String coiDisclosureNumber) {
+    protected List<CoiDisclosureHistory> getDisclosureHistory(String coiDisclosureNumber) {
         Map<String, Object> fieldValues = new HashMap<String, Object>();
         fieldValues.put("coiDisclosureNumber", coiDisclosureNumber);
         fieldValues.put("disclosureDispositionStatus", CoiDispositionStatus.APPROVED);
@@ -1200,7 +1200,7 @@ public class CoiDisclosureServiceImpl implements CoiDisclosureService {
     /*
      * get the first disc detail for this disclosure.  if orginaldisclosureid is not null, then it is from previous master discl
      */
-    private CoiDiscDetail getCurrentProjectDetail(CoiDisclosure coiDisclosure) {
+    protected CoiDiscDetail getCurrentProjectDetail(CoiDisclosure coiDisclosure) {
         if (CollectionUtils.isEmpty(coiDisclosure.getCoiDiscDetails())) {
             coiDisclosure.refreshReferenceObject("coiDiscDetails");
         }
@@ -1220,13 +1220,15 @@ public class CoiDisclosureServiceImpl implements CoiDisclosureService {
     /*
      * set up form bean for each project
      */
-    private CoiDisclosureProjectBean getCoiDisclosureProjectBean(CoiDiscDetail coiDiscDetail) {
+    protected CoiDisclosureProjectBean getCoiDisclosureProjectBean(CoiDiscDetail coiDiscDetail) {
         CoiDisclosureProjectBean disclosureProjectBean = new CoiDisclosureProjectBean();
-        if (coiDiscDetail.isManualEvent()) {
-            disclosureProjectBean.setDisclosureProject(getCoiDisclProject(coiDiscDetail));
-        } else {
-            disclosureProjectBean.setDisclosureProject(getEventBo(coiDiscDetail, coiDiscDetail.getProjectIdFk()));
-        }
+        if (ObjectUtils.isNotNull(coiDiscDetail)) {
+            if (coiDiscDetail.isManualEvent()) {
+                disclosureProjectBean.setDisclosureProject(getCoiDisclProject(coiDiscDetail));
+            } else {
+                disclosureProjectBean.setDisclosureProject(getEventBo(coiDiscDetail, coiDiscDetail.getProjectIdFk()));
+            }
+        } 
         return disclosureProjectBean;
     }
     
