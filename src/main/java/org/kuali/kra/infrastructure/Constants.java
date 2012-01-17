@@ -651,6 +651,7 @@ public interface Constants {
     // Committee
     public static final String COMMITTEE_PROPERTY_KEY = "committee";
     public static final String COMMITTEE_VOTING_MEMBERSHIP_TYPE_CODE = "COMMITTEE_VOTING_MEMBERSHIP_TYPE_CODE";
+    public static final String COMMITTEE_AGENDA_NOTIFICATION = "213";
     
     public static final String CONFIRM_DELETE_PERMISSIONS_USER_KEY = "confirmDeletePermissionsUser";
    
@@ -792,6 +793,7 @@ public interface Constants {
     public static final String DISCLOSURE_FINANCIAL_ENTITY_KEY = "document.coiDisclosureList[0].coiDiscDetails[%s].entityStatusCode";
     public static final String DISCLOSURE_MANUAL_FINANCIAL_ENTITY_KEY = "document.coiDisclosureList[0].coiDisclProjects[0].coiDiscDetails[%s].entityStatusCode";
     public static final String DISCLOSURE_ANNUAL_FINANCIAL_ENTITY_KEY = "document.coiDisclosureList[0].coiDisclEventProjects[%s].coiDiscDetails[%s].entityStatusCode";
+    public static final String DISCLOSURE_CERTIFIED_NOTIFICATION = "214"; 
     
     // Person Mass Change
     public static final String MAPPING_PMC_HOME_PAGE = "home";
