@@ -24,6 +24,7 @@ import org.junit.Before;
 import org.junit.Test;
 import org.kuali.kra.award.document.AwardDocument;
 import org.kuali.kra.bo.CoeusModule;
+import org.kuali.kra.coi.CoiDisclosureDocument;
 import org.kuali.kra.infrastructure.KraServiceLocator;
 import org.kuali.kra.institutionalproposal.document.InstitutionalProposalDocument;
 import org.kuali.kra.irb.ProtocolDocument;
@@ -36,8 +37,8 @@ public class CustomAttributeDocumentMaintainableImplTest extends KcUnitTestBase 
     Collection<CoeusModule> modules;
     CustomAttributeDocumentMaintainableImpl maintainable;
     
-    private static final String IMPLEMENTED_MODS = "1,2,3,7";
-    private static final String NON_IMPLEMENTED_MODS = "4,5,6,8,11";
+    private static final String IMPLEMENTED_MODS = "1,2,3,7,8";
+    private static final String NON_IMPLEMENTED_MODS = "4,5,6,9,11";
 
     @Before
     public void setUp() throws Exception {
@@ -53,7 +54,7 @@ public class CustomAttributeDocumentMaintainableImplTest extends KcUnitTestBase 
 
     @Test
     public void testConvertModuleNumberToDocumentTypeCode() {
-        assertEquals(9, modules.size());
+        assertEquals(10, modules.size());
         for(CoeusModule module : modules) {
             if (IMPLEMENTED_MODS.contains(module.getModuleCode())) {
                 String results = maintainable.convertModuleNumberToDocumentTypeCode(Integer.parseInt(module.getModuleCode()));
@@ -73,6 +74,10 @@ public class CustomAttributeDocumentMaintainableImplTest extends KcUnitTestBase 
                     }
                     case CoeusModule.IRB_MODULE_CODE_INT: {
                         assertEquals(ProtocolDocument.DOCUMENT_TYPE_CODE, results);
+                        break;
+                    }
+                    case CoeusModule.COI_DISCLOSURE_MODULE_CODE_INT: {
+                        assertEquals(CoiDisclosureDocument.DOCUMENT_TYPE_CODE, results);
                         break;
                     }
                     default: {
