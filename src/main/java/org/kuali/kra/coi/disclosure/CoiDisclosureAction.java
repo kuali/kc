@@ -311,8 +311,12 @@ public class CoiDisclosureAction extends CoiAction {
             coiDisclosureForm.setAuditActivated(true);
             AuditActionHelper auditActionHelper = new AuditActionHelper();
             if (auditActionHelper.auditUnconditionally(coiDisclosureDocument)) {
-                getBusinessObjectService().save(coiDisclosure);
-                getDocumentService().saveDocument(coiDisclosureDocument);
+                if (coiDisclosure.getCoiDisclosureId() == null) {
+                    coiDisclosure.initRequiredFields();            
+                } else {
+                    getCoiDisclosureService().resetLeadUnit(coiDisclosure.getDisclosureReporter());
+                }
+                getCoiDisclosureService().setDisclDetailsForSave(coiDisclosure);
                 forward = submitForReviewAndRedirect(mapping, form, request, response, coiDisclosureForm, coiDisclosure, coiDisclosureDocument);
             } else {
                 GlobalVariables.getMessageMap().clearErrorMessages();
