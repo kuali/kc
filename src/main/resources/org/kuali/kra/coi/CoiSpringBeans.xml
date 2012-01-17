@@ -147,7 +147,10 @@
         <property name="businessObjectService" ref="businessObjectService" />
         <property name="documentService" ref="documentService" />
     </bean>
-    
+
+    <bean id="coiNotificationRoleQualifierService" class="org.kuali.kra.coi.notification.CoiNotificationRoleQualifierServiceImpl"
+          scope="prototype">
+    </bean>    
 
 </beans>
 

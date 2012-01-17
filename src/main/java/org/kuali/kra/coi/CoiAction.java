@@ -23,6 +23,8 @@ import org.apache.struts.action.ActionForward;
 import org.apache.struts.action.ActionMapping;
 import org.kuali.kra.coi.actions.CoiDisclosureActionService;
 import org.kuali.kra.coi.disclosure.CoiDisclosureService;
+import org.kuali.kra.coi.notification.CoiNotificationContext;
+import org.kuali.kra.common.notification.service.KcNotificationService;
 import org.kuali.kra.infrastructure.KraServiceLocator;
 import org.kuali.kra.rule.event.KraDocumentEventBaseExtension;
 import org.kuali.kra.web.struts.action.AuditActionHelper;
@@ -86,8 +88,24 @@ public abstract class CoiAction extends KraTransactionalDocumentActionBase {
         // TODO Auto-generated method stub
         
     }
+    
+    public ActionForward sendNotification(ActionMapping mapping, ActionForward forward, 
+                                          CoiDisclosureForm coiDisclosureForm, CoiNotificationContext context) {       
+        if (coiDisclosureForm.getNotificationHelper().getPromptUserForNotificationEditor(context)) {
+            coiDisclosureForm.getNotificationHelper().initializeDefaultValues(context);
+            forward = mapping.findForward("coiDisclosureNotificationEditor");
 
+        } else {
+            getNotificationService().sendNotification(context);
+        }
+        
+        return forward;
+    }
 
+    protected KcNotificationService getNotificationService() {
+        return KraServiceLocator.getService(KcNotificationService.class);
+    }
+    
     //  @Override
    /* public final ActionForward save(ActionMapping mapping, ActionForm form, HttpServletRequest request, HttpServletResponse response)
         throws Exception {
