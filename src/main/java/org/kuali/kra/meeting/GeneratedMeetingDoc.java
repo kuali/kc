@@ -61,6 +61,9 @@ public abstract class GeneratedMeetingDoc extends KraPersistableBusinessObjectBa
     }
 
     public CommitteeSchedule getCommitteeSchedule() {
+        if (committeeSchedule == null) {
+            refreshReferenceObject("committeeSchedule");
+        }
         return committeeSchedule;
     }
 

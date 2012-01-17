@@ -33,10 +33,15 @@ import org.kuali.kra.committee.bo.Committee;
 import org.kuali.kra.committee.document.CommitteeDocument;
 import org.kuali.kra.committee.print.CommitteeReportType;
 import org.kuali.kra.committee.rule.event.CommitteeActionPrintCommitteeDocumentEvent;
+import org.kuali.kra.committee.service.CommitteeNotificationService;
 import org.kuali.kra.committee.service.CommitteePrintingService;
 import org.kuali.kra.infrastructure.Constants;
 import org.kuali.kra.infrastructure.KeyConstants;
 import org.kuali.kra.infrastructure.KraServiceLocator;
+import org.kuali.kra.irb.actions.ProtocolActionType;
+import org.kuali.kra.irb.actions.notification.ProtocolNotificationRequestBean;
+import org.kuali.kra.irb.notification.IRBNotificationContext;
+import org.kuali.kra.irb.notification.IRBNotificationRenderer;
 import org.kuali.kra.printing.Printable;
 import org.kuali.kra.printing.print.AbstractPrint;
 import org.kuali.kra.printing.util.PrintingUtils;
@@ -193,6 +198,24 @@ public class MeetingActionsAction extends MeetingAction {
 
     /**
      * 
+     * This method is to send notification message for selected agenda.
+     * @param mapping
+     * @param form
+     * @param request
+     * @param response
+     * @return
+     * @throws Exception
+     */
+    public ActionForward sendAgendaNotification(ActionMapping mapping, ActionForm form, HttpServletRequest request,
+            HttpServletResponse response) throws Exception {
+        final int selection = getSelectedLine(request);
+        ScheduleAgenda agenda = ((MeetingForm)form).getMeetingHelper().getScheduleAgendas().get(selection);
+        getCommitteeNotificationService().generateNotification(Constants.COMMITTEE_AGENDA_NOTIFICATION, agenda);
+        return mapping.findForward(Constants.MAPPING_BASIC);
+    }
+
+    /**
+     * 
      * This method is to view the selected meeting minute document.
      * @param mapping
      * @param form
@@ -298,6 +321,10 @@ public class MeetingActionsAction extends MeetingAction {
             }
         }
         return actionForward;
+    }
+
+    private CommitteeNotificationService getCommitteeNotificationService() {
+        return KraServiceLocator.getService(CommitteeNotificationService.class);
     }
 
     private DocumentService getDocumentService() {
