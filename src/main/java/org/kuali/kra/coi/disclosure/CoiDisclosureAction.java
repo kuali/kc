@@ -53,6 +53,7 @@ import org.kuali.kra.web.struts.action.AuditActionHelper;
 import org.kuali.kra.web.struts.action.StrutsConfirmation;
 import org.kuali.rice.core.config.ConfigContext;
 import org.kuali.rice.kew.util.KEWConstants;
+import org.kuali.rice.kns.service.BusinessObjectService;
 import org.kuali.rice.kns.service.DictionaryValidationService;
 import org.kuali.rice.kns.service.KNSServiceLocator;
 import org.kuali.rice.kns.util.GlobalVariables;
@@ -310,6 +311,8 @@ public class CoiDisclosureAction extends CoiAction {
             coiDisclosureForm.setAuditActivated(true);
             AuditActionHelper auditActionHelper = new AuditActionHelper();
             if (auditActionHelper.auditUnconditionally(coiDisclosureDocument)) {
+                getBusinessObjectService().save(coiDisclosure);
+                getDocumentService().saveDocument(coiDisclosureDocument);
                 forward = submitForReviewAndRedirect(mapping, form, request, response, coiDisclosureForm, coiDisclosure, coiDisclosureDocument);
             } else {
                 GlobalVariables.getMessageMap().clearErrorMessages();
@@ -558,6 +561,10 @@ public class CoiDisclosureAction extends CoiAction {
         return  KraServiceLocator.getService(CoiDisclosureActionService.class);  
     }
     
+    protected BusinessObjectService getBusinessObjectService() {
+        return  KraServiceLocator.getService(BusinessObjectService.class);  
+    }
+    
     @SuppressWarnings({ "rawtypes", "unchecked" })
     public ActionForward viewMasterDisclosure(ActionMapping mapping, ActionForm form, HttpServletRequest request,
             HttpServletResponse response) throws Exception {
@@ -588,6 +595,10 @@ public class CoiDisclosureAction extends CoiAction {
                                                      CoiDisclosureDocument coiDisclosureDocument) throws Exception {
     
         SubmitDisclosureAction submitAction = coiDisclosureForm.getDisclosureActionHelper().getSubmitDisclosureAction();
+        ActionForward action = getDisclosureActionService().sendCertificationNotifications(coiDisclosureDocument, coiDisclosureForm, submitAction, mapping);
+        if (action != null) {
+            return action;
+        }
         getDisclosureActionService().submitToWorkflow(coiDisclosureDocument, coiDisclosureForm, submitAction);
         super.route(mapping, coiDisclosureForm, request, response);
         return routeDisclosureToHoldingPage(mapping, coiDisclosureForm);
