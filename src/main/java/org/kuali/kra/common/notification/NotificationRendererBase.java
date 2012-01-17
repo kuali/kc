@@ -100,6 +100,15 @@ public abstract class NotificationRendererBase implements NotificationRenderer, 
     public void setKcPersonService(KcPersonService kcPersonService) {
         this.kcPersonService = kcPersonService;
     }
+    
+    protected String getSafeMessage(String key, String message) {
+        
+        if (StringUtils.isBlank(message)) {
+            message = "(No value set for " + key + " in this action)";
+        }
+        
+        return message;
+    }
 
     private String getDocumentLocation() {
         String result = getKualiConfigurationService().getPropertyString(DOCHANDLER_PREFIX_PROPERTY);
