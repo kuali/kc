@@ -18,6 +18,7 @@ package org.kuali.kra.service.impl;
 import org.kuali.kra.award.document.AwardDocument;
 import org.kuali.kra.bo.CoeusModule;
 import org.kuali.kra.bo.CustomAttributeDocument;
+import org.kuali.kra.coi.CoiDisclosureDocument;
 import org.kuali.kra.institutionalproposal.document.InstitutionalProposalDocument;
 import org.kuali.kra.irb.ProtocolDocument;
 import org.kuali.kra.proposaldevelopment.document.ProposalDevelopmentDocument;
@@ -50,8 +51,8 @@ public class CustomAttributeDocumentMaintainableImpl extends KualiMaintainableIm
             customAttributeDocument.setDocumentTypeName(convertModuleNumberToDocumentTypeCode(val));
 
             /**
-             * 1 Award 2 Institute Proposal 3 Development Proposal 4 Subcontracts 5 Negotiations 6 Person 7 IRB 8 Annual COI
-             * Disclosure
+             * 1 Award 2 Institute Proposal 3 Development Proposal 4 Subcontracts 5 Negotiations 6 Person 7 IRB 8 COI
+             * Disclosure 9 IACUC 11 Committee
              */
         }
         super.prepareForSave();
@@ -60,8 +61,8 @@ public class CustomAttributeDocumentMaintainableImpl extends KualiMaintainableIm
     /**|
      * 
      * This method converts the module number to document type code.
-     * Implemented: 1 Award, 2 Institute Proposal, 3 Development Proposal, 7 IRB. 
-     * Not Implemented: 4 Subcontracts, 5 Negotiations, 6 Person, 8 Annual COI Disclosure.
+     * Implemented: 1 Award, 2 Institute Proposal, 3 Development Proposal, 7 IRB, 8 COI Disclosure. 
+     * Not Implemented: 4 Subcontracts, 5 Negotiations, 6 Person, 9 IACUC, 11 Committee.
      * @param moduleNumber
      * @return
      */
@@ -82,6 +83,10 @@ public class CustomAttributeDocumentMaintainableImpl extends KualiMaintainableIm
             }
             case CoeusModule.IRB_MODULE_CODE_INT: {
                 documentTypeCode = ProtocolDocument.DOCUMENT_TYPE_CODE;
+                break;
+            }
+            case CoeusModule.COI_DISCLOSURE_MODULE_CODE_INT: {
+                documentTypeCode = CoiDisclosureDocument.DOCUMENT_TYPE_CODE;
                 break;
             }
             default: {
