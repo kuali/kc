@@ -122,25 +122,25 @@ public class IRBNotificationRenderer extends NotificationRendererBase {
                 params.put(key, protocol.getProtocolDocument().getDocumentNumber());
             } else if (StringUtils.equals(key, IRBReplacementParameters.PROTOCOL_REVIEW_TYPE_DESC)) {
                 if (protocol.getProtocolSubmission() != null) {
-                    params.put(key, getProtocolReviewTypeDescription(protocol.getProtocolSubmission().getProtocolReviewTypeCode()));
+                    params.put(key, getSafeMessage(key, getProtocolReviewTypeDescription(protocol.getProtocolSubmission().getProtocolReviewTypeCode())));
                 }
             } else if (StringUtils.equals(key, IRBReplacementParameters.COMMITTEE_NAME)) {
                 if (protocol.getProtocolSubmission() != null) {
-                    params.put(key, getCommitteeName(protocol.getProtocolSubmission().getCommitteeId()));
+                    params.put(key, getSafeMessage(key, getCommitteeName(protocol.getProtocolSubmission().getCommitteeId())));
                 }
             } else if (StringUtils.equals(key, IRBReplacementParameters.PROTOCOL_INITIAL_APPROVAL_DATE)) {
                 if ( (protocol.getProtocolSubmission() != null) && (protocol.getApprovalDate() != null) ) {
-                    params.put(key, (new SimpleDateFormat("d'-'MMM'-'yyyy")).format(protocol.getApprovalDate()));
+                    params.put(key, getSafeMessage(key, (new SimpleDateFormat("d'-'MMM'-'yyyy")).format(protocol.getApprovalDate())));
                 }
             }
             else if (StringUtils.equals(key, IRBReplacementParameters.PROTOCOL_LAST_APPROVAL_DATE)) {
                 if ( (protocol.getProtocolSubmission() != null) && (protocol.getLastApprovalDate() != null) ) {
-                    params.put(key, (new SimpleDateFormat("d'-'MMM'-'yyyy")).format(protocol.getLastApprovalDate()));
+                    params.put(key, getSafeMessage(key, (new SimpleDateFormat("d'-'MMM'-'yyyy")).format(protocol.getLastApprovalDate())));
                 }
             }
             else if (StringUtils.equals(key, IRBReplacementParameters.PROTOCOL_EXPIRATION_DATE)) {
                 if ( (protocol.getProtocolSubmission() != null) && (protocol.getExpirationDate() != null) ) {
-                    params.put(key, (new SimpleDateFormat("d'-'MMM'-'yyyy")).format(protocol.getExpirationDate()));
+                    params.put(key, getSafeMessage(key, (new SimpleDateFormat("d'-'MMM'-'yyyy")).format(protocol.getExpirationDate())));
                 }
             }
         }
