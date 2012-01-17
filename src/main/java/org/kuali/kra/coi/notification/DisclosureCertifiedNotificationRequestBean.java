@@ -15,61 +15,32 @@
  */
 package org.kuali.kra.coi.notification;
 
-import java.io.Serializable;
+import java.util.List;
 
-import org.kuali.kra.irb.Protocol;
-import org.kuali.kra.irb.onlinereview.ProtocolOnlineReview;
+import org.apache.commons.lang.StringUtils;
+import org.kuali.kra.coi.CoiDisclosure;
+import org.kuali.kra.coi.CoiUserRole;
+import org.kuali.kra.infrastructure.Constants;
 
-public class DisclosureCertifiedNotificationRequestBean implements Serializable {
+public class DisclosureCertifiedNotificationRequestBean extends CoiNotificationRequestBean {
 
-    private Protocol protocol;
-    private String actionType;
-    private String description;
-    private String docNumber;
+    /**
+     * Comment for <code>serialVersionUID</code>
+     */
+    private static final long serialVersionUID = 1675582315061417093L;
+    public List<CoiUserRole> coiDisclosureReviewers;
 
-    public DisclosureCertifiedNotificationRequestBean(Protocol protocol, String actionType, String description) {
-        this.protocol = protocol;
-        this.actionType = actionType;
-        this.description = description;
-        
-    }
-    
-    public DisclosureCertifiedNotificationRequestBean(Protocol protocol, String actionType, String description, String docNumber) {
-        this(protocol, actionType, description);
-        this.docNumber = docNumber;
-        
-    }
-    
-    public Protocol getProtocol() {
-        return protocol;
+    public DisclosureCertifiedNotificationRequestBean(CoiDisclosure coiDisclosure, List<CoiUserRole> coiDisclosureReviewers) {
+        super(coiDisclosure, Constants.DISCLOSURE_CERTIFIED_NOTIFICATION, "Disclosure Certified");        
+        this.coiDisclosureReviewers = coiDisclosureReviewers;
     }
 
-    public void setProtocol(Protocol protocol) {
-        this.protocol = protocol;
+    public List<CoiUserRole> getCoiDisclosureReviewers() {
+        return coiDisclosureReviewers;
     }
 
-    public String getActionType() {
-        return actionType;
-    }
-
-    public void setActionType(String actionType) {
-        this.actionType = actionType;
-    }
-
-    public String getDescription() {
-        return description;
-    }
-
-    public void setDescription(String description) {
-        this.description = description;
-    }
-
-    public String getDocNumber() {
-        return docNumber;
-    }
-
-    public void setDocNumber(String docNumber) {
-        this.docNumber = docNumber;
+    public void setCoiDisclosureReviewers(List<CoiUserRole> coiDisclosureReviewers) {
+        this.coiDisclosureReviewers = coiDisclosureReviewers;
     }
 
 }

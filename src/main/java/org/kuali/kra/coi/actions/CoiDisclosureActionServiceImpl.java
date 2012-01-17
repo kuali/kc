@@ -24,6 +24,8 @@ import org.apache.commons.collections.CollectionUtils;
 import org.apache.commons.lang.StringUtils;
 import org.apache.commons.logging.Log;
 import org.apache.commons.logging.LogFactory;
+import org.apache.struts.action.ActionForward;
+import org.apache.struts.action.ActionMapping;
 import org.kuali.kra.bo.KraPersistableBusinessObjectBase;
 import org.kuali.kra.coi.CoiDiscDetail;
 import org.kuali.kra.coi.CoiDisclosure;
@@ -36,6 +38,14 @@ import org.kuali.kra.coi.certification.SubmitDisclosureAction;
 import org.kuali.kra.coi.notification.CoiNotificationContext;
 import org.kuali.kra.coi.notification.DisclosureCertifiedNotificationRenderer;
 import org.kuali.kra.coi.notification.DisclosureCertifiedNotificationRequestBean;
+import org.kuali.kra.common.notification.service.KcNotificationService;
+import org.kuali.kra.infrastructure.Constants;
+import org.kuali.kra.irb.ProtocolForm;
+import org.kuali.kra.irb.actions.ProtocolActionType;
+import org.kuali.kra.irb.actions.notification.NotifyIrbNotificationRenderer;
+import org.kuali.kra.irb.actions.notification.ProtocolNotificationRequestBean;
+import org.kuali.kra.irb.notification.IRBNotificationContext;
+import org.kuali.kra.irb.notification.IRBNotificationRenderer;
 import org.kuali.rice.kew.exception.WorkflowException;
 import org.kuali.rice.kns.service.BusinessObjectService;
 import org.kuali.rice.kns.service.DocumentService;
@@ -50,10 +60,12 @@ public class CoiDisclosureActionServiceImpl implements CoiDisclosureActionServic
 
     private BusinessObjectService businessObjectService;
     private DocumentService documentService;
+    private KcNotificationService notificationService;
     private static final Log LOG = LogFactory.getLog(CoiDisclosureActionServiceImpl.class);
-
+    private static final String PROTOCOL_TAB = "protocol";
+    
     /**
-     * copy disc detailsn from previous master disclosure if it exists.
+     * copy disc details from previous master disclosure if it exists.
      * create a disclosure history methods.
      * set current disclosure flag for this approved disclosure, and reset it for previous mater disclosure
      * @see org.kuali.kra.coi.actions.CoiDisclosureActionService#approveDisclosure(org.kuali.kra.coi.CoiDisclosure, java.lang.String)
@@ -72,12 +84,20 @@ public class CoiDisclosureActionServiceImpl implements CoiDisclosureActionServic
             disclosures.add(masterCoiDisclosure);
 
         } 
-            coiDisclosure.setCurrentDisclosure(true);
+        coiDisclosure.setCurrentDisclosure(true);
         
         disclosures.add(createDisclosureHistory(coiDisclosure));
         businessObjectService.save(disclosures);
     }
     
+    public KcNotificationService getNotificationService() {
+        return notificationService;
+    }
+
+    public void setNotificationService(KcNotificationService notificationService) {
+        this.notificationService = notificationService;
+    }
+
     public void addCoiUserRole(CoiDisclosure coiDisclosure, CoiUserRole coiUserRole) {
         coiDisclosure.getCoiUserRoles().add(coiUserRole);
         businessObjectService.save(coiDisclosure);
@@ -163,18 +183,6 @@ public class CoiDisclosureActionServiceImpl implements CoiDisclosureActionServic
      * @param submitDisclosureAction
      */
     public void submitToWorkflow(CoiDisclosureDocument coiDisclosureDocument, CoiDisclosureForm coiDisclosureForm, SubmitDisclosureAction submitDisclosureAction) {
-        DisclosureCertifiedNotificationRenderer renderer = new DisclosureCertifiedNotificationRenderer(coiDisclosureDocument.getCoiDisclosure(), CoiDisclosure.CERTIFIED);
-        List<DisclosureCertifiedNotificationRequestBean> disclosureCertifiedNotificationBeans = getDisclosureCertifiedRequestBeans(submitDisclosureAction.getReviewers());
-        
-        for (DisclosureCertifiedNotificationRequestBean disclosureRequestBean: disclosureCertifiedNotificationBeans) {
-            CoiNotificationContext context = new CoiNotificationContext(disclosureRequestBean.getDocNumber(),
-                    disclosureRequestBean.getActionType(), disclosureRequestBean.getDescription(), renderer);
-//TODO            
-//            if (coiDisclosureForm.getNotificationHelper().getPromptUserForNotificationEditor(context)) {
-//                return checkToSendNotification(mapping, null, coiDisclosureForm, renderer, disclosureRequestBeans);
-//            }
-        }
-
         try {
             documentService.routeDocument(coiDisclosureDocument, "Disclosure has been certified and submitted.", new ArrayList<String>());
         } catch (WorkflowException e) {
@@ -184,12 +192,36 @@ public class CoiDisclosureActionServiceImpl implements CoiDisclosureActionServic
         }
     }
 
+    public ActionForward sendCertificationNotifications(CoiDisclosureDocument coiDisclosureDocument, CoiDisclosureForm coiDisclosureForm, SubmitDisclosureAction submitDisclosureAction, ActionMapping mapping) {
+        DisclosureCertifiedNotificationRenderer renderer = new DisclosureCertifiedNotificationRenderer(coiDisclosureDocument.getCoiDisclosure(), CoiDisclosure.CERTIFIED);
+        DisclosureCertifiedNotificationRequestBean disclosureCertifiedNotificationBean = getDisclosureCertifiedRequestBean(coiDisclosureDocument.getCoiDisclosure(), submitDisclosureAction.getReviewers());
+        
+        CoiNotificationContext context = new CoiNotificationContext(coiDisclosureDocument.getDocumentNumber(), 
+                                                                    disclosureCertifiedNotificationBean.getActionType(), 
+                                                                    disclosureCertifiedNotificationBean.getDescription(), renderer);
+        if (coiDisclosureForm.getNotificationHelper().getPromptUserForNotificationEditor(context)) {
+            return checkToSendNotification(mapping, mapping.findForward(PROTOCOL_TAB), coiDisclosureForm, renderer, context, disclosureCertifiedNotificationBean);
+        }
+        return null;
+    }
     
-    List<DisclosureCertifiedNotificationRequestBean> getDisclosureCertifiedRequestBeans(List<CoiUserRole> userRoles) {
-        List<DisclosureCertifiedNotificationRequestBean> result = new ArrayList<DisclosureCertifiedNotificationRequestBean>();
-        return result;
+    private DisclosureCertifiedNotificationRequestBean getDisclosureCertifiedRequestBean(CoiDisclosure coiDisclosure, List<CoiUserRole> userRoles) {
+        DisclosureCertifiedNotificationRequestBean newBean = new DisclosureCertifiedNotificationRequestBean(coiDisclosure, userRoles);
+        return newBean;
     }
 
+    private ActionForward checkToSendNotification(ActionMapping mapping, ActionForward forward, CoiDisclosureForm coiDisclosureForm, 
+                                                  DisclosureCertifiedNotificationRenderer renderer, CoiNotificationContext context, 
+                                                  DisclosureCertifiedNotificationRequestBean notificationRequestBean) {
+        
+        if (coiDisclosureForm.getNotificationHelper().getPromptUserForNotificationEditor(context)) {
+            coiDisclosureForm.getNotificationHelper().initializeDefaultValues(context);
+            return mapping.findForward("protocolNotificationEditor");
+        } else {
+            getNotificationService().sendNotification(context);
+            return null;
+        }
+    }
     
     public void setBusinessObjectService(BusinessObjectService businessObjectService) {
         this.businessObjectService = businessObjectService;
@@ -201,6 +233,5 @@ public class CoiDisclosureActionServiceImpl implements CoiDisclosureActionServic
     public DocumentService getDocumentService() {
         return documentService;
     }
-
 
 }

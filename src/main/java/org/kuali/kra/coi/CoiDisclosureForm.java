@@ -28,6 +28,7 @@ import org.kuali.kra.coi.disclosure.DisclosureHelper;
 import org.kuali.kra.coi.notesandattachments.CoiNotesAndAttachmentsHelper;
 import org.kuali.kra.coi.notification.CoiNotificationContext;
 import org.kuali.kra.common.notification.web.struts.form.NotificationHelper;
+import org.kuali.kra.irb.notification.IRBNotificationContext;
 import org.kuali.kra.web.struts.form.Auditable;
 import org.kuali.kra.web.struts.form.KraTransactionalDocumentFormBase;
 import org.kuali.rice.kns.datadictionary.HeaderNavigation;
@@ -64,6 +65,7 @@ public class CoiDisclosureForm extends KraTransactionalDocumentFormBase implemen
        coiNotesAndAttachmentsHelper.prepareView();
        setDisclosureActionHelper(new DisclosureActionHelper(this));
        disclosureActionHelper.prepareView();
+       setNotificationHelper(new NotificationHelper<CoiNotificationContext>());
     }
     
    public void setCoiNotesAndAttachmentsHelper(CoiNotesAndAttachmentsHelper coiNotesAndAttachmentsHelper) {
