@@ -96,5 +96,15 @@ public class CoiDisclosureDocument extends ResearchDocumentBase implements Copya
         managedLists.add(coiDisclosureList);
         return managedLists;
     }
+    /*
+     * This is just a holder, business logic needs to be added to this
+     */
+    public boolean isProcessComplete() {
+
+        boolean isComplete = true;
+
+        return isComplete;
+
+    }
 
 }
