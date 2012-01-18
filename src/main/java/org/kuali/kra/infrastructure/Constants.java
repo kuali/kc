@@ -798,6 +798,6 @@ public interface Constants {
     // Person Mass Change
     public static final String MAPPING_PMC_HOME_PAGE = "home";
     public static final String MAPPING_PMC_VIEW_PAGE = "view";
-    
+    public static final String ENABLE_SALARY_INFLATION_ANNIV_DATE = "enableSalaryInflationAnniversaryDate";
 
 }
