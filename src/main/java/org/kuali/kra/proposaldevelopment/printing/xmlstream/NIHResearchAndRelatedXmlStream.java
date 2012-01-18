@@ -730,7 +730,7 @@ AbstractResearchAndRelatedStream {
 
         for (KeyPersonInfo keyPersonInfo : nsfSeniorPersons) {
             NSFSeniorPersonnelType nsfSeniorPersonnel = budgetSummaryType.addNewNSFSeniorPersonnel();
-            setNSFSeniorPersonnel(keyPersonInfo, nsfSeniorPersonnel,++rowNumber);
+            setNSFSeniorPersonnel(keyPersonInfo, nsfSeniorPersonnel,rowNumber++);
             totalFringe = totalFringe.add(keyPersonInfo.getFringe());
             totalSalary = totalSalary.add(keyPersonInfo.getRequestedSalary());
         }
@@ -776,12 +776,12 @@ AbstractResearchAndRelatedStream {
     }
 
     private int setNSFSeniorPersonnels(DevelopmentProposal developmentProposal, BudgetPeriod budgetPeriod,
-            NSFSeniorPersonnelType nsfSeniorPersonnelType) {
+            gov.nih.era.projectmgmt.sbir.cgap.nihspecificNamespace.BudgetSummaryType.BudgetPeriod  BudgetPeriodType) {
         List<KeyPersonInfo> nsfSeniorPersons = getBudgetPersonsForCategoryMap(developmentProposal, budgetPeriod, "01", "NSF_PRINTING");
         int rowNumber = 0;
         int period = budgetPeriod.getBudgetPeriod();
         for (KeyPersonInfo keyPersonInfo : nsfSeniorPersons) {
-            setNSFSeniorPersonnel(keyPersonInfo, nsfSeniorPersonnelType,++rowNumber,period);
+             setNSFSeniorPersonnel(keyPersonInfo, BudgetPeriodType.addNewNSFSeniorPersonnel(),rowNumber++,period);
         }
         return rowNumber;
     }
@@ -850,7 +850,7 @@ AbstractResearchAndRelatedStream {
                 budgetPeriodType.setPeriodCostsTotal(budgetPeriod.getTotalCost().bigDecimalValue());
                 budgetPeriodType.setProgramIncome(new BigDecimal(0));
                 budgetPeriodType.setConsortiumCosts(getConsortiumCosts(developmentProposal,budgetPeriod));
-                int count = setNSFSeniorPersonnels(developmentProposal, budgetPeriod, budgetPeriodType.addNewNSFSeniorPersonnel());
+                int count = setNSFSeniorPersonnels(developmentProposal, budgetPeriod, budgetPeriodType);
                 budgetPeriodType.setNSFTotalSeniorPersonnel(BigInteger.valueOf(count));
                 setNSFOtherPersonnels(developmentProposal,budgetPeriod,budgetPeriodType);
                 setSalarySubTotals(budgetPeriod,budgetPeriodType);
