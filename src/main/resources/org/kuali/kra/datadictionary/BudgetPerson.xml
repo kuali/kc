@@ -28,12 +28,12 @@
         <ref bean="BudgetPerson-jobCode" />
         <ref bean="BudgetPerson-nonEmployeeFlag" />
         <ref bean="BudgetPerson-personId" />
-<!--        <ref bean="BudgetPerson-proposalNumber" />-->
         <ref bean="BudgetPerson-versionNumber" />
         <ref bean="BudgetPerson-appointmentType" />
         <ref bean="BudgetPerson-calculationBase" />
         <ref bean="BudgetPerson-personName" />
         <ref bean="BudgetPerson-jobTitle" />
+        <ref bean="BudgetPerson-salaryAnniversaryDate" />
       </list>
     </property>
   </bean>
@@ -91,24 +91,6 @@
 
   <bean id="BudgetPerson-personId-parentBean" abstract="true" parent="KcPerson-personId">
   </bean>
-<!--  <bean id="BudgetPerson-proposalNumber" parent="BudgetPerson-proposalNumber-parentBean" />-->
-<!---->
-<!--  <bean id="BudgetPerson-proposalNumber-parentBean" abstract="true" parent="AttributeDefinition">-->
-<!--    <property name="name" value="proposalNumber" />-->
-<!--    <property name="forceUppercase" value="false" />-->
-<!--    <property name="label" value="Proposal Number" />-->
-<!--    <property name="shortLabel" value="Proposal Number" />-->
-<!--    <property name="maxLength" value="12" />-->
-<!--    <property name="validationPattern" >-->
-<!--      <bean parent="AlphaNumericValidationPattern" />-->
-<!--    </property>-->
-<!--    <property name="control" >-->
-<!--      <bean parent="TextControlDefinition"-->
-<!--            p:size="8" />-->
-<!--    </property>-->
-<!--    <property name="summary" value="Proposal Number" />-->
-<!--    <property name="description" value="Proposal Number" />-->
-<!--  </bean>-->
   <bean id="BudgetPerson-versionNumber" parent="BudgetPerson-versionNumber-parentBean" />
 
   <bean id="BudgetPerson-versionNumber-parentBean" abstract="true" parent="AttributeDefinition">
@@ -175,6 +157,17 @@
   <bean id="BudgetPerson-jobTitle-parentBean" abstract="true" parent="JobCode-jobTitle">
   </bean>
 
+  <bean id="BudgetPerson-salaryAnniversaryDate" parent="BudgetPerson-salaryAnniversaryDate-parentBean" />
+
+  <bean id="BudgetPerson-salaryAnniversaryDate-parentBean" abstract="true" parent="AttributeReferenceDummy-genericDate">
+    <property name="name" value="salaryAnniversaryDate" />
+    <property name="label" value="Salary Anniversary Date" />
+    <property name="shortLabel" value="Salary Anniversary Date" />
+    <property name="required" value="true" />
+    <property name="summary" value="Salary Anniversary Date" />
+    <property name="description" value="Salary Anniversary Date." />
+  </bean>
+
 <!-- Business Object Inquiry Definition -->
 
 
@@ -201,9 +194,6 @@
               <bean parent="FieldDefinition"
                     p:attributeName="personId"
                     p:forceInquiry="true" />
-<!--              <bean parent="FieldDefinition"-->
-<!--                    p:attributeName="proposalNumber"-->
-<!--                    p:forceInquiry="true" />-->
               <bean parent="FieldDefinition"
                     p:attributeName="versionNumber"
                     p:forceInquiry="true" />
@@ -213,6 +203,9 @@
                     p:attributeName="calculationBase" />
               <bean parent="FieldDefinition"
                     p:attributeName="personName" />
+              <bean parent="FieldDefinition"
+                    p:attributeName="salaryAnniversaryDate"
+                    p:forceInquiry="true" />
             </list>
           </property>
         </bean>
@@ -243,8 +236,6 @@
               p:attributeName="nonEmployeeFlag" />
         <bean parent="FieldDefinition"
               p:attributeName="personId" />
-<!--        <bean parent="FieldDefinition"-->
-<!--              p:attributeName="proposalNumber" />-->
         <bean parent="FieldDefinition"
               p:attributeName="versionNumber" />
         <bean parent="FieldDefinition"
@@ -253,6 +244,8 @@
               p:attributeName="calculationBase" />
         <bean parent="FieldDefinition"
               p:attributeName="personName" />
+        <bean parent="FieldDefinition"
+              p:attributeName="salaryAnniversaryDate" />
       </list>
     </property>
     <property name="resultFields" >
@@ -269,9 +262,6 @@
         <bean parent="FieldDefinition"
               p:attributeName="personId"
               p:forceInquiry="true" />
-<!--        <bean parent="FieldDefinition"-->
-<!--              p:attributeName="proposalNumber"-->
-<!--              p:forceInquiry="true" />-->
         <bean parent="FieldDefinition"
               p:attributeName="versionNumber"
               p:forceInquiry="true" />
@@ -281,6 +271,8 @@
               p:attributeName="calculationBase" />
         <bean parent="FieldDefinition"
               p:attributeName="personName" />
+        <bean parent="FieldDefinition"
+              p:attributeName="salaryAnniversaryDate" />
       </list>
     </property>
   </bean>

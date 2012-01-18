@@ -51,6 +51,7 @@ public class BudgetPerson extends BudgetAssociate implements HierarchyMaintainab
 	private Integer personSequenceNumber;
 	private Rolodex rolodex;
     private String role;
+    private Date salaryAnniversaryDate;
     
     private transient KcPersonService kcPersonService;
 
@@ -73,6 +74,7 @@ public class BudgetPerson extends BudgetAssociate implements HierarchyMaintainab
         super();
         this.personId = person.getPersonId();
         this.personName = person.getFullName();
+        this.salaryAnniversaryDate = person.getExtendedAttributes().getSalaryAnniversaryDate();
         this.nonEmployeeFlag = false;
     }
     
@@ -444,6 +446,22 @@ public class BudgetPerson extends BudgetAssociate implements HierarchyMaintainab
         else if (!personSequenceNumber.equals(other.personSequenceNumber))
             return false;
         return true;
+    }
+
+    /**
+     * Gets the salaryAnniversaryDate attribute. 
+     * @return Returns the salaryAnniversaryDate.
+     */
+    public Date getSalaryAnniversaryDate() {
+        return salaryAnniversaryDate;
+    }
+
+    /**
+     * Sets the salaryAnniversaryDate attribute value.
+     * @param salaryAnniversaryDate The salaryAnniversaryDate to set.
+     */
+    public void setSalaryAnniversaryDate(Date salaryAnniversaryDate) {
+        this.salaryAnniversaryDate = salaryAnniversaryDate;
     }
     
     
