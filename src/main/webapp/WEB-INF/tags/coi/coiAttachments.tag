@@ -168,7 +168,6 @@
 	              		    <%-- attachment file error handling logic start--%>
 	               				<kul:checkErrors keyMatch="${property}" auditMatch="${property}"/>
 	               				<%-- highlighting does not work in firefox but does in ie... --%>
-	               				<%-- <c:set var="textStyle" value="${hasErrors == true ? 'background-color:#FFD5D5' : ''}"/>--%>
 	               			<%-- attachment file error handling logic start--%>
 	              			<html:file property="${property}" size="50"/>
 	               			<c:if test="${hasErrors}">
@@ -272,6 +271,23 @@
 			                		<kul:htmlControlAttribute property="document.coiDisclosureList[0].coiDisclosureAttachments[${itrStatus.index}].contactName" attributeEntry="${attributes.contactName}" readOnly="${!modify}"/>
 				            	</div>
 							</td>
+							
+							<th>
+							<div align="right">
+	         				<kul:htmlAttributeLabel attributeEntry="${attributes.projectId}" noColon="false"/>
+	         				</div>
+							</th>
+							<td>
+								<kul:htmlControlAttribute property="document.coiDisclosureList[0].coiDisclosureAttachments[${itrStatus.index}].projectId" attributeEntry="${attributes.contactName}" readOnly="true"/>							
+							</td>
+							<th>
+							<div align="right">
+	         					<kul:htmlAttributeLabel attributeEntry="${attributes.entityNumber}" noColon="false"/>
+	         				</div>
+							</th>
+							<td>        					
+								<kul:htmlControlAttribute property="document.coiDisclosureList[0].coiDisclosureAttachments[${itrStatus.index}].entityNumber" attributeEntry="${attributes.entityNumber}" readOnly="true"/>                                              
+							</td>
 			         	</tr>
 			         	<tr>
 			         		<th>
@@ -289,7 +305,8 @@
 									<kul:htmlAttributeLabel attributeEntry="${attributes.contactEmailAddress}" noColon="false" />
 								</div>
 							</th>
-			         			<td align="left" valign="middle">
+			         			<td align="left" valign="middle" colspan="3">
+			         			
 			                	<div align="left">
 			                		<kul:htmlControlAttribute property="document.coiDisclosureList[0].coiDisclosureAttachments[${itrStatus.index}].contactEmailAddress" attributeEntry="${attributes.contactEmailAddress}" readOnly="${!modify}"/>
 				            	</div>
@@ -311,7 +328,7 @@
 									<kul:htmlAttributeLabel attributeEntry="${attributes.contactPhoneNumber}" noColon="false" />
 								</div>
 							</th>
-			         		<td align="left" valign="middle">
+			         		<td align="left" valign="middle" colspan="3">
 			                	<div align="left">
 			                		<kul:htmlControlAttribute property="document.coiDisclosureList[0].coiDisclosureAttachments[${itrStatus.index}].contactPhoneNumber" attributeEntry="${attributes.contactPhoneNumber}" readOnly="${!modify}"/>
 				            	</div>
@@ -333,7 +350,7 @@
 									<kul:htmlAttributeLabel attributeEntry="${attributes.description}" noColon="false"/>
 								</div>
 							</th>
-			         		<td align="left" valign="middle">
+			         		<td align="left" valign="middle" colspan="3">
 			                	<div align="left">
 			                		<kul:htmlControlAttribute property="document.coiDisclosureList[0].coiDisclosureAttachments[${itrStatus.index}].description" attributeEntry="${attributes.description}" readOnly="${!modify}"/>
 				            	</div>
@@ -345,7 +362,7 @@
 									<kul:htmlAttributeLabel attributeEntry="${attachmentFileAttributes['name']}" noColon="false" />
 								</div>
 							</th>
-			       			<td align="left" valign="middle" colspan="3">
+			       			<td align="left" valign="middle" colspan="5">
 			              		<div align="left" style="display: none;" id="attachmentCoiDisclosureFile${itrStatus.index}">
 			              			<html:file property="document.coiDisclosureList[0].coiDisclosureAttachments[${itrStatus.index}].newFile" size="50" />
 			           			</div>
@@ -354,7 +371,7 @@
 			           			</div>
 			           			
 			         	<tr>
-			         		<td colspan="4" class="infoline">
+			         		<td colspan="6" class="infoline">
 								<div align="center">
 									<input type="hidden" id="coiDisclosureRefreshButtonClicked${itrStatus.index}" name="coiDisclosureRefreshButtonClicked${itrStatus.index}" value="F"/>
 									<html:image property="methodToCall.viewAttachmentCoi.line${itrStatus.index}.anchor${currentTabIndex}"
