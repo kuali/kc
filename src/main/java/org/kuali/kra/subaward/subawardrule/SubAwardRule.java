@@ -17,9 +17,11 @@ package org.kuali.kra.subaward.subawardrule;
 
 import org.kuali.kra.award.commitments.AddAwardFandaRateEvent;
 import org.kuali.kra.subaward.bo.SubAward;
+import org.kuali.kra.subaward.bo.SubAwardAmountInfo;
 import org.kuali.rice.kns.rule.BusinessRule;
 
 public interface SubAwardRule extends BusinessRule {
 
     public boolean processAddSubAwardBusinessRules(SubAward subAward);
+    public boolean processSaveSubAwardAmountInfoBusinessRule(SubAward subAward,SubAwardAmountInfo amountInfo);
 }

@@ -1003,7 +1003,10 @@ public final class KeyConstants {
     public static final String ERROR_AMOUNT_INFO_ANTICIPATED_AMOUNT_ZERO = "subaward.error.anticipated.amount.equal.to.zero";
     public static final String ERROR_SUBAWARD_CONTACT = "subaward.contact.not.added";
     public static final String ERROR_SUBAWARD_AMOUNT_RELEASED_GREATER_OBLIGATED_AMOUNT ="subaward.error.amount.released.greater.than.obligated.amount";
-    
+    public static final String ERROR_REQUIRED_ANTICIPATED_AMOUNT = "error.required.anticipated.amount.released";
+    public static final String ERROR_REQUIRED_OBLIGATED_AMOUNT = "error.required.obligated.amount.released";
+    public static final String ERROR_SUBAWARD_OBLIGATED_AMOUNT_SHOULD_BE_GREATER_AMOUNT_RELEASED ="subaward.error.oblig.amount.greater.than.amount.released";
+    public static final String ERROR_SUBAWARD_OBLIGATED_AMOUNT_IS_GREATER_AMOUNT_RELEASED ="subaward.error.oblig.amount.is.greater.than.amount.released";
     //negotiations
     public static final String NEGOTIATION_STATUS_USED = "error.negotiations.codeAlreadyUsed";
     public static final String NEGOTIATION_CHANGE_ASSOCIATION_TYPE_MESSAGE="negotiation.message.changeAssociationType";
