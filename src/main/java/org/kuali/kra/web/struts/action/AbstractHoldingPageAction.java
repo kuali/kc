@@ -22,6 +22,7 @@ import org.apache.struts.action.ActionForm;
 import org.apache.struts.action.ActionForward;
 import org.apache.struts.action.ActionMapping;
 import org.kuali.kra.award.document.AwardDocument;
+import org.kuali.kra.coi.CoiDisclosureDocument;
 import org.kuali.kra.committee.document.CommitteeDocument;
 import org.kuali.kra.infrastructure.KraServiceLocator;
 import org.kuali.kra.institutionalproposal.document.InstitutionalProposalDocument;
@@ -109,6 +110,8 @@ public abstract class AbstractHoldingPageAction extends KualiAction {
             isProcessComplete = ((ProtocolOnlineReviewDocument) document).isProcessComplete();
         } else if (document instanceof PersonMassChangeDocument) {
             isProcessComplete = ((PersonMassChangeDocument) document).isProcessComplete();
+        } else if (document instanceof CoiDisclosureDocument) {
+            isProcessComplete = ((CoiDisclosureDocument) document).isProcessComplete();
         }
         
         return isProcessComplete;

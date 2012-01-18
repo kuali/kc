@@ -156,6 +156,7 @@ public class CoiDisclosureAction extends CoiAction {
     public ActionForward docHandler(ActionMapping mapping, ActionForm form, HttpServletRequest request, HttpServletResponse response)
             throws Exception {
         CoiDisclosureForm coiDisclosureForm = (CoiDisclosureForm) form;
+
         String command = coiDisclosureForm.getCommand();
         ActionForward forward = mapping.findForward(Constants.MAPPING_BASIC);
         String eventTypeCode = CoiDisclosureEventType.ANNUAL; 
@@ -172,17 +173,18 @@ public class CoiDisclosureAction extends CoiAction {
             }
             coiDisclosureForm.setCommand(KEWConstants.INITIATE_COMMAND);
             forward = super.docHandler(mapping, form, request, response);
+
             CoiDisclosure coiDisclosure = getCoiDisclosureService().versionCoiDisclosure();
             if (coiDisclosure != null) {
                 coiDisclosureForm.getCoiDisclosureDocument().setCoiDisclosure(coiDisclosure);
             }
             coiDisclosureForm.getCoiDisclosureDocument().getCoiDisclosure().setEventTypeCode(eventTypeCode);
+
         } else {
-            forward = super.docHandler(mapping, form, request, response);            
+            forward = mapping.findForward(Constants.MAPPING_BASIC);
         }
         ((CoiDisclosureForm)form).getDisclosureHelper().prepareView();
-      checkToLoadDisclosureDetails(coiDisclosureForm.getCoiDisclosureDocument().getCoiDisclosure(), ((CoiDisclosureForm) form).getMethodToCall(), coiDisclosureForm.getDisclosureHelper().getNewProjectId(), coiDisclosureForm.getDisclosureHelper().getNewModuleItemKey());
-
+        checkToLoadDisclosureDetails(coiDisclosureForm.getCoiDisclosureDocument().getCoiDisclosure(), ((CoiDisclosureForm) form).getMethodToCall(), coiDisclosureForm.getDisclosureHelper().getNewProjectId(), coiDisclosureForm.getDisclosureHelper().getNewModuleItemKey());
         return forward;
     }
 
@@ -307,10 +309,11 @@ public class CoiDisclosureAction extends CoiAction {
         CoiDisclosureDocument coiDisclosureDocument = (CoiDisclosureDocument)coiDisclosureForm.getDocument();
         CoiDisclosure coiDisclosure = coiDisclosureDocument.getCoiDisclosure();
         if (checkRule(new CertifyDisclosureEvent("disclosureHelper.certifyDisclosure", coiDisclosure))) {
-            coiDisclosure.certifyDisclosure();
             coiDisclosureForm.setAuditActivated(true);
             AuditActionHelper auditActionHelper = new AuditActionHelper();
             if (auditActionHelper.auditUnconditionally(coiDisclosureDocument)) {
+                // Certification occurs after the audit rules pass.
+                coiDisclosure.certifyDisclosure();
                 if (coiDisclosure.getCoiDisclosureId() == null) {
                     coiDisclosure.initRequiredFields();            
                 } else {
@@ -515,7 +518,6 @@ public class CoiDisclosureAction extends CoiAction {
     }
     
     public ActionForward addNote(ActionMapping mapping, ActionForm form, HttpServletRequest request, HttpServletResponse response) throws Exception {
-        System.out.println("test");
         CoiNotesAndAttachmentsHelper helper = ((CoiDisclosureForm) form).getCoiNotesAndAttachmentsHelper();   
         // add authorization here       
         helper.addNewNote();
@@ -604,7 +606,6 @@ public class CoiDisclosureAction extends CoiAction {
             return action;
         }
         getDisclosureActionService().submitToWorkflow(coiDisclosureDocument, coiDisclosureForm, submitAction);
-        super.route(mapping, coiDisclosureForm, request, response);
         return routeDisclosureToHoldingPage(mapping, coiDisclosureForm);
     }
     
