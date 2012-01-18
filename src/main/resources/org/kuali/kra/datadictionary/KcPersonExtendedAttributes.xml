@@ -47,6 +47,7 @@
         <ref bean="KcPersonExtendedAttributes-county"/>
         <ref bean="KcPersonExtendedAttributes-versionNumber"/>
         <ref bean="KcPersonExtendedAttributes-citizenshipTypeCode"/>
+        <ref bean="KcPersonExtendedAttributes-salaryAnniversaryDate"/>
       </list>
     </property>
   </bean>
@@ -460,6 +461,23 @@
     <property name="summary" value="Multi-Campus Principal Name" />
     <property name="description" value="Multi-Campus Principal Name" />
   </bean>
+  <bean id="KcPersonExtendedAttributes-salaryAnniversaryDate" parent="KcPersonExtendedAttributes-salaryAnniversaryDate-parentBean"/>
+
+  <bean abstract="true" id="KcPersonExtendedAttributes-salaryAnniversaryDate-parentBean" parent="KraAttributeReferenceDummy-genericDate">
+    <property name="name" value="salaryAnniversaryDate"/>
+    <property name="label" value="Salary Anniversary Date"/>
+    <property name="shortLabel" value="Salary Anniversary Dt"/>
+    <property name="required" value="false"/>
+    <property name="maxLength" value="10"/>
+    <property name="validationPattern">
+      <bean parent="DateValidationPattern"/>
+    </property>
+    <property name="control">
+      <bean p:datePicker="true" p:size="10" parent="TextControlDefinition"/>
+    </property>
+    <property name="summary" value="Salary Anniversary Date"/>
+    <property name="description" value="Salary Anniversary Date"/>
+  </bean>
   
 
 <!-- Business Object Inquiry Definition -->
@@ -505,6 +523,7 @@
               <bean p:attributeName="citizenshipTypeCode" parent="FieldDefinition"/>
               <bean p:attributeName="multiCampusPrincipalId" parent="FieldDefinition"/>
               <bean p:attributeName="multiCampusPrincipalName" parent="FieldDefinition"/>               
+              <bean p:attributeName="salaryAnniversaryDate" parent="FieldDefinition"/>               
             </list>
           </property>
         </bean>

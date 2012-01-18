@@ -946,6 +946,10 @@ OUTER:  for(BudgetPeriod budgetPeriod: getBudgetPeriods()) {
         return createDateFromString(getParameterService().getParameterValue(BudgetDocument.class, Constants.BUDGET_CURRENT_FISCAL_YEAR));        
     }
     
+    public boolean getSalaryInflationEnabled(){
+        return getParameterService().getParameterValue(BudgetDocument.class, Constants.ENABLE_SALARY_INFLATION_ANNIV_DATE).equals(PARAM_VALUE_ENABLED);
+    }
+    
     /**
      * This method loads the cost sharing applicability flag from the database. Protected to allow mocking out service call
      * @return

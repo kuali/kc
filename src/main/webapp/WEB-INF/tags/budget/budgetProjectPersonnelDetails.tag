@@ -28,6 +28,9 @@
 		<th><kul:htmlAttributeLabel attributeEntry="${attributes.appointmentType}" /></div></th>
 		<th><kul:htmlAttributeLabel attributeEntry="${attributes.calculationBase}" /></div></th>
 		<th><kul:htmlAttributeLabel attributeEntry="${attributes.effectiveDate}" /></th>
+		<c:if test="${KualiForm.document.budget.salaryInflationEnabled}">
+			<th><kul:htmlAttributeLabel attributeEntry="${attributes.salaryAnniversaryDate}" /></th>
+		</c:if>
         <kra:section permission="modifyBudgets">
 		    <th>Actions</th>
 		</kra:section>
@@ -36,7 +39,7 @@
 	<kra:section permission="modifyBudgets">
 		<tr>
 		<th>Add:</th>
-		    <td colspan="6">
+		    <td colspan="7">
 			    <label>Employee Search</label>
 			    <label><kul:multipleValueLookup boClassName="org.kuali.kra.bo.KcPerson" 
 				                                lookedUpCollectionName="newBudgetPersons" /></label><br>
@@ -96,6 +99,14 @@
 			                                  attributeEntry="${attributes.effectiveDate}"  />
 			    </div>
 			</td>
+			<c:if test="${KualiForm.document.budget.salaryInflationEnabled}">
+			<td>
+			    <div align="center">
+			        <kul:htmlControlAttribute property="${budgetPersonProperty}[${status.index}].salaryAnniversaryDate" 
+			                                  attributeEntry="${attributes.salaryAnniversaryDate}"  />
+			    </div>
+			</td>
+			</c:if>
 			<kra:section permission="modifyBudgets">
 				<td>
 				    <div align=center>&nbsp;

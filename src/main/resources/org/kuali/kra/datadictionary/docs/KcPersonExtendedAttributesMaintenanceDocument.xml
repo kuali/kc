@@ -64,6 +64,7 @@
         <bean parent="MaintainableFieldDefinition" p:name="templateFile"/>
         <bean parent="MaintainableFieldDefinition" p:name="citizenshipTypeCode"/>
         <bean parent="MaintainableFieldDefinition" p:name="versionNumber"/>
+        <bean parent="MaintainableFieldDefinition" p:name="salaryAnniversaryDate"/>
       </list>
     </property>
   </bean>

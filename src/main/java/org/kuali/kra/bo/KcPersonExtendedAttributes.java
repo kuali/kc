@@ -62,6 +62,7 @@ public class KcPersonExtendedAttributes extends KraPersistableBusinessObjectBase
     private Integer citizenshipTypeCode;
     private String multiCampusPrincipalId;
     private String multiCampusPrincipalName;
+    private Date salaryAnniversaryDate;
     
     private String biosketchDescription;
     private String fileName;
@@ -611,6 +612,22 @@ public class KcPersonExtendedAttributes extends KraPersistableBusinessObjectBase
 
     public void setMultiCampusPrincipalName(String multiCampusPrincipalName) {
         this.multiCampusPrincipalName = multiCampusPrincipalName;
+    }
+
+    /**
+     * Gets the salaryAnniversaryDate attribute. 
+     * @return Returns the salaryAnniversaryDate.
+     */
+    public Date getSalaryAnniversaryDate() {
+        return salaryAnniversaryDate;
+    }
+
+    /**
+     * Sets the salaryAnniversaryDate attribute value.
+     * @param salaryAnniversaryDate The salaryAnniversaryDate to set.
+     */
+    public void setSalaryAnniversaryDate(Date salaryAnniversaryDate) {
+        this.salaryAnniversaryDate = salaryAnniversaryDate;
     }
     
 }
