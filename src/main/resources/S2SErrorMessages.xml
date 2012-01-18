@@ -1346,17 +1346,17 @@
   		<FixLink>abstractsAttachments</FixLink> 
 	</Error>
 	<Error>
- 		<MessageKey>/GrantApplication/Forms/PHS_Fellowship_Supplemental_1_2/ResearchTrainingPlan/FellowshipTrainingAndCareerGoals</MessageKey> 
+ 		<MessageKey>/GrantApplication/Forms/PHS_Fellowship_Supplemental_1_2/AdditionalInformation/FellowshipTrainingAndCareerGoals</MessageKey> 
  		<Message>Goals for Fellowship Training and Career is a required attachment for the PHS Fellowship Supplemental Form, please add this file in the proposal attachments panel.</Message> 
   		<FixLink>abstractsAttachments</FixLink> 
 	</Error>
 	<Error>
- 		<MessageKey>/GrantApplication/Forms/PHS_Fellowship_Supplemental_1_2/ResearchTrainingPlan/ActivitiesPlannedUnderThisAward</MessageKey> 
+ 		<MessageKey>/GrantApplication/Forms/PHS_Fellowship_Supplemental_1_2/AdditionalInformation/ActivitiesPlannedUnderThisAward</MessageKey> 
  		<Message>Activities Planned Under This Award is a required attachment for the PHS Fellowship Supplemental Form, please add this file in the proposal attachments panel.</Message> 
   		<FixLink>abstractsAttachments</FixLink> 
 	</Error>
 	<Error>
- 		<MessageKey>/GrantApplication/Forms/PHS_Fellowship_Supplemental_1_2/ResearchTrainingPlan/SponsorCosponsorInformation</MessageKey> 
+ 		<MessageKey>/GrantApplication/Forms/PHS_Fellowship_Supplemental_1_2/Sponsors/SponsorCosponsorInformation</MessageKey> 
  		<Message>Sponsor(s) and Co-Sponsor(s) Information is a required attachment for the PHS Fellowship Supplemental Form, please add this file in the proposal attachments panel.</Message> 
   		<FixLink>abstractsAttachments</FixLink> 
 	</Error>
