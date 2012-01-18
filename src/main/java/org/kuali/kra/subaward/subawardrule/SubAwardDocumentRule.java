@@ -15,6 +15,7 @@
  */
 package org.kuali.kra.subaward.subawardrule;
 
+
 import org.kuali.kra.award.home.Award;
 import org.kuali.kra.award.home.AwardService;
 import org.kuali.kra.infrastructure.KeyConstants;
@@ -31,11 +32,12 @@ import org.kuali.rice.kns.document.Document;
 import org.kuali.rice.kns.rule.BusinessRule;
 import org.kuali.rice.kns.util.ErrorMap;
 import org.kuali.rice.kns.util.GlobalVariables;
+import org.kuali.rice.kns.util.KualiDecimal;
 
 public class SubAwardDocumentRule extends ResearchDocumentRuleBase implements SubAwardRule,
                                                                                  SubAwardAmountInfoRule,
                                                                                  SubAwardAmountReleasedRule,
-                                                                                 SubAwardContactRule,
+                                                                                  SubAwardContactRule,
                                                                                  SubAwardCloseoutRule,
                                                                                  SubAwardFundingSourceRule{
     
@@ -64,8 +66,6 @@ public class SubAwardDocumentRule extends ResearchDocumentRuleBase implements Su
     private static final String CLOSEOUT_TYPE_CODE="newSubAwardCloseout.closeoutTypeCode";
     
     private static final String AWARD_NUMBER="newSubAwardFundingSource.award.awardNumber";
-    
-    
     
 
     public boolean processAddSubAwardBusinessRules(SubAward subAward) {
@@ -113,23 +113,47 @@ public class SubAwardDocumentRule extends ResearchDocumentRuleBase implements Su
                         , KeyConstants.SUBAWARD_ERROR_END_DATE_GREATER_THAN_START); 
             }
         }
+
+        return rulePassed;
+    }
+    
+    public boolean processSaveSubAwardAmountInfoBusinessRule(SubAward subAward,SubAwardAmountInfo amountInfo) {
+        boolean rulePassed = true; 
+        
+        rulePassed &= processSubAwardAmountInfoBusinessRule(subAward,amountInfo);
+        
+        return rulePassed;
+    } 
+   protected boolean  processSubAwardAmountInfoBusinessRule(SubAward subAward,SubAwardAmountInfo amountInfo){    
+        
+        boolean rulePassed = true;   
+    
+        KualiDecimal obligatedAmount=KualiDecimal.ZERO;
+        if( obligatedAmount!=null){
+        for(SubAwardAmountInfo subAwardAmountInfo :subAward.getSubAwardAmountInfoList()){              
+            obligatedAmount = obligatedAmount .add(subAwardAmountInfo.getObligatedChange());
+        } 
+        }   
+       if(obligatedAmount!=null && subAward.getTotalAmountReleased()!=null){
+           if(obligatedAmount.isLessThan(subAward.getTotalAmountReleased())){
+               rulePassed = false;
+               reportError(AMOUNT_INFO_OBLIGATED_AMOUNT
+                       , KeyConstants.ERROR_SUBAWARD_OBLIGATED_AMOUNT_SHOULD_BE_GREATER_AMOUNT_RELEASED ); 
+           }
+       }
+      
         return rulePassed;
     }
 
-
-
-    
-    
-
-    public boolean processAddSubAwardAmountInfoBusinessRules(SubAwardAmountInfo amountInfo) {
+    public boolean processAddSubAwardAmountInfoBusinessRules(SubAwardAmountInfo amountInfo,SubAward subAward) {
         boolean rulePassed = true; 
         
-        rulePassed &= processSaveSubAwardAmountInfoBusinessRules(amountInfo);
+        rulePassed &= processSaveSubAwardAmountInfoBusinessRules(amountInfo,subAward);
         
         return rulePassed;
     }    
     
-    protected boolean  processSaveSubAwardAmountInfoBusinessRules(SubAwardAmountInfo amountInfo){    
+    protected boolean  processSaveSubAwardAmountInfoBusinessRules(SubAwardAmountInfo amountInfo,SubAward subAward){    
         
         boolean rulePassed = true;   
         
@@ -184,14 +208,61 @@ public class SubAwardDocumentRule extends ResearchDocumentRuleBase implements Su
                         , KeyConstants.ERROR_AMOUNT_INFO_ANTICIPATED_AMOUNT_ZERO); 
             }
         }
+        if(amountInfo==null 
+                || amountInfo.getAnticipatedChange()==null){
+            rulePassed = false;            
+            reportError(AMOUNT_INFO_ANTICIPATED_AMOUNT
+                    , KeyConstants.ERROR_REQUIRED_ANTICIPATED_AMOUNT);
+        } 
+ 
+        if(amountInfo==null 
+                || amountInfo.getObligatedChange()==null){
+            rulePassed = false;            
+            reportError(AMOUNT_INFO_OBLIGATED_AMOUNT
+                    , KeyConstants.ERROR_REQUIRED_OBLIGATED_AMOUNT);
+        }      
+        
+        KualiDecimal obligatedAmount=amountInfo.getObligatedChange();
+        if( obligatedAmount!=null){
+        for(SubAwardAmountInfo subAwardAmountInfo :subAward.getSubAwardAmountInfoList()){             
+            obligatedAmount = obligatedAmount .add(subAwardAmountInfo.getObligatedChange());
+        } 
+        }   
+       if(subAward.getTotalObligatedAmount()!=null && subAward.getTotalAmountReleased()!=null){
+           if(subAward.getTotalObligatedAmount().isLessThan(subAward.getTotalAmountReleased())){
+               rulePassed = false;
+               reportError(AMOUNT_INFO_OBLIGATED_AMOUNT
+                       , KeyConstants.ERROR_SUBAWARD_OBLIGATED_AMOUNT_SHOULD_BE_GREATER_AMOUNT_RELEASED ); 
+           }
+       }
+        
         return rulePassed;
     }
     
     
-    
-    
-    
-    
+    public boolean processDeleteSubAwardAmountInfoBusinessRules(SubAwardAmountInfo amountInfo,SubAward subAward) {
+        boolean rulePassed = true; 
+        
+        rulePassed &= processSubAwardAmountInfoBusinessRules(amountInfo,subAward);
+        
+        return rulePassed;
+    } 
+    protected boolean  processSubAwardAmountInfoBusinessRules(SubAwardAmountInfo amountInfo,SubAward subAward){    
+        
+        boolean rulePassed = true;   
+
+       if(subAward.getTotalObligatedAmount()!=null && subAward.getTotalAmountReleased()!=null){
+           if(subAward.getTotalObligatedAmount().isGreaterThan(subAward.getTotalAmountReleased())){
+               rulePassed = false;
+               reportError(AMOUNT_INFO_OBLIGATED_AMOUNT
+                       , KeyConstants.ERROR_SUBAWARD_OBLIGATED_AMOUNT_IS_GREATER_AMOUNT_RELEASED ); 
+           }
+       }
+        
+        return rulePassed;
+    }
+     
+ 
 
     public boolean processAddSubAwardAmountReleasedBusinessRules(SubAwardAmountReleased amountReleased,SubAward subAward ) {
         
@@ -243,8 +314,14 @@ public class SubAwardDocumentRule extends ResearchDocumentRuleBase implements Su
                         , KeyConstants.SUBAWARD_ERROR_END_DATE_GREATER_THAN_START);
             }
         }
-        if(amountReleased.getAmountReleased()!=null && subAward.getTotalObligatedAmount()!=null){
-            if(amountReleased.getAmountReleased().isGreaterThan(subAward.getTotalObligatedAmount())){
+        KualiDecimal totalAmount=amountReleased.getAmountReleased();
+        if(totalAmount!=null){
+         for(SubAwardAmountReleased subAwardAmountReleased :subAward.getSubAwardAmountReleasedList()){             
+             totalAmount = totalAmount .add(subAwardAmountReleased.getAmountReleased());
+         } 
+        }     
+        if(totalAmount!=null && subAward.getTotalObligatedAmount()!=null){
+            if(totalAmount.isGreaterThan(subAward.getTotalObligatedAmount())){
                 rulePassed = false;
                 reportError(AMOUNT_RELEASED
                         , KeyConstants.ERROR_SUBAWARD_AMOUNT_RELEASED_GREATER_OBLIGATED_AMOUNT ); 

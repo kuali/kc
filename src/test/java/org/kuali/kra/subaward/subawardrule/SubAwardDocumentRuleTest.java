@@ -56,8 +56,9 @@ public class SubAwardDocumentRuleTest extends KcUnitTestBase {
         subAward.setPurchaseOrderNum("1"); 
         
         subAwardAmountInfo = new SubAwardAmountInfo(); 
-        subAwardAmountInfo.setEffectiveDate(new Date(System.currentTimeMillis()));  
-        
+        subAwardAmountInfo.setEffectiveDate(new Date(System.currentTimeMillis())); 
+        subAwardAmountInfo.setObligatedChange(new KualiDecimal(150));
+        subAwardAmountInfo.setAnticipatedChange(new KualiDecimal(200));
         subAwardAmountReleased = new SubAwardAmountReleased();
         subAwardAmountReleased.setInvoiceNumber("1") ;
         subAwardAmountReleased.setStartDate(new Date(System.currentTimeMillis()));
@@ -98,7 +99,7 @@ public class SubAwardDocumentRuleTest extends KcUnitTestBase {
     @Test
     public void testProcessAddSubAwardAmountInfoBusinessRules() throws Exception {
        
-        Assert.assertTrue(subAwardDocumentRule.processAddSubAwardAmountInfoBusinessRules(subAwardAmountInfo));
+        Assert.assertTrue(subAwardDocumentRule.processAddSubAwardAmountInfoBusinessRules(subAwardAmountInfo,subAward));
     }
     
     @Test
