@@ -913,10 +913,12 @@ public class CoiDisclosureServiceImpl implements CoiDisclosureService {
             newDisclosure.setCoiDisclosureAttachments(null);
             newDisclosure.setCoiDisclosureNotepads(null);
             newDisclosure.setCurrentDisclosure(false);
+            newDisclosure.setCertificationTimestamp(null);
             newDisclosure.setDisclosureDispositionCode(CoiDisclosure.DISPOSITION_PENDING);
             newDisclosure.setDisclosureStatusCode(CoiDisclosureStatus.DISCLOSURE_PENDING);
             newDisclosure.setExpirationDate(new Date(DateUtils.addDays(new Date(System.currentTimeMillis()), 365).getTime()));
         }
+
         return newDisclosure;
     }
 
