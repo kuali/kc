@@ -222,7 +222,6 @@ public class CoiNoteAndAttachmentAction extends CoiAction {
     }
     
     public ActionForward addNote(ActionMapping mapping, ActionForm form, HttpServletRequest request, HttpServletResponse response) throws Exception {
-        System.out.println("test");
         CoiNotesAndAttachmentsHelper helper = ((CoiDisclosureForm) form).getCoiNotesAndAttachmentsHelper();   
         // add authorization here
         helper.addNewNote();
