@@ -196,7 +196,7 @@ public class CoiDisclosureActionServiceImpl implements CoiDisclosureActionServic
         DisclosureCertifiedNotificationRenderer renderer = new DisclosureCertifiedNotificationRenderer(coiDisclosureDocument.getCoiDisclosure(), CoiDisclosure.CERTIFIED);
         DisclosureCertifiedNotificationRequestBean disclosureCertifiedNotificationBean = getDisclosureCertifiedRequestBean(coiDisclosureDocument.getCoiDisclosure(), submitDisclosureAction.getReviewers());
         
-        CoiNotificationContext context = new CoiNotificationContext(coiDisclosureDocument.getDocumentNumber(), 
+        CoiNotificationContext context = new CoiNotificationContext(coiDisclosureDocument.getCoiDisclosure(), 
                                                                     disclosureCertifiedNotificationBean.getActionType(), 
                                                                     disclosureCertifiedNotificationBean.getDescription(), renderer);
         if (coiDisclosureForm.getNotificationHelper().getPromptUserForNotificationEditor(context)) {
