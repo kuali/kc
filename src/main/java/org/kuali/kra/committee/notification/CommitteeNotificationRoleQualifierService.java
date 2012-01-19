@@ -15,11 +15,16 @@
  */
 package org.kuali.kra.committee.notification;
 
+import org.kuali.kra.committee.bo.Committee;
+import org.kuali.kra.committee.bo.CommitteeSchedule;
 import org.kuali.kra.common.notification.service.KcNotificationRoleQualifierService;
 
 public interface CommitteeNotificationRoleQualifierService extends KcNotificationRoleQualifierService {
 
-    public void setCommitteeDocumentNumber(String committeeDocumentNumber);
-    public String getCommitteeDocumentNumber();
+    public void setCommittee(Committee committee);
+    public Committee getCommittee();
+    
+    public void setCommitteeSchedule(CommitteeSchedule committeeSchedule);
+    public CommitteeSchedule getCommitteeSchedule();
         
 }

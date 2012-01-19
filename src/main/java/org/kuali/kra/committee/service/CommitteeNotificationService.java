@@ -15,6 +15,7 @@
  */
 package org.kuali.kra.committee.service;
 
+import org.kuali.kra.meeting.CommScheduleMinuteDoc;
 import org.kuali.kra.meeting.ScheduleAgenda;
 
 /**
@@ -25,9 +26,10 @@ public interface CommitteeNotificationService {
     
     /**
      * 
-     * This method generates committee notifications
+     * These methods generate committee notifications
      * @throws Exception 
      */
     public void generateNotification(String notificationType, ScheduleAgenda agenda);
+    public void generateNotification(String notificationType, CommScheduleMinuteDoc minuteDoc);
  
 }

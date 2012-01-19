@@ -17,14 +17,15 @@ package org.kuali.kra.committee.notification;
 
 import org.apache.commons.lang.StringUtils;
 import org.kuali.kra.committee.bo.Committee;
+import org.kuali.kra.committee.bo.CommitteeSchedule;
 import org.kuali.kra.common.notification.bo.NotificationModuleRoleQualifier;
-import org.kuali.kra.irb.Protocol;
 import org.kuali.kra.kim.bo.KcKimAttributes;
 
 
 public class CommitteeNotificationRoleQualifierServiceImpl implements CommitteeNotificationRoleQualifierService {
 
-    private String committeeDocumentNumber;
+    private Committee committee;
+    private CommitteeSchedule committeeSchedule;
     
     /**
      * 
@@ -33,19 +34,31 @@ public class CommitteeNotificationRoleQualifierServiceImpl implements CommitteeN
     @Override
     public String getRoleQualifierValue(NotificationModuleRoleQualifier qualifier) {
         String qName = qualifier.getQualifier();
+        String qVal = null;
         if (StringUtils.equalsIgnoreCase(qName, KcKimAttributes.COMMITTEE)) {
-            return committeeDocumentNumber;
+            qVal = committee.getCommitteeId();
         }
-        
-        return null;
+        else if (StringUtils.equalsIgnoreCase(qName, KcKimAttributes.COMMITTEESCHEDULE)) {
+            qVal = committeeSchedule.getScheduleId();
+        }
+System.out.println("\nQQQQQQQQQQQQQQQQQQQQQQQQQQQ getRoleQualifierValue() called, qualifier = " + qualifier.getQualifier() + ", value = " + qVal);        
+        return qVal;
     }
 
-    public String getCommitteeDocumentNumber() {
-        return committeeDocumentNumber;
+    public Committee getCommittee() {
+        return committee;
     }
 
-    public void setCommitteeDocumentNumber(String committeeDocumentNumber) {
-        this.committeeDocumentNumber = committeeDocumentNumber;
+    public void setCommittee(Committee committee) {
+        this.committee = committee;
+    }
+
+    public CommitteeSchedule getCommitteeSchedule() {
+        return committeeSchedule;
+    }
+
+    public void setCommitteeSchedule(CommitteeSchedule committeeSchedule) {
+        this.committeeSchedule = committeeSchedule;
     }
 
 }

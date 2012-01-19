@@ -23,14 +23,10 @@ public class CommitteeReplacementParameters {
 
     public static final String DOCUMENT_NUMBER = "{DOCUMENT_NUMBER}";
     public static final String SEQUENCE_NUMBER = "{SEQUENCE_NUMBER}";
-    public static final String LAST_ACTION_TYPE_CODE = "{LAST_ACTION_TYPE_CODE}";
-    public static final String LAST_ACTION_NAME = "{LAST_ACTION_NAME}";
     public static final String COMMITTEE_NAME = "{COMMITTEE_NAME}";
     
     public static final String[] REPLACEMENT_PARAMETERS = new String[] { DOCUMENT_NUMBER,
                                                                          SEQUENCE_NUMBER, 
-                                                                         LAST_ACTION_TYPE_CODE,
-                                                                         LAST_ACTION_NAME,
                                                                          COMMITTEE_NAME
                                                                        };
 }
