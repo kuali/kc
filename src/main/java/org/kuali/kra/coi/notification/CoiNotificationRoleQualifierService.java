@@ -15,11 +15,12 @@
  */
 package org.kuali.kra.coi.notification;
 
+import org.kuali.kra.coi.CoiDisclosure;
 import org.kuali.kra.common.notification.service.KcNotificationRoleQualifierService;
 
 public interface CoiNotificationRoleQualifierService extends KcNotificationRoleQualifierService {
 
-    public void setCoiDisclosureDocumentNumber(String coiDisclosureDocumentNumber);
-    public String getCoiDisclosureDocumentNumber();
+    public void setCoiDisclosure(CoiDisclosure coiDisclosure);
+    public CoiDisclosure getCoiDisclosure();
         
 }
