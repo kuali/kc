@@ -15,6 +15,9 @@
 --%>
 <%@ include file="/WEB-INF/jsp/kraTldHeader.jsp"%>
 <%@ page language="java" %> 
+
+<link rel="stylesheet" href="css/jquery/new_kuali.css" type="text/css" />
+
 <kul:documentPage
 	showDocumentInfo="true"
 	htmlFormAction="proposalDevelopmentAbstractsAttachments"
