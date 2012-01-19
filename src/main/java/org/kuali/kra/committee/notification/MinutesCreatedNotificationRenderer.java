@@ -20,30 +20,31 @@ import java.util.Map;
 import org.apache.commons.lang.StringUtils;
 import org.kuali.kra.committee.bo.Committee;
 import org.kuali.kra.irb.notification.IRBReplacementParameters;
+import org.kuali.kra.meeting.CommScheduleMinuteDoc;
 import org.kuali.kra.meeting.ScheduleAgenda;
 
 /**
  * Renders additional fields for the Agenda Created notification.
  */
-public class AgendaCreatedNotificationRenderer extends CommitteeNotificationRenderer {
+public class MinutesCreatedNotificationRenderer extends CommitteeNotificationRenderer {
 
     private static final long serialVersionUID = -6019679826378390076L;
     
     private String actionTaken;
-    private ScheduleAgenda scheduleAgenda;
+    private CommScheduleMinuteDoc commScheduleMinuteDoc;
 
     private static String ACTION_TAKEN = "{ACTION_TAKEN}";
     private static String MEETING_DATE = "{LAST_ACTION_DATE}";
 
     /**
-     * Constructs an Agenda Created notification renderer.
+     * Constructs an Minutes Created notification renderer.
      * 
      * @param protocol
      * @param actionTaken
      */
-    public AgendaCreatedNotificationRenderer(ScheduleAgenda scheduleAgenda, String actionTaken) {
-        super(scheduleAgenda.getCommitteeSchedule().getCommittee());
-        this.scheduleAgenda = scheduleAgenda;
+    public MinutesCreatedNotificationRenderer(CommScheduleMinuteDoc minuteDoc, String actionTaken) {
+        super(minuteDoc.getCommitteeSchedule().getCommittee());
+        this.commScheduleMinuteDoc = minuteDoc;
         this.actionTaken = actionTaken;
     }
 
@@ -55,12 +56,12 @@ public class AgendaCreatedNotificationRenderer extends CommitteeNotificationRend
         this.actionTaken = actionTaken;
     }
 
-    public ScheduleAgenda getScheduleAgenda() {
-        return scheduleAgenda;
+    public CommScheduleMinuteDoc getCommScheduleMinuteDoc() {
+        return commScheduleMinuteDoc;
     }
     
-    public void setScheduleAgenda(ScheduleAgenda scheduleAgenda) {
-        this.scheduleAgenda = scheduleAgenda;
+    public void setCommScheduleMinuteDoc(CommScheduleMinuteDoc commScheduleMinuteDoc) {
+        this.commScheduleMinuteDoc = commScheduleMinuteDoc;
     }
     
     /**
@@ -70,7 +71,7 @@ public class AgendaCreatedNotificationRenderer extends CommitteeNotificationRend
     @Override
     public Map<String, String> getDefaultReplacementParameters() {
         Map<String, String> params = super.getDefaultReplacementParameters();
-        params.put(MEETING_DATE, scheduleAgenda.getCreateTimestamp().toString());
+        params.put(MEETING_DATE, commScheduleMinuteDoc.getCreateTimestamp().toString());
         params.put(ACTION_TAKEN, actionTaken);
         return params;
     }    

@@ -198,7 +198,7 @@ public class MeetingActionsAction extends MeetingAction {
 
     /**
      * 
-     * This method is to send notification message for selected agenda.
+     * This method is UI hook to send notification message for selected agenda/meeting minutes
      * @param mapping
      * @param form
      * @param request
@@ -237,6 +237,27 @@ public class MeetingActionsAction extends MeetingAction {
         PrintingUtils.streamToResponse(source, response);
         
         return null;
+    }
+    
+    /**
+     * 
+     * This method is to send notification that meeting minutes have been generated.
+     * @param mapping
+     * @param form
+     * @param request
+     * @param response
+     * @return
+     * @throws Exception
+     */
+    public ActionForward sendMinutesNotification(ActionMapping mapping, ActionForm form, HttpServletRequest request,
+            HttpServletResponse response) throws Exception {
+        
+      //  final int selection = this.getSelectedLine(request);
+        final int selection = getSelectedLine(request);
+        MeetingHelper meetingHelper = ((MeetingForm) form).getMeetingHelper();
+        CommScheduleMinuteDoc minuteDoc = meetingHelper.getMinuteDocs().get(selection);
+        getCommitteeNotificationService().generateNotification(Constants.COMMITTEE_MINUTES_NOTIFICATION, minuteDoc);
+        return mapping.findForward(Constants.MAPPING_BASIC);
     }
     
     /**

@@ -16,10 +16,13 @@
 package org.kuali.kra.committee.service.impl;
 
 import org.apache.commons.lang.StringUtils;
+import org.kuali.kra.committee.bo.CommitteeSchedule;
 import org.kuali.kra.committee.notification.AgendaCreatedNotificationRenderer;
+import org.kuali.kra.committee.notification.MinutesCreatedNotificationRenderer;
 import org.kuali.kra.committee.service.CommitteeNotificationService;
 import org.kuali.kra.common.notification.service.KcNotificationService;
 import org.kuali.kra.infrastructure.Constants;
+import org.kuali.kra.meeting.CommScheduleMinuteDoc;
 import org.kuali.kra.meeting.ScheduleAgenda;
 import org.kuali.kra.committee.notification.CommitteeNotificationContext;
 
@@ -42,16 +45,34 @@ public class CommitteeNotificationServiceImpl implements CommitteeNotificationSe
     }
 
     /**
-     * This method generates notifications for a committee.
+     * This method generates Agenda Generated notifications for a committee.
      * @throws Exception 
      */
     public void generateNotification(String notificationType, ScheduleAgenda agenda) {
         
         if (StringUtils.equals(notificationType, Constants.COMMITTEE_AGENDA_NOTIFICATION)) {
-            AgendaCreatedNotificationRenderer renderer = new AgendaCreatedNotificationRenderer(agenda.getCommitteeSchedule().getCommittee(), "action taken");
-
-            CommitteeNotificationContext context = new CommitteeNotificationContext(agenda.getCommitteeSchedule().getCommittee().getDocumentNumberForPermission(), 
-                                                                                    notificationType, "Agenda Generated Notification", renderer);
+            CommitteeSchedule committeeSchedule = agenda.getCommitteeSchedule();
+            AgendaCreatedNotificationRenderer renderer = new AgendaCreatedNotificationRenderer(agenda, "action taken");
+            CommitteeNotificationContext context = new CommitteeNotificationContext(committeeSchedule, 
+                                                    notificationType, "Agenda Generated Notification", renderer);
+            kcNotificationService.sendNotification(context);
+        } else {
+            throw new IllegalArgumentException(committeeNotificationType);
+        }
+        
+    }
+    
+    /**
+     * This method generates Minutes Generated notifications for a committee.
+     * @throws Exception 
+     */
+    public void generateNotification(String notificationType, CommScheduleMinuteDoc minuteDoc) {
+        
+        if (StringUtils.equals(notificationType, Constants.COMMITTEE_MINUTES_NOTIFICATION)) {
+            CommitteeSchedule committeeSchedule = minuteDoc.getCommitteeSchedule();
+            MinutesCreatedNotificationRenderer renderer = new MinutesCreatedNotificationRenderer(minuteDoc, "action taken");
+            CommitteeNotificationContext context = new CommitteeNotificationContext(committeeSchedule, 
+                                                    notificationType, "Agenda Generated Notification", renderer);
             kcNotificationService.sendNotification(context);
         } else {
             throw new IllegalArgumentException(committeeNotificationType);
