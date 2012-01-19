@@ -19,6 +19,8 @@ package org.kuali.kra.committee.notification;
 import java.util.List;
 
 import org.kuali.kra.bo.CoeusModule;
+import org.kuali.kra.committee.bo.Committee;
+import org.kuali.kra.committee.bo.CommitteeSchedule;
 import org.kuali.kra.common.notification.NotificationRenderer;
 import org.kuali.kra.common.notification.NotificationContextBase;
 import org.kuali.kra.common.notification.bo.NotificationTypeRecipient;
@@ -37,7 +39,8 @@ public class CommitteeNotificationContext extends NotificationContextBase {
 
     private static final long serialVersionUID = 6642334312368480034L;
 
-    private String committeeDocumentNumber;
+    private Committee committee;
+    private CommitteeSchedule committeeSchedule;
     private String actionTypeCode;
     private String contextName;
     private CommitteeNotificationRoleQualifierService committeeNotificationRoleQualifierService;
@@ -48,18 +51,19 @@ public class CommitteeNotificationContext extends NotificationContextBase {
      * @param actionTypeCode
      * @param contextName
      */
-    public CommitteeNotificationContext(String committeeDocumentNumber, String actionTypeCode, String contextName, NotificationRenderer renderer) {
+    public CommitteeNotificationContext(CommitteeSchedule committeeSchedule, String actionTypeCode, String contextName, NotificationRenderer renderer) {
         super(renderer);
 
-        this.committeeDocumentNumber = committeeDocumentNumber;
+        this.committee = committeeSchedule.getCommittee();
+        this.committeeSchedule = committeeSchedule;
         this.actionTypeCode = actionTypeCode;
         this.contextName = contextName;
         
         setNotificationService(KraServiceLocator.getService(KcNotificationService.class));
         setNotificationModuleRoleService(KraServiceLocator.getService(KcNotificationModuleRoleService.class));
         setNotificationRoleQualifierService(KraServiceLocator.getService(CommitteeNotificationRoleQualifierService.class));
-        
-        ((CommitteeNotificationRoleQualifierService) getNotificationRoleQualifierService()).setCommitteeDocumentNumber(committeeDocumentNumber);
+        ((CommitteeNotificationRoleQualifierService) getNotificationRoleQualifierService()).setCommitteeSchedule(this.committeeSchedule);
+        ((CommitteeNotificationRoleQualifierService) getNotificationRoleQualifierService()).setCommittee(this.committee);
     }
     
     /**
@@ -75,7 +79,7 @@ public class CommitteeNotificationContext extends NotificationContextBase {
      * @see org.kuali.kra.common.notification.NotificationContextBase#getDocumentNumber()
      */
     public String getDocumentNumber() {
-        return committeeDocumentNumber;
+        return committee.getCommitteeDocument().getDocumentNumber();
     }
     
     /**

@@ -161,6 +161,10 @@
 		<property name="sequenceAccessorService" ref="sequenceAccessorService" />
 	</bean>
 
+    <bean id="committeeNotificationRoleQualifierService" class="org.kuali.kra.committee.notification.CommitteeNotificationRoleQualifierServiceImpl"
+          scope="prototype">
+    </bean>
+
 	<bean id="activeCommitteeMemberDerivedRoleTypeService"
 			  class="org.kuali.kra.workflow.ActiveCommitteeMemberDerivedRoleTypeServiceImpl">
 		<property name="committeeService">
@@ -226,6 +230,10 @@
 		scope="prototype" parent="lookupableHelperService">
 	</bean>
 
+    <bean id="committeeNotificationService" class="org.kuali.kra.committee.service.impl.CommitteeNotificationServiceImpl">
+		<property name="kcNotificationService" ref="kcNotificationService" />
+    </bean>
+
 	<bean id="meetingService" class="org.kuali.kra.meeting.MeetingServiceImpl">
 		<property name="businessObjectService" ref="businessObjectService" />
 		<property name="sequenceAccessorService" ref="sequenceAccessorService" />
@@ -248,8 +256,6 @@
 	<bean id="committeeBatchCorrespondenceDao" parent="platformAwareDao"
 		class="org.kuali.kra.committee.dao.ojb.CommitteeBatchCorrespondenceDaoOjb" />
 	
-		
-		
 		
 	<bean id="committeeCollaboratorBusinessLogicFactoryGroup" 
 		class="org.kuali.kra.committee.bo.businessLogic.impl.CommitteeCollaboratorBusinessLogicFactoryGroupImpl"
