@@ -22,9 +22,9 @@
       <channel:researcherNegotiations />
 </td>
 <td class="content" valign="top">
-
-      <channel:researcherProtocols />
+      <channel:researcherIRBProtocols/>
       <channel:researcherCompliance/>
+      <channel:researcherIACUCProtocols/>   
 </td>
 
 <td class="content" valign="top">
