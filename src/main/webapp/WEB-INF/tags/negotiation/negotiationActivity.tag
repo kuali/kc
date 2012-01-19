@@ -18,8 +18,10 @@
 <c:choose><c:when test="${activityIndex == -1}">
   <c:set var="tabTitle" value="Add Activity"/>
   <c:set var="activityPath" value="negotiationActivityHelper.newActivity"/>
+  <c:set var="fileDescriptionValidationFunctionName" value="validateNewFileDescriptionField"/>
 </c:when><c:otherwise>
   <c:set var="activityPath" value="document.negotiationList[0].activities[${activityIndex}]"/>
+  <c:set var="fileDescriptionValidationFunctionName" value="validateFileDescriptionField${activityIndex}"/>
   <c:set var="startDate"><bean:write name="KualiForm" property="${activityPath}.startDate"/></c:set>
   <c:set var="lastUpdate"><bean:write name="KualiForm" property="${activityPath}.lastModifiedDate"/></c:set>
   <c:set var="tabTitle" value="${activity.activityType.description} - ${activity.location.description} - ${startDate} - ${activity.lastModifiedUser.fullName} - ${lastUpdate}"/>
@@ -105,10 +107,10 @@
             	<th>
             		<html:image property="methodToCall.addAttachment.activityIndex${activityIndex}"
             			src="${ConfigProperties.kra.externalizable.images.url}tinybutton-add1.gif" styleClass="tinybutton"
-   		  				onclick="return validateFileDescriptionField${activityIndex}();"/>
+   		  				onclick="return ${fileDescriptionValidationFunctionName}();"/>
    		  				<script language="javascript">
    		  					<!--
-   		  						function validateFileDescriptionField${activityIndex}() {
+   		  						function ${fileDescriptionValidationFunctionName}() {
 				  					var fileField = document.getElementsByName('${activityPath}.newAttachment.newFile')[0];
 				  					if (fileField.value != '') {
 				  						var errorString = '';
