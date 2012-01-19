@@ -23,9 +23,12 @@ import org.apache.struts.action.ActionForm;
 import org.apache.struts.action.ActionForward;
 import org.apache.struts.action.ActionMapping;
 import org.kuali.kra.coi.CoiAction;
+import org.kuali.kra.coi.CoiActionType;
 import org.kuali.kra.coi.CoiDisclosureDocument;
 import org.kuali.kra.coi.CoiDisclosureForm;
 import org.kuali.kra.coi.CoiUserRole;
+import org.kuali.kra.coi.notification.AssignReviewerNotificationRenderer;
+import org.kuali.kra.coi.notification.CoiNotificationContext;
 import org.kuali.kra.infrastructure.Constants;
 import org.kuali.kra.infrastructure.KeyConstants;
 import org.kuali.kra.infrastructure.RoleConstants;
@@ -109,6 +112,7 @@ public class CoiDisclosureActionsAction extends CoiAction {
     
     public ActionForward addCoiUserRole(ActionMapping mapping, ActionForm form, HttpServletRequest request, HttpServletResponse response)
             throws Exception {
+        ActionForward forward = mapping.findForward(Constants.MAPPING_BASIC);
         CoiDisclosureForm coiDisclosureForm = (CoiDisclosureForm) form;
         CoiDisclosureDocument coiDisclosureDocument = coiDisclosureForm.getCoiDisclosureDocument();
         String userName = coiDisclosureForm.getDisclosureActionHelper().getNewCoiUserRole().getUserId();
@@ -126,18 +130,29 @@ public class CoiDisclosureActionsAction extends CoiAction {
             coiUserRole.setPerson(coiDisclosureForm.getDisclosureActionHelper().getKcPerson(userName));
             getCoiDisclosureActionService().addCoiUserRole(coiDisclosureDocument.getCoiDisclosure(), coiUserRole);
             coiDisclosureForm.getDisclosureActionHelper().setNewCoiUserRole(new CoiUserRole());
+            
+            CoiNotificationContext context = new CoiNotificationContext(coiDisclosureDocument.getCoiDisclosure(), 
+                    CoiActionType.ASSIGN_REVIEWER, "Assign Reviewer", 
+                    new AssignReviewerNotificationRenderer(coiDisclosureDocument.getCoiDisclosure(), "Assigned"));
+            forward = this.sendNotification(mapping, forward, coiDisclosureForm, context);
         }
         
-        return mapping.findForward(Constants.MAPPING_BASIC);
+        return forward;
 
     }
 
     public ActionForward deleteCoiUserRole(ActionMapping mapping, ActionForm form, HttpServletRequest request, HttpServletResponse response) {
+        ActionForward forward = mapping.findForward(Constants.MAPPING_BASIC);
         CoiDisclosureForm coiDisclosureForm = (CoiDisclosureForm) form;
         CoiDisclosureDocument coiDisclosureDocument = coiDisclosureForm.getCoiDisclosureDocument();
         int index = getSelectedLine(request);
         getCoiDisclosureActionService().deleteCoiUserRole(coiDisclosureDocument.getCoiDisclosure(), index);
         
-        return mapping.findForward(Constants.MAPPING_BASIC);
+        CoiNotificationContext context = new CoiNotificationContext(coiDisclosureDocument.getCoiDisclosure(), 
+                CoiActionType.ASSIGN_REVIEWER, "Assign Reviewer", 
+                new AssignReviewerNotificationRenderer(coiDisclosureDocument.getCoiDisclosure(), "Removed"));
+        forward = this.sendNotification(mapping, forward, coiDisclosureForm, context);
+        
+        return forward;
     }
 }
