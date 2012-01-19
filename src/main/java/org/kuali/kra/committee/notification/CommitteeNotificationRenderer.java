@@ -21,6 +21,7 @@ import org.apache.commons.lang.StringUtils;
 import org.kuali.kra.committee.bo.Committee;
 import org.kuali.kra.common.notification.NotificationRendererBase;
 import org.kuali.kra.infrastructure.KraServiceLocator;
+import org.kuali.kra.irb.notification.IRBReplacementParameters;
 import org.kuali.kra.service.KcPersonService;
 import org.kuali.rice.kns.service.BusinessObjectService;
 import org.kuali.rice.kns.service.KNSServiceLocator;
@@ -56,12 +57,14 @@ public class CommitteeNotificationRenderer extends NotificationRendererBase {
         String key = null;
         for (int i = 0; i < replacementParameters.length; i++) {
             key = replacementParameters[i];
-            if (StringUtils.equals(key, CommitteeReplacementParameters.LAST_ACTION_NAME)) {
-            } else if (StringUtils.equals(key, CommitteeReplacementParameters.LAST_ACTION_TYPE_CODE)) {
+            if (StringUtils.equals(key, IRBReplacementParameters.DOCUMENT_NUMBER)) {
+                params.put(key, committee.getCommitteeDocument().getDocumentNumber());
             } else if (StringUtils.equals(key, CommitteeReplacementParameters.SEQUENCE_NUMBER)) {
+                params.put(key, committee.getSequenceNumber().toString());
             } else if (StringUtils.equals(key, CommitteeReplacementParameters.COMMITTEE_NAME)) {
                 params.put(key, committee.getCommitteeName().toString());
             }
+            
         }
         return params;
     }

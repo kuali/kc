@@ -15,6 +15,8 @@
  */
 package org.kuali.kra.meeting;
 
+import static org.kuali.kra.infrastructure.KraServiceLocator.getService;
+
 import java.io.Serializable;
 import java.sql.Date;
 import java.util.ArrayList;
@@ -31,6 +33,7 @@ import org.kuali.kra.irb.actions.reviewcomments.ReviewCommentsService;
 import org.kuali.kra.irb.correspondence.ProtocolCorrespondence;
 import org.kuali.kra.service.TaskAuthorizationService;
 import org.kuali.rice.kns.bo.PersistableBusinessObject;
+import org.kuali.rice.kns.service.KualiConfigurationService;
 import org.kuali.rice.kns.util.GlobalVariables;
 
 public class MeetingHelper implements Serializable {
@@ -65,6 +68,14 @@ public class MeetingHelper implements Serializable {
     private Boolean printRooster;
     private Boolean printFutureScheduledMeeting;
     private boolean hideReviewerName;
+    private static String minutesSentMessage;
+    private static String agendaSentMessage;
+
+    private static final String AGENDA_SENT_MESSAGE = "message.disclosure.submit.thankyou";
+    private static final String MINUTES_SENT_MESSAGE = "message.disclosure.submit.thankyou";
+
+    private static final String MESSAGE_COMMITTEESCHEDULE_AGENDASENT = "message.committeeSchedule.agendaSent";
+    private static final String MESSAGE_COMMITTEESCHEDULE_MINUTESSENT = "message.committeeSchedule.minutesSent";
 
     public MeetingHelper(MeetingForm form) {
         this.form = form;
@@ -441,4 +452,20 @@ public class MeetingHelper implements Serializable {
         this.hideReviewerName = hideReviewerName;
     }
 
+    public String getMinutesSentMessage() {
+        if (minutesSentMessage == null) {
+            KualiConfigurationService kualiConfiguration = getService(KualiConfigurationService.class);
+            minutesSentMessage = kualiConfiguration.getPropertyString(MESSAGE_COMMITTEESCHEDULE_MINUTESSENT);
+        }
+        return minutesSentMessage;
+    }
+    
+    public String getAgendaSentMessage() {
+        if (agendaSentMessage == null) {
+            KualiConfigurationService kualiConfiguration = getService(KualiConfigurationService.class);
+            agendaSentMessage = kualiConfiguration.getPropertyString(MESSAGE_COMMITTEESCHEDULE_AGENDASENT);
+        }
+        return agendaSentMessage;
+    }
+    
 }
