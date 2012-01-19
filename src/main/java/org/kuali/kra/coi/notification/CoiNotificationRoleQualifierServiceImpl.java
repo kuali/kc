@@ -13,10 +13,9 @@
  * See the License for the specific language governing permissions and
  * limitations under the License.
  */
-package org.kuali.kra.coi.service.impl;
+package org.kuali.kra.coi.notification;
 
 import org.apache.commons.lang.StringUtils;
-import org.kuali.kra.coi.service.CoiNotificationRoleQualifierService;
 import org.kuali.kra.common.notification.bo.NotificationModuleRoleQualifier;
 import org.kuali.kra.kim.bo.KcKimAttributes;
 

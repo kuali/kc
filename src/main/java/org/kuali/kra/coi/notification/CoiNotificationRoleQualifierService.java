@@ -13,7 +13,7 @@
  * See the License for the specific language governing permissions and
  * limitations under the License.
  */
-package org.kuali.kra.coi.service;
+package org.kuali.kra.coi.notification;
 
 import org.kuali.kra.common.notification.service.KcNotificationRoleQualifierService;
 
