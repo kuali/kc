@@ -53,15 +53,15 @@ public class ProposalDevelopmentQuestionnaireAuditRule extends ResearchDocumentR
         boolean valid = true;
         ProposalDevelopmentDocument proposalDevelopmentDocument = (ProposalDevelopmentDocument)document;
         
-        List<AnswerHeader> headers = getQuestionnaireAnswerService().getQuestionnaireAnswer(new ProposalDevelopmentModuleQuestionnaireBean(proposalDevelopmentDocument.getDevelopmentProposal()));  
+        List<AnswerHeader> headers = getQuestionnaireAnswerService().getQuestionnaireAnswer(new ProposalDevelopmentModuleQuestionnaireBean(proposalDevelopmentDocument.getDevelopmentProposal()));
         List<QuestionnaireUsage> usages = getQuestionnaireAnswerService().getPublishedQuestionnaire(CoeusModule.PROPOSAL_DEVELOPMENT_MODULE_CODE, CoeusSubModule.ZERO_SUBMODULE, true);
         for (int i=0;i<headers.size();i++) {
             AnswerHeader header = headers.get(i);
             if (!header.getCompleted()) {
                 valid = false;
-                getProposalS2sAuditErrorsByGroup("questionnaireHelper",usages.get(0).getQuestionnaireLabel(),i).add(
+                getProposalS2sAuditErrorsByGroup("questionnaireHelper",usages.get(i).getQuestionnaireLabel(),i).add(
                         new AuditError(String.format(PROPOSAL_QUESTIONNAIRE_KEY, i, "complete"), KeyConstants.ERROR_QUESTIONNAIRE_NOT_COMPLETE,
-                                Constants.QUESTIONS_PAGE+"."+usages.get(0).getQuestionnaireLabel(), new String[] {usages.get(0).getQuestionnaireLabel()}));
+                                Constants.QUESTIONS_PAGE+"."+usages.get(i).getQuestionnaireLabel(), new String[] {usages.get(i).getQuestionnaireLabel()}));
             }
         }
         
