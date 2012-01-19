@@ -15,6 +15,8 @@
 --%>
 <%@ include file="/WEB-INF/jsp/kraTldHeader.jsp"%>
 
+<link rel="stylesheet" href="css/jquery/new_kuali.css" type="text/css" />
+
 <c:set var="action" value="proposalDevelopmentCustomData" />
 
 <div id="workarea">
