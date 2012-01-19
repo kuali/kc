@@ -14,6 +14,9 @@
  limitations under the License.
 --%>
 <%@ include file="/WEB-INF/jsp/kraTldHeader.jsp"%>
+
+<link rel="stylesheet" href="css/jquery/new_kuali.css" type="text/css" />
+
 <c:set var="viewOnly" value="${KualiForm.editingMode['viewOnly']}" scope="request" />
 
 <c:if test="${KualiForm.editingMode['modifyCompletedBudgets']}">
