@@ -32,4 +32,5 @@
     <li><portal:portalLink displayTitle="false" title="New Protocol Disclosure" url="protocolEventDisclosure.do?methodToCall=getNewProtocolsForDisclosure">New Protocol Disclosure</portal:portalLink></li>
     <li>View/Edit Disclosure</li>
   </ul>
+</div>
 <channel:portalChannelBottom />
