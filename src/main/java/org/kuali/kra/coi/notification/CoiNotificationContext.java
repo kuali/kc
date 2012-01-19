@@ -19,7 +19,6 @@ package org.kuali.kra.coi.notification;
 import java.util.List;
 
 import org.kuali.kra.bo.CoeusModule;
-import org.kuali.kra.coi.service.CoiNotificationRoleQualifierService;
 import org.kuali.kra.common.notification.NotificationRenderer;
 import org.kuali.kra.common.notification.NotificationContextBase;
 import org.kuali.kra.common.notification.bo.NotificationTypeRecipient;
