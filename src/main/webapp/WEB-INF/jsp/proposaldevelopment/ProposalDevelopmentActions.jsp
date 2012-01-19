@@ -14,6 +14,9 @@ http://www.osedu.org/licenses/ECL-2.0
 	limitations under the License.
 	--%>
 <%@ include file="/WEB-INF/jsp/kraTldHeader.jsp"%>
+
+<link rel="stylesheet" href="css/jquery/new_kuali.css" type="text/css" />
+
 <c:set var="hierarchyStatus"
 	value="${KualiForm.document.developmentProposalList[0].hierarchyStatus}" />
 <c:set var="hierarchyChildStatus"

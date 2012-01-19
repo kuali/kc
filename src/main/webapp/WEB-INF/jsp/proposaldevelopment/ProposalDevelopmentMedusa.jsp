@@ -17,6 +17,8 @@
 
 <%@ include file="/WEB-INF/jsp/kraTldHeader.jsp"%>
 
+<link rel="stylesheet" href="css/jquery/new_kuali.css" type="text/css" />
+
 <kul:documentPage
 	showDocumentInfo="true"
 	htmlFormAction="proposalDevelopmentMedusa"
