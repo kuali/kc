@@ -16,13 +16,14 @@
 package org.kuali.kra.coi.notification;
 
 import org.apache.commons.lang.StringUtils;
+import org.kuali.kra.coi.CoiDisclosure;
 import org.kuali.kra.common.notification.bo.NotificationModuleRoleQualifier;
 import org.kuali.kra.kim.bo.KcKimAttributes;
 
 
 public class CoiNotificationRoleQualifierServiceImpl implements CoiNotificationRoleQualifierService {
 
-    private String coiDisclosureDocumentNumber;
+    private CoiDisclosure coiDisclosure;
     
     /**
      * 
@@ -31,20 +32,26 @@ public class CoiNotificationRoleQualifierServiceImpl implements CoiNotificationR
     @Override
     public String getRoleQualifierValue(NotificationModuleRoleQualifier qualifier) {
         String qName = qualifier.getQualifier();
-//TODO which of the KcKimAttributes attributes is the right one?        
+
         if (StringUtils.equalsIgnoreCase(qName, KcKimAttributes.DOCUMENT_NUMBER)) {
-            return coiDisclosureDocumentNumber;
+            return coiDisclosure.getCoiDisclosureDocument().getDocumentNumber();
+        } else if (StringUtils.equalsIgnoreCase(qName, "disclosure")) {
+            return coiDisclosure.getCoiDisclosureId().toString();
+        } else if (StringUtils.equals(qName, KcKimAttributes.UNIT_NUMBER)) {
+            return coiDisclosure.getLeadUnitNumber();
+        } else if (StringUtils.equals(qName, KcKimAttributes.SUBUNITS)) {
+            return "*";
         }
         
         return null;
     }
 
-    public String getCoiDisclosureDocumentNumber() {
-        return coiDisclosureDocumentNumber;
+    public CoiDisclosure getCoiDisclosure() {
+        return coiDisclosure;
     }
 
-    public void setCoiDisclosureDocumentNumber(String coiDisclosureDocumentNumber) {
-        this.coiDisclosureDocumentNumber = coiDisclosureDocumentNumber;
+    public void setCoiDisclosure(CoiDisclosure coiDisclosure) {
+        this.coiDisclosure = coiDisclosure;
     }
 
 }

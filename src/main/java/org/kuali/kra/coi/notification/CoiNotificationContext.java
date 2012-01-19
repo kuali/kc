@@ -19,6 +19,7 @@ package org.kuali.kra.coi.notification;
 import java.util.List;
 
 import org.kuali.kra.bo.CoeusModule;
+import org.kuali.kra.coi.CoiDisclosure;
 import org.kuali.kra.common.notification.NotificationRenderer;
 import org.kuali.kra.common.notification.NotificationContextBase;
 import org.kuali.kra.common.notification.bo.NotificationTypeRecipient;
@@ -49,7 +50,7 @@ public class CoiNotificationContext extends NotificationContextBase {
      * @param actionTypeCode
      * @param contextName
      */
-    public CoiNotificationContext(String coiDisclosureDocumentNumber, String actionTypeCode, String contextName, NotificationRenderer renderer) {
+    public CoiNotificationContext(CoiDisclosure coiDisclosure, String actionTypeCode, String contextName, NotificationRenderer renderer) {
         super(renderer);
 
         this.coiDisclosureDocumentNumber = coiDisclosureDocumentNumber;
@@ -59,7 +60,7 @@ public class CoiNotificationContext extends NotificationContextBase {
         setNotificationService(KraServiceLocator.getService(KcNotificationService.class));
         setNotificationModuleRoleService(KraServiceLocator.getService(KcNotificationModuleRoleService.class));
         setNotificationRoleQualifierService(KraServiceLocator.getService(CoiNotificationRoleQualifierService.class));
-        ((CoiNotificationRoleQualifierService) getNotificationRoleQualifierService()).setCoiDisclosureDocumentNumber(coiDisclosureDocumentNumber);
+        ((CoiNotificationRoleQualifierService) getNotificationRoleQualifierService()).setCoiDisclosure(coiDisclosure);
     }
     
     /**
