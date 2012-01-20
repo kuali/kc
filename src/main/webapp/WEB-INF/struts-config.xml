@@ -484,17 +484,13 @@
           <forward name="basic" path="/WEB-INF/jsp/coi/CoiDisclosureNotificationEditor.jsp"/>
           &coi_forwards;
        </action>
+
        
-     <action path="/protocolEventDisclosure" name="CoiDisclosureForm" input="/WEB-INF/jsp/coi/ProtocolEvent.jsp" type="org.kuali.kra.coi.disclosure.CoiDisclosureAction" parameter="methodToCall" validate="true" attribute="KualiForm">
-        <forward name="basic" path="/WEB-INF/jsp/coi/ProtocolEvent.jsp" />
-      </action>
-     <action path="/proposalEventDisclosure" name="CoiDisclosureForm" input="/WEB-INF/jsp/coi/ProposalEvent.jsp" type="org.kuali.kra.coi.disclosure.CoiDisclosureAction" parameter="methodToCall" validate="true" attribute="KualiForm">
-        <forward name="basic" path="/WEB-INF/jsp/coi/ProposalEvent.jsp" />
-      </action>
-     <action path="/awardEventDisclosure" name="CoiDisclosureForm" input="/WEB-INF/jsp/coi/AwardEvent.jsp" type="org.kuali.kra.coi.disclosure.CoiDisclosureAction" parameter="methodToCall" validate="true" attribute="KualiForm">
-        <forward name="basic" path="/WEB-INF/jsp/coi/AwardEvent.jsp" />
-      </action>
+     <action path="/projectEventDisclosure" name="CoiDisclosureForm" input="/WEB-INF/jsp/coi/ProjectEvent.jsp" type="org.kuali.kra.coi.disclosure.CoiDisclosureAction" parameter="methodToCall" validate="true" attribute="KualiForm">
+        <forward name="basic" path="/WEB-INF/jsp/coi/ProjectEvent.jsp" />
+      </action>  
        
+
        
        <action path="/financialEntity*" name="FinancialEntityForm" type="org.kuali.kra.coi.personfinancialentity.FinancialEntity{1}Action" input="/WEB-INF/jsp/coi/FinancialEntity{1}.jsp" attribute="KualiForm">
           <forward name="basic" path="/WEB-INF/jsp/coi/FinancialEntity{1}.jsp" />
