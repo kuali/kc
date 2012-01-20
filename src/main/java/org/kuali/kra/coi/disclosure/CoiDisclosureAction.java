@@ -263,27 +263,20 @@ public class CoiDisclosureAction extends CoiAction {
         }
         return mapping.findForward(Constants.MAPPING_BASIC);
     }
-
-    public ActionForward getNewProtocolsForDisclosure(ActionMapping mapping, ActionForm form, HttpServletRequest request, HttpServletResponse response)
-            throws Exception {
-        ((CoiDisclosureForm) form).getDisclosureHelper().setNewProtocols(getCoiDisclosureService().getProtocols(getUserId()));
-        return mapping.findForward(Constants.MAPPING_BASIC);
-
-    }
-    public ActionForward getNewProposalsForDisclosure(ActionMapping mapping, ActionForm form, HttpServletRequest request, HttpServletResponse response)
-            throws Exception {
-        ((CoiDisclosureForm) form).getDisclosureHelper().setNewProposals(getCoiDisclosureService().getProposals(getUserId()));
-        ((CoiDisclosureForm) form).getDisclosureHelper().setNewInstitutionalProposals(getCoiDisclosureService().getInstitutionalProposals(getUserId()));
-        return mapping.findForward(Constants.MAPPING_BASIC);
-
-    }
-    public ActionForward getNewAwardsForDisclosure(ActionMapping mapping, ActionForm form, HttpServletRequest request, HttpServletResponse response)
-            throws Exception {
-        ((CoiDisclosureForm) form).getDisclosureHelper().setNewAwards(getCoiDisclosureService().getAwards(getUserId()));
-        return mapping.findForward(Constants.MAPPING_BASIC);
-
-    }
     
+    public ActionForward getDisclosuresToComplete(ActionMapping mapping, ActionForm form, HttpServletRequest request, HttpServletResponse response)
+            throws Exception {
+        String userId = getUserId();
+        DisclosureHelper disclosureHelper = ((CoiDisclosureForm) form).getDisclosureHelper(); 
+        
+        disclosureHelper.setNewProposals(getCoiDisclosureService().getProposals(userId));
+        disclosureHelper.setNewInstitutionalProposals(getCoiDisclosureService().getInstitutionalProposals(userId));
+        disclosureHelper.setNewAwards(getCoiDisclosureService().getAwards(userId));
+        disclosureHelper.setNewProtocols(getCoiDisclosureService().getProtocols(userId));
+        
+        return mapping.findForward(Constants.MAPPING_BASIC);
+    }
+        
     public ActionForward newProjectDisclosure(ActionMapping mapping, ActionForm form, HttpServletRequest request, HttpServletResponse response)
             throws Exception {
         CoiDisclosureForm coiDisclosureForm = (CoiDisclosureForm) form;

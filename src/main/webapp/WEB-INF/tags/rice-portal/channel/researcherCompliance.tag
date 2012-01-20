@@ -27,9 +27,7 @@
     <li><portal:portalLink displayTitle="false" title="Master Disclosure" url="coiDisclosure.do?methodToCall=viewMasterDisclosure">Master Disclosure</portal:portalLink></li>
     <li><portal:portalLink displayTitle="false" title="Create Annual Disclosure" url="coiDisclosure.do?methodToCall=docHandler&command=initiate&docTypeName=CoiDisclosureDocument">Create Annual Disclosure</portal:portalLink></li>
     <li><portal:portalLink displayTitle="false" title="Create Manual Disclosure" url="coiDisclosure.do?methodToCall=docHandler&command=initiate_14&docTypeName=CoiDisclosureDocument">Create Manual Disclosure</portal:portalLink></li>
-    <li><portal:portalLink displayTitle="false" title="New Award Disclosure" url="awardEventDisclosure.do?methodToCall=getNewAwardsForDisclosure">New Award Disclosure</portal:portalLink></li>
-    <li><portal:portalLink displayTitle="false" title="New Proposal Disclosure " url="proposalEventDisclosure.do?methodToCall=getNewProposalsForDisclosure">New Proposal Disclosure</portal:portalLink></li>
-    <li><portal:portalLink displayTitle="false" title="New Protocol Disclosure" url="protocolEventDisclosure.do?methodToCall=getNewProtocolsForDisclosure">New Protocol Disclosure</portal:portalLink></li>
+    <li><portal:portalLink displayTitle="false" title="New Project Disclosures" url="projectEventDisclosure.do?methodToCall=getDisclosuresToComplete">New Project Disclosures To Complete</portal:portalLink></li>
     <li>View/Edit Disclosure</li>
   </ul>
 </div>
