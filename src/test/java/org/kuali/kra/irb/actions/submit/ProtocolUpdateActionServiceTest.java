@@ -15,8 +15,6 @@
  */
 package org.kuali.kra.irb.actions.submit;
 
-import static org.junit.Assert.assertEquals;
-
 import java.util.ArrayList;
 import java.util.List;
 
@@ -28,7 +26,7 @@ import org.junit.Test;
 import org.kuali.kra.irb.Protocol;
 import org.kuali.kra.irb.actions.ProtocolAction;
 import org.kuali.kra.irb.actions.ProtocolActionType;
-import org.kuali.rice.kns.service.BusinessObjectService;
+import org.kuali.rice.krad.service.BusinessObjectService;
 
 public class ProtocolUpdateActionServiceTest extends ProtocolActionServiceTestBase{
     

@@ -33,21 +33,17 @@ import org.kuali.kra.infrastructure.Constants;
 import org.kuali.kra.infrastructure.KraServiceLocator;
 import org.kuali.kra.infrastructure.TaskName;
 import org.kuali.kra.timeandmoney.AwardHierarchyNode;
-import org.kuali.kra.timeandmoney.service.ActivePendingTransactionsService;
-import org.kuali.rice.kew.exception.WorkflowException;
-import org.kuali.rice.kew.util.KEWConstants;
-import org.kuali.rice.kew.web.session.UserSession;
-import org.kuali.rice.kim.bo.Person;
-import org.kuali.rice.kim.bo.types.dto.AttributeSet;
-import org.kuali.rice.kim.service.IdentityManagementService;
-import org.kuali.rice.kim.util.KimConstants;
+import org.kuali.rice.coreservice.framework.parameter.ParameterConstants;
+import org.kuali.rice.kew.api.KewApiConstants;
+import org.kuali.rice.kew.api.WorkflowDocument;
+import org.kuali.rice.kew.api.exception.WorkflowException;
+import org.kuali.rice.kim.api.KimConstants;
+import org.kuali.rice.kim.api.identity.Person;
 import org.kuali.rice.kns.authorization.AuthorizationConstants;
-import org.kuali.rice.kns.bo.DocumentHeader;
-import org.kuali.rice.kns.document.Document;
-import org.kuali.rice.kns.service.ParameterConstants;
-import org.kuali.rice.kns.util.GlobalVariables;
-import org.kuali.rice.kns.util.KNSConstants;
-import org.kuali.rice.kns.workflow.service.KualiWorkflowDocument;
+import org.kuali.rice.krad.bo.DocumentHeader;
+import org.kuali.rice.krad.document.Document;
+import org.kuali.rice.krad.util.GlobalVariables;
+import org.kuali.rice.krad.util.KRADConstants;
 
 /**
  * This class is the Award Document Authorizer.  It determines the edit modes and
@@ -56,9 +52,10 @@ import org.kuali.rice.kns.workflow.service.KualiWorkflowDocument;
 public class AwardDocumentAuthorizer extends KcTransactionalDocumentAuthorizerBase {
     
     private AwardHierarchyService awardHierarchyService;
+    
     /**
      * @see org.kuali.rice.kns.document.authorization.TransactionalDocumentAuthorizer#getEditModes(
-     * org.kuali.rice.kns.document.Document, org.kuali.rice.kim.bo.Person, java.util.Set)
+     * org.kuali.rice.krad.document.Document, org.kuali.rice.kim.api.identity.Person, java.util.Set)
      */
     public Set<String> getEditModes(Document document, Person user, Set<String> currentEditModes) {
         Set<String> editModes = new HashSet<String>();
@@ -118,7 +115,7 @@ public class AwardDocumentAuthorizer extends KcTransactionalDocumentAuthorizerBa
     }
     
     /**
-     * @see org.kuali.rice.kns.document.authorization.DocumentAuthorizer#canInitiate(java.lang.String, org.kuali.rice.kim.bo.Person)
+     * @see org.kuali.rice.kns.document.authorization.DocumentAuthorizer#canInitiate(java.lang.String, org.kuali.rice.kim.api.identity.Person)
      */
     public boolean canInitiate(String documentTypeName, Person user) {
         return canCreateAward(user.getPrincipalId());
@@ -134,10 +131,10 @@ public class AwardDocumentAuthorizer extends KcTransactionalDocumentAuthorizerBa
         AwardDocument awardDocument = (AwardDocument) document;
         Award award = awardDocument.getAward();
         boolean hasPermission = false;
-        String status = document.getDocumentHeader().getWorkflowDocument().getRouteHeader().getDocRouteStatus();
+        String status = document.getDocumentHeader().getWorkflowDocument().getStatus().getCode();
         // if document is in processed or final state
-        if (status.equalsIgnoreCase(KEWConstants.ROUTE_HEADER_PROCESSED_CD) || 
-            status.equalsIgnoreCase(KEWConstants.ROUTE_HEADER_FINAL_CD)) {
+        if (status.equalsIgnoreCase(KewApiConstants.ROUTE_HEADER_PROCESSED_CD) || 
+            status.equalsIgnoreCase(KewApiConstants.ROUTE_HEADER_FINAL_CD)) {
             
             // if the integration parameter is ON
             if (isFinancialSystemIntegrationParameterOn()) {
@@ -154,7 +151,7 @@ public class AwardDocumentAuthorizer extends KcTransactionalDocumentAuthorizerBa
     }
     
     protected boolean isFinancialSystemIntegrationParameterOn() {
-        String awardAccountParameter = getParameterService().getParameterValue (
+        String awardAccountParameter = getParameterService().getParameterValueAsString (
                                                                 Constants.PARAMETER_MODULE_AWARD, 
                                                                 ParameterConstants.DOCUMENT_COMPONENT, 
                                                                 Constants.FIN_SYSTEM_INTEGRATION_ON_OFF_PARAMETER);
@@ -163,12 +160,11 @@ public class AwardDocumentAuthorizer extends KcTransactionalDocumentAuthorizerBa
     
     public boolean hasCreateAccountPermission() {
         boolean hasPermission = false;
-        IdentityManagementService identityManagementService = getIdentityManagementService();
-        AttributeSet set = new AttributeSet();
+        Map<String,String> set =new HashMap<String,String>();
         set.put("documentTypeName", "AwardDocument");
         set.put("documentAction", "Create award account");
         // if the user has permission.
-        hasPermission = identityManagementService.hasPermission(UserSession.getAuthenticatedUser().getPrincipalId(), 
+        hasPermission = getPermissionService().hasPermission(GlobalVariables.getUserSession().getPrincipalId(), 
                                                                 "KC-AWARD", "Create Award Account",set);
         return hasPermission;    
     }
@@ -184,7 +180,7 @@ public class AwardDocumentAuthorizer extends KcTransactionalDocumentAuthorizerBa
     }
     
     /**
-     * @see org.kuali.rice.kns.document.authorization.DocumentAuthorizer#canOpen(org.kuali.rice.kns.document.Document, org.kuali.rice.kim.bo.Person)
+     * @see org.kuali.rice.kns.document.authorization.DocumentAuthorizer#canOpen(org.kuali.rice.krad.document.Document, org.kuali.rice.kim.api.identity.Person)
      */
     public boolean canOpen(Document document, Person user) {
         AwardDocument awardDocument = (AwardDocument) document;
@@ -195,7 +191,7 @@ public class AwardDocumentAuthorizer extends KcTransactionalDocumentAuthorizerBa
     }
     
     /**
-     * @see org.kuali.kra.authorization.KcTransactionalDocumentAuthorizerBase#canEdit(org.kuali.rice.kns.document.Document, org.kuali.rice.kim.bo.Person)
+     * @see org.kuali.kra.authorization.KcTransactionalDocumentAuthorizerBase#canEdit(org.kuali.rice.krad.document.Document, org.kuali.rice.kim.api.identity.Person)
      */
     @Override
     public boolean canEdit(Document document, Person user) {
@@ -203,26 +199,26 @@ public class AwardDocumentAuthorizer extends KcTransactionalDocumentAuthorizerBa
     }
     
     /**
-     * @see org.kuali.kra.authorization.KcTransactionalDocumentAuthorizerBase#canSave(org.kuali.rice.kns.document.Document, org.kuali.rice.kim.bo.Person)
+     * @see org.kuali.kra.authorization.KcTransactionalDocumentAuthorizerBase#canSave(org.kuali.rice.krad.document.Document, org.kuali.rice.kim.api.identity.Person)
      */
     @Override
-    protected boolean canSave(Document document, Person user) {
+    public boolean canSave(Document document, Person user) {
         return canEdit(document, user);
     }
     
     /**
-     * @see org.kuali.kra.authorization.KcTransactionalDocumentAuthorizerBase#canReload(org.kuali.rice.kns.document.Document, org.kuali.rice.kim.bo.Person)
+     * @see org.kuali.kra.authorization.KcTransactionalDocumentAuthorizerBase#canReload(org.kuali.rice.krad.document.Document, org.kuali.rice.kim.api.identity.Person)
      */
     @Override
-    protected boolean canReload(Document document, Person user) {
+    public boolean canReload(Document document, Person user) {
         return canEdit(document, user);
     }
     
     /**
-     * @see org.kuali.kra.authorization.KcTransactionalDocumentAuthorizerBase#canCopy(org.kuali.rice.kns.document.Document, org.kuali.rice.kim.bo.Person)
+     * @see org.kuali.kra.authorization.KcTransactionalDocumentAuthorizerBase#canCopy(org.kuali.rice.krad.document.Document, org.kuali.rice.kim.api.identity.Person)
      */
     @Override
-    protected boolean canCopy(Document document, Person user) {
+    public boolean canCopy(Document document, Person user) {
         return false;
     }
     
@@ -253,10 +249,10 @@ public class AwardDocumentAuthorizer extends KcTransactionalDocumentAuthorizerBa
     /**
      * @throws WorkflowException 
      * @throws WorkflowException 
-     * @see org.kuali.kra.authorization.KcTransactionalDocumentAuthorizerBase#canCancel(org.kuali.rice.kns.document.Document, org.kuali.rice.kim.bo.Person)
+     * @see org.kuali.kra.authorization.KcTransactionalDocumentAuthorizerBase#canCancel(org.kuali.rice.krad.document.Document, org.kuali.rice.kim.api.identity.Person)
      */
     @Override
-    protected boolean canCancel(Document document, Person user) {
+    public boolean canCancel(Document document, Person user) {
         if(!canEdit(document, user)) {
             return false;
         }
@@ -264,8 +260,8 @@ public class AwardDocumentAuthorizer extends KcTransactionalDocumentAuthorizerBa
         boolean canCancel = true;
         
         DocumentHeader docHeader = document.getDocumentHeader();
-        KualiWorkflowDocument workflowDoc = docHeader.getWorkflowDocument();
-        if(workflowDoc.stateIsSaved()) {  
+        WorkflowDocument workflowDoc = docHeader.getWorkflowDocument();
+        if(workflowDoc.isSaved()) {  
             //User cannot cancel if there are FINAL child awards and if this document is the first version 
             //which could possibly happen after an AH is copied
             AwardDocument awardDocument = (AwardDocument) document;
@@ -289,7 +285,7 @@ public class AwardDocumentAuthorizer extends KcTransactionalDocumentAuthorizerBa
      * @return true if the user can approve the document; otherwise false
      */
     @Override
-    protected boolean canApprove(Document document, Person user) {
+    public boolean canApprove(Document document, Person user) {
         return isEnroute(document) &&  super.canApprove(document, user);
     }
     
@@ -300,7 +296,7 @@ public class AwardDocumentAuthorizer extends KcTransactionalDocumentAuthorizerBa
      * @return true if the user can disapprove the document; otherwise false
      */
     @Override
-    protected boolean canDisapprove(Document document, Person user) {
+    public boolean canDisapprove(Document document, Person user) {
         return canApprove(document, user);
     }
     
@@ -311,16 +307,16 @@ public class AwardDocumentAuthorizer extends KcTransactionalDocumentAuthorizerBa
      * @return true if the user can blanket approve the document; otherwise false
      */
     @Override
-    protected boolean canBlanketApprove(Document document, Person user) {
+    public boolean canBlanketApprove(Document document, Person user) {
         if (!isFinal(document) && isAuthorizedByTemplate(
                 document,
-                KNSConstants.KUALI_RICE_WORKFLOW_NAMESPACE,
+                KRADConstants.KUALI_RICE_WORKFLOW_NAMESPACE,
                 KimConstants.PermissionTemplateNames.BLANKET_APPROVE_DOCUMENT,
                 user.getPrincipalId()) && super.canBlanketApprove(document, user)) {
             // check system parameter - if Y, use default workflow behavior: allow a user with the permission
             // to perform the blanket approve action at any time
             try {
-                if ( getParameterService().getIndicatorParameter(KNSConstants.KNS_NAMESPACE, KNSConstants.DetailTypes.DOCUMENT_DETAIL_TYPE, KNSConstants.SystemGroupParameterNames.ALLOW_ENROUTE_BLANKET_APPROVE_WITHOUT_APPROVAL_REQUEST_IND) ) {
+                if ( getParameterService().getParameterValueAsBoolean(KRADConstants.KNS_NAMESPACE, KRADConstants.DetailTypes.DOCUMENT_DETAIL_TYPE, KRADConstants.SystemGroupParameterNames.ALLOW_ENROUTE_BLANKET_APPROVE_WITHOUT_APPROVAL_REQUEST_IND) ) {
                     return canEdit(document);
                 }
             } catch ( IllegalArgumentException ex ) {
@@ -328,7 +324,7 @@ public class AwardDocumentAuthorizer extends KcTransactionalDocumentAuthorizerBa
             }
             // otherwise, limit the display of the blanket approve button to only the initiator of the document
             // (prior to routing)
-            KualiWorkflowDocument workflowDocument = document.getDocumentHeader().getWorkflowDocument();
+            WorkflowDocument workflowDocument = document.getDocumentHeader().getWorkflowDocument();
             if ( canRoute(document) && StringUtils.equals( workflowDocument.getInitiatorPrincipalId(), GlobalVariables.getUserSession().getPrincipalId() ) ) {
                 return true;
             }
@@ -375,4 +371,14 @@ public class AwardDocumentAuthorizer extends KcTransactionalDocumentAuthorizerBa
         return awardHierarchyService;
     }
 
+    @Override
+    public boolean canSendNoteFyi(Document document, Person user) {
+        return false;
+    }
+
+    @Override
+    public boolean canFyi(Document document, Person user) {
+        return false;
+    }
+    
 }

@@ -141,7 +141,7 @@
     	<property name="control" >
       		<bean parent="SelectControlDefinition"
             	p:businessObjectClass="org.kuali.kra.coi.personfinancialentity.FinIntEntityStatus"
-            	p:valuesFinderClass="org.kuali.rice.kns.lookup.keyvalues.PersistableBusinessObjectValuesFinder"
+            	p:valuesFinderClass="org.kuali.rice.krad.keyvalues.PersistableBusinessObjectValuesFinder"
             	p:includeKeyInLabel="false"
             	p:includeBlankRow="false"
             	p:keyAttribute="statusCode"

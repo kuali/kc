@@ -13,20 +13,16 @@
  * See the License for the specific language governing permissions and
  * limitations under the License.
  */
-
 package org.kuali.kra.proposaldevelopment.bo;
 
 import java.sql.Timestamp;
-import java.util.LinkedHashMap;
 
 import org.apache.commons.lang.StringUtils;
-import org.apache.ojb.broker.PersistenceBroker;
-import org.apache.ojb.broker.PersistenceBrokerException;
 import org.kuali.kra.bo.KraPersistableBusinessObjectBase;
 import org.kuali.kra.infrastructure.Constants;
 import org.kuali.kra.infrastructure.KraServiceLocator;
-import org.kuali.rice.kns.service.DateTimeService;
-import org.kuali.rice.kns.util.GlobalVariables;
+import org.kuali.rice.core.api.datetime.DateTimeService;
+import org.kuali.rice.krad.util.GlobalVariables;
 
 /**
  * Every Proposal can have zero or more Abstracts attached to it.
@@ -35,62 +31,65 @@ import org.kuali.rice.kns.util.GlobalVariables;
  * 
  * @author Kuali Research Administration Team (kualidev@oncourse.iu.edu)
  */
-public class ProposalAbstract extends KraPersistableBusinessObjectBase {;
-    
+public class ProposalAbstract extends KraPersistableBusinessObjectBase {
+
+    ;
+
     /**
      * Each Abstract is associated with one and only one proposal
      * which is identified by its unique <code>proposalNumber</code>.
      */
     private String proposalNumber;
-    
+
     /**
      * Identifies what type of abstract this is.
      */
     private String abstractTypeCode;
-    
-	/**
+
+    /**
 	 * The user-defined textual string for the abstract.
 	 */
-	private String abstractDetails;
-	
-	/**
+    private String abstractDetails;
+
+    /**
 	 * The AbstractType instance that the above <code>abstractTypeCode</code>  
 	 * refers to.  It is stored here to make it easy for a JSP page to
 	 * access the abstract type's description.
 	 */
-	private AbstractType abstractType;
-	
-	
+    private AbstractType abstractType;
+
     private Timestamp timestampDisplay;
+
     private String uploadUserDisplay;
-	private String uploadUserFullName;   
-    
-	/**
+
+    private String uploadUserFullName;
+
+    /**
 	 * Constructs a ProposalAbstract.
 	 */
-	public ProposalAbstract(){
-		super();
-		this.proposalNumber = null;
-		this.setAbstractTypeCode("");
-		this.setAbstractDetails("");
-	}
+    public ProposalAbstract() {
+        super();
+        this.proposalNumber = null;
+        this.setAbstractTypeCode("");
+        this.setAbstractDetails("");
+    }
 
-	/**
+    /**
 	 * Gets the Proposal Number.
 	 * @return the proposal number this abstract is associated with; 
 	 *         null if not associated with any proposal.
 	 */
-	public String getProposalNumber() {
-		return proposalNumber;
-	}
+    public String getProposalNumber() {
+        return proposalNumber;
+    }
 
-	/**
+    /**
 	 * Sets the proposal number that this abstract is associated with.
 	 * @param proposalNumber a Proposal's unique number; may be null.
 	 */
-	public void setProposalNumber(String proposalNumber) {
-		this.proposalNumber = proposalNumber;
-	}
+    public void setProposalNumber(String proposalNumber) {
+        this.proposalNumber = proposalNumber;
+    }
 
     /**
      * Gets the Abstract Type Code for this abstract.
@@ -107,46 +106,43 @@ public class ProposalAbstract extends KraPersistableBusinessObjectBase {;
      */
     public void setAbstractTypeCode(String abstractTypeCode) {
         this.abstractTypeCode = abstractTypeCode;
-        
-        // When the abstract type code changes, the corresponding
-        // abstractType field must also be updated.  A refresh will
-        // cause the abstract type to be read from the database. By
-        // the magic of OJB, the data member is automatically updated.
-        
+        // When the abstract type code changes, the corresponding 
+        // abstractType field must also be updated.  A refresh will 
+        // cause the abstract type to be read from the database. By 
+        // the magic of OJB, the data member is automatically updated. 
         if (this.abstractTypeCode == null || this.abstractTypeCode.equals("")) {
             abstractType = null;
         } else {
             this.refreshReferenceObject("abstractType");
         }
     }
-    
-	/**
+
+    /**
 	 * Gets the Details for this abstract.  
 	 * @return the abstract's details.
 	 */
-	public String getAbstractDetails() {
-		return abstractDetails;
-	}
+    public String getAbstractDetails() {
+        return abstractDetails;
+    }
 
-	/**
+    /**
 	 * Sets the abstract's details.  Note that the details
 	 * are not allowed to be null.  Null is automatically
 	 * converted to an empty string.
 	 * 
 	 * @param abstractDetails a user-defined textual string.
 	 */
-	public void setAbstractDetails(String abstractDetails) {
-	    if ( !StringUtils.equals(this.abstractDetails, abstractDetails)) {
-	        this.timestampDisplay = null;
-	        this.uploadUserDisplay = null;
-	    }
-	    if (abstractDetails == null) {
-	        this.abstractDetails = "";
-	    } 
-	    else {
-	        this.abstractDetails = abstractDetails;
-	    }
-	}
+    public void setAbstractDetails(String abstractDetails) {
+        if (!StringUtils.equals(this.abstractDetails, abstractDetails)) {
+            this.timestampDisplay = null;
+            this.uploadUserDisplay = null;
+        }
+        if (abstractDetails == null) {
+            this.abstractDetails = "";
+        } else {
+            this.abstractDetails = abstractDetails;
+        }
+    }
 
     /**
      * Gets the AbstractType for this abstract.
@@ -164,15 +160,6 @@ public class ProposalAbstract extends KraPersistableBusinessObjectBase {;
         this.abstractType = abstractType;
         this.abstractTypeCode = abstractType.getAbstractTypeCode();
     }
-    
-    @Override
-	protected LinkedHashMap toStringMapper() {
-		LinkedHashMap hashMap = new LinkedHashMap();
-		hashMap.put("proposalNumber", getProposalNumber());
-		hashMap.put("abstractTypeCode", getAbstractTypeCode());
-		hashMap.put("abstractDetails", getAbstractDetails());
-		return hashMap;
-	}
 
     public Timestamp getTimestampDisplay() {
         return timestampDisplay;
@@ -186,8 +173,8 @@ public class ProposalAbstract extends KraPersistableBusinessObjectBase {;
      * @see org.kuali.core.bo.PersistableBusinessObjectBase#beforeInsert()
      */
     @Override
-    public void beforeInsert(PersistenceBroker persistenceBroker) throws PersistenceBrokerException {
-        super.beforeInsert(persistenceBroker);
+    protected void prePersist() {
+        super.prePersist();
         setUpdateDisplayFields();
     }
 
@@ -195,25 +182,23 @@ public class ProposalAbstract extends KraPersistableBusinessObjectBase {;
      * @see org.kuali.core.bo.PersistableBusinessObjectBase#beforeInsert()
      */
     @Override
-    public void beforeUpdate(PersistenceBroker persistenceBroker) throws PersistenceBrokerException {
-        super.beforeUpdate(persistenceBroker);
+    protected void preUpdate() {
+        super.preUpdate();
         setUpdateDisplayFields();
-    }    
-    
+    }
+
     /**
      * Set timestampDisplay and userDisplay prior to persistence
      */
     private void setUpdateDisplayFields() {
-        if ( uploadUserDisplay == null || timestampDisplay == null ) {
+        if (uploadUserDisplay == null || timestampDisplay == null) {
             String updateUser = GlobalVariables.getUserSession().getPrincipalName();
-
-            // Since the UPDATE_USER column is only VACHAR(60), we need to truncate this string if it's longer than 60 characters
+            // Since the UPDATE_USER column is only VACHAR(60), we need to truncate this string if it's longer than 60 characters 
             if (updateUser.length() > 60) {
                 updateUser = updateUser.substring(0, 60);
             }
-
             setUploadUserDisplay(updateUser);
-            setTimestampDisplay(((DateTimeService)KraServiceLocator.getService(Constants.DATE_TIME_SERVICE_NAME)).getCurrentTimestamp());
+            setTimestampDisplay(((DateTimeService) KraServiceLocator.getService(Constants.DATE_TIME_SERVICE_NAME)).getCurrentTimestamp());
         }
     }
 

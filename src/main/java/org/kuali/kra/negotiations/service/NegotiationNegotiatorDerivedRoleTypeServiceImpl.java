@@ -17,43 +17,48 @@ package org.kuali.kra.negotiations.service;
 
 import java.util.ArrayList;
 import java.util.List;
+import java.util.Map;
 
 import org.apache.commons.lang.StringUtils;
 import org.kuali.kra.kim.bo.KcKimAttributes;
 import org.kuali.kra.negotiations.bo.Negotiation;
-import org.kuali.rice.kim.bo.Role;
-import org.kuali.rice.kim.bo.role.dto.RoleMembershipInfo;
-import org.kuali.rice.kim.bo.types.dto.AttributeSet;
-import org.kuali.rice.kim.service.support.impl.KimDerivedRoleTypeServiceBase;
+import org.kuali.rice.core.api.membership.MemberType;
+import org.kuali.rice.kim.api.role.RoleMembership;
+import org.kuali.rice.kns.kim.role.DerivedRoleTypeServiceBase;
 
 /**
  * Negotiation Derived Role for the Negotiator of each Negotiation. 
  */
-public class NegotiationNegotiatorDerivedRoleTypeServiceImpl extends KimDerivedRoleTypeServiceBase {
+public class NegotiationNegotiatorDerivedRoleTypeServiceImpl extends DerivedRoleTypeServiceBase {
     
     /**
      * Constructs a NegotiationPersonDerivedRoleTypeServiceImpl.java.
      */
     public NegotiationNegotiatorDerivedRoleTypeServiceImpl() {
-        requiredAttributes.add(KcKimAttributes.NEGOTIATION);
     }   
     
     @Override
-    public List<RoleMembershipInfo> getRoleMembersFromApplicationRole(String namespaceCode, String roleName, AttributeSet qualification) {
+    public List<RoleMembership> getRoleMembersFromDerivedRole(String namespaceCode, String roleName, Map<String,String> qualification) {
         validateRequiredAttributesAgainstReceived(qualification);
         
         String negotiationId = qualification.get(KcKimAttributes.NEGOTIATION);
-        List<RoleMembershipInfo> members = new ArrayList<RoleMembershipInfo>();
+        List<RoleMembership> members = new ArrayList<RoleMembership>();
         
         if (StringUtils.isNotBlank(negotiationId)) {
             Negotiation negotiation = getBusinessObjectService().findBySinglePrimaryKey(Negotiation.class, negotiationId);
             if (negotiation != null) {
                 if (StringUtils.isNotBlank(negotiation.getNegotiatorPersonId())) {
-                    members.add(new RoleMembershipInfo(null, null, negotiation.getNegotiatorPersonId(), Role.PRINCIPAL_MEMBER_TYPE, null));
+                    members.add(RoleMembership.Builder.create(null, null, negotiation.getNegotiatorPersonId(), MemberType.PRINCIPAL, null).build());
                 }
             }
         }
             
         return members;
+    }
+    @Override
+    protected List<String> getRequiredAttributes() {
+        List<String> requiredAttributes = new ArrayList<String>();
+        requiredAttributes.add(KcKimAttributes.NEGOTIATION);
+        return requiredAttributes;
     }
 }

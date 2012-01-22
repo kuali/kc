@@ -17,41 +17,39 @@ package org.kuali.kra.external.award;
 
 import org.kuali.kra.external.award.impl.AccountCreationClientImpl;
 import org.kuali.kra.external.award.impl.AccountCreationKSBClientImpl;
-import org.kuali.rice.kns.service.BusinessObjectService;
-import org.kuali.rice.kns.service.DocumentService;
-import org.kuali.rice.kns.service.ParameterService;
+import org.kuali.rice.coreservice.framework.parameter.ParameterService;
+import org.kuali.rice.krad.service.BusinessObjectService;
+import org.kuali.rice.krad.service.DocumentService;
 import org.springframework.beans.factory.FactoryBean;
 
 public class AccountCreationClientFactoryBean implements FactoryBean {
 
-    private boolean sharedRice;
-    private DocumentService documentService;
+	private boolean sharedRice;
+	private DocumentService documentService;
     private BusinessObjectService businessObjectService;
     private ParameterService parameterService;
 
-    public Object getObject() throws Exception {
-        AccountCreationClient object = null;
-        
-        if (sharedRice) {
-            object = (AccountCreationClient) (AccountCreationKSBClientImpl.getInstance());
-        } else {
-            object = (AccountCreationClient) (AccountCreationClientImpl.getInstance());
-        }
-        
-        object.setDocumentService(documentService);
-        object.setBusinessObjectService(businessObjectService);
+	public Object getObject() throws Exception {
+	    AccountCreationClient object = null; 
+		if(sharedRice)
+		    object = (AccountCreationClient) (AccountCreationKSBClientImpl.getInstance());
+		else
+		    object = (AccountCreationClient) (AccountCreationClientImpl.getInstance());
+		
+		object.setDocumentService(documentService);
+		object.setBusinessObjectService(businessObjectService);
         object.setParameterService(parameterService);
 
-        return object;
-    }
+		return object;
+	}
 
-    public Class getObjectType() {
-        return AccountCreationClient.class;
-    }
+	public Class getObjectType() {
+		return AccountCreationClient.class;
+	}
 
-    public boolean isSingleton() {
-        return true;
-    }
+	public boolean isSingleton() {
+		return true;
+	}
 
     public boolean isSharedRice() {
         return sharedRice;
@@ -72,5 +70,4 @@ public class AccountCreationClientFactoryBean implements FactoryBean {
     public void setParameterService(ParameterService parameterService) {
         this.parameterService = parameterService;
     }
-    
 }

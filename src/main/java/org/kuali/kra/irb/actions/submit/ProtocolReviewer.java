@@ -16,7 +16,6 @@
 package org.kuali.kra.irb.actions.submit;
 
 import java.util.ArrayList;
-import java.util.LinkedHashMap;
 import java.util.List;
 
 import org.apache.commons.lang.StringUtils;
@@ -28,17 +27,21 @@ import org.kuali.kra.irb.onlinereview.ProtocolOnlineReview;
 public class ProtocolReviewer extends ProtocolReviewerBase {
 
     private Long protocolReviewerId;
+
     private String protocolNumber;
+
     private Integer sequenceNumber;
+
     private Integer submissionNumber;
+
     private String reviewerTypeCode;
+
     private ProtocolReviewerType protocolReviewerType;
-    
-    // transient property for submission detail display
-    
+
+    // transient property for submission detail display 
     @SkipVersioning
-    transient private List<ProtocolOnlineReview> protocolOnlineReviews = new ArrayList<ProtocolOnlineReview>();
-    
+    private transient List<ProtocolOnlineReview> protocolOnlineReviews = new ArrayList<ProtocolOnlineReview>();
+
     public Long getProtocolReviewerId() {
         return protocolReviewerId;
     }
@@ -105,24 +108,11 @@ public class ProtocolReviewer extends ProtocolReviewerBase {
     public void setProtocolOnlineReviews(List<ProtocolOnlineReview> protocolOnlineReviews) {
         this.protocolOnlineReviews = protocolOnlineReviews;
     }
-    
-    @SuppressWarnings("unchecked")
-    @Override
-    protected LinkedHashMap toStringMapper() {
-        LinkedHashMap map = super.toStringMapper();
-        map.put("protocolReviewerId", getProtocolReviewerId());
-        map.put("protocolNumber", getProtocolNumber());
-        map.put("sequenceNumber", getSequenceNumber());
-        map.put("submissionNumber", getSubmissionNumber());
-        map.put("reviewerTypeCode", getReviewerTypeCode());
-        return map;
-    }
-    
+
     @Override
     public List buildListOfDeletionAwareLists() {
         List managedLists = super.buildListOfDeletionAwareLists();
         managedLists.add(protocolOnlineReviews);
         return managedLists;
     }
-    
 }

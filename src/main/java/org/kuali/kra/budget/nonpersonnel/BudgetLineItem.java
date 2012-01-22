@@ -17,57 +17,49 @@ package org.kuali.kra.budget.nonpersonnel;
 
 import java.sql.Date;
 import java.util.ArrayList;
-import java.util.LinkedHashMap;
 import java.util.List;
 
+import org.apache.ojb.broker.PBKey;
+import org.apache.ojb.broker.PersistenceBroker;
 import org.apache.ojb.broker.query.Criteria;
 import org.apache.ojb.broker.query.Query;
 import org.apache.ojb.broker.query.QueryFactory;
 import org.kuali.kra.award.budget.AwardBudgetLineItemExt;
 import org.kuali.kra.budget.personnel.BudgetPersonnelDetails;
 import org.kuali.kra.proposaldevelopment.hierarchy.HierarchyMaintainable;
-import org.kuali.rice.kns.bo.PersistableBusinessObject;
+import org.springmodules.orm.ojb.OjbFactoryUtils;
 
 public class BudgetLineItem extends BudgetLineItemBase implements HierarchyMaintainable {
-    
+
     private List<BudgetLineItemCalculatedAmount> budgetLineItemCalculatedAmounts;
-	private List<BudgetPersonnelDetails> budgetPersonnelDetailsList;
-	private boolean budgetPersonnelLineItemDeleted;
-	private List<BudgetRateAndBase> budgetRateAndBaseList;
+
+    private List<BudgetPersonnelDetails> budgetPersonnelDetailsList;
+
+    private boolean budgetPersonnelLineItemDeleted;
+
+    private List<BudgetRateAndBase> budgetRateAndBaseList;
+
     private Date oldStartDate;
+
     private Date oldEndDate;
 
     private String hierarchyProposalNumber;
+
     private boolean hiddenInHierarchy;
 
-	public BudgetLineItem(){
-	    super();
-	    budgetPersonnelDetailsList = new ArrayList<BudgetPersonnelDetails>();
-	    budgetLineItemCalculatedAmounts = new ArrayList<BudgetLineItemCalculatedAmount>();
-	    budgetRateAndBaseList = new ArrayList<BudgetRateAndBase>();
-	}
-	@Override 
-	protected LinkedHashMap toStringMapper() {
-		LinkedHashMap hashMap = super.toStringMapper();
-		hashMap.put("budgetPersonnelDetailsList", getBudgetPersonnelDetailsList());
-        hashMap.put("budgetLineItemCalculatedAmounts",getBudgetLineItemCalculatedAmounts());
-		return hashMap;
-	}
+    public BudgetLineItem() {
+        super();
+        budgetPersonnelDetailsList = new ArrayList<BudgetPersonnelDetails>();
+        budgetLineItemCalculatedAmounts = new ArrayList<BudgetLineItemCalculatedAmount>();
+        budgetRateAndBaseList = new ArrayList<BudgetRateAndBase>();
+    }
+
     public List<BudgetPersonnelDetails> getBudgetPersonnelDetailsList() {
         return budgetPersonnelDetailsList;
     }
 
     public void setBudgetPersonnelDetailsList(List<BudgetPersonnelDetails> budgetPersonnelDetailsList) {
         this.budgetPersonnelDetailsList = budgetPersonnelDetailsList;
-    }
-    @Override
-    public void afterDelete(org.apache.ojb.broker.PersistenceBroker persistenceBroker) throws org.apache.ojb.broker.PersistenceBrokerException {
-        if( this instanceof AwardBudgetLineItemExt) {
-            Criteria crit = new Criteria();
-            crit.addEqualTo("budgetLineItemId", getBudgetLineItemId());
-            Query delQ = QueryFactory.newQuery(BudgetLineItem.class, crit);
-            persistenceBroker.deleteByQuery(delQ);
-        }
     }
 
     /**
@@ -82,6 +74,7 @@ public class BudgetLineItem extends BudgetLineItemBase implements HierarchyMaint
         }
         return getBudgetPersonnelDetailsList().get(index);
     }
+
     /**
      * 
      * This method is to create new BudgetpersonnelDetails object
@@ -90,6 +83,7 @@ public class BudgetLineItem extends BudgetLineItemBase implements HierarchyMaint
     public BudgetPersonnelDetails getNewBudgetPersonnelLineItem() {
         return new BudgetPersonnelDetails();
     }
+
     /**
      * Gets the budgetLineItemCalculatedAmounts attribute. 
      * @return Returns the budgetLineItemCalculatedAmounts.
@@ -97,6 +91,7 @@ public class BudgetLineItem extends BudgetLineItemBase implements HierarchyMaint
     public List<BudgetLineItemCalculatedAmount> getBudgetLineItemCalculatedAmounts() {
         return budgetLineItemCalculatedAmounts;
     }
+
     /**
      * Sets the budgetLineItemCalculatedAmounts attribute value.
      * @param budgetLineItemCalculatedAmounts The budgetLineItemCalculatedAmounts to set.
@@ -104,10 +99,12 @@ public class BudgetLineItem extends BudgetLineItemBase implements HierarchyMaint
     public void setBudgetLineItemCalculatedAmounts(List<BudgetLineItemCalculatedAmount> budgetLineItemCalculatedAmounts) {
         this.budgetLineItemCalculatedAmounts = budgetLineItemCalculatedAmounts;
     }
+
     @Override
     public List getBudgetCalculatedAmounts() {
         return getBudgetLineItemCalculatedAmounts();
     }
+
     /**
      * Gets the budgetPersonnelLineItemDeleted attribute. 
      * @return Returns the budgetPersonnelLineItemDeleted.
@@ -115,6 +112,7 @@ public class BudgetLineItem extends BudgetLineItemBase implements HierarchyMaint
     public boolean isBudgetPersonnelLineItemDeleted() {
         return budgetPersonnelLineItemDeleted;
     }
+
     /**
      * Sets the budgetPersonnelLineItemDeleted attribute value.
      * @param budgetPersonnelLineItemDeleted The budgetPersonnelLineItemDeleted to set.
@@ -122,6 +120,7 @@ public class BudgetLineItem extends BudgetLineItemBase implements HierarchyMaint
     public void setBudgetPersonnelLineItemDeleted(boolean budgetPersonnelLineItemDeleted) {
         this.budgetPersonnelLineItemDeleted = budgetPersonnelLineItemDeleted;
     }
+
     /**
      * Gets the budgetRateAndBaseList attribute. 
      * @return Returns the budgetRateAndBaseList.
@@ -129,6 +128,7 @@ public class BudgetLineItem extends BudgetLineItemBase implements HierarchyMaint
     public List<BudgetRateAndBase> getBudgetRateAndBaseList() {
         return budgetRateAndBaseList;
     }
+
     /**
      * Sets the budgetRateAndBaseList attribute value.
      * @param budgetRateAndBaseList The budgetRateAndBaseList to set.
@@ -136,18 +136,23 @@ public class BudgetLineItem extends BudgetLineItemBase implements HierarchyMaint
     public void setBudgetRateAndBaseList(List<BudgetRateAndBase> budgetRateAndBaseList) {
         this.budgetRateAndBaseList = budgetRateAndBaseList;
     }
+
     public Date getOldStartDate() {
         return oldStartDate;
     }
+
     public void setOldStartDate(Date oldStartDate) {
         this.oldStartDate = oldStartDate;
     }
+
     public Date getOldEndDate() {
         return oldEndDate;
     }
+
     public void setOldEndDate(Date oldEndDate) {
         this.oldEndDate = oldEndDate;
     }
+
     /**
      * Sets the hierarchyProposalNumber attribute value.
      * @param hierarchyProposalNumber The hierarchyProposalNumber to set.
@@ -155,6 +160,7 @@ public class BudgetLineItem extends BudgetLineItemBase implements HierarchyMaint
     public void setHierarchyProposalNumber(String hierarchyProposalNumber) {
         this.hierarchyProposalNumber = hierarchyProposalNumber;
     }
+
     /**
      * Gets the hierarchyProposalNumber attribute. 
      * @return Returns the hierarchyProposalNumber.
@@ -162,6 +168,7 @@ public class BudgetLineItem extends BudgetLineItemBase implements HierarchyMaint
     public String getHierarchyProposalNumber() {
         return hierarchyProposalNumber;
     }
+
     /**
      * Gets the hiddenInHierarchy attribute. 
      * @return Returns the hiddenInHierarchy.
@@ -169,6 +176,7 @@ public class BudgetLineItem extends BudgetLineItemBase implements HierarchyMaint
     public boolean isHiddenInHierarchy() {
         return hiddenInHierarchy;
     }
+
     /**
      * Sets the hiddenInHierarchy attribute value.
      * @param hiddenInHierarchy The hiddenInHierarchy to set.
@@ -176,6 +184,7 @@ public class BudgetLineItem extends BudgetLineItemBase implements HierarchyMaint
     public void setHiddenInHierarchy(boolean hiddenInHierarchy) {
         this.hiddenInHierarchy = hiddenInHierarchy;
     }
+
     /**
      * @see java.lang.Object#hashCode()
      */
@@ -187,32 +196,25 @@ public class BudgetLineItem extends BudgetLineItemBase implements HierarchyMaint
         result = prime * result + ((getLineItemNumber() == null) ? 0 : getLineItemNumber().hashCode());
         return result;
     }
+
     /**
      * @see java.lang.Object#equals(java.lang.Object)
      */
     @Override
     public boolean equals(Object obj) {
-        if (this == obj)
-            return true;
-        if (obj == null)
-            return false;
-        if (getClass() != obj.getClass())
-            return false;
+        if (this == obj) return true;
+        if (obj == null) return false;
+        if (getClass() != obj.getClass()) return false;
         BudgetLineItem other = (BudgetLineItem) obj;
         if (getBudgetPeriodId() == null) {
-            if (other.getBudgetPeriodId() != null)
-                return false;
-        }
-        else if (!getBudgetPeriodId().equals(other.getBudgetPeriodId()))
-            return false;
+            if (other.getBudgetPeriodId() != null) return false;
+        } else if (!getBudgetPeriodId().equals(other.getBudgetPeriodId())) return false;
         if (getLineItemNumber() == null) {
-            if (other.getLineItemNumber() != null)
-                return false;
-        }
-        else if (!getLineItemNumber().equals(other.getLineItemNumber()))
-            return false;
+            if (other.getLineItemNumber() != null) return false;
+        } else if (!getLineItemNumber().equals(other.getLineItemNumber())) return false;
         return true;
     }
+
     public AbstractBudgetCalculatedAmount getNewBudgetLineItemCalculatedAmount() {
         return new BudgetLineItemCalculatedAmount();
     }

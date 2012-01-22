@@ -13,10 +13,8 @@
  * See the License for the specific language governing permissions and
  * limitations under the License.
  */
-
 package org.kuali.kra.bo;
 
-import java.util.LinkedHashMap;
 
 /**
  * Defines the ValidSpecialReviewApproval business object of the KRA domain.
@@ -24,26 +22,33 @@ import java.util.LinkedHashMap;
 public class ValidSpecialReviewApproval extends KraPersistableBusinessObjectBase {
 
     private static final long serialVersionUID = 2223133021712448327L;
-    
+
     private Long validSpecialReviewApprovalId;
+
     private String specialReviewTypeCode;
+
     private String approvalTypeCode;
+
     private boolean protocolNumberFlag;
+
     private boolean applicationDateFlag;
+
     private boolean approvalDateFlag;
+
     private boolean exemptNumberFlag;
-    
+
     private SpecialReviewType specialReviewType;
+
     private SpecialReviewApprovalType specialReviewApprovalType;
-    
+
     public Long getValidSpecialReviewApprovalId() {
         return validSpecialReviewApprovalId;
     }
-    
+
     public void setValidSpecialReviewApprovalId(Long validSpecialReviewApprovalId) {
         this.validSpecialReviewApprovalId = validSpecialReviewApprovalId;
     }
-    
+
     public String getSpecialReviewTypeCode() {
         return specialReviewTypeCode;
     }
@@ -51,7 +56,7 @@ public class ValidSpecialReviewApproval extends KraPersistableBusinessObjectBase
     public void setSpecialReviewTypeCode(String specialReviewTypeCode) {
         this.specialReviewTypeCode = specialReviewTypeCode;
     }
-    
+
     public String getApprovalTypeCode() {
         return approvalTypeCode;
     }
@@ -59,7 +64,7 @@ public class ValidSpecialReviewApproval extends KraPersistableBusinessObjectBase
     public void setApprovalTypeCode(String approvalTypeCode) {
         this.approvalTypeCode = approvalTypeCode;
     }
-    
+
     public boolean isProtocolNumberFlag() {
         return protocolNumberFlag;
     }
@@ -107,18 +112,4 @@ public class ValidSpecialReviewApproval extends KraPersistableBusinessObjectBase
     public void setSpecialReviewApprovalType(SpecialReviewApprovalType specialReviewApprovalType) {
         this.specialReviewApprovalType = specialReviewApprovalType;
     }
-    
-    @Override 
-    protected LinkedHashMap<?, ?> toStringMapper() {
-        LinkedHashMap<String, Object> hashMap = new LinkedHashMap<String, Object>();
-        hashMap.put("validSpecialReviewApprovalId", getValidSpecialReviewApprovalId());
-        hashMap.put("specialReviewTypeCode", getSpecialReviewTypeCode());
-        hashMap.put("approvalTypeCode", getApprovalTypeCode());
-        hashMap.put("applicationDateFlag", isApplicationDateFlag());
-        hashMap.put("approvalDateFlag", isApprovalDateFlag());
-        hashMap.put("protocolNumberFlag", isProtocolNumberFlag());
-        hashMap.put("exemptNumberFlag", isExemptNumberFlag());
-        return hashMap;
-    }
-
 }

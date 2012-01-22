@@ -18,11 +18,12 @@ package org.kuali.kra.budget.distributionincome;
 import java.util.List;
 
 import org.kuali.kra.budget.document.BudgetDocumentContainer;
-import org.kuali.rice.kns.util.GlobalVariables;
+import org.kuali.rice.kns.util.KNSGlobalVariables;
 import org.kuali.rice.kns.web.struts.form.KualiForm;
+import org.kuali.rice.krad.util.GlobalVariables;
 
 /**
- * Processes Budget Project Income rules
+ * ProcessDefinitionDefinitiones Budget Project Income rules
  */
 public class BudgetUnrecoveredFandARuleImpl implements AddBudgetUnrecoveredFandARule, BudgetValidationUnrecoveredFandARule, BudgetUnrecoveredFandAAllocationRule {
 
@@ -69,7 +70,7 @@ private static final String ADD_ERROR_KEY = "error.custom";
             return duplicate;
         }
         
-        KualiForm form = GlobalVariables.getKualiForm();
+        KualiForm form = KNSGlobalVariables.getKualiForm();
         if(form instanceof BudgetDocumentContainer) {
             BudgetDocumentContainer budgetContainerForm = (BudgetDocumentContainer) form;
             List<BudgetUnrecoveredFandA> budgetUnrecoveredFandAs = budgetContainerForm.getBudgetDocument().getBudget().getBudgetUnrecoveredFandAs();
@@ -106,7 +107,7 @@ private static final String ADD_ERROR_KEY = "error.custom";
     private boolean checkForDuplicateFields(BudgetUnrecoveredFandA testBudgetUnrecoveredFandA, BudgetUnrecoveredFandA budgetUnrecoveredFandA) {
         boolean duplicate = testBudgetUnrecoveredFandA.equals(budgetUnrecoveredFandA);
         if(duplicate) {
-            GlobalVariables.getErrorMap().putError("newUnrecoveredFandA.*", ADD_ERROR_KEY, "A duplicate Unrecovered F&A exists in the table");
+            GlobalVariables.getMessageMap().putError("newUnrecoveredFandA.*", ADD_ERROR_KEY, "A duplicate Unrecovered F&A exists in the table");
         }
         return duplicate;
     }
@@ -118,7 +119,7 @@ private static final String ADD_ERROR_KEY = "error.custom";
     public boolean processBudgetUnrecoveredFandAAllocationBusinessRules(BudgetUnrecoveredFandAAllocationEvent budgetUnrecoveredFandAEvent) {
         boolean result = budgetUnrecoveredFandAEvent.getBudgetDocument().getBudget().getUnallocatedUnrecoveredFandA().isNonZero();
         if (result) {
-            GlobalVariables.getErrorMap().putError("unrecoveredFandA*", ADD_ERROR_KEY, "Unrecovered F&A allocation doesn't total available unrecovered F&A");
+            GlobalVariables.getMessageMap().putError("unrecoveredFandA*", ADD_ERROR_KEY, "Unrecovered F&A allocation doesn't total available unrecovered F&A");
         }
         return result;
     }

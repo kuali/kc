@@ -29,7 +29,7 @@ import org.kuali.kra.budget.document.BudgetParentDocument;
 import org.kuali.kra.budget.parameters.BudgetPeriod;
 import org.kuali.kra.budget.rates.BudgetRate;
 import org.kuali.kra.budget.versions.BudgetDocumentVersion;
-import org.kuali.rice.kew.exception.WorkflowException;
+import org.kuali.rice.kew.api.exception.WorkflowException;
 
 public interface AwardBudgetService extends BudgetCommonService<Award> {
 
@@ -129,7 +129,7 @@ public interface AwardBudgetService extends BudgetCommonService<Award> {
      * @throws WorkflowException
      */
     boolean checkForOutstandingBudgets(BudgetParentDocument parentDoc);
-
+    
     /**
      * 
      * This method checks if Award rates changed, then display confirmation message on 'open' budget version.

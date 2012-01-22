@@ -15,24 +15,24 @@
  */
 package org.kuali.kra.s2s.generator.impl;
 
-import gov.grants.apply.forms.rrSF424V10.RRSF424Document.RRSF424.StateReview;
 import gov.grants.apply.forms.rrSF424V10.StateReviewCodeTypeDataType;
-import gov.grants.apply.forms.sf424V10.AddressDocument.Address;
+import gov.grants.apply.forms.rrSF424V10.RRSF424Document.RRSF424.StateReview;
 import gov.grants.apply.forms.sf424V10.ApplicantTypeCodeType;
 import gov.grants.apply.forms.sf424V10.ApplicationTypeCodeType;
+import gov.grants.apply.forms.sf424V10.GrantApplicationDocument;
+import gov.grants.apply.forms.sf424V10.GrantApplicationType;
+import gov.grants.apply.forms.sf424V10.RevisionCodeType;
+import gov.grants.apply.forms.sf424V10.StateReviewCodeType;
+import gov.grants.apply.forms.sf424V10.SubmissionTypeCodeType;
+import gov.grants.apply.forms.sf424V10.AddressDocument.Address;
 import gov.grants.apply.forms.sf424V10.AuthorizedRepresentativeDocument.AuthorizedRepresentative;
 import gov.grants.apply.forms.sf424V10.BudgetDocument.Budget;
 import gov.grants.apply.forms.sf424V10.ContactDocument.Contact;
-import gov.grants.apply.forms.sf424V10.GrantApplicationDocument;
-import gov.grants.apply.forms.sf424V10.GrantApplicationType;
 import gov.grants.apply.forms.sf424V10.IndividualDocument.Individual;
 import gov.grants.apply.forms.sf424V10.OrganizationDocument.Organization;
 import gov.grants.apply.forms.sf424V10.OrganizationIdentifyingInformationDocument.OrganizationIdentifyingInformation;
 import gov.grants.apply.forms.sf424V10.ProjectDocument.Project;
-import gov.grants.apply.forms.sf424V10.RevisionCodeType;
 import gov.grants.apply.forms.sf424V10.RevisionDocument.Revision;
-import gov.grants.apply.forms.sf424V10.StateReviewCodeType;
-import gov.grants.apply.forms.sf424V10.SubmissionTypeCodeType;
 import gov.grants.apply.forms.sf424V10.SubmittingOrganizationDocument.SubmittingOrganization;
 import gov.grants.apply.system.globalV10.YesNoType;
 import gov.grants.apply.system.universalCodesV10.CountryCodeType;

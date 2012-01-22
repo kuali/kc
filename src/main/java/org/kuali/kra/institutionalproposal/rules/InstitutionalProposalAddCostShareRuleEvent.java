@@ -20,7 +20,7 @@ import org.apache.commons.logging.LogFactory;
 import org.kuali.kra.institutionalproposal.document.InstitutionalProposalDocument;
 import org.kuali.kra.institutionalproposal.home.InstitutionalProposalCostShare;
 import org.kuali.kra.rule.event.KraDocumentEventBase;
-import org.kuali.rice.kns.rule.BusinessRule;
+import org.kuali.rice.krad.rules.rule.BusinessRule;
 
 /**
  * This class...

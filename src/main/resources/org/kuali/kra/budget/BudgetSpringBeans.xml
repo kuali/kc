@@ -37,7 +37,9 @@
                            
     <bean id="budgetModuleConfiguration" parent="budgetModuleConfiguration-parentBean" />
 	
-    <bean id="budgetModuleConfiguration-parentBean" class="org.kuali.rice.kns.bo.ModuleConfiguration" abstract="true">
+    <bean id="budgetModuleConfiguration-parentBean" class="org.kuali.rice.krad.bo.ModuleConfiguration" abstract="true">
+    	<property name="namespaceCode" value="KC-B" />
+    	<property name="dataSourceName" value="dataSource"/>
 		<property name="databaseRepositoryFilePaths">
 			<list>
 				<value>org/kuali/kra/budget/repository-budget.xml</value>
@@ -534,9 +536,9 @@
 		<property name="businessObjectService" ref="businessObjectService" />
 	</bean>
 	
-    <bean id="budgetCategoryServiceJavaExporter" class="org.kuali.rice.ksb.messaging.KSBExporter">
+    <bean id="budgetCategoryServiceJavaExporter" class="org.kuali.rice.ksb.api.bus.support.ServiceBusExporter">
 		<property name="serviceDefinition">
-			<bean class="org.kuali.rice.ksb.messaging.JavaServiceDefinition">
+			<bean class="org.kuali.rice.ksb.api.bus.support.JavaServiceDefinition">
 				<property name="service" ref="budgetCategoryService" />
 				<property name="serviceNameSpaceURI" value="KC" />
 				<property name="localServiceName" value="budgetCategoryService" />
@@ -548,9 +550,9 @@
 		</property>
 	</bean>
 
-	<bean id="budgetCategoryServiceSoapExporter" class="org.kuali.rice.ksb.messaging.KSBExporter">
+	<bean id="budgetCategoryServiceSoapExporter" class="org.kuali.rice.ksb.api.bus.support.ServiceBusExporter">
 		<property name="serviceDefinition">
-			<bean class="org.kuali.rice.ksb.messaging.SOAPServiceDefinition">
+			<bean class="org.kuali.rice.ksb.api.bus.support.SoapServiceDefinition">
 				<property name="service" ref="budgetCategoryService" />
 				<property name="serviceNameSpaceURI" value="KC" />
 				<property name="localServiceName" value="budgetCategorySoapService" />

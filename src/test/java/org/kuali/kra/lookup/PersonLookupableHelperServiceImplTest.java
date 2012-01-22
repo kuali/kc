@@ -26,17 +26,17 @@ import org.junit.Before;
 import org.junit.Test;
 import org.kuali.kra.infrastructure.Constants;
 import org.kuali.kra.test.infrastructure.KcUnitTestBase;
-import org.kuali.rice.kim.bo.Person;
-import org.kuali.rice.kns.service.ParameterService;
-import org.kuali.rice.kns.util.GlobalVariables;
+import org.kuali.rice.coreservice.framework.parameter.ParameterService;
+import org.kuali.rice.kim.api.identity.Person;
 import org.kuali.rice.kns.web.ui.Field;
 import org.kuali.rice.kns.web.ui.Row;
+import org.kuali.rice.krad.util.GlobalVariables;
 
 public class PersonLookupableHelperServiceImplTest extends KcUnitTestBase {
     
     private static final int LOOKUP_CRITERIA_FIELD_COUNT = 14;
     private static final String CAMPUS_CODE_FIELD = "campusCode";
-    private static final String CAMPUS_LOOKUPABLE_CLASS_NAME = "org.kuali.rice.kns.bo.CampusImpl";
+    private static final String CAMPUS_LOOKUPABLE_CLASS_NAME = "org.kuali.rice.location.impl.campus.CampusBo";
     
     private static final String CAMPUS_CODE = "BL";
     
@@ -61,7 +61,7 @@ public class PersonLookupableHelperServiceImplTest extends KcUnitTestBase {
     @Test
     public void testNonMultiCampusRows() {
         service.setBusinessObjectClass(Person.class);
-        service.setParameters(new HashMap<String, String>());
+        service.setParameters(new HashMap<String, String[]>());
         service.setParameterService(getMockParameterService(false));
         GlobalVariables.getUserSession().addObject(Constants.USER_CAMPUS_CODE_KEY, (Object) CAMPUS_CODE);
         
@@ -80,7 +80,7 @@ public class PersonLookupableHelperServiceImplTest extends KcUnitTestBase {
     @Test
     public void testMultiCampusRows() {
         service.setBusinessObjectClass(Person.class);
-        service.setParameters(new HashMap<String, String>());
+        service.setParameters(new HashMap<String, String[]>());
         service.setParameterService(getMockParameterService(true));
         GlobalVariables.getUserSession().addObject(Constants.USER_CAMPUS_CODE_KEY, (Object) CAMPUS_CODE);
         
@@ -108,7 +108,7 @@ public class PersonLookupableHelperServiceImplTest extends KcUnitTestBase {
         final ParameterService service = context.mock(ParameterService.class);
         
         context.checking(new Expectations() {{
-            allowing(service).getIndicatorParameter(
+            allowing(service).getParameterValueAsBoolean(
                 Constants.KC_GENERIC_PARAMETER_NAMESPACE, Constants.KC_ALL_PARAMETER_DETAIL_TYPE_CODE, Constants.PARAMETER_MULTI_CAMPUS_ENABLED);
             will(returnValue(multiCampusEnabled));
         }});

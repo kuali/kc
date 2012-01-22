@@ -36,7 +36,7 @@
 internal attachements.  We are just going to loop through the narratives and see which ones are going to be rendered on this panel and count them up. --%>
 <c:set scope = "page" var = "proposalAttachementCount" value = "0"/>
 <c:forEach var="narrative" items="${KualiForm.document.developmentProposalList[0].narratives}" varStatus="status">
-        	<c:if test="${narrative.narrativeType.narrativeTypeGroup eq KualiForm.proposalDevelopmentParameters['proposalNarrativeTypeGroup'].parameterValue}">
+        	<c:if test="${narrative.narrativeType.narrativeTypeGroup eq KualiForm.proposalDevelopmentParameters['proposalNarrativeTypeGroup'].value}">
         		<c:set scope = "page" var = "proposalAttachementCount" value = "${proposalAttachementCount + 1}"/>
   			</c:if>
 </c:forEach>
@@ -119,7 +119,7 @@ internal attachements.  We are just going to loop through the narratives and see
             	
             	
         	<c:forEach var="narrative" items="${KualiForm.document.developmentProposalList[0].narratives}" varStatus="status">
-        	<c:if test="${narrative.narrativeType.narrativeTypeGroup eq KualiForm.proposalDevelopmentParameters['proposalNarrativeTypeGroup'].parameterValue}">
+        	<c:if test="${narrative.narrativeType.narrativeTypeGroup eq KualiForm.proposalDevelopmentParameters['proposalNarrativeTypeGroup'].value}">
 			<c:set var="narrType" value="${narrative.narrativeType.description}"/>
 			<c:set var="narrStatus" value="${narrative.narrativeStatus.description}"/>
 			<c:set var="downloadKey" value="proposalAttachment.${narrative.moduleNumber}.download" />
@@ -134,7 +134,7 @@ internal attachements.  We are just going to loop through the narratives and see
 			          	<tr>
 			          		<th><div align="right"><kul:htmlAttributeLabel attributeEntry="${narrativeAttributes.narrativeTypeCode}" /></div></th>
 			                <td align="left" valign="middle">
-			                	<kul:htmlControlAttribute property="document.developmentProposalList[0].narrative[${status.index}].narrativeType.description" attributeEntry="${narrativeAttributes.narrativeType.description}" readOnly="true" />
+			                	<kul:htmlControlAttribute property="document.developmentProposalList[0].narrative[${status.index}].narrativeType.description" attributeEntry="${narrativeAttributes['narrativeType.description']}" readOnly="true" />
 							</td>
 			          		<th><div align="right"><kul:htmlAttributeLabel attributeEntry="${narrativeAttachmentAttributes.fileName}"/></div></th>
 			                <td align="left" valign="middle">

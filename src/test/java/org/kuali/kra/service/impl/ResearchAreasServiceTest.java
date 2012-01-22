@@ -40,7 +40,7 @@ import org.kuali.kra.dao.ResearchAreaReferencesDao;
 import org.kuali.kra.irb.Protocol;
 import org.kuali.kra.irb.protocol.research.ProtocolResearchArea;
 import org.kuali.kra.service.ResearchAreaCurrentReferencerHolder;
-import org.kuali.rice.kns.service.BusinessObjectService;
+import org.kuali.rice.krad.service.BusinessObjectService;
 
 @RunWith(JMock.class)
 public class ResearchAreasServiceTest {

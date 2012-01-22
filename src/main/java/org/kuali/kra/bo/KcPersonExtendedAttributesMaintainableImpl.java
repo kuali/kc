@@ -22,6 +22,7 @@ import org.apache.commons.lang.StringUtils;
 import org.kuali.kra.infrastructure.KeyConstants;
 import org.kuali.kra.maintenance.KraMaintainableImpl;
 import org.kuali.kra.rules.ErrorReporter;
+import org.kuali.rice.kim.api.services.KimApiServiceLocator;
 import org.kuali.rice.kns.document.MaintenanceDocument;
 import org.kuali.rice.kns.maintenance.Maintainable;
 import org.kuali.rice.kns.web.ui.Field;
@@ -49,20 +50,6 @@ public class KcPersonExtendedAttributesMaintainableImpl extends KraMaintainableI
 
         super.prepareForSave();
     }
-    
-    @Override
-    public void saveBusinessObject() {
-        KcPersonExtendedAttributes kcPersonExtendedAttributes = (KcPersonExtendedAttributes) this.businessObject;
-        Integer citizenshipType = kcPersonExtendedAttributes.getCitizenshipTypeCode();
-        Iterator citizenshipTypes = this.getBusinessObjectService().findAll(CitizenshipType.class).iterator();
-        while (citizenshipTypes.hasNext()) {
-            CitizenshipType type = (CitizenshipType) citizenshipTypes.next();
-            if (citizenshipType.equals(type.getCitizenshipTypeCode())) {
-                kcPersonExtendedAttributes.setCitizenshipType(type);
-            }
-        }
-        super.saveBusinessObject();
-    }
 
     private void reportInvalidPrincipalId(KcPersonExtendedAttributes kcPersonExtendedAttributes) {
         ErrorReporter errorReporter = new ErrorReporter();
@@ -73,7 +60,7 @@ public class KcPersonExtendedAttributesMaintainableImpl extends KraMaintainableI
 
     private boolean isValidPrincipalId(String principalId) {
         boolean valid = true;
-        org.kuali.rice.kim.service.PersonService personService = org.kuali.rice.kim.service.KIMServiceLocator.getPersonService();
+        org.kuali.rice.kim.api.identity.PersonService personService = KimApiServiceLocator.getPersonService();
 
         if (StringUtils.isEmpty(principalId)) {
             valid = false;
@@ -120,7 +107,7 @@ public class KcPersonExtendedAttributesMaintainableImpl extends KraMaintainableI
                 for (Field field : row.getFields()) {
                     if (StringUtils.isNotEmpty(field.getPropertyName()) && field.getPropertyName().equalsIgnoreCase("personId")) {
                         field.setFieldConversions("principalId:personId");
-                        field.setQuickFinderClassNameImpl("org.kuali.rice.kim.bo.Person");
+                        field.setQuickFinderClassNameImpl("org.kuali.rice.kim.api.identity.Person");
                         field.setFieldDirectInquiryEnabled(true);
                         field.setInquiryParameters("personId:principalId");
                         break;

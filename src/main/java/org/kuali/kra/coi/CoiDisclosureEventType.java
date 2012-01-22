@@ -15,8 +15,6 @@
  */
 package org.kuali.kra.coi;
 
-import java.util.LinkedHashMap;
-
 import org.kuali.kra.bo.KraPersistableBusinessObjectBase;
 
 public class CoiDisclosureEventType extends KraPersistableBusinessObjectBase { 
@@ -55,14 +53,6 @@ public class CoiDisclosureEventType extends KraPersistableBusinessObjectBase {
     public void setEventTypeCode(String eventTypeCode) {
         this.eventTypeCode = eventTypeCode;
     }
-
-
-    @Override
-    protected LinkedHashMap toStringMapper() {
-        // TODO Auto-generated method stub
-        return null;
-    }
-
 
     public String getDescription() {
         return description;

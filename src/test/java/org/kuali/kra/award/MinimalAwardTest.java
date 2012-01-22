@@ -23,9 +23,9 @@ import org.kuali.kra.award.document.AwardDocument;
 import org.kuali.kra.award.home.Award;
 import org.kuali.kra.infrastructure.KraServiceLocator;
 import org.kuali.kra.test.infrastructure.KcUnitTestBase;
-import org.kuali.rice.kns.UserSession;
-import org.kuali.rice.kns.service.DocumentService;
-import org.kuali.rice.kns.util.GlobalVariables;
+import org.kuali.rice.krad.UserSession;
+import org.kuali.rice.krad.service.DocumentService;
+import org.kuali.rice.krad.util.GlobalVariables;
 
 public class MinimalAwardTest extends KcUnitTestBase {
 

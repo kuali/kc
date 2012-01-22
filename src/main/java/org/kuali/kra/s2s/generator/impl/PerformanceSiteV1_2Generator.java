@@ -20,7 +20,6 @@ import gov.grants.apply.forms.performanceSite12V12.SiteLocationDataType;
 import gov.grants.apply.forms.performanceSite12V12.PerformanceSite12Document.PerformanceSite12;
 import gov.grants.apply.system.globalLibraryV20.YesNoDataType;
 
-import java.util.ArrayList;
 import java.util.List;
 
 import org.apache.xmlbeans.XmlObject;

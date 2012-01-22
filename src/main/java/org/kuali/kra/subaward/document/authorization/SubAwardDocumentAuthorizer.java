@@ -21,13 +21,13 @@ import org.kuali.kra.authorization.ApplicationTask;
 import org.kuali.kra.authorization.KcTransactionalDocumentAuthorizerBase;
 import org.kuali.kra.infrastructure.TaskName;
 import org.kuali.kra.subaward.document.SubAwardDocument;
-import org.kuali.rice.kim.bo.Person;
+import org.kuali.rice.kim.api.identity.Person;
 import org.kuali.rice.kns.authorization.AuthorizationConstants;
-import org.kuali.rice.kns.document.Document;
+import org.kuali.rice.krad.document.Document;
 public class SubAwardDocumentAuthorizer extends KcTransactionalDocumentAuthorizerBase {
     /**
      * @see org.kuali.rice.kns.document.authorization.TransactionalDocumentAuthorizer#getEditModes(
-     * org.kuali.rice.kns.document.Document, org.kuali.rice.kim.bo.Person, java.util.Set)
+     * org.kuali.rice.krad.document.Document, org.kuali.rice.kim.api.identity.Person, java.util.Set)
      */
     public Set<String> getEditModes(Document document, Person user, Set<String> currentEditModes) {
         Set<String> editModes = new HashSet<String>();
@@ -37,7 +37,7 @@ public class SubAwardDocumentAuthorizer extends KcTransactionalDocumentAuthorize
         
         if(subawardDocument.getSubAward().getSubAwardId()== null){
             if (canCreateSubAward(user.getPrincipalId())) {
-                editModes.add(AuthorizationConstants.EditMode.FULL_ENTRY);         
+        editModes.add(AuthorizationConstants.EditMode.FULL_ENTRY);         
             }
             else {
                 editModes.add(AuthorizationConstants.EditMode.UNVIEWABLE);
@@ -79,10 +79,10 @@ public class SubAwardDocumentAuthorizer extends KcTransactionalDocumentAuthorize
     
     
     /**
-     * @see org.kuali.kra.authorization.KcTransactionalDocumentAuthorizerBase#canReload(org.kuali.rice.kns.document.Document, org.kuali.rice.kim.bo.Person)
+     * @see org.kuali.kra.authorization.KcTransactionalDocumentAuthorizerBase#canReload(org.kuali.rice.kns.document.Document, org.kuali.rice.kim.api.identity.Person)
      */
     @Override
-    protected boolean canReload(Document document, Person user) {
+    public boolean canReload(Document document, Person user) {
         return canEdit(document, user);
     }
 
@@ -100,4 +100,16 @@ public class SubAwardDocumentAuthorizer extends KcTransactionalDocumentAuthorize
     public boolean canEdit(Document document, Person user) {
         return canExecuteSubAwardTask(user.getPrincipalId(), (SubAwardDocument) document, TaskName.MODIFY_SUBAWARD);
     }
+
+    @Override
+    public boolean canSendNoteFyi(Document document, Person user) {
+        return false;
+    }
+    
+    @Override
+    public boolean canFyi(Document document, Person user) {
+        return false;
+    }
+
+    
 }

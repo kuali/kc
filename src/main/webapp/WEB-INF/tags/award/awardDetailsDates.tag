@@ -79,7 +79,7 @@
             <c:if test="${docInSavedState or readOnly}">
                 <html:hidden property="document.awardList[0].unitNumber" />
                 -
-                <kul:htmlControlAttribute property="document.awardList[0].unitName" attributeEntry="${awardAttributes.unitName}" readOnly="true" />
+                <kul:htmlControlAttribute property="document.awardList[0].unitName" attributeEntry="${awardAttributes['leadUnit.unitName']}" readOnly="true" />
             </c:if>
             <kul:directInquiry boClassName="org.kuali.kra.bo.Unit" inquiryParameters="document.awardList[0].unitNumber:unitNumber" anchor="${tabKey}" />
     	</td>

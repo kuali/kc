@@ -18,7 +18,7 @@ package org.kuali.kra.rules;
 import org.apache.commons.lang.StringUtils;
 import org.kuali.kra.bo.SponsorForms;
 import org.kuali.rice.kns.document.MaintenanceDocument;
-import org.kuali.rice.kns.util.GlobalVariables;
+import org.kuali.rice.krad.util.GlobalVariables;
 
 /**
  * This class overrides the custom route and custom approve methods of the MaintenanceDocument processing to check the length of the
@@ -68,7 +68,7 @@ public class SponsorFormsMaintenanceDocumentRule extends KraMaintenanceDocumentR
      */
     private boolean checkSponsorCodeOrHierarchyName(MaintenanceDocument document) {
         boolean valid = true;
-        SponsorForms sponsorForm = (SponsorForms) document.getNewMaintainableObject().getBusinessObject();
+        SponsorForms sponsorForm = (SponsorForms) document.getNewMaintainableObject().getDataObject();
         if (StringUtils.isBlank(sponsorForm.getSponsorCode()) && StringUtils.isBlank(sponsorForm.getSponsorHierarchyName())
                 || (StringUtils.isNotBlank(sponsorForm.getSponsorCode()) && StringUtils.isNotBlank(sponsorForm.getSponsorHierarchyName()))) {
             GlobalVariables.getMessageMap().putError("document.newMaintainableObject.sponsorCode", "error.sponsorForms.selector");

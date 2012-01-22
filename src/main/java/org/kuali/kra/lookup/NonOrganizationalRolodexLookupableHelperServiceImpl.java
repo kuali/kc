@@ -22,12 +22,11 @@ import java.util.Map;
 import org.kuali.kra.bo.NonOrganizationalRolodex;
 import org.kuali.kra.bo.Rolodex;
 import org.kuali.kra.dao.RolodexDao;
-import org.kuali.rice.kns.bo.BusinessObject;
 import org.kuali.rice.kns.lookup.KualiLookupableHelperServiceImpl;
-import org.kuali.rice.kns.util.BeanPropertyComparator;
-import org.kuali.rice.kns.util.KNSConstants;
+import org.kuali.rice.krad.bo.BusinessObject;
+import org.kuali.rice.krad.util.BeanPropertyComparator;
+import org.kuali.rice.krad.util.KRADConstants;
 import org.springframework.transaction.annotation.Transactional;
-import org.kuali.kra.infrastructure.Constants;
 
 /**
  * Lookup wrapper class to modify lookup results of <code>{@link NonOrganizationalRolodex}</code> lookups
@@ -48,9 +47,9 @@ public class NonOrganizationalRolodexLookupableHelperServiceImpl extends KualiLo
     public List<? extends BusinessObject> getSearchResults(Map<String, String> fieldValues) {
         boolean usePrimaryKeys = getLookupService().allPrimaryKeyValuesPresentAndNotWildcard(Rolodex.class, fieldValues);
         
-        setBackLocation(fieldValues.get(KNSConstants.BACK_LOCATION));
-        setDocFormKey(fieldValues.get(KNSConstants.DOC_FORM_KEY));
-        setReferencesToRefresh(fieldValues.get(KNSConstants.REFERENCES_TO_REFRESH));
+        setBackLocation(fieldValues.get(KRADConstants.BACK_LOCATION));
+        setDocFormKey(fieldValues.get(KRADConstants.DOC_FORM_KEY));
+        setReferencesToRefresh(fieldValues.get(KRADConstants.REFERENCES_TO_REFRESH));
         
         List<?extends BusinessObject> searchResults = getRolodexDao().getNonOrganizationalRolodexResults(fieldValues, usePrimaryKeys);
         

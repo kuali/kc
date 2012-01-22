@@ -29,12 +29,12 @@ import org.kuali.kra.infrastructure.KraServiceLocator;
 import org.kuali.kra.institutionalproposal.service.InstitutionalProposalService;
 import org.kuali.kra.proposaldevelopment.bo.DevelopmentProposal;
 import org.kuali.kra.proposaldevelopment.bo.ProposalPerson;
-import org.kuali.rice.kns.document.Document;
-import org.kuali.rice.kns.rule.DocumentAuditRule;
-import org.kuali.rice.kns.service.ParameterService;
+import org.kuali.rice.coreservice.framework.parameter.ParameterService;
 import org.kuali.rice.kns.util.AuditCluster;
 import org.kuali.rice.kns.util.AuditError;
-import org.kuali.rice.kns.util.GlobalVariables;
+import org.kuali.rice.kns.util.KNSGlobalVariables;
+import org.kuali.rice.krad.document.Document;
+import org.kuali.rice.krad.rules.rule.DocumentAuditRule;
 
 /**
  * This class processes audit rules (warnings) for the Report Information related
@@ -94,11 +94,11 @@ public class AwardProjectPersonsAuditRule implements DocumentAuditRule {
     @SuppressWarnings("unchecked")
     protected void reportAndCreateAuditCluster() {
         if (auditErrors.size() > 0) {
-            GlobalVariables.getAuditErrorMap().put(CONTACTS_AUDIT_ERRORS, new AuditCluster(Constants.CONTACTS_PANEL_NAME,
+            KNSGlobalVariables.getAuditErrorMap().put(CONTACTS_AUDIT_ERRORS, new AuditCluster(Constants.CONTACTS_PANEL_NAME,
                                                                                           auditErrors, Constants.AUDIT_ERRORS));
         }
         if (auditWarnings.size() > 0) {
-            GlobalVariables.getAuditErrorMap().put(CONTACTS_AUDIT_WARNINGS, new AuditCluster(Constants.CONTACTS_PANEL_NAME,
+            KNSGlobalVariables.getAuditErrorMap().put(CONTACTS_AUDIT_WARNINGS, new AuditCluster(Constants.CONTACTS_PANEL_NAME,
                     auditWarnings, Constants.AUDIT_WARNINGS));            
         }
     }
@@ -178,7 +178,7 @@ public class AwardProjectPersonsAuditRule implements DocumentAuditRule {
     
     protected boolean checkCertifiedInvestigators(Award award) {
         boolean retval = true;
-        String parmVal = getParameterService().getParameterValue(AwardDocument.class, AWARD_UNCERTIFIED_PARAM);
+        String parmVal = getParameterService().getParameterValueAsString(AwardDocument.class, AWARD_UNCERTIFIED_PARAM);
         if (StringUtils.equals(parmVal, "0")) { //do not validate uncertified investigators
             return retval;
         }

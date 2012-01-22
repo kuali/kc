@@ -26,8 +26,8 @@ import org.kuali.kra.s2s.generator.S2SBaseFormGenerator;
 import org.kuali.kra.s2s.generator.bo.KeyPersonInfo;
 import org.kuali.kra.s2s.service.S2SBudgetCalculatorService;
 import org.kuali.kra.s2s.service.S2SUtilService;
-import org.kuali.rice.kew.exception.WorkflowException;
-import org.kuali.rice.kns.service.DocumentService;
+import org.kuali.rice.kew.api.exception.WorkflowException;
+import org.kuali.rice.krad.service.DocumentService;
 
 /**
  * This abstract class has methods that are common to all the versions of RRFedNonFedBudget form.

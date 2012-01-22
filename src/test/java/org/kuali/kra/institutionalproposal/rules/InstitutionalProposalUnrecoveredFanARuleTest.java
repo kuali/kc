@@ -31,10 +31,10 @@ import org.junit.runner.RunWith;
 import org.kuali.kra.institutionalproposal.IndirectcostRateType;
 import org.kuali.kra.institutionalproposal.document.InstitutionalProposalDocument;
 import org.kuali.kra.institutionalproposal.home.InstitutionalProposalUnrecoveredFandA;
-import org.kuali.rice.kns.service.BusinessObjectService;
-import org.kuali.rice.kns.util.ErrorMap;
-import org.kuali.rice.kns.util.GlobalVariables;
-import org.kuali.rice.kns.util.KualiDecimal;
+import org.kuali.rice.core.api.util.type.KualiDecimal;
+import org.kuali.rice.krad.service.BusinessObjectService;
+import org.kuali.rice.krad.util.GlobalVariables;
+import org.kuali.rice.krad.util.MessageMap;
 
 /**
  * This class...
@@ -69,7 +69,7 @@ public class InstitutionalProposalUnrecoveredFanARuleTest {
         institutionalProposalUnrecoveredFandA.setUnderrecoveryOfIndirectcost(new KualiDecimal(AMOUNT));
         institutionalProposalUnrecoveredFandA.setIndirectcostRateTypeCode(RATE_TYPE_CODE);
         queryMap.put("indirectcostRateTypeCode", 1);
-        GlobalVariables.setErrorMap(new ErrorMap());
+        GlobalVariables.setMessageMap(new MessageMap());
     }
     
     /**

@@ -28,69 +28,55 @@ import javax.xml.transform.stream.StreamSource;
 import org.kuali.kra.bo.KraPersistableBusinessObjectBase;
 import org.kuali.kra.printing.Printable;
 import org.kuali.kra.util.watermark.Watermarkable;
-import org.kuali.kra.printing.WaterMarkable;
-import org.kuali.rice.kns.bo.PersistableBusinessObjectBase;
+import org.kuali.rice.krad.bo.PersistableBusinessObjectBase;
 
-public class KCTestPrintable extends PersistableBusinessObjectBase implements
-		Printable {
+public class KCTestPrintable extends PersistableBusinessObjectBase implements Printable {
 
-	@Override
-	protected LinkedHashMap toStringMapper() {
-		// TODO Auto-generated method stub
-		return null;
-	}
+    public List<Source> getXSLTemplates() {
+        ArrayList<Source> ret = new ArrayList<Source>();
+        File xsltfile = new File("src/main/webapp/static/printing/schemas/KCTestPrintable.xsl");
+        ret.add(new StreamSource(xsltfile));
+        return ret;
+    }
 
-	public List<Source> getXSLTemplates() {
-		ArrayList<Source> ret = new ArrayList<Source>();
-		File xsltfile = new File(
-				"src/main/webapp/static/printing/schemas/KCTestPrintable.xsl");
-		ret.add(new StreamSource(xsltfile));
-		return ret;
+    public Map<String, byte[]> renderXML() {
+        Map<String, byte[]> xmlStreamMap = new LinkedHashMap<String, byte[]>();
+        FileInputStream ret = null;
+        File xmlfile = new File("src/main/webapp/static/printing/data/KCTestPrintableTestData.xml");
+        try {
+            ret = new FileInputStream(xmlfile);
+            byte[] bytes = new byte[ret.available()];
+            ret.read(bytes);
+            xmlStreamMap.put("Bookmark", bytes);
+        } catch (Exception e) {
+            // TODO Auto-generated catch block 
+            e.printStackTrace();
+        }
+        return xmlStreamMap;
+    }
 
-	}
+    public KraPersistableBusinessObjectBase getPrintableBusinessObject() {
+        // TODO Auto-generated method stub 
+        return null;
+    }
 
-	public Map<String, byte[]> renderXML() {
-		Map<String, byte[]> xmlStreamMap = new LinkedHashMap<String, byte[]>();
-
-		FileInputStream ret = null;
-		File xmlfile = new File(
-				"src/main/webapp/static/printing/data/KCTestPrintableTestData.xml");
-		try {
-			ret = new FileInputStream(xmlfile);
-			byte[] bytes= new byte[ret.available()];
-			ret.read(bytes);
-	        xmlStreamMap.put("Bookmark", bytes);
-		} catch (Exception e) {
-			// TODO Auto-generated catch block
-			e.printStackTrace();
-		}
-		return xmlStreamMap;
-
-	}
-
-	public KraPersistableBusinessObjectBase getPrintableBusinessObject() {
-		// TODO Auto-generated method stub
-		return null;
-	}
-
-	public Map<String, byte[]> getAttachments() {
-		// TODO Auto-generated method stub
-		return null;
-	}
+    public Map<String, byte[]> getAttachments() {
+        // TODO Auto-generated method stub 
+        return null;
+    }
 
     public Map<String, Source> getXSLTemplateWithBookmarks() {
-        // TODO Auto-generated method stub
+        // TODO Auto-generated method stub 
         return null;
     }
 
     public boolean isWatermarkEnabled() {
-        // TODO Auto-generated method stub
+        // TODO Auto-generated method stub 
         return false;
     }
 
     public Watermarkable getWatermarkable() {
-        // TODO Auto-generated method stub
+        // TODO Auto-generated method stub 
         return null;
     }
-
 }

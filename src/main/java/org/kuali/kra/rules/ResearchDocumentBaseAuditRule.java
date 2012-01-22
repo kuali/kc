@@ -16,7 +16,6 @@
 package org.kuali.kra.rules;
 
 import java.util.ArrayList;
-import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
 
@@ -25,12 +24,12 @@ import org.kuali.kra.bo.CustomAttribute;
 import org.kuali.kra.bo.CustomAttributeDocument;
 import org.kuali.kra.document.ResearchDocumentBase;
 import org.kuali.kra.infrastructure.Constants;
-import org.kuali.rice.kns.document.Document;
-import org.kuali.rice.kns.rule.DocumentAuditRule;
+import org.kuali.rice.core.api.util.RiceKeyConstants;
 import org.kuali.rice.kns.util.AuditCluster;
 import org.kuali.rice.kns.util.AuditError;
-import org.kuali.rice.kns.util.GlobalVariables;
-import org.kuali.rice.kns.util.RiceKeyConstants;
+import org.kuali.rice.kns.util.KNSGlobalVariables;
+import org.kuali.rice.krad.document.Document;
+import org.kuali.rice.krad.rules.rule.DocumentAuditRule;
 
 /**
  * This class processes audit rules (warnings) for the Sponsor & Program Information related
@@ -39,7 +38,7 @@ import org.kuali.rice.kns.util.RiceKeyConstants;
 public class ResearchDocumentBaseAuditRule implements DocumentAuditRule {
 
     /**
-     * @see org.kuali.core.rule.DocumentAuditRule#processRunAuditBusinessRules(org.kuali.rice.kns.document.Document)
+     * @see org.kuali.core.rule.DocumentAuditRule#processRunAuditBusinessRules(org.kuali.rice.krad.document.Document)
      */
     public boolean processRunAuditBusinessRules(Document document) {
         boolean valid = true;
@@ -53,12 +52,12 @@ public class ResearchDocumentBaseAuditRule implements DocumentAuditRule {
                 if (customAttributeDocument.isRequired() && StringUtils.isEmpty(customAttribute.getValue())) {
                     valid = false;
                     String key = "CustomData" + StringUtils.deleteWhitespace(customAttribute.getGroupName()) + "Errors";
-                    AuditCluster auditCluster = (AuditCluster) GlobalVariables.getAuditErrorMap().get(key);
+                    AuditCluster auditCluster = (AuditCluster) KNSGlobalVariables.getAuditErrorMap().get(key);
                     if (auditCluster == null) {
                         List<AuditError> auditErrors = new ArrayList<AuditError>();
                         //auditCluster = new AuditCluster("Custom Data: " + customAttribute.getGroupName(), auditErrors, Constants.AUDIT_ERRORS);
                         auditCluster = new AuditCluster(customAttribute.getGroupName(), auditErrors, Constants.AUDIT_ERRORS);
-                        GlobalVariables.getAuditErrorMap().put(key, auditCluster);
+                        KNSGlobalVariables.getAuditErrorMap().put(key, auditCluster);
                     }
                     List<AuditError> auditErrors = auditCluster.getAuditErrorList();
                     auditErrors.add(new AuditError("customAttributeValues(id"+customAttributeDocument.getCustomAttributeId()+")", RiceKeyConstants.ERROR_REQUIRED, StringUtils.deleteWhitespace(Constants.CUSTOM_ATTRIBUTES_PAGE + "." + customAttribute.getGroupName()), new String[]{customAttribute.getLabel()}));

@@ -17,7 +17,7 @@ package org.kuali.kra.committee.rule.event;
 
 import org.kuali.kra.committee.rules.CommitteeActionPrintCommitteeDocumentRule;
 import org.kuali.kra.rule.BusinessRuleInterface;
-import org.kuali.rice.kns.document.Document;
+import org.kuali.rice.krad.document.Document;
 
 public class CommitteeActionPrintCommitteeDocumentEvent extends CommitteeActionsEventBase<CommitteeActionPrintCommitteeDocumentRule> {
     private static final String MSG = "print committee document";

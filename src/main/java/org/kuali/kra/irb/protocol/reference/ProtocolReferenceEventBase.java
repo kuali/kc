@@ -17,7 +17,6 @@ package org.kuali.kra.irb.protocol.reference;
 
 import org.kuali.kra.irb.ProtocolDocument;
 import org.kuali.kra.rule.event.KraDocumentEventBase;
-import org.kuali.rice.kns.util.ObjectUtils;
 
 /**
  * This class is abstract base class for Event Notification

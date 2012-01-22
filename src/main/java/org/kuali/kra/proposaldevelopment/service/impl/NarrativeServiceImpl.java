@@ -40,13 +40,13 @@ import org.kuali.kra.proposaldevelopment.service.ProposalPersonService;
 import org.kuali.kra.service.KcPersonService;
 import org.kuali.kra.service.KraAuthorizationService;
 import org.kuali.kra.service.SystemAuthorizationService;
-import org.kuali.rice.kim.bo.Person;
-import org.kuali.rice.kim.bo.Role;
-import org.kuali.rice.kim.service.PersonService;
-import org.kuali.rice.kns.service.BusinessObjectService;
-import org.kuali.rice.kns.service.DateTimeService;
-import org.kuali.rice.kns.util.GlobalVariables;
-import org.kuali.rice.kns.util.ObjectUtils;
+import org.kuali.rice.core.api.datetime.DateTimeService;
+import org.kuali.rice.kim.api.identity.Person;
+import org.kuali.rice.kim.api.identity.PersonService;
+import org.kuali.rice.kim.api.role.Role;
+import org.kuali.rice.krad.service.BusinessObjectService;
+import org.kuali.rice.krad.util.GlobalVariables;
+import org.kuali.rice.krad.util.ObjectUtils;
 
 /**
  * This class is primarily to add/delete proposal/institute attachments. 
@@ -60,7 +60,7 @@ public class NarrativeServiceImpl implements NarrativeService {
     private SystemAuthorizationService systemAuthorizationService;
     private DateTimeService dateTimeService;
     private KcPersonService kcPersonService;
-    private PersonService<Person> personService;
+    private PersonService personService;
     private AttachmentDao attachmentDao;
 
     /**
@@ -168,7 +168,7 @@ public class NarrativeServiceImpl implements NarrativeService {
         List<KcPerson> allPersons = new ArrayList<KcPerson>();
 
         for (Role proposalRole : proposalRoles) {
-            List<KcPerson> persons = kraAuthorizationService.getPersonsInRole(proposalDevelopmentDocument, proposalRole.getRoleName());
+            List<KcPerson> persons = kraAuthorizationService.getPersonsInRole(proposalDevelopmentDocument, proposalRole.getName());
             for (KcPerson person : persons) {
                 if (!isPersonInList(person, allPersons)) {
                     allPersons.add(person);
@@ -458,11 +458,11 @@ public class NarrativeServiceImpl implements NarrativeService {
         this.systemAuthorizationService = systemAuthorizationService;
     }
 
-    protected PersonService<Person> getPersonService() {
+    protected PersonService getPersonService() {
         return personService;
     }
 
-    public void setPersonService(PersonService<Person> personService) {
+    public void setPersonService(PersonService personService) {
         this.personService = personService;
     }
 

@@ -29,8 +29,8 @@ import org.kuali.kra.irb.actions.withdraw.WithdrawCorrespondence;
 import org.kuali.kra.irb.test.ProtocolFactory;
 import org.kuali.kra.printing.PrintingException;
 import org.kuali.kra.test.infrastructure.KcUnitTestBase;
-import org.kuali.rice.kew.exception.WorkflowException;
-import org.kuali.rice.kns.service.BusinessObjectService;
+import org.kuali.rice.kew.api.exception.WorkflowException;
+import org.kuali.rice.krad.service.BusinessObjectService;
 
 public class ProtocolActionCorrespondenceGenerationServiceTest extends KcUnitTestBase {
     

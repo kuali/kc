@@ -15,8 +15,6 @@
  */
 package org.kuali.kra.award.customdata;
 
-import java.util.LinkedHashMap;
-
 import org.kuali.kra.award.AwardAssociate;
 import org.kuali.kra.bo.CustomAttribute;
 
@@ -29,13 +27,15 @@ public class AwardCustomData extends AwardAssociate {
      * Comment for <code>serialVersionUID</code>
      */
     private static final long serialVersionUID = 4125090813618033094L;
+
     private Long awardCustomDataId;
+
     private String value;
+
     private Long customAttributeId;
-    
+
     private CustomAttribute customAttribute;
-    
-    
+
     /**
      * Gets the customAttributeId attribute. 
      * @return Returns the customAttributeId.
@@ -43,6 +43,7 @@ public class AwardCustomData extends AwardAssociate {
     public Long getCustomAttributeId() {
         return customAttributeId;
     }
+
     /**
      * Sets the customAttributeId attribute value.
      * @param customAttributeId The customAttributeId to set.
@@ -50,6 +51,7 @@ public class AwardCustomData extends AwardAssociate {
     public void setCustomAttributeId(Long customAttributeId) {
         this.customAttributeId = customAttributeId;
     }
+
     /**
      * Gets the awardCustomDataId attribute. 
      * @return Returns the awardCustomDataId.
@@ -57,6 +59,7 @@ public class AwardCustomData extends AwardAssociate {
     public Long getAwardCustomDataId() {
         return awardCustomDataId;
     }
+
     /**
      * Sets the awardCustomDataId attribute value.
      * @param awardCustomDataId The awardCustomDataId to set.
@@ -64,6 +67,7 @@ public class AwardCustomData extends AwardAssociate {
     public void setAwardCustomDataId(Long awardCustomDataId) {
         this.awardCustomDataId = awardCustomDataId;
     }
+
     /**
      * Gets the value attribute. 
      * @return Returns the value.
@@ -71,14 +75,14 @@ public class AwardCustomData extends AwardAssociate {
     public String getValue() {
         return value;
     }
-    
+
     /**
      * @see org.kuali.kra.Sequenceable#resetPersistenceState()
      */
     public void resetPersistenceState() {
         this.awardCustomDataId = null;
     }
-    
+
     /**
      * Sets the value attribute value.
      * @param value The value to set.
@@ -86,20 +90,7 @@ public class AwardCustomData extends AwardAssociate {
     public void setValue(String value) {
         this.value = value;
     }
-    
-    
-    /**
-     * @see org.kuali.core.bo.BusinessObjectBase#toStringMapper()
-     */
-    @Override
-    protected LinkedHashMap<String, Object> toStringMapper() {
-        LinkedHashMap<String, Object> map = new LinkedHashMap<String, Object>();
-        map.put("awardCustomDataId", getAwardCustomDataId());
-        map.put("value", getValue());
-        map.put("customAttributeId", getCustomAttributeId());
-        return map;
-    }
-    
+
     /**
      * @see java.lang.Object#hashCode()
      */
@@ -113,44 +104,31 @@ public class AwardCustomData extends AwardAssociate {
         result = prime * result + ((value == null) ? 0 : value.hashCode());
         return result;
     }
+
     /**
      * @see java.lang.Object#equals(java.lang.Object)
      */
     @Override
     public boolean equals(Object obj) {
-        if (this == obj)
-            return true;
-        if (!super.equals(obj))
-            return false;
-        if (getClass() != obj.getClass())
-            return false;
+        if (this == obj) return true;
+        if (!super.equals(obj)) return false;
+        if (getClass() != obj.getClass()) return false;
         AwardCustomData other = (AwardCustomData) obj;
         if (awardCustomDataId == null) {
-            if (other.awardCustomDataId != null)
-                return false;
-        }
-        else if (!awardCustomDataId.equals(other.awardCustomDataId))
-            return false;
+            if (other.awardCustomDataId != null) return false;
+        } else if (!awardCustomDataId.equals(other.awardCustomDataId)) return false;
         if (customAttribute == null) {
-            if (other.customAttribute != null)
-                return false;
-        }
-        else if (!customAttribute.equals(other.customAttribute))
-            return false;
+            if (other.customAttribute != null) return false;
+        } else if (!customAttribute.equals(other.customAttribute)) return false;
         if (customAttributeId == null) {
-            if (other.customAttributeId != null)
-                return false;
-        }
-        else if (!customAttributeId.equals(other.customAttributeId))
-            return false;
+            if (other.customAttributeId != null) return false;
+        } else if (!customAttributeId.equals(other.customAttributeId)) return false;
         if (value == null) {
-            if (other.value != null)
-                return false;
-        }
-        else if (!value.equals(other.value))
-            return false;
+            if (other.value != null) return false;
+        } else if (!value.equals(other.value)) return false;
         return true;
     }
+
     /**
      * Gets the customAttribute attribute. 
      * @return Returns the customAttribute.
@@ -158,6 +136,7 @@ public class AwardCustomData extends AwardAssociate {
     public CustomAttribute getCustomAttribute() {
         return customAttribute;
     }
+
     /**
      * Sets the customAttribute attribute value.
      * @param customAttribute The customAttribute to set.
@@ -165,5 +144,4 @@ public class AwardCustomData extends AwardAssociate {
     public void setCustomAttribute(CustomAttribute customAttribute) {
         this.customAttribute = customAttribute;
     }
-    
 }

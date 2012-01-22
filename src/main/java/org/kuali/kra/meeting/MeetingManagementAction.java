@@ -18,28 +18,24 @@ package org.kuali.kra.meeting;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 
-import org.apache.commons.lang.StringUtils;
 import org.apache.struts.action.ActionForm;
 import org.apache.struts.action.ActionForward;
 import org.apache.struts.action.ActionMapping;
 import org.apache.struts.validator.Resources;
-import org.kuali.kra.budget.web.struts.form.BudgetForm;
 import org.kuali.kra.committee.document.CommitteeDocument;
 import org.kuali.kra.infrastructure.Constants;
 import org.kuali.kra.infrastructure.KeyConstants;
 import org.kuali.kra.infrastructure.KraServiceLocator;
 import org.kuali.kra.meeting.MeetingEventBase.ErrorType;
-import org.kuali.kra.proposaldevelopment.document.ProposalDevelopmentDocument;
 import org.kuali.kra.service.ResearchDocumentService;
 import org.kuali.rice.ken.util.NotificationConstants;
-import org.kuali.rice.kew.exception.WorkflowException;
-import org.kuali.rice.kew.util.KEWConstants;
-import org.kuali.rice.kns.authorization.AuthorizationConstants;
-import org.kuali.rice.kns.bo.BusinessObject;
+import org.kuali.rice.kew.api.KewApiConstants;
+import org.kuali.rice.kew.api.exception.WorkflowException;
+import org.kuali.rice.krad.bo.BusinessObject;
 import org.kuali.rice.kns.question.ConfirmationQuestion;
-import org.kuali.rice.kns.service.DocumentService;
-import org.kuali.rice.kns.util.GlobalVariables;
-import org.kuali.rice.kns.util.KNSConstants;
+import org.kuali.rice.krad.service.DocumentService;
+import org.kuali.rice.krad.util.GlobalVariables;
+import org.kuali.rice.krad.util.KRADConstants;
 
 public class MeetingManagementAction extends MeetingAction {
     private static final String NEW_OTHER_ACTION_ERROR_PATH = "meetingHelper.newOtherAction";
@@ -191,12 +187,12 @@ public class MeetingManagementAction extends MeetingAction {
     public ActionForward deleteCommitteeScheduleMinute(ActionMapping mapping, ActionForm form, HttpServletRequest request,
             HttpServletResponse response) throws Exception {
         ActionForward forward = mapping.findForward(Constants.MAPPING_BASIC); 
-        Object question = request.getParameter(KNSConstants.QUESTION_INST_ATTRIBUTE_NAME);
-        Object buttonClicked = request.getParameter(KNSConstants.QUESTION_CLICKED_BUTTON);
-        String reason = request.getParameter(KNSConstants.QUESTION_REASON_ATTRIBUTE_NAME);
+        Object question = request.getParameter(KRADConstants.QUESTION_INST_ATTRIBUTE_NAME);
+        Object buttonClicked = request.getParameter(KRADConstants.QUESTION_CLICKED_BUTTON);
+        String reason = request.getParameter(KRADConstants.QUESTION_REASON_ATTRIBUTE_NAME);
         String callerString = String.format("deleteCommitteeScheduleMinute.line%s.anchor%s",getLineToDelete(request),0);
         if (question == null){
-            forward =  this.performQuestionWithoutInput(mapping, form, request, response, DELETE_COMMITTEE_SCHEDULE_MINUTE_QUESTION, Resources.getMessage(request, KeyConstants.QUESTION_COMMITTEE_MANAGEMENT_DELETE_MINUTE_CONFIRMATION), KNSConstants.CONFIRMATION_QUESTION, callerString, "");
+            forward =  this.performQuestionWithoutInput(mapping, form, request, response, DELETE_COMMITTEE_SCHEDULE_MINUTE_QUESTION, Resources.getMessage(request, KeyConstants.QUESTION_COMMITTEE_MANAGEMENT_DELETE_MINUTE_CONFIRMATION), KRADConstants.CONFIRMATION_QUESTION, callerString, "");
          } 
         else if ((DELETE_COMMITTEE_SCHEDULE_MINUTE_QUESTION.equals(question)) && ConfirmationQuestion.NO.equals(buttonClicked))  {
             //nothing to do.
@@ -261,15 +257,15 @@ public class MeetingManagementAction extends MeetingAction {
        
         
         ActionForward forward = mapping.findForward(Constants.MAPPING_BASIC); 
-        Object question = request.getParameter(KNSConstants.QUESTION_INST_ATTRIBUTE_NAME);
-        Object buttonClicked = request.getParameter(KNSConstants.QUESTION_CLICKED_BUTTON);
-        String reason = request.getParameter(KNSConstants.QUESTION_REASON_ATTRIBUTE_NAME);
+        Object question = request.getParameter(KRADConstants.QUESTION_INST_ATTRIBUTE_NAME);
+        Object buttonClicked = request.getParameter(KRADConstants.QUESTION_CLICKED_BUTTON);
+        String reason = request.getParameter(KRADConstants.QUESTION_REASON_ATTRIBUTE_NAME);
         String callerString = String.format("deleteOtherAction.line%s.anchor%s",lineToDelete,0);
         
         if (applyRules(new MeetingDeleteOtherEvent(Constants.EMPTY_STRING, getCommitteeDocument(meetingHelper.getCommitteeSchedule()
                 .getCommittee().getCommitteeDocument().getDocumentHeader().getDocumentNumber()), meetingHelper, ErrorType.HARDERROR, lineToDelete))) {
             if (question == null){
-                forward =  this.performQuestionWithoutInput(mapping, form, request, response, DELETE_COMMITTEE_OTHER_ACTION_QUESTION, Resources.getMessage(request, KeyConstants.QUESTION_COMMITTEE_MANAGEMENT_DELETE_OTHER_ACTION_CONFIRMATION), KNSConstants.CONFIRMATION_QUESTION, callerString, "");
+                forward =  this.performQuestionWithoutInput(mapping, form, request, response, DELETE_COMMITTEE_OTHER_ACTION_QUESTION, Resources.getMessage(request, KeyConstants.QUESTION_COMMITTEE_MANAGEMENT_DELETE_OTHER_ACTION_CONFIRMATION), KRADConstants.CONFIRMATION_QUESTION, callerString, "");
             } 
             else if ((DELETE_COMMITTEE_OTHER_ACTION_QUESTION.equals(question)) && ConfirmationQuestion.NO.equals(buttonClicked))  {
                 //nothing to do.
@@ -296,13 +292,13 @@ public class MeetingManagementAction extends MeetingAction {
         final String docNumber = form.getMeetingHelper().getCommitteeSchedule().getCommittee().getCommitteeDocument().getDocumentNumber();
         
         final CommitteeDocument pdDoc = (CommitteeDocument) docService.getByDocumentHeaderId(docNumber);
-        String forwardUrl = buildForwardUrl(pdDoc.getDocumentHeader().getWorkflowDocument().getRouteHeaderId());
+        String forwardUrl = buildForwardUrl(pdDoc.getDocumentHeader().getWorkflowDocument().getDocumentId());
         forwardUrl = forwardUrl.replaceFirst("committeeCommittee.do", "committeeSchedule.do");
         forwardUrl += "&methodToCallAttribute=methodToCall.reload";
         return new ActionForward(forwardUrl, true);
     }
 
-    protected String buildForwardUrl(Long routeHeaderId) {
+    protected String buildForwardUrl(String routeHeaderId) {
         ResearchDocumentService researchDocumentService = KraServiceLocator.getService(ResearchDocumentService.class);
         String forward = researchDocumentService.getDocHandlerUrl(routeHeaderId);
 //        forward = forward.replaceFirst(DEFAULT_TAB, ALTERNATE_OPEN_TAB);
@@ -312,10 +308,10 @@ public class MeetingManagementAction extends MeetingAction {
         else {
             forward += "&";
         }
-        forward += KEWConstants.ROUTEHEADER_ID_PARAMETER + "=" + routeHeaderId;
-        forward += "&" + KEWConstants.COMMAND_PARAMETER + "=" + NotificationConstants.NOTIFICATION_DETAIL_VIEWS.DOC_SEARCH_VIEW;
+        forward += KewApiConstants.DOCUMENT_ID_PARAMETER + "=" + routeHeaderId;
+        forward += "&" + KewApiConstants.COMMAND_PARAMETER + "=" + NotificationConstants.NOTIFICATION_DETAIL_VIEWS.DOC_SEARCH_VIEW;
         if (GlobalVariables.getUserSession().isBackdoorInUse()) {
-            forward += "&" + KEWConstants.BACKDOOR_ID_PARAMETER + "=" + GlobalVariables.getUserSession().getPrincipalName();
+            forward += "&" + KewApiConstants.BACKDOOR_ID_PARAMETER + "=" + GlobalVariables.getUserSession().getPrincipalName();
         }
         return forward;
     }

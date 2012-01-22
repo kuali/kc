@@ -15,27 +15,27 @@
  */
 package org.kuali.kra.questionnaire.question;
 
-import java.util.LinkedHashMap;
-
 import org.apache.commons.lang.ObjectUtils;
 import org.kuali.kra.SequenceAssociate;
 import org.kuali.kra.bo.KraPersistableBusinessObjectBase;
 
-public class QuestionExplanation extends KraPersistableBusinessObjectBase implements SequenceAssociate<Question> { 
-    
+public class QuestionExplanation extends KraPersistableBusinessObjectBase implements SequenceAssociate<Question> {
+
     private static final long serialVersionUID = 1L;
 
-    private Long questionExplanationId; 
-    private Long questionRefIdFk; 
-    private String explanationType; 
-    private String explanation; 
-    
+    private Long questionExplanationId;
+
+    private Long questionRefIdFk;
+
+    private String explanationType;
+
+    private String explanation;
+
     private Question sequenceOwner;
 
-    public QuestionExplanation() { 
+    public QuestionExplanation() {
+    }
 
-    } 
-    
     public Long getQuestionExplanationId() {
         return questionExplanationId;
     }
@@ -80,14 +80,13 @@ public class QuestionExplanation extends KraPersistableBusinessObjectBase implem
             return false;
         }
         QuestionExplanation questionExplanation = (QuestionExplanation) obj;
-        if (ObjectUtils.equals(this.questionRefIdFk, questionExplanation.questionRefIdFk)
-                && ObjectUtils.equals(this.explanationType, questionExplanation.explanationType)) {
+        if (ObjectUtils.equals(this.questionRefIdFk, questionExplanation.questionRefIdFk) && ObjectUtils.equals(this.explanationType, questionExplanation.explanationType)) {
             return true;
         } else {
             return false;
         }
     }
-    
+
     @Override
     public int hashCode() {
         final int PRIME = 31;
@@ -97,24 +96,12 @@ public class QuestionExplanation extends KraPersistableBusinessObjectBase implem
         return result;
     }
 
-        /** {@inheritDoc} */
-    @Override 
-    protected LinkedHashMap<String, Object> toStringMapper() {
-        LinkedHashMap<String, Object> hashMap = new LinkedHashMap<String, Object>();
-        hashMap.put("questionExplanationId", this.getQuestionExplanationId());
-        hashMap.put("questionRefIdFk", this.getQuestionRefIdFk());
-        hashMap.put("explanationType", this.getExplanationType());
-        hashMap.put("explanation", this.getExplanation());
-        return hashMap;
-    }
-
     public Question getSequenceOwner() {
         return this.sequenceOwner;
     }
 
     public void setSequenceOwner(Question newlyVersionedOwner) {
         this.sequenceOwner = newlyVersionedOwner;
-        
     }
 
     public Integer getSequenceNumber() {
@@ -123,7 +110,5 @@ public class QuestionExplanation extends KraPersistableBusinessObjectBase implem
 
     public void resetPersistenceState() {
         this.questionExplanationId = null;
-        
     }
-    
 }

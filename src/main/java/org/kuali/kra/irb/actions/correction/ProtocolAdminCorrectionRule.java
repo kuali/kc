@@ -20,7 +20,7 @@ import org.kuali.kra.infrastructure.Constants;
 import org.kuali.kra.infrastructure.KeyConstants;
 import org.kuali.kra.irb.ProtocolDocument;
 import org.kuali.kra.rules.ResearchDocumentRuleBase;
-import org.kuali.rice.kns.util.GlobalVariables;
+import org.kuali.rice.krad.util.GlobalVariables;
 
 /**
  * Validate the assignment of a protocol to a agenda.
@@ -31,7 +31,7 @@ public class ProtocolAdminCorrectionRule extends ResearchDocumentRuleBase implem
         boolean valid = true;
         if (StringUtils.isBlank(actionBean.getComments())) {
             valid = false;
-            GlobalVariables.getErrorMap().putError(Constants.PROTOCOL_ADMIN_CORRECTION_PROPERTY_KEY + ".comments", 
+            GlobalVariables.getMessageMap().putError(Constants.PROTOCOL_ADMIN_CORRECTION_PROPERTY_KEY + ".comments", 
                                                    KeyConstants.ERROR_PROTOCOL_ADMIN_CORRECTION_COMMENTS_REQUIRED);  
         }
         return valid;

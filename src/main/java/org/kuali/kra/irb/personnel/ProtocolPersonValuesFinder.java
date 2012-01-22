@@ -21,9 +21,9 @@ import java.util.List;
 import org.kuali.kra.lookup.keyvalue.ConditionValuesFinder;
 import org.kuali.kra.lookup.keyvalue.PrefixValuesFinder;
 import org.kuali.kra.lookup.keyvalue.SortedValuesFinder;
-import org.kuali.rice.kns.lookup.keyvalues.KeyValuesBase;
-import org.kuali.rice.kns.lookup.keyvalues.KeyValuesFinder;
-import org.kuali.rice.core.util.KeyLabelPair;
+import org.kuali.rice.core.api.util.KeyValue;
+import org.kuali.rice.krad.keyvalues.KeyValuesBase;
+import org.kuali.rice.krad.keyvalues.KeyValuesFinder;
 
 /**
  * See {@link #getKeyValues()}.
@@ -43,13 +43,13 @@ public class ProtocolPersonValuesFinder extends KeyValuesBase {
      * {@link #setProtocolId(Integer) setProtocolId(Integer)}
      * must be called with valid values before calling this method.
      * </p>
-     * @return a list of {@link KeyLabelPair KeyLabelPair}
+     * @return a list of {@link KeyValue KeyValue}
      */
-    public List<KeyLabelPair> getKeyValues() {   
+    public List<KeyValue> getKeyValues() {   
         this.validateRequiredProperties();
         
         @SuppressWarnings("unchecked")
-        final List<KeyLabelPair> persons = this.createKeyValuesFinder().getKeyValues();
+        final List<KeyValue> persons = this.createKeyValuesFinder().getKeyValues();
         return persons;
     }
     

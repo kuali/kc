@@ -15,8 +15,6 @@
  */
 package org.kuali.kra.irb.protocol.funding;
 
-import java.util.LinkedHashMap;
-
 import org.apache.commons.lang.StringUtils;
 import org.kuali.kra.bo.FundingSourceType;
 import org.kuali.kra.infrastructure.KraServiceLocator;
@@ -28,20 +26,25 @@ import org.kuali.kra.irb.ProtocolAssociate;
 public class ProtocolFundingSource extends ProtocolAssociate {
 
     private static final long serialVersionUID = 2732312377082408995L;
-    
+
     private Long protocolFundingSourceId;
+
     private String fundingSourceTypeCode;
+
     private String fundingSourceNumber;
+
     private FundingSourceType fundingSourceType;
+
     private String fundingSourceName;
+
     private String fundingSourceTitle;
-    
+
     /**
      * Empty constructor for database.
      */
     public ProtocolFundingSource() {
     }
-    
+
     /**
      * Constructs a ProtocolFundingSource.
      * @param fundingSourceNumber The user-readable number of the funding source (often the same as fundingSource)
@@ -86,21 +89,19 @@ public class ProtocolFundingSource extends ProtocolAssociate {
 
     public void setFundingSourceTypeCode(String fundingSourceTypeCode) {
         this.fundingSourceTypeCode = fundingSourceTypeCode;
-        
-        // When the type code changes, the corresponding
-        //  field must also be updated.  A refresh will
-        // cause a read from the database. By
-        // the magic of OJB, the data member is automatically updated.
-        
+        // When the type code changes, the corresponding  
+        //  field must also be updated.  A refresh will  
+        // cause a read from the database. By  
+        // the magic of OJB, the data member is automatically updated.  
         if (StringUtils.isNotBlank(fundingSourceTypeCode)) {
             refreshReferenceObject("fundingSourceType");
         }
     }
-    
+
     public String getFundingSourceNumber() {
         return fundingSourceNumber;
     }
-    
+
     public void setFundingSourceNumber(String fundingSourceNumber) {
         this.fundingSourceNumber = fundingSourceNumber;
     }
@@ -112,20 +113,9 @@ public class ProtocolFundingSource extends ProtocolAssociate {
     public void setFundingSourceType(FundingSourceType fundingSourceType) {
         this.fundingSourceType = fundingSourceType;
     }
-    
+
     public boolean isFundingSourceLookupable() {
         return getProtocolFundingSourceService().isLookupable(fundingSourceTypeCode);
-    }
-
-    @Override
-    protected LinkedHashMap<String, Object> toStringMapper() {
-        LinkedHashMap<String, Object> hashMap = super.toStringMapper();
-        hashMap.put("protocolFundingSourceId", getProtocolFundingSourceId());
-        hashMap.put("fundingSourceTypeCode", getFundingSourceTypeCode());
-        hashMap.put("fundingSourceNumber", getFundingSourceNumber());
-        hashMap.put("fundingSourceName", getFundingSourceName());
-        hashMap.put("fundingSourceTitle", getFundingSourceTitle());
-        return hashMap;
     }
 
     protected ProtocolFundingSourceService getProtocolFundingSourceService() {

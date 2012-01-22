@@ -9,10 +9,10 @@ import org.kuali.kra.bo.KcPersonExtendedAttributes;
 import org.kuali.kra.infrastructure.KraServiceLocator;
 import org.kuali.kra.lookup.KcPersonExtendedAttributesLookupableHelperServiceImpl;
 import org.kuali.kra.test.infrastructure.KcUnitTestBase;
-import org.kuali.rice.kns.UserSession;
-import org.kuali.rice.kns.util.GlobalVariables;
 import org.kuali.rice.kns.web.ui.Field;
 import org.kuali.rice.kns.web.ui.Row;
+import org.kuali.rice.krad.UserSession;
+import org.kuali.rice.krad.util.GlobalVariables;
 
 public class KcPersonExtendedAttributesLookupableHelperServiceTest extends KcUnitTestBase {
     private static final int NUMBER_LOOKUP_CRITERIA_FIELDS = 4;
@@ -48,7 +48,7 @@ public class KcPersonExtendedAttributesLookupableHelperServiceTest extends KcUni
         for (Row row : rows) {
             for (Field field : row.getFields()) {
                 if (field.getPropertyName().equals("personId")) {
-                    assertFieldProperties(field, "principalId", "org.kuali.rice.kim.bo.Person");
+                    assertFieldProperties(field, "principalId", "org.kuali.rice.kim.api.identity.Person");
                 }
             }
         }

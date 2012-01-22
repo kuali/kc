@@ -16,16 +16,16 @@
 package org.kuali.kra.kim.service.impl;
 
 import org.kuali.kra.kim.service.KcGroupService;
-import org.kuali.rice.kim.service.IdentityManagementService;
+import org.kuali.rice.kim.api.group.GroupService;
 
 public class KcGroupServiceImpl implements KcGroupService {
-    private IdentityManagementService identityManagementService;
+    private GroupService groupService;
 
-    public void setIdentityManagementService(IdentityManagementService identityManagementService) {
-        this.identityManagementService = identityManagementService;
+    public void setGroupService(GroupService groupService) {
+        this.groupService = groupService;
     }
 
     public boolean isMemberOfGroup(String principalId, String groupId) {
-        return identityManagementService.isMemberOfGroup(principalId, groupId);
+        return groupService.isMemberOfGroup(principalId, groupId);
     }
 }

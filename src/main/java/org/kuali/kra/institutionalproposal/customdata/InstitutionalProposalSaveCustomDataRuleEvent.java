@@ -15,12 +15,11 @@
  */
 package org.kuali.kra.institutionalproposal.customdata;
 
-import org.kuali.kra.award.customdata.AwardCustomDataRule;
 import org.kuali.kra.award.customdata.AwardSaveCustomDataRuleEvent;
 import org.kuali.kra.document.ResearchDocumentBase;
 import org.kuali.kra.institutionalproposal.document.InstitutionalProposalDocument;
 import org.kuali.kra.rule.event.KraDocumentEventBase;
-import org.kuali.rice.kns.rule.BusinessRule;
+import org.kuali.rice.krad.rules.rule.BusinessRule;
 
 /**
  * This class...
@@ -52,7 +51,7 @@ public class InstitutionalProposalSaveCustomDataRuleEvent extends KraDocumentEve
     }
 
     /**
-     * @see org.kuali.rice.kns.rule.event.KualiDocumentEvent#getRuleInterfaceClass()
+     * @see org.kuali.rice.krad.rules.rule.event.KualiDocumentEvent#getRuleInterfaceClass()
      */
     @SuppressWarnings("unchecked")
     public Class getRuleInterfaceClass() {
@@ -60,7 +59,7 @@ public class InstitutionalProposalSaveCustomDataRuleEvent extends KraDocumentEve
     }
 
     /**
-     * @see org.kuali.rice.kns.rule.event.KualiDocumentEvent#invokeRuleMethod(org.kuali.rice.kns.rule.BusinessRule)
+     * @see org.kuali.rice.krad.rules.rule.event.KualiDocumentEvent#invokeRuleMethod(org.kuali.rice.krad.rules.rule.BusinessRule)
      */
     public boolean invokeRuleMethod(BusinessRule rule) {
         return ((InstitutionalProposalCustomDataRule) rule).processSaveInstitutionalProposalCustomDataBusinessRules(this);

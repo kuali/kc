@@ -25,7 +25,7 @@ import org.apache.commons.logging.LogFactory;
 import org.kuali.kfs.integration.cg.budgetService.BudgetAdjustmentService;
 import org.kuali.kfs.integration.cg.budgetService.BudgetAdjustmentServiceSOAP;
 import org.kuali.kra.infrastructure.Constants;
-import org.kuali.rice.core.config.ConfigContext;
+import org.kuali.rice.core.api.config.property.ConfigContext;
 
 
 
@@ -39,7 +39,7 @@ public class BudgetAdjustmentClientImpl extends BudgetAdjustmentClientBase {
     public final static URL WSDL_LOCATION;
     
     private static BudgetAdjustmentClientImpl client;
-    
+
     private static final Log LOG = LogFactory.getLog(BudgetAdjustmentClientImpl.class);
 
     
@@ -51,7 +51,7 @@ public class BudgetAdjustmentClientImpl extends BudgetAdjustmentClientBase {
             client = new BudgetAdjustmentClientImpl();
         }
         return client;
-    }
+      }
 
     static
     {
@@ -67,7 +67,7 @@ public class BudgetAdjustmentClientImpl extends BudgetAdjustmentClientBase {
     protected BudgetAdjustmentService getServiceHandle() {
         URL wsdlURL = null;
         
-        boolean getFinSystemURLFromWSDL = getParameterService().getIndicatorParameter("KC-AWARD", "Document", Constants.GET_FIN_SYSTEM_URL_FROM_WSDL);
+        boolean getFinSystemURLFromWSDL = getParameterService().getParameterValueAsBoolean("KC-AWARD", "Document", Constants.GET_FIN_SYSTEM_URL_FROM_WSDL);
         
         if (getFinSystemURLFromWSDL) {
             wsdlURL = WSDL_LOCATION;
@@ -81,7 +81,8 @@ public class BudgetAdjustmentClientImpl extends BudgetAdjustmentClientBase {
         }
         
         BudgetAdjustmentServiceSOAP ss = new BudgetAdjustmentServiceSOAP(wsdlURL, SERVICE_NAME);
-        return ss.getBudgetAdjustmentServicePort();
+        return ss.getBudgetAdjustmentServicePort();  
     }
+
 
 }

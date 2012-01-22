@@ -71,7 +71,7 @@ import org.kuali.kra.s2s.service.S2SUtilService;
 import org.kuali.kra.s2s.util.S2SConstants;
 import org.kuali.kra.service.KcPersonService;
 import org.kuali.kra.service.SponsorService;
-import org.kuali.rice.kns.service.BusinessObjectService;
+import org.kuali.rice.krad.service.BusinessObjectService;
 
 public abstract class AbstractResearchAndRelatedStream extends ProposalBaseStream {
     private static final Log LOG = LogFactory.getLog(AbstractResearchAndRelatedStream.class);
@@ -108,6 +108,7 @@ public abstract class AbstractResearchAndRelatedStream extends ProposalBaseStrea
     private static final String ANSWER_PARAMETER = "answer";
     private static final String QUESTION_ID_PARAMETER = "questionId";
     private static final String ORGANIZATION_ID_PARAMETER = "organizationId";
+
     public static final String KEY_MAPPING_NAME = "mappingName";
     public static final String KEY_TARGET_CATEGORY_CODE = "targetCategoryCode";
     private static final String RATE_CLASS_TYPE_EMPLOYEE_BENEFITS = "E";

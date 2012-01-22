@@ -10,7 +10,7 @@
     <property name="boNotesEnabled" value="true"/> 
 	<property name="objectLabel" value="Negotiation" />
     <property name="titleAttribute" value="negotiationId" />
-    <property name="lookupDefinition" >
+        <property name="lookupDefinition" >
       <ref bean="Negotiation-lookupDefinition" />
     </property>
     
@@ -285,6 +285,7 @@
   <bean id="Negotiation-associatedNegotiable.subAwardRequisitionerId" parent="Negotiation-associatedNegotiable.subAwardRequisitionerId-parentBean"/>
   <bean id="Negotiation-associatedNegotiable.subAwardRequisitionerId-parentBean" parent="SubAward-requisitionerId">
   	<property name="name" value="associatedNegotiable.subAwardRequisitionerId" />
+  	<property name="required" value="false" />
   	<property name="label" value="Requesitioner Id" />
   	<property name="summary" value="Requesitioner Id" />
     <property name="description" value="Requesitioner Id" />
@@ -378,6 +379,7 @@
 		<property name="title" value="Negotiation Lookup" />
 		<property name="lookupableID" value="negotiationLookupable" />
 		<property name="menubar" value="&lt;a href=&quot;index.jsp&quot;&gt;Main&lt;/a&gt;" />
+
 		<property name="defaultSort" >
 		  <bean parent="SortDefinition">
 		  	<property name="attributeNames">

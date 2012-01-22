@@ -17,11 +17,9 @@ package org.kuali.kra.common.specialreview.bo;
 
 import java.sql.Date;
 import java.util.ArrayList;
-import java.util.LinkedHashMap;
 import java.util.List;
 
 import org.apache.commons.lang.StringUtils;
-import org.apache.ojb.broker.PersistenceBroker;
 import org.kuali.kra.bo.KraPersistableBusinessObjectBase;
 import org.kuali.kra.bo.SpecialReviewApprovalType;
 import org.kuali.kra.bo.SpecialReviewType;
@@ -33,27 +31,36 @@ import org.kuali.kra.bo.SpecialReviewType;
 public abstract class SpecialReview<T extends SpecialReviewExemption> extends KraPersistableBusinessObjectBase {
 
     private static final long serialVersionUID = -2168706171397009621L;
-    
+
     private Integer specialReviewNumber;
+
     private String specialReviewTypeCode;
+
     private String approvalTypeCode;
+
     private String protocolNumber;
+
     private Date applicationDate;
+
     private Date approvalDate;
+
     private Date expirationDate;
+
     private String comments;
-    
+
     private SpecialReviewType specialReviewType;
+
     private SpecialReviewApprovalType approvalType;
-    
+
     private String protocolStatus;
-    
-    // Struts 1 does not like having objects in multiselect boxes, so these two fields are a hack to make this work nicely with Struts.
-    //
-    // The field specialReviewExemptions holds the objects stored in the database, while exemptionTypeCodes has just the currently selected string codes.
-    // These need to be initialized here so the syncing algorithms below can handle multiple calls to afterLookup during page load and not erase the already 
-    // synced data.
+
+    // Struts 1 does not like having objects in multiselect boxes, so these two fields are a hack to make this work nicely with Struts. 
+    // 
+    // The field specialReviewExemptions holds the objects stored in the database, while exemptionTypeCodes has just the currently selected string codes. 
+    // These need to be initialized here so the syncing algorithms below can handle multiple calls to afterLookup during page load and not erase the already  
+    // synced data. 
     private List<T> specialReviewExemptions = new ArrayList<T>();
+
     private transient List<String> exemptionTypeCodes = new ArrayList<String>();
 
     public Integer getSpecialReviewNumber() {
@@ -63,7 +70,7 @@ public abstract class SpecialReview<T extends SpecialReviewExemption> extends Kr
     public void setSpecialReviewNumber(Integer specialReviewNumber) {
         this.specialReviewNumber = specialReviewNumber;
     }
-    
+
     public String getSpecialReviewTypeCode() {
         return specialReviewTypeCode;
     }
@@ -71,7 +78,7 @@ public abstract class SpecialReview<T extends SpecialReviewExemption> extends Kr
     public void setSpecialReviewTypeCode(String specialReviewTypeCode) {
         this.specialReviewTypeCode = specialReviewTypeCode;
     }
-    
+
     public String getApprovalTypeCode() {
         return approvalTypeCode;
     }
@@ -87,7 +94,7 @@ public abstract class SpecialReview<T extends SpecialReviewExemption> extends Kr
     public void setProtocolNumber(String protocolNumber) {
         this.protocolNumber = protocolNumber;
     }
-    
+
     public Date getApplicationDate() {
         return applicationDate;
     }
@@ -103,7 +110,7 @@ public abstract class SpecialReview<T extends SpecialReviewExemption> extends Kr
     public void setApprovalDate(Date approvalDate) {
         this.approvalDate = approvalDate;
     }
-    
+
     public Date getExpirationDate() {
         return expirationDate;
     }
@@ -111,7 +118,7 @@ public abstract class SpecialReview<T extends SpecialReviewExemption> extends Kr
     public void setExpirationDate(Date expirationDate) {
         this.expirationDate = expirationDate;
     }
-    
+
     public String getComments() {
         return comments;
     }
@@ -123,12 +130,12 @@ public abstract class SpecialReview<T extends SpecialReviewExemption> extends Kr
     public List<T> getSpecialReviewExemptions() {
         return specialReviewExemptions;
     }
-    
+
     public void setSpecialReviewExemptions(List<T> specialReviewExemptions) {
         this.specialReviewExemptions = specialReviewExemptions;
         this.syncSpecialReviewExemptionsToExemptionTypeCodes();
     }
-    
+
     public SpecialReviewType getSpecialReviewType() {
         return specialReviewType;
     }
@@ -136,7 +143,7 @@ public abstract class SpecialReview<T extends SpecialReviewExemption> extends Kr
     public void setSpecialReviewType(SpecialReviewType specialReviewType) {
         this.specialReviewType = specialReviewType;
     }
-    
+
     public SpecialReviewApprovalType getApprovalType() {
         return approvalType;
     }
@@ -144,7 +151,7 @@ public abstract class SpecialReview<T extends SpecialReviewExemption> extends Kr
     public void setApprovalType(SpecialReviewApprovalType approvalType) {
         this.approvalType = approvalType;
     }
-    
+
     public List<String> getExemptionTypeCodes() {
         return exemptionTypeCodes;
     }
@@ -162,26 +169,12 @@ public abstract class SpecialReview<T extends SpecialReviewExemption> extends Kr
         this.protocolStatus = protocolStatus;
     }
 
-    @Override
-    protected LinkedHashMap<String, Object> toStringMapper() {
-        LinkedHashMap<String, Object> propMap = new LinkedHashMap<String, Object>();
-        propMap.put("specialReviewNumber", getSpecialReviewNumber());
-        propMap.put("specialReviewTypeCode", getSpecialReviewTypeCode());
-        propMap.put("approvalTypeCode", getApprovalTypeCode());
-        propMap.put("protocolNumber", getProtocolNumber());
-        propMap.put("applicationDate", getApplicationDate());
-        propMap.put("approvalDate", getApprovalDate());
-        propMap.put("comments", getComments());
-        propMap.put("specialReviewExemptions", getSpecialReviewExemptions());
-        return propMap;
-    }
-    
     /** 
      * {@inheritDoc} 
      */
     @Override
-    public void afterLookup(PersistenceBroker persistenceBroker) {
-        super.afterLookup(persistenceBroker);
+    protected void postLoad() {
+        super.postLoad();
         this.syncSpecialReviewExemptionsToExemptionTypeCodes();
     }
 
@@ -192,14 +185,14 @@ public abstract class SpecialReview<T extends SpecialReviewExemption> extends Kr
         managedLists.add(getSpecialReviewExemptions());
         return managedLists;
     }
-    
+
     /**
      * Creates a SpecialReviewExemption for the given type based on the exemptionTypeCode.
      * @param exemptionTypeCode The exemption type code connected to the SpecialReviewExemption
      * @return a new SpecialReviewExemption connected to the exemption type code
      */
     public abstract T createSpecialReviewExemption(String exemptionTypeCode);
-    
+
     /**
      * This method syncs the selected exemptions with the persisted exemptions.
      * 
@@ -214,7 +207,7 @@ public abstract class SpecialReview<T extends SpecialReviewExemption> extends Kr
         }
         specialReviewExemptions = new ArrayList<T>(syncedSpecialReviewExemptions);
     }
-    
+
     /**
      * Returns the specific SpecialReviewExemption type based on the exemption type code, or creates one if it does not exist.
      * @param exemptionTypeCode The exemption type code connected to the SpecialReviewExemption
@@ -222,7 +215,6 @@ public abstract class SpecialReview<T extends SpecialReviewExemption> extends Kr
      */
     private T getSpecialReviewExemption(String exemptionTypeCode) {
         T specialReviewExemption = null;
-        
         if (specialReviewExemptions != null) {
             for (T exemption : specialReviewExemptions) {
                 if (StringUtils.equals(exemption.getExemptionTypeCode(), exemptionTypeCode)) {
@@ -231,14 +223,12 @@ public abstract class SpecialReview<T extends SpecialReviewExemption> extends Kr
                 }
             }
         }
-        
         if (specialReviewExemption == null) {
             specialReviewExemption = createSpecialReviewExemption(exemptionTypeCode);
         }
-        
         return specialReviewExemption;
     }
-    
+
     /**
      * This method syncs the persisted exemptions with the selected exemption type codes.
      * 
@@ -253,9 +243,8 @@ public abstract class SpecialReview<T extends SpecialReviewExemption> extends Kr
                 }
             }
         }
-        
-        // The field specialReviewExemptions is loaded several times before the page is rendered, and the isEmpty does not always report accurate results,
-        // so we must double check here before changing the exemptionTypeCodes.
+        // The field specialReviewExemptions is loaded several times before the page is rendered, and the isEmpty does not always report accurate results, 
+        // so we must double check here before changing the exemptionTypeCodes. 
         if (!syncedExemptionTypeCodes.isEmpty()) {
             exemptionTypeCodes = new ArrayList<String>(syncedExemptionTypeCodes);
         }
@@ -346,5 +335,4 @@ public abstract class SpecialReview<T extends SpecialReviewExemption> extends Kr
         }
         return true;
     }
-    
 }

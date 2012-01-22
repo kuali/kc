@@ -20,8 +20,8 @@ import org.junit.Test;
 import org.kuali.kra.infrastructure.KraServiceLocator;
 import org.kuali.kra.infrastructure.PermissionConstants;
 import org.kuali.kra.test.infrastructure.KcUnitTestBase;
-import org.kuali.rice.kns.UserSession;
-import org.kuali.rice.kns.util.GlobalVariables;
+import org.kuali.rice.krad.UserSession;
+import org.kuali.rice.krad.util.GlobalVariables;
 
 public class QuestionnaireAuthorizationServiceTest extends KcUnitTestBase {
     @Before

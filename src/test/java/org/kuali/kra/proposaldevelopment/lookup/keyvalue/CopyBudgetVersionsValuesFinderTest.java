@@ -23,10 +23,9 @@ import junit.framework.Assert;
 import org.junit.Before;
 import org.junit.Test;
 import org.kuali.kra.budget.versions.BudgetDocumentVersion;
-import org.kuali.kra.budget.versions.BudgetVersionOverview;
 import org.kuali.kra.proposaldevelopment.bo.ProposalCopyCriteria;
 import org.kuali.kra.proposaldevelopment.document.ProposalDevelopmentDocument;
-import org.kuali.rice.core.util.KeyLabelPair;
+import org.kuali.rice.core.api.util.KeyValue;
 
 /**
  * 
@@ -105,13 +104,13 @@ public class CopyBudgetVersionsValuesFinderTest {
     @Test
     public void finalVersionVerify() {
         
-        List<KeyLabelPair> keyValues = finalVerFinder.getKeyValues();
+        List<KeyValue> keyValues = finalVerFinder.getKeyValues();
         
         Assert.assertEquals("should be two key/label pair", 2, keyValues.size());
         Assert.assertEquals("key should be", ProposalCopyCriteria.BUDGET_ALL_VERSIONS, keyValues.get(0).getKey());
-        Assert.assertEquals("Label should be", ProposalCopyCriteria.BUDGET_ALL_VERSIONS, keyValues.get(0).getLabel());
+        Assert.assertEquals("Label should be", ProposalCopyCriteria.BUDGET_ALL_VERSIONS, keyValues.get(0).getValue());
         Assert.assertEquals("key should be", ProposalCopyCriteria.BUDGET_FINAL_VERSION, keyValues.get(1).getKey());
-        Assert.assertEquals("Label should be", ProposalCopyCriteria.BUDGET_FINAL_VERSION, keyValues.get(1).getLabel());
+        Assert.assertEquals("Label should be", ProposalCopyCriteria.BUDGET_FINAL_VERSION, keyValues.get(1).getValue());
     }
     
     /**
@@ -119,11 +118,11 @@ public class CopyBudgetVersionsValuesFinderTest {
      */
     @Test
     public void nonFinalVersionVerify() {
-        List<KeyLabelPair> keyValues = nonFinalVerFinder.getKeyValues();
+        List<KeyValue> keyValues = nonFinalVerFinder.getKeyValues();
         
         Assert.assertEquals("should only be one key/label pair", 1, keyValues.size());
         Assert.assertEquals("key should be", ProposalCopyCriteria.BUDGET_ALL_VERSIONS, keyValues.get(0).getKey());
-        Assert.assertEquals("Label should be", ProposalCopyCriteria.BUDGET_ALL_VERSIONS, keyValues.get(0).getLabel());
+        Assert.assertEquals("Label should be", ProposalCopyCriteria.BUDGET_ALL_VERSIONS, keyValues.get(0).getValue());
     }
 
 }

@@ -20,7 +20,6 @@ import static org.kuali.kra.infrastructure.Constants.AUDIT_ERRORS;
 import java.util.ArrayList;
 import java.util.List;
 
-import org.apache.batik.util.gui.MemoryMonitor.Usage;
 import org.kuali.kra.infrastructure.Constants;
 import org.kuali.kra.infrastructure.KeyConstants;
 import org.kuali.kra.infrastructure.KraServiceLocator;
@@ -32,11 +31,11 @@ import org.kuali.kra.questionnaire.answer.AnswerHeader;
 import org.kuali.kra.rules.ResearchDocumentRuleBase;
 import org.kuali.kra.s2s.bo.S2sOppForms;
 import org.kuali.kra.s2s.bo.S2sOpportunity;
-import org.kuali.rice.kns.document.Document;
-import org.kuali.rice.kns.rule.DocumentAuditRule;
 import org.kuali.rice.kns.util.AuditCluster;
 import org.kuali.rice.kns.util.AuditError;
-import org.kuali.rice.kns.util.GlobalVariables;
+import org.kuali.rice.kns.util.KNSGlobalVariables;
+import org.kuali.rice.krad.document.Document;
+import org.kuali.rice.krad.rules.rule.DocumentAuditRule;
 
 public class ProposalDevelopmentS2sQuestionnaireAuditRule extends ResearchDocumentRuleBase implements DocumentAuditRule {
 
@@ -92,11 +91,11 @@ public class ProposalDevelopmentS2sQuestionnaireAuditRule extends ResearchDocume
         List<AuditError> auditErrors = new ArrayList<AuditError>();
         String key = String.format( PROPOSAL_S2S_QUESTIONNAIRE_PANEL_KEY, formProperty, usageLabel, answerHeaderIndex );
         
-        if (!GlobalVariables.getAuditErrorMap().containsKey(key)) {
-           GlobalVariables.getAuditErrorMap().put(key, new AuditCluster(usageLabel, auditErrors, AUDIT_ERRORS));
+        if (!KNSGlobalVariables.getAuditErrorMap().containsKey(key)) {
+           KNSGlobalVariables.getAuditErrorMap().put(key, new AuditCluster(usageLabel, auditErrors, AUDIT_ERRORS));
         }
         else {
-            auditErrors = ((AuditCluster)GlobalVariables.getAuditErrorMap().get(key)).getAuditErrorList();
+            auditErrors = ((AuditCluster)KNSGlobalVariables.getAuditErrorMap().get(key)).getAuditErrorList();
         }
         
         return auditErrors;

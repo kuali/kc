@@ -15,7 +15,6 @@
  */
 package org.kuali.kra.coi.personfinancialentity;
 
-import java.util.LinkedHashMap;
 import java.util.List;
 
 import org.kuali.kra.bo.KraPersistableBusinessObjectBase;
@@ -24,24 +23,26 @@ import org.kuali.kra.bo.KraPersistableBusinessObjectBase;
  * 
  * This class is for FE status
  */
-public class FinIntEntityStatus extends KraPersistableBusinessObjectBase { 
-    
+public class FinIntEntityStatus extends KraPersistableBusinessObjectBase {
+
     /**
      * Comment for <code>serialVersionUID</code>
      */
     private static final long serialVersionUID = -2103009505440817096L;
+
     public static final String ACTIVE = "1";
+
     public static final String INACTIVE = "2";
 
-    private Integer statusCode; 
-    private String description; 
-    
-    private List<PersonFinIntDisclosure> personFinIntDisclosures; 
-    
-    public FinIntEntityStatus() { 
+    private Integer statusCode;
 
-    } 
-    
+    private String description;
+
+    private List<PersonFinIntDisclosure> personFinIntDisclosures;
+
+    public FinIntEntityStatus() {
+    }
+
     public Integer getStatusCode() {
         return statusCode;
     }
@@ -58,15 +59,6 @@ public class FinIntEntityStatus extends KraPersistableBusinessObjectBase {
         this.description = description;
     }
 
-    /** {@inheritDoc} */
-    @Override 
-    protected LinkedHashMap<String, Object> toStringMapper() {
-        LinkedHashMap<String, Object> hashMap = new LinkedHashMap<String, Object>();
-        hashMap.put("statusCode", this.getStatusCode());
-        hashMap.put("description", this.getDescription());
-        return hashMap;
-    }
-
     public List<PersonFinIntDisclosure> getPersonFinIntDisclosures() {
         return personFinIntDisclosures;
     }
@@ -74,5 +66,4 @@ public class FinIntEntityStatus extends KraPersistableBusinessObjectBase {
     public void setPersonFinIntDisclosures(List<PersonFinIntDisclosure> personFinIntDisclosures) {
         this.personFinIntDisclosures = personFinIntDisclosures;
     }
-    
 }

@@ -45,7 +45,7 @@
                         <html:select property="approvedForeignTravelBean.selectedTravelerId" style="font-family: Verdana, Arial, Helvetica, sans-serif; font-size:11;"
                                      onchange="clearApprovedForeignTravelerTravelerName();">
                             <html:option value="" style="font-family: Verdana, Arial, Helvetica, sans-serif; font-size:11;">--Select--</html:option>
-                            <html:optionsCollection property="approvedForeignTravelBean.knownTravelers" value="key" label="label" style="font-family: Verdana, Arial, Helvetica, sans-serif; font-size:11;"/>
+                            <html:optionsCollection property="approvedForeignTravelBean.knownTravelers" value="key" label="value" style="font-family: Verdana, Arial, Helvetica, sans-serif; font-size:11;"/>
                         </html:select>
 
                     </div>

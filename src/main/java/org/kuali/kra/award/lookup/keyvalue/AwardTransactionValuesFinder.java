@@ -22,10 +22,11 @@ import java.util.Map;
 import org.kuali.kra.award.AwardForm;
 import org.kuali.kra.award.lookup.AwardTransactionLookupService;
 import org.kuali.kra.infrastructure.KraServiceLocator;
-import org.kuali.rice.core.util.KeyLabelPair;
-import org.kuali.rice.kns.lookup.keyvalues.KeyValuesBase;
-import org.kuali.rice.kns.service.BusinessObjectService;
-import org.kuali.rice.kns.util.GlobalVariables;
+import org.kuali.rice.core.api.util.ConcreteKeyValue;
+import org.kuali.rice.core.api.util.KeyValue;
+import org.kuali.rice.kns.util.KNSGlobalVariables;
+import org.kuali.rice.krad.keyvalues.KeyValuesBase;
+import org.kuali.rice.krad.service.BusinessObjectService;
 
 /**
  * Gets all sequence numbers for the current award id.  See
@@ -49,12 +50,12 @@ public class AwardTransactionValuesFinder extends KeyValuesBase {
      * each pair.
      * 
      * @return the list of &lt;key, value&gt; pairs of the current award tranaction ids
-     * @see org.kuali.rice.kns.lookup.keyvalues.KeyValuesFinder#getKeyValues()
+     * @see org.kuali.rice.krad.keyvalues.KeyValuesFinder#getKeyValues()
      */
-    public List<KeyLabelPair> getKeyValues() {
+    public List<KeyValue> getKeyValues() {
         AwardForm form = getAwardForm();
         
-        List<KeyLabelPair> keyValues = new ArrayList<KeyLabelPair>();
+        List<KeyValue> keyValues = new ArrayList<KeyValue>();
         Integer usableSequence = form.getAwardPrintChangeReport().getAwardVersion();
         if (usableSequence == null) {
             usableSequence = form.getAwardDocument().getAward().getSequenceNumber();
@@ -63,7 +64,7 @@ public class AwardTransactionValuesFinder extends KeyValuesBase {
                 usableSequence);
         
         for (Map.Entry<Integer, String> entry : transactionValues.entrySet()) {
-            keyValues.add(new KeyLabelPair(entry.getKey(), entry.getValue()));
+            keyValues.add(new ConcreteKeyValue(entry.getKey().toString(), entry.getValue()));
         }
 
         return keyValues;
@@ -77,7 +78,7 @@ public class AwardTransactionValuesFinder extends KeyValuesBase {
      * @return the current document or null if not found
      */
     private AwardForm getAwardForm() {
-        return (AwardForm) GlobalVariables.getKualiForm();
+        return (AwardForm) KNSGlobalVariables.getKualiForm();
     }
 
     public void setTransactionLookupService(AwardTransactionLookupService transactionLookupService) {

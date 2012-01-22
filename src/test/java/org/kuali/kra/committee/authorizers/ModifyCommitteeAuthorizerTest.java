@@ -26,7 +26,7 @@ import org.kuali.kra.infrastructure.TaskName;
 import org.kuali.kra.service.KraAuthorizationService;
 import org.kuali.kra.service.UnitAuthorizationService;
 import org.kuali.kra.service.impl.mocks.KraAuthorizationServiceMock;
-import org.kuali.rice.kew.exception.WorkflowException;
+import org.kuali.rice.kew.api.exception.WorkflowException;
 
 /**
  * Test the Modify Committee Authorizer.

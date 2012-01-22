@@ -16,38 +16,38 @@
 package org.kuali.kra.common.notification.lookup.keyvalue;
 
 import org.apache.commons.lang.builder.CompareToBuilder;
-import org.kuali.rice.core.util.KeyLabelPair;
+import org.kuali.rice.core.api.util.AbstractKeyValue;
+import org.kuali.rice.core.api.util.KeyValue;
 
 /**
  * Provides a value finder for the Notification Type Recipient Role Namespace and Role name combination.  Has different
  * Comparator to sort by label instead of by key.
  */
-public class KeyLabelSortByValue extends KeyLabelPair {
+public class KeyLabelSortByValue extends AbstractKeyValue implements Comparable<KeyValue> {
     
     /**
      * Comment for <code>serialVersionUID</code>
      */
     private static final long serialVersionUID = 1L;
 
-    public KeyLabelSortByValue(Object key, String label) {
+    public KeyLabelSortByValue(String key, String label) {
          super(key, label);
     }
 
     @Override
-    public int compareTo(KeyLabelPair o) {
+    public int compareTo(KeyValue o) {
         if (o == null) {
             throw new NullPointerException("the object to compare to is null");
         }
         CompareToBuilder builder = new CompareToBuilder();
-        builder.append(this.label, o.label, String.CASE_INSENSITIVE_ORDER);
+        builder.append(this.getValue(), o.getValue(), String.CASE_INSENSITIVE_ORDER);
 
-        if ((this.key instanceof String) && (o.key instanceof String))
-            builder.append(this.key, o.key, String.CASE_INSENSITIVE_ORDER);
+        if ((this.getKey() instanceof String) && (o.getKey() instanceof String))
+            builder.append(this.getKey(), o.getKey(), String.CASE_INSENSITIVE_ORDER);
         else {
-            builder.append(this.key, o.key);
+            builder.append(this.getKey(), o.getKey());
         }
 
-        builder.append(this.numPaddedSpaces, o.numPaddedSpaces);
         return builder.toComparison();
 
     }

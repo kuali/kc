@@ -15,9 +15,6 @@
  */
 package org.kuali.kra.s2s.generator.impl;
 
-import java.util.ArrayList;
-import java.util.List;
-
 import gov.grants.apply.forms.nsfCoverPageV11.DegreeTypeDataType;
 import gov.grants.apply.forms.nsfCoverPageV11.NSFCoverPageDocument;
 import gov.grants.apply.forms.nsfCoverPageV11.NSFCoverPageDocument.NSFCoverPage;
@@ -29,6 +26,9 @@ import gov.grants.apply.forms.nsfCoverPageV11.NSFCoverPageDocument.NSFCoverPage.
 import gov.grants.apply.system.attachmentsV10.AttachedFileDataType;
 import gov.grants.apply.system.attachmentsV10.AttachmentGroupMin1Max100DataType;
 import gov.grants.apply.system.globalLibraryV20.YesNoDataType;
+
+import java.util.ArrayList;
+import java.util.List;
 
 import org.apache.xmlbeans.XmlObject;
 import org.kuali.kra.proposaldevelopment.bo.Narrative;

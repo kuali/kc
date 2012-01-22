@@ -15,6 +15,8 @@
  */
 package org.kuali.kra.irb.noteattachment;
 
+import static org.hamcrest.core.Is.is;
+
 import java.util.ArrayList;
 import java.util.Collection;
 import java.util.Collections;
@@ -25,9 +27,9 @@ import org.jmock.Mockery;
 import org.jmock.integration.junit4.JUnit4Mockery;
 import org.junit.Assert;
 import org.junit.Test;
-import org.kuali.rice.kns.lookup.keyvalues.KeyValuesFinder;
-import org.kuali.rice.core.util.KeyLabelPair;
-import static org.hamcrest.core.Is.*;
+import org.kuali.rice.core.api.util.ConcreteKeyValue;
+import org.kuali.rice.core.api.util.KeyValue;
+import org.kuali.rice.krad.keyvalues.KeyValuesFinder;
 
 /**
  * Tests for {@link ProtocolAttachmentTypeByGroupValuesFinder ProtocolAttachmentTypeByGroupValuesFinder}.
@@ -55,7 +57,7 @@ public class ProtocolAttachmentTypeByGroupValuesFinderTest {
         };
         finder.setGroupCode("1");
         finder.setFilterTypes(null);
-        final List<KeyLabelPair> kv = new ArrayList<KeyLabelPair>();
+        final List<KeyValue> kv = new ArrayList<KeyValue>();
         
         this.context.checking(new Expectations() {
             {
@@ -63,7 +65,7 @@ public class ProtocolAttachmentTypeByGroupValuesFinderTest {
                 will(returnValue(kv));
             }
         });
-        List<KeyLabelPair> gotKv = finder.getKeyValues();
+        List<KeyValue> gotKv = finder.getKeyValues();
         
         
         this.context.assertIsSatisfied();
@@ -93,9 +95,9 @@ public class ProtocolAttachmentTypeByGroupValuesFinderTest {
         Collection<ProtocolAttachmentProtocol> filterTypes = Collections.singletonList(pa);
         finder.setFilterTypes(filterTypes);
         
-        final List<KeyLabelPair> kv = new ArrayList<KeyLabelPair>();
-        KeyLabelPair kl1 = new KeyLabelPair("1", "a desc");
-        KeyLabelPair kl2 = new KeyLabelPair("2", "a desc");
+        final List<KeyValue> kv = new ArrayList<KeyValue>();
+        KeyValue kl1 = new ConcreteKeyValue("1", "a desc");
+        KeyValue kl2 = new ConcreteKeyValue("2", "a desc");
         kv.add(kl1);
         kv.add(kl2);
         
@@ -105,12 +107,12 @@ public class ProtocolAttachmentTypeByGroupValuesFinderTest {
                 will(returnValue(kv));
             }
         });
-        List<KeyLabelPair> gotKv = finder.getKeyValues();
+        List<KeyValue> gotKv = finder.getKeyValues();
         
         
         this.context.assertIsSatisfied();
         
-        for (KeyLabelPair aKv : gotKv) {
+        for (KeyValue aKv : gotKv) {
             if ("1".equals(aKv.getKey())) {
                 Assert.fail("contains a type that should be filtered");
             }

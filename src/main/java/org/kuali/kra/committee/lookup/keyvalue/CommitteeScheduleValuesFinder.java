@@ -20,10 +20,10 @@ import java.util.List;
 import org.kuali.kra.committee.service.CommitteeService;
 import org.kuali.kra.infrastructure.KraServiceLocator;
 import org.kuali.kra.irb.ProtocolForm;
-import org.kuali.rice.kns.lookup.keyvalues.KeyValuesBase;
-import org.kuali.rice.kns.util.GlobalVariables;
+import org.kuali.rice.core.api.util.KeyValue;
+import org.kuali.rice.kns.util.KNSGlobalVariables;
 import org.kuali.rice.kns.web.struts.form.KualiForm;
-import org.kuali.rice.core.util.KeyLabelPair;
+import org.kuali.rice.krad.keyvalues.KeyValuesBase;
 
 /**
  * Finds the available set of dates where a protocol can be scheduled
@@ -38,7 +38,7 @@ public class CommitteeScheduleValuesFinder extends KeyValuesBase {
      * is always &lt;"", "select:"&gt;.
      * @see org.kuali.core.lookup.keyvalues.KeyValuesFinder#getKeyValues()
      */
-    public List<KeyLabelPair> getKeyValues() {
+    public List<KeyValue> getKeyValues() {
         return getCommitteeService().getAvailableCommitteeDates(getCommitteeId());
     }
     
@@ -59,7 +59,7 @@ public class CommitteeScheduleValuesFinder extends KeyValuesBase {
      */
     private String getCommitteeId() {
         String committeeId = "";
-        KualiForm form = GlobalVariables.getKualiForm();
+        KualiForm form = KNSGlobalVariables.getKualiForm();
         if (form instanceof ProtocolForm) {
             ProtocolForm protocolForm = (ProtocolForm) form;
             committeeId = protocolForm.getActionHelper().getProtocolSubmitAction().getCommitteeId();

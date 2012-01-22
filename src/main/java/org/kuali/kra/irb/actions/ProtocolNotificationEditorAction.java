@@ -40,9 +40,9 @@ import org.kuali.kra.irb.actions.notification.DeleteReviewNotificationRenderer;
 import org.kuali.kra.irb.actions.notification.ProtocolNotificationRequestBean;
 import org.kuali.kra.irb.notification.IRBNotificationContext;
 import org.kuali.kra.irb.notification.IRBNotificationRenderer;
-import org.kuali.rice.kns.util.GlobalVariables;
-import org.kuali.rice.kns.util.KNSConstants;
-import org.kuali.rice.kns.util.ObjectUtils;
+import org.kuali.rice.krad.util.GlobalVariables;
+import org.kuali.rice.krad.util.KRADConstants;
+import org.kuali.rice.krad.util.ObjectUtils;
 
 public class ProtocolNotificationEditorAction extends ProtocolAction {
     private static final String PROTOCOL_ACTIONS_TAB = "protocolActions";
@@ -267,11 +267,11 @@ public class ProtocolNotificationEditorAction extends ProtocolAction {
     }
     
     private ActionForward routeProtocolOLRToHoldingPage(ActionMapping mapping, ProtocolForm protocolForm, String olrDocId, String olrEvent) {
-        Long routeHeaderId = Long.parseLong(protocolForm.getDocument().getDocumentNumber());
+        String routeHeaderId = protocolForm.getDocument().getDocumentNumber();
         String returnLocation = buildActionUrl(routeHeaderId, Constants.MAPPING_PROTOCOL_ONLINE_REVIEW , "ProtocolDocument");
         // use this doc id for holding action to check if online review document is complete and return to online review tab
         returnLocation += "&" + "olrDocId=" + olrDocId + "&" + "olrEvent=" + olrEvent;
-        ActionForward basicForward = mapping.findForward(KNSConstants.MAPPING_PORTAL);
+        ActionForward basicForward = mapping.findForward(KRADConstants.MAPPING_PORTAL);
         //ActionForward holdingPageForward = mapping.findForward(Constants.MAPPING_HOLDING_PAGE);
         ActionForward holdingPageForward = mapping.findForward(Constants.MAPPING_IRB_HOLDING_PAGE);
         GlobalVariables.getUserSession().addObject(Constants.HOLDING_PAGE_DOCUMENT_ID, (Object)olrDocId);
@@ -281,13 +281,13 @@ public class ProtocolNotificationEditorAction extends ProtocolAction {
     }
 
     private ActionForward routeProtocolToHoldingPage(ActionMapping mapping, ProtocolForm protocolForm) {
-        Long routeHeaderId = Long.parseLong(protocolForm.getDocument().getDocumentNumber());
+        String routeHeaderId = protocolForm.getDocument().getDocumentNumber();
         String returnLocation = buildActionUrl(routeHeaderId, Constants.MAPPING_PROTOCOL_ACTIONS, "ProtocolDocument");
         
-        ActionForward basicForward = mapping.findForward(KNSConstants.MAPPING_PORTAL);
+        ActionForward basicForward = mapping.findForward(KRADConstants.MAPPING_PORTAL);
         ActionForward holdingPageForward = mapping.findForward(Constants.MAPPING_HOLDING_PAGE);
         return routeToHoldingPage(basicForward, basicForward, holdingPageForward, returnLocation);
 
     }
-
+    
 }

@@ -17,7 +17,7 @@ package org.kuali.kra.irb.auth;
 
 import org.kuali.kra.infrastructure.PermissionConstants;
 import org.kuali.kra.irb.actions.ProtocolActionType;
-import org.kuali.rice.kew.util.KEWConstants;
+import org.kuali.rice.kew.api.KewApiConstants;
 
 /**
  * Determine if a user can assign a protocol to a committee/schedule.
@@ -29,8 +29,8 @@ public class ProtocolDeferAuthorizer extends ProtocolAuthorizer {
      */
     public boolean isAuthorized(String userId, ProtocolTask task) {
         return canExecuteAction(task.getProtocol(), ProtocolActionType.DEFERRED) &&
-                !task.getProtocol().getProtocolDocument().getDocumentHeader().getWorkflowDocument().getRouteHeader().getDocRouteStatus().equals(
-                KEWConstants.ROUTE_HEADER_FINAL_CD) &&
+                !task.getProtocol().getProtocolDocument().getDocumentHeader().getWorkflowDocument().getStatus().getCode().equals(
+                KewApiConstants.ROUTE_HEADER_FINAL_CD) &&
                hasPermission(userId, task.getProtocol(), PermissionConstants.PERFORM_IRB_ACTIONS_ON_PROTO);
     }
 }

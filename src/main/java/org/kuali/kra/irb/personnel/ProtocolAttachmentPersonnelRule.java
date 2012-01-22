@@ -26,7 +26,7 @@ import org.kuali.kra.irb.noteattachment.ProtocolAttachmentPersonnel;
 import org.kuali.kra.irb.noteattachment.ProtocolAttachmentService;
 import org.kuali.kra.irb.noteattachment.ProtocolAttachmentType;
 import org.kuali.kra.rules.ResearchDocumentRuleBase;
-import org.kuali.rice.kns.util.GlobalVariables;
+import org.kuali.rice.krad.util.GlobalVariables;
 
 
 public class ProtocolAttachmentPersonnelRule extends ResearchDocumentRuleBase implements AddProtocolAttachmentPersonnelRule {

@@ -151,8 +151,8 @@
 		<property name="name" value="onCampusFlag" />
 		<property name="label" value="Campus" />
 		<property name="shortLabel" value="Campus" />
-		<property name="summary" value="On Campus Flag" />
-		<property name="description" value="On Campus Flag" />
+		<property name="summary" value="On CampusContractContract Flag" />
+		<property name="description" value="On CampusContractContract Flag" />
 		<property name="required" value="true" />
 		<property name="control" >
 		    <bean parent="SelectControlDefinition"

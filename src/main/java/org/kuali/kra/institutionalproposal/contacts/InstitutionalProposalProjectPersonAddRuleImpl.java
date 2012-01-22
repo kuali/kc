@@ -23,7 +23,7 @@ import java.util.Set;
 import org.kuali.kra.bo.Unit;
 import org.kuali.kra.institutionalproposal.document.InstitutionalProposalDocument;
 import org.kuali.kra.institutionalproposal.home.InstitutionalProposal;
-import org.kuali.rice.kns.util.GlobalVariables;
+import org.kuali.rice.krad.util.GlobalVariables;
 
 /**
  * This class...
@@ -64,7 +64,7 @@ public class InstitutionalProposalProjectPersonAddRuleImpl extends BaseInstituti
         }
         
         if(!valid) {
-            GlobalVariables.getErrorMap().putError(PROPOSAL_PROJECT_PERSON_LIST_ERROR_KEY, ERROR_PROPOSAL_PROJECT_PERSON_PI_EXISTS);
+            GlobalVariables.getMessageMap().putError(PROPOSAL_PROJECT_PERSON_LIST_ERROR_KEY, ERROR_PROPOSAL_PROJECT_PERSON_PI_EXISTS);
         }
         
         return valid;
@@ -88,7 +88,7 @@ public class InstitutionalProposalProjectPersonAddRuleImpl extends BaseInstituti
         }
         
         if(!valid) {
-            GlobalVariables.getErrorMap().putError(PROPOSAL_PROJECT_PERSON_LIST_ERROR_KEY, ERROR_PROPOSAL_PROJECT_PERSON_EXISTS, 
+            GlobalVariables.getMessageMap().putError(PROPOSAL_PROJECT_PERSON_LIST_ERROR_KEY, ERROR_PROPOSAL_PROJECT_PERSON_EXISTS, 
                                                                                 newProjectPerson.getContact().getFullName());
         }
         
@@ -126,7 +126,7 @@ public class InstitutionalProposalProjectPersonAddRuleImpl extends BaseInstituti
     private void reportDuplicateUnits(InstitutionalProposalPerson p, List<Unit> tempUnits) {
         Set<Unit> duplicateUnits = new HashSet<Unit>(tempUnits);
         for(Unit dupeUnit: duplicateUnits) {
-            GlobalVariables.getErrorMap().putError(PROPOSAL_PROJECT_PERSON_LIST_ERROR_KEY, 
+            GlobalVariables.getMessageMap().putError(PROPOSAL_PROJECT_PERSON_LIST_ERROR_KEY, 
                                                     ERROR_PROPOSAL_PROJECT_PERSON_DUPLICATE_UNITS, 
                                                     dupeUnit.getUnitName(), dupeUnit.getUnitNumber(),
                                                     p.getFullName());

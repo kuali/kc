@@ -16,7 +16,6 @@
 package org.kuali.kra.institutionalproposal.contacts;
 
 import java.util.ArrayList;
-import java.util.LinkedHashMap;
 import java.util.List;
 
 import org.kuali.kra.award.home.ContactRole;
@@ -25,16 +24,14 @@ import org.kuali.kra.bo.NonOrganizationalRolodex;
 import org.kuali.kra.bo.Unit;
 import org.kuali.kra.budget.personnel.PersonRolodex;
 import org.kuali.kra.infrastructure.KraServiceLocator;
-import org.kuali.kra.institutionalproposal.contacts.InstitutionalProposalContact;
-import org.kuali.kra.institutionalproposal.contacts.InstitutionalProposalPersonUnit;
 import org.kuali.kra.proposaldevelopment.bo.InvestigatorCreditType;
 import org.kuali.kra.proposaldevelopment.bo.ProposalPersonRole;
 import org.kuali.kra.proposaldevelopment.service.KeyPersonnelService;
 import org.kuali.kra.service.Sponsorable;
-import org.kuali.rice.kns.util.KualiDecimal;
+import org.kuali.rice.core.api.util.type.KualiDecimal;
 
-public class InstitutionalProposalPerson extends InstitutionalProposalContact implements PersonRolodex  { 
-    
+public class InstitutionalProposalPerson extends InstitutionalProposalContact implements PersonRolodex {
+
     /**
      * Comment for <code>serialVersionUID</code>
      */
@@ -43,36 +40,44 @@ public class InstitutionalProposalPerson extends InstitutionalProposalContact im
     private KualiDecimal academicYearEffort;
 
     private KualiDecimal calendarYearEffort;
-    
+
     private boolean faculty;
+
     private KualiDecimal summerEffort;
+
     private KualiDecimal totalEffort;
+
     private String keyPersonRole;
+
     private List<InstitutionalProposalPersonUnit> units;
+
     private List<InstitutionalProposalPersonCreditSplit> creditSplits;
+
     private boolean multiplePi;
-    
+
     public InstitutionalProposalPerson() {
         super();
-        init();  
+        init();
     }
+
     public InstitutionalProposalPerson(NonOrganizationalRolodex rolodex, ContactRole contactRole) {
         super(rolodex, contactRole);
         init();
     }
+
     public InstitutionalProposalPerson(KcPerson person, ContactRole role) {
         super(person, role);
         init();
     }
-    
+
     /**
      * @param creditSplit
      */
     public void add(InstitutionalProposalPersonCreditSplit creditSplit) {
-       creditSplits.add(creditSplit);
-       creditSplit.setInstitutionalProposalPerson(this);
+        creditSplits.add(creditSplit);
+        creditSplit.setInstitutionalProposalPerson(this);
     }
-    
+
     /**
      * 
      * This method associates a unit to the 
@@ -87,7 +92,6 @@ public class InstitutionalProposalPerson extends InstitutionalProposalContact im
     /**
      * @see org.kuali.core.bo.PersistableBusinessObjectBase#buildListOfDeletionAwareLists()
      */
-    
     @SuppressWarnings("unchecked")
     @Override
     public List buildListOfDeletionAwareLists() {
@@ -95,7 +99,7 @@ public class InstitutionalProposalPerson extends InstitutionalProposalContact im
         managedLists.add(getUnits());
         return managedLists;
     }
-    
+
     /**
      * This method finds the lead unit for an InstitutionalProposalPerson
      * @return
@@ -119,7 +123,7 @@ public class InstitutionalProposalPerson extends InstitutionalProposalContact im
     public KualiDecimal getCalendarYearEffort() {
         return calendarYearEffort;
     }
-    
+
     /**
      * @param index
      * @return
@@ -127,14 +131,14 @@ public class InstitutionalProposalPerson extends InstitutionalProposalContact im
     public InstitutionalProposalPersonCreditSplit getCreditSplit(int index) {
         return creditSplits.get(index);
     }
-    
+
     /**
      * @return
      */
     public List<InstitutionalProposalPersonCreditSplit> getCreditSplits() {
-       return creditSplits; 
+        return creditSplits;
     }
-    
+
     /**
      * Gets the summerEffort attribute. 
      * @return Returns the summerEffort.
@@ -142,7 +146,7 @@ public class InstitutionalProposalPerson extends InstitutionalProposalContact im
     public KualiDecimal getSummerEffort() {
         return summerEffort;
     }
-    
+
     /**
      * Gets the totalEffort attribute. 
      * @return Returns the totalEffort.
@@ -158,7 +162,7 @@ public class InstitutionalProposalPerson extends InstitutionalProposalContact im
     public InstitutionalProposalPersonUnit getUnit(int index) {
         return units.get(index);
     }
-    
+
     /**
      * Gets the units attribute. 
      * @return Returns the units.
@@ -190,14 +194,14 @@ public class InstitutionalProposalPerson extends InstitutionalProposalContact im
     public boolean isKeyPerson() {
         return getContactRole() != null && getContactRole().getRoleCode().equals(ContactRole.KEY_PERSON_CODE);
     }
-    
+
     /**
      * @return
      */
     public boolean isPrincipalInvestigator() {
         return getContactRole() != null && getContactRole().getRoleCode().equals(ContactRole.PI_CODE);
     }
-    
+
     /**
      * Sets the academicYearEffort attribute value.
      * @param academicYearEffort The academicYearEffort to set.
@@ -205,7 +209,7 @@ public class InstitutionalProposalPerson extends InstitutionalProposalContact im
     public void setAcademicYearEffort(KualiDecimal academicYearEffort) {
         this.academicYearEffort = academicYearEffort;
     }
-    
+
     /**
      * Sets the calendarYearEffort attribute value.
      * @param calendarYearEffort The calendarYearEffort to set.
@@ -221,7 +225,7 @@ public class InstitutionalProposalPerson extends InstitutionalProposalContact im
     public void setCreditSplits(List<InstitutionalProposalPersonCreditSplit> creditSplits) {
         this.creditSplits = creditSplits;
     }
-    
+
     /**
      * This method will initialize required credit splits and populate them with 
      * default values of 100%.
@@ -258,7 +262,7 @@ public class InstitutionalProposalPerson extends InstitutionalProposalContact im
     public void setTotalEffort(KualiDecimal totalEffort) {
         this.totalEffort = totalEffort;
     }
-    
+
     /**
      * Sets the units attribute value.
      * @param units The units to set.
@@ -287,55 +291,46 @@ public class InstitutionalProposalPerson extends InstitutionalProposalContact im
     protected String getContactRoleTypeIdentifier() {
         return "proposalPersonRoleId";
     }
+
     protected void init() {
         units = new ArrayList<InstitutionalProposalPersonUnit>();
-        creditSplits = new ArrayList<InstitutionalProposalPersonCreditSplit>();        
-    }
-    
-    /**
-     * @see org.kuali.kra.institutionalproposal.institutionalproposalAssociate#toStringMapper()
-     */
-    @Override    
-    protected LinkedHashMap<String,Object> toStringMapper() {        
-        LinkedHashMap<String,Object> map = super.toStringMapper();
-        map.put("academicYearEffort", academicYearEffort);
-        map.put("calendarYearEffort", calendarYearEffort);
-        map.put("faculty", faculty);
-        map.put("summerEffort", summerEffort);
-        map.put("totalEffort", totalEffort);
-        map.put("units", units);
-        
-        return map;
+        creditSplits = new ArrayList<InstitutionalProposalPersonCreditSplit>();
     }
 
     public String getProjectRole() {
         return getContactRole().getRoleDescription();
     }
+
     public boolean isOtherSignificantContributorFlag() {
         return false;
     }
+
     public String getKeyPersonRole() {
         return keyPersonRole;
     }
+
     public void setKeyPersonRole(String keyPersonRole) {
         this.keyPersonRole = keyPersonRole;
     }
-    
+
     /** {@inheritDoc}  */
     public void resetPersistenceState() {
         this.setInstitutionalProposalContactId(null);
     }
+
     public boolean isMultiplePi() {
         return multiplePi;
     }
+
     public void setMultiplePi(boolean multiplePi) {
         this.multiplePi = multiplePi;
     }
+
     public Sponsorable getParent() {
         return this.getInstitutionalProposal();
     }
+
     public String getInvestigatorRoleDescription() {
         return KraServiceLocator.getService(KeyPersonnelService.class).getPersonnelRoleDesc(this);
     }
-
 }

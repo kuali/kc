@@ -19,15 +19,16 @@ import java.util.ArrayList;
 import java.util.List;
 
 import org.kuali.kra.infrastructure.Constants;
-import org.kuali.rice.kns.lookup.keyvalues.KeyValuesBase;
-import org.kuali.rice.core.util.KeyLabelPair;
+import org.kuali.rice.core.api.util.ConcreteKeyValue;
+import org.kuali.rice.core.api.util.KeyValue;
+import org.kuali.rice.krad.keyvalues.KeyValuesBase;
 
 public class YnqValidAnswersValuesFinder extends KeyValuesBase {
 
-    public List<KeyLabelPair> getKeyValues() {
-        List<KeyLabelPair> keyValues = new ArrayList<KeyLabelPair>();
-        keyValues.add(new KeyLabelPair(Constants.ANSWER_YES_NO, "Yes, No"));
-        keyValues.add(new KeyLabelPair(Constants.ANSWER_YES_NO_NA, "Yes, No, N/A"));
+    public List<KeyValue> getKeyValues() {
+        List<KeyValue> keyValues = new ArrayList<KeyValue>();
+        keyValues.add(new ConcreteKeyValue(Constants.ANSWER_YES_NO.toString(), "Yes, No"));
+        keyValues.add(new ConcreteKeyValue(Constants.ANSWER_YES_NO_NA.toString(), "Yes, No, N/A"));
         return keyValues;
     }
 }

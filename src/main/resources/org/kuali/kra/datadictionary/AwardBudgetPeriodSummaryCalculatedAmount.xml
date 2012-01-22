@@ -104,10 +104,10 @@
     <bean id="AwardBudgetPeriodSummaryCalculatedAmount-onOffCampusFlag" parent="AwardBudgetPeriodSummaryCalculatedAmount-onOffCampusFlag-parentBean" />
     <bean id="AwardBudgetPeriodSummaryCalculatedAmount-onOffCampusFlag-parentBean" abstract="true" parent="AttributeReferenceDummy-genericBoolean" >
         <property name="name" value="onOffCampusFlag" />
-        <property name="label" value="On Off Campus Flag" />
-        <property name="shortLabel" value="On Off Campus Flag" />
-        <property name="summary" value="On Off Campus Flag" />
-        <property name="description" value="On Off Campus Flag" />
+        <property name="label" value="On Off CampusContractContract Flag" />
+        <property name="shortLabel" value="On Off CampusContractContract Flag" />
+        <property name="summary" value="On Off CampusContractContract Flag" />
+        <property name="description" value="On Off CampusContractContract Flag" />
     </bean>
 
     <bean id="AwardBudgetPeriodSummaryCalculatedAmount-rateClassType" parent="AwardBudgetPeriodSummaryCalculatedAmount-rateClassType-parentBean" />

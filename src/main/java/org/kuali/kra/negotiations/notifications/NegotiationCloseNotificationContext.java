@@ -17,18 +17,12 @@ package org.kuali.kra.negotiations.notifications;
 
 import java.util.List;
 
-import org.apache.commons.lang.StringUtils;
 import org.kuali.kra.common.notification.NotificationContextBase;
-import org.kuali.kra.common.notification.bo.NotificationTypeRecipient;
-import org.kuali.kra.common.notification.exception.UnknownRoleException;
 import org.kuali.kra.common.notification.service.KcNotificationModuleRoleService;
 import org.kuali.kra.common.notification.service.KcNotificationService;
 import org.kuali.kra.infrastructure.KraServiceLocator;
-import org.kuali.kra.kim.bo.KcKimAttributes;
-import org.kuali.kra.negotiations.bo.Negotiable;
 import org.kuali.kra.negotiations.document.NegotiationDocument;
 import org.kuali.kra.util.EmailAttachment;
-import org.kuali.rice.kim.bo.types.dto.AttributeSet;
 
 /**
  * Notification Context for Negotiation Closed action.
@@ -49,7 +43,7 @@ public class NegotiationCloseNotificationContext extends NotificationContextBase
         setNotificationService(KraServiceLocator.getService(KcNotificationService.class));
         setNotificationModuleRoleService(KraServiceLocator.getService(KcNotificationModuleRoleService.class));
         setNotificationRoleQualifierService(KraServiceLocator.getService(NegotiationNotificationRoleQualifierService.class));
-        
+    
         ((NegotiationNotificationRoleQualifierService) getNotificationRoleQualifierService()).setNegotiation(negotiationDocument.getNegotiation());
     }
     
@@ -88,6 +82,5 @@ public class NegotiationCloseNotificationContext extends NotificationContextBase
     public void setEmailAttachments(List<EmailAttachment> emailAttachments) {
         this.emailAttachments = emailAttachments;
     }
-
 
 }

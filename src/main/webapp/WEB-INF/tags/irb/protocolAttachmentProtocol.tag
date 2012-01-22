@@ -53,7 +53,7 @@
 	               			<%-- 	<c:set var="textStyle" value="${hasErrors == true ? 'background-color:#FFD5D5' : ''}"/>--%>
 	               			<%-- attachment type error handling logic start--%>
 	               			<html:select property="${property}">
-	               				<html:options collection="options" labelProperty="label" property="key" />
+	               				<html:options collection="options" labelProperty="value" property="key" />
 	               			</html:select>
 	               			<c:if test="${hasErrors}">
                     	 		<kul:fieldShowErrorIcon />

@@ -23,8 +23,7 @@ import org.kuali.kra.bo.CustomAttributeDocument;
 import org.kuali.kra.infrastructure.PropertyConstants;
 import org.kuali.kra.negotiations.document.NegotiationDocument;
 import org.kuali.kra.service.NegotiationCustomAttributeService;
-import org.kuali.rice.kns.service.BusinessObjectService;
-import org.kuali.rice.kns.util.KNSPropertyConstants;
+import org.kuali.rice.krad.service.BusinessObjectService;
 
 /**
  * This class provides the implementation of the Award Custom Attribute Service.

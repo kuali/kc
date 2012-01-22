@@ -61,7 +61,7 @@
     <property name="validationPattern" >
       <bean parent="NumericValidationPattern" />
     </property>
-    <property name="required" value="true" />
+    <property name="required" value="false" />
     <property name="control" >
       <bean parent="TextControlDefinition"
             p:size="10" />
@@ -207,7 +207,7 @@
     <property name="validationPattern" >
       <bean parent="AlphaNumericValidationPattern" />
     </property>
-    <property name="required" value="true" />
+    <property name="required" value="false" />
     <property name="control" >
       <bean parent="TextControlDefinition"
             p:size="60" />
@@ -351,7 +351,7 @@
     <property name="forceUppercase" value="false" />
     <property name="label" value="Requisitioner Id" />
     <property name="shortLabel" value="Requisitioner Id" />
-    <property name="maxLength" value="20" />
+    <property name="maxLength" value="200" />
     <property name="validationPattern" >
       <bean parent="AlphaNumericValidationPattern" />
     </property>
@@ -372,7 +372,7 @@
     <property name="forceUppercase" value="false" />
     <property name="label" value="Requisitioner" />
     <property name="shortLabel" value="Requisitioner" />
-    <property name="maxLength" value="90" />
+    <property name="maxLength" value="200" />
    
     <property name="required" value="true" />
     <property name="control" >
@@ -392,7 +392,7 @@
     <property name="forceUppercase" value="false" />
     <property name="label" value="Requisitioner Unit" />
     <property name="shortLabel" value="Requisitioner Unit" />
-    <property name="maxLength" value="8" />
+    <property name="maxLength" value="80" />
     <property name="validationPattern" >
       <bean parent="AnyCharacterValidationPattern" p:allowWhitespace="true" />
     </property>
@@ -413,7 +413,7 @@
     <property name="forceUppercase" value="false" />
     <property name="label" value="Requisitioner Unit" />
     <property name="shortLabel" value="Requisitioner Unit" />
-    <property name="maxLength" value="8" />
+    <property name="maxLength" value="80" />
     <property name="validationPattern" >
       <bean parent="AnyCharacterValidationPattern" p:allowWhitespace="true" />
     </property>
@@ -454,7 +454,7 @@
     <property name="forceUppercase" value="false" />
     <property name="label" value="Closeout Date" />
     <property name="shortLabel" value="Closeout Date" />
-    <property name="maxLength" value="10" />
+    <property name="maxLength" value="7" />
     <property name="validationPattern" >
       <bean parent="AlphaNumericValidationPattern" />
     </property>

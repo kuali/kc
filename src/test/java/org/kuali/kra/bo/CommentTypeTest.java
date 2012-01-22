@@ -54,7 +54,7 @@ public class CommentTypeTest {
      */
     @Test
     public void testCommentTypeBoAttributesCount() throws Exception {              
-        Assert.assertEquals(COMMENT_TYPE_ATTRIBUTES_COUNT, commentTypeBo.toStringMapper().size());
+        Assert.assertEquals(COMMENT_TYPE_ATTRIBUTES_COUNT, commentTypeBo.getClass().getFields().length);
     }
     
 }

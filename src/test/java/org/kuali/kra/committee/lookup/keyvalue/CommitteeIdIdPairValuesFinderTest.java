@@ -22,7 +22,8 @@ import junit.framework.Assert;
 
 import org.junit.Test;
 import org.kuali.kra.committee.bo.Committee;
-import org.kuali.rice.core.util.KeyLabelPair;
+import org.kuali.rice.core.api.util.ConcreteKeyValue;
+import org.kuali.rice.core.api.util.KeyValue;
 
 public class CommitteeIdIdPairValuesFinderTest {
 
@@ -52,11 +53,11 @@ public class CommitteeIdIdPairValuesFinderTest {
         activeCommittees.add(committee3);
         activeCommittees.add(committee4);
         
-        KeyLabelPair klp0 = new KeyLabelPair("", "select");
-        KeyLabelPair klp1 = new KeyLabelPair(CMT_1_ID, CMT_1_ID);
-        KeyLabelPair klp2 = new KeyLabelPair(CMT_2_ID, CMT_2_ID);
-        KeyLabelPair klp3 = new KeyLabelPair(CMT_3_ID, CMT_3_ID);
-        KeyLabelPair klp4 = new KeyLabelPair(CMT_4_ID, CMT_4_ID);
+        KeyValue klp0 = new ConcreteKeyValue("", "select");
+        KeyValue klp1 = new ConcreteKeyValue(CMT_1_ID, CMT_1_ID);
+        KeyValue klp2 = new ConcreteKeyValue(CMT_2_ID, CMT_2_ID);
+        KeyValue klp3 = new ConcreteKeyValue(CMT_3_ID, CMT_3_ID);
+        KeyValue klp4 = new ConcreteKeyValue(CMT_4_ID, CMT_4_ID);
        
         // create an anonymous instance of the finder overriding the
         // superclass's getActiveCommittees() method, with our mock
@@ -66,7 +67,7 @@ public class CommitteeIdIdPairValuesFinderTest {
                 return activeCommittees;
             }
         };
-        List<KeyLabelPair> results = finder.getKeyValues();
+        List<KeyValue> results = finder.getKeyValues();
         
         Assert.assertEquals(5, results.size());
         Assert.assertTrue(results.contains(klp0));

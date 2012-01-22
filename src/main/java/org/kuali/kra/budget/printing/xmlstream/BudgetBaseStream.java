@@ -25,9 +25,9 @@ import java.util.Map;
 
 import noNamespace.GroupsType;
 import noNamespace.ReportHeaderType;
-import noNamespace.ReportPageType.CalculationMethodology;
 import noNamespace.ReportType;
 import noNamespace.SubReportType;
+import noNamespace.ReportPageType.CalculationMethodology;
 
 import org.apache.commons.lang.StringUtils;
 import org.apache.commons.lang.time.DateFormatUtils;
@@ -51,12 +51,8 @@ import org.kuali.kra.budget.personnel.BudgetPersonnelRateAndBase;
 import org.kuali.kra.budget.printing.util.ReportTypeVO;
 import org.kuali.kra.budget.rates.RateType;
 import org.kuali.kra.printing.xmlstream.XmlStream;
-import org.kuali.kra.proposaldevelopment.bo.DevelopmentProposal;
-import org.kuali.kra.proposaldevelopment.bo.LookupableDevelopmentProposal;
-import org.kuali.kra.proposaldevelopment.bo.ProposalPerson;
-import org.kuali.kra.proposaldevelopment.document.ProposalDevelopmentDocument;
-import org.kuali.rice.kns.service.BusinessObjectService;
-import org.kuali.rice.kns.service.DateTimeService;
+import org.kuali.rice.core.api.datetime.DateTimeService;
+import org.kuali.rice.krad.service.BusinessObjectService;
 
 /**
  * This class will contain all common methods that can be used across all XML

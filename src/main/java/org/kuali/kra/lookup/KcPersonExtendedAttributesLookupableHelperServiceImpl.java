@@ -23,7 +23,7 @@ public class KcPersonExtendedAttributesLookupableHelperServiceImpl extends Kuali
             for (Field field : row.getFields()) {
                 if (field.getPropertyName().equals("personId")) {
                     field.setFieldConversions("principalId:personId");
-                    field.setQuickFinderClassNameImpl("org.kuali.rice.kim.bo.Person");
+                    field.setQuickFinderClassNameImpl("org.kuali.rice.kim.api.identity.Person");
                     field.setFieldDirectInquiryEnabled(true);
                     field.setInquiryParameters("personId:principalId");
                 }

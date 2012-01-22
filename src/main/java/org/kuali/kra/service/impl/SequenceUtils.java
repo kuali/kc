@@ -35,8 +35,8 @@ import org.kuali.kra.SequenceOwner;
 import org.kuali.kra.Sequenceable;
 import org.kuali.kra.SkipVersioning;
 import org.kuali.kra.service.VersionException;
-import org.kuali.rice.kns.bo.PersistableBusinessObject;
-import org.kuali.rice.kns.util.ObjectUtils;
+import org.kuali.rice.krad.bo.PersistableBusinessObject;
+import org.kuali.rice.krad.util.ObjectUtils;
 
 import com.google.common.collect.Sets;
 

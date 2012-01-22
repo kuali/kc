@@ -21,7 +21,7 @@ import java.util.Map;
 
 import org.kuali.kra.common.notification.bo.NotificationModuleRole;
 import org.kuali.kra.common.notification.service.KcNotificationModuleRoleService;
-import org.kuali.rice.kns.service.BusinessObjectService;
+import org.kuali.rice.krad.service.BusinessObjectService;
 
 public class KcNotificationModuleRoleServiceImpl implements KcNotificationModuleRoleService {
     

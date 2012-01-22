@@ -29,8 +29,8 @@ import org.kuali.kra.irb.actions.assigncmtsched.ProtocolAssignCmtSchedService;
 import org.kuali.kra.irb.actions.submit.ProtocolActionService;
 import org.kuali.kra.irb.actions.submit.ProtocolSubmission;
 import org.kuali.kra.irb.actions.submit.ProtocolSubmissionStatus;
-import org.kuali.rice.core.util.KeyLabelPair;
-import org.kuali.rice.kns.service.DocumentService;
+import org.kuali.rice.core.api.util.KeyValue;
+import org.kuali.rice.krad.service.DocumentService;
 
 /**
  * 
@@ -157,10 +157,10 @@ public class ProtocolAssignToAgendaServiceImpl implements ProtocolAssignToAgenda
     /** {@inheritDoc} */
     public String getAssignedScheduleDate(Protocol protocol) {
         String scheduleId = this.protocolAssignCmtSchedService.getAssignedScheduleId(protocol);
-        List<KeyLabelPair> keyPair = this.committeeService.getAvailableCommitteeDates(getAssignedCommitteeId(protocol));
-        for (KeyLabelPair kp : keyPair) {
+        List<KeyValue> keyPair = this.committeeService.getAvailableCommitteeDates(getAssignedCommitteeId(protocol));
+        for (KeyValue kp : keyPair) {
             if (kp.getKey().equals(scheduleId)) {
-                return kp.getLabel();
+                return kp.getValue();
             }
         }
         return null;

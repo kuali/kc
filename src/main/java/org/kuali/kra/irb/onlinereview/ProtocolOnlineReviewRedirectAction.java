@@ -30,8 +30,8 @@ import org.kuali.kra.irb.Protocol;
 import org.kuali.kra.irb.actions.submit.ProtocolSubmission;
 import org.kuali.kra.service.KraAuthorizationService;
 import org.kuali.kra.web.struts.action.KraTransactionalDocumentActionBase;
-import org.kuali.rice.kns.util.GlobalVariables;
-import org.kuali.rice.kns.util.KNSConstants;
+import org.kuali.rice.krad.util.GlobalVariables;
+import org.kuali.rice.krad.util.KRADConstants;
 
 public class ProtocolOnlineReviewRedirectAction extends KraTransactionalDocumentActionBase  {
 
@@ -101,7 +101,7 @@ public class ProtocolOnlineReviewRedirectAction extends KraTransactionalDocument
         // TODO Auto-generated method stub
       //  return super.close(mapping, form, request, response);
         
-        return mapping.findForward(KNSConstants.MAPPING_PORTAL);
+        return mapping.findForward(KRADConstants.MAPPING_PORTAL);
     }
     
 }

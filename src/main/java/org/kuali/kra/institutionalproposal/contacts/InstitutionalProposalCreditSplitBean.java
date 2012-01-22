@@ -29,9 +29,9 @@ import org.kuali.kra.institutionalproposal.home.InstitutionalProposal;
 import org.kuali.kra.institutionalproposal.web.struts.form.InstitutionalProposalForm;
 import org.kuali.kra.proposaldevelopment.bo.CreditSplit;
 import org.kuali.kra.proposaldevelopment.bo.InvestigatorCreditType;
-import org.kuali.rice.kns.service.BusinessObjectService;
-import org.kuali.rice.kns.service.ParameterService;
-import org.kuali.rice.kns.util.KualiDecimal;
+import org.kuali.rice.core.api.util.type.KualiDecimal;
+import org.kuali.rice.coreservice.framework.parameter.ParameterService;
+import org.kuali.rice.krad.service.BusinessObjectService;
 
 /**
  * This class...
@@ -153,7 +153,7 @@ public class InstitutionalProposalCreditSplitBean implements Serializable {
      * @return
      */
     protected String fetchParameterValue(String parmName) {
-        return this.getParameterService().getParameterValue(InstitutionalProposalDocument.class, parmName);
+        return this.getParameterService().getParameterValueAsString(InstitutionalProposalDocument.class, parmName);
     }
     
     /**

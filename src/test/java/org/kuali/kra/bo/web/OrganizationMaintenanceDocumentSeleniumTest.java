@@ -227,7 +227,7 @@ public class OrganizationMaintenanceDocumentSeleniumTest extends KcSeleniumTestB
         assertNotNull(document.getDocumentNumber());
         assertNotNull(document.getDocumentHeader());
         assertEquals(documentNumber, document.getDocumentHeader().getDocumentNumber());
-        Organization organization = (Organization) document.getNewMaintainableObject().getBusinessObject();
+        Organization organization = (Organization) document.getNewMaintainableObject().getDataObject();
         assertEquals(organizationId, organization.getOrganizationId());
         assertEquals(Integer.valueOf(contactAddressId), organization.getContactAddressId());
         assertEquals(organizationName, organization.getOrganizationName());

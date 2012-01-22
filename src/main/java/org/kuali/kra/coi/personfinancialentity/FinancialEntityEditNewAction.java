@@ -23,8 +23,8 @@ import org.apache.struts.action.ActionForm;
 import org.apache.struts.action.ActionForward;
 import org.apache.struts.action.ActionMapping;
 import org.kuali.kra.infrastructure.Constants;
-import org.kuali.rice.kns.util.GlobalVariables;
-import org.kuali.rice.kns.util.ObjectUtils;
+import org.kuali.rice.krad.util.GlobalVariables;
+import org.kuali.rice.krad.util.ObjectUtils;
 
 /**
  * 
@@ -51,7 +51,7 @@ public class FinancialEntityEditNewAction extends FinancialEntityAction {
         if (isValidToSave(financialEntityHelper.getNewPersonFinancialEntity(), NEW_FINANCIAL_ENTITY)) {
             saveNewFinancialEntity(form);
             if (StringUtils.isNotBlank(financialEntityForm.getCoiDocId())) {
-                String forward = buildForwardUrl(Long.parseLong(financialEntityForm.getCoiDocId()));
+                String forward = buildForwardUrl(financialEntityForm.getCoiDocId());
                 financialEntityForm.setCoiDocId(null);
                 financialEntityForm.getFinancialEntityHelper().setReporterId(null);
                 return new ActionForward(forward, true);

@@ -28,7 +28,7 @@
   <bean id="AwardSyncLog-awardSyncLogId" parent="AwardSyncLog-awardSyncLogId-parentBean" />
 
   <bean id="AwardSyncLog-awardSyncLogId-parentBean" abstract="true" parent="AttributeReferenceDummy-genericSystemId">
-    <property name="name" value="AwardSyncLogId" />
+    <property name="name" value="awardSyncLogId" />
     <property name="label" value="Award Sync Log Id" />
     <property name="shortLabel" value="Award Sync Log Id" />
     <property name="summary" value="Award Sync Log Id" />

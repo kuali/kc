@@ -15,8 +15,6 @@
  */
 package org.kuali.kra.irb.personnel;
 
-import java.util.LinkedHashMap;
-
 import org.kuali.kra.bo.Rolodex;
 
 /**
@@ -26,26 +24,38 @@ import org.kuali.kra.bo.Rolodex;
  * in protocol personnel tab.
  * Details not found when compared to Person object are listed here.
  */
-public class ProtocolPersonRolodex extends Rolodex{
+public class ProtocolPersonRolodex extends Rolodex {
 
     /**
      * Comment for <code>serialVersionUID</code>
      */
     private static final long serialVersionUID = 6280277069306606395L;
+
     private String userName;
+
     private String officeLocation;
+
     private String officePhone;
+
     private String secondaryOfficeLocation;
+
     private String school;
+
     private String primaryTitle;
+
     private String directoryTitle;
+
     private String homeUnit;
+
     private String pagerNumber;
+
     private String mobilePhoneNumber;
+
     private String eraCommonsUserName;
+
     private String fullName;
 
-    public ProtocolPersonRolodex() { 
+    public ProtocolPersonRolodex() {
     }
 
     public String getUserName() {
@@ -142,25 +152,5 @@ public class ProtocolPersonRolodex extends Rolodex{
 
     public void setFullName(String fullName) {
         this.fullName = fullName;
-    } 
-    
-    @Override 
-    protected LinkedHashMap<String,Object> toStringMapper() {
-        LinkedHashMap<String,Object> hashMap = new LinkedHashMap<String,Object>();
-        hashMap.put("userName", getUserName());
-        hashMap.put("officeLocation", getOfficeLocation());
-        hashMap.put("officePhone", getOfficePhone());
-        hashMap.put("secondaryOfficeLocation", getSecondaryOfficeLocation());
-        hashMap.put("school", getSchool());
-        hashMap.put("primaryTitle", getPrimaryTitle());
-        hashMap.put("directoryTitle", getDirectoryTitle());
-        hashMap.put("homeUnit", getHomeUnit());
-        hashMap.put("pagerNumber", getPagerNumber());
-        hashMap.put("mobilePhoneNumber", getMobilePhoneNumber());
-        hashMap.put("eraCommonsUserName", getEraCommonsUserName());
-        hashMap.put("fullName", getFullName());
-        return hashMap;
     }
-
-
 }

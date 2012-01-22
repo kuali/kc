@@ -15,55 +15,46 @@
  */
 package org.kuali.kra.award.home;
 
-import java.util.LinkedHashMap;
-
 import org.kuali.kra.bo.KraPersistableBusinessObjectBase;
 import org.kuali.kra.bo.Rolodex;
 
-public class AwardTemplateContact extends KraPersistableBusinessObjectBase { 
-	
-	/**
+public class AwardTemplateContact extends KraPersistableBusinessObjectBase {
+
+    /**
      * Comment for <code>serialVersionUID</code>
      */
     private static final long serialVersionUID = 5168275576240665727L;
-    private Integer templateContactId; 
-	private AwardTemplate awardTemplate; 
-	
-    private String roleCode; 
-    private Integer rolodexId; 
-    
-    private ContactType contactType; 
+
+    private Integer templateContactId;
+
+    private AwardTemplate awardTemplate;
+
+    private String roleCode;
+
+    private Integer rolodexId;
+
+    private ContactType contactType;
+
     private Rolodex rolodex;
 
-	public AwardTemplateContact() { 
+    public AwardTemplateContact() {
+    }
 
-	} 
-	
-	public Integer getTemplateContactId() {
-		return templateContactId;
-	}
+    public Integer getTemplateContactId() {
+        return templateContactId;
+    }
 
-	public void setTemplateContactId(Integer templateContactId) {
-		this.templateContactId = templateContactId;
-	}
+    public void setTemplateContactId(Integer templateContactId) {
+        this.templateContactId = templateContactId;
+    }
 
-	public AwardTemplate getAwardTemplate() {
-		return awardTemplate;
-	}
+    public AwardTemplate getAwardTemplate() {
+        return awardTemplate;
+    }
 
-	public void setAwardTemplate(AwardTemplate awardTemplate) {
-		this.awardTemplate = awardTemplate;
-	}
-
-	@SuppressWarnings("unchecked")
-    @Override 
-	protected LinkedHashMap toStringMapper() {
-        LinkedHashMap hashMap = new LinkedHashMap();
-        hashMap.put("roleCode", getRoleCode());
-        hashMap.put("rolodexId", getRolodexId());
-		hashMap.put("templateContactId", getTemplateContactId());
-		return hashMap;
-	}
+    public void setAwardTemplate(AwardTemplate awardTemplate) {
+        this.awardTemplate = awardTemplate;
+    }
 
     /**
      * Gets the contactTypeCode attribute. 
@@ -128,5 +119,4 @@ public class AwardTemplateContact extends KraPersistableBusinessObjectBase {
     public void setRolodex(Rolodex rolodex) {
         this.rolodex = rolodex;
     }
-	
 }

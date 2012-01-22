@@ -15,8 +15,6 @@
  */
 package org.kuali.kra.coi;
 
-import java.util.LinkedHashMap;
-
 import org.kuali.kra.bo.KraPersistableBusinessObjectBase;
 
 /**
@@ -48,13 +46,5 @@ public class CoiCommitteeRoleType extends KraPersistableBusinessObjectBase {
     public void setDescription(String description) {
         this.description = description;
     }  
-    
-    @Override 
-    protected LinkedHashMap<String,Object> toStringMapper() {
-        LinkedHashMap<String,Object> hashMap = new LinkedHashMap<String,Object>();
-        hashMap.put("roleTypeCode", getRoleTypeCode());
-        hashMap.put("description", getDescription());
-        return hashMap;
-    }
-    
+   
 }

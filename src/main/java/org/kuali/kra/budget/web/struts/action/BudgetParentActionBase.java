@@ -30,10 +30,10 @@ import org.kuali.kra.budget.versions.BudgetVersionOverview;
 import org.kuali.kra.infrastructure.Constants;
 import org.kuali.kra.infrastructure.KraServiceLocator;
 import org.kuali.kra.web.struts.action.KraTransactionalDocumentActionBase;
-import org.kuali.rice.kew.exception.WorkflowException;
-import org.kuali.rice.kns.service.DocumentService;
+import org.kuali.rice.kew.api.exception.WorkflowException;
 import org.kuali.rice.kns.util.WebUtils;
 import org.kuali.rice.kns.web.struts.form.KualiForm;
+import org.kuali.rice.krad.service.DocumentService;
 
 /**
  * This class contains methods common to ProposalDevelopment and Budget actions.
@@ -98,7 +98,7 @@ public class BudgetParentActionBase extends KraTransactionalDocumentActionBase {
      */
     protected void setBudgetStatuses(BudgetParentDocument parentDocument) {
         
-        String budgetStatusIncompleteCode = getParameterService().getParameterValue(
+        String budgetStatusIncompleteCode = getParameterService().getParameterValueAsString(
                 BudgetDocument.class, Constants.BUDGET_STATUS_INCOMPLETE_CODE);
         
         for (BudgetDocumentVersion budgetDocumentVersion: parentDocument.getBudgetDocumentVersions()) {

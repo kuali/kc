@@ -30,9 +30,8 @@ import org.kuali.kra.kim.bo.KcKimAttributes;
 import org.kuali.kra.service.SystemAuthorizationService;
 import org.kuali.kra.service.UnitAuthorizationService;
 import org.kuali.kra.service.UnitService;
-import org.kuali.rice.kim.bo.types.dto.AttributeSet;
-import org.kuali.rice.kim.service.IdentityManagementService;
-import org.kuali.rice.kim.service.RoleManagementService;
+import org.kuali.rice.kim.api.permission.PermissionService;
+import org.kuali.rice.kim.api.role.RoleService;
 
 /**
  * The Unit Authorization Service Implementation.
@@ -44,23 +43,14 @@ public class UnitAuthorizationServiceImpl implements UnitAuthorizationService {
 
     private UnitService unitService;
     private SystemAuthorizationService systemAuthorizationService;
+    private RoleService roleManagementService;
+    private PermissionService permissionService;
     
-    private IdentityManagementService identityManagementService; 
-    private RoleManagementService roleManagementService;
-    
-    protected IdentityManagementService getIdentityManagementService() {
-        return identityManagementService;
-    }
-    
-    public void setIdentityManagementService(IdentityManagementService identityManagementService) {
-        this.identityManagementService = identityManagementService;
-    }
-    
-    protected RoleManagementService getRoleManagementService() {
+    protected RoleService getRoleService() {
         return roleManagementService;
     }
 
-    public void setRoleManagementService(RoleManagementService roleManagementService) {
+    public void setRoleManagementService(RoleService roleManagementService) {
         this.roleManagementService = roleManagementService;
     }
 
@@ -80,6 +70,10 @@ public class UnitAuthorizationServiceImpl implements UnitAuthorizationService {
         this.systemAuthorizationService = systemAuthorizationService;
     }
 
+    public void setPermissionService(PermissionService permissionService) {
+        this.permissionService = permissionService;
+    }
+
     /**
      * @see org.kuali.kra.service.UnitAuthorizationService#hasPermission(java.lang.String, java.lang.String, java.lang.String)
      */
@@ -95,7 +89,7 @@ public class UnitAuthorizationServiceImpl implements UnitAuthorizationService {
             qualifiedRoleAttributes.put(KcKimAttributes.UNIT_NUMBER, unitNumber);
             
             //The UnitHierarchyRoleTypeService takes care of traversing the Unit tree.
-            userHasPermission = identityManagementService.isAuthorized(userId, namespaceCode, permissionName, new AttributeSet(permissionAttributes), new AttributeSet(qualifiedRoleAttributes)); 
+            userHasPermission = permissionService.isAuthorized(userId, namespaceCode, permissionName, permissionAttributes, qualifiedRoleAttributes); 
         }
         return userHasPermission;
     }
@@ -109,7 +103,7 @@ public class UnitAuthorizationServiceImpl implements UnitAuthorizationService {
         
         Map<String, String> qualifiedRoleAttributes = new HashMap<String, String>();
         qualifiedRoleAttributes.put(KcKimAttributes.UNIT_NUMBER, "*"); 
-        userHasPermission = identityManagementService.isAuthorized(userId, namespaceCode, permissionName, new AttributeSet(permissionAttributes), new AttributeSet(qualifiedRoleAttributes));
+        userHasPermission = permissionService.isAuthorized(userId, namespaceCode, permissionName, permissionAttributes, qualifiedRoleAttributes);
         return userHasPermission;
     }
     
@@ -120,9 +114,9 @@ public class UnitAuthorizationServiceImpl implements UnitAuthorizationService {
         qualifiedRoleAttributes.put(KcKimAttributes.UNIT_NUMBER, unitNumber);
         roleIds = systemAuthorizationService.getRoleIdsForPermission(permissionName, namespaceCode);
         
-        List<AttributeSet> qualifiers = roleManagementService.getRoleQualifiersForPrincipal(userId, roleIds, new AttributeSet(qualifiedRoleAttributes));
+        List<Map<String,String>> qualifiers = roleManagementService.getNestedRoleQualifiersForPrincipalByRoleIds(userId, roleIds, qualifiedRoleAttributes);
         List<String> units = new ArrayList<String>();    
-        for(AttributeSet qualifier : qualifiers) {
+        for(Map<String,String> qualifier : qualifiers) {
             String tmpUnitNumber = qualifier.get(KcKimAttributes.UNIT_NUMBER);
             if(StringUtils.isNotEmpty(tmpUnitNumber)) {
                 units.add(tmpUnitNumber);
@@ -145,11 +139,11 @@ public class UnitAuthorizationServiceImpl implements UnitAuthorizationService {
         List<String> roleIds = new ArrayList<String>();
         Map<String, String> qualifiedRoleAttributes = new HashMap<String, String>();
         qualifiedRoleAttributes.put(KcKimAttributes.UNIT_NUMBER, "*");
-        AttributeSet qualification = new AttributeSet(qualifiedRoleAttributes);
+        Map<String,String> qualification =new HashMap<String,String>(qualifiedRoleAttributes);
         roleIds = systemAuthorizationService.getRoleIdsForPermission(permissionName, namespaceCode);
         
-        List<AttributeSet> qualifiers = roleManagementService.getRoleQualifiersForPrincipalIncludingNested(userId, roleIds, qualification);
-        for (AttributeSet qualifier : qualifiers) {
+        List<Map<String,String>> qualifiers = roleManagementService.getNestedRoleQualifiersForPrincipalByRoleIds(userId, roleIds, qualification);
+        for (Map<String,String> qualifier : qualifiers) {
             Unit unit = unitService.getUnit(qualifier.get(KcKimAttributes.UNIT_NUMBER));
             if (unit != null) {
                 units.add(unit);

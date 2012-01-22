@@ -59,10 +59,10 @@ public interface CoiPrintingService {
      */
     public AttachmentDataSource printDisclosureCertification( KraPersistableBusinessObjectBase institutionalProposal, 
                                                               String reportName,
-                                                              Map<String, Object> reportParameters) throws PrintingException;
+            Map<String, Object> reportParameters) throws PrintingException;
 
     public AbstractPrint getCoiPrintable(CoiReportType reportType);
     
     public Printable getCoiPrintArtifacts(CoiDisclosure coiDisclosure);
     
-    }
+}

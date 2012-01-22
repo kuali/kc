@@ -22,12 +22,12 @@ import java.util.Map;
 import org.apache.commons.lang.StringUtils;
 import org.kuali.kra.bo.KcPersonExtendedAttributes;
 import org.kuali.kra.service.MultiCampusIdentityService;
-import org.kuali.rice.kim.bo.entity.dto.KimEntityAffiliationInfo;
-import org.kuali.rice.kim.bo.entity.dto.KimEntityInfo;
-import org.kuali.rice.kim.service.IdentityService;
-import org.kuali.rice.kim.service.KIMServiceLocator;
-import org.kuali.rice.kns.service.BusinessObjectService;
-import org.kuali.rice.kns.service.KNSServiceLocator;
+import org.kuali.rice.kim.api.identity.IdentityService;
+import org.kuali.rice.kim.api.identity.affiliation.EntityAffiliationContract;
+import org.kuali.rice.kim.api.identity.entity.EntityContract;
+import org.kuali.rice.kim.api.services.KimApiServiceLocator;
+import org.kuali.rice.krad.service.BusinessObjectService;
+import org.kuali.rice.krad.service.KRADServiceLocator;
 
 public class MultiCampusIdentityServiceImpl implements MultiCampusIdentityService {
     
@@ -59,8 +59,8 @@ public class MultiCampusIdentityServiceImpl implements MultiCampusIdentityServic
     private boolean hasCampusAffiliation(String principalId, String campusCode) {
         boolean hasCampusAffiliation = false;
         
-        KimEntityInfo entityInfo = getIdentityService().getEntityInfoByPrincipalId(principalId);
-        for (KimEntityAffiliationInfo affiliation : entityInfo.getAffiliations()) {
+        EntityContract entityInfo = getIdentityService().getEntityByPrincipalId(principalId);
+        for (EntityAffiliationContract affiliation : entityInfo.getAffiliations()) {
             if (StringUtils.equals(campusCode, affiliation.getCampusCode())) {
                 hasCampusAffiliation = true;
                 break;
@@ -72,7 +72,7 @@ public class MultiCampusIdentityServiceImpl implements MultiCampusIdentityServic
 
     public BusinessObjectService getBusinessObjectService() {
         if (businessObjectService == null) {
-            businessObjectService = KNSServiceLocator.getBusinessObjectService();
+            businessObjectService = KRADServiceLocator.getBusinessObjectService();
         }
         return businessObjectService;
     }
@@ -83,7 +83,7 @@ public class MultiCampusIdentityServiceImpl implements MultiCampusIdentityServic
 
     public IdentityService getIdentityService() {
         if (identityService == null) {
-            identityService = KIMServiceLocator.getIdentityService();
+            identityService = KimApiServiceLocator.getIdentityService();
         }
         return identityService;
     }

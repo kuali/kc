@@ -22,7 +22,7 @@ import java.util.List;
 import org.kuali.kra.award.AwardForm;
 import org.kuali.kra.award.document.AwardDocument;
 import org.kuali.kra.bo.SponsorTerm;
-import org.kuali.rice.core.util.KeyLabelPair;
+import org.kuali.rice.core.api.util.KeyValue;
 
 /**
  * This is a helper class for sponsor term form helper
@@ -32,7 +32,7 @@ public class SponsorTermFormHelper implements Serializable {
     private AwardForm parent;
     
     private List<SponsorTerm> newSponsorTerms;
-    private List<KeyLabelPair> sponsorTermTypes;
+    private List<KeyValue> sponsorTermTypes;
     
     /**
      * Constructs a CostShareFormHelper
@@ -41,7 +41,7 @@ public class SponsorTermFormHelper implements Serializable {
     public SponsorTermFormHelper(AwardForm parent) {
         this.parent = parent;
         setNewSponsorTerms(new ArrayList<SponsorTerm>());
-        sponsorTermTypes = new ArrayList<KeyLabelPair>();
+        sponsorTermTypes = new ArrayList<KeyValue>();
     }
     
     /**
@@ -73,7 +73,7 @@ public class SponsorTermFormHelper implements Serializable {
      * Gets the awardSponsorTermsTypes attribute. 
      * @return Returns the awardSponsorTermsTypes.
      */
-    public List<KeyLabelPair> getSponsorTermTypes() {
+    public List<KeyValue> getSponsorTermTypes() {
         return sponsorTermTypes;
     }
     
@@ -81,7 +81,7 @@ public class SponsorTermFormHelper implements Serializable {
      * Sets the awardSponsorTermsTypes attribute value.
      * @param awardSponsorTermsTypes The awardSponsorTermsTypes to set.
      */
-    public void setSponsorTermTypes(List<KeyLabelPair> sponsorTermTypes) {
+    public void setSponsorTermTypes(List<KeyValue> sponsorTermTypes) {
         this.sponsorTermTypes = sponsorTermTypes;
     }
 

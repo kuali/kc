@@ -16,11 +16,6 @@
 package org.kuali.kra.proposaldevelopment.hierarchy.bo;
 
 import java.io.Serializable;
-import java.sql.Date;
-import java.util.List;
-
-import org.kuali.kra.budget.versions.BudgetVersionOverview;
-import org.kuali.kra.proposaldevelopment.bo.ProposalPerson;
 
 
 /**

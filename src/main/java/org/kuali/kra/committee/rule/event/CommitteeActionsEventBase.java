@@ -17,7 +17,7 @@ package org.kuali.kra.committee.rule.event;
 
 import org.kuali.kra.rule.BusinessRuleInterface;
 import org.kuali.kra.rule.event.KraDocumentEventBaseExtension;
-import org.kuali.rice.kns.document.Document;
+import org.kuali.rice.krad.document.Document;
 
 @SuppressWarnings("unchecked")
 public abstract class CommitteeActionsEventBase <Z extends BusinessRuleInterface> extends KraDocumentEventBaseExtension {

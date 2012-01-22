@@ -15,10 +15,9 @@
  */
 package org.kuali.kra.common.notification.bo;
 
-import java.util.LinkedHashMap;
+import java.util.Map;
 
 import org.kuali.kra.bo.KraPersistableBusinessObjectBase;
-import org.kuali.rice.kim.bo.types.dto.AttributeSet;
 
 /**
  * Defines the recipients for a {@code NotificationType}.
@@ -32,7 +31,7 @@ public class NotificationTypeRecipient extends KraPersistableBusinessObjectBase 
     private String roleName;
     
     // Non-persistent field for tracking the qualifier value.
-    private AttributeSet roleQualifiers;
+    private Map<String,String> roleQualifiers;
     
     // Fields for ad-hoc notifications
     private String personId;
@@ -63,11 +62,11 @@ public class NotificationTypeRecipient extends KraPersistableBusinessObjectBase 
         this.roleName = roleName;
     }
 
-    public AttributeSet getRoleQualifiers() {
+    public Map<String,String> getRoleQualifiers() {
         return roleQualifiers;
     }
 
-    public void setRoleQualifiers(AttributeSet roleQualifiers) {
+    public void setRoleQualifiers(Map<String,String> roleQualifiers) {
         this.roleQualifiers = roleQualifiers;
     }
 
@@ -93,15 +92,6 @@ public class NotificationTypeRecipient extends KraPersistableBusinessObjectBase 
 
     public void setFullName(String fullName) {
         this.fullName = fullName;
-    }
-
-    @Override
-    protected LinkedHashMap<String, Object> toStringMapper() {
-        LinkedHashMap<String, Object> propMap = new LinkedHashMap<String, Object>();
-        propMap.put("notificationTypeRecipientId", getNotificationTypeRecipientId());
-        propMap.put("notificationTypeId", getNotificationTypeId());
-        propMap.put("roleName", getRoleName());
-        return propMap;
     }
 
     @Override

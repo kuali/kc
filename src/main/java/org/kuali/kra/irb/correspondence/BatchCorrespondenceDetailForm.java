@@ -33,7 +33,8 @@ public class BatchCorrespondenceDetailForm extends KualiForm {
     
     public BatchCorrespondenceDetailForm() {
         super();
-        this.setBatchCorrespondence(null);
+        // if set to null in rice20, it can't be populated for batch correspondence
+        this.setBatchCorrespondence(new BatchCorrespondence());
         this.setBatchCorrespondenceTypeCode(null);
         this.setNewBatchCorrespondenceDetail(new BatchCorrespondenceDetail());
         this.setDeletedBatchCorrespondenceDetail(new ArrayList<BatchCorrespondenceDetail>());

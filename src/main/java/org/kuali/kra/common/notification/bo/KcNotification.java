@@ -15,22 +15,25 @@
  */
 package org.kuali.kra.common.notification.bo;
 
-import java.util.LinkedHashMap;
-
 import org.kuali.kra.bo.KraPersistableBusinessObjectBase;
+
 /**
  * Defines a document-specific instance of a Notification Type.
  */
 public class KcNotification extends KraPersistableBusinessObjectBase {
 
     private static final long serialVersionUID = 8649080269418978865L;
-    
+
     private Long notificationId;
+
     private Long notificationTypeId;
+
     private String documentNumber;
+
     private String subject;
+
     private String message;
-    
+
     private NotificationType notificationType;
 
     public Long getNotificationId() {
@@ -48,11 +51,11 @@ public class KcNotification extends KraPersistableBusinessObjectBase {
     public void setNotificationTypeId(Long notificationTypeId) {
         this.notificationTypeId = notificationTypeId;
     }
-    
+
     public String getDocumentNumber() {
         return documentNumber;
     }
-    
+
     public void setDocumentNumber(String documentNumber) {
         this.documentNumber = documentNumber;
     }
@@ -60,15 +63,15 @@ public class KcNotification extends KraPersistableBusinessObjectBase {
     public String getSubject() {
         return subject;
     }
-    
+
     public void setSubject(String subject) {
         this.subject = subject;
     }
-    
+
     public String getMessage() {
         return message;
     }
-    
+
     public void setMessage(String message) {
         this.message = message;
     }
@@ -80,15 +83,4 @@ public class KcNotification extends KraPersistableBusinessObjectBase {
     public void setNotificationType(NotificationType notificationType) {
         this.notificationType = notificationType;
     }
-
-    @Override
-    protected LinkedHashMap<String, Object> toStringMapper() {
-        LinkedHashMap<String, Object> propMap = new LinkedHashMap<String, Object>();
-        propMap.put("notificationId", getNotificationId());
-        propMap.put("notificationTypeId", getNotificationTypeId());
-        propMap.put("subject", getSubject());
-        propMap.put("message", getMessage());
-        return propMap;
-    }
-    
 }

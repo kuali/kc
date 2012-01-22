@@ -31,10 +31,10 @@
 		<property name="lookupDefinition" >
 			<ref bean="ProtocolRiskLevel-lookupDefinition" />
 		</property>
-		<property name="titleAttribute" value="ProtocolRiskLevelId" />
+		<property name="titleAttribute" value="protocolRiskLevelId" />
 		<property name="attributes" >
 			<list>
-				<ref bean="ProtocolRiskLevel-ProtocolRiskLevelId" />
+				<ref bean="ProtocolRiskLevel-protocolRiskLevelId" />
 				<ref bean="ProtocolRiskLevel-protocolId" />
 				<ref bean="ProtocolRiskLevel-protocolNumber" />
 				<ref bean="ProtocolRiskLevel-sequenceNumber" />
@@ -50,9 +50,9 @@
 
 	<!-- Attribute Definitions -->
 	
-	<bean id="ProtocolRiskLevel-ProtocolRiskLevelId" parent="ProtocolRiskLevel-ProtocolRiskLevelId-parentBean" />
-	<bean id="ProtocolRiskLevel-ProtocolRiskLevelId-parentBean" abstract="true" parent="AttributeDefinition" >
-		<property name="name" value="ProtocolRiskLevelId" />
+	<bean id="ProtocolRiskLevel-protocolRiskLevelId" parent="ProtocolRiskLevel-protocolRiskLevelId-parentBean" />
+	<bean id="ProtocolRiskLevel-protocolRiskLevelId-parentBean" abstract="true" parent="AttributeDefinition" >
+		<property name="name" value="protocolRiskLevelId" />
 		<property name="forceUppercase" value="false" />
 		<property name="label" value="Protocol Risk Levels Id" />
 		<property name="shortLabel" value="Protocol Risk Levels Id" />
@@ -218,7 +218,7 @@
 					<property name="inquiryFields" >
 						<list>
 							<bean parent="FieldDefinition"
-								p:attributeName="ProtocolRiskLevelId" 
+								p:attributeName="protocolRiskLevelId" 
 								p:forceInquiry="true" />
 							<bean parent="FieldDefinition"
 								p:attributeName="protocolId" />
@@ -256,7 +256,7 @@
 		<property name="lookupFields" >
 			<list>
 				<bean parent="FieldDefinition"
-					p:attributeName="ProtocolRiskLevelId" 
+					p:attributeName="protocolRiskLevelId" 
 					p:forceInquiry="true" />
 				<bean parent="FieldDefinition"
 					p:attributeName="protocolId" />
@@ -279,7 +279,7 @@
 		<property name="resultFields" >
 			<list>
 				<bean parent="FieldDefinition"
-					p:attributeName="ProtocolRiskLevelId" 
+					p:attributeName="protocolRiskLevelId" 
 					p:forceInquiry="true" />
 				<bean parent="FieldDefinition"
 					p:attributeName="protocolId" />

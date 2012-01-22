@@ -16,34 +16,34 @@
 package org.kuali.kra.infrastructure;
 
 import static org.kuali.kra.infrastructure.Constants.MODULE_NAMESPACE_PROPOSAL_DEVELOPMENT;
-import static org.kuali.rice.kns.service.ParameterConstants.DOCUMENT_COMPONENT;
+import static org.kuali.rice.coreservice.framework.parameter.ParameterConstants.DOCUMENT_COMPONENT;
 
 import java.util.Collection;
 import java.util.Date;
 import java.util.HashMap;
-import java.util.List;
 import java.util.Map;
 
 import org.junit.Before;
 import org.junit.Test;
 import org.kuali.kra.proposaldevelopment.bo.MailType;
 import org.kuali.kra.test.infrastructure.KcUnitTestBase;
-import org.kuali.rice.kns.bo.Parameter;
-import org.kuali.rice.kns.dao.BusinessObjectDao;
+import org.kuali.rice.core.api.datetime.DateTimeService;
+import org.kuali.rice.coreservice.api.parameter.Parameter;
 import org.kuali.rice.kns.service.DataDictionaryService;
-import org.kuali.rice.kns.service.DateTimeService;
-import org.kuali.rice.kns.service.ParameterService;
+import org.kuali.rice.krad.dao.BusinessObjectDao;
+import org.kuali.rice.krad.service.KRADServiceLocatorWeb;
+import org.kuali.rice.krad.service.LookupService;
 
 /**
  * This class tests the KraServiceLocator
- */
+ */ 
 public class KraServiceLocatorTest extends KcUnitTestBase {
 
-    private ParameterService parameterService;
+    private LookupService lookupService;
     
     @Before
     public void setUpServices() {
-        this.parameterService = KraServiceLocator.getService(ParameterService.class);
+        this.lookupService = KRADServiceLocatorWeb.getLookupService();
     }
     
     @Test public void testGetDataDictionaryService() throws Exception {
@@ -77,8 +77,8 @@ public class KraServiceLocatorTest extends KcUnitTestBase {
         criteria.put("parameterNamespaceCode", MODULE_NAMESPACE_PROPOSAL_DEVELOPMENT);
         criteria.put("parameterDetailTypeCode", DOCUMENT_COMPONENT);
 
-        List<Parameter> parameters = this.parameterService.retrieveParametersGivenLookupCriteria(criteria);
-        assertNotNull(parameters);
+        Collection<Parameter> parameters = lookupService.findCollectionBySearch(Parameter.class, criteria);
+        assertNotNull(parameters); 
         assertTrue(parameters.size() > 1);
     }
 

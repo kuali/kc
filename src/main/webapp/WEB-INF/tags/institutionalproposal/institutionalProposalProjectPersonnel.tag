@@ -16,7 +16,6 @@
 <%@ include file="/WEB-INF/jsp/kraTldHeader.jsp"%>
 
 <%-- member of InstitutionalProposalContacts.jsp --%>
-<script src="scripts/jquery/jquery.js"></script>
 <script type="text/javascript">
   $jq = jQuery.noConflict();
 </script>

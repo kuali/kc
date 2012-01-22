@@ -19,15 +19,14 @@ import java.sql.Date;
 import java.sql.Timestamp;
 import java.text.SimpleDateFormat;
 import java.util.ArrayList;
-import java.util.LinkedHashMap;
 import java.util.List;
 
 import org.kuali.kra.bo.KraPersistableBusinessObjectBase;
 import org.kuali.kra.infrastructure.Constants;
 import org.kuali.kra.infrastructure.KraServiceLocator;
 import org.kuali.kra.irb.correspondence.BatchCorrespondence;
-import org.kuali.rice.kns.service.DateTimeService;
-import org.kuali.rice.kns.service.SequenceAccessorService;
+import org.kuali.rice.core.api.datetime.DateTimeService;
+import org.kuali.rice.krad.service.SequenceAccessorService;
 
 /**
  * 
@@ -36,29 +35,36 @@ import org.kuali.rice.kns.service.SequenceAccessorService;
 public class CommitteeBatchCorrespondence extends KraPersistableBusinessObjectBase implements Comparable<CommitteeBatchCorrespondence> {
 
     private static final long serialVersionUID = 1L;
-    
-    private String committeeBatchCorrespondenceId; 
-    private String committeeId; 
-    private String batchCorrespondenceTypeCode; 
-    private Timestamp batchRunDate; 
-    private Date timeWindowStart; 
+
+    private String committeeBatchCorrespondenceId;
+
+    private String committeeId;
+
+    private String batchCorrespondenceTypeCode;
+
+    private Timestamp batchRunDate;
+
+    private Date timeWindowStart;
+
     private Date timeWindowEnd;
-    
+
     private List<CommitteeBatchCorrespondenceDetail> committeeBatchCorrespondenceDetails;
-    
-    private BatchCorrespondence batchCorrespondence; 
+
+    private BatchCorrespondence batchCorrespondence;
+
     private Committee committee;
-    
+
     private transient int finalActionCounter;
+
     private transient DateTimeService dateTimeService;
-    
+
     /**
      * Constructs a CommitteeBatchCorrespondence.java.
      */
     public CommitteeBatchCorrespondence() {
         setCommitteeBatchCorrespondenceDetails(new ArrayList<CommitteeBatchCorrespondenceDetail>());
-    } 
-    
+    }
+
     /**
      * Constructs a CommitteeBatchCorrespondence.java for a new request.
      * (The committeeBatchCorrespondenceId is set to the next SEQ_COMMITTEE_ID sequence number and 
@@ -70,16 +76,15 @@ public class CommitteeBatchCorrespondence extends KraPersistableBusinessObjectBa
      */
     public CommitteeBatchCorrespondence(String batchCorrespondenceTypeCode, String committeeId, Date startDate, Date endDate) {
         this();
-        setCommitteeBatchCorrespondenceId(KraServiceLocator.getService(SequenceAccessorService.class)
-                .getNextAvailableSequenceNumber("SEQ_COMMITTEE_ID").toString());
+        setCommitteeBatchCorrespondenceId(KraServiceLocator.getService(SequenceAccessorService.class).getNextAvailableSequenceNumber("SEQ_COMMITTEE_ID").toString());
         setCommitteeId(committeeId);
         setBatchCorrespondenceTypeCode(batchCorrespondenceTypeCode);
         setBatchRunDate(getDateTimeService().getCurrentTimestamp());
         setTimeWindowStart(startDate);
         setTimeWindowEnd(endDate);
         setFinalActionCounter(0);
-    } 
-    
+    }
+
     public String getCommitteeBatchCorrespondenceId() {
         return committeeBatchCorrespondenceId;
     }
@@ -111,11 +116,11 @@ public class CommitteeBatchCorrespondence extends KraPersistableBusinessObjectBa
     public void setBatchRunDate(Timestamp batchRunDate) {
         this.batchRunDate = batchRunDate;
     }
-    
+
     public String getFormattedBatchRunDate() {
         return new SimpleDateFormat(Constants.DEFAULT_DATE_FORMAT_PATTERN).format(batchRunDate);
     }
-    
+
     public String getFormattedBatchRunTime() {
         return new SimpleDateFormat(Constants.DEFAULT_TIME_FORMAT_PATTERN).format(batchRunDate);
     }
@@ -168,51 +173,34 @@ public class CommitteeBatchCorrespondence extends KraPersistableBusinessObjectBa
         this.committee = committee;
     }
 
-    /** {@inheritDoc} */
-    @Override 
-    protected LinkedHashMap<String, Object> toStringMapper() {
-        LinkedHashMap<String, Object> hashMap = new LinkedHashMap<String, Object>();
-        hashMap.put("committeeBatchCorrespondenceId", this.getCommitteeBatchCorrespondenceId());
-        hashMap.put("committeeId", this.getCommitteeId());
-        hashMap.put("batchCorrespondenceTypeCode", this.getBatchCorrespondenceTypeCode());
-        hashMap.put("batchRunDate", this.getBatchRunDate());
-        hashMap.put("timeWindowStart", this.getTimeWindowStart());
-        hashMap.put("timeWindowEnd", this.getTimeWindowEnd());
-        return hashMap;
-    }
-    
     public int compareTo(CommitteeBatchCorrespondence arg) {
         int timeWindowStartDiff = this.getTimeWindowStart().compareTo(arg.getTimeWindowStart());
         if (timeWindowStartDiff != 0) {
             return timeWindowStartDiff;
         }
-        
         int timeWindowEndDiff = this.getTimeWindowEnd().compareTo(arg.getTimeWindowEnd());
         if (timeWindowEndDiff != 0) {
             return timeWindowEndDiff;
         }
-        
         int batchRunDateDiff = this.getBatchRunDate().compareTo(arg.getBatchRunDate());
         if (batchRunDateDiff != 0) {
             return batchRunDateDiff;
         }
-        
         return this.getCommitteeBatchCorrespondenceId().compareTo(arg.getCommitteeBatchCorrespondenceId());
     }
 
     public int getFinalActionCounter() {
         return finalActionCounter;
     }
-    
+
     public void setFinalActionCounter(int finalActionCounter) {
         this.finalActionCounter = finalActionCounter;
     }
-    
+
     private DateTimeService getDateTimeService() {
         if (this.dateTimeService == null) {
             dateTimeService = KraServiceLocator.getService(DateTimeService.class);
         }
         return this.dateTimeService;
     }
-
 }

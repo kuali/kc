@@ -41,13 +41,13 @@ import org.kuali.kra.irb.protocol.research.ProtocolResearchArea;
 import org.kuali.kra.irb.specialreview.ProtocolSpecialReview;
 import org.kuali.kra.service.KraAuthorizationService;
 import org.kuali.kra.service.SystemAuthorizationService;
-import org.kuali.rice.kim.bo.Role;
-import org.kuali.rice.kns.bo.DocumentHeader;
-import org.kuali.rice.kns.service.DocumentService;
-import org.kuali.rice.kns.service.KNSServiceLocator;
-import org.kuali.rice.kns.service.SequenceAccessorService;
-import org.kuali.rice.kns.util.GlobalVariables;
-import org.kuali.rice.kns.util.ObjectUtils;
+import org.kuali.rice.kim.api.role.Role;
+import org.kuali.rice.krad.bo.DocumentHeader;
+import org.kuali.rice.krad.service.DocumentService;
+import org.kuali.rice.krad.service.KRADServiceLocatorWeb;
+import org.kuali.rice.krad.service.SequenceAccessorService;
+import org.kuali.rice.krad.util.GlobalVariables;
+import org.kuali.rice.krad.util.ObjectUtils;
 
 /**
  * The Protocol Copy Service creates a new Protocol Document
@@ -153,7 +153,7 @@ public class ProtocolCopyServiceImpl implements ProtocolCopyService {
      * @throws Exception
      */
     protected ProtocolDocument createNewProtocol(ProtocolDocument srcDoc, String protocolNumber, boolean isAmendmentRenewal) throws Exception {
-        DocumentService docService = KNSServiceLocator.getDocumentService();
+        DocumentService docService = KRADServiceLocatorWeb.getDocumentService();
         ProtocolDocument newDoc = (ProtocolDocument) docService.getNewDocument(srcDoc.getClass());
             
         newDoc.getProtocol().setProtocolNumber(protocolNumber);
@@ -307,10 +307,10 @@ public class ProtocolCopyServiceImpl implements ProtocolCopyService {
    
         List<Role> roles = systemAuthorizationService.getRoles(RoleConstants.PROTOCOL_ROLE_TYPE);
         for (Role role : roles) {
-            List<KcPerson> persons = kraAuthorizationService.getPersonsInRole(srcDoc.getProtocol(), role.getRoleName());
+            List<KcPerson> persons = kraAuthorizationService.getPersonsInRole(srcDoc.getProtocol(), role.getName());
             for (KcPerson person : persons) {
                 if (!StringUtils.equals(person.getPersonId(), userId)) {
-                    kraAuthorizationService.addRole(person.getPersonId(), role.getRoleName(), destDoc.getProtocol()); 
+                    kraAuthorizationService.addRole(person.getPersonId(), role.getName(), destDoc.getProtocol()); 
                 }
             }
         }

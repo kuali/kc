@@ -1,9 +1,9 @@
 package org.kuali.kra.dao;
 
-import org.kuali.kra.common.printing.CurrentReportBean;
-import org.kuali.rice.kew.exception.WorkflowException;
-
 import java.util.List;
+
+import org.kuali.kra.common.printing.CurrentReportBean;
+import org.kuali.rice.kew.api.exception.WorkflowException;
 
 /**
  * Contract for current support DAO

@@ -30,9 +30,9 @@ import org.kuali.kra.common.notification.service.KcNotificationService;
 import org.kuali.kra.infrastructure.KraServiceLocator;
 import org.kuali.kra.service.KcPersonService;
 import org.kuali.kra.service.RolodexService;
-import org.kuali.rice.kim.bo.Role;
-import org.kuali.rice.kim.service.KIMServiceLocator;
-import org.kuali.rice.kim.service.RoleService;
+import org.kuali.rice.kim.api.role.Role;
+import org.kuali.rice.kim.api.role.RoleService;
+import org.kuali.rice.kim.api.services.KimApiServiceLocator;
 
 /**
  * Defines the base helper for sending ad-hoc notifications.
@@ -170,7 +170,7 @@ public class NotificationHelper<T extends NotificationContext> implements Serial
     public void prepareView() {        
         if (StringUtils.isNotBlank(getNewRoleId())) {
             Role role = getRoleService().getRole(getNewRoleId());
-            String roleName = role.getNamespaceCode() + ":" + role.getRoleName();
+            String roleName = role.getNamespaceCode() + ":" + role.getName();
             getNewNotificationRecipient().setRoleName(roleName);
             getNewNotificationRecipient().setPersonId(null);
             getNewNotificationRecipient().setRolodexId(null);
@@ -253,7 +253,7 @@ public class NotificationHelper<T extends NotificationContext> implements Serial
 
     public RoleService getRoleService() {
         if (roleService == null) {
-            roleService = KIMServiceLocator.getRoleService();
+            roleService = KimApiServiceLocator.getRoleService();
         }
         return roleService;
     }

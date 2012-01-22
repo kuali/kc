@@ -38,7 +38,7 @@
 <kra-pd:proposalDevelopmentRequiredFields />
 <kra-pd:proposalDevelopmentSponsorProgramInformation />
 <kra-pd:proposalDevelopmentOrganizationAndLocation />
-<c:if test="${KualiForm.proposalDevelopmentParameters['deliveryInfoDisplayIndicator'].parameterValue == 'Y'}">
+<c:if test="${KualiForm.proposalDevelopmentParameters['deliveryInfoDisplayIndicator'].value == 'Y'}">
    <kra-pd:proposalDevelopmentDeliveryInfo />
 </c:if>
 
@@ -49,7 +49,6 @@
 <kul:panelFooter />
 <kul:documentControls transactionalDocument="true" suppressRoutingControls="true" suppressCancelButton="true" />
 
-<script src="scripts/jquery/jquery.js"></script>
 <SCRIPT type="text/javascript">
 var kualiForm = document.forms['KualiForm'];
 var kualiElements = kualiForm.elements;

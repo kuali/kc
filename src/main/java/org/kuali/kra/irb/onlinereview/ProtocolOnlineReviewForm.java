@@ -15,11 +15,11 @@
  */
 package org.kuali.kra.irb.onlinereview;
 
-import java.util.ArrayList;
-import java.util.Arrays;
 import java.util.HashMap;
+import java.util.HashSet;
 import java.util.List;
 import java.util.Map;
+import java.util.Set;
 
 import javax.servlet.http.HttpServletRequest;
 
@@ -40,13 +40,13 @@ import org.kuali.kra.service.KraAuthorizationService;
 import org.kuali.kra.service.TaskAuthorizationService;
 import org.kuali.kra.web.struts.form.Auditable;
 import org.kuali.kra.web.struts.form.KraTransactionalDocumentFormBase;
-import org.kuali.rice.kew.exception.WorkflowException;
-import org.kuali.rice.kns.document.Document;
+import org.kuali.rice.core.api.config.property.ConfigurationService;
+import org.kuali.rice.kew.api.WorkflowDocument;
 import org.kuali.rice.kns.service.DataDictionaryService;
-import org.kuali.rice.kns.service.KualiConfigurationService;
-import org.kuali.rice.kns.util.GlobalVariables;
 import org.kuali.rice.kns.web.ui.ExtraButton;
-import org.kuali.rice.kns.workflow.service.KualiWorkflowDocument;
+import org.kuali.rice.krad.document.Document;
+import org.kuali.rice.krad.service.KRADServiceLocator;
+import org.kuali.rice.krad.util.GlobalVariables;
 
 /**
  * This class...
@@ -116,7 +116,7 @@ public class ProtocolOnlineReviewForm extends KraTransactionalDocumentFormBase i
     }
     
     @Override
-    public void populateHeaderFields(KualiWorkflowDocument workflowDocument) {
+    public void populateHeaderFields(WorkflowDocument workflowDocument) {
         super.populateHeaderFields(workflowDocument);
     }
 
@@ -182,9 +182,9 @@ public class ProtocolOnlineReviewForm extends KraTransactionalDocumentFormBase i
         TaskAuthorizationService tas = KraServiceLocator.getService(TaskAuthorizationService.class);
                
         if( tas.isAuthorized(GlobalVariables.getUserSession().getPrincipalId(), new ProtocolOnlineReviewTask("rejectProtocolOnlineReview",doc))
-                && doc.getDocumentHeader().getWorkflowDocument().stateIsEnroute()
+                && doc.getDocumentHeader().getWorkflowDocument().isEnroute()
                 && ProtocolOnlineReviewStatus.FINAL_STATUS_CD.equals(doc.getProtocolOnlineReview().getProtocolOnlineReviewStatusCode())) {
-            String resubmissionImage = KraServiceLocator.getService(KualiConfigurationService.class).getPropertyString(externalImageURL) + "buttonsmall_return_to_reviewer.gif";
+            String resubmissionImage = KRADServiceLocator.getKualiConfigurationService().getPropertyValueAsString(externalImageURL) + "buttonsmall_return_to_reviewer.gif";
             addExtraButton("methodToCall.rejectOnlineReview", resubmissionImage, "Return to reviewer");
         }
         
@@ -220,21 +220,21 @@ public class ProtocolOnlineReviewForm extends KraTransactionalDocumentFormBase i
         return KraServiceLocator.getService(KraAuthorizationService.class).hasPermission(GlobalVariables.getUserSession().getPrincipalId(), getDocument().getProtocolOnlineReview().getProtocol(),PermissionConstants.MAINTAIN_ONLINE_REVIEWS);
     }
     
-    public List<String> getCurrentRouteNodes() {
-        List<String> nodes;
+    public Set<String> getCurrentRouteNodes() {
+        Set<String> nodes;
         try {
-            nodes = Arrays.asList(getDocument().getDocumentHeader().getWorkflowDocument().getNodeNames());
-        } catch (WorkflowException e) {
+            nodes = getDocument().getDocumentHeader().getWorkflowDocument().getNodeNames();
+        } catch (Exception e) {
             LOG.warn(String.format("Workflow exception thrown while trying to get list of current route nodes. Message:%s",e.getMessage()));
-            nodes = new ArrayList<String>();
+            nodes = new HashSet<String>();
         }
         return nodes;
     }
 
     public String getApproveImageName() {
         //we take the first route node the document is on.
-        List<String> routeNodes = getCurrentRouteNodes();
-        String routeNodeName = routeNodes.size()==0?null:routeNodes.get(0);
+        Set<String> routeNodes = getCurrentRouteNodes();
+        String routeNodeName = routeNodes.size() == 0? null : routeNodes.iterator().next();
         if (routeNodeName!=null) {
             return ONLINE_REVIEW_APPROVE_BUTTON_MAP.get(routeNodeName)!=null?ONLINE_REVIEW_APPROVE_BUTTON_MAP.get(routeNodeName):DEFAULT_APPROVE_BUTTON;
         } else {

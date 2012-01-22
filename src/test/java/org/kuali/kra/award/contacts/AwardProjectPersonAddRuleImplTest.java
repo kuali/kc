@@ -23,8 +23,8 @@ import org.kuali.kra.award.home.Award;
 import org.kuali.kra.bo.KcPerson;
 import org.kuali.kra.bo.KcPersonFixtureFactory;
 import org.kuali.kra.bo.NonOrganizationalRolodex;
-import org.kuali.rice.kns.util.GlobalVariables;
-import org.kuali.rice.kns.util.MessageMap;
+import org.kuali.rice.krad.util.GlobalVariables;
+import org.kuali.rice.krad.util.MessageMap;
 
 /**
  * This class tests AddAwardProjectPersonRuleImpl

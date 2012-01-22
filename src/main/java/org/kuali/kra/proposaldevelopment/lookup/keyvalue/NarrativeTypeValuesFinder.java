@@ -20,8 +20,8 @@ import java.util.List;
 import org.kuali.kra.infrastructure.KraServiceLocator;
 import org.kuali.kra.lookup.keyvalue.KeyValueFinderService;
 import org.kuali.kra.proposaldevelopment.bo.NarrativeType;
-import org.kuali.rice.kns.lookup.keyvalues.KeyValuesBase;
-import org.kuali.rice.core.util.KeyLabelPair;
+import org.kuali.rice.core.api.util.KeyValue;
+import org.kuali.rice.krad.keyvalues.KeyValuesBase;
 /**
  * Finds the available set of supported Narrative Types.  See
  * the method <code>getKeyValues()</code> for a full description.
@@ -37,9 +37,9 @@ public class NarrativeTypeValuesFinder extends KeyValuesBase {
      * 
      * @return the list of &lt;key, value&gt; pairs of Narrative types.  The first entry
      * is always &lt;"", "select:"&gt;.
-     * @see org.kuali.rice.kns.lookup.keyvalues.KeyValuesFinderService#getKeyValues()
+     * @see org.kuali.rice.krad.keyvalues.KeyValuesFinderService#getKeyValues()
      */
-    public List<KeyLabelPair> getKeyValues() {
+    public List<KeyValue> getKeyValues() {
         return keyValueFinderService.getKeyValues(NarrativeType.class, "narrativeTypeCode", "description");
     }
 }

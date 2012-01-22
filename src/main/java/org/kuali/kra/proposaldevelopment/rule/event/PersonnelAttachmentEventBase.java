@@ -19,8 +19,8 @@ import org.apache.commons.lang.StringUtils;
 import org.kuali.kra.proposaldevelopment.bo.ProposalPersonBiography;
 import org.kuali.kra.proposaldevelopment.document.ProposalDevelopmentDocument;
 import org.kuali.kra.rule.event.KraDocumentEventBase;
-import org.kuali.rice.kns.document.Document;
-import org.kuali.rice.kns.util.ObjectUtils;
+import org.kuali.rice.krad.document.Document;
+import org.kuali.rice.krad.util.ObjectUtils;
 
 public abstract class PersonnelAttachmentEventBase extends KraDocumentEventBase implements PersonnelAttachmentEvent {
     private static final org.apache.commons.logging.Log LOG = org.apache.commons.logging.LogFactory
@@ -61,7 +61,7 @@ public abstract class PersonnelAttachmentEventBase extends KraDocumentEventBase 
     }
 
     /**
-     * @see org.kuali.rice.kns.rule.event.KualiDocumentEvent#validate()
+     * @see org.kuali.rice.krad.rules.rule.event.KualiDocumentEvent#validate()
      */
     public void validate() {
         super.validate();

@@ -15,22 +15,24 @@
  */
 package org.kuali.kra.institutionalproposal;
 
-import java.util.LinkedHashMap;
-
 import org.kuali.kra.bo.KraPersistableBusinessObjectBase;
 import org.kuali.kra.institutionalproposal.home.InstitutionalProposal;
 import org.kuali.kra.institutionalproposal.ipreview.IntellectualPropertyReview;
 
 public class ProposalIpReviewJoin extends KraPersistableBusinessObjectBase {
-    
+
     private static final long serialVersionUID = 1L;
-    
+
     private Long proposalIpReviewJoinId;
+
     private Long proposalId;
+
     private Long ipReviewId;
+
     private InstitutionalProposal institutionalProposal;
+
     private IntellectualPropertyReview intellectualPropertyReview;
-    
+
     public Long getProposalIpReviewJoinId() {
         return proposalIpReviewJoinId;
     }
@@ -38,7 +40,7 @@ public class ProposalIpReviewJoin extends KraPersistableBusinessObjectBase {
     public void setProposalIpReviewJoinId(Long proposalIpReviewJoinId) {
         this.proposalIpReviewJoinId = proposalIpReviewJoinId;
     }
-    
+
     public Long getProposalId() {
         return proposalId;
     }
@@ -70,13 +72,4 @@ public class ProposalIpReviewJoin extends KraPersistableBusinessObjectBase {
     public void setIntellectualPropertyReview(IntellectualPropertyReview intellectualPropertyReview) {
         this.intellectualPropertyReview = intellectualPropertyReview;
     }
-
-    /** {@inheritDoc} */
-    @Override 
-    protected LinkedHashMap<String, Object> toStringMapper() {
-        LinkedHashMap<String, Object> hashMap = new LinkedHashMap<String, Object>();
-        hashMap.put("proposalIpReviewJoinId", this.getProposalIpReviewJoinId());
-        return hashMap;
-    }
-    
 }

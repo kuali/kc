@@ -15,8 +15,6 @@
  */
 package org.kuali.kra.award.paymentreports.closeout;
 
-import static org.junit.Assert.fail;
-
 import java.util.ArrayList;
 import java.util.List;
 
@@ -24,8 +22,8 @@ import org.junit.After;
 import org.junit.Assert;
 import org.junit.Before;
 import org.junit.Test;
-import org.kuali.rice.kns.util.ErrorMap;
-import org.kuali.rice.kns.util.GlobalVariables;
+import org.kuali.rice.krad.util.GlobalVariables;
+import org.kuali.rice.krad.util.MessageMap;
 
 /**
  * 
@@ -57,7 +55,7 @@ public class AwardCloseoutRuleImplTest {
         closeoutItem.setCloseoutReportName(CLOSE_OUT_REPORT_NAME);
         closeoutItems = new ArrayList<AwardCloseout>();
         closeoutItems.add(closeoutItem);
-        GlobalVariables.setErrorMap(new ErrorMap());
+        GlobalVariables.setMessageMap(new MessageMap());
     }
 
     /**
@@ -72,7 +70,7 @@ public class AwardCloseoutRuleImplTest {
         closeoutItem = null;
         newCloseoutItem = null;
         closeoutItems = null;
-        GlobalVariables.setErrorMap(null);
+        GlobalVariables.setMessageMap(null);
     }
 
     /**

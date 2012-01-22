@@ -15,31 +15,40 @@
  */
 package org.kuali.kra.irb.actions;
 
-import java.util.LinkedHashMap;
-
 import org.kuali.kra.bo.KraPersistableBusinessObjectBase;
 import org.kuali.kra.irb.Protocol;
 import org.kuali.kra.irb.actions.submit.ProtocolSubmission;
 
 @SuppressWarnings("serial")
 public class ProtocolSubmissionDoc extends KraPersistableBusinessObjectBase {
-    
+
     private Long submissionDocId;
-    private String protocolNumber; 
+
+    private String protocolNumber;
+
     private Integer sequenceNumber;
+
     private Integer submissionNumber;
+
     private Integer documentId;
+
     private Long protocolId;
+
     private Long submissionIdFk;
+
     private String fileName;
+
     private byte[] document;
+
     private Protocol protocol;
+
     private String description;
+
     private String contentType;
-    private ProtocolSubmission protocolSubmission;    
-    
+
+    private ProtocolSubmission protocolSubmission;
+
     public ProtocolSubmissionDoc() {
-        
     }
 
     public Long getSubmissionDocId() {
@@ -128,22 +137,6 @@ public class ProtocolSubmissionDoc extends KraPersistableBusinessObjectBase {
 
     public void setProtocolSubmission(ProtocolSubmission protocolSubmission) {
         this.protocolSubmission = protocolSubmission;
-    }
-    
-    /** {@inheritDoc} */
-    @Override 
-    protected LinkedHashMap<String, Object> toStringMapper() {
-        LinkedHashMap<String, Object> hashMap = new LinkedHashMap<String, Object>();
-        hashMap.put("submissionDocId", getSubmissionDocId());
-        hashMap.put("protocolNumber", getProtocolNumber());
-        hashMap.put("sequenceNumber", getSequenceNumber());
-        hashMap.put("submissionNumber", getSubmissionNumber());
-        hashMap.put("protocolId", getProtocolId());
-        hashMap.put("submissionIdFk", getSubmissionIdFk());
-        hashMap.put("documentId", getDocumentId());
-        hashMap.put("fileName", getFileName());
-        hashMap.put("document", getDocument());
-        return hashMap;
     }
 
     public String getDescription() {

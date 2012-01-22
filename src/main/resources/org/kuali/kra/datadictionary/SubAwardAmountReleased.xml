@@ -62,7 +62,7 @@
       
  	<bean id="SubAwardAmountReleased-subAwardId" parent="SubAwardAmountReleased-subAwardId-parentBean" />
   <bean id="SubAwardAmountReleased-subAwardId-parentBean" abstract="true" parent="AttributeDefinition">
-       <property name="name" value="SubAwardId" />
+       <property name="name" value="subAwardId" />
     <property name="forceUppercase" value="false" />
     <property name="label" value="SubAward Id" />
     <property name="shortLabel" value="SubAward Id" />
@@ -401,7 +401,7 @@
           <property name="inquiryFields" >
             <list>
               <bean parent="FieldDefinition"
-                    p:attributeName="SubAwardAmtReleasedId"
+                    p:attributeName="subAwardAmtReleasedId"
                     p:forceInquiry="true" />             
             </list>
           </property>

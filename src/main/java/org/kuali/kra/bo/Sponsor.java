@@ -15,147 +15,164 @@
  */
 package org.kuali.kra.bo;
 
-import java.util.LinkedHashMap;
 
 /**
  * Class representing a Sponsor Business Object
  */
 public class Sponsor extends KraPersistableBusinessObjectBase {
-	private String sponsorCode;
-	private String acronym;
-	private String auditReportSentForFy;
-	private String cageNumber;
-	private String countryCode;
-	private String dodacNumber;
-	private String dunAndBradstreetNumber;
-	private String dunsPlusFourNumber;
-	private String ownedByUnit;
-	private String postalCode;
-	private Integer rolodexId;
-	private String sponsorName;
-	private String sponsorTypeCode;
-	private String state;
-	private String createUser;
+
+    private String sponsorCode;
+
+    private String acronym;
+
+    private String auditReportSentForFy;
+
+    private String cageNumber;
+
+    private String countryCode;
+
+    private String dodacNumber;
+
+    private String dunAndBradstreetNumber;
+
+    private String dunsPlusFourNumber;
+
+    private String ownedByUnit;
+
+    private String postalCode;
+
+    private Integer rolodexId;
+
+    private String sponsorName;
+
+    private String sponsorTypeCode;
+
+    private String state;
+
+    private String createUser;
+
     private SponsorType sponsorType;
 
     private Unit unit;
+
     private Rolodex rolodex;
 
-    public Sponsor(){
+    public Sponsor() {
         super();
         setCreateUser(getUpdateUser());
     }
-	public String getSponsorCode() {
-		return sponsorCode;
-	}
 
-	public void setSponsorCode(String sponsorCode) {
-		this.sponsorCode = sponsorCode;
-	}
+    public String getSponsorCode() {
+        return sponsorCode;
+    }
 
-	public String getAcronym() {
-		return acronym;
-	}
+    public void setSponsorCode(String sponsorCode) {
+        this.sponsorCode = sponsorCode;
+    }
 
-	public void setAcronym(String acronym) {
-		this.acronym = acronym;
-	}
+    public String getAcronym() {
+        return acronym;
+    }
 
-	public String getAuditReportSentForFy() {
-		return auditReportSentForFy;
-	}
+    public void setAcronym(String acronym) {
+        this.acronym = acronym;
+    }
 
-	public void setAuditReportSentForFy(String auditReportSentForFy) {
-		this.auditReportSentForFy = auditReportSentForFy;
-	}
+    public String getAuditReportSentForFy() {
+        return auditReportSentForFy;
+    }
 
-	public String getCageNumber() {
-		return cageNumber;
-	}
+    public void setAuditReportSentForFy(String auditReportSentForFy) {
+        this.auditReportSentForFy = auditReportSentForFy;
+    }
 
-	public void setCageNumber(String cageNumber) {
-		this.cageNumber = cageNumber;
-	}
+    public String getCageNumber() {
+        return cageNumber;
+    }
 
-	public String getCountryCode() {
-		return countryCode;
-	}
+    public void setCageNumber(String cageNumber) {
+        this.cageNumber = cageNumber;
+    }
 
-	public void setCountryCode(String countryCode) {
-		this.countryCode = countryCode;
-	}
+    public String getCountryCode() {
+        return countryCode;
+    }
 
-	public String getDodacNumber() {
-		return dodacNumber;
-	}
+    public void setCountryCode(String countryCode) {
+        this.countryCode = countryCode;
+    }
 
-	public void setDodacNumber(String dodacNumber) {
-		this.dodacNumber = dodacNumber;
-	}
+    public String getDodacNumber() {
+        return dodacNumber;
+    }
 
-	public String getDunAndBradstreetNumber() {
-		return dunAndBradstreetNumber;
-	}
+    public void setDodacNumber(String dodacNumber) {
+        this.dodacNumber = dodacNumber;
+    }
 
-	public void setDunAndBradstreetNumber(String dunAndBradstreetNumber) {
-		this.dunAndBradstreetNumber = dunAndBradstreetNumber;
-	}
+    public String getDunAndBradstreetNumber() {
+        return dunAndBradstreetNumber;
+    }
 
-	public String getDunsPlusFourNumber() {
-		return dunsPlusFourNumber;
-	}
+    public void setDunAndBradstreetNumber(String dunAndBradstreetNumber) {
+        this.dunAndBradstreetNumber = dunAndBradstreetNumber;
+    }
 
-	public void setDunsPlusFourNumber(String dunsPlusFourNumber) {
-		this.dunsPlusFourNumber = dunsPlusFourNumber;
-	}
+    public String getDunsPlusFourNumber() {
+        return dunsPlusFourNumber;
+    }
 
-	public String getOwnedByUnit() {
-		return ownedByUnit;
-	}
+    public void setDunsPlusFourNumber(String dunsPlusFourNumber) {
+        this.dunsPlusFourNumber = dunsPlusFourNumber;
+    }
 
-	public void setOwnedByUnit(String ownedByUnit) {
-		this.ownedByUnit = ownedByUnit;
-	}
+    public String getOwnedByUnit() {
+        return ownedByUnit;
+    }
 
-	public String getPostalCode() {
-		return postalCode;
-	}
+    public void setOwnedByUnit(String ownedByUnit) {
+        this.ownedByUnit = ownedByUnit;
+    }
 
-	public void setPostalCode(String postalCode) {
-		this.postalCode = postalCode;
-	}
+    public String getPostalCode() {
+        return postalCode;
+    }
 
-	public Integer getRolodexId() {
-		return rolodexId;
-	}
+    public void setPostalCode(String postalCode) {
+        this.postalCode = postalCode;
+    }
 
-	public void setRolodexId(Integer rolodexId) {
-		this.rolodexId = rolodexId;
-	}
+    public Integer getRolodexId() {
+        return rolodexId;
+    }
 
-	public String getSponsorName() {
-		return sponsorName;
-	}
+    public void setRolodexId(Integer rolodexId) {
+        this.rolodexId = rolodexId;
+    }
 
-	public void setSponsorName(String sponsorName) {
-		this.sponsorName = sponsorName;
-	}
+    public String getSponsorName() {
+        return sponsorName;
+    }
 
-	public String getSponsorTypeCode() {
-		return sponsorTypeCode;
-	}
+    public void setSponsorName(String sponsorName) {
+        this.sponsorName = sponsorName;
+    }
 
-	public void setSponsorTypeCode(String sponsorTypeCode) {
-		this.sponsorTypeCode = sponsorTypeCode;
-	}
+    public String getSponsorTypeCode() {
+        return sponsorTypeCode;
+    }
 
-	public String getState() {
-		return state;
-	}
+    public void setSponsorTypeCode(String sponsorTypeCode) {
+        this.sponsorTypeCode = sponsorTypeCode;
+    }
 
-	public void setState(String state) {
-		this.state = state;
-	}
+    public String getState() {
+        return state;
+    }
+
+    public void setState(String state) {
+        this.state = state;
+    }
 
     /**
      * Unit reference referred by {@link #getOwnedByUnit()}
@@ -175,27 +192,6 @@ public class Sponsor extends KraPersistableBusinessObjectBase {
         return unit;
     }
 
-
-	@Override 
-	protected LinkedHashMap toStringMapper() {
-		LinkedHashMap hashMap = new LinkedHashMap();
-		hashMap.put("sponsorCode", getSponsorCode());
-		hashMap.put("acronym", getAcronym());
-		hashMap.put("auditReportSentForFy", getAuditReportSentForFy());
-		hashMap.put("cageNumber", getCageNumber());
-		hashMap.put("countryCode", getCountryCode());
-		hashMap.put("dodacNumber", getDodacNumber());
-		hashMap.put("dunAndBradstreetNumber", getDunAndBradstreetNumber());
-		hashMap.put("dunsPlusFourNumber", getDunsPlusFourNumber());
-		hashMap.put("ownedByUnit", getOwnedByUnit());
-		hashMap.put("postalCode", getPostalCode());
-		hashMap.put("rolodexId", getRolodexId());
-		hashMap.put("sponsorName", getSponsorName());
-		hashMap.put("sponsorTypeCode", getSponsorTypeCode());
-		hashMap.put("state", getState());
-		return hashMap;
-	}
-
     public SponsorType getSponsorType() {
         return sponsorType;
     }
@@ -211,8 +207,8 @@ public class Sponsor extends KraPersistableBusinessObjectBase {
     public void setCreateUser(String createUser) {
         this.createUser = createUser;
     }
-    
-    @Override 
+
+    @Override
     public void setUpdateUser(String updateUser) {
         super.setUpdateUser(updateUser);
         setCreateUser(updateUser);
@@ -221,6 +217,7 @@ public class Sponsor extends KraPersistableBusinessObjectBase {
     public Rolodex getRolodex() {
         return rolodex;
     }
+
     public void setRolodex(Rolodex rolodex) {
         this.rolodex = rolodex;
     }

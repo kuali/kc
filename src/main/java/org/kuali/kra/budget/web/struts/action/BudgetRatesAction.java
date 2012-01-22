@@ -15,7 +15,7 @@
  */
 package org.kuali.kra.budget.web.struts.action;
 
-import static org.kuali.rice.kns.util.KNSConstants.QUESTION_INST_ATTRIBUTE_NAME;
+import static org.kuali.rice.krad.util.KRADConstants.QUESTION_INST_ATTRIBUTE_NAME;
 
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
@@ -35,9 +35,8 @@ import org.kuali.kra.budget.web.struts.form.BudgetForm;
 import org.kuali.kra.infrastructure.Constants;
 import org.kuali.kra.infrastructure.KeyConstants;
 import org.kuali.kra.infrastructure.KraServiceLocator;
-import org.kuali.kra.proposaldevelopment.bo.DevelopmentProposal;
 import org.kuali.kra.web.struts.action.StrutsConfirmation;
-import org.kuali.rice.kns.util.GlobalVariables;
+import org.kuali.rice.kns.util.KNSGlobalVariables;
 import org.kuali.rice.kns.web.struts.form.KualiForm;
 
 public class BudgetRatesAction extends BudgetAction {
@@ -56,8 +55,8 @@ public class BudgetRatesAction extends BudgetAction {
         BudgetDocument budgetDocument = budgetForm.getDocument();
         Budget budget = budgetDocument.getBudget();
         // Temporary fix to resolve budget form NULL issue
-        if(GlobalVariables.getKualiForm() == null) {
-            GlobalVariables.setKualiForm((KualiForm)form);
+        if(KNSGlobalVariables.getKualiForm() == null) {
+            KNSGlobalVariables.setKualiForm((KualiForm)form);
         }
         budget.setRateSynced(false);
         

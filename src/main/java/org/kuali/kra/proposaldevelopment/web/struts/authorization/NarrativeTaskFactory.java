@@ -21,11 +21,8 @@ import org.apache.commons.lang.StringUtils;
 import org.apache.struts.action.ActionForm;
 import org.kuali.kra.authorization.Task;
 import org.kuali.kra.infrastructure.TaskGroupName;
-import org.kuali.kra.proposaldevelopment.bo.Narrative;
-import org.kuali.kra.proposaldevelopment.document.authorization.NarrativeTask;
-import org.kuali.kra.proposaldevelopment.web.struts.form.ProposalDevelopmentForm;
 import org.kuali.kra.web.struts.authorization.impl.WebTaskFactoryImpl;
-import org.kuali.rice.kns.util.KNSConstants;
+import org.kuali.rice.krad.util.KRADConstants;
 
 /**
  * Narrative Task Factory is used to create a Narrative Task.  The derived
@@ -77,7 +74,7 @@ public abstract class NarrativeTaskFactory extends WebTaskFactoryImpl {
      */
     private int getSelectedLine(HttpServletRequest request) {
         int selectedLine = -1;
-        String parameterName = (String) request.getAttribute(KNSConstants.METHOD_TO_CALL_ATTRIBUTE);
+        String parameterName = (String) request.getAttribute(KRADConstants.METHOD_TO_CALL_ATTRIBUTE);
         if (StringUtils.isNotBlank(parameterName)) {
             String lineNumber = StringUtils.substringBetween(parameterName, ".line", ".");
             selectedLine = Integer.parseInt(lineNumber);

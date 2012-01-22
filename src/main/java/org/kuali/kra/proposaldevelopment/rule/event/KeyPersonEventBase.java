@@ -16,10 +16,10 @@
 package org.kuali.kra.proposaldevelopment.rule.event;
 
 import org.apache.commons.lang.StringUtils;
-import org.kuali.kra.rule.event.KraDocumentEventBase;
-import org.kuali.rice.kns.util.ObjectUtils;
 import org.kuali.kra.proposaldevelopment.bo.ProposalPerson;
 import org.kuali.kra.proposaldevelopment.document.ProposalDevelopmentDocument;
+import org.kuali.kra.rule.event.KraDocumentEventBase;
+import org.kuali.rice.krad.util.ObjectUtils;
 
 
 /**
@@ -59,7 +59,7 @@ public abstract class KeyPersonEventBase extends KraDocumentEventBase implements
     }
 
     /**
-     * @see org.kuali.rice.kns.rule.event.KualiDocumentEvent#validate()
+     * @see org.kuali.rice.krad.rules.rule.event.KualiDocumentEvent#validate()
      */
     public void validate() {
         super.validate();

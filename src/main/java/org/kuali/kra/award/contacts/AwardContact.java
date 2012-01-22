@@ -16,7 +16,6 @@
 package org.kuali.kra.award.contacts;
 
 import java.util.HashMap;
-import java.util.LinkedHashMap;
 import java.util.Map;
 
 import org.kuali.kra.award.AwardAssociate;
@@ -29,47 +28,53 @@ import org.kuali.kra.bo.KcPerson;
 import org.kuali.kra.bo.NonOrganizationalRolodex;
 import org.kuali.kra.infrastructure.KraServiceLocator;
 import org.kuali.kra.service.KcPersonService;
-import org.kuali.rice.kns.service.BusinessObjectService;
+import org.kuali.rice.krad.service.BusinessObjectService;
 
 /**
  * This class defines an AwardContact
  */
 public abstract class AwardContact extends AwardAssociate {
+
     private static final String ROLODEX_ID_FIELD_NAME = "rolodexId";
+
     private static final String PERSON_ID_FIELD_NAME = "personId";
 
     private static final long serialVersionUID = 4386300861743037298L;
-    
+
     /**
      * These field are OJB hacks. Because anonymous access wouldn't work for more than one field, the Award,
      * we need to provide real fields to be persisted
      */
-    @AwardSyncableProperty(key=true)
+    @AwardSyncableProperty(key = true)
     protected String personId;
-    
-    @AwardSyncableProperty(key=true)
-    @AwardSyncable( scopes = {AwardTemplateSyncScope.CONTAINING_CLASS_INHERIT }) 
+
+    @AwardSyncableProperty(key = true)
+    @AwardSyncable(scopes = { AwardTemplateSyncScope.CONTAINING_CLASS_INHERIT })
     protected Integer rolodexId;
-    @AwardSyncableProperty(key=true)
-    @AwardSyncable( scopes = {AwardTemplateSyncScope.CONTAINING_CLASS_INHERIT} ) 
+
+    @AwardSyncableProperty(key = true)
+    @AwardSyncable(scopes = { AwardTemplateSyncScope.CONTAINING_CLASS_INHERIT })
     protected String roleCode;
-    
-    
-    private Long awardContactId;    
+
+    private Long awardContactId;
+
     private ContactRole contactRole;
+
     @AwardSyncableProperty
     private String fullName;
+
     private KcPerson person;
+
     private NonOrganizationalRolodex rolodex;
+
     private transient KcPersonService kcPersonService;
-    
+
     /**
      * Constructor
      */
     public AwardContact() {
-        
     }
-    
+
     /**
      * 
      * Convenience constructor
@@ -119,7 +124,7 @@ public abstract class AwardContact extends AwardAssociate {
                 return false;
             }
         } else {
-            if(getContact().getFullName() == null) {
+            if (getContact().getFullName() == null) {
                 if (other.getContact().getFullName() != null) {
                     return false;
                 }
@@ -144,16 +149,16 @@ public abstract class AwardContact extends AwardAssociate {
      */
     public Contactable getContact() {
         Contactable contact = person != null ? person : (rolodex != null ? rolodex : null);
-        if(contact == null) {
-            if(personId != null) {
+        if (contact == null) {
+            if (personId != null) {
                 refreshPerson();
                 contact = person;
-            } else if(rolodexId != null) {
+            } else if (rolodexId != null) {
                 refreshRolodex();
                 contact = rolodex;
             }
-        }        
-        return contact; 
+        }
+        return contact;
     }
 
     /**
@@ -170,14 +175,14 @@ public abstract class AwardContact extends AwardAssociate {
     public String getGenericId() {
         return rolodexId != null ? rolodexId.toString() : personId;
     }
-    
+
     /**
      * @return
      */
     public String getOrganizationIdentifier() {
         return getContact() != null ? getContact().getOrganizationIdentifier() : null;
     }
-    
+
     /**
      * Gets the contactRole attribute. 
      * @return Returns the contactRole.
@@ -185,7 +190,7 @@ public abstract class AwardContact extends AwardAssociate {
     public ContactRole getContactRole() {
         return contactRole;
     }
-    
+
     /**
      * @return
      */
@@ -217,7 +222,7 @@ public abstract class AwardContact extends AwardAssociate {
         }
         return person;
     }
-    
+
     /**
      * Gets the personId attribute. 
      * @return Returns the personId.
@@ -225,7 +230,7 @@ public abstract class AwardContact extends AwardAssociate {
     public String getPersonId() {
         return personId;
     }
-    
+
     public String getPhoneNumber() {
         return getContact() != null ? getContact().getPhoneNumber() : null;
     }
@@ -245,7 +250,7 @@ public abstract class AwardContact extends AwardAssociate {
     public NonOrganizationalRolodex getRolodex() {
         return rolodex;
     }
-    
+
     /**
      * Gets the rolodexId attribute. 
      * @return Returns the rolodexId.
@@ -273,14 +278,14 @@ public abstract class AwardContact extends AwardAssociate {
     public boolean isEmployee() {
         return getContact() != null && (getContact() instanceof KcPerson);
     }
-       
+
     /**
      * @see org.kuali.kra.Sequenceable#resetPersistenceState()
      */
     public void resetPersistenceState() {
         this.awardContactId = null;
     }
-    
+
     /**
      * Sets the awardContactId attribute value.
      * @param awardContactId The awardContactId to set.
@@ -288,50 +293,46 @@ public abstract class AwardContact extends AwardAssociate {
     public void setAwardContactId(Long awardContactid) {
         this.awardContactId = awardContactid;
     }
-    
+
     /**
      * Sets the contactRole attribute value.
      * @param contactRole The contactRole to set.
      */
     public void setContactRole(ContactRole contactRole) {
         this.contactRole = contactRole;
-        this.roleCode =  contactRole != null ? contactRole.getRoleCode() : null; 
+        this.roleCode = contactRole != null ? contactRole.getRoleCode() : null;
     }
-    
+
     public void setContactRoleCode(String roleCode) {
         this.roleCode = roleCode;
-        refreshContactRole(); 
+        refreshContactRole();
     }
-    
+
     public void setEmailAddress(String emailAddress) {
-        // no-op
     }
-    
+
     public void setFullName(String fullName) {
         this.fullName = fullName;
     }
-    
+
     /**
      * Sets the person attribute value.
      * @param person The person to set.
      */
     public void setPerson(KcPerson person) {
-        if(person != null && person.getPersonId() == null) {
+        if (person != null && person.getPersonId() == null) {
             person = null;
         }
-        
         this.person = person;
-        if(person != null) {
+        if (person != null) {
             this.rolodex = null;
-            this.rolodexId = null;        
-            this.fullName =  person.getFullName();
+            this.rolodexId = null;
+            this.fullName = person.getFullName();
             this.personId = person.getPersonId();
         } else {
-     //       this.fullName =  null;
-     //       this.personId = null;
         }
     }
-    
+
     /**
      * Sets the personId attribute value.
      * @param personId The personId to set.
@@ -340,9 +341,8 @@ public abstract class AwardContact extends AwardAssociate {
         this.personId = personId;
         refreshPerson();
     }
-    
+
     public void setPhoneNumber(String phoneNumber) {
-        // no-op
     }
 
     /**
@@ -359,22 +359,19 @@ public abstract class AwardContact extends AwardAssociate {
      * @param rolodex The rolodex to set.
      */
     public void setRolodex(NonOrganizationalRolodex rolodex) {
-        if(rolodex != null && rolodex.getRolodexId() == null) {
+        if (rolodex != null && rolodex.getRolodexId() == null) {
             rolodex = null;
         }
-        
         this.rolodex = rolodex;
-        if(rolodex != null) {
+        if (rolodex != null) {
             this.person = null;
             this.personId = null;
-            this.fullName =  rolodex.getFullName();
+            this.fullName = rolodex.getFullName();
             this.rolodexId = rolodex.getRolodexId();
         } else {
-  //          this.fullName =  null;
-  //          this.rolodexId = null;
         }
     }
-    
+
     /**
      * Sets the rolodexId attribute value.
      * @param rolodexId The rolodexId to set.
@@ -385,9 +382,8 @@ public abstract class AwardContact extends AwardAssociate {
     }
 
     public void setUnitName(String unitName) {
-        // no-op
     }
-    
+
     /**
      * This method looks up BOS
      * @return
@@ -395,7 +391,7 @@ public abstract class AwardContact extends AwardAssociate {
     protected BusinessObjectService getBusinessObjectService() {
         return (BusinessObjectService) KraServiceLocator.getService(BusinessObjectService.class);
     }
-    
+
     /**
      * Gets the KC Person Service.
      * @return KC Person Service.
@@ -404,45 +400,33 @@ public abstract class AwardContact extends AwardAssociate {
         if (this.kcPersonService == null) {
             this.kcPersonService = KraServiceLocator.getService(KcPersonService.class);
         }
-        
         return this.kcPersonService;
     }
-    
+
     /**
      * This method specifies the actual class implementing ContactRole
      * @return
      */
-    protected abstract Class<?extends ContactRole> getContactRoleType();
-    
+    protected abstract Class<? extends ContactRole> getContactRoleType();
+
     /**
      * This method specifies the identifier of the actual type implementing ContactRole
      * @return
      */
     protected abstract String getContactRoleTypeIdentifier();
-    
+
     /**
      * @see org.kuali.kra.award.contacts.AwardContact#refreshContactRole()
      */
     protected ContactRole refreshContactRole() {
         ContactRole role;
-        if(roleCode != null) {
-            role = (ContactRole) getBusinessObjectService().findByPrimaryKey(getContactRoleType(), 
-                                                                             getIdentifierMap(getContactRoleTypeIdentifier(), roleCode));
+        if (roleCode != null) {
+            role = (ContactRole) getBusinessObjectService().findByPrimaryKey(getContactRoleType(), getIdentifierMap(getContactRoleTypeIdentifier(), roleCode));
         } else {
             role = null;
         }
         setContactRole(role);
         return role;
-    }
-    
-    @Override    
-    protected LinkedHashMap<String,Object> toStringMapper() {
-        LinkedHashMap<String,Object> map = super.toStringMapper();
-        map.put("awardContactId", awardContactId);    
-        map.put("fullName", fullName);
-        map.put("person", person);
-        map.put("rolodex", rolodex);
-        return map;
     }
 
     /**
@@ -456,26 +440,25 @@ public abstract class AwardContact extends AwardAssociate {
         map.put(identifierField, identifierValue);
         return map;
     }
-    
+
     /*
      * Refreshes the person from the personId
      */
     protected void refreshPerson() {
-        if(personId != null) {
-            if(this.person == null || !personId.equals(this.person.getPersonId())) {
+        if (personId != null) {
+            if (this.person == null || !personId.equals(this.person.getPersonId())) {
                 setPerson(getKcPersonService().getKcPersonByPersonId(personId));
             }
         }
     }
-    
+
     /*
      * Refreshes the rolodex from the rolodexId
      */
     protected void refreshRolodex() {
         NonOrganizationalRolodex rolodex;
-        if(rolodexId != null) {
-            rolodex = (NonOrganizationalRolodex) getBusinessObjectService().findByPrimaryKey(NonOrganizationalRolodex.class, 
-                                                                                                getIdentifierMap(ROLODEX_ID_FIELD_NAME, rolodexId));
+        if (rolodexId != null) {
+            rolodex = (NonOrganizationalRolodex) getBusinessObjectService().findByPrimaryKey(NonOrganizationalRolodex.class, getIdentifierMap(ROLODEX_ID_FIELD_NAME, rolodexId));
         } else {
             rolodex = null;
         }

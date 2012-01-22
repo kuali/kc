@@ -15,28 +15,31 @@
  */
 package org.kuali.kra.bo;
 
-import org.kuali.kra.bo.KraPersistableBusinessObjectBase;
 import org.kuali.kra.irb.correspondence.CorrespondentType;
-import java.util.LinkedHashMap;
 
-public class UnitCorrespondent extends KraPersistableBusinessObjectBase { 
-    
+public class UnitCorrespondent extends KraPersistableBusinessObjectBase {
+
     private static final long serialVersionUID = 1L;
 
-    private Integer unitCorrespondentId; 
-    private String unitNumber; 
-    private Integer correspondentTypeCode; 
-    private String personId; 
-    private boolean nonEmployeeFlag; 
-    private String description; 
-    
-    private Unit unit; 
-    private CorrespondentType correspondentType; 
-    
-    public UnitCorrespondent() { 
+    private Integer unitCorrespondentId;
 
-    } 
-    
+    private String unitNumber;
+
+    private Integer correspondentTypeCode;
+
+    private String personId;
+
+    private boolean nonEmployeeFlag;
+
+    private String description;
+
+    private Unit unit;
+
+    private CorrespondentType correspondentType;
+
+    public UnitCorrespondent() {
+    }
+
     public Integer getUnitCorrespondentId() {
         return unitCorrespondentId;
     }
@@ -99,18 +102,6 @@ public class UnitCorrespondent extends KraPersistableBusinessObjectBase {
 
     public void setCorrespondentType(CorrespondentType correspondentType) {
         this.correspondentType = correspondentType;
-    }
-
-    /** {@inheritDoc} */
-    @Override 
-    protected LinkedHashMap<String, Object> toStringMapper() {
-        LinkedHashMap<String, Object> hashMap = new LinkedHashMap<String, Object>();
-        hashMap.put("unitCorrespondentId", this.getUnitCorrespondentId());
-        hashMap.put("unitNumber", this.getUnitNumber());
-        hashMap.put("correspondentTypeCode", this.getCorrespondentTypeCode());
-        hashMap.put("personId", this.getPersonId());
-        hashMap.put("nonEmployeeFlag", this.getNonEmployeeFlag());
-        return hashMap;
     }
 
     public KcPerson getPerson() {

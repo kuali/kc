@@ -17,6 +17,7 @@ package org.kuali.kra.subaward.web.struts.action;
 
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
+
 import org.apache.struts.action.ActionForm;
 import org.apache.struts.action.ActionForward;
 import org.apache.struts.action.ActionMapping;
@@ -33,14 +34,15 @@ import org.kuali.kra.subaward.document.SubAwardDocument;
 import org.kuali.kra.subaward.service.SubAwardService;
 import org.kuali.kra.subaward.subawardrule.SubAwardDocumentRule;
 import org.kuali.kra.web.struts.action.AuditActionHelper;
-import org.kuali.kra.web.struts.action.KraTransactionalDocumentActionBase;
 import org.kuali.kra.web.struts.action.AuditActionHelper.ValidationState;
-import org.kuali.rice.kew.exception.WorkflowException;
-import org.kuali.rice.kew.util.KEWConstants;
-import org.kuali.rice.kns.service.KNSServiceLocator;
-import org.kuali.rice.kns.util.GlobalVariables;
-import org.kuali.rice.kns.util.KNSConstants;
+import org.kuali.kra.web.struts.action.KraTransactionalDocumentActionBase;
+import org.kuali.rice.kew.api.KewApiConstants;
+import org.kuali.rice.kew.api.exception.WorkflowException;
+import org.kuali.rice.kns.util.KNSGlobalVariables;
 import org.kuali.rice.kns.web.struts.form.KualiDocumentFormBase;
+import org.kuali.rice.krad.service.KRADServiceLocatorWeb;
+import org.kuali.rice.krad.util.GlobalVariables;
+import org.kuali.rice.krad.util.KRADConstants;
 
 public class SubAwardAction extends KraTransactionalDocumentActionBase{
     
@@ -54,7 +56,7 @@ public class SubAwardAction extends KraTransactionalDocumentActionBase{
        
         SubAwardForm subAwardForm = (SubAwardForm)form;
         ActionForward actionForward = super.execute(mapping, form, request, response);
-        if (GlobalVariables.getAuditErrorMap().isEmpty()) {
+        if (KNSGlobalVariables.getAuditErrorMap().isEmpty()) {
             new AuditActionHelper().auditConditionally((SubAwardForm) form);
         }
         
@@ -96,7 +98,7 @@ public class SubAwardAction extends KraTransactionalDocumentActionBase{
         ActionForward forward = null;
         
         String command = subAwardForm.getCommand();
-        if (KEWConstants.ACTIONLIST_INLINE_COMMAND.equals(command)) {
+        if (KewApiConstants.ACTIONLIST_INLINE_COMMAND.equals(command)) {
             loadDocumentInForm(request, subAwardForm);
         } else {
             forward = super.docHandler(mapping, form, request, response);
@@ -114,10 +116,10 @@ public class SubAwardAction extends KraTransactionalDocumentActionBase{
     */    
     protected void loadDocumentInForm(HttpServletRequest request, SubAwardForm subAwardForm)
     throws WorkflowException {
-        String docIdRequestParameter = request.getParameter(KNSConstants.PARAMETER_DOC_ID);
-        SubAwardDocument retrievedDocument = (SubAwardDocument) KNSServiceLocator.getDocumentService().getByDocumentHeaderId(docIdRequestParameter);
+        String docIdRequestParameter = request.getParameter(KRADConstants.PARAMETER_DOC_ID);
+        SubAwardDocument retrievedDocument = (SubAwardDocument) KRADServiceLocatorWeb.getDocumentService().getByDocumentHeaderId(docIdRequestParameter);
         subAwardForm.setDocument(retrievedDocument);
-        request.setAttribute(KNSConstants.PARAMETER_DOC_ID, docIdRequestParameter);
+        request.setAttribute(KRADConstants.PARAMETER_DOC_ID, docIdRequestParameter);
     }
     
     /**
@@ -131,7 +133,7 @@ public class SubAwardAction extends KraTransactionalDocumentActionBase{
        StringBuilder sb = new StringBuilder();
        sb.append(forwardPath);
        sb.append("?");
-       sb.append(KNSConstants.PARAMETER_DOC_ID);
+       sb.append(KRADConstants.PARAMETER_DOC_ID);
        sb.append("=");
        sb.append(docIdRequestParameter);
        return sb.toString();
@@ -327,8 +329,8 @@ public ActionForward route(ActionMapping mapping, ActionForm form, HttpServletRe
         return forward = super.route(mapping, form, request, response);
     }
     else{
-        GlobalVariables.getErrorMap().clear(); 
-        GlobalVariables.getErrorMap().putError("datavalidation",KeyConstants.ERROR_WORKFLOW_SUBMISSION,  new String[] {});
+        GlobalVariables.getMessageMap().clearErrorMessages();
+        GlobalVariables.getMessageMap().putError("datavalidation",KeyConstants.ERROR_WORKFLOW_SUBMISSION,  new String[] {});
 
         return forward;
     }
@@ -346,8 +348,8 @@ public ActionForward blanketApprove(ActionMapping mapping, ActionForm form, Http
         return forward = super.blanketApprove(mapping, form, request, response);
     }
     else{
-        GlobalVariables.getErrorMap().clear(); 
-        GlobalVariables.getErrorMap().putError("datavalidation",KeyConstants.ERROR_WORKFLOW_SUBMISSION,  new String[] {});
+        GlobalVariables.getMessageMap().clearErrorMessages();
+        GlobalVariables.getMessageMap().putError("datavalidation",KeyConstants.ERROR_WORKFLOW_SUBMISSION,  new String[] {});
 
         return forward;
     }

@@ -53,9 +53,9 @@ import org.kuali.kra.irb.actions.submit.ProtocolSubmitActionService;
 import org.kuali.kra.irb.test.ProtocolFactory;
 import org.kuali.kra.questionnaire.answer.AnswerHeader;
 import org.kuali.kra.test.infrastructure.KcUnitTestBase;
-import org.kuali.rice.kns.service.BusinessObjectService;
-import org.kuali.rice.kns.service.DocumentService;
-import org.kuali.rice.kns.util.DateUtils;
+import org.kuali.kra.util.DateUtils;
+import org.kuali.rice.krad.service.BusinessObjectService;
+import org.kuali.rice.krad.service.DocumentService;
 
 /**
  * Test the ProtocolWithdrawService implementation.

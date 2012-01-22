@@ -18,7 +18,7 @@ package org.kuali.kra.budget.document;
 import org.junit.Test;
 import org.kuali.kra.budget.parameters.BudgetPeriod;
 import org.kuali.kra.test.infrastructure.KcUnitTestBase;
-import org.kuali.rice.kns.util.ObjectUtils;
+import org.kuali.rice.krad.util.ObjectUtils;
 
 /**
  * Testing ObjectUtils equalsByKey logic change

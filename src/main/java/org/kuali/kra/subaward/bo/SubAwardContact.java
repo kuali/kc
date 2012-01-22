@@ -15,47 +15,74 @@
  */
 package org.kuali.kra.subaward.bo;
 
-import java.util.LinkedHashMap;
 import org.kuali.kra.award.home.ContactType;
 import org.kuali.kra.bo.Rolodex;
 import org.kuali.kra.subaward.bo.SubAward;
 
 public class SubAwardContact extends SubAwardAssociate { 
-    
+
     private static final long serialVersionUID = 1L;
 
-    private Integer subAwardContactId; 
+    private Integer subAwardContactId;
     private Long subAwardId; 
-    private String subAwardCode; 
-    private String contactTypeCode; 
+    private String subAwardCode;
+    private String contactTypeCode;
     private Integer rolodexId;
-   
 
-    private ContactType contactType; 
-    private Rolodex rolodex; 
+
+    private ContactType contactType;
+
+    private Rolodex rolodex;
     private SubAward subAward;
-    
-    
-    private String rolodexName;  
-    private String sponsorCode;
-    private String organization;
-    private String addressLine1;
-    private String addressLine2;
-    private String addressLine3;
-    private String city;   
-    private String county;
-    private String state;
-    private String postalCode;
-    private String countryCode;
-    private String phoneNumber;
-    private String emailAddress;
-    private String faxNumber;
-    private String comments;
-    
-    public SubAwardContact() { 
 
-    } 
+
+    private String rolodexName;
+
+    private String sponsorCode;
+
+    private String organization;
+
+    private String addressLine1;
+
+    private String addressLine2;
+
+    private String addressLine3;
+
+    private String city;
+
+    private String county;
+
+    private String state;
+
+    private String postalCode;
+
+    private String countryCode;
+
+    private String phoneNumber;
+
+    private String emailAddress;
+
+    private String faxNumber;
+
+    private String comments;
+
+    /**
+     * 
+     * Constructs a SubAwardContact.java.
+     */
+    public SubAwardContact() {
+    }
     
+    /**
+     * 
+     * Constructs a SubAwardContact.java.
+     * @param rolodex
+     */
+    public SubAwardContact(Rolodex rolodex) {
+        this();
+        this.rolodex = rolodex;
+    }
+
     public Integer getSubAwardContactId() {
         return subAwardContactId;
     }
@@ -137,7 +164,7 @@ public class SubAwardContact extends SubAwardAssociate {
     public void setOrganization(String organization) {
         this.organization = organization;
     }
-    
+
     public String getAddressLine1() {
         return addressLine1;
     }
@@ -161,7 +188,7 @@ public class SubAwardContact extends SubAwardAssociate {
     public void setAddressLine3(String addressLine3) {
         this.addressLine3 = addressLine3;
     }
-    
+
     public String getCity() {
         return city;
     }
@@ -233,20 +260,7 @@ public class SubAwardContact extends SubAwardAssociate {
     public void setComments(String comments) {
         this.comments = comments;
     }
-
-    /** {@inheritDoc} */
-    @Override 
-    protected LinkedHashMap<String, Object> toStringMapper() {
-        LinkedHashMap<String, Object> hashMap = new LinkedHashMap<String, Object>();
-        hashMap.put("subAwardContactId", this.getSubAwardContactId());
-        hashMap.put("subAwardId", this.getSubAwardId());
-        hashMap.put("subAwardCode", this.getSubAwardCode());
-        hashMap.put("sequenceNumber", this.getSequenceNumber());
-        hashMap.put("contactTypeCode", this.getContactTypeCode());
-        hashMap.put("rolodexId", this.getRolodexId());
-        return hashMap;
-    }
-
+    
     @Override
     public void resetPersistenceState() {
 

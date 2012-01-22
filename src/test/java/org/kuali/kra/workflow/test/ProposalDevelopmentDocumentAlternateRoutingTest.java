@@ -17,6 +17,8 @@
 package org.kuali.kra.workflow.test;
 
 import java.sql.Date;
+import java.util.Collections;
+import java.util.List;
 
 import org.junit.After;
 import org.junit.Before;
@@ -24,16 +26,17 @@ import org.junit.Ignore;
 import org.junit.Test;
 import org.kuali.kra.proposaldevelopment.document.ProposalDevelopmentDocument;
 import org.kuali.kra.test.infrastructure.KcUnitTestBase;
-import org.kuali.rice.kew.dto.ActionRequestDTO;
-import org.kuali.rice.kew.dto.DocumentDetailDTO;
-import org.kuali.rice.kew.dto.ReportCriteriaDTO;
-import org.kuali.rice.kew.service.WorkflowInfo;
-import org.kuali.rice.kns.UserSession;
-import org.kuali.rice.kns.service.DocumentService;
-import org.kuali.rice.kns.service.KNSServiceLocator;
-import org.kuali.rice.kns.util.ErrorMap;
-import org.kuali.rice.kns.util.GlobalVariables;
-import org.kuali.rice.kns.workflow.service.KualiWorkflowDocument;
+import org.kuali.rice.core.api.resourceloader.GlobalResourceLoader;
+import org.kuali.rice.kew.api.WorkflowDocument;
+import org.kuali.rice.kew.api.action.ActionRequest;
+import org.kuali.rice.kew.api.action.RoutingReportCriteria;
+import org.kuali.rice.kew.api.action.WorkflowDocumentActionsService;
+import org.kuali.rice.kew.api.document.DocumentDetail;
+import org.kuali.rice.krad.UserSession;
+import org.kuali.rice.krad.service.DocumentService;
+import org.kuali.rice.krad.service.KRADServiceLocatorWeb;
+import org.kuali.rice.krad.util.GlobalVariables;
+import org.kuali.rice.krad.util.MessageMap;
 
 @Ignore
 public class ProposalDevelopmentDocumentAlternateRoutingTest extends KcUnitTestBase {
@@ -60,7 +63,7 @@ public class ProposalDevelopmentDocumentAlternateRoutingTest extends KcUnitTestB
 //        customKEWLifecycle.start();
 //        transactionalLifecycle.start();
         GlobalVariables.setUserSession(new UserSession("quickstart"));
-        documentService = KNSServiceLocator.getDocumentService();
+        documentService = KRADServiceLocatorWeb.getDocumentService();
     }  
 
     @After  
@@ -77,7 +80,7 @@ public class ProposalDevelopmentDocumentAlternateRoutingTest extends KcUnitTestB
 //        customKEWLifecycle.start();
 //
 //        FileUtils.deleteDirectory(xmlBackupDir);
-        GlobalVariables.setErrorMap(new ErrorMap());
+        GlobalVariables.setMessageMap(new MessageMap());
 //        stopLifecycles(this.perTestLifeCycles);
         logAfterRun();
     }
@@ -105,34 +108,34 @@ public class ProposalDevelopmentDocumentAlternateRoutingTest extends KcUnitTestB
                 .getDocumentNumber());
         assertNotNull(savedDocument);
 
-        KualiWorkflowDocument workflowDoc = savedDocument.getDocumentHeader().getWorkflowDocument();
+        WorkflowDocument workflowDoc = savedDocument.getDocumentHeader().getWorkflowDocument();
         workflowDoc.complete("test");
 
-        WorkflowInfo info = new WorkflowInfo();
-        ReportCriteriaDTO reportCriteria = new ReportCriteriaDTO(new Long(workflowDoc.getRouteHeaderId()));
-        reportCriteria.setTargetPrincipalIds(new String[] { USER_PRINCIPLE_ID });
-        reportCriteria.setActivateRequests(true);
-
-        DocumentDetailDTO results1 = info.routingReport(reportCriteria);
-        ActionRequestDTO[] actionRequests = results1.getActionRequests();
-        assertNotNull(actionRequests);
-        assertEquals(4, actionRequests.length);
+        RoutingReportCriteria.Builder reportCriteriaBuilder = RoutingReportCriteria.Builder.createByDocumentId(workflowDoc.getDocumentId());
+        reportCriteriaBuilder.setTargetPrincipalIds(Collections.singletonList(USER_PRINCIPLE_ID));
+        reportCriteriaBuilder.setActivateRequests(true);
+        WorkflowDocumentActionsService info = GlobalResourceLoader.getService("rice.kew.workflowDocumentActionsService");
+        DocumentDetail results1 = info.executeSimulation(reportCriteriaBuilder.build());
         
-        for(ActionRequestDTO actionRequest: actionRequests) {
+        List<ActionRequest> actionRequests = results1.getActionRequests();
+        assertNotNull(actionRequests);
+        assertEquals(4, actionRequests.size());
+        
+        for(ActionRequest actionRequest: actionRequests) {
             if(actionRequest.getNodeName().equalsIgnoreCase("Initiated")) { 
-                assertEquals("U", actionRequest.getRecipientTypeCd());
+                assertEquals("U", actionRequest.getRecipientType().getCode());
                 assertNotNull(actionRequest.getPrincipalId());
                 assertEquals("quickstart", actionRequest.getPrincipalId());
             } else if(actionRequest.getNodeName().equalsIgnoreCase("FirstApproval")) {
-                assertEquals("U", actionRequest.getRecipientTypeCd());
+                assertEquals("U", actionRequest.getRecipientType().getCode());
                 assertNotNull(actionRequest.getPrincipalId());
                 assertEquals("jtester", actionRequest.getPrincipalId());
             } else if(actionRequest.getNodeName().equalsIgnoreCase("SecondApproval")) {
-                assertEquals("U", actionRequest.getRecipientTypeCd());
+                assertEquals("U", actionRequest.getRecipientType().getCode());
                 assertNotNull(actionRequest.getPrincipalId());
                 assertEquals("quickstart", actionRequest.getPrincipalId());
             } else if(actionRequest.getNodeName().equalsIgnoreCase("FinalApproval")) {
-                assertEquals("W", actionRequest.getRecipientTypeCd());
+                assertEquals("W", actionRequest.getRecipientType().getCode());
                 assertNotNull(actionRequest.getGroupId());
                 assertEquals(WORKFLOW_ADMIN_GROUP_ID, actionRequest.getGroupId());
             } else {

@@ -137,7 +137,7 @@
     <property name="validationPattern" >
       <bean parent="NumericValidationPattern" />
     </property>
-    <property name="required" value="true" />
+    <property name="required" value="false" />
     <property name="control" >
       <bean parent="HiddenControlDefinition" />
     </property>

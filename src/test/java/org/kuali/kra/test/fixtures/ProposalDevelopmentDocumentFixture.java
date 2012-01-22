@@ -24,7 +24,7 @@ import java.text.SimpleDateFormat;
 import org.kuali.kra.infrastructure.Constants;
 import org.kuali.kra.proposaldevelopment.bo.ProposalSite;
 import org.kuali.kra.proposaldevelopment.document.ProposalDevelopmentDocument;
-import org.kuali.rice.kns.service.DocumentService;
+import org.kuali.rice.krad.service.DocumentService;
 
 /**
  * Fixture class for creating valid <code>{@link ProposalDevelopmentDocument}</code> instances.

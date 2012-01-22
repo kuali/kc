@@ -22,10 +22,10 @@ import org.apache.commons.lang.StringUtils;
 import org.kuali.kra.infrastructure.Constants;
 import org.kuali.kra.lookup.keyvalue.LookupReturnValuesFinder;
 import org.kuali.rice.kns.lookup.KualiLookupableImpl;
-import org.kuali.rice.kns.lookup.LookupUtils;
-import org.kuali.rice.kns.util.GlobalVariables;
 import org.kuali.rice.kns.web.ui.Field;
 import org.kuali.rice.kns.web.ui.Row;
+import org.kuali.rice.krad.lookup.LookupUtils;
+import org.kuali.rice.krad.util.GlobalVariables;
 
 public class CustomLookupableImpl extends KualiLookupableImpl {
 

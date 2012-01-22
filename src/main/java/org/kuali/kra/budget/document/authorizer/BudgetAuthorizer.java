@@ -20,9 +20,9 @@ import org.kuali.kra.authorization.TaskAuthorizerImpl;
 import org.kuali.kra.budget.document.BudgetParentDocument;
 import org.kuali.kra.budget.document.authorization.BudgetTask;
 import org.kuali.kra.service.KraAuthorizationService;
-import org.kuali.rice.kns.bo.DocumentHeader;
-import org.kuali.rice.kns.document.Document;
-import org.kuali.rice.kns.workflow.service.KualiWorkflowDocument;
+import org.kuali.rice.kew.api.WorkflowDocument;
+import org.kuali.rice.krad.bo.DocumentHeader;
+import org.kuali.rice.krad.document.Document;
 
 /**
  * Base class for Narrative Authorizers.
@@ -71,8 +71,8 @@ public abstract class BudgetAuthorizer extends TaskAuthorizerImpl {
      * @param doc the document
      * @return the workflow document or null if there is none
      */
-    protected KualiWorkflowDocument getWorkflowDocument(Document doc) {
-        KualiWorkflowDocument workflowDocument = null;
+    protected WorkflowDocument getWorkflowDocument(Document doc) {
+        WorkflowDocument workflowDocument = null;
         if (doc != null) {
             DocumentHeader header = doc.getDocumentHeader();
             if (header != null) {

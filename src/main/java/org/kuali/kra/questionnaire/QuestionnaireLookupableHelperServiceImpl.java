@@ -25,17 +25,17 @@ import java.util.Map;
 import org.apache.commons.collections.CollectionUtils;
 import org.apache.commons.lang.StringUtils;
 import org.kuali.kra.infrastructure.PermissionConstants;
+import org.kuali.rice.kew.api.KEWPropertyConstants;
+import org.kuali.rice.kew.api.KewApiConstants;
 import org.kuali.rice.kew.doctype.bo.DocumentType;
 import org.kuali.rice.kew.routeheader.DocumentRouteHeaderValue;
-import org.kuali.rice.kew.util.KEWConstants;
-import org.kuali.rice.kew.util.KEWPropertyConstants;
-import org.kuali.rice.kns.bo.BusinessObject;
 import org.kuali.rice.kns.document.MaintenanceDocumentBase;
 import org.kuali.rice.kns.lookup.HtmlData;
-import org.kuali.rice.kns.lookup.HtmlData.AnchorHtmlData;
 import org.kuali.rice.kns.lookup.KualiLookupableHelperServiceImpl;
-import org.kuali.rice.kns.service.DocumentService;
-import org.kuali.rice.kns.util.KNSConstants;
+import org.kuali.rice.kns.lookup.HtmlData.AnchorHtmlData;
+import org.kuali.rice.krad.bo.BusinessObject;
+import org.kuali.rice.krad.service.DocumentService;
+import org.kuali.rice.krad.util.KRADConstants;
 
 /**
  * 
@@ -85,7 +85,7 @@ public class QuestionnaireLookupableHelperServiceImpl extends KualiLookupableHel
             }
         }
         for (MaintenanceDocumentBase doc : newQuestionnaireDocs) {
-            Questionnaire questionnaire = (Questionnaire) doc.getNewMaintainableObject().getBusinessObject();
+            Questionnaire questionnaire = (Questionnaire) doc.getNewMaintainableObject().getDataObject();
             questionnaires.add(questionnaire);
         }
 
@@ -119,7 +119,7 @@ public class QuestionnaireLookupableHelperServiceImpl extends KualiLookupableHel
 
     /**
      * override edit/copy link and new 'view' link based on permission.
-     * @see org.kuali.rice.kns.lookup.AbstractLookupableHelperServiceImpl#getCustomActionUrls(org.kuali.rice.kns.bo.BusinessObject, java.util.List)
+     * @see org.kuali.rice.kns.lookup.AbstractLookupableHelperServiceImpl#getCustomActionUrls(org.kuali.rice.krad.bo.BusinessObject, java.util.List)
      */
     @Override
     public List<HtmlData> getCustomActionUrls(BusinessObject businessObject, List pkNames) {
@@ -130,14 +130,14 @@ public class QuestionnaireLookupableHelperServiceImpl extends KualiLookupableHel
                 || questionnaireAuthorizationService.hasPermission(PermissionConstants.VIEW_QUESTIONNAIRE);
         if (hasModifyPermission && questionnaire.getQuestionnaireId() != null
                 && (CollectionUtils.isEmpty(questionnaireIds) || !questionnaireIds.contains(questionnaire.getQuestionnaireId()))) {
-            htmlDataList.add(getHtmlData(businessObject, KNSConstants.MAINTENANCE_EDIT_METHOD_TO_CALL, pkNames));
+            htmlDataList.add(getHtmlData(businessObject, KRADConstants.MAINTENANCE_EDIT_METHOD_TO_CALL, pkNames));
         }
         if (hasModifyPermission
                 && (questionnaire.getQuestionnaireId() == null || (!CollectionUtils.isEmpty(questionnaireIds) && questionnaireIds
                         .contains(questionnaire.getQuestionnaireId())))) {
-            AnchorHtmlData htmlData = (AnchorHtmlData) getHtmlData(businessObject, KNSConstants.MAINTENANCE_EDIT_METHOD_TO_CALL,
+            AnchorHtmlData htmlData = (AnchorHtmlData) getHtmlData(businessObject, KRADConstants.MAINTENANCE_EDIT_METHOD_TO_CALL,
                     pkNames);
-            String workflowUrl = getKualiConfigurationService().getPropertyString(KNSConstants.WORKFLOW_URL_KEY);
+            String workflowUrl = getKualiConfigurationService().getPropertyValueAsString(KRADConstants.WORKFLOW_URL_KEY);
             htmlData.setHref(String.format(DOCHANDLER_LINK, workflowUrl, getDocumentNumber(questionnaire)));
             htmlData.setDisplayText("resume edit");
             htmlDataList.add(htmlData);
@@ -146,7 +146,7 @@ public class QuestionnaireLookupableHelperServiceImpl extends KualiLookupableHel
             htmlDataList.add(getViewLink(businessObject, pkNames));
         }
         if (hasModifyPermission && questionnaire.getQuestionnaireId() != null) {
-            htmlDataList.add(getHtmlData(businessObject, KNSConstants.MAINTENANCE_COPY_METHOD_TO_CALL, pkNames));
+            htmlDataList.add(getHtmlData(businessObject, KRADConstants.MAINTENANCE_COPY_METHOD_TO_CALL, pkNames));
         }
         return htmlDataList;
     }
@@ -161,7 +161,7 @@ public class QuestionnaireLookupableHelperServiceImpl extends KualiLookupableHel
             docNumber = questionnaire.getDocumentNumber();
         } else {
             for (MaintenanceDocumentBase doc : questionnaireMaintenanceDocs) {
-                if (((Questionnaire) doc.getNewMaintainableObject().getBusinessObject()).getQuestionnaireId().equals(questionnaire.getQuestionnaireId())) {
+                if (((Questionnaire) doc.getNewMaintainableObject().getDataObject()).getQuestionnaireId().equals(questionnaire.getQuestionnaireId())) {
                     docNumber = doc.getDocumentNumber();
                 }
             }
@@ -173,12 +173,12 @@ public class QuestionnaireLookupableHelperServiceImpl extends KualiLookupableHel
         AnchorHtmlData htmlData = new AnchorHtmlData();
         Questionnaire questionnaire = (Questionnaire) businessObject;
         if (StringUtils.isNotBlank(questionnaire.getDocumentNumber())) {
-            String workflowUrl = getKualiConfigurationService().getPropertyString(KNSConstants.WORKFLOW_URL_KEY);
+            String workflowUrl = getKualiConfigurationService().getPropertyValueAsString(KRADConstants.WORKFLOW_URL_KEY);
             htmlData.setHref(String.format(DOCHANDLER_LINK, workflowUrl, questionnaire.getDocumentNumber()).replace("&docId",
                     "&readOnly=true&docId"));
         }
         else {
-            htmlData = getUrlData(businessObject, KNSConstants.MAINTENANCE_EDIT_METHOD_TO_CALL, pkNames);
+            htmlData = getUrlData(businessObject, KRADConstants.MAINTENANCE_EDIT_METHOD_TO_CALL, pkNames);
             htmlData.setHref(htmlData.getHref().replace(MAINTENANCE, NEW_MAINTENANCE) + "&readOnly=true");
 
         }
@@ -205,29 +205,29 @@ public class QuestionnaireLookupableHelperServiceImpl extends KualiLookupableHel
 
         fieldValues.put(KEWPropertyConstants.NAME, getMaintenanceDocumentDictionaryService().getDocumentTypeName(
                 Questionnaire.class));
-        List<Long> docTypeIds = new ArrayList<Long>();
+        List<String> docTypeIds = new ArrayList<String>();
         for (DocumentType docType : (List<DocumentType>) getBusinessObjectService().findMatching(DocumentType.class, fieldValues)) {
             docTypeIds.add(docType.getDocumentTypeId());
         }
 
         fieldValues.clear();
         fieldValues.put(KEWPropertyConstants.DOCUMENT_TYPE_ID, docTypeIds);
-        fieldValues.put(DOC_ROUTE_STATUS, KEWConstants.ROUTE_HEADER_SAVED_CD);
+        fieldValues.put(DOC_ROUTE_STATUS, KewApiConstants.ROUTE_HEADER_SAVED_CD);
         List<DocumentRouteHeaderValue> docHeaders = (List<DocumentRouteHeaderValue>) getBusinessObjectService().findMatching(
                 DocumentRouteHeaderValue.class, fieldValues);
         try {
             for (DocumentRouteHeaderValue docHeader : docHeaders) {
                 MaintenanceDocumentBase doc = (MaintenanceDocumentBase) documentService.getByDocumentHeaderId(docHeader
-                        .getRouteHeaderId().toString());
-                if (doc.getNewMaintainableObject().getMaintenanceAction().equals(KNSConstants.MAINTENANCE_EDIT_ACTION)) {
-                    questionnaireIds.add(((Questionnaire) doc.getNewMaintainableObject().getBusinessObject()).getQuestionnaireId());
+                        .getDocumentId().toString());
+                if (doc.getNewMaintainableObject().getMaintenanceAction().equals(KRADConstants.MAINTENANCE_EDIT_ACTION)) {
+                    questionnaireIds.add(((Questionnaire) doc.getNewMaintainableObject().getDataObject()).getQuestionnaireId());
                     questionnaireMaintenanceDocs.add(doc);
-                } else if (doc.getNewMaintainableObject().getMaintenanceAction().equals(KNSConstants.MAINTENANCE_NEW_ACTION)) {
+                } else if (doc.getNewMaintainableObject().getMaintenanceAction().equals(KRADConstants.MAINTENANCE_NEW_ACTION)) {
                     // new questionnaire which is not approved yet.
-                    Questionnaire questionnaire = (Questionnaire) doc.getNewMaintainableObject().getBusinessObject();
+                    Questionnaire questionnaire = (Questionnaire) doc.getNewMaintainableObject().getDataObject();
                     if (StringUtils.isBlank(isActive)
-                            || (KNSConstants.NO_INDICATOR_VALUE.equals(isActive) && !questionnaire.getIsFinal())
-                            || (KNSConstants.YES_INDICATOR_VALUE.equals(isActive) && questionnaire.getIsFinal())) {
+                            || (KRADConstants.NO_INDICATOR_VALUE.equals(isActive) && !questionnaire.getIsFinal())
+                            || (KRADConstants.YES_INDICATOR_VALUE.equals(isActive) && questionnaire.getIsFinal())) {
                         newQuestionnaireDocs.add(doc);
                     }
                 }

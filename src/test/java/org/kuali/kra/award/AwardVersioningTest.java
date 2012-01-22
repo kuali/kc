@@ -41,13 +41,13 @@ import org.kuali.kra.infrastructure.KraServiceLocator;
 import org.kuali.kra.service.VersionException;
 import org.kuali.kra.service.VersioningService;
 import org.kuali.kra.test.infrastructure.KcUnitTestBase;
-import org.kuali.rice.kew.exception.WorkflowException;
-import org.kuali.rice.kns.UserSession;
-import org.kuali.rice.kns.service.BusinessObjectService;
-import org.kuali.rice.kns.service.DocumentService;
-import org.kuali.rice.kns.util.ErrorMap;
-import org.kuali.rice.kns.util.GlobalVariables;
-import org.kuali.rice.kns.util.KualiDecimal;
+import org.kuali.rice.core.api.util.type.KualiDecimal;
+import org.kuali.rice.kew.api.exception.WorkflowException;
+import org.kuali.rice.krad.UserSession;
+import org.kuali.rice.krad.service.BusinessObjectService;
+import org.kuali.rice.krad.service.DocumentService;
+import org.kuali.rice.krad.util.GlobalVariables;
+import org.kuali.rice.krad.util.MessageMap;
 
 /**
  * This class 
@@ -321,7 +321,7 @@ public class AwardVersioningTest extends KcUnitTestBase {
             savedDocuments.add(document);
             return document;
         } catch(WorkflowException e) {
-            ErrorMap errorMap = GlobalVariables.getErrorMap();
+            MessageMap errorMap = GlobalVariables.getMessageMap();
             if(errorMap.getErrorCount() > 0) {
                    for(String errorProperty : errorMap.getPropertiesWithErrors()) {
                        LOG.error("-------\nProperty in error " + errorProperty);

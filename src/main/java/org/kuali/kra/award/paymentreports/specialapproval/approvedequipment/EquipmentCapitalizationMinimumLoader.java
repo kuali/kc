@@ -21,8 +21,8 @@ import org.apache.commons.lang.StringUtils;
 import org.apache.commons.lang.math.NumberUtils;
 import org.kuali.kra.award.document.AwardDocument;
 import org.kuali.kra.infrastructure.KraServiceLocator;
-import org.kuali.rice.core.config.ConfigurationException;
-import org.kuali.rice.kns.service.ParameterService;
+import org.kuali.rice.core.api.config.ConfigurationException;
+import org.kuali.rice.coreservice.framework.parameter.ParameterService;
 
 /**
  * This class provides support to the AwardApprovedEquipmentRule 
@@ -68,7 +68,7 @@ public class EquipmentCapitalizationMinimumLoader implements Serializable {
      * @return
      */
     protected String fetchParameterValue(String parmName) {
-        return getParameterService().getParameterValue(AwardDocument.class, parmName);
+        return getParameterService().getParameterValueAsString(AwardDocument.class, parmName);
     }
 
     /**

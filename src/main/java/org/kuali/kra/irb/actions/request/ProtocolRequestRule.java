@@ -18,12 +18,10 @@ package org.kuali.kra.irb.actions.request;
 import org.apache.commons.lang.StringUtils;
 import org.kuali.kra.infrastructure.Constants;
 import org.kuali.kra.infrastructure.KeyConstants;
-import org.kuali.kra.infrastructure.KraServiceLocator;
 import org.kuali.kra.irb.ProtocolDocument;
 import org.kuali.kra.rule.BusinessRuleInterface;
 import org.kuali.kra.rules.ResearchDocumentRuleBase;
-import org.kuali.rice.kns.service.ParameterService;
-import org.kuali.rice.kns.util.GlobalVariables;
+import org.kuali.rice.krad.util.GlobalVariables;
 
 /**
  * Business rule for a protocol request.  If the mandatory option has been
@@ -54,7 +52,7 @@ public class ProtocolRequestRule extends ResearchDocumentRuleBase implements Bus
         boolean valid = true;
         if (StringUtils.isBlank(requestBean.getCommitteeId())) {
             valid = false;
-            GlobalVariables.getErrorMap().putError(propertyKey + ".committeeId", 
+            GlobalVariables.getMessageMap().putError(propertyKey + ".committeeId", 
                     KeyConstants.ERROR_PROTOCOL_COMMITTEE_NOT_SELECTED);
         }
         return valid;
@@ -65,7 +63,7 @@ public class ProtocolRequestRule extends ResearchDocumentRuleBase implements Bus
      * @return true if mandatory; otherwise false
      */
     private boolean isMandatory() {
-        final String param = this.getParameterService().getParameterValue(ProtocolDocument.class, Constants.PARAMETER_IRB_COMM_SELECTION_DURING_SUBMISSION);
+        final String param = this.getParameterService().getParameterValueAsString(ProtocolDocument.class, Constants.PARAMETER_IRB_COMM_SELECTION_DURING_SUBMISSION);
         
         return StringUtils.equalsIgnoreCase(MANDATORY, param);  
     }

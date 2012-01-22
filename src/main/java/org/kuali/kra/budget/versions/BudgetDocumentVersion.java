@@ -16,35 +16,36 @@
 package org.kuali.kra.budget.versions;
 
 import java.util.ArrayList;
-import java.util.HashMap;
-import java.util.LinkedHashMap;
 import java.util.List;
-import java.util.Map;
 
 import org.kuali.kra.bo.KraPersistableBusinessObjectBase;
 import org.kuali.kra.budget.core.Budget;
 import org.kuali.kra.budget.document.BudgetDocument;
 import org.kuali.kra.infrastructure.KraServiceLocator;
-import org.kuali.rice.kew.exception.WorkflowException;
-import org.kuali.rice.kns.bo.DocumentHeader;
-import org.kuali.rice.kns.service.BusinessObjectService;
-import org.kuali.rice.kns.service.DocumentService;
+import org.kuali.rice.kew.api.exception.WorkflowException;
+import org.kuali.rice.krad.bo.DocumentHeader;
+import org.kuali.rice.krad.service.DocumentService;
 
-public class BudgetDocumentVersion  extends KraPersistableBusinessObjectBase implements Comparable<BudgetDocumentVersion>{
+public class BudgetDocumentVersion extends KraPersistableBusinessObjectBase implements Comparable<BudgetDocumentVersion> {
 
     private static final String BUDGET_COMPLETE = "1";
+
     /**
      * Comment for <code>serialVersionUID</code>
      */
     private static final long serialVersionUID = -2143813153034264031L;
+
     private String parentDocumentKey;
+
     private String parentDocumentTypeCode;
+
     private List<BudgetVersionOverview> budgetVersionOverviews;
+
     private String documentNumber;
+
     private DocumentHeader documentHeader;
 
-    
-    public BudgetDocumentVersion(){
+    public BudgetDocumentVersion() {
         budgetVersionOverviews = new ArrayList<BudgetVersionOverview>();
     }
 
@@ -69,12 +70,13 @@ public class BudgetDocumentVersion  extends KraPersistableBusinessObjectBase imp
      * This method returns Budget object. Creates new budget instance if the budgetVersionOverviews list is empty
      * @return Budget
      */
-    public BudgetVersionOverview getBudgetVersionOverview(){
-        if(budgetVersionOverviews.isEmpty()){
+    public BudgetVersionOverview getBudgetVersionOverview() {
+        if (budgetVersionOverviews.isEmpty()) {
             budgetVersionOverviews.add(new BudgetVersionOverview());
         }
         return budgetVersionOverviews.get(0);
     }
+
     /**
      * Gets the parentDocumentKey attribute. 
      * @return Returns the parentDocumentKey.
@@ -90,19 +92,10 @@ public class BudgetDocumentVersion  extends KraPersistableBusinessObjectBase imp
     public void setParentDocumentKey(String parentDocumentNumber) {
         this.parentDocumentKey = parentDocumentNumber;
     }
-    @Override
-    protected LinkedHashMap toStringMapper() {
-        LinkedHashMap<String, Object> hashMap = new LinkedHashMap<String, Object>();
-        hashMap.put("parentDocumentKey", parentDocumentKey);
-        return hashMap;
-    }
-    
+
     public Budget getFinalBudget() {
-        for (BudgetVersionOverview budgetVersionOverview: this.getBudgetVersionOverviews()) {
-            
-            if (budgetVersionOverview!=null && budgetVersionOverview.getBudgetStatus()!=null && 
-                    budgetVersionOverview.getBudgetStatus().equals(BUDGET_COMPLETE) && 
-                    budgetVersionOverview.isFinalVersionFlag()) {
+        for (BudgetVersionOverview budgetVersionOverview : this.getBudgetVersionOverviews()) {
+            if (budgetVersionOverview != null && budgetVersionOverview.getBudgetStatus() != null && budgetVersionOverview.getBudgetStatus().equals(BUDGET_COMPLETE) && budgetVersionOverview.isFinalVersionFlag()) {
                 Budget result = findBudget();
                 if (result != null) {
                     return (Budget) result;
@@ -111,9 +104,9 @@ public class BudgetDocumentVersion  extends KraPersistableBusinessObjectBase imp
         }
         return null;
     }
-    
-    public boolean isBudgetComplete(){
-        if(!getBudgetVersionOverviews().isEmpty()){
+
+    public boolean isBudgetComplete() {
+        if (!getBudgetVersionOverviews().isEmpty()) {
             return BUDGET_COMPLETE.equals(getBudgetVersionOverview().getBudgetStatus());
         }
         return false;
@@ -127,15 +120,14 @@ public class BudgetDocumentVersion  extends KraPersistableBusinessObjectBase imp
     public Budget findBudget() {
         DocumentService docService = KraServiceLocator.getService(DocumentService.class);
         try {
-            BudgetDocument budgetDoc = (BudgetDocument)docService.getByDocumentHeaderId(getDocumentNumber());
+            BudgetDocument budgetDoc = (BudgetDocument) docService.getByDocumentHeaderId(getDocumentNumber());
             return budgetDoc.getBudget();
-        }
-        catch (WorkflowException e) {
+        } catch (WorkflowException e) {
             e.printStackTrace();
         }
         return null;
     }
-    
+
     /**
      * 
      * @see java.lang.Comparable
@@ -191,5 +183,4 @@ public class BudgetDocumentVersion  extends KraPersistableBusinessObjectBase imp
     public void setParentDocumentTypeCode(String parentDocumentTypeCode) {
         this.parentDocumentTypeCode = parentDocumentTypeCode;
     }
-
 }

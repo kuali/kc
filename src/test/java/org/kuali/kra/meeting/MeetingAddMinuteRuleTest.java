@@ -27,7 +27,7 @@ import org.junit.runner.RunWith;
 import org.kuali.kra.infrastructure.Constants;
 import org.kuali.kra.meeting.MeetingEventBase.ErrorType;
 import org.kuali.kra.rules.TemplateRuleTest;
-import org.kuali.rice.kns.service.BusinessObjectService;
+import org.kuali.rice.krad.service.BusinessObjectService;
 
 @RunWith(JMock.class)
 public class MeetingAddMinuteRuleTest {

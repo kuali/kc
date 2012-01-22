@@ -34,16 +34,16 @@ import org.kuali.kra.infrastructure.KraServiceLocator;
 import org.kuali.kra.infrastructure.TaskName;
 import org.kuali.kra.service.impl.KraDocumentServiceImpl;
 import org.kuali.kra.web.struts.action.KraTransactionalDocumentActionBase;
-import org.kuali.rice.kew.util.KEWConstants;
-import org.kuali.rice.kns.bo.PersistableBusinessObject;
-import org.kuali.rice.kns.document.Document;
+import org.kuali.rice.kew.api.KewApiConstants;
+import org.kuali.rice.kew.api.WorkflowDocument;
 import org.kuali.rice.kns.lookup.LookupResultsService;
-import org.kuali.rice.kns.rule.event.KualiDocumentEvent;
-import org.kuali.rice.kns.service.KNSServiceLocator;
-import org.kuali.rice.kns.service.KualiRuleService;
-import org.kuali.rice.kns.util.GlobalVariables;
-import org.kuali.rice.kns.util.KNSConstants;
-import org.kuali.rice.kns.workflow.service.KualiWorkflowDocument;
+import org.kuali.rice.krad.bo.PersistableBusinessObject;
+import org.kuali.rice.krad.document.Document;
+import org.kuali.rice.krad.rules.rule.event.KualiDocumentEvent;
+import org.kuali.rice.krad.service.KRADServiceLocatorWeb;
+import org.kuali.rice.krad.service.KualiRuleService;
+import org.kuali.rice.krad.util.GlobalVariables;
+import org.kuali.rice.krad.util.KRADConstants;
 
 /**
  * The CommitteeAction is the base class for all Committee actions.  Each derived
@@ -106,7 +106,7 @@ public abstract class CommitteeAction extends KraTransactionalDocumentActionBase
         CommitteeForm committeeForm = (CommitteeForm) form;
         doProcessingAfterPost(committeeForm, request);   
         /*
-        ActionForward actionForward = mapping.findForward(KNSConstants.MAPPING_PORTAL);
+        ActionForward actionForward = mapping.findForward(KRADConstants.MAPPING_PORTAL);
 
         // only want to prompt them to save if they already can save
         if (canSave(committeeForm)) {
@@ -115,12 +115,12 @@ public abstract class CommitteeAction extends KraTransactionalDocumentActionBase
             if (question == null) {
                 // ask question if not already asked
                 return this.performQuestionWithoutInput(mapping, form, request, response,
-                        KNSConstants.DOCUMENT_SAVE_BEFORE_CLOSE_QUESTION, getKualiConfigurationService().getPropertyString(
-                                RiceKeyConstants.QUESTION_SAVE_BEFORE_CLOSE), KNSConstants.CONFIRMATION_QUESTION,
-                        KNSConstants.MAPPING_CLOSE, "");
+                        KRADConstants.DOCUMENT_SAVE_BEFORE_CLOSE_QUESTION, getKualiConfigurationService().getPropertyValueAsString(
+                                RiceKeyConstants.QUESTION_SAVE_BEFORE_CLOSE), KRADConstants.CONFIRMATION_QUESTION,
+                        KRADConstants.MAPPING_CLOSE, "");
             } else {
-                Object buttonClicked = request.getParameter(KNSConstants.QUESTION_CLICKED_BUTTON);
-                if ((KNSConstants.DOCUMENT_SAVE_BEFORE_CLOSE_QUESTION.equals(question))
+                Object buttonClicked = request.getParameter(KRADConstants.QUESTION_CLICKED_BUTTON);
+                if ((KRADConstants.DOCUMENT_SAVE_BEFORE_CLOSE_QUESTION.equals(question))
                         && ConfirmationQuestion.YES.equals(buttonClicked)) {
                     // if yes button clicked - save the doc
                     getKraDocumentService().saveDocument(committeeForm.getDocument());
@@ -200,24 +200,24 @@ public abstract class CommitteeAction extends KraTransactionalDocumentActionBase
         CommitteeForm committeeForm = (CommitteeForm) form;
         String command = committeeForm.getCommand();
         
-        if (KEWConstants.ACTIONLIST_INLINE_COMMAND.equals(command)) {
-            String docIdRequestParameter = request.getParameter(KNSConstants.PARAMETER_DOC_ID);
-            Document retrievedDocument = KNSServiceLocator.getDocumentService().getByDocumentHeaderId(docIdRequestParameter);
+        if (KewApiConstants.ACTIONLIST_INLINE_COMMAND.equals(command)) {
+            String docIdRequestParameter = request.getParameter(KRADConstants.PARAMETER_DOC_ID);
+            Document retrievedDocument = KRADServiceLocatorWeb.getDocumentService().getByDocumentHeaderId(docIdRequestParameter);
             committeeForm.setDocument(retrievedDocument);
-            request.setAttribute(KNSConstants.PARAMETER_DOC_ID, docIdRequestParameter);
+            request.setAttribute(KRADConstants.PARAMETER_DOC_ID, docIdRequestParameter);
             forward = mapping.findForward(Constants.MAPPING_BASIC);
-            forward = new ActionForward(forward.getPath()+ "?" + KNSConstants.PARAMETER_DOC_ID + "=" + docIdRequestParameter);  
+            forward = new ActionForward(forward.getPath()+ "?" + KRADConstants.PARAMETER_DOC_ID + "=" + docIdRequestParameter);  
         } else if ("committeeActions".equals(command)) {
-            String docIdRequestParameter = request.getParameter(KNSConstants.PARAMETER_DOC_ID);
-            Document retrievedDocument = KNSServiceLocator.getDocumentService().getByDocumentHeaderId(docIdRequestParameter);
+            String docIdRequestParameter = request.getParameter(KRADConstants.PARAMETER_DOC_ID);
+            Document retrievedDocument = KRADServiceLocatorWeb.getDocumentService().getByDocumentHeaderId(docIdRequestParameter);
             committeeForm.setDocument(retrievedDocument);
             loadDocument(committeeForm);
-            request.setAttribute(KNSConstants.PARAMETER_DOC_ID, docIdRequestParameter);
+            request.setAttribute(KRADConstants.PARAMETER_DOC_ID, docIdRequestParameter);
         } else {
             forward = super.docHandler(mapping, form, request, response);
         }
 
-        if (KEWConstants.INITIATE_COMMAND.equals(committeeForm.getCommand())) {
+        if (KewApiConstants.INITIATE_COMMAND.equals(committeeForm.getCommand())) {
             committeeForm.getCommitteeDocument().initialize();
         } else {
             committeeForm.initialize();
@@ -268,8 +268,8 @@ public abstract class CommitteeAction extends KraTransactionalDocumentActionBase
     public ActionForward committeeSchedule(ActionMapping mapping, ActionForm form, HttpServletRequest request, HttpServletResponse response) {
         // if 'submit' in async and with 'merging' delete. so, there is latency issue.  it is needed to refresh the schedules,
         // if user goes to schedule/maintenance directly immediately after 'submit'.
-        KualiWorkflowDocument workflowDocument = ((CommitteeForm) form).getCommitteeDocument().getDocumentHeader().getWorkflowDocument();
-        if (workflowDocument.stateIsEnroute() || workflowDocument.stateIsFinal()) {
+        WorkflowDocument workflowDocument = ((CommitteeForm) form).getCommitteeDocument().getDocumentHeader().getWorkflowDocument();
+        if (workflowDocument.isEnroute() || workflowDocument.isFinal()) {
             ((CommitteeForm) form).getCommitteeDocument().getCommittee().refreshReferenceObject("committeeSchedules");
         }
         ((CommitteeForm) form).getCommitteeHelper().prepareView();
@@ -313,10 +313,10 @@ public abstract class CommitteeAction extends KraTransactionalDocumentActionBase
         
         ActionForward forward = super.route(mapping, form, request, response);
         
-        Long routeHeaderId = Long.parseLong(((CommitteeForm) form).getCommitteeDocument().getDocumentNumber());
+        String routeHeaderId = ((CommitteeForm) form).getCommitteeDocument().getDocumentNumber();
         String returnLocation = buildActionUrl(routeHeaderId, "committeeActions", "CommitteeDocument");
         
-        //ActionForward basicForward = mapping.findForward(KNSConstants.MAPPING_PORTAL);
+        //ActionForward basicForward = mapping.findForward(KRADConstants.MAPPING_PORTAL);
         ActionForward holdingPageForward = mapping.findForward(Constants.MAPPING_HOLDING_PAGE);
         return routeToHoldingPage(forward, forward, holdingPageForward, returnLocation);
     }
@@ -325,10 +325,10 @@ public abstract class CommitteeAction extends KraTransactionalDocumentActionBase
     public ActionForward blanketApprove(ActionMapping mapping, ActionForm form, HttpServletRequest request,
             HttpServletResponse response) throws Exception {
         ActionForward forward = super.blanketApprove(mapping, form, request, response);
-        Long routeHeaderId = Long.parseLong(((CommitteeForm) form).getCommitteeDocument().getDocumentNumber());
+        String routeHeaderId = ((CommitteeForm) form).getCommitteeDocument().getDocumentNumber();
         String returnLocation = buildActionUrl(routeHeaderId, "committeeActions", "CommitteeDocument");
         
-        //ActionForward basicForward = mapping.findForward(KNSConstants.MAPPING_PORTAL);
+        //ActionForward basicForward = mapping.findForward(KRADConstants.MAPPING_PORTAL);
         ActionForward holdingPageForward = mapping.findForward(Constants.MAPPING_HOLDING_PAGE);
         return routeToHoldingPage(forward, forward, holdingPageForward, returnLocation);
     }

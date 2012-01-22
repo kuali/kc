@@ -87,12 +87,12 @@ import org.kuali.kra.questionnaire.answer.Answer;
 import org.kuali.kra.questionnaire.answer.AnswerHeader;
 import org.kuali.kra.questionnaire.answer.ModuleQuestionnaireBean;
 import org.kuali.kra.questionnaire.answer.QuestionnaireAnswerService;
-import org.kuali.rice.kns.service.BusinessObjectService;
-import org.kuali.rice.kns.service.DateTimeService;
-import org.kuali.rice.kns.service.ParameterService;
-import org.kuali.rice.kns.service.SequenceAccessorService;
-import org.kuali.rice.kns.util.GlobalVariables;
-import org.kuali.rice.kns.util.ObjectUtils;
+import org.kuali.rice.krad.service.BusinessObjectService;
+import org.kuali.rice.core.api.datetime.DateTimeService;
+import org.kuali.rice.coreservice.framework.parameter.ParameterService;
+import org.kuali.rice.krad.service.SequenceAccessorService;
+import org.kuali.rice.krad.util.GlobalVariables;
+import org.kuali.rice.krad.util.ObjectUtils;
 
 /**
  * 
@@ -466,35 +466,6 @@ public class Protocol extends KraPersistableBusinessObjectBase implements Sequen
         }
         
         return reviews;
-    }
-
-    @Override 
-    protected LinkedHashMap<String,Object> toStringMapper() {
-        LinkedHashMap<String,Object> hashMap = new LinkedHashMap<String,Object>();        
-        hashMap.put("protocolId", getProtocolId());
-        hashMap.put("protocolNumber", getProtocolNumber());
-        hashMap.put("sequenceNumber", getSequenceNumber());
-        hashMap.put("active", isActive());
-        hashMap.put("protocolTypeCode", getProtocolTypeCode());
-        hashMap.put("protocolStatusCode", getProtocolStatusCode());
-        hashMap.put("title", getTitle());
-        hashMap.put("description", getDescription());
-        hashMap.put("approvalDate", getApprovalDate());
-        hashMap.put("expirationDate", getExpirationDate());
-        hashMap.put("lastApprovalDate", getLastApprovalDate());
-        hashMap.put("fdaApplicationNumber", getFdaApplicationNumber());
-        hashMap.put("referenceNumber1", getReferenceNumber1());
-        hashMap.put("referenceNumber2", getReferenceNumber2());
-        hashMap.put("specialReviewIndicator", getSpecialReviewIndicator());
-        hashMap.put("vulnerableSubjectIndicator", getVulnerableSubjectIndicator());
-        hashMap.put("keyStudyPersonIndicator", getKeyStudyPersonIndicator());
-        hashMap.put("fundingSourceIndicator", getFundingSourceIndicator());
-        hashMap.put("correspondentIndicator", getCorrespondentIndicator());
-        hashMap.put("referenceIndicator", getReferenceIndicator());
-        hashMap.put("relatedProjectsIndicator", getRelatedProjectsIndicator());
-        hashMap.put("specialReviews", getSpecialReviews());
-        hashMap.put("attachmentProtocols", getAttachmentProtocols());
-        return hashMap;
     }
 
     public ProtocolStatus getProtocolStatus() {
@@ -2101,7 +2072,7 @@ public class Protocol extends KraPersistableBusinessObjectBase implements Sequen
         
         //Lets see if there is a default set for the attachment sort
         try {
-            String defaultSortBy = getParameterService().getParameterValue(ProtocolDocument.class, Constants.PARAMETER_PROTOCOL_ATTACHMENT_DEFAULT_SORT);
+            String defaultSortBy = getParameterService().getParameterValueAsString(ProtocolDocument.class, Constants.PARAMETER_PROTOCOL_ATTACHMENT_DEFAULT_SORT);
             if (StringUtils.isNotBlank(defaultSortBy)) {
                 protocolAttachmentFilter.setSortBy(defaultSortBy);
             }

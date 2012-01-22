@@ -31,20 +31,20 @@ import org.kuali.kra.irb.ProtocolOnlineReviewDocument;
 import org.kuali.kra.personmasschange.document.PersonMassChangeDocument;
 import org.kuali.kra.proposaldevelopment.document.ProposalDevelopmentDocument;
 import org.kuali.kra.timeandmoney.document.TimeAndMoneyDocument;
-import org.kuali.rice.kew.util.KEWConstants;
-import org.kuali.rice.kim.bo.Person;
-import org.kuali.rice.kim.service.PersonService;
-import org.kuali.rice.kns.document.Document;
-import org.kuali.rice.kns.document.authorization.PessimisticLock;
-import org.kuali.rice.kns.service.DocumentService;
-import org.kuali.rice.kns.util.KNSConstants;
+import org.kuali.rice.kew.api.KewApiConstants;
+import org.kuali.rice.kim.api.identity.Person;
+import org.kuali.rice.kim.api.identity.PersonService;
 import org.kuali.rice.kns.web.struts.action.KualiAction;
+import org.kuali.rice.krad.document.Document;
+import org.kuali.rice.krad.document.authorization.PessimisticLock;
+import org.kuali.rice.krad.service.DocumentService;
+import org.kuali.rice.krad.util.KRADConstants;
 
 public abstract class AbstractHoldingPageAction extends KualiAction {
 
     
     private DocumentService documentService;
-    private PersonService<Person> personService;
+    private PersonService personService;
     
     /**
      * Returns the user directly to the Portal instead of having to wait for the document to reload.
@@ -55,7 +55,7 @@ public abstract class AbstractHoldingPageAction extends KualiAction {
      * @return
      */
     public ActionForward returnToPortal(ActionMapping mapping, ActionForm form, HttpServletRequest request, HttpServletResponse response) {
-        return mapping.findForward(KNSConstants.MAPPING_PORTAL);
+        return mapping.findForward(KRADConstants.MAPPING_PORTAL);
     }
     
     /**
@@ -77,7 +77,7 @@ public abstract class AbstractHoldingPageAction extends KualiAction {
     protected boolean isPessimisticallyLocked(Document document) {
         boolean isPessimisticallyLocked = false;
         
-        Person pessimisticLockHolder = getPersonService().getPersonByPrincipalName(KEWConstants.SYSTEM_USER);
+        Person pessimisticLockHolder = getPersonService().getPersonByPrincipalName(KewApiConstants.SYSTEM_USER);
         for (PessimisticLock pessimisticLock : document.getPessimisticLocks()) {
             if (pessimisticLock.isOwnedByUser(pessimisticLockHolder)) {
                 isPessimisticallyLocked = true;
@@ -104,7 +104,7 @@ public abstract class AbstractHoldingPageAction extends KualiAction {
             isProcessComplete = ((ProposalDevelopmentDocument) document).isProcessComplete();
         } else if (document instanceof ProtocolDocument) {
             isProcessComplete = ((ProtocolDocument) document).isProcessComplete();
-        } else if (document instanceof TimeAndMoneyDocument) {
+        }else if (document instanceof TimeAndMoneyDocument) {
             isProcessComplete = ((TimeAndMoneyDocument) document).isProcessComplete();
         } else if (document instanceof ProtocolOnlineReviewDocument) {
             isProcessComplete = ((ProtocolOnlineReviewDocument) document).isProcessComplete();
@@ -129,14 +129,14 @@ public abstract class AbstractHoldingPageAction extends KualiAction {
     }
     
     @SuppressWarnings("unchecked")
-    public PersonService<Person> getPersonService() {
+    public PersonService getPersonService() {
         if (personService == null) {
             personService = KraServiceLocator.getService(PersonService.class);
         }
         return personService;
     }
     
-    public void setPersonService(PersonService<Person> personService) {
+    public void setPersonService(PersonService personService) {
         this.personService = personService;
     }
 }

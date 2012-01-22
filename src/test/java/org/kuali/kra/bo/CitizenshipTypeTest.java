@@ -15,7 +15,6 @@
  */
 package org.kuali.kra.bo;
 
-import static org.junit.Assert.assertEquals;
 import gov.grants.apply.forms.phs398CareerDevelopmentAwardSup11V11.CitizenshipDataType;
 import gov.grants.apply.forms.phs398CareerDevelopmentAwardSup11V11.CitizenshipDataType.Enum;
 
@@ -28,7 +27,7 @@ import org.junit.Test;
 import org.kuali.kra.infrastructure.KraServiceLocator;
 import org.kuali.kra.service.CitizenshipTypeService;
 import org.kuali.kra.test.infrastructure.KcUnitTestBase;
-import org.kuali.rice.kns.service.BusinessObjectService;
+import org.kuali.rice.krad.service.BusinessObjectService;
 
 public class CitizenshipTypeTest extends KcUnitTestBase {
     

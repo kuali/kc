@@ -18,34 +18,34 @@ package org.kuali.kra.lookup.keyvalue;
 import java.io.Serializable;
 import java.util.Comparator;
 
-import org.kuali.rice.core.util.KeyLabelPair;
+import org.kuali.rice.core.api.util.KeyValue;
 
 /**
- * Compares two {@link KeyLabelPair KeyLabelPair} instances. Useful when sorting a list of for 
+ * Compares two {@link KeyValue KeyValue} instances. Useful when sorting a list of for 
  *  a values finder
  *  
  *  @author $Author: gmcgrego $
  *  @version $Revision: 1.2 $
  */
-public final class KeyLabelPairComparator implements Comparator<KeyLabelPair>, Serializable {
+public final class KeyValueComparator implements Comparator<KeyValue>, Serializable {
     
     private static final long serialVersionUID = -6968793748825904116L;
-    private static final Comparator<KeyLabelPair> INSTANCE = new KeyLabelPairComparator();
+    private static final Comparator<KeyValue> INSTANCE = new KeyValueComparator();
     
     /**
      * Compares the label of <code>o1</code> to the label of </code>o2</code>.
      * 
      * {@inheritDoc}
      */
-    public int compare(KeyLabelPair o1, KeyLabelPair o2) {
-        return o1.getLabel().compareTo(o2.getLabel());
+    public int compare(KeyValue o1, KeyValue o2) {
+        return o1.getValue().compareTo(o2.getValue());
     }
 
     /**
-     * Gets an instance of a {@link KeyLabelPairComparator KeyLabelPairComparator}.
+     * Gets an instance of a {@link KeyValueComparator KeyValueComparator}.
      * @return an instance
      */
-    public static final Comparator<KeyLabelPair> getInstance() {
+    public static final Comparator<KeyValue> getInstance() {
         return INSTANCE;
     }
 }

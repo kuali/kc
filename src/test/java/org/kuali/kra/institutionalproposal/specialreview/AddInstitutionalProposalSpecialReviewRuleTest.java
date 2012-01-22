@@ -17,11 +17,10 @@ package org.kuali.kra.institutionalproposal.specialreview;
 
 import org.kuali.kra.common.specialreview.rules.AddSpecialReviewRuleTestBase;
 import org.kuali.kra.institutionalproposal.document.InstitutionalProposalDocument;
-import org.kuali.kra.institutionalproposal.specialreview.InstitutionalProposalSpecialReview;
-import org.kuali.rice.kew.exception.WorkflowException;
-import org.kuali.rice.kns.UserSession;
-import org.kuali.rice.kns.document.Document;
-import org.kuali.rice.kns.util.GlobalVariables;
+import org.kuali.rice.kew.api.exception.WorkflowException;
+import org.kuali.rice.krad.UserSession;
+import org.kuali.rice.krad.document.Document;
+import org.kuali.rice.krad.util.GlobalVariables;
 
 public class AddInstitutionalProposalSpecialReviewRuleTest extends AddSpecialReviewRuleTestBase<InstitutionalProposalSpecialReview> {
 

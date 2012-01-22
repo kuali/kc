@@ -16,25 +16,22 @@
 package org.kuali.kra.common.notification.lookup.keyvalue;
 
 import java.util.ArrayList;
-import java.util.Collection;
 import java.util.Collections;
 import java.util.List;
 
 import org.apache.commons.collections.CollectionUtils;
-import org.apache.commons.lang.builder.CompareToBuilder;
 import org.kuali.kra.common.notification.bo.NotificationModuleRole;
 import org.kuali.kra.common.notification.bo.NotificationType;
 import org.kuali.kra.infrastructure.KraServiceLocator;
 import org.kuali.kra.lookup.keyvalue.PrefixValuesFinder;
 import org.kuali.kra.service.NotificationModuleRoleService;
-import org.kuali.rice.core.util.KeyLabelPair;
-import org.kuali.rice.kim.bo.impl.RoleImpl;
-import org.kuali.rice.kns.document.Document;
-import org.kuali.rice.kns.lookup.keyvalues.KeyValuesBase;
-import org.kuali.rice.kns.service.KeyValuesService;
-import org.kuali.rice.kns.util.GlobalVariables;
+import org.kuali.rice.core.api.util.KeyValue;
+import org.kuali.rice.kns.util.KNSGlobalVariables;
 import org.kuali.rice.kns.web.struts.form.KualiDocumentFormBase;
 import org.kuali.rice.kns.web.struts.form.KualiForm;
+import org.kuali.rice.krad.document.Document;
+import org.kuali.rice.krad.keyvalues.KeyValuesBase;
+import org.kuali.rice.krad.service.KeyValuesService;
 
 /**
  * Provides a value finder for the Notification Type Recipient Role Namespace and Role name combination.
@@ -45,17 +42,17 @@ public class NotificationTypeRecipientRoleNameValuesFinder extends KeyValuesBase
 
     /**
      * {@inheritDoc}
-     * @see org.kuali.rice.kns.lookup.keyvalues.KeyValuesFinder#getKeyValues()
+     * @see org.kuali.rice.krad.keyvalues.KeyValuesFinder#getKeyValues()
      */
     @SuppressWarnings("unchecked")
-    public List<?> getKeyValues() {
+    public List<KeyValue> getKeyValues() {
 
         String moduleCode = null;
-        KualiForm form = GlobalVariables.getKualiForm();
+        KualiForm form = KNSGlobalVariables.getKualiForm();
         if ((form != null) && (form instanceof KualiDocumentFormBase)) {
             Document doc = ((KualiDocumentFormBase)form).getDocument();
             if (doc != null) {
-                NotificationType notificationType = (NotificationType) doc.getDocumentBusinessObject();
+                NotificationType notificationType = (NotificationType) doc.getNoteTarget();
                 if (notificationType != null) {
                     moduleCode = notificationType.getModuleCode();
                 }
@@ -64,7 +61,6 @@ public class NotificationTypeRecipientRoleNameValuesFinder extends KeyValuesBase
         
         List<KeyLabelSortByValue> keyValues = new ArrayList<KeyLabelSortByValue>();
         keyValues.add(new KeyLabelSortByValue(PrefixValuesFinder.getPrefixKey(), PrefixValuesFinder.getDefaultPrefixValue()));
-        
         if (moduleCode != null) {
             List<NotificationModuleRole> moduleRoles = getNotificationModuleRoleService().getModuleRolesByModuleName(moduleCode);
             if (CollectionUtils.isNotEmpty(moduleRoles)) {
@@ -76,7 +72,10 @@ public class NotificationTypeRecipientRoleNameValuesFinder extends KeyValuesBase
 
         // sort values for usability
         Collections.sort(keyValues);
-        return keyValues;
+        List<KeyValue> returnKeyValues = new ArrayList<KeyValue>();
+        returnKeyValues.addAll(keyValues);
+        
+        return returnKeyValues;
     }
     
     public KeyValuesService getKeyValuesService() {
@@ -89,7 +88,7 @@ public class NotificationTypeRecipientRoleNameValuesFinder extends KeyValuesBase
     public void setKeyValuesService(KeyValuesService keyValuesService) {
         this.keyValuesService = keyValuesService;
     }
-    
+
     public NotificationModuleRoleService getNotificationModuleRoleService() {
         return KraServiceLocator.getService(NotificationModuleRoleService.class);
     }

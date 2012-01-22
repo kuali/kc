@@ -4,7 +4,7 @@ import org.junit.Test;
 import org.kuali.kra.bo.ScienceKeyword;
 import org.kuali.kra.infrastructure.KraServiceLocator;
 import org.kuali.kra.test.infrastructure.KcUnitTestBase;
-import org.kuali.rice.kns.service.BusinessObjectService;
+import org.kuali.rice.krad.service.BusinessObjectService;
 
 public class DbTransactionTest extends KcUnitTestBase {
     private static final String KEYWORD_1 = "TK1";

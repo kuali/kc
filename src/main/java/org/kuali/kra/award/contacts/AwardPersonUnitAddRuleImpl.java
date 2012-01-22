@@ -16,7 +16,7 @@
 package org.kuali.kra.award.contacts;
 
 import org.kuali.kra.bo.Unit;
-import org.kuali.rice.kns.util.GlobalVariables;
+import org.kuali.rice.krad.util.GlobalVariables;
 
 /**
  * This class implements the specified rule
@@ -43,7 +43,7 @@ public class AwardPersonUnitAddRuleImpl implements AwardPersonUnitAddRule {
         
         if(!valid) {
             Unit dupeUnit = newAwardPersonUnit.getUnit();
-            GlobalVariables.getErrorMap().putError(AWARD_PROJECT_PERSON_LIST_ERROR_KEY+"["+addUnitPersonIndex+"].unitNumber", 
+            GlobalVariables.getMessageMap().putError(AWARD_PROJECT_PERSON_LIST_ERROR_KEY+"["+addUnitPersonIndex+"].unitNumber", 
                                                         ERROR_AWARD_PROJECT_PERSON_DUPLICATE_UNITS, 
                                                         dupeUnit.getUnitName(), dupeUnit.getUnitNumber(),
                                                         projectPerson.getFullName());

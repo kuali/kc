@@ -36,15 +36,11 @@
       var kualiForm = document.forms['KualiForm'];
       var kualiElements = kualiForm.elements;
     </SCRIPT>
+    <link type="text/css" rel="stylesheet" href="krad/css/global/jquery/jquery.fancybox-1.3.4.css"></link>
     <script type="text/javascript" src="${pageContext.request.contextPath}/dwr/interface/DocumentTypeService.js"></script>
-    <script src="scripts/jquery/jquery.js"></script>
-    <script type="text/javascript" src="scripts/jquery/jquery.fancybox-1.3.4jh.js"></script>
     <script type="text/javascript" src="scripts/jquery/jquery-ui-1.8.16.custom.min.js"></script>
-    <link rel="stylesheet" type="text/css" href="scripts/jquery/fancybox/jquery.fancybox-1.3.4.css" media="screen"/>   
+    <script type="text/javascript" src="krad/scripts/jquery/jquery.fancybox-1.3.4.pack.js"></script>
     
-	<script type="text/javascript"> 
-   		var $jq = jQuery.noConflict();
-	</script>
     
 	
 	<c:if test="${KualiForm.headerBarEnabled}">
@@ -317,38 +313,38 @@
 				var showSearchClass = "showSearch";
 				var hideSearchClass = "hideSearch";
 				function toggleSearchTable() {
-					if ($jq('table.searchTable').is(':visible')) {
-						$jq('table.searchTable').hide();
-						$jq(showHideSearchClass).removeClass(hideSearchClass);
-						$jq(showHideSearchClass).addClass(showSearchClass);
+					if (jq('table.searchTable').is(':visible')) {
+						jq('table.searchTable').hide();
+						jq(showHideSearchClass).removeClass(hideSearchClass);
+						jq(showHideSearchClass).addClass(showSearchClass);
 					} else {
-						$jq('table.searchTable').show();
-						$jq(showHideSearchClass).addClass(hideSearchClass);
-						$jq(showHideSearchClass).removeClass(showSearchClass);
+						jq('table.searchTable').show();
+						jq(showHideSearchClass).addClass(hideSearchClass);
+						jq(showHideSearchClass).removeClass(showSearchClass);
 					}
 				}
 				function showSearchTable() {
-					if (!$jq('table.searchTable').is(':visible')) {
-						$jq('table.searchTable').show();
-						$jq(showHideSearchClass).addClass(hideSearchClass);
-						$jq(showHideSearchClass).removeClass(showSearchClass);
+					if (!jq('table.searchTable').is(':visible')) {
+						jq('table.searchTable').show();
+						jq(showHideSearchClass).addClass(hideSearchClass);
+						jq(showHideSearchClass).removeClass(showSearchClass);
 					}
 				}				
 				var showClass = "showLink";
 				var hideClass = "hideLink";									
 				function toggleDetails(link) {
-					var detailRow = $jq(link).parents('.aggregateResult').next('.detailRow');
-					if ($jq(detailRow).is(':visible')) {
-						$jq(detailRow).children().children().slideUp(100, function() {
-							$jq(detailRow).hide();});
-						$jq(link).removeClass(hideClass);
-						$jq(link).addClass(showClass);
+					var detailRow = jq(link).parents('.aggregateResult').next('.detailRow');
+					if (jq(detailRow).is(':visible')) {
+						jq(detailRow).children().children().slideUp(100, function() {
+							jq(detailRow).hide();});
+						jq(link).removeClass(hideClass);
+						jq(link).addClass(showClass);
 					} else {
-						if ($jq(link).hasClass('loaded')) {
-							  $jq(detailRow).show();
-							  $jq(detailRow).children().children().slideDown(100);
-							  $jq(link).addClass(hideClass);
-							  $jq(link).removeClass(showClass);
+						if (jq(link).hasClass('loaded')) {
+							  jq(detailRow).show();
+							  jq(detailRow).children().children().slideDown(100);
+							  jq(link).addClass(hideClass);
+							  jq(link).removeClass(showClass);
 						} else {
 							getDetails(link);
 						}
@@ -360,10 +356,10 @@
 					return result;
 				}
 				function getDetails(link) {
-					var data = $jq('form').serialize() + "&" + buildAggregateQueryString($jq(link).next('div').html()) 
+					var data = jq('form').serialize() + "&" + buildAggregateQueryString(jq(link).next('div').html()) 
 						+ "&methodToCall=getDetails";
 					
-		          $jq.ajax({
+		          jq.ajax({
 		              type: 'GET',
 		              dataType: 'html',
 		              data: data,
@@ -375,13 +371,13 @@
 		              },
 		              success: function(xml){
 		            	  try {
-		            		  var detailRow = $jq(link).parents('.aggregateResult').next('.detailRow');
-		            		  $jq(detailRow).find('div').html(xml);
-		            		  $jq(link).addClass('loaded');
-							  $jq(detailRow).show();
-							  $jq(detailRow).children().children().slideDown(100);
-							  $jq(link).addClass(hideClass);
-							  $jq(link).removeClass(showClass);
+		            		  var detailRow = jq(link).parents('.aggregateResult').next('.detailRow');
+		            		  jq(detailRow).find('div').html(jq(xml).find('table.Detail'));
+		            		  jq(link).addClass('loaded');
+							  jq(detailRow).show();
+							  jq(detailRow).children().children().slideDown(100);
+							  jq(link).addClass(hideClass);
+							  jq(link).removeClass(showClass);
 							  prepareSortableColumns();
 		            	  } catch(e) {
 			            	  alert(e);
@@ -390,10 +386,10 @@
 		          });
 				}
 				function moveColumns(fieldName, fieldType, newIndex) {
-					var data = $jq('form').serialize() + "&" + "&methodToCall=move" + fieldType + "Columns&newColumnIndex=" + newIndex +
+					var data = jq('form').serialize() + "&" + "&methodToCall=move" + fieldType + "Columns&newColumnIndex=" + newIndex +
 					"&moveField=" + fieldName;
 					console.log(data);
-		          $jq.ajax({
+		          jq.ajax({
 		              type: 'GET',
 		              dataType: 'html',
 		              data: data,
@@ -404,87 +400,85 @@
 				}
 					
 				function toggleCustomView(radioBtn) {
-					if ($jq(radioBtn).val() != ${KualiForm.reportTrackingViews.customViewIndex}) {
-						$jq("input[name='customGroupByFields']").attr('disabled', true);
-						$jq("input[name='customDetailFields']").attr('disabled', true);
+					if (jq(radioBtn).val() != ${KualiForm.reportTrackingViews.customViewIndex}) {
+						jq("input[name='customGroupByFields']").attr('disabled', true);
+						jq("input[name='customDetailFields']").attr('disabled', true);
 					} else {
-						$jq("input[name='customGroupByFields']").removeAttr('disabled');
-						$jq("input[name='customDetailFields']").removeAttr('disabled');
+						jq("input[name='customGroupByFields']").removeAttr('disabled');
+						jq("input[name='customDetailFields']").removeAttr('disabled');
 					}
 				}
 				var groupByClass = 'GroupBy';
 				var detailClass = 'Detail';
 				function prepareSortableColumns() {
-					$jq('th.draggableColumn').droppable({
+					jq('th.draggableColumn').droppable({
 						over: function(event, ui) {
 							// get column index
-							var index = $jq(this).index();
-							var pos = $jq(this).position();
-							$jq('.col-move').css('left', (pos.left- ($jq('.col-move').height()/2)));
-							$jq('.col-move-top').css('top', (pos.top - $jq('.col-move').height()));
-							$jq('.col-move-bottom').css('top', (pos.top + $jq(this).outerHeight()));
-							$jq('.col-move').show();
+							var index = jq(this).index();
+							var pos = jq(this).position();
+							jq('.col-move').css('left', (pos.left- (jq('.col-move').height()/2)));
+							jq('.col-move-top').css('top', (pos.top - jq('.col-move').height()));
+							jq('.col-move-bottom').css('top', (pos.top + jq(this).outerHeight()));
+							jq('.col-move').show();
 						},
 						out: function(event, ui) {
-							$jq('.col-move').hide();
+							jq('.col-move').hide();
 						},
 						drop: function(event, ui) {
 							var fieldType = ui.draggable.hasClass(groupByClass) ? groupByClass : detailClass;
 							// get table element
-							var $table = $jq('table.'+fieldType);
+							var $table = jq('table.'+fieldType);
 							// get source index
 							var orig_index = $table.first().data('drag_col_index');
 							// get new index
-							var new_index = $jq(this).index();
+							var new_index = jq(this).index();
 							//get the name of the field being moved. It is stored in a hidden div in the th.
 							var fieldName = ui.draggable.find('div').text();
 							
-							$table.find('tr').each(function(row_index, row_element) {
-								//console.log('move = '+orig_index+' before '+new_index);
-								if($jq(row_element).parent('thead').length) {
-									var orig_head = $jq(row_element).find('th').eq(orig_index).text();
-									var new_head = $jq(row_element).find('th').eq(new_index).text();
-									$jq(row_element).find('th').eq(orig_index).insertBefore($jq(row_element).find('th').eq(new_index));
+							$table.find('tr.'+fieldType).each(function(row_index, row_element) {
+								if(jq(row_element).parent('thead').length) {
+									var orig_head = jq(row_element).find('th').eq(orig_index).text();
+									var new_head = jq(row_element).find('th').eq(new_index).text();
+									jq(row_element).find('th').eq(orig_index).insertBefore(jq(row_element).find('th').eq(new_index));
 								} else {
-									var orig_head = $jq(row_element).find('td').eq(orig_index).text();
-									var new_head = $jq(row_element).find('td').eq(new_index).text();
-									$jq(row_element).find('td').eq(orig_index).insertBefore($jq(row_element).find('td').eq(new_index));
+									var orig_head = jq(row_element).find('td').eq(orig_index).text();
+									var new_head = jq(row_element).find('td').eq(new_index).text();
+									jq(row_element).find('td').eq(orig_index).insertBefore(jq(row_element).find('td').eq(new_index));
 								}
 								
-								$jq('.col-move').hide();
+								jq('.col-move').hide();
 							});
 							//send an ajax request to the server to reorder the columns. Index is -1 as the first column
 							//is the show details link rendered only in jsp.
 							moveColumns(fieldName, fieldType, new_index);
-							$jq('.resort').show();
+							jq('.resort').show();
 						}
 					});
-					$jq('th.' + groupByClass).droppable( "option", "accept", "."+groupByClass);
-					$jq('th.' + detailClass).droppable("option", "accept", "."+detailClass);
-					$jq('table th.draggableColumn').draggable({
+					jq('th.' + groupByClass).droppable( "option", "accept", "."+groupByClass);
+					jq('th.' + detailClass).droppable("option", "accept", "."+detailClass);
+					jq('table th.draggableColumn').draggable({
 						helper: 'clone',
 						containment: 'body',
 						start: function(event, ui){
 							// get column index
-							var index = $jq(this).index();
-							var fieldType = $jq(this).hasClass(groupByClass) ? groupByClass : detailClass;
+							var index = jq(this).index();
+							var fieldType = jq(this).hasClass(groupByClass) ? groupByClass : detailClass;
 							// add column index to data store
-							$jq('table.'+fieldType).data('drag_col_index', index);
+							jq('table.'+fieldType).data('drag_col_index', index);
 						}
 					});
 				}					
-				$jq(document).ready(function() {
-					$jq('a.showHideLink').each(function() { $jq(this).click(function() { toggleDetails(this); })});
-					toggleCustomView($jq("input[name=currentViewIndex]:checked"));
-					$jq.fancybox.setup({ dropshadow : false, overlayShow : false });
-					$jq("#customSelLink").fancybox({
+				jq(document).ready(function() {
+					jq('a.showHideLink').each(function() { jq(this).click(function() { toggleDetails(this); })});
+					toggleCustomView(jq("input[name=currentViewIndex]:checked"));
+					jq("#customSelLink").fancybox({
 						'hideOnContentClick' : false,
 						'width:' : 400,
-						'onClosed' : function() { $jq('#onChangeViewClose').click(); },
+						'onClosed' : function() { jq('#onChangeViewClose').click(); },
 						'onStart' : function() { showSearchTable(); }
 						 });
 				});
-				$jq(document).ready(function() {
+				jq(document).ready(function() {
 					prepareSortableColumns();
 				}); 				
 			</script>

@@ -15,12 +15,11 @@
  */
 package org.kuali.kra.workflow;
 
-import java.rmi.RemoteException;
-
 import org.kuali.kra.infrastructure.KraServiceLocator;
-import org.kuali.rice.kew.dto.DocumentRouteStatusChangeDTO;
-import org.kuali.rice.kns.service.PostProcessorService;
-import org.kuali.rice.kns.workflow.postprocessor.KualiPostProcessor;
+import org.kuali.rice.kew.framework.postprocessor.DocumentRouteStatusChange;
+import org.kuali.rice.kew.framework.postprocessor.ProcessDocReport;
+import org.kuali.rice.krad.service.PostProcessorService;
+import org.kuali.rice.krad.workflow.postprocessor.KualiPostProcessor;
 
 /**
  * Extends the {@code KualiPostProcessor} to record the actual user performing an action on a workflow status change.
@@ -28,7 +27,7 @@ import org.kuali.rice.kns.workflow.postprocessor.KualiPostProcessor;
 public class KcPostProcessor extends KualiPostProcessor {
     
     @Override
-    public boolean doRouteStatusChange(DocumentRouteStatusChangeDTO statusChangeEvent) throws RemoteException {
+    public ProcessDocReport doRouteStatusChange(DocumentRouteStatusChange statusChangeEvent) throws Exception {
         return ((PostProcessorService) KraServiceLocator.getService("kcPostProcessorService")).doRouteStatusChange(statusChangeEvent);
     }
 

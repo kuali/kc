@@ -19,7 +19,7 @@ import org.kuali.kra.award.document.AwardDocument;
 import org.kuali.kra.award.notesandattachments.attachments.AwardAttachment;
 import org.kuali.kra.award.rule.AddAwardAttachmentRule;
 import org.kuali.kra.rule.event.KraDocumentEventBase;
-import org.kuali.rice.kns.rule.BusinessRule;
+import org.kuali.rice.krad.rules.rule.BusinessRule;
 
 
 public class AwardAttachmentEventBase extends KraDocumentEventBase implements AwardAttachmentEvent  {

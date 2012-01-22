@@ -26,11 +26,10 @@ import org.kuali.kra.common.permissions.Permissionable;
 import org.kuali.kra.service.KraAuthorizationService;
 import org.kuali.kra.service.SystemAuthorizationService;
 import org.kuali.kra.service.UnitAclLoadService;
-import org.kuali.rice.kim.bo.Role;
-import org.kuali.rice.kim.bo.role.dto.RoleMembershipInfo;
-import org.kuali.rice.kim.bo.types.dto.AttributeSet;
-import org.kuali.rice.kim.service.RoleManagementService;
-import org.kuali.rice.kns.util.GlobalVariables;
+import org.kuali.rice.kim.api.role.Role;
+import org.kuali.rice.kim.api.role.RoleMembership;
+import org.kuali.rice.kim.api.role.RoleService;
+import org.kuali.rice.krad.util.GlobalVariables;
 
 /**
  * @see org.kuali.kra.service.UnitAclLoadService
@@ -38,7 +37,7 @@ import org.kuali.rice.kns.util.GlobalVariables;
 public class UnitAclLoadServiceImpl implements UnitAclLoadService {
 
     private KraAuthorizationService kraAuthorizationService;
-    private RoleManagementService roleManagementService;
+    private RoleService roleManagementService;
     private SystemAuthorizationService systemAuthorizationService;
     
     /**
@@ -49,7 +48,7 @@ public class UnitAclLoadServiceImpl implements UnitAclLoadService {
         this.kraAuthorizationService = kraAuthorizationService;
     }
     
-    public void setRoleManagementService(RoleManagementService roleManagementService) {
+    public void setRoleManagementService(RoleService roleManagementService) {
         this.roleManagementService = roleManagementService;
     }
 
@@ -65,13 +64,13 @@ public class UnitAclLoadServiceImpl implements UnitAclLoadService {
         Map<String, String> roleIdMap = new HashMap<String, String>();
         Role role = null;
         
-        Collection<RoleMembershipInfo> kraRoleTemplates = getDocumentDefaultAcl(permissionable.getLeadUnitNumber(), permissionable.getDocumentRoleTypeCode());
-        for (RoleMembershipInfo kraRoleTemplate : kraRoleTemplates) {
+        Collection<RoleMembership> kraRoleTemplates = getDocumentDefaultAcl(permissionable.getLeadUnitNumber(), permissionable.getDocumentRoleTypeCode());
+        for (RoleMembership kraRoleTemplate : kraRoleTemplates) {
             String personId = kraRoleTemplate.getMemberId();
             if (personId != null && !StringUtils.equals(personId, creatorUserId)) {
                 if(StringUtils.isEmpty(roleIdMap.get(kraRoleTemplate.getRoleId()))){
                     role = roleManagementService.getRole(kraRoleTemplate.getRoleId());
-                    roleIdMap.put(kraRoleTemplate.getRoleId(), role.getRoleName());
+                    roleIdMap.put(kraRoleTemplate.getRoleId(), role.getName());
                 }
                 kraAuthorizationService.addRole(personId, roleIdMap.get(kraRoleTemplate.getRoleId()), permissionable); 
             }
@@ -95,15 +94,15 @@ public class UnitAclLoadServiceImpl implements UnitAclLoadService {
      * @param documentTypeCode
      * @return the access control list for the document type
      */
-    protected Collection<RoleMembershipInfo> getDocumentDefaultAcl(String unitNumber, String documentTypeCode) {
+    protected Collection<RoleMembership> getDocumentDefaultAcl(String unitNumber, String documentTypeCode) {
         Map<String, String> qualifiedRoleAttributes = new HashMap<String, String>();
         qualifiedRoleAttributes.put("unitNumber", unitNumber);
         List<String> roleIds = new ArrayList<String>();
         List<Role> proposalRoles = systemAuthorizationService.getRoles(documentTypeCode);
         for(Role role : proposalRoles) {
-            roleIds.add(role.getRoleId());
+            roleIds.add(role.getId());
         }
-        List<RoleMembershipInfo> membershipInfoList = roleManagementService.getRoleMembers(roleIds, new AttributeSet(qualifiedRoleAttributes));
+        List<RoleMembership> membershipInfoList = roleManagementService.getRoleMembers(roleIds,new HashMap<String,String>(qualifiedRoleAttributes));
         return membershipInfoList;
         
     }

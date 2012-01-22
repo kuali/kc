@@ -28,7 +28,7 @@ import org.kuali.kra.bo.UnitAdministrator;
 import org.kuali.kra.bo.UnitAdministratorType;
 import org.kuali.kra.bo.UnitContactType;
 import org.kuali.kra.infrastructure.KraServiceLocator;
-import org.kuali.rice.kns.service.BusinessObjectService;
+import org.kuali.rice.krad.service.BusinessObjectService;
 
 /**
  * This class...

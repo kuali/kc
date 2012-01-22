@@ -25,14 +25,13 @@ import org.apache.commons.lang.StringUtils;
 import org.kuali.kra.infrastructure.Constants;
 import org.kuali.kra.infrastructure.KeyConstants;
 import org.kuali.kra.proposaldevelopment.bo.ProposalYnq;
-import org.kuali.kra.proposaldevelopment.bo.YnqGroupName;
 import org.kuali.kra.proposaldevelopment.document.ProposalDevelopmentDocument;
 import org.kuali.kra.rules.ResearchDocumentRuleBase;
-import org.kuali.rice.kns.document.Document;
-import org.kuali.rice.kns.rule.DocumentAuditRule;
 import org.kuali.rice.kns.util.AuditCluster;
 import org.kuali.rice.kns.util.AuditError;
-import org.kuali.rice.kns.util.GlobalVariables;
+import org.kuali.rice.kns.util.KNSGlobalVariables;
+import org.kuali.rice.krad.document.Document;
+import org.kuali.rice.krad.rules.rule.DocumentAuditRule;
 
 public class ProposalDevelopmentYnqAuditRule extends ResearchDocumentRuleBase implements DocumentAuditRule {
    
@@ -42,7 +41,7 @@ public class ProposalDevelopmentYnqAuditRule extends ResearchDocumentRuleBase im
     
     /**
      * 
-     * @see org.kuali.rice.kns.rule.DocumentAuditRule#processRunAuditBusinessRules(org.kuali.rice.kns.document.Document)
+     * @see org.kuali.rice.krad.rules.rule.DocumentAuditRule#processRunAuditBusinessRules(org.kuali.rice.krad.document.Document)
      */
     public boolean processRunAuditBusinessRules(Document document) {
     
@@ -103,11 +102,11 @@ public class ProposalDevelopmentYnqAuditRule extends ResearchDocumentRuleBase im
         
         String key = String.format( PROPOSAL_QUESTIONS_PANEL_KEY, groupName );
         
-        if (!GlobalVariables.getAuditErrorMap().containsKey(key)) {
-           GlobalVariables.getAuditErrorMap().put(key, new AuditCluster(groupName, auditErrors, AUDIT_ERRORS));
+        if (!KNSGlobalVariables.getAuditErrorMap().containsKey(key)) {
+           KNSGlobalVariables.getAuditErrorMap().put(key, new AuditCluster(groupName, auditErrors, AUDIT_ERRORS));
         }
         else {
-            auditErrors = ((AuditCluster)GlobalVariables.getAuditErrorMap().get(key)).getAuditErrorList();
+            auditErrors = ((AuditCluster)KNSGlobalVariables.getAuditErrorMap().get(key)).getAuditErrorList();
         }
         
         return auditErrors;

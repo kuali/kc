@@ -16,7 +16,6 @@
 package org.kuali.kra.bo;
 
 import java.util.ArrayList;
-import java.util.LinkedHashMap;
 import java.util.List;
 
 /**
@@ -25,15 +24,19 @@ import java.util.List;
 public class Unit extends KraPersistableBusinessObjectBase {
 
     private static final long serialVersionUID = -2473668965878807557L;
-    
+
     private String unitNumber;
+
     private String parentUnitNumber;
+
     private String organizationId;
+
     private String unitName;
+
     private String campusCode;
- 
-    
+
     private Unit parentUnit;
+
     private List<UnitAdministrator> unitAdministrators;
 
     private Organization organization;
@@ -50,7 +53,6 @@ public class Unit extends KraPersistableBusinessObjectBase {
     public void setUnitNumber(String unitNumber) {
         this.unitNumber = unitNumber;
     }
-
 
     public String getParentUnitNumber() {
         return parentUnitNumber;
@@ -92,18 +94,6 @@ public class Unit extends KraPersistableBusinessObjectBase {
         this.campusCode = campusCode;
     }
 
-    @SuppressWarnings("unchecked")
-    @Override 
-    protected LinkedHashMap toStringMapper() {
-        LinkedHashMap hashMap = new LinkedHashMap();
-        hashMap.put("unitNumber", getUnitNumber());
-        hashMap.put("parentUnitNumber", getParentUnitNumber());
-        hashMap.put("organizationId", getOrganizationId());
-        hashMap.put("unitName", getUnitName());
-        hashMap.put("campusCode", getCampusCode());
-        return hashMap;
-    }
-
     /**
      * Returns the organization.  If no organization is found, recurses up the hierarchy until a valid organization is found.
      * 
@@ -136,7 +126,7 @@ public class Unit extends KraPersistableBusinessObjectBase {
     public void setUnitAdministrators(List<UnitAdministrator> unitAdministrators) {
         this.unitAdministrators = unitAdministrators;
     }
-    
+
 
     /**
      * Gets the organizationIdForMaintenance attribute. 
@@ -157,12 +147,12 @@ public class Unit extends KraPersistableBusinessObjectBase {
     @SuppressWarnings("unchecked")
     @Override
     public List buildListOfDeletionAwareLists() {
-        // TODO : need this ?
+        // TODO : need this ? 
         List managedLists = super.buildListOfDeletionAwareLists();
         managedLists.add(getUnitAdministrators());
         return managedLists;
     }
-    
+
     /**
      * @see java.lang.Object#hashCode()
      */
@@ -198,5 +188,4 @@ public class Unit extends KraPersistableBusinessObjectBase {
         }
         return true;
     }
-
 }

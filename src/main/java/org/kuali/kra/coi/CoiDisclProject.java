@@ -16,7 +16,6 @@
 package org.kuali.kra.coi;
 
 import java.sql.Date;
-import java.util.LinkedHashMap;
 import java.util.List;
 
 import org.apache.commons.collections.CollectionUtils;
@@ -24,7 +23,7 @@ import org.apache.commons.lang.StringUtils;
 import org.kuali.kra.bo.KraPersistableBusinessObjectBase;
 import org.kuali.kra.irb.protocol.ProtocolType;
 import org.kuali.kra.proposaldevelopment.bo.ProposalType;
-import org.kuali.rice.kns.util.KualiDecimal;
+import org.kuali.rice.core.api.util.type.KualiDecimal;
 
 public class CoiDisclProject extends KraPersistableBusinessObjectBase implements Disclosurable { 
     
@@ -170,25 +169,6 @@ public class CoiDisclProject extends KraPersistableBusinessObjectBase implements
 
     public void setCoiDisclosure(CoiDisclosure coiDisclosure) {
         this.coiDisclosure = coiDisclosure;
-    }
-
-    /** {@inheritDoc} */
-    @Override 
-    protected LinkedHashMap<String, Object> toStringMapper() {
-        LinkedHashMap<String, Object> hashMap = new LinkedHashMap<String, Object>();
-        hashMap.put("coiDisclProjectsId", this.getCoiDisclProjectsId());
-        hashMap.put("coiDisclosureId", this.getCoiDisclosureId());
-        hashMap.put("coiDisclosureNumber", this.getCoiDisclosureNumber());
-        hashMap.put("sequenceNumber", this.getSequenceNumber());
-        hashMap.put("coiProjectId", this.getCoiProjectId());
-        hashMap.put("coiProjectTitle", this.getCoiProjectTitle());
-        hashMap.put("coiProjectType", this.getCoiProjectType());
-        hashMap.put("coiProjectSponsor", this.getCoiProjectSponsor());
-        hashMap.put("coiProjectStartDate", this.getCoiProjectStartDate());
-        hashMap.put("coiProjectEndDate", this.getCoiProjectEndDate());
-        hashMap.put("coiProjectFundingAmount", this.getCoiProjectFundingAmount());
-        hashMap.put("coiProjectRole", this.getCoiProjectRole());
-        return hashMap;
     }
 
     public ProposalType getProposalType() {

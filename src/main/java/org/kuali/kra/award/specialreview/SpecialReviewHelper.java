@@ -63,7 +63,7 @@ public class SpecialReviewHelper extends SpecialReviewHelperBase<AwardSpecialRev
     
     @Override
     protected boolean isProtocolLinkingEnabledForModule() {
-        return getParameterService().getIndicatorParameter(NAMESPACE_CODE, PARAMETER_CODE, PROTOCOL_AWARD_LINKING_ENABLED_PARAMETER);
+        return getParameterService().getParameterValueAsBoolean(NAMESPACE_CODE, PARAMETER_CODE, PROTOCOL_AWARD_LINKING_ENABLED_PARAMETER);
     }
 
     @Override

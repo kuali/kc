@@ -19,7 +19,6 @@ import java.sql.Date;
 import java.util.ArrayList;
 import java.util.Calendar;
 import java.util.HashMap;
-import java.util.LinkedHashMap;
 import java.util.List;
 import java.util.Map;
 
@@ -65,9 +64,9 @@ import org.kuali.kra.proposaldevelopment.bo.ProposalType;
 import org.kuali.kra.proposaldevelopment.bo.ProposalUnitCreditSplit;
 import org.kuali.kra.service.Sponsorable;
 import org.kuali.kra.service.UnitService;
-import org.kuali.rice.kns.service.BusinessObjectService;
-import org.kuali.rice.kns.util.KualiDecimal;
-import org.kuali.rice.kns.util.ObjectUtils;
+import org.kuali.rice.core.api.util.type.KualiDecimal;
+import org.kuali.rice.krad.service.BusinessObjectService;
+import org.kuali.rice.krad.util.ObjectUtils;
 
 public class InstitutionalProposal extends KraPersistableBusinessObjectBase implements
         KeywordsManager<InstitutionalProposalScienceKeyword>, SequenceOwner<InstitutionalProposal>, Sponsorable, Negotiable {
@@ -1305,56 +1304,6 @@ public class InstitutionalProposal extends KraPersistableBusinessObjectBase impl
         this.proposalSequenceStatus = proposalSequenceStatus;
     }
 
-    /** {@inheritDoc} */
-    @Override
-    protected LinkedHashMap<String, Object> toStringMapper() {
-        LinkedHashMap<String, Object> hashMap = new LinkedHashMap<String, Object>();
-        hashMap.put("proposalId", this.getProposalId());
-        hashMap.put("proposalNumber", this.getProposalNumber());
-        hashMap.put("instProposalNumber", this.getInstProposalNumber());
-        hashMap.put("sponsorProposalNumber", this.getSponsorProposalNumber());
-        hashMap.put("sequenceNumber", this.getSequenceNumber());
-        hashMap.put("proposalTypeCode", this.getProposalTypeCode());
-        hashMap.put("currentAccountNumber", this.getCurrentAccountNumber());
-        hashMap.put("title", this.getTitle());
-        hashMap.put("sponsorCode", this.getSponsorCode());
-        hashMap.put("rolodexId", this.getRolodexId());
-        hashMap.put("noticeOfOpportunityCode", this.getNoticeOfOpportunityCode());
-        hashMap.put("gradStudHeadcount", this.getGradStudHeadcount());
-        hashMap.put("gradStudPersonMonths", this.getGradStudPersonMonths());
-        hashMap.put("typeOfAccount", this.getTypeOfAccount());
-        hashMap.put("activityTypeCode", this.getActivityTypeCode());
-        hashMap.put("requestedStartDateInitial", this.getRequestedStartDateInitial());
-        hashMap.put("requestedStartDateTotal", this.getRequestedStartDateTotal());
-        hashMap.put("requestedEndDateInitial", this.getRequestedEndDateInitial());
-        hashMap.put("requestedEndDateTotal", this.getRequestedEndDateTotal());
-        hashMap.put("totalDirectCostInitial", this.getTotalDirectCostInitial());
-        hashMap.put("totalDirectCostTotal", this.getTotalDirectCostTotal());
-        hashMap.put("totalIndirectCostInitial", this.getTotalIndirectCostInitial());
-        hashMap.put("totalIndirectCostTotal", this.getTotalIndirectCostTotal());
-        hashMap.put("numberOfCopies", this.getNumberOfCopies());
-        hashMap.put("deadlineDate", this.getDeadlineDate());
-        hashMap.put("deadlineType", this.getDeadlineType());
-        hashMap.put("mailBy", this.getMailBy());
-        hashMap.put("mailType", this.getMailType());
-        hashMap.put("mailAccountNumber", this.getMailAccountNumber());
-        hashMap.put("subcontractFlag", this.getSubcontractFlag());
-        hashMap.put("costSharingIndicator", this.getCostSharingIndicator());
-        hashMap.put("idcRateIndicator", this.getIdcRateIndicator());
-        hashMap.put("specialReviewIndicator", this.getSpecialReviewIndicator());
-        hashMap.put("statusCode", this.getStatusCode());
-        hashMap.put("scienceCodeIndicator", this.getScienceCodeIndicator());
-        hashMap.put("nsfCode", this.getNsfCode());
-        hashMap.put("primeSponsorCode", this.getPrimeSponsorCode());
-        hashMap.put("initialContractAdmin", this.getInitialContractAdmin());
-        hashMap.put("ipReviewActivityIndicator", this.getIpReviewActivityIndicator());
-        hashMap.put("currentAwardNumber", this.getCurrentAwardNumber());
-        hashMap.put("cfdaNumber", this.getCfdaNumber());
-        hashMap.put("opportunity", this.getOpportunity());
-        hashMap.put("awardTypeCode", this.getAwardTypeCode());
-        return hashMap;
-    }
-
     public void addSpecialReview(InstitutionalProposalSpecialReview specialReview) {
         specialReview.setSequenceOwner(this);
         getSpecialReviews().add(specialReview);
@@ -1457,8 +1406,8 @@ public class InstitutionalProposal extends KraPersistableBusinessObjectBase impl
      * @see org.kuali.core.bo.PersistableBusinessObjectBase#beforeInsert()
      */
     @Override
-    public void afterInsert(PersistenceBroker persistenceBroker) throws PersistenceBrokerException {
-        super.afterInsert(persistenceBroker);
+    protected void postPersist() {
+        super.postPersist();
         updateProposalIpReviewJoin();
         // This method links the institutional proposal with the merged proposal log
         if (proposalId != null && proposalNumber != null)
@@ -1471,8 +1420,8 @@ public class InstitutionalProposal extends KraPersistableBusinessObjectBase impl
      * @see org.kuali.core.bo.PersistableBusinessObjectBase#afterLookup()
      */
     @Override
-    public void afterLookup(PersistenceBroker persistenceBroker) throws PersistenceBrokerException {
-        super.afterLookup(persistenceBroker);
+    protected void postLoad() {
+        super.postLoad();
     }
 
     protected void updateProposalIpReviewJoin() {

@@ -16,7 +16,7 @@
 package org.kuali.kra.committee.rule;
 
 import org.kuali.kra.committee.rule.event.AddCommitteeMembershipEvent;
-import org.kuali.rice.kns.rule.BusinessRule;
+import org.kuali.rice.krad.rules.rule.BusinessRule;
 
 /**
  * 
@@ -28,7 +28,7 @@ public interface AddCommitteeMembershipRule extends BusinessRule {
     
     /**
      * 
-     * Processes the validation rules for an <code>{@link AddCommitteeMembershipEvent}</code>
+     * ProcessDefinitionDefinitiones the validation rules for an <code>{@link AddCommitteeMembershipEvent}</code>
      * 
      * @param addCommitteeMembershipEvent
      * @return <code>true</code> if valid, <code>false</code> otherwise

@@ -19,10 +19,9 @@ import java.util.HashMap;
 import java.util.Map;
 
 import org.apache.commons.lang.StringUtils;
-import org.kuali.kra.bo.Sponsor;
 import org.kuali.kra.budget.core.CostElement;
 import org.kuali.kra.service.ObjectCodeToBudgetCategoryCodeService;
-import org.kuali.rice.kns.service.BusinessObjectService;
+import org.kuali.rice.krad.service.BusinessObjectService;
 
 public class ObjectCodeToBudgetCategoryCodeServiceImpl implements ObjectCodeToBudgetCategoryCodeService {
 

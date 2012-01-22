@@ -15,18 +15,15 @@
  */
 package org.kuali.kra.costshare;
 
-import static org.junit.Assert.*;
-
 import org.junit.After;
 import org.junit.Before;
 import org.junit.Test;
 import org.kuali.kra.infrastructure.Constants;
 import org.kuali.kra.infrastructure.KraServiceLocator;
 import org.kuali.kra.test.infrastructure.KcUnitTestBase;
-import org.kuali.rice.kns.service.ParameterConstants;
-import org.kuali.rice.kns.service.ParameterService;
-import org.kuali.rice.kns.service.ParameterConstants.COMPONENT;
-import org.kuali.rice.kns.service.ParameterConstants.NAMESPACE;
+import org.kuali.rice.coreservice.framework.parameter.ParameterService;
+import org.kuali.rice.coreservice.framework.parameter.ParameterConstants.COMPONENT;
+import org.kuali.rice.coreservice.framework.parameter.ParameterConstants.NAMESPACE;
 
 @NAMESPACE(namespace=Constants.KC_GENERIC_PARAMETER_NAMESPACE)
 @COMPONENT(component=Constants.KC_ALL_PARAMETER_DETAIL_TYPE_CODE)
@@ -52,11 +49,7 @@ public class CostShareServiceTest extends KcUnitTestBase {
 
     @Test
     public void testGetCostShareLabel() {
-        
-        ps.setParameterForTesting(this.getClass(), "CostShareProjectPeriodNameLabel", "Project Period");
-        String newParm = costShareService.getCostShareLabel(true);
-        ps.clearCache();
-        
+        updateParameterForTesting(this.getClass(), "CostShareProjectPeriodNameLabel", "Project Period");
         String result = costShareService.getCostShareLabel(false);
         assertEquals("Project Period", result);
     }
@@ -76,14 +69,15 @@ public class CostShareServiceTest extends KcUnitTestBase {
     @Test
     public void testSwitchParmAndReTestValidations() {        
         String fiscalYearParm = "FisCal Year";
-        ps.setParameterForTesting(this.getClass(), "CostShareProjectPeriodNameLabel", fiscalYearParm);
+        updateParameterForTesting(this.getClass(), "CostShareProjectPeriodNameLabel", fiscalYearParm);
         String newParm = costShareService.getCostShareLabel(true);
+        
         assertEquals(fiscalYearParm, newParm);
         assertTrue(costShareService.validateProjectPeriodAsFiscalYear(false));
         assertFalse(costShareService.validateProjectPeriodAsProjectPeriod(false));
         
         String fooBar = "foo";
-        ps.setParameterForTesting(this.getClass(), "CostShareProjectPeriodNameLabel", fooBar);
+        updateParameterForTesting(this.getClass(), "CostShareProjectPeriodNameLabel", fooBar);
         newParm = costShareService.getCostShareLabel(true);
         assertEquals(fooBar, newParm);
         assertFalse(costShareService.validateProjectPeriodAsFiscalYear(false));

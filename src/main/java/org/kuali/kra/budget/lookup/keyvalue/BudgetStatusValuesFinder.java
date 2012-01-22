@@ -18,16 +18,17 @@ package org.kuali.kra.budget.lookup.keyvalue;
 import java.util.ArrayList;
 import java.util.List;
 
-import org.kuali.rice.kns.lookup.keyvalues.KeyValuesBase;
-import org.kuali.rice.core.util.KeyLabelPair;
+import org.kuali.rice.core.api.util.ConcreteKeyValue;
+import org.kuali.rice.core.api.util.KeyValue;
+import org.kuali.rice.krad.keyvalues.KeyValuesBase;
 
 public class BudgetStatusValuesFinder extends KeyValuesBase {
     
     public List getKeyValues() {
-        List<KeyLabelPair> keyValues = new ArrayList<KeyLabelPair>();
-        keyValues.add(new KeyLabelPair("", "None"));
-        keyValues.add(new KeyLabelPair("C", "Complete"));
-        keyValues.add(new KeyLabelPair("I", "Incomplete"));
+        List<KeyValue> keyValues = new ArrayList<KeyValue>();
+        keyValues.add(new ConcreteKeyValue("", "None"));
+        keyValues.add(new ConcreteKeyValue("C", "Complete"));
+        keyValues.add(new ConcreteKeyValue("I", "Incomplete"));
         return keyValues;
     }
 }

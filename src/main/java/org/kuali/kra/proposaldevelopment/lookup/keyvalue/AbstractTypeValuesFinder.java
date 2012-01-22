@@ -24,10 +24,11 @@ import org.kuali.kra.proposaldevelopment.bo.AbstractType;
 import org.kuali.kra.proposaldevelopment.bo.ProposalAbstract;
 import org.kuali.kra.proposaldevelopment.document.ProposalDevelopmentDocument;
 import org.kuali.kra.proposaldevelopment.web.struts.form.ProposalDevelopmentForm;
-import org.kuali.rice.kns.lookup.keyvalues.KeyValuesBase;
-import org.kuali.rice.kns.service.KeyValuesService;
-import org.kuali.rice.kns.util.GlobalVariables;
-import org.kuali.rice.core.util.KeyLabelPair;
+import org.kuali.rice.core.api.util.ConcreteKeyValue;
+import org.kuali.rice.core.api.util.KeyValue;
+import org.kuali.rice.kns.util.KNSGlobalVariables;
+import org.kuali.rice.krad.keyvalues.KeyValuesBase;
+import org.kuali.rice.krad.service.KeyValuesService;
 
 /**
  * Finds the available set of supported Abstract Types.  See
@@ -54,17 +55,17 @@ public class AbstractTypeValuesFinder extends KeyValuesBase {
      * 
      * @return the list of &lt;key, value&gt; pairs of abstract types.  The first entry
      * is always &lt;"", "select:"&gt;.
-     * @see org.kuali.rice.kns.lookup.keyvalues.KeyValuesFinder#getKeyValues()
+     * @see org.kuali.rice.krad.keyvalues.KeyValuesFinder#getKeyValues()
      */
-    public List<KeyLabelPair> getKeyValues() {
+    public List<KeyValue> getKeyValues() {
         ProposalDevelopmentDocument doc = getDocument();
         KeyValuesService keyValuesService = (KeyValuesService) KraServiceLocator.getService("keyValuesService");
         Collection<AbstractType> abstractTypes = keyValuesService.findAll(AbstractType.class);
-        List<KeyLabelPair> keyValues = new ArrayList<KeyLabelPair>();
-        keyValues.add(new KeyLabelPair("", "select"));
+        List<KeyValue> keyValues = new ArrayList<KeyValue>();
+        keyValues.add(new ConcreteKeyValue("", "select"));
         for (AbstractType abstractType : abstractTypes) {
             if (!hasAbstract(doc, abstractType)) {
-                keyValues.add(new KeyLabelPair(abstractType.getAbstractTypeCode(), abstractType.getDescription()));
+                keyValues.add(new ConcreteKeyValue(abstractType.getAbstractTypeCode(), abstractType.getDescription()));
             }
         }
         return keyValues;
@@ -78,7 +79,7 @@ public class AbstractTypeValuesFinder extends KeyValuesBase {
      */
     private ProposalDevelopmentDocument getDocument() {
         ProposalDevelopmentDocument doc = null;
-        ProposalDevelopmentForm form = (ProposalDevelopmentForm) GlobalVariables.getKualiForm();
+        ProposalDevelopmentForm form = (ProposalDevelopmentForm) KNSGlobalVariables.getKualiForm();
         if (form != null) {
             doc = form.getDocument();
         }

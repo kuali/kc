@@ -46,10 +46,11 @@ import org.kuali.kra.irb.actions.notification.NotifyIrbNotificationRenderer;
 import org.kuali.kra.irb.actions.notification.ProtocolNotificationRequestBean;
 import org.kuali.kra.irb.notification.IRBNotificationContext;
 import org.kuali.kra.irb.notification.IRBNotificationRenderer;
-import org.kuali.rice.kew.exception.WorkflowException;
-import org.kuali.rice.kns.service.BusinessObjectService;
-import org.kuali.rice.kns.service.DocumentService;
-import org.kuali.rice.kns.util.ObjectUtils;
+import org.kuali.rice.kew.api.exception.WorkflowException;
+import org.kuali.rice.krad.bo.AdHocRouteRecipient;
+import org.kuali.rice.krad.service.BusinessObjectService;
+import org.kuali.rice.krad.service.DocumentService;
+import org.kuali.rice.krad.util.ObjectUtils;
 
 /**
  * 
@@ -63,7 +64,7 @@ public class CoiDisclosureActionServiceImpl implements CoiDisclosureActionServic
     private KcNotificationService notificationService;
     private static final Log LOG = LogFactory.getLog(CoiDisclosureActionServiceImpl.class);
     private static final String PROTOCOL_TAB = "protocol";
-    
+
     /**
      * copy disc details from previous master disclosure if it exists.
      * create a disclosure history methods.
@@ -84,7 +85,7 @@ public class CoiDisclosureActionServiceImpl implements CoiDisclosureActionServic
             disclosures.add(masterCoiDisclosure);
 
         } 
-        coiDisclosure.setCurrentDisclosure(true);
+            coiDisclosure.setCurrentDisclosure(true);
         
         disclosures.add(createDisclosureHistory(coiDisclosure));
         businessObjectService.save(disclosures);
@@ -176,7 +177,7 @@ public class CoiDisclosureActionServiceImpl implements CoiDisclosureActionServic
         return coiDisclosureHistory;
 
     }
-    
+
     /**
      * This method submits a disclosure to workflow
      * @param coiDisclosure
@@ -184,7 +185,7 @@ public class CoiDisclosureActionServiceImpl implements CoiDisclosureActionServic
      */
     public void submitToWorkflow(CoiDisclosureDocument coiDisclosureDocument, CoiDisclosureForm coiDisclosureForm, SubmitDisclosureAction submitDisclosureAction) {
         try {
-            documentService.routeDocument(coiDisclosureDocument, "Disclosure has been certified and submitted.", new ArrayList<String>());
+            documentService.routeDocument(coiDisclosureDocument, "Disclosure has been certified and submitted.", new ArrayList<AdHocRouteRecipient>());
         } catch (WorkflowException e) {
             String errorString = "WorkflowException certifying Disclosure for user col %s" + coiDisclosureDocument.getCoiDisclosure().getAuthorPersonName(); 
             LOG.error(errorString, e);
@@ -226,7 +227,7 @@ public class CoiDisclosureActionServiceImpl implements CoiDisclosureActionServic
     public void setBusinessObjectService(BusinessObjectService businessObjectService) {
         this.businessObjectService = businessObjectService;
     }
-
+    
     public void setDocumentService(DocumentService documentService) {
         this.documentService = documentService;
     }

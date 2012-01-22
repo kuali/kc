@@ -17,10 +17,9 @@ package org.kuali.kra.proposaldevelopment.service.impl;
 
 import org.kuali.kra.proposaldevelopment.bo.ProposalState;
 import org.kuali.kra.proposaldevelopment.document.ProposalDevelopmentDocument;
-import org.kuali.kra.proposaldevelopment.service.ProposalStateService;
-import org.kuali.rice.kns.workflow.service.KualiWorkflowDocument;
-
 import org.kuali.kra.proposaldevelopment.hierarchy.service.ProposalHierarchyService;
+import org.kuali.kra.proposaldevelopment.service.ProposalStateService;
+import org.kuali.rice.kew.api.WorkflowDocument;
 
 /**
  * Proposal State Service Implementation.
@@ -34,21 +33,21 @@ public class ProposalStateServiceImpl implements ProposalStateService {
      */
     public String getProposalStateTypeCode(ProposalDevelopmentDocument proposalDevelopmentDocument, boolean isRouteStatusChanged, boolean isRejectAction ) {
         String proposalStateTypeCode = null;
-        KualiWorkflowDocument wd = proposalDevelopmentDocument.getDocumentHeader().getWorkflowDocument();
+        WorkflowDocument wd = proposalDevelopmentDocument.getDocumentHeader().getWorkflowDocument();
         
-        if (wd.stateIsInitiated()) {
+        if (wd.isInitiated()) {
             proposalStateTypeCode = computeProposalStateForInitiated(proposalDevelopmentDocument);
-        } else if (wd.stateIsSaved()) {
+        } else if (wd.isSaved()) {
             proposalStateTypeCode = computeProposalStateForSaved(proposalDevelopmentDocument);
-        } else if( isRejectAction && wd.stateIsEnroute()  ) {
+        } else if( isRejectAction && wd.isEnroute()  ) {
             proposalStateTypeCode = computeProposalStateForRejected( proposalDevelopmentDocument );
-        } else if (wd.stateIsEnroute()) {
+        } else if (wd.isEnroute()) {
             proposalStateTypeCode = computeProposalStateForEnRoute(proposalDevelopmentDocument);
-        } else if (wd.stateIsApproved()) {
+        } else if (wd.isApproved()) {
             proposalStateTypeCode = computeProposalStateForApproved(proposalDevelopmentDocument, isRouteStatusChanged);
-        } else if (wd.stateIsDisapproved()) {
+        } else if (wd.isDisapproved()) {
             proposalStateTypeCode = computeProposalStateForDisapproved(proposalDevelopmentDocument, isRouteStatusChanged);
-        } else if (wd.stateIsCanceled()) {
+        } else if (wd.isCanceled()) {
             proposalStateTypeCode = computeProposalStateForCanceled(proposalDevelopmentDocument);
         } else {
             proposalStateTypeCode = computeProposalStateForException(proposalDevelopmentDocument);

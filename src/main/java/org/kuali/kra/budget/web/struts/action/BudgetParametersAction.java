@@ -17,7 +17,7 @@ package org.kuali.kra.budget.web.struts.action;
 
 import static org.kuali.kra.infrastructure.KeyConstants.QUESTION_RECALCULATE_BUDGET_CONFIRMATION;
 import static org.kuali.kra.infrastructure.KraServiceLocator.getService;
-import static org.kuali.rice.kns.util.KNSConstants.QUESTION_INST_ATTRIBUTE_NAME;
+import static org.kuali.rice.krad.util.KRADConstants.QUESTION_INST_ATTRIBUTE_NAME;
 
 import java.util.Collection;
 import java.util.HashMap;
@@ -54,14 +54,14 @@ import org.kuali.kra.infrastructure.Constants;
 import org.kuali.kra.infrastructure.KeyConstants;
 import org.kuali.kra.infrastructure.KraServiceLocator;
 import org.kuali.kra.web.struts.action.StrutsConfirmation;
-import org.kuali.rice.kns.bo.BusinessObject;
 import org.kuali.rice.kns.lookup.LookupResultsService;
-import org.kuali.rice.kns.service.BusinessObjectService;
-import org.kuali.rice.kns.service.KualiRuleService;
-import org.kuali.rice.kns.util.ErrorMap;
-import org.kuali.rice.kns.util.ErrorMessage;
-import org.kuali.rice.kns.util.GlobalVariables;
-import org.kuali.rice.kns.util.TypedArrayList;
+import org.kuali.rice.krad.bo.BusinessObject;
+import org.kuali.rice.krad.service.BusinessObjectService;
+import org.kuali.rice.krad.service.KualiRuleService;
+import org.kuali.rice.krad.util.ErrorMessage;
+import org.kuali.rice.krad.util.GlobalVariables;
+import org.kuali.rice.krad.util.MessageMap;
+import org.springframework.util.AutoPopulatingList;
 
 public class BudgetParametersAction extends BudgetAction {
     private static final Log LOG = LogFactory.getLog(BudgetParametersAction.class);
@@ -111,7 +111,7 @@ public class BudgetParametersAction extends BudgetAction {
             new SaveBudgetPeriodEvent(Constants.EMPTY_STRING, budgetForm.getBudgetDocument()));
         if (isRateTypeChanged(budgetForm)) {
             if (isBudgetPeriodDateChanged(budget) && isLineItemErrorOnly()) {
-                GlobalVariables.setErrorMap(new ErrorMap());
+                GlobalVariables.setMessageMap(new MessageMap());
                 return confirm(buildSaveBudgetSummaryConfirmationQuestion(mapping, form, request, response,
                                                                           KeyConstants.QUESTION_SAVE_BUDGET_SUMMARY_FOR_RATE_AND_DATE_CHANGE), CONFIRM_SAVE_SUMMARY, DO_NOTHING);
             } else {
@@ -126,7 +126,7 @@ public class BudgetParametersAction extends BudgetAction {
                 setBudgetStatuses(budgetDocument.getParentDocument());
             }
             if (isBudgetPeriodDateChanged(budget) && isLineItemErrorOnly()) {
-                GlobalVariables.setErrorMap(new ErrorMap());
+                GlobalVariables.setMessageMap(new MessageMap());
                 return confirm(buildSaveBudgetSummaryConfirmationQuestion(mapping, form, request, response,
                                                                           KeyConstants.QUESTION_SAVE_BUDGET_SUMMARY), CONFIRM_SAVE_SUMMARY, "");
             }
@@ -140,10 +140,10 @@ public class BudgetParametersAction extends BudgetAction {
                 boolean valid = true;
                 if (Boolean.valueOf(budgetDocument.getProposalBudgetFlag())) {
                     valid = isValidToComplete(budgetDocument.getParentDocument());
-                    int errorSize = GlobalVariables.getMessageMap().size();
+                    int errorSize = GlobalVariables.getMessageMap().getErrorMessages().size();
                     final BudgetTDCValidator tdcValidator = new BudgetTDCValidator(request);
                     tdcValidator.validateGeneratingErrorsAndWarnings(budgetDocument.getParentDocument());
-                    if (GlobalVariables.getMessageMap().size() > errorSize) {
+                    if (GlobalVariables.getMessageMap().getErrorMessages().size() > errorSize) {
                         valid = false;
                     }
                 }
@@ -167,7 +167,7 @@ public class BudgetParametersAction extends BudgetAction {
         boolean valid = KraServiceLocator.getService(BudgetService.class).validateBudgetAuditRuleBeforeSaveBudgetVersion(document);
 
         if (!valid) {
-            GlobalVariables.getErrorMap().putError("document.budgetDocumentVersion[" + 0 + "].budgetVersionOverview.budgetStatus",
+            GlobalVariables.getMessageMap().putError("document.budgetDocumentVersion[" + 0 + "].budgetVersionOverview.budgetStatus",
                     KeyConstants.CLEAR_AUDIT_ERRORS_BEFORE_CHANGE_STATUS_TO_COMPLETE);
         }
         return valid;
@@ -661,14 +661,12 @@ public class BudgetParametersAction extends BudgetAction {
      * @return
      */
     private boolean isLineItemErrorOnly() {
-        if (!GlobalVariables.getErrorMap().isEmpty()) {
-
-            for (Iterator i = GlobalVariables.getErrorMap().entrySet().iterator(); i.hasNext();) {
-                Map.Entry e = (Map.Entry) i.next();
-
-                TypedArrayList errorList = (TypedArrayList) e.getValue();
-                for (Iterator j = errorList.iterator(); j.hasNext();) {
-                    ErrorMessage em = (ErrorMessage) j.next();
+        if (!GlobalVariables.getMessageMap().hasNoErrors()) {
+            Map<String, AutoPopulatingList<ErrorMessage>> errors = GlobalVariables.getMessageMap().getErrorMessages();
+            for (Map.Entry<String, AutoPopulatingList<ErrorMessage>> entry : errors.entrySet()) {
+                Iterator<ErrorMessage> iter = entry.getValue().iterator();
+                while (iter.hasNext()) {
+                    ErrorMessage em = iter.next();
                     if (!em.getErrorKey().equals("error.lineItem.dateDoesNotmatch")) {
                         return false;
                     }

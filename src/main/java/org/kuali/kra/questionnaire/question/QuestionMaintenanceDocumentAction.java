@@ -34,15 +34,15 @@ import org.kuali.kra.maintenance.QuestionMaintainableImpl;
 import org.kuali.kra.service.VersionException;
 import org.kuali.kra.service.VersioningService;
 import org.kuali.kra.service.impl.VersioningServiceImpl;
+import org.kuali.rice.core.api.config.property.ConfigurationService;
 import org.kuali.rice.kns.document.MaintenanceDocumentBase;
-import org.kuali.rice.kns.question.ConfirmationQuestion;
-import org.kuali.rice.kns.service.KNSServiceLocator;
-import org.kuali.rice.kns.service.KualiConfigurationService;
-import org.kuali.rice.kns.service.SequenceAccessorService;
-import org.kuali.rice.kns.util.KNSConstants;
 import org.kuali.rice.kns.web.struts.action.KualiMaintenanceDocumentAction;
 import org.kuali.rice.kns.web.struts.form.KualiDocumentFormBase;
 import org.kuali.rice.kns.web.struts.form.KualiMaintenanceForm;
+import org.kuali.rice.kns.question.ConfirmationQuestion;
+import org.kuali.rice.krad.service.KRADServiceLocator;
+import org.kuali.rice.krad.service.SequenceAccessorService;
+import org.kuali.rice.krad.util.KRADConstants;
 
 /**
  * 
@@ -69,7 +69,7 @@ public class QuestionMaintenanceDocumentAction extends KualiMaintenanceDocumentA
 
         KualiMaintenanceForm maintenanceForm = (KualiMaintenanceForm) form;
         MaintenanceDocumentBase maintenanceDocument = (MaintenanceDocumentBase) maintenanceForm.getDocument();
-        Question question = (Question) maintenanceDocument.getNewMaintainableObject().getBusinessObject();
+        Question question = (Question) maintenanceDocument.getNewMaintainableObject().getDataObject();
         question.refreshReferenceObject("questionType");
 
         return mapping.findForward(Constants.MAPPING_BASIC);
@@ -181,7 +181,7 @@ public class QuestionMaintenanceDocumentAction extends KualiMaintenanceDocumentA
         QuestionService questionService = KraServiceLocator.getService(QuestionService.class);
         QuestionMaintenanceForm questionMaintenanceForm = (QuestionMaintenanceForm) form;
         
-        Object question = request.getParameter(KNSConstants.QUESTION_INST_ATTRIBUTE_NAME);
+        Object question = request.getParameter(KRADConstants.QUESTION_INST_ATTRIBUTE_NAME);
         String questionRefId = request.getParameter(QUESTION_REF_ID);
 
         if (!questionMaintenanceForm.isReadOnly() && (question != null || questionService.isQuestionUsed(questionService.getQuestionByRefId(questionRefId).getQuestionId()))) {
@@ -195,13 +195,13 @@ public class QuestionMaintenanceDocumentAction extends KualiMaintenanceDocumentA
                 specialHandlingOfQuestion(questionMaintenanceForm, request);
 
                 // ask question if not already asked
-                KualiConfigurationService kualiConfiguration = KNSServiceLocator.getKualiConfigurationService();
+                ConfigurationService kualiConfiguration = KRADServiceLocator.getKualiConfigurationService();
                 forward = performQuestionWithoutInput(mapping, form, request, response, EDIT_QUESTION_OF_ACTIVE_QUESTIONNAIRE_QUESTION, 
-                        kualiConfiguration.getPropertyString(KeyConstants.QUESTION_EDIT_QUESTION_OF_ACTIVE_QUESTIONNAIRE), 
-                        KNSConstants.CONFIRMATION_QUESTION, KNSConstants.MAPPING_CLOSE, "");
+                        kualiConfiguration.getPropertyValueAsString(KeyConstants.QUESTION_EDIT_QUESTION_OF_ACTIVE_QUESTIONNAIRE), 
+                        KRADConstants.CONFIRMATION_QUESTION, KRADConstants.MAPPING_CLOSE, "");
             } else {
                 // Check to see if user has chosen to abort editing
-                Object buttonClicked = request.getParameter(KNSConstants.QUESTION_CLICKED_BUTTON);
+                Object buttonClicked = request.getParameter(KRADConstants.QUESTION_CLICKED_BUTTON);
                 if ((EDIT_QUESTION_OF_ACTIVE_QUESTIONNAIRE_QUESTION.equals(question)) && ConfirmationQuestion.NO.equals(buttonClicked)) {
                     forward = returnToSender(request, mapping, questionMaintenanceForm);
                 } else {
@@ -241,9 +241,9 @@ public class QuestionMaintenanceDocumentAction extends KualiMaintenanceDocumentA
             questionMaintenanceForm.setReadOnly(isReadOnly);
         }
         
-        if (questionMaintenanceForm.isReadOnly() && formBase.getDocumentActions().containsKey(KNSConstants.KUALI_ACTION_CAN_CLOSE)) {
+        if (questionMaintenanceForm.isReadOnly() && formBase.getDocumentActions().containsKey(KRADConstants.KUALI_ACTION_CAN_CLOSE)) {
             Map<String, String> documentActions = new HashMap<String, String>();
-            documentActions.put(KNSConstants.KUALI_ACTION_CAN_CLOSE, "TRUE");
+            documentActions.put(KRADConstants.KUALI_ACTION_CAN_CLOSE, "TRUE");
             questionMaintenanceForm.setDocumentActions(documentActions);
             
            // questionMaintenanceForm.setReadOnly(isReadOnly);

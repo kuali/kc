@@ -9,9 +9,10 @@ import org.kuali.kra.award.AwardForm;
 import org.kuali.kra.award.contacts.AwardPerson;
 import org.kuali.kra.award.home.Award;
 import org.kuali.kra.bo.Contactable;
-import org.kuali.rice.kns.lookup.keyvalues.KeyValuesBase;
-import org.kuali.rice.kns.util.GlobalVariables;
-import org.kuali.rice.core.util.KeyLabelPair;
+import org.kuali.rice.core.api.util.ConcreteKeyValue;
+import org.kuali.rice.core.api.util.KeyValue;
+import org.kuali.rice.kns.util.KNSGlobalVariables;
+import org.kuali.rice.krad.keyvalues.KeyValuesBase;
 
 /**
  *
@@ -25,9 +26,9 @@ public class ApprovedForeignTravelerValuesFinder extends KeyValuesBase {
     }
 
     // @Override - bug in JDK 5 fixed in JDK 6. See http://bugs.sun.com/bugdatabase/view_bug.do?bug_id=6399361
-    public List<KeyLabelPair> getKeyValues() {
+    public List<KeyValue> getKeyValues() {
         Award award = getAward();
-        List<KeyLabelPair> list = new ArrayList<KeyLabelPair>();
+        List<KeyValue> list = new ArrayList<KeyValue>();
         Set<String> listNames = new TreeSet<String>();
         for(AwardPerson person: award.getProjectPersons()) {
             Contactable contact = person.getContact();
@@ -41,14 +42,14 @@ public class ApprovedForeignTravelerValuesFinder extends KeyValuesBase {
     }
 
     protected Award getAward() {
-        return ((AwardForm) GlobalVariables.getKualiForm()).getAwardDocument().getAward();
+        return ((AwardForm) KNSGlobalVariables.getKualiForm()).getAwardDocument().getAward();
     }
 
-    private void addEligibleTravelerToList(List<KeyLabelPair> list, Set<String> listNames, Contactable contact) {
+    private void addEligibleTravelerToList(List<KeyValue> list, Set<String> listNames, Contactable contact) {
         if(contact != null) {
             String fullName = contact.getFullName();
             if(!listNames.contains(fullName)) {
-                list.add(new KeyLabelPair(contact.getIdentifier().toString(), fullName));
+                list.add(new ConcreteKeyValue(contact.getIdentifier().toString(), fullName));
                 listNames.add(fullName);
             }
         }

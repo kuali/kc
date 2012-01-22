@@ -15,36 +15,48 @@
  */
 package org.kuali.kra.irb.actions.submit;
 
-import java.util.LinkedHashMap;
-
 import org.kuali.kra.bo.KraPersistableBusinessObjectBase;
 
-public class ProtocolSubmissionStatus extends KraPersistableBusinessObjectBase { 
+public class ProtocolSubmissionStatus extends KraPersistableBusinessObjectBase {
 
     private static final long serialVersionUID = -3005754570292744646L;
-    
-    public static final String SUBMITTED_TO_COMMITTEE = "100";
-    public static final String IN_AGENDA = "101";
-    public static final String PENDING = "102";
-    public static final String COMPLETE = "200";
-    public static final String SUBSTANTIVE_REVISIONS_REQUIRED = "201";
-    public static final String SPECIFIC_MINOR_REVISIONS_REQUIRED = "202";
-    public static final String APPROVED = "203";
-    public static final String EXEMPT = "204";
-    public static final String DISAPPROVED = "205";
-    public static final String DEFERRED = "206";
-    public static final String CLOSED = "207";
-    public static final String TERMINATED = "208";
-    public static final String WITHDRAWN = "210";
-    public static final String CLOSED_FOR_ENROLLMENT = "211";
-    public static final String IRB_ACKNOWLEDGEMENT = "212";
-    
-    private String protocolSubmissionStatusCode; 
-    private String description; 
- 
-    public ProtocolSubmissionStatus() { 
 
-    } 
+    public static final String SUBMITTED_TO_COMMITTEE = "100";
+
+    public static final String IN_AGENDA = "101";
+
+    public static final String PENDING = "102";
+
+    public static final String COMPLETE = "200";
+
+    public static final String SUBSTANTIVE_REVISIONS_REQUIRED = "201";
+
+    public static final String SPECIFIC_MINOR_REVISIONS_REQUIRED = "202";
+
+    public static final String APPROVED = "203";
+
+    public static final String EXEMPT = "204";
+
+    public static final String DISAPPROVED = "205";
+
+    public static final String DEFERRED = "206";
+
+    public static final String CLOSED = "207";
+
+    public static final String TERMINATED = "208";
+
+    public static final String WITHDRAWN = "210";
+
+    public static final String CLOSED_FOR_ENROLLMENT = "211";
+
+    public static final String IRB_ACKNOWLEDGEMENT = "212";
+
+    private String protocolSubmissionStatusCode;
+
+    private String description;
+
+    public ProtocolSubmissionStatus() {
+    }
 
     public String getProtocolSubmissionStatusCode() {
         return protocolSubmissionStatusCode;
@@ -61,14 +73,4 @@ public class ProtocolSubmissionStatus extends KraPersistableBusinessObjectBase {
     public void setDescription(String description) {
         this.description = description;
     }
-
-    /** {@inheritDoc} */
-    @Override 
-    protected LinkedHashMap<String, Object> toStringMapper() {
-        LinkedHashMap<String, Object> hashMap = new LinkedHashMap<String, Object>();
-        hashMap.put("submissionStatusCode", this.getProtocolSubmissionStatusCode());
-        hashMap.put("description", this.getDescription());
-        return hashMap;
-    }
-    
 }

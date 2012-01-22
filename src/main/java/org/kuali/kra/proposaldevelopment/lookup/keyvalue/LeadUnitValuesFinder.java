@@ -25,9 +25,10 @@ import org.kuali.kra.infrastructure.Constants;
 import org.kuali.kra.infrastructure.KraServiceLocator;
 import org.kuali.kra.infrastructure.PermissionConstants;
 import org.kuali.kra.service.UnitAuthorizationService;
-import org.kuali.rice.kns.lookup.keyvalues.KeyValuesBase;
-import org.kuali.rice.kns.util.GlobalVariables;
-import org.kuali.rice.core.util.KeyLabelPair;
+import org.kuali.rice.core.api.util.ConcreteKeyValue;
+import org.kuali.rice.core.api.util.KeyValue;
+import org.kuali.rice.krad.keyvalues.KeyValuesBase;
+import org.kuali.rice.krad.util.GlobalVariables;
 
 /**
  * Find the Lead Units for a Proposal Development Document.  When a user
@@ -40,11 +41,11 @@ import org.kuali.rice.core.util.KeyLabelPair;
 public class LeadUnitValuesFinder extends KeyValuesBase {
     
     /**
-     * @see org.kuali.rice.kns.lookup.keyvalues.KeyValuesFinder#getKeyValues()
+     * @see org.kuali.rice.krad.keyvalues.KeyValuesFinder#getKeyValues()
      */
     public List getKeyValues() {
-        List<KeyLabelPair> keyValues = new ArrayList<KeyLabelPair>();
-        keyValues.add(new KeyLabelPair("", "select"));
+        List<KeyValue> keyValues = new ArrayList<KeyValue>();
+        keyValues.add(new ConcreteKeyValue("", "select"));
         
         String userId = GlobalVariables.getUserSession().getPrincipalId();
         UnitAuthorizationService authService = KraServiceLocator.getService(UnitAuthorizationService.class);      
@@ -63,7 +64,7 @@ public class LeadUnitValuesFinder extends KeyValuesBase {
         });
         
         for (Unit unit : userUnits) {
-            keyValues.add(new KeyLabelPair(unit.getUnitNumber(), unit.getUnitNumber() + " - " + unit.getUnitName()));
+            keyValues.add(new ConcreteKeyValue(unit.getUnitNumber(), unit.getUnitNumber() + " - " + unit.getUnitName()));
         }
 
         return keyValues;

@@ -34,12 +34,11 @@ import org.kuali.kra.printing.util.PrintingServiceTestBase;
 import org.kuali.kra.printing.util.PrintingTestUtils;
 import org.kuali.kra.proposaldevelopment.bo.AttachmentDataSource;
 import org.kuali.kra.questionnaire.Questionnaire;
-import org.kuali.kra.questionnaire.QuestionnaireQuestion;
 import org.kuali.kra.questionnaire.question.Question;
-import org.kuali.rice.kew.exception.WorkflowException;
+import org.kuali.rice.kew.api.exception.WorkflowException;
 import org.kuali.rice.kns.document.MaintenanceDocumentBase;
-import org.kuali.rice.kns.service.BusinessObjectService;
 import org.kuali.rice.kns.service.MaintenanceDocumentDictionaryService;
+import org.kuali.rice.krad.service.BusinessObjectService;
 
 public class QuestionnairePrintingServiceTest extends PrintingServiceTestBase {
     private QuestionnairePrintingService questionnairePrintingService;
@@ -77,9 +76,9 @@ public class QuestionnairePrintingServiceTest extends PrintingServiceTestBase {
         maintDocument.getNewMaintainableObject().setBusinessObject(createQuestionnaire("test1", "desc 1"));
         documentService.routeDocument(maintDocument,null,null);
         // not sure why it is not persisted in DB.  also need to do this save, so getcustomactionurls can retrieve it with bos
-        Questionnaire questionnaire = (Questionnaire)maintDocument.getNewMaintainableObject().getBusinessObject();
+        Questionnaire questionnaire = (Questionnaire)maintDocument.getNewMaintainableObject().getDataObject();
         questionnaire.setDocumentNumber(maintDocument.getDocumentNumber());
-        getBusinessObjectService().save((Questionnaire)maintDocument.getNewMaintainableObject().getBusinessObject());
+        getBusinessObjectService().save((Questionnaire)maintDocument.getNewMaintainableObject().getDataObject());
 
         String docNumber = maintDocument.getDocumentNumber();
         return docNumber;

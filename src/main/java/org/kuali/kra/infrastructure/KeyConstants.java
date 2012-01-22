@@ -1032,7 +1032,6 @@ public final class KeyConstants {
     public static final String ERROR_COI_DISCLOSURE_STATUS_REQUIRED = "error.coi.disclosure.status.required";
     public static final String ERROR_FINANCIAL_ENTITY_STATUS_INCOMPLETE = "error.coi.financialentity.status.incomplete";
     
-    
     public static final String REPORT_TRACKING_WARNING_UPDATE_FROM_DATE_CHANGE = "warning.reportTracking.updateFromDateChange";
     
     // Person Mass Change

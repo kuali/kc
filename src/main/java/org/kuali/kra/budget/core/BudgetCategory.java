@@ -15,49 +15,41 @@
  */
 package org.kuali.kra.budget.core;
 
-import java.util.LinkedHashMap;
-
 import org.kuali.kra.bo.KraPersistableBusinessObjectBase;
 
 public class BudgetCategory extends KraPersistableBusinessObjectBase {
-	private String budgetCategoryCode;
-	private String budgetCategoryTypeCode;
-	private String description;
-	private BudgetCategoryType budgetCategoryType;
-	
-	public String getBudgetCategoryCode() {
-		return budgetCategoryCode;
-	}
 
-	public void setBudgetCategoryCode(String budgetCategoryCode) {
-		this.budgetCategoryCode = budgetCategoryCode;
-	}
+    private String budgetCategoryCode;
 
-	public String getBudgetCategoryTypeCode() {
-		return budgetCategoryTypeCode;
-	}
+    private String budgetCategoryTypeCode;
 
-	public void setBudgetCategoryTypeCode(String budgetCategoryTypeCode) {
-		this.budgetCategoryTypeCode = budgetCategoryTypeCode;
-	}
+    private String description;
 
-	public String getDescription() {
-		return description;
-	}
+    private BudgetCategoryType budgetCategoryType;
 
-	public void setDescription(String description) {
-		this.description = description;
-	}
+    public String getBudgetCategoryCode() {
+        return budgetCategoryCode;
+    }
 
+    public void setBudgetCategoryCode(String budgetCategoryCode) {
+        this.budgetCategoryCode = budgetCategoryCode;
+    }
 
-	@Override 
-	protected LinkedHashMap toStringMapper() {
-		LinkedHashMap hashMap = new LinkedHashMap();
-		hashMap.put("budgetCategoryCode", getBudgetCategoryCode());
-		hashMap.put("categoryType", getBudgetCategoryTypeCode());
-		hashMap.put("description", getDescription());
-		return hashMap;
-	}
+    public String getBudgetCategoryTypeCode() {
+        return budgetCategoryTypeCode;
+    }
+
+    public void setBudgetCategoryTypeCode(String budgetCategoryTypeCode) {
+        this.budgetCategoryTypeCode = budgetCategoryTypeCode;
+    }
+
+    public String getDescription() {
+        return description;
+    }
+
+    public void setDescription(String description) {
+        this.description = description;
+    }
 
     /**
      * Gets the budgetCategoryType attribute. 
@@ -74,5 +66,4 @@ public class BudgetCategory extends KraPersistableBusinessObjectBase {
     public void setBudgetCategoryType(BudgetCategoryType budgetCategoryType) {
         this.budgetCategoryType = budgetCategoryType;
     }
-
 }

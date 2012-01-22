@@ -23,7 +23,7 @@
 	
   	<table cellpadding="0" cellspacing="0" class="Detail">
   		<thead>
-  		<tr>
+  		<tr class="Detail">
   			<c:forEach items="${KualiForm.detailFields}" var="col">
   				<th class="draggableColumn Detail"><kul:htmlAttributeLabel attributeEntry="${reportTrackingAttributes[col]}" noColon="true" readOnly="true"/><div style="display:none;"><c:out value="${col}"/></div></th>
   			</c:forEach>
@@ -32,7 +32,7 @@
   		</thead>
   		<tbody>
   			<c:forEach items="${KualiForm.detailResults}" var="detailLine" varStatus="ctr">
-  				<tr>
+  				<tr class="Detail">
   				<c:forEach items="${KualiForm.detailFields}" var="col">
   					<td>
   						<bean:write name="KualiForm" property="detailResults[${ctr.index}].${col}"/>

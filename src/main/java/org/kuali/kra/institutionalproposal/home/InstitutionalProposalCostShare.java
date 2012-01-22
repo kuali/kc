@@ -15,33 +15,34 @@
  */
 package org.kuali.kra.institutionalproposal.home;
 
-import java.util.LinkedHashMap;
-
 import org.kuali.kra.SequenceAssociate;
 import org.kuali.kra.SequenceOwner;
 import org.kuali.kra.award.home.ValuableItem;
 import org.kuali.kra.bo.CostShareType;
 import org.kuali.kra.institutionalproposal.InstitutionalProposalAssociate;
-import org.kuali.rice.kns.util.KualiDecimal;
+import org.kuali.rice.core.api.util.type.KualiDecimal;
 
-public class InstitutionalProposalCostShare extends InstitutionalProposalAssociate 
-implements ValuableItem, SequenceAssociate { 
-    
+public class InstitutionalProposalCostShare extends InstitutionalProposalAssociate implements ValuableItem, SequenceAssociate {
+
     private static final long serialVersionUID = 1L;
 
-    private Long proposalCostShareId; 
-    private String projectPeriod; 
-    private KualiDecimal costSharePercentage; 
-    private Integer costShareTypeCode; 
-    private String sourceAccount; 
-    private KualiDecimal amount; 
-    
-    private CostShareType costShareType;
-    
-    public InstitutionalProposalCostShare() { 
+    private Long proposalCostShareId;
 
-    } 
-    
+    private String projectPeriod;
+
+    private KualiDecimal costSharePercentage;
+
+    private Integer costShareTypeCode;
+
+    private String sourceAccount;
+
+    private KualiDecimal amount;
+
+    private CostShareType costShareType;
+
+    public InstitutionalProposalCostShare() {
+    }
+
     public Long getProposalCostShareId() {
         return proposalCostShareId;
     }
@@ -89,9 +90,6 @@ implements ValuableItem, SequenceAssociate {
     public void setAmount(KualiDecimal amount) {
         this.amount = amount;
     }
-    
-    
-
 
     /**
      * Gets the costShareType attribute. 
@@ -108,7 +106,7 @@ implements ValuableItem, SequenceAssociate {
     public void setCostShareType(CostShareType costShareType) {
         this.costShareType = costShareType;
     }
-    
+
     /**
      * @see org.kuali.kra.SequenceAssociate#getSequenceOwner()
      */
@@ -129,18 +127,4 @@ implements ValuableItem, SequenceAssociate {
     public void resetPersistenceState() {
         this.proposalCostShareId = null;
     }
-
-    /** {@inheritDoc} */
-    @Override 
-    protected LinkedHashMap<String, Object> toStringMapper() {
-        LinkedHashMap<String, Object> hashMap = new LinkedHashMap<String, Object>();
-        hashMap.put("proposalCostShareId", this.getProposalCostShareId());
-        hashMap.put("projectPeriod", this.getProjectPeriod());
-        hashMap.put("costSharePercentage", this.getCostSharePercentage());
-        hashMap.put("costShareTypeCode", this.getCostShareTypeCode());
-        hashMap.put("sourceAccount", this.getSourceAccount());
-        hashMap.put("amount", this.getAmount());
-        return hashMap;
-    }
-    
 }

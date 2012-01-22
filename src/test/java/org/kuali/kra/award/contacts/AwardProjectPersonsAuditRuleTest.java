@@ -17,15 +17,15 @@ package org.kuali.kra.award.contacts;
 
 
 import org.junit.After;
+import org.junit.Assert;
 import org.junit.Before;
 import org.junit.Test;
-import org.junit.Assert;
 import org.kuali.kra.award.home.Award;
 import org.kuali.kra.bo.KcPerson;
 import org.kuali.kra.bo.NonOrganizationalRolodex;
 import org.kuali.kra.bo.Unit;
-import org.kuali.rice.kns.util.ErrorMap;
-import org.kuali.rice.kns.util.GlobalVariables;
+import org.kuali.rice.krad.util.GlobalVariables;
+import org.kuali.rice.krad.util.MessageMap;
 
 public class AwardProjectPersonsAuditRuleTest {
     
@@ -60,7 +60,7 @@ public class AwardProjectPersonsAuditRuleTest {
         unitB.setUnitName("b");
         unitB.setUnitNumber("2");
         
-        GlobalVariables.setErrorMap(new ErrorMap());
+        GlobalVariables.setMessageMap(new MessageMap());
     }
     
     @After

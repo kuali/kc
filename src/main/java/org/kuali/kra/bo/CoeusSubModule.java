@@ -15,30 +15,38 @@
  */
 package org.kuali.kra.bo;
 
-import java.util.LinkedHashMap;
 
-public class CoeusSubModule extends KraPersistableBusinessObjectBase { 
-    
+public class CoeusSubModule extends KraPersistableBusinessObjectBase {
+
     private static final long serialVersionUID = 1L;
+
     public static final String AMENDMENT_RENEWAL = "1";
+
     public static final String PROTOCOL_SUBMISSION = "2";
+
     public static final String ZERO_SUBMODULE = "0";
+
     public static final String PROPOSAL_S2S_SUBMODULE = "2";
+
     public static final String PROPOSAL_PERSON_CERTIFICATION = "3";
+
     public static final String AMENDMENT = "4";
+
     public static final String RENEWAL = "3";
 
-    private Integer coeusSubModuleId; 
-    private String moduleCode; 
-    private String subModuleCode; 
-    private String description; 
-    private CoeusModule coeusModule;
-    
-        
-    public CoeusSubModule() { 
+    private Integer coeusSubModuleId;
 
-    } 
-    
+    private String moduleCode;
+
+    private String subModuleCode;
+
+    private String description;
+
+    private CoeusModule coeusModule;
+
+    public CoeusSubModule() {
+    }
+
     public Integer getCoeusSubModuleId() {
         return coeusSubModuleId;
     }
@@ -78,16 +86,4 @@ public class CoeusSubModule extends KraPersistableBusinessObjectBase {
     public void setCoeusModule(CoeusModule coeusModule) {
         this.coeusModule = coeusModule;
     }
-
-    /** {@inheritDoc} */
-    @Override 
-    protected LinkedHashMap<String, Object> toStringMapper() {
-        LinkedHashMap<String, Object> hashMap = new LinkedHashMap<String, Object>();
-        hashMap.put("coeusSubModuleId", this.getCoeusSubModuleId());
-        hashMap.put("moduleCode", this.getModuleCode());
-        hashMap.put("subModuleCode", this.getSubModuleCode());
-        hashMap.put("description", this.getDescription());
-        return hashMap;
-    }
-    
 }

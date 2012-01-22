@@ -15,81 +15,73 @@
  */
 package org.kuali.kra.s2s.bo;
 
-import java.util.LinkedHashMap;
-
 import org.kuali.kra.bo.KraPersistableBusinessObjectBase;
 
 public class S2sOppForms extends KraPersistableBusinessObjectBase {
-	private String oppNameSpace;
-	private String proposalNumber;
-	private Boolean available;
-	private String formName;
-	private Boolean include;
-	private Boolean mandatory;
-	private String schemaUrl;
-	private Boolean selectToPrint;
 
-	public String getOppNameSpace() {
-		return oppNameSpace;
-	}
+    private String oppNameSpace;
 
-	public void setOppNameSpace(String oppNameSpace) {
-		this.oppNameSpace = oppNameSpace;
-	}
+    private String proposalNumber;
 
-	public String getProposalNumber() {
-		return proposalNumber;
-	}
+    private Boolean available;
 
-	public void setProposalNumber(String proposalNumber) {
-		this.proposalNumber = proposalNumber;
-	}
+    private String formName;
 
-	public void setAvailable(Boolean available) {
-		this.available = available;
-	}
-	
-	public Boolean getAvailable() {
-		return available;
-	}
+    private Boolean include;
 
-	public String getFormName() {
-		return formName;
-	}
+    private Boolean mandatory;
 
-	public void setFormName(String formName) {
-		this.formName = formName;
-	}
+    private String schemaUrl;
 
-	public void setInclude(Boolean include) {
-		this.include = include;
-	}
-	
-	public Boolean getInclude() {
-		return include;
-	}	
+    private Boolean selectToPrint;
 
-	public void setMandatory(Boolean mandatory) {
-		this.mandatory = mandatory;
-	}
-	
-	public Boolean getMandatory() {
-		return mandatory;
-	}	
+    public String getOppNameSpace() {
+        return oppNameSpace;
+    }
 
+    public void setOppNameSpace(String oppNameSpace) {
+        this.oppNameSpace = oppNameSpace;
+    }
 
-	@Override 
-	protected LinkedHashMap toStringMapper() {
-		LinkedHashMap hashMap = new LinkedHashMap();
-		hashMap.put("oppNameSpace", getOppNameSpace());
-		hashMap.put("proposalNumber", getProposalNumber());
-		hashMap.put("available", getAvailable());
-		hashMap.put("formName", getFormName());
-		hashMap.put("include", getInclude());
-		hashMap.put("mandatory", getMandatory());
-        hashMap.put("schemaUrl", getSchemaUrl());
-		return hashMap;
-	}
+    public String getProposalNumber() {
+        return proposalNumber;
+    }
+
+    public void setProposalNumber(String proposalNumber) {
+        this.proposalNumber = proposalNumber;
+    }
+
+    public void setAvailable(Boolean available) {
+        this.available = available;
+    }
+
+    public Boolean getAvailable() {
+        return available;
+    }
+
+    public String getFormName() {
+        return formName;
+    }
+
+    public void setFormName(String formName) {
+        this.formName = formName;
+    }
+
+    public void setInclude(Boolean include) {
+        this.include = include;
+    }
+
+    public Boolean getInclude() {
+        return include;
+    }
+
+    public void setMandatory(Boolean mandatory) {
+        this.mandatory = mandatory;
+    }
+
+    public Boolean getMandatory() {
+        return mandatory;
+    }
 
     public String getSchemaUrl() {
         return schemaUrl;

@@ -15,32 +15,33 @@
  */
 package org.kuali.kra.award.paymentreports.specialapproval.approvedequipment;
 
-import java.util.LinkedHashMap;
-
-import org.kuali.kra.SequenceAssociate;
-import org.kuali.kra.SequenceOwner;
 import org.kuali.kra.award.AwardAssociate;
 import org.kuali.kra.award.home.ValuableItem;
-import org.kuali.rice.kns.util.KualiDecimal;
+import org.kuali.rice.core.api.util.type.KualiDecimal;
 
 /**
  * This class handles the Award Special Approval for Approved Equipment
  */
 public class AwardApprovedEquipment extends AwardAssociate implements ValuableItem {
+
     private static final long serialVersionUID = 1039155193608738040L;
-    
+
     private Long approvedEquipmentId;
+
     private String item;
+
     private String vendor;
+
     private String model;
+
     private KualiDecimal amount;
-    
+
     /**
      * Constructs a AwardApprovedEquipment
      */
     public AwardApprovedEquipment() {
     }
-    
+
     /**
      * Constructs a AwardApprovedEquipment
      */
@@ -131,7 +132,7 @@ public class AwardApprovedEquipment extends AwardAssociate implements ValuableIt
     public void setAmount(final KualiDecimal amount) {
         this.amount = amount;
     }
-    
+
     /**
      * Convenience method
      * @param amount
@@ -139,7 +140,7 @@ public class AwardApprovedEquipment extends AwardAssociate implements ValuableIt
     public void setAmount(final double amount) {
         this.amount = new KualiDecimal(amount);
     }
-    
+
     @Override
     public int hashCode() {
         final int PRIME = 31;
@@ -193,9 +194,12 @@ public class AwardApprovedEquipment extends AwardAssociate implements ValuableIt
      * @return
      */
     public boolean equals(AwardApprovedEquipment anotherEquipmentItem) {
-        if (this == anotherEquipmentItem) { return true; }
-        if (anotherEquipmentItem == null) { return false; }
-        
+        if (this == anotherEquipmentItem) {
+            return true;
+        }
+        if (anotherEquipmentItem == null) {
+            return false;
+        }
         if (item == null) {
             if (anotherEquipmentItem.item != null) {
                 return false;
@@ -219,25 +223,11 @@ public class AwardApprovedEquipment extends AwardAssociate implements ValuableIt
         }
         return true;
     }
-    
+
     /**
      * @see org.kuali.kra.Sequenceable#resetPersistenceState()
      */
     public void resetPersistenceState() {
         this.approvedEquipmentId = null;
-    }
-    
-    /**
-     * @see org.kuali.core.bo.BusinessObjectBase#toStringMapper()
-     */
-    @Override
-    protected LinkedHashMap<String, Object> toStringMapper() {
-        LinkedHashMap<String, Object> map = super.toStringMapper();
-        map.put("approvedEquipmentId", approvedEquipmentId);
-        map.put("amount", amount);
-        map.put("item", item);
-        map.put("model", model);
-        map.put("vendor", vendor);
-        return map;
     }
 }

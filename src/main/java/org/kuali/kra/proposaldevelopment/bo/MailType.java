@@ -15,8 +15,6 @@
  */
 package org.kuali.kra.proposaldevelopment.bo;
 
-import java.util.LinkedHashMap;
-
 import org.kuali.kra.bo.KraPersistableBusinessObjectBase;
 
 /**
@@ -24,31 +22,24 @@ import org.kuali.kra.bo.KraPersistableBusinessObjectBase;
  * This class the bo class of mail type.
  */
 public class MailType extends KraPersistableBusinessObjectBase {
-    
+
     private String mailType;
+
     private String description;
-    
+
     public String getDescription() {
         return description;
     }
+
     public void setDescription(String description) {
         this.description = description;
     }
+
     public String getMailType() {
         return mailType;
     }
+
     public void setMailType(String mailType) {
         this.mailType = mailType;
     }
-
-    @Override
-    protected LinkedHashMap toStringMapper() {
-        LinkedHashMap propMap = new LinkedHashMap();
-        propMap.put("mailType", this.getMailType());
-        propMap.put("description", this.getDescription());
-        propMap.put("updateTimestamp", this.getUpdateTimestamp());
-        propMap.put("updateUser", this.getUpdateUser());
-        return propMap;
-    }
 }
-

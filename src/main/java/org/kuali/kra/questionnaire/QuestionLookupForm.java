@@ -15,8 +15,6 @@
  */
 package org.kuali.kra.questionnaire;
 
-import javax.servlet.http.HttpServletRequest;
-
 import org.kuali.rice.kns.web.struts.form.KualiForm;
 
 /**

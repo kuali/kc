@@ -25,9 +25,8 @@ import org.kuali.kra.infrastructure.KraServiceLocator;
 import org.kuali.kra.kim.bo.KcKimAttributes;
 import org.kuali.kra.service.VersionHistoryService;
 import org.kuali.kra.timeandmoney.document.TimeAndMoneyDocument;
-import org.kuali.rice.kns.bo.BusinessObject;
 import org.kuali.rice.kns.document.authorization.TransactionalDocumentAuthorizerBase;
-import org.kuali.rice.kns.service.BusinessObjectService;
+import org.kuali.rice.krad.service.BusinessObjectService;
 
 /**
  * This class is the Time and Money Document Authorizer.  It determines the edit modes and
@@ -37,7 +36,7 @@ public class TimeAndMoneyDocumentAuthorizer extends TransactionalDocumentAuthori
      
     @Override
     protected void addRoleQualification(
-            BusinessObject primaryBusinessObjectOrDocument,
+            Object primaryBusinessObjectOrDocument,
             Map<String, String> attributes) {
         super.addRoleQualification(primaryBusinessObjectOrDocument, attributes);
         TimeAndMoneyDocument timeAndMoneyDocument = (TimeAndMoneyDocument) primaryBusinessObjectOrDocument;
@@ -99,7 +98,7 @@ public class TimeAndMoneyDocumentAuthorizer extends TransactionalDocumentAuthori
     
     
 //    /**
-//     * @see org.kuali.rice.kns.document.authorization.TransactionalDocumentAuthorizer#getEditModes(org.kuali.rice.kns.document.Document, org.kuali.rice.kim.bo.Person, java.util.Set)
+//     * @see org.kuali.rice.kns.document.authorization.TransactionalDocumentAuthorizer#getEditModes(org.kuali.rice.krad.document.Document, org.kuali.rice.kim.api.identity.Person, java.util.Set)
 //     */
 //    public Set<String> getEditModes(Document document, Person user, Set<String> currentEditModes) {
 //        Set<String> editModes = new HashSet<String>();
@@ -129,14 +128,14 @@ public class TimeAndMoneyDocumentAuthorizer extends TransactionalDocumentAuthori
 //    }
 //    
 //    /**
-//     * @see org.kuali.rice.kns.document.authorization.DocumentAuthorizer#canInitiate(java.lang.String, org.kuali.rice.kim.bo.Person)
+//     * @see org.kuali.rice.kns.document.authorization.DocumentAuthorizer#canInitiate(java.lang.String, org.kuali.rice.kim.api.identity.Person)
 //     */
 //    public boolean canInitiate(String documentTypeName, Person user) {
 //        return canCreateTimeAndMoney(user.getPrincipalId());
 //    }
 //  
 //    /**
-//     * @see org.kuali.rice.kns.document.authorization.DocumentAuthorizer#canOpen(org.kuali.rice.kns.document.Document, org.kuali.rice.kim.bo.Person)
+//     * @see org.kuali.rice.kns.document.authorization.DocumentAuthorizer#canOpen(org.kuali.rice.krad.document.Document, org.kuali.rice.kim.api.identity.Person)
 //     */
 //    public boolean canOpen(Document document, Person user) {
 //        TimeAndMoneyDocument timeAndMoneyDocument = (TimeAndMoneyDocument) document;
@@ -147,7 +146,7 @@ public class TimeAndMoneyDocumentAuthorizer extends TransactionalDocumentAuthori
 //    }
 //    
 //    /**
-//     * @see org.kuali.kra.authorization.KcTransactionalDocumentAuthorizerBase#canEdit(org.kuali.rice.kns.document.Document, org.kuali.rice.kim.bo.Person)
+//     * @see org.kuali.kra.authorization.KcTransactionalDocumentAuthorizerBase#canEdit(org.kuali.rice.krad.document.Document, org.kuali.rice.kim.api.identity.Person)
 //     */
 //    @Override
 //    public boolean canEdit(Document document, Person user) {
@@ -155,7 +154,7 @@ public class TimeAndMoneyDocumentAuthorizer extends TransactionalDocumentAuthori
 //    }
 //    
 //    /**
-//     * @see org.kuali.kra.authorization.KcTransactionalDocumentAuthorizerBase#canSave(org.kuali.rice.kns.document.Document, org.kuali.rice.kim.bo.Person)
+//     * @see org.kuali.kra.authorization.KcTransactionalDocumentAuthorizerBase#canSave(org.kuali.rice.krad.document.Document, org.kuali.rice.kim.api.identity.Person)
 //     */
 //    @Override
 //    protected boolean canSave(Document document, Person user) {
@@ -163,7 +162,7 @@ public class TimeAndMoneyDocumentAuthorizer extends TransactionalDocumentAuthori
 //    }
 //    
 //    /**
-//     * @see org.kuali.kra.authorization.KcTransactionalDocumentAuthorizerBase#canReload(org.kuali.rice.kns.document.Document, org.kuali.rice.kim.bo.Person)
+//     * @see org.kuali.kra.authorization.KcTransactionalDocumentAuthorizerBase#canReload(org.kuali.rice.krad.document.Document, org.kuali.rice.kim.api.identity.Person)
 //     */
 //    @Override
 //    protected boolean canReload(Document document, Person user) {
@@ -171,7 +170,7 @@ public class TimeAndMoneyDocumentAuthorizer extends TransactionalDocumentAuthori
 //    }
 //    
 //    /**
-//     * @see org.kuali.kra.authorization.KcTransactionalDocumentAuthorizerBase#canCopy(org.kuali.rice.kns.document.Document, org.kuali.rice.kim.bo.Person)
+//     * @see org.kuali.kra.authorization.KcTransactionalDocumentAuthorizerBase#canCopy(org.kuali.rice.krad.document.Document, org.kuali.rice.kim.api.identity.Person)
 //     */
 //    @Override
 //    protected boolean canCopy(Document document, Person user) {
@@ -188,7 +187,7 @@ public class TimeAndMoneyDocumentAuthorizer extends TransactionalDocumentAuthori
 //    protected boolean canApprove(Document document, Person user) {
 //        return isEnroute(document) && isAuthorizedByTemplate(
 //                 document,
-//                 KNSConstants.KUALI_RICE_WORKFLOW_NAMESPACE,
+//                 KRADConstants.KUALI_RICE_WORKFLOW_NAMESPACE,
 //                 KimConstants.PermissionTemplateNames.APPROVE_DOCUMENT,
 //                 user.getPrincipalId());
 //    }
@@ -214,7 +213,7 @@ public class TimeAndMoneyDocumentAuthorizer extends TransactionalDocumentAuthori
 //    protected boolean canBlanketApprove(Document document, Person user) {
 //        return !isFinal(document) && isAuthorizedByTemplate(
 //                document,
-//                KNSConstants.KUALI_RICE_WORKFLOW_NAMESPACE,
+//                KRADConstants.KUALI_RICE_WORKFLOW_NAMESPACE,
 //                KimConstants.PermissionTemplateNames.BLANKET_APPROVE_DOCUMENT,
 //                user.getPrincipalId());
 //    }

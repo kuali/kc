@@ -15,8 +15,6 @@
  */
 package org.kuali.kra.institutionalproposal;
 
-import java.util.LinkedHashMap;
-
 import org.kuali.kra.bo.KraPersistableBusinessObjectBase;
 import org.kuali.kra.institutionalproposal.home.InstitutionalProposal;
 
@@ -29,10 +27,13 @@ public class InstitutionalProposalAssociate extends KraPersistableBusinessObject
      * Comment for <code>serialVersionUID</code>
      */
     private static final long serialVersionUID = -5913284355985592531L;
-    
-    private String proposalNumber; 
-    private Integer sequenceNumber; 
-    private InstitutionalProposal institutionalProposal; 
+
+    private String proposalNumber;
+
+    private Integer sequenceNumber;
+
+    private InstitutionalProposal institutionalProposal;
+
     /**
      * Gets the proposalNumber attribute. 
      * @return Returns the proposalNumber.
@@ -79,7 +80,7 @@ public class InstitutionalProposalAssociate extends KraPersistableBusinessObject
      */
     public void setInstitutionalProposal(InstitutionalProposal institutionalProposal) {
         this.institutionalProposal = institutionalProposal;
-        if(institutionalProposal != null) {
+        if (institutionalProposal != null) {
             setSequenceNumber(institutionalProposal.getSequenceNumber());
             setProposalNumber(institutionalProposal.getProposalNumber());
         } else {
@@ -87,16 +88,4 @@ public class InstitutionalProposalAssociate extends KraPersistableBusinessObject
             setProposalNumber("");
         }
     }
-
-    
-    /** {@inheritDoc} */
-    @Override 
-    protected LinkedHashMap<String, Object> toStringMapper() {
-        LinkedHashMap<String, Object> hashMap = new LinkedHashMap<String, Object>();
-        hashMap.put("proposalNumber", this.getProposalNumber());
-        hashMap.put("sequenceNumber", this.getSequenceNumber());
-        hashMap.put("institutionalProposal", this.getInstitutionalProposal());
-        return hashMap;
-    }
-
 }

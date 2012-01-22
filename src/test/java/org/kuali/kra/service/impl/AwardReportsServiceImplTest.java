@@ -39,9 +39,10 @@ import org.kuali.kra.award.paymentreports.awardreports.AwardReportTerm;
 import org.kuali.kra.infrastructure.Constants;
 import org.kuali.kra.infrastructure.KeyConstants;
 import org.kuali.kra.service.AwardReportsService;
-import org.kuali.rice.kns.service.BusinessObjectService;
-import org.kuali.rice.kns.service.ParameterService;
-import org.kuali.rice.core.util.KeyLabelPair;
+import org.kuali.rice.core.api.util.ConcreteKeyValue;
+import org.kuali.rice.core.api.util.KeyValue;
+import org.kuali.rice.coreservice.framework.parameter.ParameterService;
+import org.kuali.rice.krad.service.BusinessObjectService;
 
 /**
  * 
@@ -59,7 +60,7 @@ public class AwardReportsServiceImplTest extends AwardReportsServiceImpl{
     public static final String DUMMY_FREQUNCY_CODE = "1";
     
     AwardReportsService awardReportsService;
-    List<KeyLabelPair> keyLabelPairList;
+    List<KeyValue> KeyValueList;
     Map<String, Object> hashMap;
     Award award;
     
@@ -69,13 +70,13 @@ public class AwardReportsServiceImplTest extends AwardReportsServiceImpl{
     public void setUp() throws Exception {
         award = new Award();
         awardReportsService = new AwardReportsServiceImpl();
-        keyLabelPairList = new ArrayList<KeyLabelPair>();
+        KeyValueList = new ArrayList<KeyValue>();
         hashMap = new HashMap<String, Object>();
-        keyLabelPairList.add(new KeyLabelPair(1, "test1"));
-        keyLabelPairList.add(new KeyLabelPair(2, "test2"));
-        keyLabelPairList.add(new KeyLabelPair(3, "test3"));
-        keyLabelPairList.add(new KeyLabelPair(4, "test4"));
-        keyLabelPairList.add(new KeyLabelPair(5, "test5"));
+        KeyValueList.add(new ConcreteKeyValue("1", "test1"));
+        KeyValueList.add(new ConcreteKeyValue("2", "test2"));
+        KeyValueList.add(new ConcreteKeyValue("3", "test3"));
+        KeyValueList.add(new ConcreteKeyValue("4", "test4"));
+        KeyValueList.add(new ConcreteKeyValue("5", "test5"));
         award.getAwardReportTermItems().add(new AwardReportTerm());
     }
 
@@ -90,7 +91,7 @@ public class AwardReportsServiceImplTest extends AwardReportsServiceImpl{
     public final void testProcessFrequencyBaseCodes() {
         AwardReportsServiceImpl service = new AwardReportsServiceImpl();
         Assert.assertEquals(MOCK_EXPECTED_STRING,
-                service.processKeyLabelPairList(keyLabelPairList));
+                service.processKeyValueList(KeyValueList));
     }
     
     @Test
@@ -107,7 +108,7 @@ public class AwardReportsServiceImplTest extends AwardReportsServiceImpl{
     @SuppressWarnings("unchecked")
     public final void testAddEmptyNewAwardReportTerms() {
         AwardReportsServiceImpl service = new AwardReportsServiceImpl();
-        service.addEmptyNewAwardReportTerms(hashMap, keyLabelPairList);
+        service.addEmptyNewAwardReportTerms(hashMap, KeyValueList);
         Assert.assertTrue(hashMap.containsKey(Constants.NEW_AWARD_REPORT_TERMS_LIST_KEY_FOR_INITIALIZE_OBJECTS));
         Assert.assertEquals(MOCK_EXPECTED_NUMBER_OF_NEW_AWARD_REPORT_TERM_OBJECTS
                 , ((List<AwardReportTerm>)hashMap.get(Constants.NEW_AWARD_REPORT_TERMS_LIST_KEY_FOR_INITIALIZE_OBJECTS)).size());
@@ -120,8 +121,8 @@ public class AwardReportsServiceImplTest extends AwardReportsServiceImpl{
             protected ReportClassValuesFinder getReportClassValuesFinder()  {
                return new ReportClassValuesFinder() {
                  @Override
-                 public List<KeyLabelPair> getKeyValues() {
-                     return keyLabelPairList;
+                 public List<KeyValue> getKeyValues() {
+                     return KeyValueList;
                   }
                };
             }
@@ -140,8 +141,8 @@ public class AwardReportsServiceImplTest extends AwardReportsServiceImpl{
             protected FrequencyCodeValuesFinder getFrequencyCodeValuesFinder(String reportClassCode, String reportCode)  {
                return new FrequencyCodeValuesFinder(reportClassCode, reportCode) {
                  @Override
-                 public List<KeyLabelPair> getKeyValues() {
-                    return keyLabelPairList;
+                 public List<KeyValue> getKeyValues() {
+                    return KeyValueList;
                   }
                };
             }
@@ -157,8 +158,8 @@ public class AwardReportsServiceImplTest extends AwardReportsServiceImpl{
             protected FrequencyBaseCodeValuesFinder getFrequencyBaseCodeValuesFinder(String frequencyCode)  {
                return new FrequencyBaseCodeValuesFinder(frequencyCode) {
                  @Override
-                 public List<KeyLabelPair> getKeyValues() {
-                    return keyLabelPairList;
+                 public List<KeyValue> getKeyValues() {
+                    return KeyValueList;
                   }
                };
             }
@@ -175,7 +176,7 @@ public class AwardReportsServiceImplTest extends AwardReportsServiceImpl{
         final BusinessObjectService businessObjectService = context.mock(BusinessObjectService.class);
               
         context.checking(new Expectations() {{
-            one(parameterService).getParameterValue(AwardDocument.class
+            one(parameterService).getParameterValueAsString(AwardDocument.class
                     ,KeyConstants.REPORT_CLASS_FOR_PAYMENTS_AND_INVOICES);will(returnValue(P_AND_I_PARAM));
         }});
         

@@ -24,7 +24,7 @@ import org.apache.struts.action.ActionMapping;
 import org.kuali.kra.award.AwardForm;
 import org.kuali.kra.award.web.struts.action.AwardActionsAction;
 import org.kuali.kra.infrastructure.Constants;
-import org.kuali.rice.kns.util.GlobalVariables;
+import org.kuali.rice.krad.util.GlobalVariables;
 
 /**
  * For Account Creation, if there is more than one possible ICR Rate Code mapping, prompt the user to select the correct one. 

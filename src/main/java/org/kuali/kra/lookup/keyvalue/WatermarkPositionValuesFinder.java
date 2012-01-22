@@ -17,16 +17,19 @@ package org.kuali.kra.lookup.keyvalue;
 
 import java.util.ArrayList;
 import java.util.List;
+
 import org.kuali.kra.util.watermark.WatermarkConstants;
-import org.kuali.rice.core.util.KeyLabelPair;
-import org.kuali.rice.kns.lookup.keyvalues.KeyValuesBase;
+import org.kuali.rice.core.api.util.ConcreteKeyValue;
+import org.kuali.rice.core.api.util.KeyValue;
+import org.kuali.rice.krad.keyvalues.KeyValuesBase;
 
 public class WatermarkPositionValuesFinder extends KeyValuesBase{
-    public List<KeyLabelPair> getKeyValues() {
-        List<KeyLabelPair> keyValues = new ArrayList<KeyLabelPair>();
-        keyValues.add(new KeyLabelPair("HEADER", WatermarkConstants.WATERMARK_POSITION_HEADER));
-        keyValues.add(new KeyLabelPair("FOOTER", WatermarkConstants.WATERMARK_POSITION_FOOTER));
-        keyValues.add(new KeyLabelPair("DIAGONAL", WatermarkConstants.WATERMARK_POSITION_DIAGONAL));
+    
+    public List<KeyValue> getKeyValues() {
+        List<KeyValue> keyValues = new ArrayList<KeyValue>();
+        keyValues.add(new ConcreteKeyValue("HEADER", WatermarkConstants.WATERMARK_POSITION_HEADER));
+        keyValues.add(new ConcreteKeyValue("FOOTER", WatermarkConstants.WATERMARK_POSITION_FOOTER));
+        keyValues.add(new ConcreteKeyValue("DIAGONAL", WatermarkConstants.WATERMARK_POSITION_DIAGONAL));
         return keyValues;
     }
 }

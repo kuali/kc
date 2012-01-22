@@ -23,8 +23,8 @@ import org.junit.Before;
 import org.junit.Test;
 import org.kuali.kra.budget.core.CostElement;
 import org.kuali.kra.maintenance.MaintenanceRuleTestBase;
-import org.kuali.rice.kns.UserSession;
-import org.kuali.rice.kns.util.GlobalVariables;
+import org.kuali.rice.krad.UserSession;
+import org.kuali.rice.krad.util.GlobalVariables;
 
 public class KraMaintenanceDocumentRuleBaseTest extends MaintenanceRuleTestBase {
     private KraMaintenanceDocumentRuleBase rule = null;

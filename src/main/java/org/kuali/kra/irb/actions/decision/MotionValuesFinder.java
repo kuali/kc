@@ -18,8 +18,9 @@ package org.kuali.kra.irb.actions.decision;
 import java.util.ArrayList;
 import java.util.List;
 
-import org.kuali.rice.kns.lookup.keyvalues.KeyValuesBase;
-import org.kuali.rice.core.util.KeyLabelPair;
+import org.kuali.rice.core.api.util.ConcreteKeyValue;
+import org.kuali.rice.core.api.util.KeyValue;
+import org.kuali.rice.krad.keyvalues.KeyValuesBase;
 
 /**
  * 
@@ -31,13 +32,13 @@ public class MotionValuesFinder extends KeyValuesBase {
     public static final String SMR = "3";
     public static final String SRR = "4";
     
-    public List<KeyLabelPair> getKeyValues() {
-        List<KeyLabelPair> keyValues = new ArrayList<KeyLabelPair>();
-        keyValues.add(new KeyLabelPair("", "select"));
-        keyValues.add(new KeyLabelPair(APPROVE, "approve"));
-        keyValues.add(new KeyLabelPair(DISAPPROVE, "disapprove"));
-        keyValues.add(new KeyLabelPair(SMR, "specific minor revisions"));
-        keyValues.add(new KeyLabelPair(SRR, "substantive revisions required"));
+    public List<KeyValue> getKeyValues() {
+        List<KeyValue> keyValues = new ArrayList<KeyValue>();
+        keyValues.add(new ConcreteKeyValue("", "select"));
+        keyValues.add(new ConcreteKeyValue(APPROVE, "approve"));
+        keyValues.add(new ConcreteKeyValue(DISAPPROVE, "disapprove"));
+        keyValues.add(new ConcreteKeyValue(SMR, "specific minor revisions"));
+        keyValues.add(new ConcreteKeyValue(SRR, "substantive revisions required"));
         return keyValues;
     }
 }

@@ -18,6 +18,7 @@ package org.kuali.kra.award.paymentreports.specialapproval.foreigntravel;
 import java.sql.Date;
 import java.util.Calendar;
 import java.util.GregorianCalendar;
+import java.util.Map;
 
 import org.junit.After;
 import org.junit.Assert;
@@ -28,9 +29,9 @@ import org.kuali.kra.award.home.Award;
 import org.kuali.kra.bo.KcPerson;
 import org.kuali.kra.bo.NonOrganizationalRolodex;
 import org.kuali.kra.test.infrastructure.KcUnitTestBase;
-import org.kuali.rice.kns.UserSession;
-import org.kuali.rice.kns.util.ErrorMap;
-import org.kuali.rice.kns.util.GlobalVariables;
+import org.kuali.rice.kns.util.KNSGlobalVariables;
+import org.kuali.rice.krad.UserSession;
+import org.kuali.rice.krad.util.GlobalVariables;
 
 /**
  * This class tests AwardApprovedForeignTravelRuleImpl behavior
@@ -73,7 +74,7 @@ public class AwardApprovedForeignTravelRuleIntegrationTest extends KcUnitTestBas
         award.setAwardId(1L);
         award.setAwardNumber("X1000");
         award.setSequenceNumber(1);
-        GlobalVariables.setKualiForm(new AwardForm());
+        KNSGlobalVariables.setKualiForm(new AwardForm());
         
         trip1 = createForeignTravelTrip(TRAVELER1_ID, TRAVELER1_NAME, DESTINATION1_NAME, START1_DATE, END1_DATE, AMOUNT1);
         trip1.setApprovedForeignTravelId(1L);
@@ -126,8 +127,8 @@ public class AwardApprovedForeignTravelRuleIntegrationTest extends KcUnitTestBas
     }
  
 
-    private ErrorMap getErrors() {
-        return GlobalVariables.getErrorMap();
+    private Map getErrors() { 
+        return GlobalVariables.getMessageMap().getErrorMessages();
     }
     
     private AwardApprovedForeignTravel createForeignTravelTrip(String travelerId, String travelerName, String destination, Date startDate, 

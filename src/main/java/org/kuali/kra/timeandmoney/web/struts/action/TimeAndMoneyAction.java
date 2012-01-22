@@ -21,8 +21,8 @@ import java.util.HashMap;
 import java.util.HashSet;
 import java.util.List;
 import java.util.Map;
-import java.util.Set;
 import java.util.Map.Entry;
+import java.util.Set;
 
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
@@ -56,22 +56,22 @@ import org.kuali.kra.timeandmoney.transactions.AwardAmountTransaction;
 import org.kuali.kra.timeandmoney.transactions.PendingTransaction;
 import org.kuali.kra.timeandmoney.transactions.TransactionRuleImpl;
 import org.kuali.kra.web.struts.action.KraTransactionalDocumentActionBase;
-import org.kuali.rice.kew.exception.WorkflowException;
-import org.kuali.rice.kew.util.KEWConstants;
-import org.kuali.rice.kim.bo.Person;
+import org.kuali.rice.core.api.util.type.KualiDecimal;
+import org.kuali.rice.coreservice.framework.parameter.ParameterConstants;
+import org.kuali.rice.coreservice.framework.parameter.ParameterService;
+import org.kuali.rice.kew.api.KewApiConstants;
+import org.kuali.rice.kew.api.exception.WorkflowException;
+import org.kuali.rice.kim.api.identity.Person;
 import org.kuali.rice.kns.authorization.AuthorizationConstants;
-import org.kuali.rice.kns.document.Document;
 import org.kuali.rice.kns.document.authorization.DocumentAuthorizer;
 import org.kuali.rice.kns.document.authorization.DocumentPresentationController;
-import org.kuali.rice.kns.service.BusinessObjectService;
-import org.kuali.rice.kns.service.DocumentService;
 import org.kuali.rice.kns.service.KNSServiceLocator;
-import org.kuali.rice.kns.service.ParameterConstants;
-import org.kuali.rice.kns.service.ParameterService;
-import org.kuali.rice.kns.util.GlobalVariables;
-import org.kuali.rice.kns.util.KNSConstants;
-import org.kuali.rice.kns.util.KualiDecimal;
 import org.kuali.rice.kns.web.struts.form.KualiDocumentFormBase;
+import org.kuali.rice.krad.document.Document;
+import org.kuali.rice.krad.service.BusinessObjectService;
+import org.kuali.rice.krad.service.DocumentService;
+import org.kuali.rice.krad.util.GlobalVariables;
+import org.kuali.rice.krad.util.KRADConstants;
 
 public class TimeAndMoneyAction extends KraTransactionalDocumentActionBase {
     
@@ -555,10 +555,10 @@ public class TimeAndMoneyAction extends KraTransactionalDocumentActionBase {
         TimeAndMoneyDocument timeAndMoneyDocument = timeAndMoneyForm.getTimeAndMoneyDocument();
         actionForward = super.route(mapping, form, request, response);  
         
-        Long routeHeaderId = Long.parseLong(timeAndMoneyForm.getDocument().getDocumentNumber());
+        String routeHeaderId = timeAndMoneyForm.getDocument().getDocumentNumber();
         String returnLocation = buildActionUrl(routeHeaderId, Constants.MAPPING_AWARD_TIME_AND_MONEY_PAGE, "TimeAndMoneyDocument");
         
-        ActionForward basicForward = mapping.findForward(KNSConstants.MAPPING_PORTAL);
+        ActionForward basicForward = mapping.findForward(KRADConstants.MAPPING_PORTAL);
         ActionForward holdingPageForward = mapping.findForward(Constants.MAPPING_HOLDING_PAGE);
         return routeToHoldingPage(basicForward, actionForward, holdingPageForward, returnLocation);
     }
@@ -578,9 +578,9 @@ public class TimeAndMoneyAction extends KraTransactionalDocumentActionBase {
         //return actionForward;
         
         TimeAndMoneyForm timeAndMoneyForm = (TimeAndMoneyForm) form;
-        Long routeHeaderId = Long.parseLong(timeAndMoneyForm.getDocument().getDocumentNumber());
+        String routeHeaderId = timeAndMoneyForm.getDocument().getDocumentNumber();
         String returnLocation = buildActionUrl(routeHeaderId, Constants.MAPPING_AWARD_TIME_AND_MONEY_PAGE, "TimeAndMoneyDocument");
-        ActionForward basicForward = mapping.findForward(KNSConstants.MAPPING_PORTAL);
+        ActionForward basicForward = mapping.findForward(KRADConstants.MAPPING_PORTAL);
         ActionForward holdingPageForward = mapping.findForward(Constants.MAPPING_HOLDING_PAGE);
         return routeToHoldingPage(basicForward, actionForward, holdingPageForward, returnLocation);
     }
@@ -757,11 +757,11 @@ public class TimeAndMoneyAction extends KraTransactionalDocumentActionBase {
                                   HttpServletResponse response, TimeAndMoneyForm timeAndMoneyForm) throws Exception {
         String command = timeAndMoneyForm.getCommand();
         ActionForward forward = null;        
-        if (KEWConstants.ACTIONLIST_INLINE_COMMAND.equals(command)) {
-            String docIdRequestParameter = request.getParameter(KNSConstants.PARAMETER_DOC_ID);
+        if (KewApiConstants.ACTIONLIST_INLINE_COMMAND.equals(command)) {
+            String docIdRequestParameter = request.getParameter(KRADConstants.PARAMETER_DOC_ID);
             Document retrievedDocument = getDocumentService().getByDocumentHeaderId(docIdRequestParameter);
             timeAndMoneyForm.setDocument(retrievedDocument);
-            request.setAttribute(KNSConstants.PARAMETER_DOC_ID, docIdRequestParameter);
+            request.setAttribute(KRADConstants.PARAMETER_DOC_ID, docIdRequestParameter);
             ActionForward baseForward = mapping.findForward(Constants.MAPPING_COPY_PROPOSAL_PAGE);
             forward = new ActionForward(buildForwardStringForActionListCommand(
                     baseForward.getPath(),docIdRequestParameter));  
@@ -958,7 +958,7 @@ public class TimeAndMoneyAction extends KraTransactionalDocumentActionBase {
         StringBuilder sb = new StringBuilder();
         sb.append(forwardPath);
         sb.append("?");
-        sb.append(KNSConstants.PARAMETER_DOC_ID);
+        sb.append(KRADConstants.PARAMETER_DOC_ID);
         sb.append("=");
         sb.append(docIdRequestParameter);
         return sb.toString();
@@ -1085,7 +1085,7 @@ public class TimeAndMoneyAction extends KraTransactionalDocumentActionBase {
         AwardDocument awardDocument = timeAndMoneyDocument.getAward().getAwardDocument();
         //reload document to make sure we have a valid workflow document
         awardDocument = (AwardDocument) getDocumentService().getByDocumentHeaderId(awardDocument.getDocumentNumber());       
-        Long routeHeaderId = awardDocument.getDocumentHeader().getWorkflowDocument().getRouteHeaderId();
+        String routeHeaderId = awardDocument.getDocumentHeader().getWorkflowDocument().getDocumentId();
 
         String forward = buildForwardUrl(routeHeaderId);
         return new ActionForward(forward, true);
@@ -1108,7 +1108,7 @@ public class TimeAndMoneyAction extends KraTransactionalDocumentActionBase {
     
     public boolean isDirectIndirectViewEnabled() {
         boolean returnValue = false;
-        String directIndirectEnabledValue = getParameterService().getParameterValue(Constants.PARAMETER_MODULE_AWARD, ParameterConstants.DOCUMENT_COMPONENT, "ENABLE_AWD_ANT_OBL_DIRECT_INDIRECT_COST");
+        String directIndirectEnabledValue = getParameterService().getParameterValueAsString(Constants.PARAMETER_MODULE_AWARD, ParameterConstants.DOCUMENT_COMPONENT, "ENABLE_AWD_ANT_OBL_DIRECT_INDIRECT_COST");
         if(directIndirectEnabledValue.equals("1")) {
             returnValue = true;
         }
@@ -1157,7 +1157,7 @@ public class TimeAndMoneyAction extends KraTransactionalDocumentActionBase {
         timeAndMoneyDocument.getAwardAmountTransactions().add(aat);
         documentService.saveDocument(timeAndMoneyDocument);
  
-        Long routeHeaderId = timeAndMoneyDocument.getDocumentHeader().getWorkflowDocument().getRouteHeaderId();
+        String routeHeaderId = timeAndMoneyDocument.getDocumentHeader().getWorkflowDocument().getDocumentId();
         String forwardString = buildForwardUrl(routeHeaderId);
         forward = new ActionForward(forwardString, true);
         
@@ -1186,7 +1186,7 @@ public class TimeAndMoneyAction extends KraTransactionalDocumentActionBase {
             Set<String> editModes = new HashSet<String>();
             if (!documentAuthorizer.canOpen(document, user)) {
                 editModes.add(AuthorizationConstants.EditMode.UNVIEWABLE);
-            } else if (documentActions.contains(KNSConstants.KUALI_ACTION_CAN_EDIT)) {
+            } else if (documentActions.contains(KRADConstants.KUALI_ACTION_CAN_EDIT)) {
                 editModes.add(AuthorizationConstants.EditMode.FULL_ENTRY);
             } else {
                 editModes.add(AuthorizationConstants.EditMode.VIEW_ONLY);
@@ -1199,17 +1199,17 @@ public class TimeAndMoneyAction extends KraTransactionalDocumentActionBase {
             // We don't want to use KNS way to determine can edit document overview
             // It should be the same as can edit
             if (editMode.containsKey(AuthorizationConstants.EditMode.FULL_ENTRY)) {
-                if (!documentActions.contains(KNSConstants.KUALI_ACTION_CAN_EDIT__DOCUMENT_OVERVIEW)) {
-                    documentActions.add(KNSConstants.KUALI_ACTION_CAN_EDIT__DOCUMENT_OVERVIEW);
+                if (!documentActions.contains(KRADConstants.KUALI_ACTION_CAN_EDIT_DOCUMENT_OVERVIEW)) {
+                    documentActions.add(KRADConstants.KUALI_ACTION_CAN_EDIT_DOCUMENT_OVERVIEW);
                 }
             } else {
-                if (documentActions.contains(KNSConstants.KUALI_ACTION_CAN_EDIT__DOCUMENT_OVERVIEW)) {
-                    documentActions.remove(KNSConstants.KUALI_ACTION_CAN_EDIT__DOCUMENT_OVERVIEW);
+                if (documentActions.contains(KRADConstants.KUALI_ACTION_CAN_EDIT_DOCUMENT_OVERVIEW)) {
+                    documentActions.remove(KRADConstants.KUALI_ACTION_CAN_EDIT_DOCUMENT_OVERVIEW);
                 }
             }
             //copy action is meaningless in T&M.
-            if (documentActions.contains((KNSConstants.KUALI_ACTION_CAN_COPY))) {
-                documentActions.remove(KNSConstants.KUALI_ACTION_CAN_COPY);
+            if (documentActions.contains((KRADConstants.KUALI_ACTION_CAN_COPY))) {
+                documentActions.remove(KRADConstants.KUALI_ACTION_CAN_COPY);
             }
             formBase.setDocumentActions(convertSetToMap(documentActions));
             formBase.setEditingMode(editMode);

@@ -39,10 +39,11 @@ import org.kuali.kra.meeting.CommScheduleMinuteDoc;
 import org.kuali.kra.meeting.CommitteeScheduleAttendance;
 import org.kuali.kra.meeting.CommitteeScheduleMinute;
 import org.kuali.kra.meeting.ScheduleAgenda;
-import org.kuali.rice.core.util.KeyLabelPair;
-import org.kuali.rice.kns.service.BusinessObjectService;
-import org.kuali.rice.kns.service.SequenceAccessorService;
-import org.kuali.rice.kns.util.ObjectUtils;
+import org.kuali.rice.core.api.util.ConcreteKeyValue;
+import org.kuali.rice.core.api.util.KeyValue;
+import org.kuali.rice.krad.service.BusinessObjectService;
+import org.kuali.rice.krad.service.SequenceAccessorService;
+import org.kuali.rice.krad.util.ObjectUtils;
 
 /**
  * The Committee Service implementation.
@@ -131,16 +132,16 @@ public class CommitteeServiceImpl implements CommitteeService {
     /**
      * @see org.kuali.kra.committee.service.CommitteeService#getAvailableCommitteeDates(java.lang.String)
      */
-    public List<KeyLabelPair> getAvailableCommitteeDates(String committeeId) {
-        List<KeyLabelPair> keyValues = new ArrayList<KeyLabelPair>();
-        keyValues.add(new KeyLabelPair("", "select"));
+    public List<KeyValue> getAvailableCommitteeDates(String committeeId) {
+        List<KeyValue> keyValues = new ArrayList<KeyValue>();
+        keyValues.add(new ConcreteKeyValue("", "select"));
         Committee committee = getCommitteeById(committeeId);
         if (committee != null) {
             List<CommitteeSchedule> schedules = committee.getCommitteeSchedules();
             Collections.sort(schedules);
             for (CommitteeSchedule schedule : schedules) {
                 if (isOkayToScheduleReview(committee, schedule)) {
-                    keyValues.add(new KeyLabelPair(schedule.getScheduleId(), getDescription(schedule)));
+                    keyValues.add(new ConcreteKeyValue(schedule.getScheduleId(), getDescription(schedule)));
                 }
             }
         }

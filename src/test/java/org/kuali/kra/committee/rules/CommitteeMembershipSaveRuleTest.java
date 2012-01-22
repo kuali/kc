@@ -25,8 +25,8 @@ import org.kuali.kra.committee.bo.CommitteeMembershipExpertise;
 import org.kuali.kra.committee.bo.CommitteeMembershipRole;
 import org.kuali.kra.committee.document.CommitteeDocument;
 import org.kuali.kra.infrastructure.KeyConstants;
-import org.kuali.rice.kns.util.ErrorMap;
-import org.kuali.rice.kns.util.GlobalVariables;
+import org.kuali.rice.krad.util.GlobalVariables;
+import org.kuali.rice.krad.util.MessageMap;
 
 /**
  * Test the Committee Membership Save Rules
@@ -78,15 +78,15 @@ public class CommitteeMembershipSaveRuleTest extends CommitteeRuleTestBase {
         /*
          * There should be five errors.
          */
-        ErrorMap errorMap = GlobalVariables.getErrorMap();
+        MessageMap errorMap = GlobalVariables.getMessageMap();
         assertEquals(5, errorMap.getErrorCount());
 
         /*
-         * Verify that the error keys for each of the required fields is in the ErrorMap.
+         * Verify that the error keys for each of the required fields is in the MessageMap.
          */
-        assertTrue(errorMap.containsKey("document.committeeList[0].committeeMemberships[0].membershipTypeCode"));
-        assertTrue(errorMap.containsKey("document.committeeList[0].committeeMemberships[0].termStartDate"));
-        assertTrue(errorMap.containsKey("document.committeeList[0].committeeMemberships[0].termEndDate"));
+        assertTrue(errorMap.getErrorMessages().containsKey("document.committeeList[0].committeeMemberships[0].membershipTypeCode"));
+        assertTrue(errorMap.getErrorMessages().containsKey("document.committeeList[0].committeeMemberships[0].termStartDate"));
+        assertTrue(errorMap.getErrorMessages().containsKey("document.committeeList[0].committeeMemberships[0].termEndDate"));
         assertError("committeeHelper.newCommitteeMembershipRoles[0].membershipRoleCode",
                 KeyConstants.ERROR_COMMITTEE_MEMBERSHIP_ROLE_MISSING);
         assertError("committeeHelper.newCommitteeMembershipExpertise[0].researchAreaCode",
@@ -124,16 +124,16 @@ public class CommitteeMembershipSaveRuleTest extends CommitteeRuleTestBase {
         /*
          * There should be three errors.
          */
-        ErrorMap errorMap = GlobalVariables.getErrorMap();
+        MessageMap errorMap = GlobalVariables.getMessageMap();
         assertEquals(3, errorMap.getErrorCount());
 
         /*
-         * Verify that the error keys for each of the required fields is in the ErrorMap.
+         * Verify that the error keys for each of the required fields is in the MessageMap.
          */
         assertError("document.committeeList[0].committeeMemberships[0].termEndDate",
                 KeyConstants.ERROR_COMMITTEE_MEMBERSHIP_TERM_END_DATE_BEFORE_TERM_START_DATE);
-        assertTrue(errorMap.containsKey("document.committeeList[0].committeeMemberships[0].membershipRoles[0].startDate"));
-        assertTrue(errorMap.containsKey("document.committeeList[0].committeeMemberships[0].membershipRoles[0].endDate"));
+        assertTrue(errorMap.getErrorMessages().containsKey("document.committeeList[0].committeeMemberships[0].membershipRoles[0].startDate"));
+        assertTrue(errorMap.getErrorMessages().containsKey("document.committeeList[0].committeeMemberships[0].membershipRoles[0].endDate"));
     }
 
     /**
@@ -167,11 +167,11 @@ public class CommitteeMembershipSaveRuleTest extends CommitteeRuleTestBase {
         /*
          * There should be two errors.
          */
-        ErrorMap errorMap = GlobalVariables.getErrorMap();
+        MessageMap errorMap = GlobalVariables.getMessageMap();
         assertEquals(2, errorMap.getErrorCount());
 
         /*
-         * Verify that the error keys for each of the required fields is in the ErrorMap.
+         * Verify that the error keys for each of the required fields is in the MessageMap.
          */
         assertError("document.committeeList[0].committeeMemberships[0].membershipRoles[0].startDate",
                 KeyConstants.ERROR_COMMITTEE_MEMBERSHIP_ROLE_START_DATE_OUTSIDE_TERM);
@@ -210,11 +210,11 @@ public class CommitteeMembershipSaveRuleTest extends CommitteeRuleTestBase {
         /*
          * There should be one errors.
          */
-        ErrorMap errorMap = GlobalVariables.getErrorMap();
+        MessageMap errorMap = GlobalVariables.getMessageMap();
         assertEquals(1, errorMap.getErrorCount());
 
         /*
-         * Verify that the error keys for each of the required fields is in the ErrorMap.
+         * Verify that the error keys for each of the required fields is in the MessageMap.
          */
         assertError("document.committeeList[0].committeeMemberships[0].membershipRoles[0].membershipRoleCode",
                 KeyConstants.ERROR_COMMITTEE_MEMBERSHIP_ROLE_DUPLICATE);
@@ -254,12 +254,12 @@ public class CommitteeMembershipSaveRuleTest extends CommitteeRuleTestBase {
         /*
          * There should be one errors.
          */
-        ErrorMap errorMap = GlobalVariables.getErrorMap();
+        MessageMap errorMap = GlobalVariables.getMessageMap();
 
         assertEquals(1, errorMap.getErrorCount());
 
         /*
-         * Verify that the error keys for each of the required fields is in the ErrorMap.
+         * Verify that the error keys for each of the required fields is in the MessageMap.
          */
         assertError("document.committeeList[0].committeeMemberships[1].termStartDate",
                 KeyConstants.ERROR_COMMITTEE_MEMBERSHIP_PERSON_DUPLICATE);

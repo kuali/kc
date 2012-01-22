@@ -19,7 +19,6 @@ import java.io.Serializable;
 import java.util.ArrayList;
 import java.util.List;
 import java.util.Map;
-import java.util.SortedMap;
 
 import org.apache.commons.lang.StringUtils;
 import org.kuali.kra.bo.CustomAttributeDocument;
@@ -29,15 +28,13 @@ import org.kuali.kra.infrastructure.KraServiceLocator;
 import org.kuali.kra.negotiations.bo.Negotiation;
 import org.kuali.kra.negotiations.bo.NegotiationActivity;
 import org.kuali.kra.negotiations.bo.NegotiationActivityAttachment;
-import org.kuali.kra.negotiations.customdata.NegotiationCustomData;
-import org.kuali.kra.negotiations.web.struts.form.NegotiationForm;
 import org.kuali.kra.service.NegotiationCustomAttributeService;
-import org.kuali.rice.kew.dto.DocumentRouteStatusChangeDTO;
-import org.kuali.rice.kew.util.KEWConstants;
-import org.kuali.rice.kns.service.ParameterConstants;
-import org.kuali.rice.kns.service.ParameterConstants.COMPONENT;
-import org.kuali.rice.kns.service.ParameterConstants.NAMESPACE;
-import org.kuali.rice.kns.util.ObjectUtils;
+import org.kuali.rice.coreservice.framework.parameter.ParameterConstants;
+import org.kuali.rice.coreservice.framework.parameter.ParameterConstants.COMPONENT;
+import org.kuali.rice.coreservice.framework.parameter.ParameterConstants.NAMESPACE;
+import org.kuali.rice.kew.api.KewApiConstants;
+import org.kuali.rice.kew.framework.postprocessor.DocumentRouteStatusChange;
+import org.kuali.rice.krad.util.ObjectUtils;
 
 /**
  * This class...
@@ -124,10 +121,10 @@ public class NegotiationDocument extends ResearchDocumentBase implements Seriali
         if (ObjectUtils.isNull(this.getVersionNumber())) {
             this.setVersionNumber(new Long(0));
         }
-        String routeStatusCode = this.getDocumentHeader().getWorkflowDocument().getRouteHeader().getDocRouteStatus();
-        if (StringUtils.isNotBlank(routeStatusCode) && routeStatusCode.equals(KEWConstants.ROUTE_HEADER_INITIATED_CD)) {
+        String routeStatusCode = this.getDocumentHeader().getWorkflowDocument().getStatus().getCode();
+        if (StringUtils.isNotBlank(routeStatusCode) && routeStatusCode.equals(KewApiConstants.ROUTE_HEADER_INITIATED_CD)) {
             // route status from I to S will not update document, so do it here with correct status
-            this.setDocStatusCode(KEWConstants.ROUTE_HEADER_SAVED_CD);
+            this.setDocStatusCode(KewApiConstants.ROUTE_HEADER_SAVED_CD);
         } else {
             this.setDocStatusCode(routeStatusCode);
         }
@@ -138,8 +135,8 @@ public class NegotiationDocument extends ResearchDocumentBase implements Seriali
      * @param statusChangeEvent
      * @return
      */
-    private boolean isFinal(DocumentRouteStatusChangeDTO statusChangeEvent) {
-        return StringUtils.equals(KEWConstants.ROUTE_HEADER_FINAL_CD, statusChangeEvent.getNewRouteStatus());
+    private boolean isFinal(DocumentRouteStatusChange statusChangeEvent) {
+        return StringUtils.equals(KewApiConstants.ROUTE_HEADER_FINAL_CD, statusChangeEvent.getNewRouteStatus());
     }
     
     /**
@@ -153,8 +150,8 @@ public class NegotiationDocument extends ResearchDocumentBase implements Seriali
         boolean isComplete = false;
         
         if (getDocumentHeader().hasWorkflowDocument()) {
-            String docRouteStatus = getDocumentHeader().getWorkflowDocument().getRouteHeader().getDocRouteStatus();
-            if (KEWConstants.ROUTE_HEADER_FINAL_CD.equals(docRouteStatus)) {
+            String docRouteStatus = getDocumentHeader().getWorkflowDocument().getStatus().getCode();
+            if (KewApiConstants.ROUTE_HEADER_FINAL_CD.equals(docRouteStatus)) {
                 isComplete = true;
             }
         }

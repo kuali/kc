@@ -46,11 +46,10 @@ import org.kuali.kra.test.infrastructure.KcUnitTestBase;
 import org.kuali.kra.util.EmailAttachment;
 import org.kuali.rice.ken.bo.Notification;
 import org.kuali.rice.ken.service.NotificationService;
-import org.kuali.rice.kim.bo.types.dto.AttributeSet;
-import org.kuali.rice.kim.service.IdentityManagementService;
-import org.kuali.rice.kim.service.RoleManagementService;
-import org.kuali.rice.kns.service.BusinessObjectService;
-import org.kuali.rice.kns.service.ParameterService;
+import org.kuali.rice.kim.api.identity.IdentityService;
+import org.kuali.rice.kim.api.role.RoleService;
+import org.kuali.rice.krad.service.BusinessObjectService;
+import org.kuali.rice.coreservice.framework.parameter.ParameterService;
 
 public class KcNotificationServiceTest extends KcUnitTestBase {
     
@@ -178,9 +177,9 @@ public class KcNotificationServiceTest extends KcUnitTestBase {
         service.setParameterService(getParameterService());
         service.setNotificationService(getMockNotificationService());
         service.setKcEmailService(getMockKcEmailService(personEmailAddresses));
-        service.setRoleManagementService(KraServiceLocator.getService(RoleManagementService.class));
+        service.setRoleManagementService(KraServiceLocator.getService(RoleService.class));
         service.setKcPersonService(KraServiceLocator.getService(KcPersonService.class));
-        service.setIdentityManagementService(KraServiceLocator.getService(IdentityManagementService.class));
+        service.setIdentityService(KraServiceLocator.getService(IdentityService.class));
         
         NotificationContext notificationContext = getMockNotificationContext();
         
@@ -204,7 +203,7 @@ public class KcNotificationServiceTest extends KcUnitTestBase {
         service.setKcEmailService(getMockKcEmailService(personEmailAddresses, rolodexEmailAddresses));
         service.setKcPersonService(KraServiceLocator.getService(KcPersonService.class));
         service.setRolodexService(KraServiceLocator.getService(RolodexService.class));
-        service.setIdentityManagementService(KraServiceLocator.getService(IdentityManagementService.class));
+        service.setIdentityService(KraServiceLocator.getService(IdentityService.class));
         
         NotificationContext notificationContext = getMockNotificationContext();
         KcNotification notification = new KcNotification();
@@ -234,7 +233,7 @@ public class KcNotificationServiceTest extends KcUnitTestBase {
         service.setParameterService(getParameterService());
         service.setNotificationService(getMockNotificationService());
         service.setKcEmailService(getMockKcEmailService(personEmailAddresses));
-        service.setIdentityManagementService(KraServiceLocator.getService(IdentityManagementService.class));
+        service.setIdentityService(KraServiceLocator.getService(IdentityService.class));
         
         List<String> principalIds = new ArrayList<String>();
         principalIds.add(PRINCIPAL_NAME_VALUE_JTESTER);
@@ -254,9 +253,9 @@ public class KcNotificationServiceTest extends KcUnitTestBase {
         service.setBusinessObjectService(getMockSearchBusinessObjectService(MODULE_CODE_VALUE, ACTION_TYPE_CODE_VALUE_101));
         service.setParameterService(getParameterService());
         service.setKcEmailService(getMockKcEmailService(personEmailAddresses));
-        service.setRoleManagementService(KraServiceLocator.getService(RoleManagementService.class));
+        service.setRoleManagementService(KraServiceLocator.getService(RoleService.class));
         service.setKcPersonService(KraServiceLocator.getService(KcPersonService.class));
-        service.setIdentityManagementService(KraServiceLocator.getService(IdentityManagementService.class));
+        service.setIdentityService(KraServiceLocator.getService(IdentityService.class));
         
         NotificationContext notificationContext = getMockNotificationContext();
                 
@@ -321,7 +320,7 @@ public class KcNotificationServiceTest extends KcUnitTestBase {
                 List<NotificationTypeRecipient> notificationTypeRecipients = new ArrayList<NotificationTypeRecipient>();
                 NotificationTypeRecipient notificationTypeRecipient = new NotificationTypeRecipient();
                 notificationTypeRecipient.setRoleName("KC-SYS:KC Superuser");
-                notificationTypeRecipient.setRoleQualifiers(new AttributeSet());
+                notificationTypeRecipient.setRoleQualifiers(new HashMap<String, String>());
                 notificationTypeRecipients.add(notificationTypeRecipient);
                 
                 notificationType.setNotificationTypeRecipients(notificationTypeRecipients);
@@ -359,30 +358,30 @@ public class KcNotificationServiceTest extends KcUnitTestBase {
         return service;
     }
     
-    private ParameterService getParameterService() {
+    protected ParameterService getParameterService() {
         final ParameterService parameterService = context.mock(ParameterService.class);
         context.checking(new Expectations() {{
-            allowing(parameterService).getParameterValue(Constants.KC_GENERIC_PARAMETER_NAMESPACE, Constants.KC_ALL_PARAMETER_DETAIL_TYPE_CODE, 
+            allowing(parameterService).getParameterValueAsString(Constants.KC_GENERIC_PARAMETER_NAMESPACE, Constants.KC_ALL_PARAMETER_DETAIL_TYPE_CODE, 
                                                          "NORMAL_NOTIFICATION_PRIORITY_ID"); 
             will(returnValue("1"));
             
-            allowing(parameterService).getParameterValue(Constants.KC_GENERIC_PARAMETER_NAMESPACE, Constants.KC_ALL_PARAMETER_DETAIL_TYPE_CODE, 
+            allowing(parameterService).getParameterValueAsString(Constants.KC_GENERIC_PARAMETER_NAMESPACE, Constants.KC_ALL_PARAMETER_DETAIL_TYPE_CODE, 
                                                          "SIMPLE_NOTIFICATION_CONTENT_TYPE_ID"); 
             will(returnValue("1"));
             
-            allowing(parameterService).getParameterValue(Constants.KC_GENERIC_PARAMETER_NAMESPACE, Constants.KC_ALL_PARAMETER_DETAIL_TYPE_CODE, 
+            allowing(parameterService).getParameterValueAsString(Constants.KC_GENERIC_PARAMETER_NAMESPACE, Constants.KC_ALL_PARAMETER_DETAIL_TYPE_CODE, 
                                                          "SYSTEM_NOTIFICATION_PRODUCER_ID"); 
             will(returnValue("1"));
             
-            allowing(parameterService).getParameterValue(Constants.KC_GENERIC_PARAMETER_NAMESPACE, Constants.KC_ALL_PARAMETER_DETAIL_TYPE_CODE, 
+            allowing(parameterService).getParameterValueAsString(Constants.KC_GENERIC_PARAMETER_NAMESPACE, Constants.KC_ALL_PARAMETER_DETAIL_TYPE_CODE, 
                                                          "KC_NOTIFICATION_CHANNEL_ID"); 
             will(returnValue("1"));
             
-            allowing(parameterService).getParameterValue(Constants.KC_GENERIC_PARAMETER_NAMESPACE, Constants.KC_ALL_PARAMETER_DETAIL_TYPE_CODE, 
+            allowing(parameterService).getParameterValueAsString(Constants.KC_GENERIC_PARAMETER_NAMESPACE, Constants.KC_ALL_PARAMETER_DETAIL_TYPE_CODE, 
                                                          "ACTION_LIST_DEFAULT_FROM_USER"); 
             will(returnValue("admin"));
             
-            allowing(parameterService).getIndicatorParameter(Constants.KC_GENERIC_PARAMETER_NAMESPACE, Constants.KC_ALL_PARAMETER_DETAIL_TYPE_CODE, 
+            allowing(parameterService).getParameterValueAsBoolean(Constants.KC_GENERIC_PARAMETER_NAMESPACE, Constants.KC_ALL_PARAMETER_DETAIL_TYPE_CODE, 
                                                              "EMAIL_NOTIFICATIONS_ENABLED"); 
             will(returnValue(true));
         }});

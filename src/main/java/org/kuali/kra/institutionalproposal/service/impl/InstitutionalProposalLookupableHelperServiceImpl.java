@@ -33,19 +33,18 @@ import org.kuali.kra.institutionalproposal.home.InstitutionalProposal;
 import org.kuali.kra.institutionalproposal.proposaladmindetails.ProposalAdminDetails;
 import org.kuali.kra.lookup.KraLookupableHelperServiceImpl;
 import org.kuali.kra.proposaldevelopment.bo.DevelopmentProposal;
-import org.kuali.rice.kew.exception.WorkflowException;
-import org.kuali.rice.kew.util.KEWConstants;
-import org.kuali.rice.kew.web.session.UserSession;
-import org.kuali.rice.kim.bo.Person;
-import org.kuali.rice.kns.bo.BusinessObject;
-import org.kuali.rice.kns.document.Document;
+import org.kuali.rice.kew.api.KewApiConstants;
+import org.kuali.rice.kew.api.exception.WorkflowException;
+import org.kuali.rice.kim.api.identity.Person;
 import org.kuali.rice.kns.lookup.HtmlData;
 import org.kuali.rice.kns.lookup.HtmlData.AnchorHtmlData;
-import org.kuali.rice.kns.service.BusinessObjectService;
-import org.kuali.rice.kns.service.DocumentService;
-import org.kuali.rice.kns.util.GlobalVariables;
-import org.kuali.rice.kns.util.KNSConstants;
-import org.kuali.rice.kns.util.UrlFactory;
+import org.kuali.rice.krad.bo.BusinessObject;
+import org.kuali.rice.krad.document.Document;
+import org.kuali.rice.krad.service.BusinessObjectService;
+import org.kuali.rice.krad.service.DocumentService;
+import org.kuali.rice.krad.util.GlobalVariables;
+import org.kuali.rice.krad.util.KRADConstants;
+import org.kuali.rice.krad.util.UrlFactory;
 
 /**
  * This class is used to control behavior of Institutional Proposal lookups. Depending
@@ -128,11 +127,12 @@ public class InstitutionalProposalLookupableHelperServiceImpl extends KraLookupa
      * @return
      */
     protected List<InstitutionalProposal> filterForPermissions(List<InstitutionalProposal> results) {
-        Person user = UserSession.getAuthenticatedUser().getPerson();
+        Person user = GlobalVariables.getUserSession().getPerson();
         InstitutionalProposalDocumentAuthorizer authorizer = new InstitutionalProposalDocumentAuthorizer();
         List<InstitutionalProposal> filteredResults = new ArrayList<InstitutionalProposal>();
         
         for (InstitutionalProposal institutionalProposal : results) {
+            
             String documentNumber = institutionalProposal.getInstitutionalProposalDocument().getDocumentNumber();
             try {
                 InstitutionalProposalDocument document = (InstitutionalProposalDocument) documentService.getByDocumentHeaderId(documentNumber);
@@ -168,9 +168,9 @@ public class InstitutionalProposalLookupableHelperServiceImpl extends KraLookupa
         AnchorHtmlData htmlData = new AnchorHtmlData();
         htmlData.setDisplayText(OPEN);
         Properties parameters = new Properties();
-        parameters.put(KNSConstants.DISPATCH_REQUEST_PARAMETER, KNSConstants.DOC_HANDLER_METHOD);
-        parameters.put(KNSConstants.PARAMETER_COMMAND, KEWConstants.DOCSEARCH_COMMAND);
-        parameters.put(KNSConstants.DOCUMENT_TYPE_NAME, getDocumentTypeName());
+        parameters.put(KRADConstants.DISPATCH_REQUEST_PARAMETER, KRADConstants.DOC_HANDLER_METHOD);
+        parameters.put(KRADConstants.PARAMETER_COMMAND, KewApiConstants.DOCSEARCH_COMMAND);
+        parameters.put(KRADConstants.DOCUMENT_TYPE_NAME, getDocumentTypeName());
         parameters.put("viewDocument", "true");
         parameters.put("docOpenedFromIPSearch", "true");
         parameters.put("docId", document.getDocumentNumber());
@@ -198,7 +198,7 @@ public class InstitutionalProposalLookupableHelperServiceImpl extends KraLookupa
     }
     
     protected boolean lookupIsFromAward(Map<String, String> fieldValues) {
-        String returnLocation = fieldValues.get(KNSConstants.BACK_LOCATION);
+        String returnLocation = fieldValues.get(KRADConstants.BACK_LOCATION);
         return returnLocation != null && returnLocation.contains(AWARD_HOME_ACTION);
     }
     
@@ -298,7 +298,7 @@ public class InstitutionalProposalLookupableHelperServiceImpl extends KraLookupa
      * Determine whether lookup is being called from a location that shouldn't include the custom action links
      */
     protected void configureCustomActions(Map<String, String> fieldValues) {
-        String returnLocation = fieldValues.get(KNSConstants.BACK_LOCATION);
+        String returnLocation = fieldValues.get(KRADConstants.BACK_LOCATION);
         if (returnLocation != null) {
             if (returnLocation.contains(AWARD_HOME_ACTION)) {
                 includeMainSearchCustomActionUrls = false;
@@ -320,7 +320,7 @@ public class InstitutionalProposalLookupableHelperServiceImpl extends KraLookupa
         AnchorHtmlData htmlData = new AnchorHtmlData();
         htmlData.setDisplayText("select");
         Properties parameters = new Properties();
-        parameters.put(KNSConstants.DISPATCH_REQUEST_PARAMETER, "mergeToInstitutionalProposal");
+        parameters.put(KRADConstants.DISPATCH_REQUEST_PARAMETER, "mergeToInstitutionalProposal");
         parameters.put("institutionalProposalNumber", institutionalProposal.getProposalNumber());
         String href  = UrlFactory.parameterizeUrl("../" + MERGE_PROPOSAL_LOG_ACTION, parameters);
         htmlData.setHref(href);

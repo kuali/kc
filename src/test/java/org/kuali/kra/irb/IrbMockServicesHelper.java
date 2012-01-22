@@ -26,10 +26,10 @@ import org.kuali.kra.award.home.Award;
 import org.kuali.kra.institutionalproposal.home.InstitutionalProposal;
 import org.kuali.kra.service.impl.adapters.BusinessObjectServiceAdapter;
 import org.kuali.kra.service.impl.adapters.DocumentServiceAdapter;
-import org.kuali.rice.kew.exception.WorkflowException;
-import org.kuali.rice.kns.bo.DocumentHeader;
-import org.kuali.rice.kns.bo.PersistableBusinessObject;
-import org.kuali.rice.kns.document.Document;
+import org.kuali.rice.kew.api.exception.WorkflowException;
+import org.kuali.rice.krad.bo.DocumentHeader;
+import org.kuali.rice.krad.bo.PersistableBusinessObject;
+import org.kuali.rice.krad.document.Document;
 
 public class IrbMockServicesHelper {
 
@@ -55,7 +55,7 @@ public class IrbMockServicesHelper {
         }
 
         @Override
-        public void save(PersistableBusinessObject bo) {
+        public PersistableBusinessObject save(PersistableBusinessObject bo) {
             if(bo instanceof AwardHierarchy) {
                 AwardHierarchy awardHierarchy = (AwardHierarchy) bo;
                 awardHierarchyMap.put(awardHierarchy.getAwardNumber(), awardHierarchy);
@@ -69,13 +69,17 @@ public class IrbMockServicesHelper {
                 instProp.setProposalId(instProp.getProposalId() == null ? 1L : instProp.getProposalId());
                 institutionalProposalMap.put(instProp.getProposalId(), instProp);
             }
+            
+            return bo;
         }
 
         @Override
-        public void save(List bizObjects) {
+        public List<? extends PersistableBusinessObject> save(List<? extends PersistableBusinessObject> bizObjects) {
             for(Object bo: bizObjects) {
                 save((PersistableBusinessObject) bo);
             }
+            
+            return bizObjects;
         }
 
         @SuppressWarnings("unchecked")

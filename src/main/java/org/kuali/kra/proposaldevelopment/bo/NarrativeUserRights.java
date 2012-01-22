@@ -15,60 +15,51 @@
  */
 package org.kuali.kra.proposaldevelopment.bo;
 
-import java.util.LinkedHashMap;
-
 import org.kuali.kra.bo.KraPersistableBusinessObjectBase;
 
 public class NarrativeUserRights extends KraPersistableBusinessObjectBase {
-	private Integer moduleNumber;
-	private String proposalNumber;
-	private String userId;
-	private String accessType;
-	private String personName;
 
-	public Integer getModuleNumber() {
-		return moduleNumber;
-	}
+    private Integer moduleNumber;
 
-	public void setModuleNumber(Integer moduleNumber) {
-		this.moduleNumber = moduleNumber;
-	}
+    private String proposalNumber;
 
-	public String getProposalNumber() {
-		return proposalNumber;
-	}
+    private String userId;
 
-	public void setProposalNumber(String proposalNumber) {
-		this.proposalNumber = proposalNumber;
-	}
+    private String accessType;
 
-	public String getUserId() {
-		return userId;
-	}
+    private String personName;
 
-	public void setUserId(String userId) {
-		this.userId = userId;
-	}
+    public Integer getModuleNumber() {
+        return moduleNumber;
+    }
 
-	public String getAccessType() {
-		return accessType;
-	}
+    public void setModuleNumber(Integer moduleNumber) {
+        this.moduleNumber = moduleNumber;
+    }
 
-	public void setAccessType(String accessType) {
-		this.accessType = accessType;
-	}
+    public String getProposalNumber() {
+        return proposalNumber;
+    }
 
+    public void setProposalNumber(String proposalNumber) {
+        this.proposalNumber = proposalNumber;
+    }
 
-	@Override 
-	protected LinkedHashMap toStringMapper() {
-		LinkedHashMap hashMap = new LinkedHashMap();
-		hashMap.put("moduleNumber", getModuleNumber());
-		hashMap.put("proposalNumber", getProposalNumber());
-		hashMap.put("personName", getPersonName());
-        hashMap.put("userId", getUserId());
-		hashMap.put("accessType", getAccessType());
-		return hashMap;
-	}
+    public String getUserId() {
+        return userId;
+    }
+
+    public void setUserId(String userId) {
+        this.userId = userId;
+    }
+
+    public String getAccessType() {
+        return accessType;
+    }
+
+    public void setAccessType(String accessType) {
+        this.accessType = accessType;
+    }
 
     public String getPersonName() {
         return personName;

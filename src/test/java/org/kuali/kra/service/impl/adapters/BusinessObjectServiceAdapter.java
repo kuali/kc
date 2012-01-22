@@ -19,45 +19,51 @@ import java.util.Collection;
 import java.util.List;
 import java.util.Map;
 
-import org.kuali.rice.kns.bo.BusinessObject;
-import org.kuali.rice.kns.bo.PersistableBusinessObject;
-import org.kuali.rice.kns.service.BusinessObjectService;
+import org.kuali.rice.krad.bo.BusinessObject;
+import org.kuali.rice.krad.bo.PersistableBusinessObject;
+import org.kuali.rice.krad.service.BusinessObjectService;
 
 public class BusinessObjectServiceAdapter implements BusinessObjectService {
 
-    public int countMatching(Class clazz, Map fieldValues) {
+    public int countMatching(Class clazz, Map<String, ?> positiveFieldValues, Map<String, ?> negativeFieldValues) {
         return 0;
     }
 
-    public int countMatching(Class clazz, Map positiveFieldValues, Map negativeFieldValues) {
+    public int countMatching(Class clazz, Map<String, ?> fieldValues) {
         return 0;
-    }
-
-    public void delete(PersistableBusinessObject bo) {
-
     }
 
     public void delete(List<? extends PersistableBusinessObject> boList) {
-
     }
 
-    public void deleteMatching(Class clazz, Map fieldValues) {
-
+    public void delete(PersistableBusinessObject bo) {
     }
 
-    public Collection findAll(Class clazz) {
+    public void deleteMatching(Class clazz, Map<String, ?> fieldValues) {
+    }
+
+    public <T extends BusinessObject> Collection<T> findAll(Class<T> clazz) {
         return null;
     }
 
-    public PersistableBusinessObject findByPrimaryKey(Class clazz, Map primaryKeys) {
+    public <T extends BusinessObject> Collection<T> findAllOrderBy(Class<T> clazz, String sortField, boolean sortAscending) {
         return null;
     }
 
-    public Collection findMatching(Class clazz, Map fieldValues) {
+    public <T extends BusinessObject> T findByPrimaryKey(Class<T> clazz, Map<String, ?> primaryKeys) {
         return null;
     }
 
-    public Collection findMatchingOrderBy(Class clazz, Map fieldValues, String sortField, boolean sortAscending) {
+    public <T extends BusinessObject> T findBySinglePrimaryKey(Class<T> clazz, Object primaryKey) {
+        return null;
+    }
+
+    public <T extends BusinessObject> Collection<T> findMatching(Class<T> clazz, Map<String, ?> fieldValues) {
+        return null;
+    }
+
+    public <T extends BusinessObject> Collection<T> findMatchingOrderBy(Class<T> clazz, Map<String, ?> fieldValues,
+            String sortField, boolean sortAscending) {
         return null;
     }
 
@@ -65,35 +71,34 @@ public class BusinessObjectServiceAdapter implements BusinessObjectService {
         return null;
     }
 
-    public void linkAndSave(PersistableBusinessObject bo) {
-
+    public List<? extends PersistableBusinessObject> linkAndSave(List<? extends PersistableBusinessObject> businessObjects) {
+        return null;
     }
 
-    public void linkUserFields(PersistableBusinessObject bo) {
-
+    public PersistableBusinessObject linkAndSave(PersistableBusinessObject bo) {
+        return null;
     }
 
     public void linkUserFields(List<PersistableBusinessObject> bos) {
+    }
 
+    public void linkUserFields(PersistableBusinessObject bo) {
+    }
+
+    public PersistableBusinessObject manageReadOnly(PersistableBusinessObject bo) {
+        return null;
     }
 
     public PersistableBusinessObject retrieve(PersistableBusinessObject object) {
         return null;
     }
 
-    public void save(PersistableBusinessObject bo) {
-
-    }
-
-    public <T> T findBySinglePrimaryKey(Class<T> clazz, Object primaryKey) {
+    public List<? extends PersistableBusinessObject> save(List<? extends PersistableBusinessObject> businessObjects) {
         return null;
     }
 
-    public void linkAndSave(List<? extends PersistableBusinessObject> businessObjects) {
-        
+    public PersistableBusinessObject save(PersistableBusinessObject bo) {
+        return null;
     }
-
-    public void save(List<? extends PersistableBusinessObject> businessObjects) {
-        
-    }
+    
 }

@@ -16,30 +16,22 @@
 package org.kuali.kra.workflow;
 
 import java.util.ArrayList;
-import java.util.HashMap;
 import java.util.HashSet;
 import java.util.List;
 import java.util.Map;
 import java.util.Set;
 
 import org.apache.commons.lang.StringUtils;
-import org.apache.commons.lang.math.NumberUtils;
 import org.kuali.kra.committee.bo.Committee;
 import org.kuali.kra.committee.bo.CommitteeMembership;
-import org.kuali.kra.committee.bo.CommitteeSchedule;
 import org.kuali.kra.committee.service.CommitteeService;
-import org.kuali.kra.irb.onlinereview.ProtocolOnlineReview;
-import org.kuali.kra.irb.onlinereview.ProtocolOnlineReviewService;
 import org.kuali.kra.kim.bo.KcKimAttributes;
-import org.kuali.rice.kew.service.WorkflowInfo;
-import org.kuali.rice.kim.bo.Role;
-import org.kuali.rice.kim.bo.role.dto.RoleMembershipInfo;
-import org.kuali.rice.kim.bo.types.dto.AttributeSet;
-import org.kuali.rice.kim.service.support.impl.KimDerivedRoleTypeServiceBase;
-import org.kuali.rice.kns.service.BusinessObjectService;
+import org.kuali.rice.core.api.membership.MemberType;
+import org.kuali.rice.kim.api.role.RoleMembership;
+import org.kuali.rice.kns.kim.role.DerivedRoleTypeServiceBase;
 
 
-public class ActiveCommitteeMemberDerivedRoleTypeServiceImpl extends KimDerivedRoleTypeServiceBase {
+public class ActiveCommitteeMemberDerivedRoleTypeServiceImpl extends DerivedRoleTypeServiceBase {
     
     private CommitteeService committeeService;
     private static final org.apache.log4j.Logger LOG = org.apache.log4j.Logger.getLogger(ActiveCommitteeMemberDerivedRoleTypeServiceImpl.class);
@@ -67,7 +59,7 @@ public class ActiveCommitteeMemberDerivedRoleTypeServiceImpl extends KimDerivedR
 	
 	
 
-	private boolean isQualified(CommitteeMembership membership, AttributeSet qualification) {
+	private boolean isQualified(CommitteeMembership membership, Map<String,String> qualification) {
 	    if (LOG.isDebugEnabled()) {
 	        LOG.debug(String.format("Checking qualification of membership:%s",membership));
 	    }
@@ -82,14 +74,14 @@ public class ActiveCommitteeMemberDerivedRoleTypeServiceImpl extends KimDerivedR
 	}
 	
 	@Override
-    public List<RoleMembershipInfo> getRoleMembersFromApplicationRole(String namespaceCode, String roleName, AttributeSet qualification) {
+    public List<RoleMembership> getRoleMembersFromDerivedRole(String namespaceCode, String roleName, Map<String,String> qualification) {
 		validateRequiredAttributesAgainstReceived(qualification);
 		
-		List<RoleMembershipInfo> members = new ArrayList<RoleMembershipInfo>();
+		List<RoleMembership> members = new ArrayList<RoleMembership>();
 		String committeeId = qualification.get(KcKimAttributes.COMMITTEE);
 		
 		if (LOG.isDebugEnabled()) {
-		    LOG.debug(String.format("Running getRoleMembersFromApplicationRole for committee %s",committeeId));
+		    LOG.debug(String.format("Running getRoleMembersFromDerivedRole for committee %s",committeeId));
 		}
 		
 		if (!StringUtils.isEmpty(committeeId)) {
@@ -97,9 +89,9 @@ public class ActiveCommitteeMemberDerivedRoleTypeServiceImpl extends KimDerivedR
     		if (committee != null ) {
     		    for (CommitteeMembership membership : committee.getCommitteeMemberships()) {
     		        if (isQualified(membership,qualification)) {
-    		            members.add(new RoleMembershipInfo(null, null, membership.getPersonId(), Role.PRINCIPAL_MEMBER_TYPE, null) );
+    		            members.add(RoleMembership.Builder.create(null, null, membership.getPersonId(), MemberType.PRINCIPAL, null).build());
     		            if (LOG.isDebugEnabled()) {
-    		                LOG.debug(String.format("Adding %s for getRoleMembersFromApplicationRole for committee %s",committee));
+    		                LOG.debug(String.format("Adding %s for getRoleMembersFromDerivedRole for committee %s",committee));
     		            }
     		        }
     		    }
@@ -110,8 +102,8 @@ public class ActiveCommitteeMemberDerivedRoleTypeServiceImpl extends KimDerivedR
 	}
 
 	@Override
-	public boolean hasApplicationRole(
-	        String principalId, List<String> groupIds, String namespaceCode, String roleName, AttributeSet qualification){
+	public boolean hasDerivedRole(
+	        String principalId, List<String> groupIds, String namespaceCode, String roleName, Map<String,String> qualification){
 
    validateRequiredAttributesAgainstReceived(qualification);
         

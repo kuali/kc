@@ -16,7 +16,7 @@
 package org.kuali.kra.irb.personnel;
 
 import org.kuali.kra.irb.ProtocolDocument;
-import org.kuali.rice.kns.rule.event.KualiDocumentEvent;
+import org.kuali.rice.krad.rules.rule.event.KualiDocumentEvent;
 
 /**
  * Event triggered when a protocol unit state is modified on a 

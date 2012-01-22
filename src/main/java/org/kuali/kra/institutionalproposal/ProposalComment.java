@@ -15,27 +15,28 @@
  */
 package org.kuali.kra.institutionalproposal;
 
-import java.util.LinkedHashMap;
-
 import org.kuali.kra.bo.CommentType;
 import org.kuali.kra.institutionalproposal.home.InstitutionalProposal;
 
-public class ProposalComment extends InstitutionalProposalAssociate { 
-    
+public class ProposalComment extends InstitutionalProposalAssociate {
+
     private static final long serialVersionUID = 1L;
 
-    private Long proposalCommentsId; 
-    private Long proposalId; 
-    private String commentTypeCode; 
-    private String comments; 
-    
-    private CommentType commentType; 
-    private InstitutionalProposal proposal; 
-    
-    public ProposalComment() { 
+    private Long proposalCommentsId;
 
-    } 
-    
+    private Long proposalId;
+
+    private String commentTypeCode;
+
+    private String comments;
+
+    private CommentType commentType;
+
+    private InstitutionalProposal proposal;
+
+    public ProposalComment() {
+    }
+
     public Long getProposalCommentsId() {
         return proposalCommentsId;
     }
@@ -83,16 +84,4 @@ public class ProposalComment extends InstitutionalProposalAssociate {
     public void setProposal(InstitutionalProposal proposal) {
         this.proposal = proposal;
     }
-
-    /** {@inheritDoc} */
-    @Override 
-    protected LinkedHashMap<String, Object> toStringMapper() {
-        LinkedHashMap<String, Object> hashMap = new LinkedHashMap<String, Object>();
-        hashMap.put("proposalCommentsId", this.getProposalCommentsId());
-        hashMap.put("proposalId", this.getProposalId());
-        hashMap.put("commentCode", this.getCommentTypeCode());
-        hashMap.put("comments", this.getComments());
-        return hashMap;
-    }
-    
 }

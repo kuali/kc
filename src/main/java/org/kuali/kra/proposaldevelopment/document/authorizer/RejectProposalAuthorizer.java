@@ -19,8 +19,7 @@ import org.kuali.kra.infrastructure.KraServiceLocator;
 import org.kuali.kra.kew.KraDocumentRejectionService;
 import org.kuali.kra.proposaldevelopment.document.ProposalDevelopmentDocument;
 import org.kuali.kra.proposaldevelopment.document.authorization.ProposalTask;
-
-import org.kuali.rice.kns.workflow.service.KualiWorkflowDocument;
+import org.kuali.rice.kew.api.WorkflowDocument;
 
 /**
  * This authorizer determines if the user has the permission
@@ -39,8 +38,8 @@ public class RejectProposalAuthorizer extends ProposalAuthorizer {
      */
     public boolean isAuthorized(String username, ProposalTask task) {
         ProposalDevelopmentDocument doc = task.getDocument();
-        KualiWorkflowDocument workDoc = doc.getDocumentHeader().getWorkflowDocument();
-        return (!workDoc.getRouteHeader().isCompleteRequested()) && (! KraServiceLocator.getService(KraDocumentRejectionService.class).isDocumentOnInitialNode(doc)) && (workDoc.isApprovalRequested()) && (workDoc.stateIsEnroute());
+        WorkflowDocument workDoc = doc.getDocumentHeader().getWorkflowDocument();
+        return (!workDoc.isCompletionRequested()) && (! KraServiceLocator.getService(KraDocumentRejectionService.class).isDocumentOnInitialNode(doc)) && (workDoc.isApprovalRequested()) && (workDoc.isEnroute());
     }
     
     

@@ -17,7 +17,7 @@ package org.kuali.kra.irb.actions.reviewcomments;
 
 import org.kuali.kra.rule.BusinessRuleInterface;
 import org.kuali.kra.rules.ResearchDocumentRuleBase;
-import org.kuali.rice.kns.util.GlobalVariables;
+import org.kuali.rice.krad.util.GlobalVariables;
 
 /**
  * Validates the rules for a Protocol Risk Level add action.

@@ -54,7 +54,7 @@ public class CostShareTypeTest {
      */
     @Test
     public void testCostShareTypeBoAttributesCount() throws Exception {              
-        Assert.assertEquals(COST_SHARE_TYPE_ATTRIBUTES_COUNT, costShareTypeBo.toStringMapper().size());
+        Assert.assertEquals(COST_SHARE_TYPE_ATTRIBUTES_COUNT, costShareTypeBo.getClass().getFields().length);
     }
     
 }

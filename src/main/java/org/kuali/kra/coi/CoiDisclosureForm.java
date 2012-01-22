@@ -20,7 +20,6 @@ import java.util.List;
 import java.util.Map;
 
 
-
 import org.apache.commons.lang.StringUtils;
 import org.kuali.kra.authorization.KraAuthorizationConstants;
 import org.kuali.kra.coi.actions.DisclosureActionHelper;
@@ -32,8 +31,8 @@ import org.kuali.kra.irb.notification.IRBNotificationContext;
 import org.kuali.kra.web.struts.form.Auditable;
 import org.kuali.kra.web.struts.form.KraTransactionalDocumentFormBase;
 import org.kuali.rice.kns.datadictionary.HeaderNavigation;
-import org.kuali.rice.kns.service.BusinessObjectService;
-import org.kuali.rice.kns.service.KNSServiceLocator;
+import org.kuali.rice.krad.service.BusinessObjectService;
+import org.kuali.rice.krad.service.KRADServiceLocator;
 
 public class CoiDisclosureForm extends KraTransactionalDocumentFormBase implements Auditable  {
     /**
@@ -155,7 +154,7 @@ public class CoiDisclosureForm extends KraTransactionalDocumentFormBase implemen
 //    }
 
     private BusinessObjectService getBusinessObjectService() {
-        return KNSServiceLocator.getBusinessObjectService();
+        return KRADServiceLocator.getBusinessObjectService();
     }
 
     public String getCoiDisclosureStatusCode() {

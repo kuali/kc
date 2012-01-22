@@ -15,46 +15,27 @@
  */
 package org.kuali.kra.budget.nonpersonnel;
 
-import java.util.LinkedHashMap;
-
+import org.apache.ojb.broker.PBKey;
+import org.apache.ojb.broker.PersistenceBroker;
 import org.apache.ojb.broker.query.Criteria;
 import org.apache.ojb.broker.query.Query;
 import org.apache.ojb.broker.query.QueryFactory;
 import org.kuali.kra.award.budget.AwardBudgetLineItemCalculatedAmountExt;
-import org.kuali.kra.award.budget.AwardBudgetLineItemExt;
 import org.kuali.kra.infrastructure.DeepCopyIgnore;
-
+import org.springmodules.orm.ojb.OjbFactoryUtils;
 
 public class BudgetLineItemCalculatedAmount extends AbstractBudgetCalculatedAmount {
 
     @DeepCopyIgnore
-	private Long budgetLineItemCalculatedAmountId;
+    private Long budgetLineItemCalculatedAmountId;
+
     /**
      * Comment for <code>serialVersionUID</code>
      */
     private static final long serialVersionUID = -1755216989884993632L;
-    
-    public BudgetLineItemCalculatedAmount(){
-        
+
+    public BudgetLineItemCalculatedAmount() {
     }
-
-    @SuppressWarnings("unchecked")
-    @Override 
-	protected LinkedHashMap toStringMapper() {
-		LinkedHashMap hashMap = super.toStringMapper();
-		hashMap.put("budgetPeriod", getBudgetPeriod());
-		hashMap.put("lineItemNumber", getLineItemNumber());
-//		hashMap.put("proposalNumber", getProposalNumber());
-//        hashMap.put("budgetVersionNumber", getBudgetVersionNumber());
-		hashMap.put("rateClassCode", getRateClassCode());
-		hashMap.put("rateTypeCode", getRateTypeCode());
-		hashMap.put("versionNumber", getVersionNumber());
-		hashMap.put("applyRateFlag", getApplyRateFlag());
-		hashMap.put("calculatedCost", getCalculatedCost());
-		hashMap.put("calculatedCostSharing", getCalculatedCostSharing());
-		return hashMap;
-	}
-
 
     /**
      * Gets the budgetLineItemCalculatedAmountId attribute. 
@@ -64,7 +45,6 @@ public class BudgetLineItemCalculatedAmount extends AbstractBudgetCalculatedAmou
         return budgetLineItemCalculatedAmountId;
     }
 
-
     /**
      * Sets the budgetLineItemCalculatedAmountId attribute value.
      * @param budgetLineItemCalculatedAmountId The budgetLineItemCalculatedAmountId to set.
@@ -72,14 +52,4 @@ public class BudgetLineItemCalculatedAmount extends AbstractBudgetCalculatedAmou
     public void setBudgetLineItemCalculatedAmountId(Long budgetLineItemCalculatedAmountId) {
         this.budgetLineItemCalculatedAmountId = budgetLineItemCalculatedAmountId;
     }
-    @Override
-    public void afterDelete(org.apache.ojb.broker.PersistenceBroker persistenceBroker) throws org.apache.ojb.broker.PersistenceBrokerException {
-        if( this instanceof AwardBudgetLineItemCalculatedAmountExt) {
-            Criteria crit = new Criteria();
-            crit.addEqualTo("budgetLineItemCalculatedAmountId", getBudgetLineItemCalculatedAmountId());
-            Query delQ = QueryFactory.newQuery(BudgetLineItemCalculatedAmount.class, crit);
-            persistenceBroker.deleteByQuery(delQ);
-        }
-    }
-
 }

@@ -16,6 +16,7 @@
 package org.kuali.kra.questionnaire;
 
 import java.util.ArrayList;
+import java.util.Collection;
 import java.util.HashMap;
 import java.util.HashSet;
 import java.util.List;
@@ -26,9 +27,9 @@ import org.kuali.kra.infrastructure.AwardPermissionConstants;
 import org.kuali.kra.infrastructure.Constants;
 import org.kuali.kra.infrastructure.PermissionConstants;
 import org.kuali.kra.service.UnitAuthorizationService;
-import org.kuali.rice.kns.service.BusinessObjectService;
-import org.kuali.rice.kns.service.ParameterService;
-import org.kuali.rice.kns.util.GlobalVariables;
+import org.kuali.rice.coreservice.framework.parameter.ParameterService;
+import org.kuali.rice.krad.service.BusinessObjectService;
+import org.kuali.rice.krad.util.GlobalVariables;
 import org.springframework.transaction.annotation.Transactional;
 
 @Transactional
@@ -121,7 +122,7 @@ public class QuestionnaireServiceImpl implements QuestionnaireService {
          */
 
         Set<String> modules = new HashSet<String>();
-        List<String> parameters = this.parameterService.getParameterValues(Constants.PARAMETER_MODULE_QUESTIONNAIRE, Constants.PARAMETER_COMPONENT_PERMISSION, PARAM_NAME);
+        Collection<String> parameters = this.parameterService.getParameterValuesAsString(Constants.PARAMETER_MODULE_QUESTIONNAIRE, Constants.PARAMETER_COMPONENT_PERMISSION, PARAM_NAME);
         for (String permission : parameters) {
             String[] params = permission.split(":");
             boolean unitAuthCheck = unitAuthorizationService.hasPermission(GlobalVariables.getUserSession().getPerson()

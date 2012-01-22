@@ -169,16 +169,16 @@
     <bean id="InstitutionalProposalUnrecoveredFandA-onCampusFlag" parent="InstitutionalProposalUnrecoveredFandA-onCampusFlag-parentBean" />
     <bean id="InstitutionalProposalUnrecoveredFandA-onCampusFlag-parentBean" abstract="true" parent="AttributeReferenceDummy-genericBoolean" >
         <property name="name" value="onCampusFlag" />
-        <property name="label" value="On Campus Flag" />
-        <property name="shortLabel" value="On Campus" />
+        <property name="label" value="On CampusContractContract Flag" />
+        <property name="shortLabel" value="On CampusContract" />
         <property name="validationPattern" >
       		<bean parent="AnyCharacterValidationPattern" />
     	</property>
     	<property name="control" >
       		<bean parent="CheckboxControlDefinition" />
     	</property>
-        <property name="summary" value="On Campus Flag" />
-        <property name="description" value="On Campus Flag" />
+        <property name="summary" value="On CampusContractContract Flag" />
+        <property name="description" value="On CampusContractContract Flag" />
     </bean>
 
     <bean id="InstitutionalProposalUnrecoveredFandA-underrecoveryOfIndirectcost" parent="InstitutionalProposalUnrecoveredFandA-underrecoveryOfIndirectcost-parentBean" />

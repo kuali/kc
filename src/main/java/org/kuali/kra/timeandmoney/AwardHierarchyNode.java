@@ -16,10 +16,9 @@
 package org.kuali.kra.timeandmoney;
 
 import java.sql.Date;
-import java.util.LinkedHashMap;
 
 import org.kuali.kra.award.awardhierarchy.AwardHierarchy;
-import org.kuali.rice.kns.util.KualiDecimal;
+import org.kuali.rice.core.api.util.type.KualiDecimal;
 
 public class AwardHierarchyNode extends AwardHierarchy { 
     
@@ -55,20 +54,6 @@ public class AwardHierarchyNode extends AwardHierarchy {
         anticipatedTotalIndirect = new KualiDecimal("0");
         obligatedTotalDirect = new KualiDecimal("0");
         obligatedTotalIndirect = new KualiDecimal("0");
-    }
-
-    /** {@inheritDoc} */
-    @Override 
-    protected LinkedHashMap<String, Object> toStringMapper() {
-        LinkedHashMap<String, Object> hashMap = super.toStringMapper();
-        hashMap.put("currentFundEffectiveDate", this.getCurrentFundEffectiveDate());
-        hashMap.put("obligationExpirationDate", this.getObligationExpirationDate());
-        hashMap.put("finalExpirationDate", this.getFinalExpirationDate());
-        hashMap.put("anticipatedTotalAmount", this.getAnticipatedTotalAmount());
-        hashMap.put("antDistributableAmount", this.getAntDistributableAmount());
-        hashMap.put("amountObligatedToDate", this.getAmountObligatedToDate());
-        hashMap.put("obliDistributableAmount", this.getObliDistributableAmount());
-        return hashMap;
     }
 
     /**

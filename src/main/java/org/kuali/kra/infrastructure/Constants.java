@@ -782,7 +782,6 @@ public interface Constants {
     // coi
     public static final String MODULE_NAMESPACE_COIDISCLOSURE = "KC-COIDISCLOSURE";
     public static final String PARAMETER_COI_ATTACHMENT_DEFAULT_SORT = "coiAttachmentDefaultSort";
-
     
     //Negotiations
     public static final String NEGOTIATION_SEQUENCE_NAME = "NEGOTIATION_S";
@@ -800,5 +799,6 @@ public interface Constants {
     public static final String MAPPING_PMC_HOME_PAGE = "home";
     public static final String MAPPING_PMC_VIEW_PAGE = "view";
     public static final String ENABLE_SALARY_INFLATION_ANNIV_DATE = "enableSalaryInflationAnniversaryDate";
+    
 
 }

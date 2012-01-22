@@ -32,11 +32,11 @@ import org.kuali.kra.negotiations.printing.service.NegotiationPrintingService;
 import org.kuali.kra.negotiations.service.NegotiationService;
 import org.kuali.kra.negotiations.web.struts.form.NegotiationForm;
 import org.kuali.kra.web.struts.action.KraTransactionalDocumentActionBase;
-import org.kuali.rice.kew.exception.WorkflowException;
-import org.kuali.rice.kns.rule.event.KualiDocumentEvent;
-import org.kuali.rice.kns.service.KualiRuleService;
-import org.kuali.rice.kns.service.SequenceAccessorService;
+import org.kuali.rice.kew.api.exception.WorkflowException;
 import org.kuali.rice.kns.web.struts.form.KualiDocumentFormBase;
+import org.kuali.rice.krad.rules.rule.event.KualiDocumentEvent;
+import org.kuali.rice.krad.service.KualiRuleService;
+import org.kuali.rice.krad.service.SequenceAccessorService;
 
 /**
  * 
@@ -83,15 +83,15 @@ public class NegotiationAction extends KraTransactionalDocumentActionBase {
         ActionForward actionForward = mapping.findForward(Constants.MAPPING_BASIC);
         NegotiationForm negotiationForm = (NegotiationForm) form;
         NegotiationDocument negotiationDocument = negotiationForm.getNegotiationDocument();
-        if (negotiationDocument.getDocumentHeader().getWorkflowDocument().stateIsInitiated() 
-                || negotiationDocument.getDocumentHeader().getWorkflowDocument().stateIsSaved()) {
+        if (negotiationDocument.getDocumentHeader().getWorkflowDocument().isInitiated() 
+                || negotiationDocument.getDocumentHeader().getWorkflowDocument().isSaved()) {
             getDocumentService().routeDocument(negotiationDocument, "Route To Final", new ArrayList());
         }
         
         actionForward = super.save(mapping, form, request, response);
         return actionForward;
     }
-
+    
     protected final boolean applyRules(KualiDocumentEvent event) {
         return getKualiRuleService().applyRules(event);
     }
@@ -117,7 +117,7 @@ public class NegotiationAction extends KraTransactionalDocumentActionBase {
     public void setSequenceAccessorService(SequenceAccessorService sequenceAccessorService) {
         this.sequenceAccessorService = sequenceAccessorService;
     }
-
+    
     public NegotiationPrintingService getNegotiationPrintingService() {
         if (negotiationPrintingService == null) {
             negotiationPrintingService = KraServiceLocator.getService(NegotiationPrintingService.class);

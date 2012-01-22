@@ -30,11 +30,11 @@ import org.kuali.kra.proposaldevelopment.bo.NarrativeStatus;
 import org.kuali.kra.proposaldevelopment.bo.NarrativeType;
 import org.kuali.kra.proposaldevelopment.document.ProposalDevelopmentDocument;
 import org.kuali.kra.proposaldevelopment.rule.event.AddInstituteAttachmentEvent;
-import org.kuali.rice.kns.service.BusinessObjectService;
-import org.kuali.rice.kns.util.ErrorMessage;
-import org.kuali.rice.kns.util.GlobalVariables;
-import org.kuali.rice.kns.util.RiceKeyConstants;
-import org.kuali.rice.kns.util.TypedArrayList;
+import org.kuali.rice.core.api.util.RiceKeyConstants;
+import org.kuali.rice.krad.service.BusinessObjectService;
+import org.kuali.rice.krad.util.ErrorMessage;
+import org.kuali.rice.krad.util.GlobalVariables;
+import org.springframework.util.AutoPopulatingList;
 
 /**
  * 
@@ -125,7 +125,7 @@ public class ProposalDevelopmentInstituteAttachmentRuleTest extends ProposalDeve
         AddInstituteAttachmentEvent addInstituteAttachmentEvent = new AddInstituteAttachmentEvent(EMPTY_STRING,document,newNarrative);
         assertFalse(rule.processAddInstituteAttachmentBusinessRules(addInstituteAttachmentEvent));
 
-        TypedArrayList errors = GlobalVariables.getErrorMap().getMessages(NEW_INSTITUTE_ATTACHMENT+".moduleTitle");
+        AutoPopulatingList errors = GlobalVariables.getMessageMap().getMessages(NEW_INSTITUTE_ATTACHMENT+".moduleTitle");
         assertTrue(errors.size() == 1);
         System.out.println("errors: "+ errors.size());
         ErrorMessage message = (ErrorMessage) errors.get(0);
@@ -149,7 +149,7 @@ public class ProposalDevelopmentInstituteAttachmentRuleTest extends ProposalDeve
         AddInstituteAttachmentEvent addInstituteAttachmentEvent = new AddInstituteAttachmentEvent(EMPTY_STRING,document,newNarrative);
         assertFalse(rule.processAddInstituteAttachmentBusinessRules(addInstituteAttachmentEvent));
         
-        TypedArrayList errors = GlobalVariables.getErrorMap().getMessages(NEW_INSTITUTE_ATTACHMENT+".institutionalAttachmentTypeCode");
+        AutoPopulatingList errors = GlobalVariables.getMessageMap().getMessages(NEW_INSTITUTE_ATTACHMENT+".institutionalAttachmentTypeCode");
         assertTrue(errors.size() == 1);
         
         ErrorMessage message = (ErrorMessage) errors.get(0);
@@ -172,7 +172,7 @@ public class ProposalDevelopmentInstituteAttachmentRuleTest extends ProposalDeve
         AddInstituteAttachmentEvent addInstituteAttachmentEvent = new AddInstituteAttachmentEvent(EMPTY_STRING,document,newNarrative);
         assertFalse(rule.processAddInstituteAttachmentBusinessRules(addInstituteAttachmentEvent));
         
-        TypedArrayList errors = GlobalVariables.getErrorMap().getMessages(NEW_INSTITUTE_ATTACHMENT+".moduleStatusCode");
+        AutoPopulatingList errors = GlobalVariables.getMessageMap().getMessages(NEW_INSTITUTE_ATTACHMENT+".moduleStatusCode");
         assertTrue(errors.size() == 1);
         
         ErrorMessage message = (ErrorMessage) errors.get(0);
@@ -199,7 +199,7 @@ public class ProposalDevelopmentInstituteAttachmentRuleTest extends ProposalDeve
         AddInstituteAttachmentEvent addInstituteAttachmentEvent = new AddInstituteAttachmentEvent(EMPTY_STRING,document,newNarrative);
         assertFalse(rule.processAddInstituteAttachmentBusinessRules(addInstituteAttachmentEvent));
         
-        TypedArrayList errors = GlobalVariables.getErrorMap().getMessages(NEW_INSTITUTE_ATTACHMENT+".institutionalAttachmentTypeCode");
+        AutoPopulatingList errors = GlobalVariables.getMessageMap().getMessages(NEW_INSTITUTE_ATTACHMENT+".institutionalAttachmentTypeCode");
         assertTrue(errors.size() == 1);
         
         ErrorMessage message = (ErrorMessage) errors.get(0);
@@ -222,7 +222,7 @@ public class ProposalDevelopmentInstituteAttachmentRuleTest extends ProposalDeve
         AddInstituteAttachmentEvent addInstituteAttachmentEvent = new AddInstituteAttachmentEvent(EMPTY_STRING,document,narrative);
         assertFalse(rule.processAddInstituteAttachmentBusinessRules(addInstituteAttachmentEvent));
         
-        TypedArrayList errors = GlobalVariables.getErrorMap().getMessages(NEW_INSTITUTE_ATTACHMENT+".narrativeFile");
+        AutoPopulatingList errors = GlobalVariables.getMessageMap().getMessages(NEW_INSTITUTE_ATTACHMENT+".narrativeFile");
         assertTrue(errors.size() == 1);
         
         ErrorMessage message = (ErrorMessage) errors.get(0);

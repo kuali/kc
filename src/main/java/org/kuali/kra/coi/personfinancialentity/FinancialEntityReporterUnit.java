@@ -15,8 +15,6 @@
  */
 package org.kuali.kra.coi.personfinancialentity;
 
-import java.util.LinkedHashMap;
-
 import org.kuali.kra.coi.DisclosureReporterUnit;
 
 /**
@@ -26,24 +24,22 @@ import org.kuali.kra.coi.DisclosureReporterUnit;
 public class FinancialEntityReporterUnit extends DisclosureReporterUnit {
 
     private static final long serialVersionUID = -1254443328656115963L;
-    private Long financialEntityReporterUnitsId; 
+
+    private Long financialEntityReporterUnitsId;
+
     private Long financialEntityReporterId;
-    private String unitNumber; 
-    private boolean leadUnitFlag; 
-    private String personId; 
-    
-//    @SkipVersioning
-    private FinancialEntityReporter financialEntityReporter; 
-       
 
-    public FinancialEntityReporterUnit() { 
+    private String unitNumber;
+
+    private boolean leadUnitFlag;
+
+    private String personId;
+
+    //    @SkipVersioning  
+    private FinancialEntityReporter financialEntityReporter;
+
+    public FinancialEntityReporterUnit() {
         setLeadUnitFlag(false);
-    }
-
-    @Override
-    protected LinkedHashMap toStringMapper() {
-        // TODO Auto-generated method stub
-        return null;
     }
 
     public Long getFinancialEntityReporterUnitsId() {
@@ -97,6 +93,5 @@ public class FinancialEntityReporterUnit extends DisclosureReporterUnit {
     @Override
     public Long getReporterUnitId() {
         return getFinancialEntityReporterUnitsId();
-    } 
-
+    }
 }

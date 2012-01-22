@@ -18,7 +18,6 @@ package org.kuali.kra.award.document.authorization;
 import java.util.Map;
 
 import org.kuali.kra.kim.bo.KcKimAttributes;
-import org.kuali.rice.kns.bo.BusinessObject;
 import org.kuali.rice.kns.document.authorization.MaintenanceDocumentAuthorizer;
 import org.kuali.rice.kns.document.authorization.MaintenanceDocumentAuthorizerBase;
 
@@ -26,7 +25,7 @@ public class AwardTemplateDocumentAuthorizer extends MaintenanceDocumentAuthoriz
     
     @Override
     protected void addRoleQualification(
-            BusinessObject primaryBusinessObjectOrDocument,
+            Object primaryBusinessObjectOrDocument,
             Map<String, String> attributes) {
         super.addRoleQualification(primaryBusinessObjectOrDocument, attributes);
         attributes.put(KcKimAttributes.UNIT_NUMBER, "*");

@@ -17,9 +17,9 @@ package org.kuali.kra.budget.personnel;
 
 import java.util.List;
 
-import org.kuali.rice.kns.bo.BusinessObject;
 import org.kuali.rice.kns.inquiry.KualiInquirableImpl;
 import org.kuali.rice.kns.web.ui.Section;
+import org.kuali.rice.krad.bo.BusinessObject;
 
 public class BudgetPersonnelDetailsInquirable extends KualiInquirableImpl {
    

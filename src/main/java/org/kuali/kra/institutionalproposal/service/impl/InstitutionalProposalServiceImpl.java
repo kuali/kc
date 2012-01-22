@@ -25,7 +25,6 @@ import java.util.Set;
 
 import org.apache.commons.logging.Log;
 import org.apache.commons.logging.LogFactory;
-import org.kuali.kra.award.home.Award;
 import org.kuali.kra.bo.CustomAttribute;
 import org.kuali.kra.bo.CustomAttributeDocument;
 import org.kuali.kra.bo.versioning.VersionStatus;
@@ -59,12 +58,13 @@ import org.kuali.kra.proposaldevelopment.specialreview.ProposalSpecialReview;
 import org.kuali.kra.service.ServiceHelper;
 import org.kuali.kra.service.VersionException;
 import org.kuali.kra.service.VersioningService;
-import org.kuali.rice.kew.exception.WorkflowException;
-import org.kuali.rice.kns.service.BusinessObjectService;
-import org.kuali.rice.kns.service.DocumentService;
-import org.kuali.rice.kns.service.SequenceAccessorService;
-import org.kuali.rice.kns.util.KualiDecimal;
-import org.kuali.rice.kns.util.ObjectUtils;
+import org.kuali.rice.core.api.util.type.KualiDecimal;
+import org.kuali.rice.kew.api.exception.WorkflowException;
+import org.kuali.rice.krad.bo.AdHocRouteRecipient;
+import org.kuali.rice.krad.service.BusinessObjectService;
+import org.kuali.rice.krad.service.DocumentService;
+import org.kuali.rice.krad.service.SequenceAccessorService;
+import org.kuali.rice.krad.util.ObjectUtils;
 import org.springframework.transaction.annotation.Transactional;
 
 /**
@@ -111,7 +111,7 @@ public class InstitutionalProposalServiceImpl implements InstitutionalProposalSe
             InstitutionalProposalDocument institutionalProposalDocument = mergeProposals(institutionalProposal, developmentProposal, budget);
             documentService.routeDocument(institutionalProposalDocument, 
                     ROUTE_MESSAGE + developmentProposal.getProposalNumber(), 
-                    new ArrayList<Object>());
+                    new ArrayList<AdHocRouteRecipient>());
             return institutionalProposalDocument.getInstitutionalProposal().getProposalNumber();
         } catch (WorkflowException ex) {
             throw new InstitutionalProposalCreationException(WORKFLOW_EXCEPTION_MESSAGE, ex);
@@ -134,7 +134,7 @@ public class InstitutionalProposalServiceImpl implements InstitutionalProposalSe
             InstitutionalProposalDocument newInstitutionalProposalDocument = versionProposal(proposalNumber, developmentProposal, budget);
             documentService.routeDocument(newInstitutionalProposalDocument, 
                     ROUTE_MESSAGE + developmentProposal.getProposalNumber(), 
-                    new ArrayList<Object>());
+                    new ArrayList<AdHocRouteRecipient>());
             institutionalProposalVersioningService.updateInstitutionalProposalVersionStatus(
                     newInstitutionalProposalDocument.getInstitutionalProposal(), VersionStatus.ACTIVE);
             return newInstitutionalProposalDocument.getInstitutionalProposal().getSequenceNumber().toString();
@@ -220,7 +220,7 @@ public class InstitutionalProposalServiceImpl implements InstitutionalProposalSe
                     institutionalProposalDocument.setInstitutionalProposal(newVersion);
                     
                     documentService.routeDocument(institutionalProposalDocument, 
-                            "Update Proposal Status to Funded", new ArrayList<Object>());
+                            "Update Proposal Status to Funded", new ArrayList<AdHocRouteRecipient>());
                     
                     updatedProposals.add(newVersion);
                     
@@ -279,7 +279,7 @@ public class InstitutionalProposalServiceImpl implements InstitutionalProposalSe
                     institutionalProposalDocument.setInstitutionalProposal(newVersion);
                     
                     documentService.routeDocument(institutionalProposalDocument, 
-                            "Update Proposal Status to Pending", new ArrayList<Object>());
+                            "Update Proposal Status to Pending", new ArrayList<AdHocRouteRecipient>());
                     
                     updatedProposals.add(newVersion);
                     
@@ -398,6 +398,7 @@ public class InstitutionalProposalServiceImpl implements InstitutionalProposalSe
         if (budget != null) {
             doBudgetDataFeed(institutionalProposal, budget);
         }
+        institutionalProposal.refreshNonUpdateableReferences();
         
         return institutionalProposalDocument;
     }
@@ -465,11 +466,9 @@ public class InstitutionalProposalServiceImpl implements InstitutionalProposalSe
         if (ObjectUtils.isNotNull(pdPerson.getRolodexId())) {
             ipPerson.setRolodexId(pdPerson.getRolodexId());
         }
-        ipPerson.setAutoIncrementSet(pdPerson.isAutoIncrementSet());
         ipPerson.setContactRoleCode(pdPerson.getRole().getRoleCode());
         for (ProposalPersonCreditSplit pdPersonCreditSplit : pdPerson.getCreditSplits()) {
             InstitutionalProposalPersonCreditSplit ipPersonCreditSplit = new InstitutionalProposalPersonCreditSplit();
-            ipPersonCreditSplit.setAutoIncrementSet(pdPersonCreditSplit.isAutoIncrementSet());
             ipPersonCreditSplit.setCredit(pdPersonCreditSplit.getCredit());
             ipPersonCreditSplit.setInvCreditTypeCode(pdPersonCreditSplit.getInvCreditTypeCode());
             ipPersonCreditSplit.setNewCollectionRecord(pdPersonCreditSplit.isNewCollectionRecord());
@@ -487,13 +486,11 @@ public class InstitutionalProposalServiceImpl implements InstitutionalProposalSe
         ipPerson.setMultiplePi(pdPerson.isMultiplePi());
         for (ProposalPersonUnit pdPersonUnit : pdPerson.getUnits()) {
             InstitutionalProposalPersonUnit ipPersonUnit = new InstitutionalProposalPersonUnit();
-            ipPersonUnit.setAutoIncrementSet(pdPersonUnit.isAutoIncrementSet());
             ipPersonUnit.setLeadUnit(pdPersonUnit.isLeadUnit());
             ipPersonUnit.setNewCollectionRecord(pdPersonUnit.isNewCollectionRecord());
             ipPersonUnit.setUnitNumber(pdPersonUnit.getUnitNumber());
             for (ProposalUnitCreditSplit pdPersonCreditSplit : pdPersonUnit.getCreditSplits()) {
                 InstitutionalProposalPersonUnitCreditSplit ipPersonUnitCreditSplit = new InstitutionalProposalPersonUnitCreditSplit();
-                ipPersonUnitCreditSplit.setAutoIncrementSet(pdPersonCreditSplit.isAutoIncrementSet());
                 ipPersonUnitCreditSplit.setCredit(pdPersonCreditSplit.getCredit());
                 ipPersonUnitCreditSplit.setInvCreditTypeCode(pdPersonCreditSplit.getInvCreditTypeCode());
                 ipPersonUnitCreditSplit.setNewCollectionRecord(pdPersonCreditSplit.isNewCollectionRecord());

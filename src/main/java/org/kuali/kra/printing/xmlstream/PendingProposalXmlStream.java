@@ -22,7 +22,7 @@ import org.kuali.kra.institutionalproposal.home.InstitutionalProposal;
 import org.kuali.kra.institutionalproposal.printing.service.InstitutionalProposalPersonService;
 import org.kuali.kra.printing.service.CurrentAndPendingReportService;
 import org.kuali.kra.proposaldevelopment.bo.ProposalPerson;
-import org.kuali.rice.kns.util.KualiDecimal;
+import org.kuali.rice.core.api.util.type.KualiDecimal;
 
 /**
  * This class generates XML that confirms with the XSD related to Pending
@@ -188,74 +188,74 @@ public class PendingProposalXmlStream extends CurrentAndPendingBaseStream {
 	            
 	           if(institutionalProposal.getProposalSequenceStatus().equals(PROP_SEQ_STATUS) && institutionalProposal.getStatusCode()== PROP_PENDING_STATUS 
 	                   && institutionalProposal.getProposalTypeCode()!= PROP_TYPE_CONTINUATION && institutionalProposal.getProposalTypeCode()!= PROP_TYPE_TASK_ORDER ){
-	               PendingSupport pendingSupport = PendingSupport.Factory.newInstance();
-	               pendingSupports.add(pendingSupport);
-	            if (bean.getProposalTitle() != null) {
-	                pendingSupport.setTitle(bean.getProposalTitle());
-	            }
-	            if (bean.getTotalDirectCostTotal() != null) {
-	                pendingSupport.setTotalDirectCost(bean.getTotalDirectCostTotal().bigDecimalValue());
-	            }
-	            if (bean.getTotalIndirectCostTotal() != null) {
-	                pendingSupport.setTotalIndirectCost(bean.getTotalIndirectCostTotal().bigDecimalValue());
-	            }
-	            if (bean.getTotalRequestedCost() != null) {
-	                pendingSupport.setTotalRequested(bean.getTotalRequestedCost().bigDecimalValue());
-	            }
-	            if (bean.getProposalNumber() != null) {
-	                pendingSupport.setProposalNumber(bean
-	                        .getProposalNumber());
-	            }
-	            if (bean.getRequestedEndDateTotal() != null) {
-	                pendingSupport
-	                        .setEndDate(dateTimeService.getCalendar(bean
-	                                .getRequestedEndDateTotal()));
-	            }
-	            if (bean.getRequestedStartDateInitial() != null) {
-	                pendingSupport.setEffectiveDate(dateTimeService
-	                        .getCalendar(bean
-	                                .getRequestedStartDateInitial()));
-	            }
-	            if (bean.getSponsorName() != null) {
-	                pendingSupport.setAgency(bean.getSponsorName());
-	            }
-	            if (bean.getRoleCode() != null) {
-	                pendingSupport.setPI(bean.getRoleCode());
-	            }
-	            if (bean.getTotalEffort() != null) {
-	                pendingSupport.setPercentageEffort(bean.getTotalEffort().bigDecimalValue());
-	            }
-	            if (bean.getAcademicYearEffort() != null) {
-	                pendingSupport.setAcademicYearEffort(bean.getAcademicYearEffort().bigDecimalValue());
-	            }
-	            if (bean.getCalendarYearEffort() != null) {
-	                pendingSupport.setCalendarYearEffort(bean.getCalendarYearEffort().bigDecimalValue());
-	            }
-	            if (bean.getSummerEffort() != null) {
-	                pendingSupport.setSummerYearEffort(bean.getSummerEffort().bigDecimalValue());
-	            }
-	            if(bean.getInstitutionalProposalCustomDataList() !=null){
-	                List<PendingReportCEColomnValues> pendingReportCEColomnValues = new ArrayList<PendingReportCEColomnValues>();
-	                for(InstitutionalProposalCustomData institutionalProposalCustomData :bean.getInstitutionalProposalCustomDataList()) {
-	                    if(institutionalProposalCustomData.getCustomAttribute()!=null && institutionalProposalCustomData.getValue()!=null && institutionalProposalCustomData.getCustomAttribute().getLabel()!=null){
-	                        cutomDataValueMap.put(institutionalProposalCustomData.getCustomAttribute().getLabel(), institutionalProposalCustomData.getValue());
-	                    }
-	                }
-	                for(int columnLabelIndex=0;columnLabelIndex<columsList.size();columnLabelIndex++){
-	                    PendingReportCEColomnValues pendingReportCEColomnValue = PendingReportCEColomnValues.Factory.newInstance();
-	                    if(cutomDataValueMap.get(columsList.get(columnLabelIndex))!=null)
-	                        pendingReportCEColomnValue.setPendingReportCEColumnValue(cutomDataValueMap.get(columsList.get(columnLabelIndex)).toString());
-	                    else{
-	                        pendingReportCEColomnValue.setPendingReportCEColumnValue("");
-	                    }
-	                    pendingReportCEColomnValues.add(pendingReportCEColomnValue);
-	                }
-	                pendingSupport.setPendingReportCEColomnValuesArray(pendingReportCEColomnValues.toArray(new PendingReportCEColomnValues[0]));
-	            }
+	        PendingSupport pendingSupport = PendingSupport.Factory.newInstance();
+	        pendingSupports.add(pendingSupport);
+	        if (bean.getProposalTitle() != null) {
+	            pendingSupport.setTitle(bean.getProposalTitle());
 	        }
+	        if (bean.getTotalDirectCostTotal() != null) {
+	            pendingSupport.setTotalDirectCost(bean.getTotalDirectCostTotal().bigDecimalValue());
+	        }
+	        if (bean.getTotalIndirectCostTotal() != null) {
+	            pendingSupport.setTotalIndirectCost(bean.getTotalIndirectCostTotal().bigDecimalValue());
+	        }
+	        if (bean.getTotalRequestedCost() != null) {
+	            pendingSupport.setTotalRequested(bean.getTotalRequestedCost().bigDecimalValue());
+	        }
+	        if (bean.getProposalNumber() != null) {
+	            pendingSupport.setProposalNumber(bean
+	                    .getProposalNumber());
+	        }
+	        if (bean.getRequestedEndDateTotal() != null) {
+	            pendingSupport
+	                    .setEndDate(dateTimeService.getCalendar(bean
+	                            .getRequestedEndDateTotal()));
+	        }
+	        if (bean.getRequestedStartDateInitial() != null) {
+	            pendingSupport.setEffectiveDate(dateTimeService
+	                    .getCalendar(bean
+	                            .getRequestedStartDateInitial()));
+	        }
+	        if (bean.getSponsorName() != null) {
+	            pendingSupport.setAgency(bean.getSponsorName());
+	        }
+            if (bean.getRoleCode() != null) {
+                pendingSupport.setPI(bean.getRoleCode());
+            }
+            if (bean.getTotalEffort() != null) {
+                pendingSupport.setPercentageEffort(bean.getTotalEffort().bigDecimalValue());
+            }
+            if (bean.getAcademicYearEffort() != null) {
+                pendingSupport.setAcademicYearEffort(bean.getAcademicYearEffort().bigDecimalValue());
+            }
+            if (bean.getCalendarYearEffort() != null) {
+                pendingSupport.setCalendarYearEffort(bean.getCalendarYearEffort().bigDecimalValue());
+            }
+            if (bean.getSummerEffort() != null) {
+                pendingSupport.setSummerYearEffort(bean.getSummerEffort().bigDecimalValue());
+            }
+            if(bean.getInstitutionalProposalCustomDataList() !=null){
+                List<PendingReportCEColomnValues> pendingReportCEColomnValues = new ArrayList<PendingReportCEColomnValues>();
+                for(InstitutionalProposalCustomData institutionalProposalCustomData :bean.getInstitutionalProposalCustomDataList()) {
+                    if(institutionalProposalCustomData.getCustomAttribute()!=null && institutionalProposalCustomData.getValue()!=null && institutionalProposalCustomData.getCustomAttribute().getLabel()!=null){
+                        cutomDataValueMap.put(institutionalProposalCustomData.getCustomAttribute().getLabel(), institutionalProposalCustomData.getValue());
+                    }
+                }
+                for(int columnLabelIndex=0;columnLabelIndex<columsList.size();columnLabelIndex++){
+                    PendingReportCEColomnValues pendingReportCEColomnValue = PendingReportCEColomnValues.Factory.newInstance();
+                    if(cutomDataValueMap.get(columsList.get(columnLabelIndex))!=null)
+                        pendingReportCEColomnValue.setPendingReportCEColumnValue(cutomDataValueMap.get(columsList.get(columnLabelIndex)).toString());
+                    else{
+                        pendingReportCEColomnValue.setPendingReportCEColumnValue("");
+                    }
+                    pendingReportCEColomnValues.add(pendingReportCEColomnValue);
+                }
+                pendingSupport.setPendingReportCEColomnValuesArray(pendingReportCEColomnValues.toArray(new PendingReportCEColomnValues[0]));
+            }
+	       }
 	      }
 	     }
-	        return pendingSupports.toArray(new PendingSupport[0]);
-	    }
-
+	    return pendingSupports.toArray(new PendingSupport[0]);
 	}
+
+}

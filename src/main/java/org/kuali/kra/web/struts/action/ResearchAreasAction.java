@@ -26,9 +26,9 @@ import org.kuali.kra.infrastructure.KraServiceLocator;
 import org.kuali.kra.service.ResearchAreaCurrentReferencerHolder;
 import org.kuali.kra.service.ResearchAreasService;
 import org.kuali.kra.web.struts.form.ResearchAreasForm;
-import org.kuali.rice.kns.util.GlobalVariables;
-import org.kuali.rice.kns.util.KNSConstants;
 import org.kuali.rice.kns.web.struts.action.KualiAction;
+import org.kuali.rice.krad.util.GlobalVariables;
+import org.kuali.rice.krad.util.KRADConstants;
 
 public class ResearchAreasAction extends KualiAction {
 
@@ -62,7 +62,7 @@ public class ResearchAreasAction extends KualiAction {
      */
     public ActionForward cancel(ActionMapping mapping, ActionForm form, HttpServletRequest request, HttpServletResponse response)
             throws Exception {
-        return mapping.findForward(KNSConstants.MAPPING_PORTAL);
+        return mapping.findForward(KRADConstants.MAPPING_PORTAL);
     }
 
     /**
@@ -77,7 +77,7 @@ public class ResearchAreasAction extends KualiAction {
      */
     public ActionForward close(ActionMapping mapping, ActionForm form, HttpServletRequest request, HttpServletResponse response)
             throws Exception {
-        return mapping.findForward(KNSConstants.MAPPING_PORTAL);
+        return mapping.findForward(KRADConstants.MAPPING_PORTAL);
     }
 
     private void setResearchAreas(ActionForm form) {

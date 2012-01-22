@@ -64,7 +64,7 @@
 
    <bean id="SubAwardContact-subAwardId" parent="SubAwardContact-subAwardId-parentBean" />
   <bean id="SubAwardContact-subAwardId-parentBean" abstract="true" parent="AttributeDefinition">
-       <property name="name" value="SubAwardId" />
+       <property name="name" value="subAwardId" />
     <property name="forceUppercase" value="false" />
     <property name="label" value="SubAward Id" />
     <property name="shortLabel" value="SubAwardId" />

@@ -19,9 +19,9 @@ import java.util.HashSet;
 import java.util.Set;
 
 import org.kuali.rice.kns.authorization.AuthorizationConstants;
-import org.kuali.rice.kns.document.Document;
 import org.kuali.rice.kns.document.authorization.TransactionalDocumentPresentationController;
 import org.kuali.rice.kns.document.authorization.TransactionalDocumentPresentationControllerBase;
+import org.kuali.rice.krad.document.Document;
 
 public class ResearchDocumentPresentationController 
     extends TransactionalDocumentPresentationControllerBase 
@@ -29,7 +29,7 @@ public class ResearchDocumentPresentationController
     
     /**
      * 
-     * @see org.kuali.rice.kns.document.authorization.DocumentPresentationController#getEditMode(org.kuali.rice.kns.document.Document)
+     * @see org.kuali.rice.kns.document.authorization.DocumentPresentationController#getEditMode(org.kuali.rice.krad.document.Document)
      */
     public Set<String> getEditModes(Document document) {
         Set<String> editModes = new HashSet();

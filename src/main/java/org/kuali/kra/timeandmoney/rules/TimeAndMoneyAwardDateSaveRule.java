@@ -16,7 +16,7 @@
 package org.kuali.kra.timeandmoney.rules;
 
 import org.kuali.kra.timeandmoney.rule.event.TimeAndMoneyAwardDateSaveEvent;
-import org.kuali.rice.kns.rule.BusinessRule;
+import org.kuali.rice.krad.rules.rule.BusinessRule;
 
 /**
  * This class...

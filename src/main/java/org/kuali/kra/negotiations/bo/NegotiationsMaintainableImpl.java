@@ -18,14 +18,9 @@ package org.kuali.kra.negotiations.bo;
 import java.util.Collection;
 
 import org.apache.commons.lang.StringUtils;
-import org.kuali.kra.bo.CustomAttribute;
-import org.kuali.kra.bo.KraPersistableBusinessObjectBase;
-import org.kuali.kra.infrastructure.Constants;
 import org.kuali.kra.infrastructure.KeyConstants;
 import org.kuali.kra.maintenance.KraMaintainableImpl;
-import org.kuali.kra.proposaldevelopment.bo.ProposalColumnsToAlter;
 import org.kuali.kra.rules.ErrorReporter;
-import org.kuali.rice.kns.util.GlobalVariables;
 
 /**
  * 
@@ -54,7 +49,7 @@ public class NegotiationsMaintainableImpl extends KraMaintainableImpl {
     }
     
     private void validateCode(NegotiationsGroupingBase negotiationBase, boolean isNew) {
-        Collection<NegotiationsGroupingBase> dbCollection = this.getBusinessObjectService().findAll(negotiationBase.getClass());
+        Collection<? extends NegotiationsGroupingBase> dbCollection = this.getBusinessObjectService().findAll(negotiationBase.getClass());
         
         for (NegotiationsGroupingBase dbBase : dbCollection) {
             if (isNew) {

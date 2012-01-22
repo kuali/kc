@@ -15,7 +15,6 @@
  */
 package org.kuali.kra.proposaldevelopment.bo;
 
-import java.util.LinkedHashMap;
 
 /**
  * 
@@ -23,51 +22,43 @@ import java.util.LinkedHashMap;
  */
 public class ProposalPersonBiographyAttachment extends AttachmentDataSource {
 
-	private Integer proposalPersonNumber;
+    private Integer proposalPersonNumber;
+
     private String proposalNumber;
+
     private Integer biographyNumber;
-	private byte[] biographyData;
-//	private String fileName;
-//    private String contentType;
 
-	public ProposalPersonBiographyAttachment(){
-		super();
-	}
+    private byte[] biographyData;
 
-	public Integer getProposalPersonNumber() {
-		return proposalPersonNumber;
-	}
+    //	private String fileName; 
+    //    private String contentType; 
+    public ProposalPersonBiographyAttachment() {
+        super();
+    }
 
-	public void setProposalPersonNumber(Integer proposalPersonNumber) {
-		this.proposalPersonNumber = proposalPersonNumber;
-	}
+    public Integer getProposalPersonNumber() {
+        return proposalPersonNumber;
+    }
 
-	public String getProposalNumber() {
-		return proposalNumber;
-	}
+    public void setProposalPersonNumber(Integer proposalPersonNumber) {
+        this.proposalPersonNumber = proposalPersonNumber;
+    }
 
-	public void setProposalNumber(String proposalNumber) {
-		this.proposalNumber = proposalNumber;
-	}
+    public String getProposalNumber() {
+        return proposalNumber;
+    }
 
-	public byte[] getBiographyData() {
-		return biographyData;
-	}
+    public void setProposalNumber(String proposalNumber) {
+        this.proposalNumber = proposalNumber;
+    }
 
-	public void setBiographyData(byte[] biographyData) {
-		this.biographyData = biographyData;
-	}
+    public byte[] getBiographyData() {
+        return biographyData;
+    }
 
-
-	@Override 
-	protected LinkedHashMap toStringMapper() {
-		LinkedHashMap hashMap = new LinkedHashMap();
-		hashMap.put("proposalPersonNumber", getProposalPersonNumber());
-		hashMap.put("proposalNumber", getProposalNumber());
-		//hashMap.put("bioAttachment", getBioAttachment());
-		hashMap.put("fileName", getFileName());
-		return hashMap;
-	}
+    public void setBiographyData(byte[] biographyData) {
+        this.biographyData = biographyData;
+    }
 
     @Override
     public byte[] getContent() {
@@ -81,5 +72,4 @@ public class ProposalPersonBiographyAttachment extends AttachmentDataSource {
     public void setBiographyNumber(Integer biographyNumber) {
         this.biographyNumber = biographyNumber;
     }
-
 }

@@ -15,17 +15,32 @@
  */
 package org.kuali.kra.proposaldevelopment.hierarchy;
 
-import static org.kuali.kra.proposaldevelopment.hierarchy.ProposalHierarchyKeyConstants.*;
+import static org.kuali.kra.proposaldevelopment.hierarchy.ProposalHierarchyKeyConstants.ERROR_BUDGET_CHILD_STATUSES_NOT_COMPLETE;
+import static org.kuali.kra.proposaldevelopment.hierarchy.ProposalHierarchyKeyConstants.ERROR_LINK_ALREADY_MEMBER;
+import static org.kuali.kra.proposaldevelopment.hierarchy.ProposalHierarchyKeyConstants.ERROR_LINK_NOT_PARENT;
+import static org.kuali.kra.proposaldevelopment.hierarchy.ProposalHierarchyKeyConstants.ERROR_LINK_NO_BUDGET_VERSION;
+import static org.kuali.kra.proposaldevelopment.hierarchy.ProposalHierarchyKeyConstants.ERROR_LINK_NO_PRINCIPLE_INVESTIGATOR;
+import static org.kuali.kra.proposaldevelopment.hierarchy.ProposalHierarchyKeyConstants.ERROR_LINK_PARENT_BUDGET_COMPLETE;
+import static org.kuali.kra.proposaldevelopment.hierarchy.ProposalHierarchyKeyConstants.ERROR_REMOVE_PARENT_BUDGET_COMPLETE;
+import static org.kuali.kra.proposaldevelopment.hierarchy.ProposalHierarchyKeyConstants.ERROR_SYNC_NO_PRINCIPLE_INVESTIGATOR;
+import static org.kuali.kra.proposaldevelopment.hierarchy.ProposalHierarchyKeyConstants.ERROR_UNEXPECTED;
+import static org.kuali.kra.proposaldevelopment.hierarchy.ProposalHierarchyKeyConstants.FIELD_CHILD_NUMBER;
+import static org.kuali.kra.proposaldevelopment.hierarchy.ProposalHierarchyKeyConstants.FIELD_GENERIC;
+import static org.kuali.kra.proposaldevelopment.hierarchy.ProposalHierarchyKeyConstants.FIELD_PARENT_BUDGET_STATUS;
+import static org.kuali.kra.proposaldevelopment.hierarchy.ProposalHierarchyKeyConstants.FIELD_PARENT_NUMBER;
+import static org.kuali.kra.proposaldevelopment.hierarchy.ProposalHierarchyKeyConstants.MESSAGE_CREATE_SUCCESS;
+import static org.kuali.kra.proposaldevelopment.hierarchy.ProposalHierarchyKeyConstants.MESSAGE_LINK_SUCCESS;
+import static org.kuali.kra.proposaldevelopment.hierarchy.ProposalHierarchyKeyConstants.MESSAGE_REMOVE_SUCCESS;
+import static org.kuali.kra.proposaldevelopment.hierarchy.ProposalHierarchyKeyConstants.MESSAGE_SYNC_SUCCESS;
+import static org.kuali.kra.proposaldevelopment.hierarchy.ProposalHierarchyKeyConstants.WARNING_LINK_DIFFERENT_SPONSOR;
+import static org.kuali.kra.proposaldevelopment.hierarchy.ProposalHierarchyKeyConstants.WARNING_LINK_NO_FINAL_BUDGET;
 
 import java.util.ArrayList;
-import java.util.LinkedHashMap;
 import java.util.List;
-import java.util.Map;
 
 import org.apache.commons.lang.StringUtils;
 import org.apache.commons.logging.Log;
 import org.apache.commons.logging.LogFactory;
-import org.kuali.kra.budget.core.Budget;
 import org.kuali.kra.budget.document.BudgetDocument;
 import org.kuali.kra.budget.personnel.HierarchyPersonnelSummary;
 import org.kuali.kra.budget.versions.BudgetDocumentVersion;
@@ -39,9 +54,10 @@ import org.kuali.kra.proposaldevelopment.hierarchy.bo.HierarchyProposalSummary;
 import org.kuali.kra.proposaldevelopment.hierarchy.service.ProposalHierarchyService;
 import org.kuali.kra.proposaldevelopment.service.ProposalStatusService;
 import org.kuali.kra.service.KraAuthorizationService;
-import org.kuali.rice.kns.service.ParameterService;
-import org.kuali.rice.kns.util.GlobalVariables;
-import org.kuali.rice.kns.util.MessageMap;
+import org.kuali.rice.coreservice.framework.parameter.ParameterService;
+import org.kuali.rice.kns.util.KNSGlobalVariables;
+import org.kuali.rice.krad.util.GlobalVariables;
+import org.kuali.rice.krad.util.MessageMap;
 import org.springframework.transaction.PlatformTransactionManager;
 
 /**
@@ -60,7 +76,7 @@ public class ProposalHierarcyActionHelper {
         if (validateHierarchyForSyncAll(doc.getDevelopmentProposal(), allowEndDateChange)) {
             try {
                 getProposalHierarchyService().synchronizeAllChildren(doc);
-                GlobalVariables.getMessageList().add(MESSAGE_SYNC_SUCCESS);    
+                KNSGlobalVariables.getMessageList().add(MESSAGE_SYNC_SUCCESS);    
             }
             catch (ProposalHierarchyException e) {
                 doUnexpectedError(e, FIELD_GENERIC, true);
@@ -75,7 +91,7 @@ public class ProposalHierarcyActionHelper {
         else if (validateChildForRemoval(childProposal)) {
             try {
                 getProposalHierarchyService().removeFromHierarchy(childProposal);
-                GlobalVariables.getMessageList().add(MESSAGE_REMOVE_SUCCESS);
+                KNSGlobalVariables.getMessageList().add(MESSAGE_REMOVE_SUCCESS);
     
             }
             catch (ProposalHierarchyException e) {
@@ -93,7 +109,7 @@ public class ProposalHierarcyActionHelper {
         if (validateChildForSync(childProposal, hierarchy, allowEndDateChange)) {
             try {
                 getProposalHierarchyService().synchronizeChild(childProposal);
-                GlobalVariables.getMessageList().add(MESSAGE_SYNC_SUCCESS);
+                KNSGlobalVariables.getMessageList().add(MESSAGE_SYNC_SUCCESS);
     
             }
             catch (ProposalHierarchyException e) {
@@ -112,7 +128,7 @@ public class ProposalHierarcyActionHelper {
                 if (GlobalVariables.getMessageMap() != messageMap) {
                     GlobalVariables.getMessageMap().merge(messageMap);
                 }
-                GlobalVariables.getMessageList().add(MESSAGE_CREATE_SUCCESS, parentProposalNumber);
+                KNSGlobalVariables.getMessageList().add(MESSAGE_CREATE_SUCCESS, parentProposalNumber);
             }
             catch (ProposalHierarchyException e) {
                 doUnexpectedError(e, FIELD_GENERIC, true);
@@ -141,7 +157,7 @@ public class ProposalHierarcyActionHelper {
                     if (GlobalVariables.getMessageMap() != messageMap) {
                         GlobalVariables.getMessageMap().merge(messageMap);
                     }
-                    GlobalVariables.getMessageList().add(MESSAGE_LINK_SUCCESS, newChildProposal.getProposalNumber(), hierarchyProposal.getProposalNumber());
+                    KNSGlobalVariables.getMessageList().add(MESSAGE_LINK_SUCCESS, newChildProposal.getProposalNumber(), hierarchyProposal.getProposalNumber());
                 }
                 catch (ProposalHierarchyException e) {
                     doUnexpectedError(e, FIELD_GENERIC, true);
@@ -285,7 +301,7 @@ public class ProposalHierarcyActionHelper {
     }
 
     private boolean hasCompleteBudget(DevelopmentProposal proposal) {
-        String completeCode = KraServiceLocator.getService(ParameterService.class).getParameterValue(BudgetDocument.class, Constants.BUDGET_STATUS_COMPLETE_CODE);
+        String completeCode = KraServiceLocator.getService(ParameterService.class).getParameterValueAsString(BudgetDocument.class, Constants.BUDGET_STATUS_COMPLETE_CODE);
         KraServiceLocator.getService(ProposalStatusService.class).loadBudgetStatus(proposal);
         return StringUtils.equalsIgnoreCase(proposal.getBudgetStatus(), completeCode);
     }
@@ -358,7 +374,7 @@ public class ProposalHierarcyActionHelper {
     
     private boolean hasCompleteBudget(ProposalDevelopmentDocument pdDoc) {
         boolean retval = false;
-        String completeCode = KraServiceLocator.getService(ParameterService.class).getParameterValue(BudgetDocument.class, Constants.BUDGET_STATUS_COMPLETE_CODE);
+        String completeCode = KraServiceLocator.getService(ParameterService.class).getParameterValueAsString(BudgetDocument.class, Constants.BUDGET_STATUS_COMPLETE_CODE);
 
         for (BudgetDocumentVersion version : pdDoc.getBudgetDocumentVersions()) {
             if (!(version.getBudgetVersionOverview().getBudgetStatus() == null ) && version.getBudgetVersionOverview().getBudgetStatus().equalsIgnoreCase(completeCode)) {

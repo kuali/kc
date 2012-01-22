@@ -17,38 +17,47 @@ package org.kuali.kra.award.commitments;
 
 import java.sql.Date;
 import java.util.Collection;
-import java.util.LinkedHashMap;
 
 import org.kuali.kra.award.AwardAssociate;
 import org.kuali.kra.award.home.ValuableItem;
 import org.kuali.kra.bo.CostShareType;
 import org.kuali.kra.infrastructure.KraServiceLocator;
-import org.kuali.rice.kns.service.BusinessObjectService;
-import org.kuali.rice.kns.util.KualiDecimal;
+import org.kuali.rice.core.api.util.type.KualiDecimal;
+import org.kuali.rice.krad.service.BusinessObjectService;
 
 /**
  * This class is business object representation of an Award Cost Share
  */
 public class AwardCostShare extends AwardAssociate implements ValuableItem {
+
     private static final long serialVersionUID = -839007857238262207L;
-    
+
     private Long awardCostShareId;
+
     private String projectPeriod;
+
     private KualiDecimal costSharePercentage;
+
     private Integer costShareTypeCode;
+
     private Date verificationDate;
+
     private KualiDecimal costShareMet;
+
     private String source;
+
     private String destination;
+
     private KualiDecimal commitmentAmount;
+
     private CostShareType costShareType;
-    
+
     /**
      * 
      * Constructs a AwardCostShare.java.
      */
     public AwardCostShare() {
-        super();                
+        super();
     }
 
     /**
@@ -58,7 +67,7 @@ public class AwardCostShare extends AwardAssociate implements ValuableItem {
     public CostShareType getCostShareType() {
         return costShareType;
     }
-    
+
     /**
      * This method...
      * @param costShareTypeCode
@@ -67,15 +76,14 @@ public class AwardCostShare extends AwardAssociate implements ValuableItem {
     public void setCostShareTypeCode(Integer costShareTypeCode) {
         this.costShareTypeCode = costShareTypeCode;
         BusinessObjectService costShareTypeService = getBusinessObjectService();
-        Collection<CostShareType> costShareTypes = 
-            (Collection<CostShareType>) costShareTypeService.findAll(CostShareType.class);
+        Collection<CostShareType> costShareTypes = (Collection<CostShareType>) costShareTypeService.findAll(CostShareType.class);
         for (CostShareType costShareType : costShareTypes) {
             if (costShareType.getCostShareTypeCode().equals(costShareTypeCode)) {
                 setCostShareType(costShareType);
             }
         }
     }
-    
+
     /**
      * This method returns the primary key of the Cost Share BO.
      * @return
@@ -87,7 +95,6 @@ public class AwardCostShare extends AwardAssociate implements ValuableItem {
             return costShareTypeCode;
         }
     }
-
 
     /**
      * This method...
@@ -105,7 +112,6 @@ public class AwardCostShare extends AwardAssociate implements ValuableItem {
         return projectPeriod;
     }
 
-
     /**
      * This method...
      * @param projectPeriod
@@ -113,7 +119,6 @@ public class AwardCostShare extends AwardAssociate implements ValuableItem {
     public void setProjectPeriod(String projectPeriod) {
         this.projectPeriod = projectPeriod;
     }
-
 
     /**
      * This method...
@@ -123,7 +128,6 @@ public class AwardCostShare extends AwardAssociate implements ValuableItem {
         return costSharePercentage;
     }
 
-
     /**
      * This method...
      * @param costSharePercentage
@@ -131,7 +135,6 @@ public class AwardCostShare extends AwardAssociate implements ValuableItem {
     public void setCostSharePercentage(KualiDecimal costSharePercentage) {
         this.costSharePercentage = costSharePercentage;
     }
-
 
     /**
      * This method...
@@ -141,7 +144,6 @@ public class AwardCostShare extends AwardAssociate implements ValuableItem {
         return source;
     }
 
-
     /**
      * This method...
      * @param source
@@ -149,7 +151,6 @@ public class AwardCostShare extends AwardAssociate implements ValuableItem {
     public void setSource(String source) {
         this.source = source;
     }
-
 
     /**
      * This method...
@@ -159,7 +160,6 @@ public class AwardCostShare extends AwardAssociate implements ValuableItem {
         return destination;
     }
 
-
     /**
      * This method...
      * @param destination
@@ -167,7 +167,6 @@ public class AwardCostShare extends AwardAssociate implements ValuableItem {
     public void setDestination(String destination) {
         this.destination = destination;
     }
-
 
     /**
      * This method...
@@ -177,7 +176,6 @@ public class AwardCostShare extends AwardAssociate implements ValuableItem {
         return commitmentAmount;
     }
 
-
     /**
      * This method...
      * @param commitmentAmount
@@ -185,26 +183,6 @@ public class AwardCostShare extends AwardAssociate implements ValuableItem {
     public void setCommitmentAmount(KualiDecimal commitmentAmount) {
         this.commitmentAmount = commitmentAmount;
     }
-    
-    
-    /**
-     * @see org.kuali.rice.kns.bo.BusinessObjectBase#toStringMapper()
-     */
-    @Override
-    protected LinkedHashMap<String,Object> toStringMapper() {        
-        LinkedHashMap<String,Object> hashMap = super.toStringMapper();
-        hashMap.put("awardCostShareId", getAwardCostShareId());
-        hashMap.put("projectPeriod", getProjectPeriod());
-        hashMap.put("costSharePercentage", getCostSharePercentage());
-        hashMap.put("source", getSource());
-        hashMap.put("destination", getDestination());
-        hashMap.put("commitmentAmount", getCommitmentAmount());
-        hashMap.put("verificationDate", getVerificationDate());
-        hashMap.put("costShareMet", getCostShareMet());
-        return hashMap;
-
-}
-
 
     /**
      * This method...
@@ -214,7 +192,6 @@ public class AwardCostShare extends AwardAssociate implements ValuableItem {
         return awardCostShareId;
     }
 
-
     /**
      * This method...
      * @param awardCostShareId
@@ -222,7 +199,7 @@ public class AwardCostShare extends AwardAssociate implements ValuableItem {
     public void setAwardCostShareId(Long awardCostShareId) {
         this.awardCostShareId = awardCostShareId;
     }
-    
+
     /**
      * This method...
      * @return
@@ -237,8 +214,8 @@ public class AwardCostShare extends AwardAssociate implements ValuableItem {
     public KualiDecimal getAmount() {
         return getCommitmentAmount();
     }
-    
-  //CHECKSTYLE_OFF: NPathComplexity|MethodLength|CyclomaticComplexity|LocalFinalVariableName|JavaNCSS|NeedBraces|RightCurly
+
+    //CHECKSTYLE_OFF: NPathComplexity|MethodLength|CyclomaticComplexity|LocalFinalVariableName|JavaNCSS|NeedBraces|RightCurly  
     /**
      * @see java.lang.Object#hashCode()
      */
@@ -262,68 +239,41 @@ public class AwardCostShare extends AwardAssociate implements ValuableItem {
      */
     @Override
     public boolean equals(Object obj) {
-        if (this == obj)
-            return true;
-        if (obj == null)
-            return false;
-        if (getClass() != obj.getClass())
-            return false;
-        if(!super.equals(obj)) {
+        if (this == obj) return true;
+        if (obj == null) return false;
+        if (getClass() != obj.getClass()) return false;
+        if (!super.equals(obj)) {
             return false;
         }
         final AwardCostShare other = (AwardCostShare) obj;
         if (awardCostShareId == null) {
-            if (other.awardCostShareId != null)
-                return false;
-        }
-        else if (!awardCostShareId.equals(other.awardCostShareId))
-            return false;
+            if (other.awardCostShareId != null) return false;
+        } else if (!awardCostShareId.equals(other.awardCostShareId)) return false;
         if (commitmentAmount == null) {
-            if (other.commitmentAmount != null)
-                return false;
-        }
-        else if (!commitmentAmount.equals(other.commitmentAmount))
-            return false;
+            if (other.commitmentAmount != null) return false;
+        } else if (!commitmentAmount.equals(other.commitmentAmount)) return false;
         if (costSharePercentage == null) {
-            if (other.costSharePercentage != null)
-                return false;
-        }
-        else if (!costSharePercentage.equals(other.costSharePercentage))
-            return false;
+            if (other.costSharePercentage != null) return false;
+        } else if (!costSharePercentage.equals(other.costSharePercentage)) return false;
         if (costShareType == null) {
-            if (other.costShareType != null)
-                return false;
-        }
-        else if (!costShareType.equals(other.costShareType))
-            return false;
+            if (other.costShareType != null) return false;
+        } else if (!costShareType.equals(other.costShareType)) return false;
         if (costShareTypeCode == null) {
-            if (other.costShareTypeCode != null)
-                return false;
-        }
-        else if (!costShareTypeCode.equals(other.costShareTypeCode))
-            return false;
+            if (other.costShareTypeCode != null) return false;
+        } else if (!costShareTypeCode.equals(other.costShareTypeCode)) return false;
         if (destination == null) {
-            if (other.destination != null)
-                return false;
-        }
-        else if (!destination.equals(other.destination))
-            return false;
+            if (other.destination != null) return false;
+        } else if (!destination.equals(other.destination)) return false;
         if (projectPeriod == null) {
-            if (other.projectPeriod != null)
-                return false;
-        }
-        else if (!projectPeriod.equals(other.projectPeriod))
-            return false;
+            if (other.projectPeriod != null) return false;
+        } else if (!projectPeriod.equals(other.projectPeriod)) return false;
         if (source == null) {
-            if (other.source != null)
-                return false;
-        }
-        else if (!source.equals(other.source))
-            return false;
+            if (other.source != null) return false;
+        } else if (!source.equals(other.source)) return false;
         return true;
     }
-  //CHECKSTYLE_ON: NPathComplexity|MethodLength|CyclomaticComplexity|LocalFinalVariableName|JavaNCSS|NeedBraces|RightCurly
 
+    //CHECKSTYLE_ON: NPathComplexity|MethodLength|CyclomaticComplexity|LocalFinalVariableName|JavaNCSS|NeedBraces|RightCurly  
     /**
      * Gets the verificationDate attribute. 
      * @return Returns the verificationDate.

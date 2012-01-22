@@ -15,8 +15,6 @@
  */
 package org.kuali.kra.service.impl.versioningartifacts;
 
-import java.util.ArrayList;
-import java.util.List;
 import java.util.Random;
 
 import org.kuali.kra.SeparatelySequenceableAssociate;

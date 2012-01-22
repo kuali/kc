@@ -25,19 +25,19 @@ import org.junit.Before;
 import org.junit.Test;
 import org.kuali.kra.award.paymentreports.ValidClassReportFrequency;
 import org.kuali.kra.test.infrastructure.KcUnitTestBase;
-import org.kuali.rice.core.util.KeyLabelPair;
+import org.kuali.rice.core.api.util.KeyValue;
     
 public class FrequencyCodeValuesFinderTest extends KcUnitTestBase {
     
     FrequencyCodeValuesFinder frequencyCodeValuesFinder;
-    List<KeyLabelPair> frequencyCodes;
+    List<KeyValue> frequencyCodes;
     Collection<ValidClassReportFrequency> validClassReportFrequencies;
     
     @Before
     public void setUp() throws Exception {        
         super.setUp();
         frequencyCodeValuesFinder = new FrequencyCodeValuesFinder("4","9");
-        frequencyCodes = new ArrayList<KeyLabelPair>();        
+        frequencyCodes = new ArrayList<KeyValue>();        
         validClassReportFrequencies = new ArrayList<ValidClassReportFrequency>();        
     }
 
@@ -53,9 +53,9 @@ public class FrequencyCodeValuesFinderTest extends KcUnitTestBase {
         frequencyCodes = frequencyCodeValuesFinder.getKeyValues();
         Assert.assertEquals(5,frequencyCodes.size());
         
-        for(KeyLabelPair keyLabelPair:frequencyCodes){
-            Assert.assertNotNull(keyLabelPair.getKey());
-            Assert.assertNotNull(keyLabelPair.getLabel());
+        for(KeyValue KeyValue:frequencyCodes){
+            Assert.assertNotNull(KeyValue.getKey());
+            Assert.assertNotNull(KeyValue.getValue());
         }
     }
     
@@ -77,9 +77,9 @@ public class FrequencyCodeValuesFinderTest extends KcUnitTestBase {
         frequencyCodeValuesFinder.setReportCode("27");
         frequencyCodes = frequencyCodeValuesFinder.getKeyValues();
         Assert.assertEquals(3,frequencyCodes.size());
-        for(KeyLabelPair keyLabelPair:frequencyCodes){
-            Assert.assertNotNull(keyLabelPair.getKey());
-            Assert.assertNotNull(keyLabelPair.getLabel());
+        for(KeyValue KeyValue:frequencyCodes){
+            Assert.assertNotNull(KeyValue.getKey());
+            Assert.assertNotNull(KeyValue.getValue());
         }
     }
     

@@ -34,8 +34,10 @@ import org.kuali.kra.irb.ProtocolDocument;
 import org.kuali.kra.irb.ProtocolForm;
 import org.kuali.kra.irb.auth.ProtocolTask;
 import org.kuali.kra.service.KraAuthorizationService;
-import org.kuali.rice.core.util.KeyLabelPair;
-import org.kuali.rice.kim.bo.role.dto.KimPermissionInfo;
+import org.kuali.rice.core.api.criteria.Predicate;
+import org.kuali.rice.core.api.criteria.PredicateFactory;
+import org.kuali.rice.core.api.criteria.QueryByCriteria;
+import org.kuali.rice.kim.api.permission.PermissionQueryResults;
 
 /**
  * The PermissionsHelper is used to manage the Permissions tab web page.
@@ -145,14 +147,15 @@ public class PermissionsHelper extends PermissionsHelperBase {
     @Override
     protected void buildRoles(String roleType) {
         List<Role> roles = new ArrayList<Role>();
-        List<org.kuali.rice.kim.bo.Role> kimRoles = getSortedKimRoles(roleType);
-        for (org.kuali.rice.kim.bo.Role kimRole : kimRoles) {
+        List<org.kuali.rice.kim.api.role.Role> kimRoles = getSortedKimRoles(roleType);
+        for (org.kuali.rice.kim.api.role.Role kimRole : kimRoles) {
             if ( !excludeRoleTypes.contains(kimRole.getKimTypeId()) ) {
-                Map<String, String> criteria = new HashMap<String, String>();
-                criteria.put("assignedToRole.roleName", kimRole.getRoleName());
-                criteria.put("assignedToRoleNamespaceForLookup", kimRole.getNamespaceCode());
-                List<KimPermissionInfo> permissions = getKimPermissionService().lookupPermissions(criteria, true);
-                Role role = new Role(kimRole.getRoleName(), getRoleDisplayName(kimRole.getRoleName()), permissions);
+                QueryByCriteria.Builder queryBuilder = QueryByCriteria.Builder.create();
+                List<Predicate> predicates = new ArrayList<Predicate>();
+                predicates.add(PredicateFactory.equal("rolePermissions.roleId", kimRole.getId()));
+                queryBuilder.setPredicates(PredicateFactory.and(predicates.toArray(new Predicate[] {})));
+                PermissionQueryResults permissionResults = getKimPermissionService().findPermissions(queryBuilder.build());
+                Role role = new Role(kimRole.getName(), getRoleDisplayName(kimRole.getName()), permissionResults.getResults());
                 roles.add(role);
             }
         }

@@ -18,7 +18,7 @@ package org.kuali.kra.timeandmoney.history;
 import java.io.Serializable;
 import java.sql.Date;
 
-import org.kuali.rice.kns.util.KualiDecimal;
+import org.kuali.rice.core.api.util.type.KualiDecimal;
 
 public class TimeAndMoneyActionSummary implements Serializable{
     

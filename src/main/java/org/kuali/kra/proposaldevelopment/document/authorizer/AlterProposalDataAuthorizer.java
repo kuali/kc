@@ -48,7 +48,7 @@ public class AlterProposalDataAuthorizer extends ProposalAuthorizer {
         if( doc.getDevelopmentProposal().isChild() ) {
             ProposalHierarchyService hService = KraServiceLocator.getService( ProposalHierarchyService.class);
             try {
-                if( hService.getParentWorkflowDocument(doc).stateIsEnroute() )
+                if( hService.getParentWorkflowDocument(doc).isEnroute() )
                     ret = false;
             } catch (ProposalHierarchyException e) {
                 LOG.error( String.format( "Exception looking up parent of DevelopmentProposal %s, authorizer is going to deny edit access to this child.", doc.getDevelopmentProposal().getProposalNumber()),e );

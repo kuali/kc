@@ -15,11 +15,8 @@
  */
 package org.kuali.kra.medusa.web;
 
-import java.util.Map;
-
 import org.kuali.kra.medusa.MedusaBean;
 import org.kuali.rice.kns.web.struts.form.KualiDocumentFormBase;
-import org.kuali.rice.kns.web.struts.form.KualiForm;
 
 
 public class MedusaForm extends KualiDocumentFormBase {

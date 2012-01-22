@@ -30,16 +30,12 @@ import org.kuali.kra.budget.BudgetDecimal;
 import org.kuali.kra.budget.calculator.RateClassType;
 import org.kuali.kra.budget.core.BudgetCategory;
 import org.kuali.kra.budget.core.BudgetParent;
-import org.kuali.kra.budget.document.BudgetParentDocument;
 import org.kuali.kra.budget.nonpersonnel.BudgetLineItem;
 import org.kuali.kra.budget.nonpersonnel.BudgetLineItemCalculatedAmount;
 import org.kuali.kra.budget.parameters.BudgetPeriod;
 import org.kuali.kra.budget.printing.util.BudgetDataPeriodVO;
 import org.kuali.kra.budget.printing.util.SalaryTypeVO;
 import org.kuali.kra.budget.rates.RateClass;
-import org.kuali.kra.proposaldevelopment.bo.DevelopmentProposal;
-import org.kuali.kra.proposaldevelopment.bo.ProposalPerson;
-import org.kuali.kra.proposaldevelopment.document.ProposalDevelopmentDocument;
 
 /**
  * This class will contain all common methods that can be used across budget

@@ -26,7 +26,7 @@ import org.apache.commons.logging.LogFactory;
 import org.kuali.kra.irb.Protocol;
 import org.kuali.kra.irb.actions.ProtocolActionType;
 import org.kuali.kra.irb.actions.submit.ValidProtocolActionAction;
-import org.kuali.rice.kns.service.BusinessObjectService;
+import org.kuali.rice.krad.service.BusinessObjectService;
 
 
 public class FollowupActionServiceImpl implements FollowupActionService {

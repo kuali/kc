@@ -15,7 +15,6 @@
  */
 package org.kuali.kra.coi.personfinancialentity;
 
-import java.util.LinkedHashMap;
 import java.util.List;
 
 import org.kuali.kra.bo.KraPersistableBusinessObjectBase;
@@ -24,27 +23,34 @@ import org.kuali.kra.bo.KraPersistableBusinessObjectBase;
  * 
  * This class is FE data matrix.
  */
-public class FinEntitiesDataMatrix extends KraPersistableBusinessObjectBase { 
+public class FinEntitiesDataMatrix extends KraPersistableBusinessObjectBase {
 
     /**
      * Comment for <code>serialVersionUID</code>
      */
     private static final long serialVersionUID = -7588988427003150929L;
-    private String columnName; 
-    private String columnLabel; 
-    private String guiType; 
-    private String lookupArgument; 
-    private Integer dataGroupId; 
-    private boolean statusFlag; 
-    private Integer columnSortId; 
-    
-    private FinEntitiesDataGroup finEntitiesDataGroup; 
-    private List<PersonFinIntDisclDet> perFinIntDisclDets; 
-    
-    public FinEntitiesDataMatrix() { 
 
-    } 
-    
+    private String columnName;
+
+    private String columnLabel;
+
+    private String guiType;
+
+    private String lookupArgument;
+
+    private Integer dataGroupId;
+
+    private boolean statusFlag;
+
+    private Integer columnSortId;
+
+    private FinEntitiesDataGroup finEntitiesDataGroup;
+
+    private List<PersonFinIntDisclDet> perFinIntDisclDets;
+
+    public FinEntitiesDataMatrix() {
+    }
+
     public String getColumnName() {
         return columnName;
     }
@@ -109,20 +115,6 @@ public class FinEntitiesDataMatrix extends KraPersistableBusinessObjectBase {
         this.finEntitiesDataGroup = finEntitiesDataGroup;
     }
 
-    /** {@inheritDoc} */
-    @Override 
-    protected LinkedHashMap<String, Object> toStringMapper() {
-        LinkedHashMap<String, Object> hashMap = new LinkedHashMap<String, Object>();
-        hashMap.put("columnName", this.getColumnName());
-        hashMap.put("columnLabel", this.getColumnLabel());
-        hashMap.put("guiType", this.getGuiType());
-        hashMap.put("lookupArgument", this.getLookupArgument());
-        hashMap.put("dataGroupId", this.getDataGroupId());
-        hashMap.put("statusFlag", this.getStatusFlag());
-        hashMap.put("columnSortId", this.getColumnSortId());
-        return hashMap;
-    }
-
     public List<PersonFinIntDisclDet> getPerFinIntDisclDets() {
         return perFinIntDisclDets;
     }
@@ -130,5 +122,4 @@ public class FinEntitiesDataMatrix extends KraPersistableBusinessObjectBase {
     public void setPerFinIntDisclDets(List<PersonFinIntDisclDet> perFinIntDisclDets) {
         this.perFinIntDisclDets = perFinIntDisclDets;
     }
-    
 }

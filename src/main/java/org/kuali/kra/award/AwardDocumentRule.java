@@ -98,11 +98,11 @@ import org.kuali.kra.rule.BusinessRuleInterface;
 import org.kuali.kra.rule.event.KraDocumentEventBaseExtension;
 import org.kuali.kra.rule.event.SaveCustomAttributeEvent;
 import org.kuali.kra.rules.ResearchDocumentRuleBase;
-import org.kuali.rice.core.util.KeyLabelPair;
-import org.kuali.rice.kns.document.Document;
-import org.kuali.rice.kns.service.ParameterConstants;
-import org.kuali.rice.kns.util.ErrorMap;
-import org.kuali.rice.kns.util.GlobalVariables;
+import org.kuali.rice.core.api.util.KeyValue;
+import org.kuali.rice.coreservice.framework.parameter.ParameterConstants;
+import org.kuali.rice.krad.document.Document;
+import org.kuali.rice.krad.util.GlobalVariables;
+import org.kuali.rice.krad.util.MessageMap;
 
 
 
@@ -143,7 +143,7 @@ public class AwardDocumentRule extends ResearchDocumentRuleBase implements Award
      *  #processAwardApprovedEquipmentBusinessRules(org.kuali.kra.award.paymentreports.specialapproval.approvedequipment.AwardApprovedEquipmentRuleEvent)
      */
     public boolean processAwardApprovedEquipmentBusinessRules(AwardApprovedEquipmentRuleEvent event) {
-        return processApprovedEquipmentBusinessRules(GlobalVariables.getErrorMap(), event.getAwardDocument());
+        return processApprovedEquipmentBusinessRules(GlobalVariables.getMessageMap(), event.getAwardDocument());
     }
     
     /**
@@ -153,7 +153,7 @@ public class AwardDocumentRule extends ResearchDocumentRuleBase implements Award
      *  #processAwardApprovedForeignTravelBusinessRules(org.kuali.kra.award.paymentreports.specialapproval.foreigntravel.AwardApprovedForeignTravelRuleEvent)
      */
         public boolean processAwardApprovedForeignTravelBusinessRules(AwardApprovedForeignTravelRuleEvent event) {
-            return processApprovedForeignTravelBusinessRules(GlobalVariables.getErrorMap(), event.getAwardDocument());
+            return processApprovedForeignTravelBusinessRules(GlobalVariables.getMessageMap(), event.getAwardDocument());
     }
     
     /**
@@ -162,7 +162,7 @@ public class AwardDocumentRule extends ResearchDocumentRuleBase implements Award
      * org.kuali.kra.award.paymentreports.paymentschedule.AwardPaymentScheduleRuleEvent)
      */
     public boolean processAwardPaymentScheduleBusinessRules(AwardPaymentScheduleRuleEvent event) {
-        return processPaymentScheduleBusinessRules(GlobalVariables.getErrorMap(), event.getAwardDocument());
+        return processPaymentScheduleBusinessRules(GlobalVariables.getMessageMap(), event.getAwardDocument());
     }
     
     /**
@@ -171,7 +171,7 @@ public class AwardDocumentRule extends ResearchDocumentRuleBase implements Award
      * org.kuali.kra.award.paymentreports.paymentschedule.AddAwardPaymentScheduleRuleEvent)
      */
     public boolean processAddAwardPaymentScheduleBusinessRules(AddAwardPaymentScheduleRuleEvent event) {
-        return processAddPaymentScheduleBusinessRules(GlobalVariables.getErrorMap(), event);
+        return processAddPaymentScheduleBusinessRules(GlobalVariables.getMessageMap(), event);
     }
     
     /**
@@ -214,13 +214,13 @@ public class AwardDocumentRule extends ResearchDocumentRuleBase implements Award
      *  #processSaveAwardProjectPersonsBusinessRules(org.kuali.kra.award.contacts.SaveAwardProjectPersonsRuleEvent)
      */
     public boolean processSaveAwardProjectPersonsBusinessRules(SaveAwardProjectPersonsRuleEvent event) {
-        return processSaveAwardProjectPersonsBusinessRules(GlobalVariables.getErrorMap(), (AwardDocument) event.getDocument());
+        return processSaveAwardProjectPersonsBusinessRules(GlobalVariables.getMessageMap(), (AwardDocument) event.getDocument());
     }
     
     /**
      * 
      * @see org.kuali.core.rules.DocumentRuleBase#processCustomRouteDocumentBusinessRules(
-     * org.kuali.rice.kns.document.Document)
+     * org.kuali.rice.krad.document.Document)
      */
     @Override
     protected boolean processCustomRouteDocumentBusinessRules(Document document) {
@@ -265,8 +265,8 @@ public class AwardDocumentRule extends ResearchDocumentRuleBase implements Award
 
     /**
      * 
-     * @see org.kuali.rice.kns.rules.DocumentRuleBase#processCustomSaveDocumentBusinessRules(
-     * org.kuali.rice.kns.document.Document)
+     * @see org.kuali.rice.krad.rules.DocumentRuleBase#processCustomSaveDocumentBusinessRules(
+     * org.kuali.rice.krad.document.Document)
      */
     @Override
     protected boolean processCustomSaveDocumentBusinessRules(Document document) {
@@ -275,7 +275,7 @@ public class AwardDocumentRule extends ResearchDocumentRuleBase implements Award
         }
         
         boolean retval = true;
-        ErrorMap errorMap = GlobalVariables.getErrorMap();
+        MessageMap errorMap = GlobalVariables.getMessageMap();
         if (!(document instanceof AwardDocument)) {
             return false;
         }
@@ -310,7 +310,7 @@ public class AwardDocumentRule extends ResearchDocumentRuleBase implements Award
         return AwardDocument.PLACEHOLDER_DOC_DESCRIPTION.equals(document.getDocumentHeader().getDocumentDescription());
     }    
     
-    private boolean processApprovedEquipmentBusinessRules(ErrorMap errorMap, AwardDocument awardDocument) {
+    private boolean processApprovedEquipmentBusinessRules(MessageMap errorMap, AwardDocument awardDocument) {
         boolean success = true;
         errorMap.addToErrorPath(DOCUMENT_ERROR_PATH);
         errorMap.addToErrorPath(AWARD_ERROR_PATH);
@@ -334,7 +334,7 @@ public class AwardDocumentRule extends ResearchDocumentRuleBase implements Award
         return success;
     }
     
-    private boolean processPaymentScheduleBusinessRules(ErrorMap errorMap, AwardDocument awardDocument) {
+    private boolean processPaymentScheduleBusinessRules(MessageMap errorMap, AwardDocument awardDocument) {
         errorMap.addToErrorPath(DOCUMENT_ERROR_PATH);
         errorMap.addToErrorPath(AWARD_ERROR_PATH);
         
@@ -353,7 +353,7 @@ public class AwardDocumentRule extends ResearchDocumentRuleBase implements Award
                 if ( keyword == keyword2 ) {
                     continue;
                 } else if ( StringUtils.equalsIgnoreCase(keyword.getScienceKeywordCode(), keyword2.getScienceKeywordCode()) ) {
-                    GlobalVariables.getErrorMap().putError("document.awardList[0].keywords", "error.proposalKeywords.duplicate");
+                    GlobalVariables.getMessageMap().putError("document.awardList[0].keywords", "error.proposalKeywords.duplicate");
                    
                     return false;
                 }
@@ -362,7 +362,7 @@ public class AwardDocumentRule extends ResearchDocumentRuleBase implements Award
         return true;
     }
     
-    private boolean processAddPaymentScheduleBusinessRules(ErrorMap errorMap, AddAwardPaymentScheduleRuleEvent event) {
+    private boolean processAddPaymentScheduleBusinessRules(MessageMap errorMap, AddAwardPaymentScheduleRuleEvent event) {
         boolean success = new AwardPaymentScheduleRuleImpl().processAddAwardPaymentScheduleBusinessRules(event);
         return success;
     }
@@ -375,7 +375,7 @@ public class AwardDocumentRule extends ResearchDocumentRuleBase implements Award
     */
     private boolean processCostShareBusinessRules(Document document) {
         boolean valid = true;
-        ErrorMap errorMap = GlobalVariables.getErrorMap();
+        MessageMap errorMap = GlobalVariables.getMessageMap();
         AwardDocument awardDocument = (AwardDocument) document;
         int i = 0;
         List<AwardCostShare> awardCostShares = awardDocument.getAward().getAwardCostShares();
@@ -405,7 +405,7 @@ public class AwardDocumentRule extends ResearchDocumentRuleBase implements Award
     @SuppressWarnings("deprecation")
     private boolean processAwardDetailsAndDatesSaveRules(Document document) {
         boolean valid = true;
-        ErrorMap errorMap = GlobalVariables.getErrorMap();
+        MessageMap errorMap = GlobalVariables.getMessageMap();
         AwardDocument awardDocument = (AwardDocument) document;
         errorMap.addToErrorPath(DOCUMENT_ERROR_PATH);
         errorMap.addToErrorPath(AWARD_ERROR_PATH);
@@ -431,7 +431,7 @@ public class AwardDocumentRule extends ResearchDocumentRuleBase implements Award
         
         valid &= processRules(new SaveCustomAttributeEvent(Constants.EMPTY_STRING, awardDocument));
         
-        ErrorMap errorMap = GlobalVariables.getErrorMap();
+        MessageMap errorMap = GlobalVariables.getMessageMap();
         errorMap.addToErrorPath(DOCUMENT_ERROR_PATH);
         errorMap.addToErrorPath(AWARD_ERROR_PATH);
         String errorPath = "awardCustomData";
@@ -456,7 +456,7 @@ public class AwardDocumentRule extends ResearchDocumentRuleBase implements Award
     private boolean processSpecialReviewBusinessRule(Document document) {
         AwardDocument awardDocument = (AwardDocument) document;
         List<AwardSpecialReview> specialReviews = awardDocument.getAward().getSpecialReviews();
-        boolean isProtocolLinkingEnabled = getParameterService().getIndicatorParameter("KC-PROTOCOL", "Document", "irb.protocol.award.linking.enabled");
+        boolean isProtocolLinkingEnabled = getParameterService().getParameterValueAsBoolean("KC-PROTOCOL", "Document", "irb.protocol.award.linking.enabled");
         return processRules(new SaveSpecialReviewEvent<AwardSpecialReview>(
             SAVE_SPECIAL_REVIEW_FIELD, document, specialReviews, isProtocolLinkingEnabled));
     }
@@ -478,18 +478,18 @@ public class AwardDocumentRule extends ResearchDocumentRuleBase implements Award
       
     private boolean processBenefitsRatesBusinessRules(Document document) {
         boolean valid = true;
-        ErrorMap errorMap = GlobalVariables.getErrorMap();
+        MessageMap errorMap = GlobalVariables.getMessageMap();
         AwardDocument awardDocument = (AwardDocument) document;
         Award award = awardDocument.getAward();
         errorMap.addToErrorPath(DOCUMENT_ERROR_PATH);
         errorMap.addToErrorPath(AWARD_ERROR_PATH);
         if(StringUtils.equalsIgnoreCase(
-                getKualiConfigurationService().getParameterValue(Constants.PARAMETER_MODULE_AWARD, 
+                getParameterService().getParameterValueAsString(Constants.PARAMETER_MODULE_AWARD, 
                         ParameterConstants.DOCUMENT_COMPONENT,
                         KeyConstants.ENABLE_AWARD_FNA_VALIDATION),
                         KeyConstants.ENABLED_PARAMETER_VALUE_ONE) || 
                         StringUtils.equalsIgnoreCase(
-                                getKualiConfigurationService().getParameterValue(Constants.PARAMETER_MODULE_AWARD, 
+                                getParameterService().getParameterValueAsString(Constants.PARAMETER_MODULE_AWARD, 
                                         ParameterConstants.DOCUMENT_COMPONENT,
                                         KeyConstants.ENABLE_AWARD_FNA_VALIDATION),
                                         KeyConstants.ENABLED_PARAMETER_VALUE_TWO)){
@@ -515,7 +515,7 @@ public class AwardDocumentRule extends ResearchDocumentRuleBase implements Award
     */
     public boolean processApprovedSubawardBusinessRules(Document document) {
         boolean valid = true;
-        ErrorMap errorMap = GlobalVariables.getErrorMap();
+        MessageMap errorMap = GlobalVariables.getMessageMap();
         AwardDocument awardDocument = (AwardDocument) document;
         int i = 0;
         List<AwardApprovedSubaward> awardApprovedSubawards = 
@@ -541,7 +541,7 @@ public class AwardDocumentRule extends ResearchDocumentRuleBase implements Award
 
     /**
      * @see org.kuali.core.rule.DocumentAuditRule#processRunAuditBusinessRules(
-     * org.kuali.rice.kns.document.Document)
+     * org.kuali.rice.krad.document.Document)
      */
     public boolean processRunAuditBusinessRules(Document document){
         boolean retval = true;
@@ -606,17 +606,17 @@ public class AwardDocumentRule extends ResearchDocumentRuleBase implements Award
     protected boolean evaluateBusinessRuleForReportCodeField(AwardReportTerm awardReportTerm, int index){
         boolean retval = isValidReportCode(awardReportTerm, getReportCodes(awardReportTerm.getReportClassCode()));
         if(!retval){            
-            GlobalVariables.getErrorMap().putError(AWARD_REPORT_TERM_ITEMS + Constants.LEFT_SQUARE_BRACKET + index
+            GlobalVariables.getMessageMap().putError(AWARD_REPORT_TERM_ITEMS + Constants.LEFT_SQUARE_BRACKET + index
                     + Constants.RIGHT_SQUARE_BRACKET + ".reportCode"
                     , KeyConstants.INVALID_REPORT_CODE_FOR_REPORT_CLASS);            
         }
         return retval;        
     }
     
-    protected boolean isValidReportCode(AwardReportTerm awardReportTerm, List<KeyLabelPair> reportCodes){
+    protected boolean isValidReportCode(AwardReportTerm awardReportTerm, List<KeyValue> reportCodes){
         boolean isValid = false;
-        for(KeyLabelPair keyLabelPair:reportCodes){
-            if(StringUtils.equalsIgnoreCase(keyLabelPair.getKey().toString(), 
+        for(KeyValue KeyValue:reportCodes){
+            if(StringUtils.equalsIgnoreCase(KeyValue.getKey().toString(), 
                     awardReportTerm.getReportCode())) {
                 isValid = true;                    
             }
@@ -628,7 +628,7 @@ public class AwardDocumentRule extends ResearchDocumentRuleBase implements Award
         boolean retval = isValidFrequency(awardReportTerm,getFrequencyCodes(
                 awardReportTerm.getReportClassCode(),awardReportTerm.getReportCode()));
         if(!retval){
-            GlobalVariables.getErrorMap().putError(AWARD_REPORT_TERM_ITEMS + Constants.LEFT_SQUARE_BRACKET + index
+            GlobalVariables.getMessageMap().putError(AWARD_REPORT_TERM_ITEMS + Constants.LEFT_SQUARE_BRACKET + index
                     + Constants.RIGHT_SQUARE_BRACKET + ".frequencyCode"
                     , KeyConstants.INVALID_FREQUENCY_FOR_REPORT_CLASS_AND_TYPE);            
         }
@@ -636,10 +636,10 @@ public class AwardDocumentRule extends ResearchDocumentRuleBase implements Award
     }
     
     protected boolean isValidFrequency(
-            AwardReportTerm awardReportTerm, List<KeyLabelPair> frequencyCodes){
+            AwardReportTerm awardReportTerm, List<KeyValue> frequencyCodes){
         boolean isValid = false;
-        for(KeyLabelPair keyLabelPair:frequencyCodes){
-            if(StringUtils.equalsIgnoreCase(keyLabelPair.getKey().toString(), 
+        for(KeyValue KeyValue:frequencyCodes){
+            if(StringUtils.equalsIgnoreCase(KeyValue.getKey().toString(), 
                     awardReportTerm.getFrequencyCode())) {
                 isValid = true;                    
             }
@@ -652,7 +652,7 @@ public class AwardDocumentRule extends ResearchDocumentRuleBase implements Award
         boolean retval = isValidFrequencyBase(awardReportTerm, getFrequencyBaseCodes(
                 awardReportTerm.getFrequencyCode()));
         if(!retval){
-            GlobalVariables.getErrorMap().putError(AWARD_REPORT_TERM_ITEMS + Constants.LEFT_SQUARE_BRACKET + index
+            GlobalVariables.getMessageMap().putError(AWARD_REPORT_TERM_ITEMS + Constants.LEFT_SQUARE_BRACKET + index
                     + Constants.RIGHT_SQUARE_BRACKET + ".frequencyBaseCode"
                     , KeyConstants.INVALID_FREQUENCY_BASE_FOR_FREQUENCY);                        
         }
@@ -660,11 +660,11 @@ public class AwardDocumentRule extends ResearchDocumentRuleBase implements Award
     }
 
     protected boolean isValidFrequencyBase(
-            AwardReportTerm awardReportTerm, List<KeyLabelPair> frequencyBaseCodes){
+            AwardReportTerm awardReportTerm, List<KeyValue> frequencyBaseCodes){
         boolean isValid = false;
         
-        for(KeyLabelPair keyLabelPair:frequencyBaseCodes){
-            if(StringUtils.equalsIgnoreCase(keyLabelPair.getKey().toString(), 
+        for(KeyValue KeyValue:frequencyBaseCodes){
+            if(StringUtils.equalsIgnoreCase(KeyValue.getKey().toString(), 
                     awardReportTerm.getFrequencyBaseCode())) {
                 isValid = true;                    
             }
@@ -685,7 +685,7 @@ public class AwardDocumentRule extends ResearchDocumentRuleBase implements Award
         for (int i=0; i<recipients.size(); i++) {
             AwardReportTermRecipient recipient = recipients.get(i);
             if (recipient.getRolodexId() == null) {
-                GlobalVariables.getErrorMap().putError(AWARD_REPORT_TERM_ITEMS + Constants.LEFT_SQUARE_BRACKET + index
+                GlobalVariables.getMessageMap().putError(AWARD_REPORT_TERM_ITEMS + Constants.LEFT_SQUARE_BRACKET + index
                         + Constants.RIGHT_SQUARE_BRACKET
                         + ".awardReportTermRecipients" + Constants.LEFT_SQUARE_BRACKET + i + Constants.RIGHT_SQUARE_BRACKET + ".rolodexId" 
                         , KeyConstants.ERROR_REQUIRED_ORGANIZATION, new Integer(i+1).toString());
@@ -696,19 +696,19 @@ public class AwardDocumentRule extends ResearchDocumentRuleBase implements Award
         return isValid;
     }
     
-    protected List<KeyLabelPair> getReportCodes(String reportClassCode){
+    protected List<KeyValue> getReportCodes(String reportClassCode){
         ReportCodeValuesFinder reportCodeValuesFinder = new ReportCodeValuesFinder();
         reportCodeValuesFinder.setReportClassCode(reportClassCode);
         return reportCodeValuesFinder.getKeyValues();
     }
     
-    protected List<KeyLabelPair> getFrequencyCodes(String reportClassCode, String reportCode){
+    protected List<KeyValue> getFrequencyCodes(String reportClassCode, String reportCode){
         FrequencyCodeValuesFinder frequencyCodeValuesFinder 
         = new FrequencyCodeValuesFinder(reportClassCode, reportCode);
         return frequencyCodeValuesFinder.getKeyValues();
     }
     
-    protected List<KeyLabelPair> getFrequencyBaseCodes(String frequencyCode){
+    protected List<KeyValue> getFrequencyBaseCodes(String frequencyCode){
         FrequencyBaseCodeValuesFinder frequencyBaseCodeValuesFinder
             = new FrequencyBaseCodeValuesFinder();        
         frequencyBaseCodeValuesFinder.setFrequencyCode(frequencyCode);        
@@ -775,7 +775,7 @@ public class AwardDocumentRule extends ResearchDocumentRuleBase implements Award
         return new AwardReportTermRecipientRuleImpl().processAwardReportTermRecipientBusinessRules(event);
     }
     
-    private boolean processApprovedForeignTravelBusinessRules(ErrorMap errorMap, AwardDocument awardDocument) {
+    private boolean processApprovedForeignTravelBusinessRules(MessageMap errorMap, AwardDocument awardDocument) {
         boolean success = true;
         errorMap.addToErrorPath(DOCUMENT_ERROR_PATH);
         errorMap.addToErrorPath(AWARD_ERROR_PATH);
@@ -797,7 +797,7 @@ public class AwardDocumentRule extends ResearchDocumentRuleBase implements Award
         return success;
     }
     
-    private boolean processSaveAwardProjectPersonsBusinessRules(ErrorMap errorMap, AwardDocument document) {
+    private boolean processSaveAwardProjectPersonsBusinessRules(MessageMap errorMap, AwardDocument document) {
         errorMap.addToErrorPath(DOCUMENT_ERROR_PATH);
         errorMap.addToErrorPath(AWARD_ERROR_PATH);
         SaveAwardProjectPersonsRuleEvent event = new SaveAwardProjectPersonsRuleEvent("Project Persons", "projectPersons", document);
@@ -812,7 +812,7 @@ public class AwardDocumentRule extends ResearchDocumentRuleBase implements Award
         return new AwardTemplateSyncRuleImpl().processAwardTemplateSyncRules(awardTemplateSyncEvent);
     }
 
-    private boolean processUnitNumberBusinessRule(ErrorMap errorMap, AwardDocument awardDocument) {
+    private boolean processUnitNumberBusinessRule(MessageMap errorMap, AwardDocument awardDocument) {
         Award award = awardDocument.getAward();
         errorMap.addToErrorPath(DOCUMENT_ERROR_PATH);
         errorMap.addToErrorPath(AWARD_ERROR_PATH);
@@ -831,7 +831,7 @@ public class AwardDocumentRule extends ResearchDocumentRuleBase implements Award
      * This method is to add bus rule check proj beg date <= proj end date
      * and obligation end date >= obligation start date.
      */
-    private boolean processDateBusinessRule(ErrorMap errorMap, AwardDocument awardDocument) {
+    private boolean processDateBusinessRule(MessageMap errorMap, AwardDocument awardDocument) {
         Award award = awardDocument.getAward();
         errorMap.addToErrorPath(DOCUMENT_ERROR_PATH);
         errorMap.addToErrorPath(AWARD_ERROR_PATH);

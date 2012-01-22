@@ -18,9 +18,9 @@ package org.kuali.kra.award;
 import java.lang.reflect.Field;
 
 import org.apache.commons.lang.ArrayUtils;
+import org.apache.commons.lang.StringUtils;
 import org.apache.commons.logging.Log;
 import org.apache.commons.logging.LogFactory;
-import org.apache.commons.lang.StringUtils;
 import org.kuali.kra.award.contacts.AwardSponsorContact;
 import org.kuali.kra.award.document.AwardDocument;
 import org.kuali.kra.award.home.AwardComment;
@@ -31,7 +31,7 @@ import org.kuali.kra.award.home.AwardTemplateContact;
 import org.kuali.kra.award.home.AwardTemplateReportTerm;
 import org.kuali.kra.award.paymentreports.awardreports.AwardReportTerm;
 import org.kuali.kra.infrastructure.KraServiceLocator;
-import org.kuali.rice.kns.service.ParameterService;
+import org.kuali.rice.coreservice.framework.parameter.ParameterService;
 
 public enum AwardTemplateSyncScope {
     
@@ -259,7 +259,7 @@ public enum AwardTemplateSyncScope {
         try {
                 String settingValue = KraServiceLocator
                 .getService(ParameterService.class)
-                .getParameterValue(AwardDocument.class,String.format( "scope.sync.%s.%s.%s", this.toString(),syncClass,syncField));
+                .getParameterValueAsString(AwardDocument.class,String.format( "scope.sync.%s.%s.%s", this.toString(),syncClass,syncField));
                 values = settingValue == null?new String[] {}: StringUtils.split(settingValue,",");
         } catch (Error e ) {
             LOG.error( String.format( "Error returned from parameter lookup scope.sync.%s.%s.%s failed, defaulting to empty list.  Error: %s", this.toString(),syncClass,syncField, e.getMessage() ));

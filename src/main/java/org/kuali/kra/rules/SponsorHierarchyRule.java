@@ -23,10 +23,10 @@ import org.kuali.kra.bo.SponsorHierarchy;
 import org.kuali.kra.infrastructure.KeyConstants;
 import org.kuali.kra.infrastructure.KraServiceLocator;
 import org.kuali.kra.web.struts.form.SponsorHierarchyForm;
-import org.kuali.rice.kns.service.BusinessObjectService;
-import org.kuali.rice.kns.util.ErrorMap;
-import org.kuali.rice.kns.util.GlobalVariables;
-import org.kuali.rice.kns.util.RiceKeyConstants;
+import org.kuali.rice.core.api.util.RiceKeyConstants;
+import org.kuali.rice.krad.service.BusinessObjectService;
+import org.kuali.rice.krad.util.GlobalVariables;
+import org.kuali.rice.krad.util.MessageMap;
 
 public class SponsorHierarchyRule {
     
@@ -37,7 +37,7 @@ public class SponsorHierarchyRule {
     public boolean newHierarchyNameRequired(SponsorHierarchyForm sponsorHierarchyForm) {
         boolean valid = true;
         
-        ErrorMap errorMap = GlobalVariables.getErrorMap();
+        MessageMap errorMap = GlobalVariables.getMessageMap();
         if (StringUtils.isBlank(sponsorHierarchyForm.getNewHierarchyName())) {
             errorMap.putError("newHierarchyName", RiceKeyConstants.ERROR_REQUIRED, "New Hierarchy Name");
             valid = false;

@@ -15,17 +15,16 @@
  */
 package org.kuali.kra.irb.onlinereview;
 
-import java.util.LinkedHashMap;
-
 import org.kuali.kra.bo.KraPersistableBusinessObjectBase;
 
 public class ProtocolOnlineReviewDeterminationRecommendation extends KraPersistableBusinessObjectBase {
 
     private static final long serialVersionUID = 521840115701578958L;
-    
+
     private Long protocolOnlineReviewDeterminationRecommendationCode;
+
     private String description;
-    
+
     /**
      * Gets the protocolReviewDeterminationRecommendationCode attribute. 
      * @return Returns the protocolReviewDeterminationRecommendationCode.
@@ -57,14 +56,4 @@ public class ProtocolOnlineReviewDeterminationRecommendation extends KraPersista
     public void setDescription(String description) {
         this.description = description;
     }
-
-    @SuppressWarnings("unchecked")
-    @Override
-    protected LinkedHashMap toStringMapper() {
-        LinkedHashMap<String,Object> map = new LinkedHashMap<String,Object>();
-        map.put( "protocolOnlineReviewDeterminationRecommendationCode", getProtocolOnlineReviewDeterminationRecommendationCode());
-        map.put( "description", getDescription());
-        return map;
-    }
-
 }

@@ -28,11 +28,12 @@ import org.kuali.kra.budget.core.CostElement;
 import org.kuali.kra.budget.web.struts.form.BudgetForm;
 import org.kuali.kra.infrastructure.KraServiceLocator;
 import org.kuali.kra.lookup.keyvalue.KeyValueFinderService;
-import org.kuali.rice.kns.lookup.keyvalues.KeyValuesBase;
-import org.kuali.rice.kns.service.KeyValuesService;
-import org.kuali.rice.kns.util.GlobalVariables;
+import org.kuali.rice.core.api.util.ConcreteKeyValue;
+import org.kuali.rice.core.api.util.KeyValue;
+import org.kuali.rice.kns.util.KNSGlobalVariables;
 import org.kuali.rice.kns.web.struts.form.KualiForm;
-import org.kuali.rice.core.util.KeyLabelPair;
+import org.kuali.rice.krad.keyvalues.KeyValuesBase;
+import org.kuali.rice.krad.service.KeyValuesService;
 
 public class CostElementValuesFinder extends KeyValuesBase{
     KeyValueFinderService keyValueFinderService= (KeyValueFinderService)KraServiceLocator.getService("keyValueFinderService");
@@ -49,14 +50,14 @@ public class CostElementValuesFinder extends KeyValuesBase{
      * 
      * @return the list of &lt;key, value&gt; pairs of abstract types.  The first entry
      * is always &lt;"", "select:"&gt;.
-     * @see org.kuali.rice.kns.lookup.keyvalues.KeyValuesFinder#getKeyValues()
+     * @see org.kuali.rice.krad.keyvalues.KeyValuesFinder#getKeyValues()
      */
-    public List<KeyLabelPair> getKeyValues() {
+    public List<KeyValue> getKeyValues() {
         KeyValuesService keyValuesService = (KeyValuesService) KraServiceLocator.getService("keyValuesService");
-        List<KeyLabelPair> keyValues = new ArrayList<KeyLabelPair>();        
+        List<KeyValue> keyValues = new ArrayList<KeyValue>();        
         Collection costElements= keyValuesService.findAll(CostElement.class);
         Collection budgetCategoryCodes = keyValuesService.findAll(BudgetCategory.class);
-        KualiForm form = GlobalVariables.getKualiForm();        
+        KualiForm form = KNSGlobalVariables.getKualiForm();        
         
         
         BudgetForm budgetForm = (BudgetForm)form;
@@ -67,15 +68,15 @@ public class CostElementValuesFinder extends KeyValuesBase{
                 if(costElement.getBudgetCategoryCode().equalsIgnoreCase(budgetCategory.getBudgetCategoryCode())){
                     if(StringUtils.equalsIgnoreCase(budgetCategory.getBudgetCategoryTypeCode(),getBudgetCategoryTypeCode())){
                         if(costElement.getActiveFlag()) {
-                            keyValues.add(new KeyLabelPair(costElement.getCostElement().toString(), costElement.getDescription()));
+                            keyValues.add(new ConcreteKeyValue(costElement.getCostElement().toString(), costElement.getDescription()));
                         }
                     }
                 }
             } 
         }
         // added comparator below to alphabetize lists on label
-        Collections.sort(keyValues, new KeyLabelPairComparator());
-        keyValues.add(0, new KeyLabelPair("", "select"));
+        Collections.sort(keyValues, new KeyValueComparator());
+        keyValues.add(0, new ConcreteKeyValue("", "select"));
         return keyValues;
     }
     
@@ -86,9 +87,9 @@ public class CostElementValuesFinder extends KeyValuesBase{
         this.budgetCategoryTypeCode = budgetCategoryTypeCode;
     }
     
-    class KeyLabelPairComparator implements Comparator<KeyLabelPair> {
-        public int compare(KeyLabelPair o1, KeyLabelPair o2) {
-            return o1.getLabel().compareToIgnoreCase(o2.getLabel());
+    class KeyValueComparator implements Comparator<KeyValue> {
+        public int compare(KeyValue o1, KeyValue o2) {
+            return o1.getValue().compareToIgnoreCase(o2.getValue());
         }        
     }
 }

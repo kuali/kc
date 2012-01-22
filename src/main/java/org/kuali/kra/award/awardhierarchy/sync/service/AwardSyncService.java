@@ -17,6 +17,8 @@ package org.kuali.kra.award.awardhierarchy.sync.service;
 
 import org.kuali.kra.award.document.AwardDocument;
 import org.kuali.kra.award.home.Award;
+import org.kuali.kra.service.VersionException;
+import org.kuali.rice.kew.api.exception.WorkflowException;
 
 
 public interface AwardSyncService {    

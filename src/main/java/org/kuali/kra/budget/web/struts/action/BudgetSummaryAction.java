@@ -17,7 +17,7 @@ package org.kuali.kra.budget.web.struts.action;
 
 import static org.kuali.kra.infrastructure.KeyConstants.QUESTION_RECALCULATE_BUDGET_CONFIRMATION;
 import static org.kuali.kra.infrastructure.KraServiceLocator.getService;
-import static org.kuali.rice.kns.util.KNSConstants.QUESTION_INST_ATTRIBUTE_NAME;
+import static org.kuali.rice.krad.util.KRADConstants.QUESTION_INST_ATTRIBUTE_NAME;
 
 import java.util.Collection;
 import java.util.HashMap;
@@ -51,13 +51,13 @@ import org.kuali.kra.infrastructure.Constants;
 import org.kuali.kra.infrastructure.KeyConstants;
 import org.kuali.kra.infrastructure.KraServiceLocator;
 import org.kuali.kra.web.struts.action.StrutsConfirmation;
-import org.kuali.rice.kns.document.Document;
-import org.kuali.rice.kns.service.BusinessObjectService;
-import org.kuali.rice.kns.service.KualiRuleService;
-import org.kuali.rice.kns.util.ErrorMap;
-import org.kuali.rice.kns.util.ErrorMessage;
-import org.kuali.rice.kns.util.GlobalVariables;
-import org.kuali.rice.kns.util.TypedArrayList;
+import org.kuali.rice.krad.document.Document;
+import org.kuali.rice.krad.service.BusinessObjectService;
+import org.kuali.rice.krad.service.KualiRuleService;
+import org.kuali.rice.krad.util.ErrorMessage;
+import org.kuali.rice.krad.util.GlobalVariables;
+import org.kuali.rice.krad.util.MessageMap;
+import org.springframework.util.AutoPopulatingList;
 
 public class BudgetSummaryAction extends BudgetAction {
     private static final Log LOG = LogFactory.getLog(BudgetSummaryAction.class);
@@ -105,7 +105,7 @@ public class BudgetSummaryAction extends BudgetAction {
         if (!StringUtils.equalsIgnoreCase(budget.getOhRateClassCode(), budgetForm.getOhRateClassCodePrevValue())
                 || !StringUtils.equalsIgnoreCase(budget.getUrRateClassCode(), budgetForm.getUrRateClassCodePrevValue())) {
             if (isBudgetPeriodDateChanged(budget) && isLineItemErrorOnly()) {
-                GlobalVariables.setErrorMap(new ErrorMap());
+                GlobalVariables.setMessageMap(new MessageMap());
                 return confirm(buildSaveBudgetSummaryConfirmationQuestion(mapping, form, request, response,
                         KeyConstants.QUESTION_SAVE_BUDGET_SUMMARY_FOR_RATE_AND_DATE_CHANGE), CONFIRM_SAVE_SUMMARY, DO_NOTHING);
             }
@@ -122,7 +122,7 @@ public class BudgetSummaryAction extends BudgetAction {
             }
             budget = budget;
             if (isBudgetPeriodDateChanged(budget) && isLineItemErrorOnly()) {
-                GlobalVariables.setErrorMap(new ErrorMap());
+                GlobalVariables.setMessageMap(new MessageMap());
                 return confirm(buildSaveBudgetSummaryConfirmationQuestion(mapping, form, request, response,
                         KeyConstants.QUESTION_SAVE_BUDGET_SUMMARY), CONFIRM_SAVE_SUMMARY, "");
             }
@@ -586,12 +586,12 @@ public class BudgetSummaryAction extends BudgetAction {
      * @return
      */
     private boolean isLineItemErrorOnly() {
-        if (!GlobalVariables.getErrorMap().isEmpty()) {
+        if (!GlobalVariables.getMessageMap().hasNoErrors()) {
 
-            for (Iterator i = GlobalVariables.getErrorMap().entrySet().iterator(); i.hasNext();) {
+            for (Iterator i = GlobalVariables.getMessageMap().getErrorMessages().entrySet().iterator(); i.hasNext();) {
                 Map.Entry e = (Map.Entry) i.next();
 
-                TypedArrayList errorList = (TypedArrayList) e.getValue();
+                AutoPopulatingList errorList = (AutoPopulatingList) e.getValue();
                 for (Iterator j = errorList.iterator(); j.hasNext();) {
                     ErrorMessage em = (ErrorMessage) j.next();
                     if (!em.getErrorKey().equals("error.lineItem.dateDoesNotmatch")) {

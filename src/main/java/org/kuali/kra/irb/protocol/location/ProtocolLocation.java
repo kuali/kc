@@ -15,8 +15,6 @@
  */
 package org.kuali.kra.irb.protocol.location;
 
-import java.util.LinkedHashMap;
-
 import org.kuali.kra.bo.Organization;
 import org.kuali.kra.bo.Rolodex;
 import org.kuali.kra.irb.ProtocolAssociate;
@@ -24,87 +22,80 @@ import org.kuali.kra.irb.ProtocolAssociate;
 /**
  * This class represents the Protocol Location Business Object.
  */
-public class ProtocolLocation extends ProtocolAssociate { 
-	
-	/**
+public class ProtocolLocation extends ProtocolAssociate {
+
+    /**
      * Comment for <code>serialVersionUID</code>
      */
     private static final long serialVersionUID = 6509347537504066578L;
-    private Integer protocolLocationId; 
-	private String protocolOrganizationTypeCode; 
-	private String organizationId; 
-	private Integer rolodexId; 
-	
+
+    private Integer protocolLocationId;
+
+    private String protocolOrganizationTypeCode;
+
+    private String organizationId;
+
+    private Integer rolodexId;
+
     private Rolodex rolodex;
-	private Organization organization; 
-	private ProtocolOrganizationType protocolOrganizationType; 
-	
-	/**
+
+    private Organization organization;
+
+    private ProtocolOrganizationType protocolOrganizationType;
+
+    /**
 	 * Constructs a ProtocolLocation.java.
 	 */
-	public ProtocolLocation() { 
-	} 
-	
-	public Integer getProtocolLocationId() {
-		return protocolLocationId;
-	}
+    public ProtocolLocation() {
+    }
 
-	public void setProtocolLocationId(Integer protocolLocationId) {
-		this.protocolLocationId = protocolLocationId;
-	}
+    public Integer getProtocolLocationId() {
+        return protocolLocationId;
+    }
 
-	public String getProtocolOrganizationTypeCode() {
-		return protocolOrganizationTypeCode;
-	}
+    public void setProtocolLocationId(Integer protocolLocationId) {
+        this.protocolLocationId = protocolLocationId;
+    }
 
-	public void setProtocolOrganizationTypeCode(String protocolOrganizationTypeCode) {
-		this.protocolOrganizationTypeCode = protocolOrganizationTypeCode;
-	}
+    public String getProtocolOrganizationTypeCode() {
+        return protocolOrganizationTypeCode;
+    }
 
-	public String getOrganizationId() {
-		return organizationId;
-	}
+    public void setProtocolOrganizationTypeCode(String protocolOrganizationTypeCode) {
+        this.protocolOrganizationTypeCode = protocolOrganizationTypeCode;
+    }
 
-	public void setOrganizationId(String organizationId) {
-		this.organizationId = organizationId;
-	}
+    public String getOrganizationId() {
+        return organizationId;
+    }
 
-	public Integer getRolodexId() {
-		return rolodexId;
-	}
+    public void setOrganizationId(String organizationId) {
+        this.organizationId = organizationId;
+    }
 
-	public void setRolodexId(Integer rolodexId) {
-		this.rolodexId = rolodexId;
-	}
+    public Integer getRolodexId() {
+        return rolodexId;
+    }
 
-	public Organization getOrganization() {
-		return organization;
-	}
+    public void setRolodexId(Integer rolodexId) {
+        this.rolodexId = rolodexId;
+    }
 
-	public void setOrganization(Organization organization) {
-		this.organization = organization;
-	}
+    public Organization getOrganization() {
+        return organization;
+    }
 
-	public ProtocolOrganizationType getProtocolOrganizationType() {
-		return protocolOrganizationType;
-	}
+    public void setOrganization(Organization organization) {
+        this.organization = organization;
+    }
 
-	public void setProtocolOrganizationType(ProtocolOrganizationType protocolOrganizationType) {
-		this.protocolOrganizationType = protocolOrganizationType;
-	}
+    public ProtocolOrganizationType getProtocolOrganizationType() {
+        return protocolOrganizationType;
+    }
 
-	/**
-	 * @see org.kuali.rice.kns.bo.BusinessObjectBase#toStringMapper()
-	 */
-	@Override 
-	protected LinkedHashMap<String,Object> toStringMapper() {
-		LinkedHashMap<String,Object> hashMap = super.toStringMapper();
-		hashMap.put("protocolLocationId", getProtocolLocationId());
-		hashMap.put("protocolOrganizationTypeCode", getProtocolOrganizationTypeCode());
-		hashMap.put("organizationId", getOrganizationId());
-		hashMap.put("rolodexId", getRolodexId());
-		return hashMap;
-	}
+    public void setProtocolOrganizationType(ProtocolOrganizationType protocolOrganizationType) {
+        this.protocolOrganizationType = protocolOrganizationType;
+    }
 
     public Rolodex getRolodex() {
         return rolodex;
@@ -113,7 +104,7 @@ public class ProtocolLocation extends ProtocolAssociate {
     public void setRolodex(Rolodex rolodex) {
         this.rolodex = rolodex;
     }
-    
+
     /** {@inheritDoc} */
     public void resetPersistenceState() {
         this.setProtocolLocationId(null);

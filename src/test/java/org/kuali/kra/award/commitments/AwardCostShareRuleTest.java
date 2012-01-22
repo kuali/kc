@@ -19,21 +19,14 @@ import org.junit.After;
 import org.junit.Assert;
 import org.junit.Before;
 import org.junit.Test;
-import org.kuali.kra.award.commitments.AwardCostShare;
-import org.kuali.kra.award.commitments.AwardCostShareRuleEvent;
-import org.kuali.kra.award.commitments.AwardCostShareRuleImpl;
 import org.kuali.kra.award.document.AwardDocument;
 import org.kuali.kra.costshare.CostShareService;
 import org.kuali.kra.costshare.CostShareServiceTest;
-import org.kuali.kra.infrastructure.Constants;
 import org.kuali.kra.infrastructure.KraServiceLocator;
 import org.kuali.kra.test.infrastructure.KcUnitTestBase;
-import org.kuali.rice.kns.service.ParameterService;
-import org.kuali.rice.kns.service.ParameterConstants.COMPONENT;
-import org.kuali.rice.kns.service.ParameterConstants.NAMESPACE;
-import org.kuali.rice.kns.util.ErrorMap;
-import org.kuali.rice.kns.util.GlobalVariables;
-import org.kuali.rice.kns.util.KualiDecimal;
+import org.kuali.rice.core.api.util.type.KualiDecimal;
+import org.kuali.rice.krad.util.GlobalVariables;
+import org.kuali.rice.krad.util.MessageMap;
 
 /**
  * This class tests <code>AwardCostShareRule</code>
@@ -64,7 +57,7 @@ public class AwardCostShareRuleTest extends KcUnitTestBase {
         awardCostShare.setDestination(TEST_DESTINATION);
         awardCostShare.setSource(TEST_SOURCE);
         awardCostShare.setCommitmentAmount(new KualiDecimal(COMMITMENT_AMOUNT));
-        GlobalVariables.setErrorMap(new ErrorMap());
+        GlobalVariables.setMessageMap(new MessageMap());
           
     }
     
@@ -107,9 +100,7 @@ public class AwardCostShareRuleTest extends KcUnitTestBase {
      */
     @Test
     public final void testValidateCostShareFiscalYearRange() {
-        
-        ParameterService ps = KraServiceLocator.getService(ParameterService.class);
-        ps.setParameterForTesting(CostShareServiceTest.class, "CostShareProjectPeriodNameLabel", "Fiscal Year");        
+        updateParameterForTesting(CostShareServiceTest.class, "CostShareProjectPeriodNameLabel", "Fiscal Year");        
         CostShareService costShareService = KraServiceLocator.getService(CostShareService.class);
         costShareService.getCostShareLabel(true);
         awardCostShareRule.setCostShareService(costShareService);

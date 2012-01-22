@@ -15,27 +15,31 @@
  */
 package org.kuali.kra.proposaldevelopment.bo;
 
-import java.util.LinkedHashMap;
-
 import org.kuali.kra.bo.KraPersistableBusinessObjectBase;
 import org.kuali.kra.bo.Unit;
-import org.kuali.rice.kns.util.KualiDecimal;
+import org.kuali.rice.core.api.util.type.KualiDecimal;
 
 /**
- * Class representation of the Proposal Person <code>{@link org.kuali.rice.kns.bo.BusinessObject}</code>
+ * Class representation of the Proposal Person <code>{@link org.kuali.rice.krad.bo.BusinessObject}</code>
  *
  * @author $Id: ProposalUnitCreditSplit.java,v 1.8 2008-07-28 14:48:12 vsoni Exp $
  * @version $Revision: 1.8 $
  */
 public final class ProposalUnitCreditSplit extends KraPersistableBusinessObjectBase implements CreditSplit {
-    private String proposalNumber;
-    private Integer proposalPersonNumber;
-    private String unitNumber;
-    private String invCreditTypeCode;
-    private KualiDecimal credit;
-    private Unit unit;
-    private InvestigatorCreditType investigatorCreditType;
 
+    private String proposalNumber;
+
+    private Integer proposalPersonNumber;
+
+    private String unitNumber;
+
+    private String invCreditTypeCode;
+
+    private KualiDecimal credit;
+
+    private Unit unit;
+
+    private InvestigatorCreditType investigatorCreditType;
 
     /**
      * Gets the value of invCreditType
@@ -45,7 +49,7 @@ public final class ProposalUnitCreditSplit extends KraPersistableBusinessObjectB
     public InvestigatorCreditType getInvestigatorCreditType() {
         return this.investigatorCreditType;
     }
-        
+
     /**
      * Sets the value of invCreditType
      *
@@ -133,7 +137,7 @@ public final class ProposalUnitCreditSplit extends KraPersistableBusinessObjectB
      * @return the value of credit
      */
     public KualiDecimal getCredit() {
-        return this.credit==null? new KualiDecimal(0) : this.credit;
+        return this.credit == null ? new KualiDecimal(0) : this.credit;
     }
 
     /**
@@ -144,21 +148,6 @@ public final class ProposalUnitCreditSplit extends KraPersistableBusinessObjectB
     public void setCredit(KualiDecimal argCredit) {
         this.credit = argCredit;
     }
-
-
-	@Override 
-	protected LinkedHashMap toStringMapper() {
-   	    LinkedHashMap hashmap = new LinkedHashMap();    
-        hashmap.put("proposalNumber", getProposalNumber());
-        hashmap.put("proposalPersonNumber", getProposalPersonNumber());
-        hashmap.put("unitNumber", getUnitNumber());
-        hashmap.put("invCreditTypeCode", getInvCreditTypeCode());
-        hashmap.put("credit", getCredit());
-        hashmap.put("unit", getUnit());
-        hashmap.put("invCreditType", getInvestigatorCreditType());
-		return hashmap;
-	}
-
 
     /**
      * Sets the value of unit

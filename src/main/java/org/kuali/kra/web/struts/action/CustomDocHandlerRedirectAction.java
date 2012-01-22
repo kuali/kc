@@ -22,7 +22,7 @@ import org.apache.struts.action.ActionForm;
 import org.apache.struts.action.ActionForward;
 import org.apache.struts.action.ActionMapping;
 import org.kuali.rice.kew.routing.web.ClientAppDocHandlerRedirectAction;
-import org.kuali.rice.kns.util.KNSConstants;
+import org.kuali.rice.krad.util.KRADConstants;
 
 /**
  * 
@@ -42,11 +42,11 @@ public class CustomDocHandlerRedirectAction extends ClientAppDocHandlerRedirectA
         
         String docHandler = returnForward.getPath();
         if (("ProposalDevelopmentDocument").equals(request.getParameter("documentTypeName"))) {
-            docHandler = docHandler.replace(KNSConstants.DOC_HANDLER_METHOD, "actions");
+            docHandler = docHandler.replace(KRADConstants.DOC_HANDLER_METHOD, "actions");
         } else if (("ProtocolDocument").equals(request.getParameter("documentTypeName"))) {
-            docHandler = docHandler.replace(KNSConstants.DOC_HANDLER_METHOD, "protocolActions");
+            docHandler = docHandler.replace(KRADConstants.DOC_HANDLER_METHOD, "protocolActions");
         } else if (("AwardDocument").equals(request.getParameter("documentTypeName"))) {
-            docHandler = docHandler.replace(KNSConstants.DOC_HANDLER_METHOD, "awardActions");
+            docHandler = docHandler.replace(KRADConstants.DOC_HANDLER_METHOD, "awardActions");
         }
           
         returnForward = new ActionForward(docHandler, returnForward.getRedirect());

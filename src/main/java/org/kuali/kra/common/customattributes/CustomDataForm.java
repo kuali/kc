@@ -15,7 +15,7 @@
  */
 package org.kuali.kra.common.customattributes;
 
-import org.kuali.rice.kns.document.Document;
+import org.kuali.rice.krad.document.Document;
 
 /**
  * Every form that supports the Custom Data tab must

@@ -15,23 +15,24 @@
  */
 package org.kuali.kra.meeting;
 
-import java.util.LinkedHashMap;
 
 /**
  * 
  * This class is for meeting generated minute doc.
  */
-public class CommScheduleMinuteDoc extends GeneratedMeetingDoc { 
-    
-    private static final long serialVersionUID = 2574809115702106379L;
-    private Long commScheduleMinuteDocId; 
-    private Integer minuteNumber; 
-    private String minuteName; 
-    
-    public CommScheduleMinuteDoc() { 
+public class CommScheduleMinuteDoc extends GeneratedMeetingDoc {
 
-    } 
-    
+    private static final long serialVersionUID = 2574809115702106379L;
+
+    private Long commScheduleMinuteDocId;
+
+    private Integer minuteNumber;
+
+    private String minuteName;
+
+    public CommScheduleMinuteDoc() {
+    }
+
     public Long getCommScheduleMinuteDocId() {
         return commScheduleMinuteDocId;
     }
@@ -55,16 +56,4 @@ public class CommScheduleMinuteDoc extends GeneratedMeetingDoc {
     public void setMinuteName(String minuteName) {
         this.minuteName = minuteName;
     }
-
-
-    /** {@inheritDoc} */
-    @Override 
-    protected LinkedHashMap<String, Object> toStringMapper() {
-        LinkedHashMap<String, Object> hashMap = super.toStringMapper();
-        hashMap.put("commScheduleMinuteDocId", this.getCommScheduleMinuteDocId());
-        hashMap.put("minuteNumber", this.getMinuteNumber());
-        hashMap.put("minuteName", this.getMinuteName());
-        return hashMap;
-    }
-
 }

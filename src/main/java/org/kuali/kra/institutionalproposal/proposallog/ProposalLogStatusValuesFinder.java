@@ -23,14 +23,15 @@ import java.util.Set;
 
 import org.apache.commons.lang.StringUtils;
 import org.kuali.kra.infrastructure.KraServiceLocator;
-import org.kuali.rice.core.util.KeyLabelPair;
-import org.kuali.rice.kns.lookup.keyvalues.KeyValuesBase;
-import org.kuali.rice.kns.service.KeyValuesService;
-import org.kuali.rice.kns.util.GlobalVariables;
+import org.kuali.rice.core.api.util.ConcreteKeyValue;
+import org.kuali.rice.core.api.util.KeyValue;
+import org.kuali.rice.kns.util.KNSGlobalVariables;
 import org.kuali.rice.kns.web.struts.form.InquiryForm;
 import org.kuali.rice.kns.web.struts.form.KualiForm;
 import org.kuali.rice.kns.web.struts.form.KualiMaintenanceForm;
 import org.kuali.rice.kns.web.struts.form.LookupForm;
+import org.kuali.rice.krad.keyvalues.KeyValuesBase;
+import org.kuali.rice.krad.service.KeyValuesService;
 
 /**
  * This class...
@@ -51,21 +52,21 @@ public class ProposalLogStatusValuesFinder extends KeyValuesBase {
      * </ul>
      * When Disclosure type is implemented Permanent and Disclosure may need to be separated.
      * 
-     * @see org.kuali.rice.kns.lookup.keyvalues.KeyValuesFinder#getKeyValues()
+     * @see org.kuali.rice.krad.keyvalues.KeyValuesFinder#getKeyValues()
      */
-    public List<KeyLabelPair> getKeyValues() {
-        List<KeyLabelPair> retval = new ArrayList<KeyLabelPair>(); 
+    public List<KeyValue> getKeyValues() {
+        List<KeyValue> retval = new ArrayList<KeyValue>(); 
         KeyValuesService keyValuesService = (KeyValuesService) KraServiceLocator.getService("keyValuesService");
         Collection<ProposalLogStatus> statuses = keyValuesService.findAll(ProposalLogStatus.class);
         Set<String> validStatuses = new HashSet<String>();
-        KualiForm form = GlobalVariables.getKualiForm();
-        retval.add(new KeyLabelPair("", "select"));
+        KualiForm form = KNSGlobalVariables.getKualiForm();
+        retval.add(new ConcreteKeyValue("", "select"));
         boolean filterResults = true;
         if (form instanceof LookupForm || form instanceof InquiryForm) {
             filterResults = false;
         }
         else {
-            ProposalLog proposalLog = (ProposalLog)(((KualiMaintenanceForm)form).getDocument().getDocumentBusinessObject());
+            ProposalLog proposalLog = (ProposalLog)(((KualiMaintenanceForm)form).getDocument().getNoteTarget());
             
             if (proposalLog == null || proposalLog.getProposalLogType() == null) {
                 filterResults = false;
@@ -84,7 +85,7 @@ public class ProposalLogStatusValuesFinder extends KeyValuesBase {
         }
         for (ProposalLogStatus status : statuses) {
             if (!filterResults || validStatuses.contains(status.getProposalLogStatusCode())) {
-                retval.add(new KeyLabelPair(status.getProposalLogStatusCode(), status.getDescription()));
+                retval.add(new ConcreteKeyValue(status.getProposalLogStatusCode(), status.getDescription()));
             }
         }
         return retval;

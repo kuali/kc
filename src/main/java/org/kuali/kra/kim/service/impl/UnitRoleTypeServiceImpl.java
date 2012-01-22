@@ -17,17 +17,18 @@ package org.kuali.kra.kim.service.impl;
 
 import java.util.ArrayList;
 import java.util.List;
+import java.util.Map;
 
 import org.apache.commons.lang.StringUtils;
 import org.kuali.kra.kim.bo.KcKimAttributes;
-import org.kuali.rice.kim.bo.types.dto.AttributeSet;
-import org.kuali.rice.kim.service.support.impl.KimRoleTypeServiceBase;
+import org.kuali.rice.core.api.uif.RemotableAttributeError;
+import org.kuali.rice.kns.kim.role.RoleTypeServiceBase;
 
-public class UnitRoleTypeServiceImpl extends KimRoleTypeServiceBase {
+public class UnitRoleTypeServiceImpl extends RoleTypeServiceBase {
 
     @Override
-    public AttributeSet validateAttributes(String kimTypeId, AttributeSet attributes) { 
-        AttributeSet validationErrors = new AttributeSet();
+    public List<RemotableAttributeError> validateAttributes(String kimTypeId, Map<String, String> attributes) { 
+        List<RemotableAttributeError> validationErrors = new ArrayList<RemotableAttributeError>();
         if(roleQualifiedByProposalKey(attributes) || 
                 roleQualifiedByProtocolKey(attributes) || roleQualifiedByCommitteeKey(attributes) || 
                 roleQualifiedByAwardKey(attributes) || roleQualifiedByAwardKey(attributes)) {
@@ -40,7 +41,7 @@ public class UnitRoleTypeServiceImpl extends KimRoleTypeServiceBase {
     }
     
     @Override
-    public boolean performMatch(AttributeSet qualification, AttributeSet roleQualifier) {
+    public boolean performMatch(Map<String,String> qualification, Map<String,String> roleQualifier) {
         if(roleQualifiedByProposalKey(roleQualifier)) {
             return qualification.containsKey(KcKimAttributes.PROPOSAL) && StringUtils.equals(qualification.get(KcKimAttributes.PROPOSAL), 
                     roleQualifier.get(KcKimAttributes.PROPOSAL));
@@ -64,31 +65,31 @@ public class UnitRoleTypeServiceImpl extends KimRoleTypeServiceBase {
         return false; 
     }
 
-    protected boolean roleQualifiedByProposalKey(AttributeSet roleQualifier) {
+    protected boolean roleQualifiedByProposalKey(Map<String,String> roleQualifier) {
         return roleQualifier.containsKey(KcKimAttributes.PROPOSAL);
     }
     
-    protected boolean roleQualifiedByProtocolKey(AttributeSet roleQualifier) {
+    protected boolean roleQualifiedByProtocolKey(Map<String,String> roleQualifier) {
         return roleQualifier.containsKey(KcKimAttributes.PROTOCOL);
     }
     
-    protected boolean roleQualifiedByCommitteeKey(AttributeSet roleQualifier) {
+    protected boolean roleQualifiedByCommitteeKey(Map<String,String> roleQualifier) {
         return roleQualifier.containsKey(KcKimAttributes.COMMITTEE);
     }
     
-    protected boolean roleQualifiedByAwardKey(AttributeSet roleQualifier) {
+    protected boolean roleQualifiedByAwardKey(Map<String,String> roleQualifier) {
         return roleQualifier.containsKey(KcKimAttributes.AWARD);
     }
     
-    protected boolean roleQualifiedByTimeAndMoneyKey(AttributeSet roleQualifier) {
+    protected boolean roleQualifiedByTimeAndMoneyKey(Map<String,String> roleQualifier) {
         return roleQualifier.containsKey(KcKimAttributes.TIMEANDMONEY);
     }
     
-    protected boolean roleQualifiedByUnitOnly(AttributeSet roleQualifier) {
+    protected boolean roleQualifiedByUnitOnly(Map<String,String> roleQualifier) {
         return roleQualifier.containsKey(KcKimAttributes.UNIT_NUMBER) && !roleQualifier.containsKey(KcKimAttributes.SUBUNITS);
     }
     
-    protected boolean performWildCardMatching(AttributeSet qualification, AttributeSet roleQualifier) {
+    protected boolean performWildCardMatching(Map<String,String> qualification, Map<String,String> roleQualifier) {
         if(qualification.containsKey(KcKimAttributes.UNIT_NUMBER) && qualification.get(KcKimAttributes.UNIT_NUMBER).equalsIgnoreCase("*") && roleQualifier.containsKey(KcKimAttributes.UNIT_NUMBER) ) {
             return true;
         }

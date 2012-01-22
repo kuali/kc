@@ -15,60 +15,52 @@
  */
 package org.kuali.kra.award.home;
 
-import java.util.LinkedHashMap;
-
 import org.kuali.kra.bo.KraPersistableBusinessObjectBase;
 
 public class ValidAwardBasisPayment extends KraPersistableBusinessObjectBase {
 
+    private Integer validAwardBasisPaymentId;
 
-    private Integer validAwardBasisPaymentId; 
-    private String basisOfPaymentCode; 
-    private Integer awardTypeCode; 
-    private AwardBasisOfPayment basisOfPayment; 
+    private String basisOfPaymentCode;
+
+    private Integer awardTypeCode;
+
+    private AwardBasisOfPayment basisOfPayment;
+
     private AwardType awardType;
-    
-    
-    public ValidAwardBasisPayment() { 
 
-    } 
-    
+    public ValidAwardBasisPayment() {
+    }
+
     private static final long serialVersionUID = 1L;
 
     public Integer getValidAwardBasisPaymentId() {
         return validAwardBasisPaymentId;
     }
 
-
     public void setValidAwardBasisPaymentId(Integer validAwardBasisPaymentId) {
         this.validAwardBasisPaymentId = validAwardBasisPaymentId;
     }
-
 
     public String getBasisOfPaymentCode() {
         return basisOfPaymentCode;
     }
 
-
     public void setBasisOfPaymentCode(String basisOfPaymentCode) {
         this.basisOfPaymentCode = basisOfPaymentCode;
     }
-
 
     public Integer getAwardTypeCode() {
         return awardTypeCode;
     }
 
-
     public void setAwardTypeCode(Integer awardTypeCode) {
         this.awardTypeCode = awardTypeCode;
     }
 
-
     public AwardBasisOfPayment getBasisOfPayment() {
         return basisOfPayment;
     }
-
 
     public void setBasisOfPayment(AwardBasisOfPayment basisOfPayment) {
         this.basisOfPayment = basisOfPayment;
@@ -78,20 +70,7 @@ public class ValidAwardBasisPayment extends KraPersistableBusinessObjectBase {
         return awardType;
     }
 
-
     public void setAwardType(AwardType awardType) {
         this.awardType = awardType;
     }
-
-
-    /** {@inheritDoc} */
-    @Override 
-    protected LinkedHashMap<String, Object> toStringMapper() {
-        LinkedHashMap<String, Object> hashMap = new LinkedHashMap<String, Object>();
-        hashMap.put("validBasisMethodPaymentId", this.getValidAwardBasisPaymentId());
-        hashMap.put("awardTypeCode", this.getAwardTypeCode());
-        hashMap.put("basisOfPaymentCode", this.getBasisOfPaymentCode());
-        return hashMap;
-    }
-
 }

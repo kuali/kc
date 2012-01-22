@@ -29,7 +29,6 @@ import org.apache.struts.action.ActionMapping;
 import org.kuali.kra.bo.KcPerson;
 import org.kuali.kra.infrastructure.Constants;
 import org.kuali.kra.infrastructure.KraServiceLocator;
-import org.kuali.kra.institutionalproposal.contacts.InstitutionalProposalPerson;
 import org.kuali.kra.institutionalproposal.document.InstitutionalProposalDocument;
 import org.kuali.kra.institutionalproposal.home.InstitutionalProposal;
 import org.kuali.kra.institutionalproposal.service.InstitutionalProposalLockService;
@@ -39,19 +38,21 @@ import org.kuali.kra.service.SponsorService;
 import org.kuali.kra.service.UnitAuthorizationService;
 import org.kuali.kra.web.struts.action.AuditActionHelper;
 import org.kuali.kra.web.struts.action.KraTransactionalDocumentActionBase;
-import org.kuali.rice.kew.exception.WorkflowException;
-import org.kuali.rice.kew.util.KEWConstants;
-import org.kuali.rice.kim.bo.Person;
+import org.kuali.rice.kew.api.KewApiConstants;
+import org.kuali.rice.kew.api.exception.WorkflowException;
+import org.kuali.rice.kim.api.identity.Person;
 import org.kuali.rice.kns.authorization.AuthorizationConstants;
-import org.kuali.rice.kns.document.Document;
 import org.kuali.rice.kns.document.authorization.DocumentAuthorizer;
 import org.kuali.rice.kns.document.authorization.DocumentPresentationController;
-import org.kuali.rice.kns.rule.event.KualiDocumentEvent;
 import org.kuali.rice.kns.service.KNSServiceLocator;
-import org.kuali.rice.kns.service.PessimisticLockService;
-import org.kuali.rice.kns.util.GlobalVariables;
-import org.kuali.rice.kns.util.KNSConstants;
+import org.kuali.rice.kns.util.KNSGlobalVariables;
 import org.kuali.rice.kns.web.struts.form.KualiDocumentFormBase;
+import org.kuali.rice.krad.document.Document;
+import org.kuali.rice.krad.rules.rule.event.KualiDocumentEvent;
+import org.kuali.rice.krad.service.KRADServiceLocatorWeb;
+import org.kuali.rice.krad.service.PessimisticLockService;
+import org.kuali.rice.krad.util.GlobalVariables;
+import org.kuali.rice.krad.util.KRADConstants;
 
 /**
  * This class...
@@ -66,7 +67,7 @@ public class InstitutionalProposalAction extends KraTransactionalDocumentActionB
     public ActionForward execute(ActionMapping mapping, ActionForm form, HttpServletRequest request, HttpServletResponse response) throws Exception {
         ActionForward actionForward = super.execute(mapping, form, request, response);
         
-        if (GlobalVariables.getAuditErrorMap().isEmpty()) {
+        if (KNSGlobalVariables.getAuditErrorMap().isEmpty()) {
             new AuditActionHelper().auditConditionally((InstitutionalProposalForm) form);
         }
         
@@ -95,7 +96,7 @@ public class InstitutionalProposalAction extends KraTransactionalDocumentActionB
             Set<String> editModes = new HashSet<String>();
             if (!documentAuthorizer.canOpen(document, user)) {
                 editModes.add(AuthorizationConstants.EditMode.UNVIEWABLE);
-            } else if (documentActions.contains(KNSConstants.KUALI_ACTION_CAN_EDIT)) {
+            } else if (documentActions.contains(KRADConstants.KUALI_ACTION_CAN_EDIT)) {
                 editModes.add(AuthorizationConstants.EditMode.FULL_ENTRY);
             } else {
                 editModes.add(AuthorizationConstants.EditMode.VIEW_ONLY);
@@ -111,18 +112,18 @@ public class InstitutionalProposalAction extends KraTransactionalDocumentActionB
             // We don't want to use KNS way to determine can edit document overview
             // It should be the same as can edit
             if (editMode.containsKey(AuthorizationConstants.EditMode.FULL_ENTRY)) {
-                if (!documentActions.contains(KNSConstants.KUALI_ACTION_CAN_EDIT__DOCUMENT_OVERVIEW)) {
-                    documentActions.add(KNSConstants.KUALI_ACTION_CAN_EDIT__DOCUMENT_OVERVIEW);
+                if (!documentActions.contains(KRADConstants.KUALI_ACTION_CAN_EDIT_DOCUMENT_OVERVIEW)) {
+                    documentActions.add(KRADConstants.KUALI_ACTION_CAN_EDIT_DOCUMENT_OVERVIEW);
                 }
             } else {
-                if (documentActions.contains(KNSConstants.KUALI_ACTION_CAN_EDIT__DOCUMENT_OVERVIEW)) {
-                    documentActions.remove(KNSConstants.KUALI_ACTION_CAN_EDIT__DOCUMENT_OVERVIEW);
+                if (documentActions.contains(KRADConstants.KUALI_ACTION_CAN_EDIT_DOCUMENT_OVERVIEW)) {
+                    documentActions.remove(KRADConstants.KUALI_ACTION_CAN_EDIT_DOCUMENT_OVERVIEW);
                 }
             }
             
             if (editMode.containsKey(AuthorizationConstants.EditMode.VIEW_ONLY) &&
-                    !editMode.containsKey(MODIFY_IP) && documentActions.contains(KNSConstants.KUALI_ACTION_CAN_RELOAD)) {
-                documentActions.remove(KNSConstants.KUALI_ACTION_CAN_RELOAD);
+                    !editMode.containsKey(MODIFY_IP) && documentActions.contains(KRADConstants.KUALI_ACTION_CAN_RELOAD)) {
+                documentActions.remove(KRADConstants.KUALI_ACTION_CAN_RELOAD);
             }
             formBase.setDocumentActions(convertSetToMap(documentActions));
             formBase.setEditingMode(editMode);
@@ -273,8 +274,8 @@ public class InstitutionalProposalAction extends KraTransactionalDocumentActionB
     public ActionForward institutionalProposalActions(ActionMapping mapping, ActionForm form
             , HttpServletRequest request, HttpServletResponse response) throws Exception {
         
-        String command = request.getParameter(KEWConstants.COMMAND_PARAMETER);
-        if (StringUtils.isNotEmpty(command) && KEWConstants.DOCSEARCH_COMMAND.equals(command)) {
+        String command = request.getParameter(KewApiConstants.COMMAND_PARAMETER);
+        if (StringUtils.isNotEmpty(command) && KewApiConstants.DOCSEARCH_COMMAND.equals(command)) {
             loadDocumentInForm(request, (InstitutionalProposalForm) form); 
         }
         
@@ -386,10 +387,10 @@ public class InstitutionalProposalAction extends KraTransactionalDocumentActionB
    }
    
    protected void loadDocumentInForm(HttpServletRequest request, InstitutionalProposalForm institutionalProposalForm) throws WorkflowException {
-       String docIdRequestParameter = request.getParameter(KNSConstants.PARAMETER_DOC_ID);
-       InstitutionalProposalDocument retrievedDocument = (InstitutionalProposalDocument)KNSServiceLocator.getDocumentService().getByDocumentHeaderId(docIdRequestParameter);
+       String docIdRequestParameter = request.getParameter(KRADConstants.PARAMETER_DOC_ID);
+       InstitutionalProposalDocument retrievedDocument = (InstitutionalProposalDocument)KRADServiceLocatorWeb.getDocumentService().getByDocumentHeaderId(docIdRequestParameter);
        institutionalProposalForm.setDocument(retrievedDocument);
-       request.setAttribute(KNSConstants.PARAMETER_DOC_ID, docIdRequestParameter);        
+       request.setAttribute(KRADConstants.PARAMETER_DOC_ID, docIdRequestParameter);        
    }
    
    /**

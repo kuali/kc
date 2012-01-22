@@ -18,7 +18,7 @@ package org.kuali.kra.coi;
 import org.apache.commons.lang.StringUtils;
 import org.kuali.kra.bo.KraPersistableBusinessObjectBase;
 import org.kuali.kra.bo.Unit;
-import org.kuali.rice.kns.util.KNSConstants;
+import org.kuali.rice.krad.util.KRADConstants;
 
 public abstract class DisclosureReporterUnit extends KraPersistableBusinessObjectBase {
     private String unitName;
@@ -44,7 +44,7 @@ public abstract class DisclosureReporterUnit extends KraPersistableBusinessObjec
                 unitName = "not found";
             }
             else {
-                unitName = KNSConstants.EMPTY_STRING;
+                unitName = KRADConstants.EMPTY_STRING;
             }
         }
         return unitName;

@@ -16,12 +16,12 @@
 package org.kuali.kra.irb.actions.assignreviewers;
 
 import org.kuali.kra.irb.ProtocolDocument;
-import org.kuali.rice.kns.rule.BusinessRule;
+import org.kuali.rice.krad.rules.rule.BusinessRule;
 
 public interface ExecuteProtocolAssignReviewersRule extends BusinessRule {
 
     /**
-     * Process the business validation when a protocol is assigned
+     * ProcessDefinitionDefinitionDefinition the business validation when a protocol is assigned
      * to some reviewers.
      * @param document the protocol document
      * @param actionBean contains the reviewers to assign to

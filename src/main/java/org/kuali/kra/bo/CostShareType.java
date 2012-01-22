@@ -15,7 +15,6 @@
  */
 package org.kuali.kra.bo;
 
-import java.util.LinkedHashMap;
 
 /**
  * This class...
@@ -24,7 +23,7 @@ import java.util.LinkedHashMap;
  * This class...
  */
 public class CostShareType extends KraPersistableBusinessObjectBase {
-    
+
     /**
      * Comment for <code>serialVersionUID</code>
      */
@@ -32,15 +31,17 @@ public class CostShareType extends KraPersistableBusinessObjectBase {
      * Comment for <code>serialVersionUID</code>
      */
     private static final long serialVersionUID = -4625330898428160836L;
+
     private Integer costShareTypeCode;
+
     private String description;
-    
+
     /**
      * 
      * Constructs a CostShareType.java.
      */
     public CostShareType() {
-        super();                
+        super();
     }
 
     /**
@@ -74,17 +75,6 @@ public class CostShareType extends KraPersistableBusinessObjectBase {
     public void setDescription(String description) {
         this.description = description;
     }
-    
-    /**
-     * @see org.kuali.rice.kns.bo.BusinessObjectBase#toStringMapper()
-     */
-    @Override
-    protected LinkedHashMap<String,Object> toStringMapper() {        
-        LinkedHashMap<String,Object> hashMap = new LinkedHashMap<String,Object>();
-        hashMap.put("costShareTypeCode", getCostShareTypeCode());
-        hashMap.put("description", getDescription());
-        return hashMap;
-    }
 
     /**
      * @see java.lang.Object#hashCode()
@@ -103,28 +93,16 @@ public class CostShareType extends KraPersistableBusinessObjectBase {
      */
     @Override
     public boolean equals(Object obj) {
-        if (this == obj)
-            return true;
-        if (obj == null)
-            return false;
-        if (getClass() != obj.getClass())
-            return false;
+        if (this == obj) return true;
+        if (obj == null) return false;
+        if (getClass() != obj.getClass()) return false;
         final CostShareType other = (CostShareType) obj;
         if (costShareTypeCode == null) {
-            if (other.costShareTypeCode != null)
-                return false;
-        }
-        else if (!costShareTypeCode.equals(other.costShareTypeCode))
-            return false;
+            if (other.costShareTypeCode != null) return false;
+        } else if (!costShareTypeCode.equals(other.costShareTypeCode)) return false;
         if (description == null) {
-            if (other.description != null)
-                return false;
-        }
-        else if (!description.equals(other.description))
-            return false;
+            if (other.description != null) return false;
+        } else if (!description.equals(other.description)) return false;
         return true;
     }
-
-
 }
-

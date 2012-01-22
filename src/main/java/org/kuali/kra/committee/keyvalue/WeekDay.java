@@ -18,8 +18,8 @@ package org.kuali.kra.committee.keyvalue;
 import java.util.ArrayList;
 import java.util.List;
 
-import org.kuali.rice.kns.lookup.keyvalues.KeyValuesBase;
-import org.kuali.rice.core.util.KeyLabelPair;
+import org.kuali.rice.core.api.util.ConcreteKeyValue;
+import org.kuali.rice.krad.keyvalues.KeyValuesBase;
 
 public class WeekDay extends KeyValuesBase {
 
@@ -47,13 +47,13 @@ public class WeekDay extends KeyValuesBase {
     @SuppressWarnings("unchecked")
     public List getKeyValues() {
         List keyValues = new ArrayList();
-        keyValues.add(new KeyLabelPair(SUNDAY, SUNDAY));
-        keyValues.add(new KeyLabelPair(MONDAY, MONDAY));
-        keyValues.add(new KeyLabelPair(TUESDAY, TUESDAY));
-        keyValues.add(new KeyLabelPair(WEDNESDAY, WEDNESDAY));
-        keyValues.add(new KeyLabelPair(THURSDAY, THURSDAY));
-        keyValues.add(new KeyLabelPair(FRIDAY, FRIDAY));
-        keyValues.add(new KeyLabelPair(SATURDAY, SATURDAY));
+        keyValues.add(new ConcreteKeyValue(SUNDAY, SUNDAY));
+        keyValues.add(new ConcreteKeyValue(MONDAY, MONDAY));
+        keyValues.add(new ConcreteKeyValue(TUESDAY, TUESDAY));
+        keyValues.add(new ConcreteKeyValue(WEDNESDAY, WEDNESDAY));
+        keyValues.add(new ConcreteKeyValue(THURSDAY, THURSDAY));
+        keyValues.add(new ConcreteKeyValue(FRIDAY, FRIDAY));
+        keyValues.add(new ConcreteKeyValue(SATURDAY, SATURDAY));
         return keyValues;
     }
 

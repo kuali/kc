@@ -17,7 +17,6 @@ package org.kuali.kra.award.printing.service.impl;
 
 import java.util.Map;
 
-import org.kuali.kra.award.document.AwardDocument;
 import org.kuali.kra.award.home.Award;
 import org.kuali.kra.award.home.AwardTemplate;
 import org.kuali.kra.award.printing.AwardPrintType;
@@ -29,7 +28,6 @@ import org.kuali.kra.award.printing.print.AwardTemplatePrint;
 import org.kuali.kra.award.printing.print.MoneyAndEndDatesHistoryPrint;
 import org.kuali.kra.award.printing.service.AwardPrintingService;
 import org.kuali.kra.bo.KraPersistableBusinessObjectBase;
-import org.kuali.kra.document.ResearchDocumentBase;
 import org.kuali.kra.infrastructure.Constants;
 import org.kuali.kra.printing.PrintingException;
 import org.kuali.kra.printing.print.AbstractPrint;

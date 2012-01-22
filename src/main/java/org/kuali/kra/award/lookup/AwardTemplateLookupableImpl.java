@@ -15,9 +15,7 @@
  */
 package org.kuali.kra.award.lookup;
 
-import org.kuali.kra.lookup.KraLookupableHelperServiceImpl;
 import org.kuali.rice.kns.lookup.KualiLookupableImpl;
-import org.kuali.rice.kns.web.ui.ExtraButton;
 
 public class AwardTemplateLookupableImpl extends KualiLookupableImpl {
     

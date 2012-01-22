@@ -17,19 +17,18 @@ package org.kuali.kra.budget.versions;
 
 import static org.kuali.kra.infrastructure.KeyConstants.BUDGET_VERSION_EXISTS;
 import static org.kuali.kra.infrastructure.KeyConstants.ERROR_BUDGET_NAME_MISSING;
+import static org.kuali.kra.logging.BufferedLogger.info;
 import static org.springframework.util.StringUtils.hasText;
 
 import java.util.List;
 
-import org.kuali.kra.award.home.Award;
 import org.kuali.kra.budget.core.Budget;
 import org.kuali.kra.budget.document.BudgetDocument;
 import org.kuali.kra.budget.document.BudgetDocumentRule;
 import org.kuali.kra.infrastructure.KeyConstants;
 import org.kuali.kra.proposaldevelopment.document.ProposalDevelopmentDocument;
-import org.kuali.rice.kew.exception.WorkflowException;
-import org.kuali.rice.kns.util.GlobalVariables;
-import static org.kuali.kra.logging.BufferedLogger.*;
+import org.kuali.rice.kew.api.exception.WorkflowException;
+import org.kuali.rice.krad.util.GlobalVariables;
 
 /**
  * A composited rule of the {@link BudgetDocumentRule}. It is expected that the {@link BudgetDocumentRule} will call this rule directly on save,
@@ -50,13 +49,13 @@ public class BudgetVersionRule  implements AddBudgetVersionRule {
 
         if (!isNameValid(event.getVersionName())) {
             retval = false;
-            GlobalVariables.getErrorMap().putError("document.parentDocument.budgetDocumentVersion", 
+            GlobalVariables.getMessageMap().putError("document.parentDocument.budgetDocumentVersion", 
                     ERROR_BUDGET_NAME_MISSING, "Name");
         }
         
         if (containsVersionOverview(versionCollection, event.getVersionName())) {
             retval = false;
-            GlobalVariables.getErrorMap().putError("document.parentDocument.budgetDocumentVersion", BUDGET_VERSION_EXISTS);
+            GlobalVariables.getMessageMap().putError("document.parentDocument.budgetDocumentVersion", BUDGET_VERSION_EXISTS);
         }
         return retval;
     }
@@ -97,12 +96,12 @@ public class BudgetVersionRule  implements AddBudgetVersionRule {
         Budget budget = event.getBudget();
         boolean success = true;
         if(budget.getStartDate()==null){
-            GlobalVariables.getErrorMap().putError(event.getErrorPathPrefix(), 
+            GlobalVariables.getMessageMap().putError(event.getErrorPathPrefix(), 
                     KeyConstants.ERROR_BUDGET_START_DATE_MISSING, "Name");
             success &= false;
         }
         if(budget.getEndDate()==null){
-            GlobalVariables.getErrorMap().putError(event.getErrorPathPrefix(), 
+            GlobalVariables.getMessageMap().putError(event.getErrorPathPrefix(), 
                     KeyConstants.ERROR_BUDGET_END_DATE_MISSING, "Name");
             success &= false;
         }

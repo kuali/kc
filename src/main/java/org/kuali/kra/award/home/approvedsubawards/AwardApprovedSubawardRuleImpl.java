@@ -23,8 +23,7 @@ import org.kuali.kra.bo.Organization;
 import org.kuali.kra.infrastructure.KeyConstants;
 import org.kuali.kra.infrastructure.KraServiceLocator;
 import org.kuali.kra.rules.ResearchDocumentRuleBase;
-import org.kuali.rice.kns.service.BusinessObjectService;
-import org.kuali.rice.kns.util.KualiDecimal;
+import org.kuali.rice.krad.service.BusinessObjectService;
 
 /**
  * the AwardApprovedSubawardRuleImpl 

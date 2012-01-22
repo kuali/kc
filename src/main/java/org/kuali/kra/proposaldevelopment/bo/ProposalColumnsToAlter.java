@@ -15,66 +15,71 @@
  */
 package org.kuali.kra.proposaldevelopment.bo;
 
-import java.util.LinkedHashMap;
-
 import org.kuali.kra.bo.KraPersistableBusinessObjectBase;
 
 public class ProposalColumnsToAlter extends KraPersistableBusinessObjectBase {
 
-	private String columnName;
-	private String columnLabel;
-	private Integer dataLength;
-	private String dataType;
-	private boolean hasLookup;
-	private String lookupClass;
-	private String lookupReturn;
-	private String lookupPkReturn;
-	
-	public ProposalColumnsToAlter(){
-		super();
-	}
+    private String columnName;
 
-	public String getColumnName() {
-		return columnName;
-	}
+    private String columnLabel;
 
-	public void setColumnName(String columnName) {
-		this.columnName = columnName;
-	}
+    private Integer dataLength;
 
-	public String getColumnLabel() {
-		return columnLabel;
-	}
+    private String dataType;
 
-	public void setColumnLabel(String columnLabel) {
-		this.columnLabel = columnLabel;
-	}
+    private boolean hasLookup;
 
-	public Integer getDataLength() {
-		return dataLength;
-	}
+    private String lookupClass;
 
-	public void setDataLength(Integer dataLength) {
-		this.dataLength = dataLength;
-	}
+    private String lookupReturn;
 
-	public String getDataType() {
-		return dataType;
-	}
+    private String lookupPkReturn;
 
-	public void setDataType(String dataType) {
-		this.dataType = dataType;
-	}
+    public ProposalColumnsToAlter() {
+        super();
+    }
 
-	public boolean getHasLookup() {
-		return hasLookup;
-	}
+    public String getColumnName() {
+        return columnName;
+    }
 
-	public void setHasLookup(boolean hasLookup) {
-		this.hasLookup = hasLookup;
-	}
+    public void setColumnName(String columnName) {
+        this.columnName = columnName;
+    }
 
-	public String getLookupClass() {
+    public String getColumnLabel() {
+        return columnLabel;
+    }
+
+    public void setColumnLabel(String columnLabel) {
+        this.columnLabel = columnLabel;
+    }
+
+    public Integer getDataLength() {
+        return dataLength;
+    }
+
+    public void setDataLength(Integer dataLength) {
+        this.dataLength = dataLength;
+    }
+
+    public String getDataType() {
+        return dataType;
+    }
+
+    public void setDataType(String dataType) {
+        this.dataType = dataType;
+    }
+
+    public boolean getHasLookup() {
+        return hasLookup;
+    }
+
+    public void setHasLookup(boolean hasLookup) {
+        this.hasLookup = hasLookup;
+    }
+
+    public String getLookupClass() {
         return lookupClass;
     }
 
@@ -97,18 +102,4 @@ public class ProposalColumnsToAlter extends KraPersistableBusinessObjectBase {
     public void setLookupPkReturn(String lookupPkReturn) {
         this.lookupPkReturn = lookupPkReturn;
     }
-
-    @Override 
-    protected LinkedHashMap toStringMapper() {
-        LinkedHashMap hashMap = new LinkedHashMap();
-        hashMap.put("columnName", getColumnName());
-        hashMap.put("columnLabel", getColumnLabel());
-        hashMap.put("dataLength", getDataLength());
-        hashMap.put("dataType", getDataType());
-        hashMap.put("hasLookup", getHasLookup());
-        hashMap.put("lookupClass", getLookupClass());
-        hashMap.put("lookupReturn", getLookupReturn());
-        return hashMap;
-    }
-
 }

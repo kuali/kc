@@ -30,18 +30,20 @@ import org.kuali.kra.irb.onlinereview.ProtocolOnlineReviewStatus;
 import org.kuali.kra.irb.onlinereview.ProtocolReviewAttachment;
 import org.kuali.kra.meeting.CommitteeScheduleMinute;
 import org.kuali.kra.service.KraAuthorizationService;
-import org.kuali.rice.kew.dto.ActionTakenEventDTO;
-import org.kuali.rice.kew.dto.DocumentRouteStatusChangeDTO;
-import org.kuali.rice.kew.util.KEWConstants;
-import org.kuali.rice.kns.document.Copyable;
-import org.kuali.rice.kns.document.SessionDocument;
-import org.kuali.rice.kns.service.BusinessObjectService;
-import org.kuali.rice.kns.service.DocumentService;
-import org.kuali.rice.kns.service.ParameterConstants;
-import org.kuali.rice.kns.service.ParameterConstants.COMPONENT;
-import org.kuali.rice.kns.service.ParameterConstants.NAMESPACE;
-import org.kuali.rice.kns.util.GlobalVariables;
-import org.kuali.rice.kns.util.ObjectUtils;
+import org.kuali.rice.coreservice.framework.parameter.ParameterConstants;
+import org.kuali.rice.coreservice.framework.parameter.ParameterConstants.COMPONENT;
+import org.kuali.rice.coreservice.framework.parameter.ParameterConstants.NAMESPACE;
+import org.kuali.rice.kew.api.KewApiConstants;
+import org.kuali.rice.kew.framework.postprocessor.ActionTakenEvent;
+import org.kuali.rice.kew.framework.postprocessor.DocumentRouteStatusChange;
+import org.kuali.rice.krad.document.Copyable;
+import org.kuali.rice.krad.document.SessionDocument;
+import org.kuali.rice.krad.service.BusinessObjectService;
+import org.kuali.rice.krad.service.DocumentService;
+import org.kuali.rice.krad.service.KRADServiceLocatorWeb;
+import org.kuali.rice.krad.util.GlobalVariables;
+import org.kuali.rice.krad.util.ObjectUtils;
+import org.kuali.rice.krad.workflow.service.WorkflowDocumentService;
 
 /**
  * 
@@ -156,7 +158,8 @@ public class ProtocolOnlineReviewDocument extends ResearchDocumentBase implement
     protected List<RolePersons> getAllRolePersons() {
         KraAuthorizationService kraAuthService = 
                (KraAuthorizationService) KraServiceLocator.getService(KraAuthorizationService.class); 
-        return kraAuthService.getAllRolePersons(getProtocolOnlineReview());
+        //return kraAuthService.getAllRolePersons(getProtocolOnlineReview());
+        return new ArrayList<RolePersons>();
     }
     
     public String getDocumentTypeCode() {
@@ -165,13 +168,13 @@ public class ProtocolOnlineReviewDocument extends ResearchDocumentBase implement
     
     
     /**
-     * @see org.kuali.rice.kns.document.DocumentBase#doRouteStatusChange(org.kuali.rice.kew.dto.DocumentRouteStatusChangeDTO)
+     * @see org.kuali.rice.krad.document.DocumentBase#doRouteStatusChange(org.kuali.rice.kew.framework.postprocessor.DocumentRouteStatusChange)
      */
     @Override
-    public void doRouteStatusChange(DocumentRouteStatusChangeDTO statusChangeEvent) {
+    public void doRouteStatusChange(DocumentRouteStatusChange statusChangeEvent) {
         super.doRouteStatusChange(statusChangeEvent);
-        if (StringUtils.equals(statusChangeEvent.getNewRouteStatus(), KEWConstants.ROUTE_HEADER_CANCEL_CD) 
-                || StringUtils.equals(statusChangeEvent.getNewRouteStatus(), KEWConstants.ROUTE_HEADER_DISAPPROVED_CD)) {
+        if (StringUtils.equals(statusChangeEvent.getNewRouteStatus(), KewApiConstants.ROUTE_HEADER_CANCEL_CD) 
+                || StringUtils.equals(statusChangeEvent.getNewRouteStatus(), KewApiConstants.ROUTE_HEADER_DISAPPROVED_CD)) {
             if (LOG.isDebugEnabled()) {
                 LOG.debug(String.format("Protocol Online Review Document %s has been cancelled, deleting associated review comments.", getDocumentNumber()));
             }
@@ -193,10 +196,10 @@ public class ProtocolOnlineReviewDocument extends ResearchDocumentBase implement
     }
   
     /**
-     * @see org.kuali.rice.kns.document.DocumentBase#doActionTaken(org.kuali.rice.kew.dto.ActionTakenEventDTO)
+     * @see org.kuali.rice.krad.document.DocumentBase#doActionTaken(org.kuali.rice.kew.framework.postprocessor.ActionTakenEvent)
      */
     @Override
-    public void doActionTaken( ActionTakenEventDTO event ) {
+    public void doActionTaken( ActionTakenEvent event ) {
         super.doActionTaken(event);
     }
     
@@ -232,12 +235,16 @@ public class ProtocolOnlineReviewDocument extends ResearchDocumentBase implement
             
         return isComplete;
     }
-    
+  
+    private WorkflowDocumentService getWorkflowDocumentService() {
+        return KRADServiceLocatorWeb.getWorkflowDocumentService();
+    }    
+
     private boolean isOnlineReviewApproveComplete(String olrDocId) {
         boolean isComplete = true;
         try {
             ProtocolOnlineReviewDocument onlineReviewDoc = (ProtocolOnlineReviewDocument)getDocumentService().getByDocumentHeaderId(olrDocId);
-            if (onlineReviewDoc.getDocumentHeader().getWorkflowDocument().getCurrentRouteNodeNames().equalsIgnoreCase(Constants.ONLINE_REVIEW_ROUTE_NODE_ONLINE_REVIEWER)) {
+            if (getWorkflowDocumentService().getCurrentRouteNodeNames(onlineReviewDoc.getDocumentHeader().getWorkflowDocument()).equalsIgnoreCase(Constants.ONLINE_REVIEW_ROUTE_NODE_ONLINE_REVIEWER)) {
                 isComplete = false;
             }
         } catch (Exception e) {
@@ -251,7 +258,7 @@ public class ProtocolOnlineReviewDocument extends ResearchDocumentBase implement
         boolean isComplete = true;
         try {
             ProtocolOnlineReviewDocument onlineReviewDoc = (ProtocolOnlineReviewDocument)getDocumentService().getByDocumentHeaderId(olrDocId);
-            if (!onlineReviewDoc.getDocumentHeader().getWorkflowDocument().getCurrentRouteNodeNames().equalsIgnoreCase(Constants.ONLINE_REVIEW_ROUTE_NODE_ONLINE_REVIEWER)) {
+            if (!getWorkflowDocumentService().getCurrentRouteNodeNames(onlineReviewDoc.getDocumentHeader().getWorkflowDocument()).equalsIgnoreCase(Constants.ONLINE_REVIEW_ROUTE_NODE_ONLINE_REVIEWER)) {
                 isComplete = false;
             }
         } catch (Exception e) {

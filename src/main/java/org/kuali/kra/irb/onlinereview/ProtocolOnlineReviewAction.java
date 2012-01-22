@@ -64,16 +64,17 @@ import org.kuali.kra.meeting.MinuteEntryType;
 import org.kuali.kra.service.KraWorkflowService;
 import org.kuali.kra.service.TaskAuthorizationService;
 import org.kuali.kra.web.struts.action.AuditActionHelper;
-import org.kuali.rice.kns.bo.Note;
-import org.kuali.rice.kns.question.ConfirmationQuestion;
-import org.kuali.rice.kns.service.DocumentService;
-import org.kuali.rice.kns.service.KualiRuleService;
-import org.kuali.rice.kns.util.GlobalVariables;
-import org.kuali.rice.kns.util.KNSConstants;
-import org.kuali.rice.kns.util.RiceKeyConstants;
-import org.kuali.rice.kns.util.WebUtils;
+import org.kuali.rice.core.api.util.RiceKeyConstants;
+import org.kuali.rice.kns.util.KNSGlobalVariables;
 import org.kuali.rice.kns.web.struts.action.AuditModeAction;
 import org.kuali.rice.kns.web.struts.form.KualiDocumentFormBase;
+import org.kuali.rice.krad.bo.Note;
+import org.kuali.rice.kns.question.ConfirmationQuestion;
+import org.kuali.rice.krad.service.DocumentService;
+import org.kuali.rice.krad.service.KualiRuleService;
+import org.kuali.rice.krad.util.GlobalVariables;
+import org.kuali.rice.krad.util.KRADConstants;
+import org.kuali.rice.krad.util.KRADUtils;
 
 /**
  * The set of actions for the Protocol Actions tab.
@@ -312,7 +313,7 @@ public class ProtocolOnlineReviewAction extends ProtocolAction implements AuditM
             HttpServletResponse response) throws Exception {
         
         String onlineReviewDocumentNumber = getOnlineReviewActionDocumentNumber(
-                (String) request.getAttribute(KNSConstants.METHOD_TO_CALL_ATTRIBUTE),
+                (String) request.getAttribute(KRADConstants.METHOD_TO_CALL_ATTRIBUTE),
                 "approveOnlineReview");
         ProtocolForm protocolForm = (ProtocolForm) form;
         ProtocolOnlineReviewDocument prDoc = protocolForm.getOnlineReviewsActionHelper().getDocumentFromHelperMap(onlineReviewDocumentNumber);
@@ -376,7 +377,7 @@ public class ProtocolOnlineReviewAction extends ProtocolAction implements AuditM
         
 //        AssignReviewerNotificationRenderer renderer = new AssignReviewerNotificationRenderer(notificationRequestBean.getProtocol(), "added");
         IRBNotificationContext context = new IRBNotificationContext(notificationRequestBean.getProtocol(), notificationRequestBean.getProtocolOnlineReview(), notificationRequestBean.getActionType(), notificationRequestBean.getDescription(), renderer);
-        
+            
         if (protocolForm.getNotificationHelper().getPromptUserForNotificationEditor(context)) {
             if (forward == null) {
                 context.setForwardName("holdingPage:" + notificationRequestBean.getDocNumber() + ":" + notificationRequestBean.getOlrEvent());
@@ -394,10 +395,10 @@ public class ProtocolOnlineReviewAction extends ProtocolAction implements AuditM
             }
         }
     }
-
-    
-    private ActionForward checkToSendNotification(ActionMapping mapping, ActionForward forward, ProtocolForm protocolForm, IRBNotificationRenderer renderer, ProtocolNotificationRequestBean notificationRequestBean) {
         
+        
+    private ActionForward checkToSendNotification(ActionMapping mapping, ActionForward forward, ProtocolForm protocolForm, IRBNotificationRenderer renderer, ProtocolNotificationRequestBean notificationRequestBean) {
+       
 //        AssignReviewerNotificationRenderer renderer = new AssignReviewerNotificationRenderer(protocol, "added");
         IRBNotificationContext context = new IRBNotificationContext(notificationRequestBean.getProtocol(), notificationRequestBean.getProtocolOnlineReview(), notificationRequestBean.getActionType(), notificationRequestBean.getDescription(), renderer);
         
@@ -410,17 +411,17 @@ public class ProtocolOnlineReviewAction extends ProtocolAction implements AuditM
             return forward;
         }
     }
-
+        
     private KcNotificationService getNotificationService() {
         return KraServiceLocator.getService(KcNotificationService.class);
     }
 
     private ActionForward routeProtocolOLRToHoldingPage(ActionMapping mapping, ProtocolForm protocolForm, String olrDocId, String olrEvent) {
-        Long routeHeaderId = Long.parseLong(protocolForm.getDocument().getDocumentNumber());
+        String routeHeaderId = protocolForm.getDocument().getDocumentNumber();
         String returnLocation = buildActionUrl(routeHeaderId, Constants.MAPPING_PROTOCOL_ONLINE_REVIEW , "ProtocolDocument");
         // use this doc id for holding action to check if online review document is complete and return to online review tab
         returnLocation += "&" + "olrDocId=" + olrDocId + "&" + "olrEvent=" + olrEvent;
-        ActionForward basicForward = mapping.findForward(KNSConstants.MAPPING_PORTAL);
+        ActionForward basicForward = mapping.findForward(KRADConstants.MAPPING_PORTAL);
         //ActionForward holdingPageForward = mapping.findForward(Constants.MAPPING_HOLDING_PAGE);
         ActionForward holdingPageForward = mapping.findForward(Constants.MAPPING_HOLDING_PAGE);
         GlobalVariables.getUserSession().addObject(Constants.HOLDING_PAGE_DOCUMENT_ID, (Object)olrDocId);
@@ -443,7 +444,7 @@ public class ProtocolOnlineReviewAction extends ProtocolAction implements AuditM
     public ActionForward blanketApproveOnlineReview(ActionMapping mapping, ActionForm form, HttpServletRequest request,
             HttpServletResponse response) throws Exception {
         String onlineReviewDocumentNumber = getOnlineReviewActionDocumentNumber(
-                (String) request.getAttribute(KNSConstants.METHOD_TO_CALL_ATTRIBUTE),
+                (String) request.getAttribute(KRADConstants.METHOD_TO_CALL_ATTRIBUTE),
                 "blanketApproveOnlineReview");
         ProtocolForm protocolForm = (ProtocolForm) form;
         ProtocolOnlineReviewDocument prDoc = (ProtocolOnlineReviewDocument) protocolForm.getOnlineReviewsActionHelper()
@@ -466,7 +467,7 @@ public class ProtocolOnlineReviewAction extends ProtocolAction implements AuditM
     public ActionForward saveOnlineReview(ActionMapping mapping, ActionForm form, HttpServletRequest request,
             HttpServletResponse response) throws Exception {
         String onlineReviewDocumentNumber = getOnlineReviewActionDocumentNumber(
-                (String) request.getAttribute(KNSConstants.METHOD_TO_CALL_ATTRIBUTE),
+                (String) request.getAttribute(KRADConstants.METHOD_TO_CALL_ATTRIBUTE),
                 "saveOnlineReview");
         DocumentService documentService = KraServiceLocator.getService(DocumentService.class);
         ProtocolForm protocolForm = (ProtocolForm) form;
@@ -501,17 +502,17 @@ public class ProtocolOnlineReviewAction extends ProtocolAction implements AuditM
             HttpServletResponse response) throws Exception {
         
         String onlineReviewDocumentNumber = getOnlineReviewActionDocumentNumber(
-                (String) request.getAttribute(KNSConstants.METHOD_TO_CALL_ATTRIBUTE),
+                (String) request.getAttribute(KRADConstants.METHOD_TO_CALL_ATTRIBUTE),
                 "rejectOnlineReview");
         ProtocolForm protocolForm = (ProtocolForm) form;        
         ProtocolOnlineReviewDocument prDoc = (ProtocolOnlineReviewDocument) protocolForm.getOnlineReviewsActionHelper()
             .getDocumentHelperMap().get(onlineReviewDocumentNumber).get("document");
-        Object question = request.getParameter(KNSConstants.QUESTION_INST_ATTRIBUTE_NAME);
-        Object buttonClicked = request.getParameter(KNSConstants.QUESTION_CLICKED_BUTTON);
-        String reason = request.getParameter(KNSConstants.QUESTION_REASON_ATTRIBUTE_NAME);
+        Object question = request.getParameter(KRADConstants.QUESTION_INST_ATTRIBUTE_NAME);
+        Object buttonClicked = request.getParameter(KRADConstants.QUESTION_CLICKED_BUTTON);
+        String reason = request.getParameter(KRADConstants.QUESTION_REASON_ATTRIBUTE_NAME);
         String callerString = String.format("rejectOnlineReview.%s.anchor%s",prDoc.getDocumentNumber(),0);
         if(question == null){
-            return this.performQuestionWithInput(mapping, form, request, response, DOCUMENT_REJECT_QUESTION,"Are you sure you want to return this document to reviewer ?" , KNSConstants.CONFIRMATION_QUESTION, callerString, "");
+            return this.performQuestionWithInput(mapping, form, request, response, DOCUMENT_REJECT_QUESTION,"Are you sure you want to return this document to reviewer ?" , KRADConstants.CONFIRMATION_QUESTION, callerString, "");
          } 
         else if((DOCUMENT_REJECT_QUESTION.equals(question)) && ConfirmationQuestion.NO.equals(buttonClicked))  {
             //nothing to do.
@@ -522,12 +523,12 @@ public class ProtocolOnlineReviewAction extends ProtocolAction implements AuditM
                 if (reason == null) {
                     reason = ""; //Prevents null pointer exception in performQuestion
                 }
-                return this.performQuestionWithInputAgainBecauseOfErrors(mapping, form, request, response, DOCUMENT_REJECT_QUESTION, "Are you sure you want to return this document to reviewer ?", KNSConstants.CONFIRMATION_QUESTION, callerString, "", reason, KeyConstants.ERROR_ONLINE_REVIEW_REJECTED_REASON_REQUIRED, KNSConstants.QUESTION_REASON_ATTRIBUTE_NAME, DOCUMENT_REJECT_REASON_MAXLENGTH);              
-            } else if (WebUtils.containsSensitiveDataPatternMatch(reason)) {
+                return this.performQuestionWithInputAgainBecauseOfErrors(mapping, form, request, response, DOCUMENT_REJECT_QUESTION, "Are you sure you want to return this document to reviewer ?", KRADConstants.CONFIRMATION_QUESTION, callerString, "", reason, KeyConstants.ERROR_ONLINE_REVIEW_REJECTED_REASON_REQUIRED, KRADConstants.QUESTION_REASON_ATTRIBUTE_NAME, DOCUMENT_REJECT_REASON_MAXLENGTH);              
+            } else if (KRADUtils.containsSensitiveDataPatternMatch(reason)) {
                 return this.performQuestionWithInputAgainBecauseOfErrors(mapping, form, request, response, 
                         DOCUMENT_REJECT_QUESTION, "Are you sure you want to return this document to reviewer ?", 
-                        KNSConstants.CONFIRMATION_QUESTION, callerString, "", reason, RiceKeyConstants.ERROR_DOCUMENT_FIELD_CONTAINS_POSSIBLE_SENSITIVE_DATA,
-                        KNSConstants.QUESTION_REASON_ATTRIBUTE_NAME, "reason");
+                        KRADConstants.CONFIRMATION_QUESTION, callerString, "", reason, RiceKeyConstants.ERROR_DOCUMENT_FIELD_CONTAINS_POSSIBLE_SENSITIVE_DATA,
+                        KRADConstants.QUESTION_REASON_ATTRIBUTE_NAME, "reason");
             } else {
                 prDoc.getProtocolOnlineReview().setProtocolOnlineReviewStatusCode(ProtocolOnlineReviewStatus.SAVED_STATUS_CD);
                 prDoc.getProtocolOnlineReview().addActionPerformed("Reject");
@@ -554,8 +555,9 @@ public class ProtocolOnlineReviewAction extends ProtocolAction implements AuditM
     }  
         
         
-
-
+        
+        
+    
     /**
      * 
      * @param mapping the mapping associated with this action.
@@ -569,14 +571,14 @@ public class ProtocolOnlineReviewAction extends ProtocolAction implements AuditM
             HttpServletResponse response) throws Exception {
          
         String onlineReviewDocumentNumber = getOnlineReviewActionDocumentNumber(
-                (String) request.getAttribute(KNSConstants.METHOD_TO_CALL_ATTRIBUTE),
+                (String) request.getAttribute(KRADConstants.METHOD_TO_CALL_ATTRIBUTE),
                 "deleteOnlineReview");
         ProtocolForm protocolForm = (ProtocolForm) form;
         ProtocolOnlineReviewDocument prDoc = (ProtocolOnlineReviewDocument) protocolForm.getOnlineReviewsActionHelper()
             .getDocumentHelperMap().get(onlineReviewDocumentNumber).get("document");
         ReviewCommentsBean reviewCommentsBean = protocolForm.getOnlineReviewsActionHelper().getReviewCommentsBeanFromHelperMap(onlineReviewDocumentNumber);
-        Object question = request.getParameter(KNSConstants.QUESTION_INST_ATTRIBUTE_NAME);
-        String reason = request.getParameter(KNSConstants.QUESTION_REASON_ATTRIBUTE_NAME);
+        Object question = request.getParameter(KRADConstants.QUESTION_INST_ATTRIBUTE_NAME);
+        String reason = request.getParameter(KRADConstants.QUESTION_REASON_ATTRIBUTE_NAME);
         String deleteNoteText = "";
         String callerString = String.format("disapproveOnlineReview.%s.anchor%s",prDoc.getDocumentNumber(),0);
        
@@ -589,21 +591,21 @@ public class ProtocolOnlineReviewAction extends ProtocolAction implements AuditM
         // start in logic for confirming the disapproval
         if (question == null) {
             // ask question if not already asked
-            return performQuestionWithInput(mapping, form, request, response, DOCUMENT_DELETE_QUESTION, "Are you sure you want to delete this document?", KNSConstants.CONFIRMATION_QUESTION, callerString, "");
+            return performQuestionWithInput(mapping, form, request, response, DOCUMENT_DELETE_QUESTION, "Are you sure you want to delete this document?", KRADConstants.CONFIRMATION_QUESTION, callerString, "");
         } else {
-            Object buttonClicked = request.getParameter(KNSConstants.QUESTION_CLICKED_BUTTON);
+            Object buttonClicked = request.getParameter(KRADConstants.QUESTION_CLICKED_BUTTON);
             if ((DOCUMENT_DELETE_QUESTION.equals(question)) && ConfirmationQuestion.NO.equals(buttonClicked)) {
                 // if no button clicked just reload the doc
                 return mapping.findForward(Constants.MAPPING_BASIC);
             } else {
                 // have to check length on value entered
-                String introNoteMessage = "Deletion reason -" + KNSConstants.BLANK_SPACE;
+                String introNoteMessage = "Deletion reason -" + KRADConstants.BLANK_SPACE;
 
                 // build out full message
                 deleteNoteText = introNoteMessage + reason;
 
                 // get note text max length from DD
-                int noteTextMaxLength = getDataDictionaryService().getAttributeMaxLength(Note.class, KNSConstants.NOTE_TEXT_PROPERTY_NAME).intValue();
+                int noteTextMaxLength = getDataDictionaryService().getAttributeMaxLength(Note.class, KRADConstants.NOTE_TEXT_PROPERTY_NAME).intValue();
 
                 if (!this.applyRules(new DeleteProtocolOnlineReviewEvent(prDoc, reason, deleteNoteText, noteTextMaxLength))) {
                     // figure out exact number of characters that the user can enter
@@ -613,14 +615,14 @@ public class ProtocolOnlineReviewAction extends ProtocolAction implements AuditM
                         // prevent a NPE by setting the reason to a blank string
                         reason = "";
                     }
-                    return this.performQuestionWithInputAgainBecauseOfErrors(mapping, form, request, response, DOCUMENT_DELETE_QUESTION, "Are you sure you want to delete this document?", KNSConstants.CONFIRMATION_QUESTION, callerString, "", reason, ERROR_DOCUMENT_DELETE_REASON_REQUIRED, KNSConstants.QUESTION_REASON_ATTRIBUTE_NAME, new Integer(reasonLimit).toString());
+                    return this.performQuestionWithInputAgainBecauseOfErrors(mapping, form, request, response, DOCUMENT_DELETE_QUESTION, "Are you sure you want to delete this document?", KRADConstants.CONFIRMATION_QUESTION, callerString, "", reason, ERROR_DOCUMENT_DELETE_REASON_REQUIRED, KRADConstants.QUESTION_REASON_ATTRIBUTE_NAME, new Integer(reasonLimit).toString());
                 } 
                 
-                if (WebUtils.containsSensitiveDataPatternMatch(deleteNoteText)) {
+                if (KRADUtils.containsSensitiveDataPatternMatch(deleteNoteText)) {
                     return this.performQuestionWithInputAgainBecauseOfErrors(mapping, form, request, response, 
                             DOCUMENT_DELETE_QUESTION, "Are you sure you want to delete this document?", 
-                            KNSConstants.CONFIRMATION_QUESTION, callerString, "", reason, RiceKeyConstants.ERROR_DOCUMENT_FIELD_CONTAINS_POSSIBLE_SENSITIVE_DATA,
-                            KNSConstants.QUESTION_REASON_ATTRIBUTE_NAME, "reason");
+                            KRADConstants.CONFIRMATION_QUESTION, callerString, "", reason, RiceKeyConstants.ERROR_DOCUMENT_FIELD_CONTAINS_POSSIBLE_SENSITIVE_DATA,
+                            KRADConstants.QUESTION_REASON_ATTRIBUTE_NAME, "reason");
                 } 
                 
                 ProtocolOnlineReview protocolOnlineReview = prDoc.getProtocolOnlineReview();
@@ -638,7 +640,7 @@ public class ProtocolOnlineReviewAction extends ProtocolAction implements AuditM
                 document.getProtocolOnlineReview().setAdminAccepted(false);
                 getBusinessObjectService().save(document.getProtocolOnlineReview());
                 getDocumentService().disapproveDocument(document, deleteNoteText);
-                GlobalVariables.getMessageList().add(RiceKeyConstants.MESSAGE_ROUTE_DISAPPROVED);
+                KNSGlobalVariables.getMessageList().add(RiceKeyConstants.MESSAGE_ROUTE_DISAPPROVED);
                 kualiDocumentFormBase.setAnnotation("");
                 protocolForm.getOnlineReviewsActionHelper().init(true);
                 recordOnlineReviewActionSuccess("deleted", prDoc);
@@ -647,7 +649,7 @@ public class ProtocolOnlineReviewAction extends ProtocolAction implements AuditM
 //                if (!protocolForm.getEditingMode().containsKey("maintainProtocolOnlineReviews")) {
 //                    return mapping.findForward(KNSConstants.MAPPING_PORTAL);
 //                }
-            }
+             }
         }
         
 //        return mapping.findForward(Constants.MAPPING_BASIC);
@@ -665,22 +667,22 @@ public class ProtocolOnlineReviewAction extends ProtocolAction implements AuditM
     public ActionForward cancelOnlineReview(ActionMapping mapping, ActionForm form, HttpServletRequest request,
             HttpServletResponse response) throws Exception {
         String onlineReviewDocumentNumber = getOnlineReviewActionDocumentNumber(
-                (String) request.getAttribute(KNSConstants.METHOD_TO_CALL_ATTRIBUTE),
+                (String) request.getAttribute(KRADConstants.METHOD_TO_CALL_ATTRIBUTE),
                 "cancelOnlineReview");
         ProtocolForm protocolForm = (ProtocolForm) form;
         
         ProtocolOnlineReviewDocument prDoc = (ProtocolOnlineReviewDocument) protocolForm.getOnlineReviewsActionHelper()
             .getDocumentHelperMap().get(onlineReviewDocumentNumber).get("document");
         String callerString = String.format("rejectOnlineReview.%s.anchor%s",prDoc.getDocumentNumber(),0);
-        Object question = request.getParameter(KNSConstants.QUESTION_INST_ATTRIBUTE_NAME);
+        Object question = request.getParameter(KRADConstants.QUESTION_INST_ATTRIBUTE_NAME);
         // logic for cancel question
         if (question == null) {
             // ask question if not already asked
-            return this.performQuestionWithoutInput(mapping, form, request, response, KNSConstants.DOCUMENT_CANCEL_QUESTION, getKualiConfigurationService().getPropertyString("document.question.cancel.text"), KNSConstants.CONFIRMATION_QUESTION, callerString, "");
+            return this.performQuestionWithoutInput(mapping, form, request, response, KRADConstants.DOCUMENT_CANCEL_QUESTION, getKualiConfigurationService().getPropertyValueAsString("document.question.cancel.text"), KRADConstants.CONFIRMATION_QUESTION, callerString, "");
         }
         else {
-            Object buttonClicked = request.getParameter(KNSConstants.QUESTION_CLICKED_BUTTON);
-            if ((KNSConstants.DOCUMENT_CANCEL_QUESTION.equals(question)) && ConfirmationQuestion.NO.equals(buttonClicked)) {
+            Object buttonClicked = request.getParameter(KRADConstants.QUESTION_CLICKED_BUTTON);
+            if ((KRADConstants.DOCUMENT_CANCEL_QUESTION.equals(question)) && ConfirmationQuestion.NO.equals(buttonClicked)) {
                 // if no button clicked just reload the doc
                 
             }
@@ -716,7 +718,7 @@ public class ProtocolOnlineReviewAction extends ProtocolAction implements AuditM
 
         ProtocolForm protocolForm = (ProtocolForm) form;
         OnlineReviewsActionHelper actionHelper = protocolForm.getOnlineReviewsActionHelper();
-        String parameterName = (String) request.getAttribute(KNSConstants.METHOD_TO_CALL_ATTRIBUTE);
+        String parameterName = (String) request.getAttribute(KRADConstants.METHOD_TO_CALL_ATTRIBUTE);
         String documentNumber = getOnlineReviewActionDocumentNumber(parameterName, "addOnlineReviewComment");
         
         ProtocolOnlineReviewDocument document = actionHelper.getDocumentFromHelperMap(documentNumber);
@@ -759,7 +761,7 @@ public class ProtocolOnlineReviewAction extends ProtocolAction implements AuditM
 
         ProtocolForm protocolForm = (ProtocolForm) form;
         OnlineReviewsActionHelper actionHelper = protocolForm.getOnlineReviewsActionHelper();
-        String parameterName = (String) request.getAttribute(KNSConstants.METHOD_TO_CALL_ATTRIBUTE);
+        String parameterName = (String) request.getAttribute(KRADConstants.METHOD_TO_CALL_ATTRIBUTE);
         String documentNumber = getOnlineReviewActionDocumentNumber(parameterName, "addOnlineReviewAttachment");
         
         ProtocolOnlineReviewDocument document = actionHelper.getDocumentFromHelperMap(documentNumber);
@@ -802,7 +804,7 @@ public class ProtocolOnlineReviewAction extends ProtocolAction implements AuditM
         
         ProtocolForm protocolForm = (ProtocolForm) form;
         OnlineReviewsActionHelper actionHelper = protocolForm.getOnlineReviewsActionHelper();
-        String parameterName = (String) request.getAttribute(KNSConstants.METHOD_TO_CALL_ATTRIBUTE);
+        String parameterName = (String) request.getAttribute(KRADConstants.METHOD_TO_CALL_ATTRIBUTE);
         String documentNumber = getOnlineReviewActionDocumentNumber(parameterName, "moveUpOnlineReviewComment");
         
         ProtocolOnlineReviewDocument document = actionHelper.getDocumentFromHelperMap(documentNumber);
@@ -838,7 +840,7 @@ public class ProtocolOnlineReviewAction extends ProtocolAction implements AuditM
         
         ProtocolForm protocolForm = (ProtocolForm) form;
         OnlineReviewsActionHelper actionHelper = protocolForm.getOnlineReviewsActionHelper();
-        String parameterName = (String) request.getAttribute(KNSConstants.METHOD_TO_CALL_ATTRIBUTE);
+        String parameterName = (String) request.getAttribute(KRADConstants.METHOD_TO_CALL_ATTRIBUTE);
         String documentNumber = getOnlineReviewActionDocumentNumber(parameterName, "moveDownOnlineReviewComment");
         
         ProtocolOnlineReviewDocument document = actionHelper.getDocumentFromHelperMap(documentNumber);
@@ -874,7 +876,7 @@ public class ProtocolOnlineReviewAction extends ProtocolAction implements AuditM
         
         ProtocolForm protocolForm = (ProtocolForm) form;
         OnlineReviewsActionHelper actionHelper = protocolForm.getOnlineReviewsActionHelper();
-        String parameterName = (String) request.getAttribute(KNSConstants.METHOD_TO_CALL_ATTRIBUTE);
+        String parameterName = (String) request.getAttribute(KRADConstants.METHOD_TO_CALL_ATTRIBUTE);
         String documentNumber = getOnlineReviewActionDocumentNumber(parameterName, "deleteOnlineReviewComment");
         
         ProtocolOnlineReviewDocument document = actionHelper.getDocumentFromHelperMap(documentNumber);
@@ -910,7 +912,7 @@ public class ProtocolOnlineReviewAction extends ProtocolAction implements AuditM
 
         ProtocolForm protocolForm = (ProtocolForm) form;
         OnlineReviewsActionHelper actionHelper = protocolForm.getOnlineReviewsActionHelper();
-        String parameterName = (String) request.getAttribute(KNSConstants.METHOD_TO_CALL_ATTRIBUTE);
+        String parameterName = (String) request.getAttribute(KRADConstants.METHOD_TO_CALL_ATTRIBUTE);
         String documentNumber = getOnlineReviewActionDocumentNumber(parameterName, "deleteOnlineReviewAttachment");
 
         ProtocolOnlineReviewDocument document = actionHelper.getDocumentFromHelperMap(documentNumber);
@@ -953,7 +955,7 @@ public class ProtocolOnlineReviewAction extends ProtocolAction implements AuditM
     
     protected void recordOnlineReviewActionSuccess(String onlineReviewActionName, ProtocolOnlineReviewDocument document) {
         String documentInfo = String.format("document number:%s, reviewer:%s", document.getDocumentNumber(), document.getProtocolOnlineReview().getProtocolReviewer().getFullName());
-        GlobalVariables.getMessageList().add(KeyConstants.MESSAGE_ONLINE_REVIEW_ACTION_SUCCESSFULLY_COMPLETED,onlineReviewActionName, documentInfo);
+        KNSGlobalVariables.getMessageList().add(KeyConstants.MESSAGE_ONLINE_REVIEW_ACTION_SUCCESSFULLY_COMPLETED,onlineReviewActionName, documentInfo);
     }
     
     private void setOnlineReviewCommentFinalFlags(ProtocolOnlineReview onlineReview, boolean flagValue) {
@@ -977,7 +979,7 @@ public class ProtocolOnlineReviewAction extends ProtocolAction implements AuditM
             HttpServletResponse response) throws Exception {
         ProtocolForm protocolForm = (ProtocolForm) form;
         OnlineReviewsActionHelper actionHelper = protocolForm.getOnlineReviewsActionHelper();
-        String parameterName = (String) request.getAttribute(KNSConstants.METHOD_TO_CALL_ATTRIBUTE);
+        String parameterName = (String) request.getAttribute(KRADConstants.METHOD_TO_CALL_ATTRIBUTE);
         String documentNumber = getOnlineReviewActionDocumentNumber(parameterName, "viewOnlineReviewAttachment");
         
         ReviewAttachmentsBean reviewCommentsBean = actionHelper.getReviewAttachmentsBeanFromHelperMap(documentNumber);

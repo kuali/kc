@@ -38,9 +38,9 @@ import org.kuali.kra.irb.auth.ProtocolTask;
 import org.kuali.kra.service.KraAuthorizationService;
 import org.kuali.kra.service.TaskAuthorizationService;
 import org.kuali.kra.util.CollectionUtil;
-import org.kuali.rice.kns.service.DateTimeService;
-import org.kuali.rice.kns.service.ParameterService;
-import org.kuali.rice.kns.util.GlobalVariables;
+import org.kuali.rice.core.api.datetime.DateTimeService;
+import org.kuali.rice.coreservice.framework.parameter.ParameterService;
+import org.kuali.rice.krad.util.GlobalVariables;
 
 /**
  * This is the "Helper" class for Protocol Notes And Attachments.
@@ -502,7 +502,7 @@ public class NotesAttachmentsHelper {
         
         //Lets see if there is a default set for the attachment sort
         try {
-            String defaultSortBy = parameterService.getParameterValue(ProtocolDocument.class, Constants.PARAMETER_PROTOCOL_ATTACHMENT_DEFAULT_SORT);
+            String defaultSortBy = parameterService.getParameterValueAsString(ProtocolDocument.class, Constants.PARAMETER_PROTOCOL_ATTACHMENT_DEFAULT_SORT);
             if (StringUtils.isNotBlank(defaultSortBy)) {
                 paFilter.setSortBy(defaultSortBy);
             }
@@ -760,7 +760,7 @@ public class NotesAttachmentsHelper {
     
     void updateUserFieldsIfNecessary(ProtocolNotepad currentNote) {
         if (currentNote.isEditable()) {
-            setUpdateFields(currentNote);
+                setUpdateFields(currentNote);
         }
     }
 

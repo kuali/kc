@@ -23,9 +23,9 @@ import org.kuali.kra.award.document.AwardDocument;
 import org.kuali.kra.award.home.Award;
 import org.kuali.kra.infrastructure.KeyConstants;
 import org.kuali.kra.infrastructure.KraServiceLocator;
-import org.kuali.rice.kns.service.KualiRuleService;
-import org.kuali.rice.kns.service.ParameterService;
-import org.kuali.rice.core.util.KeyLabelPair;
+import org.kuali.rice.core.api.util.KeyValue;
+import org.kuali.rice.coreservice.framework.parameter.ParameterService;
+import org.kuali.rice.krad.service.KualiRuleService;
 
 /**
  * This class supports the AwardForm class.
@@ -66,12 +66,12 @@ public class AwardCloseoutBean implements Serializable {
     }
     
     private void initializeAwardCloseoutSystemParams(){
-        setCloseoutReportTypeUserDefined(getParameterService().getParameterValue(AwardDocument.class, KeyConstants.CLOSE_OUT_REPORT_TYPE_USER_DEFINED));
-        setCloseoutReportTypeFinancialReport(getParameterService().getParameterValue(AwardDocument.class, KeyConstants.CLOSE_OUT_REPORT_TYPE_FINANCIAL_REPORT));
-        setCloseoutReportTypeTechnical(getParameterService().getParameterValue(AwardDocument.class, KeyConstants.CLOSE_OUT_REPORT_TYPE_TECHNICAL));
-        setCloseoutReportTypePatent(getParameterService().getParameterValue(AwardDocument.class, KeyConstants.CLOSE_OUT_REPORT_TYPE_PATENT));
-        setCloseoutReportTypeProperty(getParameterService().getParameterValue(AwardDocument.class, KeyConstants.CLOSE_OUT_REPORT_TYPE_PROPERTY));
-        setCloseoutReportTypeInvoice(getParameterService().getParameterValue(AwardDocument.class, KeyConstants.CLOSE_OUT_REPORT_TYPE_INVOICE));
+        setCloseoutReportTypeUserDefined(getParameterService().getParameterValueAsString(AwardDocument.class, KeyConstants.CLOSE_OUT_REPORT_TYPE_USER_DEFINED));
+        setCloseoutReportTypeFinancialReport(getParameterService().getParameterValueAsString(AwardDocument.class, KeyConstants.CLOSE_OUT_REPORT_TYPE_FINANCIAL_REPORT));
+        setCloseoutReportTypeTechnical(getParameterService().getParameterValueAsString(AwardDocument.class, KeyConstants.CLOSE_OUT_REPORT_TYPE_TECHNICAL));
+        setCloseoutReportTypePatent(getParameterService().getParameterValueAsString(AwardDocument.class, KeyConstants.CLOSE_OUT_REPORT_TYPE_PATENT));
+        setCloseoutReportTypeProperty(getParameterService().getParameterValueAsString(AwardDocument.class, KeyConstants.CLOSE_OUT_REPORT_TYPE_PROPERTY));
+        setCloseoutReportTypeInvoice(getParameterService().getParameterValueAsString(AwardDocument.class, KeyConstants.CLOSE_OUT_REPORT_TYPE_INVOICE));
         getAward().setAwardCloseoutItems(getAward().getAwardCloseoutItems());
     }
     
@@ -107,13 +107,13 @@ public class AwardCloseoutBean implements Serializable {
      * 
      * This method adds the Award Closeout static reports. This gets called at the time of creation of Award.
      *   
-     * @param keyLabelPairs
+     * @param keyValues
      */
-    public void addAwardCloseoutStaticItems(List<KeyLabelPair> keyLabelPairs) {
+    public void addAwardCloseoutStaticItems(List<KeyValue> keyValues) {
         AwardCloseout awardCloseout = new AwardCloseout();
-        for (KeyLabelPair keyLabelPair : keyLabelPairs) {
-            awardCloseout.setCloseoutReportCode(keyLabelPair.getKey().toString());
-            awardCloseout.setCloseoutReportName(keyLabelPair.getLabel());
+        for (KeyValue KeyValue : keyValues) {
+            awardCloseout.setCloseoutReportCode(KeyValue.getKey().toString());
+            awardCloseout.setCloseoutReportName(KeyValue.getValue());
             getAward().addStaticCloseout(awardCloseout);
             awardCloseout = new AwardCloseout();
         }

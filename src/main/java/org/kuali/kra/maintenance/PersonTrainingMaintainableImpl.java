@@ -21,13 +21,12 @@ import java.util.Map;
 
 import org.apache.commons.lang.StringUtils;
 import org.kuali.kra.bo.PersonTraining;
-import org.kuali.rice.kim.bo.impl.ReviewResponsibility;
 import org.kuali.rice.kns.document.MaintenanceDocument;
 import org.kuali.rice.kns.maintenance.Maintainable;
-import org.kuali.rice.kns.util.KNSConstants;
 import org.kuali.rice.kns.web.ui.Field;
 import org.kuali.rice.kns.web.ui.Row;
 import org.kuali.rice.kns.web.ui.Section;
+import org.kuali.rice.krad.util.KRADConstants;
 
 /**
  * 
@@ -54,8 +53,8 @@ public class PersonTrainingMaintainableImpl extends KraMaintainableImpl {
      */
     @Override
     public List<Section> getCoreSections(MaintenanceDocument document, Maintainable oldMaintainable) {
-        if (!document.getNewMaintainableObject().getMaintenanceAction().equals(KNSConstants.MAINTENANCE_EDIT_ACTION)) {
-            if (document.getDocumentHeader().getWorkflowDocument().stateIsSaved() || document.getDocumentHeader().getWorkflowDocument().stateIsInitiated()) {
+        if (!document.getNewMaintainableObject().getMaintenanceAction().equals(KRADConstants.MAINTENANCE_EDIT_ACTION)) {
+            if (document.getDocumentHeader().getWorkflowDocument().isSaved() || document.getDocumentHeader().getWorkflowDocument().isInitiated()) {
             initTrainingNumber();
             }
         }

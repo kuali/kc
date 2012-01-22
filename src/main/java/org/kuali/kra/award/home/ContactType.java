@@ -13,10 +13,7 @@
  * See the License for the specific language governing permissions and
  * limitations under the License.
  */
-
 package org.kuali.kra.award.home;
-
-import java.util.LinkedHashMap;
 
 import org.kuali.kra.bo.KraPersistableBusinessObjectBase;
 
@@ -25,22 +22,23 @@ import org.kuali.kra.bo.KraPersistableBusinessObjectBase;
  * This class represents the ContactType business object and is mapped
  * with CONTACT_TYPE table.
  */
-public class ContactType extends KraPersistableBusinessObjectBase implements ContactRole { 
-    
+public class ContactType extends KraPersistableBusinessObjectBase implements ContactRole {
+
     /**
      * Comment for <code>serialVersionUID</code>
      */
     private static final long serialVersionUID = 8720276596982712409L;
-    private String contactTypeCode; 
-    private String description; 
-    
+
+    private String contactTypeCode;
+
+    private String description;
+
     /**
      * Constructs a ContactType.java
      */
-    public ContactType() { 
+    public ContactType() {
+    }
 
-    } 
-    
     /**
      * Convenience constructor
      * @param contactTypeCode
@@ -82,18 +80,6 @@ public class ContactType extends KraPersistableBusinessObjectBase implements Con
      */
     public void setDescription(String description) {
         this.description = description;
-    }    
-    
-    /**
-     * 
-     * @see org.kuali.rice.kns.bo.BusinessObjectBase#toStringMapper()
-     */
-    @Override 
-    protected LinkedHashMap<String, Object> toStringMapper() {
-        LinkedHashMap<String, Object> hashMap = new LinkedHashMap<String, Object>();
-        hashMap.put("contactTypeCode", getContactTypeCode());
-        hashMap.put("description", getDescription());
-        return hashMap;
     }
 
     /**
@@ -139,5 +125,4 @@ public class ContactType extends KraPersistableBusinessObjectBase implements Con
     public String getRoleCode() {
         return getContactTypeCode();
     }
-    
 }

@@ -17,12 +17,12 @@ package org.kuali.kra.institutionalproposal.proposallog;
 
 import java.util.Set;
 
-import org.kuali.rice.kew.util.KEWConstants;
-import org.kuali.rice.kns.document.Document;
-import org.kuali.rice.kns.document.MaintenanceDocument;
+import org.kuali.rice.kew.api.KewApiConstants;
 import org.kuali.rice.kns.document.authorization.DocumentPresentationController;
 import org.kuali.rice.kns.document.authorization.MaintenanceDocumentPresentationControllerBase;
-import org.kuali.rice.kns.util.KNSConstants;
+import org.kuali.rice.krad.document.Document;
+import org.kuali.rice.krad.maintenance.MaintenanceDocument;
+import org.kuali.rice.krad.util.KRADConstants;
 
 /**
  * Determines read-only fields on the Proposal Log maintenance document.
@@ -35,7 +35,7 @@ public class ProposalLogDocumentPresentationController extends MaintenanceDocume
             MaintenanceDocument document) {
         Set<String> fields = super.getConditionallyReadOnlyPropertyNames(document);
         if (isValidDocument(document)) {
-            ProposalLog proposalLog = (ProposalLog) document.getOldMaintainableObject().getBusinessObject();
+            ProposalLog proposalLog = (ProposalLog) document.getOldMaintainableObject().getDataObject();
             if (isStatusMerged(proposalLog) || isNew(proposalLog) || isCopy(document)) {
                 fields.add(ProposalLog.LOG_STATUS);
             }
@@ -45,12 +45,12 @@ public class ProposalLogDocumentPresentationController extends MaintenanceDocume
         }
         return fields;
     }
-    
+
     @Override
-    protected boolean canEdit(Document document) {
+    public boolean canEdit(Document document) {
         boolean canEdit = super.canEdit(document);
         if (canEdit) {
-            ProposalLog proposalLog = (ProposalLog) ((MaintenanceDocument) document).getOldMaintainableObject().getBusinessObject();
+            ProposalLog proposalLog = (ProposalLog) ((MaintenanceDocument) document).getOldMaintainableObject().getDataObject();
             if (proposalLog.isSubmitted() && !"Copy".equals(((MaintenanceDocument) document).getNewMaintainableObject().getMaintenanceAction())) {
                 canEdit = false;
             }
@@ -60,8 +60,8 @@ public class ProposalLogDocumentPresentationController extends MaintenanceDocume
     
     private boolean isValidDocument(MaintenanceDocument document) {
         return document.getOldMaintainableObject() != null 
-            && document.getOldMaintainableObject().getBusinessObject() != null
-            && document.getOldMaintainableObject().getBusinessObject() instanceof ProposalLog;
+            && document.getOldMaintainableObject().getDataObject() != null
+            && document.getOldMaintainableObject().getDataObject() instanceof ProposalLog;
     }
     
     private boolean isNew(ProposalLog proposalLog) {
@@ -70,17 +70,17 @@ public class ProposalLogDocumentPresentationController extends MaintenanceDocume
     
     private boolean isEdit(MaintenanceDocument document) {
         return document.getNewMaintainableObject() != null 
-            && KNSConstants.MAINTENANCE_EDIT_ACTION.equals(document.getNewMaintainableObject().getMaintenanceAction());
+            && KRADConstants.MAINTENANCE_EDIT_ACTION.equals(document.getNewMaintainableObject().getMaintenanceAction());
     }
     
     private boolean isSaved(MaintenanceDocument document) {
-        return document.getDocumentHeader().getWorkflowDocument().getRouteHeader().getDocRouteStatus().equals(
-                KEWConstants.ROUTE_HEADER_SAVED_CD);
+        return document.getDocumentHeader().getWorkflowDocument().getStatus().getCode().equals(
+                KewApiConstants.ROUTE_HEADER_SAVED_CD);
     }
     
     private boolean isCopy(MaintenanceDocument document) {
         return document.getNewMaintainableObject() != null 
-            && KNSConstants.MAINTENANCE_COPY_ACTION.equals(document.getNewMaintainableObject().getMaintenanceAction());
+            && KRADConstants.MAINTENANCE_COPY_ACTION.equals(document.getNewMaintainableObject().getMaintenanceAction());
     }
     
     private boolean isStatusMerged(ProposalLog proposalLog) {

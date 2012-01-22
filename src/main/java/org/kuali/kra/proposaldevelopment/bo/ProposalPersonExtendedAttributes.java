@@ -15,14 +15,12 @@
  */
 package org.kuali.kra.proposaldevelopment.bo;
 
-
-import java.util.LinkedHashMap;
 import java.util.List;
 
 import org.kuali.kra.bo.KcPersonExtendedAttributes;
 import org.kuali.kra.bo.PersonAppointment;
 import org.kuali.kra.bo.PersonDegree;
-import org.kuali.rice.kns.bo.PersistableAttachment;
+import org.kuali.rice.krad.bo.PersistableAttachment;
 
 /**
  * 
@@ -34,22 +32,24 @@ public class ProposalPersonExtendedAttributes extends KcPersonExtendedAttributes
      * Comment for <code>serialVersionUID</code>
      */
     private static final long serialVersionUID = 4756287061318140215L;
-    
+
     private static final String UNSUPPORTED_OPPERATION_ERROR_MESSAGE = "ProposalPersonExtendedAttributes intentionally not supporting this method.";
-    
+
     private String proposalNumber;
+
     private Integer proposalPersonNumber;
+
     private String proposalPersonRoleId;
+
     private ProposalPerson proposalPerson;
-    
+
     /**
      * 
      * Constructs a ProposalPersonExtendedAttributes.java. Default constructor.
      */
     public ProposalPersonExtendedAttributes() {
-        
     }
-    
+
     /**
      * 
      * Constructs a ProposalPersonExtendedAttributes.java.
@@ -65,9 +65,8 @@ public class ProposalPersonExtendedAttributes extends KcPersonExtendedAttributes
         this.setProposalPersonRoleId(person.getProposalPersonRoleId());
         this.setProposalPerson(person);
         this.setCitizenshipTypeCode(1);
-        
     }
-    
+
     /**
      * 
      * Constructs a ProposalPersonExtendedAttributes.java. This constructor will generally be used.
@@ -75,10 +74,10 @@ public class ProposalPersonExtendedAttributes extends KcPersonExtendedAttributes
      * @param personExtendedAttributes
      */
     public ProposalPersonExtendedAttributes(ProposalPerson person, KcPersonExtendedAttributes personExtendedAttributes) {
-        this(person);        
+        this(person);
         if (personExtendedAttributes == null) {
             throw new IllegalArgumentException("KcPersonExtendedAttributes must not be null");
-        }       
+        }
         this.setPersonId(personExtendedAttributes.getPersonId());
         this.setAgeByFiscalYear(personExtendedAttributes.getAgeByFiscalYear());
         this.setRace(personExtendedAttributes.getRace());
@@ -112,31 +111,23 @@ public class ProposalPersonExtendedAttributes extends KcPersonExtendedAttributes
         this.setCitizenshipTypeCode(personExtendedAttributes.getCitizenshipTypeCode());
         this.setCitizenshipType(personExtendedAttributes.getCitizenshipType());
     }
-    
-    
-    
+
     public String getProposalNumber() {
         return proposalNumber;
     }
-
-
 
     public void setProposalNumber(String proposalNumber) {
         this.proposalNumber = proposalNumber;
     }
 
-
-
     public Integer getProposalPersonNumber() {
         return proposalPersonNumber;
     }
 
-
-
     public void setProposalPersonNumber(Integer proposalPersonNumber) {
         this.proposalPersonNumber = proposalPersonNumber;
     }
-    
+
     public String getProposalPersonRoleId() {
         return proposalPersonRoleId;
     }
@@ -145,18 +136,14 @@ public class ProposalPersonExtendedAttributes extends KcPersonExtendedAttributes
         this.proposalPersonRoleId = proposalPersonRoleId;
     }
 
-
-
     public ProposalPerson getProposalPerson() {
         return proposalPerson;
     }
 
-
-
     public void setProposalPerson(ProposalPerson proposalPerson) {
         this.proposalPerson = proposalPerson;
     }
-    
+
     /**
      * 
      * @see org.kuali.kra.bo.KcPersonExtendedAttributes#setPersonDegrees(java.util.List)
@@ -165,6 +152,7 @@ public class ProposalPersonExtendedAttributes extends KcPersonExtendedAttributes
     public void setPersonDegrees(List<PersonDegree> personDegrees) {
         throw new UnsupportedOperationException(UNSUPPORTED_OPPERATION_ERROR_MESSAGE);
     }
+
     /**
      * 
      * @see org.kuali.kra.bo.KcPersonExtendedAttributes#getPersonDegrees()
@@ -173,7 +161,7 @@ public class ProposalPersonExtendedAttributes extends KcPersonExtendedAttributes
     public List<PersonDegree> getPersonDegrees() {
         return super.getPersonDegrees();
     }
-    
+
     /**
      * 
      * @see org.kuali.kra.bo.KcPersonExtendedAttributes#getPersonAppointments()
@@ -182,7 +170,7 @@ public class ProposalPersonExtendedAttributes extends KcPersonExtendedAttributes
     public List<PersonAppointment> getPersonAppointments() {
         return super.getPersonAppointments();
     }
-    
+
     /**
      * 
      * @see org.kuali.kra.bo.KcPersonExtendedAttributes#setPersonAppointments(java.util.List)
@@ -190,19 +178,5 @@ public class ProposalPersonExtendedAttributes extends KcPersonExtendedAttributes
     @Override
     public void setPersonAppointments(List<PersonAppointment> personAppointments) {
         throw new UnsupportedOperationException(UNSUPPORTED_OPPERATION_ERROR_MESSAGE);
-    }
-    
-    /**
-     * 
-     * @see org.kuali.rice.kns.bo.BusinessObjectBase#toStringMapper()
-     */
-    protected LinkedHashMap<String, Object> toStringMapper() {
-        final LinkedHashMap<String, Object> map = super.toStringMapper();
-        //final LinkedHashMap<String, Object> map = new LinkedHashMap<String, Object>();
-
-        map.put("proposalNumber", this.proposalNumber);
-        map.put("proposalPersonNumber", this.proposalPersonNumber);
-        map.put("proposalPersonRoleId", this.proposalPersonRoleId);
-        return map;
     }
 }

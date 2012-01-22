@@ -27,12 +27,12 @@ import org.kuali.kra.award.paymentreports.awardreports.AwardReportTerm;
 import org.kuali.kra.award.paymentreports.awardreports.AwardReportTermRecipient;
 import org.kuali.kra.infrastructure.Constants;
 import org.kuali.kra.infrastructure.KeyConstants;
-import org.kuali.rice.core.util.KeyLabelPair;
-import org.kuali.rice.kns.document.Document;
-import org.kuali.rice.kns.rule.DocumentAuditRule;
+import org.kuali.rice.core.api.util.KeyValue;
 import org.kuali.rice.kns.util.AuditCluster;
 import org.kuali.rice.kns.util.AuditError;
-import org.kuali.rice.kns.util.GlobalVariables;
+import org.kuali.rice.kns.util.KNSGlobalVariables;
+import org.kuali.rice.krad.document.Document;
+import org.kuali.rice.krad.rules.rule.DocumentAuditRule;
 
 /**
  * This class processes audit rules (warnings) for the Report Information related
@@ -81,40 +81,40 @@ public class AwardReportAuditRule implements DocumentAuditRule {
         return retval;
         
     }
-    protected List<KeyLabelPair> getReportCodes(String reportClassCode){
+    protected List<KeyValue> getReportCodes(String reportClassCode){
         ReportCodeValuesFinder reportCodeValuesFinder = new ReportCodeValuesFinder();
         reportCodeValuesFinder.setReportClassCode(reportClassCode);
         return reportCodeValuesFinder.getKeyValues();
     }
     
-    protected List<KeyLabelPair> getFrequencyCodes(String reportClassCode, String reportCode){
+    protected List<KeyValue> getFrequencyCodes(String reportClassCode, String reportCode){
         FrequencyCodeValuesFinder frequencyCodeValuesFinder 
         = new FrequencyCodeValuesFinder(reportClassCode, reportCode);
         return frequencyCodeValuesFinder.getKeyValues();
     }
     
-    protected List<KeyLabelPair> getFrequencyBaseCodes(String frequencyCode){
+    protected List<KeyValue> getFrequencyBaseCodes(String frequencyCode){
         FrequencyBaseCodeValuesFinder frequencyBaseCodeValuesFinder
             = new FrequencyBaseCodeValuesFinder();        
         frequencyBaseCodeValuesFinder.setFrequencyCode(frequencyCode);        
         return frequencyBaseCodeValuesFinder.getKeyValues();
     }
     protected boolean isValidFrequencyBase(
-            AwardReportTerm awardReportTerm, List<KeyLabelPair> frequencyBaseCodes){
+            AwardReportTerm awardReportTerm, List<KeyValue> frequencyBaseCodes){
         boolean isValid = false;
         
-        for(KeyLabelPair keyLabelPair:frequencyBaseCodes){
-            if(StringUtils.equalsIgnoreCase(keyLabelPair.getKey().toString(), 
+        for(KeyValue KeyValue:frequencyBaseCodes){
+            if(StringUtils.equalsIgnoreCase(KeyValue.getKey().toString(), 
                     awardReportTerm.getFrequencyBaseCode())) {
                 isValid = true;                    
             }
         }
         return isValid;
     }
-    protected boolean isValidReportCode(AwardReportTerm awardReportTerm, List<KeyLabelPair> reportCodes){
+    protected boolean isValidReportCode(AwardReportTerm awardReportTerm, List<KeyValue> reportCodes){
         boolean isValid = false;
-        for(KeyLabelPair keyLabelPair:reportCodes){
-            if(StringUtils.equalsIgnoreCase(keyLabelPair.getKey().toString(), 
+        for(KeyValue KeyValue:reportCodes){
+            if(StringUtils.equalsIgnoreCase(KeyValue.getKey().toString(), 
                     awardReportTerm.getReportCode())) {
                 isValid = true;                    
             }
@@ -130,10 +130,10 @@ public class AwardReportAuditRule implements DocumentAuditRule {
         return retval;        
     }
     protected boolean isValidFrequency(
-            AwardReportTerm awardReportTerm, List<KeyLabelPair> frequencyCodes){
+            AwardReportTerm awardReportTerm, List<KeyValue> frequencyCodes){
         boolean isValid = false;
-        for(KeyLabelPair keyLabelPair:frequencyCodes){
-            if(StringUtils.equalsIgnoreCase(keyLabelPair.getKey().toString(), 
+        for(KeyValue KeyValue:frequencyCodes){
+            if(StringUtils.equalsIgnoreCase(KeyValue.getKey().toString(), 
                     awardReportTerm.getFrequencyCode())) {
                 isValid = true;                    
             }
@@ -204,7 +204,7 @@ public class AwardReportAuditRule implements DocumentAuditRule {
     @SuppressWarnings("unchecked")
     protected void reportAndCreateAuditCluster() {
         if (auditErrors.size() > ZERO) {
-            GlobalVariables.getAuditErrorMap().put(REPORTS_AUDIT_ERRORS, new AuditCluster(Constants.REPORTS_PANEL_NAME,
+            KNSGlobalVariables.getAuditErrorMap().put(REPORTS_AUDIT_ERRORS, new AuditCluster(Constants.REPORTS_PANEL_NAME,
                                                                                           auditErrors, Constants.AUDIT_ERRORS));
         }
     }

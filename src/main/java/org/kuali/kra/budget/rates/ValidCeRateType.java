@@ -15,21 +15,26 @@
  */
 package org.kuali.kra.budget.rates;
 
-import java.util.LinkedHashMap;
-
 import org.kuali.kra.bo.KraPersistableBusinessObjectBase;
 import org.kuali.kra.budget.core.CostElement;
 
 public class ValidCeRateType extends KraPersistableBusinessObjectBase {
-	private String costElement;
-	private String rateClassCode;
-	private String rateTypeCode;
-	private RateClass rateClass;
+
+    private String costElement;
+
+    private String rateClassCode;
+
+    private String rateTypeCode;
+
+    private RateClass rateClass;
+
     private RateType rateType;
+
     private CostElement costElementBo;
+
     private Boolean active;
 
-	/**
+    /**
      * Gets the rateClass attribute. 
      * @return Returns the rateClass.
      */
@@ -46,30 +51,30 @@ public class ValidCeRateType extends KraPersistableBusinessObjectBase {
     }
 
     public String getCostElement() {
-		return costElement;
-	}
+        return costElement;
+    }
 
-	public void setCostElement(String costElement) {
-		this.costElement = costElement;
-	}
+    public void setCostElement(String costElement) {
+        this.costElement = costElement;
+    }
 
-	public String getRateClassCode() {
-		return rateClassCode;
-	}
+    public String getRateClassCode() {
+        return rateClassCode;
+    }
 
-	public void setRateClassCode(String rateClassCode) {
-		this.rateClassCode = rateClassCode;
-	}
+    public void setRateClassCode(String rateClassCode) {
+        this.rateClassCode = rateClassCode;
+    }
 
-	public String getRateTypeCode() {
-		return rateTypeCode;
-	}
+    public String getRateTypeCode() {
+        return rateTypeCode;
+    }
 
-	public void setRateTypeCode(String rateTypeCode) {
-		this.rateTypeCode = rateTypeCode;
-	}
-    
-	public RateType getRateType() {
+    public void setRateTypeCode(String rateTypeCode) {
+        this.rateTypeCode = rateTypeCode;
+    }
+
+    public RateType getRateType() {
         return rateType;
     }
 
@@ -80,7 +85,7 @@ public class ValidCeRateType extends KraPersistableBusinessObjectBase {
     public Boolean getActive() {
         return isActive();
     }
-    
+
     public Boolean isActive() {
         return active;
     }
@@ -88,16 +93,6 @@ public class ValidCeRateType extends KraPersistableBusinessObjectBase {
     public void setActive(Boolean active) {
         this.active = active;
     }
-
-    @Override 
-	protected LinkedHashMap toStringMapper() {
-		LinkedHashMap hashMap = new LinkedHashMap();
-		hashMap.put("costElement", getCostElement());
-		hashMap.put("rateClassCode", getRateClassCode());
-		hashMap.put("rateTypeCode", getRateTypeCode());
-        hashMap.put("rateClassType", getRateClassType());
-		return hashMap;
-	}
 
     public String getRateClassType() {
         return rateClass.getRateClassType();

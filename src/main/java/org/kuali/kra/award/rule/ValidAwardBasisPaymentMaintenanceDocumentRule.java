@@ -24,13 +24,12 @@ import org.kuali.kra.award.home.AwardType;
 import org.kuali.kra.award.home.ValidAwardBasisPayment;
 import org.kuali.kra.infrastructure.KeyConstants;
 import org.kuali.kra.infrastructure.KraServiceLocator;
-import org.kuali.kra.maintenance.KraMaintenanceDocument;
 import org.kuali.kra.rules.KraMaintenanceDocumentRuleBase;
 import org.kuali.rice.kns.document.MaintenanceDocument;
-import org.kuali.rice.kns.service.BusinessObjectService;
-import org.kuali.rice.kns.util.GlobalVariables;
-import org.kuali.rice.kns.util.KNSConstants;
-import org.kuali.rice.kns.util.MessageMap;
+import org.kuali.rice.krad.service.BusinessObjectService;
+import org.kuali.rice.krad.util.GlobalVariables;
+import org.kuali.rice.krad.util.KRADConstants;
+import org.kuali.rice.krad.util.MessageMap;
 
 /**
  * 
@@ -43,9 +42,9 @@ public class ValidAwardBasisPaymentMaintenanceDocumentRule extends KraMaintenanc
      * @see org.kuali.rice.kns.maintenance.rules.MaintenanceDocumentRuleBase#processCustomRouteDocumentBusinessRules(org.kuali.rice.kns.document.MaintenanceDocument)
      */
     public boolean processCustomRouteDocumentBusinessRules(MaintenanceDocument document) {
-        final ValidAwardBasisPayment validAwardBasisPayment = (ValidAwardBasisPayment) document.getNewMaintainableObject().getBusinessObject();
+        final ValidAwardBasisPayment validAwardBasisPayment = (ValidAwardBasisPayment) document.getNewMaintainableObject().getDataObject();
 
-        if (!document.getNewMaintainableObject().getMaintenanceAction().equals(KNSConstants.MAINTENANCE_DELETE_ACTION)) {
+        if (!document.getNewMaintainableObject().getMaintenanceAction().equals(KRADConstants.MAINTENANCE_DELETE_ACTION)) {
             return validateUniqueueCodes(validAwardBasisPayment.getAwardType(), validAwardBasisPayment.getBasisOfPayment());
         } else {
             return true;

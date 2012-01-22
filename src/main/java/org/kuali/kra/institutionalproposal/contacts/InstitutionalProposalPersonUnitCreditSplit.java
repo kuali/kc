@@ -16,7 +16,6 @@
 package org.kuali.kra.institutionalproposal.contacts;
 
 import java.util.HashMap;
-import java.util.LinkedHashMap;
 import java.util.Map;
 
 import org.kuali.kra.SequenceAssociate;
@@ -25,37 +24,40 @@ import org.kuali.kra.infrastructure.KraServiceLocator;
 import org.kuali.kra.institutionalproposal.home.InstitutionalProposal;
 import org.kuali.kra.proposaldevelopment.bo.CreditSplit;
 import org.kuali.kra.proposaldevelopment.bo.InvestigatorCreditType;
-import org.kuali.rice.kns.service.BusinessObjectService;
-import org.kuali.rice.kns.util.KualiDecimal;
+import org.kuali.rice.core.api.util.type.KualiDecimal;
+import org.kuali.rice.krad.service.BusinessObjectService;
 
 /**
  * This class...
  */
 public class InstitutionalProposalPersonUnitCreditSplit extends KraPersistableBusinessObjectBase implements CreditSplit, SequenceAssociate<InstitutionalProposal> {
 
-/**
+    /**
      * Comment for <code>serialVersionUID</code>
      */
     private static final long serialVersionUID = -8804359877270428419L;
 
-private static final String INV_CREDIT_TYPE_CODE_FIELD_NAME = "invCreditTypeCode";
-    
+    private static final String INV_CREDIT_TYPE_CODE_FIELD_NAME = "invCreditTypeCode";
+
     private Long institutionalProposalPersonUnitCreditSplitId;
+
     private InstitutionalProposalPersonUnit institutionalProposalPersonUnit;
+
     private KualiDecimal credit = new KualiDecimal(0);
+
     private InvestigatorCreditType investigatorCreditType;
 
-    // OJB Hacks
+    // OJB Hacks  
     private Long institutionalProposalPersonUnitId;
+
     private String invCreditTypeCode;
-    
+
     /**
      * Default Constructor
      */
     public InstitutionalProposalPersonUnitCreditSplit() {
-        
     }
-    
+
     /**
      * Convenience Constructor
      * @param investigatorCreditType
@@ -65,7 +67,7 @@ private static final String INV_CREDIT_TYPE_CODE_FIELD_NAME = "invCreditTypeCode
         setInvestigatorCreditType(investigatorCreditType);
         setCredit(credit);
     }
-    
+
     /**
      * Gets the institutionalProposalPersonUnitCreditSplitId attribute. 
      * @return Returns the institutionalProposalPersonUnitCreditSplitId.
@@ -167,7 +169,7 @@ private static final String INV_CREDIT_TYPE_CODE_FIELD_NAME = "invCreditTypeCode
     public void setCredit(KualiDecimal credit) {
         this.credit = credit != null ? credit : new KualiDecimal(0);
     }
-    
+
     /**
      * @return
      */
@@ -175,46 +177,32 @@ private static final String INV_CREDIT_TYPE_CODE_FIELD_NAME = "invCreditTypeCode
         return KraServiceLocator.getService(BusinessObjectService.class);
     }
 
-    @Override 
-    protected LinkedHashMap<String, Object> toStringMapper() {
-        LinkedHashMap<String, Object> map = new LinkedHashMap<String, Object>();
-        map.put("institutionalProposalPersonUnitCreditSplitId", institutionalProposalPersonUnitCreditSplitId);
-        map.put("institutionalProposalPersonUnit", institutionalProposalPersonUnit);
-        map.put("credit", credit);
-        map.put("investigatorCreditType", investigatorCreditType);
-        map.put("institutionalProposalPersonUnitId", institutionalProposalPersonUnitId);
-        map.put(INV_CREDIT_TYPE_CODE_FIELD_NAME, invCreditTypeCode);
-        return map;
-    }
-    
     /**
      * This method lazy-loads the InvestigatorCreditType
      */
     private void refreshInvestigatorCreditTypeIfNeeded() {
-        if(invCreditTypeCode != null && (investigatorCreditType == null || !invCreditTypeCode.equals(investigatorCreditType.getInvCreditTypeCode()))) {
+        if (invCreditTypeCode != null && (investigatorCreditType == null || !invCreditTypeCode.equals(investigatorCreditType.getInvCreditTypeCode()))) {
             Map<String, Object> keyMap = new HashMap<String, Object>();
             keyMap.put(INV_CREDIT_TYPE_CODE_FIELD_NAME, invCreditTypeCode);
             investigatorCreditType = (InvestigatorCreditType) getBusinessObjectService().findByPrimaryKey(InvestigatorCreditType.class, keyMap);
         }
     }
-    
+
     public InstitutionalProposal getSequenceOwner() {
         return getInstitutionalProposalPersonUnit() != null ? getInstitutionalProposalPersonUnit().getInstitutionalProposalPerson().getInstitutionalProposal() : null;
     }
-    
+
     public void setSequenceOwner(InstitutionalProposal newlyVersionedOwner) {
-        if(getInstitutionalProposalPersonUnit() != null) {
+        if (getInstitutionalProposalPersonUnit() != null) {
             getInstitutionalProposalPersonUnit().getInstitutionalProposalPerson().setInstitutionalProposal(newlyVersionedOwner);
         }
     }
-    
+
     public Integer getSequenceNumber() {
-        return  getInstitutionalProposalPersonUnit() != null ? getInstitutionalProposalPersonUnit().getSequenceNumber() : 0;
+        return getInstitutionalProposalPersonUnit() != null ? getInstitutionalProposalPersonUnit().getSequenceNumber() : 0;
     }
-    
+
     public void resetPersistenceState() {
         this.institutionalProposalPersonUnitCreditSplitId = null;
     }
-
 }
-

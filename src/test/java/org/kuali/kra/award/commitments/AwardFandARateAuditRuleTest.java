@@ -24,9 +24,11 @@ import org.junit.Before;
 import org.junit.Test;
 import org.kuali.kra.award.home.Award;
 import org.kuali.kra.lookup.keyvalue.ExtendedPersistableBusinessObjectValuesFinder;
-import org.kuali.rice.kns.util.ErrorMap;
-import org.kuali.rice.kns.util.GlobalVariables;
-import org.kuali.rice.kns.util.KualiDecimal;
+import org.kuali.rice.core.api.util.type.KualiDecimal;
+import org.kuali.rice.kns.util.AuditCluster;
+import org.kuali.rice.kns.util.KNSGlobalVariables;
+import org.kuali.rice.krad.util.GlobalVariables;
+import org.kuali.rice.krad.util.MessageMap;
 
 public class AwardFandARateAuditRuleTest {
     private AwardFandARateAuditRule rule; 
@@ -36,11 +38,11 @@ public class AwardFandARateAuditRuleTest {
     
     @Before
     public void setUp() throws Exception {
-        GlobalVariables.setAuditErrorMap(new HashMap<String, String>());
+        KNSGlobalVariables.setAuditErrorMap(new HashMap<String, AuditCluster>());
         rule = new AwardFandARateAuditRule();
         rule.setFinder(new ExtendedPersistableBusinessObjectValuesFinder() {
             @Override
-            public String getKeyLabel(Object key) {
+            public String getKeyLabel(String key) {
                 return key.equals("5") ? "A" : "B";
             }            
         });
@@ -68,7 +70,7 @@ public class AwardFandARateAuditRuleTest {
         award.add(awardFandaRate2);
         
         
-        GlobalVariables.setErrorMap(new ErrorMap());
+        GlobalVariables.setMessageMap(new MessageMap());
     }
     
     @Test

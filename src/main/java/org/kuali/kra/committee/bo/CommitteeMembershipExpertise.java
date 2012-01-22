@@ -15,8 +15,6 @@
  */
 package org.kuali.kra.committee.bo;
 
-import java.util.LinkedHashMap;
-
 import org.kuali.kra.bo.ResearchArea;
 
 /**
@@ -24,20 +22,22 @@ import org.kuali.kra.bo.ResearchArea;
  * This class implements the committee membership expertise business object.
  * 
  */
-public class CommitteeMembershipExpertise extends CommitteeSequenceAssociate { 
-    
+public class CommitteeMembershipExpertise extends CommitteeSequenceAssociate {
+
     private static final long serialVersionUID = 4926007164018659270L;
 
     private Long committeeMembershipExpertiseId;
+
     private Long committeeMembershipIdFk;
-    private String researchAreaCode; 
-    
+
+    private String researchAreaCode;
+
     private ResearchArea researchArea;
-    
-    public CommitteeMembershipExpertise() { 
+
+    public CommitteeMembershipExpertise() {
         setResearchArea(new ResearchArea());
-    } 
-    
+    }
+
     public Long getCommitteeMembershipExpertiseId() {
         return committeeMembershipExpertiseId;
     }
@@ -69,7 +69,7 @@ public class CommitteeMembershipExpertise extends CommitteeSequenceAssociate {
     public void setResearchArea(ResearchArea researchArea) {
         this.researchArea = researchArea;
     }
-    
+
     @Override
     public boolean equals(Object obj) {
         if (this == obj) {
@@ -82,14 +82,13 @@ public class CommitteeMembershipExpertise extends CommitteeSequenceAssociate {
             return false;
         }
         CommitteeMembershipExpertise committeeMembershipExpertise = (CommitteeMembershipExpertise) obj;
-        if (this.committeeMembershipIdFk != null && this.committeeMembershipIdFk.equals(committeeMembershipExpertise.committeeMembershipIdFk) 
-                && this.researchAreaCode != null && this.researchAreaCode.equals(committeeMembershipExpertise.researchAreaCode)) {
+        if (this.committeeMembershipIdFk != null && this.committeeMembershipIdFk.equals(committeeMembershipExpertise.committeeMembershipIdFk) && this.researchAreaCode != null && this.researchAreaCode.equals(committeeMembershipExpertise.researchAreaCode)) {
             return true;
         } else {
             return false;
         }
     }
-    
+
     @Override
     public int hashCode() {
         final int PRIME = 31;
@@ -99,17 +98,7 @@ public class CommitteeMembershipExpertise extends CommitteeSequenceAssociate {
         return result;
     }
 
-    @Override 
-    protected LinkedHashMap<String, Object> toStringMapper() {
-        LinkedHashMap<String, Object> hashMap = new LinkedHashMap<String, Object>();
-        hashMap.put("committeeMembershipExpertiseId", getCommitteeMembershipExpertiseId());
-        hashMap.put("committeeMembershipIdFk", getCommitteeMembershipIdFk());
-        hashMap.put("researchAreaCode", getResearchAreaCode());
-        return hashMap;
-    }
-    
     public void resetPersistenceState() {
         setCommitteeMembershipExpertiseId(null);
     }
-
 }

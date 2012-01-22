@@ -15,6 +15,7 @@
  */
 package org.kuali.kra.budget.personnel;
 
+import java.util.Calendar;
 import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
@@ -28,10 +29,9 @@ import org.kuali.kra.budget.core.BudgetParent;
 import org.kuali.kra.budget.document.BudgetDocument;
 import org.kuali.kra.infrastructure.Constants;
 import org.kuali.kra.service.KcPersonService;
-import org.kuali.rice.kns.service.BusinessObjectService;
-import org.kuali.rice.kns.service.ParameterService;
-import org.kuali.rice.kns.util.ObjectUtils;
-import java.util.Calendar;
+import org.kuali.rice.coreservice.framework.parameter.ParameterService;
+import org.kuali.rice.krad.service.BusinessObjectService;
+import org.kuali.rice.krad.util.ObjectUtils;
 
 /**
  * This class implements methods specified by <code>{@link BudgetPersonService}</code> interface
@@ -187,14 +187,14 @@ public class BudgetPersonServiceImpl implements BudgetPersonService {
         }
         
         if (ObjectUtils.isNull(budgetPerson.getCalculationBase())) {
-            budgetPerson.setCalculationBase(new BudgetDecimal(this.parameterService.getParameterValue(
+            budgetPerson.setCalculationBase(new BudgetDecimal(this.parameterService.getParameterValueAsString(
                     BudgetDocument.class, Constants.BUDGET_PERSON_DEFAULT_CALCULATION_BASE)));
         }
         
         
         
         if (StringUtils.isBlank(budgetPerson.getAppointmentTypeCode())) {
-            budgetPerson.setAppointmentTypeCode(this.parameterService.getParameterValue(
+            budgetPerson.setAppointmentTypeCode(this.parameterService.getParameterValueAsString(
                     BudgetDocument.class, Constants.BUDGET_PERSON_DEFAULT_APPOINTMENT_TYPE));
         }
     }

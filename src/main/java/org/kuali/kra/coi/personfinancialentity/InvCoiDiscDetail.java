@@ -15,32 +15,37 @@
  */
 package org.kuali.kra.coi.personfinancialentity;
 
-import java.util.LinkedHashMap;
-
 import org.kuali.kra.bo.KraPersistableBusinessObjectBase;
 
-public class InvCoiDiscDetail extends KraPersistableBusinessObjectBase { 
-    
+public class InvCoiDiscDetail extends KraPersistableBusinessObjectBase {
+
     private static final long serialVersionUID = 1L;
 
-    private Long invCoiDiscDetailsId; 
-    private Long personFinIntDisclosureId; 
-    private String coiDisclosureNumber; 
-    private String entityNumber; 
-    private Integer entitySequenceNumber; 
-    private Integer sequenceNumber; 
-    private Integer coiStatusCode; 
-    private Integer coiReviewerCode; 
-    private String description; 
-    
-    private PersonFinIntDisclosure personFinIntDisclosure; 
-    // TODO : uncomment this when we start to work on this
-//    private CoiReviewer coiReviewer; 
-    
-    public InvCoiDiscDetail() { 
+    private Long invCoiDiscDetailsId;
 
-    } 
-    
+    private Long personFinIntDisclosureId;
+
+    private String coiDisclosureNumber;
+
+    private String entityNumber;
+
+    private Integer entitySequenceNumber;
+
+    private Integer sequenceNumber;
+
+    private Integer coiStatusCode;
+
+    private Integer coiReviewerCode;
+
+    private String description;
+
+    private PersonFinIntDisclosure personFinIntDisclosure;
+
+    // TODO : uncomment this when we start to work on this  
+    //    private CoiReviewer coiReviewer;   
+    public InvCoiDiscDetail() {
+    }
+
     public Long getInvCoiDiscDetailsId() {
         return invCoiDiscDetailsId;
     }
@@ -120,29 +125,4 @@ public class InvCoiDiscDetail extends KraPersistableBusinessObjectBase {
     public void setPersonFinIntDisclosure(PersonFinIntDisclosure personFinIntDisclosure) {
         this.personFinIntDisclosure = personFinIntDisclosure;
     }
-
-//    public CoiReviewer getCoiReviewer() {
-//        return coiReviewer;
-//    }
-//
-//    public void setCoiReviewer(CoiReviewer coiReviewer) {
-//        this.coiReviewer = coiReviewer;
-//    }
-
-    /** {@inheritDoc} */
-    @Override 
-    protected LinkedHashMap<String, Object> toStringMapper() {
-        LinkedHashMap<String, Object> hashMap = new LinkedHashMap<String, Object>();
-        hashMap.put("invCoiDiscDetailsId", this.getInvCoiDiscDetailsId());
-        hashMap.put("personFinIntDisclosureId", this.getPersonFinIntDisclosureId());
-        hashMap.put("coiDisclosureNumber", this.getCoiDisclosureNumber());
-        hashMap.put("entityNumber", this.getEntityNumber());
-        hashMap.put("entitySequenceNumber", this.getEntitySequenceNumber());
-        hashMap.put("sequenceNumber", this.getSequenceNumber());
-        hashMap.put("coiStatusCode", this.getCoiStatusCode());
-        hashMap.put("coiReviewerCode", this.getCoiReviewerCode());
-        hashMap.put("description", this.getDescription());
-        return hashMap;
-    }
-    
 }

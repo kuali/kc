@@ -9,9 +9,9 @@
 package org.kuali.kra.s2s.generator.impl;
 
 import gov.grants.apply.forms.phs398TrainingBudgetV10.PHS398TrainingBudgetDocument;
+import gov.grants.apply.forms.phs398TrainingBudgetV10.PHS398TrainingBudgetYearDataType;
 import gov.grants.apply.forms.phs398TrainingBudgetV10.PHS398TrainingBudgetDocument.PHS398TrainingBudget;
 import gov.grants.apply.forms.phs398TrainingBudgetV10.PHS398TrainingBudgetDocument.PHS398TrainingBudget.BudgetType;
-import gov.grants.apply.forms.phs398TrainingBudgetV10.PHS398TrainingBudgetYearDataType;
 import gov.grants.apply.system.attachmentsV10.AttachedFileDataType;
 
 import java.math.BigDecimal;
@@ -50,10 +50,9 @@ import org.kuali.kra.s2s.generator.bo.IndirectCostDetails;
 import org.kuali.kra.s2s.generator.bo.IndirectCostInfo;
 import org.kuali.kra.s2s.service.S2SBudgetCalculatorService;
 import org.kuali.kra.s2s.util.S2SConstants;
-import org.kuali.kra.s2s.validator.S2SErrorHandler;
-import org.kuali.rice.kns.service.BusinessObjectService;
-import org.kuali.rice.kns.service.DateTimeService;
-import org.kuali.rice.kns.service.ParameterService;
+import org.kuali.rice.core.api.datetime.DateTimeService;
+import org.kuali.rice.coreservice.framework.parameter.ParameterService;
+import org.kuali.rice.krad.service.BusinessObjectService;
 
 
 /**
@@ -993,7 +992,7 @@ public class PHS398TrainingBudgetV1_0Generator extends S2SBaseFormGenerator {
 
     private BudgetDecimal getBudgetPeriodCost(BudgetPeriod budgetPeriod, String costType) {
         BudgetDecimal totalLineItemCost = BudgetDecimal.ZERO;
-        String costElementsStrValue = parameterService.getParameterValue(ProposalDevelopmentDocument.class, costType);
+        String costElementsStrValue = parameterService.getParameterValueAsString(ProposalDevelopmentDocument.class, costType);
         String[] costElements = costElementsStrValue.split(",");
         for (int i = 0; i < costElements.length; i++) {
             String costElement = costElements[i];

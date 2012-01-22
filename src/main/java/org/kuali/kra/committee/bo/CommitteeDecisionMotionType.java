@@ -15,8 +15,6 @@
  */
 package org.kuali.kra.committee.bo;
 
-import java.util.LinkedHashMap;
-
 import org.kuali.kra.bo.KraPersistableBusinessObjectBase;
 
 /**
@@ -24,36 +22,37 @@ import org.kuali.kra.bo.KraPersistableBusinessObjectBase;
  */
 @SuppressWarnings("serial")
 public class CommitteeDecisionMotionType extends KraPersistableBusinessObjectBase {
-    
+
     /**
      * The committee decision to approve the protocol.
      */
     public static final String APPROVE = "1";
-    
+
     /**
      * The committee decision to disapprove the protocol.
      */
     public static final String DISAPPROVE = "2";
-    
+
     /**
      * The committee decision to return the protocol to the PI with minor revisions requested.
      */
     public static final String SPECIFIC_MINOR_REVISIONS = "3";
-    
+
     /**
      * The committee decision to return the protocol to the PI with substantive revisions requested.
      */
     public static final String SUBSTANTIVE_REVISIONS_REQUIRED = "4";
 
     private String motionTypeCode;
+
     private String description;
-    
+
     /**
      * Constructs a CommitteeDecisionMotionType.
      */
     public CommitteeDecisionMotionType() {
     }
-    
+
     public String getMotionTypeCode() {
         return motionTypeCode;
     }
@@ -69,14 +68,4 @@ public class CommitteeDecisionMotionType extends KraPersistableBusinessObjectBas
     public void setDescription(String description) {
         this.description = description;
     }
-
-    @SuppressWarnings("unchecked")
-    @Override
-    protected LinkedHashMap toStringMapper() {
-        LinkedHashMap map = new LinkedHashMap();
-        map.put("motionTypeCode", getMotionTypeCode());
-        map.put("description", getDescription());
-        return map;
-    }
-
 }

@@ -22,11 +22,11 @@ import org.kuali.kra.bo.CustomAttributeDocument;
 import org.kuali.kra.infrastructure.Constants;
 import org.kuali.kra.infrastructure.KeyConstants;
 import org.kuali.kra.maintenance.MaintenanceRuleTestBase;
-import org.kuali.rice.kns.UserSession;
 import org.kuali.rice.kns.document.MaintenanceDocument;
-import org.kuali.rice.kns.util.ErrorMessage;
-import org.kuali.rice.kns.util.GlobalVariables;
-import org.kuali.rice.kns.util.TypedArrayList;
+import org.kuali.rice.krad.UserSession;
+import org.kuali.rice.krad.util.ErrorMessage;
+import org.kuali.rice.krad.util.GlobalVariables;
+import org.springframework.util.AutoPopulatingList;
 
 public class CustomAttributeDocumentMaintenanceDocumentRuleTest extends MaintenanceRuleTestBase {
     private CustomAttributeDocumentMaintenanceDocumentRule rule = null;
@@ -85,14 +85,14 @@ public class CustomAttributeDocumentMaintenanceDocumentRuleTest extends Maintena
         customAttributeDocument.setCustomAttributeId(new Integer(99));
         MaintenanceDocument customAttributeDocumentMaintDoc = newMaintDoc(customAttributeDocument);
         assertFalse(rule.processCustomRouteDocumentBusinessRules(customAttributeDocumentMaintDoc));
-        TypedArrayList errors = GlobalVariables.getErrorMap().getMessages(Constants.DOCUMENT_NEWMAINTAINABLEOBJECT_CUSTOM_ATTRIBUTE_ID);
+        AutoPopulatingList errors = GlobalVariables.getMessageMap().getMessages(Constants.DOCUMENT_NEWMAINTAINABLEOBJECT_CUSTOM_ATTRIBUTE_ID);
         assertTrue(errors.size() == 1);
         ErrorMessage message = (ErrorMessage) errors.get(0);
         assertEquals(message.getErrorKey(), KeyConstants.ERROR_INVALID_CUSTOM_ATT_ID);
 
         // approve will have the same error too.
         assertFalse(rule.processCustomApproveDocumentBusinessRules(customAttributeDocumentMaintDoc));
-        errors = GlobalVariables.getErrorMap().getMessages(Constants.DOCUMENT_NEWMAINTAINABLEOBJECT_CUSTOM_ATTRIBUTE_ID);
+        errors = GlobalVariables.getMessageMap().getMessages(Constants.DOCUMENT_NEWMAINTAINABLEOBJECT_CUSTOM_ATTRIBUTE_ID);
         assertTrue(errors.size() == 1);
         message = (ErrorMessage) errors.get(0);
         assertEquals(message.getErrorKey(), KeyConstants.ERROR_INVALID_CUSTOM_ATT_ID);

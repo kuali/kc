@@ -19,7 +19,7 @@ import org.drools.core.util.StringUtils;
 import org.kuali.kra.infrastructure.KeyConstants;
 import org.kuali.kra.rules.KraMaintenanceDocumentRuleBase;
 import org.kuali.rice.kns.document.MaintenanceDocument;
-import org.kuali.rice.kns.util.GlobalVariables;
+import org.kuali.rice.krad.util.GlobalVariables;
 
 
 /**
@@ -34,7 +34,7 @@ public class ValidProtocolActionActionMaintenanceDocumentRule extends KraMainten
      */
     @Override
     protected boolean processCustomRouteDocumentBusinessRules(MaintenanceDocument document) {
-        ValidProtocolActionAction validProtocolActionAction = (ValidProtocolActionAction) document.getDocumentBusinessObject();
+        ValidProtocolActionAction validProtocolActionAction = (ValidProtocolActionAction) document.getNoteTarget();
         return validate(validProtocolActionAction);
     }
 
@@ -45,7 +45,7 @@ public class ValidProtocolActionActionMaintenanceDocumentRule extends KraMainten
      */
     @Override
     protected boolean processCustomApproveDocumentBusinessRules(MaintenanceDocument document) {
-        ValidProtocolActionAction validProtocolActionAction = (ValidProtocolActionAction) document.getDocumentBusinessObject();
+        ValidProtocolActionAction validProtocolActionAction = (ValidProtocolActionAction) document.getNoteTarget();
         return validate(validProtocolActionAction);
     }
 

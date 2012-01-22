@@ -19,7 +19,8 @@ import java.util.ArrayList;
 import java.util.List;
 
 import org.kuali.kra.keyvalue.ValuesFinderTestBase;
-import org.kuali.rice.core.util.KeyLabelPair;
+import org.kuali.rice.core.api.util.ConcreteKeyValue;
+import org.kuali.rice.core.api.util.KeyValue;
 
 /**
  * This class tests NsfCodeValuesFinder.
@@ -32,11 +33,11 @@ public class NarrativeStatusValuesFinderTest extends ValuesFinderTestBase {
     }
 
     @Override
-    protected List<KeyLabelPair> getKeyValues() {
-        final List<KeyLabelPair> keylabel = new ArrayList<KeyLabelPair>();
+    protected List<KeyValue> getKeyValues() {
+        final List<KeyValue> keylabel = new ArrayList<KeyValue>();
         
-        keylabel.add(new KeyLabelPair("I","Incomplete"));
-        keylabel.add(new KeyLabelPair("C","Complete"));
+        keylabel.add(new ConcreteKeyValue("I","Incomplete"));
+        keylabel.add(new ConcreteKeyValue("C","Complete"));
         
         return keylabel;
     }

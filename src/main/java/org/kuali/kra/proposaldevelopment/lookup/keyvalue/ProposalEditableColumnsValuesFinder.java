@@ -20,8 +20,8 @@ import java.util.List;
 import org.kuali.kra.infrastructure.KraServiceLocator;
 import org.kuali.kra.lookup.keyvalue.KeyValueFinderService;
 import org.kuali.kra.proposaldevelopment.bo.ProposalColumnsToAlter;
-import org.kuali.rice.kns.lookup.keyvalues.KeyValuesBase;
-import org.kuali.rice.core.util.KeyLabelPair;
+import org.kuali.rice.core.api.util.KeyValue;
+import org.kuali.rice.krad.keyvalues.KeyValuesBase;
 /**
  * Finds the set of editable Proposal Fields.  See
  * the method <code>getKeyValues()</code> for a full description.
@@ -32,7 +32,7 @@ import org.kuali.rice.core.util.KeyLabelPair;
 public class ProposalEditableColumnsValuesFinder extends KeyValuesBase {
     KeyValueFinderService keyValueFinderService= (KeyValueFinderService)KraServiceLocator.getService("keyValueFinderService");
 
-    public List<KeyLabelPair> getKeyValues() {
+    public List<KeyValue> getKeyValues() {
         return keyValueFinderService.getKeyValues(ProposalColumnsToAlter.class, "columnName", "columnLabel");
     }
 }

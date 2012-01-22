@@ -19,6 +19,7 @@ import org.apache.commons.lang.StringUtils;
 import org.kuali.kra.coi.CoiDisclosure;
 import org.kuali.kra.common.notification.bo.NotificationModuleRoleQualifier;
 import org.kuali.kra.kim.bo.KcKimAttributes;
+import org.kuali.rice.kim.api.KimConstants;
 
 
 public class CoiNotificationRoleQualifierServiceImpl implements CoiNotificationRoleQualifierService {
@@ -33,7 +34,7 @@ public class CoiNotificationRoleQualifierServiceImpl implements CoiNotificationR
     public String getRoleQualifierValue(NotificationModuleRoleQualifier qualifier) {
         String qName = qualifier.getQualifier();
 
-        if (StringUtils.equalsIgnoreCase(qName, KcKimAttributes.DOCUMENT_NUMBER)) {
+        if (StringUtils.equalsIgnoreCase(qName, KimConstants.AttributeConstants.DOCUMENT_NUMBER)) {
             return coiDisclosure.getCoiDisclosureDocument().getDocumentNumber();
         } else if (StringUtils.equalsIgnoreCase(qName, "disclosure")) {
             return coiDisclosure.getCoiDisclosureId().toString();

@@ -32,70 +32,70 @@
 	<kra:softError softErrorKey="awardReportTerms-${KualiForm.document.award.awardReportTermItems[index].reportClassCode}-${KualiForm.document.award.awardReportTermItems[index].frequencyCode}-${KualiForm.document.award.awardReportTermItems[index].frequencyBaseCode}-${KualiForm.document.award.awardReportTermItems[index].ospDistributionCode}" />
 	<table cellpadding="0" cellspacing="0" summary="">
 		<c:if test="${!reportTrackingReadOnly}">
-			<tr>
-				<th colspan="3"><div align="center">Edit Selected:</div></th>
-				<th> <div align="center">
-					<kul:htmlAttributeLabel attributeEntry="${reportTrackingBeanAttributes.preparerId}" noColon="true" />
-				</div></th>
-				<th> <div align="center">
-					<kul:htmlAttributeLabel attributeEntry="${reportTrackingBeanAttributes.statusCode}" noColon="true" />
-				</div></th>
-				<th> <div align="center">
-					<kul:htmlAttributeLabel attributeEntry="${reportTrackingBeanAttributes.activityDate}" noColon="true" />
-				</div></th>
-				<th> <div align="center">
-					<kul:htmlAttributeLabel attributeEntry="${reportTrackingBeanAttributes.comments}" noColon="true" />
-				</div></th>
+		<tr>
+			<th colspan="3"><div align="center">Edit Selected:</div></th>
+			<th> <div align="center">
+				<kul:htmlAttributeLabel attributeEntry="${reportTrackingBeanAttributes.preparerId}" noColon="true" />
+			</div></th>
+			<th> <div align="center">
+				<kul:htmlAttributeLabel attributeEntry="${reportTrackingBeanAttributes.statusCode}" noColon="true" />
+			</div></th>
+			<th> <div align="center">
+				<kul:htmlAttributeLabel attributeEntry="${reportTrackingBeanAttributes.activityDate}" noColon="true" />
+			</div></th>
+			<th> <div align="center">
+				<kul:htmlAttributeLabel attributeEntry="${reportTrackingBeanAttributes.comments}" noColon="true" />
+			</div></th>
 				<th colspan="2"> <div align="center">Action</div></th>	
-			</tr>
-			<tr>
-				<th colspan="3">
-					<div align="center">
-						<html:image property="methodToCall.selectAllMultEdit.AwardReportTermItemsIndex${index}"
-											src='${ConfigProperties.kra.externalizable.images.url}tinybutton-selectall.gif' 
-											alt="Select All" onclick="" styleClass="tinybutton"/>
-						:
-						<html:image property="methodToCall.selectNoneMultiEdit.AwardReportTermItemsIndex${index}"
-											src='${ConfigProperties.kra.externalizable.images.url}tinybutton-selectnone.gif' 
-											alt="Deselect All" onclick="" styleClass="tinybutton"/>
-					</div>
-				</th>
-				<td>
-				
-					<kul:htmlControlAttribute property="reportTrackingBeans[${index}].preparerName" 
+		</tr>
+		<tr>
+			<th colspan="3">
+				<div align="center">
+					<html:image property="methodToCall.selectAllMultEdit.AwardReportTermItemsIndex${index}"
+										src='${ConfigProperties.kra.externalizable.images.url}tinybutton-selectall.gif' 
+										alt="Select All" onclick="" styleClass="tinybutton"/>
+					:
+					<html:image property="methodToCall.selectNoneMultiEdit.AwardReportTermItemsIndex${index}"
+										src='${ConfigProperties.kra.externalizable.images.url}tinybutton-selectnone.gif' 
+										alt="Deselect All" onclick="" styleClass="tinybutton"/>
+				</div>
+			</th>
+			<td>
+			
+				<kul:htmlControlAttribute property="reportTrackingBeans[${index}].preparerName" 
 							attributeEntry="${reportTrackingBeanAttributes.preparerName}" readOnly="${reportTrackingReadOnly }"  />
 						<c:if test="${!reportTrackingReadOnly}">
-		                	<kul:lookup boClassName="org.kuali.kra.bo.KcPerson" 
-		                                fieldConversions="userName:reportTrackingBeans[${index}].preparerName,personId:reportTrackingBeans[${index}].preparerId" />
-	                    </c:if>				
-						<kul:htmlControlAttribute property="reportTrackingBeans[${index}].preparerId" 
+	                	<kul:lookup boClassName="org.kuali.kra.bo.KcPerson" 
+	                                fieldConversions="userName:reportTrackingBeans[${index}].preparerName,personId:reportTrackingBeans[${index}].preparerId" />
+                    </c:if>				
+					<kul:htmlControlAttribute property="reportTrackingBeans[${index}].preparerId" 
 							attributeEntry="${reportTrackingBeanAttributes.preparerId}" readOnly="${reportTrackingReadOnly }"  />
-						<br/>
-						<span id="multiUpdatePreparerNames[${index}]">
-							<c:out value="${reportTrackingBeans[index].preparerFullname}"/>&nbsp;
-						</span>
-				
-				</td>
-				<td>
-					<kul:htmlControlAttribute property="reportTrackingBeans[${index}].statusCode" 
+					<br/>
+					<span id="multiUpdatePreparerNames[${index}]">
+						<c:out value="${reportTrackingBeans[index].preparerFullname}"/>&nbsp;
+					</span>
+			
+			</td>
+			<td>
+				<kul:htmlControlAttribute property="reportTrackingBeans[${index}].statusCode" 
 							attributeEntry="${reportTrackingBeanAttributes.statusCode}" readOnly="${reportTrackingReadOnly }"  />
-				</td>
-				<td>
-					<kul:htmlControlAttribute property="reportTrackingBeans[${index}].activityDate" 
+			</td>
+			<td>
+				<kul:htmlControlAttribute property="reportTrackingBeans[${index}].activityDate" 
 							attributeEntry="${reportTrackingBeanAttributes.activityDate}" readOnly="${reportTrackingReadOnly }"  />
-				</td>
-				<td>
-					<kul:htmlControlAttribute property="reportTrackingBeans[${index}].comments" 
+			</td>
+			<td>
+				<kul:htmlControlAttribute property="reportTrackingBeans[${index}].comments" 
 							attributeEntry="${reportTrackingBeanAttributes.comments}" readOnly="${reportTrackingReadOnly }"  />
-				</td>
-				<td colspam="2">
-					<div align="center">
-					<html:image property="methodToCall.updateMultileReportTracking.AwardReportTermItemsIndex${index}"
-											src='${ConfigProperties.kra.externalizable.images.url}tinybutton-update.gif' 
-											alt="Update Multiple Report Tracking" onclick="" styleClass="tinybutton"/>
-					</div>
-				</td>
-			</tr>
+			</td>
+				<td colspan="2">
+				<div align="center">
+				<html:image property="methodToCall.updateMultileReportTracking.AwardReportTermItemsIndex${index}"
+										src='${ConfigProperties.kra.externalizable.images.url}tinybutton-update.gif' 
+										alt="Update Multiple Report Tracking" onclick="" styleClass="tinybutton"/>
+				</div>
+			</td>
+		</tr>
 		</c:if>
 		<tr>
 			<th><div align="center">
@@ -128,7 +128,7 @@
 			<tr>
 				<td>
 					<c:if test="${!reportTrackingReadOnly}">
-						<kul:htmlControlAttribute property="document.award.awardReportTermItems[${index}].reportTrackings[${status.index}].multiEditSelected" 
+					<kul:htmlControlAttribute property="document.award.awardReportTermItems[${index}].reportTrackings[${status.index}].multiEditSelected" 
 							attributeEntry="${reportTrackingAttributes.multiEditSelected}" readOnly="${reportTrackingReadOnly }"  />
 					</c:if>
 				</td>
@@ -181,4 +181,5 @@
 			</tr>			
 		</c:forEach>
 	</table>
+
 </kul:innerTab>

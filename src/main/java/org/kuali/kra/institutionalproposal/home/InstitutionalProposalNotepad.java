@@ -17,30 +17,34 @@ package org.kuali.kra.institutionalproposal.home;
 
 import java.sql.Date;
 import java.util.Calendar;
-import java.util.LinkedHashMap;
 
 import org.kuali.kra.SequenceAssociate;
 import org.kuali.kra.SequenceOwner;
 import org.kuali.kra.institutionalproposal.InstitutionalProposalAssociate;
 
-public class InstitutionalProposalNotepad extends InstitutionalProposalAssociate implements SequenceAssociate { 
-    
+public class InstitutionalProposalNotepad extends InstitutionalProposalAssociate implements SequenceAssociate {
+
     private static final long serialVersionUID = 1L;
 
-    private Long proposalNotepadId; 
-    private String proposalNumber; 
-    private Integer entryNumber; 
-    private String comments; 
+    private Long proposalNotepadId;
+
+    private String proposalNumber;
+
+    private Integer entryNumber;
+
+    private String comments;
+
     private String noteTopic;
-    private boolean restrictedView; 
+
+    private boolean restrictedView;
+
     private Date createTimestamp;
 
-    public InstitutionalProposalNotepad() { 
+    public InstitutionalProposalNotepad() {
         Calendar cl = Calendar.getInstance();
         setCreateTimestamp(new Date(cl.getTime().getTime()));
-    } 
-    
-    
+    }
+
     public Long getProposalNotepadId() {
         return proposalNotepadId;
     }
@@ -80,7 +84,6 @@ public class InstitutionalProposalNotepad extends InstitutionalProposalAssociate
     public void setRestrictedView(boolean restrictedView) {
         this.restrictedView = restrictedView;
     }
-    
 
     /**
      * Gets the noteTopic attribute. 
@@ -97,8 +100,6 @@ public class InstitutionalProposalNotepad extends InstitutionalProposalAssociate
     public void setNoteTopic(String noteTopic) {
         this.noteTopic = noteTopic;
     }
-    
-    
 
     /**
      * Gets the createTimeStamp attribute. 
@@ -108,7 +109,6 @@ public class InstitutionalProposalNotepad extends InstitutionalProposalAssociate
         return createTimestamp;
     }
 
-
     /**
      * Sets the createTimeStamp attribute value.
      * @param createTimeStamp The createTimeStamp to set.
@@ -116,7 +116,7 @@ public class InstitutionalProposalNotepad extends InstitutionalProposalAssociate
     public void setCreateTimestamp(Date createTimestamp) {
         this.createTimestamp = createTimestamp;
     }
-    
+
     /**
      * @see org.kuali.kra.SequenceAssociate#getSequenceOwner()
      */
@@ -137,19 +137,4 @@ public class InstitutionalProposalNotepad extends InstitutionalProposalAssociate
     public void resetPersistenceState() {
         this.proposalNotepadId = null;
     }
-
-
-    /** {@inheritDoc} */
-    @Override 
-    protected LinkedHashMap<String, Object> toStringMapper() {
-        LinkedHashMap<String, Object> hashMap = new LinkedHashMap<String, Object>();
-        hashMap.put("proposalNotepadId", this.getProposalNotepadId());
-        hashMap.put("proposalNumber", this.getProposalNumber());
-        hashMap.put("entryNumber", this.getEntryNumber());
-        hashMap.put("comments", this.getComments());
-        hashMap.put("restrictedView", this.getRestrictedView());
-        hashMap.put("noteTopic", this.getNoteTopic());
-        return hashMap;
-    }
-    
 }

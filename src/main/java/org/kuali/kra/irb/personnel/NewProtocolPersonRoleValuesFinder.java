@@ -23,9 +23,10 @@ import java.util.List;
 import org.kuali.kra.infrastructure.KraServiceLocator;
 import org.kuali.kra.lookup.keyvalue.KeyValueFinderService;
 import org.kuali.kra.lookup.keyvalue.PrefixValuesFinder;
-import org.kuali.rice.core.util.KeyLabelPair;
-import org.kuali.rice.kns.lookup.keyvalues.KeyValuesBase;
-import org.kuali.rice.kns.service.KeyValuesService;
+import org.kuali.rice.core.api.util.ConcreteKeyValue;
+import org.kuali.rice.core.api.util.KeyValue;
+import org.kuali.rice.krad.keyvalues.KeyValuesBase;
+import org.kuali.rice.krad.service.KeyValuesService;
 
 public class NewProtocolPersonRoleValuesFinder extends KeyValuesBase {
 
@@ -40,16 +41,16 @@ public class NewProtocolPersonRoleValuesFinder extends KeyValuesBase {
      * 
      * @return the list of &lt;key, value&gt; pairs of abstract types.  The first entry
      * is always &lt;"", "select:"&gt;.
-     * @see org.kuali.rice.kns.lookup.keyvalues.KeyValuesFinder#getKeyValues()
+     * @see org.kuali.rice.krad.keyvalues.KeyValuesFinder#getKeyValues()
      */
-    public List<KeyLabelPair> getKeyValues() {
+    public List<KeyValue> getKeyValues() {
         KeyValuesService keyValuesService = (KeyValuesService) KraServiceLocator.getService("keyValuesService");
         Collection protocolPersonRoles = keyValuesService.findAllOrderBy(ProtocolPersonRole.class,"description",true);
-        List<KeyLabelPair> keyValues = new ArrayList<KeyLabelPair>();
-        keyValues.add(0, new KeyLabelPair(PrefixValuesFinder.getPrefixKey(), PrefixValuesFinder.getDefaultPrefixValue()));    
+        List<KeyValue> keyValues = new ArrayList<KeyValue>();
+        keyValues.add(0, new ConcreteKeyValue(PrefixValuesFinder.getPrefixKey(), PrefixValuesFinder.getDefaultPrefixValue()));    
         for (Iterator iter = protocolPersonRoles.iterator(); iter.hasNext();) {
             ProtocolPersonRole protocolPersonRole = (ProtocolPersonRole) iter.next();
-            keyValues.add(new KeyLabelPair(protocolPersonRole.getProtocolPersonRoleId(), protocolPersonRole.getDescription()));                            
+            keyValues.add(new ConcreteKeyValue(protocolPersonRole.getProtocolPersonRoleId(), protocolPersonRole.getDescription()));                            
         }
         return keyValues;
     }

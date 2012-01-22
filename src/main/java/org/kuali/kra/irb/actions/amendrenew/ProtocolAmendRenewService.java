@@ -20,7 +20,7 @@ import java.util.List;
 
 import org.kuali.kra.irb.Protocol;
 import org.kuali.kra.irb.ProtocolDocument;
-import org.kuali.rice.kew.exception.WorkflowException;
+import org.kuali.rice.kew.api.exception.WorkflowException;
 
 /**
  * Protocol Amendment/Renewal Service.

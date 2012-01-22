@@ -8,7 +8,7 @@
 			<description>Create a KC Protocol Document</description>
 			<label>KC Protocol</label>
 			<parent>KC</parent>
-			<postProcessorName>org.kuali.rice.kns.workflow.postprocessor.KualiPostProcessor</postProcessorName>
+			<postProcessorName>org.kuali.rice.krad.workflow.postprocessor.KualiPostProcessor</postProcessorName>
 			<superUserWorkgroupName>KC-WKFLW:IRBAdmin</superUserWorkgroupName>
 			<blanketApproveWorkgroupName>KC-WKFLW:IRBAdmin</blanketApproveWorkgroupName>
 			<defaultExceptionWorkgroupName>KC-WKFLW:IRBAdmin</defaultExceptionWorkgroupName>
@@ -105,12 +105,12 @@
 			<type>QualifierResolver</type>
 			<serviceNamespace>KC</serviceNamespace>
 			<resolverConfig>
-				<qualifier name="protocol">
+				<attributes name="protocol">
 					<xPathExpression>//document/protocolList[1]/org.kuali.kra.irb.Protocol[1]/protocolNumber[1]</xPathExpression>
-				</qualifier>
-				<qualifier name="unitNumber">
+				</attributes>
+				<attributes name="unitNumber">
 					<xPathExpression>//document/protocolList[1]/org.kuali.kra.irb.Protocol[1]/leadUnitNumber[1]</xPathExpression>
-				</qualifier>
+				</attributes>
 			</resolverConfig>
 		</ruleAttribute>
 		
@@ -146,9 +146,9 @@
 			<type>QualifierResolver</type>
 			<serviceNamespace>KC</serviceNamespace>
 			<resolverConfig>
-				<qualifier name="unitNumber">
+				<attributes name="unitNumber">
 					<xPathExpression>//document/protocolList[1]/org.kuali.kra.irb.Protocol[1]/leadUnitNumber[1]</xPathExpression>
-				</qualifier>
+				</attributes>
 			</resolverConfig>
 		</ruleAttribute> -->
 		

@@ -10,28 +10,28 @@ function setScrollPosition(scrollPos) {
 	prevScrollPosition = scrollPos;
 }
 function saveScrollPosition(scroll) {
-	  var offset = $(scroll).offset().top;
-	  debugLog('Current Position - ' + $(scroll).scrollTop());
-	  var liList = $(scroll).find('li.awardhierarchy').toArray();
+	  var offset = jQuery(scroll).offset().top;
+	  debugLog('Current Position - ' + jQuery(scroll).scrollTop());
+	  var liList = jQuery(scroll).find('li.awardhierarchy').toArray();
 	  var li = null;
 	  for (var i = 1; i < liList.length; i++) {
-		  if ($(liList[i]) != null && $(liList[i]).offset() != null
-				  && $(liList[i-1]) != null
-				  && $(liList[i]).offset().top > offset 
-				  && ($(liList[i-1]).offset() == null || $(liList[i-1]).offset().top < offset)) {
+		  if (jQuery(liList[i]) != null && jQuery(liList[i]).offset() != null
+				  && jQuery(liList[i-1]) != null
+				  && jQuery(liList[i]).offset().top > offset 
+				  && (jQuery(liList[i-1]).offset() == null || jQuery(liList[i-1]).offset().top < offset)) {
 			  li = liList[i];
 			  break;
 		  }
 	  }
 	  if (li != null) {
 		  debugLog('Scrolling to ' + getAwardNumber(li) + ' next time.');
-	      $('input[name*=awardHierarchyScrollPosition]').attr('value', getAwardNumber(li));
+	      jQuery('input[name*=awardHierarchyScrollPosition]').attr('value', getAwardNumber(li));
 	  } else {
-		  $('input[name*=awardHierarchyScrollPosition]').attr('value', '');
+		  jQuery('input[name*=awardHierarchyScrollPosition]').attr('value', '');
 	  }
 }
-$(document).ready(function(){
-  $('#awardHierarchyScrollable').scroll(function() {saveScrollPosition(this);});
+jQuery(document).ready(function(){
+  jQuery('#awardHierarchyScrollable').scroll(function() {saveScrollPosition(this);});
 
   if (openAwards.length > 0) {
 	  forceLoading();
@@ -39,27 +39,27 @@ $(document).ready(function(){
   } else {
 	  queueToggle(null);
   }
-}); // $(document).ready
+}); // jQuery(document).ready
 
 function treeViewToggle(item) {
-	if (!$(item).is('.loaded')) {
+	if (!jQuery(item).is('.loaded')) {
 		queueToggle(item);
 	}
-	if ($(item).is('.collapsable')) {
+	if (jQuery(item).is('.collapsable')) {
 		debugLog('Setting award to open next time ' + getAwardNumber(item));
-		$(item).find("input[name*='awardHierarchyToggle']").first().attr('value', 'true');
+		jQuery(item).find("input[name*='awardHierarchyToggle']").first().attr('value', 'true');
 	} else {
-		$(item).find("input[name*='awardHierarchyToggle']").first().attr('value', 'false');
+		jQuery(item).find("input[name*='awardHierarchyToggle']").first().attr('value', 'false');
 	}	  	
 }
 
 function openPreviousAwards(requestTracker) {
 	if (requestTracker.liNode != null) {
-		$(requestTracker.liNode).find('div.expandable-hitarea:first').click();
+		jQuery(requestTracker.liNode).find('div.expandable-hitarea:first').click();
 	}
-	$(requestTracker.children).each(function() {
+	jQuery(requestTracker.children).each(function() {
 		var awardNumber = getAwardNumber(this);
-		var idx = $.inArray(awardNumber, openAwards);
+		var idx = jQuery.inArray(awardNumber, openAwards);
 		debugLog(idx + ' -- ' + awardNumber + ' -- ' + openAwards);
 		if (idx != -1) {
 			queueToggle(this, openPreviousAwards);
@@ -69,10 +69,10 @@ function openPreviousAwards(requestTracker) {
 	if (activeRequest == null && pendingRequests.length == 0) {
 		clearForceLoading();
 		//make sure loading is hidden so we can get the offset of the div and the selected award
-		$('#loading').hide();
-		debugLog('Scroll height ' + $('#awardHierarchyScrollable > ul').outerHeight() + ", " + prevScrollPosition + " position is " + $('#li' + prevScrollPosition).position().top);
-		$('#awardHierarchyScrollable').scrollTop(
-				$('#li' + prevScrollPosition).position().top
+		jQuery('#loading').hide();
+		debugLog('Scroll height ' + jQuery('#awardHierarchyScrollable > ul').outerHeight() + ", " + prevScrollPosition + " position is " + jQuery('#li' + prevScrollPosition).position().top);
+		jQuery('#awardHierarchyScrollable').scrollTop(
+				jQuery('#li' + prevScrollPosition).position().top
 		);
 	}
 }
@@ -81,18 +81,18 @@ function openPreviousAwards(requestTracker) {
 	  var awardNumber = info['awardNumber'];
       //build the line description - will include the award number, pi, lead unit and
       //editable and/or summary fields for time and money.
-      var idDiv = $('<div class="awardHierarchy"></div>').html(builduUi(info, awardNumber));
+      var idDiv = jQuery('<div class="awardHierarchy"></div>').html(builduUi(info, awardNumber));
       //add the div to the link
-      var tag = $('<a class="awardHierarchy"></a>').html(idDiv);
+      var tag = jQuery('<a class="awardHierarchy"></a>').html(idDiv);
 
-      var listitem = $('<li class="closed awardhierarchy" id="li' + awardNumber +'"></li>').html(tag);
+      var listitem = jQuery('<li class="closed awardhierarchy" id="li' + awardNumber +'"></li>').html(tag);
       
       // need this ultag to force to display folder.
-      var childUlTag = $('<ul></ul>');
+      var childUlTag = jQuery('<ul></ul>');
       childUlTag.appendTo(listitem);
-      listitem.appendTo($(parent));
+      listitem.appendTo(jQuery(parent));
       // also need this to show 'folder' icon
-      $('#awardhierarchy').treeview({
+      jQuery('#awardhierarchy').treeview({
          add: listitem
          
       });
@@ -105,11 +105,11 @@ function openPreviousAwards(requestTracker) {
 	 */
   function getAwardNumber(node) {
 	  var liNode = node;
-	  if (!$(liNode).is('li.awardhierarchy')) {
+	  if (!jQuery(liNode).is('li.awardhierarchy')) {
 		  alert('looking for parent');
-		  liNode = $(node).parents('li.awardhierarchy:eq(0)');
+		  liNode = jQuery(node).parents('li.awardhierarchy:eq(0)');
 	  }
-      return $(liNode).attr('id').substring(2);
+      return jQuery(liNode).attr('id').substring(2);
   }
   
   function getDetailString(info) {
@@ -158,7 +158,7 @@ function openPreviousAwards(requestTracker) {
         var index = awardNumber.indexOf("-");
         var awardNumber2 = parseInt(awardNumber.substring(index+1), 10);
         
-        if($("#cancelOrFinalStatus").attr("value") == 1){
+        if(jQuery("#cancelOrFinalStatus").attr("value") == 1){
         	
 //        	var abc = "<table style=\"border: medium none ; padding: 0px; border-collapse: collapse;\"><tbody><tr><td style=\"border: medium none ; border-collapse: collapse; vertical-align: top\">"+txtImage+"&nbsp;"+text1+"</td>" +
 //  			"<td style=\"border: 1px solid rgb(153, 153, 153); text-align: center; width: 112px; align:right; border-collapse: collapse;\">"+text2+"</td>" +
@@ -168,13 +168,13 @@ function openPreviousAwards(requestTracker) {
 //  			"<td style=\"border: 1px solid rgb(153, 153, 153); text-align: center; width: 110px; align:right; left: 1335px; border-collapse: collapse;\">"+text6+"</td>"
 //  			+"</tr></tbody></table>";
         	
-        	if($("#controlForAwardHierarchyView").attr("value") == 0){
+        	if(jQuery("#controlForAwardHierarchyView").attr("value") == 0){
 		      	  var abc = "<table style=\"border: medium none ; padding: 0px; border-collapse: collapse;\"><tbody><tr><td style=\"border: medium none ; border-collapse: collapse; vertical-align: top;\">"+txtImage+"&nbsp;"+text1+"</td>"+
 					    "<td style=\"border: 1px solid rgb(153, 153, 153); text-align: center; width: 112px; align:right; border-collapse: collapse;\">"+text2+"</td>" +
 			  			"<td style=\"border: 1px solid rgb(153, 153, 153); text-align: center; width: 112px; align:right; border-collapse: collapse;\">"+text3+"</td>" +
 			  			"<td style=\"border: 1px solid rgb(153, 153, 153); text-align: center; width: 112px; align:right; border-collapse: collapse;\">"+text4+"</td>" +
 			  			"</tr></tbody></table>";
-		        }else if($("#controlForAwardHierarchyView").attr("value") == 1){
+		        }else if(jQuery("#controlForAwardHierarchyView").attr("value") == 1){
 		        	var abc = "<table style=\"border: medium none ; padding: 0px; border-collapse: collapse;\"><tbody><tr><td style=\"border: medium none ; border-collapse: collapse; vertical-align: top\">"+txtImage+"&nbsp;"+text1+"</td>"+
 			        	"<td style=\"border: 1px solid rgb(153, 153, 153); text-align: center; width: 112px; align:right; border-collapse: collapse;\">"+text2+"</td>" +
 			  			"<td style=\"border: 1px solid rgb(153, 153, 153); text-align: center; width: 112px; align:right; border-collapse: collapse;\">"+text3+"</td>" +
@@ -197,9 +197,9 @@ function openPreviousAwards(requestTracker) {
 			  			+"<td style=\"border: 1px solid rgb(153, 153, 153); text-align: center; width: 112px; align:right; border-collapse: collapse;\">" +text5 + "</td>"
 			  			+"<td style=\"border: 1px solid rgb(153, 153, 153); text-align: center; width: 112px; align:right; border-collapse: collapse;\">" +text6 + "</td>"
 			  			+"</tr></tbody></table>";
-		        }else if($("#controlForAwardHierarchyView").attr("value") == 2){
-		        	if($("#directIndirectViewEnabled").attr("value") == 1){
-			        	if($("#inSingleNodeHierarchy").attr("value") == 1){
+		        }else if(jQuery("#controlForAwardHierarchyView").attr("value") == 2){
+		        	if(jQuery("#directIndirectViewEnabled").attr("value") == 1){
+			        	if(jQuery("#inSingleNodeHierarchy").attr("value") == 1){
 			        		var abc = "<table style=\"border: medium none ; padding: 0px; border-collapse: collapse;\"><tbody><tr><td style=\"border: medium none ; border-collapse: collapse; vertical-align: top\">"+txtImage+"&nbsp;"+text1+"</td>"+
 			        		"<td style=\"border: 1px solid rgb(153, 153, 153); text-align: center; width: 112px; align:right; border-collapse: collapse;\">"+text2+"</td>" +
 				  			"<td style=\"border: 1px solid rgb(153, 153, 153); text-align: center; width: 112px; align:right; border-collapse: collapse;\">"+text3+"</td>" +
@@ -228,7 +228,7 @@ function openPreviousAwards(requestTracker) {
 				  			+"<td style=\"border: 1px solid rgb(153, 153, 153); text-align: center; width: 110px; align:right; left: 1335px; border-collapse: collapse;\">"+text6+"</td>" +"</tr></tbody></table>";
 			        	} 
 		        	}else{
-		        		if($("#inSingleNodeHierarchy").attr("value") == 1){
+		        		if(jQuery("#inSingleNodeHierarchy").attr("value") == 1){
 			        		var abc = "<table style=\"border: medium none ; padding: 0px; border-collapse: collapse;\"><tbody><tr><td style=\"border: medium none ; border-collapse: collapse; vertical-align: top\">"+txtImage+"&nbsp;"+text1+"</td>"+
 			        		"<td style=\"border: 1px solid rgb(153, 153, 153); text-align: center; width: 112px; align:right; border-collapse: collapse;\">"+text2+"</td>" +
 				  			"<td style=\"border: 1px solid rgb(153, 153, 153); text-align: center; width: 112px; align:right; border-collapse: collapse;\">"+text3+"</td>" +
@@ -251,14 +251,14 @@ function openPreviousAwards(requestTracker) {
 			        	} 
 		        	}
 		        }
-        } else { if($("#controlForAwardHierarchyView").attr("value") == 0){
+        } else { if(jQuery("#controlForAwardHierarchyView").attr("value") == 0){
 		      	  var abc = "<table style=\"border: medium none ; padding: 0px; border-collapse: collapse;\"><tbody><tr><td style=\"border: medium none ; border-collapse: collapse; vertical-align: top;\">"+txtImage+"&nbsp;"+text1+"</td><td style=\"border: 1px solid rgb(153, 153, 153); padding: 0px; text-align: center; width: 112px; border-collapse: collapse; align:right;\">"
 			  			+"<input type=\"text\" class = 'datepicker' name=\"awardHierarchyNodeItems[" + awardNumber2 + "].currentFundEffectiveDate\" id=\"awardHierarchyNodeItems[" + awardNumber2 + "].currentFundEffectiveDate\""+ " value=\"" +text2 + "\" style=\"width:70%;\" maxlength=\"10\" size=\"10\"/>"+"</td><td style=\"border: 1px solid rgb(153, 153, 153); padding: 0px; text-align: center; width: 112px; border-collapse: collapse; align:right;\">"
 			  			+"<input type=\"text\" class = 'datepicker' name=\"awardHierarchyNodeItems[" + awardNumber2 + "].obligationExpirationDate\" id=\"awardHierarchyNodeItems[" + awardNumber2 + "].obligationExpirationDate\""+ " value=\"" +text3 + "\" style=\"width:70%;\" maxlength=\"10\" size=\"10\"/>"+"</td><td nowrap style=\"border: 1px solid rgb(153, 153, 153); padding: 0px; text-align: center; width: 112px; border-collapse: collapse; align:right;\">"
 		//+ displaydate()
 			  			+"<input type=\"text\"class = 'datepicker' name=\"awardHierarchyNodeItems[" + awardNumber2 + "].finalExpirationDate\" id=\"awardHierarchyNodeItems[" + awardNumber2 + "].finalExpirationDate\""+ " value=\"" +text4 + "\" style=\"width:70%;\" maxlength=\"10\" size=\"10\"/></td>"
 			  			+"</tr></tbody></table>";
-		        }else if($("#controlForAwardHierarchyView").attr("value") == 1){
+		        }else if(jQuery("#controlForAwardHierarchyView").attr("value") == 1){
 		        	var abc = "<table style=\"border: medium none ; padding: 0px; border-collapse: collapse;\"><tbody><tr><td style=\"border: medium none ; border-collapse: collapse; vertical-align: top\">"+txtImage+"&nbsp;"+text1+"</td>"
 		        		+"<td style=\"border: 1px solid rgb(153, 153, 153); padding: 0px; text-align: center; width: 114px; border-collapse: collapse; vertical-align: top; align:right; \">"
 			  			+"<input type=\"text\" class = 'datepicker' name=\"awardHierarchyNodeItems[" + awardNumber2 + "].currentFundEffectiveDate\" id=\"awardHierarchyNodeItems[" + awardNumber2 + "].currentFundEffectiveDate\""+ " value=\"" +text2 + "\" style=\"width:70%;\" maxlength=\"10\" size=\"10\"/></td>"
@@ -285,9 +285,9 @@ function openPreviousAwards(requestTracker) {
 			  			+"<td style=\"border: 1px solid rgb(153, 153, 153); text-align: center; width: 112px; align:right; border-collapse: collapse;\">" +text5 + "</td>"
 			  			+"<td style=\"border: 1px solid rgb(153, 153, 153); text-align: center; width: 112px; align:right; border-collapse: collapse;\">" +text6 + "</td>"
 			  			+"</tr></tbody></table>";
-		        }else if($("#controlForAwardHierarchyView").attr("value") == 2){
-		        	if($("#directIndirectViewEnabled").attr("value") == 1){
-			        	if($("#inSingleNodeHierarchy").attr("value") == 1){
+		        }else if(jQuery("#controlForAwardHierarchyView").attr("value") == 2){
+		        	if(jQuery("#directIndirectViewEnabled").attr("value") == 1){
+			        	if(jQuery("#inSingleNodeHierarchy").attr("value") == 1){
 			        		var abc = "<table style=\"border: medium none ; padding: 0px; border-collapse: collapse;\"><tbody><tr><td style=\"border: medium none ; border-collapse: collapse; vertical-align: top\">"+txtImage+"&nbsp;"+text1+"</td><td style=\"border: 1px solid rgb(153, 153, 153); padding: 0px; text-align: center; width: 112px; align:right; border-collapse: collapse; \">"
 				  			+"<input type=\"text\" class = 'datepicker' name=\"awardHierarchyNodeItems[" + awardNumber2 + "].currentFundEffectiveDate\" id=\"awardHierarchyNodeItems[" + awardNumber2 + "].currentFundEffectiveDate\""+ " value=\"" +text2 + "\" style=\"width:70%;\" maxlength=\"10\" size=\"10\"/>"+"</td><td style=\"border: 1px solid rgb(153, 153, 153); padding: 0px; text-align: center; width: 112px; align:right; left: border-collapse: collapse; \">"
 				  			+"<input type=\"text\" class = 'datepicker' name=\"awardHierarchyNodeItems[" + awardNumber2 + "].obligationExpirationDate\" id=\"awardHierarchyNodeItems[" + awardNumber2 + "].obligationExpirationDate\""+ " value=\"" +text3 + "\" style=\"width:70%;\" maxlength=\"10\" size=\"10\"/>"+"</td><td style=\"border: 1px solid rgb(153, 153, 153); padding: 0px; text-align: center; width: 110px; align:right; left: border-collapse: collapse; \">"
@@ -317,7 +317,7 @@ function openPreviousAwards(requestTracker) {
 				  			+"<td style=\"border: 1px solid rgb(153, 153, 153); text-align: center; width: 110px; align:right; left: 1335px; border-collapse: collapse;\">"+text6+"</td>" +"</tr></tbody></table>";
 			        	} 
 		        	}else{
-		        		if($("#inSingleNodeHierarchy").attr("value") == 1){
+		        		if(jQuery("#inSingleNodeHierarchy").attr("value") == 1){
 			        		var abc = "<table style=\"border: medium none ; padding: 0px; border-collapse: collapse;\"><tbody><tr><td style=\"border: medium none ; border-collapse: collapse; vertical-align: top\">"+txtImage+"&nbsp;"+text1+"</td><td style=\"border: 1px solid rgb(153, 153, 153); padding: 0px; text-align: center; width: 112px; align:right; border-collapse: collapse; \">"
 				  			+"<input type=\"text\" class = 'datepicker' name=\"awardHierarchyNodeItems[" + awardNumber2 + "].currentFundEffectiveDate\" id=\"awardHierarchyNodeItems[" + awardNumber2 + "].currentFundEffectiveDate\""+ " value=\"" +text2 + "\" style=\"width:70%;\" maxlength=\"10\" size=\"10\"/>"+"</td><td style=\"border: 1px solid rgb(153, 153, 153); padding: 0px; text-align: center; width: 112px; align:right; left: border-collapse: collapse; \">"
 				  			+"<input type=\"text\" class = 'datepicker' name=\"awardHierarchyNodeItems[" + awardNumber2 + "].obligationExpirationDate\" id=\"awardHierarchyNodeItems[" + awardNumber2 + "].obligationExpirationDate\""+ " value=\"" +text3 + "\" style=\"width:70%;\" maxlength=\"10\" size=\"10\"/>"+"</td><td style=\"border: 1px solid rgb(153, 153, 153); padding: 0px; text-align: center; width: 110px; align:right; left: border-collapse: collapse; \">"

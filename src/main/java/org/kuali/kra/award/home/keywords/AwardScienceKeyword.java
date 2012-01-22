@@ -15,29 +15,31 @@
  */
 package org.kuali.kra.award.home.keywords;
 
-import java.util.LinkedHashMap;
-
 import org.kuali.kra.award.home.Award;
 import org.kuali.kra.bo.AbstractScienceKeyword;
 import org.kuali.kra.bo.ScienceKeyword;
+
 /**
  * 
  * This class is BO to represent Award Science Keyword object
  */
-public class AwardScienceKeyword extends AbstractScienceKeyword{
+public class AwardScienceKeyword extends AbstractScienceKeyword {
+
     /**
      * Comment for <code>serialVersionUID</code>
      */
     private static final long serialVersionUID = -8415861677886653309L;
+
     private Long awardScienceKeywordId;
+
     private Award award;
+
     /**
      * Empty constructor for AwardScienceKeyword.
      */
-    public AwardScienceKeyword(){
-        
+    public AwardScienceKeyword() {
     }
-    
+
     /**
      * Constructs a AwardScienceKeyword.
      * @param awardId
@@ -48,18 +50,8 @@ public class AwardScienceKeyword extends AbstractScienceKeyword{
         setScienceKeywordDescription(scienceKeyword.getDescription());
         setScienceKeywordCode(scienceKeyword.getScienceKeywordCode());
         setScienceKeyword(scienceKeyword);
-        setVersionNumber(getVersionNumber()==null?1:getVersionNumber());
+        setVersionNumber(getVersionNumber() == null ? 1 : getVersionNumber());
     }
-
-	@SuppressWarnings("unchecked")
-    @Override 
-	protected LinkedHashMap toStringMapper() {
-		LinkedHashMap hashMap = super.toStringMapper();
-		hashMap.put("scienceCode", getScienceKeywordCode());
-        hashMap.put("versionNumber", getVersionNumber());
-        hashMap.put("objectId", getObjectId());
-		return hashMap;
-	}
 
     /**
      * Gets the awardScienceKeywordId attribute. 
@@ -92,5 +84,4 @@ public class AwardScienceKeyword extends AbstractScienceKeyword{
     public void setAward(Award award) {
         this.award = award;
     }
-
 }

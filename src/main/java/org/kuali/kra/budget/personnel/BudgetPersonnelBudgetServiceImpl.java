@@ -15,6 +15,8 @@
  */
 package org.kuali.kra.budget.personnel;
 
+import static org.kuali.kra.logging.BufferedLogger.debug;
+
 import java.sql.Date;
 import java.util.Iterator;
 
@@ -26,16 +28,14 @@ import org.kuali.kra.budget.BudgetDecimal;
 import org.kuali.kra.budget.calculator.BudgetCalculationService;
 import org.kuali.kra.budget.core.Budget;
 import org.kuali.kra.budget.document.BudgetDocument;
-import org.kuali.kra.budget.nonpersonnel.BudgetLineItemBase;
 import org.kuali.kra.budget.nonpersonnel.BudgetLineItem;
+import org.kuali.kra.budget.nonpersonnel.BudgetLineItemBase;
 import org.kuali.kra.budget.parameters.BudgetPeriod;
 import org.kuali.kra.infrastructure.Constants;
 import org.kuali.kra.infrastructure.KeyConstants;
-import org.kuali.rice.kns.util.ErrorMap;
-import org.kuali.rice.kns.util.GlobalVariables;
-import org.kuali.rice.kns.util.ObjectUtils;
-import org.kuali.kra.proposaldevelopment.document.ProposalDevelopmentDocument;
-import static org.kuali.kra.logging.BufferedLogger.*;
+import org.kuali.rice.krad.util.GlobalVariables;
+import org.kuali.rice.krad.util.MessageMap;
+import org.kuali.rice.krad.util.ObjectUtils;
 
 /**
  * This class...
@@ -117,7 +117,7 @@ public class BudgetPersonnelBudgetServiceImpl implements BudgetPersonnelBudgetSe
             BudgetPeriod budgetPeriod = budget.getBudgetPeriod(budgetPeriodNumber);
             Date personEffectiveDate =  budgetPersonnelDetails.getBudgetPerson().getEffectiveDate();
             if (personEffectiveDate.after(budgetPeriod.getEndDate())) {
-                ErrorMap errorMap = GlobalVariables.getErrorMap();
+                MessageMap errorMap = GlobalVariables.getMessageMap();
                 // salaryrequested is hidden field, so use person
                 errorMap.putError("document.budgetPeriod["+budgetPeriodNumber+"].budgetLineItems["+budgetPeriodNumber+"].budgetPersonnelDetailsList["+lineNumber+"].personSequenceNumber", KeyConstants.ERROR_EFFECTIVE_DATE_OUT_OF_RANGE, new String []{budgetPersonnelDetails.getBudgetPerson().getPersonName() });
 

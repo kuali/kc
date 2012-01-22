@@ -23,12 +23,12 @@ import org.kuali.kra.award.home.Award;
 import org.kuali.kra.award.home.approvedsubawards.AwardApprovedSubaward;
 import org.kuali.kra.infrastructure.Constants;
 import org.kuali.kra.infrastructure.KeyConstants;
-import org.kuali.rice.kns.document.Document;
-import org.kuali.rice.kns.rule.DocumentAuditRule;
+import org.kuali.rice.core.api.util.type.KualiDecimal;
 import org.kuali.rice.kns.util.AuditCluster;
 import org.kuali.rice.kns.util.AuditError;
-import org.kuali.rice.kns.util.GlobalVariables;
-import org.kuali.rice.kns.util.KualiDecimal;
+import org.kuali.rice.kns.util.KNSGlobalVariables;
+import org.kuali.rice.krad.document.Document;
+import org.kuali.rice.krad.rules.rule.DocumentAuditRule;
 
 /**
  * This class...
@@ -43,7 +43,7 @@ public class AwardSubawardAuditRule implements DocumentAuditRule {
     private List<AuditError> auditWarnings;
     
     /**
-     * @see org.kuali.rice.kns.rule.DocumentAuditRule#processRunAuditBusinessRules(org.kuali.rice.kns.document.Document)
+     * @see org.kuali.rice.krad.rules.rule.DocumentAuditRule#processRunAuditBusinessRules(org.kuali.rice.krad.document.Document)
      */
     public boolean processRunAuditBusinessRules(Document document) {
         boolean valid = true;
@@ -82,11 +82,11 @@ public class AwardSubawardAuditRule implements DocumentAuditRule {
     @SuppressWarnings("unchecked")
     protected void reportAndCreateAuditCluster() {
         if (auditErrors.size() > 0) {
-            GlobalVariables.getAuditErrorMap().put(SUBAWARD_AUDIT_ERRORS, new AuditCluster(Constants.SUBAWARD_PANEL_NAME,
+            KNSGlobalVariables.getAuditErrorMap().put(SUBAWARD_AUDIT_ERRORS, new AuditCluster(Constants.SUBAWARD_PANEL_NAME,
                                                                                           auditErrors, Constants.AUDIT_ERRORS));
         } 
         if (auditWarnings.size() > 0) {
-            GlobalVariables.getAuditErrorMap().put(SUBAWARD_AUDIT_WARNINGS, new AuditCluster(Constants.SUBAWARD_PANEL_NAME,
+            KNSGlobalVariables.getAuditErrorMap().put(SUBAWARD_AUDIT_WARNINGS, new AuditCluster(Constants.SUBAWARD_PANEL_NAME,
                     auditWarnings, Constants.AUDIT_WARNINGS));            
         }
     }

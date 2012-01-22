@@ -18,8 +18,9 @@ package org.kuali.kra.award.lookup.keyvalue;
 import java.util.ArrayList;
 import java.util.List;
 
-import org.kuali.rice.kns.lookup.keyvalues.KeyValuesBase;
-import org.kuali.rice.core.util.KeyLabelPair;
+import org.kuali.rice.core.api.util.ConcreteKeyValue;
+import org.kuali.rice.core.api.util.KeyValue;
+import org.kuali.rice.krad.keyvalues.KeyValuesBase;
 
 /**
  * 
@@ -33,13 +34,13 @@ public class SubPlanFlagValuesFinder extends KeyValuesBase {
      * 
      * @see org.kuali.core.lookup.keyvalues.KeyValuesFinder#getKeyValues()
      */
-    public List<KeyLabelPair> getKeyValues() {
+    public List<KeyValue> getKeyValues() {
         
-        List<KeyLabelPair> keyValues = new ArrayList<KeyLabelPair>();
+        List<KeyValue> keyValues = new ArrayList<KeyValue>();
         
-        keyValues.add(new KeyLabelPair('U', new String("Unknown")));
-        keyValues.add(new KeyLabelPair('Y', new String("Required")));
-        keyValues.add(new KeyLabelPair('N', new String("Not Required")));
+        keyValues.add(new ConcreteKeyValue("U", new String("Unknown")));
+        keyValues.add(new ConcreteKeyValue("Y", new String("Required")));
+        keyValues.add(new ConcreteKeyValue("N", new String("Not Required")));
                 
         return keyValues;
     }

@@ -26,11 +26,11 @@ import org.kuali.kra.questionnaire.answer.AnswerHeader;
 import org.kuali.kra.questionnaire.answer.ModuleQuestionnaireBean;
 import org.kuali.kra.questionnaire.answer.QuestionnaireAnswerService;
 import org.kuali.kra.rules.ResearchDocumentRuleBase;
-import org.kuali.rice.kns.document.Document;
-import org.kuali.rice.kns.rule.DocumentAuditRule;
 import org.kuali.rice.kns.util.AuditCluster;
 import org.kuali.rice.kns.util.AuditError;
-import org.kuali.rice.kns.util.GlobalVariables;
+import org.kuali.rice.kns.util.KNSGlobalVariables;
+import org.kuali.rice.krad.document.Document;
+import org.kuali.rice.krad.rules.rule.DocumentAuditRule;
 
 public abstract class BaseQuestionnaireAuditRule<T extends ResearchDocumentBase> extends ResearchDocumentRuleBase implements DocumentAuditRule {
 
@@ -100,7 +100,7 @@ public abstract class BaseQuestionnaireAuditRule<T extends ResearchDocumentBase>
     @SuppressWarnings("unchecked")
     protected void reportAndCreateAuditCluster(String label) {
         if (auditErrors.size() > 0) {
-            GlobalVariables.getAuditErrorMap().put(MANDATORY_QUESTIONNAIRE_AUDIT_ERRORS, 
+            KNSGlobalVariables.getAuditErrorMap().put(MANDATORY_QUESTIONNAIRE_AUDIT_ERRORS, 
                     new AuditCluster(label, auditErrors, Constants.AUDIT_ERRORS));
         }
     }

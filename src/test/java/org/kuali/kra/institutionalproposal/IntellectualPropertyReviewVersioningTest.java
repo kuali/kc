@@ -18,11 +18,11 @@ package org.kuali.kra.institutionalproposal;
 import org.junit.Assert;
 import org.junit.Test;
 import org.kuali.kra.infrastructure.KraServiceLocator;
-import org.kuali.kra.institutionalproposal.ipreview.IntellectualPropertyReviewActivity;
 import org.kuali.kra.institutionalproposal.ipreview.IntellectualPropertyReview;
+import org.kuali.kra.institutionalproposal.ipreview.IntellectualPropertyReviewActivity;
 import org.kuali.kra.service.VersionException;
 import org.kuali.kra.service.VersioningService;
-import org.kuali.rice.kew.exception.WorkflowException;
+import org.kuali.rice.kew.api.exception.WorkflowException;
 
 public class IntellectualPropertyReviewVersioningTest {
     

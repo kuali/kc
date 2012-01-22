@@ -15,76 +15,66 @@
  */
 package org.kuali.kra.proposaldevelopment.budget.bo;
 
-import java.util.LinkedHashMap;
-
 import org.kuali.kra.budget.core.BudgetAssociate;
 
 public class BudgetSubAwardAttachment extends BudgetAssociate {
+
     /**
      * Comment for <code>serialVersionUID</code>
      */
     private static final long serialVersionUID = -2467480179750426256L;
+
     private byte[] attachment;
+
     private String contentId;
+
     private String contentType;
-	private Integer subAwardNumber;
-	
-	private Long budgetSubawardAttachmentId;
-	
-	public BudgetSubAwardAttachment() {
-	    super();
-	}
-	
-	public String getContentId() {
-		return contentId;
-	}
 
-	public void setContentId(String contentId) {
-		this.contentId = contentId;
-	}
+    private Integer subAwardNumber;
 
-	public Integer getSubAwardNumber() {
-		return subAwardNumber;
-	}
+    private Long budgetSubawardAttachmentId;
 
-	public void setSubAwardNumber(Integer subAwardNumber) {
-		this.subAwardNumber = subAwardNumber;
-	}
+    public BudgetSubAwardAttachment() {
+        super();
+    }
 
-	public byte[] getAttachment() {
-		return attachment;
-	}
+    public String getContentId() {
+        return contentId;
+    }
 
-	public void setAttachment(byte[] attachment) {
-		this.attachment = attachment;
-	}
+    public void setContentId(String contentId) {
+        this.contentId = contentId;
+    }
 
-	public String getContentType() {
-		return contentType;
-	}
+    public Integer getSubAwardNumber() {
+        return subAwardNumber;
+    }
 
-	public void setContentType(String contentType) {
-		this.contentType = contentType;
-	}
-	
-	public Long getBudgetSubawardAttachmentId() {
+    public void setSubAwardNumber(Integer subAwardNumber) {
+        this.subAwardNumber = subAwardNumber;
+    }
+
+    public byte[] getAttachment() {
+        return attachment;
+    }
+
+    public void setAttachment(byte[] attachment) {
+        this.attachment = attachment;
+    }
+
+    public String getContentType() {
+        return contentType;
+    }
+
+    public void setContentType(String contentType) {
+        this.contentType = contentType;
+    }
+
+    public Long getBudgetSubawardAttachmentId() {
         return budgetSubawardAttachmentId;
     }
 
     public void setBudgetSubawardAttachmentId(Long budgetSubawardAttachmentId) {
         this.budgetSubawardAttachmentId = budgetSubawardAttachmentId;
     }
-
-    @SuppressWarnings("unchecked")
-    @Override 
-	protected LinkedHashMap toStringMapper() {
-        LinkedHashMap<String, Object> hashMap = super.toStringMapper();
-		hashMap.put("contentId", getContentId());
-//		hashMap.put("proposalNumber", getProposalNumber());
-//        hashMap.put("versionNumber", getBudgetVersionNumber());
-		hashMap.put("subAwardNumber", getSubAwardNumber());
-		hashMap.put("contentType", getContentType());
-		hashMap.put("budgetSubawardAttachmentId", getBudgetSubawardAttachmentId());
-		return hashMap;
-	}
 }

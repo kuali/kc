@@ -16,11 +16,10 @@
 package org.kuali.kra.common.permissions.bo;
 
 import java.util.ArrayList;
-import java.util.LinkedHashMap;
 import java.util.List;
 
 import org.apache.commons.lang.StringUtils;
-import org.kuali.rice.kns.bo.BusinessObjectBase;
+import org.kuali.rice.krad.bo.BusinessObjectBase;
 
 /**
  * A <b>PermissionsUserEditRoles</b> is used as a form used by the Edit Roles
@@ -109,20 +108,6 @@ public class PermissionsUserEditRoles extends BusinessObjectBase {
         }
     }
    
-    /**
-     * @see org.kuali.core.bo.BusinessObjectBase#toStringMapper()
-     */
-    @Override
-    @SuppressWarnings("unchecked")
-    protected LinkedHashMap toStringMapper() {
-        LinkedHashMap map = new LinkedHashMap();
-        map.put("userName", getUserName());
-        map.put("roleStates", getRoleStates());
-        map.put("lineNum", getLineNum());
-        map.put("javaScriptEnabled", getJavaScriptEnabled());
-        return map;
-    }
-
     /**
      * @see org.kuali.core.bo.BusinessObject#refresh()
      */

@@ -18,8 +18,8 @@ package org.kuali.kra.committee.keyvalue;
 import java.util.ArrayList;
 import java.util.List;
 
-import org.kuali.rice.kns.lookup.keyvalues.KeyValuesBase;
-import org.kuali.rice.core.util.KeyLabelPair;
+import org.kuali.rice.core.api.util.ConcreteKeyValue;
+import org.kuali.rice.krad.keyvalues.KeyValuesBase;
 
 public class Month extends KeyValuesBase {
 
@@ -57,18 +57,18 @@ public class Month extends KeyValuesBase {
     @SuppressWarnings("unchecked")
     public List getKeyValues() {
         List keyValues = new ArrayList();
-        keyValues.add(new KeyLabelPair(JANUARY,JANUARY));
-        keyValues.add(new KeyLabelPair(FEBRUARY,FEBRUARY));
-        keyValues.add(new KeyLabelPair(MARCH,MARCH));
-        keyValues.add(new KeyLabelPair(APRIL,APRIL));
-        keyValues.add(new KeyLabelPair(MAY,MAY));
-        keyValues.add(new KeyLabelPair(JUNE,JUNE));
-        keyValues.add(new KeyLabelPair(JULY,JULY));
-        keyValues.add(new KeyLabelPair(AUGUST,AUGUST));
-        keyValues.add(new KeyLabelPair(SEPTEMBER,SEPTEMBER));
-        keyValues.add(new KeyLabelPair(OCTOBER,OCTOBER));
-        keyValues.add(new KeyLabelPair(NOVEMBER,NOVEMBER));
-        keyValues.add(new KeyLabelPair(DECEMBER,DECEMBER));
+        keyValues.add(new ConcreteKeyValue(JANUARY,JANUARY));
+        keyValues.add(new ConcreteKeyValue(FEBRUARY,FEBRUARY));
+        keyValues.add(new ConcreteKeyValue(MARCH,MARCH));
+        keyValues.add(new ConcreteKeyValue(APRIL,APRIL));
+        keyValues.add(new ConcreteKeyValue(MAY,MAY));
+        keyValues.add(new ConcreteKeyValue(JUNE,JUNE));
+        keyValues.add(new ConcreteKeyValue(JULY,JULY));
+        keyValues.add(new ConcreteKeyValue(AUGUST,AUGUST));
+        keyValues.add(new ConcreteKeyValue(SEPTEMBER,SEPTEMBER));
+        keyValues.add(new ConcreteKeyValue(OCTOBER,OCTOBER));
+        keyValues.add(new ConcreteKeyValue(NOVEMBER,NOVEMBER));
+        keyValues.add(new ConcreteKeyValue(DECEMBER,DECEMBER));
         return keyValues;
     }
 

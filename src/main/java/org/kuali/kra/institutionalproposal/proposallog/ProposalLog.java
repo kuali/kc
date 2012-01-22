@@ -18,10 +18,8 @@ package org.kuali.kra.institutionalproposal.proposallog;
 import java.sql.Date;
 import java.sql.Timestamp;
 import java.util.ArrayList;
-import java.util.LinkedHashMap;
 import java.util.List;
 
-import org.apache.ojb.broker.PersistenceBroker;
 import org.kuali.kra.bo.KcPerson;
 import org.kuali.kra.bo.KraPersistableBusinessObjectBase;
 import org.kuali.kra.bo.NonOrganizationalRolodex;
@@ -29,7 +27,6 @@ import org.kuali.kra.bo.Sponsor;
 import org.kuali.kra.bo.Unit;
 import org.kuali.kra.infrastructure.Constants;
 import org.kuali.kra.infrastructure.KraServiceLocator;
-import org.kuali.kra.institutionalproposal.contacts.InstitutionalProposalPerson;
 import org.kuali.kra.institutionalproposal.proposallog.service.ProposalLogService;
 import org.kuali.kra.negotiations.bo.Negotiable;
 import org.kuali.kra.negotiations.bo.NegotiationPersonDTO;
@@ -65,7 +62,7 @@ public class ProposalLog extends KraPersistableBusinessObjectBase implements Neg
     private Integer fiscalMonth;
     private Integer fiscalYear;
     private String createUser;
-    private Timestamp createTimestamp;
+    private Timestamp createTimestamp;  
     
     private ProposalType proposalType;
     private NonOrganizationalRolodex rolodex;
@@ -370,20 +367,19 @@ public class ProposalLog extends KraPersistableBusinessObjectBase implements Neg
      * @see org.kuali.core.bo.PersistableBusinessObjectBase#beforeInsert()
      */
     @Override 
-    public void beforeInsert(PersistenceBroker persistenceBroker) {
-        super.beforeInsert(persistenceBroker);
+    protected void prePersist() {
+        super.prePersist();
         setSponsorName();
         mergeTemporaryLog();
     }
 
     @Override
-    public void afterInsert(PersistenceBroker persistenceBroker) 
-    {
+    protected void postPersist() {
         // this will update the associated temporary log to indicate that it was
         // merged with the current permanent log
         if (getMergedWith() != null)
         {
-            super.afterInsert(persistenceBroker);
+            super.postPersist();
             KraServiceLocator.getService(ProposalLogService.class).updateMergedTempLog(getMergedWith(), getProposalNumber() );
         }
         return;
@@ -394,8 +390,8 @@ public class ProposalLog extends KraPersistableBusinessObjectBase implements Neg
      * @see org.kuali.core.bo.PersistableBusinessObjectBase#beforeInsert()
      */
     @Override
-    public void beforeUpdate(PersistenceBroker persistenceBroker) {
-        super.beforeUpdate(persistenceBroker);
+    protected void preUpdate() {
+        super.preUpdate();
         setSponsorName();
     }
     
@@ -423,27 +419,6 @@ public class ProposalLog extends KraPersistableBusinessObjectBase implements Neg
     
     /* End data persistence methods. */
 
-    /** {@inheritDoc} */
-    @Override 
-    protected LinkedHashMap<String, Object> toStringMapper() {
-        LinkedHashMap<String, Object> hashMap = new LinkedHashMap<String, Object>();
-        hashMap.put("proposalNumber", this.getProposalNumber());
-        hashMap.put("proposalTypeCode", this.getProposalTypeCode());
-        hashMap.put(PROPOSAL_LOG_TYPE_CODE, this.getProposalLogTypeCode());
-        hashMap.put("title", this.getTitle());
-        hashMap.put("piId", this.getPiId());
-        hashMap.put("piName", this.getPiName());
-        hashMap.put("leadUnit", this.getLeadUnit());
-        hashMap.put("sponsorCode", this.getSponsorCode());
-        hashMap.put("sponsorName", this.getSponsorName());
-        hashMap.put(LOG_STATUS, this.getLogStatus());
-        hashMap.put("comments", this.getComments());
-        hashMap.put("deadlineDate", this.getDeadlineDate());
-        hashMap.put("mergedWith", this.getMergedWith());
-        hashMap.put("instProposalNumber", this.getInstProposalNumber());
-        return hashMap;
-    }
-    
     /**
      * Gets the KC Person Service.
      * @return KC Person Service.
@@ -533,7 +508,7 @@ public class ProposalLog extends KraPersistableBusinessObjectBase implements Neg
     @Override
     public ProposalType getNegotiableProposalType() {
         return this.getProposalType();
-    }
+    }    
 
     @Override
     public String getSubAwardRequisitionerName() {

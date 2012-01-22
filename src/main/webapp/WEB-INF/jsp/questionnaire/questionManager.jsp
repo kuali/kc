@@ -30,7 +30,7 @@
     <kra-questionnaire:questionManagerResponse />
 </kul:tab>
 
-     <input type="hidden" id="docStatus" name="docStatus" value="${KualiForm.document.documentHeader.workflowDocument.routeHeader.docRouteStatus }"  />   
+     <input type="hidden" id="docStatus" name="docStatus" value="${KualiForm.document.documentHeader.workflowDocument.status.code }"  />   
      <input type="hidden" id="readOnly" name="readOnly" value="${KualiForm.readOnly}"  />   
 
 <script language="javascript">

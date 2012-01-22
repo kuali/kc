@@ -19,7 +19,8 @@ import java.util.ArrayList;
 import java.util.List;
 
 import org.kuali.kra.lookup.keyvalue.ExtendedPersistableBusinessObjectValuesFinder;
-import org.kuali.rice.core.util.KeyLabelPair;
+import org.kuali.rice.core.api.util.ConcreteKeyValue;
+import org.kuali.rice.core.api.util.KeyValue;
 
 /**
  * Report RegenerationType values finder class.
@@ -30,10 +31,10 @@ public class ReportRegenerationTypeValuesFinder extends ExtendedPersistableBusin
      * Get the report regeneration types and use the name as the key in the label.
      * @see org.kuali.kra.lookup.keyvalue.ExtendedPersistableBusinessObjectValuesFinder#getKeyValues()
      */
-    public List<KeyLabelPair> getKeyValues(){
-        List<KeyLabelPair> labels = new ArrayList<KeyLabelPair>();
+    public List<KeyValue> getKeyValues(){
+        List<KeyValue> labels = new ArrayList<KeyValue>();
         for (ReportRegenerationType type : ReportRegenerationType.values()) {
-            labels.add(new KeyLabelPair(type.name(), type.getDescription()));
+            labels.add(new ConcreteKeyValue(type.name(), type.getDescription()));
         }
         return labels;
     }

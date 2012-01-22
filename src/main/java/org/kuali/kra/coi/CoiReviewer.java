@@ -15,43 +15,29 @@
  */
 package org.kuali.kra.coi;
 
-import java.util.LinkedHashMap;
-
 import org.kuali.kra.bo.KraPersistableBusinessObjectBase;
 
 public class CoiReviewer extends KraPersistableBusinessObjectBase {
 
     private static final long serialVersionUID = 8787122160668915118L;
-    
+
     private String reviewerCode;
+
     private String description;
-    
-    
+
     public String getReviewerCode() {
         return reviewerCode;
     }
-    
+
     public void setReviewerCode(String reviewerCode) {
         this.reviewerCode = reviewerCode;
     }
-    
+
     public String getDescription() {
         return description;
     }
-    
+
     public void setDescription(String description) {
         this.description = description;
-    }
-    
-    /**
-     * {@inheritDoc}
-     * @see org.kuali.rice.kns.bo.BusinessObjectBase#toStringMapper()
-     */
-    @Override
-    protected LinkedHashMap toStringMapper() {
-        LinkedHashMap<String, Object> hashMap = new LinkedHashMap<String, Object>();
-        hashMap.put("reviewerCode", this.getReviewerCode());
-        hashMap.put("description", this.getDescription());
-        return hashMap;
     }
 }

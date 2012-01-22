@@ -23,7 +23,7 @@ import org.kuali.kra.committee.web.struts.form.schedule.StyleKey;
 import org.kuali.kra.committee.web.struts.form.schedule.YearlyScheduleDetails;
 import org.kuali.kra.infrastructure.KraServiceLocator;
 import org.kuali.rice.kns.service.DictionaryValidationService;
-import org.kuali.rice.kns.util.GlobalVariables;
+import org.kuali.rice.krad.util.GlobalVariables;
 
 public class CommitteeScheduleDataDictionaryValidationRule {
         
@@ -127,7 +127,7 @@ public class CommitteeScheduleDataDictionaryValidationRule {
     
     private boolean isError(String errorKey) {
         boolean retVal = false;
-        if(null == GlobalVariables.getErrorMap().get(errorKey))
+        if(null == GlobalVariables.getMessageMap().getErrorMessages().get(errorKey))
             retVal = true;
         return retVal;
     }

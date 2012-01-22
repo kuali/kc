@@ -194,7 +194,7 @@ public class ValidCalcTypeMaintenanceDocumentSeleniumTest extends KcSeleniumTest
         assertNotNull(document.getDocumentNumber());
         assertNotNull(document.getDocumentHeader());
         assertEquals(documentNumber, document.getDocumentHeader().getDocumentNumber());
-        ValidCalcType validCalcType = (ValidCalcType) document.getNewMaintainableObject().getBusinessObject();
+        ValidCalcType validCalcType = (ValidCalcType) document.getNewMaintainableObject().getDataObject();
         assertEquals(calcTypeId, validCalcType.getCalcTypeId());
         assertEquals(Integer.valueOf(DEFAULT_DEPENDENT_SEQ_NUMBER), validCalcType.getDependentSeqNumber());
         assertEquals(DEFAULT_RATE_CLASS_TYPE, validCalcType.getRateClassType());

@@ -31,7 +31,7 @@ import org.kuali.kra.bo.KcPerson;
 import org.kuali.kra.bo.Unit;
 import org.kuali.kra.service.KcPersonService;
 import org.kuali.kra.service.VersioningService;
-import org.kuali.rice.kns.service.BusinessObjectService;
+import org.kuali.rice.krad.service.BusinessObjectService;
 
 public class FinancialEntityServiceTest {
     private static final String  PERSON_ID = "10000000001";

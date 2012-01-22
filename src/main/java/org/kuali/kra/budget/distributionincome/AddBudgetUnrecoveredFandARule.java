@@ -15,8 +15,10 @@
  */
 package org.kuali.kra.budget.distributionincome;
 
+import org.kuali.rice.krad.rules.rule.BusinessRule;
 
-public interface AddBudgetUnrecoveredFandARule {
+
+public interface AddBudgetUnrecoveredFandARule extends BusinessRule {
 
     public boolean processAddBudgetUnrecoveredFandABusinessRules(AddBudgetUnrecoveredFandAEvent addUnrecoveredFandAEvent);
 }

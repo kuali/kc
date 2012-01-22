@@ -42,12 +42,11 @@ import org.kuali.kra.budget.BudgetDecimal;
 import org.kuali.kra.budget.BudgetException;
 import org.kuali.kra.budget.core.Budget;
 import org.kuali.kra.budget.document.BudgetDocument;
-import org.kuali.kra.external.budget.BudgetAdjustmentClient;
-
 import org.kuali.kra.budget.nonpersonnel.BudgetJustificationService;
 import org.kuali.kra.budget.nonpersonnel.BudgetJustificationServiceImpl;
 import org.kuali.kra.budget.nonpersonnel.BudgetJustificationWrapper;
 import org.kuali.kra.budget.web.struts.form.BudgetForm;
+import org.kuali.kra.external.budget.BudgetAdjustmentClient;
 import org.kuali.kra.infrastructure.Constants;
 import org.kuali.kra.infrastructure.KeyConstants;
 import org.kuali.kra.infrastructure.KraServiceLocator;
@@ -59,19 +58,20 @@ import org.kuali.kra.proposaldevelopment.budget.service.BudgetPrintService;
 import org.kuali.kra.proposaldevelopment.budget.service.BudgetSubAwardService;
 import org.kuali.kra.web.struts.action.AuditActionHelper;
 import org.kuali.kra.web.struts.action.AuditActionHelper.ValidationState;
-import org.kuali.rice.kns.question.ConfirmationQuestion;
-import org.kuali.rice.kns.service.BusinessObjectService;
-import org.kuali.rice.kns.service.KNSServiceLocator;
-import org.kuali.rice.kns.service.KualiConfigurationService;
-import org.kuali.rice.kns.util.GlobalVariables;
-import org.kuali.rice.kns.util.KNSConstants;
-import org.kuali.rice.kns.util.ObjectUtils;
-import org.kuali.rice.kns.util.RiceKeyConstants;
+import org.kuali.rice.core.api.config.property.ConfigurationService;
+import org.kuali.rice.core.api.util.RiceKeyConstants;
+import org.kuali.rice.kew.api.WorkflowDocument;
+import org.kuali.rice.kns.util.KNSGlobalVariables;
 import org.kuali.rice.kns.util.WebUtils;
 import org.kuali.rice.kns.web.struts.action.AuditModeAction;
 import org.kuali.rice.kns.web.struts.form.KualiDocumentFormBase;
 import org.kuali.rice.kns.web.struts.form.KualiForm;
-import org.kuali.rice.kns.workflow.service.KualiWorkflowDocument;
+import org.kuali.rice.kns.question.ConfirmationQuestion;
+import org.kuali.rice.krad.service.BusinessObjectService;
+import org.kuali.rice.krad.service.KRADServiceLocator;
+import org.kuali.rice.krad.util.GlobalVariables;
+import org.kuali.rice.krad.util.KRADConstants;
+import org.kuali.rice.krad.util.ObjectUtils;
 
 public class BudgetActionsAction extends BudgetAction implements AuditModeAction {
     private static final String CONTENT_TYPE_XML = "text/xml";
@@ -107,7 +107,7 @@ public class BudgetActionsAction extends BudgetAction implements AuditModeAction
         try {
             budgetJustificationService.consolidateExpenseJustifications(budget, getBudgetJusticationWrapper(form));
         } catch (BudgetException exc) {
-            GlobalVariables.getErrorMap().putError("budgetJustificationWrapper.justificationText", "error.custom", "There are no line item budget justifications");            
+            GlobalVariables.getMessageMap().putError("budgetJustificationWrapper.justificationText", "error.custom", "There are no line item budget justifications");            
         }
         
         return mapping.findForward(MAPPING_BASIC);
@@ -140,21 +140,21 @@ public class BudgetActionsAction extends BudgetAction implements AuditModeAction
     public ActionForward close(ActionMapping mapping, ActionForm form, HttpServletRequest request, HttpServletResponse response) throws Exception {
         KualiDocumentFormBase docForm = (KualiDocumentFormBase) form;
         // only want to prompt them to save if they already can save
-        if (docForm.getDocumentActions().containsKey(KNSConstants.KUALI_ACTION_CAN_SAVE)) {
-            Object question = request.getParameter(KNSConstants.QUESTION_INST_ATTRIBUTE_NAME);
-            KualiConfigurationService kualiConfiguration = KNSServiceLocator.getKualiConfigurationService();
+        if (docForm.getDocumentActions().containsKey(KRADConstants.KUALI_ACTION_CAN_SAVE)) {
+            Object question = request.getParameter(KRADConstants.QUESTION_INST_ATTRIBUTE_NAME);
+            ConfigurationService kualiConfiguration = KRADServiceLocator.getKualiConfigurationService();
 
             // logic for close question
             if (question == null) {
                 // ask question if not already asked
-                return this.performQuestionWithoutInput(mapping, form, request, response, KNSConstants.DOCUMENT_SAVE_BEFORE_CLOSE_QUESTION, kualiConfiguration.getPropertyString(RiceKeyConstants.QUESTION_SAVE_BEFORE_CLOSE), KNSConstants.CONFIRMATION_QUESTION, KNSConstants.MAPPING_CLOSE, "");
+                return this.performQuestionWithoutInput(mapping, form, request, response, KRADConstants.DOCUMENT_SAVE_BEFORE_CLOSE_QUESTION, kualiConfiguration.getPropertyValueAsString(RiceKeyConstants.QUESTION_SAVE_BEFORE_CLOSE), KRADConstants.CONFIRMATION_QUESTION, KRADConstants.MAPPING_CLOSE, "");
             }
             else {
                 BudgetForm budgetForm = (BudgetForm)form;
                 Budget budget = budgetForm.getBudgetDocument().getBudget();
 
-                Object buttonClicked = request.getParameter(KNSConstants.QUESTION_CLICKED_BUTTON);
-                if ((KNSConstants.DOCUMENT_SAVE_BEFORE_CLOSE_QUESTION.equals(question)) && ConfirmationQuestion.YES.equals(buttonClicked)) {
+                Object buttonClicked = request.getParameter(KRADConstants.QUESTION_CLICKED_BUTTON);
+                if ((KRADConstants.DOCUMENT_SAVE_BEFORE_CLOSE_QUESTION.equals(question)) && ConfirmationQuestion.YES.equals(buttonClicked)) {
                     // if yes button clicked - save the doc
                     budgetJustificationService.preSave(budget, getBudgetJusticationWrapper(form));
                 }
@@ -239,7 +239,7 @@ public class BudgetActionsAction extends BudgetAction implements AuditModeAction
         BudgetSubAwards newBudgetSubAward = budgetForm.getNewSubAward();
         boolean success = true;
         if(newBudgetSubAward.getOrganizationName()==null || newBudgetSubAward.getOrganizationName().equals("")){
-            GlobalVariables.getErrorMap().putError(Constants.SUBAWARD_ORG_NAME, Constants.SUBAWARD_ORG_NAME_REQUIERED);
+            GlobalVariables.getMessageMap().putError(Constants.SUBAWARD_ORG_NAME, Constants.SUBAWARD_ORG_NAME_REQUIERED);
             success = false;
         }
         
@@ -247,7 +247,7 @@ public class BudgetActionsAction extends BudgetAction implements AuditModeAction
         String contentType = subAwardFile.getContentType();
         byte[] subAwardData = subAwardFile.getFileData();
         if(subAwardData==null || subAwardData.length==0 || !contentType.equals(Constants.PDF_REPORT_CONTENT_TYPE)){
-            GlobalVariables.getErrorMap().putError(Constants.SUBAWARD_FILE, Constants.SUBAWARD_FILE_REQUIERED);
+            GlobalVariables.getMessageMap().putError(Constants.SUBAWARD_FILE, Constants.SUBAWARD_FILE_REQUIERED);
             success = false;
         }
         String subAwardFileName = subAwardFile.getFileName();
@@ -262,7 +262,7 @@ public class BudgetActionsAction extends BudgetAction implements AuditModeAction
         newBudgetSubAward.getBudgetSubAwardFiles().add(newBudgetsubAwardFiles);
         KraServiceLocator.getService(BudgetSubAwardService.class).populateBudgetSubAwardFiles(newBudgetSubAward);
         if(newBudgetSubAward.getBudgetSubAwardFiles().isEmpty() || newBudgetSubAward.getBudgetSubAwardFiles().get(0).getSubAwardXmlFileData()==null){
-            GlobalVariables.getErrorMap().putError(Constants.SUBAWARD_FILE, Constants.SUBAWARD_FILE_NOT_EXTRACTED);
+            GlobalVariables.getMessageMap().putError(Constants.SUBAWARD_FILE, Constants.SUBAWARD_FILE_NOT_EXTRACTED);
             success = false;
         }
         if(success){
@@ -411,11 +411,11 @@ public class BudgetActionsAction extends BudgetAction implements AuditModeAction
         Award currentAward = getAwardBudgetService().getActiveOrNewestAward(((AwardDocument) awardBudgetDocument.getParentDocument()).getAward().getAwardNumber());
         BudgetDecimal newCostLimit = getAwardBudgetService().getTotalCostLimit(currentAward.getAwardDocument());
         if (!newCostLimit.equals(awardBudgetDocument.getBudget().getTotalCostLimit())) {
-            Object question = request.getParameter(KNSConstants.QUESTION_INST_ATTRIBUTE_NAME);
-            Object buttonClicked = request.getParameter(KNSConstants.QUESTION_CLICKED_BUTTON);
+            Object question = request.getParameter(KRADConstants.QUESTION_INST_ATTRIBUTE_NAME);
+            Object buttonClicked = request.getParameter(KRADConstants.QUESTION_CLICKED_BUTTON);
             String methodToCall = ((KualiForm) form).getMethodToCall();
             if(question == null){
-                KualiConfigurationService kualiConfiguration = KNSServiceLocator.getKualiConfigurationService();
+                ConfigurationService kualiConfiguration = KRADServiceLocator.getKualiConfigurationService();
                 return confirm(buildParameterizedConfirmationQuestion(mapping, form, request, response, UPDATE_COST_LIMITS_QUESTION,
                         KeyConstants.QUESTION_TOTALCOSTLIMIT_CHANGED, 
                         new String[]{awardBudgetDocument.getBudget().getTotalCostLimit().toString(), newCostLimit.toString()}), 
@@ -434,8 +434,8 @@ public class BudgetActionsAction extends BudgetAction implements AuditModeAction
             return super.route(mapping, form, request, response);
         }
         else {
-            GlobalVariables.getErrorMap().clear(); 
-            GlobalVariables.getErrorMap().putError("datavalidation",KeyConstants.ERROR_WORKFLOW_SUBMISSION,  new String[] {});
+            GlobalVariables.getMessageMap().clearErrorMessages(); 
+            GlobalVariables.getMessageMap().putError("datavalidation",KeyConstants.ERROR_WORKFLOW_SUBMISSION,  new String[] {});
 
             return mapping.findForward(Constants.MAPPING_AWARD_BASIC);
         }
@@ -493,8 +493,8 @@ public class BudgetActionsAction extends BudgetAction implements AuditModeAction
     public ActionForward cancel(ActionMapping mapping, ActionForm form, HttpServletRequest request, HttpServletResponse response) throws Exception {
         
         AwardBudgetDocument awardBudgetDocument = ((AwardBudgetForm)form).getAwardBudgetDocument();
-        KualiWorkflowDocument workflowDoc = awardBudgetDocument.getDocumentHeader().getWorkflowDocument();
-        if (workflowDoc.stateIsEnroute()
+        WorkflowDocument workflowDoc = awardBudgetDocument.getDocumentHeader().getWorkflowDocument();
+        if (workflowDoc.isEnroute()
                 && StringUtils.equals(GlobalVariables.getUserSession().getPrincipalId(), workflowDoc.getRoutedByPrincipalId())) {
             workflowDoc.superUserCancel("Cancelled by Routed By User");
             return mapping.findForward(Constants.MAPPING_BASIC);
@@ -528,11 +528,11 @@ public class BudgetActionsAction extends BudgetAction implements AuditModeAction
                 if (!isValidForPostingToFinancialSystem(awardBudgetDocument)) {
                     getAwardBudgetService().post(awardBudgetDocument);
                     String docNumber = awardBudgetDocument.getBudget().getBudgetAdjustmentDocumentNumber();
-                    GlobalVariables.getMessageList().add(KeyConstants.BUDGET_POSTED, docNumber);
+                    KNSGlobalVariables.getMessageList().add(KeyConstants.BUDGET_POSTED, docNumber);
                 }
             } else {
                 String budgetAdjustmentDocNbr = awardBudgetDocument.getBudget().getBudgetAdjustmentDocumentNumber();
-                GlobalVariables.getMessageMap().putError(KNSConstants.GLOBAL_ERRORS, KeyConstants.BUDGET_ADJUSTMENT_DOC_EXISTS, budgetAdjustmentDocNbr);
+                GlobalVariables.getMessageMap().putError(KRADConstants.GLOBAL_ERRORS, KeyConstants.BUDGET_ADJUSTMENT_DOC_EXISTS, budgetAdjustmentDocNbr);
                 LOG.info("Cannot post budget. There is already a budget adjustment document linked to this budget.");
             }
             
@@ -568,7 +568,7 @@ public class BudgetActionsAction extends BudgetAction implements AuditModeAction
     }
     
     protected boolean isFinancialIntegrationOn(AwardBudgetDocument awardBudgetDocument) {
-        String parameterValue = getParameterService().getParameterValue(Constants.MODULE_NAMESPACE_AWARD, 
+        String parameterValue = getParameterService().getParameterValueAsString(Constants.MODULE_NAMESPACE_AWARD, 
                 Constants.PARAMETER_COMPONENT_DOCUMENT, Constants.FIN_SYSTEM_INTEGRATION_ON_OFF_PARAMETER);
         if (StringUtils.containsIgnoreCase(parameterValue, Constants.FIN_SYSTEM_INTEGRATION_ON)) {
             return true;

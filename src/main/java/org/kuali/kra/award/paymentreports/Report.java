@@ -13,10 +13,7 @@
  * See the License for the specific language governing permissions and
  * limitations under the License.
  */
-
 package org.kuali.kra.award.paymentreports;
-
-import java.util.LinkedHashMap;
 
 import org.kuali.kra.bo.KraPersistableBusinessObjectBase;
 
@@ -25,24 +22,27 @@ import org.kuali.kra.bo.KraPersistableBusinessObjectBase;
  * This class represents the Report business object and is mapped
  * with REPORT table.
  */
-public class Report extends KraPersistableBusinessObjectBase { 
-    
+public class Report extends KraPersistableBusinessObjectBase {
+
     /**
      * Comment for <code>serialVersionUID</code>
      */
     private static final long serialVersionUID = 4555054434451627778L;
-    private String reportCode; 
-    private String description; 
-    private boolean finalReportFlag; 
+
+    private String reportCode;
+
+    private String description;
+
+    private boolean finalReportFlag;
+
     private boolean active;
-    
+
     /**
      * Constructs a Report.java
      */
-    public Report() { 
+    public Report() {
+    }
 
-    } 
-    
     /**
      * 
      * @return
@@ -92,19 +92,6 @@ public class Report extends KraPersistableBusinessObjectBase {
     }
 
     /**
-     * 
-     * @see org.kuali.rice.kns.bo.BusinessObjectBase#toStringMapper()
-     */
-    @Override 
-    protected LinkedHashMap<String, Object> toStringMapper() {
-        LinkedHashMap<String, Object> hashMap = new LinkedHashMap<String, Object>();
-        hashMap.put("reportCode", getReportCode());
-        hashMap.put("description", getDescription());
-        hashMap.put("finalReportFlag", getFinalReportFlag());
-        return hashMap;
-    }
-
-    /**
      * @see java.lang.Object#hashCode()
      */
     @Override
@@ -120,33 +107,32 @@ public class Report extends KraPersistableBusinessObjectBase {
      */
     @Override
     public boolean equals(Object obj) {
-        if (this == obj){
+        if (this == obj) {
             return true;
-        }   
-        if (obj == null){
-            return false;
-        }   
-        if (!(obj instanceof Report)){
+        }
+        if (obj == null) {
             return false;
         }
-        
-        return equals((Report) obj);        
+        if (!(obj instanceof Report)) {
+            return false;
+        }
+        return equals((Report) obj);
     }
-    
+
     /**
      * 
      * Convenience method with Report
      * @param report
      * @return
      */
-    public boolean equals(Report report){
+    public boolean equals(Report report) {
         if (reportCode == null) {
-            if (report.reportCode != null){
+            if (report.reportCode != null) {
                 return false;
-            }   
-        }else if (!reportCode.equals(report.reportCode)){
+            }
+        } else if (!reportCode.equals(report.reportCode)) {
             return false;
-        }   
+        }
         return true;
     }
 
@@ -157,7 +143,4 @@ public class Report extends KraPersistableBusinessObjectBase {
     public void setActive(boolean active) {
         this.active = active;
     }
-    
-    
-
 }

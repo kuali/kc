@@ -15,7 +15,7 @@
  */
 package org.kuali.kra.budget.parameters;
 
-import org.kuali.rice.kns.rule.BusinessRule;
+import org.kuali.rice.krad.rules.rule.BusinessRule;
 
 public interface DeleteBudgetPeriodRule  extends BusinessRule {
     

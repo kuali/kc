@@ -23,8 +23,8 @@ import org.apache.commons.lang.StringUtils;
 import org.kuali.kra.infrastructure.KeyConstants;
 import org.kuali.kra.rules.KraMaintenanceDocumentRuleBase;
 import org.kuali.rice.kns.document.MaintenanceDocument;
-import org.kuali.rice.kns.util.GlobalVariables;
-import org.kuali.rice.kns.util.KNSConstants;
+import org.kuali.rice.krad.util.GlobalVariables;
+import org.kuali.rice.krad.util.KRADConstants;
 
 /**
  * 
@@ -39,13 +39,13 @@ public class ValidProtoSubRevTypeMaintenanceDocumentRule extends KraMaintenanceD
      */
     protected boolean processCustomRouteDocumentBusinessRules(MaintenanceDocument document) {
         setOldTYpeId(document);
-        ValidProtoSubRevType validProtoSubRevType = (ValidProtoSubRevType) document.getDocumentBusinessObject();
+        ValidProtoSubRevType validProtoSubRevType = (ValidProtoSubRevType) document.getNoteTarget();
         return validate(validProtoSubRevType);
     }
 
     private void setOldTYpeId(MaintenanceDocument document) {
-        if (document.getNewMaintainableObject().getMaintenanceAction().equals(KNSConstants.MAINTENANCE_EDIT_ACTION)) {
-            oldTypeId = ((ValidProtoSubRevType)document.getOldMaintainableObject().getBusinessObject()).getValidProtoSubRevTypeId();
+        if (document.getNewMaintainableObject().getMaintenanceAction().equals(KRADConstants.MAINTENANCE_EDIT_ACTION)) {
+            oldTypeId = ((ValidProtoSubRevType)document.getOldMaintainableObject().getDataObject()).getValidProtoSubRevTypeId();
          }        
     }
 
@@ -56,7 +56,7 @@ public class ValidProtoSubRevTypeMaintenanceDocumentRule extends KraMaintenanceD
     @Override
     protected boolean processCustomApproveDocumentBusinessRules(MaintenanceDocument document) {
         setOldTYpeId(document);
-        ValidProtoSubRevType validProtoSubRevType = (ValidProtoSubRevType) document.getDocumentBusinessObject();
+        ValidProtoSubRevType validProtoSubRevType = (ValidProtoSubRevType) document.getNoteTarget();
         return validate(validProtoSubRevType);
     }
 

@@ -16,10 +16,6 @@
 package org.kuali.kra.negotiations.bo;
 
 import java.io.Serializable;
-import java.util.LinkedHashMap;
-import java.util.Map;
-
-import org.kuali.kra.bo.KraPersistableBusinessObjectBase;
 
 /**
  * 

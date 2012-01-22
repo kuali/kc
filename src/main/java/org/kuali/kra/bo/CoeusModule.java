@@ -15,14 +15,14 @@
  */
 package org.kuali.kra.bo;
 
-import java.util.LinkedHashMap;
-
 import org.kuali.kra.questionnaire.QuestionnaireUsage;
 
-public class CoeusModule extends KraPersistableBusinessObjectBase { 
-    
+public class CoeusModule extends KraPersistableBusinessObjectBase {
+
     public static final String AWARD_MODULE_CODE = "1";
+
     public static final String INSTITUTIONAL_PROPOSAL_MODULE_CODE = "2";
+
     public static final String PROPOSAL_DEVELOPMENT_MODULE_CODE = "3";
     public static final String SUBCONTRACTS_MODULE_CODE = "4";
     public static final String NEGOTIATIONS_MODULE_CODE = "5";
@@ -31,9 +31,11 @@ public class CoeusModule extends KraPersistableBusinessObjectBase {
     public static final String COI_DISCLOSURE_MODULE_CODE = "8";
     public static final String IACUC_PROTOCOL_MODULE_CODE = "9";
     public static final String COMMITTEE_MODULE_CODE = "11";
-    
+
     public static final int AWARD_MODULE_CODE_INT = 1;
+
     public static final int INSTITUTIONAL_PROPOSAL_MODULE_CODE_INT = 2;
+
     public static final int PROPOSAL_DEVELOPMENT_MODULE_CODE_INT = 3;
     public static final int SUBCONTRACTS_MODULE_CODE_INT = 4;
     public static final int NEGOTIATIONS_MODULE_CODE_INT = 5;
@@ -42,15 +44,17 @@ public class CoeusModule extends KraPersistableBusinessObjectBase {
     public static final int COI_DISCLOSURE_MODULE_CODE_INT = 8;
     public static final int IACUC_PROTOCOL_MODULE_CODE_INT = 9;
     public static final int COMMITEE_MODULE_CODE_INT = 11;
-    
+
     private static final long serialVersionUID = 1L;
 
-    private String moduleCode; 
-    private String description; 
-    
+    private String moduleCode;
+
+    private String description;
+
     private QuestionnaireUsage questionnaireUsage;
+
     private CoeusSubModule coeusSubModule;
-    
+
     /* TODO : Implemented in the future 
     
     private ProtocolRelatedProjects protocolRelatedProjects;
@@ -62,11 +66,9 @@ public class CoeusModule extends KraPersistableBusinessObjectBase {
     private NotificationType notificationType;
     private NotificationDetails notificationDetails;
     */
-    
-    public CoeusModule() { 
+    public CoeusModule() {
+    }
 
-    } 
-    
     public String getModuleCode() {
         return moduleCode;
     }
@@ -156,14 +158,5 @@ public class CoeusModule extends KraPersistableBusinessObjectBase {
         this.notificationDetails = notificationDetails;
     }
     */
-
-    /** {@inheritDoc} */
-    @Override 
-    protected LinkedHashMap<String, Object> toStringMapper() {
-        LinkedHashMap<String, Object> hashMap = new LinkedHashMap<String, Object>();
-        hashMap.put("moduleCode", this.getModuleCode());
-        hashMap.put("description", this.getDescription());
-        return hashMap;
-    }
     
 }

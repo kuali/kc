@@ -15,8 +15,6 @@
  */
 package org.kuali.kra.proposaldevelopment.bo;
 
-import java.util.LinkedHashMap;
-
 import org.kuali.kra.bo.KcPerson;
 import org.kuali.kra.bo.KraPersistableBusinessObjectBase;
 import org.kuali.kra.bo.Unit;
@@ -24,28 +22,33 @@ import org.kuali.kra.infrastructure.KraServiceLocator;
 import org.kuali.kra.service.KcPersonService;
 
 public class ProposalRoleTemplate extends KraPersistableBusinessObjectBase {
-    
-    private Long id;
-    private String personId;
-    private String roleName;
-	private String unitNumber;
-	private Boolean active;
 
-	private Unit unit;
-	private transient KcPersonService kcPersonService;
+    private Long id;
+
+    private String personId;
+
+    private String roleName;
+
+    private String unitNumber;
+
+    private Boolean active;
+
+    private Unit unit;
+
+    private transient KcPersonService kcPersonService;
 
     public ProposalRoleTemplate() {
         active = true;
     }
 
-	public Long getId() {
+    public Long getId() {
         return id;
     }
-	
+
     public void setId(Long id) {
         this.id = id;
     }
-    
+
     public String getPersonId() {
         return personId;
     }
@@ -53,7 +56,7 @@ public class ProposalRoleTemplate extends KraPersistableBusinessObjectBase {
     public void setPersonId(String personId) {
         this.personId = personId;
     }
-    
+
     public String getPersonName() {
         return getPerson().getFullName();
     }
@@ -73,7 +76,7 @@ public class ProposalRoleTemplate extends KraPersistableBusinessObjectBase {
     public void setUnitNumber(String unitNumber) {
         this.unitNumber = unitNumber;
     }
-    
+
     public String getUnitName() {
         return unit.getUnitName();
     }
@@ -89,7 +92,7 @@ public class ProposalRoleTemplate extends KraPersistableBusinessObjectBase {
     public KcPerson getPerson() {
         return getKcPersonService().getKcPersonByPersonId(personId);
     }
-    
+
     /**
      * Gets the KC Person Service.
      * @return KC Person Service.
@@ -98,7 +101,6 @@ public class ProposalRoleTemplate extends KraPersistableBusinessObjectBase {
         if (this.kcPersonService == null) {
             this.kcPersonService = KraServiceLocator.getService(KcPersonService.class);
         }
-        
         return this.kcPersonService;
     }
 
@@ -110,25 +112,14 @@ public class ProposalRoleTemplate extends KraPersistableBusinessObjectBase {
         this.unit = unit;
     }
 
-    @Override 
-	protected LinkedHashMap toStringMapper() {
-		LinkedHashMap hashMap = new LinkedHashMap();
-		hashMap.put("unitNumber", getUnitNumber());
-		return hashMap;
-	}
-    
     /**
      * @see java.lang.Object#equals(java.lang.Object)
      */
     public boolean equals(Object obj) {
-        if (obj == null)
-            return false;
-        if (this == obj)
-            return true;
-        if (!(obj instanceof ProposalRoleTemplate))
-            return false;
+        if (obj == null) return false;
+        if (this == obj) return true;
+        if (!(obj instanceof ProposalRoleTemplate)) return false;
         ProposalRoleTemplate other = (ProposalRoleTemplate) obj;
         return id.equals(other.id);
     }
-
 }

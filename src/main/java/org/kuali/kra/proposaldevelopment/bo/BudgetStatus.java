@@ -15,15 +15,14 @@
  */
 package org.kuali.kra.proposaldevelopment.bo;
 
-import java.util.LinkedHashMap;
-
 import org.kuali.kra.bo.KraPersistableBusinessObjectBase;
 
 public class BudgetStatus extends KraPersistableBusinessObjectBase {
-    
+
     private String budgetStatusCode;
+
     private String description;
-    
+
     public String getBudgetStatusCode() {
         return budgetStatusCode;
     }
@@ -38,13 +37,5 @@ public class BudgetStatus extends KraPersistableBusinessObjectBase {
 
     public void setDescription(String description) {
         this.description = description;
-    }
-
-    @Override 
-    protected LinkedHashMap toStringMapper() {
-        LinkedHashMap<String, Object> hashMap = new LinkedHashMap<String, Object>();
-        hashMap.put("budgetStatusCode", getBudgetStatusCode());
-        hashMap.put("description", getDescription());
-        return hashMap;
     }
 }

@@ -30,14 +30,15 @@ import org.kuali.kra.bo.CustomAttributeDocument;
 import org.kuali.kra.document.ResearchDocumentBase;
 import org.kuali.kra.proposaldevelopment.document.ProposalDevelopmentDocument;
 import org.kuali.kra.test.infrastructure.KcUnitTestBase;
-import org.kuali.rice.kew.exception.WorkflowException;
-import org.kuali.rice.kns.UserSession;
-import org.kuali.rice.kns.service.DocumentService;
-import org.kuali.rice.kns.service.KNSServiceLocator;
+import org.kuali.rice.core.api.util.RiceKeyConstants;
+import org.kuali.rice.kew.api.exception.WorkflowException;
 import org.kuali.rice.kns.util.AuditCluster;
 import org.kuali.rice.kns.util.AuditError;
-import org.kuali.rice.kns.util.GlobalVariables;
-import org.kuali.rice.kns.util.RiceKeyConstants;
+import org.kuali.rice.kns.util.KNSGlobalVariables;
+import org.kuali.rice.krad.UserSession;
+import org.kuali.rice.krad.service.DocumentService;
+import org.kuali.rice.krad.service.KRADServiceLocatorWeb;
+import org.kuali.rice.krad.util.GlobalVariables;
 
 /**
  * This class tests the ResearchDocumentBaseAuditRule class
@@ -61,8 +62,8 @@ public class ResearchDocumentBaseAuditRuleTest extends KcUnitTestBase {
     public void setUp() throws Exception {
         super.setUp();
         GlobalVariables.setUserSession(new UserSession("quickstart"));
-        GlobalVariables.setAuditErrorMap(new HashMap());
-        documentService = KNSServiceLocator.getDocumentService();
+        KNSGlobalVariables.setAuditErrorMap(new HashMap());
+        documentService = KRADServiceLocatorWeb.getDocumentService();
         auditRule = new ResearchDocumentBaseAuditRule();
         DateFormat dateFormat = new SimpleDateFormat("MM/dd/yyyy");
         defaultProposalRequestedStartDate = new Date(dateFormat.parse("08/14/2007").getTime());
@@ -72,7 +73,7 @@ public class ResearchDocumentBaseAuditRuleTest extends KcUnitTestBase {
     @After
     public void tearDown() throws Exception {
         GlobalVariables.setUserSession(null);
-        GlobalVariables.setAuditErrorMap(null);
+        KNSGlobalVariables.setAuditErrorMap(null);
         documentService = null;
         auditRule = null;
         defaultProposalRequestedStartDate = null;
@@ -95,11 +96,11 @@ public class ResearchDocumentBaseAuditRuleTest extends KcUnitTestBase {
         }
 
         assertFalse("Audit Rule should produce an audit error", auditRule.processRunAuditBusinessRules(document));
-        assertEquals(requiredFields.size(), GlobalVariables.getAuditErrorMap().size());
+        assertEquals(requiredFields.size(), KNSGlobalVariables.getAuditErrorMap().size());
 
         for (String key: requiredFields.keySet()) {
             CustomAttribute customAttribute = requiredFields.get(key);
-            AuditCluster auditCluster = (AuditCluster)GlobalVariables.getAuditErrorMap().get("CustomData" + StringUtils.deleteWhitespace(customAttribute.getGroupName()) + "Errors");
+            AuditCluster auditCluster = (AuditCluster)KNSGlobalVariables.getAuditErrorMap().get("CustomData" + StringUtils.deleteWhitespace(customAttribute.getGroupName()) + "Errors");
 
             assertEquals(1, auditCluster.getSize());
             //assertEquals("Custom Data: " + customAttribute.getGroupName(), auditCluster.getLabel());
@@ -127,7 +128,7 @@ public class ResearchDocumentBaseAuditRuleTest extends KcUnitTestBase {
         }
 
         assertTrue("Audit Rule shouldn't produce any audit errors", auditRule.processRunAuditBusinessRules(document));
-        assertEquals(0, GlobalVariables.getAuditErrorMap().size());
+        assertEquals(0, KNSGlobalVariables.getAuditErrorMap().size());
     }
 
     private ProposalDevelopmentDocument getNewDocument() throws WorkflowException {

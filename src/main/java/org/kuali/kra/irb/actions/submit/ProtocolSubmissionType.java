@@ -13,58 +13,59 @@
  * See the License for the specific language governing permissions and
  * limitations under the License.
  */
-
 package org.kuali.kra.irb.actions.submit;
-
-import java.util.LinkedHashMap;
 
 import org.kuali.kra.bo.KraPersistableBusinessObjectBase;
 
-public class ProtocolSubmissionType extends KraPersistableBusinessObjectBase { 
-	
+public class ProtocolSubmissionType extends KraPersistableBusinessObjectBase {
+
     public static final String INITIAL_SUBMISSION = "100";
+
     public static final String CONTINUATION = "101";
+
     public static final String AMENDMENT = "102";
+
     public static final String RESPONSE_TO_PREV_IRB_NOTIFICATION = "103";
-	public static final String REQUEST_TO_CLOSE = "109";
-	public static final String CONTINUATION_WITH_AMENDMENT = "115";
+
+    public static final String REQUEST_TO_CLOSE = "109";
+
+    public static final String CONTINUATION_WITH_AMENDMENT = "115";
+
     public static final String REQUEST_FOR_SUSPENSION = "110";
+
     public static final String REQUEST_TO_CLOSE_ENROLLMENT = "111";
+
     public static final String REQUEST_TO_REOPEN_ENROLLMENT = "114";
+
     public static final String REQUEST_FOR_DATA_ANALYSIS_ONLY = "113";
-    public static final String NOTIFY_IRB = "112";  // also known as FYI
+
+    public static final String NOTIFY_IRB = "112";
+
+    // also known as FYI  
     public static final String REQUEST_FOR_TERMINATION = "108";
-    
+
     public static final String RESUBMISSION = "116";
-	
-    private String submissionTypeCode; 
-	private String description; 
-	
-	public ProtocolSubmissionType() { 
 
-	} 
-	
-	public String getSubmissionTypeCode() {
-		return submissionTypeCode;
-	}
+    private String submissionTypeCode;
 
-	public void setSubmissionTypeCode(String submissionTypeCode){
-		this.submissionTypeCode = submissionTypeCode;
-	}
+    private String description;
 
-	public String getDescription() {
-		return description;
-	}
+    public ProtocolSubmissionType() {
+    }
 
-	public void setDescription(String description){
-		this.description = description;
-	}
+    public String getSubmissionTypeCode() {
+        return submissionTypeCode;
+    }
 
-	@Override 
-	protected LinkedHashMap toStringMapper() {
-		LinkedHashMap hashMap = new LinkedHashMap();
-		hashMap.put("submissionTypeCode", getSubmissionTypeCode());
-		hashMap.put("description", getDescription());
-		return hashMap;
-	}
+    public void setSubmissionTypeCode(String submissionTypeCode) {
+        this.submissionTypeCode = submissionTypeCode;
+    }
+
+    public String getDescription() {
+        return description;
+    }
+
+    public void setDescription(String description) {
+        this.description = description;
+    }
 }

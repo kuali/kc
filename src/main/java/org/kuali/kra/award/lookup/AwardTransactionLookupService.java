@@ -15,7 +15,6 @@
  */
 package org.kuali.kra.award.lookup;
 
-import java.util.List;
 import java.util.Map;
 
 public interface AwardTransactionLookupService {

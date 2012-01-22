@@ -13,24 +13,25 @@
  * See the License for the specific language governing permissions and
  * limitations under the License.
  */
-
 package org.kuali.kra.bo;
 
-import java.util.LinkedHashMap;
 
 public class S2sOppFormQuestionnaire extends KraPersistableBusinessObjectBase {
 
     private static final long serialVersionUID = -2249378225351572499L;
-    
+
     private Long s2sOppFormQuestionnaireId;
+
     private String oppNameSpace;
+
     private String formName;
+
     private Integer questionnaireId;
-    
+
     public static final String OPP_NAMESPACE_FIELD = "oppNameSpace";
+
     public static final String FORM_NAME_FIELD = "formName";
-    
-   
+
     /**
      * Gets the s2SOppFormQuestionnaireMapId attribute. 
      * @return Returns the s2SOppFormQuestionnaireMapId.
@@ -38,7 +39,6 @@ public class S2sOppFormQuestionnaire extends KraPersistableBusinessObjectBase {
     public Long getS2sOppFormQuestionnaireId() {
         return s2sOppFormQuestionnaireId;
     }
-
 
     /**
      * Sets the s2SOppFormQuestionnaireMapId attribute value.
@@ -56,7 +56,6 @@ public class S2sOppFormQuestionnaire extends KraPersistableBusinessObjectBase {
         return oppNameSpace;
     }
 
-
     /**
      * Sets the oppNameSpace attribute value.
      * @param oppNameSpace The oppNameSpace to set.
@@ -64,7 +63,6 @@ public class S2sOppFormQuestionnaire extends KraPersistableBusinessObjectBase {
     public void setOppNameSpace(String oppNameSpace) {
         this.oppNameSpace = oppNameSpace;
     }
-
 
     /**
      * Gets the formName attribute. 
@@ -74,7 +72,6 @@ public class S2sOppFormQuestionnaire extends KraPersistableBusinessObjectBase {
         return formName;
     }
 
-
     /**
      * Sets the formName attribute value.
      * @param formName The formName to set.
@@ -82,7 +79,6 @@ public class S2sOppFormQuestionnaire extends KraPersistableBusinessObjectBase {
     public void setFormName(String formName) {
         this.formName = formName;
     }
-
 
     /**
      * Gets the questionnaireId attribute. 
@@ -92,7 +88,6 @@ public class S2sOppFormQuestionnaire extends KraPersistableBusinessObjectBase {
         return questionnaireId;
     }
 
-
     /**
      * Sets the questionnaireId attribute value.
      * @param questionnaireId The questionnaireId to set.
@@ -101,20 +96,7 @@ public class S2sOppFormQuestionnaire extends KraPersistableBusinessObjectBase {
         this.questionnaireId = questionnaireId;
     }
 
-
-    public S2sOppFormQuestionnaire(){
+    public S2sOppFormQuestionnaire() {
         super();
-    }
-
-    
-    @SuppressWarnings({ "rawtypes", "unchecked" })
-    @Override 
-    protected LinkedHashMap toStringMapper() {
-        LinkedHashMap hashMap = new LinkedHashMap();
-        hashMap.put("s2sOppFormQuestionnaireId", getS2sOppFormQuestionnaireId());
-        hashMap.put("oppNameSpace", getOppNameSpace());
-        hashMap.put("formName", getFormName());
-        hashMap.put("questionnaireId", getQuestionnaireId());
-        return hashMap;
     }
 }

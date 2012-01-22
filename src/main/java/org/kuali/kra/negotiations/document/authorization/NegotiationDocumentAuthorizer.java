@@ -22,12 +22,11 @@ import org.kuali.kra.authorization.ApplicationTask;
 import org.kuali.kra.authorization.KcTransactionalDocumentAuthorizerBase;
 import org.kuali.kra.infrastructure.TaskName;
 import org.kuali.kra.negotiations.auth.NegotiationTask;
-import org.kuali.kra.negotiations.bo.Negotiation;
 import org.kuali.kra.negotiations.document.NegotiationDocument;
-import org.kuali.rice.kim.bo.Person;
+import org.kuali.rice.kew.api.WorkflowDocument;
+import org.kuali.rice.kim.api.identity.Person;
 import org.kuali.rice.kns.authorization.AuthorizationConstants;
-import org.kuali.rice.kns.document.Document;
-import org.kuali.rice.kns.workflow.service.KualiWorkflowDocument;
+import org.kuali.rice.krad.document.Document;
 
 /**
  * 
@@ -45,7 +44,7 @@ public class NegotiationDocumentAuthorizer extends KcTransactionalDocumentAuthor
 
     
     /**
-     * @see org.kuali.rice.kns.document.authorization.TransactionalDocumentAuthorizer#getEditModes(org.kuali.rice.kns.document.Document, org.kuali.rice.kim.bo.Person, java.util.Set)
+     * @see org.kuali.rice.kns.document.authorization.TransactionalDocumentAuthorizer#getEditModes(org.kuali.rice.krad.document.Document, org.kuali.rice.kim.api.identity.Person, java.util.Set)
      */
     public Set<String> getEditModes(Document document, Person user, Set<String> currentEditModes) {
         Set<String> editModes = new HashSet<String>();
@@ -108,7 +107,7 @@ public class NegotiationDocumentAuthorizer extends KcTransactionalDocumentAuthor
     
     /**
      * 
-     * @see org.kuali.rice.kns.document.authorization.DocumentAuthorizer#canInitiate(java.lang.String, org.kuali.rice.kim.bo.Person)
+     * @see org.kuali.rice.kns.document.authorization.DocumentAuthorizer#canInitiate(java.lang.String, org.kuali.rice.kim.api.identity.Person)
      */
     public boolean canInitiate(String documentTypeName, Person user) {
         return canCreateNegotiation(user);
@@ -116,7 +115,7 @@ public class NegotiationDocumentAuthorizer extends KcTransactionalDocumentAuthor
     
     /**
      * 
-     * @see org.kuali.rice.kns.document.authorization.DocumentAuthorizer#canOpen(org.kuali.rice.kns.document.Document, org.kuali.rice.kim.bo.Person)
+     * @see org.kuali.rice.kns.document.authorization.DocumentAuthorizer#canOpen(org.kuali.rice.krad.document.Document, org.kuali.rice.kim.api.identity.Person)
      */
     public boolean canOpen(Document document, Person user) {
         boolean retVal = 
@@ -140,7 +139,19 @@ public class NegotiationDocumentAuthorizer extends KcTransactionalDocumentAuthor
     }
     
     public boolean canReload(Document document, Person user) {
-        KualiWorkflowDocument workflowDocument = document.getDocumentHeader().getWorkflowDocument();
-        return canEdit(document, user) && !workflowDocument.stateIsInitiated();
+        WorkflowDocument workflowDocument = document.getDocumentHeader().getWorkflowDocument();
+        return canEdit(document, user) && !workflowDocument.isInitiated();
     }
+
+    @Override
+    public boolean canSendNoteFyi(Document document, Person user) {
+        return false;
+    }
+    
+    @Override
+    public boolean canFyi(Document document, Person user) {
+        return false;
+    }
+
+    
 }

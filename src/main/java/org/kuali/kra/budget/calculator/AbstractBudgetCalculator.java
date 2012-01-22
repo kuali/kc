@@ -51,9 +51,9 @@ import org.kuali.kra.budget.rates.ValidCeRateType;
 import org.kuali.kra.budget.web.struts.form.BudgetForm;
 import org.kuali.kra.infrastructure.KraServiceLocator;
 import org.kuali.kra.proposaldevelopment.bo.DevelopmentProposal;
-import org.kuali.rice.kns.service.BusinessObjectService;
-import org.kuali.rice.kns.service.DateTimeService;
-import org.kuali.rice.kns.service.KNSServiceLocator;
+import org.kuali.rice.core.api.CoreApiServiceLocator;
+import org.kuali.rice.core.api.datetime.DateTimeService;
+import org.kuali.rice.krad.service.BusinessObjectService;
 /**
  * 
  * Base class for <code>LineItemCalculator<code> and <code>PersonnelLineItemCalculator</code>.
@@ -83,7 +83,7 @@ public abstract class AbstractBudgetCalculator {
         this.budget = budget;
         this.budgetLineItem = budgetLineItem;
         businessObjectService = KraServiceLocator.getService(BusinessObjectService.class);
-        dateTimeService = KNSServiceLocator.getDateTimeService();
+        dateTimeService = CoreApiServiceLocator.getDateTimeService();
         budgetCalcultionService = KraServiceLocator.getService(BudgetCalculationService.class);
         breakupIntervals = new ArrayList<BreakUpInterval>();
     }

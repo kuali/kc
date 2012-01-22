@@ -15,12 +15,6 @@
  */
 package org.kuali.kra.irb.protocol.funding;
 
-import static org.junit.Assert.assertFalse;
-import static org.junit.Assert.assertNotNull;
-import static org.junit.Assert.assertNull;
-import static org.junit.Assert.assertTrue;
-import static org.junit.Assert.fail;
-
 import java.util.Collections;
 import java.util.Map.Entry;
 
@@ -45,9 +39,9 @@ import org.kuali.kra.service.FundingSourceTypeService;
 import org.kuali.kra.service.SponsorService;
 import org.kuali.kra.service.UnitService;
 import org.kuali.kra.test.infrastructure.KcUnitTestBase;
-import org.kuali.rice.kns.service.BusinessObjectService;
-import org.kuali.rice.kns.service.ParameterService;
-import org.kuali.rice.kns.util.KNSConstants;
+import org.kuali.rice.coreservice.framework.parameter.ParameterService;
+import org.kuali.rice.krad.service.BusinessObjectService;
+import org.kuali.rice.krad.util.KRADConstants;
 
 /**
 * The JUnit test class for <code>{@link ProtocolFundingSourceServiceImpl}</code>
@@ -508,10 +502,10 @@ public class ProtocolFundingSourceServiceTest extends KcUnitTestBase {
         builder.append("sponsorName:" + protocolFundingSourceName);
         
         Assert.assertThat(entry.getValue(), JUnitMatchers.containsString(builder.toString()));
-        String parameter = KNSConstants.METHOD_TO_CALL_BOPARM_LEFT_DEL 
-                            + KNSConstants.METHOD_TO_CALL_BOPARM_RIGHT_DEL
-                            + KNSConstants.METHOD_TO_CALL_PARM1_LEFT_DEL
-                            + KNSConstants.METHOD_TO_CALL_PARM1_RIGHT_DEL;
+        String parameter = KRADConstants.METHOD_TO_CALL_BOPARM_LEFT_DEL 
+                            + KRADConstants.METHOD_TO_CALL_BOPARM_RIGHT_DEL
+                            + KRADConstants.METHOD_TO_CALL_PARM1_LEFT_DEL
+                            + KRADConstants.METHOD_TO_CALL_PARM1_RIGHT_DEL;
         String updatedParam 
             = protocolFundingSourceService.updateLookupParameter(parameter, "org.kuali.kra.bo.Sponsor", fieldConversions);
         Assert.assertThat(updatedParam, JUnitMatchers.containsString("(!!org.kuali.kra.bo.Sponsor!!)(((" + builder.toString() + ")))"));
@@ -615,11 +609,11 @@ public class ProtocolFundingSourceServiceTest extends KcUnitTestBase {
         context.checking(new Expectations() {{
             allowing(parameterService).parameterExists(with(any(Class.class)), with(any(String.class))); 
             will(returnValue(true));
-            allowing(parameterService).getIndicatorParameter( ProtocolDocument.class, Constants.ENABLE_PROTOCOL_TO_AWARD_LINK ); 
+            allowing(parameterService).getParameterValueAsBoolean( ProtocolDocument.class, Constants.ENABLE_PROTOCOL_TO_AWARD_LINK ); 
             will(returnValue(true));
-            allowing(parameterService).getIndicatorParameter(ProtocolDocument.class, Constants.ENABLE_PROTOCOL_TO_DEV_PROPOSAL_LINK ); 
+            allowing(parameterService).getParameterValueAsBoolean(ProtocolDocument.class, Constants.ENABLE_PROTOCOL_TO_DEV_PROPOSAL_LINK ); 
             will(returnValue(true));
-            allowing(parameterService).getIndicatorParameter(ProtocolDocument.class, Constants.ENABLE_PROTOCOL_TO_PROPOSAL_LINK ); 
+            allowing(parameterService).getParameterValueAsBoolean(ProtocolDocument.class, Constants.ENABLE_PROTOCOL_TO_PROPOSAL_LINK ); 
             will(returnValue(true));
         }});
         return parameterService;

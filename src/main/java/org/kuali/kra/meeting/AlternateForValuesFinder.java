@@ -18,8 +18,9 @@ package org.kuali.kra.meeting;
 import java.util.ArrayList;
 import java.util.List;
 
-import org.kuali.rice.core.util.KeyLabelPair;
-import org.kuali.rice.kns.lookup.keyvalues.KeyValuesBase;
+import org.kuali.rice.core.api.util.ConcreteKeyValue;
+import org.kuali.rice.core.api.util.KeyValue;
+import org.kuali.rice.krad.keyvalues.KeyValuesBase;
 
 /**
  * 
@@ -36,12 +37,12 @@ public class AlternateForValuesFinder extends KeyValuesBase {
      */
     public List getKeyValues() {
 
-        List<KeyLabelPair> keyValues = new ArrayList<KeyLabelPair>();
+        List<KeyValue> keyValues = new ArrayList<KeyValue>();
         for (String idName : absenteeList.split(MEMBER_SEPARATOR)) {
             String[] valuePair = idName.split(FIELD_SEPARATOR);
-            keyValues.add(new KeyLabelPair(valuePair[0], valuePair[1]));
+            keyValues.add(new ConcreteKeyValue(valuePair[0], valuePair[1]));
         }
-        keyValues.add(0, new KeyLabelPair("", "select"));
+        keyValues.add(0, new ConcreteKeyValue("", "select"));
         return keyValues;
     }
 

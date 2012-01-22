@@ -63,15 +63,15 @@ import org.kuali.kra.infrastructure.Constants;
 import org.kuali.kra.infrastructure.KeyConstants;
 import org.kuali.kra.proposaldevelopment.budget.modular.SyncModularBudgetRule;
 import org.kuali.kra.rules.ActivityTypeAuditRule;
-import org.kuali.kra.rules.ResearchDocumentRuleBase;
-import org.kuali.rice.kns.document.Document;
-import org.kuali.rice.kns.rule.DocumentAuditRule;
+import org.kuali.rice.core.api.util.type.KualiDecimal;
 import org.kuali.rice.kns.util.AuditCluster;
 import org.kuali.rice.kns.util.AuditError;
-import org.kuali.rice.kns.util.ErrorMap;
-import org.kuali.rice.kns.util.GlobalVariables;
-import org.kuali.rice.kns.util.KualiDecimal;
-import org.kuali.rice.kns.util.ObjectUtils;
+import org.kuali.rice.kns.util.KNSGlobalVariables;
+import org.kuali.rice.krad.document.Document;
+import org.kuali.rice.krad.rules.rule.DocumentAuditRule;
+import org.kuali.rice.krad.util.GlobalVariables;
+import org.kuali.rice.krad.util.MessageMap;
+import org.kuali.rice.krad.util.ObjectUtils;
 
 public class BudgetDocumentRule extends CostShareRuleResearchDocumentBase implements AddBudgetPeriodRule, AddBudgetCostShareRule, AddBudgetProjectIncomeRule, SaveBudgetPeriodRule, DeleteBudgetPeriodRule, GenerateBudgetPeriodRule, DocumentAuditRule, SyncModularBudgetRule {
 
@@ -118,9 +118,9 @@ public class BudgetDocumentRule extends CostShareRuleResearchDocumentBase implem
         
         BudgetDocument budgetDocument = (BudgetDocument) document;
         
-        GlobalVariables.getErrorMap().addToErrorPath("document");        
+        GlobalVariables.getMessageMap().addToErrorPath("document");        
         getDictionaryValidationService().validateDocumentAndUpdatableReferencesRecursively(document, getMaxDictionaryValidationDepth(), VALIDATION_REQUIRED, CHOMP_LAST_LETTER_S_FROM_COLLECTION_NAME);
-        GlobalVariables.getErrorMap().addToErrorPath("parentDocument");
+        GlobalVariables.getMessageMap().addToErrorPath("parentDocument");
         if (ObjectUtils.isNull(budgetDocument.getParentDocument())) {
             budgetDocument.refreshReferenceObject("parentDocument");
         }
@@ -130,9 +130,9 @@ public class BudgetDocumentRule extends CostShareRuleResearchDocumentBase implem
 //        else {
 //            valid &= processBudgetTypeBusinessRules(budgetDocument);
 //        }
-        GlobalVariables.getErrorMap().removeFromErrorPath("parentDocument");
+        GlobalVariables.getMessageMap().removeFromErrorPath("parentDocument");
         
-        GlobalVariables.getErrorMap().addToErrorPath("budget"); 
+        GlobalVariables.getMessageMap().addToErrorPath("budget"); 
         valid &= processBudgetPersonnelBusinessRules(budgetDocument);
         
         valid &= processBudgetExpenseBusinessRules(budgetDocument);
@@ -143,8 +143,8 @@ public class BudgetDocumentRule extends CostShareRuleResearchDocumentBase implem
         
         valid &= processBudgetProjectIncomeBusinessRule(budgetDocument);
 
-        GlobalVariables.getErrorMap().removeFromErrorPath("budget");
-        GlobalVariables.getErrorMap().removeFromErrorPath("document");
+        GlobalVariables.getMessageMap().removeFromErrorPath("budget");
+        GlobalVariables.getMessageMap().removeFromErrorPath("document");
         
         
         return valid;
@@ -159,7 +159,7 @@ public class BudgetDocumentRule extends CostShareRuleResearchDocumentBase implem
     */
     protected boolean processBudgetProjectIncomeBusinessRule(BudgetDocument budgetDocument) {
         boolean valid = true;
-        ErrorMap errorMap = GlobalVariables.getErrorMap();
+        MessageMap errorMap = GlobalVariables.getMessageMap();
         int i = 0;
         for (BudgetCostShare budgetCostShare : budgetDocument.getBudget().getBudgetCostShares()) {
             String errorPath = "budgetCostShare[" + i + "]";
@@ -195,8 +195,8 @@ public class BudgetDocumentRule extends CostShareRuleResearchDocumentBase implem
             i++;
         }
         //check project income for values that are not greater than 0
-        GlobalVariables.getErrorMap().removeFromErrorPath("budget");
-        GlobalVariables.getErrorMap().addToErrorPath("budgets[0]"); 
+        GlobalVariables.getMessageMap().removeFromErrorPath("budget");
+        GlobalVariables.getMessageMap().addToErrorPath("budgets[0]"); 
         i = 0;
         for (BudgetProjectIncome budgetProjectIncome : budgetDocument.getBudget().getBudgetProjectIncomes()) {
             String errorPath = "budgetProjectIncomes[" + i + "]";
@@ -208,8 +208,8 @@ public class BudgetDocumentRule extends CostShareRuleResearchDocumentBase implem
             errorMap.removeFromErrorPath(errorPath);
             i++;
         }
-        GlobalVariables.getErrorMap().removeFromErrorPath("budgets[0]");
-        GlobalVariables.getErrorMap().addToErrorPath("budget");
+        GlobalVariables.getMessageMap().removeFromErrorPath("budgets[0]");
+        GlobalVariables.getMessageMap().addToErrorPath("budget");
         
         return valid;
     }
@@ -217,7 +217,7 @@ public class BudgetDocumentRule extends CostShareRuleResearchDocumentBase implem
     // change to audit rule
 //    protected boolean processBudgetTypeBusinessRules(BudgetDocument budgetDocument) {
 //        boolean valid = true;
-//        ErrorMap errorMap = GlobalVariables.getErrorMap();
+//        MessageMap errorMap = GlobalVariables.getMessageMap();
 //        errorMap.removeFromErrorPath("parentDocument");
 //        errorMap.removeFromErrorPath("document");
 //        
@@ -226,8 +226,8 @@ public class BudgetDocumentRule extends CostShareRuleResearchDocumentBase implem
 //            errorMap.putError("document.budget.comments", KeyConstants.ERROR_REQUIRED, "Comments(Comments)");
 //            valid = false;
 //        }
-//        GlobalVariables.getErrorMap().addToErrorPath("document");        
-//        GlobalVariables.getErrorMap().addToErrorPath("parentDocument");
+//        GlobalVariables.getMessageMap().addToErrorPath("document");        
+//        GlobalVariables.getMessageMap().addToErrorPath("parentDocument");
 //        return valid;
 //    }
 
@@ -243,7 +243,7 @@ public class BudgetDocumentRule extends CostShareRuleResearchDocumentBase implem
         final int APPLICABLE_RATE_LENGTH_EXCEEDED = 1;
         final int APPLICABLE_RATE_NEGATIVE = -1;
 
-        ErrorMap errorMap = GlobalVariables.getErrorMap();
+        MessageMap errorMap = GlobalVariables.getMessageMap();
         int i = 0;
         for (BudgetRate budgetRate : budgetDocument.getBudget().getBudgetRates()) {
             String rateClassType = budgetRate.getRateClass().getRateClassTypeT().getDescription();
@@ -352,7 +352,7 @@ public class BudgetDocumentRule extends CostShareRuleResearchDocumentBase implem
     protected boolean processBudgetExpenseBusinessRules(BudgetDocument budgetDocument) {
         boolean valid = true;
         //TODO - put budget expense validation rules here.
-        ErrorMap errorMap = GlobalVariables.getErrorMap();
+        MessageMap errorMap = GlobalVariables.getMessageMap();
         
         List<BudgetPeriod> budgetPeriods = budgetDocument.getBudget().getBudgetPeriods();
         int i=0;
@@ -402,7 +402,7 @@ public class BudgetDocumentRule extends CostShareRuleResearchDocumentBase implem
     protected boolean processBudgetPersonnelBudgetBusinessRules(BudgetDocument budgetDocument) {
         boolean valid = true;
 
-        ErrorMap errorMap = GlobalVariables.getErrorMap();
+        MessageMap errorMap = GlobalVariables.getMessageMap();
         
         List<BudgetPeriod> budgetPeriods = budgetDocument.getBudget().getBudgetPeriods();
         int i=0;
@@ -441,7 +441,7 @@ public class BudgetDocumentRule extends CostShareRuleResearchDocumentBase implem
     }
     
     /**
-     * @see org.kuali.rice.kns.rule.DocumentAuditRule#processRunAuditBusinessRules(org.kuali.rice.kns.document.Document)
+     * @see org.kuali.rice.krad.rules.rule.DocumentAuditRule#processRunAuditBusinessRules(org.kuali.rice.krad.document.Document)
      */
     public boolean processRunAuditBusinessRules(Document document) {
         boolean retval = true;
@@ -486,7 +486,7 @@ public class BudgetDocumentRule extends CostShareRuleResearchDocumentBase implem
         boolean retval = true;
         
         List<AuditError> auditErrors = new ArrayList<AuditError>();
-        String budgetStatusCompleteCode = getParameterService().getParameterValue(
+        String budgetStatusCompleteCode = getParameterService().getParameterValueAsString(
                 BudgetDocument.class, Constants.BUDGET_STATUS_COMPLETE_CODE);
         for (BudgetDocumentVersion budgetDocumentVersion : parentDocument.getBudgetDocumentVersions()) {
             BudgetVersionOverview budgetVersion = budgetDocumentVersion.getBudgetVersionOverview(); 
@@ -504,7 +504,7 @@ public class BudgetDocumentRule extends CostShareRuleResearchDocumentBase implem
             retval = false;
         }
         if (auditErrors.size() > 0) {
-            GlobalVariables.getAuditErrorMap().put("budgetVersionErrors", new AuditCluster(Constants.BUDGET_VERSION_PANEL_NAME, auditErrors, Constants.AUDIT_ERRORS));
+            KNSGlobalVariables.getAuditErrorMap().put("budgetVersionErrors", new AuditCluster(Constants.BUDGET_VERSION_PANEL_NAME, auditErrors, Constants.AUDIT_ERRORS));
         }
 
         return retval;
@@ -519,7 +519,7 @@ public class BudgetDocumentRule extends CostShareRuleResearchDocumentBase implem
         
         BudgetDocument budgetDocument = (BudgetDocument) document;
         
-        GlobalVariables.getErrorMap().addToErrorPath("document");
+        GlobalVariables.getMessageMap().addToErrorPath("document");
         
         List budgetPeriods = budgetDocument.getBudget().getBudgetPeriods();
         if (ObjectUtils.isNotNull(budgetPeriods) || budgetPeriods.size() >= 1) {
@@ -532,10 +532,10 @@ public class BudgetDocumentRule extends CostShareRuleResearchDocumentBase implem
         }
         
         if (!valid) {
-            GlobalVariables.getErrorMap().putError("modularBudget", KeyConstants.ERROR_NO_DETAILED_BUDGET);
+            GlobalVariables.getMessageMap().putError("modularBudget", KeyConstants.ERROR_NO_DETAILED_BUDGET);
         }
         
-        GlobalVariables.getErrorMap().removeFromErrorPath("document");
+        GlobalVariables.getMessageMap().removeFromErrorPath("document");
         
         return valid;
     }
@@ -549,11 +549,11 @@ public class BudgetDocumentRule extends CostShareRuleResearchDocumentBase implem
     private List<AuditError> getAuditErrors() {
         List<AuditError> auditErrors = new ArrayList<AuditError>();
         
-        if (!GlobalVariables.getAuditErrorMap().containsKey("budgetPersonnelAuditErrors")) {
-           GlobalVariables.getAuditErrorMap().put("budgetPersonnelAuditErrors", new AuditCluster("Budget Personnel Information", auditErrors, AUDIT_ERRORS));
+        if (!KNSGlobalVariables.getAuditErrorMap().containsKey("budgetPersonnelAuditErrors")) {
+           KNSGlobalVariables.getAuditErrorMap().put("budgetPersonnelAuditErrors", new AuditCluster("Budget Personnel Information", auditErrors, AUDIT_ERRORS));
         }
         else {
-            auditErrors = ((AuditCluster)GlobalVariables.getAuditErrorMap().get("budgetPersonnelAuditErrors")).getAuditErrorList();
+            auditErrors = ((AuditCluster)KNSGlobalVariables.getAuditErrorMap().get("budgetPersonnelAuditErrors")).getAuditErrorList();
         }
         
         return auditErrors;

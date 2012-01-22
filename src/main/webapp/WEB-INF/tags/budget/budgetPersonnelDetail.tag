@@ -125,11 +125,11 @@
 		                    <c:forEach items="${krafn:getOptionList('org.kuali.kra.budget.lookup.keyvalue.CostElementValuesFinder', paramMap)}" var="option">
 		                    <c:choose>                    	
 		                    	<c:when test="${KualiForm.newBudgetLineItems[catCodes].costElement == option.key}">
-		                        <option value="${option.key}" selected>${option.label}</option>
+		                        <option value="${option.key}" selected>${option.value}</option>
 		                        </c:when>
 		                        <c:otherwise>
-		                        <c:out value="${option.label}"/>
-		                        <option value="${option.key}">${option.label}</option>
+		                        <c:out value="${option.value}"/>
+		                        <option value="${option.key}">${option.value}</option>
 		                        </c:otherwise>
 		                    </c:choose>                    
 		                    </c:forEach>

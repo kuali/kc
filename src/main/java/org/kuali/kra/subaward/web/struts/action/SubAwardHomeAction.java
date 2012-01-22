@@ -32,9 +32,9 @@ import org.kuali.kra.subaward.bo.SubAwardContact;
 import org.kuali.kra.subaward.bo.SubAwardFundingSource;
 import org.kuali.kra.subaward.document.SubAwardDocument;
 import org.kuali.kra.subaward.subawardrule.SubAwardDocumentRule;
-import org.kuali.rice.kew.exception.WorkflowException;
-import org.kuali.rice.kns.util.GlobalVariables;
-import org.kuali.rice.kns.util.KNSConstants;
+import org.kuali.rice.kew.api.exception.WorkflowException;
+import org.kuali.rice.krad.util.GlobalVariables;
+import org.kuali.rice.krad.util.KRADConstants;
 
 public class SubAwardHomeAction extends SubAwardAction{
     
@@ -51,7 +51,12 @@ public class SubAwardHomeAction extends SubAwardAction{
     @Override
     public ActionForward save(ActionMapping mapping, ActionForm form, HttpServletRequest request, HttpServletResponse response) throws Exception {
         SubAwardForm subAwardForm = (SubAwardForm) form;
+       
+        
         ActionForward forward = super.save(mapping, form, request, response);
+
+      
+        
         return forward;
     }
     
@@ -62,8 +67,8 @@ public class SubAwardHomeAction extends SubAwardAction{
             throws Exception {
         super.refresh(mapping, form, request, response);
         SubAwardForm subAwardMultiLookupForm = (SubAwardForm)form;
-        String lookupResultsBOClassName = request.getParameter(KNSConstants.LOOKUP_RESULTS_BO_CLASS_NAME);
-        String lookupResultsSequenceNumber = request.getParameter(KNSConstants.LOOKUP_RESULTS_SEQUENCE_NUMBER);
+        String lookupResultsBOClassName = request.getParameter(KRADConstants.LOOKUP_RESULTS_BO_CLASS_NAME);
+        String lookupResultsSequenceNumber = request.getParameter(KRADConstants.LOOKUP_RESULTS_SEQUENCE_NUMBER);
         subAwardMultiLookupForm.setLookupResultsBOClassName(lookupResultsBOClassName);
         subAwardMultiLookupForm.setLookupResultsSequenceNumber(lookupResultsSequenceNumber);
         SubAward subAward = subAwardMultiLookupForm.getSubAwardDocument().getSubAward();
@@ -110,7 +115,7 @@ public class SubAwardHomeAction extends SubAwardAction{
     }
     
     private String makeDocumentOpenUrl(SubAwardDocument newSubAwardDocument) {
-        String workflowUrl = getKualiConfigurationService().getPropertyString(KNSConstants.WORKFLOW_URL_KEY);
+        String workflowUrl = getKualiConfigurationService().getPropertyValueAsString(KRADConstants.WORKFLOW_URL_KEY);
         return String.format(DOC_HANDLER_URL_PATTERN, workflowUrl, newSubAwardDocument.getDocumentNumber());
     }
     /**
@@ -131,12 +136,13 @@ public class SubAwardHomeAction extends SubAwardAction{
         SubAward subAward = subAwardForm.getSubAwardDocument().getSubAward();
         SubAwardFundingSource fundingSources= subAwardForm.getNewSubAwardFundingSource();
         
-       if(new SubAwardDocumentRule().processAddSubAwardFundingSourceBusinessRules(fundingSources,subAward)){
-        addFundingSourceToSubAward(subAwardForm.getSubAwardDocument().getSubAward(),fundingSources);
-        subAwardForm.setNewSubAwardFundingSource(new SubAwardFundingSource());
-       }
+        if(new SubAwardDocumentRule().processAddSubAwardFundingSourceBusinessRules(fundingSources,subAward)){
+            addFundingSourceToSubAward(subAwardForm.getSubAwardDocument().getSubAward(),fundingSources);
+            subAwardForm.setNewSubAwardFundingSource(new SubAwardFundingSource());
+        }
         return mapping.findForward(Constants.MAPPING_SUBAWARD_PAGE);
     }
+    
     boolean addFundingSourceToSubAward(SubAward subAward,SubAwardFundingSource fundingSources){
         if(subAward.getSubAwardCode()==null){
             String subAwardCode = getSubAwardService().getNextSubAwardCode();

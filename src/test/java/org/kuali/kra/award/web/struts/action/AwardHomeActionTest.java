@@ -21,7 +21,7 @@ import org.junit.Before;
 import org.junit.Test;
 import org.kuali.kra.award.home.Award;
 import org.kuali.kra.award.home.approvedsubawards.AwardApprovedSubaward;
-import org.kuali.rice.kns.util.KualiDecimal;
+import org.kuali.rice.core.api.util.type.KualiDecimal;
 
 
 public class AwardHomeActionTest {

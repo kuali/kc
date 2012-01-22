@@ -15,8 +15,6 @@
  */
 package org.kuali.kra.budget.distributionincome;
 
-import java.util.LinkedHashMap;
-
 import org.kuali.kra.budget.core.BudgetAssociate;
 
 public abstract class BudgetDistributionAndIncomeComponent extends BudgetAssociate {
@@ -25,17 +23,10 @@ public abstract class BudgetDistributionAndIncomeComponent extends BudgetAssocia
      * Comment for <code>serialVersionUID</code>
      */
     private static final long serialVersionUID = -5475883963362089242L;
+
     private Integer documentComponentId;
 
     public abstract String getDocumentComponentIdKey();
-    
-    @SuppressWarnings("unchecked")
-    @Override
-    protected LinkedHashMap toStringMapper() {
-        LinkedHashMap<String, Object> hashMap = super.toStringMapper();
-        hashMap.put("documentComponentId", getDocumentComponentId());
-        return hashMap;
-    }
 
     public Integer getDocumentComponentId() {
         return documentComponentId;
@@ -44,5 +35,4 @@ public abstract class BudgetDistributionAndIncomeComponent extends BudgetAssocia
     public void setDocumentComponentId(Integer costShareId) {
         this.documentComponentId = costShareId;
     }
-    
 }

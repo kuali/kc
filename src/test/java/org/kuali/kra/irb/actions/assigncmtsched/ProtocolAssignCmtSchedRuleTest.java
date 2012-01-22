@@ -23,7 +23,7 @@ import org.kuali.kra.infrastructure.KeyConstants;
 import org.kuali.kra.irb.ProtocolDocument;
 import org.kuali.kra.irb.test.ProtocolFactory;
 import org.kuali.kra.irb.test.ProtocolRuleTestBase;
-import org.kuali.rice.kns.util.GlobalVariables;
+import org.kuali.rice.krad.util.GlobalVariables;
 
 /**
  * Test the business rules for Assigning a protocol to a committee.
@@ -60,7 +60,7 @@ public class ProtocolAssignCmtSchedRuleTest extends ProtocolRuleTestBase {
         actionBean.setCommitteeId("1");
         
         assertTrue(rule.processAssignToCommitteeSchedule(protocolDocument, actionBean));
-        assertEquals(GlobalVariables.getErrorMap().size(), 0);
+        assertEquals(GlobalVariables.getMessageMap().getErrorMessages().size(), 0);
     }
 
     /**

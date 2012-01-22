@@ -15,41 +15,34 @@
  */
 package org.kuali.kra.bo;
 
-import java.util.LinkedHashMap;
 
-public abstract class AbstractSponsorFormTemplate extends KraPersistableBusinessObjectBase implements Comparable<AbstractSponsorFormTemplate>{
+public abstract class AbstractSponsorFormTemplate extends KraPersistableBusinessObjectBase implements Comparable<AbstractSponsorFormTemplate> {
+
     private Long sponsorFormTemplateId;
+
     private Long sponsorFormId;
-	private Integer pageNumber;
-	private String pageDescription;
+
+    private Integer pageNumber;
+
+    private String pageDescription;
+
     private SponsorForms sponsorForms;
 
-	public Integer getPageNumber() {
-		return pageNumber;
-	}
+    public Integer getPageNumber() {
+        return pageNumber;
+    }
 
-	public void setPageNumber(Integer pageNumber) {
-		this.pageNumber = pageNumber;
-	}
+    public void setPageNumber(Integer pageNumber) {
+        this.pageNumber = pageNumber;
+    }
 
-	public String getPageDescription() {
-		return pageDescription;
-	}
+    public String getPageDescription() {
+        return pageDescription;
+    }
 
-	public void setPageDescription(String pageDescription) {
-		this.pageDescription = pageDescription;
-	}
-
-
-	@Override 
-	protected LinkedHashMap toStringMapper() {
-		LinkedHashMap hashMap = new LinkedHashMap();
-		hashMap.put("sponsorFormTemplateId", getSponsorFormTemplateId());
-		hashMap.put("sponsorFormId", getSponsorFormId());
-		hashMap.put("pageNumber", getPageNumber());
-		hashMap.put("pageDescription", getPageDescription());
-		return hashMap;
-	}
+    public void setPageDescription(String pageDescription) {
+        this.pageDescription = pageDescription;
+    }
 
     public final SponsorForms getSponsorForms() {
         return sponsorForms;
@@ -58,7 +51,7 @@ public abstract class AbstractSponsorFormTemplate extends KraPersistableBusiness
     public final void setSponsorForms(SponsorForms sponsorForms) {
         this.sponsorForms = sponsorForms;
     }
-    
+
     public int compareTo(AbstractSponsorFormTemplate abstractSponsorFormTemplate) {
         int result = getSponsorForms().getPackageNumber().compareTo(abstractSponsorFormTemplate.getSponsorForms().getPackageNumber());
         result = result != 0 ? result : getPageNumber().compareTo(abstractSponsorFormTemplate.getPageNumber());
@@ -80,5 +73,4 @@ public abstract class AbstractSponsorFormTemplate extends KraPersistableBusiness
     public void setSponsorFormId(Long sponsorFormId) {
         this.sponsorFormId = sponsorFormId;
     }
-    
 }

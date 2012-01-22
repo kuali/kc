@@ -27,8 +27,8 @@ import org.kuali.kra.infrastructure.KraServiceLocator;
 import org.kuali.kra.proposaldevelopment.bo.ActivityType;
 import org.kuali.kra.rules.KraMaintenanceDocumentRuleBase;
 import org.kuali.rice.kns.document.MaintenanceDocument;
-import org.kuali.rice.kns.service.BusinessObjectService;
-import org.kuali.rice.kns.util.GlobalVariables;
+import org.kuali.rice.krad.service.BusinessObjectService;
+import org.kuali.rice.krad.util.GlobalVariables;
 
 /**
  * Rule class for the InstituteRateMaintenanceDocument.
@@ -67,8 +67,8 @@ public class InstituteRateMaintenanceDocumentRule extends KraMaintenanceDocument
     public boolean processCustomRouteDocumentBusinessRules(MaintenanceDocument document) {
         this.logDocInfo(document);
         
-        boolean valid = this.rule.validateRateTypeAndRateClass((AbstractInstituteRate) document.getDocumentBusinessObject());
-        valid &= checkExistence((AbstractInstituteRate) document.getNewMaintainableObject().getBusinessObject());
+        boolean valid = this.rule.validateRateTypeAndRateClass((AbstractInstituteRate) document.getNoteTarget());
+        valid &= checkExistence((AbstractInstituteRate) document.getNewMaintainableObject().getDataObject());
         
         return valid;
     }
@@ -81,8 +81,8 @@ public class InstituteRateMaintenanceDocumentRule extends KraMaintenanceDocument
     public boolean processCustomApproveDocumentBusinessRules(MaintenanceDocument document) {
         this.logDocInfo(document);
         
-        boolean valid = this.rule.validateRateTypeAndRateClass((AbstractInstituteRate) document.getDocumentBusinessObject());
-        valid &= checkExistence((AbstractInstituteRate) document.getNewMaintainableObject().getBusinessObject());
+        boolean valid = this.rule.validateRateTypeAndRateClass((AbstractInstituteRate) document.getNoteTarget());
+        valid &= checkExistence((AbstractInstituteRate) document.getNewMaintainableObject().getDataObject());
         
         return valid;
     }
@@ -104,7 +104,7 @@ public class InstituteRateMaintenanceDocumentRule extends KraMaintenanceDocument
             pkMap.put("rateTypeCode", newInstituteRate.getRateTypeCode());
             RateType rateType = (RateType)KraServiceLocator.getService(BusinessObjectService.class).findByPrimaryKey(RateType.class, pkMap);
             if (rateType == null ) {
-                GlobalVariables.getErrorMap().putError("document.newMaintainableObject.rateTypeCode", KeyConstants.ERROR_RATE_TYPE_NOT_EXIST,
+                GlobalVariables.getMessageMap().putError("document.newMaintainableObject.rateTypeCode", KeyConstants.ERROR_RATE_TYPE_NOT_EXIST,
                         new String[] {newInstituteRate.getRateClassCode(), newInstituteRate.getRateTypeCode() });
                 valid = false;
             }

@@ -25,7 +25,7 @@ import org.kuali.kra.bo.SponsorTermType;
 import org.kuali.kra.infrastructure.KeyConstants;
 import org.kuali.kra.infrastructure.KraServiceLocator;
 import org.kuali.rice.kns.document.MaintenanceDocument;
-import org.kuali.rice.kns.service.BusinessObjectService;
+import org.kuali.rice.krad.service.BusinessObjectService;
 
 public class SponsorTemplateTermsExistenceRule extends KraMaintenanceDocumentRuleBase {
 
@@ -52,7 +52,7 @@ public class SponsorTemplateTermsExistenceRule extends KraMaintenanceDocumentRul
      */
     private boolean checkTermsExistence(MaintenanceDocument maintenanceDocument) {
         boolean valid= true;
-        AwardTemplate awardTemplate = (AwardTemplate) maintenanceDocument.getNewMaintainableObject().getBusinessObject();
+        AwardTemplate awardTemplate = (AwardTemplate) maintenanceDocument.getNewMaintainableObject().getDataObject();
         List<AwardTemplateTerm> aList = awardTemplate.getAwardSponsorTerms();
 
         BusinessObjectService businessObjectService = KraServiceLocator.getService(BusinessObjectService.class);

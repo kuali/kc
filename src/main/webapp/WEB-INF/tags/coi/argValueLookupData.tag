@@ -11,10 +11,10 @@
                                 <c:forEach items="${krafn:getOptionList('org.kuali.kra.lookup.keyvalue.ArgValueLookupValuesFinder', paramMap)}" var="option">
                                     <c:choose>                      
                                         <c:when test="${bean.relationshipTypeBeans[valueIndex].stringValue == option.key}">
-                                            <option value="${option.key}" selected>${option.label}</option>
+                                            <option value="${option.key}" selected>${option.value}</option>
                                         </c:when>
                                         <c:otherwise>
-                                            <option value="${option.key}">${option.label}</option>
+                                            <option value="${option.key}">${option.value}</option>
                                         </c:otherwise>
                                     </c:choose>                    
                                 </c:forEach>

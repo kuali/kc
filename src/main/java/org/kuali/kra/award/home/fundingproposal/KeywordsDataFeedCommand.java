@@ -25,7 +25,7 @@ import org.kuali.kra.bo.ScienceKeyword;
 import org.kuali.kra.infrastructure.KraServiceLocator;
 import org.kuali.kra.institutionalproposal.home.InstitutionalProposal;
 import org.kuali.kra.institutionalproposal.home.InstitutionalProposalScienceKeyword;
-import org.kuali.rice.kns.service.BusinessObjectService;
+import org.kuali.rice.krad.service.BusinessObjectService;
 
 class KeywordsDataFeedCommand extends ProposalDataFeedCommandBase {
     

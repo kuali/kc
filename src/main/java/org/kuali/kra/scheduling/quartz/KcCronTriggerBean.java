@@ -21,10 +21,10 @@ import org.apache.commons.logging.Log;
 import org.apache.commons.logging.LogFactory;
 import org.kuali.kra.infrastructure.KeyConstants;
 import org.kuali.kra.proposaldevelopment.document.ProposalDevelopmentDocument;
-import org.kuali.rice.kns.service.ParameterService;
+import org.kuali.rice.coreservice.framework.parameter.ParameterService;
 import org.springframework.context.ApplicationEvent;
 import org.springframework.context.ApplicationListener;
-import org.springframework.context.event.ContextRefreshedEvent;
+import org.springframework.context.event.ContextStartedEvent;
 import org.springframework.scheduling.quartz.CronTriggerBean;
 
 /**
@@ -42,7 +42,7 @@ public class KcCronTriggerBean extends CronTriggerBean implements ApplicationLis
     private static final String DEFAULT_CRON_EXPRESSION = "0 0 1 * * ?";
     
     private ParameterService parameterService;
-    private boolean refreshed;
+    private boolean refreshed = false;
     
     /**
      * Sets the ParameterService.
@@ -57,9 +57,8 @@ public class KcCronTriggerBean extends CronTriggerBean implements ApplicationLis
      * 
      * @see org.springframework.scheduling.quartz.CronTriggerBean#afterPropertiesSet()
      */
-    public void afterPropertiesSet() throws ParseException {
-        // according to java doc, it should call getSystemCronExpression().  not sure why it changed to default ?
-        //setCronExpression(DEFAULT_CRON_EXPRESSION);
+    public void afterPropertiesSet() throws Exception {
+        //setCronExpression(DEFAULT_CRON_EXPRESSION); 
         setCronExpression(getSystemCronExpression());
         super.afterPropertiesSet();
     }
@@ -74,6 +73,7 @@ public class KcCronTriggerBean extends CronTriggerBean implements ApplicationLis
             return param;
         } 
         LOG.warn("parameter [" + KeyConstants.PESSIMISTIC_LOCKING_CRON_EXPRESSION + "] not found using default value of [" + DEFAULT_CRON_EXPRESSION + "].");
+
         return DEFAULT_CRON_EXPRESSION;
     }
     
@@ -84,7 +84,7 @@ public class KcCronTriggerBean extends CronTriggerBean implements ApplicationLis
      */
     private String getParameterValue(String key) {
         if (this.parameterService.parameterExists(ProposalDevelopmentDocument.class, key)) {
-            return this.parameterService.getParameterValue(ProposalDevelopmentDocument.class, key);
+            return this.parameterService.getParameterValueAsString(ProposalDevelopmentDocument.class, key);
         }
         
         return null;
@@ -98,7 +98,8 @@ public class KcCronTriggerBean extends CronTriggerBean implements ApplicationLis
      * {@inheritDoc}
      */
     public void onApplicationEvent(ApplicationEvent event) {
-        if (event instanceof ContextRefreshedEvent && !this.refreshed) {
+        /*
+        if (event instanceof ContextStartedEvent && !this.refreshed) {
             try {
                 final String newExpr = this.getSystemCronExpression();
                 this.refreshed = true;
@@ -108,6 +109,6 @@ public class KcCronTriggerBean extends CronTriggerBean implements ApplicationLis
                 LOG.warn("unable refresh cron expression");
             }
         }
-        
+        */
     }
 }

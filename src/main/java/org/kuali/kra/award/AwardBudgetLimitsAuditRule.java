@@ -22,11 +22,11 @@ import org.kuali.kra.award.document.AwardDocument;
 import org.kuali.kra.award.home.Award;
 import org.kuali.kra.infrastructure.Constants;
 import org.kuali.kra.infrastructure.KeyConstants;
-import org.kuali.rice.kns.document.Document;
-import org.kuali.rice.kns.rule.DocumentAuditRule;
 import org.kuali.rice.kns.util.AuditCluster;
 import org.kuali.rice.kns.util.AuditError;
-import org.kuali.rice.kns.util.GlobalVariables;
+import org.kuali.rice.kns.util.KNSGlobalVariables;
+import org.kuali.rice.krad.document.Document;
+import org.kuali.rice.krad.rules.rule.DocumentAuditRule;
 
 /**
  * Checks the budget limits on the Budgets tab to make sure they are valid.
@@ -36,7 +36,7 @@ public class AwardBudgetLimitsAuditRule implements DocumentAuditRule {
     protected String AWARD_BUDGET_LIMITS_AUDIT_ERRORS = "awardBudgetLimitAuditErrors";
     
     /**
-     * @see org.kuali.rice.kns.rule.DocumentAuditRule#processRunAuditBusinessRules(org.kuali.rice.kns.document.Document)
+     * @see org.kuali.rice.krad.rules.rule.DocumentAuditRule#processRunAuditBusinessRules(org.kuali.rice.krad.document.Document)
      */
     @SuppressWarnings("unchecked")
     public boolean processRunAuditBusinessRules(Document document) {
@@ -62,7 +62,7 @@ public class AwardBudgetLimitsAuditRule implements DocumentAuditRule {
     @SuppressWarnings("unchecked")
     protected void reportAndCreateAuditCluster( List<AuditError> auditErrors ) {
         if (auditErrors.size() > 0) {
-            GlobalVariables.getAuditErrorMap().put(AWARD_BUDGET_LIMITS_AUDIT_ERRORS, new AuditCluster("Budget Limits",
+            KNSGlobalVariables.getAuditErrorMap().put(AWARD_BUDGET_LIMITS_AUDIT_ERRORS, new AuditCluster("Budget Limits",
                                                                                           auditErrors, Constants.AUDIT_WARNINGS));
         }
     }

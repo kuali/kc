@@ -18,28 +18,33 @@ package org.kuali.kra.kew;
 import org.apache.commons.lang.StringUtils;
 import org.apache.commons.logging.Log;
 import org.apache.commons.logging.LogFactory;
+import org.kuali.rice.kew.api.WorkflowDocument;
+import org.kuali.rice.kew.api.WorkflowDocumentFactory;
+import org.kuali.rice.kew.api.exception.WorkflowException;
+import org.kuali.rice.kew.doctype.bo.DocumentType;
 import org.kuali.rice.kew.doctype.service.DocumentTypeService;
-import org.kuali.rice.kew.dto.DocumentTypeDTO;
-import org.kuali.rice.kew.dto.ProcessDTO;
-import org.kuali.rice.kew.exception.WorkflowException;
 import org.kuali.rice.kew.service.KEWServiceLocator;
-import org.kuali.rice.kew.service.WorkflowDocument;
-import org.kuali.rice.kns.document.Document;
-import org.kuali.rice.kns.service.DocumentService;
+import org.kuali.rice.krad.document.Document;
+import org.kuali.rice.krad.service.DocumentService;
+import org.kuali.rice.krad.workflow.service.WorkflowDocumentService;
 
 public class KraDocumentRejectionServiceImpl implements KraDocumentRejectionService {
 
     private static final Log LOG = LogFactory.getLog(KraDocumentRejectionServiceImpl.class);
     private DocumentService documentService;
+    private WorkflowDocumentService workflowDocumentService;
     
+    public void setWorkflowDocumentService(WorkflowDocumentService workflowDocumentService) {
+        this.workflowDocumentService = workflowDocumentService;
+    }
+
     /**
      * @see org.kuali.kra.kew.KraDocumentRejectionService#getWorkflowInitialNodeName(java.lang.String)
      */
     public String getWorkflowInitialNodeName(String documentType) {
         DocumentTypeService documentTypeService = KEWServiceLocator.getDocumentTypeService();
-        DocumentTypeDTO proposalDevDocType = documentTypeService.getDocumentTypeVO(documentType);
-        ProcessDTO p = proposalDevDocType.getRoutePath().getPrimaryProcess();
-        return p.getInitialRouteNode().getRouteNodeName();
+        DocumentType proposalDevDocType = documentTypeService.findByName(documentType);
+        return proposalDevDocType.getPrimaryProcess().getInitialRouteNode().getRouteNodeName();        
     }
 
     /**
@@ -49,17 +54,17 @@ public class KraDocumentRejectionServiceImpl implements KraDocumentRejectionServ
         try {
             if( LOG.isDebugEnabled() )
                 LOG.debug( String.format( "Rejecting document:%s as %s with reason '%s'", documentNumber, principalId, reason ));
-            WorkflowDocument workflowDocument = new WorkflowDocument(principalId, Long.parseLong(documentNumber));
-            workflowDocument.returnToPreviousNode(reason, getWorkflowInitialNodeName( workflowDocument.getDocumentType()) );
+            WorkflowDocument workflowDocument = WorkflowDocumentFactory.loadDocument(principalId, documentNumber);
+            workflowDocument.returnToPreviousNode(reason, getWorkflowInitialNodeName( workflowDocument.getDocumentTypeName()) );
             if( appDocStatus != null ) {
                 if( LOG.isDebugEnabled() ) {
                     LOG.debug( String.format( "Setting application document status of document %s to %s", documentNumber, appDocStatus));
                 }
-                workflowDocument.updateAppDocStatus( appDocStatus );
+                workflowDocument.setApplicationDocumentStatus( appDocStatus );
             }
-        } catch ( WorkflowException we ) {
-            LOG.error( String.format( "WorkflowException generated when trying to return document %s to initial route node.  Reason:%s", documentNumber, we.getMessage()) );
-            throw new RuntimeException( String.format( "WorkflowException generated when trying to return document %s to initial route node.  Reason:%s", documentNumber, we.getMessage()), we );
+        } catch ( Exception we ) {
+            LOG.error( String.format( "Exception generated when trying to return document %s to initial route node.  Reason:%s", documentNumber, we.getMessage()) );
+            throw new RuntimeException( String.format( "Exception generated when trying to return document %s to initial route node.  Reason:%s", documentNumber, we.getMessage()), we );
         }
     }
 
@@ -75,16 +80,16 @@ public class KraDocumentRejectionServiceImpl implements KraDocumentRejectionServ
         try {
             if( LOG.isDebugEnabled() )
                 LOG.debug( String.format( "Rejecting document:%s as %s with reason '%s'", document.getDocumentNumber(), principalId, reason ));
-            WorkflowDocument workflowDocument = new WorkflowDocument( principalId, document.getDocumentHeader().getWorkflowDocument().getRouteHeaderId() );
-            workflowDocument.returnToPreviousNode(reason, getWorkflowInitialNodeName( workflowDocument.getDocumentType()) );
+            WorkflowDocument workflowDocument = WorkflowDocumentFactory.loadDocument( principalId, document.getDocumentHeader().getWorkflowDocument().getDocumentId() );
+            workflowDocument.returnToPreviousNode(reason, getWorkflowInitialNodeName( workflowDocument.getDocumentTypeName()) );
             if( appDocStatus != null ) {
                 if( LOG.isDebugEnabled() )
                     LOG.debug( String.format( "Setting application document status of document %s to %s", document.getDocumentNumber(), appDocStatus));
-                //workflowDocument.updateAppDocStatus( appDocStatus );
+                //workflowDocument.setApplicationDocumentStatus( appDocStatus );
             }
-        } catch ( WorkflowException we ) {
-            LOG.error( String.format( "WorkflowException generated when trying to return document %s to initial route node.  Reason:%s", document.getDocumentNumber(), we.getMessage()) );
-            throw new RuntimeException( String.format( "WorkflowException generated when trying to return document %s to initial route node.  Reason:%s", document.getDocumentNumber(), we.getMessage()), we );
+        } catch ( Exception we ) {
+            LOG.error( String.format( "Exception generated when trying to return document %s to initial route node.  Reason:%s", document.getDocumentNumber(), we.getMessage()) );
+            throw new RuntimeException( String.format( "Exception generated when trying to return document %s to initial route node.  Reason:%s", document.getDocumentNumber(), we.getMessage()), we );
         }
     }
 
@@ -93,12 +98,12 @@ public class KraDocumentRejectionServiceImpl implements KraDocumentRejectionServ
     }
     
     /**
-     * @see org.kuali.kra.kew.KraDocumentRejectionService#isDocumentOnInitialNode(org.kuali.rice.kns.document.Document)
+     * @see org.kuali.kra.kew.KraDocumentRejectionService#isDocumentOnInitialNode(org.kuali.rice.krad.document.Document)
      */
     public boolean isDocumentOnInitialNode(Document document)  {
         boolean ret = false;
         if (document!=null)
-	        ret = isDocumentOnNode(document,getWorkflowInitialNodeName(document.getDocumentHeader().getWorkflowDocument().getDocumentType()));
+	        ret = isDocumentOnNode(document,getWorkflowInitialNodeName(document.getDocumentHeader().getWorkflowDocument().getDocumentTypeName()));
         return ret;
     }
     
@@ -116,12 +121,17 @@ public class KraDocumentRejectionServiceImpl implements KraDocumentRejectionServ
     }
     
     /**
-     * @see org.kuali.kra.kew.KraDocumentRejectionService#isDocumentOnNode(org.kuali.rice.kns.document.Document, java.lang.String)
+     * @see org.kuali.kra.kew.KraDocumentRejectionService#isDocumentOnNode(org.kuali.rice.krad.document.Document, java.lang.String)
      */
     public boolean isDocumentOnNode(Document document,String nodeName) {
-        return document != null && StringUtils.contains(document.getDocumentHeader().getWorkflowDocument().getCurrentRouteNodeNames(), nodeName);
-    }
-
+        if(document != null && StringUtils.isNotEmpty(nodeName)) {
+            String currentRouteNodeNames = workflowDocumentService.getCurrentRouteNodeNames(document.getDocumentHeader().getWorkflowDocument());
+            return StringUtils.contains(currentRouteNodeNames, nodeName);
+        }
+        
+        return false;
+    }   
+    
     /**
      * @see org.kuali.kra.kew.KraDocumentRejectionService#isDocumentOnNode(java.lang.String, java.lang.String)
      */
@@ -135,26 +145,21 @@ public class KraDocumentRejectionServiceImpl implements KraDocumentRejectionServ
         }
         
     }
-
+ 
     /**
-     * @see org.kuali.kra.kew.KraDocumentRejectionService#reject(org.kuali.rice.kns.document.Document, java.lang.String, java.lang.String, java.lang.String, java.lang.String)
+     * @see org.kuali.kra.kew.KraDocumentRejectionService#reject(org.kuali.rice.krad.document.Document, java.lang.String, java.lang.String, java.lang.String, java.lang.String)
      */
     public void reject(Document document, String reason, String principalId, String appDocStatus, String nodeName) {
-        try {
+        if( LOG.isDebugEnabled() ) {
+            LOG.debug( String.format( "Rejecting document %s to node %s as %s with reason '%s'", document.getDocumentNumber(), nodeName, principalId, reason ));
+        }
+        WorkflowDocument workflowDocument = WorkflowDocumentFactory.loadDocument( principalId, document.getDocumentHeader().getWorkflowDocument().getDocumentId() );
+        workflowDocument.returnToPreviousNode(reason, nodeName );
+        if( appDocStatus != null ) {
             if( LOG.isDebugEnabled() ) {
-                LOG.debug( String.format( "Rejecting document %s to node %s as %s with reason '%s'", document.getDocumentNumber(), nodeName, principalId, reason ));
+                LOG.debug( String.format( "Setting application document status of document %s to %s", document.getDocumentNumber(), appDocStatus));
             }
-            WorkflowDocument workflowDocument = new WorkflowDocument( principalId, document.getDocumentHeader().getWorkflowDocument().getRouteHeaderId() );
-            workflowDocument.returnToPreviousNode(reason, nodeName );
-            if( appDocStatus != null ) {
-                if( LOG.isDebugEnabled() ) {
-                    LOG.debug( String.format( "Setting application document status of document %s to %s", document.getDocumentNumber(), appDocStatus));
-                }
-                //workflowDocument.updateAppDocStatus( appDocStatus );
-            }
-        } catch ( WorkflowException we ) {
-            LOG.error( String.format( "WorkflowException generated when trying to return document %s to %s route node.  Reason:%s", document.getDocumentNumber(), nodeName, we.getMessage()) );
-            throw new RuntimeException( String.format( "WorkflowException generated when trying to return document %s to %s route node.  Reason:%s", document.getDocumentNumber(), nodeName, we.getMessage()), we );
+            //workflowDocument.setApplicationDocumentStatus( appDocStatus );
         }
     }
 

@@ -39,19 +39,18 @@ import org.kuali.kra.bo.versioning.VersionStatus;
 import org.kuali.kra.infrastructure.KraServiceLocator;
 import org.kuali.kra.service.KraWorkflowService;
 import org.kuali.kra.service.VersionHistoryService;
-
-import org.kuali.rice.kew.exception.WorkflowException;
-import org.kuali.rice.kew.util.KEWConstants;
-import org.kuali.rice.kim.bo.Person;
-import org.kuali.rice.kim.service.PersonService;
-import org.kuali.rice.kns.UserSession;
-import org.kuali.rice.kns.bo.AdHocRoutePerson;
-import org.kuali.rice.kns.bo.AdHocRouteRecipient;
-import org.kuali.rice.kns.bo.PersistableBusinessObject;
-import org.kuali.rice.kns.service.BusinessObjectService;
-import org.kuali.rice.kns.service.DocumentService;
-import org.kuali.rice.kns.service.PessimisticLockService;
-import org.kuali.rice.kns.util.GlobalVariables;
+import org.kuali.rice.kew.api.KewApiConstants;
+import org.kuali.rice.kew.api.exception.WorkflowException;
+import org.kuali.rice.kim.api.identity.Person;
+import org.kuali.rice.kim.api.identity.PersonService;
+import org.kuali.rice.krad.UserSession;
+import org.kuali.rice.krad.bo.AdHocRoutePerson;
+import org.kuali.rice.krad.bo.AdHocRouteRecipient;
+import org.kuali.rice.krad.bo.PersistableBusinessObject;
+import org.kuali.rice.krad.service.BusinessObjectService;
+import org.kuali.rice.krad.service.DocumentService;
+import org.kuali.rice.krad.service.PessimisticLockService;
+import org.kuali.rice.krad.util.GlobalVariables;
 import org.springframework.core.task.TaskExecutor;
 import org.springframework.transaction.PlatformTransactionManager;
 import org.springframework.transaction.TransactionStatus;
@@ -118,7 +117,7 @@ public class AwardSyncServiceImpl implements AwardSyncService {
                         AwardDocument parentDocument = 
                             (AwardDocument) getDocumentService().getByDocumentHeaderId(parentAward.getAwardDocument().getDocumentNumber());
                         if (getKraWorkflowService().isEnRoute(parentDocument)
-                                && !parentDocument.getDocumentHeader().getWorkflowDocument().userIsRoutedByUser(person)) {
+                                && !(parentDocument.getDocumentHeader().getWorkflowDocument().getRoutedByPrincipalId().equals(principalId))) {
                             return parentDocument;
                         }
                     } catch (WorkflowException e) {
@@ -232,7 +231,7 @@ public class AwardSyncServiceImpl implements AwardSyncService {
             Person person = getPersonService().getPerson(principalId);
             if (person != null) {
                 AdHocRoutePerson adHocPerson = new AdHocRoutePerson();
-                adHocPerson.setActionRequested(KEWConstants.ACTION_REQUEST_FYI_REQ);
+                adHocPerson.setActionRequested(KewApiConstants.ACTION_REQUEST_FYI_REQ);
                 adHocPerson.setType(AdHocRoutePerson.PERSON_TYPE);
                 adHocPerson.setId(person.getPrincipalName());
                 adHocPersons.add(adHocPerson);

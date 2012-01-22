@@ -27,7 +27,6 @@
   	headerDispatch="${KualiForm.headerDispatch}"
   	headerTabActive="questions">
   	
-  	<script src="scripts/jquery/jquery.js"></script>
 	<script type="text/javascript">var $j = jQuery.noConflict();</script>
     <link rel="stylesheet" href="css/jquery/questionnaire.css" type="text/css" />
     <link rel="stylesheet" href="css/jquery/new_kuali.css" type="text/css" />

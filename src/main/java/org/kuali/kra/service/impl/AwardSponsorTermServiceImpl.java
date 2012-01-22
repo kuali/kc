@@ -21,8 +21,8 @@ import java.util.List;
 import org.kuali.kra.bo.SponsorTerm;
 import org.kuali.kra.bo.SponsorTermType;
 import org.kuali.kra.service.AwardSponsorTermService;
-import org.kuali.rice.kns.lookup.keyvalues.PersistableBusinessObjectValuesFinder;
-import org.kuali.rice.core.util.KeyLabelPair;
+import org.kuali.rice.core.api.util.KeyValue;
+import org.kuali.rice.krad.keyvalues.PersistableBusinessObjectValuesFinder;
 import org.springframework.transaction.annotation.Transactional;
 /**
  * This is the service class for Term tab in Award Payments Reports and Terms page.
@@ -37,7 +37,7 @@ public class AwardSponsorTermServiceImpl implements AwardSponsorTermService {
      * 
      * @param
      */
-    public List<KeyLabelPair> retrieveSponsorTermTypesToAwardFormForPanelHeaderDisplay(){
+    public List<KeyValue> retrieveSponsorTermTypesToAwardFormForPanelHeaderDisplay(){
         PersistableBusinessObjectValuesFinder persistableBusinessObjectValuesFinder = new PersistableBusinessObjectValuesFinder();
         persistableBusinessObjectValuesFinder.setBusinessObjectClass(SponsorTermType.class);
         persistableBusinessObjectValuesFinder.setKeyAttributeName("sponsorTermTypeCode");
@@ -52,7 +52,7 @@ public class AwardSponsorTermServiceImpl implements AwardSponsorTermService {
      * @param awardForm
      * @param reportClasses
      */
-    public List<SponsorTerm> getEmptyNewSponsorTerms(List<KeyLabelPair> sponsorTermTypes){
+    public List<SponsorTerm> getEmptyNewSponsorTerms(List<KeyValue> sponsorTermTypes){
         List<SponsorTerm> sponsorTerms = new ArrayList<SponsorTerm>();
         for(int i=0;i<sponsorTermTypes.size();i++){
             sponsorTerms.add(new SponsorTerm());

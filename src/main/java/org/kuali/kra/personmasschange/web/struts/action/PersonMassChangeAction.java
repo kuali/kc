@@ -27,12 +27,12 @@ import org.kuali.kra.personmasschange.web.struts.form.PersonMassChangeForm;
 import org.kuali.kra.personmasschange.web.struts.form.PersonMassChangeHomeHelper;
 import org.kuali.kra.personmasschange.web.struts.form.PersonMassChangeViewHelper;
 import org.kuali.kra.web.struts.action.KraTransactionalDocumentActionBase;
-import org.kuali.rice.kew.util.KEWConstants;
-import org.kuali.rice.kns.document.Document;
-import org.kuali.rice.kns.rule.event.KualiDocumentEvent;
-import org.kuali.rice.kns.service.KNSServiceLocator;
-import org.kuali.rice.kns.service.KualiRuleService;
-import org.kuali.rice.kns.util.KNSConstants;
+import org.kuali.rice.kew.api.KewApiConstants;
+import org.kuali.rice.krad.document.Document;
+import org.kuali.rice.krad.rules.rule.event.KualiDocumentEvent;
+import org.kuali.rice.krad.service.KRADServiceLocatorWeb;
+import org.kuali.rice.krad.service.KualiRuleService;
+import org.kuali.rice.krad.util.KRADConstants;
 
 /**
  * Defines the overall action class for Person Mass Change.
@@ -47,16 +47,16 @@ public class PersonMassChangeAction extends KraTransactionalDocumentActionBase {
         String command = personMassChangeForm.getCommand();
         
         if (Constants.MAPPING_PMC_HOME_PAGE.equals(command) || Constants.MAPPING_PMC_VIEW_PAGE.equals(command)) {
-            String docIdRequestParameter = request.getParameter(KNSConstants.PARAMETER_DOC_ID);
-            Document retrievedDocument = KNSServiceLocator.getDocumentService().getByDocumentHeaderId(docIdRequestParameter);
+            String docIdRequestParameter = request.getParameter(KRADConstants.PARAMETER_DOC_ID);
+            Document retrievedDocument = KRADServiceLocatorWeb.getDocumentService().getByDocumentHeaderId(docIdRequestParameter);
             personMassChangeForm.setDocument(retrievedDocument);
-            request.setAttribute(KNSConstants.PARAMETER_DOC_ID, docIdRequestParameter);
+            request.setAttribute(KRADConstants.PARAMETER_DOC_ID, docIdRequestParameter);
             loadDocument(personMassChangeForm);
         } else {
             forward = super.docHandler(mapping, form, request, response);
         }
 
-        if (KEWConstants.INITIATE_COMMAND.equals(command)) {
+        if (KewApiConstants.INITIATE_COMMAND.equals(command)) {
             personMassChangeForm.getDocument().initialize();
         } else {
             personMassChangeForm.initialize();
@@ -90,7 +90,7 @@ public class PersonMassChangeAction extends KraTransactionalDocumentActionBase {
     
     public ActionForward routeToHoldingPage(ActionMapping mapping, ActionForm form, HttpServletRequest request, HttpServletResponse response, String command) {
         PersonMassChangeForm personMassChangeForm = (PersonMassChangeForm) form;
-        Long routeHeaderId = Long.parseLong(personMassChangeForm.getDocument().getDocumentNumber());
+        String routeHeaderId = personMassChangeForm.getDocument().getDocumentNumber();
         String returnLocation = buildActionUrl(routeHeaderId, command, "PersonMassChangeDocument");
         
         ActionForward basicForward = mapping.findForward(Constants.MAPPING_BASIC);
@@ -101,7 +101,7 @@ public class PersonMassChangeAction extends KraTransactionalDocumentActionBase {
     public final boolean applyRules(KualiDocumentEvent event) {
         return getKualiRuleService().applyRules(event);
     }
-    
+        
     @Override
     protected KualiRuleService getKualiRuleService() {
         return KraServiceLocator.getService(KualiRuleService.class);

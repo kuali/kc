@@ -31,8 +31,9 @@ import org.kuali.kra.committee.web.struts.form.schedule.ScheduleData;
 import org.kuali.kra.infrastructure.Constants;
 import org.kuali.kra.rules.SoftError;
 import org.kuali.kra.test.infrastructure.KcUnitTestBase;
-import org.kuali.rice.kns.util.ErrorMap;
-import org.kuali.rice.kns.util.GlobalVariables;
+import org.kuali.rice.kns.util.KNSGlobalVariables;
+import org.kuali.rice.krad.util.GlobalVariables;
+import org.kuali.rice.krad.util.MessageMap;
 
 public class CommitteeScheduleDateConflictRuleTest extends KcUnitTestBase {
     
@@ -50,8 +51,8 @@ public class CommitteeScheduleDateConflictRuleTest extends KcUnitTestBase {
     @Override
     public void setUp() throws Exception {
         super.setUp();
-        GlobalVariables.setErrorMap(new ErrorMap());
-        GlobalVariables.setAuditErrorMap(new HashMap());  
+        GlobalVariables.setMessageMap(new MessageMap());
+        KNSGlobalVariables.setAuditErrorMap(new HashMap());  
     }
     
     @Test

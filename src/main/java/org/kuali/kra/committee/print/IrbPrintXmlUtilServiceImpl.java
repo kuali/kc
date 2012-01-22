@@ -16,35 +16,23 @@
 package org.kuali.kra.committee.print;
 
 import java.math.BigInteger;
-import java.util.ArrayList;
-import java.util.Collection;
 import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
 
 import org.kuali.kra.bo.KcPerson;
 import org.kuali.kra.committee.bo.CommitteeSchedule;
-import org.kuali.kra.infrastructure.KraServiceLocator;
-import org.kuali.kra.infrastructure.RoleConstants;
 import org.kuali.kra.irb.Protocol;
 import org.kuali.kra.irb.actions.ProtocolAction;
 import org.kuali.kra.irb.actions.reviewcomments.ReviewCommentsService;
 import org.kuali.kra.irb.actions.submit.ProtocolExemptStudiesCheckListItem;
 import org.kuali.kra.irb.actions.submit.ProtocolExpeditedReviewCheckListItem;
-import org.kuali.kra.irb.actions.submit.ProtocolReviewer;
 import org.kuali.kra.irb.personnel.ProtocolPerson;
 import org.kuali.kra.irb.personnel.ProtocolPersonRolodex;
 import org.kuali.kra.meeting.CommScheduleActItem;
 import org.kuali.kra.meeting.CommitteeScheduleMinute;
-import org.kuali.rice.kim.service.RoleManagementService;
-import org.apache.commons.lang.StringUtils;
-import org.kuali.rice.kim.service.RoleManagementService;
-import org.kuali.rice.kim.service.RoleService;
-import org.kuali.rice.kns.service.BusinessObjectService;
-import org.kuali.rice.kns.service.DateTimeService;
-import org.kuali.rice.kns.util.GlobalVariables;
-
-
+import org.kuali.rice.core.api.datetime.DateTimeService;
+import org.kuali.rice.krad.service.BusinessObjectService;
 
 import edu.mit.irb.irbnamespace.MinutesDocument.Minutes;
 import edu.mit.irb.irbnamespace.PersonDocument.Person;

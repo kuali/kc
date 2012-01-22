@@ -26,9 +26,9 @@ import org.kuali.kra.coi.CoiDisclosureDocument;
 import org.kuali.kra.printing.PrintingException;
 import org.kuali.kra.printing.xmlstream.XmlStream;
 import org.kuali.kra.questionnaire.print.QuestionnaireXmlStream;
-import org.kuali.rice.kns.service.BusinessObjectService;
-import org.kuali.rice.kns.service.DateTimeService;
-import org.kuali.rice.kns.service.DocumentService;
+import org.kuali.rice.krad.service.BusinessObjectService;
+import org.kuali.rice.core.api.datetime.DateTimeService;
+import org.kuali.rice.krad.service.DocumentService;
 
 public class CoiCertificationXmlStream implements XmlStream {
 

@@ -38,7 +38,8 @@
                            
     <bean id="irbModuleConfiguration" parent="irbModuleConfiguration-parentBean" />
     
-    <bean id="irbModuleConfiguration-parentBean" class="org.kuali.rice.kns.bo.ModuleConfiguration" abstract="true">
+    <bean id="irbModuleConfiguration-parentBean" class="org.kuali.rice.krad.bo.ModuleConfiguration" abstract="true">
+    	<property name="namespaceCode" value="KC-PROTOCOL" />
         <property name="databaseRepositoryFilePaths">
             <list>
                 <value>org/kuali/kra/irb/repository-irb.xml</value>
@@ -132,16 +133,18 @@
    		<property name = "documentService" ref = "documentService"/>
    		<property name = "protocolAssignReviewersService" ref = "protocolAssignReviewersService"/>
    		<property name = "personService" ref = "personService"/>
-   		<property name = "identityManagementService" ref = "identityManagementService"/>
+   		<property name = "identityManagementService" ref = "identityService"/>
    		<property name = "committeeService" ref = "committeeService"/>
    		<property name = "reviewerApproveNodeName" value = "OnlineReviewer"/>
    		<property name = "irbAdminApproveNodeName" value = "IRBAdminReview"/>
    		<property name = "kraDocumentRejectionService" ref = "kraDocumentRejectionService"/>
    		<property name = "reviewCommentsService" ref = "reviewCommentsService"/>
    		<property name="protocolFinderDao" ref="protocolFinderDao" />
+   		<property name="workflowDocumentService" ref="kradWorkflowDocumentService" />
+   		
     </bean>
     
-    <!--  <bean class="org.kuali.rice.ksb.messaging.KSBExporter">
+    <!--  <bean class="org.kuali.rice.ksb.api.bus.support.ServiceBusExporter">
 	  <property name="serviceDefinition">
 			<bean parent="kcService" p:service-ref="protocolOnlineReviewService"
 	      p:localServiceName="protocolOnlineReviewService" />
@@ -637,7 +640,7 @@
         <property name="protocolVersionService" ref="protocolVersionService" />
         <property name="protocolAssignToAgendaService" ref="protocolAssignToAgendaService" />
         <property name="protocolActionCorrespondenceGenerationService" ref="protocolActionCorrespondenceGenerationService" />
-		<property name="identityManagementService" ref="identityManagementService"/>
+		<property name="identityManagementService" ref="identityService"/>
 		<property name="protocolOnlineReviewService" ref="protocolOnlineReviewService"/>
 		<property name="kcNotificationService" ref="kcNotificationService" />
     </bean>
@@ -652,7 +655,7 @@
     <bean id="protocolNotifyIrbService" class="org.kuali.kra.irb.actions.notifyirb.ProtocolNotifyIrbServiceImpl">
         <property name="businessObjectService" ref="businessObjectService" />
         <property name="protocolActionService" ref="protocolActionService" />
-       	<property name="documentService" ref="documentService" />
+       <property name="documentService" ref="documentService" />
        	<property name="kcNotificationService" ref="kcNotificationService" />
     </bean>
     
@@ -705,6 +708,8 @@
         <property name="sequenceAccessorService">
             <ref bean="sequenceAccessorService" />
         </property>
+        <property name="sessionDocumentService" ref="knsSessionDocumentService" />
+        <property name="workflowDocumentService" ref="kradWorkflowDocumentService" />
     </bean>
     
     <bean id="protocolAssignCmtSchedService" class="org.kuali.kra.irb.actions.assigncmtsched.ProtocolAssignCmtSchedServiceImpl">
@@ -720,10 +725,9 @@
         <property name="committeeScheduleService" ref="committeeScheduleService" />
         <property name="committeeService" ref="committeeService" />
    		<property name="protocolFinderDao" ref="protocolFinderDao" />
-   		<property name="roleService" ref="roleManagementService" />
+   		<property name="roleService" ref="roleService" />
    		<property name="dateTimeService" ref="dateTimeService" />
    		<property name="parameterService" ref="parameterService" />
-        <property name="kimRoleManagementService" ref="roleManagementService" />
         <property name="kcPersonService" ref="kcPersonService" />
     </bean>   
     
@@ -813,7 +817,7 @@
    		<property name = "reviewCommentsService" ref = "reviewCommentsService"/>
         <property name="protocolOnlineReviewService" ref="protocolOnlineReviewService"/>
 		<property name="routeHeaderService" ref="routeHeaderService"/>
-		<property name="identityManagementService" ref="identityManagementService"/>
+		<property name="identityManagementService" ref="identityService"/>
     </bean>
 
     <bean id="committeeBatchCorrespondenceService" class="org.kuali.kra.committee.service.impl.CommitteeBatchCorrespondenceServiceImpl">
@@ -836,10 +840,10 @@
 			  class="org.kuali.kra.workflow.ProtocolOnlineReviewDerivedRoleTypeServiceImpl">
 		<property name="protocolOnlineReviewService" ref="protocolOnlineReviewService" />		
 		<property name="businessObjectService" ref="businessObjectService"/>
-		<property name="roleManagementService" ref="roleManagementService" />
+		<property name="roleManagementService" ref="roleService" />
 	</bean>
 	
-	<bean class="org.kuali.rice.ksb.messaging.KSBExporter">
+	<bean class="org.kuali.rice.ksb.api.bus.support.ServiceBusExporter">
 	  <property name="serviceDefinition">
 			<bean parent="kcService" p:service-ref="protocolOnlineReviewRoleTypeService"
 	      p:localServiceName="protocolOnlineReviewRoleTypeService" />
@@ -919,7 +923,7 @@
 			  class="org.kuali.kra.kim.service.impl.IRBApproverRoleTypeServiceImpl">
 	</bean>
 	
-	<bean class="org.kuali.rice.ksb.messaging.KSBExporter">
+	<bean class="org.kuali.rice.ksb.api.bus.support.ServiceBusExporter">
 	  <property name="serviceDefinition">
 			<bean parent="kcService" p:service-ref="protocolApproverRoleTypeService"
 	      p:localServiceName="protocolApproverRoleTypeService" />
@@ -936,14 +940,14 @@
         <property name="protocolActionService" ref="protocolActionService" />
         <property name="protocolActionCorrespondenceGenerationService" ref="protocolActionCorrespondenceGenerationService" />
         <property name="kcNotificationService" ref="kcNotificationService" />
-        <property name="documentService" ref="documentService" />
+       <property name="documentService" ref="documentService" />
     </bean>
     
     <bean id="activeCommitteeMemberOnProtocolDerivedRoleTypeService"
           class="org.kuali.kra.kim.service.impl.ActiveCommitteeMemberOnProtocolDerivedRoleTypeServiceImpl">
     </bean>
     
-    <bean class="org.kuali.rice.ksb.messaging.KSBExporter">
+    <bean class="org.kuali.rice.ksb.api.bus.support.ServiceBusExporter">
       <property name="serviceDefinition">
             <bean parent="kcService" p:service-ref="activeCommitteeMemberOnProtocolDerivedRoleTypeService"
           p:localServiceName="activeCommitteeMemberOnProtocolDerivedRoleTypeService" />
@@ -958,7 +962,7 @@
           class="org.kuali.kra.kim.service.impl.ProtocolPersonnelDerivedRoleTypeServiceImpl">
     </bean>
     
-    <bean class="org.kuali.rice.ksb.messaging.KSBExporter">
+    <bean class="org.kuali.rice.ksb.api.bus.support.ServiceBusExporter">
       <property name="serviceDefinition">
             <bean parent="kcService" p:service-ref="protocolPersonnelDerivedRoleTypeService"
                   p:localServiceName="protocolPersonnelDerivedRoleTypeService" />
@@ -969,7 +973,7 @@
           class="org.kuali.kra.kim.service.impl.ProtocolAffiliateTypeDerivedRoleTypeServiceImpl">
     </bean>
     
-    <bean class="org.kuali.rice.ksb.messaging.KSBExporter">
+    <bean class="org.kuali.rice.ksb.api.bus.support.ServiceBusExporter">
       <property name="serviceDefinition">
             <bean parent="kcService" p:service-ref="protocolAffiliateTypeDerivedRoleTypeService"
                   p:localServiceName="protocolAffiliateTypeDerivedRoleTypeService" />
@@ -980,7 +984,7 @@
           class="org.kuali.kra.kim.service.impl.IrbCorrespondentDerivedRoleTypeServiceImpl">
     </bean>
     
-    <bean class="org.kuali.rice.ksb.messaging.KSBExporter">
+    <bean class="org.kuali.rice.ksb.api.bus.support.ServiceBusExporter">
 	  <property name="serviceDefinition">
 			<bean parent="kcService" p:service-ref="irbCorrespondentDerivedRoleTypeService"
 	      p:localServiceName="irbCorrespondentDerivedRoleTypeService" />

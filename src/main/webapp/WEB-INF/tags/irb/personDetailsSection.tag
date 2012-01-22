@@ -54,10 +54,10 @@
 							                <c:forEach items="${krafn:getOptionList('org.kuali.kra.irb.personnel.ProtocolPersonRoleValuesFinder', paramMap)}" var="option">
 							                <c:choose>
 							                    <c:when test="${KualiForm.document.protocol.protocolPersons[personIndex].protocolPersonRoleId == option.key}">
-							                    <option value="${option.key}" selected>${option.label}</option>
+							                    <option value="${option.key}" selected>${option.value}</option>
 							                    </c:when>
 							                    <c:otherwise>
-							                    <option value="${option.key}">${option.label}</option>
+							                    <option value="${option.key}">${option.value}</option>
 							                    </c:otherwise>
 							                </c:choose>
 							                </c:forEach>

@@ -13,10 +13,7 @@
  * See the License for the specific language governing permissions and
  * limitations under the License.
  */
-
 package org.kuali.kra.award.commitments;
-
-import java.util.LinkedHashMap;
 
 import org.kuali.kra.bo.KraPersistableBusinessObjectBase;
 
@@ -24,23 +21,24 @@ import org.kuali.kra.bo.KraPersistableBusinessObjectBase;
  * 
  * This class represents the FandaRateType Business Object.
  */
-public class FandaRateType extends KraPersistableBusinessObjectBase { 
-    
+public class FandaRateType extends KraPersistableBusinessObjectBase {
+
     /**
      * Comment for <code>serialVersionUID</code>
      */
     private static final long serialVersionUID = -6901016199815302736L;
-    private Integer fandaRateTypeCode; 
-    private String description; 
-    
+
+    private Integer fandaRateTypeCode;
+
+    private String description;
+
     /**
      * 
      * Constructs a FandaRateType.java.
      */
-    public FandaRateType() { 
+    public FandaRateType() {
+    }
 
-    } 
-    
     /**
      *
      * @return
@@ -72,17 +70,4 @@ public class FandaRateType extends KraPersistableBusinessObjectBase {
     public void setDescription(String description) {
         this.description = description;
     }
-
-    /**
-     * 
-     * @see org.kuali.rice.kns.bo.BusinessObjectBase#toStringMapper()
-     */
-    @Override 
-    protected LinkedHashMap<String, Object> toStringMapper() {
-        LinkedHashMap<String, Object> hashMap = new LinkedHashMap<String, Object>();
-        hashMap.put("fandaRateTypeCode", getFandaRateTypeCode());
-        hashMap.put("description", getDescription());
-        return hashMap;
-    }
-    
 }

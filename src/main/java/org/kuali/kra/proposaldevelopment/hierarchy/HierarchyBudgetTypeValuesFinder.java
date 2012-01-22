@@ -18,8 +18,9 @@ package org.kuali.kra.proposaldevelopment.hierarchy;
 import java.util.ArrayList;
 import java.util.List;
 
-import org.kuali.rice.kns.lookup.keyvalues.KeyValuesBase;
-import org.kuali.rice.core.util.KeyLabelPair;
+import org.kuali.rice.core.api.util.ConcreteKeyValue;
+import org.kuali.rice.core.api.util.KeyValue;
+import org.kuali.rice.krad.keyvalues.KeyValuesBase;
 
 /**
  * This class...
@@ -27,15 +28,15 @@ import org.kuali.rice.core.util.KeyLabelPair;
 public class HierarchyBudgetTypeValuesFinder extends KeyValuesBase {
 
     /**
-     * @see org.kuali.rice.kns.lookup.keyvalues.KeyValuesFinder#getKeyValues()
+     * @see org.kuali.rice.krad.keyvalues.KeyValuesFinder#getKeyValues()
      */
-    public List<KeyLabelPair> getKeyValues() {
-        List<KeyLabelPair> keyLabelPairs = new ArrayList<KeyLabelPair>();
+    public List<KeyValue> getKeyValues() {
+        List<KeyValue> KeyValues = new ArrayList<KeyValue>();
 
         for (HierarchyBudgetTypeConstants hierarcyBudgetType : HierarchyBudgetTypeConstants.values()) {
-            keyLabelPairs.add(new KeyLabelPair(hierarcyBudgetType.code(), hierarcyBudgetType.description()));
+            KeyValues.add(new ConcreteKeyValue(hierarcyBudgetType.code(), hierarcyBudgetType.description()));
         }
-        return keyLabelPairs; 
+        return KeyValues; 
     }
 
 }

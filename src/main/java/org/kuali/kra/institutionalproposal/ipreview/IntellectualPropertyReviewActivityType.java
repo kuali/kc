@@ -16,20 +16,18 @@
 package org.kuali.kra.institutionalproposal.ipreview;
 
 import org.kuali.kra.bo.KraPersistableBusinessObjectBase;
-import java.util.LinkedHashMap;
 
-public class IntellectualPropertyReviewActivityType extends KraPersistableBusinessObjectBase { 
-    
+public class IntellectualPropertyReviewActivityType extends KraPersistableBusinessObjectBase {
+
     private static final long serialVersionUID = 1L;
 
-    private String intellectualPropertyReviewActivityTypeCode; 
-    private String description; 
-    
-    
-    public IntellectualPropertyReviewActivityType() { 
+    private String intellectualPropertyReviewActivityTypeCode;
 
-    } 
-    
+    private String description;
+
+    public IntellectualPropertyReviewActivityType() {
+    }
+
     public String getIntellectualPropertyReviewActivityTypeCode() {
         return intellectualPropertyReviewActivityTypeCode;
     }
@@ -46,23 +44,12 @@ public class IntellectualPropertyReviewActivityType extends KraPersistableBusine
         this.description = description;
     }
 
-    /** {@inheritDoc} */
-    @Override 
-    protected LinkedHashMap<String, Object> toStringMapper() {
-        LinkedHashMap<String, Object> hashMap = new LinkedHashMap<String, Object>();
-        hashMap.put("intellectualPropertyReviewActivityTypeCode", this.getIntellectualPropertyReviewActivityTypeCode());
-        hashMap.put("description", this.getDescription());
-        return hashMap;
-    }
-
     @Override
     public int hashCode() {
         final int prime = 31;
         int result = 1;
         result = prime * result + ((description == null) ? 0 : description.hashCode());
-        result = prime
-                * result
-                + ((intellectualPropertyReviewActivityTypeCode == null) ? 0 : intellectualPropertyReviewActivityTypeCode.hashCode());
+        result = prime * result + ((intellectualPropertyReviewActivityTypeCode == null) ? 0 : intellectualPropertyReviewActivityTypeCode.hashCode());
         return result;
     }
 
@@ -94,5 +81,4 @@ public class IntellectualPropertyReviewActivityType extends KraPersistableBusine
         }
         return true;
     }
-    
 }

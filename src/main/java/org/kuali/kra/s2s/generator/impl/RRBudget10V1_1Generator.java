@@ -120,7 +120,6 @@ public class RRBudget10V1_1Generator extends RRBudgetBaseGenerator {
                 }
             }
         }
-        
         rrBudget.setBudgetJustificationAttachment(attachedFileDataType);
         rrBudgetDocument.setRRBudget10(rrBudget);
         return rrBudgetDocument;
@@ -812,7 +811,7 @@ public class RRBudget10V1_1Generator extends RRBudgetBaseGenerator {
                     keyPersonCount++;
                     LOG.info("keyPersonCount:" + keyPersonCount);
                 }
-               }
+            }
                 keyPersons.setKeyPersonArray(keyPersonList.toArray(new KeyPerson[0]));
             }
             if (periodInfo.getTotalFundsKeyPersons() != null) {

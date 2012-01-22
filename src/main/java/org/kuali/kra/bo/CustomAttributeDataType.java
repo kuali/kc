@@ -15,7 +15,6 @@
  */
 package org.kuali.kra.bo;
 
-import java.util.LinkedHashMap;
 
 /**
  * 
@@ -23,35 +22,27 @@ import java.util.LinkedHashMap;
  */
 public class CustomAttributeDataType extends KraPersistableBusinessObjectBase {
 
-	private String dataTypeCode;
-	private String description;
+    private String dataTypeCode;
 
-	public CustomAttributeDataType(){
-		super();
-	}
+    private String description;
 
-	public String getDataTypeCode() {
-		return dataTypeCode;
-	}
+    public CustomAttributeDataType() {
+        super();
+    }
 
-	public void setDataTypeCode(String dataTypeCode) {
-		this.dataTypeCode = dataTypeCode;
-	}
+    public String getDataTypeCode() {
+        return dataTypeCode;
+    }
 
-	public String getDescription() {
-		return description;
-	}
+    public void setDataTypeCode(String dataTypeCode) {
+        this.dataTypeCode = dataTypeCode;
+    }
 
-	public void setDescription(String description) {
-		this.description = description;
-	}
+    public String getDescription() {
+        return description;
+    }
 
-
-	@Override 
-	protected LinkedHashMap toStringMapper() {
-		LinkedHashMap hashMap = new LinkedHashMap();
-		hashMap.put("dataTypeCode", getDataTypeCode());
-		hashMap.put("description", getDescription());
-		return hashMap;
-	}
+    public void setDescription(String description) {
+        this.description = description;
+    }
 }

@@ -1,18 +1,18 @@
 package org.kuali.kra.common.printing;
 
+import java.sql.Date;
+import java.util.ArrayList;
+import java.util.List;
+
 import org.kuali.kra.infrastructure.Constants;
 import org.kuali.kra.infrastructure.KraServiceLocator;
 import org.kuali.kra.institutionalproposal.contacts.InstitutionalProposalPerson;
 import org.kuali.kra.institutionalproposal.customdata.InstitutionalProposalCustomData;
 import org.kuali.kra.institutionalproposal.home.InstitutionalProposal;
 import org.kuali.kra.proposaldevelopment.document.ProposalDevelopmentDocument;
-import org.kuali.rice.kns.service.ParameterService;
-import org.kuali.rice.kns.util.KualiDecimal;
+import org.kuali.rice.core.api.util.type.KualiDecimal;
+import org.kuali.rice.coreservice.framework.parameter.ParameterService;
 import org.kuali.rice.kns.web.ui.Column;
-
-import java.sql.Date;
-import java.util.ArrayList;
-import java.util.List;
 
 /**
  * This class is a DTO bean for storing data for the Pending Report
@@ -99,7 +99,7 @@ public class PendingReportBean extends ReportBean {
         
         institutionalProposalCustomDataList = new ArrayList<InstitutionalProposalCustomData>();
         parameterService = KraServiceLocator.getService(ParameterService.class);
-        String customGroupName = parameterService.getParameterValue(ProposalDevelopmentDocument.class, Constants.CURRENT_PENDING_REPORT_GROUP_NAME);
+        String customGroupName = parameterService.getParameterValueAsString(ProposalDevelopmentDocument.class, Constants.CURRENT_PENDING_REPORT_GROUP_NAME);
       
         for(InstitutionalProposalCustomData custData:proposal.getInstitutionalProposalCustomDataList()){
                 if(custData.getCustomAttributeId()!=null){

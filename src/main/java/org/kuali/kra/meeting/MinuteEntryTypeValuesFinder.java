@@ -20,9 +20,10 @@ import java.util.Collections;
 import java.util.List;
 
 import org.kuali.kra.infrastructure.KraServiceLocator;
-import org.kuali.rice.core.util.KeyLabelPair;
-import org.kuali.rice.kns.lookup.keyvalues.KeyValuesBase;
-import org.kuali.rice.kns.service.BusinessObjectService;
+import org.kuali.rice.core.api.util.ConcreteKeyValue;
+import org.kuali.rice.core.api.util.KeyValue;
+import org.kuali.rice.krad.keyvalues.KeyValuesBase;
+import org.kuali.rice.krad.service.BusinessObjectService;
 
 /**
  * 
@@ -35,13 +36,13 @@ public class MinuteEntryTypeValuesFinder extends KeyValuesBase {
      */
     public List getKeyValues() {
 
-        List<KeyLabelPair> keyValues = new ArrayList<KeyLabelPair>();
+        List<KeyValue> keyValues = new ArrayList<KeyValue>();
         for (MinuteEntryType minuteEntryType : getMinuteEntryTypes()) {
             if (!MinuteEntryType.PROTOCOL_REVIEWER_COMMENT.equals(minuteEntryType.getMinuteEntryTypeCode())) {
-                keyValues.add(new KeyLabelPair(minuteEntryType.getMinuteEntryTypeCode(), minuteEntryType.getDescription()));
+                keyValues.add(new ConcreteKeyValue(minuteEntryType.getMinuteEntryTypeCode(), minuteEntryType.getDescription()));
             }
         }
-        keyValues.add(0, new KeyLabelPair("", "select"));
+        keyValues.add(0, new ConcreteKeyValue("", "select"));
         return keyValues;
     }
 

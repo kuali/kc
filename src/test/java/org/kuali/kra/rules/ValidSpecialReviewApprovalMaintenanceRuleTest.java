@@ -21,7 +21,7 @@ import org.kuali.kra.bo.ValidSpecialReviewApproval;
 import org.kuali.kra.infrastructure.Constants;
 import org.kuali.kra.maintenance.MaintenanceRuleTestBase;
 import org.kuali.rice.kns.document.MaintenanceDocument;
-import org.kuali.rice.kns.util.GlobalVariables;
+import org.kuali.rice.krad.util.GlobalVariables;
 
 public class ValidSpecialReviewApprovalMaintenanceRuleTest extends MaintenanceRuleTestBase {
     private ValidSpecialReviewApprovalMaintenanceRule rule;
@@ -43,9 +43,9 @@ public class ValidSpecialReviewApprovalMaintenanceRuleTest extends MaintenanceRu
         specialReviewApproval.setSpecialReviewTypeCode("-9999");
         boolean valid = rule.processCustomRouteDocumentBusinessRules(maintDoc);
         assertFalse(valid);
-        assertEquals(2, GlobalVariables.getErrorMap().getErrorCount());
-        assertEquals(1, GlobalVariables.getErrorMap().getErrorMessagesForProperty(Constants.VALID_SPECIAL_REVIEW_APPROVAL_TYPE_CODE_KEY).size());
-        assertEquals(1, GlobalVariables.getErrorMap().getErrorMessagesForProperty(Constants.VALID_SPECIAL_REVIEW_APPROVAL_REVIEW_CODE_KEY).size());
+        assertEquals(2, GlobalVariables.getMessageMap().getErrorCount());
+        assertEquals(1, GlobalVariables.getMessageMap().getErrorMessagesForProperty(Constants.VALID_SPECIAL_REVIEW_APPROVAL_TYPE_CODE_KEY).size());
+        assertEquals(1, GlobalVariables.getMessageMap().getErrorMessagesForProperty(Constants.VALID_SPECIAL_REVIEW_APPROVAL_REVIEW_CODE_KEY).size());
     }
     
     /** Tests with an valid Approval Type code and an invalid Special Review Code */
@@ -56,8 +56,8 @@ public class ValidSpecialReviewApprovalMaintenanceRuleTest extends MaintenanceRu
         specialReviewApproval.setSpecialReviewTypeCode("-9999");
         boolean valid = rule.processCustomRouteDocumentBusinessRules(maintDoc);
         assertFalse(valid);
-        assertEquals(1, GlobalVariables.getErrorMap().getErrorCount());
-        assertEquals(1, GlobalVariables.getErrorMap().getErrorMessagesForProperty(Constants.VALID_SPECIAL_REVIEW_APPROVAL_REVIEW_CODE_KEY).size());
+        assertEquals(1, GlobalVariables.getMessageMap().getErrorCount());
+        assertEquals(1, GlobalVariables.getMessageMap().getErrorMessagesForProperty(Constants.VALID_SPECIAL_REVIEW_APPROVAL_REVIEW_CODE_KEY).size());
     }
     
     /** Tests with an invalid Approval Type code and a valid Special Review Code */
@@ -68,8 +68,8 @@ public class ValidSpecialReviewApprovalMaintenanceRuleTest extends MaintenanceRu
         specialReviewApproval.setSpecialReviewTypeCode("1");
         boolean valid = rule.processCustomRouteDocumentBusinessRules(maintDoc);
         assertFalse(valid);
-        assertEquals(1, GlobalVariables.getErrorMap().getErrorCount());
-        assertEquals(1, GlobalVariables.getErrorMap().getErrorMessagesForProperty(Constants.VALID_SPECIAL_REVIEW_APPROVAL_TYPE_CODE_KEY).size());
+        assertEquals(1, GlobalVariables.getMessageMap().getErrorCount());
+        assertEquals(1, GlobalVariables.getMessageMap().getErrorMessagesForProperty(Constants.VALID_SPECIAL_REVIEW_APPROVAL_TYPE_CODE_KEY).size());
     }
     
     /** Tests with a valid Approval Type code and a valid Special Review Code */
@@ -80,6 +80,6 @@ public class ValidSpecialReviewApprovalMaintenanceRuleTest extends MaintenanceRu
         specialReviewApproval.setSpecialReviewTypeCode("1");
         boolean valid = rule.processCustomRouteDocumentBusinessRules(maintDoc);
         assertTrue(valid);
-        assertEquals(0, GlobalVariables.getErrorMap().getErrorCount());
+        assertEquals(0, GlobalVariables.getMessageMap().getErrorCount());
     }
 }

@@ -15,26 +15,29 @@
  */
 package org.kuali.kra.proposaldevelopment.bo;
 
-import java.util.LinkedHashMap;
-
 import org.kuali.kra.award.home.ContactRole;
 import org.kuali.kra.bo.KraPersistableBusinessObjectBase;
 
 /**
- * Represents the Proposal Person Role <code>{@link org.kuali.rice.kns.bo.BusinessObject}</code>
+ * Represents the Proposal Person Role <code>{@link org.kuali.rice.krad.bo.BusinessObject}</code>
  *
- * @see org.kuali.rice.kns.bo.BusinessObject
+ * @see org.kuali.rice.krad.bo.BusinessObject
  * @see org.kuali.kra.proposaldevelopment.document.ProposalDevelopmentDocument
  * @author $Author: gmcgrego $
  * @version $Revision: 1.8 $
  */
 public class ProposalPersonRole extends KraPersistableBusinessObjectBase implements ContactRole {
+
     private static final long serialVersionUID = -2184772940618843909L;
-    
+
     private String proposalPersonRoleId;
+
     private String description;
+
     private String certificationRequired;
+
     private Boolean readOnly;
+
     private String unitDetailsRequired;
 
     /**
@@ -45,7 +48,7 @@ public class ProposalPersonRole extends KraPersistableBusinessObjectBase impleme
     public final String getProposalPersonRoleId() {
         return this.proposalPersonRoleId;
     }
-     
+
     /**
      * Sets the value of proposalPersonRoleId
      *
@@ -72,18 +75,6 @@ public class ProposalPersonRole extends KraPersistableBusinessObjectBase impleme
     public final void setDescription(String argDescription) {
         this.description = argDescription;
     }
-
-
-    @Override
-    protected LinkedHashMap<String, Object> toStringMapper() {
-        LinkedHashMap<String, Object> propMap = new LinkedHashMap<String, Object>();
-        propMap.put("proposalPersonRoleId", getProposalPersonRoleId());
-        propMap.put("description", getDescription());
-        propMap.put("certificationRequired", getCertificationRequired());
-        return propMap;
-    }
-
-    
 
     /**
      * Gets the readOnly attribute. 
@@ -130,6 +121,7 @@ public class ProposalPersonRole extends KraPersistableBusinessObjectBase impleme
     public String getRoleDescription() {
         return getDescription();
     }
+
     /**
      * This method determines if ProposalPersonRole is PI
      * @return

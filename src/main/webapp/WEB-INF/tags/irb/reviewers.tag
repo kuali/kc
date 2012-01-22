@@ -17,7 +17,7 @@
 
 <kra:permission value="${KualiForm.actionHelper.canViewOnlineReviewers}">
 
-<c:set var="protocolReviewerAttributes" value="${DataDictionary.ProtocolReviewer.attributes}" />
+<c:set var="protocolReviewerAttributes" value="${DataDictionary.ProtocolReviewerType.attributes}" />
           	<tr>
            		<td class="tab-subhead" colspan="2" scope="row">
            		     

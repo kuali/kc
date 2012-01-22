@@ -106,15 +106,15 @@ Content </span> <span class="subhead-right">
 
 <script>
 
-				$("#questionpanelcontent").hide();
-				$("a.questionpanelcontrol").toggle(
+				jq("#questionpanelcontent").hide();
+				jq("a.questionpanelcontrol").toggle(
 					function()
 					{
-						$("#questionpanelcontent").slideDown(500);
-						$("a.questionpanelcontrol").html("<img src='kr/images/tinybutton-hide.gif' alt='show/hide panel' title='show/hide panel' width='45' height='15' border='0' align='absmiddle'>");
+						jq("#questionpanelcontent").slideDown(500);
+						jq("a.questionpanelcontrol").html("<img src='kr/images/tinybutton-hide.gif' alt='show/hide panel' title='show/hide panel' width='45' height='15' border='0' align='absmiddle'>");
 					},function(){
-						$("#questionpanelcontent").slideUp(500);
-						$("a.questionpanelcontrol").html("<img src='kr/images/tinybutton-show.gif' alt='show/hide panel' title='show/hide panel' width='45' height='15' border='0' align='absmiddle'>");
+						jq("#questionpanelcontent").slideUp(500);
+						jq("a.questionpanelcontrol").html("<img src='kr/images/tinybutton-show.gif' alt='show/hide panel' title='show/hide panel' width='45' height='15' border='0' align='absmiddle'>");
 					}
 				);
    </script>

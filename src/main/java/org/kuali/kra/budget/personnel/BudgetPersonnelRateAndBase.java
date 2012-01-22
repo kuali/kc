@@ -15,24 +15,30 @@
  */
 package org.kuali.kra.budget.personnel;
 
-import java.util.LinkedHashMap;
 import org.kuali.kra.budget.BudgetDecimal;
 import org.kuali.kra.budget.nonpersonnel.AbstractBudgetRateAndBase;
 import org.kuali.kra.infrastructure.DeepCopyIgnore;
 
 public class BudgetPersonnelRateAndBase extends AbstractBudgetRateAndBase {
+
     /**
      * Comment for <code>serialVersionUID</code>
      */
     private static final long serialVersionUID = -3822394019599765292L;
+
     @DeepCopyIgnore
     private Long budgetPersonnelRateAndBaseId;
+
     private Long budgetPersonnelCalculatedAmountId;
+
     private Long budgetPersonnelLineItemId;
-    
+
     private String personId;
+
     private Integer personNumber;
+
     private BudgetDecimal salaryRequested;
+
     /**
      * Gets the salaryRequested attribute. 
      * @return Returns the salaryRequested.
@@ -40,6 +46,7 @@ public class BudgetPersonnelRateAndBase extends AbstractBudgetRateAndBase {
     public BudgetDecimal getSalaryRequested() {
         return salaryRequested;
     }
+
     /**
      * Sets the salaryRequested attribute value.
      * @param salaryRequested The salaryRequested to set.
@@ -47,15 +54,7 @@ public class BudgetPersonnelRateAndBase extends AbstractBudgetRateAndBase {
     public void setSalaryRequested(BudgetDecimal salaryRequested) {
         this.salaryRequested = salaryRequested;
     }
-    @SuppressWarnings("unchecked")
-    @Override 
-    protected LinkedHashMap toStringMapper() {
-        LinkedHashMap hashMap = super.toStringMapper();
-        hashMap.put("personNumber", getPersonNumber());
-        hashMap.put("personId", getPersonId());
-        hashMap.put("salaryRequested", getSalaryRequested());
-        return hashMap;
-    }
+
     /**
      * Gets the personNumber attribute. 
      * @return Returns the personNumber.
@@ -63,6 +62,7 @@ public class BudgetPersonnelRateAndBase extends AbstractBudgetRateAndBase {
     public Integer getPersonNumber() {
         return personNumber;
     }
+
     /**
      * Sets the personNumber attribute value.
      * @param personNumber The personNumber to set.
@@ -70,6 +70,7 @@ public class BudgetPersonnelRateAndBase extends AbstractBudgetRateAndBase {
     public void setPersonNumber(Integer personNumber) {
         this.personNumber = personNumber;
     }
+
     /**
      * Gets the personId attribute. 
      * @return Returns the personId.
@@ -77,6 +78,7 @@ public class BudgetPersonnelRateAndBase extends AbstractBudgetRateAndBase {
     public String getPersonId() {
         return personId;
     }
+
     /**
      * Sets the personId attribute value.
      * @param personId The personId to set.
@@ -84,6 +86,7 @@ public class BudgetPersonnelRateAndBase extends AbstractBudgetRateAndBase {
     public void setPersonId(String personId) {
         this.personId = personId;
     }
+
     /**
      * Gets the budgetPersonnelCalculatedAmountId attribute. 
      * @return Returns the budgetPersonnelCalculatedAmountId.
@@ -91,6 +94,7 @@ public class BudgetPersonnelRateAndBase extends AbstractBudgetRateAndBase {
     public Long getBudgetPersonnelCalculatedAmountId() {
         return budgetPersonnelCalculatedAmountId;
     }
+
     /**
      * Sets the budgetPersonnelCalculatedAmountId attribute value.
      * @param budgetPersonnelCalculatedAmountId The budgetPersonnelCalculatedAmountId to set.
@@ -98,6 +102,7 @@ public class BudgetPersonnelRateAndBase extends AbstractBudgetRateAndBase {
     public void setBudgetPersonnelCalculatedAmountId(Long budgetPersonnelCalculatedAmountId) {
         this.budgetPersonnelCalculatedAmountId = budgetPersonnelCalculatedAmountId;
     }
+
     /**
      * Gets the budgetPersonnelLineItemId attribute. 
      * @return Returns the budgetPersonnelLineItemId.
@@ -105,6 +110,7 @@ public class BudgetPersonnelRateAndBase extends AbstractBudgetRateAndBase {
     public Long getBudgetPersonnelLineItemId() {
         return budgetPersonnelLineItemId;
     }
+
     /**
      * Sets the budgetPersonnelLineItemId attribute value.
      * @param budgetPersonnelLineItemId The budgetPersonnelLineItemId to set.
@@ -112,6 +118,7 @@ public class BudgetPersonnelRateAndBase extends AbstractBudgetRateAndBase {
     public void setBudgetPersonnelLineItemId(Long budgetPersonnelLineItemId) {
         this.budgetPersonnelLineItemId = budgetPersonnelLineItemId;
     }
+
     /**
      * Gets the budgetPersonnelRateAndBaseId attribute. 
      * @return Returns the budgetPersonnelRateAndBaseId.
@@ -119,6 +126,7 @@ public class BudgetPersonnelRateAndBase extends AbstractBudgetRateAndBase {
     public Long getBudgetPersonnelRateAndBaseId() {
         return budgetPersonnelRateAndBaseId;
     }
+
     /**
      * Sets the budgetPersonnelRateAndBaseId attribute value.
      * @param budgetPersonnelRateAndBaseId The budgetPersonnelRateAndBaseId to set.
@@ -126,5 +134,4 @@ public class BudgetPersonnelRateAndBase extends AbstractBudgetRateAndBase {
     public void setBudgetPersonnelRateAndBaseId(Long budgetPersonnelRateAndBaseId) {
         this.budgetPersonnelRateAndBaseId = budgetPersonnelRateAndBaseId;
     }
-
 }

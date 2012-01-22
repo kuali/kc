@@ -15,43 +15,46 @@
  */
 package org.kuali.kra.award.paymentreports;
 
-import java.util.LinkedHashMap;
-
 import org.kuali.kra.bo.KraPersistableBusinessObjectBase;
 
 /**
  * 
  * This class represents a ValidClassReportFrequency business objects 
  */
-public class ValidClassReportFrequency extends KraPersistableBusinessObjectBase { 
-    
+public class ValidClassReportFrequency extends KraPersistableBusinessObjectBase {
+
     /**
      * Comment for <code>serialVersionUID</code>
      */
     private static final long serialVersionUID = 369663255546045771L;
-    private Integer validClassReportFreqId; 
-    private String reportClassCode; 
-    private String reportCode; 
-    private String frequencyCode; 
-    
-    private Frequency frequency; 
-    private Report report; 
-    private ReportClass reportClass; 
-    
+
+    private Integer validClassReportFreqId;
+
+    private String reportClassCode;
+
+    private String reportCode;
+
+    private String frequencyCode;
+
+    private Frequency frequency;
+
+    private Report report;
+
+    private ReportClass reportClass;
+
     /**
      * 
      * Constructs a ValidClassReportFrequency.java.
      */
-    public ValidClassReportFrequency() { 
-
+    public ValidClassReportFrequency() {
     }
-    
+
     public ValidClassReportFrequency(String reportClassCode, String reportCode, String frquencyCode) {
         this.reportClassCode = reportClassCode;
         this.reportCode = reportCode;
         this.frequencyCode = frquencyCode;
     }
-    
+
     /**
      *
      * @return
@@ -165,20 +168,6 @@ public class ValidClassReportFrequency extends KraPersistableBusinessObjectBase 
     }
 
     /**
-     * 
-     * @see org.kuali.rice.kns.bo.BusinessObjectBase#toStringMapper()
-     */
-    @Override 
-    protected LinkedHashMap<String,Object> toStringMapper() {
-        LinkedHashMap<String,Object> hashMap = new LinkedHashMap<String,Object>();
-        hashMap.put("validClassReportFreqId", getValidClassReportFreqId());
-        hashMap.put("reportClassCode", getReportClassCode());
-        hashMap.put("reportCode", getReportCode());
-        hashMap.put("frequencyCode", getFrequencyCode());
-        return hashMap;
-    }
-
-    /**
      * @see java.lang.Object#hashCode()
      */
     @Override
@@ -196,16 +185,16 @@ public class ValidClassReportFrequency extends KraPersistableBusinessObjectBase 
      */
     @Override
     public boolean equals(Object obj) {
-        if (this == obj){
+        if (this == obj) {
             return true;
-        }   
-        if (obj == null){
+        }
+        if (obj == null) {
             return false;
-        }   
-        if (!(obj instanceof ValidClassReportFrequency)){
+        }
+        if (!(obj instanceof ValidClassReportFrequency)) {
             return false;
-        }   
-        return equals((ValidClassReportFrequency) obj);        
+        }
+        return equals((ValidClassReportFrequency) obj);
     }
 
     /**
@@ -214,32 +203,28 @@ public class ValidClassReportFrequency extends KraPersistableBusinessObjectBase 
      * @param validClassReportFrequency
      * @return
      */
-    public boolean equals(ValidClassReportFrequency validClassReportFrequency){
+    public boolean equals(ValidClassReportFrequency validClassReportFrequency) {
         if (frequencyCode == null) {
-            if (validClassReportFrequency.frequencyCode != null){
+            if (validClassReportFrequency.frequencyCode != null) {
                 return false;
             }
-                
-        }else if (!frequencyCode.equals(validClassReportFrequency.frequencyCode)){
+        } else if (!frequencyCode.equals(validClassReportFrequency.frequencyCode)) {
             return false;
-        }   
+        }
         if (reportClassCode == null) {
-            if (validClassReportFrequency.reportClassCode != null){
+            if (validClassReportFrequency.reportClassCode != null) {
                 return false;
-            }   
-        }else if (!reportClassCode.equals(validClassReportFrequency.reportClassCode)){
+            }
+        } else if (!reportClassCode.equals(validClassReportFrequency.reportClassCode)) {
             return false;
-        }   
+        }
         if (reportCode == null) {
-            if (validClassReportFrequency.reportCode != null){
+            if (validClassReportFrequency.reportCode != null) {
                 return false;
-            }   
-        }else if (!reportCode.equals(validClassReportFrequency.reportCode)){
+            }
+        } else if (!reportCode.equals(validClassReportFrequency.reportCode)) {
             return false;
-        }   
+        }
         return true;
     }
-    
-    
-    
 }

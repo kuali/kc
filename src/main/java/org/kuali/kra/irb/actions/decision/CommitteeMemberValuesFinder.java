@@ -24,12 +24,12 @@ import org.kuali.kra.committee.bo.CommitteeMembership;
 import org.kuali.kra.irb.Protocol;
 import org.kuali.kra.irb.ProtocolForm;
 import org.kuali.kra.irb.actions.IrbActionsKeyValuesBase;
-import org.kuali.kra.irb.actions.submit.ProtocolReviewer;
 import org.kuali.kra.irb.actions.submit.ProtocolSubmission;
 import org.kuali.kra.irb.actions.submit.ProtocolSubmissionStatus;
 import org.kuali.kra.meeting.CommitteeScheduleAttendance;
-import org.kuali.rice.core.util.KeyLabelPair;
-import org.kuali.rice.kns.util.GlobalVariables;
+import org.kuali.rice.core.api.util.ConcreteKeyValue;
+import org.kuali.rice.core.api.util.KeyValue;
+import org.kuali.rice.kns.util.KNSGlobalVariables;
 import org.kuali.rice.kns.web.struts.form.KualiForm;
 
 
@@ -38,9 +38,9 @@ import org.kuali.rice.kns.web.struts.form.KualiForm;
  */
 public class CommitteeMemberValuesFinder extends IrbActionsKeyValuesBase {
     
-    public List<KeyLabelPair> getKeyValues() {
-        List<KeyLabelPair> keyValues = new ArrayList<KeyLabelPair>();
-        keyValues.add(new KeyLabelPair("", "select"));
+    public List<KeyValue> getKeyValues() {
+        List<KeyValue> keyValues = new ArrayList<KeyValue>();
+        keyValues.add(new ConcreteKeyValue("", "select"));
         
         Protocol protocol = getProtocol();
         if (protocol != null) {
@@ -52,7 +52,7 @@ public class CommitteeMemberValuesFinder extends IrbActionsKeyValuesBase {
                     List<CommitteeMembership> members = committee.getCommitteeMemberships();
                     for (CommitteeMembership member : members) {
                         if (member.isActive() && isReviewerAttendingMeeting(member)) {
-                            keyValues.add(new KeyLabelPair(member.getCommitteeMembershipId().toString(), member.getPersonName()));
+                            keyValues.add(new ConcreteKeyValue(member.getCommitteeMembershipId().toString(), member.getPersonName()));
                         }
                     }
                 }
@@ -73,7 +73,7 @@ public class CommitteeMemberValuesFinder extends IrbActionsKeyValuesBase {
     }
 
     private Protocol getProtocol() {
-        KualiForm form = GlobalVariables.getKualiForm();
+        KualiForm form = KNSGlobalVariables.getKualiForm();
         if (form != null && form instanceof ProtocolForm) {
             return ((ProtocolForm) form).getProtocolDocument().getProtocol();
         }

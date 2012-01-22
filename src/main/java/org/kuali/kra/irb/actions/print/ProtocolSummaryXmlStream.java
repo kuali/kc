@@ -34,6 +34,7 @@ import org.kuali.kra.common.permissions.web.bean.AssignedRole;
 import org.kuali.kra.infrastructure.Constants;
 import org.kuali.kra.infrastructure.KraServiceLocator;
 import org.kuali.kra.infrastructure.PermissionConstants;
+import org.kuali.kra.infrastructure.RoleConstants;
 import org.kuali.kra.institutionalproposal.home.InstitutionalProposal;
 import org.kuali.kra.institutionalproposal.service.InstitutionalProposalService;
 import org.kuali.kra.irb.Protocol;
@@ -62,9 +63,9 @@ import org.kuali.kra.proposaldevelopment.document.ProposalDevelopmentDocument;
 import org.kuali.kra.service.KraAuthorizationService;
 import org.kuali.kra.service.SponsorService;
 import org.kuali.kra.service.UnitService;
-import org.kuali.rice.kns.service.BusinessObjectService;
-import org.kuali.rice.kns.service.ParameterService;
-import org.kuali.rice.kns.util.KNSPropertyConstants;
+import org.kuali.rice.coreservice.framework.parameter.ParameterService;
+import org.kuali.rice.krad.service.BusinessObjectService;
+import org.kuali.rice.krad.util.KRADPropertyConstants;
 import org.w3.x2001.protocolSummarySchema.ProtoAmendRenewalType;
 import org.w3.x2001.protocolSummarySchema.ProtocolActionsType;
 import org.w3.x2001.protocolSummarySchema.ProtocolCorrespondentType;
@@ -105,7 +106,7 @@ public class ProtocolSummaryXmlStream extends PrintBaseXmlStream {
     private BusinessObjectService businessObjectService;
     private InstitutionalProposalService institutionalProposalService;
     private AwardService awardService;
-    
+
 
     /**
      * @see org.kuali.kra.printing.xmlstream.XmlStream#generateXmlStream(org.kuali.kra.bo.KraPersistableBusinessObjectBase, java.util.Map)
@@ -189,7 +190,7 @@ public class ProtocolSummaryXmlStream extends PrintBaseXmlStream {
     }
     private String getProposalParameterValue(String param) {
         ParameterService parameterService = KraServiceLocator.getService(ParameterService.class);
-        return parameterService.getParameterValue(ProposalDevelopmentDocument.class, param);
+        return parameterService.getParameterValueAsString(ProposalDevelopmentDocument.class, param);
     }
 
     private void setProtocolDocuments(ProtocolSummary protocolSummary, Protocol protocol) {
@@ -223,7 +224,7 @@ public class ProtocolSummaryXmlStream extends PrintBaseXmlStream {
         }
     }
     private void setProtocolUserRoles(ProtocolSummary protocolSummary, Protocol protocol) {
-        ProtocolPrintPermissionUtils protocolPrintPermissionUtils = new ProtocolPrintPermissionUtils();
+        ProtocolPrintPermissionUtils protocolPrintPermissionUtils = new ProtocolPrintPermissionUtils(RoleConstants.PROTOCOL_ROLE_TYPE);
         protocolPrintPermissionUtils.setProtocol(protocol);
         List<AssignedRole> assignedRoles = protocolPrintPermissionUtils.getAssignedRoles();
         for (AssignedRole userRolesInfoBean : assignedRoles) {
@@ -277,7 +278,7 @@ public class ProtocolSummaryXmlStream extends PrintBaseXmlStream {
         for(Map.Entry<String, CustomAttributeDocument> customAttributeDocumentEntry:customAttributeDocuments.entrySet()) {
             CustomAttributeDocument customAttributeDocument = customAttributeDocumentEntry.getValue();
             Map<String, Object> primaryKeys = new HashMap<String, Object>();
-            primaryKeys.put(KNSPropertyConstants.DOCUMENT_NUMBER, documentNumber);
+            primaryKeys.put(KRADPropertyConstants.DOCUMENT_NUMBER, documentNumber);
             primaryKeys.put(Constants.CUSTOM_ATTRIBUTE_ID, customAttributeDocument.getCustomAttributeId());
 
             CustomAttributeDocValue customAttributeDocValue = (CustomAttributeDocValue) KraServiceLocator.getService(BusinessObjectService.class).findByPrimaryKey(CustomAttributeDocValue.class, primaryKeys);
@@ -351,9 +352,6 @@ public class ProtocolSummaryXmlStream extends PrintBaseXmlStream {
             }
         }
     }
-    
-   
-    
     private void setProtocolNotes(ProtocolSummary protocolSummary, Protocol protocol) {
         List<ProtocolNotepad> protocolNotes = protocol.getNotepads();
         boolean isProtocolPerson = KraServiceLocator.getService(ProtocolActionService.class).isProtocolPersonnel(protocol);
@@ -368,14 +366,13 @@ public class ProtocolSummaryXmlStream extends PrintBaseXmlStream {
                 protocolNotesType.setProtocolNumber(protocolNotepad.getProtocolNumber());
                 protocolNotesType.setSequenceNumber(protocolNotepad.getSequenceNumber());
                 protocolNotesType.setUpdateUser(protocolNotepad.getUpdateUser());
-                if (protocolNotepad.getUpdateTimestamp() != null) {
+                if (protocolNotepad.getUpdateTimestamp()!=null) {
                     protocolNotesType.setUpdateTimestamp(getDateTimeService().getCalendar(protocolNotepad.getUpdateTimestamp()));
                 }
             }
         }
-
+        
     }
-
     private Calendar convertDateToCalendar(Date date){
         return date==null?null:getDateTimeService().getCalendar(date);
     }
@@ -608,7 +605,7 @@ public class ProtocolSummaryXmlStream extends PrintBaseXmlStream {
                 protocolInvestigatorType.setPersonId(protocolPerson.getPersonId());
                 protocolInvestigatorType.setPersonName(protocolPerson.getPersonName());
                 if(protocolPerson.getAffiliationType()!=null){
-                    protocolInvestigatorType.setAffiliationTypeCode(protocolPerson.getAffiliationTypeCode());
+                    protocolInvestigatorType.setAffiliationTypeCode(protocolPerson.getAffiliationType().getAffiliationTypeCode());
                     protocolInvestigatorType.setAffiliationTypeDesc(protocolPerson.getAffiliationType().getDescription());
                 }
                 protocolInvestigatorType.setNonEmployeeFlag( ( protocolPerson.isNonEmployee()  ? "Y" : "N" ) );
@@ -631,7 +628,7 @@ public class ProtocolSummaryXmlStream extends PrintBaseXmlStream {
                 ProtocolKeyPersonsType protocolKeyPersonsType = protocolSummary.addNewProtocolKeyPersons();
                 protocolKeyPersonsType.setPersonId(protocolPerson.getPersonId());
                 protocolKeyPersonsType.setPersonName(protocolPerson.getPersonName());
-                protocolKeyPersonsType.setAffiliationTypeCode(protocolPerson.getAffiliationTypeCode());
+                protocolKeyPersonsType.setAffiliationTypeCode(protocolPerson.getAffiliationType().getAffiliationTypeCode());
                 protocolKeyPersonsType.setNonEmployeeFlag( ( protocolPerson.isNonEmployee() ? "Y" : "N" ) );
                 protocolKeyPersonsType.setProtocolNumber(protocolPerson.getProtocolNumber());
                 protocolKeyPersonsType.setSequenceNumber(protocolPerson.getSequenceNumber());
@@ -640,7 +637,7 @@ public class ProtocolSummaryXmlStream extends PrintBaseXmlStream {
                     protocolKeyPersonsType.setPersonRole(protocolPerson.getProtocolPersonRole().getDescription());
                 }
                 protocolKeyPersonsType.setTrainingFlag( ( protocolPerson.isTrained()  ? "Y" : "N" ) );
-                protocolKeyPersonsType.setAffiliationTypeCode(protocolPerson.getAffiliationTypeCode());
+                protocolKeyPersonsType.setAffiliationTypeCode(protocolPerson.getAffiliationType().getAffiliationTypeCode());
                 if(protocolPerson.getAffiliationType()!=null){
                     protocolKeyPersonsType.setAffiliationTypeDesc(protocolPerson.getAffiliationType().getDescription());
                 }
@@ -763,7 +760,7 @@ public class ProtocolSummaryXmlStream extends PrintBaseXmlStream {
         this.institutionalProposalService = institutionalProposalService;
     }
 
- protected final boolean hasPermission(String userId, Protocol protocol, String permissionName) {
+    protected final boolean hasPermission(String userId, Protocol protocol, String permissionName) {
         
         return KraServiceLocator.getService(KraAuthorizationService.class).hasPermission(userId, protocol, permissionName);
     }

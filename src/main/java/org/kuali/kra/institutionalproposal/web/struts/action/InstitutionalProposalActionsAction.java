@@ -41,9 +41,10 @@ import org.kuali.kra.proposaldevelopment.bo.AttachmentDataSource;
 import org.kuali.kra.web.struts.action.AuditActionHelper;
 import org.kuali.kra.web.struts.action.StrutsConfirmation;
 import org.kuali.rice.kns.util.AuditCluster;
-import org.kuali.rice.kns.util.GlobalVariables;
-import org.kuali.rice.kns.util.KNSConstants;
+import org.kuali.rice.kns.util.KNSGlobalVariables;
 import org.kuali.rice.kns.web.struts.action.AuditModeAction;
+import org.kuali.rice.krad.util.GlobalVariables;
+import org.kuali.rice.krad.util.KRADConstants;
 
 /**
  * This class...
@@ -202,10 +203,10 @@ public class InstitutionalProposalActionsAction extends InstitutionalProposalAct
 
         ActionForward forward = super.approve(mapping, form, request, response);
         
-        Long routeHeaderId = Long.parseLong(proposalForm.getDocument().getDocumentNumber());
+        String routeHeaderId = proposalForm.getDocument().getDocumentNumber();
         String returnLocation = buildActionUrl(routeHeaderId, Constants.MAPPING_INSTITUTIONAL_PROPOSAL_ACTIONS_PAGE, "InstitutionalProposalDocument");
         
-        ActionForward basicForward = mapping.findForward(KNSConstants.MAPPING_PORTAL);
+        ActionForward basicForward = mapping.findForward(KRADConstants.MAPPING_PORTAL);
         ActionForward holdingPageForward = mapping.findForward(Constants.MAPPING_HOLDING_PAGE);
         return routeToHoldingPage(basicForward, forward, holdingPageForward, returnLocation);
     }
@@ -223,10 +224,10 @@ public class InstitutionalProposalActionsAction extends InstitutionalProposalAct
             forward = super.blanketApprove(mapping, form, request, response);
         }
         
-        Long routeHeaderId = Long.parseLong(proposalForm.getDocument().getDocumentNumber());
+        String routeHeaderId = proposalForm.getDocument().getDocumentNumber();
         String returnLocation = buildActionUrl(routeHeaderId, Constants.MAPPING_INSTITUTIONAL_PROPOSAL_ACTIONS_PAGE, "InstitutionalProposalDocument");
         
-        ActionForward basicForward = mapping.findForward(KNSConstants.MAPPING_PORTAL);
+        ActionForward basicForward = mapping.findForward(KRADConstants.MAPPING_PORTAL);
         ActionForward holdingPageForward = mapping.findForward(Constants.MAPPING_HOLDING_PAGE);
         return routeToHoldingPage(basicForward, forward, holdingPageForward, returnLocation);
     }
@@ -247,10 +248,10 @@ public class InstitutionalProposalActionsAction extends InstitutionalProposalAct
             forward = super.route(mapping, form, request, response);
         }
         
-        Long routeHeaderId = Long.parseLong(proposalForm.getDocument().getDocumentNumber());
+        String routeHeaderId = proposalForm.getDocument().getDocumentNumber();
         String returnLocation = buildActionUrl(routeHeaderId, Constants.MAPPING_INSTITUTIONAL_PROPOSAL_ACTIONS_PAGE, "InstitutionalProposalDocument");
         
-        ActionForward basicForward = mapping.findForward(KNSConstants.MAPPING_PORTAL);
+        ActionForward basicForward = mapping.findForward(KRADConstants.MAPPING_PORTAL);
         ActionForward holdingPageForward = mapping.findForward(Constants.MAPPING_HOLDING_PAGE);
         return routeToHoldingPage(basicForward, forward, holdingPageForward, returnLocation);
     }
@@ -260,8 +261,8 @@ public class InstitutionalProposalActionsAction extends InstitutionalProposalAct
         boolean auditPassed = new AuditActionHelper().auditUnconditionally(institutionalProposalDocument);
         if (!auditPassed) {
             state = WARNING;
-            for (Iterator iter = GlobalVariables.getAuditErrorMap().keySet().iterator(); iter.hasNext();) {
-                AuditCluster auditCluster = (AuditCluster)GlobalVariables.getAuditErrorMap().get(iter.next());
+            for (Iterator iter = KNSGlobalVariables.getAuditErrorMap().keySet().iterator(); iter.hasNext();) {
+                AuditCluster auditCluster = (AuditCluster)KNSGlobalVariables.getAuditErrorMap().get(iter.next());
                 if (!StringUtils.equalsIgnoreCase(auditCluster.getCategory(), Constants.AUDIT_WARNINGS)) {
                     state = ERROR;
                     GlobalVariables.getMessageMap().putError("noKey", KeyConstants.ERROR_VALIDATION_ERRORS_EXIST);

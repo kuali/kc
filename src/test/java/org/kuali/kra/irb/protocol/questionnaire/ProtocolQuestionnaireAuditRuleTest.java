@@ -276,7 +276,7 @@ public class ProtocolQuestionnaireAuditRuleTest extends ProtocolRuleTestBase {
         defHeaders.add(hdr5);
         
         final ProtocolModuleQuestionnaireBean defAmendModule = new ProtocolModuleQuestionnaireBean(CoeusModule.IRB_MODULE_CODE, amendmentProtocol.getProtocolNumber(), "0", 
-           amendmentProtocol.getSequenceNumber().toString(), amendmentProtocol.getProtocolDocument().getDocumentHeader().getWorkflowDocument().stateIsApproved());
+           amendmentProtocol.getSequenceNumber().toString(), amendmentProtocol.getProtocolDocument().getDocumentHeader().getWorkflowDocument().isApproved());
         
         final QuestionnaireAnswerService qnnrService3 = context.mock(QuestionnaireAnswerService.class, "case3");
         context.checking(new Expectations() {

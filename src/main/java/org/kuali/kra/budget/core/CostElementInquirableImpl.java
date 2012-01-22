@@ -20,10 +20,10 @@ import java.util.List;
 
 import org.apache.commons.lang.StringUtils;
 import org.kuali.kra.infrastructure.KraServiceLocator;
-import org.kuali.rice.kns.bo.BusinessObject;
+import org.kuali.rice.coreservice.framework.parameter.ParameterService;
 import org.kuali.rice.kns.inquiry.KualiInquirableImpl;
-import org.kuali.rice.kns.service.ParameterService;
 import org.kuali.rice.kns.web.ui.Section;
+import org.kuali.rice.krad.bo.BusinessObject;
 
 public class CostElementInquirableImpl extends KualiInquirableImpl {
     
@@ -37,7 +37,7 @@ public class CostElementInquirableImpl extends KualiInquirableImpl {
     public List<Section> getSections(BusinessObject bo) {
         List<Section> oldSections = super.getSections(bo);
         
-        String kfsOnParameterValue = getParameterService().getParameterValue(KFS_ON_PARM_NMSPC_CD, KFS_ON_PARM_DTL_TYP_CD, KFS_ON_PARM_NM);
+        String kfsOnParameterValue = getParameterService().getParameterValueAsString(KFS_ON_PARM_NMSPC_CD, KFS_ON_PARM_DTL_TYP_CD, KFS_ON_PARM_NM);
         
         List<Section> sections = new ArrayList<Section>();
         if (!StringUtils.equals(kfsOnParameterValue, KFS_ON_OFF_VALUE)) {

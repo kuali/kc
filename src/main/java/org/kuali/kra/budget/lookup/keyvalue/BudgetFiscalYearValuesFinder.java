@@ -20,8 +20,9 @@ import java.util.List;
 
 import org.kuali.kra.infrastructure.KraServiceLocator;
 import org.kuali.kra.lookup.keyvalue.KeyValueFinderService;
-import org.kuali.rice.kns.lookup.keyvalues.KeyValuesBase;
-import org.kuali.rice.core.util.KeyLabelPair;
+import org.kuali.rice.core.api.util.ConcreteKeyValue;
+import org.kuali.rice.core.api.util.KeyValue;
+import org.kuali.rice.krad.keyvalues.KeyValuesBase;
 
 /**
  * Finds the available set of supported Narrative Statuses.  See
@@ -43,21 +44,21 @@ public class BudgetFiscalYearValuesFinder extends KeyValuesBase {
      * 
      * @return the list of &lt;key, value&gt; pairs of abstract types.  The first entry
      * is always &lt;"", "select:"&gt;.
-     * @see org.kuali.rice.kns.lookup.keyvalues.KeyValuesFinder#getKeyValues()
+     * @see org.kuali.rice.krad.keyvalues.KeyValuesFinder#getKeyValues()
      */
-    public List<KeyLabelPair> getKeyValues() {
-        List<KeyLabelPair> keyLabelPairs = new ArrayList<KeyLabelPair>();
+    public List<KeyValue> getKeyValues() {
+        List<KeyValue> KeyValues = new ArrayList<KeyValue>();
         
-        keyLabelPairs.add(new KeyLabelPair(null, "Select"));
+        KeyValues.add(new ConcreteKeyValue(null, "Select"));
         for(Integer fiscalYear: loadFiscalYears()) {
-            keyLabelPairs.add(createKeyLabelPair(fiscalYear));
+            KeyValues.add(createKeyValue(fiscalYear));
         }
         
-        return keyLabelPairs; 
+        return KeyValues; 
     }
     
-    private KeyLabelPair createKeyLabelPair(Integer fiscalYear) {
-        return new KeyLabelPair(fiscalYear, fiscalYear.toString());
+    private KeyValue createKeyValue(Integer fiscalYear) {
+        return new ConcreteKeyValue(fiscalYear.toString(), fiscalYear.toString()); 
     }
 
     private Integer[] loadFiscalYears() {

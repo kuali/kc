@@ -24,9 +24,9 @@ import org.kuali.kra.infrastructure.KeyConstants;
 import org.kuali.kra.irb.Protocol;
 import org.kuali.kra.irb.ProtocolDocument;
 import org.kuali.kra.rules.ResearchDocumentRuleBase;
-import org.kuali.rice.kns.document.Document;
-import org.kuali.rice.kns.rule.DocumentAuditRule;
 import org.kuali.rice.kns.util.AuditError;
+import org.kuali.rice.krad.document.Document;
+import org.kuali.rice.krad.rules.rule.DocumentAuditRule;
 
 public class ProtocolFundingSourceAuditRule extends ResearchDocumentRuleBase implements DocumentAuditRule {
     
@@ -35,7 +35,7 @@ public class ProtocolFundingSourceAuditRule extends ResearchDocumentRuleBase imp
     
     /**
      * {@inheritDoc}
-     * @see org.kuali.kra.rules.ResearchDocumentRuleBase#processRunAuditBusinessRules(org.kuali.rice.kns.document.Document)
+     * @see org.kuali.kra.rules.ResearchDocumentRuleBase#processRunAuditBusinessRules(org.kuali.rice.krad.document.Document)
      */
     public boolean processRunAuditBusinessRules(Document document) {
         boolean isValid = true;

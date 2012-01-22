@@ -135,8 +135,8 @@
   <bean id="BudgetUnrecoveredFandA-onCampusFlag-parentBean" abstract="true" parent="AttributeDefinition">
     <property name="name" value="onCampusFlag" />
     <property name="forceUppercase" value="false" />
-    <property name="label" value="On Campus Flag" />
-    <property name="shortLabel" value="On Campus Flag" />
+    <property name="label" value="On CampusContractContract Flag" />
+    <property name="shortLabel" value="On CampusContractContract Flag" />
     <property name="maxLength" value="1" />
     <property name="validationPattern" >
       <bean parent="AlphaValidationPattern"
@@ -147,8 +147,8 @@
       <bean parent="TextControlDefinition"
             p:size="10" />
     </property>
-    <property name="summary" value="On Campus Flag" />
-    <property name="description" value="On Campus Flag" />
+    <property name="summary" value="On CampusContractContract Flag" />
+    <property name="description" value="On CampusContractContract Flag" />
   </bean>
   <bean id="BudgetUnrecoveredFandA-fiscalYear" parent="BudgetUnrecoveredFandA-fiscalYear-parentBean" />
 

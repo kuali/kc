@@ -19,7 +19,7 @@ package org.kuali.kra.bo;
 import java.sql.Timestamp;
 
 import org.kuali.kra.budget.BudgetDecimal;
-import org.kuali.rice.kns.bo.AttributeReferenceDummy;
+import org.kuali.rice.krad.bo.AttributeReferenceDummy;
 
 /**
  * Attribute Reference Dummy Business Object.

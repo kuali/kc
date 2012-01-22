@@ -15,8 +15,8 @@
  */
 package org.kuali.kra.budget.parameters;
 import org.kuali.kra.budget.document.BudgetDocument;
-import org.kuali.rice.kns.document.Document;
-import org.kuali.rice.kns.rule.BusinessRule;
+import org.kuali.rice.krad.document.Document;
+import org.kuali.rice.krad.rules.rule.BusinessRule;
 
 public class AddBudgetPeriodEvent extends BudgetPeriodEventBase{
     /**
@@ -42,14 +42,14 @@ public class AddBudgetPeriodEvent extends BudgetPeriodEventBase{
     }
 
     /**
-     * @see org.kuali.rice.kns.rule.event.KualiDocumentEvent#getRuleInterfaceClass()
+     * @see org.kuali.rice.krad.rules.rule.event.KualiDocumentEvent#getRuleInterfaceClass()
      */
     public Class getRuleInterfaceClass() {
         return AddBudgetPeriodRule.class;
     }
 
     /**
-     * @see org.kuali.rice.kns.rule.event.KualiDocumentEvent#invokeRuleMethod(org.kuali.rice.kns.rule.BusinessRule)
+     * @see org.kuali.rice.krad.rules.rule.event.KualiDocumentEvent#invokeRuleMethod(org.kuali.rice.krad.rules.rule.BusinessRule)
      */
     public boolean invokeRuleMethod(BusinessRule rule) {
         return ((AddBudgetPeriodRule) rule).processAddBudgetPeriodBusinessRules(this);

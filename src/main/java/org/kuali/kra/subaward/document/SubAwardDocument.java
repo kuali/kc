@@ -18,17 +18,17 @@ package org.kuali.kra.subaward.document;
 import java.util.ArrayList;
 import java.util.List;
 
-import org.kuali.kra.service.VersionHistoryService;
-import org.kuali.kra.subaward.bo.SubAward;
 import org.kuali.kra.bo.versioning.VersionStatus;
 import org.kuali.kra.document.ResearchDocumentBase;
 import org.kuali.kra.infrastructure.KraServiceLocator;
-import org.kuali.rice.kew.dto.DocumentRouteStatusChangeDTO;
-import org.kuali.rice.kew.util.KEWConstants;
-import org.kuali.rice.kns.document.Copyable;
-import org.kuali.rice.kns.document.SessionDocument;
-import org.kuali.rice.kns.util.GlobalVariables;
-import org.kuali.rice.kns.workflow.service.KualiWorkflowDocument;
+import org.kuali.kra.service.VersionHistoryService;
+import org.kuali.kra.subaward.bo.SubAward;
+import org.kuali.rice.kew.api.KewApiConstants;
+import org.kuali.rice.kew.api.WorkflowDocument;
+import org.kuali.rice.kew.framework.postprocessor.DocumentRouteStatusChange;
+import org.kuali.rice.krad.document.Copyable;
+import org.kuali.rice.krad.document.SessionDocument;
+import org.kuali.rice.krad.util.GlobalVariables;
 
 public class SubAwardDocument extends ResearchDocumentBase implements  Copyable, SessionDocument{
     
@@ -67,19 +67,19 @@ public class SubAwardDocument extends ResearchDocumentBase implements  Copyable,
      * @see org.kuali.rice.kns.document.DocumentBase#doRouteStatusChange(org.kuali.rice.kew.dto.DocumentRouteStatusChangeDTO)
      */
     @Override
-    public void doRouteStatusChange(DocumentRouteStatusChangeDTO statusChangeEvent) {
+    public void doRouteStatusChange(DocumentRouteStatusChange statusChangeEvent) {
         super.doRouteStatusChange(statusChangeEvent);
         
         String newStatus = statusChangeEvent.getNewRouteStatus();
         String oldStatus = statusChangeEvent.getOldRouteStatus();
         
-        if (KEWConstants.ROUTE_HEADER_FINAL_CD.equalsIgnoreCase(newStatus)) {
+        if (KewApiConstants.ROUTE_HEADER_FINAL_CD.equalsIgnoreCase(newStatus)) {
             getVersionHistoryService().updateVersionHistoryOnRouteToFinal(getSubAward(), VersionStatus.ACTIVE, GlobalVariables.getUserSession().getPrincipalName());
         }
-        if (newStatus.equalsIgnoreCase(KEWConstants.ROUTE_HEADER_CANCEL_CD) || newStatus.equalsIgnoreCase(KEWConstants.ROUTE_HEADER_DISAPPROVED_CD)) {
+        if (newStatus.equalsIgnoreCase(KewApiConstants.ROUTE_HEADER_CANCEL_CD) || newStatus.equalsIgnoreCase(KewApiConstants.ROUTE_HEADER_DISAPPROVED_CD)) {
             getVersionHistoryService().updateVersionHistoryOnCancel(getSubAward(), VersionStatus.CANCELED, GlobalVariables.getUserSession().getPrincipalName());
         }
-        
+   
         for (SubAward subAward : subAwardList) {
             subAward.setSubAwardDocument(this);
         }
@@ -89,8 +89,8 @@ public class SubAwardDocument extends ResearchDocumentBase implements  Copyable,
      * @return
      */
     public boolean isEditable() {
-        KualiWorkflowDocument workflowDoc = getDocumentHeader().getWorkflowDocument();
-        return workflowDoc.stateIsInitiated() || workflowDoc.stateIsSaved(); 
+        WorkflowDocument workflowDoc = getDocumentHeader().getWorkflowDocument();
+        return workflowDoc.isInitiated() || workflowDoc.isSaved(); 
     }
     
     protected void init() {

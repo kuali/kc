@@ -31,14 +31,14 @@ import javax.servlet.http.HttpServletRequestWrapper;
 import org.kuali.kra.infrastructure.Constants;
 import org.kuali.kra.infrastructure.KraServiceLocator;
 import org.kuali.kra.service.MultiCampusIdentityService;
-import org.kuali.rice.kew.web.UserLoginFilter;
-import org.kuali.rice.kew.web.session.UserSession;
-import org.kuali.rice.kim.bo.entity.KimPrincipal;
-import org.kuali.rice.kim.service.IdentityManagementService;
-import org.kuali.rice.kim.service.KIMServiceLocator;
-import org.kuali.rice.kns.bo.Campus;
-import org.kuali.rice.kns.bo.CampusImpl;
-import org.kuali.rice.kns.service.BusinessObjectService;
+import org.kuali.rice.kim.api.identity.IdentityService;
+import org.kuali.rice.kim.api.identity.principal.PrincipalContract;
+import org.kuali.rice.kim.api.services.KimApiServiceLocator;
+import org.kuali.rice.krad.UserSession;
+import org.kuali.rice.krad.service.BusinessObjectService;
+import org.kuali.rice.krad.util.KRADConstants;
+import org.kuali.rice.location.api.campus.CampusContract;
+import org.kuali.rice.location.impl.campus.CampusBo;
 
 /**
  * A login filter which forwards to a login page that allows for the desired authentication ID and campus code to be entered without the need for a password.
@@ -48,13 +48,13 @@ public class MultiCampusDummyLoginFilter implements Filter {
     
     private String loginPath;
     private boolean showPassword = false;
-    private List<Campus> campuses;
+    private List<CampusContract> campuses;
     public void init(FilterConfig config) throws ServletException {
         BusinessObjectService businessObjectService = KraServiceLocator.getService(BusinessObjectService.class);
         
         loginPath = config.getInitParameter("loginPath");
         showPassword = new Boolean(config.getInitParameter("showPassword"));
-        campuses = new ArrayList<Campus>(businessObjectService.findAll(CampusImpl.class));
+        campuses = new ArrayList<CampusContract>(businessObjectService.findAll(CampusBo.class));
         if (loginPath == null) {
             loginPath = "/WEB-INF/jsp/multicampus_dummy_login.jsp";
         }
@@ -64,11 +64,11 @@ public class MultiCampusDummyLoginFilter implements Filter {
         if (request instanceof HttpServletRequest) {
             HttpServletRequest hsreq = (HttpServletRequest) request;
             UserSession session = null;
-            if (UserLoginFilter.isUserSessionEstablished(hsreq)) {
-                session = UserLoginFilter.getUserSession(hsreq);    
+            if (hsreq.getSession().getAttribute(KRADConstants.USER_SESSION_KEY) != null) {
+                session = (UserSession) hsreq.getSession().getAttribute(KRADConstants.USER_SESSION_KEY);
             }
             if (session == null) {
-                IdentityManagementService auth = KIMServiceLocator.getIdentityManagementService();
+                IdentityService auth = KimApiServiceLocator.getIdentityService();
                 MultiCampusIdentityService multiCampusAuth = KraServiceLocator.getService(MultiCampusIdentityService.class);
                 request.setAttribute("showPasswordField", showPassword);
                 request.setAttribute("campuses", campuses);
@@ -79,7 +79,7 @@ public class MultiCampusDummyLoginFilter implements Filter {
                 final String multiCampusUser = multiCampusAuth.getMultiCampusPrincipalName(user, campusCode);
                 if (user != null) {
                     // Very simple password checking. Nothing hashed or encrypted. This is strictly for demonstration purposes only.
-                    final KimPrincipal principal = showPassword ? auth.getPrincipalByPrincipalNameAndPassword(multiCampusUser, password) 
+                    final PrincipalContract principal = showPassword ? auth.getPrincipalByPrincipalNameAndPassword(multiCampusUser, password) 
                                                                 : auth.getPrincipalByPrincipalName(multiCampusUser);
                     if (principal == null) {
                         handleInvalidLogin(request, response);  

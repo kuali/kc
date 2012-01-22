@@ -17,6 +17,8 @@ package org.kuali.kra.rules;
 
 import static org.kuali.kra.infrastructure.KraServiceLocator.getService;
 
+import java.util.AbstractMap.SimpleEntry;
+import java.util.AbstractMap.SimpleImmutableEntry;
 import java.util.Collection;
 import java.util.HashMap;
 import java.util.Map;
@@ -32,16 +34,15 @@ import org.kuali.kra.infrastructure.KeyConstants;
 import org.kuali.kra.infrastructure.KraServiceLocator;
 import org.kuali.kra.proposaldevelopment.document.ProposalDevelopmentDocument;
 import org.kuali.kra.service.KraAuthorizationService;
-import org.kuali.rice.kns.document.Document;
-import org.kuali.rice.kns.rule.DocumentAuditRule;
-import org.kuali.rice.kns.rules.DocumentRuleBase;
-import org.kuali.rice.kns.service.BusinessObjectService;
+import org.kuali.rice.coreservice.framework.parameter.ParameterService;
 import org.kuali.rice.kns.service.DictionaryValidationService;
-import org.kuali.rice.kns.service.ParameterService;
 import org.kuali.rice.kns.util.AuditError;
-import org.kuali.rice.kns.util.ErrorMap;
-import org.kuali.rice.kns.util.ExceptionUtils;
-import org.kuali.rice.kns.util.GlobalVariables;
+import org.kuali.rice.krad.document.Document;
+import org.kuali.rice.krad.rules.DocumentRuleBase;
+import org.kuali.rice.krad.rules.rule.DocumentAuditRule;
+import org.kuali.rice.krad.service.BusinessObjectService;
+import org.kuali.rice.krad.util.GlobalVariables;
+import org.kuali.rice.krad.util.MessageMap;
 
 /**
  * Base implementation class for KRA document business rules
@@ -114,9 +115,9 @@ public abstract class ResearchDocumentRuleBase extends DocumentRuleBase implemen
     protected void reportErrorWithoutFullErrorPath(String propertyName, String errorKey, String... errorParams) {
         LOG.debug("reportErrorWithoutFullErrorPath(String, String, String) - start");
 
-        GlobalVariables.getErrorMap().putErrorWithoutFullErrorPath(propertyName, errorKey, errorParams);
+        GlobalVariables.getMessageMap().putErrorWithoutFullErrorPath(propertyName, errorKey, errorParams);
         if (LOG.isDebugEnabled()) {
-            LOG.debug("rule failure at " + ExceptionUtils.describeStackLevels(1, 2));
+            LOG.debug("rule failure at " + ErrorReporter.getMethodPath(1, 2));
         }
     }
 
@@ -141,11 +142,10 @@ public abstract class ResearchDocumentRuleBase extends DocumentRuleBase implemen
         }
 
         boolean valid = true;
-        final ErrorMap errorMap = GlobalVariables.getErrorMap();
+        final MessageMap errorMap = GlobalVariables.getMessageMap();
         boolean finalVersionFound = false;
 
-        final DictionaryValidationService dictionaryValidationService
-            = this.getDictionaryValidationService();
+        final DictionaryValidationService dictionaryValidationService = (DictionaryValidationService) this.getDictionaryValidationService();
 
         int index = 0;
         for (BudgetDocumentVersion budgetDocumentVersion: budgetParentDocument.getBudgetDocumentVersions()) {
@@ -161,7 +161,7 @@ public abstract class ResearchDocumentRuleBase extends DocumentRuleBase implemen
                 }
             }
 
-            final String budgetStatusCompleteCode = getParameterService().getParameterValue(BudgetDocument.class, Constants.BUDGET_STATUS_COMPLETE_CODE);
+            final String budgetStatusCompleteCode = getParameterService().getParameterValueAsString(BudgetDocument.class, Constants.BUDGET_STATUS_COMPLETE_CODE);
 
             if (budgetStatusCompleteCode.equalsIgnoreCase(budgetVersion.getBudgetStatus())) {
                 if (!budgetVersion.isFinalVersionFlag()) {

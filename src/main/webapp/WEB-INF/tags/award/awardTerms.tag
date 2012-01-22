@@ -24,7 +24,7 @@
             <span class="subhead-right"><kul:help businessObjectClassName="org.kuali.kra.award.paymentreports.awardreports.AwardReportTerm" altText="help"/></span>
         </h3>  
         <c:forEach var="sponsorTermType" items="${KualiForm.sponsorTermFormHelper.sponsorTermTypes}" varStatus="sponsorTermTypeIndex">        	        	
-			<kra-a:awardTermsTypes index="${sponsorTermTypeIndex.index}" sponsorTermTypeKey="${sponsorTermType.key}" sponsorTermTypeLabel="${sponsorTermType.label}" />
+			<kra-a:awardTermsTypes index="${sponsorTermTypeIndex.index}" sponsorTermTypeKey="${sponsorTermType.key}" sponsorTermTypeLabel="${sponsorTermType.value}" />
 		</c:forEach>
 		
 		<br/>

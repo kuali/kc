@@ -16,7 +16,8 @@
 package org.kuali.kra.irb.onlinereview.rules;
 
 import org.kuali.kra.irb.onlinereview.event.RejectProtocolOnlineReviewCommentEvent;
+import org.kuali.rice.krad.rules.rule.BusinessRule;
 
-public interface RejectOnlineReviewCommentRule {
+public interface RejectOnlineReviewCommentRule extends BusinessRule {
     public boolean processRejectOnlineReviewComment(RejectProtocolOnlineReviewCommentEvent event);
 }

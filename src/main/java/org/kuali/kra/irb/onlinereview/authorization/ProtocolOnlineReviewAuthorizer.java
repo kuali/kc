@@ -17,11 +17,9 @@ package org.kuali.kra.irb.onlinereview.authorization;
 
 import org.kuali.kra.authorization.Task;
 import org.kuali.kra.authorization.TaskAuthorizerImpl;
-import org.kuali.kra.irb.Protocol;
 import org.kuali.kra.irb.onlinereview.ProtocolOnlineReview;
 import org.kuali.kra.irb.onlinereview.ProtocolOnlineReviewService;
 import org.kuali.kra.service.KraAuthorizationService;
-import org.kuali.rice.kim.service.RoleService;
 
 /**
  * A Protocol Authorizer determines if a user can perform

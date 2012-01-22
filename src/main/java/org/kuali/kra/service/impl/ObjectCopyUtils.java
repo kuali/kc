@@ -21,10 +21,10 @@ import java.util.Collection;
 
 import org.apache.commons.beanutils.PropertyUtils;
 import org.apache.ojb.broker.core.proxy.ProxyHelper;
-import org.kuali.rice.kns.bo.PersistableBusinessObject;
-import org.kuali.rice.kns.service.KNSServiceLocator;
-import org.kuali.rice.kns.util.ObjectUtils;
-import org.kuali.rice.kns.web.format.FormatException;
+import org.kuali.rice.core.web.format.FormatException;
+import org.kuali.rice.krad.bo.PersistableBusinessObject;
+import org.kuali.rice.krad.service.KRADServiceLocator;
+import org.kuali.rice.krad.util.ObjectUtils;
 
 public class ObjectCopyUtils {
     
@@ -59,7 +59,7 @@ public class ObjectCopyUtils {
         
         PropertyDescriptor[] propertyDescriptors = PropertyUtils.getPropertyDescriptors(bo.getClass());
         for (int i = 0; i < propertyDescriptors.length; i++) {
-            if (KNSServiceLocator.getPersistenceStructureService().hasCollection(bo.getClass(), propertyDescriptors[i].getName()) && KNSServiceLocator.getPersistenceStructureService().isCollectionUpdatable(bo.getClass(), propertyDescriptors[i].getName())) {
+            if (KRADServiceLocator.getPersistenceStructureService().hasCollection(bo.getClass(), propertyDescriptors[i].getName()) && KRADServiceLocator.getPersistenceStructureService().isCollectionUpdatable(bo.getClass(), propertyDescriptors[i].getName())) {
                 Collection<PersistableBusinessObject> updateableCollection = (Collection<PersistableBusinessObject>) ObjectUtils.getPropertyValue(bo, propertyDescriptors[i].getName());
                 if ((updateableCollection != null) && ProxyHelper.isCollectionProxy(updateableCollection)) {
                     ObjectUtils.materializeObjects(updateableCollection);

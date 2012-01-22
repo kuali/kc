@@ -90,19 +90,6 @@ public class CoiUserRole extends KraPersistableBusinessObjectBase {
         this.reviewerCode = reviewerCode;
     }
 
-    @Override
-    protected LinkedHashMap toStringMapper() {
-        LinkedHashMap<String, Object> hashMap = new LinkedHashMap<String, Object>();
-        hashMap.put("coiUserRolesId", this.getCoiUserRolesId());
-        hashMap.put("coiDisclosureNumber", this.getCoiDisclosureNumber());
-        hashMap.put("sequenceNumber", this.getSequenceNumber());
-        hashMap.put("roleName", this.getRoleName());
-        hashMap.put("userId", this.getUserId());
-        hashMap.put("reviewerCode", this.getReviewerCode());
-        
-        return hashMap;
-    }
-
     public KcPerson getPerson() {
         return person;
     }

@@ -26,7 +26,6 @@ import java.util.Map;
 import java.util.SortedMap;
 import java.util.TreeMap;
 
-
 import org.apache.commons.lang.StringUtils;
 import org.apache.commons.logging.Log;
 import org.apache.commons.logging.LogFactory;
@@ -36,9 +35,10 @@ import org.kuali.kra.award.home.CFDA;
 import org.kuali.kra.external.Cfda.CfdaService;
 import org.kuali.kra.external.Cfda.CfdaUpdateResults;
 import org.kuali.kra.infrastructure.Constants;
-import org.kuali.rice.kns.service.BusinessObjectService;
-import org.kuali.rice.kns.service.DateTimeService;
-import org.kuali.rice.kns.service.ParameterService;
+import org.kuali.rice.core.api.datetime.DateTimeService;
+import org.kuali.rice.coreservice.framework.parameter.ParameterService;
+import org.kuali.rice.krad.service.BusinessObjectService;
+
 import au.com.bytecode.opencsv.CSVReader;
 
 
@@ -157,7 +157,7 @@ public class CfdaServiceImpl implements CfdaService {
      */
     protected void createGovURL() {
         // Example url ftp://ftp.cfda.gov/programs09187.csv
-        String url = getParameterService().getParameterValue(Constants.MODULE_NAMESPACE_AWARD, 
+        String url = getParameterService().getParameterValueAsString(Constants.MODULE_NAMESPACE_AWARD, 
                 Constants.PARAMETER_COMPONENT_DOCUMENT, Constants.CFDA_GOV_URL_PARAMETER);
         String fileName = StringUtils.substringAfterLast(url, "/");
         url = StringUtils.substringBeforeLast(url, "/");

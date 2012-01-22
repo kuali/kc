@@ -16,48 +16,50 @@
 package org.kuali.kra.award.notesandattachments.attachments;
 
 import java.sql.Timestamp;
-import java.util.LinkedHashMap;
 
-import org.apache.ojb.broker.PersistenceBroker;
-import org.apache.ojb.broker.PersistenceBrokerException;
 import org.apache.struts.upload.FormFile;
 import org.kuali.kra.award.AwardAssociate;
 import org.kuali.kra.award.home.Award;
 import org.kuali.kra.bo.AttachmentFile;
 import org.kuali.kra.infrastructure.KraServiceLocator;
-import org.kuali.rice.kim.bo.Person;
-import org.kuali.rice.kim.service.PersonService;
+import org.kuali.rice.kim.api.identity.Person;
+import org.kuali.rice.kim.api.identity.PersonService;
 
 /**
  * This class...
  */
 public class AwardAttachment extends AwardAssociate implements Comparable<AwardAttachment> {
 
-/**
+    /**
      * Comment for <code>serialVersionUID</code>
      */
     private static final long serialVersionUID = 502762283098287794L;
 
     private Long awardAttachmentId;
+
     private Long fileId;
-    
+
     private Long awardId;
 
     private AttachmentFile file;
+
     private transient FormFile newFile;
-    
+
     private String typeCode;
+
     private AwardAttachmentType type;
+
     private Integer documentId;
+
     private String description;
-    
+
     /**
      * empty ctor to satisfy JavaBean convention.
      */
     public AwardAttachment() {
         super();
     }
-    
+
     /**
      * Convenience ctor to add the protocol as an owner.
      * 
@@ -71,8 +73,6 @@ public class AwardAttachment extends AwardAssociate implements Comparable<AwardA
         this.setAward(award);
     }
 
-    
-    
     /**
      * Gets the awardId attribute. 
      * @return Returns the awardId.
@@ -96,16 +96,15 @@ public class AwardAttachment extends AwardAssociate implements Comparable<AwardA
     public void setTypeCode(String typeCode) {
         this.typeCode = typeCode;
     }
-    
+
     public Integer getDocumentId() {
         return this.documentId;
     }
-    
+
     public void setDocumentId(Integer documentId) {
         this.documentId = documentId;
     }
-   
-    
+
     public String getDescription() {
         return this.description;
     }
@@ -113,25 +112,25 @@ public class AwardAttachment extends AwardAssociate implements Comparable<AwardA
     public void setDescription(String description) {
         this.description = description;
     }
-    
+
     public String getAttachmentDescription() {
         return "Award Attachment";
     }
-    
+
     /**
      * Gets the Award Attachment File.
      */
     public AttachmentFile getFile() {
         return this.file;
     }
-    
+
     /**
      * Sets the Award Attachment File.
      */
     public void setFile(AttachmentFile file) {
         this.file = file;
     }
-    
+
     /**
      * Gets the Award Attachment New File.
      * @return the Award Attachment New File
@@ -163,7 +162,7 @@ public class AwardAttachment extends AwardAssociate implements Comparable<AwardA
     public void setFileId(Long fileId) {
         this.fileId = fileId;
     }
-    
+
     /**
      * Gets the  id.
      * @return the  id
@@ -171,7 +170,7 @@ public class AwardAttachment extends AwardAssociate implements Comparable<AwardA
     public Long getAwardAttachmentId() {
         return this.awardAttachmentId;
     }
-    
+
     /**
      * Sets the id.
      * @param id the id
@@ -179,9 +178,7 @@ public class AwardAttachment extends AwardAssociate implements Comparable<AwardA
     public void setAwardAttachmentId(Long awardAttachmentId) {
         this.awardAttachmentId = awardAttachmentId;
     }
-    
-    
-    
+
     /**
      * Gets the type attribute. 
      * @return Returns the type.
@@ -190,8 +187,6 @@ public class AwardAttachment extends AwardAssociate implements Comparable<AwardA
         return type;
     }
 
-    
-    
     /**
      * Gets the type attribute. 
      * @return Returns the type.
@@ -220,26 +215,13 @@ public class AwardAttachment extends AwardAssociate implements Comparable<AwardA
     public void resetPersistenceState() {
         this.setAwardAttachmentId(null);
     }
-    
+
     /**
      * Checks if an attachment is new (not persisted yet).
      * @return true if new false if not
      */
     public boolean isNew() {
         return this.getAwardAttachmentId() == null;
-    }
-    
-    
-    /** {@inheritDoc} */
-    @Override 
-    protected LinkedHashMap<String, Object> toStringMapper() {
-        final LinkedHashMap<String, Object> hashMap = super.toStringMapper();
-        hashMap.put("typeCode", this.getTypeCode());
-        hashMap.put("documentId", this.getDocumentId());
-        hashMap.put("description", this.getDescription());
-        hashMap.put("fileId", this.getFileId());
-        hashMap.put("id", this.getAwardAttachmentId());
-        return hashMap;
     }
 
     /** {@inheritDoc} */
@@ -313,19 +295,19 @@ public class AwardAttachment extends AwardAssociate implements Comparable<AwardA
         }
         return true;
     }
-    
+
     /**
      * 
      * @see org.kuali.kra.bo.KraPersistableBusinessObjectBase#beforeUpdate(org.apache.ojb.broker.PersistenceBroker)
      */
     @Override
-    public void beforeUpdate(PersistenceBroker persistenceBroker) throws PersistenceBrokerException {
-        beforeUpdate();
+    protected void preUpdate() {
+        super.preUpdate();
         if (this.getVersionNumber() == null) {
             this.setVersionNumber(new Long(0));
         }
     }
-    
+
     /**
      * 
      * This method returns the full name of the update user.
@@ -335,7 +317,7 @@ public class AwardAttachment extends AwardAssociate implements Comparable<AwardA
         Person updateUser = KraServiceLocator.getService(PersonService.class).getPersonByPrincipalName(this.getUpdateUser());
         return updateUser != null ? updateUser.getName() : this.getUpdateUser();
     }
-    
+
     /**
      * This sets the update time stamp only if it hasn't already been set.
      * @see org.kuali.kra.bo.KraPersistableBusinessObjectBase#setUpdateTimestamp(java.sql.Timestamp)
@@ -346,7 +328,7 @@ public class AwardAttachment extends AwardAssociate implements Comparable<AwardA
             super.setUpdateTimestamp(updateTimestamp);
         }
     }
-    
+
     /**
      * Implements comparable based on the awardAttachmentId.
      * @see java.lang.Comparable#compareTo(java.lang.Object)

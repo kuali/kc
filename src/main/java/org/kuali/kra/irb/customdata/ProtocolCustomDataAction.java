@@ -31,9 +31,9 @@ import org.kuali.kra.infrastructure.Constants;
 import org.kuali.kra.irb.ProtocolAction;
 import org.kuali.kra.irb.ProtocolDocument;
 import org.kuali.kra.irb.ProtocolForm;
-import org.kuali.rice.kns.util.ErrorMessage;
-import org.kuali.rice.kns.util.GlobalVariables;
+import org.kuali.rice.kns.util.KNSGlobalVariables;
 import org.kuali.rice.kns.web.struts.form.KualiDocumentFormBase;
+import org.kuali.rice.krad.util.ErrorMessage;
 
 /**
  * Struts Action class for the Custom Data tab.
@@ -91,9 +91,10 @@ public class ProtocolCustomDataAction extends ProtocolAction {
         super.postDocumentSave(form);
         CustomDataAction.setCustomAttributeContent(form, CUSTOM_ATTRIBUTE_NAME);
         // a hook to display "successfully saved" message
-        ErrorMessage errorMessage = new ErrorMessage();
-        errorMessage.setErrorKey("message.saved");
-        GlobalVariables.getMessageList().add(errorMessage);
+        // seems not needed any more for rice20.
+//        ErrorMessage errorMessage = new ErrorMessage();
+//        errorMessage.setErrorKey("message.saved");
+//        KNSGlobalVariables.getMessageList().add(errorMessage);
 
     }
     

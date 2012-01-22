@@ -43,15 +43,15 @@ import org.kuali.kra.irb.actions.submit.ProtocolSubmission;
 import org.kuali.kra.irb.personnel.ProtocolPerson;
 import org.kuali.kra.service.KcPersonService;
 import org.kuali.kra.service.RolodexService;
-import org.kuali.rice.kim.bo.Person;
+import org.kuali.rice.kim.api.identity.Person;
 import org.kuali.rice.kns.authorization.AuthorizationConstants;
-import org.kuali.rice.kns.document.Document;
-import org.kuali.rice.kns.document.authorization.PessimisticLock;
 import org.kuali.rice.kns.service.DataDictionaryService;
 import org.kuali.rice.kns.service.DocumentHelperService;
-import org.kuali.rice.kns.service.PessimisticLockService;
-import org.kuali.rice.kns.util.GlobalVariables;
-import org.kuali.rice.kns.util.KNSConstants;
+import org.kuali.rice.krad.document.Document;
+import org.kuali.rice.krad.document.authorization.PessimisticLock;
+import org.kuali.rice.krad.service.PessimisticLockService;
+import org.kuali.rice.krad.util.GlobalVariables;
+import org.kuali.rice.krad.util.KRADConstants;
 
 
 public class OnlineReviewsActionHelper implements Serializable {
@@ -472,7 +472,7 @@ public class OnlineReviewsActionHelper implements Serializable {
         Iterator i = s.iterator();
         while(i.hasNext()) {
             Object key = i.next();
-           map.put(key,KNSConstants.KUALI_DEFAULT_TRUE_VALUE);
+           map.put(key,KRADConstants.KUALI_DEFAULT_TRUE_VALUE);
         }
         return map;
     }

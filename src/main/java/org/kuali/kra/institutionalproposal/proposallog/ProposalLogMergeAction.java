@@ -23,15 +23,16 @@ import org.apache.struts.action.ActionForward;
 import org.apache.struts.action.ActionMapping;
 import org.kuali.kra.infrastructure.KraServiceLocator;
 import org.kuali.kra.institutionalproposal.proposallog.service.ProposalLogService;
-import org.kuali.rice.kns.service.KualiConfigurationService;
-import org.kuali.rice.kns.util.KNSConstants;
+import org.kuali.rice.core.api.config.property.ConfigurationService;
 import org.kuali.rice.kns.web.struts.action.KualiAction;
+import org.kuali.rice.krad.service.KRADServiceLocator;
+import org.kuali.rice.krad.util.KRADConstants;
 
 public class ProposalLogMergeAction extends KualiAction {
     
     public ActionForward pageEntry(ActionMapping mapping, ActionForm form, HttpServletRequest request, HttpServletResponse response) throws Exception {
         ProposalLogMergeForm proposalLogMergeForm = (ProposalLogMergeForm) form;
-        String applicationUrl = getKualiConfigurationService().getPropertyString(KNSConstants.APPLICATION_URL_KEY);
+        String applicationUrl = getKualiConfigurationService().getPropertyValueAsString(KRADConstants.APPLICATION_URL_KEY);
         request.getSession().setAttribute("proposalLogNumber", proposalLogMergeForm.getProposalLogNumber());
         response.sendRedirect("kr/lookup.do?methodToCall=start&businessObjectClassName=org.kuali.kra.institutionalproposal.home.InstitutionalProposal&docFormKey=88888888&includeCustomActionUrls=true&returnLocation=" 
                 + applicationUrl + "/mergeProposalLog.do&hideReturnLink=true");
@@ -49,8 +50,8 @@ public class ProposalLogMergeAction extends KualiAction {
         return KraServiceLocator.getService(ProposalLogService.class);
     }
     
-    protected KualiConfigurationService getKualiConfigurationService() {
-        return KraServiceLocator.getService(KualiConfigurationService.class);
+    protected ConfigurationService getKualiConfigurationService() {
+        return KRADServiceLocator.getKualiConfigurationService();
     }
 
 }

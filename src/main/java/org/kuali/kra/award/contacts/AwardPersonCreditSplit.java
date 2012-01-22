@@ -16,7 +16,6 @@
 package org.kuali.kra.award.contacts;
 
 import java.util.HashMap;
-import java.util.LinkedHashMap;
 import java.util.Map;
 
 import org.kuali.kra.SequenceAssociate;
@@ -26,34 +25,38 @@ import org.kuali.kra.bo.KraPersistableBusinessObjectBase;
 import org.kuali.kra.infrastructure.KraServiceLocator;
 import org.kuali.kra.proposaldevelopment.bo.CreditSplit;
 import org.kuali.kra.proposaldevelopment.bo.InvestigatorCreditType;
-import org.kuali.rice.kns.service.BusinessObjectService;
-import org.kuali.rice.kns.util.KualiDecimal;
+import org.kuali.rice.core.api.util.type.KualiDecimal;
+import org.kuali.rice.krad.service.BusinessObjectService;
 
 /**
  * Class representation of the Award Person credit split
  */
 public final class AwardPersonCreditSplit extends KraPersistableBusinessObjectBase implements CreditSplit, SequenceAssociate<Award> {
+
     private static final String INV_CREDIT_TYPE_CODE_FIELD_NAME = "invCreditTypeCode";
 
     private static final long serialVersionUID = -6999442247404810830L;
-    
+
     private Long awardPersonCreditSplitId;
+
     @SkipVersioning
-    private AwardPerson awardPerson;    
+    private AwardPerson awardPerson;
+
     private KualiDecimal credit;
+
     private InvestigatorCreditType investigatorCreditType;
-    
-    // OJB Hacks
+
+    // OJB Hacks 
     private String invCreditTypeCode;
+
     private Long awardContactId;
-    
+
     /**
      * Default Constructor
      */
     public AwardPersonCreditSplit() {
-        
     }
-    
+
     /**
      * Convenience Constructor
      * @param investigatorCreditType
@@ -63,7 +66,7 @@ public final class AwardPersonCreditSplit extends KraPersistableBusinessObjectBa
         setInvestigatorCreditType(investigatorCreditType);
         setCredit(credit);
     }
-    
+
     /**
      * Gets the awardContactId attribute. 
      * @return Returns the awardContactId.
@@ -175,45 +178,32 @@ public final class AwardPersonCreditSplit extends KraPersistableBusinessObjectBa
         return KraServiceLocator.getService(BusinessObjectService.class);
     }
 
-    @Override 
-    protected LinkedHashMap<String, Object> toStringMapper() {
-        LinkedHashMap<String, Object> map = new LinkedHashMap<String, Object>();
-        map.put("awardPersonCreditSplitId", awardPersonCreditSplitId);
-        map.put("awardPerson", awardPerson);    
-        map.put("credit", credit);
-        map.put("investigatorCreditType", investigatorCreditType);
-        map.put(INV_CREDIT_TYPE_CODE_FIELD_NAME, invCreditTypeCode);
-        map.put("awardContactId", awardContactId);
-        return map;
-    }
-    
     /**
      * This method lazy-loads the InvestigatorCreditType
      */
     private void refreshInvestigatorCreditTypeIfNeeded() {
-        if(invCreditTypeCode != null && (investigatorCreditType == null || !invCreditTypeCode.equals(investigatorCreditType.getInvCreditTypeCode()))) {
+        if (invCreditTypeCode != null && (investigatorCreditType == null || !invCreditTypeCode.equals(investigatorCreditType.getInvCreditTypeCode()))) {
             Map<String, Object> keyMap = new HashMap<String, Object>();
             keyMap.put(INV_CREDIT_TYPE_CODE_FIELD_NAME, invCreditTypeCode);
             investigatorCreditType = (InvestigatorCreditType) getBusinessObjectService().findByPrimaryKey(InvestigatorCreditType.class, keyMap);
         }
     }
-    
+
     public Award getSequenceOwner() {
         return awardPerson != null ? awardPerson.getAward() : null;
     }
-    
+
     public void setSequenceOwner(Award newlyVersionedOwner) {
-        if(awardPerson != null) {
+        if (awardPerson != null) {
             awardPerson.setAward(newlyVersionedOwner);
         }
     }
-    
+
     public Integer getSequenceNumber() {
-        return  awardPerson != null ? awardPerson.getSequenceNumber() : 0;
-    }
-    
-    public void resetPersistenceState() {
-        awardPersonCreditSplitId  = null;
+        return awardPerson != null ? awardPerson.getSequenceNumber() : 0;
     }
 
+    public void resetPersistenceState() {
+        awardPersonCreditSplitId = null;
+    }
 }

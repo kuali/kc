@@ -18,26 +18,26 @@ package org.kuali.kra.irb;
 
 import java.util.ArrayList;
 import java.util.List;
+import java.util.Map;
 
 import org.kuali.kra.infrastructure.KraServiceLocator;
 import org.kuali.kra.irb.ProtocolDocument.ProtocolWorkflowType;
-import org.kuali.rice.core.exception.RiceRuntimeException;
+import org.kuali.rice.core.api.exception.RiceRuntimeException;
+import org.kuali.rice.kew.api.exception.WorkflowException;
 import org.kuali.rice.kew.engine.RouteContext;
-import org.kuali.rice.kew.exception.WorkflowException;
 import org.kuali.rice.kew.role.XPathQualifierResolver;
-import org.kuali.rice.kim.bo.types.dto.AttributeSet;
-import org.kuali.rice.kns.service.DocumentService;
+import org.kuali.rice.krad.service.DocumentService;
 
 /**
  * 
  * This class is to filter out the 'merged' protocol, and get the attribute if it is not merged protocol
  */
 public class ProtocolQualifierResolver extends XPathQualifierResolver {
-    public List<AttributeSet> resolve(RouteContext context) {
-        List<AttributeSet> attributeSets = new ArrayList<AttributeSet>();
+    public List<Map<String,String>> resolve(RouteContext context) {
+        List<Map<String,String>> attributeSets = new ArrayList<Map<String,String>>();
         try {
             ProtocolDocument protocolDocument = (ProtocolDocument) KraServiceLocator.getService(DocumentService.class)
-                    .getByDocumentHeaderIdSessionless(context.getDocument().getRouteHeaderId() + "");
+                    .getByDocumentHeaderIdSessionless(context.getDocument().getDocumentId() + "");
             if (ProtocolWorkflowType.NORMAL.getName().equals(protocolDocument.getProtocolWorkflowType())) {
                 attributeSets = super.resolve(context);
             }

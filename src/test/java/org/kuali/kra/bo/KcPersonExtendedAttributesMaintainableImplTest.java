@@ -22,12 +22,12 @@ import org.junit.After;
 import org.junit.Before;
 import org.junit.Test;
 import org.kuali.kra.maintenance.MaintenanceRuleTestBase;
-import org.kuali.rice.kns.UserSession;
 import org.kuali.rice.kns.document.MaintenanceDocument;
-import org.kuali.rice.kns.util.GlobalVariables;
 import org.kuali.rice.kns.web.ui.Field;
 import org.kuali.rice.kns.web.ui.Row;
 import org.kuali.rice.kns.web.ui.Section;
+import org.kuali.rice.krad.UserSession;
+import org.kuali.rice.krad.util.GlobalVariables;
 
 public class KcPersonExtendedAttributesMaintainableImplTest extends MaintenanceRuleTestBase {
     private static final int NUMBER_SECTIONS = 3;
@@ -62,7 +62,7 @@ public class KcPersonExtendedAttributesMaintainableImplTest extends MaintenanceR
             for(Row row :section.getRows()) {
                 for(Field field : row.getFields()) {
                     if(StringUtils.isNotEmpty(field.getPropertyName()) && field.getPropertyName().equalsIgnoreCase("personId")) {
-                    assertFieldProperties(field, "principalId", "org.kuali.rice.kim.bo.Person");
+                    assertFieldProperties(field, "principalId", "org.kuali.rice.kim.api.identity.Person");
                     }
                 }
             }

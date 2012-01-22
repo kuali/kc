@@ -21,7 +21,7 @@ import org.kuali.kra.award.commitments.AwardCostShareRuleEvent;
 import org.kuali.kra.award.document.AwardDocument;
 import org.kuali.kra.award.home.AwardSponsorTerm;
 import org.kuali.kra.rule.event.KraDocumentEventBase;
-import org.kuali.rice.kns.rule.BusinessRule;
+import org.kuali.rice.krad.rules.rule.BusinessRule;
 
 /**
  * AwardSponsorTermRuleEvent class for rule processing.

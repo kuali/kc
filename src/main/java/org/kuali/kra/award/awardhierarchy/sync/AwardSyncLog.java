@@ -15,8 +15,6 @@
  */
 package org.kuali.kra.award.awardhierarchy.sync;
 
-import java.util.LinkedHashMap;
-
 import org.apache.commons.lang.StringUtils;
 import org.kuali.kra.bo.KraPersistableBusinessObjectBase;
 
@@ -26,83 +24,91 @@ import org.kuali.kra.bo.KraPersistableBusinessObjectBase;
 public class AwardSyncLog extends KraPersistableBusinessObjectBase implements Comparable<AwardSyncLog> {
 
     private static final long serialVersionUID = 6519251953519350489L;
+
     private Long awardSyncLogId;
+
     private Long awardSyncStatusId;
+
     private Long awardSyncChangeId;
+
     private boolean success;
+
     private String logTypeCode;
+
     private String status;
-    
+
     private AwardSyncStatus syncStatus;
+
     private AwardSyncChange change;
-    
+
     private transient String messageKey;
-    
+
     public Long getAwardSyncLogId() {
         return awardSyncLogId;
     }
+
     public void setAwardSyncLogId(Long awardSyncLogId) {
         this.awardSyncLogId = awardSyncLogId;
-    }    
+    }
+
     public boolean isSuccess() {
         return success;
     }
+
     public void setSuccess(boolean success) {
         this.success = success;
     }
+
     public String getStatus() {
         return status;
     }
+
     public void setStatus(String status) {
         this.status = status;
     }
-    @SuppressWarnings("unchecked")
-    @Override
-    protected LinkedHashMap toStringMapper() {
-        LinkedHashMap<String, Object> retval = new LinkedHashMap<String, Object>();
-        retval.put("awardSyncLogId", awardSyncLogId);
-        retval.put("awardSyncStatusId", awardSyncStatusId);
-        retval.put("awardSyncChangeId", awardSyncChangeId);
-        retval.put("success", success);
-        retval.put("logTypeCode", logTypeCode);
-        retval.put("status", status);
-        return retval;        
-    }
+
     public String getMessageKey() {
         return messageKey;
     }
+
     public void setMessageKey(String messageKey) {
         this.messageKey = messageKey;
     }
+
     public Long getAwardSyncChangeId() {
         return awardSyncChangeId;
     }
+
     public void setAwardSyncChangeId(Long awardSyncChangeId) {
         this.awardSyncChangeId = awardSyncChangeId;
     }
+
     public AwardSyncChange getChange() {
         return change;
     }
+
     public void setChange(AwardSyncChange change) {
         this.change = change;
     }
-    
+
     public int compareTo(AwardSyncLog log) {
         if (getAwardSyncLogId() == null) {
             return 1;
         } else if (log.getAwardSyncLogId() == null) {
             return -1;
         } else {
-            return getAwardSyncLogId().
-                compareTo(log.getAwardSyncLogId());
+            return getAwardSyncLogId().compareTo(log.getAwardSyncLogId());
         }
     }
+
     public String getLogTypeCode() {
         return logTypeCode;
     }
+
     public void setLogTypeCode(String logTypeCode) {
         this.logTypeCode = logTypeCode;
     }
+
     public AwardSyncLogType getLogType() {
         if (logTypeCode == null) {
             return null;
@@ -110,6 +116,7 @@ public class AwardSyncLog extends KraPersistableBusinessObjectBase implements Co
             return AwardSyncLogType.getLogTypeFromCode(logTypeCode);
         }
     }
+
     public void setLogType(AwardSyncLogType logType) {
         if (logType != null) {
             this.logTypeCode = logType.getCode();
@@ -117,21 +124,27 @@ public class AwardSyncLog extends KraPersistableBusinessObjectBase implements Co
             this.logTypeCode = null;
         }
     }
+
     public boolean isChangeLog() {
         return StringUtils.equals(logTypeCode, AwardSyncLogType.CHANGE_LOG.getCode());
     }
+
     public boolean isValidationLog() {
         return StringUtils.equals(logTypeCode, AwardSyncLogType.VALIDATION_MESSAGE.getCode());
     }
+
     public Long getAwardSyncStatusId() {
         return awardSyncStatusId;
     }
+
     public void setAwardSyncStatusId(Long awardSyncStatusId) {
         this.awardSyncStatusId = awardSyncStatusId;
     }
+
     public AwardSyncStatus getSyncStatus() {
         return syncStatus;
     }
+
     public void setSyncStatus(AwardSyncStatus syncStatus) {
         this.syncStatus = syncStatus;
     }

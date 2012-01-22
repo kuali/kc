@@ -23,10 +23,11 @@ import java.util.Map;
 
 import org.apache.commons.lang.StringUtils;
 import org.kuali.kra.infrastructure.KraServiceLocator;
-import org.kuali.rice.kns.datadictionary.BusinessObjectEntry;
-import org.kuali.rice.kns.lookup.keyvalues.KeyValuesBase;
+import org.kuali.rice.core.api.util.ConcreteKeyValue;
+import org.kuali.rice.core.api.util.KeyValue;
 import org.kuali.rice.kns.service.DataDictionaryService;
-import org.kuali.rice.core.util.KeyLabelPair;
+import org.kuali.rice.krad.datadictionary.BusinessObjectEntry;
+import org.kuali.rice.krad.keyvalues.KeyValuesBase;
 
 public class LookupableBoValuesFinder extends KeyValuesBase {
 
@@ -34,8 +35,8 @@ public class LookupableBoValuesFinder extends KeyValuesBase {
      * Get a list of the lookupable classes
      * @see org.kuali.core.lookup.keyvalues.KeyValuesFinder#getKeyValues()
      */
-    public List<KeyLabelPair> getKeyValues() {
-        List<KeyLabelPair> keyValues = new ArrayList<KeyLabelPair>();
+    public List<KeyValue> getKeyValues() {
+        List<KeyValue> keyValues = new ArrayList<KeyValue>();
 
         DataDictionaryService dataDictionaryService = KraServiceLocator.getService(DataDictionaryService.class);
         // this only has entries that have been loaded - force load?
@@ -45,32 +46,33 @@ public class LookupableBoValuesFinder extends KeyValuesBase {
     	Map<String, Integer> labelCounts = getLabelCounts(businessObjectEntries);
     	
     	for (String businessObject: businessObjectEntries.keySet()) {
-    	    if ((businessObjectEntries.get(businessObject).hasLookupDefinition()) 
+    	    org.kuali.rice.kns.datadictionary.BusinessObjectEntry businessObjectEntry = (org.kuali.rice.kns.datadictionary.BusinessObjectEntry) businessObjectEntries.get(businessObject);
+    	    if ((businessObjectEntry.hasLookupDefinition()) 
     	            && (businessObject.startsWith("org.kuali.kra") 
-    	                    || businessObject.equals("org.kuali.rice.kns.bo.CampusImpl")
-                            || businessObject.equals("org.kuali.rice.kns.bo.CampusTypeImpl")
-                            || businessObject.equals("org.kuali.rice.kns.bo.CountryImpl")
+    	                    || businessObject.equals("org.kuali.rice.location.impl.campus.CampusBo")
+                            || businessObject.equals("org.kuali.rice.location.api.campus.CampusContractTypeImpl")
+                            || businessObject.equals("org.kuali.rice.location.api.country.CountryImpl")
                             || businessObject.equals("org.kuali.rice.kns.bo.CountyImpl")
                             || businessObject.equals("org.kuali.rice.kns.bo.PostalCodeImpl")
-                            || businessObject.equals("org.kuali.rice.kns.bo.StateImpl"))) {
-    	        Object key = businessObject;
+                            || businessObject.equals("org.kuali.rice.location.api.state.StateImpl"))) {
+    	        String key = businessObject;
     	        
-    	        String label = StringUtils.removeEnd(businessObjectEntries.get(businessObject).getLookupDefinition().getTitle().trim()," Lookup");
+    	        String label = StringUtils.removeEnd(businessObjectEntry.getLookupDefinition().getTitle().trim()," Lookup");
     	        
     	        if (labelCounts.get(label) > 1){
     	            label = label + " (" + key.toString().substring(key.toString().lastIndexOf(".") + 1) + ")";
     	        }
 
-        		KeyLabelPair keyLabelPair = new KeyLabelPair(key, label);
-        		if (!keyValues.contains(keyLabelPair)) {
-        		    keyValues.add(keyLabelPair);
+        		KeyValue KeyValue = new ConcreteKeyValue(key, label);
+        		if (!keyValues.contains(KeyValue)) {
+        		    keyValues.add(KeyValue);
         		}
     	    }
     	}
 
     	// added comparator below to alphabetize lists on label
-        Collections.sort(keyValues, new KeyLabelPairComparator());
-        keyValues.add(0, new KeyLabelPair("", "select"));
+        Collections.sort(keyValues, new KeyValueComparator());
+        keyValues.add(0, new ConcreteKeyValue("", "select"));
 
     	return keyValues;
     }
@@ -79,15 +81,16 @@ public class LookupableBoValuesFinder extends KeyValuesBase {
         Map<String, Integer> labels = new HashMap<String, Integer>();
         
         for (String businessObject: businessObjectEntries.keySet()) {
-            if ((businessObjectEntries.get(businessObject).hasLookupDefinition()) 
+            org.kuali.rice.kns.datadictionary.BusinessObjectEntry businessObjectEntry = (org.kuali.rice.kns.datadictionary.BusinessObjectEntry) businessObjectEntries.get(businessObject);
+            if ((businessObjectEntry.hasLookupDefinition()) 
                     && (businessObject.startsWith("org.kuali.kra") 
-                            || businessObject.equals("org.kuali.rice.kns.bo.CampusImpl")
-                            || businessObject.equals("org.kuali.rice.kns.bo.CampusTypeImpl")
-                            || businessObject.equals("org.kuali.rice.kns.bo.CountryImpl")
+                            || businessObject.equals("org.kuali.rice.location.impl.campus.CampusBo")
+                            || businessObject.equals("org.kuali.rice.location.api.campus.CampusContractTypeImpl")
+                            || businessObject.equals("org.kuali.rice.location.api.country.CountryImpl")
                             || businessObject.equals("org.kuali.rice.kns.bo.CountyImpl")
                             || businessObject.equals("org.kuali.rice.kns.bo.PostalCodeImpl")
-                            || businessObject.equals("org.kuali.rice.kns.bo.StateImpl"))) {
-                String label = StringUtils.removeEnd(businessObjectEntries.get(businessObject).getLookupDefinition().getTitle().trim()," Lookup");
+                            || businessObject.equals("org.kuali.rice.location.api.state.StateImpl"))) {
+                String label = StringUtils.removeEnd(businessObjectEntry.getLookupDefinition().getTitle().trim()," Lookup");
                 if(labels.containsKey(label)){
                     Integer count = labels.get(label) + 1;
                     labels.put(label, count);

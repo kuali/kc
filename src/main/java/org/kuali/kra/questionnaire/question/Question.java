@@ -16,9 +16,7 @@
 package org.kuali.kra.questionnaire.question;
 
 import java.util.ArrayList;
-import java.util.LinkedHashMap;
 import java.util.List;
-import java.util.Map;
 
 import org.apache.commons.lang.ObjectUtils;
 import org.apache.commons.lang.StringUtils;
@@ -28,38 +26,53 @@ import org.kuali.kra.infrastructure.Constants;
 import org.kuali.kra.infrastructure.KraServiceLocator;
 import org.kuali.rice.kns.datadictionary.BusinessObjectEntry;
 import org.kuali.rice.kns.service.DataDictionaryService;
+import org.kuali.rice.kns.service.KNSServiceLocator;
 
-public class Question extends KraPersistableBusinessObjectBase implements Comparable<Question>, SequenceOwner<Question> { 
-    
+public class Question extends KraPersistableBusinessObjectBase implements Comparable<Question>, SequenceOwner<Question> {
+
     private static final long serialVersionUID = 1L;
-    
+
     private static final String SEQUENCE_STATUS_CURRENT = "C";
 
     private String documentNumber;
+
     private Long questionRefId;
+
     private String questionId;
+
     private Integer sequenceNumber;
+
     private String sequenceStatus;
+
     private String question;
+
     private String status;
-    private Integer categoryTypeCode; 
-    private Integer questionTypeId;  
-    private String lookupClass; 
-    private String lookupReturn; 
+
+    private Integer categoryTypeCode;
+
+    private Integer questionTypeId;
+
+    private String lookupClass;
+
+    private String lookupReturn;
+
     private Integer displayedAnswers;
+
     private Integer maxAnswers;
-    private Integer answerMaxLength; 
-    
+
+    private Integer answerMaxLength;
+
     private QuestionCategory questionCategory;
-    private QuestionType questionType; 
+
+    private QuestionType questionType;
+
     private List<QuestionExplanation> questionExplanations;
-    
-    
-    public Question() { 
+
+    public Question() {
         this.setSequenceNumber(1);
         this.setSequenceStatus(SEQUENCE_STATUS_CURRENT);
         this.setQuestionExplanations(new ArrayList<QuestionExplanation>());
-    } 
+    }
 
     public String getDocumentNumber() {
         return documentNumber;
@@ -80,26 +93,25 @@ public class Question extends KraPersistableBusinessObjectBase implements Compar
     public String getQuestionId() {
         return questionId;
     }
-    
+
     public Integer getQuestionIdAsInteger() {
         Integer retVal = null;
-        if(this.questionId != null) {
+        if (this.questionId != null) {
             retVal = Integer.valueOf(this.questionId);
         }
-        return retVal;        
+        return retVal;
     }
 
     public void setQuestionId(String questionId) {
         this.questionId = questionId;
     }
-    
+
     public void setQuestionIdFromInteger(Integer questionIdAsInteger) {
-        if(questionIdAsInteger != null) {
+        if (questionIdAsInteger != null) {
             this.questionId = questionIdAsInteger.toString();
-        }
-        else {
+        } else {
             this.questionId = null;
-        }        
+        }
     }
 
     public Integer getSequenceNumber() {
@@ -113,11 +125,11 @@ public class Question extends KraPersistableBusinessObjectBase implements Compar
     public String getSequenceStatus() {
         return this.sequenceStatus;
     }
-    
+
     public void setSequenceStatus(String sequenceStatus) {
         this.sequenceStatus = sequenceStatus;
     }
-    
+
     public String getQuestion() {
         return question;
     }
@@ -157,7 +169,7 @@ public class Question extends KraPersistableBusinessObjectBase implements Compar
     public void setLookupClass(String lookupClass) {
         this.lookupClass = lookupClass;
     }
-    
+
     /**
      * 
      * This method returns the descriptive text of the lookupClass
@@ -165,9 +177,9 @@ public class Question extends KraPersistableBusinessObjectBase implements Compar
      */
     public String getLookupClassDescription() {
         if (this.lookupClass != null) {
-            DataDictionaryService dataDictionaryService = KraServiceLocator.getService(DataDictionaryService.class);
-            Map<String, BusinessObjectEntry> businessObjectEntries = dataDictionaryService.getDataDictionary().getBusinessObjectEntries();
-            return StringUtils.removeEnd(businessObjectEntries.get(this.lookupClass).getLookupDefinition().getTitle().trim()," Lookup");
+            DataDictionaryService dataDictionaryService = KNSServiceLocator.getDataDictionaryService();
+            BusinessObjectEntry businessObjectEntry = (BusinessObjectEntry) dataDictionaryService.getDataDictionary().getBusinessObjectEntries().get(this.lookupClass);
+            return StringUtils.removeEnd(businessObjectEntry.getLookupDefinition().getTitle().trim(), " Lookup");
         } else {
             return "";
         }
@@ -180,7 +192,7 @@ public class Question extends KraPersistableBusinessObjectBase implements Compar
     public void setLookupReturn(String lookupReturn) {
         this.lookupReturn = lookupReturn;
     }
-    
+
     /**
      * 
      * This method returns the descriptive text of the lookupReturn
@@ -189,7 +201,7 @@ public class Question extends KraPersistableBusinessObjectBase implements Compar
     public String getLookupReturnDescription() {
         if ((this.lookupClass != null) && (this.lookupReturn != null)) {
             DataDictionaryService dataDictionaryService = KraServiceLocator.getService(DataDictionaryService.class);
-            return dataDictionaryService.getAttributeLabel(this.lookupClass,this.lookupReturn);
+            return dataDictionaryService.getAttributeLabel(this.lookupClass, this.lookupReturn);
         } else {
             return "";
         }
@@ -220,8 +232,8 @@ public class Question extends KraPersistableBusinessObjectBase implements Compar
     }
 
     public QuestionCategory getQuestionCategory() {
-        // Refresh of the reference object is needed so that the category name is displayed
-        // after a save or refresh.  Otherwise the category type code is displayed.
+        // Refresh of the reference object is needed so that the category name is displayed  
+        // after a save or refresh.  Otherwise the category type code is displayed.  
         if (this.questionCategory == null) {
             refreshReferenceObject("questionCategory");
         }
@@ -233,9 +245,9 @@ public class Question extends KraPersistableBusinessObjectBase implements Compar
     }
 
     public QuestionType getQuestionType() {
-        // Refresh of the reference object is needed so that the question type name is available
-        // after a save or refresh.  Otherwise the proper question type can not be determined and
-        // the response values are not being displayed.
+        // Refresh of the reference object is needed so that the question type name is available  
+        // after a save or refresh.  Otherwise the proper question type can not be determined and  
+        // the response values are not being displayed.  
         if (this.questionType == null) {
             refreshReferenceObject("questionType");
         }
@@ -257,23 +269,23 @@ public class Question extends KraPersistableBusinessObjectBase implements Compar
     public String getExplanation() {
         return getExplanation(Constants.QUESTION_EXPLANATION);
     }
-    
+
     public void setExplanation(String explanation) {
         setExplanation(explanation, Constants.QUESTION_EXPLANATION);
     }
-    
+
     public String getPolicy() {
         return getExplanation(Constants.QUESTION_POLICY);
     }
-    
+
     public void setPolicy(String policy) {
         setExplanation(policy, Constants.QUESTION_POLICY);
     }
-    
+
     public String getRegulation() {
         return getExplanation(Constants.QUESTION_REGULATION);
     }
-    
+
     public void setRegulation(String regulation) {
         setExplanation(regulation, Constants.QUESTION_REGULATION);
     }
@@ -281,19 +293,19 @@ public class Question extends KraPersistableBusinessObjectBase implements Compar
     public String getAffirmativeStatementConversion() {
         return getExplanation(Constants.QUESTION_AFFIRMATIVE_QUESTION_CONVERSION);
     }
-    
+
     public void setAffirmativeStatementConversion(String affirmativeStatementConversion) {
         setExplanation(affirmativeStatementConversion, Constants.QUESTION_AFFIRMATIVE_QUESTION_CONVERSION);
     }
-    
+
     public String getNegativeStatementConversion() {
         return getExplanation(Constants.QUESTION_NEGATIVE_QUESTION_CONVERSION);
     }
-    
+
     public void setNegativeStatementConversion(String negativeStatementConversion) {
         setExplanation(negativeStatementConversion, Constants.QUESTION_NEGATIVE_QUESTION_CONVERSION);
     }
-    
+
     /**
      * This method returns the question explanation (explanation, policy, or regulation).
      * 
@@ -301,7 +313,7 @@ public class Question extends KraPersistableBusinessObjectBase implements Compar
      *                          constants to return the proper explanation type.
      * @return The explanation or an empty string if none exists. 
      */
-    private String getExplanation(String explanationType){ 
+    private String getExplanation(String explanationType) {
         int index = getExplanationObjectIndex(explanationType);
         if (index < 0) {
             return "";
@@ -309,7 +321,7 @@ public class Question extends KraPersistableBusinessObjectBase implements Compar
             return questionExplanations.get(index).getExplanation();
         }
     }
-    
+
     /**
      * This method sets the question explanation (explanation, policy, or regulation).
      * 
@@ -338,13 +350,12 @@ public class Question extends KraPersistableBusinessObjectBase implements Compar
      * @return Index of object containing the question policy. -1 if not found. 
      */
     private int getExplanationObjectIndex(String explanationType) {
-        // Refresh of the reference object is needed so that the explanations are displayed
-        // after a save or refresh.
+        // Refresh of the reference object is needed so that the explanations are displayed  
+        // after a save or refresh.  
         if (this.questionExplanations.isEmpty()) {
             refreshReferenceObject("questionExplanations");
         }
-
-        for (QuestionExplanation questionExplanation: getQuestionExplanations()) {
+        for (QuestionExplanation questionExplanation : getQuestionExplanations()) {
             if (questionExplanation.getExplanationType().equals(explanationType)) {
                 return getQuestionExplanations().indexOf(questionExplanation);
             }
@@ -367,24 +378,6 @@ public class Question extends KraPersistableBusinessObjectBase implements Compar
             return this.getQuestionIdAsInteger().compareTo(argQuestion.getQuestionIdAsInteger());
         }
     }
-    /** {@inheritDoc} */
-    @Override 
-    protected LinkedHashMap<String, Object> toStringMapper() {
-        LinkedHashMap<String, Object> hashMap = new LinkedHashMap<String, Object>();
-        hashMap.put("questionRefId", this.getQuestionRefId());
-        hashMap.put("questionId", this.getQuestionId());
-        hashMap.put("sequenceNumber", this.getSequenceNumber());
-        hashMap.put("question", this.getQuestion());
-        hashMap.put("status", this.getStatus());
-        hashMap.put("categoryTypeCode", this.getCategoryTypeCode());
-        hashMap.put("questionTypeId", this.getQuestionTypeId());
-        hashMap.put("lookupClass", this.getLookupClass());
-        hashMap.put("lookupReturn", this.getLookupReturn());
-        hashMap.put("displayedAnswers", this.getDisplayedAnswers());
-        hashMap.put("maxAnswers", this.getMaxAnswers());
-        hashMap.put("answerMaxLength", this.getAnswerMaxLength());
-        return hashMap;
-    }
 
     public Integer getOwnerSequenceNumber() {
         return null;
@@ -403,11 +396,9 @@ public class Question extends KraPersistableBusinessObjectBase implements Compar
     }
 
     public void setSequenceOwner(Question newlyVersionedOwner) {
-        // do nothing - this is root sequence association
     }
 
     public void resetPersistenceState() {
-        this.questionRefId = null;        
+        this.questionRefId = null;
     }
-
 }

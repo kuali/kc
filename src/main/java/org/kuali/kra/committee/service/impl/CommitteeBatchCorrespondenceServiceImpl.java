@@ -53,11 +53,10 @@ import org.kuali.kra.printing.print.AbstractPrint;
 import org.kuali.kra.service.KcEmailService;
 import org.kuali.kra.service.KcPersonService;
 import org.kuali.kra.util.EmailAttachment;
-import org.kuali.rice.kns.service.BusinessObjectService;
-import org.kuali.rice.kns.service.DocumentService;
-import org.kuali.rice.kns.service.SequenceAccessorService;
-import org.kuali.rice.kns.util.DateUtils;
-import org.kuali.rice.kns.util.ObjectUtils;
+import org.kuali.kra.util.DateUtils;
+import org.kuali.rice.krad.service.BusinessObjectService;
+import org.kuali.rice.krad.service.DocumentService;
+import org.kuali.rice.krad.service.SequenceAccessorService;
 
 /**
  * 
@@ -137,7 +136,7 @@ public class CommitteeBatchCorrespondenceServiceImpl implements CommitteeBatchCo
                     IRBNotificationContext context 
                         = new IRBNotificationContext(protocol, ProtocolActionType.RENEWAL_REMINDER_GENERATED, "Renewal Reminder Generated", renderer);
                     context.setEmailAttachments(getEmailAttachments(batchCorrespondenceDetail.getProtocolCorrespondence()));
-                    kcNotificationService.sendNotification(context);                 
+                    kcNotificationService.sendNotification(context);
                 }
             }
         }
@@ -466,4 +465,5 @@ public class CommitteeBatchCorrespondenceServiceImpl implements CommitteeBatchCo
     public void setKcNotificationService(KcNotificationService kcNotificationService) {
         this.kcNotificationService = kcNotificationService;
     }
+
 }

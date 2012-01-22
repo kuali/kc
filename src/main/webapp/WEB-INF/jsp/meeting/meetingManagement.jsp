@@ -16,10 +16,20 @@
 
 <%@ include file="/WEB-INF/jsp/kraTldHeader.jsp"%>
 
+<%-- Is the screen an inquiry? --%>
+<c:set var="_isInquiry"
+    value="${requestScope[Constants.PARAM_MAINTENANCE_VIEW_MODE] eq Constants.PARAM_MAINTENANCE_VIEW_MODE_INQUIRY}" />
 <!DOCTYPE html PUBLIC "-//W3C//DTD HTML 4.01 Transitional//EN" "http://www.w3.org/TR/html4/loose.dtd">
 <html:html>
 
     <head>
+<c:if test="${not empty SESSION_TIMEOUT_WARNING_MILLISECONDS}">
+    <script type="text/javascript">
+    <!--
+    setTimeout("alert('Your session will expire in ${SESSION_TIMEOUT_WARNING_MINUTES} minutes.')",'${SESSION_TIMEOUT_WARNING_MILLISECONDS}');
+    // -->
+    </script>
+</c:if>
         <script>var jsContextPath = "${pageContext.request.contextPath}";</script>
         <title>Kuali :: Meeting</title>
         <style type="text/css">
@@ -37,26 +47,70 @@
 		        border-bottom-color: #B2B2B2;
             }
         </style>
-        <c:forEach items="${fn:split(ConfigProperties.css.files, ',')}" var="cssFile">
-            <c:if test="${fn:length(fn:trim(cssFile)) > 0}">
-				 <link href="${pageContext.request.contextPath}/${cssFile}"
-					rel="stylesheet" type="text/css" />
-            </c:if>
-        </c:forEach>
-        <c:forEach items="${fn:split(ConfigProperties.javascript.files, ',')}" var="javascriptFile">
-            <c:if test="${fn:length(fn:trim(javascriptFile)) > 0}">
-				<script language="JavaScript" type="text/javascript"
-					src="${pageContext.request.contextPath}/${javascriptFile}"></script>
-            </c:if>
-        </c:forEach>
-        <script type="text/javascript" src="scripts/jquery/jquery.js"></script> 
+    <c:forEach items="${fn:split(ConfigProperties.kns.css.files, ',')}"
+        var="cssFile">
+<c:if test="${fn:length(fn:trim(cssFile)) > 0}">
+            <link href="${pageContext.request.contextPath}/${cssFile}"
+                rel="stylesheet" type="text/css" />
+</c:if>
+</c:forEach>
+    <c:forEach items="${fn:split(ConfigProperties.kns.javascript.files, ',')}"
+        var="javascriptFile">
+<c:if test="${fn:length(fn:trim(javascriptFile)) > 0}">
+            <script language="JavaScript" type="text/javascript"
+                src="${pageContext.request.contextPath}/${javascriptFile}"></script>
+</c:if>
+</c:forEach>
+      <!--  <script type="text/javascript" src="scripts/jquery/jquery.js"></script> -->
         <script type="text/javascript" src="scripts/jquery/jquery.tablesorter.js"></script> 
         <script language="JavaScript" type="text/javascript"
 				src="dwr/interface/MeetingService.js"></script>
+<!-- new iframe resize logic -->
+<script type="text/javascript">
+// not sure why this script cause table sorter not working ?
+var jq = jQuery.noConflict();
+
+var bodyHeight;
+function publishHeight(){
+    var parentUrl = "";
+    if(navigator.cookieEnabled){
+        parentUrl = jQuery.cookie('parentUrl');
+        var passedUrl = decodeURIComponent( document.location.hash.replace( /^#/, '' ) );
+        if(passedUrl && passedUrl.substring(0, 4) === "http"){
+            jQuery.cookie('parentUrl', passedUrl, {path: '/'});
+            parentUrl = passedUrl;
+        }
+    }
+
+    if(parentUrl === ""){
+        //make the assumption for not cross-domain, will have no effect if cross domain (message wont be
+        //received)
+        parentUrl = window.location;
+        parentUrl = decodeURIComponent(parentUrl);
+    }
+
+    var height = jQuery('#view_div:first').outerHeight();
+    if (parentUrl && !isNaN(height) && height > 0 && height !== bodyHeight) {
+        jQuery.postMessage({ if_height: height}, parentUrl, parent);
+        bodyHeight = height;
+    }
+}
+
+jQuery(function(){
+  publishHeight();
+  window.onresize = publishHeight;
+  window.setInterval(publishHeight, 500);
+});
+
+
+</script>
+
     </head>
     <body onload="if ( !restoreScrollPosition() ) {  }"
 			onKeyPress="return isReturnKeyAllowed('methodToCall.' , event);">
-			
+    <div id="view_div">
+        <kul:backdoor />
+
         <html:form styleId="kualiForm" action="/meetingManagement.do"
 		    method="post" onsubmit="return hasFormAlreadyBeenSubmitted();">
             <c:set var="KualiForm" value="${KualiForm}" /> 
@@ -179,23 +233,24 @@
 		
         </html:form>
         <div id="formComplete"></div> 
+      </div>
     </body>
 
     <SCRIPT type="text/javascript">
     var kualiForm = document.forms['KualiForm'];
     var kualiElements = kualiForm.elements;
 
-    $(document).ready(function()     {
-       $("#protocolSubmitted-table").tablesorter({         
-		// pass the headers argument and assing a object         
-		   headers: {             // assign the first column (we start counting zero)             
-			   0: {                 // disable it by setting the property sorter to false                 
-			      sorter: false             },             
-			// assign the 10th (Action) column (we start counting zero)             
-			   9: {                 // disable it by setting the property sorter to false                 
-				   sorter: false             }
-			         }
-	      
+    jq(document).ready(function()     {
+       jq("#protocolSubmitted-table").tablesorter({         
+        // pass the headers argument and assing a object         
+           headers: {             // assign the first column (we start counting zero)             
+               0: {                 // disable it by setting the property sorter to false                 
+                  sorter: false             },             
+            // assign the 10th (Action) column (we start counting zero)             
+               9: {                 // disable it by setting the property sorter to false                 
+                   sorter: false             }
+                     }
+          
           }); 
     
     } ); 

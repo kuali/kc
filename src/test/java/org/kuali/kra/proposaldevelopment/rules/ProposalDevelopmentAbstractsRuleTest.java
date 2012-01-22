@@ -24,9 +24,9 @@ import org.kuali.kra.infrastructure.Constants;
 import org.kuali.kra.infrastructure.KeyConstants;
 import org.kuali.kra.proposaldevelopment.bo.ProposalAbstract;
 import org.kuali.kra.proposaldevelopment.document.ProposalDevelopmentDocument;
-import org.kuali.rice.kns.util.ErrorMessage;
-import org.kuali.rice.kns.util.GlobalVariables;
-import org.kuali.rice.kns.util.TypedArrayList;
+import org.kuali.rice.krad.util.ErrorMessage;
+import org.kuali.rice.krad.util.GlobalVariables;
+import org.springframework.util.AutoPopulatingList;
 
 /**
  * Test the business rules for Proposal Abstracts.
@@ -76,7 +76,7 @@ public class ProposalDevelopmentAbstractsRuleTest extends ProposalDevelopmentRul
         proposalAbstract.setAbstractTypeCode("");
         assertFalse(rule.processAddAbstractBusinessRules(document, proposalAbstract));
         
-        TypedArrayList errors = GlobalVariables.getErrorMap().getMessages(Constants.ABSTRACTS_PROPERTY_KEY + ".abstractTypeCode");
+        AutoPopulatingList errors = GlobalVariables.getMessageMap().getMessages(Constants.ABSTRACTS_PROPERTY_KEY + ".abstractTypeCode");
         assertNotNull(errors);
         assertTrue(errors.size() == 1);
         
@@ -97,7 +97,7 @@ public class ProposalDevelopmentAbstractsRuleTest extends ProposalDevelopmentRul
         proposalAbstract.setAbstractTypeCode("20");
         assertFalse(rule.processAddAbstractBusinessRules(document, proposalAbstract));
         
-        TypedArrayList errors = GlobalVariables.getErrorMap().getMessages(Constants.ABSTRACTS_PROPERTY_KEY);
+        AutoPopulatingList errors = GlobalVariables.getMessageMap().getMessages(Constants.ABSTRACTS_PROPERTY_KEY);
         assertNotNull(errors);
         assertTrue(errors.size() == 1);
         
@@ -121,7 +121,7 @@ public class ProposalDevelopmentAbstractsRuleTest extends ProposalDevelopmentRul
         proposalAbstract.setAbstractTypeCode("1");
         assertFalse(rule.processAddAbstractBusinessRules(document, proposalAbstract));
         
-        TypedArrayList errors = GlobalVariables.getErrorMap().getMessages(Constants.ABSTRACTS_PROPERTY_KEY);
+        AutoPopulatingList errors = GlobalVariables.getMessageMap().getMessages(Constants.ABSTRACTS_PROPERTY_KEY);
         assertNotNull(errors);
         assertTrue(errors.size() == 1);
         

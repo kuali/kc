@@ -18,8 +18,8 @@ package org.kuali.kra.committee.rule.event;
 import org.kuali.kra.committee.bo.CommitteeMembershipRole;
 import org.kuali.kra.committee.document.CommitteeDocument;
 import org.kuali.kra.committee.rule.AddCommitteeMembershipRoleRule;
-import org.kuali.rice.kns.document.Document;
-import org.kuali.rice.kns.rule.BusinessRule;
+import org.kuali.rice.krad.document.Document;
+import org.kuali.rice.krad.rules.rule.BusinessRule;
 
 public class AddCommitteeMembershipRoleEvent extends CommitteeMembershipRoleEventBase {
 

@@ -163,18 +163,6 @@ public class CoiDisclosureNotepad extends CoiDisclosureAssociate implements Comp
     
     /** {@inheritDoc} */
     @Override
-    protected LinkedHashMap<String, Object> toStringMapper() {
-        final LinkedHashMap<String, Object> hashMap = super.toStringMapper();
-        hashMap.put("id", this.getId());
-        hashMap.put("entryNumber", this.getEntryNumber());
-        hashMap.put("comments", this.getComments());
-        hashMap.put("restrictedView", Boolean.valueOf(this.getRestrictedView()));
-        hashMap.put("noteTopic", this.getNoteTopic());
-        return hashMap;
-    }
-    
-    /** {@inheritDoc} */
-    @Override
     public int hashCode() {
         final int prime = 31;
         int result = super.hashCode();

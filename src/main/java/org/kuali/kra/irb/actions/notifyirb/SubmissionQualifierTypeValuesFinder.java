@@ -26,7 +26,8 @@ import org.kuali.kra.irb.actions.IrbActionsKeyValuesBase;
 import org.kuali.kra.irb.actions.submit.ProtocolSubmissionQualifierType;
 import org.kuali.kra.irb.actions.submit.ProtocolSubmissionType;
 import org.kuali.kra.irb.actions.submit.ValidProtoSubTypeQual;
-import org.kuali.rice.core.util.KeyLabelPair;
+import org.kuali.rice.core.api.util.ConcreteKeyValue;
+import org.kuali.rice.core.api.util.KeyValue;
 
 /**
  * Finds the available set of Submission Qualifier Types for a Notify IRB request.
@@ -36,29 +37,29 @@ import org.kuali.rice.core.util.KeyLabelPair;
 public class SubmissionQualifierTypeValuesFinder extends IrbActionsKeyValuesBase {
 
     /**
-     * @see org.kuali.rice.kns.lookup.keyvalues.KeyValuesFinder#getKeyValues()
+     * @see org.kuali.rice.krad.keyvalues.KeyValuesFinder#getKeyValues()
      */
     @SuppressWarnings("unchecked")
-    public List<KeyLabelPair> getKeyValues() {
+    public List<KeyValue> getKeyValues() {
 
-        List<KeyLabelPair> keyValues = new ArrayList<KeyLabelPair>();
+        List<KeyValue> keyValues = new ArrayList<KeyValue>();
         Map<String, String> fieldValues = new HashMap<String, String>();
         fieldValues.put("submissionTypeCode", ProtocolSubmissionType.NOTIFY_IRB);
         List<ValidProtoSubTypeQual> validProtoSubTypeQuals = (List<ValidProtoSubTypeQual>) getBusinessObjectService().findMatching(
                 ValidProtoSubTypeQual.class, fieldValues);
         if (validProtoSubTypeQuals.isEmpty()) {
-            keyValues.add(new KeyLabelPair("", "select"));
+            keyValues.add(new ConcreteKeyValue("", "select"));
             Collection<ProtocolSubmissionQualifierType> submissionQualifierTypes = this.getKeyValuesService().findAll(
                     ProtocolSubmissionQualifierType.class);
             for (ProtocolSubmissionQualifierType submissionQualifierType : submissionQualifierTypes) {
                 if (isAllowed(submissionQualifierType)) {
-                    keyValues.add(new KeyLabelPair(submissionQualifierType.getSubmissionQualifierTypeCode(),
+                    keyValues.add(new ConcreteKeyValue(submissionQualifierType.getSubmissionQualifierTypeCode(),
                         submissionQualifierType.getDescription()));
                 }
             }
         } else {
             for (ValidProtoSubTypeQual typeQual : validProtoSubTypeQuals) {
-                keyValues.add(new KeyLabelPair(typeQual.getSubmissionTypeQualCode(), typeQual.getSubmissionTypeQualifier()
+                keyValues.add(new ConcreteKeyValue(typeQual.getSubmissionTypeQualCode(), typeQual.getSubmissionTypeQualifier()
                         .getDescription()));
             }
         }
