@@ -18,8 +18,9 @@ package org.kuali.kra.irb.correspondence;
 import java.util.ArrayList;
 import java.util.List;
 
-import org.kuali.rice.core.util.KeyLabelPair;
-import org.kuali.rice.kns.lookup.keyvalues.KeyValuesBase;
+import org.kuali.rice.core.api.util.ConcreteKeyValue;
+import org.kuali.rice.core.api.util.KeyValue;
+import org.kuali.rice.krad.keyvalues.KeyValuesBase;
 
 /**
  * 
@@ -27,15 +28,15 @@ import org.kuali.rice.kns.lookup.keyvalues.KeyValuesBase;
  */
 public class CorrespondentTypeQualifierValuesFinder extends KeyValuesBase {
 
-    public List<KeyLabelPair> getKeyValues() {
-        List<KeyLabelPair> keyLabelPairs = new ArrayList<KeyLabelPair>();
+    public List<KeyValue> getKeyValues() {
+        List<KeyValue> KeyValues = new ArrayList<KeyValue>();
 
-        keyLabelPairs.add(new KeyLabelPair("", "select"));
+        KeyValues.add(new ConcreteKeyValue("", "select"));
         for (CorrespondentTypeQualifierConstants correspondentTypeQualifierConstants : CorrespondentTypeQualifierConstants.values()) {
-            keyLabelPairs.add(new KeyLabelPair(correspondentTypeQualifierConstants.code(), correspondentTypeQualifierConstants.description()));
+            KeyValues.add(new ConcreteKeyValue(correspondentTypeQualifierConstants.code(), correspondentTypeQualifierConstants.description()));
         }
         
-        return keyLabelPairs; 
+        return KeyValues; 
     }
 
 }

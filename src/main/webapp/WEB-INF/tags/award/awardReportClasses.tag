@@ -14,7 +14,6 @@
  limitations under the License.
 --%>
 <%@ include file="/WEB-INF/jsp/kraTldHeader.jsp"%>
-<script src="scripts/jquery/jquery.js"></script>
 <script>
   //have jquery give up $ so dwr code used within this tag can have it
   $.noConflict();
@@ -112,11 +111,11 @@ function updateBaseDateDisplay(selectBox) {
                 <c:forEach items="${krafn:getOptionList('org.kuali.kra.award.lookup.keyvalue.ReportCodeValuesFinder', paramMap1)}" var="option">
 	                <c:choose>                    	
 	                	<c:when test="${KualiForm.awardReportsBean.newAwardReportTerms[index].reportCode == option.key}">
-	                        <option value="${option.key}" selected>${option.label}</option>
+	                        <option value="${option.key}" selected>${option.value}</option>
 	                    </c:when>
 	                    <c:otherwise>
-	                        <c:out value="${option.label}"/>
-	                        <option value="${option.key}">${option.label}</option>
+	                        <c:out value="${option.value}"/>
+	                        <option value="${option.key}">${option.value}</option>
 	                    </c:otherwise>
 	                </c:choose>         
 	            </c:forEach>
@@ -137,11 +136,11 @@ function updateBaseDateDisplay(selectBox) {
                 <c:forEach items="${krafn:getOptionList('org.kuali.kra.award.lookup.keyvalue.FrequencyCodeValuesFinder', paramMap2)}" var="option">
 	                <c:choose>                    	
 	                	<c:when test="${KualiForm.awardReportsBean.newAwardReportTerms[index].frequencyCode == option.key}">
-	                        <option value="${option.key}" selected>${option.label}</option>
+	                        <option value="${option.key}" selected>${option.value}</option>
 	                    </c:when>
 	                    <c:otherwise>
-	                        <c:out value="${option.label}"/>
-	                        <option value="${option.key}">${option.label}</option>
+	                        <c:out value="${option.value}"/>
+	                        <option value="${option.key}">${option.value}</option>
 	                    </c:otherwise>
 	                </c:choose>         
 	            </c:forEach>
@@ -161,11 +160,11 @@ function updateBaseDateDisplay(selectBox) {
                 <c:forEach items="${krafn:getOptionList('org.kuali.kra.award.lookup.keyvalue.FrequencyBaseCodeValuesFinder', paramMap3)}" var="option">
 	                <c:choose>                    	
 	                	<c:when test="${KualiForm.awardReportsBean.newAwardReportTerms[index].frequencyBaseCode == option.key}">
-	                        <option value="${option.key}" selected>${option.label}</option>
+	                        <option value="${option.key}" selected>${option.value}</option>
 	                    </c:when>
 	                    <c:otherwise>
-	                        <c:out value="${option.label}"/>
-	                        <option value="${option.key}">${option.label}</option>
+	                        <c:out value="${option.value}"/>
+	                        <option value="${option.key}">${option.value}</option>
 	                    </c:otherwise>
 	                </c:choose>         
 	            </c:forEach>
@@ -214,11 +213,11 @@ function updateBaseDateDisplay(selectBox) {
                 <c:forEach items="${krafn:getOptionList('org.kuali.kra.award.lookup.keyvalue.ReportCodeValuesFinder', paramMap1)}" var="option">                	
 	                <c:choose>                    	
 	                	<c:when test="${KualiForm.document.awardList[0].awardReportTermItems[status.index].reportCode == option.key}">
-	                        <option value="${option.key}" selected>${option.label}</option>
+	                        <option value="${option.key}" selected>${option.value}</option>
 	                    </c:when>
 	                    <c:otherwise>
-	                        <c:out value="${option.label}"/>
-	                        <option value="${option.key}">${option.label}</option>
+	                        <c:out value="${option.value}"/>
+	                        <option value="${option.key}">${option.value}</option>
 	                    </c:otherwise>
 	                </c:choose>                    
 	            </c:forEach>
@@ -240,11 +239,11 @@ function updateBaseDateDisplay(selectBox) {
                 <c:forEach items="${krafn:getOptionList('org.kuali.kra.award.lookup.keyvalue.FrequencyCodeValuesFinder', paramMap2)}" var="option">                	
 	                <c:choose>                    	
 	                	<c:when test="${KualiForm.document.awardList[0].awardReportTermItems[status.index].frequencyCode == option.key}">
-	                        <option value="${option.key}" selected>${option.label}</option>
+	                        <option value="${option.key}" selected>${option.value}</option>
 	                    </c:when>
 	                    <c:otherwise>
-	                        <c:out value="${option.label}"/>
-	                        <option value="${option.key}">${option.label}</option>
+	                        <c:out value="${option.value}"/>
+	                        <option value="${option.key}">${option.value}</option>
 	                    </c:otherwise>
 	                </c:choose>                    
 	            </c:forEach>
@@ -265,11 +264,11 @@ function updateBaseDateDisplay(selectBox) {
                 <c:forEach items="${krafn:getOptionList('org.kuali.kra.award.lookup.keyvalue.FrequencyBaseCodeValuesFinder', paramMap3)}" var="option">
 	                <c:choose>                    	
 	                	<c:when test="${KualiForm.document.awardList[0].awardReportTermItems[status.index].frequencyBaseCode == option.key}">
-	                        <option value="${option.key}" selected>${option.label}</option>
+	                        <option value="${option.key}" selected>${option.value}</option>
 	                    </c:when>
 	                    <c:otherwise>
-	                        <c:out value="${option.label}"/>
-	                        <option value="${option.key}">${option.label}</option>
+	                        <c:out value="${option.value}"/>
+	                        <option value="${option.key}">${option.value}</option>
 	                    </c:otherwise>
 	                </c:choose>         
 	            </c:forEach>

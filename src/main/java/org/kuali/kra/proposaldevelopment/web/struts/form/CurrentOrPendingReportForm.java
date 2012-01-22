@@ -17,9 +17,7 @@ package org.kuali.kra.proposaldevelopment.web.struts.form;
 
 import org.kuali.kra.common.web.struts.form.ReportHelperBean;
 import org.kuali.kra.common.web.struts.form.ReportHelperBeanContainer;
-import org.kuali.kra.web.struts.form.BudgetVersionFormBase;
 import org.kuali.rice.kns.web.struts.form.KualiForm;
-import org.kuali.rice.kns.web.struts.form.KualiTransactionalDocumentFormBase;
 
 public class CurrentOrPendingReportForm extends KualiForm implements ReportHelperBeanContainer{
     

@@ -110,15 +110,16 @@ import org.kuali.kra.proposaldevelopment.bo.DevelopmentProposal;
 import org.kuali.kra.proposaldevelopment.bo.ProposalBudgetStatus;
 import org.kuali.kra.proposaldevelopment.bo.ProposalSite;
 import org.kuali.kra.proposaldevelopment.document.ProposalDevelopmentDocument;
-import org.kuali.rice.kew.exception.WorkflowException;
-import org.kuali.rice.kim.bo.impl.PersonImpl;
-import org.kuali.rice.kns.UserSession;
-import org.kuali.rice.kns.bo.DocumentHeader;
-import org.kuali.rice.kns.document.authorization.PessimisticLock;
-import org.kuali.rice.kns.service.BusinessObjectService;
-import org.kuali.rice.kns.service.DocumentService;
-import org.kuali.rice.kns.util.GlobalVariables;
-import org.kuali.rice.kns.util.KualiDecimal;
+import org.kuali.rice.core.api.util.type.KualiDecimal;
+import org.kuali.rice.kew.api.exception.WorkflowException;
+import org.kuali.rice.kim.api.identity.Person;
+import org.kuali.rice.kim.impl.identity.PersonImpl;
+import org.kuali.rice.krad.UserSession;
+import org.kuali.rice.krad.bo.DocumentHeader;
+import org.kuali.rice.krad.document.authorization.PessimisticLock;
+import org.kuali.rice.krad.service.BusinessObjectService;
+import org.kuali.rice.krad.service.DocumentService;
+import org.kuali.rice.krad.util.GlobalVariables;
 
 public class PrintingTestUtils {
 	private static final String OBLIGATED_DIRECT_INDIRECT_COST_CONSTANT = "ENABLE_AWD_ANT_OBL_DIRECT_INDIRECT_COST";
@@ -1744,7 +1745,7 @@ public class PrintingTestUtils {
 				.getBudgetStatus());
 		getBusinessObjectService().save(proposalStatus);
 		try {
-			// KNSServiceLocator.getDocumentService().saveDocument(bd);
+			// KRADServiceLocatorWeb.getDocumentService().saveDocument(bd);
 			getBusinessObjectService().save(bd);
 		} catch (Exception e) {
 			e.printStackTrace();
@@ -1797,7 +1798,7 @@ public class PrintingTestUtils {
 				.getTimeInMillis()));
 		List<PessimisticLock> pLockList = new ArrayList<PessimisticLock>();
 		PessimisticLock pLock = new PessimisticLock();// TODO
-		org.kuali.rice.kim.bo.Person p = new PersonImpl();
+		Person p = new PersonImpl();
 		pLock.setOwnedByUser(p);
 		pLock.setLockDescriptor("PROPOSAL");
 		pd.setPessimisticLocks(pLockList);
@@ -1808,7 +1809,7 @@ public class PrintingTestUtils {
 		getBusinessObjectService().save(pd);
 		return pd;
 	}
-	
+
 	public static NegotiationDocument getNegotiationDocument() {
         NegotiationDocument negotiationDocument = null;
         try {

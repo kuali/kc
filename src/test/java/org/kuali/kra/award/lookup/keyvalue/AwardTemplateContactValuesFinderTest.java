@@ -30,11 +30,12 @@ import org.kuali.kra.award.home.ContactType;
 import org.kuali.kra.infrastructure.Constants;
 import org.kuali.kra.lookup.keyvalue.PrefixValuesFinder;
 import org.kuali.kra.test.infrastructure.KcUnitTestBase;
-import org.kuali.rice.core.util.KeyLabelPair;
+import org.kuali.rice.core.api.util.ConcreteKeyValue;
+import org.kuali.rice.core.api.util.KeyValue;
 
 public class AwardTemplateContactValuesFinderTest extends KcUnitTestBase {
     AwardTemplateContactValuesFinder awardTempContactValuesFinder;
-    List<KeyLabelPair> contactKeys;
+    List<KeyValue> contactKeys;
     AwardTemplate template;
     List<AwardTemplateContact> contactList;
 
@@ -47,7 +48,7 @@ public class AwardTemplateContactValuesFinderTest extends KcUnitTestBase {
         this.addContacts("ContactType2", 2);
         template.setTemplateContacts(contactList);
         awardTempContactValuesFinder = this.getAwardTemplateContactValuesFinder();
-        contactKeys = new ArrayList<KeyLabelPair>();
+        contactKeys = new ArrayList<KeyValue>();
         contactKeys = awardTempContactValuesFinder.getKeyValues();
     }
     
@@ -65,15 +66,15 @@ public class AwardTemplateContactValuesFinderTest extends KcUnitTestBase {
     private AwardTemplateContactValuesFinder getAwardTemplateContactValuesFinder() {
 
         return new AwardTemplateContactValuesFinder() { 
-            public List<KeyLabelPair> getKeyValues() {
+            public List<KeyValue> getKeyValues() {
                 List<AwardTemplateContact> contacts = template.getTemplateContacts();
-                List<KeyLabelPair> keyValues = new ArrayList<KeyLabelPair>();
+                List<KeyValue> keyValues = new ArrayList<KeyValue>();
                 for (Iterator iter = contacts.iterator(); iter.hasNext();) {
                     AwardTemplateContact contact = (AwardTemplateContact) iter.next(); 
-                    keyValues.add(new KeyLabelPair(contact.getRoleCode() + Constants.AWARD_TEMP_RECPNT_CONTACT_TYPE_CODE_ROLODEX_ID_SEPARATOR + contact.getRolodexId().toString(), 
+                    keyValues.add(new ConcreteKeyValue(contact.getRoleCode() + Constants.AWARD_TEMP_RECPNT_CONTACT_TYPE_CODE_ROLODEX_ID_SEPARATOR + contact.getRolodexId().toString(), 
                             contact.getContactType().getDescription() + Constants.AWARD_TEMP_RECPNT_CONTACT_TYPE_CODE_ROLODEX_ID_SEPARATOR + contact.getRolodexId().toString()));       
                 }
-                keyValues.add(0, new KeyLabelPair(PrefixValuesFinder.getPrefixKey(), PrefixValuesFinder.getDefaultPrefixValue()));
+                keyValues.add(0, new ConcreteKeyValue(PrefixValuesFinder.getPrefixKey(), PrefixValuesFinder.getDefaultPrefixValue()));
                 return keyValues;
             }
         };
@@ -95,11 +96,11 @@ public class AwardTemplateContactValuesFinderTest extends KcUnitTestBase {
         int count = template.getTemplateContacts().size();
         Assert.assertEquals(count + 1, contactKeys.size());   // added "select" to the list
         
-        for(KeyLabelPair keyLabelPair:contactKeys){
-            Assert.assertNotNull(keyLabelPair.getKey());
-            Assert.assertNotNull(keyLabelPair.getLabel());
-            String keyString = keyLabelPair.getKey().toString();
-            String labelString = keyLabelPair.getLabel();
+        for(KeyValue KeyValue:contactKeys){
+            Assert.assertNotNull(KeyValue.getKey());
+            Assert.assertNotNull(KeyValue.getValue());
+            String keyString = KeyValue.getKey().toString();
+            String labelString = KeyValue.getValue();
             
             if(!StringUtils.equals(labelString, "select")){ 
                 if(keyString.contains("1")){

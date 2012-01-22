@@ -15,20 +15,18 @@
  */
 package org.kuali.kra.bo;
 
-import java.util.LinkedHashMap;
 
-public class Training extends KraPersistableBusinessObjectBase { 
-    
+public class Training extends KraPersistableBusinessObjectBase {
+
     private static final long serialVersionUID = 1L;
 
-    private Integer trainingCode; 
-    private String description; 
-    
-    
-    public Training() { 
+    private Integer trainingCode;
 
-    } 
-    
+    private String description;
+
+    public Training() {
+    }
+
     public Integer getTrainingCode() {
         return trainingCode;
     }
@@ -44,14 +42,4 @@ public class Training extends KraPersistableBusinessObjectBase {
     public void setDescription(String description) {
         this.description = description;
     }
-
-    /** {@inheritDoc} */
-    @Override 
-    protected LinkedHashMap<String, Object> toStringMapper() {
-        LinkedHashMap<String, Object> hashMap = new LinkedHashMap<String, Object>();
-        hashMap.put("trainingCode", this.getTrainingCode());
-        hashMap.put("description", this.getDescription());
-        return hashMap;
-    }
-    
 }

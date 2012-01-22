@@ -18,15 +18,13 @@ package org.kuali.kra.award.timeandmoney;
 import java.sql.Date;
 import java.util.List;
 
+import org.apache.commons.lang.time.DateUtils;
 import org.kuali.kra.award.AwardAmountInfoService;
 import org.kuali.kra.infrastructure.KeyConstants;
 import org.kuali.kra.infrastructure.KraServiceLocator;
 import org.kuali.kra.rules.ResearchDocumentRuleBase;
-import org.kuali.kra.service.AwardDirectFandADistributionService;
-import org.kuali.rice.kns.util.GlobalVariables;
-import org.kuali.rice.kns.util.KualiDecimal;
-
-import org.apache.commons.lang.time.DateUtils;
+import org.kuali.rice.core.api.util.type.KualiDecimal;
+import org.kuali.rice.kns.util.KNSGlobalVariables;
 
 /**
  * This class contains all rule methods for actions on Award Direct F and A Distribution tab.
@@ -148,7 +146,7 @@ public class AwardDirectFandADistributionRuleImpl extends ResearchDocumentRuleBa
                 AwardDirectFandADistribution nextAwardDirectFandADistribution = thisAwardDirectFandADistributions.get(++currentIndex);
                 if(DateUtils.addDays(thisAwardDirectFandADistribution.getEndDate(), 1).before(nextAwardDirectFandADistribution.getStartDate())) {
                     reportWarning(WARNING_BREAK_DATE_RANGE, KeyConstants.WARNING_AWARD_FANDA_DISTRIB_BREAKS);
-                    GlobalVariables.getMessageList().add(KeyConstants.WARNING_AWARD_FANDA_DISTRIB_EXISTS, "");
+                    KNSGlobalVariables.getMessageList().add(KeyConstants.WARNING_AWARD_FANDA_DISTRIB_EXISTS, "");
                     valid = false;
                 }
             }
@@ -266,7 +264,7 @@ public class AwardDirectFandADistributionRuleImpl extends ResearchDocumentRuleBa
             reportWarning(WARNING_AWARD_DIRECT_FNA_DISTRIBUTION_ANTICIPATED_MISMATCH, 
                     KeyConstants.WARNING_AWARD_FANDA_DISTRIB_LIMITNOTEQUAL_ANTICIPATED, 
                     new String[]{awardDirectFandADistributions.get(0).getAward().getAwardNumber()});
-            GlobalVariables.getMessageList().add(KeyConstants.WARNING_AWARD_FANDA_DISTRIB_EXISTS, "");
+            KNSGlobalVariables.getMessageList().add(KeyConstants.WARNING_AWARD_FANDA_DISTRIB_EXISTS, "");
             }
         }
         return valid;

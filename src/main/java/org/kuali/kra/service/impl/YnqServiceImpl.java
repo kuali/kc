@@ -37,9 +37,9 @@ import org.kuali.kra.proposaldevelopment.bo.ProposalYnq;
 import org.kuali.kra.proposaldevelopment.bo.YnqGroupName;
 import org.kuali.kra.proposaldevelopment.document.ProposalDevelopmentDocument;
 import org.kuali.kra.service.YnqService;
-import org.kuali.rice.kns.service.BusinessObjectService;
-import org.kuali.rice.kns.service.DateTimeService;
-import org.kuali.rice.kns.workflow.service.KualiWorkflowDocument;
+import org.kuali.rice.core.api.datetime.DateTimeService;
+import org.kuali.rice.kew.api.WorkflowDocument;
+import org.kuali.rice.krad.service.BusinessObjectService;
 
 public class YnqServiceImpl implements YnqService {
 
@@ -276,10 +276,10 @@ public class YnqServiceImpl implements YnqService {
     
     protected boolean isDocumentSubmitted(ProposalDevelopmentDocument document) {
         boolean submitted = false;
-        KualiWorkflowDocument wfd = document.getDocumentHeader().getWorkflowDocument();
-        document.getDocumentHeader().getWorkflowDocument().stateIsInitiated();
-        if(!wfd.stateIsInitiated()) {
-            if(!wfd.stateIsSaved() ||
+        WorkflowDocument wfd = document.getDocumentHeader().getWorkflowDocument();
+        document.getDocumentHeader().getWorkflowDocument().isInitiated();
+        if(!wfd.isInitiated()) {
+            if(!wfd.isSaved() ||
                     (document.getDevelopmentProposal().getS2sAppSubmission() != null && !document.getDevelopmentProposal().getS2sAppSubmission().isEmpty())) {
                 submitted = true;
             }

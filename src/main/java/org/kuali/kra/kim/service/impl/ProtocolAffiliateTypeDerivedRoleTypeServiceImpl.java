@@ -27,13 +27,12 @@ import org.kuali.kra.irb.Protocol;
 import org.kuali.kra.irb.actions.submit.ProtocolSubmissionQualifierType;
 import org.kuali.kra.irb.personnel.ProtocolPerson;
 import org.kuali.kra.kim.bo.KcKimAttributes;
-import org.kuali.rice.kim.bo.Role;
-import org.kuali.rice.kim.bo.role.dto.RoleMembershipInfo;
-import org.kuali.rice.kim.bo.types.dto.AttributeSet;
-import org.kuali.rice.kim.service.support.impl.KimDerivedRoleTypeServiceBase;
+import org.kuali.rice.core.api.membership.MemberType;
+import org.kuali.rice.kim.api.role.RoleMembership;
+import org.kuali.rice.kns.kim.role.DerivedRoleTypeServiceBase;
 
 
-public class ProtocolAffiliateTypeDerivedRoleTypeServiceImpl extends KimDerivedRoleTypeServiceBase {
+public class ProtocolAffiliateTypeDerivedRoleTypeServiceImpl extends DerivedRoleTypeServiceBase {
     private static final org.apache.log4j.Logger LOG = 
         org.apache.log4j.Logger.getLogger(ProtocolAffiliateTypeDerivedRoleTypeServiceImpl.class);
     
@@ -43,20 +42,20 @@ public class ProtocolAffiliateTypeDerivedRoleTypeServiceImpl extends KimDerivedR
     }
     
     @Override
-    public List<RoleMembershipInfo> getRoleMembersFromApplicationRole(String namespaceCode, String roleName,
-            AttributeSet qualification) {
+    public List<RoleMembership> getRoleMembersFromDerivedRole(String namespaceCode, String roleName,
+            Map<String,String> qualification) {
         validateRequiredAttributesAgainstReceived(qualification);
 
-        List<RoleMembershipInfo> members = new ArrayList<RoleMembershipInfo>();
+        List<RoleMembership> members = new ArrayList<RoleMembership>();
 
         String protocolNumber = qualification.get(KcKimAttributes.PROTOCOL);       
         Protocol protocol = getProtocol(protocolNumber);
         
         if (protocol != null && CollectionUtils.isNotEmpty(protocol.getProtocolPersons())) {
             for (ProtocolPerson person : protocol.getProtocolPersons()) {
-                if (StringUtils.equals(getAffiliationType(person.getAffiliationTypeCode()), roleName) &&
+                if (StringUtils.equals(getAffiliationType(person.getAffiliationType().getAffiliationTypeCode()), roleName) &&
                     StringUtils.isNotBlank(person.getPerson().getPersonId())) {
-                    members.add(new RoleMembershipInfo(null, null, person.getPerson().getPersonId(), Role.PRINCIPAL_MEMBER_TYPE, null));
+                    members.add(RoleMembership.Builder.create(null, null, person.getPerson().getPersonId(), MemberType.PRINCIPAL, null).build());
     
                 }
             }
@@ -66,8 +65,8 @@ public class ProtocolAffiliateTypeDerivedRoleTypeServiceImpl extends KimDerivedR
     }
     
     @Override
-    public boolean hasApplicationRole(String principalId, List<String> groupIds, String namespaceCode, String roleName,
-            AttributeSet qualification) {
+    public boolean hasDerivedRole(String principalId, List<String> groupIds, String namespaceCode, String roleName,
+            Map<String,String> qualification) {
         validateRequiredAttributesAgainstReceived(qualification);
         
         String protocolNumber = qualification.get(KcKimAttributes.PROTOCOL);
@@ -78,7 +77,7 @@ public class ProtocolAffiliateTypeDerivedRoleTypeServiceImpl extends KimDerivedR
             for (ProtocolPerson person : protocol.getProtocolPersons()) {
                 //Find protocol person that matches the principal id
                 if (StringUtils.equals(principalId, person.getPersonId())) {
-                    if (StringUtils.equals(roleName, getAffiliationType(person.getAffiliationTypeCode()))) {
+                    if (StringUtils.equals(roleName, getAffiliationType(person.getAffiliationType().getAffiliationTypeCode()))) {
                         return true;
                     }
                 }

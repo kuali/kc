@@ -27,7 +27,7 @@ import org.kuali.kfs.integration.cg.service.AccountCreationService;
 import org.kuali.kfs.integration.cg.service.AccountCreationServiceSOAP;
 import org.kuali.kra.external.award.AccountCreationClient;
 import org.kuali.kra.infrastructure.Constants;
-import org.kuali.rice.core.config.ConfigContext;
+import org.kuali.rice.core.api.config.property.ConfigContext;
 
 
 
@@ -69,7 +69,7 @@ public final class AccountCreationClientImpl extends AccountCreationClientBase {
     protected AccountCreationService getServiceHandle() {
         URL wsdlURL = null;
         
-        boolean getFinSystemURLFromWSDL = getParameterService().getIndicatorParameter("KC-AWARD", "Document", Constants.GET_FIN_SYSTEM_URL_FROM_WSDL);
+        boolean getFinSystemURLFromWSDL = getParameterService().getParameterValueAsBoolean("KC-AWARD", "Document", Constants.GET_FIN_SYSTEM_URL_FROM_WSDL);
         
         if (getFinSystemURLFromWSDL) {
             wsdlURL = WSDL_LOCATION;

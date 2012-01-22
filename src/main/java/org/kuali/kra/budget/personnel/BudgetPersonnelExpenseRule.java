@@ -20,13 +20,13 @@ import java.util.List;
 import java.util.Map;
 
 import org.apache.commons.lang.StringUtils;
-import org.kuali.rice.kns.util.RiceKeyConstants;
-import org.kuali.rice.kns.util.ErrorMap;
-import org.kuali.rice.kns.util.GlobalVariables;
 import org.kuali.kra.budget.document.BudgetDocument;
 import org.kuali.kra.budget.nonpersonnel.BudgetLineItem;
 import org.kuali.kra.budget.parameters.BudgetPeriod;
 import org.kuali.kra.infrastructure.KeyConstants;
+import org.kuali.rice.core.api.util.RiceKeyConstants;
+import org.kuali.rice.krad.util.GlobalVariables;
+import org.kuali.rice.krad.util.MessageMap;
 
 
 public class BudgetPersonnelExpenseRule {
@@ -37,7 +37,7 @@ public class BudgetPersonnelExpenseRule {
 
     public boolean processCheckExistBudgetPersonnelDetailsBusinessRules(BudgetDocument budgetDocument) {
         boolean valid = true;
-        ErrorMap errorMap = GlobalVariables.getErrorMap();
+        MessageMap errorMap = GlobalVariables.getMessageMap();
         List<BudgetPeriod> budgetPeriods = budgetDocument.getBudget().getBudgetPeriods();
         List<BudgetLineItem> budgetLineItems;
         
@@ -69,7 +69,7 @@ public class BudgetPersonnelExpenseRule {
 
     public boolean processCheckSummaryAddBusinessRules(BudgetLineItem budgetLineItem) {
         boolean valid = true;
-        ErrorMap errorMap = GlobalVariables.getErrorMap();
+        MessageMap errorMap = GlobalVariables.getMessageMap();
         
         //Check for Req.8: Condition where Personnel are already added for the line item
         if(budgetLineItem.getBudgetPersonnelDetailsList().size() > 0 ) {
@@ -87,7 +87,7 @@ public class BudgetPersonnelExpenseRule {
     
     public boolean processCheckPersonAddBusinessRules(BudgetLineItem budgetLineItem) {
         boolean valid = true;
-        ErrorMap errorMap = GlobalVariables.getErrorMap();
+        MessageMap errorMap = GlobalVariables.getMessageMap();
         
         //Check for Req.9: Summary is already added and user is attempting to add a second summary
         if(budgetLineItem.getBudgetPersonnelDetailsList().size() == 0) {
@@ -100,7 +100,7 @@ public class BudgetPersonnelExpenseRule {
     
     public boolean processCheckDuplicateBudgetPersonnel(BudgetDocument budgetDocument, int budgetPeriodIndex, int budgetLineItemIndex) {
         boolean valid=true;
-        ErrorMap errorMap = GlobalVariables.getErrorMap();
+        MessageMap errorMap = GlobalVariables.getMessageMap();
         
         int k=0;
         int l=0;

@@ -20,14 +20,12 @@ import org.jmock.Mockery;
 import org.jmock.integration.junit4.JUnit4Mockery;
 import org.junit.Assert;
 import org.junit.Test;
-import org.kuali.kra.award.detailsdates.AddAwardTransferringSponsorEvent;
-import org.kuali.kra.award.detailsdates.AwardDetailsAndDatesRuleImpl;
 import org.kuali.kra.award.home.Award;
 import org.kuali.kra.bo.Sponsor;
 import org.kuali.kra.infrastructure.KeyConstants;
-import org.kuali.rice.kns.service.BusinessObjectService;
-import org.kuali.rice.kns.util.ErrorMap;
-import org.kuali.rice.kns.util.GlobalVariables;
+import org.kuali.rice.krad.service.BusinessObjectService;
+import org.kuali.rice.krad.util.GlobalVariables;
+import org.kuali.rice.krad.util.MessageMap;
 
 /**
  * Unit tests for AwardDetailsAndDatesRuleImpl
@@ -48,7 +46,7 @@ public class AwardDetailsAndDatesRuleImplTest {
         initializeDefaults();
         awardDetailsAndDatesRule.setBusinessObjectService(getMockBusinessObjectServiceReturnsNull());
         Assert.assertFalse(awardDetailsAndDatesRule.processAddAwardTransferringSponsorEvent(event));
-        Assert.assertTrue(GlobalVariables.getErrorMap().containsMessageKey(KeyConstants.ERROR_INVALID_AWARD_TRANSFERRING_SPONSOR));
+        Assert.assertTrue(GlobalVariables.getMessageMap().containsMessageKey(KeyConstants.ERROR_INVALID_AWARD_TRANSFERRING_SPONSOR));
     }
     
     @Test
@@ -57,7 +55,7 @@ public class AwardDetailsAndDatesRuleImplTest {
         award.addAwardTransferringSponsor(sponsor);
         awardDetailsAndDatesRule.setBusinessObjectService(getMockBusinessObjectServiceReturnsSponsor());
         Assert.assertFalse(awardDetailsAndDatesRule.processAddAwardTransferringSponsorEvent(event));
-        Assert.assertTrue(GlobalVariables.getErrorMap().containsMessageKey(KeyConstants.ERROR_DUPLICATE_AWARD_TRANSFERRING_SPONSOR));
+        Assert.assertTrue(GlobalVariables.getMessageMap().containsMessageKey(KeyConstants.ERROR_DUPLICATE_AWARD_TRANSFERRING_SPONSOR));
     }
     
     @Test
@@ -65,7 +63,7 @@ public class AwardDetailsAndDatesRuleImplTest {
         initializeDefaults();
         awardDetailsAndDatesRule.setBusinessObjectService(getMockBusinessObjectServiceReturnsSponsor());
         Assert.assertTrue(awardDetailsAndDatesRule.processAddAwardTransferringSponsorEvent(event));
-        Assert.assertTrue(GlobalVariables.getErrorMap().isEmpty());
+        Assert.assertTrue(GlobalVariables.getMessageMap().hasNoErrors());
     }
     
     // Setup the expected initial state
@@ -75,7 +73,7 @@ public class AwardDetailsAndDatesRuleImplTest {
         award = new Award();
         awardDetailsAndDatesRule = new AwardDetailsAndDatesRuleImpl();
         event = new AddAwardTransferringSponsorEvent("", null, award, sponsor);
-        GlobalVariables.setErrorMap(new ErrorMap());
+        GlobalVariables.setMessageMap(new MessageMap());
     }
     
     private BusinessObjectService getMockBusinessObjectServiceReturnsNull() {

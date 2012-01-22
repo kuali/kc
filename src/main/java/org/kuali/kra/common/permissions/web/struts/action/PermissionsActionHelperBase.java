@@ -17,8 +17,8 @@ package org.kuali.kra.common.permissions.web.struts.action;
 
 import static org.apache.commons.lang.StringUtils.replace;
 import static org.kuali.kra.infrastructure.KraServiceLocator.getService;
-import static org.kuali.rice.kns.util.KNSConstants.CONFIRMATION_QUESTION;
-import static org.kuali.rice.kns.util.KNSConstants.QUESTION_INST_ATTRIBUTE_NAME;
+import static org.kuali.rice.krad.util.KRADConstants.CONFIRMATION_QUESTION;
+import static org.kuali.rice.krad.util.KRADConstants.QUESTION_INST_ATTRIBUTE_NAME;
 
 import java.io.Serializable;
 import java.util.ArrayList;
@@ -49,11 +49,11 @@ import org.kuali.kra.infrastructure.KeyConstants;
 import org.kuali.kra.irb.ProtocolDocument;
 import org.kuali.kra.web.struts.action.KraTransactionalDocumentActionBase;
 import org.kuali.kra.web.struts.action.StrutsConfirmation;
-import org.kuali.rice.kns.document.Document;
-import org.kuali.rice.kns.rule.event.KualiDocumentEvent;
-import org.kuali.rice.kns.service.KualiConfigurationService;
-import org.kuali.rice.kns.service.KualiRuleService;
-import org.kuali.rice.kns.util.KNSConstants;
+import org.kuali.rice.core.api.config.property.ConfigurationService;
+import org.kuali.rice.krad.document.Document;
+import org.kuali.rice.krad.rules.rule.event.KualiDocumentEvent;
+import org.kuali.rice.krad.service.KualiRuleService;
+import org.kuali.rice.krad.util.KRADConstants;
 
 /**
  * The PermissionsActionHelperBase is a delegate for supporting the Permissions Tab web page.
@@ -287,8 +287,8 @@ public abstract class PermissionsActionHelperBase implements Serializable {
         retval.setQuestionId(questionId);
         retval.setQuestionType(CONFIRMATION_QUESTION);
 
-        KualiConfigurationService kualiConfiguration = getService(KualiConfigurationService.class);
-        String questionText = kualiConfiguration.getPropertyString(configurationId);
+        ConfigurationService kualiConfiguration = getService(ConfigurationService.class);
+        String questionText = kualiConfiguration.getPropertyValueAsString(configurationId);
 
         for (int i = 0; i < params.length; i++) {
             questionText = replace(questionText, "{" + i + "}", params[i]);
@@ -488,7 +488,7 @@ public abstract class PermissionsActionHelperBase implements Serializable {
      */
     private int getSelectedLine(HttpServletRequest request) {
         int selectedLine = -1;
-        String parameterName = (String) request.getAttribute(KNSConstants.METHOD_TO_CALL_ATTRIBUTE);
+        String parameterName = (String) request.getAttribute(KRADConstants.METHOD_TO_CALL_ATTRIBUTE);
         if (StringUtils.isNotBlank(parameterName)) {
             String lineNumber = StringUtils.substringBetween(parameterName, ".line", ".");
             selectedLine = Integer.parseInt(lineNumber);

@@ -48,11 +48,11 @@ import org.kuali.kra.negotiations.bo.NegotiationUnassociatedDetail;
 import org.kuali.kra.negotiations.document.NegotiationDocument;
 import org.kuali.kra.service.KcPersonService;
 import org.kuali.kra.subaward.bo.SubAward;
-import org.kuali.rice.kim.bo.role.dto.RoleMembershipInfo;
-import org.kuali.rice.kim.bo.types.dto.AttributeSet;
-import org.kuali.rice.kns.bo.BusinessObject;
-import org.kuali.rice.kns.service.BusinessObjectService;
-import org.kuali.rice.kns.service.ParameterService;
+import org.kuali.rice.core.api.membership.MemberType;
+import org.kuali.rice.coreservice.framework.parameter.ParameterService;
+import org.kuali.rice.kim.api.role.RoleMembership;
+import org.kuali.rice.krad.bo.BusinessObject;
+import org.kuali.rice.krad.service.BusinessObjectService;
 
 /**
  * Service impl for NegotiationService.
@@ -74,7 +74,7 @@ public class NegotiationServiceImpl implements NegotiationService {
      * @see org.kuali.kra.negotiations.service.NegotiationService#getInProgressStatusCodes()
      */
     public List<String> getInProgressStatusCodes() {
-        String value = getParameterService().getParameterValue(NegotiationDocument.class, "negotiationInProgressStatusCodes");
+        String value = getParameterService().getParameterValueAsString(NegotiationDocument.class, "negotiationInProgressStatusCodes");
         return Arrays.asList(value.split(PARAMETER_DELIMITER));
     }
     
@@ -83,7 +83,7 @@ public class NegotiationServiceImpl implements NegotiationService {
      * @see org.kuali.kra.negotiations.service.NegotiationService#getCompletedStatusCodes()
      */
     public List<String> getCompletedStatusCodes() {
-        String value = getParameterService().getParameterValue(NegotiationDocument.class, "negotiationCompletedStatusCodes");
+        String value = getParameterService().getParameterValueAsString(NegotiationDocument.class, "negotiationCompletedStatusCodes");
         return Arrays.asList(value.split(PARAMETER_DELIMITER));        
     }
 
@@ -92,7 +92,7 @@ public class NegotiationServiceImpl implements NegotiationService {
      * @see org.kuali.kra.negotiations.service.NegotiationService#getCompleteStatusCode()
      */
     public String getCompleteStatusCode() {
-        String value = getParameterService().getParameterValue(NegotiationDocument.class, "CLOSED_NEGOTIATION_STATUS");
+        String value = getParameterService().getParameterValueAsString(NegotiationDocument.class, "CLOSED_NEGOTIATION_STATUS");
         return value;
     }
     
@@ -300,7 +300,7 @@ public class NegotiationServiceImpl implements NegotiationService {
             return null;
         }
     }
-        
+    
     /**
      * 
      * @see org.kuali.kra.negotiations.service.NegotiationService#getNegotiationActivityHistoryLineBeans(java.util.List)

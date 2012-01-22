@@ -17,9 +17,7 @@ package org.kuali.kra.service.impl.mocks;
 
 import java.util.ArrayList;
 import java.util.Collection;
-import java.util.HashMap;
 import java.util.List;
-import java.util.Map;
 
 import org.apache.commons.lang.StringUtils;
 import org.kuali.kra.bo.Unit;
@@ -27,7 +25,6 @@ import org.kuali.kra.bo.UnitAdministrator;
 import org.kuali.kra.bo.UnitCorrespondent;
 import org.kuali.kra.infrastructure.KraServiceLocator;
 import org.kuali.kra.service.UnitService;
-import org.kuali.rice.kns.service.BusinessObjectService;
 
 /**
  * The Mock Unit Service.  A set of "fake" units can be added

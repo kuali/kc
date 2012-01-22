@@ -17,7 +17,6 @@ package org.kuali.kra.service.impl;
 
 import java.io.IOException;
 import java.io.StringReader;
-import java.sql.Date;
 import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.List;
@@ -39,8 +38,8 @@ import org.kuali.kra.irb.Protocol;
 import org.kuali.kra.irb.protocol.research.ProtocolResearchArea;
 import org.kuali.kra.service.ResearchAreaCurrentReferencerHolder;
 import org.kuali.kra.service.ResearchAreasService;
-import org.kuali.rice.kns.service.BusinessObjectService;
-import org.kuali.rice.kns.util.KNSConstants;
+import org.kuali.rice.krad.service.BusinessObjectService;
+import org.kuali.rice.krad.util.KRADConstants;
 import org.w3c.dom.Document;
 import org.w3c.dom.Element;
 import org.w3c.dom.Node;
@@ -80,7 +79,7 @@ public class ResearchAreasServiceImpl implements ResearchAreasService {
     public String getSubResearchAreasForTreeView(String researchAreaCode, boolean activeOnly) {
         String researchAreas = "<h3>";
         for (ResearchArea researchArea : getSubResearchAreas(researchAreaCode, activeOnly)) {
-            researchAreas = researchAreas + researchArea.getResearchAreaCode() +KNSConstants.BLANK_SPACE+COLUMN_CODE_1+KNSConstants.BLANK_SPACE+ researchArea.getDescription() +KNSConstants.BLANK_SPACE+COLUMN_CODE_2+KNSConstants.BLANK_SPACE+ researchArea.isActive()+"</h3><h3>";
+            researchAreas = researchAreas + researchArea.getResearchAreaCode() +KRADConstants.BLANK_SPACE+COLUMN_CODE_1+KRADConstants.BLANK_SPACE+ researchArea.getDescription() +KRADConstants.BLANK_SPACE+COLUMN_CODE_2+KRADConstants.BLANK_SPACE+ researchArea.isActive()+"</h3><h3>";
         }
         researchAreas = researchAreas.substring(0, researchAreas.length() - 4);        
         return researchAreas;

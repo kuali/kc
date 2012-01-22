@@ -22,8 +22,10 @@ import java.util.Map;
 import org.apache.commons.lang.StringUtils;
 import org.kuali.kra.infrastructure.KraServiceLocator;
 import org.kuali.kra.service.KcPersonService;
-import org.kuali.rice.kns.service.KualiConfigurationService;
-import org.kuali.rice.kns.util.GlobalVariables;
+import org.kuali.rice.core.api.CoreApiServiceLocator;
+import org.kuali.rice.core.api.config.property.ConfigurationService;
+import org.kuali.rice.krad.service.KRADServiceLocator;
+import org.kuali.rice.krad.util.GlobalVariables;
 
 /**
  * Defines a base class for rendering Notification messages.
@@ -111,15 +113,15 @@ public abstract class NotificationRendererBase implements NotificationRenderer, 
     }
 
     private String getDocumentLocation() {
-        String result = getKualiConfigurationService().getPropertyString(DOCHANDLER_PREFIX_PROPERTY);
+        String result = getKualiConfigurationService().getPropertyValueAsString(DOCHANDLER_PREFIX_PROPERTY);
         if (result == null) {
             result = "..";   // default is current relative location (relative to base at this server)
         }
         return result;
     }
 
-    private KualiConfigurationService getKualiConfigurationService() {
-        return KraServiceLocator.getService(KualiConfigurationService.class);
+    private ConfigurationService getKualiConfigurationService() {
+        return KRADServiceLocator.getKualiConfigurationService();
     }
 
 }

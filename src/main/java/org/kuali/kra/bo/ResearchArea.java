@@ -15,28 +15,29 @@
  */
 package org.kuali.kra.bo;
 
-import java.util.LinkedHashMap;
 
 public class ResearchArea extends KraPersistableBusinessObjectBase {
 
-    private String researchAreaCode; 
-    private String parentResearchAreaCode; 
-    private boolean hasChildrenFlag; 
+    private String researchAreaCode;
+
+    private String parentResearchAreaCode;
+
+    private boolean hasChildrenFlag;
+
     private String description;
+
     private boolean active;
-    
-    
+
     /*
     private CommResearchAreas commResearchAreas
     private CommMemberExpertise commMemberExpertise
     private ProtocolResearchAreas protocolResearchAreas
     */
-
-    public ResearchArea(){
+    public ResearchArea() {
         super();
     }
-    
-    public ResearchArea(String researchAreaCode, String parentResearchAreaCode, String description, boolean active){
+
+    public ResearchArea(String researchAreaCode, String parentResearchAreaCode, String description, boolean active) {
         super();
         this.researchAreaCode = researchAreaCode;
         this.parentResearchAreaCode = parentResearchAreaCode;
@@ -85,18 +86,6 @@ public class ResearchArea extends KraPersistableBusinessObjectBase {
         this.active = active;
     }
 
-    @Override 
-    protected LinkedHashMap toStringMapper() {
-        LinkedHashMap hashMap = new LinkedHashMap();
-        hashMap.put("researchAreaCode", getResearchAreaCode());
-        hashMap.put("description", getDescription());
-        hashMap.put("hasChildrenFlag", getHasChildrenFlag());
-        hashMap.put("parentResearchAreaCode", getParentResearchAreaCode());
-        hashMap.put("active", isActive());
-        hashMap.put("verNum", getVersionNumber());
-        return hashMap;
-    }
-
     @Override
     public int hashCode() {
         final int prime = 31;
@@ -107,20 +96,13 @@ public class ResearchArea extends KraPersistableBusinessObjectBase {
 
     @Override
     public boolean equals(Object obj) {
-        if (this == obj)
-            return true;
-        if (obj == null)
-            return false;
-        if (getClass() != obj.getClass())
-            return false;
+        if (this == obj) return true;
+        if (obj == null) return false;
+        if (getClass() != obj.getClass()) return false;
         ResearchArea other = (ResearchArea) obj;
         if (researchAreaCode == null) {
-            if (other.researchAreaCode != null)
-                return false;
-        }
-        else if (!researchAreaCode.equalsIgnoreCase(other.researchAreaCode))
-            return false;
+            if (other.researchAreaCode != null) return false;
+        } else if (!researchAreaCode.equalsIgnoreCase(other.researchAreaCode)) return false;
         return true;
     }
 }
-

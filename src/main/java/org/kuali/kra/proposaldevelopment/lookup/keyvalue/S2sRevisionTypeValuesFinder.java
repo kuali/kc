@@ -22,19 +22,20 @@ import java.util.List;
 
 import org.kuali.kra.bo.S2sRevisionType;
 import org.kuali.kra.infrastructure.KraServiceLocator;
-import org.kuali.rice.core.util.KeyLabelPair;
-import org.kuali.rice.kns.lookup.keyvalues.KeyValuesBase;
-import org.kuali.rice.kns.service.KeyValuesService;
+import org.kuali.rice.core.api.util.ConcreteKeyValue;
+import org.kuali.rice.core.api.util.KeyValue;
+import org.kuali.rice.krad.keyvalues.KeyValuesBase;
+import org.kuali.rice.krad.service.KeyValuesService;
 
 public class S2sRevisionTypeValuesFinder extends KeyValuesBase {
     
     public List getKeyValues() {
         KeyValuesService keyValuesService = (KeyValuesService) KraServiceLocator.getService("keyValuesService");
         Collection s2sRevisionTypes = keyValuesService.findAll(S2sRevisionType.class);
-        List<KeyLabelPair> keyValues = new ArrayList<KeyLabelPair>();        
+        List<KeyValue> keyValues = new ArrayList<KeyValue>();        
         for (Iterator iter = s2sRevisionTypes.iterator(); iter.hasNext();) {
             S2sRevisionType s2sRevisionType = (S2sRevisionType) iter.next();
-            keyValues.add(new KeyLabelPair(s2sRevisionType.getS2sRevisionTypeCode(), s2sRevisionType.getDescription()));
+            keyValues.add(new ConcreteKeyValue(s2sRevisionType.getS2sRevisionTypeCode(), s2sRevisionType.getDescription()));
         }
         return keyValues;
     }

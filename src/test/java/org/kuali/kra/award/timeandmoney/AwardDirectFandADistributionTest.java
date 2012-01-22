@@ -20,7 +20,6 @@ import org.junit.Assert;
 import org.junit.Before;
 import org.junit.Test;
 import org.kuali.kra.award.home.Award;
-import org.kuali.kra.award.timeandmoney.AwardDirectFandADistribution;
 
 /**
  * This class tests methods in AwardDirectFandADistribution.java class
@@ -58,7 +57,7 @@ private static final int AWARD_DIRECT_F_AND_A_DISTRIBUTION_ATTRIBUTES_COUNT = 8;
      */
     @Test
     public void testAwardCostShareBoAttributesCount() throws Exception {              
-        Assert.assertEquals(AWARD_DIRECT_F_AND_A_DISTRIBUTION_ATTRIBUTES_COUNT, awardDirectFandADistributionBo.toStringMapper().size());
+        Assert.assertEquals(AWARD_DIRECT_F_AND_A_DISTRIBUTION_ATTRIBUTES_COUNT, awardDirectFandADistributionBo.getClass().getFields().length);
     }
     
 }

@@ -9,14 +9,13 @@ import java.util.Map;
 import org.apache.commons.lang.ObjectUtils;
 import org.kuali.kra.award.contacts.AwardPerson;
 import org.kuali.kra.award.home.Award;
-import org.kuali.kra.award.home.AwardStatus;
 import org.kuali.kra.bo.versioning.VersionHistory;
 import org.kuali.kra.common.printing.CurrentReportBean;
 import org.kuali.kra.dao.CurrentReportDao;
 import org.kuali.kra.infrastructure.KraServiceLocator;
 import org.kuali.kra.service.ServiceHelper;
 import org.kuali.kra.service.VersionHistoryService;
-import org.kuali.rice.kew.exception.WorkflowException;
+import org.kuali.rice.kew.api.exception.WorkflowException;
 
 /**
  * OJB implementation of CurrentReportDao using OJB Report Query (see http://db.apache.org/ojb/docu/guides/query.html#Report+Queries)

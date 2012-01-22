@@ -19,7 +19,6 @@ import org.junit.After;
 import org.junit.Assert;
 import org.junit.Before;
 import org.junit.Test;
-import org.kuali.kra.award.home.approvedsubawards.AwardApprovedSubaward;
 
 /**
  * 
@@ -55,7 +54,7 @@ public class AwardApprovedSubawardTest {
      */
     @Test
     public void testAwardApprovedSubawardBoAttributesCount() throws Exception {              
-        Assert.assertEquals(AWARD_APPROVED_SUBAWARD_ATTRIBUTES_COUNT, awardApprovedSubawrdBo.toStringMapper().size());
+        Assert.assertEquals(AWARD_APPROVED_SUBAWARD_ATTRIBUTES_COUNT, awardApprovedSubawrdBo.getClass().getFields().length);
     }
     
 }

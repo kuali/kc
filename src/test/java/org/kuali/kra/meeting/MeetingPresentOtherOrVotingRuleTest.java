@@ -17,14 +17,10 @@ package org.kuali.kra.meeting;
 
 import java.util.ArrayList;
 
-import junit.framework.Assert;
-
 import org.junit.Test;
 import org.kuali.kra.infrastructure.Constants;
-import org.kuali.kra.infrastructure.KeyConstants;
 import org.kuali.kra.meeting.MeetingEventBase.ErrorType;
 import org.kuali.kra.rules.TemplateRuleTest;
-import org.kuali.rice.kns.util.GlobalVariables;
 
 public class MeetingPresentOtherOrVotingRuleTest {
     @Test

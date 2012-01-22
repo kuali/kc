@@ -25,12 +25,11 @@ import org.kuali.kra.proposaldevelopment.bo.DevelopmentProposal;
 import org.kuali.kra.proposaldevelopment.document.ProposalDevelopmentDocument;
 import org.kuali.kra.proposaldevelopment.document.authorization.ProposalDevelopmentDocumentAuthorizer;
 import org.kuali.kra.service.KraAuthorizationService;
-import org.kuali.rice.kew.web.session.UserSession;
-import org.kuali.rice.kim.bo.Person;
-import org.kuali.rice.kns.bo.BusinessObject;
+import org.kuali.rice.kim.api.identity.Person;
 import org.kuali.rice.kns.lookup.HtmlData;
 import org.kuali.rice.kns.lookup.HtmlData.AnchorHtmlData;
-import org.kuali.rice.kns.util.GlobalVariables;
+import org.kuali.rice.krad.bo.BusinessObject;
+import org.kuali.rice.krad.util.GlobalVariables;
 
 /**
  * This class...
@@ -38,7 +37,7 @@ import org.kuali.rice.kns.util.GlobalVariables;
 public class DevelopmentProposalLookupableHelperServiceImpl extends KraLookupableHelperServiceImpl {
 
     private static final long serialVersionUID = 8611232870631352662L;
-    
+
     private KraAuthorizationService kraAuthorizationService;
     
     @Override
@@ -54,7 +53,7 @@ public class DevelopmentProposalLookupableHelperServiceImpl extends KraLookupabl
     }
     
     /**
-     * @see org.kuali.kra.lookup.KraLookupableHelperServiceImpl#getCustomActionUrls(org.kuali.rice.kns.bo.BusinessObject, java.util.List)
+     * @see org.kuali.kra.lookup.KraLookupableHelperServiceImpl#getCustomActionUrls(org.kuali.rice.krad.bo.BusinessObject, java.util.List)
      */
     @Override
     public List<HtmlData> getCustomActionUrls(BusinessObject businessObject, List pkNames) {
@@ -110,9 +109,9 @@ public class DevelopmentProposalLookupableHelperServiceImpl extends KraLookupabl
     protected String getKeyFieldName() {
         return "proposalNumber";
     }
-    
+
     private List<DevelopmentProposal> filterForPermissions(List<DevelopmentProposal> results) {
-        Person user = UserSession.getAuthenticatedUser().getPerson();
+        Person user = GlobalVariables.getUserSession().getPerson();
         ProposalDevelopmentDocumentAuthorizer authorizer = new ProposalDevelopmentDocumentAuthorizer();
         List<DevelopmentProposal> filteredResults = new ArrayList<DevelopmentProposal>();
 

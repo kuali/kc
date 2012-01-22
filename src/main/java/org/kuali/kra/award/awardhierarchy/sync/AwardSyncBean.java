@@ -28,7 +28,9 @@ import org.kuali.kra.award.awardhierarchy.AwardHierarchy;
 import org.kuali.kra.award.awardhierarchy.AwardHierarchyService;
 import org.kuali.kra.infrastructure.Constants;
 import org.kuali.kra.infrastructure.KraServiceLocator;
-import org.kuali.rice.kns.bo.PersistableBusinessObject;
+import org.kuali.rice.krad.bo.PersistableBusinessObject;
+import org.kuali.rice.krad.service.KRADServiceLocatorWeb;
+import org.kuali.rice.krad.workflow.service.WorkflowDocumentService;
 
 /**
  * Award Form Bean with helper methods and properties for award sync.
@@ -104,8 +106,9 @@ public class AwardSyncBean implements Serializable {
     }
     
     public boolean isOnValidationNode() {
+        WorkflowDocumentService workflowDocumentService = KRADServiceLocatorWeb.getWorkflowDocumentService();
         return StringUtils.equals(Constants.AWARD_SYNC_VALIDATION_NODE_NAME,
-                awardForm.getAwardDocument().getDocumentHeader().getWorkflowDocument().getCurrentRouteNodeNames());
+                workflowDocumentService.getCurrentRouteNodeNames(awardForm.getAwardDocument().getDocumentHeader().getWorkflowDocument()));
     }
     
     public String getStatusAwardNumber() {

@@ -219,7 +219,7 @@
 		<property name="forceUppercase" value="false" />
 		<property name="label" value="Online Review Status" />
 		<property name="shortLabel" value="Online Review Status" />
-		<property name="maxLength" value="3" />
+		<property name="maxLength" value="300" />
 		<property name="validationPattern">
 			<bean parent="AlphaNumericValidationPattern" />
 		</property>
@@ -511,7 +511,7 @@
 	    <property name="control" >
 	      <bean parent="SelectControlDefinition"
 	            p:businessObjectClass="org.kuali.kra.irb.actions.submit.ProtocolReviewerType"
-	            p:valuesFinderClass="org.kuali.rice.kns.lookup.keyvalues.PersistableBusinessObjectValuesFinder"
+	            p:valuesFinderClass="org.kuali.rice.krad.keyvalues.PersistableBusinessObjectValuesFinder"
 	            p:includeKeyInLabel="false"
             	p:includeBlankRow="false"
 	            p:keyAttribute="reviewerTypeCode"

@@ -184,7 +184,7 @@
   <bean id="Award-specialEbRateOnCampus-parentBean" abstract="true" parent="AttributeDefinition">
     <property name="name" value="specialEbRateOnCampus" />
     <property name="forceUppercase" value="false" />
-    <property name="label" value="Special EB Rate On Campus" />
+    <property name="label" value="Special EB Rate On CampusContract" />
     <property name="shortLabel" value="Percentage" />
     <property name="maxLength" value="10" />
     <property name="required" value="false" />
@@ -192,8 +192,8 @@
       <bean parent="TextControlDefinition"
             p:size="10" />
     </property>
-    <property name="summary" value="Special EB Rate On Campus" />
-    <property name="description" value="Special EB Rate On Campus" />
+    <property name="summary" value="Special EB Rate On CampusContract" />
+    <property name="description" value="Special EB Rate On CampusContract" />
   </bean>
   
   <bean id="Award-specialEbRateOffCampus" parent="Award-specialEbRateOffCampus-parentBean" />
@@ -201,7 +201,7 @@
   <bean id="Award-specialEbRateOffCampus-parentBean" abstract="true" parent="AttributeDefinition">
     <property name="name" value="specialEbRateOffCampus" />
     <property name="forceUppercase" value="false" />
-    <property name="label" value="Special EB Rate Off Campus" />
+    <property name="label" value="Special EB Rate Off CampusContract" />
     <property name="shortLabel" value="Percentage" />
     <property name="maxLength" value="10" />
     <property name="required" value="false" />
@@ -209,8 +209,8 @@
       <bean parent="TextControlDefinition"
             p:size="10" />
     </property>
-    <property name="summary" value="Special EB Rate Off Campus" />
-    <property name="description" value="Special EB Rate Off Campus" />
+    <property name="summary" value="Special EB Rate Off CampusContract" />
+    <property name="description" value="Special EB Rate Off CampusContract" />
   </bean>
   
   <bean id="Award-procurementPriorityCode" parent="Award-procurementPriorityCode-parentBean" />

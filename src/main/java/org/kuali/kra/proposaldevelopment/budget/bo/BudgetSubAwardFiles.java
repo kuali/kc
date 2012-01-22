@@ -15,30 +15,22 @@
  */
 package org.kuali.kra.proposaldevelopment.budget.bo;
 
-import java.util.LinkedHashMap;
 import org.kuali.kra.budget.core.BudgetAssociate;
 
 public class BudgetSubAwardFiles extends BudgetAssociate {
-	/**
+
+    /**
      * Comment for <code>serialVersionUID</code>
      */
     private static final long serialVersionUID = 9212512161341725983L;
-	private Integer subAwardNumber;
-	private byte[] subAwardXfdFileData;
-	private String subAwardXfdFileName;
-	private String subAwardXmlFileData;
-	
 
-	@SuppressWarnings("unchecked")
-    @Override 
-	protected LinkedHashMap toStringMapper() {
-        LinkedHashMap<String, Object> hashMap = super.toStringMapper();
-		hashMap.put("subAwardNumber", getSubAwardNumber());
-		hashMap.put("updateTimestamp", this.getUpdateTimestamp());
-        hashMap.put("updateUser", this.getUpdateUser());
-		return hashMap;
-	}
+    private Integer subAwardNumber;
 
+    private byte[] subAwardXfdFileData;
+
+    private String subAwardXfdFileName;
+
+    private String subAwardXmlFileData;
 
     /**
      * Gets the subAwardNumber attribute. 
@@ -48,7 +40,6 @@ public class BudgetSubAwardFiles extends BudgetAssociate {
         return subAwardNumber;
     }
 
-
     /**
      * Sets the subAwardNumber attribute value.
      * @param subAwardNumber The subAwardNumber to set.
@@ -56,7 +47,6 @@ public class BudgetSubAwardFiles extends BudgetAssociate {
     public void setSubAwardNumber(Integer subAwardNumber) {
         this.subAwardNumber = subAwardNumber;
     }
-
 
     /**
      * Gets the subAwardXfdFileData attribute. 
@@ -66,7 +56,6 @@ public class BudgetSubAwardFiles extends BudgetAssociate {
         return subAwardXfdFileData;
     }
 
-
     /**
      * Sets the subAwardXfdFileData attribute value.
      * @param subAwardXfdFileData The subAwardXfdFileData to set.
@@ -74,7 +63,6 @@ public class BudgetSubAwardFiles extends BudgetAssociate {
     public void setSubAwardXfdFileData(byte[] subAwardXfdFileData) {
         this.subAwardXfdFileData = subAwardXfdFileData;
     }
-
 
     /**
      * Gets the subAwardXfdFileName attribute. 
@@ -84,7 +72,6 @@ public class BudgetSubAwardFiles extends BudgetAssociate {
         return subAwardXfdFileName;
     }
 
-
     /**
      * Sets the subAwardXfdFileName attribute value.
      * @param subAwardXfdFileName The subAwardXfdFileName to set.
@@ -92,7 +79,6 @@ public class BudgetSubAwardFiles extends BudgetAssociate {
     public void setSubAwardXfdFileName(String subAwardXfdFileName) {
         this.subAwardXfdFileName = subAwardXfdFileName;
     }
-
 
     /**
      * Gets the subAwardXmlFileData attribute. 
@@ -102,7 +88,6 @@ public class BudgetSubAwardFiles extends BudgetAssociate {
         return subAwardXmlFileData;
     }
 
-
     /**
      * Sets the subAwardXmlFileData attribute value.
      * @param subAwardXmlFileData The subAwardXmlFileData to set.
@@ -110,5 +95,4 @@ public class BudgetSubAwardFiles extends BudgetAssociate {
     public void setSubAwardXmlFileData(String subAwardXmlFileData) {
         this.subAwardXmlFileData = subAwardXmlFileData;
     }
-
 }

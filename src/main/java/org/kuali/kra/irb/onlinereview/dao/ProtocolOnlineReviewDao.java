@@ -18,11 +18,7 @@ package org.kuali.kra.irb.onlinereview.dao;
 import java.util.List;
 import java.util.Map;
 
-import org.apache.commons.httpclient.protocol.Protocol;
-import org.kuali.kra.committee.bo.CommitteeMembership;
-import org.kuali.kra.irb.actions.submit.ProtocolSubmission;
 import org.kuali.kra.irb.onlinereview.ProtocolOnlineReview;
-import org.kuali.kra.meeting.CommitteeScheduleMinute;
 
 public interface ProtocolOnlineReviewDao {
     

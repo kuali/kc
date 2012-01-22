@@ -15,36 +15,28 @@
  */
 package org.kuali.kra.budget.rates;
 
-import java.util.LinkedHashMap;
-
 import org.kuali.kra.bo.InstituteRate;
 
 public class BudgetRate extends AbstractBudgetRate {
-	private String activityTypeCode;
 
-	public BudgetRate() {
-	    super();
-	}
-	
-	public BudgetRate(String unitNumber, InstituteRate instituteRate) {
-	    super(unitNumber, instituteRate);
-	    setActivityTypeCode(instituteRate.getActivityTypeCode());
-	}
-	
+    private String activityTypeCode;
+
+    public BudgetRate() {
+        super();
+    }
+
+    public BudgetRate(String unitNumber, InstituteRate instituteRate) {
+        super(unitNumber, instituteRate);
+        setActivityTypeCode(instituteRate.getActivityTypeCode());
+    }
+
     public String getActivityTypeCode() {
-		return activityTypeCode;
-	}
+        return activityTypeCode;
+    }
 
-	public void setActivityTypeCode(String activityTypeCode) {
-		this.activityTypeCode = activityTypeCode;
-	}
-
-	@Override 
-	protected LinkedHashMap toStringMapper() {
-		LinkedHashMap hashMap = super.toStringMapper();
-		hashMap.put("activityTypeCode", getActivityTypeCode());
-		return hashMap;
-	}
+    public void setActivityTypeCode(String activityTypeCode) {
+        this.activityTypeCode = activityTypeCode;
+    }
 
     /**
      * @see java.lang.Object#hashCode()
@@ -62,20 +54,13 @@ public class BudgetRate extends AbstractBudgetRate {
      */
     @Override
     public boolean equals(Object obj) {
-        if (this == obj)
-            return true;
-        if (!super.equals(obj))
-            return false;
-        if (getClass() != obj.getClass())
-            return false;
+        if (this == obj) return true;
+        if (!super.equals(obj)) return false;
+        if (getClass() != obj.getClass()) return false;
         BudgetRate other = (BudgetRate) obj;
         if (activityTypeCode == null) {
-            if (other.activityTypeCode != null)
-                return false;
-        }
-        else if (!activityTypeCode.equals(other.activityTypeCode))
-            return false;
+            if (other.activityTypeCode != null) return false;
+        } else if (!activityTypeCode.equals(other.activityTypeCode)) return false;
         return true;
     }
-
 }

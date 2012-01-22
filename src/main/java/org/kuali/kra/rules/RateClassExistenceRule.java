@@ -61,7 +61,7 @@ public class RateClassExistenceRule extends KraMaintenanceDocumentRuleBase {
         if (LOG.isDebugEnabled()) {
             LOG.debug("new maintainable is: " + maintenanceDocument.getNewMaintainableObject().getClass());
         }
-        RateType rateType = (RateType) maintenanceDocument.getNewMaintainableObject().getBusinessObject();
+        RateType rateType = (RateType) maintenanceDocument.getNewMaintainableObject().getDataObject();
 
         Map pkMap = new HashMap();
         pkMap.put("rateClassCode", rateType.getRateClassCode());

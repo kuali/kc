@@ -18,7 +18,6 @@ package org.kuali.kra.irb.protocol.reference;
 import java.sql.Date;
 import java.text.DateFormat;
 import java.text.ParseException;
-import java.util.LinkedHashMap;
 
 import org.apache.commons.lang.StringUtils;
 import org.kuali.kra.irb.Protocol;
@@ -28,29 +27,37 @@ import org.kuali.kra.irb.ProtocolAssociate;
  * 
  * This class...
  */
-public class ProtocolReference extends ProtocolAssociate { 
+public class ProtocolReference extends ProtocolAssociate {
+
     /**
      * Comment for <code>serialVersionUID</code>
      */
     private static final long serialVersionUID = 7610203950849323256L;
+
     private Long protocolReferenceId;
-    private Integer protocolReferenceNumber; 
-	private Integer protocolReferenceTypeCode; 
-	private String referenceKey; 
-	private Date applicationDate; 
-	private Date approvalDate; 
-	private String comments; 
-	private ProtocolReferenceType protocolReferenceType; 
-	
-	/**
+
+    private Integer protocolReferenceNumber;
+
+    private Integer protocolReferenceTypeCode;
+
+    private String referenceKey;
+
+    private Date applicationDate;
+
+    private Date approvalDate;
+
+    private String comments;
+
+    private ProtocolReferenceType protocolReferenceType;
+
+    /**
 	 * 
 	 * Constructs a ProtocolReference.java.
 	 */
-	public ProtocolReference() { 
+    public ProtocolReference() {
+    }
 
-	} 
-	
-	/**
+    /**
 	 * 
 	 * Constructs a ProtocolReference.java.
 	 * @param bean
@@ -58,26 +65,26 @@ public class ProtocolReference extends ProtocolAssociate {
 	 * @param protocolReferenceType
 	 * @throws ParseException
 	 */
-	public ProtocolReference(ProtocolReferenceBean bean, Protocol protocol, ProtocolReferenceType protocolReferenceType) throws ParseException {
-	    this.protocolReferenceType = protocolReferenceType;
-	    this.protocolReferenceTypeCode = protocolReferenceType.getProtocolReferenceTypeCode();
-	    this.setProtocol(protocol);
-	    this.setProtocolId(protocol.getProtocolId());
-	    this.setProtocolNumber(protocol.getProtocolNumber());
-	    this.referenceKey = bean.getReferenceKey();
-	    this.comments = bean.getComments();
-	    this.setApplicationDate(convertStringToDate(bean.getApplicationDate()));
-	    this.setApprovalDate(convertStringToDate(bean.getApprovalDate()));
-    } 
-	
-	private Date convertStringToDate(String stringDate) throws ParseException {
-	    if (!StringUtils.isBlank(stringDate)) {
-    	    Date date = new Date(DateFormat.getDateInstance(DateFormat.SHORT).parse(stringDate).getTime());
-    	    return date;
-	    } else {
-	        return null;
-	    }
-	}
+    public ProtocolReference(ProtocolReferenceBean bean, Protocol protocol, ProtocolReferenceType protocolReferenceType) throws ParseException {
+        this.protocolReferenceType = protocolReferenceType;
+        this.protocolReferenceTypeCode = protocolReferenceType.getProtocolReferenceTypeCode();
+        this.setProtocol(protocol);
+        this.setProtocolId(protocol.getProtocolId());
+        this.setProtocolNumber(protocol.getProtocolNumber());
+        this.referenceKey = bean.getReferenceKey();
+        this.comments = bean.getComments();
+        this.setApplicationDate(convertStringToDate(bean.getApplicationDate()));
+        this.setApprovalDate(convertStringToDate(bean.getApprovalDate()));
+    }
+
+    private Date convertStringToDate(String stringDate) throws ParseException {
+        if (!StringUtils.isBlank(stringDate)) {
+            Date date = new Date(DateFormat.getDateInstance(DateFormat.SHORT).parse(stringDate).getTime());
+            return date;
+        } else {
+            return null;
+        }
+    }
 
     public void setProtocolReferenceId(Long protocolReferenceId) {
         this.protocolReferenceId = protocolReferenceId;
@@ -87,85 +94,71 @@ public class ProtocolReference extends ProtocolAssociate {
         return protocolReferenceId;
     }
 
-	public Integer getProtocolReferenceNumber() {
-		return protocolReferenceNumber;
-	}
+    public Integer getProtocolReferenceNumber() {
+        return protocolReferenceNumber;
+    }
 
-	public void setProtocolReferenceNumber(Integer protocolReferenceNumber) {
-		this.protocolReferenceNumber = protocolReferenceNumber;
-	}
+    public void setProtocolReferenceNumber(Integer protocolReferenceNumber) {
+        this.protocolReferenceNumber = protocolReferenceNumber;
+    }
 
-	public Integer getProtocolReferenceTypeCode() {
-		return protocolReferenceTypeCode;
-	}
+    public Integer getProtocolReferenceTypeCode() {
+        return protocolReferenceTypeCode;
+    }
 
-	public void setProtocolReferenceTypeCode(Integer protocolReferenceTypeCode) {
-		this.protocolReferenceTypeCode = protocolReferenceTypeCode;
-	}
+    public void setProtocolReferenceTypeCode(Integer protocolReferenceTypeCode) {
+        this.protocolReferenceTypeCode = protocolReferenceTypeCode;
+    }
 
-	public String getReferenceKey() {
-		return referenceKey;
-	}
+    public String getReferenceKey() {
+        return referenceKey;
+    }
 
-	public void setReferenceKey(String referenceKey) {
-		this.referenceKey = referenceKey;
-	}
+    public void setReferenceKey(String referenceKey) {
+        this.referenceKey = referenceKey;
+    }
 
-	public Date getApplicationDate() {
-		return applicationDate;
-	}
+    public Date getApplicationDate() {
+        return applicationDate;
+    }
 
-	public void setApplicationDate(Date applicationDate) {
-		this.applicationDate = applicationDate;
-	}
+    public void setApplicationDate(Date applicationDate) {
+        this.applicationDate = applicationDate;
+    }
 
-	public Date getApprovalDate() {
-		return approvalDate;
-	}
+    public Date getApprovalDate() {
+        return approvalDate;
+    }
 
-	public void setApprovalDate(Date approvalDate) {
-		this.approvalDate = approvalDate;
-	}
+    public void setApprovalDate(Date approvalDate) {
+        this.approvalDate = approvalDate;
+    }
 
-	public String getComments() {
-		return comments;
-	}
+    public String getComments() {
+        return comments;
+    }
 
-	public void setComments(String comments) {
-		this.comments = comments;
-	}
+    public void setComments(String comments) {
+        this.comments = comments;
+    }
 
-	public ProtocolReferenceType getProtocolReferenceType() {
-		return protocolReferenceType;
-	}
+    public ProtocolReferenceType getProtocolReferenceType() {
+        return protocolReferenceType;
+    }
 
-	public void setProtocolReferenceType(ProtocolReferenceType protocolReferenceType) {
-		this.protocolReferenceType = protocolReferenceType;
-	}
+    public void setProtocolReferenceType(ProtocolReferenceType protocolReferenceType) {
+        this.protocolReferenceType = protocolReferenceType;
+    }
 
-	@SuppressWarnings("unchecked")
-    @Override 
-	protected LinkedHashMap toStringMapper() {
-		LinkedHashMap hashMap = super.toStringMapper();
-		hashMap.put("protocolReferenceId", getProtocolReferenceId());
-		hashMap.put("protocolReferenceNumber", getProtocolReferenceNumber());
-		hashMap.put("protocolReferenceTypeCode", getProtocolReferenceTypeCode());
-		hashMap.put("referenceKey", getReferenceKey());
-		hashMap.put("applicationDate", getApplicationDate());
-		hashMap.put("approvalDate", getApprovalDate());
-		hashMap.put("comments", getComments());
-		return hashMap;
-	}
-
-	/**
+    /**
 	 * {@inheritDoc}
 	 * sets the protocol reference number to null.
 	 */
-	@Override
-	public void postInitHook(Protocol aProtocol) {
-	    this.setProtocolReferenceNumber(null);
-	}
-	
+    @Override
+    public void postInitHook(Protocol aProtocol) {
+        this.setProtocolReferenceNumber(null);
+    }
+
     /** {@inheritDoc} */
     public void resetPersistenceState() {
         this.setProtocolReferenceId(null);

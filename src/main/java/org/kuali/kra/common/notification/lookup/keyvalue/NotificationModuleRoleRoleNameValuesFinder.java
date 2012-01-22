@@ -22,10 +22,10 @@ import java.util.List;
 
 import org.kuali.kra.infrastructure.KraServiceLocator;
 import org.kuali.kra.lookup.keyvalue.PrefixValuesFinder;
-import org.kuali.rice.core.util.KeyLabelPair;
-import org.kuali.rice.kim.bo.impl.RoleImpl;
-import org.kuali.rice.kns.lookup.keyvalues.KeyValuesBase;
-import org.kuali.rice.kns.service.KeyValuesService;
+import org.kuali.rice.core.api.util.KeyValue;
+import org.kuali.rice.kim.impl.role.RoleBo;
+import org.kuali.rice.krad.keyvalues.KeyValuesBase;
+import org.kuali.rice.krad.service.KeyValuesService;
 
 /**
  * Provides a value finder for the Notification Module Role, Role Namespace and Role name combination.
@@ -36,21 +36,24 @@ public class NotificationModuleRoleRoleNameValuesFinder extends KeyValuesBase {
 
     /**
      * {@inheritDoc}
-     * @see org.kuali.rice.kns.lookup.keyvalues.KeyValuesFinder#getKeyValues()
+     * @see org.kuali.rice.krad.keyvalues.KeyValuesFinder#getKeyValues()
      */
     @SuppressWarnings("unchecked")
-    public List<?> getKeyValues() {
-        Collection<RoleImpl> roles = getKeyValuesService().findAll(RoleImpl.class);
+    public List<KeyValue> getKeyValues() {
+        Collection<RoleBo> roles = getKeyValuesService().findAll(RoleBo.class);
         
         List<KeyLabelSortByValue> keyValues = new ArrayList<KeyLabelSortByValue>();
         keyValues.add(new KeyLabelSortByValue(PrefixValuesFinder.getPrefixKey(), PrefixValuesFinder.getDefaultPrefixValue()));
-        for (RoleImpl role : roles) {
-            String roleKey = role.getNamespaceCode() + ":" + role.getRoleName();
+        for (RoleBo role : roles) {
+            String roleKey = role.getNamespaceCode() + ":" + role.getName();
             keyValues.add(new KeyLabelSortByValue(roleKey, roleKey));                            
         }
         // sort values for usability
         Collections.sort(keyValues);
-        return keyValues;
+        List<KeyValue> returnKeyValues = new ArrayList<KeyValue>();
+        returnKeyValues.addAll(keyValues);
+        
+        return returnKeyValues;
     }
     
     public KeyValuesService getKeyValuesService() {

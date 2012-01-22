@@ -15,8 +15,6 @@
  */
 package org.kuali.kra.questionnaire.answer;
 
-import org.kuali.kra.irb.Protocol;
-import org.kuali.kra.proposaldevelopment.bo.DevelopmentProposal;
 
 /**
  * This class is intend as a link between modules & questionnaire answer So, Questionnaire answer service can be shared.

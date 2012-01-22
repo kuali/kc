@@ -23,13 +23,11 @@ import org.apache.commons.logging.Log;
 import org.apache.commons.logging.LogFactory;
 import org.kuali.kra.award.home.Award;
 import org.kuali.kra.award.home.CFDA;
-import org.kuali.kra.bo.Unit;
 import org.kuali.kra.external.HashMapElement;
 import org.kuali.kra.external.Cfda.CfdaDTO;
 import org.kuali.kra.external.Cfda.service.CfdaNumberService;
-import org.kuali.kra.external.unit.UnitDTO;
-import org.kuali.rice.kns.service.BusinessObjectService;
-import org.kuali.rice.kns.util.ObjectUtils;
+import org.kuali.rice.krad.service.BusinessObjectService;
+import org.kuali.rice.krad.util.ObjectUtils;
 
 /**
  * This class is used for querying CFDA data from KC.

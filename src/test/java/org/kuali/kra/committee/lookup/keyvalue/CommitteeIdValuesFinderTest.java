@@ -25,8 +25,9 @@ import org.jmock.Mockery;
 import org.jmock.integration.junit4.JUnit4Mockery;
 import org.junit.Test;
 import org.kuali.kra.committee.bo.Committee;
-import org.kuali.rice.core.util.KeyLabelPair;
-import org.kuali.rice.kns.service.BusinessObjectService;
+import org.kuali.rice.core.api.util.ConcreteKeyValue;
+import org.kuali.rice.core.api.util.KeyValue;
+import org.kuali.rice.krad.service.BusinessObjectService;
 
 public class CommitteeIdValuesFinderTest {
 
@@ -168,11 +169,11 @@ public class CommitteeIdValuesFinderTest {
         activeCommittees.add(committee3);
         activeCommittees.add(committee4);
         
-        KeyLabelPair klp0 = new KeyLabelPair("", "select");
-        KeyLabelPair klp1 = new KeyLabelPair(CMT_1_ID, C1_LATEST_NAME);
-        KeyLabelPair klp2 = new KeyLabelPair(CMT_2_ID, C2_LATEST_NAME);
-        KeyLabelPair klp3 = new KeyLabelPair(CMT_3_ID, C3_LATEST_NAME);
-        KeyLabelPair klp4 = new KeyLabelPair(CMT_4_ID, C4_LATEST_NAME);
+        KeyValue klp0 = new ConcreteKeyValue("", "select");
+        KeyValue klp1 = new ConcreteKeyValue(CMT_1_ID, C1_LATEST_NAME);
+        KeyValue klp2 = new ConcreteKeyValue(CMT_2_ID, C2_LATEST_NAME);
+        KeyValue klp3 = new ConcreteKeyValue(CMT_3_ID, C3_LATEST_NAME);
+        KeyValue klp4 = new ConcreteKeyValue(CMT_4_ID, C4_LATEST_NAME);
        
         // create an anonymous instance of the finder overriding the
         // getActiveCommittees() method, with our mock
@@ -182,7 +183,7 @@ public class CommitteeIdValuesFinderTest {
                 return activeCommittees;
             }
         };
-        List<KeyLabelPair> results = finder.getKeyValues();
+        List<KeyValue> results = finder.getKeyValues();
         
         Assert.assertEquals(5, results.size());
         Assert.assertTrue(results.contains(klp0));

@@ -15,22 +15,18 @@
  */
 package org.kuali.kra.award.commitments;
 
-import static org.junit.Assert.*;
+import static org.junit.Assert.assertFalse;
+import static org.junit.Assert.assertTrue;
 
 import java.util.ArrayList;
 import java.util.List;
 
 import org.junit.After;
-import org.junit.Assert;
 import org.junit.Before;
 import org.junit.Test;
-import org.kuali.kra.award.commitments.AwardCostShare;
-import org.kuali.kra.award.commitments.AwardCostShareRuleEvent;
-import org.kuali.kra.award.commitments.AwardCostShareRuleImpl;
-import org.kuali.kra.award.document.AwardDocument;
-import org.kuali.rice.kns.util.ErrorMap;
-import org.kuali.rice.kns.util.GlobalVariables;
-import org.kuali.rice.kns.util.KualiDecimal;
+import org.kuali.rice.core.api.util.type.KualiDecimal;
+import org.kuali.rice.krad.util.GlobalVariables;
+import org.kuali.rice.krad.util.MessageMap;
 
 /**
  * This class tests <code>AwardCostShareRule</code>
@@ -71,7 +67,7 @@ public class AwardCostShareAuditRuleTest {
         awardCostShare.setSource(TEST_SOURCE);
         awardCostShare.setCommitmentAmount(new KualiDecimal(COMMITMENT_AMOUNT));
         awardCostShares.add(awardCostShare);
-        GlobalVariables.setErrorMap(new ErrorMap());
+        GlobalVariables.setMessageMap(new MessageMap());
           
     }
     

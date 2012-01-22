@@ -82,10 +82,9 @@ import org.kuali.kra.rule.event.KraDocumentEventBaseExtension;
 import org.kuali.kra.rule.event.SaveCustomAttributeEvent;
 import org.kuali.kra.rules.ResearchDocumentRuleBase;
 import org.kuali.kra.service.UnitService;
-import org.kuali.rice.kns.document.Document;
-import org.kuali.rice.kns.util.ErrorMap;
-import org.kuali.rice.kns.util.GlobalVariables;
-import org.kuali.rice.kns.util.KNSConstants;
+import org.kuali.rice.krad.document.Document;
+import org.kuali.rice.krad.util.GlobalVariables;
+import org.kuali.rice.krad.util.MessageMap;
 
 /**
  * Main Business Rule class for <code>{@link ProtocolDocument}</code>. Responsible for delegating rules to independent rule classes.
@@ -116,7 +115,7 @@ public class ProtocolDocumentRule extends ResearchDocumentRuleBase  implements A
             return false;
         }
 
-        ErrorMap errorMap = GlobalVariables.getErrorMap();
+        MessageMap errorMap = GlobalVariables.getMessageMap();
         errorMap.addToErrorPath(DOCUMENT_ERROR_PATH);
         getDictionaryValidationService().validateDocumentAndUpdatableReferencesRecursively(
                document, getMaxDictionaryValidationDepth(),
@@ -125,7 +124,7 @@ public class ProtocolDocumentRule extends ResearchDocumentRuleBase  implements A
 
         boolean valid = true;
         ProtocolDocument protocolDocument = (ProtocolDocument) document;
-        if ((protocolDocument.getDocumentHeader().getWorkflowDocument().stateIsInitiated() || protocolDocument.getDocumentHeader().getWorkflowDocument().stateIsSaved()) && ProtocolStatus.IN_PROGRESS.equals(protocolDocument.getProtocol().getProtocolStatusCode())
+        if ((protocolDocument.getDocumentHeader().getWorkflowDocument().isInitiated() || protocolDocument.getDocumentHeader().getWorkflowDocument().isSaved()) && ProtocolStatus.IN_PROGRESS.equals(protocolDocument.getProtocol().getProtocolStatusCode())
                 && StringUtils.isBlank(protocolDocument.getDocumentHeader().getDocumentTemplateNumber())) {
             valid &= processProtocolResearchAreaBusinessRules((ProtocolDocument) document);
         }
@@ -168,7 +167,7 @@ public class ProtocolDocumentRule extends ResearchDocumentRuleBase  implements A
     }
 
     /**
-     * @see org.kuali.core.rule.DocumentAuditRule#processRunAuditBusinessRules(org.kuali.rice.kns.document.Document)
+     * @see org.kuali.core.rule.DocumentAuditRule#processRunAuditBusinessRules(org.kuali.rice.krad.document.Document)
      */
     @Override
     public boolean processRunAuditBusinessRules(Document document){

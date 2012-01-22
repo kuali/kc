@@ -15,62 +15,54 @@
  */
 package org.kuali.kra.bo;
 
-import java.util.LinkedHashMap;
 
 public class OrganizationAudit extends KraPersistableBusinessObjectBase {
 
-	private String fiscalYear;
-	private String organizationId;
-	private boolean auditAccepted;
-	private String auditComment;
-	private Organization organization;
+    private String fiscalYear;
 
-	public OrganizationAudit(){
-		super();
-	}
+    private String organizationId;
 
-	public String getFiscalYear() {
-		return fiscalYear;
-	}
+    private boolean auditAccepted;
 
-	public void setFiscalYear(String fiscalYear) {
-		this.fiscalYear = fiscalYear;
-	}
+    private String auditComment;
 
-	public String getOrganizationId() {
-		return organizationId;
-	}
+    private Organization organization;
 
-	public void setOrganizationId(String organizationId) {
-		this.organizationId = organizationId;
-	}
+    public OrganizationAudit() {
+        super();
+    }
 
-	public boolean getAuditAccepted() {
-		return auditAccepted;
-	}
+    public String getFiscalYear() {
+        return fiscalYear;
+    }
 
-	public void setAuditAccepted(boolean auditAccepted) {
-		this.auditAccepted = auditAccepted;
-	}
+    public void setFiscalYear(String fiscalYear) {
+        this.fiscalYear = fiscalYear;
+    }
 
-	public String getAuditComment() {
-		return auditComment;
-	}
+    public String getOrganizationId() {
+        return organizationId;
+    }
 
-	public void setAuditComment(String auditComment) {
-		this.auditComment = auditComment;
-	}
+    public void setOrganizationId(String organizationId) {
+        this.organizationId = organizationId;
+    }
 
+    public boolean getAuditAccepted() {
+        return auditAccepted;
+    }
 
-	@Override 
-	protected LinkedHashMap toStringMapper() {
-		LinkedHashMap hashMap = new LinkedHashMap();
-		hashMap.put("fiscalYear", getFiscalYear());
-		hashMap.put("organizationId", getOrganizationId());
-		hashMap.put("auditAccepted", getAuditAccepted());
-		hashMap.put("auditComment", getAuditComment());
-		return hashMap;
-	}
+    public void setAuditAccepted(boolean auditAccepted) {
+        this.auditAccepted = auditAccepted;
+    }
+
+    public String getAuditComment() {
+        return auditComment;
+    }
+
+    public void setAuditComment(String auditComment) {
+        this.auditComment = auditComment;
+    }
 
     public Organization getOrganization() {
         return organization;

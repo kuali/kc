@@ -16,8 +16,7 @@
 package org.kuali.kra.award.contacts;
 
 import org.kuali.kra.award.home.Award;
-import org.kuali.kra.bo.UnitContactType;
-import org.kuali.rice.kns.util.GlobalVariables;
+import org.kuali.rice.krad.util.GlobalVariables;
 
 /**
  * This class implements the specified rule
@@ -56,7 +55,7 @@ public class AwardCentralAdminAddRuleImpl extends BaseAwardContactAddRule {
     }
 
     private void registerError(AwardUnitContact newUnitContact) {
-        GlobalVariables.getErrorMap().putError(AWARD_CENTRAL_ADMIN_LIST_ERROR_KEY, ERROR_AWARD_CENTRAL_ADMIN_EXISTS, 
+        GlobalVariables.getMessageMap().putError(AWARD_CENTRAL_ADMIN_LIST_ERROR_KEY, ERROR_AWARD_CENTRAL_ADMIN_EXISTS, 
                                                 newUnitContact.getContact().getFullName());        
     }
 }

@@ -15,42 +15,34 @@
  */
 package org.kuali.kra.irb.protocol.reference;
 
-import java.util.LinkedHashMap;
-
 import org.kuali.kra.bo.KraPersistableBusinessObjectBase;
 
-public class ProtocolReferenceType extends KraPersistableBusinessObjectBase { 
-	private Integer protocolReferenceTypeCode; 
-	private String description; 
+public class ProtocolReferenceType extends KraPersistableBusinessObjectBase {
+
+    private Integer protocolReferenceTypeCode;
+
+    private String description;
+
     private boolean active;
 
-	public ProtocolReferenceType() { 
+    public ProtocolReferenceType() {
+    }
 
-	} 
-	
-	public Integer getProtocolReferenceTypeCode() {
-		return protocolReferenceTypeCode;
-	}
+    public Integer getProtocolReferenceTypeCode() {
+        return protocolReferenceTypeCode;
+    }
 
-	public void setProtocolReferenceTypeCode(Integer protocolReferenceTypeCode) {
-		this.protocolReferenceTypeCode = protocolReferenceTypeCode;
-	}
+    public void setProtocolReferenceTypeCode(Integer protocolReferenceTypeCode) {
+        this.protocolReferenceTypeCode = protocolReferenceTypeCode;
+    }
 
-	public String getDescription() {
-		return description;
-	}
+    public String getDescription() {
+        return description;
+    }
 
-	public void setDescription(String description) {
-		this.description = description;
-	}
-
-	@Override 
-	protected LinkedHashMap toStringMapper() {
-		LinkedHashMap hashMap = new LinkedHashMap();
-		hashMap.put("protocolReferenceTypeCode", getProtocolReferenceTypeCode());
-		hashMap.put("description", getDescription());
-		return hashMap;
-	}
+    public void setDescription(String description) {
+        this.description = description;
+    }
 
     public boolean isActive() {
         return active;
@@ -59,5 +51,4 @@ public class ProtocolReferenceType extends KraPersistableBusinessObjectBase {
     public void setActive(boolean active) {
         this.active = active;
     }
-	
 }

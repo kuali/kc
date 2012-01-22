@@ -18,8 +18,9 @@ package org.kuali.kra.proposaldevelopment.lookup.keyvalue;
 import java.util.ArrayList;
 import java.util.List;
 
-import org.kuali.rice.kns.lookup.keyvalues.KeyValuesBase;
-import org.kuali.rice.core.util.KeyLabelPair;
+import org.kuali.rice.core.api.util.ConcreteKeyValue;
+import org.kuali.rice.core.api.util.KeyValue;
+import org.kuali.rice.krad.keyvalues.KeyValuesBase;
 /**
  * 
  * This class used to populate radio buttons for narrative user rights
@@ -29,13 +30,13 @@ import org.kuali.rice.core.util.KeyLabelPair;
 public class NarrativeUserRightsValuesFinder extends KeyValuesBase {
     /**
      * Returns Narrative user right values 
-     * @see org.kuali.rice.kns.lookup.keyvalues.KeyValuesFinder#getKeyValues()
+     * @see org.kuali.rice.krad.keyvalues.KeyValuesFinder#getKeyValues()
      */
-    public List<KeyLabelPair> getKeyValues() {
-        List<KeyLabelPair> keyValues = new ArrayList<KeyLabelPair>();
-        keyValues.add(new KeyLabelPair("R","Read"));
-        keyValues.add(new KeyLabelPair("M","Modify"));
-        keyValues.add(new KeyLabelPair("N","None"));
+    public List<KeyValue> getKeyValues() {
+        List<KeyValue> keyValues = new ArrayList<KeyValue>();
+        keyValues.add(new ConcreteKeyValue("R","Read"));
+        keyValues.add(new ConcreteKeyValue("M","Modify"));
+        keyValues.add(new ConcreteKeyValue("N","None"));
         return keyValues;
     }
 }

@@ -258,10 +258,10 @@
     <bean id="AwardAmountInfo-eomProcessFlag" parent="AwardAmountInfo-eomProcessFlag-parentBean" />
     <bean id="AwardAmountInfo-eomProcessFlag-parentBean" abstract="true" parent="AttributeReferenceDummy-genericBoolean" >
         <property name="name" value="eomProcessFlag" />
-        <property name="label" value="Eom Process Flag" />
-        <property name="shortLabel" value="Eom Process Flag" />
-        <property name="summary" value="Eom Process Flag" />
-        <property name="description" value="Eom Process Flag" />
+        <property name="label" value="Eom ProcessDefinitionDefinition Flag" />
+        <property name="shortLabel" value="Eom ProcessDefinitionDefinition Flag" />
+        <property name="summary" value="Eom ProcessDefinitionDefinition Flag" />
+        <property name="description" value="Eom ProcessDefinitionDefinition Flag" />
     </bean>
 
     <bean id="AwardAmountInfo-anticipatedChange" parent="AwardAmountInfo-anticipatedChange-parentBean" />

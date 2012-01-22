@@ -16,14 +16,14 @@
 package org.kuali.kra.proposaldevelopment.lookup.keyvalue;
 
 
-import static org.junit.Assert.*;
+import static org.junit.Assert.assertTrue;
 
 import java.util.List;
 
 import org.junit.After;
 import org.junit.Before;
 import org.junit.Test;
-import org.kuali.rice.core.util.KeyLabelPair;
+import org.kuali.rice.core.api.util.KeyValue;
 
 public class ProposalColumnsValuesFinderTest {
     
@@ -36,7 +36,7 @@ public class ProposalColumnsValuesFinderTest {
     
     @Test
     public void testProposalColumnsValuesFinderRuns() {
-        List<KeyLabelPair> values = finder.getKeyValues();
+        List<KeyValue> values = finder.getKeyValues();
         assertTrue(values.size() > 0);
     }
 

@@ -28,15 +28,16 @@ import org.kuali.kra.budget.document.BudgetDocument;
 import org.kuali.kra.budget.personnel.BudgetPerson;
 import org.kuali.kra.infrastructure.KraServiceLocator;
 import org.kuali.kra.lookup.keyvalue.KeyValueFinderService;
-import org.kuali.rice.kns.document.Document;
-import org.kuali.rice.kns.lookup.keyvalues.KeyValuesBase;
-import org.kuali.rice.kns.util.GlobalVariables;
-import org.kuali.rice.kns.util.ObjectUtils;
+import org.kuali.rice.core.api.util.ConcreteKeyValue;
+import org.kuali.rice.core.api.util.KeyValue;
+import org.kuali.rice.kns.util.KNSGlobalVariables;
 import org.kuali.rice.kns.web.struts.form.KualiDocumentFormBase;
 import org.kuali.rice.kns.web.struts.form.KualiForm;
-import org.kuali.rice.core.util.KeyLabelPair;
-import org.kuali.rice.kns.service.KNSServiceLocator;
-import org.kuali.rice.kns.service.BusinessObjectService;
+import org.kuali.rice.krad.document.Document;
+import org.kuali.rice.krad.keyvalues.KeyValuesBase;
+import org.kuali.rice.krad.service.BusinessObjectService;
+import org.kuali.rice.krad.service.KRADServiceLocator;
+import org.kuali.rice.krad.util.ObjectUtils;
 
 /**
  * Finds the available set of supported Narrative Statuses.  See
@@ -61,12 +62,12 @@ public class BudgetPersonValuesFinder extends KeyValuesBase {
      * 
      * @return the list of &lt;key, value&gt; pairs of abstract types.  The first entry
      * is always &lt;"", "select:"&gt;.
-     * @see org.kuali.rice.kns.lookup.keyvalues.KeyValuesFinder#getKeyValues()
+     * @see org.kuali.rice.krad.keyvalues.KeyValuesFinder#getKeyValues()
      */
-    public List<KeyLabelPair> getKeyValues() {
-        List<KeyLabelPair> keyLabelPairs = null;
-        BusinessObjectService boService = KNSServiceLocator.getBusinessObjectService();
-        KualiForm form = GlobalVariables.getKualiForm();
+    public List<KeyValue> getKeyValues() {
+        List<KeyValue> KeyValues = null;
+        BusinessObjectService boService = KRADServiceLocator.getBusinessObjectService();
+        KualiForm form = KNSGlobalVariables.getKualiForm();
         if(form instanceof KualiDocumentFormBase) {
             Document doc = ((KualiDocumentFormBase) form).getDocument();
             if(doc instanceof BudgetDocument) {
@@ -76,15 +77,15 @@ public class BudgetPersonValuesFinder extends KeyValuesBase {
                 queryMap.put("budgetId", budget.getBudgetId());
                 List<BudgetPerson> budgetPersons = (List<BudgetPerson>) boService.findMatching(BudgetPerson.class, queryMap);
 
-                keyLabelPairs = buildKeyLabelPairs(budgetPersons);
+                KeyValues = buildKeyValues(budgetPersons);
             }
         }
-        return keyLabelPairs; 
+        return KeyValues; 
     }
     
-    private List<KeyLabelPair> buildKeyLabelPairs(List<BudgetPerson> budgetPersons) {
-        List<KeyLabelPair> keyLabelPairs = new ArrayList<KeyLabelPair>();
-        keyLabelPairs.add(new KeyLabelPair(null, "Select"));
+    private List<KeyValue> buildKeyValues(List<BudgetPerson> budgetPersons) {
+        List<KeyValue> KeyValues = new ArrayList<KeyValue>();
+        KeyValues.add(new ConcreteKeyValue(null, "Select"));
         List <BudgetPerson> dupBudgetPersons = (List <BudgetPerson>)ObjectUtils.deepCopy((Serializable)budgetPersons);
         for(BudgetPerson budgetPerson: budgetPersons) {
             if (StringUtils.isNotBlank(budgetPerson.getJobCode()) && StringUtils.isNotBlank(budgetPerson.getAppointmentTypeCode()) && budgetPerson.getCalculationBase().isGreaterEqual(BudgetDecimal.ZERO) && budgetPerson.getEffectiveDate() != null) {
@@ -98,12 +99,12 @@ public class BudgetPersonValuesFinder extends KeyValuesBase {
                     
                 }
                 if (!duplicatePerson) {
-                  keyLabelPairs.add(new KeyLabelPair(budgetPerson.getPersonSequenceNumber(), budgetPerson.getPersonName() + " - " + budgetPerson.getJobCode()));
+                  KeyValues.add(new ConcreteKeyValue(budgetPerson.getPersonSequenceNumber().toString(), budgetPerson.getPersonName() + " - " + budgetPerson.getJobCode()));
                 }
             }
         }
-        keyLabelPairs.add(new KeyLabelPair("-1", "Summary"));
-        return keyLabelPairs;
+        KeyValues.add(new ConcreteKeyValue("-1", "Summary"));
+        return KeyValues;
 
     }
 }

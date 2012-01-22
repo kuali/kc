@@ -21,13 +21,11 @@ import java.util.HashMap;
 import java.util.Map;
 
 import org.kuali.kra.infrastructure.KraServiceLocator;
-import org.kuali.kra.institutionalproposal.proposallog.service.ProposalLogService;
-import org.kuali.kra.institutionalproposal.proposallog.service.impl.ProposalLogServiceImpl;
-import org.kuali.rice.kns.document.Document;
 import org.kuali.rice.kns.document.MaintenanceDocument;
 import org.kuali.rice.kns.rule.PromptBeforeValidation;
 import org.kuali.rice.kns.rules.PromptBeforeValidationBase;
-import org.kuali.rice.kns.service.BusinessObjectService;
+import org.kuali.rice.krad.document.Document;
+import org.kuali.rice.krad.service.BusinessObjectService;
 
 /**
  * If a newly created Permanent proposal log has the same PI as one or more Temporary logs,
@@ -41,7 +39,7 @@ public class ProposalLogPromptBeforeValidation extends PromptBeforeValidationBas
     @SuppressWarnings("unchecked")
     @Override
     public boolean doPrompts(Document document) {
-        ProposalLog proposalLog = (ProposalLog) document.getDocumentBusinessObject();
+        ProposalLog proposalLog = (ProposalLog) document.getNoteTarget();
         String piId = proposalLog.getPiId();
         if (piId != null && proposalLog.getProposalLogTypeCode().equals(ProposalLogUtils.getProposalLogPermanentTypeCode())) {
             Map<String, String> criteria = new HashMap<String, String>();
@@ -90,7 +88,7 @@ public class ProposalLogPromptBeforeValidation extends PromptBeforeValidationBas
                     if (merge) {
                         proposalLog.setProposalLogToMerge(pLog.getProposalNumber());
                         // the calls below will save to the object that will update the database
-                        ProposalLog proposalLogToModify = (ProposalLog) ((MaintenanceDocument)document).getNewMaintainableObject().getBusinessObject();
+                        ProposalLog proposalLogToModify = (ProposalLog) ((MaintenanceDocument)document).getNewMaintainableObject().getDataObject();
                         proposalLogToModify.setProposalLogToMerge(pLog.getProposalNumber());
                         proposalLogToModify.setMergedWith(pLog.getProposalNumber()); 
                         break;

@@ -23,7 +23,6 @@ import org.kuali.kra.authorization.TaskAuthorizer;
 import org.kuali.kra.authorization.TaskAuthorizerGroup;
 import org.kuali.kra.irb.auth.GenericProtocolAuthorizer;
 import org.kuali.kra.service.TaskAuthorizationService;
-import org.kuali.rice.kim.bo.Person;
 import org.springframework.transaction.annotation.Transactional;
 
 /**

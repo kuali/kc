@@ -20,10 +20,10 @@ import java.util.List;
 import org.kuali.kra.bo.SpecialReviewApprovalType;
 import org.kuali.kra.lookup.keyvalue.PrefixValuesFinder;
 import org.kuali.kra.lookup.keyvalue.SortedValuesFinder;
-import org.kuali.rice.kns.lookup.keyvalues.KeyValuesBase;
-import org.kuali.rice.kns.lookup.keyvalues.KeyValuesFinder;
-import org.kuali.rice.kns.lookup.keyvalues.PersistableBusinessObjectValuesFinder;
-import org.kuali.rice.core.util.KeyLabelPair;
+import org.kuali.rice.core.api.util.KeyValue;
+import org.kuali.rice.krad.keyvalues.KeyValuesBase;
+import org.kuali.rice.krad.keyvalues.KeyValuesFinder;
+import org.kuali.rice.krad.keyvalues.PersistableBusinessObjectValuesFinder;
 
 /**
  * See {@link #getKeyValues()}.
@@ -60,11 +60,11 @@ public class SpecialReviewApprovalTypeValuesFinder extends KeyValuesBase {
      * Gets the keyvalue pair for {@link SpecialReviewApprovalType SpecialReviewApprovalType}.
      * The key is the exemptionTypeCode and the value is the description.
      * 
-     * @return a list of {@link KeyLabelPair KeyLabelPair}
+     * @return a list of {@link KeyValue KeyValue}
      */
-    public List<KeyLabelPair> getKeyValues() {
+    public List<KeyValue> getKeyValues() {
         @SuppressWarnings("unchecked")
-        final List<KeyLabelPair> exemptionTypes = this.finder.getKeyValues();
+        final List<KeyValue> exemptionTypes = this.finder.getKeyValues();
         return exemptionTypes;
     }
 }

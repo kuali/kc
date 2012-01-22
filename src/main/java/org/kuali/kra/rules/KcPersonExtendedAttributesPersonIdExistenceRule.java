@@ -4,12 +4,11 @@ import java.util.HashMap;
 import java.util.Map;
 
 import org.kuali.kra.bo.KcPersonExtendedAttributes;
-import org.kuali.kra.infrastructure.Constants;
+import org.kuali.rice.core.api.util.RiceKeyConstants;
 import org.kuali.rice.kns.document.MaintenanceDocument;
-import org.kuali.rice.kns.document.Document;
-import org.kuali.rice.kns.util.GlobalVariables;
-import org.kuali.rice.kns.util.KNSConstants;
-import org.kuali.rice.kns.util.RiceKeyConstants;
+import org.kuali.rice.krad.document.Document;
+import org.kuali.rice.krad.util.GlobalVariables;
+import org.kuali.rice.krad.util.KRADConstants;
 
 public class KcPersonExtendedAttributesPersonIdExistenceRule extends KraMaintenanceDocumentRuleBase {
     
@@ -32,7 +31,7 @@ public class KcPersonExtendedAttributesPersonIdExistenceRule extends KraMaintena
         success = this.getPersonService().getPerson(idString) != null;
         
         if (!success) {
-            GlobalVariables.getMessageMap().putError(KNSConstants.MAINTENANCE_NEW_MAINTAINABLE + errorField, 
+            GlobalVariables.getMessageMap().putError(KRADConstants.MAINTENANCE_NEW_MAINTAINABLE + errorField, 
                     RiceKeyConstants.ERROR_EXISTENCE, errorParam);
         }
         return success;
@@ -49,12 +48,12 @@ public class KcPersonExtendedAttributesPersonIdExistenceRule extends KraMaintena
         if (LOG.isDebugEnabled()) {
             LOG.debug("new maintainable is: " + maintenanceDocument.getNewMaintainableObject().getClass());
         }
-        KcPersonExtendedAttributes kcPesonExtendedAttributes = (KcPersonExtendedAttributes) maintenanceDocument.getNewMaintainableObject().getBusinessObject();
+        KcPersonExtendedAttributes kcPesonExtendedAttributes = (KcPersonExtendedAttributes) maintenanceDocument.getNewMaintainableObject().getDataObject();
 
         Map pkMap = new HashMap();
         pkMap.put(personIdName, kcPesonExtendedAttributes.getPersonId());
         
-        valid = checkExistenceFromTable(org.kuali.rice.kim.bo.Person.class, pkMap, personIdName, "KcPersonExtendedAttributes Id");
+        valid = checkExistenceFromTable(org.kuali.rice.kim.api.identity.Person.class, pkMap, personIdName, "KcPersonExtendedAttributes Id");
 
         return valid;
 

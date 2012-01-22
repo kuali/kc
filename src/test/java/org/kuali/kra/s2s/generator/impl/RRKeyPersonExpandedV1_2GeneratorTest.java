@@ -110,7 +110,7 @@ public class RRKeyPersonExpandedV1_2GeneratorTest extends
 		narrativeType.setDescription("Testing for Project Attachment");
 		narrative.setNarrativeType(narrativeType);
 		naList.add(narrative);
-		getService(org.kuali.rice.kns.service.BusinessObjectService.class)
+		getService(org.kuali.rice.krad.service.BusinessObjectService.class)
 				.save(narrative);
 		narrative.getNarrativeAttachmentList().clear();
 

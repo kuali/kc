@@ -33,9 +33,9 @@ import org.kuali.kra.timeandmoney.transactions.AddTransactionRuleEvent;
 import org.kuali.kra.timeandmoney.transactions.TransactionRule;
 import org.kuali.kra.timeandmoney.transactions.TransactionRuleEvent;
 import org.kuali.kra.timeandmoney.transactions.TransactionRuleImpl;
-import org.kuali.rice.kns.document.Document;
-import org.kuali.rice.kns.util.ErrorMap;
-import org.kuali.rice.kns.util.GlobalVariables;
+import org.kuali.rice.krad.document.Document;
+import org.kuali.rice.krad.util.GlobalVariables;
+import org.kuali.rice.krad.util.MessageMap;
 
 /**
  * Main Business Rule class for <code>{@link TimeAndMoneyDocument}</code>. 
@@ -53,12 +53,12 @@ public class TimeAndMoneyDocumentRule extends ResearchDocumentRuleBase implement
     /**
      * 
      * @see org.kuali.core.rules.DocumentRuleBase#processCustomSaveDocumentBusinessRules(
-     * org.kuali.rice.kns.document.Document)
+     * org.kuali.rice.krad.document.Document)
      */
     @Override
     protected boolean processCustomSaveDocumentBusinessRules(Document document) {
         boolean retval = true;
-        ErrorMap errorMap = GlobalVariables.getErrorMap();
+        MessageMap errorMap = GlobalVariables.getMessageMap();
         if (!(document instanceof TimeAndMoneyDocument)) {
             return false;
         }
@@ -83,7 +83,7 @@ public class TimeAndMoneyDocumentRule extends ResearchDocumentRuleBase implement
     */
     private boolean processTimeAndMoneyAwardAmountTransactionBusinessRules(Document document) {
         boolean valid = true;
-        ErrorMap errorMap = GlobalVariables.getErrorMap();
+        MessageMap errorMap = GlobalVariables.getMessageMap();
         TimeAndMoneyDocument timeAndMoneyDocument = (TimeAndMoneyDocument) document;
         errorMap.addToErrorPath(DOCUMENT_ERROR_PATH);
         errorMap.addToErrorPath(AWARD_ERROR_PATH);
@@ -106,7 +106,7 @@ public class TimeAndMoneyDocumentRule extends ResearchDocumentRuleBase implement
     */
     private boolean processTimeAndMoneySaveAwardDateBusinessRules(Document document) {
         boolean valid = true;
-        ErrorMap errorMap = GlobalVariables.getErrorMap();
+        MessageMap errorMap = GlobalVariables.getMessageMap();
         TimeAndMoneyDocument timeAndMoneyDocument = (TimeAndMoneyDocument) document;
         errorMap.addToErrorPath(DOCUMENT_ERROR_PATH);
         errorMap.addToErrorPath(AWARD_ERROR_PATH);
@@ -130,7 +130,7 @@ public class TimeAndMoneyDocumentRule extends ResearchDocumentRuleBase implement
     */
     private boolean processAwardDirectFandADistributionBusinessRules(Document document) {
         boolean valid = true;
-        ErrorMap errorMap = GlobalVariables.getErrorMap();
+        MessageMap errorMap = GlobalVariables.getMessageMap();
         TimeAndMoneyDocument timeAndMoneyDocument = (TimeAndMoneyDocument) document;
         int i = 0;
         List<AwardDirectFandADistribution> awardDirectFandADistributions = timeAndMoneyDocument.getAward().getAwardDirectFandADistributions();
@@ -151,7 +151,7 @@ public class TimeAndMoneyDocumentRule extends ResearchDocumentRuleBase implement
 
     /**
      * @see org.kuali.core.rule.DocumentAuditRule#processRunAuditBusinessRules(
-     * org.kuali.rice.kns.document.Document)
+     * org.kuali.rice.krad.document.Document)
      */
     public boolean processRunAuditBusinessRules(Document document){
         boolean retval = true;

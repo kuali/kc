@@ -24,7 +24,6 @@ import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
 
-import org.jmock.Expectations;
 import org.jmock.Mockery;
 import org.jmock.integration.junit4.JMock;
 import org.jmock.integration.junit4.JUnit4Mockery;
@@ -36,10 +35,6 @@ import org.junit.runner.RunWith;
 import org.kuali.kra.award.paymentreports.Frequency;
 import org.kuali.kra.award.paymentreports.Report;
 import org.kuali.kra.award.paymentreports.awardreports.AwardReportTerm;
-import org.kuali.kra.infrastructure.Constants;
-import org.kuali.kra.infrastructure.KeyConstants;
-import org.kuali.rice.kns.bo.Parameter;
-import org.kuali.rice.kns.service.KualiConfigurationService;
 
 /**
  * 
@@ -104,7 +99,7 @@ public class AwardCloseoutServiceImplTest {
 //    @Test
 //    public final void testUpdateCloseoutDueDateWhenFilteredListSizeIsZero_ReportClassIsFinancialReport(){
 //        
-//        final KualiConfigurationService kualiConfigurationService = context.mock(KualiConfigurationService.class);        
+//        final ConfigurationService kualiConfigurationService = context.mock(ConfigurationService.class);        
 //        final Parameter parameter = new Parameter();        
 //        parameter.setParameterName(KeyConstants.CLOSE_OUT_REPORT_TYPE_FINANCIAL_REPORT);
 //        parameter.setParameterValue(REPORT_CLASS_CODE_FINANCIAL_REPORT);        
@@ -126,7 +121,7 @@ public class AwardCloseoutServiceImplTest {
      */
 //    @Test
 //    public final void testUpdateCloseoutDueDateWhenFilteredListSizeIsZero_ReportClassIsNotFinancialReport(){
-//        final KualiConfigurationService kualiConfigurationService = context.mock(KualiConfigurationService.class);        
+//        final ConfigurationService kualiConfigurationService = context.mock(ConfigurationService.class);        
 //        final Parameter parameter = new Parameter();        
 //        parameter.setParameterName(KeyConstants.CLOSE_OUT_REPORT_TYPE_FINANCIAL_REPORT);
 //        parameter.setParameterValue(REPORT_CLASS_CODE_FINANCIAL_REPORT);        

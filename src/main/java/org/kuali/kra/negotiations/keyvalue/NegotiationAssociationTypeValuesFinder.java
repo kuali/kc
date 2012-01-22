@@ -20,14 +20,14 @@ import java.util.Collection;
 import java.util.Collections;
 import java.util.List;
 
-import org.apache.commons.lang.StringUtils;
 import org.kuali.kra.infrastructure.KraServiceLocator;
 import org.kuali.kra.lookup.keyvalue.ExtendedPersistableBusinessObjectValuesFinder;
 import org.kuali.kra.lookup.keyvalue.PrefixValuesFinder;
 import org.kuali.kra.negotiations.bo.NegotiationAssociationType;
 import org.kuali.kra.negotiations.service.NegotiationService;
-import org.kuali.rice.core.util.KeyLabelPair;
-import org.kuali.rice.kns.service.BusinessObjectService;
+import org.kuali.rice.core.api.util.ConcreteKeyValue;
+import org.kuali.rice.core.api.util.KeyValue;
+import org.kuali.rice.krad.service.BusinessObjectService;
 
 public class NegotiationAssociationTypeValuesFinder extends ExtendedPersistableBusinessObjectValuesFinder {
     
@@ -36,20 +36,24 @@ public class NegotiationAssociationTypeValuesFinder extends ExtendedPersistableB
 
     /**
      * Filter results based on whether the association is enabled.
-     * @see org.kuali.rice.kns.lookup.keyvalues.PersistableBusinessObjectValuesFinder#getKeyValues()
+     * @see org.kuali.rice.krad.keyvalues.PersistableBusinessObjectValuesFinder#getKeyValues()
      */
     @SuppressWarnings("unchecked")
-    public List<KeyLabelPair> getKeyValues(){
-        List<KeyLabelPair> labels = new ArrayList<KeyLabelPair>();
+    public List<KeyValue> getKeyValues(){
+        List<ConcreteKeyValue> labels = new ArrayList<ConcreteKeyValue>();
         Collection<NegotiationAssociationType> associations = getBusinessObjectService().findAll(NegotiationAssociationType.class);
         for (NegotiationAssociationType type : associations) {
             if (type.isActive()){
-                labels.add(new KeyLabelPair(type.getId(), type.getDescription()));
+                labels.add(new ConcreteKeyValue(type.getId().toString(), type.getDescription()));
             }
         }
         Collections.sort(labels);
-        labels.add(0, new KeyLabelPair(PrefixValuesFinder.getPrefixKey(), PrefixValuesFinder.getDefaultPrefixValue()));
-        return labels;
+        labels.add(0, new ConcreteKeyValue(PrefixValuesFinder.getPrefixKey(), PrefixValuesFinder.getDefaultPrefixValue()));
+        
+        List<KeyValue> returnLabels = new ArrayList<KeyValue>();
+        returnLabels.addAll(labels);
+        
+        return returnLabels;
     }
 
     protected BusinessObjectService getBusinessObjectService() {

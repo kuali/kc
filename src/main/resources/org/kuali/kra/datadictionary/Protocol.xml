@@ -248,6 +248,7 @@
 
   <bean id="Protocol-protocolStatus.description-parentBean" abstract="true" parent="ProtocolStatus-description">
     <property name="name" value="protocolStatus.description" />
+    <property name="required" value="false"/>
     <property name="label" value="Protocol Status" />
     <property name="shortLabel" value="Protocol Status" />
   </bean>
@@ -256,6 +257,7 @@
 
   <bean id="Protocol-protocolType.description-parentBean" abstract="true" parent="ProtocolType-description">
     <property name="name" value="protocolType.description" />
+    <property name="required" value="false"/>
     <property name="label" value="Protocol Type" />
     <property name="shortLabel" value="Protocol Type" />
   </bean>

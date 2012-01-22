@@ -24,7 +24,6 @@ import org.junit.runner.RunWith;
 import org.junit.runner.notification.RunListener;
 import org.kuali.kra.infrastructure.Constants;
 import org.kuali.kra.test.infrastructure.lifecycle.KcUnitTestSeleniumLifecycle;
-import org.kuali.rice.test.web.HtmlUnitUtil;
 import org.openqa.selenium.WebDriver;
 
 @RunWith(KcSeleniumTestRunner.class)

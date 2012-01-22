@@ -17,9 +17,7 @@ package org.kuali.kra.subaward.bo;
 
 import org.apache.struts.upload.FormFile;
 import org.kuali.kra.bo.KraPersistableBusinessObjectBase;
-import org.kuali.rice.kns.bo.PersistableAttachment;
-
-import java.util.LinkedHashMap;
+import org.kuali.rice.krad.bo.PersistableAttachment;
 
 public class SubAwardForms extends KraPersistableBusinessObjectBase implements PersistableAttachment{ 
     
@@ -83,15 +81,5 @@ public class SubAwardForms extends KraPersistableBusinessObjectBase implements P
 
     public void setContentType(String contentType) {
         this.contentType = contentType;
-    }
-
-
-    /** {@inheritDoc} */
-    @Override 
-    protected LinkedHashMap<String, Object> toStringMapper() {
-        LinkedHashMap<String, Object> hashMap = new LinkedHashMap<String, Object>();
-        hashMap.put("formId", this.getFormId());
-        hashMap.put("description", this.getDescription());       
-        return hashMap;
     }
 }

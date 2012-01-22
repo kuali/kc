@@ -16,19 +16,18 @@
 package org.kuali.kra.institutionalproposal.ipreview;
 
 import org.kuali.kra.bo.KraPersistableBusinessObjectBase;
-import java.util.LinkedHashMap;
 
-public class IntellectualPropertyReviewRequirementType extends KraPersistableBusinessObjectBase { 
-    
+public class IntellectualPropertyReviewRequirementType extends KraPersistableBusinessObjectBase {
+
     private static final long serialVersionUID = 1L;
 
-    private String intellectualPropertyReviewRequirementTypeCode; 
-    private String description; 
-    
-    public IntellectualPropertyReviewRequirementType() { 
+    private String intellectualPropertyReviewRequirementTypeCode;
 
-    } 
-    
+    private String description;
+
+    public IntellectualPropertyReviewRequirementType() {
+    }
+
     public String getIntellectualPropertyReviewRequirementTypeCode() {
         return intellectualPropertyReviewRequirementTypeCode;
     }
@@ -45,24 +44,12 @@ public class IntellectualPropertyReviewRequirementType extends KraPersistableBus
         this.description = description;
     }
 
-    /** {@inheritDoc} */
-    @Override 
-    protected LinkedHashMap<String, Object> toStringMapper() {
-        LinkedHashMap<String, Object> hashMap = new LinkedHashMap<String, Object>();
-        hashMap.put("intellectualPropertyReviewRequirementTypeCode", this.getIntellectualPropertyReviewRequirementTypeCode());
-        hashMap.put("description", this.getDescription());
-        return hashMap;
-    }
-
     @Override
     public int hashCode() {
         final int prime = 31;
         int result = 1;
         result = prime * result + ((description == null) ? 0 : description.hashCode());
-        result = prime
-                * result
-                + ((intellectualPropertyReviewRequirementTypeCode == null) ? 0 : intellectualPropertyReviewRequirementTypeCode
-                        .hashCode());
+        result = prime * result + ((intellectualPropertyReviewRequirementTypeCode == null) ? 0 : intellectualPropertyReviewRequirementTypeCode.hashCode());
         return result;
     }
 
@@ -94,5 +81,4 @@ public class IntellectualPropertyReviewRequirementType extends KraPersistableBus
         }
         return true;
     }
-    
 }

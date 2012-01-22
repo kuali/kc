@@ -31,12 +31,12 @@ import org.kuali.kra.bo.SpecialReviewType;
 import org.kuali.kra.bo.SpecialReviewUsage;
 import org.kuali.kra.infrastructure.Constants;
 import org.kuali.kra.test.infrastructure.KcUnitTestBase;
-import org.kuali.rice.core.util.KeyLabelPair;
-import org.kuali.rice.kim.bo.types.dto.AttributeSet;
-import org.kuali.rice.kim.service.IdentityManagementService;
-import org.kuali.rice.kns.service.BusinessObjectService;
-import org.kuali.rice.kns.service.KeyValuesService;
-import org.kuali.rice.kns.util.GlobalVariables;
+import org.kuali.rice.core.api.util.ConcreteKeyValue;
+import org.kuali.rice.core.api.util.KeyValue;
+import org.kuali.rice.kim.api.permission.PermissionService;
+import org.kuali.rice.krad.service.BusinessObjectService;
+import org.kuali.rice.krad.service.KeyValuesService;
+import org.kuali.rice.krad.util.GlobalVariables;
 
 public class SpecialReviewTypeValuesFinderTest extends KcUnitTestBase {
     
@@ -80,49 +80,49 @@ public class SpecialReviewTypeValuesFinderTest extends KcUnitTestBase {
     @Test
     @SuppressWarnings("unchecked")
     public void testActiveSpecialReviewType() {
-        valuesFinder.setIdentityManagementService(getMockIdentityManagementService(true));
+        valuesFinder.setPermissionService(getMockPermissionService(true));
         
-        List<KeyLabelPair> values = (List<KeyLabelPair>) valuesFinder.getKeyValues();
+        List<KeyValue> values = (List<KeyValue>) valuesFinder.getKeyValues();
         
-        assertTrue(values.contains(new KeyLabelPair(HUMAN_SUBJECTS_KEY, HUMAN_SUBJECTS_VALUE)));
-        assertTrue(values.contains(new KeyLabelPair(ANIMAL_USAGE_KEY, ANIMAL_USAGE_VALUE)));
-        assertFalse(values.contains(new KeyLabelPair(RECOMBINANT_DNA_KEY, RECOMBINANT_DNA_VALUE)));
+        assertTrue(values.contains(new ConcreteKeyValue(HUMAN_SUBJECTS_KEY, HUMAN_SUBJECTS_VALUE)));
+        assertTrue(values.contains(new ConcreteKeyValue(ANIMAL_USAGE_KEY, ANIMAL_USAGE_VALUE)));
+        assertFalse(values.contains(new ConcreteKeyValue(RECOMBINANT_DNA_KEY, RECOMBINANT_DNA_VALUE)));
     }
     
     @Test
     @SuppressWarnings("unchecked")
     public void testGlobalSpecialReviewType() {
-        valuesFinder.setIdentityManagementService(getMockIdentityManagementService(false));
+        valuesFinder.setPermissionService(getMockPermissionService(false));
         
-        List<KeyLabelPair> values = (List<KeyLabelPair>) valuesFinder.getKeyValues();
+        List<KeyValue> values = (List<KeyValue>) valuesFinder.getKeyValues();
         
-        assertTrue(values.contains(new KeyLabelPair(HUMAN_SUBJECTS_KEY, HUMAN_SUBJECTS_VALUE)));
-        assertFalse(values.contains(new KeyLabelPair(ANIMAL_USAGE_KEY, ANIMAL_USAGE_VALUE)));
-        assertFalse(values.contains(new KeyLabelPair(RECOMBINANT_DNA_KEY, RECOMBINANT_DNA_VALUE)));
+        assertTrue(values.contains(new ConcreteKeyValue(HUMAN_SUBJECTS_KEY, HUMAN_SUBJECTS_VALUE)));
+        assertFalse(values.contains(new ConcreteKeyValue(ANIMAL_USAGE_KEY, ANIMAL_USAGE_VALUE)));
+        assertFalse(values.contains(new ConcreteKeyValue(RECOMBINANT_DNA_KEY, RECOMBINANT_DNA_VALUE)));
     }
     
     @Test
     @SuppressWarnings("unchecked")
     public void testHasPermissionToViewSpecialReviewType() {
-        valuesFinder.setIdentityManagementService(getMockIdentityManagementService(true));
+        valuesFinder.setPermissionService(getMockPermissionService(true));
         
-        List<KeyLabelPair> values = (List<KeyLabelPair>) valuesFinder.getKeyValues();
+        List<KeyValue> values = (List<KeyValue>) valuesFinder.getKeyValues();
         
-        assertTrue(values.contains(new KeyLabelPair(HUMAN_SUBJECTS_KEY, HUMAN_SUBJECTS_VALUE)));
-        assertTrue(values.contains(new KeyLabelPair(ANIMAL_USAGE_KEY, ANIMAL_USAGE_VALUE)));
-        assertFalse(values.contains(new KeyLabelPair(RECOMBINANT_DNA_KEY, RECOMBINANT_DNA_VALUE)));
+        assertTrue(values.contains(new ConcreteKeyValue(HUMAN_SUBJECTS_KEY, HUMAN_SUBJECTS_VALUE)));
+        assertTrue(values.contains(new ConcreteKeyValue(ANIMAL_USAGE_KEY, ANIMAL_USAGE_VALUE)));
+        assertFalse(values.contains(new ConcreteKeyValue(RECOMBINANT_DNA_KEY, RECOMBINANT_DNA_VALUE)));
     }
     
     @Test
     @SuppressWarnings("unchecked")
     public void testHasNoPermissionToViewSpecialReviewType() {
-        valuesFinder.setIdentityManagementService(getMockIdentityManagementService(false));
+        valuesFinder.setPermissionService(getMockPermissionService(false));
         
-        List<KeyLabelPair> values = (List<KeyLabelPair>) valuesFinder.getKeyValues();
+        List<KeyValue> values = (List<KeyValue>) valuesFinder.getKeyValues();
         
-        assertTrue(values.contains(new KeyLabelPair(HUMAN_SUBJECTS_KEY, HUMAN_SUBJECTS_VALUE)));
-        assertFalse(values.contains(new KeyLabelPair(ANIMAL_USAGE_KEY, ANIMAL_USAGE_VALUE)));
-        assertFalse(values.contains(new KeyLabelPair(RECOMBINANT_DNA_KEY, RECOMBINANT_DNA_VALUE)));
+        assertTrue(values.contains(new ConcreteKeyValue(HUMAN_SUBJECTS_KEY, HUMAN_SUBJECTS_VALUE)));
+        assertFalse(values.contains(new ConcreteKeyValue(ANIMAL_USAGE_KEY, ANIMAL_USAGE_VALUE)));
+        assertFalse(values.contains(new ConcreteKeyValue(RECOMBINANT_DNA_KEY, RECOMBINANT_DNA_VALUE)));
     }
     
     private KeyValuesService getMockKeyValuesService() {
@@ -187,12 +187,12 @@ public class SpecialReviewTypeValuesFinderTest extends KcUnitTestBase {
         return service;
     }
     
-    private IdentityManagementService getMockIdentityManagementService(final boolean canViewNonGlobalSpecialReviewTypes) {
-        final IdentityManagementService service = context.mock(IdentityManagementService.class);
+    private PermissionService getMockPermissionService(final boolean canViewNonGlobalSpecialReviewTypes) {
+        final PermissionService service = context.mock(PermissionService.class);
         
         context.checking(new Expectations() {{
             allowing(service).hasPermission(
-                GlobalVariables.getUserSession().getPrincipalId(), KraAuthorizationConstants.KC_SYSTEM_NAMESPACE_CODE , PERMISSION_NAME, new AttributeSet());
+                GlobalVariables.getUserSession().getPrincipalId(), KraAuthorizationConstants.KC_SYSTEM_NAMESPACE_CODE , PERMISSION_NAME,new HashMap<String,String>());
             will(returnValue(canViewNonGlobalSpecialReviewTypes));
         }});
         

@@ -15,10 +15,12 @@
  */
 package org.kuali.kra.award.contacts;
 
+import org.kuali.kra.proposaldevelopment.bo.InvestigatorCreditType;
+
 /**
  * AwardCreditSplitRule
  */
-public interface AwardPersonUnitCreditSplitRule {
+public interface AwardPersonUnitCreditSplitRule extends org.kuali.rice.krad.rules.rule.BusinessRule {
     String AWARD_CREDIT_SPLIT_LIST_ERROR_KEY = "document.awardList[0].projectPersons.awardPersonUnitCreditSplits";
     String AWARD_PERSON_UNIT_CREDIT_SPLIT_ERROR_MSG_KEY = "error.award.person.unit.credit.split.error";
     

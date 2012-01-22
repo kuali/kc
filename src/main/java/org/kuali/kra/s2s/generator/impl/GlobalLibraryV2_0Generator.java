@@ -30,8 +30,8 @@ import org.kuali.kra.proposaldevelopment.document.ProposalDevelopmentDocument;
 import org.kuali.kra.s2s.generator.bo.DepartmentalPerson;
 import org.kuali.kra.s2s.generator.bo.KeyPersonInfo;
 import org.kuali.kra.s2s.service.S2SUtilService;
-import org.kuali.rice.kns.bo.Country;
-import org.kuali.rice.kns.bo.State;
+import org.kuali.rice.location.api.country.Country;
+import org.kuali.rice.location.api.state.State;
 
 public class GlobalLibraryV2_0Generator {
 
@@ -55,9 +55,9 @@ public class GlobalLibraryV2_0Generator {
 		Country country = s2sUtilService.getCountryFromCode(countryCode);
 		if (country != null) {
 			StringBuilder countryDetail = new StringBuilder();
-			countryDetail.append(country.getAlternatePostalCountryCode());
+			countryDetail.append(country.getAlternateCode());
 			countryDetail.append(": ");
-			countryDetail.append(country.getPostalCountryName().toUpperCase());
+			countryDetail.append(country.getName().toUpperCase());
 			countryCodeDataType = CountryCodeDataType.Enum
 					.forString(countryDetail.toString());
 		}
@@ -72,14 +72,14 @@ public class GlobalLibraryV2_0Generator {
 	 *            The state name
 	 * @return The StateCodeDataType type corresponding to the given State code.
 	 */
-	public StateCodeDataType.Enum getStateCodeDataType(String stateName) {
+	public StateCodeDataType.Enum getStateCodeDataType(String countryAlternateCode, String stateName) {
 		StateCodeDataType.Enum stateCodeDataType = null;
-		State state = s2sUtilService.getStateFromName(stateName);
+		State state = s2sUtilService.getStateFromName(countryAlternateCode, stateName);
 		if (state != null) {
 			StringBuilder stateDetail = new StringBuilder();
-			stateDetail.append(state.getPostalStateCode());
+			stateDetail.append(state.getCode());
 			stateDetail.append(": ");
-			stateDetail.append(WordUtils.capitalizeFully(state.getPostalStateName()));
+			stateDetail.append(WordUtils.capitalizeFully(state.getName()));
 			stateCodeDataType = StateCodeDataType.Enum.forString(stateDetail
 					.toString());
 		}
@@ -124,7 +124,7 @@ public class GlobalLibraryV2_0Generator {
 				if (countryCodeDataType != null) {
 					if (countryCodeDataType
 							.equals(CountryCodeDataType.USA_UNITED_STATES)) {
-						addressDataType.setState(getStateCodeDataType(state));
+						addressDataType.setState(getStateCodeDataType(country, state));
 					} else {
 						addressDataType.setProvince(state);
 					}
@@ -172,7 +172,7 @@ public class GlobalLibraryV2_0Generator {
                 if (countryCodeDataType != null) {
                     if (countryCodeDataType
                             .equals(CountryCodeDataType.USA_UNITED_STATES)) {
-                        addressDataType.setState(getStateCodeDataType(state));
+                        addressDataType.setState(getStateCodeDataType(country, state));
                     } else {
                         addressDataType.setProvince(state);
                     }
@@ -204,15 +204,15 @@ public class GlobalLibraryV2_0Generator {
 			if (county != null && !county.equals("")) {
 				addressType.setCounty(county);
 			}
+			String country = person.getCountryCode();
 			String state = person.getState();
 			if (state != null && !state.equals("")) {
-				addressType.setState(getStateCodeDataType(state));
+				addressType.setState(getStateCodeDataType(country, state));
 			}
 			String postalCode = person.getPostalCode();
 			if (postalCode != null && !postalCode.equals("")) {
 				addressType.setZipPostalCode(postalCode);
 			}
-			String country = person.getCountryCode();
 			addressType.setCountry(getCountryCodeDataType(country));
 		}
 		return addressType;
@@ -258,7 +258,7 @@ public class GlobalLibraryV2_0Generator {
 				if (countryCodeDataType != null) {
 					if (countryCodeDataType
 							.equals(CountryCodeDataType.USA_UNITED_STATES)) {
-						addressType.setState(getStateCodeDataType(state));
+						addressType.setState(getStateCodeDataType(country, state));
 					} else {
 						addressType.setProvince(person.getState());
 					}

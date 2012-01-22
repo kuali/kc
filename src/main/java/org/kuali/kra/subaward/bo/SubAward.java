@@ -15,10 +15,8 @@
  */
 package org.kuali.kra.subaward.bo;
 
-
 import java.sql.Date;
 import java.util.ArrayList;
-import java.util.LinkedHashMap;
 import java.util.List;
 import java.util.Map;
 
@@ -39,51 +37,77 @@ import org.kuali.kra.proposaldevelopment.bo.ProposalType;
 import org.kuali.kra.service.KcPersonService;
 import org.kuali.kra.subaward.customdata.SubAwardCustomData;
 import org.kuali.kra.subaward.document.SubAwardDocument;
-import org.kuali.rice.kns.util.KualiDecimal;
-import org.kuali.rice.kns.util.TypedArrayList;
+import org.kuali.rice.core.api.util.type.KualiDecimal;
+import org.springframework.util.AutoPopulatingList;
 
 /**
  * 
  * This class...
  */
 public class SubAward extends KraPersistableBusinessObjectBase implements Permissionable,SequenceOwner<SubAward>, Negotiable{ 
-    
+
     private static final long serialVersionUID = 1L;
 
     private Long subAwardId; 
-    private String subAwardCode; 
-    private Integer sequenceNumber; 
-    private String organizationId; 
-    private Date startDate; 
-    private Date endDate; 
-    private Integer subAwardTypeCode; 
-    private String purchaseOrderNum; 
-    private String title; 
-    private Integer statusCode; 
+    private String subAwardCode;
+
+    private Integer sequenceNumber;
+
+    private String organizationId;
+
+    private Date startDate;
+
+    private Date endDate;
+
+    private Integer subAwardTypeCode;
+
+    private String purchaseOrderNum;
+
+    private String title;
+
+    private Integer statusCode;
     private String statusDescription;
-    private String accountNumber; 
-    private String vendorNumber; 
-    private String requisitionerId; 
-    private String requisitionerUnit; 
-    private String archiveLocation; 
-    private Date closeoutDate; 
-    private String closeoutIndicator; 
-    private String fundingSourceIndicator; 
-    private String comments; 
-    private Integer siteInvestigator; 
+    private String accountNumber;
+
+    private String vendorNumber;
+
+    private String requisitionerId;
+
+    private String requisitionerUnit;
+
+    private String archiveLocation;
+
+    private Date closeoutDate;
+
+    private String closeoutIndicator;
+
+    private String fundingSourceIndicator;
+
+    private String comments;
+
+    private Integer siteInvestigator;
+
     private SubAwardDocument subAwardDocument;
-    private SubAwardFundingSource subAwardFundingSource;     
-    private SubAwardContact subAwardContact; 
-    private SubAwardCloseout subAwardCloseout; 
-    private SubAwardAmountReleased subAwardAmountReleased; 
-    private SubAwardAmountInfo subAwardAmountInfo; 
+
+    private SubAwardFundingSource subAwardFundingSource;
+
+    private SubAwardContact subAwardContact;
+
+    private SubAwardCloseout subAwardCloseout;
+
+    private SubAwardAmountReleased subAwardAmountReleased;
+
+    private SubAwardAmountInfo subAwardAmountInfo;
+
     private String organizationName;
+
     private String requisitionerName;
     private String requisitionerUnitName;
     private String siteInvestigatorName;
     private Organization organization;
     private Unit unit;
     private Rolodex rolodex;
+    private transient String rolodexFirstName;
     private SubAwardStatus subAwardStatus;
     private AwardType subAwardType;
     private KcPerson kcPerson;
@@ -95,8 +119,8 @@ public class SubAward extends KraPersistableBusinessObjectBase implements Permis
     private KualiDecimal totalAvailableAmount;
     private transient String docIdStatus;
     private transient String lastUpdate;
-    
-    
+
+
     public String getSubAwardSequenceStatus() {
         return subAwardSequenceStatus;
     }
@@ -119,6 +143,18 @@ public class SubAward extends KraPersistableBusinessObjectBase implements Permis
 
     public void setRolodex(Rolodex rolodex) {
         this.rolodex = rolodex;
+    }
+    
+    public String getRolodexFirstName() {
+        if (getRolodex() == null) {
+            return this.rolodexFirstName;
+        } else {
+            return getRolodex().getFirstName();
+        }
+    }
+    
+    public void setRolodexFirstName(String rolodexFirstName) {
+        this.rolodexFirstName = rolodexFirstName;
     }
 
     public Organization getOrganization() {
@@ -151,9 +187,9 @@ public class SubAward extends KraPersistableBusinessObjectBase implements Permis
     }
 
     public String getRequisitionerName() {
-        if(requisitionerId!=null){
+        if (requisitionerId != null) {
             return requisitionerName = KraServiceLocator.getService(KcPersonService.class).getKcPersonByPersonId(requisitionerId).getFullName();
-        }else{
+        } else {
             return this.requisitionerName;
         }
     }
@@ -179,20 +215,24 @@ public class SubAward extends KraPersistableBusinessObjectBase implements Permis
     }
 
     private List<SubAwardFundingSource> subAwardFundingSourceList;
-    private List<SubAwardAmountInfo> subAwardAmountInfoList;  
+
+    private List<SubAwardAmountInfo> subAwardAmountInfoList;
+
     private List<SubAwardAmountReleased> subAwardAmountReleasedList;
-    private List<SubAwardContact> subAwardContactsList; 
+
+    private List<SubAwardContact> subAwardContactsList;
+
     private List<SubAwardCloseout> subAwardCloseoutList;
+
     private List<SubAwardCustomData> subAwardCustomDataList;
 
-    public SubAward() { 
+    public SubAward() {
         super();
-        
         initializeCollections();
         initialize();
         
-    } 
-    
+    }
+
     protected void initialize() {
         setSequenceNumber(1);
         subAwardSequenceStatus = VersionStatus.PENDING.name();
@@ -221,7 +261,6 @@ public class SubAward extends KraPersistableBusinessObjectBase implements Permis
     public void setSequenceNumber(Integer sequenceNumber) {
         this.sequenceNumber = sequenceNumber;
     }
-
 
     public String getOrganizationId() {
         return organizationId;
@@ -365,7 +404,7 @@ public class SubAward extends KraPersistableBusinessObjectBase implements Permis
 
     public void setSubAwardFundingSource(SubAwardFundingSource subAwardFundingSource) {
         this.subAwardFundingSource = subAwardFundingSource;
-    }   
+    }
 
     public SubAwardContact getSubAwardContact() {
         return subAwardContact;
@@ -398,7 +437,7 @@ public class SubAward extends KraPersistableBusinessObjectBase implements Permis
     public void setSubAwardAmountInfo(SubAwardAmountInfo subAwardAmountInfo) {
         this.subAwardAmountInfo = subAwardAmountInfo;
     }
-    
+
     public List<SubAwardFundingSource> getSubAwardFundingSourceList() {
         return subAwardFundingSourceList;
     }
@@ -406,7 +445,7 @@ public class SubAward extends KraPersistableBusinessObjectBase implements Permis
     public void setSubAwardFundingSourceList(List<SubAwardFundingSource> subAwardFundingSourceList) {
         this.subAwardFundingSourceList = subAwardFundingSourceList;
     }
-    
+
     public List<SubAwardAmountInfo> getSubAwardAmountInfoList() {
         return subAwardAmountInfoList;
     }
@@ -414,7 +453,7 @@ public class SubAward extends KraPersistableBusinessObjectBase implements Permis
     public void setSubAwardAmountInfoList(List<SubAwardAmountInfo> subAwardAmountInfoList) {
         this.subAwardAmountInfoList = subAwardAmountInfoList;
     }
-    
+
     public List<SubAwardAmountReleased> getSubAwardAmountReleasedList() {
         return subAwardAmountReleasedList;
     }
@@ -422,7 +461,7 @@ public class SubAward extends KraPersistableBusinessObjectBase implements Permis
     public void setSubAwardAmountReleasedList(List<SubAwardAmountReleased> subAwardAmountReleasedList) {
         this.subAwardAmountReleasedList = subAwardAmountReleasedList;
     }
-    
+
     public List<SubAwardContact> getSubAwardContactsList() {
         return subAwardContactsList;
     }
@@ -430,7 +469,7 @@ public class SubAward extends KraPersistableBusinessObjectBase implements Permis
     public void setSubAwardContactsList(List<SubAwardContact> subAwardContactsList) {
         this.subAwardContactsList = subAwardContactsList;
     }
-    
+
     public List<SubAwardCloseout> getSubAwardCloseoutList() {
         return subAwardCloseoutList;
     }
@@ -438,7 +477,7 @@ public class SubAward extends KraPersistableBusinessObjectBase implements Permis
     public void setSubAwardCloseoutList(List<SubAwardCloseout> subAwardCloseoutList) {
         this.subAwardCloseoutList = subAwardCloseoutList;
     }
-    
+
     public List<SubAwardCustomData> getSubAwardCustomDataList() {
         return subAwardCustomDataList;
     }
@@ -446,56 +485,29 @@ public class SubAward extends KraPersistableBusinessObjectBase implements Permis
     public void setSubAwardCustomDataList(List<SubAwardCustomData> subAwardCustomDataList) {
         this.subAwardCustomDataList = subAwardCustomDataList;
     }
-    
+
 
     public String getStatusDescription() {
         SubAwardStatus status = getSubAwardStatus();
         statusDescription = status != null ? status.getDescription() : null;
         return statusDescription;
     }
-    
-    /** {@inheritDoc} */
-    @Override 
-    protected LinkedHashMap<String, Object> toStringMapper() {
-        LinkedHashMap<String, Object> hashMap = new LinkedHashMap<String, Object>();
-        hashMap.put("subAwardId", this.getSubAwardId());
-        hashMap.put("subAwardCode", this.getSubAwardCode());
-        hashMap.put("sequenceNumber", this.getSequenceNumber());
-        hashMap.put("organizationId", this.getOrganizationId());
-        hashMap.put("startDate", this.getStartDate());
-        hashMap.put("endDate", this.getEndDate());
-        hashMap.put("subAwardTypeCode", this.getSubAwardTypeCode());
-        hashMap.put("purchaseOrderNum", this.getPurchaseOrderNum());
-        hashMap.put("title", this.getTitle());
-        hashMap.put("statusCode", this.getStatusCode());
-        hashMap.put("accountNumber", this.getAccountNumber());
-        hashMap.put("vendorNumber", this.getVendorNumber());
-        hashMap.put("requisitionerId", this.getRequisitionerId());
-        hashMap.put("requisitionerUnit", this.getRequisitionerUnit());
-        hashMap.put("archiveLocation", this.getArchiveLocation());
-        hashMap.put("closeoutDate", this.getCloseoutDate());
-        hashMap.put("closeoutIndicator", this.getCloseoutIndicator());
-        hashMap.put("fundingSourceIndicator", this.getFundingSourceIndicator());
-        hashMap.put("comments", this.getComments());
-        hashMap.put("siteInvestigator", this.getSiteInvestigator());
-        return hashMap;
-    }
-    
 
     protected void initializeCollections() {
-        subAwardFundingSourceList = new TypedArrayList(SubAwardFundingSource.class);
-        subAwardAmountInfoList = new TypedArrayList(SubAwardAmountInfo.class);
-        subAwardAmountReleasedList = new TypedArrayList(SubAwardAmountReleased.class);
-        subAwardContactsList = new TypedArrayList(SubAwardContact.class);
-        subAwardCloseoutList = new TypedArrayList(SubAwardCloseout.class); 
-        subAwardCustomDataList = new TypedArrayList(SubAwardCustomData.class);
+        subAwardFundingSourceList = new AutoPopulatingList<SubAwardFundingSource>(SubAwardFundingSource.class);
+        subAwardAmountInfoList = new AutoPopulatingList<SubAwardAmountInfo>(SubAwardAmountInfo.class);
+        subAwardAmountReleasedList = new AutoPopulatingList<SubAwardAmountReleased>(SubAwardAmountReleased.class);
+        subAwardContactsList = new AutoPopulatingList<SubAwardContact>(SubAwardContact.class);
+        subAwardCloseoutList = new AutoPopulatingList<SubAwardCloseout>(SubAwardCloseout.class);
+        subAwardCustomDataList = new AutoPopulatingList<SubAwardCustomData>(SubAwardCustomData.class);
     }
+
     public void setSubAwardDocument(SubAwardDocument subAwardDocument) {
         this.subAwardDocument = subAwardDocument;
     }
 
     public SubAwardDocument getSubAwardDocument() {
-        if(subAwardDocument==null){
+        if (subAwardDocument == null) {
             this.refreshReferenceObject("subAwardDocument");
         }
         return subAwardDocument;
@@ -543,8 +555,7 @@ public class SubAward extends KraPersistableBusinessObjectBase implements Permis
     @Override
     public String getNamespace() {
         return Constants.MODULE_NAMESPACE_SUBAWARD;
-    }
-
+}
     @Override
     public String getLeadUnitNumber() {
         return this.getUnit() != null ? this.getUnit().getUnitNumber() : EMPTY_STRING;

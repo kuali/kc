@@ -15,16 +15,17 @@
  */
 package org.kuali.kra.budget.rates;
 
-import java.util.LinkedHashMap;
-
 import org.kuali.kra.bo.KraPersistableBusinessObjectBase;
 
 public class RateType extends KraPersistableBusinessObjectBase implements Comparable {
-    private String rateClassCode;
-    private String rateTypeCode;
-    private String description;
-    private RateClass rateClass;
 
+    private String rateClassCode;
+
+    private String rateTypeCode;
+
+    private String description;
+
+    private RateClass rateClass;
 
     public String getRateClassCode() {
         return rateClassCode;
@@ -50,16 +51,6 @@ public class RateType extends KraPersistableBusinessObjectBase implements Compar
         this.description = description;
     }
 
-
-    @Override
-    protected LinkedHashMap toStringMapper() {
-        LinkedHashMap hashMap = new LinkedHashMap();
-        hashMap.put("rateClassCode", getRateClassCode());
-        hashMap.put("rateTypeCode", getRateTypeCode());
-        hashMap.put("description", getDescription());
-        return hashMap;
-    }
-
     /**
      * 
      * This is helper method to get prefix for total page display.
@@ -78,7 +69,7 @@ public class RateType extends KraPersistableBusinessObjectBase implements Compar
     public void setRateClass(RateClass rateClass) {
         this.rateClass = rateClass;
     }
-    
+
     /**
      * This is for totals page to sort it by rateclasstypecode
      * @see java.lang.Comparable#compareTo(java.lang.Object)
@@ -86,12 +77,10 @@ public class RateType extends KraPersistableBusinessObjectBase implements Compar
     public int compareTo(Object o) {
         return compareTo((RateType) o);
     }
-    
+
     public int compareTo(RateType rateType) {
         rateType.refreshReferenceObject("rateClass");
         this.refreshReferenceObject("rateClass");
-
         return this.rateClass.getRateClassCode().compareTo(rateType.rateClass.getRateClassCode());
     }
-
 }

@@ -16,7 +16,6 @@
 package org.kuali.kra.award.contacts;
 
 import java.util.HashMap;
-import java.util.LinkedHashMap;
 import java.util.Map;
 
 import org.kuali.kra.SequenceAssociate;
@@ -26,38 +25,42 @@ import org.kuali.kra.bo.KraPersistableBusinessObjectBase;
 import org.kuali.kra.infrastructure.KraServiceLocator;
 import org.kuali.kra.proposaldevelopment.bo.CreditSplit;
 import org.kuali.kra.proposaldevelopment.bo.InvestigatorCreditType;
-import org.kuali.rice.kns.service.BusinessObjectService;
-import org.kuali.rice.kns.util.KualiDecimal;
+import org.kuali.rice.core.api.util.type.KualiDecimal;
+import org.kuali.rice.krad.service.BusinessObjectService;
 
 /**
- * Class representation of the Proposal Person <code>{@link org.kuali.rice.kns.bo.BusinessObject}</code>
+ * Class representation of the Proposal Person <code>{@link org.kuali.rice.krad.bo.BusinessObject}</code>
  *
  * @author $Id: ProposalUnitCreditSplit.java,v 1.8 2008-07-28 14:48:12 vsoni Exp $
  * @version $Revision: 1.8 $
  */
 public final class AwardPersonUnitCreditSplit extends KraPersistableBusinessObjectBase implements CreditSplit, SequenceAssociate<Award> {
+
     private static final long serialVersionUID = 7370393791601182821L;
-    
+
     private static final String INV_CREDIT_TYPE_CODE_FIELD_NAME = "invCreditTypeCode";
-    
+
     private Long awardPersonUnitCreditSplitId;
-    //don't version parent bo as it leads to odd and destructive behavior in some cases
+
+    //don't version parent bo as it leads to odd and destructive behavior in some cases 
     @SkipVersioning
     private AwardPersonUnit awardPersonUnit;
+
     private KualiDecimal credit = new KualiDecimal(0);
+
     private InvestigatorCreditType investigatorCreditType;
 
-    // OJB Hacks
+    // OJB Hacks 
     private Long awardPersonUnitId;
+
     private String invCreditTypeCode;
-    
+
     /**
      * Default Constructor
      */
     public AwardPersonUnitCreditSplit() {
-        
     }
-    
+
     /**
      * Convenience Constructor
      * @param investigatorCreditType
@@ -67,7 +70,7 @@ public final class AwardPersonUnitCreditSplit extends KraPersistableBusinessObje
         setInvestigatorCreditType(investigatorCreditType);
         setCredit(credit);
     }
-    
+
     /**
      * Gets the awardPersonUnitCreditSplitId attribute. 
      * @return Returns the awardPersonUnitCreditSplitId.
@@ -169,7 +172,7 @@ public final class AwardPersonUnitCreditSplit extends KraPersistableBusinessObje
     public void setCredit(KualiDecimal credit) {
         this.credit = credit != null ? credit : new KualiDecimal(0);
     }
-    
+
     /**
      * @return
      */
@@ -177,45 +180,32 @@ public final class AwardPersonUnitCreditSplit extends KraPersistableBusinessObje
         return KraServiceLocator.getService(BusinessObjectService.class);
     }
 
-    @Override 
-    protected LinkedHashMap<String, Object> toStringMapper() {
-        LinkedHashMap<String, Object> map = new LinkedHashMap<String, Object>();
-        map.put("awardPersonUnitCreditSplitId", awardPersonUnitCreditSplitId);
-        map.put("awardPersonUnit", awardPersonUnit);
-        map.put("credit", credit);
-        map.put("investigatorCreditType", investigatorCreditType);
-        map.put("awardPersonUnitId", awardPersonUnitId);
-        map.put(INV_CREDIT_TYPE_CODE_FIELD_NAME, invCreditTypeCode);
-        return map;
-    }
-    
     /**
      * This method lazy-loads the InvestigatorCreditType
      */
     private void refreshInvestigatorCreditTypeIfNeeded() {
-        if(invCreditTypeCode != null && (investigatorCreditType == null || !invCreditTypeCode.equals(investigatorCreditType.getInvCreditTypeCode()))) {
+        if (invCreditTypeCode != null && (investigatorCreditType == null || !invCreditTypeCode.equals(investigatorCreditType.getInvCreditTypeCode()))) {
             Map<String, Object> keyMap = new HashMap<String, Object>();
             keyMap.put(INV_CREDIT_TYPE_CODE_FIELD_NAME, invCreditTypeCode);
             investigatorCreditType = (InvestigatorCreditType) getBusinessObjectService().findByPrimaryKey(InvestigatorCreditType.class, keyMap);
         }
     }
-    
-    
+
     public Award getSequenceOwner() {
         return awardPersonUnit != null ? awardPersonUnit.getSequenceOwner() : null;
     }
-    
+
     public void setSequenceOwner(Award newlyVersionedOwner) {
-        if(awardPersonUnit != null) {
+        if (awardPersonUnit != null) {
             awardPersonUnit.setSequenceOwner(newlyVersionedOwner);
         }
     }
-    
+
     public Integer getSequenceNumber() {
-        return  awardPersonUnit != null ? awardPersonUnit.getSequenceNumber() : 0;
+        return awardPersonUnit != null ? awardPersonUnit.getSequenceNumber() : 0;
     }
-    
+
     public void resetPersistenceState() {
-        awardPersonUnitCreditSplitId  = null;
+        awardPersonUnitCreditSplitId = null;
     }
 }

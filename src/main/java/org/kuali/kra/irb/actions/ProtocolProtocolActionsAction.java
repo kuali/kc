@@ -154,18 +154,19 @@ import org.kuali.kra.util.watermark.WatermarkConstants;
 import org.kuali.kra.web.struts.action.AuditActionHelper;
 import org.kuali.kra.web.struts.action.KraTransactionalDocumentActionBase;
 import org.kuali.kra.web.struts.action.StrutsConfirmation;
-import org.kuali.rice.kew.util.KEWConstants;
-import org.kuali.rice.kim.bo.Person;
-import org.kuali.rice.kim.service.PersonService;
-import org.kuali.rice.kns.document.Document;
-import org.kuali.rice.kns.document.authorization.PessimisticLock;
-import org.kuali.rice.kns.question.ConfirmationQuestion;
-import org.kuali.rice.kns.service.DateTimeService;
-import org.kuali.rice.kns.util.GlobalVariables;
-import org.kuali.rice.kns.util.KNSConstants;
-import org.kuali.rice.kns.util.ObjectUtils;
+import org.kuali.rice.core.api.datetime.DateTimeService;
+import org.kuali.rice.kew.api.KewApiConstants;
+import org.kuali.rice.kim.api.identity.Person;
+import org.kuali.rice.kim.api.identity.PersonService;
+import org.kuali.rice.kns.util.KNSGlobalVariables;
 import org.kuali.rice.kns.util.WebUtils;
 import org.kuali.rice.kns.web.struts.action.AuditModeAction;
+import org.kuali.rice.krad.document.Document;
+import org.kuali.rice.krad.document.authorization.PessimisticLock;
+import org.kuali.rice.kns.question.ConfirmationQuestion;
+import org.kuali.rice.krad.util.GlobalVariables;
+import org.kuali.rice.krad.util.KRADConstants;
+import org.kuali.rice.krad.util.ObjectUtils;
 import org.springframework.util.CollectionUtils;
 
 /**
@@ -190,15 +191,13 @@ public class ProtocolProtocolActionsAction extends ProtocolAction implements Aud
     private static final String NOT_FOUND_SELECTION = "The attachment was not found for selection ";
 
     private static final String CONFIRM_DELETE_PROTOCOL_KEY = "confirmDeleteProtocol";
-    
     private static final String INVALID_ATTACHMENT = "this attachment version is invalid ";
 
     /** signifies that a response has already be handled therefore forwarding to obtain a response is not needed. */
     private static final ActionForward RESPONSE_ALREADY_HANDLED = null;
     private static final String SUBMISSION_ID = "submissionId";
-   
-  
-      
+     
+    
     private static final Map<String, String> PRINTTAG_MAP = new HashMap<String, String>() {
         {
             put("summary", "PROTOCOL_SUMMARY_VIEW_REPORT");
@@ -395,7 +394,7 @@ public class ProtocolProtocolActionsAction extends ProtocolAction implements Aud
         
         ActionForward forward = mapping.findForward(Constants.MAPPING_BASIC);
         
-        Object question = request.getParameter(KNSConstants.QUESTION_INST_ATTRIBUTE_NAME);
+        Object question = request.getParameter(KRADConstants.QUESTION_INST_ATTRIBUTE_NAME);
         if (CONFIRM_SUBMIT_FOR_REVIEW_KEY.equals(question)) {
             forward = submitForReviewAndRedirect(mapping, form, request, response);
         }
@@ -423,6 +422,7 @@ public class ProtocolProtocolActionsAction extends ProtocolAction implements Aud
         
         getProtocolSubmitActionService().submitToIrbForReview(protocolDocument.getProtocol(), submitAction);
         protocolForm.getActionHelper().getAssignCmtSchedBean().init();
+        
         super.route(mapping, protocolForm, request, response);
         AssignReviewerNotificationRenderer renderer = new AssignReviewerNotificationRenderer(protocolForm.getProtocolDocument().getProtocol(), "added");
         List<ProtocolNotificationRequestBean> addReviewerNotificationBeans = getNotificationRequestBeans(submitAction.getReviewers(),ProtocolReviewerBean.CREATE);
@@ -440,10 +440,10 @@ public class ProtocolProtocolActionsAction extends ProtocolAction implements Aud
     }
 
     private ActionForward routeProtocolToHoldingPage(ActionMapping mapping, ProtocolForm protocolForm) {
-        Long routeHeaderId = Long.parseLong(protocolForm.getDocument().getDocumentNumber());
+        String routeHeaderId = protocolForm.getDocument().getDocumentNumber();
         String returnLocation = buildActionUrl(routeHeaderId, Constants.MAPPING_PROTOCOL_ACTIONS, "ProtocolDocument");
         
-        ActionForward basicForward = mapping.findForward(KNSConstants.MAPPING_PORTAL);
+        ActionForward basicForward = mapping.findForward(KRADConstants.MAPPING_PORTAL);
         ActionForward holdingPageForward = mapping.findForward(Constants.MAPPING_HOLDING_PAGE);
         return routeToHoldingPage(basicForward, basicForward, holdingPageForward, returnLocation);
 
@@ -731,7 +731,7 @@ public class ProtocolProtocolActionsAction extends ProtocolAction implements Aud
      */
     public ActionForward confirmDeleteProtocol(ActionMapping mapping, ActionForm form, HttpServletRequest request,
             HttpServletResponse response) throws Exception {
-        Object question = request.getParameter(KNSConstants.QUESTION_INST_ATTRIBUTE_NAME);
+        Object question = request.getParameter(KRADConstants.QUESTION_INST_ATTRIBUTE_NAME);
         if (CONFIRM_DELETE_PROTOCOL_KEY.equals(question)) {
             ProtocolForm protocolForm = (ProtocolForm) form;
             getProtocolDeleteService().delete(protocolForm.getProtocolDocument().getProtocol(),
@@ -860,7 +860,6 @@ public class ProtocolProtocolActionsAction extends ProtocolAction implements Aud
         return reportParameters;
     }
 
-    
     /**
      * 
      * This method is to print the sections selected.  This is more like coeus implementation.
@@ -873,8 +872,8 @@ public class ProtocolProtocolActionsAction extends ProtocolAction implements Aud
      */
     public ActionForward printProtocolSelectedItems(ActionMapping mapping, ActionForm form, HttpServletRequest request,
             HttpServletResponse response) throws Exception {
-       ProtocolForm protocolForm = (ProtocolForm) form;
-      Protocol protocol = protocolForm.getProtocolDocument().getProtocol();
+        ProtocolForm protocolForm = (ProtocolForm) form;
+        Protocol protocol = protocolForm.getProtocolDocument().getProtocol();
         ActionForward forward = mapping.findForward(Constants.MAPPING_BASIC);
         String fileName = "Protocol_Summary_Report.pdf";
         ProtocolPrintType printType = ProtocolPrintType.PROTOCOL_FULL_PROTOCOL_REPORT;
@@ -1046,12 +1045,12 @@ public class ProtocolProtocolActionsAction extends ProtocolAction implements Aud
                 String docStatusCode=attachment.getDocumentStatusCode();
                 // TODO perhaps the check for equality of protocol and attachment sequence numbers, below, is now redundant
                 if(((getProtocolAttachmentService().isAttachmentActive(attachment))&&(currentProtoSeqNumber == currentAttachmentSequence))||(docStatusCode.equals("1"))){
-                    attachmentFile = getWatermarkService().applyWatermark(file.getData(),printableArtifacts.getWatermarkable().getWatermark());
-                }else{
-                    attachmentFile = getWatermarkService().applyWatermark(file.getData(),printableArtifacts.getWatermarkable().getInvalidWatermark());
-                    LOG.info(INVALID_ATTACHMENT + attachment.getDocumentId());
-                }
-            }
+                            attachmentFile = getWatermarkService().applyWatermark(file.getData(),printableArtifacts.getWatermarkable().getWatermark());
+                        }else{
+                            attachmentFile = getWatermarkService().applyWatermark(file.getData(),printableArtifacts.getWatermarkable().getInvalidWatermark());
+                            LOG.info(INVALID_ATTACHMENT + attachment.getDocumentId());
+                        }
+                    }
         }catch (Exception e) {
             LOG.error("Exception Occured in ProtocolNoteAndAttachmentAction. : ",e);    
         }        
@@ -1135,13 +1134,13 @@ public class ProtocolProtocolActionsAction extends ProtocolAction implements Aud
 
         ProtocolForm protocolForm = (ProtocolForm) form;
         ProtocolSummary protocolSummary = protocolForm.getActionHelper().getProtocolSummary();
-        if (((String)request.getAttribute(KNSConstants.METHOD_TO_CALL_ATTRIBUTE)).contains(".prev.")) {
+        if (((String)request.getAttribute(KRADConstants.METHOD_TO_CALL_ATTRIBUTE)).contains(".prev.")) {
             protocolSummary = protocolForm.getActionHelper().getPrevProtocolSummary();
         }
         int selectedIndex = getSelectedLine(request);
         AttachmentSummary attachmentSummary = protocolSummary.getAttachments().get(selectedIndex);
         
-         
+        
         if (attachmentSummary.getAttachmentType().startsWith("Protocol: ")) {
             ProtocolAttachmentProtocol attachment = getProtocolAttachmentService().getAttachment(ProtocolAttachmentProtocol.class, attachmentSummary.getAttachmentId());
             return printAttachmentProtocol(mapping, response, attachment, protocolForm);
@@ -1153,6 +1152,7 @@ public class ProtocolProtocolActionsAction extends ProtocolAction implements Aud
         
         
     }
+       
 
     /**
      * Go to the previous summary.
@@ -1348,8 +1348,8 @@ public class ProtocolProtocolActionsAction extends ProtocolAction implements Aud
                     
                     if( protocolForm.getProtocolDocument().getProtocol().getProtocolSubmission() != null) {
                         boolean performAssignment = false;
-                        Object question = request.getParameter(KNSConstants.QUESTION_INST_ATTRIBUTE_NAME);
-                        Object buttonClicked = request.getParameter(KNSConstants.QUESTION_CLICKED_BUTTON);
+                        Object question = request.getParameter(KRADConstants.QUESTION_INST_ATTRIBUTE_NAME);
+                        Object buttonClicked = request.getParameter(KRADConstants.QUESTION_CLICKED_BUTTON);
     
                     
                         if (isCommitteeMeetingAssignedMaxProtocols(actionBean.getNewCommitteeId(), actionBean.getNewScheduleId())) {
@@ -1357,7 +1357,7 @@ public class ProtocolProtocolActionsAction extends ProtocolAction implements Aud
                             //need to verify with the user that they want to remove the existing reviews before proceeding.
                             if (question==null || !CONFIRM_ASSIGN_CMT_SCHED_KEY.equals(question)) {
                                 return performQuestionWithoutInput(mapping, form, request, response, CONFIRM_ASSIGN_CMT_SCHED_KEY,
-                                        getKualiConfigurationService().getPropertyString(KeyConstants.QUESTION_PROTOCOL_CONFIRM_SUBMIT_FOR_REVIEW), KNSConstants.CONFIRMATION_QUESTION, callerString, "" );
+                                        getKualiConfigurationService().getPropertyValueAsString(KeyConstants.QUESTION_PROTOCOL_CONFIRM_SUBMIT_FOR_REVIEW), KRADConstants.CONFIRMATION_QUESTION, callerString, "" );
                             } else if (ConfirmationQuestion.YES.equals(buttonClicked)) {
                                 performAssignment = true;
                             } else {
@@ -1401,7 +1401,7 @@ public class ProtocolProtocolActionsAction extends ProtocolAction implements Aud
    
     public ActionForward confirmAssignToAgenda(ActionMapping mapping, ActionForm form, HttpServletRequest request,
             HttpServletResponse response) throws Exception {
-        Object question = request.getParameter(KNSConstants.QUESTION_INST_ATTRIBUTE_NAME);
+        Object question = request.getParameter(KRADConstants.QUESTION_INST_ATTRIBUTE_NAME);
 
         if (CONFIRM_ASSIGN_TO_AGENDA_KEY.equals(question)) {
             ProtocolForm protocolForm = (ProtocolForm) form;
@@ -1427,7 +1427,7 @@ public class ProtocolProtocolActionsAction extends ProtocolAction implements Aud
         ProtocolForm protocolForm = (ProtocolForm) form;
         ProtocolTask task = new ProtocolTask(TaskName.ASSIGN_REVIEWERS, protocolForm.getProtocolDocument().getProtocol());
         String callerString = String.format("assignReviewers");
-        Object question = request.getParameter(KNSConstants.QUESTION_INST_ATTRIBUTE_NAME);
+        Object question = request.getParameter(KRADConstants.QUESTION_INST_ATTRIBUTE_NAME);
         
         if (!hasDocumentStateChanged(protocolForm)) {
             if (isAuthorized(task)) {
@@ -1440,15 +1440,15 @@ public class ProtocolProtocolActionsAction extends ProtocolAction implements Aud
                             // ask question if not already asked
                             forward = performQuestionWithoutInput(mapping, form, request, response, 
                                                                     CONIFRM_REMOVE_REVIEWER_KEY, 
-                                                                    getKualiConfigurationService().getPropertyString(KeyConstants.MESSAGE_REMOVE_REVIEWERS_WITH_COMMENTS), 
-                                                                    KNSConstants.CONFIRMATION_QUESTION, 
+                                                                    getKualiConfigurationService().getPropertyValueAsString(KeyConstants.MESSAGE_REMOVE_REVIEWERS_WITH_COMMENTS), 
+                                                                    KRADConstants.CONFIRMATION_QUESTION, 
                                                                     callerString, 
                                                                     "");
                             processRequest = false;
                         }
                         else {
-                            Object buttonClicked = request.getParameter(KNSConstants.QUESTION_CLICKED_BUTTON);
-                            if ((KNSConstants.DOCUMENT_DISAPPROVE_QUESTION.equals(question)) && ConfirmationQuestion.NO.equals(buttonClicked)) {
+                            Object buttonClicked = request.getParameter(KRADConstants.QUESTION_CLICKED_BUTTON);
+                            if ((KRADConstants.DOCUMENT_DISAPPROVE_QUESTION.equals(question)) && ConfirmationQuestion.NO.equals(buttonClicked)) {
                                 // if no button clicked just reload the doc
                                 processRequest = false;
                                 if (LOG.isDebugEnabled()) {
@@ -1463,8 +1463,9 @@ public class ProtocolProtocolActionsAction extends ProtocolAction implements Aud
                         ProtocolSubmission submission = protocolForm.getProtocolDocument().getProtocol().getProtocolSubmission();
                         List<ProtocolReviewerBean> beans = actionBean.getReviewers();
                         getProtocolAssignReviewersService().assignReviewers(submission, beans);
-                        // clear the warnings before rendering the page.
+                        //clear the warnings before rendering the page.
                         GlobalVariables.getMessageMap().getWarningMessages().clear();
+                        
                         recordProtocolActionSuccess("Assign Reviewers");
                         AssignReviewerNotificationRenderer renderer = new AssignReviewerNotificationRenderer(protocolForm
                                 .getProtocolDocument().getProtocol(), "added");
@@ -1481,8 +1482,6 @@ public class ProtocolProtocolActionsAction extends ProtocolAction implements Aud
                                 forward = checkToSendNotification(mapping, mapping.findForward(PROTOCOL_ACTIONS_TAB), protocolForm,
                                         renderer, addReviewerNotificationBeans);
                                 if (!CollectionUtils.isEmpty(removeReviewerNotificationBeans)) {
-                                    // save to session.  this will be processed after 'add reviewer' ad hoc notification is sent.
-                                    // in this case, there are 2 ad hoc notification.
                                     GlobalVariables.getUserSession().addObject("removeReviewer", removeReviewerNotificationBeans);
                                 }
                             }
@@ -1547,7 +1546,7 @@ public class ProtocolProtocolActionsAction extends ProtocolAction implements Aud
                 forward = confirmFollowupAction(mapping, form, request, response, Constants.MAPPING_BASIC);
            }
         }
-        if (request.getParameter(KNSConstants.QUESTION_INST_ATTRIBUTE_NAME) != null) {
+        if (request.getParameter(KRADConstants.QUESTION_INST_ATTRIBUTE_NAME) != null) {
             forward = confirmFollowupAction(mapping, form, request, response, Constants.MAPPING_BASIC);
         }
         
@@ -1578,7 +1577,7 @@ public class ProtocolProtocolActionsAction extends ProtocolAction implements Aud
                 getProtocolApproveService().grantFullApproval(document.getProtocol(), actionBean);
                 saveReviewComments(protocolForm, actionBean.getReviewCommentsBean());
 //                if (document.getProtocol().isAmendment() || document.getProtocol().isRenewal()) {
-//                    forward = mapping.findForward(KNSConstants.MAPPING_PORTAL);
+//                    forward = mapping.findForward(KRADConstants.MAPPING_PORTAL);
 //                }
                 forward = routeProtocolToHoldingPage(mapping, protocolForm);                                    
                 
@@ -1612,13 +1611,13 @@ public class ProtocolProtocolActionsAction extends ProtocolAction implements Aud
                 getProtocolApproveService().grantExpeditedApproval(protocolForm.getProtocolDocument().getProtocol(), actionBean);
                 saveReviewComments(protocolForm, actionBean.getReviewCommentsBean());
                 recordProtocolActionSuccess("Expedited Approval");
-                forward = confirmFollowupAction(mapping, form, request, response, KNSConstants.MAPPING_PORTAL);
+                forward = confirmFollowupAction(mapping, form, request, response, KRADConstants.MAPPING_PORTAL);
             }
         }
         // Question frame work will execute method twice.  so, need to be aware that service will not be executed twice.
-        if (request.getParameter(KNSConstants.QUESTION_INST_ATTRIBUTE_NAME) != null) {
-            confirmFollowupAction(mapping, form, request, response, KNSConstants.MAPPING_PORTAL);
-            //forward = mapping.findForward(KNSConstants.MAPPING_PORTAL);                                    
+        if (request.getParameter(KRADConstants.QUESTION_INST_ATTRIBUTE_NAME) != null) {
+            confirmFollowupAction(mapping, form, request, response, KRADConstants.MAPPING_PORTAL);
+            //forward = mapping.findForward(KRADConstants.MAPPING_PORTAL);                                    
             forward = routeProtocolToHoldingPage(mapping, protocolForm);                                    
         }
         return forward;
@@ -1646,7 +1645,7 @@ public class ProtocolProtocolActionsAction extends ProtocolAction implements Aud
             if (applyRules(new ProtocolApproveEvent(document, actionBean))) {
                 getProtocolApproveService().grantResponseApproval(document.getProtocol(), actionBean);
                 saveReviewComments(protocolForm, actionBean.getReviewCommentsBean());
-               // forward = mapping.findForward(KNSConstants.MAPPING_PORTAL);
+               // forward = mapping.findForward(KRADConstants.MAPPING_PORTAL);
                 forward = routeProtocolToHoldingPage(mapping, protocolForm);                                    
                 
                 recordProtocolActionSuccess("Response Approval");
@@ -2220,6 +2219,7 @@ public class ProtocolProtocolActionsAction extends ProtocolAction implements Aud
     
     public ActionForward submitCommitteeDecision(ActionMapping mapping, ActionForm form, HttpServletRequest request,
             HttpServletResponse response) throws Exception {
+        
         ProtocolForm protocolForm = (ProtocolForm) form;
         if (!hasDocumentStateChanged(protocolForm)) {
             if (applyRules(new CommitteeDecisionEvent(protocolForm.getProtocolDocument(), protocolForm.getActionHelper().getCommitteeDecision()))){
@@ -2586,7 +2586,7 @@ public class ProtocolProtocolActionsAction extends ProtocolAction implements Aud
     }
     
     private String getTaskName(HttpServletRequest request) {
-        String parameterName = (String) request.getAttribute(KNSConstants.METHOD_TO_CALL_ATTRIBUTE);
+        String parameterName = (String) request.getAttribute(KRADConstants.METHOD_TO_CALL_ATTRIBUTE);
         
         String taskName = "";
         if (StringUtils.isNotBlank(parameterName)) {
@@ -2873,7 +2873,7 @@ public class ProtocolProtocolActionsAction extends ProtocolAction implements Aud
      */
     private int getSelectedAttachment(HttpServletRequest request) {
         int selectedAttachment = -1;
-        String parameterName = (String) request.getAttribute(KNSConstants.METHOD_TO_CALL_ATTRIBUTE);
+        String parameterName = (String) request.getAttribute(KRADConstants.METHOD_TO_CALL_ATTRIBUTE);
         if (StringUtils.isNotBlank(parameterName)) {
             String attachmentNumber = StringUtils.substringBetween(parameterName, ".attachment", ".");
             selectedAttachment = Integer.parseInt(attachmentNumber);
@@ -2966,7 +2966,7 @@ public class ProtocolProtocolActionsAction extends ProtocolAction implements Aud
     }
     
     private void recordProtocolActionSuccess(String protocolActionName) {
-        GlobalVariables.getMessageList().add(KeyConstants.MESSAGE_PROTOCOL_ACTION_SUCCESSFULLY_COMPLETED, protocolActionName);
+        KNSGlobalVariables.getMessageList().add(KeyConstants.MESSAGE_PROTOCOL_ACTION_SUCCESSFULLY_COMPLETED, protocolActionName);
     }
     
     /**
@@ -3170,7 +3170,6 @@ public class ProtocolProtocolActionsAction extends ProtocolAction implements Aud
     private WatermarkService getWatermarkService() {
         return  KraServiceLocator.getService(WatermarkService.class);  
     }
-  
 
     /**
      * 
@@ -3388,7 +3387,7 @@ public class ProtocolProtocolActionsAction extends ProtocolAction implements Aud
     private boolean isPessimisticallyLocked(Document document) {
         boolean isPessimisticallyLocked = false;
         
-        Person pessimisticLockHolder = getPersonService().getPersonByPrincipalName(KEWConstants.SYSTEM_USER);
+        Person pessimisticLockHolder = getPersonService().getPersonByPrincipalName(KewApiConstants.SYSTEM_USER);
         for (PessimisticLock pessimisticLock : document.getPessimisticLocks()) {
             if (pessimisticLock.isOwnedByUser(pessimisticLockHolder)) {
                 isPessimisticallyLocked = true;
@@ -3514,7 +3513,7 @@ public class ProtocolProtocolActionsAction extends ProtocolAction implements Aud
         }
     }
 
-    protected PersonService<Person> getPersonService() {
+    protected PersonService getPersonService() {
         return KraServiceLocator.getService(PersonService.class);
     }
     

@@ -33,9 +33,9 @@ import org.kuali.kra.irb.Protocol;
 import org.kuali.kra.irb.ProtocolDocument;
 import org.kuali.kra.irb.personnel.ProtocolPerson;
 import org.kuali.kra.irb.test.ProtocolRuleTestBase;
-import org.kuali.rice.kew.exception.WorkflowException;
-import org.kuali.rice.kns.service.ParameterService;
-import org.kuali.rice.kns.util.GlobalVariables;
+import org.kuali.rice.coreservice.framework.parameter.ParameterService;
+import org.kuali.rice.kew.api.exception.WorkflowException;
+import org.kuali.rice.krad.util.GlobalVariables;
 
 /**
  * Test the business rules for Protocol Permissions.
@@ -62,7 +62,7 @@ public class ProtocolSubmitActionRuleTest extends ProtocolRuleTestBase {
     public void setUpServices() {
         this.parameterService = KraServiceLocator.getService(ParameterService.class);
         // If cache not cleared, causes OLE.
-        this.parameterService.clearCache();
+        //this.parameterService.clearCache();
     }
 
     @Before
@@ -97,7 +97,7 @@ public class ProtocolSubmitActionRuleTest extends ProtocolRuleTestBase {
         submitAction.setSubmissionTypeCode(VALID_SUBMISSION_TYPE);
         submitAction.setProtocolReviewTypeCode(VALID_REVIEW_TYPE);
         assertTrue(rule.processSubmitAction(document, submitAction));
-        assertEquals(GlobalVariables.getErrorMap().size(), 0);
+        assertEquals(GlobalVariables.getMessageMap().getErrorMessages().size(), 0);
     }
 
     /**
@@ -165,7 +165,7 @@ public class ProtocolSubmitActionRuleTest extends ProtocolRuleTestBase {
         submitAction.setExemptStudiesCheckList(checkList);
         submitAction.setProtocolReviewTypeCode(ProtocolReviewType.EXEMPT_STUDIES_REVIEW_TYPE_CODE);
         assertTrue(rule.processSubmitAction(document, submitAction));
-        assertEquals(GlobalVariables.getErrorMap().size(), 0);
+        assertEquals(GlobalVariables.getMessageMap().getErrorMessages().size(), 0);
     }
 
     /**
@@ -201,7 +201,7 @@ public class ProtocolSubmitActionRuleTest extends ProtocolRuleTestBase {
         submitAction.setExpeditedReviewCheckList(checkList);
         submitAction.setProtocolReviewTypeCode(ProtocolReviewType.EXPEDITED_REVIEW_TYPE_CODE);
         assertTrue(rule.processSubmitAction(document, submitAction));
-        assertEquals(GlobalVariables.getErrorMap().size(), 0);
+        assertEquals(GlobalVariables.getMessageMap().getErrorMessages().size(), 0);
     }
 
     /**
@@ -238,7 +238,7 @@ public class ProtocolSubmitActionRuleTest extends ProtocolRuleTestBase {
         reviewer.setReviewerTypeCode("1");
         submitAction.getReviewers().add(reviewer);
         assertTrue(rule.processSubmitAction(document, submitAction));
-        assertEquals(GlobalVariables.getErrorMap().size(), 0);
+        assertEquals(GlobalVariables.getMessageMap().getErrorMessages().size(), 0);
     }
 
     /**
@@ -361,7 +361,7 @@ public class ProtocolSubmitActionRuleTest extends ProtocolRuleTestBase {
         submitAction.setScheduleId(SCHEDULE_ID);
 
         assertTrue(rule.processSubmitAction(document, submitAction));
-        assertEquals(0, GlobalVariables.getErrorMap().size());
+        assertEquals(0, GlobalVariables.getMessageMap().getErrorMessages().size());
 
         setParameter(OPTIONAL);
     }
@@ -423,7 +423,7 @@ public class ProtocolSubmitActionRuleTest extends ProtocolRuleTestBase {
         // catch (Exception e) {
         //
         // }
-        this.parameterService.setParameterForTesting(ProtocolDocument.class,
+        updateParameterForTesting(ProtocolDocument.class,
                 Constants.PARAMETER_IRB_COMM_SELECTION_DURING_SUBMISSION, value);
         // try {
         // super.transactionalLifecycle.start();

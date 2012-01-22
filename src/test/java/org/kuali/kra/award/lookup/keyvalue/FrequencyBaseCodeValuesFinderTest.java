@@ -25,19 +25,19 @@ import org.junit.Before;
 import org.junit.Test;
 import org.kuali.kra.award.paymentreports.ValidFrequencyBase;
 import org.kuali.kra.test.infrastructure.KcUnitTestBase;
-import org.kuali.rice.core.util.KeyLabelPair;
+import org.kuali.rice.core.api.util.KeyValue;
     
 public class FrequencyBaseCodeValuesFinderTest extends KcUnitTestBase {
     
     FrequencyBaseCodeValuesFinder frequencyBaseCodeValuesFinder;
-    List<KeyLabelPair> frequencyBaseCodes;
+    List<KeyValue> frequencyBaseCodes;
     Collection<ValidFrequencyBase> validFrequencyBases;
     
     @Before
     public void setUp() throws Exception {
         super.setUp();
         frequencyBaseCodeValuesFinder = new FrequencyBaseCodeValuesFinder("13");        
-        frequencyBaseCodes = new ArrayList<KeyLabelPair>();
+        frequencyBaseCodes = new ArrayList<KeyValue>();
         validFrequencyBases = new ArrayList<ValidFrequencyBase>();
         
     }
@@ -55,9 +55,9 @@ public class FrequencyBaseCodeValuesFinderTest extends KcUnitTestBase {
         frequencyBaseCodes = frequencyBaseCodeValuesFinder.getKeyValues();
         Assert.assertEquals(3,frequencyBaseCodes.size());
         
-        for(KeyLabelPair keyLabelPair:frequencyBaseCodes){
-            Assert.assertNotNull(keyLabelPair.getKey());
-            Assert.assertNotNull(keyLabelPair.getLabel());
+        for(KeyValue KeyValue:frequencyBaseCodes){
+            Assert.assertNotNull(KeyValue.getKey());
+            Assert.assertNotNull(KeyValue.getValue());
         }
     }
         

@@ -23,10 +23,9 @@ import org.junit.After;
 import org.junit.Assert;
 import org.junit.Before;
 import org.junit.Test;
-import org.kuali.kra.printing.service.impl.KCTestPrintable;
 import org.kuali.kra.test.infrastructure.KcUnitTestBase;
-import org.kuali.rice.kns.util.ErrorMap;
-import org.kuali.rice.kns.util.GlobalVariables;
+import org.kuali.rice.krad.util.GlobalVariables;
+import org.kuali.rice.krad.util.MessageMap;
 
 public class AwardReportTermRuleImplTest extends KcUnitTestBase {
     
@@ -39,7 +38,7 @@ public class AwardReportTermRuleImplTest extends KcUnitTestBase {
         awardReportTermRule = new AwardReportTermRuleImpl();
         awardReportTerm = buildAwardReportTerm();
         awardReportTermItems = new ArrayList<AwardReportTerm>();
-        GlobalVariables.setErrorMap(new ErrorMap());
+        GlobalVariables.setMessageMap(new MessageMap());
     }
 
     @After

@@ -17,47 +17,44 @@ package org.kuali.kra.award.home;
 
 import java.util.Calendar;
 import java.util.Date;
-import java.util.LinkedHashMap;
 
 import org.kuali.kra.award.AwardAssociate;
 import org.kuali.kra.award.AwardTemplateSyncScope;
 import org.kuali.kra.award.awardhierarchy.sync.AwardSyncableProperty;
 import org.kuali.kra.bo.CommentType;
-import org.kuali.kra.infrastructure.Constants;
-import org.kuali.kra.meeting.MemberPresentBean;
 
 /**
  * This class is business object representation of an Award Comment
  */
-
 public class AwardComment extends AwardAssociate implements Comparable<AwardComment> {
-    
+
     /**
      * Comment for <code>serialVersionUID</code>
      */
     private static final long serialVersionUID = 3611932717292205490L;
-    
+
     private Long awardCommentId;
 
     /*
      * These fields will sync when the containing class syncs.
      */
-    @AwardSyncableProperty(key=true)
-    @AwardSyncable( scopes = { AwardTemplateSyncScope.CONTAINING_CLASS_INHERIT } )  
+    @AwardSyncableProperty(key = true)
+    @AwardSyncable(scopes = { AwardTemplateSyncScope.CONTAINING_CLASS_INHERIT })
     private String commentTypeCode;
-    @AwardSyncable( scopes = { AwardTemplateSyncScope.CONTAINING_CLASS_INHERIT } ) 
-    private Boolean checklistPrintFlag; 
-    @AwardSyncable( scopes = { AwardTemplateSyncScope.CONTAINING_CLASS_INHERIT } )
+
+    @AwardSyncable(scopes = { AwardTemplateSyncScope.CONTAINING_CLASS_INHERIT })
+    private Boolean checklistPrintFlag;
+
+    @AwardSyncable(scopes = { AwardTemplateSyncScope.CONTAINING_CLASS_INHERIT })
     @AwardSyncableProperty
-    private String comments; 
-    
+    private String comments;
+
     private Long awardId;
-   
-    private CommentType commentType; 
-    
+
+    private CommentType commentType;
+
     private String updateTimestampDateString;
-    
-    
+
     /**
      * 
      * Constructs a AwardComment.java.
@@ -65,7 +62,7 @@ public class AwardComment extends AwardAssociate implements Comparable<AwardComm
     public AwardComment() {
         super();
     }
-    
+
     public AwardComment(CommentType commentType, String comments) {
         this();
         setCommentType(commentType);
@@ -90,16 +87,6 @@ public class AwardComment extends AwardAssociate implements Comparable<AwardComm
     }
 
     /**
-     * @see org.kuali.core.bo.BusinessObjectBase#toStringMapper()
-     */
-    @Override
-    protected LinkedHashMap<String,Object> toStringMapper() {        
-        LinkedHashMap<String,Object> hashMap = super.toStringMapper();
-        hashMap.put("awardCommentId", getAwardCommentId());
-        return hashMap;
-    }
-
-    /**
      * @see java.lang.Object#hashCode()
      */
     @Override
@@ -115,15 +102,11 @@ public class AwardComment extends AwardAssociate implements Comparable<AwardComm
      */
     @Override
     public boolean equals(Object obj) {
-        if (this == obj)
-            return true;
-        if (!super.equals(obj))
-            return false;
-        if (getClass() != obj.getClass())
-            return false;
+        if (this == obj) return true;
+        if (!super.equals(obj)) return false;
+        if (getClass() != obj.getClass()) return false;
         AwardComment other = (AwardComment) obj;
-        if (!awardCommentId.equals(other.awardCommentId))
-            return false;
+        if (!awardCommentId.equals(other.awardCommentId)) return false;
         return true;
     }
 
@@ -139,7 +122,7 @@ public class AwardComment extends AwardAssociate implements Comparable<AwardComm
         }
         return comments.equals(compare.getComments());
     }
-    
+
     /**
      * Gets the commentTypeCode attribute. 
      * @return Returns the commentTypeCode.
@@ -204,29 +187,24 @@ public class AwardComment extends AwardAssociate implements Comparable<AwardComm
         this.commentType = commentType;
         this.commentTypeCode = commentType != null ? commentType.getCommentTypeCode() : null;
     }
-    
+
     public Long getAwardId() {
         return awardId;
     }
-    
+
     public void setAwardId(Long awardId) {
         this.awardId = awardId;
     }
-    
 
     /**
      * Gets the updateTimestampDateString attribute. 
      * @return Returns the updateTimestampDateString.
      */
     public String getUpdateTimestampDateString() {
-        Calendar cal = Calendar.getInstance() ; 
+        Calendar cal = Calendar.getInstance();
         cal.setTime((Date) getUpdateTimestamp());
-        return Integer.toString(cal.get(Calendar.MONTH)) + "/" +
-                Integer.toString(cal.get(Calendar.DAY_OF_MONTH)) + "/" +
-                Integer.toString(cal.get(Calendar.YEAR));
+        return Integer.toString(cal.get(Calendar.MONTH)) + "/" + Integer.toString(cal.get(Calendar.DAY_OF_MONTH)) + "/" + Integer.toString(cal.get(Calendar.YEAR));
     }
-
-    
 
     public void resetPersistenceState() {
         awardCommentId = null;
@@ -238,13 +216,13 @@ public class AwardComment extends AwardAssociate implements Comparable<AwardComm
     }
 
     public void disableComment() {
-        setVersionNumber(new Long (-1));
+        setVersionNumber(new Long(-1));
     }
-    
+
     public boolean isDisabled() {
         return new Long(-1).equals(getVersionNumber());
     }
-    
+
     public boolean isEntered() {
         return comments != null && comments.length() > 0;
     }

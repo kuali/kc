@@ -16,7 +16,6 @@
 package org.kuali.kra.irb.noteattachment;
 
 import java.sql.Timestamp;
-import java.util.LinkedHashMap;
 
 import org.kuali.kra.SkipVersioning;
 import org.kuali.kra.irb.Protocol;
@@ -28,24 +27,27 @@ import org.kuali.kra.irb.personnel.ProtocolPerson;
 public class ProtocolAttachmentPersonnel extends ProtocolAttachmentBase {
 
     private static final long serialVersionUID = -7115904344245464654L;
+
     private static final String GROUP_CODE = "2";
-    
+
     private Integer personId;
+
     @SkipVersioning
     private ProtocolPerson person;
-    
+
     private String typeCode;
+
     private ProtocolAttachmentType type;
+
     private String description;
-    
-     
+
     /**
      * empty ctor to satisfy JavaBean convention.
      */
     public ProtocolAttachmentPersonnel() {
         super();
     }
-    
+
     /**
      * Convenience ctor to add the protocol as an owner.
      * 
@@ -113,12 +115,12 @@ public class ProtocolAttachmentPersonnel extends ProtocolAttachmentBase {
     public void setTypeCode(String typeCode) {
         this.typeCode = typeCode;
     }
-    
+
     /** {@inheritDoc} */
     public String getGroupCode() {
         return GROUP_CODE;
     }
-    
+
     /** {@inheritDoc} */
     public String getDescription() {
         return this.description;
@@ -128,20 +130,19 @@ public class ProtocolAttachmentPersonnel extends ProtocolAttachmentBase {
     public void setDescription(String description) {
         this.description = description;
     }
-    
+
     /** {@inheritDoc} */
     @Override
     public String getAttachmentDescription() {
         return "Personnel Attachment";
     }
-    
+
     /** {@inheritDoc} */
     @Override
     public boolean supportsVersioning() {
         return false;
     }
 
-       
     /** 
      * {@inheritDoc}
      * also nulling the person id because when saving after versioning, the person id is reverting to the wrong BO.
@@ -151,18 +152,6 @@ public class ProtocolAttachmentPersonnel extends ProtocolAttachmentBase {
         super.resetPersistenceState();
         this.setPersonId(null);
     }
-    
-    /** {@inheritDoc} */
-    @Override 
-    protected LinkedHashMap<String, Object> toStringMapper() {
-        final LinkedHashMap<String, Object> hashMap = super.toStringMapper();
-        hashMap.put(PropertyName.PERSON_ID.getPropertyName(), this.getPersonId());
-        hashMap.put(TypedAttachment.PropertyName.TYPE_CODE.getPropertyName(), this.getTypeCode());
-        hashMap.put(TypedAttachment.PropertyName.DOCUMENT_ID.getPropertyName(), this.getDocumentId());
-        hashMap.put(TypedAttachment.PropertyName.GROUP_CODE.getPropertyName(), this.getGroupCode());
-        hashMap.put(TypedAttachment.PropertyName.DESCRIPTION.getPropertyName(), this.getDescription());
-        return hashMap;
-    }
 
     /** {@inheritDoc} */
     @Override
@@ -170,7 +159,7 @@ public class ProtocolAttachmentPersonnel extends ProtocolAttachmentBase {
         final int prime = 31;
         int result = super.hashCode();
         result = prime * result + ((description == null) ? 0 : description.hashCode());
-//        result = prime * result + ((documentId == null) ? 0 : documentId.hashCode());
+        //        result = prime * result + ((documentId == null) ? 0 : documentId.hashCode());  
         result = prime * result + ((personId == null) ? 0 : personId.hashCode());
         result = prime * result + ((typeCode == null) ? 0 : typeCode.hashCode());
         return result;
@@ -196,13 +185,13 @@ public class ProtocolAttachmentPersonnel extends ProtocolAttachmentBase {
         } else if (!description.equals(other.description)) {
             return false;
         }
-//        if (documentId == null) {
-//            if (other.documentId != null) {
-//                return false;
-//            }
-//        } else if (!documentId.equals(other.documentId)) {
-//            return false;
-//        }
+        //        if (documentId == null) {  
+        //            if (other.documentId != null) {  
+        //                return false;  
+        //            }  
+        //        } else if (!documentId.equals(other.documentId)) {  
+        //            return false;  
+        //        }  
         if (personId == null) {
             if (other.personId != null) {
                 return false;
@@ -224,10 +213,11 @@ public class ProtocolAttachmentPersonnel extends ProtocolAttachmentBase {
      * Contains all the property names in this class.
      */
     public static enum PropertyName {
+
         PERSON_ID("personId");
-        
+
         private final String name;
-        
+
         /**
          * Sets the enum properties.
          * @param name the name.
@@ -235,7 +225,7 @@ public class ProtocolAttachmentPersonnel extends ProtocolAttachmentBase {
         PropertyName(final String name) {
             this.name = name;
         }
-        
+
         /**
          * Gets the property name.
          * @return the the property name.
@@ -243,7 +233,7 @@ public class ProtocolAttachmentPersonnel extends ProtocolAttachmentBase {
         public String getPropertyName() {
             return this.name;
         }
-        
+
         /**
          * Gets the {@link #getPropertyName() propertyName()}.
          * @return {@link #getPropertyName() propertyName()}
@@ -253,7 +243,7 @@ public class ProtocolAttachmentPersonnel extends ProtocolAttachmentBase {
             return this.name;
         }
     }
-    
+
     @Override
     public void setUpdateTimestamp(Timestamp updateTimestamp) {
         if (updateTimestamp == null || getUpdateTimestamp() == null) {
@@ -263,7 +253,7 @@ public class ProtocolAttachmentPersonnel extends ProtocolAttachmentBase {
 
     @Override
     public void setUpdateUser(String updateUser) {
-        if (updateUser == null || getUpdateUser() == null ) {
+        if (updateUser == null || getUpdateUser() == null) {
             super.setUpdateUser(updateUser);
         }
     }
@@ -274,5 +264,4 @@ public class ProtocolAttachmentPersonnel extends ProtocolAttachmentBase {
         setId(null);
         setProtocolNumber(protocolPerson.getProtocol().getProtocolNumber());
     }
-
 }

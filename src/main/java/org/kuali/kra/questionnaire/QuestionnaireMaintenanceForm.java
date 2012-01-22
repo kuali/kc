@@ -24,10 +24,10 @@ import org.apache.commons.lang.StringUtils;
 import org.apache.struts.action.ActionMapping;
 import org.apache.struts.upload.FormFile;
 import org.kuali.kra.questionnaire.question.Question;
+import org.kuali.rice.kew.api.WorkflowDocument;
 import org.kuali.rice.kns.document.MaintenanceDocumentBase;
-import org.kuali.rice.kns.util.TypedArrayList;
 import org.kuali.rice.kns.web.struts.form.KualiMaintenanceForm;
-import org.kuali.rice.kns.workflow.service.KualiWorkflowDocument;
+import org.springframework.util.AutoPopulatingList;
 
 /**
  * 
@@ -68,7 +68,7 @@ public class QuestionnaireMaintenanceForm extends KualiMaintenanceForm {
     public QuestionnaireMaintenanceForm() {
         super();
         questionnaireUsages = new ArrayList<QuestionnaireUsage>();
-        qnaireQuestions = new ArrayList<String>();
+        qnaireQuestions = new AutoPopulatingList<Object>(Object.class);
         questionNumber = 1;
         
 
@@ -98,13 +98,13 @@ public class QuestionnaireMaintenanceForm extends KualiMaintenanceForm {
         // FIXME : just a temporary soln. it always get the methodtocall='refresh' after it started properly the first time.
         // need to investigate this.
         this.setMethodToCall("");
-        qnaireQuestions = new TypedArrayList(Object.class);
+        qnaireQuestions = new AutoPopulatingList<Object>(Object.class);
         // to prevent indexoutofbound exception when populate
         if (this.getDocument() != null) {
             Questionnaire qn = (Questionnaire) ((MaintenanceDocumentBase) this.getDocument()).getNewMaintainableObject()
                     .getBusinessObject();
             qn.setIsFinal(false);
-            qn.setQuestionnaireUsages(new TypedArrayList(QuestionnaireUsage.class));
+            qn.setQuestionnaireUsages(new AutoPopulatingList<QuestionnaireUsage>(QuestionnaireUsage.class));
         }
         questionNumber = 1;
     }
@@ -143,13 +143,25 @@ public class QuestionnaireMaintenanceForm extends KualiMaintenanceForm {
 
     @Override
     public void populate(HttpServletRequest request) {
+        qnaireQuestions = new AutoPopulatingList<Object>(Object.class);
+        
+        for (Object key : request.getParameterMap().keySet()) {
+            // TODO : AutoPopulatingList is suppose to lazyload list
+            // but still get indexoutofbound exception
+            // so prepolulate the list before data is populated
+            String paraName = (String)key;
+            if (StringUtils.isNotBlank(paraName) && paraName.startsWith("qnaireQuestions[")) {
+                qnaireQuestions.add(new Object());
+            }
+            
+        }
         super.populate(request);
 
 
         List<QuestionnaireQuestion> qList = populateQuestionnaireQuestions();
         if (!qList.isEmpty()) {
             QuestionnaireMaintenanceForm qnForm = (QuestionnaireMaintenanceForm) this;
-            ((Questionnaire) ((MaintenanceDocumentBase) qnForm.getDocument()).getNewMaintainableObject().getBusinessObject())
+            ((Questionnaire) ((MaintenanceDocumentBase) qnForm.getDocument()).getNewMaintainableObject().getDataObject())
                     .setQuestionnaireQuestions(qList);
         }
     }
@@ -164,7 +176,7 @@ public class QuestionnaireMaintenanceForm extends KualiMaintenanceForm {
         List<QuestionnaireQuestion> qList = new ArrayList<QuestionnaireQuestion>();
         for (Object qstr : getQnaireQuestions()) {
             // TODO : qstr instanceof String[] is no longer working after rice upgrade
-            // changed to TypedArrayList.  Should also investigate List<String> is working?
+            // changed to AutoPopulatingList.  Should also investigate List<String> is working?
             if (qstr instanceof ArrayList) {
                 String[] splitstr = ((ArrayList)qstr).get(0).toString().split("#f#");
                 if (splitstr.length == 11 && !("Y").equals(splitstr[10])) {
@@ -335,14 +347,14 @@ public class QuestionnaireMaintenanceForm extends KualiMaintenanceForm {
     /**
      * override this for view bootstrap data.  A new doc is initiated in this case.
      * this will make the document header looks 'Final'.
-     * @see org.kuali.rice.kns.web.struts.form.KualiDocumentFormBase#populateHeaderFields(org.kuali.rice.kns.workflow.service.KualiWorkflowDocument)
+     * @see org.kuali.rice.kns.web.struts.form.KualiDocumentFormBase#populateHeaderFields(org.kuali.rice.kew.api.WorkflowDocument)
      */
     @Override
-    public void populateHeaderFields(KualiWorkflowDocument workflowDocument) {
+    public void populateHeaderFields(WorkflowDocument workflowDocument) {
         super.populateHeaderFields(workflowDocument);
 
         // readOnly is changing several times during load.  so better with this approach
-        if (this.isReadOnly() && workflowDocument.stateIsInitiated()) {
+        if (this.isReadOnly() && workflowDocument.isInitiated()) {
 //            getDocInfo().get(1).setDisplayValue("FINAL");
 //            getDocInfo().get(2).setLookupAware(false);
 //            getDocInfo().get(2).setDisplayValue("admin");

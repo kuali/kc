@@ -23,40 +23,41 @@ import org.junit.Assert;
 import org.junit.Before;
 import org.junit.Test;
 import org.kuali.kra.bo.SponsorTerm;
-import org.kuali.rice.core.util.KeyLabelPair;
+import org.kuali.rice.core.api.util.ConcreteKeyValue;
+import org.kuali.rice.core.api.util.KeyValue;
 
 /**
  * This class tests AwardSponsorTermService methods.
  */
 public class AwardSponsorTermServiceImplTest extends AwardSponsorTermServiceImpl {
 
-    private static final int ONE = 1;
-    private static final int TWO= 2;
+    private static final String ONE = "1";
+    private static final String TWO= "2";
 
     private static final String TEST_STRING_ONE = "test1";
     private static final String TEST_STRING_TWO = "test2";
     
     AwardSponsorTermServiceImpl awardSponsorTermServiceImpl;
-    List<KeyLabelPair> keyLabelPairList;
+    List<KeyValue> KeyValueList;
     List<SponsorTerm> sponsorTerms;
     
     @Before
     public void setUp() throws Exception {
         awardSponsorTermServiceImpl = new AwardSponsorTermServiceImpl();
-        keyLabelPairList = new ArrayList<KeyLabelPair>();
-        keyLabelPairList.add(new KeyLabelPair(ONE, TEST_STRING_ONE));
-        keyLabelPairList.add(new KeyLabelPair(TWO, TEST_STRING_TWO));
+        KeyValueList = new ArrayList<KeyValue>();
+        KeyValueList.add(new ConcreteKeyValue(ONE, TEST_STRING_ONE));
+        KeyValueList.add(new ConcreteKeyValue(TWO, TEST_STRING_TWO));
     }
 
     @After
     public void tearDown() throws Exception {
         awardSponsorTermServiceImpl = null;
-        keyLabelPairList = null;
+        KeyValueList = null;
     }
 
     @Test
     public final void testAddEmptyNewSponsorTerms() {
-        sponsorTerms = awardSponsorTermServiceImpl.getEmptyNewSponsorTerms(keyLabelPairList);
+        sponsorTerms = awardSponsorTermServiceImpl.getEmptyNewSponsorTerms(KeyValueList);
         Assert.assertEquals(TWO, sponsorTerms.size());
     }
 }

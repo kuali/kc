@@ -41,9 +41,8 @@ import org.kuali.kra.scheduling.sequence.XMonthlyScheduleSequenceDecorator;
 import org.kuali.kra.scheduling.service.ScheduleService;
 import org.kuali.kra.scheduling.util.Time24HrFmt;
 import org.kuali.kra.service.AwardScheduleGenerationService;
-import org.kuali.rice.kns.service.ParameterService;
-import org.kuali.rice.kns.service.PersistenceService;
-import org.kuali.rice.kns.util.GlobalVariables;
+import org.kuali.rice.coreservice.framework.parameter.ParameterService;
+import org.kuali.rice.krad.service.PersistenceService;
 import org.springframework.transaction.annotation.Transactional;
 
 /**
@@ -172,7 +171,7 @@ public class AwardScheduleGenerationServiceImpl implements AwardScheduleGenerati
      * @return
      */
     protected boolean canGenerateSchedules(AwardReportTerm awardReportTerm, boolean isThisNotPaymentPanel) {
-        return isThisNotPaymentPanel || StringUtils.equalsIgnoreCase(awardReportTerm.getReportClassCode(), getParameterService().getParameterValue(AwardDocument.class, KeyConstants.REPORT_CLASS_FOR_PAYMENTS_AND_INVOICES));
+        return isThisNotPaymentPanel || StringUtils.equalsIgnoreCase(awardReportTerm.getReportClassCode(), getParameterService().getParameterValueAsString(AwardDocument.class, KeyConstants.REPORT_CLASS_FOR_PAYMENTS_AND_INVOICES));
     }    
     
     
@@ -271,7 +270,7 @@ public class AwardScheduleGenerationServiceImpl implements AwardScheduleGenerati
         
         if(frequencyBaseCode.equals(FrequencyBaseConstants.FINAL_EXPIRATION_DATE.getfrequencyBase())){
             calendar.setTime(startDate);   
-            calendar.add(Calendar.YEAR, Integer.parseInt(this.getParameterService().getParameterValue(AwardDocument.class
+            calendar.add(Calendar.YEAR, Integer.parseInt(this.getParameterService().getParameterValueAsString(AwardDocument.class
                     ,KeyConstants.PERIOD_IN_YEARS_WHEN_FREQUENCY_BASE_IS_FINAL_EXPIRATION_DATE)));            
         }else{
             calendar.setTime(mapOfDates.get(FrequencyBaseConstants.FINAL_EXPIRATION_DATE.getfrequencyBase()));

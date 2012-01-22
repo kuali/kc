@@ -15,24 +15,15 @@
  */
 package org.kuali.kra.proposaldevelopment.budget.bo;
 
-import java.util.LinkedHashMap;
-
 import org.kuali.kra.bo.KraPersistableBusinessObjectBase;
 
 public class BudgetPrintForm extends KraPersistableBusinessObjectBase {
-	private String budgetReportId;
-	private String budgetReportName;
+
+    private String budgetReportId;
+
+    private String budgetReportName;
+
     private Boolean selectToPrint;
-
-
-	@Override 
-	protected LinkedHashMap toStringMapper() {
-		LinkedHashMap hashMap = new LinkedHashMap();
-		hashMap.put("reportId", getBudgetReportId());
-		hashMap.put("reportName", getBudgetReportName());
-		return hashMap;
-	}
-
 
     /**
      * Gets the budgetReportId attribute. 
@@ -42,7 +33,6 @@ public class BudgetPrintForm extends KraPersistableBusinessObjectBase {
         return budgetReportId;
     }
 
-
     /**
      * Sets the budgetReportId attribute value.
      * @param budgetReportId The budgetReportId to set.
@@ -50,7 +40,6 @@ public class BudgetPrintForm extends KraPersistableBusinessObjectBase {
     public void setBudgetReportId(String budgetReportId) {
         this.budgetReportId = budgetReportId;
     }
-
 
     /**
      * Gets the budgetReportName attribute. 
@@ -60,7 +49,6 @@ public class BudgetPrintForm extends KraPersistableBusinessObjectBase {
         return budgetReportName;
     }
 
-
     /**
      * Sets the budgetReportName attribute value.
      * @param budgetReportName The budgetReportName to set.
@@ -69,14 +57,11 @@ public class BudgetPrintForm extends KraPersistableBusinessObjectBase {
         this.budgetReportName = budgetReportName;
     }
 
-
     public Boolean getSelectToPrint() {
         return selectToPrint;
     }
 
-
     public void setSelectToPrint(Boolean selectToPrint) {
         this.selectToPrint = selectToPrint;
     }
-
 }

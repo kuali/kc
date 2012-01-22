@@ -15,7 +15,7 @@
  */
 package org.kuali.kra.proposaldevelopment.service;
 
-import org.kuali.rice.kns.service.PessimisticLockService;
+import org.kuali.rice.krad.service.PessimisticLockService;
 
 public interface ProposalLockService extends PessimisticLockService {
 

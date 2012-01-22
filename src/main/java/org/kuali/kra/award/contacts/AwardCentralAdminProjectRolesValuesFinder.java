@@ -19,7 +19,7 @@ import java.util.List;
 
 import org.kuali.kra.award.home.ContactRole;
 import org.kuali.kra.bo.UnitAdministratorType;
-import org.kuali.rice.core.util.KeyLabelPair;
+import org.kuali.rice.core.api.util.KeyValue;
 
 /**
  * This class finds Award Unit Contact Project Roles
@@ -46,7 +46,7 @@ public class AwardCentralAdminProjectRolesValuesFinder extends AwardContactsProj
      * @see org.kuali.kra.award.contacts.AwardContactsProjectRoleValuesFinder#addEmptyKeyValuePair(java.util.List)
      */
     @Override
-    protected void addEmptyKeyValuePair(List<KeyLabelPair> keyValues) {
+    protected void addEmptyKeyValuePair(List<KeyValue> keyValues) {
         // intentionally do nothing
     }
     

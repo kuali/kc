@@ -59,8 +59,8 @@
   <bean id="InstituteLaRate-onOffCampusFlag-parentBean" abstract="true" parent="AttributeDefinition">
     <property name="name" value="onOffCampusFlag" />
     <property name="forceUppercase" value="false" />
-    <property name="label" value="On/Off Campus Flag" />
-    <property name="shortLabel" value="On/Off Campus Flag" />
+    <property name="label" value="On/Off CampusContractContract Flag" />
+    <property name="shortLabel" value="On/Off CampusContractContract Flag" />
     <property name="maxLength" value="1" />
     <property name="validationPattern" >
       <bean parent="AnyCharacterValidationPattern" />
@@ -68,8 +68,8 @@
     <property name="control" >
       <bean parent="CheckboxControlDefinition" />
     </property>
-    <property name="summary" value="On Off Campus Flag" />
-    <property name="description" value="On Off Campus Flag" />
+    <property name="summary" value="On Off CampusContractContract Flag" />
+    <property name="description" value="On Off CampusContractContract Flag" />
   </bean>
   <bean id="InstituteLaRate-active" parent="InstituteLaRate-active-parentBean" />
 

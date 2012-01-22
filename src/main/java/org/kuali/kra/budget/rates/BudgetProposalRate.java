@@ -15,35 +15,26 @@
  */
 package org.kuali.kra.budget.rates;
 
-import java.util.LinkedHashMap;
-
 import org.kuali.kra.bo.InstituteRate;
 
 public class BudgetProposalRate extends AbstractBudgetRate {
-	private String activityTypeCode;
 
-	public BudgetProposalRate() {
-	    super();
-	}
-	
-	public BudgetProposalRate(String unitNumber, InstituteRate instituteRate) {
-	    super(unitNumber, instituteRate);
-	    setActivityTypeCode(instituteRate.getActivityTypeCode());
-	}
-	
+    private String activityTypeCode;
+
+    public BudgetProposalRate() {
+        super();
+    }
+
+    public BudgetProposalRate(String unitNumber, InstituteRate instituteRate) {
+        super(unitNumber, instituteRate);
+        setActivityTypeCode(instituteRate.getActivityTypeCode());
+    }
+
     public String getActivityTypeCode() {
-		return activityTypeCode;
-	}
+        return activityTypeCode;
+    }
 
-	public void setActivityTypeCode(String activityTypeCode) {
-		this.activityTypeCode = activityTypeCode;
-	}
-
-	@Override 
-	protected LinkedHashMap toStringMapper() {
-		LinkedHashMap hashMap = super.toStringMapper();
-		hashMap.put("activityTypeCode", getActivityTypeCode());
-		return hashMap;
-	}
-
+    public void setActivityTypeCode(String activityTypeCode) {
+        this.activityTypeCode = activityTypeCode;
+    }
 }

@@ -41,21 +41,22 @@ import org.kuali.kra.lookup.KraLookupableHelperServiceImpl;
 import org.kuali.kra.service.KcPersonService;
 import org.kuali.kra.service.KraAuthorizationService;
 import org.kuali.kra.service.TaskAuthorizationService;
-import org.kuali.rice.kew.exception.WorkflowException;
-import org.kuali.rice.kew.util.KEWConstants;
-import org.kuali.rice.kns.bo.BusinessObject;
-import org.kuali.rice.kns.lookup.CollectionIncomplete;
+import org.kuali.rice.core.api.CoreApiServiceLocator;
+import org.kuali.rice.kew.api.KewApiConstants;
+import org.kuali.rice.kew.api.exception.WorkflowException;
 import org.kuali.rice.kns.lookup.HtmlData;
 import org.kuali.rice.kns.lookup.LookupUtils;
 import org.kuali.rice.kns.lookup.HtmlData.AnchorHtmlData;
 import org.kuali.rice.kns.service.DictionaryValidationService;
-import org.kuali.rice.kns.service.DocumentService;
 import org.kuali.rice.kns.service.KNSServiceLocator;
-import org.kuali.rice.kns.util.GlobalVariables;
-import org.kuali.rice.kns.util.KNSConstants;
-import org.kuali.rice.kns.util.UrlFactory;
 import org.kuali.rice.kns.web.ui.Field;
 import org.kuali.rice.kns.web.ui.Row;
+import org.kuali.rice.krad.bo.BusinessObject;
+import org.kuali.rice.krad.lookup.CollectionIncomplete;
+import org.kuali.rice.krad.service.DocumentService;
+import org.kuali.rice.krad.util.GlobalVariables;
+import org.kuali.rice.krad.util.KRADConstants;
+import org.kuali.rice.krad.util.UrlFactory;
 
 /**
  * This class handles searching for protocols.
@@ -273,14 +274,14 @@ public class ProtocolLookupableHelperServiceImpl extends KraLookupableHelperServ
     
     protected boolean validateDate(String dateFieldName, String dateFieldValue) {
         try{
-            KNSServiceLocator.getDateTimeService().convertToSqlTimestamp(dateFieldValue);
+            CoreApiServiceLocator.getDateTimeService().convertToSqlTimestamp(dateFieldValue);
             return true;
         } catch (ParseException e) {
-            GlobalVariables.getErrorMap().putError(dateFieldName, KeyConstants.ERROR_PROTOCOL_SEARCH_INVALID_DATE);
+            GlobalVariables.getMessageMap().putError(dateFieldName, KeyConstants.ERROR_PROTOCOL_SEARCH_INVALID_DATE);
             return false;
         } catch (Exception e) {
             e.printStackTrace();
-            GlobalVariables.getErrorMap().putError(dateFieldName, KeyConstants.ERROR_PROTOCOL_SEARCH_INVALID_DATE);
+            GlobalVariables.getMessageMap().putError(dateFieldName, KeyConstants.ERROR_PROTOCOL_SEARCH_INVALID_DATE);
             return false;
         }
     }
@@ -299,7 +300,7 @@ public class ProtocolLookupableHelperServiceImpl extends KraLookupableHelperServ
 
     /**
      * {@inheritDoc}
-     * @see org.kuali.kra.lookup.KraLookupableHelperServiceImpl#getCustomActionUrls(org.kuali.rice.kns.bo.BusinessObject, java.util.List)
+     * @see org.kuali.kra.lookup.KraLookupableHelperServiceImpl#getCustomActionUrls(org.kuali.rice.krad.bo.BusinessObject, java.util.List)
      */
     @Override
     public List<HtmlData> getCustomActionUrls(BusinessObject businessObject, List pkNames) {
@@ -356,9 +357,9 @@ public class ProtocolLookupableHelperServiceImpl extends KraLookupableHelperServ
         AnchorHtmlData htmlData = new AnchorHtmlData();
         htmlData.setDisplayText("perform action");
         Properties parameters = new Properties();
-        parameters.put(KNSConstants.DISPATCH_REQUEST_PARAMETER, "performProtocolAction");
-        parameters.put(KNSConstants.PARAMETER_COMMAND, KEWConstants.DOCSEARCH_COMMAND);
-        parameters.put(KNSConstants.DOCUMENT_TYPE_NAME, getDocumentTypeName());
+        parameters.put(KRADConstants.DISPATCH_REQUEST_PARAMETER, "performProtocolAction");
+        parameters.put(KRADConstants.PARAMETER_COMMAND, KewApiConstants.DOCSEARCH_COMMAND);
+        parameters.put(KRADConstants.DOCUMENT_TYPE_NAME, getDocumentTypeName());
         parameters.put("viewDocument", "false");
         parameters.put("docId", ((Protocol) businessObject).getProtocolDocument().getDocumentNumber());
         parameters.put(actionKey, "true");
@@ -383,7 +384,7 @@ public class ProtocolLookupableHelperServiceImpl extends KraLookupableHelperServ
             editHtmlData.setHref(href);
             editHtmlData.setDisplayText("edit");
             htmlDataList.add(editHtmlData);
-            AnchorHtmlData htmlData = getUrlData(businessObject, KNSConstants.MAINTENANCE_COPY_METHOD_TO_CALL, pkNames);
+            AnchorHtmlData htmlData = getUrlData(businessObject, KRADConstants.MAINTENANCE_COPY_METHOD_TO_CALL, pkNames);
             ProtocolDocument document = ((Protocol) businessObject).getProtocolDocument();
             htmlData.setHref("../DocCopyHandler.do?docId=" + document.getDocumentNumber()
                     + "&command=displayDocSearchView&documentTypeName=" + getDocumentTypeName());
@@ -411,7 +412,7 @@ public class ProtocolLookupableHelperServiceImpl extends KraLookupableHelperServ
                     super.updateLookupField(field,ProtocolLookupConstants.Property.ORGANIZATION_ID,ORGANIZATION_CLASS_PATH);
                 } else if (field.getPropertyName().equals(ProtocolLookupConstants.Property.PROTOCOL_STATUS_CODE) || field.getPropertyName().equals(ProtocolLookupConstants.Property.PROTOCOL_TYPE_CODE)) {
                     // to disable lookup/inquiry display
-                    field.setQuickFinderClassNameImpl(KNSConstants.EMPTY_STRING);
+                    field.setQuickFinderClassNameImpl(KRADConstants.EMPTY_STRING);
                 } else if (field.getPropertyName().startsWith("leadUnit")) {
                     // This is to set label for search criteria.
                     if (field.getPropertyName().equals("leadUnitNumber")) {

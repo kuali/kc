@@ -24,8 +24,6 @@ import java.util.List;
 import java.util.Map;
 import java.util.regex.Pattern;
 
-import org.kuali.kra.lookup.keyvalue.ArgValueLookupValuesFinder;
-
 import org.apache.commons.lang.StringUtils;
 import org.kuali.kra.bo.CustomAttribute;
 import org.kuali.kra.bo.CustomAttributeDataType;
@@ -35,17 +33,18 @@ import org.kuali.kra.document.ResearchDocumentBase;
 import org.kuali.kra.infrastructure.Constants;
 import org.kuali.kra.infrastructure.KeyConstants;
 import org.kuali.kra.infrastructure.KraServiceLocator;
+import org.kuali.kra.lookup.keyvalue.ArgValueLookupValuesFinder;
 import org.kuali.kra.rule.BusinessRuleInterface;
 import org.kuali.kra.rule.event.SaveCustomAttributeEvent;
 import org.kuali.kra.service.CustomAttributeService;
 import org.kuali.kra.service.KcPersonService;
-import org.kuali.rice.core.util.KeyLabelPair;
-import org.kuali.rice.kns.datadictionary.validation.ValidationPattern;
+import org.kuali.rice.core.api.util.KeyValue;
+import org.kuali.rice.core.api.util.RiceKeyConstants;
 import org.kuali.rice.kns.datadictionary.validation.charlevel.AnyCharacterValidationPattern;
 import org.kuali.rice.kns.datadictionary.validation.charlevel.NumericValidationPattern;
 import org.kuali.rice.kns.datadictionary.validation.fieldlevel.DateValidationPattern;
-import org.kuali.rice.kns.util.GlobalVariables;
-import org.kuali.rice.kns.util.RiceKeyConstants;
+import org.kuali.rice.krad.datadictionary.validation.ValidationPattern;
+import org.kuali.rice.krad.util.GlobalVariables;
 
 /**
  * Validates the rules for a Custom Attribute save action.
@@ -163,7 +162,7 @@ public class SaveCustomAttributeRule extends ResearchDocumentRuleBase implements
                 KcPerson customPerson = kps.getKcPersonByUserName(customAttribute.getValue());
                 if (customPerson == null)
                 {
-                    GlobalVariables.getErrorMap().putError(errorKey, RiceKeyConstants.ERROR_EXISTENCE, 
+                    GlobalVariables.getMessageMap().putError(errorKey, RiceKeyConstants.ERROR_EXISTENCE, 
                         customAttribute.getLabel(), attributeValue, validFormat);
                     return false;
                 }
@@ -184,19 +183,19 @@ public class SaveCustomAttributeRule extends ResearchDocumentRuleBase implements
         {
                 ArgValueLookupValuesFinder finder = new  ArgValueLookupValuesFinder();
                 finder.setArgName(customAttribute.getLookupReturn());
-                List<KeyLabelPair> kv = finder.getKeyValues();
-                Iterator<KeyLabelPair> i = kv.iterator();
+                List<KeyValue> kv = finder.getKeyValues();
+                Iterator<KeyValue> i = kv.iterator();
                 while (i.hasNext())
                 {
-                    KeyLabelPair element = (KeyLabelPair) i.next();
-                    String label = element.getLabel().toLowerCase();
+                    KeyValue element = (KeyValue) i.next();
+                    String label = element.getValue().toLowerCase();
                     if (label.equals(attributeValue.toLowerCase()))
                     {
                         return true;
                     }      
                 }
                 validFormat = getValidFormat(customAttributeDataType.getDescription());
-                GlobalVariables.getErrorMap().putError(errorKey, RiceKeyConstants.ERROR_EXISTENCE, 
+                GlobalVariables.getMessageMap().putError(errorKey, RiceKeyConstants.ERROR_EXISTENCE, 
                       customAttribute.getLabel(), attributeValue, validFormat);
                 return false;           
         }
@@ -212,7 +211,7 @@ public class SaveCustomAttributeRule extends ResearchDocumentRuleBase implements
             if (isInvalid(boClass, keyValue(customAttribute.getLookupReturn(), customAttribute.getValue() ) ) )         
             {
                 validFormat = getValidFormat(customAttributeDataType.getDescription());
-                GlobalVariables.getErrorMap().putError(errorKey, RiceKeyConstants.ERROR_EXISTENCE, 
+                GlobalVariables.getMessageMap().putError(errorKey, RiceKeyConstants.ERROR_EXISTENCE, 
                          customAttribute.getLabel(), attributeValue, validFormat);
                 return false;
             }

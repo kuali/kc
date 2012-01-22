@@ -52,13 +52,5 @@ public class ScheduleStatusTest extends BoAttributeTestBase<ScheduleStatus> {
         map.put(FIELD_DESCRIPTION, FIELD_DESCRIPTION_VALUE);
         return map;
     }
-    
-    /**
-     * @see org.kuali.kra.committee.bo.BoAttributeTestBase#getToStringMapper()
-     */
-    @SuppressWarnings("unchecked")
-    @Override
-    protected Map getToStringMapper() {
-       return getT().toStringMapper();
-    }
+
 }

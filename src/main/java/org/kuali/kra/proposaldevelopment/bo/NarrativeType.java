@@ -15,8 +15,6 @@
  */
 package org.kuali.kra.proposaldevelopment.bo;
 
-import java.util.LinkedHashMap;
-
 import org.apache.commons.lang.StringUtils;
 import org.kuali.kra.bo.KraPersistableBusinessObjectBase;
 
@@ -27,60 +25,57 @@ import org.kuali.kra.bo.KraPersistableBusinessObjectBase;
  * @version $Revision: 1.4 $
  */
 public class NarrativeType extends KraPersistableBusinessObjectBase {
-    
+
     private String narrativeTypeCode;
+
     private String description;
+
     private String systemGenerated;
+
     private String allowMultiple;
+
     private String narrativeTypeGroup;
-    
+
     public String getAllowMultiple() {
         return allowMultiple;
     }
+
     public void setAllowMultiple(String allowMultiple) {
         this.allowMultiple = allowMultiple;
     }
+
     public String getDescription() {
         return description;
     }
+
     public void setDescription(String description) {
         this.description = description;
     }
+
     public String getNarrativeTypeCode() {
         return narrativeTypeCode;
     }
+
     public void setNarrativeTypeCode(String narrativeTypeCode) {
         this.narrativeTypeCode = narrativeTypeCode;
     }
+
     public String getNarrativeTypeGroup() {
         return narrativeTypeGroup;
     }
+
     public void setNarrativeTypeGroup(String narrativeTypeGroup) {
         this.narrativeTypeGroup = narrativeTypeGroup;
     }
+
     public String getSystemGenerated() {
         return systemGenerated;
     }
+
     public void setSystemGenerated(String systemGenerated) {
         this.systemGenerated = systemGenerated;
     }
-    
-    /**
-     * @see org.kuali.rice.kns.bo.BusinessObjectBase#toStringMapper()
-     */
-    @Override
-    protected LinkedHashMap toStringMapper() {
-        LinkedHashMap propMap = new LinkedHashMap();
-        propMap.put("narrativeTypeCode", this.getNarrativeTypeCode());
-        propMap.put("description", this.getDescription());
-        propMap.put("systemGenerated", this.getSystemGenerated());
-        propMap.put("allowMultiple", this.getAllowMultiple());
-        propMap.put("narrativeTypeGroup", this.getNarrativeTypeGroup());
-        propMap.put("updateTimestamp", this.getUpdateTimestamp());
-        propMap.put("updateUser", this.getUpdateUser());
-        return propMap;
-    }
-    
+
     /**
      * Determine if two NarrativeTypes have the same values.
      * @see java.lang.Object#equals(java.lang.Object)
@@ -89,11 +84,7 @@ public class NarrativeType extends KraPersistableBusinessObjectBase {
         if (obj == this) return true;
         if (obj instanceof NarrativeType) {
             NarrativeType other = (NarrativeType) obj;
-            return StringUtils.equals(this.narrativeTypeCode, other.narrativeTypeCode) &&
-                   StringUtils.equals(this.description, other.description) &&
-                   StringUtils.equals(this.systemGenerated, other.systemGenerated) &&
-                   StringUtils.equals(this.allowMultiple, other.allowMultiple) &&
-                   StringUtils.equals(this.narrativeTypeGroup, other.narrativeTypeGroup);
+            return StringUtils.equals(this.narrativeTypeCode, other.narrativeTypeCode) && StringUtils.equals(this.description, other.description) && StringUtils.equals(this.systemGenerated, other.systemGenerated) && StringUtils.equals(this.allowMultiple, other.allowMultiple) && StringUtils.equals(this.narrativeTypeGroup, other.narrativeTypeGroup);
         }
         return false;
     }

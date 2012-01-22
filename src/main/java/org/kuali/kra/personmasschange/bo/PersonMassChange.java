@@ -335,16 +335,4 @@ public class PersonMassChange extends KraPersistableBusinessObjectBase {
         unitPersonMassChangeList.set(0, unitPersonMassChange);
     }
 
-    @Override
-    protected LinkedHashMap<String, Object> toStringMapper() {
-        LinkedHashMap<String, Object> propMap = new LinkedHashMap<String, Object>();
-        propMap.put("personMassChangeId", getPersonMassChangeId());
-        propMap.put("replaceePersonId", getReplaceePersonId());
-        propMap.put("replaceeRolodexId", getReplaceeRolodexId());
-        propMap.put("replacerPersonId", getReplacerPersonId());
-        propMap.put("replacerRolodexId", getReplacerRolodexId());
-        propMap.put("changeAllSequences", isChangeAllSequences());
-        return propMap;
-    }
-
 }

@@ -18,42 +18,31 @@ package org.kuali.kra.institutionalproposal.proposallog;
 import java.util.ArrayList;
 import java.util.Collection;
 import java.util.HashMap;
-import java.util.LinkedList;
 import java.util.List;
 import java.util.Map;
 import java.util.Properties;
 
 import org.apache.commons.lang.StringUtils;
 import org.kuali.kra.bo.KcPerson;
-import org.kuali.kra.infrastructure.KeyConstants;
 import org.kuali.kra.infrastructure.KraServiceLocator;
-import org.kuali.kra.institutionalproposal.document.InstitutionalProposalDocument;
-import org.kuali.kra.institutionalproposal.document.authorization.InstitutionalProposalDocumentAuthorizer;
-import org.kuali.kra.institutionalproposal.home.InstitutionalProposal;
-import org.kuali.kra.questionnaire.Questionnaire;
 import org.kuali.kra.service.KcPersonService;
+import org.kuali.rice.kew.api.KEWPropertyConstants;
+import org.kuali.rice.kew.api.KewApiConstants;
 import org.kuali.rice.kew.doctype.bo.DocumentType;
-import org.kuali.rice.kew.exception.WorkflowException;
 import org.kuali.rice.kew.routeheader.DocumentRouteHeaderValue;
-import org.kuali.rice.kew.util.KEWConstants;
-import org.kuali.rice.kew.util.KEWPropertyConstants;
-import org.kuali.rice.kew.web.session.UserSession;
-import org.kuali.rice.kim.bo.Person;
-import org.kuali.rice.kns.bo.BusinessObject;
-import org.kuali.rice.kns.document.Document;
-import org.kuali.rice.kns.document.MaintenanceDocument;
+import org.kuali.rice.kim.api.identity.Person;
 import org.kuali.rice.kns.document.MaintenanceDocumentBase;
 import org.kuali.rice.kns.lookup.HtmlData;
-import org.kuali.rice.kns.lookup.KualiLookupableHelperServiceImpl;
 import org.kuali.rice.kns.lookup.HtmlData.AnchorHtmlData;
-import org.kuali.rice.kns.service.DocumentService;
-import org.kuali.rice.kns.util.GlobalVariables;
-import org.kuali.rice.kns.util.KNSConstants;
-import org.kuali.rice.kns.util.UrlFactory;
+import org.kuali.rice.kns.lookup.KualiLookupableHelperServiceImpl;
 import org.kuali.rice.kns.web.struts.form.LookupForm;
 import org.kuali.rice.kns.web.ui.Field;
 import org.kuali.rice.kns.web.ui.Row;
-
+import org.kuali.rice.krad.bo.BusinessObject;
+import org.kuali.rice.krad.service.DocumentService;
+import org.kuali.rice.krad.util.GlobalVariables;
+import org.kuali.rice.krad.util.KRADConstants;
+import org.kuali.rice.krad.util.UrlFactory;
 
 /**
  * Lookupable helper service used for proposal log lookup
@@ -68,6 +57,7 @@ public class ProposalLogLookupableHelperServiceImpl extends KualiLookupableHelpe
     
     private boolean isLookupForProposalCreation;
     private DocumentService documentService;
+    
     public void setDocumentService(DocumentService documentService) {
         this.documentService = documentService;
     }
@@ -100,6 +90,7 @@ public class ProposalLogLookupableHelperServiceImpl extends KualiLookupableHelpe
      */
     @Override
     public List<? extends BusinessObject> getSearchResults(Map<String, String> fieldValues) {
+        
         checkIsLookupForProposalCreation(fieldValues);
         List<ProposalLog> results = (List<ProposalLog>)super.getSearchResults(fieldValues);
         String returnLocation = fieldValues.get("backLocation");
@@ -111,25 +102,24 @@ public class ProposalLogLookupableHelperServiceImpl extends KualiLookupableHelpe
         }
     }
     protected List<ProposalLog> filterForPermissions(List<ProposalLog> results) {
-        Person user = UserSession.getAuthenticatedUser().getPerson();
+        Person user = GlobalVariables.getUserSession().getPerson();
         Map<String, Object> fieldValues = new HashMap<String, Object>();
         List<ProposalLog> proposalLogs = new ArrayList<ProposalLog>();
         ProposalLogDocumentAuthorizer authorizer = new ProposalLogDocumentAuthorizer();
         List<String> proposalIds = new ArrayList<String>();
         fieldValues.put(KEWPropertyConstants.NAME, getMaintenanceDocumentDictionaryService().getDocumentTypeName(
                 ProposalLog.class));
-        List<Long> docTypeIds = new ArrayList<Long>();
+        List<String> docTypeIds = new ArrayList<String>();
         for (DocumentType docType : (List<DocumentType>) getBusinessObjectService().findMatching(DocumentType.class, fieldValues)) {
             docTypeIds.add(docType.getDocumentTypeId());
         }
         fieldValues.clear();
         fieldValues.put(KEWPropertyConstants.DOCUMENT_TYPE_ID, docTypeIds);
-        fieldValues.put(DOC_ROUTE_STATUS, KEWConstants.ROUTE_HEADER_FINAL_CD);
+        fieldValues.put(DOC_ROUTE_STATUS, KewApiConstants.ROUTE_HEADER_FINAL_CD);
         List<DocumentRouteHeaderValue> docHeaders = (List<DocumentRouteHeaderValue>) getBusinessObjectService().findMatching(DocumentRouteHeaderValue.class, fieldValues);
         try {
             for (DocumentRouteHeaderValue docHeader : docHeaders) {
-                MaintenanceDocumentBase doc = (MaintenanceDocumentBase) documentService.getByDocumentHeaderId(docHeader
-                        .getRouteHeaderId().toString());
+                MaintenanceDocumentBase doc = (MaintenanceDocumentBase) documentService.getByDocumentHeaderId(docHeader.getDocumentId());
                 for(ProposalLog proposalLog : results){
                     ProposalLog proposalLogDoc = (ProposalLog)doc.getNewMaintainableObject().getBusinessObject();
                     if(proposalLog.getProposalNumber() != null && proposalLogDoc.getProposalNumber() != null && proposalLog.getProposalNumber().equalsIgnoreCase(proposalLogDoc.getProposalNumber())){
@@ -147,7 +137,7 @@ public class ProposalLogLookupableHelperServiceImpl extends KualiLookupableHelpe
                 }
             } catch (Exception e) {
                 e.printStackTrace();
-            }
+        }
         
         return proposalLogs;
     }
@@ -164,7 +154,7 @@ public class ProposalLogLookupableHelperServiceImpl extends KualiLookupableHelpe
     
     /**
      * create 'merge' link
-     * @see org.kuali.rice.kns.lookup.AbstractLookupableHelperServiceImpl#getCustomActionUrls(org.kuali.rice.kns.bo.BusinessObject, java.util.List)
+     * @see org.kuali.rice.kns.lookup.AbstractLookupableHelperServiceImpl#getCustomActionUrls(org.kuali.rice.krad.bo.BusinessObject, java.util.List)
      */
     @SuppressWarnings("unchecked")
     @Override
@@ -219,9 +209,9 @@ public class ProposalLogLookupableHelperServiceImpl extends KualiLookupableHelpe
         AnchorHtmlData htmlData = new AnchorHtmlData();
         htmlData.setDisplayText("select");
         Properties parameters = new Properties();
-        parameters.put(KNSConstants.DISPATCH_REQUEST_PARAMETER, "docHandler");
-        parameters.put(KNSConstants.PARAMETER_COMMAND, "initiate");
-        parameters.put(KNSConstants.DOCUMENT_TYPE_NAME, "InstitutionalProposalDocument");
+        parameters.put(KRADConstants.DISPATCH_REQUEST_PARAMETER, "docHandler");
+        parameters.put(KRADConstants.PARAMETER_COMMAND, "initiate");
+        parameters.put(KRADConstants.DOCUMENT_TYPE_NAME, "InstitutionalProposalDocument");
         parameters.put("proposalNumber", proposalLog.getProposalNumber());
         String href  = UrlFactory.parameterizeUrl("../institutionalProposalHome.do", parameters);
 
@@ -234,7 +224,7 @@ public class ProposalLogLookupableHelperServiceImpl extends KualiLookupableHelpe
         AnchorHtmlData htmlData = new AnchorHtmlData();
         htmlData.setDisplayText("merge");
         Properties parameters = new Properties();
-        parameters.put(KNSConstants.DISPATCH_REQUEST_PARAMETER, "pageEntry");
+        parameters.put(KRADConstants.DISPATCH_REQUEST_PARAMETER, "pageEntry");
         parameters.put("proposalLogNumber", proposalNumber);
         String href  = UrlFactory.parameterizeUrl("../mergeProposalLog.do", parameters);
         
@@ -246,7 +236,7 @@ public class ProposalLogLookupableHelperServiceImpl extends KualiLookupableHelpe
         AnchorHtmlData htmlData = new AnchorHtmlData();
         htmlData.setDisplayText("print");
         Properties parameters = new Properties();
-        parameters.put(KNSConstants.DISPATCH_REQUEST_PARAMETER, "printProposalLog");
+        parameters.put(KRADConstants.DISPATCH_REQUEST_PARAMETER, "printProposalLog");
         parameters.put("proposalNumber", proposalNumber);
         String href  = UrlFactory.parameterizeUrl("../printProposalLog.do", parameters);
         
@@ -265,7 +255,7 @@ public class ProposalLogLookupableHelperServiceImpl extends KualiLookupableHelpe
         int editLinkIndex = -1;
         int currentIndex = 0;
         for (HtmlData htmlData : htmlDataList) {
-            if (KNSConstants.MAINTENANCE_EDIT_METHOD_TO_CALL.equals(htmlData.getMethodToCall())) {
+            if (KRADConstants.MAINTENANCE_EDIT_METHOD_TO_CALL.equals(htmlData.getMethodToCall())) {
                 editLinkIndex = currentIndex;
                 break;
             }

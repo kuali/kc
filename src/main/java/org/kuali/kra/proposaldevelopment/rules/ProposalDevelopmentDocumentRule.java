@@ -32,7 +32,6 @@ import org.kuali.kra.proposaldevelopment.bo.PropScienceKeyword;
 import org.kuali.kra.proposaldevelopment.bo.ProposalAbstract;
 import org.kuali.kra.proposaldevelopment.bo.ProposalCopyCriteria;
 import org.kuali.kra.proposaldevelopment.bo.ProposalPerson;
-import org.kuali.kra.proposaldevelopment.bo.ProposalPersonYnq;
 import org.kuali.kra.proposaldevelopment.bo.ProposalUser;
 import org.kuali.kra.proposaldevelopment.bo.ProposalUserEditRoles;
 import org.kuali.kra.proposaldevelopment.bo.ProposalYnq;
@@ -79,12 +78,12 @@ import org.kuali.kra.rule.event.KraDocumentEventBaseExtension;
 import org.kuali.kra.rule.event.SaveCustomAttributeEvent;
 import org.kuali.kra.rules.ResearchDocumentRuleBase;
 import org.kuali.kra.service.SponsorService;
-import org.kuali.rice.kns.bo.BusinessObject;
-import org.kuali.rice.kns.document.Document;
+import org.kuali.rice.core.api.util.RiceKeyConstants;
 import org.kuali.rice.kns.service.DataDictionaryService;
-import org.kuali.rice.kns.util.ErrorMap;
-import org.kuali.rice.kns.util.GlobalVariables;
-import org.kuali.rice.kns.util.RiceKeyConstants;
+import org.kuali.rice.krad.bo.BusinessObject;
+import org.kuali.rice.krad.document.Document;
+import org.kuali.rice.krad.util.GlobalVariables;
+import org.kuali.rice.krad.util.MessageMap;
 
 
 
@@ -127,25 +126,25 @@ public class ProposalDevelopmentDocumentRule extends ResearchDocumentRuleBase im
 
         ProposalDevelopmentDocument proposalDevelopmentDocument = (ProposalDevelopmentDocument) document;
 
-        GlobalVariables.getErrorMap().addToErrorPath(DOCUMENT_ERROR_PATH);
+        GlobalVariables.getMessageMap().addToErrorPath(DOCUMENT_ERROR_PATH);
         getDictionaryValidationService().validateDocumentAndUpdatableReferencesRecursively(
             document, getMaxDictionaryValidationDepth(), VALIDATION_REQUIRED, CHOMP_LAST_LETTER_S_FROM_COLLECTION_NAME);
-        GlobalVariables.getErrorMap().removeFromErrorPath(DOCUMENT_ERROR_PATH);
+        GlobalVariables.getMessageMap().removeFromErrorPath(DOCUMENT_ERROR_PATH);
         
-        GlobalVariables.getErrorMap().addToErrorPath("document.developmentProposalList[0]");
+        GlobalVariables.getMessageMap().addToErrorPath("document.developmentProposalList[0]");
         valid &= processProposalRequiredFieldsBusinessRule(proposalDevelopmentDocument);
         valid &= processProtocolCustomDataBusinessRules(proposalDevelopmentDocument);
         
-        GlobalVariables.getErrorMap().removeFromErrorPath("document.developmentProposalList[0]");
+        GlobalVariables.getMessageMap().removeFromErrorPath("document.developmentProposalList[0]");
         valid &= processSpecialReviewBusinessRule(proposalDevelopmentDocument);
-        GlobalVariables.getErrorMap().addToErrorPath("document.developmentProposalList[0]");
+        GlobalVariables.getMessageMap().addToErrorPath("document.developmentProposalList[0]");
         
         valid &= processProposalYNQBusinessRule(proposalDevelopmentDocument, false);
         valid &= processBudgetVersionsBusinessRule(proposalDevelopmentDocument, false);
         valid &= processProposalGrantsGovBusinessRule(proposalDevelopmentDocument);
         valid &= processSponsorProgramBusinessRule(proposalDevelopmentDocument);
         valid &= processKeywordBusinessRule(proposalDevelopmentDocument);
-        GlobalVariables.getErrorMap().removeFromErrorPath("document.developmentProposalList[0]");
+        GlobalVariables.getMessageMap().removeFromErrorPath("document.developmentProposalList[0]");
      
         return valid;
     }
@@ -165,7 +164,7 @@ public class ProposalDevelopmentDocumentRule extends ResearchDocumentRuleBase im
     private boolean processSpecialReviewBusinessRule(ProposalDevelopmentDocument proposalDocument) {
         List<ProposalSpecialReview> specialReviews = proposalDocument.getDevelopmentProposal().getPropSpecialReviews();
         boolean isProtocolLinkingEnabled 
-            = getParameterService().getIndicatorParameter("KC-PROTOCOL", "Document", "irb.protocol.development.proposal.linking.enabled");
+            = getParameterService().getParameterValueAsBoolean("KC-PROTOCOL", "Document", "irb.protocol.development.proposal.linking.enabled");
         return processRules(new SaveSpecialReviewEvent<ProposalSpecialReview>(
             SAVE_SPECIAL_REVIEW_FIELD, proposalDocument, specialReviews, isProtocolLinkingEnabled));
     }
@@ -265,7 +264,7 @@ public class ProposalDevelopmentDocumentRule extends ResearchDocumentRuleBase im
     private boolean processProposalRequiredFieldsBusinessRule(ProposalDevelopmentDocument proposalDevelopmentDocument) {
         boolean valid = true;
 
-        ErrorMap errorMap = GlobalVariables.getErrorMap();
+        MessageMap errorMap = GlobalVariables.getMessageMap();
         DataDictionaryService dataDictionaryService = KraServiceLocator.getService(DataDictionaryService.class);
 
         proposalDevelopmentDocument.getDevelopmentProposal().refreshReferenceObject("sponsor");
@@ -351,7 +350,7 @@ public class ProposalDevelopmentDocumentRule extends ResearchDocumentRuleBase im
      * @return the parameter
      */
     private String getS2sRevisionTypeOther() {
-        return this.getParameterService().getParameterValue(ProposalDevelopmentDocument.class, KeyConstants.S2S_REVISIONTYPE_OTHER);
+        return this.getParameterService().getParameterValueAsString(ProposalDevelopmentDocument.class, KeyConstants.S2S_REVISIONTYPE_OTHER);
     }
     
     public boolean processAddKeyPersonBusinessRules(ProposalDevelopmentDocument document, ProposalPerson person) {
@@ -366,11 +365,11 @@ public class ProposalDevelopmentDocumentRule extends ResearchDocumentRuleBase im
         
         boolean valid = true;
         String regExpr = "(\\d{2})(\\.)(\\d{3})[a-zA-z]?";
-        ErrorMap errorMap = GlobalVariables.getErrorMap();
+        MessageMap errorMap = GlobalVariables.getMessageMap();
         DataDictionaryService dataDictionaryService = KraServiceLocator.getService(DataDictionaryService.class);
         if (StringUtils.isNotBlank(proposalDevelopmentDocument.getDevelopmentProposal().getCfdaNumber())
                 && !(proposalDevelopmentDocument.getDevelopmentProposal().getCfdaNumber().matches(regExpr))
-                && GlobalVariables.getErrorMap().getMessages("document.developmentProposalList[0].cfdaNumber") == null) {
+                && GlobalVariables.getMessageMap().getMessages("document.developmentProposalList[0].cfdaNumber") == null) {
             errorMap.putError("developmentProposalList[0].cfdaNumber", RiceKeyConstants.ERROR_INVALID_FORMAT, new String[] {
                     dataDictionaryService.getAttributeErrorLabel(DevelopmentProposal.class, "cfdaNumber"),
                     proposalDevelopmentDocument.getDevelopmentProposal().getCfdaNumber() });
@@ -402,7 +401,7 @@ public class ProposalDevelopmentDocumentRule extends ResearchDocumentRuleBase im
                 if ( keyword == keyword2 ) {
                     continue;
                 } else if ( StringUtils.equalsIgnoreCase(keyword.getScienceKeywordCode(), keyword2.getScienceKeywordCode()) ) {
-                    GlobalVariables.getErrorMap().putError("propScienceKeyword", "error.proposalKeywords.duplicate");
+                    GlobalVariables.getMessageMap().putError("propScienceKeyword", "error.proposalKeywords.duplicate");
                    
                     return false;
                 }
@@ -420,7 +419,7 @@ public class ProposalDevelopmentDocumentRule extends ResearchDocumentRuleBase im
     }
 
     /**
-     * @see org.kuali.rice.kns.rule.DocumentAuditRule#processRunAuditBusinessRules(org.kuali.rice.kns.document.Document)
+     * @see org.kuali.rice.krad.rules.rule.DocumentAuditRule#processRunAuditBusinessRules(org.kuali.rice.krad.document.Document)
      */
     @Override
     public boolean processRunAuditBusinessRules(Document document){
@@ -512,7 +511,7 @@ public class ProposalDevelopmentDocumentRule extends ResearchDocumentRuleBase im
     /**
      * Delegating method for the <code>{@link ChangeKeyPersonRule}</code> which is triggered by the <code>{@link ChangeKeyPersonEvent}</code>
      * 
-     * @see org.kuali.kra.proposaldevelopment.rule.ChangeKeyPersonRule#processChangeKeyPersonBusinessRules(org.kuali.kra.proposaldevelopment.bo.ProposalPerson, org.kuali.rice.kns.bo.BusinessObject)
+     * @see org.kuali.kra.proposaldevelopment.rule.ChangeKeyPersonRule#processChangeKeyPersonBusinessRules(org.kuali.kra.proposaldevelopment.bo.ProposalPerson, org.kuali.rice.krad.bo.BusinessObject)
      */
     public boolean processChangeKeyPersonBusinessRules(ProposalPerson proposalPerson, BusinessObject source,int index) {
         return new ProposalDevelopmentKeyPersonsRule().processChangeKeyPersonBusinessRules(proposalPerson, source,index);

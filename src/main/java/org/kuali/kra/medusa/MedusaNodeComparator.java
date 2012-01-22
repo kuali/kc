@@ -19,13 +19,14 @@ import java.util.Comparator;
 import org.apache.commons.lang.ObjectUtils;
 import org.apache.commons.lang.StringUtils;
 
-import org.kuali.rice.kns.bo.BusinessObject;
 import org.kuali.kra.award.home.Award;
 import org.kuali.kra.institutionalproposal.home.InstitutionalProposal;
-import org.kuali.kra.proposaldevelopment.bo.DevelopmentProposal;
 import org.kuali.kra.medusa.service.MedusaService;
 import org.kuali.kra.negotiations.bo.Negotiation;
 import org.kuali.kra.subaward.bo.SubAward;
+import org.kuali.kra.proposaldevelopment.bo.DevelopmentProposal;
+import org.kuali.rice.krad.bo.BusinessObject;
+
 
 public class MedusaNodeComparator implements Comparator<MedusaNode> {
 
@@ -51,7 +52,7 @@ public class MedusaNodeComparator implements Comparator<MedusaNode> {
                 return nodeType + ((Negotiation)mBo).getNegotiationId();
             } else if (StringUtils.equals(nodeType, "subaward")) {
                 return nodeType + ((SubAward)mBo).getSubAwardId();
-            }  else
+            } else
                 return "medusa: unsupported medusa node type";
         }
     }

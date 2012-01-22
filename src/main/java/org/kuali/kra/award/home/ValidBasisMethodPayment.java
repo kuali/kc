@@ -15,30 +15,31 @@
  */
 package org.kuali.kra.award.home;
 
-import java.util.LinkedHashMap;
-
 import org.apache.commons.logging.Log;
 import org.apache.commons.logging.LogFactory;
 import org.kuali.kra.bo.KraPersistableBusinessObjectBase;
 
-public class ValidBasisMethodPayment extends KraPersistableBusinessObjectBase { 
-    
+public class ValidBasisMethodPayment extends KraPersistableBusinessObjectBase {
+
     private static final Log LOG = LogFactory.getLog(ValidBasisMethodPayment.class);
-    
+
     private static final long serialVersionUID = 1L;
 
-    private Integer validBasisMethodPaymentId; 
-    private String basisOfPaymentCode; 
-    private String methodOfPaymentCode; 
-    private String invInstructionsIndicator; 
-    
-    private AwardMethodOfPayment methodOfPayment; 
-    private AwardBasisOfPayment basisOfPayment; 
-    
-    public ValidBasisMethodPayment() { 
+    private Integer validBasisMethodPaymentId;
 
-    } 
-    
+    private String basisOfPaymentCode;
+
+    private String methodOfPaymentCode;
+
+    private String invInstructionsIndicator;
+
+    private AwardMethodOfPayment methodOfPayment;
+
+    private AwardBasisOfPayment basisOfPayment;
+
+    public ValidBasisMethodPayment() {
+    }
+
     public Integer getValidBasisMethodPaymentId() {
         return validBasisMethodPaymentId;
     }
@@ -66,11 +67,10 @@ public class ValidBasisMethodPayment extends KraPersistableBusinessObjectBase {
     public String getInvInstructionsIndicator() {
         return invInstructionsIndicator;
     }
-    
+
     public InvInstructionsIndicatorConstants getInvInstructionsIndicatorConstant() {
         InvInstructionsIndicatorConstants result = InvInstructionsIndicatorConstants.getByCode(invInstructionsIndicator);
-        if( result == null && invInstructionsIndicator!=null ) 
-            LOG.warn(String.format( "ValidBasisMethodPayment with id = %s has invalid InvInstructionsIndicator value of %s", getValidBasisMethodPaymentId(), getInvInstructionsIndicator() ) );
+        if (result == null && invInstructionsIndicator != null) LOG.warn(String.format("ValidBasisMethodPayment with id = %s has invalid InvInstructionsIndicator value of %s", getValidBasisMethodPaymentId(), getInvInstructionsIndicator()));
         return result;
     }
 
@@ -80,8 +80,8 @@ public class ValidBasisMethodPayment extends KraPersistableBusinessObjectBase {
 
     public String getInvInstructionsIndicatorName() {
         InvInstructionsIndicatorConstants result = InvInstructionsIndicatorConstants.getByCode(invInstructionsIndicator);
-        if( result == null && invInstructionsIndicator!=null ) { 
-            LOG.warn(String.format( "ValidBasisMethodPayment with id = %s has invalid InvInstructionsIndicator value of %s", getValidBasisMethodPaymentId(), getInvInstructionsIndicator() ) );
+        if (result == null && invInstructionsIndicator != null) {
+            LOG.warn(String.format("ValidBasisMethodPayment with id = %s has invalid InvInstructionsIndicator value of %s", getValidBasisMethodPaymentId(), getInvInstructionsIndicator()));
             return null;
         }
         return result.name();
@@ -102,16 +102,4 @@ public class ValidBasisMethodPayment extends KraPersistableBusinessObjectBase {
     public void setBasisOfPayment(AwardBasisOfPayment basisOfPayment) {
         this.basisOfPayment = basisOfPayment;
     }
-
-    /** {@inheritDoc} */
-    @Override 
-    protected LinkedHashMap<String, Object> toStringMapper() {
-        LinkedHashMap<String, Object> hashMap = new LinkedHashMap<String, Object>();
-        hashMap.put("validBasisMethodPaymentId", this.getValidBasisMethodPaymentId());
-        hashMap.put("basisOfPaymentCode", this.getBasisOfPaymentCode());
-        hashMap.put("methodOfPaymentCode", this.getMethodOfPaymentCode());
-        hashMap.put("invInstructionsIndicator", this.getInvInstructionsIndicator());
-        return hashMap;
-    }
-    
 }

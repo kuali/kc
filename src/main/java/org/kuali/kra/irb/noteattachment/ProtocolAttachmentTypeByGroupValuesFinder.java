@@ -24,9 +24,9 @@ import org.apache.commons.lang.StringUtils;
 import org.kuali.kra.lookup.keyvalue.ConditionValuesFinder;
 import org.kuali.kra.lookup.keyvalue.PrefixValuesFinder;
 import org.kuali.kra.lookup.keyvalue.SortedValuesFinder;
-import org.kuali.rice.kns.lookup.keyvalues.KeyValuesBase;
-import org.kuali.rice.kns.lookup.keyvalues.KeyValuesFinder;
-import org.kuali.rice.core.util.KeyLabelPair;
+import org.kuali.rice.core.api.util.KeyValue;
+import org.kuali.rice.krad.keyvalues.KeyValuesBase;
+import org.kuali.rice.krad.keyvalues.KeyValuesFinder;
 
 
 /**
@@ -69,13 +69,13 @@ public class ProtocolAttachmentTypeByGroupValuesFinder <T extends ProtocolAttach
      * {@link #setGroupCode(String) setGroupCode(String)}
      * must be called with valid values before calling this method.
      * </p>
-     * @return a list of {@link KeyLabelPair KeyLabelPair}
+     * @return a list of {@link KeyValue KeyValue}
      */
-    public List<KeyLabelPair> getKeyValues() {   
+    public List<KeyValue> getKeyValues() {   
         this.validateRequiredProperties();
         
         @SuppressWarnings("unchecked")
-        final List<KeyLabelPair> exemptionTypes = this.createKeyValuesFinder().getKeyValues();
+        final List<KeyValue> exemptionTypes = this.createKeyValuesFinder().getKeyValues();
         return this.filterUsedTypes(exemptionTypes);
     }
     
@@ -97,16 +97,16 @@ public class ProtocolAttachmentTypeByGroupValuesFinder <T extends ProtocolAttach
     }
     
     /**
-     * returns a KeyLabelPair list removing all items with type codes matching the type codes contained in
+     * returns a KeyValue list removing all items with type codes matching the type codes contained in
      * {@link #filterTypes filterTypes}.
      * @param unfiltered the unfiltered list.
      * @return a filtered list.
      */
-    private List<KeyLabelPair> filterUsedTypes(final List<KeyLabelPair> unfiltered) {      
+    private List<KeyValue> filterUsedTypes(final List<KeyValue> unfiltered) {      
         assert unfiltered != null : "unfiltered is null";
         
-        final List<KeyLabelPair> filtered = new ArrayList<KeyLabelPair>();
-        for (KeyLabelPair item : unfiltered) {
+        final List<KeyValue> filtered = new ArrayList<KeyValue>();
+        for (KeyValue item : unfiltered) {
             if (!this.containsType((String) item.getKey())) {
                 filtered.add(item);
             }

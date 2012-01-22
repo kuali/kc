@@ -15,59 +15,57 @@
  */
 package org.kuali.kra.irb.personnel;
 
-import java.util.LinkedHashMap;
-
 import org.kuali.kra.bo.KraPersistableBusinessObjectBase;
 
-public class ProtocolPersonRole extends KraPersistableBusinessObjectBase implements Comparable<ProtocolPersonRole> { 
-	
-	/**
+public class ProtocolPersonRole extends KraPersistableBusinessObjectBase implements Comparable<ProtocolPersonRole> {
+
+    /**
      * Comment for <code>serialVersionUID</code>
      */
     private static final long serialVersionUID = -4525940858799917386L;
+
     public static final String ROLE_PRINCIPAL_INVESTIGATOR = "PI";
+
     public static final String ROLE_CO_INVESTIGATOR = "COI";
+
     public static final String ROLE_STUDY_PERSONNEL = "SP";
+
     public static final String ROLE_CORRESPONDENT_CRC = "CRC";
+
     public static final String ROLE_CORRESPONDENT_ADMINISTRATOR = "CA";
-    private String protocolPersonRoleId; 
-	private String description; 
-	private boolean unitDetailsRequired;
+
+    private String protocolPersonRoleId;
+
+    private String description;
+
+    private boolean unitDetailsRequired;
+
     private boolean affiliationDetailsRequired;
+
     private boolean trainingDetailsRequired;
+
     private boolean commentsDetailsRequired;
+
     private boolean active;
-	
-	public ProtocolPersonRole() { 
-	} 
-	
-	public String getProtocolPersonRoleId() {
-		return protocolPersonRoleId;
-	}
 
-	public void setProtocolPersonRoleId(String protocolPersonRoleId) {
-		this.protocolPersonRoleId = protocolPersonRoleId;
-	}
+    public ProtocolPersonRole() {
+    }
 
-	public String getDescription() {
-		return description;
-	}
+    public String getProtocolPersonRoleId() {
+        return protocolPersonRoleId;
+    }
 
-	public void setDescription(String description) {
-		this.description = description;
-	}
+    public void setProtocolPersonRoleId(String protocolPersonRoleId) {
+        this.protocolPersonRoleId = protocolPersonRoleId;
+    }
 
-	@Override 
-	protected LinkedHashMap<String,Object> toStringMapper() {
-		LinkedHashMap<String,Object> hashMap = new LinkedHashMap<String,Object>();
-		hashMap.put("protocolPersonRoleId", getProtocolPersonRoleId());
-		hashMap.put("description", getDescription());
-        hashMap.put("unitDetailsRequired", isUnitDetailsRequired());
-        hashMap.put("affiliationDetailsRequired", isAffiliationDetailsRequired());
-        hashMap.put("trainingDetailsRequired", isTrainingDetailsRequired());
-        hashMap.put("commentsDetailsRequired", isCommentsDetailsRequired());
-		return hashMap;
-	}
+    public String getDescription() {
+        return description;
+    }
+
+    public void setDescription(String description) {
+        this.description = description;
+    }
 
     public boolean isUnitDetailsRequired() {
         return unitDetailsRequired;
@@ -111,10 +109,10 @@ public class ProtocolPersonRole extends KraPersistableBusinessObjectBase impleme
 
     public int compareTo(ProtocolPersonRole other) {
         int result = 0;
-        if (other!=null) {
-            if ( description != null && other.description != null ) {
+        if (other != null) {
+            if (description != null && other.description != null) {
                 result = description.compareTo(other.getDescription());
-            } else if (description == null && other.getDescription() != null ) {
+            } else if (description == null && other.getDescription() != null) {
                 result = 1;
             } else if (description != null && other.getDescription() == null) {
                 result = -1;
@@ -124,5 +122,4 @@ public class ProtocolPersonRole extends KraPersistableBusinessObjectBase impleme
         }
         return result;
     }
-	
 }

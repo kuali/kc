@@ -15,50 +15,47 @@
  */
 package org.kuali.kra.award.home;
 
-import java.util.LinkedHashMap;
-
 import org.kuali.kra.bo.KraPersistableBusinessObjectBase;
 
 public class CFDA extends KraPersistableBusinessObjectBase {
 
     private String cfdaNumber;
+
     private String cfdaProgramTitleName;
+
     private String cfdaMaintenanceTypeId;
+
     private Boolean activeFlag;
 
     public Boolean getActiveFlag() {
         return activeFlag;
     }
+
     public void setActiveFlag(Boolean activeFlag) {
         this.activeFlag = activeFlag;
     }
+
     public String getCfdaMaintenanceTypeId() {
         return cfdaMaintenanceTypeId;
     }
+
     public void setCfdaMaintenanceTypeId(String cfdaMaintenanceTypeId) {
         this.cfdaMaintenanceTypeId = cfdaMaintenanceTypeId;
     }
+
     public String getCfdaNumber() {
         return cfdaNumber;
     }
+
     public void setCfdaNumber(String cfdaNumber) {
         this.cfdaNumber = cfdaNumber;
     }
+
     public String getCfdaProgramTitleName() {
         return cfdaProgramTitleName;
     }
+
     public void setCfdaProgramTitleName(String cfdaProgramTitleName) {
         this.cfdaProgramTitleName = cfdaProgramTitleName;
     }
-   
-    protected LinkedHashMap toStringMapper() {
-        LinkedHashMap hashMap = new LinkedHashMap();
-        hashMap.put("cfdaNumber", getCfdaNumber());
-        hashMap.put("cfdaProgramTitleName", getCfdaProgramTitleName());
-        hashMap.put("cfdaMaintenanceTypeId", getCfdaMaintenanceTypeId());
-        hashMap.put("activeFlag", getActiveFlag());
-        return hashMap;
-    }
-    
-    
 }

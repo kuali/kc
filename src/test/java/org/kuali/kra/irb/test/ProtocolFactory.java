@@ -25,10 +25,10 @@ import org.kuali.kra.irb.ProtocolDocument;
 import org.kuali.kra.irb.personnel.ProtocolPerson;
 import org.kuali.kra.irb.personnel.ProtocolUnit;
 import org.kuali.kra.service.KraAuthorizationService;
-import org.kuali.rice.kew.exception.WorkflowException;
-import org.kuali.rice.kns.service.DocumentService;
-import org.kuali.rice.kns.service.KNSServiceLocator;
-import org.kuali.rice.kns.util.GlobalVariables;
+import org.kuali.rice.kew.api.exception.WorkflowException;
+import org.kuali.rice.krad.service.DocumentService;
+import org.kuali.rice.krad.service.KRADServiceLocatorWeb;
+import org.kuali.rice.krad.util.GlobalVariables;
 
 /**
  * Base class for Protocol business rule tests.
@@ -74,7 +74,7 @@ public class ProtocolFactory {
      * @throws WorkflowException
      */
     public static ProtocolDocument createProtocolDocument(String protocolNumber, Integer sequenceNumber) throws WorkflowException {
-        DocumentService documentService = KNSServiceLocator.getDocumentService();
+        DocumentService documentService = KRADServiceLocatorWeb.getDocumentService();
         ProtocolDocument protocolDocument = (ProtocolDocument) documentService.getNewDocument("ProtocolDocument");
         setProtocolRequiredFields(protocolDocument, protocolNumber);
         protocolDocument.getProtocol().setSequenceNumber(sequenceNumber);

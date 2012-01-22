@@ -15,46 +15,48 @@
  */
 package org.kuali.kra.award.paymentreports;
 
-import java.util.LinkedHashMap;
-
 import org.kuali.kra.bo.KraPersistableBusinessObjectBase;
 
 /**
  * 
  * This class represents the ValidFrequencyBase business object.
  */
-public class ValidFrequencyBase extends KraPersistableBusinessObjectBase { 
-    
+public class ValidFrequencyBase extends KraPersistableBusinessObjectBase {
+
     /**
      * Comment for <code>serialVersionUID</code>
      */
     private static final long serialVersionUID = -2875079003137515732L;
-    private Integer validFrequencyBaseId; 
-    private String frequencyCode; 
-    private String frequencyBaseCode; 
-    
-    private Frequency frequency; 
-    private FrequencyBase frequencyBase; 
-    
+
+    private Integer validFrequencyBaseId;
+
+    private String frequencyCode;
+
+    private String frequencyBaseCode;
+
+    private Frequency frequency;
+
+    private FrequencyBase frequencyBase;
+
     /**
      * 
      * Constructs a ValidFrequencyBase.java.
      */
     public ValidFrequencyBase() {
         super();
-    } 
-    
+    }
+
     /**
      * 
      * Constructs a ValidFrequencyBase.java.
      * @param frequencyCode
      */
-    public ValidFrequencyBase(String frequencyCode, String frequencyBaseCode){
+    public ValidFrequencyBase(String frequencyCode, String frequencyBaseCode) {
         super();
         this.frequencyCode = frequencyCode;
-        this.frequencyBaseCode = frequencyBaseCode;        
+        this.frequencyBaseCode = frequencyBaseCode;
     }
-    
+
     /**
      *
      * @return
@@ -136,19 +138,6 @@ public class ValidFrequencyBase extends KraPersistableBusinessObjectBase {
     }
 
     /**
-     * 
-     * @see org.kuali.rice.kns.bo.BusinessObjectBase#toStringMapper()
-     */
-    @Override 
-    protected LinkedHashMap<String,Object> toStringMapper() {
-        LinkedHashMap<String,Object> hashMap = new LinkedHashMap<String,Object>();
-        hashMap.put("validFrequencyBaseId", getValidFrequencyBaseId());
-        hashMap.put("frequencyCode", getFrequencyCode());
-        hashMap.put("frequencyBaseCode", getFrequencyBaseCode());
-        return hashMap;
-    }
-
-    /**
      * @see java.lang.Object#hashCode()
      */
     @Override
@@ -165,40 +154,39 @@ public class ValidFrequencyBase extends KraPersistableBusinessObjectBase {
      */
     @Override
     public boolean equals(Object obj) {
-        if (this == obj){
+        if (this == obj) {
             return true;
-        }   
-        if (obj == null){
+        }
+        if (obj == null) {
             return false;
-        }   
-        if (!(obj instanceof ValidFrequencyBase)){
+        }
+        if (!(obj instanceof ValidFrequencyBase)) {
             return false;
-        }   
+        }
         return equals((ValidFrequencyBase) obj);
     }
-    
+
     /**
      * 
      * Convenience method for equality of ValidFrequencyBase
      * @param validFrequencyBase
      * @return
      */
-    public boolean equals(ValidFrequencyBase validFrequencyBase){
+    public boolean equals(ValidFrequencyBase validFrequencyBase) {
         if (frequencyBaseCode == null) {
-            if (validFrequencyBase.frequencyBaseCode != null){
+            if (validFrequencyBase.frequencyBaseCode != null) {
                 return false;
-            }   
-        }else if (!frequencyBaseCode.equals(validFrequencyBase.frequencyBaseCode)){
+            }
+        } else if (!frequencyBaseCode.equals(validFrequencyBase.frequencyBaseCode)) {
             return false;
-        }   
+        }
         if (frequencyCode == null) {
-            if (validFrequencyBase.frequencyCode != null){
+            if (validFrequencyBase.frequencyCode != null) {
                 return false;
-            }   
-        }else if (!frequencyCode.equals(validFrequencyBase.frequencyCode)){
+            }
+        } else if (!frequencyCode.equals(validFrequencyBase.frequencyCode)) {
             return false;
-        }   
+        }
         return true;
-    }    
-    
+    }
 }

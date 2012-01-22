@@ -17,7 +17,7 @@ package org.kuali.kra.award.paymentreports.closeout;
 
 import org.kuali.kra.award.document.AwardDocument;
 import org.kuali.kra.award.home.Award;
-import org.kuali.rice.kns.rule.BusinessRule;
+import org.kuali.rice.krad.rules.rule.BusinessRule;
 
 /**
  * This class is for rule validation when adding new item
@@ -39,7 +39,7 @@ public class AddAwardCloseoutRuleEvent extends AwardCloseoutRuleEvent {
 
     /**
      * 
-     * @see org.kuali.kra.award.paymentreports.closeout.AwardCloseoutRuleEvent#invokeRuleMethod(org.kuali.rice.kns.rule.BusinessRule)
+     * @see org.kuali.kra.award.paymentreports.closeout.AwardCloseoutRuleEvent#invokeRuleMethod(org.kuali.rice.krad.rules.rule.BusinessRule)
      */
     @Override
     public boolean invokeRuleMethod(BusinessRule rule) {

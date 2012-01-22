@@ -102,11 +102,7 @@ import org.kuali.kra.bo.NsfCode;
 import org.kuali.kra.bo.Rolodex;
 import org.kuali.kra.bo.Sponsor;
 import org.kuali.kra.bo.SponsorTermType;
-import org.kuali.rice.kns.bo.Country;
-import org.kuali.rice.kns.bo.State;
 import org.kuali.kra.bo.UnitAdministrator;
-import org.kuali.kra.budget.core.Budget;
-import org.kuali.kra.budget.distributionincome.BudgetUnrecoveredFandA;
 import org.kuali.kra.budget.document.BudgetDocument;
 import org.kuali.kra.costshare.CostShareService;
 import org.kuali.kra.infrastructure.KraServiceLocator;
@@ -116,12 +112,14 @@ import org.kuali.kra.proposaldevelopment.bo.ActivityType;
 import org.kuali.kra.proposaldevelopment.document.ProposalDevelopmentDocument;
 import org.kuali.kra.timeandmoney.document.TimeAndMoneyDocument;
 import org.kuali.kra.timeandmoney.transactions.AwardAmountTransaction;
-import org.kuali.rice.kew.exception.WorkflowException;
-import org.kuali.rice.kns.service.BusinessObjectService;
-import org.kuali.rice.kns.service.DateTimeService;
-import org.kuali.rice.kns.service.DocumentService;
-import org.kuali.rice.kns.service.ParameterService;
-import org.kuali.rice.kns.util.KualiDecimal;
+import org.kuali.rice.core.api.datetime.DateTimeService;
+import org.kuali.rice.core.api.util.type.KualiDecimal;
+import org.kuali.rice.coreservice.framework.parameter.ParameterService;
+import org.kuali.rice.kew.api.exception.WorkflowException;
+import org.kuali.rice.krad.service.BusinessObjectService;
+import org.kuali.rice.krad.service.DocumentService;
+import org.kuali.rice.location.api.country.Country;
+import org.kuali.rice.location.api.state.State;
 
 /**
  * This class will contain all common methods that can be used across all XML
@@ -286,7 +284,7 @@ public abstract class AwardBaseStream implements XmlStream {
 	}
 
 	private String getProposalParameterValue(String param) {
-        return parameterService.getParameterValue(ProposalDevelopmentDocument.class, param);
+        return parameterService.getParameterValueAsString(ProposalDevelopmentDocument.class, param);
     }
 
     /**
@@ -1725,9 +1723,9 @@ public abstract class AwardBaseStream implements XmlStream {
 	private String getState(Rolodex rolodex) {
 		String stateDesc = null;
 		if (rolodex.getState() != null) {
-			State state = PrintingUtils.getStateFromName(rolodex.getState());
+			State state = PrintingUtils.getStateFromName(rolodex.getCountryCode(), rolodex.getState());
 			if (state != null) {
-				stateDesc = state.getPostalStateName();
+				stateDesc = state.getName();
 			}
 		}
 		return stateDesc;
@@ -1768,7 +1766,7 @@ public abstract class AwardBaseStream implements XmlStream {
 			Country country = PrintingUtils.getCountryFromCode(rolodex
 					.getCountryCode(), businessObjectService);
 			if (country != null) {
-				countryDesc = country.getPostalCountryName();
+				countryDesc = country.getName();
 			}
 		}
 		return countryDesc;
@@ -3087,7 +3085,7 @@ public abstract class AwardBaseStream implements XmlStream {
 	protected String getAwardParameterValue(String param) {
 		String value = null;
 		try {
-			value = parameterService.getParameterValue(AwardDocument.class,param);
+			value = parameterService.getParameterValueAsString(AwardDocument.class,param);
 		} catch (Exception e) {
 			LOG.error(e.getMessage(), e);
 		}

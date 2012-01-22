@@ -22,11 +22,12 @@ import java.util.List;
 import org.kuali.kra.infrastructure.KraServiceLocator;
 import org.kuali.kra.institutionalproposal.ProposalStatus;
 import org.kuali.kra.institutionalproposal.web.struts.form.InstitutionalProposalForm;
-import org.kuali.rice.core.util.KeyLabelPair;
-import org.kuali.rice.kns.lookup.keyvalues.KeyValuesBase;
-import org.kuali.rice.kns.service.KeyValuesService;
-import org.kuali.rice.kns.util.GlobalVariables;
+import org.kuali.rice.core.api.util.ConcreteKeyValue;
+import org.kuali.rice.core.api.util.KeyValue;
+import org.kuali.rice.kns.util.KNSGlobalVariables;
 import org.kuali.rice.kns.web.struts.form.KualiForm;
+import org.kuali.rice.krad.keyvalues.KeyValuesBase;
+import org.kuali.rice.krad.service.KeyValuesService;
 
 /**
  * Builds a key/value pair of available Institutional Proposal Status Codes.
@@ -38,23 +39,23 @@ public class InstitutionalProposalStatusCodeValuesFinder extends KeyValuesBase {
      * This is the result of a rule that disallows user to change an Institutional Proposal to funded.  
      * The only way an Institutional Proposal can be funded is if it is associated with an Award, and this can 
      * only be done from the Award module.  If the lookup is from elsewhere, Funded should be included.
-     * @see org.kuali.rice.kns.lookup.keyvalues.KeyValuesFinder#getKeyValues()
+     * @see org.kuali.rice.krad.keyvalues.KeyValuesFinder#getKeyValues()
      */
     @SuppressWarnings("unchecked")
     public List getKeyValues() {
         Collection<ProposalStatus> proposalStatusList = getKeyValuesService().findAll(ProposalStatus.class);
         
-        List<KeyLabelPair> keyValues = new ArrayList<KeyLabelPair>();
+        List<KeyValue> keyValues = new ArrayList<KeyValue>();
         
         boolean includeFunded = true;
-        KualiForm form = GlobalVariables.getKualiForm();
+        KualiForm form = KNSGlobalVariables.getKualiForm();
         if (form instanceof InstitutionalProposalForm) {
             includeFunded = false;
         }
         
         for (ProposalStatus proposalStatus : proposalStatusList) {
             if (!proposalStatus.getDescription().equals("Funded") || includeFunded) {
-                keyValues.add(new KeyLabelPair(proposalStatus.getProposalStatusCode()
+                keyValues.add(new ConcreteKeyValue(proposalStatus.getProposalStatusCode().toString()
                         ,proposalStatus.getDescription()));    
             }
         }        

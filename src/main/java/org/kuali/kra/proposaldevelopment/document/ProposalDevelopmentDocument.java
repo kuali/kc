@@ -42,28 +42,30 @@ import org.kuali.kra.proposaldevelopment.service.ProposalStateService;
 import org.kuali.kra.proposaldevelopment.service.ProposalStatusService;
 import org.kuali.kra.service.KraAuthorizationService;
 import org.kuali.kra.workflow.KraDocumentXMLMaterializer;
-import org.kuali.rice.kew.dto.ActionTakenDTO;
-import org.kuali.rice.kew.dto.ActionTakenEventDTO;
-import org.kuali.rice.kew.dto.DocumentRouteStatusChangeDTO;
-import org.kuali.rice.kew.exception.WorkflowException;
-import org.kuali.rice.kew.service.WorkflowInfo;
-import org.kuali.rice.kew.util.KEWConstants;
-import org.kuali.rice.kim.bo.Person;
-import org.kuali.rice.kns.datadictionary.DataDictionary;
+import org.kuali.rice.core.api.config.property.ConfigurationService;
+import org.kuali.rice.coreservice.framework.parameter.ParameterConstants;
+import org.kuali.rice.coreservice.framework.parameter.ParameterService;
+import org.kuali.rice.coreservice.framework.parameter.ParameterConstants.COMPONENT;
+import org.kuali.rice.coreservice.framework.parameter.ParameterConstants.NAMESPACE;
+import org.kuali.rice.kew.api.KewApiConstants;
+import org.kuali.rice.kew.api.KewApiServiceLocator;
+import org.kuali.rice.kew.api.action.ActionTaken;
+import org.kuali.rice.kew.api.action.WorkflowDocumentActionsService;
+import org.kuali.rice.kew.framework.postprocessor.ActionTakenEvent;
+import org.kuali.rice.kew.framework.postprocessor.DocumentRouteStatusChange;
+import org.kuali.rice.kim.api.identity.Person;
 import org.kuali.rice.kns.datadictionary.DocumentEntry;
-import org.kuali.rice.kns.document.Copyable;
-import org.kuali.rice.kns.document.SessionDocument;
-import org.kuali.rice.kns.service.BusinessObjectService;
 import org.kuali.rice.kns.service.KNSServiceLocator;
-import org.kuali.rice.kns.service.KualiConfigurationService;
-import org.kuali.rice.kns.service.ParameterConstants;
-import org.kuali.rice.kns.service.ParameterConstants.COMPONENT;
-import org.kuali.rice.kns.service.ParameterConstants.NAMESPACE;
-import org.kuali.rice.kns.util.GlobalVariables;
 import org.kuali.rice.kns.web.ui.ExtraButton;
-import org.kuali.rice.kns.workflow.DocumentInitiator;
-import org.kuali.rice.kns.workflow.KualiDocumentXmlMaterializer;
-import org.kuali.rice.kns.workflow.KualiTransactionalDocumentInformation;
+import org.kuali.rice.krad.datadictionary.DataDictionary;
+import org.kuali.rice.krad.document.Copyable;
+import org.kuali.rice.krad.document.SessionDocument;
+import org.kuali.rice.krad.service.BusinessObjectService;
+import org.kuali.rice.krad.service.KRADServiceLocator;
+import org.kuali.rice.krad.util.GlobalVariables;
+import org.kuali.rice.krad.workflow.DocumentInitiator;
+import org.kuali.rice.krad.workflow.KualiDocumentXmlMaterializer;
+import org.kuali.rice.krad.workflow.KualiTransactionalDocumentInformation;
 
 @NAMESPACE(namespace=Constants.MODULE_NAMESPACE_PROPOSAL_DEVELOPMENT)
 @COMPONENT(component=ParameterConstants.DOCUMENT_COMPONENT)
@@ -137,7 +139,7 @@ public class ProposalDevelopmentDocument extends BudgetParentDocument<Developmen
 
     @Override
 
-    public void doRouteStatusChange(DocumentRouteStatusChangeDTO dto) {
+    public void doRouteStatusChange(DocumentRouteStatusChange dto) {
         super.doRouteStatusChange(dto);
         String newStatus = dto.getNewRouteStatus();
         String oldStatus = dto.getOldRouteStatus();
@@ -174,29 +176,26 @@ public class ProposalDevelopmentDocument extends BudgetParentDocument<Developmen
     }
 
     /**
-     * @see org.kuali.rice.kns.document.Document#doActionTaken(org.kuali.rice.kew.dto.ActionTakenEventDTO)
+     * @see org.kuali.rice.krad.document.Document#doActionTaken(org.kuali.rice.kew.framework.postprocessor.ActionTakenEvent)
      */
     @Override
-    public void doActionTaken(ActionTakenEventDTO event) {
+    public void doActionTaken(ActionTakenEvent event) {
         super.doActionTaken(event);
-        ActionTakenDTO actionTaken = event.getActionTaken();
+        ActionTaken actionTaken = event.getActionTaken();
         
         if( LOG.isDebugEnabled() ) {
-            LOG.debug( String.format( "Action taken on document %s: event code %s, action taken is %s"  , getDocumentNumber(), event.getDocumentEventCode(), actionTaken.getActionTaken() ) );
+            LOG.debug( String.format( "Action taken on document %s: event code %s, action taken is %s"  , getDocumentNumber(), event.getDocumentEventCode(), actionTaken.getActionTaken().getCode()) );
         }
         if (!isProposalDeleted()) {
             ProposalHierarchyService hService = KraServiceLocator.getService(ProposalHierarchyService.class);
             KraDocumentRejectionService documentRejectionService = KraServiceLocator.getService(KraDocumentRejectionService.class);
-            if( StringUtils.equals( KEWConstants.ACTION_TAKEN_APPROVED_CD, actionTaken.getActionTaken() ) ) {
+            if( StringUtils.equals( KewApiConstants.ACTION_TAKEN_APPROVED_CD, actionTaken.getActionTaken().getCode()) ) {
                 try {
                 
                     if( documentRejectionService.isDocumentOnInitialNode(this) ) {
-                        DocumentRouteStatusChangeDTO dto = new DocumentRouteStatusChangeDTO();
-                        dto.setAppDocId(getDocumentNumber());
-                        dto.setDocumentEventCode("REJECTED_APPROVED");
-                        dto.setNewRouteStatus(KEWConstants.ROUTE_HEADER_ENROUTE_CD);
-                        dto.setOldRouteStatus(KEWConstants.ROUTE_HEADER_ENROUTE_CD);
-                        dto.setRouteHeaderId(getDocumentHeader().getWorkflowDocument().getRouteHeaderId());
+                        DocumentRouteStatusChange dto = new DocumentRouteStatusChange(getDocumentHeader().getWorkflowDocument().getDocumentId(), getDocumentNumber(), KewApiConstants.ROUTE_HEADER_ENROUTE_CD, KewApiConstants.ROUTE_HEADER_ENROUTE_CD);
+                        //DocumentRouteStatusChange.documentEventCode is always returned as rt_status_change
+                        //dto.setDocumentEventCode("REJECTED_APPROVED");
                         
                         if( getDevelopmentProposal().isParent() ) {
                             hService.routeHierarchyChildren(this, dto );
@@ -209,8 +208,8 @@ public class ProposalDevelopmentDocument extends BudgetParentDocument<Developmen
                
                 } catch( ProposalHierarchyException pe ) {
                     throw new RuntimeException( String.format("ProposalHeierachyException encountered trying to re-submit rejected parent document:%s",getDocumentNumber()), pe );
-                } catch( WorkflowException we) {
-                        throw new RuntimeException( String.format( "WorkflowException trying to re-submit rejected parent:%s", getDocumentNumber() ),we);
+                } catch( Exception we) {
+                        throw new RuntimeException( String.format( "Exception trying to re-submit rejected parent:%s", getDocumentNumber() ),we);
                 }
             }
            
@@ -221,7 +220,7 @@ public class ProposalDevelopmentDocument extends BudgetParentDocument<Developmen
                 KraServiceLocator.getService(BusinessObjectService.class).save(getDevelopmentProposal());
             }
           
-            if( getDevelopmentProposal().isChild() && StringUtils.equals(KEWConstants.ACTION_TAKEN_CANCELED_CD, actionTaken.getActionTaken() )) {
+            if( getDevelopmentProposal().isChild() && StringUtils.equals(KewApiConstants.ACTION_TAKEN_CANCELED_CD, actionTaken.getActionTaken().getCode())) {
                 try {
                     hService.removeFromHierarchy(this.getDevelopmentProposal() );
                     
@@ -241,26 +240,27 @@ public class ProposalDevelopmentDocument extends BudgetParentDocument<Developmen
         
     }
     
-    private boolean isLastSubmitterApprovalAction(ActionTakenDTO actionTaken) {
-        WorkflowInfo workflowInfo = new WorkflowInfo();
-        try {
-            return actionTaken.getActionTaken().equals(KEWConstants.ACTION_TAKEN_APPROVED_CD)
-                && workflowInfo.isFinalApprover(actionTaken.getRouteHeaderId(), actionTaken.getPrincipalId());
-        } catch (WorkflowException we) {
-            throw new RuntimeException("Workflow exception checking if user is final approver", we);
-        }
+    private boolean isLastSubmitterApprovalAction(ActionTaken actionTaken) {
+        WorkflowDocumentActionsService workflowInfo = KewApiServiceLocator.getWorkflowDocumentActionsService();
+        return actionTaken.getActionTaken().getCode().equals(KewApiConstants.ACTION_TAKEN_APPROVED_CD)
+            && workflowInfo.isFinalApprover(actionTaken.getDocumentId(), actionTaken.getPrincipalId());
+      
         // also check person is last submitter.  Need KIM for this.
     }
     
     private boolean shouldAutogenerateInstitutionalProposal() {
-        return getKualiConfigurationService().getIndicatorParameter(
+        return getParameterService().getParameterValueAsBoolean(
                 Constants.MODULE_NAMESPACE_PROPOSAL_DEVELOPMENT, 
                 ParameterConstants.DOCUMENT_COMPONENT,
                 KeyConstants.AUTOGENERATE_INSTITUTIONAL_PROPOSAL_PARAM);
     }
     
-    protected KualiConfigurationService getKualiConfigurationService() {
-        return KraServiceLocator.getService(KualiConfigurationService.class);
+    protected ConfigurationService getKualiConfigurationService() {
+        return KRADServiceLocator.getKualiConfigurationService();
+    }
+    
+    protected ParameterService getParameterService() {
+        return KraServiceLocator.getService(ParameterService.class);
     }
     
     public Budget getFinalBudgetForThisProposal() {
@@ -288,10 +288,10 @@ public class ProposalDevelopmentDocument extends BudgetParentDocument<Developmen
         KraAuthorizationService kraauthservice = KraServiceLocator.getService(KraAuthorizationService.class);
         KualiTransactionalDocumentInformation transInfo = new KualiTransactionalDocumentInformation();
         DocumentInitiator initiatior = new DocumentInitiator();
-        // String initiatorNetworkId = getDocumentHeader().getWorkflowDocument().getInitiatorNetworkId();
+        // String initiatorNetworkId = getDocumentHeader().getWorkflowDocument().getInitiatorPrincipalId();
         // try {
-        // UniversalUser initiatorUser = KNSServiceLocator.getUniversalUserService().getUniversalUser(new
-        // AuthenticationUserId(initiatorNetworkId));
+        // UniversalUser initiatorUser = KRADServiceLocator.getUniversalUserService().getUniversalUser(new
+        // PrincipalName(initiatorNetworkId));
         // initiatorUser.getModuleUsers(); // init the module users map for serialization
         // initiatior.setUniversalUser(initiatorUser);
         // }
@@ -335,7 +335,7 @@ public class ProposalDevelopmentDocument extends BudgetParentDocument<Developmen
     public Boolean getAllowsNoteAttachments() {
         if (allowsNoteAttachments == null) {
             DataDictionary dataDictionary = KNSServiceLocator.getDataDictionaryService().getDataDictionary();
-            DocumentEntry entry = dataDictionary.getDocumentEntry(getClass().getName());
+            DocumentEntry entry = (DocumentEntry) dataDictionary.getDocumentEntry(getClass().getName());
             allowsNoteAttachments = entry.getAllowsNoteAttachments();
         }
 
@@ -452,11 +452,11 @@ public class ProposalDevelopmentDocument extends BudgetParentDocument<Developmen
      * @return
      */
     private String buildExtraButtonSourceURI(String buttonFileName) {
-        return lookupKualiConfigurationService().getPropertyString(KRA_EXTERNALIZABLE_IMAGES_URI_KEY) + buttonFileName;
+        return lookupKualiConfigurationService().getPropertyValueAsString(KRA_EXTERNALIZABLE_IMAGES_URI_KEY) + buttonFileName;
     }
 
-    private KualiConfigurationService lookupKualiConfigurationService() {
-        return KraServiceLocator.getService(KualiConfigurationService.class);
+    private ConfigurationService lookupKualiConfigurationService() {
+        return KRADServiceLocator.getKualiConfigurationService();
     }
 
     @Override
@@ -555,10 +555,10 @@ public class ProposalDevelopmentDocument extends BudgetParentDocument<Developmen
         boolean isComplete = false;
         
         if (getDocumentHeader().hasWorkflowDocument()) {
-            String docRouteStatus = getDocumentHeader().getWorkflowDocument().getRouteHeader().getDocRouteStatus();
-            if (KEWConstants.ROUTE_HEADER_ENROUTE_CD.equals(docRouteStatus) 
-                || KEWConstants.ROUTE_HEADER_PROCESSED_CD.equals(docRouteStatus) 
-                || KEWConstants.ROUTE_HEADER_FINAL_CD.equals(docRouteStatus)) {
+            String docRouteStatus = getDocumentHeader().getWorkflowDocument().getStatus().getCode();
+            if (KewApiConstants.ROUTE_HEADER_ENROUTE_CD.equals(docRouteStatus) 
+                || KewApiConstants.ROUTE_HEADER_PROCESSED_CD.equals(docRouteStatus) 
+                || KewApiConstants.ROUTE_HEADER_FINAL_CD.equals(docRouteStatus)) {
                 isComplete = true;
             }
         }

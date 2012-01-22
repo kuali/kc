@@ -22,8 +22,8 @@ import org.kuali.kra.infrastructure.Constants;
 import org.kuali.kra.infrastructure.KeyConstants;
 import org.kuali.kra.irb.ProtocolDocument;
 import org.kuali.kra.irb.test.ProtocolRuleTestBase;
-import org.kuali.rice.kns.util.ErrorMap;
-import org.kuali.rice.kns.util.GlobalVariables;
+import org.kuali.rice.krad.util.GlobalVariables;
+import org.kuali.rice.krad.util.MessageMap;
 
 public class ProtocolPersonnelRuleTest extends ProtocolRuleTestBase {
     private ProtocolPersonnelRuleBase rule;
@@ -56,7 +56,7 @@ public class ProtocolPersonnelRuleTest extends ProtocolRuleTestBase {
         ProtocolDocument document  = getNewProtocolDocument();
         setProtocolRequiredFields(document);
         boolean rulesPassed = rule.processSaveProtocolPersonnelEvent(getSaveProtocolPersonnelEvent(document));
-        ErrorMap errorMap = GlobalVariables.getErrorMap();
+        MessageMap errorMap = GlobalVariables.getMessageMap();
         assertTrue(rulesPassed);
         assertEquals(0, errorMap.getErrorCount());
     }
@@ -75,7 +75,7 @@ public class ProtocolPersonnelRuleTest extends ProtocolRuleTestBase {
         document.getProtocol().getProtocolPersons().remove(0);
         boolean rulesPassed = rule.processSaveProtocolPersonnelEvent(getSaveProtocolPersonnelEvent(document));
         assertFalse(rulesPassed);
-        ErrorMap errorMap = GlobalVariables.getErrorMap();
+        MessageMap errorMap = GlobalVariables.getMessageMap();
         assertTrue(errorMap.containsMessageKey(KeyConstants.ERROR_PRINCIPAL_INVESTIGATOR_NOT_FOUND));
     }
     
@@ -90,7 +90,7 @@ public class ProtocolPersonnelRuleTest extends ProtocolRuleTestBase {
         setProtocolRequiredFields(document);
         boolean rulesPassed = rule.processAddProtocolPersonnelEvent(getAddProtocolPersonnelEvent(document, getCoInvestigator()));
         assertTrue(rulesPassed);
-        ErrorMap errorMap = GlobalVariables.getErrorMap();
+        MessageMap errorMap = GlobalVariables.getMessageMap();
         assertEquals(0, errorMap.getErrorCount());
     }
     
@@ -106,7 +106,7 @@ public class ProtocolPersonnelRuleTest extends ProtocolRuleTestBase {
         setProtocolRequiredFields(document);
         boolean rulesPassed = rule.processAddProtocolPersonnelEvent(getAddProtocolPersonnelEvent(document, getPrincipalInvestigator()));
         assertFalse(rulesPassed);
-        ErrorMap errorMap = GlobalVariables.getErrorMap();
+        MessageMap errorMap = GlobalVariables.getMessageMap();
         assertTrue(errorMap.containsMessageKey(KeyConstants.ERROR_PROTOCOL_PERSONNEL_MULTIPLE_PI));
     }
 

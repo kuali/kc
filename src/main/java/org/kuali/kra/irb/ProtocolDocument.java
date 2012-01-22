@@ -42,23 +42,26 @@ import org.kuali.kra.irb.protocol.location.ProtocolLocationService;
 import org.kuali.kra.irb.protocol.research.ProtocolResearchAreaService;
 import org.kuali.kra.service.KcPersonService;
 import org.kuali.kra.service.KraAuthorizationService;
-import org.kuali.rice.kew.dto.DocumentRouteStatusChangeDTO;
-import org.kuali.rice.kew.exception.WorkflowException;
+import org.kuali.rice.coreservice.framework.parameter.ParameterConstants;
+import org.kuali.rice.coreservice.framework.parameter.ParameterConstants.COMPONENT;
+import org.kuali.rice.coreservice.framework.parameter.ParameterConstants.NAMESPACE;
+import org.kuali.rice.kew.api.KewApiConstants;
+import org.kuali.rice.kew.api.exception.WorkflowException;
+import org.kuali.rice.kew.framework.postprocessor.DocumentRouteStatusChange;
 import org.kuali.rice.kew.routeheader.DocumentRouteHeaderValue;
 import org.kuali.rice.kew.routeheader.service.RouteHeaderService;
-import org.kuali.rice.kew.util.KEWConstants;
-import org.kuali.rice.kim.bo.Person;
-import org.kuali.rice.kns.UserSession;
-import org.kuali.rice.kns.document.Copyable;
-import org.kuali.rice.kns.document.SessionDocument;
-import org.kuali.rice.kns.service.BusinessObjectService;
-import org.kuali.rice.kns.service.DocumentService;
-import org.kuali.rice.kns.service.ParameterConstants;
-import org.kuali.rice.kns.service.ParameterConstants.COMPONENT;
-import org.kuali.rice.kns.service.ParameterConstants.NAMESPACE;
-import org.kuali.rice.kns.util.GlobalVariables;
-import org.kuali.rice.kns.util.ObjectUtils;
-import org.kuali.rice.kns.workflow.KualiDocumentXmlMaterializer;
+import org.kuali.rice.kim.api.identity.Person;
+import org.kuali.rice.krad.UserSession;
+import org.kuali.rice.krad.document.Copyable;
+import org.kuali.rice.krad.document.SessionDocument;
+import org.kuali.rice.krad.service.BusinessObjectService;
+import org.kuali.rice.krad.service.DocumentService;
+import org.kuali.rice.krad.service.KRADServiceLocatorWeb;
+import org.kuali.rice.krad.util.GlobalVariables;
+import org.kuali.rice.krad.util.ObjectUtils;
+import org.kuali.rice.krad.workflow.KualiDocumentXmlMaterializer;
+import org.kuali.rice.krad.workflow.service.WorkflowDocumentService;
+
 
 /**
  * 
@@ -196,10 +199,10 @@ public class ProtocolDocument extends ResearchDocumentBase implements Copyable, 
 	}
     
     /**
-     * @see org.kuali.rice.kns.document.DocumentBase#doRouteStatusChange(org.kuali.rice.kew.dto.DocumentRouteStatusChangeDTO)
+     * @see org.kuali.rice.krad.document.DocumentBase#doRouteStatusChange(org.kuali.rice.kew.framework.postprocessor.DocumentRouteStatusChange)
      */
     @Override
-    public void doRouteStatusChange(DocumentRouteStatusChangeDTO statusChangeEvent) {
+    public void doRouteStatusChange(DocumentRouteStatusChange statusChangeEvent) {
         super.doRouteStatusChange(statusChangeEvent);
         if (isFinal(statusChangeEvent)) {
             // this is implementing option#1 for kcinfr-30.  save original usersession person
@@ -207,7 +210,7 @@ public class ProtocolDocument extends ResearchDocumentBase implements Copyable, 
             // this is workaround for async.  There will be rice enhancement to resolve this issue.
             try {
                 DocumentRouteHeaderValue document = KraServiceLocator.getService(RouteHeaderService.class).getRouteHeader(
-                        this.getDocumentHeader().getWorkflowDocument().getRouteHeaderId());
+                        this.getDocumentHeader().getWorkflowDocument().getDocumentId());
                 String principalId = document.getActionsTaken().get(document.getActionsTaken().size() - 1).getPrincipalId();
                 String asyncPrincipalId = GlobalVariables.getUserSession().getPrincipalId();
                 String asyncPrincipalName = GlobalVariables.getUserSession().getPrincipalName();
@@ -285,7 +288,7 @@ public class ProtocolDocument extends ResearchDocumentBase implements Copyable, 
         try {
             getDocumentService().saveDocument(newProtocolDocument);
             // blanket approve to make the new protocol document 'final'
-            newProtocolDocument.getDocumentHeader().getWorkflowDocument().routeDocument(type + "-" + getProtocolNumberIndex() + ": merged");
+            newProtocolDocument.getDocumentHeader().getWorkflowDocument().route(type + "-" + getProtocolNumberIndex() + ": merged");
         } catch (WorkflowException e) {
             throw new ProtocolMergeException(e);
         }
@@ -343,8 +346,8 @@ public class ProtocolDocument extends ResearchDocumentBase implements Copyable, 
      * @param statusChangeEvent
      * @return
      */
-    private boolean isFinal(DocumentRouteStatusChangeDTO statusChangeEvent) {
-        return StringUtils.equals(KEWConstants.ROUTE_HEADER_FINAL_CD, statusChangeEvent.getNewRouteStatus());
+    private boolean isFinal(DocumentRouteStatusChange statusChangeEvent) {
+        return StringUtils.equals(KewApiConstants.ROUTE_HEADER_FINAL_CD, statusChangeEvent.getNewRouteStatus());
     }
     
     /**
@@ -352,8 +355,8 @@ public class ProtocolDocument extends ResearchDocumentBase implements Copyable, 
      * @param statusChangeEvent
      * @return
      */
-    private boolean isDisapproved(DocumentRouteStatusChangeDTO statusChangeEvent) {
-        return StringUtils.equals(KEWConstants.ROUTE_HEADER_DISAPPROVED_CD, statusChangeEvent.getNewRouteStatus());
+    private boolean isDisapproved(DocumentRouteStatusChange statusChangeEvent) {
+        return StringUtils.equals(KewApiConstants.ROUTE_HEADER_DISAPPROVED_CD, statusChangeEvent.getNewRouteStatus());
     }
     
     /**
@@ -385,9 +388,9 @@ public class ProtocolDocument extends ResearchDocumentBase implements Copyable, 
      * @param statusChangeEvent
      * @return
      */
-    private boolean isComplete(DocumentRouteStatusChangeDTO statusChangeEvent) {
-        return (StringUtils.equals(KEWConstants.ROUTE_HEADER_ENROUTE_CD, statusChangeEvent.getNewRouteStatus()) && 
-                StringUtils.equals(KEWConstants.ROUTE_HEADER_SAVED_CD, statusChangeEvent.getOldRouteStatus()));
+    private boolean isComplete(DocumentRouteStatusChange statusChangeEvent) {
+        return (StringUtils.equals(KewApiConstants.ROUTE_HEADER_ENROUTE_CD, statusChangeEvent.getNewRouteStatus()) && 
+                StringUtils.equals(KewApiConstants.ROUTE_HEADER_SAVED_CD, statusChangeEvent.getOldRouteStatus()));
     }
 
     private static class ProtocolMergeException extends RuntimeException {
@@ -477,6 +480,10 @@ public class ProtocolDocument extends ResearchDocumentBase implements Copyable, 
         this.reRouted = reRouted;
     }
 
+    private WorkflowDocumentService getWorkflowDocumentService() {
+        return KRADServiceLocatorWeb.getWorkflowDocumentService();
+    }    
+
     /**
      * 
      * This method is to check whether rice async routing is ok now.   
@@ -487,31 +494,29 @@ public class ProtocolDocument extends ResearchDocumentBase implements Copyable, 
      * @throws WorkflowException 
      */
     public boolean isProcessComplete() {
-       
         boolean isComplete = true;
-
+        
         /*
          * This happens when you submit your protocol to IRB, the current route node is Initiated
          */
         if (this.getProtocol().getProtocolStatusCode().equals(ProtocolStatus.SUBMITTED_TO_IRB)) {
-
-            if (getDocumentHeader().getWorkflowDocument().getCurrentRouteNodeNames().equalsIgnoreCase(Constants.PROTOCOL_INITIATED_ROUTE_NODE_NAME)) { 
+            if (getWorkflowDocumentService().getCurrentRouteNodeNames(getDocumentHeader().getWorkflowDocument()).equalsIgnoreCase(Constants.PROTOCOL_INITIATED_ROUTE_NODE_NAME)) { 
                 isComplete = false;
-            }    
+            }     
             // while submitting an amendment for IRB review, the amendment moves from node Initiated to node IRBReview, 
-            //so need to check protocolSubmissionStatus to avoid the processing page from not going away at all when 
+            //so need to check if protocolSubmissionStatus is "InAgenda" to avoid the processing page from not going away at all when 
             // an amendment is submitted for review
             // Added for KCIRB-1515 & KCIRB-1528
             getProtocol().getProtocolSubmission().refreshReferenceObject("submissionStatus"); 
             String status = getProtocol().getProtocolSubmission().getSubmissionStatusCode();
-            if (isAmendment() || isRenewal()) {              
-                if (status.equals(ProtocolSubmissionStatus.APPROVED)
-                        && getDocumentHeader().getWorkflowDocument().getCurrentRouteNodeNames().equalsIgnoreCase(Constants.PROTOCOL_IRBREVIEW_ROUTE_NODE_NAME)) {                    
+            if (isAmendment() || isRenewal()) {
+                if (status.equals(ProtocolSubmissionStatus.APPROVED) 
+                    && getWorkflowDocumentService().getCurrentRouteNodeNames(getDocumentHeader().getWorkflowDocument()).equalsIgnoreCase(Constants.PROTOCOL_IRBREVIEW_ROUTE_NODE_NAME)) {
                         isComplete = false;
-                }
+               }
             }
-
-        } else {  
+               
+        } else {
             /*
              * If amendment has been merged, need to redirect to the newly created active protocol
              * Wait for the new active protocol to be created before redirecting to it.
@@ -531,9 +536,9 @@ public class ProtocolDocument extends ResearchDocumentBase implements Copyable, 
                     String returnLocation = oldLocation.replaceFirst(oldDocNbr, protocolId);
                     GlobalVariables.getUserSession().addObject(Constants.HOLDING_PAGE_RETURN_LOCATION, (Object) returnLocation);
                 }
-            }
+            }         
             // approve/expedited approve/response approve
-            if (!KEWConstants.ROUTE_HEADER_FINAL_CD.equals(this.getDocumentHeader().getWorkflowDocument().getRouteHeader().getDocRouteStatus())) {
+            if (!getDocumentHeader().getWorkflowDocument().isFinal()) {
                 isComplete = false;
             } 
         }
@@ -541,7 +546,7 @@ public class ProtocolDocument extends ResearchDocumentBase implements Copyable, 
 
         return isComplete;
     }
-    
+
     /**
      * This method returns the doc number of the current active protocol
      * @return documentNumber
@@ -554,4 +559,5 @@ public class ProtocolDocument extends ResearchDocumentBase implements Copyable, 
         List<Protocol> protocols = (List<Protocol>) boService.findMatchingOrderBy(Protocol.class, keyMap, "sequenceNumber", false);
         return (protocols.size() == 0) ? null : protocols.get(0).getProtocolDocument().getDocumentNumber();    
     }
+
 }

@@ -24,7 +24,7 @@
         <field-descriptor name="updateUser" column="UPDATE_USER" jdbc-type="VARCHAR"/>
         <field-descriptor name="objectId" column="OBJ_ID" jdbc-type="VARCHAR" />
         <field-descriptor name="versionNumber" column="VER_NBR" jdbc-type="BIGINT" locking="false" />
-        <reference-descriptor name="documentHeader" class-ref="org.kuali.rice.kns.bo.DocumentHeader" auto-retrieve="true" auto-update="object" auto-delete="object">
+        <reference-descriptor name="documentHeader" class-ref="org.kuali.rice.krad.bo.DocumentHeader" auto-retrieve="true" auto-update="object" auto-delete="object">
             <foreignkey field-ref="documentNumber" />
         </reference-descriptor>
         <collection-descriptor name="coiDisclosureList" proxy="true" element-class-ref="org.kuali.kra.coi.CoiDisclosure" collection-class="org.apache.ojb.broker.util.collections.ManageableArrayList" auto-retrieve="true" auto-update="object" auto-delete="object">
@@ -55,7 +55,7 @@
 		<field-descriptor name="moduleItemKey" column="MODULE_ITEM_KEY" jdbc-type="VARCHAR" />
 		<field-descriptor name="reviewStatusCode" column="REVIEW_STATUS_CODE" jdbc-type="VARCHAR" />
 		<field-descriptor name="discActiveStatus" column="DISC_ACTIVE_STATUS" jdbc-type="INTEGER" />
-        <field-descriptor name="currentDisclosure" column="CURRENT_DISCLOSURE" jdbc-type="VARCHAR" conversion="org.kuali.rice.kns.util.OjbCharBooleanConversion"/>
+        <field-descriptor name="currentDisclosure" column="CURRENT_DISCLOSURE" jdbc-type="VARCHAR" conversion="org.kuali.rice.core.framework.persistence.ojb.conversion.OjbCharBooleanConversion"/>
 		<field-descriptor name="versionNumber" column="VER_NBR" jdbc-type="BIGINT" locking="true" />
 		<field-descriptor name="objectId" column="OBJ_ID" jdbc-type="VARCHAR" />
         <reference-descriptor name="coiDisclosureDocument" class-ref="org.kuali.kra.coi.CoiDisclosureDocument" auto-retrieve="true" auto-update="none" auto-delete="none">
@@ -129,8 +129,8 @@
 			<foreignkey field-ref="fileId"/>
 		</reference-descriptor>
         
-    </class-descriptor>
-      
+	</class-descriptor>
+
     <class-descriptor class="org.kuali.kra.coi.notesandattachments.notes.CoiDisclosureNotepad" table="COI_DISCLOSURE_NOTEPAD">
         <field-descriptor name="id" column="COI_DISCLOSURE_NOTEPAD_ID" jdbc-type="BIGINT" primarykey="true" sequence-name="SEQ_DISCLOSURE_ID" autoincrement="true"/>
        	<field-descriptor name="coiDisclosureId" column="COI_DISCLOSURE_ID_FK" jdbc-type="BIGINT" />
@@ -138,7 +138,7 @@
         <field-descriptor name="sequenceNumber" column="SEQUENCE_NUMBER" jdbc-type="INTEGER" />
         <field-descriptor name="entryNumber" column="ENTRY_NUMBER" jdbc-type="INTEGER" />
         <field-descriptor name="comments" column="COMMENTS" jdbc-type="CLOB" />
-        <field-descriptor name="restrictedView" column="RESTRICTED_VIEW" jdbc-type="VARCHAR" conversion="org.kuali.rice.kns.util.OjbCharBooleanConversion"/>
+        <field-descriptor name="restrictedView" column="RESTRICTED_VIEW" jdbc-type="VARCHAR" conversion="org.kuali.rice.core.framework.persistence.ojb.conversion.OjbCharBooleanConversion"/>
         <field-descriptor name="noteTopic" column="NOTE_TYPE" jdbc-type="VARCHAR" />
         <field-descriptor name="updateTimestamp" column="UPDATE_TIMESTAMP" jdbc-type="TIMESTAMP" />
         <field-descriptor name="updateUser" column="UPDATE_USER" jdbc-type="VARCHAR" />
@@ -158,7 +158,7 @@
         <field-descriptor name="versionNumber" column="VER_NBR" jdbc-type="BIGINT" locking="false"/>
         <field-descriptor name="objectId" column="OBJ_ID" jdbc-type="VARCHAR" />
         <field-descriptor name="unitNumber" column="UNIT_NUMBER" jdbc-type="VARCHAR" />
-        <field-descriptor name="leadUnitFlag" column="LEAD_UNIT_FLAG" jdbc-type="VARCHAR" conversion="org.kuali.rice.kns.util.OjbCharBooleanConversion"/>
+        <field-descriptor name="leadUnitFlag" column="LEAD_UNIT_FLAG" jdbc-type="VARCHAR" conversion="org.kuali.rice.core.framework.persistence.ojb.conversion.OjbCharBooleanConversion"/>
         <field-descriptor name="personId" column="PERSON_ID" jdbc-type="VARCHAR" />
         <field-descriptor name="updateTimestamp" column="UPDATE_TIMESTAMP" jdbc-type="TIMESTAMP" />
         <field-descriptor name="updateUser" column="UPDATE_USER" jdbc-type="VARCHAR" />
@@ -205,8 +205,8 @@
 		<field-descriptor name="relationshipTypeCode" column="RELATIONSHIP_TYPE_CODE" jdbc-type="VARCHAR" />
         <field-descriptor name="relationshipDescription" column="RELATIONSHIP_DESCRIPTION" jdbc-type="VARCHAR" />
         <field-descriptor name="principalBusinessActivity" column="PRINCIPAL_BUSINESS_ACTIVITY" jdbc-type="VARCHAR" />
-        <field-descriptor name="relatedToOrganizationFlag" column="RELATED_TO_ORG_FLAG" jdbc-type="VARCHAR" conversion="org.kuali.rice.kns.util.OjbCharBooleanConversion"/>
-        <field-descriptor name="currentFlag" column="CURRENT_FLAG" jdbc-type="VARCHAR" conversion="org.kuali.rice.kns.util.OjbCharBooleanConversion"/>
+        <field-descriptor name="relatedToOrganizationFlag" column="RELATED_TO_ORG_FLAG" jdbc-type="VARCHAR" conversion="org.kuali.rice.core.framework.persistence.ojb.conversion.OjbCharBooleanConversion"/>
+        <field-descriptor name="currentFlag" column="CURRENT_FLAG" jdbc-type="VARCHAR" conversion="org.kuali.rice.core.framework.persistence.ojb.conversion.OjbCharBooleanConversion"/>
         <field-descriptor name="processStatus" column="PROCESS_STATUS" jdbc-type="VARCHAR"/>
 		<field-descriptor name="orgRelationDescription" column="ORG_RELATION_DESCRIPTION" jdbc-type="VARCHAR" />
 		<field-descriptor name="sponsorCode" column="SPONSOR_CODE" jdbc-type="VARCHAR" />
@@ -299,7 +299,7 @@
 		<field-descriptor name="entityNumber" column="ENTITY_NUMBER" jdbc-type="VARCHAR" />
 		<field-descriptor name="sequenceNumber" column="SEQUENCE_NUMBER" jdbc-type="INTEGER" />
 		<field-descriptor name="questionId" column="QUESTION_ID" jdbc-type="VARCHAR" />
-		<field-descriptor name="answer" column="ANSWER" jdbc-type="VARCHAR" conversion="org.kuali.rice.kns.util.OjbCharBooleanConversion"/>
+		<field-descriptor name="answer" column="ANSWER" jdbc-type="VARCHAR" conversion="org.kuali.rice.core.framework.persistence.ojb.conversion.OjbCharBooleanConversion"/>
 		<field-descriptor name="explanation" column="EXPLANATION" jdbc-type="VARCHAR" />
 		<field-descriptor name="reviewDate" column="REVIEW_DATE" jdbc-type="DATE" />
 		<field-descriptor name="updateTimestamp" column="UPDATE_TIMESTAMP" jdbc-type="TIMESTAMP" />
@@ -336,7 +336,7 @@
 		<field-descriptor name="versionNumber" column="VER_NBR" jdbc-type="BIGINT" locking="true" />
 		<field-descriptor name="objectId" column="OBJ_ID" jdbc-type="VARCHAR" />
         <field-descriptor name="sortId" column="SORT_ID" jdbc-type="INTEGER"/>
-        <field-descriptor name="active" column="ACTIVE_FLAG" jdbc-type="CHAR" conversion="org.kuali.rice.kns.util.OjbCharBooleanConversion" />
+        <field-descriptor name="active" column="ACTIVE_FLAG" jdbc-type="CHAR" conversion="org.kuali.rice.core.framework.persistence.ojb.conversion.OjbCharBooleanConversion" />
 		<!-- comment out.  It is not common to have code table with bo collections 
 		<collection-descriptor name="personFinIntDisclosures" proxy="true" element-class-ref="org.kuali.kra.coi.personfinancialentity.PersonFinIntDisclosure" collection-class="org.apache.ojb.broker.util.collections.ManageableArrayList" auto-retrieve="true" auto-update="object" auto-delete="none">
 			<inverse-foreignkey field-ref="relationshipTypeCode"/>
@@ -350,7 +350,7 @@
 		<field-descriptor name="guiType" column="GUI_TYPE" jdbc-type="VARCHAR" />
 		<field-descriptor name="lookupArgument" column="LOOKUP_ARGUMENT" jdbc-type="VARCHAR" />
 		<field-descriptor name="dataGroupId" column="DATA_GROUP_ID" jdbc-type="INTEGER" />
-		<field-descriptor name="statusFlag" column="STATUS_FLAG" jdbc-type="VARCHAR" conversion="org.kuali.rice.kns.util.OjbCharBooleanConversion"/>
+		<field-descriptor name="statusFlag" column="STATUS_FLAG" jdbc-type="VARCHAR" conversion="org.kuali.rice.core.framework.persistence.ojb.conversion.OjbCharBooleanConversion"/>
 		<field-descriptor name="columnSortId" column="COLUMN_SORT_ID" jdbc-type="INTEGER" />
 		<field-descriptor name="updateTimestamp" column="UPDATE_TIMESTAMP" jdbc-type="TIMESTAMP" />
 		<field-descriptor name="updateUser" column="UPDATE_USER" jdbc-type="VARCHAR" />
@@ -386,7 +386,7 @@
         <field-descriptor name="versionNumber" column="VER_NBR" jdbc-type="BIGINT" locking="false"/>
         <field-descriptor name="objectId" column="OBJ_ID" jdbc-type="VARCHAR" />
         <field-descriptor name="unitNumber" column="UNIT_NUMBER" jdbc-type="VARCHAR" />
-        <field-descriptor name="leadUnitFlag" column="LEAD_UNIT_FLAG" jdbc-type="VARCHAR" conversion="org.kuali.rice.kns.util.OjbCharBooleanConversion"/>
+        <field-descriptor name="leadUnitFlag" column="LEAD_UNIT_FLAG" jdbc-type="VARCHAR" conversion="org.kuali.rice.core.framework.persistence.ojb.conversion.OjbCharBooleanConversion"/>
         <field-descriptor name="personId" column="PERSON_ID" jdbc-type="VARCHAR" />
         <field-descriptor name="updateTimestamp" column="UPDATE_TIMESTAMP" jdbc-type="TIMESTAMP" />
         <field-descriptor name="updateUser" column="UPDATE_USER" jdbc-type="VARCHAR" />
@@ -513,7 +513,7 @@
 		<field-descriptor name="coiProjectSponsor" column="COI_PROJECT_SPONSOR" jdbc-type="VARCHAR" />
 		<field-descriptor name="coiProjectStartDate" column="COI_PROJECT_START_DATE" jdbc-type="DATE" />
 		<field-descriptor name="coiProjectEndDate" column="COI_PROJECT_END_DATE" jdbc-type="DATE" />
-		<field-descriptor name="coiProjectFundingAmount" column="COI_PROJECT_FUNDING_AMOUNT" jdbc-type="DECIMAL" conversion="org.kuali.rice.kns.util.OjbKualiDecimalFieldConversion" />
+		<field-descriptor name="coiProjectFundingAmount" column="COI_PROJECT_FUNDING_AMOUNT" jdbc-type="DECIMAL" conversion="org.kuali.rice.core.framework.persistence.ojb.conversion.OjbKualiDecimalFieldConversion" />
 		<field-descriptor name="coiProjectRole" column="COI_PROJECT_ROLE" jdbc-type="VARCHAR" />
 		<field-descriptor name="updateTimestamp" column="UPDATE_TIMESTAMP" jdbc-type="TIMESTAMP" />
 		<field-descriptor name="updateUser" column="UPDATE_USER" jdbc-type="VARCHAR" />
@@ -542,7 +542,7 @@
     <class-descriptor class="org.kuali.kra.coi.CoiReviewType" table="COI_REVIEW_TYPE">
         <field-descriptor name="reviewTypeCode" column="COI_REVIEW_TYPE_CODE" jdbc-type="VARCHAR" primarykey="true" />
         <field-descriptor name="description" column="DESCRIPTION" jdbc-type="VARCHAR" />
-        <!-- <field-descriptor name="globalFlag" column="GLOBAL_FLAG" jdbc-type="CHAR" conversion="org.kuali.rice.kns.util.OjbCharBooleanConversion" />  -->
+        <!-- <field-descriptor name="globalFlag" column="GLOBAL_FLAG" jdbc-type="CHAR" conversion="org.kuali.rice.core.framework.persistence.ojb.conversion.OjbCharBooleanConversion" />  -->
         <field-descriptor name="updateTimestamp" column="UPDATE_TIMESTAMP" jdbc-type="TIMESTAMP" />
         <field-descriptor name="updateUser" column="UPDATE_USER" jdbc-type="VARCHAR" />
         <field-descriptor name="objectId" column="OBJ_ID" jdbc-type="VARCHAR" />
@@ -598,7 +598,7 @@
         <field-descriptor name="reviewerCode" column="COI_REVIEWER_CODE" jdbc-type="VARCHAR"/>
         <field-descriptor name="updateTimestamp" column="UPDATE_TIMESTAMP" jdbc-type="TIMESTAMP" />
         <field-descriptor name="updateUser" column="UPDATE_USER" jdbc-type="VARCHAR" />
-        <field-descriptor name="objectId" column="OBJ_ID" jdbc-type="VARCHAR" />
+		<field-descriptor name="objectId" column="OBJ_ID" jdbc-type="VARCHAR" />
         <field-descriptor name="versionNumber" column="VER_NBR" jdbc-type="BIGINT" locking="false" />
-    </class-descriptor>	  
+	</class-descriptor>    
 </descriptor-repository>

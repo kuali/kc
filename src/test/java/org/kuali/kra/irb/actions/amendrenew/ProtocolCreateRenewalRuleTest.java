@@ -23,10 +23,10 @@ import static org.junit.Assert.assertTrue;
 import org.junit.Before;
 import org.junit.Test;
 import org.kuali.kra.infrastructure.KeyConstants;
-import org.kuali.rice.kns.util.ErrorMap;
-import org.kuali.rice.kns.util.ErrorMessage;
-import org.kuali.rice.kns.util.GlobalVariables;
-import org.kuali.rice.kns.util.TypedArrayList;
+import org.kuali.rice.krad.util.ErrorMessage;
+import org.kuali.rice.krad.util.GlobalVariables;
+import org.kuali.rice.krad.util.MessageMap;
+import org.springframework.util.AutoPopulatingList;
 
 public class ProtocolCreateRenewalRuleTest {
     private static final String PROPERTY_KEY = "key";
@@ -34,7 +34,7 @@ public class ProtocolCreateRenewalRuleTest {
 
     @Before
     public void setUp() throws Exception {
-        GlobalVariables.setErrorMap(new ErrorMap());
+        GlobalVariables.setMessageMap(new MessageMap());
     }
 
     @Test
@@ -64,7 +64,7 @@ public class ProtocolCreateRenewalRuleTest {
      * @param errorKey
      */
     protected void assertError(String propertyKey, String errorKey) {
-        TypedArrayList errors = GlobalVariables.getErrorMap().getMessages(propertyKey);
+        AutoPopulatingList errors = GlobalVariables.getMessageMap().getMessages(propertyKey);
         assertNotNull(errors);
         assertTrue(errors.size() == 1);
 

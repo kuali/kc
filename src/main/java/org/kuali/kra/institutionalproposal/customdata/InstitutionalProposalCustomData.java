@@ -15,8 +15,6 @@
  */
 package org.kuali.kra.institutionalproposal.customdata;
 
-import java.util.LinkedHashMap;
-
 import org.kuali.kra.SequenceAssociate;
 import org.kuali.kra.SequenceOwner;
 import org.kuali.kra.bo.CustomAttribute;
@@ -26,23 +24,24 @@ import org.kuali.kra.institutionalproposal.home.InstitutionalProposal;
 /**
  * This is Business Object class for IP custom data BO.
  */
-public class InstitutionalProposalCustomData extends InstitutionalProposalAssociate implements SequenceAssociate { 
-    
+public class InstitutionalProposalCustomData extends InstitutionalProposalAssociate implements SequenceAssociate {
+
     private static final long serialVersionUID = 1L;
 
-    private Long proposalCustomDataId; 
-    private Long customAttributeId; 
-    private String value; 
-    
-    private CustomAttribute customAttribute; 
-    
+    private Long proposalCustomDataId;
+
+    private Long customAttributeId;
+
+    private String value;
+
+    private CustomAttribute customAttribute;
+
     /**
      * Constructs a InstitutionalProposalCustomData.java.
      */
-    public InstitutionalProposalCustomData() { 
+    public InstitutionalProposalCustomData() {
+    }
 
-    } 
-    
     /**
      * This method...
      * @return
@@ -106,7 +105,7 @@ public class InstitutionalProposalCustomData extends InstitutionalProposalAssoci
     public void setCustomAttribute(CustomAttribute customAttribute) {
         this.customAttribute = customAttribute;
     }
-    
+
     /**
      * @see org.kuali.kra.SequenceAssociate#getSequenceOwner()
      */
@@ -128,18 +127,6 @@ public class InstitutionalProposalCustomData extends InstitutionalProposalAssoci
         this.proposalCustomDataId = null;
     }
 
-
-    /** {@inheritDoc} */
-    @Override 
-    protected LinkedHashMap<String, Object> toStringMapper() {
-        LinkedHashMap<String, Object> hashMap = new LinkedHashMap<String, Object>();
-        hashMap.put("proposalCustomDataId", this.getProposalCustomDataId());
-        hashMap.put("customAttributeId", this.getCustomAttributeId());
-        hashMap.put("value", this.getValue());
-        return hashMap;
-    }
-    
-
     /**
      * @see java.lang.Object#hashCode()
      */
@@ -159,39 +146,22 @@ public class InstitutionalProposalCustomData extends InstitutionalProposalAssoci
      */
     @Override
     public boolean equals(Object obj) {
-        if (this == obj)
-            return true;
-        if (obj == null)
-            return false;
-        if (getClass() != obj.getClass())
-            return false;
+        if (this == obj) return true;
+        if (obj == null) return false;
+        if (getClass() != obj.getClass()) return false;
         InstitutionalProposalCustomData other = (InstitutionalProposalCustomData) obj;
         if (customAttribute == null) {
-            if (other.customAttribute != null)
-                return false;
-        }
-        else if (!customAttribute.equals(other.customAttribute))
-            return false;
+            if (other.customAttribute != null) return false;
+        } else if (!customAttribute.equals(other.customAttribute)) return false;
         if (customAttributeId == null) {
-            if (other.customAttributeId != null)
-                return false;
-        }
-        else if (!customAttributeId.equals(other.customAttributeId))
-            return false;
+            if (other.customAttributeId != null) return false;
+        } else if (!customAttributeId.equals(other.customAttributeId)) return false;
         if (proposalCustomDataId == null) {
-            if (other.proposalCustomDataId != null)
-                return false;
-        }
-        else if (!proposalCustomDataId.equals(other.proposalCustomDataId))
-            return false;
+            if (other.proposalCustomDataId != null) return false;
+        } else if (!proposalCustomDataId.equals(other.proposalCustomDataId)) return false;
         if (value == null) {
-            if (other.value != null)
-                return false;
-        }
-        else if (!value.equals(other.value))
-            return false;
+            if (other.value != null) return false;
+        } else if (!value.equals(other.value)) return false;
         return true;
     }
-
-    
 }

@@ -17,7 +17,7 @@ package org.kuali.kra.kim.service;
 
 import java.util.List;
 
-import org.kuali.rice.kim.bo.Role;
+import org.kuali.rice.kim.api.role.Role;
 
 public interface ProposalRoleService {
 

@@ -18,7 +18,7 @@ package org.kuali.kra.proposaldevelopment.web.struts.form;
 import static org.kuali.kra.infrastructure.Constants.CREDIT_SPLIT_ENABLED_RULE_NAME;
 import static org.kuali.kra.infrastructure.KraServiceLocator.getService;
 import static org.kuali.kra.logging.BufferedLogger.warn;
-import static org.kuali.rice.kns.util.KNSConstants.EMPTY_STRING;
+import static org.kuali.rice.krad.util.KRADConstants.EMPTY_STRING;
 
 import java.util.ArrayList;
 import java.util.Collection;
@@ -92,26 +92,32 @@ import org.kuali.kra.service.KraWorkflowService;
 import org.kuali.kra.service.TaskAuthorizationService;
 import org.kuali.kra.service.UnitService;
 import org.kuali.kra.web.struts.form.BudgetVersionFormBase;
-import org.kuali.rice.kew.util.KEWConstants;
+import org.kuali.rice.core.api.config.property.ConfigurationService;
+import org.kuali.rice.core.api.criteria.Predicate;
+import org.kuali.rice.core.api.criteria.PredicateFactory;
+import org.kuali.rice.core.api.criteria.QueryByCriteria;
+import org.kuali.rice.core.api.util.type.KualiDecimal;
+import org.kuali.rice.coreservice.api.parameter.Parameter;
+import org.kuali.rice.coreservice.framework.parameter.ParameterService;
+import org.kuali.rice.kew.api.KewApiConstants;
+import org.kuali.rice.kew.api.WorkflowDocument;
 import org.kuali.rice.kew.util.PerformanceLogger;
-import org.kuali.rice.kim.bo.Person;
-import org.kuali.rice.kim.bo.Role;
-import org.kuali.rice.kim.bo.role.dto.KimPermissionInfo;
-import org.kuali.rice.kim.service.PermissionService;
-import org.kuali.rice.kns.bo.Parameter;
+import org.kuali.rice.kim.api.identity.Person;
+import org.kuali.rice.kim.api.permission.PermissionQueryResults;
+import org.kuali.rice.kim.api.permission.PermissionService;
+import org.kuali.rice.kim.api.role.Role;
+import org.kuali.rice.kim.api.services.KimApiServiceLocator;
 import org.kuali.rice.kns.datadictionary.HeaderNavigation;
-import org.kuali.rice.kns.service.BusinessObjectService;
 import org.kuali.rice.kns.service.KNSServiceLocator;
-import org.kuali.rice.kns.service.KualiConfigurationService;
-import org.kuali.rice.kns.service.ParameterService;
 import org.kuali.rice.kns.util.ActionFormUtilMap;
-import org.kuali.rice.kns.util.GlobalVariables;
-import org.kuali.rice.kns.util.KNSConstants;
-import org.kuali.rice.kns.util.KualiDecimal;
-import org.kuali.rice.kns.util.TypedArrayList;
 import org.kuali.rice.kns.web.ui.ExtraButton;
 import org.kuali.rice.kns.web.ui.HeaderField;
-import org.kuali.rice.kns.workflow.service.KualiWorkflowDocument;
+import org.kuali.rice.krad.service.BusinessObjectService;
+import org.kuali.rice.krad.service.KRADServiceLocator;
+import org.kuali.rice.krad.util.GlobalVariables;
+import org.kuali.rice.krad.util.KRADConstants;
+import org.springframework.util.AutoPopulatingList;
+
 
 /**
  * This class is the Struts form bean for DevelopmentProposal
@@ -246,8 +252,8 @@ public class ProposalDevelopmentForm extends BudgetVersionFormBase implements Re
         setNewOtherOrganization(new ProposalSite());
         setApplicantOrganizationHelper(new CongressionalDistrictHelper());
         setPerformingOrganizationHelper(new CongressionalDistrictHelper());
-        setPerformanceSiteHelpers(new TypedArrayList(CongressionalDistrictHelper.class));
-        setOtherOrganizationHelpers(new TypedArrayList(CongressionalDistrictHelper.class));
+        setPerformanceSiteHelpers(new AutoPopulatingList<CongressionalDistrictHelper>(CongressionalDistrictHelper.class));
+        setOtherOrganizationHelpers(new AutoPopulatingList<CongressionalDistrictHelper>(CongressionalDistrictHelper.class));
         setSpecialReviewHelper(new SpecialReviewHelper(this));
         customAttributeValues = new HashMap<String, String[]>();
         setCopyCriteria(new ProposalCopyCriteria(getDocument()));
@@ -271,6 +277,9 @@ public class ProposalDevelopmentForm extends BudgetVersionFormBase implements Re
         
         answerHeadersToDelete = new ArrayList<AnswerHeader>();
         proposalPersonsToDelete = new ArrayList<ProposalPerson>();
+        
+        setNewInstituteAttachment(createNarrative());
+        setNewPropPersonBio(new ProposalPersonBiography());
     }
 
     /**
@@ -348,7 +357,7 @@ public class ProposalDevelopmentForm extends BudgetVersionFormBase implements Re
     }
     
     @Override
-    public void populateHeaderFields(KualiWorkflowDocument workflowDocument) {
+    public void populateHeaderFields(WorkflowDocument workflowDocument) {
         super.populateHeaderFields(workflowDocument);
         
         ProposalDevelopmentDocument pd = getDocument();
@@ -761,9 +770,9 @@ public class ProposalDevelopmentForm extends BudgetVersionFormBase implements Re
         
         Collection<Role> roles = getKimProposalRoles();
         for (Role role : roles) {
-            if (!StringUtils.equals(role.getRoleName(), RoleConstants.UNASSIGNED)) {
+            if (!StringUtils.equals(role.getName(), RoleConstants.UNASSIGNED)) {
                 ProposalAssignedRole assignedRole = 
-                    new ProposalAssignedRole(role.getRoleName(), getUsersInRole(role.getRoleName()));
+                    new ProposalAssignedRole(role.getName(), getUsersInRole(role.getName()));
                 assignedRoles.add(assignedRole);
             }
         }
@@ -833,20 +842,30 @@ public class ProposalDevelopmentForm extends BudgetVersionFormBase implements Re
         
         Collection<Role> roles = getKimProposalRoles();
         
-        PermissionService permissionService = KraServiceLocator.getService("kimPermissionService");
+        PermissionService permissionService = KimApiServiceLocator.getPermissionService();
+        QueryByCriteria.Builder queryBuilder = QueryByCriteria.Builder.create();
+        List<Predicate> predicates = new ArrayList<Predicate>();
+        PermissionQueryResults permissionResults = null;
         
         for (Role role : roles) {
-            if (!StringUtils.equals(role.getRoleName(), RoleConstants.UNASSIGNED)) {
-                Map<String, String> criteria = new HashMap<String, String>();
-                criteria.put("assignedToRole.roleName", role.getRoleName());
-                criteria.put("assignedToRoleNamespaceForLookup", role.getNamespaceCode());
-                List<KimPermissionInfo> permList = permissionService.lookupPermissions(criteria, true);                
-                returnRoleBeans.add(new org.kuali.kra.common.permissions.web.bean.Role(
-                        role.getRoleName(), role.getRoleDescription(), permList));       
-            }
-        }        
+            if (!StringUtils.equals(role.getName(), RoleConstants.UNASSIGNED)) {
+                predicates.add(PredicateFactory.equal("assignedToRole.roleName", role.getName()));
+                predicates.add(PredicateFactory.equal("assignedToRoleNamespaceForLookup", role.getNamespaceCode()));
+                queryBuilder.setPredicates(PredicateFactory.and(predicates.toArray(new Predicate[] {})));
+                permissionResults = permissionService.findPermissions(queryBuilder.build());
+                if(permissionResults != null && permissionResults.getTotalRowCount() > 0) {
+                    returnRoleBeans.add(new org.kuali.kra.common.permissions.web.bean.Role(
+                            role.getName(), role.getDescription(), permissionResults.getResults()));   
+                }
+                predicates.clear();
+                queryBuilder = QueryByCriteria.Builder.create();
+                permissionResults = null;
+                }
+        }
+        
         return returnRoleBeans;
     }
+
     
     /**
      * Get the list of Proposal User Roles.  Each user has one or more
@@ -865,7 +884,7 @@ public class ProposalDevelopmentForm extends BudgetVersionFormBase implements Re
             // Add persons into the ProposalUserRolesList for each of the roles.
             Collection<Role> roles = getKimProposalRoles();
             for (Role role : roles) {
-                addPersons(proposalUserRolesList, role.getRoleName());
+                addPersons(proposalUserRolesList, role.getName());
             }
             
             sortProposalUsers();  
@@ -879,7 +898,7 @@ public class ProposalDevelopmentForm extends BudgetVersionFormBase implements Re
         
         Collection<Role> roles = getKimProposalRoles();
         for (Role role : roles) {
-            addPersons(current, role.getRoleName());
+            addPersons(current, role.getName());
         }
         
         return current;
@@ -1059,7 +1078,7 @@ public class ProposalDevelopmentForm extends BudgetVersionFormBase implements Re
      */
     @Override
     public String getHeaderDispatch() {
-        return this.getDocumentActions().containsKey(KNSConstants.KUALI_ACTION_CAN_SAVE) ? "save" : "reload";
+        return this.getDocumentActions().containsKey(KRADConstants.KUALI_ACTION_CAN_SAVE) ? "save" : "reload";
     }
 
     /**
@@ -1136,28 +1155,29 @@ public class ProposalDevelopmentForm extends BudgetVersionFormBase implements Re
 
         
         TaskAuthorizationService tas = KraServiceLocator.getService(TaskAuthorizationService.class);
+        ConfigurationService configurationService = KRADServiceLocator.getKualiConfigurationService();
         if( tas.isAuthorized(GlobalVariables.getUserSession().getPrincipalId(), new ProposalTask("submitToSponsor",doc ))) {       
             if ( isCanSubmitToSponsor() ) {
-                String submitToGrantsGovImage = KraServiceLocator.getService(KualiConfigurationService.class).getPropertyString(externalImageURL) + "buttonsmall_submittosponsor.gif";
+                String submitToGrantsGovImage = KRADServiceLocator.getKualiConfigurationService().getPropertyValueAsString(externalImageURL) + "buttonsmall_submittosponsor.gif";
                 addExtraButton("methodToCall.submitToSponsor", submitToGrantsGovImage, "Submit To Sponsor");
             }
             if(isCanSubmitToGrantsGov()) {
               if(doc.getDevelopmentProposal().getS2sOpportunity() != null 
                       && doc.getDevelopmentProposal().getS2sAppSubmission().size() == 0 ){ 
-                     String grantsGovSubmitImage = KraServiceLocator.getService(KualiConfigurationService.class).getPropertyString(externalImageURL) + "buttonsmall_submitgrantsgov.gif";
+                     String grantsGovSubmitImage = configurationService.getPropertyValueAsString(externalImageURL) + "buttonsmall_submitgrantsgov.gif";
                      addExtraButton("methodToCall.submitToGrantsGov", grantsGovSubmitImage, "Submit To GrantsGov");
-              }  
-          }             
+              }
+            }
         }
         //check to see if they are authorized to reject the document
         
         if( tas.isAuthorized(GlobalVariables.getUserSession().getPrincipalId(), new ProposalTask("rejectProposal",doc))) {
-            String resubmissionImage = KraServiceLocator.getService(KualiConfigurationService.class).getPropertyString(externalImageURL) + "buttonsmall_reject.gif";
+            String resubmissionImage = configurationService.getPropertyValueAsString(externalImageURL) + "buttonsmall_reject.gif";
             addExtraButton("methodToCall.reject", resubmissionImage, "Reject");
         }
         
         if (tas.isAuthorized(GlobalVariables.getUserSession().getPrincipalId(), new ProposalTask("deleteProposal", doc))) {
-            String deleteProposalImage = KraServiceLocator.getService(KualiConfigurationService.class).getPropertyString(externalImageURL) + "buttonsmall_deleteproposal.gif";
+            String deleteProposalImage = configurationService.getPropertyValueAsString(externalImageURL) + "buttonsmall_deleteproposal.gif";
             addExtraButton("methodToCall.deleteProposal", deleteProposalImage, "Delete Proposal");
         }
         
@@ -1167,12 +1187,12 @@ public class ProposalDevelopmentForm extends BudgetVersionFormBase implements Re
     /**
      * Overridden to force business logic even after validation failures. In this case we want to force the enabling of credit split.
      * 
-     * @see org.kuali.rice.kns.web.struts.pojo.PojoFormBase#processValidationFail()
+     * @see org.kuali.rice.kns.web.struts.form.pojo.PojoFormBase#processValidationFail()
      */
     @Override
     public void processValidationFail() {
         try {
-            boolean cSplitEnabled = this.getParameterService().getIndicatorParameter(ProposalDevelopmentDocument.class, CREDIT_SPLIT_ENABLED_RULE_NAME)
+            boolean cSplitEnabled = this.getParameterService().getParameterValueAsBoolean(ProposalDevelopmentDocument.class, CREDIT_SPLIT_ENABLED_RULE_NAME)
                 && getDocument().getDevelopmentProposal().getInvestigators().size() > 0;
             setCreditSplitEnabled(cSplitEnabled);
         }
@@ -1223,9 +1243,8 @@ public class ProposalDevelopmentForm extends BudgetVersionFormBase implements Re
     }
     
     public boolean isSubmissionStatusVisible() {
-        String routeStatus = this.getDocument().getDocumentHeader().getWorkflowDocument().getRouteHeader()
-        .getDocRouteStatus();
-        return KEWConstants.ROUTE_HEADER_PROCESSED_CD.equals(routeStatus) || KEWConstants.ROUTE_HEADER_FINAL_CD.equals(routeStatus) || (this.getDocument().getDevelopmentProposal().getSubmitFlag() && KEWConstants.ROUTE_HEADER_ENROUTE_CD.equals(routeStatus));
+        String routeStatus = this.getDocument().getDocumentHeader().getWorkflowDocument().getStatus().getCode();
+        return KewApiConstants.ROUTE_HEADER_PROCESSED_CD.equals(routeStatus) || KewApiConstants.ROUTE_HEADER_FINAL_CD.equals(routeStatus) || (this.getDocument().getDevelopmentProposal().getSubmitFlag() && KewApiConstants.ROUTE_HEADER_ENROUTE_CD.equals(routeStatus));
     }
     
     public boolean isSubmissionStatusReadOnly() {
@@ -1244,16 +1263,14 @@ public class ProposalDevelopmentForm extends BudgetVersionFormBase implements Re
     }
     
     public boolean isCanSubmitToSponsor() {
-        String routeStatus = this.getDocument().getDocumentHeader().getWorkflowDocument().getRouteHeader()
-        .getDocRouteStatus();
-        return ( KEWConstants.ROUTE_HEADER_PROCESSED_CD.equals(routeStatus) || KEWConstants.ROUTE_HEADER_FINAL_CD.equals(routeStatus) || KEWConstants.ROUTE_HEADER_ENROUTE_CD.equals(routeStatus) ) 
+        String routeStatus = this.getDocument().getDocumentHeader().getWorkflowDocument().getStatus().getCode();
+        return ( KewApiConstants.ROUTE_HEADER_PROCESSED_CD.equals(routeStatus) || KewApiConstants.ROUTE_HEADER_FINAL_CD.equals(routeStatus) || KewApiConstants.ROUTE_HEADER_ENROUTE_CD.equals(routeStatus) ) 
                     && !this.getDocument().getDevelopmentProposal().getSubmitFlag() && !isSubmissionStatusReadOnly();
     }
-    
+
     public boolean isCanSubmitToGrantsGov() {
-        String routeStatus = this.getDocument().getDocumentHeader().getWorkflowDocument().getRouteHeader()
-        .getDocRouteStatus();
-        return ( KEWConstants.ROUTE_HEADER_PROCESSED_CD.equals(routeStatus) || KEWConstants.ROUTE_HEADER_FINAL_CD.equals(routeStatus) || KEWConstants.ROUTE_HEADER_ENROUTE_CD.equals(routeStatus) ) 
+        String routeStatus = this.getDocument().getDocumentHeader().getWorkflowDocument().getApplicationDocumentStatus();
+        return ( KewApiConstants.ROUTE_HEADER_PROCESSED_CD.equals(routeStatus) || KewApiConstants.ROUTE_HEADER_FINAL_CD.equals(routeStatus) || KewApiConstants.ROUTE_HEADER_ENROUTE_CD.equals(routeStatus) ) 
                     &&  !isSubmissionStatusReadOnly();
     }
 
@@ -1367,16 +1384,16 @@ public class ProposalDevelopmentForm extends BudgetVersionFormBase implements Re
 //  Set the document controls that should be available on the page
     @Override
     protected void setSaveDocumentControl(Map editMode) {
-        getDocumentActions().remove(KNSConstants.KUALI_ACTION_CAN_SAVE);
+        getDocumentActions().remove(KRADConstants.KUALI_ACTION_CAN_SAVE);
 
         if (isProposalAction() && hasModifyProposalPermission(editMode)) {
-            getDocumentActions().put(KNSConstants.KUALI_ACTION_CAN_SAVE, KNSConstants.KUALI_DEFAULT_TRUE_VALUE);
+            getDocumentActions().put(KRADConstants.KUALI_ACTION_CAN_SAVE, KRADConstants.KUALI_DEFAULT_TRUE_VALUE);
         }
         else if (isNarrativeAction() && hasModifyNarrativesPermission(editMode)) {
-            getDocumentActions().put(KNSConstants.KUALI_ACTION_CAN_SAVE, KNSConstants.KUALI_DEFAULT_TRUE_VALUE);
+            getDocumentActions().put(KRADConstants.KUALI_ACTION_CAN_SAVE, KRADConstants.KUALI_DEFAULT_TRUE_VALUE);
         }
         else if (isBudgetVersionsAction() && (hasModifyCompletedBudgetPermission(editMode) || hasModifyBudgetPermission(editMode))) {
-            getDocumentActions().put(KNSConstants.KUALI_ACTION_CAN_SAVE, KNSConstants.KUALI_DEFAULT_TRUE_VALUE);
+            getDocumentActions().put(KRADConstants.KUALI_ACTION_CAN_SAVE, KRADConstants.KUALI_DEFAULT_TRUE_VALUE);
         }
     }
     
@@ -1562,10 +1579,10 @@ public class ProposalDevelopmentForm extends BudgetVersionFormBase implements Re
 //            }
             if((showHierarchy || !tab.getHeaderTabNavigateTo().equals("hierarchy"))) {
                 if (!tab.getHeaderTabDisplayName().toUpperCase().equals("APPROVER VIEW") || canPerformWorkflowAction()) {
-                    newTabs.add(tab);
+                        newTabs.add(tab);
+                    }
                 }
             }
-        }
         tabs = newTabs.toArray(new HeaderNavigation[newTabs.size()]);
         return tabs;
     }
@@ -1575,9 +1592,9 @@ public class ProposalDevelopmentForm extends BudgetVersionFormBase implements Re
         Person user = GlobalVariables.getUserSession().getPerson();
         Set<String> documentActions = documentAuthorizer.getDocumentActions(this.getDocument(), user, null);
 
-        boolean canApprove= documentActions.contains(KNSConstants.KUALI_ACTION_CAN_APPROVE);
-        boolean canAck = documentActions.contains(KNSConstants.KUALI_ACTION_CAN_ACKNOWLEDGE);
-        boolean canDisapprove = documentActions.contains(KNSConstants.KUALI_ACTION_CAN_DISAPPROVE);
+        boolean canApprove= documentActions.contains(KRADConstants.KUALI_ACTION_CAN_APPROVE);
+        boolean canAck = documentActions.contains(KRADConstants.KUALI_ACTION_CAN_ACKNOWLEDGE);
+        boolean canDisapprove = documentActions.contains(KRADConstants.KUALI_ACTION_CAN_DISAPPROVE);
 
         return canApprove || canAck || canDisapprove;
     }
@@ -1853,6 +1870,18 @@ public class ProposalDevelopmentForm extends BudgetVersionFormBase implements Re
     public S2sOpportunity getS2sOpportunity() {
         return s2sOpportunity;
     }
-
-
+    
+    /**
+     * 
+     * This method helps the tag "proposalDevelopmentGrantsGovOpportunitySearch.tag" by first creating a new S2sOpportunity.
+     * Then it sets the opportunityId, and finally setting the proposal development's S2sOpportunity with this new object.
+     * This function is needed as the tags can no longer set attributes of null object automatically, an object must be created first.
+     * @param opportunityId
+     */
+    public void setNewS2sOpportunityWithId(String opportunityId) {
+        System.err.println("Got here!");
+        S2sOpportunity s2sOpportunity = new S2sOpportunity();
+        s2sOpportunity.setOpportunityId(opportunityId);
+        this.getDocument().getDevelopmentProposalList().get(0).setS2sOpportunity(s2sOpportunity);
+    }
 }

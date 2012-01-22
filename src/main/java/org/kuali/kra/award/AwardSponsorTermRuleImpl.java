@@ -98,7 +98,7 @@ public class AwardSponsorTermRuleImpl extends ResearchDocumentRuleBase implement
     /**
     *
     * Test source and destination for equality in AwardCostShare.
-    * @param AwardCostShare, ErrorMap
+    * @param AwardCostShare, MessageMap
     * @return Boolean
     */
     boolean validateAwardSponsorTermNotDuplicate(AwardSponsorTerm awardSponsorTerm, List<AwardSponsorTerm> awardSponsorTerms){

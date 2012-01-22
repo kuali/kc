@@ -15,9 +15,6 @@
  */
 package org.kuali.kra.s2s.generator.impl;
 
-import java.util.ArrayList;
-import java.util.List;
-
 import gov.grants.apply.forms.phs398ResearchPlan12V12.PHS398ResearchPlan12Document;
 import gov.grants.apply.forms.phs398ResearchPlan12V12.PHS398ResearchPlan12Document.PHS398ResearchPlan12;
 import gov.grants.apply.forms.phs398ResearchPlan12V12.PHS398ResearchPlan12Document.PHS398ResearchPlan12.ApplicationType;
@@ -44,6 +41,9 @@ import gov.grants.apply.forms.phs398ResearchPlan12V12.PHS398ResearchPlan12Docume
 import gov.grants.apply.forms.phs398ResearchPlan12V12.PHS398ResearchPlan12Document.PHS398ResearchPlan12.ResearchPlanAttachments.OtherResearchPlanSections.VertebrateAnimals;
 import gov.grants.apply.system.attachmentsV10.AttachedFileDataType;
 import gov.grants.apply.system.attachmentsV10.AttachmentGroupMin0Max100DataType;
+
+import java.util.ArrayList;
+import java.util.List;
 
 import org.apache.xmlbeans.XmlObject;
 import org.kuali.kra.proposaldevelopment.bo.DevelopmentProposal;

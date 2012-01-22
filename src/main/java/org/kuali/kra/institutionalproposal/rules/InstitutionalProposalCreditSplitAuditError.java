@@ -16,10 +16,10 @@
 package org.kuali.kra.institutionalproposal.rules;
 
 import static org.kuali.kra.infrastructure.Constants.AUDIT_ERRORS;
-import static org.kuali.kra.infrastructure.Constants.CONTACTS_PANEL_NAME;
 import static org.kuali.kra.infrastructure.Constants.CONTACTS_PANEL_ANCHOR;
-import static org.kuali.kra.logging.BufferedLogger.info;
+import static org.kuali.kra.infrastructure.Constants.CONTACTS_PANEL_NAME;
 import static org.kuali.kra.institutionalproposal.contacts.InstitutionalProposalPersonCreditSplitRule.PROPOSAL_CREDIT_SPLIT_LIST_ERROR_KEY;
+import static org.kuali.kra.logging.BufferedLogger.info;
 
 import java.util.ArrayList;
 import java.util.Arrays;
@@ -27,7 +27,7 @@ import java.util.List;
 
 import org.kuali.rice.kns.util.AuditCluster;
 import org.kuali.rice.kns.util.AuditError;
-import org.kuali.rice.kns.util.GlobalVariables;
+import org.kuali.rice.kns.util.KNSGlobalVariables;
 
 public class InstitutionalProposalCreditSplitAuditError extends AuditError {
         
@@ -77,11 +77,11 @@ public class InstitutionalProposalCreditSplitAuditError extends AuditError {
      */
     private static List<AuditError> getAuditErrors() {
         List<AuditError> auditErrors = new ArrayList<AuditError>();
-        if (!GlobalVariables.getAuditErrorMap().containsKey("contactsAuditErrors")) {
-            GlobalVariables.getAuditErrorMap().put("contactsAuditErrors", new AuditCluster(CONTACTS_PANEL_NAME, auditErrors, AUDIT_ERRORS));
+        if (!KNSGlobalVariables.getAuditErrorMap().containsKey("contactsAuditErrors")) {
+            KNSGlobalVariables.getAuditErrorMap().put("contactsAuditErrors", new AuditCluster(CONTACTS_PANEL_NAME, auditErrors, AUDIT_ERRORS));
         }
         else {
-            auditErrors = ((AuditCluster)GlobalVariables.getAuditErrorMap().get("contactsAuditErrors")).getAuditErrorList();
+            auditErrors = ((AuditCluster)KNSGlobalVariables.getAuditErrorMap().get("contactsAuditErrors")).getAuditErrorList();
         }
         
         return auditErrors;
@@ -96,7 +96,7 @@ public class InstitutionalProposalCreditSplitAuditError extends AuditError {
      * @param messageKey
      * @see CreditSplitAuditError
      * @see AuditError
-     * @see GlobalVariables#getAuditErrorMap()
+     * @see KNSGlobalVariables.getAuditErrorMap()
      */
     public static void addAuditError(String messageKey, String ... params) {
         AuditError error = new InstitutionalProposalCreditSplitAuditError(messageKey, params);

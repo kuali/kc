@@ -15,52 +15,33 @@
  */
 package org.kuali.kra.award.home;
 
-import java.util.LinkedHashMap;
-
 import org.kuali.kra.bo.KraPersistableBusinessObjectBase;
 
-public class AwardMethodOfPayment extends KraPersistableBusinessObjectBase { 
-	
-	private String methodOfPaymentCode; 
-	private String description; 
-	
-//	private ValidBasisMethodPmt validBasisMethodPmt; 
-	
-	public AwardMethodOfPayment() { 
+public class AwardMethodOfPayment extends KraPersistableBusinessObjectBase {
 
-	} 
-	
-	public String getMethodOfPaymentCode() {
-		return methodOfPaymentCode;
-	}
+    private String methodOfPaymentCode;
 
-	public void setMethodOfPaymentCode(String methodOfPaymentCode) {
-		this.methodOfPaymentCode = methodOfPaymentCode;
-	}
+    private String description;
 
-	public String getDescription() {
-		return description;
-	}
+    //	private ValidBasisMethodPmt validBasisMethodPmt;   
+    public AwardMethodOfPayment() {
+    }
 
-	public void setDescription(String description) {
-		this.description = description;
-	}
+    public String getMethodOfPaymentCode() {
+        return methodOfPaymentCode;
+    }
 
-//	public ValidBasisMethodPmt getValidBasisMethodPmt() {
-//		return validBasisMethodPmt;
-//	}
-//
-//	public void setValidBasisMethodPmt(ValidBasisMethodPmt validBasisMethodPmt) {
-//		this.validBasisMethodPmt = validBasisMethodPmt;
-//	}
+    public void setMethodOfPaymentCode(String methodOfPaymentCode) {
+        this.methodOfPaymentCode = methodOfPaymentCode;
+    }
 
-	@Override 
-	protected LinkedHashMap toStringMapper() {
-		LinkedHashMap hashMap = new LinkedHashMap();
-		hashMap.put("methodOfPaymentCode", getMethodOfPaymentCode());
-		hashMap.put("description", getDescription());
-		return hashMap;
-	}
+    public String getDescription() {
+        return description;
+    }
+
+    public void setDescription(String description) {
+        this.description = description;
+    }
 
     /**
      * @see java.lang.Object#hashCode()
@@ -79,26 +60,16 @@ public class AwardMethodOfPayment extends KraPersistableBusinessObjectBase {
      */
     @Override
     public boolean equals(Object obj) {
-        if (this == obj)
-            return true;
-        if (obj == null)
-            return false;
-        if (getClass() != obj.getClass())
-            return false;
+        if (this == obj) return true;
+        if (obj == null) return false;
+        if (getClass() != obj.getClass()) return false;
         AwardMethodOfPayment other = (AwardMethodOfPayment) obj;
         if (description == null) {
-            if (other.description != null)
-                return false;
-        }
-        else if (!description.equals(other.description))
-            return false;
+            if (other.description != null) return false;
+        } else if (!description.equals(other.description)) return false;
         if (methodOfPaymentCode == null) {
-            if (other.methodOfPaymentCode != null)
-                return false;
-        }
-        else if (!methodOfPaymentCode.equals(other.methodOfPaymentCode))
-            return false;
+            if (other.methodOfPaymentCode != null) return false;
+        } else if (!methodOfPaymentCode.equals(other.methodOfPaymentCode)) return false;
         return true;
     }
-	
 }

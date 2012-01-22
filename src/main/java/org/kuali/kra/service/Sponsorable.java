@@ -1,6 +1,5 @@
 package org.kuali.kra.service;
 
-import java.util.Map;
 
 public interface Sponsorable {
     /**

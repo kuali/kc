@@ -16,7 +16,7 @@
 package org.kuali.kra.irb.onlinereview.rules;
 
 import org.kuali.kra.irb.onlinereview.event.RouteProtocolOnlineReviewEvent;
-import org.kuali.rice.kns.rule.BusinessRule;
+import org.kuali.rice.krad.rules.rule.BusinessRule;
 
 public interface RouteProtocolOnlineReviewRule extends BusinessRule  {
 

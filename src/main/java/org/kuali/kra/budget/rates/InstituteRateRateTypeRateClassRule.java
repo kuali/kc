@@ -19,7 +19,7 @@ import org.kuali.kra.bo.AbstractInstituteRate;
 * <bold>LA</bold> rate type & <bold>LA</bold> rate class.
 * </p>
 */
-public interface InstituteRateRateTypeRateClassRule {
+public interface InstituteRateRateTypeRateClassRule extends org.kuali.rice.krad.rules.rule.BusinessRule {
 
     /**
      * Validates if the rate type code and rate type class are valid for the AbstractInstituteRate rate type.

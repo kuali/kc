@@ -35,6 +35,14 @@ public class ProtocolPrintPermissionUtils extends PermissionsHelperBase {
      */
     private static final long serialVersionUID = -6233936470002193650L;
     private Protocol protocol;
+
+    public ProtocolPrintPermissionUtils() {
+        super();
+     }    
+    public ProtocolPrintPermissionUtils(String roleType) {
+        super(roleType);
+     }    
+
     /**
      * @see org.kuali.kra.common.permissions.web.struts.form.PermissionsHelperBase#canModifyPermissions()
      */

@@ -49,10 +49,11 @@ import org.kuali.kra.proposaldevelopment.web.struts.form.ProposalDevelopmentForm
 import org.kuali.kra.question.CopyPeriodsQuestion;
 import org.kuali.kra.rules.ErrorReporter;
 import org.kuali.kra.web.struts.action.StrutsConfirmation;
-import org.kuali.rice.kew.exception.WorkflowException;
-import org.kuali.rice.kns.service.DocumentService;
-import org.kuali.rice.kns.util.GlobalVariables;
-import org.kuali.rice.kns.util.KNSConstants;
+import org.kuali.rice.kew.api.exception.WorkflowException;
+import org.kuali.rice.kns.util.KNSGlobalVariables;
+import org.kuali.rice.krad.service.DocumentService;
+import org.kuali.rice.krad.util.GlobalVariables;
+import org.kuali.rice.krad.util.KRADConstants;
 
 /**
  * Struts Action class for the Proposal Development Budget Versions page
@@ -136,7 +137,7 @@ public class ProposalDevelopmentBudgetVersionsAction extends ProposalDevelopment
         BudgetVersionOverview budgetToOpen = budgetDocumentToOpen.getBudgetVersionOverview();
         DocumentService documentService = KraServiceLocator.getService(DocumentService.class);
         BudgetDocument budgetDocument = (BudgetDocument) documentService.getByDocumentHeaderId(budgetToOpen.getDocumentNumber());
-        Long routeHeaderId = budgetDocument.getDocumentHeader().getWorkflowDocument().getRouteHeaderId();
+        String routeHeaderId = budgetDocument.getDocumentHeader().getWorkflowDocument().getDocumentId();
         BudgetParentDocument parentDocument = budgetDocument.getParentDocument();
         if(parentDocument==null){
             budgetDocument.refreshReferenceObject("parentDocument");
@@ -208,7 +209,7 @@ public class ProposalDevelopmentBudgetVersionsAction extends ProposalDevelopment
         BudgetDocumentVersion budgetDocumentToOpen = pdDoc.getBudgetDocumentVersion(getSelectedLine(request));
         DocumentService documentService = KraServiceLocator.getService(DocumentService.class);
         BudgetDocument budgetDocument = (BudgetDocument) documentService.getByDocumentHeaderId(budgetDocumentToOpen.getDocumentNumber());
-        Long routeHeaderId = budgetDocument.getDocumentHeader().getWorkflowDocument().getRouteHeaderId();
+        String routeHeaderId = budgetDocument.getDocumentHeader().getWorkflowDocument().getDocumentId();
         String forward = buildForwardUrl(routeHeaderId);
         if (confirm) {
             budgetDocument.getBudget().setActivityTypeCode(pdDoc.getDevelopmentProposal().getActivityTypeCode());
@@ -233,8 +234,8 @@ public class ProposalDevelopmentBudgetVersionsAction extends ProposalDevelopment
     public ActionForward copyBudgetVersion(ActionMapping mapping, ActionForm form, HttpServletRequest request, HttpServletResponse response) throws Exception {
         ProposalDevelopmentForm pdForm = (ProposalDevelopmentForm) form;
         BudgetVersionOverview versionToCopy = getSelectedVersion(pdForm, request);
-        if (StringUtils.isNotBlank(request.getParameter(KNSConstants.QUESTION_INST_ATTRIBUTE_NAME))) {
-            Object buttonClicked = request.getParameter(KNSConstants.QUESTION_CLICKED_BUTTON);
+        if (StringUtils.isNotBlank(request.getParameter(KRADConstants.QUESTION_INST_ATTRIBUTE_NAME))) {
+            Object buttonClicked = request.getParameter(KRADConstants.QUESTION_CLICKED_BUTTON);
             if (CopyPeriodsQuestion.ONE.equals(buttonClicked)) {
                 return copyBudgetPeriodOne(mapping, form, request, response);
             }
@@ -286,7 +287,7 @@ public class ProposalDevelopmentBudgetVersionsAction extends ProposalDevelopment
             // set up error message to go to validate panel
             final int errorBudgetVersion = this.getTentativeFinalBudgetVersion(pdForm);
             if (errorBudgetVersion != -1) {
-                GlobalVariables.getErrorMap().putError(
+                GlobalVariables.getMessageMap().putError(
                         "document.budgetDocumentVersion[" + (errorBudgetVersion - 1) + "].budgetVersionOverview.budgetStatus",
                         KeyConstants.CLEAR_AUDIT_ERRORS_BEFORE_CHANGE_STATUS_TO_COMPLETE);
             }
@@ -303,10 +304,10 @@ public class ProposalDevelopmentBudgetVersionsAction extends ProposalDevelopment
             pdForm.setMethodToCall("actions");
             /**
              * If we are in audit mode, when we get redirected back to the actions tab, there was error in that the error
-             * messages weren't being displayed correctly.  Clearing the AuditErrorMap "fixes" this problem. KRACOEUS-4746.
+             * messages weren't being displayed correctly.  Clearing the AuditMessageMap "fixes" this problem. KRACOEUS-4746.
              */
             if (pdForm.isAuditActivated()) {
-                GlobalVariables.getAuditErrorMap().clear();
+                KNSGlobalVariables.getAuditErrorMap().clear();
             }
         }
 
@@ -353,7 +354,7 @@ public class ProposalDevelopmentBudgetVersionsAction extends ProposalDevelopment
     
     public ActionForward copyBudgetPeriodOne(ActionMapping mapping, ActionForm form, HttpServletRequest request, HttpServletResponse response) throws Exception {
 
-        Object question = request.getParameter(KNSConstants.QUESTION_INST_ATTRIBUTE_NAME);
+        Object question = request.getParameter(KRADConstants.QUESTION_INST_ATTRIBUTE_NAME);
         if (COPY_BUDGET_PERIOD_QUESTION.equals(question)) {
             copyBudget(form, request, true);
         }
@@ -363,7 +364,7 @@ public class ProposalDevelopmentBudgetVersionsAction extends ProposalDevelopment
     
     public ActionForward copyBudgetAllPeriods(ActionMapping mapping, ActionForm form, HttpServletRequest request, HttpServletResponse response) throws Exception {
 
-        Object question = request.getParameter(KNSConstants.QUESTION_INST_ATTRIBUTE_NAME);
+        Object question = request.getParameter(KRADConstants.QUESTION_INST_ATTRIBUTE_NAME);
         if (COPY_BUDGET_PERIOD_QUESTION.equals(question)) {
             copyBudget(form, request, false);
         }

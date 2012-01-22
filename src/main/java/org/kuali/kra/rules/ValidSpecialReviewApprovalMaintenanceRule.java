@@ -39,7 +39,7 @@ public class ValidSpecialReviewApprovalMaintenanceRule extends KraMaintenanceDoc
      * @see org.kuali.core.maintenance.rules.MaintenanceDocumentRuleBase#processCustomRouteDocumentBusinessRules(org.kuali.core.document.MaintenanceDocument)
      */ 
     protected boolean processCustomRouteDocumentBusinessRules(MaintenanceDocument document) {
-        ValidSpecialReviewApproval specialReviewApproval = (ValidSpecialReviewApproval) document.getDocumentBusinessObject();
+        ValidSpecialReviewApproval specialReviewApproval = (ValidSpecialReviewApproval) document.getNoteTarget();
         return validate(specialReviewApproval);
     }
     
@@ -49,7 +49,7 @@ public class ValidSpecialReviewApprovalMaintenanceRule extends KraMaintenanceDoc
      */
     @Override
     protected boolean processCustomApproveDocumentBusinessRules(MaintenanceDocument document) {
-        ValidSpecialReviewApproval specialReviewApproval = (ValidSpecialReviewApproval) document.getDocumentBusinessObject();
+        ValidSpecialReviewApproval specialReviewApproval = (ValidSpecialReviewApproval) document.getNoteTarget();
         return validate(specialReviewApproval);
     }
 

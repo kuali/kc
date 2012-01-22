@@ -17,7 +17,6 @@ package org.kuali.kra.award.paymentreports.awardreports.reporting;
 
 import java.sql.Date;
 import java.sql.Timestamp;
-import java.util.LinkedHashMap;
 
 import org.apache.commons.lang.StringUtils;
 import org.kuali.kra.award.home.Distribution;
@@ -36,7 +35,7 @@ import org.kuali.kra.bo.Sponsor;
 import org.kuali.kra.bo.Unit;
 import org.kuali.kra.infrastructure.KraServiceLocator;
 import org.kuali.kra.service.KcPersonService;
-import org.kuali.rice.kns.service.BusinessObjectService;
+import org.kuali.rice.krad.service.BusinessObjectService;
 
 /**
  * 
@@ -49,48 +48,81 @@ public class ReportTracking extends KraPersistableBusinessObjectBase implements 
      */
     private static final long serialVersionUID = -7660491024739306314L;
     private Long awardReportTermId;
+
     private String awardNumber;
+
     private String piPersonId;
+
     private Integer piRolodexId;
+
     private String piName;
+
     private String leadUnitNumber;
+
     private String reportClassCode;
+
     private String reportCode;
+
     private String frequencyCode;
+
     private String frequencyBaseCode;
+
     private String ospDistributionCode;
+
     private String statusCode;
+
     private Date baseDate;
+
     private Date dueDate;
+
     private Integer overdue;
+
     private Date activityDate;
+
     private String comments;
+
     private String preparerId;
+
     private String preparerName;
+
     private String sponsorCode;
+
     private String sponsorAwardNumber;
+
     private String title;
+
     private String lastUpdateUser;
     private Timestamp lastUpdateDate;
-    
+
     private ReportClass reportClass;
+
     private Report report;
+
     private Frequency frequency;
+
     private FrequencyBase frequencyBase;
+
     private ReportStatus reportStatus;
+
     private Distribution distribution;
+
     private Unit leadUnit;
+
     private Sponsor sponsor;
+
     private transient KcPerson piPerson;
+
     private transient Rolodex piRolodex;
+
     private transient KcPerson preparer;
-    
+
     //item count is used during the search and returning grouped results.
     private transient int itemCount;
     private transient KcPersonService kcPersonService;
+
     private transient BusinessObjectService businessObjectService;
     private boolean multiEditSelected;
-    
+
 
     public Long getAwardReportTermId() {
         return awardReportTermId;
@@ -260,18 +292,6 @@ public class ReportTracking extends KraPersistableBusinessObjectBase implements 
         this.lastUpdateDate = lastUpdateDate;
     }
 
-    @SuppressWarnings("unchecked")
-    @Override
-    protected LinkedHashMap toStringMapper() {
-        LinkedHashMap result = new LinkedHashMap();
-        result.put("awardNumber", getAwardNumber());
-        result.put("reportClassCode", getReportClassCode());
-        result.put("reportCode", getReportCode());
-        result.put("frequencyCode", getFrequencyCode());
-        result.put("frequencyBaseCode", getFrequencyBaseCode());
-        return result;
-    }
-
     public ReportClass getReportClass() {
         return reportClass;
     }
@@ -361,22 +381,22 @@ public class ReportTracking extends KraPersistableBusinessObjectBase implements 
 
     public void setPreparerName(String preparerName) {
         this.preparerName = preparerName;
-    } 
-    
+    }
+
     public KcPerson getPiPerson() {
         if (piPerson == null && StringUtils.isNotBlank(getPiPersonId())) {
             piPerson = getKcPersonService().getKcPersonByPersonId(getPiPersonId());
         }
         return piPerson;
     }
-    
+
     public Rolodex getPiRolodex() {
         if (piRolodex == null && getPiRolodexId() != null) {
             piRolodex = (NonOrganizationalRolodex) getBusinessObjectService().findBySinglePrimaryKey(NonOrganizationalRolodex.class, getPiRolodexId());
         }
         return piRolodex;
     }
-    
+
     public Contactable getPrimaryInvestigator() {
         if (getPiPerson() != null) {
             return getPiPerson();
@@ -386,14 +406,14 @@ public class ReportTracking extends KraPersistableBusinessObjectBase implements 
             return null;
         }
     }
-    
+
     public KcPerson getPreparer() {
         if (preparer == null && StringUtils.isNotBlank(getPreparerId())) {
             preparer = getKcPersonService().getKcPersonByPersonId(getPreparerId());
         }
         return preparer;
     }
-    
+
     public String getPreparerFullname() {
         return getPreparer() != null ? getPreparer().getFullName() : "";
     }

@@ -22,8 +22,8 @@ import java.util.List;
 import org.apache.ojb.broker.query.Criteria;
 import org.apache.ojb.broker.query.QueryFactory;
 import org.kuali.kra.dao.KraLookupDao;
-import org.kuali.rice.kns.dao.impl.LookupDaoOjb;
 import org.kuali.rice.kns.lookup.LookupUtils;
+import org.kuali.rice.krad.dao.impl.LookupDaoOjb;
 import org.springframework.dao.DataIntegrityViolationException;
 import org.springmodules.orm.ojb.OjbOperationException;
 

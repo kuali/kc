@@ -34,13 +34,14 @@ import org.kuali.kra.s2s.bo.S2sOpportunity;
 import org.kuali.kra.s2s.generator.bo.DepartmentalPerson;
 import org.kuali.kra.s2s.service.S2SGeneratorUtilService;
 import org.kuali.kra.s2s.util.S2SConstants;
-import org.kuali.rice.kns.bo.Country;
-import org.kuali.rice.kns.bo.State;
-import org.kuali.rice.kns.service.BusinessObjectService;
-import org.kuali.rice.kns.service.CountryService;
-import org.kuali.rice.kns.service.DateTimeService;
-import org.kuali.rice.kns.service.ParameterService;
-import org.kuali.rice.kns.service.StateService;
+import org.kuali.rice.core.api.datetime.DateTimeService;
+import org.kuali.rice.coreservice.framework.parameter.ParameterService;
+import org.kuali.rice.krad.service.BusinessObjectService;
+import org.kuali.rice.krad.util.KRADConstants;
+import org.kuali.rice.location.api.country.Country;
+import org.kuali.rice.location.api.country.CountryService;
+import org.kuali.rice.location.api.state.State;
+import org.kuali.rice.location.api.state.StateService;
 
 /**
  * 
@@ -180,7 +181,7 @@ public class S2SGeneratorUtilServiceImpl implements S2SGeneratorUtilService {
      * @return String
      */
     public String getParameterValue(String parameter) {
-        return this.parameterService.getParameterValue(ProposalDevelopmentDocument.class,parameter);
+        return this.parameterService.getParameterValueAsString(ProposalDevelopmentDocument.class,parameter);
     }
 
     /**
@@ -190,9 +191,9 @@ public class S2SGeneratorUtilServiceImpl implements S2SGeneratorUtilService {
     public CountryCodeDataType.Enum getCountryCodeDataType(String countryCode) {
         CountryCodeDataType.Enum countryCodeDataType = null;
         
-        Country country = getCountryService().getByAlternatePostalCountryCode(countryCode);
+        Country country = getCountryService().getCountryByAlternateCode(countryCode);
         if (country != null) {
-            countryCodeDataType = CountryCodeDataType.Enum.forString(country.getAlternatePostalCountryCode() + ": " + country.getPostalCountryName().toUpperCase());
+            countryCodeDataType = CountryCodeDataType.Enum.forString(country.getAlternateCode() + ": " + country.getName().toUpperCase());
         }
 
         return countryCodeDataType;
@@ -208,10 +209,12 @@ public class S2SGeneratorUtilServiceImpl implements S2SGeneratorUtilService {
      */
     public StateCodeDataType.Enum getStateCodeDataType(String stateName) {
         StateCodeDataType.Enum stateCodeDataType = null;
-        
-        State state = getStateService().getByPrimaryId(stateName);
+        String countryCode = parameterService.getParameterValueAsString(KRADConstants.KNS_NAMESPACE,
+        KRADConstants.DetailTypes.ALL_DETAIL_TYPE, KRADConstants.SystemGroupParameterNames.DEFAULT_COUNTRY);
+ 
+        State state = getStateService().getState(countryCode, stateName);
         if (state != null) {
-            stateCodeDataType = StateCodeDataType.Enum.forString(state.getPostalStateCode() + ": " + state.getPostalStateName());
+            stateCodeDataType = StateCodeDataType.Enum.forString(state.getCode() + ": " + state.getName());
         }
         
         return stateCodeDataType;

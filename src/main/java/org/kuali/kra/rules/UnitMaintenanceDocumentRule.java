@@ -22,7 +22,7 @@ import org.kuali.kra.infrastructure.KeyConstants;
 import org.kuali.kra.infrastructure.KraServiceLocator;
 import org.kuali.kra.service.UnitService;
 import org.kuali.rice.kns.document.MaintenanceDocument;
-import org.kuali.rice.kns.util.GlobalVariables;
+import org.kuali.rice.krad.util.GlobalVariables;
 
 public class UnitMaintenanceDocumentRule extends KraMaintenanceDocumentRuleBase {
     
@@ -60,13 +60,13 @@ public class UnitMaintenanceDocumentRule extends KraMaintenanceDocumentRuleBase 
     private boolean moveUnit(MaintenanceDocument maintenanceDocument) {
 
         boolean valid = true;
-        Unit unit=(Unit)maintenanceDocument.getNewMaintainableObject().getBusinessObject();
+        Unit unit=(Unit)maintenanceDocument.getNewMaintainableObject().getDataObject();
         String unitNumber=unit.getUnitNumber();
         String parentUnitNumber=unit.getParentUnitNumber();
         List<Unit> allSubUnits = KraServiceLocator.getService(UnitService.class).getAllSubUnits(unitNumber); 
         for (Unit subunits : allSubUnits) {  
             if(subunits.getUnitNumber().equals(parentUnitNumber)){
-                GlobalVariables.getErrorMap().putError("document.newMaintainableObject.parentUnitNumber", KeyConstants.MOVE_UNIT_OWN_DESCENDANTS,
+                GlobalVariables.getMessageMap().putError("document.newMaintainableObject.parentUnitNumber", KeyConstants.MOVE_UNIT_OWN_DESCENDANTS,
                         new String[] { unit.getParentUnitNumber(), unit.getParentUnitNumber() });
                 valid=false;
             }

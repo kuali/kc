@@ -15,8 +15,6 @@
  */
 package org.kuali.kra.bo;
 
-import java.util.LinkedHashMap;
-
 import org.kuali.rice.kew.doctype.bo.DocumentType;
 
 /**
@@ -25,27 +23,31 @@ import org.kuali.rice.kew.doctype.bo.DocumentType;
  */
 public class CustomAttributeDocument extends KraPersistableBusinessObjectBase {
 
-	private Integer customAttributeId;
-	private String documentTypeName;
-	private boolean required;
-	private String typeName;
+    private Integer customAttributeId;
+
+    private String documentTypeName;
+
+    private boolean required;
+
+    private String typeName;
 
     private CustomAttribute customAttribute;
+
     private DocumentType documentType;
 
     private boolean active;
 
-	public CustomAttributeDocument(){
-		super();
-	}
+    public CustomAttributeDocument() {
+        super();
+    }
 
-	public Integer getCustomAttributeId() {
-		return customAttributeId;
-	}
+    public Integer getCustomAttributeId() {
+        return customAttributeId;
+    }
 
-	public void setCustomAttributeId(Integer customAttributeId) {
-		this.customAttributeId = customAttributeId;
-	}
+    public void setCustomAttributeId(Integer customAttributeId) {
+        this.customAttributeId = customAttributeId;
+    }
 
     /**
      * Sets the documentTypeName attribute value.
@@ -63,32 +65,21 @@ public class CustomAttributeDocument extends KraPersistableBusinessObjectBase {
         return documentTypeName;
     }
 
-	public boolean isRequired() {
-		return required;
-	}
+    public boolean isRequired() {
+        return required;
+    }
 
-	public void setRequired(boolean required) {
-		this.required = required;
-	}
+    public void setRequired(boolean required) {
+        this.required = required;
+    }
 
-	public String getTypeName() {
-		return typeName;
-	}
+    public String getTypeName() {
+        return typeName;
+    }
 
-	public void setTypeName(String typeName) {
-		this.typeName = typeName;
-	}
-
-
-	@Override
-	protected LinkedHashMap toStringMapper() {
-		LinkedHashMap hashMap = new LinkedHashMap();
-		hashMap.put("customAttributeId", getCustomAttributeId());
-		hashMap.put("documentTypeName", getDocumentTypeName());
-		hashMap.put("required", isRequired());
-		hashMap.put("typeName", getTypeName());
-		return hashMap;
-	}
+    public void setTypeName(String typeName) {
+        this.typeName = typeName;
+    }
 
     /**
      * Sets the customAttribute attribute value.
@@ -113,7 +104,7 @@ public class CustomAttributeDocument extends KraPersistableBusinessObjectBase {
     public void setActive(boolean active) {
         this.active = active;
     }
-    
+
     /**
      * Gets the documentType attribute. 
      * @return Returns the documentType.

@@ -18,9 +18,6 @@ package org.kuali.kra.irb.auth;
 import org.kuali.kra.infrastructure.Constants;
 import org.kuali.kra.infrastructure.PermissionConstants;
 import org.kuali.kra.irb.Protocol;
-import org.kuali.rice.kns.document.Document;
-import org.kuali.rice.kns.document.authorization.PessimisticLock;
-import org.kuali.rice.kns.util.GlobalVariables;
 
 /**
  * The Modify Protocol Authorizer checks to see if the user has 

@@ -26,20 +26,20 @@ import java.util.Properties;
 import org.apache.commons.lang.StringUtils;
 import org.kuali.kra.lookup.KraLookupableHelperServiceImpl;
 import org.kuali.kra.negotiations.bo.Negotiation;
-import org.kuali.rice.kew.util.KEWConstants;
-import org.kuali.rice.kns.bo.BusinessObject;
-import org.kuali.rice.kns.document.Document;
+import org.kuali.rice.kew.api.KewApiConstants;
 import org.kuali.rice.kns.lookup.HtmlData;
-import org.kuali.rice.kns.lookup.LookupUtils;
 import org.kuali.rice.kns.lookup.HtmlData.AnchorHtmlData;
-import org.kuali.rice.kns.util.BeanPropertyComparator;
-import org.kuali.rice.kns.util.KNSConstants;
-import org.kuali.rice.kns.util.UrlFactory;
+import org.kuali.rice.kns.lookup.LookupUtils;
 import org.kuali.rice.kns.web.struts.form.LookupForm;
 import org.kuali.rice.kns.web.ui.Column;
 import org.kuali.rice.kns.web.ui.Field;
 import org.kuali.rice.kns.web.ui.ResultRow;
 import org.kuali.rice.kns.web.ui.Row;
+import org.kuali.rice.krad.bo.BusinessObject;
+import org.kuali.rice.krad.document.Document;
+import org.kuali.rice.krad.util.BeanPropertyComparator;
+import org.kuali.rice.krad.util.KRADConstants;
+import org.kuali.rice.krad.util.UrlFactory;
 
 /**
  * Negotiation Lookup Helper Service
@@ -60,7 +60,9 @@ public class NegotiationLookupableHelperServiceImpl extends KraLookupableHelperS
             fieldValues.put("associatedNegotiable.piId", ((String[]) this.getParameters().get(USER_ID))[0]);
             fieldValues.put("negotiatorPersonId", ((String[]) this.getParameters().get(USER_ID))[0]);
         }
-        List<? extends BusinessObject> searchResults = getNegotiationDao().getNegotiationResults(fieldValues);
+        List<Negotiation> searchResults = new ArrayList<Negotiation>();
+        searchResults.addAll(getNegotiationDao().getNegotiationResults(fieldValues));
+
         List defaultSortColumns = getDefaultSortColumns();
         if (defaultSortColumns.size() > 0) {
             Collections.sort(searchResults, new BeanPropertyComparator(defaultSortColumns, true));
@@ -82,9 +84,9 @@ public class NegotiationLookupableHelperServiceImpl extends KraLookupableHelperS
         AnchorHtmlData htmlData = new AnchorHtmlData();
         htmlData.setDisplayText("open");
         Properties parameters = new Properties();
-        parameters.put(KNSConstants.DISPATCH_REQUEST_PARAMETER, KNSConstants.DOC_HANDLER_METHOD);
-        parameters.put(KNSConstants.PARAMETER_COMMAND, KEWConstants.DOCSEARCH_COMMAND);
-        parameters.put(KNSConstants.DOCUMENT_TYPE_NAME, getDocumentTypeName());
+        parameters.put(KRADConstants.DISPATCH_REQUEST_PARAMETER, KRADConstants.DOC_HANDLER_METHOD);
+        parameters.put(KRADConstants.PARAMETER_COMMAND, KewApiConstants.DOCSEARCH_COMMAND);
+        parameters.put(KRADConstants.DOCUMENT_TYPE_NAME, getDocumentTypeName());
         parameters.put("docId", document.getDocumentNumber());
         String href  = UrlFactory.parameterizeUrl("../" + getHtmlAction(), parameters);
         
@@ -166,7 +168,7 @@ public class NegotiationLookupableHelperServiceImpl extends KraLookupableHelperS
         }
         return lookupStuff;
     }
-    
+
     @Override
     protected void setRows() {
         super.setRows();

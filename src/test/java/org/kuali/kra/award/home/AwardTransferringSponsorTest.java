@@ -19,8 +19,6 @@ import org.junit.After;
 import org.junit.Assert;
 import org.junit.Before;
 import org.junit.Test;
-import org.kuali.kra.award.home.Award;
-import org.kuali.kra.award.home.AwardTransferringSponsor;
 
 /**
  * Test class for AwardTransferringSponsor.java BO
@@ -60,7 +58,7 @@ public class AwardTransferringSponsorTest {
    @Test
    public void testAwardCostShareBoAttributesCount() throws Exception {              
        Assert.assertEquals(AWARD_TRANSFERRING_SPONSOR_ATTRIBUTES_COUNT, 
-               awardTransferringSponsor.toStringMapper().size());
+               awardTransferringSponsor.getClass().getFields().length);
    }
 
 }

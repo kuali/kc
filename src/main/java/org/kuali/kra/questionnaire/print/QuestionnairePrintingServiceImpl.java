@@ -32,8 +32,7 @@ import org.kuali.kra.printing.print.AbstractPrint;
 import org.kuali.kra.printing.service.PrintingService;
 import org.kuali.kra.proposaldevelopment.bo.AttachmentDataSource;
 import org.kuali.kra.questionnaire.Questionnaire;
-import org.kuali.rice.kew.bo.KewPersistableBusinessObjectBase;
-import org.kuali.rice.kns.service.BusinessObjectService;
+import org.kuali.rice.krad.service.BusinessObjectService;
 
 public class QuestionnairePrintingServiceImpl implements QuestionnairePrintingService {
 

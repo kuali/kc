@@ -13,10 +13,7 @@
  * See the License for the specific language governing permissions and
  * limitations under the License.
  */
-
 package org.kuali.kra.award.paymentreports;
-
-import java.util.LinkedHashMap;
 
 import org.apache.commons.lang.StringUtils;
 import org.kuali.kra.bo.KraPersistableBusinessObjectBase;
@@ -26,24 +23,28 @@ import org.kuali.kra.bo.KraPersistableBusinessObjectBase;
  * This class represents the FrequencyBase business object and is mapped
  * with FREQUENCY_BASE table.
  */
-public class FrequencyBase extends KraPersistableBusinessObjectBase { 
-    
+public class FrequencyBase extends KraPersistableBusinessObjectBase {
+
     /**
      * Comment for <code>serialVersionUID</code>
      */
     private static final long serialVersionUID = 5406416029670950959L;
-    private String frequencyBaseCode; 
-    private String description; 
+
+    private String frequencyBaseCode;
+
+    private String description;
+
     private String regenerationTypeName;
+
     private boolean active;
-    
+
     /**
      * Constructs a FrequencyBase object.
      */
-    public FrequencyBase() { 
+    public FrequencyBase() {
         regenerationTypeName = ReportRegenerationType.REGEN.name();
-    } 
-    
+    }
+
     /**
      * 
      * This method...
@@ -78,18 +79,6 @@ public class FrequencyBase extends KraPersistableBusinessObjectBase {
     }
 
     /**
-     * 
-     * @see org.kuali.rice.kns.bo.BusinessObjectBase#toStringMapper()
-     */
-    @Override    
-    protected LinkedHashMap<String, Object> toStringMapper() {
-        LinkedHashMap<String, Object> hashMap = new LinkedHashMap<String, Object>();
-        hashMap.put("frequencyBaseCode", getFrequencyBaseCode());
-        hashMap.put("description", getDescription());
-        return hashMap;
-    }
-
-    /**
      * @see java.lang.Object#hashCode()
      */
     @Override
@@ -105,35 +94,35 @@ public class FrequencyBase extends KraPersistableBusinessObjectBase {
      */
     @Override
     public boolean equals(Object obj) {
-        if (this == obj){
+        if (this == obj) {
             return true;
-        }   
-        if (obj == null){
+        }
+        if (obj == null) {
             return false;
-        }   
-        if (!(obj instanceof FrequencyBase)){
+        }
+        if (!(obj instanceof FrequencyBase)) {
             return false;
-        }   
+        }
         return equals((FrequencyBase) obj);
     }
-    
+
     /**
      * 
      * Convenience method for equality of FrequencyBase
      * @param frequencyBase
      * @return
      */
-    public boolean equals(FrequencyBase frequencyBase){
+    public boolean equals(FrequencyBase frequencyBase) {
         if (frequencyBaseCode == null) {
-            if (frequencyBase.frequencyBaseCode != null){
+            if (frequencyBase.frequencyBaseCode != null) {
                 return false;
-            }   
-        }else if (!frequencyBaseCode.equals(frequencyBase.frequencyBaseCode)){
+            }
+        } else if (!frequencyBaseCode.equals(frequencyBase.frequencyBaseCode)) {
             return false;
-        }   
+        }
         return true;
     }
-    
+
     public ReportRegenerationType getReportRegenerationType() {
         if (StringUtils.isNotBlank(getRegenerationTypeName())) {
             return ReportRegenerationType.valueOf(getRegenerationTypeName());
@@ -141,7 +130,7 @@ public class FrequencyBase extends KraPersistableBusinessObjectBase {
             return null;
         }
     }
-    
+
     public void setReportRegenerationType(ReportRegenerationType type) {
         if (type != null) {
             setRegenerationTypeName(type.name());
@@ -165,5 +154,4 @@ public class FrequencyBase extends KraPersistableBusinessObjectBase {
     public void setActive(boolean active) {
         this.active = active;
     }
-    
 }

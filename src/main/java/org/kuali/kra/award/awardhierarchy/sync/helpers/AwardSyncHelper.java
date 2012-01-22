@@ -23,7 +23,7 @@ import org.kuali.kra.award.awardhierarchy.sync.AwardSyncException;
 import org.kuali.kra.award.awardhierarchy.sync.AwardSyncType;
 import org.kuali.kra.award.awardhierarchy.sync.AwardSyncXmlExport;
 import org.kuali.kra.award.home.Award;
-import org.kuali.rice.kns.bo.PersistableBusinessObject;
+import org.kuali.rice.krad.bo.PersistableBusinessObject;
 
 /**
  * Award Sync Helper interface. Describes the interface for classes

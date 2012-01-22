@@ -20,11 +20,11 @@ import java.util.List;
 
 import org.kuali.kra.document.ResearchDocumentBase;
 import org.kuali.kra.infrastructure.Constants;
-import org.kuali.rice.kns.document.Copyable;
-import org.kuali.rice.kns.document.SessionDocument;
-import org.kuali.rice.kns.service.ParameterConstants;
-import org.kuali.rice.kns.service.ParameterConstants.COMPONENT;
-import org.kuali.rice.kns.service.ParameterConstants.NAMESPACE;
+import org.kuali.rice.coreservice.framework.parameter.ParameterConstants;
+import org.kuali.rice.coreservice.framework.parameter.ParameterConstants.COMPONENT;
+import org.kuali.rice.coreservice.framework.parameter.ParameterConstants.NAMESPACE;
+import org.kuali.rice.krad.document.Copyable;
+import org.kuali.rice.krad.document.SessionDocument;
 
 /**
  * 
@@ -36,6 +36,7 @@ public class CoiDisclosureDocument extends ResearchDocumentBase implements Copya
     
     public static final String DOCUMENT_TYPE_CODE = "COI";
     private List<CoiDisclosure> coiDisclosureList;
+    
     /**
      * Constructs a CoiDisclosureDocument object.
      */
@@ -45,6 +46,7 @@ public class CoiDisclosureDocument extends ResearchDocumentBase implements Copya
         CoiDisclosure newCoiDisclosure = new CoiDisclosure();
         newCoiDisclosure.setCoiDisclosureDocument(this);
         coiDisclosureList.add(newCoiDisclosure);
+
     }
 
     public List<CoiDisclosure> getCoiDisclosureList() {

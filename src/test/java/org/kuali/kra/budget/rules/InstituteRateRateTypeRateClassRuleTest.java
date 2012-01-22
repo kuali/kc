@@ -38,11 +38,11 @@ import org.kuali.kra.budget.rates.InstituteRateRateTypeRateClassRuleImpl;
 import org.kuali.kra.budget.rates.RateClass;
 import org.kuali.kra.budget.rates.RateType;
 import org.kuali.kra.infrastructure.Constants;
-import org.kuali.rice.kns.service.BusinessObjectService;
-import org.kuali.rice.kns.service.ParameterConstants;
-import org.kuali.rice.kns.service.ParameterService;
-import org.kuali.rice.kns.util.ErrorMap;
-import org.kuali.rice.kns.util.GlobalVariables;
+import org.kuali.rice.coreservice.framework.parameter.ParameterConstants;
+import org.kuali.rice.coreservice.framework.parameter.ParameterService;
+import org.kuali.rice.krad.service.BusinessObjectService;
+import org.kuali.rice.krad.util.GlobalVariables;
+import org.kuali.rice.krad.util.MessageMap;
 
 /**
  * Tests the {@link InstituteRateRateTypeRateClassRuleImpl InstituteRateRateTypeRateClassRuleImpl} class.
@@ -60,7 +60,7 @@ public class InstituteRateRateTypeRateClassRuleTest {
     /** sets a new error map. */
     @Before
     public void setupErrorMap() {
-        GlobalVariables.setErrorMap(new ErrorMap());
+        GlobalVariables.setMessageMap(new MessageMap());
     }
     
     /**
@@ -170,7 +170,7 @@ public class InstituteRateRateTypeRateClassRuleTest {
         
         this.context.checking(new Expectations() {
             {
-                oneOf(pService).getParameterValues(Constants.MODULE_NAMESPACE_BUDGET, ParameterConstants.ALL_COMPONENT, "instituteLaRateClassTypes");
+                oneOf(pService).getParameterValuesAsString(Constants.MODULE_NAMESPACE_BUDGET, ParameterConstants.ALL_COMPONENT, "instituteLaRateClassTypes");
                 will(returnValue(validTypes));
             }
         });
@@ -204,7 +204,7 @@ public class InstituteRateRateTypeRateClassRuleTest {
         
         this.context.checking(new Expectations() {
             {
-                oneOf(pService).getParameterValues(Constants.MODULE_NAMESPACE_BUDGET, ParameterConstants.ALL_COMPONENT, "instituteRateClassTypes");
+                oneOf(pService).getParameterValuesAsString(Constants.MODULE_NAMESPACE_BUDGET, ParameterConstants.ALL_COMPONENT, "instituteRateClassTypes");
                 will(returnValue(validTypes));
             }
         });
@@ -239,7 +239,7 @@ public class InstituteRateRateTypeRateClassRuleTest {
         
         this.context.checking(new Expectations() {
             {
-                oneOf(pService).getParameterValues(Constants.MODULE_NAMESPACE_BUDGET, ParameterConstants.ALL_COMPONENT, "instituteRateClassTypes");
+                oneOf(pService).getParameterValuesAsString(Constants.MODULE_NAMESPACE_BUDGET, ParameterConstants.ALL_COMPONENT, "instituteRateClassTypes");
                 will(returnValue(validTypes));
             }
             
@@ -263,7 +263,7 @@ public class InstituteRateRateTypeRateClassRuleTest {
         });
         
         Assert.assertFalse("Should not be valid", ((Boolean)m.invoke(rule, instituteRate)).booleanValue());
-        Assert.assertEquals("should be errors " + GlobalVariables.getErrorMap(),  1, GlobalVariables.getErrorMap().size());
+        Assert.assertEquals("should be errors " + GlobalVariables.getMessageMap(),  1, GlobalVariables.getMessageMap().getErrorMessages().size());
         
         this.context.assertIsSatisfied();
     }
@@ -290,7 +290,7 @@ public class InstituteRateRateTypeRateClassRuleTest {
         
         this.context.checking(new Expectations() {
             {
-                oneOf(pService).getParameterValues(Constants.MODULE_NAMESPACE_BUDGET, ParameterConstants.ALL_COMPONENT, "instituteRateClassTypes");
+                oneOf(pService).getParameterValuesAsString(Constants.MODULE_NAMESPACE_BUDGET, ParameterConstants.ALL_COMPONENT, "instituteRateClassTypes");
                 will(returnValue(validTypes));
             }
             
@@ -314,7 +314,7 @@ public class InstituteRateRateTypeRateClassRuleTest {
         });
         
         Assert.assertFalse("Should not be valid", ((Boolean)m.invoke(rule, instituteRate)).booleanValue());
-        Assert.assertEquals("should be errors " + GlobalVariables.getErrorMap(),  1, GlobalVariables.getErrorMap().size());
+        Assert.assertEquals("should be errors " + GlobalVariables.getMessageMap(),  1, GlobalVariables.getMessageMap().getErrorMessages().size());
         
         this.context.assertIsSatisfied();
     }
@@ -341,7 +341,7 @@ public class InstituteRateRateTypeRateClassRuleTest {
         
         this.context.checking(new Expectations() {
             {
-                oneOf(pService).getParameterValues(Constants.MODULE_NAMESPACE_BUDGET, ParameterConstants.ALL_COMPONENT, "instituteRateClassTypes");
+                oneOf(pService).getParameterValuesAsString(Constants.MODULE_NAMESPACE_BUDGET, ParameterConstants.ALL_COMPONENT, "instituteRateClassTypes");
                 will(returnValue(validTypes));
             }
             
@@ -365,7 +365,7 @@ public class InstituteRateRateTypeRateClassRuleTest {
         });
         
         Assert.assertTrue("Should not be valid", ((Boolean)m.invoke(rule, instituteRate)).booleanValue());
-        Assert.assertEquals("should be no errors " + GlobalVariables.getErrorMap(),  0, GlobalVariables.getErrorMap().size());
+        Assert.assertEquals("should be no errors " + GlobalVariables.getMessageMap(),  0, GlobalVariables.getMessageMap().getErrorMessages().size());
         
         this.context.assertIsSatisfied();
     }
@@ -392,7 +392,7 @@ public class InstituteRateRateTypeRateClassRuleTest {
         
         this.context.checking(new Expectations() {
             {
-                oneOf(pService).getParameterValues(Constants.MODULE_NAMESPACE_BUDGET, ParameterConstants.ALL_COMPONENT, "instituteRateClassTypes");
+                oneOf(pService).getParameterValuesAsString(Constants.MODULE_NAMESPACE_BUDGET, ParameterConstants.ALL_COMPONENT, "instituteRateClassTypes");
                 will(returnValue(validTypes));
             }
             
@@ -416,7 +416,7 @@ public class InstituteRateRateTypeRateClassRuleTest {
         });
         
         Assert.assertTrue("Should not be valid", ((Boolean)m.invoke(rule, instituteRate)).booleanValue());
-        Assert.assertEquals("should be no errors " + GlobalVariables.getErrorMap(),  0, GlobalVariables.getErrorMap().size());
+        Assert.assertEquals("should be no errors " + GlobalVariables.getMessageMap(),  0, GlobalVariables.getMessageMap().getErrorMessages().size());
         
         this.context.assertIsSatisfied();
     }

@@ -24,12 +24,12 @@
   <c:set var="fileDescriptionValidationFunctionName" value="validateFileDescriptionField${activityIndex}"/>
   <c:set var="startDate"><bean:write name="KualiForm" property="${activityPath}.startDate"/></c:set>
   <c:set var="lastUpdate"><bean:write name="KualiForm" property="${activityPath}.lastModifiedDate"/></c:set>
-  <c:set var="tabTitle" value="${activity.activityType.description} - ${activity.location.description} - ${startDate} - ${activity.lastModifiedUser.fullName} - ${lastUpdate}"/>
+  <c:set var="tabTitle" value="${activity.activityType.description} - ${activity.location.description} - ${startDate} - ${activity.lastModifiedUserFullName} - ${lastUpdate}"/>
   
 </c:otherwise></c:choose>
 <span class="subhead-right"><kul:help parameterNamespace="KC-NEGOTIATION" parameterDetailType="Document" parameterName="negotiationActivitiesHelp" altText="help"/></span>
-<kul:innerTab  parentTab="${parentTab}" tabTitle="${tabTitle}" defaultOpen="false" tabErrorKey="${activityPath}*" useCurrentTabIndexAsKey="true" overrideDivClass="${tabDivClass}">
-        <div class="innerTab-container" align="left">
+<kul:innerTab parentTab="${parentTab}" tabTitle="${tabTitle}" defaultOpen="false" tabErrorKey="${activityPath}*" useCurrentTabIndexAsKey="true" overrideDivClass="${tabDivClass}">
+            <div class="innerTab-container" align="left">
         
         <table cellpadding="4" cellspacing="0" summary="">
             <tr>
@@ -72,7 +72,8 @@
                 </td>
 		        <th><div align="right"><kul:htmlAttributeLabel attributeEntry="${activityAttributes.lastModifiedUsername}" /></div></th>
                 <td>
-                	<kul:htmlControlAttribute property="${activityPath}.lastModifiedUser.fullName" attributeEntry="${activityAttributes.lastModifiedUser.fullName}" readOnly="true"/>
+                	<kul:htmlControlAttribute property="${activityPath}.lastModifiedUserFullName" 
+                		attributeEntry="${activityAttributes.lastModifiedUsername}" readOnly="true"/>
                 </td>             
             </tr> 
             <tr>
@@ -208,10 +209,11 @@
 			     <td class="infoline" style="text-align:center;" colspan="6">
 					<html:image property="methodToCall.printActivity.activityIndex${activityIndex}"
    		  				src="${ConfigProperties.kra.externalizable.images.url}tinybutton-print.gif" styleClass="tinybutton"/>
-			     </td>
-				</tr>
-			 </c:if>			
+			    </td>
+			</tr>
+			</c:if>
         </table>
+        
         </div>
 </kul:innerTab>
 

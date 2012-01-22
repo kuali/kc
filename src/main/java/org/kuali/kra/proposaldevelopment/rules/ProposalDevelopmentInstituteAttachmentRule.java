@@ -36,9 +36,10 @@ import org.kuali.kra.proposaldevelopment.rule.AddInstituteAttachmentRule;
 import org.kuali.kra.proposaldevelopment.rule.event.AddInstituteAttachmentEvent;
 import org.kuali.kra.rules.ResearchDocumentRuleBase;
 import org.kuali.kra.service.KcAttachmentService;
-import org.kuali.rice.kns.service.BusinessObjectService;
-import org.kuali.rice.kns.service.ParameterService;
-import org.kuali.rice.kns.util.GlobalVariables;
+import org.kuali.rice.coreservice.framework.parameter.ParameterService;
+import org.kuali.rice.kns.service.DictionaryValidationService;
+import org.kuali.rice.krad.service.BusinessObjectService;
+import org.kuali.rice.krad.util.GlobalVariables;
 
 public class ProposalDevelopmentInstituteAttachmentRule extends ResearchDocumentRuleBase implements AddInstituteAttachmentRule { 
     private static final String NARRATIVE_TYPE_ALLOWMULTIPLE_NO = "N";
@@ -77,10 +78,12 @@ public class ProposalDevelopmentInstituteAttachmentRule extends ResearchDocument
         if(narrative.getNarrativeType()==null)
             rulePassed = false;
         
-        GlobalVariables.getErrorMap().addToErrorPath(NEW_INSTITUTE_ATTACHMENT);
-        getDictionaryValidationService().validateAttributeFormat(narrative.getClass().getName(), "moduleTitle", narrative.getModuleTitle(), "moduleTitle");
-        if (GlobalVariables.getErrorMap().getPropertiesWithErrors().size() > 0) rulePassed = false;
-        GlobalVariables.getErrorMap().removeFromErrorPath(NEW_INSTITUTE_ATTACHMENT);
+        GlobalVariables.getMessageMap().addToErrorPath(NEW_INSTITUTE_ATTACHMENT);
+        DictionaryValidationService dictionaryValidationService = (DictionaryValidationService) getDictionaryValidationService();
+        dictionaryValidationService.validateAttributeFormat(narrative.getClass().getName(), "moduleTitle", narrative.getModuleTitle(), "moduleTitle");
+
+        if (GlobalVariables.getMessageMap().getPropertiesWithErrors().size() > 0) rulePassed = false;
+        GlobalVariables.getMessageMap().removeFromErrorPath(NEW_INSTITUTE_ATTACHMENT);
         
         if(StringUtils.isBlank(narrative.getNarrativeTypeCode())){
             rulePassed = false;
@@ -93,7 +96,7 @@ public class ProposalDevelopmentInstituteAttachmentRule extends ResearchDocument
         if (rulePassed) {
             populateNarrativeType(narrative);
             String[] param = {INSTITUTE, narrative.getNarrativeType().getDescription()};
-            String instituteNarrativeTypeGroup = this.getParameterService().getParameterValue(ProposalDevelopmentDocument.class, INSTITUTE_NARRATIVE_TYPE_GROUP);
+            String instituteNarrativeTypeGroup = this.getParameterService().getParameterValueAsString(ProposalDevelopmentDocument.class, INSTITUTE_NARRATIVE_TYPE_GROUP);
             if (narrative.getNarrativeType().getAllowMultiple().equalsIgnoreCase(NARRATIVE_TYPE_ALLOWMULTIPLE_NO)) {
                 for (Narrative narr : document.getDevelopmentProposal().getInstituteAttachments()) {
                     if (narr!=null && StringUtils.equals(narr.getNarrativeTypeCode(),narrative.getNarrativeTypeCode())) {
@@ -121,7 +124,7 @@ public class ProposalDevelopmentInstituteAttachmentRule extends ResearchDocument
         String attachmentFileName = narrative.getFileName();
         if (attachmentService.hasInvalidCharacters(attachmentFileName)) {
             String parameter = getParameterService().
-                getParameterValue(ProposalDevelopmentDocument.class, Constants.INVALID_FILE_NAME_CHECK_PARAMETER);
+                getParameterValueAsString(ProposalDevelopmentDocument.class, Constants.INVALID_FILE_NAME_CHECK_PARAMETER);
             if (Constants.INVALID_FILE_NAME_ERROR_CODE.equals(parameter)) {
                 rulePassed &= false;
                 reportError(errorPath + NARRATIVE_FILE, KeyConstants.INVALID_FILE_NAME, 

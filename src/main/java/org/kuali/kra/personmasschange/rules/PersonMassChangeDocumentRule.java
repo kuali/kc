@@ -20,7 +20,7 @@ import org.kuali.kra.personmasschange.document.PersonMassChangeDocument;
 import org.kuali.kra.personmasschange.rule.event.PerformPersonMassChangeEvent;
 import org.kuali.kra.rule.event.KraDocumentEventBaseExtension;
 import org.kuali.kra.rules.ResearchDocumentRuleBase;
-import org.kuali.rice.kns.document.Document;
+import org.kuali.rice.krad.document.Document;
 
 public class PersonMassChangeDocumentRule extends ResearchDocumentRuleBase {
     

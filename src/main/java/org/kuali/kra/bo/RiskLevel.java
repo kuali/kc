@@ -13,47 +13,37 @@
  * See the License for the specific language governing permissions and
  * limitations under the License.
  */
-
 package org.kuali.kra.bo;
 
-import java.util.LinkedHashMap;
 
 /**
  * 
  * This class is for risk level code maintenance.
  */
-public class RiskLevel extends KraPersistableBusinessObjectBase { 
-	
-	private String riskLevelCode; 
-	private String description; 
-	
-	public RiskLevel() { 
+public class RiskLevel extends KraPersistableBusinessObjectBase {
 
-	} 
-	
-	public String getRiskLevelCode() {
-		return riskLevelCode;
-	}
+    private String riskLevelCode;
 
-	public void setRiskLevelCode(String riskLevelCode) {
-		this.riskLevelCode = riskLevelCode;
-	}
+    private String description;
 
-	public String getDescription() {
-		return description;
-	}
+    public RiskLevel() {
+    }
 
-	public void setDescription(String description) {
-		this.description = description;
-	}
+    public String getRiskLevelCode() {
+        return riskLevelCode;
+    }
 
-	@Override 
-	protected LinkedHashMap toStringMapper() {
-		LinkedHashMap hashMap = new LinkedHashMap();
-		hashMap.put("riskLevelCode", getRiskLevelCode());
-		hashMap.put("description", getDescription());
-		return hashMap;
-	}
+    public void setRiskLevelCode(String riskLevelCode) {
+        this.riskLevelCode = riskLevelCode;
+    }
+
+    public String getDescription() {
+        return description;
+    }
+
+    public void setDescription(String description) {
+        this.description = description;
+    }
 
     @Override
     public int hashCode() {
@@ -66,26 +56,16 @@ public class RiskLevel extends KraPersistableBusinessObjectBase {
 
     @Override
     public boolean equals(Object obj) {
-        if (this == obj)
-            return true;
-        if (obj == null)
-            return false;
-        if (getClass() != obj.getClass())
-            return false;
+        if (this == obj) return true;
+        if (obj == null) return false;
+        if (getClass() != obj.getClass()) return false;
         final RiskLevel other = (RiskLevel) obj;
         if (description == null) {
-            if (other.description != null)
-                return false;
-        }
-        else if (!description.equals(other.description))
-            return false;
+            if (other.description != null) return false;
+        } else if (!description.equals(other.description)) return false;
         if (riskLevelCode == null) {
-            if (other.riskLevelCode != null)
-                return false;
-        }
-        else if (!riskLevelCode.equals(other.riskLevelCode))
-            return false;
+            if (other.riskLevelCode != null) return false;
+        } else if (!riskLevelCode.equals(other.riskLevelCode)) return false;
         return true;
     }
-	
 }

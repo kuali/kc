@@ -21,10 +21,10 @@ import java.security.PrivilegedAction;
 import java.sql.Date;
 import java.util.ArrayList;
 import java.util.Calendar;
+import java.util.Collection;
 import java.util.HashSet;
 import java.util.List;
 import java.util.Map;
-import java.util.Properties;
 import java.util.Set;
 
 import org.junit.Assert;
@@ -36,19 +36,17 @@ import org.kuali.kra.budget.parameters.BudgetPeriod;
 import org.kuali.kra.budget.versions.BudgetDocumentVersion;
 import org.kuali.kra.budget.versions.BudgetVersionOverview;
 import org.kuali.kra.infrastructure.Constants;
-import org.kuali.kra.infrastructure.KeyConstants;
 import org.kuali.kra.proposaldevelopment.budget.modular.BudgetModular;
 import org.kuali.kra.proposaldevelopment.document.ProposalDevelopmentDocument;
-import org.kuali.rice.kns.bo.Parameter;
-import org.kuali.rice.kns.service.DocumentService;
-import org.kuali.rice.kns.service.KualiConfigurationService;
-import org.kuali.rice.kns.service.ParameterConstants;
-import org.kuali.rice.kns.service.ParameterEvaluator;
-import org.kuali.rice.kns.service.ParameterService;
-import org.kuali.rice.kns.service.impl.DocumentServiceImpl;
-import org.kuali.rice.kns.service.impl.KualiConfigurationServiceImpl;
-import org.kuali.rice.kns.util.ErrorMap;
-import org.kuali.rice.kns.util.GlobalVariables;
+import org.kuali.rice.core.api.config.property.ConfigurationService;
+import org.kuali.rice.coreservice.api.parameter.Parameter;
+import org.kuali.rice.coreservice.framework.parameter.ParameterConstants;
+import org.kuali.rice.coreservice.framework.parameter.ParameterService;
+import org.kuali.rice.krad.service.DocumentService;
+import org.kuali.rice.krad.service.impl.ConfigurationServiceImpl;
+import org.kuali.rice.krad.service.impl.DocumentServiceImpl;
+import org.kuali.rice.krad.util.GlobalVariables;
+import org.kuali.rice.krad.util.MessageMap;
 
 /**
  * Tests for the {@link BudgetModularTotalDirectCostRule BudgetModularTotalDirectCostRule} class.
@@ -117,34 +115,6 @@ public class BudgetModularTotalDirectCostRuleTest {
             throw new UnsupportedOperationException("not supported.");
         }
 
-        public ParameterEvaluator getParameterEvaluator(Class<? extends Object> componentClass, String parameterName) {
-            throw new UnsupportedOperationException("not supported.");
-        }
-
-        public ParameterEvaluator getParameterEvaluator(String namespaceCode, String detailTypeCode, String parameterName) {
-            throw new UnsupportedOperationException("not supported.");
-        }
-
-        public ParameterEvaluator getParameterEvaluator(Class<? extends Object> componentClass, String parameterName,
-                String constrainedValue) {
-            throw new UnsupportedOperationException("not supported.");
-        }
-
-        public ParameterEvaluator getParameterEvaluator(String namespaceCode, String detailTypeCode, String parameterName,
-                String constrainedValue) {
-            throw new UnsupportedOperationException("not supported.");
-        }
-
-        public ParameterEvaluator getParameterEvaluator(Class<? extends Object> componentClass, String parameterName,
-                String constrainingValue, String constrainedValue) {
-            throw new UnsupportedOperationException("not supported.");
-        }
-
-        public ParameterEvaluator getParameterEvaluator(Class<? extends Object> componentClass, String allowParameterName,
-                String denyParameterName, String constrainingValue, String constrainedValue) {
-            throw new UnsupportedOperationException("not supported.");
-        }
-
         public String getParameterValue(Class<? extends Object> componentClass, String parameterName) {
             if (BudgetDocument.class.equals(componentClass) && Constants.BUDGET_STATUS_COMPLETE_CODE.equals(parameterName)) {
                 return "1";
@@ -179,10 +149,6 @@ public class BudgetModularTotalDirectCostRuleTest {
             throw new UnsupportedOperationException("not supported.");
         }
 
-        public boolean parameterExists(Class<? extends Object> componentClass, String parameterName) {
-            throw new UnsupportedOperationException("not supported.");
-        }
-
         public Parameter retrieveParameter(String namespaceCode, String detailTypeCode, String parameterName) {
             throw new UnsupportedOperationException("not supported.");
         }
@@ -194,74 +160,135 @@ public class BudgetModularTotalDirectCostRuleTest {
         public void setParameterForTesting(Class<? extends Object> componentClass, String parameterName, String parameterText) {
             throw new UnsupportedOperationException("not supported.");
         }
-        
+
+        @Override
+        public Parameter createParameter(Parameter parameter) {
+            throw new UnsupportedOperationException("not supported.");
+        }
+
+        @Override
+        public Parameter getParameter(Class<?> componentClass, String parameterName) {
+            throw new UnsupportedOperationException("not supported.");
+        }
+
+        @Override
+        public Parameter getParameter(String namespaceCode, String componentCode, String parameterName) {
+            throw new UnsupportedOperationException("not supported.");
+        }
+
+        @Override
+        public Boolean getParameterValueAsBoolean(Class<?> componentClass, String parameterName, Boolean defaultValue) {
+            throw new UnsupportedOperationException("not supported.");
+        }
+
+        @Override
+        public Boolean getParameterValueAsBoolean(Class<?> componentClass, String parameterName) {
+            throw new UnsupportedOperationException("not supported.");
+        }
+
+        @Override
+        public Boolean getParameterValueAsBoolean(String namespaceCode, String componentCode, String parameterName,
+                Boolean defaultValue) {
+            throw new UnsupportedOperationException("not supported.");
+        }
+
+        @Override
+        public Boolean getParameterValueAsBoolean(String namespaceCode, String componentCode, String parameterName) {
+            throw new UnsupportedOperationException("not supported.");
+        }
+
+        @Override
+        public String getParameterValueAsString(Class<?> componentClass, String parameterName, String defaultValue) {
+            throw new UnsupportedOperationException("not supported.");
+        }
+
+        @Override
+        public String getParameterValueAsString(Class<?> componentClass, String parameterName) {
+            throw new UnsupportedOperationException("not supported.");
+        }
+
+        @Override
+        public String getParameterValueAsString(String namespaceCode, String componentCode, String parameterName,
+                String defaultValue) {
+            throw new UnsupportedOperationException("not supported.");
+        }
+
+        @Override
+        public String getParameterValueAsString(String namespaceCode, String componentCode, String parameterName) {
+            throw new UnsupportedOperationException("not supported.");
+        }
+
+        @Override
+        public Collection<String> getParameterValuesAsString(Class<?> componentClass, String parameterName) {
+            throw new UnsupportedOperationException("not supported.");
+        }
+
+        @Override
+        public Collection<String> getParameterValuesAsString(String namespaceCode, String componentCode, String parameterName) {
+            throw new UnsupportedOperationException("not supported.");
+        }
+
+        @Override
+        public String getSubParameterValueAsString(Class<?> componentClass, String parameterName, String subParameterName) {
+            throw new UnsupportedOperationException("not supported.");
+        }
+
+        @Override
+        public String getSubParameterValueAsString(String namespaceCode, String componentCode, String parameterName,
+                String subParameterName) {
+            throw new UnsupportedOperationException("not supported.");
+        }
+
+        @Override
+        public Collection<String> getSubParameterValuesAsString(Class<?> componentClass, String parameterName,
+                String subParameterName) {
+            throw new UnsupportedOperationException("not supported.");
+        }
+
+        @Override
+        public Collection<String> getSubParameterValuesAsString(String namespaceCode, String componentCode, String parameterName,
+                String subParameterName) {
+            throw new UnsupportedOperationException("not supported.");
+        }
+
+        @Override
+        public Boolean parameterExists(Class<?> componentClass, String parameterName) {
+            throw new UnsupportedOperationException("not supported.");
+        }
+
+        @Override
+        public Boolean parameterExists(String namespaceCode, String componentCode, String parameterName) {
+            throw new UnsupportedOperationException("not supported.");
+        }
+
+        @Override
+        public Parameter updateParameter(Parameter parameter) {
+            throw new UnsupportedOperationException("not supported.");
+        }
     };
     
     //if more methods are required override them to avoid loading all the spring junk
-    private KualiConfigurationService configService = new KualiConfigurationService() {
-     
-       public String getParameterValue(String namespaceCode,
-           String parameterDetailTypeCode, String parameterName) {
-           if (Constants.MODULE_NAMESPACE_BUDGET.equals(namespaceCode)
-               && ParameterConstants.DOCUMENT_COMPONENT.equals(parameterDetailTypeCode)
-               && Constants.BUDGET_STATUS_COMPLETE_CODE.equals(parameterName)) {
-               return "1";
-           }
-           throw new UnsupportedOperationException("not supported.");
-       }
-       
-       
-        public String getPropertyString(String key) {
-           if (KeyConstants.WARNING_BUDGET_VERSION_MODULAR_INVALID_TDC.equals(key)) {
-               return "At least one Modular Budget contains an invalid Total Direct Cost.";
-           }
-           throw new UnsupportedOperationException("not supported.");
-       }
+    private ConfigurationService configService = new ConfigurationService() {
+        @Override
+        public Map<String, String> getAllProperties() {
+             throw new UnsupportedOperationException("not supported.");
+        }
 
-    public boolean evaluateConstrainedValue(String namespaceCode,
-        String detailTypeCode, String parameterName, String constrainedValue) {
-        throw new UnsupportedOperationException("not supported.");
-    }
+        @Override
+        public boolean getPropertyValueAsBoolean(String key) {
+            throw new UnsupportedOperationException("not supported.");
+        }
 
-    public Properties getAllProperties() {
-        throw new UnsupportedOperationException("not supported.");
-    }
+        @Override
+        public String getPropertyValueAsString(String key) {
+            throw new UnsupportedOperationException("not supported.");
+        }
 
-    public boolean getIndicatorParameter(String namespaceCode,
-        String detailTypeCode, String parameterName) {
-        throw new UnsupportedOperationException("not supported.");
-    }
-
-    public Parameter getParameter(String namespaceCode, String detailTypeCode,
-        String parameterName) {
-        throw new UnsupportedOperationException("not supported.");
-    }
-
-    public List<String> getParameterValues(String namespaceCode,
-        String detailTypeCode, String parameterName) {
-        throw new UnsupportedOperationException("not supported.");
-    }
-
-    public List<Parameter> getParameters(Map<String, String> criteria) {
-        throw new UnsupportedOperationException("not supported.");
-    }
-
-    public boolean getPropertyAsBoolean(String key) {
-        throw new UnsupportedOperationException("not supported.");
-    }
-
-    public boolean isProductionEnvironment() {
-        throw new UnsupportedOperationException("not supported.");
-    }
-    
-    public Parameter getParameterWithoutExceptions(String namespaceCode, String detailTypeCode, String parameterName) {
-        return null;
-    }
     };
 
     @Before
     public void setUp() throws Exception {
-        GlobalVariables.setErrorMap(new ErrorMap());
+        GlobalVariables.setMessageMap(new MessageMap());
         this.pdDocument = new ProposalDevelopmentDocument();
 
         this.pdDocument.getDocumentHeader().setDocumentDescription(this.getClass().getName());
@@ -298,7 +325,7 @@ public class BudgetModularTotalDirectCostRuleTest {
      */
     @Test(expected = NullPointerException.class)
     public void testNullConfigService() {
-        new BudgetModularTotalDirectCostRule(new KualiConfigurationServiceImpl(), null, null);
+        new BudgetModularTotalDirectCostRule(new ConfigurationServiceImpl(), null, null);
     }
 
     /**
@@ -349,13 +376,13 @@ public class BudgetModularTotalDirectCostRuleTest {
         BudgetModularTotalDirectCostRule rule = new BudgetModularTotalDirectCostRule(this.configService, service, this.paramService);
         Set<String> warnings = new HashSet<String>();
         rule.validateTotalDirectCost(this.pdDocument, true, warnings);
-        Assert.assertTrue("The validation should not have produced any errors " + GlobalVariables.getErrorMap(), GlobalVariables.getErrorMap().isEmpty());
+        Assert.assertTrue("The validation should not have produced any errors " + GlobalVariables.getMessageMap(), GlobalVariables.getMessageMap().hasNoErrors());
         Assert.assertTrue("The validation should not have produced any warnings " + warnings, warnings.isEmpty());
 
         warnings = new HashSet<String>();
         this.pdDocument.setBudgetDocumentVersions(BudgetModularTotalDirectCostRuleTest.TWO_COMPLETE);
         rule.validateTotalDirectCost(this.pdDocument, true, warnings);
-        Assert.assertTrue("The validation should not have produced any errors " + GlobalVariables.getErrorMap(), GlobalVariables.getErrorMap().isEmpty());
+        Assert.assertTrue("The validation should not have produced any errors " + GlobalVariables.getMessageMap(), GlobalVariables.getMessageMap().hasNoErrors());
         Assert.assertTrue("The validation should not have produced any warnings " + warnings, warnings.isEmpty());
     }
     
@@ -388,13 +415,13 @@ public class BudgetModularTotalDirectCostRuleTest {
         BudgetModularTotalDirectCostRule rule = new BudgetModularTotalDirectCostRule(this.configService, service, this.paramService);
         Set<String> warnings = new HashSet<String>();
         rule.validateTotalDirectCost(this.pdDocument, true, warnings);
-        Assert.assertTrue("The validation should not have produced any errors " + GlobalVariables.getErrorMap(), GlobalVariables.getErrorMap().isEmpty());
+        Assert.assertTrue("The validation should not have produced any errors " + GlobalVariables.getMessageMap(), GlobalVariables.getMessageMap().hasNoErrors());
         Assert.assertTrue("The validation should not have produced any warnings " + warnings, warnings.isEmpty());
 
         warnings = new HashSet<String>();
         this.pdDocument.setBudgetDocumentVersions(BudgetModularTotalDirectCostRuleTest.TWO_INCOMPLETE);
         rule.validateTotalDirectCost(this.pdDocument, true, warnings);
-        Assert.assertTrue("The validation should not have produced any errors " + GlobalVariables.getErrorMap(), GlobalVariables.getErrorMap().isEmpty());
+        Assert.assertTrue("The validation should not have produced any errors " + GlobalVariables.getMessageMap(), GlobalVariables.getMessageMap().hasNoErrors());
         Assert.assertTrue("The validation should not have produced any warnings " + warnings, warnings.isEmpty());
     }
 
@@ -541,7 +568,7 @@ public class BudgetModularTotalDirectCostRuleTest {
         rule.validateTotalDirectCost(this.pdDocument, true, warnings);
 
         Assert.assertEquals("Only one error should have been produced, count "
-            + GlobalVariables.getErrorMap().size(), 1, GlobalVariables.getErrorMap().size());
+            + GlobalVariables.getMessageMap().getErrorMessages().size(), 1, GlobalVariables.getMessageMap().getErrorMessages().size());
         Assert.assertEquals("Only one warning should have been produced, count "
             + warnings.size(), 1, warnings.size());
         Assert.assertTrue("The warning was incorrect, warning: "
@@ -553,7 +580,7 @@ public class BudgetModularTotalDirectCostRuleTest {
         rule.validateTotalDirectCost(this.pdDocument, true, warnings);
 
         Assert.assertEquals("Only 2 error3 should have been produced, count "
-            + GlobalVariables.getErrorMap().size(), 2, GlobalVariables.getErrorMap().size());
+            + GlobalVariables.getMessageMap().getErrorMessages().size(), 2, GlobalVariables.getMessageMap().getErrorMessages().size());
         Assert.assertEquals("Only one warning should have been produced, count "
             + warnings.size(), 1, warnings.size());
         Assert.assertTrue("The warning was incorrect, warning: "
@@ -600,9 +627,9 @@ public class BudgetModularTotalDirectCostRuleTest {
         Assert.assertTrue("The warning was incorrect, warning: "
             + warnings, warnings.contains(getWarning(rule)));
         Assert.assertEquals("Only one error should have been produced, count "
-            + GlobalVariables.getErrorMap().size(), 1, GlobalVariables.getErrorMap().size());
+            + GlobalVariables.getMessageMap().getErrorMessages().size(), 1, GlobalVariables.getMessageMap().getErrorMessages().size());
 
-        GlobalVariables.getErrorMap().clear();
+        GlobalVariables.getMessageMap().clearErrorMessages();
         this.pdDocument.setBudgetDocumentVersions(BudgetModularTotalDirectCostRuleTest.TWO_COMPLETE);
         rule = new BudgetModularTotalDirectCostRule(this.configService, service, this.paramService);
         warnings = new HashSet<String>();
@@ -612,7 +639,7 @@ public class BudgetModularTotalDirectCostRuleTest {
         Assert.assertTrue("The warning was incorrect, warning: "
             + warnings, warnings.contains(getWarning(rule)));
         Assert.assertEquals("Only 2 error should have been produced, count "
-            + GlobalVariables.getErrorMap().size(), 2, GlobalVariables.getErrorMap().size());
+            + GlobalVariables.getMessageMap().getErrorMessages().size(), 2, GlobalVariables.getMessageMap().getErrorMessages().size());
 
     }
 
@@ -650,7 +677,7 @@ public class BudgetModularTotalDirectCostRuleTest {
         BudgetModularTotalDirectCostRule rule = new BudgetModularTotalDirectCostRule(this.configService, service, this.paramService);
         Set<String> warnings = new HashSet<String>();
         rule.validateTotalDirectCost(this.pdDocument, true, warnings);
-        Assert.assertTrue("The validation should not have produced any errors " + GlobalVariables.getErrorMap(), GlobalVariables.getErrorMap().isEmpty());
+        Assert.assertTrue("The validation should not have produced any errors " + GlobalVariables.getMessageMap(), GlobalVariables.getMessageMap().hasNoErrors());
         Assert.assertEquals("Only one warning should have been produced, count "
             + warnings.size(), 1, warnings.size());
         Assert.assertTrue("The warning was incorrect, warning: "
@@ -661,7 +688,7 @@ public class BudgetModularTotalDirectCostRuleTest {
         rule = new BudgetModularTotalDirectCostRule(this.configService, service, this.paramService);
         warnings = new HashSet<String>();
         rule.validateTotalDirectCost(this.pdDocument, true, warnings);
-        Assert.assertTrue("The validation should not have produced any errors " + GlobalVariables.getErrorMap(), GlobalVariables.getErrorMap().isEmpty());
+        Assert.assertTrue("The validation should not have produced any errors " + GlobalVariables.getMessageMap(), GlobalVariables.getMessageMap().hasNoErrors());
         Assert.assertEquals("Only one warning shoudld have been produced, count "
             + warnings.size(), 1, warnings.size());
         Assert.assertTrue("The warning was incorrect, warning: "

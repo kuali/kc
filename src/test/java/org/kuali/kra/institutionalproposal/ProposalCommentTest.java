@@ -51,7 +51,7 @@ private static final int PROPOSAL_COMMENT_ATTRIBUTES_COUNT = 4;
      */
     @Test
     public void testAwardCostShareBoAttributesCount() throws Exception {              
-        Assert.assertEquals(PROPOSAL_COMMENT_ATTRIBUTES_COUNT, proposalComment.toStringMapper().size());
+        Assert.assertEquals(PROPOSAL_COMMENT_ATTRIBUTES_COUNT, proposalComment.getClass().getFields().length);
     }
 
 }

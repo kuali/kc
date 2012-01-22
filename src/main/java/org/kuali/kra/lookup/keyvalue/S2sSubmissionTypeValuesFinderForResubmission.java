@@ -22,20 +22,21 @@ import java.util.List;
 
 import org.kuali.kra.infrastructure.KraServiceLocator;
 import org.kuali.kra.s2s.bo.S2sSubmissionType;
-import org.kuali.rice.kns.lookup.keyvalues.KeyValuesBase;
-import org.kuali.rice.kns.service.KeyValuesService;
-import org.kuali.rice.core.util.KeyLabelPair;
+import org.kuali.rice.core.api.util.ConcreteKeyValue;
+import org.kuali.rice.core.api.util.KeyValue;
+import org.kuali.rice.krad.keyvalues.KeyValuesBase;
+import org.kuali.rice.krad.service.KeyValuesService;
 
 public class S2sSubmissionTypeValuesFinderForResubmission extends KeyValuesBase{
 
-    public List<KeyLabelPair> getKeyValues() {
+    public List<KeyValue> getKeyValues() {
         KeyValuesService keyValuesService = (KeyValuesService) KraServiceLocator.getService("keyValuesService");
         Collection S2SSubmissionTypes = keyValuesService.findAllOrderBy(S2sSubmissionType.class,"sortId",true);
-        List<KeyLabelPair> keyValues = new ArrayList<KeyLabelPair>();
-        keyValues.add(new KeyLabelPair("", "select: "));
+        List<KeyValue> keyValues = new ArrayList<KeyValue>();
+        keyValues.add(new ConcreteKeyValue("", "select: "));
         for (Iterator iter = S2SSubmissionTypes.iterator(); iter.hasNext();) {
             S2sSubmissionType s2sSubmissionType = (S2sSubmissionType) iter.next();
-            keyValues.add(new KeyLabelPair(s2sSubmissionType.getS2sSubmissionTypeCode(), s2sSubmissionType.getDescription()));                            
+            keyValues.add(new ConcreteKeyValue(s2sSubmissionType.getS2sSubmissionTypeCode(), s2sSubmissionType.getDescription()));                            
         }
         return keyValues;
     }

@@ -15,9 +15,6 @@
  */
 package org.kuali.kra.committee.rules;
 
-import static org.kuali.kra.committee.rule.event.CommitteeScheduleEventBase.ErrorType.HARDERROR;
-import static org.kuali.kra.committee.rule.event.CommitteeScheduleEventBase.ErrorType.SOFTERROR;
-
 import java.sql.Date;
 import java.util.LinkedHashSet;
 import java.util.LinkedList;
@@ -30,7 +27,7 @@ import org.kuali.kra.committee.rule.event.CommitteeScheduleEventBase.ErrorType;
 import org.kuali.kra.infrastructure.KeyConstants;
 import org.kuali.kra.rule.BusinessRuleInterface;
 import org.kuali.kra.rules.ResearchDocumentRuleBase;
-import org.kuali.rice.kns.util.DateUtils;
+import org.kuali.kra.util.DateUtils;
 
 public class CommitteeScheduleDateConflictRule extends ResearchDocumentRuleBase implements BusinessRuleInterface<CommitteeScheduleDateConflictEvent> {
     

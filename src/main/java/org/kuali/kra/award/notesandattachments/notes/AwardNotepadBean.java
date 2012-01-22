@@ -22,7 +22,7 @@ import java.util.Calendar;
 import org.apache.commons.lang.StringUtils;
 import org.kuali.kra.award.AwardForm;
 import org.kuali.kra.award.document.AwardDocument;
-import org.kuali.rice.kns.util.GlobalVariables;
+import org.kuali.rice.krad.util.GlobalVariables;
 
 /**
  * This class...
@@ -51,6 +51,7 @@ public class AwardNotepadBean implements Serializable {
      */
     public AwardNotepadBean(AwardForm parent) {
         this.parent = parent;
+        init();
     }
     
     /**

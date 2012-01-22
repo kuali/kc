@@ -26,17 +26,18 @@ import org.kuali.kra.irb.actions.submit.ProtocolReviewType;
 import org.kuali.kra.irb.actions.submit.ProtocolSubmissionQualifierType;
 import org.kuali.kra.irb.actions.submit.ProtocolSubmissionType;
 import org.kuali.kra.irb.actions.submit.ValidProtoSubRevType;
-import org.kuali.rice.core.util.KeyLabelPair;
+import org.kuali.rice.core.api.util.ConcreteKeyValue;
+import org.kuali.rice.core.api.util.KeyValue;
 
 public class SubmissionReviewTypeValuesFinder extends IrbActionsKeyValuesBase {
     
     /**
-     * @see org.kuali.rice.kns.lookup.keyvalues.KeyValuesFinder#getKeyValues()
+     * @see org.kuali.rice.krad.keyvalues.KeyValuesFinder#getKeyValues()
      */
     @SuppressWarnings("unchecked")
-    public List<KeyLabelPair> getKeyValues() {
+    public List<KeyValue> getKeyValues() {
        
-        List<KeyLabelPair> keyValues = new ArrayList<KeyLabelPair>();
+        List<KeyValue> keyValues = new ArrayList<KeyValue>();
         Map<String, String> fieldValues = new HashMap<String, String>();
         fieldValues.put("submissionTypeCode", ProtocolSubmissionType.NOTIFY_IRB);
         List<ValidProtoSubRevType> validProtoSubRevTypes = (List<ValidProtoSubRevType>) getBusinessObjectService().findMatching(
@@ -45,13 +46,13 @@ public class SubmissionReviewTypeValuesFinder extends IrbActionsKeyValuesBase {
             List<ProtocolReviewType> reviewTypes = (List<ProtocolReviewType>) getBusinessObjectService().findAll(
                     ProtocolReviewType.class);
             for (ProtocolReviewType reviewType : reviewTypes) {
-                keyValues.add(new KeyLabelPair(reviewType.getReviewTypeCode(), 
+                keyValues.add(new ConcreteKeyValue(reviewType.getReviewTypeCode(), 
                         reviewType.getDescription()));
             }
             
         } else {
             for (ValidProtoSubRevType submRevType :  validProtoSubRevTypes) {
-                keyValues.add(new KeyLabelPair(submRevType.getProtocolReviewTypeCode(), 
+                keyValues.add(new ConcreteKeyValue(submRevType.getProtocolReviewTypeCode(), 
                         submRevType.getProtocolReviewType().getDescription()));
             }
         }

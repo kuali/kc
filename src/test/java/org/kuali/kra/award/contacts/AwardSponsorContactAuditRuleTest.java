@@ -17,9 +17,9 @@ package org.kuali.kra.award.contacts;
 
 
 import org.junit.After;
+import org.junit.Assert;
 import org.junit.Before;
 import org.junit.Test;
-import org.junit.Assert;
 import org.kuali.kra.award.home.Award;
 
 public class AwardSponsorContactAuditRuleTest {

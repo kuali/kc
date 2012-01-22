@@ -18,8 +18,9 @@ package org.kuali.kra.lookup.keyvalue;
 import java.util.ArrayList;
 import java.util.List;
 
-import org.kuali.rice.core.util.KeyLabelPair;
-import org.kuali.rice.kns.lookup.keyvalues.KeyValuesBase;
+import org.kuali.rice.core.api.util.ConcreteKeyValue;
+import org.kuali.rice.core.api.util.KeyValue;
+import org.kuali.rice.krad.keyvalues.KeyValuesBase;
 
 /**
  * 
@@ -29,24 +30,24 @@ public class WatermarkColorValuesFinder extends KeyValuesBase {
     /**
      * This method for storing lookup keyvalues of watermark font Color.
      * 
-     * @see org.kuali.rice.kns.lookup.keyvalues.KeyValuesFinder#getKeyValues()
+     * @see org.kuali.rice.krad.keyvalues.KeyValuesFinder#getKeyValues()
      */
 
-    public List<KeyLabelPair> getKeyValues() {
-        List<KeyLabelPair> keyValues = new ArrayList<KeyLabelPair>();
-        keyValues.add(new KeyLabelPair("LIGHT_GRAY", "LIGHT_GRAY"));
-        keyValues.add(new KeyLabelPair("BLACK", "BLACK"));
-        keyValues.add(new KeyLabelPair("BLUE", "BLUE"));
-        keyValues.add(new KeyLabelPair("MAGENTA", "MAGENTA"));
-        keyValues.add(new KeyLabelPair("CYAN", "CYAN"));
-        keyValues.add(new KeyLabelPair("ORANGE", "ORANGE"));
-        keyValues.add(new KeyLabelPair("DARKGRAY", "DARKGRAY"));
-        keyValues.add(new KeyLabelPair("PINK", "PINK"));
-        keyValues.add(new KeyLabelPair("GRAY", "GRAY"));
-        keyValues.add(new KeyLabelPair("RED", "RED"));
-        keyValues.add(new KeyLabelPair("GREEN", "GREEN"));
-        keyValues.add(new KeyLabelPair("WHITE", "WHITE"));
-        keyValues.add(new KeyLabelPair("YELLOW", "YELLOW"));
+    public List<KeyValue> getKeyValues() {
+        List<KeyValue> keyValues = new ArrayList<KeyValue>();
+        keyValues.add(new ConcreteKeyValue("LIGHT_GRAY", "LIGHT_GRAY"));
+        keyValues.add(new ConcreteKeyValue("BLACK", "BLACK"));
+        keyValues.add(new ConcreteKeyValue("BLUE", "BLUE"));
+        keyValues.add(new ConcreteKeyValue("MAGENTA", "MAGENTA"));
+        keyValues.add(new ConcreteKeyValue("CYAN", "CYAN"));
+        keyValues.add(new ConcreteKeyValue("ORANGE", "ORANGE"));
+        keyValues.add(new ConcreteKeyValue("DARKGRAY", "DARKGRAY"));
+        keyValues.add(new ConcreteKeyValue("PINK", "PINK"));
+        keyValues.add(new ConcreteKeyValue("GRAY", "GRAY"));
+        keyValues.add(new ConcreteKeyValue("RED", "RED"));
+        keyValues.add(new ConcreteKeyValue("GREEN", "GREEN"));
+        keyValues.add(new ConcreteKeyValue("WHITE", "WHITE"));
+        keyValues.add(new ConcreteKeyValue("YELLOW", "YELLOW"));
 
         return keyValues;
     }

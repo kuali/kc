@@ -22,11 +22,11 @@ import java.util.Map;
 import org.apache.commons.lang.StringUtils;
 import org.kuali.kra.bo.Unit;
 import org.kuali.kra.infrastructure.Constants;
-import org.kuali.rice.kns.bo.BusinessObject;
 import org.kuali.rice.kns.lookup.KualiLookupableHelperServiceImpl;
-import org.kuali.rice.kns.util.GlobalVariables;
 import org.kuali.rice.kns.web.ui.Field;
 import org.kuali.rice.kns.web.ui.Row;
+import org.kuali.rice.krad.bo.BusinessObject;
+import org.kuali.rice.krad.util.GlobalVariables;
 
 /**
  * Unit lookup that accounts for the extra parameter {@code campusCode} and filters the search results if it is defined.
@@ -36,13 +36,13 @@ public class UnitLookupableHelperServiceImpl extends KualiLookupableHelperServic
     private static final long serialVersionUID = -3661085880649722426L;
     
     private static final String CAMPUS_CODE_FIELD = "campusCode";
-    private static final String CAMPUS_LOOKUPABLE_CLASS_NAME = "org.kuali.rice.kns.bo.CampusImpl";
+    private static final String CAMPUS_LOOKUPABLE_CLASS_NAME = "org.kuali.rice.location.impl.campus.CampusBo";
 
     @Override
     public List<Row> getRows() {
         List<Row> rows = super.getRows();
         
-        boolean multiCampusEnabled = getParameterService().getIndicatorParameter(
+        boolean multiCampusEnabled = getParameterService().getParameterValueAsBoolean(
             Constants.KC_GENERIC_PARAMETER_NAMESPACE, Constants.KC_ALL_PARAMETER_DETAIL_TYPE_CODE, Constants.PARAMETER_MULTI_CAMPUS_ENABLED);
         
         for (Row row : rows) {

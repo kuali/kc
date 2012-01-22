@@ -16,6 +16,7 @@
 package org.kuali.kra.common.notification;
 
 import java.io.Serializable;
+import java.util.HashMap;
 import java.util.List;
 
 import org.apache.commons.collections.CollectionUtils;
@@ -26,7 +27,6 @@ import org.kuali.kra.common.notification.exception.UnknownRoleException;
 import org.kuali.kra.common.notification.service.KcNotificationModuleRoleService;
 import org.kuali.kra.common.notification.service.KcNotificationRoleQualifierService;
 import org.kuali.kra.common.notification.service.KcNotificationService;
-import org.kuali.rice.kim.bo.types.dto.AttributeSet;
 
 /**
  * Provides a base class for all notifications to extend.  It defines a holding place for the required services as well as a few methods that should be 
@@ -50,7 +50,7 @@ public abstract class NotificationContextBase implements NotificationContext, Se
     public NotificationContextBase(NotificationRenderer renderer) {
         this.renderer = renderer;
     }
-
+    
     /**
      * This method replaces the context variables using the default parameters.
      * @see org.kuali.kra.common.notification.NotificationContext#replaceContextVariables(java.lang.String)
@@ -73,7 +73,7 @@ public abstract class NotificationContextBase implements NotificationContext, Se
         
         if (CollectionUtils.isNotEmpty(moduleRoles)) {
             if (notificationRecipient.getRoleQualifiers() == null) {
-                notificationRecipient.setRoleQualifiers(new AttributeSet());
+                notificationRecipient.setRoleQualifiers(new HashMap<String,String>());
             }
             for (NotificationModuleRole mRole : moduleRoles) {
                 List<NotificationModuleRoleQualifier> moduleQualifiers = mRole.getRoleQualifiers();

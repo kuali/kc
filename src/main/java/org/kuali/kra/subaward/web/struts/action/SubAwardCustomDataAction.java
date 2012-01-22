@@ -23,11 +23,9 @@ import javax.servlet.http.HttpServletResponse;
 import org.apache.struts.action.ActionForm;
 import org.apache.struts.action.ActionForward;
 import org.apache.struts.action.ActionMapping;
+import org.kuali.kra.bo.CustomAttribute;
 import org.kuali.kra.subaward.SubAwardForm;
 import org.kuali.kra.subaward.customdata.SubAwardCustomData;
-import org.kuali.kra.bo.CustomAttribute;
-import org.kuali.kra.common.customattributes.CustomDataAction;
-import org.kuali.rice.kns.web.struts.form.KualiDocumentFormBase;
 
 public class SubAwardCustomDataAction extends SubAwardAction {
     

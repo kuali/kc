@@ -16,7 +16,6 @@
 package org.kuali.kra.dao;
 
 import org.kuali.kra.committee.bo.Committee;
-import org.kuali.kra.irb.Protocol;
 
 
 public interface ResearchAreaReferencesDao {

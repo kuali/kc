@@ -1,23 +1,23 @@
 <?xml version="1.0" encoding="UTF-8"?>
-<web-app xmlns="http://java.sun.com/xml/ns/j2ee" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" version="2.4"
-	xsi:schemaLocation="http://java.sun.com/xml/ns/j2ee   http://java.sun.com/xml/ns/j2ee/web-app_2_4.xsd">
+<web-app xmlns="http://java.sun.com/xml/ns/j2ee" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" version="2.5"
+	xsi:schemaLocation="http://java.sun.com/xml/ns/javaee   http://java.sun.com/xml/ns/javaee/web-app_2_5.xsd">
 	<display-name>KCRA Application</display-name>
 
 <!-- Rice content Start -->
-    <!-- Change this if you want to use a different Spring file -->
     <context-param>
-      <param-name>kew.bootstrap.spring.file</param-name>
-      <param-value>${bootstrap.spring.file}</param-value>
+      <param-name>environment</param-name>
+      <param-value>dev</param-value>
     </context-param>
 
+    <!-- Change this if you want to use a different Spring file -->
     <context-param>
-      <param-name>kc.bootstrap.spring.file</param-name>
+      <param-name>web.bootstrap.spring.file</param-name>
       <param-value>classpath:kc-bootstrap-springbeans.xml</param-value>
     </context-param>
 
 	<filter>
         <filter-name>HideWebInfFilter</filter-name>
-        <filter-class>org.kuali.rice.kns.web.filter.HideWebInfFilter</filter-class>
+        <filter-class>org.kuali.rice.krad.web.filter.HideWebInfFilter</filter-class>
     </filter>
     
     <filter>
@@ -25,15 +25,20 @@
 		<filter-class>org.displaytag.filter.ResponseOverrideFilter</filter-class>
 	</filter>
 
-  <filter>
-    <filter-name>BootstrapFilter</filter-name>
-    <filter-class>org.kuali.rice.kew.web.BootstrapFilter</filter-class>
-  </filter>
+	<filter>
+	    <filter-name>BootstrapFilter</filter-name>
+	    <filter-class>org.kuali.rice.kew.web.BootstrapFilter</filter-class>
+	</filter>
 
 	<filter>
-		<filter-name>UserLoginFilter</filter-name>
-		<filter-class>org.kuali.rice.kew.web.UserLoginFilter</filter-class>
+	    <filter-name>UserLoginFilter</filter-name>
+	    <filter-class>org.kuali.rice.kew.web.UserLoginFilter</filter-class>
 	</filter>
+
+    <filter>
+    	<filter-name>UserPreferencesFilter</filter-name>
+    	<filter-class>org.kuali.rice.kew.web.UserPreferencesFilter</filter-class>
+    </filter>
 
 	<filter-mapping>
         <filter-name>HideWebInfFilter</filter-name>
@@ -44,26 +49,36 @@
 		<filter-name>ResponseOverrideFilter</filter-name>
 		<url-pattern>*.do</url-pattern>
 	</filter-mapping>
-
+  
     <filter-mapping>
       <filter-name>BootstrapFilter</filter-name>
       <servlet-name>action</servlet-name>
     </filter-mapping>
 
+  	<filter-mapping>
+    	<filter-name>UserLoginFilter</filter-name>
+    	<servlet-name>action</servlet-name>
+  	</filter-mapping>    
+
+  	<filter-mapping>
+    	<filter-name>UserPreferencesFilter</filter-name>
+    	<servlet-name>action</servlet-name>
+  	</filter-mapping>
+  	
     <filter-mapping>
       <filter-name>BootstrapFilter</filter-name>
       <servlet-name>notification</servlet-name>
     </filter-mapping>
 
-	<filter-mapping>
-		<filter-name>UserLoginFilter</filter-name>
-		<servlet-name>action</servlet-name>
-	</filter-mapping>
-
     <filter-mapping>
         <filter-name>UserLoginFilter</filter-name>
         <servlet-name>notification</servlet-name>
     </filter-mapping>
+    
+    <filter-mapping>
+    	<filter-name>UserPreferencesFilter</filter-name>
+    	<servlet-name>notification</servlet-name>
+  	</filter-mapping>
 
     <!-- for KCB Spring Web MVC pages -->
     <filter-mapping>
@@ -74,16 +89,11 @@
         <filter-name>UserLoginFilter</filter-name>
         <servlet-name>kcb</servlet-name>
     </filter-mapping>
-
-    <filter-mapping>
-        <filter-name>BootstrapFilter</filter-name>
-        <servlet-name>edoclite</servlet-name>
-    </filter-mapping>
-    
-    <filter-mapping>
-        <filter-name>UserLoginFilter</filter-name>
-        <servlet-name>edoclite</servlet-name>
-    </filter-mapping>
+  	
+  	<filter-mapping>
+    	<filter-name>UserPreferencesFilter</filter-name>
+    	<servlet-name>kcb</servlet-name>
+ 	</filter-mapping>    
 <!-- Rice content End -->
 
   <filter>
@@ -132,26 +142,6 @@
   </filter-mapping>
 
   <!-- ******************* End Logging Filters ********************* -->
-
-<!--<context-param>-->
-<!--     <param-name>contextConfigLocation</param-name>-->
-<!--     <param-value>-->
-<!--     	classpath:SpringBeans.xml -->
-<!--     	classpath:org/kuali/kra/awardtimeandmoney/TimeAndMoneySpringBeans.xml -->
-<!--     	classpath:org/kuali/kra/institutionalproposal/InstitutionalProposalSpringBeans.xml -->
-<!--     	classpath:org/kuali/kra/irb/IrbSpringBeans.xml -->
-<!--     	classpath:org/kuali/kra/committee/CommitteeSpringBeans.xml -->
-<!--     	classpath:org/kuali/kra/questionnaire/QuestionnaireSpringBeans.xml -->
-<!--     	classpath:org/kuali/kra/award/AwardSpringBeans.xml -->
-<!--     	classpath:org/kuali/kra/budget/BudgetSpringBeans.xml-->
-<!--     </param-value>-->
-<!--</context-param>-->
-<!--<listener>-->
-<!--   <listener-class>-->
-<!--      org.springframework.web.context.ContextLoaderListener-->
-<!--   </listener-class>-->
-<!--</listener>  -->
-
   <listener>
     <listener-class>org.kuali.kra.infrastructure.KraServiceLocatorListener</listener-class>
   </listener>
@@ -162,25 +152,26 @@
 
 <!-- Rice content Start -->
   
-<!-- Rice content Start -->
-<!--
-    <listener>
-      <listener-class>org.kuali.rice.core.web.listener.StandaloneInitializeListener</listener-class>
-    </listener>
--->
-
     <listener>
         <listener-class>org.kuali.rice.core.web.listener.BootstrapListener</listener-class>
     </listener>
 
-	<listener>
-		<listener-class>org.kuali.rice.kns.web.listener.JstlConstantsInitListener</listener-class>
+    <listener>
+	  <listener-class>org.springframework.web.context.request.RequestContextListener</listener-class>
 	</listener>
 
 	<listener>
-		<listener-class>org.kuali.rice.kns.web.listener.KualiHttpSessionListener</listener-class>
+		<listener-class>org.kuali.rice.krad.web.listener.KualiHttpSessionListener</listener-class>
 	</listener>
 
+    <listener>
+       <listener-class>org.apache.tiles.web.startup.simple.SimpleTilesListener</listener-class>
+    </listener>
+    
+	<listener>
+	    <listener-class>org.kuali.rice.core.framework.config.module.WebModuleLoaderListener</listener-class>
+	</listener>
+      
 	<servlet>
 		<servlet-name>action</servlet-name>
 		<servlet-class>org.kuali.rice.kns.web.struts.action.KualiActionServlet</servlet-class>
@@ -220,17 +211,22 @@
 
 	<servlet>
 		<servlet-name>dwr-invoker</servlet-name>
-<!-- KC MODIFICATION START -->
-		<servlet-class>org.kuali.kra.web.servlet.KraDWRServlet</servlet-class>
-<!-- KC MODIFICATION END --> 
-<!-- kcinfr-368 : disable test mode to prevent route map being accessed by public.  Developer can turn on this by change it to 'true' -->
+		<servlet-class>org.directwebremoting.servlet.DwrServlet</servlet-class>
 		<init-param>
 			<param-name>debug</param-name>
-			<param-value>false</param-value>
+			<param-value>true</param-value>
 		</init-param>
 		<init-param>
-			<param-name>springpath</param-name>
-			<param-value>true</param-value>
+  			<param-name>config-kc</param-name>
+  			<param-value>/WEB-INF/dwr-kra.xml</param-value>
+		</init-param>
+		<init-param>
+  			<param-name>config-kns</param-name>
+  			<param-value>/WEB-INF/dwr-kns.xml</param-value>
+		</init-param>
+		<init-param>
+  			<param-name>config-kew</param-name>
+  			<param-value>/WEB-INF/dwr-kew.xml</param-value>
 		</init-param>
 		<load-on-startup>1</load-on-startup>
 	</servlet>
@@ -258,14 +254,14 @@
 		<servlet-class>org.kuali.rice.ksb.messaging.servlet.KSBDispatcherServlet</servlet-class>
 		<init-param>
           <param-name>contextConfigLocation</param-name>
-          <param-value>ksb/WEB-INF/remoting-servlet.xml</param-value>
+          <param-value>classpath:org/kuali/rice/ksb/config/remoting-servlet.xml</param-value>
         </init-param>
 		<load-on-startup>1</load-on-startup>
 	</servlet>
 
 	<servlet>
 		<servlet-name>export</servlet-name>
-		<servlet-class>org.kuali.rice.kew.export.web.ExportServlet</servlet-class>
+		<servlet-class>org.kuali.rice.core.web.impex.ExportServlet</servlet-class>
 	</servlet>
 
 	<servlet>
@@ -276,11 +272,6 @@
 	<servlet>
 		<servlet-name>attachment</servlet-name>
 		<servlet-class>org.kuali.rice.kew.notes.web.AttachmentServlet</servlet-class>
-	</servlet>
-
-	<servlet>
-		<servlet-name>edoclite</servlet-name>
-		<servlet-class>org.kuali.rice.kew.edl.EDLServlet</servlet-class>
 	</servlet>
 	
 	<!--  
@@ -345,11 +336,6 @@
 		<url-pattern>/kew/attachment/*</url-pattern>
 	</servlet-mapping>
 
-	<servlet-mapping>
-		<servlet-name>edoclite</servlet-name>
-		<url-pattern>/kew/EDocLite</url-pattern>
-	</servlet-mapping>
-
 	<session-config>
 		<session-timeout>60</session-timeout>
 	</session-config>
@@ -358,6 +344,26 @@
 		<welcome-file>index.html</welcome-file>
         <welcome-file>index.jsp</welcome-file>
 	</welcome-file-list>
+
+	<!-- only need to include this for the kuali tlds
+	     since tld file will only be searched from within other jars -->
+	<jsp-config>
+		<taglib>
+			<taglib-uri>http://www.kuali.org/jsp/jstl/functions</taglib-uri>
+			<taglib-location>/WEB-INF/tld/kuali-func.tld</taglib-location>
+		</taglib>
+		
+		<!-- customized struts tags -->
+		<taglib>
+			<taglib-uri>http://www.kuali.org/struts.apache.org/tags-html</taglib-uri>
+			<taglib-location>/WEB-INF/tld/kuali-struts-html.tld</taglib-location>
+		</taglib>
+		<taglib>
+			<taglib-uri>http://www.kuali.org/struts.apache.org/tags-html-el</taglib-uri>
+			<taglib-location>/WEB-INF/tld/kuali-struts-html-el.tld</taglib-location>
+		</taglib>
+	</jsp-config>
+	
 <!-- Rice content End -->
 
 </web-app>

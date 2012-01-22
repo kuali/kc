@@ -26,11 +26,11 @@ import org.apache.commons.lang.StringUtils;
 import org.apache.commons.logging.Log;
 import org.apache.commons.logging.LogFactory;
 import org.kuali.kra.infrastructure.KeyConstants;
-import org.kuali.rice.kns.UserSession;
 import org.kuali.rice.kns.util.AuditCluster;
 import org.kuali.rice.kns.util.AuditError;
-import org.kuali.rice.kns.util.ExceptionUtils;
-import org.kuali.rice.kns.util.GlobalVariables;
+import org.kuali.rice.kns.util.KNSGlobalVariables;
+import org.kuali.rice.krad.UserSession;
+import org.kuali.rice.krad.util.GlobalVariables;
 
 /**
  * This class provides error reporting capabilities.
@@ -52,15 +52,15 @@ public class ErrorReporter {
      * @param errorParams
      */
     public void reportError(String propertyName, String errorKey, String... errorParams) {
-        GlobalVariables.getErrorMap().putError(propertyName, errorKey, errorParams);
+        GlobalVariables.getMessageMap().putError(propertyName, errorKey, errorParams);
         if (LOG.isDebugEnabled()) {
-            LOG.debug("rule failure at " + ExceptionUtils.describeStackLevels(1, 2));
+            LOG.debug("rule failure at " + ErrorReporter.getMethodPath(1, 2));
         }
     }
     
     /**
      * Adds an audit error to the
-     * {@link GlobalVariables#getAuditErrorMap() GlobalVariables#getAuditErrorMap()}.
+     * {@link KNSGlobalVariables.getAuditErrorMap() KNSGlobalVariables.getAuditErrorMap()}.
      * 
      * @param error the error to add.
      * @param errorKey the error map key
@@ -83,11 +83,11 @@ public class ErrorReporter {
         }
         
         if (LOG.isDebugEnabled()) {
-            LOG.debug("rule failure at " + ExceptionUtils.describeStackLevels(1, 2));
+            LOG.debug("rule failure at " + ErrorReporter.getMethodPath(1, 2));
         }
         
         @SuppressWarnings("unchecked")
-        final Map<String, AuditCluster> errorMap = GlobalVariables.getAuditErrorMap();
+        final Map<String, AuditCluster> errorMap = KNSGlobalVariables.getAuditErrorMap();
         
         AuditCluster cluster = errorMap.get(errorKey);
         
@@ -104,7 +104,7 @@ public class ErrorReporter {
     public void reportSoftError(String propertyName, String errorKey, String... errorParams) {
         addSoftError(propertyName, errorKey, errorParams);
         if (LOG.isDebugEnabled()) {
-            LOG.debug("rule failure at " + ExceptionUtils.describeStackLevels(1, 2));
+            LOG.debug("rule failure at " + ErrorReporter.getMethodPath(1, 2));
         }
     }
     
@@ -125,17 +125,17 @@ public class ErrorReporter {
      * @param errorParams
      */
     private void addSoftError(String propertyName, String errorKey, String[] errorParams) {
-        Map<String, Collection<SoftError>> softErrorMap = getSoftErrors();
-        Collection<SoftError> errorsForProperty = softErrorMap.get(propertyName);
+        Map<String, Collection<SoftError>> softMessageMap = getSoftErrors();
+        Collection<SoftError> errorsForProperty = softMessageMap.get(propertyName);
         if(errorsForProperty == null) {
             errorsForProperty = new HashSet<SoftError>();
         }
         errorsForProperty.add(new SoftError(errorKey, errorParams));
-        softErrorMap.put(propertyName, errorsForProperty);
+        softMessageMap.put(propertyName, errorsForProperty);
     }
 
     private Map<String, Collection<SoftError>> initializeSoftErrorMap() {
-        Map<String, Collection<SoftError>> softErrorMap = Collections.synchronizedMap(new HashMap<String, Collection<SoftError>>() {
+        Map<String, Collection<SoftError>> softMessageMap = Collections.synchronizedMap(new HashMap<String, Collection<SoftError>>() {
             private static final long serialVersionUID = 709850431504932842L;
 
             @Override
@@ -144,8 +144,8 @@ public class ErrorReporter {
             }
             
         });
-        GlobalVariables.getUserSession().addObject(KeyConstants.SOFT_ERRORS_KEY, softErrorMap);
-        return softErrorMap;
+        GlobalVariables.getUserSession().addObject(KeyConstants.SOFT_ERRORS_KEY, softMessageMap);
+        return softMessageMap;
     }
     
     /**
@@ -158,7 +158,7 @@ public class ErrorReporter {
     public void reportWarning(String propertyName, String errorKey, String... errorParams) {
         GlobalVariables.getMessageMap().putWarning(propertyName, errorKey, errorParams);
         if (LOG.isDebugEnabled()) {
-            LOG.debug(String.format("rule warning at ", ExceptionUtils.describeStackLevels(1, 2)));
+            LOG.debug(String.format("rule warning at ", ErrorReporter.getMethodPath(1, 2)));
         }
     }
 
@@ -185,5 +185,45 @@ public class ErrorReporter {
             GlobalVariables.getMessageMap().getErrorMessagesForProperty(propertyName).clear();
         }
     }
-    
+
+    /**
+     * 
+     * This method duplicates the functionality of ExceptionUtils.describeStackLevels which is no longer supported in Rice.
+     * @param fromLevel
+     * @param toLevel
+     * @return
+     */
+    public static String getMethodPath(int fromLevel, int toLevel) {
+        StackTraceElement[] stackTraceElements = Thread.currentThread().getStackTrace();
+        //increase the levels to avoid including the method that called this.
+        fromLevel = fromLevel + 1;
+        toLevel = toLevel + 1;
+        
+        if (fromLevel <= 0) {
+            throw new IllegalArgumentException("invalid fromLevel (" + fromLevel + " < 0)");
+        }
+        if (fromLevel > toLevel) {
+            throw new IllegalArgumentException("invalid levels (fromLevel " + fromLevel + " > toLevel " + toLevel + ")");
+        }
+        if (toLevel >= stackTraceElements.length) {
+            throw new IllegalArgumentException("invalid toLevel (" + toLevel + " >= " + stackTraceElements.length + ")");
+        }
+        
+        StringBuffer result = new StringBuffer();
+        int elementIndex = 0;
+        for (StackTraceElement element : stackTraceElements){
+            if (elementIndex >= fromLevel && elementIndex >= toLevel) {
+                if (result.length() > 0) {
+                    result.append(" from ");
+                }
+                result.append(element.getClassName()).append(".");
+                result.append(element.getMethodName()).append("(");
+                result.append(element.getFileName()).append(":");
+                result.append(element.getLineNumber()).append(")");
+            }
+            elementIndex++;
+        }
+        return result.toString();
+
+    }        
 }

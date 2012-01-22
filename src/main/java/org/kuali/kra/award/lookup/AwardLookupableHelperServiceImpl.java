@@ -41,19 +41,19 @@ import org.kuali.kra.lookup.KraLookupableHelperServiceImpl;
 import org.kuali.kra.service.KcPersonService;
 import org.kuali.kra.service.VersionHistoryService;
 import org.kuali.kra.timeandmoney.document.TimeAndMoneyDocument;
-import org.kuali.rice.kew.exception.WorkflowException;
-import org.kuali.rice.kew.util.KEWConstants;
-import org.kuali.rice.kew.web.session.UserSession;
-import org.kuali.rice.kim.bo.Person;
-import org.kuali.rice.kns.bo.BusinessObject;
+import org.kuali.rice.kew.api.KewApiConstants;
+import org.kuali.rice.kew.api.exception.WorkflowException;
+import org.kuali.rice.kim.api.identity.Person;
 import org.kuali.rice.kns.lookup.HtmlData;
 import org.kuali.rice.kns.lookup.HtmlData.AnchorHtmlData;
-import org.kuali.rice.kns.service.BusinessObjectService;
-import org.kuali.rice.kns.service.DocumentService;
-import org.kuali.rice.kns.util.KNSConstants;
-import org.kuali.rice.kns.util.UrlFactory;
 import org.kuali.rice.kns.web.ui.Field;
 import org.kuali.rice.kns.web.ui.Row;
+import org.kuali.rice.krad.bo.BusinessObject;
+import org.kuali.rice.krad.service.BusinessObjectService;
+import org.kuali.rice.krad.service.DocumentService;
+import org.kuali.rice.krad.util.GlobalVariables;
+import org.kuali.rice.krad.util.KRADConstants;
+import org.kuali.rice.krad.util.UrlFactory;
 
 /**
  * This class provides Award lookup support
@@ -123,7 +123,7 @@ class AwardLookupableHelperServiceImpl extends KraLookupableHelperServiceImpl {
      * @return
      */
     public List<Award> filterForPermissions(List<Award> results) {
-        Person user = UserSession.getAuthenticatedUser().getPerson();
+        Person user = GlobalVariables.getUserSession().getPerson();
         AwardDocumentAuthorizer authorizer = new AwardDocumentAuthorizer();
         List<Award> filteredResults = new ArrayList<Award>();
         // if the user has permission.
@@ -136,7 +136,7 @@ class AwardLookupableHelperServiceImpl extends KraLookupableHelperServiceImpl {
     }
     /**
      * add open, copy and medusa links to actions list
-     * @see org.kuali.kra.lookup.KraLookupableHelperServiceImpl#getCustomActionUrls(org.kuali.rice.kns.bo.BusinessObject, java.util.List)
+     * @see org.kuali.kra.lookup.KraLookupableHelperServiceImpl#getCustomActionUrls(org.kuali.rice.krad.bo.BusinessObject, java.util.List)
      */
     @Override
     @SuppressWarnings("unchecked")
@@ -208,9 +208,9 @@ class AwardLookupableHelperServiceImpl extends KraLookupableHelperServiceImpl {
         AnchorHtmlData htmlData = new AnchorHtmlData();
         htmlData.setDisplayText("open");
         Properties parameters = new Properties();
-        parameters.put(KNSConstants.DISPATCH_REQUEST_PARAMETER, KNSConstants.DOC_HANDLER_METHOD);
-        parameters.put(KNSConstants.PARAMETER_COMMAND, KEWConstants.DOCSEARCH_COMMAND);
-        parameters.put(KNSConstants.DOCUMENT_TYPE_NAME, getDocumentTypeName());
+        parameters.put(KRADConstants.DISPATCH_REQUEST_PARAMETER, KRADConstants.DOC_HANDLER_METHOD);
+        parameters.put(KRADConstants.PARAMETER_COMMAND, KewApiConstants.DOCSEARCH_COMMAND);
+        parameters.put(KRADConstants.DOCUMENT_TYPE_NAME, getDocumentTypeName());
         parameters.put("viewDocument", viewOnly.toString());
         parameters.put("docOpenedFromAwardSearch", "true");
         parameters.put("docId", awardDocument.getDocumentNumber());
@@ -224,9 +224,9 @@ class AwardLookupableHelperServiceImpl extends KraLookupableHelperServiceImpl {
         AnchorHtmlData htmlData = new AnchorHtmlData();
         htmlData.setDisplayText(MEDUSA);
         Properties parameters = new Properties();
-        parameters.put(KNSConstants.DISPATCH_REQUEST_PARAMETER, "medusa");
-        parameters.put(KNSConstants.PARAMETER_COMMAND, KEWConstants.DOCSEARCH_COMMAND);
-        parameters.put(KNSConstants.DOCUMENT_TYPE_NAME, getDocumentTypeName());
+        parameters.put(KRADConstants.DISPATCH_REQUEST_PARAMETER, "medusa");
+        parameters.put(KRADConstants.PARAMETER_COMMAND, KewApiConstants.DOCSEARCH_COMMAND);
+        parameters.put(KRADConstants.DOCUMENT_TYPE_NAME, getDocumentTypeName());
         parameters.put("viewDocument", readOnly.toString());
         parameters.put("docId", award.getAwardDocument().getDocumentNumber());
         parameters.put("docOpenedFromAwardSearch", "true");
@@ -241,9 +241,9 @@ class AwardLookupableHelperServiceImpl extends KraLookupableHelperServiceImpl {
         AnchorHtmlData htmlData = new AnchorHtmlData();
         htmlData.setDisplayText("copy");
         Properties parameters = new Properties();
-        parameters.put(KNSConstants.DISPATCH_REQUEST_PARAMETER, "awardActions");
-        parameters.put(KNSConstants.PARAMETER_COMMAND, KEWConstants.DOCSEARCH_COMMAND);
-        parameters.put(KNSConstants.DOCUMENT_TYPE_NAME, getDocumentTypeName());
+        parameters.put(KRADConstants.DISPATCH_REQUEST_PARAMETER, "awardActions");
+        parameters.put(KRADConstants.PARAMETER_COMMAND, KewApiConstants.DOCSEARCH_COMMAND);
+        parameters.put(KRADConstants.DOCUMENT_TYPE_NAME, getDocumentTypeName());
         parameters.put("viewDocument", readOnly.toString());
         parameters.put("docId", award.getAwardDocument().getDocumentNumber());
         parameters.put("docOpenedFromAwardSearch", "true");
@@ -309,7 +309,7 @@ class AwardLookupableHelperServiceImpl extends KraLookupableHelperServiceImpl {
     }
     
     /**
-     * @see org.kuali.kra.lookup.KraLookupableHelperServiceImpl#createdEditHtmlData(org.kuali.rice.kns.bo.BusinessObject)
+     * @see org.kuali.kra.lookup.KraLookupableHelperServiceImpl#createdEditHtmlData(org.kuali.rice.krad.bo.BusinessObject)
      * 
      * Edit is not supported for Award lookup, so we'll just no-op
      */
@@ -364,7 +364,7 @@ class AwardLookupableHelperServiceImpl extends KraLookupableHelperServiceImpl {
             if(!(timeAndMoneyDocuments.size() == 0)) {
                 TimeAndMoneyDocument t = timeAndMoneyDocuments.get(0);
                 TimeAndMoneyDocument timeAndMoneyDocument = (TimeAndMoneyDocument) documentService.getByDocumentHeaderId(t.getDocumentNumber());
-                if(timeAndMoneyDocument.getDocumentHeader().getWorkflowDocument().stateIsFinal() && 
+                if(timeAndMoneyDocument.getDocumentHeader().getWorkflowDocument().isFinal() && 
                         !(isAwardInAwardList(award.getAwardNumber(), activeAwards))) {
                     activeAwards.add(award);
                 }

@@ -15,10 +15,9 @@
  */
 package org.kuali.kra.bo;
 
-import java.util.LinkedHashMap;
 import java.util.List;
 
-import org.kuali.rice.kns.bo.BusinessObjectBase;
+import org.kuali.rice.krad.bo.BusinessObjectBase;
 
 /**
  * The RolePersons BO is simply a role name with a list of the
@@ -36,16 +35,6 @@ public class RolePersons extends BusinessObjectBase {
     
     
   
-    @Override
-    protected LinkedHashMap toStringMapper() {
-        LinkedHashMap map = new LinkedHashMap();
-        map.put(approver,this.getapprover());
-        map.put(aggregator,this.getAggregator());
-        map.put(narrativewriter,this.getNarrativewriter());
-        map.put(viewer,this.getViewer());
-        return map;
-    }
-
     public void refresh() {
         // do nothing
     }

@@ -16,19 +16,24 @@
 package org.kuali.kra.budget.rates;
 
 import java.sql.Date;
-import java.util.LinkedHashMap;
 
 import org.kuali.kra.bo.KraPersistableBusinessObjectBase;
 import org.kuali.kra.budget.BudgetDecimal;
 
 public class TrainingStipendRate extends KraPersistableBusinessObjectBase {
-    private Long          rateId;
-    private String        careerLevel;
-    private int           experienceLevel;
+
+    private Long rateId;
+
+    private String careerLevel;
+
+    private int experienceLevel;
+
     private BudgetDecimal stipendRate;
-    private Date          effectiveDate;
-    private String        description;
-    
+
+    private Date effectiveDate;
+
+    private String description;
+
     public Long getRateId() {
         return rateId;
     }
@@ -64,11 +69,11 @@ public class TrainingStipendRate extends KraPersistableBusinessObjectBase {
     public Date getEffectiveDate() {
         return effectiveDate;
     }
-    
+
     public void setEffectiveDate(Date effectiveDate) {
         this.effectiveDate = effectiveDate;
     }
-    
+
     public String getDescription() {
         return description;
     }
@@ -76,16 +81,4 @@ public class TrainingStipendRate extends KraPersistableBusinessObjectBase {
     public void setDescription(String description) {
         this.description = description;
     }
-
-    @Override
-    protected LinkedHashMap toStringMapper() {
-        LinkedHashMap hashMap = new LinkedHashMap();
-        hashMap.put("careerLevel", getCareerLevel());
-        hashMap.put("experienceLevel", getExperienceLevel());
-        hashMap.put("stipendRate", getStipendRate());
-        hashMap.put("effectiveDate", getEffectiveDate());
-        hashMap.put("description", getDescription());
-        return hashMap;
-    }
-
 }

@@ -26,12 +26,12 @@ import org.kuali.kra.committee.bo.CommitteeSchedule;
 import org.kuali.kra.committee.service.CommitteeService;
 import org.kuali.kra.document.ResearchDocumentBase;
 import org.kuali.kra.infrastructure.KraServiceLocator;
-import org.kuali.rice.kew.dto.DocumentRouteStatusChangeDTO;
-import org.kuali.rice.kew.util.KEWConstants;
-import org.kuali.rice.kns.document.Copyable;
-import org.kuali.rice.kns.document.SessionDocument;
-import org.kuali.rice.kns.service.BusinessObjectService;
-import org.kuali.rice.kns.util.ObjectUtils;
+import org.kuali.rice.kew.api.KewApiConstants;
+import org.kuali.rice.kew.framework.postprocessor.DocumentRouteStatusChange;
+import org.kuali.rice.krad.document.Copyable;
+import org.kuali.rice.krad.document.SessionDocument;
+import org.kuali.rice.krad.service.BusinessObjectService;
+import org.kuali.rice.krad.util.ObjectUtils;
 
 /**
  * The Committee Document wraps a single Committee BO.  
@@ -150,17 +150,17 @@ public class CommitteeDocument extends ResearchDocumentBase implements Copyable,
         if (this.getCommittee() != null) {
             this.setCommitteeId(this.getCommittee().getCommitteeId());
         }
-        String routeStatusCode = this.getDocumentHeader().getWorkflowDocument().getRouteHeader().getDocRouteStatus();
-        if (StringUtils.isNotBlank(routeStatusCode) && routeStatusCode.equals(KEWConstants.ROUTE_HEADER_INITIATED_CD)) {
+        String routeStatusCode = this.getDocumentHeader().getWorkflowDocument().getStatus().getCode();
+        if (StringUtils.isNotBlank(routeStatusCode) && routeStatusCode.equals(KewApiConstants.ROUTE_HEADER_INITIATED_CD)) {
             // route status from I to S will not update document, so do it here with correct status
-            this.setDocStatusCode(KEWConstants.ROUTE_HEADER_SAVED_CD);
+            this.setDocStatusCode(KewApiConstants.ROUTE_HEADER_SAVED_CD);
         } else {
             this.setDocStatusCode(routeStatusCode);
         }
     }
 
     @Override
-    public void doRouteStatusChange(DocumentRouteStatusChangeDTO statusChangeEvent) {
+    public void doRouteStatusChange(DocumentRouteStatusChange statusChangeEvent) {
         super.doRouteStatusChange(statusChangeEvent);
         this.setDocStatusCode(statusChangeEvent.getNewRouteStatus());
         if (isFinal(statusChangeEvent) && this.getCommittee().getSequenceNumber() > 1) {
@@ -183,8 +183,8 @@ public class CommitteeDocument extends ResearchDocumentBase implements Copyable,
      * @param statusChangeEvent
      * @return
      */
-    private boolean isFinal(DocumentRouteStatusChangeDTO statusChangeEvent) {
-        return StringUtils.equals(KEWConstants.ROUTE_HEADER_FINAL_CD, statusChangeEvent.getNewRouteStatus());
+    private boolean isFinal(DocumentRouteStatusChange statusChangeEvent) {
+        return StringUtils.equals(KewApiConstants.ROUTE_HEADER_FINAL_CD, statusChangeEvent.getNewRouteStatus());
     }
 
     public String getCommitteeId() {
@@ -214,8 +214,8 @@ public class CommitteeDocument extends ResearchDocumentBase implements Copyable,
         boolean isComplete = false;
         
         if (getDocumentHeader().hasWorkflowDocument()) {
-            String docRouteStatus = getDocumentHeader().getWorkflowDocument().getRouteHeader().getDocRouteStatus();
-            if (KEWConstants.ROUTE_HEADER_FINAL_CD.equals(docRouteStatus)) {
+            String docRouteStatus = getDocumentHeader().getWorkflowDocument().getStatus().getCode();
+            if (KewApiConstants.ROUTE_HEADER_FINAL_CD.equals(docRouteStatus)) {
                 isComplete = true;
             }
         }

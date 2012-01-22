@@ -15,29 +15,32 @@
  */
 package org.kuali.kra.bo;
 
-import org.kuali.kra.bo.KraPersistableBusinessObjectBase;
 import org.kuali.kra.irb.correspondence.CorrespondentType;
 
-import java.util.LinkedHashMap;
+public class OrganizationCorrespondent extends KraPersistableBusinessObjectBase {
 
-public class OrganizationCorrespondent extends KraPersistableBusinessObjectBase { 
-    
     private static final long serialVersionUID = 1L;
 
-    private Integer organizationCorrespondentId; 
-    private String organizationId; 
-    private Integer correspondentTypeCode; 
-    private String personId; 
-    private boolean nonEmployeeFlag; 
-    private String description; 
-    
-    private Organization organization; 
-    private CorrespondentType correspondentType; 
-    
-    public OrganizationCorrespondent() { 
+    private Integer organizationCorrespondentId;
+
+    private String organizationId;
+
+    private Integer correspondentTypeCode;
+
+    private String personId;
+
+    private boolean nonEmployeeFlag;
+
+    private String description;
+
+    private Organization organization;
+
+    private CorrespondentType correspondentType;
+
+    public OrganizationCorrespondent() {
         super();
-    } 
-    
+    }
+
     public Integer getOrganizationCorrespondentId() {
         return organizationCorrespondentId;
     }
@@ -100,18 +103,6 @@ public class OrganizationCorrespondent extends KraPersistableBusinessObjectBase 
 
     public void setCorrespondentType(CorrespondentType correspondentType) {
         this.correspondentType = correspondentType;
-    }
-
-    /** {@inheritDoc} */
-    @Override 
-    protected LinkedHashMap<String, Object> toStringMapper() {
-        LinkedHashMap<String, Object> hashMap = new LinkedHashMap<String, Object>();
-        hashMap.put("organizationCorrespondentId", this.getOrganizationCorrespondentId());
-        hashMap.put("organizationId", this.getOrganizationId());
-        hashMap.put("correspondentTypeCode", this.getCorrespondentTypeCode());
-        hashMap.put("personId", this.getPersonId());
-        hashMap.put("nonEmployeeFlag", this.getNonEmployeeFlag());
-        return hashMap;
     }
 
     public KcPerson getPerson() {

@@ -15,10 +15,8 @@
  */
 package org.kuali.kra.common.permissions.bo;
 
-import java.util.LinkedHashMap;
-
 import org.kuali.kra.common.permissions.web.bean.Role;
-import org.kuali.rice.kns.bo.BusinessObjectBase;
+import org.kuali.rice.krad.bo.BusinessObjectBase;
 
 /**
  * The PermissionsRoleState is used by the Permissions Edit Role 
@@ -52,14 +50,5 @@ public class PermissionsRoleState extends BusinessObjectBase {
     
     public void refresh() {
         // do nothing
-    }
-    
-    @Override
-    @SuppressWarnings("unchecked")
-    protected LinkedHashMap toStringMapper() {
-        LinkedHashMap map = new LinkedHashMap();
-        map.put("role", getRole());
-        map.put("state", getState());
-        return map;
     }
 }

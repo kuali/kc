@@ -15,56 +15,47 @@
  */
 package org.kuali.kra.award.home;
 
-import java.util.LinkedHashMap;
-
 import org.kuali.kra.bo.KraPersistableBusinessObjectBase;
 import org.kuali.kra.bo.SponsorTerm;
-import org.kuali.kra.bo.SponsorTermType;
 
-public class AwardTemplateTerm extends KraPersistableBusinessObjectBase{ 
-	
-	/**
+public class AwardTemplateTerm extends KraPersistableBusinessObjectBase {
+
+    /**
      * Comment for <code>serialVersionUID</code>
      */
     private static final long serialVersionUID = 737831469929642714L;
-    private Integer awardTemplateTermId; 
-	private String templateCode;
-	private AwardTemplate awardTemplate; 
-    @AwardSyncable private Long sponsorTermId;
+
+    private Integer awardTemplateTermId;
+
+    private String templateCode;
+
+    private AwardTemplate awardTemplate;
+
+    @AwardSyncable
+    private Long sponsorTermId;
+
     private String sponsorTermTypeCode;
+
     private SponsorTerm sponsorTerm;
 
-	
-	public AwardTemplateTerm() { 
+    public AwardTemplateTerm() {
+    }
 
-	} 
-	
-	public Integer getAwardTemplateTermId() {
-		return awardTemplateTermId;
-	}
+    public Integer getAwardTemplateTermId() {
+        return awardTemplateTermId;
+    }
 
-	public void setAwardTemplateTermId(Integer awardTemplateTermId) {
-		this.awardTemplateTermId = awardTemplateTermId;
-	}
+    public void setAwardTemplateTermId(Integer awardTemplateTermId) {
+        this.awardTemplateTermId = awardTemplateTermId;
+    }
 
+    public AwardTemplate getAwardTemplate() {
+        return awardTemplate;
+    }
 
-	public AwardTemplate getAwardTemplate() {
-		return awardTemplate;
-	}
-
-	public void setAwardTemplate(AwardTemplate awardTemplate) {
-		this.awardTemplate = awardTemplate;
-	}
-
-	@SuppressWarnings("unchecked")
-    @Override 
-	protected LinkedHashMap toStringMapper() {
-        LinkedHashMap hashMap = new LinkedHashMap();
-        hashMap.put("awardSponsorTermId", getSponsorTermId());
-		hashMap.put("awardTemplateTermsId", getAwardTemplateTermId());
-		return hashMap;
-	}
-
+    public void setAwardTemplate(AwardTemplate awardTemplate) {
+        this.awardTemplate = awardTemplate;
+    }
 
     /**
      * Gets the sponsorTermsTypeCode attribute. 
@@ -82,22 +73,21 @@ public class AwardTemplateTerm extends KraPersistableBusinessObjectBase{
         this.sponsorTermTypeCode = sponsorTermTypeCode;
     }
 
-//    /**
-//     * Gets the sponsorTermsType attribute. 
-//     * @return Returns the sponsorTermsType.
-//     */
-//    public SponsorTermType getSponsorTermType() {
-//        return sponsorTermType;
-//    }
-//
-//    /**
-//     * Sets the sponsorTermsType attribute value.
-//     * @param sponsorTermsType The sponsorTermsType to set.
-//     */
-//    public void setSponsorTermType(SponsorTermType sponsorTermType) {
-//        this.sponsorTermType = sponsorTermType;
-//    }
-
+    //    /**  
+    //     * Gets the sponsorTermsType attribute.   
+    //     * @return Returns the sponsorTermsType.  
+    //     */  
+    //    public SponsorTermType getSponsorTermType() {  
+    //        return sponsorTermType;  
+    //    }  
+    //  
+    //    /**  
+    //     * Sets the sponsorTermsType attribute value.  
+    //     * @param sponsorTermsType The sponsorTermsType to set.  
+    //     */  
+    //    public void setSponsorTermType(SponsorTermType sponsorTermType) {  
+    //        this.sponsorTermType = sponsorTermType;  
+    //    }  
     /**
      * Gets the sponsorTermId attribute. 
      * @return Returns the sponsorTermId.
@@ -137,5 +127,4 @@ public class AwardTemplateTerm extends KraPersistableBusinessObjectBase{
     public void setTemplateCode(String templateCode) {
         this.templateCode = templateCode;
     }
-	
 }

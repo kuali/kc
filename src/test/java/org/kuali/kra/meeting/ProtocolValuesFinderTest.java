@@ -29,8 +29,8 @@ import org.jmock.integration.junit4.JUnit4Mockery;
 import org.junit.Test;
 import org.junit.runner.RunWith;
 import org.kuali.kra.irb.actions.submit.ProtocolSubmission;
-import org.kuali.rice.kns.service.BusinessObjectService;
-import org.kuali.rice.core.util.KeyLabelPair;
+import org.kuali.rice.core.api.util.KeyValue;
+import org.kuali.rice.krad.service.BusinessObjectService;
 
 @RunWith(JMock.class)
 public class ProtocolValuesFinderTest {
@@ -72,12 +72,12 @@ public class ProtocolValuesFinderTest {
              
          }});
          protocolValuesFinder.setScheduleId("1");
-         List<KeyLabelPair> keyValues = protocolValuesFinder.getKeyValues();
+         List<KeyValue> keyValues = protocolValuesFinder.getKeyValues();
          Assert.assertEquals(keyValues.size(), 3);
          Assert.assertEquals(keyValues.get(1).getKey().toString(), "1");
-         Assert.assertEquals(keyValues.get(1).getLabel(), "1001");
+         Assert.assertEquals(keyValues.get(1).getValue(), "1001");
          Assert.assertEquals(keyValues.get(2).getKey().toString(), "2");
-         Assert.assertEquals(keyValues.get(2).getLabel(), "1002");
+         Assert.assertEquals(keyValues.get(2).getValue(), "1002");
 
     }
 

@@ -16,12 +16,8 @@
 package org.kuali.kra.negotiations.bo;
 
 import java.util.ArrayList;
-import java.util.LinkedHashMap;
 import java.util.List;
 
-import org.apache.commons.lang.StringUtils;
-import org.apache.ojb.broker.PersistenceBroker;
-import org.apache.ojb.broker.PersistenceBrokerException;
 import org.kuali.kra.bo.KcPerson;
 import org.kuali.kra.bo.KraPersistableBusinessObjectBase;
 import org.kuali.kra.bo.Organization;
@@ -77,13 +73,13 @@ public class NegotiationUnassociatedDetail extends KraPersistableBusinessObjectB
     }
     
     
-    public void beforeInsert(PersistenceBroker persistenceBroker) {
-        super.beforeInsert(persistenceBroker);
+    protected void prePersist() {
+        super.prePersist();
         setPiName();
     }
     
-    public void beforeUpdate(PersistenceBroker persistenceBroker) {
-        super.beforeUpdate(persistenceBroker);
+    protected void preUpdate() {
+        super.preUpdate();
         setPiName();
     }
     
@@ -287,15 +283,6 @@ public class NegotiationUnassociatedDetail extends KraPersistableBusinessObjectB
         this.subAwardOrganization = subAwardOrganization;
     }
 
-
-
-    @Override
-    protected LinkedHashMap toStringMapper() {
-        LinkedHashMap map = new LinkedHashMap();
-        map.put("NegotiationUnassociatedDetailId", this.getNegotiationUnassociatedDetailId());
-        return map;
-    }
-    
     public KcPerson getPIEmployee() {
         if (this.getPiPersonId() == null) {
             return null;

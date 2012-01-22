@@ -19,14 +19,14 @@ import java.util.ArrayList;
 import java.util.LinkedHashMap;
 import java.util.List;
 
-import org.kuali.rice.kns.bo.BusinessObjectBase;
+import org.kuali.rice.krad.bo.BusinessObjectBase;
 
 /**
  * Report tracking view non-persisted BO. This BO is created via Spring injection of the
  * ReportTrackingSearchViews class. This allows easy configuration of the supported views via
  * Spring.
  */
-public class ReportTrackingView extends BusinessObjectBase {
+public class ReportTrackingView extends org.kuali.rice.krad.bo.BusinessObjectBase {
 
     private String viewName;
     private List<String> groupByCols;
@@ -61,11 +61,6 @@ public class ReportTrackingView extends BusinessObjectBase {
 
     public void setDetailCols(List<String> detailCols) {
         this.detailCols = detailCols;
-    }
-
-    @Override
-    protected LinkedHashMap toStringMapper() {
-        return null;
     }
 
     @Override

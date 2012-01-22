@@ -16,7 +16,7 @@
 package org.kuali.kra.subaward.customdata;
 
 
-import org.kuali.rice.kns.rule.BusinessRule;
+import org.kuali.rice.krad.rules.rule.BusinessRule;
 
 /**
  * This class is the interface for SubAward Custom Data Business rules.
@@ -26,7 +26,7 @@ public interface SubAwardCustomDataRule extends BusinessRule {
     /**
      * This method...
      * @param subAwardCustomDataRuleEvent
-     * @return 
+     * @return
      */
     boolean processSaveSubAwardCustomDataBusinessRules(SubAwardSaveCustomDataRuleEvent subAwardSaveCustomDataRuleEvent);
 }

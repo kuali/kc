@@ -17,7 +17,6 @@ package org.kuali.kra.bo;
 
 import java.io.IOException;
 import java.util.Arrays;
-import java.util.LinkedHashMap;
 
 import org.apache.struts.upload.FormFile;
 import org.kuali.kra.SeparateAssociate;
@@ -28,26 +27,28 @@ import org.kuali.kra.service.KcAttachmentService;
  * Represents a Protocol Attachment File.
  */
 public class AttachmentFile extends SeparateAssociate implements KcAttachment {
-    
+
     /** the max file name length. length={@value}*/
     public static final int MAX_FILE_NAME_LENGTH = 150;
-    
+
     /** the max file type length. length={@value}*/
     public static final int MAX_FILE_TYPE_LENGTH = 250;
-    
+
     private static final long serialVersionUID = 8999619585664343780L;
-    
+
     private String name;
+
     private String type;
+
     private byte[] data;
-    
+
     /**
      * empty ctor to satisfy JavaBean convention.
      */
     public AttachmentFile() {
         super();
     }
-    
+
     /**
      * Convenience ctor to set the relevant properties of this class.
      * 
@@ -64,7 +65,7 @@ public class AttachmentFile extends SeparateAssociate implements KcAttachment {
         this.setType(type);
         this.setData(data);
     }
-    
+
     /**
      * factory method creating an instance from a {@link FormFile FormFile}.
      * <p>
@@ -82,21 +83,18 @@ public class AttachmentFile extends SeparateAssociate implements KcAttachment {
      * @throws CreateException if unable to create from FormFile.
      */
     public static final AttachmentFile createFromFormFile(FormFile formFile) {
-        
         if (formFile == null) {
             throw new IllegalArgumentException("the formFile is null");
         }
-        
         final String fName = removeFrontForLength(formFile.getFileName(), MAX_FILE_NAME_LENGTH);
         final String fType = removeFrontForLength(formFile.getContentType(), MAX_FILE_TYPE_LENGTH);
-        
         try {
             return new AttachmentFile(fName, fType, formFile.getFileData());
         } catch (IOException e) {
             throw new CreateException(e);
         }
     }
-    
+
     /**
      * Removes the start of String in order to meet the passed in length.
      * @param aString the string.
@@ -106,7 +104,6 @@ public class AttachmentFile extends SeparateAssociate implements KcAttachment {
     private static String removeFrontForLength(String aString, int aLength) {
         assert aString != null : "aString is null";
         assert aLength > 0 : "aLength is negative: " + aLength;
-        
         if (aString.length() > aLength) {
             StringBuilder tempString = new StringBuilder(aString);
             tempString.delete(0, tempString.length() - aLength);
@@ -114,7 +111,7 @@ public class AttachmentFile extends SeparateAssociate implements KcAttachment {
         }
         return aString;
     }
-    
+
     /**
      * Gets the Protocol Attachment File name.
      * @return the Protocol Attachment File name
@@ -122,7 +119,7 @@ public class AttachmentFile extends SeparateAssociate implements KcAttachment {
     public String getName() {
         return this.name;
     }
-    
+
     /**
      * Sets the Protocol Attachment File name.
      * @param name the Protocol Attachment File name
@@ -130,7 +127,7 @@ public class AttachmentFile extends SeparateAssociate implements KcAttachment {
     public void setName(String name) {
         this.name = name;
     }
-    
+
     /**
      * Gets the Protocol Attachment File type.
      * @return the Protocol Attachment File type
@@ -138,7 +135,7 @@ public class AttachmentFile extends SeparateAssociate implements KcAttachment {
     public String getType() {
         return this.type;
     }
-    
+
     /**
      * Sets the Protocol Attachment File type.
      * @param type the Protocol Attachment File type
@@ -146,7 +143,7 @@ public class AttachmentFile extends SeparateAssociate implements KcAttachment {
     public void setType(String type) {
         this.type = type;
     }
-    
+
     /**
      * Gets the Protocol Attachment File data.
      * @return the Protocol Attachment File data
@@ -154,7 +151,7 @@ public class AttachmentFile extends SeparateAssociate implements KcAttachment {
     public byte[] getData() {
         return (this.data == null) ? null : this.data.clone();
     }
-    
+
     /**
      * Sets the Protocol Attachment File data.
      * @param data the Protocol Attachment File data
@@ -162,16 +159,7 @@ public class AttachmentFile extends SeparateAssociate implements KcAttachment {
     public void setData(byte[] data) {
         this.data = (data == null) ? null : data.clone();
     }
-    
-    /** {@inheritDoc} */
-    @Override 
-    protected LinkedHashMap<String, Object> toStringMapper() {
-        LinkedHashMap<String, Object> hashMap = super.toStringMapper();
-        hashMap.put("name", this.getName());
-        hashMap.put("contentType", this.getType());
-        return hashMap;
-    }
-    
+
     /** {@inheritDoc} */
     @Override
     public int hashCode() {
@@ -182,7 +170,7 @@ public class AttachmentFile extends SeparateAssociate implements KcAttachment {
         result = prime * result + ((this.getType() == null) ? 0 : this.getType().hashCode());
         return result;
     }
-    
+
     /** {@inheritDoc} */
     @Override
     public boolean equals(Object obj) {
@@ -215,12 +203,12 @@ public class AttachmentFile extends SeparateAssociate implements KcAttachment {
         }
         return true;
     }
-    
+
     /**
      * Exception thrown when unable to create instance from static factory.
      */
     public static class CreateException extends RuntimeException {
-        
+
         /**
          * Comment for <code>serialVersionUID</code>
          */

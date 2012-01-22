@@ -29,20 +29,21 @@ import org.kuali.kra.irb.ProtocolDocument;
 import org.kuali.kra.personmasschange.bo.PersonMassChange;
 import org.kuali.kra.personmasschange.service.PersonMassChangeService;
 import org.kuali.kra.service.KcPersonService;
-import org.kuali.rice.kew.dto.DocumentRouteStatusChangeDTO;
-import org.kuali.rice.kew.exception.WorkflowException;
+import org.kuali.rice.kew.api.KewApiConstants;
+import org.kuali.rice.kew.api.exception.WorkflowException;
+import org.kuali.rice.kew.framework.postprocessor.DocumentRouteStatusChange;
 import org.kuali.rice.kew.routeheader.DocumentRouteHeaderValue;
 import org.kuali.rice.kew.routeheader.service.RouteHeaderService;
-import org.kuali.rice.kew.util.KEWConstants;
-import org.kuali.rice.kns.UserSession;
-import org.kuali.rice.kns.util.GlobalVariables;
+import org.kuali.rice.krad.UserSession;
+import org.kuali.rice.krad.util.GlobalVariables;
+
 
 public class PersonMassChangeDocument extends ResearchDocumentBase implements Serializable {
 
     public static final String DOCUMENT_TYPE_CODE = "PMC";
     
     private static final long serialVersionUID = 4841496352465715699L;
-    
+
     private static final Log LOG = LogFactory.getLog(ProtocolDocument.class);
 
     private List<PersonMassChange> personMassChangeList;
@@ -82,13 +83,13 @@ public class PersonMassChangeDocument extends ResearchDocumentBase implements Se
     }
     
     @Override
-    public void doRouteStatusChange(DocumentRouteStatusChangeDTO statusChangeEvent) {
+    public void doRouteStatusChange(DocumentRouteStatusChange statusChangeEvent) {
         super.doRouteStatusChange(statusChangeEvent);
         
         if (isFinal(statusChangeEvent)) {
             // Workaround to not save objects as asynchronous 'kr' user
             try {
-                Long routeHeaderId = getDocumentHeader().getWorkflowDocument().getRouteHeaderId();
+                String routeHeaderId = getDocumentHeader().getWorkflowDocument().getDocumentId();
                 DocumentRouteHeaderValue document = KraServiceLocator.getService(RouteHeaderService.class).getRouteHeader(routeHeaderId);
                 String principalId = document.getActionsTaken().get(document.getActionsTaken().size() - 1).getPrincipalId();
                 String asyncPrincipalId = GlobalVariables.getUserSession().getPrincipalId();
@@ -101,22 +102,21 @@ public class PersonMassChangeDocument extends ResearchDocumentBase implements Se
                 
                     GlobalVariables.setUserSession(new UserSession(asyncPrincipalName));
                 }
-            } catch (WorkflowException we) {
+            } catch (Exception we) {
                 LOG.error("Could not access route header id to perform Person Mass Change");
             }
         }
     }
     
-    private boolean isFinal(DocumentRouteStatusChangeDTO statusChangeEvent) {
-        return StringUtils.equals(KEWConstants.ROUTE_HEADER_FINAL_CD, statusChangeEvent.getNewRouteStatus());
+    private boolean isFinal(DocumentRouteStatusChange statusChangeEvent) {
+        return StringUtils.equals(KewApiConstants.ROUTE_HEADER_FINAL_CD, statusChangeEvent.getNewRouteStatus());
     }
     
     public boolean isProcessComplete() {
         boolean isComplete = false;
         
         if (getDocumentHeader().hasWorkflowDocument()) {
-            String docRouteStatus = getDocumentHeader().getWorkflowDocument().getRouteHeader().getDocRouteStatus();
-            if (KEWConstants.ROUTE_HEADER_FINAL_CD.equals(docRouteStatus)) {
+            if ( getDocumentHeader().getWorkflowDocument().isFinal()) {
                 isComplete = true;
             }
         }

@@ -13,10 +13,7 @@
  * See the License for the specific language governing permissions and
  * limitations under the License.
  */
-
 package org.kuali.kra.award.paymentreports;
-
-import java.util.LinkedHashMap;
 
 import org.kuali.kra.bo.KraPersistableBusinessObjectBase;
 
@@ -25,24 +22,27 @@ import org.kuali.kra.bo.KraPersistableBusinessObjectBase;
  * This class represents the ReportClass business object and is mapped to
  * REPORT_CLASS table.
  */
-public class ReportClass extends KraPersistableBusinessObjectBase { 
-    
+public class ReportClass extends KraPersistableBusinessObjectBase {
+
     /**
      * Comment for <code>serialVersionUID</code>
      */
     private static final long serialVersionUID = 2641812275218339806L;
-    private String reportClassCode; 
-    private String description; 
+
+    private String reportClassCode;
+
+    private String description;
+
     private boolean generateReportRequirements;
+
     private boolean active;
-    
+
     /**
      * Constructs a ReportClass.java
      */
-    public ReportClass() { 
+    public ReportClass() {
+    }
 
-    } 
-    
     /**
      * 
      * @return
@@ -89,19 +89,6 @@ public class ReportClass extends KraPersistableBusinessObjectBase {
      */
     public void setGenerateReportRequirements(boolean generateReportRequirements) {
         this.generateReportRequirements = generateReportRequirements;
-    }   
-
-    /**
-     * 
-     * @see org.kuali.rice.kns.bo.BusinessObjectBase#toStringMapper()
-     */
-    @Override 
-    protected LinkedHashMap<String,Object> toStringMapper() {
-        LinkedHashMap<String,Object> hashMap = new LinkedHashMap<String,Object>();
-        hashMap.put("reportClassCode", getReportClassCode());
-        hashMap.put("description", getDescription());
-        hashMap.put("generateReportRequirements", getGenerateReportRequirements());
-        return hashMap;
     }
 
     /**
@@ -120,32 +107,32 @@ public class ReportClass extends KraPersistableBusinessObjectBase {
      */
     @Override
     public boolean equals(Object obj) {
-        if (this == obj){
+        if (this == obj) {
             return true;
-        }   
-        if (obj == null){
+        }
+        if (obj == null) {
             return false;
-        }   
-        if (!(obj instanceof ReportClass)){
+        }
+        if (!(obj instanceof ReportClass)) {
             return false;
         }
         return equals((ReportClass) obj);
     }
-    
+
     /**
      * 
      * Convenience method for equality of ReportClass
      * @param reportClass
      * @return
      */
-    public boolean equals(ReportClass reportClass){
+    public boolean equals(ReportClass reportClass) {
         if (reportClassCode == null) {
-            if (reportClass.reportClassCode != null){
+            if (reportClass.reportClassCode != null) {
                 return false;
-            }   
-        }else if (!reportClassCode.equals(reportClass.reportClassCode)){
+            }
+        } else if (!reportClassCode.equals(reportClass.reportClassCode)) {
             return false;
-        }   
+        }
         return true;
     }
 
@@ -156,7 +143,4 @@ public class ReportClass extends KraPersistableBusinessObjectBase {
     public void setActive(boolean active) {
         this.active = active;
     }
-    
-    
-    
 }

@@ -24,8 +24,8 @@ import org.kuali.rice.kew.engine.RouteContext;
 import org.kuali.rice.kew.engine.RouteHelper;
 import org.kuali.rice.kew.engine.node.SplitNode;
 import org.kuali.rice.kew.engine.node.SplitResult;
-import org.kuali.rice.kns.document.Document;
-import org.kuali.rice.kns.service.DocumentService;
+import org.kuali.rice.krad.document.Document;
+import org.kuali.rice.krad.service.DocumentService;
 
 /**
  * This code was taken directly from KFS SimpleBooleanSplitNode
@@ -46,7 +46,7 @@ public class SimpleBooleanSplitNode implements SplitNode {
      */
     
     public SplitResult process(RouteContext context, RouteHelper helper ) throws Exception {
-        String documentID = context.getDocument().getRouteHeaderId().toString();
+        String documentID = context.getDocument().getDocumentId().toString();
         String routeNodeName = context.getNodeInstance().getRouteNode().getRouteNodeName();
         if( LOG.isDebugEnabled() )
             LOG.debug(String.format("Entering routeNode:%s for documentId:%s",routeNodeName,documentID ));

@@ -16,7 +16,7 @@
 package org.kuali.kra.web.struts.action;
 
 import static org.apache.commons.lang.StringUtils.isNotBlank;
-import static org.kuali.rice.kns.util.KNSConstants.QUESTION_INST_ATTRIBUTE_NAME;
+import static org.kuali.rice.krad.util.KRADConstants.QUESTION_INST_ATTRIBUTE_NAME;
 
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;

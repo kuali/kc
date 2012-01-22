@@ -22,157 +22,169 @@ import java.util.ArrayList;
 import java.util.Calendar;
 import java.util.Comparator;
 import java.util.GregorianCalendar;
-import java.util.LinkedHashMap;
 import java.util.List;
 
 import org.kuali.kra.budget.BudgetDecimal;
 import org.kuali.kra.budget.core.Budget;
 import org.kuali.kra.budget.core.BudgetAssociate;
 import org.kuali.kra.budget.nonpersonnel.BudgetLineItem;
-import org.kuali.kra.budget.personnel.BudgetPersonnelDetails;
 import org.kuali.kra.infrastructure.DeepCopyIgnore;
 import org.kuali.kra.proposaldevelopment.budget.modular.BudgetModular;
-import org.kuali.rice.kns.bo.PersistableBusinessObject;
-import org.kuali.rice.kns.util.DateUtils;
-import org.kuali.rice.kns.util.ObjectUtils;
+import org.kuali.kra.util.DateUtils;
 
 public class BudgetPeriod extends BudgetAssociate {
+
     private static final long serialVersionUID = -7318331486891820078L;
+
     @DeepCopyIgnore
     private Long budgetPeriodId;
-    
+
     private Integer budgetPeriod;
-	private String comments;
-	private BudgetDecimal costSharingAmount;
-	private Date endDate;
-	private Date startDate;
-	private BudgetDecimal totalCost;
-	private BudgetDecimal totalCostLimit;
-	private BudgetDecimal totalDirectCost;
-	private BudgetDecimal totalIndirectCost;
-	private BudgetDecimal underrecoveryAmount;
-	private List<BudgetLineItem> budgetLineItems;
-	// expences total for 'totals' page
-	// if 'totalCost' is intended for 'totals' page, then this is not needed
+
+    private String comments;
+
+    private BudgetDecimal costSharingAmount;
+
+    private Date endDate;
+
+    private Date startDate;
+
+    private BudgetDecimal totalCost;
+
+    private BudgetDecimal totalCostLimit;
+
+    private BudgetDecimal totalDirectCost;
+
+    private BudgetDecimal totalIndirectCost;
+
+    private BudgetDecimal underrecoveryAmount;
+
+    private List<BudgetLineItem> budgetLineItems;
+
+    // expences total for 'totals' page 
+    // if 'totalCost' is intended for 'totals' page, then this is not needed 
     private BudgetDecimal expenseTotal;
+
     private Date oldEndDate;
+
     private Date oldStartDate;
-    
+
     private BudgetModular budgetModular;
+
     private Budget budget;
-    //this is for lookup from award budget
+
+    //this is for lookup from award budget 
     private String budgetParentId;
+
     private String institutionalProposalNumber;
+
     private Integer institutionalProposalVersion;
-    
+
     private BudgetDecimal directCostLimit;
-    
-    // This is a BO and hence will not be shared between threads. dateFormatter here is thread safe.
+
+    // This is a BO and hence will not be shared between threads. dateFormatter here is thread safe. 
     private SimpleDateFormat dateFormatter = new SimpleDateFormat("MM/dd/yyyy");
 
-	public BudgetPeriod(){
-	    budgetLineItems = new ArrayList<BudgetLineItem>();
-	}
-	
-	/**
+    public BudgetPeriod() {
+        budgetLineItems = new ArrayList<BudgetLineItem>();
+    }
+
+    /**
 	 * Factory method for creating a BudgetPeriodDateComparator
 	 * @return
 	 */
-	public static Comparator<BudgetPeriod> getBudgetPeriodDateComparator() {
+    public static Comparator<BudgetPeriod> getBudgetPeriodDateComparator() {
         return new BudgetPeriodDateComparator();
     }
-	
-	public Integer getBudgetPeriod() {
-	    return budgetPeriod;
-	}
-	
-	public String getLabel() {	    
-        return new StringBuilder()
-		            .append(budgetPeriod)
-		            .append(": ")
-		            .append(getDateRangeLabel())
-		            .toString();
-	}
 
-	public String getDateRangeLabel() {
-	    return new StringBuilder().append(dateFormatter.format(startDate)).append(" - ").append(dateFormatter.format(endDate)).toString();
-	}
-	
-	public void setBudgetPeriod(Integer budgetPeriod) {
-		this.budgetPeriod = budgetPeriod;
-	}
+    public Integer getBudgetPeriod() {
+        return budgetPeriod;
+    }
 
-	public String getComments() {
-		return comments;
-	}
+    public String getLabel() {
+        return new StringBuilder().append(budgetPeriod).append(": ").append(getDateRangeLabel()).toString();
+    }
 
-	public void setComments(String comments) {
-		this.comments = comments;
-	}
+    public String getDateRangeLabel() {
+        return new StringBuilder().append(dateFormatter.format(startDate)).append(" - ").append(dateFormatter.format(endDate)).toString();
+    }
 
-	public BudgetDecimal getCostSharingAmount() {
-		return costSharingAmount == null ?  BudgetDecimal.ZERO : costSharingAmount;
-	}
+    public void setBudgetPeriod(Integer budgetPeriod) {
+        this.budgetPeriod = budgetPeriod;
+    }
 
-	public void setCostSharingAmount(BudgetDecimal costSharingAmount) {
-		this.costSharingAmount = costSharingAmount;
-	}
+    public String getComments() {
+        return comments;
+    }
 
-	public Date getEndDate() {
-		return endDate;
-	}
+    public void setComments(String comments) {
+        this.comments = comments;
+    }
 
-	public void setEndDate(Date endDate) {
-		this.endDate = endDate;
-	}
+    public BudgetDecimal getCostSharingAmount() {
+        return costSharingAmount == null ? BudgetDecimal.ZERO : costSharingAmount;
+    }
 
-	public Date getStartDate() {
-		return startDate; 
-	}
+    public void setCostSharingAmount(BudgetDecimal costSharingAmount) {
+        this.costSharingAmount = costSharingAmount;
+    }
 
-	public void setStartDate(Date startDate) {
-		this.startDate = startDate;
-	}
+    public Date getEndDate() {
+        return endDate;
+    }
 
-	public BudgetDecimal getTotalCost() {
-		return totalCost == null ?  new BudgetDecimal(0) : totalCost;
-	}
+    public void setEndDate(Date endDate) {
+        this.endDate = endDate;
+    }
 
-	public void setTotalCost(BudgetDecimal totalCost) {
-		this.totalCost = totalCost;
-	}
+    public Date getStartDate() {
+        return startDate;
+    }
 
-	public BudgetDecimal getTotalCostLimit() {
-		return totalCostLimit == null ?  new BudgetDecimal(0) : totalCostLimit;
-	}
+    public void setStartDate(Date startDate) {
+        this.startDate = startDate;
+    }
 
-	public void setTotalCostLimit(BudgetDecimal totalCostLimit) {
-		this.totalCostLimit = totalCostLimit;
-	}
+    public BudgetDecimal getTotalCost() {
+        return totalCost == null ? new BudgetDecimal(0) : totalCost;
+    }
 
-	public BudgetDecimal getTotalDirectCost() {
-		return totalDirectCost == null ?  new BudgetDecimal(0) : totalDirectCost;
-	}
+    public void setTotalCost(BudgetDecimal totalCost) {
+        this.totalCost = totalCost;
+    }
 
-	public void setTotalDirectCost(BudgetDecimal totalDirectCost) {
-		this.totalDirectCost = totalDirectCost;
-	}
+    public BudgetDecimal getTotalCostLimit() {
+        return totalCostLimit == null ? new BudgetDecimal(0) : totalCostLimit;
+    }
 
-	public BudgetDecimal getTotalIndirectCost() {
-		return totalIndirectCost == null ?  new BudgetDecimal(0) : totalIndirectCost;
-	}
+    public void setTotalCostLimit(BudgetDecimal totalCostLimit) {
+        this.totalCostLimit = totalCostLimit;
+    }
 
-	public void setTotalIndirectCost(BudgetDecimal totalIndirectCost) {
-		this.totalIndirectCost = totalIndirectCost;
-	}
+    public BudgetDecimal getTotalDirectCost() {
+        return totalDirectCost == null ? new BudgetDecimal(0) : totalDirectCost;
+    }
 
-	public BudgetDecimal getUnderrecoveryAmount() {
-		return underrecoveryAmount == null ?  new BudgetDecimal(0) : underrecoveryAmount;
-	}
+    public void setTotalDirectCost(BudgetDecimal totalDirectCost) {
+        this.totalDirectCost = totalDirectCost;
+    }
 
-	public void setUnderrecoveryAmount(BudgetDecimal underrecoveryAmount) {
-		this.underrecoveryAmount = underrecoveryAmount;
-	}
+    public BudgetDecimal getTotalIndirectCost() {
+        return totalIndirectCost == null ? new BudgetDecimal(0) : totalIndirectCost;
+    }
+
+    public void setTotalIndirectCost(BudgetDecimal totalIndirectCost) {
+        this.totalIndirectCost = totalIndirectCost;
+    }
+
+    public BudgetDecimal getUnderrecoveryAmount() {
+        return underrecoveryAmount == null ? new BudgetDecimal(0) : underrecoveryAmount;
+    }
+
+    public void setUnderrecoveryAmount(BudgetDecimal underrecoveryAmount) {
+        this.underrecoveryAmount = underrecoveryAmount;
+    }
+
     /**
      * Gets BudgetLineItem from budgetLineItems list at index.
      * 
@@ -185,8 +197,8 @@ public class BudgetPeriod extends BudgetAssociate {
         }
         return getBudgetLineItems().get(index);
     }
-    
-	public BudgetLineItem getNewBudgetLineItem() {
+
+    public BudgetLineItem getNewBudgetLineItem() {
         return new BudgetLineItem();
     }
 
@@ -197,23 +209,6 @@ public class BudgetPeriod extends BudgetAssociate {
     public void setBudgetModular(BudgetModular budgetModular) {
         this.budgetModular = budgetModular;
     }
-
-    @SuppressWarnings("unchecked")
-    @Override 
-	protected LinkedHashMap toStringMapper() {
-        LinkedHashMap<String, Object> hashMap = super.toStringMapper();
-		hashMap.put("budgetPeriod", getBudgetPeriod());
-		hashMap.put("comments", getComments());
-		hashMap.put("costSharingAmount", getCostSharingAmount());
-		hashMap.put("endDate", getEndDate());
-		hashMap.put("startDate", getStartDate());
-		hashMap.put("totalCost", getTotalCost());
-		hashMap.put("totalCostLimit", getTotalCostLimit());
-		hashMap.put("totalDirectCost", getTotalDirectCost());
-		hashMap.put("totalIndirectCost", getTotalIndirectCost());
-		hashMap.put("underrecoveryAmount", getUnderrecoveryAmount());
-		return hashMap;
-	}
 
     /**
      * Gets the budgetLineItems attribute. 
@@ -236,7 +231,7 @@ public class BudgetPeriod extends BudgetAssociate {
      * @return
      */
     public boolean isReadOnly() {
-        //return (budgetPeriod != null && budgetPeriod == 1) || budgetLineItems.size() > 0;
+        //return (budgetPeriod != null && budgetPeriod == 1) || budgetLineItems.size() > 0; 
         return budgetLineItems != null && budgetLineItems.size() > 0;
     }
 
@@ -249,49 +244,49 @@ public class BudgetPeriod extends BudgetAssociate {
     }
 
     public int calculateFiscalYear(Date fiscalYearStartDateTime) {
-        if(startDate == null || fiscalYearStartDateTime == null) { return 0; }
-
+        if (startDate == null || fiscalYearStartDateTime == null) {
+            return 0;
+        }
         Date fiscalYearStartDate = DateUtils.clearTimeFields(fiscalYearStartDateTime);
-        
         Calendar calendar = GregorianCalendar.getInstance();
         calendar.setTime(startDate);
         int startDateYear = calendar.get(Calendar.YEAR);
-        
         calendar.setTime(fiscalYearStartDate);
         calendar.set(Calendar.YEAR, startDateYear);
         Date startDateYearFiscalYearBeginning = new Date(calendar.getTimeInMillis());
-
         return startDate.compareTo(startDateYearFiscalYearBeginning) < 0 ? startDateYear : ++startDateYear;
     }
-    
+
     public String getDateRange() {
         StringBuffer dateRange = new StringBuffer();
-        if (this.getStartDate()!=null && this.getEndDate()!=null) {
+        if (this.getStartDate() != null && this.getEndDate() != null) {
             dateRange.append(getDateRangeLabel());
         }
         return dateRange.toString();
     }
-    
+
     /**
      * This class compares two BudgetPeriods to determine which should be considered earlier.
      */
     private static class BudgetPeriodDateComparator implements Comparator<BudgetPeriod>, Serializable {
 
         private static final long serialVersionUID = 201595688750841114L;
-        private final static int FIRST_EQUALS_SECOND = 0;
-        private final static int FIRST_LESS_THAN_SECOND = -1;
-        
+
+        private static final int FIRST_EQUALS_SECOND = 0;
+
+        private static final int FIRST_LESS_THAN_SECOND = -1;
+
         public int compare(BudgetPeriod bp1, BudgetPeriod bp2) {
             int result = compareDates(bp1.getStartDate(), bp2.getStartDate());
-            if(result == FIRST_EQUALS_SECOND) {
+            if (result == FIRST_EQUALS_SECOND) {
                 result = compareDates(bp1.getEndDate(), bp2.getEndDate());
             }
             return result;
         }
-        
+
         private int compareDates(Date d1, Date d2) {
-            if(d1 != null) {
-                return d1.compareTo(d2);                
+            if (d1 != null) {
+                return d1.compareTo(d2);
             } else {
                 return (d2 != null) ? FIRST_LESS_THAN_SECOND : FIRST_EQUALS_SECOND;
             }
@@ -321,76 +316,65 @@ public class BudgetPeriod extends BudgetAssociate {
     public void setBudgetPeriodId(Long budgetPeriodId) {
         this.budgetPeriodId = budgetPeriodId;
     }
-    
-        
+
     /**
      * Gets the sum of the Total Underreovery Amount for all line items.
      * @param lineItems the budget line items
      * @return the amount.
      */
     public final BudgetDecimal getSumUnderreoveryAmountFromLineItems() {
-        
         BudgetDecimal amount = BudgetDecimal.ZERO;
         for (final BudgetLineItem lineItem : this.getBudgetLineItems()) {
             amount = amount.add(lineItem.getUnderrecoveryAmount());
         }
-        
         return amount;
     }
-    
+
     /**
      * Gets the sum of the CostSharing Amount for all line items.
      * @return the amount
      */
     public final BudgetDecimal getSumCostSharingAmountFromLineItems() {
-        
         BudgetDecimal amount = BudgetDecimal.ZERO;
         for (final BudgetLineItem lineItem : this.getBudgetLineItems()) {
             amount = amount.add(lineItem.getCostSharingAmount());
         }
-        
         return amount;
     }
-    
+
     /**
      * Gets the sum of the Total CostSharing Amount for all line items.
      * @return the amount
      */
     public final BudgetDecimal getSumTotalCostSharingAmountFromLineItems() {
-        
         BudgetDecimal amount = BudgetDecimal.ZERO;
         for (final BudgetLineItem lineItem : this.getBudgetLineItems()) {
             amount = amount.add(lineItem.getTotalCostSharingAmount());
         }
-        
         return amount;
     }
-    
+
     /**
      * Gets the sum of the Direct Cost Amount for all line items.
      * @return the amount
      */
     public final BudgetDecimal getSumDirectCostAmountFromLineItems() {
-        
         BudgetDecimal amount = BudgetDecimal.ZERO;
         for (final BudgetLineItem lineItem : this.getBudgetLineItems()) {
             amount = amount.add(lineItem.getDirectCost());
         }
-        
         return amount;
     }
-    
+
     /**
      * Gets the sum of the Indirect Cost Amount for all line items.
      * @return the amount
      */
     public final BudgetDecimal getSumIndirectCostAmountFromLineItems() {
-        
         BudgetDecimal amount = BudgetDecimal.ZERO;
         for (final BudgetLineItem lineItem : this.getBudgetLineItems()) {
             amount = amount.add(lineItem.getIndirectCost());
         }
-        
         return amount;
     }
 
@@ -399,9 +383,7 @@ public class BudgetPeriod extends BudgetAssociate {
      * @return the amount
      */
     public final BudgetDecimal getSumTotalCostAmountFromLineItems() {
-
-        return this.getSumDirectCostAmountFromLineItems().add(
-            this.getSumIndirectCostAmountFromLineItems());
+        return this.getSumDirectCostAmountFromLineItems().add(this.getSumIndirectCostAmountFromLineItems());
     }
 
     /**
@@ -469,6 +451,5 @@ public class BudgetPeriod extends BudgetAssociate {
     }
 
     public void populateSummaryCalcAmounts() {
-        //dummy method to support populating sumamry calc amounts in award budget. This dNot applied to proposal budget
     }
 }

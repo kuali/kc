@@ -33,9 +33,9 @@ import org.kuali.kra.committee.rule.event.CommitteeScheduleEventBase.ErrorType;
 import org.kuali.kra.committee.web.struts.form.schedule.ScheduleData;
 import org.kuali.kra.committee.web.struts.form.schedule.Time12HrFmt;
 import org.kuali.kra.infrastructure.Constants;
-import org.kuali.kra.infrastructure.KeyConstants;
-import org.kuali.rice.kns.util.ErrorMap;
-import org.kuali.rice.kns.util.GlobalVariables;
+import org.kuali.rice.kns.util.KNSGlobalVariables;
+import org.kuali.rice.krad.util.GlobalVariables;
+import org.kuali.rice.krad.util.MessageMap;
 
 public class CommitteeScheduleTimeRuleTest {
     
@@ -62,8 +62,8 @@ public class CommitteeScheduleTimeRuleTest {
     @SuppressWarnings("unchecked")
     @Before
     public void setUp(){
-        GlobalVariables.setErrorMap(new ErrorMap());
-        GlobalVariables.setAuditErrorMap(new HashMap());  
+        GlobalVariables.setMessageMap(new MessageMap());
+        KNSGlobalVariables.setAuditErrorMap(new HashMap());  
     }
     
     /**

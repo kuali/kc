@@ -22,9 +22,9 @@ import org.apache.struts.action.ActionForm;
 import org.apache.struts.action.ActionForward;
 import org.apache.struts.action.ActionMapping;
 import org.kuali.kra.infrastructure.Constants;
-import org.kuali.rice.kns.document.Document;
-import org.kuali.rice.kns.util.GlobalVariables;
-import org.kuali.rice.kns.util.KNSConstants;
+import org.kuali.rice.krad.document.Document;
+import org.kuali.rice.krad.util.GlobalVariables;
+import org.kuali.rice.krad.util.KRADConstants;
 
 
 /**
@@ -54,7 +54,7 @@ public class KraHoldingPageAction extends AbstractHoldingPageAction {
     @Override
     public ActionForward execute(ActionMapping mapping, ActionForm form, HttpServletRequest request, HttpServletResponse response)
             throws Exception {
-
+        
         ActionForward forward = super.execute(mapping, form, request, response);
         // check if there is an alternate doc id key set in the user session
         String alternateDocIdSessionKey = (String) GlobalVariables.getUserSession().retrieveObject(
@@ -66,7 +66,7 @@ public class KraHoldingPageAction extends AbstractHoldingPageAction {
         }
         else {
             // get the id from the top level http session
-            documentId = request.getSession().getAttribute(KNSConstants.DOCUMENT_HTTP_SESSION_KEY);
+            documentId = request.getSession().getAttribute(KRADConstants.DOCUMENT_HTTP_SESSION_KEY);
         }
         Document document = getDocumentService().getByDocumentHeaderId(documentId.toString());
         // check if the user clicked the 'Return to Portal' button
@@ -81,7 +81,7 @@ public class KraHoldingPageAction extends AbstractHoldingPageAction {
             cleanupUserSession(alternateDocIdSessionKey);
             forward = new ActionForward(backLocation, true);
         }
-
+        
         return forward;
     }
 

@@ -21,7 +21,8 @@ import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
 
-import org.kuali.rice.core.util.KeyLabelPair;
+import org.kuali.rice.core.api.util.ConcreteKeyValue;
+import org.kuali.rice.core.api.util.KeyValue;
 
 /**
  * 
@@ -33,24 +34,24 @@ public class ProtocolFinalActionTypeValuesFinder extends IrbActionsKeyValuesBase
     private static final String DESCRIPTION_FIELD = "DESCRIPTION";
 
     /**
-     * Build the list of KeyLabelPairs using the key (keyAttributeName) and
+     * Build the list of KeyValues using the key (keyAttributeName) and
      * label (labelAttributeName) of the list of all business objects found
      * for the BO class specified along with a "no action" entry.
      * 
      * {@inheritDoc}
      */
     @SuppressWarnings("unchecked")
-    public List<KeyLabelPair> getKeyValues() {
-        List<KeyLabelPair> keyValues = new ArrayList<KeyLabelPair>();
+    public List<KeyValue> getKeyValues() {
+        List<KeyValue> keyValues = new ArrayList<KeyValue>();
 
         Map<String, Object> fieldValues = new HashMap<String, Object>();
         fieldValues.put(FINAL_ACTION_FOR_BATCH_CORRESP_FIELD, "Y");
         Collection<ProtocolActionType> protocolActionTypes = 
             this.getBusinessObjectService().findMatchingOrderBy(ProtocolActionType.class, fieldValues, DESCRIPTION_FIELD, true);
         
-        keyValues.add(new KeyLabelPair("  ", "no action"));
+        keyValues.add(new ConcreteKeyValue("  ", "no action"));
         for (ProtocolActionType protocolActionType : protocolActionTypes) {
-            keyValues.add(new KeyLabelPair(protocolActionType.getProtocolActionTypeCode(), protocolActionType.getDescription()));
+            keyValues.add(new ConcreteKeyValue(protocolActionType.getProtocolActionTypeCode(), protocolActionType.getDescription()));
         }
         
         return keyValues;

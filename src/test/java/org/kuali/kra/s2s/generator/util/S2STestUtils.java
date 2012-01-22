@@ -25,14 +25,14 @@ import org.kuali.kra.budget.core.Budget;
 import org.kuali.kra.budget.document.BudgetDocument;
 import org.kuali.kra.budget.parameters.BudgetPeriod;
 import org.kuali.kra.proposaldevelopment.document.ProposalDevelopmentDocument;
-import org.kuali.rice.kns.service.DocumentService;
-import org.kuali.rice.kns.service.KNSServiceLocator;
+import org.kuali.rice.krad.service.DocumentService;
+import org.kuali.rice.krad.service.KRADServiceLocatorWeb;
 
 public class S2STestUtils {
     public static final String TEST_OPPORTUNITY_ID = "MOH-015";
     public static final String ATT_DIR_PATH = "src/test/resources/testAttachments/";
     public BudgetDocument createBudgetDocument(ProposalDevelopmentDocument pdDoc) throws Exception {
-        DocumentService documentService = KNSServiceLocator.getDocumentService();
+        DocumentService documentService = KRADServiceLocatorWeb.getDocumentService();
         Date requestedStartDateInitial = new Date(System.currentTimeMillis());
         Date requestedEndDateInitial = new Date(System.currentTimeMillis());
         setBaseDocumentFields(pdDoc, "ProposalDevelopmentDocumentTest test doc", "005770", "project title",

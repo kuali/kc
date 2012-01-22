@@ -49,11 +49,11 @@ import org.kuali.kra.award.paymentreports.paymentschedule.AwardPaymentSchedule;
 import org.kuali.kra.bo.SponsorTerm;
 import org.kuali.kra.infrastructure.Constants;
 import org.kuali.kra.infrastructure.KraServiceLocator;
-import org.kuali.rice.kns.bo.PersistableBusinessObject;
 import org.kuali.rice.kns.service.KNSServiceLocator;
-import org.kuali.rice.kns.service.PersistenceService;
-import org.kuali.rice.kns.util.GlobalVariables;
-import org.kuali.rice.kns.util.KNSConstants;
+import org.kuali.rice.krad.bo.PersistableBusinessObject;
+import org.kuali.rice.krad.service.PersistenceService;
+import org.kuali.rice.krad.util.GlobalVariables;
+import org.kuali.rice.krad.util.KRADConstants;
 
 /**
  * 
@@ -202,8 +202,8 @@ public class AwardPaymentReportsAndTermsAction extends AwardAction {
         
         refreshAwardReportTermRecipients(awardForm, awardDocument);
         
-        String lookupResultsBOClassName = request.getParameter(KNSConstants.LOOKUP_RESULTS_BO_CLASS_NAME);
-        String lookupResultsSequenceNumber = request.getParameter(KNSConstants.LOOKUP_RESULTS_SEQUENCE_NUMBER);
+        String lookupResultsBOClassName = request.getParameter(KRADConstants.LOOKUP_RESULTS_BO_CLASS_NAME);
+        String lookupResultsSequenceNumber = request.getParameter(KRADConstants.LOOKUP_RESULTS_SEQUENCE_NUMBER);
         awardForm.setLookupResultsBOClassName(lookupResultsBOClassName);
         awardForm.setLookupResultsSequenceNumber(lookupResultsSequenceNumber);        
         List<AwardSyncPendingChangeBean> pendingChanges = new ArrayList<AwardSyncPendingChangeBean>();
@@ -324,7 +324,7 @@ public class AwardPaymentReportsAndTermsAction extends AwardAction {
     
     protected int getSelectedAwardTermRecord(HttpServletRequest request) {
         int selectedLine = -1;
-        String parameterName = (String) request.getAttribute(KNSConstants.METHOD_TO_CALL_ATTRIBUTE);
+        String parameterName = (String) request.getAttribute(KRADConstants.METHOD_TO_CALL_ATTRIBUTE);
         if (StringUtils.isNotBlank(parameterName)) {
             String lineNumber = StringUtils.substringBetween(parameterName, ".awardReportTermItems", ".");
             selectedLine = Integer.parseInt(lineNumber);
@@ -486,7 +486,7 @@ public class AwardPaymentReportsAndTermsAction extends AwardAction {
      */
     protected String getReportClass(HttpServletRequest request) {
         int reportClass = -1;
-        String parameterName = (String) request.getAttribute(KNSConstants.METHOD_TO_CALL_ATTRIBUTE);
+        String parameterName = (String) request.getAttribute(KRADConstants.METHOD_TO_CALL_ATTRIBUTE);
         if (StringUtils.isNotBlank(parameterName)) {
             String reportClassString = StringUtils.substringBetween(parameterName, ".reportClass", PERIOD);
             reportClass = Integer.parseInt(reportClassString);
@@ -505,7 +505,7 @@ public class AwardPaymentReportsAndTermsAction extends AwardAction {
      */
     protected int getReportClassCodeIndex(HttpServletRequest request) {
         int reportClassIndex = -1;
-        String parameterName = (String) request.getAttribute(KNSConstants.METHOD_TO_CALL_ATTRIBUTE);
+        String parameterName = (String) request.getAttribute(KRADConstants.METHOD_TO_CALL_ATTRIBUTE);
         if (StringUtils.isNotBlank(parameterName)) {
             String reportClassIndexString = StringUtils.substringBetween(
                     parameterName, ".reportClassIndex", PERIOD);
@@ -525,7 +525,7 @@ public class AwardPaymentReportsAndTermsAction extends AwardAction {
      */
     protected int getAwardReportTermIndex(HttpServletRequest request) {
         int awardReportTermIndex = -1;
-        String parameterName = (String) request.getAttribute(KNSConstants.METHOD_TO_CALL_ATTRIBUTE);
+        String parameterName = (String) request.getAttribute(KRADConstants.METHOD_TO_CALL_ATTRIBUTE);
         if (StringUtils.isNotBlank(parameterName)) {
             String awardReportTermIndexString = StringUtils.substringBetween(parameterName, ".awardReportTerm", PERIOD);
             awardReportTermIndex= Integer.parseInt(awardReportTermIndexString);
@@ -542,7 +542,7 @@ public class AwardPaymentReportsAndTermsAction extends AwardAction {
      */    
     protected int getRecipientSize(HttpServletRequest request) {
         int recipientSize = -1;
-        String parameterName = (String) request.getAttribute(KNSConstants.METHOD_TO_CALL_ATTRIBUTE);
+        String parameterName = (String) request.getAttribute(KRADConstants.METHOD_TO_CALL_ATTRIBUTE);
         if (StringUtils.isNotBlank(parameterName)) {
             String recipientSizeString = StringUtils.substringBetween(parameterName, 
                                                                         ".recipientSize", PERIOD);
@@ -649,7 +649,7 @@ public class AwardPaymentReportsAndTermsAction extends AwardAction {
             return mapping.findForward(Constants.MAPPING_AWARD_BASIC);
         }
     }
-    
+
     private static void printRequest(HttpServletRequest request) {
         Map paramMap = request.getParameterMap();
         Iterator keys = paramMap.keySet().iterator();

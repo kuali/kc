@@ -15,30 +15,31 @@
  */
 package org.kuali.kra.bo;
 
-import java.util.LinkedHashMap;
-
 import org.kuali.kra.award.home.ContactRole;
 
 /**
  * This class models the UnitAdministratorType
  */
 public class UnitAdministratorType extends KraPersistableBusinessObjectBase implements ContactRole {
-    
+
     public static final String OSP_ADMINISTRATOR_TYPE_CODE = "2";
-    
+
     /**
      * Comment for <code>serialVersionUID</code>
      */
     private static final long serialVersionUID = -8872381393239718701L;
-    
+
     private String unitAdministratorTypeCode;
+
     private String description;
+
     private Boolean multiplesFlag;
+
     private String defaultGroupFlag;
 
     private UnitContactType unitContactType;
 
-    public UnitAdministratorType(){
+    public UnitAdministratorType() {
         super();
     }
 
@@ -58,15 +59,6 @@ public class UnitAdministratorType extends KraPersistableBusinessObjectBase impl
         this.description = description;
     }
 
-
-    @Override 
-    protected LinkedHashMap<String, Object> toStringMapper() {
-        LinkedHashMap<String, Object> hashMap = new LinkedHashMap<String, Object>();
-        hashMap.put("unitAdministratorTypeCode", getUnitAdministratorTypeCode());
-        hashMap.put("description", getDescription());
-        return hashMap;
-    }
-
     public String getRoleCode() {
         return getUnitAdministratorTypeCode();
     }
@@ -74,12 +66,12 @@ public class UnitAdministratorType extends KraPersistableBusinessObjectBase impl
     public String getRoleDescription() {
         return getDescription();
     }
-    
+
     /**
      * @return
      */
-    public UnitContactType getUnitContactType() { 
-        return unitContactType; 
+    public UnitContactType getUnitContactType() {
+        return unitContactType;
     }
 
     /**
@@ -120,5 +112,4 @@ public class UnitAdministratorType extends KraPersistableBusinessObjectBase impl
     public void setDefaultGroupFlag(String defaultGroupFlag) {
         this.defaultGroupFlag = defaultGroupFlag;
     }
-
 }

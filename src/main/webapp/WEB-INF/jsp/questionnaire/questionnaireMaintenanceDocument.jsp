@@ -82,13 +82,14 @@
         </div>
       </kul:tab>
     </c:forEach>
+    <%-- this is questionnaireEditor.jsp --%>
     <c:if test="${!empty KualiForm.additionalSectionsFile}">
         <jsp:include page="${KualiForm.additionalSectionsFile}" />
     </c:if>
     <%-- Put the footer on the page. --%>
-    <c:if test="${KualiForm.document.newMaintainableObject.boNotesEnabled}">
-        <kul:notes notesBo="${KualiForm.document.documentBusinessObject.boNotes}" noteType="${Constants.NoteTypeEnum.BUSINESS_OBJECT_NOTE_TYPE}" displayTopicFieldInNotes="${_displayTopicFieldInNotes}"/>
-    </c:if>
+   <%-- <c:if test="${KualiForm.document.newMaintainableObject.boNotesEnabled}">
+    <kul:notes displayTopicFieldInNotes="${_displayTopicFieldInNotes}"/>
+    </c:if>--%>
     <c:if test="${!KualiForm.document.newMaintainableObject.boNotesEnabled}">
         <kul:notes displayTopicFieldInNotes="${displayTopicFieldInNotes}"/>
     </c:if>

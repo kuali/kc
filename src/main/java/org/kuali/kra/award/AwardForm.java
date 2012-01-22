@@ -78,19 +78,20 @@ import org.kuali.kra.service.VersionHistoryService;
 import org.kuali.kra.web.struts.form.Auditable;
 import org.kuali.kra.web.struts.form.BudgetVersionFormBase;
 import org.kuali.kra.web.struts.form.MultiLookupFormBase;
-import org.kuali.rice.core.util.KeyLabelPair;
-import org.kuali.rice.kew.exception.WorkflowException;
-import org.kuali.rice.kew.util.KEWConstants;
+import org.kuali.rice.core.api.CoreApiServiceLocator;
+import org.kuali.rice.core.api.config.property.ConfigurationService;
+import org.kuali.rice.core.api.util.ConcreteKeyValue;
+import org.kuali.rice.coreservice.framework.parameter.ParameterConstants;
+import org.kuali.rice.coreservice.framework.parameter.ParameterService;
+import org.kuali.rice.kew.api.KewApiConstants;
+import org.kuali.rice.kew.api.WorkflowDocument;
+import org.kuali.rice.kew.api.exception.WorkflowException;
 import org.kuali.rice.kns.datadictionary.HeaderNavigation;
-import org.kuali.rice.kns.service.KNSServiceLocator;
-import org.kuali.rice.kns.service.KualiConfigurationService;
-import org.kuali.rice.kns.service.ParameterConstants;
-import org.kuali.rice.kns.service.ParameterService;
 import org.kuali.rice.kns.util.ActionFormUtilMap;
-import org.kuali.rice.kns.util.KNSConstants;
 import org.kuali.rice.kns.web.ui.ExtraButton;
 import org.kuali.rice.kns.web.ui.HeaderField;
-import org.kuali.rice.kns.workflow.service.KualiWorkflowDocument;
+import org.kuali.rice.krad.service.KRADServiceLocator;
+import org.kuali.rice.krad.util.KRADConstants;
 
 /**
  * 
@@ -129,7 +130,7 @@ public class AwardForm extends BudgetVersionFormBase
     private AwardComment newAwardCostShareComment;
     
     private AwardFandaRate newAwardFandaRate;    
-    private List<KeyLabelPair> reportClasses;
+    private List<ConcreteKeyValue> reportClasses;
     private String directIndirectViewEnabled;
     
     private ApprovedEquipmentBean approvedEquipmentBean;
@@ -254,7 +255,7 @@ public class AwardForm extends BudgetVersionFormBase
         //awardDirectFandADistributionBean = new AwardDirectFandADistributionBean(this);
         setPermissionsHelper(new PermissionsHelper(this));
         setSpecialReviewHelper(new SpecialReviewHelper(this));
-        //sponsorTermTypes = new ArrayList<KeyLabelPair>();
+        //sponsorTermTypes = new ArrayList<KeyValue>();
         awardCreditSplitBean = new AwardCreditSplitBean(this);
         awardCommentBean = new AwardCommentBean(this);
         awardCloseoutBean = new AwardCloseoutBean(this);
@@ -272,7 +273,7 @@ public class AwardForm extends BudgetVersionFormBase
 
         syncMode = false;
         awardSyncBean = new AwardSyncBean(this);
-        setDirectIndirectViewEnabled(getParameterService().getParameterValue(Constants.PARAMETER_MODULE_AWARD, ParameterConstants.DOCUMENT_COMPONENT, "ENABLE_AWD_ANT_OBL_DIRECT_INDIRECT_COST"));
+        setDirectIndirectViewEnabled(getParameterService().getParameterValueAsString(Constants.PARAMETER_MODULE_AWARD, ParameterConstants.DOCUMENT_COMPONENT, "ENABLE_AWD_ANT_OBL_DIRECT_INDIRECT_COST"));
         budgetLimitSummary = new BudgetLimitSummaryHelper();
         awardBudgetLimitsBean = new AwardBudgetLimitsBean(this);
         accountCreationHelper = new AccountCreationPresentationHelper();
@@ -336,7 +337,7 @@ public class AwardForm extends BudgetVersionFormBase
      * This method initializes either the document or the form based on the command value.
      */
     public void initializeFormOrDocumentBasedOnCommand(){
-        if (KEWConstants.INITIATE_COMMAND.equals(getCommand())) {
+        if (KewApiConstants.INITIATE_COMMAND.equals(getCommand())) {
             getDocument().initialize();
         }else{
             initialize();
@@ -368,7 +369,7 @@ public class AwardForm extends BudgetVersionFormBase
     
     @Override
     protected void setSaveDocumentControl(Map editMode) {
-        getDocumentActions().put(KNSConstants.KUALI_ACTION_CAN_SAVE, KNSConstants.KUALI_DEFAULT_TRUE_VALUE);
+        getDocumentActions().put(KRADConstants.KUALI_ACTION_CAN_SAVE, KRADConstants.KUALI_DEFAULT_TRUE_VALUE);
     }
     
     @Override
@@ -451,7 +452,7 @@ public class AwardForm extends BudgetVersionFormBase
         return projectPersonnelBean;
     }
         
-    public List<KeyLabelPair> getReportClasses() {
+    public List<ConcreteKeyValue> getReportClasses() {
         if (reportClasses != null) {         
             Collections.sort(reportClasses);
         }
@@ -459,7 +460,7 @@ public class AwardForm extends BudgetVersionFormBase
         return reportClasses;
     }
 
-    public void setReportClasses(List<KeyLabelPair> reportClasses) {
+    public void setReportClasses(List<ConcreteKeyValue> reportClasses) {
         this.reportClasses = reportClasses;
     }
 
@@ -1024,7 +1025,7 @@ public class AwardForm extends BudgetVersionFormBase
     public List<ExtraButton> getExtraTopButtons() {
         extraButtons.clear();
         String externalImageURL = Constants.KRA_EXTERNALIZABLE_IMAGES_URI_KEY;
-        String generatePeriodImage = lookupKualiConfigurationService().getPropertyString(externalImageURL) + "tinybutton-timemoney.gif";
+        String generatePeriodImage = lookupKualiConfigurationService().getPropertyValueAsString(externalImageURL) + "tinybutton-timemoney.gif";
         
         addExtraButton("methodToCall.timeAndMoney", generatePeriodImage, "Time And Money");
         
@@ -1035,8 +1036,8 @@ public class AwardForm extends BudgetVersionFormBase
      * This method does what its name says
      * @return
      */
-    private KualiConfigurationService lookupKualiConfigurationService() {
-        return KraServiceLocator.getService(KualiConfigurationService.class);
+    private ConfigurationService lookupKualiConfigurationService() {
+        return KRADServiceLocator.getKualiConfigurationService();
     }
     
     /**
@@ -1200,10 +1201,10 @@ public class AwardForm extends BudgetVersionFormBase
     
     /**
      * 
-     * @see org.kuali.rice.kns.web.struts.form.KualiDocumentFormBase#populateHeaderFields(org.kuali.rice.kns.workflow.service.KualiWorkflowDocument)
+     * @see org.kuali.rice.kns.web.struts.form.KualiDocumentFormBase#populateHeaderFields(org.kuali.rice.kew.api.WorkflowDocument)
      */
     @Override
-    public void populateHeaderFields(KualiWorkflowDocument workflowDocument) {
+    public void populateHeaderFields(WorkflowDocument workflowDocument) {
         // super.populateHeaderFields(workflowDocument);
 
         AwardDocument awardDocument = getDocument();
@@ -1214,7 +1215,7 @@ public class AwardForm extends BudgetVersionFormBase
 
         String docIdAndStatus = COLUMN;
         if (workflowDocument != null) {
-            docIdAndStatus = getDocument().getDocumentNumber() + COLUMN + workflowDocument.getStatusDisplayValue();
+            docIdAndStatus = getDocument().getDocumentNumber() + COLUMN + workflowDocument.getStatus().getLabel();
         }
         getDocInfo().add(new HeaderField("DataDictionary.Award.attributes.docIdStatus", docIdAndStatus));
         String unitName = awardDocument.getAward().getUnitName();
@@ -1240,7 +1241,7 @@ public class AwardForm extends BudgetVersionFormBase
         String createDateStr = null;
         String updateUser = null;
         if (awardDocument.getUpdateTimestamp() != null) {
-            createDateStr = KNSServiceLocator.getDateTimeService().toString(awardDocument.getUpdateTimestamp(), "MM/dd/yy");
+            createDateStr = CoreApiServiceLocator.getDateTimeService().toString(awardDocument.getUpdateTimestamp(), "MM/dd/yy");
             updateUser = awardDocument.getUpdateUser().length() > NUMBER_30 ? awardDocument.getUpdateUser().substring(0, NUMBER_30)
                     : awardDocument.getUpdateUser();
             getDocInfo().add(
@@ -1468,7 +1469,7 @@ public class AwardForm extends BudgetVersionFormBase
      */
     public boolean getDisplayAwardPaymentScheduleActiveLinkFields() {
         if (displayAwardPaymentScheduleActiveLinkFields == null) {
-            String parmVal = this.getParameterService().getParameterValue("KC-AWARD", "Document", PAYMENT_SCHEDULE_ACTIVE_LINKS_PARAMETER);
+            String parmVal = this.getParameterService().getParameterValueAsString("KC-AWARD", "Document", PAYMENT_SCHEDULE_ACTIVE_LINKS_PARAMETER);
             displayAwardPaymentScheduleActiveLinkFields = StringUtils.equalsIgnoreCase("Y", parmVal);
         }
         return displayAwardPaymentScheduleActiveLinkFields.booleanValue();

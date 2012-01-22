@@ -44,7 +44,7 @@ import org.kuali.kra.infrastructure.KraServiceLocator;
 import org.kuali.kra.proposaldevelopment.document.ProposalDevelopmentDocument;
 import org.kuali.kra.s2s.generator.bo.DepartmentalPerson;
 import org.kuali.kra.s2s.util.S2SConstants;
-import org.kuali.rice.kns.service.BusinessObjectService;
+import org.kuali.rice.krad.service.BusinessObjectService;
 
 /**
  * 
@@ -254,7 +254,7 @@ public class SFLLLV1_1Generator extends SFLLLBaseGenerator {
                     address.setCity(rolodex.getCity());
                 }
             }
-            StateCodeDataType.Enum state = globLibV20Generator.getStateCodeDataType(rolodex.getState());
+            StateCodeDataType.Enum state = globLibV20Generator.getStateCodeDataType(rolodex.getCountryCode(), rolodex.getState());
             if(state != null){
                 address.setState(state); 
             }

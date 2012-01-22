@@ -17,7 +17,7 @@ package org.kuali.kra.proposaldevelopment.web.struts.action;
 
 import static org.kuali.kra.infrastructure.Constants.MAPPING_BASIC;
 import static org.kuali.kra.infrastructure.KraServiceLocator.getService;
-import static org.kuali.rice.kns.util.KNSConstants.QUESTION_INST_ATTRIBUTE_NAME;
+import static org.kuali.rice.krad.util.KRADConstants.QUESTION_INST_ATTRIBUTE_NAME;
 
 import java.util.ArrayList;
 import java.util.Collection;
@@ -48,18 +48,18 @@ import org.kuali.kra.proposaldevelopment.web.bean.ProposalUserRoles;
 import org.kuali.kra.proposaldevelopment.web.struts.form.ProposalDevelopmentForm;
 import org.kuali.kra.service.KraAuthorizationService;
 import org.kuali.kra.web.struts.action.StrutsConfirmation;
-import org.kuali.rice.kim.bo.Person;
-import org.kuali.rice.kim.bo.Role;
-import org.kuali.rice.kim.service.PersonService;
-import org.kuali.rice.kns.question.ConfirmationQuestion;
-import org.kuali.rice.kns.service.KNSServiceLocator;
-import org.kuali.rice.kns.service.KualiConfigurationService;
-import org.kuali.rice.kns.service.KualiRuleService;
-import org.kuali.rice.kns.util.ErrorMap;
-import org.kuali.rice.kns.util.GlobalVariables;
-import org.kuali.rice.kns.util.KNSConstants;
-import org.kuali.rice.kns.util.RiceKeyConstants;
+import org.kuali.rice.core.api.config.property.ConfigurationService;
+import org.kuali.rice.core.api.util.RiceKeyConstants;
+import org.kuali.rice.kim.api.identity.Person;
+import org.kuali.rice.kim.api.identity.PersonService;
+import org.kuali.rice.kim.api.role.Role;
 import org.kuali.rice.kns.web.struts.form.KualiDocumentFormBase;
+import org.kuali.rice.kns.question.ConfirmationQuestion;
+import org.kuali.rice.krad.service.KRADServiceLocator;
+import org.kuali.rice.krad.service.KualiRuleService;
+import org.kuali.rice.krad.util.GlobalVariables;
+import org.kuali.rice.krad.util.KRADConstants;
+import org.kuali.rice.krad.util.MessageMap;
 
 /**
  * The ProposalDevelopmentPermissionsAction responds to user events from the
@@ -111,18 +111,18 @@ public class ProposalDevelopmentPermissionsAction extends ProposalDevelopmentAct
         ProposalDevelopmentDocument doc = proposalDevelopmentForm.getDocument();
 
         // only want to prompt them to save if they already can save
-        if (docForm.getDocumentActions().containsKey(KNSConstants.KUALI_ACTION_CAN_SAVE)) {
-            Object question = request.getParameter(KNSConstants.QUESTION_INST_ATTRIBUTE_NAME);
-            KualiConfigurationService kualiConfiguration = KNSServiceLocator.getKualiConfigurationService();
+        if (docForm.getDocumentActions().containsKey(KRADConstants.KUALI_ACTION_CAN_SAVE)) {
+            Object question = request.getParameter(KRADConstants.QUESTION_INST_ATTRIBUTE_NAME);
+            ConfigurationService kualiConfiguration = KRADServiceLocator.getKualiConfigurationService();
 
             // logic for close question
             if (question == null) {
                 // ask question if not already asked
-                return this.performQuestionWithoutInput(mapping, form, request, response, KNSConstants.DOCUMENT_SAVE_BEFORE_CLOSE_QUESTION, kualiConfiguration.getPropertyString(RiceKeyConstants.QUESTION_SAVE_BEFORE_CLOSE), KNSConstants.CONFIRMATION_QUESTION, KNSConstants.MAPPING_CLOSE, "");
+                return this.performQuestionWithoutInput(mapping, form, request, response, KRADConstants.DOCUMENT_SAVE_BEFORE_CLOSE_QUESTION, kualiConfiguration.getPropertyValueAsString(RiceKeyConstants.QUESTION_SAVE_BEFORE_CLOSE), KRADConstants.CONFIRMATION_QUESTION, KRADConstants.MAPPING_CLOSE, "");
             }
             else {
-                Object buttonClicked = request.getParameter(KNSConstants.QUESTION_CLICKED_BUTTON);
-                if ((KNSConstants.DOCUMENT_SAVE_BEFORE_CLOSE_QUESTION.equals(question)) && ConfirmationQuestion.YES.equals(buttonClicked)) {
+                Object buttonClicked = request.getParameter(KRADConstants.QUESTION_CLICKED_BUTTON);
+                if ((KRADConstants.DOCUMENT_SAVE_BEFORE_CLOSE_QUESTION.equals(question)) && ConfirmationQuestion.YES.equals(buttonClicked)) {
                     // if yes button clicked - save the doc
                     List<ProposalUserRoles> proposalUsers = proposalDevelopmentForm.getCurrentProposalUserRoles();
                     for (ProposalUserRoles proposalUser : proposalUsers) {
@@ -150,7 +150,7 @@ public class ProposalDevelopmentPermissionsAction extends ProposalDevelopmentAct
     }
     
     private String getPersonId(String username) {
-        PersonService<Person> personService = KraServiceLocator.getService(PersonService.class);
+        PersonService personService = KraServiceLocator.getService(PersonService.class);
         Person person = personService.getPersonByPrincipalName(username);
         return person.getPrincipalId();
     }
@@ -331,8 +331,8 @@ public class ProposalDevelopmentPermissionsAction extends ProposalDevelopmentAct
         List<ProposalRoleState> roleStates = new ArrayList<ProposalRoleState>();
         Collection<Role> proposalRoles = proposalDevelopmentForm.getKimProposalRoles();
         for (Role proposalRole : proposalRoles) {
-            if (!StringUtils.equals(proposalRole.getRoleName(), RoleConstants.UNASSIGNED)) {
-                ProposalRoleState roleState = new ProposalRoleState(proposalRole.getRoleName());
+            if (!StringUtils.equals(proposalRole.getName(), RoleConstants.UNASSIGNED)) {
+                ProposalRoleState roleState = new ProposalRoleState(proposalRole.getName());
                 roleStates.add(roleState);
             }
         }
@@ -481,7 +481,7 @@ public class ProposalDevelopmentPermissionsAction extends ProposalDevelopmentAct
             forward = super.processAuthorizationViolation(taskName, mapping, form, request, response);
         }
         else {
-            ErrorMap errorMap = GlobalVariables.getErrorMap();
+            MessageMap errorMap = GlobalVariables.getMessageMap();
             errorMap.putError(Constants.EDIT_ROLES_PROPERTY_KEY, KeyConstants.AUTHORIZATION_VIOLATION);
             forward = mapping.findForward(Constants.MAPPING_PERMISSIONS_EDIT_ROLES_PAGE);
         }

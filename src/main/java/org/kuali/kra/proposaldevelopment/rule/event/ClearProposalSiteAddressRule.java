@@ -15,7 +15,7 @@
  */
 package org.kuali.kra.proposaldevelopment.rule.event;
 
-import org.kuali.rice.kns.rule.BusinessRule;
+import org.kuali.rice.krad.rules.rule.BusinessRule;
 
 public interface ClearProposalSiteAddressRule extends BusinessRule {
 

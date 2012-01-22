@@ -18,8 +18,8 @@ package org.kuali.kra.committee.keyvalue;
 import java.util.ArrayList;
 import java.util.List;
 
-import org.kuali.rice.kns.lookup.keyvalues.KeyValuesBase;
-import org.kuali.rice.core.util.KeyLabelPair;
+import org.kuali.rice.core.api.util.ConcreteKeyValue;
+import org.kuali.rice.krad.keyvalues.KeyValuesBase;
 
 public class MonthsWeek extends KeyValuesBase {
 
@@ -43,11 +43,11 @@ public class MonthsWeek extends KeyValuesBase {
     @SuppressWarnings("unchecked")
     public List getKeyValues() {
         List keyValues = new ArrayList();
-        keyValues.add(new KeyLabelPair(FIRST, FIRST));
-        keyValues.add(new KeyLabelPair(SECOND, SECOND));
-        keyValues.add(new KeyLabelPair(THIRD, THIRD));
-        keyValues.add(new KeyLabelPair(FOURTH, FOURTH));
-        keyValues.add(new KeyLabelPair(LAST, LAST));
+        keyValues.add(new ConcreteKeyValue(FIRST, FIRST));
+        keyValues.add(new ConcreteKeyValue(SECOND, SECOND));
+        keyValues.add(new ConcreteKeyValue(THIRD, THIRD));
+        keyValues.add(new ConcreteKeyValue(FOURTH, FOURTH));
+        keyValues.add(new ConcreteKeyValue(LAST, LAST));
         return keyValues;
     }
 

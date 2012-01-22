@@ -61,7 +61,7 @@ public class AwardCommentFactoryTest extends KcUnitTestBase{
      */
     @Test
     public void testAwardBoAttributesCount() throws Exception {              
-        Assert.assertEquals(AWARD_COMMENT_FACTORY_ATTRIBUTES_COUNT, awardBo.toStringMapper().size());
+        Assert.assertEquals(AWARD_COMMENT_FACTORY_ATTRIBUTES_COUNT, awardBo.getClass().getFields().length);
     }
     
     /**

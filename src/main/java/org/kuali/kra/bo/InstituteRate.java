@@ -15,9 +15,8 @@
  */
 package org.kuali.kra.bo;
 
-import java.util.LinkedHashMap;
-
 import org.kuali.kra.proposaldevelopment.bo.ActivityType;
+
 /**
  * 
  * This class represents INSTITUTE_RATE record
@@ -26,25 +25,17 @@ public class InstituteRate extends AbstractInstituteRate {
 
     private static final long serialVersionUID = -7899229198533624158L;
 
-	private String activityTypeCode;
-    
+    private String activityTypeCode;
+
     private ActivityType activityType;
 
-	public String getActivityTypeCode() {
-		return activityTypeCode;
-	}
+    public String getActivityTypeCode() {
+        return activityTypeCode;
+    }
 
-	public void setActivityTypeCode(String activityTypeCode) {
-		this.activityTypeCode = activityTypeCode;
-	}
-    
-    @Override 
-    @SuppressWarnings("unchecked")
-	protected LinkedHashMap<String, Object> toStringMapper() {
-		LinkedHashMap<String, Object> hashMap = super.toStringMapper();
-		hashMap.put("activityTypeCode", getActivityTypeCode());
-		return hashMap;
-	}
+    public void setActivityTypeCode(String activityTypeCode) {
+        this.activityTypeCode = activityTypeCode;
+    }
 
     public ActivityType getActivityType() {
         return activityType;

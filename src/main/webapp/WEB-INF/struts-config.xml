@@ -54,10 +54,10 @@
 <!-- Rice content Start -->
 	<global-exceptions>
 		<exception type="java.lang.Throwable"
-			handler="org.kuali.rice.kns.web.struts.pojo.StrutsExceptionIncidentHandler"
+			handler="org.kuali.rice.kns.web.struts.form.pojo.StrutsExceptionIncidentHandler"
 			key="meaningless" />
-		<exception type="org.kuali.rice.kns.exception.AuthorizationException"
-            handler="org.kuali.rice.kns.web.struts.pojo.AuthorizationExceptionHandler"
+		<exception type="org.kuali.rice.krad.exception.AuthorizationException"
+            handler="org.kuali.rice.kns.web.struts.form.pojo.AuthorizationExceptionHandler"
             key="meaningless" /> 
 	</global-exceptions>
 <!-- Rice content End -->
@@ -112,8 +112,8 @@
 
         <action path="/kraHoldingPage" name="KualiForm" type="org.kuali.kra.web.struts.action.KraHoldingPageAction">
             <forward name="basic" path="/kraHoldingPage.jsp" />
-        </action>       
-                            
+        </action>
+        
       <!--  KRA Proposal Development Mapping -->
       <action path="/proposalDevelopment*" name="ProposalDevelopmentForm" input="/WEB-INF/jsp/proposaldevelopment/ProposalDevelopment{1}.jsp" type="org.kuali.kra.proposaldevelopment.web.struts.action.ProposalDevelopment{1}Action"  scope="request" parameter="methodToCall" validate="true" attribute="KualiForm">
           <forward name="basic" path="/WEB-INF/jsp/proposaldevelopment/ProposalDevelopment{1}.jsp" />
@@ -249,7 +249,7 @@
       <action path="/awardHierarchyAwardActionsAjax" name="AwardForm" type="org.kuali.kra.award.web.struts.action.AwardActionsAction" attribute="KualiForm" >
           <forward name="basic" path="/WEB-INF/jsp/award/awardHierarchyAwardActionsAjax.jsp" />
       </action>
-      
+                        
       <action path="/reportTrackingLookup" name="ReportTrackingLookupForm" type="org.kuali.kra.award.web.struts.action.ReportTrackingLookupAction" attribute="KualiForm">
           <forward name="basic" path="/WEB-INF/jsp/award/ReportTrackingSearch.jsp"/>
           <forward name="ajaxDetails" path="/WEB-INF/jsp/award/ReportTrackingAjaxDetails.jsp"/>
@@ -479,18 +479,17 @@
        <action path="/coiNoteAndAttachment" name="CoiDisclosureForm" input="/WEB-INF/jsp/coi/CoiDisclosure.jsp" type="org.kuali.kra.coi.notesandattachments.CoiNoteAndAttachmentAction"  scope="request" parameter="methodToCall" validate="true" attribute="KualiForm">
           <forward name="basic" path="/WEB-INF/jsp/coi/CoiNoteAndAttachment.jsp" />
           &coi_forwards;
-       </action>
+      </action>
        <action path="/coiDisclosureNotificationEditor" name="CoiDisclosureForm" input="/WEB-INF/jsp/coi/CoiDisclosureNotificationEditor.jsp" type="org.kuali.kra.coi.CoiNotificationEditorAction" scope="request" parameter="methodToCall" validate="true" attribute="KualiForm">
           <forward name="basic" path="/WEB-INF/jsp/coi/CoiDisclosureNotificationEditor.jsp"/>
           &coi_forwards;
-       </action>
+      </action>
 
        
      <action path="/projectEventDisclosure" name="CoiDisclosureForm" input="/WEB-INF/jsp/coi/ProjectEvent.jsp" type="org.kuali.kra.coi.disclosure.CoiDisclosureAction" parameter="methodToCall" validate="true" attribute="KualiForm">
         <forward name="basic" path="/WEB-INF/jsp/coi/ProjectEvent.jsp" />
-      </action>  
+      </action>
        
-
        
        <action path="/financialEntity*" name="FinancialEntityForm" type="org.kuali.kra.coi.personfinancialentity.FinancialEntity{1}Action" input="/WEB-INF/jsp/coi/FinancialEntity{1}.jsp" attribute="KualiForm">
           <forward name="basic" path="/WEB-INF/jsp/coi/FinancialEntity{1}.jsp" />
@@ -512,14 +511,16 @@
        	  <forward name="basic" path="/WEB-INF/jsp/negotiation/NegotiationNotificationEditor.jsp" />
        	  <forward name="negotiation" path="/WEB-INF/jsp/negotiation/NegotiationNegotiation.jsp" />
        </action>
-    
+     
         <action path="/personMassChange*" name="PersonMassChangeForm" input="/WEB-INF/jsp/personmasschange/PersonMassChange{1}.jsp" type="org.kuali.kra.personmasschange.web.struts.action.PersonMassChange{1}Action" scope="request" parameter="methodToCall" validate="true" attribute="KualiForm">
             <forward name="basic" path="/WEB-INF/jsp/personmasschange/PersonMassChange{1}.jsp" />
             <forward name="home" path="/WEB-INF/jsp/personmasschange/PersonMassChangeHome.jsp" />
             <forward name="view" path="/WEB-INF/jsp/personmasschange/PersonMassChangeView.jsp" />
         </action>
-    
+     
     </action-mappings>
+
+
 
     <controller processorClass="org.kuali.kra.web.struts.action.KraRequestProcessor" />
     <message-resources factory="org.kuali.rice.kns.web.struts.action.KualiPropertyMessageResourcesFactory" parameter="" /> 

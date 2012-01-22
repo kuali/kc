@@ -16,27 +16,17 @@
 package org.kuali.kra.coi.lookup;
 
 import java.util.ArrayList;
-import java.util.Collection;
-import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
 import java.util.Properties;
 
-import org.apache.commons.lang.StringUtils;
-import org.apache.ojb.broker.query.Criteria;
-import org.apache.ojb.broker.query.QueryFactory;
-import org.apache.ojb.broker.query.ReportQueryByCriteria;
-import org.kuali.kra.award.home.Award;
-import org.kuali.kra.bo.Sponsor;
 import org.kuali.kra.coi.personfinancialentity.PersonFinIntDisclosure;
 import org.kuali.kra.lookup.KraLookupableHelperServiceImpl;
-import org.kuali.kra.negotiations.bo.Negotiation;
-import org.kuali.kra.negotiations.bo.NegotiationAssociationType;
-import org.kuali.rice.kns.bo.BusinessObject;
 import org.kuali.rice.kns.lookup.HtmlData;
 import org.kuali.rice.kns.lookup.HtmlData.AnchorHtmlData;
-import org.kuali.rice.kns.util.KNSConstants;
-import org.kuali.rice.kns.util.UrlFactory;
+import org.kuali.rice.krad.bo.BusinessObject;
+import org.kuali.rice.krad.util.KRADConstants;
+import org.kuali.rice.krad.util.UrlFactory;
 
 public class FinancialEntityLookupableHelper extends KraLookupableHelperServiceImpl{
 
@@ -76,7 +66,7 @@ public class FinancialEntityLookupableHelper extends KraLookupableHelperServiceI
         Properties parameters = new Properties();
         AnchorHtmlData htmlData = new AnchorHtmlData();
         htmlData.setDisplayText("edit");
-        parameters.put(KNSConstants.DISPATCH_REQUEST_PARAMETER, "editFinancialEntityFromLookup");
+        parameters.put(KRADConstants.DISPATCH_REQUEST_PARAMETER, "editFinancialEntityFromLookup");
         parameters.put(getKeyFieldName(), financialEntity.getPersonFinIntDisclosureId()+"");
         String href  = UrlFactory.parameterizeUrl("../" + getHtmlAction(), parameters);
         htmlData.setHref(href);

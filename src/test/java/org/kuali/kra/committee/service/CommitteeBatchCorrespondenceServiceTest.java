@@ -40,7 +40,7 @@ import org.kuali.kra.irb.correspondence.ProtocolCorrespondenceTemplateService;
 import org.kuali.kra.irb.personnel.ProtocolPerson;
 import org.kuali.kra.service.impl.mocks.MockKcPersonService;
 import org.kuali.kra.test.infrastructure.KcUnitTestBase;
-import org.kuali.rice.kns.util.DateUtils;
+import org.kuali.kra.util.DateUtils;
 
 /**
  * 

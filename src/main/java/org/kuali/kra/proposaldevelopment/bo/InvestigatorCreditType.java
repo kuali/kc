@@ -15,32 +15,33 @@
  */
 package org.kuali.kra.proposaldevelopment.bo;
 
-import java.util.LinkedHashMap;
-
 import org.kuali.kra.bo.KraPersistableBusinessObjectBase;
 
 /**
- * Class representation of the Person <code>{@link org.kuali.rice.kns.bo.BusinessObject}</code>
+ * Class representation of the Person <code>{@link org.kuali.rice.krad.bo.BusinessObject}</code>
  *
- * @see org.kuali.rice.kns.bo.BusinessObject
- * @see org.kuali.rice.kns.bo.PersistableBusinessObject
+ * @see org.kuali.rice.krad.bo.BusinessObject
+ * @see org.kuali.rice.krad.bo.PersistableBusinessObject
  * $Id: InvestigatorCreditType.java,v 1.6 2008-07-23 19:16:37 gmcgrego Exp $
  */
 public class InvestigatorCreditType extends KraPersistableBusinessObjectBase {
+
     private static final long serialVersionUID = 2881039955568764530L;
-    
+
     private String invCreditTypeCode;
+
     private Boolean addsToHundred;
+
     private Boolean active;
+
     private String description;
 
     /**
      * Default constructor
      */
     public InvestigatorCreditType() {
-        
     }
-    
+
     /**
      * Convenience constructor
      * @param invCreditTypeCode
@@ -52,7 +53,7 @@ public class InvestigatorCreditType extends KraPersistableBusinessObjectBase {
         this.active = true;
         this.addsToHundred = true;
     }
-    
+
     /**
      * Retrieves the description attribute
      * 
@@ -61,7 +62,7 @@ public class InvestigatorCreditType extends KraPersistableBusinessObjectBase {
     public String getDescription() {
         return description;
     }
-    
+
     /**
      * Assigns the description attribute
      *
@@ -88,7 +89,7 @@ public class InvestigatorCreditType extends KraPersistableBusinessObjectBase {
     public Boolean getAddsToHundred() {
         return addsToHundred;
     }
-    
+
     /**
      * Assigns the description attribute
      *
@@ -97,7 +98,7 @@ public class InvestigatorCreditType extends KraPersistableBusinessObjectBase {
     public void setAddsToHundred(Boolean argAddsToHundred) {
         this.addsToHundred = argAddsToHundred;
     }
-    
+
     /**
      * Gets the value of invCreditTypeCode
      *
@@ -114,19 +115,6 @@ public class InvestigatorCreditType extends KraPersistableBusinessObjectBase {
      */
     public void setInvCreditTypeCode(String argInvCreditTypeCode) {
         invCreditTypeCode = argInvCreditTypeCode;
-    }
-
-
-    /**
-     * @see org.kuali.rice.kns.bo.BusinessObjectBase#toStringMapper()
-     */
-    @Override 
-    protected LinkedHashMap<String, Object> toStringMapper() {
-        LinkedHashMap<String, Object> map = new LinkedHashMap<String, Object>();
-        map.put("invCreditTypeCode", getDescription());
-        map.put("description", getDescription());
-        map.put("addsToHundred", getAddsToHundred());
-        return map;
     }
 
     /**
@@ -181,5 +169,4 @@ public class InvestigatorCreditType extends KraPersistableBusinessObjectBase {
         }
         return true;
     }
-    
 }

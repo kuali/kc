@@ -32,13 +32,14 @@ import org.kuali.kra.rule.event.KraDocumentEventBaseExtension;
 import org.kuali.kra.service.ResearchDocumentService;
 import org.kuali.kra.service.SponsorService;
 import org.kuali.rice.ken.util.NotificationConstants;
-import org.kuali.rice.kew.util.KEWConstants;
-import org.kuali.rice.kns.service.BusinessObjectService;
+import org.kuali.rice.kew.api.KewApiConstants;
 import org.kuali.rice.kns.service.DictionaryValidationService;
-import org.kuali.rice.kns.service.SequenceAccessorService;
-import org.kuali.rice.kns.util.GlobalVariables;
-import org.kuali.rice.kns.util.KNSConstants;
+import org.kuali.rice.kns.util.KNSGlobalVariables;
 import org.kuali.rice.kns.web.struts.action.KualiAction;
+import org.kuali.rice.krad.service.BusinessObjectService;
+import org.kuali.rice.krad.service.SequenceAccessorService;
+import org.kuali.rice.krad.util.GlobalVariables;
+import org.kuali.rice.krad.util.KRADConstants;
 
 /**
  * 
@@ -125,7 +126,7 @@ public class FinancialEntityAction extends KualiAction {
      */
     public ActionForward close(ActionMapping mapping, ActionForm form, HttpServletRequest request, HttpServletResponse response)
             throws Exception {
-        return mapping.findForward(KNSConstants.MAPPING_PORTAL);
+        return mapping.findForward(KRADConstants.MAPPING_PORTAL);
     }
 
     
@@ -196,7 +197,7 @@ public class FinancialEntityAction extends KualiAction {
      * @param submitAction
      */
     protected void recordSubmitActionSuccess(String submitAction) {
-        GlobalVariables.getMessageList().add(KeyConstants.MESSAGE_FINANCIAL_ENTITY_ACTION_COMPLETE, submitAction);
+        KNSGlobalVariables.getMessageList().add(KeyConstants.MESSAGE_FINANCIAL_ENTITY_ACTION_COMPLETE, submitAction);
     }
 
     /**
@@ -252,7 +253,7 @@ public class FinancialEntityAction extends KualiAction {
         return forward;
     }
 
-    protected String buildForwardUrl(Long routeHeaderId) {
+    protected String buildForwardUrl(String routeHeaderId) {
         // TODO : this is a copy from KraTransactionalDocumentActionBase.
         // investigate if it can be shared
         ResearchDocumentService researchDocumentService = KraServiceLocator.getService(ResearchDocumentService.class);
@@ -264,10 +265,10 @@ public class FinancialEntityAction extends KualiAction {
         else {
             forward += "&";
         }
-        forward += KEWConstants.ROUTEHEADER_ID_PARAMETER + "=" + routeHeaderId;
-        forward += "&" + KEWConstants.COMMAND_PARAMETER + "=" + NotificationConstants.NOTIFICATION_DETAIL_VIEWS.DOC_SEARCH_VIEW;
+        forward += KewApiConstants.DOCUMENT_ID_PARAMETER + "=" + routeHeaderId;
+        forward += "&" + KewApiConstants.COMMAND_PARAMETER + "=" + NotificationConstants.NOTIFICATION_DETAIL_VIEWS.DOC_SEARCH_VIEW;
         if (GlobalVariables.getUserSession().isBackdoorInUse()) {
-            forward += "&" + KEWConstants.BACKDOOR_ID_PARAMETER + "=" + GlobalVariables.getUserSession().getPrincipalName();
+            forward += "&" + KewApiConstants.BACKDOOR_ID_PARAMETER + "=" + GlobalVariables.getUserSession().getPrincipalName();
         }
         return forward;
     }

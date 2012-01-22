@@ -15,6 +15,8 @@
  */
 package org.kuali.kra.budget.rules;
 
+import java.util.Map;
+
 import org.junit.After;
 import org.junit.Before;
 import org.junit.Test;
@@ -22,13 +24,12 @@ import org.kuali.kra.budget.calculator.ValidCalcType;
 import org.kuali.kra.budget.nonpersonnel.ValidCalcTypeMaintenanceDocumentRule;
 import org.kuali.kra.infrastructure.KeyConstants;
 import org.kuali.kra.maintenance.MaintenanceRuleTestBase;
-import org.kuali.rice.kns.UserSession;
+import org.kuali.rice.core.api.util.RiceKeyConstants;
 import org.kuali.rice.kns.document.MaintenanceDocument;
-import org.kuali.rice.kns.util.ErrorMap;
-import org.kuali.rice.kns.util.ErrorMessage;
-import org.kuali.rice.kns.util.GlobalVariables;
-import org.kuali.rice.kns.util.RiceKeyConstants;
-import org.kuali.rice.kns.util.TypedArrayList;
+import org.kuali.rice.krad.UserSession;
+import org.kuali.rice.krad.util.ErrorMessage;
+import org.kuali.rice.krad.util.GlobalVariables;
+import org.springframework.util.AutoPopulatingList;
 
 public class ValidCalcTypeMaintenanceDocumentRuleTest extends MaintenanceRuleTestBase {
     private ValidCalcTypeMaintenanceDocumentRule rule = null;
@@ -57,7 +58,7 @@ public class ValidCalcTypeMaintenanceDocumentRuleTest extends MaintenanceRuleTes
         validCalcType.setDependentRateClassType("Y");
         MaintenanceDocument validCalcTypeDocument = newMaintDoc(validCalcType);
         assertTrue(rule.processCustomRouteDocumentBusinessRules(validCalcTypeDocument));
-        ErrorMap eMap = GlobalVariables.getErrorMap();
+        Map eMap = GlobalVariables.getMessageMap().getErrorMessages();
         assertEquals(0, eMap.size());
         
         assertTrue(rule.processCustomApproveDocumentBusinessRules(validCalcTypeDocument));
@@ -80,7 +81,7 @@ public class ValidCalcTypeMaintenanceDocumentRuleTest extends MaintenanceRuleTes
         validCalcType.setDependentRateClassType(null);
         MaintenanceDocument validCalcTypeDocument = newMaintDoc(validCalcType);
         assertTrue(rule.processCustomRouteDocumentBusinessRules(validCalcTypeDocument));
-        ErrorMap eMap = GlobalVariables.getErrorMap();
+        Map eMap = GlobalVariables.getMessageMap().getErrorMessages();
         assertEquals(0, eMap.size());
         
         assertTrue(rule.processCustomApproveDocumentBusinessRules(validCalcTypeDocument));
@@ -103,14 +104,14 @@ public class ValidCalcTypeMaintenanceDocumentRuleTest extends MaintenanceRuleTes
         validCalcType.setDependentRateClassType("Y");
         MaintenanceDocument validCalcTypeDocument = newMaintDoc(validCalcType);
         assertFalse(rule.processCustomRouteDocumentBusinessRules(validCalcTypeDocument));
-        TypedArrayList errors = GlobalVariables.getErrorMap().getMessages("document.newMaintainableObject.rateTypeCode");
+        AutoPopulatingList errors = GlobalVariables.getMessageMap().getMessages("document.newMaintainableObject.rateTypeCode");
         assertEquals(1, errors.size());
         ErrorMessage message = (ErrorMessage) errors.get(0);
         assertEquals(message.getErrorKey(), KeyConstants.ERROR_RATE_TYPE_NOT_EXIST);
 
         // approve will have the same error too.
         assertFalse(rule.processCustomApproveDocumentBusinessRules(validCalcTypeDocument));
-        errors = GlobalVariables.getErrorMap().getMessages("document.newMaintainableObject.rateTypeCode");
+        errors = GlobalVariables.getMessageMap().getMessages("document.newMaintainableObject.rateTypeCode");
         assertEquals(1, errors.size());
         message = (ErrorMessage) errors.get(0);
         assertEquals(message.getErrorKey(), KeyConstants.ERROR_RATE_TYPE_NOT_EXIST);
@@ -128,14 +129,14 @@ public class ValidCalcTypeMaintenanceDocumentRuleTest extends MaintenanceRuleTes
         validCalcType.setDependentRateClassType("Y");
         MaintenanceDocument validCalcTypeDocument = newMaintDoc(validCalcType);
         assertFalse(rule.processCustomRouteDocumentBusinessRules(validCalcTypeDocument));
-        TypedArrayList errors = GlobalVariables.getErrorMap().getMessages("document.newMaintainableObject.rateClassType");
+        AutoPopulatingList errors = GlobalVariables.getMessageMap().getMessages("document.newMaintainableObject.rateClassType");
         assertEquals(1, errors.size());
         ErrorMessage message = (ErrorMessage) errors.get(0);
         assertEquals(message.getErrorKey(), RiceKeyConstants.ERROR_EXISTENCE);
 
         // approve will have the same error too.
         assertFalse(rule.processCustomApproveDocumentBusinessRules(validCalcTypeDocument));
-        errors = GlobalVariables.getErrorMap().getMessages("document.newMaintainableObject.rateClassType");
+        errors = GlobalVariables.getMessageMap().getMessages("document.newMaintainableObject.rateClassType");
         assertEquals(1, errors.size());
         message = (ErrorMessage) errors.get(0);
         assertEquals(message.getErrorKey(), RiceKeyConstants.ERROR_EXISTENCE);
@@ -153,14 +154,14 @@ public class ValidCalcTypeMaintenanceDocumentRuleTest extends MaintenanceRuleTes
         validCalcType.setDependentRateClassType("1");
         MaintenanceDocument validCalcTypeDocument = newMaintDoc(validCalcType);
         assertFalse(rule.processCustomRouteDocumentBusinessRules(validCalcTypeDocument));
-        TypedArrayList errors = GlobalVariables.getErrorMap().getMessages("document.newMaintainableObject.dependentRateClassType");
+        AutoPopulatingList errors = GlobalVariables.getMessageMap().getMessages("document.newMaintainableObject.dependentRateClassType");
         assertEquals(1, errors.size());
         ErrorMessage message = (ErrorMessage) errors.get(0);
         assertEquals(message.getErrorKey(), RiceKeyConstants.ERROR_EXISTENCE);
 
         // approve will have the same error too.
         assertFalse(rule.processCustomApproveDocumentBusinessRules(validCalcTypeDocument));
-        errors = GlobalVariables.getErrorMap().getMessages("document.newMaintainableObject.dependentRateClassType");
+        errors = GlobalVariables.getMessageMap().getMessages("document.newMaintainableObject.dependentRateClassType");
         assertEquals(1, errors.size());
         message = (ErrorMessage) errors.get(0);
         assertEquals(message.getErrorKey(), RiceKeyConstants.ERROR_EXISTENCE);

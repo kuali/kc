@@ -81,17 +81,6 @@ public abstract class SubAwardAssociate extends KraPersistableBusinessObjectBase
     }
 
     /**
-     * @see org.kuali.core.bo.BusinessObjectBase#toStringMapper()
-     */
-    @Override
-    protected LinkedHashMap<String, Object> toStringMapper() {
-        LinkedHashMap<String, Object> map = new LinkedHashMap<String, Object>();
-        map.put("subAwardCode", subAwardCode);
-        map.put("sequenceNumber", sequenceNumber);
-        return map;
-    }
-
-    /**
      * @see java.lang.Object#hashCode()
      */
     @Override

@@ -13,44 +13,32 @@
  * See the License for the specific language governing permissions and
  * limitations under the License.
  */
-
 package org.kuali.kra.irb.protocol;
-
-import java.util.LinkedHashMap;
 
 import org.kuali.kra.bo.KraPersistableBusinessObjectBase;
 
-public class ProtocolType extends KraPersistableBusinessObjectBase { 
-	
-	private String protocolTypeCode; 
-	private String description; 
-	
-	public ProtocolType() { 
+public class ProtocolType extends KraPersistableBusinessObjectBase {
 
-	} 
-	
-	public String getProtocolTypeCode() {
-		return protocolTypeCode;
-	}
+    private String protocolTypeCode;
 
-	public void setProtocolTypeCode(String protocolTypeCode){
-		this.protocolTypeCode = protocolTypeCode;
-	}
+    private String description;
 
-	public String getDescription() {
-		return description;
-	}
+    public ProtocolType() {
+    }
 
-	public void setDescription(String description){
-		this.description = description;
-	}
+    public String getProtocolTypeCode() {
+        return protocolTypeCode;
+    }
 
-	@Override 
-	protected LinkedHashMap toStringMapper() {
-		LinkedHashMap hashMap = new LinkedHashMap();
-		hashMap.put("protocolTypeCode", getProtocolTypeCode());
-		hashMap.put("description", getDescription());
-		return hashMap;
-	}
-	
+    public void setProtocolTypeCode(String protocolTypeCode) {
+        this.protocolTypeCode = protocolTypeCode;
+    }
+
+    public String getDescription() {
+        return description;
+    }
+
+    public void setDescription(String description) {
+        this.description = description;
+    }
 }

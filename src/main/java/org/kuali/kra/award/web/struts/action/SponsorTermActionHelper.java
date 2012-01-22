@@ -26,13 +26,11 @@ import javax.servlet.http.HttpServletRequest;
 import org.apache.commons.lang.StringUtils;
 import org.kuali.kra.award.AwardSponsorTermRuleEvent;
 import org.kuali.kra.award.AwardSponsorTermRuleImpl;
-import org.kuali.kra.award.awardhierarchy.sync.AwardSyncPendingChangeBean;
-import org.kuali.kra.award.awardhierarchy.sync.AwardSyncType;
 import org.kuali.kra.award.home.AwardSponsorTerm;
 import org.kuali.kra.bo.SponsorTerm;
 import org.kuali.kra.infrastructure.KraServiceLocator;
-import org.kuali.rice.kns.service.BusinessObjectService;
-import org.kuali.rice.kns.util.KNSConstants;
+import org.kuali.rice.krad.service.BusinessObjectService;
+import org.kuali.rice.krad.util.KRADConstants;
 
 /**
  * This is a helper class for AwardPaymentReportsandTermsAction.java
@@ -135,7 +133,7 @@ public class SponsorTermActionHelper implements Serializable {
     /**
     *
     * Validate that Award Sponsor term is not a duplicate.
-    * @param AwardSponsorTerm, ErrorMap
+    * @param AwardSponsorTerm, MessageMap
     * @return Boolean
     */
     boolean validateAwardSponsorTermNotDuplicate(AwardSponsorTerm awardSponsorTerm, List<AwardSponsorTerm> awardSponsorTerms){
@@ -188,7 +186,7 @@ public class SponsorTermActionHelper implements Serializable {
      */
     protected int getSponsorTermTypeIndex(HttpServletRequest request) {
         int sponsorTermTypeIndex = -1;
-        String parameterName = (String) request.getAttribute(KNSConstants.METHOD_TO_CALL_ATTRIBUTE);
+        String parameterName = (String) request.getAttribute(KRADConstants.METHOD_TO_CALL_ATTRIBUTE);
         if (StringUtils.isNotBlank(parameterName)) {
             String sponsorTermTypeIndexString = StringUtils.substringBetween(parameterName, ".sponsorTermTypeIndex", PERIOD);
             sponsorTermTypeIndex = Integer.parseInt(sponsorTermTypeIndexString);

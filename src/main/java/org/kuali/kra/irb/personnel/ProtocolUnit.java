@@ -13,41 +13,44 @@
  * See the License for the specific language governing permissions and
  * limitations under the License.
  */
-
 package org.kuali.kra.irb.personnel;
-
-import java.util.LinkedHashMap;
 
 import org.apache.commons.lang.StringUtils;
 import org.kuali.kra.SkipVersioning;
 import org.kuali.kra.bo.Unit;
 import org.kuali.kra.irb.ProtocolAssociate;
 
-public class ProtocolUnit extends ProtocolAssociate { 
-	
-	/**
+public class ProtocolUnit extends ProtocolAssociate {
+
+    /**
      * Comment for <code>serialVersionUID</code>
      */
     private static final long serialVersionUID = 8187880795930346699L;
-    private Integer protocolUnitsId; 
-    private Integer protocolPersonId; 
-	private String unitNumber; 
-	private boolean leadUnitFlag; 
-	private String personId; 
-	private String unitName;
-	
-	private Unit unit; 
-	
-	@SkipVersioning
-    private ProtocolPerson protocolPerson; 
 
-    public ProtocolUnit() { 
+    private Integer protocolUnitsId;
+
+    private Integer protocolPersonId;
+
+    private String unitNumber;
+
+    private boolean leadUnitFlag;
+
+    private String personId;
+
+    private String unitName;
+
+    private Unit unit;
+
+    @SkipVersioning
+    private ProtocolPerson protocolPerson;
+
+    public ProtocolUnit() {
         setLeadUnitFlag(false);
-	} 
-	
-	public Integer getProtocolUnitsId() {
-		return protocolUnitsId;
-	}
+    }
+
+    public Integer getProtocolUnitsId() {
+        return protocolUnitsId;
+    }
 
     public void setProtocolUnitsId(Integer protocolUnitsId) {
         this.protocolUnitsId = protocolUnitsId;
@@ -61,48 +64,37 @@ public class ProtocolUnit extends ProtocolAssociate {
         this.protocolPersonId = protocolPersonId;
     }
 
-	public String getUnitNumber() {
-		return unitNumber;
-	}
+    public String getUnitNumber() {
+        return unitNumber;
+    }
 
-	public void setUnitNumber(String unitNumber) {
-		this.unitNumber = unitNumber;
-	}
+    public void setUnitNumber(String unitNumber) {
+        this.unitNumber = unitNumber;
+    }
 
-	public boolean getLeadUnitFlag() {
-		return leadUnitFlag;
-	}
+    public boolean getLeadUnitFlag() {
+        return leadUnitFlag;
+    }
 
-	public void setLeadUnitFlag(boolean leadUnitFlag) {
-		this.leadUnitFlag = leadUnitFlag;
-	}
+    public void setLeadUnitFlag(boolean leadUnitFlag) {
+        this.leadUnitFlag = leadUnitFlag;
+    }
 
-	public String getPersonId() {
-		return personId;
-	}
+    public String getPersonId() {
+        return personId;
+    }
 
-	public void setPersonId(String personId) {
-		this.personId = personId;
-	}
+    public void setPersonId(String personId) {
+        this.personId = personId;
+    }
 
-	public Unit getUnit() {
-		return unit;
-	}
+    public Unit getUnit() {
+        return unit;
+    }
 
-	public void setUnit(Unit unit) {
-		this.unit = unit;
-	}
-
-	@Override 
-	protected LinkedHashMap<String,Object> toStringMapper() {
-	    LinkedHashMap<String,Object> hashMap = super.toStringMapper();
-		hashMap.put("protocolUnitsId", getProtocolUnitsId());
-        hashMap.put("protocolPersonId", getProtocolPersonId());
-		hashMap.put("unitNumber", getUnitNumber());
-		hashMap.put("leadUnitFlag", getLeadUnitFlag());
-		hashMap.put("personId", getPersonId());
-		return hashMap;
-	}
+    public void setUnit(Unit unit) {
+        this.unit = unit;
+    }
 
     public ProtocolPerson getProtocolPerson() {
         return protocolPerson;
@@ -112,14 +104,14 @@ public class ProtocolUnit extends ProtocolAssociate {
         this.protocolPerson = protocolPerson;
     }
 
-    // Note this field isn't persisted in protocolUnit so
-    // we've got do pull from the Unit reference.
+    // Note this field isn't persisted in protocolUnit so  
+    // we've got do pull from the Unit reference.  
     public String getUnitName() {
         if (StringUtils.isEmpty(unitName) && StringUtils.isNotEmpty(unitNumber)) {
-                this.refreshReferenceObject("unit");
-                if (unit != null) {
-                    setUnitName(unit.getUnitName());            
-                }
+            this.refreshReferenceObject("unit");
+            if (unit != null) {
+                setUnitName(unit.getUnitName());
+            }
         }
         return unitName;
     }
@@ -131,13 +123,12 @@ public class ProtocolUnit extends ProtocolAssociate {
     public void init(ProtocolPerson protocolPerson) {
         setProtocolPerson(protocolPerson);
         setProtocolPersonId(protocolPerson.getProtocolPersonId());
-        
-        //this is a little weird...
+        //this is a little weird...  
         this.init(protocolPerson.getProtocol());
     }
-    
+
     /** {@inheritDoc} */
-	public void resetPersistenceState() {
-	    this.setProtocolUnitsId(null);
-	}
+    public void resetPersistenceState() {
+        this.setProtocolUnitsId(null);
+    }
 }

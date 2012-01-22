@@ -35,8 +35,8 @@ import org.kuali.kra.institutionalproposal.home.InstitutionalProposal;
 import org.kuali.kra.irb.Protocol;
 import org.kuali.kra.proposaldevelopment.bo.DevelopmentProposal;
 import org.kuali.kra.service.TaskAuthorizationService;
-import org.kuali.rice.kns.service.ParameterService;
-import org.kuali.rice.kns.util.GlobalVariables;
+import org.kuali.rice.coreservice.framework.parameter.ParameterService;
+import org.kuali.rice.krad.util.GlobalVariables;
 
 public class DisclosureHelper implements Serializable {
 
@@ -72,7 +72,7 @@ public class DisclosureHelper implements Serializable {
     private String proposalType;
     private boolean modifyReporter;
     MasterDisclosureBean masterDisclosureBean;
-    
+
     public DisclosureHelper(CoiDisclosureForm form) {
         this.form = form;
         setNewDisclosurePersonUnit(new DisclosurePersonUnit());
@@ -210,7 +210,7 @@ public class DisclosureHelper implements Serializable {
     private void initConflictHeaderLabel() {
         String param = DEFAULT_CONFLICT_HEADER_LABEL;
         try {
-            param = getParameterService().getParameterValue(NAMESPACE_CODE, PARAMETER_CODE, CONFLICT_HEADER_LABEL_PARAMETER);
+            param = getParameterService().getParameterValueAsString(NAMESPACE_CODE, PARAMETER_CODE, CONFLICT_HEADER_LABEL_PARAMETER);
         } catch (Exception e) {
             // param not set - use default    
         }

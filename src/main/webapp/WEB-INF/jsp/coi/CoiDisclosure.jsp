@@ -172,6 +172,7 @@
 <kra-coi:coiNoteAndAttachment/>
 
 <kra-coi:coiCertification topTab="false" />
+
 <kul:panelFooter />
 	<kul:documentControls 
 		transactionalDocument="false"

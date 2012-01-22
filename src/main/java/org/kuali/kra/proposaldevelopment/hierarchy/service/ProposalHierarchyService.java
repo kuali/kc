@@ -17,24 +17,17 @@ package org.kuali.kra.proposaldevelopment.hierarchy.service;
 
 import java.io.IOException;
 import java.util.List;
-import java.util.Map;
 
-import org.apache.commons.lang.StringUtils;
 import org.apache.struts.upload.FormFile;
-import org.kuali.kra.budget.core.Budget;
 import org.kuali.kra.budget.personnel.HierarchyPersonnelSummary;
 import org.kuali.kra.proposaldevelopment.bo.DevelopmentProposal;
 import org.kuali.kra.proposaldevelopment.document.ProposalDevelopmentDocument;
 import org.kuali.kra.proposaldevelopment.hierarchy.ProposalHierarchyErrorDto;
 import org.kuali.kra.proposaldevelopment.hierarchy.ProposalHierarchyException;
 import org.kuali.kra.proposaldevelopment.hierarchy.bo.HierarchyProposalSummary;
-import org.kuali.rice.kew.dto.DocumentRouteStatusChangeDTO;
-import org.kuali.rice.kew.exception.WorkflowException;
-import org.kuali.rice.kew.service.WorkflowDocument;
-import org.kuali.rice.kew.util.KEWConstants;
-import org.kuali.rice.kns.util.GlobalVariables;
-import org.kuali.rice.kns.util.KNSConstants;
-import org.kuali.rice.kns.workflow.service.KualiWorkflowDocument;
+import org.kuali.rice.kew.api.WorkflowDocument;
+import org.kuali.rice.kew.api.exception.WorkflowException;
+import org.kuali.rice.kew.framework.postprocessor.DocumentRouteStatusChange;
 
 /**
  * This class...
@@ -66,8 +59,8 @@ public interface ProposalHierarchyService {
     
     public static final String PROPOSAL_DEVELOPMENT_DOCUMENT_TYPE = "ProposalDevelopmentDocument";
     
-//    public static final String REJECT_PROPOSAL_REASON_PREFIX = "Proposal rejected" + KNSConstants.BLANK_SPACE;
-//    public static final String REJECT_PROPOSAL_HIERARCHY_CHILD_REASON_PREFIX = "Proposal Hierarchy child rejected when parent rejected" + KNSConstants.BLANK_SPACE;
+//    public static final String REJECT_PROPOSAL_REASON_PREFIX = "Proposal rejected" + KRADConstants.BLANK_SPACE;
+//    public static final String REJECT_PROPOSAL_HIERARCHY_CHILD_REASON_PREFIX = "Proposal Hierarchy child rejected when parent rejected" + KRADConstants.BLANK_SPACE;
 //    public static final String APPLICATION_STATUS_PARENT_ENROUTE = "message.proposalDevelopment.workflow.applicationStatus.parentEnroute";
 //   
     
@@ -130,7 +123,7 @@ public interface ProposalHierarchyService {
      * @return The KualiWorklowDocument of the child's parent.
      * @throws ProposalHierarchyException if the provided proposal is not in a hierarchy.
      */
-    public KualiWorkflowDocument getParentWorkflowDocument( ProposalDevelopmentDocument doc ) throws ProposalHierarchyException;
+    public WorkflowDocument getParentWorkflowDocument( ProposalDevelopmentDocument doc ) throws ProposalHierarchyException;
 
     /**
      * Get the parent document of the hierarchy child document.
@@ -191,7 +184,7 @@ public interface ProposalHierarchyService {
      * @param currentUserPrincipalName the name of the user to perform submit or approve operations on the child document.
      * @throws ProposalHierarchyException If there is a problem routing the children.
      */
-    public void routeHierarchyChildren(ProposalDevelopmentDocument proposalDevelopmentDocument, DocumentRouteStatusChangeDTO dto ) throws ProposalHierarchyException;
+    public void routeHierarchyChildren(ProposalDevelopmentDocument proposalDevelopmentDocument, DocumentRouteStatusChange dto ) throws ProposalHierarchyException;
     
     public boolean allChildBudgetsAreComplete(String parentProposalNumber);
     
@@ -206,5 +199,5 @@ public interface ProposalHierarchyService {
      */
     public void updateAppDocStatus(ProposalDevelopmentDocument doc, String principalId, String newStatus) throws ProposalHierarchyException;
 
-    public void calculateAndSetProposalAppDocStatus(ProposalDevelopmentDocument doc, DocumentRouteStatusChangeDTO dto) throws ProposalHierarchyException;
+    public void calculateAndSetProposalAppDocStatus(ProposalDevelopmentDocument doc, DocumentRouteStatusChange dto) throws ProposalHierarchyException;
 }

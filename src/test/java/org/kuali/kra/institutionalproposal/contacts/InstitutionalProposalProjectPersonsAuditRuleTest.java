@@ -26,8 +26,8 @@ import org.kuali.kra.bo.NonOrganizationalRolodex;
 import org.kuali.kra.bo.Unit;
 import org.kuali.kra.institutionalproposal.home.InstitutionalProposal;
 import org.kuali.kra.test.infrastructure.KcUnitTestBase;
-import org.kuali.rice.kns.util.ErrorMap;
-import org.kuali.rice.kns.util.GlobalVariables;
+import org.kuali.rice.krad.util.GlobalVariables;
+import org.kuali.rice.krad.util.MessageMap;
 
 public class InstitutionalProposalProjectPersonsAuditRuleTest extends KcUnitTestBase {
     
@@ -64,7 +64,7 @@ public class InstitutionalProposalProjectPersonsAuditRuleTest extends KcUnitTest
         unitB.setUnitName("b");
         unitB.setUnitNumber("2");
         
-        GlobalVariables.setErrorMap(new ErrorMap());
+        GlobalVariables.setMessageMap(new MessageMap());
     }
     
     @After

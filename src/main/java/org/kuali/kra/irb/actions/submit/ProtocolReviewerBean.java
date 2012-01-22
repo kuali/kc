@@ -15,12 +15,10 @@
  */
 package org.kuali.kra.irb.actions.submit;
 
-import java.util.LinkedHashMap;
-
 import org.apache.commons.lang.StringUtils;
 import org.kuali.kra.committee.bo.CommitteeMembership;
 import org.kuali.kra.irb.actions.notification.ProtocolNotificationRequestBean;
-import org.kuali.rice.kns.bo.BusinessObjectBase;
+import org.kuali.rice.krad.bo.BusinessObjectBase;
 
 /**
  * This class is really just a "form" for the reviewers that
@@ -90,17 +88,6 @@ public class ProtocolReviewerBean extends BusinessObjectBase {
         this.nonEmployeeFlag = nonEmployeeFlag;
     }
 
-    @SuppressWarnings("unchecked")
-    @Override
-    protected LinkedHashMap toStringMapper() {
-        LinkedHashMap map = new LinkedHashMap();
-        map.put("personId", getPersonId());
-        map.put("fullName", getFullName());
-        map.put("reviewTypeCode", getReviewerTypeCode());
-        map.put("nonEmployeeFlag", getNonEmployeeFlag());
-        return map;
-    }
-
     public void refresh() {
        
     }
@@ -117,8 +104,8 @@ public class ProtocolReviewerBean extends BusinessObjectBase {
                          ||
                          ( membership.getPersonId()!=null && membership.getPersonId()!=null && StringUtils.equals(membership.getPersonId(), this.getPersonId()));
         return result;
-    }
-
+    }   
+    
     public String getActionFlag() {
         return actionFlag;
     }

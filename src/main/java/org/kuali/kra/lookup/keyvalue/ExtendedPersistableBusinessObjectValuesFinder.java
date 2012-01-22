@@ -19,9 +19,9 @@ import java.util.Collections;
 import java.util.Comparator;
 import java.util.List;
 
-
-import org.kuali.rice.kns.lookup.keyvalues.PersistableBusinessObjectValuesFinder;
-import org.kuali.rice.core.util.KeyLabelPair;
+import org.kuali.rice.core.api.util.ConcreteKeyValue;
+import org.kuali.rice.core.api.util.KeyValue;
+import org.kuali.rice.krad.keyvalues.PersistableBusinessObjectValuesFinder;
 
 /**
  * This class extends the PersistableBusinessObjectValuesFinder - the Generic ValuesFinder - 
@@ -41,8 +41,8 @@ public class ExtendedPersistableBusinessObjectValuesFinder extends PersistableBu
         {    
             try
             {
-                String desc1 = ((KeyLabelPair)kv1).getLabel();
-                String desc2 = ((KeyLabelPair)kv2).getLabel();
+                String desc1 = ((KeyValue)kv1).getValue();
+                String desc2 = ((KeyValue)kv2).getValue();
                 if (desc1 == null)
                 {
                     desc1 = "";
@@ -61,20 +61,20 @@ public class ExtendedPersistableBusinessObjectValuesFinder extends PersistableBu
         
     }
     /**
-     * Build the list of KeyLabelPairs using the key (keyAttributeName) and
+     * Build the list of KeyValues using the key (keyAttributeName) and
      * label (labelAttributeName) of the list of all business objects found
      * for the BO class specified along with a "select" entry.
      * 
      * {@inheritDoc}
      */
     @Override
-    public List<KeyLabelPair> getKeyValues(){
-        List<KeyLabelPair> labels;
+    public List<KeyValue> getKeyValues(){
+        List<KeyValue> labels;
         
         labels = super.getKeyValues();
         Collections.sort(labels, new PBOComparator());
         
-        labels.add(0, new KeyLabelPair(PrefixValuesFinder.getPrefixKey(), PrefixValuesFinder.getDefaultPrefixValue()));    
+        labels.add(0, new ConcreteKeyValue(PrefixValuesFinder.getPrefixKey(), PrefixValuesFinder.getDefaultPrefixValue()));    
         return labels;
     }
 }

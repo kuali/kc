@@ -18,12 +18,9 @@ package org.kuali.kra.institutionalproposal.ipreview;
 import java.sql.Date;
 import java.util.ArrayList;
 import java.util.HashMap;
-import java.util.LinkedHashMap;
 import java.util.List;
 import java.util.Map;
 
-import org.apache.ojb.broker.PersistenceBroker;
-import org.apache.ojb.broker.PersistenceBrokerException;
 import org.kuali.kra.SequenceOwner;
 import org.kuali.kra.bo.KcPerson;
 import org.kuali.kra.bo.versioning.VersionStatus;
@@ -34,56 +31,76 @@ import org.kuali.kra.institutionalproposal.ProposalIpReviewJoin;
 import org.kuali.kra.institutionalproposal.document.InstitutionalProposalDocument;
 import org.kuali.kra.institutionalproposal.service.InstitutionalProposalVersioningService;
 import org.kuali.kra.service.KcPersonService;
-import org.kuali.rice.kns.service.BusinessObjectService;
-import org.kuali.rice.kns.service.ParameterService;
-import org.kuali.rice.kns.util.ObjectUtils;
+import org.kuali.rice.coreservice.framework.CoreFrameworkServiceLocator;
+import org.kuali.rice.coreservice.framework.parameter.ParameterService;
+import org.kuali.rice.krad.service.BusinessObjectService;
+import org.kuali.rice.krad.util.ObjectUtils;
 
 /**
  * This class represents an Intellectual Property Review.
  */
 public class IntellectualPropertyReview extends InstitutionalProposalAssociate implements SequenceOwner<IntellectualPropertyReview> {
-    
+
     private static final long serialVersionUID = 1L;
+
     private static final String GENERAL_COMMENT_CODE_PARM_NM = "proposalcommenttype.generalcomment";
+
     private static final String REVIEWER_COMMENT_CODE_PARM_NM = "proposalcommenttype.reviewercomment";
-    
+
     private Long ipReviewId;
-    private String ipReviewRequirementTypeCode; 
-    private Date reviewSubmissionDate; 
-    private Date reviewReceiveDate; 
-    private String reviewResultCode; 
-    private String ipReviewer; 
+
+    private String ipReviewRequirementTypeCode;
+
+    private Date reviewSubmissionDate;
+
+    private Date reviewReceiveDate;
+
+    private String reviewResultCode;
+
+    private String ipReviewer;
+
     private List<ProposalComment> comments;
+
     private List<IntellectualPropertyReviewActivity> ipReviewActivities;
+
     private IntellectualPropertyReviewRequirementType ipReviewRequirementType;
+
     private IntellectualPropertyReviewResultType reviewResult;
+
     private String generalComments;
+
     private String reviewerComments;
-    private List<ProposalIpReviewJoin> proposalIpReviewJoins; 
+
+    private List<ProposalIpReviewJoin> proposalIpReviewJoins;
+
     private String ipReviewSequenceStatus;
+
     private Long proposalIdToLink;
-    
+
     private KcPerson person;
-    
+
     private transient ParameterService parameterService;
+
     private transient KcPersonService kcPersonService;
+
     private transient String generalCommentCode;
+
     private transient String reviewerCommentCode;
-    
+
     /**
      * Constructs an IntellectualPropertyReview.java.
      */
     public IntellectualPropertyReview() {
         init();
     }
-    
+
     protected void init() {
         comments = new ArrayList<ProposalComment>();
         ipReviewActivities = new ArrayList<IntellectualPropertyReviewActivity>();
         proposalIpReviewJoins = new ArrayList<ProposalIpReviewJoin>();
         this.setIpReviewSequenceStatus(VersionStatus.PENDING.toString());
     }
-    
+
     public Long getIpReviewId() {
         return this.ipReviewId;
     }
@@ -131,7 +148,7 @@ public class IntellectualPropertyReview extends InstitutionalProposalAssociate i
     public void setIpReviewer(String ipReviewer) {
         this.ipReviewer = ipReviewer;
     }
-    
+
     public List<ProposalComment> getComments() {
         return comments;
     }
@@ -139,15 +156,15 @@ public class IntellectualPropertyReview extends InstitutionalProposalAssociate i
     public void setComments(List<ProposalComment> comments) {
         this.comments = comments;
     }
-    
+
     public String getGeneralComments() {
         return generalComments;
     }
-    
+
     public void setGeneralComments(String generalComments) {
         this.generalComments = generalComments;
     }
-    
+
     public String getReviewerComments() {
         return reviewerComments;
     }
@@ -163,14 +180,14 @@ public class IntellectualPropertyReview extends InstitutionalProposalAssociate i
     public void setIpReviewActivities(List<IntellectualPropertyReviewActivity> ipReviewActivities) {
         this.ipReviewActivities = ipReviewActivities;
     }
-    
+
     public KcPerson getPerson() {
         if (ipReviewer != null) {
             return getKcPersonService().getKcPersonByPersonId(ipReviewer);
         }
         return null;
     }
-    
+
     /**
      * Gets the KC Person Service.
      * @return KC Person Service.
@@ -179,10 +196,9 @@ public class IntellectualPropertyReview extends InstitutionalProposalAssociate i
         if (this.kcPersonService == null) {
             this.kcPersonService = KraServiceLocator.getService(KcPersonService.class);
         }
-        
         return this.kcPersonService;
     }
-    
+
     public IntellectualPropertyReviewRequirementType getIpReviewRequirementType() {
         return ipReviewRequirementType;
     }
@@ -198,7 +214,7 @@ public class IntellectualPropertyReview extends InstitutionalProposalAssociate i
     public void setReviewResult(IntellectualPropertyReviewResultType reviewResult) {
         this.reviewResult = reviewResult;
     }
-    
+
     public List<ProposalIpReviewJoin> getProposalIpReviewJoins() {
         return proposalIpReviewJoins;
     }
@@ -206,7 +222,7 @@ public class IntellectualPropertyReview extends InstitutionalProposalAssociate i
     public void setProposalIpReviewJoins(List<ProposalIpReviewJoin> proposalIpReviewJoins) {
         this.proposalIpReviewJoins = proposalIpReviewJoins;
     }
-    
+
     public String getIpReviewSequenceStatus() {
         return ipReviewSequenceStatus;
     }
@@ -214,7 +230,7 @@ public class IntellectualPropertyReview extends InstitutionalProposalAssociate i
     public void setIpReviewSequenceStatus(String ipReviewSequenceStatus) {
         this.ipReviewSequenceStatus = ipReviewSequenceStatus;
     }
-    
+
     public Long getProposalIdToLink() {
         return proposalIdToLink;
     }
@@ -229,11 +245,11 @@ public class IntellectualPropertyReview extends InstitutionalProposalAssociate i
         }
         return null;
     }
-    
+
     public void setProposalIpReviewJoin(ProposalIpReviewJoin proposalIpReviewJoin) {
         this.proposalIpReviewJoins.add(0, proposalIpReviewJoin);
     }
-    
+
     public String getLeadUnitNumber() {
         if (!ObjectUtils.isNull(this.getProposalIpReviewJoin())) {
             return this.getProposalIpReviewJoin().getInstitutionalProposal().getUnitNumber();
@@ -245,73 +261,72 @@ public class IntellectualPropertyReview extends InstitutionalProposalAssociate i
      * @see org.kuali.core.bo.PersistableBusinessObjectBase#beforeInsert()
      */
     @Override
-    public void beforeInsert(PersistenceBroker persistenceBroker) throws PersistenceBrokerException {
-        super.beforeInsert(persistenceBroker);
+    protected void prePersist() {
+        super.prePersist();
         this.setIpReviewSequenceStatus(VersionStatus.ACTIVE.toString());
         archiveCurrentActiveIpReview();
         transformDataBeforePersistence();
         getBusinessObjectService().save(this.getComments());
     }
-    
+
     /**
      * @see org.kuali.core.bo.PersistableBusinessObjectBase#beforeInsert()
      */
     @Override
-    public void beforeUpdate(PersistenceBroker persistenceBroker) throws PersistenceBrokerException {
-        super.beforeUpdate(persistenceBroker);
+    protected void preUpdate() {
+        super.preUpdate();
         transformDataBeforePersistence();
         getBusinessObjectService().save(this.getComments());
     }
-    
+
     /**
      * @see org.kuali.core.bo.PersistableBusinessObjectBase#afterLookup()
      */
     @Override
-    public void afterLookup(PersistenceBroker persistenceBroker) throws PersistenceBrokerException {
-        super.afterLookup(persistenceBroker);
+    protected void postLoad() {
+        super.postLoad();
         loadProposalComments();
         transformDataAfterLookup();
     }
-    
+
     /**
      * @see org.kuali.core.bo.PersistableBusinessObjectBase#beforeInsert()
      */
     @Override
-    public void afterInsert(PersistenceBroker persistenceBroker) throws PersistenceBrokerException {
-        super.afterInsert(persistenceBroker);
+    protected void postPersist() {
+        super.postPersist();
         if (ObjectUtils.isNotNull(this.getProposalIdToLink())) {
             updateProposalIpReviewJoin();
         }
     }
-    
+
     protected void updateProposalIpReviewJoin() {
         ProposalIpReviewJoin proposalIpReviewJoin = this.getProposalIpReviewJoin();
         if (ObjectUtils.isNull(proposalIpReviewJoin)) {
             proposalIpReviewJoin = new ProposalIpReviewJoin();
         } else if (ObjectUtils.isNotNull(proposalIpReviewJoin.getProposalIpReviewJoinId())) {
             proposalIpReviewJoin.setProposalIpReviewJoinId(null);
-        } 
+        }
         proposalIpReviewJoin.setIpReviewId(this.getIpReviewId());
         proposalIpReviewJoin.setProposalId(this.getProposalIdToLink());
         getBusinessObjectService().save(proposalIpReviewJoin);
         this.setProposalIpReviewJoin(proposalIpReviewJoin);
     }
-    
+
     @SuppressWarnings("unchecked")
     protected void archiveCurrentActiveIpReview() {
         Map<String, String> criteria = new HashMap<String, String>();
         criteria.put("proposalNumber", this.getProposalNumber());
         criteria.put("ipReviewSequenceStatus", VersionStatus.ACTIVE.toString());
-        List<IntellectualPropertyReview> results = new ArrayList<IntellectualPropertyReview>(
-                getBusinessObjectService().findMatching(IntellectualPropertyReview.class, criteria));
+        List<IntellectualPropertyReview> results = new ArrayList<IntellectualPropertyReview>(getBusinessObjectService().findMatching(IntellectualPropertyReview.class, criteria));
         if (!results.isEmpty()) {
-            // There should only be one active version at a time
+            // There should only be one active version at a time  
             IntellectualPropertyReview ipReviewToArchive = results.get(0);
             ipReviewToArchive.setIpReviewSequenceStatus(VersionStatus.ARCHIVED.toString());
             getBusinessObjectService().save(ipReviewToArchive);
         }
     }
-    
+
     protected void transformDataBeforePersistence() {
         if (this.getProposalIdToLink() != null) {
             loadProposalComments();
@@ -324,7 +339,7 @@ public class IntellectualPropertyReview extends InstitutionalProposalAssociate i
         }
         setReferenceFields();
     }
-    
+
     protected void transformDataAfterLookup() {
         ProposalComment generalCommentFromList = getCommentFromList(getGeneralCommentCode());
         if (generalCommentFromList != null) {
@@ -334,9 +349,8 @@ public class IntellectualPropertyReview extends InstitutionalProposalAssociate i
         if (reviewerCommentFromList != null) {
             this.setReviewerComments(reviewerCommentFromList.getComments());
         }
-        //this.setProposalNumber(this.getProposalIpReviewJoin().getInstitutionalProposal().getProposalNumber());
     }
-    
+
     protected void setReferenceFields() {
         for (IntellectualPropertyReviewActivity ipReviewActivity : ipReviewActivities) {
             ipReviewActivity.setIpReviewId(this.getIpReviewId());
@@ -344,7 +358,7 @@ public class IntellectualPropertyReview extends InstitutionalProposalAssociate i
             ipReviewActivity.setSequenceNumber(this.getSequenceNumber());
         }
     }
-    
+
     private void addOrModifyComments(String commentTypeCode, String comment) {
         ProposalComment commentFromList = getCommentFromList(commentTypeCode);
         if (commentFromList != null) {
@@ -359,19 +373,19 @@ public class IntellectualPropertyReview extends InstitutionalProposalAssociate i
             comments.add(proposalComment);
         }
     }
-    
+
     private ProposalComment getCommentFromList(String commentTypeCode) {
         for (ProposalComment proposalComment : this.getComments()) {
-            if (proposalComment.getCommentTypeCode().equals(commentTypeCode)) { 
+            if (proposalComment.getCommentTypeCode().equals(commentTypeCode)) {
                 return proposalComment;
             }
         }
         return null;
     }
-    
+
     @SuppressWarnings("unchecked")
     private void loadProposalComments() {
-        Map<Object, Object> fieldValues = new HashMap<Object, Object>();
+        Map<String, Object> fieldValues = new HashMap<String, Object>();
         if (!this.getProposalIpReviewJoins().isEmpty() && ObjectUtils.isNotNull(this.getProposalIpReviewJoin().getProposalId())) {
             fieldValues.put("proposalId", this.getProposalIpReviewJoin().getProposalId());
             this.setComments(new ArrayList<ProposalComment>(getBusinessObjectService().findMatching(ProposalComment.class, fieldValues)));
@@ -380,42 +394,40 @@ public class IntellectualPropertyReview extends InstitutionalProposalAssociate i
             this.setComments(new ArrayList<ProposalComment>(getBusinessObjectService().findMatching(ProposalComment.class, fieldValues)));
         }
     }
-    
+
     String getGeneralCommentCode() {
         if (generalCommentCode == null) {
-            generalCommentCode = this.getParameterService().getParameterValue(
-                    InstitutionalProposalDocument.class, GENERAL_COMMENT_CODE_PARM_NM);
+            generalCommentCode = this.getParameterService().getParameterValueAsString(InstitutionalProposalDocument.class, GENERAL_COMMENT_CODE_PARM_NM);
         }
         return generalCommentCode;
     }
-    
+
     String getReviewerCommentCode() {
         if (reviewerCommentCode == null) {
-            reviewerCommentCode = this.getParameterService().getParameterValue(
-                    InstitutionalProposalDocument.class, REVIEWER_COMMENT_CODE_PARM_NM);
+            reviewerCommentCode = this.getParameterService().getParameterValueAsString(InstitutionalProposalDocument.class, REVIEWER_COMMENT_CODE_PARM_NM);
         }
         return reviewerCommentCode;
     }
-    
+
     /**
      * Looks up and returns the ParameterService.
      * @return the parameter service. 
      */
     protected ParameterService getParameterService() {
         if (this.parameterService == null) {
-            this.parameterService = KraServiceLocator.getService(ParameterService.class);        
+            this.parameterService = CoreFrameworkServiceLocator.getParameterService();
         }
         return this.parameterService;
     }
-    
+
     BusinessObjectService getBusinessObjectService() {
         return KraServiceLocator.getService(BusinessObjectService.class);
     }
-    
+
     InstitutionalProposalVersioningService getInstitutionalProposalVersioningService() {
         return KraServiceLocator.getService(InstitutionalProposalVersioningService.class);
     }
-    
+
     /**
      * @see org.kuali.kra.SequenceOwner#getOwnerSequenceNumber()
      */
@@ -438,7 +450,6 @@ public class IntellectualPropertyReview extends InstitutionalProposalAssociate i
     }
 
     public void setSequenceOwner(IntellectualPropertyReview newlyVersionedOwner) {
-        // TODO Auto-generated method stub
     }
 
     /**
@@ -447,25 +458,12 @@ public class IntellectualPropertyReview extends InstitutionalProposalAssociate i
     public void resetPersistenceState() {
         this.ipReviewId = null;
     }
-    
+
     /**
      * @see org.kuali.kra.SequenceOwner#getName()
      */
     public String getVersionNameField() {
         return "proposalNumber";
-    }
-    
-    /** {@inheritDoc} */
-    @Override 
-    protected LinkedHashMap<String, Object> toStringMapper() {
-        LinkedHashMap<String, Object> hashMap = new LinkedHashMap<String, Object>();
-        hashMap.put("ipReviewId", this.getIpReviewId());
-        hashMap.put("ipReviewRequirementTypeCode", this.getIpReviewRequirementTypeCode());
-        hashMap.put("reviewSubmissionDate", this.getReviewSubmissionDate());
-        hashMap.put("reviewReceiveDate", this.getReviewReceiveDate());
-        hashMap.put("reviewResultCode", this.getReviewResultCode());
-        hashMap.put("ipReviewer", this.getIpReviewer());
-        return hashMap;
     }
 
     @Override
@@ -569,5 +567,4 @@ public class IntellectualPropertyReview extends InstitutionalProposalAssociate i
         }
         return true;
     }
-    
 }

@@ -15,8 +15,6 @@
  */
 package org.kuali.kra.irb;
 
-import java.util.LinkedHashMap;
-
 import org.apache.commons.lang.StringUtils;
 import org.kuali.kra.SequenceAssociate;
 import org.kuali.kra.bo.KraPersistableBusinessObjectBase;
@@ -29,13 +27,15 @@ import org.kuali.kra.bo.KraPersistableBusinessObjectBase;
  * way around that due to the limitations in rice, ojb, etc.
  */
 public abstract class ProtocolAssociate extends KraPersistableBusinessObjectBase implements SequenceAssociate<Protocol> {
+
     private static final long serialVersionUID = -8385115657304261423L;
-    
+
     private String protocolNumber;
 
     private Integer sequenceNumber = Integer.valueOf(0);
 
     private Long protocolId;
+
     private Protocol protocol;
 
     /**
@@ -46,7 +46,7 @@ public abstract class ProtocolAssociate extends KraPersistableBusinessObjectBase
     public ProtocolAssociate(Protocol protocol) {
         this.setProtocol(protocol);
     }
-    
+
     /**
      * Constructs a ProtocolAssociate.
      * 
@@ -58,7 +58,7 @@ public abstract class ProtocolAssociate extends KraPersistableBusinessObjectBase
     public ProtocolAssociate() {
         super();
     }
-    
+
     /**
      * Gets the protocolId attribute. 
      * @return Returns the protocolId.
@@ -74,7 +74,7 @@ public abstract class ProtocolAssociate extends KraPersistableBusinessObjectBase
     public void setProtocolId(Long protocolId) {
         this.protocolId = protocolId;
     }
-    
+
     /**
      * Gets the protocol attribute. 
      * @return Returns the protocol.
@@ -91,17 +91,17 @@ public abstract class ProtocolAssociate extends KraPersistableBusinessObjectBase
         this.protocol = protocol;
         this.initProtocolInfo(protocol);
     }
-    
+
     /**
      * Sets the protocol id and protocolNumber from the passed in protocol.
      * @param aProtocol the Protocol
      */
-    private void initProtocolInfo(Protocol aProtocol) {       
+    private void initProtocolInfo(Protocol aProtocol) {
         this.setProtocolId(aProtocol != null ? aProtocol.getProtocolId() : null);
         this.setProtocolNumber(aProtocol != null ? aProtocol.getProtocolNumber() : null);
         this.setSequenceNumber(aProtocol != null ? aProtocol.getSequenceNumber() : null);
     }
-    
+
     /**
      * Gets the sequence number.
      * @return sequence number.
@@ -117,7 +117,7 @@ public abstract class ProtocolAssociate extends KraPersistableBusinessObjectBase
     public void setSequenceNumber(Integer sequenceNumber) {
         this.sequenceNumber = sequenceNumber;
     }
-    
+
     /**
      * Gets the protocol number.
      * @return protocol number.
@@ -135,16 +135,6 @@ public abstract class ProtocolAssociate extends KraPersistableBusinessObjectBase
      */
     public void setProtocolNumber(String protocolNumber) {
         this.protocolNumber = protocolNumber;
-    }
-
-    /** {@inheritDoc} */
-    @Override
-    protected LinkedHashMap<String, Object> toStringMapper() {
-        LinkedHashMap<String, Object> map = new LinkedHashMap<String, Object>();
-        map.put("protocolId", this.protocolId);
-        map.put("protocolNumber", this.protocolNumber);
-        map.put("sequenceNumber", this.sequenceNumber);
-        return map;
     }
 
     /** {@inheritDoc} */
@@ -194,9 +184,9 @@ public abstract class ProtocolAssociate extends KraPersistableBusinessObjectBase
 
     /** {@inheritDoc} */
     public void setSequenceOwner(Protocol newlyVersionedOwner) {
-        this.setProtocol(newlyVersionedOwner);   
+        this.setProtocol(newlyVersionedOwner);
     }
-    
+
     /**
      * This inits the object to an unpersisted state by calling {@link #resetPersistenceState()}
      * Also, sets the protocol, protocol id, sequence number, and protocol number.
@@ -208,13 +198,12 @@ public abstract class ProtocolAssociate extends KraPersistableBusinessObjectBase
         this.postInitHook(aProtocol);
         this.setSequenceNumber(0);
     }
-    
+
     /**
      * This method is designed to allow subclasses to perform additional initialization not performed by the final init method.
      * This method is called by {@link #init(Protocol)} after all other initialization is performed.
      * @param aProtocol the protocol initialization is requested with.
      */
     public void postInitHook(Protocol aProtocol) {
-        //no-op
     }
 }

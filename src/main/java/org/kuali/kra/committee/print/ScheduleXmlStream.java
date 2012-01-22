@@ -47,12 +47,12 @@ import org.kuali.kra.meeting.CommitteeScheduleAttendance;
 import org.kuali.kra.printing.xmlstream.PrintBaseXmlStream;
 import org.kuali.kra.service.KcPersonService;
 
+import edu.mit.irb.irbnamespace.ScheduleDocument;
 import edu.mit.irb.irbnamespace.InvestigatorDocument.Investigator;
 import edu.mit.irb.irbnamespace.PersonDocument.Person;
 import edu.mit.irb.irbnamespace.ProtocolMasterDataDocument.ProtocolMasterData;
 import edu.mit.irb.irbnamespace.ProtocolSubmissionDocument.ProtocolSubmission;
 import edu.mit.irb.irbnamespace.ProtocolSummaryDocument.ProtocolSummary;
-import edu.mit.irb.irbnamespace.ScheduleDocument;
 import edu.mit.irb.irbnamespace.ScheduleDocument.Schedule;
 import edu.mit.irb.irbnamespace.ScheduleDocument.Schedule.Attendents;
 import edu.mit.irb.irbnamespace.ScheduleDocument.Schedule.NextSchedule;

@@ -16,7 +16,6 @@
 package org.kuali.kra.lookup;
 
 import java.util.ArrayList;
-import java.util.Collection;
 import java.util.Iterator;
 import java.util.List;
 import java.util.Map;
@@ -24,13 +23,13 @@ import java.util.Map;
 import org.apache.commons.lang.StringUtils;
 import org.kuali.kra.budget.core.CostElement;
 import org.kuali.kra.infrastructure.Constants;
-import org.kuali.rice.kns.bo.BusinessObject;
 import org.kuali.rice.kns.lookup.KualiLookupableHelperServiceImpl;
-import org.kuali.rice.kns.util.GlobalVariables;
-import org.kuali.rice.kns.util.KNSConstants;
+import org.kuali.rice.kns.util.KNSGlobalVariables;
 import org.kuali.rice.kns.web.ui.Column;
 import org.kuali.rice.kns.web.ui.Field;
 import org.kuali.rice.kns.web.ui.Row;
+import org.kuali.rice.krad.bo.BusinessObject;
+import org.kuali.rice.krad.util.KRADConstants;
 import org.springframework.transaction.annotation.Transactional;
 /**
  * 
@@ -50,7 +49,7 @@ public class BudgetExpenseLookupableHelperServiceImpl extends KualiLookupableHel
     public List<Row> getRows() {
         List<Row> oldRows = super.getRows();
         
-        String kfsOnParameterValue = getParameterService().getParameterValue(KFS_ON_PARM_NMSPC_CD, KFS_ON_PARM_DTL_TYP_CD, KFS_ON_PARM_NM);
+        String kfsOnParameterValue = getParameterService().getParameterValueAsString(KFS_ON_PARM_NMSPC_CD, KFS_ON_PARM_DTL_TYP_CD, KFS_ON_PARM_NM);
         
         List<Row> rows = new ArrayList<Row>();
         if (!StringUtils.equals(kfsOnParameterValue, KFS_ON_OFF_VALUE)) {
@@ -76,7 +75,7 @@ public class BudgetExpenseLookupableHelperServiceImpl extends KualiLookupableHel
     public List<Column> getColumns() {
         List<Column> oldColumns = super.getColumns();
         
-        String kfsOnParameterValue = getParameterService().getParameterValue(KFS_ON_PARM_NMSPC_CD, KFS_ON_PARM_DTL_TYP_CD, KFS_ON_PARM_NM);
+        String kfsOnParameterValue = getParameterService().getParameterValueAsString(KFS_ON_PARM_NMSPC_CD, KFS_ON_PARM_DTL_TYP_CD, KFS_ON_PARM_NM);
         
         List<Column> columns = new ArrayList<Column>();
         if (!StringUtils.equals(kfsOnParameterValue, KFS_ON_OFF_VALUE)) {
@@ -99,9 +98,9 @@ public class BudgetExpenseLookupableHelperServiceImpl extends KualiLookupableHel
      */
     public List<? extends BusinessObject> getSearchResults(Map<String, String> fieldValues) {
         //LookupUtils.removeHiddenCriteriaFields( getBusinessObjectClass(), fieldValues );
-        setBackLocation(fieldValues.get(KNSConstants.BACK_LOCATION));
-        setDocFormKey(fieldValues.get(KNSConstants.DOC_FORM_KEY));
-        setReferencesToRefresh(fieldValues.get(KNSConstants.REFERENCES_TO_REFRESH));
+        setBackLocation(fieldValues.get(KRADConstants.BACK_LOCATION));
+        setDocFormKey(fieldValues.get(KRADConstants.DOC_FORM_KEY));
+        setReferencesToRefresh(fieldValues.get(KRADConstants.REFERENCES_TO_REFRESH));
         String budgetCategoryTypeCode = fieldValues.get("budgetCategoryTypeCode");
         fieldValues.remove("budgetCategoryTypeCode");
         List searchResults;
@@ -129,10 +128,10 @@ public class BudgetExpenseLookupableHelperServiceImpl extends KualiLookupableHel
             }
         }       
         if(StringUtils.isNotBlank(budgetCategoryTypeCode)) {
-            GlobalVariables.getMessageList().add(Constants.BUDGET_EXPENSE_LOOKUP_MESSAGE1);
+            KNSGlobalVariables.getMessageList().add(Constants.BUDGET_EXPENSE_LOOKUP_MESSAGE1);
         }
-        //GlobalVariables.getMessageList().add(categoryTypeName);
-        //GlobalVariables.getMessageList().add(Constants.BUDGET_EXPENSE_LOOKUP_MESSAGE2);
+        //KNSGlobalVariables.getMessageList().add(categoryTypeName);
+        //KNSGlobalVariables.getMessageList().add(Constants.BUDGET_EXPENSE_LOOKUP_MESSAGE2);
         return searchResultsReturn;
     }
 }

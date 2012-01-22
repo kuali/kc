@@ -16,35 +16,37 @@
 package org.kuali.kra.bo;
 
 import java.text.DateFormat;
+import java.text.ParseException;
 import java.text.SimpleDateFormat;
 import java.util.Collection;
 import java.util.Collections;
 import java.util.Date;
 
 import org.apache.commons.lang.StringUtils;
+import org.apache.commons.lang.time.DateUtils;
 import org.apache.commons.lang.time.DurationFormatUtils;
 import org.kuali.kra.infrastructure.KraServiceLocator;
-import org.kuali.rice.kim.bo.entity.KimEntity;
-import org.kuali.rice.kim.bo.entity.KimEntityAddress;
-import org.kuali.rice.kim.bo.entity.KimEntityAffiliation;
-import org.kuali.rice.kim.bo.entity.KimEntityBioDemographics;
-import org.kuali.rice.kim.bo.entity.KimEntityCitizenship;
-import org.kuali.rice.kim.bo.entity.KimEntityEmail;
-import org.kuali.rice.kim.bo.entity.KimEntityEmploymentInformation;
-import org.kuali.rice.kim.bo.entity.KimEntityEntityType;
-import org.kuali.rice.kim.bo.entity.KimEntityExternalIdentifier;
-import org.kuali.rice.kim.bo.entity.KimEntityName;
-import org.kuali.rice.kim.bo.entity.KimEntityPhone;
-import org.kuali.rice.kim.bo.entity.KimPrincipal;
-import org.kuali.rice.kim.bo.entity.dto.KimEntityAddressInfo;
-import org.kuali.rice.kim.bo.entity.dto.KimEntityEntityTypeInfo;
-import org.kuali.rice.kim.bo.entity.dto.KimEntityInfo;
-import org.kuali.rice.kim.bo.entity.dto.KimPrincipalInfo;
-import org.kuali.rice.kim.service.IdentityService;
-import org.kuali.rice.kns.bo.BusinessObject;
-import org.kuali.rice.kns.bo.Country;
-import org.kuali.rice.kns.service.BusinessObjectService;
-import org.kuali.rice.kns.service.CountryService;
+import org.kuali.rice.kim.api.identity.IdentityService;
+import org.kuali.rice.kim.api.identity.address.EntityAddress;
+import org.kuali.rice.kim.api.identity.address.EntityAddressContract;
+import org.kuali.rice.kim.api.identity.affiliation.EntityAffiliationContract;
+import org.kuali.rice.kim.api.identity.citizenship.EntityCitizenshipContract;
+import org.kuali.rice.kim.api.identity.email.EntityEmailContract;
+import org.kuali.rice.kim.api.identity.employment.EntityEmploymentContract;
+import org.kuali.rice.kim.api.identity.entity.Entity;
+import org.kuali.rice.kim.api.identity.entity.EntityContract;
+import org.kuali.rice.kim.api.identity.external.EntityExternalIdentifierContract;
+import org.kuali.rice.kim.api.identity.name.EntityNameContract;
+import org.kuali.rice.kim.api.identity.personal.EntityBioDemographicsContract;
+import org.kuali.rice.kim.api.identity.phone.EntityPhoneContract;
+import org.kuali.rice.kim.api.identity.principal.Principal;
+import org.kuali.rice.kim.api.identity.principal.PrincipalContract;
+import org.kuali.rice.kim.api.identity.type.EntityTypeContactInfo;
+import org.kuali.rice.kim.api.identity.type.EntityTypeContactInfoContract;
+import org.kuali.rice.krad.bo.BusinessObject;
+import org.kuali.rice.krad.service.BusinessObjectService;
+import org.kuali.rice.location.api.country.Country;
+import org.kuali.rice.location.api.country.CountryService;
 
 /**
  * Represents a person in KC.
@@ -56,7 +58,7 @@ public class KcPerson implements Contactable, BusinessObject {
     private String personId;
     
     private transient IdentityService identityService;
-    private KimEntity entity;
+    private EntityContract entity;
     
     private transient BusinessObjectService boService;
     private KcPersonExtendedAttributes extendedAttributes;
@@ -69,7 +71,7 @@ public class KcPerson implements Contactable, BusinessObject {
     public KcPerson() {
         //no-arg ctor so that this BO can be used in rice...
         //initializing to empty objects to help with unit testing
-        this.entity = new KimEntityInfo();
+        this.entity = Entity.Builder.create();
         this.extendedAttributes = new KcPersonExtendedAttributes();
     }
     
@@ -117,7 +119,7 @@ public class KcPerson implements Contactable, BusinessObject {
     }
     
     /**
-     * Creates a KcPerson from an KimEntity & principalId.
+     * Creates a KcPerson from an EntityContract & principalId.
      * 
      * @param entity the KIM entity.
      * @param personId the principal id in KIM.  This is needed b/c a KIM entity can have multiple principal.  This determines
@@ -126,7 +128,7 @@ public class KcPerson implements Contactable, BusinessObject {
      * @throws IllegalArgumentException if the entity is null, principalId is empty, or if the entity does not contain a principal
      * with the passed in principal id
      */
-    public static KcPerson fromEntityAndPersonId(final KimEntity entity, final String personId) {
+    public static KcPerson fromEntityAndPersonId(final EntityContract entity, final String personId) {
         if (entity == null) {
             throw new IllegalArgumentException("the entity is null");
         }
@@ -137,7 +139,7 @@ public class KcPerson implements Contactable, BusinessObject {
         KcPerson person = new KcPerson();
         
         boolean contains = false;
-        for (KimPrincipal principal : entity.getPrincipals()) {
+        for (PrincipalContract principal : entity.getPrincipals()) {
             if (personId.equals(principal.getPrincipalId())) {
                 contains = true;
                 break;
@@ -156,7 +158,7 @@ public class KcPerson implements Contactable, BusinessObject {
     }
     
     /**
-     * Creates a KcPerson from an KimEntity & principalId.
+     * Creates a KcPerson from an EntityContract & principalId.
      * 
      * @param entity the KIM entity.
      * @param userName the principal's user name in KIM.  This is needed b/c a KIM entity can have multiple principal.  This determines
@@ -165,7 +167,7 @@ public class KcPerson implements Contactable, BusinessObject {
      * @throws IllegalArgumentException if the entity is null, userName is empty, or if the entity does not contain a principal
      * with the passed in user name
      */
-    public static KcPerson fromEntityAndUserName(final KimEntity entity, final String userName) {
+    public static KcPerson fromEntityAndUserName(final EntityContract entity, final String userName) {
         if (entity == null) {
             throw new IllegalArgumentException("the entity is null");
         }
@@ -176,7 +178,7 @@ public class KcPerson implements Contactable, BusinessObject {
         KcPerson person = new KcPerson();
         
         boolean contains = false;
-        for (KimPrincipal principal : entity.getPrincipals()) {
+        for (PrincipalContract principal : entity.getPrincipals()) {
             if (userName.equalsIgnoreCase(principal.getPrincipalName())) {
                 contains = true;
                 person.personId = principal.getPrincipalId();
@@ -202,10 +204,10 @@ public class KcPerson implements Contactable, BusinessObject {
     
     /** refreshes just the entity object. */
     private void refreshEntity() {
-        this.entity = this.getIdentityService().getEntityInfoByPrincipalId(this.personId);
+        this.entity = this.getIdentityService().getEntityByPrincipalId(this.personId);
         
         if (this.entity == null) {
-            this.entity = new KimEntityInfo();
+            this.entity = Entity.Builder.create();
         }
     }
     
@@ -256,7 +258,7 @@ public class KcPerson implements Contactable, BusinessObject {
      * @return the value of lastName
      */
     public String getLastName() {
-        final KimEntityName name = this.entity.getDefaultName();
+        final EntityNameContract name = this.entity.getDefaultName();
         if (name == null) {
             return "";
         }
@@ -269,7 +271,7 @@ public class KcPerson implements Contactable, BusinessObject {
      * @return the value of firstName
      */
     public String getFirstName() {
-        final KimEntityName name = this.entity.getDefaultName();
+        final EntityNameContract name = this.entity.getDefaultName();
         if (name == null) {
             return "";
         }
@@ -283,7 +285,7 @@ public class KcPerson implements Contactable, BusinessObject {
      * @return the value of middleName
      */
     public String getMiddleName() {
-        final KimEntityName name = this.entity.getDefaultName();
+        final EntityNameContract name = this.entity.getDefaultName();
         if (name == null) {
             return "";
         }
@@ -308,10 +310,10 @@ public class KcPerson implements Contactable, BusinessObject {
      * @return the value of priorName
      */
     public String getPriorName() {
-        return selectSingleValue(this.entity.getNames(), new Selector<KimEntityName, String>() {
+        return selectSingleValue(this.entity.getNames(), new Selector<EntityNameContract, String>() {
             public String notFoundValue() { return ""; }
-            public String select(KimEntityName a) { return a.getLastName(); }
-            public boolean shouldSelect(KimEntityName a) { return "PRIOR".equals(a.getNameTypeCode()) && a.getLastName() != null; }
+            public String select(EntityNameContract a) { return a.getLastName(); }
+            public boolean shouldSelect(EntityNameContract a) { return "PRIOR".equals(a.getNameType().getName()) && a.getLastName() != null; }
         });
     }
 
@@ -332,10 +334,10 @@ public class KcPerson implements Contactable, BusinessObject {
      * @return the value of emailAddress
      */
     public String getEmailAddress() {
-        return selectSingleValue(this.getEntityType().getEmailAddresses(), new Selector<KimEntityEmail, String>() {
+        return selectSingleValue(this.getEntityType().getEmailAddresses(), new Selector<EntityEmailContract, String>() {
             public String notFoundValue() { return ""; }
-            public String select(KimEntityEmail a) { return a.getEmailAddress(); }
-            public boolean shouldSelect(KimEntityEmail a) { return a.isActive() && a.isDefault() && a.getEmailAddress() != null; }
+            public String select(EntityEmailContract a) { return a.getEmailAddress(); }
+            public boolean shouldSelect(EntityEmailContract a) { return a.isActive() && a.isDefaultValue() && a.getEmailAddress() != null; }
         });
     }
 
@@ -345,12 +347,12 @@ public class KcPerson implements Contactable, BusinessObject {
      * @return the value of dateOfBirth
      */
     public String getDateOfBirth() {
-        final KimEntityBioDemographics bio = this.entity.getBioDemographics();
+        final EntityBioDemographicsContract bio = this.entity.getBioDemographics();
         if (bio == null) {
             return "";
         }
         
-        return bio.getBirthDate() != null ? this.formatDate(bio.getBirthDate()) : "";
+        return bio.getBirthDate();
     }
 
     /**
@@ -359,12 +361,21 @@ public class KcPerson implements Contactable, BusinessObject {
      * @return the value of age
      */
     public Integer getAge() {
-        final KimEntityBioDemographics bio = this.entity.getBioDemographics();
+        final EntityBioDemographicsContract bio = this.entity.getBioDemographics();
         if (bio == null) {
             return null;
         }
+        Date birthDate = null;
         
-        return bio.getBirthDate() != null ? this.calcAge(bio.getBirthDate()) : null;
+        try {
+            birthDate = (bio.getBirthDate() != null) ? DateUtils.parseDate(bio.getBirthDate(), new String[] {"mm/dd/yyyy"}) : null;
+        }
+        catch (ParseException e) {
+            throw new RuntimeException(e);
+        }
+        
+        return birthDate != null ?  this.calcAge(birthDate): null;
+        
     }
 
     /**
@@ -382,7 +393,7 @@ public class KcPerson implements Contactable, BusinessObject {
      * @return the value of gender
      */
     public String getGender() {
-        final KimEntityBioDemographics bio = this.entity.getBioDemographics();
+        final EntityBioDemographicsContract bio = this.entity.getBioDemographics();
         if (bio == null) {
             return "";
         }
@@ -569,12 +580,12 @@ public class KcPerson implements Contactable, BusinessObject {
      * @return the value of saluation
      */
     public String getSaluation() {
-        final KimEntityName name = this.entity.getDefaultName();
+        final EntityNameContract name = this.entity.getDefaultName();
         if (name == null) {
             return "";
         }
         
-        return name.getTitle() != null ? name.getTitle() : "";
+        return name.getNameTitle() != null ? name.getNameTitle() : "";
     }
 
     /**
@@ -583,10 +594,10 @@ public class KcPerson implements Contactable, BusinessObject {
      * @return the value of countryOfCitizenship
      */
     public String getCountryOfCitizenship() {
-        return selectSingleValue(this.entity.getCitizenships(), new Selector<KimEntityCitizenship, String>() {
+        return selectSingleValue(this.entity.getCitizenships(), new Selector<EntityCitizenshipContract, String>() {
             public String notFoundValue() { return ""; }
-            public String select(KimEntityCitizenship a) { return convert2DigitCountryCodeTo3Digit(a.getCountryCode()); }
-            public boolean shouldSelect(KimEntityCitizenship a) { return a.getCountryCode() != null; }
+            public String select(EntityCitizenshipContract a) { return convert2DigitCountryCodeTo3Digit(a.getCountryCode()); }
+            public boolean shouldSelect(EntityCitizenshipContract a) { return a.getCountryCode() != null; }
         });
     }
 
@@ -713,7 +724,7 @@ public class KcPerson implements Contactable, BusinessObject {
      * @return the value of addressLine1
      */
     public String getAddressLine1() {
-        final KimEntityAddress address = this.getDefaultActiveAddress();
+        final EntityAddressContract address = this.getDefaultActiveAddress();
         return address.getLine1() != null ? address.getLine1() : "";
     }
 
@@ -723,7 +734,7 @@ public class KcPerson implements Contactable, BusinessObject {
      * @return the value of addressLine2
      */
     public String getAddressLine2() {
-        final KimEntityAddress address = this.getDefaultActiveAddress();
+        final EntityAddressContract address = this.getDefaultActiveAddress();
         return address.getLine2() != null ? address.getLine2() : "";
     }
 
@@ -733,7 +744,7 @@ public class KcPerson implements Contactable, BusinessObject {
      * @return the value of addressLine3
      */
     public String getAddressLine3() {
-        final KimEntityAddress address = this.getDefaultActiveAddress();
+        final EntityAddressContract address = this.getDefaultActiveAddress();
         return address.getLine3() != null ? address.getLine3() : "";
     }
 
@@ -743,8 +754,8 @@ public class KcPerson implements Contactable, BusinessObject {
      * @return the value of city
      */
     public String getCity() {
-        final KimEntityAddress address = this.getDefaultActiveAddress();
-        return address.getCityName() != null ? address.getCityName() : "";
+        final EntityAddressContract address = this.getDefaultActiveAddress();
+        return address.getCity() != null ? address.getCity() : "";
     }
 
     /**
@@ -762,8 +773,8 @@ public class KcPerson implements Contactable, BusinessObject {
      * @return the value of state
      */
     public String getState() {
-        final KimEntityAddress address = this.getDefaultActiveAddress();
-        return address.getStateCode() != null ? address.getStateCode() : "";
+        final EntityAddressContract address = this.getDefaultActiveAddress();
+        return address.getStateProvinceCode() != null ? address.getStateProvinceCode() : "";
     }
 
     /**
@@ -772,7 +783,7 @@ public class KcPerson implements Contactable, BusinessObject {
      * @return the value of postalCode
      */
     public String getPostalCode() {
-        final KimEntityAddress address = this.getDefaultActiveAddress();
+        final EntityAddressContract address = this.getDefaultActiveAddress();
         return address.getPostalCode() != null ? address.getPostalCode() : "";
     }
 
@@ -782,7 +793,7 @@ public class KcPerson implements Contactable, BusinessObject {
      * @return the value of countryCode
      */
     public String getCountryCode() {
-        final KimEntityAddress address = this.getDefaultActiveAddress();
+        final EntityAddressContract address = this.getDefaultActiveAddress();
         return address.getCountryCode() != null ? this.convert2DigitCountryCodeTo3Digit(address.getCountryCode()) : "";
     }
     
@@ -862,7 +873,7 @@ public class KcPerson implements Contactable, BusinessObject {
 
     /** {@inheritDoc} */
     public String getOrganizationIdentifier() {
-        final KimEntityEmploymentInformation emp = this.entity.getPrimaryEmployment();
+        final EntityEmploymentContract emp = this.entity.getPrimaryEmployment();
         if (emp == null) {
             return "";
         }
@@ -928,10 +939,10 @@ public class KcPerson implements Contactable, BusinessObject {
      * @return the phone number (ex: 123-4567)
      */
     private String getPhoneNumber(final String type) {
-        return selectSingleValue(this.getEntityType().getPhoneNumbers(), new Selector<KimEntityPhone, String>() {
+        return selectSingleValue(this.getEntityType().getPhoneNumbers(), new Selector<EntityPhoneContract, String>() {
             public String notFoundValue() { return ""; }
-            public String select(KimEntityPhone a) { return a.getPhoneNumber(); }
-            public boolean shouldSelect(KimEntityPhone a) { return type.equals(a.getPhoneTypeCode()) && a.getPhoneNumber() != null; }
+            public String select(EntityPhoneContract a) { return a.getPhoneNumber(); }
+            public boolean shouldSelect(EntityPhoneContract a) { return type.equals(a.getPhoneType().getCode()) && a.getPhoneNumber() != null; }
         });
     }
     
@@ -945,10 +956,10 @@ public class KcPerson implements Contactable, BusinessObject {
      * @return the phone number (ex: 123-4567)
      */
     private String getPhoneNumber(final String type, final boolean isDefault) {
-        return selectSingleValue(this.getEntityType().getPhoneNumbers(), new Selector<KimEntityPhone, String>() {
+        return selectSingleValue(this.getEntityType().getPhoneNumbers(), new Selector<EntityPhoneContract, String>() {
             public String notFoundValue() { return ""; }
-            public String select(KimEntityPhone a) { return a.getPhoneNumber(); }
-            public boolean shouldSelect(KimEntityPhone a) { return type.equals(a.getPhoneTypeCode()) && isDefault == a.isDefault() && a.getPhoneNumber() != null; }
+            public String select(EntityPhoneContract a) { return a.getPhoneNumber(); }
+            public boolean shouldSelect(EntityPhoneContract a) { return type.equals(a.getPhoneType().getCode()) && isDefault == a.isDefaultValue() && a.getPhoneNumber() != null; }
         });
     }
     
@@ -958,10 +969,10 @@ public class KcPerson implements Contactable, BusinessObject {
      * @return true if the entity has an affiliation
      */
     private boolean hasAffiliation(final String affilTypeCode) {
-        return selectSingleValue(this.entity.getAffiliations(), new Selector<KimEntityAffiliation, Boolean>() {
+        return selectSingleValue(this.entity.getAffiliations(), new Selector<EntityAffiliationContract, Boolean>() {
             public Boolean notFoundValue() { return Boolean.FALSE; }
-            public Boolean select(KimEntityAffiliation a) { return Boolean.TRUE; }
-            public boolean shouldSelect(KimEntityAffiliation a) { return affilTypeCode.equals(a.getAffiliationTypeCode()); }
+            public Boolean select(EntityAffiliationContract a) { return Boolean.TRUE; }
+            public boolean shouldSelect(EntityAffiliationContract a) { return affilTypeCode.equals(a.getAffiliationType().getCode()); }
         });
     }
     
@@ -971,10 +982,10 @@ public class KcPerson implements Contactable, BusinessObject {
      * @return the campus code
      */
     private String getCampusCode(final boolean isDefault) {
-        return selectSingleValue(this.entity.getAffiliations(), new Selector<KimEntityAffiliation, String>() {
+        return selectSingleValue(this.entity.getAffiliations(), new Selector<EntityAffiliationContract, String>() {
             public String notFoundValue() { return ""; }
-            public String select(KimEntityAffiliation a) { return a.getCampusCode(); }
-            public boolean shouldSelect(KimEntityAffiliation a) { return isDefault == a.isDefault(); }
+            public String select(EntityAffiliationContract a) { return a.getCampusCode(); }
+            public boolean shouldSelect(EntityAffiliationContract a) { return isDefault == a.isDefaultValue(); }
         });
     }
     
@@ -995,7 +1006,7 @@ public class KcPerson implements Contactable, BusinessObject {
      * @return the id
      */
     private String getExternalId(String type) {
-        final KimEntityExternalIdentifier extId = this.entity.getEntityExternalIdentifier(type);
+        final EntityExternalIdentifierContract extId = this.entity.getEntityExternalIdentifier(type);
         return extId != null ? extId.getExternalId() : ""; 
     }
     
@@ -1003,11 +1014,11 @@ public class KcPerson implements Contactable, BusinessObject {
      * Gets the default & active address.  will never return null
      * @return address
      */
-    private KimEntityAddress getDefaultActiveAddress() {
-        return selectSingleValue(this.getEntityType().getAddresses(), new Selector<KimEntityAddress, KimEntityAddress>() {
-            public KimEntityAddress notFoundValue() { return new KimEntityAddressInfo(); }
-            public KimEntityAddress select(KimEntityAddress a) { return a; }
-            public boolean shouldSelect(KimEntityAddress a) { return a.isActive() && a.isDefault(); }
+    private EntityAddressContract getDefaultActiveAddress() {
+        return selectSingleValue(this.getEntityType().getAddresses(), new Selector<EntityAddressContract, EntityAddressContract>() {
+            public EntityAddressContract notFoundValue() { return EntityAddress.Builder.create(); }
+            public EntityAddressContract select(EntityAddressContract a) { return a; }
+            public boolean shouldSelect(EntityAddressContract a) { return a.isActive() && a.isDefaultValue(); }
         });
     }
     
@@ -1015,10 +1026,10 @@ public class KcPerson implements Contactable, BusinessObject {
      * Gets the entity type that represents a person in KC.  KC only supports a single entity type. will not return null.
      * @return the entity type object
      */
-    private KimEntityEntityType getEntityType() {     
-        final KimEntityEntityType ent = this.entity.getEntityType("PERSON");
+    private EntityTypeContactInfoContract getEntityType() {     
+        final EntityTypeContactInfoContract ent = this.entity.getEntityTypeContactInfoByTypeCode("PERSON");
         
-        return ent != null ? ent : new KimEntityEntityTypeInfo();
+        return ent != null ? ent : EntityTypeContactInfo.Builder.create("","");
     }
     
     /**
@@ -1036,8 +1047,8 @@ public class KcPerson implements Contactable, BusinessObject {
      * @return the 3 digit code
      */
     private String convert2DigitCountryCodeTo3Digit(String digit2) {
-        final Country country = this.getCountryService().getByPrimaryId(digit2);
-        return country != null && country.getAlternatePostalCountryCode() != null ? country.getAlternatePostalCountryCode() : "";
+        final Country country = this.getCountryService().getCountry(digit2);
+        return country != null && country.getAlternateCode() != null ? country.getAlternateCode() : "";
     }
     
     /**
@@ -1053,11 +1064,11 @@ public class KcPerson implements Contactable, BusinessObject {
      * an empty Principal object will be returned in the case where a principal cannot be found.
      * @return the Kim Principal.
      */
-    private KimPrincipal getPrincipal() {
-        return selectSingleValue(this.entity.getPrincipals(), new Selector<KimPrincipal, KimPrincipal>() {
-            public KimPrincipal notFoundValue() { return new KimPrincipalInfo(); }
-            public KimPrincipal select(KimPrincipal a) { return a; }
-            public boolean shouldSelect(KimPrincipal a) { return personId.equals(a.getPrincipalId()); }
+    private PrincipalContract getPrincipal() {
+        return selectSingleValue(this.entity.getPrincipals(), new Selector<PrincipalContract, PrincipalContract>() {
+            public PrincipalContract notFoundValue() { return Principal.Builder.create(""); }
+            public PrincipalContract select(PrincipalContract a) { return a; }
+            public boolean shouldSelect(PrincipalContract a) { return personId.equals(a.getPrincipalId()); }
         });
     }
     

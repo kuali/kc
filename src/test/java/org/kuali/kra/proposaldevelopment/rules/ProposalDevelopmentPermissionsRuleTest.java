@@ -29,9 +29,9 @@ import org.kuali.kra.proposaldevelopment.bo.ProposalUser;
 import org.kuali.kra.proposaldevelopment.bo.ProposalUserEditRoles;
 import org.kuali.kra.proposaldevelopment.document.ProposalDevelopmentDocument;
 import org.kuali.kra.proposaldevelopment.web.bean.ProposalUserRoles;
-import org.kuali.rice.kns.util.ErrorMessage;
-import org.kuali.rice.kns.util.GlobalVariables;
-import org.kuali.rice.kns.util.TypedArrayList;
+import org.kuali.rice.krad.util.ErrorMessage;
+import org.kuali.rice.krad.util.GlobalVariables;
+import org.springframework.util.AutoPopulatingList;
 
 /**
  * Test the business rules for Proposal Permissions.
@@ -222,7 +222,7 @@ public class ProposalDevelopmentPermissionsRuleTest extends ProposalDevelopmentR
      * @param errorKey
      */
     private void assertError(String propertyKey, String errorKey) {
-        TypedArrayList errors = GlobalVariables.getErrorMap().getMessages(propertyKey);
+        AutoPopulatingList errors = GlobalVariables.getMessageMap().getMessages(propertyKey);
         assertNotNull(errors);
         assertTrue(errors.size() == 1);
         

@@ -19,12 +19,12 @@ import java.util.List;
 import java.util.Properties;
 
 import org.kuali.kra.award.home.AwardTemplate;
-import org.kuali.rice.kns.bo.BusinessObject;
 import org.kuali.rice.kns.lookup.HtmlData;
 import org.kuali.rice.kns.lookup.KualiLookupableHelperServiceImpl;
 import org.kuali.rice.kns.lookup.HtmlData.AnchorHtmlData;
-import org.kuali.rice.kns.util.KNSConstants;
-import org.kuali.rice.kns.util.UrlFactory;
+import org.kuali.rice.krad.bo.BusinessObject;
+import org.kuali.rice.krad.util.KRADConstants;
+import org.kuali.rice.krad.util.UrlFactory;
 
 public class AwardTemplateLookupableHelperServiceImpl extends KualiLookupableHelperServiceImpl {
 
@@ -48,9 +48,9 @@ public class AwardTemplateLookupableHelperServiceImpl extends KualiLookupableHel
       AnchorHtmlData htmlData = new AnchorHtmlData();
       htmlData.setDisplayText("print");
       Properties parameters = new Properties();
-      parameters.put(KNSConstants.DISPATCH_REQUEST_PARAMETER, "print");
-      parameters.put(KNSConstants.BUSINESS_OBJECT_CLASS_ATTRIBUTE, getDocumentTypeName());
-      parameters.put(KNSConstants.RETURN_LOCATION_PARAMETER, getReturnLocation());
+      parameters.put(KRADConstants.DISPATCH_REQUEST_PARAMETER, "print");
+      parameters.put(KRADConstants.BUSINESS_OBJECT_CLASS_ATTRIBUTE, getDocumentTypeName());
+      parameters.put(KRADConstants.RETURN_LOCATION_PARAMETER, getReturnLocation());
       parameters.put(getKeyFieldName(), document.getTemplateCode().toString());
       String href  = UrlFactory.parameterizeUrl("../"+getHtmlAction(), parameters);
       

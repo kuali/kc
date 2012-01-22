@@ -17,7 +17,7 @@ package org.kuali.kra.award.awardhierarchy.sync;
 
 import java.io.Serializable;
 
-import org.kuali.rice.kns.bo.PersistableBusinessObject;
+import org.kuali.rice.krad.bo.PersistableBusinessObject;
 
 /**
  * DTO bean for saving pending sync changes to build and persist after

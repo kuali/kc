@@ -16,7 +16,6 @@
 package org.kuali.kra.award.awardhierarchy.sync;
 
 import java.util.ArrayList;
-import java.util.LinkedHashMap;
 import java.util.List;
 
 import org.kuali.kra.award.home.Award;
@@ -25,24 +24,32 @@ import org.kuali.kra.bo.KraPersistableBusinessObjectBase;
 public class AwardSyncStatus extends KraPersistableBusinessObjectBase {
 
     private static final long serialVersionUID = -8047529476039817371L;
-    
+
     private Long awardSyncStatusId;
+
     private Long parentAwardId;
+
     private Long awardId;
+
     private String awardNumber;
+
     private String status;
+
     private boolean success;
+
     private boolean syncComplete;
-    
+
     private Award award;
+
     private List<AwardSyncLog> changeLogs = new ArrayList<AwardSyncLog>();
+
     private List<AwardSyncLog> validationLogs = new ArrayList<AwardSyncLog>();
-    
+
     public void clearLogs() {
         changeLogs.clear();
         validationLogs.clear();
     }
-    
+
     public void addChangeLog(AwardSyncChange change, String statusMessage, boolean logSuccess) {
         AwardSyncLog log = new AwardSyncLog();
         log.setSyncStatus(this);
@@ -52,7 +59,7 @@ public class AwardSyncStatus extends KraPersistableBusinessObjectBase {
         log.setSuccess(logSuccess);
         changeLogs.add(log);
     }
-    
+
     public void addValidationLog(String statusMessage, boolean logSuccess, String messageKey) {
         AwardSyncLog log = new AwardSyncLog();
         log.setSyncStatus(this);
@@ -60,20 +67,7 @@ public class AwardSyncStatus extends KraPersistableBusinessObjectBase {
         log.setStatus(statusMessage);
         log.setSuccess(logSuccess);
         log.setMessageKey(messageKey);
-        validationLogs.add(log);        
-    }
-
-    @SuppressWarnings("unchecked")
-    @Override
-    protected LinkedHashMap toStringMapper() {
-        LinkedHashMap<String, Object> retval = new LinkedHashMap<String, Object>();
-        retval.put("awardSyncStatusId", awardSyncStatusId);
-        retval.put("parentAwardId", parentAwardId);
-        retval.put("awardId", awardId);
-        retval.put("awardNumber", awardNumber);
-        retval.put("status", status);
-        retval.put("syncComplete", syncComplete);
-        return retval;
+        validationLogs.add(log);
     }
 
     public Long getAwardSyncStatusId() {

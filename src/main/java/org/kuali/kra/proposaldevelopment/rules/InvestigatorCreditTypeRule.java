@@ -24,9 +24,9 @@ import java.util.Collection;
 import org.kuali.kra.proposaldevelopment.bo.InvestigatorCreditType;
 import org.kuali.rice.kns.document.MaintenanceDocument;
 import org.kuali.rice.kns.maintenance.rules.MaintenanceDocumentRuleBase;
-import org.kuali.rice.kns.service.BusinessObjectService;
-import org.kuali.rice.kns.util.GlobalVariables;
-import org.kuali.rice.kns.util.ObjectUtils;
+import org.kuali.rice.krad.service.BusinessObjectService;
+import org.kuali.rice.krad.util.GlobalVariables;
+import org.kuali.rice.krad.util.ObjectUtils;
 
 /**
  * Business Rules implementation for modifying <code>{@link InvestigatorCreditType}</code> Business Object instances.
@@ -51,7 +51,7 @@ public class InvestigatorCreditTypeRule extends MaintenanceDocumentRuleBase {
      *   <li>Check for existing business objects with the same primary key values.</li>
      * </ol>
      * 
-     * @see org.kuali.rice.kns.rules.DocumentRuleBase#processCustomRouteDocumentBusinessRules(org.kuali.rice.kns.document.Document)
+     * @see org.kuali.rice.krad.rules.DocumentRuleBase#processCustomRouteDocumentBusinessRules(org.kuali.rice.krad.document.Document)
      */
     public boolean processCustomRouteDocumentBusinessRules(MaintenanceDocument document)   {
         boolean retval = true;
@@ -62,7 +62,7 @@ public class InvestigatorCreditTypeRule extends MaintenanceDocumentRuleBase {
                 retval &= !ObjectUtils.equalByKeys(existingField, newField);
                 
                 if(!retval) {
-                    GlobalVariables.getErrorMap().putError(INVESTIGATOR_CREDIT_TYPE_CODE_PROPERTY_KEY, ERROR_INVESTIGATOR_CREDIT_TYPE_EXISTS, existingField.getInvCreditTypeCode());
+                    GlobalVariables.getMessageMap().putError(INVESTIGATOR_CREDIT_TYPE_CODE_PROPERTY_KEY, ERROR_INVESTIGATOR_CREDIT_TYPE_EXISTS, existingField.getInvCreditTypeCode());
                 } 
             }
         }

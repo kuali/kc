@@ -15,7 +15,9 @@
  */
 package org.kuali.kra.coi.notesandattachments;
 
-public interface AddCoiDisclosureAttachmentRule {
+import org.kuali.rice.krad.rules.rule.BusinessRule;
+
+public interface AddCoiDisclosureAttachmentRule extends BusinessRule{
 
     boolean processAddCoiDisclosureAttachmentRules(AddCoiDisclosureAttachmentEvent event);
 

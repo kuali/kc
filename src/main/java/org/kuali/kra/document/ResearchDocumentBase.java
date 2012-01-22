@@ -33,18 +33,18 @@ import org.kuali.kra.budget.versions.BudgetVersionOverview;
 import org.kuali.kra.infrastructure.KraServiceLocator;
 import org.kuali.kra.service.CustomAttributeService;
 import org.kuali.kra.workflow.KraDocumentXMLMaterializer;
-import org.kuali.rice.kim.bo.Person;
-import org.kuali.rice.kim.service.PersonService;
-import org.kuali.rice.kns.bo.DocumentHeader;
-import org.kuali.rice.kns.document.TransactionalDocumentBase;
-import org.kuali.rice.kns.exception.ValidationException;
-import org.kuali.rice.kns.rule.event.KualiDocumentEvent;
-import org.kuali.rice.kns.service.BusinessObjectService;
-import org.kuali.rice.kns.service.DateTimeService;
-import org.kuali.rice.kns.util.GlobalVariables;
-import org.kuali.rice.kns.workflow.DocumentInitiator;
-import org.kuali.rice.kns.workflow.KualiDocumentXmlMaterializer;
-import org.kuali.rice.kns.workflow.KualiTransactionalDocumentInformation;
+import org.kuali.rice.core.api.datetime.DateTimeService;
+import org.kuali.rice.kim.api.identity.Person;
+import org.kuali.rice.kim.api.identity.PersonService;
+import org.kuali.rice.krad.bo.DocumentHeader;
+import org.kuali.rice.krad.document.TransactionalDocumentBase;
+import org.kuali.rice.krad.exception.ValidationException;
+import org.kuali.rice.krad.rules.rule.event.KualiDocumentEvent;
+import org.kuali.rice.krad.service.BusinessObjectService;
+import org.kuali.rice.krad.util.GlobalVariables;
+import org.kuali.rice.krad.workflow.DocumentInitiator;
+import org.kuali.rice.krad.workflow.KualiDocumentXmlMaterializer;
+import org.kuali.rice.krad.workflow.KualiTransactionalDocumentInformation;
 
 public abstract class ResearchDocumentBase extends TransactionalDocumentBase {
     private static final long serialVersionUID = -1879382692835231633L;
@@ -223,13 +223,13 @@ public abstract class ResearchDocumentBase extends TransactionalDocumentBase {
     /**
      * Wraps a document in an instance of KualiDocumentXmlMaterializer, that provides additional metadata for serialization
      * 
-     * @see org.kuali.rice.kns.document.Document#wrapDocumentWithMetadataForXmlSerialization()
+     * @see org.kuali.rice.krad.document.Document#wrapDocumentWithMetadataForXmlSerialization()
      */
     @Override
     public KualiDocumentXmlMaterializer wrapDocumentWithMetadataForXmlSerialization() {
         KualiTransactionalDocumentInformation transInfo = new KualiTransactionalDocumentInformation();
         DocumentInitiator initiatior = new DocumentInitiator();
-        String initiatorNetworkId = getDocumentHeader().getWorkflowDocument().getInitiatorNetworkId();
+        String initiatorNetworkId = getDocumentHeader().getWorkflowDocument().getInitiatorPrincipalId();
         final Person initiatorUser = this.getPersonService().getPersonByPrincipalName(initiatorNetworkId);
         initiatior.setPerson(initiatorUser);
  

@@ -33,9 +33,9 @@ import org.kuali.kra.coi.CoiDisclosureStatus;
 import org.kuali.kra.coi.personfinancialentity.PersonFinIntDisclosure;
 import org.kuali.kra.service.impl.adapters.BusinessObjectServiceAdapter;
 import org.kuali.kra.test.infrastructure.KcUnitTestBase;
-import org.kuali.rice.kns.UserSession;
-import org.kuali.rice.kns.bo.PersistableBusinessObject;
-import org.kuali.rice.kns.util.GlobalVariables;
+import org.kuali.rice.krad.UserSession;
+import org.kuali.rice.krad.bo.PersistableBusinessObject;
+import org.kuali.rice.krad.util.GlobalVariables;
 
 public class CoiDisclosureActionServiceTest extends KcUnitTestBase {
 
@@ -127,9 +127,10 @@ public class CoiDisclosureActionServiceTest extends KcUnitTestBase {
         }
         
         @Override
-        public void save(List<? extends PersistableBusinessObject> businessObjects) {
+        public List<? extends PersistableBusinessObject> save(List<? extends PersistableBusinessObject> businessObjects) {
            // do nothing            
             coiDisclosureHistory = (CoiDisclosureHistory)businessObjects.get(2);
+            return businessObjects;
         }
       
 

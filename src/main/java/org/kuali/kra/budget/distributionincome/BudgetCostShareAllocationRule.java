@@ -15,11 +15,13 @@
  */
 package org.kuali.kra.budget.distributionincome;
 
+import org.kuali.rice.krad.rules.rule.BusinessRule;
 
-public interface BudgetCostShareAllocationRule {
+
+public interface BudgetCostShareAllocationRule extends BusinessRule {
 
     /**
-     * Process business rules for allocation of BudgetCostShare
+     * ProcessDefinitionDefinitionDefinition business rules for allocation of BudgetCostShare
      * @param addBudgetCostShareEvent
      * @return
      */

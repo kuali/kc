@@ -166,7 +166,7 @@
 					    	</td>
 					    	<td class="tab-subhead">
 					    		<kul:htmlControlAttribute property="${awardExpr}.fundingProposals[${fundingProposalRowStatus.index}].proposal.sponsorCode" 
-																attributeEntry="${sponsorAttributes.sponsorNumber}" readOnly="true" />
+																attributeEntry="${sponsorAttributes.sponsorCode}" readOnly="true" />
 								&nbsp;
 								<kul:htmlControlAttribute property="${awardExpr}.fundingProposals[${fundingProposalRowStatus.index}].proposal.sponsorName" 
 																attributeEntry="${sponsorAttributes.sponsorName}" readOnly="true" />

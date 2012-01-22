@@ -17,21 +17,20 @@ package org.kuali.kra.lookup;
 
 import java.util.ArrayList;
 import java.util.Arrays;
-import java.util.Collections;
-import java.util.Iterator;
 import java.util.List;
 import java.util.Map;
 
 import org.kuali.kra.bo.Sponsor;
 import org.kuali.kra.infrastructure.KraServiceLocator;
 import org.kuali.kra.service.SponsorService;
-import org.kuali.rice.kns.bo.BusinessObject;
-import org.kuali.rice.kns.lookup.CollectionIncomplete;
 import org.kuali.rice.kns.lookup.KualiLookupableHelperServiceImpl;
 import org.kuali.rice.kns.lookup.LookupUtils;
-import org.kuali.rice.kns.util.GlobalVariables;
+import org.kuali.rice.kns.util.KNSGlobalVariables;
 import org.kuali.rice.kns.web.struts.form.KualiForm;
 import org.kuali.rice.kns.web.struts.form.MultipleValueLookupForm;
+import org.kuali.rice.krad.bo.BusinessObject;
+import org.kuali.rice.krad.lookup.CollectionIncomplete;
+import org.kuali.rice.krad.util.GlobalVariables;
 
 public class SponsorLookupableHelperServiceImpl  extends KualiLookupableHelperServiceImpl {
     private static final String HIERARCHY_NAME = "hierarchyName";
@@ -47,7 +46,7 @@ public class SponsorLookupableHelperServiceImpl  extends KualiLookupableHelperSe
         List<Sponsor> searchResults;
         List<Sponsor> searchResultsReturn = new ArrayList<Sponsor>();
         //searchResults = super.getSearchResults(fieldValues);
-        KualiForm kualiForm = GlobalVariables.getKualiForm();
+        KualiForm kualiForm = KNSGlobalVariables.getKualiForm();
         if (kualiForm == null || !(kualiForm instanceof MultipleValueLookupForm)) {
             // not multiple value lookup
             return super.getSearchResults(fieldValues);

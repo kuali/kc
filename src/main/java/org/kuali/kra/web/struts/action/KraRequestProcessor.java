@@ -26,10 +26,11 @@ import org.apache.struts.action.ActionForward;
 import org.apache.struts.action.ActionMapping;
 import org.kuali.kra.infrastructure.Constants;
 import org.kuali.kra.infrastructure.KeyConstants;
-import org.kuali.rice.kns.util.GlobalVariables;
-import org.kuali.rice.kns.util.KNSConstants;
 import org.kuali.rice.kns.util.AuditCluster;
+import org.kuali.rice.kns.util.KNSConstants;
 import org.kuali.rice.kns.web.struts.action.KualiRequestProcessor;
+import org.kuali.rice.krad.util.GlobalVariables;
+import org.kuali.rice.krad.util.KRADConstants;
 
 /**
  * <p>
@@ -68,7 +69,7 @@ public class KraRequestProcessor extends KualiRequestProcessor {
         if (this.isSessionExpired(request)) {
             final HttpSession session = request.getSession();
             session.removeAttribute(KeyConstants.SESSION_EXPIRED_IND);
-            actionForward = mapping.findForward(KNSConstants.MAPPING_PORTAL); 
+            actionForward = mapping.findForward(KRADConstants.MAPPING_PORTAL); 
         } else {
             actionForward = super.processActionPerform(request, response, action, form, mapping);
             //must come after call to super because the super class sets audit map in request

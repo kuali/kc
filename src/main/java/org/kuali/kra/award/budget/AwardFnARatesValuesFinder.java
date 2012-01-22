@@ -17,28 +17,17 @@ package org.kuali.kra.award.budget;
 
 import java.util.ArrayList;
 import java.util.Collection;
-import java.util.Collections;
-import java.util.Comparator;
-import java.util.Iterator;
 import java.util.List;
 
-import org.apache.commons.lang.StringUtils;
 import org.kuali.kra.award.budget.document.AwardBudgetDocument;
-import org.kuali.kra.award.home.Award;
-import org.kuali.kra.budget.core.BudgetCategory;
-import org.kuali.kra.budget.core.CostElement;
-import org.kuali.kra.budget.document.BudgetDocument;
 import org.kuali.kra.budget.rates.RateType;
-import org.kuali.kra.budget.web.struts.form.BudgetForm;
 import org.kuali.kra.infrastructure.Constants;
 import org.kuali.kra.infrastructure.KraServiceLocator;
-import org.kuali.kra.lookup.keyvalue.KeyValueFinderService;
-import org.kuali.rice.kns.lookup.keyvalues.KeyValuesBase;
-import org.kuali.rice.kns.service.KeyValuesService;
-import org.kuali.rice.kns.service.ParameterService;
-import org.kuali.rice.kns.util.GlobalVariables;
-import org.kuali.rice.kns.web.struts.form.KualiForm;
-import org.kuali.rice.core.util.KeyLabelPair;
+import org.kuali.rice.core.api.util.ConcreteKeyValue;
+import org.kuali.rice.core.api.util.KeyValue;
+import org.kuali.rice.coreservice.framework.parameter.ParameterService;
+import org.kuali.rice.krad.keyvalues.KeyValuesBase;
+import org.kuali.rice.krad.service.KeyValuesService;
 
 public class AwardFnARatesValuesFinder extends KeyValuesBase{
     KeyValuesService keyValuesService = (KeyValuesService) KraServiceLocator.getService("keyValuesService");
@@ -53,21 +42,21 @@ public class AwardFnARatesValuesFinder extends KeyValuesBase{
      * 
      * @return the list of &lt;key, value&gt; pairs of abstract types.  The first entry
      * is always &lt;"", "select:"&gt;.
-     * @see org.kuali.rice.kns.lookup.keyvalues.KeyValuesFinder#getKeyValues()
+     * @see org.kuali.rice.krad.keyvalues.KeyValuesFinder#getKeyValues()
      */
-    public List<KeyLabelPair> getKeyValues() {
-        List<KeyLabelPair> matchingAwardFnARateTypes = filterRateTypes();
-        matchingAwardFnARateTypes.add(0, new KeyLabelPair("", "select"));
+    public List<KeyValue> getKeyValues() {
+        List<KeyValue> matchingAwardFnARateTypes = filterRateTypes();
+        matchingAwardFnARateTypes.add(0, new ConcreteKeyValue("", "select"));
         return matchingAwardFnARateTypes;
     }
     
-    private List<KeyLabelPair> filterRateTypes() {
+    private List<KeyValue> filterRateTypes() {
         Collection<RateType> awardFnARateTypes= keyValuesService.findAll(RateType.class);
-        String fnaRateClassCode = parameterService.getParameterValue(AwardBudgetDocument.class, Constants.AWARD_BUDGET_DEFAULT_FNA_RATE_CLASS_CODE);
-        List<KeyLabelPair> keyValues = new ArrayList<KeyLabelPair>();        
+        String fnaRateClassCode = parameterService.getParameterValueAsString(AwardBudgetDocument.class, Constants.AWARD_BUDGET_DEFAULT_FNA_RATE_CLASS_CODE);
+        List<KeyValue> keyValues = new ArrayList<KeyValue>();        
         for (RateType rateType : awardFnARateTypes) {
             if(rateType.getRateClassCode().equals(fnaRateClassCode)){
-                keyValues.add(new KeyLabelPair(rateType.getRateTypeCode(),rateType.getDescription()));
+                keyValues.add(new ConcreteKeyValue(rateType.getRateTypeCode(),rateType.getDescription()));
             }
         }
         return keyValues;

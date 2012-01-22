@@ -19,16 +19,13 @@ import org.kuali.kra.authorization.Task;
 import org.kuali.kra.award.budget.document.AwardBudgetDocument;
 import org.kuali.kra.award.budget.document.authorization.AwardBudgetTask;
 import org.kuali.kra.award.document.AwardDocument;
-import org.kuali.kra.award.home.Award;
-import org.kuali.kra.budget.document.BudgetDocument;
-import org.kuali.kra.budget.document.authorization.BudgetTask;
 import org.kuali.kra.budget.document.authorizer.BudgetAuthorizer;
 import org.kuali.kra.infrastructure.AwardPermissionConstants;
 import org.kuali.kra.infrastructure.Constants;
 import org.kuali.kra.infrastructure.KeyConstants;
-import org.kuali.rice.kns.service.KNSServiceLocator;
-import org.kuali.rice.kns.service.ParameterService;
-import org.kuali.rice.kns.workflow.service.KualiWorkflowDocument;
+import org.kuali.rice.coreservice.framework.parameter.ParameterService;
+import org.kuali.rice.coreservice.framework.CoreFrameworkServiceLocator;
+import org.kuali.rice.kew.api.WorkflowDocument;
 
 /**
  * The AwardBudget Modify Authorizer checks to see if the user has 
@@ -46,15 +43,15 @@ public class ToggleAwardBudgetStatusAuthorizer extends BudgetAuthorizer {
         
         AwardBudgetDocument budgetDocument = budgetTask.getAwardBudgetDocument();
         AwardDocument doc = (AwardDocument) budgetDocument.getParentDocument();
-        KualiWorkflowDocument workflowDoc = getWorkflowDocument(budgetDocument);
-        return workflowDoc.stateIsFinal() && isToggleAwardBudgetStatusValid(budgetDocument) &&
+        WorkflowDocument workflowDoc = getWorkflowDocument(budgetDocument);
+        return workflowDoc.isFinal() && isToggleAwardBudgetStatusValid(budgetDocument) &&
             hasUnitPermission(userId, doc.getLeadUnitNumber(), Constants.MODULE_NAMESPACE_AWARD_BUDGET, 
                 AwardPermissionConstants.MAINTAIN_AWARD_BUDGET_ROUTING.getAwardPermission());
     }
 
     private boolean isToggleAwardBudgetStatusValid(AwardBudgetDocument budgetDocument) {
-        String toBePostedStatusCode = getParameterService().getParameterValue(AwardBudgetDocument.class, KeyConstants.AWARD_BUDGET_STATUS_TO_BE_POSTED);
-        String doNotPostStatusCode = getParameterService().getParameterValue(AwardBudgetDocument.class, KeyConstants.AWARD_BUDGET_STATUS_DO_NOT_POST);
+        String toBePostedStatusCode = getParameterService().getParameterValueAsString(AwardBudgetDocument.class, KeyConstants.AWARD_BUDGET_STATUS_TO_BE_POSTED);
+        String doNotPostStatusCode = getParameterService().getParameterValueAsString(AwardBudgetDocument.class, KeyConstants.AWARD_BUDGET_STATUS_DO_NOT_POST);
         String budgetStatusCode = budgetDocument.getAwardBudget().getAwardBudgetStatusCode();
         return budgetStatusCode.equals(toBePostedStatusCode) || budgetStatusCode.equals(doNotPostStatusCode);
     }
@@ -64,7 +61,7 @@ public class ToggleAwardBudgetStatusAuthorizer extends BudgetAuthorizer {
      * @return Returns the parameterService.
      */
     public ParameterService getParameterService() {
-        return KNSServiceLocator.getParameterService();
+        return CoreFrameworkServiceLocator.getParameterService();
     }
 
 }

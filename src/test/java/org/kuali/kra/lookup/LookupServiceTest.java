@@ -22,8 +22,8 @@ import java.util.Map;
 import org.junit.Test;
 import org.kuali.kra.bo.Sponsor;
 import org.kuali.kra.test.infrastructure.KcUnitTestBase;
-import org.kuali.rice.kns.service.KNSServiceLocator;
-import org.kuali.rice.kns.service.LookupService;
+import org.kuali.rice.krad.service.KRADServiceLocatorWeb;
+import org.kuali.rice.krad.service.LookupService;
 
 /*@PerTestUnitTestData(
         @UnitTestData(
@@ -57,7 +57,7 @@ public class LookupServiceTest extends KcUnitTestBase {
      */
     @Test
     public void testLookupReturnLimits() throws Exception {
-        LookupService lookupService = KNSServiceLocator.getLookupService();
+        LookupService lookupService = KRADServiceLocatorWeb.getLookupService();
         Map formProps = new HashMap();
         Collection sponsor = lookupService.findCollectionBySearchHelper(Sponsor.class, formProps, false);
         assertTrue(8000 >= sponsor.size());
@@ -74,7 +74,7 @@ public class LookupServiceTest extends KcUnitTestBase {
      */
     @Test
     public void testLookupReturnDefaultUnbounded() throws Exception {
-        LookupService lookupService = KNSServiceLocator.getLookupService();
+        LookupService lookupService = KRADServiceLocatorWeb.getLookupService();
         Map formProps = new HashMap();
         Collection sponsor = lookupService.findCollectionBySearchHelper(Sponsor.class, formProps, true);
         int size = sponsor.size();

@@ -21,14 +21,14 @@ import java.util.List;
 import javax.xml.namespace.QName;
 
 import org.kuali.kra.infrastructure.KraServiceLocator;
+import org.kuali.kra.test.infrastructure.HtmlUnitUtil;
 import org.kuali.kra.test.infrastructure.JettyServerLifecycle;
-import org.kuali.rice.core.config.Config;
-import org.kuali.rice.core.config.ConfigContext;
-import org.kuali.rice.core.config.JAXBConfigImpl;
-import org.kuali.rice.core.config.spring.ConfigFactoryBean;
-import org.kuali.rice.core.resourceloader.SpringResourceLoader;
-import org.kuali.rice.test.TestHarnessServiceLocator;
-import org.kuali.rice.test.web.HtmlUnitUtil;
+import org.kuali.kra.test.infrastructure.TestHarnessServiceLocator;
+import org.kuali.rice.core.api.config.property.Config;
+import org.kuali.rice.core.api.config.property.ConfigContext;
+import org.kuali.rice.core.impl.config.property.ConfigFactoryBean;
+import org.kuali.rice.core.impl.config.property.JAXBConfigImpl;
+import org.kuali.rice.core.framework.resourceloader.SpringResourceLoader;
 import org.springframework.transaction.PlatformTransactionManager;
 import org.springframework.transaction.TransactionStatus;
 import org.springframework.transaction.support.DefaultTransactionDefinition;
@@ -88,7 +88,7 @@ public class KcUnitTestMainLifecycle extends KcUnitTestBaseLifecycle {
         if (LOG.isInfoEnabled()) {
             LOG.info("Loading Spring Context...");
         }
-        loader = new SpringResourceLoader(new QName("TestHarnessSpringContext"), DEFAULT_TEST_HARNESS_SPRING_BEANS);
+        loader = new SpringResourceLoader(new QName("TestHarnessSpringContext"), DEFAULT_TEST_HARNESS_SPRING_BEANS, null);
         TestHarnessServiceLocator.setContext(loader.getContext());
         loader.start();
         if (LOG.isInfoEnabled()) {

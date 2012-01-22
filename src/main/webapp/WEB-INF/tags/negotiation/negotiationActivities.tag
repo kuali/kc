@@ -46,7 +46,7 @@ $jq(document).ready(function() {
     <th style="text-align: right; width: 5em;">Sort By:</th>
     <td><html:select style="width: 100%;" property="negotiationActivityHelper.activitySortingTypeName">
           <c:forEach items="${krafn:getOptionList('org.kuali.kra.negotiations.sorting.ActivitySortingTypeValuesFinder', paramMap)}" var="option">
-            <html:option value="${option.key}"><c:out value="${option.label}"/></html:option>
+            <html:option value="${option.key}"><c:out value="${option.value}"/></html:option>
           </c:forEach> 
     	</html:select>
     </td>
@@ -83,7 +83,7 @@ $jq(document).ready(function() {
     <th style="text-align: right; width: 5em;">Sort By:</th>
     <td><html:select style="width: 100%;" property="negotiationActivityHelper.attachmentSortingTypeName">
           <c:forEach items="${krafn:getOptionList('org.kuali.kra.negotiations.sorting.AttachmentSortingTypeValuesFinder', paramMap)}" var="option">
-            <html:option value="${option.key}"><c:out value="${option.label}"/></html:option>
+            <html:option value="${option.key}"><c:out value="${option.value}"/></html:option>
           </c:forEach> 
     	</html:select>
     </td>

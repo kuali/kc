@@ -37,13 +37,13 @@ import org.kuali.kra.timeandmoney.history.TransactionDetailType;
 import org.kuali.kra.timeandmoney.history.TransactionType;
 import org.kuali.kra.timeandmoney.service.TimeAndMoneyHistoryService;
 import org.kuali.kra.timeandmoney.transactions.AwardAmountTransaction;
+import org.kuali.rice.core.api.CoreApiServiceLocator;
 import org.kuali.rice.ken.util.NotificationConstants;
-import org.kuali.rice.kew.exception.WorkflowException;
-import org.kuali.rice.kew.util.KEWConstants;
-import org.kuali.rice.kns.service.BusinessObjectService;
-import org.kuali.rice.kns.service.DocumentService;
-import org.kuali.rice.kns.service.KNSServiceLocator;
-import org.kuali.rice.kns.util.GlobalVariables;
+import org.kuali.rice.kew.api.KewApiConstants;
+import org.kuali.rice.kew.api.exception.WorkflowException;
+import org.kuali.rice.krad.service.BusinessObjectService;
+import org.kuali.rice.krad.service.DocumentService;
+import org.kuali.rice.krad.util.GlobalVariables;
 
 public class TimeAndMoneyHistoryServiceImpl implements TimeAndMoneyHistoryService {
     
@@ -81,7 +81,7 @@ public class TimeAndMoneyHistoryServiceImpl implements TimeAndMoneyHistoryServic
                 List<AwardAmountTransaction> awardAmountTransactions = doc.getAwardAmountTransactions();
                 //we don't want canceled docs in history.
                 if(doc.getDocumentHeader().hasWorkflowDocument()) {
-                    if(!doc.getDocumentHeader().getWorkflowDocument().stateIsCanceled()) {
+                    if(!doc.getDocumentHeader().getWorkflowDocument().isCanceled()) {
                         //capture initial transaction
                         //we only want display this once.
                         for(AwardAmountInfo awardAmountInfo : award.getAwardAmountInfos()){
@@ -403,7 +403,7 @@ public class TimeAndMoneyHistoryServiceImpl implements TimeAndMoneyHistoryServic
         List<TimeAndMoneyDocument> tempCanceledDocs = new ArrayList<TimeAndMoneyDocument>();
         for(TimeAndMoneyDocument doc : docs) {
             if(doc.getDocumentHeader().hasWorkflowDocument()) {
-                if(doc.getDocumentHeader().getWorkflowDocument().stateIsCanceled()) {
+                if(doc.getDocumentHeader().getWorkflowDocument().isCanceled()) {
                    tempCanceledDocs.add(doc); 
                 }
             }
@@ -525,7 +525,7 @@ public class TimeAndMoneyHistoryServiceImpl implements TimeAndMoneyHistoryServic
         String createDateStr = null;
         String updateUser = null;
         if (award.getUpdateTimestamp() != null) {
-            createDateStr = KNSServiceLocator.getDateTimeService().toString(award.getUpdateTimestamp(), "MM/dd/yy");
+            createDateStr = CoreApiServiceLocator.getDateTimeService().toString(award.getUpdateTimestamp(), "MM/dd/yy");
             updateUser = award.getUpdateUser().length() > NUMBER_30 ? award.getUpdateUser().substring(0, NUMBER_30) : award.getUpdateUser(); 
         }
         return createDateStr + ", " + updateUser;
@@ -535,7 +535,7 @@ public class TimeAndMoneyHistoryServiceImpl implements TimeAndMoneyHistoryServic
         String createDateStr = null;
         String updateUser = null;
         if (doc.getUpdateTimestamp() != null) {
-            createDateStr = KNSServiceLocator.getDateTimeService().toString(doc.getUpdateTimestamp(), "MM/dd/yy");
+            createDateStr = CoreApiServiceLocator.getDateTimeService().toString(doc.getUpdateTimestamp(), "MM/dd/yy");
             updateUser = doc.getUpdateUser().length() > NUMBER_30 ? doc.getUpdateUser().substring(0, NUMBER_30) : doc.getUpdateUser(); 
         }
         return createDateStr + ", " + updateUser;
@@ -581,8 +581,7 @@ public class TimeAndMoneyHistoryServiceImpl implements TimeAndMoneyHistoryServic
      */
     protected String buildForwardUrl(String documentNumber) {
         ResearchDocumentService researchDocumentService = KraServiceLocator.getService(ResearchDocumentService.class);
-        Long longDocumentNumber = Long.parseLong(documentNumber.trim());
-        String forward = researchDocumentService.getDocHandlerUrl(longDocumentNumber);
+        String forward = researchDocumentService.getDocHandlerUrl(documentNumber);
         forward = forward.replaceFirst(DEFAULT_TAB, ALTERNATE_OPEN_TAB);
         if (forward.indexOf("?") == -1) {
             forward += "?";
@@ -590,10 +589,10 @@ public class TimeAndMoneyHistoryServiceImpl implements TimeAndMoneyHistoryServic
         else {
             forward += "&";
         }
-        forward += KEWConstants.ROUTEHEADER_ID_PARAMETER + "=" + longDocumentNumber;
-        forward += "&" + KEWConstants.COMMAND_PARAMETER + "=" + NotificationConstants.NOTIFICATION_DETAIL_VIEWS.DOC_SEARCH_VIEW;
+        forward += KewApiConstants.DOCUMENT_ID_PARAMETER + "=" + documentNumber;
+        forward += "&" + KewApiConstants.COMMAND_PARAMETER + "=" + NotificationConstants.NOTIFICATION_DETAIL_VIEWS.DOC_SEARCH_VIEW;
         if (GlobalVariables.getUserSession().isBackdoorInUse()) {
-            forward += "&" + KEWConstants.BACKDOOR_ID_PARAMETER + "=" + GlobalVariables.getUserSession().getPrincipalName();
+            forward += "&" + KewApiConstants.BACKDOOR_ID_PARAMETER + "=" + GlobalVariables.getUserSession().getPrincipalName();
         }
         
         String returnVal = "<a href=\"" + forward + "\"target=\"_blank\">" + documentNumber + "</a>";

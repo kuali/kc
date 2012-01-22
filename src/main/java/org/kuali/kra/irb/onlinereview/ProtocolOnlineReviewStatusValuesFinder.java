@@ -21,7 +21,8 @@ import java.util.List;
 
 import org.apache.commons.lang.StringUtils;
 import org.kuali.kra.irb.actions.IrbActionsKeyValuesBase;
-import org.kuali.rice.core.util.KeyLabelPair;
+import org.kuali.rice.core.api.util.ConcreteKeyValue;
+import org.kuali.rice.core.api.util.KeyValue;
 
 /**
  * Assembles the Protocol Review Types to display in the drop-down menu when
@@ -30,14 +31,14 @@ import org.kuali.rice.core.util.KeyLabelPair;
 public class ProtocolOnlineReviewStatusValuesFinder extends IrbActionsKeyValuesBase {
     
     @SuppressWarnings("unchecked")
-    public List<KeyLabelPair> getKeyValues() {
+    public List<KeyValue> getKeyValues() {
         Collection<ProtocolOnlineReviewStatus> reviewStatusCodes = this.getKeyValuesService().findAll(ProtocolOnlineReviewStatus.class);
-        List<KeyLabelPair> keyValues = new ArrayList<KeyLabelPair>();
-        keyValues.add(new KeyLabelPair("", "select"));
+        List<KeyValue> keyValues = new ArrayList<KeyValue>();
+        keyValues.add(new ConcreteKeyValue("", "select"));
         for (ProtocolOnlineReviewStatus status : reviewStatusCodes) {
             //we do not want users to assign the cancelled code.
             if (!StringUtils.equals(ProtocolOnlineReviewStatus.REMOVED_CANCELLED_STATUS_CD, status.getStatusCode())) {
-                keyValues.add(new KeyLabelPair(status.getStatusCode(), status.getDescription()));
+                keyValues.add(new ConcreteKeyValue(status.getStatusCode(), status.getDescription()));
             }
         }
         return keyValues;

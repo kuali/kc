@@ -1,5 +1,8 @@
 package org.kuali.kra.service.impl.adapters;
 
+import java.util.Collection;
+import java.util.Map;
+
 import org.kuali.kra.budget.personnel.PersonRolodex;
 import org.kuali.kra.proposaldevelopment.bo.InvestigatorCreditType;
 import org.kuali.kra.proposaldevelopment.bo.ProposalPerson;
@@ -7,10 +10,7 @@ import org.kuali.kra.proposaldevelopment.bo.ProposalPersonRole;
 import org.kuali.kra.proposaldevelopment.bo.ProposalPersonUnit;
 import org.kuali.kra.proposaldevelopment.document.ProposalDevelopmentDocument;
 import org.kuali.kra.proposaldevelopment.service.KeyPersonnelService;
-import org.kuali.rice.kns.service.BusinessObjectService;
-
-import java.util.Collection;
-import java.util.Map;
+import org.kuali.rice.krad.service.BusinessObjectService;
 
 /**
  * 

@@ -29,11 +29,11 @@ import org.kuali.kra.infrastructure.Constants;
 import org.kuali.kra.infrastructure.KeyConstants;
 import org.kuali.kra.infrastructure.KraServiceLocator;
 import org.kuali.kra.rules.ResearchDocumentRuleBase;
-import org.kuali.rice.kns.service.BusinessObjectService;
-import org.kuali.rice.kns.service.ParameterConstants;
-import org.kuali.rice.kns.service.ParameterService;
-import org.kuali.rice.kns.util.GlobalVariables;
-import org.kuali.rice.kns.util.KualiDecimal;
+import org.kuali.rice.core.api.util.type.KualiDecimal;
+import org.kuali.rice.coreservice.framework.parameter.ParameterConstants;
+import org.kuali.rice.coreservice.framework.parameter.ParameterService;
+import org.kuali.rice.krad.service.BusinessObjectService;
+import org.kuali.rice.krad.util.GlobalVariables;
 
 /**
  * 
@@ -91,7 +91,7 @@ public class AwardFandaRateRule  extends ResearchDocumentRuleBase implements Add
         
         if(rulePassed){
             if(StringUtils.equalsIgnoreCase(
-                    getKualiConfigurationService().getParameterValue(Constants.PARAMETER_MODULE_AWARD, 
+                    getParameterService().getParameterValueAsString(Constants.PARAMETER_MODULE_AWARD, 
                             ParameterConstants.DOCUMENT_COMPONENT,
                             KeyConstants.ENABLE_AWARD_FNA_VALIDATION),
                             KeyConstants.ENABLED_PARAMETER_VALUE_ONE)){
@@ -100,7 +100,7 @@ public class AwardFandaRateRule  extends ResearchDocumentRuleBase implements Add
                 }
                           
             } else if(StringUtils.equalsIgnoreCase(
-                    getKualiConfigurationService().getParameterValue(Constants.PARAMETER_MODULE_AWARD, 
+                    getParameterService().getParameterValueAsString(Constants.PARAMETER_MODULE_AWARD, 
                             ParameterConstants.DOCUMENT_COMPONENT,
                             KeyConstants.ENABLE_AWARD_FNA_VALIDATION),
                             KeyConstants.ENABLED_PARAMETER_VALUE_TWO)){
@@ -227,7 +227,7 @@ public class AwardFandaRateRule  extends ResearchDocumentRuleBase implements Add
         if (validRates.size() == 0) {
             valid = false;
             if (StringUtils.equalsIgnoreCase(
-                    this.getParameterService().getParameterValue(AwardDocument.class, KeyConstants.OPTION_WARNING_ERROR_AWARD_FANDA_VALIDATION),
+                    this.getParameterService().getParameterValueAsString(AwardDocument.class, KeyConstants.OPTION_WARNING_ERROR_AWARD_FANDA_VALIDATION),
                     KeyConstants.ERROR)) {
                 reportError(propertyPrefix + ".applicableFandaRate", 
                         KeyConstants.ERROR_AWARD_FANDA_INVALID_RTAES_FOR_SINGLE_RATE,
@@ -291,7 +291,7 @@ protected boolean isFandaRateInputInPairs(List<AwardFandaRate> awardFandaRateLis
     createHashMapsForRuleEvaluation(awardFandaRateList,a1,b1);
     boolean valid = evaluateRule(awardFandaRateList,a1,b1);
     if(!valid) {
-        GlobalVariables.getErrorMap().putError(FANDA_RATES
+        GlobalVariables.getMessageMap().putError(FANDA_RATES
                 , KeyConstants.INDIRECT_COST_RATE_NOT_IN_PAIR);
     }
     isPairChecked = true;

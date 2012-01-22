@@ -42,10 +42,10 @@ import org.kuali.kra.irb.actions.submit.ProtocolReviewer;
 import org.kuali.kra.irb.actions.submit.ProtocolSubmission;
 import org.kuali.kra.irb.onlinereview.ProtocolOnlineReview;
 import org.kuali.kra.meeting.CommitteeScheduleAttendance;
-import org.kuali.rice.kns.service.BusinessObjectService;
-import org.kuali.rice.kns.util.ErrorMessage;
-import org.kuali.rice.kns.util.GlobalVariables;
-import org.kuali.rice.kns.util.TypedArrayList;
+import org.kuali.rice.krad.service.BusinessObjectService;
+import org.kuali.rice.krad.util.ErrorMessage;
+import org.kuali.rice.krad.util.GlobalVariables;
+import org.springframework.util.AutoPopulatingList;
 
 public class DeleteCommitteeMemberRuleTest extends CommitteeRuleTestBase {
     private DeleteCommitteeMemberRule rule;
@@ -228,7 +228,7 @@ public class DeleteCommitteeMemberRuleTest extends CommitteeRuleTestBase {
     }
 
     protected void assertError(String propertyKey, String errorKey) {
-        TypedArrayList errors = GlobalVariables.getErrorMap().getMessages(propertyKey);
+        AutoPopulatingList errors = GlobalVariables.getMessageMap().getMessages(propertyKey);
         Assert.assertNotNull(errors);
         Assert.assertTrue(errors.size() == 1);
         

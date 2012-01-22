@@ -62,13 +62,4 @@ public class CoiDispositionStatus extends KraPersistableBusinessObjectBase {
         this.coiDisclosure = coiDisclosure;
     }
 
-    /** {@inheritDoc} */
-    @Override 
-    protected LinkedHashMap<String, Object> toStringMapper() {
-        LinkedHashMap<String, Object> hashMap = new LinkedHashMap<String, Object>();
-        hashMap.put("coiDispositionCode", this.getCoiDispositionCode());
-        hashMap.put("description", this.getDescription());
-        return hashMap;
-    }
-    
 }

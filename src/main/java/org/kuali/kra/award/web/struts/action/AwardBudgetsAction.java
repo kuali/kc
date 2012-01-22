@@ -15,7 +15,7 @@
  */
 package org.kuali.kra.award.web.struts.action;
 
-import static org.kuali.rice.kns.util.KNSConstants.QUESTION_CLICKED_BUTTON;
+import static org.kuali.rice.krad.util.KRADConstants.QUESTION_CLICKED_BUTTON;
 
 import java.util.ArrayList;
 import java.util.Collection;
@@ -56,18 +56,15 @@ import org.kuali.kra.question.CopyPeriodsQuestion;
 import org.kuali.kra.web.struts.action.AuditActionHelper;
 import org.kuali.kra.web.struts.action.StrutsConfirmation;
 import org.kuali.kra.web.struts.action.AuditActionHelper.ValidationState;
-import org.kuali.rice.kew.exception.WorkflowException;
-import org.kuali.rice.kns.bo.BusinessObject;
-import org.kuali.rice.kns.lookup.LookupResultsService;
-import org.kuali.rice.kns.question.ConfirmationQuestion;
-import org.kuali.rice.kns.service.BusinessObjectService;
-import org.kuali.rice.kns.service.DocumentService;
-import org.kuali.rice.kns.service.KualiRuleService;
-import org.kuali.rice.kns.util.GlobalVariables;
-import org.kuali.rice.kns.util.KNSConstants;
-import org.kuali.rice.kns.util.KualiDecimal;
+import org.kuali.rice.kew.api.exception.WorkflowException;
 import org.kuali.rice.kns.web.struts.action.AuditModeAction;
 import org.kuali.rice.kns.web.struts.form.KualiForm;
+import org.kuali.rice.kns.question.ConfirmationQuestion;
+import org.kuali.rice.krad.service.BusinessObjectService;
+import org.kuali.rice.krad.service.DocumentService;
+import org.kuali.rice.krad.service.KualiRuleService;
+import org.kuali.rice.krad.util.GlobalVariables;
+import org.kuali.rice.krad.util.KRADConstants;
 
 /**
  * Struts Action class for the Propsoal Development Budget Versions page
@@ -199,9 +196,9 @@ public class AwardBudgetsAction extends AwardAction implements AuditModeAction {
         }
         
         if(awardBudgetService.checkRateChange(allBudgetRates, newestAward)){
-    	     return confirm(syncBudgetRateConfirmationQuestion(mapping, form, request, response,
-                KeyConstants.QUESTION_SYNCH_AWARD_RATE), CONFIRM_SYNCH_BUDGET_RATE, NO_SYNCH_BUDGET_RATE);
-        }
+        	return confirm(syncBudgetRateConfirmationQuestion(mapping, form, request, response,
+                    KeyConstants.QUESTION_SYNCH_AWARD_RATE), CONFIRM_SYNCH_BUDGET_RATE, NO_SYNCH_BUDGET_RATE);
+        	 }
         if (budgetService.checkActivityTypeChange(allBudgetRates, newestAward.getActivityTypeCode())) {
             return confirm(syncBudgetRateConfirmationQuestion(mapping, form, request, response,
                     KeyConstants.QUESTION_SYNCH_BUDGET_RATE), CONFIRM_SYNCH_BUDGET_RATE, NO_SYNCH_BUDGET_RATE);
@@ -212,7 +209,7 @@ public class AwardBudgetsAction extends AwardAction implements AuditModeAction {
         } else {
             DocumentService documentService = KraServiceLocator.getService(DocumentService.class);
             BudgetDocument<Award> budgetDocument = (BudgetDocument) documentService.getByDocumentHeaderId(budgetToOpen.getDocumentNumber());
-            Long routeHeaderId = budgetDocument.getDocumentHeader().getWorkflowDocument().getRouteHeaderId();
+            String routeHeaderId = budgetDocument.getDocumentHeader().getWorkflowDocument().getDocumentId();
             Budget budget = budgetDocument.getBudget();
             String forward = buildForwardUrl(routeHeaderId);
             if (!budget.getActivityTypeCode().equals(newestAward.getActivityTypeCode()) || budget.isRateClassTypesReloaded()) {
@@ -251,7 +248,7 @@ public class AwardBudgetsAction extends AwardAction implements AuditModeAction {
         BudgetDocumentVersion budgetDocumentToOpen = awardDoc.getBudgetDocumentVersion(getSelectedLine(request));
         DocumentService documentService = KraServiceLocator.getService(DocumentService.class);
         BudgetDocument budgetDocument = (BudgetDocument) documentService.getByDocumentHeaderId(budgetDocumentToOpen.getDocumentNumber());
-        Long routeHeaderId = budgetDocument.getDocumentHeader().getWorkflowDocument().getRouteHeaderId();
+        String routeHeaderId = budgetDocument.getDocumentHeader().getWorkflowDocument().getDocumentId();
         String forward = buildForwardUrl(routeHeaderId);
         if (confirm) {
             budgetDocument.getBudget().setActivityTypeCode(awardDoc.getBudgetParent().getActivityTypeCode());
@@ -282,8 +279,8 @@ public class AwardBudgetsAction extends AwardAction implements AuditModeAction {
         if (!getAwardBudgetService().validateAddingNewBudget(pdForm.getAwardDocument())) {
             return mapping.findForward(Constants.MAPPING_AWARD_BASIC);
         }
-        if (StringUtils.isNotBlank(request.getParameter(KNSConstants.QUESTION_INST_ATTRIBUTE_NAME))) {
-            Object buttonClicked = request.getParameter(KNSConstants.QUESTION_CLICKED_BUTTON);
+        if (StringUtils.isNotBlank(request.getParameter(KRADConstants.QUESTION_INST_ATTRIBUTE_NAME))) {
+            Object buttonClicked = request.getParameter(KRADConstants.QUESTION_CLICKED_BUTTON);
             if (CopyPeriodsQuestion.ONE.equals(buttonClicked)) {
                 pdForm.setSaveAfterCopy(true);
                 return copyBudgetPeriodOne(mapping, form, request, response);
@@ -326,7 +323,7 @@ public class AwardBudgetsAction extends AwardAction implements AuditModeAction {
                 // set up error message to go to validate panel
                 final int errorBudgetVersion = this.getTentativeFinalBudgetVersion(awardForm);
                 if (errorBudgetVersion != -1) {
-                    GlobalVariables.getErrorMap().putError(
+                    GlobalVariables.getMessageMap().putError(
                             "document.developmentProposalList[0].budgetVersionOverview[" + (errorBudgetVersion - 1)
                                     + "].budgetStatus", KeyConstants.CLEAR_AUDIT_ERRORS_BEFORE_CHANGE_STATUS_TO_COMPLETE);
                 }
@@ -374,7 +371,7 @@ public class AwardBudgetsAction extends AwardAction implements AuditModeAction {
         BusinessObjectService boService = KraServiceLocator.getService(BusinessObjectService.class);
         AwardDocument awardDocument = awardForm.getAwardDocument();
 //        DocumentHeader currentDocumentHeader = awardDocument.getDocumentHeader();
-//        KualiWorkflowDocument workflowDoc = currentDocumentHeader.getWorkflowDocument();
+//        WorkflowDocument workflowDoc = currentDocumentHeader.getWorkflowDocument();
 //        AwardDocument updatedDocCopy = getProposalDoc(pdDocument.getDocumentNumber());
 
 //        if(updatedDocCopy != null && updatedDocCopy.getVersionNumber().longValue() > pdDocument.getVersionNumber().longValue()) {
@@ -404,7 +401,7 @@ public class AwardBudgetsAction extends AwardAction implements AuditModeAction {
     
     public ActionForward copyBudgetPeriodOne(ActionMapping mapping, ActionForm form, HttpServletRequest request, HttpServletResponse response) throws Exception {
 
-        Object question = request.getParameter(KNSConstants.QUESTION_INST_ATTRIBUTE_NAME);
+        Object question = request.getParameter(KRADConstants.QUESTION_INST_ATTRIBUTE_NAME);
         if (COPY_BUDGET_PERIOD_QUESTION.equals(question)) {
             copyBudget(form, request, true);
         }
@@ -414,7 +411,7 @@ public class AwardBudgetsAction extends AwardAction implements AuditModeAction {
     
     public ActionForward copyBudgetAllPeriods(ActionMapping mapping, ActionForm form, HttpServletRequest request, HttpServletResponse response) throws Exception {
 
-        Object question = request.getParameter(KNSConstants.QUESTION_INST_ATTRIBUTE_NAME);
+        Object question = request.getParameter(KRADConstants.QUESTION_INST_ATTRIBUTE_NAME);
         if (COPY_BUDGET_PERIOD_QUESTION.equals(question)) {
             copyBudget(form, request, false);
         }

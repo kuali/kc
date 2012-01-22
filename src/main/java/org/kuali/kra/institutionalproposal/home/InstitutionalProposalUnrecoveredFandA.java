@@ -15,34 +15,37 @@
  */
 package org.kuali.kra.institutionalproposal.home;
 
-import java.util.LinkedHashMap;
-
 import org.kuali.kra.SequenceAssociate;
 import org.kuali.kra.SequenceOwner;
 import org.kuali.kra.award.home.ValuableItem;
 import org.kuali.kra.institutionalproposal.IndirectcostRateType;
 import org.kuali.kra.institutionalproposal.InstitutionalProposalAssociate;
-import org.kuali.rice.kns.util.KualiDecimal;
+import org.kuali.rice.core.api.util.type.KualiDecimal;
 
-public class InstitutionalProposalUnrecoveredFandA extends InstitutionalProposalAssociate 
-implements ValuableItem, SequenceAssociate { 
-    
+public class InstitutionalProposalUnrecoveredFandA extends InstitutionalProposalAssociate implements ValuableItem, SequenceAssociate {
+
     private static final long serialVersionUID = 1L;
 
-    private Long proposalUnrecoveredFandAId;  
-    private KualiDecimal applicableIndirectcostRate; 
-    private Integer indirectcostRateTypeCode; 
-    private String fiscalYear; 
-    private boolean onCampusFlag; 
-    private KualiDecimal underrecoveryOfIndirectcost; 
-    private String sourceAccount; 
-    
-    private IndirectcostRateType indirectcostRateType; 
-    
-    public InstitutionalProposalUnrecoveredFandA() { 
+    private Long proposalUnrecoveredFandAId;
+
+    private KualiDecimal applicableIndirectcostRate;
+
+    private Integer indirectcostRateTypeCode;
+
+    private String fiscalYear;
+
+    private boolean onCampusFlag;
+
+    private KualiDecimal underrecoveryOfIndirectcost;
+
+    private String sourceAccount;
+
+    private IndirectcostRateType indirectcostRateType;
+
+    public InstitutionalProposalUnrecoveredFandA() {
         onCampusFlag = true;
-    } 
-    
+    }
+
     public Long getProposalUnrecoveredFandAId() {
         return proposalUnrecoveredFandAId;
     }
@@ -106,7 +109,7 @@ implements ValuableItem, SequenceAssociate {
     public void setIndirectcostRateType(IndirectcostRateType idcRateType) {
         this.indirectcostRateType = idcRateType;
     }
-    
+
     /**
      * @see org.kuali.kra.SequenceAssociate#getSequenceOwner()
      */
@@ -128,22 +131,7 @@ implements ValuableItem, SequenceAssociate {
         this.proposalUnrecoveredFandAId = null;
     }
 
-    /** {@inheritDoc} */
-    @Override 
-    protected LinkedHashMap<String, Object> toStringMapper() {
-        LinkedHashMap<String, Object> hashMap = new LinkedHashMap<String, Object>();
-        hashMap.put("proposalUnrecoveredFandAId", this.getProposalUnrecoveredFandAId());
-        hashMap.put("applicableIndirectcostRate", this.getApplicableIndirectcostRate());
-        hashMap.put("indirectcostRateTypeCode", this.getIndirectcostRateTypeCode());
-        hashMap.put("fiscalYear", this.getFiscalYear());
-        hashMap.put("onCampusFlag", this.getOnCampusFlag());
-        hashMap.put("underrecoveryOfIndirectcost", this.getUnderrecoveryOfIndirectcost());
-        hashMap.put("sourceAccount", this.getSourceAccount());
-        return hashMap;
-    }
-
     public KualiDecimal getAmount() {
         return underrecoveryOfIndirectcost;
     }
-    
 }

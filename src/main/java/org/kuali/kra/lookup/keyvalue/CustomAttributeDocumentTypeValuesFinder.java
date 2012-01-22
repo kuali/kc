@@ -20,29 +20,30 @@ import java.util.List;
 
 import org.kuali.kra.infrastructure.Constants;
 import org.kuali.kra.infrastructure.KraServiceLocator;
-import org.kuali.rice.core.util.KeyLabelPair;
-import org.kuali.rice.kns.lookup.keyvalues.KeyValuesBase;
-import org.kuali.rice.kns.service.ParameterService;
+import org.kuali.rice.core.api.util.ConcreteKeyValue;
+import org.kuali.rice.core.api.util.KeyValue;
+import org.kuali.rice.coreservice.framework.parameter.ParameterService;
+import org.kuali.rice.krad.keyvalues.KeyValuesBase;
 
 /**
  * Get custom attribute document 'document type code' list from sys param
  * This class...
  */
 public class CustomAttributeDocumentTypeValuesFinder extends KeyValuesBase {
-    List<KeyLabelPair> moduleCodes = null;
+    List<KeyValue> moduleCodes = null;
 
     /*
      * @see org.kuali.keyvalues.KeyValuesFinder#getKeyValues()
      */
     @SuppressWarnings("unchecked")
-    public List<KeyLabelPair> getKeyValues() {
+    public List<KeyValue> getKeyValues() {
 
-        List<KeyLabelPair> labels = new ArrayList<KeyLabelPair>();
-        labels.add(new KeyLabelPair("", "select"));
-        for (String documentType : KraServiceLocator.getService(ParameterService.class).getParameterValues(Constants.KC_GENERIC_PARAMETER_NAMESPACE,
+        List<KeyValue> labels = new ArrayList<KeyValue>();
+        labels.add(new ConcreteKeyValue("", "select"));
+        for (String documentType : KraServiceLocator.getService(ParameterService.class).getParameterValuesAsString(Constants.KC_GENERIC_PARAMETER_NAMESPACE,
                 Constants.CUSTOM_ATTRIBUTE_DOCUMENT_DETAIL_TYPE_CODE, Constants.CUSTOM_ATTRIBUTE_DOCUMENT_PARAM_NAME)) {
             String[] params = documentType.split("=");
-            labels.add(new KeyLabelPair(params[0], params[1]));
+            labels.add(new ConcreteKeyValue(params[0], params[1]));
         }
         return labels;
     }

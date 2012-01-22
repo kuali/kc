@@ -19,8 +19,6 @@ import java.util.ArrayList;
 import java.util.List;
 
 import org.junit.Test;
-import org.kuali.kra.coi.disclosure.SaveDisclosureReporterUnitEvent;
-import org.kuali.kra.coi.disclosure.SaveDisclosureReporterUnitRule;
 import org.kuali.kra.coi.personfinancialentity.FinancialEntityReporterUnit;
 import org.kuali.kra.infrastructure.Constants;
 import org.kuali.kra.rules.TemplateRuleTest;

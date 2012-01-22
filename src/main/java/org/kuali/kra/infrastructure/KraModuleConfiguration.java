@@ -18,8 +18,8 @@ package org.kuali.kra.infrastructure;
 import java.util.ArrayList;
 import java.util.List;
 
-import org.kuali.rice.kns.bo.ModuleConfiguration;
-import org.kuali.rice.kns.service.PersistenceService;
+import org.kuali.rice.krad.bo.ModuleConfiguration;
+import org.kuali.rice.krad.service.PersistenceService;
 import org.springframework.beans.factory.InitializingBean;
 
 /**
@@ -51,7 +51,7 @@ public class KraModuleConfiguration extends ModuleConfiguration implements Initi
 //                if (persistenceService != null)
 //                    persistenceService.loadRepositoryDescriptor(repositoryLocation);
 //                else
-//                    KNSServiceLocator.getPersistenceServiceOjb().loadRepositoryDescriptor(repositoryLocation);
+//                    KRADServiceLocatorWeb.getPersistenceServiceOjb().loadRepositoryDescriptor(repositoryLocation);
 //            }
 //        }
  //   }

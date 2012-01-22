@@ -16,26 +16,30 @@
 package org.kuali.kra.proposaldevelopment.budget.modular;
 
 import java.util.ArrayList;
-import java.util.LinkedHashMap;
 import java.util.List;
 
-import org.kuali.kra.bo.KraPersistableBusinessObjectBase;
 import org.kuali.kra.budget.BudgetDecimal;
 import org.kuali.kra.budget.core.BudgetAssociate;
 
 public class BudgetModular extends BudgetAssociate {
+
     private Long budgetPeriodId;
+
     private Integer budgetPeriod;
+
     private BudgetDecimal directCostLessConsortiumFna;
+
     private BudgetDecimal consortiumFna;
+
     private BudgetDecimal totalDirectCost;
-    
-    // Derived properties
+
+    // Derived properties 
     private BudgetDecimal totalRequestedCost;
+
     private BudgetDecimal totalFnaRequested;
-    
+
     private List<BudgetModularIdc> budgetModularIdcs;
-    
+
     public BudgetModular() {
         super();
         budgetModularIdcs = new ArrayList<BudgetModularIdc>();
@@ -43,15 +47,15 @@ public class BudgetModular extends BudgetAssociate {
         consortiumFna = new BudgetDecimal(0);
         totalDirectCost = new BudgetDecimal(0);
     }
-    
+
     public BudgetModular(Long budgetId, Integer budgetPeriod) {
         this();
         this.setBudgetId(budgetId);
-//        this.setProposalNumber(proposalNumber);
-//        this.setBudgetVersionNumber(budgetVersionNumber);
+        //        this.setProposalNumber(proposalNumber); 
+        //        this.setBudgetVersionNumber(budgetVersionNumber); 
         this.setBudgetPeriod(budgetPeriod);
     }
-    
+
     public Integer getBudgetPeriod() {
         return budgetPeriod;
     }
@@ -107,33 +111,34 @@ public class BudgetModular extends BudgetAssociate {
     public void setBudgetModularIdcs(List<BudgetModularIdc> budgetModularIdcs) {
         this.budgetModularIdcs = budgetModularIdcs;
     }
-    
+
     public BudgetModularIdc getBudgetModularIdc(int index) {
         while (getBudgetModularIdcs().size() <= index) {
             getBudgetModularIdcs().add(new BudgetModularIdc());
         }
         return (BudgetModularIdc) getBudgetModularIdcs().get(index);
     }
-    
+
     public void calculateAllTotals() {
         this.calculateTotalDirectCost();
         this.calculateTotalFnaRequested();
         this.calculateTotalRequestedCost();
     }
-    
+
     public void calculateTotalDirectCost() {
         BudgetDecimal totalDirectCost = new BudgetDecimal(0);
         if (this.getDirectCostLessConsortiumFna() != null) {
             totalDirectCost = totalDirectCost.add(this.getDirectCostLessConsortiumFna());
-        } if (this.getConsortiumFna() != null) {
+        }
+        if (this.getConsortiumFna() != null) {
             totalDirectCost = totalDirectCost.add(this.getConsortiumFna());
         }
         this.setTotalDirectCost(totalDirectCost);
     }
-    
+
     public void calculateTotalFnaRequested() {
         BudgetDecimal fnaRequested = new BudgetDecimal(0);
-        for (BudgetModularIdc budgetModularIdc: this.getBudgetModularIdcs()) {
+        for (BudgetModularIdc budgetModularIdc : this.getBudgetModularIdcs()) {
             budgetModularIdc.calculateFundsRequested();
             if (budgetModularIdc.getFundsRequested() != null) {
                 fnaRequested = fnaRequested.add(budgetModularIdc.getFundsRequested());
@@ -141,7 +146,7 @@ public class BudgetModular extends BudgetAssociate {
         }
         this.setTotalFnaRequested(fnaRequested);
     }
-    
+
     public void calculateTotalRequestedCost() {
         BudgetDecimal requestedCost = new BudgetDecimal(0);
         if (this.getTotalDirectCost() != null) {
@@ -152,42 +157,29 @@ public class BudgetModular extends BudgetAssociate {
         }
         this.setTotalRequestedCost(requestedCost);
     }
-    
+
     public void addNewBudgetModularIdc(BudgetModularIdc budgetModularIdc) {
         budgetModularIdc.setBudgetId(this.getBudgetId());
         budgetModularIdc.setBudgetPeriod(this.getBudgetPeriod());
-        
         /*if List <budgetModularIdc> contains the budgetModularIdc being passed with same rate and description, then add its idcBase to that budgetModularIdc.
          * otherwise add it to the list.
          */
-        for (BudgetModularIdc testBudgetModularIdc: this.getBudgetModularIdcs()){
-             if(testBudgetModularIdc.getIdcRate().equals(budgetModularIdc.getIdcRate()) &&
-                    testBudgetModularIdc.getDescription().equals(budgetModularIdc.getDescription())){
-                 if (testBudgetModularIdc.getIdcBase() == null) {
-                     testBudgetModularIdc.setIdcBase(budgetModularIdc.getIdcBase());
-                 } else {
-                     testBudgetModularIdc.setIdcBase(testBudgetModularIdc.getIdcBase().add(budgetModularIdc.getIdcBase()));
-                 }
-                 if (testBudgetModularIdc.getFundsRequested() == null) {
-                     testBudgetModularIdc.setFundsRequested(budgetModularIdc.getFundsRequested());
-                 } else {
-                     testBudgetModularIdc.setFundsRequested(testBudgetModularIdc.getFundsRequested().add(budgetModularIdc.getFundsRequested()));
-                 }
-                 return;
+        for (BudgetModularIdc testBudgetModularIdc : this.getBudgetModularIdcs()) {
+            if (testBudgetModularIdc.getIdcRate().equals(budgetModularIdc.getIdcRate()) && testBudgetModularIdc.getDescription().equals(budgetModularIdc.getDescription())) {
+                if (testBudgetModularIdc.getIdcBase() == null) {
+                    testBudgetModularIdc.setIdcBase(budgetModularIdc.getIdcBase());
+                } else {
+                    testBudgetModularIdc.setIdcBase(testBudgetModularIdc.getIdcBase().add(budgetModularIdc.getIdcBase()));
+                }
+                if (testBudgetModularIdc.getFundsRequested() == null) {
+                    testBudgetModularIdc.setFundsRequested(budgetModularIdc.getFundsRequested());
+                } else {
+                    testBudgetModularIdc.setFundsRequested(testBudgetModularIdc.getFundsRequested().add(budgetModularIdc.getFundsRequested()));
+                }
+                return;
             }
         }
         this.getBudgetModularIdcs().add(budgetModularIdc);
-    
-         
-        }
-    
-
-    @SuppressWarnings("unchecked")
-    @Override 
-    protected LinkedHashMap toStringMapper() {
-        LinkedHashMap<String, Object> hashMap = super.toStringMapper();
-        hashMap.put("budgetPeriod", this.budgetPeriod);
-        return hashMap;
     }
 
     public Long getBudgetPeriodId() {
@@ -197,5 +189,4 @@ public class BudgetModular extends BudgetAssociate {
     public void setBudgetPeriodId(Long budgetPeriodId) {
         this.budgetPeriodId = budgetPeriodId;
     }
-
 }

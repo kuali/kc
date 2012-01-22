@@ -15,8 +15,8 @@
  */
 package org.kuali.kra.negotiations.web.struts.action;
 
-import static org.kuali.rice.kns.util.KNSConstants.EMPTY_STRING;
-import static org.kuali.rice.kns.util.KNSConstants.QUESTION_CLICKED_BUTTON;
+import static org.kuali.rice.krad.util.KRADConstants.EMPTY_STRING;
+import static org.kuali.rice.krad.util.KRADConstants.QUESTION_CLICKED_BUTTON;
 
 import java.util.ArrayList;
 import java.util.Collection;
@@ -30,7 +30,6 @@ import org.apache.commons.lang.StringUtils;
 import org.apache.struts.action.ActionForm;
 import org.apache.struts.action.ActionForward;
 import org.apache.struts.action.ActionMapping;
-
 import org.kuali.kra.bo.AttachmentFile;
 import org.kuali.kra.bo.CustomAttribute;
 import org.kuali.kra.infrastructure.Constants;
@@ -47,11 +46,11 @@ import org.kuali.kra.negotiations.printing.NegotiationActivityPrintType;
 import org.kuali.kra.negotiations.web.struts.form.NegotiationForm;
 import org.kuali.kra.proposaldevelopment.bo.AttachmentDataSource;
 import org.kuali.kra.web.struts.action.StrutsConfirmation;
-import org.kuali.rice.kew.exception.WorkflowException;
-import org.kuali.rice.kns.question.ConfirmationQuestion;
-import org.kuali.rice.kns.util.GlobalVariables;
-import org.kuali.rice.kns.util.KNSConstants;
+import org.kuali.rice.kew.api.exception.WorkflowException;
 import org.kuali.rice.kns.web.struts.form.KualiForm;
+import org.kuali.rice.kns.question.ConfirmationQuestion;
+import org.kuali.rice.krad.util.GlobalVariables;
+import org.kuali.rice.krad.util.KRADConstants;
 
 /**
  * 
@@ -75,7 +74,7 @@ public class NegotiationNegotiationAction extends NegotiationAction {
         negotiationForm.getNegotiationActivityHelper().generateAllAttachments();
         return actionForward;
     }
-    
+
     /**
      * Should only be used when opening the document from a search and clicking on the medusa link.
      * @param mapping
@@ -108,10 +107,10 @@ public class NegotiationNegotiationAction extends NegotiationAction {
     */    
     protected void loadDocumentInForm(HttpServletRequest request, NegotiationForm negotiationForm)
     throws WorkflowException {
-        String docIdRequestParameter = request.getParameter(KNSConstants.PARAMETER_DOC_ID);
+        String docIdRequestParameter = request.getParameter(KRADConstants.PARAMETER_DOC_ID);
         NegotiationDocument retrievedDocument = (NegotiationDocument) getDocumentService().getByDocumentHeaderId(docIdRequestParameter);
         negotiationForm.setDocument(retrievedDocument);
-        request.setAttribute(KNSConstants.PARAMETER_DOC_ID, docIdRequestParameter);
+        request.setAttribute(KRADConstants.PARAMETER_DOC_ID, docIdRequestParameter);
     }    
 
     /**
@@ -159,7 +158,7 @@ public class NegotiationNegotiationAction extends NegotiationAction {
                         "changePendingActivitiesKey", KeyConstants.NEGOTIATION_CLOSE_PENDING_ACTIVITIES);
                 question.setCaller(((KualiForm) question.getForm()).getMethodToCall());
                 if (question.hasQuestionInstAttributeName()
-                        && StringUtils.equals(question.getRequest().getParameter(KNSConstants.QUESTION_INST_ATTRIBUTE_NAME),
+                        && StringUtils.equals(question.getRequest().getParameter(KRADConstants.QUESTION_INST_ATTRIBUTE_NAME),
                                 question.getQuestionId())) {
                     Object buttonClicked = question.getRequest().getParameter(QUESTION_CLICKED_BUTTON);
                     if (ConfirmationQuestion.YES.equals(buttonClicked)) {
@@ -208,7 +207,7 @@ public class NegotiationNegotiationAction extends NegotiationAction {
         }
        negotiation.refresh();
        return actionForward;
-    }
+   }
     
     @Override
     public ActionForward refresh(ActionMapping mapping, ActionForm form, HttpServletRequest request, HttpServletResponse response) throws Exception {
@@ -233,12 +232,12 @@ public class NegotiationNegotiationAction extends NegotiationAction {
                                 .getNegotiationAssociationType().getDescription());
                 question.setCaller(((KualiForm) question.getForm()).getMethodToCall());
                 if (question.hasQuestionInstAttributeName()
-                        && StringUtils.equals(question.getRequest().getParameter(KNSConstants.QUESTION_INST_ATTRIBUTE_NAME),
+                        && StringUtils.equals(question.getRequest().getParameter(KRADConstants.QUESTION_INST_ATTRIBUTE_NAME),
                                 question.getQuestionId())) {
                     Object buttonClicked = question.getRequest().getParameter(QUESTION_CLICKED_BUTTON);
                     if (ConfirmationQuestion.NO.equals(buttonClicked)) {
                         if (oldNegotiation != null) {
-                            negotiation.setAssociatedDocumentId(oldNegotiation.getAssociatedDocumentId());
+                        negotiation.setAssociatedDocumentId(oldNegotiation.getAssociatedDocumentId());
                         } else {
                             negotiation.setAssociatedDocumentId(null);
                         }
@@ -263,7 +262,7 @@ public class NegotiationNegotiationAction extends NegotiationAction {
         Negotiation negotiation = negotiationForm.getNegotiationDocument().getNegotiation();
         copyCustomDataToNegotiation(negotiationForm);
         return super.close(mapping, negotiationForm, request, response);
-    }
+            }
     
     /**
      * Copy the custom data to the Award so that it can saved.
@@ -354,7 +353,7 @@ public class NegotiationNegotiationAction extends NegotiationAction {
                     .getCode(), NegotiationAssociationType.NONE_ASSOCIATION)) {
                 newAssociation = newAssociation + ".  You will lose any Negotiation attributes that have been entered";
             }
-            request.setAttribute(KNSConstants.METHOD_TO_CALL_ATTRIBUTE, "methodToCall.changeAssociationRedirector");
+            request.setAttribute(KRADConstants.METHOD_TO_CALL_ATTRIBUTE, "methodToCall.changeAssociationRedirector");
             ActionForward confirmAction = confirm(
                     buildParameterizedConfirmationQuestion(mapping, form, request, response, "changeAssociationKey",
                             KeyConstants.NEGOTIATION_CHANGE_ASSOCIATION_TYPE_MESSAGE, oldAssociation, newAssociation),
@@ -487,7 +486,7 @@ public class NegotiationNegotiationAction extends NegotiationAction {
     }
 
     protected Integer getActivityIndex(HttpServletRequest request) {
-        String parameterName = (String) request.getAttribute(KNSConstants.METHOD_TO_CALL_ATTRIBUTE);
+        String parameterName = (String) request.getAttribute(KRADConstants.METHOD_TO_CALL_ATTRIBUTE);
         if (StringUtils.isNotBlank(parameterName)) {
             return Integer.parseInt(StringUtils.substringBetween(parameterName, ".activityIndex", "."));
         }
@@ -495,7 +494,7 @@ public class NegotiationNegotiationAction extends NegotiationAction {
     }
 
     protected Integer getAttachmentIndex(HttpServletRequest request) {
-        String parameterName = (String) request.getAttribute(KNSConstants.METHOD_TO_CALL_ATTRIBUTE);
+        String parameterName = (String) request.getAttribute(KRADConstants.METHOD_TO_CALL_ATTRIBUTE);
         if (StringUtils.isNotBlank(parameterName)) {
             return Integer.parseInt(StringUtils.substringBetween(parameterName, ".attachmentIndex", "."));
         }

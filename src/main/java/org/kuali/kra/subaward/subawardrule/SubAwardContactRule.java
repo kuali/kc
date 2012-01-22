@@ -15,9 +15,8 @@
  */
 package org.kuali.kra.subaward.subawardrule;
 
-import org.kuali.kra.subaward.bo.SubAwardAmountInfo;
 import org.kuali.kra.subaward.bo.SubAwardContact;
 
-public interface SubAwardContactRule {
+public interface SubAwardContactRule extends org.kuali.rice.krad.rules.rule.BusinessRule {
     public boolean processAddSubAwardContactBusinessRules(SubAwardContact subAwardContact);
 }

@@ -13,11 +13,9 @@
  * See the License for the specific language governing permissions and
  * limitations under the License.
  */
-
 package org.kuali.kra.irb.actions.risklevel;
 
 import java.sql.Date;
-import java.util.LinkedHashMap;
 
 import org.kuali.kra.bo.RiskLevel;
 import org.kuali.kra.infrastructure.Constants;
@@ -27,27 +25,32 @@ import org.kuali.kra.irb.ProtocolAssociate;
  * 
  * This is BO class of protocol risk levels. 
  */
-public class ProtocolRiskLevel extends ProtocolAssociate { 
+public class ProtocolRiskLevel extends ProtocolAssociate {
 
     private static final long serialVersionUID = 4044241452792449333L;
-    
-    private Integer protocolRiskLevelId; 
+
+    private Integer protocolRiskLevelId;
+
     private String riskLevelCode;
-    private String comments; 
-    private Date dateAssigned; 
-    private Date dateInactivated; 
-    private String status; 
-    
+
+    private String comments;
+
+    private Date dateAssigned;
+
+    private Date dateInactivated;
+
+    private String status;
+
     private RiskLevel riskLevel;
-    
+
     /**
      * Constructs a ProtocolRiskLevel, ensuring that the dateAssigned defaults to the current date.
      */
-    public ProtocolRiskLevel() { 
+    public ProtocolRiskLevel() {
         dateAssigned = new Date(System.currentTimeMillis());
         status = Constants.STATUS_ACTIVE;
-    } 
-    
+    }
+
     public Integer getProtocolRiskLevelId() {
         return protocolRiskLevelId;
     }
@@ -103,18 +106,6 @@ public class ProtocolRiskLevel extends ProtocolAssociate {
 
     public void setRiskLevel(RiskLevel riskLevel) {
         this.riskLevel = riskLevel;
-    }
-
-    @Override 
-    protected LinkedHashMap toStringMapper() {
-        LinkedHashMap hashMap = super.toStringMapper();
-        hashMap.put("protocolRiskLevelId", getProtocolRiskLevelId());
-        hashMap.put("riskLevelCode", getRiskLevelCode());
-        hashMap.put("comments", getComments());
-        hashMap.put("dateAssigned", getDateAssigned());
-        hashMap.put("dateInactivated", getDateInactivated());
-        hashMap.put("status", getStatus());
-        return hashMap;
     }
 
     @Override
@@ -173,19 +164,17 @@ public class ProtocolRiskLevel extends ProtocolAssociate {
         } else if (!getSequenceNumber().equals(other.getSequenceNumber())) {
             return false;
         }
-
         return true;
     }
 
     public String getStatusText() {
-        return status.equals(Constants.STATUS_ACTIVE) ? Constants.ACTIVE_STATUS_LITERAL : 
-            Constants.INACTIVE_STATUS_LITERAL ;
+        return status.equals(Constants.STATUS_ACTIVE) ? Constants.ACTIVE_STATUS_LITERAL : Constants.INACTIVE_STATUS_LITERAL;
     }
-    
+
     public boolean isPersisted() {
         return this.protocolRiskLevelId != null;
     }
-    
+
     /** {@inheritDoc} */
     public void resetPersistenceState() {
         this.setProtocolRiskLevelId(null);

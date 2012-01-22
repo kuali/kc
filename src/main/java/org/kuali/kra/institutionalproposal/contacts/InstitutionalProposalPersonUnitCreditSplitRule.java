@@ -15,11 +15,13 @@
  */
 package org.kuali.kra.institutionalproposal.contacts;
 
+import org.kuali.kra.proposaldevelopment.bo.InvestigatorCreditType;
+
 
 /**
  * This class...
  */
-public interface InstitutionalProposalPersonUnitCreditSplitRule {
+public interface InstitutionalProposalPersonUnitCreditSplitRule extends org.kuali.rice.krad.rules.rule.BusinessRule {
 
     String PROPOSAL_CREDIT_SPLIT_LIST_ERROR_KEY = "document.institutionalProposalList[0].projectPersons.institutionalProposalPersonCreditSplits";
     String PROPOSAL_PERSON_UNIT_CREDIT_SPLIT_ERROR_MSG_KEY = "error.award.person.unit.credit.split.error";

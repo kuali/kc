@@ -15,8 +15,6 @@
  */
 package org.kuali.kra.irb.actions.amendrenew;
 
-import java.util.LinkedHashMap;
-
 import org.kuali.kra.SequenceAssociate;
 import org.kuali.kra.bo.KraPersistableBusinessObjectBase;
 import org.kuali.kra.irb.Protocol;
@@ -25,17 +23,20 @@ import org.kuali.kra.irb.Protocol;
 public class ProtocolAmendRenewModule extends KraPersistableBusinessObjectBase implements SequenceAssociate<Protocol> {
 
     private Long protocolAmendRenewModuleId;
+
     private String protocolAmendRenewalNumber;
+
     private Long protocolAmendRenewalId;
+
     private String protocolNumber;
+
     private String protocolModuleTypeCode;
-    
+
     private ProtocolAmendRenewal protocolAmendRenewal;
-    
+
     private ProtocolModule protocolModule;
-    
+
     public ProtocolAmendRenewModule() {
-        
     }
 
     public Long getProtocolAmendRenewModuleId() {
@@ -77,7 +78,7 @@ public class ProtocolAmendRenewModule extends KraPersistableBusinessObjectBase i
     public void setProtocolModuleTypeCode(String protocolModuleTypeCode) {
         this.protocolModuleTypeCode = protocolModuleTypeCode;
     }
-    
+
     public ProtocolAmendRenewal getProtocolAmendRenewal() {
         return protocolAmendRenewal;
     }
@@ -85,7 +86,7 @@ public class ProtocolAmendRenewModule extends KraPersistableBusinessObjectBase i
     public void setProtocolAmendRenewal(ProtocolAmendRenewal protocolAmendRenewal) {
         this.protocolAmendRenewal = protocolAmendRenewal;
     }
-    
+
     public ProtocolModule getProtocolModule() {
         return protocolModule;
     }
@@ -93,36 +94,22 @@ public class ProtocolAmendRenewModule extends KraPersistableBusinessObjectBase i
     public void setProtocolModule(ProtocolModule protocolModule) {
         this.protocolModule = protocolModule;
     }
-    
-    @SuppressWarnings("unchecked")
-    @Override
-    protected LinkedHashMap toStringMapper() {
-        LinkedHashMap map = new LinkedHashMap();
-        map.put("protocolAmendRenewModuleId", this.getProtocolAmendRenewModuleId());
-        map.put("protocolAmendRenewalNumber", this.getProtocolAmendRenewalNumber());
-        map.put("protocolAmendRenewalId", this.getProtocolAmendRenewalId());
-        map.put("protocolNumber", this.getProtocolNumber());
-        map.put("protocolModuleTypeCode", getProtocolModuleTypeCode());
-        return map;
-    }
 
     public Protocol getSequenceOwner() {
         return protocolAmendRenewal != null ? protocolAmendRenewal.getProtocol() : null;
     }
 
     public void setSequenceOwner(Protocol newlyVersionedOwner) {
-        if(protocolAmendRenewal != null) {
+        if (protocolAmendRenewal != null) {
             protocolAmendRenewal.setProtocol(newlyVersionedOwner);
         }
-        
     }
 
-
     public void resetPersistenceState() {
-        protocolAmendRenewModuleId = null;        
+        protocolAmendRenewModuleId = null;
     }
 
     public Integer getSequenceNumber() {
-        return  protocolAmendRenewal != null ? protocolAmendRenewal.getSequenceNumber() : 0;
+        return protocolAmendRenewal != null ? protocolAmendRenewal.getSequenceNumber() : 0;
     }
 }

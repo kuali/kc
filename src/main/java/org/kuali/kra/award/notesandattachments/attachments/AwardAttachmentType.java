@@ -15,8 +15,6 @@
  */
 package org.kuali.kra.award.notesandattachments.attachments;
 
-import java.util.LinkedHashMap;
-
 import org.kuali.kra.bo.KraPersistableBusinessObjectBase;
 import org.kuali.kra.irb.noteattachment.ProtocolAttachmentType;
 
@@ -31,6 +29,7 @@ public class AwardAttachmentType extends KraPersistableBusinessObjectBase {
     private static final long serialVersionUID = 3918563746120540897L;
 
     private String typeCode;
+
     private String description;
 
     /**
@@ -39,7 +38,7 @@ public class AwardAttachmentType extends KraPersistableBusinessObjectBase {
     public AwardAttachmentType() {
         super();
     }
-    
+
     /**
      * Convenience ctor to set the relevant properties of this class.
      * 
@@ -54,7 +53,7 @@ public class AwardAttachmentType extends KraPersistableBusinessObjectBase {
         this.typeCode = typeCode;
         this.description = description;
     }
-    
+
     /**
      * Gets the protocol attachment type code.
      * @return the protocol attachment type code
@@ -85,15 +84,6 @@ public class AwardAttachmentType extends KraPersistableBusinessObjectBase {
      */
     public void setDescription(String description) {
         this.description = description;
-    }
-
-    /** {@inheritDoc} */
-    @Override 
-    protected LinkedHashMap<String, Object> toStringMapper() {
-        LinkedHashMap<String, Object> hashMap = new LinkedHashMap<String, Object>();
-        hashMap.put("typeCode", this.getTypeCode());
-        hashMap.put("description", this.getDescription());
-        return hashMap;
     }
 
     /** {@inheritDoc} */

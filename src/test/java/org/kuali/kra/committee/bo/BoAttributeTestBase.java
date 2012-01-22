@@ -17,8 +17,11 @@ package org.kuali.kra.committee.bo;
 
 import java.lang.reflect.InvocationTargetException;
 import java.lang.reflect.Method;
+import java.util.HashMap;
 import java.util.Map;
 import java.util.Set;
+import java.util.regex.Matcher;
+import java.util.regex.Pattern;
 
 import junit.framework.TestCase;
 
@@ -59,9 +62,21 @@ public abstract class BoAttributeTestBase<T extends KraPersistableBusinessObject
      * Concrete implementer should make a call to getToStringMapper() of BO class returning Map.
      * @return
      */
-    @SuppressWarnings("unchecked")
-    protected abstract Map getToStringMapper();
-
+    protected final Map<String, String> getToStringMapper() {
+        String boToString = bo.toString();
+        Map<String, String> fieldMap = new HashMap<String, String>();
+        //ReflectionToStringBuilder uses ToStringStyle DEFAULT_STYLE by default
+        Pattern p = Pattern.compile("(?<=\\[).*(?=\\])");
+        Matcher m = p.matcher(boToString);
+        if(m.find()) {
+            String[] matches = m.group().split(",");
+            for(String match: matches) {
+                String[] fieldValue = match.split("=");
+                fieldMap.put(fieldValue[0], fieldValue[1]);
+            }
+        }
+        return fieldMap;
+    }
     /**
      * Concrete implementer should return Map<String, Object>, using bo's field and value. Map should include all the fields used in
      * definition of toStringMapper().

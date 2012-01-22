@@ -16,23 +16,27 @@
 package org.kuali.kra.proposaldevelopment.bo;
 
 import java.sql.Date;
-import java.util.LinkedHashMap;
 
 import org.kuali.kra.bo.KraPersistableBusinessObjectBase;
 
 /**
- * Represents the Proposal Investigator Certification <code>{@link org.kuali.rice.kns.bo.BusinessObject}</code>
+ * Represents the Proposal Investigator Certification <code>{@link org.kuali.rice.krad.bo.BusinessObject}</code>
  *
- * @see org.kuali.rice.kns.bo.BusinessObject
+ * @see org.kuali.rice.krad.bo.BusinessObject
  * @see org.kuali.kra.proposaldevelopment.document.ProposalDevelopmentDocument
  * @author $Author: gmcgrego $
  * @version $Revision: 1.4 $
  */
-public class ProposalInvestigatorCertification  extends KraPersistableBusinessObjectBase {
+public class ProposalInvestigatorCertification extends KraPersistableBusinessObjectBase {
+
     private Integer proposalPersonNumber;
+
     private String proposalNumber;
+
     private Boolean certified;
+
     private Date dateCertified;
+
     private Date dateReceivedByOsp;
 
     /**
@@ -124,18 +128,4 @@ public class ProposalInvestigatorCertification  extends KraPersistableBusinessOb
     public final void setDateReceivedByOsp(Date argDateReceivedByOsp) {
         this.dateReceivedByOsp = argDateReceivedByOsp;
     }
-
-    @Override
-    protected LinkedHashMap toStringMapper() {
-        LinkedHashMap propMap = new LinkedHashMap();
-        propMap.put("proposalPersonNumber", getProposalPersonNumber());
-        propMap.put("proposalNumber", getProposalNumber());
-        propMap.put("certified", isCertified());
-        propMap.put("dateCertified", getDateCertified());
-        propMap.put("dateReceivedByOsp", getDateReceivedByOsp());
-        return propMap;
-    }
-
 }
-
-

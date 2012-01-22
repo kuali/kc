@@ -15,8 +15,6 @@
  */
 package org.kuali.kra.proposaldevelopment.bo;
 
-import java.util.LinkedHashMap;
-
 import org.kuali.kra.bo.KraPersistableBusinessObjectBase;
 
 /**
@@ -24,10 +22,11 @@ import org.kuali.kra.bo.KraPersistableBusinessObjectBase;
  *
  */
 public class DeadlineType extends KraPersistableBusinessObjectBase {
-	
-	private String deadlineTypeCode;
-	private String description;
-	
+
+    private String deadlineTypeCode;
+
+    private String description;
+
     /**
      * Gets the deadlineTypeCode attribute. 
      * @return Returns the deadlineTypeCode.
@@ -49,27 +48,16 @@ public class DeadlineType extends KraPersistableBusinessObjectBase {
      * 
      * @return String
      */
-	public String getDescription() {
-		return description;
-	}
-    
+    public String getDescription() {
+        return description;
+    }
+
     /**
      * Assigns the description attribute
      *
      * @param description
      */
-	public void setDescription(String description) {
-		this.description = description;
-	}
-
-    @Override
-    protected LinkedHashMap toStringMapper() {
-        LinkedHashMap propMap = new LinkedHashMap();
-        propMap.put("deadlineTypeCode", this.getDeadlineTypeCode());
-        propMap.put("description", this.getDescription());
-        propMap.put("updateTimestamp", this.getUpdateTimestamp());
-        propMap.put("updateUser", this.getUpdateUser());
-        return propMap;
+    public void setDescription(String description) {
+        this.description = description;
     }
-
 }

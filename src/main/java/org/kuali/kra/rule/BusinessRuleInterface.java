@@ -16,7 +16,7 @@
 package org.kuali.kra.rule;
 
 import org.kuali.kra.rule.event.KraDocumentEventBaseExtension;
-import org.kuali.rice.kns.rule.BusinessRule;
+import org.kuali.rice.krad.rules.rule.BusinessRule;
 
 public interface BusinessRuleInterface<T extends KraDocumentEventBaseExtension> extends BusinessRule {
     

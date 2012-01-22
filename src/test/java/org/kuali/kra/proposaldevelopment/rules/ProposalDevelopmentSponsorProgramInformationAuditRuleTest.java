@@ -34,13 +34,15 @@ import org.kuali.kra.proposaldevelopment.document.ProposalDevelopmentDocument;
 import org.kuali.kra.proposaldevelopment.service.impl.ProposalDevelopmentServiceImpl;
 import org.kuali.kra.s2s.bo.S2sOpportunity;
 import org.kuali.kra.test.infrastructure.KcUnitTestBase;
-import org.kuali.rice.kns.UserSession;
-import org.kuali.rice.kns.service.DocumentService;
-import org.kuali.rice.kns.service.KNSServiceLocator;
-import org.kuali.rice.kns.service.ParameterService;
+import org.kuali.rice.coreservice.framework.parameter.ParameterService;
+import org.kuali.rice.coreservice.framework.CoreFrameworkServiceLocator;
 import org.kuali.rice.kns.util.AuditCluster;
 import org.kuali.rice.kns.util.AuditError;
-import org.kuali.rice.kns.util.GlobalVariables;
+import org.kuali.rice.kns.util.KNSGlobalVariables;
+import org.kuali.rice.krad.UserSession;
+import org.kuali.rice.krad.service.DocumentService;
+import org.kuali.rice.krad.service.KRADServiceLocatorWeb;
+import org.kuali.rice.krad.util.GlobalVariables;
 
 /**
  * This class tests the ProposalDevelopmentSponsorProgramInformationAuditRule class
@@ -87,17 +89,17 @@ public class ProposalDevelopmentSponsorProgramInformationAuditRuleTest extends K
     public void setUp() throws Exception {
         super.setUp();
         GlobalVariables.setUserSession(new UserSession("quickstart"));
-        GlobalVariables.setAuditErrorMap(new HashMap());
-        documentService = KNSServiceLocator.getDocumentService();
-        parameterService = KNSServiceLocator.getParameterService();
+        KNSGlobalVariables.setAuditErrorMap(new HashMap());
+        documentService = KRADServiceLocatorWeb.getDocumentService();
+        parameterService = CoreFrameworkServiceLocator.getParameterService();
         auditRule = new ProposalDevelopmentSponsorProgramInformationAuditRule();
         auditRule.setParameterService(parameterService);
         
-        proposalTypeCodeRenewal = parameterService.getParameterValue(ProposalDevelopmentDocument.class, KeyConstants.PROPOSALDEVELOPMENT_PROPOSALTYPE_RENEWAL);
-        proposalTypeCodeRevision = parameterService.getParameterValue(ProposalDevelopmentDocument.class, KeyConstants.PROPOSALDEVELOPMENT_PROPOSALTYPE_REVISION);
-        proposalTypeCodeContinuation = parameterService.getParameterValue(ProposalDevelopmentDocument.class, KeyConstants.PROPOSALDEVELOPMENT_PROPOSALTYPE_CONTINUATION);
-        proposalTypeCodeResubmission = parameterService.getParameterValue(ProposalDevelopmentDocument.class, KeyConstants.PROPOSALDEVELOPMENT_PROPOSALTYPE_RESUBMISSION);
-        proposalTypeCodeNew = parameterService.getParameterValue(ProposalDevelopmentDocument.class, KeyConstants.PROPOSALDEVELOPMENT_PROPOSALTYPE_NEW);
+        proposalTypeCodeRenewal = parameterService.getParameterValueAsString(ProposalDevelopmentDocument.class, KeyConstants.PROPOSALDEVELOPMENT_PROPOSALTYPE_RENEWAL);
+        proposalTypeCodeRevision = parameterService.getParameterValueAsString(ProposalDevelopmentDocument.class, KeyConstants.PROPOSALDEVELOPMENT_PROPOSALTYPE_REVISION);
+        proposalTypeCodeContinuation = parameterService.getParameterValueAsString(ProposalDevelopmentDocument.class, KeyConstants.PROPOSALDEVELOPMENT_PROPOSALTYPE_CONTINUATION);
+        proposalTypeCodeResubmission = parameterService.getParameterValueAsString(ProposalDevelopmentDocument.class, KeyConstants.PROPOSALDEVELOPMENT_PROPOSALTYPE_RESUBMISSION);
+        proposalTypeCodeNew = parameterService.getParameterValueAsString(ProposalDevelopmentDocument.class, KeyConstants.PROPOSALDEVELOPMENT_PROPOSALTYPE_NEW);
         
         Calendar calendar = new GregorianCalendar();
         calendar.add(Calendar.DATE, 1);
@@ -107,7 +109,7 @@ public class ProposalDevelopmentSponsorProgramInformationAuditRuleTest extends K
     @After
     public void tearDown() throws Exception {
         GlobalVariables.setUserSession(null);
-        GlobalVariables.setAuditErrorMap(null);
+        KNSGlobalVariables.setAuditErrorMap(null);
         documentService = null;
         auditRule = null;
         super.tearDown();
@@ -124,7 +126,7 @@ public class ProposalDevelopmentSponsorProgramInformationAuditRuleTest extends K
 
         document.getDevelopmentProposal().setDeadlineDate(tomorrow);;
         assertTrue("Audit Rule shouldn't produce any audit errors", auditRule.processRunAuditBusinessRules(document));
-        assertEquals(0, GlobalVariables.getAuditErrorMap().size());
+        assertEquals(0, KNSGlobalVariables.getAuditErrorMap().size());
     }
 
     @Test public void testEmptyDate() throws Exception {
@@ -158,10 +160,10 @@ public class ProposalDevelopmentSponsorProgramInformationAuditRuleTest extends K
         
         auditRule.setProposalDevelopmentService(new ProposalDevelopmentServiceMock());
         validateGGAuditRules(document, Constants.SPONSOR_PROPOSAL_KEY, KeyConstants.ERROR_PROPOSAL_REQUIRE_PRIOR_AWARD, true);
-        GlobalVariables.getAuditErrorMap().clear();
+        KNSGlobalVariables.getAuditErrorMap().clear();
         proposal.setSponsorProposalNumber("AA123456");
         validateGGAuditRules(document, Constants.SPONSOR_PROPOSAL_KEY, KeyConstants.ERROR_PROPOSAL_REQUIRE_PRIOR_AWARD, false);
-        GlobalVariables.getAuditErrorMap().clear();
+        KNSGlobalVariables.getAuditErrorMap().clear();
         auditRule.setProposalDevelopmentService(null);
         auditRule.setParameterService(null);
     }
@@ -179,17 +181,17 @@ public class ProposalDevelopmentSponsorProgramInformationAuditRuleTest extends K
 
         auditRule.setProposalDevelopmentService(new ProposalDevelopmentServiceMock());
         validateGGAuditRules(document, Constants.SPONSOR_PROPOSAL_KEY, KeyConstants.ERROR_PROPOSAL_REQUIRE_PRIOR_AWARD_FOR_RESUBMIT, true);
-        GlobalVariables.getAuditErrorMap().clear();
+        KNSGlobalVariables.getAuditErrorMap().clear();
         proposal.setSponsorProposalNumber("AA123456");
         validateGGAuditRules(document, Constants.SPONSOR_PROPOSAL_KEY, KeyConstants.ERROR_PROPOSAL_REQUIRE_PRIOR_AWARD_FOR_RESUBMIT, false);
-        GlobalVariables.getAuditErrorMap().clear();
+        KNSGlobalVariables.getAuditErrorMap().clear();
         proposal.setSponsorProposalNumber(null);
         proposal.setCurrentAwardNumber("000001-0001");
         validateGGAuditRules(document, Constants.SPONSOR_PROPOSAL_KEY, KeyConstants.ERROR_PROPOSAL_REQUIRE_PRIOR_AWARD_FOR_RESUBMIT, true);
-        GlobalVariables.getAuditErrorMap().clear();
+        KNSGlobalVariables.getAuditErrorMap().clear();
         proposal.setContinuedFrom("1");
         validateGGAuditRules(document, Constants.SPONSOR_PROPOSAL_KEY, KeyConstants.ERROR_PROPOSAL_REQUIRE_PRIOR_AWARD_FOR_RESUBMIT, false);
-        GlobalVariables.getAuditErrorMap().clear();
+        KNSGlobalVariables.getAuditErrorMap().clear();
         auditRule.setProposalDevelopmentService(null);
         auditRule.setParameterService(null);
     }
@@ -201,8 +203,8 @@ public class ProposalDevelopmentSponsorProgramInformationAuditRuleTest extends K
      */
     private void validateAuditRule(ProposalDevelopmentDocument document, String messageKey) {
         assertFalse("Audit Rule should produce a Warning audit error", auditRule.processRunAuditBusinessRules(document));
-        assertEquals(1, GlobalVariables.getAuditErrorMap().size());
-        AuditCluster auditCluster = (AuditCluster)GlobalVariables.getAuditErrorMap().get("sponsorProgramInformationAuditWarnings");
+        assertEquals(1, KNSGlobalVariables.getAuditErrorMap().size());
+        AuditCluster auditCluster = (AuditCluster)KNSGlobalVariables.getAuditErrorMap().get("sponsorProgramInformationAuditWarnings");
 
         assertEquals("Sponsor & Program Information", auditCluster.getLabel());
         List auditErrors = auditCluster.getAuditErrorList();
@@ -218,8 +220,8 @@ public class ProposalDevelopmentSponsorProgramInformationAuditRuleTest extends K
     
     private void validateGGAuditRules(ProposalDevelopmentDocument document, String fieldKey, String messageKey, boolean expectError) {
         assertTrue("Audit Rule did not produce expected results", auditRule.processRunAuditBusinessRules(document) ^ expectError);
-        assertEquals(expectError?1:0, GlobalVariables.getAuditErrorMap().size());
-        AuditCluster auditCluster = (AuditCluster)GlobalVariables.getAuditErrorMap().get("sponsorProgramInformationAuditErrors");
+        assertEquals(expectError?1:0, KNSGlobalVariables.getAuditErrorMap().size());
+        AuditCluster auditCluster = (AuditCluster)KNSGlobalVariables.getAuditErrorMap().get("sponsorProgramInformationAuditErrors");
 
         if (expectError) {
             assertEquals("Sponsor & Program Information", auditCluster.getLabel());

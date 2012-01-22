@@ -16,20 +16,18 @@
 package org.kuali.kra.subaward.bo;
 
 import org.kuali.kra.bo.KraPersistableBusinessObjectBase;
-import java.util.LinkedHashMap;
 
-public class SubAwardStatus extends KraPersistableBusinessObjectBase { 
-    
+public class SubAwardStatus extends KraPersistableBusinessObjectBase {
+
     private static final long serialVersionUID = 1L;
 
-    private Integer subAwardStatusCode; 
-    private String description; 
-    
-    
-    public SubAwardStatus() { 
+    private Integer subAwardStatusCode;
 
-    } 
-    
+    private String description;
+
+    public SubAwardStatus() {
+    }
+
     public Integer getSubAwardStatusCode() {
         return subAwardStatusCode;
     }
@@ -45,14 +43,4 @@ public class SubAwardStatus extends KraPersistableBusinessObjectBase {
     public void setDescription(String description) {
         this.description = description;
     }
-
-    /** {@inheritDoc} */
-    @Override 
-    protected LinkedHashMap<String, Object> toStringMapper() {
-        LinkedHashMap<String, Object> hashMap = new LinkedHashMap<String, Object>();
-        hashMap.put("subAwardStatusCode", this.getSubAwardStatusCode());
-        hashMap.put("description", this.getDescription());
-        return hashMap;
-    }
-    
 }

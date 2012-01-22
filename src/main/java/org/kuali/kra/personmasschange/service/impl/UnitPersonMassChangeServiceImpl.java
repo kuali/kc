@@ -24,13 +24,13 @@ import org.kuali.kra.bo.Unit;
 import org.kuali.kra.bo.UnitAdministrator;
 import org.kuali.kra.personmasschange.bo.PersonMassChange;
 import org.kuali.kra.personmasschange.service.UnitPersonMassChangeService;
-import org.kuali.rice.kns.service.BusinessObjectService;
+import org.kuali.rice.krad.service.BusinessObjectService;
 
 /**
  * Defines the service for performing a Person Mass Change on Units.
  */
 public class UnitPersonMassChangeServiceImpl implements UnitPersonMassChangeService {
-    
+
     private BusinessObjectService businessObjectService;
 
     @Override

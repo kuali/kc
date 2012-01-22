@@ -21,15 +21,9 @@ import gov.grants.apply.system.metaGrantApplication.GrantApplicationDocument.Gra
 import java.io.ByteArrayOutputStream;
 import java.io.IOException;
 import java.util.ArrayList;
-import java.util.Collection;
-import java.util.Collections;
-import java.util.HashMap;
-import java.util.HashSet;
-import java.util.Iterator;
 import java.util.LinkedHashMap;
 import java.util.List;
 import java.util.Map;
-import java.util.Set;
 
 import javax.xml.transform.Source;
 import javax.xml.transform.stream.StreamSource;
@@ -41,7 +35,6 @@ import org.apache.xmlbeans.XmlException;
 import org.apache.xmlbeans.XmlObject;
 import org.apache.xpath.XPathAPI;
 import org.kuali.kra.bo.SponsorFormTemplate;
-import org.kuali.kra.bo.SponsorFormTemplateList;
 import org.kuali.kra.infrastructure.Constants;
 import org.kuali.kra.printing.Printable;
 import org.kuali.kra.printing.PrintingException;
@@ -67,10 +60,10 @@ import org.kuali.kra.s2s.service.S2SFormGeneratorService;
 import org.kuali.kra.s2s.service.S2SUtilService;
 import org.kuali.kra.s2s.service.S2SValidatorService;
 import org.kuali.kra.s2s.util.XPathExecutor;
-import org.kuali.rice.kns.service.BusinessObjectService;
 import org.kuali.rice.kns.util.AuditCluster;
 import org.kuali.rice.kns.util.AuditError;
-import org.kuali.rice.kns.util.GlobalVariables;
+import org.kuali.rice.kns.util.KNSGlobalVariables;
+import org.kuali.rice.krad.service.BusinessObjectService;
 import org.w3c.dom.Element;
 
 /**
@@ -371,7 +364,7 @@ public class PrintServiceImpl implements PrintService {
 					new String[] { error.getMessageKey() }));
 		}
 		if (!auditErrors.isEmpty()) {
-			GlobalVariables.getAuditErrorMap().put(
+			KNSGlobalVariables.getAuditErrorMap().put(
 					"grantsGovAuditErrors",
 					new AuditCluster(Constants.GRANTS_GOV_OPPORTUNITY_PANEL,
 							auditErrors, Constants.GRANTSGOV_ERRORS));

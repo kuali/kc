@@ -22,10 +22,11 @@ import java.util.List;
 import org.kuali.kra.infrastructure.KraServiceLocator;
 import org.kuali.kra.irb.ProtocolDocument;
 import org.kuali.kra.irb.ProtocolForm;
-import org.kuali.rice.kns.lookup.keyvalues.KeyValuesBase;
-import org.kuali.rice.kns.service.KeyValuesService;
-import org.kuali.rice.kns.util.GlobalVariables;
-import org.kuali.rice.core.util.KeyLabelPair;
+import org.kuali.rice.core.api.util.ConcreteKeyValue;
+import org.kuali.rice.core.api.util.KeyValue;
+import org.kuali.rice.kns.util.KNSGlobalVariables;
+import org.kuali.rice.krad.keyvalues.KeyValuesBase;
+import org.kuali.rice.krad.service.KeyValuesService;
 
 /**
  * 
@@ -55,16 +56,16 @@ public class ParticipantTypeValuesFinder extends KeyValuesBase {
      * is always &lt;"", "select:"&gt;.
      * @see org.kuali.core.lookup.keyvalues.KeyValuesFinder#getKeyValues()
      */
-    public List<KeyLabelPair> getKeyValues() {
+    public List<KeyValue> getKeyValues() {
         ProtocolDocument doc = getDocument();
         KeyValuesService keyValuesService = 
             (KeyValuesService) KraServiceLocator.getService("keyValuesService");
         Collection<ParticipantType> participantTypes = keyValuesService.findAll(ParticipantType.class);
-        List<KeyLabelPair> keyValues = new ArrayList<KeyLabelPair>();
-        keyValues.add(new KeyLabelPair("", "select"));
+        List<KeyValue> keyValues = new ArrayList<KeyValue>();
+        keyValues.add(new ConcreteKeyValue("", "select"));
         for (ParticipantType participantType : participantTypes) {
             if (!hasParticipant(doc, participantType)) {
-                keyValues.add(new KeyLabelPair(participantType.getParticipantTypeCode(), 
+                keyValues.add(new ConcreteKeyValue(participantType.getParticipantTypeCode(), 
                         participantType.getDescription()));
             }
         }
@@ -79,7 +80,7 @@ public class ParticipantTypeValuesFinder extends KeyValuesBase {
      */
     private ProtocolDocument getDocument() {
         ProtocolDocument doc = null;
-        ProtocolForm form = (ProtocolForm) GlobalVariables.getKualiForm();
+        ProtocolForm form = (ProtocolForm) KNSGlobalVariables.getKualiForm();
         if (form != null) {
             doc = form.getDocument();
         }

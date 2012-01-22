@@ -29,7 +29,7 @@ import org.kuali.kra.infrastructure.KeyConstants;
 import org.kuali.kra.infrastructure.KraServiceLocator;
 import org.kuali.kra.rules.KraMaintenanceDocumentRuleBase;
 import org.kuali.rice.kns.document.MaintenanceDocument;
-import org.kuali.rice.kns.service.BusinessObjectService;
+import org.kuali.rice.krad.service.BusinessObjectService;
 
 /**
  * Overrides the custom save and approve methods of the maintenance document processing to check uniqueness constraints.
@@ -71,7 +71,7 @@ public class NotificationTypeMaintenanceDocumentRule extends KraMaintenanceDocum
     private boolean checkUniqueness(MaintenanceDocument document) {
         boolean isValid = true;
         
-        NotificationType newNotificationType = (NotificationType) document.getNewMaintainableObject().getBusinessObject();
+        NotificationType newNotificationType = (NotificationType) document.getNewMaintainableObject().getDataObject();
         
         isValid &= checkModuleCodeActionCodeUniqueness(newNotificationType);
         isValid &= checkNotificationTypeIdRoleNameUniqueness(newNotificationType);

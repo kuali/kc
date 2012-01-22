@@ -20,7 +20,7 @@ import java.math.BigDecimal;
 import org.apache.commons.logging.Log;
 import org.apache.commons.logging.LogFactory;
 import org.kuali.kra.budget.RateDecimal;
-import org.kuali.rice.kns.web.format.BigDecimalFormatter;
+import org.kuali.rice.core.web.format.BigDecimalFormatter;
 
 public class RateDecimalFormatter extends BigDecimalFormatter {
     private static Log LOG = LogFactory.getLog(BigDecimalFormatter.class);

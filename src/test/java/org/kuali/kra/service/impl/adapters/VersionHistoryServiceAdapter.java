@@ -1,12 +1,12 @@
 package org.kuali.kra.service.impl.adapters;
 
+import java.util.List;
+
 import org.kuali.kra.SequenceOwner;
 import org.kuali.kra.bo.versioning.VersionHistory;
 import org.kuali.kra.bo.versioning.VersionStatus;
 import org.kuali.kra.service.VersionHistoryService;
-import org.kuali.rice.kns.service.BusinessObjectService;
-
-import java.util.List;
+import org.kuali.rice.krad.service.BusinessObjectService;
 
 /**
  * Adapter for VersionHistoryService

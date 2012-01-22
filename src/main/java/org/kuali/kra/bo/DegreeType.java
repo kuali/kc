@@ -15,7 +15,6 @@
  */
 package org.kuali.kra.bo;
 
-import java.util.LinkedHashMap;
 
 /**
  * Class representation of the Degree Type Business Object
@@ -23,47 +22,49 @@ import java.util.LinkedHashMap;
  * $Id: DegreeType.java,v 1.2 2008-07-23 19:16:44 gmcgrego Exp $
  */
 public class DegreeType extends KraPersistableBusinessObjectBase {
-	
-	private String degreeCode;
+
+    private String degreeCode;
+
     private Integer degreeLevel;
-	private String description;
-	
+
+    private String description;
+
     /**
      * Retrieves the description attribute
      * 
      * @return String
      */
-	public String getDescription() {
-		return description;
-	}
-    
+    public String getDescription() {
+        return description;
+    }
+
     /**
      * Assigns the description attribute
      *
      * @param description
      */
-	public void setDescription(String description) {
-		this.description = description;
-	}
+    public void setDescription(String description) {
+        this.description = description;
+    }
 
     /**
      * Retrieves the degree code attribute from the degree type bo
      *
      * @return String
      */
-	public String getDegreeCode() {
-		return degreeCode;
-	}
-    
+    public String getDegreeCode() {
+        return degreeCode;
+    }
+
     /**
      * Assigns the degree code attribute to the degree type bo
      *
      * @param degreeCode
      */
-	public void setDegreeCode(String degreeCode) {
-		this.degreeCode = degreeCode;
-	}
-    
+    public void setDegreeCode(String degreeCode) {
+        this.degreeCode = degreeCode;
+    }
+
     /**
      * Gets the value of degreeLevel
      *
@@ -72,7 +73,7 @@ public class DegreeType extends KraPersistableBusinessObjectBase {
     public Integer getDegreeLevel() {
         return this.degreeLevel;
     }
-    
+
     /**
      * Sets the value of degreeLevel
      *
@@ -81,16 +82,4 @@ public class DegreeType extends KraPersistableBusinessObjectBase {
     public void setDegreeLevel(Integer argDegreeLevel) {
         this.degreeLevel = argDegreeLevel;
     }
-
-
-	@Override
-	protected LinkedHashMap toStringMapper() {
-		LinkedHashMap propMap = new LinkedHashMap();
-		propMap.put("degreeCode", this.getDegreeCode());
-		propMap.put("degreeLevel", this.getDegreeLevel());
-		propMap.put("description", this.getDescription());
-		propMap.put("updateTimestamp", this.getUpdateTimestamp());
-		propMap.put("updateUser", this.getUpdateUser());
-		return propMap;
-	}
 }

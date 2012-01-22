@@ -18,7 +18,7 @@ package org.kuali.kra.award.customdata;
 import org.kuali.kra.award.document.AwardDocument;
 import org.kuali.kra.document.ResearchDocumentBase;
 import org.kuali.kra.rule.event.KraDocumentEventBase;
-import org.kuali.rice.kns.rule.BusinessRule;
+import org.kuali.rice.krad.rules.rule.BusinessRule;
 
 /**
  * Event class for Rule processing on Save for Award Custom Data.
@@ -51,14 +51,14 @@ public class AwardSaveCustomDataRuleEvent extends KraDocumentEventBase {
     }
 
     /**
-     * @see org.kuali.rice.kns.rule.event.KualiDocumentEvent#getRuleInterfaceClass()
+     * @see org.kuali.rice.krad.rules.rule.event.KualiDocumentEvent#getRuleInterfaceClass()
      */
     public Class getRuleInterfaceClass() {
         return AwardCustomDataRule.class;
     }
     
     /**
-     * @see org.kuali.rice.kns.rule.event.KualiDocumentEvent#invokeRuleMethod(org.kuali.rice.kns.rule.BusinessRule)
+     * @see org.kuali.rice.krad.rules.rule.event.KualiDocumentEvent#invokeRuleMethod(org.kuali.rice.krad.rules.rule.BusinessRule)
      */
     public boolean invokeRuleMethod(BusinessRule rule) {
         return ((AwardCustomDataRule) rule).processSaveAwardCustomDataBusinessRules(this);

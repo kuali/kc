@@ -16,7 +16,6 @@ kc * Copyright 2005-2010 The Kuali Foundation.
 package org.kuali.kra.s2s.service.impl;
 
 import gov.grants.apply.webservices.applicantintegrationservices_v1.GetApplicationListRequest;
-import gov.grants.apply.webservices.applicantintegrationservices_v1.GetApplicationListRequest.ApplicationFilter;
 import gov.grants.apply.webservices.applicantintegrationservices_v1.GetApplicationListResponse;
 import gov.grants.apply.webservices.applicantintegrationservices_v1.GetApplicationStatusDetailRequest;
 import gov.grants.apply.webservices.applicantintegrationservices_v1.GetApplicationStatusDetailResponse;
@@ -24,19 +23,16 @@ import gov.grants.apply.webservices.applicantintegrationservices_v1.GetOpportuni
 import gov.grants.apply.webservices.applicantintegrationservices_v1.GetOpportunityListResponse;
 import gov.grants.apply.webservices.applicantintegrationservices_v1.SubmitApplicationRequest;
 import gov.grants.apply.webservices.applicantintegrationservices_v1.SubmitApplicationResponse;
+import gov.grants.apply.webservices.applicantintegrationservices_v1.GetApplicationListRequest.ApplicationFilter;
 import gov.grants.apply.webservices.applicantintegrationservices_v1_0.ApplicantIntegrationPortType;
 import gov.grants.apply.webservices.applicantintegrationservices_v1_0.ErrorMessage;
 
-import java.io.FileInputStream;
-import java.io.FileNotFoundException;
 import java.io.IOException;
-import java.security.GeneralSecurityException;
 import java.security.Key;
 import java.security.KeyStore;
 import java.security.KeyStoreException;
 import java.security.NoSuchAlgorithmException;
 import java.security.UnrecoverableKeyException;
-import java.security.KeyStore.LoadStoreParameter;
 import java.security.cert.Certificate;
 import java.security.cert.CertificateException;
 import java.util.ArrayList;
@@ -63,6 +59,7 @@ import org.apache.cxf.interceptor.AttachmentOutInterceptor;
 import org.apache.cxf.interceptor.Interceptor;
 import org.apache.cxf.jaxws.JaxWsProxyFactoryBean;
 import org.apache.cxf.message.Attachment;
+import org.apache.cxf.message.Message;
 import org.apache.cxf.transport.http.HTTPConduit;
 import org.apache.cxf.transports.http.configuration.HTTPClientPolicy;
 import org.kuali.kra.infrastructure.KeyConstants;
@@ -70,7 +67,7 @@ import org.kuali.kra.proposaldevelopment.bo.DevelopmentProposal;
 import org.kuali.kra.s2s.S2SException;
 import org.kuali.kra.s2s.service.GrantsGovConnectorService;
 import org.kuali.kra.s2s.service.S2SUtilService;
-import org.kuali.rice.kns.service.BusinessObjectService;
+import org.kuali.rice.krad.service.BusinessObjectService;
 
 /**
  * 
@@ -209,7 +206,7 @@ public class GrantsGovConnectorServiceImpl implements GrantsGovConnectorService 
             Attachment attachment = new AttachmentImpl(key,attachments.get(key));
             atts.add(attachment);
         }
-        List<Interceptor> outInterceptors = client.getOutInterceptors();
+        List<Interceptor<? extends Message>> outInterceptors = client.getOutInterceptors();
         outInterceptors.add(new AttachmentOutInterceptor(){
             @Override
             public void handleMessage(org.apache.cxf.message.Message message) {

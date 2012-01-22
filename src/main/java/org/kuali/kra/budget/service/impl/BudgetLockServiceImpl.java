@@ -15,24 +15,21 @@
  */
 package org.kuali.kra.budget.service.impl;
 
-import java.util.HashMap;
 import java.util.Iterator;
 import java.util.Map;
 
 import org.apache.commons.lang.StringUtils;
 import org.kuali.kra.authorization.KraAuthorizationConstants;
 import org.kuali.kra.budget.document.BudgetDocument;
-import org.kuali.kra.budget.document.BudgetParentDocument;
 import org.kuali.kra.budget.service.BudgetLockService;
 import org.kuali.kra.proposaldevelopment.document.ProposalDevelopmentDocument;
-import org.kuali.rice.kim.bo.Person;
+import org.kuali.rice.kim.api.identity.Person;
 import org.kuali.rice.kns.authorization.AuthorizationConstants;
-import org.kuali.rice.kns.document.Document;
-import org.kuali.rice.kns.document.authorization.PessimisticLock;
-import org.kuali.rice.kns.service.impl.PessimisticLockServiceImpl;
-import org.kuali.rice.kns.util.GlobalVariables;
-import org.kuali.rice.kns.util.KNSConstants;
-import org.kuali.rice.kns.util.ObjectUtils;
+import org.kuali.rice.krad.document.Document;
+import org.kuali.rice.krad.document.authorization.PessimisticLock;
+import org.kuali.rice.krad.service.impl.PessimisticLockServiceImpl;
+import org.kuali.rice.krad.util.GlobalVariables;
+import org.kuali.rice.krad.util.KRADConstants;
 
 /**
  * The Budget Lock Service implementation.  It derives from the Pessimistic Lock Service in 
@@ -44,7 +41,7 @@ public class BudgetLockServiceImpl extends PessimisticLockServiceImpl implements
     private static final String ADD_BUDGET = "addBudget";
 
     /**
-     * @see org.kuali.rice.kns.service.impl.PessimisticLockServiceImpl#isLockRequiredByUser(org.kuali.rice.kns.document.Document, java.util.Map, org.kuali.rice.kim.bo.Person)
+     * @see org.kuali.rice.krad.service.impl.PessimisticLockServiceImpl#isLockRequiredByUser(org.kuali.rice.krad.document.Document, java.util.Map, org.kuali.rice.kim.api.identity.Person)
      */
     @SuppressWarnings("unchecked")
     @Override
@@ -81,7 +78,7 @@ public class BudgetLockServiceImpl extends PessimisticLockServiceImpl implements
     }
 
     /**
-     * @see org.kuali.rice.kns.service.impl.PessimisticLockServiceImpl#isEntryEditMode(java.util.Map.Entry)
+     * @see org.kuali.rice.krad.service.impl.PessimisticLockServiceImpl#isEntryEditMode(java.util.Map.Entry)
      */
     @SuppressWarnings("unchecked")
     @Override
@@ -91,13 +88,13 @@ public class BudgetLockServiceImpl extends PessimisticLockServiceImpl implements
                  || ADD_BUDGET.equals(entry.getKey())
                 ) {
             String fullEntryEditModeValue = (String)entry.getValue();
-            return (StringUtils.equalsIgnoreCase(KNSConstants.KUALI_DEFAULT_TRUE_VALUE, fullEntryEditModeValue));
+            return (StringUtils.equalsIgnoreCase(KRADConstants.KUALI_DEFAULT_TRUE_VALUE, fullEntryEditModeValue));
         }
         return false;
     }
     
     /**
-     * @see org.kuali.rice.kns.service.impl.PessimisticLockServiceImpl#createNewPessimisticLock(org.kuali.rice.kns.document.Document, java.util.Map, org.kuali.rice.kim.bo.Person)
+     * @see org.kuali.rice.krad.service.impl.PessimisticLockServiceImpl#createNewPessimisticLock(org.kuali.rice.krad.document.Document, java.util.Map, org.kuali.rice.kim.api.identity.Person)
      */
     @SuppressWarnings("unchecked")
     @Override
@@ -120,7 +117,7 @@ public class BudgetLockServiceImpl extends PessimisticLockServiceImpl implements
     }
     
     /**
-     * @see org.kuali.rice.kns.service.impl.PessimisticLockServiceImpl#hasPreRouteEditAuthorization(org.kuali.rice.kns.document.Document, org.kuali.rice.kim.bo.Person)
+     * @see org.kuali.rice.krad.service.impl.PessimisticLockServiceImpl#hasPreRouteEditAuthorization(org.kuali.rice.krad.document.Document, org.kuali.rice.kim.api.identity.Person)
      */
     @SuppressWarnings("unchecked")
     @Override

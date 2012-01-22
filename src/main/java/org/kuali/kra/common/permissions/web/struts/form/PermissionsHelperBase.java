@@ -19,9 +19,7 @@ import java.io.Serializable;
 import java.util.ArrayList;
 import java.util.Collections;
 import java.util.Comparator;
-import java.util.HashMap;
 import java.util.List;
-import java.util.Map;
 
 import org.apache.commons.lang.StringUtils;
 import org.kuali.kra.bo.KcPerson;
@@ -36,10 +34,14 @@ import org.kuali.kra.infrastructure.KraServiceLocator;
 import org.kuali.kra.service.KcPersonService;
 import org.kuali.kra.service.SystemAuthorizationService;
 import org.kuali.kra.service.TaskAuthorizationService;
-import org.kuali.rice.core.util.KeyLabelPair;
-import org.kuali.rice.kim.bo.role.dto.KimPermissionInfo;
-import org.kuali.rice.kim.service.PermissionService;
-import org.kuali.rice.kns.util.GlobalVariables;
+import org.kuali.rice.core.api.criteria.Predicate;
+import org.kuali.rice.core.api.criteria.PredicateFactory;
+import org.kuali.rice.core.api.criteria.QueryByCriteria;
+import org.kuali.rice.core.api.util.ConcreteKeyValue;
+import org.kuali.rice.core.api.util.KeyValue;
+import org.kuali.rice.kim.api.permission.PermissionQueryResults;
+import org.kuali.rice.kim.api.permission.PermissionService;
+import org.kuali.rice.krad.util.GlobalVariables;
 
 /**
  * The PermissionsHelperBase is the base class of all PermissionsHelper classes.
@@ -315,14 +317,22 @@ public abstract class PermissionsHelperBase implements Serializable {
      */
     protected void buildRoles(String roleType) {
         roles = new ArrayList<Role>();
-        List<org.kuali.rice.kim.bo.Role> kimRoles = getSortedKimRoles(roleType);
-        for (org.kuali.rice.kim.bo.Role kimRole : kimRoles) {
-            Map<String, String> criteria = new HashMap<String, String>();
-            criteria.put("assignedToRole.roleName", kimRole.getRoleName());
-            criteria.put("assignedToRoleNamespaceForLookup", kimRole.getNamespaceCode());
-            List<KimPermissionInfo> permissions = getKimPermissionService().lookupPermissions(criteria, true);
-            Role role = new Role(kimRole.getRoleName(), getRoleDisplayName(kimRole.getRoleName()), permissions);
-            roles.add(role);
+        List<org.kuali.rice.kim.api.role.Role> kimRoles = getSortedKimRoles(roleType);
+        QueryByCriteria.Builder queryBuilder = QueryByCriteria.Builder.create();
+        List<Predicate> predicates = new ArrayList<Predicate>();
+        PermissionQueryResults permissionResults = null;
+        
+        for (org.kuali.rice.kim.api.role.Role kimRole : kimRoles) {
+            predicates.add(PredicateFactory.equal("rolePermissions.roleId", kimRole.getId()));
+            queryBuilder.setPredicates(PredicateFactory.and(predicates.toArray(new Predicate[] {})));
+            permissionResults = getKimPermissionService().findPermissions(queryBuilder.build());
+            if(permissionResults != null && permissionResults.getTotalRowCount() != null && permissionResults.getTotalRowCount() > 0) {
+                Role role = new Role(kimRole.getName(), getRoleDisplayName(kimRole.getName()), permissionResults.getResults());
+                roles.add(role);
+            }
+            predicates.clear();
+            queryBuilder = QueryByCriteria.Builder.create();
+            permissionResults = null;
         }
     }
     
@@ -331,19 +341,19 @@ public abstract class PermissionsHelperBase implements Serializable {
      * is shown first, followed by the standard roles, and then by the user-defined roles.
      * @return the sorted list of KIM roles
      */
-    protected List<org.kuali.rice.kim.bo.Role> getSortedKimRoles(String roleType) {
+    protected List<org.kuali.rice.kim.api.role.Role> getSortedKimRoles(String roleType) {
         
-        List<org.kuali.rice.kim.bo.Role> sortedKimRoles = new ArrayList<org.kuali.rice.kim.bo.Role>();
-        List<org.kuali.rice.kim.bo.Role> kimRoles = getKimRoles(roleType);
+        List<org.kuali.rice.kim.api.role.Role> sortedKimRoles = new ArrayList<org.kuali.rice.kim.api.role.Role>();
+        List<org.kuali.rice.kim.api.role.Role> kimRoles = getKimRoles(roleType);
         
         /*
          * Add in unassigned and standard roles first so that
          * they always show up first on the web pages.
          */
-        for (org.kuali.rice.kim.bo.Role kimRole : kimRoles) {
-            if (isUnassignedRoleName(kimRole.getRoleName())) {
+        for (org.kuali.rice.kim.api.role.Role kimRole : kimRoles) {
+            if (isUnassignedRoleName(kimRole.getName())) {
                 sortedKimRoles.add(0, kimRole);
-            } else if (isStandardRoleName(kimRole.getRoleName())) {
+            } else if (isStandardRoleName(kimRole.getName())) {
                 sortedKimRoles.add(kimRole);
             }
         }
@@ -351,7 +361,7 @@ public abstract class PermissionsHelperBase implements Serializable {
         /*
          * Now add in any user-defined roles.
          */
-        for (org.kuali.rice.kim.bo.Role kimRole : kimRoles) {
+        for (org.kuali.rice.kim.api.role.Role kimRole : kimRoles) {
             if (!sortedKimRoles.contains(kimRole)) {
                 sortedKimRoles.add(kimRole);
             }
@@ -365,7 +375,7 @@ public abstract class PermissionsHelperBase implements Serializable {
      * class must override this method to obtain the roles for the document.
      * @return the list of KIM roles for the document
      */
-    protected List<org.kuali.rice.kim.bo.Role> getKimRoles(String roleType) {
+    protected List<org.kuali.rice.kim.api.role.Role> getKimRoles(String roleType) {
         SystemAuthorizationService systemAuthorizationService = KraServiceLocator.getService(SystemAuthorizationService.class);
         return systemAuthorizationService.getRoles(roleType);
     }
@@ -478,10 +488,10 @@ public abstract class PermissionsHelperBase implements Serializable {
      * panel of the Permissions web page.
      * @return list of roles for the drop-down menu
      */
-    public List<KeyLabelPair> getRoleSelection() {
-        List<KeyLabelPair> keyValues = new ArrayList<KeyLabelPair>();
+    public List<KeyValue> getRoleSelection() {
+        List<KeyValue> keyValues = new ArrayList<KeyValue>();
         for (Role role : roles) {
-            KeyLabelPair pair = new KeyLabelPair(role.getName(), role.getDisplayName());    
+            KeyValue pair = new ConcreteKeyValue(role.getName(), role.getDisplayName());    
             keyValues.add(pair);
         }
         return keyValues;

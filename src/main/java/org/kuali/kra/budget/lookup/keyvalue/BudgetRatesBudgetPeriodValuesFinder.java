@@ -21,18 +21,19 @@ import java.util.List;
 import org.kuali.kra.budget.parameters.BudgetPeriod;
 import org.kuali.kra.budget.rates.BudgetRatesService;
 import org.kuali.kra.infrastructure.KraServiceLocator;
-import org.kuali.rice.kns.lookup.keyvalues.KeyValuesBase;
-import org.kuali.rice.core.util.KeyLabelPair;
+import org.kuali.rice.core.api.util.ConcreteKeyValue;
+import org.kuali.rice.core.api.util.KeyValue;
+import org.kuali.rice.krad.keyvalues.KeyValuesBase;
 
 public class BudgetRatesBudgetPeriodValuesFinder  extends KeyValuesBase{
 
     public List getKeyValues() {
         BudgetRatesService budgetRatesService = KraServiceLocator.getService(BudgetRatesService.class);
         List<BudgetPeriod> budgetPeriods = budgetRatesService.getBudgetPeriods();
-        List<KeyLabelPair> keyValues = new ArrayList<KeyLabelPair>();
-        keyValues.add(new KeyLabelPair("", "View All"));
+        List<KeyValue> keyValues = new ArrayList<KeyValue>();
+        keyValues.add(new ConcreteKeyValue("", "View All"));
         for(BudgetPeriod budgetPeriod: budgetPeriods) {
-            keyValues.add(new KeyLabelPair(budgetPeriod.getBudgetPeriod(), budgetPeriod.getLabel()));
+            keyValues.add(new ConcreteKeyValue(budgetPeriod.getBudgetPeriod().toString(), budgetPeriod.getLabel()));
         }
         return keyValues;
     }

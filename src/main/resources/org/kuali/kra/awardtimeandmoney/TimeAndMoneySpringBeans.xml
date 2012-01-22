@@ -38,7 +38,8 @@
                            
     <bean id="awardTimeAndMoneyModuleConfiguration" parent="awardTimeAndMoneyModuleConfiguration-parentBean" />
 	
-    <bean id="awardTimeAndMoneyModuleConfiguration-parentBean" class="org.kuali.rice.kns.bo.ModuleConfiguration" abstract="true">
+    <bean id="awardTimeAndMoneyModuleConfiguration-parentBean" class="org.kuali.rice.krad.bo.ModuleConfiguration" abstract="true">
+    	<property name="namespaceCode" value="KC-T" />
 		<property name="databaseRepositoryFilePaths">
 			<list>
 				<value>org/kuali/kra/awardtimeandmoney/repository-timeandmoney.xml</value>

@@ -19,19 +19,20 @@ import java.util.ArrayList;
 import java.util.List;
 
 import org.kuali.kra.award.awardhierarchy.sync.AwardSyncDescendantValues;
-import org.kuali.rice.core.util.KeyLabelPair;
-import org.kuali.rice.kns.lookup.keyvalues.KeyValuesBase;
+import org.kuali.rice.core.api.util.ConcreteKeyValue;
+import org.kuali.rice.core.api.util.KeyValue;
+import org.kuali.rice.krad.keyvalues.KeyValuesBase;
 
 public class AllActiveValueFinder extends KeyValuesBase {
     /*
      * @see org.kuali.keyvalues.KeyValuesFinder#getKeyValues()
      */
-    public List<KeyLabelPair> getKeyValues() {
-        List<KeyLabelPair> activeLabels = new ArrayList<KeyLabelPair>();
+    public List<KeyValue> getKeyValues() {
+        List<KeyValue> activeLabels = new ArrayList<KeyValue>();
 
-        activeLabels.add(new KeyLabelPair("", ""));
-        activeLabels.add(new KeyLabelPair(AwardSyncDescendantValues.SYNC_ALL.getSyncValue(), "All"));
-        activeLabels.add(new KeyLabelPair(AwardSyncDescendantValues.SYNC_ACTIVE.getSyncValue(), "Active"));
+        activeLabels.add(new ConcreteKeyValue("", ""));
+        activeLabels.add(new ConcreteKeyValue(AwardSyncDescendantValues.SYNC_ALL.getSyncValue(), "All"));
+        activeLabels.add(new ConcreteKeyValue(AwardSyncDescendantValues.SYNC_ACTIVE.getSyncValue(), "Active"));
 
         return activeLabels;
     }

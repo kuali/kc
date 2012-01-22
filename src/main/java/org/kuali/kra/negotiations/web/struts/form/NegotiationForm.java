@@ -15,7 +15,7 @@
  */
 package org.kuali.kra.negotiations.web.struts.form;
 
-import static org.kuali.rice.kns.util.KNSConstants.EMPTY_STRING;
+import static org.kuali.rice.krad.util.KRADConstants.EMPTY_STRING;
 
 import java.util.ArrayList;
 import java.util.HashMap;
@@ -43,17 +43,17 @@ import org.kuali.kra.negotiations.notifications.NegotiationCloseNotificationCont
 import org.kuali.kra.negotiations.service.NegotiationService;
 import org.kuali.kra.service.TaskAuthorizationService;
 import org.kuali.kra.web.struts.form.KraTransactionalDocumentFormBase;
-import org.kuali.rice.kns.service.BusinessObjectService;
-import org.kuali.rice.kns.util.KNSConstants;
+import org.kuali.rice.kew.api.WorkflowDocument;
 import org.kuali.rice.kns.web.ui.HeaderField;
-import org.kuali.rice.kns.workflow.service.KualiWorkflowDocument;
+import org.kuali.rice.krad.service.BusinessObjectService;
+import org.kuali.rice.krad.util.KRADConstants;
 
 /**
  * 
  * This class holds all the objects required for a negotiation web object.
  */
 public class NegotiationForm extends KraTransactionalDocumentFormBase {
-
+    
     private static final long serialVersionUID = 6245888664423593163L;
 
 
@@ -149,7 +149,7 @@ public class NegotiationForm extends KraTransactionalDocumentFormBase {
 
     @Override
     protected void setSaveDocumentControl(Map editMode) {
-        getDocumentActions().put(KNSConstants.KUALI_ACTION_CAN_SAVE, KNSConstants.KUALI_DEFAULT_TRUE_VALUE);
+        getDocumentActions().put(KRADConstants.KUALI_ACTION_CAN_SAVE, KRADConstants.KUALI_DEFAULT_TRUE_VALUE);
 
     }
 
@@ -162,7 +162,7 @@ public class NegotiationForm extends KraTransactionalDocumentFormBase {
         Iterator i = s.iterator();
         while(i.hasNext()) {
             Object key = i.next();
-           map.put(key,KNSConstants.KUALI_DEFAULT_TRUE_VALUE);
+           map.put(key,KRADConstants.KUALI_DEFAULT_TRUE_VALUE);
         }
         return map;
     }
@@ -216,7 +216,7 @@ public class NegotiationForm extends KraTransactionalDocumentFormBase {
     
     
     @Override
-    public void populateHeaderFields(KualiWorkflowDocument workflowDocument) {
+    public void populateHeaderFields(WorkflowDocument workflowDocument) {
         super.populateHeaderFields(workflowDocument);
         NegotiationDocument nd = getDocument();
         final String ATTRIB_NEG_ID = "DataDictionary.Negotiation.attributes.negotiationId";

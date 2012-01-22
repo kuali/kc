@@ -25,7 +25,7 @@ import org.kuali.kra.award.document.AwardDocument;
 import org.kuali.kra.award.home.Award;
 import org.kuali.kra.award.home.ContactRole;
 import org.kuali.kra.bo.Unit;
-import org.kuali.rice.kns.util.GlobalVariables;
+import org.kuali.rice.krad.util.GlobalVariables;
 
 /**
  * This class implements the specified rule
@@ -66,7 +66,7 @@ public class AwardProjectPersonAddRuleImpl extends BaseAwardContactAddRule imple
         }
         
         if(!valid) {
-            GlobalVariables.getErrorMap().putError(AWARD_PROJECT_PERSON_LIST_ERROR_KEY, ERROR_AWARD_PROJECT_PERSON_PI_EXISTS);
+            GlobalVariables.getMessageMap().putError(AWARD_PROJECT_PERSON_LIST_ERROR_KEY, ERROR_AWARD_PROJECT_PERSON_PI_EXISTS);
         }
         
         return valid;
@@ -89,7 +89,7 @@ public class AwardProjectPersonAddRuleImpl extends BaseAwardContactAddRule imple
         }
         
         if(!valid) {
-            GlobalVariables.getErrorMap().putError(AWARD_PROJECT_PERSON_LIST_ERROR_KEY, ERROR_AWARD_PROJECT_PERSON_EXISTS, 
+            GlobalVariables.getMessageMap().putError(AWARD_PROJECT_PERSON_LIST_ERROR_KEY, ERROR_AWARD_PROJECT_PERSON_EXISTS, 
                                                                                 newProjectPerson.getContact().getFullName());
         }
         
@@ -137,7 +137,7 @@ public class AwardProjectPersonAddRuleImpl extends BaseAwardContactAddRule imple
     private void reportDuplicateUnits(AwardPerson p, List<Unit> tempUnits) {
         Set<Unit> duplicateUnits = new HashSet<Unit>(tempUnits);
         for(Unit dupeUnit: duplicateUnits) {
-            GlobalVariables.getErrorMap().putError(AWARD_PROJECT_PERSON_LIST_ERROR_KEY, 
+            GlobalVariables.getMessageMap().putError(AWARD_PROJECT_PERSON_LIST_ERROR_KEY, 
                                                     ERROR_AWARD_PROJECT_PERSON_DUPLICATE_UNITS, 
                                                     dupeUnit.getUnitName(), dupeUnit.getUnitNumber(),
                                                     p.getFullName());

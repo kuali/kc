@@ -117,15 +117,6 @@ public class CommitteeScheduleTest extends BoAttributeTestBase<CommitteeSchedule
     }
 
     /**
-     * @see org.kuali.kra.committee.bo.BoAttributeTestBase#getToStringMapper()
-     */
-    @SuppressWarnings("unchecked")
-    @Override
-    protected Map<String, Object> getToStringMapper() {
-        return getT().toStringMapper();
-    }
-    
-    /**
      * @see org.kuali.kra.committee.bo.BoAttributeTestBase#boPrerequisite()
      */
     @Override

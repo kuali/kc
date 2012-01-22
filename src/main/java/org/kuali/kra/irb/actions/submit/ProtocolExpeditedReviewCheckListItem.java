@@ -15,8 +15,6 @@
  */
 package org.kuali.kra.irb.actions.submit;
 
-import java.util.LinkedHashMap;
-
 import org.apache.commons.lang.StringUtils;
 import org.kuali.kra.bo.KraPersistableBusinessObjectBase;
 import org.kuali.kra.irb.Protocol;
@@ -25,19 +23,26 @@ import org.kuali.kra.irb.Protocol;
 public class ProtocolExpeditedReviewCheckListItem extends KraPersistableBusinessObjectBase {
 
     private Long protocolExpeditedCheckListId;
+
     private Long protocolId;
+
     private Long submissionIdFk;
+
     private String protocolNumber;
+
     private Integer sequenceNumber;
+
     private Integer submissionNumber;
+
     private String expeditedReviewCheckListCode;
-    
+
     private Protocol protocol;
+
     private ProtocolSubmission protocolSubmission;
+
     private ExpeditedReviewCheckListItem expeditedReviewCheckListItem;
 
     public ProtocolExpeditedReviewCheckListItem() {
-        
     }
 
     public Long getProtocolExpeditedCheckListId() {
@@ -121,19 +126,5 @@ public class ProtocolExpeditedReviewCheckListItem extends KraPersistableBusiness
 
     public void setExpeditedReviewCheckListItem(ExpeditedReviewCheckListItem expeditedReviewCheckListItem) {
         this.expeditedReviewCheckListItem = expeditedReviewCheckListItem;
-    }
-
-    @SuppressWarnings("unchecked")
-    @Override
-    protected LinkedHashMap toStringMapper() {
-        LinkedHashMap map = new LinkedHashMap();
-        map.put("protocolExemptCheckListId", getProtocolExpeditedCheckListId());
-        map.put("protocolId", getProtocolId());
-        map.put("submissionIdFk", getSubmissionIdFk());
-        map.put("protocolNumber", getProtocolNumber());
-        map.put("sequenceNumber", getSequenceNumber());
-        map.put("submissionNumber", getSubmissionNumber());
-        map.put("expeditedReviewCheckListCode", getExpeditedReviewCheckListCode());
-        return map;
     }
 }

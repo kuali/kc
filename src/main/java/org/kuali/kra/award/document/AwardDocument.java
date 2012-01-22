@@ -16,6 +16,7 @@
 package org.kuali.kra.award.document;
 
 import java.util.ArrayList;
+import java.util.HashMap;
 import java.util.HashSet;
 import java.util.List;
 import java.util.Map;
@@ -58,25 +59,26 @@ import org.kuali.kra.institutionalproposal.service.InstitutionalProposalService;
 import org.kuali.kra.service.AwardCustomAttributeService;
 import org.kuali.kra.service.KraAuthorizationService;
 import org.kuali.kra.service.VersionHistoryService;
-import org.kuali.rice.kew.dto.DocumentRouteLevelChangeDTO;
-import org.kuali.rice.kew.dto.DocumentRouteStatusChangeDTO;
-import org.kuali.rice.kew.util.KEWConstants;
-import org.kuali.rice.kim.bo.Person;
-import org.kuali.rice.kim.bo.types.dto.AttributeSet;
-import org.kuali.rice.kim.service.IdentityManagementService;
+import org.kuali.rice.core.api.config.property.ConfigurationService;
+import org.kuali.rice.coreservice.framework.parameter.ParameterConstants;
+import org.kuali.rice.coreservice.framework.parameter.ParameterConstants.COMPONENT;
+import org.kuali.rice.coreservice.framework.parameter.ParameterConstants.NAMESPACE;
+import org.kuali.rice.kew.api.KewApiConstants;
+import org.kuali.rice.kew.api.WorkflowDocument;
+import org.kuali.rice.kew.framework.postprocessor.DocumentRouteLevelChange;
+import org.kuali.rice.kew.framework.postprocessor.DocumentRouteStatusChange;
+import org.kuali.rice.kim.api.identity.IdentityService;
+import org.kuali.rice.kim.api.identity.Person;
+import org.kuali.rice.kim.api.permission.PermissionService;
 import org.kuali.rice.kns.datadictionary.HeaderNavigation;
-import org.kuali.rice.kns.document.Copyable;
-import org.kuali.rice.kns.document.SessionDocument;
-import org.kuali.rice.kns.rule.event.KualiDocumentEvent;
-import org.kuali.rice.kns.rule.event.SaveDocumentEvent;
-import org.kuali.rice.kns.service.KualiConfigurationService;
-import org.kuali.rice.kns.service.ParameterConstants;
-import org.kuali.rice.kns.service.ParameterConstants.COMPONENT;
-import org.kuali.rice.kns.service.ParameterConstants.NAMESPACE;
-import org.kuali.rice.kns.util.GlobalVariables;
-import org.kuali.rice.kns.util.ObjectUtils;
 import org.kuali.rice.kns.web.ui.ExtraButton;
-import org.kuali.rice.kns.workflow.service.KualiWorkflowDocument;
+import org.kuali.rice.krad.document.Copyable;
+import org.kuali.rice.krad.document.SessionDocument;
+import org.kuali.rice.krad.rules.rule.event.KualiDocumentEvent;
+import org.kuali.rice.krad.rules.rule.event.SaveDocumentEvent;
+import org.kuali.rice.krad.service.KRADServiceLocator;
+import org.kuali.rice.krad.util.GlobalVariables;
+import org.kuali.rice.krad.util.ObjectUtils;
 
 /**
  * 
@@ -230,10 +232,10 @@ public class AwardDocument extends BudgetParentDocument<Award> implements  Copya
     }
     
     /**
-     * @see org.kuali.rice.kns.document.DocumentBase#doRouteStatusChange(org.kuali.rice.kew.dto.DocumentRouteStatusChangeDTO)
+     * @see org.kuali.rice.krad.document.DocumentBase#doRouteStatusChange(org.kuali.rice.kew.framework.postprocessor.DocumentRouteStatusChange)
      */
     @Override
-    public void doRouteStatusChange(DocumentRouteStatusChangeDTO statusChangeEvent) {
+    public void doRouteStatusChange(DocumentRouteStatusChange statusChangeEvent) {
         super.doRouteStatusChange(statusChangeEvent);
         
         String newStatus = statusChangeEvent.getNewRouteStatus();
@@ -243,14 +245,14 @@ public class AwardDocument extends BudgetParentDocument<Award> implements  Copya
             LOG.debug(String.format("********************* Status Change: from %s to %s", statusChangeEvent.getOldRouteStatus(), newStatus));
         }
         
-       // if (KEWConstants.ROUTE_HEADER_FINAL_CD.equalsIgnoreCase(newStatus) || KEWConstants.ROUTE_HEADER_PROCESSED_CD.equalsIgnoreCase(newStatus)) {
-        if (KEWConstants.ROUTE_HEADER_FINAL_CD.equalsIgnoreCase(newStatus)) {
+       // if (KewApiConstants.ROUTE_HEADER_FINAL_CD.equalsIgnoreCase(newStatus) || KewApiConstants.ROUTE_HEADER_PROCESSED_CD.equalsIgnoreCase(newStatus)) {
+        if (KewApiConstants.ROUTE_HEADER_FINAL_CD.equalsIgnoreCase(newStatus)) {
 
             //getVersionHistoryService().createVersionHistory(getAward(), VersionStatus.ACTIVE, GlobalVariables.getUserSession().getPrincipalName());
             getAwardService().updateAwardSequenceStatus(getAward(), VersionStatus.ACTIVE);
             getVersionHistoryService().updateVersionHistoryOnRouteToFinal(getAward(), VersionStatus.ACTIVE, GlobalVariables.getUserSession().getPrincipalName());
         }
-        if (newStatus.equalsIgnoreCase(KEWConstants.ROUTE_HEADER_CANCEL_CD) || newStatus.equalsIgnoreCase(KEWConstants.ROUTE_HEADER_DISAPPROVED_CD)) {
+        if (newStatus.equalsIgnoreCase(KewApiConstants.ROUTE_HEADER_CANCEL_CD) || newStatus.equalsIgnoreCase(KewApiConstants.ROUTE_HEADER_DISAPPROVED_CD)) {
             revertFundedProposals();
             disableAwardComments();
             //getVersionHistoryService().createVersionHistory(getAward(), VersionStatus.CANCELED, GlobalVariables.getUserSession().getPrincipalName());
@@ -264,7 +266,7 @@ public class AwardDocument extends BudgetParentDocument<Award> implements  Copya
         }
     }
     
-    public void doRouteLevelChange(DocumentRouteLevelChangeDTO levelChangeEvent) {
+    public void doRouteLevelChange(DocumentRouteLevelChange levelChangeEvent) {
         if (StringUtils.equalsIgnoreCase(levelChangeEvent.getNewNodeName(), Constants.AWARD_SYNC_VALIDATION_NODE_NAME)
                 && !getAward().getSyncChanges().isEmpty()) {
             getAwardSyncService().validateHierarchyChanges(getAward());
@@ -487,11 +489,11 @@ public class AwardDocument extends BudgetParentDocument<Award> implements  Copya
      * @return
      */
     private String buildExtraButtonSourceURI(String buttonFileName) {
-        return lookupKualiConfigurationService().getPropertyString(KRA_EXTERNALIZABLE_IMAGES_URI_KEY) + buttonFileName;
+        return lookupKualiConfigurationService().getPropertyValueAsString(KRA_EXTERNALIZABLE_IMAGES_URI_KEY) + buttonFileName;
     }
 
-    private KualiConfigurationService lookupKualiConfigurationService() {
-        return KraServiceLocator.getService(KualiConfigurationService.class);
+    private ConfigurationService lookupKualiConfigurationService() {
+        return KRADServiceLocator.getKualiConfigurationService();
     }
     
     @Override
@@ -526,8 +528,8 @@ public class AwardDocument extends BudgetParentDocument<Award> implements  Copya
      * @return
      */
     public boolean isEditable() {
-        KualiWorkflowDocument workflowDoc = getDocumentHeader().getWorkflowDocument();
-        return workflowDoc.stateIsInitiated() || workflowDoc.stateIsSaved(); 
+        WorkflowDocument workflowDoc = getDocumentHeader().getWorkflowDocument();
+        return workflowDoc.isInitiated() || workflowDoc.isSaved(); 
     }
 
     /**
@@ -535,7 +537,7 @@ public class AwardDocument extends BudgetParentDocument<Award> implements  Copya
      * @return
      */
     public boolean isSaved() {
-        return getDocumentHeader().getWorkflowDocument().stateIsSaved();
+        return getDocumentHeader().getWorkflowDocument().isSaved();
     }
     
     /** {@inheritDoc} */
@@ -572,13 +574,12 @@ public class AwardDocument extends BudgetParentDocument<Award> implements  Copya
     } 
     
     public boolean getCanModify() {
-        IdentityManagementService idmService = getIdentityManagementService();
-        AttributeSet permissionDetails = new AttributeSet();
+        Map<String,String> permissionDetails =new HashMap<String,String>();
         permissionDetails.put("sectionName", "award");
         permissionDetails.put("documentTypeName", "AwardDocument");
-        AttributeSet qualifications = new AttributeSet();
+        Map<String,String> qualifications =new HashMap<String,String>();
         qualifications.put(KraAuthorizationConstants.QUALIFICATION_UNIT_NUMBER, this.getLeadUnitNumber());
-        return idmService.isAuthorized(
+        return getPermissionService().isAuthorized(
                 GlobalVariables.getUserSession().getPrincipalId(), 
                 KraAuthorizationConstants.KC_AWARD_NAMESPACE, 
                 KraAuthorizationConstants.PERMISSION_MODIFY_AWARD, 
@@ -586,8 +587,12 @@ public class AwardDocument extends BudgetParentDocument<Award> implements  Copya
                 qualifications);
     }
     
-    protected IdentityManagementService getIdentityManagementService() {
-        return KraServiceLocator.getService(IdentityManagementService.class);
+    protected PermissionService getPermissionService() {
+        return KraServiceLocator.getService(PermissionService.class);
+    }
+    
+    protected IdentityService getIdentityService() {
+        return KraServiceLocator.getService(IdentityService.class);
     }
     
     protected InstitutionalProposalService getInstitutionalProposalService() {
@@ -648,9 +653,7 @@ public class AwardDocument extends BudgetParentDocument<Award> implements  Copya
         boolean isComplete = false;
         
         if (getDocumentHeader().hasWorkflowDocument()) {
-            String docRouteStatus = getDocumentHeader().getWorkflowDocument().getRouteHeader().getDocRouteStatus();
-            String docRouteNode = getDocumentHeader().getWorkflowDocument().getRouteHeader().getCurrentRouteNodeNames();
-            if (KEWConstants.ROUTE_HEADER_FINAL_CD.equals(docRouteStatus)) {
+            if (getDocumentHeader().getWorkflowDocument().isFinal()) {
                 isComplete = true;
             } else if (!getAward().getSyncChanges().isEmpty() && getAward().getSyncStatuses().size() > 1) {
                 //if we are doing a sync(sync changes is not empty) and we have a sync status for an award

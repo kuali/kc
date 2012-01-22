@@ -13,10 +13,7 @@
  * See the License for the specific language governing permissions and
  * limitations under the License.
  */
-
 package org.kuali.kra.irb.protocol.participant;
-
-import java.util.LinkedHashMap;
 
 import org.kuali.kra.bo.KraPersistableBusinessObjectBase;
 
@@ -27,7 +24,9 @@ import org.kuali.kra.bo.KraPersistableBusinessObjectBase;
  * @author Kuali Research Administration Team (kc.dev@kuali.org)
  */
 public class ParticipantType extends KraPersistableBusinessObjectBase {
+
     private String participantTypeCode;
+
     private String description;
 
     public ParticipantType() {
@@ -47,13 +46,5 @@ public class ParticipantType extends KraPersistableBusinessObjectBase {
 
     public void setDescription(String description) {
         this.description = description;
-    }
-
-    @Override
-    protected LinkedHashMap toStringMapper() {
-        LinkedHashMap hashMap = new LinkedHashMap();
-        hashMap.put("participantTypeCode", getParticipantTypeCode());
-        hashMap.put("description", getDescription());
-        return hashMap;
     }
 }

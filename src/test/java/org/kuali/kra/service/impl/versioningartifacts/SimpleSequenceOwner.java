@@ -15,7 +15,6 @@
  */
 package org.kuali.kra.service.impl.versioningartifacts;
 
-import java.io.Serializable;
 import java.util.Random;
 
 import org.kuali.kra.SequenceOwner;

@@ -13,10 +13,7 @@
  * See the License for the specific language governing permissions and
  * limitations under the License.
  */
-
 package org.kuali.kra.irb.specialreview;
-
-import java.util.LinkedHashMap;
 
 import org.kuali.kra.SequenceAssociate;
 import org.kuali.kra.common.specialreview.bo.SpecialReview;
@@ -25,13 +22,14 @@ import org.kuali.kra.irb.Protocol;
 /**
  * Defines a Special Review for a Protocol.
  */
-public class ProtocolSpecialReview extends SpecialReview<ProtocolSpecialReviewExemption> implements SequenceAssociate<Protocol> { 
+public class ProtocolSpecialReview extends SpecialReview<ProtocolSpecialReviewExemption> implements SequenceAssociate<Protocol> {
 
     private static final long serialVersionUID = -9010537404528653558L;
-    
+
     private Long protocolSpecialReviewId;
+
     private Long protocolId;
-    
+
     private Protocol sequenceOwner;
 
     public Long getProtocolSpecialReviewId() {
@@ -49,7 +47,7 @@ public class ProtocolSpecialReview extends SpecialReview<ProtocolSpecialReviewEx
     public void setProtocolId(Long protocolId) {
         this.protocolId = protocolId;
     }
-    
+
     public Protocol getSequenceOwner() {
         return sequenceOwner;
     }
@@ -61,7 +59,7 @@ public class ProtocolSpecialReview extends SpecialReview<ProtocolSpecialReviewEx
     public Integer getSequenceNumber() {
         return sequenceOwner != null ? sequenceOwner.getSequenceNumber() : null;
     }
-    
+
     /**
      * {@inheritDoc}
      * @see org.kuali.kra.Sequenceable#resetPersistenceState()
@@ -80,13 +78,6 @@ public class ProtocolSpecialReview extends SpecialReview<ProtocolSpecialReviewEx
         protocolSpecialReviewExemption.setExemptionTypeCode(exemptionTypeCode);
         protocolSpecialReviewExemption.setProtocolSpecialReview(this);
         return protocolSpecialReviewExemption;
-    }
-    
-    @Override 
-    protected LinkedHashMap<String, Object> toStringMapper() {
-        LinkedHashMap<String, Object> propMap = super.toStringMapper();
-        propMap.put("protocolId", getProtocolId());
-        return propMap;
     }
 
     @Override
@@ -126,5 +117,4 @@ public class ProtocolSpecialReview extends SpecialReview<ProtocolSpecialReviewEx
         }
         return true;
     }
-
 }

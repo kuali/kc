@@ -19,10 +19,9 @@ import java.util.Map;
 import java.util.regex.Matcher;
 import java.util.regex.Pattern;
 
-import org.apache.struts.upload.FormFile;
 import org.kuali.kra.bo.KcAttachment;
 import org.kuali.kra.service.KcAttachmentService;
-import org.kuali.rice.kns.util.ObjectUtils;
+import org.kuali.rice.krad.util.ObjectUtils;
 
 /**
  * KC Attachment Service Implementation.

@@ -20,7 +20,7 @@ import org.apache.commons.logging.Log;
 import org.apache.commons.logging.LogFactory;
 import org.kuali.kfs.integration.cg.budgetService.BudgetAdjustmentService;
 import org.kuali.kra.external.budget.BudgetAdjustmentClient;
-import org.kuali.rice.core.resourceloader.GlobalResourceLoader;
+import org.kuali.rice.core.api.resourceloader.GlobalResourceLoader;
 
 /**
  * This class is an implementation of the Budget Adjustment client that uses the KSB

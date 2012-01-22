@@ -24,13 +24,13 @@ import org.kuali.kra.bo.KcPerson;
 import org.kuali.kra.infrastructure.Constants;
 import org.kuali.kra.service.KcPersonService;
 import org.kuali.kra.service.MultiCampusIdentityService;
-import org.kuali.rice.kim.bo.entity.KimEntity;
-import org.kuali.rice.kim.bo.entity.KimPrincipal;
-import org.kuali.rice.kim.bo.impl.PersonImpl;
-import org.kuali.rice.kim.service.IdentityService;
-import org.kuali.rice.kim.service.PersonService;
-import org.kuali.rice.kns.service.ParameterService;
-import org.kuali.rice.kns.util.GlobalVariables;
+import org.kuali.rice.coreservice.framework.parameter.ParameterService;
+import org.kuali.rice.kim.api.identity.IdentityService;
+import org.kuali.rice.kim.api.identity.Person;
+import org.kuali.rice.kim.api.identity.PersonService;
+import org.kuali.rice.kim.api.identity.entity.EntityContract;
+import org.kuali.rice.kim.api.identity.principal.PrincipalContract;
+import org.kuali.rice.krad.util.GlobalVariables;
 
 /**
  * Service for working with KcPerson objects.
@@ -54,7 +54,7 @@ public class KcPersonServiceImpl implements KcPersonService {
         
         this.modifyFieldValues(fieldValues);
         
-        final List<PersonImpl> people = personService.findPeople(fieldValues, true);
+        final List<Person> people = personService.findPeople(fieldValues, true);
         
         return this.createKcPersonsFromPeople(people);
     }
@@ -63,8 +63,8 @@ public class KcPersonServiceImpl implements KcPersonService {
      * Modifies field values so that different field keys can be used for a lookup.
      * @param fieldValues the field values to modify
      */
-    protected void modifyFieldValues(final Map<String, String> fieldValues) {
-        boolean multiCampusEnabled = parameterService.getIndicatorParameter(
+    public void modifyFieldValues(final Map<String, String> fieldValues) {
+        boolean multiCampusEnabled = parameterService.getParameterValueAsBoolean(
                 Constants.KC_GENERIC_PARAMETER_NAMESPACE, Constants.KC_ALL_PARAMETER_DETAIL_TYPE_CODE, Constants.PARAMETER_MULTI_CAMPUS_ENABLED);
         
         //convert username and kcpersonid to proper naming such the person service can use them
@@ -101,18 +101,18 @@ public class KcPersonServiceImpl implements KcPersonService {
             throw new IllegalArgumentException("the userName is null or empty");
         }
         
-        boolean multiCampusEnabled = parameterService.getIndicatorParameter(
+        boolean multiCampusEnabled = parameterService.getParameterValueAsBoolean(
                 Constants.KC_GENERIC_PARAMETER_NAMESPACE, Constants.KC_ALL_PARAMETER_DETAIL_TYPE_CODE, Constants.PARAMETER_MULTI_CAMPUS_ENABLED);
         
         if (multiCampusEnabled) {
             String campusCode = (String) GlobalVariables.getUserSession().retrieveObject(Constants.USER_CAMPUS_CODE_KEY);
             String multiCampusUserName = this.multiCampusIdentityService.getMultiCampusPrincipalName(userName, campusCode);
-            KimEntity entity = this.identityService.getEntityInfoByPrincipalName(multiCampusUserName);
+            EntityContract entity = this.identityService.getEntityByPrincipalName(multiCampusUserName);
             if (entity != null) {
                 person = KcPerson.fromEntityAndUserName(entity, multiCampusUserName);
             }
         } else {
-            KimEntity entity = this.identityService.getEntityInfoByPrincipalName(userName);
+            EntityContract entity = this.identityService.getEntityByPrincipalName(userName);
             if (entity != null) {
                 person = KcPerson.fromEntityAndUserName(entity, userName);
             }
@@ -127,7 +127,7 @@ public class KcPersonServiceImpl implements KcPersonService {
             throw new IllegalArgumentException("the personId is null or empty");
         }
         
-        return KcPerson.fromEntityAndPersonId(this.identityService.getEntityInfoByPrincipalId(personId), personId);
+        return KcPerson.fromEntityAndPersonId(this.identityService.getEntityByPrincipalId(personId), personId);
     }
     
     /**
@@ -136,11 +136,11 @@ public class KcPersonServiceImpl implements KcPersonService {
      * @param entities the list of entities
      * @return the list of Kc persons
      */
-    protected List<KcPerson> createKcPersonsFrom(List<? extends KimEntity> entities) {
+    protected List<KcPerson> createKcPersonsFrom(List<? extends EntityContract> entities) {
         List<KcPerson> persons = new ArrayList<KcPerson>();
         
-        for (KimEntity entity : entities) {
-            for (KimPrincipal principal : entity.getPrincipals()) {
+        for (EntityContract entity : entities) {
+            for (PrincipalContract principal : entity.getPrincipals()) {
                 persons.add(KcPerson.fromEntityAndPersonId(entity, principal.getPrincipalId()));
             }
         }
@@ -148,12 +148,12 @@ public class KcPersonServiceImpl implements KcPersonService {
         return persons;
     }
     
-    protected List<KcPerson> createKcPersonsFromPeople(List<PersonImpl> people) {
+    public List<KcPerson> createKcPersonsFromPeople(List<Person> people) {
         List<KcPerson> persons = new ArrayList<KcPerson>();
         
-        for (PersonImpl person : people) {
+        for (Person person : people) {
             persons.add(KcPerson.fromPersonId(person.getPrincipalId()));
-            /*for (KimPrincipal principal : person.getPrincipals()) {
+            /*for (PrincipalContract principal : person.getPrincipals()) {
                 persons.add(KcPerson.fromEntityAndPersonId(entity, principal.getPrincipalId()));
             }*/
         }

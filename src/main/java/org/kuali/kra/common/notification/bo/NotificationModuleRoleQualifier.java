@@ -15,8 +15,6 @@
  */
 package org.kuali.kra.common.notification.bo;
 
-import java.util.LinkedHashMap;
-
 import org.kuali.kra.bo.KraPersistableBusinessObjectBase;
 
 /**
@@ -26,37 +24,34 @@ import org.kuali.kra.bo.KraPersistableBusinessObjectBase;
 public class NotificationModuleRoleQualifier extends KraPersistableBusinessObjectBase {
 
     private static final long serialVersionUID = 19728350917756271L;
-    
+
     private Long notificationModuleRoleQualifierId;
+
     private Long notificationModuleRoleId;
-    private String qualifier;    
-    
+
+    private String qualifier;
+
     public Long getNotificationModuleRoleQualifierId() {
         return notificationModuleRoleQualifierId;
     }
+
     public void setNotificationModuleRoleQualifierId(Long notificationModuleRoleQualifierId) {
         this.notificationModuleRoleQualifierId = notificationModuleRoleQualifierId;
     }
+
     public Long getNotificationModuleRoleId() {
         return notificationModuleRoleId;
     }
+
     public void setNotificationModuleRoleId(Long notificationModuleRoleId) {
         this.notificationModuleRoleId = notificationModuleRoleId;
     }
+
     public String getQualifier() {
         return qualifier;
     }
+
     public void setQualifier(String qualifier) {
         this.qualifier = qualifier;
-    }
-
-    
-    @Override
-    protected LinkedHashMap toStringMapper() {
-        LinkedHashMap<String, Object> propMap = new LinkedHashMap<String, Object>();
-        propMap.put("notificationModuleRoleQualifierId", getNotificationModuleRoleQualifierId());
-        propMap.put("notificationModuleRoleId", getNotificationModuleRoleId());        
-        propMap.put("qualifier", getQualifier());
-        return propMap;
     }
 }

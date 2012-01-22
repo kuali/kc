@@ -43,7 +43,7 @@ import org.kuali.kra.infrastructure.KeyConstants;
 import org.kuali.kra.scheduling.sequence.ScheduleSequence;
 import org.kuali.kra.scheduling.service.ScheduleService;
 import org.kuali.kra.scheduling.util.Time24HrFmt;
-import org.kuali.rice.kns.service.ParameterService;
+import org.kuali.rice.coreservice.framework.parameter.ParameterService;
 
 /**
  * 
@@ -154,7 +154,7 @@ public class AwardScheduleGenerationServiceImplTest {
         final ParameterService parameterService = context.mock(ParameterService.class);
         
         context.checking(new Expectations() {{
-            one(parameterService).getParameterValue(AwardDocument.class, KeyConstants.PERIOD_IN_YEARS_WHEN_FREQUENCY_BASE_IS_FINAL_EXPIRATION_DATE);will(returnValue(PERIOD_IN_YEARS));
+            one(parameterService).getParameterValueAsString(AwardDocument.class, KeyConstants.PERIOD_IN_YEARS_WHEN_FREQUENCY_BASE_IS_FINAL_EXPIRATION_DATE);will(returnValue(PERIOD_IN_YEARS));
         }});
         awardScheduleGenerationServiceImpl.setParameterService(parameterService);
         java.util.Date endDate = awardScheduleGenerationServiceImpl.getEndDate(FrequencyBaseConstants.FINAL_EXPIRATION_DATE.getfrequencyBase()
@@ -321,7 +321,7 @@ public class AwardScheduleGenerationServiceImplTest {
         }});
         
         context.checking(new Expectations() {{
-            one(parameterService).getParameterValue(AwardDocument.class, KeyConstants.PERIOD_IN_YEARS_WHEN_FREQUENCY_BASE_IS_FINAL_EXPIRATION_DATE);will(returnValue(PERIOD_IN_YEARS));
+            one(parameterService).getParameterValueAsString(AwardDocument.class, KeyConstants.PERIOD_IN_YEARS_WHEN_FREQUENCY_BASE_IS_FINAL_EXPIRATION_DATE);will(returnValue(PERIOD_IN_YEARS));
         }});
                         
         awardScheduleGenerationServiceImpl.setScheduleService(scheduleService);

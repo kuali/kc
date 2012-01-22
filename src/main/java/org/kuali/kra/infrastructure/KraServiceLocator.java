@@ -16,7 +16,7 @@
 package org.kuali.kra.infrastructure;
 
 import org.apache.commons.lang.StringUtils;
-import org.kuali.rice.kns.service.KNSServiceLocator;
+import org.kuali.rice.core.api.resourceloader.GlobalResourceLoader;
 import org.springframework.beans.factory.NoSuchBeanDefinitionException;
 import org.springframework.context.ApplicationContext;
 
@@ -72,8 +72,11 @@ public final class KraServiceLocator {
         try {
             return (T) getAppContext().getBean(serviceName);
         } catch (NoSuchBeanDefinitionException e) {
-            // If we don't find this service locally, look for it in the KNS context
-            return (T) KNSServiceLocator.getService(serviceName);
+            // If we don't find this service locally, look for it in the Rice context
+            return (T)GlobalResourceLoader.<T>getService(serviceName);
+        } catch (Exception ex) {
+            //ex.printStackTrace();
+            return (T)GlobalResourceLoader.<T>getService(serviceName);
         }
     }
 

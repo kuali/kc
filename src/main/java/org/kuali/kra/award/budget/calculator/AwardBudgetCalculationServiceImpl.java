@@ -45,7 +45,8 @@ public class AwardBudgetCalculationServiceImpl extends BudgetCalculationServiceI
         if (includePrevious) {
             AwardBudgetExt prevBudget;
             for (BudgetVersionOverview prevBudgetOverview = budget.getPrevBudget();
-                        prevBudgetOverview != null; prevBudgetOverview = prevBudget.getPrevBudget()) {
+                    prevBudgetOverview != null && prevBudgetOverview.getBudgetId() != null; 
+                    prevBudgetOverview = prevBudget.getPrevBudget()) {
                 prevBudget = getBusinessObjectService().findBySinglePrimaryKey(AwardBudgetExt.class, 
                         prevBudgetOverview.getBudgetId());
                 if (prevBudget == null) {

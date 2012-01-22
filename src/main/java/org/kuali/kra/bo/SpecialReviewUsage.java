@@ -15,7 +15,6 @@
  */
 package org.kuali.kra.bo;
 
-import java.util.LinkedHashMap;
 
 /**
  * Defines the mapping between a Special Review Type and a module to allow per-module customization of certain Special Review Types.
@@ -23,14 +22,19 @@ import java.util.LinkedHashMap;
 public class SpecialReviewUsage extends KraPersistableBusinessObjectBase {
 
     private static final long serialVersionUID = 1123437346869395158L;
-    
+
     private Long specialReviewUsageId;
+
     private String specialReviewTypeCode;
+
     private String moduleCode;
+
     private boolean global;
+
     private boolean active;
-    
+
     private SpecialReviewType specialReviewType;
+
     private CoeusModule coeusModule;
 
     public Long getSpecialReviewUsageId() {
@@ -56,7 +60,7 @@ public class SpecialReviewUsage extends KraPersistableBusinessObjectBase {
     public void setModuleCode(String moduleCode) {
         this.moduleCode = moduleCode;
     }
-    
+
     public boolean isGlobal() {
         return global;
     }
@@ -68,7 +72,7 @@ public class SpecialReviewUsage extends KraPersistableBusinessObjectBase {
     public boolean isActive() {
         return active;
     }
-    
+
     public void setActive(boolean active) {
         this.active = active;
     }
@@ -88,18 +92,4 @@ public class SpecialReviewUsage extends KraPersistableBusinessObjectBase {
     public void setCoeusModule(CoeusModule coeusModule) {
         this.coeusModule = coeusModule;
     }
-
-    @Override
-    protected LinkedHashMap<?, ?> toStringMapper() {
-        LinkedHashMap<String, Object> propMap = new LinkedHashMap<String, Object>();
-        propMap.put("specialReviewUsageId", getSpecialReviewUsageId());
-        propMap.put("specialReviewTypeCode", getSpecialReviewTypeCode());
-        propMap.put("moduleCode", getModuleCode());
-        propMap.put("global", isGlobal());
-        propMap.put("active", isActive());
-        propMap.put("updateTimestamp", getUpdateTimestamp());
-        propMap.put("updateUser", getUpdateUser());
-        return propMap;
-    }
-
 }

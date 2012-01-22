@@ -16,7 +16,6 @@
 package org.kuali.kra.irb.auth;
 
 import org.kuali.kra.infrastructure.PermissionConstants;
-import org.kuali.kra.irb.actions.ProtocolActionType;
 
 public class ProtocolMaintainOnlineReviewsAuthorizer extends ProtocolAuthorizer {
 

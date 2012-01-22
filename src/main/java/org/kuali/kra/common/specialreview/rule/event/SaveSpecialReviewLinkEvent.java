@@ -23,7 +23,7 @@ import org.kuali.kra.common.specialreview.rule.SaveSpecialReviewLinkRule;
 import org.kuali.kra.infrastructure.Constants;
 import org.kuali.kra.rule.BusinessRuleInterface;
 import org.kuali.kra.rule.event.KraDocumentEventBaseExtension;
-import org.kuali.rice.kns.document.Document;
+import org.kuali.rice.krad.document.Document;
 
 /**
  * Represents the event for saving the Special Review links to the Protocol Funding Sources.

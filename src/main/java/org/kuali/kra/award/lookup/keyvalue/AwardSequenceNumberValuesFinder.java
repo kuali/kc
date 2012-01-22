@@ -17,20 +17,20 @@ package org.kuali.kra.award.lookup.keyvalue;
 
 import java.util.ArrayList;
 import java.util.Collection;
-import java.util.List;
+import java.util.Collections;
 import java.util.HashMap;
+import java.util.List;
 import java.util.Map;
 
-import org.kuali.kra.infrastructure.KraServiceLocator;
-import org.kuali.kra.award.home.Award;
-import org.kuali.kra.award.document.AwardDocument;
 import org.kuali.kra.award.AwardForm;
-import org.kuali.rice.kns.lookup.keyvalues.KeyValuesBase;
-import org.kuali.rice.kns.service.KeyValuesService;
-import org.kuali.rice.kns.util.GlobalVariables;
-import org.kuali.rice.core.util.KeyLabelPair;
-
-import java.util.Collections;
+import org.kuali.kra.award.document.AwardDocument;
+import org.kuali.kra.award.home.Award;
+import org.kuali.kra.infrastructure.KraServiceLocator;
+import org.kuali.rice.core.api.util.ConcreteKeyValue;
+import org.kuali.rice.core.api.util.KeyValue;
+import org.kuali.rice.kns.util.KNSGlobalVariables;
+import org.kuali.rice.krad.keyvalues.KeyValuesBase;
+import org.kuali.rice.krad.service.KeyValuesService;
 
 /**
  * Gets all sequence numbers for the current award id.  See
@@ -46,13 +46,13 @@ public class AwardSequenceNumberValuesFinder extends KeyValuesBase {
      * the pair.
      * 
      * @return the list of &lt;key, value&gt; pairs of the current award sequence numbers
-     * @see org.kuali.rice.kns.lookup.keyvalues.KeyValuesFinder#getKeyValues()
+     * @see org.kuali.rice.krad.keyvalues.KeyValuesFinder#getKeyValues()
      */
-    public List<KeyLabelPair> getKeyValues() {
+    public List<KeyValue> getKeyValues() {
         AwardDocument doc = getDocument();
         String awardNumber = doc.getAward().getAwardNumber();
         KeyValuesService keyValuesService = (KeyValuesService) KraServiceLocator.getService("keyValuesService");
-        Map<String, String> idMatch = new HashMap<String, String>();
+        Map<String, Object> idMatch = new HashMap<String, Object>();
         idMatch.put("awardNumber", awardNumber);
         Collection<Award> awards = keyValuesService.findMatching(Award.class, idMatch);
         List<Integer> sortedList = new ArrayList<Integer>();
@@ -60,9 +60,9 @@ public class AwardSequenceNumberValuesFinder extends KeyValuesBase {
             sortedList.add(award.getSequenceNumber());
         }
         Collections.sort(sortedList, Collections.reverseOrder());
-        List<KeyLabelPair> keyValues = new ArrayList<KeyLabelPair>();
+        List<KeyValue> keyValues = new ArrayList<KeyValue>();
         for (Integer num : sortedList) {
-                keyValues.add(new KeyLabelPair(num.toString(), num.toString()));
+                keyValues.add(new ConcreteKeyValue(num.toString(), num.toString()));
         }
         return keyValues;
     }
@@ -75,7 +75,7 @@ public class AwardSequenceNumberValuesFinder extends KeyValuesBase {
      */
     private AwardDocument getDocument() {
         AwardDocument doc = null;
-        AwardForm form = (AwardForm) GlobalVariables.getKualiForm();
+        AwardForm form = (AwardForm) KNSGlobalVariables.getKualiForm();
         if (form != null) {
             doc = form.getAwardDocument();
         }

@@ -20,9 +20,9 @@ import org.kuali.kra.logging.Traceable;
 import org.kuali.kra.proposaldevelopment.bo.ProposalPerson;
 import org.kuali.kra.proposaldevelopment.document.ProposalDevelopmentDocument;
 import org.kuali.kra.proposaldevelopment.rule.ChangeKeyPersonRule;
-import org.kuali.rice.kns.bo.BusinessObject;
-import org.kuali.rice.kns.rule.BusinessRule;
-import org.kuali.rice.kns.rule.event.KualiDocumentEvent;
+import org.kuali.rice.krad.bo.BusinessObject;
+import org.kuali.rice.krad.rules.rule.BusinessRule;
+import org.kuali.rice.krad.rules.rule.event.KualiDocumentEvent;
 
 
 /**
@@ -78,19 +78,19 @@ public class ChangeKeyPersonEvent extends KeyPersonEventBase implements KualiDoc
     }
 
     /**
-     * @see org.kuali.rice.kns.rule.event.KualiDocumentEvent#getRuleInterfaceClass()
+     * @see org.kuali.rice.krad.rules.rule.event.KualiDocumentEvent#getRuleInterfaceClass()
      */
-    public Class<?> getRuleInterfaceClass() {
+    public Class<ChangeKeyPersonRule> getRuleInterfaceClass() {
         return ChangeKeyPersonRule.class;
     }
 
     /**
-     * @see org.kuali.rice.kns.rule.event.KualiDocumentEvent#invokeRuleMethod(org.kuali.rice.kns.rule.BusinessRule)
+     * @see org.kuali.rice.krad.rules.rule.event.KualiDocumentEvent#invokeRuleMethod(org.kuali.rice.krad.rules.rule.BusinessRule)
      */
     public boolean invokeRuleMethod(BusinessRule rule) {
-        //GlobalVariables.getErrorMap().addToErrorPath(getErrorPathPrefix());
+        //GlobalVariables.getMessageMap().addToErrorPath(getErrorPathPrefix());
         boolean retval = ((ChangeKeyPersonRule) rule).processChangeKeyPersonBusinessRules(getProposalPerson(), getSource(),index);
-       // GlobalVariables.getErrorMap().removeFromErrorPath(getErrorPathPrefix());
+       // GlobalVariables.getMessageMap().removeFromErrorPath(getErrorPathPrefix());
         
         return retval;
     }

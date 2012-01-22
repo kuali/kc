@@ -20,8 +20,8 @@ import org.apache.commons.logging.LogFactory;
 import org.kuali.kra.irb.ProtocolOnlineReviewDocument;
 import org.kuali.kra.irb.onlinereview.rules.DisapproveOnlineReviewCommentRule;
 import org.kuali.kra.rule.event.KraDocumentEventBase;
-import org.kuali.rice.kns.rule.BusinessRule;
-import org.kuali.rice.kns.util.KNSConstants;
+import org.kuali.rice.krad.rules.rule.BusinessRule;
+import org.kuali.rice.krad.util.KRADConstants;
 
 public class DisapproveProtocolOnlineReviewCommentEvent extends KraDocumentEventBase {
     
@@ -34,7 +34,7 @@ public class DisapproveProtocolOnlineReviewCommentEvent extends KraDocumentEvent
                                                          final String disapprovalReason,
                                                          final String disapprovalNoteText,
                                                          final int reasonMaxLength) {
-        super("disapprove protocol online review comment", KNSConstants.DOCUMENT_DISAPPROVE_QUESTION, document);
+        super("disapprove protocol online review comment", KRADConstants.DOCUMENT_DISAPPROVE_QUESTION, document);
         this.reason = disapprovalReason;
         this.noteText = disapprovalNoteText;
         this.maxLength = reasonMaxLength;

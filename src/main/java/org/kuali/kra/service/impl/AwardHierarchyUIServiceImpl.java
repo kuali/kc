@@ -32,11 +32,11 @@ import org.kuali.kra.service.AwardHierarchyUIService;
 import org.kuali.kra.timeandmoney.AwardHierarchyNode;
 import org.kuali.kra.timeandmoney.document.TimeAndMoneyDocument;
 import org.kuali.kra.timeandmoney.service.ActivePendingTransactionsService;
-import org.kuali.rice.kns.service.BusinessObjectService;
-import org.kuali.rice.kns.util.GlobalVariables;
-import org.kuali.rice.kns.util.KNSConstants;
-import org.kuali.rice.kns.util.KualiDecimal;
-import org.kuali.rice.kns.web.format.Formatter;
+import org.kuali.rice.core.api.util.type.KualiDecimal;
+import org.kuali.rice.core.web.format.Formatter;
+import org.kuali.rice.krad.service.BusinessObjectService;
+import org.kuali.rice.krad.util.GlobalVariables;
+import org.kuali.rice.krad.util.KRADConstants;
 import org.springframework.util.StringUtils;
 
 public class AwardHierarchyUIServiceImpl implements AwardHierarchyUIService {
@@ -160,29 +160,29 @@ public class AwardHierarchyUIServiceImpl implements AwardHierarchyUIService {
             appendDate(aNode.getObligationExpirationDate(), sb);
             appendDate(aNode.getFinalExpirationDate(), sb);
 
-            sb.append(KNSConstants.BLANK_SPACE).append(COLUMN_CODE).append(KNSConstants.BLANK_SPACE).append(formatter.format(aNode.getAmountObligatedToDate()));//5
-            sb.append(KNSConstants.BLANK_SPACE).append(COLUMN_CODE).append(KNSConstants.BLANK_SPACE).append(formatter.format(aNode.getAnticipatedTotalAmount()));  //6         
-            sb.append(KNSConstants.BLANK_SPACE).append(COLUMN_CODE).append(KNSConstants.BLANK_SPACE).append(formatter.format(aNode.getObliDistributableAmount()));//Distributable amount needs to be updated
-            sb.append(KNSConstants.BLANK_SPACE).append(COLUMN_CODE).append(KNSConstants.BLANK_SPACE).append(formatter.format(aNode.getAntDistributableAmount()));
-            sb.append(KNSConstants.BLANK_SPACE).append(COLUMN_CODE).append(KNSConstants.BLANK_SPACE).append(formatter.format(aNode.getAmountObligatedToDate().subtract(aNode.getObliDistributableAmount())));//9
-            sb.append(KNSConstants.BLANK_SPACE).append(COLUMN_CODE).append(KNSConstants.BLANK_SPACE).append(formatter.format(aNode.getAnticipatedTotalAmount().subtract(aNode.getAntDistributableAmount())));//10
+            sb.append(KRADConstants.BLANK_SPACE).append(COLUMN_CODE).append(KRADConstants.BLANK_SPACE).append(formatter.format(aNode.getAmountObligatedToDate()));//5
+            sb.append(KRADConstants.BLANK_SPACE).append(COLUMN_CODE).append(KRADConstants.BLANK_SPACE).append(formatter.format(aNode.getAnticipatedTotalAmount()));  //6         
+            sb.append(KRADConstants.BLANK_SPACE).append(COLUMN_CODE).append(KRADConstants.BLANK_SPACE).append(formatter.format(aNode.getObliDistributableAmount()));//Distributable amount needs to be updated
+            sb.append(KRADConstants.BLANK_SPACE).append(COLUMN_CODE).append(KRADConstants.BLANK_SPACE).append(formatter.format(aNode.getAntDistributableAmount()));
+            sb.append(KRADConstants.BLANK_SPACE).append(COLUMN_CODE).append(KRADConstants.BLANK_SPACE).append(formatter.format(aNode.getAmountObligatedToDate().subtract(aNode.getObliDistributableAmount())));//9
+            sb.append(KRADConstants.BLANK_SPACE).append(COLUMN_CODE).append(KRADConstants.BLANK_SPACE).append(formatter.format(aNode.getAnticipatedTotalAmount().subtract(aNode.getAntDistributableAmount())));//10
 
-            sb.append(KNSConstants.BLANK_SPACE).append(COLUMN_CODE).append(KNSConstants.BLANK_SPACE).append(aNode.getAwardStatusCode()); //11
+            sb.append(KRADConstants.BLANK_SPACE).append(COLUMN_CODE).append(KRADConstants.BLANK_SPACE).append(aNode.getAwardStatusCode()); //11
             
-            sb.append(KNSConstants.BLANK_SPACE).append(COLUMN_CODE).append(KNSConstants.BLANK_SPACE).append(formatter.format(aNode.getObligatedTotalDirect()));//12
-            sb.append(KNSConstants.BLANK_SPACE).append(COLUMN_CODE).append(KNSConstants.BLANK_SPACE).append(formatter.format(aNode.getObligatedTotalIndirect()));//13
-            sb.append(KNSConstants.BLANK_SPACE).append(COLUMN_CODE).append(KNSConstants.BLANK_SPACE).append(formatter.format(aNode.getAnticipatedTotalDirect()));//14
-            sb.append(KNSConstants.BLANK_SPACE).append(COLUMN_CODE).append(KNSConstants.BLANK_SPACE).append(formatter.format(aNode.getAnticipatedTotalIndirect()));//15
+            sb.append(KRADConstants.BLANK_SPACE).append(COLUMN_CODE).append(KRADConstants.BLANK_SPACE).append(formatter.format(aNode.getObligatedTotalDirect()));//12
+            sb.append(KRADConstants.BLANK_SPACE).append(COLUMN_CODE).append(KRADConstants.BLANK_SPACE).append(formatter.format(aNode.getObligatedTotalIndirect()));//13
+            sb.append(KRADConstants.BLANK_SPACE).append(COLUMN_CODE).append(KRADConstants.BLANK_SPACE).append(formatter.format(aNode.getAnticipatedTotalDirect()));//14
+            sb.append(KRADConstants.BLANK_SPACE).append(COLUMN_CODE).append(KRADConstants.BLANK_SPACE).append(formatter.format(aNode.getAnticipatedTotalIndirect()));//15
             appendDate(aNode.getProjectStartDate(), sb);//16
-            sb.append(KNSConstants.BLANK_SPACE).append(COLUMN_CODE).append(KNSConstants.BLANK_SPACE).append(aNode.getTitle());//17
-            sb.append(KNSConstants.BLANK_SPACE).append(COLUMN_CODE).append(KNSConstants.BLANK_SPACE).append(aNode.getAwardId());//18
-            sb.append(KNSConstants.BLANK_SPACE).append(COLUMN_CODE).append(KNSConstants.BLANK_SPACE).append(aNode.getAwardDocumentNumber());//19
+            sb.append(KRADConstants.BLANK_SPACE).append(COLUMN_CODE).append(KRADConstants.BLANK_SPACE).append(aNode.getTitle());//17
+            sb.append(KRADConstants.BLANK_SPACE).append(COLUMN_CODE).append(KRADConstants.BLANK_SPACE).append(aNode.getAwardId());//18
+            sb.append(KRADConstants.BLANK_SPACE).append(COLUMN_CODE).append(KRADConstants.BLANK_SPACE).append(aNode.getAwardDocumentNumber());//19
             if(aNode.isAwardDocumentFinalStatus()) {
-                sb.append(KNSConstants.BLANK_SPACE).append(COLUMN_CODE).append(KNSConstants.BLANK_SPACE).append(DOC_FINAL_STATUS_CODE);
+                sb.append(KRADConstants.BLANK_SPACE).append(COLUMN_CODE).append(KRADConstants.BLANK_SPACE).append(DOC_FINAL_STATUS_CODE);
             } else {
-                sb.append(KNSConstants.BLANK_SPACE).append(COLUMN_CODE).append(KNSConstants.BLANK_SPACE).append(DOC_NON_FINAL_STATUS_CODE);
+                sb.append(KRADConstants.BLANK_SPACE).append(COLUMN_CODE).append(KRADConstants.BLANK_SPACE).append(DOC_NON_FINAL_STATUS_CODE);
             }
-            sb.append(KNSConstants.BLANK_SPACE).append(COLUMN_CODE).append(KNSConstants.BLANK_SPACE);
+            sb.append(KRADConstants.BLANK_SPACE).append(COLUMN_CODE).append(KRADConstants.BLANK_SPACE);
         }
         return sb.toString();
     }
@@ -204,9 +204,9 @@ public class AwardHierarchyUIServiceImpl implements AwardHierarchyUIService {
      */
     protected void appendString(String str, StringBuilder sb, String delimiter) {
         if(str!=null){
-            sb.append(KNSConstants.BLANK_SPACE).append(delimiter).append(KNSConstants.BLANK_SPACE).append(str);
+            sb.append(KRADConstants.BLANK_SPACE).append(delimiter).append(KRADConstants.BLANK_SPACE).append(str);
         }else{
-            sb.append(KNSConstants.BLANK_SPACE).append(delimiter).append(KNSConstants.BLANK_SPACE).append(KNSConstants.EMPTY_STRING);
+            sb.append(KRADConstants.BLANK_SPACE).append(delimiter).append(KRADConstants.BLANK_SPACE).append(KRADConstants.EMPTY_STRING);
         }
     }
     
@@ -249,7 +249,7 @@ public class AwardHierarchyUIServiceImpl implements AwardHierarchyUIService {
      */
     protected void appendDate(Date date, StringBuilder sb) {
         SimpleDateFormat df = new SimpleDateFormat(DATE_FORMAT_MM_DD_YYYY);
-        sb.append(KNSConstants.BLANK_SPACE).append(COLUMN_CODE).append(KNSConstants.BLANK_SPACE);
+        sb.append(KRADConstants.BLANK_SPACE).append(COLUMN_CODE).append(KRADConstants.BLANK_SPACE);
         if(date!=null){
             sb.append(df.format(date));
         }else{

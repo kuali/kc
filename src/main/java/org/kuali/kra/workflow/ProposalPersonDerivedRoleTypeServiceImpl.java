@@ -25,13 +25,11 @@ import org.kuali.kra.infrastructure.Constants;
 import org.kuali.kra.kim.bo.KcKimAttributes;
 import org.kuali.kra.proposaldevelopment.bo.ProposalPerson;
 import org.kuali.kra.proposaldevelopment.service.ProposalPersonService;
-import org.kuali.rice.kew.service.WorkflowInfo;
-import org.kuali.rice.kim.bo.Role;
-import org.kuali.rice.kim.bo.role.dto.RoleMembershipInfo;
-import org.kuali.rice.kim.bo.types.dto.AttributeSet;
-import org.kuali.rice.kim.service.support.impl.KimDerivedRoleTypeServiceBase;
+import org.kuali.rice.core.api.membership.MemberType;
+import org.kuali.rice.kim.api.role.RoleMembership;
+import org.kuali.rice.kns.kim.role.DerivedRoleTypeServiceBase;
 
-public class ProposalPersonDerivedRoleTypeServiceImpl extends KimDerivedRoleTypeServiceBase {
+public class ProposalPersonDerivedRoleTypeServiceImpl extends DerivedRoleTypeServiceBase {
     public static final String PRIMARY_INVESTIGATOR_ROLE_NAME = "PrimaryInvestigator";
     public static final String CO_INVESTIGATOR_ROLE_NAME = "CoInvestigator";
     public static final String KEYPERSON_ROLE_NAME = "KeyPerson";
@@ -43,8 +41,6 @@ public class ProposalPersonDerivedRoleTypeServiceImpl extends KimDerivedRoleType
         proposalRoleCodeConsants.put(KEYPERSON_ROLE_NAME, Constants.KEY_PERSON_ROLE);
     }
     
-	protected WorkflowInfo workflowInfo = new WorkflowInfo();
-    
 	private ProposalPersonService proposalPersonService;
 	
 	protected List<String> requiredAttributes = new ArrayList<String>();
@@ -53,17 +49,17 @@ public class ProposalPersonDerivedRoleTypeServiceImpl extends KimDerivedRoleType
 	}
 	
 	@Override
-    public List<RoleMembershipInfo> getRoleMembersFromApplicationRole(String namespaceCode, String roleName, AttributeSet qualification) {
+    public List<RoleMembership> getRoleMembersFromDerivedRole(String namespaceCode, String roleName, Map<String,String> qualification) {
 		validateRequiredAttributesAgainstReceived(qualification);
 		
 		String proposalNumber = qualification.get(KcKimAttributes.PROPOSAL);
-		List<RoleMembershipInfo> members = new ArrayList<RoleMembershipInfo>();
+		List<RoleMembership> members = new ArrayList<RoleMembership>();
 		
         if (StringUtils.isNotBlank(proposalNumber)) {
             List<ProposalPerson> proposalPersons = getProposalPersonService().getProposalKeyPersonnel(proposalNumber, roleName);
             for ( ProposalPerson proposalPerson : proposalPersons ) {
                 if ( StringUtils.isNotBlank(proposalPerson.getPersonId()) ) {
-                    members.add( new RoleMembershipInfo(null, null, proposalPerson.getPersonId(), Role.PRINCIPAL_MEMBER_TYPE, null) );
+                    members.add( RoleMembership.Builder.create(null, null, proposalPerson.getPersonId(), MemberType.PRINCIPAL, null).build() );
                 }
             }
         }
@@ -72,8 +68,8 @@ public class ProposalPersonDerivedRoleTypeServiceImpl extends KimDerivedRoleType
 	}
 
 	@Override
-	public boolean hasApplicationRole(
-			String principalId, List<String> groupIds, String namespaceCode, String roleName, AttributeSet qualification){
+	public boolean hasDerivedRole(
+			String principalId, List<String> groupIds, String namespaceCode, String roleName, Map<String,String> qualification){
 		validateRequiredAttributesAgainstReceived(qualification);
 	
 		String proposalNumber = qualification.get(KcKimAttributes.PROPOSAL);

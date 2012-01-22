@@ -15,63 +15,70 @@
  */
 package org.kuali.kra.questionnaire;
 
-import java.util.LinkedHashMap;
 import java.util.List;
 
 import org.apache.commons.lang.ObjectUtils;
 import org.apache.struts.upload.FormFile;
 import org.kuali.kra.SequenceOwner;
 import org.kuali.kra.bo.KraPersistableBusinessObjectBase;
-import org.kuali.rice.kns.util.TypedArrayList;
+import org.springframework.util.AutoPopulatingList;
 
-public class Questionnaire extends KraPersistableBusinessObjectBase implements Comparable<Questionnaire>,SequenceOwner<Questionnaire> { 
-    
+public class Questionnaire extends KraPersistableBusinessObjectBase implements Comparable<Questionnaire>, SequenceOwner<Questionnaire> {
+
     private static final long serialVersionUID = 8679896046435777084L;
+
     private String questionnaireRefId;
-    private String questionnaireId; 
-    private String name; 
-    private String description; 
-    private boolean isFinal; 
+
+    private String questionnaireId;
+
+    private String name;
+
+    private String description;
+
+    private boolean isFinal;
+
     private Integer sequenceNumber;
+
     private String documentNumber;
+
     private List<QuestionnaireQuestion> questionnaireQuestions;
+
     private List<QuestionnaireUsage> questionnaireUsages;
+
     private String fileName;
-    private byte[] template; 
-    
+
+    private byte[] template;
+
     private transient FormFile templateFile;
 
-        
-    public Questionnaire() { 
+    public Questionnaire() {
         super();
-        questionnaireQuestions = new TypedArrayList(QuestionnaireQuestion.class); 
-        questionnaireUsages = new TypedArrayList(QuestionnaireUsage.class); 
+        questionnaireQuestions = new AutoPopulatingList<QuestionnaireQuestion>(QuestionnaireQuestion.class);
+        questionnaireUsages = new AutoPopulatingList<QuestionnaireUsage>(QuestionnaireUsage.class);
+    }
 
-    } 
-    
     public String getQuestionnaireId() {
         return questionnaireId;
     }
-    
+
     public Integer getQuestionnaireIdAsInteger() {
         Integer retVal = null;
-        if(this.questionnaireId != null) {
+        if (this.questionnaireId != null) {
             retVal = Integer.valueOf(this.questionnaireId);
         }
-        return retVal;        
+        return retVal;
     }
 
     public void setQuestionnaireId(String questionnaireId) {
         this.questionnaireId = questionnaireId;
     }
-    
+
     public void setQuestionnaireIdFromInteger(Integer questionnaireIdAsInteger) {
-        if(questionnaireIdAsInteger != null) {
+        if (questionnaireIdAsInteger != null) {
             this.questionnaireId = questionnaireIdAsInteger.toString();
-        }
-        else {
+        } else {
             this.questionnaireId = null;
-        }        
+        }
     }
 
     public String getName() {
@@ -113,7 +120,6 @@ public class Questionnaire extends KraPersistableBusinessObjectBase implements C
         return getQuestionnaireQuestions().get(index);
     }
 
-    
     public List<QuestionnaireUsage> getQuestionnaireUsages() {
         return questionnaireUsages;
     }
@@ -121,25 +127,12 @@ public class Questionnaire extends KraPersistableBusinessObjectBase implements C
     public void setQuestionnaireUsages(List<QuestionnaireUsage> questionnaireUsages) {
         this.questionnaireUsages = questionnaireUsages;
     }
+
     public QuestionnaireUsage getQuestionnaireUsage(int index) {
         while (getQuestionnaireUsages().size() <= index) {
             getQuestionnaireUsages().add(new QuestionnaireUsage());
         }
         return getQuestionnaireUsages().get(index);
-    }
-
-    /** {@inheritDoc} */
-    @Override 
-    protected LinkedHashMap<String, Object> toStringMapper() {
-        LinkedHashMap<String, Object> hashMap = new LinkedHashMap<String, Object>();
-        hashMap.put("questionnaireRefId", this.getQuestionnaireRefId());
-        hashMap.put("questionnaireId", this.getQuestionnaireId());
-        hashMap.put("name", this.getName());
-        hashMap.put("sequenceNumber", this.getSequenceNumber());
-        hashMap.put("documentNumber", this.getDocumentNumber());
-        hashMap.put("description", this.getDescription());
-        hashMap.put("isFinal", this.getIsFinal());
-        return hashMap;
     }
 
     public Integer getOwnerSequenceNumber() {
@@ -159,13 +152,9 @@ public class Questionnaire extends KraPersistableBusinessObjectBase implements C
     }
 
     public void setSequenceOwner(Questionnaire newlyVersionedOwner) {
-        // do nothing - this is root sequence association
     }
 
-
     public void resetPersistenceState() {
-        // TODO Auto-generated method stub
-        
     }
 
     public Integer getSequenceNumber() {
@@ -178,28 +167,26 @@ public class Questionnaire extends KraPersistableBusinessObjectBase implements C
 
     public Long getQuestionnaireRefIdAsLong() {
         Long retVal = null;
-        if(this.questionnaireRefId != null) {
+        if (this.questionnaireRefId != null) {
             retVal = Long.valueOf(this.questionnaireRefId);
         }
-        return retVal;        
+        return retVal;
     }
-    
+
     public String getQuestionnaireRefId() {
         return questionnaireRefId;
     }
 
     public void setQuestionnaireRefId(String questionnaireRefId) {
         this.questionnaireRefId = questionnaireRefId;
-    }    
-        
+    }
+
     public void setQuestionnaireRefIdFromLong(Long questionnaireRefIdAsLong) {
-        if(questionnaireRefIdAsLong != null) {
+        if (questionnaireRefIdAsLong != null) {
             this.questionnaireRefId = questionnaireRefIdAsLong.toString();
-        }
-        else {
+        } else {
             this.questionnaireRefId = null;
         }
-        
     }
 
     public String getDocumentNumber() {
@@ -241,28 +228,27 @@ public class Questionnaire extends KraPersistableBusinessObjectBase implements C
     public void setTemplateFile(FormFile templateFile) {
         this.templateFile = templateFile;
     }
-    
+
     public boolean hasUsageFor(String moduleItemCode, String moduleSubItemCode) {
         boolean retVal = false;
-        for(QuestionnaireUsage usage:questionnaireUsages) {
-            if( usage.getModuleItemCode().equals(moduleItemCode) && usage.getModuleSubItemCode().equals(moduleSubItemCode) ) {
+        for (QuestionnaireUsage usage : questionnaireUsages) {
+            if (usage.getModuleItemCode().equals(moduleItemCode) && usage.getModuleSubItemCode().equals(moduleSubItemCode)) {
                 retVal = true;
                 break;
             }
         }
         return retVal;
     }
-    
+
     public QuestionnaireUsage getHighestVersionUsageFor(String moduleItemCode, String moduleSubItemCode) {
         QuestionnaireUsage retVal = null;
         int version = 0;
-        for(QuestionnaireUsage usage:questionnaireUsages) {
-            if( (usage.getModuleItemCode().equals(moduleItemCode)) && (usage.getModuleSubItemCode().equals(moduleSubItemCode)) && (usage.getQuestionnaireSequenceNumber() > version) ) {
+        for (QuestionnaireUsage usage : questionnaireUsages) {
+            if ((usage.getModuleItemCode().equals(moduleItemCode)) && (usage.getModuleSubItemCode().equals(moduleSubItemCode)) && (usage.getQuestionnaireSequenceNumber() > version)) {
                 version = usage.getQuestionnaireSequenceNumber();
                 retVal = usage;
-            }            
+            }
         }
         return retVal;
     }
-    
 }

@@ -26,10 +26,10 @@ import org.kuali.kra.infrastructure.KraServiceLocator;
 import org.kuali.kra.service.KraWorkflowService;
 import org.kuali.kra.service.TimeAndMoneyExistenceService;
 import org.kuali.kra.timeandmoney.document.TimeAndMoneyDocument;
-import org.kuali.rice.kew.exception.WorkflowException;
-import org.kuali.rice.kns.service.BusinessObjectService;
-import org.kuali.rice.kns.service.DocumentService;
-import org.kuali.rice.kns.util.GlobalVariables;
+import org.kuali.rice.kew.api.exception.WorkflowException;
+import org.kuali.rice.krad.service.BusinessObjectService;
+import org.kuali.rice.krad.service.DocumentService;
+import org.kuali.rice.krad.util.GlobalVariables;
 
 public class TimeAndMoneyExistenceServiceImpl implements TimeAndMoneyExistenceService {
 

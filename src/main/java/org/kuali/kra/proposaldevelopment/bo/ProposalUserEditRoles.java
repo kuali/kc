@@ -16,11 +16,10 @@
 package org.kuali.kra.proposaldevelopment.bo;
 
 import java.util.ArrayList;
-import java.util.LinkedHashMap;
 import java.util.List;
 
 import org.apache.commons.lang.StringUtils;
-import org.kuali.rice.kns.bo.BusinessObjectBase;
+import org.kuali.rice.krad.bo.BusinessObjectBase;
 
 /**
  * A <b>ProposalUserEditRoles</b> is used as a form used by the Edit Roles
@@ -34,19 +33,22 @@ import org.kuali.rice.kns.bo.BusinessObjectBase;
  * @author Kuali Research Administration Team (kualidev@oncourse.iu.edu)
  */
 public class ProposalUserEditRoles extends BusinessObjectBase {
-    
+
     private String username;
+
     private List<ProposalRoleState> roleStates;
+
     private int lineNum = 0;
+
     private boolean javaScriptEnabled;
-    
+
     /**
      * Constructs a ProposalUserEditRoles.
      */
     public ProposalUserEditRoles() {
-       roleStates = new ArrayList<ProposalRoleState>();
+        roleStates = new ArrayList<ProposalRoleState>();
     }
-    
+
     /**
      * Set the user's username.
      * @param username the user's username
@@ -62,15 +64,14 @@ public class ProposalUserEditRoles extends BusinessObjectBase {
     public String getUsername() {
         return username;
     }
-    
+
     /**
      * Is this user assigned to the "unassigned" role?
      * @return true if unassigned; otherwise false
      */
-    //public Boolean getUnassigned() {
-     //   return !getAggregator() && !getBudgetCreator() && !getNarrativeWriter() && !getViewer();
-    //}
-    
+    //public Boolean getUnassigned() { 
+    //   return !getAggregator() && !getBudgetCreator() && !getNarrativeWriter() && !getViewer(); 
+    //} 
     public List<ProposalRoleState> getRoleStates() {
         return roleStates;
     }
@@ -86,7 +87,7 @@ public class ProposalUserEditRoles extends BusinessObjectBase {
     public void setLineNum(int lineNum) {
         this.lineNum = lineNum;
     }
-    
+
     /**
      * Get the line number.
      * @return the line number
@@ -94,7 +95,7 @@ public class ProposalUserEditRoles extends BusinessObjectBase {
     public int getLineNum() {
         return lineNum;
     }
-    
+
     /**
      * Set the JavaScript to enabled or disabled.
      * @param javaScriptEnabled true or false
@@ -102,7 +103,7 @@ public class ProposalUserEditRoles extends BusinessObjectBase {
     public void setJavaScriptEnabled(boolean javaScriptEnabled) {
         this.javaScriptEnabled = javaScriptEnabled;
     }
-    
+
     /**
      * Is JavaScript enabled?
      * @return true if JavaScript is enabled; otherwise false
@@ -110,22 +111,11 @@ public class ProposalUserEditRoles extends BusinessObjectBase {
     public boolean getJavaScriptEnabled() {
         return this.javaScriptEnabled;
     }
-   
-    /**
-     * @see org.kuali.rice.kns.bo.BusinessObjectBase#toStringMapper()
-     */
-    @Override
-    protected LinkedHashMap toStringMapper() {
-        LinkedHashMap map = new LinkedHashMap();
-       
-        return map;
-    }
 
     /**
-     * @see org.kuali.rice.kns.bo.BusinessObject#refresh()
+     * @see org.kuali.rice.krad.bo.BusinessObject#refresh()
      */
     public void refresh() {
-        // do nothing
     }
 
     public void setRoleState(String roleName, Boolean state) {

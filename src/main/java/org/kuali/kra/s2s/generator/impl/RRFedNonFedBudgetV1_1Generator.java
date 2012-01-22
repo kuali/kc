@@ -779,15 +779,16 @@ public class RRFedNonFedBudgetV1_1Generator extends RRFedNonFedBudgetBaseGenerat
         for (Narrative narrative : pdDoc.getDevelopmentProposal().getNarratives()) {
             if (narrative.getNarrativeTypeCode() != null
                     && Integer.parseInt(narrative.getNarrativeTypeCode()) == BUDGET_JUSTIFICATION_ATTACHMENT) {
-                attachedFileDataType = getAttachedFileType(narrative);
-                if(attachedFileDataType != null){
-                    budgetYear.setBudgetJustificationAttachment(attachedFileDataType);
-                    break;
-                }
+            	attachedFileDataType = getAttachedFileType(narrative);
+            	if(attachedFileDataType != null){
+            		budgetYear.setBudgetJustificationAttachment(attachedFileDataType);
+            		break;
+            	}
             }
         }
         return budgetYear;
     }
+
     /**
      * This method returns IndirectCosts details such as Base,CostType,FundRequested,Rate and TotalIndirectCosts in
      * BudgetYearDataType based on BudgetPeriodInfo for the RRFedNonFedBudget.
@@ -1669,7 +1670,7 @@ public class RRFedNonFedBudgetV1_1Generator extends RRFedNonFedBudgetBaseGenerat
                     keyPersonCount++;
                     LOG.info("keyPersonCount:" + keyPersonCount);
                 }
-               }
+                }
                 keyPersons.setKeyPersonArray(keyPersonList.toArray(new KeyPersonDataType[0]));
             }
             SummaryDataType summary = SummaryDataType.Factory.newInstance();

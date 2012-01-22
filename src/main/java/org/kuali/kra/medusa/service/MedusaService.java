@@ -15,10 +15,8 @@
  */
 package org.kuali.kra.medusa.service;
 
-import java.util.ArrayList;
 import java.util.List;
 
-import org.kuali.kra.institutionalproposal.home.InstitutionalProposal;
 import org.kuali.kra.medusa.MedusaNode;
 
 /**

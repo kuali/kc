@@ -24,12 +24,13 @@ import java.util.Collection;
 import java.util.List;
 
 import org.kuali.kra.bo.PersonEditableField;
-import org.kuali.kra.lookup.keyvalue.KeyLabelPairComparator;
+import org.kuali.kra.lookup.keyvalue.KeyValueComparator;
 import org.kuali.kra.proposaldevelopment.bo.ProposalPerson;
-import org.kuali.rice.kns.datadictionary.AttributeDefinition;
-import org.kuali.rice.kns.lookup.keyvalues.KeyValuesBase;
+import org.kuali.rice.core.api.util.ConcreteKeyValue;
+import org.kuali.rice.core.api.util.KeyValue;
 import org.kuali.rice.kns.service.DataDictionaryService;
-import org.kuali.rice.core.util.KeyLabelPair;
+import org.kuali.rice.krad.datadictionary.AttributeDefinition;
+import org.kuali.rice.krad.keyvalues.KeyValuesBase;
 
 /**
  * Lookup acceptable values for <code>{@link PersonEditableField}</code> business object
@@ -50,19 +51,19 @@ public class PersonEditableFieldValuesFinder extends KeyValuesBase {
     }
     
     /**
-     * @see org.kuali.rice.kns.lookup.keyvalues.KeyValuesFinder#getKeyValues()
+     * @see org.kuali.rice.krad.keyvalues.KeyValuesFinder#getKeyValues()
      */
-    public List<KeyLabelPair> getKeyValues() {
-        List<KeyLabelPair> retval = new ArrayList<KeyLabelPair>();
-        retval.add(new KeyLabelPair("", "select"));
+    public List<KeyValue> getKeyValues() {
+        List<KeyValue> retval = new ArrayList<KeyValue>();
+        retval.add(new ConcreteKeyValue("", "select"));
 
         for (AttributeDefinition attribute : getAttributes()) {
             if (!getExcludedAttributes().contains(attribute.getName())) {
-                retval.add(new KeyLabelPair(attribute.getName(), attribute.getLabel()));
+                retval.add(new ConcreteKeyValue(attribute.getName(), attribute.getLabel()));
             }
         }
         
-        sort(retval, new KeyLabelPairComparator());
+        sort(retval, new KeyValueComparator());
         
         return retval;
     }

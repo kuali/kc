@@ -20,9 +20,10 @@ import java.util.List;
 
 import org.apache.commons.lang.StringUtils;
 import org.kuali.kra.infrastructure.KraServiceLocator;
-import org.kuali.rice.core.util.KeyLabelPair;
-import org.kuali.rice.kns.lookup.keyvalues.KeyValuesBase;
-import org.kuali.rice.kns.service.BusinessObjectService;
+import org.kuali.rice.core.api.util.ConcreteKeyValue;
+import org.kuali.rice.core.api.util.KeyValue;
+import org.kuali.rice.krad.keyvalues.KeyValuesBase;
+import org.kuali.rice.krad.service.BusinessObjectService;
 
 /**
  * 
@@ -39,11 +40,11 @@ public class CoiDisclosureStatusValuesFinder extends KeyValuesBase {
      */
     public List getKeyValues() {
         
-        List<KeyLabelPair> keyValues = new ArrayList<KeyLabelPair>();
-        keyValues.add(new KeyLabelPair("", "select "));
+        List<KeyValue> keyValues = new ArrayList<KeyValue>();
+        keyValues.add(new ConcreteKeyValue("", "select "));
         for(CoiDisclosureStatus coiDisclosureStatus : getCoiDisclosureStatus()) {
             if (validStatus(coiDisclosureStatus.getCoiDisclosureStatusCode())) {
-                keyValues.add(new KeyLabelPair(coiDisclosureStatus.getCoiDisclosureStatusCode(), coiDisclosureStatus.getDescription()));
+                keyValues.add(new ConcreteKeyValue(coiDisclosureStatus.getCoiDisclosureStatusCode(), coiDisclosureStatus.getDescription()));
             }
         }
         return keyValues;
@@ -70,7 +71,6 @@ public class CoiDisclosureStatusValuesFinder extends KeyValuesBase {
         return  (List<CoiDisclosureStatus>)KraServiceLocator.getService(BusinessObjectService.class).findAll(CoiDisclosureStatus.class);
 
     }
-    
     public String getActionType() {
         return actionType;
     }

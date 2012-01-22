@@ -15,7 +15,6 @@
  */
 package org.kuali.kra.web.struts.action;
 
-import java.util.ArrayList;
 import java.util.List;
 
 import javax.servlet.http.HttpServletRequest;
@@ -31,7 +30,6 @@ import org.kuali.kra.budget.core.Budget;
 import org.kuali.kra.budget.core.BudgetCommonService;
 import org.kuali.kra.budget.core.BudgetCommonServiceFactory;
 import org.kuali.kra.budget.core.BudgetParent;
-import org.kuali.kra.budget.core.BudgetService;
 import org.kuali.kra.budget.document.BudgetDocument;
 import org.kuali.kra.budget.document.BudgetParentDocument;
 import org.kuali.kra.budget.parameters.BudgetPeriod;
@@ -41,16 +39,15 @@ import org.kuali.kra.infrastructure.Constants;
 import org.kuali.kra.infrastructure.KraServiceLocator;
 import org.kuali.kra.proposaldevelopment.service.ProposalLockService;
 import org.kuali.kra.web.struts.form.BudgetVersionFormBase;
-import org.kuali.rice.kew.exception.WorkflowException;
-import org.kuali.rice.kns.document.Document;
-import org.kuali.rice.kns.document.authorization.PessimisticLock;
-import org.kuali.rice.kns.service.DocumentService;
-import org.kuali.rice.kns.service.PessimisticLockService;
-import org.kuali.rice.kns.util.GlobalVariables;
-import org.kuali.rice.kns.util.KNSConstants;
+import org.kuali.rice.kew.api.exception.WorkflowException;
 import org.kuali.rice.kns.util.WebUtils;
-import org.kuali.rice.kns.web.struts.form.KualiDocumentFormBase;
 import org.kuali.rice.kns.web.struts.form.KualiForm;
+import org.kuali.rice.krad.document.Document;
+import org.kuali.rice.krad.document.authorization.PessimisticLock;
+import org.kuali.rice.krad.service.DocumentService;
+import org.kuali.rice.krad.service.PessimisticLockService;
+import org.kuali.rice.krad.util.GlobalVariables;
+import org.kuali.rice.krad.util.KRADConstants;
 
 /**
  * This class contains methods common to ProposalDevelopment and Budget actions.
@@ -133,7 +130,7 @@ public class BudgetActionBase extends KraTransactionalDocumentActionBase {
                 budgetVersion.setBudgetStatus(proposalDevelopmentDocument.getBudgetParent().getBudgetStatus());
             }
             else {
-                String budgetStatusIncompleteCode = getParameterService().getParameterValue(
+                String budgetStatusIncompleteCode = getParameterService().getParameterValueAsString(
                         BudgetDocument.class, Constants.BUDGET_STATUS_INCOMPLETE_CODE);
                 budgetVersion.setBudgetStatus(budgetStatusIncompleteCode);
             }
@@ -205,7 +202,7 @@ public class BudgetActionBase extends KraTransactionalDocumentActionBase {
     @Override
     protected void setupPessimisticLockMessages(Document document, HttpServletRequest request) {
         super.setupPessimisticLockMessages(document, request);
-        List<String> lockMessages = (List<String>)request.getAttribute(KNSConstants.PESSIMISTIC_LOCK_MESSAGES);
+        List<String> lockMessages = (List<String>)request.getAttribute(KRADConstants.PESSIMISTIC_LOCK_MESSAGES);
         BudgetDocument budgetDoc = (BudgetDocument)document;
         for (PessimisticLock lock : budgetDoc.getParentDocument().getPessimisticLocks()) {
             if (StringUtils.contains(lock.getLockDescriptor(), KraAuthorizationConstants.LOCK_DESCRIPTOR_BUDGET) 
@@ -216,6 +213,6 @@ public class BudgetActionBase extends KraTransactionalDocumentActionBase {
                 }
             }
         }
-        request.setAttribute(KNSConstants.PESSIMISTIC_LOCK_MESSAGES, lockMessages);
+        request.setAttribute(KRADConstants.PESSIMISTIC_LOCK_MESSAGES, lockMessages);
     }  
 }

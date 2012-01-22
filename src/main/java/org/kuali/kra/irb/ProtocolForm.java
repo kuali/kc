@@ -54,24 +54,24 @@ import org.kuali.kra.questionnaire.answer.QuestionnaireAnswerService;
 import org.kuali.kra.service.KraAuthorizationService;
 import org.kuali.kra.web.struts.form.Auditable;
 import org.kuali.kra.web.struts.form.KraTransactionalDocumentFormBase;
-import org.kuali.rice.kim.util.KimConstants;
+import org.kuali.rice.core.api.CoreApiServiceLocator;
+import org.kuali.rice.kew.api.WorkflowDocument;
+import org.kuali.rice.kim.api.KimConstants;
 import org.kuali.rice.kns.datadictionary.HeaderNavigation;
 import org.kuali.rice.kns.service.DataDictionaryService;
-import org.kuali.rice.kns.service.KNSServiceLocator;
-import org.kuali.rice.kns.service.KualiConfigurationService;
 import org.kuali.rice.kns.util.ActionFormUtilMap;
-import org.kuali.rice.kns.util.GlobalVariables;
-import org.kuali.rice.kns.util.KNSConstants;
 import org.kuali.rice.kns.web.ui.ExtraButton;
 import org.kuali.rice.kns.web.ui.HeaderField;
-import org.kuali.rice.kns.workflow.service.KualiWorkflowDocument;
+import org.kuali.rice.krad.service.KRADServiceLocator;
+import org.kuali.rice.krad.util.GlobalVariables;
+import org.kuali.rice.krad.util.KRADConstants;
 
 /**
  * This class...
  * @author Kuali Nervous System Team (kualidev@oncourse.iu.edu)
  */
 public class ProtocolForm extends KraTransactionalDocumentFormBase implements PermissionsForm, CustomDataForm, Auditable {
-
+    
     private static final long serialVersionUID = 3736148760520952504L;
     
     /**
@@ -175,8 +175,8 @@ public class ProtocolForm extends KraTransactionalDocumentFormBase implements Pe
                     && onlineReviewService.isProtocolInStateToBeReviewed(getProtocolDocument().getProtocol());
         }
         
-        //We have to copy the HeaderNavigation elements into a new collection as the 
-        //List returned by DD is it's cached copy of the header navigation list.
+            //We have to copy the HeaderNavigation elements into a new collection as the 
+            //List returned by DD is it's cached copy of the header navigation list.
         for (HeaderNavigation nav : navigation) {
             if (StringUtils.equals(nav.getHeaderTabNavigateTo(),ONLINE_REVIEW_NAV_TO)) {
                 nav.setDisabled(!onlineReviewTabEnabled);
@@ -269,7 +269,7 @@ public class ProtocolForm extends KraTransactionalDocumentFormBase implements Pe
 }
 
     @Override
-    public void populateHeaderFields(KualiWorkflowDocument workflowDocument) {
+    public void populateHeaderFields(WorkflowDocument workflowDocument) {
         super.populateHeaderFields(workflowDocument);
         ProtocolDocument pd = getDocument();
         
@@ -282,7 +282,7 @@ public class ProtocolForm extends KraTransactionalDocumentFormBase implements Pe
         
         String lastUpdatedDateStr = null;
         if(pd != null && pd.getUpdateTimestamp() != null) {
-            lastUpdatedDateStr = KNSServiceLocator.getDateTimeService().toString(pd.getUpdateTimestamp(), "hh:mm a MM/dd/yyyy");
+            lastUpdatedDateStr = CoreApiServiceLocator.getDateTimeService().toString(pd.getUpdateTimestamp(), "hh:mm a MM/dd/yyyy");
         }
         
         if(getDocInfo().size() > 2) {
@@ -306,7 +306,7 @@ public class ProtocolForm extends KraTransactionalDocumentFormBase implements Pe
 
         String expirationDateStr = null;
         if(pd != null && pd.getProtocol().getExpirationDate() != null) {
-            expirationDateStr = KNSServiceLocator.getDateTimeService().toString(pd.getProtocol().getExpirationDate(), "MM/dd/yyyy");
+            expirationDateStr = CoreApiServiceLocator.getDateTimeService().toString(pd.getProtocol().getExpirationDate(), "MM/dd/yyyy");
         }
         
         HeaderField expirationDate = new HeaderField("DataDictionary.Protocol.attributes.expirationDate", expirationDateStr);
@@ -507,8 +507,8 @@ public class ProtocolForm extends KraTransactionalDocumentFormBase implements Pe
         // clear out the extra buttons array
         extraButtons.clear();
         ProtocolDocument doc = this.getDocument();
-        String externalImageURL = KNSConstants.EXTERNALIZABLE_IMAGES_URL_KEY;
-        String sendAdHocRequestsImage = KraServiceLocator.getService(KualiConfigurationService.class).getPropertyString(externalImageURL) + "buttonsmall_sendadhocreq.gif";
+        String externalImageURL = KRADConstants.EXTERNALIZABLE_IMAGES_URL_KEY;
+        String sendAdHocRequestsImage = KRADServiceLocator.getKualiConfigurationService().getPropertyValueAsString(externalImageURL) + "buttonsmall_sendadhocreq.gif";
         addExtraButton("methodToCall.sendAdHocRequests", sendAdHocRequestsImage, "Send AdHoc Requests");
         return extraButtons;
     }

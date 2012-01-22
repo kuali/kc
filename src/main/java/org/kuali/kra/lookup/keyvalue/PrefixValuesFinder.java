@@ -18,11 +18,12 @@ package org.kuali.kra.lookup.keyvalue;
 import java.util.List;
 import java.util.Map;
 
-import org.kuali.rice.core.util.KeyLabelPair;
-import org.kuali.rice.kns.lookup.keyvalues.KeyValuesFinder;
+import org.kuali.rice.core.api.util.ConcreteKeyValue;
+import org.kuali.rice.core.api.util.KeyValue;
+import org.kuali.rice.krad.keyvalues.KeyValuesFinder;
 
 /**
- * A {@link KeyValuesFinder KeyValuesFinder} that adds a prefix {@link KeyLabelPair KeyLabelPair}.
+ * A {@link KeyValuesFinder KeyValuesFinder} that adds a prefix {@link KeyValue KeyValue}.
  * 
  * <p>
  * This class is designed to wrap other KeyValuesFinders in order to add behavior.
@@ -85,7 +86,7 @@ public final class PrefixValuesFinder implements KeyValuesFinder {
     /**
      * {@inheritDoc}
      */
-    public String getKeyLabel(final Object key) {
+    public String getKeyLabel(final String key) {
         if (PREFIX_KEY.equals(key)) {
             return this.prefixValue;
         }
@@ -96,9 +97,9 @@ public final class PrefixValuesFinder implements KeyValuesFinder {
     /**
      * {@inheritDoc}
      */
-    public Map<Object, String> getKeyLabelMap() {
+    public Map<String, String> getKeyLabelMap() {
         @SuppressWarnings("unchecked")
-        final Map<Object, String> map = this.finder.getKeyLabelMap();
+        final Map<String, String> map = this.finder.getKeyLabelMap();
         map.put(PREFIX_KEY, this.prefixValue);
         return map;
     }
@@ -106,10 +107,10 @@ public final class PrefixValuesFinder implements KeyValuesFinder {
     /**
      * {@inheritDoc}
      */
-    public List<KeyLabelPair> getKeyValues() {
+    public List<KeyValue> getKeyValues() {
         @SuppressWarnings("unchecked")
-        final List<KeyLabelPair> list = this.finder.getKeyValues();
-        list.add(0, new KeyLabelPair(PREFIX_KEY, this.prefixValue));
+        final List<KeyValue> list = this.finder.getKeyValues();
+        list.add(0, new ConcreteKeyValue(PREFIX_KEY, this.prefixValue));
         return list;
     }
     
@@ -132,10 +133,10 @@ public final class PrefixValuesFinder implements KeyValuesFinder {
     /**
      * {@inheritDoc}
      */
-    public List<KeyLabelPair> getKeyValues(boolean includeActiveOnly) {
+    public List<KeyValue> getKeyValues(boolean includeActiveOnly) {
         @SuppressWarnings("unchecked")
-        final List<KeyLabelPair> list = this.finder.getKeyValues(includeActiveOnly);
-        list.add(0, new KeyLabelPair(PREFIX_KEY, this.prefixValue));
+        final List<KeyValue> list = this.finder.getKeyValues(includeActiveOnly);
+        list.add(0, new ConcreteKeyValue(PREFIX_KEY, this.prefixValue));
         return list;
     }
     

@@ -584,7 +584,7 @@ public class RRSF424V1_1Generator extends RRSF424BaseGenerator {
 			address.setCity(departmentalPerson.getCity());
 			if (departmentalPerson.getState() != null) {
 				address.setState(globLibV20Generator
-						.getStateCodeDataType(departmentalPerson.getState()));
+						.getStateCodeDataType(departmentalPerson.getCountryCode(), departmentalPerson.getState()));
 			}
 			address.setZipPostalCode(departmentalPerson.getPostalCode());
 			if (departmentalPerson.getCountryCode() != null) {

@@ -18,7 +18,7 @@ package org.kuali.kra.meeting;
 import java.util.List;
 
 import org.kuali.kra.committee.bo.CommitteeSchedule;
-import org.kuali.rice.kns.bo.PersistableBusinessObject;
+import org.kuali.rice.krad.bo.PersistableBusinessObject;
 
 /**
  * 

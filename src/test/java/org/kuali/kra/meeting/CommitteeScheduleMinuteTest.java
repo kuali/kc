@@ -15,11 +15,11 @@
  */
 package org.kuali.kra.meeting;
 
+import junit.framework.Assert;
+
 import org.junit.Test;
 import org.kuali.kra.irb.Protocol;
 import org.kuali.kra.test.infrastructure.KcUnitTestBase;
-
-import junit.framework.Assert;
 
 
 /**

@@ -15,35 +15,58 @@
  */
 package org.kuali.kra.subaward.bo;
 
-
 import java.sql.Date;
-import java.util.LinkedHashMap;
 import org.kuali.kra.subaward.bo.SubAward;
 import org.kuali.kra.award.home.Award;
 import org.kuali.kra.award.home.AwardAmountInfo;
-import org.kuali.rice.kns.util.KualiDecimal;
-
+import org.kuali.rice.core.api.util.type.KualiDecimal;
 
 public class SubAwardFundingSource extends SubAwardAssociate { 
-    
+
     private static final long serialVersionUID = 1L;
 
-    private Integer subAwardFundingSourceId; 
+    private Integer subAwardFundingSourceId;
     private Long subAwardId; 
-    private String subAwardCode; 
-    private Long awardId; 
+    private String subAwardCode;
+    private Long awardId;
+
     private String accountNumber;
+
     private Integer statusCode;
+
     private String sponsorCode;
+
     private SubAward subAward;
+
     private Award award;
+
     private KualiDecimal amountObligatedToDate;
+
     private Date obligationExpirationDate;
+
     private String awardNumber;
+
     private AwardAmountInfo awardAmountInfo;
+    
+    /**
+     * 
+     * Constructs a SubAwardFundingSource.java.
+     */
     public SubAwardFundingSource() { 
 
-    } 
+    }
+    
+    /**
+     * 
+     * Constructs a SubAwardFundingSource.java.
+     * @param award
+     */
+    public SubAwardFundingSource(Award award) { 
+        this();
+        this.award = award;
+        this.award.setAwardNumber("");
+    }
+
     public Long getAwardId() {
         return awardId;
     }
@@ -51,6 +74,7 @@ public class SubAwardFundingSource extends SubAwardAssociate {
     public void setAwardId(Long awardId) {
         this.awardId = awardId;
     }
+
     public String getAccountNumber() {
         return accountNumber;
     }
@@ -75,7 +99,6 @@ public class SubAwardFundingSource extends SubAwardAssociate {
         this.sponsorCode = sponsorCode;
     }
 
-   
     public Integer getSubAwardFundingSourceId() {
         return subAwardFundingSourceId;
     }
@@ -100,51 +123,43 @@ public class SubAwardFundingSource extends SubAwardAssociate {
         this.subAwardCode = getSubAward().getSubAwardCode();
     }
 
-    
+
     public Date getObligationExpirationDate() {
         return obligationExpirationDate;
     }
+
     public void setObligationExpirationDate(Date obligationExpirationDate) {
         this.obligationExpirationDate = obligationExpirationDate;
     }
-    
-    /** {@inheritDoc} */
-    @Override 
-    protected LinkedHashMap<String, Object> toStringMapper() {
-        LinkedHashMap<String, Object> hashMap = new LinkedHashMap<String, Object>();
-        hashMap.put("subAwardFundingSourceId", this.getSubAwardFundingSourceId());
-        hashMap.put("subAwardId", this.getSubAwardId());
-        hashMap.put("subAwardCode", this.getSubAwardCode());
-        hashMap.put("sequenceNumber", this.getSequenceNumber());
-        hashMap.put("awardId", this.getAwardId());
-        hashMap.put("statusCode", this.getStatusCode());
-        hashMap.put("sponsorCode", this.getSponsorCode());
-        hashMap.put("accountNumber", this.getAccountNumber());
-        hashMap.put("amountObligatedToDate", this.getAmountObligatedToDate());
-        hashMap.put("obligationExpirationDate", this.getObligationExpirationDate());
-        return hashMap;
-    }
+
     public void setAward(Award award) {
         this.award = award;
     }
+
     public Award getAward() {
         return award;
     }
+
     public void setAmountObligatedToDate(KualiDecimal amountObligatedToDate) {
         this.amountObligatedToDate = amountObligatedToDate;
     }
+
     public KualiDecimal getAmountObligatedToDate() {
         return amountObligatedToDate;
     }
+
     public void setAwardAmountInfo(AwardAmountInfo awardAmountInfo) {
         this.awardAmountInfo = awardAmountInfo;
     }
+
     public AwardAmountInfo getAwardAmountInfo() {
         return awardAmountInfo;
     }
+
     public void setAwardNumber(String awardNumber) {
         this.awardNumber = awardNumber;
     }
+
     public String getAwardNumber() {
         return awardNumber;
     }
@@ -153,5 +168,4 @@ public class SubAwardFundingSource extends SubAwardAssociate {
 
         this.subAwardFundingSourceId = null;
     }
-    
 }

@@ -24,14 +24,15 @@ import org.kuali.kra.infrastructure.Constants;
 import org.kuali.kra.infrastructure.KraServiceLocator;
 import org.kuali.kra.questionnaire.question.Question;
 import org.kuali.kra.questionnaire.question.QuestionService;
-import org.kuali.rice.kns.bo.DocumentHeader;
 import org.kuali.rice.kns.document.MaintenanceDocument;
 import org.kuali.rice.kns.document.MaintenanceDocumentBase;
 import org.kuali.rice.kns.maintenance.Maintainable;
-import org.kuali.rice.kns.service.SequenceAccessorService;
-import org.kuali.rice.kns.util.GlobalVariables;
+import org.kuali.rice.kns.util.KNSGlobalVariables;
 import org.kuali.rice.kns.web.struts.form.KualiMaintenanceForm;
 import org.kuali.rice.kns.web.ui.Section;
+import org.kuali.rice.krad.bo.DocumentHeader;
+import org.kuali.rice.krad.service.SequenceAccessorService;
+import org.kuali.rice.krad.util.GlobalVariables;
 
 /**
  * This class customizes the maintainable class for the question maintenance document.
@@ -54,7 +55,7 @@ public class QuestionMaintainableImpl extends KraMaintainableImpl {
             // This is a solution to enable the lookreturn have a proper dropdown list
             if (businessObject instanceof Question) {
                 Question question = (Question)businessObject;
-                question.setDocumentNumber(this.documentNumber);
+                question.setDocumentNumber(getDocumentNumber());
                 if (StringUtils.isNotBlank(((Question) businessObject).getLookupClass())) {
                     GlobalVariables.getUserSession().addObject(Constants.LOOKUP_CLASS_NAME, (Object) question.getLookupClass());
                 }
@@ -80,8 +81,8 @@ public class QuestionMaintainableImpl extends KraMaintainableImpl {
     public List<Section> getSections(MaintenanceDocument document, Maintainable oldMaintainable) {
 
         // This is a solution to enable the lookreturn have a proper dropdown list
-        if (GlobalVariables.getKualiForm() != null && GlobalVariables.getKualiForm() instanceof KualiMaintenanceForm) {
-            Question question = (Question)((MaintenanceDocumentBase)((KualiMaintenanceForm)GlobalVariables.getKualiForm()).getDocument()).getDocumentBusinessObject();
+        if (KNSGlobalVariables.getKualiForm() != null && KNSGlobalVariables.getKualiForm() instanceof KualiMaintenanceForm) {
+            Question question = (Question)((MaintenanceDocumentBase)((KualiMaintenanceForm)KNSGlobalVariables.getKualiForm()).getDocument()).getDocumentBusinessObject();
             if (StringUtils.isNotBlank(question.getLookupClass())) {
                 if (StringUtils.isBlank((String)GlobalVariables.getUserSession().retrieveObject(Constants.LOOKUP_CLASS_NAME)) && ((((List)GlobalVariables.getUserSession().retrieveObject(Constants.LOOKUP_RETURN_FIELDS))) == null || ((List)GlobalVariables.getUserSession().retrieveObject(Constants.LOOKUP_RETURN_FIELDS)).size() == 0)) {
                     GlobalVariables.getUserSession().addObject(Constants.LOOKUP_CLASS_NAME, (Object)question.getLookupClass());                    
@@ -94,7 +95,7 @@ public class QuestionMaintainableImpl extends KraMaintainableImpl {
     
     /**
      * 
-     * @see org.kuali.kra.maintenance.KraMaintainableImpl#handleRouteStatusChange(org.kuali.rice.kns.bo.DocumentHeader)
+     * @see org.kuali.kra.maintenance.KraMaintainableImpl#handleRouteStatusChange(org.kuali.rice.krad.bo.DocumentHeader)
      */
     @Override
     public void doRouteStatusChange(DocumentHeader documentHeader) {

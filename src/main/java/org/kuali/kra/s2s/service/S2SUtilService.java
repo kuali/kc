@@ -15,8 +15,6 @@
  */
 package org.kuali.kra.s2s.service;
 
-import gov.grants.apply.forms.phs398CareerDevelopmentAwardSup11V11.CitizenshipDataType.Enum;
-
 import java.sql.Date;
 import java.util.Calendar;
 import java.util.List;
@@ -24,16 +22,16 @@ import java.util.Map;
 
 import org.kuali.kra.budget.BudgetDecimal;
 import org.kuali.kra.budget.personnel.BudgetPersonnelDetails;
+import org.kuali.kra.infrastructure.CitizenshipTypes;
+import org.kuali.kra.institutionalproposal.home.InstitutionalProposal;
 import org.kuali.kra.proposaldevelopment.bo.DevelopmentProposal;
 import org.kuali.kra.proposaldevelopment.bo.ProposalPerson;
 import org.kuali.kra.proposaldevelopment.document.ProposalDevelopmentDocument;
 import org.kuali.kra.questionnaire.answer.Answer;
 import org.kuali.kra.s2s.generator.bo.DepartmentalPerson;
 import org.kuali.kra.s2s.generator.bo.KeyPersonInfo;
-import org.kuali.kra.infrastructure.CitizenshipTypes;
-import org.kuali.kra.institutionalproposal.home.InstitutionalProposal;
-import org.kuali.rice.kns.bo.Country;
-import org.kuali.rice.kns.bo.State;
+import org.kuali.rice.location.api.country.Country;
+import org.kuali.rice.location.api.state.State;
 
 /**
  * 
@@ -182,12 +180,12 @@ public interface S2SUtilService {
 	public Country getCountryFromCode(String countryCode);
 	/**
 	 * Finds a State object from the state name
-	 * 
+	 * @param default country 3-character code
 	 * @param stateName
 	 *            Name of the state (two-letter state code)
 	 * @return State object matching the name.
 	 */
-	public State getStateFromName(String stateName);
+	public State getStateFromName(String countryAlternateCode, String stateName);
 	/**
 	 * 
 	 * This method compares a proposal person with budget person. It checks

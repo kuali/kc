@@ -15,8 +15,6 @@
  */
 package org.kuali.kra.irb.actions.print;
 
-import org.kuali.kra.bo.KraPersistableBusinessObjectBase;
-import org.kuali.kra.document.ResearchDocumentBase;
 
 /**
  * This class provides the implementation for printing Protocol Full Protocol Report. It

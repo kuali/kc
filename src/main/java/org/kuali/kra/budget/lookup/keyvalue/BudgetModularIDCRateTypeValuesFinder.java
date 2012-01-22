@@ -23,8 +23,9 @@ import org.apache.commons.lang.StringUtils;
 import org.kuali.kra.budget.rates.RateClass;
 import org.kuali.kra.infrastructure.KraServiceLocator;
 import org.kuali.kra.lookup.keyvalue.KeyValueFinderService;
-import org.kuali.rice.kns.lookup.keyvalues.KeyValuesBase;
-import org.kuali.rice.core.util.KeyLabelPair;
+import org.kuali.rice.core.api.util.ConcreteKeyValue;
+import org.kuali.rice.core.api.util.KeyValue;
+import org.kuali.rice.krad.keyvalues.KeyValuesBase;
 
 public class BudgetModularIDCRateTypeValuesFinder extends KeyValuesBase {
     
@@ -32,20 +33,20 @@ public class BudgetModularIDCRateTypeValuesFinder extends KeyValuesBase {
         KeyValueFinderService keyValueFinderService= (KeyValueFinderService)KraServiceLocator.getService("keyValueFinderService");
         Map<String,String> queryMap = new HashMap<String,String>();
         queryMap.put("rateClassType", "O");
-        List<KeyLabelPair> keyValueList = keyValueFinderService.getKeyValues(RateClass.class, "description", "description", queryMap);
-        KeyLabelPair keyLabelPairSelect = new KeyLabelPair("", "select");
-        for (KeyLabelPair keyLabelPair : keyValueList) {
-            if (StringUtils.isBlank(keyLabelPair.getKey().toString())) {
-                keyLabelPairSelect = keyLabelPair;
+        List<KeyValue> keyValueList = keyValueFinderService.getKeyValues(RateClass.class, "description", "description", queryMap);
+        KeyValue KeyValueSelect = new ConcreteKeyValue("", "select");
+        for (KeyValue KeyValue : keyValueList) {
+            if (StringUtils.isBlank(KeyValue.getKey().toString())) {
+                KeyValueSelect = KeyValue;
             }            
         }
-        keyValueList.remove(keyLabelPairSelect);
+        keyValueList.remove(KeyValueSelect);
         return keyValueList;
 
         /*
-        List<KeyLabelPair> keyValues = new ArrayList<KeyLabelPair>();
-        keyValues.add(new KeyLabelPair("1", "MTDC"));
-        keyValues.add(new KeyLabelPair("2", "TDC"));
+        List<KeyValue> keyValues = new ArrayList<KeyValue>();
+        keyValues.add(new ConcreteKeyValue("1", "MTDC"));
+        keyValues.add(new ConcreteKeyValue("2", "TDC"));
         return keyValues;
         */
         

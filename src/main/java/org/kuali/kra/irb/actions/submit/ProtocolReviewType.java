@@ -15,8 +15,6 @@
  */
 package org.kuali.kra.irb.actions.submit;
 
-import java.util.LinkedHashMap;
-
 import org.kuali.kra.bo.KraPersistableBusinessObjectBase;
 
 /**
@@ -25,24 +23,29 @@ import org.kuali.kra.bo.KraPersistableBusinessObjectBase;
  */
 @SuppressWarnings("serial")
 public class ProtocolReviewType extends KraPersistableBusinessObjectBase {
-    
+
     public static final String FULL_TYPE_CODE = "1";
+
     public static final String EXPEDITED_REVIEW_TYPE_CODE = "2";
+
     public static final String EXEMPT_STUDIES_REVIEW_TYPE_CODE = "3";
+
     public static final String RESPONSE_REVIEW_TYPE_CODE = "6";
+
     public static final String FYI_TYPE_CODE = "7";
 
     private String reviewTypeCode;
+
     private String description;
+
     private boolean globalFlag;
-    
+
     /**
      * Constructs a ProtocolReviewType.
      */
     public ProtocolReviewType() {
-        
     }
-    
+
     public String getReviewTypeCode() {
         return reviewTypeCode;
     }
@@ -65,14 +68,5 @@ public class ProtocolReviewType extends KraPersistableBusinessObjectBase {
 
     public void setGlobalFlag(boolean globalFlag) {
         this.globalFlag = globalFlag;
-    }
-
-    @SuppressWarnings("unchecked")
-    @Override
-    protected LinkedHashMap toStringMapper() {
-        LinkedHashMap map = new LinkedHashMap();
-        map.put("reviewTypeCode", getReviewTypeCode());
-        map.put("description", getDescription());
-        return map;
     }
 }

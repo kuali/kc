@@ -15,16 +15,16 @@
  */
 package org.kuali.kra.irb.auth;
 
+import java.util.Collections;
+
 import org.kuali.kra.infrastructure.Constants;
-import org.apache.commons.lang.StringUtils;
 import org.kuali.kra.infrastructure.PermissionConstants;
 import org.kuali.kra.irb.Protocol;
-import org.kuali.kra.irb.actions.submit.ProtocolSubmission;
-import org.kuali.kra.irb.actions.submit.ProtocolSubmissionStatus;
-import org.kuali.rice.kew.dto.ActionRequestDTO;
-import org.kuali.rice.kew.dto.DocumentDetailDTO;
-import org.kuali.rice.kew.dto.ReportCriteriaDTO;
-import org.kuali.rice.kew.service.WorkflowInfo;
+import org.kuali.rice.core.api.resourceloader.GlobalResourceLoader;
+import org.kuali.rice.kew.api.action.ActionRequest;
+import org.kuali.rice.kew.api.action.RoutingReportCriteria;
+import org.kuali.rice.kew.api.action.WorkflowDocumentActionsService;
+import org.kuali.rice.kew.api.document.DocumentDetail;
 
 /**
  * Determine if a user can assign a protocol to a committee/schedule.
@@ -48,13 +48,13 @@ public class ProtocolAssignReviewersCmtSelAuthorizer extends ProtocolAuthorizer 
     // departmental approval before being assigned reviewers
     public boolean willBeOnNode(String username, Protocol protocol) {
         boolean results = true;
-        ReportCriteriaDTO reportCriteria = new ReportCriteriaDTO(protocol.getProtocolDocument().getDocumentHeader().getWorkflowDocument().getRouteHeader().getRouteHeaderId());
-        reportCriteria.setTargetPrincipalIds(new String[] { username });
-        WorkflowInfo info = new WorkflowInfo();
+        RoutingReportCriteria.Builder reportCriteriaBuilder = RoutingReportCriteria.Builder.createByDocumentId(protocol.getProtocolDocument().getDocumentNumber());
+        reportCriteriaBuilder.setTargetPrincipalIds(Collections.singletonList(username));
+        WorkflowDocumentActionsService info = GlobalResourceLoader.getService("rice.kew.workflowDocumentActionsService");
         
         try { 
-            DocumentDetailDTO results1 = info.routingReport(reportCriteria);
-            for(ActionRequestDTO actionRequest : results1.getActionRequests() ){
+            DocumentDetail results1 = info.executeSimulation(reportCriteriaBuilder.build());
+            for(ActionRequest actionRequest : results1.getActionRequests() ){
                 if (Constants.PROTOCOL_APPROVAL_NODE_NAME.equals(actionRequest.getNodeName())) {
                     results = false;
                 }

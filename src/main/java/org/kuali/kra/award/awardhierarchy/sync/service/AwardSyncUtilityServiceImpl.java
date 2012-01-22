@@ -23,39 +23,43 @@ import java.lang.reflect.InvocationTargetException;
 import java.lang.reflect.Method;
 import java.util.ArrayList;
 import java.util.Collection;
+import java.util.HashSet;
 import java.util.Iterator;
 import java.util.List;
 import java.util.Map;
+import java.util.Set;
 
 import org.apache.commons.lang.ObjectUtils;
 import org.apache.commons.lang.StringUtils;
 import org.kuali.kra.award.awardhierarchy.sync.AwardSyncLog;
 import org.kuali.kra.award.awardhierarchy.sync.AwardSyncStatus;
 import org.kuali.kra.award.document.AwardDocument;
+import org.kuali.rice.core.api.config.property.ConfigurationService;
 import org.kuali.rice.kew.actionrequest.ActionRequestValue;
-import org.kuali.rice.kew.dto.ActionRequestDTO;
-import org.kuali.rice.kew.dto.DTOConverter;
-import org.kuali.rice.kew.dto.DocumentDetailDTO;
-import org.kuali.rice.kew.dto.ReportCriteriaDTO;
-import org.kuali.rice.kew.exception.WorkflowException;
-import org.kuali.rice.kew.service.WorkflowUtility;
-import org.kuali.rice.kim.service.KIMServiceLocator;
-import org.kuali.rice.kns.bo.PersistableBusinessObject;
-import org.kuali.rice.kns.service.KualiConfigurationService;
+import org.kuali.rice.kew.api.WorkflowDocument;
+import org.kuali.rice.kew.api.action.ActionRequest;
+import org.kuali.rice.kew.api.action.RoutingReportCriteria;
+import org.kuali.rice.kew.api.action.WorkflowDocumentActionsService;
+import org.kuali.rice.kew.api.document.DocumentDetail;
+import org.kuali.rice.kew.api.exception.WorkflowException;
+import org.kuali.rice.kew.routeheader.DocumentRouteHeaderValue;
+import org.kuali.rice.kew.service.KEWServiceLocator;
+import org.kuali.rice.kim.api.services.KimApiServiceLocator;
 import org.kuali.rice.kns.util.AuditCluster;
 import org.kuali.rice.kns.util.AuditError;
-import org.kuali.rice.kns.util.ErrorMessage;
-import org.kuali.rice.kns.util.GlobalVariables;
-import org.kuali.rice.kns.util.TypedArrayList;
-import org.kuali.rice.kns.workflow.service.KualiWorkflowDocument;
+import org.kuali.rice.kns.util.KNSGlobalVariables;
+import org.kuali.rice.krad.bo.PersistableBusinessObject;
+import org.kuali.rice.krad.util.ErrorMessage;
+import org.kuali.rice.krad.util.GlobalVariables;
+import org.springframework.util.AutoPopulatingList;
 
 /**
  * Utility methods to help with Award Hierarchy Descendants Sync.
  */
 public class AwardSyncUtilityServiceImpl implements AwardSyncUtilityService {
     
-    private WorkflowUtility workflowUtility;
-    private KualiConfigurationService kualiConfigurationService;
+    private WorkflowDocumentActionsService workflowUtility;
+    private ConfigurationService kualiConfigurationService;
 
 
     /**
@@ -64,8 +68,8 @@ public class AwardSyncUtilityServiceImpl implements AwardSyncUtilityService {
     @SuppressWarnings("unchecked")
     public List<AwardSyncLog> getLogsFromSaveErrors(AwardSyncStatus awardStatus) {
         List<AwardSyncLog> result = new ArrayList<AwardSyncLog>();
-        Map<String, TypedArrayList> errors = GlobalVariables.getMessageMap().getErrorMessages();
-        for (Map.Entry<String, TypedArrayList> entry : errors.entrySet()) {
+        Map<String, AutoPopulatingList<ErrorMessage>> errors = GlobalVariables.getMessageMap().getErrorMessages();
+        for (Map.Entry<String, AutoPopulatingList<ErrorMessage>> entry : errors.entrySet()) {
             Iterator<ErrorMessage> iter = entry.getValue().iterator();
             while (iter.hasNext()) {
                 ErrorMessage curMessage = iter.next();
@@ -84,14 +88,14 @@ public class AwardSyncUtilityServiceImpl implements AwardSyncUtilityService {
     @SuppressWarnings("unchecked")
     public List<AwardSyncLog> getLogsFromAuditErrors(AwardSyncStatus awardStatus) {
         List<AwardSyncLog> result = new ArrayList<AwardSyncLog>();
-        for (Object object : GlobalVariables.getAuditErrorMap().values()) {
+        for (Object object : KNSGlobalVariables.getAuditErrorMap().values()) {
             AuditCluster cluster = (AuditCluster) object;
             for (AuditError error : (List<AuditError>) cluster.getAuditErrorList()) {
                 awardStatus.addValidationLog(expandErrorString(error.getMessageKey(), error.getParams()), 
                         false, error.getMessageKey());
             }
         }
-        GlobalVariables.getAuditErrorMap().clear();
+        KNSGlobalVariables.getAuditErrorMap().clear();
         return result;        
     }
     
@@ -104,8 +108,8 @@ public class AwardSyncUtilityServiceImpl implements AwardSyncUtilityService {
      * @return
      */
     protected String expandErrorString(String errorKey, String[] params) {
-        KualiConfigurationService kualiConfiguration = getKualiConfigurationService();
-        String questionText = kualiConfiguration.getPropertyString(errorKey);
+        ConfigurationService kualiConfiguration = getKualiConfigurationService();
+        String questionText = kualiConfiguration.getPropertyValueAsString(errorKey);
 
         for (int i = 0; i < params.length; i++) {
             questionText = StringUtils.replace(questionText, "{" + i + "}", params[i]);
@@ -120,21 +124,24 @@ public class AwardSyncUtilityServiceImpl implements AwardSyncUtilityService {
      */
     public List<String> buildListForFYI(AwardDocument awardDocument) throws WorkflowException {
 
-        KualiWorkflowDocument document = awardDocument.getDocumentHeader().getWorkflowDocument();
-        ReportCriteriaDTO reportCriteria = new ReportCriteriaDTO(document.getRouteHeaderId());
+        WorkflowDocument document = awardDocument.getDocumentHeader().getWorkflowDocument();
+        RoutingReportCriteria reportCriteria = RoutingReportCriteria.Builder.createByDocumentId(document.getDocumentId()).build();
+        // gather the IDs for action requests that predate the simulation
+        DocumentRouteHeaderValue routeHeader = KEWServiceLocator.getRouteHeaderService().getRouteHeader(document.getDocumentId());
+        Set<String> preexistingActionRequestIds = getActionRequestIds(routeHeader);
         
         // run the simulation via WorkflowUtility
-        DocumentDetailDTO documentDetail = getWorkflowUtility().routingReport(reportCriteria);
+        DocumentDetail documentDetail = workflowUtility.executeSimulation(reportCriteria);
 
         // fabricate our ActionRequestValueS from the results
         List<ActionRequestValue> actionRequests = 
-            reconstituteActionRequestValues(documentDetail);
+            reconstituteActionRequestValues(documentDetail, preexistingActionRequestIds);
         
         List<String> actionIds = new ArrayList<String>();
         for (ActionRequestValue request : actionRequests) {
             if (request.isGroupRequest()) {
                 actionIds.addAll(
-                        KIMServiceLocator.getIdentityManagementService().getGroupMemberPrincipalIds(request.getGroupId()));
+                        KimApiServiceLocator.getGroupService().getMemberPrincipalIds(request.getGroupId()));
             }
             if (request.isUserRequest()) {
                 actionIds.add(request.getPrincipalId());
@@ -189,24 +196,41 @@ public class AwardSyncUtilityServiceImpl implements AwardSyncUtilityService {
         return matchedBo;
     }
     
-    
+    /**
+     * Copied from org.kuali.rice.kew.routelog.web.RouteLogAction.
+     */
+    @SuppressWarnings("unchecked")
+    private Set<String> getActionRequestIds(DocumentRouteHeaderValue document) {
+        Set<String> actionRequestIds = new HashSet<String>();
+
+        List<ActionRequestValue> actionRequests = 
+            KEWServiceLocator.getActionRequestService().findAllActionRequestsByDocumentId(document.getDocumentId());
+        
+        if (actionRequests != null) {
+            for (ActionRequestValue actionRequest : actionRequests) {
+                if (actionRequest.getActionRequestId() != null) {
+                    actionRequestIds.add(actionRequest.getActionRequestId());
+                }
+            }
+        }
+        return actionRequestIds;
+    }    
     
     /**
      * Copied from org.kuali.rice.kew.routelog.web.RouteLogAction.
-     * This method creates ActionRequestValue objects from the DocumentDetailDTO output from 
+     * This method creates ActionRequestValue objects from the DocumentDetail output from 
      * {@link WorkflowUtility#routingReport(ReportCriteriaDTO)}Report()
      * 
      * @param documentDetail contains the DTOs from which the ActionRequestValues are reconstituted
      * @return the ActionRequestValueS that have been created
      */
-    protected List<ActionRequestValue> reconstituteActionRequestValues(DocumentDetailDTO documentDetail) {
-        
-        ActionRequestDTO[] actionRequestVOs = documentDetail.getActionRequests();
+    protected List<ActionRequestValue> reconstituteActionRequestValues(DocumentDetail documentDetail, Set<String> preexistingActionRequestIds) {
+        List<ActionRequest> actionRequestVOs = documentDetail.getActionRequests();
         List<ActionRequestValue> futureActionRequests = new ArrayList<ActionRequestValue>();
         if (actionRequestVOs != null) {
-            for (ActionRequestDTO actionRequestVO : actionRequestVOs) {
+            for (ActionRequest actionRequestVO : actionRequestVOs) {
                 if (actionRequestVO != null) {
-                    ActionRequestValue converted = DTOConverter.convertActionRequestDTO(actionRequestVO);
+                    ActionRequestValue converted = ActionRequestValue.from(actionRequestVO);
                     futureActionRequests.add(converted);
                 }
             }
@@ -214,19 +238,15 @@ public class AwardSyncUtilityServiceImpl implements AwardSyncUtilityService {
         return futureActionRequests;
     }
 
-    protected WorkflowUtility getWorkflowUtility() {
-        return workflowUtility;
-    }
-
-    public void setWorkflowUtility(WorkflowUtility workflowUtility) {
+    public void setWorkflowUtility(WorkflowDocumentActionsService workflowUtility) {
         this.workflowUtility = workflowUtility;
-    }
+    }   
 
-    protected KualiConfigurationService getKualiConfigurationService() {
+    protected ConfigurationService getKualiConfigurationService() {
         return kualiConfigurationService;
     }
 
-    public void setKualiConfigurationService(KualiConfigurationService kualiConfigurationService) {
+    public void setKualiConfigurationService(ConfigurationService kualiConfigurationService) {
         this.kualiConfigurationService = kualiConfigurationService;
     }    
 }

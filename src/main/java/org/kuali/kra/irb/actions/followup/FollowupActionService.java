@@ -16,7 +16,6 @@
 package org.kuali.kra.irb.actions.followup;
 
 import java.util.List;
-import java.util.Map;
 
 import org.kuali.kra.irb.Protocol;
 import org.kuali.kra.irb.actions.submit.ValidProtocolActionAction;

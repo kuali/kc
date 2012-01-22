@@ -16,60 +16,52 @@
 package org.kuali.kra.bo;
 
 import java.util.ArrayList;
-import java.util.LinkedHashMap;
 import java.util.List;
 
 public class SponsorForms extends KraPersistableBusinessObjectBase {
 
     private Long sponsorFormId;
-	private String packageName;
-	private Integer packageNumber;
-	private String sponsorCode;
-	private String sponsorHierarchyName;
-	private Sponsor sponsor;
+
+    private String packageName;
+
+    private Integer packageNumber;
+
+    private String sponsorCode;
+
+    private String sponsorHierarchyName;
+
+    private Sponsor sponsor;
+
     private List<SponsorFormTemplateList> sponsorFormTemplates;
 
-
-	public SponsorForms(){
-		super();
+    public SponsorForms() {
+        super();
         sponsorFormTemplates = new ArrayList<SponsorFormTemplateList>();
-	}
+    }
 
-	public String getPackageName() {
-		return packageName;
-	}
+    public String getPackageName() {
+        return packageName;
+    }
 
-	public void setPackageName(String packageName) {
-		this.packageName = packageName;
-	}
+    public void setPackageName(String packageName) {
+        this.packageName = packageName;
+    }
 
-	public Integer getPackageNumber() {
-		return packageNumber;
-	}
+    public Integer getPackageNumber() {
+        return packageNumber;
+    }
 
-	public void setPackageNumber(Integer packageNumber) {
-		this.packageNumber = packageNumber;
-	}
+    public void setPackageNumber(Integer packageNumber) {
+        this.packageNumber = packageNumber;
+    }
 
-	public String getSponsorCode() {
-		return sponsorCode;
-	}
+    public String getSponsorCode() {
+        return sponsorCode;
+    }
 
-	public void setSponsorCode(String sponsorCode) {
-		this.sponsorCode = sponsorCode;
-	}
-
-
-	@Override 
-	protected LinkedHashMap toStringMapper() {
-		LinkedHashMap hashMap = new LinkedHashMap();
-		hashMap.put("sponsorFormId", getSponsorFormId());
-		hashMap.put("packageName", getPackageName());
-		hashMap.put("packageNumber", getPackageNumber());
-		hashMap.put("sponsorCode", getSponsorCode());
-		hashMap.put("sponsorHierarchyName", getSponsorHierarchyName());
-		return hashMap;
-	}
+    public void setSponsorCode(String sponsorCode) {
+        this.sponsorCode = sponsorCode;
+    }
 
     public final Sponsor getSponsor() {
         return sponsor;
@@ -102,5 +94,4 @@ public class SponsorForms extends KraPersistableBusinessObjectBase {
     public void setSponsorHierarchyName(String sponsorHierarchyName) {
         this.sponsorHierarchyName = sponsorHierarchyName;
     }
-
 }

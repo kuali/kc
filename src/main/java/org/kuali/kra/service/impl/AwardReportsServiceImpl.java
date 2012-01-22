@@ -31,9 +31,9 @@ import org.kuali.kra.award.paymentreports.awardreports.AwardReportTermRecipient;
 import org.kuali.kra.infrastructure.Constants;
 import org.kuali.kra.infrastructure.KeyConstants;
 import org.kuali.kra.service.AwardReportsService;
-import org.kuali.rice.kns.service.BusinessObjectService;
-import org.kuali.rice.kns.service.ParameterService;
-import org.kuali.rice.core.util.KeyLabelPair;
+import org.kuali.rice.core.api.util.KeyValue;
+import org.kuali.rice.coreservice.framework.parameter.ParameterService;
+import org.kuali.rice.krad.service.BusinessObjectService;
 import org.springframework.transaction.annotation.Transactional;
 
 /**
@@ -82,7 +82,7 @@ public class AwardReportsServiceImpl implements AwardReportsService {
             Map<String, Object> hashMap){        
         Map<String, String> primaryKeyField = new HashMap<String, String>();
         
-        primaryKeyField.put(REPORT_CLASS_CODE_FIELD, this.getParameterService().getParameterValue(AwardDocument.class
+        primaryKeyField.put(REPORT_CLASS_CODE_FIELD, this.getParameterService().getParameterValueAsString(AwardDocument.class
                 ,KeyConstants.REPORT_CLASS_FOR_PAYMENTS_AND_INVOICES));        
         
         hashMap.put(Constants.REPORT_CLASS_FOR_PAYMENTS_AND_INVOICES_PANEL, 
@@ -101,7 +101,7 @@ public class AwardReportsServiceImpl implements AwardReportsService {
             Map<String, Object> hashMap){
         
         ReportClassValuesFinder reportClassValuesFinder = getReportClassValuesFinder();
-        List<KeyLabelPair> reportClasses = new ArrayList<KeyLabelPair>();
+        List<KeyValue> reportClasses = new ArrayList<KeyValue>();
         
         reportClasses = reportClassValuesFinder.getKeyValues();
         
@@ -120,9 +120,9 @@ public class AwardReportsServiceImpl implements AwardReportsService {
      */
     @SuppressWarnings("all")    
     protected void addEmptyNewAwardReportTerms(
-            Map<String, Object> hashMap, List<KeyLabelPair> reportClasses){
+            Map<String, Object> hashMap, List<KeyValue> reportClasses){
         List<AwardReportTerm> newAwardReportTerms = new ArrayList<AwardReportTerm>();
-        for(KeyLabelPair keyLabelPair : reportClasses){
+        for(KeyValue KeyValue : reportClasses){
             newAwardReportTerms.add(new AwardReportTerm());
         }
         hashMap.put(
@@ -163,34 +163,34 @@ public class AwardReportsServiceImpl implements AwardReportsService {
         
         FrequencyCodeValuesFinder frequencyCodeValuesFinder = getFrequencyCodeValuesFinder(reportClassCode, reportCode);
                 
-        return processKeyLabelPairList(frequencyCodeValuesFinder.getKeyValues());
+        return processKeyValueList(frequencyCodeValuesFinder.getKeyValues());
     }
     
     /**
      * 
-     * This method processes a list of KeyLabelPair and converts them to a string separated
+     * This method processes a list of KeyValue and converts them to a string separated
      * by semi-colons and comas.
      * This is used in both getFrequencyCodes and getFrequencyBaseCodes services.
      *  
-     * @param keyLabelPairList
+     * @param KeyValueList
      * @return
      */
-    protected String processKeyLabelPairList(List<KeyLabelPair> keyLabelPairList){
+    protected String processKeyValueList(List<KeyValue> KeyValueList){
         
         StringBuilder strBuilder = new StringBuilder();
         
-        int lastElementIndex = keyLabelPairList.size()-1;
+        int lastElementIndex = KeyValueList.size()-1;
         
         for(int i = 0; i < lastElementIndex; i++){
-            strBuilder.append(keyLabelPairList.get(i).key);
+            strBuilder.append(KeyValueList.get(i).getKey());
             strBuilder.append(SEMICOLON_AS_DELIMITOR);
-            strBuilder.append(keyLabelPairList.get(i).label);
+            strBuilder.append(KeyValueList.get(i).getValue());
             strBuilder.append(COMMA_AS_DELIMITOR);
         }
         
-        strBuilder.append(keyLabelPairList.get(lastElementIndex).key);
+        strBuilder.append(KeyValueList.get(lastElementIndex).getKey());
         strBuilder.append(SEMICOLON_AS_DELIMITOR);
-        strBuilder.append(keyLabelPairList.get(lastElementIndex).label);
+        strBuilder.append(KeyValueList.get(lastElementIndex).getValue());
         
         return strBuilder.toString();
     }
@@ -203,7 +203,7 @@ public class AwardReportsServiceImpl implements AwardReportsService {
     public String getFrequencyBaseCodes(String frequencyCode){        
         FrequencyBaseCodeValuesFinder frequencyBaseCodeValuesFinder = getFrequencyBaseCodeValuesFinder(frequencyCode);
             
-        return processKeyLabelPairList(frequencyBaseCodeValuesFinder.getKeyValues());
+        return processKeyValueList(frequencyBaseCodeValuesFinder.getKeyValues());
         
     }
 

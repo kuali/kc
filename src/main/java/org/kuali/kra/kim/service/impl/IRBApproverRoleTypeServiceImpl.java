@@ -15,15 +15,16 @@
  */
 package org.kuali.kra.kim.service.impl;
 
+import java.util.Map;
+
 import org.apache.commons.lang.StringUtils;
 import org.kuali.kra.kim.bo.KcKimAttributes;
-import org.kuali.rice.kim.bo.types.dto.AttributeSet;
-import org.kuali.rice.kim.service.support.impl.KimRoleTypeServiceBase;
+import org.kuali.rice.kns.kim.role.RoleTypeServiceBase;
 
-public class IRBApproverRoleTypeServiceImpl extends KimRoleTypeServiceBase {
+public class IRBApproverRoleTypeServiceImpl extends RoleTypeServiceBase {
 
     @Override
-    public boolean performMatch(AttributeSet qualification, AttributeSet roleQualifier) {
+    public boolean performMatch(Map<String,String> qualification, Map<String,String> roleQualifier) {
         if(roleQualifiedByProtocolKey(roleQualifier)) {  
             return qualification.containsKey(KcKimAttributes.PROTOCOL) && StringUtils.equals(qualification.get(KcKimAttributes.PROTOCOL), 
                     roleQualifier.get(KcKimAttributes.PROTOCOL));
@@ -32,7 +33,7 @@ public class IRBApproverRoleTypeServiceImpl extends KimRoleTypeServiceBase {
         return false; 
     }
 
-    protected boolean roleQualifiedByProtocolKey(AttributeSet roleQualifier) {
+    protected boolean roleQualifiedByProtocolKey(Map<String,String> roleQualifier) {
         return roleQualifier.containsKey(KcKimAttributes.PROTOCOL);
     }
 

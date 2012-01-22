@@ -25,7 +25,6 @@ import java.util.Map.Entry;
 import org.kuali.kra.bo.CoeusSubModule;
 import org.kuali.kra.bo.CustomAttributeDocument;
 import org.kuali.kra.bo.DocumentNextvalue;
-import org.kuali.kra.infrastructure.KraServiceLocator;
 import org.kuali.kra.irb.noteattachment.ProtocolAttachmentPersonnel;
 import org.kuali.kra.irb.noteattachment.ProtocolAttachmentProtocol;
 import org.kuali.kra.irb.personnel.ProtocolPerson;
@@ -33,15 +32,16 @@ import org.kuali.kra.irb.questionnaire.ProtocolModuleQuestionnaireBean;
 import org.kuali.kra.questionnaire.answer.AnswerHeader;
 import org.kuali.kra.questionnaire.answer.QuestionnaireAnswerService;
 import org.kuali.kra.service.VersioningService;
-import org.kuali.rice.kew.exception.WorkflowException;
-import org.kuali.rice.kns.bo.DocumentHeader;
-import org.kuali.rice.kns.bo.PersistableBusinessObject;
-import org.kuali.rice.kns.service.BusinessObjectService;
-import org.kuali.rice.kns.service.DocumentService;
-import org.kuali.rice.kns.service.SequenceAccessorService;
-import org.kuali.rice.kns.util.GlobalVariables;
-import org.kuali.rice.kns.workflow.service.KualiWorkflowDocument;
-import org.kuali.rice.kns.workflow.service.WorkflowDocumentService;
+import org.kuali.rice.kew.api.WorkflowDocument;
+import org.kuali.rice.kew.api.exception.WorkflowException;
+import org.kuali.rice.kns.service.SessionDocumentService;
+import org.kuali.rice.krad.bo.DocumentHeader;
+import org.kuali.rice.krad.bo.PersistableBusinessObject;
+import org.kuali.rice.krad.service.BusinessObjectService;
+import org.kuali.rice.krad.service.DocumentService;
+import org.kuali.rice.krad.service.SequenceAccessorService;
+import org.kuali.rice.krad.util.GlobalVariables;
+import org.kuali.rice.krad.workflow.service.WorkflowDocumentService;
 
 
 /**
@@ -54,7 +54,9 @@ public class ProtocolVersionServiceImpl implements ProtocolVersionService {
     private VersioningService versioningService;
     private QuestionnaireAnswerService questionnaireAnswerService;
     private SequenceAccessorService sequenceAccessorService;
-
+    private SessionDocumentService sessionDocumentService;
+    private WorkflowDocumentService workflowDocumentService;
+    
     /**
      * Inject the Document Service.
      * @param documentService
@@ -67,6 +69,10 @@ public class ProtocolVersionServiceImpl implements ProtocolVersionService {
         this.businessObjectService = businessObjectService;
     }
     
+    public void setSessionDocumentService(SessionDocumentService sessionDocumentService) {
+        this.sessionDocumentService = sessionDocumentService;
+    }
+
     /**
      * Inject the Versioning Service.
      * @param versioningService
@@ -82,11 +88,11 @@ public class ProtocolVersionServiceImpl implements ProtocolVersionService {
         // manually assembling a new ProtocolDocument here because the DocumentService will deny initiator permission without context
         // we circumvent the initiator step altogether. 
         try {
-            KualiWorkflowDocument workflowDocument = KraServiceLocator.getService(WorkflowDocumentService.class).createWorkflowDocument("ProtocolDocument", GlobalVariables.getUserSession().getPerson());
-            GlobalVariables.getUserSession().setWorkflowDocument(workflowDocument);
+            WorkflowDocument workflowDocument = workflowDocumentService.createWorkflowDocument("ProtocolDocument", GlobalVariables.getUserSession().getPerson());
+            sessionDocumentService.addDocumentToUserSession(GlobalVariables.getUserSession(), workflowDocument);
             DocumentHeader documentHeader = new DocumentHeader();
             documentHeader.setWorkflowDocument(workflowDocument);
-            documentHeader.setDocumentNumber(workflowDocument.getRouteHeaderId().toString());
+            documentHeader.setDocumentNumber(workflowDocument.getDocumentId().toString());
             newDoc = new ProtocolDocument();
             newDoc.setDocumentHeader(documentHeader);
             newDoc.setDocumentNumber(documentHeader.getDocumentNumber());
@@ -294,6 +300,10 @@ public class ProtocolVersionServiceImpl implements ProtocolVersionService {
 
     public void setSequenceAccessorService(SequenceAccessorService sequenceAccessorService) {
         this.sequenceAccessorService = sequenceAccessorService;
+    }
+
+    public void setWorkflowDocumentService(WorkflowDocumentService workflowDocumentService) {
+        this.workflowDocumentService = workflowDocumentService;
     }
 
 }

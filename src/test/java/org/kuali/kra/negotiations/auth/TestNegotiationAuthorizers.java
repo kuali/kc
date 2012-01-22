@@ -43,14 +43,15 @@ import org.kuali.kra.proposaldevelopment.bo.ActivityType;
 import org.kuali.kra.service.TaskAuthorizationService;
 import org.kuali.kra.test.infrastructure.KcUnitTestBase;
 import org.kuali.kra.timeandmoney.transactions.AwardTransactionType;
-import org.kuali.rice.kew.exception.WorkflowException;
-import org.kuali.rice.kim.bo.Person;
-import org.kuali.rice.kim.service.PersonService;
-import org.kuali.rice.kns.service.BusinessObjectService;
-import org.kuali.rice.kns.service.DocumentService;
-import org.kuali.rice.kns.util.GlobalVariables;
-import org.kuali.rice.kns.workflow.service.KualiWorkflowDocument;
-import org.kuali.rice.kns.workflow.service.WorkflowDocumentService;
+import org.kuali.rice.core.api.resourceloader.GlobalResourceLoader;
+import org.kuali.rice.kew.api.WorkflowDocument;
+import org.kuali.rice.kew.api.exception.WorkflowException;
+import org.kuali.rice.kim.api.identity.Person;
+import org.kuali.rice.kim.api.identity.PersonService;
+import org.kuali.rice.krad.service.BusinessObjectService;
+import org.kuali.rice.krad.service.DocumentService;
+import org.kuali.rice.krad.util.GlobalVariables;
+import org.kuali.rice.krad.workflow.service.WorkflowDocumentService;
 
 public class TestNegotiationAuthorizers extends KcUnitTestBase {
     
@@ -326,15 +327,16 @@ public class TestNegotiationAuthorizers extends KcUnitTestBase {
         awardDocument.setUpdateTimestamp(new Timestamp(2011, 11, 11, 0, 0, 0, 0));
         awardDocument.setUpdateUser(quickstart.getPrincipalId());
         
-        WorkflowDocumentService wds = KraServiceLocator.getService(WorkflowDocumentService.class);
-        KualiWorkflowDocument wd = wds.createWorkflowDocument("AwardDocument", quickstart);
-        wd.getRouteHeader().setDocTitle("doc ttitle");
-        wd.getRouteHeader().setAckRequested(false);
-        wd.getRouteHeader().setFyiRequested(false);
+        WorkflowDocumentService wds = GlobalResourceLoader.getService("workflowDocumentService");
+        WorkflowDocument wd = wds.createWorkflowDocument("AwardDocument", quickstart);
+        wd.setTitle("doc ttitle");
+        //TODO: Rice Upgrade 2.0 : Are these calls needed?
+//        wd.getRouteHeader().setAckRequested(false);
+//        wd.getRouteHeader().setFyiRequested(false);
         awardDocument.getDocumentHeader().setWorkflowDocument(wd);
         award.setAwardDocument(awardDocument);
         
-        GlobalVariables.getErrorMap().clear();
+        GlobalVariables.getMessageMap().clearErrorMessages();
         //documentService.saveDocument(awardDocument);
         this.businessObjectService.save(awardDocument);
         this.businessObjectService.save(award);

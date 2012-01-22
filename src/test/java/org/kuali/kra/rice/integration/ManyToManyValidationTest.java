@@ -30,8 +30,8 @@ import org.kuali.kra.irb.test.ProtocolFactory;
 import org.kuali.kra.irb.test.ProtocolTestUtil;
 import org.kuali.kra.test.infrastructure.KcUnitTestBase;
 import org.kuali.rice.kns.service.DictionaryValidationService;
-import org.kuali.rice.kns.service.DocumentService;
-import org.kuali.rice.kns.util.GlobalVariables;
+import org.kuali.rice.krad.service.DocumentService;
+import org.kuali.rice.krad.util.GlobalVariables;
 
 /**
  * This is an integration test that makes sure the {@link DictionaryValidationService DictionaryValidationService} does not
@@ -78,7 +78,7 @@ public class ManyToManyValidationTest extends KcUnitTestBase { //KraWebTestBase 
         final String badPattern = "protocolList[0].attachmentProtocols[0].sequenceOwners[0].attachmentProtocols[0].*";
         
         //containsKeyMatchingPattern is not doing regex matching so '.' do not have to be escaped
-        Assert.assertThat(GlobalVariables.getErrorMap().toString(), GlobalVariables.getErrorMap().containsKeyMatchingPattern(badPattern), is(false));
+        Assert.assertThat(GlobalVariables.getMessageMap().toString(), GlobalVariables.getMessageMap().containsKeyMatchingPattern(badPattern), is(false));
     }
     
 }

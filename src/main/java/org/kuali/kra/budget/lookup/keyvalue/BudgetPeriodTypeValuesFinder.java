@@ -22,21 +22,21 @@ import java.util.List;
 
 import org.kuali.kra.budget.parameters.BudgetPeriodType;
 import org.kuali.kra.infrastructure.KraServiceLocator;
-import org.kuali.kra.lookup.keyvalue.KeyValueFinderService;
-import org.kuali.rice.kns.lookup.keyvalues.KeyValuesBase;
-import org.kuali.rice.kns.service.KeyValuesService;
-import org.kuali.rice.core.util.KeyLabelPair;
+import org.kuali.rice.core.api.util.ConcreteKeyValue;
+import org.kuali.rice.core.api.util.KeyValue;
+import org.kuali.rice.krad.keyvalues.KeyValuesBase;
+import org.kuali.rice.krad.service.KeyValuesService;
 
 public class BudgetPeriodTypeValuesFinder extends KeyValuesBase {
     
-    public List<KeyLabelPair> getKeyValues() {
+    public List<KeyValue> getKeyValues() {
         KeyValuesService keyValuesService = (KeyValuesService) KraServiceLocator.getService("keyValuesService");
         Collection budgetPeriodTypes = keyValuesService.findAll(BudgetPeriodType.class);
-        List<KeyLabelPair> keyValues = new ArrayList<KeyLabelPair>();
+        List<KeyValue> keyValues = new ArrayList<KeyValue>();
         
         for (Iterator iter = budgetPeriodTypes.iterator(); iter.hasNext();) {
             BudgetPeriodType budgetPeriodType = (BudgetPeriodType) iter.next();
-            keyValues.add(new KeyLabelPair(budgetPeriodType.getBudgetPeriodTypeCode().toString(), budgetPeriodType.getDescription()));                            
+            keyValues.add(new ConcreteKeyValue(budgetPeriodType.getBudgetPeriodTypeCode().toString(), budgetPeriodType.getDescription()));                            
         }
                 
         return keyValues;

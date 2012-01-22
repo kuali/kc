@@ -15,21 +15,26 @@
  */
 package org.kuali.kra.bo;
 
-import java.util.LinkedHashMap;
 
 public class FundingSourceType extends KraPersistableBusinessObjectBase {
 
     public static final String SPONSOR = "1";
+
     public static final String UNIT = "2";
+
     public static final String OTHER = "3";
+
     public static final String PROPOSAL_DEVELOPMENT = "4";
+
     public static final String INSTITUTIONAL_PROPOSAL = "5";
+
     public static final String AWARD = "6";
 
     private String fundingSourceTypeCode;
-    private String description;
-    private boolean fundingSourceTypeFlag;
 
+    private String description;
+
+    private boolean fundingSourceTypeFlag;
 
     public FundingSourceType() {
     }
@@ -56,15 +61,6 @@ public class FundingSourceType extends KraPersistableBusinessObjectBase {
 
     public void setFundingSourceTypeFlag(boolean fundingSourceTypeFlag) {
         this.fundingSourceTypeFlag = fundingSourceTypeFlag;
-    }
-
-    @Override
-    protected LinkedHashMap<String, Object> toStringMapper() {
-        LinkedHashMap<String, Object> hashMap = new LinkedHashMap<String, Object>();
-        hashMap.put("fundingSourceTypeCode", getFundingSourceTypeCode());
-        hashMap.put("description", getDescription());
-        hashMap.put("fundingSourceTypeFlag", getFundingSourceTypeFlag());
-        return hashMap;
     }
 
     @Override
@@ -108,5 +104,4 @@ public class FundingSourceType extends KraPersistableBusinessObjectBase {
         }
         return true;
     }
-
 }

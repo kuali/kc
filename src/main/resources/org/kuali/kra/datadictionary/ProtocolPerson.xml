@@ -511,11 +511,11 @@
     </property>
     <property name="control" >
       <bean parent="SelectControlDefinition"
-            p:businessObjectClass="org.kuali.rice.kns.bo.Country"
+            p:businessObjectClass="org.kuali.rice.location.impl.country.CountryBo"
             p:valuesFinderClass="org.kuali.kra.lookup.keyvalue.CountryCodeValuesFinder"
             p:includeKeyInLabel="false"
-            p:keyAttribute="alternatePostalCountryCode"
-            p:labelAttribute="postalCountryName" />
+            p:keyAttribute="alternateCode"
+            p:labelAttribute="name" />
     </property>
     <property name="summary" value="Country Code" />
     <property name="description" value="Country Code" />

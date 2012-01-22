@@ -15,52 +15,44 @@
  */
 package org.kuali.kra.bo;
 
-import java.util.LinkedHashMap;
 
 public class YnqExplanation extends KraPersistableBusinessObjectBase {
 
-	private String explanationType; 
-	private String questionId; 
-	private String explanation; 
-	private YnqExplanationType ynqExplanationType;
+    private String explanationType;
 
-	public YnqExplanation(){
-		super();
-	}
+    private String questionId;
 
-	public String getExplanationType() {
-		return explanationType;
-	}
+    private String explanation;
 
-	public void setExplanationType(String explanationType) {
-		this.explanationType = explanationType;
-	}
+    private YnqExplanationType ynqExplanationType;
 
-	public String getQuestionId() {
-		return questionId;
-	}
+    public YnqExplanation() {
+        super();
+    }
 
-	public void setQuestionId(String questionId) {
-		this.questionId = questionId;
-	}
+    public String getExplanationType() {
+        return explanationType;
+    }
 
-	public String getExplanation() {
-		return explanation;
-	}
+    public void setExplanationType(String explanationType) {
+        this.explanationType = explanationType;
+    }
 
-	public void setExplanation(String explanation) {
-		this.explanation = explanation;
-	}
+    public String getQuestionId() {
+        return questionId;
+    }
 
+    public void setQuestionId(String questionId) {
+        this.questionId = questionId;
+    }
 
-	@Override 
-	protected LinkedHashMap toStringMapper() {
-		LinkedHashMap hashMap = new LinkedHashMap();
-		hashMap.put("explanationType", getExplanationType());
-		hashMap.put("questionId", getQuestionId());
-		hashMap.put("explanation", getExplanation());
-		return hashMap;
-	}
+    public String getExplanation() {
+        return explanation;
+    }
+
+    public void setExplanation(String explanation) {
+        this.explanation = explanation;
+    }
 
     public YnqExplanationType getYnqExplanationType() {
         return ynqExplanationType;
@@ -69,5 +61,4 @@ public class YnqExplanation extends KraPersistableBusinessObjectBase {
     public void setYnqExplanationType(YnqExplanationType ynqExplanationType) {
         this.ynqExplanationType = ynqExplanationType;
     }
-
 }

@@ -28,15 +28,15 @@ import org.kuali.kra.proposaldevelopment.bo.Narrative;
 import org.kuali.kra.proposaldevelopment.bo.NarrativeType;
 import org.kuali.kra.proposaldevelopment.bo.ValidNarrForms;
 import org.kuali.kra.proposaldevelopment.document.ProposalDevelopmentDocument;
-import org.kuali.kra.proposaldevelopment.web.struts.action.ProposalDevelopmentHierarchyAction;
 import org.kuali.kra.proposaldevelopment.web.struts.form.ProposalDevelopmentForm;
 import org.kuali.kra.s2s.bo.S2sOppForms;
-import org.kuali.rice.kns.lookup.keyvalues.PersistableBusinessObjectValuesFinder;
-import org.kuali.rice.kns.service.BusinessObjectService;
-import org.kuali.rice.kns.service.KNSServiceLocator;
-import org.kuali.rice.kns.service.ParameterService;
-import org.kuali.rice.kns.util.GlobalVariables;
-import org.kuali.rice.core.util.KeyLabelPair;
+import org.kuali.rice.core.api.util.ConcreteKeyValue;
+import org.kuali.rice.core.api.util.KeyValue;
+import org.kuali.rice.coreservice.framework.parameter.ParameterService;
+import org.kuali.rice.kns.util.KNSGlobalVariables;
+import org.kuali.rice.krad.keyvalues.PersistableBusinessObjectValuesFinder;
+import org.kuali.rice.krad.service.BusinessObjectService;
+import org.kuali.rice.krad.service.KRADServiceLocator;
 
 /**
  * Finds the available set of supported Narrative Types.  See
@@ -44,7 +44,7 @@ import org.kuali.rice.core.util.KeyLabelPair;
  * 
  * @author KRADEV team
  * 
- * Rewrite of class to implement filterable KeyLabelPair list.
+ * Rewrite of class to implement filterable KeyValue list.
  * 
  * A complete rewrite had to be done because super class was not editable, but the patterns used 
  * here should be incorporated into super class. This class would then be refactored to again rely
@@ -69,14 +69,14 @@ public class ProposalNarrativeTypeValuesFinder extends PersistableBusinessObject
     }
     
     @Override
-    public List<KeyLabelPair> getKeyValues() {
+    public List<KeyValue> getKeyValues() {
         Collection<NarrativeType> allNarrativeTypes = loadAllNarrativeTypes();
         return getFilteredKeyValues(allNarrativeTypes);
     }
     
-    public List<KeyLabelPair> getFilteredKeyValues(Collection<NarrativeType> allNarrativeTypes) {
+    public List<KeyValue> getFilteredKeyValues(Collection<NarrativeType> allNarrativeTypes) {
         Collection<NarrativeType> filteredCollection = filterCollection(allNarrativeTypes);
-        return buildKeyLabelPairsCollection(filteredCollection);
+        return buildKeyValuesCollection(filteredCollection);
         
     }
 
@@ -99,14 +99,14 @@ public class ProposalNarrativeTypeValuesFinder extends PersistableBusinessObject
         return narrativeTypes;
     }
 
-    private List<KeyLabelPair> buildKeyLabelPairsCollection(Collection<NarrativeType> narrativeTypes) {
-        List<KeyLabelPair> keyLabelPairs = new ArrayList<KeyLabelPair>();
+    private List<KeyValue> buildKeyValuesCollection(Collection<NarrativeType> narrativeTypes) {
+        List<KeyValue> KeyValues = new ArrayList<KeyValue>();
         for (NarrativeType narrativeType : narrativeTypes) {
             String key = narrativeType.getNarrativeTypeCode();
             String label = narrativeType.getDescription();
-            keyLabelPairs.add(new KeyLabelPair(key, label));
+            KeyValues.add(new ConcreteKeyValue(key, label));
         }
-        return keyLabelPairs;
+        return KeyValues;
     }
     
     @SuppressWarnings("unchecked")
@@ -119,7 +119,7 @@ public class ProposalNarrativeTypeValuesFinder extends PersistableBusinessObject
             populateGenericValidNarrativeTypes(validS2SFormNarratives);
             populateValidNarrativeTypeFromParentProposal(developmentProposal,validS2SFormNarratives);
         }else{
-            String proposalNarrativeTypeGroup = this.getParameterService().getParameterValue(ProposalDevelopmentDocument.class, Constants.PROPOSAL_NARRATIVE_TYPE_GROUP);
+            String proposalNarrativeTypeGroup = this.getParameterService().getParameterValueAsString(ProposalDevelopmentDocument.class, Constants.PROPOSAL_NARRATIVE_TYPE_GROUP);
             Map<String,String> queryMap = new HashMap<String,String>();
             queryMap.put("narrativeTypeGroup", proposalNarrativeTypeGroup);
 //            queryMap.put("systemGenerated", "N");
@@ -159,7 +159,7 @@ public class ProposalNarrativeTypeValuesFinder extends PersistableBusinessObject
      * @return
      */
     private BusinessObjectService getBusinessObjectService() {
-        return KNSServiceLocator.getBusinessObjectService();
+        return KRADServiceLocator.getBusinessObjectService();
     }
     public DevelopmentProposal getDevelopmentProposal(String proposalNumber) {
         Map<String, String> pk = new HashMap<String, String>();
@@ -190,7 +190,7 @@ public class ProposalNarrativeTypeValuesFinder extends PersistableBusinessObject
         }
         return false;
     }
-    String proposalNarrativeTypeGroup = this.getParameterService().getParameterValue(ProposalDevelopmentDocument.class, Constants.PROPOSAL_NARRATIVE_TYPE_GROUP);
+    String proposalNarrativeTypeGroup = this.getParameterService().getParameterValueAsString(ProposalDevelopmentDocument.class, Constants.PROPOSAL_NARRATIVE_TYPE_GROUP);
     /**
      * This method...
      * @param validNarrForms
@@ -233,7 +233,7 @@ public class ProposalNarrativeTypeValuesFinder extends PersistableBusinessObject
     }
 
     protected ProposalDevelopmentDocument getDocumentFromForm() {
-        return ((ProposalDevelopmentForm) GlobalVariables.getKualiForm()).getDocument();
+        return ((ProposalDevelopmentForm) KNSGlobalVariables.getKualiForm()).getDocument();
     }
     
     /**

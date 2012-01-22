@@ -22,12 +22,13 @@ import org.kuali.kra.budget.document.BudgetDocument;
 import org.kuali.kra.budget.parameters.BudgetPeriod;
 import org.kuali.kra.infrastructure.KraServiceLocator;
 import org.kuali.kra.lookup.keyvalue.KeyValueFinderService;
-import org.kuali.rice.kns.document.Document;
-import org.kuali.rice.kns.lookup.keyvalues.KeyValuesBase;
-import org.kuali.rice.kns.util.GlobalVariables;
+import org.kuali.rice.core.api.util.ConcreteKeyValue;
+import org.kuali.rice.core.api.util.KeyValue;
+import org.kuali.rice.kns.util.KNSGlobalVariables;
 import org.kuali.rice.kns.web.struts.form.KualiDocumentFormBase;
 import org.kuali.rice.kns.web.struts.form.KualiForm;
-import org.kuali.rice.core.util.KeyLabelPair;
+import org.kuali.rice.krad.document.Document;
+import org.kuali.rice.krad.keyvalues.KeyValuesBase;
 
 /**
  * Finds the available set of supported Narrative Statuses.  See
@@ -48,34 +49,34 @@ public class BudgetPeriodValuesFinder extends KeyValuesBase {
      * 
      * @return the list of &lt;key, value&gt; pairs of abstract types.  The first entry
      * is always &lt;"", "select:"&gt;.
-     * @see org.kuali.rice.kns.lookup.keyvalues.KeyValuesFinder#getKeyValues()
+     * @see org.kuali.rice.krad.keyvalues.KeyValuesFinder#getKeyValues()
      */
-    public List<KeyLabelPair> getKeyValues() {
-        List<KeyLabelPair> keyLabelPairs = null;
+    public List<KeyValue> getKeyValues() {
+        List<KeyValue> KeyValues = null;
         
-        KualiForm form = GlobalVariables.getKualiForm();
+        KualiForm form = KNSGlobalVariables.getKualiForm();
         if(form instanceof KualiDocumentFormBase) {
             Document doc = ((KualiDocumentFormBase) form).getDocument();
             if(doc instanceof BudgetDocument) {
                 List<BudgetPeriod> budgetPeriods = ((BudgetDocument)doc).getBudget().getBudgetPeriods();
                 if (budgetPeriods.size() > 0) {
-                    keyLabelPairs = buildKeyLabelPairs(budgetPeriods);
+                    KeyValues = buildKeyValues(budgetPeriods);
                 }
             }
         }
         
-        if(keyLabelPairs == null) {
-            keyLabelPairs = keyValueFinderService.getKeyValues(BudgetPeriod.class, "budgetPeriod", "label");            
+        if(KeyValues == null) {
+            KeyValues = keyValueFinderService.getKeyValues(BudgetPeriod.class, "budgetPeriod", "label");            
         }
         
-        return keyLabelPairs; 
+        return KeyValues; 
     }
-    private List<KeyLabelPair> buildKeyLabelPairs(List<BudgetPeriod> budgetPeriods) {
-        List<KeyLabelPair> keyLabelPairs = new ArrayList<KeyLabelPair>();
-        keyLabelPairs.add(new KeyLabelPair(null, "Select"));
+    private List<KeyValue> buildKeyValues(List<BudgetPeriod> budgetPeriods) {
+        List<KeyValue> KeyValues = new ArrayList<KeyValue>();
+        KeyValues.add(new ConcreteKeyValue(null, "Select"));
         for(BudgetPeriod budgetPeriod: budgetPeriods) {
-            keyLabelPairs.add(new KeyLabelPair(budgetPeriod.getBudgetPeriod(), budgetPeriod.getLabel()));
+            KeyValues.add(new ConcreteKeyValue(budgetPeriod.getBudgetPeriod().toString(), budgetPeriod.getLabel()));
         }
-        return keyLabelPairs;
+        return KeyValues;
     }
 }

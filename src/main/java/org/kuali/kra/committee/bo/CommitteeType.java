@@ -15,8 +15,6 @@
  */
 package org.kuali.kra.committee.bo;
 
-import java.util.LinkedHashMap;
-
 import org.kuali.kra.bo.KraPersistableBusinessObjectBase;
 
 /**
@@ -31,15 +29,15 @@ public class CommitteeType extends KraPersistableBusinessObjectBase {
     public static final String COI_TYPE_CODE = "2";
     
     private String committeeTypeCode;
+
     private String description;
-    
+
     /**
      * Constructs a CommitteeType.
      */
     public CommitteeType() {
-        
     }
-    
+
     public String getCommitteeTypeCode() {
         return committeeTypeCode;
     }
@@ -54,14 +52,5 @@ public class CommitteeType extends KraPersistableBusinessObjectBase {
 
     public void setDescription(String description) {
         this.description = description;
-    }
-
-    @SuppressWarnings("unchecked")
-    @Override
-    protected LinkedHashMap toStringMapper() {
-        LinkedHashMap map = new LinkedHashMap();
-        map.put("committeeTypeCode", getCommitteeTypeCode());
-        map.put("description", getDescription());
-        return map;
     }
 }

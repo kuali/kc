@@ -16,111 +16,105 @@
 package org.kuali.kra.s2s.bo;
 
 import java.sql.Timestamp;
-import java.util.LinkedHashMap;
 import java.util.List;
 
 import org.kuali.kra.bo.KraPersistableBusinessObjectBase;
 
 public class S2sAppSubmission extends KraPersistableBusinessObjectBase {
-	private String proposalNumber;
-	private Integer submissionNumber;
-	private String agencyTrackingId;
-	private String comments;
-	private String ggTrackingId;
-	private Timestamp lastModifiedDate;
-	private Timestamp lastNotifiedDate;
-	private Timestamp receivedDate;
-	private String status;
-	private List<S2sApplication> s2sApplication;
-	private List<S2sAppAttachments> s2sAppAttachmentList;
 
-	public String getProposalNumber() {
-		return proposalNumber;
-	}
+    private String proposalNumber;
 
-	public void setProposalNumber(String proposalNumber) {
-		this.proposalNumber = proposalNumber;
-	}
+    private Integer submissionNumber;
 
-	public Integer getSubmissionNumber() {
-		return submissionNumber;
-	}
+    private String agencyTrackingId;
 
-	public void setSubmissionNumber(Integer submissionNumber) {
-		this.submissionNumber = submissionNumber;
-	}
+    private String comments;
 
-	public String getAgencyTrackingId() {
-		return agencyTrackingId;
-	}
+    private String ggTrackingId;
 
-	public void setAgencyTrackingId(String agencyTrackingId) {
-		this.agencyTrackingId = agencyTrackingId;
-	}
+    private Timestamp lastModifiedDate;
 
-	public String getComments() {
-		return comments;
-	}
+    private Timestamp lastNotifiedDate;
 
-	public void setComments(String comments) {
-		this.comments = comments;
-	}
+    private Timestamp receivedDate;
 
-	public String getGgTrackingId() {
-		return ggTrackingId;
-	}
+    private String status;
 
-	public void setGgTrackingId(String ggTrackingId) {
-		this.ggTrackingId = ggTrackingId;
-	}
+    private List<S2sApplication> s2sApplication;
 
-	public Timestamp getLastModifiedDate() {
-		return lastModifiedDate;
-	}
+    private List<S2sAppAttachments> s2sAppAttachmentList;
 
-	public void setLastModifiedDate(Timestamp lastModifiedDate) {
-		this.lastModifiedDate = lastModifiedDate;
-	}
+    public String getProposalNumber() {
+        return proposalNumber;
+    }
 
-	public Timestamp getLastNotifiedDate() {
-		return lastNotifiedDate;
-	}
+    public void setProposalNumber(String proposalNumber) {
+        this.proposalNumber = proposalNumber;
+    }
 
-	public void setLastNotifiedDate(Timestamp lastNotifiedDate) {
-		this.lastNotifiedDate = lastNotifiedDate;
-	}
+    public Integer getSubmissionNumber() {
+        return submissionNumber;
+    }
 
-	public Timestamp getReceivedDate() {
-		return receivedDate;
-	}
+    public void setSubmissionNumber(Integer submissionNumber) {
+        this.submissionNumber = submissionNumber;
+    }
 
-	public void setReceivedDate(Timestamp receivedDate) {
-		this.receivedDate = receivedDate;
-	}
+    public String getAgencyTrackingId() {
+        return agencyTrackingId;
+    }
 
-	public String getStatus() {
-		return status;
-	}
+    public void setAgencyTrackingId(String agencyTrackingId) {
+        this.agencyTrackingId = agencyTrackingId;
+    }
 
-	public void setStatus(String status) {
-		this.status = status;
-	}
+    public String getComments() {
+        return comments;
+    }
 
+    public void setComments(String comments) {
+        this.comments = comments;
+    }
 
-	@Override 
-	protected LinkedHashMap toStringMapper() {
-		LinkedHashMap hashMap = new LinkedHashMap();
-		hashMap.put("proposalNumber", getProposalNumber());
-		hashMap.put("submissionNumber", getSubmissionNumber());
-		hashMap.put("agencyTrackingId", getAgencyTrackingId());
-		hashMap.put("comments", getComments());
-		hashMap.put("ggTrackingId", getGgTrackingId());
-		hashMap.put("lastModifiedDate", getLastModifiedDate());
-		hashMap.put("lastNotifiedDate", getLastNotifiedDate());
-		hashMap.put("receivedDate", getReceivedDate());
-		hashMap.put("status", getStatus());
-		return hashMap;
-	}
+    public String getGgTrackingId() {
+        return ggTrackingId;
+    }
+
+    public void setGgTrackingId(String ggTrackingId) {
+        this.ggTrackingId = ggTrackingId;
+    }
+
+    public Timestamp getLastModifiedDate() {
+        return lastModifiedDate;
+    }
+
+    public void setLastModifiedDate(Timestamp lastModifiedDate) {
+        this.lastModifiedDate = lastModifiedDate;
+    }
+
+    public Timestamp getLastNotifiedDate() {
+        return lastNotifiedDate;
+    }
+
+    public void setLastNotifiedDate(Timestamp lastNotifiedDate) {
+        this.lastNotifiedDate = lastNotifiedDate;
+    }
+
+    public Timestamp getReceivedDate() {
+        return receivedDate;
+    }
+
+    public void setReceivedDate(Timestamp receivedDate) {
+        this.receivedDate = receivedDate;
+    }
+
+    public String getStatus() {
+        return status;
+    }
+
+    public void setStatus(String status) {
+        this.status = status;
+    }
 
     /**
      * Gets the s2sApplications attribute. 

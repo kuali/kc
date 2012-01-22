@@ -81,7 +81,7 @@ public class OrganizationMaintenanceDocumentRule  extends MaintenanceDocumentRul
         if (LOG.isDebugEnabled()) {
             LOG.debug("new maintainable is: " + maintenanceDocument.getNewMaintainableObject().getClass());
         }
-        Organization newOrganization = (Organization) maintenanceDocument.getNewMaintainableObject().getBusinessObject();
+        Organization newOrganization = (Organization) maintenanceDocument.getNewMaintainableObject().getDataObject();
 
         int i = 0;
         for (OrganizationYnq organizationYnq : newOrganization.getOrganizationYnqs()) {
@@ -123,7 +123,7 @@ public class OrganizationMaintenanceDocumentRule  extends MaintenanceDocumentRul
     private boolean checkRolodexEntries( MaintenanceDocument maintenanceDocument) {
         boolean valid = true;
         ErrorReporter errorReporter = new ErrorReporter();
-        Organization newOrganization = (Organization) maintenanceDocument.getNewMaintainableObject().getBusinessObject();
+        Organization newOrganization = (Organization) maintenanceDocument.getNewMaintainableObject().getDataObject();
         RolodexService rolodexService = KraServiceLocator.getService(RolodexService.class);
         
         

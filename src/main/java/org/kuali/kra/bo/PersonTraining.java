@@ -16,7 +16,6 @@
 package org.kuali.kra.bo;
 
 import java.sql.Date;
-import java.util.LinkedHashMap;
 
 import org.kuali.kra.infrastructure.KraServiceLocator;
 import org.kuali.kra.service.KcPersonService;
@@ -25,106 +24,116 @@ import org.kuali.kra.service.KcPersonService;
  * 
  * This is BO class for person training maintenance.
  */
-public class PersonTraining extends KraPersistableBusinessObjectBase { 
-	
-	private Integer personTrainingId; 
-	private String personId; 
-	private Integer trainingNumber; 
-	private Integer trainingCode; 
-	private Date dateRequested; 
-	private Date dateSubmitted; 
-	private Date dateAcknowledged; 
-	private Date followupDate; 
-	private String score; 
-	private String comments; 
-	private boolean active;
+public class PersonTraining extends KraPersistableBusinessObjectBase {
 
-	private Training training;
-	private transient KcPersonService kcPersonService;
-		
-	public PersonTraining() { 
+    private Integer personTrainingId;
 
-	} 
-	
-	public Integer getPersonTrainingId() {
-		return personTrainingId;
-	}
+    private String personId;
 
-	public void setPersonTrainingId(Integer personTrainingId) {
-		this.personTrainingId = personTrainingId;
-	}
+    private Integer trainingNumber;
 
-	public String getPersonId() {
-		return personId;
-	}
+    private Integer trainingCode;
 
-	public void setPersonId(String personId) {
-		this.personId = personId;
-	}
+    private Date dateRequested;
 
-	public Integer getTrainingNumber() {
-		return trainingNumber;
-	}
+    private Date dateSubmitted;
 
-	public void setTrainingNumber(Integer trainingNumber) {
-		this.trainingNumber = trainingNumber;
-	}
+    private Date dateAcknowledged;
 
-	public Integer getTrainingCode() {
-		return trainingCode;
-	}
+    private Date followupDate;
 
-	public void setTrainingCode(Integer trainingCode) {
-		this.trainingCode = trainingCode;
-	}
+    private String score;
 
-	public Date getDateRequested() {
-		return dateRequested;
-	}
+    private String comments;
 
-	public void setDateRequested(Date dateRequested) {
-		this.dateRequested = dateRequested;
-	}
+    private boolean active;
 
-	public Date getDateSubmitted() {
-		return dateSubmitted;
-	}
+    private Training training;
 
-	public void setDateSubmitted(Date dateSubmitted) {
-		this.dateSubmitted = dateSubmitted;
-	}
+    private transient KcPersonService kcPersonService;
 
-	public Date getDateAcknowledged() {
-		return dateAcknowledged;
-	}
+    public PersonTraining() {
+    }
 
-	public void setDateAcknowledged(Date dateAcknowledged) {
-		this.dateAcknowledged = dateAcknowledged;
-	}
+    public Integer getPersonTrainingId() {
+        return personTrainingId;
+    }
 
-	public Date getFollowupDate() {
-		return followupDate;
-	}
+    public void setPersonTrainingId(Integer personTrainingId) {
+        this.personTrainingId = personTrainingId;
+    }
 
-	public void setFollowupDate(Date followupDate) {
-		this.followupDate = followupDate;
-	}
+    public String getPersonId() {
+        return personId;
+    }
 
-	public String getScore() {
-		return score;
-	}
+    public void setPersonId(String personId) {
+        this.personId = personId;
+    }
 
-	public void setScore(String score) {
-		this.score = score;
-	}
+    public Integer getTrainingNumber() {
+        return trainingNumber;
+    }
 
-	public String getComments() {
-		return comments;
-	}
+    public void setTrainingNumber(Integer trainingNumber) {
+        this.trainingNumber = trainingNumber;
+    }
 
-	public void setComments(String comments) {
-		this.comments = comments;
-	}
+    public Integer getTrainingCode() {
+        return trainingCode;
+    }
+
+    public void setTrainingCode(Integer trainingCode) {
+        this.trainingCode = trainingCode;
+    }
+
+    public Date getDateRequested() {
+        return dateRequested;
+    }
+
+    public void setDateRequested(Date dateRequested) {
+        this.dateRequested = dateRequested;
+    }
+
+    public Date getDateSubmitted() {
+        return dateSubmitted;
+    }
+
+    public void setDateSubmitted(Date dateSubmitted) {
+        this.dateSubmitted = dateSubmitted;
+    }
+
+    public Date getDateAcknowledged() {
+        return dateAcknowledged;
+    }
+
+    public void setDateAcknowledged(Date dateAcknowledged) {
+        this.dateAcknowledged = dateAcknowledged;
+    }
+
+    public Date getFollowupDate() {
+        return followupDate;
+    }
+
+    public void setFollowupDate(Date followupDate) {
+        this.followupDate = followupDate;
+    }
+
+    public String getScore() {
+        return score;
+    }
+
+    public void setScore(String score) {
+        this.score = score;
+    }
+
+    public String getComments() {
+        return comments;
+    }
+
+    public void setComments(String comments) {
+        this.comments = comments;
+    }
 
     public boolean isActive() {
         return active;
@@ -133,23 +142,6 @@ public class PersonTraining extends KraPersistableBusinessObjectBase {
     public void setActive(boolean active) {
         this.active = active;
     }
-
-	@Override 
-	protected LinkedHashMap<String,Object> toStringMapper() {
-		LinkedHashMap<String,Object> hashMap = new LinkedHashMap<String,Object>();
-		hashMap.put("personTrainingId", getPersonTrainingId());
-		hashMap.put("personId", getPersonId());
-		hashMap.put("trainingNumber", getTrainingNumber());
-		hashMap.put("trainingCode", getTrainingCode());
-		hashMap.put("dateRequested", getDateRequested());
-		hashMap.put("dateSubmitted", getDateSubmitted());
-		hashMap.put("dateAcknowledged", getDateAcknowledged());
-		hashMap.put("followupDate", getFollowupDate());
-		hashMap.put("score", getScore());
-		hashMap.put("comments", getComments());
-		hashMap.put("active", isActive());
-		return hashMap;
-	}
 
     public KcPerson getPerson() {
         return getKcPersonService().getKcPersonByPersonId(personId);
@@ -162,7 +154,7 @@ public class PersonTraining extends KraPersistableBusinessObjectBase {
     public void setTraining(Training training) {
         this.training = training;
     }
-	
+
     /**
      * Gets the KC Person Service.
      * @return KC Person Service.
@@ -171,7 +163,6 @@ public class PersonTraining extends KraPersistableBusinessObjectBase {
         if (this.kcPersonService == null) {
             this.kcPersonService = KraServiceLocator.getService(KcPersonService.class);
         }
-        
         return this.kcPersonService;
     }
 }

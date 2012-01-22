@@ -63,11 +63,11 @@ public class BudgetCategoryExistenceRule extends KraMaintenanceDocumentRuleBase 
         // shared by budgetcategorymapping & costelement
         // TODO : refactoring this - must have a better way to handle this sharing
         String budgetCategoryCode;
-        if (maintenanceDocument.getNewMaintainableObject().getBusinessObject() instanceof BudgetCategoryMapping) {
-            BudgetCategoryMapping budgetCategoryMapping = (BudgetCategoryMapping) maintenanceDocument.getNewMaintainableObject().getBusinessObject();
+        if (maintenanceDocument.getNewMaintainableObject().getDataObject() instanceof BudgetCategoryMapping) {
+            BudgetCategoryMapping budgetCategoryMapping = (BudgetCategoryMapping) maintenanceDocument.getNewMaintainableObject().getDataObject();
             budgetCategoryCode=budgetCategoryMapping.getBudgetCategoryCode();
         } else {
-            CostElement costElement = (CostElement) maintenanceDocument.getNewMaintainableObject().getBusinessObject();
+            CostElement costElement = (CostElement) maintenanceDocument.getNewMaintainableObject().getDataObject();
             budgetCategoryCode=costElement.getBudgetCategoryCode();
             
         }

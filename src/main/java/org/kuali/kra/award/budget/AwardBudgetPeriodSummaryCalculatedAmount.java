@@ -15,30 +15,33 @@
  */
 package org.kuali.kra.award.budget;
 
-import java.util.LinkedHashMap;
-
 import org.kuali.kra.bo.KraPersistableBusinessObjectBase;
 import org.kuali.kra.budget.BudgetDecimal;
 import org.kuali.kra.budget.core.CostElement;
-import org.kuali.kra.budget.parameters.BudgetPeriod;
 
-public class AwardBudgetPeriodSummaryCalculatedAmount extends KraPersistableBusinessObjectBase { 
-    
+public class AwardBudgetPeriodSummaryCalculatedAmount extends KraPersistableBusinessObjectBase {
 
     /**
      * Comment for <code>serialVersionUID</code>
      */
     private static final long serialVersionUID = -8085114536868213976L;
-    private Long awardBudgetPeriodSummaryCalculatedAmountId; 
-    private Long budgetPeriodId; 
-    private String costElement; 
-    private boolean onOffCampusFlag; 
-    private String rateClassType; 
-    private BudgetDecimal calculatedCost; 
-    private BudgetDecimal calculatedCostSharing; 
-    
-    private CostElement costElementBO; 
-    
+
+    private Long awardBudgetPeriodSummaryCalculatedAmountId;
+
+    private Long budgetPeriodId;
+
+    private String costElement;
+
+    private boolean onOffCampusFlag;
+
+    private String rateClassType;
+
+    private BudgetDecimal calculatedCost;
+
+    private BudgetDecimal calculatedCostSharing;
+
+    private CostElement costElementBO;
+
     public Long getAwardBudgetPeriodSummaryCalculatedAmountId() {
         return awardBudgetPeriodSummaryCalculatedAmountId;
     }
@@ -102,19 +105,4 @@ public class AwardBudgetPeriodSummaryCalculatedAmount extends KraPersistableBusi
     public void setCostElementBO(CostElement costElementBO) {
         this.costElementBO = costElementBO;
     }
-
-    /** {@inheritDoc} */
-    @Override 
-    protected LinkedHashMap<String, Object> toStringMapper() {
-        LinkedHashMap<String, Object> hashMap = new LinkedHashMap<String, Object>();
-        hashMap.put("awardBudgetPeriodSummaryCalculatedAmount", this.getAwardBudgetPeriodSummaryCalculatedAmountId());
-        hashMap.put("budgetPeriodId", this.getBudgetPeriodId());
-        hashMap.put("costElement", this.getCostElement());
-        hashMap.put("onOffCampusFlag", this.getOnOffCampusFlag());
-        hashMap.put("rateClassType", this.getRateClassType());
-        hashMap.put("calculatedCost", this.getCalculatedCost());
-        hashMap.put("calculatedCostSharing", this.getCalculatedCostSharing());
-        return hashMap;
-    }
-    
 }

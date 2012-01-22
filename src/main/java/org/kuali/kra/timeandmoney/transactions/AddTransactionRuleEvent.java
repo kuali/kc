@@ -16,7 +16,7 @@
 package org.kuali.kra.timeandmoney.transactions;
 
 import org.kuali.kra.timeandmoney.document.TimeAndMoneyDocument;
-import org.kuali.rice.kns.rule.BusinessRule;
+import org.kuali.rice.krad.rules.rule.BusinessRule;
 
 /**
  * This class is for rule validation when adding new item

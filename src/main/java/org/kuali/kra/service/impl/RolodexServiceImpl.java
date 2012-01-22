@@ -22,7 +22,7 @@ import java.util.Map;
 import org.kuali.kra.bo.Rolodex;
 import org.kuali.kra.dao.RolodexDao;
 import org.kuali.kra.service.RolodexService;
-import org.kuali.rice.kns.service.BusinessObjectService;
+import org.kuali.rice.krad.service.BusinessObjectService;
 
 public class RolodexServiceImpl implements RolodexService {
 

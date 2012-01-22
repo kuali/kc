@@ -32,7 +32,7 @@ public class CommitteeActionFilterBatchCorrespondenceHistoryRule extends Researc
     private static final String END_DATE_FIELD = "committeeHelper.historyEndDate";
 
     /**
-     * Process the validation rules for an <code>{@link CommitteeActionFilterBatchCorrespondenceHistoryEvent}</code>.
+     * ProcessDefinitionDefinitionDefinition the validation rules for an <code>{@link CommitteeActionFilterBatchCorrespondenceHistoryEvent}</code>.
      * 
      * @param event the CommitteeActionFilterBatchCorrespondenceHistoryEvent
      * @return <code>true</code> if all validation rules are passed, <code>false</code> otherwise

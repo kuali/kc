@@ -15,7 +15,7 @@
  */
 package org.kuali.kra.award.customdata;
 
-import org.kuali.rice.kns.rule.BusinessRule;
+import org.kuali.rice.krad.rules.rule.BusinessRule;
 
 /**
  * This class is the interface for Award Custom Data Business rules.

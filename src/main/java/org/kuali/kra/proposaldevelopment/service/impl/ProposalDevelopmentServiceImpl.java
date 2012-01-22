@@ -15,6 +15,8 @@
  */
 package org.kuali.kra.proposaldevelopment.service.impl;
 
+import static org.kuali.kra.infrastructure.Constants.CO_INVESTIGATOR_ROLE;
+
 import java.util.ArrayList;
 import java.util.Collection;
 import java.util.Date;
@@ -55,17 +57,16 @@ import org.kuali.kra.proposaldevelopment.web.struts.form.ProposalDevelopmentForm
 import org.kuali.kra.service.KraPersistenceStructureService;
 import org.kuali.kra.service.UnitAuthorizationService;
 import org.kuali.kra.service.VersionHistoryService;
-import org.kuali.rice.kew.exception.WorkflowException;
+import org.kuali.rice.core.api.CoreApiServiceLocator;
+import org.kuali.rice.coreservice.framework.parameter.ParameterService;
+import org.kuali.rice.kew.api.exception.WorkflowException;
 import org.kuali.rice.kns.authorization.AuthorizationConstants;
-import org.kuali.rice.kns.bo.BusinessObject;
-import org.kuali.rice.kns.bo.PersistableBusinessObject;
-import org.kuali.rice.kns.service.BusinessObjectService;
-import org.kuali.rice.kns.service.DocumentService;
-import org.kuali.rice.kns.service.KNSServiceLocator;
-import org.kuali.rice.kns.service.ParameterService;
-import org.kuali.rice.kns.util.GlobalVariables;
-import org.kuali.rice.kns.util.ObjectUtils;
-import static org.kuali.kra.infrastructure.Constants.CO_INVESTIGATOR_ROLE;
+import org.kuali.rice.krad.bo.BusinessObject;
+import org.kuali.rice.krad.bo.PersistableBusinessObject;
+import org.kuali.rice.krad.service.BusinessObjectService;
+import org.kuali.rice.krad.service.DocumentService;
+import org.kuali.rice.krad.util.GlobalVariables;
+import org.kuali.rice.krad.util.ObjectUtils;
 
 // TODO : extends PersistenceServiceStructureImplBase is a hack to temporarily resolve get class descriptor.
 public class ProposalDevelopmentServiceImpl implements ProposalDevelopmentService {
@@ -78,7 +79,6 @@ public class ProposalDevelopmentServiceImpl implements ProposalDevelopmentServic
     private ParameterService parameterService;
     private DocumentService documentService;
     private VersionHistoryService versionHistoryService;
-    
 
     
     /**
@@ -321,8 +321,8 @@ public class ProposalDevelopmentServiceImpl implements ProposalDevelopmentServic
     
     protected String populateProposalEditableFieldMetaData(String proposalNumber, String editableFieldDBColumn) { 
         String returnValue = "";
-        if(GlobalVariables.getErrorMap() != null) {
-            GlobalVariables.getErrorMap().clear();
+        if(GlobalVariables.getMessageMap() != null) {
+            GlobalVariables.getMessageMap().clearErrorMessages();
         }
         
         Object fieldValue = getProposalFieldValueFromDBColumnName(proposalNumber, editableFieldDBColumn);
@@ -333,7 +333,7 @@ public class ProposalDevelopmentServiceImpl implements ProposalDevelopmentServic
         if(editableColumn.getHasLookup()) {
             returnValue = getDataOverrideLookupDisplayReturnValue(editableColumn.getLookupClass()) + "," + editableColumn.getLookupReturn() + "," + getDataOverrideLookupDisplayDisplayValue( editableColumn.getLookupClass(), (fieldValue != null ? fieldValue.toString() : ""),editableColumn.getLookupReturn() );
         } else if (fieldValue != null && editableColumn.getDataType().equalsIgnoreCase("DATE")){
-            returnValue = ",," + KNSServiceLocator.getDateTimeService().toString((Date) fieldValue, "MM/dd/yyyy");
+            returnValue = ",," + CoreApiServiceLocator.getDateTimeService().toString((Date) fieldValue, "MM/dd/yyyy");
         } else if (fieldValue != null) {
             returnValue = ",," + fieldValue.toString();
         } else {
@@ -534,7 +534,7 @@ public class ProposalDevelopmentServiceImpl implements ProposalDevelopmentServic
     }
     
 public List<CoPiInfoDO> getCoPiPiInfo (DevelopmentProposal proposal) {
-        
+    
         List<ProposalPerson> proposalPersons = proposal.getProposalPersons();
         List<CoPiInfoDO> coPiInfos = new ArrayList<CoPiInfoDO>();
         

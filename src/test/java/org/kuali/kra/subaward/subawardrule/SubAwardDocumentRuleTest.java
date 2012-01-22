@@ -29,7 +29,7 @@ import org.kuali.kra.subaward.bo.SubAwardContact;
 import org.kuali.kra.subaward.bo.SubAwardFundingSource;
 import org.kuali.kra.subaward.subawardrule.SubAwardDocumentRule;
 import org.kuali.kra.test.infrastructure.KcUnitTestBase;
-import org.kuali.rice.kns.util.KualiDecimal;
+import org.kuali.rice.core.api.util.type.KualiDecimal;
 
 
 public class SubAwardDocumentRuleTest extends KcUnitTestBase {
@@ -56,7 +56,7 @@ public class SubAwardDocumentRuleTest extends KcUnitTestBase {
         subAward.setPurchaseOrderNum("1"); 
         
         subAwardAmountInfo = new SubAwardAmountInfo(); 
-        subAwardAmountInfo.setEffectiveDate(new Date(System.currentTimeMillis())); 
+        subAwardAmountInfo.setEffectiveDate(new Date(System.currentTimeMillis()));  
         subAwardAmountInfo.setObligatedChange(new KualiDecimal(150));
         subAwardAmountInfo.setAnticipatedChange(new KualiDecimal(200));
         subAwardAmountReleased = new SubAwardAmountReleased();

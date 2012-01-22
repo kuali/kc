@@ -16,25 +16,33 @@
 package org.kuali.kra.proposaldevelopment.bo;
 
 import java.sql.Date;
-import java.util.LinkedHashMap;
 
 import org.kuali.kra.bo.KraSortablePersistableBusinessObjectBase;
 import org.kuali.kra.bo.Ynq;
 
-public class ProposalYnq extends KraSortablePersistableBusinessObjectBase implements Comparable<ProposalYnq>{
+public class ProposalYnq extends KraSortablePersistableBusinessObjectBase implements Comparable<ProposalYnq> {
 
-	private String proposalNumber;
-	private String questionId;
-	private String answer;
-	private String explanation;
-	private Date reviewDate;
+    private String proposalNumber;
+
+    private String questionId;
+
+    private String answer;
+
+    private String explanation;
+
+    private Date reviewDate;
+
     private Ynq ynq;
+
     private String dummyAnswer;
+
     private boolean explanationRequried = true;
+
     private boolean reviewDateRequired = true;
+
     private String explanationRequiredDescription;
+
     private String reviewDateRequiredDescription;
-    
 
     public Ynq getYnq() {
         return ynq;
@@ -44,61 +52,49 @@ public class ProposalYnq extends KraSortablePersistableBusinessObjectBase implem
         this.ynq = ynq;
     }
 
-    public ProposalYnq(){
-		super();
-	}
+    public ProposalYnq() {
+        super();
+    }
 
-	public String getProposalNumber() {
-		return proposalNumber;
-	}
+    public String getProposalNumber() {
+        return proposalNumber;
+    }
 
-	public void setProposalNumber(String proposalNumber) {
-		this.proposalNumber = proposalNumber;
-	}
+    public void setProposalNumber(String proposalNumber) {
+        this.proposalNumber = proposalNumber;
+    }
 
-	public String getQuestionId() {
-		return questionId;
-	}
+    public String getQuestionId() {
+        return questionId;
+    }
 
-	public void setQuestionId(String questionId) {
-		this.questionId = questionId;
-	}
+    public void setQuestionId(String questionId) {
+        this.questionId = questionId;
+    }
 
-	public String getAnswer() {
-		return answer;
-	}
+    public String getAnswer() {
+        return answer;
+    }
 
-	public void setAnswer(String answer) {
-		this.answer = answer;
-	}
+    public void setAnswer(String answer) {
+        this.answer = answer;
+    }
 
-	public String getExplanation() {
-		return explanation;
-	}
+    public String getExplanation() {
+        return explanation;
+    }
 
-	public void setExplanation(String explanation) {
-		this.explanation = explanation;
-	}
+    public void setExplanation(String explanation) {
+        this.explanation = explanation;
+    }
 
-	public Date getReviewDate() {
-		return reviewDate;
-	}
+    public Date getReviewDate() {
+        return reviewDate;
+    }
 
-	public void setReviewDate(Date reviewDate) {
-		this.reviewDate = reviewDate;
-	}
-
-
-	@Override 
-	protected LinkedHashMap toStringMapper() {
-		LinkedHashMap hashMap = new LinkedHashMap();
-		hashMap.put("proposalNumber", getProposalNumber());
-		hashMap.put("questionId", getQuestionId());
-		hashMap.put("answer", getAnswer());
-		hashMap.put("explanation", getExplanation());
-		hashMap.put("reviewDate", getReviewDate());
-		return hashMap;
-	}
+    public void setReviewDate(Date reviewDate) {
+        this.reviewDate = reviewDate;
+    }
 
     public String getDummyAnswer() {
         return dummyAnswer;
@@ -139,16 +135,14 @@ public class ProposalYnq extends KraSortablePersistableBusinessObjectBase implem
     public void setReviewDateRequiredDescription(String reviewDateRequiredDescription) {
         this.reviewDateRequiredDescription = reviewDateRequiredDescription;
     }
-    
+
     public int compareTo(ProposalYnq proposalYnq) {
         int comparator;
-        
         if (getSortId() != null && proposalYnq.getSortId() != null) {
             comparator = getSortId().compareTo(proposalYnq.getSortId());
         } else {
             comparator = getQuestionId().compareTo(proposalYnq.getQuestionId());
         }
-        
         return comparator;
     }
 }

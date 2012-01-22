@@ -36,9 +36,9 @@ import org.kuali.kra.document.ResearchDocumentBase;
 import org.kuali.kra.infrastructure.Constants;
 import org.kuali.kra.infrastructure.KraServiceLocator;
 import org.kuali.kra.service.CustomAttributeService;
-import org.kuali.rice.kns.service.BusinessObjectService;
-import org.kuali.rice.kns.util.KNSPropertyConstants;
 import org.kuali.rice.kns.web.struts.form.KualiDocumentFormBase;
+import org.kuali.rice.krad.service.BusinessObjectService;
+import org.kuali.rice.krad.util.KRADPropertyConstants;
 
 /**
  * Contains a set of methods that are invoked from Struts Action methods
@@ -104,7 +104,7 @@ public class CustomDataAction {
      */
     private static CustomAttributeDocValue getCustomAttributeDocValue(String documentNumber, Integer customAttributeId) {
         Map<String, Object> primaryKeys = new HashMap<String, Object>();
-        primaryKeys.put(KNSPropertyConstants.DOCUMENT_NUMBER, documentNumber);
+        primaryKeys.put(KRADPropertyConstants.DOCUMENT_NUMBER, documentNumber);
         primaryKeys.put(Constants.CUSTOM_ATTRIBUTE_ID, customAttributeId);
         return (CustomAttributeDocValue) getBusinessObjectService().findByPrimaryKey(CustomAttributeDocValue.class, primaryKeys);
     }

@@ -33,9 +33,9 @@ import org.kuali.kra.irb.notification.IRBNotificationContext;
 import org.kuali.kra.irb.notification.IRBNotificationRenderer;
 import org.kuali.kra.irb.onlinereview.ProtocolOnlineReviewService;
 import org.kuali.kra.printing.PrintingException;
-import org.kuali.rice.kns.service.BusinessObjectService;
-import org.kuali.rice.kns.service.DocumentService;
-import org.kuali.rice.kns.workflow.service.KualiWorkflowDocument;
+import org.kuali.rice.kew.api.WorkflowDocument;
+import org.kuali.rice.krad.service.BusinessObjectService;
+import org.kuali.rice.krad.service.DocumentService;
 
 /**
  * This class handles the generic actions that can be made to a protocol.  A generic action contain a comment, action date, and a 
@@ -205,7 +205,7 @@ public class ProtocolGenericActionServiceImpl implements ProtocolGenericActionSe
         
     private void performDisapprove(Protocol protocol) throws Exception {
         if (protocol.getProtocolDocument() != null) {
-            KualiWorkflowDocument currentWorkflowDocument = protocol.getProtocolDocument().getDocumentHeader().getWorkflowDocument();
+            WorkflowDocument currentWorkflowDocument = protocol.getProtocolDocument().getDocumentHeader().getWorkflowDocument();
             if (currentWorkflowDocument != null) {
                 currentWorkflowDocument.disapprove("Protocol document disapproved after committee decision");
             }

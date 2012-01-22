@@ -22,10 +22,10 @@ import org.apache.commons.lang.StringUtils;
 import org.kuali.kra.infrastructure.Constants;
 import org.kuali.kra.infrastructure.KraServiceLocator;
 import org.kuali.kra.service.MultiCampusIdentityService;
-import org.kuali.rice.kns.bo.BusinessObject;
-import org.kuali.rice.kns.util.GlobalVariables;
 import org.kuali.rice.kns.web.ui.Field;
 import org.kuali.rice.kns.web.ui.Row;
+import org.kuali.rice.krad.bo.BusinessObject;
+import org.kuali.rice.krad.util.GlobalVariables;
 
 /**
  * Overrides the normal {@link org.kuali.rice.kim.lookup.PersonLookupableHelperServiceImpl} to add inquiry and lookup parameters to certain fields.
@@ -37,7 +37,7 @@ public class PersonLookupableHelperServiceImpl extends org.kuali.rice.kim.lookup
     private static final String PRINCIPAL_NAME_FIELD = "principalName";
     
     private static final String CAMPUS_CODE_FIELD = "campusCode";
-    private static final String CAMPUS_LOOKUPABLE_CLASS_NAME = "org.kuali.rice.kns.bo.CampusImpl";
+    private static final String CAMPUS_LOOKUPABLE_CLASS_NAME = "org.kuali.rice.location.impl.campus.CampusBo";
     
     private static final String PRIMARY_DEPARTMENT_CODE_FIELD = "primaryDepartmentCode";
     private static final String UNIT_NUMBER_FIELD = "unitNumber";
@@ -47,7 +47,7 @@ public class PersonLookupableHelperServiceImpl extends org.kuali.rice.kim.lookup
     
     @Override
     public List<Row> getRows() {
-        boolean multiCampusEnabled = getParameterService().getIndicatorParameter(
+        boolean multiCampusEnabled = getParameterService().getParameterValueAsBoolean(
                 Constants.KC_GENERIC_PARAMETER_NAMESPACE, Constants.KC_ALL_PARAMETER_DETAIL_TYPE_CODE, Constants.PARAMETER_MULTI_CAMPUS_ENABLED);
         
         List<Row> rows =  super.getRows();
@@ -80,7 +80,7 @@ public class PersonLookupableHelperServiceImpl extends org.kuali.rice.kim.lookup
     
     @Override
     public List<? extends BusinessObject> getSearchResults(Map<String, String> fieldValues) {
-        boolean multiCampusEnabled = getParameterService().getIndicatorParameter(
+        boolean multiCampusEnabled = getParameterService().getParameterValueAsBoolean(
                 Constants.KC_GENERIC_PARAMETER_NAMESPACE, Constants.KC_ALL_PARAMETER_DETAIL_TYPE_CODE, Constants.PARAMETER_MULTI_CAMPUS_ENABLED);
         
         if (multiCampusEnabled) {

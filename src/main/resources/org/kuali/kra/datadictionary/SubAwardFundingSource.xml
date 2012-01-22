@@ -192,7 +192,7 @@
           <property name="inquiryFields" >
             <list>
               <bean parent="FieldDefinition"
-                    p:attributeName="SubAwardFundingSourceId"
+                    p:attributeName="subAwardFundingSourceId"
                     p:forceInquiry="true" />             
             </list>
           </property>
@@ -226,7 +226,7 @@
       <list>      
                  <bean parent="FieldDefinition" p:attributeName="subAwardFundingSourceId" p:forceInquiry="true" />   
                 <bean p:attributeName="awardId"   parent="FieldDefinition"/>
-                    <bean p:attributeName="SubAwardCode"   parent="FieldDefinition"/>
+                    <bean p:attributeName="subAwardCode"   parent="FieldDefinition"/>
       </list>
     </property>
   </bean>

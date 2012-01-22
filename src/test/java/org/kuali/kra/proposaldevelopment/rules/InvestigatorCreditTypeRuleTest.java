@@ -20,9 +20,9 @@ import org.junit.Before;
 import org.junit.Test;
 import org.kuali.kra.maintenance.MaintenanceRuleTestBase;
 import org.kuali.kra.proposaldevelopment.bo.InvestigatorCreditType;
-import org.kuali.rice.kns.UserSession;
 import org.kuali.rice.kns.document.MaintenanceDocument;
-import org.kuali.rice.kns.util.GlobalVariables;
+import org.kuali.rice.krad.UserSession;
+import org.kuali.rice.krad.util.GlobalVariables;
 
 /**
  * Contains tests for <code>{@link InvestigatorCreditTypeRule}</code>

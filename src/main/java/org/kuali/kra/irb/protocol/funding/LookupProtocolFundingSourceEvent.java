@@ -17,7 +17,7 @@ package org.kuali.kra.irb.protocol.funding;
 
 import org.kuali.kra.irb.ProtocolDocument;
 import org.kuali.kra.irb.ProtocolEventBase;
-import org.kuali.rice.kns.document.Document;
+import org.kuali.rice.krad.document.Document;
 
 /**
  * 

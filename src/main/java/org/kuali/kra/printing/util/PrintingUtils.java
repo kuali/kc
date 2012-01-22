@@ -40,13 +40,13 @@ import org.kuali.kra.proposaldevelopment.bo.AttachmentDataSource;
 import org.kuali.kra.proposaldevelopment.bo.ProposalPerson;
 import org.kuali.kra.proposaldevelopment.document.ProposalDevelopmentDocument;
 import org.kuali.kra.proposaldevelopment.printing.service.ProposalDevelopmentPrintingService;
-import org.kuali.rice.kns.bo.Country;
-import org.kuali.rice.kns.bo.State;
-import org.kuali.rice.kns.service.BusinessObjectService;
-import org.kuali.rice.kns.service.CountryService;
-import org.kuali.rice.kns.service.ParameterService;
-import org.kuali.rice.kns.service.StateService;
+import org.kuali.rice.coreservice.framework.parameter.ParameterService;
 import org.kuali.rice.kns.util.WebUtils;
+import org.kuali.rice.krad.service.BusinessObjectService;
+import org.kuali.rice.location.api.country.Country;
+import org.kuali.rice.location.api.country.CountryService;
+import org.kuali.rice.location.api.state.State;
+import org.kuali.rice.location.api.state.StateService;
 
 public class PrintingUtils {
 
@@ -91,7 +91,7 @@ public class PrintingUtils {
 	public static String getParameterValue(String parameter) {
 		ParameterService parameterService = KraServiceLocator
 				.getService(ParameterService.class);
-		return parameterService.getParameterValue(
+		return parameterService.getParameterValueAsString(
 				ProposalDevelopmentDocument.class, parameter);
 	}
 
@@ -104,7 +104,7 @@ public class PrintingUtils {
 	 */
     public static String getParameterValue(Class clazz, String parameter) {
         ParameterService parameterService = KraServiceLocator.getService(ParameterService.class);
-        return parameterService.getParameterValue(clazz, parameter);
+        return parameterService.getParameterValueAsString(clazz, parameter);
     }
 
 	/**
@@ -115,11 +115,17 @@ public class PrintingUtils {
 	 * @return State object matching the name.
 	 * @see org.kuali.kra.s2s.service.S2SUtilService#getStateFromName(java.lang.String)
 	 */
-	public static State getStateFromName(String stateName) {
-		State state = getStateService().getByPrimaryId(stateName);
-		return state;
-	}
-	
+    public static State getStateFromName(String countryAlternateCode, String stateName) {
+        Country country = getCountryService().getCountryByAlternateCode(countryAlternateCode);
+        
+        State state = getStateService().getState(country.getCode(), stateName);
+        return state;
+    }
+
+    private static CountryService getCountryService() {
+        return KraServiceLocator.getService(CountryService.class);
+    }
+    
 	private static StateService getStateService() {
         return KraServiceLocator.getService(StateService.class);
     }
@@ -233,7 +239,7 @@ public class PrintingUtils {
 	public static Country getCountryFromCode(String countryCode,
 			BusinessObjectService businessObjectService) {
 	    CountryService countryService = KraServiceLocator.getService(CountryService.class);
-	    Country country = countryService.getByAlternatePostalCountryCode(countryCode);
+	    Country country = countryService.getCountryByAlternateCode(countryCode);
 		return country;
 	}
 	

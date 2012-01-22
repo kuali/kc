@@ -24,10 +24,10 @@ import org.kuali.kra.infrastructure.KeyConstants;
 import org.kuali.kra.infrastructure.KraServiceLocator;
 import org.kuali.kra.rules.KraMaintenanceDocumentRuleBase;
 import org.kuali.rice.kns.document.MaintenanceDocument;
-import org.kuali.rice.kns.service.BusinessObjectService;
-import org.kuali.rice.kns.util.GlobalVariables;
-import org.kuali.rice.kns.util.KNSConstants;
-import org.kuali.rice.kns.util.MessageMap;
+import org.kuali.rice.krad.service.BusinessObjectService;
+import org.kuali.rice.krad.util.GlobalVariables;
+import org.kuali.rice.krad.util.KRADConstants;
+import org.kuali.rice.krad.util.MessageMap;
 
 /**
  * 
@@ -68,10 +68,10 @@ public class ValidWatermarkStatusMaintenanceDocumentRule extends KraMaintenanceD
      */
     public boolean isDocumentValidForSave(MaintenanceDocument document) {
         boolean result = super.isDocumentValidForSave(document);
-        final Watermark watermark = (Watermark) document.getNewMaintainableObject().getBusinessObject();
-        if (!document.getNewMaintainableObject().getMaintenanceAction().equals(KNSConstants.MAINTENANCE_DELETE_ACTION)) {
-            if(document.getNewMaintainableObject().getMaintenanceAction().equals(KNSConstants.MAINTENANCE_EDIT_ACTION)) {
-                final Watermark oldWatermarkDocument = (Watermark) document.getOldMaintainableObject().getBusinessObject();
+        final Watermark watermark = (Watermark) document.getNewMaintainableObject().getDataObject();
+        if (!document.getNewMaintainableObject().getMaintenanceAction().equals(KRADConstants.MAINTENANCE_DELETE_ACTION)) {
+            if(document.getNewMaintainableObject().getMaintenanceAction().equals(KRADConstants.MAINTENANCE_EDIT_ACTION)) {
+                final Watermark oldWatermarkDocument = (Watermark) document.getOldMaintainableObject().getDataObject();
                 if(!oldWatermarkDocument.getStatusCode().equals(watermark.getStatusCode())){
                     result &= validateWatermarkStatusCode(watermark.getStatusCode());
                 }

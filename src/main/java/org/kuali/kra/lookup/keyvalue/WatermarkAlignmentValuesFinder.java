@@ -17,16 +17,19 @@ package org.kuali.kra.lookup.keyvalue;
 
 import java.util.ArrayList;
 import java.util.List;
+
 import org.kuali.kra.util.watermark.WatermarkConstants;
-import org.kuali.rice.core.util.KeyLabelPair;
-import org.kuali.rice.kns.lookup.keyvalues.KeyValuesBase;
+import org.kuali.rice.core.api.util.ConcreteKeyValue;
+import org.kuali.rice.core.api.util.KeyValue;
+import org.kuali.rice.krad.keyvalues.KeyValuesBase;
 
 public class WatermarkAlignmentValuesFinder extends KeyValuesBase {
-    public List<KeyLabelPair> getKeyValues() {
-        List<KeyLabelPair> keyValues = new ArrayList<KeyLabelPair>();
-        keyValues.add(new KeyLabelPair("LEFT", WatermarkConstants.ALIGN_LEFT));
-        keyValues.add(new KeyLabelPair("CENTER", WatermarkConstants.ALIGN_CENTER));
-        keyValues.add(new KeyLabelPair("RIGHT", WatermarkConstants.ALIGN_RIGHT ));
+    
+    public List<KeyValue> getKeyValues() {
+        List<KeyValue> keyValues = new ArrayList<KeyValue>();
+        keyValues.add(new ConcreteKeyValue("LEFT", WatermarkConstants.ALIGN_LEFT));
+        keyValues.add(new ConcreteKeyValue("CENTER", WatermarkConstants.ALIGN_CENTER));
+        keyValues.add(new ConcreteKeyValue("RIGHT", WatermarkConstants.ALIGN_RIGHT ));
         return keyValues;
     }
 }

@@ -24,19 +24,19 @@ import java.util.Set;
 
 import org.apache.commons.collections.CollectionUtils;
 import org.apache.commons.lang.StringUtils;
-import org.kuali.rice.kns.lookup.keyvalues.KeyValuesBase;
-import org.kuali.rice.kns.service.BusinessObjectService;
-import org.kuali.rice.kns.service.KeyValuesService;
-import org.kuali.rice.kns.util.GlobalVariables;
-import org.kuali.rice.kns.web.struts.form.KualiForm;
-import org.kuali.rice.core.util.KeyLabelPair;
 import org.kuali.kra.budget.document.BudgetDocument;
 import org.kuali.kra.budget.nonpersonnel.BudgetLineItem;
 import org.kuali.kra.budget.parameters.BudgetPeriod;
 import org.kuali.kra.budget.web.struts.form.BudgetForm;
 import org.kuali.kra.infrastructure.KraServiceLocator;
 import org.kuali.kra.lookup.keyvalue.KeyValueFinderService;
-import org.kuali.kra.proposaldevelopment.bo.DevelopmentProposal;
+import org.kuali.rice.core.api.util.ConcreteKeyValue;
+import org.kuali.rice.core.api.util.KeyValue;
+import org.kuali.rice.kns.util.KNSGlobalVariables;
+import org.kuali.rice.kns.web.struts.form.KualiForm;
+import org.kuali.rice.krad.keyvalues.KeyValuesBase;
+import org.kuali.rice.krad.service.BusinessObjectService;
+import org.kuali.rice.krad.service.KeyValuesService;
 
 public class GroupNameValuesFinder extends KeyValuesBase{
     KeyValueFinderService keyValueFinderService= (KeyValueFinderService)KraServiceLocator.getService("keyValueFinderService");
@@ -46,16 +46,16 @@ public class GroupNameValuesFinder extends KeyValuesBase{
      * 
      * @return the list of &lt;key, value&gt; pairs of existing Group Names.  The first entry
      * is always &lt;"", "select:"&gt;.
-     * @see org.kuali.rice.kns.lookup.keyvalues.KeyValuesFinder#getKeyValues()
+     * @see org.kuali.rice.krad.keyvalues.KeyValuesFinder#getKeyValues()
      */
-    public List<KeyLabelPair> getKeyValues() {
+    public List<KeyValue> getKeyValues() {
         KeyValuesService keyValuesService = (KeyValuesService) KraServiceLocator.getService("keyValuesService");
-        List<KeyLabelPair> keyValues = new ArrayList<KeyLabelPair>();        
-        keyValues.add(new KeyLabelPair("", "select"));
+        List<KeyValue> keyValues = new ArrayList<KeyValue>();        
+        keyValues.add(new ConcreteKeyValue("", "select"));
 
         Set<String> distinctGroupNames = new HashSet<String>();
         
-        KualiForm form = GlobalVariables.getKualiForm();        
+        KualiForm form = KNSGlobalVariables.getKualiForm();        
         BudgetForm budgetForm = (BudgetForm) form;
         BudgetDocument budgetDocument = budgetForm.getBudgetDocument();
         
@@ -87,7 +87,7 @@ public class GroupNameValuesFinder extends KeyValuesBase{
              if(StringUtils.isNotEmpty(budgetLineItem.getGroupName())) {
                  distinct = distinctGroupNames.add(budgetLineItem.getGroupName());
                  if(distinct) {
-                     keyValues.add(new KeyLabelPair(budgetLineItem.getGroupName(), budgetLineItem.getGroupName()));
+                     keyValues.add(new ConcreteKeyValue(budgetLineItem.getGroupName(), budgetLineItem.getGroupName()));
                  }
              }
         }       
@@ -96,13 +96,13 @@ public class GroupNameValuesFinder extends KeyValuesBase{
             if(StringUtils.isNotEmpty(newBudgetLineItem.getGroupName())) {
                 distinct = distinctGroupNames.add(newBudgetLineItem.getGroupName());
                 if(distinct) {
-                    keyValues.add(new KeyLabelPair(newBudgetLineItem.getGroupName(), newBudgetLineItem.getGroupName()));
+                    keyValues.add(new ConcreteKeyValue(newBudgetLineItem.getGroupName(), newBudgetLineItem.getGroupName()));
                 }
             }
         }    
         
 //        if(StringUtils.isNotEmpty(budgetForm.getNewGroupName())) {
-//            keyValues.add(new KeyLabelPair(budgetForm.getNewGroupName(), budgetForm.getNewGroupName()));
+//            keyValues.add(new ConcreteKeyValue(budgetForm.getNewGroupName(), budgetForm.getNewGroupName()));
 //        }
         
         return keyValues;

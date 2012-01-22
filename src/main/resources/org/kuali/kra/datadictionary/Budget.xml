@@ -275,8 +275,8 @@
   <bean id="Budget-onOffCampusFlag-parentBean" abstract="true" parent="AttributeDefinition">
     <property name="name" value="onOffCampusFlag"/>
     <property name="forceUppercase" value="false"/>
-    <property name="label" value="On/Off Campus"/>
-    <property name="shortLabel" value="On/Off Campus"/>
+    <property name="label" value="On/Off CampusContract"/>
+    <property name="shortLabel" value="On/Off CampusContract"/>
     <property name="maxLength" value="3"/>
     <property name="validationPattern">
       <bean parent="AlphaNumericValidationPattern"/>
@@ -284,8 +284,8 @@
     <property name="control">
       <bean parent="SelectControlDefinition" p:valuesFinderClass="org.kuali.kra.budget.lookup.keyvalue.BudgetOnOffCampusValuesFinder" p:includeKeyInLabel="false"/>
     </property>
-    <property name="summary" value="On Off Campus flag"/>
-    <property name="description" value="On Off Campus flag allowing the user to set all expense line items to be either 'all on' or 'all off-campus'; overriding the object code level defaults."/>
+    <property name="summary" value="On Off CampusContractContract flag"/>
+    <property name="description" value="On Off CampusContractContract flag allowing the user to set all expense line items to be either 'all on' or 'all off-campus'; overriding the object code level defaults."/>
   </bean>
   <bean id="Budget-versionNumber" parent="Budget-versionNumber-parentBean"/>
 

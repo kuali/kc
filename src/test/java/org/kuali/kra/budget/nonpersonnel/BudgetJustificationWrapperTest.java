@@ -19,7 +19,6 @@ import java.sql.Date;
 
 import org.junit.Assert;
 import org.junit.Test;
-import org.kuali.kra.budget.nonpersonnel.BudgetJustificationWrapper;
 
 public class BudgetJustificationWrapperTest {
     private static final String JUSTIFICATION_TEXT_WITH_XML_MARKUP = "A justification with <xml> markup";

@@ -26,7 +26,7 @@ import org.kuali.kra.bo.KcPerson;
 import org.kuali.kra.bo.NonOrganizationalRolodex;
 import org.kuali.kra.infrastructure.KraServiceLocator;
 import org.kuali.kra.service.KcPersonService;
-import org.kuali.rice.core.util.KeyLabelPair;
+import org.kuali.rice.core.api.util.KeyValue;
 
 /**
  * This class supports the AwardForm class
@@ -141,7 +141,7 @@ public class ApprovedForeignTravelBean extends SpecialApprovalBean {
     /**
      * @return
      */
-    public List<KeyLabelPair> getKnownTravelers() {
+    public List<KeyValue> getKnownTravelers() {
         return new ApprovedForeignTravelerValuesFinder().getKeyValues();
     }
 

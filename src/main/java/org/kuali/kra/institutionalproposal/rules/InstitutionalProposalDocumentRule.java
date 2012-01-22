@@ -41,10 +41,10 @@ import org.kuali.kra.institutionalproposal.specialreview.InstitutionalProposalSp
 import org.kuali.kra.rule.BusinessRuleInterface;
 import org.kuali.kra.rule.event.KraDocumentEventBaseExtension;
 import org.kuali.kra.rules.ResearchDocumentRuleBase;
-import org.kuali.rice.kns.document.Document;
-import org.kuali.rice.kns.service.BusinessObjectService;
-import org.kuali.rice.kns.util.ErrorMap;
-import org.kuali.rice.kns.util.GlobalVariables;
+import org.kuali.rice.krad.document.Document;
+import org.kuali.rice.krad.service.BusinessObjectService;
+import org.kuali.rice.krad.util.GlobalVariables;
+import org.kuali.rice.krad.util.MessageMap;
 
 /**
  * This class...
@@ -62,12 +62,12 @@ public class InstitutionalProposalDocumentRule extends ResearchDocumentRuleBase 
     /**
      * 
      * @see org.kuali.core.rules.DocumentRuleBase#processCustomSaveDocumentBusinessRules(
-     * org.kuali.rice.kns.document.Document)
+     * org.kuali.rice.krad.document.Document)
      */
     @Override
     protected boolean processCustomSaveDocumentBusinessRules(Document document) {
         boolean retval = true;
-        ErrorMap errorMap = GlobalVariables.getErrorMap();
+        MessageMap errorMap = GlobalVariables.getMessageMap();
         if (!(document instanceof InstitutionalProposalDocument)) {
             return false;
         }
@@ -103,7 +103,7 @@ public class InstitutionalProposalDocumentRule extends ResearchDocumentRuleBase 
     */
     private boolean processSaveInstitutionalProposalCustomDataBusinessRules(Document document) {
         boolean valid = true;
-        ErrorMap errorMap = GlobalVariables.getErrorMap();
+        MessageMap errorMap = GlobalVariables.getMessageMap();
         InstitutionalProposalDocument institutionalProposalDocument = (InstitutionalProposalDocument) document;
         errorMap.addToErrorPath(DOCUMENT_ERROR_PATH);
         errorMap.addToErrorPath(INSTITUTIONAL_PROPOSAL_ERROR_PATH);
@@ -126,7 +126,7 @@ public class InstitutionalProposalDocumentRule extends ResearchDocumentRuleBase 
     */
     private boolean processUnrecoveredFandABusinessRules(Document document) {
         boolean valid = true;
-        ErrorMap errorMap = GlobalVariables.getErrorMap();
+        MessageMap errorMap = GlobalVariables.getMessageMap();
         InstitutionalProposalDocument institutionalProposalDocument = (InstitutionalProposalDocument) document;
         int i = 0;
         List<InstitutionalProposalUnrecoveredFandA> institutionalProposalUnrecoveredFandAs = 
@@ -150,7 +150,7 @@ public class InstitutionalProposalDocumentRule extends ResearchDocumentRuleBase 
     
     /**
      * @see org.kuali.core.rule.DocumentAuditRule#processRunAuditBusinessRules(
-     * org.kuali.rice.kns.document.Document)
+     * org.kuali.rice.krad.document.Document)
      */
     public boolean processRunAuditBusinessRules(Document document){
         boolean retval = true;
@@ -165,7 +165,7 @@ public class InstitutionalProposalDocumentRule extends ResearchDocumentRuleBase 
         
     }
     
-    private boolean processInstitutionalProposalPersonBusinessRules(ErrorMap errorMap, Document document) {
+    private boolean processInstitutionalProposalPersonBusinessRules(MessageMap errorMap, Document document) {
         errorMap.addToErrorPath(DOCUMENT_ERROR_PATH);
         errorMap.addToErrorPath(IP_ERROR_PATH);
         InstitutionalProposalPersonSaveRuleEvent event = new InstitutionalProposalPersonSaveRuleEvent("Project Persons", "projectPersons", document);
@@ -195,7 +195,7 @@ public class InstitutionalProposalDocumentRule extends ResearchDocumentRuleBase 
                 if ( keyword == keyword2 ) {
                     continue;
                 } else if ( StringUtils.equalsIgnoreCase(keyword.getScienceKeywordCode(), keyword2.getScienceKeywordCode()) ) {
-                    GlobalVariables.getErrorMap().putError("document.institutionalProposalList[0].keyword", "error.proposalKeywords.duplicate");
+                    GlobalVariables.getMessageMap().putError("document.institutionalProposalList[0].keyword", "error.proposalKeywords.duplicate");
                    
                     return false;
                 }
@@ -256,7 +256,7 @@ public class InstitutionalProposalDocumentRule extends ResearchDocumentRuleBase 
         InstitutionalProposalDocument proposalDocument = (InstitutionalProposalDocument) document;
         List<InstitutionalProposalSpecialReview> specialReviews = proposalDocument.getInstitutionalProposal().getSpecialReviews();
         boolean isProtocolLinkingEnabled 
-            = getParameterService().getIndicatorParameter("KC-PROTOCOL", "Document", "irb.protocol.institute.proposal.linking.enabled");
+            = getParameterService().getParameterValueAsBoolean("KC-PROTOCOL", "Document", "irb.protocol.institute.proposal.linking.enabled");
         return processRules(new SaveSpecialReviewEvent<InstitutionalProposalSpecialReview>(
             SAVE_SPECIAL_REVIEW_FIELD, proposalDocument, specialReviews, isProtocolLinkingEnabled));
     }

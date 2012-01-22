@@ -21,7 +21,7 @@ import org.apache.commons.logging.LogFactory;
 import org.kuali.kra.coi.CoiDisclosureDocument;
 import org.kuali.kra.coi.notesandattachments.notes.CoiDisclosureNotepad;
 import org.kuali.kra.rule.event.KraDocumentEventBase;
-import org.kuali.rice.kns.rule.BusinessRule;
+import org.kuali.rice.krad.rules.rule.BusinessRule;
 
 public class AddCoiDisclosureNotepadEvent extends KraDocumentEventBase{
 

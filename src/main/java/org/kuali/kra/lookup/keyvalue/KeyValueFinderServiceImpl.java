@@ -26,8 +26,9 @@ import java.util.Map;
 import org.apache.commons.lang.StringUtils;
 import org.apache.commons.logging.Log;
 import org.apache.commons.logging.LogFactory;
-import org.kuali.rice.kns.service.BusinessObjectService;
-import org.kuali.rice.core.util.KeyLabelPair;
+import org.kuali.rice.core.api.util.ConcreteKeyValue;
+import org.kuali.rice.core.api.util.KeyValue;
+import org.kuali.rice.krad.service.BusinessObjectService;
 
 /**
  * This class...
@@ -38,10 +39,10 @@ public class KeyValueFinderServiceImpl implements KeyValueFinderService {
     /**
      * @see org.kuali.kra.lookup.keyvalue.KeyValueFinderService#getKeyValuesFor(java.lang.Class)
      */
-    public List<KeyLabelPair> getKeyValues(Class keyValClass,String codePropName,String valPropName) {
+    public List<KeyValue> getKeyValues(Class keyValClass,String codePropName,String valPropName) {
         Collection keyVals = businessObjectService.findAll(keyValClass);
-        List<KeyLabelPair> keyValueList = new ArrayList<KeyLabelPair>(keyVals.size());
-        keyValueList.add(new KeyLabelPair("", "select"));
+        List<KeyValue> keyValueList = new ArrayList<KeyValue>(keyVals.size());
+        keyValueList.add(new ConcreteKeyValue("", "select"));
         for (Iterator iterator = keyVals.iterator(); iterator.hasNext();) {
             Object keyValObj = iterator.next();
             Method getCodeMeth;
@@ -51,7 +52,7 @@ public class KeyValueFinderServiceImpl implements KeyValueFinderService {
                 Object code = getCodeMeth.invoke(keyValObj, null);
                 Object value = getValMeth.invoke(keyValObj, null);
                 if(code!=null && value!=null){
-                    keyValueList.add(new KeyLabelPair(code.toString(), value.toString()));
+                    keyValueList.add(new ConcreteKeyValue(code.toString(), value.toString()));
                 }
             }
             catch (SecurityException e) {
@@ -82,11 +83,11 @@ public class KeyValueFinderServiceImpl implements KeyValueFinderService {
      * 
      * @see org.kuali.kra.lookup.keyvalue.KeyValueFinderService#getKeyValues(java.lang.Class, java.lang.String, java.lang.String, java.util.Map)
      */
-    public List<KeyLabelPair> getKeyValues(Class keyValClass, String codePropName, String valPropName, Map queryMap) {
+    public List<KeyValue> getKeyValues(Class keyValClass, String codePropName, String valPropName, Map queryMap) {
         
         Collection keyVals = businessObjectService.findMatching(keyValClass,queryMap);
-        List<KeyLabelPair> keyValueList = new ArrayList<KeyLabelPair>(keyVals.size());
-        keyValueList.add(new KeyLabelPair("", "select:"));
+        List<KeyValue> keyValueList = new ArrayList<KeyValue>(keyVals.size());
+        keyValueList.add(new ConcreteKeyValue("", "select:"));
         for (Iterator iterator = keyVals.iterator(); iterator.hasNext();) {
             Object keyValObj = iterator.next();
             Method getCodeMeth;
@@ -95,7 +96,7 @@ public class KeyValueFinderServiceImpl implements KeyValueFinderService {
                 Method getValMeth = keyValObj.getClass().getMethod("get"+StringUtils.capitalize(valPropName), null);
                 String code = (String)getCodeMeth.invoke(keyValObj, null);
                 String value = (String)getValMeth.invoke(keyValObj, null);
-                keyValueList.add(new KeyLabelPair(code, value));
+                keyValueList.add(new ConcreteKeyValue(code, value));
             }catch (SecurityException e) {
                 LOG.debug(e.getMessage(), e);
                 LOG.error(e.getMessage());

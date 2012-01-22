@@ -17,7 +17,6 @@ package org.kuali.kra.irb.actions.correspondence;
 
 import java.util.List;
 
-import org.kuali.kra.irb.Protocol;
 import org.kuali.kra.irb.correspondence.ProtocolCorrespondenceTemplate;
 import org.kuali.kra.printing.PrintingException;
 

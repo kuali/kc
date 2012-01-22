@@ -15,50 +15,30 @@
  */
 package org.kuali.kra.budget.personnel;
 
-import java.util.LinkedHashMap;
-
-import org.apache.ojb.broker.query.Criteria;
-import org.apache.ojb.broker.query.Query;
-import org.apache.ojb.broker.query.QueryFactory;
-import org.kuali.kra.award.budget.AwardBudgetPersonnelCalculatedAmountExt;
-import org.kuali.kra.award.budget.AwardBudgetPersonnelDetailsExt;
 import org.kuali.kra.budget.nonpersonnel.AbstractBudgetCalculatedAmount;
 import org.kuali.kra.infrastructure.DeepCopyIgnore;
 
 public class BudgetPersonnelCalculatedAmount extends AbstractBudgetCalculatedAmount {
-	/**
+
+    /**
      * Comment for <code>serialVersionUID</code>
      */
     private static final long serialVersionUID = 3100896964798965084L;
+
     private Integer personNumber;
+
     @DeepCopyIgnore
     private Long budgetPersonnelCalculatedAmountId;
+
     private Long budgetPersonnelLineItemId;
 
-	public Integer getPersonNumber() {
-		return personNumber;
-	}
-
-	public void setPersonNumber(Integer personNumber) {
-		this.personNumber = personNumber;
-	}
-    @Override
-    public void afterDelete(org.apache.ojb.broker.PersistenceBroker persistenceBroker) throws org.apache.ojb.broker.PersistenceBrokerException {
-        if( this instanceof AwardBudgetPersonnelCalculatedAmountExt) {
-            Criteria crit = new Criteria();
-            crit.addEqualTo("budgetPersonnelCalculatedAmountId", getBudgetPersonnelCalculatedAmountId());
-            Query delQ = QueryFactory.newQuery(BudgetPersonnelCalculatedAmount.class, crit);
-            persistenceBroker.deleteByQuery(delQ);
-        }
+    public Integer getPersonNumber() {
+        return personNumber;
     }
 
-	@SuppressWarnings("unchecked")
-    @Override 
-	protected LinkedHashMap toStringMapper() {
-		LinkedHashMap hashMap = super.toStringMapper();
-		hashMap.put("personNumber", getPersonNumber());
-		return hashMap;
-	}
+    public void setPersonNumber(Integer personNumber) {
+        this.personNumber = personNumber;
+    }
 
     /**
      * Gets the budgetPersonnelCalculatedAmountId attribute. 

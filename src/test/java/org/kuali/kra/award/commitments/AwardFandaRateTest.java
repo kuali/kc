@@ -19,7 +19,6 @@ import org.junit.After;
 import org.junit.Assert;
 import org.junit.Before;
 import org.junit.Test;
-import org.kuali.kra.award.commitments.AwardFandaRate;
 
 /**
  * 
@@ -55,7 +54,7 @@ public class AwardFandaRateTest {
      */
     @Test
     public void testAwardIndirectCostRateBoAttributesCount() throws Exception {              
-        Assert.assertEquals(AWARD_FANDA_RATE_COUNT, awardFandaRate.toStringMapper().size());
+        Assert.assertEquals(AWARD_FANDA_RATE_COUNT, awardFandaRate.getClass().getFields().length);
     }
     
 }

@@ -32,7 +32,7 @@ import org.kuali.kra.s2s.polling.TaskInfo;
 import org.kuali.kra.s2s.service.S2SUtilService;
 import org.kuali.kra.s2s.service.SchedulerService;
 import org.kuali.kra.s2s.util.S2SConstants;
-import org.kuali.rice.kns.mail.MailMessage;
+import org.kuali.rice.core.api.mail.MailMessage;
 import org.quartz.JobDetail;
 import org.quartz.Scheduler;
 import org.quartz.SchedulerException;

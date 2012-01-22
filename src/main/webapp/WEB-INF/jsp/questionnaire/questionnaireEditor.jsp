@@ -16,8 +16,6 @@
 
 <%@ include file="/WEB-INF/jsp/kraTldHeader.jsp"%>
 
-
-<script src="scripts/jquery/jquery.js"></script>
 <link rel="stylesheet" href="css/jquery/new_kuali.css" type="text/css" />
 <link rel="stylesheet" href="css/jquery/kuali-stylesheet.css" type="text/css" />
 <link rel="stylesheet" href="css/jquery/jquery.treeview.css" type="text/css" />
@@ -29,7 +27,7 @@
 <kul:tab defaultOpen="true" tabTitle="Questionnaire Details, Content & Use "
     tabErrorKey="document.newMaintainableObject.businessObject*">
     <c:choose>
-      <c:when test = "${KualiForm.document.newMaintainableObject.maintenanceAction eq 'Copy' and !(KualiForm.document.documentHeader.workflowDocument.routeHeader.docRouteStatus eq 'F')}">
+      <c:when test = "${KualiForm.document.newMaintainableObject.maintenanceAction eq 'Copy' and !(KualiForm.document.documentHeader.workflowDocument.status.code eq 'F')}">
         <kra-questionnaire:questionnaireMaintCopy />      
       </c:when>
       <c:otherwise>
@@ -40,7 +38,7 @@
      </c:choose>
 </kul:tab>
     <input type="hidden" id="maintAction" name="maintAction" value = "${KualiForm.document.newMaintainableObject.maintenanceAction}"/>
-     <input type="hidden" id="docStatus" name="docStatus" value="${KualiForm.document.documentHeader.workflowDocument.routeHeader.docRouteStatus }"  />   
+     <input type="hidden" id="docStatus" name="docStatus" value="${KualiForm.document.documentHeader.workflowDocument.status.code }"  />   
      <input type="hidden" id="readOnly" name="readOnly" value="${KualiForm.readOnly}"  />   
 
 <script type="text/javascript" src="scripts/questionnaireMaint.js"></script>

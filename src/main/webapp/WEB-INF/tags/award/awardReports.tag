@@ -33,7 +33,7 @@
 				test="${KualiForm.reportClassForPaymentsAndInvoices.reportClassCode != reportClass.key}">
 				<kra-a:awardReportClasses index="${reportClassIndex.index}"
 					reportClassKey="${reportClass.key}"
-					reportClassLabel="${reportClass.label}"
+					reportClassLabel="${reportClass.value}"
 					reportCodeLabel="* Report Type" />
 			</c:if>
 		</c:forEach>

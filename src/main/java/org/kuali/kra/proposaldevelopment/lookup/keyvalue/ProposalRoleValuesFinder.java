@@ -20,9 +20,10 @@ import java.util.List;
 
 import org.kuali.kra.infrastructure.KraServiceLocator;
 import org.kuali.kra.kim.service.ProposalRoleService;
-import org.kuali.rice.kim.bo.Role;
-import org.kuali.rice.kns.lookup.keyvalues.KeyValuesBase;
-import org.kuali.rice.core.util.KeyLabelPair;
+import org.kuali.rice.core.api.util.ConcreteKeyValue;
+import org.kuali.rice.core.api.util.KeyValue;
+import org.kuali.rice.kim.api.role.Role;
+import org.kuali.rice.krad.keyvalues.KeyValuesBase;
 
 /**
  * Finds the available set of proposal roles.  See
@@ -36,15 +37,15 @@ public class ProposalRoleValuesFinder extends KeyValuesBase {
      * The set of proposal roles is static.  
      * 
      * @return the list of key/value pairs of Proposal Roles.
-     * @see org.kuali.rice.kns.lookup.keyvalues.KeyValuesFinder#getKeyValues()
+     * @see org.kuali.rice.krad.keyvalues.KeyValuesFinder#getKeyValues()
      */
-    public List<KeyLabelPair> getKeyValues() {
+    public List<KeyValue> getKeyValues() {
         ProposalRoleService proposalRoleService = KraServiceLocator.getService(ProposalRoleService.class);
         List<Role> proposalRoles = proposalRoleService.getRolesForDisplay();
-        List<KeyLabelPair> keyValues = new ArrayList<KeyLabelPair>();
+        List<KeyValue> keyValues = new ArrayList<KeyValue>();
 
         for (Role role : proposalRoles) {
-            KeyLabelPair pair = new KeyLabelPair(role.getRoleName(), role.getRoleName());
+            KeyValue pair = new ConcreteKeyValue(role.getName(), role.getName());
             keyValues.add(pair);
         }
         

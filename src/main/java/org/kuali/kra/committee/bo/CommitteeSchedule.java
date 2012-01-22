@@ -20,7 +20,6 @@ import java.sql.Timestamp;
 import java.util.ArrayList;
 import java.util.Calendar;
 import java.util.GregorianCalendar;
-import java.util.LinkedHashMap;
 import java.util.List;
 import java.util.Map;
 
@@ -37,7 +36,7 @@ import org.kuali.kra.meeting.CommScheduleMinuteDoc;
 import org.kuali.kra.meeting.CommitteeScheduleAttendance;
 import org.kuali.kra.meeting.CommitteeScheduleMinute;
 import org.kuali.kra.meeting.ScheduleAgenda;
-import org.kuali.rice.kns.util.DateUtils;
+import org.kuali.kra.util.DateUtils;
 
 /**
  * This is BO class to support CommitteeScheulde. It has three transient field to support UI.
@@ -412,27 +411,6 @@ public class CommitteeSchedule extends CommitteeAssociate implements Comparable<
         return compareResult;
     }
     
-    @SuppressWarnings("unchecked")
-    @Override 
-	protected LinkedHashMap toStringMapper() {
-		LinkedHashMap hashMap = super.toStringMapper();
-		hashMap.put("id", getId());
-		hashMap.put("scheduleId", getScheduleId());
-		hashMap.put("scheduledDate", getScheduledDate());
-		hashMap.put("place", getPlace());
-		hashMap.put("time", getTime());
-		hashMap.put("protocolSubDeadline", getProtocolSubDeadline());
-		hashMap.put("scheduleStatusCode", getScheduleStatusCode());
-		hashMap.put("meetingDate", getMeetingDate());
-		hashMap.put("startTime", getStartTime());
-		hashMap.put("endTime", getEndTime());
-		hashMap.put("agendaProdRevDate", getAgendaProdRevDate());
-		hashMap.put("maxProtocols", getMaxProtocols());
-		hashMap.put("comments", getComments());
-		hashMap.put("availableToReviewers", isAvailableToReviewers());
-		return hashMap;
-	}
-	
     public void resetPersistenceState() {
         setId(null);
     }

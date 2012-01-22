@@ -15,19 +15,20 @@
  */
 package org.kuali.kra.institutionalproposal.proposallog;
 
+import java.util.HashMap;
+import java.util.Map;
+
 import org.apache.commons.lang.StringUtils;
 import org.kuali.kra.authorization.KraAuthorizationConstants;
 import org.kuali.kra.infrastructure.KeyConstants;
 import org.kuali.kra.infrastructure.KraServiceLocator;
 import org.kuali.kra.institutionalproposal.InstitutionalProposalConstants;
-import org.kuali.rice.kim.bo.types.dto.AttributeSet;
-import org.kuali.rice.kim.service.IdentityManagementService;
 import org.kuali.rice.kns.document.MaintenanceDocument;
-import org.kuali.rice.kns.maintenance.rules.MaintenanceDocumentRule;
 import org.kuali.rice.kns.maintenance.rules.MaintenanceDocumentRuleBase;
-import org.kuali.rice.kns.service.SequenceAccessorService;
-import org.kuali.rice.kns.util.GlobalVariables;
-import org.kuali.rice.kns.util.ObjectUtils;
+import org.kuali.rice.kns.rules.MaintenanceDocumentRule;
+import org.kuali.rice.krad.service.SequenceAccessorService;
+import org.kuali.rice.krad.util.GlobalVariables;
+import org.kuali.rice.krad.util.ObjectUtils;
 
 public class ProposalLogMaintenanceDocumentRules extends MaintenanceDocumentRuleBase
     implements MaintenanceDocumentRule {
@@ -36,7 +37,7 @@ public class ProposalLogMaintenanceDocumentRules extends MaintenanceDocumentRule
     /**
      * Checks to see if document is in valid state to save.
      * 
-     * @see org.kuali.rice.kns.rules.MaintenanceDocumentRuleBase#isDocumentValidForSave(
+     * @see org.kuali.rice.kns.maintenance.rules.MaintenanceDocumentRuleBase#isDocumentValidForSave(
      * org.kuali.rice.kns.document.MaintenanceDocument)
      
      * @param document the MaintenanceDocument to check
@@ -46,7 +47,7 @@ public class ProposalLogMaintenanceDocumentRules extends MaintenanceDocumentRule
     protected boolean isDocumentValidForSave(MaintenanceDocument document) {
         boolean valid = super.isDocumentValidForSave(document);
         
-        ProposalLog proposalLog = (ProposalLog) document.getNewMaintainableObject().getBusinessObject();
+        ProposalLog proposalLog = (ProposalLog) document.getNewMaintainableObject().getDataObject();
         
         if (!isProposalStatusChangeValid(document)) {
             GlobalVariables.getMessageMap().putError("document.newMaintainableObject.logStatus", 
@@ -94,7 +95,7 @@ public class ProposalLogMaintenanceDocumentRules extends MaintenanceDocumentRule
     protected boolean processCustomRouteDocumentBusinessRules(MaintenanceDocument document) {
         boolean valid = super.processCustomRouteDocumentBusinessRules(document);
         
-        ProposalLog proposalLog = (ProposalLog) document.getNewMaintainableObject().getBusinessObject();
+        ProposalLog proposalLog = (ProposalLog) document.getNewMaintainableObject().getDataObject();
         
         if (ObjectUtils.isNull(proposalLog.getPiId()) && ObjectUtils.isNull(proposalLog.getRolodexId())) {
             GlobalVariables.getMessageMap().putError("document.newMaintainableObject.piId", 
@@ -134,7 +135,7 @@ public class ProposalLogMaintenanceDocumentRules extends MaintenanceDocumentRule
      */
     private boolean isSponsorValid(MaintenanceDocument document) {
         boolean valid = true;
-        ProposalLog proposalLog = (ProposalLog) document.getNewMaintainableObject().getBusinessObject();
+        ProposalLog proposalLog = (ProposalLog) document.getNewMaintainableObject().getDataObject();
         if (!StringUtils.isBlank(proposalLog.getSponsorCode())) {
             proposalLog.refreshReferenceObject("sponsor");
             if (proposalLog.getSponsor() == null) {
@@ -147,8 +148,8 @@ public class ProposalLogMaintenanceDocumentRules extends MaintenanceDocumentRule
 
     private boolean isProposalStatusChangeValid(MaintenanceDocument document) {
         boolean retval = false;
-        ProposalLog oldProposalLog = (ProposalLog) document.getOldMaintainableObject().getBusinessObject();
-        ProposalLog newProposalLog = (ProposalLog) document.getNewMaintainableObject().getBusinessObject();
+        ProposalLog oldProposalLog = (ProposalLog) document.getOldMaintainableObject().getDataObject();
+        ProposalLog newProposalLog = (ProposalLog) document.getNewMaintainableObject().getDataObject();
         String oldStatus = oldProposalLog.getLogStatus();
         String newStatus = newProposalLog.getLogStatus();
         if (oldProposalLog.getProposalNumber() == null) {
@@ -165,12 +166,11 @@ public class ProposalLogMaintenanceDocumentRules extends MaintenanceDocumentRule
     }
     
     private boolean hasUnitAuthorization(ProposalLog proposalLog) {
-        IdentityManagementService idmService = getIdentityManagementService();
-        AttributeSet permissionDetails = new AttributeSet();
+        Map<String,String> permissionDetails =new HashMap<String,String>();
         permissionDetails.put("documentTypeName", "ProposalLogMaintenanceDocument");
-        AttributeSet qualifications = new AttributeSet();
+        Map<String,String> qualifications =new HashMap<String,String>();
         qualifications.put(KraAuthorizationConstants.QUALIFICATION_UNIT_NUMBER, proposalLog.getLeadUnit());
-        return idmService.isAuthorized(
+        return getPermissionService().isAuthorized(
                 GlobalVariables.getUserSession().getPrincipalId(), 
                 InstitutionalProposalConstants.INSTITUTIONAL_PROPOSAL_NAMESPACE, 
                 KraAuthorizationConstants.PERMISSION_SUBMIT_PROPOSAL_LOG, 

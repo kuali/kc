@@ -29,9 +29,9 @@ import org.apache.commons.lang.StringUtils;
 import org.kuali.kra.award.home.ValidRates;
 import org.kuali.kra.budget.document.BudgetDocument;
 import org.kuali.kra.infrastructure.Constants;
-import org.kuali.rice.kns.service.BusinessObjectService;
-import org.kuali.rice.kns.service.ParameterService;
-import org.kuali.rice.kns.util.ObjectUtils;
+import org.kuali.rice.coreservice.framework.parameter.ParameterService;
+import org.kuali.rice.krad.service.BusinessObjectService;
+import org.kuali.rice.krad.util.ObjectUtils;
 
 /**
  * 
@@ -65,7 +65,7 @@ public class AwardFandaRateServiceImpl implements AwardFandaRateService {
                 
         if (StringUtils.isNotEmpty(fiscalYear) && fiscalYear.length()==FOUR_DIGIT_YEAR_LENGTH) {            
             String budgetFiscalYearStart
-                = this.parameterService.getParameterValue(BudgetDocument.class, Constants.BUDGET_CURRENT_FISCAL_YEAR);
+                = this.parameterService.getParameterValueAsString(BudgetDocument.class, Constants.BUDGET_CURRENT_FISCAL_YEAR);
             DateFormat dateFormat = new SimpleDateFormat(Constants.DEFAULT_DATE_FORMAT_PATTERN);
             for(Date date:getFiscalYearStartAndDates(
                                 Integer.valueOf(fiscalYear), budgetFiscalYearStart.split("/"))){
@@ -118,7 +118,7 @@ public class AwardFandaRateServiceImpl implements AwardFandaRateService {
         dates.add(new Date(calendar.getTimeInMillis()));
         return dates; 
     }
-
+   
     public void setBusinessObjectService(BusinessObjectService businessObjectService) {
         this.businessObjectService = businessObjectService;
     }

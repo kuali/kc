@@ -18,23 +18,24 @@ package org.kuali.kra.irb.correspondence;
 import java.util.ArrayList;
 import java.util.List;
 
-import org.kuali.rice.core.util.KeyLabelPair;
-import org.kuali.rice.kns.lookup.keyvalues.KeyValuesBase;
+import org.kuali.rice.core.api.util.ConcreteKeyValue;
+import org.kuali.rice.core.api.util.KeyValue;
+import org.kuali.rice.krad.keyvalues.KeyValuesBase;
 /**
  * 
  * This class returns the module IDs that ProtocolCorrespondenceType can have.
  */
 public class CorrespondenceTypeModuleIdValuesFinder extends KeyValuesBase {
 
-    public List<KeyLabelPair> getKeyValues() {
-        List<KeyLabelPair> keyLabelPairs = new ArrayList<KeyLabelPair>();
+    public List<KeyValue> getKeyValues() {
+        List<KeyValue> KeyValues = new ArrayList<KeyValue>();
 
-        keyLabelPairs.add(new KeyLabelPair("", "select"));
+        KeyValues.add(new ConcreteKeyValue("", "select"));
         for (CorrespondenceTypeModuleIdConstants correspondenceTypeModuleIdConstants : CorrespondenceTypeModuleIdConstants.values()) {
-            keyLabelPairs.add(new KeyLabelPair(correspondenceTypeModuleIdConstants.code(), correspondenceTypeModuleIdConstants.description()));
+            KeyValues.add(new ConcreteKeyValue(correspondenceTypeModuleIdConstants.code(), correspondenceTypeModuleIdConstants.description()));
         }
         
-        return keyLabelPairs; 
+        return KeyValues; 
     }
 
 }

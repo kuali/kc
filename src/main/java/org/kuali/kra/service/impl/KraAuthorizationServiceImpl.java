@@ -33,12 +33,12 @@ import org.kuali.kra.infrastructure.RoleConstants;
 import org.kuali.kra.service.KcPersonService;
 import org.kuali.kra.service.KraAuthorizationService;
 import org.kuali.kra.service.UnitAuthorizationService;
-import org.kuali.rice.kim.bo.Role;
-import org.kuali.rice.kim.bo.entity.KimPrincipal;
-import org.kuali.rice.kim.bo.role.dto.RoleMembershipInfo;
-import org.kuali.rice.kim.bo.types.dto.AttributeSet;
-import org.kuali.rice.kim.service.IdentityManagementService;
-import org.kuali.rice.kim.service.RoleManagementService;
+import org.kuali.rice.kim.api.identity.IdentityService;
+import org.kuali.rice.kim.api.identity.principal.PrincipalContract;
+import org.kuali.rice.kim.api.permission.PermissionService;
+import org.kuali.rice.kim.api.role.Role;
+import org.kuali.rice.kim.api.role.RoleMembership;
+import org.kuali.rice.kim.api.role.RoleService;
 
 /**
  * The Kra Authorization Service Implementation.
@@ -50,8 +50,9 @@ public class KraAuthorizationServiceImpl implements KraAuthorizationService {
     private UnitAuthorizationService unitAuthorizationService;
     private KcPersonService kcPersonService;
     
-    private RoleManagementService roleManagementService;
-    private IdentityManagementService identityManagementService;
+    private RoleService roleManagementService;
+    private IdentityService identityManagementService;
+    private PermissionService permissionService;
     
     /**
      * Set the Unit Authorization Service.  Injected by Spring.
@@ -69,12 +70,16 @@ public class KraAuthorizationServiceImpl implements KraAuthorizationService {
         this.kcPersonService = personService;
     }
     
-    public void setRoleManagementService(RoleManagementService roleManagementService) {
+    public void setRoleManagementService(RoleService roleManagementService) {
         this.roleManagementService = roleManagementService;
     }
     
-    public void setIdentityManagementService(IdentityManagementService identityManagementService) {
+    public void setIdentityManagementService(IdentityService identityManagementService) {
         this.identityManagementService = identityManagementService;
+    }
+
+    public void setPermissionService(PermissionService permissionService) {
+        this.permissionService = permissionService;
     }
 
     /**
@@ -84,9 +89,9 @@ public class KraAuthorizationServiceImpl implements KraAuthorizationService {
         List<String> userNames = new ArrayList<String>();
         Map<String, String> qualifiedRoleAttributes = new HashMap<String, String>();
         qualifiedRoleAttributes.put(permissionable.getDocumentKey(), permissionable.getDocumentNumberForPermission());
-        Collection<String> users = roleManagementService.getRoleMemberPrincipalIds(permissionable.getNamespace(), roleName, new AttributeSet(qualifiedRoleAttributes));
+        Collection<String> users = roleManagementService.getRoleMemberPrincipalIds(permissionable.getNamespace(), roleName,new HashMap<String,String>(qualifiedRoleAttributes));
         for(String userId: users) {
-            KimPrincipal principal = identityManagementService.getPrincipal(userId);
+            PrincipalContract principal = identityManagementService.getPrincipal(userId);
             if(principal != null) {
                 userNames.add(principal.getPrincipalName());
             }
@@ -100,7 +105,7 @@ public class KraAuthorizationServiceImpl implements KraAuthorizationService {
     public void addRole(String userId, String roleName, Permissionable permissionable) {
         Map<String, String> qualifiedRoleAttributes = new HashMap<String, String>();
         qualifiedRoleAttributes.put(permissionable.getDocumentKey(), permissionable.getDocumentNumberForPermission());
-        roleManagementService.assignPrincipalToRole(userId, permissionable.getNamespace(), roleName, new AttributeSet(qualifiedRoleAttributes));
+        roleManagementService.assignPrincipalToRole(userId, permissionable.getNamespace(), roleName,new HashMap<String,String>(qualifiedRoleAttributes));
         forceFlushRoleCaches();
     }
     
@@ -110,7 +115,7 @@ public class KraAuthorizationServiceImpl implements KraAuthorizationService {
     public void removeRole(String userId, String roleName, Permissionable permissionable) {
         Map<String, String> qualifiedRoleAttributes = new HashMap<String, String>();
         qualifiedRoleAttributes.put(permissionable.getDocumentKey(), permissionable.getDocumentNumberForPermission());
-        roleManagementService.removePrincipalFromRole(userId, permissionable.getNamespace(), roleName, new AttributeSet(qualifiedRoleAttributes));
+        roleManagementService.removePrincipalFromRole(userId, permissionable.getNamespace(), roleName,new HashMap<String,String>(qualifiedRoleAttributes));
         forceFlushRoleCaches();
     }
     
@@ -123,10 +128,16 @@ public class KraAuthorizationServiceImpl implements KraAuthorizationService {
         qualifiedRoleAttributes.put(permissionable.getDocumentKey(), permissionable.getDocumentNumberForPermission());
         permissionable.populateAdditionalQualifiedRoleAttributes(qualifiedRoleAttributes);
         Map<String, String> permissionAttributes = PermissionAttributes.getAttributes(permissionName);
+        
+        //Temp code to proceed with rice 2.0 upgrade testing
+        //if(permissionAttributes == null) {
+        //    permissionAttributes = new HashMap<String, String>();
+        //}
+        //Temp code ends here
         String unitNumber = permissionable.getLeadUnitNumber();
         
         if(StringUtils.isNotEmpty(permissionable.getDocumentNumberForPermission())) {
-            userHasPermission = identityManagementService.isAuthorized(userId, permissionable.getNamespace(), permissionName, new AttributeSet(permissionAttributes), new AttributeSet(qualifiedRoleAttributes));
+            userHasPermission = permissionService.isAuthorized(userId, permissionable.getNamespace(), permissionName, permissionAttributes, qualifiedRoleAttributes); 
         }
         if (!userHasPermission && StringUtils.isNotEmpty(unitNumber)) {
             userHasPermission = unitAuthorizationService.hasPermission(userId, unitNumber, permissionable.getNamespace(), permissionName);
@@ -140,9 +151,9 @@ public class KraAuthorizationServiceImpl implements KraAuthorizationService {
     public boolean hasRole(String userId, Permissionable permissionable, String roleName) {
         Map<String, String> qualifiedRoleAttributes = new HashMap<String, String>();
         qualifiedRoleAttributes.put(permissionable.getDocumentKey(), permissionable.getDocumentNumberForPermission());
-        Role role = roleManagementService.getRoleByName(permissionable.getNamespace(), roleName);
+        Role role = roleManagementService.getRoleByNameAndNamespaceCode(permissionable.getNamespace(), roleName);
         if(role != null) {
-            return roleManagementService.principalHasRole(userId, Collections.singletonList(role.getRoleId()), new AttributeSet(qualifiedRoleAttributes));
+            return roleManagementService.principalHasRole(userId, Collections.singletonList(role.getId()),new HashMap<String,String>(qualifiedRoleAttributes));
         }
         return false;
     }
@@ -163,19 +174,19 @@ public class KraAuthorizationServiceImpl implements KraAuthorizationService {
 //            fieldValues.put("attributes.kimAttribute.attributeName", permissionable.getDocumentKey()); 
 //            fieldValues.put("attributes.kimAttribute.namespaceCode", KraAuthorizationConstants.KC_SYSTEM_NAMESPACE_CODE); 
 //            fieldValues.put("kimTypeId", "*");
-//            List<Role> roles = (List<Role>) roleManagementService.getRolesSearchResults(fieldValues);
+//            List<Role> roles = (List<Role>) roleManagementService.findRoles(fieldValues);
 //            for(Role role : roles) {
-//                roleNames.add(role.getRoleName());
+//                roleNames.add(role.getName());
 //            }
             List<String> roleIds = new ArrayList<String>();
             Map<String, String> roleNameIdMap = new HashMap<String, String>();
             for(String role : permissionable.getRoleNames()) {
-                String roleId = roleManagementService.getRoleIdByName(permissionable.getNamespace(), role);
+                String roleId = roleManagementService.getRoleIdByNameAndNamespaceCode(permissionable.getNamespace(), role);
                 roleNameIdMap.put(roleId, role);
                 roleIds.add(roleId);
             }
-            List<RoleMembershipInfo> membershipInfoList = roleManagementService.getRoleMembers(roleIds, new AttributeSet(qualifiedRoleAttrs));
-            for(RoleMembershipInfo memberShipInfo : membershipInfoList) {
+            List<RoleMembership> membershipInfoList = roleManagementService.getRoleMembers(roleIds,new HashMap<String,String>(qualifiedRoleAttrs));
+            for(RoleMembership memberShipInfo : membershipInfoList) {
                 if(memberShipInfo.getMemberId().equalsIgnoreCase(userId)) {
                     roleNames.add(roleNameIdMap.get(memberShipInfo.getRoleId()));
                 }
@@ -193,7 +204,7 @@ public class KraAuthorizationServiceImpl implements KraAuthorizationService {
         if(permissionable != null && StringUtils.isNotBlank(roleName)) { 
             Map<String, String> qualifiedRoleAttrs = new HashMap<String, String>();
             qualifiedRoleAttrs.put(permissionable.getDocumentKey(), permissionable.getDocumentNumberForPermission());
-            Collection<String> users = roleManagementService.getRoleMemberPrincipalIds(permissionable.getNamespace(), roleName, new AttributeSet(qualifiedRoleAttrs));
+            Collection<String> users = roleManagementService.getRoleMemberPrincipalIds(permissionable.getNamespace(), roleName,new HashMap<String,String>(qualifiedRoleAttrs));
             for(String userId : users) {
                 KcPerson person = kcPersonService.getKcPersonByPersonId(userId);
                 if (person != null && person.getActive()) {
@@ -235,9 +246,9 @@ public class KraAuthorizationServiceImpl implements KraAuthorizationService {
 
     
     public boolean hasRole(String userId, String namespace, String roleName) {
-        Role role = roleManagementService.getRoleByName(namespace, roleName);
+        Role role = roleManagementService.getRoleByNameAndNamespaceCode(namespace, roleName);
         if(role != null) {
-            return roleManagementService.principalHasRole(userId, Collections.singletonList(role.getRoleId()), null);
+            return roleManagementService.principalHasRole(userId, Collections.singletonList(role.getId()), null);
         }
         return false;
     }
@@ -247,14 +258,13 @@ public class KraAuthorizationServiceImpl implements KraAuthorizationService {
      * asynchronously and subsequent reads are likely to be reading from a dirty cache.
      */
     public void forceFlushRoleCaches() {
-        roleManagementService.flushRoleCaches();
     }
 
-    public RoleManagementService getRoleManagementService() {
+    public RoleService getRoleService() {
         return roleManagementService;
     }
 
-    public IdentityManagementService getIdentityManagementService() {
+    public IdentityService getIdentityService() {
         return identityManagementService;
     }
 }

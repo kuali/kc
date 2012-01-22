@@ -15,35 +15,39 @@
  */
 package org.kuali.kra.proposaldevelopment.budget.modular;
 
-import java.util.LinkedHashMap;
-
 import org.kuali.kra.budget.BudgetDecimal;
 import org.kuali.kra.budget.core.BudgetAssociate;
 import org.kuali.kra.budget.rates.RateClass;
 
 public class BudgetModularIdc extends BudgetAssociate {
+
     /**
      * Comment for <code>serialVersionUID</code>
      */
     private static final long serialVersionUID = 9162516694202776979L;
 
     private Long budgetPeriodId;
-    
+
     private Integer budgetPeriod;
+
     private Integer rateNumber;
+
     private String description;
+
     private BudgetDecimal idcRate;
+
     private BudgetDecimal idcBase;
+
     private BudgetDecimal fundsRequested;
-    
+
     private RateClass rateClass;
-    
+
     public BudgetModularIdc() {
         idcRate = new BudgetDecimal(0.0);
         idcBase = new BudgetDecimal(0.0);
         fundsRequested = new BudgetDecimal(0.0);
     }
-    
+
     public Integer getBudgetPeriod() {
         return budgetPeriod;
     }
@@ -91,7 +95,7 @@ public class BudgetModularIdc extends BudgetAssociate {
     public void setRateNumber(Integer rateNumber) {
         this.rateNumber = rateNumber;
     }
-    
+
     public RateClass getRateClass() {
         return rateClass;
     }
@@ -108,15 +112,6 @@ public class BudgetModularIdc extends BudgetAssociate {
         this.setFundsRequested(fundsRequested);
     }
 
-    @SuppressWarnings("unchecked")
-    @Override 
-    protected LinkedHashMap toStringMapper() {
-        LinkedHashMap<String, Object> map = super.toStringMapper();
-        map.put("budgetPeriod", this.budgetPeriod);
-        map.put("rateNumber", this.rateNumber);
-        return map;
-    }
-
     public Long getBudgetPeriodId() {
         return budgetPeriodId;
     }
@@ -124,5 +119,4 @@ public class BudgetModularIdc extends BudgetAssociate {
     public void setBudgetPeriodId(Long budgetPeriodId) {
         this.budgetPeriodId = budgetPeriodId;
     }
-
 }

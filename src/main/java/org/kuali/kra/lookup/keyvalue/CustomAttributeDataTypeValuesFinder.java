@@ -19,14 +19,14 @@ import java.util.List;
 
 import org.kuali.kra.bo.CustomAttributeDataType;
 import org.kuali.kra.infrastructure.KraServiceLocator;
-import org.kuali.rice.kns.lookup.keyvalues.KeyValuesBase;
-import org.kuali.rice.core.util.KeyLabelPair;
+import org.kuali.rice.core.api.util.KeyValue;
+import org.kuali.rice.krad.keyvalues.KeyValuesBase;
 
 public class CustomAttributeDataTypeValuesFinder extends KeyValuesBase {
 
     KeyValueFinderService keyValueFinderService= (KeyValueFinderService)KraServiceLocator.getService("keyValueFinderService");
 
-    public List<KeyLabelPair> getKeyValues() {
+    public List<KeyValue> getKeyValues() {
         return keyValueFinderService.getKeyValues(CustomAttributeDataType.class, "dataTypeCode", "description");
     }
 

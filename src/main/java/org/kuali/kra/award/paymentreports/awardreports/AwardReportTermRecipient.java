@@ -13,10 +13,7 @@
  * See the License for the specific language governing permissions and
  * limitations under the License.
  */
-
 package org.kuali.kra.award.paymentreports.awardreports;
-
-import java.util.LinkedHashMap;
 
 import org.kuali.kra.SequenceAssociate;
 import org.kuali.kra.award.AwardTemplateSyncScope;
@@ -33,38 +30,45 @@ import org.kuali.kra.bo.Rolodex;
  * 
  */
 public class AwardReportTermRecipient extends KraPersistableBusinessObjectBase implements SequenceAssociate<Award> {
-    
+
     /**
      * Comment for <code>serialVersionUID</code>
      */
     private static final long serialVersionUID = -3941499915900100395L;
+
     private Long awardReportTermRecipientId;
+
     private Long awardReportTermId;
+
     private Long contactId;
-    
-    @AwardSyncableProperty(key=true)
-    @AwardSyncable( scopes = { AwardTemplateSyncScope.CONTAINING_CLASS_INHERIT }) 
+
+    @AwardSyncableProperty(key = true)
+    @AwardSyncable(scopes = { AwardTemplateSyncScope.CONTAINING_CLASS_INHERIT })
     private String contactTypeCode;
-    @AwardSyncableProperty(key=true)
-    @AwardSyncable( scopes = { AwardTemplateSyncScope.CONTAINING_CLASS_INHERIT }) 
+
+    @AwardSyncableProperty(key = true)
+    @AwardSyncable(scopes = { AwardTemplateSyncScope.CONTAINING_CLASS_INHERIT })
     private Integer rolodexId;
+
     @AwardSyncableProperty
-    @AwardSyncable( scopes = { AwardTemplateSyncScope.CONTAINING_CLASS_INHERIT }) 
-    private Integer numberOfCopies; 
-    
+    @AwardSyncable(scopes = { AwardTemplateSyncScope.CONTAINING_CLASS_INHERIT })
+    private Integer numberOfCopies;
+
     private ContactType contactType;
-    private Rolodex rolodex; 
-    @AwardSyncableProperty(parent=true, parentProperty="awardReportTermRecipients")
-    private AwardReportTerm awardReportTerm; 
-    
+
+    private Rolodex rolodex;
+
+    @AwardSyncableProperty(parent = true, parentProperty = "awardReportTermRecipients")
+    private AwardReportTerm awardReportTerm;
+
     /**
      * 
      * Constructs a AwardReportTerm.java.
      */
-    public AwardReportTermRecipient() { 
+    public AwardReportTermRecipient() {
         numberOfCopies = 1;
-    } 
-    
+    }
+
     /**
      * 
      * @return
@@ -79,23 +83,6 @@ public class AwardReportTermRecipient extends KraPersistableBusinessObjectBase i
      */
     public void setAwardReportTermId(Long awardReportTermId) {
         this.awardReportTermId = awardReportTermId;
-    }
-
-    /**
-     * 
-     * @see org.kuali.rice.kns.bo.BusinessObjectBase#toStringMapper()
-     */
-    @SuppressWarnings("unchecked")
-    @Override 
-    protected LinkedHashMap<String, Object> toStringMapper() {
-        LinkedHashMap<String, Object> hashMap = new LinkedHashMap();
-        hashMap.put("awardReportTermRecipientId", getAwardReportTermRecipientId());
-        hashMap.put("awardReportTermId", getAwardReportTermId());
-        hashMap.put("contactId", getContactId());
-        hashMap.put("contactTypeCode", getContactTypeCode());
-        hashMap.put("rolodexId", getRolodexId());
-        hashMap.put("numberOfCopies", getNumberOfCopies());
-        return hashMap;
     }
 
     /**
@@ -243,15 +230,15 @@ public class AwardReportTermRecipient extends KraPersistableBusinessObjectBase i
      */
     @Override
     public boolean equals(Object obj) {
-        if (this == obj){
+        if (this == obj) {
             return true;
-        }            
-        if (obj == null){
+        }
+        if (obj == null) {
             return false;
-        }   
-        if (!(obj instanceof AwardReportTermRecipient)){
+        }
+        if (!(obj instanceof AwardReportTermRecipient)) {
             return false;
-        }   
+        }
         return equals((AwardReportTermRecipient) obj);
     }
 
@@ -262,20 +249,19 @@ public class AwardReportTermRecipient extends KraPersistableBusinessObjectBase i
      */
     private boolean equals(AwardReportTermRecipient other) {
         if (contactTypeCode == null) {
-            if (other.contactTypeCode != null){
+            if (other.contactTypeCode != null) {
                 return false;
-            }   
-        }else if (!contactTypeCode.equals(other.contactTypeCode)){
+            }
+        } else if (!contactTypeCode.equals(other.contactTypeCode)) {
             return false;
         }
-        
         if (rolodexId == null) {
-            if (other.rolodexId != null){
+            if (other.rolodexId != null) {
                 return false;
-            }   
-        }else if (!rolodexId.equals(other.rolodexId)){
+            }
+        } else if (!rolodexId.equals(other.rolodexId)) {
             return false;
-        }   
+        }
         return true;
     }
 
@@ -284,22 +270,16 @@ public class AwardReportTermRecipient extends KraPersistableBusinessObjectBase i
     }
 
     public void setSequenceOwner(Award newlyVersionedOwner) {
-        if(getAwardReportTerm() != null) {
+        if (getAwardReportTerm() != null) {
             getAwardReportTerm().setAward(newlyVersionedOwner);
         }
     }
 
     public Integer getSequenceNumber() {
-        return  getAwardReportTerm() != null ? getAwardReportTerm().getSequenceNumber() : 0;
+        return getAwardReportTerm() != null ? getAwardReportTerm().getSequenceNumber() : 0;
     }
 
     public void resetPersistenceState() {
         this.awardReportTermRecipientId = null;
     }
-
-    
-
-    
-   
-    
 }

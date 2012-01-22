@@ -44,7 +44,7 @@
 
 <script type="text/javascript">
   function showDetails(link, awardNumber) {
-	  if ($(link).parent().parent().next().find('td div').hasClass('loaded')) {
+	  if (jQuery(link).parent().parent().next().find('td div').hasClass('loaded')) {
 		  toggleDetails(link);
 	  } else {
 		  jQuery.ajax({
@@ -53,20 +53,20 @@
 			  type: 'POST',
 			  datatype: 'html',
 		  	  success:function(data) {
-				  	$(link).parent().parent().next().find('td div').html(data);
+				  	jQuery(link).parent().parent().next().find('td div').html(data);
 				  	toggleDetails(link);
-				  	$(link).parent().parent().next().find('td div').addClass('loaded');
+				  	jQuery(link).parent().parent().next().find('td div').addClass('loaded');
 			  }
 		  });
 	  }
   }
   function toggleDetails(link) {
-	  if (!$(link).parent().parent().next().find('td div').is(':visible')) {
-	  	$(link).parent().parent().next().find('td div').show();
-	  	$(link).find('img').attr('src', 'static/images/tinybutton-hidedetails.gif');
+	  if (!jQuery(link).parent().parent().next().find('td div').is(':visible')) {
+		  jQuery(link).parent().parent().next().find('td div').show();
+		  jQuery(link).find('img').attr('src', 'static/images/tinybutton-hidedetails.gif');
 	  } else {
-		$(link).parent().parent().next().find('td div').hide();
-		$(link).find('img').attr('src', 'static/images/tinybutton-showdetails.gif');
+		  jQuery(link).parent().parent().next().find('td div').hide();
+		  jQuery(link).find('img').attr('src', 'static/images/tinybutton-showdetails.gif');
 	  }
   }
   function loadAllLogs() {
@@ -77,18 +77,18 @@
 		  datatype: 'html',
 		  async: true,
 	  	  success:function(data) {
-		    var loadingRow = $('#awardSyncLogs-All table tr.syncLogRow-loading');
-		    var lastRealRow = $(loadingRow).prev().prev();
-		    var tempDom = $('#awardSyncLogs-temp');
+		    var loadingRow = jQuery('#awardSyncLogs-All table tr.syncLogRow-loading');
+		    var lastRealRow = jQuery(loadingRow).prev().prev();
+		    var tempDom = jQuery('#awardSyncLogs-temp');
 		    tempDom.html(data);
-		    var nextElems = tempDom.find('#'+$(lastRealRow).attr('id')).next().nextAll();
-		    $(loadingRow).after(nextElems);
-		    $(loadingRow).detach();
+		    var nextElems = tempDom.find('#'+jQuery(lastRealRow).attr('id')).next().nextAll();
+		    jQuery(loadingRow).after(nextElems);
+		    jQuery(loadingRow).detach();
 		    tempDom.detach();
 		  }
 	  });
   }
-  $(document).ready(function () {
+  jQuery(document).ready(function () {
 	  loadAllLogs();
   });
 </script>

@@ -17,7 +17,6 @@ package org.kuali.kra.irb.actions;
 
 import java.sql.Timestamp;
 import java.text.SimpleDateFormat;
-import java.util.LinkedHashMap;
 import java.util.List;
 
 import org.apache.commons.lang.StringUtils;
@@ -32,46 +31,59 @@ import org.kuali.kra.irb.correspondence.ProtocolCorrespondence;
  * 
  * This class manages all the attributes needed to maintain a protocol action.
  */
-public class ProtocolAction extends ProtocolAssociate { 
+public class ProtocolAction extends ProtocolAssociate {
 
     private static final long serialVersionUID = -2148599171919464303L;
-    
+
     private static final String NEXT_ACTION_ID_KEY = "actionId";
 
-    //not thread safe cannot be static
-    transient private SimpleDateFormat dateFormat = new SimpleDateFormat("MM/dd/yyyy");
-    
+    //not thread safe cannot be static  
+    private transient SimpleDateFormat dateFormat = new SimpleDateFormat("MM/dd/yyyy");
 
     private Long protocolActionId;
-    private Integer actionId; 
+
+    private Integer actionId;
+
     private Integer submissionNumber;
+
     private Long submissionIdFk;
+
     private String protocolActionTypeCode;
-    private String comments; 
+
+    private String comments;
+
     private Timestamp actualActionDate;
+
     private Timestamp actionDate;
+
     private String prevSubmissionStatusCode;
+
     private String submissionTypeCode;
+
     private String prevProtocolStatusCode;
-    // This will be used an indicator whether there is a follow up action
+
+    // This will be used an indicator whether there is a follow up action  
     private String followupActionCode;
-    
+
     @SkipVersioning
-    private transient ProtocolSubmission protocolSubmission;    
+    private transient ProtocolSubmission protocolSubmission;
+
     private ProtocolActionType protocolActionType;
-    
+
     private List<ProtocolCorrespondence> protocolCorrespondences;
+
     @SkipVersioning
     private transient List<ProtocolSubmissionDoc> protocolSubmissionDocs;
-    
-    private transient boolean isInFilterView = true;
-    private transient int answerHeadersCount = 0;
-    private transient QuestionnairePrintOption questionnairePrintOption;
-    
-    public ProtocolAction() { 
 
+    private transient boolean isInFilterView = true;
+
+    private transient int answerHeadersCount = 0;
+
+    private transient QuestionnairePrintOption questionnairePrintOption;
+
+    public ProtocolAction() {
     }
-    
+
     public ProtocolAction(Protocol protocol, ProtocolSubmission protocolSubmission, String protocolActionTypeCode) {
         setProtocolId(protocol.getProtocolId());
         setProtocolNumber(protocol.getProtocolNumber());
@@ -94,7 +106,7 @@ public class ProtocolAction extends ProtocolAssociate {
     public void setProtocolActionId(Long protocolActionId) {
         this.protocolActionId = protocolActionId;
     }
-    
+
     public Integer getActionId() {
         return actionId;
     }
@@ -102,7 +114,7 @@ public class ProtocolAction extends ProtocolAssociate {
     public void setActionId(Integer actionId) {
         this.actionId = actionId;
     }
-    
+
     public String getProtocolActionTypeCode() {
         return protocolActionTypeCode;
     }
@@ -154,7 +166,7 @@ public class ProtocolAction extends ProtocolAssociate {
     public void setProtocolSubmission(ProtocolSubmission protocolSubmission) {
         this.protocolSubmission = protocolSubmission;
     }
-    
+
     /**
      * 
      * Refreshes the protocol submission (if it doesn't exist) and returns it.
@@ -168,7 +180,7 @@ public class ProtocolAction extends ProtocolAssociate {
         }
         return protocolSubmission;
     }
-    
+
     public void setProtocolActionType(ProtocolActionType protocolActionType) {
         this.protocolActionType = protocolActionType;
     }
@@ -185,7 +197,7 @@ public class ProtocolAction extends ProtocolAssociate {
         }
         return protocolActionType;
     }
-    
+
     /**
      * 
      * This method returns an empty string of the action date is null, otherwise it returns a formated date.
@@ -197,7 +209,7 @@ public class ProtocolAction extends ProtocolAssociate {
         }
         return getDateFormat().format(getActualActionDate());
     }
-    
+
     /**
      * 
      * This method returns an empty string of the action date is null, otherwise it returns a formated date.
@@ -209,18 +221,18 @@ public class ProtocolAction extends ProtocolAssociate {
         }
         return getDateFormat().format(getActionDate());
     }
-    
+
     /*
      * Simpledateformat cause serialization issue if it not static final, so make it transient.
      * Also, need to recreate if it is retrieved from serialized doc.
      */
     private SimpleDateFormat getDateFormat() {
         if (dateFormat == null) {
-            dateFormat = new SimpleDateFormat("MM/dd/yyyy");  
+            dateFormat = new SimpleDateFormat("MM/dd/yyyy");
         }
         return dateFormat;
     }
-    
+
     /**
      * 
      * This method calculates and returns the submission status as a string.
@@ -234,7 +246,6 @@ public class ProtocolAction extends ProtocolAssociate {
             if (protocolSubmission.getSubmissionStatus() == null && submissionIdFk != null) {
                 protocolSubmission.refreshReferenceObject("submissionStatus");
             }
-            
             if (protocolSubmission.getSubmissionStatus() == null) {
                 status = "";
             } else if (protocolSubmission.getSubmissionStatus().getDescription() == null) {
@@ -269,7 +280,7 @@ public class ProtocolAction extends ProtocolAssociate {
     public void setPrevProtocolStatusCode(String prevProtocolStatusCode) {
         this.prevProtocolStatusCode = prevProtocolStatusCode;
     }
-    
+
     /**
      * 
      * @see org.kuali.kra.Sequenceable#resetPersistenceState()
@@ -278,7 +289,7 @@ public class ProtocolAction extends ProtocolAssociate {
         protocolActionId = null;
         submissionIdFk = null;
     }
-    
+
     /**
      * 
      * This resets the foreign keys if there is no protocol submission.
@@ -287,24 +298,6 @@ public class ProtocolAction extends ProtocolAssociate {
         if (protocolSubmission != null) {
             submissionIdFk = protocolSubmission.getSubmissionId();
         }
-    }
-    
-    /** {@inheritDoc} */
-    @Override 
-    protected LinkedHashMap<String, Object> toStringMapper() {
-        LinkedHashMap<String, Object> hashMap = new LinkedHashMap<String, Object>();
-        hashMap.put("protocolActionId", getProtocolActionId());
-        hashMap.put("actionId", this.getActionId());
-        hashMap.put("protocolActionTypeCode", getProtocolActionTypeCode());
-        hashMap.put("protocolNumber", this.getProtocolNumber());
-        hashMap.put("sequenceNumber", this.getSequenceNumber());
-        hashMap.put("protocolId", getProtocolId());
-        hashMap.put("submissionIdFk", getSubmissionIdFk());
-        hashMap.put("comments", this.getComments());
-        hashMap.put("actualActionDate", this.getActualActionDate());
-        hashMap.put("actionDate", this.getActionDate());
-        hashMap.put("submissionStatus", this.getSubmissionStatusString());
-        return hashMap;
     }
 
     /** {@inheritDoc} */
@@ -346,7 +339,7 @@ public class ProtocolAction extends ProtocolAssociate {
         }
         return true;
     }
-    
+
     public List<ProtocolCorrespondence> getProtocolCorrespondences() {
         return protocolCorrespondences;
     }
@@ -362,11 +355,11 @@ public class ProtocolAction extends ProtocolAssociate {
     public void setProtocolSubmissionDocs(List<ProtocolSubmissionDoc> protocolSubmissionDocs) {
         this.protocolSubmissionDocs = protocolSubmissionDocs;
     }
-    
+
     public boolean getIsInFilterView() {
         return isInFilterView;
     }
-    
+
     public void setIsInFilterView(boolean isInFilterView) {
         this.isInFilterView = isInFilterView;
     }

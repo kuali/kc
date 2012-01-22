@@ -15,59 +15,51 @@
  */
 package org.kuali.kra.s2s.bo;
 
-import java.util.LinkedHashMap;
-
 import org.kuali.kra.bo.KraPersistableBusinessObjectBase;
 
 public class S2sAppAttachments extends KraPersistableBusinessObjectBase {
+
     private Long s2sAppAttachmentId;
+
     private String contentId;
-	private String proposalNumber;
-	private String contentType;
-	private String hashCode;
 
-	public String getContentId() {
-		return contentId;
-	}
+    private String proposalNumber;
 
-	public void setContentId(String contentId) {
-		this.contentId = contentId;
-	}
+    private String contentType;
 
-	public String getProposalNumber() {
-		return proposalNumber;
-	}
+    private String hashCode;
 
-	public void setProposalNumber(String proposalNumber) {
-		this.proposalNumber = proposalNumber;
-	}
+    public String getContentId() {
+        return contentId;
+    }
 
-	public String getContentType() {
-		return contentType;
-	}
+    public void setContentId(String contentId) {
+        this.contentId = contentId;
+    }
 
-	public void setContentType(String contentType) {
-		this.contentType = contentType;
-	}
+    public String getProposalNumber() {
+        return proposalNumber;
+    }
 
-	public String getHashCode() {
-		return hashCode;
-	}
+    public void setProposalNumber(String proposalNumber) {
+        this.proposalNumber = proposalNumber;
+    }
 
-	public void setHashCode(String hashCode) {
-		this.hashCode = hashCode;
-	}
+    public String getContentType() {
+        return contentType;
+    }
 
+    public void setContentType(String contentType) {
+        this.contentType = contentType;
+    }
 
-	@Override 
-	protected LinkedHashMap toStringMapper() {
-		LinkedHashMap hashMap = new LinkedHashMap();
-		hashMap.put("contentId", getContentId());
-		hashMap.put("proposalNumber", getProposalNumber());
-		hashMap.put("contentType", getContentType());
-		hashMap.put("hashCode", getHashCode());
-		return hashMap;
-	}
+    public String getHashCode() {
+        return hashCode;
+    }
+
+    public void setHashCode(String hashCode) {
+        this.hashCode = hashCode;
+    }
 
     /**
      * Gets the s2sAppAttachmentId attribute. 

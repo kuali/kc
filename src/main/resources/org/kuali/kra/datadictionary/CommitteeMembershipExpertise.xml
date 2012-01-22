@@ -29,7 +29,7 @@
         <property name="lookupDefinition" >
             <ref bean="CommitteeMembershipExpertise-lookupDefinition" />
         </property>
-        <property name="titleAttribute" value="CommitteeMembershipExpertiseId" />
+        <property name="titleAttribute" value="committeeMembershipExpertiseId" />
         <property name="attributes" >
             <list>
                 <ref bean="CommitteeMembershipExpertise-committeeMembershipExpertiseId" />
@@ -113,7 +113,7 @@
                     <property name="inquiryFields" >
                         <list>
                             <bean parent="FieldDefinition"
-                                p:attributeName="CommitteeMembershipExpertiseId" 
+                                p:attributeName="committeeMembershipExpertiseId" 
                                 p:forceInquiry="true" />
                             <bean parent="FieldDefinition"
                                 p:attributeName="committeeMembershipIdFk" />
@@ -139,7 +139,7 @@
         <property name="lookupFields" >
             <list>
                 <bean parent="FieldDefinition"
-                    p:attributeName="CommitteeMembershipExpertiseId" 
+                    p:attributeName="committeeMembershipExpertiseId" 
                     p:forceInquiry="true" />
                 <bean parent="FieldDefinition"
                     p:attributeName="committeeMembershipIdFk" />
@@ -150,7 +150,7 @@
         <property name="resultFields" >
             <list>
                 <bean parent="FieldDefinition"
-                    p:attributeName="CommitteeMembershipExpertiseId" 
+                    p:attributeName="committeeMembershipExpertiseId" 
                     p:forceInquiry="true" />
                 <bean parent="FieldDefinition"
                     p:attributeName="committeeMembershipIdFk" />

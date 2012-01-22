@@ -25,13 +25,13 @@ import java.util.List;
 import java.util.Map;
 
 import noNamespace.BudgetSummaryReportDocument;
-import noNamespace.BudgetSummaryReportDocument.BudgetSummaryReport;
 import noNamespace.ReportHeaderType;
 import noNamespace.ReportPageType;
-import noNamespace.ReportPageType.BudgetSummary;
-import noNamespace.ReportPageType.CalculationMethodology;
 import noNamespace.ReportType;
 import noNamespace.SubReportType;
+import noNamespace.BudgetSummaryReportDocument.BudgetSummaryReport;
+import noNamespace.ReportPageType.BudgetSummary;
+import noNamespace.ReportPageType.CalculationMethodology;
 
 import org.apache.commons.logging.Log;
 import org.apache.commons.logging.LogFactory;
@@ -44,8 +44,7 @@ import org.kuali.kra.budget.core.BudgetParent;
 import org.kuali.kra.budget.nonpersonnel.BudgetLineItem;
 import org.kuali.kra.budget.parameters.BudgetPeriod;
 import org.kuali.kra.budget.printing.util.ReportTypeVO;
-import org.kuali.kra.proposaldevelopment.bo.DevelopmentProposal;
-import org.kuali.kra.proposaldevelopment.document.ProposalDevelopmentDocument;
+import org.kuali.kra.document.ResearchDocumentBase;
 
 
 /**

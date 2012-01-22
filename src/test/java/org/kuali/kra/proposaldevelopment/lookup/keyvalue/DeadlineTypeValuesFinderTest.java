@@ -20,7 +20,7 @@ import org.junit.Before;
 import org.junit.Test;
 import org.kuali.kra.keyvalue.PersistableBusinessObjectValuesFinderTestBase;
 import org.kuali.kra.lookup.keyvalue.ExtendedPersistableBusinessObjectValuesFinder;
-import org.kuali.rice.core.util.KeyLabelPair;
+import org.kuali.rice.core.api.util.ConcreteKeyValue;
 
 /**
  * This class tests DeadlineTypeValuesFinder.
@@ -50,9 +50,9 @@ public class DeadlineTypeValuesFinderTest extends PersistableBusinessObjectValue
     }
     
     protected void addKeyValues() {
-        testKeyValues.add(new KeyLabelPair("", "select"));
-        testKeyValues.add(new KeyLabelPair("P", "Postmark"));
-        testKeyValues.add(new KeyLabelPair("R", "Receipt"));
-        testKeyValues.add(new KeyLabelPair("T", "Target"));
+        testKeyValues.add(new ConcreteKeyValue("", "select"));
+        testKeyValues.add(new ConcreteKeyValue("P", "Postmark"));
+        testKeyValues.add(new ConcreteKeyValue("R", "Receipt"));
+        testKeyValues.add(new ConcreteKeyValue("T", "Target"));
     }
 }

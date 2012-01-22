@@ -31,10 +31,10 @@ import org.kuali.kra.bo.versioning.VersionStatus;
 import org.kuali.kra.service.impl.VersionHistoryServiceImpl;
 import org.kuali.kra.service.impl.versioningartifacts.SequenceOwnerImpl;
 import org.kuali.kra.service.impl.versioningartifacts.SimpleSequenceOwner;
-import org.kuali.rice.kns.bo.BusinessObject;
-import org.kuali.rice.kns.bo.PersistableBusinessObject;
-import org.kuali.rice.kns.service.BusinessObjectService;
-import org.kuali.rice.kns.util.ObjectUtils;
+import org.kuali.rice.krad.bo.BusinessObject;
+import org.kuali.rice.krad.bo.PersistableBusinessObject;
+import org.kuali.rice.krad.service.BusinessObjectService;
+import org.kuali.rice.krad.util.ObjectUtils;
 
 public class VersionHistoryServiceTest {
     private static final String SEQUENCE_OWNER_NAME_A = "Owner A";
@@ -138,12 +138,13 @@ public class VersionHistoryServiceTest {
             return mockHistory.values();
         }
         
-        public void save(PersistableBusinessObject bo) {
+        public PersistableBusinessObject save(PersistableBusinessObject bo) {
             VersionHistory versionHistory = (VersionHistory) bo;
             if(versionHistory.getVersionHistoryId() == null) {
                 versionHistory.setVersionHistoryId(System.currentTimeMillis() + versionHistory.hashCode());
             }
             mockHistory.put(versionHistory.getVersionHistoryId(), versionHistory);
+            return bo;
         }
 
         public PersistableBusinessObject findByPrimaryKey(Class clazz, Map primaryKeys) { return null; }
@@ -205,16 +206,18 @@ public class VersionHistoryServiceTest {
         @SuppressWarnings("unchecked")
         public Collection findMatchingOrderBy(Class clazz, Map fieldValues, String sortField, boolean sortAscending) { return null; }
         public BusinessObject getReferenceIfExists(BusinessObject bo, String referenceName) { return null; }
-        public void linkAndSave(PersistableBusinessObject bo) { }
-        public void linkAndSave(List<? extends PersistableBusinessObject> businessObjects) { }
+        public PersistableBusinessObject linkAndSave(PersistableBusinessObject bo) { return bo;}
+        public List<? extends PersistableBusinessObject> linkAndSave(List<? extends PersistableBusinessObject> businessObjects) { return businessObjects; }
         public void linkUserFields(PersistableBusinessObject bo) { }
         public void linkUserFields(List<PersistableBusinessObject> bos) { }
         public PersistableBusinessObject retrieve(PersistableBusinessObject object) { return null; }
         
-        public void save(List<? extends PersistableBusinessObject> businessObjects) {
+        public List<? extends PersistableBusinessObject> save(List<? extends PersistableBusinessObject> businessObjects) {
             for(Object bo: businessObjects) {
                 save((PersistableBusinessObject) bo);
             }
+            
+            return businessObjects;
         }
         
         
@@ -225,8 +228,16 @@ public class VersionHistoryServiceTest {
 
         public void deleteMatching(Class clazz, Map fieldValues) {}
 
-        public <T> T findBySinglePrimaryKey(Class<T> clazz, Object primaryKey) {
-            throw new UnsupportedOperationException("not yet mocked");
-        }        
+        public <T extends BusinessObject> Collection<T> findAllOrderBy(Class<T> clazz, String sortField, boolean sortAscending) {
+            return null;
+        }
+
+        public <T extends BusinessObject> T findBySinglePrimaryKey(Class<T> clazz, Object primaryKey) {
+            return null;
+        }
+
+        public PersistableBusinessObject manageReadOnly(PersistableBusinessObject bo) {
+            return null;
+        }  
     } 
 }

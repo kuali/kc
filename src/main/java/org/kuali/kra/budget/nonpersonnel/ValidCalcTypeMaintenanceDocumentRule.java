@@ -26,9 +26,9 @@ import org.kuali.kra.infrastructure.KeyConstants;
 import org.kuali.kra.infrastructure.KraServiceLocator;
 import org.kuali.kra.rules.KraMaintenanceDocumentRuleBase;
 import org.kuali.rice.kns.document.MaintenanceDocument;
-import org.kuali.rice.kns.service.BusinessObjectService;
-import org.kuali.rice.kns.util.GlobalVariables;
-import org.kuali.rice.kns.util.ErrorMap;
+import org.kuali.rice.krad.service.BusinessObjectService;
+import org.kuali.rice.krad.util.GlobalVariables;
+import org.kuali.rice.krad.util.MessageMap;
 
 public class ValidCalcTypeMaintenanceDocumentRule extends KraMaintenanceDocumentRuleBase {
     
@@ -81,7 +81,7 @@ public class ValidCalcTypeMaintenanceDocumentRule extends KraMaintenanceDocument
             LOG.debug("new maintainable is: " + maintenanceDocument.getNewMaintainableObject().getClass());
         }
         
-        final ValidCalcType validCalcType = (ValidCalcType) maintenanceDocument.getNewMaintainableObject().getBusinessObject();
+        final ValidCalcType validCalcType = (ValidCalcType) maintenanceDocument.getNewMaintainableObject().getDataObject();
 
         boolean valid = validateRateTypeCode(validCalcType.getRateClassCode(), validCalcType.getRateTypeCode());
         valid &= validateRateClassType(validCalcType.getRateClassType());
@@ -133,7 +133,7 @@ public class ValidCalcTypeMaintenanceDocumentRule extends KraMaintenanceDocument
             final RateType rateType = (RateType) this.boService.findByPrimaryKey(RateType.class, pkMap);
             
             if (rateType == null ) {
-                final ErrorMap errorMap = GlobalVariables.getErrorMap();
+                final MessageMap errorMap = GlobalVariables.getMessageMap();
                 errorMap.putError("document.newMaintainableObject.rateTypeCode", KeyConstants.ERROR_RATE_TYPE_NOT_EXIST,
                         new String[] {rateClassCode, rateTypeCode });
                 valid = false;

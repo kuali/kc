@@ -15,29 +15,30 @@
  */
 package org.kuali.kra.bo;
 
-import java.util.LinkedHashMap;
-
 import org.apache.struts.upload.FormFile;
-import org.kuali.rice.kns.bo.PersistableAttachment;
+import org.kuali.rice.krad.bo.PersistableAttachment;
 
 /**
  * 
  * This class for fetching watermark object from database.
  */
 public class Watermark extends KraPersistableBusinessObjectBase implements PersistableAttachment {
+
     private static final long serialVersionUID = 7376543184312622270L;
 
     private Long watermarkId;
 
     private String fileName;
+
     private String contentType;
+
     private byte[] attachmentContent;
     private String statusCode;
     private String watermarkText;
     private boolean watermarkStatus;
     private String fontSize;
     private String positionFontSize;
-    
+
     public String getPositionFontSize() {
         return positionFontSize;
     }
@@ -53,12 +54,11 @@ public class Watermark extends KraPersistableBusinessObjectBase implements Persi
     private transient FormFile templateFile;
     private String watermarkPosition;
     private String watermarkAlignment;
-    
+
 
     public Long getWatermarkId() {
         return watermarkId;
     }
-
 
     public void setWatermarkId(Long watermarkId) {
         this.watermarkId = watermarkId;
@@ -84,26 +84,21 @@ public class Watermark extends KraPersistableBusinessObjectBase implements Persi
         return fontSize;
     }
 
-
     public void setFontSize(String fontSize) {
         this.fontSize = fontSize;
     }
-
 
     public String getFontColor() {
         return fontColor;
     }
 
-
     public void setFontColor(String fontColor) {
         this.fontColor = fontColor;
     }
 
-
     public String getWatermarkType() {
         return watermarkType;
     }
-
 
     public void setWatermarkType(String watermarkType) {
         this.watermarkType = watermarkType;
@@ -113,31 +108,25 @@ public class Watermark extends KraPersistableBusinessObjectBase implements Persi
         return statusCode;
     }
 
-
     public void setStatusCode(String statusCode) {
         this.statusCode = statusCode;
     }
-
 
     public String getWatermarkText() {
         return watermarkText;
     }
 
-
     public void setWatermarkText(String watermarkText) {
         this.watermarkText = watermarkText;
     }
-
 
     public boolean isWatermarkStatus() {
         return watermarkStatus;
     }
 
-
     public void setWatermarkStatus(boolean watermarkStatus) {
         this.watermarkStatus = watermarkStatus;
     }
-
 
     public String getFileName() {
         return fileName;
@@ -173,25 +162,5 @@ public class Watermark extends KraPersistableBusinessObjectBase implements Persi
     public void setWatermarkAlignment(String watermarkAlignment) {
         this.watermarkAlignment = watermarkAlignment;
     }
-
-
-    @Override
-    protected LinkedHashMap toStringMapper() {
-        LinkedHashMap propMap = new LinkedHashMap();
-        propMap.put("watermarkId", this.getWatermarkId());
-        propMap.put("statusCode", this.getStatusCode());
-        propMap.put("watermarkText", this.getWatermarkText());
-        propMap.put("watermarkStatus", this.isWatermarkStatus());
-        propMap.put("watermarkType", this.getWatermarkType());
-        propMap.put("watermarkPosition", this.getWatermarkPosition());
-        propMap.put("watermarkAlignment", this.getWatermarkAlignment());
-        propMap.put("fontSize", this.getFontSize());
-        propMap.put("positionFontSize", this.getPositionFontSize()); 
-        propMap.put("fontColor", this.getFontColor());
-        propMap.put("updateTimestamp", this.getUpdateTimestamp());
-        propMap.put("updateUser", this.getUpdateUser());
-        return propMap;
-    }
-
 
 }

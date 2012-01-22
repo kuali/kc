@@ -23,9 +23,9 @@ import org.apache.commons.lang.StringUtils;
 import org.apache.commons.logging.Log;
 import org.apache.commons.logging.LogFactory;
 import org.kuali.kra.budget.BudgetDecimal;
-import org.kuali.rice.kns.util.RiceKeyConstants;
-import org.kuali.rice.kns.web.format.BigDecimalFormatter;
-import org.kuali.rice.kns.web.format.FormatException;
+import org.kuali.rice.core.api.util.RiceKeyConstants;
+import org.kuali.rice.core.web.format.BigDecimalFormatter;
+import org.kuali.rice.core.web.format.FormatException;
 
 /**
  * This class makes a BudgetDecimal from a String

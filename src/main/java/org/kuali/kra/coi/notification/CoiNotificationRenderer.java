@@ -22,9 +22,8 @@ import org.kuali.kra.coi.CoiDisclosure;
 import org.kuali.kra.common.notification.NotificationRendererBase;
 import org.kuali.kra.infrastructure.KraServiceLocator;
 import org.kuali.kra.service.KcPersonService;
-import org.kuali.rice.kns.service.BusinessObjectService;
-import org.kuali.rice.kns.service.KNSServiceLocator;
-import org.kuali.rice.kns.service.KualiConfigurationService;
+import org.kuali.rice.krad.service.BusinessObjectService;
+import org.kuali.rice.krad.service.KRADServiceLocator;
 
 /**
  * Renders fields for the IRB notifications.
@@ -80,7 +79,7 @@ public class CoiNotificationRenderer extends NotificationRendererBase {
     
     public BusinessObjectService getBusinessObjectService() {
         if (businessObjectService == null) {
-            businessObjectService = KNSServiceLocator.getBusinessObjectService();
+            businessObjectService = KRADServiceLocator.getBusinessObjectService();
         }
         return businessObjectService;
     }
@@ -100,8 +99,4 @@ public class CoiNotificationRenderer extends NotificationRendererBase {
         this.kcPersonService = kcPersonService;
     }
 
-    private KualiConfigurationService getKualiConfigurationService() {
-        return KraServiceLocator.getService(KualiConfigurationService.class);
-    }
-    
 }

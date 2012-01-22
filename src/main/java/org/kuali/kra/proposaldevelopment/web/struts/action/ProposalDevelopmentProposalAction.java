@@ -18,7 +18,7 @@ package org.kuali.kra.proposaldevelopment.web.struts.action;
 import static java.util.Collections.sort;
 import static org.kuali.kra.infrastructure.Constants.MAPPING_BASIC;
 import static org.kuali.kra.infrastructure.KraServiceLocator.getService;
-import static org.kuali.rice.kns.util.KNSConstants.QUESTION_INST_ATTRIBUTE_NAME;
+import static org.kuali.rice.krad.util.KRADConstants.QUESTION_INST_ATTRIBUTE_NAME;
 
 import java.util.Collection;
 import java.util.Iterator;
@@ -54,13 +54,13 @@ import org.kuali.kra.proposaldevelopment.web.struts.form.CongressionalDistrictHe
 import org.kuali.kra.proposaldevelopment.web.struts.form.ProposalDevelopmentForm;
 import org.kuali.kra.service.SponsorService;
 import org.kuali.kra.web.struts.action.StrutsConfirmation;
-import org.kuali.rice.kns.bo.PersistableBusinessObject;
-import org.kuali.rice.kns.document.Document;
 import org.kuali.rice.kns.service.KNSServiceLocator;
-import org.kuali.rice.kns.service.KualiRuleService;
-import org.kuali.rice.kns.util.GlobalVariables;
-import org.kuali.rice.kns.util.KNSConstants;
-import org.kuali.rice.kns.web.struts.form.KualiDocumentFormBase;
+import org.kuali.rice.krad.bo.PersistableBusinessObject;
+import org.kuali.rice.krad.document.Document;
+import org.kuali.rice.krad.service.KRADServiceLocatorWeb;
+import org.kuali.rice.krad.service.KualiRuleService;
+import org.kuali.rice.krad.util.GlobalVariables;
+import org.kuali.rice.krad.util.KRADConstants;
 
 public class ProposalDevelopmentProposalAction extends ProposalDevelopmentAction {
     private static final Log LOG = LogFactory.getLog(ProposalDevelopmentProposalAction.class);
@@ -182,7 +182,7 @@ public class ProposalDevelopmentProposalAction extends ProposalDevelopmentAction
      * @param request
      */
     private void setKeywordsPanelFlag(HttpServletRequest request) {
-        String keywordPanelDisplay = this.getParameterService().getParameterValue(
+        String keywordPanelDisplay = this.getParameterService().getParameterValueAsString(
                 ProposalDevelopmentDocument.class,
                 Constants.KEYWORD_PANEL_DISPLAY);
         request.getSession().setAttribute(Constants.KEYWORD_PANEL_DISPLAY, keywordPanelDisplay);
@@ -564,7 +564,7 @@ public class ProposalDevelopmentProposalAction extends ProposalDevelopmentAction
      * @return
      */
     private String getMethodToCallParameter(HttpServletRequest request, String parameterName) {
-        String methodToCallAttribute = (String) request.getAttribute(KNSConstants.METHOD_TO_CALL_ATTRIBUTE);
+        String methodToCallAttribute = (String) request.getAttribute(KRADConstants.METHOD_TO_CALL_ATTRIBUTE);
         return StringUtils.substringBetween(methodToCallAttribute, "."+parameterName, ".");
     }
 
@@ -839,7 +839,7 @@ public class ProposalDevelopmentProposalAction extends ProposalDevelopmentAction
 
         if(StringUtils.isNotEmpty(command) && command.equals("displayDocSearchView") && StringUtils.isNotEmpty(docId)) {
             //This means that the user has come thru the Document Search Page - Copy Action
-            Document retrievedDocument = KNSServiceLocator.getDocumentService().getByDocumentHeaderId(docId);
+            Document retrievedDocument = KRADServiceLocatorWeb.getDocumentService().getByDocumentHeaderId(docId);
             pdform.setDocument(retrievedDocument);
         }
         

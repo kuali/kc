@@ -17,12 +17,11 @@ package org.kuali.kra.award.paymentreports.paymentschedule;
 
 import java.sql.Date;
 import java.sql.Timestamp;
-import java.util.LinkedHashMap;
 
 import org.kuali.kra.award.AwardAssociate;
 import org.kuali.kra.award.paymentreports.ReportStatus;
 import org.kuali.kra.bo.KcPerson;
-import org.kuali.rice.kns.util.KualiDecimal;
+import org.kuali.rice.core.api.util.type.KualiDecimal;
 
 /**
  * 
@@ -132,20 +131,6 @@ public class AwardPaymentSchedule extends AwardAssociate {
 
     public void setStatusDescription(String statusDescription) {
         this.statusDescription = statusDescription;
-    }
-
-    @Override 
-    protected LinkedHashMap<String,Object> toStringMapper() {
-        LinkedHashMap<String,Object> hashMap = new LinkedHashMap<String,Object>();
-        hashMap.put("awardPaymentScheduleId", getAwardPaymentScheduleId());
-        hashMap.put("dueDate", getDueDate());
-        hashMap.put("amount", getAmount());
-        hashMap.put("submitDate", getSubmitDate());
-        hashMap.put("submittedBy", getSubmittedBy());
-        hashMap.put("invoiceNumber", getInvoiceNumber());
-        hashMap.put("statusDescription", getStatusDescription());
-        hashMap.put("status", getStatus());
-        return hashMap;
     }
 
     /**

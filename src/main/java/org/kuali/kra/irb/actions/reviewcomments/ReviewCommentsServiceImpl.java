@@ -52,14 +52,12 @@ import org.kuali.kra.kim.bo.KcKimAttributes;
 import org.kuali.kra.meeting.CommitteeScheduleMinute;
 import org.kuali.kra.meeting.MinuteEntryType;
 import org.kuali.kra.service.KcPersonService;
-import org.kuali.rice.kim.bo.Person;
-import org.kuali.rice.kim.bo.types.dto.AttributeSet;
-import org.kuali.rice.kim.service.RoleManagementService;
-import org.kuali.rice.kim.service.RoleService;
-import org.kuali.rice.kns.service.BusinessObjectService;
-import org.kuali.rice.kns.service.DateTimeService;
-import org.kuali.rice.kns.service.ParameterService;
-import org.kuali.rice.kns.util.GlobalVariables;
+import org.kuali.rice.core.api.datetime.DateTimeService;
+import org.kuali.rice.coreservice.framework.parameter.ParameterService;
+import org.kuali.rice.kim.api.identity.Person;
+import org.kuali.rice.kim.api.role.RoleService;
+import org.kuali.rice.krad.service.BusinessObjectService;
+import org.kuali.rice.krad.util.GlobalVariables;
 
 /**
  * 
@@ -82,7 +80,6 @@ public class ReviewCommentsServiceImpl implements ReviewCommentsService {
     private RoleService roleService;
     private DateTimeService dateTimeService;
     private ParameterService parameterService;
-    private RoleService kimRoleManagementService;
     private KcPersonService kcPersonService;
     private Set<String> irbAdminIds;
     private List<String> irbAdminUserNames;
@@ -357,7 +354,7 @@ public class ReviewCommentsServiceImpl implements ReviewCommentsService {
     }
    
    private boolean isIrbAdministrator(String principalId) {
-       RoleService roleService = KraServiceLocator.getService(RoleManagementService.class);
+       RoleService roleService = KraServiceLocator.getService(RoleService.class);
        Collection<String> ids = roleService.getRoleMemberPrincipalIds(RoleConstants.DEPARTMENT_ROLE_TYPE, RoleConstants.IRB_ADMINISTRATOR, null);
        return ids.contains(principalId);
    }
@@ -491,7 +488,7 @@ public class ReviewCommentsServiceImpl implements ReviewCommentsService {
      * retrieve Display reviewer name parameter and compre with 'HIDE'
      */
     private boolean isDisplayReviewerName(String paramName) {
-        String param = parameterService.getParameterValue(ProtocolDocument.class, paramName);        
+        String param = parameterService.getParameterValueAsString(ProtocolDocument.class, paramName);        
        return !StringUtils.equals(HIDE, param);  
         
     }
@@ -702,7 +699,7 @@ public class ReviewCommentsServiceImpl implements ReviewCommentsService {
      * retrieve Irb admins from role table
      */
     private void getIrbAdmins() {
-        irbAdminIds = (Set<String>) kimRoleManagementService.getRoleMemberPrincipalIds("KC-UNT", RoleConstants.IRB_ADMINISTRATOR,
+        irbAdminIds = (Set<String>) roleService.getRoleMemberPrincipalIds("KC-UNT", RoleConstants.IRB_ADMINISTRATOR,
                 null);
         irbAdminUserNames = new ArrayList<String>();
         for (String id : irbAdminIds) {
@@ -713,7 +710,7 @@ public class ReviewCommentsServiceImpl implements ReviewCommentsService {
 
     private Set<String> getProtocolAggregators() {
         if (CollectionUtils.isEmpty(aggregatorIds)) {
-            aggregatorIds = (Set<String>) kimRoleManagementService.getRoleMemberPrincipalIds("KC-PROTOCOL", RoleConstants.PROTOCOL_AGGREGATOR,
+            aggregatorIds = (Set<String>) roleService.getRoleMemberPrincipalIds("KC-PROTOCOL", RoleConstants.PROTOCOL_AGGREGATOR,
                     null);
             
         }
@@ -729,8 +726,8 @@ public class ReviewCommentsServiceImpl implements ReviewCommentsService {
             if (StringUtils.isNotBlank(minute.getProtocol().getProtocolNumber())) {
                 Map<String, String> protocolAttr = new HashMap<String, String>();
                 protocolAttr.put(KcKimAttributes.PROTOCOL, minute.getProtocol().getProtocolNumber());
-                Set<String> protoResults = (Set<String>) kimRoleManagementService.getRoleMemberPrincipalIds("KC-PROTOCOL", RoleConstants.PROTOCOL_AGGREGATOR,
-                        new AttributeSet(protocolAttr));
+                Set<String> protoResults = (Set<String>) roleService.getRoleMemberPrincipalIds("KC-PROTOCOL", RoleConstants.PROTOCOL_AGGREGATOR,
+                       new HashMap<String,String>(protocolAttr));
                 
                 if (CollectionUtils.isNotEmpty(protoResults)) {
                     aggregatorIds.addAll(protoResults);
@@ -740,8 +737,8 @@ public class ReviewCommentsServiceImpl implements ReviewCommentsService {
             if (StringUtils.isNotBlank(minute.getProtocol().getLeadUnitNumber())) {
                 Map<String, String> leadUnitAttr = new HashMap<String, String>();
                 leadUnitAttr.put(KcKimAttributes.UNIT_NUMBER, minute.getProtocol().getLeadUnitNumber());
-                Set<String> leadUnitResults = (Set<String>) kimRoleManagementService.getRoleMemberPrincipalIds("KC-PROTOCOL", RoleConstants.PROTOCOL_AGGREGATOR,
-                        new AttributeSet(leadUnitAttr));
+                Set<String> leadUnitResults = (Set<String>) roleService.getRoleMemberPrincipalIds("KC-PROTOCOL", RoleConstants.PROTOCOL_AGGREGATOR,
+                       new HashMap<String,String>(leadUnitAttr));
                 
                 if (CollectionUtils.isNotEmpty(leadUnitResults)) {
                     aggregatorIds.addAll(leadUnitResults);
@@ -756,7 +753,7 @@ public class ReviewCommentsServiceImpl implements ReviewCommentsService {
 
     private Set<String> getProtocolViewers() {
         if (CollectionUtils.isEmpty(viewerIds)) {
-            viewerIds = (Set<String>) kimRoleManagementService.getRoleMemberPrincipalIds("KC-PROTOCOL", RoleConstants.PROTOCOL_VIEWER,
+            viewerIds = (Set<String>) roleService.getRoleMemberPrincipalIds("KC-PROTOCOL", RoleConstants.PROTOCOL_VIEWER,
                     null);
             
         }
@@ -772,8 +769,8 @@ public class ReviewCommentsServiceImpl implements ReviewCommentsService {
             if (StringUtils.isNotBlank(minute.getProtocol().getProtocolNumber())) {
                 Map<String, String> protocolAttr = new HashMap<String, String>();
                 protocolAttr.put(KcKimAttributes.PROTOCOL, minute.getProtocol().getProtocolNumber());
-                Set<String> protoResults = (Set<String>) kimRoleManagementService.getRoleMemberPrincipalIds("KC-PROTOCOL", RoleConstants.PROTOCOL_VIEWER,
-                        new AttributeSet(protocolAttr));
+                Set<String> protoResults = (Set<String>) roleService.getRoleMemberPrincipalIds("KC-PROTOCOL", RoleConstants.PROTOCOL_VIEWER,
+                       new HashMap<String,String>(protocolAttr));
                 
                 if (CollectionUtils.isNotEmpty(protoResults)) {
                     viewerIds.addAll(protoResults);
@@ -783,8 +780,8 @@ public class ReviewCommentsServiceImpl implements ReviewCommentsService {
             if (StringUtils.isNotBlank(minute.getProtocol().getLeadUnitNumber())) {
                 Map<String, String> leadUnitAttr = new HashMap<String, String>();
                 leadUnitAttr.put(KcKimAttributes.UNIT_NUMBER, minute.getProtocol().getLeadUnitNumber());
-                Set<String> leadUnitResults = (Set<String>) kimRoleManagementService.getRoleMemberPrincipalIds("KC-PROTOCOL", RoleConstants.PROTOCOL_VIEWER,
-                        new AttributeSet(leadUnitAttr));
+                Set<String> leadUnitResults = (Set<String>) roleService.getRoleMemberPrincipalIds("KC-PROTOCOL", RoleConstants.PROTOCOL_VIEWER,
+                       new HashMap<String,String>(leadUnitAttr));
                 
                 if (CollectionUtils.isNotEmpty(leadUnitResults)) {
                     viewerIds.addAll(leadUnitResults);
@@ -797,7 +794,7 @@ public class ReviewCommentsServiceImpl implements ReviewCommentsService {
     }
 
     public void setKimRoleManagementService(RoleService kimRoleManagementService) {
-        this.kimRoleManagementService = kimRoleManagementService;
+        this.roleService = kimRoleManagementService;
     }
 
     public void setKcPersonService(KcPersonService kcPersonService) {

@@ -15,7 +15,6 @@
  */
 package org.kuali.kra.service;
 
-import org.apache.struts.upload.FormFile;
 import org.kuali.kra.bo.KcAttachment;
 
 /**

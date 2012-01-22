@@ -70,14 +70,5 @@ public class SubawardPersonMassChange extends KraPersistableBusinessObjectBase {
         this.personMassChange = personMassChange;
     }
 
-    @Override
-    protected LinkedHashMap<String, Object> toStringMapper() {
-        LinkedHashMap<String, Object> propMap = new LinkedHashMap<String, Object>();
-        propMap.put("subawardPersonMassChangeId", getSubawardPersonMassChangeId());
-        propMap.put("personMassChangeId", getPersonMassChangeId());
-        propMap.put("contactPerson", isContactPerson());
-        propMap.put("requisitioner", isRequisitioner());
-        return propMap;
-    }
 
 }

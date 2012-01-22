@@ -21,8 +21,8 @@ import java.util.Map;
 
 import org.kuali.kra.award.dao.AwardPersonDao;
 import org.kuali.kra.lookup.KraLookupableHelperServiceImpl;
-import org.kuali.rice.kns.bo.BusinessObject;
 import org.kuali.rice.kns.lookup.HtmlData;
+import org.kuali.rice.krad.bo.BusinessObject;
 
 public class AwardPersonLookupableHelperServiceImpl extends KraLookupableHelperServiceImpl {
     private static final long serialVersionUID = 3716323161734123416L;

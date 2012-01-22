@@ -20,7 +20,8 @@ import java.util.List;
 
 import org.apache.commons.collections.CollectionUtils;
 import org.kuali.kra.committee.bo.Committee;
-import org.kuali.rice.core.util.KeyLabelPair;
+import org.kuali.rice.core.api.util.ConcreteKeyValue;
+import org.kuali.rice.core.api.util.KeyValue;
 
 public class CommitteeIdIdPairValuesFinder extends CommitteeIdValuesFinder {
 
@@ -30,14 +31,14 @@ public class CommitteeIdIdPairValuesFinder extends CommitteeIdValuesFinder {
      * @see org.kuali.kra.committee.lookup.keyvalue.CommitteeIdValuesFinder#getKeyValues()
      */
     @Override
-    public List<KeyLabelPair> getKeyValues() {        
-        List<KeyLabelPair> keyValues = new ArrayList<KeyLabelPair>();
-        keyValues.add(new KeyLabelPair("", "select"));
+    public List<KeyValue> getKeyValues() {        
+        List<KeyValue> keyValues = new ArrayList<KeyValue>();
+        keyValues.add(new ConcreteKeyValue("", "select"));
         
         List<Committee> committees = this.getActiveCommittees();
         if (CollectionUtils.isNotEmpty(committees)) {
             for (Committee committee : committees) {
-                keyValues.add(new KeyLabelPair(committee.getCommitteeId(), committee.getCommitteeId()));
+                keyValues.add(new ConcreteKeyValue(committee.getCommitteeId(), committee.getCommitteeId()));
             }
         }
         return keyValues;

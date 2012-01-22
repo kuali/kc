@@ -90,11 +90,11 @@ import org.kuali.kra.questionnaire.answer.QuestionnaireAnswerService;
 import org.kuali.kra.rules.ErrorReporter;
 import org.kuali.kra.service.KcPersonService;
 import org.kuali.kra.service.TaskAuthorizationService;
-import org.kuali.rice.kns.service.BusinessObjectService;
-import org.kuali.rice.kns.service.ParameterService;
-import org.kuali.rice.kns.util.DateUtils;
-import org.kuali.rice.kns.util.GlobalVariables;
-import org.kuali.rice.kns.util.ObjectUtils;
+import org.kuali.kra.util.DateUtils;
+import org.kuali.rice.coreservice.framework.parameter.ParameterService;
+import org.kuali.rice.krad.service.BusinessObjectService;
+import org.kuali.rice.krad.util.GlobalVariables;
+import org.kuali.rice.krad.util.ObjectUtils;
 
 /**
  * The form helper class for the Protocol Actions tab.
@@ -125,6 +125,7 @@ public class ActionHelper implements Serializable {
     private boolean canSubmitProtocol = false;
     private boolean canSubmitProtocolUnavailable = false;
     private String submissionConstraint;
+    
     private boolean canCreateAmendment = false;
     private boolean canCreateAmendmentUnavailable = false;
     private boolean canModifyAmendmentSections = false;
@@ -928,7 +929,7 @@ public class ActionHelper implements Serializable {
     }
 
     private String getParameterValue(String parameterName) {
-        return this.getParameterService().getParameterValue(ProtocolDocument.class, parameterName);      
+        return this.getParameterService().getParameterValueAsString(ProtocolDocument.class, parameterName);      
     }
     
     private boolean hasSubmitProtocolPermission() {
@@ -2223,7 +2224,7 @@ public class ActionHelper implements Serializable {
         return reviewComments;
     }
 
-    private void setReviewComments(List<CommitteeScheduleMinute> reviewComments) {        
+    private void setReviewComments(List<CommitteeScheduleMinute> reviewComments) {
         this.reviewComments = reviewComments;
     }
 

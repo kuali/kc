@@ -17,7 +17,6 @@ package org.kuali.kra.proposaldevelopment.bo;
 
 import java.io.Serializable;
 import java.sql.Date;
-import java.util.LinkedHashMap;
 import java.util.List;
 
 import org.kuali.kra.budget.BudgetDecimal;

@@ -28,16 +28,13 @@ import org.kuali.kra.subaward.bo.SubAwardCloseout;
 import org.kuali.kra.subaward.bo.SubAwardContact;
 import org.kuali.kra.subaward.bo.SubAwardFundingSource;
 import org.kuali.kra.subaward.document.SubAwardDocument;
-import org.kuali.rice.kns.document.Document;
-import org.kuali.rice.kns.rule.BusinessRule;
-import org.kuali.rice.kns.util.ErrorMap;
-import org.kuali.rice.kns.util.GlobalVariables;
-import org.kuali.rice.kns.util.KualiDecimal;
+import org.kuali.rice.core.api.util.type.KualiDecimal;
+import org.kuali.rice.krad.document.Document;
 
 public class SubAwardDocumentRule extends ResearchDocumentRuleBase implements SubAwardRule,
                                                                                  SubAwardAmountInfoRule,
                                                                                  SubAwardAmountReleasedRule,
-                                                                                  SubAwardContactRule,
+                                                                                 SubAwardContactRule,
                                                                                  SubAwardCloseoutRule,
                                                                                  SubAwardFundingSourceRule{
     
@@ -66,6 +63,8 @@ public class SubAwardDocumentRule extends ResearchDocumentRuleBase implements Su
     private static final String CLOSEOUT_TYPE_CODE="newSubAwardCloseout.closeoutTypeCode";
     
     private static final String AWARD_NUMBER="newSubAwardFundingSource.award.awardNumber";
+    
+    
     
 
     public boolean processAddSubAwardBusinessRules(SubAward subAward) {
@@ -113,19 +112,18 @@ public class SubAwardDocumentRule extends ResearchDocumentRuleBase implements Su
                         , KeyConstants.SUBAWARD_ERROR_END_DATE_GREATER_THAN_START); 
             }
         }
-
         return rulePassed;
     }
-    
+
     public boolean processSaveSubAwardAmountInfoBusinessRule(SubAward subAward,SubAwardAmountInfo amountInfo) {
         boolean rulePassed = true; 
-        
+
         rulePassed &= processSubAwardAmountInfoBusinessRule(subAward,amountInfo);
-        
+
         return rulePassed;
     } 
    protected boolean  processSubAwardAmountInfoBusinessRule(SubAward subAward,SubAwardAmountInfo amountInfo){    
-        
+    
         boolean rulePassed = true;   
     
         KualiDecimal obligatedAmount=KualiDecimal.ZERO;
@@ -141,7 +139,7 @@ public class SubAwardDocumentRule extends ResearchDocumentRuleBase implements Su
                        , KeyConstants.ERROR_SUBAWARD_OBLIGATED_AMOUNT_SHOULD_BE_GREATER_AMOUNT_RELEASED ); 
            }
        }
-      
+
         return rulePassed;
     }
 
@@ -250,7 +248,7 @@ public class SubAwardDocumentRule extends ResearchDocumentRuleBase implements Su
     protected boolean  processSubAwardAmountInfoBusinessRules(SubAwardAmountInfo amountInfo,SubAward subAward){    
         
         boolean rulePassed = true;   
-
+    
        if(subAward.getTotalObligatedAmount()!=null && subAward.getTotalAmountReleased()!=null){
            if(subAward.getTotalObligatedAmount().isGreaterThan(subAward.getTotalAmountReleased())){
                rulePassed = false;
@@ -258,11 +256,11 @@ public class SubAwardDocumentRule extends ResearchDocumentRuleBase implements Su
                        , KeyConstants.ERROR_SUBAWARD_OBLIGATED_AMOUNT_IS_GREATER_AMOUNT_RELEASED ); 
            }
        }
-        
+    
         return rulePassed;
     }
-     
- 
+    
+    
 
     public boolean processAddSubAwardAmountReleasedBusinessRules(SubAwardAmountReleased amountReleased,SubAward subAward ) {
         
@@ -273,7 +271,7 @@ public class SubAwardDocumentRule extends ResearchDocumentRuleBase implements Su
         
     }
     
-    protected boolean  processSaveSubAwardAmountReleasedBusinessRules(SubAwardAmountReleased amountReleased,SubAward subAward ){    
+    protected boolean  processSaveSubAwardAmountReleasedBusinessRules(SubAwardAmountReleased amountReleased,SubAward subAward ){        
         
         boolean rulePassed = true;   
         
@@ -415,6 +413,7 @@ public class SubAwardDocumentRule extends ResearchDocumentRuleBase implements Su
         }
         return rulePassed;
     }
+    
     /**
      * @see org.kuali.rice.kns.rule.DocumentAuditRule#processRunAuditBusinessRules(org.kuali.rice.kns.document.Document)
      */

@@ -42,19 +42,20 @@ import org.kuali.kra.irb.personnel.ProtocolPerson;
 import org.kuali.kra.kew.KraDocumentRejectionService;
 import org.kuali.kra.meeting.CommitteeScheduleMinute;
 import org.kuali.kra.service.KraAuthorizationService;
-import org.kuali.rice.kew.exception.WorkflowException;
-import org.kuali.rice.kew.service.WorkflowDocument;
-import org.kuali.rice.kim.bo.Person;
-import org.kuali.rice.kim.service.IdentityManagementService;
-import org.kuali.rice.kim.service.PersonService;
-import org.kuali.rice.kns.bo.DocumentHeader;
-import org.kuali.rice.kns.service.BusinessObjectService;
-import org.kuali.rice.kns.service.DocumentService;
-import org.kuali.rice.kns.util.GlobalVariables;
-import org.kuali.rice.kns.util.KNSConstants;
 import org.kuali.kra.service.KraWorkflowService;
-import org.kuali.rice.kns.workflow.service.KualiWorkflowDocument;
-import org.kuali.rice.kns.workflow.service.WorkflowDocumentService;
+import org.kuali.rice.kew.api.WorkflowDocument;
+import org.kuali.rice.kew.api.WorkflowDocumentFactory;
+import org.kuali.rice.kew.api.exception.WorkflowException;
+import org.kuali.rice.kim.api.identity.IdentityService;
+import org.kuali.rice.kim.api.identity.Person;
+import org.kuali.rice.kim.api.identity.PersonService;
+import org.kuali.rice.krad.bo.AdHocRouteRecipient;
+import org.kuali.rice.krad.bo.DocumentHeader;
+import org.kuali.rice.krad.service.BusinessObjectService;
+import org.kuali.rice.krad.service.DocumentService;
+import org.kuali.rice.krad.util.GlobalVariables;
+import org.kuali.rice.krad.util.KRADConstants;
+import org.kuali.rice.krad.workflow.service.WorkflowDocumentService;
 
 public class ProtocolOnlineReviewServiceImpl implements ProtocolOnlineReviewService {
 
@@ -64,11 +65,12 @@ public class ProtocolOnlineReviewServiceImpl implements ProtocolOnlineReviewServ
     private DocumentService documentService;
     private KraAuthorizationService kraAuthorizationService;
     private ProtocolAssignReviewersService protocolAssignReviewersService;
-    private IdentityManagementService identityManagementService;
+    private IdentityService identityManagementService;
     private CommitteeService committeeService;
     private KraDocumentRejectionService kraDocumentRejectionService;
     private ProtocolFinderDao protocolFinderDao;
     private ReviewCommentsService reviewCommentsService;
+    private WorkflowDocumentService workflowDocumentService;
     
     private String reviewerApproveNodeName;
     private String irbAdminApproveNodeName;
@@ -106,10 +108,10 @@ public class ProtocolOnlineReviewServiceImpl implements ProtocolOnlineReviewServ
             document = createProtocolOnlineReviewDocument(protocolSubmission, protocolReviewer, documentDescription, documentExplanation, 
                     documentOrganizationDocumentNumber, dateRequested, dateDue, principalId);
             
-            documentService.routeDocument(document, "Review Requested by PI during protocol submission.", new ArrayList<String>());
+            documentService.routeDocument(document, "Review Requested by PI during protocol submission.", new ArrayList<AdHocRouteRecipient>());
             
             if (initialApproval) {
-                documentService.approveDocument(document, "", new ArrayList<String>());
+                documentService.approveDocument(document, "", new ArrayList<AdHocRouteRecipient>());
             }
         } catch (WorkflowException e) {
             String errorString = String.format("WorkflowException creating new ProtocolOnlineReviewDocument for reviewer %s, protocol %s", 
@@ -147,11 +149,11 @@ public class ProtocolOnlineReviewServiceImpl implements ProtocolOnlineReviewServ
         ProtocolOnlineReviewDocument protocolReviewDocument;
         
         Person person = personService.getPerson(principalId);
-        KualiWorkflowDocument workflowDocument = getWorkflowDocumentService().createWorkflowDocument(PROTOCOL_ONLINE_REVIEW_DOCUMENT_TYPE, person);
+        WorkflowDocument workflowDocument = workflowDocumentService.createWorkflowDocument(PROTOCOL_ONLINE_REVIEW_DOCUMENT_TYPE, person);
         
         DocumentHeader docHeader = new DocumentHeader();
         docHeader.setWorkflowDocument(workflowDocument);
-        docHeader.setDocumentNumber(workflowDocument.getRouteHeaderId().toString());
+        docHeader.setDocumentNumber(workflowDocument.getDocumentId().toString());
         protocolReviewDocument = new ProtocolOnlineReviewDocument();
         protocolReviewDocument.setDocumentNumber(docHeader.getDocumentNumber());
         protocolReviewDocument.setDocumentHeader(docHeader);
@@ -365,7 +367,7 @@ public class ProtocolOnlineReviewServiceImpl implements ProtocolOnlineReviewServ
         ProtocolSubmission submission = protocol.getProtocolSubmission();
         if (submission != null) {
             try {
-                isReviewable = StringUtils.isNotEmpty(submission.getScheduleId()); 
+            isReviewable = StringUtils.isNotEmpty(submission.getScheduleId()); 
                 isReviewable &= (StringUtils.equals(submission.getSubmissionStatusCode(), ProtocolSubmissionStatus.SUBMITTED_TO_COMMITTEE) 
                         || StringUtils.equals(submission.getSubmissionStatusCode(), ProtocolSubmissionStatus.IN_AGENDA));
                 ProtocolDocument protocolDocument = (ProtocolDocument) documentService.getByDocumentHeaderId(protocol.getProtocolDocument().getDocumentNumber());
@@ -406,19 +408,19 @@ public class ProtocolOnlineReviewServiceImpl implements ProtocolOnlineReviewServ
     protected void cancelOnlineReviewDocument(ProtocolOnlineReviewDocument protocolOnlineReviewDocument, ProtocolSubmission submission, String annotation) {
         try {
            
-            final String principalId = identityManagementService.getPrincipalByPrincipalName(KNSConstants.SYSTEM_USER).getPrincipalId();
-            WorkflowDocument workflowDocument = new WorkflowDocument(principalId, Long.parseLong(protocolOnlineReviewDocument.getDocumentNumber()));
+            final String principalId = identityManagementService.getPrincipalByPrincipalName(KRADConstants.SYSTEM_USER).getPrincipalId();
+            WorkflowDocument workflowDocument = WorkflowDocumentFactory.loadDocument(principalId, protocolOnlineReviewDocument.getDocumentNumber());
             
-            if (workflowDocument.stateIsEnroute() 
+            if (workflowDocument.isEnroute() 
                 ||
-                workflowDocument.stateIsInitiated()
+                workflowDocument.isInitiated()
                 ||
-                workflowDocument.stateIsSaved()
+                workflowDocument.isSaved()
                 ) {
                 workflowDocument.superUserCancel(String.format("Review Cancelled from assign reviewers action by %s", GlobalVariables.getUserSession().getPrincipalId()));
             }
-        } catch(WorkflowException e) {
-            String errorMessage = String.format("Workflow exception generated while executing superUserCancel on document %s in removeOnlineReviewDocument. Message: %s",protocolOnlineReviewDocument.getDocumentNumber(), e.getMessage());
+        } catch(Exception e) {
+            String errorMessage = String.format("Exception generated while executing superUserCancel on document %s in removeOnlineReviewDocument. Message: %s",protocolOnlineReviewDocument.getDocumentNumber(), e.getMessage());
             LOG.error(errorMessage);
             throw new RuntimeException(errorMessage,e);
         }
@@ -428,21 +430,21 @@ public class ProtocolOnlineReviewServiceImpl implements ProtocolOnlineReviewServ
         
         try {
 
-            final String principalId = identityManagementService.getPrincipalByPrincipalName(KNSConstants.SYSTEM_USER).getPrincipalId();
-            WorkflowDocument workflowDocument = new WorkflowDocument(principalId, Long.parseLong(protocolOnlineReviewDocument.getDocumentNumber()));
+            final String principalId = identityManagementService.getPrincipalByPrincipalName(KRADConstants.SYSTEM_USER).getPrincipalId();
+            WorkflowDocument workflowDocument = WorkflowDocumentFactory.loadDocument(principalId, protocolOnlineReviewDocument.getDocumentNumber());
             ProtocolOnlineReview review = protocolOnlineReviewDocument.getProtocolOnlineReview();
-            review.addActionPerformed("Finalize:"+workflowDocument.getRouteHeader().getDocRouteStatus()+":"+review.getProtocolOnlineReviewStatusCode());
+            review.addActionPerformed("Finalize:"+workflowDocument.getStatus().getCode()+":"+review.getProtocolOnlineReviewStatusCode());
 
             
-            if (workflowDocument.stateIsEnroute()
+            if (workflowDocument.isEnroute()
             ||
-            workflowDocument.stateIsInitiated()
+            workflowDocument.isInitiated()
             ||
-            workflowDocument.stateIsSaved()
+            workflowDocument.isSaved()
             ) {
-                workflowDocument.superUserApprove(annotation);
+                workflowDocument.superUserBlanketApprove(annotation);
             }
-        } catch(WorkflowException e) {
+        } catch(Exception e) {
             String errorMessage = String.format("Workflow exception generated while executing superUserApprove on document %s in finalizeOnlineReviewDocument. Message:%s",protocolOnlineReviewDocument.getDocumentNumber(), e.getMessage());
             LOG.error(errorMessage);
             throw new RuntimeException(errorMessage,e);
@@ -543,7 +545,7 @@ public class ProtocolOnlineReviewServiceImpl implements ProtocolOnlineReviewServ
     public void finalizeOnlineReviews(ProtocolSubmission submission, String annotation) {
         //get the online reviews, loop through them and finalize them if necessary.
         for(ProtocolOnlineReview review : submission.getProtocolOnlineReviews()) {
-//            review.addActionPerformed("Finalize:"+review.getProtocolOnlineReviewDocument().getDocumentHeader().getWorkflowDocument().getRouteHeader().getDocRouteStatus()+":"+review.getProtocolOnlineReviewStatusCode());
+//            review.addActionPerformed("Finalize:"+review.getProtocolOnlineReviewDocument().getDocumentHeader().getWorkflowDocument().getStatus().getCode()+":"+review.getProtocolOnlineReviewStatusCode());
             finalizeOnlineReviewDocument(review.getProtocolOnlineReviewDocument(), submission, annotation);
         }
     }
@@ -606,6 +608,7 @@ public class ProtocolOnlineReviewServiceImpl implements ProtocolOnlineReviewServ
     public ProtocolAssignReviewersService getProtocolAssignReviewersService() {
         return protocolAssignReviewersService;
     }
+
     /**
      * Gets the workflowDocumentService attribute. 
      * @return Returns the workflowDocumentService.
@@ -636,18 +639,12 @@ public class ProtocolOnlineReviewServiceImpl implements ProtocolOnlineReviewServ
     public void setPersonService(PersonService personService) {
         this.personService = personService;
     }
-    /**
-     * Gets the identityManagementService attribute. 
-     * @return Returns the identityManagementService.
-     */
-    public IdentityManagementService getIdentityManagementService() {
-        return identityManagementService;
-    }
+
     /**
      * Sets the identityManagementService attribute value.
      * @param identityManagementService The identityManagementService to set.
      */
-    public void setIdentityManagementService(IdentityManagementService identityManagementService) {
+    public void setIdentityManagementService(IdentityService identityManagementService) {
         this.identityManagementService = identityManagementService;
     }
     
@@ -770,4 +767,8 @@ public class ProtocolOnlineReviewServiceImpl implements ProtocolOnlineReviewServ
         return getPersonnelIds(protocol).contains(member.getPersonId());
     }
 
+    public void setWorkflowDocumentService(WorkflowDocumentService workflowDocumentService) {
+        this.workflowDocumentService = workflowDocumentService;
+    }
+    
 }

@@ -22,9 +22,8 @@ import org.apache.struts.action.ActionForm;
 import org.apache.struts.action.ActionForward;
 import org.apache.struts.action.ActionMapping;
 import org.kuali.kra.infrastructure.Constants;
-import org.kuali.rice.kns.util.KNSConstants;
-
 import org.kuali.rice.kew.routing.web.ClientAppDocHandlerRedirectAction;
+import org.kuali.rice.krad.util.KRADConstants;
 
 public class CustomDocHandlerRedirectAction extends ClientAppDocHandlerRedirectAction {
 
@@ -33,8 +32,8 @@ public class CustomDocHandlerRedirectAction extends ClientAppDocHandlerRedirectA
         ActionForward returnForward = super.start(mapping, form, request, response);
         
         String docHandler = returnForward.getPath();
-        docHandler = docHandler.replace(KNSConstants.DOC_HANDLER_METHOD, Constants.HEADER_TAB);
-        docHandler += "&" + KNSConstants.METHOD_TO_CALL_PATH + "=methodToCall.headerTab.headerDispatch.reload.navigateTo.actions=Proposal Actions";
+        docHandler = docHandler.replace(KRADConstants.DOC_HANDLER_METHOD, Constants.HEADER_TAB);
+        docHandler += "&" + KRADConstants.METHOD_TO_CALL_PATH + "=methodToCall.headerTab.headerDispatch.reload.navigateTo.actions=Proposal Actions";
           
         returnForward = new ActionForward(docHandler, returnForward.getRedirect());
         return returnForward;

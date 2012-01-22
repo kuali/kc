@@ -9,10 +9,10 @@ import java.net.URL;
 
 import org.junit.Test;
 import org.kuali.kra.infrastructure.KraServiceLocator;
+import org.kuali.kra.test.infrastructure.HtmlUnitUtil;
 import org.kuali.kra.test.infrastructure.KcUnitTestBase;
-import org.kuali.rice.core.config.Config;
-import org.kuali.rice.core.config.ConfigContext;
-import org.kuali.rice.test.web.HtmlUnitUtil;
+import org.kuali.rice.core.api.config.property.Config;
+import org.kuali.rice.core.api.config.property.ConfigContext;
 
 public class LifecycleTest extends KcUnitTestBase {
     

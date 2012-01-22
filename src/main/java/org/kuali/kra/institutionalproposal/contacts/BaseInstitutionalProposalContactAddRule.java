@@ -15,8 +15,7 @@
  */
 package org.kuali.kra.institutionalproposal.contacts;
 
-import org.kuali.kra.award.contacts.AwardContact;
-import org.kuali.rice.kns.util.GlobalVariables;
+import org.kuali.rice.krad.util.GlobalVariables;
 
 /**
  * This class...

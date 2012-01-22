@@ -15,8 +15,6 @@
  */
 package org.kuali.kra.irb.actions.submit;
 
-import java.util.LinkedHashMap;
-
 import org.kuali.kra.bo.KraPersistableBusinessObjectBase;
 import org.kuali.kra.committee.bo.CommitteeDecisionMotionType;
 import org.kuali.kra.irb.actions.ProtocolActionType;
@@ -29,23 +27,30 @@ import org.kuali.kra.irb.actions.ProtocolActionType;
  * a unique key on the underlying table.
  * 
  */
-public class ValidProtocolActionAction extends KraPersistableBusinessObjectBase { 
-    
+public class ValidProtocolActionAction extends KraPersistableBusinessObjectBase {
+
     private static final long serialVersionUID = 1L;
-    
-    private Long validProtocolActionActionId; 
+
+    private Long validProtocolActionActionId;
+
     private String protocolActionTypeCode;
+
     private String motionTypeCode;
+
     private int actionNumber;
+
     private String followupActionCode;
+
     private boolean userPromptFlag;
+
     private String userPrompt;
-    
+
     private ProtocolActionType protocolActionType;
+
     private CommitteeDecisionMotionType committeeDecisionMotionType;
+
     private ProtocolActionType followupProtocolActionType;
-    
-    
+
     /**
      * Gets the motionTypeCode attribute. 
      * @return Returns the motionTypeCode.
@@ -110,11 +115,9 @@ public class ValidProtocolActionAction extends KraPersistableBusinessObjectBase 
         this.followupProtocolActionType = followupProtocolActionType;
     }
 
-    
-    public ValidProtocolActionAction() { 
+    public ValidProtocolActionAction() {
+    }
 
-    } 
-    
     /**
      * Gets the validProtocolActionActionId attribute. 
      * @return Returns the validProtocolActionActionId.
@@ -154,7 +157,6 @@ public class ValidProtocolActionAction extends KraPersistableBusinessObjectBase 
     public int getActionNumber() {
         return actionNumber;
     }
-
 
     /**
      * Sets the actionNumber attribute value.
@@ -211,18 +213,4 @@ public class ValidProtocolActionAction extends KraPersistableBusinessObjectBase 
     public void setUserPrompt(String userPrompt) {
         this.userPrompt = userPrompt;
     }
-
-    /** {@inheritDoc} */
-    @Override 
-    protected LinkedHashMap<String, Object> toStringMapper() {
-        LinkedHashMap<String, Object> hashMap = new LinkedHashMap<String, Object>();
-        hashMap.put("validProtocolActionActionId", getValidProtocolActionActionId());
-        hashMap.put("protocolActionTypeCode", getProtocolActionTypeCode());
-        hashMap.put("actionNumber", getActionNumber());
-        hashMap.put("followupActionCode", getFollowupActionCode());
-        hashMap.put("userPromptFlag", getUserPromptFlag());
-        hashMap.put("userPrompt", getUserPrompt());
-        return hashMap;
-    }
-    
 }

@@ -15,8 +15,6 @@
  */
 package org.kuali.kra.irb.actions.notification;
 
-import java.util.LinkedHashMap;
-
 import org.apache.struts.upload.FormFile;
 import org.kuali.kra.bo.KraPersistableBusinessObjectBase;
 import org.kuali.kra.irb.actions.ProtocolActionType;
@@ -25,21 +23,25 @@ import org.kuali.kra.irb.actions.ProtocolActionType;
  * 
  * This class is bo of protocol notification template
  */
-public class ProtocolNotificationTemplate extends KraPersistableBusinessObjectBase { 
-    
+public class ProtocolNotificationTemplate extends KraPersistableBusinessObjectBase {
+
     private static final long serialVersionUID = 1L;
 
-    private Integer notificationTemplateId; 
-    private String actionTypeCode; 
+    private Integer notificationTemplateId;
+
+    private String actionTypeCode;
+
     private String fileName;
-    private byte[] notificationTemplate; 
+
+    private byte[] notificationTemplate;
+
     private ProtocolActionType protocolActionType;
+
     private transient FormFile templateFile;
-    
+
     public ProtocolNotificationTemplate() {
         super();
-    } 
-    
+    }
 
     public String getFileName() {
         return fileName;
@@ -57,55 +59,35 @@ public class ProtocolNotificationTemplate extends KraPersistableBusinessObjectBa
         return templateFile;
     }
 
-    /** {@inheritDoc} */
-    @Override 
-    protected LinkedHashMap<String, Object> toStringMapper() {
-        LinkedHashMap<String, Object> hashMap = new LinkedHashMap<String, Object>();
-        hashMap.put("notificationTemplateId", this.getNotificationTemplateId());
-        hashMap.put("actionTypeCode", this.getActionTypeCode());
-        hashMap.put("fileName", this.getFileName());
-        hashMap.put("notificationTemplate", this.getNotificationTemplate());
-        return hashMap;
-    }
-
-
     public Integer getNotificationTemplateId() {
         return notificationTemplateId;
     }
-
 
     public void setNotificationTemplateId(Integer notificationTemplateId) {
         this.notificationTemplateId = notificationTemplateId;
     }
 
-
     public String getActionTypeCode() {
         return actionTypeCode;
     }
-
 
     public void setActionTypeCode(String actionTypeCode) {
         this.actionTypeCode = actionTypeCode;
     }
 
-
     public byte[] getNotificationTemplate() {
         return notificationTemplate;
     }
-
 
     public void setNotificationTemplate(byte[] notificationTemplate) {
         this.notificationTemplate = notificationTemplate;
     }
 
-
     public ProtocolActionType getProtocolActionType() {
         return protocolActionType;
     }
 
-
     public void setProtocolActionType(ProtocolActionType protocolActionType) {
         this.protocolActionType = protocolActionType;
     }
-   
 }

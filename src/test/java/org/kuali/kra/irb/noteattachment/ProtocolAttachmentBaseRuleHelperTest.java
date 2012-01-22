@@ -30,8 +30,9 @@ import org.junit.Test;
 import org.kuali.kra.irb.Protocol;
 import org.kuali.kra.irb.test.ProtocolTestUtil;
 import org.kuali.rice.kns.service.DictionaryValidationService;
-import org.kuali.rice.kns.util.ErrorMap;
-import org.kuali.rice.kns.util.GlobalVariables;
+import org.kuali.rice.kns.util.KNSGlobalVariables;
+import org.kuali.rice.krad.util.GlobalVariables;
+import org.kuali.rice.krad.util.MessageMap;
 
 /**
  * Tests the {@link ProtocolAttachmentBaseRuleHelper ProtocolAttachmentBaseRuleHelper} class.
@@ -42,8 +43,8 @@ public class ProtocolAttachmentBaseRuleHelperTest {
 
     @Before
     public void setupGlobalVars() {
-        GlobalVariables.setAuditErrorMap(new HashMap());
-        GlobalVariables.setErrorMap(new ErrorMap());
+        KNSGlobalVariables.setAuditErrorMap(new HashMap());
+        GlobalVariables.setMessageMap(new MessageMap());
     }
     
     /**

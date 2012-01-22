@@ -22,17 +22,16 @@ import java.util.List;
 
 import org.apache.commons.beanutils.PropertyUtils;
 import org.apache.commons.lang.StringUtils;
-import org.apache.ojb.broker.PersistenceBroker;
 import org.apache.ojb.broker.PersistenceBrokerException;
 import org.kuali.kra.infrastructure.Constants;
 import org.kuali.kra.infrastructure.KraServiceLocator;
 import org.kuali.kra.service.KcPersonService;
-import org.kuali.rice.kns.bo.PersistableBusinessObjectBase;
-import org.kuali.rice.kns.bo.PersistableBusinessObjectExtension;
-import org.kuali.rice.kns.service.DateTimeService;
-import org.kuali.rice.kns.util.GlobalVariables;
-import org.kuali.rice.kns.util.KNSConstants;
-import org.kuali.rice.kns.util.ObjectUtils;
+import org.kuali.rice.core.api.datetime.DateTimeService;
+import org.kuali.rice.krad.bo.PersistableBusinessObjectBase;
+import org.kuali.rice.krad.bo.PersistableBusinessObjectExtension;
+import org.kuali.rice.krad.util.GlobalVariables;
+import org.kuali.rice.krad.util.KRADConstants;
+import org.kuali.rice.krad.util.ObjectUtils;
 
 public abstract class KraPersistableBusinessObjectBase extends PersistableBusinessObjectBase {
     
@@ -51,8 +50,8 @@ public abstract class KraPersistableBusinessObjectBase extends PersistableBusine
      * @see org.kuali.core.bo.PersistableBusinessObjectBase#beforeInsert()
      */
     @Override
-    public void beforeInsert(PersistenceBroker persistenceBroker) throws PersistenceBrokerException {
-        super.beforeInsert(persistenceBroker);
+    protected void prePersist() {
+        super.prePersist();
         this.setVersionNumber(new Long(0));
         setUpdateFields();
 
@@ -64,11 +63,11 @@ public abstract class KraPersistableBusinessObjectBase extends PersistableBusine
     
     /**
      * {@inheritDoc}
-     * @see org.kuali.rice.kns.bo.PersistableBusinessObjectBase#afterInsert(org.apache.ojb.broker.PersistenceBroker)
+     * @see org.kuali.rice.krad.bo.PersistableBusinessObjectBase#afterInsert(org.apache.ojb.broker.PersistenceBroker)
      */
     @Override
     @SuppressWarnings("unchecked")
-    public void afterInsert(PersistenceBroker persistenceBroker) throws PersistenceBrokerException {
+    protected void postPersist() {
         if (temporaryExtension != null) {
             List<String> fieldNames = getPersistenceStructureService().listPrimaryKeyFieldNames(getClass());
             try {
@@ -96,8 +95,8 @@ public abstract class KraPersistableBusinessObjectBase extends PersistableBusine
      * @see org.kuali.core.bo.PersistableBusinessObjectBase#beforeInsert()
      */
     @Override
-    public void beforeUpdate(PersistenceBroker persistenceBroker) throws PersistenceBrokerException {
-        super.beforeUpdate(persistenceBroker);
+    protected void preUpdate() {
+        super.preUpdate();
         // Optimistic Locking has been disabled so adding null check and setting version number to 0
         // If we ever turn Optimistic Locking back on, we need to remove this code
         if (this.getVersionNumber() == null) {
@@ -141,7 +140,7 @@ public abstract class KraPersistableBusinessObjectBase extends PersistableBusine
      * @param updateUser the user who updated this object
      */
     public void setUpdateUser(String updateUser) {
-        if (!KNSConstants.SYSTEM_USER.equals(updateUser)) {
+        if (!KRADConstants.SYSTEM_USER.equals(updateUser)) {
             this.updateUser = StringUtils.substring(updateUser, 0, UPDATE_USER_LENGTH);
         }
     }

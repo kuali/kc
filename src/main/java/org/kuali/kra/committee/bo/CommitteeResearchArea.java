@@ -15,10 +15,7 @@
  */
 package org.kuali.kra.committee.bo;
 
-import java.util.LinkedHashMap;
-
 import org.kuali.kra.bo.ResearchArea;
-
 
 /**
  * This class implements the committee research area business object.
@@ -28,10 +25,13 @@ public class CommitteeResearchArea extends CommitteeAssociate {
     private static final long serialVersionUID = 6586026093806484327L;
 
     private Long id;
+
     private String researchAreaCode;
+
     private Committee committee;
+
     private ResearchArea researchArea;
-    
+
     public CommitteeResearchArea() {
     }
 
@@ -87,8 +87,7 @@ public class CommitteeResearchArea extends CommitteeAssociate {
             return false;
         }
         CommitteeResearchArea committeeResearchArea = (CommitteeResearchArea) obj;
-        if (this.getCommitteeIdFk() != null && this.getCommitteeIdFk().equals(committeeResearchArea.getCommitteeIdFk())
-                && this.getResearchAreaCode() != null && this.getResearchAreaCode().equals(committeeResearchArea.getResearchAreaCode())) {
+        if (this.getCommitteeIdFk() != null && this.getCommitteeIdFk().equals(committeeResearchArea.getCommitteeIdFk()) && this.getResearchAreaCode() != null && this.getResearchAreaCode().equals(committeeResearchArea.getResearchAreaCode())) {
             return true;
         } else {
             return false;
@@ -103,17 +102,8 @@ public class CommitteeResearchArea extends CommitteeAssociate {
         result = PRIME * result + (this.getResearchAreaCode() == null ? 0 : this.getResearchAreaCode().hashCode());
         return result;
     }
-    
-    @Override
-    protected LinkedHashMap<String, Object> toStringMapper() {
-        LinkedHashMap<String, Object> hashMap = super.toStringMapper();
-        hashMap.put("id", getId());
-        hashMap.put("researchAreaCode", getResearchAreaCode());
-        return hashMap;
-    }
 
     public void resetPersistenceState() {
         setId(null);
     }
-
 }

@@ -32,16 +32,16 @@ import org.jdom.Document;
 import org.jdom.Element;
 import org.kuali.kra.bo.Unit;
 import org.kuali.kra.service.UnitService;
+import org.kuali.rice.core.api.util.xml.XmlException;
+import org.kuali.rice.core.api.util.xml.XmlHelper;
 import org.kuali.rice.kew.engine.RouteContext;
 import org.kuali.rice.kew.engine.node.NodeState;
 import org.kuali.rice.kew.engine.node.RouteNode;
 import org.kuali.rice.kew.engine.node.RouteNodeConfigParam;
 import org.kuali.rice.kew.engine.node.RouteNodeInstance;
 import org.kuali.rice.kew.engine.node.hierarchyrouting.HierarchyProvider;
-import org.kuali.rice.kew.exception.InvalidXmlException;
 import org.kuali.rice.kew.rule.NamedRuleSelector;
 import org.kuali.rice.kew.util.Utilities;
-import org.kuali.rice.kew.util.XmlHelper;
 
 /**
  * 
@@ -133,13 +133,13 @@ public class KraHierarchyProvider implements HierarchyProvider {
         String ownedByUnitNumber = null;
         
         try {
-            Element documentElement = XmlHelper.findElement(document.getRootElement(), DOCUMENT_XML_ELEMENT);
-            if (documentElement != null) {
-                ownedByUnitNumber = documentElement.getChildText(UNIT_XML_ELEMENT);
+            List<Element> documentElements = (List<Element>) XmlHelper.findElements(document.getRootElement(), DOCUMENT_XML_ELEMENT);
+            if (documentElements != null) {
+                ownedByUnitNumber = documentElements.get(0).getChildText(UNIT_XML_ELEMENT);
             }
         }
-        catch (InvalidXmlException e) {
-            LOG.debug("InvalidXmlException Occurred while retrieving UnitNumber"); 
+        catch (XmlException e) {
+            LOG.debug("XmlException Occurred while retrieving UnitNumber"); 
         }
         
         return ownedByUnitNumber;

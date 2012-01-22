@@ -25,7 +25,6 @@ import org.kuali.kra.infrastructure.KraServiceLocator;
 import org.kuali.kra.service.YnqService;
 import org.kuali.rice.kns.document.MaintenanceDocument;
 import org.kuali.rice.kns.maintenance.Maintainable;
-import org.kuali.rice.kns.util.AssertionUtils;
 import org.kuali.rice.kns.web.ui.Section;
 
 public class YnqMaintainableImpl extends KraMaintainableImpl {
@@ -71,7 +70,9 @@ public class YnqMaintainableImpl extends KraMaintainableImpl {
      */
     private void initExplanation() {
         List<YnqExplanation> ynqExplanations = getYnq().getYnqExplanations();
-        AssertionUtils.assertThat(ynqExplanations.isEmpty());
+        if (!ynqExplanations.isEmpty()) {
+            throw new AssertionError();
+        }
         
         List<YnqExplanationType> ynqExplanationTypes = getYnqExplanationTypes();
         for (YnqExplanationType type : ynqExplanationTypes) {

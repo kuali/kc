@@ -22,11 +22,11 @@ import org.kuali.kra.infrastructure.Constants;
 import org.kuali.kra.infrastructure.KeyConstants;
 import org.kuali.kra.rules.ResearchDocumentRuleBase;
 import org.kuali.kra.subaward.document.SubAwardDocument;
-import org.kuali.rice.kns.document.Document;
-import org.kuali.rice.kns.rule.DocumentAuditRule;
 import org.kuali.rice.kns.util.AuditCluster;
 import org.kuali.rice.kns.util.AuditError;
-import org.kuali.rice.kns.util.GlobalVariables;
+import org.kuali.rice.kns.util.KNSGlobalVariables;
+import org.kuali.rice.krad.document.Document;
+import org.kuali.rice.krad.rules.rule.DocumentAuditRule;
 
 public class SubAwardAuditRule extends ResearchDocumentRuleBase implements DocumentAuditRule{
     
@@ -57,7 +57,7 @@ public class SubAwardAuditRule extends ResearchDocumentRuleBase implements Docum
     @SuppressWarnings("unchecked")
     protected void reportAndCreateAuditCluster( List<AuditError> auditErrors ) {
         if (auditErrors.size() > 0) {
-            GlobalVariables.getAuditErrorMap().put(SUBAWARD_AUDIT_ERRORS, new AuditCluster(Constants.MAPPING_SUBAWARD_CONTACT_PANEL,
+            KNSGlobalVariables.getAuditErrorMap().put(SUBAWARD_AUDIT_ERRORS, new AuditCluster(Constants.MAPPING_SUBAWARD_CONTACT_PANEL,
                     auditErrors, Constants.AUDIT_ERRORS));
         }
     }

@@ -25,11 +25,12 @@ import org.apache.commons.lang.StringUtils;
 import org.kuali.kra.award.AwardForm;
 import org.kuali.kra.award.contacts.AwardSponsorContact;
 import org.kuali.kra.infrastructure.KraServiceLocator;
-import org.kuali.rice.core.util.KeyLabelPair;
-import org.kuali.rice.kns.lookup.keyvalues.KeyValuesBase;
-import org.kuali.rice.kns.service.KeyValuesService;
-import org.kuali.rice.kns.service.PersistenceService;
-import org.kuali.rice.kns.util.GlobalVariables;
+import org.kuali.rice.core.api.util.ConcreteKeyValue;
+import org.kuali.rice.core.api.util.KeyValue;
+import org.kuali.rice.kns.util.KNSGlobalVariables;
+import org.kuali.rice.krad.keyvalues.KeyValuesBase;
+import org.kuali.rice.krad.service.KeyValuesService;
+import org.kuali.rice.krad.service.PersistenceService;
 
 /**
  * 
@@ -44,17 +45,17 @@ public class ContactsValuesFinder extends KeyValuesBase {
      * It puts awardContactId as the key and role description + "-" + contact organization name as value.
      *   
      * 
-     * @see org.kuali.rice.kns.lookup.keyvalues.KeyValuesFinder#getKeyValues()
+     * @see org.kuali.rice.krad.keyvalues.KeyValuesFinder#getKeyValues()
      */
     @SuppressWarnings("all")
-    public List<KeyLabelPair> getKeyValues() {
+    public List<KeyValue> getKeyValues() {
         
 //        Collection<AwardSponsorContact> awardSponsorContacts = getKeyValuesService().findAll(AwardSponsorContact.class);
         
-        List<KeyLabelPair> keyValues = new ArrayList<KeyLabelPair>();
-        keyValues.add(new KeyLabelPair("", "select "));
+        List<KeyValue> keyValues = new ArrayList<KeyValue>();
+        keyValues.add(new ConcreteKeyValue("", "select "));
         
-        Long awardId = ((AwardForm) GlobalVariables.getKualiForm()).getAwardDocument().getAward().getAwardId();
+        Long awardId = ((AwardForm) KNSGlobalVariables.getKualiForm()).getAwardDocument().getAward().getAwardId();
         
         Map keyMap = new HashMap ();
         keyMap.put("awardId", awardId);
@@ -72,7 +73,7 @@ public class ContactsValuesFinder extends KeyValuesBase {
             } else {
                 desc += awardSponsorContact.getContactOrganizationName();
             }
-            keyValues.add(new KeyLabelPair(awardSponsorContact.getAwardContactId(), desc));    
+            keyValues.add(new ConcreteKeyValue(awardSponsorContact.getAwardContactId().toString(), desc));    
         }        
                 
         return keyValues;

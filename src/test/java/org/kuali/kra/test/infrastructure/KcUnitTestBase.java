@@ -30,14 +30,19 @@ import org.junit.runner.RunWith;
 import org.junit.runner.notification.RunListener;
 import org.kuali.kra.infrastructure.KraServiceLocator;
 import org.kuali.kra.test.infrastructure.lifecycle.KcUnitTestMainLifecycle;
-import org.kuali.rice.core.util.OrmUtils;
-import org.kuali.rice.kns.UserSession;
-import org.kuali.rice.kns.document.Document;
-import org.kuali.rice.kns.service.BusinessObjectService;
-import org.kuali.rice.kns.service.DocumentService;
-import org.kuali.rice.kns.service.KNSServiceLocator;
-import org.kuali.rice.kns.util.GlobalVariables;
-import org.kuali.rice.kns.util.MessageMap;
+import org.kuali.rice.coreservice.api.parameter.Parameter;
+import org.kuali.rice.coreservice.framework.parameter.ParameterService;
+import org.kuali.rice.core.framework.persistence.jpa.OrmUtils;
+import org.kuali.rice.coreservice.framework.CoreFrameworkServiceLocator;
+import org.kuali.rice.kns.util.KNSGlobalVariables;
+import org.kuali.rice.krad.UserSession;
+import org.kuali.rice.krad.document.Document;
+import org.kuali.rice.krad.service.BusinessObjectService;
+import org.kuali.rice.krad.service.DocumentService;
+import org.kuali.rice.krad.service.KRADServiceLocator;
+import org.kuali.rice.krad.service.KRADServiceLocatorWeb;
+import org.kuali.rice.krad.util.GlobalVariables;
+import org.kuali.rice.krad.util.MessageMap;
 
 /**
  * This class serves as a base test class for all KC unit tests. It handles ensuring all of the necessary lifecycles are properly
@@ -62,6 +67,7 @@ public class KcUnitTestBase extends Assert implements KcUnitTestMethodAware {
     
     private DocumentService documentService;
     private BusinessObjectService businessObjectService;
+    private ParameterService parameterService;
     
     protected boolean transactional = true;
     
@@ -73,7 +79,7 @@ public class KcUnitTestBase extends Assert implements KcUnitTestMethodAware {
         logBeforeRun();
         LIFECYCLE.startPerTest(transactional);
         GlobalVariables.setMessageMap(new MessageMap());
-        GlobalVariables.setAuditErrorMap(new HashMap());
+        KNSGlobalVariables.setAuditErrorMap(new HashMap());
         GlobalVariables.setUserSession(new UserSession(DEFAULT_USER));
     }
 
@@ -83,7 +89,7 @@ public class KcUnitTestBase extends Assert implements KcUnitTestMethodAware {
     @After
     public final void baseAfterTest() {
         GlobalVariables.setMessageMap(new MessageMap());
-        GlobalVariables.setAuditErrorMap(new HashMap());
+        KNSGlobalVariables.setAuditErrorMap(new HashMap());
         GlobalVariables.setUserSession(null);
         LIFECYCLE.stopPerTest();
         logAfterRun();
@@ -188,7 +194,7 @@ public class KcUnitTestBase extends Assert implements KcUnitTestMethodAware {
 
     protected BusinessObjectService getBusinessObjectService() {
         if(businessObjectService == null) {
-            businessObjectService = KNSServiceLocator.getBusinessObjectService();
+            businessObjectService = KRADServiceLocator.getBusinessObjectService();
         }
         return businessObjectService;
     }
@@ -199,7 +205,7 @@ public class KcUnitTestBase extends Assert implements KcUnitTestMethodAware {
 
     protected DocumentService getDocumentService() {
         if(documentService == null) {
-            documentService = KNSServiceLocator.getDocumentService();
+            documentService = KRADServiceLocatorWeb.getDocumentService();
         }
         return documentService;
     }
@@ -207,7 +213,18 @@ public class KcUnitTestBase extends Assert implements KcUnitTestMethodAware {
     protected void setDocumentService(DocumentService documentService) {
         this.documentService = documentService;
     }
+    
+    protected ParameterService getParameterService() {
+        if(parameterService == null) {
+            parameterService = CoreFrameworkServiceLocator.getParameterService();
+        }
+        return parameterService;
+    }
 
+    protected void setParameterService(ParameterService parameterService) {
+        this.parameterService = parameterService;
+    }
+    
     protected Document getDocument(String documentNumber) throws Exception {
         
         // Unfortunately, I can only clear the cache for OJB.  I have been
@@ -217,7 +234,7 @@ public class KcUnitTestBase extends Assert implements KcUnitTestMethodAware {
         // will force a new instance of the document to be retrieved from the database
         // instead of the cache.
         if (!OrmUtils.isJpaEnabled()) {
-            KNSServiceLocator.getPersistenceServiceOjb().clearCache();
+            KRADServiceLocatorWeb.getPersistenceServiceOjb().clearCache(); 
         }
         Document doc=getDocumentService().getByDocumentHeaderId(documentNumber);
         return doc;
@@ -249,4 +266,10 @@ public class KcUnitTestBase extends Assert implements KcUnitTestMethodAware {
         return fileUrl.getPath();
     }
 
+    protected void updateParameterForTesting(Class componentClass, String parameterName, String newValue) {
+        Parameter parameter = parameterService.getParameter(componentClass, parameterName);
+        Parameter.Builder parameterForUpdate = Parameter.Builder.create(parameter);
+        parameterForUpdate.setValue(newValue);
+        parameterService.updateParameter(parameterForUpdate.build());
+    }
 }

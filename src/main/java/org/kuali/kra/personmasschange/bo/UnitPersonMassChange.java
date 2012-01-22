@@ -61,13 +61,4 @@ public class UnitPersonMassChange extends KraPersistableBusinessObjectBase {
         this.personMassChange = personMassChange;
     }
 
-    @Override
-    protected LinkedHashMap<String, Object> toStringMapper() {
-        LinkedHashMap<String, Object> propMap = new LinkedHashMap<String, Object>();
-        propMap.put("unitPersonMassChangeId", getUnitPersonMassChangeId());
-        propMap.put("personMassChangeId", getPersonMassChangeId());
-        propMap.put("administrator", isAdministrator());
-        return propMap;
-    }
-
 }

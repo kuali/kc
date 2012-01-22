@@ -34,8 +34,8 @@ import org.kuali.kra.infrastructure.BudgetSummaryErrorConstants;
 import org.kuali.kra.infrastructure.Constants;
 import org.kuali.kra.infrastructure.KeyConstants;
 import org.kuali.kra.rules.ResearchDocumentRuleBase;
-import org.kuali.rice.kns.util.ErrorMap;
-import org.kuali.rice.kns.util.GlobalVariables;
+import org.kuali.rice.krad.util.GlobalVariables;
+import org.kuali.rice.krad.util.MessageMap;
 
 public class BudgetPeriodRule extends ResearchDocumentRuleBase implements AddBudgetPeriodRule, SaveBudgetPeriodRule, DeleteBudgetPeriodRule{
     private static final Log LOG = LogFactory.getLog(BudgetPeriodRule.class);
@@ -92,7 +92,7 @@ public class BudgetPeriodRule extends ResearchDocumentRuleBase implements AddBud
     public boolean processGenerateBudgetPeriodBusinessRules(GenerateBudgetPeriodEvent generateBudgetPeriodEvent) {
         Budget document = ((BudgetDocument)generateBudgetPeriodEvent.getDocument()).getBudget();
         BudgetPeriod newBudgetPeriod = generateBudgetPeriodEvent.getBudgetPeriod();
-        ErrorMap errorMap = GlobalVariables.getErrorMap();
+        MessageMap errorMap = GlobalVariables.getMessageMap();
         boolean rulePassed = true;
         int budgetPeriodNumber = 0;
         
@@ -135,7 +135,7 @@ public class BudgetPeriodRule extends ResearchDocumentRuleBase implements AddBud
     public boolean processDeleteBudgetPeriodBusinessRules(DeleteBudgetPeriodEvent deleteBudgetPeriodEvent) {
         Budget budget = ((BudgetDocument)deleteBudgetPeriodEvent.getDocument()).getBudget();
         int budgetPeriodNumber = deleteBudgetPeriodEvent.getBudgetPeriodNumber();
-        ErrorMap errorMap = GlobalVariables.getErrorMap();
+        MessageMap errorMap = GlobalVariables.getMessageMap();
         
         boolean rulePassed = true;
 
@@ -149,9 +149,9 @@ public class BudgetPeriodRule extends ResearchDocumentRuleBase implements AddBud
     }
 
     private boolean isBudgetStatusValid(Budget budget) {
-        ErrorMap errorMap = GlobalVariables.getErrorMap();
+        MessageMap errorMap = GlobalVariables.getMessageMap();
         boolean statusValid = true;
-        String budgetStatusCompleteCode = getParameterService().getParameterValue(BudgetDocument.class, Constants.BUDGET_STATUS_COMPLETE_CODE);
+        String budgetStatusCompleteCode = getParameterService().getParameterValueAsString(BudgetDocument.class, Constants.BUDGET_STATUS_COMPLETE_CODE);
         String budgetStatus = budget.getBudgetStatus();
         boolean finalVersionFlag = budget.getFinalVersionFlag();
         errorMap.addToErrorPath(BUDGET_SUMMARY);
@@ -168,7 +168,7 @@ public class BudgetPeriodRule extends ResearchDocumentRuleBase implements AddBud
     private boolean isValidBudgetPeriodBoundaries(Budget budget) {
         boolean validBoundaries = true;
         List<BudgetPeriod> budgetPeriods = budget.getBudgetPeriods();
-        ErrorMap errorMap = GlobalVariables.getErrorMap();
+        MessageMap errorMap = GlobalVariables.getMessageMap();
         for(BudgetPeriod budgetPeriod: budgetPeriods) {
             String[] dateParams = {budgetPeriod.getBudgetPeriod()+""};
             setErrorParameter(dateParams);
@@ -217,11 +217,11 @@ public class BudgetPeriodRule extends ResearchDocumentRuleBase implements AddBud
     private boolean isValidBudgetPeriodCostLimit(Budget budget) {
         boolean valid = true;
         List<BudgetPeriod> budgetPeriods = budget.getBudgetPeriods();
-        ErrorMap errorMap = GlobalVariables.getErrorMap();
+        MessageMap errorMap = GlobalVariables.getMessageMap();
         int i = 0;
         for(BudgetPeriod budgetPeriod: budgetPeriods) {
             if (budgetPeriod.getTotalCostLimit().isGreaterThan(((AwardBudgetExt)budget).getObligatedTotal())) {
-                GlobalVariables.getErrorMap().putError("document.budget.budgetPeriods["+ i +"].totalCostLimit", 
+                GlobalVariables.getMessageMap().putError("document.budget.budgetPeriods["+ i +"].totalCostLimit", 
                         KeyConstants.ERROR_PERIOD_COST_LIMIT_EXCEED_OBLIGATED_TOTAL);
                valid = false;
             }
@@ -233,7 +233,7 @@ public class BudgetPeriodRule extends ResearchDocumentRuleBase implements AddBud
 
     /* check new budget period */
     private boolean isValidNewBudgetPeriod(Budget budget, BudgetPeriod newBudgetPeriod) {
-        ErrorMap errorMap = GlobalVariables.getErrorMap();
+        MessageMap errorMap = GlobalVariables.getMessageMap();
         boolean validNewBudgetPeriod = true;
         List<BudgetPeriod> budgetPeriods = budget.getBudgetPeriods();
         Date previousPeriodStartDate = null;
@@ -340,7 +340,7 @@ public class BudgetPeriodRule extends ResearchDocumentRuleBase implements AddBud
         Date periodStartDate = null;
         Date periodEndDate = null;
         int index = 0;
-        ErrorMap errorMap = GlobalVariables.getErrorMap();
+        MessageMap errorMap = GlobalVariables.getMessageMap();
 
         boolean insertBudgetPeriod = false;
         
@@ -393,7 +393,7 @@ public class BudgetPeriodRule extends ResearchDocumentRuleBase implements AddBud
         return validBudgetPeriod;
     }
     
-    private void saveErrors(String errorValue, ErrorMap errorMap) {
+    private void saveErrors(String errorValue, MessageMap errorMap) {
         BudgetSummaryErrorConstants budgetSummaryErrorConstants =  BudgetSummaryErrorConstants.valueOf(errorValue);
         String errorKey = budgetSummaryErrorConstants.errorKey();
         String errorProperty = budgetSummaryErrorConstants.errorProperty();
@@ -460,7 +460,7 @@ public class BudgetPeriodRule extends ResearchDocumentRuleBase implements AddBud
     private boolean isValidToInsert(Budget budget, BudgetPeriod newBudgetPeriod) {
         
         int expenseExistStatus = checkExpenseInBudget(budget);
-        ErrorMap errorMap = GlobalVariables.getErrorMap();
+        MessageMap errorMap = GlobalVariables.getMessageMap();
         if (newBudgetPeriod.getEndDate().before(budget.getBudgetPeriod(0).getStartDate())) {
             // insert before 1st period
             if (expenseExistStatus >= 1) {

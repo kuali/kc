@@ -47,8 +47,8 @@ import org.kuali.kra.irb.actions.submit.ProtocolSubmitActionService;
 import org.kuali.kra.irb.onlinereview.ProtocolOnlineReviewService;
 import org.kuali.kra.irb.test.ProtocolFactory;
 import org.kuali.kra.test.infrastructure.KcUnitTestBase;
-import org.kuali.rice.kns.bo.AdHocRouteRecipient;
-import org.kuali.rice.kns.service.DocumentService;
+import org.kuali.rice.krad.bo.AdHocRouteRecipient;
+import org.kuali.rice.krad.service.DocumentService;
 
 public class ProtocolGenericActionsServiceTest extends KcUnitTestBase {
 
@@ -278,7 +278,7 @@ public class ProtocolGenericActionsServiceTest extends KcUnitTestBase {
         
         String expected = ProtocolStatus.DISAPPROVED;
         assertEquals(expected, protocolDocument.getProtocol().getProtocolStatus().getProtocolStatusCode());
-        assertTrue(protocolDocument.getProtocol().getProtocolDocument().getDocumentHeader().getWorkflowDocument().stateIsDisapproved());
+        assertTrue(protocolDocument.getProtocol().getProtocolDocument().getDocumentHeader().getWorkflowDocument().isDisapproved());
     }
     
     @Test
@@ -291,7 +291,7 @@ public class ProtocolGenericActionsServiceTest extends KcUnitTestBase {
         String expectedStatus = ProtocolStatus.SPECIFIC_MINOR_REVISIONS_REQUIRED;
         String unexpectedDocumentNumber = oldDocument.getDocumentNumber();
         assertEquals(expectedStatus, newDocument.getProtocol().getProtocolStatus().getProtocolStatusCode());
-        assertTrue(oldDocument.getDocumentHeader().getWorkflowDocument().stateIsCanceled());
+        assertTrue(oldDocument.getDocumentHeader().getWorkflowDocument().isCanceled());
         assertNotSame(unexpectedDocumentNumber, newDocument.getDocumentNumber());
     }
     
@@ -305,7 +305,7 @@ public class ProtocolGenericActionsServiceTest extends KcUnitTestBase {
         String expectedStatus = ProtocolStatus.SUBSTANTIVE_REVISIONS_REQUIRED;
         String unexpectedDocumentNumber = oldDocument.getDocumentNumber();
         assertEquals(expectedStatus, newDocument.getProtocol().getProtocolStatus().getProtocolStatusCode());
-        assertTrue(oldDocument.getDocumentHeader().getWorkflowDocument().stateIsCanceled());
+        assertTrue(oldDocument.getDocumentHeader().getWorkflowDocument().isCanceled());
         assertNotSame(unexpectedDocumentNumber, newDocument.getDocumentNumber());
     }
     

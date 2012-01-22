@@ -15,16 +15,16 @@
  */
 package org.kuali.kra.proposaldevelopment.bo;
 
-import java.util.LinkedHashMap;
 import java.util.List;
 
-import org.kuali.rice.kns.bo.BusinessObjectBase;
+import org.kuali.rice.krad.bo.BusinessObjectBase;
 
 public class ProposalAssignedRole extends BusinessObjectBase {
 
     private String roleName;
+
     private List<String> userNames;
-    
+
     public ProposalAssignedRole(String roleName, List<String> userNames) {
         this.roleName = roleName;
         this.userNames = userNames;
@@ -38,16 +38,6 @@ public class ProposalAssignedRole extends BusinessObjectBase {
         return userNames;
     }
 
-    @Override
-    protected LinkedHashMap toStringMapper() {
-        // TODO Auto-generated method stub
-        return null;
-    }
-
     public void refresh() {
-        // TODO Auto-generated method stub
-        
     }
-    
-    
 }

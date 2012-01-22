@@ -17,7 +17,6 @@ package org.kuali.kra.institutionalproposal.contacts;
 
 import java.util.ArrayList;
 import java.util.Collection;
-import java.util.LinkedHashMap;
 import java.util.List;
 
 import org.apache.commons.lang.StringUtils;
@@ -29,8 +28,8 @@ import org.kuali.kra.infrastructure.KraServiceLocator;
 import org.kuali.kra.institutionalproposal.home.InstitutionalProposal;
 import org.kuali.kra.proposaldevelopment.bo.InvestigatorCreditType;
 import org.kuali.kra.service.ServiceHelper;
-import org.kuali.rice.kns.service.BusinessObjectService;
-import org.kuali.rice.kns.util.KualiDecimal;
+import org.kuali.rice.core.api.util.type.KualiDecimal;
+import org.kuali.rice.krad.service.BusinessObjectService;
 
 /**
  * This class...
@@ -38,24 +37,29 @@ import org.kuali.rice.kns.util.KualiDecimal;
 public class InstitutionalProposalPersonUnit extends KraPersistableBusinessObjectBase implements Comparable<InstitutionalProposalPersonUnit>, SequenceAssociate<InstitutionalProposal> {
 
     public static final boolean IS_LEAD_UNIT = Boolean.TRUE;
+
     public static final boolean IS_NOT_LEAD_UNIT = Boolean.FALSE;
-    
+
     /**
      * Comment for <code>serialVersionUID</code>
      */
     private static final long serialVersionUID = 8863551989073626234L;
-    
+
     private Long institutionalProposalPersonUnitId;
+
     private InstitutionalProposalPerson institutionalProposalPerson;
-    private boolean leadUnit;    
+
+    private boolean leadUnit;
+
     private Unit unit;
-    
+
     private List<InstitutionalProposalPersonUnitCreditSplit> creditSplits;
-    
-    // OJB Hack
+
+    // OJB Hack  
     private String unitNumber;
+
     private Long institutionalProposalContactId;
-    
+
     /**
      * Default Constructor.
      */
@@ -63,7 +67,7 @@ public class InstitutionalProposalPersonUnit extends KraPersistableBusinessObjec
         super();
         creditSplits = new ArrayList<InstitutionalProposalPersonUnitCreditSplit>();
     }
-    
+
     /**
      * Constructs a institutionalProposalPersonUnit.
      * @param institutionalProposalPerson
@@ -72,7 +76,7 @@ public class InstitutionalProposalPersonUnit extends KraPersistableBusinessObjec
         this();
         setInstitutionalProposalPerson(institutionalProposalPerson);
     }
-    
+
     /**
      * Constructs a institutionalProposalPersonUnit.
      * @param institutionalProposalPerson
@@ -83,9 +87,9 @@ public class InstitutionalProposalPersonUnit extends KraPersistableBusinessObjec
         this();
         this.institutionalProposalPerson = institutionalProposalPerson;
         setUnit(unit);
-        leadUnit = isLeadUnit;        
+        leadUnit = isLeadUnit;
     }
-    
+
     /**
      * Find the lead unit from among institutionalProposal institutionalProposalPerson units.
      * @param institutionalProposalPersonUnits
@@ -100,25 +104,25 @@ public class InstitutionalProposalPersonUnit extends KraPersistableBusinessObjec
         }
         return foundLeadUnit;
     }
-    
+
     public List<UnitAdministrator> getOspAdministrators() {
         List<UnitAdministrator> ospAdministrators = new ArrayList<UnitAdministrator>();
-        for(UnitAdministrator unitAdministrator : getUnit().getUnitAdministrators()) {
-            if(unitAdministrator.getUnitAdministratorType().getDescription().equals("OSP_ADMINISTRATOR")) {
+        for (UnitAdministrator unitAdministrator : getUnit().getUnitAdministrators()) {
+            if (unitAdministrator.getUnitAdministratorType().getDescription().equals("OSP_ADMINISTRATOR")) {
                 ospAdministrators.add(unitAdministrator);
             }
         }
         return ospAdministrators;
     }
-    
+
     /**
      * @param creditSplit
      */
     public void add(InstitutionalProposalPersonUnitCreditSplit creditSplit) {
-       creditSplits.add(creditSplit);
-       creditSplit.setInstitutionalProposalPersonUnit(this);
+        creditSplits.add(creditSplit);
+        creditSplit.setInstitutionalProposalPersonUnit(this);
     }
-    
+
     /**
      * This method will initialize required credit splits and populate them with 
      * default credits of 100%.
@@ -131,14 +135,14 @@ public class InstitutionalProposalPersonUnit extends KraPersistableBusinessObjec
             this.add(creditSplit);
         }
     }
-    
+
     /**
      * @see java.lang.Comparable#compareTo(java.lang.Object)
      */
     public int compareTo(InstitutionalProposalPersonUnit other) {
         return this.unit.getUnitName().compareToIgnoreCase(other.getUnit().getUnitName());
     }
-    
+
     /**
      * @see java.lang.Object#equals(java.lang.Object)
      */
@@ -170,6 +174,7 @@ public class InstitutionalProposalPersonUnit extends KraPersistableBusinessObjec
         }
         return true;
     }
+
     /**
      * Gets the institutionalProposalPersonId attribute. 
      * @return Returns the institutionalProposalPersonId.
@@ -177,12 +182,14 @@ public class InstitutionalProposalPersonUnit extends KraPersistableBusinessObjec
     public Long getInstitutionalProposalContactId() {
         return institutionalProposalContactId;
     }
+
     /**
      * @return
      */
     public InstitutionalProposalContact getInstitutionalProposalPerson() {
         return institutionalProposalPerson;
     }
+
     /**
      * Gets the institutionalProposalPersonUnitId attribute. 
      * @return Returns theinstitutionalProposalPersonUnitId.
@@ -190,7 +197,7 @@ public class InstitutionalProposalPersonUnit extends KraPersistableBusinessObjec
     public Long getInstitutionalProposalPersonUnitId() {
         return institutionalProposalPersonUnitId;
     }
-    
+
     /**
      * @param index
      * @return
@@ -198,7 +205,7 @@ public class InstitutionalProposalPersonUnit extends KraPersistableBusinessObjec
     public InstitutionalProposalPersonUnitCreditSplit getCreditSplit(int index) {
         return creditSplits.get(index);
     }
-    
+
     /**
      * Gets the creditSplits attribute. 
      * @return Returns the creditSplits.
@@ -206,14 +213,14 @@ public class InstitutionalProposalPersonUnit extends KraPersistableBusinessObjec
     public List<InstitutionalProposalPersonUnitCreditSplit> getCreditSplits() {
         return creditSplits;
     }
-    
+
     /**
      * @return
      */
     public String getFullName() {
         return institutionalProposalPerson != null ? (institutionalProposalPerson.getContact() != null ? institutionalProposalPerson.getContact().getFullName() : null) : null;
     }
-    
+
     /**
      * @return
      */
@@ -310,14 +317,6 @@ public class InstitutionalProposalPersonUnit extends KraPersistableBusinessObjec
         this.unitNumber = unitNumber;
     }
 
-    @Override
-    protected LinkedHashMap<String, Object> toStringMapper() {
-        LinkedHashMap<String, Object> map = new LinkedHashMap<String, Object>();
-        map.put("unitName", unit);
-        map.put("leadUnit", leadUnit);
-        return map;
-    }
-
     /**
      * @return
      */
@@ -327,9 +326,9 @@ public class InstitutionalProposalPersonUnit extends KraPersistableBusinessObjec
 
     @SuppressWarnings("unchecked")
     private void lazilyLoadUnit() {
-        if(StringUtils.isNotEmpty(unitNumber) && unit == null) {
+        if (StringUtils.isNotEmpty(unitNumber) && unit == null) {
             Collection c = getBusinessObjectService().findMatching(Unit.class, ServiceHelper.getInstance().buildCriteriaMap("unitNumber", unitNumber));
-            if(c.size() > 0) {
+            if (c.size() > 0) {
                 unit = (Unit) c.iterator().next();
             }
         }
@@ -338,20 +337,18 @@ public class InstitutionalProposalPersonUnit extends KraPersistableBusinessObjec
     public InstitutionalProposal getSequenceOwner() {
         return getInstitutionalProposalPerson() != null ? getInstitutionalProposalPerson().getInstitutionalProposal() : null;
     }
-    
+
     public void setSequenceOwner(InstitutionalProposal newlyVersionedOwner) {
-        if(getInstitutionalProposalPerson() != null) {
+        if (getInstitutionalProposalPerson() != null) {
             getInstitutionalProposalPerson().setInstitutionalProposal(newlyVersionedOwner);
         }
     }
-    
+
     public Integer getSequenceNumber() {
-        return  getInstitutionalProposalPerson() != null ? getInstitutionalProposalPerson().getSequenceNumber() : 0;
+        return getInstitutionalProposalPerson() != null ? getInstitutionalProposalPerson().getSequenceNumber() : 0;
     }
-    
+
     public void resetPersistenceState() {
         this.institutionalProposalPersonUnitId = null;
     }
-
-
 }

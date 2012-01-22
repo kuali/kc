@@ -22,31 +22,32 @@ import java.util.Map;
 import org.kuali.kra.infrastructure.KraServiceLocator;
 import org.kuali.kra.proposaldevelopment.bo.DevelopmentProposal;
 import org.kuali.kra.service.KraPersistenceStructureService;
-import org.kuali.rice.kns.datadictionary.AttributeDefinition;
+import org.kuali.rice.core.api.util.ConcreteKeyValue;
+import org.kuali.rice.core.api.util.KeyValue;
 import org.kuali.rice.kns.datadictionary.BusinessObjectEntry;
-import org.kuali.rice.kns.lookup.keyvalues.KeyValuesBase;
 import org.kuali.rice.kns.service.DataDictionaryService;
-import org.kuali.rice.core.util.KeyLabelPair;
+import org.kuali.rice.krad.datadictionary.AttributeDefinition;
+import org.kuali.rice.krad.keyvalues.KeyValuesBase;
 
 public class ProposalColumnsValuesFinder extends KeyValuesBase {
 
     private DataDictionaryService dataDictionaryService;
     
-    public List<KeyLabelPair> getKeyValues() {
+    public List<KeyValue> getKeyValues() {
         BusinessObjectEntry proposalEntry = 
-            getDataDictionaryService().getDataDictionary().getBusinessObjectEntry(DevelopmentProposal.class.getName());
+            (BusinessObjectEntry) getDataDictionaryService().getDataDictionary().getBusinessObjectEntry(DevelopmentProposal.class.getName());
         KraPersistenceStructureService persistenceStructureService = KraServiceLocator.getService(KraPersistenceStructureService.class);
         Map<String, String> attrToColumnMap = persistenceStructureService.getPersistableAttributesColumnMap(DevelopmentProposal.class);        
-        List<KeyLabelPair> keyValues = new ArrayList<KeyLabelPair>();
+        List<KeyValue> keyValues = new ArrayList<KeyValue>();
         for (AttributeDefinition entry : proposalEntry.getAttributes()) {
             if (attrToColumnMap.get(entry.getName()) == null) {
                 //if the data dictionary name cannot be found in the 
                 //database mapping then this is not a valid entry
                 continue;
             }
-            KeyLabelPair keyPair = new KeyLabelPair();
+            ConcreteKeyValue keyPair = new ConcreteKeyValue();
             keyPair.setKey(attrToColumnMap.get(entry.getName()));
-            keyPair.setLabel(entry.getShortLabel());
+            keyPair.setValue(entry.getShortLabel());
             keyValues.add(keyPair);
         }
         

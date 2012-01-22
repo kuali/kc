@@ -17,6 +17,7 @@ package org.kuali.kra.coi.disclosure;
 
 import java.sql.Date;
 import java.util.ArrayList;
+import java.util.Collection;
 import java.util.Collections;
 import java.util.Comparator;
 import java.util.HashMap;
@@ -63,12 +64,12 @@ import org.kuali.kra.proposaldevelopment.document.ProposalDevelopmentDocument;
 import org.kuali.kra.service.KcPersonService;
 import org.kuali.kra.service.VersionException;
 import org.kuali.kra.service.VersioningService;
-import org.kuali.rice.kns.service.BusinessObjectService;
-import org.kuali.rice.kns.service.DateTimeService;
-import org.kuali.rice.kns.service.ParameterService;
-import org.kuali.rice.kns.util.DateUtils;
-import org.kuali.rice.kns.util.GlobalVariables;
-import org.kuali.rice.kns.util.ObjectUtils;
+import org.kuali.kra.util.DateUtils;
+import org.kuali.rice.core.api.datetime.DateTimeService;
+import org.kuali.rice.coreservice.framework.parameter.ParameterService;
+import org.kuali.rice.krad.service.BusinessObjectService;
+import org.kuali.rice.krad.util.GlobalVariables;
+import org.kuali.rice.krad.util.ObjectUtils;
 
 public class CoiDisclosureServiceImpl implements CoiDisclosureService {
 
@@ -525,7 +526,6 @@ public class CoiDisclosureServiceImpl implements CoiDisclosureService {
         if (!StringUtils.equals(personId, coiDisclosure.getPersonId())) {
             personId = coiDisclosure.getPersonId();
         }
-
         List<PersonFinIntDisclosure> financialEntities = financialEntityService.getFinancialEntities(personId, true);
 
         List<String> disclEntityNumbers = new ArrayList<String>();
@@ -860,7 +860,7 @@ public class CoiDisclosureServiceImpl implements CoiDisclosureService {
 //            // don't have to report.
 //            fieldValues.put("moduleItemKey", getAwardNumbersForHierarchy(projectId));
 //        } else {
-//            fieldValues.put("moduleItemKey", projectId);
+//        fieldValues.put("moduleItemKey", projectId);
 //        }
 //        fieldValues.put("projectType", projectType);
 //        List<CoiDiscDetail> discDetails = (List<CoiDiscDetail>)businessObjectService.findMatching(CoiDiscDetail.class, fieldValues);
@@ -918,7 +918,6 @@ public class CoiDisclosureServiceImpl implements CoiDisclosureService {
             newDisclosure.setDisclosureStatusCode(CoiDisclosureStatus.DISCLOSURE_PENDING);
             newDisclosure.setExpirationDate(new Date(DateUtils.addDays(new Date(System.currentTimeMillis()), 365).getTime()));
         }
-
         return newDisclosure;
     }
 
@@ -926,7 +925,6 @@ public class CoiDisclosureServiceImpl implements CoiDisclosureService {
         this.businessObjectService = businessObjectService;
     }
 
-    
     public void setKcPersonService(KcPersonService kcPersonService) {
         this.kcPersonService = kcPersonService;
     }
@@ -950,10 +948,11 @@ public class CoiDisclosureServiceImpl implements CoiDisclosureService {
      * @return
      */
     private boolean isAwardDisclosurable(Award award) {
-        List<String> params = new ArrayList<String>();
+        Collection<String> params = new ArrayList<String>();
         try {
-            params = parameterService.getParameterValues(AwardDocument.class, AWARD_DISCLOSE_STATUS_CODES);
+            params = parameterService.getParameterValuesAsString(AwardDocument.class, AWARD_DISCLOSE_STATUS_CODES);
         } catch (Exception e) {
+            
         }
         if (params.isEmpty()) {
             // TODO : what if param is not set or not set properly ?
@@ -967,9 +966,9 @@ public class CoiDisclosureServiceImpl implements CoiDisclosureService {
      * check if PD is active for disclosure
      */
     private boolean isProposalDisclosurable(DevelopmentProposal proposal) {
-        List<String> params = new ArrayList<String>();
+        Collection<String> params = new ArrayList<String>();
         try {
-            params = parameterService.getParameterValues(ProposalDevelopmentDocument.class, PROPOSAL_DISCLOSE_STATUS_CODES);
+            params = parameterService.getParameterValuesAsString(ProposalDevelopmentDocument.class, PROPOSAL_DISCLOSE_STATUS_CODES);
         } catch (Exception e) {
             
         }
@@ -985,9 +984,9 @@ public class CoiDisclosureServiceImpl implements CoiDisclosureService {
      * check if institutional proposal is active for disclosure
      */
     private boolean isInstitutionalProposalDisclosurable(InstitutionalProposal proposal) {
-        List<String> params = new ArrayList<String>();
+        Collection<String> params = new ArrayList<String>();
         try {
-            params = parameterService.getParameterValues(InstitutionalProposalDocument.class, INSTITUTIONAL_PROPOSAL_DISCLOSE_STATUS_CODES);
+            params = parameterService.getParameterValuesAsString(InstitutionalProposalDocument.class, INSTITUTIONAL_PROPOSAL_DISCLOSE_STATUS_CODES);
         } catch (Exception e) {
             
         }
@@ -1003,9 +1002,9 @@ public class CoiDisclosureServiceImpl implements CoiDisclosureService {
      * check if protocol is active for disclosure
      */
     private boolean isProtocolDisclosurable(Protocol protocol) {
-        List<String> params = new ArrayList<String>();
+        Collection<String> params = new ArrayList<String>();
         try {
-            params = parameterService.getParameterValues(ProtocolDocument.class, PROTOCOL_DISCLOSE_STATUS_CODES);
+            params = parameterService.getParameterValuesAsString(ProtocolDocument.class, PROTOCOL_DISCLOSE_STATUS_CODES);
         } catch (Exception e) {
             
         }
@@ -1049,9 +1048,9 @@ public class CoiDisclosureServiceImpl implements CoiDisclosureService {
      */
     private boolean isSponsorHierarchyActiveForDisclose(Class clazz, String sponsorCode, String paramName) {
         
-        List<String> params = new ArrayList<String>();
+        Collection<String> params = new ArrayList<String>();
         try {
-            params = parameterService.getParameterValues(clazz, paramName);
+            params = parameterService.getParameterValuesAsString(clazz, paramName);
         } catch (Exception e) {
             
         }
@@ -1074,7 +1073,7 @@ public class CoiDisclosureServiceImpl implements CoiDisclosureService {
             return sponsorCodes.contains(sponsorCode);
         }
     }
-    
+
     protected List<SponsorHierarchy> getAllSponsors(String hierarchyName) {
         Map<String, String> criteria = new HashMap();
         criteria.put("hierarchyName", hierarchyName);
@@ -1089,7 +1088,7 @@ public class CoiDisclosureServiceImpl implements CoiDisclosureService {
         
         boolean isAllSponsors = false;
         try {
-            isAllSponsors = parameterService.getIndicatorParameter(clazz, paramName);
+            isAllSponsors = parameterService.getParameterValueAsBoolean(clazz, paramName);
         } catch (Exception e) {
             
         }
@@ -1144,7 +1143,7 @@ public class CoiDisclosureServiceImpl implements CoiDisclosureService {
         setupDisclosures(masterDisclosureBean, coiDisclosure);
         return masterDisclosureBean;
     }
-    
+        
     /*
      * set up a list of disclosures that will be rendered in 'Disclosures' panel for master disclosure
      */

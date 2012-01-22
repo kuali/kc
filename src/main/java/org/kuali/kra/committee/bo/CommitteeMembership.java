@@ -18,7 +18,6 @@ package org.kuali.kra.committee.bo;
 import java.sql.Date;
 import java.text.SimpleDateFormat;
 import java.util.ArrayList;
-import java.util.LinkedHashMap;
 import java.util.List;
 
 import org.apache.commons.lang.StringUtils;
@@ -26,7 +25,7 @@ import org.kuali.kra.bo.KcPerson;
 import org.kuali.kra.infrastructure.KraServiceLocator;
 import org.kuali.kra.irb.personnel.ProtocolPersonRolodex;
 import org.kuali.kra.service.KcPersonService;
-import org.kuali.rice.kns.util.DateUtils;
+import org.kuali.kra.util.DateUtils;
 
 /**
  * 
@@ -38,20 +37,33 @@ public class CommitteeMembership extends CommitteeAssociate {
     private static final long serialVersionUID = 3036751811459612428L;
 
     private final String DATE_FORMAT = "MM/dd/yyyy";
+
     private Long committeeMembershipId;
+
     private String personId;
+
     private Integer rolodexId;
+
     private String personName;
+
     private String membershipId;
+
     private boolean paidMember;
+
     private Date termStartDate;
+
     private Date termEndDate;
+
     private String membershipTypeCode;
+
     private String comments;
+
     private String contactNotes;
+
     private String trainingNotes;
 
     private List<CommitteeMembershipRole> membershipRoles;
+
     private List<CommitteeMembershipExpertise> membershipExpertise;
 
     private CommitteeMembershipType membershipType;
@@ -59,9 +71,11 @@ public class CommitteeMembership extends CommitteeAssociate {
     private ProtocolPersonRolodex rolodex;
 
     private boolean delete;
+
     private boolean wasInactiveAtLastSave;
-    
+
     private transient KcPersonService kcPersonService;
+
     private transient KcPerson kcPerson;
 
     public CommitteeMembership() {
@@ -124,7 +138,7 @@ public class CommitteeMembership extends CommitteeAssociate {
     public String getFormattedTermStartDate() {
         if (termStartDate == null) {
             return null;
-        }  else {
+        } else {
             SimpleDateFormat dateFormat = new SimpleDateFormat(DATE_FORMAT);
             return dateFormat.format(termStartDate);
         }
@@ -208,14 +222,14 @@ public class CommitteeMembership extends CommitteeAssociate {
     }
 
     public KcPerson getPerson() {
-        // Each kcpersonservice call will get kimidentityservice call
-        // in tag, it may need several calls of this.  just try to improve performance.
+        // Each kcpersonservice call will get kimidentityservice call  
+        // in tag, it may need several calls of this.  just try to improve performance.  
         if (kcPerson == null && StringUtils.isNotBlank(personId)) {
             kcPerson = getKcPersonService().getKcPersonByPersonId(personId);
         }
         return kcPerson;
     }
-    
+
     /**
      * Gets the KC Person Service.
      * @return KC Person Service.
@@ -224,7 +238,6 @@ public class CommitteeMembership extends CommitteeAssociate {
         if (this.kcPersonService == null) {
             this.kcPersonService = KraServiceLocator.getService(KcPersonService.class);
         }
-        
         return this.kcPersonService;
     }
 
@@ -243,11 +256,11 @@ public class CommitteeMembership extends CommitteeAssociate {
     public void setDelete(boolean delete) {
         this.delete = delete;
     }
-    
+
     public boolean getWasInactiveAtLastSave() {
         return wasInactiveAtLastSave;
     }
-    
+
     public void setWasInactiveAtLastSave(boolean wasInactiveAtLastSave) {
         this.wasInactiveAtLastSave = wasInactiveAtLastSave;
     }
@@ -264,15 +277,9 @@ public class CommitteeMembership extends CommitteeAssociate {
             return false;
         }
         CommitteeMembership committeeMembership = (CommitteeMembership) obj;
-        if (this.getCommitteeIdFk() != null && this.getCommitteeIdFk().equals(committeeMembership.getCommitteeIdFk())
-                && (
-                        (this.getPersonId() != null && this.getPersonId().equals(committeeMembership.getPersonId())) 
-                     || (this.getRolodexId() != null && this.getRolodexId().equals(committeeMembership.getRolodexId()))
-                    )
-                && (this.getTermStartDate() != null && this.getTermStartDate().equals(committeeMembership.getTermStartDate()))) {
+        if (this.getCommitteeIdFk() != null && this.getCommitteeIdFk().equals(committeeMembership.getCommitteeIdFk()) && ((this.getPersonId() != null && this.getPersonId().equals(committeeMembership.getPersonId())) || (this.getRolodexId() != null && this.getRolodexId().equals(committeeMembership.getRolodexId()))) && (this.getTermStartDate() != null && this.getTermStartDate().equals(committeeMembership.getTermStartDate()))) {
             return true;
-        }
-        else {
+        } else {
             return false;
         }
     }
@@ -288,24 +295,6 @@ public class CommitteeMembership extends CommitteeAssociate {
         return result;
     }
 
-    @Override
-    protected LinkedHashMap<String, Object> toStringMapper() {
-        LinkedHashMap<String, Object> hashMap = super.toStringMapper();
-        hashMap.put("committeeMembershipId", getCommitteeMembershipId());
-        hashMap.put("personId", getPersonId());
-        hashMap.put("rolodexId", getRolodexId());
-        hashMap.put("personName", getPersonName());
-        hashMap.put("membershipId", getMembershipId());
-        hashMap.put("paidMember", getPaidMember());
-        hashMap.put("termStartDate", getTermStartDate());
-        hashMap.put("termEndDate", getTermEndDate());
-        hashMap.put("membershipTypeCode", getMembershipTypeCode());
-        hashMap.put("comments", getComments());
-        hashMap.put("contactNotes", getContactNotes());
-        hashMap.put("trainingNotes", getTrainingNotes());
-        return hashMap;
-    }
-
     /**
      * This method determines if the current committee member is active as of the current date.
      * @return true if member is active, false otherwise
@@ -314,7 +303,7 @@ public class CommitteeMembership extends CommitteeAssociate {
         Date currentDate = DateUtils.clearTimeFields(new Date(System.currentTimeMillis()));
         return isActive(currentDate);
     }
-    
+
     /**
      * 
      * This method determines if the current committee member is active for the given date
@@ -324,8 +313,7 @@ public class CommitteeMembership extends CommitteeAssociate {
     public boolean isActive(Date date) {
         boolean isActive = false;
         for (CommitteeMembershipRole role : membershipRoles) {
-            if (role.getStartDate() != null && role.getEndDate() != null 
-                    && !date.before(role.getStartDate()) && !date.after(role.getEndDate())) {
+            if (role.getStartDate() != null && role.getEndDate() != null && !date.before(role.getStartDate()) && !date.after(role.getEndDate())) {
                 if (role.getMembershipRoleCode().equals(CommitteeMembershipRole.INACTIVE_ROLE)) {
                     isActive = false;
                     break;
@@ -336,7 +324,6 @@ public class CommitteeMembership extends CommitteeAssociate {
         }
         return isActive;
     }
-    
 
     /**
      * Indicates if the committee memberships are of the same person (i.e. the personId and rolodexId are the same).
@@ -346,19 +333,16 @@ public class CommitteeMembership extends CommitteeAssociate {
      */
     public boolean isSamePerson(CommitteeMembership committeeMembership) {
         boolean isEquals = false;
-
-        if (this.getPersonId() != null && this.getPersonId().equals(committeeMembership.getPersonId()) 
-                || this.getRolodexId() != null && this.getRolodexId().equals(committeeMembership.getRolodexId())) {
+        if (this.getPersonId() != null && this.getPersonId().equals(committeeMembership.getPersonId()) || this.getRolodexId() != null && this.getRolodexId().equals(committeeMembership.getRolodexId())) {
             isEquals = true;
         }
-
         return isEquals;
     }
 
     public void resetPersistenceState() {
         setCommitteeMembershipId(null);
     }
-    
+
     /**
      * 
      * This method returns true if the member's term has ended before the current date, otherwise 
@@ -368,12 +352,12 @@ public class CommitteeMembership extends CommitteeAssociate {
     public boolean hasTermEnded() {
         boolean retVal = true;
         Date currentDate = DateUtils.clearTimeFields(new Date(System.currentTimeMillis()));
-        if( (this.termEndDate != null) && !(this.termEndDate.before(currentDate)) ) {
+        if ((this.termEndDate != null) && !(this.termEndDate.before(currentDate))) {
             retVal = false;
         }
         return retVal;
     }
-    
+
     /**
      * This method will return true if personId parameter matches that of the membership's personID, and false otherwise.
      * Also returns false if the personId parameter is null, or if the membership's personId is null.
@@ -382,10 +366,9 @@ public class CommitteeMembership extends CommitteeAssociate {
      */
     public boolean isRepresentingPerson(String personId) {
         boolean retVal = false;
-        if(this.personId != null) {
+        if (this.personId != null) {
             retVal = this.personId.equals(personId);
         }
         return retVal;
     }
-
 }

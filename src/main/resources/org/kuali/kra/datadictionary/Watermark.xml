@@ -23,14 +23,13 @@
            <ref bean="Watermark-watermarkPosition" />
             <ref bean="Watermark-watermarkAlignment" /> 
               <ref bean="Watermark-positionFontSize" />
-              <ref bean="Watermark-watermarkText" />
+          <ref bean="Watermark-watermarkText" />
            <ref bean="Watermark-watermarkStatus" />
             <ref bean="Watermark-watermarkType" />
              <ref bean="Watermark-fontSize" />
-            <ref bean="Watermark-fontColor" />
+              <ref bean="Watermark-fontColor" />
   			   <ref bean="Watermark-templateFile" />
         	   <ref bean="Watermark-versionNumber" />
-        	   
       </list>
     </property>
   </bean>
@@ -88,7 +87,7 @@
     <property name="forceUppercase" value="false" />
     <property name="label" value="Status Code" />
     <property name="shortLabel" value="Watermark status Code" />
-	<property name="maxLength" value="8" />
+    <property name="maxLength" value="8" />
     <property name="validationPattern" >
       <bean parent="AnyCharacterValidationPattern" />
     </property>
@@ -110,8 +109,6 @@
     <property name="validationPattern" >
       <bean parent="NumericValidationPattern" />
     </property>
-    
-     
     <property name="control" >
       <bean parent="SelectControlDefinition"
             p:valuesFinderClass="org.kuali.kra.lookup.keyvalue.WatermarkFontValuesFinder"
@@ -130,7 +127,7 @@
     <property name="validationPattern" >
       <bean parent="NumericValidationPattern" />
     </property>
-    
+  
      <property name="control" >
       <bean parent="SelectControlDefinition"
             p:valuesFinderClass="org.kuali.kra.lookup.keyvalue.WatermarkPositionFontValuesFinder"
@@ -279,7 +276,7 @@
                     p:attributeName="watermarkAlignment" />      
               <bean parent="FieldDefinition"
                     p:attributeName="fontSize" />
-             <bean parent="FieldDefinition"
+              <bean parent="FieldDefinition"
                     p:attributeName="positionFontSize" />
               <bean parent="FieldDefinition"
                     p:attributeName="fontColor" /> 
@@ -327,13 +324,13 @@
               p:attributeName="watermarkStatus" />
          <bean parent="FieldDefinition"
               p:attributeName="watermarkType" />
-        <bean parent="FieldDefinition"
+         <bean parent="FieldDefinition"
               p:attributeName="watermarkPosition" />  
          <bean parent="FieldDefinition"
               p:attributeName="watermarkAlignment" />        
          <bean parent="FieldDefinition"
               p:attributeName="fontSize" />
-             <bean parent="FieldDefinition"
+         <bean parent="FieldDefinition"
               p:attributeName="positionFontSize" />     
          <bean parent="FieldDefinition"
               p:attributeName="fontColor" />

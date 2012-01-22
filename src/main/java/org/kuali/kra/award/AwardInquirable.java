@@ -19,23 +19,21 @@ import java.text.ParseException;
 import java.util.ArrayList;
 import java.util.List;
 
-import javassist.bytecode.ConstantAttribute;
-
 import org.apache.commons.lang.StringUtils;
+import org.apache.commons.logging.Log;
+import org.apache.commons.logging.LogFactory;
 import org.kuali.kra.award.home.Award;
 import org.kuali.kra.infrastructure.Constants;
 import org.kuali.kra.infrastructure.KraServiceLocator;
 import org.kuali.kra.service.AwardHierarchyUIService;
 import org.kuali.kra.timeandmoney.AwardHierarchyNode;
-import org.kuali.rice.kns.bo.BusinessObject;
 import org.kuali.rice.kns.inquiry.KualiInquirableImpl;
-import org.kuali.rice.kns.util.KNSConstants;
-import org.kuali.rice.kns.util.ObjectUtils;
 import org.kuali.rice.kns.web.ui.Field;
 import org.kuali.rice.kns.web.ui.Row;
 import org.kuali.rice.kns.web.ui.Section;
-import org.apache.commons.logging.Log;
-import org.apache.commons.logging.LogFactory;
+import org.kuali.rice.krad.bo.BusinessObject;
+import org.kuali.rice.krad.util.KRADConstants;
+import org.kuali.rice.krad.util.ObjectUtils;
 
 public class AwardInquirable extends KualiInquirableImpl {
     
@@ -64,21 +62,21 @@ public class AwardInquirable extends KualiInquirableImpl {
         // Adding the section title
         String sectionTitle = "";
         sectionTitle += awardNode.getAwardNumber();
-        sectionTitle += KNSConstants.BLANK_SPACE;
+        sectionTitle += KRADConstants.BLANK_SPACE;
         sectionTitle += Constants.COLON;
-        sectionTitle += KNSConstants.BLANK_SPACE;
+        sectionTitle += KRADConstants.BLANK_SPACE;
         
         if (ObjectUtils.isNotNull(award.getAccountNumber())) {
             sectionTitle += awardNode.getAccountNumber();
-            sectionTitle += KNSConstants.BLANK_SPACE;
+            sectionTitle += KRADConstants.BLANK_SPACE;
             sectionTitle += Constants.COLON;
-            sectionTitle += KNSConstants.BLANK_SPACE;
+            sectionTitle += KRADConstants.BLANK_SPACE;
         }
         if (ObjectUtils.isNotNull(awardNode.getPrincipalInvestigatorName())) {
             sectionTitle += awardNode.getPrincipalInvestigatorName();
-            sectionTitle += KNSConstants.BLANK_SPACE;
+            sectionTitle += KRADConstants.BLANK_SPACE;
             sectionTitle += Constants.COLON;
-            sectionTitle += KNSConstants.BLANK_SPACE;
+            sectionTitle += KRADConstants.BLANK_SPACE;
         } 
         if (ObjectUtils.isNotNull(awardNode.getLeadUnitName())) {
             sectionTitle += awardNode.getLeadUnitName();

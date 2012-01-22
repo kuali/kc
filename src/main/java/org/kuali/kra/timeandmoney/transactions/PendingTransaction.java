@@ -15,33 +15,40 @@
  */
 package org.kuali.kra.timeandmoney.transactions;
 
-import java.util.LinkedHashMap;
-
 import org.kuali.kra.bo.KraPersistableBusinessObjectBase;
-import org.kuali.rice.kns.util.KualiDecimal;
+import org.kuali.rice.core.api.util.type.KualiDecimal;
 
 public class PendingTransaction extends KraPersistableBusinessObjectBase {
-    
+
     /**
      * Comment for <code>serialVersionUID</code>
      */
     private static final long serialVersionUID = 8626352352644718112L;
 
     private Long transactionId;
+
     private String documentNumber;
+
     private String sourceAwardNumber;
+
     private String destinationAwardNumber;
+
     private KualiDecimal obligatedAmount;
+
     private KualiDecimal obligatedDirectAmount;
+
     private KualiDecimal obligatedIndirectAmount;
+
     private KualiDecimal anticipatedAmount;
+
     private KualiDecimal anticipatedDirectAmount;
+
     private KualiDecimal anticipatedIndirectAmount;
+
     private String comments;
+
     private Boolean processedFlag = Boolean.FALSE;
-    
-    
-    
+
     /**
      * Constructs a PendingTransaction.java.
      */
@@ -52,20 +59,6 @@ public class PendingTransaction extends KraPersistableBusinessObjectBase {
         setAnticipatedDirectAmount(new KualiDecimal(0));
         setObligatedIndirectAmount(new KualiDecimal(0));
         setAnticipatedIndirectAmount(new KualiDecimal(0));
-    }
-    
-    /** {@inheritDoc} */
-    @Override 
-    protected LinkedHashMap<String, Object> toStringMapper() {
-        LinkedHashMap<String, Object> hashMap = new LinkedHashMap<String, Object>();
-        hashMap.put("transactionId", this.getTransactionId());
-        hashMap.put("documentNumber", this.getDocumentNumber());
-        hashMap.put("sourceAwardNumber", this.getSourceAwardNumber());
-        hashMap.put("destinationAwardNumber", this.getDestinationAwardNumber());
-        hashMap.put("obligatedAmount", this.getObligatedAmount());
-        hashMap.put("anticipatedAmount", this.getAnticipatedAmount());
-        hashMap.put("comments", this.getComments());
-        return hashMap;
     }
 
     /**
@@ -259,10 +252,4 @@ public class PendingTransaction extends KraPersistableBusinessObjectBase {
     public void setProcessedFlag(Boolean processedFlag) {
         this.processedFlag = processedFlag;
     }
-
-    
-    
-    
-    
-    
 }

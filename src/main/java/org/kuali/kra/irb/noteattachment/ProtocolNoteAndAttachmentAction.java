@@ -44,8 +44,8 @@ import org.kuali.kra.util.watermark.WatermarkConstants;
 import org.kuali.kra.web.struts.action.StrutsConfirmation;
 import org.kuali.rice.kns.service.DictionaryValidationService;
 import org.kuali.rice.kns.service.KNSServiceLocator;
-import org.kuali.rice.kns.util.GlobalVariables;
-import org.kuali.rice.kns.util.MessageMap;
+import org.kuali.rice.krad.util.GlobalVariables;
+import org.kuali.rice.krad.util.MessageMap;
 
 /**
  * This class represents the Struts Action for Notes & Attachments page(ProtocolNoteAndAttachment.jsp).
@@ -166,7 +166,7 @@ public class ProtocolNoteAndAttachmentAction extends ProtocolAction {
     }
 
     protected DictionaryValidationService getDictionaryValidationService() {
-            return KNSServiceLocator.getDictionaryValidationService();
+            return (DictionaryValidationService) KNSServiceLocator.getDictionaryValidationService();
     }
 
     /**
@@ -221,7 +221,8 @@ public class ProtocolNoteAndAttachmentAction extends ProtocolAction {
             LOG.info(NOT_FOUND_SELECTION + selection);
             //may want to tell the user the selection was invalid.
             return mapping.findForward(Constants.MAPPING_BASIC);
-        }        
+        }
+        
         final String confirmMethod = form.getNotesAttachmentsHelper().retrieveConfirmMethodByType(attachmentType);
         final StrutsConfirmation confirm 
         = buildParameterizedConfirmationQuestion(mapping, form, request, response, confirmMethod, 
@@ -276,7 +277,7 @@ public class ProtocolNoteAndAttachmentAction extends ProtocolAction {
         
         final int selection = this.getSelectedLine(request);
         ProtocolAttachmentProtocol attachment = (ProtocolAttachmentProtocol)CollectionUtil.getFromList(selection, form.getProtocolDocument().getProtocol().getAttachmentProtocols());
-
+               
         if (attachment == null) {
             LOG.info(NOT_FOUND_SELECTION + selection);
             //may want to tell the user the selection was invalid.

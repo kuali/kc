@@ -53,7 +53,7 @@ public class SubAwardFinancialAction extends SubAwardAction{
         if(new SubAwardDocumentRule().processSaveSubAwardAmountInfoBusinessRule(subAward,amountInfo)){  
        
             ActionForward  forward = super.save(mapping, form, request, response);
-            return forward;
+        return forward;
         }
         else{ 
             return mapping.findForward(Constants.MAPPING_FINANCIAL_PAGE);  
@@ -63,7 +63,6 @@ public class SubAwardFinancialAction extends SubAwardAction{
     
     public ActionForward reload(ActionMapping mapping, ActionForm form, HttpServletRequest request, HttpServletResponse response) throws Exception {
         SubAwardForm subAwardForm = (SubAwardForm) form;
-        
         ActionForward forward = super.reload(mapping, form, request, response);
         return forward;
     }
@@ -87,16 +86,16 @@ public class SubAwardFinancialAction extends SubAwardAction{
     }
    
     public ActionForward deleteAmountInfo(ActionMapping mapping, ActionForm form, HttpServletRequest request, HttpServletResponse response) throws Exception {
-        SubAwardForm subAwardForm = (SubAwardForm) form;
+        SubAwardForm subAwardForm = (SubAwardForm)form;
         SubAwardAmountInfo amountInfo=subAwardForm.getNewSubAwardAmountInfo(); 
         SubAwardDocument subAwardDocument = subAwardForm.getSubAwardDocument();
         
         SubAward subAward = subAwardForm.getSubAwardDocument().getSubAward();
         int selectedLineNumber = getSelectedLine(request);
         if(new SubAwardDocumentRule().processDeleteSubAwardAmountInfoBusinessRules(amountInfo,subAward)){   
-        SubAwardAmountInfo subAwardAmountInfo = subAwardDocument.getSubAward().getSubAwardAmountInfoList().get(selectedLineNumber);
-        subAwardDocument.getSubAward().getSubAwardAmountInfoList().remove(selectedLineNumber);
-        this.getBusinessObjectService().delete(subAwardAmountInfo);
+            SubAwardAmountInfo subAwardAmountInfo = subAwardDocument.getSubAward().getSubAwardAmountInfoList().get(selectedLineNumber);
+            subAwardDocument.getSubAward().getSubAwardAmountInfoList().remove(selectedLineNumber);
+            this.getBusinessObjectService().delete(subAwardAmountInfo);
         }
         return mapping.findForward(Constants.MAPPING_FINANCIAL_PAGE);
     }
@@ -107,15 +106,16 @@ public class SubAwardFinancialAction extends SubAwardAction{
         SubAwardAmountReleased subAwardAmountReleased =subAwardForm.getNewSubAwardAmountReleased();
         SubAward subAward = subAwardForm.getSubAwardDocument().getSubAward();
        if(new SubAwardDocumentRule().processAddSubAwardAmountReleasedBusinessRules(subAwardAmountReleased, subAward)){ 
-           addAmountReleasedToSubAward(subAwardForm.getSubAwardDocument().getSubAward(), subAwardAmountReleased);
-           subAwardForm.setNewSubAwardAmountReleased(new SubAwardAmountReleased());
+                addAmountReleasedToSubAward(subAwardForm.getSubAwardDocument().getSubAward(), subAwardAmountReleased);
+                subAwardForm.setNewSubAwardAmountReleased(new SubAwardAmountReleased());
        }
        subAward = KraServiceLocator.getService(SubAwardService.class).getAmountInfo(subAwardForm.getSubAwardDocument().getSubAward());
        subAwardForm.getSubAwardDocument().setSubAward(subAward);
-       return mapping.findForward(Constants.MAPPING_FINANCIAL_PAGE);
+        return mapping.findForward(Constants.MAPPING_FINANCIAL_PAGE);
     }
+
     boolean addAmountReleasedToSubAward(SubAward subAward,SubAwardAmountReleased subAwardAmountReleased){
-        subAwardAmountReleased.setSubAward(subAward);  
+        subAwardAmountReleased.setSubAward(subAward);    
         subAwardAmountReleased.populateAttachment();
         return subAward.getSubAwardAmountReleasedList().add(subAwardAmountReleased);
     }

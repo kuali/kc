@@ -21,28 +21,29 @@ import java.util.List;
 import org.kuali.kra.infrastructure.AwardOnOffCampusFlagConstants;
 import org.kuali.kra.infrastructure.KraServiceLocator;
 import org.kuali.kra.lookup.keyvalue.KeyValueFinderService;
-import org.kuali.rice.kns.lookup.keyvalues.KeyValuesBase;
-import org.kuali.rice.core.util.KeyLabelPair;
+import org.kuali.rice.core.api.util.ConcreteKeyValue;
+import org.kuali.rice.core.api.util.KeyValue;
+import org.kuali.rice.krad.keyvalues.KeyValuesBase;
 
 /**
  * 
  * This is a values finder class used in AwardIndirectCostRate.xml for populating
- * On-Off Campus Flag Select box.
+ * On-Off CampusContractContractContract Flag Select box.
  */
 public class AwardOnOffCampusValuesFinder extends KeyValuesBase {
     KeyValueFinderService keyValueFinderService= (KeyValueFinderService)KraServiceLocator.getService("keyValueFinderService");
     
     /**
-     * @see org.kuali.rice.kns.lookup.keyvalues.KeyValuesFinder#getKeyValues()
+     * @see org.kuali.rice.krad.keyvalues.KeyValuesFinder#getKeyValues()
      */
-    public List<KeyLabelPair> getKeyValues() {
-        List<KeyLabelPair> keyLabelPairs = new ArrayList<KeyLabelPair>();
+    public List<KeyValue> getKeyValues() {
+        List<KeyValue> KeyValues = new ArrayList<KeyValue>();
 
         for (AwardOnOffCampusFlagConstants awardOnOffCampusFlagConstants : AwardOnOffCampusFlagConstants.values()) {
-            keyLabelPairs.add(new KeyLabelPair(awardOnOffCampusFlagConstants.code(), awardOnOffCampusFlagConstants.description()));
+            KeyValues.add(new ConcreteKeyValue(awardOnOffCampusFlagConstants.code(), awardOnOffCampusFlagConstants.description()));
         }
         
-        return keyLabelPairs; 
+        return KeyValues; 
     }
     
 }

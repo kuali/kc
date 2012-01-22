@@ -19,6 +19,9 @@
       <list>
         <ref bean="PermissionsUser-userName" />
         <ref bean="PermissionsUser-roleName" />
+        <ref bean="PermissionsUser-fullName" />
+        <ref bean="PermissionsUser-unitNumber" />
+        <ref bean="PermissionsUser-unitName" />
       </list>
     </property>
   </bean>
@@ -58,5 +61,34 @@
     </property>
     <property name="summary" value="Role Name" />
     <property name="description" value="Role Name" />
+  </bean>
+  
+  <bean id="PermissionsUser-fullName" parent="PermissionsUser-fullName-parentBean" />
+  <bean id="PermissionsUser-fullName-parentBean" abstract="true" parent="AttributeDefinition">
+    <property name="name" value="fullName" />
+    <property name="forceUppercase" value="false" />
+    <property name="label" value="Full Name" />
+    <property name="shortLabel" value="Full Name" />
+    <property name="maxLength" value="120" />
+    <property name="validationPattern" >
+      <bean parent="AnyCharacterValidationPattern" />
+    </property>
+    <property name="required" value="false" />
+    <property name="control" >
+      <bean parent="TextControlDefinition"
+            p:size="10" />
+    </property>
+    <property name="summary" value="Full Name" />
+    <property name="description" value="Full Name" />
+  </bean>
+  
+  <bean id="PermissionsUser-unitNumber" parent="PermissionsUser-unitNumber-parentBean" />
+  <bean id="PermissionsUser-unitNumber-parentBean" abstract="true" parent="Unit-unitNumber">
+  	<property name="required" value="false" />
+  </bean>
+  
+  <bean id="PermissionsUser-unitName" parent="PermissionsUser-unitName-parentBean" />
+  <bean id="PermissionsUser-unitName-parentBean" abstract="true" parent="Unit-unitName">
+  	<property name="required" value="false" />
   </bean>
 </beans>

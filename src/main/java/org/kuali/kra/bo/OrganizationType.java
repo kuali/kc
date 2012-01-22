@@ -15,42 +15,34 @@
  */
 package org.kuali.kra.bo;
 
-import java.util.LinkedHashMap;
 
 public class OrganizationType extends KraPersistableBusinessObjectBase {
 
-	private String organizationId;
-	private Integer organizationTypeCode;
-	private OrganizationTypeList organizationTypeList;
+    private String organizationId;
 
-	public OrganizationType(){
-		super();
-	}
+    private Integer organizationTypeCode;
 
-	public String getOrganizationId() {
-		return organizationId;
-	}
+    private OrganizationTypeList organizationTypeList;
 
-	public void setOrganizationId(String organizationId) {
-		this.organizationId = organizationId;
-	}
+    public OrganizationType() {
+        super();
+    }
 
-	public Integer getOrganizationTypeCode() {
-		return organizationTypeCode;
-	}
+    public String getOrganizationId() {
+        return organizationId;
+    }
 
-	public void setOrganizationTypeCode(Integer organizationTypeCode) {
-		this.organizationTypeCode = organizationTypeCode;
-	}
+    public void setOrganizationId(String organizationId) {
+        this.organizationId = organizationId;
+    }
 
+    public Integer getOrganizationTypeCode() {
+        return organizationTypeCode;
+    }
 
-	@Override 
-	protected LinkedHashMap toStringMapper() {
-		LinkedHashMap hashMap = new LinkedHashMap();
-		hashMap.put("organizationId", getOrganizationId());
-		hashMap.put("organizationTypeCode", getOrganizationTypeCode());
-		return hashMap;
-	}
+    public void setOrganizationTypeCode(Integer organizationTypeCode) {
+        this.organizationTypeCode = organizationTypeCode;
+    }
 
     public OrganizationTypeList getOrganizationTypeList() {
         return organizationTypeList;

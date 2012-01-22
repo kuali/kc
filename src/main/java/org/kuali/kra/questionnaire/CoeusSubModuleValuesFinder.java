@@ -23,31 +23,32 @@ import java.util.Map;
 
 import org.apache.commons.lang.StringUtils;
 import org.kuali.kra.bo.CoeusSubModule;
-import org.kuali.rice.core.util.KeyLabelPair;
-import org.kuali.rice.kns.lookup.keyvalues.KeyValuesBase;
-import org.kuali.rice.kns.service.KNSServiceLocator;
-import org.kuali.rice.kns.service.KeyValuesService;
+import org.kuali.rice.core.api.util.ConcreteKeyValue;
+import org.kuali.rice.core.api.util.KeyValue;
+import org.kuali.rice.krad.keyvalues.KeyValuesBase;
+import org.kuali.rice.krad.service.KRADServiceLocator;
+import org.kuali.rice.krad.service.KeyValuesService;
 
 public class CoeusSubModuleValuesFinder extends KeyValuesBase {
-    List<KeyLabelPair> subModuleCodes = null;
+    List<KeyValue> subModuleCodes = null;
     private String moduleCode;
     /*
      * @see org.kuali.keyvalues.KeyValuesFinder#getKeyValues()
      */
     @SuppressWarnings("unchecked")
-    public List<KeyLabelPair> getKeyValues() {
+    public List<KeyValue> getKeyValues() {
 
         if (subModuleCodes == null) {
-            List<KeyLabelPair> labels = new ArrayList<KeyLabelPair>();
-            labels.add(new KeyLabelPair("0", "select"));
+            List<KeyValue> labels = new ArrayList<KeyValue>();
+            labels.add(new ConcreteKeyValue("0", "select"));
             if (StringUtils.isNotBlank(moduleCode)) {
-                KeyValuesService boService = KNSServiceLocator.getKeyValuesService();
-                Map<String, String> fieldValues = new HashMap<String, String>();
+                KeyValuesService boService = KRADServiceLocator.getKeyValuesService();
+                Map<String, Object> fieldValues = new HashMap<String, Object>();
                 fieldValues.put("moduleCode", moduleCode);
                 Collection<CoeusSubModule> codes = (Collection<CoeusSubModule>) boService.findMatching(CoeusSubModule.class,
                         fieldValues);
                 for (CoeusSubModule coeusSubModule : codes) {
-                    labels.add(new KeyLabelPair(coeusSubModule.getSubModuleCode(), coeusSubModule.getDescription()));
+                    labels.add(new ConcreteKeyValue(coeusSubModule.getSubModuleCode(), coeusSubModule.getDescription()));
                 }
             }
             subModuleCodes = labels;

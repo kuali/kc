@@ -34,7 +34,7 @@ import org.kuali.kra.infrastructure.KraServiceLocator;
 import org.kuali.kra.institutionalproposal.document.InstitutionalProposalDocument;
 import org.kuali.kra.institutionalproposal.specialreview.InstitutionalProposalSpecialReview;
 import org.kuali.kra.institutionalproposal.web.struts.form.InstitutionalProposalForm;
-import org.kuali.rice.kns.util.KNSConstants;
+import org.kuali.rice.krad.util.KRADConstants;
 
 /**
  * Invokes rules on and applies actions to add, delete, or save SpecialReviews.
@@ -138,7 +138,7 @@ public class InstitutionalProposalSpecialReviewAction extends InstitutionalPropo
     public ActionForward confirmDeleteSpecialReview(ActionMapping mapping, ActionForm form, HttpServletRequest request, HttpServletResponse response) 
         throws Exception {
         
-        Object question = request.getParameter(KNSConstants.QUESTION_INST_ATTRIBUTE_NAME);
+        Object question = request.getParameter(KRADConstants.QUESTION_INST_ATTRIBUTE_NAME);
         if (CONFIRM_DELETE_SPECIAL_REVIEW_KEY.equals(question)) {
             InstitutionalProposalForm institutionalProposalForm = (InstitutionalProposalForm) form;
             InstitutionalProposalDocument document = institutionalProposalForm.getInstitutionalProposalDocument();
@@ -236,8 +236,8 @@ public class InstitutionalProposalSpecialReviewAction extends InstitutionalPropo
         String viewProtocolUrl = Constants.EMPTY_STRING;
 
         String protocolNumber = specialReview.getProtocolNumber();
-        Long routeHeaderId = getSpecialReviewService().getViewSpecialReviewProtocolRouteHeaderId(protocolNumber);
-        if (routeHeaderId != 0L) {
+        String routeHeaderId = getSpecialReviewService().getViewSpecialReviewProtocolRouteHeaderId(protocolNumber);
+        if (StringUtils.isNotEmpty(routeHeaderId)) {
             viewProtocolUrl = buildForwardUrl(routeHeaderId) + "&viewDocument=true";
         }
         

@@ -35,11 +35,10 @@ import org.kuali.kra.proposaldevelopment.bo.DevelopmentProposal;
 import org.kuali.kra.rule.event.KraDocumentEventBaseExtension;
 import org.kuali.kra.rule.event.SaveCustomAttributeEvent;
 import org.kuali.kra.rules.ResearchDocumentRuleBase;
-import org.kuali.rice.kns.document.Document;
+import org.kuali.rice.core.api.config.property.ConfigurationService;
 import org.kuali.rice.kns.service.DataDictionaryService;
-import org.kuali.rice.kns.service.KualiConfigurationService;
-import org.kuali.rice.kns.util.ErrorMap;
-import org.kuali.rice.kns.util.GlobalVariables;
+import org.kuali.rice.krad.document.Document;
+import org.kuali.rice.krad.util.GlobalVariables;
 
 /**
  * 
@@ -91,7 +90,7 @@ public class NegotiationDocumentRule extends ResearchDocumentRuleBase {
         NegotiationSaveCustomDataRuleEvent event = new NegotiationSaveCustomDataRuleEvent(errorPath, 
                                                                negotiationDocument);
         result &= new NegotiationCustomDataRuleImpl().processSaveNegotiationCustomDataBusinessRules(event);
-        
+           
         GlobalVariables.getMessageMap().removeFromErrorPath(NEGOTIATION_ERROR_PATH);
         
         return result;
@@ -170,8 +169,8 @@ public class NegotiationDocumentRule extends ResearchDocumentRuleBase {
      * @return
      */
     protected String expandErrorString(String errorKey, String[] params) {
-        KualiConfigurationService kualiConfiguration = getKualiConfigurationService();
-        String questionText = kualiConfiguration.getPropertyString(errorKey);
+        ConfigurationService kualiConfiguration = getKualiConfigurationService();
+        String questionText = kualiConfiguration.getPropertyValueAsString(errorKey);
 
         for (int i = 0; i < params.length; i++) {
             questionText = StringUtils.replace(questionText, "{" + i + "}", params[i]);

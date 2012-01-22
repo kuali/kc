@@ -17,7 +17,7 @@ package org.kuali.kra.budget.distributionincome;
 
 
 /**
- * Processes Budget Project Income rules
+ * ProcessDefinitionDefinitiones Budget Project Income rules
  */
 public class BudgetProjectIncomeRuleImpl implements AddBudgetProjectIncomeRule {
 

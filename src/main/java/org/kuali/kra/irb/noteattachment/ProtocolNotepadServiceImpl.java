@@ -19,12 +19,12 @@ import java.util.List;
 
 import org.apache.commons.logging.Log;
 import org.apache.commons.logging.LogFactory;
-import org.kuali.rice.kim.bo.Person;
-import org.kuali.rice.kim.service.PersonService;
+import org.kuali.rice.kim.api.identity.Person;
+import org.kuali.rice.kim.api.identity.PersonService;
 
 public class ProtocolNotepadServiceImpl implements ProtocolNotepadService {
 
-    private PersonService<Person> personService;
+    private PersonService personService;
     
     protected final Log LOG = LogFactory.getLog(getClass()); 
     private static final String PERSON_NOT_FOUND_FORMAT_STRING = "%s (not found)";
@@ -46,7 +46,7 @@ public class ProtocolNotepadServiceImpl implements ProtocolNotepadService {
      * Gets the personService attribute. 
      * @return Returns the personService.
      */
-    public PersonService<Person> getPersonService() {
+    public PersonService getPersonService() {
         return personService;
     }
 
@@ -54,7 +54,7 @@ public class ProtocolNotepadServiceImpl implements ProtocolNotepadService {
      * Sets the personService attribute value.
      * @param personService The personService to set.
      */
-    public void setPersonService(PersonService<Person> personService) {
+    public void setPersonService(PersonService personService) {
         this.personService = personService;
     }
 

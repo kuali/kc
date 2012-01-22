@@ -337,9 +337,9 @@
 			<type>QualifierResolver</type>
 			<serviceNamespace>KC</serviceNamespace>
 			<resolverConfig>
-				<qualifier name="proposal">
+				<attributes name="proposal">
 					<xPathExpression>//document/developmentProposalList[1]/org.kuali.kra.proposaldevelopment.bo.DevelopmentProposal[1]/proposalNumber[1]</xPathExpression>
-				</qualifier>
+				</attributes>
 			</resolverConfig>
 		</ruleAttribute>
 
@@ -351,9 +351,9 @@
 			<type>QualifierResolver</type>
 			<serviceNamespace>KC</serviceNamespace>
 			<resolverConfig>
-				<qualifier name="unitNumber">
+				<attributes name="unitNumber">
 					<xPathExpression>//document/developmentProposalList[1]/org.kuali.kra.proposaldevelopment.bo.DevelopmentProposal[1]/ownedByUnitNumber[1]</xPathExpression>
-				</qualifier>
+				</attributes>
 			</resolverConfig>
 		</ruleAttribute>
 
@@ -367,7 +367,7 @@
 			</description>
 			<label>Proposal Development Document</label>
 			<parent>KC</parent>
-			<postProcessorName>org.kuali.rice.kns.workflow.postprocessor.KualiPostProcessor</postProcessorName>
+			<postProcessorName>org.kuali.rice.krad.workflow.postprocessor.KualiPostProcessor</postProcessorName>
 		 	<superUserWorkgroupName>KC-WKFLW:OSP Superuser</superUserWorkgroupName>
 			<defaultExceptionWorkgroupName>KC-WKFLW:ProposalAdmin</defaultExceptionWorkgroupName>
 			<docHandler>${kuali.docHandler.url.prefix}/proposalDevelopmentProposal.do?methodToCall=docHandler</docHandler>

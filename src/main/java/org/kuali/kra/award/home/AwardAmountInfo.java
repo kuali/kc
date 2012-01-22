@@ -16,50 +16,69 @@
 package org.kuali.kra.award.home;
 
 import java.sql.Date;
-import java.util.LinkedHashMap;
 
 import org.kuali.kra.award.AwardAssociate;
-import org.kuali.rice.kns.util.KualiDecimal;
+import org.kuali.rice.core.api.util.type.KualiDecimal;
 
 /**
  * AwardAmountInfo BO
  * 
  * @author Kuali Coeus development team (kc.dev@kuali.org)
  */
-public class AwardAmountInfo extends AwardAssociate{ 
-    
-    private static final long serialVersionUID = 1L;
-    
+public class AwardAmountInfo extends AwardAssociate {
 
-    private Long awardAmountInfoId;    
+    private static final long serialVersionUID = 1L;
+
+    private Long awardAmountInfoId;
+
     private Long transactionId;
+
     private String timeAndMoneyDocumentNumber;
-    private KualiDecimal anticipatedTotalAmount; 
-    private KualiDecimal antDistributableAmount; 
-    private Date finalExpirationDate; 
-    private Date currentFundEffectiveDate; 
-    private KualiDecimal amountObligatedToDate; 
-    private KualiDecimal obliDistributableAmount; 
+
+    private KualiDecimal anticipatedTotalAmount;
+
+    private KualiDecimal antDistributableAmount;
+
+    private Date finalExpirationDate;
+
+    private Date currentFundEffectiveDate;
+
+    private KualiDecimal amountObligatedToDate;
+
+    private KualiDecimal obliDistributableAmount;
+
     private Date obligationExpirationDate;
-    private boolean entryType; 
-    private boolean eomProcessFlag; 
-    private KualiDecimal anticipatedChange; 
-    private KualiDecimal obligatedChange; 
-    private KualiDecimal obligatedChangeDirect; 
-    private KualiDecimal obligatedChangeIndirect; 
-    private KualiDecimal anticipatedChangeDirect; 
-    private KualiDecimal anticipatedChangeIndirect; 
-    private KualiDecimal anticipatedTotalDirect; 
-    private KualiDecimal anticipatedTotalIndirect; 
-    private KualiDecimal obligatedTotalDirect; 
-    private KualiDecimal obligatedTotalIndirect; 
+
+    private boolean entryType;
+
+    private boolean eomProcessFlag;
+
+    private KualiDecimal anticipatedChange;
+
+    private KualiDecimal obligatedChange;
+
+    private KualiDecimal obligatedChangeDirect;
+
+    private KualiDecimal obligatedChangeIndirect;
+
+    private KualiDecimal anticipatedChangeDirect;
+
+    private KualiDecimal anticipatedChangeIndirect;
+
+    private KualiDecimal anticipatedTotalDirect;
+
+    private KualiDecimal anticipatedTotalIndirect;
+
+    private KualiDecimal obligatedTotalDirect;
+
+    private KualiDecimal obligatedTotalIndirect;
+
     private Integer transactionDetailItemsLength;
+
     private Integer originatingAwardVersion;
-    
-     
-    // private AwardBudgetInfo awardBudgetInfo; 
-    // private AwardAmtFnaDistribution awardAmtFnaDistribution; 
-    
+
+    // private AwardBudgetInfo awardBudgetInfo;   
+    // private AwardAmtFnaDistribution awardAmtFnaDistribution;   
     public AwardAmountInfo() {
         setAnticipatedTotalDirect(new KualiDecimal(0.00));
         setAnticipatedTotalIndirect(new KualiDecimal(0.00));
@@ -69,10 +88,8 @@ public class AwardAmountInfo extends AwardAssociate{
         setAmountObligatedToDate(new KualiDecimal(0.00));
         setObliDistributableAmount(new KualiDecimal(0.00));
         setAntDistributableAmount(new KualiDecimal(0.00));
-        
+    }
 
-    } 
-    
     public Long getAwardAmountInfoId() {
         return awardAmountInfoId;
     }
@@ -250,27 +267,22 @@ public class AwardAmountInfo extends AwardAssociate{
     public void setObligatedTotalIndirect(KualiDecimal obligatedTotalIndirect) {
         this.obligatedTotalIndirect = obligatedTotalIndirect;
     }
-    
-    
-    
-    
 
-//    public AwardBudgetInfo getAwardBudgetInfo() {
-//        return awardBudgetInfo;
-//    }
-//
-//    public void setAwardBudgetInfo(AwardBudgetInfo awardBudgetInfo) {
-//        this.awardBudgetInfo = awardBudgetInfo;
-//    }A
-//
-//    public AwardAmtFnaDistribution getAwardAmtFnaDistribution() {
-//        return awardAmtFnaDistribution;
-//    }
-//
-//    public void setAwardAmtFnaDistribution(AwardAmtFnaDistribution awardAmtFnaDistribution) {
-//        this.awardAmtFnaDistribution = awardAmtFnaDistribution;
-//    }
-
+    //    public AwardBudgetInfo getAwardBudgetInfo() {  
+    //        return awardBudgetInfo;  
+    //    }  
+    //  
+    //    public void setAwardBudgetInfo(AwardBudgetInfo awardBudgetInfo) {  
+    //        this.awardBudgetInfo = awardBudgetInfo;  
+    //    }A  
+    //  
+    //    public AwardAmtFnaDistribution getAwardAmtFnaDistribution() {  
+    //        return awardAmtFnaDistribution;  
+    //    }  
+    //  
+    //    public void setAwardAmtFnaDistribution(AwardAmtFnaDistribution awardAmtFnaDistribution) {  
+    //        this.awardAmtFnaDistribution = awardAmtFnaDistribution;  
+    //    }  
     /**
      * Gets the originatingAwardVersion attribute. 
      * @return Returns the originatingAwardVersion.
@@ -303,34 +315,6 @@ public class AwardAmountInfo extends AwardAssociate{
         this.transactionDetailItemsLength = transactionDetailItemsLength;
     }
 
-    /** {@inheritDoc} */
-    protected LinkedHashMap<String, Object> toStringMapper() {
-        LinkedHashMap<String, Object> hashMap = new LinkedHashMap<String, Object>();
-        hashMap.put("awardAmountInfoId", this.getAwardAmountInfoId());      
-        hashMap.put("transactionId", this.getTransactionId());
-        hashMap.put("timeAndMoneyDocumentNumber", this.getTimeAndMoneyDocumentNumber());
-        hashMap.put("anticipatedTotalAmount", this.getAnticipatedTotalAmount());
-        hashMap.put("antDistributableAmount", this.getAntDistributableAmount());
-        hashMap.put("finalExpirationDate", this.getFinalExpirationDate());
-        hashMap.put("currentFundEffectiveDate", this.getCurrentFundEffectiveDate());
-        hashMap.put("amountObligatedToDate", this.getAmountObligatedToDate());
-        hashMap.put("obliDistributableAmount", this.getObliDistributableAmount());
-        hashMap.put("obligationExpirationDate", this.getObligationExpirationDate());        
-        hashMap.put("entryType", this.getEntryType());
-        hashMap.put("eomProcessFlag", this.getEomProcessFlag());
-        hashMap.put("anticipatedChange", this.getAnticipatedChange());
-        hashMap.put("obligatedChange", this.getObligatedChange());
-        hashMap.put("obligatedChangeDirect", this.getObligatedChangeDirect());
-        hashMap.put("obligatedChangeIndirect", this.getObligatedChangeIndirect());
-        hashMap.put("anticipatedChangeDirect", this.getAnticipatedChangeDirect());
-        hashMap.put("anticipatedChangeIndirect", this.getAnticipatedChangeIndirect());
-        hashMap.put("anticipatedTotalDirect", this.getAnticipatedTotalDirect());
-        hashMap.put("anticipatedTotalIndirect", this.getAnticipatedTotalIndirect());
-        hashMap.put("obligatedTotalDirect", this.getObligatedTotalDirect());
-        hashMap.put("obligatedTotalIndirect", this.getObligatedTotalIndirect());
-        return hashMap;
-    }
-
     /**
      * @see org.kuali.kra.Sequenceable#resetPersistenceState()
      */
@@ -353,7 +337,4 @@ public class AwardAmountInfo extends AwardAssociate{
     public void setTimeAndMoneyDocumentNumber(String timeAndMoneyDocumentNumber) {
         this.timeAndMoneyDocumentNumber = timeAndMoneyDocumentNumber;
     }
-    
-
-    
 }

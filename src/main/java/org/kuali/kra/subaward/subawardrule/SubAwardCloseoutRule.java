@@ -16,8 +16,7 @@
 package org.kuali.kra.subaward.subawardrule;
 
 import org.kuali.kra.subaward.bo.SubAwardCloseout;
-import org.kuali.kra.subaward.bo.SubAwardContact;
 
-public interface SubAwardCloseoutRule {
+public interface SubAwardCloseoutRule extends org.kuali.rice.krad.rules.rule.BusinessRule {
     public boolean processAddSubAwardCloseoutBusinessRules(SubAwardCloseout subAwardCloseout);
 }

@@ -43,8 +43,8 @@ import org.kuali.kra.s2s.formmapping.FormMappingInfo;
 import org.kuali.kra.s2s.formmapping.FormMappingLoader;
 import org.kuali.kra.s2s.util.GrantApplicationHash;
 import org.kuali.kra.s2s.util.S2SConstants;
-import org.kuali.rice.kns.service.KNSServiceLocator;
-import org.kuali.rice.kns.util.GlobalVariables;
+import org.kuali.rice.core.api.CoreApiServiceLocator;
+import org.kuali.rice.krad.util.GlobalVariables;
 import org.w3c.dom.Document;
 import org.w3c.dom.Element;
 import org.w3c.dom.NamedNodeMap;
@@ -102,9 +102,9 @@ public class BudgetSubAwardServiceImpl implements BudgetSubAwardService {
         budgetSubAwardFiles.setSubAwardNumber(budgetSubAwardBean.getSubAwardNumber());
         budgetSubAwardBean.setSubAwardXfdFileName(budgetSubAwardBean.getSubAwardXfdFileName());
         budgetSubAwardBean.setXfdUpdateUser(getLoggedInUserNetworkId());
-        budgetSubAwardBean.setXfdUpdateTimestamp(KNSServiceLocator.getDateTimeService().getCurrentTimestamp());
+        budgetSubAwardBean.setXfdUpdateTimestamp(CoreApiServiceLocator.getDateTimeService().getCurrentTimestamp());
         budgetSubAwardBean.setXmlUpdateUser(getLoggedInUserNetworkId());
-        budgetSubAwardBean.setXmlUpdateTimestamp(KNSServiceLocator.getDateTimeService().getCurrentTimestamp());
+        budgetSubAwardBean.setXmlUpdateTimestamp(CoreApiServiceLocator.getDateTimeService().getCurrentTimestamp());
     }
     /**
      * This method return loggedin user id

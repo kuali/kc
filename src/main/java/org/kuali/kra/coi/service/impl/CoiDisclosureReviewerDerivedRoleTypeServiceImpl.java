@@ -28,17 +28,15 @@ import org.kuali.kra.coi.CoiUserRole;
 import org.kuali.kra.infrastructure.KraServiceLocator;
 import org.kuali.kra.infrastructure.RoleConstants;
 import org.kuali.kra.service.KcPersonService;
-import org.kuali.rice.kim.bo.Role;
-import org.kuali.rice.kim.bo.role.dto.RoleMembershipInfo;
-import org.kuali.rice.kim.bo.types.dto.AttributeSet;
-import org.kuali.rice.kim.service.RoleManagementService;
-import org.kuali.rice.kim.service.support.impl.KimDerivedRoleTypeServiceBase;
+import org.kuali.rice.core.api.membership.MemberType;
+import org.kuali.rice.kim.api.role.RoleMembership;
+import org.kuali.rice.kns.kim.role.DerivedRoleTypeServiceBase;
 
 /**
  * 
  * This class determines the assigned reviewers for a coi disclosure.
  */
-public class CoiDisclosureReviewerDerivedRoleTypeServiceImpl extends KimDerivedRoleTypeServiceBase {
+public class CoiDisclosureReviewerDerivedRoleTypeServiceImpl extends DerivedRoleTypeServiceBase {
 
     private static final org.apache.log4j.Logger LOG = org.apache.log4j.Logger.getLogger(CoiDisclosureReviewerDerivedRoleTypeServiceImpl.class);
     private static final String DISCLOSURE = "disclosure";
@@ -51,10 +49,9 @@ public class CoiDisclosureReviewerDerivedRoleTypeServiceImpl extends KimDerivedR
     }
     
     @Override
-    public List<RoleMembershipInfo> getRoleMembersFromApplicationRole(String namespaceCode, String roleName,
-            AttributeSet qualification) {
+    public List<RoleMembership> getRoleMembersFromDerivedRole(String namespaceCode, String roleName, Map<String,String> qualification) {
         validateRequiredAttributesAgainstReceived(qualification);
-        List<RoleMembershipInfo> members = new ArrayList<RoleMembershipInfo>();
+        List<RoleMembership> members = new ArrayList<RoleMembership>();
 
         String disclosureId = qualification.get(DISCLOSURE);
         CoiDisclosure disclosure = getCoiDisclosureById(disclosureId);
@@ -63,7 +60,7 @@ public class CoiDisclosureReviewerDerivedRoleTypeServiceImpl extends KimDerivedR
             if (CollectionUtils.isNotEmpty(userRoles)) {
                 for (CoiUserRole userRole : userRoles) {
                     if (StringUtils.equalsIgnoreCase(userRole.getRoleName(), RoleConstants.COI_REVIEWER)) {
-                        members.add(new RoleMembershipInfo(null, null, getPersonId(userRole.getUserId()), Role.PRINCIPAL_MEMBER_TYPE, null));
+                        members.add(RoleMembership.Builder.create(null, null, getPersonId(userRole.getUserId()), MemberType.PRINCIPAL, null).build());
                     }
 
                 }
@@ -74,8 +71,7 @@ public class CoiDisclosureReviewerDerivedRoleTypeServiceImpl extends KimDerivedR
     }
     
     @Override
-    public boolean hasApplicationRole(String principalId, List<String> groupIds, String namespaceCode, String roleName,
-            AttributeSet qualification) {
+    public boolean hasDerivedRole(String principalId, List<String> groupIds, String namespaceCode, String roleName, Map<String,String> qualification) {
         validateRequiredAttributesAgainstReceived(qualification);
 
         boolean hasRole = false;
