@@ -13,57 +13,58 @@
  * See the License for the specific language governing permissions and
  * limitations under the License.
  */
-
 package org.kuali.kra.irb.actions.submit;
-
-import java.util.LinkedHashMap;
 
 import org.kuali.kra.bo.KraPersistableBusinessObjectBase;
 
-public class ProtocolSubmissionQualifierType extends KraPersistableBusinessObjectBase { 
-	
-    public static final String ANNUAL_SCHEDULED_BY_IRB = "2"; 
+public class ProtocolSubmissionQualifierType extends KraPersistableBusinessObjectBase {
+
+    public static final String ANNUAL_SCHEDULED_BY_IRB = "2";
+
     public static final String CONTINGENT = "3";
+
     public static final String ELIGIBILITY_DEVIATIONS = "4";
+
     public static final String AE_UADE = "5";
+
     public static final String COMPLAINT = "6";
+
     public static final String DEVIATION = "7";
+
     public static final String COI_REPORT = "8";
+
     public static final String SELF_REPORT_NON_COMPLIANCE = "9";
+
     public static final String REQUEST_FOR_ELIGIBILITY_EX = "10";
+
     public static final String TRAINING_CERTIFICATION = "11";
+
     public static final String UNANTICIPATED_PROBLEMS = "12";
+
     public static final String DSMB_REPORT = "13";
+
     public static final String ANNUAL_REPORT = "14";
-    
-	private String submissionQualifierTypeCode; 
-	private String description; 
-	
-	public ProtocolSubmissionQualifierType() { 
 
-	} 
-	
-	public String getSubmissionQualifierTypeCode() {
-		return submissionQualifierTypeCode;
-	}
+    private String submissionQualifierTypeCode;
 
-	public void setSubmissionQualifierTypeCode(String submissionQualifierTypeCode){
-		this.submissionQualifierTypeCode = submissionQualifierTypeCode;
-	}
+    private String description;
 
-	public String getDescription() {
-		return description;
-	}
+    public ProtocolSubmissionQualifierType() {
+    }
 
-	public void setDescription(String description){
-		this.description = description;
-	}
+    public String getSubmissionQualifierTypeCode() {
+        return submissionQualifierTypeCode;
+    }
 
-	@Override 
-	protected LinkedHashMap toStringMapper() {
-		LinkedHashMap hashMap = new LinkedHashMap();
-		hashMap.put("submissionQualifierTypeCode", getSubmissionQualifierTypeCode());
-		hashMap.put("description", getDescription());
-		return hashMap;
-	}
+    public void setSubmissionQualifierTypeCode(String submissionQualifierTypeCode) {
+        this.submissionQualifierTypeCode = submissionQualifierTypeCode;
+    }
+
+    public String getDescription() {
+        return description;
+    }
+
+    public void setDescription(String description) {
+        this.description = description;
+    }
 }

@@ -169,7 +169,7 @@ public class BudgetCategoryMaintenanceDocumentSeleniumTest extends KcSeleniumTes
         assertNotNull(document.getDocumentNumber());
         assertNotNull(document.getDocumentHeader());
         assertEquals(documentNumber, document.getDocumentHeader().getDocumentNumber());
-        BudgetCategory budgetCategory = (BudgetCategory) document.getNewMaintainableObject().getBusinessObject();
+        BudgetCategory budgetCategory = (BudgetCategory) document.getNewMaintainableObject().getDataObject();
         assertEquals(budgetCategoryCode, budgetCategory.getBudgetCategoryCode());
         assertEquals(DEFAULT_BUDGET_CATEGORY_TYPE_CODE, budgetCategory.getBudgetCategoryTypeCode());
         assertEquals(description, budgetCategory.getDescription());

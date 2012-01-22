@@ -15,23 +15,23 @@
  */
 package org.kuali.kra.irb.correspondence;
 
-import java.util.LinkedHashMap;
-
 import org.kuali.kra.bo.KraPersistableBusinessObjectBase;
 
 public class BatchCorrespondenceDetail extends KraPersistableBusinessObjectBase implements Comparable<BatchCorrespondenceDetail> {
 
     private static final long serialVersionUID = 1L;
-    
+
     private Integer batchCorrespondenceDetailId;
+
     private String batchCorrespondenceTypeCode;
+
     private String protoCorrespTypeCode;
+
     private Integer daysToEvent;
-    
+
     private ProtocolCorrespondenceType protocolCorrespondenceType;
-    
+
     public BatchCorrespondenceDetail() {
-        
     }
 
     public Integer getBatchCorrespondenceDetailId() {
@@ -65,7 +65,7 @@ public class BatchCorrespondenceDetail extends KraPersistableBusinessObjectBase 
     public void setDaysToEvent(Integer daysToEvent) {
         this.daysToEvent = daysToEvent;
     }
-    
+
     public ProtocolCorrespondenceType getProtocolCorrespondenceType() {
         return protocolCorrespondenceType;
     }
@@ -74,17 +74,6 @@ public class BatchCorrespondenceDetail extends KraPersistableBusinessObjectBase 
         this.protocolCorrespondenceType = protocolCorrespondenceType;
     }
 
-    /** {@inheritDoc} */
-    @Override 
-    protected LinkedHashMap<String, Object> toStringMapper() {
-        LinkedHashMap<String, Object> hashMap = new LinkedHashMap<String, Object>();
-        hashMap.put("batchCorrespondenceDetailId", this.getBatchCorrespondenceDetailId());
-        hashMap.put("batchCorrespondenceTypeCode", this.getBatchCorrespondenceTypeCode());
-        hashMap.put("protoCorrespTypeCode", this.getProtoCorrespTypeCode());
-        hashMap.put("daysToEvent", this.getDaysToEvent());
-        return hashMap;
-    }
-    
     public int compareTo(BatchCorrespondenceDetail arg) {
         int result = this.batchCorrespondenceTypeCode.compareTo(arg.batchCorrespondenceTypeCode);
         if (result == 0) {

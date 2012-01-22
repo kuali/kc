@@ -19,8 +19,7 @@ import java.util.List;
 import java.util.Map;
 
 import org.kuali.kra.timeandmoney.AwardVersionHistory;
-import org.kuali.kra.timeandmoney.TimeAndMoneyDocumentHistory;
-import org.kuali.rice.kew.exception.WorkflowException;
+import org.kuali.rice.kew.api.exception.WorkflowException;
 
 public interface TimeAndMoneyHistoryService {
     

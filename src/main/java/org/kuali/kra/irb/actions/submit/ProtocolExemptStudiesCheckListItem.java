@@ -15,8 +15,6 @@
  */
 package org.kuali.kra.irb.actions.submit;
 
-import java.util.LinkedHashMap;
-
 import org.apache.commons.lang.StringUtils;
 import org.kuali.kra.bo.KraPersistableBusinessObjectBase;
 import org.kuali.kra.irb.Protocol;
@@ -25,19 +23,26 @@ import org.kuali.kra.irb.Protocol;
 public class ProtocolExemptStudiesCheckListItem extends KraPersistableBusinessObjectBase {
 
     private Long protocolExemptCheckListId;
+
     private Long protocolId;
+
     private Long submissionIdFk;
+
     private String protocolNumber;
+
     private Integer sequenceNumber;
+
     private Integer submissionNumber;
+
     private String exemptStudiesCheckListCode;
-    
+
     private Protocol protocol;
+
     private ProtocolSubmission protocolSubmission;
+
     private ExemptStudiesCheckListItem exemptStudiesCheckListItem;
 
     public ProtocolExemptStudiesCheckListItem() {
-        
     }
 
     public Long getProtocolExemptCheckListId() {
@@ -95,7 +100,7 @@ public class ProtocolExemptStudiesCheckListItem extends KraPersistableBusinessOb
     public void setExemptStudiesCheckListCode(String exemptStudiesCheckListCode) {
         this.exemptStudiesCheckListCode = exemptStudiesCheckListCode;
     }
-    
+
     public Protocol getProtocol() {
         return protocol;
     }
@@ -111,7 +116,7 @@ public class ProtocolExemptStudiesCheckListItem extends KraPersistableBusinessOb
     public void setProtocolSubmission(ProtocolSubmission protocolSubmission) {
         this.protocolSubmission = protocolSubmission;
     }
-    
+
     public void setExemptStudiesCheckListItem(ExemptStudiesCheckListItem exemptStudiesCheckListItem) {
         this.exemptStudiesCheckListItem = exemptStudiesCheckListItem;
     }
@@ -122,19 +127,4 @@ public class ProtocolExemptStudiesCheckListItem extends KraPersistableBusinessOb
         }
         return exemptStudiesCheckListItem;
     }
-
-    @SuppressWarnings("unchecked")
-    @Override
-    protected LinkedHashMap toStringMapper() {
-        LinkedHashMap map = new LinkedHashMap();
-        map.put("protocolExemptCheckListId", getProtocolExemptCheckListId());
-        map.put("protocolId", getProtocolId());
-        map.put("submissionIdFk", getSubmissionIdFk());
-        map.put("protocolNumber", getProtocolNumber());
-        map.put("sequenceNumber", getSequenceNumber());
-        map.put("submissionNumber", getSubmissionNumber());
-        map.put("exemptStudiesCheckListCode", getExemptStudiesCheckListCode());
-        return map;
-    }
-
 }

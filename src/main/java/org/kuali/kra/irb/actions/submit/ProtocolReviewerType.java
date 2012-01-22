@@ -15,21 +15,20 @@
  */
 package org.kuali.kra.irb.actions.submit;
 
-import java.util.LinkedHashMap;
-
 import org.kuali.kra.bo.KraPersistableBusinessObjectBase;
 
 @SuppressWarnings("serial")
 public class ProtocolReviewerType extends KraPersistableBusinessObjectBase {
-    
+
     public static final String PRIMARY = "1";
+
     public static final String SECONDARY = "2";
 
     private String reviewerTypeCode;
+
     private String description;
-    
+
     public ProtocolReviewerType() {
-        
     }
 
     public String getReviewerTypeCode() {
@@ -46,14 +45,5 @@ public class ProtocolReviewerType extends KraPersistableBusinessObjectBase {
 
     public void setDescription(String description) {
         this.description = description;
-    }
-    
-    @SuppressWarnings("unchecked")
-    @Override
-    protected LinkedHashMap toStringMapper() {
-        LinkedHashMap map = new LinkedHashMap();
-        map.put("reviewerTypeCode", getReviewerTypeCode());
-        map.put("description", getDescription());
-        return map;
     }
 }

@@ -16,7 +16,6 @@
 package org.kuali.kra.bo;
 
 import java.sql.Date;
-import java.util.LinkedHashMap;
 
 import org.kuali.kra.budget.BudgetDecimal;
 import org.kuali.kra.budget.rates.AbstractBudgetRate;
@@ -25,26 +24,34 @@ import org.kuali.kra.budget.rates.RateType;
 import org.kuali.kra.infrastructure.Constants;
 
 public abstract class AbstractInstituteRate extends KraPersistableBusinessObjectBase implements Comparable<AbstractInstituteRate>, AbstractInstituteRateKey {
-       
- 	private static final long serialVersionUID = -2136003574701633349L;
-    
-	private String fiscalYear;
-	private Boolean onOffCampusFlag;
-	private String rateClassCode;
-	private String rateTypeCode;
-	private Date startDate;
-	private String unitNumber;
-	private BudgetDecimal instituteRate;
 
-	private RateClass rateClass;
-	private RateType rateType;
-	private Unit unit;
+    private static final long serialVersionUID = -2136003574701633349L;
+
+    private String fiscalYear;
+
+    private Boolean onOffCampusFlag;
+
+    private String rateClassCode;
+
+    private String rateTypeCode;
+
+    private Date startDate;
+
+    private String unitNumber;
+
+    private BudgetDecimal instituteRate;
+
+    private RateClass rateClass;
+
+    private RateType rateType;
+
+    private Unit unit;
+
     private Boolean active = Boolean.TRUE;
-	
+
     private boolean nonEditableRateFlag;
 
-    
-	public final Boolean getActive() {
+    public final Boolean getActive() {
         return active;
     }
 
@@ -69,80 +76,66 @@ public abstract class AbstractInstituteRate extends KraPersistableBusinessObject
     }
 
     public String getFiscalYear() {
-		return fiscalYear;
-	}
+        return fiscalYear;
+    }
 
-	public void setFiscalYear(String fiscalYear) {
-		this.fiscalYear = fiscalYear;
-	}
+    public void setFiscalYear(String fiscalYear) {
+        this.fiscalYear = fiscalYear;
+    }
 
-	public Boolean getOnOffCampusFlag() {
-		return onOffCampusFlag;
-	}
+    public Boolean getOnOffCampusFlag() {
+        return onOffCampusFlag;
+    }
 
-	public void setOnOffCampusFlag(Boolean onOffCampusFlag) {
-		this.onOffCampusFlag = onOffCampusFlag;
-	}
+    public void setOnOffCampusFlag(Boolean onOffCampusFlag) {
+        this.onOffCampusFlag = onOffCampusFlag;
+    }
 
-	public String getRateClassCode() {
-		return rateClassCode;
-	}
+    public String getRateClassCode() {
+        return rateClassCode;
+    }
 
-	public void setRateClassCode(String rateClassCode) {
-		this.rateClassCode = rateClassCode;
-	}
+    public void setRateClassCode(String rateClassCode) {
+        this.rateClassCode = rateClassCode;
+    }
 
-	public String getRateTypeCode() {
-		return rateTypeCode;
-	}
+    public String getRateTypeCode() {
+        return rateTypeCode;
+    }
 
-	public void setRateTypeCode(String rateTypeCode) {
-		this.rateTypeCode = rateTypeCode;
-	}
+    public void setRateTypeCode(String rateTypeCode) {
+        this.rateTypeCode = rateTypeCode;
+    }
 
-	public Date getStartDate() {
-		return startDate;
-	}
+    public Date getStartDate() {
+        return startDate;
+    }
 
-	public void setStartDate(Date startDate) {
-		this.startDate = startDate;
-	}
+    public void setStartDate(Date startDate) {
+        this.startDate = startDate;
+    }
 
-	public String getUnitNumber() {
-		return unitNumber;
-	}
+    public String getUnitNumber() {
+        return unitNumber;
+    }
 
-	public void setUnitNumber(String unitNumber) {
-		this.unitNumber = unitNumber;
-	}
+    public void setUnitNumber(String unitNumber) {
+        this.unitNumber = unitNumber;
+    }
 
-	public BudgetDecimal getInstituteRate() {
-		return instituteRate;
-	}
+    public BudgetDecimal getInstituteRate() {
+        return instituteRate;
+    }
 
-	public void setInstituteRate(BudgetDecimal rate) {
-		this.instituteRate = rate;
-	}
-	
-	public String getRateClassType(){
-	    return rateClass.getRateClassType();
-	}
+    public void setInstituteRate(BudgetDecimal rate) {
+        this.instituteRate = rate;
+    }
 
-    @Override 
-	protected LinkedHashMap<String, Object> toStringMapper() {
-		LinkedHashMap<String, Object> hashMap = new LinkedHashMap<String, Object>();
-		hashMap.put("versionNumber", getVersionNumber());
-		hashMap.put("fiscalYear", getFiscalYear());
-		hashMap.put("onOffCampusFlag", getOnOffCampusFlag());
-		hashMap.put("rateClassCode", getRateClassCode());
-		hashMap.put("rateTypeCode", getRateTypeCode());
-		hashMap.put("startDate", getStartDate());
-		hashMap.put("unitNumber", getUnitNumber());
-		hashMap.put("instituterate", getInstituteRate());
-		return hashMap;
-	}
-	
-	public int compareTo(AbstractInstituteRate abstractInstituteRate) {
+    public String getRateClassType() {
+        return rateClass.getRateClassType();
+    }
+
+    public int compareTo(AbstractInstituteRate abstractInstituteRate) {
         int result = getRateType().getDescription().compareTo(abstractInstituteRate.getRateType().getDescription());
         result = result != 0 ? result : getFiscalYear().compareTo(abstractInstituteRate.getFiscalYear());
         result = result != 0 ? result : getOnOffCampusFlag().compareTo(abstractInstituteRate.getOnOffCampusFlag());
@@ -156,19 +149,15 @@ public abstract class AbstractInstituteRate extends KraPersistableBusinessObject
     public void setUnit(Unit unit) {
         this.unit = unit;
     }
-    
+
     public String getRateKeyAsString() {
-        return new StringBuilder(getRateClassCode())
-                    .append(getRateTypeCode())
-                    .append(getLocationFlagAsString(getOnOffCampusFlag().booleanValue()))
-                    .append(getStartDate())
-                    .toString();
+        return new StringBuilder(getRateClassCode()).append(getRateTypeCode()).append(getLocationFlagAsString(getOnOffCampusFlag().booleanValue())).append(getStartDate()).toString();
     }
-    
+
     protected AbstractBudgetRate createBudgetRate() {
         throw new UnsupportedOperationException("Cannot create BudgetRate.");
     }
-    
+
     private String getLocationFlagAsString(boolean campusFlag) {
         return campusFlag ? Constants.ON_CAMUS_FLAG : Constants.OFF_CAMUS_FLAG;
     }
@@ -215,79 +204,43 @@ public abstract class AbstractInstituteRate extends KraPersistableBusinessObject
      */
     @Override
     public boolean equals(Object obj) {
-        if (this == obj)
-            return true;
-        if (obj == null)
-            return false;
-        if (getClass() != obj.getClass())
-            return false;
+        if (this == obj) return true;
+        if (obj == null) return false;
+        if (getClass() != obj.getClass()) return false;
         AbstractInstituteRate other = (AbstractInstituteRate) obj;
         if (active == null) {
-            if (other.active != null)
-                return false;
-        }
-        else if (!active.equals(other.active))
-            return false;
+            if (other.active != null) return false;
+        } else if (!active.equals(other.active)) return false;
         if (fiscalYear == null) {
-            if (other.fiscalYear != null)
-                return false;
-        }
-        else if (!fiscalYear.equals(other.fiscalYear))
-            return false;
+            if (other.fiscalYear != null) return false;
+        } else if (!fiscalYear.equals(other.fiscalYear)) return false;
         if (instituteRate == null) {
-            if (other.instituteRate != null)
-                return false;
-        }
-        else if (!instituteRate.equals(other.instituteRate))
-            return false;
+            if (other.instituteRate != null) return false;
+        } else if (!instituteRate.equals(other.instituteRate)) return false;
         if (onOffCampusFlag == null) {
-            if (other.onOffCampusFlag != null)
-                return false;
-        }
-        else if (!onOffCampusFlag.equals(other.onOffCampusFlag))
-            return false;
+            if (other.onOffCampusFlag != null) return false;
+        } else if (!onOffCampusFlag.equals(other.onOffCampusFlag)) return false;
         if (rateClass == null) {
-            if (other.rateClass != null)
-                return false;
-        }
-        else if (!rateClass.equals(other.rateClass))
-            return false;
+            if (other.rateClass != null) return false;
+        } else if (!rateClass.equals(other.rateClass)) return false;
         if (rateClassCode == null) {
-            if (other.rateClassCode != null)
-                return false;
-        }
-        else if (!rateClassCode.equals(other.rateClassCode))
-            return false;
+            if (other.rateClassCode != null) return false;
+        } else if (!rateClassCode.equals(other.rateClassCode)) return false;
         if (rateType == null) {
-            if (other.rateType != null)
-                return false;
-        }
-        else if (!rateType.equals(other.rateType))
-            return false;
+            if (other.rateType != null) return false;
+        } else if (!rateType.equals(other.rateType)) return false;
         if (rateTypeCode == null) {
-            if (other.rateTypeCode != null)
-                return false;
-        }
-        else if (!rateTypeCode.equals(other.rateTypeCode))
-            return false;
+            if (other.rateTypeCode != null) return false;
+        } else if (!rateTypeCode.equals(other.rateTypeCode)) return false;
         if (startDate == null) {
-            if (other.startDate != null)
-                return false;
-        }
-        else if (!startDate.equals(other.startDate))
-            return false;
+            if (other.startDate != null) return false;
+        } else if (!startDate.equals(other.startDate)) return false;
         if (unit == null) {
-            if (other.unit != null)
-                return false;
-        }
-        else if (!unit.equals(other.unit))
-            return false;
+            if (other.unit != null) return false;
+        } else if (!unit.equals(other.unit)) return false;
         if (unitNumber == null) {
-            if (other.unitNumber != null)
-                return false;
-        }
-        else if (!unitNumber.equals(other.unitNumber))
-            return false;
+            if (other.unitNumber != null) return false;
+        } else if (!unitNumber.equals(other.unitNumber)) return false;
         return true;
     }
 }

@@ -20,8 +20,6 @@ import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
 
-import javax.mail.internet.HeaderTokenizer;
-import javax.mail.internet.MimeUtility;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 
@@ -48,7 +46,7 @@ import org.kuali.kra.printing.service.WatermarkService;
 import org.kuali.kra.service.KraAuthorizationService;
 import org.kuali.kra.util.watermark.WatermarkConstants;
 import org.kuali.kra.web.struts.action.StrutsConfirmation;
-import org.kuali.rice.kns.util.KNSConstants;
+import org.kuali.rice.krad.util.KRADConstants;
 
 /**
  * The ProtocolPersonnelAction corresponds to the Personnel tab (web page).  It is
@@ -192,7 +190,6 @@ public class ProtocolPersonnelAction extends ProtocolAction {
      */
     private ActionForward printAttachmentProtocol(ActionMapping mapping, ProtocolForm form, HttpServletResponse response, ProtocolAttachmentBase attachment) throws Exception {
 
-       
         if (attachment == null) {
             return mapping.findForward(Constants.MAPPING_BASIC);
         }
@@ -399,7 +396,7 @@ public class ProtocolPersonnelAction extends ProtocolAction {
      */
     protected int getSelectedPersonIndex(HttpServletRequest request, ProtocolDocument document) {
         int selectedPersonIndex = -1;
-        String parameterName = (String) request.getAttribute(KNSConstants.METHOD_TO_CALL_ATTRIBUTE);
+        String parameterName = (String) request.getAttribute(KRADConstants.METHOD_TO_CALL_ATTRIBUTE);
         if (StringUtils.isNotBlank(parameterName)) {
             selectedPersonIndex = Integer.parseInt(StringUtils.substringBetween(parameterName, "protocolPersons[", "]."));
         }

@@ -22,7 +22,7 @@ import org.kuali.kra.bo.versioning.VersionStatus;
 import org.kuali.kra.service.VersionException;
 import org.kuali.kra.subaward.bo.SubAward;
 import org.kuali.kra.subaward.document.SubAwardDocument;
-import org.kuali.rice.kew.exception.WorkflowException;
+import org.kuali.rice.kew.api.exception.WorkflowException;
 
 public interface SubAwardService {
     
@@ -55,7 +55,7 @@ public interface SubAwardService {
      * @return
      */
     public SubAward getAmountInfo(SubAward subAward);
-    
+
     /**
      * This method will downloadAttachment  to subaward.
      * @param subAward

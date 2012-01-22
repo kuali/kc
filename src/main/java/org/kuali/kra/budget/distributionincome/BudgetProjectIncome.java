@@ -15,27 +15,31 @@
  */
 package org.kuali.kra.budget.distributionincome;
 
-import java.util.LinkedHashMap;
-
 import org.kuali.kra.budget.parameters.BudgetPeriod;
 import org.kuali.kra.proposaldevelopment.hierarchy.HierarchyMaintainable;
-import org.kuali.rice.kns.util.KualiDecimal;
+import org.kuali.rice.core.api.util.type.KualiDecimal;
 
 /**
  * 
  */
 public class BudgetProjectIncome extends BudgetDistributionAndIncomeComponent implements HierarchyMaintainable {
+
     private static final long serialVersionUID = 8999969227018875501L;
 
     public static final String DOCUMENT_COMPONENT_ID_KEY = "BUDGET_PROJECT_INCOME_KEY";
-    
+
     private Long budgetPeriodId;
+
     private BudgetPeriod budgetPeriod;
+
     private Integer budgetPeriodNumber;
+
     private String description;
+
     private KualiDecimal projectIncome;
 
     private String hierarchyProposalNumber;
+
     private boolean hiddenInHierarchy;
 
     /**
@@ -90,20 +94,6 @@ public class BudgetProjectIncome extends BudgetDistributionAndIncomeComponent im
      */
     public void setProjectIncome(KualiDecimal income) {
         this.projectIncome = income;
-    }
-
-    /**
-     * 
-     * @see org.kuali.kra.budget.distributionincome.BudgetDistributionAndIncomeComponent#toStringMapper()
-     */
-    @SuppressWarnings("unchecked")
-    @Override
-    protected LinkedHashMap toStringMapper() {
-        LinkedHashMap<String, Object> hashMap = super.toStringMapper();
-        hashMap.put("budgetPeriodNumber", getBudgetPeriodNumber());
-        hashMap.put("description", getDescription());
-        hashMap.put("income", getProjectIncome());
-        return hashMap;
     }
 
     /**

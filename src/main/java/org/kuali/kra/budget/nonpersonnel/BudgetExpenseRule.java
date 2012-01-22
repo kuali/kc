@@ -15,7 +15,6 @@
  */
 package org.kuali.kra.budget.nonpersonnel;
 
-import java.util.ArrayList;
 import java.util.List;
 
 import org.apache.commons.collections.CollectionUtils;
@@ -24,8 +23,8 @@ import org.kuali.kra.budget.calculator.QueryList;
 import org.kuali.kra.budget.document.BudgetDocument;
 import org.kuali.kra.budget.parameters.BudgetPeriod;
 import org.kuali.kra.infrastructure.KeyConstants;
-import org.kuali.rice.kns.util.ErrorMap;
-import org.kuali.rice.kns.util.GlobalVariables;
+import org.kuali.rice.krad.util.GlobalVariables;
+import org.kuali.rice.krad.util.MessageMap;
 
 public class BudgetExpenseRule {
     private static final String PERSONNEL_CATEGORY = "P";
@@ -37,7 +36,7 @@ public class BudgetExpenseRule {
             BudgetLineItem budgetLineItem, int lineItemToDelete) {
         boolean valid = true;
 
-        ErrorMap errorMap = GlobalVariables.getErrorMap();
+        MessageMap errorMap = GlobalVariables.getMessageMap();
         if (CollectionUtils.isNotEmpty(budgetLineItem.getBudgetPersonnelDetailsList())) {
             // just try to make sure key is on budget personnel tab
             errorMap.putError("document.budgetPeriod[" + (budgetLineItem.getBudgetPeriod() - 1) + "].budgetLineItem["
@@ -51,7 +50,7 @@ public class BudgetExpenseRule {
     public boolean processApplyToLaterPeriodsWithPersonnelDetails(BudgetDocument budgetDocument, BudgetPeriod currentBudgetPeriod,
             BudgetLineItem currentBudgetLineItem, int selectedLineItem) {
 
-        ErrorMap errorMap = GlobalVariables.getErrorMap();
+        MessageMap errorMap = GlobalVariables.getMessageMap();
 
 
         List<BudgetPeriod> budgetPeriods = budgetDocument.getBudget().getBudgetPeriods();
@@ -123,7 +122,7 @@ public class BudgetExpenseRule {
      */
     public boolean processCheckLineItemDates(BudgetPeriod currentBudgetPeriod, int selectedLineItem) {
         boolean valid = true;
-        ErrorMap errorMap = GlobalVariables.getErrorMap();
+        MessageMap errorMap = GlobalVariables.getMessageMap();
         BudgetLineItem budgetLineItem = currentBudgetPeriod.getBudgetLineItems().get(selectedLineItem);
 
         if (budgetLineItem.getEndDate() == null) {

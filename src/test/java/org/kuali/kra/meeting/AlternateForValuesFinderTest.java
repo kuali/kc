@@ -20,7 +20,7 @@ import java.util.List;
 import junit.framework.Assert;
 
 import org.junit.Test;
-import org.kuali.rice.core.util.KeyLabelPair;
+import org.kuali.rice.core.api.util.KeyValue;
 
 public class AlternateForValuesFinderTest {
 
@@ -29,12 +29,12 @@ public class AlternateForValuesFinderTest {
     public void testGetKeyValues() throws Exception {
         AlternateForValuesFinder alternateForValuesFinder = new AlternateForValuesFinder();
         alternateForValuesFinder.setAbsenteeList("001#f#Test 1#m#002#f#Test 2");
-        List<KeyLabelPair> keyValues = alternateForValuesFinder.getKeyValues();
+        List<KeyValue> keyValues = alternateForValuesFinder.getKeyValues();
         Assert.assertEquals(keyValues.size(), 3);
         Assert.assertEquals(keyValues.get(1).getKey(), "001");
-        Assert.assertEquals(keyValues.get(1).getLabel(), "Test 1");
+        Assert.assertEquals(keyValues.get(1).getValue(), "Test 1");
         Assert.assertEquals(keyValues.get(2).getKey(), "002");
-        Assert.assertEquals(keyValues.get(2).getLabel(), "Test 2");
+        Assert.assertEquals(keyValues.get(2).getValue(), "Test 2");
     }
 
 

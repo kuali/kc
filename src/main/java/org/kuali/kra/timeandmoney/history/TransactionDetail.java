@@ -15,45 +15,40 @@
  */
 package org.kuali.kra.timeandmoney.history;
 
-import java.util.LinkedHashMap;
-
 import org.kuali.kra.bo.KraPersistableBusinessObjectBase;
-import org.kuali.rice.kns.util.KualiDecimal;
+import org.kuali.rice.core.api.util.type.KualiDecimal;
 
 public class TransactionDetail extends KraPersistableBusinessObjectBase {
-    
-    private Long transactionDetailId;
-    private String awardNumber;
-    private Integer sequenceNumber;
-    private Long transactionId;
-    private String timeAndMoneyDocumentNumber;
-    private String comments;
-    private String sourceAwardNumber;
-    private String destinationAwardNumber;
-    private String transactionDetailType;
-    private KualiDecimal obligatedAmount;
-    private KualiDecimal obligatedDirectAmount;
-    private KualiDecimal obligatedIndirectAmount;
-    private KualiDecimal anticipatedAmount;
-    private KualiDecimal anticipatedDirectAmount;
-    private KualiDecimal anticipatedIndirectAmount;
 
-    
-    @Override
-    protected LinkedHashMap<String, Object> toStringMapper() {        
-        LinkedHashMap<String, Object> hashMap = new LinkedHashMap<String, Object>();
-        hashMap.put("transactionDetailId", this.getAwardNumber());
-        hashMap.put("awardNumber", this.getAwardNumber());
-        hashMap.put("sequenceNumber", this.getSequenceNumber());
-        hashMap.put("transactionId", this.getTransactionId());
-        hashMap.put("timeAndMoneyDocumentNumber", this.getTimeAndMoneyDocumentNumber());        
-        hashMap.put("comments", this.getComments());
-        hashMap.put("sourceAwardNumber", this.getSourceAwardNumber());
-        hashMap.put("destinationAwardNumber", this.getDestinationAwardNumber());
-        hashMap.put("obligatedAmount", this.getObligatedAmount());        
-        hashMap.put("anticipatedAmount", this.getAnticipatedAmount());        
-        return hashMap;
-    }
+    private Long transactionDetailId;
+
+    private String awardNumber;
+
+    private Integer sequenceNumber;
+
+    private Long transactionId;
+
+    private String timeAndMoneyDocumentNumber;
+
+    private String comments;
+
+    private String sourceAwardNumber;
+
+    private String destinationAwardNumber;
+
+    private String transactionDetailType;
+
+    private KualiDecimal obligatedAmount;
+
+    private KualiDecimal obligatedDirectAmount;
+
+    private KualiDecimal obligatedIndirectAmount;
+
+    private KualiDecimal anticipatedAmount;
+
+    private KualiDecimal anticipatedDirectAmount;
+
+    private KualiDecimal anticipatedIndirectAmount;
 
     /**
      * Gets the transactionDetailId attribute. 
@@ -63,9 +58,6 @@ public class TransactionDetail extends KraPersistableBusinessObjectBase {
         return transactionDetailId;
     }
 
-
-
-
     /**
      * Sets the transactionDetailId attribute value.
      * @param transactionDetailId The transactionDetailId to set.
@@ -74,8 +66,6 @@ public class TransactionDetail extends KraPersistableBusinessObjectBase {
         this.transactionDetailId = transactionDetailId;
     }
 
-    
-    
     /**
      * Gets the awardNumber attribute. 
      * @return Returns the awardNumber.
@@ -83,9 +73,6 @@ public class TransactionDetail extends KraPersistableBusinessObjectBase {
     public String getAwardNumber() {
         return awardNumber;
     }
-
-
-
 
     /**
      * Sets the awardNumber attribute value.
@@ -95,9 +82,6 @@ public class TransactionDetail extends KraPersistableBusinessObjectBase {
         this.awardNumber = awardNumber;
     }
 
-
-
-
     /**
      * Gets the sequenceNumber attribute. 
      * @return Returns the sequenceNumber.
@@ -105,9 +89,6 @@ public class TransactionDetail extends KraPersistableBusinessObjectBase {
     public Integer getSequenceNumber() {
         return sequenceNumber;
     }
-
-
-
 
     /**
      * Sets the sequenceNumber attribute value.
@@ -117,9 +98,6 @@ public class TransactionDetail extends KraPersistableBusinessObjectBase {
         this.sequenceNumber = sequenceNumber;
     }
 
-
-
-
     /**
      * Gets the transactionId attribute. 
      * @return Returns the transactionId.
@@ -127,9 +105,6 @@ public class TransactionDetail extends KraPersistableBusinessObjectBase {
     public Long getTransactionId() {
         return transactionId;
     }
-
-
-
 
     /**
      * Sets the transactionId attribute value.
@@ -139,9 +114,6 @@ public class TransactionDetail extends KraPersistableBusinessObjectBase {
         this.transactionId = transactionId;
     }
 
-
-
-
     /**
      * Gets the comments attribute. 
      * @return Returns the comments.
@@ -149,9 +121,6 @@ public class TransactionDetail extends KraPersistableBusinessObjectBase {
     public String getComments() {
         return comments;
     }
-
-
-
 
     /**
      * Sets the comments attribute value.
@@ -161,9 +130,6 @@ public class TransactionDetail extends KraPersistableBusinessObjectBase {
         this.comments = comments;
     }
 
-
-
-
     /**
      * Gets the sourceAwardNumber attribute. 
      * @return Returns the sourceAwardNumber.
@@ -171,9 +137,6 @@ public class TransactionDetail extends KraPersistableBusinessObjectBase {
     public String getSourceAwardNumber() {
         return sourceAwardNumber;
     }
-
-
-
 
     /**
      * Sets the sourceAwardNumber attribute value.
@@ -183,9 +146,6 @@ public class TransactionDetail extends KraPersistableBusinessObjectBase {
         this.sourceAwardNumber = sourceAwardNumber;
     }
 
-
-
-
     /**
      * Gets the destinationAwardNumber attribute. 
      * @return Returns the destinationAwardNumber.
@@ -194,7 +154,6 @@ public class TransactionDetail extends KraPersistableBusinessObjectBase {
         return destinationAwardNumber;
     }
 
-
     /**
      * Sets the destinationAwardNumber attribute value.
      * @param destinationAwardNumber The destinationAwardNumber to set.
@@ -202,7 +161,6 @@ public class TransactionDetail extends KraPersistableBusinessObjectBase {
     public void setDestinationAwardNumber(String destinationAwardNumber) {
         this.destinationAwardNumber = destinationAwardNumber;
     }
-
 
     /**
      * Gets the obligatedAmount attribute. 
@@ -235,8 +193,6 @@ public class TransactionDetail extends KraPersistableBusinessObjectBase {
     public void setAnticipatedAmount(KualiDecimal anticipatedAmount) {
         this.anticipatedAmount = anticipatedAmount;
     }
-    
-    
 
     /**
      * Gets the transactionDetailType attribute. 
@@ -333,7 +289,4 @@ public class TransactionDetail extends KraPersistableBusinessObjectBase {
     public void setAnticipatedIndirectAmount(KualiDecimal anticipatedIndirectAmount) {
         this.anticipatedIndirectAmount = anticipatedIndirectAmount;
     }
-    
-    
-
 }

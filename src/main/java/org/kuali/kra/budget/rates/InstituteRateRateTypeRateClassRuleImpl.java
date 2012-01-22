@@ -25,10 +25,10 @@ import org.kuali.kra.bo.InstituteRate;
 import org.kuali.kra.infrastructure.Constants;
 import org.kuali.kra.infrastructure.KeyConstants;
 import org.kuali.kra.infrastructure.KraServiceLocator;
-import org.kuali.rice.kns.service.BusinessObjectService;
-import org.kuali.rice.kns.service.ParameterConstants;
-import org.kuali.rice.kns.service.ParameterService;
-import org.kuali.rice.kns.util.GlobalVariables;
+import org.kuali.rice.coreservice.framework.parameter.ParameterConstants;
+import org.kuali.rice.coreservice.framework.parameter.ParameterService;
+import org.kuali.rice.krad.service.BusinessObjectService;
+import org.kuali.rice.krad.util.GlobalVariables;
 
 /**
  * This class does not directly extend a rule class in order to break up the rule logic into smaller classes.
@@ -117,7 +117,7 @@ public final class InstituteRateRateTypeRateClassRuleImpl implements InstituteRa
         final boolean valid = validateRateClassType(validClassTypes, rateTypes);
        
         if (!valid) {
-            GlobalVariables.getErrorMap().putError(RATE_CLASS_CODE_PROPERTY_NAME,
+            GlobalVariables.getMessageMap().putError(RATE_CLASS_CODE_PROPERTY_NAME,
                 KeyConstants.ERROR_RATE_CLASS_NOT_VALID_FOR_TYPE, rate.getRateClassCode());
         }
         
@@ -149,7 +149,7 @@ public final class InstituteRateRateTypeRateClassRuleImpl implements InstituteRa
         final boolean valid = validateRateClassType(validClassTypes, rateTypes);
        
         if (!valid) {
-            GlobalVariables.getErrorMap().putError(RATE_TYPE_CODE_PROPERTY_NAME,
+            GlobalVariables.getMessageMap().putError(RATE_TYPE_CODE_PROPERTY_NAME,
                 KeyConstants.ERROR_RATE_TYPE_NOT_VALID_FOR_TYPE, rate.getRateTypeCode());
         }
         return valid;
@@ -238,7 +238,7 @@ public final class InstituteRateRateTypeRateClassRuleImpl implements InstituteRa
     private Collection<String> getRateClassTypesCollection(final String rateType) {
         assert rateType != null : "infoType is null";
         
-        return this.parameterService.getParameterValues(Constants.MODULE_NAMESPACE_BUDGET,
+        return this.parameterService.getParameterValuesAsString(Constants.MODULE_NAMESPACE_BUDGET,
             ParameterConstants.ALL_COMPONENT, rateType);
     }
 }

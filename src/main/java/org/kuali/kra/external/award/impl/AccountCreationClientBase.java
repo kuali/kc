@@ -43,13 +43,15 @@ import org.kuali.kra.bo.UnitAdministratorType;
 import org.kuali.kra.external.award.AccountCreationClient;
 import org.kuali.kra.external.award.FinancialIndirectCostRecoveryTypeCode;
 import org.kuali.kra.infrastructure.KeyConstants;
-import org.kuali.rice.kew.exception.WorkflowException;
-import org.kuali.rice.kew.web.session.UserSession;
-import org.kuali.rice.kns.service.BusinessObjectService;
-import org.kuali.rice.kns.service.DocumentService;
-import org.kuali.rice.kns.service.ParameterService;
-import org.kuali.rice.kns.util.GlobalVariables;
-import org.kuali.rice.kns.util.ObjectUtils;
+import org.kuali.rice.core.api.util.type.KualiDecimal;
+import org.kuali.rice.coreservice.framework.parameter.ParameterService;
+import org.kuali.rice.kew.api.exception.WorkflowException;
+import org.kuali.rice.krad.service.BusinessObjectService;
+import org.kuali.rice.krad.service.DocumentService;
+import org.kuali.rice.krad.util.GlobalVariables;
+import org.kuali.rice.krad.util.ObjectUtils;
+
+
 
 /**
  * This class is the implementation of the client that
@@ -68,7 +70,7 @@ public abstract class AccountCreationClientBase implements AccountCreationClient
     private static final String ERROR_MESSAGE = "Cannot connect to the service. The service may be down, please try again later.";
 
     private static final Log LOG = LogFactory.getLog(AccountCreationClientBase.class);
-    
+
     private AccountParametersDTO accountParameters;
     private DocumentService documentService;
     private BusinessObjectService businessObjectService;
@@ -223,7 +225,7 @@ public abstract class AccountCreationClientBase implements AccountCreationClient
         // unit number
         accountParameters.setUnit(award.getUnitNumber());
         //Principal id
-        accountParameters.setPrincipalId(UserSession.getAuthenticatedUser().getPrincipalId());
+        accountParameters.setPrincipalId(GlobalVariables.getUserSession().getPrincipalId());
 
         // get the current FandaRate
         AwardFandaRate currentFandaRate = award.getCurrentFandaRate();
@@ -250,11 +252,11 @@ public abstract class AccountCreationClientBase implements AccountCreationClient
     }
    
     protected String getIndirectCostTypeCode(String rateClassCode, String rateTypeCode) {
-        Map<String, Object> criteria = new HashMap<String, Object>();
+        Map <String, Object> criteria = new HashMap<String, Object>();
         criteria.put("rateClassCode", rateClassCode);
         criteria.put("rateTypeCode", rateTypeCode);
-        FinancialIndirectCostRecoveryTypeCode icrCostTypeCode = (FinancialIndirectCostRecoveryTypeCode) businessObjectService.findByPrimaryKey(FinancialIndirectCostRecoveryTypeCode.class, criteria);
-        return ObjectUtils.isNotNull(icrCostTypeCode) ? icrCostTypeCode.getIcrTypeCode() : "";
+        FinancialIndirectCostRecoveryTypeCode icrCostTypeCode= (FinancialIndirectCostRecoveryTypeCode) businessObjectService.findByPrimaryKey(FinancialIndirectCostRecoveryTypeCode.class, criteria);
+        return ObjectUtils.isNotNull(icrCostTypeCode)? icrCostTypeCode.getIcrTypeCode() : "";
     }
 
     /**
@@ -393,5 +395,4 @@ public abstract class AccountCreationClientBase implements AccountCreationClient
     public void setParameterService(ParameterService parameterService) {
         this.parameterService = parameterService;
     }
-    
 }

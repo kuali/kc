@@ -31,12 +31,12 @@ import org.kuali.kra.proposaldevelopment.bo.ProposalPersonUnit;
 import org.kuali.kra.proposaldevelopment.document.ProposalDevelopmentDocument;
 import org.kuali.kra.proposaldevelopment.service.impl.KeyPersonnelServiceImpl;
 import org.kuali.kra.test.infrastructure.KcUnitTestBase;
-import org.kuali.rice.kns.UserSession;
-import org.kuali.rice.kns.service.DocumentService;
-import org.kuali.rice.kns.service.KNSServiceLocator;
-import org.kuali.rice.kns.service.ParameterService;
-import org.kuali.rice.kns.util.GlobalVariables;
-import org.kuali.rice.kns.util.KualiDecimal;
+import org.kuali.rice.core.api.util.type.KualiDecimal;
+import org.kuali.rice.coreservice.framework.parameter.ParameterService;
+import org.kuali.rice.krad.UserSession;
+import org.kuali.rice.krad.service.DocumentService;
+import org.kuali.rice.krad.service.KRADServiceLocatorWeb;
+import org.kuali.rice.krad.util.GlobalVariables;
 
 
 /**
@@ -63,7 +63,7 @@ public class KeyPersonnelServiceTest extends KcUnitTestBase {
     public void setUp() throws Exception {
         super.setUp();
         GlobalVariables.setUserSession(new UserSession("quickstart"));
-        documentService = KNSServiceLocator.getDocumentService();
+        documentService = KRADServiceLocatorWeb.getDocumentService();
         parameterService = KraServiceLocator.getService(ParameterService.class);
         document = (ProposalDevelopmentDocument) documentService.getNewDocument("ProposalDevelopmentDocument");
         blankDocument =(ProposalDevelopmentDocument) documentService.getNewDocument("ProposalDevelopmentDocument");
@@ -169,7 +169,7 @@ public class KeyPersonnelServiceTest extends KcUnitTestBase {
         ProposalPerson person = new ProposalPerson();
         person.setProposalPersonRoleId(COI_ROLE_ID);
         person.setDevelopmentProposal(document.getDevelopmentProposal());
-        assertEquals(parameterService.getParameterValue(Constants.KC_GENERIC_PARAMETER_NAMESPACE, Constants.KC_ALL_PARAMETER_DETAIL_TYPE_CODE, NIH_COI_PARAM), 
+        assertEquals(parameterService.getParameterValueAsString(Constants.KC_GENERIC_PARAMETER_NAMESPACE, Constants.KC_ALL_PARAMETER_DETAIL_TYPE_CODE, NIH_COI_PARAM), 
                 getKeyPersonnelService().getPersonnelRoleDesc(person));        
     }
     
@@ -180,7 +180,7 @@ public class KeyPersonnelServiceTest extends KcUnitTestBase {
         person.setProposalPersonRoleId(COI_ROLE_ID);
         person.setMultiplePi(true);
         person.setDevelopmentProposal(document.getDevelopmentProposal());
-        assertEquals(parameterService.getParameterValue(Constants.KC_GENERIC_PARAMETER_NAMESPACE, Constants.KC_ALL_PARAMETER_DETAIL_TYPE_CODE, NIH_MPI_PARAM), 
+        assertEquals(parameterService.getParameterValueAsString(Constants.KC_GENERIC_PARAMETER_NAMESPACE, Constants.KC_ALL_PARAMETER_DETAIL_TYPE_CODE, NIH_MPI_PARAM), 
                 getKeyPersonnelService().getPersonnelRoleDesc(person));        
     }
     

@@ -17,7 +17,7 @@ package org.kuali.kra.meeting;
 
 import org.kuali.kra.committee.document.CommitteeDocument;
 import org.kuali.kra.rule.BusinessRuleInterface;
-import org.kuali.rice.kns.document.Document;
+import org.kuali.rice.krad.document.Document;
 
 /**
  * Provides necessary accessor for checking the deletion of an Other Action.

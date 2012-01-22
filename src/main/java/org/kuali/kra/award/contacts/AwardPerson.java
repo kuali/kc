@@ -16,7 +16,6 @@
 package org.kuali.kra.award.contacts;
 
 import java.util.ArrayList;
-import java.util.LinkedHashMap;
 import java.util.List;
 
 import org.kuali.kra.award.awardhierarchy.sync.AwardSyncableProperty;
@@ -29,52 +28,64 @@ import org.kuali.kra.infrastructure.KraServiceLocator;
 import org.kuali.kra.proposaldevelopment.bo.ProposalPersonRole;
 import org.kuali.kra.proposaldevelopment.service.KeyPersonnelService;
 import org.kuali.kra.service.Sponsorable;
-import org.kuali.rice.kns.util.KualiDecimal;
+import org.kuali.rice.core.api.util.type.KualiDecimal;
 
 /**
  * This class implements an Award Person 
  */
 public class AwardPerson extends AwardContact implements PersonRolodex, Comparable<AwardPerson> {
+
     private static final long serialVersionUID = 7980027108784055721L;
+
     @AwardSyncableProperty
     private KualiDecimal academicYearEffort;
+
     @AwardSyncableProperty
     private KualiDecimal calendarYearEffort;
+
     @AwardSyncableProperty
     private boolean faculty;
+
     @AwardSyncableProperty
     private KualiDecimal summerEffort;
+
     @AwardSyncableProperty
     private KualiDecimal totalEffort;
+
     @AwardSyncableProperty
     private String keyPersonRole;
+
     @AwardSyncableProperty
     private List<AwardPersonUnit> units;
+
     private List<AwardPersonCreditSplit> creditSplits;
+
     @AwardSyncableProperty
     private boolean multiplePi;
-    
+
     public AwardPerson() {
         super();
-        init();  
+        init();
     }
+
     public AwardPerson(NonOrganizationalRolodex rolodex, ContactRole contactRole) {
         super(rolodex, contactRole);
         init();
     }
+
     public AwardPerson(KcPerson person, ContactRole role) {
         super(person, role);
         init();
     }
-    
+
     /**
      * @param creditSplit
      */
     public void add(AwardPersonCreditSplit creditSplit) {
-       creditSplits.add(creditSplit);
-       creditSplit.setAwardPerson(this);
+        creditSplits.add(creditSplit);
+        creditSplit.setAwardPerson(this);
     }
-    
+
     /**
      * 
      * This method associates a unit to the 
@@ -89,7 +100,6 @@ public class AwardPerson extends AwardContact implements PersonRolodex, Comparab
     /**
      * @see org.kuali.core.bo.PersistableBusinessObjectBase#buildListOfDeletionAwareLists()
      */
-    
     @SuppressWarnings("unchecked")
     @Override
     public List buildListOfDeletionAwareLists() {
@@ -97,7 +107,7 @@ public class AwardPerson extends AwardContact implements PersonRolodex, Comparab
         managedLists.add(getUnits());
         return managedLists;
     }
-    
+
     /**
      * This method finds the lead unit for an AwardPerson
      * @return
@@ -121,7 +131,7 @@ public class AwardPerson extends AwardContact implements PersonRolodex, Comparab
     public KualiDecimal getCalendarYearEffort() {
         return calendarYearEffort;
     }
-    
+
     /**
      * @param index
      * @return
@@ -129,14 +139,14 @@ public class AwardPerson extends AwardContact implements PersonRolodex, Comparab
     public AwardPersonCreditSplit getCreditSplit(int index) {
         return creditSplits.get(index);
     }
-    
+
     /**
      * @return
      */
     public List<AwardPersonCreditSplit> getCreditSplits() {
-       return creditSplits; 
+        return creditSplits;
     }
-    
+
     /**
      * Gets the summerEffort attribute. 
      * @return Returns the summerEffort.
@@ -144,7 +154,7 @@ public class AwardPerson extends AwardContact implements PersonRolodex, Comparab
     public KualiDecimal getSummerEffort() {
         return summerEffort;
     }
-    
+
     /**
      * Gets the totalEffort attribute. 
      * @return Returns the totalEffort.
@@ -160,7 +170,7 @@ public class AwardPerson extends AwardContact implements PersonRolodex, Comparab
     public AwardPersonUnit getUnit(int index) {
         return units.get(index);
     }
-    
+
     /**
      * Get the award unit if it exists from this person
      * 
@@ -175,7 +185,7 @@ public class AwardPerson extends AwardContact implements PersonRolodex, Comparab
         }
         return null;
     }
-    
+
     /**
      * Gets the units attribute. 
      * @return Returns the units.
@@ -207,14 +217,14 @@ public class AwardPerson extends AwardContact implements PersonRolodex, Comparab
     public boolean isKeyPerson() {
         return getContactRole() != null && getContactRole().getRoleCode().equals(ContactRole.KEY_PERSON_CODE);
     }
-    
+
     /**
      * @return
      */
     public boolean isPrincipalInvestigator() {
         return getContactRole() != null && getContactRole().getRoleCode().equals(ContactRole.PI_CODE);
     }
-    
+
     /**
      * Sets the academicYearEffort attribute value.
      * @param academicYearEffort The academicYearEffort to set.
@@ -222,7 +232,7 @@ public class AwardPerson extends AwardContact implements PersonRolodex, Comparab
     public void setAcademicYearEffort(KualiDecimal academicYearEffort) {
         this.academicYearEffort = academicYearEffort;
     }
-    
+
     /**
      * Sets the calendarYearEffort attribute value.
      * @param calendarYearEffort The calendarYearEffort to set.
@@ -262,7 +272,7 @@ public class AwardPerson extends AwardContact implements PersonRolodex, Comparab
     public void setTotalEffort(KualiDecimal totalEffort) {
         this.totalEffort = totalEffort;
     }
-    
+
     /**
      * Sets the units attribute value.
      * @param units The units to set.
@@ -291,40 +301,28 @@ public class AwardPerson extends AwardContact implements PersonRolodex, Comparab
     protected String getContactRoleTypeIdentifier() {
         return "proposalPersonRoleId";
     }
+
     protected void init() {
         units = new ArrayList<AwardPersonUnit>();
-        creditSplits = new ArrayList<AwardPersonCreditSplit>();        
-    }
-    
-    /**
-     * @see org.kuali.kra.award.AwardAssociate#toStringMapper()
-     */
-    @Override    
-    protected LinkedHashMap<String,Object> toStringMapper() {        
-        LinkedHashMap<String,Object> map = super.toStringMapper();
-        map.put("academicYearEffort", academicYearEffort);
-        map.put("calendarYearEffort", calendarYearEffort);
-        map.put("faculty", faculty);
-        map.put("summerEffort", summerEffort);
-        map.put("totalEffort", totalEffort);
-        map.put("units", units);
-        
-        return map;
+        creditSplits = new ArrayList<AwardPersonCreditSplit>();
     }
 
     public String getProjectRole() {
         return getContactRole().getRoleDescription();
     }
+
     public boolean isOtherSignificantContributorFlag() {
         return false;
     }
+
     public String getKeyPersonRole() {
         return keyPersonRole;
     }
+
     public void setKeyPersonRole(String keyPersonRole) {
         this.keyPersonRole = keyPersonRole;
     }
-    
+
     /**
      * 
      * @see java.lang.Comparable#compareTo(java.lang.Object)
@@ -337,15 +335,19 @@ public class AwardPerson extends AwardContact implements PersonRolodex, Comparab
             return this.getPerson().getFirstName().compareTo(o.getPerson().getFirstName());
         }
     }
+
     public boolean isMultiplePi() {
         return multiplePi;
     }
+
     public void setMultiplePi(boolean multiplePi) {
         this.multiplePi = multiplePi;
     }
+
     public Sponsorable getParent() {
         return getAward();
     }
+
     public String getInvestigatorRoleDescription() {
         return KraServiceLocator.getService(KeyPersonnelService.class).getPersonnelRoleDesc(this);
     }

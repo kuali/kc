@@ -15,11 +15,6 @@
  */
 package org.kuali.kra.meeting;
 
-import java.util.LinkedHashMap;
-
-import org.kuali.kra.bo.KcPerson;
-import org.kuali.kra.bo.KraPersistableBusinessObjectBase;
-import org.kuali.kra.bo.Rolodex;
 import org.kuali.kra.irb.Protocol;
 import org.kuali.kra.irb.ProtocolReviewerBase;
 import org.kuali.kra.irb.actions.submit.ProtocolSubmission;
@@ -29,11 +24,13 @@ import org.kuali.kra.irb.actions.submit.ProtocolSubmission;
  * This class sets the base data points for an abstainer or a recuser.
  */
 public abstract class ProtocolMeetingVoter extends ProtocolReviewerBase {
-    
-    private String comments; 
+
+    private String comments;
+
     private Protocol protocol;
+
     private ProtocolSubmission protocolSubmission;
-    
+
     public ProtocolSubmission getProtocolSubmission() {
         return protocolSubmission;
     }
@@ -41,7 +38,7 @@ public abstract class ProtocolMeetingVoter extends ProtocolReviewerBase {
     public void setProtocolSubmission(ProtocolSubmission protocolSubmission) {
         this.protocolSubmission = protocolSubmission;
     }
-  
+
     public String getComments() {
         return comments;
     }
@@ -57,15 +54,4 @@ public abstract class ProtocolMeetingVoter extends ProtocolReviewerBase {
     public void setProtocol(Protocol protocol) {
         this.protocol = protocol;
     }
-
-    /** {@inheritDoc} */
-    @Override 
-    protected LinkedHashMap<String, Object> toStringMapper() {
-        LinkedHashMap<String, Object> hashMap = super.toStringMapper();
-        hashMap.put("protocolIdFk", this.getProtocolIdFk());
-        hashMap.put("submissionIdFk", this.getSubmissionIdFk());
-        hashMap.put("comments", this.getComments());
-        return hashMap;
-    }
-
 }

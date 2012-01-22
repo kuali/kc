@@ -25,10 +25,9 @@ import org.kuali.kra.infrastructure.KraServiceLocator;
 import org.kuali.kra.institutionalproposal.document.InstitutionalProposalDocument;
 import org.kuali.kra.institutionalproposal.home.InstitutionalProposalCostShare;
 import org.kuali.kra.test.infrastructure.KcUnitTestBase;
-import org.kuali.rice.kns.service.ParameterService;
-import org.kuali.rice.kns.util.ErrorMap;
-import org.kuali.rice.kns.util.GlobalVariables;
-import org.kuali.rice.kns.util.KualiDecimal;
+import org.kuali.rice.core.api.util.type.KualiDecimal;
+import org.kuali.rice.krad.util.GlobalVariables;
+import org.kuali.rice.krad.util.MessageMap;
 
 /**
  * This class...
@@ -57,7 +56,7 @@ public class InstitutionalProposalCostShareRuleTest extends KcUnitTestBase {
         institutionalProposalCostShare.setProjectPeriod(TEST_FISCAL_YEAR);
         institutionalProposalCostShare.setSourceAccount(TEST_SOURCE);
         institutionalProposalCostShare.setAmount(new KualiDecimal(AMOUNT));
-        GlobalVariables.setErrorMap(new ErrorMap());
+        GlobalVariables.setMessageMap(new MessageMap());
     }
     
     /**
@@ -86,9 +85,7 @@ public class InstitutionalProposalCostShareRuleTest extends KcUnitTestBase {
      */
     @Test
     public final void testValidateCostShareFiscalYearRange() {
-        ParameterService ps = KraServiceLocator.getService(ParameterService.class);
-        ps.clearCache();
-        ps.setParameterForTesting(CostShareServiceTest.class, "CostShareProjectPeriodNameLabel", "Fiscal Year");        
+        updateParameterForTesting(CostShareServiceTest.class, "CostShareProjectPeriodNameLabel", "Fiscal Year"); 
         CostShareService costShareService = KraServiceLocator.getService(CostShareService.class);
         costShareService.getCostShareLabel(true);
         institutionalProposalAddCostShareRule.setCostShareService(costShareService);

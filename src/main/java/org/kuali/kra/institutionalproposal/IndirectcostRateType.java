@@ -15,21 +15,19 @@
  */
 package org.kuali.kra.institutionalproposal;
 
-import java.util.LinkedHashMap;
-
 import org.kuali.kra.bo.KraPersistableBusinessObjectBase;
 
-public class IndirectcostRateType extends KraPersistableBusinessObjectBase { 
-    
+public class IndirectcostRateType extends KraPersistableBusinessObjectBase {
+
     private static final long serialVersionUID = 1L;
 
-    private Integer indirectcostRateTypeCode; 
-    private String description; 
-    
-    public IndirectcostRateType() { 
+    private Integer indirectcostRateTypeCode;
 
-    } 
-    
+    private String description;
+
+    public IndirectcostRateType() {
+    }
+
     public Integer getIndirectcostRateTypeCode() {
         return indirectcostRateTypeCode;
     }
@@ -45,14 +43,4 @@ public class IndirectcostRateType extends KraPersistableBusinessObjectBase {
     public void setDescription(String description) {
         this.description = description;
     }
-
-    /** {@inheritDoc} */
-    @Override 
-    protected LinkedHashMap<String, Object> toStringMapper() {
-        LinkedHashMap<String, Object> hashMap = new LinkedHashMap<String, Object>();
-        hashMap.put("indirectcostRateTypeCode", this.getIndirectcostRateTypeCode());
-        hashMap.put("description", this.getDescription());
-        return hashMap;
-    }
-    
 }

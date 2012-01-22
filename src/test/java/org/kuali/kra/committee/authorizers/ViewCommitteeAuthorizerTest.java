@@ -15,20 +15,11 @@
  */
 package org.kuali.kra.committee.authorizers;
 
-import static org.junit.Assert.assertEquals;
-
-import org.jmock.Expectations;
 import org.jmock.Mockery;
 import org.jmock.integration.junit4.JMock;
 import org.jmock.integration.junit4.JUnit4Mockery;
 import org.junit.Test;
 import org.junit.runner.RunWith;
-import org.kuali.kra.committee.bo.Committee;
-import org.kuali.kra.committee.document.authorization.CommitteeTask;
-import org.kuali.kra.committee.document.authorizer.ViewCommitteeAuthorizer;
-import org.kuali.kra.infrastructure.PermissionConstants;
-import org.kuali.kra.infrastructure.TaskName;
-import org.kuali.kra.service.KraAuthorizationService;
 
 /**
  * Test the View Committee Authorizer.

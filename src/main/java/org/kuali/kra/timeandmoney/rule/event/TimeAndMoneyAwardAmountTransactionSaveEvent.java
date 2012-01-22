@@ -21,7 +21,7 @@ import org.kuali.kra.rule.event.KraDocumentEventBase;
 import org.kuali.kra.timeandmoney.document.TimeAndMoneyDocument;
 import org.kuali.kra.timeandmoney.rules.TimeAndMoneyAwardAmountTransactionRule;
 import org.kuali.kra.timeandmoney.transactions.AwardAmountTransaction;
-import org.kuali.rice.kns.rule.BusinessRule;
+import org.kuali.rice.krad.rules.rule.BusinessRule;
 
 /**
  * This class...

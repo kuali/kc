@@ -16,15 +16,12 @@
 package org.kuali.kra.award.home;
 
 import java.sql.Date;
-
-
 import java.util.ArrayList;
 import java.util.Calendar;
 import java.util.Collections;
 import java.util.Comparator;
 import java.util.GregorianCalendar;
 import java.util.HashMap;
-import java.util.LinkedHashMap;
 import java.util.List;
 import java.util.Map;
 
@@ -70,7 +67,6 @@ import org.kuali.kra.budget.personnel.PersonRolodex;
 import org.kuali.kra.coi.Disclosurable;
 import org.kuali.kra.common.permissions.Permissionable;
 import org.kuali.kra.document.KeywordsManager;
-import org.kuali.kra.infrastructure.AwardRoleConstants;
 import org.kuali.kra.infrastructure.Constants;
 import org.kuali.kra.infrastructure.KeyConstants;
 import org.kuali.kra.infrastructure.KraServiceLocator;
@@ -81,13 +77,15 @@ import org.kuali.kra.negotiations.bo.NegotiationPersonDTO;
 import org.kuali.kra.proposaldevelopment.bo.ActivityType;
 import org.kuali.kra.proposaldevelopment.bo.ProposalType;
 import org.kuali.kra.service.Sponsorable;
+import org.kuali.kra.service.SystemAuthorizationService;
 import org.kuali.kra.service.UnitService;
 import org.kuali.kra.subaward.bo.SubAward;
 import org.kuali.kra.timeandmoney.transactions.AwardTransactionType;
-import org.kuali.rice.kew.exception.WorkflowException;
-import org.kuali.rice.kns.service.BusinessObjectService;
-import org.kuali.rice.kns.util.KualiDecimal;
-import org.kuali.rice.kns.util.TypedArrayList;
+import org.kuali.rice.core.api.util.type.KualiDecimal;
+import org.kuali.rice.kew.api.exception.WorkflowException;
+import org.kuali.rice.kim.api.role.Role;
+import org.kuali.rice.krad.service.BusinessObjectService;
+import org.springframework.util.AutoPopulatingList;
 
 /**
  * 
@@ -235,7 +233,7 @@ public class Award extends KraPersistableBusinessObjectBase implements KeywordsM
     private String principalInvestigatorName;
     private String statusDescription;
     private String sponsorName;
-    
+
     // For award-account integration
     private String icrRateCode;
 
@@ -284,7 +282,7 @@ public class Award extends KraPersistableBusinessObjectBase implements KeywordsM
         setScienceCodeIndicator(NO_FLAG);
         setSpecialReviewIndicator(NO_FLAG);
         setTransferSponsorIndicator(NO_FLAG);
-        awardComments = new TypedArrayList(AwardComment.class);
+        awardComments = new AutoPopulatingList<AwardComment>(AwardComment.class);
         setCurrentActionComments("");
         setNewVersion(false);
         awardSequenceStatus = VersionStatus.PENDING.name();
@@ -1426,66 +1424,6 @@ public class Award extends KraPersistableBusinessObjectBase implements KeywordsM
         this.awardTransactionType = awardTransactionType;
     }
 
-    /**
-     * 
-     * @see org.kuali.core.bo.BusinessObjectBase#toStringMapper()
-     */
-    @Override
-    protected LinkedHashMap<String, Object> toStringMapper() {
-        LinkedHashMap<String, Object> hashMap = new LinkedHashMap<String, Object>();
-        hashMap.put("awardId", getAwardId());
-        hashMap.put("awardNumber", getAwardNumber());
-        hashMap.put("sequenceNumber", getSequenceNumber());
-        hashMap.put("sponsorCode", getSponsorCode());
-        hashMap.put("statusCode", getStatusCode());
-        hashMap.put("templateCode", getTemplateCode());
-        hashMap.put("accountNumber", getAccountNumber());
-        hashMap.put("approvedEquipmentIndicator", getApprovedEquipmentIndicator());
-        hashMap.put("approvedForeignTripIndicator", getApprovedForeignTripIndicator());
-        hashMap.put("subContractIndicator", getSubContractIndicator());
-        hashMap.put("awardEffectiveDate", getAwardEffectiveDate());
-        hashMap.put("awardExecutionDate", getAwardExecutionDate());
-        hashMap.put("beginDate", getBeginDate());
-        hashMap.put("costSharingIndicator", getCostSharingIndicator());
-        hashMap.put("indirectCostIndicator", getIdcIndicator());
-        hashMap.put("modificationNumber", getModificationNumber());
-        hashMap.put("nsfCode", getNsfCode());
-        hashMap.put("paymentScheduleIndicator", getPaymentScheduleIndicator());
-        hashMap.put("scienceCodeIndicator", getScienceCodeIndicator());
-        hashMap.put("specialReviewIndicator", getSpecialReviewIndicator());
-        hashMap.put("sponsorAwardNumber", getSponsorAwardNumber());
-        hashMap.put("transferSponsorIndicator", getTransferSponsorIndicator());
-        hashMap.put("accountTypeCode", getAccountTypeCode());
-        hashMap.put("activityTypeCode", getActivityTypeCode());
-        hashMap.put("awardTypeCode", getAwardTypeCode());
-        hashMap.put("primeSponsorCode", getPrimeSponsorCode());
-        hashMap.put("basisOfPaymentCode", getBasisOfPaymentCode());
-        hashMap.put("cfdaNumber", getCfdaNumber());
-        hashMap.put("documentFundingId", getDocumentFundingId());
-        hashMap.put("methodOfPaymentCode", getMethodOfPaymentCode());
-        hashMap.put("preAwardAuthorizedAmount", getPreAwardAuthorizedAmount());
-        hashMap.put("preAwardEffectiveDate", getPreAwardEffectiveDate());
-        hashMap.put("preAwardInstitutionalAuthorizedAmount", getPreAwardInstitutionalAuthorizedAmount());
-        hashMap.put("preAwardInstitutionalEffectiveDate", getPreAwardInstitutionalEffectiveDate());
-        hashMap.put("procurementPriorityCode", getProcurementPriorityCode());
-        hashMap.put("proposalNumber", getProposalNumber());
-        hashMap.put("specialEbRateOffCampus", getSpecialEbRateOffCampus());
-        hashMap.put("specialEbRateOnCampus", getSpecialEbRateOnCampus());
-        hashMap.put("subPlanFlag", getSubPlanFlag());
-        hashMap.put("title", getTitle());
-        hashMap.put("awardCostShares", getAwardCostShares());
-        hashMap.put("awardComments", getAwardComments());
-        hashMap.put("archiveLocation", this.getArchiveLocation());
-        hashMap.put("closeoutDate", this.getCloseoutDate());
-        hashMap.put("attachments", getAwardAttachments());
-        hashMap.put("awardTransactionTypeCode", this.getAwardTransactionTypeCode());
-        hashMap.put("noticeDate", this.getNoticeDate());
-        hashMap.put("currentActionComments", getCurrentActionComments());
-        hashMap.put("financialAccountDocumentNumber", getFinancialAccountDocumentNumber());
-        hashMap.put("financialAccountCreationDate", getFinancialAccountCreationDate());
-        return hashMap;
-    }
-
     public String getFinancialAccountDocumentNumber() {
         return financialAccountDocumentNumber;
     }
@@ -2585,10 +2523,12 @@ public class Award extends KraPersistableBusinessObjectBase implements KeywordsM
     public List<String> getRoleNames() {
         List<String> roles = new ArrayList<String>();
 
-        for (AwardRoleConstants awardRoleConstants : AwardRoleConstants.values()) {
-            roles.add(awardRoleConstants.getAwardRole());
+        SystemAuthorizationService systemAuthorizationService = KraServiceLocator.getService("systemAuthorizationService");
+        List<Role> roleBOs = systemAuthorizationService.getRoles(Constants.MODULE_NAMESPACE_AWARD);
+        for(Role role : roleBOs) {
+            roles.add(role.getName());
         }
-
+ 
         return roles;
     }
 

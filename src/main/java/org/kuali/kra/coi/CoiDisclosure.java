@@ -23,7 +23,7 @@ import java.text.SimpleDateFormat;
 import java.util.ArrayList;
 import java.util.Calendar;
 import java.util.Collections;
-import java.util.LinkedHashMap;
+import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
 
@@ -42,13 +42,15 @@ import org.kuali.kra.coi.notesandattachments.notes.CoiDisclosureNotepad;
 import org.kuali.kra.common.permissions.Permissionable;
 import org.kuali.kra.infrastructure.Constants;
 import org.kuali.kra.infrastructure.KraServiceLocator;
-import org.kuali.rice.kns.service.DateTimeService;
+import org.kuali.rice.core.api.CoreApiServiceLocator;
+import org.kuali.rice.core.api.datetime.DateTimeService;
 import org.kuali.kra.infrastructure.RoleConstants;
-import org.kuali.rice.kns.service.KualiConfigurationService;
-import org.kuali.rice.kns.service.ParameterService;
-import org.kuali.rice.kns.service.SequenceAccessorService;
-import org.kuali.rice.kns.util.DateUtils;
-import org.kuali.rice.kns.util.GlobalVariables;
+import org.kuali.kra.util.DateUtils;
+import org.kuali.rice.core.api.config.property.ConfigurationService;
+import org.kuali.rice.coreservice.framework.parameter.ParameterService;
+import org.kuali.rice.krad.service.KRADServiceLocator;
+import org.kuali.rice.krad.service.SequenceAccessorService;
+import org.kuali.rice.krad.util.GlobalVariables;
 
 /**
  * 
@@ -273,26 +275,6 @@ public class CoiDisclosure extends KraPersistableBusinessObjectBase implements S
     }
 
 
-    /** {@inheritDoc} */
-    @Override 
-    protected LinkedHashMap<String, Object> toStringMapper() {
-        LinkedHashMap<String, Object> hashMap = new LinkedHashMap<String, Object>();
-        hashMap.put("coiDisclosureId", this.getCoiDisclosureId());
-        hashMap.put("coiDisclosureNumber", this.getCoiDisclosureNumber());
-        hashMap.put("sequenceNumber", this.getSequenceNumber());
-        hashMap.put("personId", this.getPersonId());
-        hashMap.put("certificationText", this.getCertificationText());
-        hashMap.put("certifiedBy", this.getCertifiedBy());
-        hashMap.put("certificationTimestamp", this.getCertificationTimestamp());
-        hashMap.put("disclosureDispositionCode", this.getDisclosureDispositionCode());
-        hashMap.put("disclosureStatusCode", this.getDisclosureStatusCode());
-        hashMap.put("expirationDate", this.getExpirationDate());
-//        hashMap.put("moduleCode", this.getModuleCode());
-        hashMap.put("reviewStatusCode", this.getReviewStatusCode());
-        hashMap.put("discActiveStatus", this.getDiscActiveStatus());
-        return hashMap;
-    }
-
     public CoiDisclosureDocument getCoiDisclosureDocument() {
         return coiDisclosureDocument;
     }
@@ -404,7 +386,7 @@ public class CoiDisclosure extends KraPersistableBusinessObjectBase implements S
     
     public String getCertificationStatement() {
         if (certificationStatement == null) {
-            certificationStatement = getParameterService().getParameterValue(Constants.MODULE_NAMESPACE_COIDISCLOSURE, 
+            certificationStatement = getParameterService().getParameterValueAsString(Constants.MODULE_NAMESPACE_COIDISCLOSURE, 
                        Constants.PARAMETER_COMPONENT_DOCUMENT, DISCLOSURE_CERT_STMT);
         }
         return certificationStatement;
@@ -412,7 +394,7 @@ public class CoiDisclosure extends KraPersistableBusinessObjectBase implements S
 
     public String getAcknowledgementStatement() {
         if (acknowledgementStatement == null) {
-            acknowledgementStatement = getParameterService().getParameterValue(Constants.MODULE_NAMESPACE_COIDISCLOSURE, 
+            acknowledgementStatement = getParameterService().getParameterValueAsString(Constants.MODULE_NAMESPACE_COIDISCLOSURE, 
                        Constants.PARAMETER_COMPONENT_DOCUMENT, DISCLOSURE_CERT_ACK);
         }
         return acknowledgementStatement;
@@ -439,8 +421,8 @@ public class CoiDisclosure extends KraPersistableBusinessObjectBase implements S
 
     public String getSubmitThankyouStatement() {
         if (submitThankyouStatement == null) {
-            KualiConfigurationService kualiConfiguration = getService(KualiConfigurationService.class);
-            submitThankyouStatement = kualiConfiguration.getPropertyString(SUBMIT_ACK_THANKYOU);
+            ConfigurationService kualiConfiguration = KRADServiceLocator.getKualiConfigurationService();
+            submitThankyouStatement = kualiConfiguration.getPropertyValueAsString(SUBMIT_ACK_THANKYOU);
         }
         return submitThankyouStatement;
     }
@@ -488,10 +470,10 @@ public class CoiDisclosure extends KraPersistableBusinessObjectBase implements S
         bo.setUpdateUser(GlobalVariables.getUserSession().getPrincipalName());
         bo.setUpdateTimestamp(getDateTimeService().getCurrentTimestamp());
     }
-    
+
     protected DateTimeService getDateTimeService() {
         if(dateTimeService == null) {
-            dateTimeService = (DateTimeService) KraServiceLocator.getService(DateTimeService.class);
+            dateTimeService = (DateTimeService) CoreApiServiceLocator.getDateTimeService();
         }
         return dateTimeService;
     }
@@ -505,7 +487,7 @@ public class CoiDisclosure extends KraPersistableBusinessObjectBase implements S
         if (attachment == null) {
             throw new IllegalArgumentException("the attachment is null");
         }
-        
+    
         updateUserFields(attachment);
         attachment.setCoiDisclosureId(coiDisclosureId);
         attachment.setCoiDisclosureNumber(coiDisclosureNumber);
@@ -564,7 +546,7 @@ public class CoiDisclosure extends KraPersistableBusinessObjectBase implements S
         
         //Lets see if there is a default set for the attachment sort
         try {
-            String defaultSortBy = getParameterService().getParameterValue(CoiDisclosureDocument.class, Constants.PARAMETER_COI_ATTACHMENT_DEFAULT_SORT);
+            String defaultSortBy = getParameterService().getParameterValueAsString(CoiDisclosureDocument.class, Constants.PARAMETER_COI_ATTACHMENT_DEFAULT_SORT);
             if (StringUtils.isNotBlank(defaultSortBy)) {
                 newAttachmentFilter.setSortBy(defaultSortBy);
             }
@@ -597,22 +579,22 @@ public class CoiDisclosure extends KraPersistableBusinessObjectBase implements S
          return filteredAttachments;
      }
      
-     public boolean isComplete() {
-         // TODO : this is kind of duplicate with getCompleteMessage.
-         // may want to merge for better solution
-         boolean isComplete = true;
-         if (CollectionUtils.isNotEmpty(this.getCoiDiscDetails())) {
-             for (CoiDiscDetail coiDiscDetail : this.getCoiDiscDetails()) {
-                 if (StringUtils.isBlank(coiDiscDetail.getEntityStatusCode())) {
-                     isComplete = false;
-                     break;
-                 }
-                 
-             }
-         }
-         return isComplete;
-     }
-     
+    public boolean isComplete() {
+        // TODO : this is kind of duplicate with getCompleteMessage.
+        // may want to merge for better solution
+        boolean isComplete = true;
+        if (CollectionUtils.isNotEmpty(this.getCoiDiscDetails())) {
+            for (CoiDiscDetail coiDiscDetail : this.getCoiDiscDetails()) {
+                if (StringUtils.isBlank(coiDiscDetail.getEntityStatusCode())) {
+                    isComplete = false;
+                    break;
+                }
+                
+            }
+        }
+        return isComplete;
+    }
+
     @Override
     public void setSequenceOwner(CoiDisclosure newlyVersionedOwner) {
         

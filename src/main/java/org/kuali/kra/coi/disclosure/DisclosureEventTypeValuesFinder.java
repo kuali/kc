@@ -18,8 +18,9 @@ package org.kuali.kra.coi.disclosure;
 import java.util.ArrayList;
 import java.util.List;
 
-import org.kuali.rice.core.util.KeyLabelPair;
-import org.kuali.rice.kns.lookup.keyvalues.KeyValuesBase;
+import org.kuali.rice.core.api.util.ConcreteKeyValue;
+import org.kuali.rice.core.api.util.KeyValue;
+import org.kuali.rice.krad.keyvalues.KeyValuesBase;
 
 /**
  * 
@@ -29,12 +30,12 @@ import org.kuali.rice.kns.lookup.keyvalues.KeyValuesBase;
  */
 public class DisclosureEventTypeValuesFinder extends KeyValuesBase {
 
-    public List<KeyLabelPair> getKeyValues() {
-        List<KeyLabelPair> keyValues = new ArrayList<KeyLabelPair>();
-        keyValues.add(new KeyLabelPair("", "select"));
-        keyValues.add(new KeyLabelPair("12", "Proposal"));
-        keyValues.add(new KeyLabelPair("11", "Award"));
-        keyValues.add(new KeyLabelPair("13", "Protocol"));
+    public List<KeyValue> getKeyValues() {
+        List<KeyValue> keyValues = new ArrayList<KeyValue>();
+        keyValues.add(new ConcreteKeyValue("", "select"));
+        keyValues.add(new ConcreteKeyValue("12", "Proposal"));
+        keyValues.add(new ConcreteKeyValue("11", "Award"));
+        keyValues.add(new ConcreteKeyValue("13", "Protocol"));
         return keyValues;
     }
 }

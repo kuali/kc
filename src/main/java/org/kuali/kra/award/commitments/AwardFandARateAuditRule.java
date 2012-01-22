@@ -25,13 +25,13 @@ import org.kuali.kra.infrastructure.Constants;
 import org.kuali.kra.infrastructure.KeyConstants;
 import org.kuali.kra.infrastructure.KraServiceLocator;
 import org.kuali.kra.lookup.keyvalue.ExtendedPersistableBusinessObjectValuesFinder;
-import org.kuali.rice.kns.document.Document;
-import org.kuali.rice.kns.lookup.keyvalues.KeyValuesFinder;
-import org.kuali.rice.kns.rule.DocumentAuditRule;
-import org.kuali.rice.kns.service.ParameterService;
+import org.kuali.rice.coreservice.framework.parameter.ParameterService;
 import org.kuali.rice.kns.util.AuditCluster;
 import org.kuali.rice.kns.util.AuditError;
-import org.kuali.rice.kns.util.GlobalVariables;
+import org.kuali.rice.kns.util.KNSGlobalVariables;
+import org.kuali.rice.krad.document.Document;
+import org.kuali.rice.krad.keyvalues.KeyValuesFinder;
+import org.kuali.rice.krad.rules.rule.DocumentAuditRule;
 
 public class AwardFandARateAuditRule implements DocumentAuditRule {
     private static final String FANDA_AUDIT_ERRORS = "fandaAuditErrors";
@@ -55,7 +55,7 @@ public class AwardFandARateAuditRule implements DocumentAuditRule {
         boolean retval = true;
         AwardDocument awardDocument = (AwardDocument) document;
         if(StringUtils.equalsIgnoreCase(
-                this.getParameterService().getParameterValue(AwardDocument.class,
+                this.getParameterService().getParameterValueAsString(AwardDocument.class,
                         KeyConstants.ENABLE_AWARD_FNA_VALIDATION),
                         KeyConstants.ENABLED_PARAMETER_VALUE_ONE)){
             retval = isFandaRateInputInPairs(awardDocument.getAward().getAwardFandaRate());
@@ -153,7 +153,7 @@ public class AwardFandARateAuditRule implements DocumentAuditRule {
     @SuppressWarnings("unchecked")
     protected void reportAndCreateAuditCluster() {
         if (auditErrors.size() > 0) {
-            GlobalVariables.getAuditErrorMap().put(FANDA_AUDIT_ERRORS, new AuditCluster(Constants.FANDA_RATES_PANEL_NAME, auditErrors, Constants.AUDIT_ERRORS));
+            KNSGlobalVariables.getAuditErrorMap().put(FANDA_AUDIT_ERRORS, new AuditCluster(Constants.FANDA_RATES_PANEL_NAME, auditErrors, Constants.AUDIT_ERRORS));
         }
     }
     

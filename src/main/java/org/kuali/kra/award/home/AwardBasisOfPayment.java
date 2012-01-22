@@ -15,50 +15,42 @@
  */
 package org.kuali.kra.award.home;
 
-import java.util.LinkedHashMap;
 import java.util.List;
 
 import org.kuali.kra.bo.KraPersistableBusinessObjectBase;
 
-public class AwardBasisOfPayment extends KraPersistableBusinessObjectBase { 
-	
-	/**
+public class AwardBasisOfPayment extends KraPersistableBusinessObjectBase {
+
+    /**
      * Comment for <code>serialVersionUID</code>
      */
     private static final long serialVersionUID = 5594710065439322293L;
-    private String basisOfPaymentCode; 
-	private String description; 
-	
-//	private List<ValidAwardBasisPayment> validAwardBasisPayments; 
-	private List<ValidBasisMethodPayment> validBasisMethodPayments; 
-	
-	public AwardBasisOfPayment() { 
 
-	} 
-	
-	public String getBasisOfPaymentCode() {
-		return basisOfPaymentCode;
-	}
+    private String basisOfPaymentCode;
 
-	public void setBasisOfPaymentCode(String basisOfPaymentCode) {
-		this.basisOfPaymentCode = basisOfPaymentCode;
-	}
+    private String description;
 
-	public String getDescription() {
-		return description;
-	}
+    //	private List<ValidAwardBasisPayment> validAwardBasisPayments;   
+    private List<ValidBasisMethodPayment> validBasisMethodPayments;
 
-	public void setDescription(String description) {
-		this.description = description;
-	}
+    public AwardBasisOfPayment() {
+    }
 
-	@Override 
-	protected LinkedHashMap toStringMapper() {
-		LinkedHashMap hashMap = new LinkedHashMap();
-		hashMap.put("basisOfPaymentCode", getBasisOfPaymentCode());
-		hashMap.put("description", getDescription());
-		return hashMap;
-	}
+    public String getBasisOfPaymentCode() {
+        return basisOfPaymentCode;
+    }
+
+    public void setBasisOfPaymentCode(String basisOfPaymentCode) {
+        this.basisOfPaymentCode = basisOfPaymentCode;
+    }
+
+    public String getDescription() {
+        return description;
+    }
+
+    public void setDescription(String description) {
+        this.description = description;
+    }
 
     /**
      * Gets the validBasisMethodPayments attribute. 
@@ -94,32 +86,19 @@ public class AwardBasisOfPayment extends KraPersistableBusinessObjectBase {
      */
     @Override
     public boolean equals(Object obj) {
-        if (this == obj)
-            return true;
-        if (obj == null)
-            return false;
-        if (getClass() != obj.getClass())
-            return false;
+        if (this == obj) return true;
+        if (obj == null) return false;
+        if (getClass() != obj.getClass()) return false;
         AwardBasisOfPayment other = (AwardBasisOfPayment) obj;
         if (basisOfPaymentCode == null) {
-            if (other.basisOfPaymentCode != null)
-                return false;
-        }
-        else if (!basisOfPaymentCode.equals(other.basisOfPaymentCode))
-            return false;
+            if (other.basisOfPaymentCode != null) return false;
+        } else if (!basisOfPaymentCode.equals(other.basisOfPaymentCode)) return false;
         if (description == null) {
-            if (other.description != null)
-                return false;
-        }
-        else if (!description.equals(other.description))
-            return false;
+            if (other.description != null) return false;
+        } else if (!description.equals(other.description)) return false;
         if (validBasisMethodPayments == null) {
-            if (other.validBasisMethodPayments != null)
-                return false;
-        }
-        else if (!validBasisMethodPayments.equals(other.validBasisMethodPayments))
-            return false;
+            if (other.validBasisMethodPayments != null) return false;
+        } else if (!validBasisMethodPayments.equals(other.validBasisMethodPayments)) return false;
         return true;
     }
-	
 }

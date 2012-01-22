@@ -23,7 +23,6 @@ import java.util.Calendar;
 import java.util.Collection;
 import java.util.List;
 
-import org.kuali.kra.award.budget.AwardBudgetExt;
 import org.kuali.kra.award.commitments.AwardFandaRate;
 import org.kuali.kra.award.document.AwardDocument;
 import org.kuali.kra.award.home.Award;
@@ -39,8 +38,8 @@ import org.kuali.kra.budget.document.BudgetDocument;
 import org.kuali.kra.budget.nonpersonnel.BudgetLineItem;
 import org.kuali.kra.budget.parameters.BudgetPeriod;
 import org.kuali.kra.budget.personnel.BudgetPersonnelDetails;
-import org.kuali.rice.kns.service.ParameterService;
-import org.kuali.rice.kns.util.KualiDecimal;
+import org.kuali.rice.core.api.util.type.KualiDecimal;
+import org.kuali.rice.coreservice.framework.parameter.ParameterService;
 
 public class BudgetRateServiceDecorator<T extends BudgetParent> extends BudgetRatesServiceImpl<T> {
     
@@ -142,11 +141,11 @@ public class BudgetRateServiceDecorator<T extends BudgetParent> extends BudgetRa
     }
 
     private String getDefaultEBRateClassCode() {
-        return getParameterService().getParameterValue(BudgetDocument.class, AWARD_EB_RATE_CLASS_CODE);
+        return getParameterService().getParameterValueAsString(BudgetDocument.class, AWARD_EB_RATE_CLASS_CODE);
     }
 
     private String getDefaultEBRateTypeCode() {
-        return getParameterService().getParameterValue(BudgetDocument.class, AWARD_EB_RATE_TYPE_CODE);
+        return getParameterService().getParameterValueAsString(BudgetDocument.class, AWARD_EB_RATE_TYPE_CODE);
     }
 
     private InstituteRate createAwardFnAInstitueRate(AwardFandaRate awardFnARate,Award award) {
@@ -173,7 +172,7 @@ public class BudgetRateServiceDecorator<T extends BudgetParent> extends BudgetRa
      * @return
      */
     private String getDefaultFnARateClassCode() {
-        return getParameterService().getParameterValue(BudgetDocument.class,DEFAULT_FNA_RATE_CLASS_CODE);
+        return getParameterService().getParameterValueAsString(BudgetDocument.class,DEFAULT_FNA_RATE_CLASS_CODE);
     }
 
 

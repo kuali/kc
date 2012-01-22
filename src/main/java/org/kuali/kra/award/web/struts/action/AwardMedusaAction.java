@@ -22,9 +22,7 @@ import org.apache.struts.action.ActionForm;
 import org.apache.struts.action.ActionForward;
 import org.apache.struts.action.ActionMapping;
 import org.kuali.kra.award.AwardForm;
-import org.kuali.kra.award.document.AwardDocument;
 import org.kuali.kra.infrastructure.Constants;
-import org.kuali.rice.kns.util.GlobalVariables;
 
 
 /**

@@ -57,7 +57,7 @@ import org.kuali.kra.scheduling.sequence.ScheduleSequence;
 import org.kuali.kra.scheduling.sequence.WeekScheduleSequenceDecorator;
 import org.kuali.kra.scheduling.service.ScheduleService;
 import org.kuali.kra.scheduling.util.Time24HrFmt;
-import org.kuali.rice.kns.service.BusinessObjectService;
+import org.kuali.rice.krad.service.BusinessObjectService;
 
 public class CommitteeScheduleServiceImplTest  {
     
@@ -354,7 +354,7 @@ public class CommitteeScheduleServiceImplTest  {
             dates.add(DateUtils.addDays(new Date(),2));
             Time24HrFmt time  = new Time24HrFmt(TIME24HR_0_1); 
             int day = scheduleData.getDailySchedule().getDay();
-            one(scheduleService).getIntervalInDaysScheduledDates(dt,endDt,time,day);will(returnValue(dates));
+            one(scheduleService).getScheduledDates(dt,endDt,time,day,null);will(returnValue(dates));
         }});
         scheduleData.getDailySchedule().setDayOption(DailyScheduleDetails.optionValues.XDAY.toString());
         
@@ -378,7 +378,7 @@ public class CommitteeScheduleServiceImplTest  {
             dates.add(DateUtils.addDays(new Date(),2));
             Time24HrFmt time  = new Time24HrFmt(TIME24HR_0_1); 
             int day = scheduleData.getDailySchedule().getDay();
-            one(scheduleService).getIntervalInDaysScheduledDates(dt,endDt,time,day);will(returnValue(dates));
+            one(scheduleService).getScheduledDates(dt,endDt,time,day,null);will(returnValue(dates));
         }});
     }
     

@@ -25,10 +25,8 @@ import org.junit.Assert;
 import org.junit.Before;
 import org.junit.Test;
 import org.kuali.kra.award.home.Award;
-import org.kuali.kra.award.timeandmoney.AwardDirectFandADistribution;
-import org.kuali.kra.award.timeandmoney.AwardDirectFandADistributionRuleImpl;
-import org.kuali.rice.kns.util.ErrorMap;
-import org.kuali.rice.kns.util.GlobalVariables;
+import org.kuali.rice.krad.util.GlobalVariables;
+import org.kuali.rice.krad.util.MessageMap;
 
 /**
  * This class tests the rule methods AwardDirectFandADistribution rules.
@@ -58,7 +56,7 @@ public class AwardDirectFandADistributionRuleTest {
         award = new Award();
         setAwardDatesToDefault();
         createAndSetDefaultDatesForAwardDirectFandADistributions();
-        GlobalVariables.setErrorMap(new ErrorMap());
+        GlobalVariables.setMessageMap(new MessageMap());
         
         
     }

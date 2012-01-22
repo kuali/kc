@@ -15,7 +15,6 @@
  */
 package org.kuali.kra.award.printing.xmlstream;
 
-import java.math.BigDecimal;
 import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.List;
@@ -27,7 +26,6 @@ import noNamespace.AwardNoticeDocument.AwardNotice;
 import noNamespace.AwardType.AwardAmountInfo;
 
 import org.apache.xmlbeans.XmlObject;
-import org.kuali.kra.award.document.AwardDocument;
 import org.kuali.kra.award.home.Award;
 import org.kuali.kra.award.printing.AwardPrintType;
 import org.kuali.kra.bo.KraPersistableBusinessObjectBase;

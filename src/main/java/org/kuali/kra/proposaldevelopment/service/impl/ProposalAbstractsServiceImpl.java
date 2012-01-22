@@ -17,17 +17,14 @@ package org.kuali.kra.proposaldevelopment.service.impl;
 
 import java.util.List;
 
-import org.kuali.kra.bo.KcPerson;
-import org.kuali.kra.infrastructure.KraServiceLocator;
 import org.kuali.kra.proposaldevelopment.bo.ProposalAbstract;
 import org.kuali.kra.proposaldevelopment.service.ProposalAbstractsService;
-import org.kuali.kra.service.KcPersonService;
-import org.kuali.rice.kim.bo.Person;
-import org.kuali.rice.kim.service.PersonService;
+import org.kuali.rice.kim.api.identity.Person;
+import org.kuali.rice.kim.api.identity.PersonService;
 
 public class ProposalAbstractsServiceImpl implements ProposalAbstractsService {
     
-    private PersonService<Person> personService;
+    private PersonService personService;
 
     public void loadAbstractsUploadUserFullName(List<ProposalAbstract> abstracts) {
         for (ProposalAbstract curAbstract : abstracts) {
@@ -40,11 +37,11 @@ public class ProposalAbstractsServiceImpl implements ProposalAbstractsService {
         }
     }
 
-    protected PersonService<Person> getPersonService() {
+    protected PersonService getPersonService() {
         return personService;
     }
 
-    public void setPersonService(PersonService<Person> personService) {
+    public void setPersonService(PersonService personService) {
         this.personService = personService;
     }
     

@@ -49,14 +49,13 @@ import org.kuali.kra.service.VersioningService;
 import org.kuali.kra.service.impl.ObjectCopyUtils;
 import org.kuali.kra.timeandmoney.AwardHierarchyNode;
 import org.kuali.kra.timeandmoney.service.ActivePendingTransactionsService;
-import org.kuali.rice.kew.exception.WorkflowException;
-import org.kuali.rice.kns.bo.DocumentHeader;
-import org.kuali.rice.kns.document.Document;
-import org.kuali.rice.kns.service.BusinessObjectService;
-import org.kuali.rice.kns.service.DocumentService;
-import org.kuali.rice.kns.service.KualiConfigurationService;
-import org.kuali.rice.kns.service.ParameterConstants;
-import org.kuali.rice.kns.util.GlobalVariables;
+import org.kuali.rice.coreservice.framework.parameter.ParameterConstants;
+import org.kuali.rice.coreservice.framework.parameter.ParameterService;
+import org.kuali.rice.kew.api.exception.WorkflowException;
+import org.kuali.rice.krad.bo.DocumentHeader;
+import org.kuali.rice.krad.service.BusinessObjectService;
+import org.kuali.rice.krad.service.DocumentService;
+import org.kuali.rice.krad.util.GlobalVariables;
 import org.springframework.transaction.annotation.Transactional;
 
 @Transactional
@@ -72,7 +71,7 @@ public class AwardHierarchyServiceImpl implements AwardHierarchyService {
     VersionHistoryService versionHistoryService; 
     AwardAmountInfoService awardAmountInfoService;
     ActivePendingTransactionsService activePendingTransactionsService;
-    KualiConfigurationService kualiConfigurationService;
+    ParameterService parameterService;
     private AwardService awardService;
 
     /**
@@ -380,7 +379,7 @@ public class AwardHierarchyServiceImpl implements AwardHierarchyService {
         newAward.setAwardNotepads(new ArrayList<AwardNotepad>());
         
         try {
-            String defaultTxnTypeStr = kualiConfigurationService.getParameterValue(Constants.MODULE_NAMESPACE_AWARD, ParameterConstants.DOCUMENT_COMPONENT, Constants.DEFAULT_TXN_TYPE_COPIED_AWARD);
+            String defaultTxnTypeStr = parameterService.getParameterValueAsString(Constants.MODULE_NAMESPACE_AWARD, ParameterConstants.DOCUMENT_COMPONENT, Constants.DEFAULT_TXN_TYPE_COPIED_AWARD);
             if(StringUtils.isNotEmpty(defaultTxnTypeStr)) {
                 newAward.setAwardTransactionTypeCode(Integer.parseInt(defaultTxnTypeStr));
             }
@@ -695,7 +694,7 @@ public class AwardHierarchyServiceImpl implements AwardHierarchyService {
         boolean awardDocumentFinalStatus = false;
         try {
             Document awardDocument = documentService.getByDocumentHeaderId(documentNumber);
-            awardDocumentFinalStatus = (awardDocument != null) ? awardDocument.getDocumentHeader().getWorkflowDocument().stateIsFinal() : false;
+            awardDocumentFinalStatus = (awardDocument != null) ? awardDocument.getDocumentHeader().getWorkflowDocument().isFinal() : false;
         } catch (WorkflowException e) {
             throw uncheckedException(e);
         }
@@ -777,7 +776,7 @@ public class AwardHierarchyServiceImpl implements AwardHierarchyService {
             boolean awardDocumentFinalStatus = false;
             try {
                 Document awardDocument = documentService.getByDocumentHeaderId(documentNumber);
-                awardDocumentFinalStatus = (awardDocument != null) ? awardDocument.getDocumentHeader().getWorkflowDocument().stateIsFinal() : false;
+                awardDocumentFinalStatus = (awardDocument != null) ? awardDocument.getDocumentHeader().getWorkflowDocument().isFinal() : false;
             } catch(WorkflowException e) {
                 throw uncheckedException(e);
             }
@@ -889,10 +888,6 @@ public class AwardHierarchyServiceImpl implements AwardHierarchyService {
         this.activePendingTransactionsService = activePendingTransactionsService;
     }
 
-    public void setKualiConfigurationService(KualiConfigurationService configurationService) {
-        this.kualiConfigurationService = configurationService;
-    }
-
     public void setVersionHistoryService(VersionHistoryService versionHistoryService) {
         this.versionHistoryService = versionHistoryService;
     }
@@ -904,4 +899,9 @@ public class AwardHierarchyServiceImpl implements AwardHierarchyService {
     public void setAwardService(AwardService awardService) {
         this.awardService = awardService;
     }
+
+    public void setParameterService(ParameterService parameterService) {
+        this.parameterService = parameterService;
+    }
+    
 }

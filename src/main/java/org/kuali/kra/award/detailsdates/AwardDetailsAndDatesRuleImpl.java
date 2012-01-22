@@ -30,9 +30,9 @@ import org.kuali.kra.infrastructure.Constants;
 import org.kuali.kra.infrastructure.KeyConstants;
 import org.kuali.kra.infrastructure.KraServiceLocator;
 import org.kuali.kra.rules.ResearchDocumentRuleBase;
-import org.kuali.rice.kns.service.ParameterService;
-import org.kuali.rice.kns.util.KualiDecimal;
-import org.kuali.rice.kns.util.ObjectUtils;
+import org.kuali.rice.core.api.util.type.KualiDecimal;
+import org.kuali.rice.coreservice.framework.parameter.ParameterService;
+import org.kuali.rice.krad.util.ObjectUtils;
 
 /**
  * Default implementation of AwardDetailsAndDatesRule
@@ -225,7 +225,7 @@ public class AwardDetailsAndDatesRuleImpl extends ResearchDocumentRuleBase imple
     }
     
     protected boolean isIntegrationParameterOn() {
-        String integrationOn = getParameterService().getParameterValue(Constants.MODULE_NAMESPACE_AWARD, 
+        String integrationOn = getParameterService().getParameterValueAsString(Constants.MODULE_NAMESPACE_AWARD, 
                                 Constants.PARAMETER_COMPONENT_DOCUMENT, Constants.FIN_SYSTEM_INTEGRATION_ON_OFF_PARAMETER);
         return StringUtils.equalsIgnoreCase(integrationOn, Constants.FIN_SYSTEM_INTEGRATION_ON) ? true : false;
     }

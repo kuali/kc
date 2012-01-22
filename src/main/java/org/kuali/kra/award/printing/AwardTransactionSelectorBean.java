@@ -15,21 +15,13 @@
  */
 package org.kuali.kra.award.printing;
 
-import java.util.LinkedHashMap;
-
-import org.kuali.rice.kns.bo.BusinessObjectBase;
+import org.kuali.rice.krad.bo.BusinessObjectBase;
 
 public class AwardTransactionSelectorBean extends BusinessObjectBase {
 
     private Integer awardVersion;
     private Integer amountInfoIndex;
     private Boolean requireSignature;
-
-    @Override
-    protected LinkedHashMap toStringMapper() {
-        // TODO Auto-generated method stub
-        return null;
-    }
 
     public void refresh() {
         //do nothing

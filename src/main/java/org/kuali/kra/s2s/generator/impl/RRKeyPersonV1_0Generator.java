@@ -15,8 +15,6 @@
  */
 package org.kuali.kra.s2s.generator.impl;
 
-import gov.grants.apply.coeus.personProfile.PersonProfileListDocument;
-import gov.grants.apply.coeus.personProfile.PersonProfileListDocument.PersonProfileList;
 import gov.grants.apply.forms.rrKeyPersonV10.PersonProfileDataType;
 import gov.grants.apply.forms.rrKeyPersonV10.ProjectRoleDataType;
 import gov.grants.apply.forms.rrKeyPersonV10.RRKeyPersonDocument;
@@ -30,19 +28,10 @@ import gov.grants.apply.system.attachmentsV10.AttachedFileDataType;
 
 import java.util.ArrayList;
 import java.util.Collections;
-import java.util.HashMap;
 import java.util.List;
-import java.util.Map;
-
-import javax.xml.transform.Source;
-import javax.xml.transform.stream.StreamSource;
 
 import org.apache.xmlbeans.XmlObject;
 import org.kuali.kra.infrastructure.KraServiceLocator;
-import org.kuali.kra.printing.PrintingException;
-import org.kuali.kra.printing.print.GenericPrintable;
-import org.kuali.kra.printing.service.PrintingService;
-import org.kuali.kra.proposaldevelopment.bo.AttachmentDataSource;
 import org.kuali.kra.proposaldevelopment.bo.Narrative;
 import org.kuali.kra.proposaldevelopment.bo.ProposalPerson;
 import org.kuali.kra.proposaldevelopment.bo.ProposalPersonComparator;

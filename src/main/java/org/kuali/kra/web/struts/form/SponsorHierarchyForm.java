@@ -28,10 +28,10 @@ import org.apache.struts.action.ActionMapping;
 import org.kuali.kra.bo.SponsorHierarchy;
 import org.kuali.kra.infrastructure.Constants;
 import org.kuali.kra.infrastructure.KraServiceLocator;
-import org.kuali.rice.kns.service.ParameterConstants;
-import org.kuali.rice.kns.service.ParameterService;
-import org.kuali.rice.kns.util.TypedArrayList;
+import org.kuali.rice.coreservice.framework.parameter.ParameterConstants;
+import org.kuali.rice.coreservice.framework.parameter.ParameterService;
 import org.kuali.rice.kns.web.struts.form.KualiForm;
+import org.springframework.util.AutoPopulatingList;
 
 public class SponsorHierarchyForm extends KualiForm {
 
@@ -69,7 +69,7 @@ public class SponsorHierarchyForm extends KualiForm {
     public SponsorHierarchyForm() {
         super();
         hierarchyNameList=new ArrayList();
-        newSponsors = new TypedArrayList(ArrayList.class);
+        newSponsors = new AutoPopulatingList<List>(ArrayList.class);
         //topSponsorHierarchies = KraServiceLocator.getService(SponsorService.class).getTopSponsorHierarchy();        
 
     }
@@ -286,7 +286,7 @@ public class SponsorHierarchyForm extends KualiForm {
     public int getNumberPerGroup() {
         int groupingNumber = 300;
         try {
-           String sysParam = this.getParameterService().getParameterValue(
+           String sysParam = this.getParameterService().getParameterValueAsString(
                 Constants.MODULE_NAMESPACE_PROPOSAL_DEVELOPMENT, ParameterConstants.ALL_COMPONENT, Constants.NUMBER_PER_SPONSOR_HIERARCHY_GROUP);
            groupingNumber=Integer.parseInt(sysParam);
         } catch (Exception e) {
@@ -313,7 +313,7 @@ public class SponsorHierarchyForm extends KualiForm {
     }
     
     public boolean isPrintingHierarchy() {
-        String printingHierarchyName = getParameterService().getParameterValue(
+        String printingHierarchyName = getParameterService().getParameterValueAsString(
                 Constants.KC_GENERIC_PARAMETER_NAMESPACE, Constants.KC_ALL_PARAMETER_DETAIL_TYPE_CODE, 
                 Constants.SPONSOR_HIERARCHY_PRINTING_NAME_PARAM);
         return StringUtils.equals(getHierarchyName(), printingHierarchyName);

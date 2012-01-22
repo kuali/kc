@@ -19,6 +19,7 @@ import java.util.List;
 import java.util.Map;
 
 import org.kuali.kra.bo.KcPerson;
+import org.kuali.rice.kim.api.identity.Person;
 
 /**
  * Service for working with KcPerson objects.
@@ -48,4 +49,9 @@ public interface KcPersonService {
      * @throws IllegalArgumentException if the personId is null or empty
      */
     KcPerson getKcPersonByPersonId(String personId);
+    
+    
+    void modifyFieldValues(final Map<String, String> fieldValues);
+    
+    List<KcPerson> createKcPersonsFromPeople(List<Person> people);
 }

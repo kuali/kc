@@ -15,52 +15,33 @@
  */
 package org.kuali.kra.irb.onlinereview;
 
-import java.util.LinkedHashMap;
-
 import org.kuali.kra.bo.KraPersistableBusinessObjectBase;
 
 public class ProtocolOnlineReviewStatus extends KraPersistableBusinessObjectBase {
 
     public static final String FINAL_STATUS_CD = "F";
+
     public static final String SAVED_STATUS_CD = "S";
+
     public static final String REMOVED_CANCELLED_STATUS_CD = "X";
-    
+
     private String statusCode;
+
     private String description;
-    
 
     public String getStatusCode() {
         return statusCode;
     }
 
-
-
     public void setStatusCode(String statusCode) {
         this.statusCode = statusCode;
     }
-
-
 
     public String getDescription() {
         return description;
     }
 
-
-
     public void setDescription(String description) {
         this.description = description;
     }
-
-    @Override
-    @SuppressWarnings("unchecked")
-    protected LinkedHashMap toStringMapper() {
-        LinkedHashMap<String,Object> hashMap = new LinkedHashMap<String,Object>();
-        hashMap.put( "statusCode", getStatusCode() );
-        hashMap.put("description", getDescription());
-        return hashMap;
-    }
-
-
-
-
 }

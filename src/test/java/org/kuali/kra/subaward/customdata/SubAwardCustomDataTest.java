@@ -43,6 +43,6 @@ public class SubAwardCustomDataTest extends KcUnitTestBase{
     
     @Test
     public void testSubAwardCustomDataBoAttributesCount() throws Exception {              
-        Assert.assertEquals(SUBAWARD_PROPOSAL_CUSTOM_DATA_ATTRIBUTES_COUNT, subAwardCustomDataBo.toStringMapper().size());
+        Assert.assertEquals(SUBAWARD_PROPOSAL_CUSTOM_DATA_ATTRIBUTES_COUNT, subAwardCustomDataBo.getClass().getFields().length);
     }
 }

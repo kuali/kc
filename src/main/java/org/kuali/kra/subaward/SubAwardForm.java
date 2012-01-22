@@ -20,6 +20,8 @@ import java.util.Map;
 import org.apache.struts.upload.FormFile;
 import org.kuali.kra.web.struts.form.Auditable;
 import org.kuali.kra.web.struts.form.KraTransactionalDocumentFormBase;
+import org.kuali.kra.award.home.Award;
+import org.kuali.kra.bo.Rolodex;
 import org.kuali.kra.common.customattributes.CustomDataForm;
 import org.kuali.kra.common.permissions.web.struts.form.PermissionsForm;
 import org.kuali.kra.common.permissions.web.struts.form.PermissionsHelperBase;
@@ -30,12 +32,12 @@ import org.kuali.kra.subaward.bo.SubAwardAmountReleased;
 import org.kuali.kra.subaward.bo.SubAwardCloseout;
 import org.kuali.kra.subaward.bo.SubAwardContact;
 import org.kuali.kra.subaward.bo.SubAwardFundingSource;
-import org.kuali.kra.subaward.document.SubAwardDocument;
-import org.kuali.rice.kew.util.KEWConstants;
-import org.kuali.rice.kns.web.ui.HeaderField;
-import org.kuali.rice.kns.workflow.service.KualiWorkflowDocument;
 import org.kuali.kra.subaward.customdata.CustomDataHelper;
-public class SubAwardForm extends KraTransactionalDocumentFormBase implements PermissionsForm,CustomDataForm,Auditable{
+import org.kuali.kra.subaward.document.SubAwardDocument;
+import org.kuali.rice.kew.api.KewApiConstants;
+import org.kuali.rice.kew.api.WorkflowDocument;
+import org.kuali.rice.kns.web.ui.HeaderField;
+public class SubAwardForm extends KraTransactionalDocumentFormBase implements PermissionsForm,CustomDataForm, Auditable{
     
     private static final long serialVersionUID = -1452575757578523254L;
 
@@ -59,7 +61,7 @@ public class SubAwardForm extends KraTransactionalDocumentFormBase implements Pe
     public void setNewFile(FormFile newFile) {
         this.newFile = newFile;
     }
-
+    
     public boolean isAuditActivated() {
         return auditActivated;
     }
@@ -113,6 +115,11 @@ public class SubAwardForm extends KraTransactionalDocumentFormBase implements Pe
      */
     public void initialize() {
         medusaBean = new MedusaBean();
+        newSubAwardFundingSource = new SubAwardFundingSource(new Award());
+        newSubAwardContact = new SubAwardContact(new Rolodex());
+        newSubAwardCloseout = new SubAwardCloseout();
+        newSubAwardAmountReleased = new SubAwardAmountReleased();
+        newSubAwardAmountInfo = new SubAwardAmountInfo();
     }
   
     /**
@@ -132,17 +139,17 @@ public class SubAwardForm extends KraTransactionalDocumentFormBase implements Pe
     }
     /**
      * 
-     * @see org.kuali.rice.kns.web.struts.form.KualiDocumentFormBase#populateHeaderFields(org.kuali.rice.kns.workflow.service.KualiWorkflowDocument)
+     * @see org.kuali.rice.kns.web.struts.form.KualiDocumentFormBase#populateHeaderFields(org.kuali.rice.kew.api.WorkflowDocument)
      */
     @Override
-    public void populateHeaderFields(KualiWorkflowDocument workflowDocument) {
+    public void populateHeaderFields(WorkflowDocument workflowDocument) {
          super.populateHeaderFields(workflowDocument);
 
         SubAwardDocument subAwardDocument = getDocument();
         getDocInfo().clear();
         String docIdAndStatus = COLUMN;
         if (workflowDocument != null) {
-            docIdAndStatus = getDocument().getDocumentNumber() + COLUMN + workflowDocument.getStatusDisplayValue();
+            docIdAndStatus = getDocument().getDocumentNumber() + COLUMN + workflowDocument.getStatus().getLabel();
         }
         String lastUpdated ="";
         if(subAwardDocument.getSubAward().getUpdateTimestamp()!=null && subAwardDocument.getSubAward().getUpdateUser()!=null){
@@ -178,7 +185,7 @@ public class SubAwardForm extends KraTransactionalDocumentFormBase implements Pe
      * This method initializes either the document or the form based on the command value.
      */
     public void initializeFormOrDocumentBasedOnCommand(){
-        if (KEWConstants.INITIATE_COMMAND.equals(getCommand())) {
+        if (KewApiConstants.INITIATE_COMMAND.equals(getCommand())) {
             getDocument().initialize();
         }else{
             initialize();
@@ -253,7 +260,7 @@ public class SubAwardForm extends KraTransactionalDocumentFormBase implements Pe
     public MedusaBean getMedusaBean() {
         return medusaBean;
     }
-
+  
     /**
      * Sets the medusaBean attribute value.
      * @param medusaBean The medusaBean to set.

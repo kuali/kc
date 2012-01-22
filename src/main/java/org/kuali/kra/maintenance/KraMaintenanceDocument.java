@@ -21,9 +21,9 @@ import org.kuali.kra.questionnaire.Questionnaire;
 import org.kuali.rice.kns.datadictionary.MaintainableSectionDefinition;
 import org.kuali.rice.kns.datadictionary.MaintenanceDocumentEntry;
 import org.kuali.rice.kns.document.MaintenanceDocumentBase;
-import org.kuali.rice.kns.rule.event.KualiDocumentEvent;
 import org.kuali.rice.kns.service.KNSServiceLocator;
 import org.kuali.rice.kns.service.MaintenanceDocumentDictionaryService;
+import org.kuali.rice.krad.rules.rule.event.KualiDocumentEvent;
 
 /**
  * 
@@ -50,8 +50,7 @@ public class KraMaintenanceDocument extends MaintenanceDocumentBase {
         super.prepareForSave(event);
 		populateDocumentAttachment();
 		
-        MaintenanceDocumentDictionaryService maintenanceDocumentDictionaryService = KNSServiceLocator
-                .getMaintenanceDocumentDictionaryService();
+        MaintenanceDocumentDictionaryService maintenanceDocumentDictionaryService = KNSServiceLocator.getMaintenanceDocumentDictionaryService();
         String docTypeName = maintenanceDocumentDictionaryService.getDocumentTypeName(this.getNewMaintainableObject()
                 .getBusinessObject().getClass());
         MaintenanceDocumentEntry maintenanceDocumentEntry = maintenanceDocumentDictionaryService
@@ -61,11 +60,11 @@ public class KraMaintenanceDocument extends MaintenanceDocumentBase {
          * if collection is not included in xml content, then it can not be retrieved when doc search, so it totally does not make sense
          * is there a way to make the jsp inclusion work?
          */
-        if (Questionnaire.class.isAssignableFrom(this.getNewMaintainableObject().getBusinessObject().getClass())) {
+        if (Questionnaire.class.isAssignableFrom(this.getNewMaintainableObject().getDataObject().getClass())) {
             maintenanceDocumentEntry.setMaintainableSections(null);
         }
         populateXmlDocumentContentsFromMaintainables();
-        if (Questionnaire.class.isAssignableFrom(this.getNewMaintainableObject().getBusinessObject().getClass())) {
+        if (Questionnaire.class.isAssignableFrom(this.getNewMaintainableObject().getDataObject().getClass())) {
             maintenanceDocumentEntry.setMaintainableSections(new ArrayList<MaintainableSectionDefinition>());
         }
         

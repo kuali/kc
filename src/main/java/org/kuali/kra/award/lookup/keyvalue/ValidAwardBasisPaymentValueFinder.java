@@ -22,9 +22,10 @@ import org.kuali.kra.award.AwardForm;
 import org.kuali.kra.award.home.ValidAwardBasisPayment;
 import org.kuali.kra.infrastructure.KraServiceLocator;
 import org.kuali.kra.service.AwardPaymentAndInvoicesService;
-import org.kuali.rice.core.util.KeyLabelPair;
-import org.kuali.rice.kns.lookup.keyvalues.KeyValuesBase;
-import org.kuali.rice.kns.util.GlobalVariables;
+import org.kuali.rice.core.api.util.ConcreteKeyValue;
+import org.kuali.rice.core.api.util.KeyValue;
+import org.kuali.rice.kns.util.KNSGlobalVariables;
+import org.kuali.rice.krad.keyvalues.KeyValuesBase;
 
 /**
  * Values Finder for Invoice Instructions Indicator Values.
@@ -43,16 +44,16 @@ public class ValidAwardBasisPaymentValueFinder extends KeyValuesBase {
 
     @SuppressWarnings("all")
     public List getKeyValues() {
-       List<KeyLabelPair> keyLabels = new ArrayList<KeyLabelPair>();
-       AwardForm awardForm = (AwardForm)GlobalVariables.getKualiForm();
-       keyLabels.add( new KeyLabelPair( "", "select" ));
+       List<KeyValue> keyLabels = new ArrayList<KeyValue>();
+       AwardForm awardForm = (AwardForm)KNSGlobalVariables.getKualiForm();
+       keyLabels.add( new ConcreteKeyValue( "", "select" ));
        if( awardForm.getAwardDocument() != null && awardForm.getAwardDocument().getAward() != null
                && awardForm.getAwardDocument().getAward() != null && awardForm.getAwardDocument().getAward().getAwardTypeCode() != null ) { 
          
            List<ValidAwardBasisPayment> results =  getAwardPaymentAndInvoicesService().getValidAwardBasisPaymentsByAwardTypeCode(awardForm.getAwardDocument().getAward().getAwardTypeCode());
            for( ValidAwardBasisPayment awardBasisPayment : results ) {
                awardBasisPayment.refresh();
-               keyLabels.add( new KeyLabelPair( awardBasisPayment.getBasisOfPaymentCode(), awardBasisPayment.getBasisOfPayment().getDescription()));
+               keyLabels.add( new ConcreteKeyValue( awardBasisPayment.getBasisOfPaymentCode(), awardBasisPayment.getBasisOfPayment().getDescription()));
            }
        }
        return keyLabels;

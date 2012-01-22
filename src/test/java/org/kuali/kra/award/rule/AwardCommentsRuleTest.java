@@ -24,10 +24,10 @@ import org.kuali.kra.award.home.AwardComment;
 import org.kuali.kra.award.rule.event.AwardCommentsRuleEvent;
 import org.kuali.kra.infrastructure.KeyConstants;
 import org.kuali.kra.test.infrastructure.KcUnitTestBase;
-import org.kuali.rice.kns.util.ErrorMap;
-import org.kuali.rice.kns.util.ErrorMessage;
-import org.kuali.rice.kns.util.GlobalVariables;
-import org.kuali.rice.kns.util.TypedArrayList;
+import org.kuali.rice.krad.util.ErrorMessage;
+import org.kuali.rice.krad.util.GlobalVariables;
+import org.kuali.rice.krad.util.MessageMap;
+import org.springframework.util.AutoPopulatingList;
 
 public class AwardCommentsRuleTest extends KcUnitTestBase {
     private static final String ERROR_PATH_PREFIX = "document.awards[0]";
@@ -39,7 +39,7 @@ public class AwardCommentsRuleTest extends KcUnitTestBase {
     @Before
     public void setUp() throws Exception {
         super.setUp();
-        GlobalVariables.setErrorMap(new ErrorMap());
+        GlobalVariables.setMessageMap(new MessageMap());
         awardCommentsRule = new AwardCommentsRuleImpl();
     }
     
@@ -94,16 +94,16 @@ public class AwardCommentsRuleTest extends KcUnitTestBase {
         AwardCommentsRuleEvent ruleEvent = new AwardCommentsRuleEvent(ERROR_PATH_PREFIX, document);
         boolean result = awardCommentsRule.processAwardCommentsBusinessRules(ruleEvent);
         assertTrue(result);
-        assertEquals(0, GlobalVariables.getErrorMap().getErrorCount());
+        assertEquals(0, GlobalVariables.getMessageMap().getErrorCount());
     }
     
     private void assertOneError(AwardDocument document, String propertyKey, String expectedErrorKey) {
         AwardCommentsRuleEvent ruleEvent = new AwardCommentsRuleEvent(ERROR_PATH_PREFIX, document);
         boolean result = awardCommentsRule.processAwardCommentsBusinessRules(ruleEvent);
         assertFalse(result);
-        assertEquals(1, GlobalVariables.getErrorMap().getErrorCount());
+        assertEquals(1, GlobalVariables.getMessageMap().getErrorCount());
         
-        TypedArrayList errorMessages = GlobalVariables.getErrorMap().getErrorMessagesForProperty(propertyKey);
+        AutoPopulatingList errorMessages = GlobalVariables.getMessageMap().getErrorMessagesForProperty(propertyKey);
         assertNotNull(errorMessages);
         assertEquals(1, errorMessages.size());
         String actualErrorKey = ((ErrorMessage)errorMessages.get(0)).getErrorKey();

@@ -47,8 +47,8 @@ import org.kuali.kra.committee.bo.ScheduleStatus;
 import org.kuali.kra.committee.service.impl.CommitteeServiceImpl;
 import org.kuali.kra.meeting.CommitteeScheduleMinute;
 import org.kuali.kra.meeting.ScheduleAgenda;
-import org.kuali.rice.core.util.KeyLabelPair;
-import org.kuali.rice.kns.service.BusinessObjectService;
+import org.kuali.rice.core.api.util.KeyValue;
+import org.kuali.rice.krad.service.BusinessObjectService;
 
 /**
  * Test the methods in CommitteeServiceImpl.
@@ -170,9 +170,9 @@ public class CommitteeServiceTest {
         Committee committee = new Committee();
         initCommitteeService(committeeService, committee);
         
-        List<KeyLabelPair> availDates = committeeService.getAvailableCommitteeDates("999");
+        List<KeyValue> availDates = committeeService.getAvailableCommitteeDates("999");
         assertEquals(1, availDates.size());
-        assertEquals("", availDates.get(0).key);
+        assertEquals("", availDates.get(0).getKey());
     }
     
     /**
@@ -212,10 +212,10 @@ public class CommitteeServiceTest {
         schedule2.setScheduleStatus(cs);
         committee.getCommitteeSchedules().add(schedule2);
         
-        List<KeyLabelPair> availDates = committeeService.getAvailableCommitteeDates("999");
+        List<KeyValue> availDates = committeeService.getAvailableCommitteeDates("999");
         assertEquals(2, availDates.size());
-        assertEquals("", availDates.get(0).key);
-        assertEquals(schedule2.getScheduleId(), availDates.get(1).key);
+        assertEquals("", availDates.get(0).getKey());
+        assertEquals(schedule2.getScheduleId(), availDates.get(1).getKey());
     }
     
     /**

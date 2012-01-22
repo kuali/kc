@@ -21,15 +21,14 @@ import org.apache.commons.lang.StringUtils;
 import org.apache.struts.action.ActionForward;
 import org.apache.struts.action.ActionMapping;
 import org.kuali.kra.infrastructure.Constants;
-import org.kuali.kra.infrastructure.KeyConstants;
 import org.kuali.kra.infrastructure.KraServiceLocator;
 import org.kuali.kra.web.struts.form.Auditable;
-import org.kuali.rice.kns.document.Document;
-import org.kuali.rice.kns.rule.event.DocumentAuditEvent;
-import org.kuali.rice.kns.service.KualiRuleService;
 import org.kuali.rice.kns.util.AuditCluster;
-import org.kuali.rice.kns.util.GlobalVariables;
+import org.kuali.rice.kns.util.KNSGlobalVariables;
 import org.kuali.rice.kns.web.struts.form.KualiDocumentFormBase;
+import org.kuali.rice.krad.document.Document;
+import org.kuali.rice.krad.rules.rule.event.DocumentAuditEvent;
+import org.kuali.rice.krad.service.KualiRuleService;
 
 /**
  * Helper class for Audit Actions.
@@ -163,8 +162,8 @@ public final class AuditActionHelper {
         }
         if (!auditPassed) {
             result = ValidationState.WARNING;
-            for (Iterator iter = GlobalVariables.getAuditErrorMap().keySet().iterator(); iter.hasNext();) {
-                AuditCluster auditCluster = (AuditCluster)GlobalVariables.getAuditErrorMap().get(iter.next());
+            for (Iterator iter = KNSGlobalVariables.getAuditErrorMap().keySet().iterator(); iter.hasNext();) {
+                AuditCluster auditCluster = (AuditCluster)KNSGlobalVariables.getAuditErrorMap().get(iter.next());
                 if (!StringUtils.equalsIgnoreCase(auditCluster.getCategory(), Constants.AUDIT_WARNINGS)) {
                     result = ValidationState.ERROR;
                     break;

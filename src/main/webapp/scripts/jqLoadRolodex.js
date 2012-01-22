@@ -1,1 +1,1 @@
-$jq(document).ready(function() { loadRolodexInfoById()});
+jq(document).ready(function() { loadRolodexInfoById()});

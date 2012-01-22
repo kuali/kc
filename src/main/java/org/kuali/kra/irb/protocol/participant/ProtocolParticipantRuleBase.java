@@ -20,7 +20,7 @@ import java.util.List;
 import org.apache.commons.lang.StringUtils;
 import org.kuali.kra.infrastructure.KeyConstants;
 import org.kuali.kra.rules.ResearchDocumentRuleBase;
-import org.kuali.rice.kns.util.GlobalVariables;
+import org.kuali.rice.krad.util.GlobalVariables;
 
 /**
  * This class contains the rules to validate a <code>{@link ProtocolParticipant}</code>.
@@ -34,7 +34,7 @@ public class ProtocolParticipantRuleBase extends ResearchDocumentRuleBase {
     private static final String PARTICIPANT_TYPE_CODE_FIELD = "participantTypeCode";
     
     /**
-     * Process the validation rules for an <code>{@link AddProtocolParticipantEvent}</code>
+     * ProcessDefinitionDefinitionDefinition the validation rules for an <code>{@link AddProtocolParticipantEvent}</code>
      * Participants with an invalid participant type code, duplicate participants (i.e. same
      * participant type code), or where the participant count is a non-positive number are not allowed.
      * 

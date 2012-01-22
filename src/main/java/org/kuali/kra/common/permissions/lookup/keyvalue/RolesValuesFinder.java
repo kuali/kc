@@ -19,10 +19,10 @@ import java.util.List;
 
 import org.kuali.kra.common.permissions.web.struts.form.PermissionsForm;
 import org.kuali.kra.common.permissions.web.struts.form.PermissionsHelperBase;
-import org.kuali.rice.kns.lookup.keyvalues.KeyValuesBase;
-import org.kuali.rice.kns.util.GlobalVariables;
+import org.kuali.rice.core.api.util.KeyValue;
+import org.kuali.rice.kns.util.KNSGlobalVariables;
 import org.kuali.rice.kns.web.struts.form.KualiForm;
-import org.kuali.rice.core.util.KeyLabelPair;
+import org.kuali.rice.krad.keyvalues.KeyValuesBase;
 
 /**
  * The RolesValueFinder is responsible for building the list of
@@ -47,8 +47,8 @@ public class RolesValuesFinder extends KeyValuesBase {
      * 
      * @see org.kuali.core.lookup.keyvalues.KeyValuesFinder#getKeyValues()
      */
-    public List<KeyLabelPair> getKeyValues() {
-        KualiForm form = GlobalVariables.getKualiForm();
+    public List<KeyValue> getKeyValues() {
+        KualiForm form = KNSGlobalVariables.getKualiForm();
         
         if (form instanceof PermissionsForm) {
             PermissionsForm tabSupport = (PermissionsForm) form;

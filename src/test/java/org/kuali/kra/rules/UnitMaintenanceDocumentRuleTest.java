@@ -22,13 +22,13 @@ import org.kuali.kra.bo.Unit;
 import org.kuali.kra.infrastructure.KeyConstants;
 import org.kuali.kra.maintenance.MaintenanceRuleTestBase;
 import org.kuali.kra.service.impl.mocks.MockUnitService;
-import org.kuali.rice.kns.UserSession;
 import org.kuali.rice.kns.document.MaintenanceDocument;
-import org.kuali.rice.kns.service.KNSServiceLocator;
-import org.kuali.rice.kns.service.LookupService;
-import org.kuali.rice.kns.util.ErrorMessage;
-import org.kuali.rice.kns.util.GlobalVariables;
-import org.kuali.rice.kns.util.TypedArrayList;
+import org.kuali.rice.krad.UserSession;
+import org.kuali.rice.krad.service.KRADServiceLocatorWeb;
+import org.kuali.rice.krad.service.LookupService;
+import org.kuali.rice.krad.util.ErrorMessage;
+import org.kuali.rice.krad.util.GlobalVariables;
+import org.springframework.util.AutoPopulatingList;
 
 public class UnitMaintenanceDocumentRuleTest extends MaintenanceRuleTestBase {
     private UnitMaintenanceDocumentRule rule = null;
@@ -39,7 +39,7 @@ public class UnitMaintenanceDocumentRuleTest extends MaintenanceRuleTestBase {
     public void setUp() throws Exception {
         super.setUp();
         rule = new UnitMaintenanceDocumentRule();
-        lookupService=KNSServiceLocator.getLookupService();
+        lookupService = KRADServiceLocatorWeb.getLookupService();
         GlobalVariables.setUserSession(new UserSession("quickstart"));
     }
 
@@ -72,8 +72,8 @@ public class UnitMaintenanceDocumentRuleTest extends MaintenanceRuleTestBase {
         unit.setOrganizationId("00001");
         MaintenanceDocument unitmaintenancedocument = newMaintDoc(unit);
         assertFalse(rule.processCustomRouteDocumentBusinessRules(unitmaintenancedocument));
-        TypedArrayList errors = GlobalVariables.getErrorMap().getMessages("ddocument.newMaintainableObject.parentUnitNumber");
-        errors = GlobalVariables.getErrorMap().getMessages("document.newMaintainableObject.parentUnitNumber");
+        AutoPopulatingList errors = GlobalVariables.getMessageMap().getMessages("ddocument.newMaintainableObject.parentUnitNumber");
+        errors = GlobalVariables.getMessageMap().getMessages("document.newMaintainableObject.parentUnitNumber");
         assertTrue(errors.size() == 1);
         ErrorMessage message = (ErrorMessage) errors.get(0);
         assertEquals(message.getErrorKey(), KeyConstants.MOVE_UNIT_OWN_DESCENDANTS);

@@ -23,7 +23,7 @@ import org.kuali.kra.budget.core.Budget;
 import org.kuali.kra.budget.core.BudgetParent;
 import org.kuali.kra.budget.document.BudgetDocument;
 import org.kuali.kra.budget.parameters.BudgetPeriod;
-import org.kuali.rice.kns.service.BusinessObjectService;
+import org.kuali.rice.krad.service.BusinessObjectService;
 
 public interface BudgetRatesService <T extends BudgetParent>{
     public void getBudgetRates(List<RateClassType> rateClassTypes, BudgetDocument<T> budgetDocument);

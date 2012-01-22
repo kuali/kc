@@ -17,31 +17,41 @@ package org.kuali.kra.proposaldevelopment.bo;
 
 import static org.apache.commons.lang.StringUtils.isBlank;
 
-import java.util.LinkedHashMap;
-
 import org.kuali.kra.bo.DegreeType;
 import org.kuali.kra.bo.KraPersistableBusinessObjectBase;
 
 /**
- * Represents the Proposal Degree <code>{@link org.kuali.rice.kns.bo.BusinessObject}</code>
+ * Represents the Proposal Degree <code>{@link org.kuali.rice.krad.bo.BusinessObject}</code>
  *
- * @see org.kuali.rice.kns.bo.BusinessObject
+ * @see org.kuali.rice.krad.bo.BusinessObject
  * @see org.kuali.kra.proposaldevelopment.document.ProposalDevelopmentDocument
  * @author $Author: gmcgrego $
  * @version $Revision: 1.9 $
  */
 public class ProposalPersonDegree extends KraPersistableBusinessObjectBase {
+
     private Integer proposalPersonNumber;
+
     private String proposalNumber;
+
     private Integer degreeSequenceNumber;
+
     private String graduationYear;
+
     private String degreeCode;
+
     private String degree;
+
     private String fieldOfStudy;
+
     private String specialization;
+
     private String school;
+
     private String schoolIdCode;
+
     private String schoolId;
+
     private DegreeType degreeType;
 
     /**
@@ -52,7 +62,7 @@ public class ProposalPersonDegree extends KraPersistableBusinessObjectBase {
     public final Integer getProposalPersonNumber() {
         return this.proposalPersonNumber;
     }
-    
+
     /**
      * Sets the value of proposalPersonNumber
      *
@@ -61,7 +71,7 @@ public class ProposalPersonDegree extends KraPersistableBusinessObjectBase {
     public final void setProposalPersonNumber(Integer argProposalPersonNumber) {
         this.proposalPersonNumber = argProposalPersonNumber;
     }
-    
+
     /**
      * Gets the value of proposalNumber
      *
@@ -70,7 +80,7 @@ public class ProposalPersonDegree extends KraPersistableBusinessObjectBase {
     public final String getProposalNumber() {
         return this.proposalNumber;
     }
-    
+
     /**
      * Sets the value of proposalNumber
      *
@@ -79,7 +89,7 @@ public class ProposalPersonDegree extends KraPersistableBusinessObjectBase {
     public final void setProposalNumber(String argProposalNumber) {
         this.proposalNumber = argProposalNumber;
     }
-    
+
     /**
      * Gets the value of graduationYear
      *
@@ -88,7 +98,7 @@ public class ProposalPersonDegree extends KraPersistableBusinessObjectBase {
     public final String getGraduationYear() {
         return this.graduationYear;
     }
-    
+
     /**
      * Sets the value of graduationYear
      *
@@ -97,7 +107,7 @@ public class ProposalPersonDegree extends KraPersistableBusinessObjectBase {
     public final void setGraduationYear(String argGraduationYear) {
         this.graduationYear = argGraduationYear;
     }
-    
+
     /**
      * Gets the value of degreeCode
      *
@@ -106,7 +116,7 @@ public class ProposalPersonDegree extends KraPersistableBusinessObjectBase {
     public final String getDegreeCode() {
         return this.degreeCode;
     }
-    
+
     /**
      * Sets the value of degreeCode
      *
@@ -114,15 +124,13 @@ public class ProposalPersonDegree extends KraPersistableBusinessObjectBase {
      */
     public final void setDegreeCode(String argDegreeCode) {
         this.degreeCode = argDegreeCode;
-        
         if (isBlank(degreeCode)) {
             degree = null;
-        }
-        else {
+        } else {
             refreshReferenceObject("degreeType");
         }
     }
-    
+
     /**
      * Gets the value of degree
      *
@@ -131,7 +139,7 @@ public class ProposalPersonDegree extends KraPersistableBusinessObjectBase {
     public String getDegree() {
         return this.degree;
     }
-    
+
     /**
      * Sets the value of degree
      *
@@ -140,7 +148,7 @@ public class ProposalPersonDegree extends KraPersistableBusinessObjectBase {
     public void setDegree(String argDegree) {
         this.degree = argDegree;
     }
-    
+
     /**
      * Gets the value of fieldOfStudy
      *
@@ -149,7 +157,7 @@ public class ProposalPersonDegree extends KraPersistableBusinessObjectBase {
     public final String getFieldOfStudy() {
         return this.fieldOfStudy;
     }
-    
+
     /**
      * Sets the value of fieldOfStudy
      *
@@ -158,7 +166,7 @@ public class ProposalPersonDegree extends KraPersistableBusinessObjectBase {
     public final void setFieldOfStudy(String argFieldOfStudy) {
         this.fieldOfStudy = argFieldOfStudy;
     }
-    
+
     /**
      * Gets the value of specialization
      *
@@ -176,7 +184,7 @@ public class ProposalPersonDegree extends KraPersistableBusinessObjectBase {
     public final void setSpecialization(String argSpecialization) {
         this.specialization = argSpecialization;
     }
-    
+
     /**
      * Gets the value of school
      *
@@ -185,7 +193,7 @@ public class ProposalPersonDegree extends KraPersistableBusinessObjectBase {
     public final String getSchool() {
         return this.school;
     }
-    
+
     /**
      * Sets the value of school
      *
@@ -194,7 +202,7 @@ public class ProposalPersonDegree extends KraPersistableBusinessObjectBase {
     public final void setSchool(String argSchool) {
         this.school = argSchool;
     }
-    
+
     /**
      * Gets the value of schoolIdCode
      *
@@ -203,7 +211,7 @@ public class ProposalPersonDegree extends KraPersistableBusinessObjectBase {
     public final String getSchoolIdCode() {
         return this.schoolIdCode;
     }
-    
+
     /**
      * Sets the value of schoolIdCode
      *
@@ -212,7 +220,7 @@ public class ProposalPersonDegree extends KraPersistableBusinessObjectBase {
     public final void setSchoolIdCode(String argSchoolIdCode) {
         this.schoolIdCode = argSchoolIdCode;
     }
-    
+
     /**
      * Gets the value of schoolId
      *
@@ -221,7 +229,7 @@ public class ProposalPersonDegree extends KraPersistableBusinessObjectBase {
     public final String getSchoolId() {
         return this.schoolId;
     }
-    
+
     /**
      * Sets the value of schoolId
      *
@@ -230,7 +238,7 @@ public class ProposalPersonDegree extends KraPersistableBusinessObjectBase {
     public final void setSchoolId(String argSchoolId) {
         this.schoolId = argSchoolId;
     }
-    
+
     /**
      * Assign a reference to <code>{@link DegreeType}</code>
      *
@@ -248,23 +256,6 @@ public class ProposalPersonDegree extends KraPersistableBusinessObjectBase {
     public final DegreeType getDegreeType() {
         return degreeType;
     }
-    
-    @Override
-    protected LinkedHashMap toStringMapper() {
-        LinkedHashMap propMap = new LinkedHashMap();
-        propMap.put("proposalPersonNumber", getProposalPersonNumber());
-        propMap.put("proposalNumber", getProposalNumber());
-        propMap.put("graduationDate", getGraduationYear());
-        propMap.put("degreeCode", getDegreeCode());
-        propMap.put("degree", getDegree());
-        propMap.put("fieldOfStudy", getFieldOfStudy());
-        propMap.put("specialization", getSpecialization());
-        propMap.put("school", getSchool());
-        propMap.put("schoolIdCode", getSchoolIdCode());
-        propMap.put("schoolId", getSchoolId());
-        propMap.put("degreeType", getDegreeType());
-        return propMap;
-    }
 
     public Integer getDegreeSequenceNumber() {
         return degreeSequenceNumber;
@@ -273,7 +264,4 @@ public class ProposalPersonDegree extends KraPersistableBusinessObjectBase {
     public void setDegreeSequenceNumber(Integer degreeSequenceNumber) {
         this.degreeSequenceNumber = degreeSequenceNumber;
     }
-
 }
-
-

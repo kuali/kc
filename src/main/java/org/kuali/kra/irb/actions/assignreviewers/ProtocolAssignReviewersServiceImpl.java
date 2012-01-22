@@ -34,8 +34,8 @@ import org.kuali.kra.irb.notification.IRBNotificationContext;
 import org.kuali.kra.irb.onlinereview.ProtocolOnlineReview;
 import org.kuali.kra.irb.onlinereview.ProtocolOnlineReviewService;
 import org.kuali.kra.irb.personnel.ProtocolPerson;
-import org.kuali.rice.kns.service.BusinessObjectService;
-import org.kuali.rice.kns.util.GlobalVariables;
+import org.kuali.rice.krad.service.BusinessObjectService;
+import org.kuali.rice.krad.util.GlobalVariables;
 
 /**
  * Implementation of the ProtocolAssignReviewersService.
@@ -86,8 +86,8 @@ public class ProtocolAssignReviewersServiceImpl implements ProtocolAssignReviewe
             AssignReviewerNotificationRenderer renderer = new AssignReviewerNotificationRenderer(protocol, "removed");
             IRBNotificationContext context = new IRBNotificationContext(protocol, protocolOnlineReview, ProtocolActionType.ASSIGN_REVIEWER, "Assign Reviewer", renderer);
             if (!getPromptUserForNotificationEditor(context)) {
-                kcNotificationService.sendNotification(context);
-            }
+            kcNotificationService.sendNotification(context);
+        }
         }
         
         protocolOnlineReviewService.removeOnlineReviewDocument(protocolReviewBean.getPersonId(), protocolReviewBean.getNonEmployeeFlag(), protocolSubmission, annotation);

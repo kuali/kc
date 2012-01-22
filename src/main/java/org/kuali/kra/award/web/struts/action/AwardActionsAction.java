@@ -49,6 +49,8 @@ import org.kuali.kra.award.printing.AwardPrintType;
 import org.kuali.kra.award.printing.service.AwardPrintingService;
 import org.kuali.kra.bo.versioning.VersionHistory;
 import org.kuali.kra.bo.versioning.VersionStatus;
+import org.kuali.kra.external.award.AccountCreationClient;
+import org.kuali.kra.external.award.AwardAccountValidationService;
 import org.kuali.kra.infrastructure.Constants;
 import org.kuali.kra.infrastructure.KeyConstants;
 import org.kuali.kra.infrastructure.KraServiceLocator;
@@ -59,18 +61,17 @@ import org.kuali.kra.proposaldevelopment.bo.AttachmentDataSource;
 import org.kuali.kra.service.VersionHistoryService;
 import org.kuali.kra.timeandmoney.AwardHierarchyNode;
 import org.kuali.kra.web.struts.action.AuditActionHelper;
-import org.kuali.rice.core.util.RiceConstants;
-import org.kuali.rice.kew.exception.WorkflowException;
-import org.kuali.rice.kew.util.KEWConstants;
-import org.kuali.rice.kns.question.ConfirmationQuestion;
-import org.kuali.rice.kns.service.BusinessObjectService;
-import org.kuali.rice.kns.service.DocumentService;
-import org.kuali.rice.kns.util.GlobalVariables;
-import org.kuali.rice.kns.util.KNSConstants;
+import org.kuali.rice.core.api.util.RiceConstants;
+import org.kuali.rice.kew.api.KewApiConstants;
+import org.kuali.rice.kew.api.WorkflowDocument;
+import org.kuali.rice.kew.api.exception.WorkflowException;
 import org.kuali.rice.kns.web.struts.action.AuditModeAction;
 import org.kuali.rice.kns.web.struts.form.KualiDocumentFormBase;
-import org.kuali.rice.kns.workflow.service.KualiWorkflowDocument;
-import org.kuali.kra.external.award.*;
+import org.kuali.rice.kns.question.ConfirmationQuestion;
+import org.kuali.rice.krad.service.BusinessObjectService;
+import org.kuali.rice.krad.service.DocumentService;
+import org.kuali.rice.krad.util.GlobalVariables;
+import org.kuali.rice.krad.util.KRADConstants;
 
 /**
  * 
@@ -90,24 +91,24 @@ public class AwardActionsAction extends AwardAction implements AuditModeAction {
     public static final String AWARD_COPY_CHILD_OF_OPTION = "b";
     
     @Override
-    public ActionForward docHandler(ActionMapping mapping, ActionForm form, HttpServletRequest request, HttpServletResponse response) 
-        throws Exception { 
-        AwardForm awardForm = (AwardForm) form;
-        String command = request.getParameter(KEWConstants.COMMAND_PARAMETER);
-        ActionForward forward = mapping.findForward(Constants.MAPPING_AWARD_BASIC);
-        if (StringUtils.isNotEmpty(command) && KEWConstants.DOCSEARCH_COMMAND.equals(command)) {
-            loadDocumentInForm(request, awardForm); 
-            KualiWorkflowDocument workflowDoc = awardForm.getAwardDocument().getDocumentHeader().getWorkflowDocument();
-            if (workflowDoc != null) {
-                awardForm.setDocTypeName(workflowDoc.getDocumentType());
-            }
-            request.setAttribute("selectedAwardNumber", awardForm.getAwardDocument().getAward().getAwardNumber());
-        } else {
-            forward = super.docHandler(mapping, awardForm, request, response);
-        }
-        populateAwardHierarchy(form);
+    public ActionForward docHandler(ActionMapping mapping, ActionForm form
+            , HttpServletRequest request, HttpServletResponse response) throws Exception { 
+    	    AwardForm awardForm = (AwardForm) form;
+            String command = request.getParameter(KewApiConstants.COMMAND_PARAMETER);
+            ActionForward forward = mapping.findForward(Constants.MAPPING_AWARD_BASIC);
+            if(StringUtils.isNotEmpty(command) && KewApiConstants.DOCSEARCH_COMMAND.equals(command)) {
+                loadDocumentInForm(request, awardForm); 
+                WorkflowDocument workflowDoc = awardForm.getAwardDocument().getDocumentHeader().getWorkflowDocument();
+                if(workflowDoc != null) {
+                    awardForm.setDocTypeName(workflowDoc.getDocumentTypeName());
+                }
+                request.setAttribute("selectedAwardNumber", awardForm.getAwardDocument().getAward().getAwardNumber());   
+            } else {
+                forward = super.docHandler(mapping, awardForm, request, response);
+            } 
+            populateAwardHierarchy(form); 
 
-        return forward;
+            return forward;
     }
     
     @Override
@@ -569,7 +570,7 @@ public class AwardActionsAction extends AwardAction implements AuditModeAction {
         AwardForm awardForm = (AwardForm) form;
         Map<String, Object> reportParameters = new HashMap<String, Object>();
         if (awardForm.getAwardTimeAndMoneyTransactionReport().getAmountInfoIndex() == null) {
-            GlobalVariables.getErrorMap().putError("awardTimeAndMoneyTransactionReport.amountInfoIndex",
+            GlobalVariables.getMessageMap().putError("awardTimeAndMoneyTransactionReport.amountInfoIndex",
                     "error.award.print.transactionId.required");
             return mapping.findForward(Constants.MAPPING_AWARD_BASIC);
         }
@@ -593,7 +594,7 @@ public class AwardActionsAction extends AwardAction implements AuditModeAction {
 
     protected String getAwardNumber(HttpServletRequest request) {
         String awardNumber = "";
-        String parameterName = (String) request.getAttribute(KNSConstants.METHOD_TO_CALL_ATTRIBUTE);
+        String parameterName = (String) request.getAttribute(KRADConstants.METHOD_TO_CALL_ATTRIBUTE);
         if (StringUtils.isNotBlank(parameterName)) {
             awardNumber = StringUtils.substringBetween(parameterName, ".awardNumber", ".");
         }
@@ -638,7 +639,7 @@ public class AwardActionsAction extends AwardAction implements AuditModeAction {
                 StringBuilder sb = new StringBuilder();
                 for(String str:order){
                     sb.append(awardHierarchyItems.get(str).getAwardNumber());
-                    sb.append(KNSConstants.BLANK_SPACE).append("%3A");
+                    sb.append(KRADConstants.BLANK_SPACE).append("%3A");
                 }
                 temp.setSelectBox1(sb.toString());
                 request.setAttribute("selectedAwardNumber", temp.getAwardNumber()); 
@@ -654,7 +655,7 @@ public class AwardActionsAction extends AwardAction implements AuditModeAction {
                     AwardHierarchyNode tempAwardNode = awardHierarchyNodes.get(str);
                     if(tempAwardNode.isAwardDocumentFinalStatus()) {
                         sb.append(tempAwardNode.getAwardNumber());
-                        sb.append(KNSConstants.BLANK_SPACE).append("%3A");    
+                        sb.append(KRADConstants.BLANK_SPACE).append("%3A");    
                     }
                 }
                 temp.setSelectBox2(sb.toString());
@@ -674,7 +675,7 @@ public class AwardActionsAction extends AwardAction implements AuditModeAction {
                                                             AwardHierarchy newNodeToView) throws WorkflowException {
         ActionForward forward;
         if(newNodeToView != null) {
-            awardForm.setCommand(KEWConstants.INITIATE_COMMAND);
+            awardForm.setCommand(KewApiConstants.INITIATE_COMMAND);
             createDocument(awardForm);
             Award newChildAward = newNodeToView.getAward();
             if(!newNodeToView.isRootNode()) {
@@ -694,7 +695,7 @@ public class AwardActionsAction extends AwardAction implements AuditModeAction {
             AwardHierarchy newNodeToView) throws Exception {
         ActionForward forward;
         if(newNodeToView != null) {
-            awardForm.setCommand(KEWConstants.INITIATE_COMMAND);
+            awardForm.setCommand(KewApiConstants.INITIATE_COMMAND);
             createDocument(awardForm);
             Award newChildAward = newNodeToView.getAward();
             if(!newNodeToView.isRootNode()) {
@@ -748,7 +749,6 @@ public class AwardActionsAction extends AwardAction implements AuditModeAction {
             AwardAccountValidationService accountValidationService = getAwardAccountValidationService();
             boolean rulePassed = accountValidationService.validateAwardAccountDetails(award);
             if (rulePassed) {
-                
                 AccountCreationClient client = (AccountCreationClient) KraServiceLocator.getService("accountCreationClient");
                 /*
                  * If account hasn't already been created, create it or
@@ -805,16 +805,16 @@ public class AwardActionsAction extends AwardAction implements AuditModeAction {
             return mapping.findForward(RiceConstants.MAPPING_BASIC);
         }
         
-        Object question = request.getParameter(KNSConstants.QUESTION_INST_ATTRIBUTE_NAME);
+        Object question = request.getParameter(KRADConstants.QUESTION_INST_ATTRIBUTE_NAME);
         // this should probably be moved into a private instance variable
         // logic for cancel question
         if (question == null) {
             // ask question if not already asked
-            return this.performQuestionWithoutInput(mapping, form, request, response, KNSConstants.DOCUMENT_CANCEL_QUESTION, getKualiConfigurationService().getPropertyString("document.question.cancel.text"), KNSConstants.CONFIRMATION_QUESTION, KNSConstants.MAPPING_CANCEL, "");
+            return this.performQuestionWithoutInput(mapping, form, request, response, KRADConstants.DOCUMENT_CANCEL_QUESTION, getKualiConfigurationService().getPropertyValueAsString("document.question.cancel.text"), KRADConstants.CONFIRMATION_QUESTION, KRADConstants.MAPPING_CANCEL, "");
         }
         else {
-            Object buttonClicked = request.getParameter(KNSConstants.QUESTION_CLICKED_BUTTON);
-            if ((KNSConstants.DOCUMENT_CANCEL_QUESTION.equals(question)) && ConfirmationQuestion.NO.equals(buttonClicked)) {
+            Object buttonClicked = request.getParameter(KRADConstants.QUESTION_CLICKED_BUTTON);
+            if ((KRADConstants.DOCUMENT_CANCEL_QUESTION.equals(question)) && ConfirmationQuestion.NO.equals(buttonClicked)) {
                 // if no button clicked just reload the doc
                 return mapping.findForward(RiceConstants.MAPPING_BASIC);
             }

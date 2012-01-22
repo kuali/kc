@@ -17,23 +17,14 @@ package org.kuali.kra.meeting;
 
 import static org.junit.Assert.assertEquals;
 
-import java.sql.Date;
-import java.sql.Timestamp;
-import java.text.DateFormat;
-import java.text.SimpleDateFormat;
-
 import org.junit.Test;
 import org.kuali.kra.committee.bo.Committee;
-import org.kuali.kra.committee.bo.CommitteeMembership;
-import org.kuali.kra.committee.bo.CommitteeMembershipRole;
 import org.kuali.kra.committee.bo.CommitteeSchedule;
-import org.kuali.kra.committee.bo.MembershipRole;
 import org.kuali.kra.committee.document.authorization.CommitteeScheduleTask;
 import org.kuali.kra.committee.document.authorization.CommitteeTask;
 import org.kuali.kra.infrastructure.TaskName;
 import org.kuali.kra.service.KraAuthorizationService;
 import org.kuali.kra.service.impl.mocks.KraAuthorizationServiceMock;
-import org.kuali.rice.kew.exception.WorkflowException;
 
 public class ViewScheduleAuthorizerTest {
     private static final String USERNAME = "quickstart";

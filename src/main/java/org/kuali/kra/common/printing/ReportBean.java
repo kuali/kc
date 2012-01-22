@@ -2,11 +2,11 @@ package org.kuali.kra.common.printing;
 
 import java.util.List;
 
-import org.kuali.rice.kns.bo.BusinessObject;
+import org.kuali.rice.core.web.format.Formatter;
 import org.kuali.rice.kns.web.comparator.CellComparatorHelper;
-import org.kuali.rice.kns.web.format.Formatter;
 import org.kuali.rice.kns.web.ui.Column;
 import org.kuali.rice.kns.web.ui.ResultRow;
+import org.kuali.rice.krad.bo.BusinessObject;
 
 /**
  * Rice foolishly requires beans used in DisplayTag to be BusinessObjects, so this class implements an interface whose behavior is completely inapplicable

@@ -31,19 +31,17 @@ import org.kuali.kra.committee.bo.Committee;
 import org.kuali.kra.infrastructure.KraServiceLocator;
 import org.kuali.kra.infrastructure.RoleConstants;
 import org.kuali.kra.kim.bo.KcKimAttributes;
-import org.kuali.kra.lookup.keyvalue.KeyLabelPairComparator;
+import org.kuali.kra.lookup.keyvalue.KeyValueComparator;
 import org.kuali.kra.lookup.keyvalue.PrefixValuesFinder;
 import org.kuali.kra.service.UnitService;
-import org.kuali.rice.core.util.KeyLabelPair;
-import org.kuali.rice.kew.util.KEWConstants;
-import org.kuali.rice.kim.bo.role.dto.KimRoleInfo;
-import org.kuali.rice.kim.bo.types.dto.AttributeSet;
-import org.kuali.rice.kim.service.KIMServiceLocator;
-import org.kuali.rice.kim.service.RoleManagementService;
-import org.kuali.rice.kim.service.RoleService;
-import org.kuali.rice.kns.lookup.keyvalues.KeyValuesBase;
-import org.kuali.rice.kns.service.BusinessObjectService;
-import org.kuali.rice.kns.util.GlobalVariables;
+import org.kuali.rice.core.api.util.ConcreteKeyValue;
+import org.kuali.rice.core.api.util.KeyValue;
+import org.kuali.rice.kew.api.KewApiConstants;
+import org.kuali.rice.kim.api.role.Role;
+import org.kuali.rice.kim.api.role.RoleService;
+import org.kuali.rice.krad.keyvalues.KeyValuesBase;
+import org.kuali.rice.krad.service.BusinessObjectService;
+import org.kuali.rice.krad.util.GlobalVariables;
 
 /**
  * This class returns a list of committees that is filtered by the current
@@ -81,12 +79,12 @@ public class CommitteeIdByUnitValuesFinder extends KeyValuesBase {
     
     /**
      * Returns the committees that the user is eligible to choose from.
-     * @see org.kuali.rice.kns.lookup.keyvalues.KeyValuesFinder#getKeyValues()
+     * @see org.kuali.rice.krad.keyvalues.KeyValuesFinder#getKeyValues()
      */
     @SuppressWarnings("unchecked" )
     public List getKeyValues() {
         Collection<Committee> committees = getValidCommittees();
-        List<KeyLabelPair> keyValues = new ArrayList<KeyLabelPair>();
+        List<KeyValue> keyValues = new ArrayList<KeyValue>();
         
         if (CollectionUtils.isNotEmpty(committees)) {    
             if (isSaved()) {
@@ -95,7 +93,7 @@ public class CommitteeIdByUnitValuesFinder extends KeyValuesBase {
                 for (Committee committee : committees) {
                     if (StringUtils.equalsIgnoreCase(committee.getCommitteeDocument().getDocStatusCode(), "F") 
                             && unitIds.contains(committee.getHomeUnit().getUnitNumber())) {
-                        keyValues.add(new KeyLabelPair(committee.getCommitteeId(), committee.getCommitteeName()));
+                        keyValues.add(new ConcreteKeyValue(committee.getCommitteeId(), committee.getCommitteeName()));
                     }
                 }
             } else {
@@ -104,14 +102,14 @@ public class CommitteeIdByUnitValuesFinder extends KeyValuesBase {
                 for (Committee committee : committees) {
                     if (unitIds.contains(committee.getHomeUnit().getUnitNumber()) ||
                             committee.getCommitteeId().equals(getCurrentCommitteeId())) {
-                        keyValues.add(new KeyLabelPair(committee.getCommitteeId(), committee.getCommitteeName()));
+                        keyValues.add(new ConcreteKeyValue(committee.getCommitteeId(), committee.getCommitteeName()));
                     }
                 }                
             }
 
-            Collections.sort(keyValues, new KeyLabelPairComparator());            
+            Collections.sort(keyValues, new KeyValueComparator());            
         }
-        keyValues.add(0, new KeyLabelPair(PrefixValuesFinder.getPrefixKey(), PrefixValuesFinder.getDefaultPrefixValue()));
+        keyValues.add(0, new ConcreteKeyValue(PrefixValuesFinder.getPrefixKey(), PrefixValuesFinder.getDefaultPrefixValue()));
                 
         return keyValues;
     }
@@ -123,7 +121,7 @@ public class CommitteeIdByUnitValuesFinder extends KeyValuesBase {
      * @return false if the document has not been submitted, true otherwise.
      */
     private boolean isSaved() {
-        if (getDocRouteStatus().equals(KEWConstants.ROUTE_HEADER_SAVED_CD)) {
+        if (getDocRouteStatus().equals(KewApiConstants.ROUTE_HEADER_SAVED_CD)) {
             return true;
         } else {
             return false;
@@ -138,18 +136,18 @@ public class CommitteeIdByUnitValuesFinder extends KeyValuesBase {
      */
     private void getIRBAdminUnitIds() {        
         String principalId = GlobalVariables.getUserSession().getPerson().getPrincipalId();
-        KimRoleInfo roleInfo = getRoleManagementService().getRoleByName(RoleConstants.DEPARTMENT_ROLE_TYPE, RoleConstants.IRB_ADMINISTRATOR);
+        Role roleInfo = getRoleService().getRoleByNameAndNamespaceCode(RoleConstants.DEPARTMENT_ROLE_TYPE, RoleConstants.IRB_ADMINISTRATOR);
         List<String> roleIds = new ArrayList<String>();
-        roleIds.add(roleInfo.getRoleId());
+        roleIds.add(roleInfo.getId());
         Map<String, String> qualifiedRoleAttributes = new HashMap<String, String>();
         qualifiedRoleAttributes.put(KcKimAttributes.UNIT_NUMBER, "*");
-        AttributeSet qualifications = new AttributeSet(qualifiedRoleAttributes);
-        boolean valid = getRoleManagementService().principalHasRole(principalId, roleIds, qualifications);
+        Map<String,String> qualifications =new HashMap<String,String>(qualifiedRoleAttributes);
+        boolean valid = getRoleService().principalHasRole(principalId, roleIds, qualifications);
         
         //User has the irb admin role, now check to see if he has the necessary role qualifier.
         if (valid) {
-            List<AttributeSet> principalQualifications = getRoleManagementService().getRoleQualifiersForPrincipal(principalId, roleIds, qualifications);
-            for (AttributeSet attrSet : principalQualifications) {            
+            List<Map<String,String>> principalQualifications = getRoleService().getNestedRoleQualifiersForPrincipalByRoleIds(principalId, roleIds, qualifications);
+            for (Map<String,String> attrSet : principalQualifications) {            
                 Unit unit = getUnitService().getUnit(attrSet.get(KcKimAttributes.UNIT_NUMBER));
                 if(unit != null) {
                     unitIds.add(unit.getUnitNumber());
@@ -247,11 +245,11 @@ public class CommitteeIdByUnitValuesFinder extends KeyValuesBase {
     }
     
     /**
-     * Quick method to get the RoleManagementService
-     * @return RoleManagementService reference
+     * Quick method to get the RoleService
+     * @return RoleService reference
      */
-    private RoleManagementService getRoleManagementService() {
-        return KraServiceLocator.getService(RoleManagementService.class);
+    private RoleService getRoleService() {
+        return KraServiceLocator.getService(RoleService.class);
     }
 
     public String getProtocolLeadUnit() {

@@ -22,7 +22,6 @@ import java.util.Map;
 import java.util.regex.Pattern;
 
 import org.apache.commons.lang.StringUtils;
-import org.kuali.kra.subaward.document.SubAwardDocument;
 import org.kuali.kra.bo.CustomAttribute;
 import org.kuali.kra.bo.CustomAttributeDataType;
 import org.kuali.kra.bo.CustomAttributeDocument;
@@ -33,11 +32,11 @@ import org.kuali.kra.lookup.keyvalue.ArgValueLookupValuesFinder;
 import org.kuali.kra.rules.ResearchDocumentRuleBase;
 import org.kuali.kra.service.CustomAttributeService;
 import org.kuali.kra.service.KcPersonService;
-import org.kuali.rice.core.util.KeyLabelPair;
-import org.kuali.rice.kns.datadictionary.validation.ValidationPattern;
-import org.kuali.rice.kns.datadictionary.validation.charlevel.RegexValidationPattern;
-import org.kuali.rice.kns.util.GlobalVariables;
-import org.kuali.rice.kns.util.RiceKeyConstants;
+import org.kuali.kra.subaward.document.SubAwardDocument;
+import org.kuali.rice.core.api.util.KeyValue;
+import org.kuali.rice.core.api.util.RiceKeyConstants;
+import org.kuali.rice.krad.datadictionary.validation.ValidationPattern;
+import org.kuali.rice.krad.util.GlobalVariables;
 
 /**
  * This contains methods to process business rules on Award Custom data.
@@ -104,7 +103,7 @@ public class SubAwardCustomDataRuleImpl extends ResearchDocumentRuleBase impleme
         if (customAttributeDataType != null) {
             Integer maxLength = customAttribute.getDataLength();
             if ((maxLength != null) && (maxLength.intValue() < attributeValue.length())) {
-                GlobalVariables.getErrorMap().putError(errorKey, RiceKeyConstants.ERROR_MAX_LENGTH, customAttribute.getLabel(), maxLength.toString());
+                GlobalVariables.getMessageMap().putError(errorKey, RiceKeyConstants.ERROR_MAX_LENGTH, customAttribute.getLabel(), maxLength.toString());
                 return false;
             }
                 
@@ -124,14 +123,14 @@ public class SubAwardCustomDataRuleImpl extends ResearchDocumentRuleBase impleme
             
                 if (validationExpression != null && !validationExpression.pattern().equals(DOT_STAR)) {
                     if (!validationExpression.matcher(attributeValue).matches()) {
-                        GlobalVariables.getErrorMap().putError(errorKey, RiceKeyConstants.ERROR_INVALID_FORMAT, 
+                        GlobalVariables.getMessageMap().putError(errorKey, RiceKeyConstants.ERROR_INVALID_FORMAT, 
                                                                 customAttribute.getLabel(), attributeValue, validFormat);
                         return false;
                     }
                 }
             } else if (customAttributeDataType.getDescription().equalsIgnoreCase(DATE)) {
                 if(!attributeValue.matches(DATE_REGEX)) {
-                    GlobalVariables.getErrorMap().putError(errorKey, RiceKeyConstants.ERROR_INVALID_FORMAT, 
+                    GlobalVariables.getMessageMap().putError(errorKey, RiceKeyConstants.ERROR_INVALID_FORMAT, 
                             customAttribute.getLabel(), attributeValue, validFormat);
                      return false;
                 }
@@ -147,7 +146,7 @@ public class SubAwardCustomDataRuleImpl extends ResearchDocumentRuleBase impleme
                     KcPerson customPerson = kps.getKcPersonByUserName(customAttribute.getValue());
                     if (customPerson == null)
                     {
-                        GlobalVariables.getErrorMap().putError(errorKey, RiceKeyConstants.ERROR_EXISTENCE, 
+                        GlobalVariables.getMessageMap().putError(errorKey, RiceKeyConstants.ERROR_EXISTENCE, 
                             customAttribute.getLabel(), attributeValue, validFormat);
                         return false;
                     }
@@ -165,19 +164,19 @@ public class SubAwardCustomDataRuleImpl extends ResearchDocumentRuleBase impleme
             {
                     ArgValueLookupValuesFinder finder = new  ArgValueLookupValuesFinder();
                     finder.setArgName(customAttribute.getLookupReturn());
-                    List<KeyLabelPair> kv = finder.getKeyValues();
-                    Iterator<KeyLabelPair> i = kv.iterator();
+                    List<KeyValue> kv = finder.getKeyValues();
+                    Iterator<KeyValue> i = kv.iterator();
                     while (i.hasNext())
                     {
-                        KeyLabelPair element = (KeyLabelPair) i.next();
-                        String label = element.getLabel().toLowerCase();
+                        KeyValue element = (KeyValue) i.next();
+                        String label = element.getValue().toLowerCase();
                         if (label.equals(attributeValue.toLowerCase()))
                         {
                             return true;
                         }      
                     }
                     validFormat = getValidFormat(customAttributeDataType.getDescription());
-                    GlobalVariables.getErrorMap().putError(errorKey, RiceKeyConstants.ERROR_EXISTENCE, 
+                    GlobalVariables.getMessageMap().putError(errorKey, RiceKeyConstants.ERROR_EXISTENCE, 
                           customAttribute.getLabel(), attributeValue, validFormat);
                     return false;           
             }
@@ -185,19 +184,19 @@ public class SubAwardCustomDataRuleImpl extends ResearchDocumentRuleBase impleme
             {
                     ArgValueLookupValuesFinder finder = new  ArgValueLookupValuesFinder();
                     finder.setArgName(customAttribute.getLookupReturn());
-                    List<KeyLabelPair> kv = finder.getKeyValues();
-                    Iterator<KeyLabelPair> i = kv.iterator();
+                    List<KeyValue> kv = finder.getKeyValues();
+                    Iterator<KeyValue> i = kv.iterator();
                     while (i.hasNext())
                     {
-                        KeyLabelPair element = (KeyLabelPair) i.next();
-                        String label = element.getLabel().toLowerCase();
+                        KeyValue element = (KeyValue) i.next();
+                        String label = element.getValue().toLowerCase();
                         if (label.equals(attributeValue.toLowerCase()))
                         {
                             return true;
                         }      
                     }
                     validFormat = getValidFormat(customAttributeDataType.getDescription());
-                    GlobalVariables.getErrorMap().putError(errorKey, RiceKeyConstants.ERROR_EXISTENCE, 
+                    GlobalVariables.getMessageMap().putError(errorKey, RiceKeyConstants.ERROR_EXISTENCE, 
                           customAttribute.getLabel(), attributeValue, validFormat);
                     return false;           
             }
@@ -213,7 +212,7 @@ public class SubAwardCustomDataRuleImpl extends ResearchDocumentRuleBase impleme
                 if (isInvalid(boClass, keyValue(customAttribute.getLookupReturn(), customAttribute.getValue() ) ) )         
                 {
                     validFormat = getValidFormat(customAttributeDataType.getDescription());
-                    GlobalVariables.getErrorMap().putError(errorKey, RiceKeyConstants.ERROR_EXISTENCE, 
+                    GlobalVariables.getMessageMap().putError(errorKey, RiceKeyConstants.ERROR_EXISTENCE, 
                              customAttribute.getLabel(), attributeValue, validFormat);
                     return false;
                 }

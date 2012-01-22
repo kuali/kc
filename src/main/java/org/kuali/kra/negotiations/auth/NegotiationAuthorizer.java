@@ -17,13 +17,11 @@ package org.kuali.kra.negotiations.auth;
 
 import org.kuali.kra.authorization.Task;
 import org.kuali.kra.authorization.TaskAuthorizerImpl;
-import org.kuali.kra.irb.Protocol;
-import org.kuali.kra.irb.auth.ProtocolTask;
 import org.kuali.kra.negotiations.bo.Negotiation;
 import org.kuali.kra.service.KraAuthorizationService;
-import org.kuali.rice.kns.document.Document;
-import org.kuali.rice.kns.document.authorization.PessimisticLock;
-import org.kuali.rice.kns.util.GlobalVariables;
+import org.kuali.rice.krad.document.Document;
+import org.kuali.rice.krad.document.authorization.PessimisticLock;
+import org.kuali.rice.krad.util.GlobalVariables;
 
 public abstract class NegotiationAuthorizer extends TaskAuthorizerImpl {
     

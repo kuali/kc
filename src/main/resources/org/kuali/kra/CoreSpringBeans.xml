@@ -28,7 +28,7 @@
 
 	<bean id="baseModuleConfiguration" parent="baseModuleConfiguration-parentBean" />
 
-	<bean id="baseModuleConfiguration-parentBean" class="org.kuali.rice.kns.bo.ModuleConfiguration"
+	<bean id="baseModuleConfiguration-parentBean" class="org.kuali.rice.krad.bo.ModuleConfiguration"
 		abstract="true">
 		<property name="initializeDataDictionary" value="true" />
 
@@ -50,12 +50,13 @@
 			</list>
 		</property>
 	</bean>
-
+	
 	<bean id="kraWorkflowService" class="org.kuali.kra.service.impl.KraWorkflowServiceImpl">
-		<property name="workflowUtility" ref="workflowUtilityService" />
+		<property name="workflowDocumentService" ref="kewWorkflowDocumentService" />
+		<property name="workflowDocumentActionsService" ref="workflowDocumentActionsService" />
 	</bean>
 
-	<bean id="kcService" class="org.kuali.rice.ksb.messaging.JavaServiceDefinition"
+	<bean id="kcService" class="org.kuali.rice.ksb.api.bus.support.JavaServiceDefinition"
 		abstract="true">
 		<!-- DO NOT CHANGE THIS EMPTY NAMESPACE STRING -->
 		<property name="serviceNameSpaceURI" value="" />
@@ -118,8 +119,11 @@
 	<bean id="systemAuthorizationService"
 		class="org.kuali.kra.service.impl.SystemAuthorizationServiceImpl">
 		<property name="roleManagementService">
-			<ref bean="roleManagementService" />
+			<ref bean="roleService" />
 		</property>
+		<property name="permissionService">
+			<ref bean="permissionService" />
+		</property>		
 	</bean>
 
 	<bean id="unitAuthorizationService" class="org.kuali.kra.service.impl.UnitAuthorizationServiceImpl">
@@ -129,11 +133,11 @@
 		<property name="systemAuthorizationService">
 			<ref bean="systemAuthorizationService" />
 		</property>
-		<property name="identityManagementService">
-			<ref bean="identityManagementService" />
+		<property name="permissionService">
+			<ref bean="permissionService" />
 		</property>
 		<property name="roleManagementService">
-			<ref bean="roleManagementService" />
+			<ref bean="roleService" />
 		</property>
 	</bean>
 
@@ -145,11 +149,14 @@
 			<ref bean="kcPersonService" />
 		</property>
 		<property name="roleManagementService">
-			<ref bean="roleManagementService" />
+			<ref bean="roleService" />
 		</property>
 		<property name="identityManagementService">
-			<ref bean="identityManagementService" />
+			<ref bean="identityService" />
 		</property>
+		<property name="permissionService">
+			<ref bean="permissionService" />
+		</property>		
 	</bean>
 
 	<!-- Application Task Authorizers -->
@@ -191,7 +198,7 @@
 			<ref bean="kraAuthorizationService" />
 		</property>
 		<property name="roleManagementService">
-			<ref bean="roleManagementService" />
+			<ref bean="roleService" />
 		</property>
 		<property name="systemAuthorizationService">
 			<ref bean="systemAuthorizationService" />
@@ -321,6 +328,7 @@
 			</list>
 		</property>
 	</bean>
+	 
 	<bean id="researchAreasService" class="org.kuali.kra.service.impl.ResearchAreasServiceImpl">
 		<property name="businessObjectService">
 			<ref bean="businessObjectService" />
@@ -423,6 +431,9 @@
 		<property name="documentService">
 			<ref bean="documentService" />
 		</property>
+		<property name="workflowDocumentService">
+			<ref bean="kradWorkflowDocumentService" />
+		</property>		
 	</bean>
 
 	<bean id="watermarkService"
@@ -551,7 +562,7 @@
         </property>
     </bean>
     
-    <bean id="responsibilityLookupable" class="org.kuali.rice.kim.lookup.ResponsibilityLookupableImpl"
+    <bean id="responsibilityLookupable" class="org.kuali.rice.kim.impl.responsibility.ResponsibilityLookupableImpl"
         scope="prototype">
         <property name="lookupableHelperService">
             <bean class="org.kuali.kra.lookup.ResponsibilityLookupableHelperServiceImpl"
@@ -562,12 +573,17 @@
             </bean>
         </property>
     </bean>
-    
-    <bean id="roleLookupable" class="org.kuali.rice.kim.lookup.RoleLookupableImpl"
-        scope="prototype">
+
+	<bean id="kimRoleDao"
+		class="org.kuali.rice.krad.config.GlobalResourceLoaderServiceFactoryBean">
+		<property name="serviceName" value="kimRoleDao" />
+	</bean>
+	    
+   <bean id="roleLookupable" class="org.kuali.rice.kim.lookup.RoleLookupableImpl" 
+        scope="prototype">         
         <property name="lookupableHelperService">
             <bean class="org.kuali.kra.lookup.RoleLookupableHelperServiceImpl"
-                parent="lookupableHelperService">
+                parent="lookupableHelperService" p:roleDao-ref="kimRoleDao">
                     <property name="multiCampusIdentityService">
                         <ref bean="multiCampusIdentityService" />
                     </property>
@@ -576,7 +592,7 @@
 	</bean>
 
 	<bean id="unitRoleTypeService" class="org.kuali.kra.kim.service.impl.UnitRoleTypeServiceImpl" />
-	<bean class="org.kuali.rice.ksb.messaging.KSBExporter">
+	<bean class="org.kuali.rice.ksb.api.bus.support.ServiceBusExporter">
 		<property name="serviceDefinition">
 			<bean parent="kcService" p:service-ref="unitRoleTypeService"
 				p:localServiceName="unitRoleTypeService" />
@@ -589,7 +605,7 @@
 			<ref bean="unitService" />
 		</property>
 	</bean>
-	<bean class="org.kuali.rice.ksb.messaging.KSBExporter">
+	<bean class="org.kuali.rice.ksb.api.bus.support.ServiceBusExporter">
 		<property name="serviceDefinition">
 			<bean parent="kcService" p:service-ref="unitHierarchyRoleTypeService"
 				p:localServiceName="unitHierarchyRoleTypeService" />
@@ -600,7 +616,7 @@
 		class="org.kuali.kra.kim.service.impl.UnitAdministratorDerivedRoleTypeServiceImpl">
 		<property name="unitService" ref="unitService" />
 	</bean>
-	<bean class="org.kuali.rice.ksb.messaging.KSBExporter">
+	<bean class="org.kuali.rice.ksb.api.bus.support.ServiceBusExporter">
 		<property name="serviceDefinition">
 			<bean parent="kcService" p:service-ref="unitAdministratorDerivedRoleTypeService"
 				p:localServiceName="unitAdministratorDerivedRoleTypeService" />
@@ -626,9 +642,9 @@
 		<property name="businessObjectService" ref="businessObjectService" />
 	</bean>
 
-	<bean id="institutionalUnitServiceJavaExporter" class="org.kuali.rice.ksb.messaging.KSBExporter">
+	<bean id="institutionalUnitServiceJavaExporter" class="org.kuali.rice.ksb.api.bus.support.ServiceBusExporter">
 		<property name="serviceDefinition">
-			<bean class="org.kuali.rice.ksb.messaging.JavaServiceDefinition">
+			<bean class="org.kuali.rice.ksb.api.bus.support.JavaServiceDefinition">
 				<property name="service" ref="institutionalUnitService" />
 				<property name="serviceNameSpaceURI" value="KC" />
 				<property name="localServiceName" value="institutionalUnitService" />
@@ -640,9 +656,9 @@
 		</property>
 	</bean>
 
-	<bean id="institutionalUnitServiceSoapExporter" class="org.kuali.rice.ksb.messaging.KSBExporter">
+	<bean id="institutionalUnitServiceSoapExporter" class="org.kuali.rice.ksb.api.bus.support.ServiceBusExporter">
 		<property name="serviceDefinition">
-			<bean class="org.kuali.rice.ksb.messaging.SOAPServiceDefinition">
+			<bean class="org.kuali.rice.ksb.api.bus.support.SoapServiceDefinition">
 				<property name="service" ref="institutionalUnitService" />
 				<property name="serviceNameSpaceURI" value="KC" />
 				<property name="localServiceName" value="institutionalUnitSoapService" />
@@ -652,7 +668,7 @@
 		</property>
 	</bean>
 	<bean id="kcGroupService" class="org.kuali.kra.kim.service.impl.KcGroupServiceImpl">
-		<property name="identityManagementService" ref="identityManagementService" />
+		<property name="groupService" ref="groupService" />
 	</bean>
 
 	<bean id="medusaService" class="org.kuali.kra.medusa.service.MedusaServiceImpl">
@@ -663,17 +679,12 @@
 	</bean>
 
 	<bean id="notificationService"
-		class="org.kuali.rice.kns.config.GlobalResourceLoaderServiceFactoryBean">
+		class="org.kuali.rice.krad.config.GlobalResourceLoaderServiceFactoryBean">
 		<property name="serviceName" value="notificationService" />
 	</bean>
-	
-	<bean id="roleService"
-        class="org.kuali.rice.kns.config.GlobalResourceLoaderServiceFactoryBean">
-        <property name="serviceName" value="roleService" />
-    </bean>
 
 	<bean id="xmlObjectSerializerService"
-		class="org.kuali.rice.kns.config.GlobalResourceLoaderServiceFactoryBean">
+		class="org.kuali.rice.krad.config.GlobalResourceLoaderServiceFactoryBean">
 		<property name="serviceName" value="xmlObjectSerializerService" />
 	</bean>
 
@@ -722,7 +733,7 @@
             <ref bean="businessObjectService" />
         </property>
         <property name="roleManagementService">
-            <ref bean="roleManagementService" />
+            <ref bean="roleService" />
         </property>
 		<property name="kcPersonService">
 			<ref bean="kcPersonService" />
@@ -733,12 +744,12 @@
 		<property name="parameterService">
             <ref bean="parameterService" />
         </property>
-        <property name="identityManagementService">
-            <ref bean="identityManagementService" />
-        </property>
+        <property name="identityService">
+            <ref bean="identityService" />
+        </property>        
         <property name="kcEmailService">
             <ref bean="kcEmailService" />
-        </property>                
+        </property>         
 	</bean>
 	
     <bean id="kcNotificationModuleRoleService" class="org.kuali.kra.common.notification.service.impl.KcNotificationModuleRoleServiceImpl">
@@ -836,7 +847,7 @@
 			<ref bean="negotiationService"/>
 		</property>
 	</bean>
-    <bean class="org.kuali.rice.ksb.messaging.KSBExporter">
+    <bean class="org.kuali.rice.ksb.api.bus.support.ServiceBusExporter">
 		<property name="serviceDefinition">
 			<bean parent="kcService" p:service-ref="negotiationPersonDerivedRoleType"
 				p:localServiceName="negotiationPersonDerivedRoleType" />
@@ -844,7 +855,7 @@
 	</bean>
 	
 	<bean id="negotiationNegotiatorDerivedRoleType" class="org.kuali.kra.negotiations.service.NegotiationNegotiatorDerivedRoleTypeServiceImpl"/>    
-	<bean class="org.kuali.rice.ksb.messaging.KSBExporter">
+	<bean class="org.kuali.rice.ksb.api.bus.support.ServiceBusExporter">
 		<property name="serviceDefinition">
 			<bean parent="kcService" p:service-ref="negotiationNegotiatorDerivedRoleType"
 				p:localServiceName="negotiationNegotiatorDerivedRoleType" />
@@ -859,8 +870,8 @@
         <property name="businessObjectService">
             <ref bean="businessObjectService" />
         </property>
-    </bean> 
-    
+    </bean>    
+	
     <bean id="kcEmailService" class="org.kuali.kra.service.impl.KcEmailServiceImpl">
     </bean>   
 	

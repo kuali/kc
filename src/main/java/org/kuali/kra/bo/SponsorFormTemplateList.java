@@ -15,19 +15,10 @@
  */
 package org.kuali.kra.bo;
 
-import java.util.LinkedHashMap;
 
 public class SponsorFormTemplateList extends AbstractSponsorFormTemplate {
-    private Boolean selectToPrint = false;
 
-    @Override 
-	protected LinkedHashMap toStringMapper() {
-		LinkedHashMap hashMap = new LinkedHashMap();
-		hashMap.put("sponsorFormId", getSponsorFormId());
-		hashMap.put("pageNumber", getPageNumber());
-		hashMap.put("pageDescription", getPageDescription());
-		return hashMap;
-	}
+    private Boolean selectToPrint = false;
 
     public final Boolean getSelectToPrint() {
         return selectToPrint;
@@ -36,5 +27,4 @@ public class SponsorFormTemplateList extends AbstractSponsorFormTemplate {
     public final void setSelectToPrint(Boolean selectToPrint) {
         this.selectToPrint = selectToPrint;
     }
-    
 }

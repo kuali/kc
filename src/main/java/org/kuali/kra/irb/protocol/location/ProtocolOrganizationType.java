@@ -15,71 +15,58 @@
  */
 package org.kuali.kra.irb.protocol.location;
 
-import java.util.LinkedHashMap;
-
 import org.kuali.kra.bo.KraPersistableBusinessObjectBase;
 
 /**
  * 
  * This class represents the Protocol Organization Type Business Object.
  */
-public class ProtocolOrganizationType extends KraPersistableBusinessObjectBase { 
-	
-	/**
+public class ProtocolOrganizationType extends KraPersistableBusinessObjectBase {
+
+    /**
      * Comment for <code>serialVersionUID</code>
      */
     private static final long serialVersionUID = 148098563046181725L;
-    private String protocolOrganizationTypeCode; 
-	private String description; 
-	
-	/**
+
+    private String protocolOrganizationTypeCode;
+
+    private String description;
+
+    /**
 	 * Constructs a ProtocolOrganizationType.java.
 	 */
-	public ProtocolOrganizationType() { 
+    public ProtocolOrganizationType() {
+    }
 
-	} 
-	
-	/**
+    /**
 	 * This method...
 	 * @return
 	 */
-	public String getProtocolOrganizationTypeCode() {
-		return protocolOrganizationTypeCode;
-	}
+    public String getProtocolOrganizationTypeCode() {
+        return protocolOrganizationTypeCode;
+    }
 
-	/**
+    /**
 	 * This method...
 	 * @param protocolOrganizationTypeCode
 	 */
-	public void setProtocolOrganizationTypeCode(String protocolOrganizationTypeCode) {
-		this.protocolOrganizationTypeCode = protocolOrganizationTypeCode;
-	}
+    public void setProtocolOrganizationTypeCode(String protocolOrganizationTypeCode) {
+        this.protocolOrganizationTypeCode = protocolOrganizationTypeCode;
+    }
 
-	/**
+    /**
 	 * This method...
 	 * @return
 	 */
-	public String getDescription() {
-		return description;
-	}
+    public String getDescription() {
+        return description;
+    }
 
-	/**
+    /**
 	 * This method...
 	 * @param description
 	 */
-	public void setDescription(String description) {
-		this.description = description;
-	}
-
-	/**
-	 * @see org.kuali.rice.kns.bo.BusinessObjectBase#toStringMapper()
-	 */
-	@Override 
-	protected LinkedHashMap<String,Object> toStringMapper() {
-		LinkedHashMap<String,Object> hashMap = new LinkedHashMap<String,Object>();
-		hashMap.put("protocolOrganizationTypeCode", getProtocolOrganizationTypeCode());
-		hashMap.put("description", getDescription());
-		return hashMap;
-	}
-	
+    public void setDescription(String description) {
+        this.description = description;
+    }
 }

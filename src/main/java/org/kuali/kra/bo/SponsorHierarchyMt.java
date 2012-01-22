@@ -15,33 +15,32 @@
  */
 package org.kuali.kra.bo;
 
+import java.util.UUID;
+
 import org.apache.commons.lang.StringUtils;
-import org.apache.ojb.broker.PersistenceBroker;
-import org.apache.ojb.broker.PersistenceBrokerException;
 import org.kuali.kra.infrastructure.Constants;
 import org.kuali.kra.infrastructure.KraServiceLocator;
-import org.kuali.rice.kns.service.DateTimeService;
-import org.kuali.rice.kns.util.GlobalVariables;
-import org.kuali.rice.kns.util.Guid;
+import org.kuali.rice.core.api.datetime.DateTimeService;
+import org.kuali.rice.krad.util.GlobalVariables;
 
 public class SponsorHierarchyMt extends SponsorHierarchy {
 
     // override the following methods for dwr-ajax.  sometimes dwr-ajax has usersession as null ??
     @Override
-    public void beforeInsert(PersistenceBroker persistenceBroker) throws PersistenceBrokerException {
+    protected void prePersist() {
         if (StringUtils.isEmpty(this.getObjectId())) {
-            this.setObjectId(new Guid().toString());
+            this.setObjectId(UUID.randomUUID().toString());
         }
-        //super.beforeInsert(persistenceBroker);
+        //super.prePersist();
         setUpdateFields();
     }
 
     @Override
-    public void beforeUpdate(PersistenceBroker persistenceBroker) throws PersistenceBrokerException {
+    protected void preUpdate() {
         if (StringUtils.isEmpty(this.getObjectId())) {
-            this.setObjectId(new Guid().toString());
+            this.setObjectId(UUID.randomUUID().toString());
         }
-        //super.beforeUpdate(persistenceBroker);
+        //super.preUpdate();
         setUpdateFields();
     }
     

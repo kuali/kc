@@ -22,7 +22,7 @@ import org.kuali.kra.bo.ResearchArea;
 import org.kuali.kra.committee.bo.Committee;
 import org.kuali.kra.committee.bo.CommitteeMembership;
 import org.kuali.kra.committee.bo.CommitteeSchedule;
-import org.kuali.rice.core.util.KeyLabelPair;
+import org.kuali.rice.core.api.util.KeyValue;
 
 /**
  * The Committee Service provides a set of methods for
@@ -50,7 +50,7 @@ public interface CommitteeService {
      * @param id the committee's unique id
      * @return list of key/value pairs with the dates  
      */
-    public List<KeyLabelPair> getAvailableCommitteeDates(String committeeId);
+    public List<KeyValue> getAvailableCommitteeDates(String committeeId);
     
     /**
      * Get the active members scheduled for a future meeting (schedule) in a committee.

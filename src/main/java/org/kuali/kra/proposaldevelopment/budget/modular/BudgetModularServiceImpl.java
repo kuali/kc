@@ -16,6 +16,7 @@
 package org.kuali.kra.proposaldevelopment.budget.modular;
 
 import java.util.ArrayList;
+import java.util.Collection;
 import java.util.List;
 
 import org.kuali.kra.budget.BudgetDecimal;
@@ -26,9 +27,8 @@ import org.kuali.kra.budget.nonpersonnel.BudgetLineItem;
 import org.kuali.kra.budget.nonpersonnel.BudgetRateAndBase;
 import org.kuali.kra.budget.parameters.BudgetPeriod;
 import org.kuali.kra.infrastructure.Constants;
-import org.kuali.rice.kns.service.KualiConfigurationService;
-import org.kuali.rice.kns.service.ParameterService;
-import org.kuali.rice.kns.util.ObjectUtils;
+import org.kuali.rice.coreservice.framework.parameter.ParameterService;
+import org.kuali.rice.krad.util.ObjectUtils;
 
 public class BudgetModularServiceImpl implements BudgetModularService {
     
@@ -112,7 +112,7 @@ public class BudgetModularServiceImpl implements BudgetModularService {
             for (BudgetLineItem budgetLineItem: budgetPeriod.getBudgetLineItems()) {
                 
                 budgetCalculationService.calculateBudgetLineItem(budget, budgetLineItem);
-                List<String> consortiumFnaCostElements = this.parameterService.getParameterValues(
+                Collection<String> consortiumFnaCostElements = this.parameterService.getParameterValuesAsString(
                         BudgetDocument.class, Constants.PARAMETER_FNA_COST_ELEMENTS);
                 
                 //is cost direct or indirect? Add cost to correct variable.
@@ -124,7 +124,7 @@ public class BudgetModularServiceImpl implements BudgetModularService {
                 //for every indirect cost do this.
                 for (BudgetRateAndBase budgetRateAndBase: budgetLineItem.getBudgetRateAndBaseList()) {
                     budgetRateAndBase.refreshReferenceObject(RATE_CLASS_PROPERTY_NAME);
-                    String fnaRateClassType = this.parameterService.getParameterValue(
+                    String fnaRateClassType = this.parameterService.getParameterValueAsString(
                             BudgetDocument.class, Constants.PARAMETER_FNA_RATE_CLASS_TYPE);
                   
                     if (budgetRateAndBase.getRateClass().getRateClassType().equals(fnaRateClassType)) {

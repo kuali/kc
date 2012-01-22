@@ -36,12 +36,12 @@ import org.kuali.kra.institutionalproposal.home.InstitutionalProposal;
 import org.kuali.kra.institutionalproposal.proposaladmindetails.ProposalAdminDetails;
 import org.kuali.kra.institutionalproposal.service.InstitutionalProposalService;
 import org.kuali.kra.proposaldevelopment.bo.DevelopmentProposal;
-import org.kuali.rice.kim.bo.types.dto.AttributeSet;
-import org.kuali.rice.kim.service.IdentityManagementService;
-import org.kuali.rice.kns.service.BusinessObjectService;
-import org.kuali.rice.kns.service.ParameterConstants;
-import org.kuali.rice.kns.service.ParameterService;
-import org.kuali.rice.kns.util.GlobalVariables;
+import org.kuali.rice.coreservice.framework.parameter.ParameterConstants;
+import org.kuali.rice.coreservice.framework.parameter.ParameterService;
+import org.kuali.rice.kim.api.identity.IdentityService;
+import org.kuali.rice.kim.api.permission.PermissionService;
+import org.kuali.rice.krad.service.BusinessObjectService;
+import org.kuali.rice.krad.util.GlobalVariables;
 
 public class AwardFundingProposalBean implements Serializable {
     
@@ -74,6 +74,7 @@ public class AwardFundingProposalBean implements Serializable {
      * This method adds a Funding Proposal
      */
     public void addFundingProposal() {
+        
         if (getNewFundingProposal() != null) {
             if (validateForAdd()) {
                 getAward().add(newFundingProposal);                
@@ -325,7 +326,7 @@ public class AwardFundingProposalBean implements Serializable {
     private boolean validProposalStatus() {
         
         int proposalStatusCode = newFundingProposal.getProposalStatus().getProposalStatusCode();
-        List<String> validCodes= KraServiceLocator.getService(ParameterService.class).getParameterValues(Constants.MODULE_NAMESPACE_INSTITUTIONAL_PROPOSAL, ParameterConstants.DOCUMENT_COMPONENT, "validFundingProposalStatusCodes");
+        List<String> validCodes= new ArrayList<String>( KraServiceLocator.getService(ParameterService.class).getParameterValuesAsString(Constants.MODULE_NAMESPACE_INSTITUTIONAL_PROPOSAL, ParameterConstants.DOCUMENT_COMPONENT, "validFundingProposalStatusCodes") );
         ListIterator itr= validCodes.listIterator();
         while(itr.hasNext()) {
             Object currentCode= itr.next();
@@ -378,18 +379,18 @@ public class AwardFundingProposalBean implements Serializable {
     }
     
     private boolean userCanCreateProposal() {
-        AttributeSet permissionDetails = new AttributeSet();
+        Map<String,String> permissionDetails =new HashMap<String,String>();
         permissionDetails.put(PermissionConstants.DOCUMENT_TYPE_ATTRIBUTE_QUALIFIER, InstitutionalProposalConstants.INSTITUTIONAL_PROPOSAL_DOCUMENT_NAME);
-        return getIdentityManagementService().hasPermission(GlobalVariables.getUserSession().getPrincipalId(), 
+        return getPermissionService().hasPermission(GlobalVariables.getUserSession().getPrincipalId(), 
                 InstitutionalProposalConstants.INSTITUTIONAL_PROPOSAL_NAMESPACE, 
                 PermissionConstants.CREATE_INSTITUTIONAL_PROPOSAL, 
                 permissionDetails);
     }
     
     private boolean userCanSubmitProposal() {
-        AttributeSet permissionDetails = new AttributeSet();
+        Map<String,String> permissionDetails =new HashMap<String,String>();
         permissionDetails.put(PermissionConstants.DOCUMENT_TYPE_ATTRIBUTE_QUALIFIER, InstitutionalProposalConstants.INSTITUTIONAL_PROPOSAL_DOCUMENT_NAME);
-        return getIdentityManagementService().hasPermission(GlobalVariables.getUserSession().getPrincipalId(), 
+        return getPermissionService().hasPermission(GlobalVariables.getUserSession().getPrincipalId(), 
                 InstitutionalProposalConstants.INSTITUTIONAL_PROPOSAL_NAMESPACE, 
                 PermissionConstants.SUBMIT_INSTITUTIONAL_PROPOSAL, 
                 permissionDetails);
@@ -399,8 +400,11 @@ public class AwardFundingProposalBean implements Serializable {
         return KraServiceLocator.getService(InstitutionalProposalService.class);
     }
     
-    protected IdentityManagementService getIdentityManagementService() {
-        return KraServiceLocator.getService(IdentityManagementService.class);
+    protected IdentityService getIdentityService() {
+        return KraServiceLocator.getService(IdentityService.class);
     }
     
+    protected PermissionService getPermissionService() {
+        return KraServiceLocator.getService(PermissionService.class);
+    }    
 }

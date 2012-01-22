@@ -18,7 +18,6 @@ package org.kuali.kra.irb.auth;
 import org.kuali.kra.infrastructure.PermissionConstants;
 import org.kuali.kra.irb.Protocol;
 import org.kuali.kra.irb.actions.ProtocolActionType;
-import org.kuali.rice.kns.util.GlobalVariables;
 
 /**
  * Determine if a user can assign a protocol to a committee/schedule.

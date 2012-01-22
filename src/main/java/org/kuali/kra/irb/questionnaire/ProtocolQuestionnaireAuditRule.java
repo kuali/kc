@@ -31,11 +31,11 @@ import org.kuali.kra.questionnaire.QuestionnaireUsage;
 import org.kuali.kra.questionnaire.answer.AnswerHeader;
 import org.kuali.kra.questionnaire.answer.ModuleQuestionnaireBean;
 import org.kuali.kra.questionnaire.answer.QuestionnaireAnswerService;
-import org.kuali.rice.kns.document.Document;
-import org.kuali.rice.kns.rule.DocumentAuditRule;
 import org.kuali.rice.kns.util.AuditCluster;
 import org.kuali.rice.kns.util.AuditError;
-import org.kuali.rice.kns.util.GlobalVariables;
+import org.kuali.rice.kns.util.KNSGlobalVariables;
+import org.kuali.rice.krad.document.Document;
+import org.kuali.rice.krad.rules.rule.DocumentAuditRule;
 
 public class ProtocolQuestionnaireAuditRule extends BaseQuestionnaireAuditRule<ProtocolDocument> implements DocumentAuditRule {
     
@@ -75,7 +75,7 @@ public class ProtocolQuestionnaireAuditRule extends BaseQuestionnaireAuditRule<P
         if( !(protocol.isNew()) && (protocol.getProtocolAmendRenewal().hasModule(ProtocolModule.QUESTIONNAIRE)) ) {
             // create a module bean with the amendment protocol number but with default sub module to retrieve answer headers
             pmqb = new ProtocolModuleQuestionnaireBean(CoeusModule.IRB_MODULE_CODE, protocol.getProtocolNumber(), "0", protocol.getSequenceNumber().toString(), 
-                protocol.getProtocolDocument().getDocumentHeader().getWorkflowDocument().stateIsApproved());
+                protocol.getProtocolDocument().getDocumentHeader().getWorkflowDocument().isApproved());
             List<AnswerHeader> defAmendHeaders = getQuestionnaireAnswerService().getQuestionnaireAnswer(pmqb);           
             // now check that each 'mandatory' (default) header is complete, signaling an error otherwise.
             for (int i = 0; i < defAmendHeaders.size(); i++) {
@@ -158,11 +158,11 @@ public class ProtocolQuestionnaireAuditRule extends BaseQuestionnaireAuditRule<P
         List<AuditError> auditErrors = new ArrayList<AuditError>();
         String key = String.format( PROTOCOL_QUESTIONNAIRE_PANEL_KEY, formProperty, usageLabel, answerHeaderIndex );
         
-        if (!GlobalVariables.getAuditErrorMap().containsKey(key)) {
-           GlobalVariables.getAuditErrorMap().put(key, new AuditCluster(usageLabel, auditErrors, Constants.AUDIT_ERRORS));
+        if (!KNSGlobalVariables.getAuditErrorMap().containsKey(key)) {
+           KNSGlobalVariables.getAuditErrorMap().put(key, new AuditCluster(usageLabel, auditErrors, Constants.AUDIT_ERRORS));
         }
         else {
-            auditErrors = ((AuditCluster)GlobalVariables.getAuditErrorMap().get(key)).getAuditErrorList();
+            auditErrors = ((AuditCluster)KNSGlobalVariables.getAuditErrorMap().get(key)).getAuditErrorList();
         }
         
         return auditErrors;

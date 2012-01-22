@@ -23,8 +23,7 @@ import org.kuali.kra.bo.CustomAttributeDocument;
 import org.kuali.kra.infrastructure.PropertyConstants;
 import org.kuali.kra.institutionalproposal.document.InstitutionalProposalDocument;
 import org.kuali.kra.service.InstitutionalProposalCustomAttributeService;
-import org.kuali.rice.kns.service.BusinessObjectService;
-import org.kuali.rice.kns.util.KNSPropertyConstants;
+import org.kuali.rice.krad.service.BusinessObjectService;
 
 /**
  * This class has service methods specific to Institutional Proposal Custom Data tab.

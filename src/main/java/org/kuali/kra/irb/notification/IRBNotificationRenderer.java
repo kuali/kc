@@ -31,8 +31,9 @@ import org.kuali.kra.irb.actions.submit.ProtocolReviewType;
 import org.kuali.kra.irb.actions.submit.ProtocolSubmissionQualifierType;
 import org.kuali.kra.irb.actions.submit.ProtocolSubmissionType;
 import org.kuali.kra.service.KcPersonService;
-import org.kuali.rice.kns.service.BusinessObjectService;
-import org.kuali.rice.kns.service.KNSServiceLocator;
+import org.kuali.rice.krad.service.BusinessObjectService;
+import org.kuali.rice.krad.service.KRADServiceLocator;
+import org.kuali.rice.krad.util.GlobalVariables;
 
 /**
  * Renders fields for the IRB notifications.
@@ -144,6 +145,7 @@ public class IRBNotificationRenderer extends NotificationRendererBase {
                 }
             }
         }
+        
         return params;
     }
 
@@ -157,7 +159,7 @@ public class IRBNotificationRenderer extends NotificationRendererBase {
     
     public BusinessObjectService getBusinessObjectService() {
         if (businessObjectService == null) {
-            businessObjectService = KNSServiceLocator.getBusinessObjectService();
+            businessObjectService = KRADServiceLocator.getBusinessObjectService();
         }
         return businessObjectService;
     }
@@ -238,5 +240,4 @@ public class IRBNotificationRenderer extends NotificationRendererBase {
         }        
         return result;        
     }
-    
 }

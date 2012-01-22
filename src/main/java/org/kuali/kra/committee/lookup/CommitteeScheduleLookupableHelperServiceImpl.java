@@ -29,18 +29,18 @@ import org.kuali.kra.committee.document.authorization.CommitteeScheduleTask;
 import org.kuali.kra.committee.document.authorization.CommitteeTask;
 import org.kuali.kra.infrastructure.TaskName;
 import org.kuali.kra.service.TaskAuthorizationService;
-import org.kuali.rice.kns.bo.BusinessObject;
-import org.kuali.rice.kns.lookup.CollectionIncomplete;
 import org.kuali.rice.kns.lookup.HtmlData;
 import org.kuali.rice.kns.lookup.KualiLookupableHelperServiceImpl;
 import org.kuali.rice.kns.lookup.LookupUtils;
 import org.kuali.rice.kns.lookup.HtmlData.AnchorHtmlData;
-import org.kuali.rice.kns.service.BusinessObjectService;
-import org.kuali.rice.kns.util.GlobalVariables;
-import org.kuali.rice.kns.util.KNSConstants;
-import org.kuali.rice.kns.util.UrlFactory;
 import org.kuali.rice.kns.web.ui.Field;
 import org.kuali.rice.kns.web.ui.Row;
+import org.kuali.rice.krad.bo.BusinessObject;
+import org.kuali.rice.krad.lookup.CollectionIncomplete;
+import org.kuali.rice.krad.service.BusinessObjectService;
+import org.kuali.rice.krad.util.GlobalVariables;
+import org.kuali.rice.krad.util.KRADConstants;
+import org.kuali.rice.krad.util.UrlFactory;
 
 /**
  * 
@@ -176,7 +176,7 @@ public class CommitteeScheduleLookupableHelperServiceImpl extends KualiLookupabl
     /**
      * Add edit/view action links based on user's permission
      * 
-     * @see org.kuali.rice.kns.lookup.AbstractLookupableHelperServiceImpl#getCustomActionUrls(org.kuali.rice.kns.bo.BusinessObject,
+     * @see org.kuali.rice.kns.lookup.AbstractLookupableHelperServiceImpl#getCustomActionUrls(org.kuali.rice.krad.bo.BusinessObject,
      *      java.util.List)
      */
     @Override
@@ -211,7 +211,7 @@ public class CommitteeScheduleLookupableHelperServiceImpl extends KualiLookupabl
     protected AnchorHtmlData getLink(CommitteeSchedule committeeSchedule, boolean isEdit) {
         AnchorHtmlData htmlData = new AnchorHtmlData();
         Properties parameters = new Properties();
-        parameters.put(KNSConstants.DISPATCH_REQUEST_PARAMETER, "start");
+        parameters.put(KRADConstants.DISPATCH_REQUEST_PARAMETER, "start");
         parameters.put("scheduleId", committeeSchedule.getId().toString());
         if (isEdit) {
             htmlData.setDisplayText("edit");
@@ -277,7 +277,7 @@ public class CommitteeScheduleLookupableHelperServiceImpl extends KualiLookupabl
                 if ("committee.committeeId".equals(field.getPropertyName())
                         || COMMITTEE_COMMITTEE_NAME.equals(field.getPropertyName())) {
                     // to disable lookup/inquiry display
-                    field.setQuickFinderClassNameImpl(KNSConstants.EMPTY_STRING);
+                    field.setQuickFinderClassNameImpl(KRADConstants.EMPTY_STRING);
                 }
             }
         }

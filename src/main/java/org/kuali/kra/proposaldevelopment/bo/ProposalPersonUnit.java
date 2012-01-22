@@ -18,27 +18,33 @@ package org.kuali.kra.proposaldevelopment.bo;
 import static org.apache.commons.lang.StringUtils.isBlank;
 
 import java.util.ArrayList;
-import java.util.LinkedHashMap;
 import java.util.List;
 
 import org.kuali.kra.bo.KraPersistableBusinessObjectBase;
 import org.kuali.kra.bo.Unit;
 
 /**
- * Represents the Proposal Person Unit <code>{@link org.kuali.rice.kns.bo.BusinessObject}</code>
+ * Represents the Proposal Person Unit <code>{@link org.kuali.rice.krad.bo.BusinessObject}</code>
  *
- * @see org.kuali.rice.kns.bo.BusinessObject
+ * @see org.kuali.rice.krad.bo.BusinessObject
  * @see org.kuali.kra.proposaldevelopment.document.ProposalDevelopmentDocument
  * @author $Author: gmcgrego $
  * @version $Revision: 1.14 $
  */
 public class ProposalPersonUnit extends KraPersistableBusinessObjectBase implements CreditSplitable {
+
     private String proposalNumber;
+
     private Integer proposalPersonNumber;
+
     private String unitNumber;
+
     private boolean leadUnit;
+
     private Unit unit;
+
     private List<ProposalUnitCreditSplit> creditSplits;
+
     private boolean delete;
 
     /**
@@ -65,6 +71,7 @@ public class ProposalPersonUnit extends KraPersistableBusinessObjectBase impleme
     public void setCreditSplits(List<ProposalUnitCreditSplit> argCreditSplits) {
         this.creditSplits = argCreditSplits;
     }
+
     /**
      * Gets the value of proposalNumber
      *
@@ -117,11 +124,9 @@ public class ProposalPersonUnit extends KraPersistableBusinessObjectBase impleme
      */
     public final void setUnitNumber(String argUnitNumber) {
         this.unitNumber = argUnitNumber;
-        
         if (isBlank(unitNumber)) {
             unit = null;
-        }
-        else {
+        } else {
             refreshReferenceObject("unit");
         }
     }
@@ -143,7 +148,7 @@ public class ProposalPersonUnit extends KraPersistableBusinessObjectBase impleme
     public final void setLeadUnit(boolean argLeadUnit) {
         this.leadUnit = argLeadUnit;
     }
-    
+
     /**
      * Gets a unit that this object refers to
      *
@@ -152,7 +157,7 @@ public class ProposalPersonUnit extends KraPersistableBusinessObjectBase impleme
     public final Unit getUnit() {
         return unit;
     }
-    
+
     /**
      * Assigns a reference to a <code>{@link Unit}</code> instance
      *
@@ -160,17 +165,6 @@ public class ProposalPersonUnit extends KraPersistableBusinessObjectBase impleme
      */
     public final void setUnit(Unit u) {
         unit = u;
-    }
-
-    @Override
-    protected LinkedHashMap toStringMapper() {
-        LinkedHashMap propMap = new LinkedHashMap();
-        propMap.put("proposalNumber", getProposalNumber());
-        propMap.put("proposalPersonNumber", getProposalPersonNumber());
-        propMap.put("unitNumber", getUnitNumber());
-        propMap.put("leadUnit", isLeadUnit());
-        propMap.put("unit", getUnit());
-        return propMap;
     }
 
     /**
@@ -211,5 +205,3 @@ public class ProposalPersonUnit extends KraPersistableBusinessObjectBase impleme
         this.delete = delete;
     }
 }
-
-

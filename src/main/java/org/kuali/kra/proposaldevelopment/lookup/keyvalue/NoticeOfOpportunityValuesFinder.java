@@ -22,9 +22,10 @@ import java.util.List;
 
 import org.kuali.kra.bo.NoticeOfOpportunity;
 import org.kuali.kra.infrastructure.KraServiceLocator;
-import org.kuali.rice.kns.lookup.keyvalues.KeyValuesBase;
-import org.kuali.rice.kns.service.KeyValuesService;
-import org.kuali.rice.core.util.KeyLabelPair;
+import org.kuali.rice.core.api.util.ConcreteKeyValue;
+import org.kuali.rice.core.api.util.KeyValue;
+import org.kuali.rice.krad.keyvalues.KeyValuesBase;
+import org.kuali.rice.krad.service.KeyValuesService;
 
 /**
  * This class is the Values Finder for Notice of Opportunity.
@@ -34,16 +35,16 @@ public class NoticeOfOpportunityValuesFinder extends KeyValuesBase {
     /**
      * Returns the key/values list (code/description) for Notice of Opportunity.
      *
-     * @see org.kuali.rice.kns.lookup.keyvalues.KeyValuesFinder#getKeyValues()
+     * @see org.kuali.rice.krad.keyvalues.KeyValuesFinder#getKeyValues()
      */
     public List getKeyValues() {
         KeyValuesService keyValuesService = (KeyValuesService) KraServiceLocator.getService("keyValuesService");
         Collection noticesOfOpportunity = keyValuesService.findAll(NoticeOfOpportunity.class);
-        List<KeyLabelPair> keyValues = new ArrayList<KeyLabelPair>();
-        keyValues.add(new KeyLabelPair("", "select"));
+        List<KeyValue> keyValues = new ArrayList<KeyValue>();
+        keyValues.add(new ConcreteKeyValue("", "select"));
         for (Iterator iter = noticesOfOpportunity.iterator(); iter.hasNext();) {
             NoticeOfOpportunity noticeOfOpportunity = (NoticeOfOpportunity) iter.next();
-            keyValues.add(new KeyLabelPair(noticeOfOpportunity.getNoticeOfOpportunityCode(), noticeOfOpportunity.getDescription()));
+            keyValues.add(new ConcreteKeyValue(noticeOfOpportunity.getNoticeOfOpportunityCode(), noticeOfOpportunity.getDescription()));
         }
         return keyValues;
     }

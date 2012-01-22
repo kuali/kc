@@ -24,23 +24,24 @@ import org.kuali.kra.infrastructure.Constants;
 import org.kuali.kra.infrastructure.KraServiceLocator;
 import org.kuali.kra.lookup.keyvalue.ExtendedPersistableBusinessObjectValuesFinder;
 import org.kuali.kra.lookup.keyvalue.PrefixValuesFinder;
-import org.kuali.rice.core.util.KeyLabelPair;
-import org.kuali.rice.kns.service.BusinessObjectService;
+import org.kuali.rice.core.api.util.ConcreteKeyValue;
+import org.kuali.rice.core.api.util.KeyValue;
+import org.kuali.rice.krad.service.BusinessObjectService;
 
 public class InstitutionalProposalUnitContactsProjectRoleValuesFinder extends ExtendedPersistableBusinessObjectValuesFinder {
     
     @Override
     @SuppressWarnings("unchecked")
-    public List<KeyLabelPair> getKeyValues(){
+    public List<KeyValue> getKeyValues(){
         BusinessObjectService boService = KraServiceLocator.getService(BusinessObjectService.class);
         Collection<UnitAdministratorType> types = (Collection<UnitAdministratorType>) boService.findAll(UnitAdministratorType.class);
-        List<KeyLabelPair> keyValues = new ArrayList<KeyLabelPair>();
+        List<KeyValue> keyValues = new ArrayList<KeyValue>();
         for (UnitAdministratorType aType: types) {
             if ( aType.getDefaultGroupFlag().equals(Constants.UNIT_CONTACTS_DEFAULT_GROUP_FLAG)) {    // only get Unit Contacts
-                keyValues.add(new KeyLabelPair(aType.getUnitAdministratorTypeCode(), aType.getDescription()));
+                keyValues.add(new ConcreteKeyValue(aType.getUnitAdministratorTypeCode(), aType.getDescription()));
             }
         }
-        keyValues.add(0, new KeyLabelPair(PrefixValuesFinder.getPrefixKey(), PrefixValuesFinder.getDefaultPrefixValue()));    
+        keyValues.add(0, new ConcreteKeyValue(PrefixValuesFinder.getPrefixKey(), PrefixValuesFinder.getDefaultPrefixValue()));    
         
         return keyValues;
     }

@@ -19,12 +19,11 @@ import java.util.ArrayList;
 
 import org.kuali.kra.committee.bo.Committee;
 import org.kuali.kra.committee.document.CommitteeDocument;
-import org.kuali.rice.kew.exception.WorkflowException;
-import org.kuali.rice.kns.document.Document;
-import org.kuali.rice.kns.exception.ValidationException;
-import org.kuali.rice.kns.rule.event.KualiDocumentEvent;
-import org.kuali.rice.kns.rule.event.RouteDocumentEvent;
-import org.kuali.rice.kns.service.impl.DocumentServiceImpl;
+import org.kuali.rice.krad.document.Document;
+import org.kuali.rice.krad.exception.ValidationException;
+import org.kuali.rice.krad.rules.rule.event.KualiDocumentEvent;
+import org.kuali.rice.krad.rules.rule.event.RouteDocumentEvent;
+import org.kuali.rice.krad.service.impl.DocumentServiceImpl;
 import org.springframework.dao.OptimisticLockingFailureException;
 
 /**
@@ -35,8 +34,7 @@ public class KraDocumentServiceImpl extends DocumentServiceImpl {
     private static org.apache.commons.logging.Log LOG = org.apache.commons.logging.LogFactory.getLog(KraDocumentServiceImpl.class);
 
     @Override
-    public void validateAndPersistDocument(Document document, KualiDocumentEvent event) throws WorkflowException,
-            ValidationException {
+    public Document validateAndPersistDocument(Document document, KualiDocumentEvent event) throws ValidationException {
         if (document == null) {
             LOG.error("document passed to validateAndPersist was null");
             throw new IllegalArgumentException("invalid (null) document");
@@ -73,6 +71,7 @@ public class KraDocumentServiceImpl extends DocumentServiceImpl {
         }
 
         document.postProcessSave(event);
+        return document;
     }
 
 }

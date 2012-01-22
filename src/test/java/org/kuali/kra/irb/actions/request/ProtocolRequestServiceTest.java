@@ -54,9 +54,9 @@ import org.kuali.kra.irb.actions.submit.ProtocolSubmissionType;
 import org.kuali.kra.irb.test.ProtocolFactory;
 import org.kuali.kra.questionnaire.answer.AnswerHeader;
 import org.kuali.kra.test.infrastructure.KcUnitTestBase;
-import org.kuali.rice.kew.exception.WorkflowException;
-import org.kuali.rice.kns.service.BusinessObjectService;
-import org.kuali.rice.kns.service.DocumentService;
+import org.kuali.rice.kew.api.exception.WorkflowException;
+import org.kuali.rice.krad.service.BusinessObjectService;
+import org.kuali.rice.krad.service.DocumentService;
 
 /**
  * Test the ProtocolRequestService implementation.
@@ -145,21 +145,18 @@ public class ProtocolRequestServiceTest extends KcUnitTestBase {
         DocumentNextvalue dnv1 = new DocumentNextvalue();
         dnv1.setDocumentKey("123456");
         dnv1.setPropertyName("submissionNumber");
-        dnv1.setAutoIncrementSet(true);
         dnv1.setNextValue(new Integer(1));
         documentNextvalues.add(dnv1);
         
         DocumentNextvalue dnv2 = new DocumentNextvalue();
         dnv2.setDocumentKey("123456");
         dnv2.setPropertyName("submissionDocId");
-        dnv2.setAutoIncrementSet(true);
         dnv2.setNextValue(new Integer(1));
         documentNextvalues.add(dnv2);
         
         DocumentNextvalue dnv3 = new DocumentNextvalue();
         dnv3.setDocumentKey("123456");
         dnv3.setPropertyName("actionId");
-        dnv3.setAutoIncrementSet(true);
         dnv3.setNextValue(new Integer(1));
         documentNextvalues.add(dnv3);
 

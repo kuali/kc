@@ -23,9 +23,9 @@ import org.kuali.kra.maintenance.KraMaintainableImpl;
 import org.kuali.kra.proposaldevelopment.bo.DevelopmentProposal;
 import org.kuali.kra.proposaldevelopment.bo.ProposalColumnsToAlter;
 import org.kuali.kra.service.KraPersistenceStructureService;
-import org.kuali.rice.kns.datadictionary.AttributeDefinition;
 import org.kuali.rice.kns.service.DataDictionaryService;
-import org.kuali.rice.kns.util.GlobalVariables;
+import org.kuali.rice.krad.datadictionary.AttributeDefinition;
+import org.kuali.rice.krad.util.GlobalVariables;
 
 public class ProposalColumnsToAlterMaintainableImpl extends KraMaintainableImpl {
 
@@ -52,7 +52,7 @@ public class ProposalColumnsToAlterMaintainableImpl extends KraMaintainableImpl 
             getAttributeDefinition(columnToAttrMap.get(proposalCol.getColumnName()));
         
         if (attrDefinition == null) {
-            GlobalVariables.getErrorMap().putError("document.newMaintainableObject.columnName", "error.proposalcolumnstoalter.attributeNotFound");
+            GlobalVariables.getMessageMap().putError("document.newMaintainableObject.columnName", "error.proposalcolumnstoalter.attributeNotFound");
             return;
         } else {
             if (attrDefinition.getLabel().length() > 30) {

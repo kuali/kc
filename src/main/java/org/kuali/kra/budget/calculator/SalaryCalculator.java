@@ -42,9 +42,9 @@ import org.kuali.kra.budget.personnel.BudgetPersonnelDetails;
 import org.kuali.kra.budget.rates.BudgetRate;
 import org.kuali.kra.budget.rates.ValidCeRateType;
 import org.kuali.kra.infrastructure.KraServiceLocator;
-import org.kuali.rice.kns.service.BusinessObjectService;
-import org.kuali.rice.kns.service.DateTimeService;
-import org.kuali.rice.kns.service.KNSServiceLocator;
+import org.kuali.rice.core.api.datetime.DateTimeService;
+import org.kuali.rice.krad.service.BusinessObjectService;
+import org.kuali.rice.krad.service.KRADServiceLocator;
 
 /**
  * This class...
@@ -151,7 +151,7 @@ public class SalaryCalculator {
         QueryList<BudgetPerson> filteredPersons = new QueryList<BudgetPerson>();
         List<BudgetPerson> savedBudgetPersons = new ArrayList<BudgetPerson>();
         
-        BusinessObjectService businessObjectService = KNSServiceLocator.getBusinessObjectService();
+        BusinessObjectService businessObjectService = KRADServiceLocator.getBusinessObjectService();
         Map queryMap = new HashMap();
         queryMap.put("budgetId", budget.getBudgetId());
         savedBudgetPersons = (List<BudgetPerson>) businessObjectService.findMatching(BudgetPerson.class, queryMap);

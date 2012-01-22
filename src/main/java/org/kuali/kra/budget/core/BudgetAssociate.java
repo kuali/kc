@@ -15,42 +15,21 @@
  */
 package org.kuali.kra.budget.core;
 
-import java.util.LinkedHashMap;
-
 import org.kuali.kra.bo.KraPersistableBusinessObjectBase;
 
 /**
  * This class is for associating common Budget properties to the extended Budget children BOs
  */
-public abstract class BudgetAssociate extends KraPersistableBusinessObjectBase implements BudgetAssociateInterface{
+public abstract class BudgetAssociate extends KraPersistableBusinessObjectBase implements BudgetAssociateInterface {
 
     /**
      * Comment for <code>serialVersionUID</code>
      */
     private static final long serialVersionUID = 3219654486879418421L;
-//    private Budget budget;
+
+    //    private Budget budget; 
     private Long budgetId;
-    /**
-     * Gets the budget attribute. 
-     * @return Returns the budget.
-     */
-//    public Budget getBudget() {
-//        return budget;
-//    }
-    /**
-     * Sets the budget attribute value.
-     * @param budget The budget to set.
-     */
-//    public void setBudget(Budget budget) {
-//        this.budget = budget;
-//    }
-    @SuppressWarnings("unchecked")
-    @Override
-    protected LinkedHashMap toStringMapper() {
-        LinkedHashMap<String, Object> hashMap = new LinkedHashMap<String, Object>();
-        hashMap.put("budgetId", getBudgetId());
-        return hashMap;
-    }
+
     /**
      * Gets the budgetId attribute. 
      * @return Returns the budgetId.
@@ -58,6 +37,7 @@ public abstract class BudgetAssociate extends KraPersistableBusinessObjectBase i
     public Long getBudgetId() {
         return budgetId;
     }
+
     /**
      * Sets the budgetId attribute value.
      * @param budgetId The budgetId to set.

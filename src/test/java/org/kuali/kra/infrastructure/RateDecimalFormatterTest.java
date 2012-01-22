@@ -22,7 +22,7 @@ import org.junit.Assert;
 import org.junit.Before;
 import org.junit.Test;
 import org.kuali.kra.budget.RateDecimal;
-import org.kuali.rice.kns.web.format.FormatException;
+import org.kuali.rice.core.web.format.FormatException;
 
 public class RateDecimalFormatterTest {
 

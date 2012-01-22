@@ -15,11 +15,8 @@
  */
 package org.kuali.kra.proposaldevelopment.bo;
 
-import java.util.LinkedHashMap;
-
-import org.kuali.kra.bo.Unit;
 import org.kuali.kra.proposaldevelopment.document.ProposalDevelopmentDocument;
-import org.kuali.rice.kns.bo.BusinessObjectBase;
+import org.kuali.rice.krad.bo.BusinessObjectBase;
 
 /**
  * The <b>ProposalCopyCriteria</b> is user-specified criteria used
@@ -181,21 +178,9 @@ public class ProposalCopyCriteria extends BusinessObjectBase {
     public void setOriginalLeadUnitNumber(String originalLeadUnitNumber) {
         this.originalLeadUnitNumber = originalLeadUnitNumber;
     }
-    
-    @SuppressWarnings("rawtypes")
-    @Override
-    protected LinkedHashMap toStringMapper() {
-        LinkedHashMap<String,Object> map = new LinkedHashMap<String,Object>();
-        map.put("includeAttachments", this.getIncludeAttachments());
-        map.put("includeBudget", this.getIncludeBudget());
-        map.put("budgetVersions", this.getBudgetVersions());
-        map.put("leadUnitNumber", this.getLeadUnitNumber());
-        map.put("includeQuestionnaire", this.getIncludeQuestionnaire());
-        return map;
-    }
 
     /**
-     * @see org.kuali.rice.kns.bo.BusinessObject#refresh()
+     * @see org.kuali.rice.krad.bo.BusinessObject#refresh()
      */
     public void refresh() {
         // do nothing

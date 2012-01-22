@@ -15,24 +15,21 @@
  */
 package org.kuali.kra.timeandmoney.transactions;
 
-import java.util.LinkedHashMap;
-
 import org.kuali.kra.award.AwardAssociate;
 
-public class AwardTransactionType extends AwardAssociate
-{ 
-    
+public class AwardTransactionType extends AwardAssociate {
+
     private static final long serialVersionUID = 1L;
 
-    private Integer awardTransactionTypeCode; 
-    private String description; 
-    private boolean showInActionSummary; 
-    
-    
-    public AwardTransactionType() { 
+    private Integer awardTransactionTypeCode;
 
-    } 
-    
+    private String description;
+
+    private boolean showInActionSummary;
+
+    public AwardTransactionType() {
+    }
+
     public Integer getAwardTransactionTypeCode() {
         return awardTransactionTypeCode;
     }
@@ -57,19 +54,6 @@ public class AwardTransactionType extends AwardAssociate
         this.showInActionSummary = showInActionSummary;
     }
 
-    /** {@inheritDoc} */
-    @Override 
-    protected LinkedHashMap<String, Object> toStringMapper() {
-        LinkedHashMap<String, Object> hashMap = new LinkedHashMap<String, Object>();
-        hashMap.put("awardTransactionTypeCode", this.getAwardTransactionTypeCode());
-        hashMap.put("description", this.getDescription());
-        hashMap.put("showInActionSummary", this.getShowInActionSummary());
-        return hashMap;
-    }
-
     public void resetPersistenceState() {
-        // TODO Auto-generated method stub
-        
     }
-    
 }

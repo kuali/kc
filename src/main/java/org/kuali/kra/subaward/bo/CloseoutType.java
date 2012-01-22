@@ -16,20 +16,18 @@
 package org.kuali.kra.subaward.bo;
 
 import org.kuali.kra.bo.KraPersistableBusinessObjectBase;
-import java.util.LinkedHashMap;
 
-public class CloseoutType extends KraPersistableBusinessObjectBase { 
-    
+public class CloseoutType extends KraPersistableBusinessObjectBase {
+
     private static final long serialVersionUID = 1L;
 
-    private Integer closeoutTypeCode; 
-    private String description; 
-    
-    
-    public CloseoutType() { 
+    private Integer closeoutTypeCode;
 
-    } 
-    
+    private String description;
+
+    public CloseoutType() {
+    }
+
     public Integer getCloseoutTypeCode() {
         return closeoutTypeCode;
     }
@@ -45,14 +43,4 @@ public class CloseoutType extends KraPersistableBusinessObjectBase {
     public void setDescription(String description) {
         this.description = description;
     }
-
-    /** {@inheritDoc} */
-    @Override 
-    protected LinkedHashMap<String, Object> toStringMapper() {
-        LinkedHashMap<String, Object> hashMap = new LinkedHashMap<String, Object>();
-        hashMap.put("closeoutTypeCode", this.getCloseoutTypeCode());
-        hashMap.put("description", this.getDescription());
-        return hashMap;
-    }
-    
 }

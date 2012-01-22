@@ -19,8 +19,9 @@ import java.util.List;
 
 import org.junit.Test;
 import org.kuali.kra.test.infrastructure.KcUnitTestBase;
-import org.kuali.rice.core.util.KeyLabelPair;
-import org.kuali.rice.kns.lookup.keyvalues.KeyValuesFinder;
+import org.kuali.rice.core.api.util.ConcreteKeyValue;
+import org.kuali.rice.core.api.util.KeyValue;
+import org.kuali.rice.krad.keyvalues.KeyValuesFinder;
 
 /**
  * This is a base class for ValuesFinder tests.
@@ -35,15 +36,15 @@ import org.kuali.rice.kns.lookup.keyvalues.KeyValuesFinder;
  */
 public abstract class ValuesFinderTestBase extends KcUnitTestBase {
     
-    protected static KeyLabelPair createKeyValue(String typeCode, String typeValue) {
-        return new KeyLabelPair(typeCode, typeValue);
+    protected static KeyValue createKeyValue(String typeCode, String typeValue) {
+        return new ConcreteKeyValue(typeCode, typeValue);
     }
 
     /**
      * This method should be overridden by subclasses
      * to add the specific key/value pairs to test against.
      */
-    protected abstract List<KeyLabelPair> getKeyValues();
+    protected abstract List<KeyValue> getKeyValues();
 
     /**
      * Gets the testClass attribute.
@@ -54,11 +55,11 @@ public abstract class ValuesFinderTestBase extends KcUnitTestBase {
     @Test
     public void testGetKeyValues() throws Exception {
         final KeyValuesFinder keyValuesFinder = getTestClass().newInstance();
-        final List<KeyLabelPair> keyValues = this.getKeyValues();
+        final List<KeyValue> keyValues = this.getKeyValues();
         
         assertEquals(keyValues.size(), keyValuesFinder.getKeyValues().size());
         for (int i=0; i<keyValues.size(); i++) {
-            assertEquals(keyValues.get(i).getLabel(), keyValuesFinder.getKeyLabel(keyValues.get(i).getKey().toString()));
+            assertEquals(keyValues.get(i).getValue(), keyValuesFinder.getKeyLabel(keyValues.get(i).getKey().toString()));
         }
     }
 }

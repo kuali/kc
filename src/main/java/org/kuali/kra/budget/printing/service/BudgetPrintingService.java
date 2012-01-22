@@ -20,7 +20,6 @@ import java.util.Map;
 import org.kuali.kra.bo.KraPersistableBusinessObjectBase;
 import org.kuali.kra.printing.PrintingException;
 import org.kuali.kra.proposaldevelopment.bo.AttachmentDataSource;
-import org.kuali.rice.kew.bo.KewPersistableBusinessObjectBase;
 
 /**
  * This class provides the means for printing reports related to Budget. It has

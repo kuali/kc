@@ -50,7 +50,7 @@
 			<ref bean="proposalPersonService" />
 		</property>
 	</bean>
-	<bean class="org.kuali.rice.ksb.messaging.KSBExporter">
+	<bean class="org.kuali.rice.ksb.api.bus.support.ServiceBusExporter">
 		<property name="serviceDefinition">
 			<bean parent="kcService" p:service-ref="proposalRoleTypeService"
 				p:localServiceName="proposalRoleTypeService" />
@@ -710,7 +710,7 @@
 			<ref bean="kraAuthorizationService" />
 		</property>
 		<property name="roleManagementService">
-			<ref bean="roleManagementService" />
+			<ref bean="roleService" />
 		</property>
 		<property name="systemAuthorizationService">
 			<ref bean="systemAuthorizationService" />
@@ -755,7 +755,7 @@
 			<ref bean="parameterService" />
 		</property>
 		<property name="identityManagementService">
-			<ref bean="identityManagementService" />
+			<ref bean="identityService" />
 		</property>
 		<property name="configurationService">
 			<ref bean="kualiConfigurationService" />
@@ -763,6 +763,12 @@
 		<property name="kraDocumentRejectionService">
 			<ref bean="kraDocumentRejectionService" />
 		</property>
+		<property name="sessionDocumentService">
+			<ref bean="knsSessionDocumentService" />
+		</property>
+		<property name="workflowDocumentService">
+			<ref bean="kradWorkflowDocumentService" />
+		</property>		
 	</bean>
 
 	<!--Proposal Development Printing Service Configuration Start -->
@@ -855,8 +861,8 @@
 		class="org.kuali.kra.printing.service.impl.CurrentAndPendingReportServiceImpl" scope="prototype">
 		<property name="currentReportDao" ref="currentReportDao" />
 		<property name="pendingReportDao" ref="pendingReportDao" />
-		<property name="currentProposalPrint" ref="currentProposalPrint"/>
-		<property name="pendingProposalPrint" ref="pendingProposalPrint"/>
+		<property name="currentProposalPrint" ref="currentProposalPrint" />
+		<property name="pendingProposalPrint" ref="pendingProposalPrint" />
 		<property name="printingService" ref="printingService" />
 	</bean>
 	<!-- Current And Pending Support-related Beans End -->

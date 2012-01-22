@@ -23,7 +23,7 @@ import org.kuali.kra.irb.ProtocolOnlineReviewDocument;
 import org.kuali.kra.irb.onlinereview.rules.RouteProtocolOnlineReviewRule;
 import org.kuali.kra.meeting.CommitteeScheduleMinute;
 import org.kuali.kra.rule.event.KraDocumentEventBase;
-import org.kuali.rice.kns.rule.BusinessRule;
+import org.kuali.rice.krad.rules.rule.BusinessRule;
 
 public class RouteProtocolOnlineReviewEvent extends KraDocumentEventBase {
 

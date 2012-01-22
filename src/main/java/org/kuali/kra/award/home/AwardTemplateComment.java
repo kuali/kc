@@ -15,55 +15,46 @@
  */
 package org.kuali.kra.award.home;
 
-import java.util.LinkedHashMap;
-
 import org.kuali.kra.bo.CommentType;
 import org.kuali.kra.bo.KraPersistableBusinessObjectBase;
 
-public class AwardTemplateComment extends KraPersistableBusinessObjectBase { 
-	
-	/**
+public class AwardTemplateComment extends KraPersistableBusinessObjectBase {
+
+    /**
      * Comment for <code>serialVersionUID</code>
      */
     private static final long serialVersionUID = -4617051298910760741L;
-    private Integer templateCommentsId; 
-	private AwardTemplate template; 
-	
-    private String commentTypeCode; 
+
+    private Integer templateCommentsId;
+
+    private AwardTemplate template;
+
+    private String commentTypeCode;
+
     private CommentType commentType;
-    
-    private Boolean checklistPrintFlag; 
-    private String comments; 
 
-	public AwardTemplateComment() { 
+    private Boolean checklistPrintFlag;
 
-	} 
-	
-	public Integer getTemplateCommentsId() {
-		return templateCommentsId;
-	}
+    private String comments;
 
-	public void setTemplateCommentsId(Integer templateCommentsId) {
-		this.templateCommentsId = templateCommentsId;
-	}
+    public AwardTemplateComment() {
+    }
 
-	public AwardTemplate getTemplate() {
-		return template;
-	}
+    public Integer getTemplateCommentsId() {
+        return templateCommentsId;
+    }
 
-	public void setTemplate(AwardTemplate template) {
-		this.template = template;
-	}
+    public void setTemplateCommentsId(Integer templateCommentsId) {
+        this.templateCommentsId = templateCommentsId;
+    }
 
-    @Override 
-	protected LinkedHashMap<String, Object> toStringMapper() {
-		LinkedHashMap<String, Object> hashMap = new LinkedHashMap<String, Object>();
-		hashMap.put("templateCommentsId", getTemplateCommentsId());
-	    hashMap.put("commentTypeCode", getCommentTypeCode());
-	    hashMap.put("checklistPrintFlag", getChecklistPrintFlag());
-	    hashMap.put("comments", getComments());
-		return hashMap;
-	}
+    public AwardTemplate getTemplate() {
+        return template;
+    }
+
+    public void setTemplate(AwardTemplate template) {
+        this.template = template;
+    }
 
     /**
      * Gets the commentTypeCode attribute. 
@@ -80,7 +71,7 @@ public class AwardTemplateComment extends KraPersistableBusinessObjectBase {
     public void setCommentTypeCode(String commentTypeCode) {
         this.commentTypeCode = commentTypeCode;
     }
-    
+
     /**
      * Gets the commentType attribute. 
      * @return Returns the commentType.
@@ -128,5 +119,4 @@ public class AwardTemplateComment extends KraPersistableBusinessObjectBase {
     public void setComments(String comments) {
         this.comments = comments;
     }
-	
 }

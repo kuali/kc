@@ -15,54 +15,42 @@
  */
 package org.kuali.kra.proposaldevelopment.bo;
 
-import java.util.LinkedHashMap;
 
-import org.apache.struts.upload.FormFile;
+public class NarrativeAttachment extends AttachmentDataSource {
 
-public class NarrativeAttachment extends AttachmentDataSource{
-	private Integer moduleNumber;
-	private String proposalNumber;
-//	private String fileName;
-//	private String contentType;
+    private Integer moduleNumber;
+
+    private String proposalNumber;
+
+    //	private String fileName; 
+    //	private String contentType; 
     private byte[] narrativeData;
 
-	public Integer getModuleNumber() {
-		return moduleNumber;
-	}
+    public Integer getModuleNumber() {
+        return moduleNumber;
+    }
 
-	public void setModuleNumber(Integer moduleNumber) {
-		this.moduleNumber = moduleNumber;
-	}
+    public void setModuleNumber(Integer moduleNumber) {
+        this.moduleNumber = moduleNumber;
+    }
 
-	public String getProposalNumber() {
-		return proposalNumber;
-	}
+    public String getProposalNumber() {
+        return proposalNumber;
+    }
 
-	public void setProposalNumber(String proposalNumber) {
-		this.proposalNumber = proposalNumber;
-	}
+    public void setProposalNumber(String proposalNumber) {
+        this.proposalNumber = proposalNumber;
+    }
 
-	public byte[] getNarrativeData() {
-		return narrativeData;
-	}
+    public byte[] getNarrativeData() {
+        return narrativeData;
+    }
 
-	public void setNarrativeData(byte[] narrativePdf) {
-	    this.narrativeData = narrativePdf;
-	}
-	
-	public byte[] getContent() {
-	    return narrativeData;
-	}
+    public void setNarrativeData(byte[] narrativePdf) {
+        this.narrativeData = narrativePdf;
+    }
 
-
-	@Override 
-	protected LinkedHashMap toStringMapper() {
-		LinkedHashMap hashMap = new LinkedHashMap();
-		hashMap.put("moduleNumber", getModuleNumber());
-		hashMap.put("proposalNumber", getProposalNumber());
-		hashMap.put("fileName", getFileName());
-        hashMap.put("contentType", getContentType());
-		return hashMap;
-	}
-
+    public byte[] getContent() {
+        return narrativeData;
+    }
 }

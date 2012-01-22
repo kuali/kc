@@ -15,36 +15,36 @@
  */
 package org.kuali.kra.budget.personnel;
 
-import java.util.LinkedHashMap;
-
 import org.kuali.kra.bo.KraPersistableBusinessObjectBase;
 import org.kuali.kra.budget.core.CostElement;
 
 public class ValidCeJobCode extends KraPersistableBusinessObjectBase {
-	private String costElement;
-	private String jobCode;
-	
-	private JobCode jobCodeReference;
-	private CostElement costElementReference;
 
-	public String getCostElement() {
-		return costElement;
-	}
+    private String costElement;
 
-	public void setCostElement(String costElement) {
-		this.costElement = costElement;
-	}
+    private String jobCode;
 
-	public String getJobCode() {
-		return jobCode;
-	}
+    private JobCode jobCodeReference;
 
-	public void setJobCode(String jobCode) {
-		this.jobCode = jobCode;
-	}
+    private CostElement costElementReference;
 
+    public String getCostElement() {
+        return costElement;
+    }
 
-	/**
+    public void setCostElement(String costElement) {
+        this.costElement = costElement;
+    }
+
+    public String getJobCode() {
+        return jobCode;
+    }
+
+    public void setJobCode(String jobCode) {
+        this.jobCode = jobCode;
+    }
+
+    /**
      * Gets the jobCodeReference attribute. 
      * @return Returns the jobCodeReference.
      */
@@ -75,12 +75,4 @@ public class ValidCeJobCode extends KraPersistableBusinessObjectBase {
     public void setCostElementReference(CostElement costElementReference) {
         this.costElementReference = costElementReference;
     }
-
-    @Override 
-	protected LinkedHashMap toStringMapper() {
-		LinkedHashMap hashMap = new LinkedHashMap();
-		hashMap.put("costElement", getCostElement());
-		hashMap.put("jobCode", getJobCode());
-		return hashMap;
-	}
 }

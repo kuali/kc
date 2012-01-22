@@ -15,26 +15,26 @@
  */
 package org.kuali.kra.subaward.bo;
 
-import org.kuali.kra.bo.KraPersistableBusinessObjectBase;
-import java.util.LinkedHashMap;
-import org.kuali.kra.subaward.bo.SubAwardApprovalType;
 import org.kuali.kra.award.home.AwardTemplate;
+import org.kuali.kra.bo.KraPersistableBusinessObjectBase;
 
-public class TemplateSubAwardTerms extends KraPersistableBusinessObjectBase { 
-    
+public class TemplateSubAwardTerms extends KraPersistableBusinessObjectBase {
+
     private static final long serialVersionUID = 1L;
 
-    private Integer templateSubAwardTermsId; 
-    private Integer templateCode; 
-    private Integer subAwardApprovalTypeCode; 
-    
-    private SubAwardApprovalType subAwardApprovalType; 
-    private AwardTemplate awardTemplate; 
-    
-    public TemplateSubAwardTerms() { 
+    private Integer templateSubAwardTermsId;
 
-    } 
-    
+    private Integer templateCode;
+
+    private Integer subAwardApprovalTypeCode;
+
+    private SubAwardApprovalType subAwardApprovalType;
+
+    private AwardTemplate awardTemplate;
+
+    public TemplateSubAwardTerms() {
+    }
+
     public Integer getTemplateSubAwardTermsId() {
         return templateSubAwardTermsId;
     }
@@ -50,7 +50,6 @@ public class TemplateSubAwardTerms extends KraPersistableBusinessObjectBase {
     public void setTemplateCode(Integer templateCode) {
         this.templateCode = templateCode;
     }
-
 
     public Integer getSubAwardApprovalTypeCode() {
         return subAwardApprovalTypeCode;
@@ -75,15 +74,4 @@ public class TemplateSubAwardTerms extends KraPersistableBusinessObjectBase {
     public void setAwardTemplate(AwardTemplate awardTemplate) {
         this.awardTemplate = awardTemplate;
     }
-
-    /** {@inheritDoc} */
-    @Override 
-    protected LinkedHashMap<String, Object> toStringMapper() {
-        LinkedHashMap<String, Object> hashMap = new LinkedHashMap<String, Object>();
-        hashMap.put("templateSubAwardTermsId", this.getTemplateSubAwardTermsId());
-        hashMap.put("templateCode", this.getTemplateCode());
-        hashMap.put("subAwardApprovalCode", this.getSubAwardApprovalTypeCode());
-        return hashMap;
-    }
-    
 }

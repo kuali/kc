@@ -16,7 +16,7 @@
 package org.kuali.kra.institutionalproposal.contacts;
 
 import org.kuali.kra.bo.Unit;
-import org.kuali.rice.kns.util.GlobalVariables;
+import org.kuali.rice.krad.util.GlobalVariables;
 
 /**
  * This class...
@@ -41,7 +41,7 @@ public class InstitutionalProposalPersonUnitAddRuleImpl implements Institutional
         
         if(!valid) {
             Unit dupeUnit = newInstitutionalProposalPersonUnit.getUnit();
-            GlobalVariables.getErrorMap().putError(PROPOSAL_PROJECT_PERSON_LIST_ERROR_KEY, 
+            GlobalVariables.getMessageMap().putError(PROPOSAL_PROJECT_PERSON_LIST_ERROR_KEY, 
                                                         ERROR_PROPOSAL_PROJECT_PERSON_DUPLICATE_UNITS, 
                                                         dupeUnit.getUnitName(), dupeUnit.getUnitNumber(),
                                                         projectPerson.getFullName());

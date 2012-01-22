@@ -16,7 +16,6 @@
 package org.kuali.kra.award.budget;
 
 import org.kuali.kra.budget.BudgetDecimal;
-import org.kuali.kra.budget.nonpersonnel.AbstractBudgetCalculatedAmount;
 import org.kuali.kra.budget.personnel.BudgetPersonnelCalculatedAmount;
 
 /**

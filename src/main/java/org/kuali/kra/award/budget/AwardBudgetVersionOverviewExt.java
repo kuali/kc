@@ -17,8 +17,6 @@ package org.kuali.kra.award.budget;
 
 import static org.kuali.kra.infrastructure.KraServiceLocator.getService;
 
-import java.util.LinkedHashMap;
-
 import org.kuali.kra.budget.BudgetDecimal;
 import org.kuali.kra.budget.summary.BudgetSummaryService;
 import org.kuali.kra.budget.versions.BudgetVersionOverview;
@@ -27,23 +25,30 @@ import org.kuali.kra.budget.versions.BudgetVersionOverview;
  * This class...
  */
 public class AwardBudgetVersionOverviewExt extends BudgetVersionOverview {
+
     /**
      * Comment for <code>serialVersionUID</code>
      */
     private static final long serialVersionUID = -8402075117207933626L;
-    private String awardBudgetStatusCode; 
-    private String awardBudgetTypeCode; 
+
+    private String awardBudgetStatusCode;
+
+    private String awardBudgetTypeCode;
+
     private BudgetDecimal obligatedAmount;
-    
-    private AwardBudgetStatus awardBudgetStatus; 
-    private AwardBudgetType awardBudgetType; 
+
+    private AwardBudgetStatus awardBudgetStatus;
+
+    private AwardBudgetType awardBudgetType;
+
     private String description;
+
     private String budgetInitiator;
 
-    public AwardBudgetVersionOverviewExt() { 
+    public AwardBudgetVersionOverviewExt() {
         super();
-    } 
-    
+    }
+
     public String getAwardBudgetStatusCode() {
         return awardBudgetStatusCode;
     }
@@ -76,15 +81,6 @@ public class AwardBudgetVersionOverviewExt extends BudgetVersionOverview {
         this.awardBudgetType = awardBudgetType;
     }
 
-    /** {@inheritDoc} */
-    @Override 
-    protected LinkedHashMap<String, Object> toStringMapper() {
-        LinkedHashMap<String, Object> hashMap = super.toStringMapper();
-        hashMap.put("awardBudgetStatusCode", this.getAwardBudgetStatusCode());
-        hashMap.put("awardBudgetTypeCode", this.getAwardBudgetTypeCode());
-        return hashMap;
-    }
-
     /**
      * Gets the obligatedAmount attribute. 
      * @return Returns the obligatedAmount.
@@ -100,7 +96,7 @@ public class AwardBudgetVersionOverviewExt extends BudgetVersionOverview {
     public void setObligatedAmount(BudgetDecimal obligatedChangeAmount) {
         this.obligatedAmount = obligatedChangeAmount;
     }
- 
+
     public String getOnOffCampusFlagDescription() {
         return getBudgetSummaryService().getOnOffCampusFlagDescription(getOnOffCampusFlag());
     }
@@ -124,5 +120,4 @@ public class AwardBudgetVersionOverviewExt extends BudgetVersionOverview {
     public void setBudgetInitiator(String budgetInitiator) {
         this.budgetInitiator = budgetInitiator;
     }
-
 }

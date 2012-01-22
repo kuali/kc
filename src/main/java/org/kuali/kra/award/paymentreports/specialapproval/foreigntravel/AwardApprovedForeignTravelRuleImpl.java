@@ -20,8 +20,8 @@ import java.util.List;
 
 import org.apache.commons.lang.StringUtils;
 import org.kuali.kra.rules.ResearchDocumentRuleBase;
-import org.kuali.rice.kns.util.GlobalVariables;
-import org.kuali.rice.kns.util.KualiDecimal;
+import org.kuali.rice.core.api.util.type.KualiDecimal;
+import org.kuali.rice.krad.util.GlobalVariables;
 
 /**
  * The AwardApprovedEquipmentRuleImpl
@@ -155,6 +155,6 @@ public class AwardApprovedForeignTravelRuleImpl extends ResearchDocumentRuleBase
     }
     
     private boolean hasDuplicateErrorBeenReported() {
-        return GlobalVariables.getErrorMap().containsMessageKey(ERROR_AWARD_APPROVED_FOREIGN_TRAVEL_NOT_UNIQUE);
+        return GlobalVariables.getMessageMap().containsMessageKey(ERROR_AWARD_APPROVED_FOREIGN_TRAVEL_NOT_UNIQUE);
     }
 }

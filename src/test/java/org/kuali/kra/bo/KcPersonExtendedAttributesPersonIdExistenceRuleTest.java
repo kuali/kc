@@ -18,16 +18,16 @@ package org.kuali.kra.bo;
 import org.junit.After;
 import org.junit.Before;
 import org.junit.Test;
-import org.kuali.kra.rules.KcPersonExtendedAttributesPersonIdExistenceRule;
 import org.kuali.kra.maintenance.MaintenanceRuleTestBase;
-import org.kuali.rice.kns.UserSession;
+import org.kuali.kra.rules.KcPersonExtendedAttributesPersonIdExistenceRule;
+import org.kuali.rice.core.api.util.RiceKeyConstants;
 import org.kuali.rice.kns.document.MaintenanceDocument;
-import org.kuali.rice.kns.util.ErrorMessage;
-import org.kuali.rice.kns.util.GlobalVariables;
-import org.kuali.rice.kns.util.KNSConstants;
-import org.kuali.rice.kns.util.MessageMap;
-import org.kuali.rice.kns.util.RiceKeyConstants;
-import org.kuali.rice.kns.util.TypedArrayList;
+import org.kuali.rice.krad.UserSession;
+import org.kuali.rice.krad.util.ErrorMessage;
+import org.kuali.rice.krad.util.GlobalVariables;
+import org.kuali.rice.krad.util.KRADConstants;
+import org.kuali.rice.krad.util.MessageMap;
+import org.springframework.util.AutoPopulatingList;
 
 public class KcPersonExtendedAttributesPersonIdExistenceRuleTest extends MaintenanceRuleTestBase {
     private KcPersonExtendedAttributesPersonIdExistenceRule rule = null;
@@ -65,7 +65,7 @@ public class KcPersonExtendedAttributesPersonIdExistenceRuleTest extends Mainten
         assertEquals(0, eMap.getErrorCount());
         assertFalse(rule.processSaveDocument(kcPesonExtendedAttribuesDocument));
         assertEquals(1, eMap.getErrorCount());
-        TypedArrayList errors = eMap.getErrorMessagesForProperty(KNSConstants.MAINTENANCE_NEW_MAINTAINABLE + "principalId");
+        AutoPopulatingList errors = eMap.getErrorMessagesForProperty(KRADConstants.MAINTENANCE_NEW_MAINTAINABLE + "principalId");
         ErrorMessage message = (ErrorMessage) errors.get(0);
         assertEquals(message.getErrorKey(), RiceKeyConstants.ERROR_EXISTENCE);
     }

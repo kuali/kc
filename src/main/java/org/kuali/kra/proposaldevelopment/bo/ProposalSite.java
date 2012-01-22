@@ -16,7 +16,6 @@
 package org.kuali.kra.proposaldevelopment.bo;
 
 import java.util.ArrayList;
-import java.util.LinkedHashMap;
 import java.util.List;
 
 import org.apache.commons.lang.StringUtils;
@@ -29,27 +28,40 @@ import org.kuali.kra.bo.Rolodex;
  * a Rolodex entry.
  */
 public class ProposalSite extends KraPersistableBusinessObjectBase {
+
     private static final long serialVersionUID = -1657749549230077805L;
-    // prroposal site types, see LOCATION_TYPE table
+
+    // prroposal site types, see LOCATION_TYPE table 
     public static final int PROPOSAL_SITE_APPLICANT_ORGANIZATION = 1;
+
     public static final int PROPOSAL_SITE_PERFORMING_ORGANIZATION = 2;
+
     public static final int PROPOSAL_SITE_OTHER_ORGANIZATION = 3;
+
     public static final int PROPOSAL_SITE_PERFORMANCE_SITE = 4;
-    
+
     private String proposalNumber;
+
     private Integer siteNumber;
+
     private String locationName;
+
     private Integer locationTypeCode;
+
     private String organizationId;
+
     private Organization organization;
+
     private Integer rolodexId;
+
     private Rolodex rolodex;
+
     private List<CongressionalDistrict> congressionalDistricts;
 
     public ProposalSite() {
         congressionalDistricts = new ArrayList<CongressionalDistrict>();
     }
-    
+
     public void setProposalNumber(String proposalNumber) {
         this.proposalNumber = proposalNumber;
     }
@@ -103,8 +115,8 @@ public class ProposalSite extends KraPersistableBusinessObjectBase {
     }
 
     public void setRolodexId(Integer rolodexId) {
-        // When the Rolodex entry changes, remove the congressional districts of the old Rolodex
-        if (this.rolodexId!=null && !this.rolodexId.equals(rolodexId)) {
+        // When the Rolodex entry changes, remove the congressional districts of the old Rolodex 
+        if (this.rolodexId != null && !this.rolodexId.equals(rolodexId)) {
             congressionalDistricts.clear();
         }
         this.rolodexId = rolodexId;
@@ -133,41 +145,40 @@ public class ProposalSite extends KraPersistableBusinessObjectBase {
     public void addCongressionalDistrict(CongressionalDistrict congressionalDistrict) {
         congressionalDistricts.add(congressionalDistrict);
     }
-    
+
     public void deleteCongressionalDistrict(int districtIndex) {
         congressionalDistricts.remove(districtIndex);
     }
-    
+
     public void setDefaultCongressionalDistrict(CongressionalDistrict congressionalDistrict) {
         if (!contains(congressionalDistrict.getCongressionalDistrict())) {
             congressionalDistricts.add(0, congressionalDistrict);
         }
     }
-    
+
     /**
      * This method tests whether the ProposalSite contains a ongressional district with a given congressionalDistrict value.
      * @param congressionalDistrictIdentifier
      * @return
      */
     private boolean contains(String congressionalDistrictIdentifier) {
-        for (CongressionalDistrict district: congressionalDistricts) {
+        for (CongressionalDistrict district : congressionalDistricts) {
             if (StringUtils.equals(district.getCongressionalDistrict(), congressionalDistrictIdentifier)) {
                 return true;
             }
         }
         return false;
     }
-    
+
     /**
      * This method returns the first congressional district defined for the ProposalSite,
      * or null if there is none.
      * @return
      */
     public CongressionalDistrict getDefaultCongressionalDistrict() {
-        if (congressionalDistricts==null || congressionalDistricts.isEmpty()) {
+        if (congressionalDistricts == null || congressionalDistricts.isEmpty()) {
             return null;
-        }
-        else {
+        } else {
             return congressionalDistricts.get(0);
         }
     }
@@ -181,8 +192,7 @@ public class ProposalSite extends KraPersistableBusinessObjectBase {
         CongressionalDistrict firstDistrict = getDefaultCongressionalDistrict();
         if (firstDistrict == null) {
             return "";
-        }
-        else {
+        } else {
             return firstDistrict.getCongressionalDistrict();
         }
     }
@@ -218,16 +228,4 @@ public class ProposalSite extends KraPersistableBusinessObjectBase {
             }
         }
     }
-
-    @Override
-    protected LinkedHashMap<String, ?> toStringMapper() {
-        LinkedHashMap<String, Object> hashMap = new LinkedHashMap<String, Object>();
-        hashMap.put("proposalNumber", this.getProposalNumber());
-        hashMap.put("locationName", this.getLocationName());
-        hashMap.put("locationTypeCode", this.getLocationTypeCode());
-        hashMap.put("organizationId", this.getOrganizationId());
-        hashMap.put("rolodexId", this.getRolodexId());
-        return hashMap;
-    }
-
 }

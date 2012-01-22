@@ -25,10 +25,10 @@ import org.kuali.kra.infrastructure.KeyConstants;
 import org.kuali.kra.infrastructure.KraServiceLocator;
 import org.kuali.kra.institutionalproposal.home.InstitutionalProposal;
 import org.kuali.kra.rules.ResearchDocumentRuleBase;
-import org.kuali.rice.kns.service.BusinessObjectService;
+import org.kuali.rice.core.api.util.RiceKeyConstants;
 import org.kuali.rice.kns.service.DataDictionaryService;
-import org.kuali.rice.kns.util.GlobalVariables;
-import org.kuali.rice.kns.util.RiceKeyConstants;
+import org.kuali.rice.krad.service.BusinessObjectService;
+import org.kuali.rice.krad.util.GlobalVariables;
 
 /**
  * This class...
@@ -106,7 +106,7 @@ public class InstitutionalProposalSponsorAndProgramRuleImpl extends ResearchDocu
         DataDictionaryService dataDictionaryService = KraServiceLocator.getService(DataDictionaryService.class);
         if (StringUtils.isNotBlank(institutionalProposal.getCfdaNumber())
                 && !(institutionalProposal.getCfdaNumber().matches(regExpr))
-                && GlobalVariables.getErrorMap().getMessages("document.institutionalProposalList[0].cfdaNumber") == null) {
+                && GlobalVariables.getMessageMap().getMessages("document.institutionalProposalList[0].cfdaNumber") == null) {
             this.reportError("document.institutionalProposal.cfdaNumber", RiceKeyConstants.ERROR_INVALID_FORMAT, new String[] {
                     dataDictionaryService.getAttributeErrorLabel(InstitutionalProposal.class, "cfdaNumber"),
                     institutionalProposal.getCfdaNumber() });

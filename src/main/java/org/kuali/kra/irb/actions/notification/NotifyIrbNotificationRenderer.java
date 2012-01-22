@@ -17,7 +17,6 @@ package org.kuali.kra.irb.actions.notification;
 
 import java.util.Map;
 
-import org.apache.commons.lang.StringUtils;
 import org.kuali.kra.irb.Protocol;
 import org.kuali.kra.irb.notification.IRBNotificationRenderer;
 

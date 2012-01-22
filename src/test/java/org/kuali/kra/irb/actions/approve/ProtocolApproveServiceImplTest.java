@@ -38,9 +38,9 @@ import org.kuali.kra.irb.actions.submit.ProtocolActionService;
 import org.kuali.kra.irb.onlinereview.ProtocolOnlineReviewService;
 import org.kuali.kra.irb.test.ProtocolFactory;
 import org.kuali.kra.test.infrastructure.KcUnitTestBase;
-import org.kuali.rice.kns.service.DocumentService;
-import org.kuali.rice.kns.service.ParameterService;
-import org.kuali.rice.kns.util.DateUtils;
+import org.kuali.kra.util.DateUtils;
+import org.kuali.rice.coreservice.framework.parameter.ParameterService;
+import org.kuali.rice.krad.service.DocumentService;
 
 public class ProtocolApproveServiceImplTest extends KcUnitTestBase {
     
@@ -139,7 +139,7 @@ public class ProtocolApproveServiceImplTest extends KcUnitTestBase {
         final ParameterService service = context.mock(ParameterService.class);
         
         context.checking(new Expectations() {{
-            allowing(service).getParameterValue(ProtocolDocument.class, Constants.PROTOCOL_TYPE_CODE_EXEMPT);
+            allowing(service).getParameterValueAsString(ProtocolDocument.class, Constants.PROTOCOL_TYPE_CODE_EXEMPT);
             will(returnValue(PROTOCOL_TYPE_EXEMPT));
         }});
         

@@ -32,8 +32,8 @@ import org.kuali.kra.rule.event.KraDocumentEventBaseExtension;
 import org.kuali.kra.rules.ResearchDocumentRuleBase;
 import org.kuali.kra.service.KraAuthorizationService;
 import org.kuali.kra.service.KraWorkflowService;
-import org.kuali.rice.kns.service.KualiRuleService;
-import org.kuali.rice.kns.util.GlobalVariables;
+import org.kuali.rice.krad.service.KualiRuleService;
+import org.kuali.rice.krad.util.GlobalVariables;
 
 public class ProtocolOnlineReviewDocumentRule extends ResearchDocumentRuleBase implements AddOnlineReviewCommentRule
                                                                                          ,SaveProtocolOnlineReviewRule
@@ -127,8 +127,8 @@ public class ProtocolOnlineReviewDocumentRule extends ResearchDocumentRuleBase i
         boolean valid = true;
         KualiRuleService ruleService = KraServiceLocator.getService(KualiRuleService.class);
         valid &= ruleService.applyRules(new SaveProtocolOnlineReviewEvent(event.getProtocolOnlineReviewDocument(),event.getMinutes(),event.getOnlineReviewIndex()));
-        GlobalVariables.getErrorMap().clearErrorPath();
-        GlobalVariables.getErrorMap().addToErrorPath(String.format(ONLINE_REVIEW_COMMENTS_ERROR_PATH, event.getOnlineReviewIndex()));
+        GlobalVariables.getMessageMap().clearErrorPath();
+        GlobalVariables.getMessageMap().addToErrorPath(String.format(ONLINE_REVIEW_COMMENTS_ERROR_PATH, event.getOnlineReviewIndex()));
   
         // KCIRB-1315 : no final check for approve
         //check to see if it is on the 
@@ -140,7 +140,7 @@ public class ProtocolOnlineReviewDocumentRule extends ResearchDocumentRuleBase i
 //            
 //            for (CommitteeScheduleMinute minute : event.getMinutes()) {
 //                if (!minute.isFinalFlag()) {
-//                    GlobalVariables.getErrorMap().putError(String.format("reviewComments[%s].finalFlag", commentIndex),
+//                    GlobalVariables.getMessageMap().putError(String.format("reviewComments[%s].finalFlag", commentIndex),
 //                            KeyConstants.ERROR_ONLINE_REVIEW_COMMENTS_FINAL_AFTER_REVIEWER_ROUTE);
 //                    valid = false;
 //                   

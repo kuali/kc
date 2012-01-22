@@ -54,11 +54,12 @@ import org.kuali.kra.budget.rates.RateType;
 import org.kuali.kra.budget.web.struts.form.BudgetForm;
 import org.kuali.kra.infrastructure.KraServiceLocator;
 import org.kuali.kra.proposaldevelopment.hierarchy.HierarchyStatusConstants;
-import org.kuali.rice.kns.service.BusinessObjectService;
-import org.kuali.rice.kns.service.ParameterService;
-import org.kuali.rice.kns.util.ErrorMap;
-import org.kuali.rice.kns.util.GlobalVariables;
+import org.kuali.rice.coreservice.framework.parameter.ParameterService;
+import org.kuali.rice.kns.util.KNSGlobalVariables;
 import org.kuali.rice.kns.web.struts.form.KualiForm;
+import org.kuali.rice.krad.service.BusinessObjectService;
+import org.kuali.rice.krad.util.GlobalVariables;
+import org.kuali.rice.krad.util.MessageMap;
 
 
 /**
@@ -130,7 +131,7 @@ public class BudgetCalculationServiceImpl implements BudgetCalculationService {
         final boolean isLineItemsEmpty = budgetPeriod.getBudgetLineItems().isEmpty();
         
         if(isLineItemsEmpty && !budgetLineItemDeleted){
-            final Map<Object, Object> fieldValues = new HashMap<Object, Object>();
+            final Map<String, Object> fieldValues = new HashMap<String, Object>();
 
             fieldValues.put("budgetId", budgetPeriod.getBudgetId());
             fieldValues.put("budgetPeriod", budgetPeriod.getBudgetPeriod());
@@ -693,7 +694,7 @@ public class BudgetCalculationServiceImpl implements BudgetCalculationService {
                 
                 List<CostElement> objectCodes = budget.getObjectCodeListByBudgetCategoryType().get(budgetCategoryType);
                 for(CostElement objectCode : objectCodes) {
-                    if (!StringUtils.equalsIgnoreCase(objectCode.getCostElement(), KraServiceLocator.getService(ParameterService.class).getParameterValue(BudgetDocument.class, "proposalHierarchySubProjectIndirectCostElement"))) {
+                    if (!StringUtils.equalsIgnoreCase(objectCode.getCostElement(), KraServiceLocator.getService(ParameterService.class).getParameterValueAsString(BudgetDocument.class, "proposalHierarchySubProjectIndirectCostElement"))) {
                         List<BudgetDecimal> objectCodePeriodTotals = budget.getObjectCodeTotals().get(objectCode);
                         for(BudgetPeriod budgetPeriod : budget.getBudgetPeriods()) {
                             budget.getBudgetSummaryTotals().get(budgetCategoryType.getBudgetCategoryTypeCode()).set(budgetPeriod.getBudgetPeriod() - 1, ((BudgetDecimal) (budget.getBudgetSummaryTotals().get(budgetCategoryType.getBudgetCategoryTypeCode()).get(budgetPeriod.getBudgetPeriod() - 1))).add(objectCodePeriodTotals.get(budgetPeriod.getBudgetPeriod() - 1)));
@@ -866,7 +867,7 @@ public class BudgetCalculationServiceImpl implements BudgetCalculationService {
         BudgetPeriodCalculator periodCalculator = new BudgetPeriodCalculator();
         periodCalculator.syncToPeriodCostLimit(budget, budgetPeriod, budgetLineItem);
         List<String> errors = periodCalculator.getErrorMessages();
-        ErrorMap errorMap = GlobalVariables.getErrorMap();
+        MessageMap errorMap = GlobalVariables.getMessageMap();
         if(!errors.isEmpty()){
             for (String error : errors) {
                 errorMap.putError("document.budgetPeriod[" + (budgetPeriod.getBudgetPeriod() - 1) + "].budgetLineItem["+ (budgetLineItem.getLineItemNumber() - 1) +"].lineItemCost", error);
@@ -878,7 +879,7 @@ public class BudgetCalculationServiceImpl implements BudgetCalculationService {
         BudgetPeriodCalculator periodCalculator = new BudgetPeriodCalculator();
         periodCalculator.syncToPeriodDirectCostLimit(budget, budgetPeriod, budgetLineItem);
         List<String> errors = periodCalculator.getErrorMessages();
-        ErrorMap errorMap = GlobalVariables.getErrorMap();
+        MessageMap errorMap = GlobalVariables.getMessageMap();
         if(!errors.isEmpty()){
             for (String error : errors) {
                 errorMap.putError("document.budgetPeriod[" + (budgetPeriod.getBudgetPeriod() - 1) + "].budgetLineItem["+ (budgetLineItem.getLineItemNumber() - 1) +"].lineItemCost", error);
@@ -890,7 +891,7 @@ public class BudgetCalculationServiceImpl implements BudgetCalculationService {
         periodCalculator.applyToLaterPeriods(budget, budgetPeriod, budgetLineItem);
         List<String> errors = periodCalculator.getErrorMessages();
         if(!errors.isEmpty()){
-            ErrorMap errorMap = GlobalVariables.getErrorMap();
+            MessageMap errorMap = GlobalVariables.getMessageMap();
             for (String error : errors) {
                 errorMap.putError("document.budgetPeriod[" + (budgetPeriod.getBudgetPeriod() - 1) + "].budgetLineItem["+ (budgetLineItem.getLineItemNumber() - 1) +"].costElement",error);
             }
@@ -953,7 +954,7 @@ public class BudgetCalculationServiceImpl implements BudgetCalculationService {
     
     public BudgetForm getBudgetFormFromGlobalVariables() {
         BudgetForm budgetForm = null;
-        KualiForm form = GlobalVariables.getKualiForm();
+        KualiForm form = KNSGlobalVariables.getKualiForm();
         if (form != null && form instanceof BudgetForm) {
             budgetForm = (BudgetForm)form;
         }
@@ -962,7 +963,7 @@ public class BudgetCalculationServiceImpl implements BudgetCalculationService {
     
     // Attempt for budget limit panel
     public List<Map <String, List<BudgetDecimal>>> getBudgetLimitsTotals(String budgetId) {
-        final Map<Object, Object> fieldValues = new HashMap<Object, Object>();
+        final Map<String, Object> fieldValues = new HashMap<String, Object>();
         List<Map <String, List<BudgetDecimal>>> retList = new ArrayList<Map <String, List<BudgetDecimal>>>();
       fieldValues.put("budgetId", budgetId);
       Budget budget

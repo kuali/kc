@@ -15,37 +15,56 @@
  */
 package org.kuali.kra.award.awardhierarchy;
 
+import java.util.ArrayList;
+import java.util.Collection;
+import java.util.List;
+import java.util.Map;
+import java.util.Set;
+import java.util.TreeMap;
+import java.util.TreeSet;
+
 import org.kuali.kra.award.home.Award;
 import org.kuali.kra.bo.KraPersistableBusinessObjectBase;
 import org.kuali.kra.bo.versioning.VersionHistory;
 import org.kuali.kra.infrastructure.KraServiceLocator;
 import org.kuali.kra.service.ServiceHelper;
 import org.kuali.kra.service.VersionHistoryService;
-import org.kuali.rice.kns.service.BusinessObjectService;
-
-import java.util.*;
+import org.kuali.rice.krad.service.BusinessObjectService;
 
 /**
  * AwardHierarchy is version agnostic. It should always reference the active version of the Award if one is present. If not present, it will reference the one
  * and only pending Award matching the AwardHierarchy awardNumber.
  */
-public class AwardHierarchy extends KraPersistableBusinessObjectBase implements Cloneable{
+public class AwardHierarchy extends KraPersistableBusinessObjectBase implements Cloneable {
+
     public static final String ROOTS_PARENT_AWARD_NUMBER = "000000-00000";
+
     public static final String UNIQUE_IDENTIFIER_FIELD = "awardNumber";
+
     private static final long serialVersionUID = 1L;
 
     private Long awardHierarchyId;
+
     private String rootAwardNumber;
+
     private String awardNumber;
+
     private String parentAwardNumber;
+
     private String originatingAwardNumber = Award.DEFAULT_AWARD_NUMBER;
+
     private AwardHierarchy root;
+
     private AwardHierarchy parent;
+
     private Boolean active = true;
 
     private transient Award award;
+
     private transient List<AwardHierarchy> children;
+
     private transient BusinessObjectService boService;
+
     private transient VersionHistoryService versionHistoryService;
 
     /**
@@ -128,31 +147,19 @@ public class AwardHierarchy extends KraPersistableBusinessObjectBase implements 
      */
     @Override
     public boolean equals(Object obj) {
-        if (this == obj)
-            return true;
-        if (obj == null)
-            return false;
-        if (!(obj instanceof AwardHierarchy))
-            return false;
+        if (this == obj) return true;
+        if (obj == null) return false;
+        if (!(obj instanceof AwardHierarchy)) return false;
         AwardHierarchy other = (AwardHierarchy) obj;
         if (awardNumber == null) {
-            if (other.awardNumber != null)
-                return false;
-        }
-        else if (!awardNumber.equals(other.awardNumber))
-            return false;
+            if (other.awardNumber != null) return false;
+        } else if (!awardNumber.equals(other.awardNumber)) return false;
         if (parentAwardNumber == null) {
-            if (other.parentAwardNumber != null)
-                return false;
-        }
-        else if (!parentAwardNumber.equals(other.parentAwardNumber))
-            return false;
+            if (other.parentAwardNumber != null) return false;
+        } else if (!parentAwardNumber.equals(other.parentAwardNumber)) return false;
         if (rootAwardNumber == null) {
-            if (other.rootAwardNumber != null)
-                return false;
-        }
-        else if (!rootAwardNumber.equals(other.rootAwardNumber))
-            return false;
+            if (other.rootAwardNumber != null) return false;
+        } else if (!rootAwardNumber.equals(other.rootAwardNumber)) return false;
         return true;
     }
 
@@ -160,7 +167,7 @@ public class AwardHierarchy extends KraPersistableBusinessObjectBase implements 
      * @return
      */
     public Award getAward() {
-        if(award == null) {
+        if (award == null) {
             lazyLoadAward();
         }
         return award;
@@ -198,7 +205,7 @@ public class AwardHierarchy extends KraPersistableBusinessObjectBase implements 
      * @return Returns the parent.
      */
     public AwardHierarchy getParent() {
-        if(!isRootNode() && parent == null && parentAwardNumber != null) {
+        if (!isRootNode() && parent == null && parentAwardNumber != null) {
             parent = findAwardHierarchyMatchingAwardNumber(parentAwardNumber);
         }
         return parent;
@@ -213,10 +220,10 @@ public class AwardHierarchy extends KraPersistableBusinessObjectBase implements 
      * @return Returns the root.
      */
     public AwardHierarchy getRoot() {
-        if(isRootNode()) {
+        if (isRootNode()) {
             root = this;
         } else {
-            if(root == null && rootAwardNumber != null) {
+            if (root == null && rootAwardNumber != null) {
                 root = findAwardHierarchyMatchingAwardNumber(rootAwardNumber);
             }
         }
@@ -232,7 +239,7 @@ public class AwardHierarchy extends KraPersistableBusinessObjectBase implements 
     public Map<String, AwardHierarchy> getMapOfNodesInHierarchy() {
         Map<String, AwardHierarchy> nodeMap = new TreeMap<String, AwardHierarchy>();
         List<AwardHierarchy> nodes = getFlattenedListOfNodesInHierarchy();
-        for(AwardHierarchy node: nodes) {
+        for (AwardHierarchy node : nodes) {
             nodeMap.put(node.getAwardNumber(), node);
         }
         return nodeMap;
@@ -289,7 +296,7 @@ public class AwardHierarchy extends KraPersistableBusinessObjectBase implements 
     public String generateNextAwardNumberInSequence() {
         List<AwardHierarchy> list = getFlattenedListOfNodesInHierarchy();
         Set<String> awardNumberSet = new TreeSet<String>();
-        for(AwardHierarchy node: list) {
+        for (AwardHierarchy node : list) {
             awardNumberSet.add(node.getAwardNumber());
         }
         List<String> orderedList = new ArrayList<String>(awardNumberSet);
@@ -371,23 +378,13 @@ public class AwardHierarchy extends KraPersistableBusinessObjectBase implements 
     }
 
     public boolean isPersisted() {
-        return !isNew(); 
-    }
-
-    /** {@inheritDoc} */
-    @Override
-    protected LinkedHashMap<String, Object> toStringMapper() {
-        LinkedHashMap<String, Object> hashMap = new LinkedHashMap<String, Object>();
-        hashMap.put("rootAwardNumber", this.getRootAwardNumber());
-        hashMap.put("awardNumber", this.getAwardNumber());
-        hashMap.put("parentAwardNumber", this.getParentAwardNumber());
-        return hashMap;
+        return !isNew();
     }
 
     void addNodeToFlattenedList(List<AwardHierarchy> list, AwardHierarchy parentNode) {
         list.add(parentNode);
-        if(parentNode.hasChildren()) {
-            for(AwardHierarchy childNode: parentNode.getChildren()) {
+        if (parentNode.hasChildren()) {
+            for (AwardHierarchy childNode : parentNode.getChildren()) {
                 addNodeToFlattenedList(list, childNode);
             }
         }
@@ -402,14 +399,14 @@ public class AwardHierarchy extends KraPersistableBusinessObjectBase implements 
     }
 
     BusinessObjectService getBusinessObjectService() {
-        if(boService == null) {
+        if (boService == null) {
             boService = KraServiceLocator.getService(BusinessObjectService.class);
         }
         return boService;
     }
 
     VersionHistoryService getVersionHistoryService() {
-        if(versionHistoryService == null) {
+        if (versionHistoryService == null) {
             versionHistoryService = KraServiceLocator.getService(VersionHistoryService.class);
         }
         return versionHistoryService;
@@ -417,12 +414,12 @@ public class AwardHierarchy extends KraPersistableBusinessObjectBase implements 
 
     AwardHierarchy findNode(AwardHierarchy testNode, String awardNumber) {
         AwardHierarchy foundNode = null;
-        if(testNode.getAwardNumber().equals(awardNumber)) {
+        if (testNode.getAwardNumber().equals(awardNumber)) {
             foundNode = testNode;
-        } else if(testNode.hasChildren()) {
-            for(AwardHierarchy node: testNode.getChildren()) {
+        } else if (testNode.hasChildren()) {
+            for (AwardHierarchy node : testNode.getChildren()) {
                 foundNode = findNode(node, awardNumber);
-                if(foundNode != null) {
+                if (foundNode != null) {
                     break;
                 }
             }
@@ -435,7 +432,7 @@ public class AwardHierarchy extends KraPersistableBusinessObjectBase implements 
     }
 
     private AwardHierarchy findAwardHierarchyMatchingAwardNumber(String searchAwardNumber) {
-        Map map = ServiceHelper.getInstance().buildCriteriaMap(new String[]{"awardNumber", "active"}, new Object[]{searchAwardNumber, Boolean.TRUE});
+        Map map = ServiceHelper.getInstance().buildCriteriaMap(new String[] { "awardNumber", "active" }, new Object[] { searchAwardNumber, Boolean.TRUE });
         Collection c = getBusinessObjectService().findMatching(AwardHierarchy.class, map);
         return c.size() == 1 ? (AwardHierarchy) c.iterator().next() : null;
     }
@@ -446,28 +443,28 @@ public class AwardHierarchy extends KraPersistableBusinessObjectBase implements 
 
     private void lazyLoadAward() {
         VersionHistory vh = getVersionHistoryService().findActiveVersion(Award.class, awardNumber);
-        if(vh != null) {
-            award = (Award) vh.getSequenceOwner();    
+        if (vh != null) {
+            award = (Award) vh.getSequenceOwner();
         } else {
             List<VersionHistory> histories = getVersionHistoryService().loadVersionHistory(Award.class, awardNumber);
-            award = histories.size() == 1 ? (Award) histories.get(0).getSequenceOwner(): null;
+            award = histories.size() == 1 ? (Award) histories.get(0).getSequenceOwner() : null;
         }
     }
-    
+
     public AwardHierarchy clone() {
         AwardHierarchy copy = null;
         try {
-          copy = (AwardHierarchy) super.clone();
-          List<AwardHierarchy> copyChildren = new ArrayList<AwardHierarchy>();
-          for(AwardHierarchy child : this.getChildren()){
-              copyChildren.add((AwardHierarchy)child.clone());
-          }
-          copy.setChildren(copyChildren);
-        } catch(CloneNotSupportedException e) {
+            copy = (AwardHierarchy) super.clone();
+            List<AwardHierarchy> copyChildren = new ArrayList<AwardHierarchy>();
+            for (AwardHierarchy child : this.getChildren()) {
+                copyChildren.add((AwardHierarchy) child.clone());
+            }
+            copy.setChildren(copyChildren);
+        } catch (CloneNotSupportedException e) {
             throw new RuntimeException(e);
         }
         return copy;
-      }
+    }
 
     public Boolean isActive() {
         return active;

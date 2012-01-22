@@ -24,21 +24,19 @@ import org.apache.commons.lang.StringUtils;
 import org.kuali.kra.committee.bo.Committee;
 import org.kuali.kra.committee.bo.CommitteeMembership;
 import org.kuali.kra.irb.Protocol;
-
 import org.kuali.kra.kim.bo.KcKimAttributes;
-import org.kuali.rice.kim.bo.Role;
-import org.kuali.rice.kim.bo.role.dto.RoleMembershipInfo;
-import org.kuali.rice.kim.bo.types.dto.AttributeSet;
-import org.kuali.rice.kim.service.support.impl.KimDerivedRoleTypeServiceBase;
+import org.kuali.rice.core.api.membership.MemberType;
+import org.kuali.rice.kim.api.role.RoleMembership;
+import org.kuali.rice.kns.kim.role.DerivedRoleTypeServiceBase;
 
 /**
  * 
  * This class supports the active committee member on protocol derived role type.  It is intended to support
  * the viewing of protocols by active committee members that are not reviewers.  Please note that the method
- * getRoleMembersFromApplicationRole was not over-ridden as there is currently not workflow items for this
+ * getRoleMembersFromDerivedRole was not over-ridden as there is currently not workflow items for this
  * particular role.
  */
-public class ActiveCommitteeMemberOnProtocolDerivedRoleTypeServiceImpl extends KimDerivedRoleTypeServiceBase {
+public class ActiveCommitteeMemberOnProtocolDerivedRoleTypeServiceImpl extends DerivedRoleTypeServiceBase {
 
     private static final org.apache.log4j.Logger LOG = org.apache.log4j.Logger.getLogger(ActiveCommitteeMemberOnProtocolDerivedRoleTypeServiceImpl.class);   
 
@@ -49,13 +47,13 @@ public class ActiveCommitteeMemberOnProtocolDerivedRoleTypeServiceImpl extends K
     
     /**
      * 
-     * @see org.kuali.rice.kim.service.support.impl.KimDerivedRoleTypeServiceBase#getRoleMembersFromApplicationRole(java.lang.String, java.lang.String, org.kuali.rice.kim.bo.types.dto.AttributeSet)
+     * @see org.kuali.rice.kns.kim.role.DerivedRoleTypeServiceBase#getRoleMembersFromDerivedRole(java.lang.String, java.lang.String, org.kuali.rice.core.util.AttributeSet)
      */
     @Override
-    public List<RoleMembershipInfo> getRoleMembersFromApplicationRole(String namespaceCode, String roleName,
-            AttributeSet qualification) {
+    public List<RoleMembership> getRoleMembersFromDerivedRole(String namespaceCode, String roleName,
+            Map<String,String> qualification) {
         validateRequiredAttributesAgainstReceived(qualification);
-        List<RoleMembershipInfo> members = new ArrayList<RoleMembershipInfo>();
+        List<RoleMembership> members = new ArrayList<RoleMembership>();
 
         String protocolNumber = qualification.get(KcKimAttributes.PROTOCOL);
         
@@ -67,7 +65,7 @@ public class ActiveCommitteeMemberOnProtocolDerivedRoleTypeServiceImpl extends K
                     if (committee != null) {
                         for (CommitteeMembership membership : committee.getCommitteeMemberships()) {
                             if (membership.getPersonId()!=null && membership.isActive()) {
-                                members.add(new RoleMembershipInfo(null, null, membership.getPersonId(), Role.PRINCIPAL_MEMBER_TYPE, null));
+                                members.add(RoleMembership.Builder.create(null, null, membership.getPersonId(), MemberType.PRINCIPAL, null).build());
                             }
                         }
                     }
@@ -80,11 +78,11 @@ public class ActiveCommitteeMemberOnProtocolDerivedRoleTypeServiceImpl extends K
     
     /**
      * 
-     * @see org.kuali.rice.kim.service.support.impl.KimRoleTypeServiceBase#hasApplicationRole(java.lang.String, java.util.List, java.lang.String, java.lang.String, org.kuali.rice.kim.bo.types.dto.AttributeSet)
+     * @see org.kuali.rice.kns.kim.role.RoleTypeServiceBase#hasDerivedRole(java.lang.String, java.util.List, java.lang.String, java.lang.String, org.kuali.rice.core.util.AttributeSet)
      */
     @Override
-    public boolean hasApplicationRole(String principalId, List<String> groupIds, String namespaceCode, String roleName,
-            AttributeSet qualification) {
+    public boolean hasDerivedRole(String principalId, List<String> groupIds, String namespaceCode, String roleName,
+            Map<String,String> qualification) {
         validateRequiredAttributesAgainstReceived(qualification);
 
         String protocolNumber = qualification.get(KcKimAttributes.PROTOCOL);

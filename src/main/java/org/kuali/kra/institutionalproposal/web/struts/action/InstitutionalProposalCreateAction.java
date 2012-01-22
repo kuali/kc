@@ -15,34 +15,12 @@
  */
 package org.kuali.kra.institutionalproposal.web.struts.action;
 
-import java.io.IOException;
-import java.util.HashMap;
-import java.util.List;
-import java.util.Map;
-
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 
-import org.apache.commons.lang.StringUtils;
 import org.apache.struts.action.ActionForm;
 import org.apache.struts.action.ActionForward;
 import org.apache.struts.action.ActionMapping;
-import org.kuali.kra.bo.versioning.VersionStatus;
-import org.kuali.kra.infrastructure.Constants;
-import org.kuali.kra.infrastructure.KraServiceLocator;
-import org.kuali.kra.institutionalproposal.document.InstitutionalProposalDocument;
-import org.kuali.kra.institutionalproposal.home.InstitutionalProposal;
-import org.kuali.kra.institutionalproposal.home.InstitutionalProposalNotepadBean;
-import org.kuali.kra.institutionalproposal.home.InstitutionalProposalScienceKeyword;
-import org.kuali.kra.institutionalproposal.proposallog.ProposalLog;
-import org.kuali.kra.institutionalproposal.service.InstitutionalProposalVersioningService;
-import org.kuali.kra.institutionalproposal.web.struts.form.InstitutionalProposalForm;
-import org.kuali.kra.service.KeywordsService;
-import org.kuali.kra.service.VersionException;
-import org.kuali.kra.service.VersioningService;
-import org.kuali.rice.kew.exception.WorkflowException;
-import org.kuali.rice.kns.question.ConfirmationQuestion;
-import org.kuali.rice.kns.util.KNSConstants;
 import org.kuali.rice.kns.web.struts.form.KualiDocumentFormBase;
 
 /**

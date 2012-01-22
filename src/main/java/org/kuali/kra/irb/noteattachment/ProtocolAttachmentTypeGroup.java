@@ -15,23 +15,23 @@
  */
 package org.kuali.kra.irb.noteattachment;
 
-import java.util.LinkedHashMap;
-
 import org.kuali.kra.bo.KraPersistableBusinessObjectBase;
 
 /**
  * This class represents the Protocol Attachment Type Group.
  */
 public class ProtocolAttachmentTypeGroup extends KraPersistableBusinessObjectBase {
-    
+
     private static final long serialVersionUID = 2053606476193782286L;
 
     private Long id;
-    
+
     private String typeCode;
+
     private ProtocolAttachmentType type;
-    
+
     private String groupCode;
+
     private ProtocolAttachmentGroup group;
 
     /**
@@ -40,7 +40,7 @@ public class ProtocolAttachmentTypeGroup extends KraPersistableBusinessObjectBas
     public ProtocolAttachmentTypeGroup() {
         super();
     }
-    
+
     /**
      * Convenience ctor to set the relevant properties of this class.
      * 
@@ -55,7 +55,7 @@ public class ProtocolAttachmentTypeGroup extends KraPersistableBusinessObjectBas
         this.type = type;
         this.group = group;
     }
-    
+
     /**
      * Gets the protocol attachment type group id.
      * @return the protocol attachment type group id
@@ -103,7 +103,7 @@ public class ProtocolAttachmentTypeGroup extends KraPersistableBusinessObjectBas
     public void setGroup(ProtocolAttachmentGroup group) {
         this.group = group;
     }
-    
+
     /**
      * Gets the typeCode attribute. 
      * @return Returns the typeCode.
@@ -134,16 +134,6 @@ public class ProtocolAttachmentTypeGroup extends KraPersistableBusinessObjectBas
      */
     public void setGroupCode(String groupCode) {
         this.groupCode = groupCode;
-    }
-
-    /** {@inheritDoc} */
-    @Override 
-    protected LinkedHashMap<String, Object> toStringMapper() {
-        LinkedHashMap<String, Object> hashMap = new LinkedHashMap<String, Object>();
-        hashMap.put("id", this.getId());
-        hashMap.put("type", this.getType());
-        hashMap.put("group", this.getGroup());
-        return hashMap;
     }
 
     /** {@inheritDoc} */

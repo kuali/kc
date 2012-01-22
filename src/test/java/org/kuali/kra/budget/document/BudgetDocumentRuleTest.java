@@ -28,9 +28,10 @@ import org.kuali.kra.costshare.CostShareServiceTest;
 import org.kuali.kra.infrastructure.KraServiceLocator;
 import org.kuali.kra.proposaldevelopment.bo.DevelopmentProposal;
 import org.kuali.kra.test.infrastructure.KcUnitTestBase;
-import org.kuali.rice.kns.service.DocumentService;
-import org.kuali.rice.kns.service.ParameterService;
-import org.kuali.rice.kns.util.KualiDecimal;
+import org.kuali.rice.coreservice.api.parameter.Parameter;
+import org.kuali.rice.core.api.util.type.KualiDecimal;
+import org.kuali.rice.coreservice.framework.parameter.ParameterService;
+import org.kuali.rice.krad.service.DocumentService;
 
 public class BudgetDocumentRuleTest extends KcUnitTestBase {
 
@@ -55,8 +56,13 @@ public class BudgetDocumentRuleTest extends KcUnitTestBase {
     public void testBudgetProjectIncomeBusinessRule() throws Exception {
         
         ParameterService ps = KraServiceLocator.getService(ParameterService.class);
-        ps.clearCache();
-        ps.setParameterForTesting(CostShareServiceTest.class, "CostShareProjectPeriodNameLabel", "Fiscal Year");        
+        //ps.clearCache();
+        //ps.setParameterForTesting(CostShareServiceTest.class, "CostShareProjectPeriodNameLabel", "Fiscal Year");
+        Parameter parameter = ps.getParameter(CostShareServiceTest.class, "CostShareProjectPeriodNameLabel");
+        Parameter.Builder parameterForUpdate = Parameter.Builder.create(parameter);
+        parameterForUpdate.setValue("Fiscal Year");
+        ps.updateParameter(parameterForUpdate.build());
+        
         CostShareService costShareService = KraServiceLocator.getService(CostShareService.class);
         costShareService.getCostShareLabel(true);
         budgetDocRule.setCostShareService(costShareService);

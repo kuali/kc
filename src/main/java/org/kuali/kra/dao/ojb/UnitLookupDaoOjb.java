@@ -18,10 +18,9 @@ package org.kuali.kra.dao.ojb;
 import org.apache.ojb.broker.query.Criteria;
 import org.apache.ojb.broker.query.Query;
 import org.apache.ojb.broker.query.QueryFactory;
-import org.kuali.rice.kns.dao.impl.PlatformAwareDaoBaseOjb;
-
 import org.kuali.kra.bo.Unit;
 import org.kuali.kra.dao.UnitLookupDao;
+import org.kuali.rice.core.framework.persistence.ojb.dao.PlatformAwareDaoBaseOjb;
 
 public class UnitLookupDaoOjb extends PlatformAwareDaoBaseOjb implements UnitLookupDao {
     private static final String UNIT_NUMBER = "unitNumber";

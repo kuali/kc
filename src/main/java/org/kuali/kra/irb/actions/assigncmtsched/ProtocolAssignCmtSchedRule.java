@@ -21,7 +21,7 @@ import org.kuali.kra.infrastructure.KeyConstants;
 import org.kuali.kra.irb.ProtocolDocument;
 import org.kuali.kra.irb.actions.ProtocolActionType;
 import org.kuali.kra.rules.ResearchDocumentRuleBase;
-import org.kuali.rice.kns.util.GlobalVariables;
+import org.kuali.rice.krad.util.GlobalVariables;
 
 /**
  * Validate the assignment of a protocol to a committee.
@@ -37,12 +37,12 @@ public class ProtocolAssignCmtSchedRule extends ResearchDocumentRuleBase impleme
         boolean valid = true;
         if (StringUtils.isBlank(actionBean.getNewCommitteeId())) {
             valid = false;
-            GlobalVariables.getErrorMap().putError(Constants.PROTOCOL_ASSIGN_CMT_SCHED_ACTION_PROPERTY_KEY + ".committeeId", 
+            GlobalVariables.getMessageMap().putError(Constants.PROTOCOL_ASSIGN_CMT_SCHED_ACTION_PROPERTY_KEY + ".committeeId", 
                                                    KeyConstants.ERROR_PROTOCOL_COMMITTEE_NOT_SELECTED);
         }
         if (document.getProtocol().isFollowupAction(ProtocolActionType.NOTIFIED_COMMITTEE) && StringUtils.isBlank(actionBean.getNewScheduleId())) {
             valid = false;
-            GlobalVariables.getErrorMap().putError(Constants.PROTOCOL_ASSIGN_CMT_SCHED_ACTION_PROPERTY_KEY + ".scheduleId", 
+            GlobalVariables.getMessageMap().putError(Constants.PROTOCOL_ASSIGN_CMT_SCHED_ACTION_PROPERTY_KEY + ".scheduleId", 
                                                    KeyConstants.ERROR_PROTOCOL_SCHEDULE_NOT_SELECTED);
         }
         return valid;

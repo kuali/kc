@@ -37,6 +37,7 @@ public class CoiDisclosureHistory extends KraPersistableBusinessObjectBase {
     private String disclosureDispositionStatus; 
     private CoiDisclosure coiDisclosure;
     
+    
     public CoiDisclosureHistory() { 
 
     } 
@@ -73,17 +74,6 @@ public class CoiDisclosureHistory extends KraPersistableBusinessObjectBase {
         this.disclosureDispositionStatus = disclosureDispositionStatus;
     }
 
-    /** {@inheritDoc} */
-    @Override 
-    protected LinkedHashMap<String, Object> toStringMapper() {
-        LinkedHashMap<String, Object> hashMap = new LinkedHashMap<String, Object>();
-        hashMap.put("coiDisclosureNumber", this.getCoiDisclosureNumber());
-        hashMap.put("sequenceNumber", this.getSequenceNumber());
-        hashMap.put("disclosureStatus", this.getDisclosureStatus());
-        hashMap.put("disclosureDispositionStatus", this.getDisclosureDispositionStatus());
-        return hashMap;
-    }
-
     public Long getCoiDisclosureHistoryId() {
         return coiDisclosureHistoryId;
     }
@@ -99,7 +89,7 @@ public class CoiDisclosureHistory extends KraPersistableBusinessObjectBase {
     public void setCoiDisclosureId(Long coiDisclosureId) {
         this.coiDisclosureId = coiDisclosureId;
     }
-
+    
     public CoiDisclosure getCoiDisclosure() {
         return coiDisclosure;
     }

@@ -15,8 +15,6 @@
  */
 package org.kuali.kra.committee.bo;
 
-import java.util.LinkedHashMap;
-
 import org.kuali.kra.bo.KraPersistableBusinessObjectBase;
 
 /**
@@ -25,15 +23,15 @@ import org.kuali.kra.bo.KraPersistableBusinessObjectBase;
  * 
  * @author Kuali Research Administration Team (kc.dev@kuali.org)
  */
-public class CommitteeMembershipType extends KraPersistableBusinessObjectBase { 
-    
-    private String membershipTypeCode; 
-    private String description; 
-    
-    public CommitteeMembershipType() { 
+public class CommitteeMembershipType extends KraPersistableBusinessObjectBase {
 
-    } 
-    
+    private String membershipTypeCode;
+
+    private String description;
+
+    public CommitteeMembershipType() {
+    }
+
     public String getMembershipTypeCode() {
         return membershipTypeCode;
     }
@@ -49,13 +47,4 @@ public class CommitteeMembershipType extends KraPersistableBusinessObjectBase {
     public void setDescription(String description) {
         this.description = description;
     }
-
-    @Override 
-    protected LinkedHashMap<String,Object> toStringMapper() {
-        LinkedHashMap<String,Object> hashMap = new LinkedHashMap<String,Object>();
-        hashMap.put("membershipTypeCode", getMembershipTypeCode());
-        hashMap.put("description", getDescription());
-        return hashMap;
-    }
-    
 }

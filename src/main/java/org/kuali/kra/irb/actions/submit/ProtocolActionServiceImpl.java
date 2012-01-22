@@ -36,9 +36,9 @@ import org.kuali.kra.irb.personnel.ProtocolPerson;
 import org.kuali.kra.questionnaire.answer.AnswerHeader;
 import org.kuali.kra.service.KraAuthorizationService;
 import org.kuali.kra.service.UnitAuthorizationService;
-import org.kuali.rice.kim.bo.Person;
-import org.kuali.rice.kns.service.BusinessObjectService;
-import org.kuali.rice.kns.util.GlobalVariables;
+import org.kuali.rice.kim.api.identity.Person;
+import org.kuali.rice.krad.service.BusinessObjectService;
+import org.kuali.rice.krad.util.GlobalVariables;
 
 
 /**
@@ -205,7 +205,7 @@ public class ProtocolActionServiceImpl implements ProtocolActionService {
         return rightMapper.isAllowed() ? kraAuthorizationService.hasPermission(getUserIdentifier(), protocol, rightMapper
                 .getRightId()) : false;
     } 
-    
+
     private List<String> getPersonnelIds(Protocol protcol) {
         List<String> PersonnelIds = new ArrayList<String>();
        

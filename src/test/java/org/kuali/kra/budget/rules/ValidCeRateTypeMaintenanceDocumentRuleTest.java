@@ -22,12 +22,12 @@ import org.kuali.kra.budget.nonpersonnel.ValidCeRateTypeMaintenanceDocumentRule;
 import org.kuali.kra.budget.rates.ValidCeRateType;
 import org.kuali.kra.infrastructure.KeyConstants;
 import org.kuali.kra.maintenance.MaintenanceRuleTestBase;
-import org.kuali.rice.kns.UserSession;
+import org.kuali.rice.core.api.util.RiceKeyConstants;
 import org.kuali.rice.kns.document.MaintenanceDocument;
-import org.kuali.rice.kns.util.ErrorMessage;
-import org.kuali.rice.kns.util.GlobalVariables;
-import org.kuali.rice.kns.util.RiceKeyConstants;
-import org.kuali.rice.kns.util.TypedArrayList;
+import org.kuali.rice.krad.UserSession;
+import org.kuali.rice.krad.util.ErrorMessage;
+import org.kuali.rice.krad.util.GlobalVariables;
+import org.springframework.util.AutoPopulatingList;
 
 public class ValidCeRateTypeMaintenanceDocumentRuleTest extends MaintenanceRuleTestBase {
     private ValidCeRateTypeMaintenanceDocumentRule rule = null;
@@ -73,14 +73,14 @@ public class ValidCeRateTypeMaintenanceDocumentRuleTest extends MaintenanceRuleT
         validCeRateType.setCostElement("420111");
         MaintenanceDocument validCeRateTypeDocument = newMaintDoc(validCeRateType);
         assertFalse(rule.processCustomRouteDocumentBusinessRules(validCeRateTypeDocument));
-        TypedArrayList errors = GlobalVariables.getErrorMap().getMessages("document.newMaintainableObject.rateTypeCode");
+        AutoPopulatingList errors = GlobalVariables.getMessageMap().getMessages("document.newMaintainableObject.rateTypeCode");
         assertTrue(errors.size() == 1);
         ErrorMessage message = (ErrorMessage) errors.get(0);
         assertEquals(message.getErrorKey(), KeyConstants.ERROR_RATE_TYPE_NOT_EXIST);
 
         // approve will have the same error too.
         assertFalse(rule.processCustomApproveDocumentBusinessRules(validCeRateTypeDocument));
-        errors = GlobalVariables.getErrorMap().getMessages("document.newMaintainableObject.rateTypeCode");
+        errors = GlobalVariables.getMessageMap().getMessages("document.newMaintainableObject.rateTypeCode");
         assertTrue(errors.size() == 1);
         message = (ErrorMessage) errors.get(0);
         assertEquals(message.getErrorKey(), KeyConstants.ERROR_RATE_TYPE_NOT_EXIST);
@@ -97,14 +97,14 @@ public class ValidCeRateTypeMaintenanceDocumentRuleTest extends MaintenanceRuleT
         validCeRateType.setCostElement("1x");
         MaintenanceDocument validCeRateTypeDocument = newMaintDoc(validCeRateType);
         assertFalse(rule.processCustomRouteDocumentBusinessRules(validCeRateTypeDocument));
-        TypedArrayList errors = GlobalVariables.getErrorMap().getMessages("document.newMaintainableObject.costElement");
+        AutoPopulatingList errors = GlobalVariables.getMessageMap().getMessages("document.newMaintainableObject.costElement");
         assertTrue(errors.size() == 1);
         ErrorMessage message = (ErrorMessage) errors.get(0);
         assertEquals(message.getErrorKey(), RiceKeyConstants.ERROR_EXISTENCE);
 
         // approve will have the same error too.
         assertFalse(rule.processCustomApproveDocumentBusinessRules(validCeRateTypeDocument));
-        errors = GlobalVariables.getErrorMap().getMessages("document.newMaintainableObject.costElement");
+        errors = GlobalVariables.getMessageMap().getMessages("document.newMaintainableObject.costElement");
         assertTrue(errors.size() == 1);
         message = (ErrorMessage) errors.get(0);
         assertEquals(message.getErrorKey(), RiceKeyConstants.ERROR_EXISTENCE);

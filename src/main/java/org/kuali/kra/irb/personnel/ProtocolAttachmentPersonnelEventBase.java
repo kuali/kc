@@ -18,7 +18,7 @@ package org.kuali.kra.irb.personnel;
 import org.apache.commons.lang.StringUtils;
 import org.kuali.kra.irb.noteattachment.ProtocolAttachmentPersonnel;
 import org.kuali.kra.rule.event.KraDocumentEventBase;
-import org.kuali.rice.kns.document.Document;
+import org.kuali.rice.krad.document.Document;
 
 public abstract class ProtocolAttachmentPersonnelEventBase  extends KraDocumentEventBase implements ProtocolAttachmentPersonnelEvent {
     

@@ -21,10 +21,9 @@ import java.util.List;
 import java.util.Map;
 
 import noNamespace.BudgetSalaryDocument;
-import noNamespace.BudgetSalaryDocument.BudgetSalary;
 import noNamespace.SalaryType;
+import noNamespace.BudgetSalaryDocument.BudgetSalary;
 
-import org.apache.commons.lang.StringUtils;
 import org.apache.xmlbeans.XmlObject;
 import org.kuali.kra.bo.KraPersistableBusinessObjectBase;
 import org.kuali.kra.budget.BudgetDecimal;
@@ -35,6 +34,7 @@ import org.kuali.kra.budget.core.CostElement;
 import org.kuali.kra.budget.personnel.BudgetPersonnelDetails;
 import org.kuali.kra.budget.printing.util.BudgetDataPeriodVO;
 import org.kuali.kra.budget.printing.util.SalaryTypeVO;
+import org.kuali.kra.document.ResearchDocumentBase;
 
 /**
  * This class generates XML that conforms with the XSD related to Budget Salary

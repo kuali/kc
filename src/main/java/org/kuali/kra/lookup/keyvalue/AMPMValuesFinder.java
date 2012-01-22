@@ -18,8 +18,8 @@ package org.kuali.kra.lookup.keyvalue;
 import java.util.ArrayList;
 import java.util.List;
 
-import org.kuali.rice.kns.lookup.keyvalues.KeyValuesBase;
-import org.kuali.rice.core.util.KeyLabelPair;
+import org.kuali.rice.core.api.util.ConcreteKeyValue;
+import org.kuali.rice.krad.keyvalues.KeyValuesBase;
 
 public class AMPMValuesFinder extends KeyValuesBase {
     
@@ -32,8 +32,8 @@ public class AMPMValuesFinder extends KeyValuesBase {
     @SuppressWarnings("unchecked")
     public List getKeyValues() {
         List keyValues = new ArrayList();
-        keyValues.add(new KeyLabelPair(AM, AM));
-        keyValues.add(new KeyLabelPair(PM, PM));
+        keyValues.add(new ConcreteKeyValue(AM, AM));
+        keyValues.add(new ConcreteKeyValue(PM, PM));
         return keyValues;
     }
 

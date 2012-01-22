@@ -17,14 +17,17 @@ package org.kuali.kra.external.budget.impl;
 
 import java.util.ArrayList;
 import java.util.Arrays;
+import java.util.Collection;
 import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
 import java.util.SortedMap;
 import java.util.regex.Matcher;
 import java.util.regex.Pattern;
+
 import javax.xml.namespace.QName;
 import javax.xml.ws.WebServiceException;
+
 import org.apache.commons.logging.Log;
 import org.apache.commons.logging.LogFactory;
 import org.kuali.kfs.integration.cg.budgetDto.BudgetAdjustmentCreationStatusDTO;
@@ -49,13 +52,12 @@ import org.kuali.kra.external.budget.RateClassRateType;
 import org.kuali.kra.external.unit.service.InstitutionalUnitService;
 import org.kuali.kra.infrastructure.Constants;
 import org.kuali.kra.infrastructure.KeyConstants;
-import org.kuali.rice.kew.web.session.UserSession;
-import org.kuali.rice.kns.service.BusinessObjectService;
-import org.kuali.rice.kns.service.DocumentService;
-import org.kuali.rice.kns.service.ParameterService;
-import org.kuali.rice.kns.util.GlobalVariables;
-import org.kuali.rice.kns.util.KNSConstants;
-import org.kuali.rice.kns.util.ObjectUtils;
+import org.kuali.rice.coreservice.framework.parameter.ParameterService;
+import org.kuali.rice.krad.service.BusinessObjectService;
+import org.kuali.rice.krad.service.DocumentService;
+import org.kuali.rice.krad.util.GlobalVariables;
+import org.kuali.rice.krad.util.KRADConstants;
+import org.kuali.rice.krad.util.ObjectUtils;
 
 
 /**
@@ -68,7 +70,7 @@ public abstract class BudgetAdjustmentClientBase implements BudgetAdjustmentClie
 
     protected static final String SOAP_SERVICE_NAME = "budgetAdjustmentServiceSOAP";
     protected static final QName SERVICE_NAME = new QName("KFS", SOAP_SERVICE_NAME);
-
+   
     private static final Log LOG = LogFactory.getLog(BudgetAdjustmentClientBase.class);
 
     private DocumentService documentService;
@@ -77,7 +79,7 @@ public abstract class BudgetAdjustmentClientBase implements BudgetAdjustmentClie
     private BusinessObjectService businessObjectService;
     private InstitutionalUnitService institutionalUnitService;
     private BudgetAdjustmentServiceHelper budgetAdjustmentServiceHelper;
-    
+
     /**
      * This method gets either the SOAP handle or the KSB handle depending on the configuration. 
      * @return
@@ -101,10 +103,10 @@ public abstract class BudgetAdjustmentClientBase implements BudgetAdjustmentClie
                  
                     // This should never happen.
                     if (budgetAdjustmentStatus.getDocumentNumber() == null) {
-                        GlobalVariables.getMessageMap().putError(KNSConstants.GLOBAL_MESSAGES, KeyConstants.DOCUMENT_NUMBER_NULL);
+                        GlobalVariables.getMessageMap().putError(KRADConstants.GLOBAL_MESSAGES, KeyConstants.DOCUMENT_NUMBER_NULL);
                         awardBudgetDocument.refresh();
                         String completeErrorMessage = "Document number returned from KFS budget adjustment service is null.";
-                        GlobalVariables.getMessageMap().putError(KNSConstants.GLOBAL_ERRORS, 
+                        GlobalVariables.getMessageMap().putError(KRADConstants.GLOBAL_ERRORS, 
                                 KeyConstants.BUDGET_ADJUSTMENT_DOCUMENT_NOT_CREATED, completeErrorMessage); 
                         LOG.warn(completeErrorMessage);
                    
@@ -120,7 +122,7 @@ public abstract class BudgetAdjustmentClientBase implements BudgetAdjustmentClie
                         for (String errorMessage : errorMessages) {
                             completeErrorMessage += errorMessage;
                         }
-                        GlobalVariables.getMessageMap().putError(KNSConstants.GLOBAL_ERRORS, 
+                        GlobalVariables.getMessageMap().putError(KRADConstants.GLOBAL_ERRORS, 
                                                                  KeyConstants.DOCUMENT_SAVED_WITH_ERRORS,
                                                                  completeErrorMessage);
                     }
@@ -130,12 +132,12 @@ public abstract class BudgetAdjustmentClientBase implements BudgetAdjustmentClie
                     for (String errorMessage : errorMessages) {
                         completeErrorMessage += errorMessage;
                     }
-                    GlobalVariables.getMessageMap().putError(KNSConstants.GLOBAL_ERRORS, 
+                    GlobalVariables.getMessageMap().putError(KRADConstants.GLOBAL_ERRORS, 
                                                              KeyConstants.BUDGET_ADJUSTMENT_DOCUMENT_NOT_CREATED, completeErrorMessage); 
                 }
             } catch (WebServiceException e) {
                 String errorMessage = "Cannot connect to the service. The service may be down, please try again later.";
-                GlobalVariables.getMessageMap().putError(KNSConstants.GLOBAL_ERRORS, KeyConstants.CANNOT_CONNECT_TO_SERVICE);
+                GlobalVariables.getMessageMap().putError(KRADConstants.GLOBAL_ERRORS, KeyConstants.CANNOT_CONNECT_TO_SERVICE);
                 LOG.error(errorMessage + e.getMessage(), e);
             } 
         } 
@@ -175,7 +177,7 @@ public abstract class BudgetAdjustmentClientBase implements BudgetAdjustmentClie
 
         if (accountingLines.isEmpty()) {
             int period = awardBudgetDocument.getBudget().getBudgetPeriods().size();
-            GlobalVariables.getMessageMap().putError(KNSConstants.GLOBAL_ERRORS, KeyConstants.EMPTY_ACCOUNTING_LINES, period + "");
+            GlobalVariables.getMessageMap().putError(KRADConstants.GLOBAL_ERRORS, KeyConstants.EMPTY_ACCOUNTING_LINES, period + "");
             complete &= false;
         }
         
@@ -382,7 +384,7 @@ public abstract class BudgetAdjustmentClientBase implements BudgetAdjustmentClie
                     LOG.info("NonPersonnelCalculatedDirectCost OC: " + financialObjectCode + " = " + accountingLines.get(financialObjectCode));
                 }
             } else {
-                GlobalVariables.getMessageMap().putError(KNSConstants.GLOBAL_ERRORS, 
+                GlobalVariables.getMessageMap().putError(KRADConstants.GLOBAL_ERRORS, 
                                                          KeyConstants.FINANCIAL_OBJECT_CODE_MAPPING_NOT_FOUND, 
                                                          "Object Code: " + costElement); 
                 complete &= false;
@@ -406,7 +408,7 @@ public abstract class BudgetAdjustmentClientBase implements BudgetAdjustmentClie
     }
     
     protected String getParameterValue(String awardBudgetParameter) {
-        return  parameterService.getParameterValue(AwardBudgetDocument.class, awardBudgetParameter);
+        return  parameterService.getParameterValueAsString(AwardBudgetDocument.class, awardBudgetParameter);
     }
     
     protected String getPostedBudgetStatus() {
@@ -463,7 +465,7 @@ public abstract class BudgetAdjustmentClientBase implements BudgetAdjustmentClie
                          + awardBudgetDocument.getDocumentNumber();
         parametersDTO.setDescription(COMMENT);
 
-        parametersDTO.setPrincipalId(UserSession.getAuthenticatedUser().getPrincipalId());
+        parametersDTO.setPrincipalId(GlobalVariables.getUserSession().getPrincipalId());
 
         return true;
     }
@@ -497,7 +499,7 @@ public abstract class BudgetAdjustmentClientBase implements BudgetAdjustmentClie
      * @return
      */
     protected String getParameterValue(String parameterName, String key) {
-        List<String> parameterValues = parameterService.getParameterValues(
+        Collection<String> parameterValues = parameterService.getParameterValuesAsString(
                                                             Constants.PARAMETER_MODULE_AWARD, 
                                                             Constants.PARAMETER_COMPONENT_DOCUMENT, 
                                                             parameterName);
@@ -556,7 +558,7 @@ public abstract class BudgetAdjustmentClientBase implements BudgetAdjustmentClie
                 }
             }
            
-            GlobalVariables.getMessageMap().putError(KNSConstants.GLOBAL_ERRORS,  KeyConstants.FINANCIAL_OBJECT_CODE_MAPPING_NOT_FOUND, 
+            GlobalVariables.getMessageMap().putError(KRADConstants.GLOBAL_ERRORS,  KeyConstants.FINANCIAL_OBJECT_CODE_MAPPING_NOT_FOUND, 
                                                     " Rate Class Code: " + rateClassCode + " Rate Type Code: " + rateTypeCode 
                                                     + " Unit: " + award.getUnitNumber() + " Activity Type: " + award.getActivityTypeCode()); 
 
@@ -588,7 +590,7 @@ public abstract class BudgetAdjustmentClientBase implements BudgetAdjustmentClie
         criteria.put("costElement", costElementName);
         CostElement costElement = (CostElement) getBusinessObjectService().findByPrimaryKey(CostElement.class, criteria);
         if (ObjectUtils.isNull(costElement.getFinancialObjectCode())) {
-            GlobalVariables.getMessageMap().putError(KNSConstants.GLOBAL_ERRORS, 
+            GlobalVariables.getMessageMap().putError(KRADConstants.GLOBAL_ERRORS, 
                                                      KeyConstants.FINANCIAL_OBJECT_CODE_MAPPING_NOT_FOUND, 
                                                      "Object Code: " + costElementName);
             LOG.error("No financial system object code mapped to object code " + costElementName + " .");

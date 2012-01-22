@@ -18,14 +18,11 @@ package org.kuali.kra.award.home.fundingproposal;
 import org.apache.commons.lang.StringUtils;
 import org.junit.Before;
 import org.junit.Test;
-import org.kuali.kra.award.commitments.AwardCostShare;
 import org.kuali.kra.award.commitments.AwardFandaRate;
 import org.kuali.kra.award.home.Award;
-import org.kuali.kra.bo.CostShareType;
 import org.kuali.kra.institutionalproposal.IndirectcostRateType;
-import org.kuali.kra.institutionalproposal.home.InstitutionalProposalCostShare;
 import org.kuali.kra.institutionalproposal.home.InstitutionalProposalUnrecoveredFandA;
-import org.kuali.rice.kns.util.KualiDecimal;
+import org.kuali.rice.core.api.util.type.KualiDecimal;
 
 public class FandARatesDataFeedCommandTest extends BaseDataFeedCommandTest {
 

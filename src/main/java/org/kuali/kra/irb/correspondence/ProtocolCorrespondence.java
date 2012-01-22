@@ -15,8 +15,6 @@
  */
 package org.kuali.kra.irb.correspondence;
 
-import java.util.LinkedHashMap;
-
 import org.apache.commons.lang.StringUtils;
 import org.kuali.kra.bo.KraPersistableBusinessObjectBase;
 import org.kuali.kra.irb.Protocol;
@@ -26,31 +24,41 @@ import org.kuali.kra.irb.actions.ProtocolAction;
  * 
  * This class manages the attributes needed to maintain and protocol correspondence.
  */
-public class ProtocolCorrespondence extends KraPersistableBusinessObjectBase { 
+public class ProtocolCorrespondence extends KraPersistableBusinessObjectBase {
 
     private static final long serialVersionUID = 8032222937155468412L;
 
-    private Long id; 
-    private String protocolNumber; 
-    private Integer sequenceNumber; 
+    private Long id;
+
+    private String protocolNumber;
+
+    private Integer sequenceNumber;
+
     private Integer actionId;
+
     private Long protocolId;
+
     private Long actionIdFk;
+
     private String protoCorrespTypeCode;
-    private byte[] correspondence; 
+
+    private byte[] correspondence;
+
     private boolean finalFlag;
+
     private Protocol protocol;
+
     private ProtocolCorrespondenceType protocolCorrespondenceType;
+
     private ProtocolAction protocolAction;
-    
+
     /**
      * 
      * Constructs a ProtocolCorrespondence.java.
      */
     public ProtocolCorrespondence() {
+    }
 
-    } 
-    
     public Long getId() {
         return id;
     }
@@ -74,7 +82,7 @@ public class ProtocolCorrespondence extends KraPersistableBusinessObjectBase {
     public void setSequenceNumber(Integer sequenceNumber) {
         this.sequenceNumber = sequenceNumber;
     }
-    
+
     public Integer getActionId() {
         return actionId;
     }
@@ -114,7 +122,7 @@ public class ProtocolCorrespondence extends KraPersistableBusinessObjectBase {
     public void setCorrespondence(byte[] correspondence) {
         this.correspondence = correspondence;
     }
-    
+
     public void setFinalFlag(boolean finalFlag) {
         this.finalFlag = finalFlag;
     }
@@ -149,21 +157,4 @@ public class ProtocolCorrespondence extends KraPersistableBusinessObjectBase {
         }
         return protocolCorrespondenceType;
     }
-
-    /** {@inheritDoc} */
-    @Override 
-    protected LinkedHashMap<String, Object> toStringMapper() {
-        LinkedHashMap<String, Object> hashMap = new LinkedHashMap<String, Object>();
-        hashMap.put("id", this.getId());
-        hashMap.put("protocolNumber", this.getProtocolNumber());
-        hashMap.put("sequenceNumber", this.getSequenceNumber());
-        hashMap.put("actionId", getActionId());
-        hashMap.put("correspondence", this.getCorrespondence());
-        hashMap.put("protocolId", getProtocolId());
-        hashMap.put("actionIdFk", getActionIdFk());
-        hashMap.put("protoCorrespTypeCode", getProtoCorrespTypeCode());
-        hashMap.put("finalFlag", getFinalFlag());
-        return hashMap;
-    }
-
 }

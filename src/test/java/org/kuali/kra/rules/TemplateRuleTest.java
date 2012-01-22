@@ -21,8 +21,9 @@ import java.util.HashMap;
 
 import org.kuali.kra.rule.BusinessRuleInterface;
 import org.kuali.kra.rule.event.KraDocumentEventBaseExtension;
-import org.kuali.rice.kns.util.GlobalVariables;
-import org.kuali.rice.kns.util.MessageMap;
+import org.kuali.rice.kns.util.KNSGlobalVariables;
+import org.kuali.rice.krad.util.GlobalVariables;
+import org.kuali.rice.krad.util.MessageMap;
 
 @SuppressWarnings("unchecked")
 public abstract class TemplateRuleTest<E extends KraDocumentEventBaseExtension, R extends BusinessRuleInterface> {
@@ -35,7 +36,7 @@ public abstract class TemplateRuleTest<E extends KraDocumentEventBaseExtension, 
 
     public TemplateRuleTest() {
         GlobalVariables.setMessageMap(new MessageMap());
-        GlobalVariables.setAuditErrorMap(new HashMap());  
+        KNSGlobalVariables.setAuditErrorMap(new HashMap());  
         prerequisite(); 
         assertEquals(expectedReturnValue, rule.processRules(event));
         checkRuleAssertions();

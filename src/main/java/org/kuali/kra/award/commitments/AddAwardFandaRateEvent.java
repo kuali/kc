@@ -16,8 +16,8 @@
 package org.kuali.kra.award.commitments;
 
 import org.kuali.kra.award.document.AwardDocument;
-import org.kuali.rice.kns.document.Document;
-import org.kuali.rice.kns.rule.BusinessRule;
+import org.kuali.rice.krad.document.Document;
+import org.kuali.rice.krad.rules.rule.BusinessRule;
 
 /**
  * 

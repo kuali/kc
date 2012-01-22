@@ -18,16 +18,17 @@ package org.kuali.kra.proposaldevelopment.lookup.keyvalue;
 import java.util.ArrayList;
 import java.util.List;
 
-import org.kuali.rice.kns.lookup.keyvalues.KeyValuesBase;
-import org.kuali.rice.core.util.KeyLabelPair;
+import org.kuali.rice.core.api.util.ConcreteKeyValue;
+import org.kuali.rice.core.api.util.KeyValue;
+import org.kuali.rice.krad.keyvalues.KeyValuesBase;
 
 public class ProposalEditableFieldDataTypeValuesFinder extends KeyValuesBase {
 
-    public List<KeyLabelPair> getKeyValues() {
-        List<KeyLabelPair> keyValues = new ArrayList<KeyLabelPair>();
-        keyValues.add(new KeyLabelPair("STRING", "String"));
-        keyValues.add(new KeyLabelPair("DATE", "Date"));
-        keyValues.add(new KeyLabelPair("NUMBER", "Number"));
+    public List<KeyValue> getKeyValues() {
+        List<KeyValue> keyValues = new ArrayList<KeyValue>();
+        keyValues.add(new ConcreteKeyValue("STRING", "String"));
+        keyValues.add(new ConcreteKeyValue("DATE", "Date"));
+        keyValues.add(new ConcreteKeyValue("NUMBER", "Number"));
         return keyValues;
     }
 }

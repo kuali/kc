@@ -23,12 +23,10 @@ import java.util.List;
 
 import org.jmock.Expectations;
 import org.jmock.Mockery;
-import org.jmock.integration.junit4.JMock;
 import org.jmock.integration.junit4.JUnit4Mockery;
 import org.junit.After;
 import org.junit.Before;
 import org.junit.Test;
-import org.junit.runner.RunWith;
 import org.kuali.kra.committee.bo.CommitteeMembership;
 import org.kuali.kra.committee.service.CommitteeService;
 import org.kuali.kra.irb.Protocol;
@@ -36,9 +34,10 @@ import org.kuali.kra.irb.ProtocolForm;
 import org.kuali.kra.irb.actions.ActionHelper;
 import org.kuali.kra.irb.personnel.ProtocolPerson;
 import org.kuali.kra.test.infrastructure.KcUnitTestBase;
-import org.kuali.rice.core.util.KeyLabelPair;
-import org.kuali.rice.kns.service.BusinessObjectService;
-import org.kuali.rice.kns.util.GlobalVariables;
+import org.kuali.rice.core.api.util.ConcreteKeyValue;
+import org.kuali.rice.core.api.util.KeyValue;
+import org.kuali.rice.krad.service.BusinessObjectService;
+import org.kuali.rice.krad.util.GlobalVariables;
 
 /**
  * Test the ProtocolActionAjaxService implementation.
@@ -81,9 +80,9 @@ public class ProtocolActionAjaxServiceTest extends KcUnitTestBase {
     @Test
     public void testValidCommitteeDates() throws Exception{
        //       GlobalVariables.setUserSession(new UserSession("quickstart"));
-        final List<KeyLabelPair> list = new ArrayList<KeyLabelPair>();
-        list.add(new KeyLabelPair("0", "dog"));
-        list.add(new KeyLabelPair("1", "cat"));
+        final List<KeyValue> list = new ArrayList<KeyValue>();
+        list.add(new ConcreteKeyValue("0", "dog"));
+        list.add(new ConcreteKeyValue("1", "cat"));
         
         final CommitteeService committeeService = context.mock(CommitteeService.class);
         context.checking(new Expectations() {{

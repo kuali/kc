@@ -15,8 +15,10 @@
  */
 package org.kuali.kra.budget.distributionincome;
 
+import org.kuali.rice.krad.rules.rule.BusinessRule;
 
-public interface AddBudgetProjectIncomeRule {
+
+public interface AddBudgetProjectIncomeRule extends BusinessRule {
 
     public boolean processAddBudgetProjectIncomeBusinessRules(AddBudgetProjectIncomeEvent addBudgetIncomeEvent);
 }

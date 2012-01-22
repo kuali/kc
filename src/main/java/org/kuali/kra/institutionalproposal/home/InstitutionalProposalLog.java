@@ -16,32 +16,40 @@
 package org.kuali.kra.institutionalproposal.home;
 
 import java.sql.Date;
-import java.util.LinkedHashMap;
 
 import org.kuali.kra.bo.KraPersistableBusinessObjectBase;
 
-public class InstitutionalProposalLog extends KraPersistableBusinessObjectBase { 
-    
+public class InstitutionalProposalLog extends KraPersistableBusinessObjectBase {
+
     private static final long serialVersionUID = 1L;
 
-    private String proposalNumber; 
-    private Integer proposalTypeCode; 
-    private String title; 
-    private String piId; 
-    private String piName; 
-    private boolean nonMitPersonFlag; 
-    private String leadUnit; 
-    private String sponsorCode; 
-    private String sponsorName; 
-    private boolean logStatus; 
-    private String comments; 
-    private Date deadlineDate; 
-    
-    
-    public InstitutionalProposalLog() { 
+    private String proposalNumber;
 
-    } 
-    
+    private Integer proposalTypeCode;
+
+    private String title;
+
+    private String piId;
+
+    private String piName;
+
+    private boolean nonMitPersonFlag;
+
+    private String leadUnit;
+
+    private String sponsorCode;
+
+    private String sponsorName;
+
+    private boolean logStatus;
+
+    private String comments;
+
+    private Date deadlineDate;
+
+    public InstitutionalProposalLog() {
+    }
+
     public String getProposalNumber() {
         return proposalNumber;
     }
@@ -137,24 +145,4 @@ public class InstitutionalProposalLog extends KraPersistableBusinessObjectBase {
     public void setDeadlineDate(Date deadlineDate) {
         this.deadlineDate = deadlineDate;
     }
-
-    /** {@inheritDoc} */
-    @Override 
-    protected LinkedHashMap<String, Object> toStringMapper() {
-        LinkedHashMap<String, Object> hashMap = new LinkedHashMap<String, Object>();
-        hashMap.put("proposalNumber", this.getProposalNumber());
-        hashMap.put("proposalTypeCode", this.getProposalTypeCode());
-        hashMap.put("title", this.getTitle());
-        hashMap.put("piId", this.getPiId());
-        hashMap.put("piName", this.getPiName());
-        hashMap.put("nonMitPersonFlag", this.getNonMitPersonFlag());
-        hashMap.put("leadUnit", this.getLeadUnit());
-        hashMap.put("sponsorCode", this.getSponsorCode());
-        hashMap.put("sponsorName", this.getSponsorName());
-        hashMap.put("logStatus", this.getLogStatus());
-        hashMap.put("comments", this.getComments());
-        hashMap.put("deadlineDate", this.getDeadlineDate());
-        return hashMap;
-    }
-    
 }

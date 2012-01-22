@@ -15,7 +15,7 @@
  */
 package org.kuali.kra.irb.protocol.research;
 
-import static org.kuali.rice.kns.util.GlobalVariables.getAuditErrorMap;
+import static org.kuali.rice.kns.util.KNSGlobalVariables.getAuditErrorMap;
 
 import org.junit.After;
 import org.junit.Before;

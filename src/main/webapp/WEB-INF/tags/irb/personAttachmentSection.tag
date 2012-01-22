@@ -15,6 +15,7 @@
 --%>
 <%@ include file="/WEB-INF/jsp/kraTldHeader.jsp"%>
 <%@ include file="/WEB-INF/jsp/irb/ProtocolPerson.jsp"%>
+<c:set var="narrativeAttributes" value="${DataDictionary.Narrative.attributes}" />
 
 <c:choose>
 	<c:when test="${empty KualiForm.document.protocolList[0].protocolPersons[personIndex].personName}">
@@ -83,7 +84,7 @@
 				               			<%-- attachment type error handling logic start--%>
 				               			
             	               			<html:select property="${property}">
-            	               				<html:options collection="options" labelProperty="label" property="key" />
+            	               				<html:options collection="options" labelProperty="value" property="key" />
 	                           			</html:select>
 	               		            	<c:if test="${hasErrors}">
                                 	 		<kul:fieldShowErrorIcon />
@@ -157,7 +158,7 @@
 			                    <td>
 			                        <kra:fileicon attachment="${attachment.file}"/>
 			                        <kul:htmlControlAttribute property="document.protocolList[0].protocolPersons[${personIndex}].attachmentPersonnels[${status.index}].file.name"
-			                                                  attributeEntry="${protocolAttachmentPersonnelAttributes.file.name}" 
+			                                                  attributeEntry="${narrativeAttributes.fileName}" 
 			                                                  readOnly="true" />
 								</td>
 			                    <td>

@@ -24,10 +24,6 @@ import org.junit.Before;
 import org.junit.Test;
 import org.kuali.kra.bo.FundingSourceType;
 import org.kuali.kra.infrastructure.Constants;
-import org.kuali.kra.irb.protocol.funding.AddProtocolFundingSourceEvent;
-import org.kuali.kra.irb.protocol.funding.ProtocolFundingSource;
-import org.kuali.kra.irb.protocol.funding.ProtocolFundingSourceRule;
-import org.kuali.kra.irb.protocol.funding.ProtocolFundingSourceService;
 import org.kuali.kra.rules.TemplateRuleTest;
 
 public class ProtocolFundingSourceRuleTest {

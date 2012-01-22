@@ -15,7 +15,9 @@
  */
 package org.kuali.kra.workflow.test;
 
-import java.util.List;
+import java.util.Collections;
+import java.util.Iterator;
+import java.util.Map;
 
 import org.apache.commons.collections.CollectionUtils;
 import org.junit.After;
@@ -25,15 +27,13 @@ import org.junit.Test;
 import org.kuali.kra.proposaldevelopment.document.ProposalDevelopmentDocument;
 import org.kuali.kra.proposaldevelopment.web.ProposalDevelopmentSeleniumHelper;
 import org.kuali.kra.test.infrastructure.KcSeleniumTestBase;
-import org.kuali.rice.kew.dto.ActionRequestDTO;
-import org.kuali.rice.kew.dto.DocumentDetailDTO;
-import org.kuali.rice.kew.dto.KeyValueDTO;
-import org.kuali.rice.kew.dto.NetworkIdDTO;
-import org.kuali.rice.kew.dto.ReportCriteriaDTO;
-import org.kuali.rice.kew.engine.node.KeyValuePair;
-import org.kuali.rice.kew.service.WorkflowInfo;
-import org.kuali.rice.kew.util.KEWConstants;
-import org.kuali.rice.kns.workflow.service.KualiWorkflowDocument;
+import org.kuali.rice.core.api.resourceloader.GlobalResourceLoader;
+import org.kuali.rice.kew.api.KewApiConstants;
+import org.kuali.rice.kew.api.WorkflowDocument;
+import org.kuali.rice.kew.api.action.ActionRequest;
+import org.kuali.rice.kew.api.action.RoutingReportCriteria;
+import org.kuali.rice.kew.api.action.WorkflowDocumentActionsService;
+import org.kuali.rice.kew.api.document.DocumentDetail;
 
 /**
  * This class tests the KraServiceLocator
@@ -89,7 +89,7 @@ public class ProposalDevelopmentDocumentRoutingSeleniumTest extends KcSeleniumTe
 //
 //      FileUtils.deleteDirectory(xmlBackupDir);
       
-//      GlobalVariables.setErrorMap(new ErrorMap());
+//      GlobalVariables.setMessageMap(new MessageMap());
 //      stopLifecycles(this.perTestLifeCycles);
         
         super.tearDown();
@@ -130,59 +130,61 @@ public class ProposalDevelopmentDocumentRoutingSeleniumTest extends KcSeleniumTe
 
         ProposalDevelopmentDocument savedDocument = (ProposalDevelopmentDocument) getDocumentService().getByDocumentHeaderId(documentNumber);
         assertNotNull(savedDocument);
-        KualiWorkflowDocument workflowDoc = savedDocument.getDocumentHeader().getWorkflowDocument();
+        WorkflowDocument workflowDoc = savedDocument.getDocumentHeader().getWorkflowDocument();
         assertNotNull(workflowDoc);
 
-        NetworkIdDTO networkId = new NetworkIdDTO(APPROVER);
         boolean receiveFutureRequests = false;
         boolean doNotReceiveFutureRequests = false;
 
-        List<KeyValueDTO> variables = workflowDoc.getRouteHeader().getVariables();
-        if (CollectionUtils.isNotEmpty(variables)) {
-            for (Object variable : variables) {
-                KeyValuePair kvp = (KeyValuePair) variable;
-                if (kvp.getKey().startsWith(KEWConstants.RECEIVE_FUTURE_REQUESTS_BRANCH_STATE_KEY)
-                        && kvp.getValue().toUpperCase().equals(KEWConstants.RECEIVE_FUTURE_REQUESTS_BRANCH_STATE_VALUE)
-                        && kvp.getKey().contains(networkId.getNetworkId())) {
-                    receiveFutureRequests = true;
-                }
-                else if (kvp.getKey().startsWith(KEWConstants.RECEIVE_FUTURE_REQUESTS_BRANCH_STATE_KEY)
-                        && kvp.getValue().toUpperCase().equals(KEWConstants.DONT_RECEIVE_FUTURE_REQUESTS_BRANCH_STATE_VALUE)
-                        && kvp.getKey().contains(networkId.getNetworkId())) {
-                    doNotReceiveFutureRequests = true;  
-                }
+        Map<String, String> variables = workflowDoc.getVariables();
+        if (variables != null && CollectionUtils.isNotEmpty(variables.keySet())) {
+            Iterator<String> variableIterator = variables.keySet().iterator();
+            while(variableIterator.hasNext()) {
+                    String variableKey = variableIterator.next();
+                    String variableValue = variables.get(variableKey);
+                    if (variableKey.startsWith(KewApiConstants.RECEIVE_FUTURE_REQUESTS_BRANCH_STATE_KEY)
+                            && variableValue.toUpperCase().equals(KewApiConstants.RECEIVE_FUTURE_REQUESTS_BRANCH_STATE_VALUE)
+                            && variableKey.contains(APPROVER)) {
+                        receiveFutureRequests = true; 
+                        break;
+                    }
+                    else if (variableKey.startsWith(KewApiConstants.RECEIVE_FUTURE_REQUESTS_BRANCH_STATE_KEY)
+                          && variableValue.toUpperCase().equals(KewApiConstants.DONT_RECEIVE_FUTURE_REQUESTS_BRANCH_STATE_VALUE)
+                          && variableKey.contains(APPROVER)) {
+                        doNotReceiveFutureRequests = true; 
+                        break;
+                    }
             }
-        }
-
+        } 
         //Asserting on the Workflow Document variables based on jtester's response
         assertTrue(receiveFutureRequests);
         assertFalse(doNotReceiveFutureRequests);
 
-        WorkflowInfo info = new WorkflowInfo();
-        ReportCriteriaDTO reportCriteria = new ReportCriteriaDTO(new Long(workflowDoc.getRouteHeaderId()));
-        reportCriteria.setTargetPrincipalIds(new String[] { APPROVER });
-
-        DocumentDetailDTO results1 = info.routingReport(reportCriteria);
+        RoutingReportCriteria.Builder reportCriteriaBuilder = RoutingReportCriteria.Builder.createByDocumentId(workflowDoc.getDocumentId());
+        reportCriteriaBuilder.setTargetPrincipalIds(Collections.singletonList(APPROVER));
+        reportCriteriaBuilder.setActivateRequests(true);
+        WorkflowDocumentActionsService info = GlobalResourceLoader.getService("rice.kew.workflowDocumentActionsService");
+        DocumentDetail results1 = info.executeSimulation(reportCriteriaBuilder.build());
         assertNotNull(results1.getActionRequests());
-        assertEquals(4, results1.getActionRequests().length);
+        assertEquals(4, results1.getActionRequests().size());
         
-        for (ActionRequestDTO actionRequest: results1.getActionRequests()) {
-            if (actionRequest.getNodeName().equalsIgnoreCase("Initiated")) { 
-                assertEquals("U", actionRequest.getRecipientTypeCd());
+        for(ActionRequest actionRequest: results1.getActionRequests()) {
+            if(actionRequest.getNodeName().equalsIgnoreCase("Initiated")) { 
+                assertEquals("U", actionRequest.getRecipientType().getCode());
                 assertNotNull(actionRequest.getPrincipalId());
                 assertEquals("quickstart", actionRequest.getPrincipalId());
-            } else if (actionRequest.getNodeName().equalsIgnoreCase("FirstApproval")) {
-                assertEquals("U", actionRequest.getRecipientTypeCd());
+            } else if(actionRequest.getNodeName().equalsIgnoreCase("FirstApproval")) {
+                assertEquals("U", actionRequest.getRecipientType().getCode());
                 assertNotNull(actionRequest.getPrincipalId());
                 assertEquals("jtester", actionRequest.getPrincipalId());
                 assertFalse(actionRequest.isPending());  
                 assertTrue(actionRequest.isDone());
-            } else if (actionRequest.getNodeName().equalsIgnoreCase("SecondApproval")) {
-                assertEquals("U", actionRequest.getRecipientTypeCd());
+            } else if(actionRequest.getNodeName().equalsIgnoreCase("SecondApproval")) {
+                assertEquals("U", actionRequest.getRecipientType().getCode());
                 assertNotNull(actionRequest.getPrincipalId());
                 assertEquals("quickstart", actionRequest.getPrincipalId());
-            } else if (actionRequest.getNodeName().equalsIgnoreCase("FinalApproval")) {
-                assertEquals("W", actionRequest.getRecipientTypeCd());
+            } else if(actionRequest.getNodeName().equalsIgnoreCase("FinalApproval")) {
+                assertEquals("W", actionRequest.getRecipientType().getCode());
                 assertNotNull(actionRequest.getGroupId());
                 assertEquals(WORKFLOW_ADMIN_GROUP_ID, actionRequest.getGroupId());
             } else {

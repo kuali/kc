@@ -13,12 +13,10 @@
  * See the License for the specific language governing permissions and
  * limitations under the License.
  */
-
 package org.kuali.kra.award.commitments;
 
 import java.sql.Date;
 import java.util.HashMap;
-import java.util.LinkedHashMap;
 import java.util.Map;
 
 import org.kuali.kra.award.AwardAssociate;
@@ -27,39 +25,48 @@ import org.kuali.kra.budget.rates.BudgetRate;
 import org.kuali.kra.budget.rates.RateType;
 import org.kuali.kra.infrastructure.Constants;
 import org.kuali.kra.infrastructure.KraServiceLocator;
-import org.kuali.rice.kns.service.BusinessObjectService;
-import org.kuali.rice.kns.service.ParameterService;
-import org.kuali.rice.kns.util.KualiDecimal;
+import org.kuali.rice.core.api.util.type.KualiDecimal;
+import org.kuali.rice.coreservice.framework.parameter.ParameterService;
+import org.kuali.rice.krad.service.BusinessObjectService;
 
 /**
  * 
  * This class represents the AwardFandaRate Business Object.
  */
-public class AwardFandaRate extends AwardAssociate { 
+public class AwardFandaRate extends AwardAssociate {
 
     /**
      * Comment for <code>serialVersionUID</code>
      */
     private static final long serialVersionUID = 1L;
+
     private Long awardFandaRateId;
-    private KualiDecimal applicableFandaRate; 
-    private String fandaRateTypeCode; 
-    private String fiscalYear; 
-    private String onCampusFlag; 
-    private KualiDecimal underrecoveryOfIndirectCost; 
-    private String sourceAccount; 
-    private String destinationAccount; 
-    private Date startDate; 
+
+    private KualiDecimal applicableFandaRate;
+
+    private String fandaRateTypeCode;
+
+    private String fiscalYear;
+
+    private String onCampusFlag;
+
+    private KualiDecimal underrecoveryOfIndirectCost;
+
+    private String sourceAccount;
+
+    private String destinationAccount;
+
+    private Date startDate;
+
     private Date endDate;
-    
+
     /**
      * 
      * Constructs a AwardFandaRate.java.
      */
-    public AwardFandaRate() { 
+    public AwardFandaRate() {
+    }
 
-    } 
-    
     /**
      * 
      * This method...
@@ -93,7 +100,7 @@ public class AwardFandaRate extends AwardAssociate {
     public void resetPersistenceState() {
         this.awardFandaRateId = null;
     }
-    
+
     /**
      * 
      * This method...
@@ -151,6 +158,7 @@ public class AwardFandaRate extends AwardAssociate {
     public Boolean getOnOffCampusFlag() {
         return onCampusFlag.equals("N");
     }
+
     /**
      * 
      * This method...
@@ -251,26 +259,6 @@ public class AwardFandaRate extends AwardAssociate {
     }
 
     /**
-     * 
-     * @see org.kuali.rice.kns.bo.BusinessObjectBase#toStringMapper()
-     */
-    @Override 
-    protected LinkedHashMap<String,Object> toStringMapper() {
-        LinkedHashMap<String,Object> hashMap = new LinkedHashMap<String,Object>();
-        hashMap.put("awardFandaRateId", getAwardFandaRateId());
-        hashMap.put("applicableFandaRate", getApplicableFandaRate());
-        hashMap.put("fandaRateTypeCode", getFandaRateTypeCode());
-        hashMap.put("fiscalYear", getFiscalYear());
-        hashMap.put("onCampusFlag", getOnCampusFlag());
-        hashMap.put("underrecoveryOfIndirectCost", getUnderrecoveryOfIndirectCost());
-        hashMap.put("sourceAccount", getSourceAccount());
-        hashMap.put("destinationAccount", getDestinationAccount());
-        hashMap.put("startDate", getStartDate());
-        hashMap.put("endDate", getEndDate());
-        return hashMap;
-    }
-
-    /**
      * @see java.lang.Object#hashCode()
      */
     @Override
@@ -294,19 +282,18 @@ public class AwardFandaRate extends AwardAssociate {
      */
     @Override
     public boolean equals(Object obj) {
-        if (this == obj){
+        if (this == obj) {
             return true;
-        }            
-        if (obj == null){
-            return false;
-        }            
-        if (!(obj instanceof AwardFandaRate)){
+        }
+        if (obj == null) {
             return false;
         }
-        
-        return equals((AwardFandaRate) obj);        
+        if (!(obj instanceof AwardFandaRate)) {
+            return false;
+        }
+        return equals((AwardFandaRate) obj);
     }
-    
+
     /**
      * 
      * Convenience method to check equality of another AwardFandaRate
@@ -314,113 +301,114 @@ public class AwardFandaRate extends AwardAssociate {
      * @return
      */
     public boolean equals(AwardFandaRate awardFandaRate) {
-        if(!super.equals(awardFandaRate)) {
+        if (!super.equals(awardFandaRate)) {
             return false;
         }
         if (applicableFandaRate == null) {
-            if (awardFandaRate.applicableFandaRate != null){
+            if (awardFandaRate.applicableFandaRate != null) {
                 return false;
-            }                
-        }else if (!applicableFandaRate.equals(awardFandaRate.applicableFandaRate)){
+            }
+        } else if (!applicableFandaRate.equals(awardFandaRate.applicableFandaRate)) {
             return false;
-        }            
+        }
         if (destinationAccount == null) {
-            if (awardFandaRate.destinationAccount != null){
+            if (awardFandaRate.destinationAccount != null) {
                 return false;
-            }                
-        }else if (!destinationAccount.equals(awardFandaRate.destinationAccount)){
+            }
+        } else if (!destinationAccount.equals(awardFandaRate.destinationAccount)) {
             return false;
-        }            
+        }
         if (endDate == null) {
-            if (awardFandaRate.endDate != null){
+            if (awardFandaRate.endDate != null) {
                 return false;
-            }   
-        }else if (!endDate.equals(awardFandaRate.endDate)){
+            }
+        } else if (!endDate.equals(awardFandaRate.endDate)) {
             return false;
-        }   
+        }
         if (fandaRateTypeCode == null) {
-            if (awardFandaRate.fandaRateTypeCode != null){
+            if (awardFandaRate.fandaRateTypeCode != null) {
                 return false;
-            }   
-        }else if (!fandaRateTypeCode.equals(awardFandaRate.fandaRateTypeCode)){
+            }
+        } else if (!fandaRateTypeCode.equals(awardFandaRate.fandaRateTypeCode)) {
             return false;
-        }            
+        }
         if (fiscalYear == null) {
-            if (awardFandaRate.fiscalYear != null){
+            if (awardFandaRate.fiscalYear != null) {
                 return false;
-            }   
-        }else if (!fiscalYear.equals(awardFandaRate.fiscalYear)){
+            }
+        } else if (!fiscalYear.equals(awardFandaRate.fiscalYear)) {
             return false;
-        }            
+        }
         if (onCampusFlag == null) {
-            if (awardFandaRate.onCampusFlag != null){
+            if (awardFandaRate.onCampusFlag != null) {
                 return false;
-            }   
-        }else if (!onCampusFlag.equals(awardFandaRate.onCampusFlag)){
+            }
+        } else if (!onCampusFlag.equals(awardFandaRate.onCampusFlag)) {
             return false;
-        }            
+        }
         if (sourceAccount == null) {
-            if (awardFandaRate.sourceAccount != null){
+            if (awardFandaRate.sourceAccount != null) {
                 return false;
-            }   
-        }else if (!sourceAccount.equals(awardFandaRate.sourceAccount)){
+            }
+        } else if (!sourceAccount.equals(awardFandaRate.sourceAccount)) {
             return false;
-        }   
+        }
         if (startDate == null) {
-            if (awardFandaRate.startDate != null){
+            if (awardFandaRate.startDate != null) {
                 return false;
-            }   
-        }else if (!startDate.equals(awardFandaRate.startDate)){
+            }
+        } else if (!startDate.equals(awardFandaRate.startDate)) {
             return false;
-        }            
+        }
         if (underrecoveryOfIndirectCost == null) {
-            if (awardFandaRate.underrecoveryOfIndirectCost != null){
+            if (awardFandaRate.underrecoveryOfIndirectCost != null) {
                 return false;
-            }   
-        }else if (!underrecoveryOfIndirectCost.equals(awardFandaRate.underrecoveryOfIndirectCost)){
+            }
+        } else if (!underrecoveryOfIndirectCost.equals(awardFandaRate.underrecoveryOfIndirectCost)) {
             return false;
-        }   
+        }
         return true;
     }
 
-    public boolean equals(BudgetRate budgetRate){
+    public boolean equals(BudgetRate budgetRate) {
         if (applicableFandaRate == null) {
-            if (budgetRate.getApplicableRate() != null){
+            if (budgetRate.getApplicableRate() != null) {
                 return false;
-            }                
-        }else if (!applicableFandaRate.equals(budgetRate.getApplicableRate())){
+            }
+        } else if (!applicableFandaRate.equals(budgetRate.getApplicableRate())) {
             return false;
-        }            
+        }
         if (fandaRateTypeCode == null) {
-            if (budgetRate.getRateTypeCode() != null){
+            if (budgetRate.getRateTypeCode() != null) {
                 return false;
-            }   
-        }else if (!fandaRateTypeCode.toString().equals(budgetRate.getRateTypeCode())){
+            }
+        } else if (!fandaRateTypeCode.toString().equals(budgetRate.getRateTypeCode())) {
             return false;
-        }            
+        }
         if (fiscalYear == null) {
-            if (budgetRate.getFiscalYear() != null){
+            if (budgetRate.getFiscalYear() != null) {
                 return false;
-            }   
-        }else if (!fiscalYear.equals(budgetRate.getFiscalYear())){
+            }
+        } else if (!fiscalYear.equals(budgetRate.getFiscalYear())) {
             return false;
-        }            
+        }
         if (onCampusFlag == null) {
-            if (budgetRate.getOnOffCampusFlag() != null){
+            if (budgetRate.getOnOffCampusFlag() != null) {
                 return false;
-            }   
-        }else if (!getOnOffCampusFlag().equals(budgetRate.getOnOffCampusFlag())){
+            }
+        } else if (!getOnOffCampusFlag().equals(budgetRate.getOnOffCampusFlag())) {
             return false;
-        }            
+        }
         if (startDate == null) {
-            if (budgetRate.getStartDate() != null){
+            if (budgetRate.getStartDate() != null) {
                 return false;
-            }   
-        }else if (!startDate.equals(budgetRate.getStartDate())){
+            }
+        } else if (!startDate.equals(budgetRate.getStartDate())) {
             return false;
-        }        
+        }
         return true;
     }
+
     /**
      * Gets the fandaRateType attribute. 
      * @return Returns the fandaRateType.
@@ -428,10 +416,10 @@ public class AwardFandaRate extends AwardAssociate {
     public RateType getFandaRateType() {
         BusinessObjectService businessObjectService = KraServiceLocator.getService(BusinessObjectService.class);
         ParameterService parameterService = KraServiceLocator.getService(ParameterService.class);
-        String rateClassCode = parameterService.getParameterValue(AwardBudgetDocument.class, Constants.AWARD_BUDGET_DEFAULT_FNA_RATE_CLASS_CODE);
-        Map<String, String> qMap = new HashMap<String,String>();
+        String rateClassCode = parameterService.getParameterValueAsString(AwardBudgetDocument.class, Constants.AWARD_BUDGET_DEFAULT_FNA_RATE_CLASS_CODE);
+        Map<String, String> qMap = new HashMap<String, String>();
         qMap.put("rateClassCode", rateClassCode);
         qMap.put("rateTypeCode", getFandaRateTypeCode());
-        return (RateType)businessObjectService.findByPrimaryKey(RateType.class, qMap);
+        return (RateType) businessObjectService.findByPrimaryKey(RateType.class, qMap);
     }
 }

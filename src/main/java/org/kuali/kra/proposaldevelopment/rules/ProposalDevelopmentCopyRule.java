@@ -16,13 +16,12 @@
 package org.kuali.kra.proposaldevelopment.rules;
 
 import org.apache.commons.lang.StringUtils;
-import org.kuali.kra.infrastructure.Constants;
 import org.kuali.kra.infrastructure.KeyConstants;
 import org.kuali.kra.proposaldevelopment.bo.ProposalCopyCriteria;
 import org.kuali.kra.proposaldevelopment.document.ProposalDevelopmentDocument;
 import org.kuali.kra.proposaldevelopment.rule.CopyProposalRule;
 import org.kuali.kra.rules.ResearchDocumentRuleBase;
-import org.kuali.rice.kns.util.GlobalVariables;
+import org.kuali.rice.krad.util.GlobalVariables;
 
 /**
  * Business Rule to determine if it valid for the user to copy the
@@ -45,7 +44,7 @@ public class ProposalDevelopmentCopyRule extends ResearchDocumentRuleBase implem
             // If the user didn't select a lead unit, i.e. he/she choose the "select:" option,
             // then the Lead Unit Number will be "blank".
             isValid = false;
-            GlobalVariables.getErrorMap().putError("copyCriteria.leadUnitNumber", 
+            GlobalVariables.getMessageMap().putError("copyCriteria.leadUnitNumber", 
                                                    KeyConstants.ERROR_LEAD_UNIT_REQUIRED);
         }
 

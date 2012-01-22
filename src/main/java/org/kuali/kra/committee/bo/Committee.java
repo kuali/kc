@@ -17,7 +17,6 @@ package org.kuali.kra.committee.bo;
 
 import java.sql.Date;
 import java.util.ArrayList;
-import java.util.LinkedHashMap;
 import java.util.List;
 import java.util.Map;
 
@@ -33,7 +32,7 @@ import org.kuali.kra.infrastructure.Constants;
 import org.kuali.kra.infrastructure.RoleConstants;
 import org.kuali.kra.irb.actions.submit.ProtocolReviewType;
 import org.kuali.kra.kim.bo.KcKimAttributes;
-import org.kuali.rice.kns.util.DateUtils;
+import org.kuali.kra.util.DateUtils;
 
 /**
  * Represents a single committee within an institution.
@@ -257,25 +256,6 @@ public class Committee extends KraPersistableBusinessObjectBase implements Compa
 
     public void setPrintRooster(Boolean printRooster) {
         this.printRooster = printRooster;
-    }
-    
-    @SuppressWarnings("unchecked")
-    @Override
-    protected LinkedHashMap toStringMapper() {
-        LinkedHashMap map = new LinkedHashMap();
-        map.put("id", getId());
-        map.put("committeeId", getCommitteeId());
-        map.put("sequenceNumber", getSequenceNumber());
-        map.put("committeeName", getCommitteeName());
-        map.put("homeUnitNumber", getHomeUnitNumber());
-        map.put("reviewTypeCode", getReviewTypeCode());
-        map.put("committeeTypeCode", getCommitteeTypeCode());
-        map.put("committeeDescription", getCommitteeDescription());
-        map.put("scheduleDescription", getScheduleDescription());
-        map.put("minimumMembersRequired", getMinimumMembersRequired());
-        map.put("maxProtocols", getMaxProtocols());
-        map.put("advancedSubmissionDaysRequired", getAdvancedSubmissionDaysRequired());
-        return map;
     }
     
     @SuppressWarnings("unchecked")

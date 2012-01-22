@@ -100,7 +100,7 @@ public class RRSF424V1_2Generator extends RRSF424BaseGenerator {
 		rrsf42412.setApplicantType(getApplicantType());
 		if(getAgencyRoutingNumber()!=null){
 	        rrsf42412.setAgencyRoutingNumber(getAgencyRoutingNumber());
-	        }
+	    }
 		rrsf42412.setApplicationType(getApplicationType());
 		rrsf42412.setApplicantID(pdDoc.getDevelopmentProposal()
 				.getProposalNumber());
@@ -179,18 +179,18 @@ public class RRSF424V1_2Generator extends RRSF424BaseGenerator {
 			fedNonFedCost = fedNonFedCost.add(budget.getTotalCost());
 
 			for (BudgetPeriod budgetPeriod : budget.getBudgetPeriods()) {
-			    for (BudgetLineItem lineItem : budgetPeriod.getBudgetLineItems()) {
+                for (BudgetLineItem lineItem : budgetPeriod.getBudgetLineItems()) {
 			        hasBudgetLineItem = true;
 			        if(budget.getSubmitCostSharingFlag() && lineItem.getSubmitCostSharingFlag()){
-			            fedNonFedCost=fedNonFedCost.add(lineItem.getCostSharingAmount());
+                    fedNonFedCost=fedNonFedCost.add(lineItem.getCostSharingAmount());
 			            nonFedCost =  nonFedCost.add(lineItem.getCostSharingAmount());
 			        }
 			    }
-			}
+                    }
 			if(!hasBudgetLineItem && budget.getSubmitCostSharingFlag()){
 			    nonFedCost = budget.getCostSharingAmount();		
 			    fedNonFedCost = budget.getCostSharingAmount();       
-			}
+            }
 			
 			funding = EstimatedProjectFunding.Factory.newInstance();
 			funding.setTotalEstimatedAmount(budget.getTotalCost()
@@ -599,7 +599,7 @@ public class RRSF424V1_2Generator extends RRSF424BaseGenerator {
 						.equals(CountryCodeDataType.USA_UNITED_STATES)) {
 					address
 							.setState(globLibV20Generator
-									.getStateCodeDataType(departmentalPerson
+									.getStateCodeDataType(departmentalPerson.getCountryCode(), departmentalPerson
 											.getState()));
 				} else {
 					address.setProvince(state);

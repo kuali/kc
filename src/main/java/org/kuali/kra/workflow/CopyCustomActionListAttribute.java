@@ -15,11 +15,11 @@
  */
 package org.kuali.kra.workflow;
 
-import org.kuali.rice.kew.actionitem.ActionItem;
 import org.kuali.rice.kew.actionlist.CustomActionListAttribute;
-import org.kuali.rice.kew.actionlist.DisplayParameters;
-import org.kuali.rice.kew.actions.ActionSet;
-import org.kuali.rice.kew.web.session.UserSession;
+import org.kuali.rice.kew.api.action.ActionItem;
+import org.kuali.rice.kew.api.action.ActionSet;
+import org.kuali.rice.kew.api.actionlist.DisplayParameters;
+
 
 /**
  * This class is our custom action list for Notifications in KEW.  It's wired in as the implementation to use as part of the NotificationData.xml 
@@ -30,18 +30,19 @@ public class CopyCustomActionListAttribute implements CustomActionListAttribute 
     /**
      * @see edu.iu.uis.eden.plugin.attributes.CustomActionListAttribute#getDocHandlerDisplayParameters(edu.iu.uis.eden.web.session.UserSession, edu.iu.uis.eden.actionitem.ActionItem)
      */
-    public DisplayParameters getDocHandlerDisplayParameters(UserSession userSession, ActionItem actionItem) throws Exception {
-    	DisplayParameters dp = new DisplayParameters(new Integer(300));
+    @Override
+    public DisplayParameters getDocHandlerDisplayParameters(String principalId, ActionItem actionItem) throws Exception {
+    	DisplayParameters dp = DisplayParameters.Builder.create(new Integer(30)).build();
     	return dp;
     }
 
     /**
      * @see edu.iu.uis.eden.plugin.attributes.CustomActionListAttribute#getLegalActions(edu.iu.uis.eden.web.session.UserSession, edu.iu.uis.eden.actionitem.ActionItem)
      */
-    public ActionSet getLegalActions(UserSession userSession,ActionItem actionItem) throws Exception {
-    	ActionSet as = new ActionSet();
+    @Override
+    public ActionSet getLegalActions(String principalId, ActionItem actionItem) throws Exception {
+    	ActionSet as = ActionSet.Builder.create().build();
     	as.addAction("P");
     	return as;
     }
-
 }

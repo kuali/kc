@@ -20,10 +20,10 @@
 <div style="display:none;"><div id="customSelection">
 	<html:image property="methodToCall.updateView"
 		src="${ConfigProperties.kra.externalizable.images.url}tinybutton-updateview.gif" styleClass="tinybutton"
-		onclick="$jq.fancybox.close(); return false;"/><br/>			
+		onclick="jq.fancybox.close(); return false;"/><br/>			
 	<jsp:useBean id="paramMap" class="java.util.HashMap"/>  
 	<c:forEach items="${krafn:getOptionList('org.kuali.kra.award.paymentreports.ReportTrackingViewValuesFinder', paramMap)}" var="option">
-		<html:radio property="currentViewIndex" value="${option.key}" onchange="toggleCustomView(this);">${option.label}</html:radio>
+		<html:radio property="currentViewIndex" value="${option.key}" onchange="toggleCustomView(this);">${option.value}</html:radio>
 	</c:forEach>
 	<table id="customViewColumnSelection">
 		<tr>
@@ -42,11 +42,11 @@
   			<td colspan="3">
 				<html:image property="methodToCall.resetCustomView"
 					src="${ConfigProperties.kra.externalizable.images.url}tinybutton-resetcustomview.gif" styleClass="tinybutton"
-					onclick="$jq('#onChangeViewClose').attr('name', 'methodToCall.resetCustomView'); $jq.fancybox.close(); return false;"/>
+					onclick="jq('#onChangeViewClose').attr('name', 'methodToCall.resetCustomView'); jq.fancybox.close(); return false;"/>
 	  		</td>
 		</tr>
 	</table>
 	<html:image property="methodToCall.updateView"
 		src="${ConfigProperties.kra.externalizable.images.url}tinybutton-updateview.gif" styleClass="tinybutton"
-		onclick="$jq.fancybox.close(); return false;"/> 
+		onclick="jq.fancybox.close(); return false;"/> 
 </div></div>

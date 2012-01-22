@@ -30,10 +30,10 @@ import org.kuali.kra.irb.actions.submit.ProtocolReviewerType;
 import org.kuali.kra.irb.onlinereview.ProtocolOnlineReviewService;
 import org.kuali.kra.irb.onlinereview.ProtocolOnlineReviewStatus;
 import org.kuali.kra.rules.ResearchDocumentRuleBase;
-import org.kuali.rice.kew.util.KEWConstants;
-import org.kuali.rice.kns.bo.BusinessObject;
-import org.kuali.rice.kns.service.BusinessObjectService;
-import org.kuali.rice.kns.workflow.service.KualiWorkflowDocument;
+import org.kuali.rice.kew.api.KewApiConstants;
+import org.kuali.rice.kew.api.WorkflowDocument;
+import org.kuali.rice.krad.bo.BusinessObject;
+import org.kuali.rice.krad.service.BusinessObjectService;
 
 /**
  * Validate the assignment of a protocol to some reviewers.
@@ -94,11 +94,11 @@ public class ProtocolAssignReviewersRule extends ResearchDocumentRuleBase implem
     
     public boolean isValidRemovalRequest(ProtocolOnlineReviewDocument document, ProtocolReviewerBean reviewer, int reviewerIndex) {
         boolean isValid = true;
-        KualiWorkflowDocument workflowDocument = document.getDocumentHeader().getWorkflowDocument();
+        WorkflowDocument workflowDocument = document.getDocumentHeader().getWorkflowDocument();
         String propertyName =  Constants.PROTOCOL_ASSIGN_REVIEWERS_PROPERTY_KEY + ".reviewer[" + reviewerIndex + "].reviewerTypeCode";
-        String documentRouteStatus = workflowDocument.getRouteHeader().getDocRouteStatus();
+        String documentRouteStatus = workflowDocument.getStatus().getCode();
         //1. check to see the workflow status
-        if (StringUtils.equals(KEWConstants.ROUTE_HEADER_FINAL_CD,documentRouteStatus)) {
+        if (StringUtils.equals(KewApiConstants.ROUTE_HEADER_FINAL_CD,documentRouteStatus)) {
             //we just report the warning, the request is still valid - the action should prompt for confirmation.
             reportWarning(propertyName,KeyConstants.ERROR_PROTOCOL_REVIEWER_CANNOT_REMOVE_REVIEW_FINAL, reviewer.getFullName());
         } 

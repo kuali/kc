@@ -20,25 +20,30 @@ import java.util.List;
 
 import org.kuali.kra.infrastructure.KraServiceLocator;
 import org.kuali.kra.lookup.keyvalue.ExtendedPersistableBusinessObjectValuesFinder;
-import org.kuali.rice.core.util.KeyLabelPair;
-import org.kuali.rice.kns.bo.State;
-import org.kuali.rice.kns.service.StateService;
+import org.kuali.rice.core.api.util.ConcreteKeyValue;
+import org.kuali.rice.core.api.util.KeyValue;
+import org.kuali.rice.coreservice.framework.CoreFrameworkServiceLocator;
+import org.kuali.rice.krad.util.KRADConstants;
+import org.kuali.rice.location.api.state.State;
+import org.kuali.rice.location.api.state.StateService;
 
 public class CongDistrictStateCodeValuesFinder extends ExtendedPersistableBusinessObjectValuesFinder {
 
     @Override
-    public List<KeyLabelPair> getKeyValues() {
-        List<State> codes = KraServiceLocator.getService(StateService.class).findAllStates();
-        List<KeyLabelPair> labels = new ArrayList<KeyLabelPair>();
-        labels.add(new KeyLabelPair("", ""));
+    public List<KeyValue> getKeyValues() {
+        String countryCode = CoreFrameworkServiceLocator.getParameterService().getParameterValueAsString(KRADConstants.KNS_NAMESPACE,
+                KRADConstants.DetailTypes.ALL_DETAIL_TYPE, KRADConstants.SystemGroupParameterNames.DEFAULT_COUNTRY);
+        List<State> codes = KraServiceLocator.getService(StateService.class).findAllStatesInCountry(countryCode);
+        List<KeyValue> labels = new ArrayList<KeyValue>();
+        labels.add(new ConcreteKeyValue("", ""));
         for (State state : codes) {
             if (state.isActive()) {
-                labels.add(new KeyLabelPair(state.getPostalStateCode(), state.getPostalStateCode()));
+                labels.add(new ConcreteKeyValue(state.getCode(), state.getCode()));
             }
         }
         
-        labels.add(1, new KeyLabelPair("US", "US"));
-        labels.add(2, new KeyLabelPair("00", "00"));
+        labels.add(1, new ConcreteKeyValue("US", "US"));
+        labels.add(2, new ConcreteKeyValue("00", "00"));
         
         return labels;
     }

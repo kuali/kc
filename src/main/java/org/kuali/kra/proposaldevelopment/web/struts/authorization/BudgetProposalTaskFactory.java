@@ -22,7 +22,6 @@ import org.kuali.kra.authorization.Task;
 import org.kuali.kra.budget.document.BudgetParentDocument;
 import org.kuali.kra.budget.web.struts.form.BudgetForm;
 import org.kuali.kra.infrastructure.TaskGroupName;
-import org.kuali.kra.proposaldevelopment.document.authorization.ProposalTask;
 import org.kuali.kra.web.struts.authorization.impl.WebTaskFactoryImpl;
 
 /**

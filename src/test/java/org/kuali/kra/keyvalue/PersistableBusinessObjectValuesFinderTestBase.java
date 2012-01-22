@@ -22,8 +22,9 @@ import org.junit.After;
 import org.junit.Before;
 import org.junit.Test;
 import org.kuali.kra.test.infrastructure.KcUnitTestBase;
-import org.kuali.rice.core.util.KeyLabelPair;
-import org.kuali.rice.kns.lookup.keyvalues.PersistableBusinessObjectValuesFinder;
+import org.kuali.rice.core.api.util.ConcreteKeyValue;
+import org.kuali.rice.core.api.util.KeyValue;
+import org.kuali.rice.krad.keyvalues.PersistableBusinessObjectValuesFinder;
 
 public abstract class PersistableBusinessObjectValuesFinderTestBase extends KcUnitTestBase {
     private Class valuesFinderClass;
@@ -31,15 +32,15 @@ public abstract class PersistableBusinessObjectValuesFinderTestBase extends KcUn
     private String keyAttributeName;
     private String labelAttributeName;
     private boolean includeKeyInDescription = false;
-    protected List<KeyLabelPair> testKeyValues;
+    protected List<KeyValue> testKeyValues;
     
     public PersistableBusinessObjectValuesFinderTestBase() {
-        testKeyValues = new ArrayList<KeyLabelPair>();
+        testKeyValues = new ArrayList<KeyValue>();
         addKeyValues();
     }
     
     protected void addKeyValue(String typeCode, String typeValue) {
-        testKeyValues.add(new KeyLabelPair(typeCode, typeValue));
+        testKeyValues.add(new ConcreteKeyValue(typeCode, typeValue));
     }
     
     /**
@@ -67,7 +68,7 @@ public abstract class PersistableBusinessObjectValuesFinderTestBase extends KcUn
         persistableBusinessObjectValuesFinder.getKeyValues();
         assertEquals(testKeyValues.size(), persistableBusinessObjectValuesFinder.getKeyValues().size());
         for (int i=0; i<testKeyValues.size(); i++) {
-            assertEquals(testKeyValues.get(i).getLabel(), persistableBusinessObjectValuesFinder.getKeyLabel(testKeyValues.get(i).getKey().toString()));
+            assertEquals(testKeyValues.get(i).getValue(), persistableBusinessObjectValuesFinder.getKeyLabel(testKeyValues.get(i).getKey().toString()));
         }
     }
     

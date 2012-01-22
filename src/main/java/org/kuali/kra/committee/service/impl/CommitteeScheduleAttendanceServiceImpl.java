@@ -28,7 +28,7 @@ import org.kuali.kra.committee.service.CommitteeScheduleAttendanceService;
 import org.kuali.kra.committee.service.CommitteeService;
 import org.kuali.kra.infrastructure.Constants;
 import org.kuali.kra.meeting.CommitteeScheduleAttendance;
-import org.kuali.rice.kns.service.ParameterService;
+import org.kuali.rice.coreservice.framework.parameter.ParameterService;
 
 
 public class CommitteeScheduleAttendanceServiceImpl implements CommitteeScheduleAttendanceService {
@@ -52,7 +52,7 @@ public class CommitteeScheduleAttendanceServiceImpl implements CommitteeSchedule
              attendedMembers.add(attendance.getPersonId());
         }
         String memberId = null;
-        String votingMemberType = parameterService.getParameterValue(CommitteeDocument.class, Constants.COMMITTEE_VOTING_MEMBERSHIP_TYPE_CODE);
+        String votingMemberType = parameterService.getParameterValueAsString(CommitteeDocument.class, Constants.COMMITTEE_VOTING_MEMBERSHIP_TYPE_CODE);
         
         for(CommitteeMembership member : committee.getCommitteeMemberships()) {
             memberId = member.getRolodexId() != null ? member.getRolodexId().toString() : member.getPersonId();

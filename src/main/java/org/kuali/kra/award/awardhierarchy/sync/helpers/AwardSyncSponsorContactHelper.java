@@ -24,7 +24,7 @@ import org.kuali.kra.award.awardhierarchy.sync.AwardSyncChange;
 import org.kuali.kra.award.awardhierarchy.sync.AwardSyncType;
 import org.kuali.kra.award.contacts.AwardSponsorContact;
 import org.kuali.kra.award.home.Award;
-import org.kuali.rice.kns.bo.PersistableBusinessObject;
+import org.kuali.rice.krad.bo.PersistableBusinessObject;
 
 /**
  * Award Hierarchy Sync Helper for Sponsor Contacts.

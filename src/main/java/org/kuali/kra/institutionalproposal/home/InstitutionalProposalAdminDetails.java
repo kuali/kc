@@ -16,32 +16,40 @@
 package org.kuali.kra.institutionalproposal.home;
 
 import java.sql.Date;
-import java.util.LinkedHashMap;
 
 import org.kuali.kra.bo.KraPersistableBusinessObjectBase;
 
-public class InstitutionalProposalAdminDetails extends KraPersistableBusinessObjectBase { 
-    
+public class InstitutionalProposalAdminDetails extends KraPersistableBusinessObjectBase {
+
     private static final long serialVersionUID = 1L;
 
-    private String devProposalNumber; 
-    private String instProposalNumber; 
-    private Integer instPropSequenceNumber; 
-    private Date dateSubmittedByDept; 
-    private Date dateReturnedToDept; 
-    private Date dateApprovedByOsp; 
-    private Date dateSubmittedToAgency; 
-    private Date instPropCreateDate; 
-    private String instPropCreateUser; 
-    private String signedBy; 
-    private boolean submissionType; 
-    
-    private InstitutionalProposal institutionalProposal; 
-    
-    public InstitutionalProposalAdminDetails() { 
+    private String devProposalNumber;
 
-    } 
-    
+    private String instProposalNumber;
+
+    private Integer instPropSequenceNumber;
+
+    private Date dateSubmittedByDept;
+
+    private Date dateReturnedToDept;
+
+    private Date dateApprovedByOsp;
+
+    private Date dateSubmittedToAgency;
+
+    private Date instPropCreateDate;
+
+    private String instPropCreateUser;
+
+    private String signedBy;
+
+    private boolean submissionType;
+
+    private InstitutionalProposal institutionalProposal;
+
+    public InstitutionalProposalAdminDetails() {
+    }
+
     public String getDevProposalNumber() {
         return devProposalNumber;
     }
@@ -137,23 +145,4 @@ public class InstitutionalProposalAdminDetails extends KraPersistableBusinessObj
     public void setProposal(InstitutionalProposal institutionalProposal) {
         this.institutionalProposal = institutionalProposal;
     }
-
-    /** {@inheritDoc} */
-    @Override 
-    protected LinkedHashMap<String, Object> toStringMapper() {
-        LinkedHashMap<String, Object> hashMap = new LinkedHashMap<String, Object>();
-        hashMap.put("devProposalNumber", this.getDevProposalNumber());
-        hashMap.put("instProposalNumber", this.getInstProposalNumber());
-        hashMap.put("instPropSequenceNumber", this.getInstPropSequenceNumber());
-        hashMap.put("dateSubmittedByDept", this.getDateSubmittedByDept());
-        hashMap.put("dateReturnedToDept", this.getDateReturnedToDept());
-        hashMap.put("dateApprovedByOsp", this.getDateApprovedByOsp());
-        hashMap.put("dateSubmittedToAgency", this.getDateSubmittedToAgency());
-        hashMap.put("instPropCreateDate", this.getInstPropCreateDate());
-        hashMap.put("instPropCreateUser", this.getInstPropCreateUser());
-        hashMap.put("signedBy", this.getSignedBy());
-        hashMap.put("submissionType", this.getSubmissionType());
-        return hashMap;
-    }
-    
 }

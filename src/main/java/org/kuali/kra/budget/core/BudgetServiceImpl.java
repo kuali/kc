@@ -64,23 +64,24 @@ import org.kuali.kra.infrastructure.KraServiceLocator;
 import org.kuali.kra.proposaldevelopment.budget.modular.BudgetModular;
 import org.kuali.kra.proposaldevelopment.document.ProposalDevelopmentDocument;
 import org.kuali.kra.service.DeepCopyPostProcessor;
-import org.kuali.rice.core.util.KeyLabelPair;
-import org.kuali.rice.kew.exception.WorkflowException;
-import org.kuali.rice.kns.authorization.AuthorizationConstants;
-import org.kuali.rice.kns.bo.DocumentHeader;
-import org.kuali.rice.kns.bo.PersistableBusinessObject;
-import org.kuali.rice.kns.rule.event.DocumentAuditEvent;
-import org.kuali.rice.kns.service.BusinessObjectService;
-import org.kuali.rice.kns.service.DocumentService;
-import org.kuali.rice.kns.service.KualiRuleService;
-import org.kuali.rice.kns.service.ParameterService;
-import org.kuali.rice.kns.service.PessimisticLockService;
+import org.kuali.rice.core.api.util.KeyValue;
+import org.kuali.rice.core.api.util.type.KualiDecimal;
+import org.kuali.rice.coreservice.framework.parameter.ParameterService;
+import org.kuali.rice.core.web.format.FormatException;
+import org.kuali.rice.kew.api.exception.WorkflowException;
 import org.kuali.rice.kns.util.AuditCluster;
 import org.kuali.rice.kns.util.AuditError;
-import org.kuali.rice.kns.util.GlobalVariables;
-import org.kuali.rice.kns.util.KualiDecimal;
-import org.kuali.rice.kns.util.ObjectUtils;
-import org.kuali.rice.kns.web.format.FormatException;
+import org.kuali.rice.kns.util.KNSGlobalVariables;
+import org.kuali.rice.kns.authorization.AuthorizationConstants;
+import org.kuali.rice.krad.bo.DocumentHeader;
+import org.kuali.rice.krad.bo.PersistableBusinessObject;
+import org.kuali.rice.krad.rules.rule.event.DocumentAuditEvent;
+import org.kuali.rice.krad.service.BusinessObjectService;
+import org.kuali.rice.krad.service.DocumentService;
+import org.kuali.rice.krad.service.KualiRuleService;
+import org.kuali.rice.krad.service.PessimisticLockService;
+import org.kuali.rice.krad.util.GlobalVariables;
+import org.kuali.rice.krad.util.ObjectUtils;
 
 /**
  * This class implements methods specified by BudgetDocumentService interface
@@ -192,8 +193,8 @@ public class BudgetServiceImpl<T extends BudgetParent> implements BudgetService<
 
         if(!isProposalBudget){
             AwardBudgetExt budgetExt = (AwardBudgetExt)budget;
-            budgetExt.setAwardBudgetStatusCode(this.parameterService.getParameterValue(AwardBudgetDocument.class, KeyConstants.AWARD_BUDGET_STATUS_IN_PROGRESS));
-            budgetExt.setAwardBudgetTypeCode(this.parameterService.getParameterValue(AwardBudgetDocument.class, KeyConstants.AWARD_BUDGET_TYPE_NEW));
+            budgetExt.setAwardBudgetStatusCode(this.parameterService.getParameterValueAsString(AwardBudgetDocument.class, KeyConstants.AWARD_BUDGET_STATUS_IN_PROGRESS));
+            budgetExt.setAwardBudgetTypeCode(this.parameterService.getParameterValueAsString(AwardBudgetDocument.class, KeyConstants.AWARD_BUDGET_TYPE_NEW));
             documentService.saveDocument(budgetDocument);
         }else{
             documentService.saveDocument(budgetDocument);
@@ -367,7 +368,7 @@ public class BudgetServiceImpl<T extends BudgetParent> implements BudgetService<
         }
         Map<String,Object> qMap = new HashMap<String,Object>();
         qMap.put("budgetId",budget.getBudgetId());
-        ArrayList<BudgetRate> allPropRates = (ArrayList)businessObjectService.findMatching(
+        List<BudgetRate> allPropRates = (List)businessObjectService.findMatching(
                 BudgetRate.class, qMap);
         if (CollectionUtils.isNotEmpty(allPropRates)) {
             qMap.put("activityTypeCode",budgetParent.getActivityTypeCode());
@@ -395,7 +396,7 @@ public class BudgetServiceImpl<T extends BudgetParent> implements BudgetService<
     public List<ValidCeJobCode> getApplicableCostElements(Long budgetId, String personSequenceNumber) {
         List<ValidCeJobCode> validCostElements = null;
 
-        String jobCodeValidationEnabledInd = this.parameterService.getParameterValue(
+        String jobCodeValidationEnabledInd = this.parameterService.getParameterValueAsString(
                 BudgetDocument.class, Constants.BUDGET_JOBCODE_VALIDATION_ENABLED);
         
         if(StringUtils.isNotEmpty(jobCodeValidationEnabledInd) && jobCodeValidationEnabledInd.equals("Y")) { 
@@ -438,10 +439,10 @@ public class BudgetServiceImpl<T extends BudgetParent> implements BudgetService<
             } else {
                 CostElementValuesFinder ceValuesFinder = new CostElementValuesFinder();
                 ceValuesFinder.setBudgetCategoryTypeCode(budgetCategoryTypeCode);
-                List<KeyLabelPair> allPersonnelCostElements = ceValuesFinder.getKeyValues();
-                for (KeyLabelPair keyLabelPair : allPersonnelCostElements) {
-                    if(StringUtils.isNotEmpty(keyLabelPair.getKey().toString())) {
-                        resultStr += "," + keyLabelPair.getKey() + ";" + keyLabelPair.getLabel();
+                List<KeyValue> allPersonnelCostElements = ceValuesFinder.getKeyValues();
+                for (KeyValue keyValue : allPersonnelCostElements) {
+                    if(StringUtils.isNotEmpty(keyValue.getKey().toString())) {
+                        resultStr += "," + keyValue.getKey() + ";" + keyValue.getValue();
                     }
                 }
                 resultStr += ",ceLookup;true";
@@ -519,7 +520,7 @@ public class BudgetServiceImpl<T extends BudgetParent> implements BudgetService<
         boolean finalAndCompleteBudgetVersionFound = false;
         boolean budgetVersionsExists = false;
         List<AuditError> auditErrors = new ArrayList<AuditError>();
-        String budgetStatusCompleteCode = this.parameterService.getParameterValue(BudgetDocument.class, Constants.BUDGET_STATUS_COMPLETE_CODE);
+        String budgetStatusCompleteCode = this.parameterService.getParameterValueAsString(BudgetDocument.class, Constants.BUDGET_STATUS_COMPLETE_CODE);
         for (BudgetDocumentVersion budgetDocumentVersion : parentDocument.getBudgetDocumentVersions()) {
             BudgetVersionOverview budgetVersion = budgetDocumentVersion.getBudgetVersionOverview();
             budgetVersionsExists = true;
@@ -538,7 +539,7 @@ public class BudgetServiceImpl<T extends BudgetParent> implements BudgetService<
             valid &= false;
         }
         if (auditErrors.size() > 0) {
-            GlobalVariables.getAuditErrorMap().put("budgetVersionErrors", new AuditCluster(Constants.BUDGET_VERSION_PANEL_NAME, auditErrors, Constants.AUDIT_ERRORS));
+            KNSGlobalVariables.getAuditErrorMap().put("budgetVersionErrors", new AuditCluster(Constants.BUDGET_VERSION_PANEL_NAME, auditErrors, Constants.AUDIT_ERRORS));
         }
 
         return valid;
@@ -554,7 +555,7 @@ public class BudgetServiceImpl<T extends BudgetParent> implements BudgetService<
         for (BudgetDocumentVersion budgetDocumentVersion : proposalDevelopmentDocument.getBudgetDocumentVersions()) {
             BudgetVersionOverview budgetVersion = budgetDocumentVersion.getBudgetVersionOverview();
             
-            String budgetStatusCompleteCode = this.parameterService.getParameterValue(BudgetDocument.class,
+            String budgetStatusCompleteCode = this.parameterService.getParameterValueAsString(BudgetDocument.class,
                     Constants.BUDGET_STATUS_COMPLETE_CODE);
             // if status is complete and version is not final, then business rule will take care of it
             if (budgetVersion.isFinalVersionFlag() && budgetVersion.getBudgetStatus() != null
@@ -569,8 +570,8 @@ public class BudgetServiceImpl<T extends BudgetParent> implements BudgetService<
         if (!valid) {
             // audit warnings are OK.  only audit errors prevent to change to complete status.
             valid = true;
-            for (Object key : GlobalVariables.getAuditErrorMap().keySet()) {
-                AuditCluster auditCluster = (AuditCluster)GlobalVariables.getAuditErrorMap().get(key);
+            for (Object key : KNSGlobalVariables.getAuditErrorMap().keySet()) {
+                AuditCluster auditCluster = (AuditCluster)KNSGlobalVariables.getAuditErrorMap().get(key);
                 if (auditCluster.getCategory().equals(Constants.AUDIT_ERRORS)) {
                     valid = false;
                     break;
@@ -676,7 +677,7 @@ public class BudgetServiceImpl<T extends BudgetParent> implements BudgetService<
         budgetDocument.getParentDocument().refreshBudgetDocumentVersions();
         return budgetDocument;
     }
-
+    
     protected BudgetCommonService<BudgetParent> getBudgetCommonService(BudgetParentDocument parentBudgetDocument) {
         return BudgetCommonServiceFactory.createInstance(parentBudgetDocument);
     }    

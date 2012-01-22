@@ -37,20 +37,20 @@ import org.kuali.kra.infrastructure.PermissionConstants;
 import org.kuali.kra.lookup.KraLookupableHelperServiceImpl;
 import org.kuali.kra.questionnaire.question.Question;
 import org.kuali.kra.service.KraAuthorizationService;
+import org.kuali.rice.kew.api.KewApiConstants;
 import org.kuali.rice.kew.routeheader.service.RouteHeaderService;
-import org.kuali.rice.kew.util.KEWConstants;
-import org.kuali.rice.kns.bo.BusinessObject;
-import org.kuali.rice.kns.bo.PersistableBusinessObject;
-import org.kuali.rice.kns.lookup.CollectionIncomplete;
 import org.kuali.rice.kns.lookup.HtmlData;
 import org.kuali.rice.kns.lookup.LookupUtils;
 import org.kuali.rice.kns.lookup.HtmlData.AnchorHtmlData;
-import org.kuali.rice.kns.service.DocumentService;
-import org.kuali.rice.kns.service.KNSServiceLocator;
-import org.kuali.rice.kns.util.GlobalVariables;
-import org.kuali.rice.kns.util.KNSConstants;
 import org.kuali.rice.kns.web.ui.Field;
 import org.kuali.rice.kns.web.ui.Row;
+import org.kuali.rice.krad.bo.BusinessObject;
+import org.kuali.rice.krad.bo.PersistableBusinessObject;
+import org.kuali.rice.krad.lookup.CollectionIncomplete;
+import org.kuali.rice.krad.service.DocumentService;
+import org.kuali.rice.krad.service.KRADServiceLocator;
+import org.kuali.rice.krad.util.GlobalVariables;
+import org.kuali.rice.krad.util.KRADConstants;
 
 /**
  * 
@@ -136,7 +136,7 @@ public class CommitteeLookupableHelperServiceImpl extends KraLookupableHelperSer
         List<HtmlData> htmlDataList = new ArrayList<HtmlData>();
         String editCommitteeDocId = getEditedCommitteeDocId((Committee) businessObject);
         boolean isUnappprovedCommittee = false;
-        if (KEWConstants.ROUTE_HEADER_SAVED_CD.equals((((Committee) businessObject).getCommitteeDocument().getDocStatusCode())) 
+        if (KewApiConstants.ROUTE_HEADER_SAVED_CD.equals((((Committee) businessObject).getCommitteeDocument().getDocStatusCode())) 
                 && ((Committee) businessObject).getSequenceNumber() == 1) {
             isUnappprovedCommittee = true;
             editCommitteeDocId = ((Committee) businessObject).getCommitteeDocument().getDocumentNumber();
@@ -147,7 +147,7 @@ public class CommitteeLookupableHelperServiceImpl extends KraLookupableHelperSer
             if (StringUtils.isNotBlank(editCommitteeDocId)) {
                 AnchorHtmlData htmlData = (AnchorHtmlData) htmlDataList.get(0);
                 CommitteeDocument document = ((Committee) businessObject).getCommitteeDocument();
-                String workflowUrl = getKualiConfigurationService().getPropertyString(KNSConstants.WORKFLOW_URL_KEY);
+                String workflowUrl = getKualiConfigurationService().getPropertyValueAsString(KRADConstants.WORKFLOW_URL_KEY);
                 htmlData.setHref(String.format(DOCHANDLER_LINK, workflowUrl, editCommitteeDocId));
                 htmlData.setDisplayText("resume edit");
             }
@@ -184,7 +184,7 @@ public class CommitteeLookupableHelperServiceImpl extends KraLookupableHelperSer
                 .findMatching(CommitteeDocument.class, fieldValues);
         List<CommitteeDocument> result = new ArrayList<CommitteeDocument>();
         for (CommitteeDocument commDoc : documents) {
-            if (KEWConstants.ROUTE_HEADER_SAVED_CD.equals(commDoc.getDocStatusCode())) {
+            if (KewApiConstants.ROUTE_HEADER_SAVED_CD.equals(commDoc.getDocStatusCode())) {
                 result.add(commDoc);
             }
         }
@@ -210,7 +210,7 @@ public class CommitteeLookupableHelperServiceImpl extends KraLookupableHelperSer
                             .getService(DocumentService.class).getByDocumentHeaderId(commDoc.getDocumentNumber());
                     // Get XML of workflow document
                     String content = KraServiceLocator.getService(RouteHeaderService.class).getContent(
-                            workflowCommitteeDoc.getDocumentHeader().getWorkflowDocument().getRouteHeaderId()).getDocumentContent();
+                            workflowCommitteeDoc.getDocumentHeader().getWorkflowDocument().getDocumentId()).getDocumentContent();
 
                     // Create committee from XML and add to the document
 
@@ -379,7 +379,7 @@ public class CommitteeLookupableHelperServiceImpl extends KraLookupableHelperSer
         if (objXml.contains("itemDesctiption")) {
             objXml = objXml.replaceAll("itemDesctiption", "itemDescription");
         }
-        PersistableBusinessObject businessObject = (PersistableBusinessObject) KNSServiceLocator.getXmlObjectSerializerService().fromXml(objXml);
+        PersistableBusinessObject businessObject = (PersistableBusinessObject) KRADServiceLocator.getXmlObjectSerializerService().fromXml(objXml);
         return businessObject;
     }
 

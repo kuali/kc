@@ -20,6 +20,7 @@ import java.util.Map;
 import org.kuali.kra.personmasschange.document.PersonMassChangeDocument;
 import org.kuali.kra.web.struts.form.KraTransactionalDocumentFormBase;
 import org.kuali.rice.kns.util.KNSConstants;
+import org.kuali.rice.krad.util.KRADConstants;
 
 public class PersonMassChangeForm extends KraTransactionalDocumentFormBase {
 
@@ -66,7 +67,7 @@ public class PersonMassChangeForm extends KraTransactionalDocumentFormBase {
     @Override
     @SuppressWarnings({ "rawtypes", "unchecked" })
     protected void setSaveDocumentControl(Map editMode) {
-        getDocumentActions().put(KNSConstants.KUALI_ACTION_CAN_SAVE, KNSConstants.KUALI_DEFAULT_TRUE_VALUE);
+        getDocumentActions().put(KRADConstants.KUALI_ACTION_CAN_SAVE, KRADConstants.KUALI_DEFAULT_TRUE_VALUE);
     }
     
     @Override

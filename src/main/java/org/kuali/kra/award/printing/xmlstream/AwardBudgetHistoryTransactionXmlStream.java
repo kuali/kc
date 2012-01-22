@@ -15,7 +15,6 @@
  */
 package org.kuali.kra.award.printing.xmlstream;
 
-import java.math.BigDecimal;
 import java.util.ArrayList;
 import java.util.Collection;
 import java.util.HashMap;
@@ -30,15 +29,13 @@ import noNamespace.AwardType.AwardAmountInfo;
 
 import org.apache.commons.lang.ObjectUtils;
 import org.apache.xmlbeans.XmlObject;
-import org.kuali.kra.award.document.AwardDocument;
 import org.kuali.kra.award.home.Award;
 import org.kuali.kra.award.printing.AwardPrintParameters;
 import org.kuali.kra.award.printing.AwardPrintType;
 import org.kuali.kra.bo.KraPersistableBusinessObjectBase;
 import org.kuali.kra.document.ResearchDocumentBase;
 import org.kuali.kra.service.VersionHistoryService;
-import org.kuali.kra.timeandmoney.transactions.AwardAmountTransaction;
-import org.kuali.rice.kns.util.KualiDecimal;
+import org.kuali.rice.core.api.util.type.KualiDecimal;
 
 /**
  * This class generates XML that conforms with the XSD related to Award Budget

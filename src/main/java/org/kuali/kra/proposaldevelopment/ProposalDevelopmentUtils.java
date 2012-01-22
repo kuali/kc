@@ -17,8 +17,8 @@ package org.kuali.kra.proposaldevelopment;
 
 import org.kuali.kra.infrastructure.Constants;
 import org.kuali.kra.infrastructure.KraServiceLocator;
-import org.kuali.rice.kns.service.ParameterConstants;
-import org.kuali.rice.kns.service.ParameterService;
+import org.kuali.rice.coreservice.framework.parameter.ParameterConstants;
+import org.kuali.rice.coreservice.framework.parameter.ParameterService;
 
 /**
  * Common convenience methods for the Proposal Development module.
@@ -50,7 +50,7 @@ public final class ProposalDevelopmentUtils {
      */
     public static String getProposalDevelopmentDocumentParameter(final String parmName) {
         ParameterService parameterService = KraServiceLocator.getService(ParameterService.class);
-        return parameterService.getParameterValue(Constants.MODULE_NAMESPACE_PROPOSAL_DEVELOPMENT, 
+        return parameterService.getParameterValueAsString(Constants.MODULE_NAMESPACE_PROPOSAL_DEVELOPMENT, 
                 ParameterConstants.DOCUMENT_COMPONENT, 
                 parmName);
     }

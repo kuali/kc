@@ -29,10 +29,10 @@
         <property name="lookupDefinition" >
             <ref bean="InvCoiDiscDetail-lookupDefinition" />
         </property>
-        <property name="titleAttribute" value="InvCoiDiscDetailsId" />
+        <property name="titleAttribute" value="invCoiDiscDetailsId" />
         <property name="attributes" >
             <list>
-                <ref bean="InvCoiDiscDetail-InvCoiDiscDetailsId" />
+                <ref bean="InvCoiDiscDetail-invCoiDiscDetailsId" />
                 <ref bean="InvCoiDiscDetail-personFinIntDisclosureId" />
                 <ref bean="InvCoiDiscDetail-coiDisclosureNumber" />
                 <ref bean="InvCoiDiscDetail-entityNumber" />
@@ -48,9 +48,9 @@
 
     <!-- Attribute Definitions -->
     
-    <bean id="InvCoiDiscDetail-InvCoiDiscDetailsId" parent="InvCoiDiscDetail-InvCoiDiscDetailsId-parentBean" />
-    <bean id="InvCoiDiscDetail-InvCoiDiscDetailsId-parentBean" abstract="true" parent="AttributeDefinition" >
-        <property name="name" value="InvCoiDiscDetailsId" />
+    <bean id="InvCoiDiscDetail-invCoiDiscDetailsId" parent="InvCoiDiscDetail-invCoiDiscDetailsId-parentBean" />
+    <bean id="InvCoiDiscDetail-invCoiDiscDetailsId-parentBean" abstract="true" parent="AttributeDefinition" >
+        <property name="name" value="invCoiDiscDetailsId" />
         <property name="forceUppercase" value="false" />
         <property name="label" value="Inv Coi Disc Details Id" />
         <property name="shortLabel" value="Inv Coi Disc Details Id" />
@@ -226,7 +226,7 @@
                     <property name="inquiryFields" >
                         <list>
                             <bean parent="FieldDefinition"
-                                p:attributeName="InvCoiDiscDetailsId" 
+                                p:attributeName="invCoiDiscDetailsId" 
                                 p:forceInquiry="true" />
                             <bean parent="FieldDefinition"
                                 p:attributeName="personFinIntDisclosureId" />
@@ -263,7 +263,7 @@
         <property name="lookupFields" >
             <list>
                 <bean parent="FieldDefinition"
-                    p:attributeName="InvCoiDiscDetailsId" 
+                    p:attributeName="invCoiDiscDetailsId" 
                     p:forceInquiry="true" />
                 <bean parent="FieldDefinition"
                     p:attributeName="personFinIntDisclosureId" />
@@ -286,7 +286,7 @@
         <property name="resultFields" >
             <list>
                 <bean parent="FieldDefinition"
-                    p:attributeName="InvCoiDiscDetailsId" 
+                    p:attributeName="invCoiDiscDetailsId" 
                     p:forceInquiry="true" />
                 <bean parent="FieldDefinition"
                     p:attributeName="personFinIntDisclosureId" />

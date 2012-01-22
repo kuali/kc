@@ -34,17 +34,17 @@
 	                </th>
 	                <td style="width : 150px">
                         <c:set target="${paramMap}" property="currentCommitteeId" value="${KualiForm.actionHelper.assignCmtSchedBean.committeeId}" />
-                        <c:set target="${paramMap}" property="docRouteStatus" value="${KualiForm.document.documentHeader.workflowDocument.routeHeader.docRouteStatus}" />	                
+                        <c:set target="${paramMap}" property="docRouteStatus" value="${KualiForm.document.documentHeader.workflowDocument.status.code}" />	                
 	                    <c:set var="docNumber" value="${KualiForm.document.protocol.protocolNumber}" />
                         <html:select property="actionHelper.assignCmtSchedBean.committeeId" onchange="onlyLoadScheduleDates('actionHelper.assignCmtSchedBean.committeeId', '${docNumber}', 'actionHelper.assignCmtSchedBean.scheduleId');" >                               
                             <c:forEach items="${krafn:getOptionList('org.kuali.kra.committee.lookup.keyvalue.CommitteeIdByUnitValuesFinder', paramMap)}" var="option" >
                                 <c:choose>                      
                                     <c:when test="${KualiForm.actionHelper.assignCmtSchedBean.committeeId == option.key}">
-                                        <option value="${option.key}" selected="selected">${option.label}</option>
+                                        <option value="${option.key}" selected="selected">${option.value}</option>
                                     </c:when>
                                     <c:otherwise>                               
-                                        <c:out value="${option.label}"/>
-                                        <option value="${option.key}">${option.label}</option>
+                                        <c:out value="${option.value}"/>
+                                        <option value="${option.key}">${option.value}</option>
                                     </c:otherwise>
                                 </c:choose>                                                
                             </c:forEach>

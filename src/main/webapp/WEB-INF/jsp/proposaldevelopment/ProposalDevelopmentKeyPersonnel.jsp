@@ -13,15 +13,9 @@
  See the License for the specific language governing permissions and
  limitations under the License.
 --%>
-<script src="scripts/jquery/jquery.js"></script>
-<script>
-  $jq = jQuery.noConflict();
-</script>
 <%@ include file="/WEB-INF/jsp/kraTldHeader.jsp"%>
 <%@ page import="java.util.HashMap" %>
 
-<script src="scripts/jquery/jquery.js"></script>
-<script type="text/javascript">var $j = jQuery.noConflict();</script>
 <link rel="stylesheet" href="css/jquery/questionnaire.css" type="text/css" />
 <link rel="stylesheet" href="css/jquery/new_kuali.css" type="text/css" />
 <link rel="stylesheet" href="css/jquery/kuali-stylesheet.css" type="text/css" />
@@ -92,25 +86,25 @@
                 </c:if>
                 <script type="text/javascript">
                   function proposalRoleChange(formItem) {
-                      if ( $jq(formItem).val() == 'KP' ) {
-                          $jq('#projectRoleHeader').show();
-                          $jq('#projectRoleField').show();
+                      if ( jq(formItem).val() == 'KP' ) {
+                          jq('#projectRoleHeader').show();
+                          jq('#projectRoleField').show();
                       } else {
-                          $jq('#projectRoleHeader').hide();
-                          $jq('#projectRoleField').hide();
+                          jq('#projectRoleHeader').hide();
+                          jq('#projectRoleField').hide();
                       }
-                      if ( $jq(formItem).val() == 'COI' ) {
-                          $jq('#multiPiHeader').show();
-                          $jq('#multiPiField').show();
+                      if ( jq(formItem).val() == 'COI' ) {
+                          jq('#multiPiHeader').show();
+                          jq('#multiPiField').show();
                       } else {
-                          $jq('#multiPiHeader').hide();
-                          $jq('#multiPiField').hide();
+                          jq('#multiPiHeader').hide();
+                          jq('#multiPiField').hide();
                       }
                   }
-                  $jq(document).ready(function() {
-                      proposalRoleChange($jq(jq('newProposalPerson.proposalPersonRoleId')));
-                      $jq('#projectRoleRequiredDesc').hide();
-                      $jq(jq('newProposalPerson.proposalPersonRoleId')).change(function() {
+                  jq(document).ready(function() {
+                      proposalRoleChange(jq(jq_escape('newProposalPerson.proposalPersonRoleId')));
+                      jq('#projectRoleRequiredDesc').hide();
+                      jq(jq_escape('newProposalPerson.proposalPersonRoleId')).change(function() {
                           proposalRoleChange(this);
                       });
                   });
@@ -166,6 +160,7 @@ var kualiForm = document.forms['KualiForm'];
 var kualiElements = kualiForm.elements;
 </SCRIPT>
 <script language="javascript" src="scripts/kuali_application.js"></script>
+<script type="text/javascript">var $j = jQuery.noConflict();</script>
 <script language="javascript" src="dwr/interface/UnitService.js"></script>
 
 </kul:documentPage>

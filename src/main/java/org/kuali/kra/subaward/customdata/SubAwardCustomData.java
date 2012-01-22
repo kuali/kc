@@ -15,8 +15,6 @@
  */
 package org.kuali.kra.subaward.customdata;
 
-import java.util.LinkedHashMap;
-
 import org.kuali.kra.subaward.bo.SubAward;
 import org.kuali.kra.subaward.bo.SubAwardAssociate;
 import org.kuali.kra.bo.CustomAttribute;
@@ -27,15 +25,18 @@ public class SubAwardCustomData extends SubAwardAssociate{
      * Comment for <code>serialVersionUID</code>
      */
     private static final long serialVersionUID = 4125090813618033094L;
+
     private Long subAwardCustomDataId;
+
     private String value;
+
     private Long customAttributeId;
     private CustomAttribute customAttribute;
     private String subAwardCode; 
-   
-  
+
+
     private SubAward subAward;
-   
+
     /**
      * Gets the customAttributeId attribute. 
      * @return Returns the customAttributeId.
@@ -43,6 +44,7 @@ public class SubAwardCustomData extends SubAwardAssociate{
     public Long getCustomAttributeId() {
         return customAttributeId;
     }
+
     /**
      * Sets the customAttributeId attribute value.
      * @param customAttributeId The customAttributeId to set.
@@ -50,6 +52,7 @@ public class SubAwardCustomData extends SubAwardAssociate{
     public void setCustomAttributeId(Long customAttributeId) {
         this.customAttributeId = customAttributeId;
     }
+
     /**
      * Gets the subAwardCustomDataId attribute. 
      * @return Returns the subAwardCustomDataId.
@@ -57,6 +60,7 @@ public class SubAwardCustomData extends SubAwardAssociate{
     public Long getSubAwardCustomDataId() {
         return subAwardCustomDataId;
     }
+
     /**
      * Sets the awardCustomDataId attribute value.
      * @param awardCustomDataId The awardCustomDataId to set.
@@ -64,6 +68,7 @@ public class SubAwardCustomData extends SubAwardAssociate{
     public void setSubAwardCustomDataId(Long subAwardCustomDataId) {
         this.subAwardCustomDataId = subAwardCustomDataId;
     }
+
     /**
      * Gets the value attribute. 
      * @return Returns the value.
@@ -71,14 +76,14 @@ public class SubAwardCustomData extends SubAwardAssociate{
     public String getValue() {
         return value;
     }
-    
+
     /**
      * @see org.kuali.kra.Sequenceable#resetPersistenceState()
      */
     public void resetPersistenceState() {
         this.subAwardCustomDataId = null;
     }
-    
+
     /**
      * Sets the value attribute value.
      * @param value The value to set.
@@ -86,21 +91,7 @@ public class SubAwardCustomData extends SubAwardAssociate{
     public void setValue(String value) {
         this.value = value;
     }
-    
-    
-    /**
-     * @see org.kuali.core.bo.BusinessObjectBase#toStringMapper()
-     */
-    @Override
-    protected LinkedHashMap<String, Object> toStringMapper() {
-        LinkedHashMap<String, Object> map = new LinkedHashMap<String, Object>();
-        map.put("subAwardCustomDataId", getSubAwardCustomDataId());
-        map.put("value", getValue());
-        map.put("customAttributeId", getCustomAttributeId());
-        map.put("subAwardCode", this.getSubAwardCode());
-        return map;
-    }
-    
+
     /**
      * @see java.lang.Object#hashCode()
      */
@@ -114,6 +105,7 @@ public class SubAwardCustomData extends SubAwardAssociate{
         result = prime * result + ((value == null) ? 0 : value.hashCode());
         return result;
     }
+
     /**
      * @see java.lang.Object#equals(java.lang.Object)
      */
@@ -152,6 +144,7 @@ public class SubAwardCustomData extends SubAwardAssociate{
             return false;
         return true;
     }
+
     /**
      * Gets the customAttribute attribute. 
      * @return Returns the customAttribute.
@@ -159,6 +152,7 @@ public class SubAwardCustomData extends SubAwardAssociate{
     public CustomAttribute getCustomAttribute() {
         return customAttribute;
     }
+
     /**
      * Sets the customAttribute attribute value.
      * @param customAttribute The customAttribute to set.
@@ -166,15 +160,14 @@ public class SubAwardCustomData extends SubAwardAssociate{
     public void setCustomAttribute(CustomAttribute customAttribute) {
         this.customAttribute = customAttribute;
     }
-    
+
     public String getSubAwardCode() {
         return subAwardCode;
     }
     public void setSubAwardCode(String subAwardCode) {
         this.subAwardCode = subAwardCode;
     }
-    
+
     
     
 }
-

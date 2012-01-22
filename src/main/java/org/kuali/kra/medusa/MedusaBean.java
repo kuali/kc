@@ -16,8 +16,8 @@
 package org.kuali.kra.medusa;
 
 import java.io.Serializable;
-import java.util.List;
 import java.util.Collections;
+import java.util.List;
 
 import org.apache.commons.lang.StringUtils;
 import org.kuali.kra.infrastructure.KraServiceLocator;

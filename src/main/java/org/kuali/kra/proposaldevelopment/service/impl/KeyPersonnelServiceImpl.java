@@ -19,8 +19,6 @@ import static org.apache.commons.lang.StringUtils.isNotBlank;
 import static org.kuali.kra.logging.FormattedLogger.debug;
 import static org.kuali.kra.logging.FormattedLogger.info;
 
-import java.text.DateFormat;
-import java.text.SimpleDateFormat;
 import java.util.Collection;
 import java.util.HashMap;
 import java.util.HashSet;
@@ -32,7 +30,6 @@ import org.apache.commons.lang.StringUtils;
 import org.kuali.kra.award.home.ContactRole;
 import org.kuali.kra.bo.KcPerson;
 import org.kuali.kra.bo.PersonDegree;
-import org.kuali.kra.bo.Rolodex;
 import org.kuali.kra.bo.Sponsor;
 import org.kuali.kra.bo.Unit;
 import org.kuali.kra.bo.Ynq;
@@ -56,11 +53,10 @@ import org.kuali.kra.proposaldevelopment.web.struts.form.ProposalDevelopmentForm
 import org.kuali.kra.service.KcPersonService;
 import org.kuali.kra.service.SponsorService;
 import org.kuali.kra.service.YnqService;
-import org.kuali.rice.kns.bo.PersistableBusinessObject;
-import org.kuali.rice.kns.service.BusinessObjectService;
-import org.kuali.rice.kns.service.ParameterService;
-import org.kuali.rice.kns.util.KualiDecimal;
-import org.kuali.rice.kns.workflow.service.KualiWorkflowDocument;
+import org.kuali.rice.core.api.util.type.KualiDecimal;
+import org.kuali.rice.coreservice.framework.parameter.ParameterService;
+import org.kuali.rice.kew.api.WorkflowDocument;
+import org.kuali.rice.krad.service.BusinessObjectService;
 
 /**
  * A Service implementation for persisted modifications of Key Personnel related business objects
@@ -108,7 +104,7 @@ public class KeyPersonnelServiceImpl implements KeyPersonnelService, Constants {
         if (document.getDevelopmentProposal().getInvestigators().isEmpty() && !document.getDevelopmentProposal().getProposalPersons().isEmpty()) {
             info("Need to repopulate investigator list");
             populateInvestigators(document);
-            if(!(document.getDocumentHeader().getWorkflowDocument().getRouteHeader().getDocRouteStatus().equals("R"))){
+            if(!(document.getDocumentHeader().getWorkflowDocument().getStatus().getCode().equals("R"))){
                 populateActiveCredittypesPerson(document);
             }
         }
@@ -260,7 +256,7 @@ public class KeyPersonnelServiceImpl implements KeyPersonnelService, Constants {
             }
         } catch (IllegalArgumentException e) {
             //catching the possibility that person.getPerson can not
-            //find a KimEntity for this person id.
+            //find a EntityContract for this person id.
         }
     }
 
@@ -718,7 +714,7 @@ public class KeyPersonnelServiceImpl implements KeyPersonnelService, Constants {
         if (roleId == null) {
             return false;
         }
-        String parmValue = parameterService.getParameterValue(KC_GENERIC_PARAMETER_NAMESPACE, KC_ALL_PARAMETER_DETAIL_TYPE_CODE, READ_ONLY_ROLES_PARAM_NAME);
+        String parmValue = parameterService.getParameterValueAsString(KC_GENERIC_PARAMETER_NAMESPACE, KC_ALL_PARAMETER_DETAIL_TYPE_CODE, READ_ONLY_ROLES_PARAM_NAME);
         return parmValue.toLowerCase().contains(roleId.toLowerCase());
     }
 
@@ -728,11 +724,11 @@ public class KeyPersonnelServiceImpl implements KeyPersonnelService, Constants {
      * @see org.kuali.kra.proposaldevelopment.service.KeyPersonnelService#isCreditSplitEnabled()
      */
     public boolean isCreditSplitEnabled() {
-        return this.parameterService.getIndicatorParameter(ProposalDevelopmentDocument.class, CREDIT_SPLIT_ENABLED_RULE_NAME);
+        return this.parameterService.getParameterValueAsBoolean(ProposalDevelopmentDocument.class, CREDIT_SPLIT_ENABLED_RULE_NAME);
     }
     
     public String getDefaultPersonAttachmentDocType() {
-        return parameterService.getParameterValue(ProposalDevelopmentDocument.class, PROPOSAL_PERSON_BIOGRAPHY_DEFAULT_DOC_TYPE);
+        return parameterService.getParameterValueAsString(ProposalDevelopmentDocument.class, PROPOSAL_PERSON_BIOGRAPHY_DEFAULT_DOC_TYPE);
     }
 
     /**
@@ -795,7 +791,7 @@ public class KeyPersonnelServiceImpl implements KeyPersonnelService, Constants {
     }
     
     protected String getRoleDescriptionParameterValue(String parmName) {
-        return parameterService.getParameterValue(KC_GENERIC_PARAMETER_NAMESPACE, KC_ALL_PARAMETER_DETAIL_TYPE_CODE, parmName);        
+        return parameterService.getParameterValueAsString(KC_GENERIC_PARAMETER_NAMESPACE, KC_ALL_PARAMETER_DETAIL_TYPE_CODE, parmName);        
     }
 
     protected String createRoleDescriptionParameterName(ContactRole role, String nihToken) {
@@ -803,8 +799,8 @@ public class KeyPersonnelServiceImpl implements KeyPersonnelService, Constants {
     }
     
     protected boolean hasBeenRoutedOrCanceled(ProposalDevelopmentDocument document) {
-        KualiWorkflowDocument workflowDoc = document.getDocumentHeader().getWorkflowDocument();
-        return !workflowDoc.stateIsInitiated() && !workflowDoc.stateIsSaved();
+        WorkflowDocument workflowDoc = document.getDocumentHeader().getWorkflowDocument();
+        return !workflowDoc.isInitiated() && !workflowDoc.isSaved();
     }
     
     public String getPersonnelRoleDesc(PersonRolodex person) {

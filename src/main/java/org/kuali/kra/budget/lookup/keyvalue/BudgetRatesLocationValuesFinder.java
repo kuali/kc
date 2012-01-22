@@ -19,16 +19,17 @@ import java.util.ArrayList;
 import java.util.List;
 
 import org.kuali.kra.infrastructure.Constants;
-import org.kuali.rice.kns.lookup.keyvalues.KeyValuesBase;
-import org.kuali.rice.core.util.KeyLabelPair;
+import org.kuali.rice.core.api.util.ConcreteKeyValue;
+import org.kuali.rice.core.api.util.KeyValue;
+import org.kuali.rice.krad.keyvalues.KeyValuesBase;
 
 public class BudgetRatesLocationValuesFinder extends KeyValuesBase{
 
     public List getKeyValues() {
-        List<KeyLabelPair> keyValues = new ArrayList<KeyLabelPair>();
-        keyValues.add(new KeyLabelPair("", "View All"));
-        keyValues.add(new KeyLabelPair(Constants.ON_CAMUS_FLAG, "On Campus"));
-        keyValues.add(new KeyLabelPair(Constants.OFF_CAMUS_FLAG, "Off Campus"));
+        List<KeyValue> keyValues = new ArrayList<KeyValue>();
+        keyValues.add(new ConcreteKeyValue("", "View All"));
+        keyValues.add(new ConcreteKeyValue(Constants.ON_CAMUS_FLAG, "On CampusContractContract"));
+        keyValues.add(new ConcreteKeyValue(Constants.OFF_CAMUS_FLAG, "Off CampusContractContract"));
         return keyValues;
         
     }

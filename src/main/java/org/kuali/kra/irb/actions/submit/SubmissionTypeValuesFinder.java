@@ -24,8 +24,9 @@ import org.kuali.kra.irb.Protocol;
 import org.kuali.kra.irb.ProtocolForm;
 import org.kuali.kra.irb.actions.IrbActionsKeyValuesBase;
 import org.kuali.kra.irb.actions.ProtocolStatus;
-import org.kuali.rice.core.util.KeyLabelPair;
-import org.kuali.rice.kns.util.GlobalVariables;
+import org.kuali.rice.core.api.util.ConcreteKeyValue;
+import org.kuali.rice.core.api.util.KeyValue;
+import org.kuali.rice.kns.util.KNSGlobalVariables;
 
 /**
  * Finds the available set of Submission Types when a protocol
@@ -36,17 +37,17 @@ import org.kuali.rice.kns.util.GlobalVariables;
 public class SubmissionTypeValuesFinder extends IrbActionsKeyValuesBase {
     
     /**
-     * @see org.kuali.rice.kns.lookup.keyvalues.KeyValuesFinder#getKeyValues()
+     * @see org.kuali.rice.krad.keyvalues.KeyValuesFinder#getKeyValues()
      */
-    public List<KeyLabelPair> getKeyValues() {
+    public List<KeyValue> getKeyValues() {
        
-        List<KeyLabelPair> keyValues = new ArrayList<KeyLabelPair>();
-        keyValues.add(new KeyLabelPair("", "select"));
+        List<KeyValue> keyValues = new ArrayList<KeyValue>();
+        keyValues.add(new ConcreteKeyValue("", "select"));
         
         Collection<ProtocolSubmissionType> submissionTypes = this.getKeyValuesService().findAll(ProtocolSubmissionType.class);
         for (ProtocolSubmissionType submissionType : submissionTypes) {
             if (isSubmitForReviewType(submissionType)) {
-                keyValues.add(new KeyLabelPair(submissionType.getSubmissionTypeCode(), submissionType.getDescription()));
+                keyValues.add(new ConcreteKeyValue(submissionType.getSubmissionTypeCode(), submissionType.getDescription()));
             }
         }
         
@@ -73,7 +74,7 @@ public class SubmissionTypeValuesFinder extends IrbActionsKeyValuesBase {
     
     private Collection<String> getValidSubmissionTypes() {
         Collection<String> types = new ArrayList<String>();
-        ProtocolForm pf = (ProtocolForm) GlobalVariables.getKualiForm();
+        ProtocolForm pf = (ProtocolForm) KNSGlobalVariables.getKualiForm();
         if (pf != null) {
             String currentStatus  = pf.getProtocolDocument().getProtocol().getProtocolStatusCode();
             if (displayInitialSubmission(currentStatus)) {

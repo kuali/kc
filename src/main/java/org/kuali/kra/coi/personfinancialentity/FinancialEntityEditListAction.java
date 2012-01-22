@@ -30,9 +30,9 @@ import org.apache.struts.action.ActionMapping;
 import org.kuali.kra.infrastructure.Constants;
 import org.kuali.kra.infrastructure.KeyConstants;
 import org.kuali.kra.service.VersionException;
-import org.kuali.rice.kew.web.session.UserSession;
 import org.kuali.rice.kns.question.ConfirmationQuestion;
-import org.kuali.rice.kns.util.KNSConstants;
+import org.kuali.rice.krad.util.GlobalVariables;
+import org.kuali.rice.krad.util.KRADConstants;
 
 /**
  * 
@@ -162,11 +162,11 @@ public class FinancialEntityEditListAction extends FinancialEntityAction{
     }
     
     protected List<PersonFinIntDisclosure> getActiveFinancialEntities() {
-        return getFinancialEntityService().getFinancialEntities(UserSession.getAuthenticatedUser().getPrincipalId(), true);
+        return getFinancialEntityService().getFinancialEntities(GlobalVariables.getUserSession().getPrincipalId(), true);
     }
     
     protected List<PersonFinIntDisclosure> getInactiveFinancialEntities() {
-        return getFinancialEntityService().getFinancialEntities(UserSession.getAuthenticatedUser().getPrincipalId(), false);
+        return getFinancialEntityService().getFinancialEntities(GlobalVariables.getUserSession().getPrincipalId(), false);
     }
     
     /*
@@ -280,13 +280,13 @@ public class FinancialEntityEditListAction extends FinancialEntityAction{
             HttpServletResponse response) throws Exception {
 
         int entityIndex = getSelectedLine(request);
-        Object question = request.getParameter(KNSConstants.QUESTION_INST_ATTRIBUTE_NAME);
-        Object buttonClicked = request.getParameter(KNSConstants.QUESTION_CLICKED_BUTTON);
-        String reason = request.getParameter(KNSConstants.QUESTION_REASON_ATTRIBUTE_NAME);
+        Object question = request.getParameter(KRADConstants.QUESTION_INST_ATTRIBUTE_NAME);
+        Object buttonClicked = request.getParameter(KRADConstants.QUESTION_CLICKED_BUTTON);
+        String reason = request.getParameter(KRADConstants.QUESTION_REASON_ATTRIBUTE_NAME);
         String callerString = String.format("inactivateFinancialEntity.line%s.anchor%s", entityIndex, 0);
         if (question == null) {
             return this.performQuestionWithInput(mapping, form, request, response, DEACTIVATE_ENTITY_QUESTION,
-                    "Are you sure you want to deactivate this financial entity ?", KNSConstants.CONFIRMATION_QUESTION,
+                    "Are you sure you want to deactivate this financial entity ?", KRADConstants.CONFIRMATION_QUESTION,
                     callerString, "");
         }
         else if ((DEACTIVATE_ENTITY_QUESTION.equals(question)) && ConfirmationQuestion.NO.equals(buttonClicked)) {
@@ -298,8 +298,8 @@ public class FinancialEntityEditListAction extends FinancialEntityAction{
                 }
                 return this.performQuestionWithInputAgainBecauseOfErrors(mapping, form, request, response,
                         DEACTIVATE_ENTITY_QUESTION, "Are you sure you want to deactivate this financial entity ?",
-                        KNSConstants.CONFIRMATION_QUESTION, callerString, "", reason,
-                        KeyConstants.ERROR_DEACTIVATE_FINANCIAL_ENTITY_REASON_REQUIRED, KNSConstants.QUESTION_REASON_ATTRIBUTE_NAME,
+                        KRADConstants.CONFIRMATION_QUESTION, callerString, "", reason,
+                        KeyConstants.ERROR_DEACTIVATE_FINANCIAL_ENTITY_REASON_REQUIRED, KRADConstants.QUESTION_REASON_ATTRIBUTE_NAME,
                         DEACTIVATE_ENTITY_REASON_MAXLENGTH);
             } else {
 
@@ -382,7 +382,7 @@ public class FinancialEntityEditListAction extends FinancialEntityAction{
                 saveFinancialEntity(form, personFinIntDisclosure);
             }
             if (StringUtils.isNotBlank(financialEntityForm.getCoiDocId())) {
-                String forward = buildForwardUrl(Long.parseLong(financialEntityForm.getCoiDocId()));
+                String forward = buildForwardUrl(financialEntityForm.getCoiDocId());
                 financialEntityForm.setCoiDocId(null);
                 financialEntityForm.getFinancialEntityHelper().setReporterId(null);
                 return new ActionForward(forward, true);

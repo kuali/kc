@@ -18,18 +18,19 @@ package org.kuali.kra.lookup.keyvalue;
 import java.util.ArrayList;
 import java.util.List;
 
-import org.kuali.rice.kns.lookup.keyvalues.KeyValuesBase;
-import org.kuali.rice.core.util.KeyLabelPair;
+import org.kuali.rice.core.api.util.ConcreteKeyValue;
+import org.kuali.rice.core.api.util.KeyValue;
+import org.kuali.rice.krad.keyvalues.KeyValuesBase;
 
 public class YnqQuestionTypeValuesFinder extends KeyValuesBase {
 
-    public List<KeyLabelPair> getKeyValues() {
-        List<KeyLabelPair> keyValues = new ArrayList<KeyLabelPair>();
-        keyValues.add(new KeyLabelPair("C", "Conflict Of Interest"));
-        keyValues.add(new KeyLabelPair("F", "Financial Entity"));
-        keyValues.add(new KeyLabelPair("I", "Individual"));
-        keyValues.add(new KeyLabelPair("O", "Organization"));
-        keyValues.add(new KeyLabelPair("P", "Proposal"));
+    public List<KeyValue> getKeyValues() {
+        List<KeyValue> keyValues = new ArrayList<KeyValue>();
+        keyValues.add(new ConcreteKeyValue("C", "Conflict Of Interest"));
+        keyValues.add(new ConcreteKeyValue("F", "Financial Entity"));
+        keyValues.add(new ConcreteKeyValue("I", "Individual"));
+        keyValues.add(new ConcreteKeyValue("O", "Organization"));
+        keyValues.add(new ConcreteKeyValue("P", "Proposal"));
         return keyValues;
     }
 }

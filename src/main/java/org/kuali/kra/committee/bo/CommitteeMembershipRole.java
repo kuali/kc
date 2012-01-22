@@ -16,7 +16,6 @@
 package org.kuali.kra.committee.bo;
 
 import java.sql.Date;
-import java.util.LinkedHashMap;
 
 import org.apache.commons.lang.ObjectUtils;
 
@@ -30,16 +29,21 @@ public class CommitteeMembershipRole extends CommitteeSequenceAssociate {
     private static final long serialVersionUID = 6048477313137155626L;
 
     private Long committeeMembershipRoleId;
+
     private Long committeeMembershipIdFk;
+
     private String membershipRoleCode;
-    private Date startDate; 
-    private Date endDate; 
-    
+
+    private Date startDate;
+
+    private Date endDate;
+
     private MembershipRole membershipRole;
-    
+
     public static final String ALTERNATE_ROLE = "12";
+
     public static final String INACTIVE_ROLE = "14";
-    
+
     public CommitteeMembershipRole() {
     }
 
@@ -90,7 +94,7 @@ public class CommitteeMembershipRole extends CommitteeSequenceAssociate {
     public void setMembershipRole(MembershipRole membershipRole) {
         this.membershipRole = membershipRole;
     }
-    
+
     @Override
     public boolean equals(Object obj) {
         if (this == obj) {
@@ -103,16 +107,13 @@ public class CommitteeMembershipRole extends CommitteeSequenceAssociate {
             return false;
         }
         CommitteeMembershipRole committeeMembershipRole = (CommitteeMembershipRole) obj;
-        if (ObjectUtils.equals(this.committeeMembershipIdFk, committeeMembershipRole.committeeMembershipIdFk) 
-                && ObjectUtils.equals(this.membershipRoleCode, committeeMembershipRole.membershipRoleCode)
-                && ObjectUtils.equals(this.startDate, committeeMembershipRole.startDate)
-                && ObjectUtils.equals(this.endDate, committeeMembershipRole.endDate)) {
+        if (ObjectUtils.equals(this.committeeMembershipIdFk, committeeMembershipRole.committeeMembershipIdFk) && ObjectUtils.equals(this.membershipRoleCode, committeeMembershipRole.membershipRoleCode) && ObjectUtils.equals(this.startDate, committeeMembershipRole.startDate) && ObjectUtils.equals(this.endDate, committeeMembershipRole.endDate)) {
             return true;
         } else {
             return false;
         }
     }
-    
+
     @Override
     public int hashCode() {
         final int PRIME = 31;
@@ -123,19 +124,7 @@ public class CommitteeMembershipRole extends CommitteeSequenceAssociate {
         return result;
     }
 
-    @Override
-    protected LinkedHashMap<String, Object> toStringMapper() {
-        LinkedHashMap<String, Object> hashMap = new LinkedHashMap<String, Object>();
-        hashMap.put("committeeMembershipRoleId", getCommitteeMembershipRoleId());
-        hashMap.put("committeeMembershipIdFk", getCommitteeMembershipIdFk());
-        hashMap.put("membershipRoleCode", getMembershipRoleCode());
-        hashMap.put("startDate", getStartDate());
-        hashMap.put("endDate", getEndDate());
-        return hashMap;
-    }
-    
     public void resetPersistenceState() {
         setCommitteeMembershipRoleId(null);
     }
-
 }

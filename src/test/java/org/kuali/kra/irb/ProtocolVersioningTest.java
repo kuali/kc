@@ -35,11 +35,12 @@ import org.kuali.kra.irb.protocol.location.ProtocolLocation;
 import org.kuali.kra.irb.test.ProtocolFactory;
 import org.kuali.kra.service.VersioningService;
 import org.kuali.kra.test.infrastructure.KcUnitTestBase;
-import org.kuali.rice.kns.UserSession;
-import org.kuali.rice.kns.service.BusinessObjectService;
-import org.kuali.rice.kns.service.DocumentService;
-import org.kuali.rice.kns.util.ErrorMap;
-import org.kuali.rice.kns.util.GlobalVariables;
+import org.kuali.rice.kns.util.KNSGlobalVariables;
+import org.kuali.rice.krad.UserSession;
+import org.kuali.rice.krad.service.BusinessObjectService;
+import org.kuali.rice.krad.service.DocumentService;
+import org.kuali.rice.krad.util.GlobalVariables;
+import org.kuali.rice.krad.util.MessageMap;
 
 /**
  * Integration test for protocol versioning.  Does not test attachment versioning.
@@ -58,8 +59,8 @@ public class ProtocolVersioningTest extends KcUnitTestBase {
     public void setUp() throws Exception {
        super.setUp();
        GlobalVariables.setUserSession(new UserSession("quickstart"));
-       GlobalVariables.setErrorMap(new ErrorMap());
-       GlobalVariables.setAuditErrorMap(new HashMap());
+       GlobalVariables.setMessageMap(new MessageMap());
+       KNSGlobalVariables.setAuditErrorMap(new HashMap());
        locateServices();
        ver1 = ProtocolFactory.createProtocolDocument();
     }

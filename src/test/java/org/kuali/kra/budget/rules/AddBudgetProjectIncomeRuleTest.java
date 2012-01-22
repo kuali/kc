@@ -17,8 +17,6 @@ package org.kuali.kra.budget.rules;
 
 import java.util.Properties;
 
-import junit.framework.TestCase;
-
 import org.junit.After;
 import org.junit.Assert;
 import org.junit.Before;
@@ -27,11 +25,11 @@ import org.kuali.kra.budget.distributionincome.AddBudgetProjectIncomeEvent;
 import org.kuali.kra.budget.distributionincome.AddBudgetProjectIncomeRule;
 import org.kuali.kra.budget.distributionincome.BudgetProjectIncome;
 import org.kuali.kra.budget.distributionincome.BudgetProjectIncomeRuleImpl;
-import org.kuali.rice.kns.util.ErrorMap;
-import org.kuali.rice.kns.util.ErrorMessage;
-import org.kuali.rice.kns.util.GlobalVariables;
-import org.kuali.rice.kns.util.KualiDecimal;
-import org.kuali.rice.kns.util.TypedArrayList;
+import org.kuali.rice.core.api.util.type.KualiDecimal;
+import org.kuali.rice.krad.util.ErrorMessage;
+import org.kuali.rice.krad.util.GlobalVariables;
+import org.kuali.rice.krad.util.MessageMap;
+import org.springframework.util.AutoPopulatingList;
 
 public class AddBudgetProjectIncomeRuleTest {
     private static final KualiDecimal PROJECT_INCOME_AMOUNT = new KualiDecimal(100.00);
@@ -43,7 +41,7 @@ public class AddBudgetProjectIncomeRuleTest {
     @Test
     public void testValidatingRequiredFields_NoneSet() throws Exception {
         Assert.assertFalse(addBudgetProjectIncomeRule.processAddBudgetProjectIncomeBusinessRules(addBudgetIncomeEvent));
-        Assert.assertEquals(3, GlobalVariables.getErrorMap().keySet().size());
+        Assert.assertEquals(3, GlobalVariables.getMessageMap().getErrorMessages().keySet().size());
     }
 
     @Test
@@ -52,7 +50,7 @@ public class AddBudgetProjectIncomeRuleTest {
         budgetProjectIncome.setProjectIncome(PROJECT_INCOME_AMOUNT);
         budgetProjectIncome.setDescription("  ");
         Assert.assertFalse(addBudgetProjectIncomeRule.processAddBudgetProjectIncomeBusinessRules(addBudgetIncomeEvent));
-        Assert.assertEquals(1, GlobalVariables.getErrorMap().keySet().size());
+        Assert.assertEquals(1, GlobalVariables.getMessageMap().getErrorMessages().keySet().size());
     }
     
     @Test
@@ -61,7 +59,7 @@ public class AddBudgetProjectIncomeRuleTest {
         budgetProjectIncome.setProjectIncome(PROJECT_INCOME_AMOUNT);
         budgetProjectIncome.setDescription("Description");
         Assert.assertTrue(addBudgetProjectIncomeRule.processAddBudgetProjectIncomeBusinessRules(addBudgetIncomeEvent));
-        Assert.assertEquals(0, GlobalVariables.getErrorMap().keySet().size());
+        Assert.assertEquals(0, GlobalVariables.getMessageMap().getErrorMessages().keySet().size());
     }
 
     @Test
@@ -70,8 +68,8 @@ public class AddBudgetProjectIncomeRuleTest {
         budgetProjectIncome.setProjectIncome(KualiDecimal.ZERO);
         budgetProjectIncome.setDescription("Description");
         Assert.assertFalse(addBudgetProjectIncomeRule.processAddBudgetProjectIncomeBusinessRules(addBudgetIncomeEvent));
-        Assert.assertEquals(1, GlobalVariables.getErrorMap().keySet().size());
-        ErrorMessage errMsg = (ErrorMessage)((TypedArrayList) GlobalVariables.getErrorMap().get("newBudgetProjectIncome.projectIncome")).get(0);
+        Assert.assertEquals(1, GlobalVariables.getMessageMap().getErrorMessages().keySet().size());
+        ErrorMessage errMsg = (ErrorMessage)((AutoPopulatingList<ErrorMessage>) GlobalVariables.getMessageMap().getErrorMessages().get("newBudgetProjectIncome.projectIncome")).get(0);
         Assert.assertEquals("error.projectIncome.negativeOrZero", errMsg.getErrorKey());        
         Assert.assertEquals("Income amount must be greater than zero (0.00)", getErrorForkey("error.projectIncome.negativeOrZero"));
     }
@@ -87,19 +85,19 @@ public class AddBudgetProjectIncomeRuleTest {
         budgetProjectIncome.setBudgetPeriodNumber(BUDGET_PERIOD_NO);
         budgetProjectIncome.setProjectIncome(PROJECT_INCOME_AMOUNT);
         Assert.assertFalse(addBudgetProjectIncomeRule.processAddBudgetProjectIncomeBusinessRules(addBudgetIncomeEvent));
-        Assert.assertEquals(BUDGET_PERIOD_NO, GlobalVariables.getErrorMap().keySet().size());
+        Assert.assertEquals(BUDGET_PERIOD_NO, GlobalVariables.getMessageMap().getErrorMessages().keySet().size());
     }
 
     @Test
     public void testValidatingRequiredFields_BudgetPeriodSet() throws Exception {
         budgetProjectIncome.setBudgetPeriodNumber(BUDGET_PERIOD_NO);
         Assert.assertFalse(addBudgetProjectIncomeRule.processAddBudgetProjectIncomeBusinessRules(addBudgetIncomeEvent));
-        Assert.assertEquals(2, GlobalVariables.getErrorMap().keySet().size());
+        Assert.assertEquals(2, GlobalVariables.getMessageMap().getErrorMessages().keySet().size());
     }
     
     @Before
     public void setUp() {
-        GlobalVariables.setErrorMap(new ErrorMap());
+        GlobalVariables.setMessageMap(new MessageMap());
         budgetProjectIncome = new BudgetProjectIncome();
         addBudgetIncomeEvent = new AddBudgetProjectIncomeEvent(null, null, null, budgetProjectIncome);
         addBudgetProjectIncomeRule = new BudgetProjectIncomeRuleImpl();

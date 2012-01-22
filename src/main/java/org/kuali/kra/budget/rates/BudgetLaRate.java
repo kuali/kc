@@ -15,8 +15,6 @@
  */
 package org.kuali.kra.budget.rates;
 
-import java.util.LinkedHashMap;
-
 import org.kuali.kra.bo.InstituteLaRate;
 
 public class BudgetLaRate extends AbstractBudgetRate {
@@ -29,17 +27,8 @@ public class BudgetLaRate extends AbstractBudgetRate {
     public BudgetLaRate() {
         super();
     }
-    
+
     public BudgetLaRate(String unitNumber, InstituteLaRate instituteLaRate) {
         super(unitNumber, instituteLaRate);
     }
-    
-	@SuppressWarnings("unchecked")
-    @Override 
-	protected LinkedHashMap toStringMapper() {
-		LinkedHashMap hashMap = super.toStringMapper();
-		hashMap.put("applicableRate", getApplicableRate());
-		return hashMap;
-	}
-
 }

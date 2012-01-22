@@ -20,13 +20,13 @@ import java.util.Set;
 
 import org.kuali.kra.infrastructure.KraServiceLocator;
 import org.kuali.kra.infrastructure.PermissionConstants;
-import org.kuali.rice.kim.bo.Person;
-import org.kuali.rice.kns.document.Document;
+import org.kuali.rice.kim.api.identity.Person;
+import org.kuali.rice.krad.document.Document;
 import org.kuali.rice.kns.document.MaintenanceDocumentBase;
 import org.kuali.rice.kns.document.authorization.MaintenanceDocumentAuthorizerBase;
-import org.kuali.rice.kns.exception.AuthorizationException;
-import org.kuali.rice.kns.util.GlobalVariables;
-import org.kuali.rice.kns.util.KNSConstants;
+import org.kuali.rice.krad.exception.AuthorizationException;
+import org.kuali.rice.krad.util.GlobalVariables;
+import org.kuali.rice.krad.util.KRADConstants;
 
 public class NotificationMaintenanceDocumentAuthorizer extends MaintenanceDocumentAuthorizerBase {
 
@@ -62,19 +62,19 @@ public class NotificationMaintenanceDocumentAuthorizer extends MaintenanceDocume
     
     private Set<String> getDocumentActionsWithModifyPermission(Document document) {
         Set<String> documentActions = new HashSet<String>();
-        if (document.getDocumentHeader().getWorkflowDocument().getRouteHeader().getDocRouteStatus().equals("I")
-                || document.getDocumentHeader().getWorkflowDocument().getRouteHeader().getDocRouteStatus().equals("S")) {
-            documentActions.add(KNSConstants.KUALI_ACTION_CAN_EDIT);
-            documentActions.add(KNSConstants.KUALI_ACTION_CAN_EDIT__DOCUMENT_OVERVIEW);
-            documentActions.add(KNSConstants.KUALI_ACTION_CAN_SAVE);
-            documentActions.add(KNSConstants.KUALI_ACTION_CAN_CLOSE);
-            documentActions.add(KNSConstants.KUALI_ACTION_CAN_CANCEL);
-            documentActions.add(KNSConstants.KUALI_ACTION_CAN_BLANKET_APPROVE);
-            documentActions.add(KNSConstants.KUALI_ACTION_CAN_ROUTE);
+        if (document.getDocumentHeader().getWorkflowDocument().isInitiated()
+                || document.getDocumentHeader().getWorkflowDocument().isSaved()) {
+            documentActions.add(KRADConstants.KUALI_ACTION_CAN_EDIT);
+            documentActions.add(KRADConstants.KUALI_ACTION_CAN_EDIT_DOCUMENT_OVERVIEW);
+            documentActions.add(KRADConstants.KUALI_ACTION_CAN_SAVE);
+            documentActions.add(KRADConstants.KUALI_ACTION_CAN_CLOSE);
+            documentActions.add(KRADConstants.KUALI_ACTION_CAN_CANCEL);
+            documentActions.add(KRADConstants.KUALI_ACTION_CAN_BLANKET_APPROVE);
+            documentActions.add(KRADConstants.KUALI_ACTION_CAN_ROUTE);
         }
         else {
-            documentActions.add(KNSConstants.KUALI_ACTION_CAN_RELOAD);
-            documentActions.add(KNSConstants.KUALI_ACTION_CAN_CLOSE);
+            documentActions.add(KRADConstants.KUALI_ACTION_CAN_RELOAD);
+            documentActions.add(KRADConstants.KUALI_ACTION_CAN_CLOSE);
         }
         return documentActions;
 
@@ -83,21 +83,21 @@ public class NotificationMaintenanceDocumentAuthorizer extends MaintenanceDocume
     private Set<String> getDocumentActionsWithViewPermission(Document document) {
         Set<String> documentActions = new HashSet<String>();
         String maintAction = ((MaintenanceDocumentBase) document).getNewMaintainableObject().getMaintenanceAction();
-        if (document.getDocumentHeader().getWorkflowDocument().getRouteHeader().getDocRouteStatus().equals("I")) {
-            if (maintAction.equals(KNSConstants.MAINTENANCE_COPY_ACTION)) {
+        if (document.getDocumentHeader().getWorkflowDocument().isInitiated()) {
+            if (maintAction.equals(KRADConstants.MAINTENANCE_COPY_ACTION)) {
                 throw new AuthorizationException(GlobalVariables.getUserSession().getPerson().getPrincipalName(), "Copy", "Notification");
             }
-            else if (maintAction.equals(KNSConstants.MAINTENANCE_NEW_ACTION)) {
+            else if (maintAction.equals(KRADConstants.MAINTENANCE_NEW_ACTION)) {
                 throw new AuthorizationException(GlobalVariables.getUserSession().getPerson().getPrincipalName(), "Create", "Notification");
             }
             else {
-                documentActions.add(KNSConstants.KUALI_ACTION_CAN_RELOAD);
-                documentActions.add(KNSConstants.KUALI_ACTION_CAN_CLOSE);
+                documentActions.add(KRADConstants.KUALI_ACTION_CAN_RELOAD);
+                documentActions.add(KRADConstants.KUALI_ACTION_CAN_CLOSE);
             }
         }
         else {
-            documentActions.add(KNSConstants.KUALI_ACTION_CAN_RELOAD);
-            documentActions.add(KNSConstants.KUALI_ACTION_CAN_CLOSE);
+            documentActions.add(KRADConstants.KUALI_ACTION_CAN_RELOAD);
+            documentActions.add(KRADConstants.KUALI_ACTION_CAN_CLOSE);
         }
         return documentActions;
 

@@ -24,7 +24,7 @@ import org.kuali.kra.bo.Sponsor;
 import org.kuali.kra.infrastructure.KeyConstants;
 import org.kuali.kra.rule.BusinessRuleInterface;
 import org.kuali.kra.rules.ResearchDocumentRuleBase;
-import org.kuali.rice.kns.util.GlobalVariables;
+import org.kuali.rice.krad.util.GlobalVariables;
 
 /**
  * 
@@ -80,10 +80,10 @@ public class SaveFinancialEntityRule extends ResearchDocumentRuleBase implements
                     for (FinancialEntityContactInfo oldFeci:personFinIntDisclosure.getFinEntityContactInfos()) {
                         for (FinancialEntityContactInfo newFeci: event.getPersonFinIntDisclosure().getFinEntityContactInfos()) {
                             if (newFeci.infoMatches(oldFeci)) {
-                                GlobalVariables.getMessageMap().addToErrorPath(event.getPropertyName());
-                                GlobalVariables.getMessageMap().putError("entityName", KeyConstants.ERROR_DUPLICATE_PROPERTY, 
+                    GlobalVariables.getMessageMap().addToErrorPath(event.getPropertyName());
+                    GlobalVariables.getMessageMap().putError("entityName", KeyConstants.ERROR_DUPLICATE_PROPERTY, 
                                         new String[] {"Entity Name and Contact Info"});
-                                GlobalVariables.getMessageMap().removeFromErrorPath(event.getPropertyName());
+                    GlobalVariables.getMessageMap().removeFromErrorPath(event.getPropertyName());
                                 return false;
                             }
                         }

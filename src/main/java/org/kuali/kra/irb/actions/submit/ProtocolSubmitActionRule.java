@@ -29,10 +29,10 @@ import org.kuali.kra.infrastructure.KraServiceLocator;
 import org.kuali.kra.irb.ProtocolDocument;
 import org.kuali.kra.irb.actions.ProtocolStatus;
 import org.kuali.kra.rules.ResearchDocumentRuleBase;
-import org.kuali.rice.kns.bo.BusinessObject;
-import org.kuali.rice.kns.service.BusinessObjectService;
-import org.kuali.rice.kns.service.ParameterService;
-import org.kuali.rice.kns.util.GlobalVariables;
+import org.kuali.rice.coreservice.framework.parameter.ParameterService;
+import org.kuali.rice.krad.bo.BusinessObject;
+import org.kuali.rice.krad.service.BusinessObjectService;
+import org.kuali.rice.krad.util.GlobalVariables;
 
 /**
  * Validate a protocol submission to the IRB for review.
@@ -78,7 +78,7 @@ public class ProtocolSubmitActionRule extends ResearchDocumentRuleBase implement
         boolean valid = true;
         if (StringUtils.isBlank(submitAction.getNewCommitteeId())) {
             valid = false;
-            GlobalVariables.getErrorMap().putError(Constants.PROTOCOL_SUBMIT_ACTION_PROPERTY_KEY + ".committeeId",
+            GlobalVariables.getMessageMap().putError(Constants.PROTOCOL_SUBMIT_ACTION_PROPERTY_KEY + ".committeeId",
                     KeyConstants.ERROR_PROTOCOL_COMMITTEE_NOT_SELECTED);
         }
         return valid;
@@ -91,7 +91,7 @@ public class ProtocolSubmitActionRule extends ResearchDocumentRuleBase implement
         boolean valid = true;
         if (StringUtils.isBlank(submitAction.getNewScheduleId())) {
             valid = false;
-            GlobalVariables.getErrorMap().putError(Constants.PROTOCOL_SUBMIT_ACTION_PROPERTY_KEY + ".scheduleId",
+            GlobalVariables.getMessageMap().putError(Constants.PROTOCOL_SUBMIT_ACTION_PROPERTY_KEY + ".scheduleId",
                     KeyConstants.ERROR_PROTOCOL_SCHEDULE_NOT_SELECTED);
         }
         return valid;
@@ -116,7 +116,7 @@ public class ProtocolSubmitActionRule extends ResearchDocumentRuleBase implement
             // If the user didn't select a submission type, i.e. he/she choose the "select:" option,
             // then the Submission Type Code will be "blank".
             isValid = false;
-            GlobalVariables.getErrorMap().putError(Constants.PROTOCOL_SUBMIT_ACTION_PROPERTY_KEY + ".submissionTypeCode",
+            GlobalVariables.getMessageMap().putError(Constants.PROTOCOL_SUBMIT_ACTION_PROPERTY_KEY + ".submissionTypeCode",
                     KeyConstants.ERROR_PROTOCOL_SUBMISSION_TYPE_NOT_SELECTED);
         }
         else {
@@ -135,7 +135,7 @@ public class ProtocolSubmitActionRule extends ResearchDocumentRuleBase implement
             // If the user didn't select a review type, i.e. he/she choose the "select:" option,
             // then the Protocol Review Type Code will be "blank".
             isValid = false;
-            GlobalVariables.getErrorMap().putError(Constants.PROTOCOL_SUBMIT_ACTION_PROPERTY_KEY + ".protocolReviewTypeCode",
+            GlobalVariables.getMessageMap().putError(Constants.PROTOCOL_SUBMIT_ACTION_PROPERTY_KEY + ".protocolReviewTypeCode",
                     KeyConstants.ERROR_PROTOCOL_REVIEW_TYPE_NOT_SELECTED);
         }
         else if (isReviewTypeInvalid(protocolReviewTypeCode)) {
@@ -388,7 +388,7 @@ public class ProtocolSubmitActionRule extends ResearchDocumentRuleBase implement
      * @return true if mandatory; otherwise false
      */
     private boolean isMandatory() {
-        final String param = this.getParameterService().getParameterValue(ProtocolDocument.class,
+        final String param = this.getParameterService().getParameterValueAsString(ProtocolDocument.class,
                 Constants.PARAMETER_IRB_COMM_SELECTION_DURING_SUBMISSION);
 
         return StringUtils.equalsIgnoreCase(MANDATORY, param);

@@ -21,7 +21,7 @@ import java.util.Map;
 
 import org.kuali.kra.award.document.AwardDocument;
 import org.kuali.kra.timeandmoney.AwardHierarchyNode;
-import org.kuali.rice.kew.exception.WorkflowException;
+import org.kuali.rice.kew.api.exception.WorkflowException;
 
 public interface AwardHierarchyService {
     static boolean RECURS_HIERARCHY = true;

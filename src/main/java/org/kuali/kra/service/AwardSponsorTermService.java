@@ -18,7 +18,7 @@ package org.kuali.kra.service;
 import java.util.List;
 
 import org.kuali.kra.bo.SponsorTerm;
-import org.kuali.rice.core.util.KeyLabelPair;
+import org.kuali.rice.core.api.util.KeyValue;
 
 
 /**
@@ -30,13 +30,13 @@ public interface AwardSponsorTermService {
      * This method assigns all of the Sponsor Term Types for Panel header display
      * @return
      */
-    List<KeyLabelPair> retrieveSponsorTermTypesToAwardFormForPanelHeaderDisplay();
+    List<KeyValue> retrieveSponsorTermTypesToAwardFormForPanelHeaderDisplay();
     
     /**
      * This method creates an empty list of Sponsor Term objects corresponding to Sponsor Term Types
      * @param sponsorTermTypes
      * @return
      */
-    List<SponsorTerm> getEmptyNewSponsorTerms(List<KeyLabelPair> sponsorTermTypes);
+    List<SponsorTerm> getEmptyNewSponsorTerms(List<KeyValue> sponsorTermTypes);
     
 }

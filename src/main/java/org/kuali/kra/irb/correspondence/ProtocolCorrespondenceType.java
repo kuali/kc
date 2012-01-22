@@ -17,27 +17,28 @@ package org.kuali.kra.irb.correspondence;
 
 import java.util.ArrayList;
 import java.util.Collections;
-import java.util.LinkedHashMap;
 import java.util.List;
 
 import org.apache.commons.lang.StringUtils;
 import org.kuali.kra.bo.KraPersistableBusinessObjectBase;
 import org.kuali.kra.infrastructure.Constants;
 
-public class ProtocolCorrespondenceType extends KraPersistableBusinessObjectBase { 
+public class ProtocolCorrespondenceType extends KraPersistableBusinessObjectBase {
 
     private static final long serialVersionUID = -4725522827463252054L;
 
-    private String protoCorrespTypeCode; 
-    private String description; 
-    private String moduleId; 
-    
+    private String protoCorrespTypeCode;
+
+    private String description;
+
+    private String moduleId;
+
     private List<ProtocolCorrespondenceTemplate> protocolCorrespondenceTemplates;
-    
+
     public ProtocolCorrespondenceType() {
         setProtocolCorrespondenceTemplates(new ArrayList<ProtocolCorrespondenceTemplate>());
-    } 
-    
+    }
+
     public String getProtoCorrespTypeCode() {
         return protoCorrespTypeCode;
     }
@@ -61,11 +62,11 @@ public class ProtocolCorrespondenceType extends KraPersistableBusinessObjectBase
     public void setModuleId(String moduleId) {
         this.moduleId = moduleId;
     }
-    
+
     public List<ProtocolCorrespondenceTemplate> getProtocolCorrespondenceTemplates() {
         return protocolCorrespondenceTemplates;
     }
-    
+
     /**
      * 
      * This method returns the default correspondence template.
@@ -95,19 +96,8 @@ public class ProtocolCorrespondenceType extends KraPersistableBusinessObjectBase
         Collections.sort(templates);
         return templates;
     }
-    
+
     public void setProtocolCorrespondenceTemplates(List<ProtocolCorrespondenceTemplate> protocolCorrespondenceTemplates) {
         this.protocolCorrespondenceTemplates = protocolCorrespondenceTemplates;
     }
-
-    /** {@inheritDoc} */
-    @Override 
-    protected LinkedHashMap<String, Object> toStringMapper() {
-        LinkedHashMap<String, Object> hashMap = new LinkedHashMap<String, Object>();
-        hashMap.put("protoCorrespTypeCode", this.getProtoCorrespTypeCode());
-        hashMap.put("description", this.getDescription());
-        hashMap.put("moduleId", this.getModuleId());
-        return hashMap;
-    }
-    
 }

@@ -24,9 +24,10 @@ import java.util.Map;
 import org.apache.commons.lang.StringUtils;
 import org.kuali.kra.bo.ArgValueLookup;
 import org.kuali.kra.infrastructure.KraServiceLocator;
-import org.kuali.rice.core.util.KeyLabelPair;
-import org.kuali.rice.kns.lookup.keyvalues.KeyValuesBase;
-import org.kuali.rice.kns.service.BusinessObjectService;
+import org.kuali.rice.core.api.util.ConcreteKeyValue;
+import org.kuali.rice.core.api.util.KeyValue;
+import org.kuali.rice.krad.keyvalues.KeyValuesBase;
+import org.kuali.rice.krad.service.BusinessObjectService;
 
 public class ArgValueLookupValuesFinder extends KeyValuesBase {
 
@@ -35,16 +36,16 @@ public class ArgValueLookupValuesFinder extends KeyValuesBase {
     /**
      * @see org.kuali.core.lookup.keyvalues.KeyValuesBase#getKeyValues()
      */
-    public List<KeyLabelPair> getKeyValues() {
+    public List<KeyValue> getKeyValues() {
 
         Map<String, String> fieldValues = new HashMap<String, String>();
         fieldValues.put("argumentName", argName);
         Collection<ArgValueLookup> argValueLookups = (Collection<ArgValueLookup>) KraServiceLocator.getService(BusinessObjectService.class).findMatching(ArgValueLookup.class, fieldValues);
-        List<KeyLabelPair> keyValues = new ArrayList<KeyLabelPair>();
+        List<KeyValue> keyValues = new ArrayList<KeyValue>();
         for (ArgValueLookup argValueLookup : argValueLookups) {
-            keyValues.add(new KeyLabelPair(argValueLookup.getValue(), StringUtils.isNotBlank(argValueLookup.getDescription()) ? argValueLookup.getDescription() : argValueLookup.getValue()));
+            keyValues.add(new ConcreteKeyValue(argValueLookup.getValue(), StringUtils.isNotBlank(argValueLookup.getDescription()) ? argValueLookup.getDescription() : argValueLookup.getValue()));
         }
-        keyValues.add(0, new KeyLabelPair("", "select"));
+        keyValues.add(0, new ConcreteKeyValue("", "select"));
         return keyValues;
     }
 

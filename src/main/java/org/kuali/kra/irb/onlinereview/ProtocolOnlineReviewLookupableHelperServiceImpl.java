@@ -30,15 +30,16 @@ import org.kuali.kra.irb.onlinereview.dao.ProtocolOnlineReviewLookupConstants;
 import org.kuali.kra.lookup.KraLookupableHelperServiceImpl;
 import org.kuali.kra.service.KcPersonService;
 import org.kuali.kra.service.KraAuthorizationService;
-import org.kuali.rice.kns.bo.BusinessObject;
-import org.kuali.rice.kns.document.Document;
+import org.kuali.rice.core.api.CoreApiServiceLocator;
 import org.kuali.rice.kns.lookup.HtmlData;
 import org.kuali.rice.kns.lookup.HtmlData.AnchorHtmlData;
 import org.kuali.rice.kns.service.DictionaryValidationService;
 import org.kuali.rice.kns.service.KNSServiceLocator;
-import org.kuali.rice.kns.util.GlobalVariables;
-import org.kuali.rice.kns.util.KNSConstants;
-import org.kuali.rice.kns.util.UrlFactory;
+import org.kuali.rice.krad.bo.BusinessObject;
+import org.kuali.rice.krad.document.Document;
+import org.kuali.rice.krad.util.GlobalVariables;
+import org.kuali.rice.krad.util.KRADConstants;
+import org.kuali.rice.krad.util.UrlFactory;
 
 public class ProtocolOnlineReviewLookupableHelperServiceImpl extends KraLookupableHelperServiceImpl {
 
@@ -101,21 +102,21 @@ public class ProtocolOnlineReviewLookupableHelperServiceImpl extends KraLookupab
     */
    public DictionaryValidationService getDictionaryValidationService() {
        if (dictionaryValidationService == null) {
-           dictionaryValidationService = KNSServiceLocator.getDictionaryValidationService();
+           dictionaryValidationService = (DictionaryValidationService) KNSServiceLocator.getDictionaryValidationService();
        }
        return dictionaryValidationService;
    }
 
    protected boolean validateDate(String dateFieldName, String dateFieldValue) {
        try{
-           KNSServiceLocator.getDateTimeService().convertToSqlTimestamp(dateFieldValue);
+           CoreApiServiceLocator.getDateTimeService().convertToSqlTimestamp(dateFieldValue);
            return true;
        } catch (ParseException e) {
-           GlobalVariables.getErrorMap().putError(dateFieldName, KeyConstants.ERROR_PROTOCOL_SEARCH_INVALID_DATE);
+           GlobalVariables.getMessageMap().putError(dateFieldName, KeyConstants.ERROR_PROTOCOL_SEARCH_INVALID_DATE);
            return false;
        } catch (Exception e) {
            e.printStackTrace();
-           GlobalVariables.getErrorMap().putError(dateFieldName, KeyConstants.ERROR_PROTOCOL_SEARCH_INVALID_DATE);
+           GlobalVariables.getMessageMap().putError(dateFieldName, KeyConstants.ERROR_PROTOCOL_SEARCH_INVALID_DATE);
            return false;
        }
    }
@@ -140,7 +141,7 @@ public class ProtocolOnlineReviewLookupableHelperServiceImpl extends KraLookupab
 
        if (!StringUtils.isEmpty(fvalues.get(REVIEWER_NONEMPLOYEE)) && !StringUtils.isEmpty(fvalues.get(REVIEWER_EMPLOYEE))) {
            //we can only search for one at a time.
-           GlobalVariables.getErrorMap().putError(ProtocolOnlineReviewLookupConstants.Property.REVIEWER_NONEMPLOYEE, KeyConstants.ERROR_PROTOCOL_ONLINE_REVIEW_INVALID_ONE_PERSON_ONLY);
+           GlobalVariables.getMessageMap().putError(ProtocolOnlineReviewLookupConstants.Property.REVIEWER_NONEMPLOYEE, KeyConstants.ERROR_PROTOCOL_ONLINE_REVIEW_INVALID_ONE_PERSON_ONLY);
            
        }
        
@@ -218,23 +219,23 @@ public class ProtocolOnlineReviewLookupableHelperServiceImpl extends KraLookupab
     
     private AnchorHtmlData getEditLink(Document document) {
         Properties parameters = getLinkProperties(document);
-        String displayText = KNSConstants.MAINTENANCE_EDIT_METHOD_TO_CALL;
+        String displayText = KRADConstants.MAINTENANCE_EDIT_METHOD_TO_CALL;
         
         return getAnchorHtmlData(parameters, displayText);
     }
     
     private Properties getLinkProperties(Document document) {
         Properties parameters = new Properties();
-        parameters.put(KNSConstants.DISPATCH_REQUEST_PARAMETER, "redirectToProtocolFromReview");
-        parameters.put(KNSConstants.PARAMETER_COMMAND, "displayDocSearchView");
-        parameters.put(KNSConstants.DOCUMENT_TYPE_NAME, getDocumentTypeName());
+        parameters.put(KRADConstants.DISPATCH_REQUEST_PARAMETER, "redirectToProtocolFromReview");
+        parameters.put(KRADConstants.PARAMETER_COMMAND, "displayDocSearchView");
+        parameters.put(KRADConstants.DOCUMENT_TYPE_NAME, getDocumentTypeName());
         parameters.put("docId", document.getDocumentNumber());
         return parameters;
     }
     
     private AnchorHtmlData getAnchorHtmlData(Properties parameters, String displayText) {
         String href  = UrlFactory.parameterizeUrl("../" + getHtmlAction(), parameters);
-        return new AnchorHtmlData(href, KNSConstants.DOC_HANDLER_METHOD, displayText);
+        return new AnchorHtmlData(href, KRADConstants.DOC_HANDLER_METHOD, displayText);
     }
 
 }

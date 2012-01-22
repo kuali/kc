@@ -60,8 +60,8 @@
   <bean id="BudgetRate-onOffCampusFlag-parentBean" abstract="true" parent="AttributeDefinition">
     <property name="name" value="onOffCampusFlag" />
     <property name="forceUppercase" value="false" />
-    <property name="label" value="On Campus" />
-    <property name="shortLabel" value="On Campus" />
+    <property name="label" value="On CampusContract" />
+    <property name="shortLabel" value="On CampusContract" />
     <property name="maxLength" value="1" />
     <property name="validationPattern" >
       <bean parent="AlphaNumericValidationPattern" />
@@ -70,8 +70,8 @@
       <bean parent="TextControlDefinition"
             p:size="1" />
     </property>
-    <property name="summary" value="On Off Campus Flag" />
-    <property name="description" value="On Off Campus Flag" />
+    <property name="summary" value="On Off CampusContractContract Flag" />
+    <property name="description" value="On Off CampusContractContract Flag" />
   </bean>
   <bean id="BudgetRate-viewLocation" parent="BudgetRate-viewLocation-parentBean" />
 
@@ -89,8 +89,8 @@
             p:valuesFinderClass="org.kuali.kra.budget.lookup.keyvalue.BudgetRatesLocationValuesFinder"
             p:includeKeyInLabel="false" />
     </property>
-    <property name="summary" value="On Off Campus Flag" />
-    <property name="description" value="On Off Campus Flag" />
+    <property name="summary" value="On Off CampusContractContract Flag" />
+    <property name="description" value="On Off CampusContractContract Flag" />
   </bean>
   <bean id="BudgetRate-affectedBudgetPeriod" parent="BudgetRate-affectedBudgetPeriod-parentBean" />
 

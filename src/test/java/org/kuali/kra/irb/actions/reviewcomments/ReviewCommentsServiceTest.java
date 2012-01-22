@@ -46,12 +46,12 @@ import org.kuali.kra.meeting.CommitteeScheduleMinute;
 import org.kuali.kra.meeting.MinuteEntryType;
 import org.kuali.kra.service.KcPersonService;
 import org.kuali.kra.test.infrastructure.KcUnitTestBase;
-import org.kuali.rice.kim.service.RoleService;
-import org.kuali.rice.kns.UserSession;
-import org.kuali.rice.kns.service.BusinessObjectService;
-import org.kuali.rice.kns.service.DateTimeService;
-import org.kuali.rice.kns.service.ParameterService;
-import org.kuali.rice.kns.util.GlobalVariables;
+import org.kuali.rice.core.api.datetime.DateTimeService;
+import org.kuali.rice.coreservice.framework.parameter.ParameterService;
+import org.kuali.rice.kim.api.role.RoleService;
+import org.kuali.rice.krad.UserSession;
+import org.kuali.rice.krad.service.BusinessObjectService;
+import org.kuali.rice.krad.util.GlobalVariables;
 
 public class ReviewCommentsServiceTest extends KcUnitTestBase {
     
@@ -348,7 +348,7 @@ public class ReviewCommentsServiceTest extends KcUnitTestBase {
         reviewComments.add(secondNewReviewComment);
         
         service.setParameterService(getMockParameterService() );       
-        service.setKimRoleManagementService(getMockRoleService());
+        service.setRoleService(getMockRoleService());
         service.setCommitteeService(getMockCommitteeService());
         
         service.setKcPersonService(getMockKcPersonService());
@@ -637,11 +637,11 @@ public class ReviewCommentsServiceTest extends KcUnitTestBase {
         final ParameterService parameterService = context.mock(ParameterService.class);
         
         context.checking(new Expectations() {{
-            allowing(parameterService).getParameterValue(ProtocolDocument.class, Constants.PARAMETER_IRB_DISPLAY_REVIEWER_NAME_TO_PROTOCOL_PERSONNEL);
+            allowing(parameterService).getParameterValueAsString(ProtocolDocument.class, Constants.PARAMETER_IRB_DISPLAY_REVIEWER_NAME_TO_PROTOCOL_PERSONNEL);
             will(returnValue("0"));
-            allowing(parameterService).getParameterValue(ProtocolDocument.class, Constants.PARAMETER_IRB_DISPLAY_REVIEWER_NAME_TO_REVIEWERS);
+            allowing(parameterService).getParameterValueAsString(ProtocolDocument.class, Constants.PARAMETER_IRB_DISPLAY_REVIEWER_NAME_TO_REVIEWERS);
             will(returnValue("0"));
-            allowing(parameterService).getParameterValue(ProtocolDocument.class, Constants.PARAMETER_IRB_DISPLAY_REVIEWER_NAME_TO_ACTIVE_COMMITTEE_MEMBERS);
+            allowing(parameterService).getParameterValueAsString(ProtocolDocument.class, Constants.PARAMETER_IRB_DISPLAY_REVIEWER_NAME_TO_ACTIVE_COMMITTEE_MEMBERS);
             will(returnValue("0"));
         }});
         return parameterService;

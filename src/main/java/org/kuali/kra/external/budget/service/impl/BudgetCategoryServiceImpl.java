@@ -23,9 +23,8 @@ import org.kuali.kra.budget.core.BudgetCategory;
 import org.kuali.kra.external.HashMapElement;
 import org.kuali.kra.external.budget.service.BudgetCategoryDTO;
 import org.kuali.kra.external.budget.service.BudgetCategoryService;
-import org.kuali.rice.kns.service.BusinessObjectService;
-
-import org.kuali.rice.kns.util.ObjectUtils;
+import org.kuali.rice.krad.service.BusinessObjectService;
+import org.kuali.rice.krad.util.ObjectUtils;
 
 /**
  * This class implements the budget categories service.

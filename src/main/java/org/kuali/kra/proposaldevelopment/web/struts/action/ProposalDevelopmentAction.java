@@ -78,24 +78,25 @@ import org.kuali.kra.service.KraWorkflowService;
 import org.kuali.kra.service.PersonEditableService;
 import org.kuali.kra.service.SponsorService;
 import org.kuali.kra.web.struts.action.AuditActionHelper;
-import org.kuali.rice.kew.exception.WorkflowException;
-import org.kuali.rice.kew.util.KEWConstants;
-import org.kuali.rice.kns.bo.Note;
-import org.kuali.rice.kns.bo.PersistableBusinessObject;
-import org.kuali.rice.kns.rule.event.KualiDocumentEvent;
-import org.kuali.rice.kns.service.BusinessObjectService;
-import org.kuali.rice.kns.service.DocumentService;
-import org.kuali.rice.kns.service.KNSServiceLocator;
-import org.kuali.rice.kns.service.ParameterConstants;
+import org.kuali.rice.coreservice.framework.parameter.ParameterConstants;
+import org.kuali.rice.kew.api.KewApiConstants;
+import org.kuali.rice.kew.api.exception.WorkflowException;
 import org.kuali.rice.kns.util.AuditCluster;
 import org.kuali.rice.kns.util.AuditError;
-import org.kuali.rice.kns.util.GlobalVariables;
-import org.kuali.rice.kns.util.KNSConstants;
-import org.kuali.rice.kns.util.KNSPropertyConstants;
-import org.kuali.rice.kns.util.ObjectUtils;
+import org.kuali.rice.kns.util.KNSGlobalVariables;
 import org.kuali.rice.kns.util.WebUtils;
 import org.kuali.rice.kns.web.struts.form.KualiDocumentFormBase;
 import org.kuali.rice.kns.web.struts.form.KualiForm;
+import org.kuali.rice.krad.bo.Note;
+import org.kuali.rice.krad.bo.PersistableBusinessObject;
+import org.kuali.rice.krad.rules.rule.event.KualiDocumentEvent;
+import org.kuali.rice.krad.service.BusinessObjectService;
+import org.kuali.rice.krad.service.DocumentService;
+import org.kuali.rice.krad.service.KRADServiceLocatorWeb;
+import org.kuali.rice.krad.util.GlobalVariables;
+import org.kuali.rice.krad.util.KRADConstants;
+import org.kuali.rice.krad.util.KRADPropertyConstants;
+import org.kuali.rice.krad.util.ObjectUtils;
 import org.springframework.util.CollectionUtils;
 
 public class ProposalDevelopmentAction extends BudgetParentActionBase {
@@ -120,17 +121,17 @@ public class ProposalDevelopmentAction extends BudgetParentActionBase {
         s2sOpportunity = proposalDevelopmentForm.getDocument().getDevelopmentProposal().getS2sOpportunity();
         }
         //KRACOEUS-5064
-        if (proposalDevelopmentForm.getDocument().getDocumentHeader().getDocumentNumber() == null && request.getParameter(KNSConstants.PARAMETER_DOC_ID) != null) {
+        if (proposalDevelopmentForm.getDocument().getDocumentHeader().getDocumentNumber() == null && request.getParameter(KRADConstants.PARAMETER_DOC_ID) != null) {
             loadDocumentInForm(request, proposalDevelopmentForm);
         }
-        if (KEWConstants.ACTIONLIST_INLINE_COMMAND.equals(command)) {
+        if (KewApiConstants.ACTIONLIST_INLINE_COMMAND.equals(command)) {
             //forward = mapping.findForward(Constants.MAPPING_COPY_PROPOSAL_PAGE);
             //KRACOEUS-5064
             KraWorkflowService workflowService = KraServiceLocator.getService(KraWorkflowService.class);
             ProposalDevelopmentApproverViewDO approverViewDO = workflowService.populateApproverViewDO(proposalDevelopmentForm);
             proposalDevelopmentForm.setApproverViewDO(approverViewDO);
             forward = mapping.findForward(Constants.MAPPING_PROPOSAL_SUMMARY_PAGE);
-            forward = new ActionForward(forward.getPath()+ "?" + KNSConstants.PARAMETER_DOC_ID + "=" + request.getParameter(KNSConstants.PARAMETER_DOC_ID));  
+            forward = new ActionForward(forward.getPath()+ "?" + KRADConstants.PARAMETER_DOC_ID + "=" + request.getParameter(KRADConstants.PARAMETER_DOC_ID));  
         } //else if (Constants.MAPPING_PROPOSAL_ACTIONS.equals(command)) {
 //            loadDocument(proposalDevelopmentForm);
 //            forward = actions(mapping, proposalDevelopmentForm, request, response);
@@ -150,22 +151,22 @@ public class ProposalDevelopmentAction extends BudgetParentActionBase {
                 super.docHandler(mapping, form, request, response);
 
                 forward = mapping.findForward(Constants.MAPPING_PROPOSAL_APPROVER_VIEW_PAGE);
-                forward = new ActionForward(forward.getPath()+ "?" + KNSConstants.PARAMETER_DOC_ID + "=" + request.getParameter(KNSConstants.PARAMETER_DOC_ID));
+                forward = new ActionForward(forward.getPath()+ "?" + KRADConstants.PARAMETER_DOC_ID + "=" + request.getParameter(KRADConstants.PARAMETER_DOC_ID));
             }
             else if (Constants.MAPPING_PROPOSAL_ACTIONS.equals(command)) {
-              loadDocument(proposalDevelopmentForm);
-              forward = actions(mapping, proposalDevelopmentForm, request, response);
+                loadDocument(proposalDevelopmentForm);
+                forward = actions(mapping, proposalDevelopmentForm, request, response);
             }
             else {
-                forward = super.docHandler(mapping, form, request, response);
-            }
+            forward = super.docHandler(mapping, form, request, response);
         }
-    
+        }
+        
         if (proposalDevelopmentForm.getDocument().isProposalDeleted()) {
             return mapping.findForward("deleted");
         }
 
-        if (KEWConstants.INITIATE_COMMAND.equals(proposalDevelopmentForm.getCommand())) {
+        if (KewApiConstants.INITIATE_COMMAND.equals(proposalDevelopmentForm.getCommand())) {
             proposalDevelopmentForm.getDocument().initialize();
         } else {
             proposalDevelopmentForm.initialize();
@@ -212,7 +213,7 @@ public class ProposalDevelopmentAction extends BudgetParentActionBase {
                 proposalDevelopmentForm.setVersionNumberForS2sOpportunity(null);
                 proposalDevelopmentForm.getDocument().getDevelopmentProposal().setS2sOpportunity(s2sOpportunity);
             }else{
-                GlobalVariables.getErrorMap().putError(Constants.NO_FIELD, KeyConstants.ERROR_IF_OPPORTUNITY_ID_IS_INVALID,proposalDevelopmentForm.getDocument().getDevelopmentProposal().getS2sOpportunity().getOpportunityId());
+                GlobalVariables.getMessageMap().putError(Constants.NO_FIELD, KeyConstants.ERROR_IF_OPPORTUNITY_ID_IS_INVALID,proposalDevelopmentForm.getDocument().getDevelopmentProposal().getS2sOpportunity().getOpportunityId());
                 proposalDevelopmentForm.getDocument().getDevelopmentProposal().setS2sOpportunity(new S2sOpportunity());
             }
         }
@@ -232,7 +233,7 @@ public class ProposalDevelopmentAction extends BudgetParentActionBase {
         ActionForward actionForward = super.execute(mapping, form, request, response);
         ProposalDevelopmentForm proposalDevelopmentForm = (ProposalDevelopmentForm) form;
         ProposalDevelopmentDocument document = proposalDevelopmentForm.getDocument();
-        String keywordPanelDisplay = this.getParameterService().getParameterValue(
+        String keywordPanelDisplay = this.getParameterService().getParameterValueAsString(
                     ProposalDevelopmentDocument.class, Constants.KEYWORD_PANEL_DISPLAY);        
             request.getSession().setAttribute(Constants.KEYWORD_PANEL_DISPLAY, keywordPanelDisplay);
             // TODO: not sure it's should be here - for audit error display.
@@ -242,7 +243,7 @@ public class ProposalDevelopmentAction extends BudgetParentActionBase {
             //check to see if the audit errors are filled out.  This happens on a submit
             //that fails.
             
-            if( GlobalVariables.getAuditErrorMap().isEmpty())
+            if( KNSGlobalVariables.getAuditErrorMap().isEmpty())
                 new AuditActionHelper().auditConditionally(proposalDevelopmentForm);
             proposalDevelopmentForm.setProposalDataOverrideMethodToCalls(this.constructColumnsToAlterLookupMTCs(proposalDevelopmentForm.getDocument().getDevelopmentProposal().getProposalNumber()));
 //            if (proposalDevelopmentForm.isAuditActivated()) {
@@ -256,16 +257,16 @@ public class ProposalDevelopmentAction extends BudgetParentActionBase {
             //}
             
             /*if(proposalDevelopmentForm.getDocument().getSponsorCode()!=null){
-                proposalDevelopmentForm.setAdditionalDocInfo1(new KeyLabelPair("datadictionary.Sponsor.attributes.sponsorCode.label",proposalDevelopmentForm.getDocument().getSponsorCode()));
+                proposalDevelopmentForm.setAdditionalDocInfo1(new ConcreteKeyValue("datadictionary.Sponsor.attributes.sponsorCode.label",proposalDevelopmentForm.getDocument().getSponsorCode()));
             }
             if(proposalDevelopmentForm.getDocument().getPrincipalInvestigator()!=null){
-                proposalDevelopmentForm.setAdditionalDocInfo2(new KeyLabelPair("${Document.DataDictionary.ProposalDevelopmentDocument.attributes.sponsorCode.label}",proposalDevelopmentForm.getDocument().getPrincipalInvestigator().getFullName()));
+                proposalDevelopmentForm.setAdditionalDocInfo2(new ConcreteKeyValue("${Document.DataDictionary.ProposalDevelopmentDocument.attributes.sponsorCode.label}",proposalDevelopmentForm.getDocument().getPrincipalInvestigator().getFullName()));
             }*/
     
             // setup any Proposal Development System Parameters that will be needed
             
-            ((ProposalDevelopmentForm)form).getProposalDevelopmentParameters().put(DELIVERY_INFO_DISPLAY_INDICATOR, this.getParameterService().retrieveParameter(Constants.MODULE_NAMESPACE_PROPOSAL_DEVELOPMENT, ParameterConstants.DOCUMENT_COMPONENT, DELIVERY_INFO_DISPLAY_INDICATOR));
-            ((ProposalDevelopmentForm)form).getProposalDevelopmentParameters().put(PROPOSAL_NARRATIVE_TYPE_GROUP, this.getParameterService().retrieveParameter(Constants.MODULE_NAMESPACE_PROPOSAL_DEVELOPMENT, ParameterConstants.DOCUMENT_COMPONENT, PROPOSAL_NARRATIVE_TYPE_GROUP));
+            ((ProposalDevelopmentForm)form).getProposalDevelopmentParameters().put(DELIVERY_INFO_DISPLAY_INDICATOR, this.getParameterService().getParameter(Constants.MODULE_NAMESPACE_PROPOSAL_DEVELOPMENT, ParameterConstants.DOCUMENT_COMPONENT, DELIVERY_INFO_DISPLAY_INDICATOR));
+            ((ProposalDevelopmentForm)form).getProposalDevelopmentParameters().put(PROPOSAL_NARRATIVE_TYPE_GROUP, this.getParameterService().getParameter(Constants.MODULE_NAMESPACE_PROPOSAL_DEVELOPMENT, ParameterConstants.DOCUMENT_COMPONENT, PROPOSAL_NARRATIVE_TYPE_GROUP));
             
             if(document.getDevelopmentProposal().getS2sOpportunity()!=null && document.getDevelopmentProposal().getS2sOpportunity().getS2sOppForms()!=null){
                 Collections.sort(document.getDevelopmentProposal().getS2sOpportunity().getS2sOppForms(),new S2sOppFormsComparator2());
@@ -366,7 +367,7 @@ public class ProposalDevelopmentAction extends BudgetParentActionBase {
         
         //if not on budget page
         if ("ProposalDevelopmentBudgetVersionsAction".equals(proposalDevelopmentForm.getActionName())) {
-            GlobalVariables.getErrorMap().addToErrorPath(KNSConstants.DOCUMENT_PROPERTY_NAME + ".proposal");
+            GlobalVariables.getMessageMap().addToErrorPath(KRADConstants.DOCUMENT_PROPERTY_NAME + ".proposal");
 
             final BudgetTDCValidator tdcValidator = new BudgetTDCValidator(request);
             tdcValidator.validateGeneratingErrorsAndWarnings(doc);
@@ -469,8 +470,8 @@ public class ProposalDevelopmentAction extends BudgetParentActionBase {
             //I don't think anyway? So do it every time.
             pdDocument.getDocumentHeader().setVersionNumber(updatedDocCopy.getDocumentHeader().getVersionNumber());
             int noteIndex = 0;
-            for(Object note: pdDocument.getDocumentHeader().getBoNotes()) {
-                Note updatedNote = updatedDocCopy.getDocumentHeader().getBoNote(noteIndex);
+            for(Object note: pdDocument.getNotes()) {
+                Note updatedNote = updatedDocCopy.getNote(noteIndex);
                 ((Note) note).setVersionNumber(updatedNote.getVersionNumber());
                 noteIndex++;
             }
@@ -694,7 +695,7 @@ public class ProposalDevelopmentAction extends BudgetParentActionBase {
         for(Map.Entry<String, CustomAttributeDocument> customAttributeDocumentEntry:customAttributeDocuments.entrySet()) {
             CustomAttributeDocument customAttributeDocument = customAttributeDocumentEntry.getValue();
             Map<String, Object> primaryKeys = new HashMap<String, Object>();
-            primaryKeys.put(KNSPropertyConstants.DOCUMENT_NUMBER, documentNumber);
+            primaryKeys.put(KRADPropertyConstants.DOCUMENT_NUMBER, documentNumber);
             primaryKeys.put(Constants.CUSTOM_ATTRIBUTE_ID, customAttributeDocument.getCustomAttributeId());
 
             CustomAttributeDocValue customAttributeDocValue = (CustomAttributeDocValue) KraServiceLocator.getService(BusinessObjectService.class).findByPrimaryKey(CustomAttributeDocValue.class, primaryKeys);
@@ -719,7 +720,7 @@ public class ProposalDevelopmentAction extends BudgetParentActionBase {
 
         return mapping.findForward(Constants.CUSTOM_ATTRIBUTES_PAGE);
     }
-    
+
     /**
      * Sorts custom data attributes by label for alphabetical order on custom data panels.
      */
@@ -865,10 +866,10 @@ public class ProposalDevelopmentAction extends BudgetParentActionBase {
     
     protected void loadDocumentInForm(HttpServletRequest request, ProposalDevelopmentForm proposalDevelopmentForm)
     throws WorkflowException {
-        String docIdRequestParameter = request.getParameter(KNSConstants.PARAMETER_DOC_ID);
-        ProposalDevelopmentDocument retrievedDocument = (ProposalDevelopmentDocument)KNSServiceLocator.getDocumentService().getByDocumentHeaderId(docIdRequestParameter);
+        String docIdRequestParameter = request.getParameter(KRADConstants.PARAMETER_DOC_ID);
+        ProposalDevelopmentDocument retrievedDocument = (ProposalDevelopmentDocument)KRADServiceLocatorWeb.getDocumentService().getByDocumentHeaderId(docIdRequestParameter);
         proposalDevelopmentForm.setDocument(retrievedDocument);
-        request.setAttribute(KNSConstants.PARAMETER_DOC_ID, docIdRequestParameter);
+        request.setAttribute(KRADConstants.PARAMETER_DOC_ID, docIdRequestParameter);
         
         // Set lead unit on form when copying a document. This is needed so the lead unit shows up on the "Copy to New Document" panel under Proposal Actions.
         ProposalCopyCriteria cCriteria = proposalDevelopmentForm.getCopyCriteria();
@@ -910,21 +911,21 @@ public class ProposalDevelopmentAction extends BudgetParentActionBase {
         if(attachmentDataSource==null || attachmentDataSource.getContent()==null || attachmentDataSource.getContent().length==0){
             //KRACOEUS-3300 - there should be GrantsGov audit errors in this case, grab them and display them as normal errors on
             //the GrantsGov forms tab so we don't need to turn on auditing
-            Iterator<String> iter = GlobalVariables.getAuditErrorMap().keySet().iterator();
+            Iterator<String> iter = KNSGlobalVariables.getAuditErrorMap().keySet().iterator();
             while (iter.hasNext()) {
                String errorKey = (String) iter.next();
-                AuditCluster auditCluster = (AuditCluster)GlobalVariables.getAuditErrorMap().get(errorKey);
+                AuditCluster auditCluster = (AuditCluster)KNSGlobalVariables.getAuditErrorMap().get(errorKey);
                 if(StringUtils.equalsIgnoreCase(auditCluster.getCategory(),Constants.GRANTSGOV_ERRORS)){
                     grantsGovErrorExists = true;
                     for (Object error : auditCluster.getAuditErrorList()) {
                         AuditError auditError = (AuditError)error;
-                        GlobalVariables.getErrorMap().putError("grantsGovFormValidationErrors", auditError.getMessageKey(), auditError.getParams());
+                        GlobalVariables.getMessageMap().putError("grantsGovFormValidationErrors", auditError.getMessageKey(), auditError.getParams());
                     }
                 }
             }
         }
         if(grantsGovErrorExists){
-            GlobalVariables.getErrorMap().putError("grantsGovFormValidationErrors", KeyConstants.VALIDATTION_ERRORS_BEFORE_GRANTS_GOV_SUBMISSION);
+            GlobalVariables.getMessageMap().putError("grantsGovFormValidationErrors", KeyConstants.VALIDATTION_ERRORS_BEFORE_GRANTS_GOV_SUBMISSION);
             return mapping.findForward(Constants.GRANTS_GOV_PAGE);
         }
         if(attachmentDataSource==null || attachmentDataSource.getContent()==null){
@@ -1059,7 +1060,7 @@ public class ProposalDevelopmentAction extends BudgetParentActionBase {
     }
     
     protected String getFormProperty(HttpServletRequest request,String methodToCall) {
-        String parameterName = (String) request.getAttribute(KNSConstants.METHOD_TO_CALL_ATTRIBUTE);
+        String parameterName = (String) request.getAttribute(KRADConstants.METHOD_TO_CALL_ATTRIBUTE);
         String formProperty = "";
         if (StringUtils.isNotBlank(parameterName)) {
             formProperty = StringUtils.substringBetween(parameterName, "."+methodToCall, ".line");

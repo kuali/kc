@@ -663,7 +663,7 @@
   </bean>
   <bean id="KcPerson-campusCode" parent="KcPerson-campusCode-parentBean"/>
   
-  <bean id="KcPerson-campusCode-parentBean" abstract="true" parent="Campus-campusCode">
+  <bean id="KcPerson-campusCode-parentBean" abstract="true" parent="Campus-code">
     <property name="name" value="campusCode" />
     <property name="required" value="false" />
   </bean>

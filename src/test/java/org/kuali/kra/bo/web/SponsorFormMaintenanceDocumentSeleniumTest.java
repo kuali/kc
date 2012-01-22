@@ -303,7 +303,7 @@ public class SponsorFormMaintenanceDocumentSeleniumTest extends KcSeleniumTestBa
         assertNotNull(document.getDocumentNumber());
         assertNotNull(document.getDocumentHeader());
         assertEquals(documentNumber, document.getDocumentHeader().getDocumentNumber());
-        SponsorForms sponsorForm = (SponsorForms) document.getNewMaintainableObject().getBusinessObject();
+        SponsorForms sponsorForm = (SponsorForms) document.getNewMaintainableObject().getDataObject();
         assertEquals(DEFAULT_PACKAGE_NAME, sponsorForm.getPackageName());
         assertEquals(Integer.valueOf(packageNumber), sponsorForm.getPackageNumber());
         assertEquals(sponsorCode, sponsorForm.getSponsorCode());
@@ -323,7 +323,7 @@ public class SponsorFormMaintenanceDocumentSeleniumTest extends KcSeleniumTestBa
         assertNotNull(document.getDocumentNumber());
         assertNotNull(document.getDocumentHeader());
         assertEquals(documentNumber, document.getDocumentHeader().getDocumentNumber());
-        SponsorFormTemplate sponsorFormTemplate = (SponsorFormTemplate) document.getNewMaintainableObject().getBusinessObject();
+        SponsorFormTemplate sponsorFormTemplate = (SponsorFormTemplate) document.getNewMaintainableObject().getDataObject();
         assertEquals(Long.valueOf(sponsorFormId), sponsorFormTemplate.getSponsorFormId());
         assertEquals(pageDescription, sponsorFormTemplate.getPageDescription());
         assertEquals(Integer.valueOf(pageNumber), sponsorFormTemplate.getPageNumber());

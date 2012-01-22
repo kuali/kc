@@ -35,10 +35,10 @@ import org.kuali.kra.irb.actions.submit.ProtocolSubmissionStatus;
 import org.kuali.kra.irb.actions.submit.ProtocolSubmissionType;
 import org.kuali.kra.irb.onlinereview.ProtocolOnlineReviewService;
 import org.kuali.kra.printing.PrintingException;
-import org.kuali.rice.kew.exception.WorkflowException;
-import org.kuali.rice.kim.service.IdentityManagementService;
-import org.kuali.rice.kns.service.BusinessObjectService;
-import org.kuali.rice.kns.service.DocumentService;
+import org.kuali.rice.kew.api.exception.WorkflowException;
+import org.kuali.rice.kim.api.identity.IdentityService;
+import org.kuali.rice.krad.service.BusinessObjectService;
+import org.kuali.rice.krad.service.DocumentService;
 
 /**
  * The ProtocolWithdrawService implementation.
@@ -53,7 +53,7 @@ public class ProtocolWithdrawServiceImpl implements ProtocolWithdrawService {
     private ProtocolAssignToAgendaService protocolAssignToAgendaService;
     private ProtocolActionCorrespondenceGenerationService protocolActionCorrespondenceGenerationService;
     private ProtocolOnlineReviewService protocolOnlineReviewService;
-    private IdentityManagementService identityManagementService;
+    private IdentityService identityManagementService;
     private KcNotificationService kcNotificationService;
     
     private static final String WITHDRAW_FINALIZE_OLR_ANNOTATION = "Online Review finalized as part of withdraw action on protocol.";
@@ -204,11 +204,11 @@ public class ProtocolWithdrawServiceImpl implements ProtocolWithdrawService {
     }
   
 //    private void cancelWorkflow(ProtocolOnlineReview review) {
-//        final String principalId = identityManagementService.getPrincipalByPrincipalName(KNSConstants.SYSTEM_USER).getPrincipalId();
+//        final String principalId = identityManagementService.getPrincipalByPrincipalName(KRADConstants.SYSTEM_USER).getPrincipalId();
 //        try {
-//            WorkflowDocument workflowDocument = new WorkflowDocument(principalId, review.getProtocolOnlineReviewDocument().getDocumentHeader().getWorkflowDocument().getRouteHeaderId());
-//            if (workflowDocument.stateIsEnroute()) {
-//                workflowDocument.superUserApprove("Review finalized - protocol has been withdrawn.");
+//            WorkflowDocument workflowDocument = WorkflowDocumentFactory.loadDocument(principalId, review.getProtocolOnlineReviewDocument().getDocumentHeader().getWorkflowDocument().getDocumentId());
+//            if (workflowDocument.isEnroute()) {
+//                workflowDocument.superUserBlanketApprove("Review finalized - protocol has been withdrawn.");
 //            }
 //            
 //        }
@@ -271,7 +271,7 @@ public class ProtocolWithdrawServiceImpl implements ProtocolWithdrawService {
     }
 
 
-    public void setIdentityManagementService(IdentityManagementService identityManagementService) {
+    public void setIdentityManagementService(IdentityService identityManagementService) {
         this.identityManagementService = identityManagementService;
     }
 

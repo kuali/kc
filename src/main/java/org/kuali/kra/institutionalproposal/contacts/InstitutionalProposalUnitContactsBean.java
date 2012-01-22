@@ -18,8 +18,6 @@ package org.kuali.kra.institutionalproposal.contacts;
 import java.util.ArrayList;
 import java.util.List;
 
-import org.kuali.kra.award.contacts.AwardContact;
-import org.kuali.kra.award.contacts.AwardUnitContact;
 import org.kuali.kra.award.home.ContactRole;
 import org.kuali.kra.award.home.ContactType;
 import org.kuali.kra.bo.KcPerson;

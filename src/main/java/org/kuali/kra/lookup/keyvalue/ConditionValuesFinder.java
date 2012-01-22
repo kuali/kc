@@ -26,10 +26,11 @@ import java.util.Map;
 import org.apache.commons.beanutils.PropertyUtils;
 import org.apache.commons.lang.StringUtils;
 import org.kuali.kra.infrastructure.KraServiceLocator;
-import org.kuali.rice.kns.bo.PersistableBusinessObject;
-import org.kuali.rice.kns.lookup.keyvalues.KeyValuesBase;
-import org.kuali.rice.kns.service.KeyValuesService;
-import org.kuali.rice.core.util.KeyLabelPair;
+import org.kuali.rice.core.api.util.ConcreteKeyValue;
+import org.kuali.rice.core.api.util.KeyValue;
+import org.kuali.rice.krad.bo.PersistableBusinessObject;
+import org.kuali.rice.krad.keyvalues.KeyValuesBase;
+import org.kuali.rice.krad.service.KeyValuesService;
 
 /**
  * This class allows you to specify conditions used for retrieving key-value pairs.
@@ -63,17 +64,17 @@ public class ConditionValuesFinder<T extends PersistableBusinessObject> extends 
     }
 
     /** {@inheritDoc} */
-    public List<KeyLabelPair> getKeyValues() {
+    public List<KeyValue> getKeyValues() {
 
         this.validateRequiredProperties();
         
-        final List<KeyLabelPair> keyValues = new ArrayList<KeyLabelPair>();
+        final List<KeyValue> keyValues = new ArrayList<KeyValue>();
         
         @SuppressWarnings("unchecked")
         final Collection<T> bos = this.service.findMatching(this.clazz, this.conditions);
         
         for (T o : bos) {
-            keyValues.add(new KeyLabelPair(this.getPropery(o, this.key), this.getPropery(o, this.value)));
+            keyValues.add(new ConcreteKeyValue(this.getPropery(o, this.key), this.getPropery(o, this.value)));
         }
         
         return keyValues;

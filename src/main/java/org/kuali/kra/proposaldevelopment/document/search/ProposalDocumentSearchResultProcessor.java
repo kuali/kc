@@ -15,23 +15,11 @@
  */
 package org.kuali.kra.proposaldevelopment.document.search;
 
-import java.util.List;
-import java.util.Map;
 
-import org.apache.commons.lang.StringUtils;
-import org.kuali.kra.infrastructure.Constants;
-import org.kuali.rice.core.config.ConfigContext;
-import org.kuali.rice.kew.docsearch.DocSearchCriteriaDTO;
-import org.kuali.rice.kew.docsearch.DocSearchDTO;
-import org.kuali.rice.kew.docsearch.SearchableAttributeValue;
-import org.kuali.rice.kew.docsearch.StandardDocumentSearchResultProcessor;
-import org.kuali.rice.kew.util.KEWConstants;
-import org.kuali.rice.kew.util.Utilities;
-import org.kuali.rice.kew.web.KeyValueSort;
-import org.kuali.rice.kns.util.KNSConstants;
-import org.kuali.rice.kns.web.ui.Column;
+public class ProposalDocumentSearchResultProcessor {    
+/*
+    extends StandardDocumentSearchResultProcessor {
 
-public class ProposalDocumentSearchResultProcessor extends StandardDocumentSearchResultProcessor {
     private static final String PROPERTY_NAME_COPY_DOCUMENT = "copyDocument";
     private static final String DOC_TYPE_PROPOSAL_DEVELOPMENT = "ProposalDevelopmentDocument";
     private static final String DOC_COPY_HANDLER_ACTION = "DocCopyHandler.do";
@@ -52,10 +40,10 @@ public class ProposalDocumentSearchResultProcessor extends StandardDocumentSearc
         urlBuffer.append("/");
         urlBuffer.append(DOC_COPY_HANDLER_ACTION);
         urlBuffer.append("?");
-        urlBuffer.append(KNSConstants.PARAMETER_DOC_ID);
+        urlBuffer.append(KRADConstants.PARAMETER_DOC_ID);
         urlBuffer.append("=");
         urlBuffer.append(documentNumber);
-        urlBuffer.append(KNSConstants.DOCHANDLER_URL_CHUNK);
+        urlBuffer.append(KRADConstants.DOCHANDLER_URL_CHUNK);
         urlBuffer.append("&documentTypeName=" + DOC_TYPE_PROPOSAL_DEVELOPMENT);
         
         return urlBuffer.toString();
@@ -64,12 +52,12 @@ public class ProposalDocumentSearchResultProcessor extends StandardDocumentSearc
     @Override
     public boolean isDocumentHandlerPopup() {
         String applicationConstant =  Utilities.getKNSParameterValue(
-                KEWConstants.KEW_NAMESPACE, "DocumentSearch", KEWConstants.DOCUMENT_SEARCH_DOCUMENT_POPUP_IND);
+                KewApiConstants.KEW_NAMESPACE, "DocumentSearch", KewApiConstants.DOCUMENT_SEARCH_DOCUMENT_POPUP_IND);
         return (KEWConstants.DOCUMENT_SEARCH_DOCUMENT_POPUP_VALUE.equals(applicationConstant));
     }
 
     private DisplayValues getCustomFieldValue(DocSearchDTO docSearchDTO) {
-        String copyDocumentUrl = buildDocCopyHandlerUrl(docSearchDTO.getRouteHeaderId().toString());
+        String copyDocumentUrl = buildDocCopyHandlerUrl(docSearchDTO.getDocumentId().toString());
         String linkPopup = "";
         
         
@@ -118,4 +106,5 @@ public class ProposalDocumentSearchResultProcessor extends StandardDocumentSearc
         
         return returnValue;
     }
+    */
 }

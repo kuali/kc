@@ -18,7 +18,6 @@ package org.kuali.kra.budget.web.struts.action;
 import java.io.ByteArrayOutputStream;
 import java.io.IOException;
 import java.util.ArrayList;
-import java.util.Collection;
 import java.util.List;
 
 import javax.servlet.http.HttpServletRequest;
@@ -77,25 +76,26 @@ import org.kuali.kra.proposaldevelopment.service.ProposalStatusService;
 import org.kuali.kra.service.VersionHistoryService;
 import org.kuali.kra.web.struts.action.BudgetActionBase;
 import org.kuali.kra.web.struts.action.StrutsConfirmation;
-import org.kuali.rice.core.util.KeyLabelPair;
-import org.kuali.rice.kew.exception.WorkflowException;
-import org.kuali.rice.kew.util.KEWConstants;
-import org.kuali.rice.kns.authorization.AuthorizationConstants;
+import org.kuali.rice.core.api.util.KeyValue;
+import org.kuali.rice.kew.api.KewApiConstants;
+import org.kuali.rice.kew.api.exception.WorkflowException;
 import org.kuali.rice.kns.datadictionary.DocumentEntry;
 import org.kuali.rice.kns.datadictionary.HeaderNavigation;
-import org.kuali.rice.kns.question.ConfirmationQuestion;
-import org.kuali.rice.kns.rule.event.DocumentAuditEvent;
 import org.kuali.rice.kns.service.DataDictionaryService;
-import org.kuali.rice.kns.service.DocumentService;
-import org.kuali.rice.kns.service.KualiRuleService;
-import org.kuali.rice.kns.service.PessimisticLockService;
-import org.kuali.rice.kns.util.GlobalVariables;
-import org.kuali.rice.kns.util.KNSConstants;
-import org.kuali.rice.kns.util.ObjectUtils;
+import org.kuali.rice.kns.util.KNSGlobalVariables;
 import org.kuali.rice.kns.util.WebUtils;
 import org.kuali.rice.kns.web.struts.form.KualiDocumentFormBase;
 import org.kuali.rice.kns.web.struts.form.KualiForm;
 import org.kuali.rice.kns.web.ui.HeaderField;
+import org.kuali.rice.kns.authorization.AuthorizationConstants;
+import org.kuali.rice.kns.question.ConfirmationQuestion;
+import org.kuali.rice.krad.rules.rule.event.DocumentAuditEvent;
+import org.kuali.rice.krad.service.DocumentService;
+import org.kuali.rice.krad.service.KualiRuleService;
+import org.kuali.rice.krad.service.PessimisticLockService;
+import org.kuali.rice.krad.util.GlobalVariables;
+import org.kuali.rice.krad.util.KRADConstants;
+import org.kuali.rice.krad.util.ObjectUtils;
 
 public class BudgetAction extends BudgetActionBase {
     private static final Log LOG = LogFactory.getLog(BudgetAction.class);
@@ -115,7 +115,7 @@ public class BudgetAction extends BudgetActionBase {
 
         ActionForward forward = super.docHandler(mapping, form, request, response);
         BudgetForm budgetForm = (BudgetForm) form;
-        if (KEWConstants.INITIATE_COMMAND.equals(budgetForm.getCommand())) {
+        if (KewApiConstants.INITIATE_COMMAND.equals(budgetForm.getCommand())) {
             budgetForm.getDocument().initialize();
         }else{
             budgetForm.initialize();
@@ -130,11 +130,11 @@ public class BudgetAction extends BudgetActionBase {
             budget.setActivityTypeCode(KraServiceLocator.getService(BudgetService.class).getActivityTypeForBudget(budgetDocument));
         }
 
-        if(budget.getOhRateClassCode()!=null && ((BudgetForm)GlobalVariables.getKualiForm())!=null){
-            ((BudgetForm)GlobalVariables.getKualiForm()).setOhRateClassCodePrevValue(budget.getOhRateClassCode());
+        if(budget.getOhRateClassCode()!=null && ((BudgetForm)KNSGlobalVariables.getKualiForm())!=null){
+            ((BudgetForm)KNSGlobalVariables.getKualiForm()).setOhRateClassCodePrevValue(budget.getOhRateClassCode());
         }        
-        if(budget.getUrRateClassCode()!=null && ((BudgetForm)GlobalVariables.getKualiForm())!=null){
-            ((BudgetForm)GlobalVariables.getKualiForm()).setUrRateClassCodePrevValue(budget.getUrRateClassCode());
+        if(budget.getUrRateClassCode()!=null && ((BudgetForm)KNSGlobalVariables.getKualiForm())!=null){
+            ((BudgetForm)KNSGlobalVariables.getKualiForm()).setUrRateClassCodePrevValue(budget.getUrRateClassCode());
         }
         
         if (isAwardBudget(budgetDocument) && StringUtils.isNotBlank(budgetForm.getSyncBudgetRate()) && budgetForm.getSyncBudgetRate().equals("Y")) {
@@ -143,7 +143,6 @@ public class BudgetAction extends BudgetActionBase {
         }
         
         reconcileBudgetStatus(budgetForm);
-        
         if ("Personnel".equals(budgetForm.getActivePanelName())) {
             forward = personnel(mapping, budgetForm, request, response);
         }
@@ -165,14 +164,14 @@ public class BudgetAction extends BudgetActionBase {
         BudgetForm budgetForm = (BudgetForm) form;
         BudgetDocument budgetDoc = budgetForm.getDocument();
         BudgetParentDocument pdDoc = budgetDoc.getParentDocument();
-        Long routeHeaderId = budgetDoc.getDocumentHeader().getWorkflowDocument().getRouteHeaderId();
+        String routeHeaderId = budgetDoc.getDocumentHeader().getWorkflowDocument().getDocumentId();
         String forward = buildForwardUrl(routeHeaderId);
         if (confirm) {
             forward = forward.replace("awardBudgetParameters.do?", "awardBudgetParameters.do?syncBudgetRate=Y&");
          }
         return new ActionForward(forward, true);
     }
-
+    
     /**
      * This method returns true if the BudgetDocument is an AwardBudgetDocument instance
      * @param budgetDocument
@@ -188,7 +187,7 @@ public class BudgetAction extends BudgetActionBase {
     }
     public List<HeaderNavigation> getBudgetHeaderNavigatorList(){
         DataDictionaryService dataDictionaryService = (DataDictionaryService) KraServiceLocator.getService(Constants.DATA_DICTIONARY_SERVICE_NAME);
-        DocumentEntry docEntry = dataDictionaryService.getDataDictionary().getDocumentEntry(BudgetDocument.class.getName());
+        DocumentEntry docEntry = (DocumentEntry) dataDictionaryService.getDataDictionary().getDocumentEntry(BudgetDocument.class.getName());
         return docEntry.getHeaderNavigationList();
       }
     
@@ -274,7 +273,7 @@ public class BudgetAction extends BudgetActionBase {
         final BudgetTDCValidator tdcValidator = new BudgetTDCValidator(request);
         if (budgetForm.toBudgetVersionsPage()
             || "BudgetVersionsAction".equals(budgetForm.getActionName())) {
-            GlobalVariables.getErrorMap().addToErrorPath(KNSConstants.DOCUMENT_PROPERTY_NAME + ".proposal");
+            GlobalVariables.getMessageMap().addToErrorPath(KRADConstants.DOCUMENT_PROPERTY_NAME + ".proposal");
             tdcValidator.validateGeneratingErrorsAndWarnings(budgetDoc.getParentDocument());
         } else {
             tdcValidator.validateGeneratingWarnings(budgetDoc.getParentDocument());
@@ -416,7 +415,7 @@ public class BudgetAction extends BudgetActionBase {
     }
 
     private String getPersonnelBudgetCategoryTypeCode() {
-        return this.getParameterService().getParameterValue(BudgetDocument.class, Constants.BUDGET_CATEGORY_TYPE_PERSONNEL);
+        return this.getParameterService().getParameterValueAsString(BudgetDocument.class, Constants.BUDGET_CATEGORY_TYPE_PERSONNEL);
     }
     
     protected void populatePersonnelCategoryTypeCodes(BudgetForm budgetForm) {
@@ -424,10 +423,10 @@ public class BudgetAction extends BudgetActionBase {
         Budget budget = budgetDocument.getBudget();
         
         BudgetCategoryTypeValuesFinder budgetCategoryTypeValuesFinder = new BudgetCategoryTypeValuesFinder();
-        List<KeyLabelPair> budgetCategoryTypes = new ArrayList<KeyLabelPair>();   
+        List<KeyValue> budgetCategoryTypes = new ArrayList<KeyValue>();   
         String personnelBudgetCategoryTypeCode = getPersonnelBudgetCategoryTypeCode();
         
-        for(KeyLabelPair budgetCategoryType: budgetCategoryTypeValuesFinder.getKeyValues()){
+        for(KeyValue budgetCategoryType: budgetCategoryTypeValuesFinder.getKeyValues()){
             String budgetCategoryTypeCode = (String) budgetCategoryType.getKey();
             if(StringUtils.isNotBlank(budgetCategoryTypeCode) && StringUtils.equalsIgnoreCase(budgetCategoryTypeCode, personnelBudgetCategoryTypeCode)) {
                 budgetCategoryTypes.add(budgetCategoryType);
@@ -446,10 +445,10 @@ public class BudgetAction extends BudgetActionBase {
         Budget budget = budgetDocument.getBudget();
         
         BudgetCategoryTypeValuesFinder budgetCategoryTypeValuesFinder = new BudgetCategoryTypeValuesFinder();
-        List<KeyLabelPair> budgetCategoryTypes = new ArrayList<KeyLabelPair>();      
+        List<KeyValue> budgetCategoryTypes = new ArrayList<KeyValue>();      
         String personnelBudgetCategoryTypeCode = getPersonnelBudgetCategoryTypeCode();
         
-        for(KeyLabelPair budgetCategoryType: budgetCategoryTypeValuesFinder.getKeyValues()){
+        for(KeyValue budgetCategoryType: budgetCategoryTypeValuesFinder.getKeyValues()){
             String budgetCategoryTypeCode = (String) budgetCategoryType.getKey();
             if(StringUtils.isNotBlank(budgetCategoryTypeCode) && !StringUtils.equalsIgnoreCase(budgetCategoryTypeCode, personnelBudgetCategoryTypeCode)) {
                 budgetCategoryTypes.add(budgetCategoryType);
@@ -534,7 +533,7 @@ public class BudgetAction extends BudgetActionBase {
         }
         
         budget.getBudgetTotals();
-        budgetForm.setProposalHierarchyIndirectObjectCode(getParameterService().getParameterValue(BudgetDocument.class, "proposalHierarchySubProjectIndirectCostElement"));
+        budgetForm.setProposalHierarchyIndirectObjectCode(getParameterService().getParameterValueAsString(BudgetDocument.class, "proposalHierarchySubProjectIndirectCostElement"));
         return mapping.findForward(Constants.BUDGET_SUMMARY_TOTALS_PAGE);
     }
 
@@ -588,7 +587,7 @@ public class BudgetAction extends BudgetActionBase {
        
         setupDocumentExit();
         
-        if (forward == null || !forward.getPath().contains(KNSConstants.QUESTION_ACTION)) {
+        if (forward == null || !forward.getPath().contains(KRADConstants.QUESTION_ACTION)) {
             return this.getReturnToProposalForward(budgetForm);
         }
         
@@ -605,7 +604,7 @@ public class BudgetAction extends BudgetActionBase {
 
         setupDocumentExit();
         
-        if (forward == null || !forward.getPath().contains(KNSConstants.QUESTION_ACTION)) {
+        if (forward == null || !forward.getPath().contains(KRADConstants.QUESTION_ACTION)) {
             return this.getReturnToAwardForward(budgetForm);
         }
         
@@ -628,7 +627,7 @@ public class BudgetAction extends BudgetActionBase {
             }
         }
         final AwardDocument awardDocument = (AwardDocument) docService.getByDocumentHeaderId(docNumber);
-        String forwardUrl = buildForwardUrl(awardDocument.getDocumentHeader().getWorkflowDocument().getRouteHeaderId());
+        String forwardUrl = buildForwardUrl(awardDocument.getDocumentHeader().getWorkflowDocument().getDocumentId());
         if(budgetForm.isAuditActivated()) {
             forwardUrl = StringUtils.replace(forwardUrl, "Award.do?", "Actions.do?");
         }
@@ -651,7 +650,7 @@ public class BudgetAction extends BudgetActionBase {
         final String docNumber = form.getDocument().getParentDocument().getDocumentNumber();
         
         final ProposalDevelopmentDocument pdDoc = (ProposalDevelopmentDocument) docService.getByDocumentHeaderId(docNumber);
-        String forwardUrl = buildForwardUrl(pdDoc.getDocumentHeader().getWorkflowDocument().getRouteHeaderId());
+        String forwardUrl = buildForwardUrl(pdDoc.getDocumentHeader().getWorkflowDocument().getDocumentId());
         if(form.isAuditActivated()) {
             forwardUrl = StringUtils.replace(forwardUrl, "Proposal.do?", "Actions.do?auditActivated=true&");
         }
@@ -687,7 +686,7 @@ public class BudgetAction extends BudgetActionBase {
         if (budget.getFinalVersionFlag() != null && Boolean.TRUE.equals(budget.getFinalVersionFlag())) {
             budget.setBudgetStatus(budgetParent.getBudgetStatus());
         } else {
-            String budgetStatusIncompleteCode = this.getParameterService().getParameterValue(
+            String budgetStatusIncompleteCode = this.getParameterService().getParameterValueAsString(
                     BudgetDocument.class, Constants.BUDGET_STATUS_INCOMPLETE_CODE);
             budget.setBudgetStatus(budgetStatusIncompleteCode);
         }        
@@ -755,15 +754,15 @@ public class BudgetAction extends BudgetActionBase {
     public ActionForward reject(ActionMapping mapping, ActionForm form, HttpServletRequest request, HttpServletResponse response) throws Exception {
         KualiDocumentFormBase kualiDocumentFormBase = (KualiDocumentFormBase) form;
         
-        Object question = request.getParameter(KNSConstants.QUESTION_INST_ATTRIBUTE_NAME);
-        Object buttonClicked = request.getParameter(KNSConstants.QUESTION_CLICKED_BUTTON);
-        String reason = request.getParameter(KNSConstants.QUESTION_REASON_ATTRIBUTE_NAME);
+        Object question = request.getParameter(KRADConstants.QUESTION_INST_ATTRIBUTE_NAME);
+        Object buttonClicked = request.getParameter(KRADConstants.QUESTION_CLICKED_BUTTON);
+        String reason = request.getParameter(KRADConstants.QUESTION_REASON_ATTRIBUTE_NAME);
         String methodToCall = ((KualiForm) form).getMethodToCall();
         final String questionText = "Are you sure you want to reject this document?";
         ActionForward forward;
         if (question == null) {
             forward =  this.performQuestionWithInput(mapping, form, request, response, DOCUMENT_REJECT_QUESTION,
-                    questionText , KNSConstants.CONFIRMATION_QUESTION, methodToCall, "");
+                    questionText , KRADConstants.CONFIRMATION_QUESTION, methodToCall, "");
         } else if ((DOCUMENT_REJECT_QUESTION.equals(question)) && ConfirmationQuestion.NO.equals(buttonClicked))  {
             forward =  mapping.findForward(Constants.MAPPING_BASIC);
         } else {
@@ -774,7 +773,7 @@ public class BudgetAction extends BudgetActionBase {
                 String errorParameter = "";
                 reason = reason == null ? "" : reason;
                 forward = this.performQuestionWithInputAgainBecauseOfErrors(mapping, form, request, response, DOCUMENT_REJECT_QUESTION, 
-                        questionText, KNSConstants.CONFIRMATION_QUESTION, methodToCall, context, reason, errorKey, errorPropertyName, 
+                        questionText, KRADConstants.CONFIRMATION_QUESTION, methodToCall, context, reason, errorKey, errorPropertyName, 
                         errorParameter);
             } else {
                 //reject the document using the service.

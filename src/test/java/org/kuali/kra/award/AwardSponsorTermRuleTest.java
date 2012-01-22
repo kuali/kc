@@ -22,11 +22,10 @@ import org.junit.After;
 import org.junit.Assert;
 import org.junit.Before;
 import org.junit.Test;
-import org.kuali.kra.award.AwardSponsorTermRuleImpl;
 import org.kuali.kra.award.home.AwardSponsorTerm;
 import org.kuali.kra.bo.SponsorTerm;
-import org.kuali.rice.kns.util.ErrorMap;
-import org.kuali.rice.kns.util.GlobalVariables;
+import org.kuali.rice.krad.util.GlobalVariables;
+import org.kuali.rice.krad.util.MessageMap;
 
 /**
  * This class tests the rule class of Award Sponsor Term.
@@ -67,7 +66,7 @@ public class AwardSponsorTermRuleTest {
         awardSponsorTerm3.setSponsorTermId(THREE);
         awardSponsorTerms.add(awardSponsorTerm1);
         awardSponsorTerms.add(awardSponsorTerm2);
-        GlobalVariables.setErrorMap(new ErrorMap());
+        GlobalVariables.setMessageMap(new MessageMap());
         
         
     }

@@ -17,7 +17,6 @@ package org.kuali.kra.coi.personfinancialentity;
 
 import java.sql.Timestamp;
 import java.util.ArrayList;
-import java.util.LinkedHashMap;
 import java.util.List;
 
 import org.apache.commons.lang.StringUtils;
@@ -215,26 +214,6 @@ public class PersonFinIntDisclosure extends KraPersistableBusinessObjectBase imp
 
     public void setOrganizationTypeList(OrganizationTypeList organizationTypeList) {
         this.organizationTypeList = organizationTypeList;
-    }
-
-    /** {@inheritDoc} */
-    @Override 
-    protected LinkedHashMap<String, Object> toStringMapper() {
-        LinkedHashMap<String, Object> hashMap = new LinkedHashMap<String, Object>();
-        hashMap.put("personId", this.getPersonId());
-        hashMap.put("entityNumber", this.getEntityNumber());
-        hashMap.put("sequenceNumber", this.getSequenceNumber());
-        hashMap.put("statusCode", this.getStatusCode());
-        hashMap.put("statusDescription", this.getStatusDescription());
-        hashMap.put("entityName", this.getEntityName());
-        hashMap.put("entityTypeCode", this.getEntityTypeCode());
-        hashMap.put("entityOwnershipType", this.getEntityOwnershipType());
-        hashMap.put("relationshipTypeCode", this.getRelationshipTypeCode());
-        hashMap.put("relationshipDescription", this.getRelationshipDescription());
-        hashMap.put("relatedToOrganizationFlag", this.getRelatedToOrganizationFlag());
-        hashMap.put("orgRelationDescription", this.getOrgRelationDescription());
-        hashMap.put("sponsorCode", this.getSponsorCode());
-        return hashMap;
     }
 
     public List<InvCoiDiscDetail> getInvCoiDiscDetails() {

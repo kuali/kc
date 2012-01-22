@@ -23,9 +23,10 @@ import java.util.List;
 import org.kuali.kra.budget.core.BudgetCategory;
 import org.kuali.kra.infrastructure.KraServiceLocator;
 import org.kuali.kra.lookup.keyvalue.KeyValueFinderService;
-import org.kuali.rice.kns.lookup.keyvalues.KeyValuesBase;
-import org.kuali.rice.kns.service.KeyValuesService;
-import org.kuali.rice.core.util.KeyLabelPair;
+import org.kuali.rice.core.api.util.ConcreteKeyValue;
+import org.kuali.rice.core.api.util.KeyValue;
+import org.kuali.rice.krad.keyvalues.KeyValuesBase;
+import org.kuali.rice.krad.service.KeyValuesService;
 
 public class BudgetCategoryValuesFinder extends KeyValuesBase {
     KeyValueFinderService keyValueFinderService= (KeyValueFinderService)KraServiceLocator.getService("keyValueFinderService");
@@ -42,18 +43,18 @@ public class BudgetCategoryValuesFinder extends KeyValuesBase {
      * 
      * @return the list of &lt;key, value&gt; pairs of abstract types.  The first entry
      * is always &lt;"", "select:"&gt;.
-     * @see org.kuali.rice.kns.lookup.keyvalues.KeyValuesFinder#getKeyValues()
+     * @see org.kuali.rice.krad.keyvalues.KeyValuesFinder#getKeyValues()
      */
-    public List<KeyLabelPair> getKeyValues() {
+    public List<KeyValue> getKeyValues() {
         KeyValuesService keyValuesService = (KeyValuesService) KraServiceLocator.getService("keyValuesService");
         
-        List<KeyLabelPair> keyValues = new ArrayList<KeyLabelPair>();
+        List<KeyValue> keyValues = new ArrayList<KeyValue>();
         Collection budgetCategories = keyValuesService.findAll(BudgetCategory.class);
         
         for (Iterator iter = budgetCategories.iterator(); iter.hasNext();) {
             BudgetCategory budgetCategory = (BudgetCategory) iter.next();
                 if(budgetCategory.getBudgetCategoryTypeCode().equalsIgnoreCase(getBudgetCategoryTypeCode())){
-                    keyValues.add(new KeyLabelPair(budgetCategory.getBudgetCategoryCode().toString(), budgetCategory.getDescription()));
+                    keyValues.add(new ConcreteKeyValue(budgetCategory.getBudgetCategoryCode().toString(), budgetCategory.getDescription()));
                 }
         }        
         return keyValues;

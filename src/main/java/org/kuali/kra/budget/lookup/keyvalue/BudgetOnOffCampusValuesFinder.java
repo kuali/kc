@@ -21,8 +21,9 @@ import java.util.List;
 import org.kuali.kra.infrastructure.KraServiceLocator;
 import org.kuali.kra.infrastructure.OnOffCampusFlagConstants;
 import org.kuali.kra.lookup.keyvalue.KeyValueFinderService;
-import org.kuali.rice.kns.lookup.keyvalues.KeyValuesBase;
-import org.kuali.rice.core.util.KeyLabelPair;
+import org.kuali.rice.core.api.util.ConcreteKeyValue;
+import org.kuali.rice.core.api.util.KeyValue;
+import org.kuali.rice.krad.keyvalues.KeyValuesBase;
 
 public class BudgetOnOffCampusValuesFinder extends KeyValuesBase {
     KeyValueFinderService keyValueFinderService= (KeyValueFinderService)KraServiceLocator.getService("keyValueFinderService");
@@ -38,22 +39,22 @@ public class BudgetOnOffCampusValuesFinder extends KeyValuesBase {
      * 
      * @return the list of &lt;key, value&gt; pairs of abstract types.  The first entry
      * is always &lt;"", "select:"&gt;.
-     * @see org.kuali.rice.kns.lookup.keyvalues.KeyValuesFinder#getKeyValues()
+     * @see org.kuali.rice.krad.keyvalues.KeyValuesFinder#getKeyValues()
      */
-    public List<KeyLabelPair> getKeyValues() {
-        List<KeyLabelPair> keyLabelPairs = new ArrayList<KeyLabelPair>();
+    public List<KeyValue> getKeyValues() {
+        List<KeyValue> KeyValues = new ArrayList<KeyValue>();
 
         for (OnOffCampusFlagConstants onOffCampusFlagConstants : OnOffCampusFlagConstants.values()) {
-            keyLabelPairs.add(new KeyLabelPair(onOffCampusFlagConstants.code(), onOffCampusFlagConstants.description()));
+            KeyValues.add(new ConcreteKeyValue(onOffCampusFlagConstants.code(), onOffCampusFlagConstants.description()));
         }
 
         /*
-        keyLabelPairs.add(new KeyLabelPair(Constants.DEFALUT_CAMUS_FLAG, "Default"));
-        keyLabelPairs.add(new KeyLabelPair(Constants.ON_CAMUS_FLAG, "All On"));
-        keyLabelPairs.add(new KeyLabelPair(Constants.OFF_CAMUS_FLAG, "All Off"));
+        KeyValues.add(new ConcreteKeyValue(Constants.DEFALUT_CAMUS_FLAG, "Default"));
+        KeyValues.add(new ConcreteKeyValue(Constants.ON_CAMUS_FLAG, "All On"));
+        KeyValues.add(new ConcreteKeyValue(Constants.OFF_CAMUS_FLAG, "All Off"));
         */
         
-        return keyLabelPairs; 
+        return KeyValues; 
     }
     
 }

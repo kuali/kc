@@ -30,16 +30,16 @@ import org.kuali.kra.irb.summary.ProtocolSummary;
 import org.kuali.kra.kim.bo.KcKimAttributes;
 import org.kuali.kra.service.OrganizationService;
 import org.kuali.kra.service.UnitService;
-import org.kuali.rice.kim.bo.Role;
-import org.kuali.rice.kim.bo.role.dto.RoleMembershipInfo;
-import org.kuali.rice.kim.bo.types.dto.AttributeSet;
-import org.kuali.rice.kim.service.support.KimRoleTypeService;
-import org.kuali.rice.kim.service.support.impl.KimDerivedRoleTypeServiceBase;
+import org.kuali.rice.core.api.membership.MemberType;
+import org.kuali.rice.kim.api.role.Role;
+import org.kuali.rice.kim.api.role.RoleMembership;
+import org.kuali.rice.kim.framework.role.RoleTypeService;
+import org.kuali.rice.kns.kim.role.DerivedRoleTypeServiceBase;
 
 /**
  * Checks whether the principal is an IrbCorrespondent for the given Organization ID.
  */
-public class IrbCorrespondentDerivedRoleTypeServiceImpl extends KimDerivedRoleTypeServiceBase implements KimRoleTypeService {
+public class IrbCorrespondentDerivedRoleTypeServiceImpl extends DerivedRoleTypeServiceBase implements RoleTypeService {
     
     private OrganizationService organizationService;
     private UnitService unitService;
@@ -52,8 +52,8 @@ public class IrbCorrespondentDerivedRoleTypeServiceImpl extends KimDerivedRoleTy
     }
     
     @Override
-    public boolean hasApplicationRole(String principalId, List<String> groupIds, String namespaceCode, 
-                                      String roleName, AttributeSet qualification) {
+    public boolean hasDerivedRole(String principalId, List<String> groupIds, String namespaceCode, 
+                                      String roleName, Map<String,String> qualification) {
         if (ROLE_NAME_ORGANIZATION_CORRESPONDENT.equals(roleName)) {
             return hasApplicationRoleOrganization(principalId, groupIds, namespaceCode, roleName, qualification);
         } else if (ROLE_NAME_UNIT_CORRESPONDENT.equals(roleName)) {
@@ -63,7 +63,7 @@ public class IrbCorrespondentDerivedRoleTypeServiceImpl extends KimDerivedRoleTy
     }
     
     public boolean hasApplicationRoleOrganization(String principalId, List<String> groupIds, String namespaceCode, 
-                                                  String roleName, AttributeSet qualification) {
+                                                  String roleName, Map<String,String> qualification) {
 
         String protocolNumber = qualification.get(KcKimAttributes.PROTOCOL);
         Protocol protocol = getProtocolByNumber(protocolNumber);
@@ -81,7 +81,7 @@ public class IrbCorrespondentDerivedRoleTypeServiceImpl extends KimDerivedRoleTy
     }
     
     public boolean hasApplicationRoleUnit(String principalId, List<String> groupIds, String namespaceCode, 
-                                          String roleName, AttributeSet qualification) {
+                                          String roleName, Map<String,String> qualification) {
 
         String protocolNumber = qualification.get(KcKimAttributes.PROTOCOL);
         Protocol protocol = getProtocolByNumber(protocolNumber);
@@ -99,7 +99,7 @@ public class IrbCorrespondentDerivedRoleTypeServiceImpl extends KimDerivedRoleTy
         
         
     @Override
-    public List<RoleMembershipInfo> getRoleMembersFromApplicationRole(String namespaceCode, String roleName, AttributeSet qualification) {
+    public List<RoleMembership> getRoleMembersFromDerivedRole(String namespaceCode, String roleName, Map<String,String> qualification) {
         validateRequiredAttributesAgainstReceived(qualification);
         String protocolNumber = qualification.get(KcKimAttributes.PROTOCOL);
         if (protocolNumber != null) {
@@ -110,12 +110,12 @@ public class IrbCorrespondentDerivedRoleTypeServiceImpl extends KimDerivedRoleTy
                 return getRoleMembersFromApplicationRoleUnit(protocol, namespaceCode, roleName, qualification);
             }
         }
-        return new ArrayList<RoleMembershipInfo>();
+        return new ArrayList<RoleMembership>();
     }
 
-    public List<RoleMembershipInfo> getRoleMembersFromApplicationRoleOrganization(Protocol protocol, String namespaceCode, String roleName, AttributeSet qualification) {
+    public List<RoleMembership> getRoleMembersFromApplicationRoleOrganization(Protocol protocol, String namespaceCode, String roleName, Map<String,String> qualification) {
         ProtocolSummary protocolSummary = protocol.getProtocolSummary();
-        List<RoleMembershipInfo> members = new ArrayList<RoleMembershipInfo>();
+        List<RoleMembership> members = new ArrayList<RoleMembership>();
         
         for (OrganizationSummary orgSummary: protocolSummary.getOrganizations()) {
             String organizationId = orgSummary.getId();
@@ -123,7 +123,7 @@ public class IrbCorrespondentDerivedRoleTypeServiceImpl extends KimDerivedRoleTy
                 List<OrganizationCorrespondent> organizationCorrespondents = getOrganizationService().retrieveOrganizationCorrespondentsByOrganizationId(organizationId);
                 for ( OrganizationCorrespondent organizationCorrespondent : organizationCorrespondents ) {
                     if ( StringUtils.isNotBlank(organizationCorrespondent.getPersonId()) ) {
-                        members.add( new RoleMembershipInfo(null, null, organizationCorrespondent.getPersonId(), Role.PRINCIPAL_MEMBER_TYPE, null) );
+                        members.add( RoleMembership.Builder.create(null, null, organizationCorrespondent.getPersonId(), MemberType.PRINCIPAL, null).build() );
                     }
                 }
             }
@@ -132,15 +132,15 @@ public class IrbCorrespondentDerivedRoleTypeServiceImpl extends KimDerivedRoleTy
         return members;
     }
 
-    public List<RoleMembershipInfo> getRoleMembersFromApplicationRoleUnit(Protocol protocol, String namespaceCode, String roleName, AttributeSet qualification) {
+    public List<RoleMembership> getRoleMembersFromApplicationRoleUnit(Protocol protocol, String namespaceCode, String roleName, Map<String,String> qualification) {
         String unitNumber = protocol.getLeadUnitNumber();
-        List<RoleMembershipInfo> members = new ArrayList<RoleMembershipInfo>();
+        List<RoleMembership> members = new ArrayList<RoleMembership>();
         
         if (StringUtils.isNotBlank(unitNumber)) {
             List<UnitCorrespondent> unitCorrespondents = getUnitService().retrieveUnitCorrespondentsByUnitNumber(unitNumber);
             for ( UnitCorrespondent unitCorrespondent : unitCorrespondents ) {
                 if ( StringUtils.isNotBlank(unitCorrespondent.getPersonId()) ) {
-                    members.add( new RoleMembershipInfo(null, null, unitCorrespondent.getPersonId(), Role.PRINCIPAL_MEMBER_TYPE, null) );
+                    members.add( RoleMembership.Builder.create(null, null, unitCorrespondent.getPersonId(), MemberType.PRINCIPAL, null).build() );
                 }
             }
         }

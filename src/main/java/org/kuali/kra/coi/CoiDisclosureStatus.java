@@ -16,14 +16,13 @@
 package org.kuali.kra.coi;
 
 import java.util.ArrayList;
-import java.util.LinkedHashMap;
 import java.util.List;
 
 import org.kuali.kra.bo.KraPersistableBusinessObjectBase;
 import org.kuali.kra.irb.actions.ProtocolActionType;
 
-public class CoiDisclosureStatus extends KraPersistableBusinessObjectBase{
-   
+public class CoiDisclosureStatus extends KraPersistableBusinessObjectBase {
+
     /**
      * Comment for <code>serialVersionUID</code>
      */
@@ -39,29 +38,23 @@ public class CoiDisclosureStatus extends KraPersistableBusinessObjectBase{
 //        APPROVE_DISCLOSURE_CODES = codes;
 //    }
 
-    private String coiDisclosureStatusCode; 
+    private String coiDisclosureStatusCode;
+
     private String description;
-    
+
     public String getCoiDisclosureStatusCode() {
         return coiDisclosureStatusCode;
     }
+
     public void setCoiDisclosureStatusCode(String coiDisclosureStatusCode) {
         this.coiDisclosureStatusCode = coiDisclosureStatusCode;
     }
+
     public String getDescription() {
         return description;
     }
+
     public void setDescription(String description) {
         this.description = description;
-    } 
-    
-    /** {@inheritDoc} */
-    @Override 
-    protected LinkedHashMap<String, Object> toStringMapper() {
-        LinkedHashMap<String, Object> hashMap = new LinkedHashMap<String, Object>();
-        hashMap.put("coiDisclosureStatusCode", this.getCoiDisclosureStatusCode());
-        hashMap.put("description", this.getDescription());
-        return hashMap;
     }
-    
 }

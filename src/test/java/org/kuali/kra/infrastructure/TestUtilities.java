@@ -46,15 +46,13 @@ import org.apache.commons.lang.StringUtils;
 import org.apache.commons.lang.SystemUtils;
 import org.kuali.kra.bo.CustomAttribute;
 import org.kuali.kra.bo.CustomAttributeDocument;
-import org.kuali.rice.core.resourceloader.SpringLoader;
-import org.kuali.rice.kew.actionitem.ActionItem;
 import org.kuali.rice.kew.actionrequest.ActionRequestValue;
-import org.kuali.rice.kew.dto.NetworkIdDTO;
+import org.kuali.rice.kew.api.WorkflowDocument;
+import org.kuali.rice.kew.api.WorkflowDocumentFactory;
+import org.kuali.rice.kew.api.action.ActionItem;
+import org.kuali.rice.kew.api.exception.WorkflowException;
 import org.kuali.rice.kew.engine.node.RouteNodeInstance;
-import org.kuali.rice.kew.exception.WorkflowException;
 import org.kuali.rice.kew.service.KEWServiceLocator;
-import org.kuali.rice.kew.service.WorkflowDocument;
-import org.kuali.rice.kew.util.Utilities;
 import org.springframework.core.io.DefaultResourceLoader;
 import org.springframework.jdbc.core.ConnectionCallback;
 import org.springframework.jdbc.core.JdbcTemplate;
@@ -103,56 +101,6 @@ public class TestUtilities {
     public static InputStream loadResource(Class packageClass, String resourceName) {
     	return packageClass.getResourceAsStream(resourceName);
     }
-
-//    public static PersistedMessage createRouteQueue(DocumentRouteHeaderValue routeHeader) throws Exception {
-//        Assert.assertNotNull(routeHeader);
-//        Assert.assertNotNull(routeHeader.getRouteHeaderId());
-//    	return createRouteQueue(routeHeader.getRouteHeaderId().toString());
-//    }
-//
-//    public static PersistedMessage createRouteQueue(String payload) throws Exception {
-//        PersistedMessage routeQueue = new PersistedMessage();
-//        routeQueue.setIpNumber(InetAddress.getLocalHost().getHostAddress());
-//        // set the time back 60 seconds so that we can pull it from the queue
-//        routeQueue.setQueueDate(new Timestamp(new Date().getTime()-60*1000));
-//        routeQueue.setQueuePriority(new Integer(0));
-//        routeQueue.setQueueStatus("Q");
-//        routeQueue.setRetryCount(new Integer(0));
-//        routeQueue.setPayload( KSBServiceLocator.getMessageHelper().serializeObject(payload));
-//        routeQueue.setMessageEntity(Core.getCurrentContextConfig().getMessageEntity());
-//        KEWServiceLocator.getRouteQueueService().save(routeQueue);
-//        return routeQueue;
-//    }
-
-//	/**
-//	 * There's no easy way to wire up additional topics from the test harness because it's the
-//	 * workflow server's point of view.  At the moment we'd have to override the ksbconfigurer in the
-//	 * test spring files or give the ksbconfigurer an option to do nothing but register services...
-//	 *
-//	 * @throws Exception
-//	 */
-//	public static void programmaticallyRegisterTestHarnessTopic(QName serviceName, Object service) throws Exception {
-//		ServiceDefinition serviceDef = new JavaServiceDefinition();
-//		serviceDef.setPriority(3);
-//		serviceDef.setRetryAttempts(3);
-//		serviceDef.setService(service);
-//		serviceDef.setServiceName(serviceName);
-//		serviceDef.setQueue(false);
-//		try {
-//			serviceDef.validate();
-//		} catch (Exception e) {
-//			throw new WorkflowRuntimeException(e);
-//		}
-//		KEWServiceLocator.getServiceDeployer().registerService(serviceDef);
-//		// force a refresh on our node
-//		RemoteResourceServiceLocatorImpl remoteResourceServiceLocator = (RemoteResourceServiceLocatorImpl) GlobalResourceLoader.getResourceLoader(new QName(Core.getCurrentContextConfig().getMessageEntity(),
-//				ResourceLoader.REMOTE_RESOURCE_LOADER_NAME));
-//		remoteResourceServiceLocator.run();
-//	}
-
-    public static TransactionTemplate getTransactionTemplate() {
-		return (TransactionTemplate)SpringLoader.getInstance().getBean(KEWServiceLocator.TRANSACTION_TEMPLATE);
-	}
 
     public static void verifyTestEnvironment(DataSource dataSource) {
         if (dataSource == null) {
@@ -232,54 +180,55 @@ public class TestUtilities {
      * will still pass.
      */
     public static void assertAtNode(String message, WorkflowDocument document, String nodeName) throws WorkflowException {
-		String[] nodeNames = document.getNodeNames();
-		for (int index = 0; index < nodeNames.length; index++) {
-			String docNodeName = nodeNames[index];
-			if (docNodeName.equals(nodeName)) {
-				return;
-			}
-		}
-		throw new AssertionFailedError((Utilities.isEmpty(message) ? "" : message + ": ") + "Was [" + StringUtils.join(nodeNames, ", ") + "], Expected " + nodeName);
-	}
+        Set<String> nodeNames = document.getNodeNames();
+        Iterator<String> nodeNameIterator = nodeNames.iterator();
+        while(nodeNameIterator.hasNext()) {
+            String docNodeName = nodeNameIterator.next();
+            if (docNodeName.equals(nodeName)) {
+                return;
+            }
+        }
+        throw new AssertionFailedError((StringUtils.isEmpty(message) ? "" : message + ": ") + "Was [" + StringUtils.join(nodeNames, ", ") + "], Expected " + nodeName);
+    }
 
     public static void assertAtNode(WorkflowDocument document, String nodeName) throws WorkflowException {
-    	assertAtNode("", document, nodeName);
+        assertAtNode("", document, nodeName);
     }
 
     /**
      * Asserts that the given document id is in the given user's action list.
      */
-    public static void assertInActionList(NetworkIdDTO networkId, Long documentId) {
-    	org.kuali.rice.kim.bo.Person user = KEWServiceLocator.getIdentityHelperService().getPersonByPrincipalName(networkId.getNetworkId());
-    	Assert.assertNotNull("Given network id was invalid: " + networkId, user);
-    	Collection actionList = KEWServiceLocator.getActionListService().findByPrincipalId(user.getPrincipalId());
-    	for (Iterator iterator = actionList.iterator(); iterator.hasNext();) {
-			ActionItem actionItem = (ActionItem) iterator.next();
-			if (actionItem.getRouteHeaderId().equals(documentId)) {
-				return;
-			}
-		}
-    	Assert.fail("Could not locate an action item in the user's action list for the given document id.");
+    public static void assertInActionList(String principalName, Long documentId) {
+        org.kuali.rice.kim.api.identity.Person user = KEWServiceLocator.getIdentityHelperService().getPersonByPrincipalName(principalName);
+        Assert.assertNotNull("Given principalName was invalid: " + principalName, user);
+        Collection actionList = KEWServiceLocator.getActionListService().findByPrincipalId(user.getPrincipalId());
+        for (Iterator iterator = actionList.iterator(); iterator.hasNext();) {
+            ActionItem actionItem = (ActionItem) iterator.next();
+            if (actionItem.getDocumentId().equals(documentId)) {
+                return;
+            }
+        }
+        Assert.fail("Could not locate an action item in the user's action list for the given document id.");
     }
 
     /**
      * Asserts that the given document id is NOT in the given user's action list.
      */
-    public static void assertNotInActionList(NetworkIdDTO networkId, Long documentId) {
-        org.kuali.rice.kim.bo.Person user = KEWServiceLocator.getIdentityHelperService().getPersonByPrincipalName(networkId.getNetworkId());
-    	Assert.assertNotNull("Given network id was invalid: " + networkId, user);
-    	Collection actionList = KEWServiceLocator.getActionListService().findByPrincipalId(user.getPrincipalId());
-    	for (Iterator iterator = actionList.iterator(); iterator.hasNext();) {
-			ActionItem actionItem = (ActionItem) iterator.next();
-			if (actionItem.getRouteHeaderId().equals(documentId)) {
-				Assert.fail("Found an action item in the user's acton list for the given document id.");
-			}
-		}
+    public static void assertNotInActionList(String principalName, Long documentId) {
+        org.kuali.rice.kim.api.identity.Person user = KEWServiceLocator.getIdentityHelperService().getPersonByPrincipalName(principalName);
+        Assert.assertNotNull("Given principalName was invalid: " + principalName, user);
+        Collection actionList = KEWServiceLocator.getActionListService().findByPrincipalId(user.getPrincipalId());
+        for (Iterator iterator = actionList.iterator(); iterator.hasNext();) {
+            ActionItem actionItem = (ActionItem) iterator.next();
+            if (actionItem.getDocumentId().equals(documentId)) {
+                Assert.fail("Found an action item in the user's acton list for the given document id.");
+            }
+        }
     }
 
-    public static void assertNumberOfPendingRequests(Long documentId, int numberOfPendingRequests) {
-    	List actionRequests = KEWServiceLocator.getActionRequestService().findPendingByDoc(documentId);
-    	Assert.assertEquals("Wrong number of pending requests for document: " + documentId, numberOfPendingRequests, actionRequests.size());
+    public static void assertNumberOfPendingRequests(String documentId, int numberOfPendingRequests) {
+        List actionRequests = KEWServiceLocator.getActionRequestService().findPendingByDoc(documentId);
+        Assert.assertEquals("Wrong number of pending requests for document: " + documentId, numberOfPendingRequests, actionRequests.size());
     }
 
     /**
@@ -289,10 +238,10 @@ public class TestUtilities {
      * @param shouldHaveApproval whether they should have an approval outstanding
      * @throws WorkflowException
      */
-    public static void assertApprovals(Long docId, String[] users, boolean shouldHaveApproval) throws WorkflowException {
+    public static void assertApprovals(String docId, String[] users, boolean shouldHaveApproval) throws WorkflowException {
         List<String> failedUsers = new ArrayList<String>();
         for (String user: users) {
-            WorkflowDocument doc = new WorkflowDocument(new NetworkIdDTO(user), docId);
+            WorkflowDocument doc = WorkflowDocumentFactory.loadDocument(user, docId);
             boolean appRqsted = doc.isApprovalRequested();
             if (shouldHaveApproval != appRqsted) {
                 failedUsers.add(user);
@@ -307,8 +256,8 @@ public class TestUtilities {
         }
     }
 
-    public static void logActionRequests(Long docId) {
-        List<ActionRequestValue> actionRequests = KEWServiceLocator.getActionRequestService().findAllActionRequestsByRouteHeaderId(docId);
+    public static void logActionRequests(String docId) {
+        List<ActionRequestValue> actionRequests = KEWServiceLocator.getActionRequestService().findAllActionRequestsByDocumentId(docId);
         LOG.info("Current action requests:");
         for (ActionRequestValue ar: actionRequests) {
             LOG.info(ar);

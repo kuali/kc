@@ -7,9 +7,9 @@ import org.kuali.kra.award.home.AwardAmountInfo;
 import org.kuali.kra.infrastructure.Constants;
 import org.kuali.kra.infrastructure.KraServiceLocator;
 import org.kuali.kra.proposaldevelopment.document.ProposalDevelopmentDocument;
-import org.kuali.rice.kns.service.ParameterConstants;
-import org.kuali.rice.kns.service.ParameterService;
-import org.kuali.rice.kns.util.KualiDecimal;
+import org.kuali.rice.core.api.util.type.KualiDecimal;
+import org.kuali.rice.coreservice.framework.parameter.ParameterConstants;
+import org.kuali.rice.coreservice.framework.parameter.ParameterService;
 import org.kuali.rice.kns.web.ui.Column;
 
 import java.sql.Date;
@@ -102,7 +102,7 @@ public class CurrentReportBean extends ReportBean {
         this.projectStartDate = award.getAwardEffectiveDate();
         this.projectEndDate = award.findLatestFinalExpirationDate();
         parameterService = KraServiceLocator.getService(ParameterService.class);
-        String directIndirectEnabledValue = parameterService.getParameterValue(Constants.PARAMETER_MODULE_AWARD, ParameterConstants.DOCUMENT_COMPONENT, "ENABLE_AWD_ANT_OBL_DIRECT_INDIRECT_COST");
+        String directIndirectEnabledValue = parameterService.getParameterValueAsString(Constants.PARAMETER_MODULE_AWARD, ParameterConstants.DOCUMENT_COMPONENT, "ENABLE_AWD_ANT_OBL_DIRECT_INDIRECT_COST");
 
         for(AwardAmountInfo awardAmountInfo:award.getAwardAmountInfos()){
             if(directIndirectEnabledValue.equals("1")){
@@ -112,7 +112,7 @@ public class CurrentReportBean extends ReportBean {
         }
         awardCustomDataList = new ArrayList<AwardCustomData>();
         
-        String customGroupName = parameterService.getParameterValue(ProposalDevelopmentDocument.class, Constants.CURRENT_PENDING_REPORT_GROUP_NAME);
+        String customGroupName = parameterService.getParameterValueAsString(ProposalDevelopmentDocument.class, Constants.CURRENT_PENDING_REPORT_GROUP_NAME);
         for(AwardCustomData awardcutomdata :award.getAwardCustomDataList()) {
             if(awardcutomdata.getCustomAttribute()!=null && awardcutomdata.getCustomAttribute().getGroupName().equals(customGroupName)){
                 awardCustomDataList.add(awardcutomdata);
@@ -179,7 +179,7 @@ public class CurrentReportBean extends ReportBean {
         columns.add(createColumn("Sponsor", "sponsorName", sponsorName, String.class));
         columns.add(createColumn("Role", "roleCode", roleCode, String.class));
         columns.add(createColumn("Title", "awardTitle", awardTitle, String.class));
-        String directIndirectEnabledValue = parameterService.getParameterValue(Constants.PARAMETER_MODULE_AWARD, ParameterConstants.DOCUMENT_COMPONENT, "ENABLE_AWD_ANT_OBL_DIRECT_INDIRECT_COST");
+        String directIndirectEnabledValue = parameterService.getParameterValueAsString(Constants.PARAMETER_MODULE_AWARD, ParameterConstants.DOCUMENT_COMPONENT, "ENABLE_AWD_ANT_OBL_DIRECT_INDIRECT_COST");
         if(directIndirectEnabledValue.equals("1")){
             columns.add(createColumn("Total Direct Cost","totalDirectCostTotal",totalDirectCostTotal,KualiDecimal.class));
             columns.add(createColumn("Total F&A Cost","totalIndirectCostTotal",totalIndirectCostTotal,KualiDecimal.class));

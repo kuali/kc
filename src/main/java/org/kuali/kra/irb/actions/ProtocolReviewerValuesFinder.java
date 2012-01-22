@@ -24,16 +24,17 @@ import org.kuali.kra.irb.ProtocolForm;
 import org.kuali.kra.irb.actions.submit.ProtocolReviewer;
 import org.kuali.kra.irb.actions.submit.ProtocolSubmission;
 import org.kuali.kra.irb.actions.submit.ProtocolSubmissionStatus;
-import org.kuali.rice.core.util.KeyLabelPair;
-import org.kuali.rice.kns.util.GlobalVariables;
+import org.kuali.rice.core.api.util.ConcreteKeyValue;
+import org.kuali.rice.core.api.util.KeyValue;
+import org.kuali.rice.kns.util.KNSGlobalVariables;
 import org.kuali.rice.kns.web.struts.form.KualiForm;
 
 
 public class ProtocolReviewerValuesFinder extends IrbActionsKeyValuesBase {
     
-    public List<KeyLabelPair> getKeyValues() {
-        List<KeyLabelPair> keyValues = new ArrayList<KeyLabelPair>();
-        keyValues.add(new KeyLabelPair("", "select"));
+    public List<KeyValue> getKeyValues() {
+        List<KeyValue> keyValues = new ArrayList<KeyValue>();
+        keyValues.add(new ConcreteKeyValue("", "select"));
         
         Protocol protocol = getProtocol();
         if (protocol != null) {
@@ -41,7 +42,7 @@ public class ProtocolReviewerValuesFinder extends IrbActionsKeyValuesBase {
             if (submission != null) {
                 List<ProtocolReviewer> reviewers = submission.getProtocolReviewers();
                 for (ProtocolReviewer reviewer : reviewers) {
-                    keyValues.add(new KeyLabelPair(reviewer.getProtocolReviewerId().toString(), reviewer.getFullName()));
+                    keyValues.add(new ConcreteKeyValue(reviewer.getProtocolReviewerId().toString(), reviewer.getFullName()));
                 }
             }
         }
@@ -68,7 +69,7 @@ public class ProtocolReviewerValuesFinder extends IrbActionsKeyValuesBase {
     }
 
     private Protocol getProtocol() {
-        KualiForm form = GlobalVariables.getKualiForm();
+        KualiForm form = KNSGlobalVariables.getKualiForm();
         if (form != null && form instanceof ProtocolForm) {
             return ((ProtocolForm) form).getProtocolDocument().getProtocol();
         }

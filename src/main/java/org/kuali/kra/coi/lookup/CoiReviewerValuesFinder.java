@@ -22,9 +22,10 @@ import java.util.List;
 import org.apache.commons.collections.CollectionUtils;
 import org.kuali.kra.coi.CoiReviewer;
 import org.kuali.kra.infrastructure.KraServiceLocator;
-import org.kuali.rice.core.util.KeyLabelPair;
-import org.kuali.rice.kns.lookup.keyvalues.KeyValuesBase;
-import org.kuali.rice.kns.service.BusinessObjectService;
+import org.kuali.rice.core.api.util.ConcreteKeyValue;
+import org.kuali.rice.core.api.util.KeyValue;
+import org.kuali.rice.krad.keyvalues.KeyValuesBase;
+import org.kuali.rice.krad.service.BusinessObjectService;
 
 public class CoiReviewerValuesFinder extends KeyValuesBase {
 
@@ -43,13 +44,13 @@ public class CoiReviewerValuesFinder extends KeyValuesBase {
     }
     
     @Override
-    public List getKeyValues() {
-        List<KeyLabelPair> keyValues = new ArrayList<KeyLabelPair>();
+    public List<KeyValue> getKeyValues() {
+        List<KeyValue> keyValues = new ArrayList<KeyValue>();
 
         Collection<CoiReviewer> reviewerCodes = getBusinessObjectService().findAll(CoiReviewer.class);
         if (CollectionUtils.isNotEmpty(reviewerCodes)) {
             for (CoiReviewer reviewerCode : reviewerCodes) {
-                keyValues.add(new KeyLabelPair(reviewerCode.getReviewerCode(), reviewerCode.getDescription()));
+                keyValues.add(new ConcreteKeyValue(reviewerCode.getReviewerCode(), reviewerCode.getDescription()));
             }
         }
         

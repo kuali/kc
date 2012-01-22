@@ -13,10 +13,7 @@
  * See the License for the specific language governing permissions and
  * limitations under the License.
  */
-
 package org.kuali.kra.irb.protocol.participant;
-
-import java.util.LinkedHashMap;
 
 import org.kuali.kra.irb.ProtocolAssociate;
 
@@ -27,9 +24,13 @@ import org.kuali.kra.irb.ProtocolAssociate;
  * @author Kuali Research Administration Team (kc.dev@kuali.org)
  */
 public class ProtocolParticipant extends ProtocolAssociate {
+
     private Long protocolParticipantId;
+
     private String participantTypeCode;
+
     private Integer participantCount;
+
     private ParticipantType participantType;
 
     public ProtocolParticipant() {
@@ -67,15 +68,6 @@ public class ProtocolParticipant extends ProtocolAssociate {
         return participantType;
     }
 
-    @Override
-    protected LinkedHashMap toStringMapper() {
-        LinkedHashMap hashMap = super.toStringMapper();
-        hashMap.put("protocolParticipantId", getProtocolParticipantId());
-        hashMap.put("participantTypeCode", getParticipantTypeCode());
-        hashMap.put("participantCount", getParticipantCount());
-        return hashMap;
-    }
-    
     /** {@inheritDoc} */
     public void resetPersistenceState() {
         this.setProtocolParticipantId(null);

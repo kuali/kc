@@ -20,8 +20,8 @@ import org.kuali.kra.award.home.Award;
 import org.kuali.kra.bo.UnitAdministratorType;
 import org.kuali.kra.infrastructure.KeyConstants;
 import org.kuali.kra.infrastructure.KraServiceLocator;
-import org.kuali.rice.kns.service.BusinessObjectService;
-import org.kuali.rice.kns.util.GlobalVariables;
+import org.kuali.rice.krad.service.BusinessObjectService;
+import org.kuali.rice.krad.util.GlobalVariables;
 
 /**
  * This class implements the specified rule
@@ -85,7 +85,7 @@ public class AwardUnitContactAddRuleImpl extends BaseAwardContactAddRule {
 
     private void registerError(AwardUnitContact newUnitContact) {
         String roleDescription = getRoleDescription(newUnitContact);
-        GlobalVariables.getErrorMap().putError(PERSON_ERROR_KEY, ERROR_AWARD_UNIT_CONTACT_EXISTS, 
+        GlobalVariables.getMessageMap().putError(PERSON_ERROR_KEY, ERROR_AWARD_UNIT_CONTACT_EXISTS, 
                                                 newUnitContact.getContact().getFullName(), roleDescription);
     }
     private String getRoleDescription(AwardUnitContact newUnitContact) {

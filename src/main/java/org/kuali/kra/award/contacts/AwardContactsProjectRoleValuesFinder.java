@@ -21,9 +21,10 @@ import java.util.List;
 
 import org.kuali.kra.award.home.ContactRole;
 import org.kuali.kra.infrastructure.KraServiceLocator;
-import org.kuali.rice.kns.lookup.keyvalues.KeyValuesBase;
-import org.kuali.rice.kns.service.KeyValuesService;
-import org.kuali.rice.core.util.KeyLabelPair;
+import org.kuali.rice.core.api.util.ConcreteKeyValue;
+import org.kuali.rice.core.api.util.KeyValue;
+import org.kuali.rice.krad.keyvalues.KeyValuesBase;
+import org.kuali.rice.krad.service.KeyValuesService;
 
 /**
  * This class finds Project Roles for an Award contact 
@@ -38,7 +39,7 @@ public abstract class AwardContactsProjectRoleValuesFinder extends KeyValuesBase
      */
     @SuppressWarnings("unchecked")
     public List getKeyValues() {
-        return buildKeyLabelPairs(getKeyValuesService().findAll(getRoleType()));
+        return buildKeyValues(getKeyValuesService().findAll(getRoleType()));
     }
 
     /**
@@ -53,11 +54,11 @@ public abstract class AwardContactsProjectRoleValuesFinder extends KeyValuesBase
     /**
      * Build the pairs.
      */
-    protected List<KeyLabelPair> buildKeyLabelPairs(Collection<ContactRole> contactRoles) {
-        List<KeyLabelPair> keyValues = new ArrayList<KeyLabelPair>();
+    protected List<KeyValue> buildKeyValues(Collection<? extends ContactRole> contactRoles) {
+        List<KeyValue> keyValues = new ArrayList<KeyValue>();
         addEmptyKeyValuePair(keyValues);
         for (ContactRole role : contactRoles) {
-            keyValues.add(new KeyLabelPair(role.getRoleCode(), role.getRoleDescription()));
+            keyValues.add(new ConcreteKeyValue(role.getRoleCode(), role.getRoleDescription()));
         }
         return keyValues;
     }
@@ -66,8 +67,8 @@ public abstract class AwardContactsProjectRoleValuesFinder extends KeyValuesBase
      * This method adds an empty role in the selection
      * @param keyValues
      */
-    protected void addEmptyKeyValuePair(List<KeyLabelPair> keyValues) {
-        keyValues.add(new KeyLabelPair(EMPTY_STR, EMPTY_STR));
+    protected void addEmptyKeyValuePair(List<KeyValue> keyValues) {
+        keyValues.add(new ConcreteKeyValue(EMPTY_STR, EMPTY_STR));
     }
 
 }

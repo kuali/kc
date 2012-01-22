@@ -23,9 +23,10 @@ import java.util.Map;
 
 import org.kuali.kra.bo.UnitAdministratorType;
 import org.kuali.kra.infrastructure.KraServiceLocator;
-import org.kuali.rice.core.util.KeyLabelPair;
-import org.kuali.rice.kns.lookup.keyvalues.KeyValuesBase;
-import org.kuali.rice.kns.service.BusinessObjectService;
+import org.kuali.rice.core.api.util.ConcreteKeyValue;
+import org.kuali.rice.core.api.util.KeyValue;
+import org.kuali.rice.krad.keyvalues.KeyValuesBase;
+import org.kuali.rice.krad.service.BusinessObjectService;
 
 public class AwardUnitContactTypeValuesFinder extends KeyValuesBase {
     
@@ -36,18 +37,18 @@ public class AwardUnitContactTypeValuesFinder extends KeyValuesBase {
     }
 
     /**
-     * @see org.kuali.rice.kns.lookup.keyvalues.KeyValuesFinder#getKeyValues()
+     * @see org.kuali.rice.krad.keyvalues.KeyValuesFinder#getKeyValues()
      */
     @SuppressWarnings("unchecked")
-    public List<KeyLabelPair> getKeyValues() {
+    public List<KeyValue> getKeyValues() {
         Map<String, Object> values = new HashMap<String, Object>();
         values.put("defaultGroupFlag", "U");
-        List<KeyLabelPair> result = new ArrayList<KeyLabelPair>();
+        List<KeyValue> result = new ArrayList<KeyValue>();
         Collection<UnitAdministratorType> types = getBusinessObjectService().findMatching(UnitAdministratorType.class, values);
         for (UnitAdministratorType type : types) {
-            KeyLabelPair pair = new KeyLabelPair();
+            ConcreteKeyValue pair = new ConcreteKeyValue();
             pair.setKey(type.getUnitAdministratorTypeCode());
-            pair.setLabel(type.getDescription());
+            pair.setValue(type.getDescription());
             result.add(pair);
         }
         return result;

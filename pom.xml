@@ -10,7 +10,7 @@
 	<artifactId>kc_project</artifactId>
 	<packaging>war</packaging>
 	<name>Kuali Coeus</name>
-	<version>3.2</version>
+	<version>4.0</version>
 	<description>The Kuali Coeus (KC) project is building a comprehensive system to manage the complexities of research administration that fully addresses the needs from the faculty researcher through grants administration to federal funding agencies. KC is using MIT’s proven COEUS system as its baseline design, filling in missing functionality from COEUS, and updating its technical architecture for vendor independence and easier integration with other administration systems.</description>
 	<url>http://kuali.org/kc</url>
 	<organization>
@@ -238,6 +238,7 @@
 									<excludes>
 										<exclude>ojb</exclude>
 										<!-- renamed (decrecated) groupids -->
+                    					<exclude>struts</exclude>
 										<exclude>wss4j</exclude>
 										<exclude>acegisecurity</exclude>
 										<exclude>xstream</exclude>
@@ -247,7 +248,8 @@
 										<exclude>groovy</exclude>
 										<exclude>bouncycastle</exclude>
 										<exclude>opensymphony:quartz</exclude>
-										
+                    					<exclude>javassist</exclude>
+                    					<exclude>org.jasig.cas</exclude>
 										<!-- jcl-over-slf4j is an alternate implementation of commons-logging - excluding commons-logging -->
 										<exclude>commons-logging</exclude>
 										<!-- already including a different jcl-over-slf4j -->
@@ -259,7 +261,8 @@
 										<exclude>cglib:cglib</exclude>
 	                                    <!-- already including the jdk15 version -->
 										<exclude>org.bouncycastle:bcprov-jdk14</exclude>
-										
+										<exclude>org.bouncycastle:bcprov-jdk15</exclude>
+										<exclude>taglibs:standard</exclude>
 	                                    <exclude>javax.servlet:jstl</exclude>
 	                                    <!-- allowing (including) a specific version below -->
 	
@@ -278,7 +281,7 @@
 										<exclude>geronimo-spec:geronimo-spec-jta</exclude>
 										<exclude>org.ow2.spec.ee:ow2-jta-1.1-spec</exclude>
 										<exclude>jta</exclude>
-										
+										<exclude>javax.persistence</exclude>
 										<!-- activation apis - in jdk 6 -->
 										<exclude>javax.activation</exclude>
 										<exclude>org.apache.geronimo.specs:geronimo-activation_1.0.2_spec</exclude>
@@ -286,7 +289,7 @@
 										
 										<!-- metadata apis - in jdk 6 -->
 										<exclude>javax.jws</exclude>
-										
+										<exclude>org.apache.geronimo.specs:geronimo-ws-metadata_2.0_spec</exclude>
 										<!-- These are repackaged parser apis - some of these apis are
 										     included in jdk 6. The non-jdk parsers can be added indivually if needed. -->
 										<exclude>xerces:xmlParserAPIs</exclude>
@@ -295,7 +298,7 @@
 										<!-- group ids for many sun xml apis - in jdk 6 -->
 										<exclude>javax.xml</exclude>
 										<exclude>com.sun.xml</exclude>
-										
+										<exclude>javax.xml.bind</exclude>
 										<!-- jaxb apis - in jdk 6 -->
 										<exclude>org.apache.geronimo.specs:geronimo-jaxb_2.1_spec</exclude>
 										<exclude>org.apache.geronimo.specs:geronimo-jaxb_2.2_spec</exclude>
@@ -309,6 +312,7 @@
 										<!-- stax apis - in jdk 6 -->
 										<exclude>javax.xml.stream</exclude>
 										<exclude>com.sun.xml.stream</exclude>
+										<exclude>org.apache.geronimo.specs:geronimo-stax-api_1.0_spec</exclude>
 										<exclude>org.apache.geronimo.specs:geronimo-stax-api_1.2_spec</exclude>
 										<exclude>stax</exclude>
 										
@@ -319,11 +323,15 @@
 										<exclude>org.apache.servicemix.specs:org.apache.servicemix.specs.jaxp-api-1.3</exclude>
 										
 										<!-- saaj apis - in jdk 6 -->
+                    					<exclude>javax.xml.soap</exclude>
+					                    <exclude>javax.xml.soap:saaj-api</exclude>										
 										<exclude>javax.xml.soap:saaj-impl</exclude>
 										<exclude>com.sun.xml.messaging.saaj</exclude>
 										<exclude>org.apache.geronimo.specs:geronimo-saaj_1.3_spec</exclude>
 										<exclude>geronimo-spec:geronimo-spec-saaj</exclude>
 										<exclude>org.apache.servicemix.specs:org.apache.servicemix.specs.saaj-api-1.3</exclude>
+                   						<exclude>commons-beanutils:commons-beanutils</exclude>
+                    					<exclude>org.apache.commons:commons-beanutils</exclude>
 									</excludes>
 	
 				                    <includes>
@@ -445,10 +453,10 @@
                 </configuration>
             </plugin>
             <plugin>
-	            <groupId>org.mortbay.jetty</groupId>
-	            <artifactId>jetty-maven-plugin</artifactId>
-	            <version>${jetty.version}</version>
-	            <dependencies>
+				<groupId>org.mortbay.jetty</groupId>
+				<artifactId>jetty-maven-plugin</artifactId>
+				<version>${jetty.version}</version>
+				<dependencies>
 	                <dependency>
 	                    <groupId>com.oracle</groupId>
 	                    <artifactId>ojdbc14</artifactId>
@@ -461,8 +469,8 @@
 	                    <version>${mysql.version}</version>
 	                    <scope>runtime</scope>
 	                </dependency>
-	            </dependencies>
-	        </plugin>
+	            </dependencies>						
+			</plugin>	
             <plugin>
                 <groupId>org.codehaus.mojo</groupId>
                 <artifactId>tomcat-maven-plugin</artifactId>
@@ -512,7 +520,7 @@
 		<dependency>
 		    <groupId>com.google.guava</groupId>
 		    <artifactId>guava</artifactId>
-		    <version>r07</version>
+		    <version>r09</version>
 		</dependency>
 		<dependency>
 		    <groupId>com.oracle</groupId>
@@ -521,18 +529,17 @@
 		    <!-- should be provided once embedded jetty is figured out -->
 		    <scope>test</scope>
 		</dependency>
-		<!-- do not change to 1.8.3 or struts breaks -->
-		<dependency>
-		    <groupId>commons-beanutils</groupId>
-		    <artifactId>commons-beanutils</artifactId>
-		    <version>[1.7.0]</version>
-		    <exclusions>
-		    	<exclusion>
-		    		<artifactId>commons-logging</artifactId>
-		    		<groupId>commons-logging</groupId>
-		    	</exclusion>
-		    </exclusions>
-		</dependency>
+    <dependency>
+      <groupId>org.kuali.commons</groupId>
+      <artifactId>commons-beanutils</artifactId>
+      <version>${commons-beanutils.version}</version>
+      <exclusions>
+        <exclusion>
+          <artifactId>commons-logging</artifactId>
+          <groupId>commons-logging</groupId>
+        </exclusion>
+      </exclusions>
+    </dependency>
 		<dependency>
 		    <groupId>commons-collections</groupId>
 		    <artifactId>commons-collections</artifactId>
@@ -541,12 +548,12 @@
 		<dependency>
 			<groupId>commons-io</groupId>
 			<artifactId>commons-io</artifactId>
-			<version>2.0</version>
+			<version>2.0.1</version>
 		</dependency>
 		<dependency>
 			<groupId>commons-lang</groupId>
 			<artifactId>commons-lang</artifactId>
-			<version>2.5</version>
+			<version>2.6</version>
 		</dependency>
 
 		<!-- commons-logging implementation, commons-logging calls will go to slf4j -->
@@ -601,7 +608,7 @@
 		<dependency>
 		    <groupId>displaytag</groupId>
 		    <artifactId>displaytag</artifactId>
-		    <version>1.1.1</version>
+		    <version>1.2</version>
 			<exclusions>
                 <exclusion>
                     <groupId>org.slf4j</groupId>
@@ -618,19 +625,12 @@
                 <exclusion>
 					<groupId>itext</groupId>
 					<artifactId>itext</artifactId>
-                </exclusion>          
+                </exclusion>   
+        		<exclusion>
+          			<artifactId>commons-beanutils</artifactId>
+          			<groupId>commons-beanutils</groupId>
+        		</exclusion>                       
             </exclusions>
-		</dependency>
-		<dependency>
-		    <groupId>dom4j</groupId>
-		    <artifactId>dom4j</artifactId>
-		    <version>1.6.1</version>
-		    <exclusions>
-		    	<exclusion>
-		    		<artifactId>xml-apis</artifactId>
-		    		<groupId>xml-apis</groupId>
-		    	</exclusion>
-		    </exclusions>
 		</dependency>
 		<dependency>
 	        <groupId>javax.mail</groupId>
@@ -643,33 +643,29 @@
 	          </exclusion>
 	        </exclusions>
       	</dependency>
-		<dependency>
-		    <groupId>dwr</groupId>
-		    <artifactId>dwr</artifactId>
-		    <version>1.1.3</version>
-		    <exclusions>
-                <exclusion>
-                    <groupId>bsf</groupId>
-                    <artifactId>bsf</artifactId>
-                </exclusion>
-		    	<exclusion>
-                    <groupId>commons-logging</groupId>
-	                <artifactId>commons-logging</artifactId>
-        		</exclusion>
-		    	<exclusion>
-	                <groupId>xerces</groupId>
-	                <artifactId>xmlParserAPIs</artifactId>
-		    	</exclusion>
-		    	<exclusion>
-	                <groupId>jdom</groupId>
-	                <artifactId>jdom</artifactId>
-		    	</exclusion>
-		    	<exclusion>
-	                <groupId>xml-apis</groupId>
-	                <artifactId>xml-apis</artifactId>
-		    	</exclusion>
-		    </exclusions>
-		</dependency>
+    <dependency>
+      <groupId>org.directwebremoting</groupId>
+      <artifactId>dwr</artifactId>
+      <version>3.0.M1</version>
+      <exclusions>
+        <exclusion>
+          <artifactId>commons-logging</artifactId>
+          <groupId>commons-logging</groupId>
+        </exclusion>
+        <exclusion>
+          <artifactId>xmlParserAPIs</artifactId>
+          <groupId>xerces</groupId>
+        </exclusion>
+        <exclusion>
+          <artifactId>jdom</artifactId>
+          <groupId>jdom</groupId>
+        </exclusion>
+        <exclusion>
+          <artifactId>xml-apis</artifactId>
+          <groupId>xml-apis</groupId>
+        </exclusion>
+      </exclusions>
+    </dependency>
 		<dependency>
 			<groupId>junit</groupId>
 			<artifactId>junit</artifactId>
@@ -699,10 +695,31 @@
 			<!-- should be provided once embedded jetty is figured out -->
 			<scope>test</scope>
 		</dependency>
+	    <dependency>
+	      <groupId>net.sourceforge.htmlunit</groupId>
+	      <artifactId>htmlunit</artifactId>
+	      <version>2.8</version>
+	      <scope>test</scope>
+	      <exclusions>
+	        <exclusion>
+	          <artifactId>commons-logging</artifactId>
+	          <groupId>commons-logging</groupId>
+	        </exclusion>
+	        <exclusion>
+	          <artifactId>xercesImpl</artifactId>
+	          <groupId>xerces</groupId>
+	        </exclusion>
+ 			<exclusion>
+	          <artifactId>commons-codec</artifactId>
+	          <groupId>commons-codec</groupId>
+	        </exclusion>	        
+	      </exclusions>
+	    </dependency>
+		
 		<dependency>
 			<groupId>org.kuali.db.ojb</groupId>
 			<artifactId>db-ojb</artifactId>
-			<version>1.0.4-patch6</version>
+			<version>1.0.4-patch7</version>
 		    <exclusions>
 		    	<exclusion>
 		    		<artifactId>xml-apis</artifactId>
@@ -806,6 +823,10 @@
 		    		<artifactId>commons-logging</artifactId>
 		    		<groupId>commons-logging</groupId>
 		    	</exclusion>
+				<exclusion>
+		          <artifactId>spring-web</artifactId>
+		          <groupId>org.springframework</groupId>
+	        </exclusion>   		    	
 			</exclusions>
 		</dependency>
 		<dependency>
@@ -1082,6 +1103,21 @@
 		    	</exclusion>
 			</exclusions>
 		</dependency>
+	 	<dependency>
+    	  	<groupId>org.kuali.rice</groupId>
+      		<artifactId>rice-ksb-web</artifactId>
+      		<version>${rice.version}</version>
+    	</dependency>  		
+	 	<dependency>
+    	  	<groupId>org.kuali.rice</groupId>
+      		<artifactId>rice-krms-impl</artifactId>
+      		<version>${rice.version}</version>
+    	</dependency>     		
+	 	<dependency>
+    	  	<groupId>org.kuali.rice</groupId>
+      		<artifactId>rice-edl-impl</artifactId>
+      		<version>${rice.version}</version>
+    	</dependency>  		
 		<!-- the jsp libraries have not been moved over to eclipse as of jetty 7 - this is required for jetty 7 -->
 		<dependency>
 			<groupId>org.mortbay.jetty</groupId>
@@ -1205,45 +1241,50 @@
  	 	 	 	</exclusion>
 			</exclusions>
 		</dependency>
-		<dependency>
-			<groupId>struts</groupId>
-			<artifactId>struts</artifactId>
-			<version>${struts.version}</version>
-			<exclusions>
-				<exclusion>
-					<artifactId>xml-apis</artifactId>
-					<groupId>xml-apis</groupId>
-				</exclusion>
-				<exclusion>
-					<artifactId>commons-fileupload</artifactId>
-					<groupId>commons-fileupload</groupId>
-				</exclusion>
-				<exclusion>
-		    		<artifactId>commons-logging</artifactId>
-		    		<groupId>commons-logging</groupId>
-		    	</exclusion>
-			</exclusions>
-		</dependency>
-		<!-- used in taglibs do not remove -->
-		<dependency>
-			<groupId>struts</groupId>
-			<artifactId>struts-el</artifactId>
-			<version>${struts.version}</version>
-			<exclusions>
-				<exclusion>
-					<groupId>taglibs</groupId>
-					<artifactId>standard</artifactId>
-				</exclusion>
-				<exclusion>
-					<groupId>javax.servlet</groupId>
-					<artifactId>jstl</artifactId>
-				</exclusion>
-				<exclusion>
-		    		<artifactId>commons-logging</artifactId>
-		    		<groupId>commons-logging</groupId>
-		    	</exclusion>
-			</exclusions>
-		</dependency>
+	   <dependency>		
+	      <groupId>org.apache.struts</groupId>
+	      <artifactId>struts-core</artifactId>
+	      <version>${struts.version}</version>
+	      <exclusions>
+	        <exclusion>
+	          <artifactId>commons-logging</artifactId>
+	          <groupId>commons-logging</groupId>
+	        </exclusion>
+	        <exclusion>
+	          <artifactId>antlr</artifactId>
+	          <groupId>antlr</groupId>
+	        </exclusion>
+	        <exclusion>
+	          <artifactId>commons-beanutils</artifactId>
+	          <groupId>commons-beanutils</groupId>
+	        </exclusion>
+	      </exclusions>
+	    </dependency>
+	    <dependency>
+	      <groupId>org.apache.struts</groupId>
+	      <artifactId>struts-el</artifactId>
+	      <version>${struts.version}</version>
+	      <exclusions>
+	        <exclusion>
+	          <artifactId>standard</artifactId>
+	          <groupId>taglibs</groupId>
+	        </exclusion>
+	        <exclusion>
+	          <artifactId>jstl</artifactId>
+	          <groupId>javax.servlet</groupId>
+	        </exclusion>
+	      </exclusions>
+	    </dependency>
+	    <dependency>
+	      <groupId>org.apache.struts</groupId>
+	      <artifactId>struts-extras</artifactId>
+	      <version>${struts.version}</version>
+	    </dependency>
+	    <dependency>
+	      <groupId>org.apache.struts</groupId>
+	      <artifactId>struts-taglib</artifactId>
+	      <version>${struts.version}</version>
+	    </dependency>
 		<dependency>
 		    <groupId>xalan</groupId>
 		    <artifactId>xalan</artifactId>
@@ -1309,8 +1350,8 @@
 								<configuration>	              
 									<artifactItems>
 										<artifactItem>
-											<groupId>org.kuali.rice</groupId>
-											<artifactId>rice-web</artifactId>
+                      						<groupId>org.kuali.rice</groupId>
+                      						<artifactId>rice-standalone</artifactId>
 											<version>${rice.version}</version>
 											<type>war</type>
 											<overWrite>false</overWrite>
@@ -1343,19 +1384,24 @@
 		          							<includes>
 		            							<include>index.jsp</include>
 		            							<include>portal.jsp</include>
+		            							<include>core/</include>
 		            							<include>kcb/</include>
 		            							<include>ken/</include>
 		            							<include>kew/</include>
 		            							<include>kim/</include>
 		            							<include>kr/</include>
+		            							<include>krad/</include>
+						                        <include>krms/</include>
 		            							<include>ksb/</include>
 		            							<include>rice-portal/</include>
 		            							<include>WEB-INF/jsp/dummy_login.jsp</include>
 		            							<include>WEB-INF/jsp/recurseCheckTabHighlight.jsp</include>
 		            							<include>WEB-INF/jsp/recurseRowDisplay.jsp</include>
+		            							<include>WEB-INF/jsp/recurseTreeNode.jsp</include>
 		            							<include>WEB-INF/tags/kew/</include>
 		            							<include>WEB-INF/tags/kim/</include>
 		            							<include>WEB-INF/tags/kr/</include>
+		            							<include>WEB-INF/tags/krad/</include>
 		            							<include>WEB-INF/tags/rice-portal/channel/administration/</include>
 		            							<include>WEB-INF/tags/rice-portal/channel/main/</include>
 		            							<include>WEB-INF/tags/rice-portal/channel/portalChannelBottom.tag</include>
@@ -1405,20 +1451,20 @@
 		
 		<!-- 
 			This profile defines plugins for running kc/rice in a bundled configuration.
-		 -->
+ 		-->			
 		<profile>
 			<id>server-bundled</id>
 			<build>
 				<plugins>
-					<plugin>
-                        <groupId>org.mortbay.jetty</groupId>
-						<artifactId>jetty-maven-plugin</artifactId>
+		            <plugin>
+			            <groupId>org.mortbay.jetty</groupId>
+			            <artifactId>jetty-maven-plugin</artifactId>
 						<configuration>
 							<webAppConfig>
 								<contextPath>${default.context.path}</contextPath>
 							</webAppConfig>
-						</configuration>
-					</plugin>
+						</configuration>			            
+			        </plugin>
 					<plugin>
 						<groupId>org.codehaus.mojo</groupId>
 						<artifactId>tomcat-maven-plugin</artifactId>
@@ -1447,7 +1493,7 @@
 							<contextHandlers>
 								<contextHandler implementation="org.eclipse.jetty.webapp.WebAppContext">
 									<!-- this is kind of hacky not sure if there is a better way -->
-									<war>${settings.localRepository}/org/kuali/rice/rice-web/${rice.version}/rice-web-${rice.version}.war</war>
+									<war>${settings.localRepository}/org/kuali/rice/rice-standalone/${rice.version}/rice-standalone-${rice.version}.war</war>
 									<contextPath>/kr-dev</contextPath>
 								</contextHandler>
 							</contextHandlers>
@@ -1542,21 +1588,21 @@
 	</ciManagement>
 
 	<properties>
-		<cxf.version>2.2.9</cxf.version>
+		<cxf.version>2.3.4</cxf.version>
 		<drools.version>5.1.1</drools.version>
-		<jetty.version>7.2.0.v20101020</jetty.version>
+		<jetty.version>7.5.1.v20110908</jetty.version>
 		<jmock.version>2.5.1</jmock.version>
 		<jstl.version>1.2</jstl.version>
 		<mail.version>1.4.4</mail.version>
-		<mysql.version>5.1.13</mysql.version>
+		<mysql.version>5.1.16</mysql.version>
 		<oracle.version>10.2.0.3.0</oracle.version>
-		<rice.version>1.0.3.3</rice.version>
-		<selenium.version>2.15.0</selenium.version>
+		<rice.version>2.0.0-b6</rice.version>
+		<selenium.version>2.12.0</selenium.version>
 		<servlet.version>2.5</servlet.version>
 		<slf4j.version>1.6.1</slf4j.version>
-		<springframework.version>2.5.6</springframework.version>
-		<struts.version>1.2.9</struts.version> 
-		
+		<springframework.version>3.1.0.RELEASE</springframework.version>
+		<struts.version>1.3.10</struts.version> 
+		<commons-beanutils.version>1.8.3-kuali</commons-beanutils.version>
 		<!-- Checkstyle config -->
 		<checkstyle.config.location>${basedir}/src/main/config/KC_Checkstyle.xml</checkstyle.config.location>
 		<checkstyle.enable.rss>false</checkstyle.enable.rss>
@@ -1584,23 +1630,8 @@
     	<build.environment>dev</build.environment>
     	<default.context.path>/kc-${build.environment}</default.context.path>
 
-    	<rice.web.excludes>
-			META-INF/,
-          	WEB-INF/classes/,
-          	WEB-INF/lib/,
-			
-			WEB-INF/jsp/travelDocument2.jsp,
-			WEB-INF/tags/rice-portal/channel/main/sampleTravelApplication.tag,
-			WEB-INF/tags/rice-portal/mainTab.tag,
-			
-			WEB-INF/struts-config.xml,
-			WEB-INF/validator-rules.xml,
-			WEB-INF/web.xml,
-			
-			acknowledgments.jsp,
-			WEB-INF/tags/rice-portal/portalBody.tag,
-			WEB-INF/tags/rice-portal/portalTabs.tag,
-    	</rice.web.excludes>
+	    <rice.web.excludes>
+			META-INF,WEB-INF/classes,WEB-INF/lib/,WEB-INF/struts-config.xml,WEB-INF/validator-rules.xml,WEB-INF/web.xml,acknowledgments.jsp,WEB-INF/tags/rice-portal/mainTab.tag,WEB-INF/tags/rice-portal/portalBody.tag,WEB-INF/tags/rice-portal/portalTabs.tag,</rice.web.excludes>
     	
     	<!-- WSDL config -->
         <gg.wsdl.location>${basedir}/src/main/resources/wsdl</gg.wsdl.location>

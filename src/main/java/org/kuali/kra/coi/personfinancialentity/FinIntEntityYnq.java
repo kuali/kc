@@ -16,32 +16,39 @@
 package org.kuali.kra.coi.personfinancialentity;
 
 import java.sql.Date;
-import java.util.LinkedHashMap;
 
 import org.kuali.kra.bo.KraPersistableBusinessObjectBase;
 import org.kuali.kra.bo.Ynq;
 
-public class FinIntEntityYnq extends KraPersistableBusinessObjectBase { 
-    
+public class FinIntEntityYnq extends KraPersistableBusinessObjectBase {
+
     private static final long serialVersionUID = 1L;
 
-    private Long finIntEntityYnqId; 
-    private Long personFinIntDisclosureId; 
-    private String personId; 
-    private String entityNumber; 
-    private Integer sequenceNumber; 
-    private String questionId; 
-    private boolean answer; 
-    private String explanation; 
-    private Date reviewDate; 
-    
-    private PersonFinIntDisclosure personFinIntDisclosure; 
-    private Ynq ynq; 
-    
-    public FinIntEntityYnq() { 
+    private Long finIntEntityYnqId;
 
-    } 
-    
+    private Long personFinIntDisclosureId;
+
+    private String personId;
+
+    private String entityNumber;
+
+    private Integer sequenceNumber;
+
+    private String questionId;
+
+    private boolean answer;
+
+    private String explanation;
+
+    private Date reviewDate;
+
+    private PersonFinIntDisclosure personFinIntDisclosure;
+
+    private Ynq ynq;
+
+    public FinIntEntityYnq() {
+    }
+
     public Long getFinIntEntityYnqId() {
         return finIntEntityYnqId;
     }
@@ -129,21 +136,4 @@ public class FinIntEntityYnq extends KraPersistableBusinessObjectBase {
     public void setYnq(Ynq ynq) {
         this.ynq = ynq;
     }
-
-    /** {@inheritDoc} */
-    @Override 
-    protected LinkedHashMap<String, Object> toStringMapper() {
-        LinkedHashMap<String, Object> hashMap = new LinkedHashMap<String, Object>();
-        hashMap.put("finIntEntityYnqId", this.getFinIntEntityYnqId());
-        hashMap.put("personFinIntDisclosureId", this.getPersonFinIntDisclosureId());
-        hashMap.put("personId", this.getPersonId());
-        hashMap.put("entityNumber", this.getEntityNumber());
-        hashMap.put("sequenceNumber", this.getSequenceNumber());
-        hashMap.put("questionId", this.getQuestionId());
-        hashMap.put("answer", this.getAnswer());
-        hashMap.put("explanation", this.getExplanation());
-        hashMap.put("reviewDate", this.getReviewDate());
-        return hashMap;
-    }
-    
 }

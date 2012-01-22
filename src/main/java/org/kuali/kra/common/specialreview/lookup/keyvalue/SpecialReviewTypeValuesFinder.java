@@ -27,13 +27,15 @@ import org.kuali.kra.bo.SpecialReviewType;
 import org.kuali.kra.bo.SpecialReviewUsage;
 import org.kuali.kra.infrastructure.KraServiceLocator;
 import org.kuali.kra.lookup.keyvalue.PrefixValuesFinder;
-import org.kuali.rice.core.util.KeyLabelPair;
-import org.kuali.rice.kim.bo.types.dto.AttributeSet;
-import org.kuali.rice.kim.service.IdentityManagementService;
-import org.kuali.rice.kns.lookup.keyvalues.KeyValuesBase;
-import org.kuali.rice.kns.service.BusinessObjectService;
-import org.kuali.rice.kns.service.KeyValuesService;
-import org.kuali.rice.kns.util.GlobalVariables;
+import org.kuali.rice.core.api.util.ConcreteKeyValue;
+import org.kuali.rice.core.api.util.KeyValue;
+import org.kuali.rice.kim.api.identity.IdentityService;
+import org.kuali.rice.kim.api.permission.PermissionService;
+import org.kuali.rice.kim.api.services.KimApiServiceLocator;
+import org.kuali.rice.krad.keyvalues.KeyValuesBase;
+import org.kuali.rice.krad.service.BusinessObjectService;
+import org.kuali.rice.krad.service.KeyValuesService;
+import org.kuali.rice.krad.util.GlobalVariables;
 
 /**
  * Provides a value finder for module-specific configuration of Special Review Types.
@@ -45,38 +47,39 @@ public abstract class SpecialReviewTypeValuesFinder extends KeyValuesBase {
     
     private KeyValuesService keyValuesService;
     private BusinessObjectService businessObjectService;
-    private IdentityManagementService identityManagementService;
+    private IdentityService identityManagementService;
+    private PermissionService permissionService;
     
     /**
      * {@inheritDoc}
-     * @see org.kuali.rice.kns.lookup.keyvalues.KeyValuesFinder#getKeyValues()
+     * @see org.kuali.rice.krad.keyvalues.KeyValuesFinder#getKeyValues()
      */
-    public List<?> getKeyValues() {
-        List<KeyLabelPair> keyValues = filterActiveSpecialReviewUsageTypes(createKeyValues());
-        keyValues.add(0, new KeyLabelPair(PrefixValuesFinder.getPrefixKey(), PrefixValuesFinder.getDefaultPrefixValue()));
+    public List<KeyValue> getKeyValues() {
+        List<KeyValue> keyValues = filterActiveSpecialReviewUsageTypes(createKeyValues());
+        keyValues.add(0, new ConcreteKeyValue(PrefixValuesFinder.getPrefixKey(), PrefixValuesFinder.getDefaultPrefixValue()));
         
         return keyValues;
     }
     
     @SuppressWarnings("unchecked")
-    private List<KeyLabelPair> createKeyValues() {
+    private List<KeyValue> createKeyValues() {
         Collection<SpecialReviewType> specialReviewTypes = getKeyValuesService().findAllOrderBy(SpecialReviewType.class, "sortId", true);
         
-        List<KeyLabelPair> keyValues = new ArrayList<KeyLabelPair>();
+        List<KeyValue> keyValues = new ArrayList<KeyValue>();
         for (SpecialReviewType specialReviewType : specialReviewTypes) {
-            keyValues.add(new KeyLabelPair(specialReviewType.getSpecialReviewTypeCode(), specialReviewType.getDescription()));                            
+            keyValues.add(new ConcreteKeyValue(specialReviewType.getSpecialReviewTypeCode(), specialReviewType.getDescription()));                            
         }       
         return keyValues;
     }
     
-    private List<KeyLabelPair> filterActiveSpecialReviewUsageTypes(List<KeyLabelPair> unfilteredKeyValues) {
-        final List<KeyLabelPair> filteredKeyValues = new ArrayList<KeyLabelPair>();
+    private List<KeyValue> filterActiveSpecialReviewUsageTypes(List<KeyValue> unfilteredKeyValues) {
+        final List<KeyValue> filteredKeyValues = new ArrayList<KeyValue>();
         
-        boolean canViewNonGlobalSpecialReviewTypes = getIdentityManagementService().hasPermission(
-                GlobalVariables.getUserSession().getPrincipalId(), KraAuthorizationConstants.KC_SYSTEM_NAMESPACE_CODE , PERMISSION_NAME, new AttributeSet());
+        boolean canViewNonGlobalSpecialReviewTypes = getPermissionService().hasPermission(
+                GlobalVariables.getUserSession().getPrincipalId(), KraAuthorizationConstants.KC_SYSTEM_NAMESPACE_CODE , PERMISSION_NAME,new HashMap<String,String>());
         
         Collection<SpecialReviewUsage> specialReviewUsages = getSpecialReviewUsages();
-        for (KeyLabelPair item : unfilteredKeyValues) {
+        for (KeyValue item : unfilteredKeyValues) {
             SpecialReviewUsage itemSpecialReviewUsage = null;
             for (SpecialReviewUsage specialReviewUsage : specialReviewUsages) {
                 if (StringUtils.equals(specialReviewUsage.getSpecialReviewTypeCode(), String.valueOf(item.getKey()))) {
@@ -130,15 +133,25 @@ public abstract class SpecialReviewTypeValuesFinder extends KeyValuesBase {
         this.businessObjectService = businessObjectService;
     }
     
-    public IdentityManagementService getIdentityManagementService() {
+    public IdentityService getIdentityService() {
         if (identityManagementService == null) {
-            identityManagementService = KraServiceLocator.getService(IdentityManagementService.class);
+            identityManagementService = KraServiceLocator.getService(IdentityService.class);
         }
         return identityManagementService;
     }
     
-    public void setIdentityManagementService(IdentityManagementService identityManagementService) {
+    public void setIdentityManagementService(IdentityService identityManagementService) {
         this.identityManagementService = identityManagementService;
     }
-
+    
+    public PermissionService getPermissionService() {
+        if (permissionService == null) {
+            permissionService = KimApiServiceLocator.getPermissionService();
+        }
+        return permissionService;
+    }
+    
+    public void setPermissionService(PermissionService permissionService) {
+        this.permissionService = permissionService;
+    }
 }

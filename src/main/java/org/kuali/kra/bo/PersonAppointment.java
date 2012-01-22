@@ -15,7 +15,6 @@
  */
 package org.kuali.kra.bo;
 
-import java.util.LinkedHashMap;
 import java.sql.Date;
 
 import org.kuali.kra.budget.BudgetDecimal;
@@ -29,165 +28,114 @@ import org.kuali.kra.budget.personnel.JobCode;
  * @see org.kuali.kra.bo.Person
  */
 public class PersonAppointment extends KraPersistableBusinessObjectBase {
-    private static final long serialVersionUID = -672222601606024412L;
-    
-    private Integer appointmentId;
-    private String personId;
-    private String unitNumber;
-    private Unit unit;
-    private Date startDate;
-    private Date endDate;
-    private String typeCode;
-    private AppointmentType appointmentType;
-    private String jobTitle;
-    private String preferedJobTitle;
-    private String jobCode;
-    private JobCode jobCodeRef;
-    private BudgetDecimal salary;
 
-    @Override
-    protected LinkedHashMap toStringMapper() {
-        LinkedHashMap retval = new LinkedHashMap();
-        return retval;
-    }
+    private static final long serialVersionUID = -672222601606024412L;
+
+    private Integer appointmentId;
+
+    private String personId;
+
+    private String unitNumber;
+
+    private Unit unit;
+
+    private Date startDate;
+
+    private Date endDate;
+
+    private String typeCode;
+
+    private AppointmentType appointmentType;
+
+    private String jobTitle;
+
+    private String preferedJobTitle;
+
+    private String jobCode;
+
+    private JobCode jobCodeRef;
+
+    private BudgetDecimal salary;
 
     public String getPersonId() {
         return personId;
     }
 
-
-
-
     public void setPersonId(String personId) {
         this.personId = personId;
     }
-
-
-
 
     public String getUnitNumber() {
         return unitNumber;
     }
 
-
-
-
     public void setUnitNumber(String unitNumber) {
         this.unitNumber = unitNumber;
     }
-
-
-
 
     public Unit getUnit() {
         return unit;
     }
 
-
-
-
     public void setUnit(Unit unit) {
         this.unit = unit;
     }
-
-
-
 
     public Date getStartDate() {
         return startDate;
     }
 
-
-
-
     public void setStartDate(Date startDate) {
         this.startDate = startDate;
     }
-
-
-
 
     public Date getEndDate() {
         return endDate;
     }
 
-
-
-
     public void setEndDate(Date endDate) {
         this.endDate = endDate;
     }
-
-
-
 
     public String getTypeCode() {
         return typeCode;
     }
 
-
-
-
     public void setTypeCode(String typeCode) {
         this.typeCode = typeCode;
     }
-
 
     public String getJobTitle() {
         return jobTitle;
     }
 
-
-
-
     public void setJobTitle(String jobTitle) {
         this.jobTitle = jobTitle;
     }
-
-
-
 
     public String getPreferedJobTitle() {
         return preferedJobTitle;
     }
 
-
-
-
     public void setPreferedJobTitle(String preferedJobTitle) {
         this.preferedJobTitle = preferedJobTitle;
     }
-
-
-
 
     public String getJobCode() {
         return jobCode;
     }
 
-
-
-
     public void setJobCode(String jobCode) {
         this.jobCode = jobCode;
     }
-
-
-
 
     public JobCode getJobCodeRef() {
         return jobCodeRef;
     }
 
-
-
-
     public void setJobCodeRef(JobCode jobCodeRef) {
         this.jobCodeRef = jobCodeRef;
     }
-
-
-
 
     public BudgetDecimal getSalary() {
         return salary;

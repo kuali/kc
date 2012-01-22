@@ -16,13 +16,12 @@
 package org.kuali.kra.committee.service;
 
 import java.text.ParseException;
+import java.util.List;
 
 import org.kuali.kra.committee.bo.Committee;
 import org.kuali.kra.committee.bo.CommitteeSchedule;
+import org.kuali.kra.committee.web.struts.form.schedule.ScheduleData;
 import org.kuali.kra.meeting.CommitteeScheduleMinute;
-import org.kuali.kra.committee.web.struts.form.schedule.*;
-
-import java.util.List;
 
 
 public interface CommitteeScheduleService {

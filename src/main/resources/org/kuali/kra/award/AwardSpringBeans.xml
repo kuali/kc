@@ -38,7 +38,8 @@
   	
     <bean id="awardModuleConfiguration" parent="awardModuleConfiguration-parentBean" />
 	
-    <bean id="awardModuleConfiguration-parentBean" class="org.kuali.rice.kns.bo.ModuleConfiguration" abstract="true">
+    <bean id="awardModuleConfiguration-parentBean" class="org.kuali.rice.krad.bo.ModuleConfiguration" abstract="true">
+    	<property name="namespaceCode" value="KC-AWARD" />
 		<property name="databaseRepositoryFilePaths">
 			<list>
 				<value>org/kuali/kra/award/repository-award.xml</value>
@@ -110,7 +111,7 @@
                 
                 <bean class="org.kuali.kra.award.document.authorizer.OpenAwardBudgetAuthorizer" parent="parentAwardAuthorizer">
                     <property name="taskName" value="openBudgets" />
-                </bean>  
+                </bean>                
                 <bean class="org.kuali.kra.award.document.authorizer.MaintainAwardReportTrackingAuthorizer" parent="parentAwardAuthorizer">
                     <property name="taskName" value="maintainReportTracking" />
                 </bean>              
@@ -147,10 +148,10 @@
 	<bean id="awardFandaRateService" class="org.kuali.kra.award.commitments.AwardFandaRateServiceImpl">
 		<property name="parameterService">
 			<ref bean="parameterService" />
-		</property>
+		</property>		
 		<property name="businessObjectService">
-            <ref bean="businessObjectService" />
-        </property>
+			<ref bean="businessObjectService" />
+		</property>			
 	</bean>
 	
 	<bean id="awardReportsService" class="org.kuali.kra.service.impl.AwardReportsServiceImpl">
@@ -277,8 +278,8 @@
         <property name="activePendingTransactionsService">
         	<ref bean="activePendingTransactionsService" />
         </property>
-        <property name="kualiConfigurationService">
-        	<ref bean="kualiConfigurationService" />
+        <property name="parameterService">
+        	<ref bean="parameterService" />
         </property>
         <property name="awardService">
         	<ref bean="awardService"/>
@@ -409,13 +410,8 @@
 		<property name = "businessObjectService" ref = "businessObjectService"/>
 	</bean>
 	
-    <bean id="enWorkflowUtilityService"
-		class="org.kuali.rice.kns.config.GlobalResourceLoaderServiceFactoryBean">
-		<property name="serviceName" value="enWorkflowUtilityService" />
-	</bean>
-	
 	<bean id="awardSyncUtilityService" class="org.kuali.kra.award.awardhierarchy.sync.service.AwardSyncUtilityServiceImpl">
-		<property name="workflowUtility" ref="enWorkflowUtilityService" />
+		<property name="workflowUtility" ref="workflowDocumentActionsService" />
 		<property name="kualiConfigurationService" ref="kualiConfigurationService"/>
 	</bean>
     
@@ -501,9 +497,9 @@
   	</bean>
 	
 	<!-- Exposing java awardAccountService -->
-	<bean id="awardAccountServiceJavaExporter" class="org.kuali.rice.ksb.messaging.KSBExporter">
+	<bean id="awardAccountServiceJavaExporter" class="org.kuali.rice.ksb.api.bus.support.ServiceBusExporter">
 		<property name="serviceDefinition">
-			<bean class="org.kuali.rice.ksb.messaging.JavaServiceDefinition">
+			<bean class="org.kuali.rice.ksb.api.bus.support.JavaServiceDefinition">
 				<property name="service" ref="awardAccountService" />
 				<property name="serviceNameSpaceURI" value="KC" />
 				<property name="localServiceName" value="awardAccountService" />
@@ -516,9 +512,9 @@
 	</bean>
 	
 	<!-- Exposing SOAP awardAccountService -->
-	<bean id="awardAccountServiceSoapExporter" class="org.kuali.rice.ksb.messaging.KSBExporter">
+	<bean id="awardAccountServiceSoapExporter" class="org.kuali.rice.ksb.api.bus.support.ServiceBusExporter">
 		<property name="serviceDefinition">
-			<bean class="org.kuali.rice.ksb.messaging.SOAPServiceDefinition">
+			<bean class="org.kuali.rice.ksb.api.bus.support.SoapServiceDefinition">
 				<property name="service" ref="awardAccountService" />
 				<property name="serviceNameSpaceURI" value="KC" />
 				<property name="localServiceName" value="awardAccountSoapService" />
@@ -547,6 +543,7 @@
 		<property name="name" value="cfdaBatchJobDetail" />
 	</bean>
 	
+	<!-- Commented out temporarily because of embedded-mode issue
 	<bean id="cfdaTrigger" class="org.kuali.kra.external.Cfda.CfdaCronTrigger">
 		<property name="jobDetail" ref="cfdaBatchJobDetail" />
 		<property name="parameterService" ref="parameterService" />
@@ -558,9 +555,9 @@
 				<ref local="cfdaTrigger"/>
 			</list>
 		</property>
-		<!-- Injecting these services into the scheduler factory so it can be added to the job context 
+		 Injecting these services into the scheduler factory so it can be added to the job context 
 		which is passed to the executeInternal method of the job class.
-		-->
+		
 		<property name= "schedulerContextAsMap">
 			<map>
 				<entry key="cfdaService" > 
@@ -580,17 +577,18 @@
 				<prop key="org.quartz.jobStore.tablePrefix">${kcQuartzDatabasePrefix}</prop>
 			</props>
 		</property>
-		<!-- Datasource is defined in RiceOverridesSpringbeans.xml -->
+		 Datasource is defined in RiceOverridesSpringbeans.xml 
 		<property name="dataSource" ref="dataSource" />
-		<!-- This is set to true so that the tables are modified when the job is modified, otherwise
-		manual deletion of values from tables will be required every time job is changed-->
+		 This is set to true so that the tables are modified when the job is modified, otherwise
+		manual deletion of values from tables will be required every time job is changed
 	  	<property name="overwriteExistingJobs" value="true" />
 	 </bean>
+	 -->
 	<!-- Quartz configuration end -->
 	
-	<bean id="cfdaNumberServiceJavaExporter" class="org.kuali.rice.ksb.messaging.KSBExporter">
+	<bean id="cfdaNumberServiceJavaExporter" class="org.kuali.rice.ksb.api.bus.support.ServiceBusExporter">
 		<property name="serviceDefinition">
-			<bean class="org.kuali.rice.ksb.messaging.JavaServiceDefinition">
+			<bean class="org.kuali.rice.ksb.api.bus.support.JavaServiceDefinition">
 				<property name="service" ref="cfdaNumberService" />
 				<property name="serviceNameSpaceURI" value="KC" />
 				<property name="localServiceName" value="cfdaNumberService" />
@@ -602,9 +600,9 @@
 		</property>
 	</bean>
 
-	<bean id="cfdaNumberServiceSoapExporter" class="org.kuali.rice.ksb.messaging.KSBExporter">
+	<bean id="cfdaNumberServiceSoapExporter" class="org.kuali.rice.ksb.api.bus.support.ServiceBusExporter">
 		<property name="serviceDefinition">
-			<bean class="org.kuali.rice.ksb.messaging.SOAPServiceDefinition">
+			<bean class="org.kuali.rice.ksb.api.bus.support.SoapServiceDefinition">
 				<property name="service" ref="cfdaNumberService" />
 				<property name="serviceNameSpaceURI" value="KC" />
 				<property name="localServiceName" value="cfdaNumberSoapService" />

@@ -29,11 +29,11 @@ import org.junit.Test;
 import org.kuali.kra.bo.Unit;
 import org.kuali.kra.infrastructure.Constants;
 import org.kuali.kra.test.infrastructure.KcUnitTestBase;
-import org.kuali.rice.kns.bo.BusinessObject;
-import org.kuali.rice.kns.service.ParameterService;
-import org.kuali.rice.kns.util.GlobalVariables;
+import org.kuali.rice.coreservice.framework.parameter.ParameterService;
 import org.kuali.rice.kns.web.ui.Field;
 import org.kuali.rice.kns.web.ui.Row;
+import org.kuali.rice.krad.bo.BusinessObject;
+import org.kuali.rice.krad.util.GlobalVariables;
 
 public class UnitLookupableHelperServiceImplTest extends KcUnitTestBase {
     
@@ -41,7 +41,7 @@ public class UnitLookupableHelperServiceImplTest extends KcUnitTestBase {
     private static final int SEARCH_RESULTS_NO_CAMPUS_CODE_COUNT = 13;
     private static final int SEARCH_RESULTS_CAMPUS_CODE_COUNT = 4;
     private static final String CAMPUS_CODE_FIELD = "campusCode";
-    private static final String CAMPUS_LOOKUPABLE_CLASS_NAME = "org.kuali.rice.kns.bo.CampusImpl";
+    private static final String CAMPUS_LOOKUPABLE_CLASS_NAME = "org.kuali.rice.location.impl.campus.CampusBo";
     
     private static final String CAMPUS_CODE = "BL";
     
@@ -136,7 +136,7 @@ public class UnitLookupableHelperServiceImplTest extends KcUnitTestBase {
         final ParameterService service = context.mock(ParameterService.class);
         
         context.checking(new Expectations() {{
-            allowing(service).getIndicatorParameter(
+            allowing(service).getParameterValueAsBoolean(
                 Constants.KC_GENERIC_PARAMETER_NAMESPACE, Constants.KC_ALL_PARAMETER_DETAIL_TYPE_CODE, Constants.PARAMETER_MULTI_CAMPUS_ENABLED);
             will(returnValue(multiCampusEnabled));
         }});

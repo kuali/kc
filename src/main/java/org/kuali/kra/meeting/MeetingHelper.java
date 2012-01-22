@@ -32,9 +32,9 @@ import org.kuali.kra.infrastructure.TaskName;
 import org.kuali.kra.irb.actions.reviewcomments.ReviewCommentsService;
 import org.kuali.kra.irb.correspondence.ProtocolCorrespondence;
 import org.kuali.kra.service.TaskAuthorizationService;
-import org.kuali.rice.kns.bo.PersistableBusinessObject;
-import org.kuali.rice.kns.service.KualiConfigurationService;
-import org.kuali.rice.kns.util.GlobalVariables;
+import org.kuali.rice.krad.bo.PersistableBusinessObject;
+import org.kuali.rice.krad.service.KRADServiceLocator;
+import org.kuali.rice.krad.util.GlobalVariables;
 
 public class MeetingHelper implements Serializable {
 
@@ -454,16 +454,14 @@ public class MeetingHelper implements Serializable {
 
     public String getMinutesSentMessage() {
         if (minutesSentMessage == null) {
-            KualiConfigurationService kualiConfiguration = getService(KualiConfigurationService.class);
-            minutesSentMessage = kualiConfiguration.getPropertyString(MESSAGE_COMMITTEESCHEDULE_MINUTESSENT);
+            minutesSentMessage = KRADServiceLocator.getKualiConfigurationService().getPropertyValueAsString(MESSAGE_COMMITTEESCHEDULE_MINUTESSENT);
         }
         return minutesSentMessage;
     }
     
     public String getAgendaSentMessage() {
         if (agendaSentMessage == null) {
-            KualiConfigurationService kualiConfiguration = getService(KualiConfigurationService.class);
-            agendaSentMessage = kualiConfiguration.getPropertyString(MESSAGE_COMMITTEESCHEDULE_AGENDASENT);
+            agendaSentMessage = KRADServiceLocator.getKualiConfigurationService().getPropertyValueAsString(MESSAGE_COMMITTEESCHEDULE_AGENDASENT);
         }
         return agendaSentMessage;
     }

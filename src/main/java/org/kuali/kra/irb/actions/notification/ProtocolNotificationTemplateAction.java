@@ -25,13 +25,14 @@ import org.apache.struts.action.ActionMapping;
 import org.kuali.kra.infrastructure.Constants;
 import org.kuali.kra.infrastructure.KraServiceLocator;
 import org.kuali.kra.infrastructure.PermissionConstants;
-import org.kuali.rice.core.util.RiceConstants;
-import org.kuali.rice.kns.exception.AuthorizationException;
-import org.kuali.rice.kns.question.ConfirmationQuestion;
-import org.kuali.rice.kns.util.GlobalVariables;
-import org.kuali.rice.kns.util.KNSConstants;
-import org.kuali.rice.kns.util.RiceKeyConstants;
+import org.kuali.rice.core.api.util.RiceConstants;
+import org.kuali.rice.core.api.util.RiceKeyConstants;
+import org.kuali.rice.kns.util.KNSGlobalVariables;
 import org.kuali.rice.kns.web.struts.action.KualiDocumentActionBase;
+import org.kuali.rice.krad.exception.AuthorizationException;
+import org.kuali.rice.kns.question.ConfirmationQuestion;
+import org.kuali.rice.krad.util.GlobalVariables;
+import org.kuali.rice.krad.util.KRADConstants;
 
 /**
  * 
@@ -81,7 +82,7 @@ public class ProtocolNotificationTemplateAction extends KualiDocumentActionBase 
     @Override
     public ActionForward reload(ActionMapping mapping, ActionForm form, HttpServletRequest request, HttpServletResponse response)
             throws Exception {
-        GlobalVariables.getMessageList().add(RiceKeyConstants.MESSAGE_RELOADED);
+        KNSGlobalVariables.getMessageList().add(RiceKeyConstants.MESSAGE_RELOADED);
         return mapping.findForward(Constants.MAPPING_BASIC);
     }
 
@@ -99,22 +100,22 @@ public class ProtocolNotificationTemplateAction extends KualiDocumentActionBase 
     @Override
     public ActionForward close(ActionMapping mapping, ActionForm form, HttpServletRequest request, HttpServletResponse response)
             throws Exception {
-        ActionForward actionForward = mapping.findForward(KNSConstants.MAPPING_PORTAL);
+        ActionForward actionForward = mapping.findForward(KRADConstants.MAPPING_PORTAL);
 
         if (getProtocolNotificationTemplateAuthorizationService().hasPermission(PermissionConstants.MODIFY_CORRESPONDENCE_TEMPLATE)) {
-            if (!StringUtils.equals(request.getParameter(KNSConstants.QUESTION_INST_ATTRIBUTE_NAME),
-                    KNSConstants.DOCUMENT_SAVE_BEFORE_CLOSE_QUESTION)) {
+            if (!StringUtils.equals(request.getParameter(KRADConstants.QUESTION_INST_ATTRIBUTE_NAME),
+                    KRADConstants.DOCUMENT_SAVE_BEFORE_CLOSE_QUESTION)) {
                 // Ask question whether to save before close
                 actionForward = this.performQuestionWithoutInput(mapping, form, request, response,
-                        KNSConstants.DOCUMENT_SAVE_BEFORE_CLOSE_QUESTION, getKualiConfigurationService().getPropertyString(
-                                RiceKeyConstants.QUESTION_SAVE_BEFORE_CLOSE), KNSConstants.CONFIRMATION_QUESTION,
-                        KNSConstants.MAPPING_CLOSE, "");
+                        KRADConstants.DOCUMENT_SAVE_BEFORE_CLOSE_QUESTION, getKualiConfigurationService().getPropertyValueAsString(
+                                RiceKeyConstants.QUESTION_SAVE_BEFORE_CLOSE), KRADConstants.CONFIRMATION_QUESTION,
+                        KRADConstants.MAPPING_CLOSE, "");
             }
-            else if (StringUtils.equals(request.getParameter(KNSConstants.QUESTION_CLICKED_BUTTON), ConfirmationQuestion.YES)) {
+            else if (StringUtils.equals(request.getParameter(KRADConstants.QUESTION_CLICKED_BUTTON), ConfirmationQuestion.YES)) {
                 // Validate document
                 ProtocolNotificationTemplateForm notificationTemplateForm = (ProtocolNotificationTemplateForm) form;
                 getBusinessObjectService().save(notificationTemplateForm.getNotificationTemplates());
-                actionForward = mapping.findForward(KNSConstants.MAPPING_PORTAL);
+                actionForward = mapping.findForward(KRADConstants.MAPPING_PORTAL);
                 // }
             }
         }
@@ -139,7 +140,7 @@ public class ProtocolNotificationTemplateAction extends KualiDocumentActionBase 
         }
 
         ProtocolNotificationTemplateForm notificationTemplateForm = (ProtocolNotificationTemplateForm) form;
-        GlobalVariables.getMessageList().add(RiceKeyConstants.MESSAGE_SAVED);
+        KNSGlobalVariables.getMessageList().add(RiceKeyConstants.MESSAGE_SAVED);
         getBusinessObjectService().save(notificationTemplateForm.getNotificationTemplates());
         return mapping.findForward(Constants.MAPPING_BASIC);
     }
@@ -160,11 +161,11 @@ public class ProtocolNotificationTemplateAction extends KualiDocumentActionBase 
             throws Exception {
         ActionForward actionForward;
 
-        if (StringUtils.equals(request.getParameter(KNSConstants.QUESTION_INST_ATTRIBUTE_NAME),
-                KNSConstants.DOCUMENT_CANCEL_QUESTION)) {
-            if (StringUtils.equals(request.getParameter(KNSConstants.QUESTION_CLICKED_BUTTON), ConfirmationQuestion.YES)) {
+        if (StringUtils.equals(request.getParameter(KRADConstants.QUESTION_INST_ATTRIBUTE_NAME),
+                KRADConstants.DOCUMENT_CANCEL_QUESTION)) {
+            if (StringUtils.equals(request.getParameter(KRADConstants.QUESTION_CLICKED_BUTTON), ConfirmationQuestion.YES)) {
                 // Cancel document and return to portal if cancel has been confirmed
-                actionForward = mapping.findForward(KNSConstants.MAPPING_PORTAL);
+                actionForward = mapping.findForward(KRADConstants.MAPPING_PORTAL);
             }
             else {
                 // Reload document if cancel has been aborted
@@ -173,9 +174,9 @@ public class ProtocolNotificationTemplateAction extends KualiDocumentActionBase 
         }
         else {
             // Ask question to confirm cancel
-            actionForward = performQuestionWithoutInput(mapping, form, request, response, KNSConstants.DOCUMENT_CANCEL_QUESTION,
-                    getKualiConfigurationService().getPropertyString("document.question.cancel.text"),
-                    KNSConstants.CONFIRMATION_QUESTION, KNSConstants.MAPPING_CANCEL, "");
+            actionForward = performQuestionWithoutInput(mapping, form, request, response, KRADConstants.DOCUMENT_CANCEL_QUESTION,
+                    getKualiConfigurationService().getPropertyValueAsString("document.question.cancel.text"),
+                    KRADConstants.CONFIRMATION_QUESTION, KRADConstants.MAPPING_CANCEL, "");
         }
 
         return actionForward;
@@ -237,7 +238,7 @@ public class ProtocolNotificationTemplateAction extends KualiDocumentActionBase 
      */
     private int getSelectedNotificationTemplate(HttpServletRequest request) {
         int index = -1;
-        String parameterName = (String) request.getAttribute(KNSConstants.METHOD_TO_CALL_ATTRIBUTE);
+        String parameterName = (String) request.getAttribute(KRADConstants.METHOD_TO_CALL_ATTRIBUTE);
         if (StringUtils.isNotBlank(parameterName)) {
             index = Integer.parseInt(StringUtils.substringBetween(parameterName, "notificationTemplates[", "]"));
         }

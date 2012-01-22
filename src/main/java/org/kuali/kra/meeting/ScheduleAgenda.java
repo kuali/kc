@@ -15,26 +15,24 @@
  */
 package org.kuali.kra.meeting;
 
-import java.util.LinkedHashMap;
 
 /**
  * 
  * This class is meeting generated agenda doc.
  */
-public class ScheduleAgenda extends GeneratedMeetingDoc { 
-    
+public class ScheduleAgenda extends GeneratedMeetingDoc {
 
     private static final long serialVersionUID = -3448403457020324952L;
 
-    private Long scheduleAgendaId; 
-    private Integer agendaNumber; 
-    private String agendaName;     
-    
-    
-    public ScheduleAgenda() { 
+    private Long scheduleAgendaId;
 
-    } 
-    
+    private Integer agendaNumber;
+
+    private String agendaName;
+
+    public ScheduleAgenda() {
+    }
+
     public Long getScheduleAgendaId() {
         return scheduleAgendaId;
     }
@@ -58,15 +56,4 @@ public class ScheduleAgenda extends GeneratedMeetingDoc {
     public void setAgendaName(String agendaName) {
         this.agendaName = agendaName;
     }
-
-    /** {@inheritDoc} */
-    @Override 
-    protected LinkedHashMap<String, Object> toStringMapper() {
-        LinkedHashMap<String, Object> hashMap = super.toStringMapper();
-        hashMap.put("scheduleAgendaId", this.getScheduleAgendaId());
-        hashMap.put("agendaNumber", this.getAgendaNumber());
-        hashMap.put("agendaName", this.getAgendaName());
-        return hashMap;
-    }
-
 }

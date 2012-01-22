@@ -143,7 +143,7 @@
             p:size="10" />
     </property>
     <property name="summary" value="&amp;nbsp;" />
-    <property name="formatterClass" value="org.kuali.rice.kns.web.format.TimestampAMPMFormatter" />
+    <property name="formatterClass" value="org.kuali.rice.core.web.format.TimestampAMPMFormatter" />
     <property name="name" value="closingDate" />
     <property name="label" value="Closing Date" />
     <property name="description" value="Closing Date" />
@@ -176,7 +176,7 @@
             p:size="10" />
     </property>
     <property name="summary" value="Opening Date" />
-    <property name="formatterClass" value="org.kuali.rice.kns.web.format.TimestampAMPMFormatter" />
+    <property name="formatterClass" value="org.kuali.rice.core.web.format.TimestampAMPMFormatter" />
     <property name="name" value="openingDate" />
     <property name="label" value="Opening Date" />
     <property name="description" value="Opening Date" />

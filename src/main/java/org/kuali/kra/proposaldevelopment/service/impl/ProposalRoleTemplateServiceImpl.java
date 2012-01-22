@@ -27,18 +27,17 @@ import org.kuali.kra.proposaldevelopment.document.ProposalDevelopmentDocument;
 import org.kuali.kra.proposaldevelopment.service.ProposalRoleTemplateService;
 import org.kuali.kra.service.KraAuthorizationService;
 import org.kuali.kra.service.SystemAuthorizationService;
-import org.kuali.rice.kim.bo.Role;
-import org.kuali.rice.kim.bo.role.dto.RoleMembershipInfo;
-import org.kuali.rice.kim.bo.types.dto.AttributeSet;
-import org.kuali.rice.kim.service.RoleManagementService;
-import org.kuali.rice.kns.util.GlobalVariables;
+import org.kuali.rice.kim.api.role.Role;
+import org.kuali.rice.kim.api.role.RoleMembership;
+import org.kuali.rice.kim.api.role.RoleService;
+import org.kuali.rice.krad.util.GlobalVariables;
 
 /**
  * The Proposal Role Template Service Implementation.
  */
 public class ProposalRoleTemplateServiceImpl implements ProposalRoleTemplateService {
     private KraAuthorizationService kraAuthorizationService;
-    private RoleManagementService roleManagementService;
+    private RoleService roleManagementService;
     private SystemAuthorizationService systemAuthorizationService;
     
     /**
@@ -49,7 +48,7 @@ public class ProposalRoleTemplateServiceImpl implements ProposalRoleTemplateServ
         this.kraAuthorizationService = kraAuthorizationService;
     }
     
-    public void setRoleManagementService(RoleManagementService roleManagementService) {
+    public void setRoleManagementService(RoleService roleManagementService) {
         this.roleManagementService = roleManagementService;
     }
 
@@ -65,13 +64,13 @@ public class ProposalRoleTemplateServiceImpl implements ProposalRoleTemplateServ
         Map<String, String> roleIdMap = new HashMap<String, String>();
         Role role = null;
         
-        Collection<RoleMembershipInfo> proposalRoleTemplates = getRoleTemplates(doc.getDevelopmentProposal().getOwnedByUnitNumber());
-        for (RoleMembershipInfo proposalRoleTemplate : proposalRoleTemplates) {
+        Collection<RoleMembership> proposalRoleTemplates = getRoleTemplates(doc.getDevelopmentProposal().getOwnedByUnitNumber());
+        for (RoleMembership proposalRoleTemplate : proposalRoleTemplates) {
             String personId = proposalRoleTemplate.getMemberId();
             if (personId != null && !StringUtils.equals(personId, creatorUserId)) {
                 if(StringUtils.isEmpty(roleIdMap.get(proposalRoleTemplate.getRoleId()))){
                     role = roleManagementService.getRole(proposalRoleTemplate.getRoleId());
-                    roleIdMap.put(proposalRoleTemplate.getRoleId(), role.getRoleName());
+                    roleIdMap.put(proposalRoleTemplate.getRoleId(), role.getName());
                 }
                 kraAuthorizationService.addRole(personId, roleIdMap.get(proposalRoleTemplate.getRoleId()), doc); 
             }
@@ -95,15 +94,15 @@ public class ProposalRoleTemplateServiceImpl implements ProposalRoleTemplateServ
      * @param unitNumber the lead unit of the proposal
      * @return the collection of role templates
      */
-    protected Collection<RoleMembershipInfo> getRoleTemplates(String unitNumber) {
+    protected Collection<RoleMembership> getRoleTemplates(String unitNumber) {
         Map<String, String> qualifiedRoleAttributes = new HashMap<String, String>();
         qualifiedRoleAttributes.put("unitNumber", unitNumber);
         List<String> roleIds = new ArrayList<String>();
         List<Role> proposalRoles = systemAuthorizationService.getRoles(RoleConstants.PROPOSAL_ROLE_TYPE);
         for(Role role : proposalRoles) {
-            roleIds.add(role.getRoleId());
+            roleIds.add(role.getId());
         }
-        List<RoleMembershipInfo> membershipInfoList = roleManagementService.getRoleMembers(roleIds, new AttributeSet(qualifiedRoleAttributes));
+        List<RoleMembership> membershipInfoList = roleManagementService.getRoleMembers(roleIds,new HashMap<String,String>(qualifiedRoleAttributes));
         return membershipInfoList;
     }
 

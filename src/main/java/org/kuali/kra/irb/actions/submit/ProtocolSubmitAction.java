@@ -25,7 +25,7 @@ import org.kuali.kra.committee.service.CommitteeService;
 import org.kuali.kra.infrastructure.KraServiceLocator;
 import org.kuali.kra.irb.actions.ActionHelper;
 import org.kuali.kra.irb.actions.ProtocolActionBean;
-import org.kuali.rice.kns.util.TypedArrayList;
+import org.springframework.util.AutoPopulatingList;
 
 /**
  * This class is really just a "form" for submitting a protocol for review in the Submit for Review Action.
@@ -47,10 +47,10 @@ public class ProtocolSubmitAction extends ProtocolActionBean implements Serializ
     
 
     /*
-     * We use a TypedArrayList because we need it to grow. When JavaScript is enabled, it will display the list of reviewers. When
+     * We use a AutoPopulatingList because we need it to grow. When JavaScript is enabled, it will display the list of reviewers. When
      * the form is submitted, this list will automatically grow to accommodate all of the reviewers.
      */
-    private List<ProtocolReviewerBean> reviewers = new TypedArrayList(ProtocolReviewerBean.class);
+    private List<ProtocolReviewerBean> reviewers = new AutoPopulatingList<ProtocolReviewerBean>(ProtocolReviewerBean.class);
     private List<ExpeditedReviewCheckListItem> expeditedReviewCheckList = null;
     private List<ExemptStudiesCheckListItem> exemptStudiesCheckList = null;
     private String newCommitteeId = "";

@@ -19,8 +19,8 @@ import java.util.List;
 import java.util.Map;
 
 import org.kuali.kra.infrastructure.Constants;
-import org.kuali.rice.kns.bo.BusinessObject;
 import org.kuali.rice.kns.lookup.KualiLookupableHelperServiceImpl;
+import org.kuali.rice.krad.bo.BusinessObject;
 
 public class ActiveFlagLookupableHelperServiceImpl extends KualiLookupableHelperServiceImpl {
     

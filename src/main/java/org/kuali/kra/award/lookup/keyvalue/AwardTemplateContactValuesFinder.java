@@ -25,9 +25,10 @@ import org.kuali.kra.award.home.AwardTemplateContact;
 import org.kuali.kra.infrastructure.Constants;
 import org.kuali.kra.lookup.keyvalue.ExtendedPersistableBusinessObjectValuesFinder;
 import org.kuali.kra.lookup.keyvalue.PrefixValuesFinder;
-import org.kuali.rice.core.util.KeyLabelPair;
+import org.kuali.rice.core.api.util.ConcreteKeyValue;
+import org.kuali.rice.core.api.util.KeyValue;
 import org.kuali.rice.kns.document.MaintenanceDocument;
-import org.kuali.rice.kns.util.GlobalVariables;
+import org.kuali.rice.kns.util.KNSGlobalVariables;
 import org.kuali.rice.kns.web.struts.form.KualiMaintenanceForm;
 
 public class AwardTemplateContactValuesFinder extends ExtendedPersistableBusinessObjectValuesFinder {
@@ -36,13 +37,13 @@ public class AwardTemplateContactValuesFinder extends ExtendedPersistableBusines
      * 
      * @return the list of &lt;key, value&gt; pairs of the current award template contacts id
      * and roleCode
-     * @see org.kuali.rice.kns.lookup.keyvalues.KeyValuesFinder#getKeyValues()
+     * @see org.kuali.rice.krad.keyvalues.KeyValuesFinder#getKeyValues()
      */
-    public List<KeyLabelPair> getKeyValues() {
+    public List<KeyValue> getKeyValues() {
         MaintenanceDocument doc = getDocument();
-        AwardTemplate awardTemplate = (AwardTemplate) doc.getDocumentBusinessObject();
+        AwardTemplate awardTemplate = (AwardTemplate) doc.getNoteTarget();
         List<AwardTemplateContact> contacts = awardTemplate.getTemplateContacts();
-        List<KeyLabelPair> keyValues = new ArrayList<KeyLabelPair>();
+        List<KeyValue> keyValues = new ArrayList<KeyValue>();
         for (Iterator iter = contacts.iterator(); iter.hasNext();) {
             AwardTemplateContact contact = (AwardTemplateContact) iter.next();     
             contact.refreshReferenceObject("contactType");
@@ -60,9 +61,9 @@ public class AwardTemplateContactValuesFinder extends ExtendedPersistableBusines
             }
             String label = sb.toString();
             
-            keyValues.add(new KeyLabelPair(key, label)); 
+            keyValues.add(new ConcreteKeyValue(key, label)); 
         }
-        keyValues.add(0, new KeyLabelPair(PrefixValuesFinder.getPrefixKey(), PrefixValuesFinder.getDefaultPrefixValue()));
+        keyValues.add(0, new ConcreteKeyValue(PrefixValuesFinder.getPrefixKey(), PrefixValuesFinder.getDefaultPrefixValue()));
         return keyValues;
     }
     
@@ -74,7 +75,7 @@ public class AwardTemplateContactValuesFinder extends ExtendedPersistableBusines
      */
     private MaintenanceDocument getDocument() {
         MaintenanceDocument doc = null;
-        KualiMaintenanceForm form = (KualiMaintenanceForm) GlobalVariables.getKualiForm();
+        KualiMaintenanceForm form = (KualiMaintenanceForm) KNSGlobalVariables.getKualiForm();
         if (form != null) {
             doc = (MaintenanceDocument) form.getDocument();
         }

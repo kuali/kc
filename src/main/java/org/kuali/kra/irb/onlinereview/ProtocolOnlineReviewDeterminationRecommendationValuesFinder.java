@@ -20,7 +20,8 @@ import java.util.Collection;
 import java.util.List;
 
 import org.kuali.kra.irb.actions.IrbActionsKeyValuesBase;
-import org.kuali.rice.core.util.KeyLabelPair;
+import org.kuali.rice.core.api.util.ConcreteKeyValue;
+import org.kuali.rice.core.api.util.KeyValue;
 
 /**
  * Assembles the Protocol Review Types to display in the drop-down menu when
@@ -29,12 +30,12 @@ import org.kuali.rice.core.util.KeyLabelPair;
 public class ProtocolOnlineReviewDeterminationRecommendationValuesFinder extends IrbActionsKeyValuesBase {
     
     @SuppressWarnings("unchecked")
-    public List<KeyLabelPair> getKeyValues() {
+    public List<KeyValue> getKeyValues() {
         Collection<ProtocolOnlineReviewDeterminationRecommendation> recommendations = this.getKeyValuesService().findAll(ProtocolOnlineReviewDeterminationRecommendation.class);
-        List<KeyLabelPair> keyValues = new ArrayList<KeyLabelPair>();
-        keyValues.add(new KeyLabelPair("", "select"));
+        List<KeyValue> keyValues = new ArrayList<KeyValue>();
+        keyValues.add(new ConcreteKeyValue("", "select"));
         for (ProtocolOnlineReviewDeterminationRecommendation recommendation : recommendations) {
-            keyValues.add(new KeyLabelPair(recommendation.getProtocolOnlineReviewDeterminationRecommendationCode(), recommendation.getDescription()));
+            keyValues.add(new ConcreteKeyValue(recommendation.getProtocolOnlineReviewDeterminationRecommendationCode().toString(), recommendation.getDescription()));
         }
         return keyValues;
     }

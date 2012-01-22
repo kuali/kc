@@ -15,22 +15,22 @@
  */
 package org.kuali.kra.irb.protocol.research;
 
-import java.util.LinkedHashMap;
-
 import org.kuali.kra.bo.ResearchArea;
 import org.kuali.kra.irb.ProtocolAssociate;
 
-public class ProtocolResearchArea extends ProtocolAssociate { 
-	
-    private static final long serialVersionUID = -1522011425745031200L;
-    private Long id; 
-	private String researchAreaCode; 
-	private ResearchArea researchAreas; 
-	
-	public ProtocolResearchArea() { 
+public class ProtocolResearchArea extends ProtocolAssociate {
 
-	} 
-    
+    private static final long serialVersionUID = -1522011425745031200L;
+
+    private Long id;
+
+    private String researchAreaCode;
+
+    private ResearchArea researchAreas;
+
+    public ProtocolResearchArea() {
+    }
+
     public Long getId() {
         return id;
     }
@@ -38,33 +38,25 @@ public class ProtocolResearchArea extends ProtocolAssociate {
     public void setId(Long id) {
         this.id = id;
     }
-	
-	public String getResearchAreaCode() {
-		return researchAreaCode;
-	}
 
-	public void setResearchAreaCode(String researchAreaCode) {
-		this.researchAreaCode = researchAreaCode;
-	}
+    public String getResearchAreaCode() {
+        return researchAreaCode;
+    }
 
-	public ResearchArea getResearchAreas() {
-		return researchAreas;
-	}
+    public void setResearchAreaCode(String researchAreaCode) {
+        this.researchAreaCode = researchAreaCode;
+    }
 
-	public void setResearchAreas(ResearchArea researchAreas) {
-		this.researchAreas = researchAreas;
-	}
+    public ResearchArea getResearchAreas() {
+        return researchAreas;
+    }
 
-	@SuppressWarnings("unchecked")
-    @Override 
-	protected LinkedHashMap toStringMapper() {
-		LinkedHashMap hashMap = super.toStringMapper();		
-		hashMap.put("researchAreaCode", getResearchAreaCode());
-		return hashMap;
-	}
-	
-	/** {@inheritDoc} */
-	public void resetPersistenceState() {
-	    this.setId(null);   
-	}
+    public void setResearchAreas(ResearchArea researchAreas) {
+        this.researchAreas = researchAreas;
+    }
+
+    /** {@inheritDoc} */
+    public void resetPersistenceState() {
+        this.setId(null);
+    }
 }

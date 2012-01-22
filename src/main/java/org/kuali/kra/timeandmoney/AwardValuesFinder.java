@@ -16,6 +16,7 @@
 package org.kuali.kra.timeandmoney;
 
 import java.util.ArrayList;
+import java.util.Arrays;
 import java.util.List;
 import java.util.Map.Entry;
 
@@ -25,23 +26,23 @@ import org.kuali.kra.infrastructure.Constants;
 import org.kuali.kra.infrastructure.KraServiceLocator;
 import org.kuali.kra.service.AwardHierarchyUIService;
 import org.kuali.kra.timeandmoney.document.TimeAndMoneyDocument;
-import org.kuali.rice.kns.lookup.keyvalues.KeyValuesBase;
-import org.kuali.rice.kns.util.GlobalVariables;
-import org.kuali.rice.core.util.KeyLabelPair;
-
-import java.util.Arrays;
+import org.kuali.rice.core.api.util.ConcreteKeyValue;
+import org.kuali.rice.core.api.util.KeyValue;
+import org.kuali.rice.kns.util.KNSGlobalVariables;
+import org.kuali.rice.krad.keyvalues.KeyValuesBase;
+import org.kuali.rice.krad.util.GlobalVariables;
 
 public class AwardValuesFinder extends KeyValuesBase{
     
-    public List<KeyLabelPair> getKeyValues() {
-        List<KeyLabelPair> keyValues = new ArrayList<KeyLabelPair>();
-        TimeAndMoneyForm timeAndMoneyForm = (TimeAndMoneyForm) GlobalVariables.getKualiForm();
+    public List<KeyValue> getKeyValues() {
+        List<KeyValue> keyValues = new ArrayList<KeyValue>();
+        TimeAndMoneyForm timeAndMoneyForm = (TimeAndMoneyForm) KNSGlobalVariables.getKualiForm();        
         TimeAndMoneyDocument document;
         if(timeAndMoneyForm == null) {
             document = updateDocumentFromSession();
         }else {
             document = timeAndMoneyForm.getTimeAndMoneyDocument();
-        }
+        }        
         document.setAwardHierarchyItems(((TimeAndMoneyDocument)GlobalVariables.getUserSession().retrieveObject(
                 GlobalVariables.getUserSession().getKualiSessionId() + Constants.TIME_AND_MONEY_DOCUMENT_STRING_FOR_SESSION)).getAwardHierarchyItems());    
         
@@ -49,7 +50,7 @@ public class AwardValuesFinder extends KeyValuesBase{
             Object[] keyset = document.getAwardHierarchyItems().keySet().toArray();
             Arrays.sort(keyset);
             for(Object awardNumber : keyset) {
-                keyValues.add(new KeyLabelPair((String) awardNumber, document.getAwardHierarchyItems().get(awardNumber).getAwardNumber()));
+                keyValues.add(new ConcreteKeyValue((String) awardNumber, document.getAwardHierarchyItems().get(awardNumber).getAwardNumber()));
             }
         }
         

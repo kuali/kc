@@ -45,12 +45,12 @@ import org.kuali.kra.irb.noteattachment.DeleteProtocolNotepadRuleImpl;
 import org.kuali.kra.irb.noteattachment.ProtocolNotepad;
 import org.kuali.kra.service.TaskAuthorizationService;
 import org.kuali.kra.util.CollectionUtil;
-import org.kuali.rice.kew.exception.WorkflowException;
-import org.kuali.rice.kns.service.BusinessObjectService;
-import org.kuali.rice.kns.service.DateTimeService;
-import org.kuali.rice.kns.service.DocumentService;
-import org.kuali.rice.kns.service.ParameterService;
-import org.kuali.rice.kns.util.GlobalVariables;
+import org.kuali.rice.kew.api.exception.WorkflowException;
+import org.kuali.rice.krad.service.BusinessObjectService;
+import org.kuali.rice.core.api.datetime.DateTimeService;
+import org.kuali.rice.krad.service.DocumentService;
+import org.kuali.rice.coreservice.framework.parameter.ParameterService;
+import org.kuali.rice.krad.util.GlobalVariables;
 
 import edu.mit.irb.irbnamespace.ProtocolDocument;
 
@@ -264,7 +264,7 @@ public class CoiNotesAndAttachmentsHelper {
 
         //Lets see if there is a default set for the attachment sort
         try {
-            String defaultSortBy = parameterService.getParameterValue(ProtocolDocument.class, Constants.PARAMETER_COI_ATTACHMENT_DEFAULT_SORT);
+            String defaultSortBy = parameterService.getParameterValueAsString(ProtocolDocument.class, Constants.PARAMETER_COI_ATTACHMENT_DEFAULT_SORT);
             if (StringUtils.isNotBlank(defaultSortBy)) {
                 disclosureFilter.setSortBy(defaultSortBy);
             }

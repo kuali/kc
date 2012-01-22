@@ -19,16 +19,13 @@ import org.kuali.kra.authorization.Task;
 import org.kuali.kra.award.budget.document.AwardBudgetDocument;
 import org.kuali.kra.award.budget.document.authorization.AwardBudgetTask;
 import org.kuali.kra.award.document.AwardDocument;
-import org.kuali.kra.award.home.Award;
-import org.kuali.kra.budget.document.BudgetDocument;
-import org.kuali.kra.budget.document.authorization.BudgetTask;
 import org.kuali.kra.budget.document.authorizer.BudgetAuthorizer;
 import org.kuali.kra.infrastructure.AwardPermissionConstants;
 import org.kuali.kra.infrastructure.Constants;
 import org.kuali.kra.infrastructure.KeyConstants;
-import org.kuali.rice.kns.service.KNSServiceLocator;
-import org.kuali.rice.kns.service.ParameterService;
-import org.kuali.rice.kns.workflow.service.KualiWorkflowDocument;
+import org.kuali.rice.coreservice.framework.parameter.ParameterService;
+import org.kuali.rice.coreservice.framework.CoreFrameworkServiceLocator;
+import org.kuali.rice.kew.api.WorkflowDocument;
 
 /**
  * The AwardBudget Modify Authorizer checks to see if the user has 
@@ -48,19 +45,19 @@ public class PostAwardBudgetAuthorizer extends BudgetAuthorizer {
         
         AwardBudgetDocument budgetDocument = budgetTask.getAwardBudgetDocument();
         AwardDocument doc = (AwardDocument) budgetDocument.getParentDocument();
-        KualiWorkflowDocument workflowDoc = getWorkflowDocument(budgetDocument);
-        return workflowDoc.stateIsFinal() && isAwardBudgetToBePosted(budgetDocument) && canPost() &&
+        WorkflowDocument workflowDoc = getWorkflowDocument(budgetDocument);
+        return workflowDoc.isFinal() && isAwardBudgetToBePosted(budgetDocument) && canPost() &&
             hasUnitPermission(userId, doc.getLeadUnitNumber(), Constants.MODULE_NAMESPACE_AWARD_BUDGET, 
                 AwardPermissionConstants.POST_AWARD_BUDGET.getAwardPermission());
     }
 
     private boolean canPost() {
-        String postEnabled = getParameterService().getParameterValue(AwardBudgetDocument.class, KeyConstants.AWARD_BUDGET_POST_ENABLED);
+        String postEnabled = getParameterService().getParameterValueAsString(AwardBudgetDocument.class, KeyConstants.AWARD_BUDGET_POST_ENABLED);
         return postEnabled.equals(POST_ENABLED_PARAM_VALUE_1);
     }
 
     private boolean isAwardBudgetToBePosted(AwardBudgetDocument budgetDocument) {
-        String toBePostedStatusCode = getParameterService().getParameterValue(AwardBudgetDocument.class, KeyConstants.AWARD_BUDGET_STATUS_TO_BE_POSTED);
+        String toBePostedStatusCode = getParameterService().getParameterValueAsString(AwardBudgetDocument.class, KeyConstants.AWARD_BUDGET_STATUS_TO_BE_POSTED);
         return budgetDocument.getAwardBudget().getAwardBudgetStatusCode().equals(toBePostedStatusCode);
     }
 
@@ -69,7 +66,7 @@ public class PostAwardBudgetAuthorizer extends BudgetAuthorizer {
      * @return Returns the parameterService.
      */
     public ParameterService getParameterService() {
-        return KNSServiceLocator.getParameterService();
+        return CoreFrameworkServiceLocator.getParameterService();
     }
 
 }

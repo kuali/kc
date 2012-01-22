@@ -36,12 +36,12 @@ import org.apache.commons.logging.LogFactory;
 import org.kuali.kra.award.awardhierarchy.sync.AwardSyncChange;
 import org.kuali.kra.award.awardhierarchy.sync.AwardSyncException;
 import org.kuali.kra.award.awardhierarchy.sync.AwardSyncType;
-import org.kuali.kra.award.awardhierarchy.sync.AwardSyncableProperty;
 import org.kuali.kra.award.awardhierarchy.sync.AwardSyncXmlExport;
+import org.kuali.kra.award.awardhierarchy.sync.AwardSyncableProperty;
 import org.kuali.kra.award.awardhierarchy.sync.service.AwardSyncServiceImpl;
 import org.kuali.kra.award.awardhierarchy.sync.service.AwardSyncUtilityService;
 import org.kuali.kra.award.home.Award;
-import org.kuali.rice.kns.bo.PersistableBusinessObject;
+import org.kuali.rice.krad.bo.PersistableBusinessObject;
 
 /**
  * Base class for award hierarchy sync data access objects.
@@ -57,7 +57,7 @@ public abstract class AwardSyncHelperBase implements AwardSyncHelper {
     private AwardSyncUtilityService awardSyncUtilityService;
    
     /**
-     * @see org.kuali.kra.award.awardhierarchy.sync.helpers.AwardSyncHelper#createAwardSyncChange(org.kuali.kra.award.awardhierarchy.sync.AwardSyncType, org.kuali.rice.kns.bo.BusinessObject, java.lang.String, java.lang.String)
+     * @see org.kuali.kra.award.awardhierarchy.sync.helpers.AwardSyncHelper#createAwardSyncChange(org.kuali.kra.award.awardhierarchy.sync.AwardSyncType, org.kuali.rice.krad.bo.BusinessObject, java.lang.String, java.lang.String)
      */
     public AwardSyncChange createAwardSyncChange(AwardSyncType syncType, PersistableBusinessObject syncableObject, 
             String awardAttrName, String boAttrName) throws NoSuchFieldException, IntrospectionException, 

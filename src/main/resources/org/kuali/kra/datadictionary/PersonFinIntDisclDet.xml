@@ -29,10 +29,10 @@
         <property name="lookupDefinition" >
             <ref bean="PersonFinIntDisclDet-lookupDefinition" />
         </property>
-        <property name="titleAttribute" value="PerFinIntDisclDetId" />
+        <property name="titleAttribute" value="perFinIntDisclDetId" />
         <property name="attributes" >
             <list>
-                <ref bean="PersonFinIntDisclDet-PerFinIntDisclDetId" />
+                <ref bean="PersonFinIntDisclDet-perFinIntDisclDetId" />
                 <ref bean="PersonFinIntDisclDet-entityNumber" />
                 <ref bean="PersonFinIntDisclDet-sequenceNumber" />
                 <ref bean="PersonFinIntDisclDet-columnName" />
@@ -46,9 +46,9 @@
 
     <!-- Attribute Definitions -->
     
-    <bean id="PersonFinIntDisclDet-PerFinIntDisclDetId" parent="PersonFinIntDisclDet-PerFinIntDisclDetId-parentBean" />
-    <bean id="PersonFinIntDisclDet-PerFinIntDisclDetId-parentBean" abstract="true" parent="AttributeDefinition" >
-        <property name="name" value="PerFinIntDisclDetId" />
+    <bean id="PersonFinIntDisclDet-perFinIntDisclDetId" parent="PersonFinIntDisclDet-perFinIntDisclDetId-parentBean" />
+    <bean id="PersonFinIntDisclDet-perFinIntDisclDetId-parentBean" abstract="true" parent="AttributeDefinition" >
+        <property name="name" value="perFinIntDisclDetId" />
         <property name="forceUppercase" value="false" />
         <property name="label" value="Per Fin Int Discl Det Id" />
         <property name="shortLabel" value="Per Fin Int Discl Det Id" />
@@ -189,7 +189,7 @@
                     <property name="inquiryFields" >
                         <list>
                             <bean parent="FieldDefinition"
-                                p:attributeName="PerFinIntDisclDetId" 
+                                p:attributeName="perFinIntDisclDetId" 
                                 p:forceInquiry="true" />
                             <bean parent="FieldDefinition"
                                 p:attributeName="entityNumber" />
@@ -222,7 +222,7 @@
         <property name="lookupFields" >
             <list>
                 <bean parent="FieldDefinition"
-                    p:attributeName="PerFinIntDisclDetId" 
+                    p:attributeName="perFinIntDisclDetId" 
                     p:forceInquiry="true" />
                 <bean parent="FieldDefinition"
                     p:attributeName="entityNumber" />
@@ -241,7 +241,7 @@
         <property name="resultFields" >
             <list>
                 <bean parent="FieldDefinition"
-                    p:attributeName="PerFinIntDisclDetId" 
+                    p:attributeName="perFinIntDisclDetId" 
                     p:forceInquiry="true" />
                 <bean parent="FieldDefinition"
                     p:attributeName="entityNumber" />

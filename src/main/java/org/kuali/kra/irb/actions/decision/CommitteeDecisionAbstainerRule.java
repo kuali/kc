@@ -15,12 +15,10 @@
  */
 package org.kuali.kra.irb.actions.decision;
 
-import java.util.List;
-
 import org.kuali.kra.infrastructure.Constants;
 import org.kuali.kra.infrastructure.KeyConstants;
 import org.kuali.kra.irb.ProtocolDocument;
-import org.kuali.rice.kns.util.GlobalVariables;
+import org.kuali.rice.krad.util.GlobalVariables;
 
 /**
  * 
@@ -35,7 +33,7 @@ public class CommitteeDecisionAbstainerRule extends CommitteeDecisionVoterRuleBa
     public boolean proccessCommitteeDecisionAbstainerRule(ProtocolDocument document, CommitteeDecision committeeDecision) {
         boolean retVal = true;
         if (!processVoter(committeeDecision.getNewAbstainer(), committeeDecision.getAbstainers(), committeeDecision.getRecused())) {
-            GlobalVariables.getErrorMap().putError(Constants.PROTOCOL_COMMITTEE_DECISION_ACTION_PROPERTY_KEY + ".newAbstainer.membershipId", 
+            GlobalVariables.getMessageMap().putError(Constants.PROTOCOL_COMMITTEE_DECISION_ACTION_PROPERTY_KEY + ".newAbstainer.membershipId", 
                     KeyConstants.ERROR_PROTOCOL_RECORD_COMMITTEE_ABSTAIN_RECUSED_ALREADY_EXISTS);
             retVal = false; 
         }

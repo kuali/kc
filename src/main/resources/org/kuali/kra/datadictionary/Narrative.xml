@@ -272,7 +272,7 @@
     <property name="forceUppercase" value="false" />
     <property name="label" value="Narrative Type" />
     <property name="shortLabel" value="Narrative Type" />
-    <property name="maxLength" value="50" />
+    <property name="maxLength" value="200" />
     <property name="validationPattern" >
       <bean parent="AnyCharacterValidationPattern"
             p:allowWhitespace="true" />

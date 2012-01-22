@@ -19,6 +19,8 @@ import java.sql.Date;
 import java.util.List;
 import java.util.Map;
 
+import org.kuali.rice.kew.api.exception.WorkflowException;
+
 /**
  * Provides services for linking an IRB Protocol with other modules.
  */
@@ -51,7 +53,7 @@ public interface SpecialReviewService {
      * @return the route header id of the protocol document, or 0L if the protocolNumber is invalid
      * @throws Exception
      */
-    Long getViewSpecialReviewProtocolRouteHeaderId(String protocolNumber) throws Exception;
+    String getViewSpecialReviewProtocolRouteHeaderId(String protocolNumber) throws Exception;
     
     /**
      * Determines whether the given Protocol contains a Funding Source linking to the Institutional Proposal or Award corresponding to the given number.

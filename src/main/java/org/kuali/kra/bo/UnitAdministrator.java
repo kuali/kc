@@ -15,65 +15,55 @@
  */
 package org.kuali.kra.bo;
 
-import java.util.LinkedHashMap;
-
 import org.kuali.kra.infrastructure.KraServiceLocator;
 import org.kuali.kra.service.KcPersonService;
 
 public class UnitAdministrator extends KraPersistableBusinessObjectBase {
 
-	private String personId;
-	private String unitAdministratorTypeCode;
-	private String unitNumber;
+    private String personId;
+
+    private String unitAdministratorTypeCode;
+
+    private String unitNumber;
+
     private Unit unit;
-	private UnitAdministratorType unitAdministratorType;
-    
-    
-    
+
+    private UnitAdministratorType unitAdministratorType;
+
     private transient KcPersonService kcPersonService;
 
-	public UnitAdministrator(){
-		super();
-	}
+    public UnitAdministrator() {
+        super();
+    }
 
-	public String getPersonId() {
-		return personId;
-	}
+    public String getPersonId() {
+        return personId;
+    }
 
-	public void setPersonId(String personId) {
-		this.personId = personId;
-	}
+    public void setPersonId(String personId) {
+        this.personId = personId;
+    }
 
-	public String getUnitAdministratorTypeCode() {
-		return unitAdministratorTypeCode;
-	}
+    public String getUnitAdministratorTypeCode() {
+        return unitAdministratorTypeCode;
+    }
 
-	public void setUnitAdministratorTypeCode(String unitAdministratorTypeCode) {
-		this.unitAdministratorTypeCode = unitAdministratorTypeCode;
-	}
+    public void setUnitAdministratorTypeCode(String unitAdministratorTypeCode) {
+        this.unitAdministratorTypeCode = unitAdministratorTypeCode;
+    }
 
-	public String getUnitNumber() {
-		return unitNumber;
-	}
+    public String getUnitNumber() {
+        return unitNumber;
+    }
 
-	public void setUnitNumber(String unitNumber) {
-		this.unitNumber = unitNumber;
-	}
-
-
-	@Override 
-	protected LinkedHashMap toStringMapper() {
-		LinkedHashMap hashMap = new LinkedHashMap();
-		hashMap.put("personId", getPersonId());
-		hashMap.put("unitAdministratorTypeCode", getUnitAdministratorTypeCode());
-		hashMap.put("unitNumber", getUnitNumber());
-		return hashMap;
-	}
+    public void setUnitNumber(String unitNumber) {
+        this.unitNumber = unitNumber;
+    }
 
     public KcPerson getPerson() {
         return getKcPersonService().getKcPersonByPersonId(personId);
     }
-    
+
     /**
      * Gets the KC Person Service.
      * @return KC Person Service.
@@ -82,7 +72,6 @@ public class UnitAdministrator extends KraPersistableBusinessObjectBase {
         if (this.kcPersonService == null) {
             this.kcPersonService = KraServiceLocator.getService(KcPersonService.class);
         }
-        
         return this.kcPersonService;
     }
 
@@ -101,5 +90,4 @@ public class UnitAdministrator extends KraPersistableBusinessObjectBase {
     public void setUnit(Unit unit) {
         this.unit = unit;
     }
-
 }

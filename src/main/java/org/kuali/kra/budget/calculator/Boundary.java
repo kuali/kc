@@ -21,7 +21,7 @@ import java.util.Map;
 
 import org.kuali.kra.budget.BudgetDecimal;
 import org.kuali.kra.infrastructure.KraServiceLocator;
-import org.kuali.rice.kns.service.DateTimeService;
+import org.kuali.rice.core.api.datetime.DateTimeService;
 
 /**
  * This class holds the date boundaries ie, Start Date & End Date. Also

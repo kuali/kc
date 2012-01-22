@@ -21,7 +21,8 @@ import java.util.List;
 
 import org.kuali.kra.committee.bo.CommitteeDecisionMotionType;
 import org.kuali.kra.irb.actions.IrbActionsKeyValuesBase;
-import org.kuali.rice.core.util.KeyLabelPair;
+import org.kuali.rice.core.api.util.ConcreteKeyValue;
+import org.kuali.rice.core.api.util.KeyValue;
 
 /**
  * Returns all possible values for the Committee Decision Motion dropdown box.
@@ -30,17 +31,17 @@ public class CommitteeDecisionMotionValuesFinder extends IrbActionsKeyValuesBase
     
     /**
      * {@inheritDoc}
-     * @see org.kuali.rice.kns.lookup.keyvalues.KeyValuesFinder#getKeyValues()
+     * @see org.kuali.rice.krad.keyvalues.KeyValuesFinder#getKeyValues()
      */
     @SuppressWarnings("unchecked")
-    public List<KeyLabelPair> getKeyValues() {
+    public List<KeyValue> getKeyValues() {
         Collection<CommitteeDecisionMotionType> motionTypes = getKeyValuesService().findAll(CommitteeDecisionMotionType.class);
         
-        List<KeyLabelPair> keyValues = new ArrayList<KeyLabelPair>();
-        keyValues.add(new KeyLabelPair("", "select"));
+        List<KeyValue> keyValues = new ArrayList<KeyValue>();
+        keyValues.add(new ConcreteKeyValue("", "select"));
         
         for (CommitteeDecisionMotionType motionType : motionTypes) {
-            keyValues.add(new KeyLabelPair(motionType.getMotionTypeCode(), motionType.getDescription()));
+            keyValues.add(new ConcreteKeyValue(motionType.getMotionTypeCode(), motionType.getDescription()));
         }
         
         return keyValues;

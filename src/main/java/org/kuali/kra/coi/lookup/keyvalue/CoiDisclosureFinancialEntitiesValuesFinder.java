@@ -22,21 +22,23 @@ import org.kuali.kra.coi.CoiDisclosureForm;
 import org.kuali.kra.coi.personfinancialentity.FinancialEntityService;
 import org.kuali.kra.coi.personfinancialentity.PersonFinIntDisclosure;
 import org.kuali.kra.infrastructure.KraServiceLocator;
-import org.kuali.rice.core.util.KeyLabelPair;
-import org.kuali.rice.kns.lookup.keyvalues.KeyValuesBase;
-import org.kuali.rice.kns.util.GlobalVariables;
+import org.kuali.rice.core.api.util.ConcreteKeyValue;
+import org.kuali.rice.core.api.util.KeyValue;
+import org.kuali.rice.kns.util.KNSGlobalVariables;
+import org.kuali.rice.krad.keyvalues.KeyValuesBase;
+import org.kuali.rice.krad.util.GlobalVariables;
 
 public class CoiDisclosureFinancialEntitiesValuesFinder extends KeyValuesBase {
 
 
     @Override
     public List getKeyValues() {
-        List<KeyLabelPair> keyLabels = new ArrayList<KeyLabelPair>();
-        CoiDisclosureForm coiDisclosureForm = (CoiDisclosureForm) GlobalVariables.getKualiForm();
-        keyLabels.add(new KeyLabelPair("", "select"));
+        List<KeyValue> keyLabels = new ArrayList<KeyValue>();
+        CoiDisclosureForm coiDisclosureForm = (CoiDisclosureForm) KNSGlobalVariables.getKualiForm();
+        keyLabels.add(new ConcreteKeyValue("", "select"));
         List<PersonFinIntDisclosure> financialEntities = getAllFinancialEntities();
         for (PersonFinIntDisclosure fe : financialEntities) {
-            keyLabels.add(new KeyLabelPair(fe.getEntityNumber(), fe.getEntityName()));
+            keyLabels.add(new ConcreteKeyValue(fe.getEntityNumber(), fe.getEntityName()));
         }
         return keyLabels;
     }

@@ -19,6 +19,6 @@ import org.kuali.kra.subaward.bo.SubAward;
 import org.kuali.kra.subaward.bo.SubAwardContact;
 import org.kuali.kra.subaward.bo.SubAwardFundingSource;
 
-public interface SubAwardFundingSourceRule {
+public interface SubAwardFundingSourceRule extends org.kuali.rice.krad.rules.rule.BusinessRule {
     public boolean processAddSubAwardFundingSourceBusinessRules(SubAwardFundingSource subAwardFundingSource,SubAward subAward);
 }

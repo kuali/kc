@@ -19,14 +19,10 @@ package org.kuali.kra.award.budget.document.authorizer;
 
 import org.apache.commons.lang.StringUtils;
 import org.kuali.kra.budget.document.BudgetDocument;
-
 import org.kuali.kra.budget.document.authorization.BudgetTask;
 import org.kuali.kra.budget.document.authorizer.BudgetAuthorizer;
-import org.kuali.kra.infrastructure.KraServiceLocator;
 import org.kuali.kra.kew.KraDocumentRejectionService;
-import org.kuali.rice.kim.bo.Person;
-import org.kuali.rice.kim.service.PersonService;
-import org.kuali.rice.kns.workflow.service.KualiWorkflowDocument;
+import org.kuali.rice.kew.api.WorkflowDocument;
 
 /**
  * This authorizer determines if the user has the permission
@@ -47,11 +43,11 @@ public class CancelAwardBudgetAuthorizer extends BudgetAuthorizer {
      */
     public boolean isAuthorized(String username, BudgetTask task) {
         BudgetDocument doc = task.getBudgetDocument();
-        KualiWorkflowDocument workDoc = doc.getDocumentHeader().getWorkflowDocument();
-        return !workDoc.getRouteHeader().isCompleteRequested() 
+        WorkflowDocument workDoc = doc.getDocumentHeader().getWorkflowDocument();
+        return !workDoc.isCompletionRequested() 
             && !getKraDocumentRejectionService().isDocumentOnInitialNode(doc) 
             && StringUtils.equals(username, workDoc.getRoutedByPrincipalId())
-            && workDoc.stateIsEnroute();
+            && workDoc.isEnroute();
     }
     
     protected KraDocumentRejectionService getKraDocumentRejectionService() {

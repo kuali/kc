@@ -54,8 +54,8 @@ import org.kuali.kra.printing.PrintingException;
 import org.kuali.kra.printing.service.PrintingService;
 import org.kuali.kra.printing.service.WatermarkService;
 import org.kuali.kra.proposaldevelopment.bo.AttachmentDataSource;
-import org.kuali.rice.kns.service.DateTimeService;
-import org.kuali.rice.kns.service.KualiConfigurationService;
+import org.kuali.rice.core.api.config.property.ConfigurationService;
+import org.kuali.rice.core.api.datetime.DateTimeService;
 
 import com.lowagie.text.Document;
 import com.lowagie.text.DocumentException;
@@ -86,7 +86,7 @@ public class PrintingServiceImpl implements PrintingService {
 	private DateTimeService dateTimeService = null;
 	private WatermarkService watermarkService;
 	
-	private KualiConfigurationService kualiConfigurationService;
+	private ConfigurationService kualiConfigurationService;
 	
 
     /**
@@ -104,7 +104,7 @@ public class PrintingServiceImpl implements PrintingService {
 			throws PrintingException {
 		try {
 	        Map<String, byte[]> streamMap = printableArtifact.renderXML();
-			String loggingEnable = kualiConfigurationService.getPropertyString(Constants.PRINT_LOGGING_ENABLE);
+			String loggingEnable = kualiConfigurationService.getPropertyValueAsString(Constants.PRINT_LOGGING_ENABLE);
 			if(loggingEnable!=null && Boolean.parseBoolean(loggingEnable))
 			   logPrintDetails(streamMap);
 			
@@ -444,7 +444,7 @@ public class PrintingServiceImpl implements PrintingService {
 	protected void logPrintDetails(Map<String, byte[]> xmlStreamMap)throws PrintingException{
 	    byte[] xmlBytes = null;
         String xmlString=null;
-        String loggingDirectory = kualiConfigurationService.getPropertyString(Constants.PRINT_LOGGING_DIRECTORY);
+        String loggingDirectory = kualiConfigurationService.getPropertyValueAsString(Constants.PRINT_LOGGING_DIRECTORY);
 	    Iterator<String> it = xmlStreamMap.keySet().iterator();
 	    if(loggingDirectory!=null){
 	    try {
@@ -469,11 +469,11 @@ public class PrintingServiceImpl implements PrintingService {
 	    }
 	}
 
-    public void setKualiConfigurationService(KualiConfigurationService kualiConfigurationService) {
+    public void setKualiConfigurationService(ConfigurationService kualiConfigurationService) {
         this.kualiConfigurationService = kualiConfigurationService;
     }
 
-    public KualiConfigurationService getKualiConfigurationService() {
+    public ConfigurationService getKualiConfigurationService() {
         return kualiConfigurationService;
     }
 

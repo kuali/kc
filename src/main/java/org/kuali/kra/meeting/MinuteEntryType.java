@@ -15,32 +15,33 @@
  */
 package org.kuali.kra.meeting;
 
-import java.util.LinkedHashMap;
-
 import org.kuali.kra.bo.KraPersistableBusinessObjectBase;
 
 /**
  * 
  * This class is minute entry type code.
  */
-public class MinuteEntryType extends KraPersistableBusinessObjectBase implements Comparable<MinuteEntryType> { 
-    
+public class MinuteEntryType extends KraPersistableBusinessObjectBase implements Comparable<MinuteEntryType> {
+
     public static final String ATTENDANCE = "2";
+
     public static final String PROTOCOL = "3";
+
     public static final String ACTION_ITEM = "4";
+
     public static final String PROTOCOL_REVIEWER_COMMENT = "6";
-    
+
     private static final long serialVersionUID = 3106451618464691958L;
 
-    private String minuteEntryTypeCode; 
-    private Integer sortId; 
-    private String description; 
-    
-        
-    public MinuteEntryType() { 
+    private String minuteEntryTypeCode;
 
-    } 
-    
+    private Integer sortId;
+
+    private String description;
+
+    public MinuteEntryType() {
+    }
+
     public String getMinuteEntryTypeCode() {
         return minuteEntryTypeCode;
     }
@@ -65,18 +66,7 @@ public class MinuteEntryType extends KraPersistableBusinessObjectBase implements
         this.description = description;
     }
 
-    /** {@inheritDoc} */
-    @Override 
-    protected LinkedHashMap<String, Object> toStringMapper() {
-        LinkedHashMap<String, Object> hashMap = new LinkedHashMap<String, Object>();
-        hashMap.put("minuteEntryTypeCode", this.getMinuteEntryTypeCode());
-        hashMap.put("sortId", this.getSortId());
-        hashMap.put("description", this.getDescription());
-        return hashMap;
-    }
-
     public int compareTo(MinuteEntryType arg) {
         return this.getSortId().compareTo(arg.getSortId());
     }
-    
 }

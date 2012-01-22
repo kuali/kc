@@ -28,8 +28,8 @@ import org.kuali.kra.proposaldevelopment.bo.ProposalAbstract;
 import org.kuali.kra.proposaldevelopment.document.ProposalDevelopmentDocument;
 import org.kuali.kra.proposaldevelopment.rule.AbstractsRule;
 import org.kuali.kra.rules.ResearchDocumentRuleBase;
-import org.kuali.rice.kns.service.BusinessObjectService;
-import org.kuali.rice.kns.util.GlobalVariables;
+import org.kuali.rice.krad.service.BusinessObjectService;
+import org.kuali.rice.krad.util.GlobalVariables;
 
 /**
  * Business Rule to determine the validity of Proposal Abstracts.
@@ -53,7 +53,7 @@ public class ProposalDevelopmentAbstractsRule extends ResearchDocumentRuleBase i
             // If the user didn't select an abstract type, i.e. he/she choose the "select:" option,
             // then the Abstract Type Code will be "blank".
             isValid = false;
-            GlobalVariables.getErrorMap().putError(Constants.ABSTRACTS_PROPERTY_KEY + ".abstractTypeCode", 
+            GlobalVariables.getMessageMap().putError(Constants.ABSTRACTS_PROPERTY_KEY + ".abstractTypeCode", 
                                                    KeyConstants.ERROR_ABSTRACT_TYPE_NOT_SELECTED);
         }
         else if (isInvalid(abstractTypeCode)) {

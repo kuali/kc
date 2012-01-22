@@ -21,13 +21,12 @@ import java.util.Map;
 import org.apache.commons.lang.StringUtils;
 import org.kuali.kra.authorization.KraAuthorizationConstants;
 import org.kuali.kra.proposaldevelopment.service.ProposalLockService;
-import org.kuali.rice.kim.bo.Person;
+import org.kuali.rice.kim.api.identity.Person;
 import org.kuali.rice.kns.authorization.AuthorizationConstants;
-import org.kuali.rice.kns.document.Document;
-import org.kuali.rice.kns.service.impl.PessimisticLockServiceImpl;
-import org.kuali.rice.kns.util.GlobalVariables;
-import org.kuali.rice.kns.util.KNSConstants;
-import org.kuali.rice.kns.util.ObjectUtils;
+import org.kuali.rice.krad.document.Document;
+import org.kuali.rice.krad.service.impl.PessimisticLockServiceImpl;
+import org.kuali.rice.krad.util.KRADConstants;
+import org.kuali.rice.krad.util.ObjectUtils;
 
 public class InstitutionalProposalLockServiceImpl extends PessimisticLockServiceImpl implements ProposalLockService {
 
@@ -81,7 +80,7 @@ public class InstitutionalProposalLockServiceImpl extends PessimisticLockService
                 ) {
             String fullEntryEditModeValue = (String)entry.getValue();
             //return ( (ObjectUtils.isNotNull(fullEntryEditModeValue)) && ("true".equals(fullEntryEditModeValue)) );
-            return ((ObjectUtils.isNotNull(fullEntryEditModeValue)) && StringUtils.equalsIgnoreCase(KNSConstants.KUALI_DEFAULT_TRUE_VALUE, fullEntryEditModeValue));         
+            return ((ObjectUtils.isNotNull(fullEntryEditModeValue)) && StringUtils.equalsIgnoreCase(KRADConstants.KUALI_DEFAULT_TRUE_VALUE, fullEntryEditModeValue));         
 
         }
         return false;

@@ -17,12 +17,13 @@ package org.kuali.kra.budget.distributionincome;
 
 import org.kuali.kra.budget.document.BudgetDocumentContainer;
 import org.kuali.kra.costshare.CostShareRuleResearchDocumentBase;
-import org.kuali.rice.kns.util.GlobalVariables;
+import org.kuali.rice.kns.util.KNSGlobalVariables;
 import org.kuali.rice.kns.web.struts.form.KualiForm;
+import org.kuali.rice.krad.util.GlobalVariables;
 
 /**
  * 
- * This class Processes Budget Project Income rules.
+ * This class ProcessDefinitionDefinitiones Budget Project Income rules.
  */
 public class BudgetCostShareRuleImpl extends CostShareRuleResearchDocumentBase implements AddBudgetCostShareRule,
         BudgetValidationCostShareRule, BudgetCostShareAllocationRule {
@@ -72,7 +73,7 @@ public class BudgetCostShareRuleImpl extends CostShareRuleResearchDocumentBase i
             return duplicate;
         }
 
-        KualiForm form = GlobalVariables.getKualiForm();
+        KualiForm form = KNSGlobalVariables.getKualiForm();
         if (form instanceof BudgetDocumentContainer) {
             BudgetDocumentContainer budgetContainerForm = (BudgetDocumentContainer) form;
 
@@ -115,7 +116,7 @@ public class BudgetCostShareRuleImpl extends CostShareRuleResearchDocumentBase i
             BudgetDistributionAndIncomeComponent budgetCostShare) {
         boolean duplicate = testBudgetCostShare.equals(budgetCostShare);
         if (duplicate) {
-            GlobalVariables.getErrorMap().putError("newCostShare.*", ADD_ERROR_KEY,
+            GlobalVariables.getMessageMap().putError("newCostShare.*", ADD_ERROR_KEY,
                     "A Cost Share with the same Fiscal Year, Source Account and Amount exists in the table");
         }
         return duplicate;
@@ -129,7 +130,7 @@ public class BudgetCostShareRuleImpl extends CostShareRuleResearchDocumentBase i
         boolean unallocatedCostSharingExists = budgetCostShareEvent.getBudgetDocument().getBudget().getUnallocatedCostSharing()
                 .isNonZero();
         if (unallocatedCostSharingExists) {
-            GlobalVariables.getErrorMap().putError("document.budgetCostShare*", ADD_ERROR_KEY,
+            GlobalVariables.getMessageMap().putError("document.budgetCostShare*", ADD_ERROR_KEY,
                     "Cost share allocation doesn't total available cost sharing");
         }
         return unallocatedCostSharingExists;

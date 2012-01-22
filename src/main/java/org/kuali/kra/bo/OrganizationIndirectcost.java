@@ -16,105 +16,96 @@
 package org.kuali.kra.bo;
 
 import java.sql.Date;
-import java.util.LinkedHashMap;
 
-import org.kuali.kra.budget.RateDecimal;
-import org.kuali.rice.kns.util.KualiDecimal;
+import org.kuali.rice.core.api.util.type.KualiDecimal;
 
 public class OrganizationIndirectcost extends KraPersistableBusinessObjectBase {
 
-	private Integer idcNumber;
-	private String organizationId;
-	private KualiDecimal applicableIndirectcostRate;
-	private Date endDate;
-	private String idcComment;
-	private Integer idcRateTypeCode;
-	private Date requestedDate;
-	private Date startDate;
+    private Integer idcNumber;
+
+    private String organizationId;
+
+    private KualiDecimal applicableIndirectcostRate;
+
+    private Date endDate;
+
+    private String idcComment;
+
+    private Integer idcRateTypeCode;
+
+    private Date requestedDate;
+
+    private Date startDate;
+
     private Organization organization;
 
-	public OrganizationIndirectcost(){
-		super();
-	}
+    public OrganizationIndirectcost() {
+        super();
+    }
 
-	public Integer getIdcNumber() {
-		return idcNumber;
-	}
+    public Integer getIdcNumber() {
+        return idcNumber;
+    }
 
-	public void setIdcNumber(Integer idcNumber) {
-		this.idcNumber = idcNumber;
-	}
+    public void setIdcNumber(Integer idcNumber) {
+        this.idcNumber = idcNumber;
+    }
 
-	public String getOrganizationId() {
-		return organizationId;
-	}
+    public String getOrganizationId() {
+        return organizationId;
+    }
 
-	public void setOrganizationId(String organizationId) {
-		this.organizationId = organizationId;
-	}
+    public void setOrganizationId(String organizationId) {
+        this.organizationId = organizationId;
+    }
 
-	public KualiDecimal getApplicableIndirectcostRate() {
-		return applicableIndirectcostRate;
-	}
+    public KualiDecimal getApplicableIndirectcostRate() {
+        return applicableIndirectcostRate;
+    }
 
-	public void setApplicableIndirectcostRate(KualiDecimal applicableIndirectcostRate) {
-		this.applicableIndirectcostRate = applicableIndirectcostRate;
-	}
+    public void setApplicableIndirectcostRate(KualiDecimal applicableIndirectcostRate) {
+        this.applicableIndirectcostRate = applicableIndirectcostRate;
+    }
 
-	public Date getEndDate() {
-		return endDate;
-	}
+    public Date getEndDate() {
+        return endDate;
+    }
 
-	public void setEndDate(Date endDate) {
-		this.endDate = endDate;
-	}
+    public void setEndDate(Date endDate) {
+        this.endDate = endDate;
+    }
 
-	public String getIdcComment() {
-		return idcComment;
-	}
+    public String getIdcComment() {
+        return idcComment;
+    }
 
-	public void setIdcComment(String idcComment) {
-		this.idcComment = idcComment;
-	}
+    public void setIdcComment(String idcComment) {
+        this.idcComment = idcComment;
+    }
 
-	public Integer getIdcRateTypeCode() {
-		return idcRateTypeCode;
-	}
+    public Integer getIdcRateTypeCode() {
+        return idcRateTypeCode;
+    }
 
-	public void setIdcRateTypeCode(Integer idcRateTypeCode) {
-		this.idcRateTypeCode = idcRateTypeCode;
-	}
+    public void setIdcRateTypeCode(Integer idcRateTypeCode) {
+        this.idcRateTypeCode = idcRateTypeCode;
+    }
 
-	public Date getRequestedDate() {
-		return requestedDate;
-	}
+    public Date getRequestedDate() {
+        return requestedDate;
+    }
 
-	public void setRequestedDate(Date requestedDate) {
-		this.requestedDate = requestedDate;
-	}
+    public void setRequestedDate(Date requestedDate) {
+        this.requestedDate = requestedDate;
+    }
 
-	public Date getStartDate() {
-		return startDate;
-	}
+    public Date getStartDate() {
+        return startDate;
+    }
 
-	public void setStartDate(Date startDate) {
-		this.startDate = startDate;
-	}
-
-
-	@Override 
-	protected LinkedHashMap toStringMapper() {
-		LinkedHashMap hashMap = new LinkedHashMap();
-		hashMap.put("idcNumber", getIdcNumber());
-		hashMap.put("organizationId", getOrganizationId());
-		hashMap.put("applicableIndirectcostRate", getApplicableIndirectcostRate());
-		hashMap.put("endDate", getEndDate());
-		hashMap.put("idcComment", getIdcComment());
-		hashMap.put("idcRateTypeCode", getIdcRateTypeCode());
-		hashMap.put("requestedDate", getRequestedDate());
-		hashMap.put("startDate", getStartDate());
-		return hashMap;
-	}
+    public void setStartDate(Date startDate) {
+        this.startDate = startDate;
+    }
 
     public Organization getOrganization() {
         return organization;

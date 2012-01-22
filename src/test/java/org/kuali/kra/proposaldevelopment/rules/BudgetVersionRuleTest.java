@@ -30,8 +30,8 @@ import org.kuali.kra.budget.versions.BudgetVersionCollection;
 import org.kuali.kra.budget.versions.BudgetVersionOverview;
 import org.kuali.kra.budget.versions.BudgetVersionRule;
 import org.kuali.kra.proposaldevelopment.document.ProposalDevelopmentDocument;
-import org.kuali.rice.kns.document.Document;
-import org.kuali.rice.kns.document.DocumentBase;
+import org.kuali.rice.krad.document.Document;
+import org.kuali.rice.krad.document.DocumentBase;
 
 /**
  *

@@ -15,8 +15,6 @@
  */
 package org.kuali.kra.proposaldevelopment.specialreview;
 
-import java.util.LinkedHashMap;
-
 import org.kuali.kra.common.specialreview.bo.SpecialReview;
 import org.kuali.kra.proposaldevelopment.hierarchy.HierarchyMaintainable;
 
@@ -26,12 +24,15 @@ import org.kuali.kra.proposaldevelopment.hierarchy.HierarchyMaintainable;
 public class ProposalSpecialReview extends SpecialReview<ProposalSpecialReviewExemption> implements HierarchyMaintainable {
 
     private static final long serialVersionUID = 4616138222389685155L;
-    
+
     private Long proposalSpecialReviewId;
+
     private String proposalNumber;
+
     private String hierarchyProposalNumber;
+
     private boolean hiddenInHierarchy;
-    
+
     public void setProposalSpecialReviewId(Long proposalSpecialReviewId) {
         this.proposalSpecialReviewId = proposalSpecialReviewId;
     }
@@ -39,7 +40,7 @@ public class ProposalSpecialReview extends SpecialReview<ProposalSpecialReviewEx
     public Long getProposalSpecialReviewId() {
         return proposalSpecialReviewId;
     }
-    
+
     public String getProposalNumber() {
         return this.proposalNumber;
     }
@@ -63,7 +64,7 @@ public class ProposalSpecialReview extends SpecialReview<ProposalSpecialReviewEx
     public void setHiddenInHierarchy(boolean hiddenInHierarchy) {
         this.hiddenInHierarchy = hiddenInHierarchy;
     }
-    
+
     @Override
     public ProposalSpecialReviewExemption createSpecialReviewExemption(String exemptionTypeCode) {
         ProposalSpecialReviewExemption proposalSpecialReviewExemption = new ProposalSpecialReviewExemption();
@@ -71,17 +72,7 @@ public class ProposalSpecialReview extends SpecialReview<ProposalSpecialReviewEx
         proposalSpecialReviewExemption.setProposalSpecialReview(this);
         return proposalSpecialReviewExemption;
     }
-    
-    @Override
-    protected LinkedHashMap<String, Object> toStringMapper() {
-        LinkedHashMap<String, Object> propMap = super.toStringMapper();
-        propMap.put("proposalSpecialReviewId", getProposalSpecialReviewId());
-        propMap.put("proposalNumber", getProposalNumber());
-        propMap.put("hierarchyProposalNumber", getHierarchyProposalNumber());
-        propMap.put("hiddenInHierarchy", isHiddenInHierarchy());
-        return propMap;
-    }
-    
+
     public int hierarchyHashCode() {
         final int prime = 31;
         int result = 1;
@@ -139,7 +130,7 @@ public class ProposalSpecialReview extends SpecialReview<ProposalSpecialReviewEx
         }
         return true;
     }
- 
+
     /**
      * {@inheritDoc}
      * @see org.kuali.kra.Sequenceable#resetPersistenceState()
@@ -151,6 +142,4 @@ public class ProposalSpecialReview extends SpecialReview<ProposalSpecialReviewEx
             exemption.setProposalSpecialReviewId(null);
         }
     }
-    
-
 }

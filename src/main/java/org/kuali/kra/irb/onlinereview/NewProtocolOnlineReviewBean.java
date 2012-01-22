@@ -16,78 +16,81 @@
 package org.kuali.kra.irb.onlinereview;
 
 import java.sql.Date;
-import java.util.LinkedHashMap;
 
-import org.kuali.rice.kns.bo.BusinessObjectBase;
+import org.kuali.rice.krad.bo.BusinessObjectBase;
 
 public class NewProtocolOnlineReviewBean extends BusinessObjectBase {
 
     private Long newProtocolReviewCommitteeMembershipId;
+
     private String newReviewerTypeCode;
+
     private Date newReviewDateRequested;
+
     private Date newReviewDateDue;
+
     private String newReviewDocumentDescription;
+
     private String newReviewExplanation;
+
     private String newReviewOrganizationDocumentNumber;
-    
+
     public Long getNewProtocolReviewCommitteeMembershipId() {
         return newProtocolReviewCommitteeMembershipId;
     }
+
     public void setNewProtocolReviewCommitteeMembershipId(Long newProtocolReviewCommitteeMembershipId) {
         this.newProtocolReviewCommitteeMembershipId = newProtocolReviewCommitteeMembershipId;
     }
+
     public String getNewReviewerTypeCode() {
         return newReviewerTypeCode;
     }
+
     public void setNewReviewerTypeCode(String newReviewerTypeCode) {
         this.newReviewerTypeCode = newReviewerTypeCode;
     }
+
     public Date getNewReviewDateRequested() {
         return newReviewDateRequested;
     }
+
     public void setNewReviewDateRequested(Date newReviewDateRequested) {
         this.newReviewDateRequested = newReviewDateRequested;
     }
+
     public Date getNewReviewDateDue() {
         return newReviewDateDue;
     }
+
     public void setNewReviewDateDue(Date newReviewDateDue) {
         this.newReviewDateDue = newReviewDateDue;
     }
+
     public String getNewReviewDocumentDescription() {
         return newReviewDocumentDescription;
     }
+
     public void setNewReviewDocumentDescription(String newReviewDocumentDescription) {
         this.newReviewDocumentDescription = newReviewDocumentDescription;
     }
+
     public String getNewReviewExplanation() {
         return newReviewExplanation;
     }
+
     public void setNewReviewExplanation(String newReviewExplanation) {
         this.newReviewExplanation = newReviewExplanation;
     }
+
     public String getNewReviewOrganizationDocumentNumber() {
         return newReviewOrganizationDocumentNumber;
     }
+
     public void setNewReviewOrganizationDocumentNumber(String newReviewOrganizationDocumentNumber) {
         this.newReviewOrganizationDocumentNumber = newReviewOrganizationDocumentNumber;
     }
-    @Override
-    protected LinkedHashMap toStringMapper() {
-        LinkedHashMap<String,Object> hashMap = new LinkedHashMap<String,Object>();
-    
-        hashMap.put("newProtocolReviewCommitteeMembershipId",getNewProtocolReviewCommitteeMembershipId());
-        hashMap.put("newReviewerTypeCode",getNewReviewerTypeCode());
-        hashMap.put("newReviewDateRequested",getNewReviewDateRequested());
-        hashMap.put("newReviewDateDue",getNewReviewDateDue());
-        hashMap.put("newReviewDocumentDescription",getNewReviewDocumentDescription());
-        hashMap.put("newReviewExplanation",getNewReviewExplanation());
-        hashMap.put("newReviewOrganizationDocumentNumber",getNewReviewOrganizationDocumentNumber());
-        return hashMap;
-        
-    }
+
     public void refresh() {
-        //nothing to do here.
     }
-        
 }

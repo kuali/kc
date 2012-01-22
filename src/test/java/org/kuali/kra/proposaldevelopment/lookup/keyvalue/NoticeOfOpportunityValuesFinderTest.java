@@ -19,7 +19,8 @@ import java.util.ArrayList;
 import java.util.List;
 
 import org.kuali.kra.keyvalue.ValuesFinderTestBase;
-import org.kuali.rice.core.util.KeyLabelPair;
+import org.kuali.rice.core.api.util.ConcreteKeyValue;
+import org.kuali.rice.core.api.util.KeyValue;
 
 /**
  * This class tests NoticeOfOpportunityValuesFinder.
@@ -32,17 +33,17 @@ public class NoticeOfOpportunityValuesFinderTest extends ValuesFinderTestBase {
     }
 
     @Override
-    protected List<KeyLabelPair> getKeyValues() {
-        final List<KeyLabelPair> keylabel = new ArrayList<KeyLabelPair>();
+    protected List<KeyValue> getKeyValues() {
+        final List<KeyValue> keylabel = new ArrayList<KeyValue>();
         
-        keylabel.add(new KeyLabelPair("", "select"));
-        keylabel.add(new KeyLabelPair("1", "Federal Solicitation"));
-        keylabel.add(new KeyLabelPair("2", "Unsolicited"));
-        keylabel.add(new KeyLabelPair("3", "Verbal Request for Proposal"));
-        keylabel.add(new KeyLabelPair("4", "SBIR Solicitation"));
-        keylabel.add(new KeyLabelPair("5", "STTR Solicitation"));
-        keylabel.add(new KeyLabelPair("6", "Non-Federal Solicitation"));
-        keylabel.add(new KeyLabelPair("7", "Internal"));
+        keylabel.add(new ConcreteKeyValue("", "select"));
+        keylabel.add(new ConcreteKeyValue("1", "Federal Solicitation"));
+        keylabel.add(new ConcreteKeyValue("2", "Unsolicited"));
+        keylabel.add(new ConcreteKeyValue("3", "Verbal Request for Proposal"));
+        keylabel.add(new ConcreteKeyValue("4", "SBIR Solicitation"));
+        keylabel.add(new ConcreteKeyValue("5", "STTR Solicitation"));
+        keylabel.add(new ConcreteKeyValue("6", "Non-Federal Solicitation"));
+        keylabel.add(new ConcreteKeyValue("7", "Internal"));
 
         return keylabel;
     }

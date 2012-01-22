@@ -36,6 +36,6 @@ public class ProposalPersonModuleQuestionnaireBean extends ModuleQuestionnaireBe
     public ProposalPersonModuleQuestionnaireBean(DevelopmentProposal developmentProposal, ProposalPerson person) {
         super(CoeusModule.PROPOSAL_DEVELOPMENT_MODULE_CODE, person.getUniqueId(), 
                 CoeusSubModule.PROPOSAL_PERSON_CERTIFICATION, "0", 
-                developmentProposal.getProposalDocument().getDocumentHeader().getWorkflowDocument().stateIsApproved());      
+                developmentProposal.getProposalDocument().getDocumentHeader().getWorkflowDocument().isApproved());      
     }
 }

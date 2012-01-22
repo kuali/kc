@@ -146,7 +146,6 @@ class ProjectPersonnelDataFeedCommand extends ProposalDataFeedCommandBase {
     
     private AwardPersonCreditSplit createAwardPersonCreditSplit(InstitutionalProposalPersonCreditSplit ipPersonCreditSplit) {
         AwardPersonCreditSplit awardPersonCreditSplit = new AwardPersonCreditSplit();
-        awardPersonCreditSplit.setAutoIncrementSet(ipPersonCreditSplit.isAutoIncrementSet());
         awardPersonCreditSplit.setCredit(ipPersonCreditSplit.getCredit());
         awardPersonCreditSplit.setInvCreditTypeCode(ipPersonCreditSplit.getInvCreditTypeCode());
         return awardPersonCreditSplit;
@@ -155,7 +154,6 @@ class ProjectPersonnelDataFeedCommand extends ProposalDataFeedCommandBase {
     private AwardPersonUnit createAwardPersonUnit(AwardPerson awardPerson, InstitutionalProposalPersonUnit ipPersonUnit) {
         AwardPersonUnit awardPersonUnit = new AwardPersonUnit();
         awardPersonUnit.setUnitNumber(ipPersonUnit.getUnitNumber());
-        awardPersonUnit.setAutoIncrementSet(ipPersonUnit.isAutoIncrementSet());
         if (awardPerson.isPrincipalInvestigator() && !hasLeadUnit(awardPerson) && ipPersonUnit.isLeadUnit()) {
             awardPersonUnit.setLeadUnit(true);
             award.setLeadUnit(ipPersonUnit.getUnit());
@@ -164,7 +162,6 @@ class ProjectPersonnelDataFeedCommand extends ProposalDataFeedCommandBase {
         }
         for (InstitutionalProposalPersonUnitCreditSplit ipPersonUnitCreditSplit : ipPersonUnit.getCreditSplits()) {
             AwardPersonUnitCreditSplit awardPersonUnitCreditSplit = new AwardPersonUnitCreditSplit();
-            awardPersonUnitCreditSplit.setAutoIncrementSet(ipPersonUnitCreditSplit.isAutoIncrementSet());
             awardPersonUnitCreditSplit.setCredit(ipPersonUnitCreditSplit.getCredit());
             awardPersonUnitCreditSplit.setInvCreditTypeCode(ipPersonUnitCreditSplit.getInvCreditTypeCode());
             awardPersonUnit.add(awardPersonUnitCreditSplit);

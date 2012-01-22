@@ -15,40 +15,32 @@
  */
 package org.kuali.kra.budget.nonpersonnel;
 
-import java.util.LinkedHashMap;
-
 import org.kuali.kra.budget.BudgetDecimal;
 import org.kuali.kra.infrastructure.DeepCopyIgnore;
-import org.kuali.kra.infrastructure.DeepCopyIgnoreScopes;
 
 public class BudgetRateAndBase extends AbstractBudgetRateAndBase {
-	/**
+
+    /**
      * Comment for <code>serialVersionUID</code>
      */
     private static final long serialVersionUID = -6003003851261499575L;
+
     private BudgetDecimal baseCost;
+
     @DeepCopyIgnore
     private Long budgetRateAndBaseId;
+
     private Long budgetLineItemCalculatedAmountId;
+
     private Long budgetLineItemId;
 
+    public BudgetDecimal getBaseCost() {
+        return baseCost;
+    }
 
-	public BudgetDecimal getBaseCost() {
-		return baseCost;
-	}
-
-	public void setBaseCost(BudgetDecimal baseCost) {
-		this.baseCost = baseCost;
-	}
-
-
-	@SuppressWarnings("unchecked")
-    @Override 
-	protected LinkedHashMap toStringMapper() {
-		LinkedHashMap hashMap = super.toStringMapper();
-		hashMap.put("baseCost", getBaseCost());
-		return hashMap;
-	}
+    public void setBaseCost(BudgetDecimal baseCost) {
+        this.baseCost = baseCost;
+    }
 
     /**
      * Gets the budgetRateAndBaseId attribute. 
@@ -97,5 +89,4 @@ public class BudgetRateAndBase extends AbstractBudgetRateAndBase {
     public void setBudgetLineItemId(Long budgetLineItemId) {
         this.budgetLineItemId = budgetLineItemId;
     }
-
 }

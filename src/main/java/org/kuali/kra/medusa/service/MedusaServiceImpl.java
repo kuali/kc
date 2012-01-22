@@ -41,8 +41,8 @@ import org.kuali.kra.service.AwardHierarchyUIService;
 import org.kuali.kra.service.VersionHistoryService;
 import org.kuali.kra.subaward.bo.SubAward;
 import org.kuali.kra.subaward.bo.SubAwardFundingSource;
-import org.kuali.rice.kns.bo.BusinessObject;
-import org.kuali.rice.kns.service.BusinessObjectService;
+import org.kuali.rice.krad.bo.BusinessObject;
+import org.kuali.rice.krad.service.BusinessObjectService;
 
 /**
  * Medusa Service provides the methods to get MedusaNodes that describe the tree-like structure that describes
@@ -56,7 +56,7 @@ public class MedusaServiceImpl implements MedusaService {
     public static final String NEGOTIATION_MODULE = "neg";
     private static final int INST_PROPOSAL_STATUS_FUNDED = 2;
     private static final String SUBAWARD_MODULE = "subaward";
-    
+
     private BusinessObjectService businessObjectService;
     private AwardAmountInfoService awardAmountInfoService;
     private VersionHistoryService versionHistoryService;
@@ -546,7 +546,7 @@ public class MedusaServiceImpl implements MedusaService {
             return getNode((Negotiation)bo);
         } else if (bo instanceof SubAward) {
             return getNode((SubAward)bo);
-        }else {
+        } else {
             return null;
         }
     }

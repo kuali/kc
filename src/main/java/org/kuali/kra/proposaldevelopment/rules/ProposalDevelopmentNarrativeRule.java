@@ -46,14 +46,12 @@ import org.kuali.kra.proposaldevelopment.rule.event.SaveNarrativesEvent;
 import org.kuali.kra.rules.ResearchDocumentRuleBase;
 import org.kuali.kra.service.KcAttachmentService;
 import org.kuali.kra.service.KcPersonService;
-import org.kuali.rice.kim.bo.Person;
-import org.kuali.rice.kim.service.PersonService;
-import org.kuali.rice.kns.service.BusinessObjectService;
+import org.kuali.rice.coreservice.framework.parameter.ParameterService;
+import org.kuali.rice.kim.api.identity.PersonService;
 import org.kuali.rice.kns.service.DictionaryValidationService;
-import org.kuali.rice.kns.service.ParameterService;
-import org.kuali.rice.kns.util.ErrorMap;
-import org.kuali.rice.kns.util.GlobalVariables;
-import org.kuali.rice.kns.util.ObjectUtils;
+import org.kuali.rice.krad.service.BusinessObjectService;
+import org.kuali.rice.krad.util.GlobalVariables;
+import org.kuali.rice.krad.util.MessageMap;
 
 
 /**
@@ -74,7 +72,7 @@ public class ProposalDevelopmentNarrativeRule extends ResearchDocumentRuleBase i
     private static final org.apache.commons.logging.Log LOG = org.apache.commons.logging.LogFactory.getLog(ProposalDevelopmentNarrativeRule.class);
     
     private transient KcPersonService kcPersonService;
-    private transient PersonService<Person> personService;
+    private transient PersonService personService;
     private transient ParameterService parameterService;
     private transient KcAttachmentService  kcAttachmentService;
     
@@ -88,7 +86,7 @@ public class ProposalDevelopmentNarrativeRule extends ResearchDocumentRuleBase i
         Narrative narrative = narrativeEvent.getNarrative();
         boolean rulePassed = true;
         populateNarrativeType(narrative);
-        ErrorMap map = GlobalVariables.getErrorMap();
+        MessageMap map = GlobalVariables.getMessageMap();
 
         if(narrative.getNarrativeType()==null)
             rulePassed = false;
@@ -112,7 +110,7 @@ public class ProposalDevelopmentNarrativeRule extends ResearchDocumentRuleBase i
         // Checking attachment file name for invalid characters.
         if (attachmentService.hasInvalidCharacters(attachmentFileName)) {
             String parameter = getParameterService().
-                               getParameterValue(ProposalDevelopmentDocument.class, Constants.INVALID_FILE_NAME_CHECK_PARAMETER);
+                               getParameterValueAsString(ProposalDevelopmentDocument.class, Constants.INVALID_FILE_NAME_CHECK_PARAMETER);
            
             if (Constants.INVALID_FILE_NAME_ERROR_CODE.equals(parameter)) {
                 rulePassed &= false;
@@ -128,7 +126,7 @@ public class ProposalDevelopmentNarrativeRule extends ResearchDocumentRuleBase i
         map.addToErrorPath("newNarrative");
         getService(DictionaryValidationService.class).validateBusinessObject(narrative,false);
         map.removeFromErrorPath("newNarrative");
-        int size = map.keySet().size();
+        int size = map.getErrorMessages().keySet().size();
         rulePassed &= size<=0;
         rulePassed &= checkNarrative(document.getDevelopmentProposal().getNarratives(), narrative);
         

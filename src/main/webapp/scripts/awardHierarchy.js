@@ -1,10 +1,10 @@
 var AJAX_LOCATION = "awardHierarchyAwardActionsAjax.do";
 var ROOT_AWARD_LOCATION = "rootAwardNumber";
-var selectedAwardNumber = $('#selectedAwardNumber').attr("value");
-var currentAwardNumber = $("#currentAwardNumber").attr("value");
+var selectedAwardNumber = jQuery('#selectedAwardNumber').attr("value");
+var currentAwardNumber = jQuery("#currentAwardNumber").attr("value");
 var selectedNodeReached = false;
-var canCreateAward= $("#canCreateAward").attr("value");
-$(document).ready(function() {
+var canCreateAward= jQuery("#canCreateAward").attr("value");
+jQuery(document).ready(function() {
 	  if (selectedAwardNumber.length > 1) {
 		  forceLoading();
 		  queueToggle(null, openSelectedAward);
@@ -16,17 +16,17 @@ $(document).ready(function() {
 //method called by the treeview that is setup in the awardHierarchyShared.js
 function treeViewToggle(item) {
 	debugLog('toggling ' + getAwardNumber(item));
-	$("div.awardHierarchy").slideUp(300);
-	if (!$(item).is('.loaded')) {
+	jQuery("div.awardHierarchy").slideUp(300);
+	if (!jQuery(item).is('.loaded')) {
 		queueToggle(item);
 	}
 }
 
 function openSelectedAward(requestTracker) {
 	if (requestTracker.liNode != null && !selectedNodeReached) {
-		$(requestTracker.liNode).find('div.expandable-hitarea:first').click();
+		jQuery(requestTracker.liNode).find('div.expandable-hitarea:first').click();
 	}
-	$(requestTracker.children).each(function() {
+	jQuery(requestTracker.children).each(function() {
 		var awardNumber = getAwardNumber(this);
 		if (awardNumber == selectedAwardNumber) {
 			debugLog(awardNumber +' == '+ selectedAwardNumber);
@@ -34,7 +34,7 @@ function openSelectedAward(requestTracker) {
 			pendingRequests = [];
 			var liNode = this;
 			setTimeout(function() {
-				$(liNode).find('a.awardHierarchy').first().click();
+				jQuery(liNode).find('a.awardHierarchy').first().click();
 			}, 1000);
 		} else if (!selectedNodeReached){
 			debugLog(awardNumber +' != '+ selectedAwardNumber);
@@ -45,11 +45,11 @@ function openSelectedAward(requestTracker) {
 		setTimeout(function() {
 			clearForceLoading();
 			//make sure loading is hidden so we can get the offset of the div and the selected award
-			$('#loading').hide();
+			jQuery('#loading').hide();
 			if (selectedAwardNumber.length > 1) {
-				debugLog('Scroll height ' + $('#awardHierarchyScrollable > ul').outerHeight() + ", " + selectedAwardNumber + " position is " + $('#li' + selectedAwardNumber).position().top);
-				$('#awardHierarchyScrollable').scrollTop(
-						$('#li' + selectedAwardNumber).position().top
+				debugLog('Scroll height ' + jQuery('#awardHierarchyScrollable > ul').outerHeight() + ", " + selectedAwardNumber + " position is " + jQuery('#li' + selectedAwardNumber).position().top);
+				jQuery('#awardHierarchyScrollable').scrollTop(
+						jQuery('#li' + selectedAwardNumber).position().top
 				);
 			}
 		}, 2000);
@@ -60,25 +60,25 @@ function openSelectedAward(requestTracker) {
       var awardNumber = info['awardNumber'];
       //build the line description - will include the award number, pi, lead unit and
       //editable and/or summary fields for time and money.
-      var idDiv = $('<div class="awardHierarchyLink"></div>').html(builduUi(info, awardNumber));
+      var idDiv = jQuery('<div class="awardHierarchyLink"></div>').html(builduUi(info, awardNumber));
        //add the div to the link
-      var tag = $('<a class="awardHierarchy"></a>').html(idDiv);
+      var tag = jQuery('<a class="awardHierarchy"></a>').html(idDiv);
 
-      var listitem = $('<li class="closed awardhierarchy" id="li' + awardNumber +'"></li>').html(tag);
-      var detailsDiv = $('<div class="awardHierarchy" id="details' + awardNumber +'"></div>');
-      detailsDiv.appendTo($(listitem));
+      var listitem = jQuery('<li class="closed awardhierarchy" id="li' + awardNumber +'"></li>').html(tag);
+      var detailsDiv = jQuery('<div class="awardHierarchy" id="details' + awardNumber +'"></div>');
+      detailsDiv.appendTo(jQuery(listitem));
       
       // need this ultag to force to display folder.
-      var childUlTag = $('<ul></ul>');
+      var childUlTag = jQuery('<ul></ul>');
       childUlTag.appendTo(listitem);
-      listitem.appendTo($(parent));
+      listitem.appendTo(jQuery(parent));
       
       tag.click(function() {
-    	  linkOnClick($(this), info);
+    	  linkOnClick(jQuery(this), info);
       });
       
       // also need this to show 'folder' icon
-      $('#awardhierarchy').treeview({
+      jQuery('#awardhierarchy').treeview({
          add: listitem
       });
       return listitem;
@@ -89,10 +89,10 @@ function openSelectedAward(requestTracker) {
 	 */
   function getAwardNumber(node) {
 	  var liNode = node;
-	  if (!$(liNode).is('li.awardhierarchy')) {
-		  liNode = $(node).parents('li.awardhierarchy:eq(0)');
+	  if (!jQuery(liNode).is('li.awardhierarchy')) {
+		  liNode = jQuery(node).parents('li.awardhierarchy:eq(0)');
 	  }
-      return $(liNode).attr('id').substring(2);
+      return jQuery(liNode).attr('id').substring(2);
   }
     
     function builduUi(info, awardNumber) {
@@ -133,78 +133,78 @@ function openSelectedAward(requestTracker) {
       var index = awardNumber.indexOf("-");
       var indexForHiddenField = parseInt(awardNumber.substring(index+1), 10);
       
-	  var tblTag = $('<table id="tbody2_1" style="border: 1px solid rgb(147, 147, 147); padding: 0px; border-collapse: collapse;"></table>')
+	  var tblTag = jQuery('<table id="tbody2_1" style="border: 1px solid rgb(147, 147, 147); padding: 0px; border-collapse: collapse;"></table>')
 	    
-	  	var trTag0 = $('<tr></tr>');
-	    var thTag0 = $('<th colspan="5" style="border-style: solid; text-align:left; border-color: rgb(230, 230, 230) rgb(147, 147, 147) rgb(147, 147, 147); border-width: 1px; padding: 3px; border-collapse: collapse; background-color: rgb(184, 184, 184); background-image: none;"></th>').html("Award Copy");
+	  	var trTag0 = jQuery('<tr></tr>');
+	    var thTag0 = jQuery('<th colspan="5" style="border-style: solid; text-align:left; border-color: rgb(230, 230, 230) rgb(147, 147, 147) rgb(147, 147, 147); border-width: 1px; padding: 3px; border-collapse: collapse; background-color: rgb(184, 184, 184); background-image: none;"></th>').html("Award Copy");
 	    trTag0.html(thTag0);
 	    trTag0.appendTo(tblTag);
 	    // 1st tr
-	    var trTag = $('<tr></tr>');
-	    var thTag1=$('<th style="border: 1px solid rgb(147, 147, 147); padding: 3px; border-collapse: collapse; background-color: rgb(230, 230, 230); background-image: none; width: 130px; vertical-align: middle;">').html('<b>Copy Descendents: </b>');
+	    var trTag = jQuery('<tr></tr>');
+	    var thTag1=jQuery('<th style="border: 1px solid rgb(147, 147, 147); padding: 3px; border-collapse: collapse; background-color: rgb(230, 230, 230); background-image: none; width: 130px; vertical-align: middle;">').html('<b>Copy Descendents: </b>');
 	    trTag.html(thTag1);
 	    var disabled = "";
 	    if (!info['hasChildren']) {
 	    	disabled = "disabled=''";
 	    }
-	    if($("#awardHierarchyTempObject\\[" + indexForHiddenField + "\\]\\.copyDescendants").attr("value")){
-	    	var checkbox = $('<input class="nobord" type="checkbox" ' + disabled + '></input>').attr("name","awardHierarchyTempObject["+indexForHiddenField+"].copyDescendants").attr("id","awardHierarchyTempObject["+indexForHiddenField+"].copyDescendants").attr("value",$("#awardHierarchyTempObject\\[" + indexForHiddenField + "\\]\\.copyDescendants").attr("value")).attr("checked",$("#awardHierarchyTempObject\\[" + indexForHiddenField + "\\]\\.copyDescendants").attr("value"));
+	    if(jQuery("#awardHierarchyTempObject\\[" + indexForHiddenField + "\\]\\.copyDescendants").attr("value")){
+	    	var checkbox = jQuery('<input class="nobord" type="checkbox" ' + disabled + '></input>').attr("name","awardHierarchyTempObject["+indexForHiddenField+"].copyDescendants").attr("id","awardHierarchyTempObject["+indexForHiddenField+"].copyDescendants").attr("value",jQuery("#awardHierarchyTempObject\\[" + indexForHiddenField + "\\]\\.copyDescendants").attr("value")).attr("checked",jQuery("#awardHierarchyTempObject\\[" + indexForHiddenField + "\\]\\.copyDescendants").attr("value"));
 	    }else{
-	    	var checkbox = $('<input class="nobord" type="checkbox" ' + disabled + '></input>').attr("name","awardHierarchyTempObject["+indexForHiddenField+"].copyDescendants").attr("id","awardHierarchyTempObject["+indexForHiddenField+"].copyDescendants");
+	    	var checkbox = jQuery('<input class="nobord" type="checkbox" ' + disabled + '></input>').attr("name","awardHierarchyTempObject["+indexForHiddenField+"].copyDescendants").attr("id","awardHierarchyTempObject["+indexForHiddenField+"].copyDescendants");
 	    }
 	    
-	    var hiddenTagForCheckBox = $('<input type="hidden" />').attr("name","elementsToReset").attr("value","awardHierarchyTempObject["+indexForHiddenField+"].copyDescendants");
+	    var hiddenTagForCheckBox = jQuery('<input type="hidden" />').attr("name","elementsToReset").attr("value","awardHierarchyTempObject["+indexForHiddenField+"].copyDescendants");
 	    
-	    var tdTag1=$('<td style="border: 1px solid rgb(147, 147, 147); padding: 3px; border-collapse: collapse; background-color: rgb(255, 255, 255); vertical-align: middle; width: 30px;">');
+	    var tdTag1=jQuery('<td style="border: 1px solid rgb(147, 147, 147); padding: 3px; border-collapse: collapse; background-color: rgb(255, 255, 255); vertical-align: middle; width: 30px;">');
 	    checkbox.appendTo(tdTag1);
 	    hiddenTagForCheckBox.appendTo(tdTag1);
 	    tdTag1.appendTo(trTag);	    
-	    var thTag2=$('<th style="border: 1px solid rgb(147, 147, 147); padding: 3px; border-collapse: collapse; background-color: rgb(230, 230, 230); background-image: none; width: 60px; vertical-align: middle;">').html('<b>Copy as:</b>');
+	    var thTag2=jQuery('<th style="border: 1px solid rgb(147, 147, 147); padding: 3px; border-collapse: collapse; background-color: rgb(230, 230, 230); background-image: none; width: 60px; vertical-align: middle;">').html('<b>Copy as:</b>');
 	    thTag2.appendTo(trTag);
 	    
-	    var subTblTag = $('<table align="right" cellspacing="0" cellpadding="0" style="border: medium none ; background: transparent none repeat scroll 0% 0%; -moz-background-clip: border; -moz-background-origin: padding; -moz-background-inline-policy: continuous;"></table>')
-	    var subTrTag = $('<tr></tr>');
-	    var subTdTag1 = $('<td style="border: medium none ; background: transparent none repeat scroll 0% 0%; -moz-background-clip: border; -moz-background-origin: padding; -moz-background-inline-policy: continuous; text-align: left; width: 60px;">');
-	    var subTdTag2 = $('<td style="border: medium none ; background: transparent none repeat scroll 0% 0%; -moz-background-clip: border; -moz-background-origin: padding; -moz-background-inline-policy: continuous; vertical-align: bottom; text-align: right; width: 100px;">');
-	    var subTdTag3 = $('<td style="border: medium none ; background: transparent none repeat scroll 0% 0%; -moz-background-clip: border; -moz-background-origin: padding; -moz-background-inline-policy: continuous; vertical-align: bottom; text-align: left; width: 125px;">');
-	    var subTdTag4 = $('<td style="border: medium none ; background: transparent none repeat scroll 0% 0%; -moz-background-clip: border; -moz-background-origin: padding; -moz-background-inline-policy: continuous; vertical-align: bottom; text-align: right; width: 20px;">');
+	    var subTblTag = jQuery('<table align="right" cellspacing="0" cellpadding="0" style="border: medium none ; background: transparent none repeat scroll 0% 0%; -moz-background-clip: border; -moz-background-origin: padding; -moz-background-inline-policy: continuous;"></table>')
+	    var subTrTag = jQuery('<tr></tr>');
+	    var subTdTag1 = jQuery('<td style="border: medium none ; background: transparent none repeat scroll 0% 0%; -moz-background-clip: border; -moz-background-origin: padding; -moz-background-inline-policy: continuous; text-align: left; width: 60px;">');
+	    var subTdTag2 = jQuery('<td style="border: medium none ; background: transparent none repeat scroll 0% 0%; -moz-background-clip: border; -moz-background-origin: padding; -moz-background-inline-policy: continuous; vertical-align: bottom; text-align: right; width: 100px;">');
+	    var subTdTag3 = jQuery('<td style="border: medium none ; background: transparent none repeat scroll 0% 0%; -moz-background-clip: border; -moz-background-origin: padding; -moz-background-inline-policy: continuous; vertical-align: bottom; text-align: left; width: 125px;">');
+	    var subTdTag4 = jQuery('<td style="border: medium none ; background: transparent none repeat scroll 0% 0%; -moz-background-clip: border; -moz-background-origin: padding; -moz-background-inline-policy: continuous; vertical-align: bottom; text-align: right; width: 20px;">');
 	    	    
-	    if($("#awardHierarchyTempObject\\[" + indexForHiddenField + "\\]\\.copyAwardRadio").attr("value") == "a"){
-	    	var radio1 = $('<input class="nobord" type="radio" name="awardHierarchyTempObject['+indexForHiddenField+'].copyAwardRadio" />').attr("id","awardHierarchyTempObject["+indexForHiddenField+"].copyAwardRadio").attr("value","a").attr("checked",true);
+	    if(jQuery("#awardHierarchyTempObject\\[" + indexForHiddenField + "\\]\\.copyAwardRadio").attr("value") == "a"){
+	    	var radio1 = jQuery('<input class="nobord" type="radio" name="awardHierarchyTempObject['+indexForHiddenField+'].copyAwardRadio" />').attr("id","awardHierarchyTempObject["+indexForHiddenField+"].copyAwardRadio").attr("value","a").attr("checked",true);
 	    }else{
-	    	var radio1 = $('<input class="nobord" type="radio" name="awardHierarchyTempObject['+indexForHiddenField+'].copyAwardRadio" />').attr("id","awardHierarchyTempObject["+indexForHiddenField+"].copyAwardRadio").attr("value","a");
+	    	var radio1 = jQuery('<input class="nobord" type="radio" name="awardHierarchyTempObject['+indexForHiddenField+'].copyAwardRadio" />').attr("id","awardHierarchyTempObject["+indexForHiddenField+"].copyAwardRadio").attr("value","a");
 	    }
 	    
 	    subTdTag1.html('new');
 	    radio1.appendTo(subTdTag1);
 	    
-	    if($("#awardHierarchyTempObject\\[" + indexForHiddenField + "\\]\\.copyAwardRadio").attr("value") == "b"){
-	    	var radio2 = $('<input class="nobord" type="radio" name="awardHierarchyTempObject['+indexForHiddenField+'].copyAwardRadio" />').attr("id","awardHierarchyTempObject["+indexForHiddenField+"].copyAwardRadio").attr("value","b").attr("checked",true);
+	    if(jQuery("#awardHierarchyTempObject\\[" + indexForHiddenField + "\\]\\.copyAwardRadio").attr("value") == "b"){
+	    	var radio2 = jQuery('<input class="nobord" type="radio" name="awardHierarchyTempObject['+indexForHiddenField+'].copyAwardRadio" />').attr("id","awardHierarchyTempObject["+indexForHiddenField+"].copyAwardRadio").attr("value","b").attr("checked",true);
 	    }else{
-	    	var radio2 = $('<input class="nobord" type="radio" name="awardHierarchyTempObject['+indexForHiddenField+'].copyAwardRadio" />').attr("id","awardHierarchyTempObject["+indexForHiddenField+"].copyAwardRadio").attr("value","b");
+	    	var radio2 = jQuery('<input class="nobord" type="radio" name="awardHierarchyTempObject['+indexForHiddenField+'].copyAwardRadio" />').attr("id","awardHierarchyTempObject["+indexForHiddenField+"].copyAwardRadio").attr("value","b");
 	    }
 	    
 	    subTdTag2.html('child of');
 	    radio2.appendTo(subTdTag2);
 	    
-	    var lookupField = $('<input type="image" title="Lookup" alt="Lookup" src="static/images/searchicon.gif"/>').attr("name","methodToCall.performLookup.(!!org.kuali.kra.award.home.Award!!).(((awardNumber:awardHierarchyTempObject["+indexForHiddenField+"].awardNumber2,awardHierarchyTempObject["+indexForHiddenField+"].awardNumber2:awardNumber))).((``)).((<>)).(([])).((**)).((^^)).((&&)).((//)).((~~))");
-	    var selectBoxText = $("#awardHierarchyTempObject\\[" + indexForHiddenField + "\\]\\.selectBox2").attr("value");
-	    var selectTag = $('<select />').attr("name","awardHierarchyTempObject["+indexForHiddenField+"].copyAwardPanelTargetAward").attr("id","awardHierarchyTempObject["+indexForHiddenField+"].copyAwardPanelTargetAward");   
-	    var optionTag = $("<option> select: </option>").attr("value","");
+	    var lookupField = jQuery('<input type="image" title="Lookup" alt="Lookup" src="static/images/searchicon.gif"/>').attr("name","methodToCall.performLookup.(!!org.kuali.kra.award.home.Award!!).(((awardNumber:awardHierarchyTempObject["+indexForHiddenField+"].awardNumber2,awardHierarchyTempObject["+indexForHiddenField+"].awardNumber2:awardNumber))).((``)).((<>)).(([])).((**)).((^^)).((&&)).((//)).((~~))");
+	    var selectBoxText = jQuery("#awardHierarchyTempObject\\[" + indexForHiddenField + "\\]\\.selectBox2").attr("value");
+	    var selectTag = jQuery('<select />').attr("name","awardHierarchyTempObject["+indexForHiddenField+"].copyAwardPanelTargetAward").attr("id","awardHierarchyTempObject["+indexForHiddenField+"].copyAwardPanelTargetAward");   
+	    var optionTag = jQuery("<option> select: </option>").attr("value","");
 	    optionTag.appendTo(selectTag);
 	    while(selectBoxText.length>1){
 	    	var optionValue = selectBoxText.substring(0,selectBoxText.indexOf("%3A")).trim();	    	
 	    	selectBoxText = selectBoxText.substring(selectBoxText.indexOf("%3A")+3, selectBoxText.length).trim();
-	    	if($("#awardHierarchyTempObject\\[" + indexForHiddenField + "\\]\\.awardNumber2").attr("value") == optionValue){
-	    		var optionTag = $("<option>"+optionValue+"</option>").attr("value",optionValue).attr("selected",true);
+	    	if(jQuery("#awardHierarchyTempObject\\[" + indexForHiddenField + "\\]\\.awardNumber2").attr("value") == optionValue){
+	    		var optionTag = jQuery("<option>"+optionValue+"</option>").attr("value",optionValue).attr("selected",true);
 	    	}else{
-	    		var optionTag = $("<option>"+optionValue+"</option>").attr("value",optionValue);
+	    		var optionTag = jQuery("<option>"+optionValue+"</option>").attr("value",optionValue);
 	    	}
 	    	optionTag.appendTo(selectTag);	    	
 	    }
 	    selectTag.appendTo(subTdTag3)
 
-	    var hiddenAward = $('<input type="hidden" name="awardHierarchyTempObject[' + indexForHiddenField + '].awardNumber" />').attr("id",
+	    var hiddenAward = jQuery('<input type="hidden" name="awardHierarchyTempObject[' + indexForHiddenField + '].awardNumber" />').attr("id",
          			"awardHierarchyTempObject[" + indexForHiddenField + "].awardNumber").attr("value", awardNumber);
 
 	    lookupField.appendTo(subTdTag4);
@@ -216,13 +216,13 @@ function openSelectedAward(requestTracker) {
 	    
 	    subTrTag.appendTo(subTblTag);
 	    
-	    var tdTag2=$('<td align="left" width="305px"></td>').html(subTblTag);
+	    var tdTag2=jQuery('<td align="left" width="305px"></td>').html(subTblTag);
 	    tdTag2.appendTo(trTag);	    
 	    trTag.appendTo(tblTag);
 	    
 	    if(canCreateAward == "true"){
-		    var tdTag3=$('<td align="left" style="border: 1px solid rgb(147, 147, 147); padding: 3px; border-collapse: collapse; background-color: rgb(255, 255, 255); vertical-align: middle; text-align: center; width: 65px;">');
-		    var copyButton = $('<input type="image" title="Copy" alt="copy" style="border: medium none ;" src="static/images/tinybutton-copy2.gif"/>').attr("property","methodToCall.copyAward.awardNumber"+awardNumber).attr("name","methodToCall.copyAward.awardNumber"+awardNumber);
+		    var tdTag3=jQuery('<td align="left" style="border: 1px solid rgb(147, 147, 147); padding: 3px; border-collapse: collapse; background-color: rgb(255, 255, 255); vertical-align: middle; text-align: center; width: 65px;">');
+		    var copyButton = jQuery('<input type="image" title="Copy" alt="copy" style="border: medium none ;" src="static/images/tinybutton-copy2.gif"/>').attr("property","methodToCall.copyAward.awardNumber"+awardNumber).attr("name","methodToCall.copyAward.awardNumber"+awardNumber);
 		    copyButton.appendTo(tdTag3);	    
 		    tdTag3.appendTo(trTag);	    
 		    trTag.appendTo(tblTag);
@@ -237,65 +237,65 @@ function openSelectedAward(requestTracker) {
       var indexForHiddenField = parseInt(awardNumber.substring(index+1), 10);
       
       
-	  var tblTag = $('<table id="tbody3_1" style="border: 1px solid rgb(147, 147, 147); padding: 0px; border-collapse: collapse;"></table>')
+	  var tblTag = jQuery('<table id="tbody3_1" style="border: 1px solid rgb(147, 147, 147); padding: 0px; border-collapse: collapse;"></table>')
 
-	    var trTag0 = $('<tr></tr>');
-	    var thTag0 = $('<th colspan="3" style="border-style: solid; text-align:left; border-color: rgb(230, 230, 230) rgb(147, 147, 147) rgb(147, 147, 147); border-width: 1px; padding: 3px; border-collapse: collapse; background-color: rgb(184, 184, 184); background-image: none;"></th>').html("New Child");
+	    var trTag0 = jQuery('<tr></tr>');
+	    var thTag0 = jQuery('<th colspan="3" style="border-style: solid; text-align:left; border-color: rgb(230, 230, 230) rgb(147, 147, 147) rgb(147, 147, 147); border-width: 1px; padding: 3px; border-collapse: collapse; background-color: rgb(184, 184, 184); background-image: none;"></th>').html("New Child");
 	    trTag0.html(thTag0);
 	    trTag0.appendTo(tblTag);
 	    
 	    // 1st tr
-	    var trTag = $('<tr></tr>');
-	    var thTag1=$('<th style="border: 1px solid rgb(147, 147, 147); padding: 3px; border-collapse: collapse; background-color: rgb(230, 230, 230); background-image: none; width: 70px; vertical-align: middle;"></th>').html('<b>Based on:</b>');
+	    var trTag = jQuery('<tr></tr>');
+	    var thTag1=jQuery('<th style="border: 1px solid rgb(147, 147, 147); padding: 3px; border-collapse: collapse; background-color: rgb(230, 230, 230); background-image: none; width: 70px; vertical-align: middle;"></th>').html('<b>Based on:</b>');
 	    trTag.html(thTag1);
 	
-	    var subTblTag = $('<table cellspacing="0" cellpadding="0" style="border: medium none ; background: transparent none repeat scroll 0% 0%; -moz-background-clip: border; -moz-background-origin: padding; -moz-background-inline-policy: continuous;"></table>')
-	    var subTrTag = $('<tr></tr>');
-	    var subTdTag1 = $('<td style="border: medium none ; background: transparent none repeat scroll 0% 0%; -moz-background-clip: border; -moz-background-origin: padding; -moz-background-inline-policy: continuous; text-align: left;"></td>');
-	    var subTdTag2 = $('<td style="border: medium none ; background: transparent none repeat scroll 0% 0%; -moz-background-clip: border; -moz-background-origin: padding; -moz-background-inline-policy: continuous; vertical-align: bottom; text-align: right;"></td>');
-	    var subTdTag3 = $('<td style="border: medium none ; background: transparent none repeat scroll 0% 0%; -moz-background-clip: border; -moz-background-origin: padding; -moz-background-inline-policy: continuous; vertical-align: bottom; text-align: right;"></td>');
-	    var subTdTag4 = $('<td style="border: medium none ; background: transparent none repeat scroll 0% 0%; -moz-background-clip: border; -moz-background-origin: padding; -moz-background-inline-policy: continuous; vertical-align: bottom; text-align: left;"></td>');
-	    var subTdTag5 = $('<td style="border: medium none ; background: transparent none repeat scroll 0% 0%; -moz-background-clip: border; -moz-background-origin: padding; -moz-background-inline-policy: continuous; vertical-align: bottom; text-align: right;"></td>');
+	    var subTblTag = jQuery('<table cellspacing="0" cellpadding="0" style="border: medium none ; background: transparent none repeat scroll 0% 0%; -moz-background-clip: border; -moz-background-origin: padding; -moz-background-inline-policy: continuous;"></table>')
+	    var subTrTag = jQuery('<tr></tr>');
+	    var subTdTag1 = jQuery('<td style="border: medium none ; background: transparent none repeat scroll 0% 0%; -moz-background-clip: border; -moz-background-origin: padding; -moz-background-inline-policy: continuous; text-align: left;"></td>');
+	    var subTdTag2 = jQuery('<td style="border: medium none ; background: transparent none repeat scroll 0% 0%; -moz-background-clip: border; -moz-background-origin: padding; -moz-background-inline-policy: continuous; vertical-align: bottom; text-align: right;"></td>');
+	    var subTdTag3 = jQuery('<td style="border: medium none ; background: transparent none repeat scroll 0% 0%; -moz-background-clip: border; -moz-background-origin: padding; -moz-background-inline-policy: continuous; vertical-align: bottom; text-align: right;"></td>');
+	    var subTdTag4 = jQuery('<td style="border: medium none ; background: transparent none repeat scroll 0% 0%; -moz-background-clip: border; -moz-background-origin: padding; -moz-background-inline-policy: continuous; vertical-align: bottom; text-align: left;"></td>');
+	    var subTdTag5 = jQuery('<td style="border: medium none ; background: transparent none repeat scroll 0% 0%; -moz-background-clip: border; -moz-background-origin: padding; -moz-background-inline-policy: continuous; vertical-align: bottom; text-align: right;"></td>');
 	    	    
 	    
 	    
-	    if($("#awardHierarchyTempObject\\[" + indexForHiddenField + "\\]\\.createNewChildRadio").attr("value") == "a"){
-	    	var radio1 = $('<input class="nobord" type="radio" name="awardHierarchyTempObject['+indexForHiddenField+'].createNewChildRadio" />').attr("id","awardHierarchyTempObject["+indexForHiddenField+"].createNewChildRadio").attr("value","a").attr("checked",true);
+	    if(jQuery("#awardHierarchyTempObject\\[" + indexForHiddenField + "\\]\\.createNewChildRadio").attr("value") == "a"){
+	    	var radio1 = jQuery('<input class="nobord" type="radio" name="awardHierarchyTempObject['+indexForHiddenField+'].createNewChildRadio" />').attr("id","awardHierarchyTempObject["+indexForHiddenField+"].createNewChildRadio").attr("value","a").attr("checked",true);
 	    }else{
-	    	var radio1 = $('<input class="nobord" type="radio" name="awardHierarchyTempObject['+indexForHiddenField+'].createNewChildRadio" />').attr("id","awardHierarchyTempObject["+indexForHiddenField+"].createNewChildRadio").attr("value","a");
+	    	var radio1 = jQuery('<input class="nobord" type="radio" name="awardHierarchyTempObject['+indexForHiddenField+'].createNewChildRadio" />').attr("id","awardHierarchyTempObject["+indexForHiddenField+"].createNewChildRadio").attr("value","a");
 	    }
 	    subTdTag1.html('new');
 	    radio1.appendTo(subTdTag1);
 	    
-	    if($("#awardHierarchyTempObject\\[" + indexForHiddenField + "\\]\\.createNewChildRadio").attr("value") == "b"){
-	    	var radio2 = $('<input class="nobord" type="radio" name="awardHierarchyTempObject['+indexForHiddenField+'].createNewChildRadio" />').attr("id","awardHierarchyTempObject["+indexForHiddenField+"].createNewChildRadio").attr("value","b").attr("checked",true);
+	    if(jQuery("#awardHierarchyTempObject\\[" + indexForHiddenField + "\\]\\.createNewChildRadio").attr("value") == "b"){
+	    	var radio2 = jQuery('<input class="nobord" type="radio" name="awardHierarchyTempObject['+indexForHiddenField+'].createNewChildRadio" />').attr("id","awardHierarchyTempObject["+indexForHiddenField+"].createNewChildRadio").attr("value","b").attr("checked",true);
 	    }else{
-	    	var radio2 = $('<input class="nobord" type="radio" name="awardHierarchyTempObject['+indexForHiddenField+'].createNewChildRadio" />').attr("id","awardHierarchyTempObject["+indexForHiddenField+"].createNewChildRadio").attr("value","b");
+	    	var radio2 = jQuery('<input class="nobord" type="radio" name="awardHierarchyTempObject['+indexForHiddenField+'].createNewChildRadio" />').attr("id","awardHierarchyTempObject["+indexForHiddenField+"].createNewChildRadio").attr("value","b");
 	    }
 	    subTdTag2.html('copy from parent');
 	    radio2.appendTo(subTdTag2);
 	    
-	    if($("#awardHierarchyTempObject\\[" + indexForHiddenField + "\\]\\.createNewChildRadio").attr("value") == "c"){
-	    	var radio3 = $('<input class="nobord" type="radio" name="awardHierarchyTempObject['+indexForHiddenField+'].createNewChildRadio" />').attr("id","awardHierarchyTempObject["+indexForHiddenField+"].createNewChildRadio").attr("value","c").attr("checked",true);
+	    if(jQuery("#awardHierarchyTempObject\\[" + indexForHiddenField + "\\]\\.createNewChildRadio").attr("value") == "c"){
+	    	var radio3 = jQuery('<input class="nobord" type="radio" name="awardHierarchyTempObject['+indexForHiddenField+'].createNewChildRadio" />').attr("id","awardHierarchyTempObject["+indexForHiddenField+"].createNewChildRadio").attr("value","c").attr("checked",true);
 	    }else{
-	    	var radio3 = $('<input class="nobord" type="radio" name="awardHierarchyTempObject['+indexForHiddenField+'].createNewChildRadio" />').attr("id","awardHierarchyTempObject["+indexForHiddenField+"].createNewChildRadio").attr("value","c");
+	    	var radio3 = jQuery('<input class="nobord" type="radio" name="awardHierarchyTempObject['+indexForHiddenField+'].createNewChildRadio" />').attr("id","awardHierarchyTempObject["+indexForHiddenField+"].createNewChildRadio").attr("value","c");
 	    }
 	    
 	    subTdTag3.html('selected award');
 	    radio3.appendTo(subTdTag3);	
 
-	    var lookupField = $('<input type="image" title="Lookup" alt="Lookup" src="static/images/searchicon.gif"/>').attr("name","methodToCall.performLookup.(!!org.kuali.kra.award.home.Award!!).(((awardNumber:awardHierarchyTempObject["+indexForHiddenField+"].awardNumber1,awardHierarchyTempObject["+indexForHiddenField+"].awardNumber1:awardNumber))).((``)).((<>)).(([])).((**)).((^^)).((&&)).((//)).((~~))");
-	    var selectBoxText = $("#awardHierarchyTempObject\\[" + indexForHiddenField + "\\]\\.selectBox1").attr("value");
-	    var selectTag = $('<select />').attr("name","awardHierarchyTempObject["+indexForHiddenField+"].newChildPanelTargetAward").attr("id","awardHierarchyTempObject["+indexForHiddenField+"].newChildPanelTargetAward");   
-	    var optionTag = $("<option> select: </option>").attr("value","");
+	    var lookupField = jQuery('<input type="image" title="Lookup" alt="Lookup" src="static/images/searchicon.gif"/>').attr("name","methodToCall.performLookup.(!!org.kuali.kra.award.home.Award!!).(((awardNumber:awardHierarchyTempObject["+indexForHiddenField+"].awardNumber1,awardHierarchyTempObject["+indexForHiddenField+"].awardNumber1:awardNumber))).((``)).((<>)).(([])).((**)).((^^)).((&&)).((//)).((~~))");
+	    var selectBoxText = jQuery("#awardHierarchyTempObject\\[" + indexForHiddenField + "\\]\\.selectBox1").attr("value");
+	    var selectTag = jQuery('<select />').attr("name","awardHierarchyTempObject["+indexForHiddenField+"].newChildPanelTargetAward").attr("id","awardHierarchyTempObject["+indexForHiddenField+"].newChildPanelTargetAward");   
+	    var optionTag = jQuery("<option> select: </option>").attr("value","");
 	    optionTag.appendTo(selectTag);
 	    while(selectBoxText.length>1){
 	    	var optionValue = selectBoxText.substring(0,selectBoxText.indexOf("%3A")).trim();
 	    	selectBoxText = selectBoxText.substring(selectBoxText.indexOf("%3A")+3, selectBoxText.length).trim();
-	    	if($("#awardHierarchyTempObject\\[" + indexForHiddenField + "\\]\\.awardNumber1").attr("value") == optionValue){
-	    		var optionTag = $("<option>"+optionValue+"</option>").attr("value",optionValue).attr("selected",true);
+	    	if(jQuery("#awardHierarchyTempObject\\[" + indexForHiddenField + "\\]\\.awardNumber1").attr("value") == optionValue){
+	    		var optionTag = jQuery("<option>"+optionValue+"</option>").attr("value",optionValue).attr("selected",true);
 	    	}else{
-	    		var optionTag = $("<option>"+optionValue+"</option>").attr("value",optionValue);
+	    		var optionTag = jQuery("<option>"+optionValue+"</option>").attr("value",optionValue);
 	    	}
 	    	optionTag.appendTo(selectTag);	    	
 	    } 
@@ -311,13 +311,13 @@ function openSelectedAward(requestTracker) {
 	    
 	    subTrTag.appendTo(subTblTag);
 	    
-	    var tdTag1=$('<td align="left"></td>').html(subTblTag);
+	    var tdTag1=jQuery('<td align="left"></td>').html(subTblTag);
 	    tdTag1.appendTo(trTag);	    
 	    trTag.appendTo(tblTag);
 	    
 	    if(canCreateAward == "true"){
-		    var tdTag2=$('<td align="left" style="border: 1px solid rgb(147, 147, 147); padding: 3px; border-collapse: collapse; background-color: rgb(255, 255, 255); vertical-align: middle; text-align: center; width: 65px;"></td>');
-		    var createButton = $('<input type="image" title="Create" alt="create" style="border: medium none ;" src="static/images/tinybutton-create.gif"/>').attr("property","methodToCall.create.awardNumber"+awardNumber).attr("name","methodToCall.create.awardNumber"+awardNumber);	    
+		    var tdTag2=jQuery('<td align="left" style="border: 1px solid rgb(147, 147, 147); padding: 3px; border-collapse: collapse; background-color: rgb(255, 255, 255); vertical-align: middle; text-align: center; width: 65px;"></td>');
+		    var createButton = jQuery('<input type="image" title="Create" alt="create" style="border: medium none ;" src="static/images/tinybutton-create.gif"/>').attr("property","methodToCall.create.awardNumber"+awardNumber).attr("name","methodToCall.create.awardNumber"+awardNumber);	    
 		    createButton.appendTo(tdTag2);	    
 		    tdTag2.appendTo(trTag);
 		    trTag.appendTo(tblTag);
@@ -326,15 +326,15 @@ function openSelectedAward(requestTracker) {
   }
 
   function tbodyTag1(info) {
-      var tblTag = $('#templates table.awardDetails').clone();
-      $(tblTag).find('.detailHeading').text(getDetailString(info));
-      $(tblTag).find('.projectStartDate').text(info['projectStartDate']);
-      $(tblTag).find('.obligationStartDate').text(info['currentFundEffectiveDate']);
-      $(tblTag).find('.projectEndDate').text(info['finalExpirationDate']);
-      $(tblTag).find('.obligationEndDate').text(info['obligationExpirationDate']);
-      $(tblTag).find('.anticipatedAmount').text("$" + info['anticipatedTotalAmount']);
-      $(tblTag).find('.obligatedAmount').text("$" + info['amountObligatedToDate']);
-      $(tblTag).find('.title').text(info['title']);
+      var tblTag = jQuery('#templates table.awardDetails').clone();
+      jQuery(tblTag).find('.detailHeading').text(getDetailString(info));
+      jQuery(tblTag).find('.projectStartDate').text(info['projectStartDate']);
+      jQuery(tblTag).find('.obligationStartDate').text(info['currentFundEffectiveDate']);
+      jQuery(tblTag).find('.projectEndDate').text(info['finalExpirationDate']);
+      jQuery(tblTag).find('.obligationEndDate').text(info['obligationExpirationDate']);
+      jQuery(tblTag).find('.anticipatedAmount').text("jQuery" + info['anticipatedTotalAmount']);
+      jQuery(tblTag).find('.obligatedAmount').text("jQuery" + info['amountObligatedToDate']);
+      jQuery(tblTag).find('.title').text(info['title']);
       return tblTag;
   }
   
@@ -343,20 +343,20 @@ function openSelectedAward(requestTracker) {
   }
  
   function linkOnClick(link, info) {
-	  var detailDiv = $(link).siblings('div.awardHierarchy').first();
-      $("div.awardHierarchy").filter(function() { return $(this).attr('id') != $(detailDiv).attr('id'); }).slideUp(300);
+	  var detailDiv = jQuery(link).siblings('div.awardHierarchy').first();
+      jQuery("div.awardHierarchy").filter(function() { return jQuery(this).attr('id') != jQuery(detailDiv).attr('id'); }).slideUp(300);
       
-      if ($(link).siblings('div.awardHierarchy').first().children('table:eq(0)').size() == 0) {
+      if (jQuery(link).siblings('div.awardHierarchy').first().children('table:eq(0)').size() == 0) {
     	  tbodyTag1(info).appendTo(detailDiv);
           tbodyTag2(info).appendTo(detailDiv);
           
           if(info['awardDocumentFinalStatus']) { 
         	  tbodyTag3(info).appendTo(detailDiv);
           }
-          if ($(detailDiv).is(":hidden")) {
-               $(detailDiv).show();  
+          if (jQuery(detailDiv).is(":hidden")) {
+               jQuery(detailDiv).show();  
           }
       } else {
-          $(detailDiv).slideToggle(300); 
+          jQuery(detailDiv).slideToggle(300); 
       }   
   }

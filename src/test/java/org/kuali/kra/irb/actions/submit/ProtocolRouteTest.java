@@ -37,10 +37,10 @@ import org.kuali.kra.irb.actions.amendrenew.ProtocolAmendRenewService;
 import org.kuali.kra.irb.actions.amendrenew.ProtocolAmendmentBean;
 import org.kuali.kra.irb.test.ProtocolFactory;
 import org.kuali.kra.test.infrastructure.KcUnitTestBase;
-import org.kuali.rice.kns.bo.DocumentHeader;
-import org.kuali.rice.kns.document.Document;
-import org.kuali.rice.kns.service.DocumentService;
-import org.kuali.rice.kns.workflow.service.KualiWorkflowDocument;
+import org.kuali.rice.kew.api.WorkflowDocument;
+import org.kuali.rice.krad.bo.DocumentHeader;
+import org.kuali.rice.krad.document.Document;
+import org.kuali.rice.krad.service.DocumentService;
 
 public class ProtocolRouteTest extends KcUnitTestBase {
 
@@ -90,7 +90,7 @@ public class ProtocolRouteTest extends KcUnitTestBase {
         documentService.routeDocument(protocolDocument, null, null);
         documentService.blanketApproveDocument(protocolDocument, null, null);
         
-        assertTrue(getWorkflowDocument(protocolDocument).stateIsFinal());
+        assertTrue(getWorkflowDocument(protocolDocument).isFinal());
         
         //the status update is not happening within doRouteStatusChange anymore
         //assertEquals(protocolDocument.getProtocol().getProtocolStatusCode(), ProtocolStatus.ACTIVE_OPEN_TO_ENROLLMENT);
@@ -111,7 +111,7 @@ public class ProtocolRouteTest extends KcUnitTestBase {
         documentService.routeDocument(protocolDocument, null, null);
         documentService.disapproveDocument(protocolDocument, null);
         
-        assertTrue(getWorkflowDocument(protocolDocument).stateIsDisapproved());
+        assertTrue(getWorkflowDocument(protocolDocument).isDisapproved());
         //assertEquals(protocolDocument.getProtocol().getProtocolStatusCode(), ProtocolStatus.DISAPPROVED);
         
         assertTrue(protocolDocument.getProtocol().isActive());
@@ -142,7 +142,7 @@ public class ProtocolRouteTest extends KcUnitTestBase {
         documentService.routeDocument(amendmentDocument, null, null);
         documentService.blanketApproveDocument(amendmentDocument, null, null);
         
-        assertTrue(getWorkflowDocument(amendmentDocument).stateIsFinal());
+        assertTrue(getWorkflowDocument(amendmentDocument).isFinal());
         
         Protocol newProtocol = protocolFinder.findCurrentProtocolByNumber(protocolDocument.getProtocol().getProtocolNumber());
         assertTrue(newProtocol.getSequenceNumber() == protocolDocument.getProtocol().getSequenceNumber() + 1);
@@ -180,8 +180,8 @@ public class ProtocolRouteTest extends KcUnitTestBase {
      * @param doc
      * @return
      */
-    private KualiWorkflowDocument getWorkflowDocument(Document doc) {
-        KualiWorkflowDocument workflowDocument = null;
+    private WorkflowDocument getWorkflowDocument(Document doc) {
+        WorkflowDocument workflowDocument = null;
         if (doc != null) {
             DocumentHeader header = doc.getDocumentHeader();
             if (header != null) {

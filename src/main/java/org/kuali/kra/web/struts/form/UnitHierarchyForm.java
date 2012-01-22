@@ -22,7 +22,7 @@ import org.kuali.kra.infrastructure.Constants;
 import org.kuali.kra.infrastructure.KraServiceLocator;
 import org.kuali.kra.proposaldevelopment.document.ProposalDevelopmentDocument;
 import org.kuali.kra.service.UnitService;
-import org.kuali.rice.kns.service.ParameterService;
+import org.kuali.rice.coreservice.framework.parameter.ParameterService;
 import org.kuali.rice.kns.web.struts.form.KualiForm;
 
 /**
@@ -86,7 +86,7 @@ public class UnitHierarchyForm extends KualiForm {
         if (getDisplayWholeTree()){
             return KraServiceLocator.getService(UnitService.class).getMaxUnitTreeDepth();
         } else {
-            final String param = getParameterService().getParameterValue(ProposalDevelopmentDocument.class, Constants.INITIAL_UNIT_HIERARCHY_LOAD_DEPTH);
+            final String param = getParameterService().getParameterValueAsString(ProposalDevelopmentDocument.class, Constants.INITIAL_UNIT_HIERARCHY_LOAD_DEPTH);
             return Integer.parseInt(param);
         }
     }

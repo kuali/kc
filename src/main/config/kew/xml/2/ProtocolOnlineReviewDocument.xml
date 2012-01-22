@@ -8,7 +8,7 @@
 			<description>Create a KC Protocol Review Document</description>
 			<label>KC Protocol Review</label>
 			<parent>KC</parent>
-			<postProcessorName>org.kuali.rice.kns.workflow.postprocessor.KualiPostProcessor</postProcessorName>
+			<postProcessorName>org.kuali.rice.krad.workflow.postprocessor.KualiPostProcessor</postProcessorName>
 			<superUserWorkgroupName>KC-WKFLW:IRBAdmin</superUserWorkgroupName>
 			<blanketApproveWorkgroupName>KC-WKFLW:IRBAdmin</blanketApproveWorkgroupName>
 			<defaultExceptionWorkgroupName>KC-WKFLW:IRBAdmin</defaultExceptionWorkgroupName>
@@ -73,25 +73,25 @@
 			<type>QualifierResolver</type>
 			<serviceNamespace>KC</serviceNamespace>
 			<resolverConfig>
-				<qualifier name="protocolReviewerId">
+				<attributes name="protocolReviewerId">
 					<xPathExpression>//document/protocolOnlineReviewList[1]/org.kuali.kra.irb.onlinereview.ProtocolOnlineReview[1]/protocolReviewerId</xPathExpression>
-				</qualifier>
+				</attributes>
 				
-				<qualifier name="protocolOnlineReviewId">
+				<attributes name="protocolOnlineReviewId">
 					<xPathExpression>//document/protocolOnlineReviewList[1]/org.kuali.kra.irb.onlinereview.ProtocolOnlineReview[1]/protocolOnlineReviewId</xPathExpression>
-				</qualifier>
+				</attributes>
 				
-				<qualifier name="submissionId">
+				<attributes name="submissionId">
 					<xPathExpression>//document/protocolOnlineReviewList[1]/org.kuali.kra.irb.onlinereview.ProtocolOnlineReview[1]/submissionIdFk</xPathExpression>
-				</qualifier>
+				</attributes>
 				
-				<qualifier name="protocol">
+				<attributes name="protocol">
 					<xPathExpression>//document/protocolOnlineReviewList[1]/org.kuali.kra.irb.onlinereview.ProtocolOnlineReview[1]/protocol/protocolNumber</xPathExpression>
-				</qualifier>
+				</attributes>
 
-                <qualifier name="protocolLeadUnitNumber">
+                <attributes name="protocolLeadUnitNumber">
                     <xPathExpression>//document/protocolOnlineReviewList[1]/org.kuali.kra.irb.onlinereview.ProtocolOnlineReview[1]/protocol/leadUnitNumber</xPathExpression>
-                </qualifier>				
+                </attributes>				
 			</resolverConfig>
 		</ruleAttribute>
 

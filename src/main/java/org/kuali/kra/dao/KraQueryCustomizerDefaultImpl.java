@@ -26,7 +26,7 @@ import org.apache.ojb.broker.query.Query;
 import org.apache.ojb.broker.query.QueryByCriteria;
 import org.kuali.kra.infrastructure.KraServiceLocator;
 import org.kuali.kra.proposaldevelopment.document.ProposalDevelopmentDocument;
-import org.kuali.rice.kns.service.ParameterService;
+import org.kuali.rice.coreservice.framework.parameter.ParameterService;
 /**
  * 
  * This class used for supplying customized query to OJB repository <code>collection-descriptor</code> tag.
@@ -75,7 +75,7 @@ public class KraQueryCustomizerDefaultImpl extends org.apache.ojb.broker.accessl
         while(systemKeys.hasNext()){
             String key = systemKeys.next();
             String value = proposalSystemQueryMap.get(key);
-            String sysParamVal = this.getParameterService().getParameterValue(ProposalDevelopmentDocument.class, value);
+            String sysParamVal = this.getParameterService().getParameterValueAsString(ProposalDevelopmentDocument.class, value);
             crit.addEqualTo(key, sysParamVal==null?value:sysParamVal);
         }
         return aQuery;

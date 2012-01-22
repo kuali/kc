@@ -22,7 +22,6 @@ import java.util.List;
 
 import org.apache.struts.upload.FormFile;
 import org.kuali.kra.bo.DocumentNextvalue;
-import org.kuali.kra.bo.KcPerson;
 import org.kuali.kra.bo.PropPerDocType;
 import org.kuali.kra.infrastructure.Constants;
 import org.kuali.kra.proposaldevelopment.bo.ProposalPerson;
@@ -31,17 +30,16 @@ import org.kuali.kra.proposaldevelopment.bo.ProposalPersonBiographyAttachment;
 import org.kuali.kra.proposaldevelopment.dao.AttachmentDao;
 import org.kuali.kra.proposaldevelopment.document.ProposalDevelopmentDocument;
 import org.kuali.kra.proposaldevelopment.service.ProposalPersonBiographyService;
-import org.kuali.kra.service.KcPersonService;
-import org.kuali.rice.kim.bo.Person;
-import org.kuali.rice.kim.service.PersonService;
-import org.kuali.rice.kns.bo.PersistableBusinessObject;
-import org.kuali.rice.kns.service.BusinessObjectService;
-import org.kuali.rice.kns.util.ObjectUtils;
+import org.kuali.rice.kim.api.identity.Person;
+import org.kuali.rice.kim.api.identity.PersonService;
+import org.kuali.rice.krad.bo.PersistableBusinessObject;
+import org.kuali.rice.krad.service.BusinessObjectService;
+import org.kuali.rice.krad.util.ObjectUtils;
 
 public class ProposalPersonBiographyServiceImpl implements ProposalPersonBiographyService {
     private BusinessObjectService businessObjectService;
     private AttachmentDao attachmentDao;
-    private PersonService<Person> personService;
+    private PersonService personService;
 
     
     /**
@@ -192,11 +190,11 @@ public class ProposalPersonBiographyServiceImpl implements ProposalPersonBiograp
         this.attachmentDao = attachmentDao;
     }
 
-    public PersonService<Person> getPersonService() {
+    public PersonService getPersonService() {
         return personService;
     }
 
-    public void setPersonService(PersonService<Person> personService) {
+    public void setPersonService(PersonService personService) {
         this.personService = personService;
     }
 

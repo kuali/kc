@@ -15,28 +15,32 @@
  */
 package org.kuali.kra.proposaldevelopment.bo;
 
-import java.util.LinkedHashMap;
-
 import org.kuali.kra.bo.KraPersistableBusinessObjectBase;
 import org.kuali.kra.bo.ScienceKeyword;
 import org.kuali.kra.proposaldevelopment.hierarchy.HierarchyMaintainable;
+
 public class PropScienceKeyword extends KraPersistableBusinessObjectBase implements HierarchyMaintainable {
-	private String proposalNumber;
-	private String scienceKeywordCode;
-	private String scienceKeywordDescription;
+
+    private String proposalNumber;
+
+    private String scienceKeywordCode;
+
+    private String scienceKeywordDescription;
+
     private ScienceKeyword scienceKeyword;
+
     private Boolean selectKeyword = false;
-    
+
     private String hierarchyProposalNumber;
+
     private boolean hiddenInHierarchy;
 
     /**
      * Default constructor.
      */
     public PropScienceKeyword() {
-
     }
-    
+
     /**
      * Constructs a PropScienceKeyword.
      * @param proposalNumber
@@ -49,40 +53,30 @@ public class PropScienceKeyword extends KraPersistableBusinessObjectBase impleme
         this.scienceKeyword = scienceKeyword;
     }
 
-	public String getProposalNumber() {
-		return proposalNumber;
-	}
+    public String getProposalNumber() {
+        return proposalNumber;
+    }
 
-	public void setProposalNumber(String proposalNumber) {
-		this.proposalNumber = proposalNumber;
-	}
+    public void setProposalNumber(String proposalNumber) {
+        this.proposalNumber = proposalNumber;
+    }
 
-	public String getScienceKeywordCode() {
-		return scienceKeywordCode;
-	}
+    public String getScienceKeywordCode() {
+        return scienceKeywordCode;
+    }
 
-	public void setScienceKeywordCode(String scienceKeywordCode) {
-		this.scienceKeywordCode = scienceKeywordCode;
-	}
+    public void setScienceKeywordCode(String scienceKeywordCode) {
+        this.scienceKeywordCode = scienceKeywordCode;
+    }
 
-
-	@Override 
-	protected LinkedHashMap toStringMapper() {
-		LinkedHashMap hashMap = new LinkedHashMap();
-		hashMap.put("proposalNumber", getProposalNumber());
-		hashMap.put("scienceCode", getScienceKeywordCode());
-        //hashMap.put("selectKeyword", getSelectKeyword());
-		return hashMap;
-	}
-
-	public ScienceKeyword getScienceKeyword() {
+    public ScienceKeyword getScienceKeyword() {
         return scienceKeyword;
     }
 
     public void setScienceKeyword(ScienceKeyword scienceKeyword) {
         this.scienceKeyword = scienceKeyword;
     }
-	
+
     public Boolean getSelectKeyword() {
         return selectKeyword;
     }
@@ -108,25 +102,16 @@ public class PropScienceKeyword extends KraPersistableBusinessObjectBase impleme
      */
     @Override
     public boolean equals(Object obj) {
-        if (this == obj)
-            return true;
-        if (obj == null)
-            return false;
-        if (getClass() != obj.getClass())
-            return false;
+        if (this == obj) return true;
+        if (obj == null) return false;
+        if (getClass() != obj.getClass()) return false;
         PropScienceKeyword other = (PropScienceKeyword) obj;
         if (proposalNumber == null) {
-            if (other.proposalNumber != null)
-                return false;
-        }
-        else if (!proposalNumber.equals(other.proposalNumber))
-            return false;
+            if (other.proposalNumber != null) return false;
+        } else if (!proposalNumber.equals(other.proposalNumber)) return false;
         if (scienceKeywordCode == null) {
-            if (other.scienceKeywordCode != null)
-                return false;
-        }
-        else if (!scienceKeywordCode.equals(other.scienceKeywordCode))
-            return false;
+            if (other.scienceKeywordCode != null) return false;
+        } else if (!scienceKeywordCode.equals(other.scienceKeywordCode)) return false;
         return true;
     }
 
@@ -161,5 +146,4 @@ public class PropScienceKeyword extends KraPersistableBusinessObjectBase impleme
     public void setHiddenInHierarchy(boolean hiddenInHierarchy) {
         this.hiddenInHierarchy = hiddenInHierarchy;
     }
-    
 }

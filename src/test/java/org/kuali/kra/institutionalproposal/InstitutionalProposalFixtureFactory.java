@@ -1,12 +1,12 @@
 package org.kuali.kra.institutionalproposal;
 
-import org.kuali.kra.institutionalproposal.contacts.InstitutionalProposalPerson;
-import org.kuali.kra.institutionalproposal.home.InstitutionalProposal;
-import org.kuali.rice.kns.util.KualiDecimal;
-
 import java.sql.Date;
 import java.util.Calendar;
 import java.util.GregorianCalendar;
+
+import org.kuali.kra.institutionalproposal.contacts.InstitutionalProposalPerson;
+import org.kuali.kra.institutionalproposal.home.InstitutionalProposal;
+import org.kuali.rice.core.api.util.type.KualiDecimal;
 
 /**
  *

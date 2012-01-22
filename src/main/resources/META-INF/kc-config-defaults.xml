@@ -25,19 +25,22 @@
 
 	<!-- run modes -->
 	<!-- when changing runmodes to embedded/remote make sure to update rice server DB & turn dev.mode to false -->
-	<param name="kim.runmode">local</param>
-	<param name="kcb.runmode">local</param>
-	<param name="kew.runmode">local</param>
-	<param name="ken.runmode">local</param>
+	<param name="kim.mode">LOCAL</param>
+	<param name="kcb.mode">LOCAL</param>
+	<param name="kew.mode">LOCAL</param>
+	<param name="ken.mode">LOCAL</param>
+	<param name="ksb.mode">LOCAL</param>
+	<param name="kns.mode">LOCAL</param>
+	<param name="coreservice.mode">LOCAL</param>
+	<param name="location.mode">LOCAL</param>
 	
-	<param name="dev.mode">true</param>
-
+	<param name="rice.krad.componentPublishing.enabled">false</param>
 	<param name="service.namespace">KC</param>
 	<param name="app.namespace">${service.namespace}</param>
 
 	<param name="module.name">kc</param>
 	<param name="app.code">${module.name}</param>
-	
+	<param name="application.id">KC</param>	
 	<param name="application.host">127.0.0.1</param>
 	
 	<!-- for local (bundled mode) this defaults to the kc client url -->
@@ -48,13 +51,16 @@
 	<param name="kr.externalizable.images.url">/${app.context.name}/kr/static/images/</param>
 	<param name="kra.externalizable.images.url">/${app.context.name}/static/images/</param>
 
-	<param name="javascript.files">scripts/kuali_application.js,kr/scripts/core.js,kr/scripts/dhtml.js,kr/scripts/my_common.js,kr/scripts/jscalendar-1.0/calendar.js,kr/scripts/jscalendar-1.0/lang/calendar-en.js,kr/scripts/jscalendar-1.0/calendar-setup.js,dwr/engine.js,dwr/util.js,dwr/interface/PersonService.js,kr/scripts/objectInfo.js,dwr/interface/CustomAttributeService.js,dwr/interface/ProposalDevelopmentService.js,dwr/interface/BudgetService.js,dwr/interface/ArgValueLookupService.js,dwr/interface/AwardTemplateReportTermService.js,dwr/interface/S2SService.js</param>
-	<param name="css.files">kr/css/kuali.css,css/kuali_application.css,kr/scripts/jscalendar-1.0/calendar-win2k-1.css</param>
+	<param name="kns.css.files">css/kuali_application.css,kr/css/kuali.css,kr/scripts/jscalendar-1.0/calendar-win2k-1.css</param>
+    <!-- <param name="kns.javascript.files">scripts/kuali_application.js,dwr/interface/CustomAttributeService.js,dwr/interface/ProposalDevelopmentService.js,dwr/interface/BudgetService.js,dwr/interface/ArgValueLookupService.js,dwr/interface/AwardTemplateReportTermService.js,dwr/interface/S2SService.js,krad/scripts/jquery/jquery-1.6.3.js,krad/scripts/jquery/jquery.ba-postmessage.js,krad/scripts/jquery/jquery.cookie.js,kr/scripts/core.js,kr/scripts/dhtml.js,kr/scripts/my_common.js,kr/scripts/jscalendar-1.0/calendar.js,kr/scripts/jscalendar-1.0/lang/calendar-en.js,kr/scripts/jscalendar-1.0/calendar-setup.js,dwr/engine.js,dwr/util.js,dwr/interface/PersonService.js,kr/scripts/objectInfo.js</param> -->
+    <param name="kns.javascript.files">scripts/kuali_application.js,krad/scripts/jquery/jquery-1.6.3.js,krad/scripts/jquery/jquery.ba-postmessage.js,krad/scripts/jquery/jquery.cookie.js,dwr/interface/CustomAttributeService.js,dwr/interface/ProposalDevelopmentService.js,dwr/interface/BudgetService.js,dwr/interface/ArgValueLookupService.js,dwr/interface/AwardTemplateReportTermService.js,dwr/interface/S2SService.js,kr/scripts/core.js,kr/scripts/dhtml.js,kr/scripts/my_common.js,kr/scripts/jscalendar-1.0/calendar.js,kr/scripts/jscalendar-1.0/lang/calendar-en.js,kr/scripts/jscalendar-1.0/calendar-setup.js,dwr/engine.js,dwr/util.js,kr/scripts/objectInfo.js,dwr/interface/PersonService.js</param>
+    <param name="javascript.files">krad/scripts/jquery/jquery-1.6.3.js,krad/scripts/jquery/jquery-ui-1.8.9.js,krad/scripts/jquery/jquery.cookie.js,krad/scripts/jquery/jquery.ba-postmessage.js,krad/scripts/jquery/jquery.jgrowl.js,krad/scripts/jquery/jquery.blockUI.js,krad/scripts/jquery/jquery.watermark.js,krad/scripts/jquery/jquery.validate.js,krad/scripts/jquery/smartspinner.js,krad/scripts/jquery/krad.navigationMenu.js,krad/scripts/jquery/krad.textareaPopout.js,krad/scripts/jquery/jquery.dirtyform.js,krad/scripts/jquery/jquery.scrollTo-1.4.2-min.js,krad/scripts/jquery/krad.tabMenu.js,krad/scripts/jquery/jquery.dataTables.js,krad/scripts/jquery/ZeroClipboard.js,krad/scripts/jquery/TableTools.js,krad/scripts/jquery/jquery.jstree.js,krad/scripts/jquery/additional_validations.js,krad/scripts/jquery/jquery.form.js,krad/scripts/jquery/jquery.fancybox-1.3.4.pack.js,krad/scripts/jquery/jquery.easydrag.js,krad/scripts/jquery/jquery.easing-1.3.pack.js,krad/scripts/jquery/jquery.json-2.2.js,krad/scripts/jquery/infusion-1.4.js,krad/scripts/jquery/infusion.reorderer.js,krad/scripts/krad.initialize.js,krad/scripts/krad.ajax.js,krad/scripts/krad.message.js,krad/scripts/krad.utility.js,krad/scripts/krad.validate.js,krad/scripts/krad.widget.js</param>
+    <param name="css.files">krad/css/global/fss-reset.css,krad/css/global/fss-layout.css,krad/css/global/fss-text.css,krad/css/global/base.css,krad/css/global/jquery/jquery-ui-1.8.11.css,krad/css/global/jquery/jquery.jgrowl.css,krad/css/global/jquery/demo_table.css,krad/css/global/jquery/TableTools.css,krad/css/global/jquery/jquery.fancybox-1.3.4.csskrad/css/global/popoutTextarea.css,krad/css/global/jquery/jquery.autocomplete.css,krad/css/global/tabs.css</param>
 
-	<param name="portal.css.files">rice-portal/css/portal.css,css/kuali_overrides.css</param>
-	<param name="portal.javascript.files">kr/scripts/my_common.js</param>
-	
-	<param name="portal.title" override="false">Kuali Coeus</param>
+    <param name="portal.css.files">rice-portal/css/portal.css,krad/scripts/fancybox/jquery.fancybox-1.3.4.css,krad/css/popoutTextarea.css,krad/css/jquery.jgrowl.css,css/kuali_overrides.css</param>
+    <param name="portal.javascript.files">krad/scripts/jquery/jquery-1.6.3.js,krad/scripts/jquery/jquery.ba-postmessage.js,krad/scripts/jquery/jquery.cookie.js,krad/scripts/jquery/jquery.scrollTo-1.4.2-min.js,krad/scripts/jquery/jquery.blockUI.js,kr/scripts/my_common.js,krad/scripts/jquery/jquery.easydrag.js,krad/scripts/fancybox/jquery.fancybox-1.3.4.pack.js,krad/scripts/fancybox/jquery.easing-1.3.pack.js,krad/scripts/jquery/jquery.jgrowl.js</param>
+    
+	<param name="portal.title">Kuali Coeus</param>
 
 	<param name="kr.url">${rice.app.url}/kr</param>
 	<param name="ken.url">${rice.app.url}/ken</param>
@@ -66,7 +72,7 @@
 	<param name="kuali.docHandler.url.prefix">${application.url}</param>
 	
 	<!--messages -->
-	<param name="core.rice.struts.message.resources">KR-ApplicationResources,org.kuali.rice.kew.ApplicationResources,org.kuali.rice.ksb.messaging.ApplicationResources,KIM-ApplicationResources</param>
+	<param name="core.rice.struts.message.resources">org.kuali.rice.krad.ApplicationResources,org.kuali.rice.krad.KRAD-ApplicationResources,org.kuali.rice.kew.ApplicationResources,org.kuali.rice.ksb.ApplicationResources,org.kuali.rice.kim.ApplicationResources</param>
 	<param name="kc.struts.message.resources">ApplicationResources</param>
 	<param name="rice.struts.message.resources">${core.rice.struts.message.resources}, ${kc.struts.message.resources}</param>
 
@@ -127,8 +133,8 @@
 	<!-- Java mail properties -->
 	<param name="mail.from">mail.from@kuali.org</param>
 	<param name="mail.transport.protocol">smtp</param>
-	<param name="mail.smtp.host">host.server.address</param>
-	<param name="mail.smtp.port">host.server.port</param>
+	<param name="mail.smtp.host">localhost</param>
+	<param name="mail.smtp.port">10000</param>
 	<param name="mail.smtp.user">userId</param>
 	<param name="mail.user.credentials">password</param>
 	<param name="mail.smtp.auth">false</param>
@@ -156,4 +162,24 @@
 	<param name="rice.logging.configure">true</param>
 	<param name="kim.show.blank.qualifiers">false</param>
 	<param name="shared.rice">false</param>
+	
+	<!-- temporary entries -->
+	<!-- Valid Date Formats -->
+    <param name="STRING_TO_DATE_FORMATS" override="false">MM/dd/yyyy hh:mm a;MM/dd/yy;MM/dd/yyyy;MM-dd-yy;MMddyy;MMMM dd;yyyy;MM/dd/yy HH:mm:ss;MM/dd/yyyy HH:mm:ss;MM-dd-yy HH:mm:ss;MMddyy HH:mm:ss;MMMM dd HH:mm:ss;yyyy HH:mm:ss</param>
+    <param name="STRING_TO_TIMESTAMP_FORMATS" override="false">MM/dd/yyyy hh:mm a;MM/dd/yy;MM/dd/yyyy;MM-dd-yy;MMddyy;MMMM dd;yyyy;MM/dd/yy HH:mm:ss;MM/dd/yyyy HH:mm:ss;MM-dd-yy HH:mm:ss;MMddyy HH:mm:ss;MMMM dd HH:mm:ss;yyyy HH:mm:ss</param>
+    <param name="DATE_TO_STRING_FORMAT_FOR_USER_INTERFACE" override="false">MM/dd/yyyy</param>
+    <param name="TIMESTAMP_TO_STRING_FORMAT_FOR_USER_INTERFACE" override="false">MM/dd/yyyy hh:mm a</param>
+    <param name="DATE_TO_STRING_FORMAT_FOR_FILE_NAME" override="false">yyyyMMdd</param>
+    <param name="TIMESTAMP_TO_STRING_FORMAT_FOR_FILE_NAME" override="false">yyyyMMdd-HH-mm-ss-S</param>
+    <!-- replicated from core-config-defaults.xml -->
+    
+	<param name="kim.ehcache.config.location" override="false">classpath:org/kuali/rice/kim/impl/config/kim.ehcache.xml</param>
+	<param name="kew.ehcache.config.location" override="false">classpath:org/kuali/rice/kew/impl/config/kew.ehcache.xml</param>
+	<param name="core.ehcache.config.location" override="false">classpath:org/kuali/rice/core/config/core.ehcache.xml</param>
+	<param name="location.ehcache.config.location" override="false">classpath:org/kuali/rice/location/config/location.ehcache.xml</param>
+	<!-- 
+	<param name="shareddata.ehcache.config.location" override="false">classpath:org/kuali/rice/shareddata/config/shareddata.ehcache.xml</param>
+	 -->
+	 <!-- XAPool is still the default in common-config-defaults. But that might change -->
+	 <param name="connection.pool.impl">XAPool</param>
 </config>

@@ -27,7 +27,7 @@ import org.junit.Test;
 import org.junit.runner.RunWith;
 import org.kuali.kra.infrastructure.KeyConstants;
 import org.kuali.kra.proposaldevelopment.document.ProposalDevelopmentDocument;
-import org.kuali.rice.kns.service.ParameterService;
+import org.kuali.rice.coreservice.framework.parameter.ParameterService;
 import org.quartz.JobDetail;
 
 /**
@@ -46,7 +46,7 @@ public class KcCronTriggerBeanTest {
      * @throws ParseException 
      */
     @Test
-    public void testCronExpression() throws ParseException {
+    public void testCronExpression() throws Exception {
         KcCronTriggerBean cronTrigger = new KcCronTriggerBean();
         
         /*
@@ -58,7 +58,7 @@ public class KcCronTriggerBeanTest {
                 one(parameterService).parameterExists(ProposalDevelopmentDocument.class,
                         KeyConstants.PESSIMISTIC_LOCKING_CRON_EXPRESSION);
                 will(returnValue(true));
-                one(parameterService).getParameterValue(ProposalDevelopmentDocument.class,
+                one(parameterService).getParameterValueAsString(ProposalDevelopmentDocument.class,
                         KeyConstants.PESSIMISTIC_LOCKING_CRON_EXPRESSION);
                 will(returnValue(CRON_EXPRESSION));
             }

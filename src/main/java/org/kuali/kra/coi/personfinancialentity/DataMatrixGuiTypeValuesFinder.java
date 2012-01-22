@@ -18,8 +18,9 @@ package org.kuali.kra.coi.personfinancialentity;
 import java.util.ArrayList;
 import java.util.List;
 
-import org.kuali.rice.core.util.KeyLabelPair;
-import org.kuali.rice.kns.lookup.keyvalues.KeyValuesBase;
+import org.kuali.rice.core.api.util.ConcreteKeyValue;
+import org.kuali.rice.core.api.util.KeyValue;
+import org.kuali.rice.krad.keyvalues.KeyValuesBase;
 
 /**
  * 
@@ -27,10 +28,10 @@ import org.kuali.rice.kns.lookup.keyvalues.KeyValuesBase;
  */
 public class DataMatrixGuiTypeValuesFinder extends KeyValuesBase {
 
-        public List<KeyLabelPair> getKeyValues() {
-            List<KeyLabelPair> keyValues = new ArrayList<KeyLabelPair>();
-            keyValues.add(new KeyLabelPair("CHECKBOX", "CheckBox"));
-            keyValues.add(new KeyLabelPair("DROPDOWN", "DropDown"));
+        public List<KeyValue> getKeyValues() {
+            List<KeyValue> keyValues = new ArrayList<KeyValue>();
+            keyValues.add(new ConcreteKeyValue("CHECKBOX", "CheckBox"));
+            keyValues.add(new ConcreteKeyValue("DROPDOWN", "DropDown"));
             return keyValues;
         }
 }

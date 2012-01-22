@@ -27,13 +27,13 @@ import org.apache.struts.action.ActionMapping;
 import org.kuali.kra.authorization.KraAuthorizationConstants;
 import org.kuali.kra.committee.document.CommitteeDocument;
 import org.kuali.kra.web.struts.form.KraTransactionalDocumentFormBase;
-import org.kuali.rice.kew.util.KEWConstants;
+import org.kuali.rice.core.api.CoreApiServiceLocator;
+import org.kuali.rice.kew.api.KewApiConstants;
+import org.kuali.rice.kew.api.WorkflowDocument;
 import org.kuali.rice.kns.datadictionary.HeaderNavigation;
-import org.kuali.rice.kns.service.KNSServiceLocator;
-import org.kuali.rice.kns.util.KNSConstants;
-import org.kuali.rice.kns.util.ObjectUtils;
 import org.kuali.rice.kns.web.ui.HeaderField;
-import org.kuali.rice.kns.workflow.service.KualiWorkflowDocument;
+import org.kuali.rice.krad.util.KRADConstants;
+import org.kuali.rice.krad.util.ObjectUtils;
 import org.springframework.util.CollectionUtils;
 
 /**
@@ -123,7 +123,7 @@ public class CommitteeForm extends KraTransactionalDocumentFormBase {
      * @see org.kuali.core.web.struts.form.KualiDocumentFormBase#populateHeaderFields(org.kuali.core.workflow.service.KualiWorkflowDocument)
      */
     @Override
-    public void populateHeaderFields(KualiWorkflowDocument workflowDocument) {
+    public void populateHeaderFields(WorkflowDocument workflowDocument) {
         super.populateHeaderFields(workflowDocument);
         CommitteeDocument committeeDoc = getDocument();
         
@@ -136,7 +136,7 @@ public class CommitteeForm extends KraTransactionalDocumentFormBase {
         
         String lastUpdatedDateStr = null;
         if(committeeDoc != null && committeeDoc.getUpdateTimestamp() != null) {
-            lastUpdatedDateStr = KNSServiceLocator.getDateTimeService().toString(committeeDoc.getUpdateTimestamp(), "hh:mm a MM/dd/yyyy");
+            lastUpdatedDateStr = CoreApiServiceLocator.getDateTimeService().toString(committeeDoc.getUpdateTimestamp(), "hh:mm a MM/dd/yyyy");
         }
         
         HeaderField lastUpdatedDate = new HeaderField("DataDictionary.CommitteeDocument.attributes.updateTimestamp", lastUpdatedDateStr);
@@ -194,7 +194,7 @@ public class CommitteeForm extends KraTransactionalDocumentFormBase {
     @Override
     @SuppressWarnings("unchecked")
     protected void setSaveDocumentControl(Map editMode) {
-        getDocumentActions().put(KNSConstants.KUALI_ACTION_CAN_SAVE, KNSConstants.KUALI_DEFAULT_TRUE_VALUE);
+        getDocumentActions().put(KRADConstants.KUALI_ACTION_CAN_SAVE, KRADConstants.KUALI_DEFAULT_TRUE_VALUE);
     }
     
     /**
@@ -217,7 +217,7 @@ public class CommitteeForm extends KraTransactionalDocumentFormBase {
      * Without this hack, a committee member that is inactive and has a validation error can't be
      * edited in the Active Members only display mode.
      * 
-     * @see org.kuali.rice.kns.web.struts.pojo.PojoFormBase#isPropertyEditable(java.lang.String)
+     * @see org.kuali.rice.kns.web.struts.form.pojo.PojoFormBase#isPropertyEditable(java.lang.String)
      */
     @Override
     public boolean isPropertyEditable(String propertyName) {
@@ -243,7 +243,7 @@ public class CommitteeForm extends KraTransactionalDocumentFormBase {
             if (!StringUtils.equals("Actions", navigation[i].getHeaderTabDisplayName())) {
                 resultList.add(navigation[i]);
             } else {
-                if (!StringUtils.equals(KEWConstants.INITIATE_COMMAND, this.getCommand())) {
+                if (!StringUtils.equals(KewApiConstants.INITIATE_COMMAND, this.getCommand())) {
                     resultList.add(navigation[i]);
                 }
             }

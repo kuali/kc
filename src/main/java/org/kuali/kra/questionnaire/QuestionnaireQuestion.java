@@ -15,35 +15,44 @@
  */
 package org.kuali.kra.questionnaire;
 
-import java.util.LinkedHashMap;
-
 import org.kuali.kra.SequenceAssociate;
 import org.kuali.kra.bo.KraPersistableBusinessObjectBase;
 import org.kuali.kra.questionnaire.question.Question;
 
-public class QuestionnaireQuestion extends KraPersistableBusinessObjectBase implements SequenceAssociate<Questionnaire> { 
-    
+public class QuestionnaireQuestion extends KraPersistableBusinessObjectBase implements SequenceAssociate<Questionnaire> {
+
     private static final long serialVersionUID = 1699439856326521334L;
-    private Long questionnaireQuestionsId; 
-    private String questionnaireRefIdFk; 
-    private Long questionRefIdFk; 
-    private Integer questionNumber; 
-    private Integer parentQuestionNumber; 
-    private boolean conditionFlag; 
-    private String condition; 
-    private String conditionValue; 
-    private Integer questionSeqNumber; 
+
+    private Long questionnaireQuestionsId;
+
+    private String questionnaireRefIdFk;
+
+    private Long questionRefIdFk;
+
+    private Integer questionNumber;
+
+    private Integer parentQuestionNumber;
+
+    private boolean conditionFlag;
+
+    private String condition;
+
+    private String conditionValue;
+
+    private Integer questionSeqNumber;
+
     private Question question;
+
     private Questionnaire questionnaire;
-        
+
     private Questionnaire sequenceOwner;
+
     private String deleted;
     private boolean isAllow; 
 
-    public QuestionnaireQuestion() { 
+    public QuestionnaireQuestion() {
+    }
 
-    } 
-    
     public Long getQuestionnaireQuestionsId() {
         return questionnaireQuestionsId;
     }
@@ -132,31 +141,14 @@ public class QuestionnaireQuestion extends KraPersistableBusinessObjectBase impl
         this.questionnaire = questionnaire;
     }
 
-    /** {@inheritDoc} */
-    @Override 
-    protected LinkedHashMap<String, Object> toStringMapper() {
-        LinkedHashMap<String, Object> hashMap = new LinkedHashMap<String, Object>();
-        hashMap.put("questionnaireQuestionsId", this.getQuestionnaireQuestionsId());
-        hashMap.put("questionnaireRefIdFk", this.getQuestionnaireRefIdFk());
-        hashMap.put("questionRefIdFk", this.getQuestionRefIdFk());
-        hashMap.put("questionNumber", this.getQuestionNumber());
-        hashMap.put("parentQuestionNumber", this.getParentQuestionNumber());
-        hashMap.put("conditionFlag", this.getConditionFlag());
-        hashMap.put("condition", this.getCondition());
-        hashMap.put("conditionValue", this.getConditionValue());
-        hashMap.put("questionSeqNumber", this.getQuestionSeqNumber());
-        hashMap.put("versionNumber", this.getVersionNumber());
-        return hashMap;
-    }
-
     public Questionnaire getSequenceOwner() {
         return this.getQuestionnaire();
     }
 
     public void setSequenceOwner(Questionnaire newlyVersionedOwner) {
         setQuestionnaire(newlyVersionedOwner);
-        
     }
+
     /** {@inheritDoc} */
     public void resetPersistenceState() {
         this.setQuestionnaireQuestionsId(null);

@@ -15,8 +15,6 @@
  */
 package org.kuali.kra.budget.distributionincome;
 
-import java.util.LinkedHashMap;
-
 import org.kuali.kra.budget.BudgetDecimal;
 import org.kuali.kra.proposaldevelopment.hierarchy.HierarchyMaintainable;
 
@@ -198,22 +196,7 @@ public class BudgetCostShare extends BudgetDistributionAndIncomeComponent implem
     public void setSourceUnit(String sourceUnit) {
         this.sourceUnit = sourceUnit;
     }
-    /**
-     * 
-     * @see org.kuali.kra.budget.distributionincome.BudgetDistributionAndIncomeComponent#toStringMapper()
-     */
-    @SuppressWarnings("unchecked")
-    @Override
-    protected LinkedHashMap toStringMapper() {
-        LinkedHashMap<String, Object> hashMap = super.toStringMapper();
-        hashMap.put("sharePercentage", getSharePercentage());
-        hashMap.put("projectPeriod", getProjectPeriod());
-        hashMap.put("shareAmount", getShareAmount());
-        hashMap.put("sourceAccount", getSourceAccount());
-        
-        return hashMap;
-    }
-
+ 
     public String getHierarchyProposalNumber() {
         return hierarchyProposalNumber;
     }

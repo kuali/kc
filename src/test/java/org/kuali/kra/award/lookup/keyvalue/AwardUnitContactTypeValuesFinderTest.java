@@ -22,7 +22,7 @@ import org.junit.Before;
 import org.junit.Test;
 import org.kuali.kra.bo.UnitAdministratorType;
 import org.kuali.kra.test.infrastructure.KcUnitTestBase;
-import org.kuali.rice.core.util.KeyLabelPair;
+import org.kuali.rice.core.api.util.KeyValue;
 
 public class AwardUnitContactTypeValuesFinderTest extends KcUnitTestBase {
 
@@ -41,9 +41,9 @@ public class AwardUnitContactTypeValuesFinderTest extends KcUnitTestBase {
     
     @Test
     public void testValuesFinder() throws Exception {
-        List<KeyLabelPair> keyLabels = valuesFinder.getKeyValues();
+        List<KeyValue> keyLabels = valuesFinder.getKeyValues();
         assertFalse(keyLabels.isEmpty());
-        for (KeyLabelPair pair : keyLabels) {
+        for (KeyValue pair : keyLabels) {
             UnitAdministratorType contactType = getBusinessObjectService().findBySinglePrimaryKey(UnitAdministratorType.class, pair.getKey());
             assertEquals("U", contactType.getDefaultGroupFlag());
         }

@@ -18,13 +18,13 @@ package org.kuali.kra.lookup.keyvalue;
 import java.util.List;
 import java.util.Map;
 
-import org.kuali.rice.core.util.KeyLabelPair;
+import org.kuali.rice.core.api.util.KeyValue;
 
 /**
  * This class...
  */
 public interface KeyValueFinderService{
-    public List<KeyLabelPair> getKeyValues(Class keyValClass,String codePropName,String valPropName);
+    public List<KeyValue> getKeyValues(Class keyValClass,String codePropName,String valPropName);
 
     /**
      * 
@@ -35,5 +35,5 @@ public interface KeyValueFinderService{
      * @param queryMap
      * @return
      */
-    public List<KeyLabelPair> getKeyValues(Class keyValClass, String codePropName, String valPropName, Map queryMap);
+    public List<KeyValue> getKeyValues(Class keyValClass, String codePropName, String valPropName, Map queryMap);
 }

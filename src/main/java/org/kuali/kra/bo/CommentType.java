@@ -15,23 +15,27 @@
  */
 package org.kuali.kra.bo;
 
-import java.util.LinkedHashMap;
-
 
 /**
  * This class is Business Object representation of a comment type.
  */
 public class CommentType extends KraPersistableBusinessObjectBase {
-    
+
     /**
      * Comment for <code>serialVersionUID</code>
      */
     private static final long serialVersionUID = 5649376154094364142L;
+
     public static final String SCREENFLAG_TRUE = "Y";
+
     private String commentTypeCode;
+
     private String description;
+
     private Boolean templateFlag;
+
     private Boolean checklistFlag;
+
     private Boolean awardCommentScreenFlag;
 
     public String getCommentTypeCode() {
@@ -105,21 +109,6 @@ public class CommentType extends KraPersistableBusinessObjectBase {
     public void setAwardCommentScreenFlag(Boolean awardCommentScreenFlag) {
         this.awardCommentScreenFlag = awardCommentScreenFlag;
     }
-    
-
-    /**
-     * @see org.kuali.rice.kns.bo.BusinessObjectBase#toStringMapper()
-     */
-    @Override
-    protected LinkedHashMap<String,Object> toStringMapper() {        
-        LinkedHashMap<String,Object> hashMap = new LinkedHashMap<String,Object>();
-        hashMap.put("commentTypeCode", getCommentTypeCode());
-        hashMap.put("description", getDescription());
-        hashMap.put("templateFlag", getTemplateFlag()); 
-        hashMap.put("checklistFlag", getChecklistFlag());
-        hashMap.put("awardCommentScreenFlag", getAwardCommentScreenFlag());
-        return hashMap;
-    }
 
     /**
      * @see java.lang.Object#hashCode()
@@ -141,44 +130,25 @@ public class CommentType extends KraPersistableBusinessObjectBase {
      */
     @Override
     public boolean equals(Object obj) {
-        if (this == obj)
-            return true;
-        if (obj == null)
-            return false;
-        if (getClass() != obj.getClass())
-            return false;
+        if (this == obj) return true;
+        if (obj == null) return false;
+        if (getClass() != obj.getClass()) return false;
         CommentType other = (CommentType) obj;
         if (awardCommentScreenFlag == null) {
-            if (other.awardCommentScreenFlag != null)
-                return false;
-        }
-        else if (!awardCommentScreenFlag.equals(other.awardCommentScreenFlag))
-            return false;
+            if (other.awardCommentScreenFlag != null) return false;
+        } else if (!awardCommentScreenFlag.equals(other.awardCommentScreenFlag)) return false;
         if (checklistFlag == null) {
-            if (other.checklistFlag != null)
-                return false;
-        }
-        else if (!checklistFlag.equals(other.checklistFlag))
-            return false;
+            if (other.checklistFlag != null) return false;
+        } else if (!checklistFlag.equals(other.checklistFlag)) return false;
         if (commentTypeCode == null) {
-            if (other.commentTypeCode != null)
-                return false;
-        }
-        else if (!commentTypeCode.equals(other.commentTypeCode))
-            return false;
+            if (other.commentTypeCode != null) return false;
+        } else if (!commentTypeCode.equals(other.commentTypeCode)) return false;
         if (description == null) {
-            if (other.description != null)
-                return false;
-        }
-        else if (!description.equals(other.description))
-            return false;
+            if (other.description != null) return false;
+        } else if (!description.equals(other.description)) return false;
         if (templateFlag == null) {
-            if (other.templateFlag != null)
-                return false;
-        }
-        else if (!templateFlag.equals(other.templateFlag))
-            return false;
+            if (other.templateFlag != null) return false;
+        } else if (!templateFlag.equals(other.templateFlag)) return false;
         return true;
     }
-
 }

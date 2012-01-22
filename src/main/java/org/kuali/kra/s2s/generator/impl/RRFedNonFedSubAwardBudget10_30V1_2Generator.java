@@ -20,6 +20,7 @@ import gov.grants.apply.forms.rrFedNonFedBudget10V11.RRFedNonFedBudget10Document
 import gov.grants.apply.forms.rrFedNonFedSubawardBudget1030V12.RRFedNonFedSubawardBudget1030Document;
 import gov.grants.apply.forms.rrFedNonFedSubawardBudget1030V12.RRFedNonFedSubawardBudget1030Document.RRFedNonFedSubawardBudget1030;
 import gov.grants.apply.forms.rrFedNonFedSubawardBudget1030V12.RRFedNonFedSubawardBudget1030Document.RRFedNonFedSubawardBudget1030.BudgetAttachments;
+import gov.grants.apply.forms.rrFedNonFedSubawardBudgetV12.RRFedNonFedSubawardBudgetDocument;
 
 import java.io.ByteArrayInputStream;
 import java.io.IOException;

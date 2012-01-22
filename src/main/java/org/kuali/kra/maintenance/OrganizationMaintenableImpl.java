@@ -27,7 +27,6 @@ import org.kuali.kra.proposaldevelopment.bo.CongressionalDistrict;
 import org.kuali.kra.service.YnqService;
 import org.kuali.rice.kns.document.MaintenanceDocument;
 import org.kuali.rice.kns.maintenance.Maintainable;
-import org.kuali.rice.kns.util.AssertionUtils;
 import org.kuali.rice.kns.web.ui.Section;
 
 public class OrganizationMaintenableImpl extends KraMaintainableImpl {
@@ -66,7 +65,9 @@ public class OrganizationMaintenableImpl extends KraMaintainableImpl {
     private void initOrganizationYnq() {
         Organization organization = getBusinessObject();
         List<OrganizationYnq> organizationYnqs = organization.getOrganizationYnqs();
-        AssertionUtils.assertThat(organizationYnqs.isEmpty());
+        if (!organizationYnqs.isEmpty()) {
+            throw new AssertionError();
+        }
         
         List<Ynq> ynqs = getOrganizationTypeYnqs();
         for (Ynq ynq : ynqs) {

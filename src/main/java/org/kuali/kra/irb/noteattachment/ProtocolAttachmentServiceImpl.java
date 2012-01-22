@@ -31,11 +31,10 @@ import org.kuali.kra.irb.ProtocolDao;
 import org.kuali.kra.irb.personnel.ProtocolPerson;
 import org.kuali.kra.proposaldevelopment.bo.ProposalPersonBiography;
 import org.kuali.kra.service.KcPersonService;
-import org.kuali.rice.kim.bo.Person;
-import org.kuali.rice.kim.service.PersonService;
-import org.kuali.rice.kns.bo.PersistableBusinessObject;
-import org.kuali.rice.kns.service.BusinessObjectService;
-import org.kuali.rice.kns.util.ObjectUtils;
+import org.kuali.rice.kim.api.identity.Person;
+import org.kuali.rice.kim.api.identity.PersonService;
+import org.kuali.rice.krad.bo.PersistableBusinessObject;
+import org.kuali.rice.krad.service.BusinessObjectService;
 
 
 /** Implementation of {@link ProtocolAttachmentService ProtocolNoteAndAttachmentService}. */
@@ -43,7 +42,7 @@ class ProtocolAttachmentServiceImpl implements ProtocolAttachmentService {
 
     private final BusinessObjectService boService;
     private final ProtocolDao protocolDao;
-    private PersonService<Person> personService;
+    private PersonService personService;
     
     protected final Log LOG = LogFactory.getLog(getClass()); 
     private static final String PERSON_NOT_FOUND_FORMAT_STRING = "%s (not found)";
@@ -274,9 +273,8 @@ class ProtocolAttachmentServiceImpl implements ProtocolAttachmentService {
      * Sets the personService attribute value.
      * @param personService The personService to set.
      */
-    public void setPersonService(PersonService<Person> personService) {
+    public void setPersonService(PersonService personService) {
         this.personService = personService;
-    }
-
+    }   
 
 }

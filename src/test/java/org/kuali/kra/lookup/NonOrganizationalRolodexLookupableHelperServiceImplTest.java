@@ -26,7 +26,7 @@ import org.kuali.kra.bo.NonOrganizationalRolodex;
 import org.kuali.kra.dao.RolodexDao;
 import org.kuali.kra.infrastructure.KraServiceLocator;
 import org.kuali.kra.test.infrastructure.KcUnitTestBase;
-import org.kuali.rice.kns.bo.BusinessObject;
+import org.kuali.rice.krad.bo.BusinessObject;
 
 /**
  * Tests the {@link NonOrganizationalLookupableHelperServiceImpl}.

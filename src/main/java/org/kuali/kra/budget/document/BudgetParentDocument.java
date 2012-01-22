@@ -28,10 +28,10 @@ import org.kuali.kra.common.permissions.Permissionable;
 import org.kuali.kra.document.ResearchDocumentBase;
 import org.kuali.kra.infrastructure.Constants;
 import org.kuali.kra.infrastructure.KraServiceLocator;
+import org.kuali.rice.coreservice.framework.parameter.ParameterService;
 import org.kuali.rice.kns.datadictionary.DocumentEntry;
 import org.kuali.rice.kns.datadictionary.HeaderNavigation;
 import org.kuali.rice.kns.service.DataDictionaryService;
-import org.kuali.rice.kns.service.ParameterService;
 import org.kuali.rice.kns.web.ui.ExtraButton;
 
 @SuppressWarnings("serial")
@@ -88,7 +88,7 @@ public abstract class BudgetParentDocument<T extends BudgetParent> extends Resea
         budgetVersion.setVersionNumber(budget.getVersionNumber());
         budgetVersion.setDescriptionUpdatable(isDescriptionUpdatable);
         
-        String budgetStatusIncompleteCode = this.getParameterService().getParameterValue(
+        String budgetStatusIncompleteCode = this.getParameterService().getParameterValueAsString(
                 BudgetDocument.class, Constants.BUDGET_STATUS_INCOMPLETE_CODE);
         budgetVersion.setBudgetStatus(budgetStatusIncompleteCode);
         budgetVersion.setFinalVersionFlag(false);
@@ -108,7 +108,7 @@ public abstract class BudgetParentDocument<T extends BudgetParent> extends Resea
     public abstract ExtraButton configureReturnToParentTopButton();
     public List<HeaderNavigation> getBudgetHeaderNavigatorList(){
       DataDictionaryService dataDictionaryService = (DataDictionaryService) KraServiceLocator.getService(Constants.DATA_DICTIONARY_SERVICE_NAME);
-      DocumentEntry docEntry = dataDictionaryService.getDataDictionary().getDocumentEntry(BudgetDocument.class.getName());
+      DocumentEntry docEntry = (DocumentEntry) dataDictionaryService.getDataDictionary().getDocumentEntry(BudgetDocument.class.getName());
       return docEntry.getHeaderNavigationList();
     }
     public abstract T getBudgetParent();

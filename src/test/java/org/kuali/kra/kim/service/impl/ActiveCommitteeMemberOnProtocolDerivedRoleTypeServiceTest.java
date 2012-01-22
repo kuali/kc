@@ -15,7 +15,7 @@
  */
 package org.kuali.kra.kim.service.impl;
 
-import static org.junit.Assert.*;
+import static org.junit.Assert.assertTrue;
 
 import java.util.ArrayList;
 import java.util.HashMap;
@@ -26,7 +26,6 @@ import org.jmock.Expectations;
 import org.jmock.Mockery;
 import org.jmock.integration.junit4.JMock;
 import org.jmock.integration.junit4.JUnit4Mockery;
-import org.junit.Before;
 import org.junit.Test;
 import org.junit.runner.RunWith;
 import org.kuali.kra.committee.bo.Committee;
@@ -35,8 +34,7 @@ import org.kuali.kra.infrastructure.PermissionConstants;
 import org.kuali.kra.irb.Protocol;
 import org.kuali.kra.irb.actions.submit.ProtocolSubmission;
 import org.kuali.kra.kim.bo.KcKimAttributes;
-import org.kuali.rice.kim.bo.types.dto.AttributeSet;
-import org.kuali.rice.kns.service.BusinessObjectService;
+import org.kuali.rice.krad.service.BusinessObjectService;
 
 @RunWith(JMock.class)
 public class ActiveCommitteeMemberOnProtocolDerivedRoleTypeServiceTest {
@@ -70,7 +68,7 @@ public class ActiveCommitteeMemberOnProtocolDerivedRoleTypeServiceTest {
         };
 
         
-        assertTrue(derivedRole.hasApplicationRole(principalId, null, namespaceCode, roleName, new AttributeSet(qualifications)));
+        assertTrue(derivedRole.hasDerivedRole(principalId, null, namespaceCode, roleName,new HashMap<String,String>(qualifications)));
     }
     
     private Protocol createProtocolWithSubmission(String protocolNumber) {

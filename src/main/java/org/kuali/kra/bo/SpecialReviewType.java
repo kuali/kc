@@ -15,21 +15,21 @@
  */
 package org.kuali.kra.bo;
 
-import java.util.LinkedHashMap;
 
 /**
  * Defines the type of the Special Review.
  */
 public class SpecialReviewType extends KraSortablePersistableBusinessObjectBase {
-    
+
     /**
      * The Human Subjects Special Review type.
      */
     public static final String HUMAN_SUBJECTS = "1";
 
     private static final long serialVersionUID = -7939863013575475658L;
-    
+
     private String specialReviewTypeCode;
+
     private String description;
 
     public String getSpecialReviewTypeCode() {
@@ -39,7 +39,7 @@ public class SpecialReviewType extends KraSortablePersistableBusinessObjectBase 
     public void setSpecialReviewTypeCode(String specialReviewTypeCode) {
         this.specialReviewTypeCode = specialReviewTypeCode;
     }
-    
+
     public String getDescription() {
         return description;
     }
@@ -47,15 +47,4 @@ public class SpecialReviewType extends KraSortablePersistableBusinessObjectBase 
     public void setDescription(String description) {
         this.description = description;
     }
-
-    @Override
-    protected LinkedHashMap<?, ?> toStringMapper() {
-        LinkedHashMap<String, Object> propMap = new LinkedHashMap<String, Object>();
-        propMap.put("specialReviewTypeCode",getSpecialReviewTypeCode());
-        propMap.put("description", getDescription());
-        propMap.put("updateTimestamp", getUpdateTimestamp());
-        propMap.put("updateUser", getUpdateUser());
-        return propMap;
-    }
-
 }

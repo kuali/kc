@@ -15,30 +15,33 @@
  */
 package org.kuali.kra.subaward.bo;
 
-import java.util.LinkedHashMap;
 import java.sql.Date;
 import org.kuali.kra.subaward.bo.SubAward;
 
 public class SubAwardCloseout extends SubAwardAssociate { 
-    
+
     private static final long serialVersionUID = 1L;
 
-    private Integer subAwardCloseoutId; 
+    private Integer subAwardCloseoutId;
     private Long subAwardId; 
-    private String subAwardCode; 
-    private Integer closeoutNumber; 
-    private Integer closeoutTypeCode; 
-    private Date dateRequested; 
-    private Date dateFollowup; 
-    private Date dateReceived; 
-    private String comments; 
-    
-    private SubAward subAward; 
-    
-    public SubAwardCloseout() { 
+    private String subAwardCode;
+    private Integer closeoutNumber;
 
-    } 
-    
+    private Integer closeoutTypeCode;
+
+    private Date dateRequested;
+
+    private Date dateFollowup;
+
+    private Date dateReceived;
+
+    private String comments;
+
+    private SubAward subAward;
+
+    public SubAwardCloseout() {
+    }
+
     public Integer getSubAwardCloseoutId() {
         return subAwardCloseoutId;
     }
@@ -111,27 +114,9 @@ public class SubAwardCloseout extends SubAwardAssociate {
         this.comments = comments;
     }
 
-    /** {@inheritDoc} */
-    @Override 
-    protected LinkedHashMap<String, Object> toStringMapper() {
-        LinkedHashMap<String, Object> hashMap = new LinkedHashMap<String, Object>();
-        hashMap.put("subAwardCloseoutId", this.getSubAwardCloseoutId());
-        hashMap.put("subAwardId", this.getSubAwardId());
-        hashMap.put("subAwardCode", this.getSubAwardCode());
-        hashMap.put("sequenceNumber", this.getSequenceNumber());
-        hashMap.put("closeoutNumber", this.getCloseoutNumber());
-        hashMap.put("closeoutTypeCode", this.getCloseoutTypeCode());
-        hashMap.put("dateRequested", this.getDateRequested());
-        hashMap.put("dateFollowup", this.getDateFollowup());
-        hashMap.put("dateReceived", this.getDateReceived());
-        hashMap.put("comments", this.getComments());
-        return hashMap;
-    }
-
     @Override
     public void resetPersistenceState() {
 
         this.subAwardCloseoutId=null;
     }
-    
 }

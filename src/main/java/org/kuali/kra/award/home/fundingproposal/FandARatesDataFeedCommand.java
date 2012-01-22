@@ -15,13 +15,10 @@
  */
 package org.kuali.kra.award.home.fundingproposal;
 
-import java.lang.reflect.InvocationTargetException;
 import java.sql.Date;
 import java.util.Calendar;
 import java.util.GregorianCalendar;
-import java.util.HashMap;
 import java.util.List;
-import java.util.Map;
 
 import org.kuali.kra.award.commitments.AwardFandaRate;
 import org.kuali.kra.award.home.Award;
@@ -31,10 +28,8 @@ import org.kuali.kra.infrastructure.Constants;
 import org.kuali.kra.infrastructure.KraServiceLocator;
 import org.kuali.kra.institutionalproposal.home.InstitutionalProposal;
 import org.kuali.kra.institutionalproposal.home.InstitutionalProposalUnrecoveredFandA;
-import org.kuali.rice.kns.service.BusinessObjectService;
-import org.kuali.rice.kns.service.ParameterService;
-import org.kuali.rice.kns.util.ObjectUtils;
-import org.kuali.rice.kns.web.format.FormatException;
+import org.kuali.rice.coreservice.framework.parameter.ParameterService;
+import org.kuali.rice.krad.service.BusinessObjectService;
 
 class FandARatesDataFeedCommand extends ProposalDataFeedCommandBase {
     private static final String FANDA_COMMENT_PATTERN = "Added Unrecovered F & A from Proposal Number %s";
@@ -146,7 +141,7 @@ class FandARatesDataFeedCommand extends ProposalDataFeedCommandBase {
     }
     
     private String readFiscalYearStartDate() {
-        return this.getParameterService().getParameterValue(BudgetDocument.class, Constants.BUDGET_CURRENT_FISCAL_YEAR);
+        return this.getParameterService().getParameterValueAsString(BudgetDocument.class, Constants.BUDGET_CURRENT_FISCAL_YEAR);
     }
     
     /**

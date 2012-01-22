@@ -15,11 +15,8 @@
  */
 package org.kuali.kra.irb.onlinereview.authorization;
 
-import org.kuali.kra.infrastructure.Constants;
 import org.kuali.kra.infrastructure.PermissionConstants;
-import org.kuali.kra.irb.Protocol;
 import org.kuali.kra.irb.onlinereview.ProtocolOnlineReview;
-import org.kuali.rice.kns.workflow.service.KualiWorkflowDocument;
 
 /**
  * The Modify Protocol Online Review Authorizer checks to see if the user has 

@@ -16,7 +16,7 @@
 package org.kuali.kra.award.rule;
 
 import org.kuali.kra.award.rule.event.AddAwardAttachmentEvent;
-import org.kuali.rice.kns.rule.BusinessRule;
+import org.kuali.rice.krad.rules.rule.BusinessRule;
 
 public interface AddAwardAttachmentRule extends BusinessRule {
 

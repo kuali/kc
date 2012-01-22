@@ -16,7 +16,6 @@
 package org.kuali.kra.meeting;
 
 import java.sql.Timestamp;
-import java.util.LinkedHashMap;
 
 import org.kuali.kra.bo.KraPersistableBusinessObjectBase;
 import org.kuali.kra.committee.bo.CommitteeSchedule;
@@ -25,31 +24,26 @@ import org.kuali.kra.committee.bo.CommitteeSchedule;
  * 
  * This class is super class for meeting generated doc classes.
  */
-public abstract class GeneratedMeetingDoc extends KraPersistableBusinessObjectBase { 
-    
+public abstract class GeneratedMeetingDoc extends KraPersistableBusinessObjectBase {
+
     private static final long serialVersionUID = -5187758950400693662L;
-    private Long scheduleIdFk; 
-    private byte[] pdfStore; 
+
+    private Long scheduleIdFk;
+
+    private byte[] pdfStore;
+
     private Timestamp createTimestamp;
+
     private String createUser;
     private CommitteeSchedule committeeSchedule;
-    
-    
+
+
     public byte[] getPdfStore() {
         return pdfStore;
     }
 
     public void setPdfStore(byte[] pdfStore) {
         this.pdfStore = pdfStore;
-    }
-
-    /** {@inheritDoc} */
-    @Override 
-    protected LinkedHashMap<String, Object> toStringMapper() {
-        LinkedHashMap<String, Object> hashMap = new LinkedHashMap<String, Object>();
-        hashMap.put("scheduleIdFk", this.getScheduleIdFk());
-        hashMap.put("pdfStore", this.getPdfStore());
-        return hashMap;
     }
 
     public Long getScheduleIdFk() {
@@ -86,6 +80,4 @@ public abstract class GeneratedMeetingDoc extends KraPersistableBusinessObjectBa
     public void setCreateUser(String createUser) {
         this.createUser = createUser;
     }
-    
-
 }

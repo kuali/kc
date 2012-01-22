@@ -15,8 +15,6 @@
  */
 package org.kuali.kra.award.paymentreports;
 
-import static org.junit.Assert.*;
-
 import java.util.List;
 
 import org.junit.After;
@@ -24,7 +22,7 @@ import org.junit.Before;
 import org.junit.Test;
 import org.kuali.kra.award.paymentreports.awardreports.reporting.service.ReportTrackingSearchViews;
 import org.kuali.kra.test.infrastructure.KcUnitTestBase;
-import org.kuali.rice.core.util.KeyLabelPair;
+import org.kuali.rice.core.api.util.KeyValue;
 
 public class ReportTrackingViewValuesFinderTest extends KcUnitTestBase {
     
@@ -42,7 +40,7 @@ public class ReportTrackingViewValuesFinderTest extends KcUnitTestBase {
 
     @Test
     public void testGetKeyValues() {
-        List<KeyLabelPair> labelPairs = finder.getKeyValues();
+        List<KeyValue> labelPairs = finder.getKeyValues();
         assertEquals(4, labelPairs.size());
     }
 

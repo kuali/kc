@@ -16,7 +16,6 @@
 package org.kuali.kra.common.notification.bo;
 
 import java.util.ArrayList;
-import java.util.LinkedHashMap;
 import java.util.List;
 
 import org.kuali.kra.bo.KraPersistableBusinessObjectBase;
@@ -28,26 +27,26 @@ import org.kuali.kra.bo.KraPersistableBusinessObjectBase;
 public class NotificationModuleRole extends KraPersistableBusinessObjectBase {
 
     private static final long serialVersionUID = -2991839907693163026L;
-    
+
     private Long notificationModuleRoleId;
+
     private String moduleCode;
-    private String roleName;    
+
+    private String roleName;
+
     private List<NotificationModuleRoleQualifier> roleQualifiers = new ArrayList<NotificationModuleRoleQualifier>();
-    
+
     public Long getNotificationModuleRoleId() {
         return notificationModuleRoleId;
     }
-
 
     public void setNotificationModuleRoleId(Long notificationModuleRoleId) {
         this.notificationModuleRoleId = notificationModuleRoleId;
     }
 
-
     public String getModuleCode() {
         return moduleCode;
     }
-
 
     public void setModuleCode(String moduleCode) {
         this.moduleCode = moduleCode;
@@ -57,17 +56,13 @@ public class NotificationModuleRole extends KraPersistableBusinessObjectBase {
         return roleName;
     }
 
-
     public void setRoleName(String roleName) {
         this.roleName = roleName;
     }
 
-
-
     public List<NotificationModuleRoleQualifier> getRoleQualifiers() {
         return roleQualifiers;
     }
-
 
     public void setRoleQualifiers(List<NotificationModuleRoleQualifier> roleQualifiers) {
         this.roleQualifiers = roleQualifiers;
@@ -79,14 +74,5 @@ public class NotificationModuleRole extends KraPersistableBusinessObjectBase {
         deleteAwareList.add(getRoleQualifiers());
         
         return deleteAwareList;
-    }
-
-    @Override
-    protected LinkedHashMap toStringMapper() {
-        LinkedHashMap<String, Object> propMap = new LinkedHashMap<String, Object>();
-        propMap.put("moduleCode", getModuleCode());
-        propMap.put("roleName", getRoleName());
-        return propMap;
-    }
-
+    }    
 }

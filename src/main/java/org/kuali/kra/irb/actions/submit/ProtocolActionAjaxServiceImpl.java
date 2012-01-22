@@ -28,10 +28,8 @@ import org.kuali.kra.irb.Protocol;
 import org.kuali.kra.irb.ProtocolForm;
 import org.kuali.kra.irb.actions.ActionHelper;
 import org.kuali.kra.irb.protocol.funding.ProtocolFundingSourceServiceImpl;
-import org.kuali.rice.core.util.KeyLabelPair;
-import org.kuali.rice.kns.service.BusinessObjectService;
-import org.kuali.rice.kns.UserSession;
-import org.kuali.rice.kns.util.GlobalVariables;
+import org.kuali.rice.core.api.util.KeyValue;
+import org.kuali.rice.krad.service.BusinessObjectService;
 
 public class ProtocolActionAjaxServiceImpl implements ProtocolActionAjaxService {
 
@@ -63,9 +61,9 @@ public class ProtocolActionAjaxServiceImpl implements ProtocolActionAjaxService 
     public String getValidCommitteeDates(String committeeId, String protocolNumber) {
         StringBuffer ajaxList = new StringBuffer();
         if (isAuthorizedToAccess(protocolNumber)) {
-            List<KeyLabelPair> dates = committeeService.getAvailableCommitteeDates(committeeId);
-            for (KeyLabelPair date : dates) {
-                ajaxList.append(date.getKey() + ";" + date.getLabel() + ";");
+            List<KeyValue> dates = committeeService.getAvailableCommitteeDates(committeeId);
+            for (KeyValue date : dates) {
+                ajaxList.append(date.getKey() + ";" + date.getValue() + ";");
             }
             return clipLastChar(ajaxList);
         }

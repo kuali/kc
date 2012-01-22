@@ -18,7 +18,7 @@
 
 //Fix rice ids for use with jquery
 //Takes an id and replaces the . with \\. and adds #
-function jq(myid) { 
+function jq_escape(myid) { 
   return '#' + myid.replace(/(:|\.)/g,'\\$1');
 }
 
@@ -426,7 +426,7 @@ function checkGrantsGovStatusOnSponsorChange(proposalNumber, sponsorCodeFieldNam
 	ProposalDevelopmentService.isGrantsGovEnabledOnSponsorChange(proposalNumber, sponsorCode, dwrReply);
 }
 function enableGrantsGov(enable) {
-	$j('input[name$="navigateTo.grantsGov"]').attr("disabled", !enable);
+	jq('input[name$="navigateTo.grantsGov"]').attr("disabled", !enable);
 }
 
 function showS2SAppSubmissionStatusDetails(proposalNumber,trackingId) {
@@ -1817,22 +1817,22 @@ function selectAllAwardKeywords(document) {
 }
 
 function loadApplicableTransactionIds(versionId, transactionId, awardNumber) {
-	var sequenceNumber = $(versionId).val();
-	var docFormKey = $('input[name="docFormKey"]').val();
+	var sequenceNumber = jQuery(versionId).val();
+	var docFormKey = jQuery('input[name="docFormKey"]').val();
 	var dwrReply = {
 		callback:function(data) {
 			if ( data != null ) {
 				//clear all current options
-			    $(transactionId).html("");
+				jQuery(transactionId).html("");
 			    for (key in data) {
-					$(transactionId).append("<option value='"+key+"'>"+data[key]+"</option>");
+			    	jQuery(transactionId).append("<option value='"+key+"'>"+data[key]+"</option>");
 				}
 			}
 		},
 		errorHandler:function( errorMessage ) {
 			window.status = errorMessage;
 			//clear all current options
-		    $(transactionId).html("");		
+			jQuery(transactionId).html("");		
 		}
 	};
 	AwardTransactionLookupService.getApplicableTransactionIds(awardNumber+":"+docFormKey, sequenceNumber, dwrReply);
@@ -1840,7 +1840,7 @@ function loadApplicableTransactionIds(versionId, transactionId, awardNumber) {
 
 
 function setAllItemsIn(id, value) {
-	$("#" + id + " INPUT[type='checkbox']").attr('checked', value);
+	jQuery("#" + id + " INPUT[type='checkbox']").attr('checked', value);
 }
 
 
@@ -2792,9 +2792,6 @@ function ajaxLoadQn(protocolNumber, submissionNumber,  docFormKey, documentWebSc
             }
         );
 		    var firstQn = true;
-			if ($j(qnhtml).find('div[id^=questionpanelcontent]').size() > 1) {
-				firstQn = false;
-			}
 			$j(qnhtml).find('div[id^=questionpanelcontent]').each(function() {
 				//alert('hide')
 				if (firstQn) {
@@ -3038,27 +3035,26 @@ function updateNotificationRecipients_Callback(data) {
 		}
 	}
 }
-
 function loadRolodexInfoById() {
-	var fullNameElement = $jq('input[name="document.newMaintainableObject.rolodexId"]');
-	if ($jq(fullNameElement) != null) {
-		var rolodexId = $jq(fullNameElement).val();
-		if ($jq(fullNameElement).parent().find('div').length == 0) {
-			$jq(fullNameElement).parent().append('<div>&nbsp;</div>');
+	var fullNameElement = jq('input[name="document.newMaintainableObject.rolodexId"]');
+	if (jq(fullNameElement) != null) {
+		var rolodexId = jq(fullNameElement).val();
+		if (jq(fullNameElement).parent().find('div').length == 0) {
+			jq(fullNameElement).parent().append('<div>&nbsp;</div>');
 		}
 		if (rolodexId == '') {
-			$jq(fullNameElement).parent().find('div').html("&nbsp;");
+			jq(fullNameElement).parent().find('div').html("&nbsp;");
 		}
 		else
 		{
 			var dwrReply = {
-				callback:function(data) {
-					if ( data != null ) {
-						$jq(fullNameElement).parent().find('div').html(data.fullName);
-					}
+					callback:function(data) {
+				if ( data != null ) {
+					jq(fullNameElement).parent().find('div').html(data.fullName);
 				}
+			}
 			};
-			RolodexServiceRight.getRolodex(rolodexId, dwrReply);
+			RolodexService.getRolodex(rolodexId, dwrReply);
 		}
 	}
 }

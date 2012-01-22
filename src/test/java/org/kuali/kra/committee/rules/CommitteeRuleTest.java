@@ -27,15 +27,14 @@ import org.kuali.kra.committee.bo.CommitteeResearchArea;
 import org.kuali.kra.committee.bo.CommitteeType;
 import org.kuali.kra.committee.document.CommitteeDocument;
 import org.kuali.kra.infrastructure.KeyConstants;
-import org.kuali.rice.kns.util.ErrorMap;
-import org.kuali.rice.kns.util.GlobalVariables;
+import org.kuali.rice.krad.util.GlobalVariables;
+import org.kuali.rice.krad.util.MessageMap;
 
 /**
  * Test the Committee Rules.
  */
 public class CommitteeRuleTest extends CommitteeRuleTestBase {
 
-    
     
     private CommitteeDocumentRule rule;
 
@@ -75,22 +74,22 @@ public class CommitteeRuleTest extends CommitteeRuleTestBase {
         /*
          * There should be nine required fields.
          */
-        ErrorMap errorMap = GlobalVariables.getErrorMap();
+        MessageMap errorMap = GlobalVariables.getMessageMap();
         assertEquals(9, errorMap.getErrorCount());
         
         /*
          * Verify that the error keys for each of the required fields 
-         * is in the ErrorMap.
+         * is in the MessageMap.
          */
-        assertTrue(errorMap.containsKey("document.documentHeader.documentDescription"));
-        assertTrue(errorMap.containsKey("document.committeeList[0].committeeTypeCode"));
-        assertTrue(errorMap.containsKey("document.committeeList[0].maxProtocols"));
-        assertTrue(errorMap.containsKey("document.committeeList[0].homeUnitNumber"));
-        assertTrue(errorMap.containsKey("document.committeeList[0].minimumMembersRequired"));
-        assertTrue(errorMap.containsKey("document.committeeList[0].committeeName"));
-        assertTrue(errorMap.containsKey("document.committeeList[0].advancedSubmissionDaysRequired"));
-        assertTrue(errorMap.containsKey("document.committeeList[0].reviewTypeCode"));
-        assertTrue(errorMap.containsKey("document.committeeList[0].committeeId"));
+        assertTrue(errorMap.getErrorMessages().containsKey("document.documentHeader.documentDescription"));
+        assertTrue(errorMap.getErrorMessages().containsKey("document.committeeList[0].committeeTypeCode"));
+        assertTrue(errorMap.getErrorMessages().containsKey("document.committeeList[0].maxProtocols"));
+        assertTrue(errorMap.getErrorMessages().containsKey("document.committeeList[0].homeUnitNumber"));
+        assertTrue(errorMap.getErrorMessages().containsKey("document.committeeList[0].minimumMembersRequired"));
+        assertTrue(errorMap.getErrorMessages().containsKey("document.committeeList[0].committeeName"));
+        assertTrue(errorMap.getErrorMessages().containsKey("document.committeeList[0].advancedSubmissionDaysRequired"));
+        // assertTrue(errorMap.getErrorMessages().containsKey("document.committeeList[0].reviewTypeCode"));
+        assertTrue(errorMap.getErrorMessages().containsKey("document.committeeList[0].committeeId"));
     }
     
     /**
@@ -115,7 +114,7 @@ public class CommitteeRuleTest extends CommitteeRuleTestBase {
         boolean rulesPassed = rule.processSaveDocument(document);
         assertFalse(rulesPassed);
         
-        ErrorMap errorMap = GlobalVariables.getErrorMap();
+        MessageMap errorMap = GlobalVariables.getMessageMap();
         assertTrue(errorMap.containsMessageKey(KeyConstants.ERROR_COMMITTEE_DUPLICATE_ID));
     }
     
@@ -136,7 +135,7 @@ public class CommitteeRuleTest extends CommitteeRuleTestBase {
         boolean rulesPassed = rule.processSaveDocument(document);
         assertFalse(rulesPassed);
         
-        ErrorMap errorMap = GlobalVariables.getErrorMap();
+        MessageMap errorMap = GlobalVariables.getMessageMap();
         assertTrue(errorMap.containsMessageKey(KeyConstants.ERROR_INVALID_UNIT));
     }
     /*
@@ -173,11 +172,11 @@ public class CommitteeRuleTest extends CommitteeRuleTestBase {
     }
     
     // for testing a private validation method
-    private boolean invoke_ValidateCommitteeReviewType(CommitteeDocument document) throws Exception {
+    private boolean invoke_ValidateCommitteeReviewType(CommitteeDocument document) throws Exception {      
         Method m = rule.getClass().getDeclaredMethod("validateCommitteeReviewType", CommitteeDocument.class);
-        m.setAccessible(true);
-        return (Boolean) m.invoke(rule, document);
+        m.setAccessible(true);       
+        return (Boolean) m.invoke(rule, document);    
     }
-    */
-
+     */
+        
 }

@@ -13,42 +13,42 @@
  * See the License for the specific language governing permissions and
  * limitations under the License.
  */
-
 package org.kuali.kra.bo;
 
-import java.util.LinkedHashMap;
 
-public class AffiliationType extends KraPersistableBusinessObjectBase { 
-	
-	/**
+public class AffiliationType extends KraPersistableBusinessObjectBase {
+
+    /**
      * Comment for <code>serialVersionUID</code>
      */
     private static final long serialVersionUID = -2684716208059362103L;
-    private Integer affiliationTypeCode; 
-	private String description; 
-	private boolean active;
-	
-	public AffiliationType() { 
 
-	} 
-	
-	public Integer getAffiliationTypeCode() {
-		return this.affiliationTypeCode;
-	}
+    private Integer affiliationTypeCode;
 
-	public void setAffiliationTypeCode(Integer affiliationTypeCode) {
-		this.affiliationTypeCode = affiliationTypeCode;
-	}
+    private String description;
 
-	public String getDescription() {
-		return this.description;
-	}
+    private boolean active;
 
-	public void setDescription(String description) {
-		this.description = description;
-	}
+    public AffiliationType() {
+    }
 
-	public boolean isActive() {
+    public Integer getAffiliationTypeCode() {
+        return this.affiliationTypeCode;
+    }
+
+    public void setAffiliationTypeCode(Integer affiliationTypeCode) {
+        this.affiliationTypeCode = affiliationTypeCode;
+    }
+
+    public String getDescription() {
+        return this.description;
+    }
+
+    public void setDescription(String description) {
+        this.description = description;
+    }
+
+    public boolean isActive() {
         return active;
     }
 
@@ -57,16 +57,6 @@ public class AffiliationType extends KraPersistableBusinessObjectBase {
     }
 
     /**  {@inheritDoc} */
-	@Override 
-	protected LinkedHashMap toStringMapper() {
-		LinkedHashMap hashMap = new LinkedHashMap();
-		hashMap.put("affiliationTypeCode", this.getAffiliationTypeCode());
-		hashMap.put("description", this.getDescription());
-		hashMap.put("active", this.isActive());
-		return hashMap;
-	}
-
-	/**  {@inheritDoc} */
     @Override
     public int hashCode() {
         final int prime = 31;
@@ -103,11 +93,9 @@ public class AffiliationType extends KraPersistableBusinessObjectBase {
         } else if (!this.description.equals(other.description)) {
             return false;
         }
-        
         if (this.isActive() != other.isActive()) {
-           return false; 
+            return false;
         }
         return true;
     }
-	
 }

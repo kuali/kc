@@ -15,7 +15,7 @@
  */
 package org.kuali.kra.negotiations.customdata;
 
-import org.kuali.rice.kns.rule.BusinessRule;
+import org.kuali.rice.krad.rules.rule.BusinessRule;
 
 /**
  * This class...

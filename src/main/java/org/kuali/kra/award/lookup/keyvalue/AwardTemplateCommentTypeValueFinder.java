@@ -25,9 +25,10 @@ import java.util.Map;
 import org.kuali.kra.bo.CommentType;
 import org.kuali.kra.infrastructure.KraServiceLocator;
 import org.kuali.kra.lookup.keyvalue.KeyValueFinderService;
-import org.kuali.rice.kns.lookup.keyvalues.KeyValuesBase;
-import org.kuali.rice.kns.service.KeyValuesService;
-import org.kuali.rice.core.util.KeyLabelPair;
+import org.kuali.rice.core.api.util.ConcreteKeyValue;
+import org.kuali.rice.core.api.util.KeyValue;
+import org.kuali.rice.krad.keyvalues.KeyValuesBase;
+import org.kuali.rice.krad.service.KeyValuesService;
 
 /**
  * This class is used to get the Frequency BO for AwardProposalDue control
@@ -47,15 +48,15 @@ public class AwardTemplateCommentTypeValueFinder  extends KeyValuesBase {
      * is always &lt;"", "select:"&gt;.
      * @see org.kuali.core.lookup.keyvalues.KeyValuesFinder#getKeyValues()
      */
-    public List<KeyLabelPair> getKeyValues() {
+    public List<KeyValue> getKeyValues() {
         KeyValuesService keyValuesService = (KeyValuesService) KraServiceLocator.getService("keyValuesService");
-        Map<String,Boolean> fieldValues = new HashMap<String,Boolean>();
+        Map<String, Object> fieldValues = new HashMap<String, Object>();
         fieldValues.put("templateFlag", Boolean.TRUE);
         Collection reportClasses = keyValuesService.findMatching(CommentType.class, fieldValues);
-        List<KeyLabelPair> keyValues = new ArrayList<KeyLabelPair>();
+        List<KeyValue> keyValues = new ArrayList<KeyValue>();
         for (Iterator iter = reportClasses.iterator(); iter.hasNext();) {
             CommentType comment = (CommentType) iter.next();
-            keyValues.add(new KeyLabelPair(comment.getCommentTypeCode(), comment.getDescription()));                            
+            keyValues.add(new ConcreteKeyValue(comment.getCommentTypeCode(), comment.getDescription()));                            
         }
                 
         return keyValues;

@@ -38,7 +38,8 @@
                            
     <bean id="coiModuleConfiguration" parent="coiModuleConfiguration-parentBean" />
     
-    <bean id="coiModuleConfiguration-parentBean" class="org.kuali.rice.kns.bo.ModuleConfiguration" abstract="true">
+    <bean id="coiModuleConfiguration-parentBean" class="org.kuali.rice.krad.bo.ModuleConfiguration" abstract="true">
+    	<property name="namespaceCode" value="KC-COIDISCLOSURE" />
         <property name="databaseRepositoryFilePaths">
             <list>
                 <value>org/kuali/kra/coi/repository-coi.xml</value>
@@ -147,7 +148,7 @@
         <property name="businessObjectService" ref="businessObjectService" />
         <property name="documentService" ref="documentService" />
     </bean>
-
+    
     <bean id="coiNotificationRoleQualifierService" class="org.kuali.kra.coi.notification.CoiNotificationRoleQualifierServiceImpl"
           scope="prototype">
     </bean>    
@@ -157,7 +158,7 @@
         <property name="kcPersonService" ref="kcPersonService" />
     </bean>
     
-    <bean class="org.kuali.rice.ksb.messaging.KSBExporter">
+    <bean class="org.kuali.rice.ksb.api.bus.support.ServiceBusExporter">
         <property name="serviceDefinition">
             <bean parent="kcService" p:service-ref="coiDisclosureReviewerDerivedRoleTypeService"
                 p:localServiceName="coiDisclosureReviewerDerivedRoleTypeService" />

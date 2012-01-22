@@ -22,8 +22,8 @@ import java.util.List;
 
 import org.kuali.kra.infrastructure.KraServiceLocator;
 import org.kuali.kra.irb.actions.ProtocolActionType;
-import org.kuali.rice.kns.service.BusinessObjectService;
 import org.kuali.rice.kns.web.struts.form.KualiForm;
+import org.kuali.rice.krad.service.BusinessObjectService;
 
 /**
  * 

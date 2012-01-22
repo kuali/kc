@@ -15,7 +15,7 @@
  */
 package org.kuali.kra.budget.service;
 
-import org.kuali.rice.kns.service.PessimisticLockService;
+import org.kuali.rice.krad.service.PessimisticLockService;
 
 /**
  * The Budget Lock Service.  Every document that customizes the PessimisticLockService

@@ -15,51 +15,41 @@
  */
 package org.kuali.kra.budget.core;
 
-import java.util.ArrayList;
-import java.util.LinkedHashMap;
-import java.util.List;
-
 import org.kuali.kra.bo.KraPersistableBusinessObjectBase;
 
 public class BudgetCategoryMapping extends KraPersistableBusinessObjectBase {
-	private String budgetCategoryCode;
-	private String mappingName;
-	private String targetCategoryCode;
-	private BudgetCategory budgetCategory;
-	
-	public String getBudgetCategoryCode() {
-		return budgetCategoryCode;
-	}
 
-	public void setBudgetCategoryCode(String budgetCategoryCode) {
-		this.budgetCategoryCode = budgetCategoryCode;
-	}
+    private String budgetCategoryCode;
 
-	public String getMappingName() {
-		return mappingName;
-	}
+    private String mappingName;
 
-	public void setMappingName(String mappingName) {
-		this.mappingName = mappingName;
-	}
+    private String targetCategoryCode;
 
-	public String getTargetCategoryCode() {
-		return targetCategoryCode;
-	}
+    private BudgetCategory budgetCategory;
 
-	public void setTargetCategoryCode(String targetCategoryCode) {
-		this.targetCategoryCode = targetCategoryCode;
-	}
+    public String getBudgetCategoryCode() {
+        return budgetCategoryCode;
+    }
 
+    public void setBudgetCategoryCode(String budgetCategoryCode) {
+        this.budgetCategoryCode = budgetCategoryCode;
+    }
 
-	@Override 
-	protected LinkedHashMap toStringMapper() {
-		LinkedHashMap hashMap = new LinkedHashMap();
-		hashMap.put("budgetCategoryCode", getBudgetCategoryCode());
-		hashMap.put("mappingName", getMappingName());
-		hashMap.put("targetCategoryCode", getTargetCategoryCode());
-		return hashMap;
-	}
+    public String getMappingName() {
+        return mappingName;
+    }
+
+    public void setMappingName(String mappingName) {
+        this.mappingName = mappingName;
+    }
+
+    public String getTargetCategoryCode() {
+        return targetCategoryCode;
+    }
+
+    public void setTargetCategoryCode(String targetCategoryCode) {
+        this.targetCategoryCode = targetCategoryCode;
+    }
 
     /**
      * Gets the budgetCategory attribute. 

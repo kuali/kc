@@ -15,68 +15,58 @@
  */
 package org.kuali.kra.proposaldevelopment.bo;
 
-import java.util.LinkedHashMap;
-
 import org.kuali.kra.bo.KraSortablePersistableBusinessObjectBase;
 import org.kuali.kra.bo.Ynq;
 
 public class ProposalPersonYnq extends KraSortablePersistableBusinessObjectBase {
 
-	private Integer proposalPersonNumber;
-	private String proposalNumber;
-	private String questionId;
-	private String answer;
+    private Integer proposalPersonNumber;
+
+    private String proposalNumber;
+
+    private String questionId;
+
+    private String answer;
+
     private String dummyAnswer;
-	private Ynq ynq;
-	
 
-	public ProposalPersonYnq(){
-		super();
-	}
+    private Ynq ynq;
 
-	public Integer getProposalPersonNumber() {
-		return proposalPersonNumber;
-	}
+    public ProposalPersonYnq() {
+        super();
+    }
 
-	public void setProposalPersonNumber(Integer proposalPersonNumber) {
-		this.proposalPersonNumber = proposalPersonNumber;
-	}
+    public Integer getProposalPersonNumber() {
+        return proposalPersonNumber;
+    }
 
-	public String getProposalNumber() {
-		return proposalNumber;
-	}
+    public void setProposalPersonNumber(Integer proposalPersonNumber) {
+        this.proposalPersonNumber = proposalPersonNumber;
+    }
 
-	public void setProposalNumber(String proposalNumber) {
-		this.proposalNumber = proposalNumber;
-	}
+    public String getProposalNumber() {
+        return proposalNumber;
+    }
 
-	public String getQuestionId() {
-		return questionId;
-	}
+    public void setProposalNumber(String proposalNumber) {
+        this.proposalNumber = proposalNumber;
+    }
 
-	public void setQuestionId(String questionId) {
-		this.questionId = questionId;
-	}
+    public String getQuestionId() {
+        return questionId;
+    }
 
-	public String getAnswer() {
-		return answer;
-	}
+    public void setQuestionId(String questionId) {
+        this.questionId = questionId;
+    }
 
-	public void setAnswer(String answer) {
-		this.answer = answer;
-	}
+    public String getAnswer() {
+        return answer;
+    }
 
-
-	@Override 
-	protected LinkedHashMap toStringMapper() {
-		LinkedHashMap hashMap = new LinkedHashMap();
-		hashMap.put("proposalPersonNumber", getProposalPersonNumber());
-		hashMap.put("proposalNumber", getProposalNumber());
-		hashMap.put("questionId", getQuestionId());
-		hashMap.put("answer", getAnswer());
-		//hashMap.put("ynq", getYnq());
-		return hashMap;
-	}
+    public void setAnswer(String answer) {
+        this.answer = answer;
+    }
 
     public Ynq getYnq() {
         return ynq;
@@ -93,5 +83,4 @@ public class ProposalPersonYnq extends KraSortablePersistableBusinessObjectBase 
     public void setDummyAnswer(String dummyAnswer) {
         this.dummyAnswer = dummyAnswer;
     }
-
 }

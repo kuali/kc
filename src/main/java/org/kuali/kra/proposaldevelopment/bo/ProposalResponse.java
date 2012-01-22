@@ -15,8 +15,6 @@
  */
 package org.kuali.kra.proposaldevelopment.bo;
 
-import java.util.LinkedHashMap;
-
 import org.kuali.kra.bo.KraPersistableBusinessObjectBase;
 
 /**
@@ -25,30 +23,24 @@ import org.kuali.kra.bo.KraPersistableBusinessObjectBase;
  * @version $Revision: 1.4 $
  */
 public class ProposalResponse extends KraPersistableBusinessObjectBase {
-	
-	private String proposalResponseCode;
-	private String description;
-	
-	public String getDescription() {
-		return description;
-	}
-	public void setDescription(String description) {
-		this.description = description;
-	}
-	public String getProposalResponseCode() {
-		return proposalResponseCode;
-	}
-	public void setProposalResponseCode(String proposalResponseCode) {
-		this.proposalResponseCode = proposalResponseCode;
-	}
 
-	@Override
-	protected LinkedHashMap toStringMapper() {
-		LinkedHashMap propMap = new LinkedHashMap();
-		propMap.put("scienceCode", this.getProposalResponseCode());
-		propMap.put("description", this.getDescription());
-		propMap.put("updateTimestamp", this.getUpdateTimestamp());
-		propMap.put("updateUser", this.getUpdateUser());
-		return propMap;
-	}
+    private String proposalResponseCode;
+
+    private String description;
+
+    public String getDescription() {
+        return description;
+    }
+
+    public void setDescription(String description) {
+        this.description = description;
+    }
+
+    public String getProposalResponseCode() {
+        return proposalResponseCode;
+    }
+
+    public void setProposalResponseCode(String proposalResponseCode) {
+        this.proposalResponseCode = proposalResponseCode;
+    }
 }

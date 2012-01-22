@@ -18,7 +18,6 @@ package org.kuali.kra.negotiations.bo;
 import java.sql.Date;
 import java.util.ArrayList;
 import java.util.Calendar;
-import java.util.LinkedHashMap;
 import java.util.List;
 import java.util.Map;
 
@@ -30,11 +29,11 @@ import org.kuali.kra.common.permissions.Permissionable;
 import org.kuali.kra.infrastructure.Constants;
 import org.kuali.kra.infrastructure.KraServiceLocator;
 import org.kuali.kra.infrastructure.RoleConstants;
-import org.kuali.kra.kim.bo.KcKimAttributes;
 import org.kuali.kra.negotiations.document.NegotiationDocument;
 import org.kuali.kra.negotiations.service.NegotiationService;
-import org.kuali.rice.kns.bo.BusinessObject;
 import org.kuali.kra.negotiations.customdata.NegotiationCustomData;
+import org.kuali.rice.kim.api.KimConstants;
+import org.kuali.rice.krad.bo.BusinessObject;
 
 /**
  * 
@@ -83,7 +82,7 @@ public class Negotiation extends KraPersistableBusinessObjectBase implements Per
     private NegotiationAssociationType negotiationAssociationType;
 
     private List<NegotiationActivity> activities;
-    
+
     private int printindex;
     private boolean printAll = true;
     private Long oldNegotiationAssociationTypeId;
@@ -325,14 +324,6 @@ public class Negotiation extends KraPersistableBusinessObjectBase implements Per
         this.unAssociatedDetail = unAssociatedDetail;
     }
 
-
-    @Override
-    protected LinkedHashMap toStringMapper() {
-        LinkedHashMap map = new LinkedHashMap();
-        map.put("negotiationId", this.getNegotiationId());
-        return map;
-    }
-
     public List<NegotiationActivity> getActivities() {
         return activities;
     }
@@ -394,7 +385,7 @@ public class Negotiation extends KraPersistableBusinessObjectBase implements Per
 
     @Override
     public void populateAdditionalQualifiedRoleAttributes(Map<String, String> qualifiedRoleAttributes) {
-        qualifiedRoleAttributes.put(KcKimAttributes.DOCUMENT_TYPE_NAME, this.getDocumentKey());
+        qualifiedRoleAttributes.put(KimConstants.AttributeConstants.DOCUMENT_TYPE_NAME, this.getDocumentKey());
     }
 
     /**

@@ -85,17 +85,6 @@ public class CoiDisclosureAssociate extends KraPersistableBusinessObjectBase imp
     }
 
     /**
-     * @see org.kuali.core.bo.BusinessObjectBase#toStringMapper()
-     */
-    @Override
-    protected LinkedHashMap<String, Object> toStringMapper() {
-        LinkedHashMap<String, Object> map = new LinkedHashMap<String, Object>();
-        map.put("coiDisclosureNumber", coiDisclosureNumber);
-        map.put("sequenceNumber", sequenceNumber);
-        return map;
-    }
-
-    /**
      * @see java.lang.Object#hashCode()
      */
     @Override

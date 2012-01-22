@@ -1,88 +1,16 @@
 package org.kuali.kra.service.impl.adapters;
 
-import org.kuali.rice.kns.bo.Parameter;
-import org.kuali.rice.kns.service.ParameterEvaluator;
-import org.kuali.rice.kns.service.ParameterService;
-
+import java.util.Collection;
 import java.util.List;
 import java.util.Map;
+
+import org.kuali.rice.coreservice.api.parameter.Parameter;
+import org.kuali.rice.coreservice.framework.parameter.ParameterService;
 
 /**
  * Adapter for ParameterService
  */
 public class ParameterServiceAdapter implements ParameterService {
-    public boolean parameterExists(Class<? extends Object> componentClass, String parameterName) {
-        return false;
-    }
-
-    public boolean getIndicatorParameter(Class<? extends Object> componentClass, String parameterName) {
-        return false;
-    }
-
-    public boolean getIndicatorParameter(String namespaceCode, String detailTypeCode, String parameterName) {
-        return false;
-    }
-
-    public Parameter retrieveParameter(String namespaceCode, String detailTypeCode, String parameterName) {
-        return null;
-    }
-
-    public String getParameterValue(Class<? extends Object> componentClass, String parameterName) {
-        return null;
-    }
-
-    public String getParameterValue(Class<? extends Object> componentClass, String parameterName, String constrainingValue) {
-        return null;
-    }
-
-    public String getParameterValue(String namespaceCode, String detailTypeCode, String parameterName) {
-        return null;
-    }
-
-    public List<String> getParameterValues(Class<? extends Object> componentClass, String parameterName) {
-        return null;
-    }
-
-    public List<String> getParameterValues(Class<? extends Object> componentClass, String parameterName, String constrainingValue) {
-        return null;
-    }
-
-    public List<String> getParameterValues(String namespaceCode, String detailTypeCode, String parameterName) {
-        return null;
-    }
-
-    public ParameterEvaluator getParameterEvaluator(Class<? extends Object> componentClass, String parameterName) {
-        return null;
-    }
-
-    public ParameterEvaluator getParameterEvaluator(String namespaceCode, String detailTypeCode, String parameterName) {
-        return null;
-    }
-
-    public ParameterEvaluator getParameterEvaluator(Class<? extends Object> componentClass, String parameterName, String constrainedValue) {
-        return null;
-    }
-
-    public ParameterEvaluator getParameterEvaluator(String namespaceCode, String detailTypeCode, String parameterName, String constrainedValue) {
-        return null;
-    }
-
-    public ParameterEvaluator getParameterEvaluator(Class<? extends Object> componentClass, String parameterName, String constrainingValue, String constrainedValue) {
-        return null;
-    }
-
-    public ParameterEvaluator getParameterEvaluator(Class<? extends Object> componentClass, String allowParameterName, String denyParameterName, String constrainingValue, String constrainedValue) {
-        return null;
-    }
-
-    public void setParameterForTesting(Class<? extends Object> componentClass, String parameterName, String parameterText) {
-      
-    }
-
-    public void clearCache() {
-      
-    }
-
     public String getNamespace(Class<? extends Object> documentOrStepClass) {
         return null;
     }
@@ -94,4 +22,107 @@ public class ParameterServiceAdapter implements ParameterService {
     public List<Parameter> retrieveParametersGivenLookupCriteria(Map<String, String> fieldValues) {
         return null;
     }
+
+    @Override
+    public Parameter createParameter(Parameter parameter) {
+        return null;
+    }
+
+    @Override
+    public Parameter getParameter(Class<?> componentClass, String parameterName) {
+        return null;
+    }
+
+    @Override
+    public Parameter getParameter(String namespaceCode, String componentCode, String parameterName) {
+        return null;
+    }
+
+    @Override
+    public Boolean getParameterValueAsBoolean(Class<?> componentClass, String parameterName, Boolean defaultValue) {
+        return null;
+    }
+
+    @Override
+    public Boolean getParameterValueAsBoolean(Class<?> componentClass, String parameterName) {
+        return null;
+    }
+
+    @Override
+    public Boolean getParameterValueAsBoolean(String namespaceCode, String componentCode, String parameterName, Boolean defaultValue) {
+        return null;
+    }
+
+    @Override
+    public Boolean getParameterValueAsBoolean(String namespaceCode, String componentCode, String parameterName) {
+        return null;
+    }
+
+    @Override
+    public String getParameterValueAsString(Class<?> componentClass, String parameterName, String defaultValue) {
+        return null;
+    }
+
+    @Override
+    public String getParameterValueAsString(Class<?> componentClass, String parameterName) {
+        return null;
+    }
+
+    @Override
+    public String getParameterValueAsString(String namespaceCode, String componentCode, String parameterName, String defaultValue) {
+        return null;
+    }
+
+    @Override
+    public String getParameterValueAsString(String namespaceCode, String componentCode, String parameterName) {
+        return null;
+    }
+
+    @Override
+    public Collection<String> getParameterValuesAsString(Class<?> componentClass, String parameterName) {
+        return null;
+    }
+
+    @Override
+    public Collection<String> getParameterValuesAsString(String namespaceCode, String componentCode, String parameterName) {
+        return null;
+    }
+
+    @Override
+    public String getSubParameterValueAsString(Class<?> componentClass, String parameterName, String subParameterName) {
+        return null;
+    }
+
+    @Override
+    public String getSubParameterValueAsString(String namespaceCode, String componentCode, String parameterName,
+            String subParameterName) {
+        return null;
+    }
+
+    @Override
+    public Collection<String> getSubParameterValuesAsString(Class<?> componentClass, String parameterName, String subParameterName) {
+        return null;
+    }
+
+    @Override
+    public Collection<String> getSubParameterValuesAsString(String namespaceCode, String componentCode, String parameterName,
+            String subParameterName) {
+        return null;
+    }
+
+    @Override
+    public Boolean parameterExists(Class<?> componentClass, String parameterName) {
+        return null;
+    }
+
+    @Override
+    public Boolean parameterExists(String namespaceCode, String componentCode, String parameterName) {
+        return null;
+    }
+
+    @Override
+    public Parameter updateParameter(Parameter parameter) {
+        return null;
+    }
+    
 }

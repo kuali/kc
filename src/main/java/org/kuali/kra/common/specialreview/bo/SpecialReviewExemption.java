@@ -15,8 +15,6 @@
  */
 package org.kuali.kra.common.specialreview.bo;
 
-import java.util.LinkedHashMap;
-
 import org.kuali.kra.bo.ExemptionType;
 import org.kuali.kra.bo.KraPersistableBusinessObjectBase;
 
@@ -26,31 +24,24 @@ import org.kuali.kra.bo.KraPersistableBusinessObjectBase;
 public abstract class SpecialReviewExemption extends KraPersistableBusinessObjectBase {
 
     private static final long serialVersionUID = -3039637933149436453L;
-    
+
     private String exemptionTypeCode;
+
     private ExemptionType exemptionType;
-    
+
     public String getExemptionTypeCode() {
         return exemptionTypeCode;
     }
-    
+
     public void setExemptionTypeCode(String exemptionTypeCode) {
         this.exemptionTypeCode = exemptionTypeCode;
     }
-    
+
     public ExemptionType getExemptionType() {
         return exemptionType;
     }
-    
+
     public void setExemptionType(ExemptionType exemptionType) {
         this.exemptionType = exemptionType;
     }
-    
-    @Override
-    protected LinkedHashMap<String, Object> toStringMapper() {
-        LinkedHashMap<String, Object> propMap = new LinkedHashMap<String, Object>();
-        propMap.put("exemptionTypeCode", getExemptionTypeCode());
-        return propMap;
-    }
-    
 }

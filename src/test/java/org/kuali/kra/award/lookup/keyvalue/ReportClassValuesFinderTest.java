@@ -18,28 +18,24 @@ package org.kuali.kra.award.lookup.keyvalue;
 import java.util.ArrayList;
 import java.util.List;
 
-import org.apache.ojb.broker.PersistenceBroker;
-import org.apache.ojb.broker.query.QueryBySQL;
 import org.junit.After;
 import org.junit.Assert;
 import org.junit.Before;
 import org.junit.Test;
 import org.kuali.kra.award.paymentreports.ReportClass;
 import org.kuali.kra.test.infrastructure.KcUnitTestBase;
-import org.kuali.rice.core.util.KeyLabelPair;
-import org.springmodules.orm.ojb.OjbFactoryUtils;
-import org.springmodules.orm.ojb.PersistenceBrokerTemplate;
+import org.kuali.rice.core.api.util.KeyValue;
 
 public class ReportClassValuesFinderTest extends KcUnitTestBase {
     
     ReportClassValuesFinder reportClassValuesFinder;
-    List<KeyLabelPair> reportClasses;
+    List<KeyValue> reportClasses;
 
     @Before
     public void setUp() throws Exception {
         super.setUp();
         reportClassValuesFinder = new ReportClassValuesFinder();
-        reportClasses = new ArrayList<KeyLabelPair>();
+        reportClasses = new ArrayList<KeyValue>();
         reportClasses = reportClassValuesFinder.getKeyValues();
     }
 
@@ -55,9 +51,9 @@ public class ReportClassValuesFinderTest extends KcUnitTestBase {
         int count = getBusinessObjectService().findAll(ReportClass.class).size();
         Assert.assertEquals(count, reportClasses.size());
         
-        for(KeyLabelPair keyLabelPair:reportClasses){
-            Assert.assertNotNull(keyLabelPair.getKey());
-            Assert.assertNotNull(keyLabelPair.getLabel());
+        for(KeyValue KeyValue:reportClasses){
+            Assert.assertNotNull(KeyValue.getKey());
+            Assert.assertNotNull(KeyValue.getValue());
         }
     }
 }

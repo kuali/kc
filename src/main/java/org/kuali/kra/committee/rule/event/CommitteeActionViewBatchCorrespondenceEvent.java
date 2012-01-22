@@ -21,7 +21,7 @@ import org.kuali.kra.committee.bo.CommitteeBatchCorrespondence;
 import org.kuali.kra.committee.rules.CommitteeActionPrintCommitteeDocumentRule;
 import org.kuali.kra.committee.rules.CommitteeActionViewBatchCorrespondenceRule;
 import org.kuali.kra.rule.BusinessRuleInterface;
-import org.kuali.rice.kns.document.Document;
+import org.kuali.rice.krad.document.Document;
 
 public class CommitteeActionViewBatchCorrespondenceEvent extends CommitteeActionsEventBase<CommitteeActionPrintCommitteeDocumentRule> {
     private static final String MSG = "view batch correspondence";

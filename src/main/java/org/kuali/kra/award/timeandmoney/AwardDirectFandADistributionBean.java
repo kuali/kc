@@ -20,12 +20,11 @@ import java.sql.Date;
 import java.util.List;
 
 import org.kuali.kra.award.AwardAmountInfoService;
-import org.kuali.kra.award.AwardForm;
 import org.kuali.kra.award.home.Award;
 import org.kuali.kra.infrastructure.KraServiceLocator;
 import org.kuali.kra.timeandmoney.TimeAndMoneyForm;
 import org.kuali.kra.timeandmoney.document.TimeAndMoneyDocument;
-import org.kuali.rice.kns.service.KualiRuleService;
+import org.kuali.rice.krad.service.KualiRuleService;
 
 /**
  * This class supports the AwardForm class and the Award Time & Money Action class

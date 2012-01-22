@@ -190,7 +190,7 @@ public class CustomAttributeMaintenanceDocumentSeleniumTest extends KcSeleniumTe
         assertNotNull(document.getDocumentNumber());
         assertNotNull(document.getDocumentHeader());
         assertEquals(documentNumber, document.getDocumentHeader().getDocumentNumber());
-        CustomAttribute customAttribute = (CustomAttribute) document.getNewMaintainableObject().getBusinessObject();
+        CustomAttribute customAttribute = (CustomAttribute) document.getNewMaintainableObject().getDataObject();
         assertEquals(Integer.valueOf(customAttributeId), customAttribute.getId());
         assertEquals(dataLength, customAttribute.getDataLength());
         assertEquals(DEFAULT_DATA_TYPE_CODE, customAttribute.getDataTypeCode());

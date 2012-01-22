@@ -33,13 +33,13 @@ import org.kuali.kra.infrastructure.Constants;
 import org.kuali.kra.infrastructure.KraServiceLocator;
 import org.kuali.kra.infrastructure.PropertyConstants;
 import org.kuali.kra.service.CustomAttributeService;
-import org.kuali.rice.kew.dto.NetworkIdDTO;
-import org.kuali.rice.kew.dto.WorkflowAttributeDefinitionDTO;
-import org.kuali.rice.kew.service.WorkflowDocument;
-import org.kuali.rice.kns.service.BusinessObjectDictionaryService;
-import org.kuali.rice.kns.service.BusinessObjectService;
+import org.kuali.rice.kew.api.WorkflowDocument;
+import org.kuali.rice.kew.api.WorkflowDocumentFactory;
+import org.kuali.rice.kew.api.document.attribute.WorkflowAttributeDefinition;
 import org.kuali.rice.kns.service.DataDictionaryService;
-import org.kuali.rice.kns.util.KNSPropertyConstants;
+import org.kuali.rice.kns.service.BusinessObjectDictionaryService;
+import org.kuali.rice.krad.service.BusinessObjectService;
+import org.kuali.rice.krad.util.KRADPropertyConstants;
 
 /**
  * This class provides the implementation of the Custom Attribute Service.
@@ -60,7 +60,7 @@ public class CustomAttributeServiceImpl implements CustomAttributeService {
 
         for(CustomAttributeDocument customAttributeDocument:customAttributeDocumentList) {
             Map<String, Object> primaryKeys = new HashMap<String, Object>();
-            primaryKeys.put(KNSPropertyConstants.DOCUMENT_NUMBER, documentNumber);
+            primaryKeys.put(KRADPropertyConstants.DOCUMENT_NUMBER, documentNumber);
             primaryKeys.put(Constants.CUSTOM_ATTRIBUTE_ID, customAttributeDocument.getCustomAttributeId());
 
             CustomAttributeDocValue customAttributeDocValue = (CustomAttributeDocValue) getBusinessObjectService().findByPrimaryKey(CustomAttributeDocValue.class, primaryKeys);
@@ -149,7 +149,7 @@ public class CustomAttributeServiceImpl implements CustomAttributeService {
     public Map<String, CustomAttributeDocument> getDefaultAwardCustomAttributeDocuments() {
         Map<String, CustomAttributeDocument> customAttributeDocuments = new HashMap<String, CustomAttributeDocument>();
         Map<String, String> queryMap = new HashMap<String, String>();
-        queryMap.put(KNSPropertyConstants.DOCUMENT_TYPE_CODE, "AWRD");
+        queryMap.put(KRADPropertyConstants.DOCUMENT_TYPE_CODE, "AWRD");
         List<CustomAttributeDocument> customAttributeDocumentList = 
             (List<CustomAttributeDocument>) getBusinessObjectService().findMatching(CustomAttributeDocument.class, queryMap);
         for(CustomAttributeDocument customAttributeDocument:customAttributeDocumentList) {
@@ -172,7 +172,7 @@ public class CustomAttributeServiceImpl implements CustomAttributeService {
 
                 Map<String, Object> primaryKeys = new HashMap<String, Object>();
                 primaryKeys.put(Constants.CUSTOM_ATTRIBUTE_ID, customAttributeId);
-                primaryKeys.put(KNSPropertyConstants.DOCUMENT_NUMBER, documentNumber);
+                primaryKeys.put(KRADPropertyConstants.DOCUMENT_NUMBER, documentNumber);
                 CustomAttributeDocValue customAttributeDocValue = (CustomAttributeDocValue) businessObjectService.findByPrimaryKey(CustomAttributeDocValue.class, primaryKeys);
 
                 if (customAttributeDocValue == null) {
@@ -193,23 +193,25 @@ public class CustomAttributeServiceImpl implements CustomAttributeService {
      * @see org.kuali.kra.service.CustomAttributeService#setCustomAttributeKeyValue(org.kuali.kra.document.ResearchDocumentBase, java.lang.String, java.lang.String)
      */
     public void setCustomAttributeKeyValue(ResearchDocumentBase document, String attributeName, String networkId) throws Exception {
-        WorkflowDocument workflowDocument = new WorkflowDocument(networkId, Long.parseLong(document.getDocumentHeader().getDocumentNumber())); 
-        //WorkflowDocument document = proposalDevelopmentForm.getWorkflowDocument().getInitiatorNetworkId();
+        WorkflowDocument workflowDocument = WorkflowDocumentFactory.loadDocument(networkId, document.getDocumentHeader().getDocumentNumber()); 
+        //WorkflowDocument document = proposalDevelopmentForm.getWorkflowDocument().getInitiatorPrincipalId();
         
         // Not sure to delete all the content, but there is no other options
         workflowDocument.clearAttributeContent();  
-        WorkflowAttributeDefinitionDTO customDataDef = new WorkflowAttributeDefinitionDTO(attributeName);
+        WorkflowAttributeDefinition customDataDef = WorkflowAttributeDefinition.Builder.create(attributeName).build();
+        WorkflowAttributeDefinition.Builder refToUpdate = WorkflowAttributeDefinition.Builder.create(customDataDef);
+        
         Map<String, CustomAttributeDocument>customAttributeDocuments = document.getCustomAttributeDocuments();
         if (customAttributeDocuments != null) {
             for (Map.Entry<String, CustomAttributeDocument> customAttributeDocumentEntry:customAttributeDocuments.entrySet()) {
                 CustomAttributeDocument customAttributeDocument = customAttributeDocumentEntry.getValue();
                 if (StringUtils.isNotBlank(customAttributeDocument.getCustomAttribute().getValue())) {
-                    customDataDef.addProperty(customAttributeDocument.getCustomAttribute().getName(), StringEscapeUtils.escapeXml(customAttributeDocument.getCustomAttribute().getValue()));
+                    refToUpdate.addPropertyDefinition(customAttributeDocument.getCustomAttribute().getName(), StringEscapeUtils.escapeXml(customAttributeDocument.getCustomAttribute().getValue()));
                 }
             }
         }
-        workflowDocument.addAttributeDefinition(customDataDef);
-        workflowDocument.saveRoutingData();    
+        workflowDocument.addAttributeDefinition(refToUpdate.build());
+        workflowDocument.saveDocumentData();    
     }
 
     /**

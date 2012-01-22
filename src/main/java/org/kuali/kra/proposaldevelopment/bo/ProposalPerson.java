@@ -18,7 +18,6 @@ package org.kuali.kra.proposaldevelopment.bo;
 import java.io.Serializable;
 import java.sql.Date;
 import java.util.ArrayList;
-import java.util.LinkedHashMap;
 import java.util.List;
 
 import org.apache.commons.lang.StringUtils;
@@ -32,125 +31,213 @@ import org.kuali.kra.infrastructure.KraServiceLocator;
 import org.kuali.kra.proposaldevelopment.service.KeyPersonnelService;
 import org.kuali.kra.service.KcPersonService;
 import org.kuali.kra.service.Sponsorable;
-import org.kuali.rice.kns.util.KualiDecimal;
+import org.kuali.rice.core.api.util.type.KualiDecimal;
 
 /**
- * Class representation of the Proposal Person <code>{@link org.kuali.rice.kns.bo.BusinessObject}</code>
+ * Class representation of the Proposal Person <code>{@link org.kuali.rice.krad.bo.BusinessObject}</code>
  *
- * @see org.kuali.rice.kns.bo.BusinessObject
- * @see org.kuali.rice.kns.bo.PersistableBusinessObject
+ * @see org.kuali.rice.krad.bo.BusinessObject
+ * @see org.kuali.rice.krad.bo.PersistableBusinessObject
  * @author $Author: gmcgrego $
  * @version $Revision: 1.42 $
  */
 public class ProposalPerson extends KraPersistableBusinessObjectBase implements CreditSplitable, PersonRolodex, PersonEditableInterface {
+
     private static final long serialVersionUID = -4110005875629288373L;
 
     private DevelopmentProposal developmentProposal;
+
     private boolean conflictOfInterestFlag;
+
     private boolean otherSignificantContributorFlag;
+
     private KualiDecimal percentageEffort;
+
     private Boolean fedrDebrFlag;
+
     private Boolean fedrDelqFlag;
+
     private Integer rolodexId;
+
     private String proposalNumber;
+
     private Integer proposalPersonNumber;
-    private String  proposalPersonRoleId;
+
+    private String proposalPersonRoleId;
+
     private ProposalInvestigatorCertification certification;
+
     private ProposalPersonRole role;
+
     private boolean delete;
+
     private boolean isInvestigator;
+
     private boolean roleChanged;
+
     private List<ProposalPersonYnq> proposalPersonYnqs;
+
     private List<ProposalPersonUnit> units;
+
     private List<ProposalPersonDegree> proposalPersonDegrees;
+
     private List<ProposalPersonCreditSplit> creditSplits;
+
     private String simpleName;
+
     private String optInUnitStatus;
+
     private String optInCertificationStatus;
+
     private boolean unitdelete;
+
     private String projectRole;
+
     private Integer ordinalPosition;
-    
+
     private boolean multiplePi;
 
     private String hierarchyProposalNumber;
+
     private boolean hiddenInHierarchy;
 
     private String personId;
+
     private String socialSecurityNumber;
+
     private String lastName;
+
     private String firstName;
+
     private String middleName;
+
     private String fullName;
+
     private String priorName;
+
     private String userName;
+
     private String emailAddress;
+
     private Date dateOfBirth;
+
     private Integer age;
+
     private Integer ageByFiscalYear;
+
     private String gender;
+
     private String race;
+
     private String educationLevel;
+
     private String degree;
+
     private String major;
+
     private Boolean handicappedFlag;
+
     private String handicapType;
+
     private Boolean veteranFlag;
+
     private String veteranType;
+
     private String visaCode;
+
     private String visaType;
+
     private Date visaRenewalDate;
+
     private Boolean hasVisa;
+
     private String officeLocation;
+
     private String officePhone;
+
     private String secondaryOfficeLocation;
+
     private String secondaryOfficePhone;
+
     private String school;
+
     private String yearGraduated;
+
     private String directoryDepartment;
+
     private String saluation;
+
     private String countryOfCitizenship;
+
     private String primaryTitle;
+
     private String directoryTitle;
+
     private String homeUnit;
+
     private Boolean facultyFlag;
+
     private Boolean graduateStudentStaffFlag;
+
     private Boolean researchStaffFlag;
+
     private Boolean serviceStaffFlag;
+
     private Boolean supportStaffFlag;
+
     private Boolean otherAcademicGroupFlag;
+
     private Boolean medicalStaffFlag;
+
     private Boolean vacationAccrualFlag;
+
     private Boolean onSabbaticalFlag;
+
     private String idProvided;
+
     private String idVerified;
+
     private String addressLine1;
+
     private String addressLine2;
+
     private String addressLine3;
+
     private String city;
+
     private String county;
+
     private String state;
+
     private String postalCode;
+
     private String countryCode;
+
     private String faxNumber;
+
     private String pagerNumber;
+
     private String mobilePhoneNumber;
+
     private String eraCommonsUserName;
+
     private Boolean active = true;
+
     private Unit homeUnitRef;
-    
+
     private ProposalPersonExtendedAttributes proposalPersonExtendedAttributes;
-    
+
     private transient boolean moveDownAllowed;
+
     private transient boolean moveUpAllowed;
+
     private transient KcPersonService kcPersonService;
-    
+
     /**
      * This list is not automatically populated by the ORM by design.
      * Call ProposalDevelopmentPersonQuestionnaireService.setAnswerHeaders() to set this list.
      */
-    //private List<AnswerHeader> answerHeaders = new ArrayList<AnswerHeader>();
-    
+    //private List<AnswerHeader> answerHeaders = new ArrayList<AnswerHeader>(); 
     public boolean isMoveDownAllowed() {
         return moveDownAllowed;
     }
@@ -181,20 +268,18 @@ public class ProposalPerson extends KraPersistableBusinessObjectBase implements 
         delete = false;
         setFullName(new String());
     }
-    
+
     /**
      * set the <code>simpleName</code> & the full name.
      */
     public void setFullName(String fullName) {
         this.fullName = fullName;
-        
         setSimpleName(getFullName());
-        
         setSimpleName(getSimpleName().toLowerCase());
         setSimpleName(StringUtils.deleteWhitespace(getSimpleName()));
         setSimpleName(StringUtils.remove(getSimpleName(), '.'));
     }
-   
+
     /**
      * gets the full name.
      */
@@ -202,7 +287,7 @@ public class ProposalPerson extends KraPersistableBusinessObjectBase implements 
     public String getFullName() {
         return this.fullName;
     }
-    
+
     /**
      * Stateful variable set by the Action to determine whether this <code>{@link ProposalPerson}</code> 
      * is an investigator or not.
@@ -212,8 +297,7 @@ public class ProposalPerson extends KraPersistableBusinessObjectBase implements 
     public boolean isInvestigator() {
         return getInvestigatorFlag();
     }
-    
-    
+
     /**
      * Stateful variable set by the Action to determine whether this <code>{@link ProposalPerson}</code> 
      * is an investigator or not.
@@ -223,7 +307,7 @@ public class ProposalPerson extends KraPersistableBusinessObjectBase implements 
     public boolean getInvestigatorFlag() {
         return isInvestigator;
     }
-    
+
     /**
      * Stateful variable set by the Action to determine whether this <code>{@link ProposalPerson}</code> 
      * is an investigator or not.
@@ -234,7 +318,6 @@ public class ProposalPerson extends KraPersistableBusinessObjectBase implements 
         isInvestigator = b;
     }
 
-
     /**
      * Set a <code>{@link List}</code> of credit splits
      *
@@ -243,12 +326,12 @@ public class ProposalPerson extends KraPersistableBusinessObjectBase implements 
     public void setCreditSplits(List<ProposalPersonCreditSplit> creditSplit) {
         this.creditSplits = creditSplit;
     }
-    
+
     /**
      * Get a <code>{@link List}</code> of credit splits
      *
      * @return List<ProposalPersonCreditSplit>
-     */ 
+     */
     public List<ProposalPersonCreditSplit> getCreditSplits() {
         return this.creditSplits;
     }
@@ -315,14 +398,14 @@ public class ProposalPerson extends KraPersistableBusinessObjectBase implements 
     public Integer getProposalPersonNumber() {
         return this.proposalPersonNumber;
     }
-    
+
     /**
      * 
      * This method returns the concatation of proposalNumber + "|" + proposalPersonNumber.
      * Those two fields are the combined primary key on the table.
      * @return
      */
-    public String getUniqueId(){
+    public String getUniqueId() {
         return this.getProposalNumber() + "|" + this.getProposalPersonNumber();
     }
 
@@ -344,14 +427,13 @@ public class ProposalPerson extends KraPersistableBusinessObjectBase implements 
         return this.conflictOfInterestFlag;
     }
 
-
     /**
      * Gets the value of percentageEffort
      *
      * @return the value of percentageEffort
      */
     public KualiDecimal getPercentageEffort() {
-          return this.percentageEffort;
+        return this.percentageEffort;
     }
 
     /**
@@ -450,11 +532,9 @@ public class ProposalPerson extends KraPersistableBusinessObjectBase implements 
      * @param argPropPersonRoleId Value to assign to this.propPersonRoleId
      */
     public void setProposalPersonRoleId(String argPropPersonRoleId) {
-                
         if (StringUtils.isNotBlank(argPropPersonRoleId)) {
             this.proposalPersonRoleId = argPropPersonRoleId;
             refreshReferenceObject("role");
-            //setRoleChanged(true);
         }
     }
 
@@ -493,7 +573,7 @@ public class ProposalPerson extends KraPersistableBusinessObjectBase implements 
     public void setRole(ProposalPersonRole argPropPersonRole) {
         this.role = argPropPersonRole;
     }
-   
+
     /**
      * Sets the value of conflictOfInterest
      *
@@ -511,12 +591,11 @@ public class ProposalPerson extends KraPersistableBusinessObjectBase implements 
     public KcPerson getPerson() {
         if (this.personId == null) {
             return null;
-        }
-        else {
+        } else {
             return getKcPersonService().getKcPersonByPersonId(this.personId);
         }
     }
-    
+
     /**
      * Gets the KC Person Service.
      * @return KC Person Service.
@@ -525,7 +604,6 @@ public class ProposalPerson extends KraPersistableBusinessObjectBase implements 
         if (this.kcPersonService == null) {
             this.kcPersonService = KraServiceLocator.getService(KcPersonService.class);
         }
-        
         return this.kcPersonService;
     }
 
@@ -548,7 +626,6 @@ public class ProposalPerson extends KraPersistableBusinessObjectBase implements 
         while (getProposalPersonDegrees().size() <= index) {
             getProposalPersonDegrees().add(new ProposalPersonDegree());
         }
-        
         return getProposalPersonDegrees().get(index);
     }
 
@@ -571,7 +648,6 @@ public class ProposalPerson extends KraPersistableBusinessObjectBase implements 
         while (getUnits().size() <= index) {
             getUnits().add(new ProposalPersonUnit());
         }
-        
         return getUnits().get(index);
     }
 
@@ -585,16 +661,14 @@ public class ProposalPerson extends KraPersistableBusinessObjectBase implements 
         if (unitNumber == null) {
             return null;
         }
-        
         for (ProposalPersonUnit unit : getUnits()) {
             if (unit != null && unitNumber.equals(unit.getUnitNumber())) {
                 return unit;
             }
         }
-        
         return null;
     }
-    
+
     /**
      * Read access to a flag that determines if this instance should be deleted from a list of other instances.
      * 
@@ -608,15 +682,15 @@ public class ProposalPerson extends KraPersistableBusinessObjectBase implements 
      * Write access to a flag that determines if this instance should be deleted from a list of other instances.
      * 
      * @param delete 
-     */    
+     */
     public void setDelete(boolean delete) {
         this.delete = delete;
     }
-    
+
     public void setUnitDelete(boolean delete) {
-        this.unitdelete=delete;
+        this.unitdelete = delete;
     }
-    
+
     public boolean isUnitDelete() {
         return unitdelete;
     }
@@ -634,7 +708,6 @@ public class ProposalPerson extends KraPersistableBusinessObjectBase implements 
         return getCreditSplits().get(index);
     }
 
-
     public List<ProposalPersonYnq> getProposalPersonYnqs() {
         return proposalPersonYnqs;
     }
@@ -643,7 +716,6 @@ public class ProposalPerson extends KraPersistableBusinessObjectBase implements 
         this.proposalPersonYnqs = proposalPersonYnqs;
     }
 
-    
     /**
      * Gets index i from the proposalPersonYnqs list.
      * 
@@ -656,7 +728,6 @@ public class ProposalPerson extends KraPersistableBusinessObjectBase implements 
         }
         return getProposalPersonYnqs().get(index);
     }
-
 
     /**
      * @see java.lang.Object#hashCode()
@@ -681,12 +752,10 @@ public class ProposalPerson extends KraPersistableBusinessObjectBase implements 
         if (obj == null) {
             return false;
         }
-
-        // Assume if obj is a String, then it must represent the PERSON_ID or ROLODEX_ID
+        // Assume if obj is a String, then it must represent the PERSON_ID or ROLODEX_ID 
         if (obj instanceof String) {
             return (obj.equals(getPersonId()) || obj.equals(getRolodexId()));
         }
-        
         if (getClass() != obj.getClass()) {
             return false;
         }
@@ -695,22 +764,19 @@ public class ProposalPerson extends KraPersistableBusinessObjectBase implements 
             if (other.personId != null) {
                 return false;
             }
-        }
-        else if (!personId.equals(other.personId)) {
+        } else if (!personId.equals(other.personId)) {
             return false;
         }
         if (rolodexId == null) {
             if (other.rolodexId != null) {
                 return false;
             }
-        }
-        else if (!rolodexId.equals(other.rolodexId)) {
+        } else if (!rolodexId.equals(other.rolodexId)) {
             return false;
         }
         return true;
     }
 
-    
     /**
      * Determine if the <code>{@link ProposalPerson}</code> instance role has changed
      * 
@@ -728,7 +794,7 @@ public class ProposalPerson extends KraPersistableBusinessObjectBase implements 
     public void setRoleChanged(boolean roleChanged) {
         this.roleChanged = roleChanged;
     }
-    
+
     /**
      * Loops through units to determine if the person has a <code>{@link ProposalPersonUnit}</code> with the given number.
      * 
@@ -739,13 +805,11 @@ public class ProposalPerson extends KraPersistableBusinessObjectBase implements 
         if (unitNumber == null) {
             return false;
         }
-        
         for (ProposalPersonUnit unit : getUnits()) {
             if (unit != null && unitNumber.equals(unit.getUnitNumber())) {
                 return true;
             }
         }
-        
         return false;
     }
 
@@ -800,6 +864,7 @@ public class ProposalPerson extends KraPersistableBusinessObjectBase implements 
     public void setOptInCertificationStatus(String optInCertificationStatus) {
         this.optInCertificationStatus = optInCertificationStatus;
     }
+
     public String getProjectRole() {
         return projectRole;
     }
@@ -823,7 +888,7 @@ public class ProposalPerson extends KraPersistableBusinessObjectBase implements 
     public String getHierarchyProposalNumber() {
         return hierarchyProposalNumber;
     }
-    
+
     /**
      * Gets the value of personId
      *
@@ -859,6 +924,7 @@ public class ProposalPerson extends KraPersistableBusinessObjectBase implements 
     public String getSocialSecurityNumber() {
         return this.socialSecurityNumber;
     }
+
     /**
      * Gets the value of lastName
      *
@@ -1317,7 +1383,7 @@ public class ProposalPerson extends KraPersistableBusinessObjectBase implements 
     public String getSecondaryOfficePhone() {
         return this.secondaryOfficePhone;
     }
- 
+
     /**
      * Sets the value of secondaryOfficePhone
      *
@@ -1488,7 +1554,7 @@ public class ProposalPerson extends KraPersistableBusinessObjectBase implements 
     public void setFacultyFlag(Boolean argFaculty) {
         this.facultyFlag = argFaculty;
     }
-     
+
     /**
      * Gets the value of graduateStudentStaff
      *
@@ -1569,7 +1635,7 @@ public class ProposalPerson extends KraPersistableBusinessObjectBase implements 
     public Boolean getOtherAcademicGroupFlag() {
         return this.otherAcademicGroupFlag;
     }
-    
+
     /**
      * @see org.kuali.kra.bo.Contactable#getOrganization()
      */
@@ -1891,16 +1957,16 @@ public class ProposalPerson extends KraPersistableBusinessObjectBase implements 
     public void setEraCommonsUserName(String argEraCommonsUserName) {
         this.eraCommonsUserName = argEraCommonsUserName;
     }
-    
+
     public void setActive(Boolean active) {
         this.active = active;
     }
-    
+
     public Boolean getActive() {
         return active;
     }
 
-   /**
+    /**
      * Unit reference referred by {@link #getUnit()}
      *
      * @param unit 
@@ -1918,81 +1984,6 @@ public class ProposalPerson extends KraPersistableBusinessObjectBase implements 
         return homeUnitRef;
     }
 
-    @Override 
-    protected LinkedHashMap<String, Object> toStringMapper() {
-        LinkedHashMap<String, Object> hashmap = new LinkedHashMap<String, Object>();
-        hashmap.put("conflictOfInterest", getConflictOfInterestFlag());
-        hashmap.put("percentageEffort", getPercentageEffort());
-        hashmap.put("fedrDebr", getFedrDebrFlag());
-        hashmap.put("fedrDelq", getFedrDelqFlag());
-        hashmap.put("rolodexId", getRolodexId());
-        hashmap.put("proposalNumber", getProposalNumber());
-        hashmap.put("proposalPersonNumber", getProposalPersonNumber());
-        hashmap.put("proposalPersonRoleId", getProposalPersonRoleId());
-        hashmap.put("personId", getPersonId());
-        hashmap.put("socialSecurityNumber", getSocialSecurityNumber());
-        hashmap.put("lastName", getLastName());
-        hashmap.put("firstName", getFirstName());
-        hashmap.put("middleName", getMiddleName());
-        hashmap.put("fullName", getFullName());
-        hashmap.put("priorName", getPriorName());
-        hashmap.put("userName", getUserName());
-        hashmap.put("emailAddress", getEmailAddress());
-        hashmap.put("dateOfBirth", getDateOfBirth());
-        hashmap.put("age", getAge());
-        hashmap.put("ageByFiscalYear", getAgeByFiscalYear());
-        hashmap.put("gender", getGender());
-        hashmap.put("race", getRace());
-        hashmap.put("educationLevel", getEducationLevel());
-        hashmap.put("degree", getDegree());
-        hashmap.put("major", getMajor());
-        hashmap.put("handicapped", getHandicappedFlag());
-        hashmap.put("handicapType", getHandicapType());
-        hashmap.put("veteran", getVeteranFlag());
-        hashmap.put("veteranType", getVeteranType());
-        hashmap.put("visaCode", getVisaCode());
-        hashmap.put("visaType", getVisaType());
-        hashmap.put("visaRenewalDate", getVisaRenewalDate());
-        hashmap.put("hasVisa", getHasVisa());
-        hashmap.put("officeLocation", getOfficeLocation());
-        hashmap.put("officePhone", getOfficePhone());
-        hashmap.put("secondaryOfficeLocation", getSecondaryOfficeLocation());
-        hashmap.put("secondaryOfficePhone", getSecondaryOfficePhone());
-        hashmap.put("school", getSchool());
-        hashmap.put("yearGraduated", getYearGraduated());
-        hashmap.put("directoryDepartment", getDirectoryDepartment());
-        hashmap.put("saluation", getSaluation());
-        hashmap.put("countryOfCitizenship", getCountryOfCitizenship());
-        hashmap.put("primaryTitle", getPrimaryTitle());
-        hashmap.put("directoryTitle", getDirectoryTitle());
-        hashmap.put("homeUnit", getHomeUnit());
-        hashmap.put("faculty", getFacultyFlag());
-        hashmap.put("graduateStudentStaff", getGraduateStudentStaffFlag());
-        hashmap.put("researchStaff", getResearchStaffFlag());
-        hashmap.put("serviceStaff", getServiceStaffFlag());
-        hashmap.put("supportStaff", getSupportStaffFlag());
-        hashmap.put("otherAcademicGroup", getOtherAcademicGroupFlag());
-        hashmap.put("medicalStaff", getMedicalStaffFlag());
-        hashmap.put("vacationAccrual", getVacationAccrualFlag());
-        hashmap.put("onSabbatical", getOnSabbaticalFlag());
-        hashmap.put("idProvided", getIdProvided());
-        hashmap.put("idVerified", getIdVerified());
-        hashmap.put("addressLine1", getAddressLine1());
-        hashmap.put("addressLine2", getAddressLine2());
-        hashmap.put("addressLine3", getAddressLine3());
-        hashmap.put("city", getCity());
-        hashmap.put("county", getCounty());
-        hashmap.put("state", getState());
-        hashmap.put("postalCode", getPostalCode());
-        hashmap.put("countryCode", getCountryCode());
-        hashmap.put("faxNumber", getFaxNumber());
-        hashmap.put("pagerNumber", getPagerNumber());
-        hashmap.put("mobilePhoneNumber", getMobilePhoneNumber());
-        hashmap.put("eraCommonsUserName", getEraCommonsUserName());
-        hashmap.put("active", getActive());
-        return hashmap;
-    }
-
     public String getPassword() {
         final KcPerson person = this.getPerson();
         return person != null ? person.getPassword() : null;
@@ -2004,12 +1995,12 @@ public class ProposalPerson extends KraPersistableBusinessObjectBase implements 
     public Serializable getIdentifier() {
         return personId;
     }
-    
+
     /**
      * @see org.kuali.kra.bo.Contactable#getUnit()
      */
     public Unit getUnit() {
-        return homeUnitRef; 
+        return homeUnitRef;
     }
 
     /**
@@ -2023,7 +2014,7 @@ public class ProposalPerson extends KraPersistableBusinessObjectBase implements 
      * @see org.kuali.kra.bo.Contactable#setUnit(org.kuali.kra.bo.Unit)
      */
     public void setUnit(Unit unit) {
-       setHomeUnitRef(unit); 
+        setHomeUnitRef(unit);
     }
 
     /**
@@ -2046,7 +2037,7 @@ public class ProposalPerson extends KraPersistableBusinessObjectBase implements 
     public String getOrganizationIdentifier() {
         return homeUnit;
     }
-    
+
     /**
      * Sets the hierarchyProposalNumber attribute value.
      * @param hierarchyProposalNumber The hierarchyProposalNumber to set.
@@ -2094,18 +2085,19 @@ public class ProposalPerson extends KraPersistableBusinessObjectBase implements 
     public Sponsorable getParent() {
         return getDevelopmentProposal();
     }
+
     public String getInvestigatorRoleDescription() {
         return KraServiceLocator.getService(KeyPersonnelService.class).getPersonnelRoleDesc(this);
     }
-    
+
     public ProposalPersonExtendedAttributes getProposalPersonExtendedAttributes() {
         return this.proposalPersonExtendedAttributes;
     }
-    
+
     public void setProposalPersonExtendedAttributes(ProposalPersonExtendedAttributes proposalPersonExtendedAttributes) {
         this.proposalPersonExtendedAttributes = proposalPersonExtendedAttributes;
     }
-    
+
     /**
      * 
      * This method determines if any of this person's YNQs have been answered.  If so, return yes.

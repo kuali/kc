@@ -18,19 +18,19 @@ package org.kuali.kra.questionnaire.question;
 import java.util.List;
 
 import org.apache.commons.lang.ObjectUtils;
+import org.apache.commons.lang.StringUtils;
 import org.apache.commons.logging.Log;
 import org.apache.commons.logging.LogFactory;
-import org.apache.commons.lang.StringUtils;
 import org.kuali.kra.infrastructure.Constants;
 import org.kuali.kra.infrastructure.KeyConstants;
 import org.kuali.kra.infrastructure.KraServiceLocator;
 import org.kuali.kra.service.CustomAttributeService;
-import org.kuali.rice.kns.bo.PersistableBusinessObject;
 import org.kuali.rice.kns.document.MaintenanceDocument;
-import org.kuali.rice.kns.exception.ValidationException;
 import org.kuali.rice.kns.maintenance.Maintainable;
 import org.kuali.rice.kns.maintenance.rules.MaintenanceDocumentRuleBase;
-import org.kuali.rice.kns.util.GlobalVariables;
+import org.kuali.rice.krad.bo.PersistableBusinessObject;
+import org.kuali.rice.krad.exception.ValidationException;
+import org.kuali.rice.krad.util.GlobalVariables;
 
 /**
  * This class contains the business rules that are specific to Question.
@@ -62,19 +62,19 @@ public class QuestionMaintenanceDocumentRule extends MaintenanceDocumentRuleBase
         LOG.debug("MaintenanceDocument validation beginning");
 
         // explicitly put the errorPath that the dictionaryValidationService requires
-        GlobalVariables.getErrorMap().addToErrorPath("document.newMaintainableObject.businessObject");
+        GlobalVariables.getMessageMap().addToErrorPath("document.newMaintainableObject.businessObject");
 
         // document must have a newMaintainable object
         Maintainable newMaintainable = document.getNewMaintainableObject();
         if (newMaintainable == null) {
-            GlobalVariables.getErrorMap().removeFromErrorPath("document.newMaintainableObject");
+            GlobalVariables.getMessageMap().removeFromErrorPath("document.newMaintainableObject");
             throw new ValidationException("Maintainable object from Maintenance Document '" + document.getDocumentTitle() + "' is null, unable to proceed.");
         }
 
         // document's newMaintainable must contain an object (ie, not null)
         PersistableBusinessObject businessObject = newMaintainable.getBusinessObject();
         if (businessObject == null) {
-            GlobalVariables.getErrorMap().removeFromErrorPath("document.newMaintainableObject.");
+            GlobalVariables.getMessageMap().removeFromErrorPath("document.newMaintainableObject.");
             throw new ValidationException("Maintainable's component business object is null.");
         }
         
@@ -90,12 +90,8 @@ public class QuestionMaintenanceDocumentRule extends MaintenanceDocumentRuleBase
         // do default (ie, mandatory) existence checks
         dictionaryValidationService.validateDefaultExistenceChecks(businessObject);
 
-        // do apc checks
-        dictionaryValidationService.validateApcRules(businessObject);
-        
-
         // explicitly remove the errorPath we've added
-        GlobalVariables.getErrorMap().removeFromErrorPath("document.newMaintainableObject.businessObject");
+        GlobalVariables.getMessageMap().removeFromErrorPath("document.newMaintainableObject.businessObject");
 
         LOG.debug("MaintenanceDocument validation ending");
         return true;
@@ -123,10 +119,10 @@ public class QuestionMaintenanceDocumentRule extends MaintenanceDocumentRuleBase
      * @return true if all validation has passed, false otherwise
      */
     private boolean validateQuestionUsage(MaintenanceDocument maintenanceDocument) {
-        Question question = (Question) maintenanceDocument.getNewMaintainableObject().getBusinessObject();
+        Question question = (Question) maintenanceDocument.getNewMaintainableObject().getDataObject();
 
         if (!"A".equals(question.getStatus()) && getQuestionService().isQuestionUsed(question.getQuestionId())) {
-            GlobalVariables.getErrorMap().putError(Constants.QUESTION_DOCUMENT_FIELD_STATUS,
+            GlobalVariables.getMessageMap().putError(Constants.QUESTION_DOCUMENT_FIELD_STATUS,
                     KeyConstants.ERROR_QUESTION_STATUS_IN_USE);
             return false;
         } else {
@@ -142,11 +138,11 @@ public class QuestionMaintenanceDocumentRule extends MaintenanceDocumentRuleBase
     private boolean validateQuestionResponseType(MaintenanceDocument maintenanceDocument) {
         boolean isValid = true;
 
-        Question question = (Question) maintenanceDocument.getNewMaintainableObject().getBusinessObject();
+        Question question = (Question) maintenanceDocument.getNewMaintainableObject().getDataObject();
 
         if (question.getQuestionTypeId() == null) {
             isValid &= false;
-            GlobalVariables.getErrorMap().putError(Constants.QUESTION_DOCUMENT_FIELD_QUESTION_TYPE_ID,
+            GlobalVariables.getMessageMap().putError(Constants.QUESTION_DOCUMENT_FIELD_QUESTION_TYPE_ID,
                     KeyConstants.ERROR_QUESTION_RESPONSE_TYPE_NOT_SPECIFIED);
         } else {
             switch (question.getQuestionTypeId()) {
@@ -170,7 +166,7 @@ public class QuestionMaintenanceDocumentRule extends MaintenanceDocumentRuleBase
                     break;
                 default:
                     isValid &= false;
-                    GlobalVariables.getErrorMap().putError(Constants.QUESTION_DOCUMENT_FIELD_QUESTION_TYPE_ID,
+                    GlobalVariables.getMessageMap().putError(Constants.QUESTION_DOCUMENT_FIELD_QUESTION_TYPE_ID,
                             KeyConstants.ERROR_QUESTION_RESPONSE_TYPE_INVALID);
                     break;
             }
@@ -268,10 +264,10 @@ public class QuestionMaintenanceDocumentRule extends MaintenanceDocumentRuleBase
             return true;
         } else {
             if (question.getQuestionTypeId() == Constants.QUESTION_RESPONSE_TYPE_TEXT) {
-                GlobalVariables.getErrorMap().putError(Constants.QUESTION_DOCUMENT_FIELD_DISPLAYED_ANSWERS,
+                GlobalVariables.getMessageMap().putError(Constants.QUESTION_DOCUMENT_FIELD_DISPLAYED_ANSWERS,
                         KeyConstants.ERROR_QUESTION_DISPLAYED_ANSWERS_INVALID_AREAS);
             } else {
-                GlobalVariables.getErrorMap().putError(Constants.QUESTION_DOCUMENT_FIELD_DISPLAYED_ANSWERS,
+                GlobalVariables.getMessageMap().putError(Constants.QUESTION_DOCUMENT_FIELD_DISPLAYED_ANSWERS,
                         KeyConstants.ERROR_QUESTION_DISPLAYED_ANSWERS_INVALID_BOXES);
             }
             return false;
@@ -287,7 +283,7 @@ public class QuestionMaintenanceDocumentRule extends MaintenanceDocumentRuleBase
         if (question.getAnswerMaxLength() != null && question.getAnswerMaxLength() > 0) {
             return true;
         } else {
-            GlobalVariables.getErrorMap().putError(Constants.QUESTION_DOCUMENT_FIELD_ANSWER_MAX_LENGTH,
+            GlobalVariables.getMessageMap().putError(Constants.QUESTION_DOCUMENT_FIELD_ANSWER_MAX_LENGTH,
                     KeyConstants.ERROR_QUESTION_ANSWER_MAX_LENGTH_INVALID);
             return false;
         }
@@ -298,7 +294,7 @@ public class QuestionMaintenanceDocumentRule extends MaintenanceDocumentRuleBase
             if (question.getAnswerMaxLength() != null && question.getAnswerMaxLength() <= 2000) {
                 return true;
             } else {
-                GlobalVariables.getErrorMap().putError(Constants.QUESTION_DOCUMENT_FIELD_ANSWER_MAX_LENGTH,
+                GlobalVariables.getMessageMap().putError(Constants.QUESTION_DOCUMENT_FIELD_ANSWER_MAX_LENGTH,
                         KeyConstants.ERROR_QUESTION_ANSWER_MAX_LENGTH_VALUE_TOO_LARGE);                
                 return false;
             }
@@ -328,15 +324,15 @@ public class QuestionMaintenanceDocumentRule extends MaintenanceDocumentRuleBase
         if (!isValid) {
             switch (question.getQuestionTypeId()) {
                 case Constants.QUESTION_RESPONSE_TYPE_LOOKUP :
-                    GlobalVariables.getErrorMap().putError(Constants.QUESTION_DOCUMENT_FIELD_MAX_ANSWERS,
+                    GlobalVariables.getMessageMap().putError(Constants.QUESTION_DOCUMENT_FIELD_MAX_ANSWERS,
                             KeyConstants.ERROR_QUESTION_MAX_ANSWERS_INVALID_RETURNS);
                     break;
                 case Constants.QUESTION_RESPONSE_TYPE_TEXT :
-                    GlobalVariables.getErrorMap().putError(Constants.QUESTION_DOCUMENT_FIELD_MAX_ANSWERS,
+                    GlobalVariables.getMessageMap().putError(Constants.QUESTION_DOCUMENT_FIELD_MAX_ANSWERS,
                             KeyConstants.ERROR_QUESTION_MAX_ANSWERS_INVALID_ANSWERS_AREAS);
                     break;
                 default :
-                    GlobalVariables.getErrorMap().putError(Constants.QUESTION_DOCUMENT_FIELD_MAX_ANSWERS,
+                    GlobalVariables.getMessageMap().putError(Constants.QUESTION_DOCUMENT_FIELD_MAX_ANSWERS,
                             KeyConstants.ERROR_QUESTION_MAX_ANSWERS_INVALID_ANSWERS_BOXES);
                     break;
             }
@@ -360,7 +356,7 @@ public class QuestionMaintenanceDocumentRule extends MaintenanceDocumentRuleBase
         if (question.getLookupClass() != null) {
             return true;
         } else {
-            GlobalVariables.getErrorMap().putError(Constants.QUESTION_DOCUMENT_FIELD_LOOKUP_CLASS,
+            GlobalVariables.getMessageMap().putError(Constants.QUESTION_DOCUMENT_FIELD_LOOKUP_CLASS,
                     KeyConstants.ERROR_QUESTION_LOOKUP_CLASS_NOT_SPECIFIED);
             return false;
         }
@@ -375,7 +371,7 @@ public class QuestionMaintenanceDocumentRule extends MaintenanceDocumentRuleBase
         if (question.getLookupReturn() != null) {
             return validateLookupReturnBasedOnLookupClass(question);
         } else {
-            GlobalVariables.getErrorMap().putError(Constants.QUESTION_DOCUMENT_FIELD_LOOKUP_RETURN,
+            GlobalVariables.getMessageMap().putError(Constants.QUESTION_DOCUMENT_FIELD_LOOKUP_RETURN,
                     KeyConstants.ERROR_QUESTION_LOOKUP_RETURN_NOT_SPECIFIED);
             return false;
         }
@@ -398,7 +394,7 @@ public class QuestionMaintenanceDocumentRule extends MaintenanceDocumentRuleBase
                         return true;
                     }
                 }
-                GlobalVariables.getErrorMap().putError(Constants.QUESTION_DOCUMENT_FIELD_LOOKUP_RETURN,
+                GlobalVariables.getMessageMap().putError(Constants.QUESTION_DOCUMENT_FIELD_LOOKUP_RETURN,
                         KeyConstants.ERROR_QUESTION_LOOKUP_RETURN_INVALID);
                 return false;
             }

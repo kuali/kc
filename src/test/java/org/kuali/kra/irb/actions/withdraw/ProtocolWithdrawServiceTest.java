@@ -46,8 +46,8 @@ import org.kuali.kra.irb.actions.submit.ProtocolSubmitActionService;
 import org.kuali.kra.irb.onlinereview.ProtocolOnlineReviewService;
 import org.kuali.kra.irb.test.ProtocolFactory;
 import org.kuali.kra.test.infrastructure.KcUnitTestBase;
-import org.kuali.rice.kns.service.BusinessObjectService;
-import org.kuali.rice.kns.service.DocumentService;
+import org.kuali.rice.krad.service.BusinessObjectService;
+import org.kuali.rice.krad.service.DocumentService;
 
 /**
  * Test the ProtocolWithdrawService implementation.
@@ -97,7 +97,7 @@ public class ProtocolWithdrawServiceTest extends KcUnitTestBase {
         
         ProtocolDocument newProtocolDocument = service.withdraw(oldProtocolDocument.getProtocol(), getMockProtocolWithdrawBean());
     
-        assertTrue(oldProtocolDocument.getDocumentHeader().getWorkflowDocument().stateIsCanceled());
+        assertTrue(oldProtocolDocument.getDocumentHeader().getWorkflowDocument().isCanceled());
         assertEquals(ProtocolStatus.WITHDRAWN, newProtocolDocument.getProtocol().getProtocolStatusCode());
         
         ProtocolAction protocolAction = oldProtocolDocument.getProtocol().getLastProtocolAction();

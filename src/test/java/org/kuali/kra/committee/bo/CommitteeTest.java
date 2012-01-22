@@ -16,6 +16,7 @@
 package org.kuali.kra.committee.bo;
 
 import static org.junit.Assert.assertEquals;
+
 import org.junit.Test;
 
 

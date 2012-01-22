@@ -27,7 +27,7 @@ import org.junit.Test;
 import org.junit.runner.RunWith;
 import org.kuali.kra.bo.FundingSourceType;
 import org.kuali.kra.service.impl.FundingSourceTypeServiceImpl;
-import org.kuali.rice.kns.service.BusinessObjectService;
+import org.kuali.rice.krad.service.BusinessObjectService;
 
 
 /**

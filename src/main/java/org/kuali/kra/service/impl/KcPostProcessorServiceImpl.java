@@ -15,18 +15,19 @@
  */
 package org.kuali.kra.service.impl;
 
-import java.rmi.RemoteException;
+import java.util.List;
 
 import org.apache.commons.logging.Log;
 import org.apache.commons.logging.LogFactory;
 import org.kuali.kra.infrastructure.Constants;
-import org.kuali.rice.kew.dto.ActionTakenDTO;
-import org.kuali.rice.kew.dto.DocumentRouteStatusChangeDTO;
-import org.kuali.rice.kew.exception.WorkflowException;
-import org.kuali.rice.kew.service.WorkflowInfo;
-import org.kuali.rice.kns.service.PostProcessorService;
-import org.kuali.rice.kns.service.impl.PostProcessorServiceImpl;
-import org.kuali.rice.kns.util.GlobalVariables;
+import org.kuali.rice.kew.api.action.ActionTaken;
+import org.kuali.rice.kew.api.document.WorkflowDocumentService;
+import org.kuali.rice.kew.api.exception.WorkflowException;
+import org.kuali.rice.kew.framework.postprocessor.DocumentRouteStatusChange;
+import org.kuali.rice.kew.framework.postprocessor.ProcessDocReport;
+import org.kuali.rice.krad.service.PostProcessorService;
+import org.kuali.rice.krad.service.impl.PostProcessorServiceImpl;
+import org.kuali.rice.krad.util.GlobalVariables;
 
 /**
  * Extends the {@PostProcessorService} to record the actual user performing an action on a workflow status change.
@@ -35,20 +36,20 @@ public class KcPostProcessorServiceImpl extends PostProcessorServiceImpl impleme
 
     private static final Log LOG = LogFactory.getLog(KcPostProcessorServiceImpl.class);
     
-    private WorkflowInfo workflowInfo;
+    private WorkflowDocumentService workflowDocumentService;
     
     @Override
-    public boolean doRouteStatusChange(DocumentRouteStatusChangeDTO statusChangeEvent) throws RemoteException {
+    public ProcessDocReport doRouteStatusChange(DocumentRouteStatusChange statusChangeEvent) throws Exception {
         try {
             establishGlobalVariables();
             
-            Long routeHeaderId = statusChangeEvent.getRouteHeaderId();
+            String routeHeaderId = statusChangeEvent.getDocumentId();
             
-            ActionTakenDTO[] actionsTaken = getWorkflowInfo().getActionsTaken(routeHeaderId);
+            List<ActionTaken> actionsTaken = workflowDocumentService.getActionsTaken(routeHeaderId);
             
-            ActionTakenDTO lastActionTaken = null;
-            for (ActionTakenDTO actionTaken : actionsTaken) {
-                if (lastActionTaken == null || actionTaken.getActionDate().after(lastActionTaken.getActionDate())) {
+            ActionTaken lastActionTaken = null;
+            for (ActionTaken actionTaken : actionsTaken) {
+                if (lastActionTaken == null || actionTaken.getActionDate().toDate().after(lastActionTaken.getActionDate().toDate())) {
                     lastActionTaken = actionTaken;
                 }
             }
@@ -64,17 +65,11 @@ public class KcPostProcessorServiceImpl extends PostProcessorServiceImpl impleme
         }
         
         return super.doRouteStatusChange(statusChangeEvent);
+        
     }
     
-    public WorkflowInfo getWorkflowInfo() {
-        if (workflowInfo == null) {
-            workflowInfo = new WorkflowInfo();
-        }
-        return workflowInfo;
-    }
-    
-    public void setWorkflowInfo(WorkflowInfo workflowInfo) {
-        this.workflowInfo = workflowInfo;
+    public void setWorkflowDocumentService(WorkflowDocumentService workflowDocumentService) {
+        this.workflowDocumentService = workflowDocumentService;
     }
     
 }

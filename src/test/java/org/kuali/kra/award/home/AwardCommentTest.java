@@ -19,8 +19,6 @@ import org.junit.After;
 import org.junit.Assert;
 import org.junit.Before;
 import org.junit.Test;
-import org.kuali.kra.award.home.Award;
-import org.kuali.kra.award.home.AwardComment;
 
 /**
  * 
@@ -58,7 +56,7 @@ public class AwardCommentTest {
      */
     @Test
     public void testAwardCommentBoAttributesCount() throws Exception {              
-        Assert.assertEquals(AWARD_COMMENT_ATTRIBUTES_COUNT, awardCommentBo.toStringMapper().size());
+        Assert.assertEquals(AWARD_COMMENT_ATTRIBUTES_COUNT, awardCommentBo.getClass().getFields().length);
     }
     
 }

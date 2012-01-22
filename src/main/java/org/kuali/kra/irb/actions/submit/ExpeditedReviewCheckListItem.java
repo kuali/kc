@@ -15,19 +15,18 @@
  */
 package org.kuali.kra.irb.actions.submit;
 
-import java.util.LinkedHashMap;
-
 import org.kuali.kra.bo.KraPersistableBusinessObjectBase;
 
 @SuppressWarnings("serial")
 public class ExpeditedReviewCheckListItem extends KraPersistableBusinessObjectBase {
-    
+
     private String expeditedReviewCheckListCode;
+
     private String description;
+
     private transient boolean checked = false;
-    
+
     public ExpeditedReviewCheckListItem() {
-        
     }
 
     public String getExpeditedReviewCheckListCode() {
@@ -45,22 +44,12 @@ public class ExpeditedReviewCheckListItem extends KraPersistableBusinessObjectBa
     public void setDescription(String description) {
         this.description = description;
     }
-    
+
     public void setChecked(boolean checked) {
         this.checked = checked;
     }
-    
+
     public boolean getChecked() {
         return checked;
-    }
-    
-    @SuppressWarnings("unchecked")
-    @Override
-    protected LinkedHashMap toStringMapper() {
-        LinkedHashMap map = new LinkedHashMap();
-        map.put("expeditedReviewCheckListCode", getExpeditedReviewCheckListCode());
-        map.put("description", getDescription());
-        map.put("checked", getChecked());
-        return map;
     }
 }

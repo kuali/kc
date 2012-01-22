@@ -15,7 +15,7 @@
  */
 package org.kuali.kra.award;
 
-import org.kuali.rice.kns.service.PessimisticLockService;
+import org.kuali.rice.krad.service.PessimisticLockService;
 
 public interface AwardLockService extends PessimisticLockService {
 

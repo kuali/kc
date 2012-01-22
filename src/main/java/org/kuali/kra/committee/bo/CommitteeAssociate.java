@@ -15,7 +15,6 @@
  */
 package org.kuali.kra.committee.bo;
 
-import java.util.LinkedHashMap;
 
 /**
  * 
@@ -26,7 +25,7 @@ public abstract class CommitteeAssociate extends CommitteeSequenceAssociate {
     private static final long serialVersionUID = -6350020738083606018L;
 
     private Long committeeIdFk;
-    
+
     public Long getCommitteeIdFk() {
         return committeeIdFk;
     }
@@ -34,12 +33,4 @@ public abstract class CommitteeAssociate extends CommitteeSequenceAssociate {
     public void setCommitteeIdFk(Long committeeIdFk) {
         this.committeeIdFk = committeeIdFk;
     }
-
-    @Override
-    protected LinkedHashMap<String, Object> toStringMapper() {
-        LinkedHashMap<String, Object> map = new LinkedHashMap<String, Object>();
-        map.put("committeeIdFk", this.getCommitteeIdFk());
-        return map;
-    }
-
 }

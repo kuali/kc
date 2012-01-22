@@ -20,10 +20,10 @@ import java.util.List;
 
 import org.apache.commons.lang.StringUtils;
 import org.kuali.kra.infrastructure.KraServiceLocator;
+import org.kuali.rice.coreservice.framework.parameter.ParameterService;
 import org.kuali.rice.kns.document.MaintenanceDocument;
 import org.kuali.rice.kns.maintenance.KualiMaintainableImpl;
 import org.kuali.rice.kns.maintenance.Maintainable;
-import org.kuali.rice.kns.service.ParameterService;
 import org.kuali.rice.kns.web.ui.Section;
 
 public class CostElementMaintainableImpl extends KualiMaintainableImpl {
@@ -41,7 +41,7 @@ public class CostElementMaintainableImpl extends KualiMaintainableImpl {
     public List<Section> getSections(MaintenanceDocument document, Maintainable oldMaintainable) {
         List<Section> oldSections = super.getSections(document, oldMaintainable);
         
-        String kfsOnParameterValue = getParameterService().getParameterValue(KFS_ON_PARM_NMSPC_CD, KFS_ON_PARM_DTL_TYP_CD, KFS_ON_PARM_NM);
+        String kfsOnParameterValue = getParameterService().getParameterValueAsString(KFS_ON_PARM_NMSPC_CD, KFS_ON_PARM_DTL_TYP_CD, KFS_ON_PARM_NM);
         
         List<Section> sections = new ArrayList<Section>();
         if (!StringUtils.equals(kfsOnParameterValue, KFS_ON_OFF_VALUE)) {

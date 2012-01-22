@@ -19,16 +19,12 @@ import java.sql.Timestamp;
 import java.util.ArrayList;
 import java.util.Collections;
 import java.util.Comparator;
-import java.util.LinkedHashMap;
 import java.util.List;
 
-import org.apache.ojb.broker.PersistenceBroker;
-import org.apache.ojb.broker.PersistenceBrokerException;
-import org.kuali.kra.SkipVersioning;
 import org.kuali.kra.infrastructure.Constants;
 import org.kuali.kra.infrastructure.KraServiceLocator;
 import org.kuali.kra.irb.Protocol;
-import org.kuali.rice.kns.service.DateTimeService;
+import org.kuali.rice.core.api.datetime.DateTimeService;
 
 /**
  * This class represents the Protocol Attachment Protocol.
@@ -36,35 +32,46 @@ import org.kuali.rice.kns.service.DateTimeService;
 public class ProtocolAttachmentProtocol extends ProtocolAttachmentBase {
 
     private static final long serialVersionUID = -7115904344245464654L;
+
     private static final String GROUP_CODE = "1";
-    
-    // 1-Complete, 2-Incomplete.  an attachment status must be 'complete' before this protocol can be submitted.
+
+    // 1-Complete, 2-Incomplete.  an attachment status must be 'complete' before this protocol can be submitted.  
     private String statusCode;
+
     private ProtocolAttachmentStatus status;
-    
+
     private String contactName;
+
     private String contactEmailAddress;
+
     private String contactPhoneNumber;
+
     private String comments;
-    
+
     private String typeCode;
+
     private ProtocolAttachmentType type;
+
     private String description;
-    // documentStatusCode : 1-Draft, 2-Finalized, 3-Deleted
-    // All new files are 'Draft'.  When protocol is versioned, all 'Draft' become 'Finalized'
-    // 'delete' will set this code to 'Deleted'.
+
+    // documentStatusCode : 1-Draft, 2-Finalized, 3-Deleted  
+    // All new files are 'Draft'.  When protocol is versioned, all 'Draft' become 'Finalized'  
+    // 'delete' will set this code to 'Deleted'.  
     private String documentStatusCode;
+
     private Integer attachmentVersion;
+
     private Timestamp createTimestamp;
+
     private List<ProtocolAttachmentProtocol> versions;
-    
-    // an indicator to decide whether to display this file in protocol attachment panel or not
+
+    // an indicator to decide whether to display this file in protocol attachment panel or not  
     private boolean active = true;
-    // an indicator of whether this file has been changed/replaced or not.  This is if documentstatus is 1 or 3.
-    // if it is changed, then the updateuser and updatetimestamp of this record will be updated.
+
+    // an indicator of whether this file has been changed/replaced or not.  This is if documentstatus is 1 or 3.  
+    // if it is changed, then the updateuser and updatetimestamp of this record will be updated.  
     private boolean changed = false;
-    
-    
+
     /**
      * empty ctor to satisfy JavaBean convention.
      */
@@ -72,7 +79,7 @@ public class ProtocolAttachmentProtocol extends ProtocolAttachmentBase {
         super();
         attachmentVersion = 1;
     }
-    
+
     /**
      * Convenience ctor to add the protocol as an owner.
      * 
@@ -86,7 +93,7 @@ public class ProtocolAttachmentProtocol extends ProtocolAttachmentBase {
         super(protocol);
         attachmentVersion = 1;
     }
-    
+
     /**
      * Gets the Protocol Attachment Protocol Status.
      * @return the Protocol Attachment Protocol Status
@@ -94,7 +101,7 @@ public class ProtocolAttachmentProtocol extends ProtocolAttachmentBase {
     public ProtocolAttachmentStatus getStatus() {
         return this.status;
     }
-    
+
     /**
      * Sets the Protocol Attachment Protocol Status.
      * @param status the Protocol Attachment Protocol Status
@@ -102,7 +109,7 @@ public class ProtocolAttachmentProtocol extends ProtocolAttachmentBase {
     public void setStatus(ProtocolAttachmentStatus status) {
         this.status = status;
     }
-    
+
     /**
      * Gets the Protocol Attachment Protocol Contact Name.
      * @return the Protocol Attachment Protocol Contact Name
@@ -110,7 +117,7 @@ public class ProtocolAttachmentProtocol extends ProtocolAttachmentBase {
     public String getContactName() {
         return this.contactName;
     }
-    
+
     /**
      * Sets the Protocol Attachment Protocol Contact Name.
      * @param contactName the Protocol Attachment Protocol Contact Name
@@ -118,7 +125,7 @@ public class ProtocolAttachmentProtocol extends ProtocolAttachmentBase {
     public void setContactName(String contactName) {
         this.contactName = contactName;
     }
-    
+
     /**
      * Gets the Protocol Attachment Protocol Contact Email Address.
      * @return the Protocol Attachment Protocol Contact Email Address
@@ -126,7 +133,7 @@ public class ProtocolAttachmentProtocol extends ProtocolAttachmentBase {
     public String getContactEmailAddress() {
         return this.contactEmailAddress;
     }
-    
+
     /**
      * Sets the Protocol Attachment Protocol Contact Email Address.
      * @param contactEmailAddress the Protocol Attachment Protocol Contact Email Address
@@ -134,7 +141,7 @@ public class ProtocolAttachmentProtocol extends ProtocolAttachmentBase {
     public void setContactEmailAddress(String contactEmailAddress) {
         this.contactEmailAddress = contactEmailAddress;
     }
-    
+
     /**
      * Gets the Protocol Attachment Protocol Contact Phone Number.
      * @return the Protocol Attachment Protocol Contact Phone Number
@@ -142,7 +149,7 @@ public class ProtocolAttachmentProtocol extends ProtocolAttachmentBase {
     public String getContactPhoneNumber() {
         return this.contactPhoneNumber;
     }
-    
+
     /**
      * Sets the Protocol Attachment Protocol Contact Phone Number.
      * @param contactPhoneNumber the Protocol Attachment Protocol Contact Phone Number
@@ -150,7 +157,7 @@ public class ProtocolAttachmentProtocol extends ProtocolAttachmentBase {
     public void setContactPhoneNumber(String contactPhoneNumber) {
         this.contactPhoneNumber = contactPhoneNumber;
     }
-    
+
     /**
      * Gets the Protocol Attachment Protocol Comments.
      * @return the Protocol Attachment Protocol Comments
@@ -158,7 +165,7 @@ public class ProtocolAttachmentProtocol extends ProtocolAttachmentBase {
     public String getComments() {
         return this.comments;
     }
-    
+
     /**
      * Sets the Protocol Attachment Protocol comments.
      * @param comments the Protocol Attachment Protocol comments
@@ -166,7 +173,7 @@ public class ProtocolAttachmentProtocol extends ProtocolAttachmentBase {
     public void setComments(String comments) {
         this.comments = comments;
     }
-    
+
     /**
      * Gets the status Code. 
      * @return the status Code.
@@ -202,12 +209,12 @@ public class ProtocolAttachmentProtocol extends ProtocolAttachmentBase {
     public void setTypeCode(String typeCode) {
         this.typeCode = typeCode;
     }
-    
+
     /** {@inheritDoc} */
     public String getGroupCode() {
         return GROUP_CODE;
     }
-    
+
     /** {@inheritDoc} */
     public String getDescription() {
         return this.description;
@@ -217,13 +224,13 @@ public class ProtocolAttachmentProtocol extends ProtocolAttachmentBase {
     public void setDescription(String description) {
         this.description = description;
     }
-    
+
     /** {@inheritDoc} */
     @Override
     public String getAttachmentDescription() {
         return "Protocol Attachment";
     }
-    
+
     /**
      * Gets the versions attribute. 
      * @return Returns the versions.
@@ -231,28 +238,28 @@ public class ProtocolAttachmentProtocol extends ProtocolAttachmentBase {
     public List<ProtocolAttachmentProtocol> getVersions() {
         if (this.versions == null) {
             this.versions = new ArrayList<ProtocolAttachmentProtocol>();
-        }      
+        }
         this.versions.clear();
-        // TODO : since this will be called by tag, so should not call service
-        //this.versions.addAll(KraServiceLocator.getService(ProtocolAttachmentService.class).getAttachmentsWithOlderFileVersions(this, ProtocolAttachmentProtocol.class));
-        // need this refresh here.  change and save will not update this list automatically.  not sure why ?
-        // this is still calling persistenceservice eventually
-        // probably do it in postsave
-        //this.getProtocol().refreshReferenceObject("attachmentProtocols");
+        // TODO : since this will be called by tag, so should not call service  
+        //this.versions.addAll(KraServiceLocator.getService(ProtocolAttachmentService.class).getAttachmentsWithOlderFileVersions(this, ProtocolAttachmentProtocol.class));  
+        // need this refresh here.  change and save will not update this list automatically.  not sure why ?  
+        // this is still calling persistenceservice eventually  
+        // probably do it in postsave  
+        //this.getProtocol().refreshReferenceObject("attachmentProtocols");  
         for (ProtocolAttachmentProtocol attachment : this.getProtocol().getAttachmentProtocols()) {
             if (attachment.getDocumentId().equals(this.getDocumentId())) {
-               this.versions.add(attachment);
+                this.versions.add(attachment);
             }
         }
         if (this.versions.size() == 1) {
             this.versions.clear();
         }
         Collections.sort(this.versions, new Comparator<ProtocolAttachmentProtocol>() {
+
             public int compare(ProtocolAttachmentProtocol attachment1, ProtocolAttachmentProtocol attachment2) {
                 return attachment2.getUpdateTimestamp().compareTo(attachment1.getUpdateTimestamp());
             }
         });
-
         return this.versions;
     }
 
@@ -269,26 +276,6 @@ public class ProtocolAttachmentProtocol extends ProtocolAttachmentBase {
     public boolean supportsVersioning() {
         return true;
     }
-    
-    /** {@inheritDoc} */
-    @Override 
-    protected LinkedHashMap<String, Object> toStringMapper() {
-        final LinkedHashMap<String, Object> hashMap = super.toStringMapper();
-
-        hashMap.put(PropertyName.COMMENTS.getPropertyName(), this.getComments());
-        hashMap.put(PropertyName.EMAIL.getPropertyName(), this.getContactEmailAddress());
-        hashMap.put(PropertyName.CONTACT_NAME.getPropertyName(), this.getContactName());
-        hashMap.put(PropertyName.PHONE.getPropertyName(), this.getContactPhoneNumber());
-        hashMap.put(PropertyName.STATUS_CODE.getPropertyName(), this.getStatus());
-        hashMap.put(TypedAttachment.PropertyName.TYPE_CODE.getPropertyName(), this.getTypeCode());
-        hashMap.put(TypedAttachment.PropertyName.DOCUMENT_ID.getPropertyName(), this.getDocumentId());
-        hashMap.put(TypedAttachment.PropertyName.GROUP_CODE.getPropertyName(), this.getGroupCode());
-        hashMap.put(TypedAttachment.PropertyName.DESCRIPTION.getPropertyName(), this.getDescription());
-        hashMap.put(PropertyName.DOCUMENT_STATUS_CODE.getPropertyName(), this.getDocumentStatusCode());
-        hashMap.put(PropertyName.ATTACHMENT_VERSION.getPropertyName(), this.getAttachmentVersion());
-        hashMap.put(PropertyName.CREATE_TIMESTAMP.getPropertyName(), this.getCreateTimestamp());
-        return hashMap;
-    }
 
     /** {@inheritDoc} */
     @Override
@@ -300,7 +287,7 @@ public class ProtocolAttachmentProtocol extends ProtocolAttachmentBase {
         result = prime * result + ((contactName == null) ? 0 : contactName.hashCode());
         result = prime * result + ((contactPhoneNumber == null) ? 0 : contactPhoneNumber.hashCode());
         result = prime * result + ((description == null) ? 0 : description.hashCode());
-//        result = prime * result + ((documentId == null) ? 0 : documentId.hashCode());
+        //        result = prime * result + ((documentId == null) ? 0 : documentId.hashCode());  
         result = prime * result + ((statusCode == null) ? 0 : statusCode.hashCode());
         result = prime * result + ((typeCode == null) ? 0 : typeCode.hashCode());
         return result;
@@ -354,13 +341,13 @@ public class ProtocolAttachmentProtocol extends ProtocolAttachmentBase {
         } else if (!description.equals(other.description)) {
             return false;
         }
-//        if (documentId == null) {
-//            if (other.documentId != null) {
-//                return false;
-//            }
-//        } else if (!documentId.equals(other.documentId)) {
-//            return false;
-//        }
+        //        if (documentId == null) {  
+        //            if (other.documentId != null) {  
+        //                return false;  
+        //            }  
+        //        } else if (!documentId.equals(other.documentId)) {  
+        //            return false;  
+        //        }  
         if (statusCode == null) {
             if (other.statusCode != null) {
                 return false;
@@ -382,12 +369,11 @@ public class ProtocolAttachmentProtocol extends ProtocolAttachmentBase {
      * Contains all the property names in this class.
      */
     public static enum PropertyName {
-        COMMENTS("comments"), EMAIL("contactEmailAddress"), CONTACT_NAME("contactName"),
-        PHONE("contactPhoneNumber"), STATUS_CODE("statusCode"), DOCUMENT_STATUS_CODE("documentStatusCode"),
-        ATTACHMENT_VERSION("attachmentVersion"), CREATE_TIMESTAMP("createTimestamp");
-        
+
+        COMMENTS("comments"), EMAIL("contactEmailAddress"), CONTACT_NAME("contactName"), PHONE("contactPhoneNumber"), STATUS_CODE("statusCode"), DOCUMENT_STATUS_CODE("documentStatusCode"), ATTACHMENT_VERSION("attachmentVersion"), CREATE_TIMESTAMP("createTimestamp");
+
         private final String name;
-        
+
         /**
          * Sets the enum properties.
          * @param name the name.
@@ -395,7 +381,7 @@ public class ProtocolAttachmentProtocol extends ProtocolAttachmentBase {
         PropertyName(final String name) {
             this.name = name;
         }
-        
+
         /**
          * Gets the property name.
          * @return the the property name.
@@ -403,7 +389,7 @@ public class ProtocolAttachmentProtocol extends ProtocolAttachmentBase {
         public String getPropertyName() {
             return this.name;
         }
-        
+
         /**
          * Gets the {@link #getPropertyName() propertyName()}.
          * @return {@link #getPropertyName() propertyName()}
@@ -432,18 +418,16 @@ public class ProtocolAttachmentProtocol extends ProtocolAttachmentBase {
 
     @Override
     public void setUpdateTimestamp(Timestamp updateTimestamp) {
-        if (getDocumentStatusCode() == null || updateTimestamp == null || getUpdateTimestamp() == null
-                || isAttachmentUpdated()) {
+        if (getDocumentStatusCode() == null || updateTimestamp == null || getUpdateTimestamp() == null || isAttachmentUpdated()) {
             super.setUpdateTimestamp(updateTimestamp);
-            // timestamp is updated after user, so setchanged to false.
+            // timestamp is updated after user, so setchanged to false.  
             setChanged(false);
         }
     }
 
     @Override
     public void setUpdateUser(String updateUser) {
-        if (getDocumentStatusCode() == null || updateUser == null || getUpdateUser() == null  
-                || isAttachmentUpdated()) {
+        if (getDocumentStatusCode() == null || updateUser == null || getUpdateUser() == null || isAttachmentUpdated()) {
             super.setUpdateUser(updateUser);
         }
     }
@@ -482,12 +466,10 @@ public class ProtocolAttachmentProtocol extends ProtocolAttachmentBase {
     }
 
     @Override
-    public void beforeInsert(PersistenceBroker persistenceBroker) throws PersistenceBrokerException {
-        super.beforeInsert(persistenceBroker);
+    protected void prePersist() {
+        super.prePersist();
         if (getCreateTimestamp() == null) {
-            setCreateTimestamp(((DateTimeService) KraServiceLocator.getService(Constants.DATE_TIME_SERVICE_NAME))
-                    .getCurrentTimestamp());
+            setCreateTimestamp(((DateTimeService) KraServiceLocator.getService(Constants.DATE_TIME_SERVICE_NAME)).getCurrentTimestamp());
         }
     }
-
 }

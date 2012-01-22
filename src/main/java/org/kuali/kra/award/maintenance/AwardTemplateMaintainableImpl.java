@@ -20,6 +20,7 @@ import java.util.Collection;
 import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
+
 import org.apache.commons.lang.StringUtils;
 import org.kuali.kra.award.home.AwardTemplate;
 import org.kuali.kra.award.home.AwardTemplateReportTerm;
@@ -33,14 +34,14 @@ import org.kuali.kra.infrastructure.KeyConstants;
 import org.kuali.kra.infrastructure.KraServiceLocator;
 import org.kuali.kra.maintenance.KraMaintainableImpl;
 import org.kuali.kra.rules.ErrorReporter;
-import org.kuali.rice.kns.bo.BusinessObject;
-import org.kuali.rice.kns.bo.PersistableBusinessObject;
 import org.kuali.rice.kns.document.MaintenanceDocument;
 import org.kuali.rice.kns.lookup.LookupUtils;
-import org.kuali.rice.kns.service.BusinessObjectService;
-import org.kuali.rice.kns.util.GlobalVariables;
-import org.kuali.rice.kns.util.ObjectUtils;
-import org.kuali.rice.kns.util.TypedArrayList;
+import org.kuali.rice.krad.bo.BusinessObject;
+import org.kuali.rice.krad.bo.PersistableBusinessObject;
+import org.kuali.rice.krad.service.BusinessObjectService;
+import org.kuali.rice.krad.util.GlobalVariables;
+import org.kuali.rice.krad.util.ObjectUtils;
+import org.springframework.util.AutoPopulatingList;
 
 /**
  * This class is for adding validation rules to maintain Award Template
@@ -71,7 +72,7 @@ public class AwardTemplateMaintainableImpl extends KraMaintainableImpl {
     
     /**
      * 
-     * @see org.kuali.rice.kns.maintenance.KualiMaintainableImpl#processBeforeAddLine(java.lang.String, java.lang.Class, org.kuali.rice.kns.bo.BusinessObject)
+     * @see org.kuali.rice.kns.maintenance.KualiMaintainableImpl#processBeforeAddLine(java.lang.String, java.lang.Class, org.kuali.rice.krad.bo.BusinessObject)
      */
     public void processBeforeAddLine(String colName, Class colClass, BusinessObject addBO) {
         if (colName.contains("[") && colName.contains("]")) {
@@ -163,7 +164,7 @@ public class AwardTemplateMaintainableImpl extends KraMaintainableImpl {
             Collection maintCollection = (Collection) ObjectUtils.getPropertyValue(getBusinessObject(), collectionName);
             
             if (maintCollection.size() > 0) {
-                List<AwardTemplateReportTermRecipient> aList = new TypedArrayList(AwardTemplateReportTermRecipient.class);
+                List<AwardTemplateReportTermRecipient> aList = new AutoPopulatingList<AwardTemplateReportTermRecipient>(AwardTemplateReportTermRecipient.class);
                 aList.addAll(maintCollection);
                 Integer id = addLine.getRolodexId();
                 for (int i = 0; i < aList.size(); i++) {
@@ -240,7 +241,7 @@ public class AwardTemplateMaintainableImpl extends KraMaintainableImpl {
         super.refresh(refreshCaller, fieldValues, document);
 //        LOG.warn("refresh called.");
 //        // If a person has been selected, lead unit should default to the person's home unit.
-//        String referencesToRefresh = (String) fieldValues.get(KNSConstants.REFERENCES_TO_REFRESH);
+//        String referencesToRefresh = (String) fieldValues.get(KRADConstants.REFERENCES_TO_REFRESH);
 //        
 //        if (referencesToRefresh != null && referencesToRefresh.contains(PERSON_OBJECT_REFERENCE)) {
 //            LOG.info( "*********" + referencesToRefresh );
@@ -261,7 +262,7 @@ public class AwardTemplateMaintainableImpl extends KraMaintainableImpl {
    
     @Override
     public void processAfterCopy(MaintenanceDocument document, Map<String,String[]> parameters) {
-        AwardTemplate template = (AwardTemplate) document.getDocumentBusinessObject();
+        AwardTemplate template = (AwardTemplate) document.getNoteTarget();
         template.processAfterCopy();
     }
 }

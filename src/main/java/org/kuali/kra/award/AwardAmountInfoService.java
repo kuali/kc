@@ -19,7 +19,6 @@ import java.util.List;
 
 import org.kuali.kra.award.home.Award;
 import org.kuali.kra.award.home.AwardAmountInfo;
-import org.kuali.rice.kew.exception.WorkflowException;
 
 public interface AwardAmountInfoService {
     

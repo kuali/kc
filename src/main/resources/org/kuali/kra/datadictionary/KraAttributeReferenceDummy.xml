@@ -131,7 +131,7 @@
     </property>
     <property name="control">
       <bean parent="SelectControlDefinition"
-            p:valuesFinderClass="org.kuali.rice.kns.bo.options.StateValuesFinder"
+            p:valuesFinderClass="org.kuali.rice.location.framework.state.StateValuesFinder"
             p:includeKeyInLabel="false" />
     </property>
     <property name="summary" value="State" />
@@ -151,12 +151,12 @@
     </property>
     <property name="control" >
       <bean parent="SelectControlDefinition"
-            p:businessObjectClass="org.kuali.rice.kns.bo.Country"
+            p:businessObjectClass="org.kuali.rice.location.impl.country.CountryBo"
             p:valuesFinderClass="org.kuali.kra.lookup.keyvalue.ExtendedPersistableBusinessObjectValuesFinder"
             p:includeKeyInLabel="false"
             p:includeBlankRow="false"
-            p:keyAttribute="alternatePostalCountryCode"
-            p:labelAttribute="postalCountryName" />
+            p:keyAttribute="alternateCode"
+            p:labelAttribute="name" />
     </property>
     <property name="summary" value="Country Code" />
     <property name="description" value="Country Code" />

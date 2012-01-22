@@ -15,8 +15,6 @@
  */
 package org.kuali.kra.irb.specialreview;
 
-import java.util.LinkedHashMap;
-
 import org.kuali.kra.common.specialreview.bo.SpecialReviewExemption;
 
 /**
@@ -25,10 +23,11 @@ import org.kuali.kra.common.specialreview.bo.SpecialReviewExemption;
 public class ProtocolSpecialReviewExemption extends SpecialReviewExemption {
 
     private static final long serialVersionUID = 5397618472812176402L;
-    
+
     private Long protocolSpecialReviewExemptionId;
+
     private Long protocolSpecialReviewId;
-    
+
     private ProtocolSpecialReview protocolSpecialReview;
 
     public Long getProtocolSpecialReviewExemptionId() {
@@ -54,13 +53,4 @@ public class ProtocolSpecialReviewExemption extends SpecialReviewExemption {
     public void setProtocolSpecialReview(ProtocolSpecialReview protocolSpecialReview) {
         this.protocolSpecialReview = protocolSpecialReview;
     }
-    
-    @Override
-    protected LinkedHashMap<String, Object> toStringMapper() {
-        LinkedHashMap<String, Object> propMap = super.toStringMapper();
-        propMap.put("protocolSpecialReviewExemptionId", getProtocolSpecialReviewExemptionId());
-        propMap.put("protocolSpecialReviewId", getProtocolSpecialReviewId());
-        return propMap;
-    }
-    
 }

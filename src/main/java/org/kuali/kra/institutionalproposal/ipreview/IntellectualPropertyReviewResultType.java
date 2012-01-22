@@ -16,20 +16,18 @@
 package org.kuali.kra.institutionalproposal.ipreview;
 
 import org.kuali.kra.bo.KraPersistableBusinessObjectBase;
-import java.util.LinkedHashMap;
 
-public class IntellectualPropertyReviewResultType extends KraPersistableBusinessObjectBase { 
-    
+public class IntellectualPropertyReviewResultType extends KraPersistableBusinessObjectBase {
+
     private static final long serialVersionUID = 1L;
 
-    private String intellectualPropertyReviewResultTypeCode; 
-    private String description; 
-    
-    
-    public IntellectualPropertyReviewResultType() { 
+    private String intellectualPropertyReviewResultTypeCode;
 
-    } 
-    
+    private String description;
+
+    public IntellectualPropertyReviewResultType() {
+    }
+
     public String getIntellectualPropertyReviewResultTypeCode() {
         return intellectualPropertyReviewResultTypeCode;
     }
@@ -46,22 +44,12 @@ public class IntellectualPropertyReviewResultType extends KraPersistableBusiness
         this.description = description;
     }
 
-    /** {@inheritDoc} */
-    @Override 
-    protected LinkedHashMap<String, Object> toStringMapper() {
-        LinkedHashMap<String, Object> hashMap = new LinkedHashMap<String, Object>();
-        hashMap.put("intellectualPropertyReviewResultTypeCode", this.getIntellectualPropertyReviewResultTypeCode());
-        hashMap.put("description", this.getDescription());
-        return hashMap;
-    }
-
     @Override
     public int hashCode() {
         final int prime = 31;
         int result = 1;
         result = prime * result + ((description == null) ? 0 : description.hashCode());
-        result = prime * result
-                + ((intellectualPropertyReviewResultTypeCode == null) ? 0 : intellectualPropertyReviewResultTypeCode.hashCode());
+        result = prime * result + ((intellectualPropertyReviewResultTypeCode == null) ? 0 : intellectualPropertyReviewResultTypeCode.hashCode());
         return result;
     }
 
@@ -93,5 +81,4 @@ public class IntellectualPropertyReviewResultType extends KraPersistableBusiness
         }
         return true;
     }
-    
 }

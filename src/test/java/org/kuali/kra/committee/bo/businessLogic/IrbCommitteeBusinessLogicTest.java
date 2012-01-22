@@ -16,6 +16,7 @@
 package org.kuali.kra.committee.bo.businessLogic;
 
 import java.util.ArrayList;
+import java.util.List;
 
 import junit.framework.Assert;
 
@@ -27,9 +28,8 @@ import org.kuali.kra.committee.bo.CommitteeType;
 import org.kuali.kra.committee.bo.businessLogic.impl.CommitteeResearchAreaBusinessLogicImpl;
 import org.kuali.kra.committee.bo.businessLogic.impl.IrbCommitteeBusinessLogicImpl;
 import org.kuali.kra.infrastructure.KeyConstants;
-import org.kuali.rice.kns.util.ErrorMessage;
-import org.kuali.rice.kns.util.GlobalVariables;
-import org.kuali.rice.kns.util.TypedArrayList;
+import org.kuali.rice.krad.util.ErrorMessage;
+import org.kuali.rice.krad.util.GlobalVariables;
 
 public class IrbCommitteeBusinessLogicTest {
     
@@ -143,7 +143,7 @@ public class IrbCommitteeBusinessLogicTest {
      * @param errorKey
      */
     protected void assertError(String propertyKey, String errorKey) {
-        TypedArrayList errors = GlobalVariables.getErrorMap().getMessages(propertyKey);
+        List<ErrorMessage> errors = GlobalVariables.getMessageMap().getMessages(propertyKey);
         Assert.assertNotNull(errors);
         Assert.assertTrue(errors.size() == 1);
         

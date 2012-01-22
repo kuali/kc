@@ -15,8 +15,8 @@
  */
 package org.kuali.kra.budget.distributionincome;
 
-import org.kuali.rice.kns.util.GlobalVariables;
-import org.kuali.rice.kns.util.KualiDecimal;
+import org.kuali.rice.core.api.util.type.KualiDecimal;
+import org.kuali.rice.krad.util.GlobalVariables;
 import org.springframework.util.StringUtils;
 
 /**
@@ -36,7 +36,7 @@ public class ValidationHelper {
     public boolean checkRequiredField(Object fieldValue, String errorProperty, String... errorParms) {
         boolean isEmpty = isEmpty(fieldValue);
         if(isEmpty) {
-            GlobalVariables.getErrorMap().putError(errorProperty, REQUIRED_ERROR_KEY, errorParms);
+            GlobalVariables.getMessageMap().putError(errorProperty, REQUIRED_ERROR_KEY, errorParms);
         }
         
         return !isEmpty; 
@@ -59,7 +59,7 @@ public class ValidationHelper {
     public boolean checkValuePositive(KualiDecimal projectIncome, String errorProperty, String errorKey, String... parms) {
         boolean success = projectIncome.isPositive(); 
         if(!success) {
-            GlobalVariables.getErrorMap().putError(errorProperty, errorKey, parms);
+            GlobalVariables.getMessageMap().putError(errorProperty, errorKey, parms);
         }
         return success;
     }

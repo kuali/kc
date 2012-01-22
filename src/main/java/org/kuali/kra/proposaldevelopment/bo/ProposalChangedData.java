@@ -15,83 +15,87 @@
  */
 package org.kuali.kra.proposaldevelopment.bo;
 
-import java.util.LinkedHashMap;
-
 import org.kuali.kra.bo.KraPersistableBusinessObjectBase;
 
 public class ProposalChangedData extends KraPersistableBusinessObjectBase {
 
-	private Integer changeNumber;
-	private String columnName;
-	private String attributeName;
-	private String proposalNumber;
-	private String changedValue;
-	private String comments;
-	private String displayValue;
-	private String oldDisplayValue;
+    private Integer changeNumber;
 
-	private ProposalColumnsToAlter editableColumn;
-	
-	public ProposalChangedData(){
-		super();
-	}
+    private String columnName;
 
-	public Integer getChangeNumber() {
-		return changeNumber;
-	}
+    private String attributeName;
 
-	public void setChangeNumber(Integer changeNumber) {
-		this.changeNumber = changeNumber;
-	}
+    private String proposalNumber;
 
-	public String getColumnName() {
-		return columnName;
-	}
+    private String changedValue;
 
-	public void setColumnName(String columnName) {
-		this.columnName = columnName;
-	}
+    private String comments;
 
-	public String getProposalNumber() {
-		return proposalNumber;
-	}
+    private String displayValue;
 
-	public void setProposalNumber(String proposalNumber) {
-		this.proposalNumber = proposalNumber;
-	}
+    private String oldDisplayValue;
 
-	public String getChangedValue() {
-		return changedValue;
-	}
+    private ProposalColumnsToAlter editableColumn;
 
-	public void setChangedValue(String changedValue) {
-		this.changedValue = changedValue;
-	}
+    public ProposalChangedData() {
+        super();
+    }
 
-	public String getComments() {
-		return comments;
-	}
+    public Integer getChangeNumber() {
+        return changeNumber;
+    }
 
-	public void setComments(String comments) {
-		this.comments = comments;
-	}
+    public void setChangeNumber(Integer changeNumber) {
+        this.changeNumber = changeNumber;
+    }
 
-	public String getDisplayValue() {
-		return displayValue;
-	}
+    public String getColumnName() {
+        return columnName;
+    }
 
-	public void setDisplayValue(String displayValue) {
-		this.displayValue = displayValue;
-	}
+    public void setColumnName(String columnName) {
+        this.columnName = columnName;
+    }
 
-	public String getOldDisplayValue() {
-		return oldDisplayValue;
-	}
+    public String getProposalNumber() {
+        return proposalNumber;
+    }
 
-	public void setOldDisplayValue(String oldDisplayValue) {
-		this.oldDisplayValue = oldDisplayValue;
-	}
+    public void setProposalNumber(String proposalNumber) {
+        this.proposalNumber = proposalNumber;
+    }
 
+    public String getChangedValue() {
+        return changedValue;
+    }
+
+    public void setChangedValue(String changedValue) {
+        this.changedValue = changedValue;
+    }
+
+    public String getComments() {
+        return comments;
+    }
+
+    public void setComments(String comments) {
+        this.comments = comments;
+    }
+
+    public String getDisplayValue() {
+        return displayValue;
+    }
+
+    public void setDisplayValue(String displayValue) {
+        this.displayValue = displayValue;
+    }
+
+    public String getOldDisplayValue() {
+        return oldDisplayValue;
+    }
+
+    public void setOldDisplayValue(String oldDisplayValue) {
+        this.oldDisplayValue = oldDisplayValue;
+    }
 
     public ProposalColumnsToAlter getEditableColumn() {
         return editableColumn;
@@ -108,18 +112,4 @@ public class ProposalChangedData extends KraPersistableBusinessObjectBase {
     public void setAttributeName(String attributeName) {
         this.attributeName = attributeName;
     }
-
-    @Override 
-    protected LinkedHashMap toStringMapper() {
-        LinkedHashMap hashMap = new LinkedHashMap();
-        hashMap.put("changeNumber", getChangeNumber());
-        hashMap.put("columnName", getColumnName());
-        hashMap.put("proposalNumber", getProposalNumber());
-        hashMap.put("changedValue", getChangedValue());
-        hashMap.put("comments", getComments());
-        hashMap.put("displayValue", getDisplayValue());
-        hashMap.put("oldDisplayValue", getOldDisplayValue());
-        return hashMap;
-    }
-    
 }

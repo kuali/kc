@@ -15,9 +15,6 @@
  */
 package org.kuali.kra.negotiations;
 
-import java.util.LinkedHashMap;
-
-import org.kuali.kra.negotiations.NegotiationAssociate;
 import org.kuali.kra.bo.KraPersistableBusinessObjectBase;
 import org.kuali.kra.negotiations.bo.Negotiation;
 
@@ -30,9 +27,11 @@ public class NegotiationAssociate extends KraPersistableBusinessObjectBase {
      * Comment for <code>serialVersionUID</code>
      */
     private static final long serialVersionUID = -3915267055124592134L;
-    
-    private String negotiationNumber; 
-    private Negotiation negotiation; 
+
+    private String negotiationNumber;
+
+    private Negotiation negotiation;
+
     /**
      * Gets the proposalNumber attribute. 
      * @return Returns the proposalNumber.
@@ -65,16 +64,6 @@ public class NegotiationAssociate extends KraPersistableBusinessObjectBase {
         this.negotiation = negotiation;
     }
 
-    
-    /** {@inheritDoc} */
-    @Override 
-    protected LinkedHashMap<String, Object> toStringMapper() {
-        LinkedHashMap<String, Object> hashMap = new LinkedHashMap<String, Object>();
-        hashMap.put("negotiationNumber", this.getNegotiationNumber());
-        hashMap.put("negotiation", this.getNegotiation());
-        return hashMap;
-    }
-
     /**
      * @see java.lang.Object#equals(java.lang.Object)
      */
@@ -99,5 +88,4 @@ public class NegotiationAssociate extends KraPersistableBusinessObjectBase {
         }
         return true;
     }
-    
 }

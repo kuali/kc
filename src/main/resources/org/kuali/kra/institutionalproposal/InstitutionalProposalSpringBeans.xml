@@ -37,7 +37,8 @@
                            http://www.springframework.org/schema/util/spring-util-2.5.xsd">
                            
     <bean id="institutionalProposalModuleConfiguration" parent="institutionalProposalModuleConfiguration-parentBean" />
-    <bean id="institutionalProposalModuleConfiguration-parentBean" class="org.kuali.rice.kns.bo.ModuleConfiguration" abstract="true">
+    <bean id="institutionalProposalModuleConfiguration-parentBean" class="org.kuali.rice.krad.bo.ModuleConfiguration" abstract="true">
+    	<property name="namespaceCode" value="KC-IP" />
 		<property name="initializeDataDictionary" value="true" />
 		<property name="databaseRepositoryFilePaths">
 			<list>
@@ -165,7 +166,7 @@
 	<bean id="proposalLogPiDerivedRoleTypeService"
 		class="org.kuali.kra.institutionalproposal.proposallog.service.impl.ProposalLogPiDerivedRoleTypeServiceImpl">
 	</bean>
-	<bean class="org.kuali.rice.ksb.messaging.KSBExporter">
+	<bean class="org.kuali.rice.ksb.api.bus.support.ServiceBusExporter">
 		<property name="serviceDefinition">
 			<bean parent="kcService" p:service-ref="proposalLogPiDerivedRoleTypeService"
 				p:localServiceName="proposalLogPiDerivedRoleTypeService" />

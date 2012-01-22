@@ -34,11 +34,10 @@ import org.kuali.kra.budget.parameters.BudgetPeriod;
 import org.kuali.kra.budget.personnel.BudgetPerson;
 import org.kuali.kra.budget.personnel.BudgetPersonnelDetails;
 import org.kuali.kra.budget.personnel.BudgetPersonnelRule;
-import org.kuali.rice.kns.service.BusinessObjectService;
-import org.kuali.rice.kns.service.KualiConfigurationService;
-import org.kuali.rice.kns.service.ParameterService;
-import org.kuali.rice.kns.util.ErrorMap;
-import org.kuali.rice.kns.util.GlobalVariables;
+import org.kuali.rice.coreservice.framework.parameter.ParameterService;
+import org.kuali.rice.krad.service.BusinessObjectService;
+import org.kuali.rice.krad.util.GlobalVariables;
+import org.kuali.rice.krad.util.MessageMap;
 
 /**
  * Tests the BudgetPersonnelRule class.
@@ -54,7 +53,7 @@ public class BudgetPersonnelRuleTest {
     
     @Before
     public void setupErrorMap() {
-        GlobalVariables.setErrorMap(new ErrorMap());
+        GlobalVariables.setMessageMap(new MessageMap());
     }
     
     /**
@@ -66,7 +65,7 @@ public class BudgetPersonnelRuleTest {
     }
     
     /**
-     * Test instantiating with null KualiConfigurationService.
+     * Test instantiating with null ConfigurationService.
      */
     @Test(expected = NullPointerException.class)
     public void testNullKualiConfigurationService() {
@@ -124,8 +123,8 @@ public class BudgetPersonnelRuleTest {
         rule.processCheckForJobCodeChange(doc, 1);
         
         context.assertIsSatisfied();
-        Assert.assertEquals(1, GlobalVariables.getErrorMap().size());
-        Assert.assertTrue(GlobalVariables.getErrorMap().containsKey("document.budgetPersons[0].jobCode"));
+        Assert.assertEquals(1, GlobalVariables.getMessageMap().getErrorMessages().size());
+        Assert.assertTrue(GlobalVariables.getMessageMap().getErrorMessages().containsKey("document.budgetPersons[0].jobCode"));
     }
     
     /**
@@ -151,7 +150,7 @@ public class BudgetPersonnelRuleTest {
         rule.processCheckForJobCodeChange(doc, 1);
         
         context.assertIsSatisfied();
-        Assert.assertEquals(0, GlobalVariables.getErrorMap().size());
+        Assert.assertEquals(0, GlobalVariables.getMessageMap().getErrorMessages().size());
     }
     
     /**

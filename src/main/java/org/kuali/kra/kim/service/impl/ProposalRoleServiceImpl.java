@@ -22,7 +22,7 @@ import org.apache.commons.lang.StringUtils;
 import org.kuali.kra.infrastructure.RoleConstants;
 import org.kuali.kra.kim.service.ProposalRoleService;
 import org.kuali.kra.service.SystemAuthorizationService;
-import org.kuali.rice.kim.bo.Role;
+import org.kuali.rice.kim.api.role.Role;
 
 public class ProposalRoleServiceImpl implements ProposalRoleService {
     private SystemAuthorizationService systemAuthorizationService;
@@ -50,9 +50,9 @@ public class ProposalRoleServiceImpl implements ProposalRoleService {
         List<Role> finalRoleList = new ArrayList<Role>();
         
         for (Role role : proposalRoles) {
-            if (isRoleUnassigned(role.getRoleName())) { 
+            if (isRoleUnassigned(role.getName())) { 
                 finalRoleList.add(role);
-            } else if (isStandardProposalRole(role.getRoleName())){
+            } else if (isStandardProposalRole(role.getName())){
                 finalRoleList.add(role);
             }
         }
@@ -61,7 +61,7 @@ public class ProposalRoleServiceImpl implements ProposalRoleService {
          * Now add in all of the other user-defined proposal roles.
          */
         for (Role role : proposalRoles) {
-            if (!isRoleUnassigned(role.getRoleName()) && !isStandardProposalRole(role.getRoleName())) {
+            if (!isRoleUnassigned(role.getName()) && !isStandardProposalRole(role.getName())) {
                 finalRoleList.add(role);
             }
         }

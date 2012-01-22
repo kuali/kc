@@ -57,7 +57,7 @@ public class InstitutionalProposalCustomDataTest {
      */
     @Test
     public void testAwardCostShareBoAttributesCount() throws Exception {              
-        Assert.assertEquals(INSTITUTIONAL_PROPOSAL_CUSTOM_DATA_ATTRIBUTES_COUNT, institutionalProposalCustomDataBo.toStringMapper().size());
+        Assert.assertEquals(INSTITUTIONAL_PROPOSAL_CUSTOM_DATA_ATTRIBUTES_COUNT, institutionalProposalCustomDataBo.getClass().getFields().length);
     }
     
 }

@@ -23,17 +23,17 @@ import java.util.Properties;
 import java.util.Map.Entry;
 
 import org.apache.commons.lang.StringUtils;
-import org.kuali.rice.kew.util.KEWConstants;
-import org.kuali.rice.kns.bo.BusinessObject;
-import org.kuali.rice.kns.document.Document;
+import org.kuali.rice.kew.api.KewApiConstants;
 import org.kuali.rice.kns.lookup.HtmlData;
 import org.kuali.rice.kns.lookup.KualiLookupableHelperServiceImpl;
 import org.kuali.rice.kns.lookup.HtmlData.AnchorHtmlData;
-import org.kuali.rice.kns.util.KNSConstants;
-import org.kuali.rice.kns.util.ObjectUtils;
-import org.kuali.rice.kns.util.UrlFactory;
 import org.kuali.rice.kns.web.struts.form.LookupForm;
 import org.kuali.rice.kns.web.ui.Field;
+import org.kuali.rice.krad.bo.BusinessObject;
+import org.kuali.rice.krad.document.Document;
+import org.kuali.rice.krad.util.KRADConstants;
+import org.kuali.rice.krad.util.ObjectUtils;
+import org.kuali.rice.krad.util.UrlFactory;
 
 public abstract class KraLookupableHelperServiceImpl extends KualiLookupableHelperServiceImpl {
 
@@ -42,7 +42,7 @@ public abstract class KraLookupableHelperServiceImpl extends KualiLookupableHelp
     protected static final String MEDUSA = "medusa";
     /**
      * create 'edit' link
-     * @see org.kuali.rice.kns.lookup.AbstractLookupableHelperServiceImpl#getCustomActionUrls(org.kuali.rice.kns.bo.BusinessObject, java.util.List)
+     * @see org.kuali.rice.kns.lookup.AbstractLookupableHelperServiceImpl#getCustomActionUrls(org.kuali.rice.krad.bo.BusinessObject, java.util.List)
      */
     @Override
     public List<HtmlData> getCustomActionUrls(BusinessObject businessObject, List pkNames) {
@@ -58,14 +58,14 @@ public abstract class KraLookupableHelperServiceImpl extends KualiLookupableHelp
      */
     protected void addEditHtmlData(List<HtmlData> htmlDataList, BusinessObject businessObject) {
         Properties parameters = new Properties();
-        parameters.put(KNSConstants.DISPATCH_REQUEST_PARAMETER, KNSConstants.DOC_HANDLER_METHOD);
-        parameters.put(KNSConstants.PARAMETER_COMMAND, KEWConstants.INITIATE_COMMAND);
-        parameters.put(KNSConstants.DOCUMENT_TYPE_NAME, getDocumentTypeName());
+        parameters.put(KRADConstants.DISPATCH_REQUEST_PARAMETER, KRADConstants.DOC_HANDLER_METHOD);
+        parameters.put(KRADConstants.PARAMETER_COMMAND, KewApiConstants.INITIATE_COMMAND);
+        parameters.put(KRADConstants.DOCUMENT_TYPE_NAME, getDocumentTypeName());
         parameters.put(getKeyFieldName(), ObjectUtils.getPropertyValue(businessObject, getKeyFieldName()).toString());
         String href = UrlFactory.parameterizeUrl("../"+getHtmlAction(), parameters);
         
         AnchorHtmlData anchorHtmlData = new AnchorHtmlData(href, 
-                KNSConstants.DOC_HANDLER_METHOD, KNSConstants.MAINTENANCE_EDIT_METHOD_TO_CALL);
+                KRADConstants.DOC_HANDLER_METHOD, KRADConstants.MAINTENANCE_EDIT_METHOD_TO_CALL);
         htmlDataList.add(anchorHtmlData);
     }
 
@@ -73,9 +73,9 @@ public abstract class KraLookupableHelperServiceImpl extends KualiLookupableHelp
         AnchorHtmlData htmlData = new AnchorHtmlData();
         htmlData.setDisplayText(VIEW);
         Properties parameters = new Properties();
-        parameters.put(KNSConstants.DISPATCH_REQUEST_PARAMETER, KNSConstants.DOC_HANDLER_METHOD);
-        parameters.put(KNSConstants.PARAMETER_COMMAND, KEWConstants.DOCSEARCH_COMMAND);
-        parameters.put(KNSConstants.DOCUMENT_TYPE_NAME, getDocumentTypeName());
+        parameters.put(KRADConstants.DISPATCH_REQUEST_PARAMETER, KRADConstants.DOC_HANDLER_METHOD);
+        parameters.put(KRADConstants.PARAMETER_COMMAND, KewApiConstants.DOCSEARCH_COMMAND);
+        parameters.put(KRADConstants.DOCUMENT_TYPE_NAME, getDocumentTypeName());
         parameters.put("viewDocument", "true");
         parameters.put("docId", document.getDocumentNumber());
         String href  = UrlFactory.parameterizeUrl("../"+getHtmlAction(), parameters);
@@ -89,9 +89,9 @@ public abstract class KraLookupableHelperServiceImpl extends KualiLookupableHelp
         AnchorHtmlData htmlData = new AnchorHtmlData();
         htmlData.setDisplayText(MEDUSA);
         Properties parameters = new Properties();
-        parameters.put(KNSConstants.DISPATCH_REQUEST_PARAMETER, "medusa");
-        parameters.put(KNSConstants.PARAMETER_COMMAND, KEWConstants.DOCSEARCH_COMMAND);
-        parameters.put(KNSConstants.DOCUMENT_TYPE_NAME, getDocumentTypeName());
+        parameters.put(KRADConstants.DISPATCH_REQUEST_PARAMETER, "medusa");
+        parameters.put(KRADConstants.PARAMETER_COMMAND, KewApiConstants.DOCSEARCH_COMMAND);
+        parameters.put(KRADConstants.DOCUMENT_TYPE_NAME, getDocumentTypeName());
         parameters.put("viewDocument", readOnly.toString());
         parameters.put("docId", document.getDocumentNumber());
         String href  = UrlFactory.parameterizeUrl("../"+getHtmlAction(), parameters);
@@ -112,9 +112,9 @@ public abstract class KraLookupableHelperServiceImpl extends KualiLookupableHelp
         AnchorHtmlData htmlData = new AnchorHtmlData();
         htmlData.setDisplayText(linkName);
         Properties parameters = new Properties();
-        parameters.put(KNSConstants.DISPATCH_REQUEST_PARAMETER, methodToCall);
-        parameters.put(KNSConstants.PARAMETER_COMMAND, KEWConstants.DOCSEARCH_COMMAND);
-        parameters.put(KNSConstants.DOCUMENT_TYPE_NAME, getDocumentTypeName());
+        parameters.put(KRADConstants.DISPATCH_REQUEST_PARAMETER, methodToCall);
+        parameters.put(KRADConstants.PARAMETER_COMMAND, KewApiConstants.DOCSEARCH_COMMAND);
+        parameters.put(KRADConstants.DOCUMENT_TYPE_NAME, getDocumentTypeName());
         parameters.put("viewDocument", readOnly.toString());
         parameters.put("docId", document.getDocumentNumber());
         String href  = UrlFactory.parameterizeUrl("../"+getHtmlAction(), parameters);
@@ -147,9 +147,9 @@ public abstract class KraLookupableHelperServiceImpl extends KualiLookupableHelp
 
         //need to set backlocation & docformkey here.  Otherwise, they are empty
         for (Entry<String,String> entry : fieldValues.entrySet()) {
-            if (entry.getKey().equals(KNSConstants.BACK_LOCATION)) {
+            if (entry.getKey().equals(KRADConstants.BACK_LOCATION)) {
                 setBackLocation(entry.getValue());
-            } else if (entry.getKey().equals(KNSConstants.DOC_FORM_KEY)) {
+            } else if (entry.getKey().equals(KRADConstants.DOC_FORM_KEY)) {
                 setDocFormKey(entry.getValue());
             }
         }

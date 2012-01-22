@@ -42,9 +42,7 @@
         
         <property name="webScriptFiles">
         <list>
-            <value>../dwr/interface/RolodexServiceRight.js</value>
-            <value>../scripts/jquery/jquery.js</value>
-            <value>../scripts/jqueryIncludes.js</value>
+            <value>../dwr/interface/RolodexService.js</value>
             <value>../scripts/jqLoadRolodex.js</value>       
         </list>
        </property>

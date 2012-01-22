@@ -23,10 +23,9 @@ import org.junit.Before;
 import org.junit.Test;
 import org.kuali.kra.budget.core.Budget;
 import org.kuali.kra.budget.distributionincome.BudgetProjectIncome;
-import org.kuali.kra.budget.document.BudgetDocument;
 import org.kuali.kra.budget.parameters.BudgetPeriod;
-import org.kuali.rice.kns.util.DateUtils;
-import org.kuali.rice.kns.util.KualiDecimal;
+import org.kuali.kra.util.DateUtils;
+import org.kuali.rice.core.api.util.type.KualiDecimal;
 
 public class BudgetProjectIncomeTest {
 

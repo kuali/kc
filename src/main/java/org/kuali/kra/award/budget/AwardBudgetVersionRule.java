@@ -19,25 +19,19 @@ import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
 
-import org.apache.commons.lang.StringUtils;
-import org.kuali.kra.award.budget.document.AwardBudgetDocument;
 import org.kuali.kra.award.document.AwardDocument;
 import org.kuali.kra.award.home.Award;
 import org.kuali.kra.award.home.AwardAmountInfo;
-import org.kuali.kra.budget.core.Budget;
 import org.kuali.kra.budget.versions.AddBudgetVersionEvent;
-import org.kuali.kra.budget.versions.BudgetDocumentVersion;
-import org.kuali.kra.budget.versions.BudgetVersionOverview;
 import org.kuali.kra.budget.versions.BudgetVersionRule;
-import org.kuali.kra.infrastructure.Constants;
 import org.kuali.kra.infrastructure.KeyConstants;
 import org.kuali.kra.infrastructure.KraServiceLocator;
 import org.kuali.kra.timeandmoney.document.TimeAndMoneyDocument;
-import org.kuali.rice.kew.exception.WorkflowException;
-import org.kuali.rice.kns.service.BusinessObjectService;
-import org.kuali.rice.kns.service.DocumentService;
-import org.kuali.rice.kns.service.ParameterService;
-import org.kuali.rice.kns.util.GlobalVariables;
+import org.kuali.rice.coreservice.framework.parameter.ParameterService;
+import org.kuali.rice.kew.api.exception.WorkflowException;
+import org.kuali.rice.krad.service.BusinessObjectService;
+import org.kuali.rice.krad.service.DocumentService;
+import org.kuali.rice.krad.util.GlobalVariables;
 
 public class AwardBudgetVersionRule extends BudgetVersionRule {
 
@@ -54,17 +48,17 @@ public class AwardBudgetVersionRule extends BudgetVersionRule {
         boolean success = true;
         Award award = ((AwardDocument) event.getDocument()).getAward();
         if(!award.getObligatedDistributableTotal().isPositive()){
-            GlobalVariables.getErrorMap().putError(event.getErrorPathPrefix(), 
+            GlobalVariables.getMessageMap().putError(event.getErrorPathPrefix(), 
                   KeyConstants.ERROR_BUDGET_OBLIGATED_AMOUNT_INVALID, "Name");
             success &= false;
         }
         if(award.getRequestedStartDateInitial() == null){
-            GlobalVariables.getErrorMap().putError(event.getErrorPathPrefix(), 
+            GlobalVariables.getMessageMap().putError(event.getErrorPathPrefix(), 
                     KeyConstants.ERROR_AWARD_BUDGET_START_DATE_MISSING);
             success &= false;
         }
         if(award.getRequestedEndDateInitial() == null){
-            GlobalVariables.getErrorMap().putError(event.getErrorPathPrefix(), 
+            GlobalVariables.getMessageMap().putError(event.getErrorPathPrefix(), 
                     KeyConstants.ERROR_AWARD_BUDGET_END_DATE_MISSING);
             success &= false;
         }
@@ -79,7 +73,7 @@ public class AwardBudgetVersionRule extends BudgetVersionRule {
             Award wfAward = 
                 ((AwardDocument) getDocumentService().getByDocumentHeaderId(award.getAwardDocument().getDocumentHeader().getDocumentNumber())).getAward();
             if (wfAward.getAwardDocument().getDocumentHeader().hasWorkflowDocument()) {
-                if (wfAward.getAwardDocument().getDocumentHeader().getWorkflowDocument().stateIsFinal()) {
+                if (wfAward.getAwardDocument().getDocumentHeader().getWorkflowDocument().isFinal()) {
                     anyAwardVersionFinal = true;
                     break;
                 }
@@ -104,13 +98,13 @@ public class AwardBudgetVersionRule extends BudgetVersionRule {
             TimeAndMoneyDocument timeAndMoneyDocument = 
                 (TimeAndMoneyDocument)getDocumentService().getByDocumentHeaderId(timeAndMoneyDocuments.get(0).getDocumentHeader().getDocumentNumber());
             if(timeAndMoneyDocument.getDocumentHeader().hasWorkflowDocument()) {
-                if(timeAndMoneyDocument.getDocumentHeader().getWorkflowDocument().stateIsFinal()) {
+                if(timeAndMoneyDocument.getDocumentHeader().getWorkflowDocument().isFinal()) {
                     anyTimeAndMoneyDocumentsFinal = true;
                 }
             }
         }
         if(!anyAwardVersionFinal && !anyTimeAndMoneyDocumentsFinal) {
-            GlobalVariables.getErrorMap().putError(event.getErrorPathPrefix(), KeyConstants.ERROR_AWARD_OR_MONEY_DOC_NOT_FINAL);
+            GlobalVariables.getMessageMap().putError(event.getErrorPathPrefix(), KeyConstants.ERROR_AWARD_OR_MONEY_DOC_NOT_FINAL);
             success &= false;
         }
         

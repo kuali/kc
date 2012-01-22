@@ -17,7 +17,6 @@ package org.kuali.kra.coi.personfinancialentity;
 
 import java.io.Serializable;
 import java.util.HashMap;
-import java.util.Iterator;
 import java.util.List;
 import java.util.Map;
 import java.util.TreeMap;
@@ -26,9 +25,9 @@ import org.apache.commons.lang.StringUtils;
 import org.kuali.kra.infrastructure.Constants;
 import org.kuali.kra.infrastructure.KraServiceLocator;
 import org.kuali.kra.lookup.keyvalue.ArgValueLookupValuesFinder;
-import org.kuali.rice.core.util.KeyLabelPair;
-import org.kuali.rice.kns.service.BusinessObjectService;
-import org.kuali.rice.kns.util.ObjectUtils;
+import org.kuali.rice.core.api.util.KeyValue;
+import org.kuali.rice.krad.service.BusinessObjectService;
+import org.kuali.rice.krad.util.ObjectUtils;
 
 
 public class FinancialEntitySummaryHelper implements Serializable {
@@ -387,13 +386,13 @@ public class FinancialEntitySummaryHelper implements Serializable {
     protected void initRanges() {
         ArgValueLookupValuesFinder finder = new  ArgValueLookupValuesFinder();
         finder.setArgName(remunerationRange);
-        List<KeyLabelPair> kv = finder.getKeyValues();
+        List<KeyValue> kv = finder.getKeyValues();
         
         int index = 0;
         String[] temp = new String[kv.size()];
-        for (KeyLabelPair pair : kv) {
-            if (!pair.getLabel().equalsIgnoreCase("select")) {
-                temp[index] = pair.getLabel();
+        for (KeyValue pair : kv) {
+            if (!pair.getValue().equalsIgnoreCase("select")) {
+                temp[index] = pair.getValue();
                 index++;
             }
         }
@@ -403,9 +402,9 @@ public class FinancialEntitySummaryHelper implements Serializable {
         kv = finder.getKeyValues();
         index = 0;
         String[] tempPercentage = new String[kv.size()];
-        for (KeyLabelPair pair : kv) {
-            if (!pair.getLabel().equalsIgnoreCase("select")) {
-                tempPercentage[index] = pair.getLabel();
+        for (KeyValue pair : kv) {
+            if (!pair.getValue().equalsIgnoreCase("select")) {
+                tempPercentage[index] = pair.getValue();
                 index++;
             }
         }

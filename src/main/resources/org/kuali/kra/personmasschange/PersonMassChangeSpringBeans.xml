@@ -37,7 +37,7 @@
                            http://www.springframework.org/schema/util/spring-util-2.5.xsd">
                            
     <bean id="personMassChangeModuleConfiguration" parent="personMassChangeModuleConfiguration-parentBean" />
-    <bean id="personMassChangeModuleConfiguration-parentBean" class="org.kuali.rice.kns.bo.ModuleConfiguration" abstract="true">
+    <bean id="personMassChangeModuleConfiguration-parentBean" class="org.kuali.rice.krad.bo.ModuleConfiguration" abstract="true">
         <property name="databaseRepositoryFilePaths">
             <list>
                 <value>org/kuali/kra/personmasschange/repository-personmasschange.xml</value>

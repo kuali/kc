@@ -35,7 +35,7 @@ import org.kuali.kra.award.AwardNumberServiceImpl;
 import org.kuali.kra.award.home.Award;
 import org.kuali.kra.dao.KraLookupDao;
 import org.kuali.kra.infrastructure.Constants;
-import org.kuali.rice.kns.service.SequenceAccessorService;
+import org.kuali.rice.krad.service.SequenceAccessorService;
 
 public class AwardNumberServiceTest {
     

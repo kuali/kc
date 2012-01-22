@@ -15,7 +15,6 @@
  */
 package org.kuali.kra.award.paymentreports.awardreports;
 
-import java.sql.Date;
 import java.util.ArrayList;
 import java.util.List;
 
@@ -23,8 +22,8 @@ import org.junit.After;
 import org.junit.Assert;
 import org.junit.Before;
 import org.junit.Test;
-import org.kuali.rice.kns.util.ErrorMap;
-import org.kuali.rice.kns.util.GlobalVariables;
+import org.kuali.rice.krad.util.GlobalVariables;
+import org.kuali.rice.krad.util.MessageMap;
 
 public class AwardReportTermRecipientRuleImplTest {
 
@@ -37,7 +36,7 @@ public class AwardReportTermRecipientRuleImplTest {
         awardReportTermRecipient = new AwardReportTermRecipient();
         awardReportTermRecipientRuleImpl = new AwardReportTermRecipientRuleImpl();
         awardReportTermRecipientItems = new ArrayList<AwardReportTermRecipient>();
-        GlobalVariables.setErrorMap(new ErrorMap());
+        GlobalVariables.setMessageMap(new MessageMap());
     }
 
     @After

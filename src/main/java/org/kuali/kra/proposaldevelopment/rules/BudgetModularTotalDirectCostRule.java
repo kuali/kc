@@ -28,14 +28,16 @@ import org.kuali.kra.budget.versions.BudgetDocumentVersion;
 import org.kuali.kra.budget.versions.BudgetVersionOverview;
 import org.kuali.kra.infrastructure.Constants;
 import org.kuali.kra.infrastructure.KeyConstants;
-import org.kuali.kra.infrastructure.KraServiceLocator;
 import org.kuali.kra.proposaldevelopment.budget.modular.BudgetModular;
 import org.kuali.kra.proposaldevelopment.document.ProposalDevelopmentDocument;
-import org.kuali.rice.kew.exception.WorkflowException;
-import org.kuali.rice.kns.service.DocumentService;
-import org.kuali.rice.kns.service.KualiConfigurationService;
-import org.kuali.rice.kns.service.ParameterService;
-import org.kuali.rice.kns.util.GlobalVariables;
+import org.kuali.rice.core.api.config.property.ConfigurationService;
+import org.kuali.rice.coreservice.framework.CoreFrameworkServiceLocator;
+import org.kuali.rice.coreservice.framework.parameter.ParameterService;
+import org.kuali.rice.kew.api.exception.WorkflowException;
+import org.kuali.rice.krad.service.DocumentService;
+import org.kuali.rice.krad.service.KRADServiceLocator;
+import org.kuali.rice.krad.service.KRADServiceLocatorWeb;
+import org.kuali.rice.krad.util.GlobalVariables;
 
 /**
  * This validates the Budget Modular's Total Direct Cost.
@@ -49,7 +51,7 @@ import org.kuali.rice.kns.util.GlobalVariables;
  * since it is a little different than the rest of KC.
  *
  * This class adds error messages directly to the
- * {@link GlobalVariables#getErrorMap() GlobalVariables.getErrorMap()}
+ * {@link GlobalVariables#getErrorMap() GlobalVariables.getMessageMap()}
  * Make sure to add to the error map's path before calling the validate method.
  *
  * Currently warning are generated and placed in a {@code Set<String>}.
@@ -62,14 +64,14 @@ import org.kuali.rice.kns.util.GlobalVariables;
 public final class BudgetModularTotalDirectCostRule {
 
     private final DocumentService documentService;
-    private final KualiConfigurationService configService;
+    private final ConfigurationService configService;
     private final ParameterService paramService;
     private final String budgetStatusCompleteCode;
     private final String tdcWarning;
 
     public BudgetModularTotalDirectCostRule() {
-        this(KraServiceLocator.getService(KualiConfigurationService.class), KraServiceLocator.getService(DocumentService.class),
-                KraServiceLocator.getService(ParameterService.class));
+        this(KRADServiceLocator.getKualiConfigurationService(), KRADServiceLocatorWeb.getDocumentService(),
+                CoreFrameworkServiceLocator.getParameterService());
     }
 
 
@@ -80,7 +82,7 @@ public final class BudgetModularTotalDirectCostRule {
      * @param documentService the document service
      * @throws NullPointerException if the configService or documentService service is null
      */
-    BudgetModularTotalDirectCostRule(final KualiConfigurationService configService,
+    BudgetModularTotalDirectCostRule(final ConfigurationService configService,
         final DocumentService documentService, final ParameterService paramService) {
 
         if (configService == null) {
@@ -99,11 +101,11 @@ public final class BudgetModularTotalDirectCostRule {
         this.configService = configService;
         this.paramService = paramService;
 
-        this.budgetStatusCompleteCode = this.paramService.getParameterValue(
+        this.budgetStatusCompleteCode = this.paramService.getParameterValueAsString(
             BudgetDocument.class,
             Constants.BUDGET_STATUS_COMPLETE_CODE);
 
-        this.tdcWarning = this.configService.getPropertyString(
+        this.tdcWarning = this.configService.getPropertyValueAsString(
             KeyConstants.WARNING_BUDGET_VERSION_MODULAR_INVALID_TDC);
     }
 
@@ -219,7 +221,7 @@ public final class BudgetModularTotalDirectCostRule {
                 }
             }
             if (positiveCount == 0 && reportErrors) {
-                GlobalVariables.getErrorMap().putError("budgetVersionOverview[" + currentIndex + "].budgetStatus",
+                GlobalVariables.getMessageMap().putError("budgetVersionOverview[" + currentIndex + "].budgetStatus",
                     KeyConstants.ERROR_BUDGET_STATUS_COMPLETE_WHEN_NOT_MODULER);
                 return false;
             }

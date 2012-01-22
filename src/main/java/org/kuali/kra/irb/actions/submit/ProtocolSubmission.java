@@ -17,7 +17,6 @@ package org.kuali.kra.irb.actions.submit;
 
 import java.sql.Date;
 import java.util.ArrayList;
-import java.util.LinkedHashMap;
 import java.util.List;
 
 import org.apache.commons.lang.StringUtils;
@@ -36,73 +35,93 @@ import org.kuali.kra.meeting.ProtocolVoteRecused;
  * 
  * This class tracks the data associated with the submisison of a protocol for review.
  */
-public class ProtocolSubmission extends ProtocolAssociate { 
+public class ProtocolSubmission extends ProtocolAssociate {
 
     private static final long serialVersionUID = 2158830045312905591L;
-    
+
     private Long submissionId;
-    private Integer submissionNumber; 
-    private String scheduleId; 
-    private String committeeId; 
+
+    private Integer submissionNumber;
+
+    private String scheduleId;
+
+    private String committeeId;
+
     private Long committeeIdFk;
+
     private Long scheduleIdFk;
+
     private String submissionTypeCode;
+
     private String submissionTypeQualifierCode;
+
     private String submissionStatusCode;
+
     private String protocolReviewTypeCode;
-    private Date submissionDate; 
+
+    private Date submissionDate;
+
     private String comments;
+
     private String committeeDecisionMotionTypeCode;
-    private Integer yesVoteCount; 
-    private Integer noVoteCount; 
-    //these two are here just for persistence to work, fields get recorded to the db, but in code, they are always calculated.
+
+    private Integer yesVoteCount;
+
+    private Integer noVoteCount;
+
+    //these two are here just for persistence to work, fields get recorded to the db, but in code, they are always calculated.  
     private Integer recusedCount;
+
     private Integer abstainerCount;
-    
-    private String votingComments; 
-    
-    private Boolean billable; 
-    
+
+    private String votingComments;
+
+    private Boolean billable;
+
     private List<ProtocolExemptStudiesCheckListItem> exemptStudiesCheckList = new ArrayList<ProtocolExemptStudiesCheckListItem>();
+
     private List<ProtocolExpeditedReviewCheckListItem> expeditedReviewCheckList = new ArrayList<ProtocolExpeditedReviewCheckListItem>();
-    
+
     @SkipVersioning
     private transient List<ProtocolOnlineReview> protocolOnlineReviews;
-    
+
     private ProtocolSubmissionType protocolSubmissionType;
+
     private ProtocolSubmissionQualifierType protocolSubmissionQualifierType;
-    
+
     private CommitteeDecisionMotionType committeeDecisionMotionType;
-    
+
     private List<ProtocolVoteAbstainee> abstainers = new ArrayList<ProtocolVoteAbstainee>();
+
     private List<ProtocolVoteRecused> recusers = new ArrayList<ProtocolVoteRecused>();
-    
+
     @SkipVersioning
-    transient private CommitteeSchedule committeeSchedule;
-    
+    private transient CommitteeSchedule committeeSchedule;
+
     @SkipVersioning
     private transient List<CommitteeScheduleMinute> committeeScheduleMinutes;
+
     @SkipVersioning
     private transient List<ProtocolReviewAttachment> reviewAttachments;
-    
+
     private ProtocolReviewType protocolReviewType;
-    
+
     @SkipVersioning
-    transient private Committee committee;
-    private ProtocolSubmissionStatus submissionStatus;    
-    
-    
-    // lookup field
-    private String piName; 
-    
+    private transient Committee committee;
+
+    private ProtocolSubmissionStatus submissionStatus;
+
+    // lookup field  
+    private String piName;
+
     /**
      * 
      * Constructs a ProtocolSubmission.java.
      */
-    public ProtocolSubmission() { 
+    public ProtocolSubmission() {
         this.billable = false;
     }
-    
+
     public Integer getRecusedCount() {
         this.refreshReferenceObject("recusers");
         if (this.recusers == null) {
@@ -131,16 +150,15 @@ public class ProtocolSubmission extends ProtocolAssociate {
     public void setRecusers(List<ProtocolVoteRecused> recusers) {
         this.recusers = recusers;
     }
-     
-    
+
     public Long getSubmissionId() {
         return submissionId;
     }
-    
+
     public void setSubmissionId(Long submissionId) {
         this.submissionId = submissionId;
     }
-    
+
     public Integer getSubmissionNumber() {
         return submissionNumber;
     }
@@ -160,27 +178,27 @@ public class ProtocolSubmission extends ProtocolAssociate {
     public String getCommitteeId() {
         return committeeId;
     }
-    
+
     public void setCommitteeId(String committeeId) {
         this.committeeId = committeeId;
     }
-    
+
     public Long getCommitteeIdFk() {
         return committeeIdFk;
     }
-    
+
     public void setCommitteeIdFk(Long committeeIdFk) {
         this.committeeIdFk = committeeIdFk;
     }
-    
+
     public Long getScheduleIdFk() {
         return scheduleIdFk;
     }
-    
+
     public void setScheduleIdFk(Long scheduleIdFk) {
         this.scheduleIdFk = scheduleIdFk;
     }
-    
+
     public String getSubmissionTypeCode() {
         return submissionTypeCode;
     }
@@ -200,7 +218,7 @@ public class ProtocolSubmission extends ProtocolAssociate {
     public String getSubmissionStatusCode() {
         return submissionStatusCode;
     }
-    
+
     /**
      * 
      * This method set the submission status code.
@@ -238,11 +256,11 @@ public class ProtocolSubmission extends ProtocolAssociate {
     public void setComments(String comments) {
         this.comments = comments;
     }
-    
+
     public String getCommitteeDecisionMotionTypeCode() {
         return committeeDecisionMotionTypeCode;
     }
-    
+
     public void setCommitteeDecisionMotionTypeCode(String committeeDecisionMotionTypeCode) {
         this.committeeDecisionMotionTypeCode = committeeDecisionMotionTypeCode;
     }
@@ -283,7 +301,7 @@ public class ProtocolSubmission extends ProtocolAssociate {
     public void setVotingComments(String votingComments) {
         this.votingComments = votingComments;
     }
-    
+
     public void setExemptStudiesCheckList(List<ProtocolExemptStudiesCheckListItem> exemptStudiesCheckList) {
         this.exemptStudiesCheckList = exemptStudiesCheckList;
     }
@@ -291,7 +309,7 @@ public class ProtocolSubmission extends ProtocolAssociate {
     public List<ProtocolExemptStudiesCheckListItem> getExemptStudiesCheckList() {
         return exemptStudiesCheckList;
     }
-    
+
     public void setExpeditedReviewCheckList(List<ProtocolExpeditedReviewCheckListItem> expeditedReviewCheckList) {
         this.expeditedReviewCheckList = expeditedReviewCheckList;
     }
@@ -318,7 +336,7 @@ public class ProtocolSubmission extends ProtocolAssociate {
     public void setProtocolOnlineReviews(List<ProtocolOnlineReview> protocolOnlineReviews) {
         this.protocolOnlineReviews = protocolOnlineReviews;
     }
-    
+
     public ProtocolReviewType getProtocolReviewType() {
         return protocolReviewType;
     }
@@ -326,10 +344,9 @@ public class ProtocolSubmission extends ProtocolAssociate {
     public void setProtocolReviewType(ProtocolReviewType protocolReviewType) {
         this.protocolReviewType = protocolReviewType;
     }
-    
+
     public List<ProtocolReviewer> getProtocolReviewers() {
         List<ProtocolReviewer> reviewers = new ArrayList<ProtocolReviewer>();
-        
         List<ProtocolOnlineReview> reviews = getProtocolOnlineReviews();
         if (reviews != null) {
             for (ProtocolOnlineReview review : reviews) {
@@ -338,10 +355,9 @@ public class ProtocolSubmission extends ProtocolAssociate {
                 }
             }
         }
-        
         return reviewers;
     }
-    
+
     /**
      * 
      * This method returns the committee object.
@@ -387,11 +403,11 @@ public class ProtocolSubmission extends ProtocolAssociate {
     public ProtocolSubmissionQualifierType getProtocolSubmissionQualifierType() {
         return protocolSubmissionQualifierType;
     }
-    
+
     public void setCommitteeDecisionMotionType(CommitteeDecisionMotionType committeeDecisionMotionType) {
         this.committeeDecisionMotionType = committeeDecisionMotionType;
     }
-    
+
     public CommitteeDecisionMotionType getCommitteeDecisionMotionType() {
         return committeeDecisionMotionType;
     }
@@ -399,7 +415,7 @@ public class ProtocolSubmission extends ProtocolAssociate {
     public void setCommitteeSchedule(CommitteeSchedule committeeSchedule) {
         this.committeeSchedule = committeeSchedule;
     }
-    
+
     /**
      * 
      * This method returns the committee schedule.
@@ -411,63 +427,30 @@ public class ProtocolSubmission extends ProtocolAssociate {
         }
         return committeeSchedule;
     }
-    
+
     public List<CommitteeScheduleMinute> getCommitteeScheduleMinutes() {
         refreshReferenceObject("committeeScheduleMinutes");
         return committeeScheduleMinutes;
     }
-    
+
     public void setCommitteeScheduleMinutes(List<CommitteeScheduleMinute> committeeScheduleMinutes) {
         this.committeeScheduleMinutes = committeeScheduleMinutes;
     }
 
-    /** {@inheritDoc} */
-    @Override 
-    protected LinkedHashMap<String, Object> toStringMapper() {
-        LinkedHashMap<String, Object> hashMap = new LinkedHashMap<String, Object>();
-        hashMap.put("submissionId", getSubmissionId());
-        hashMap.put("submissionNumber", this.getSubmissionNumber());
-        hashMap.put("protocolNumber", this.getProtocolNumber());
-        hashMap.put("sequenceNumber", this.getSequenceNumber());
-        hashMap.put("scheduleId", this.getScheduleId());
-        hashMap.put("committeeId", this.getCommitteeId());
-        hashMap.put("protocolId", getProtocolId());
-        hashMap.put("comitteeIdFk", getCommitteeIdFk());
-        hashMap.put("scheduleIdFk", getScheduleIdFk());
-        hashMap.put("submissionTypeCode", getSubmissionTypeCode());
-        hashMap.put("submissionTypeQualifierCode", getSubmissionTypeQualifierCode());
-        hashMap.put("submissionStatusCode", getSubmissionStatusCode());
-        hashMap.put("protocolReviewTypeCode", getProtocolReviewTypeCode());
-        hashMap.put("submissionDate", this.getSubmissionDate());
-        hashMap.put("committeeDecisionMotionTypeCode", this.getCommitteeDecisionMotionTypeCode());
-        hashMap.put("comments", this.getComments());
-        hashMap.put("yesVoteCount", this.getYesVoteCount());
-        hashMap.put("noVoteCount", this.getNoVoteCount());
-        hashMap.put("abstainerCount", this.getAbstainerCount());
-        hashMap.put("votingComments", this.getVotingComments());
-        hashMap.put("exemptStudiesCheckList", getExemptStudiesCheckList());
-        hashMap.put("expeditedReviewCheckList", getExpeditedReviewCheckList());
-        hashMap.put("isBillable", isBillable());
-        return hashMap;
-    }
-    
     /**
      * 
      * @see org.kuali.kra.Sequenceable#resetPersistenceState()
      */
     public void resetPersistenceState() {
         submissionId = null;
-//        committeeIdFk = null;
-//        scheduleIdFk = null;
     }
-    
+
     @Override
     public List buildListOfDeletionAwareLists() {
         List managedLists = super.buildListOfDeletionAwareLists();
         managedLists.add(protocolOnlineReviews);
         return managedLists;
     }
-
 
     public String getPiName() {
         return getProtocol().getPrincipalInvestigator().getPersonName();
@@ -476,7 +459,7 @@ public class ProtocolSubmission extends ProtocolAssociate {
     public void setPiName(String piName) {
         this.piName = piName;
     }
-    
+
     /**
      * This method returns true if this submission has the same submission id as the passed in submission id.
      * @param o a ProtocolSubmission object to compare for equality
@@ -485,14 +468,14 @@ public class ProtocolSubmission extends ProtocolAssociate {
     @Override
     public boolean equals(Object o) {
         ProtocolSubmission ps = (ProtocolSubmission) o;
-        try{
+        try {
             return this.getSubmissionId().equals(ps.getSubmissionId());
         } catch (Exception e) {
-            //an NPE would happen if the submission IDs aren't set.
+            //an NPE would happen if the submission IDs aren't set.  
             return false;
         }
     }
-    
+
     public boolean isBillable() {
         return billable == null ? false : billable;
     }

@@ -74,7 +74,7 @@
 				<ref bean="DevelopmentProposal-hierarchyStatus" />
 				<ref bean="DevelopmentProposal-hierarchyStatusName" />
 				<ref bean="DevelopmentProposal-principalInvestigatorName" />
-				<ref bean="DevelopmentProposal-proposalPersons.fullName" />
+				<!-- <ref bean="DevelopmentProposal-proposalPersons.fullName" /> -->
 				<ref bean="DevelopmentProposal-proposalDocument.documentNumber" />
 				<ref bean="DevelopmentProposal-budgetStatus" />
 			</list>
@@ -288,19 +288,12 @@
 
 	<bean id="DevelopmentProposal-proposalType.description" parent="DevelopmentProposal-proposalType.description-parentBean" />
 	<bean id="DevelopmentProposal-proposalType.description-parentBean"
-		abstract="true" parent="AttributeDefinition">
+		abstract="true" parent="ProposalType-description">
 		<property name="name" value="proposalType.description" />
 		<property name="forceUppercase" value="false" />
 		<property name="label" value="Proposal Type" />
 		<property name="shortLabel" value="Proposal Type" />
-		<property name="maxLength" value="3" />
-		<property name="validationPattern">
-			<bean parent="AlphaNumericValidationPattern" />
-		</property>
-		<property name="required" value="true" />
-		<property name="control">
-			<bean parent="TextControlDefinition" p:size="20" />
-		</property>
+		<property name="required" value="false" />
 		<property name="summary" value="The Types that the Proposal Could be." />
 		<property name="description" value="The type of the proposal." />
 	</bean>
@@ -715,7 +708,7 @@
 		<property name="forceUppercase" value="false" />
 		<property name="label" value="Proposal State" />
 		<property name="shortLabel" value="Proposal State" />
-		<property name="maxLength" value="1" />
+		<property name="maxLength" value="200" />
 		<property name="validationPattern">
 			<bean parent="AlphaNumericValidationPattern" />
 		</property>
@@ -798,6 +791,7 @@
 		<property name="description" value="Hierarchy Status" />
 	</bean>
 
+	<!-- 
   	<bean id="DevelopmentProposal-proposalPersons.fullName" parent="DevelopmentProposal-proposalPersons.fullName-parentBean" />
 	<bean id="DevelopmentProposal-proposalPersons.fullName-parentBean" abstract="true" parent="AttributeDefinition" >
 		<property name="name" value="proposalPersons.fullName" />
@@ -814,7 +808,8 @@
 		<property name="summary" value="Proposal Person" />
 		<property name="description" value="Proposal Person" />
 	</bean>
-	
+	 -->
+	 
   	<bean id="DevelopmentProposal-principalInvestigatorName" parent="DevelopmentProposal-principalInvestigatorName-parentBean" />
 	<bean id="DevelopmentProposal-principalInvestigatorName-parentBean" abstract="true" parent="AttributeDefinition" >
 		<property name="name" value="principalInvestigatorName" />
@@ -874,7 +869,7 @@
 				<bean parent="FieldDefinition" p:attributeName="proposalTypeCode" />
 				<bean parent="FieldDefinition" p:attributeName="proposalStateTypeCode" />
 				<bean parent="FieldDefinition" p:attributeName="title" />
-				<bean parent="FieldDefinition" p:attributeName="proposalPersons.fullName" />
+				<!-- <bean parent="FieldDefinition" p:attributeName="proposalPersons.fullName" /> -->
 				<bean parent="FieldDefinition" p:attributeName="deadlineDate" />
 				<bean parent="FieldDefinition" p:attributeName="sponsorCode" />
 				<bean parent="FieldDefinition" p:attributeName="sponsor.sponsorName" />

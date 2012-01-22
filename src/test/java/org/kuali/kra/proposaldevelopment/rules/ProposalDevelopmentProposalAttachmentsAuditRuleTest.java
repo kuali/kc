@@ -24,7 +24,7 @@ import org.kuali.kra.proposaldevelopment.bo.DevelopmentProposal;
 import org.kuali.kra.proposaldevelopment.bo.Narrative;
 import org.kuali.kra.proposaldevelopment.document.ProposalDevelopmentDocument;
 import org.kuali.rice.kns.util.AuditCluster;
-import org.kuali.rice.kns.util.GlobalVariables;
+import org.kuali.rice.kns.util.KNSGlobalVariables;
 
 public class ProposalDevelopmentProposalAttachmentsAuditRuleTest extends ProposalDevelopmentRuleTestBase {
     
@@ -55,11 +55,11 @@ public class ProposalDevelopmentProposalAttachmentsAuditRuleTest extends Proposa
     public void testIncompleteAttachments() {
         developmentProposal.getNarratives().add(narrativeComplete);
         assertTrue(rule.checkForIncompleteAttachments(developmentProposal));
-        assertTrue(GlobalVariables.getAuditErrorMap().get(AUDIT_CLUSTER_KEY) == null);
+        assertTrue(KNSGlobalVariables.getAuditErrorMap().get(AUDIT_CLUSTER_KEY) == null);
         
         developmentProposal.getNarratives().add(narrativeIncomplete);
         assertFalse(rule.checkForIncompleteAttachments(developmentProposal));
-        assertFalse(((AuditCluster) GlobalVariables.getAuditErrorMap().get(AUDIT_CLUSTER_KEY)).getAuditErrorList().isEmpty());        
+        assertFalse(((AuditCluster) KNSGlobalVariables.getAuditErrorMap().get(AUDIT_CLUSTER_KEY)).getAuditErrorList().isEmpty());        
     }
 
 }

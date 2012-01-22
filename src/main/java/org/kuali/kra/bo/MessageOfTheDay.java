@@ -15,8 +15,6 @@
  */
 package org.kuali.kra.bo;
 
-import java.util.LinkedHashMap;
-
 
 /**
  * This class is Business Object representation of a comment type.
@@ -24,74 +22,47 @@ import java.util.LinkedHashMap;
 public class MessageOfTheDay extends KraPersistableBusinessObjectBase {
 
     private Long messageOfTheDayId;
+
     private String message;
+
     private boolean active;
+
     private Long displayOrder;
-    
+
     /**
      * Comment for <code>serialVersionUID</code>
      */
     private static final long serialVersionUID = 5649376154094364142L;
 
-
-
     public Long getMessageOfTheDayId() {
         return messageOfTheDayId;
     }
-
-
 
     public void setMessageOfTheDayId(Long messageOfTheDayId) {
         this.messageOfTheDayId = messageOfTheDayId;
     }
 
-
-
     public String getMessage() {
         return message;
     }
-
-
 
     public void setMessage(String message) {
         this.message = message;
     }
 
-
-
     public boolean isActive() {
         return active;
     }
-
-
 
     public void setActive(boolean active) {
         this.active = active;
     }
 
-
-
     public Long getDisplayOrder() {
         return displayOrder;
     }
 
-
-
     public void setDisplayOrder(Long displayOrder) {
         this.displayOrder = displayOrder;
     }
-
-
-
-    @Override
-    @SuppressWarnings("unchecked")
-    protected LinkedHashMap toStringMapper() {
-        LinkedHashMap<String,Object> hashMap = new LinkedHashMap<String,Object>();
-        hashMap.put("messageOfTheDayId", getMessageOfTheDayId() );
-        hashMap.put("message", getMessage() );
-        return hashMap;
-    }
-  
-    
-
 }

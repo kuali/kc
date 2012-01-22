@@ -16,19 +16,18 @@
 package org.kuali.kra.institutionalproposal.proposallog;
 
 import org.kuali.kra.bo.KraPersistableBusinessObjectBase;
-import java.util.LinkedHashMap;
 
-public class ProposalLogStatus extends KraPersistableBusinessObjectBase { 
-    
+public class ProposalLogStatus extends KraPersistableBusinessObjectBase {
+
     private static final long serialVersionUID = 1L;
 
-    private String proposalLogStatusCode; 
-    private String description; 
-    
-    public ProposalLogStatus() { 
+    private String proposalLogStatusCode;
 
-    } 
-    
+    private String description;
+
+    public ProposalLogStatus() {
+    }
+
     public String getProposalLogStatusCode() {
         return proposalLogStatusCode;
     }
@@ -44,14 +43,4 @@ public class ProposalLogStatus extends KraPersistableBusinessObjectBase {
     public void setDescription(String description) {
         this.description = description;
     }
-
-    /** {@inheritDoc} */
-    @Override 
-    protected LinkedHashMap<String, Object> toStringMapper() {
-        LinkedHashMap<String, Object> hashMap = new LinkedHashMap<String, Object>();
-        hashMap.put("proposalLogStatusCode", this.getProposalLogStatusCode());
-        hashMap.put("description", this.getDescription());
-        return hashMap;
-    }
-    
 }

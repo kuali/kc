@@ -1,10 +1,10 @@
 package org.kuali.kra.award;
 
-import org.kuali.kra.award.home.Award;
-
 import java.sql.Date;
 import java.util.Calendar;
 import java.util.GregorianCalendar;
+
+import org.kuali.kra.award.home.Award;
 
 /**
  * Factory class for Award test fixtures
