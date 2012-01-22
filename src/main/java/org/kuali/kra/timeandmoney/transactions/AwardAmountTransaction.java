@@ -17,26 +17,30 @@ package org.kuali.kra.timeandmoney.transactions;
 
 import java.io.Serializable;
 import java.sql.Date;
-import java.util.LinkedHashMap;
 
 import org.kuali.kra.bo.KraPersistableBusinessObjectBase;
 
-public class AwardAmountTransaction extends KraPersistableBusinessObjectBase implements Serializable{ 
-    
+public class AwardAmountTransaction extends KraPersistableBusinessObjectBase implements Serializable {
+
     private static final long serialVersionUID = 1L;
 
-    private Long awardAmountTransactionId; 
-    private String awardNumber; 
-    private String documentNumber; 
-    private Integer transactionTypeCode; 
-    private Date noticeDate; 
-    private String comments;
-    private AwardTransactionType awardTransactionType;
-    
-    public AwardAmountTransaction() { 
+    private Long awardAmountTransactionId;
 
-    } 
-    
+    private String awardNumber;
+
+    private String documentNumber;
+
+    private Integer transactionTypeCode;
+
+    private Date noticeDate;
+
+    private String comments;
+
+    private AwardTransactionType awardTransactionType;
+
+    public AwardAmountTransaction() {
+    }
+
     public Long getAwardAmountTransactionId() {
         return awardAmountTransactionId;
     }
@@ -85,19 +89,6 @@ public class AwardAmountTransaction extends KraPersistableBusinessObjectBase imp
         this.comments = comments;
     }
 
-    /** {@inheritDoc} */
-    @Override 
-    protected LinkedHashMap<String, Object> toStringMapper() {
-        LinkedHashMap<String, Object> hashMap = new LinkedHashMap<String, Object>();
-        hashMap.put("awardAmountTransactionId", this.getAwardAmountTransactionId());
-        hashMap.put("awardNumber", this.getAwardNumber());
-        hashMap.put("documentNumber", this.getDocumentNumber());
-        hashMap.put("transactionTypeCode", this.getTransactionTypeCode());
-        hashMap.put("noticeDate", this.getNoticeDate());
-        hashMap.put("comments", this.getComments());
-        return hashMap;
-    }
-
     /**
      * Gets the awardTransactionType attribute. 
      * @return Returns the awardTransactionType.
@@ -113,5 +104,4 @@ public class AwardAmountTransaction extends KraPersistableBusinessObjectBase imp
     public void setAwardTransactionType(AwardTransactionType awardTransactionType) {
         this.awardTransactionType = awardTransactionType;
     }
-    
 }

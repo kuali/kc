@@ -43,7 +43,7 @@ import org.kuali.kra.committee.web.struts.form.schedule.ScheduleData;
 import org.kuali.kra.infrastructure.Constants;
 import org.kuali.kra.infrastructure.KraServiceLocator;
 import org.kuali.rice.kns.question.ConfirmationQuestion;
-import org.kuali.rice.kns.util.KNSConstants;
+import org.kuali.rice.krad.util.KRADConstants;
 
 public class CommitteeScheduleAction extends CommitteeAction {
     
@@ -134,16 +134,16 @@ public class CommitteeScheduleAction extends CommitteeAction {
             HttpServletResponse response) throws Exception {
 
         CommitteeForm committeeForm = (CommitteeForm) form;
-        Object question = request.getParameter(KNSConstants.QUESTION_INST_ATTRIBUTE_NAME);
+        Object question = request.getParameter(KRADConstants.QUESTION_INST_ATTRIBUTE_NAME);
         String methodToCall = committeeForm.getMethodToCall();
         if (question == null) {
             if (applyRules(new DeleteCommitteeScheduleEvent(Constants.EMPTY_STRING, committeeForm.getDocument(), null, committeeForm.getCommitteeDocument().getCommittee().getCommitteeSchedules(),
                 ErrorType.HARDERROR))) {
                 return performQuestionWithoutInput(mapping, form, request, response, DELETE_QUESTION_ID, DELETE_QUESTION,
-                        KNSConstants.CONFIRMATION_QUESTION, methodToCall, "");
+                        KRADConstants.CONFIRMATION_QUESTION, methodToCall, "");
             }
         } else {
-            Object buttonClicked = request.getParameter(KNSConstants.QUESTION_CLICKED_BUTTON);
+            Object buttonClicked = request.getParameter(KRADConstants.QUESTION_CLICKED_BUTTON);
             if ((DELETE_QUESTION_ID.equals(question)) && ConfirmationQuestion.YES.equals(buttonClicked)) {
 
                 List<CommitteeSchedule> list = committeeForm.getCommitteeDocument().getCommittee().getCommitteeSchedules();

@@ -17,7 +17,6 @@ package org.kuali.kra.irb.actions.amendrenew;
 
 import java.sql.Date;
 import java.util.ArrayList;
-import java.util.LinkedHashMap;
 import java.util.List;
 
 import org.apache.commons.lang.StringUtils;
@@ -25,26 +24,32 @@ import org.kuali.kra.SequenceAssociate;
 import org.kuali.kra.bo.KraPersistableBusinessObjectBase;
 import org.kuali.kra.irb.Protocol;
 
-public class ProtocolAmendRenewal extends KraPersistableBusinessObjectBase implements SequenceAssociate<Protocol>{ 
-    
+public class ProtocolAmendRenewal extends KraPersistableBusinessObjectBase implements SequenceAssociate<Protocol> {
+
     private static final long serialVersionUID = 1317253368511551232L;
 
-    private Long id; 
-    private String protoAmendRenNumber; 
-    private Date dateCreated; 
-    private String summary; 
-    private Long protocolId; 
-    private String protocolNumber; 
-    private Integer sequenceNumber; 
+    private Long id;
+
+    private String protoAmendRenNumber;
+
+    private Date dateCreated;
+
+    private String summary;
+
+    private Long protocolId;
+
+    private String protocolNumber;
+
+    private Integer sequenceNumber;
 
     private List<ProtocolAmendRenewModule> modules;
-    
+
     private Protocol protocol;
-    
-    public ProtocolAmendRenewal() { 
+
+    public ProtocolAmendRenewal() {
         modules = new ArrayList<ProtocolAmendRenewModule>();
-    } 
-    
+    }
+
     public Long getId() {
         return id;
     }
@@ -100,19 +105,19 @@ public class ProtocolAmendRenewal extends KraPersistableBusinessObjectBase imple
     public void setSequenceNumber(Integer sequenceNumber) {
         this.sequenceNumber = sequenceNumber;
     }
-    
+
     public List<ProtocolAmendRenewModule> getModules() {
         return modules;
     }
-    
+
     public void setModules(List<ProtocolAmendRenewModule> modules) {
         this.modules = modules;
     }
-    
+
     public void addModule(ProtocolAmendRenewModule module) {
         modules.add(module);
     }
-    
+
     public void removeModule(String protocolModuleTypeCode) {
         for (ProtocolAmendRenewModule module : modules) {
             if (StringUtils.equals(protocolModuleTypeCode, module.getProtocolModuleTypeCode())) {
@@ -132,7 +137,7 @@ public class ProtocolAmendRenewal extends KraPersistableBusinessObjectBase imple
                 return true;
             }
         }
-        return false; 
+        return false;
     }
 
     public Protocol getProtocol() {
@@ -144,32 +149,16 @@ public class ProtocolAmendRenewal extends KraPersistableBusinessObjectBase imple
     }
 
     /** {@inheritDoc} */
-    @Override 
-    protected LinkedHashMap<String, Object> toStringMapper() {
-        LinkedHashMap<String, Object> hashMap = new LinkedHashMap<String, Object>();
-        hashMap.put("id", this.getId());
-        hashMap.put("protoAmendRenNumber", this.getProtoAmendRenNumber());
-        hashMap.put("dateCreated", this.getDateCreated());
-        hashMap.put("summary", this.getSummary());
-        hashMap.put("protocolId", this.getProtocolId());
-        hashMap.put("protocolNumber", this.getProtocolNumber());
-        hashMap.put("sequenceNumber", this.getSequenceNumber());
-        return hashMap;
-    }
-
-    /** {@inheritDoc} */
     public Protocol getSequenceOwner() {
         return this.getProtocol();
     }
 
     /** {@inheritDoc} */
     public void setSequenceOwner(Protocol newlyVersionedOwner) {
-        this.setProtocol(newlyVersionedOwner);   
+        this.setProtocol(newlyVersionedOwner);
     }
 
     public void resetPersistenceState() {
         this.setId(null);
-        
     }
-
 }

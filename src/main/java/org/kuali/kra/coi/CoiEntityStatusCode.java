@@ -15,22 +15,19 @@
  */
 package org.kuali.kra.coi;
 
-import java.util.LinkedHashMap;
-
 import org.kuali.kra.bo.KraPersistableBusinessObjectBase;
 
-public class CoiEntityStatusCode extends KraPersistableBusinessObjectBase { 
-    
+public class CoiEntityStatusCode extends KraPersistableBusinessObjectBase {
+
     private static final long serialVersionUID = 1L;
 
-    private String entityStatusCode; 
-    private String description; 
-    
-    
-    public CoiEntityStatusCode() { 
+    private String entityStatusCode;
 
-    } 
-    
+    private String description;
+
+    public CoiEntityStatusCode() {
+    }
+
     public String getEntityStatusCode() {
         return entityStatusCode;
     }
@@ -46,14 +43,4 @@ public class CoiEntityStatusCode extends KraPersistableBusinessObjectBase {
     public void setDescription(String description) {
         this.description = description;
     }
-
-    /** {@inheritDoc} */
-    @Override 
-    protected LinkedHashMap<String, Object> toStringMapper() {
-        LinkedHashMap<String, Object> hashMap = new LinkedHashMap<String, Object>();
-        hashMap.put("entityStatusCode", this.getEntityStatusCode());
-        hashMap.put("description", this.getDescription());
-        return hashMap;
-    }
-    
 }

@@ -16,6 +16,7 @@
 package org.kuali.kra.service.impl;
 
 import java.util.ArrayList;
+import java.util.Collections;
 import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
@@ -26,10 +27,8 @@ import org.kuali.kra.award.home.AwardService;
 import org.kuali.kra.bo.CommentType;
 import org.kuali.kra.infrastructure.KraServiceLocator;
 import org.kuali.kra.service.AwardCommentService;
-import org.kuali.rice.kns.service.BusinessObjectService;
+import org.kuali.rice.krad.service.BusinessObjectService;
 import org.springframework.transaction.annotation.Transactional;
-
-import java.util.Collections;
 
 /**
  * Service class for Award Comments on Comments, Notes & Attachments tab.

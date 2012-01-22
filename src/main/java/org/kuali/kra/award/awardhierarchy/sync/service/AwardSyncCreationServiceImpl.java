@@ -22,15 +22,15 @@ import java.util.Map;
 
 import org.apache.commons.lang.ObjectUtils;
 import org.apache.commons.lang.StringUtils;
-import org.kuali.kra.award.awardhierarchy.sync.AwardSyncPendingChangeBean;
 import org.kuali.kra.award.awardhierarchy.sync.AwardSyncChange;
+import org.kuali.kra.award.awardhierarchy.sync.AwardSyncPendingChangeBean;
 import org.kuali.kra.award.awardhierarchy.sync.AwardSyncType;
 import org.kuali.kra.award.awardhierarchy.sync.AwardSyncXmlExport;
 import org.kuali.kra.award.awardhierarchy.sync.helpers.AwardSyncHelper;
 import org.kuali.kra.award.home.Award;
-import org.kuali.rice.kns.bo.PersistableBusinessObject;
-import org.kuali.rice.kns.service.BusinessObjectService;
-import org.kuali.rice.kns.service.XmlObjectSerializerService;
+import org.kuali.rice.krad.bo.PersistableBusinessObject;
+import org.kuali.rice.krad.service.BusinessObjectService;
+import org.kuali.rice.krad.service.XmlObjectSerializerService;
 
 /**
  * Class to build award hierarchy descendant sync objects.
@@ -42,7 +42,7 @@ public class AwardSyncCreationServiceImpl implements AwardSyncCreationService {
     private BusinessObjectService businessObjectService;
     
     /**
-     * @see org.kuali.kra.award.awardhierarchy.sync.service.AwardSyncService#createAwardSyncChange(org.kuali.kra.award.awardhierarchy.sync.AwardSyncType, org.kuali.rice.kns.bo.BusinessObject, java.lang.String, java.lang.String)
+     * @see org.kuali.kra.award.awardhierarchy.sync.service.AwardSyncService#createAwardSyncChange(org.kuali.kra.award.awardhierarchy.sync.AwardSyncType, org.kuali.rice.krad.bo.BusinessObject, java.lang.String, java.lang.String)
      */
     public AwardSyncChange createAwardSyncChange(AwardSyncPendingChangeBean pendingChange) 
         throws NoSuchFieldException, IntrospectionException, IllegalAccessException, InvocationTargetException {
@@ -54,7 +54,7 @@ public class AwardSyncCreationServiceImpl implements AwardSyncCreationService {
     }
     
     /**
-     * @see org.kuali.kra.award.awardhierarchy.sync.service.AwardSyncService#addAwardSyncChange(org.kuali.kra.award.home.Award, org.kuali.kra.award.awardhierarchy.sync.AwardSyncType, org.kuali.rice.kns.bo.BusinessObject, java.lang.String, java.lang.String)
+     * @see org.kuali.kra.award.awardhierarchy.sync.service.AwardSyncService#addAwardSyncChange(org.kuali.kra.award.home.Award, org.kuali.kra.award.awardhierarchy.sync.AwardSyncType, org.kuali.rice.krad.bo.BusinessObject, java.lang.String, java.lang.String)
      */
     public void addAwardSyncChange(Award award, AwardSyncPendingChangeBean pendingChange) throws Exception {
         AwardSyncChange syncChange = createAwardSyncChange(pendingChange);

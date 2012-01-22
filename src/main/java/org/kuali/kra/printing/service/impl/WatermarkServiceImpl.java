@@ -160,6 +160,7 @@ public class WatermarkServiceImpl implements WatermarkService {
         PdfReader pdfReader = watermarkPdfStamper.getReader();
         int pageCount = pdfReader.getNumberOfPages();
         int pdfPageNumber = 0;
+
         PdfContentByte pdfContents;
         Rectangle rectangle;
         while (pdfPageNumber < pageCount) {
@@ -236,7 +237,7 @@ public class WatermarkServiceImpl implements WatermarkService {
      * @param PdfReader
      
      */
-    
+
     private void watermarkPageDocument(Document document,PdfWriter writer,PdfReader reader){
         document.open();
         int totalPages;

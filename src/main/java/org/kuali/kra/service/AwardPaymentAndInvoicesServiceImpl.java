@@ -22,8 +22,9 @@ import org.kuali.kra.award.home.AwardBasisOfPayment;
 import org.kuali.kra.award.home.AwardMethodOfPayment;
 import org.kuali.kra.award.home.ValidAwardBasisPayment;
 import org.kuali.kra.award.home.ValidBasisMethodPayment;
-import org.kuali.rice.core.util.KeyLabelPair;
-import org.kuali.rice.kns.service.BusinessObjectService;
+import org.kuali.rice.core.api.util.ConcreteKeyValue;
+import org.kuali.rice.core.api.util.KeyValue;
+import org.kuali.rice.krad.service.BusinessObjectService;
 
 
 public class AwardPaymentAndInvoicesServiceImpl implements AwardPaymentAndInvoicesService {
@@ -46,29 +47,29 @@ public class AwardPaymentAndInvoicesServiceImpl implements AwardPaymentAndInvoic
      * @see org.kuali.kra.service.AwardPaymentAndInvoicesService#getEncodedValidAwardBasisPaymentsByAwardTypeCode(java.lang.Integer)
      */
     public String getEncodedValidAwardBasisPaymentsByAwardTypeCode(Integer awardTypeCode) {
-        List<KeyLabelPair> results = new ArrayList<KeyLabelPair>();
-        results.add(new KeyLabelPair("","select"));
+        List<KeyValue> results = new ArrayList<KeyValue>();
+        results.add(new ConcreteKeyValue("","select"));
         List<ValidAwardBasisPayment> found = getValidAwardBasisPaymentsByAwardTypeCode(awardTypeCode);
         for( ValidAwardBasisPayment current : found ) {
             current.refresh();
-            results.add(new KeyLabelPair( current.getBasisOfPaymentCode(), current.getBasisOfPayment().getDescription() ));
+            results.add(new ConcreteKeyValue( current.getBasisOfPaymentCode(), current.getBasisOfPayment().getDescription() ));
         }
         
-        return processKeyLabelPairList(results);
+        return processKeyValueList(results);
     }
 
     /**
      * @see org.kuali.kra.service.AwardPaymentAndInvoicesService#getEncodedValidBasisMethodPaymentsByBasisCode(java.lang.String)
      */
     public String getEncodedValidBasisMethodPaymentsByBasisCode(String basisOfPaymentCode) {
-        List<KeyLabelPair> results = new ArrayList<KeyLabelPair>();
-        results.add(new KeyLabelPair("","select"));
+        List<KeyValue> results = new ArrayList<KeyValue>();
+        results.add(new ConcreteKeyValue("","select"));
         List<ValidBasisMethodPayment> found = getValidBasisMethodPaymentByBasisCode(basisOfPaymentCode);
         for( ValidBasisMethodPayment current : found ) {
             current.refresh();
-            results.add(new KeyLabelPair( current.getMethodOfPaymentCode(), current.getMethodOfPayment().getDescription() ));
+            results.add(new ConcreteKeyValue( current.getMethodOfPaymentCode(), current.getMethodOfPayment().getDescription() ));
         }
-        return processKeyLabelPairList(results);
+        return processKeyValueList(results);
     }
     
 
@@ -136,29 +137,29 @@ public class AwardPaymentAndInvoicesServiceImpl implements AwardPaymentAndInvoic
     
     /**
      * 
-     * This method processes a list of KeyLabelPair and converts them to a string separated
+     * This method processes a list of KeyValue and converts them to a string separated
      * by semi-colons and comas.
      * This is used in both getFrequencyCodes and getFrequencyBaseCodes services.
      *  
-     * @param keyLabelPairList
+     * @param KeyValueList
      * @return
      */
-    protected String processKeyLabelPairList(List<KeyLabelPair> keyLabelPairList){
+    protected String processKeyValueList(List<KeyValue> KeyValueList){
         
         StringBuilder strBuilder = new StringBuilder();
         
-        int lastElementIndex = keyLabelPairList.size()-1;
+        int lastElementIndex = KeyValueList.size()-1;
         
         for(int i = 0; i < lastElementIndex; i++){
-            strBuilder.append(keyLabelPairList.get(i).key);
+            strBuilder.append(KeyValueList.get(i).getKey());
             strBuilder.append(SEMICOLON_AS_DELIMITOR);
-            strBuilder.append(keyLabelPairList.get(i).label);
+            strBuilder.append(KeyValueList.get(i).getValue());
             strBuilder.append(COMMA_AS_DELIMITOR);
         }
         
-        strBuilder.append(keyLabelPairList.get(lastElementIndex).key);
+        strBuilder.append(KeyValueList.get(lastElementIndex).getKey());
         strBuilder.append(SEMICOLON_AS_DELIMITOR);
-        strBuilder.append(keyLabelPairList.get(lastElementIndex).label);
+        strBuilder.append(KeyValueList.get(lastElementIndex).getValue());
         
         return strBuilder.toString();
     }

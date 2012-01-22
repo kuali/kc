@@ -16,116 +16,108 @@
 package org.kuali.kra.bo;
 
 import java.sql.Date;
-import java.util.LinkedHashMap;
 import java.util.List;
 
-import org.kuali.rice.kns.util.TypedArrayList;
+import org.springframework.util.AutoPopulatingList;
 
 public class Ynq extends KraSortablePersistableBusinessObjectBase {
 
-	private String questionId;
-	private String dateRequiredFor;
-	private String description;
-	private Date effectiveDate;
-	private String explanationRequiredFor;
-	private String groupName;
-	private Integer noOfAnswers;
-	private String questionType;
-	private String status;
+    private String questionId;
+
+    private String dateRequiredFor;
+
+    private String description;
+
+    private Date effectiveDate;
+
+    private String explanationRequiredFor;
+
+    private String groupName;
+
+    private Integer noOfAnswers;
+
+    private String questionType;
+
+    private String status;
+
     private List<YnqExplanation> ynqExplanations;
 
-	public Ynq(){
-		super();
-		ynqExplanations = new TypedArrayList(YnqExplanation.class);
-	}
+    public Ynq() {
+        super();
+        ynqExplanations = new AutoPopulatingList<YnqExplanation>(YnqExplanation.class);
+    }
 
-	public String getQuestionId() {
-		return questionId;
-	}
+    public String getQuestionId() {
+        return questionId;
+    }
 
-	public void setQuestionId(String questionId) {
-		this.questionId = questionId;
-	}
+    public void setQuestionId(String questionId) {
+        this.questionId = questionId;
+    }
 
-	public String getDateRequiredFor() {
-		return dateRequiredFor;
-	}
+    public String getDateRequiredFor() {
+        return dateRequiredFor;
+    }
 
-	public void setDateRequiredFor(String dateRequiredFor) {
-		this.dateRequiredFor = dateRequiredFor;
-	}
+    public void setDateRequiredFor(String dateRequiredFor) {
+        this.dateRequiredFor = dateRequiredFor;
+    }
 
-	public String getDescription() {
-		return description;
-	}
+    public String getDescription() {
+        return description;
+    }
 
-	public void setDescription(String description) {
-		this.description = description;
-	}
+    public void setDescription(String description) {
+        this.description = description;
+    }
 
-	public Date getEffectiveDate() {
-		return effectiveDate;
-	}
+    public Date getEffectiveDate() {
+        return effectiveDate;
+    }
 
-	public void setEffectiveDate(Date effectiveDate) {
-		this.effectiveDate = effectiveDate;
-	}
+    public void setEffectiveDate(Date effectiveDate) {
+        this.effectiveDate = effectiveDate;
+    }
 
-	public String getExplanationRequiredFor() {
-		return explanationRequiredFor;
-	}
+    public String getExplanationRequiredFor() {
+        return explanationRequiredFor;
+    }
 
-	public void setExplanationRequiredFor(String explanationRequiredFor) {
-		this.explanationRequiredFor = explanationRequiredFor;
-	}
+    public void setExplanationRequiredFor(String explanationRequiredFor) {
+        this.explanationRequiredFor = explanationRequiredFor;
+    }
 
-	public String getGroupName() {
-		return groupName;
-	}
+    public String getGroupName() {
+        return groupName;
+    }
 
-	public void setGroupName(String groupName) {
-		this.groupName = groupName;
-	}
+    public void setGroupName(String groupName) {
+        this.groupName = groupName;
+    }
 
-	public Integer getNoOfAnswers() {
-		return noOfAnswers;
-	}
+    public Integer getNoOfAnswers() {
+        return noOfAnswers;
+    }
 
-	public void setNoOfAnswers(Integer noOfAnswers) {
-		this.noOfAnswers = noOfAnswers;
-	}
+    public void setNoOfAnswers(Integer noOfAnswers) {
+        this.noOfAnswers = noOfAnswers;
+    }
 
-	public String getQuestionType() {
-		return questionType;
-	}
+    public String getQuestionType() {
+        return questionType;
+    }
 
-	public void setQuestionType(String questionType) {
-		this.questionType = questionType;
-	}
+    public void setQuestionType(String questionType) {
+        this.questionType = questionType;
+    }
 
-	public String getStatus() {
-		return status;
-	}
+    public String getStatus() {
+        return status;
+    }
 
-	public void setStatus(String status) {
-		this.status = status;
-	}
-
-
-	@Override 
-	protected LinkedHashMap toStringMapper() {
-		LinkedHashMap hashMap = new LinkedHashMap();
-		hashMap.put("questionId", getQuestionId());
-		hashMap.put("dateRequiredFor", getDateRequiredFor());
-		hashMap.put("description", getDescription());
-		hashMap.put("effectiveDate", getEffectiveDate());
-		hashMap.put("explanationRequiredFor", getExplanationRequiredFor());
-		hashMap.put("groupName", getGroupName());
-		hashMap.put("noOfAnswers", getNoOfAnswers());
-		hashMap.put("questionType", getQuestionType());
-		hashMap.put("status", getStatus());
-		return hashMap;
-	}
+    public void setStatus(String status) {
+        this.status = status;
+    }
 
     public List<YnqExplanation> getYnqExplanations() {
         return ynqExplanations;
@@ -134,6 +126,4 @@ public class Ynq extends KraSortablePersistableBusinessObjectBase {
     public void setYnqExplanations(List<YnqExplanation> ynqExplanations) {
         this.ynqExplanations = ynqExplanations;
     }
-
-  
 }

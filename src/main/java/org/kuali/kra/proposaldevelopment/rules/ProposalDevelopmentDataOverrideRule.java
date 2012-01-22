@@ -33,12 +33,13 @@ import org.kuali.kra.proposaldevelopment.rule.event.ProposalDataOverrideEvent;
 import org.kuali.kra.proposaldevelopment.service.ProposalDevelopmentService;
 import org.kuali.kra.rules.ResearchDocumentRuleBase;
 import org.kuali.kra.service.KraPersistenceStructureService;
-import org.kuali.rice.kns.datadictionary.validation.ValidationPattern;
+import org.kuali.rice.core.api.CoreApiServiceLocator;
+import org.kuali.rice.core.api.datetime.DateTimeService;
+import org.kuali.rice.core.api.util.RiceKeyConstants;
 import org.kuali.rice.kns.service.DataDictionaryService;
-import org.kuali.rice.kns.service.DateTimeService;
 import org.kuali.rice.kns.service.KNSServiceLocator;
-import org.kuali.rice.kns.util.GlobalVariables;
-import org.kuali.rice.kns.util.RiceKeyConstants;
+import org.kuali.rice.krad.datadictionary.validation.ValidationPattern;
+import org.kuali.rice.krad.util.GlobalVariables;
 
 /**
  * Business Rule to determine if it valid for the user to oevrride the
@@ -59,7 +60,7 @@ public class ProposalDevelopmentDataOverrideRule extends ResearchDocumentRuleBas
     public boolean processProposalDataOverrideRules(ProposalDataOverrideEvent proposalDataOverrideEvent) {
         ProposalChangedData proposalOverriddenData = proposalDataOverrideEvent.getProposalChangedData();
         boolean valid = true;
-        DataDictionaryService dataDictionaryService = KNSServiceLocator.getDataDictionaryService();
+        DataDictionaryService dataDictionaryService = (DataDictionaryService) KNSServiceLocator.getDataDictionaryService();
         
         String overriddenValue = proposalOverriddenData.getChangedValue();
         KraPersistenceStructureService kraPersistenceStructureService = KraServiceLocator.getService(KraPersistenceStructureService.class);
@@ -69,7 +70,7 @@ public class ProposalDevelopmentDataOverrideRule extends ResearchDocumentRuleBas
         
         if (StringUtils.isEmpty(proposalOverriddenData.getColumnName())) {
             valid = false;
-            GlobalVariables.getErrorMap().putError("newProposalChangedData.columnName", KeyConstants.ERROR_NO_FIELD_TO_EDIT);
+            GlobalVariables.getMessageMap().putError("newProposalChangedData.columnName", KeyConstants.ERROR_NO_FIELD_TO_EDIT);
         }
         
         if(proposalOverriddenData != null && StringUtils.isNotEmpty(proposalOverriddenData.getChangedValue())) {
@@ -78,7 +79,7 @@ public class ProposalDevelopmentDataOverrideRule extends ResearchDocumentRuleBas
         
         if (isRequiredField && StringUtils.isEmpty(overriddenValue)){
             valid = false;
-            GlobalVariables.getErrorMap().putError("newProposalChangedData.changedValue", RiceKeyConstants.ERROR_REQUIRED, overriddenName);
+            GlobalVariables.getMessageMap().putError("newProposalChangedData.changedValue", RiceKeyConstants.ERROR_REQUIRED, overriddenName);
         }
         
         
@@ -86,7 +87,7 @@ public class ProposalDevelopmentDataOverrideRule extends ResearchDocumentRuleBas
             int commentsMaxLength = dataDictionaryService.getAttributeMaxLength(ProposalChangedData.class, "comments");
             String commentsLabel = dataDictionaryService.getAttributeLabel(ProposalChangedData.class, "comments");
             if (commentsMaxLength < proposalOverriddenData.getComments().length()) {
-                GlobalVariables.getErrorMap().putError(Constants.PROPOSALDATA_COMMENTS_KEY, RiceKeyConstants.ERROR_MAX_LENGTH,
+                GlobalVariables.getMessageMap().putError(Constants.PROPOSALDATA_COMMENTS_KEY, RiceKeyConstants.ERROR_MAX_LENGTH,
                         new String[] { commentsLabel, commentsMaxLength+""});
                 return false;
             }
@@ -104,7 +105,7 @@ public class ProposalDevelopmentDataOverrideRule extends ResearchDocumentRuleBas
      */
     private boolean validateAttributeFormat(ProposalChangedData proposalOverriddenData, DataDictionaryService dataDictionaryService) {
         ProposalDevelopmentService proposalDevelopmentService = KraServiceLocator.getService(ProposalDevelopmentService.class);
-        DateTimeService dateTimeService = KNSServiceLocator.getDateTimeService();
+        DateTimeService dateTimeService = CoreApiServiceLocator.getDateTimeService();
         
         String overriddenValue = proposalOverriddenData.getChangedValue();
         String changedValueLabel = dataDictionaryService.getAttributeLabel(ProposalChangedData.class, "changedValue");
@@ -125,7 +126,7 @@ public class ProposalDevelopmentDataOverrideRule extends ResearchDocumentRuleBas
                 dateTimeService.convertToDate(overriddenValue);
             }
             catch (ParseException e) {
-                GlobalVariables.getErrorMap().putError(Constants.PROPOSALDATA_CHANGED_VAL_KEY, RiceKeyConstants.ERROR_INVALID_FORMAT,
+                GlobalVariables.getMessageMap().putError(Constants.PROPOSALDATA_CHANGED_VAL_KEY, RiceKeyConstants.ERROR_INVALID_FORMAT,
                         new String[] { changedValueLabel, overriddenValue });
                 return false;
             }
@@ -150,7 +151,7 @@ public class ProposalDevelopmentDataOverrideRule extends ResearchDocumentRuleBas
                 Pattern validationExpression = validationPattern.getRegexPattern();
                 if (validationExpression != null && !validationExpression.pattern().equals(".*")) {
                     if (!validationExpression.matcher(overriddenValue).matches()) {
-                        GlobalVariables.getErrorMap().putError(Constants.PROPOSALDATA_CHANGED_VAL_KEY, RiceKeyConstants.ERROR_INVALID_FORMAT,
+                        GlobalVariables.getMessageMap().putError(Constants.PROPOSALDATA_CHANGED_VAL_KEY, RiceKeyConstants.ERROR_INVALID_FORMAT,
                                 new String[] { changedValueLabel, overriddenValue });
                         return false;
                     }
@@ -159,7 +160,7 @@ public class ProposalDevelopmentDataOverrideRule extends ResearchDocumentRuleBas
         }
         
         if ((maxLength != null) && (maxLength.intValue() < overriddenValue.length())) {
-            GlobalVariables.getErrorMap().putError(Constants.PROPOSALDATA_CHANGED_VAL_KEY, RiceKeyConstants.ERROR_MAX_LENGTH,
+            GlobalVariables.getMessageMap().putError(Constants.PROPOSALDATA_CHANGED_VAL_KEY, RiceKeyConstants.ERROR_MAX_LENGTH,
                     new String[] { changedValueLabel, maxLength.toString() });
             return false;
         }
@@ -171,7 +172,7 @@ public class ProposalDevelopmentDataOverrideRule extends ResearchDocumentRuleBas
         }
         
         if(StringUtils.isNotEmpty(currentValueStr) && currentValueStr.equalsIgnoreCase(overriddenValue)) {
-            GlobalVariables.getErrorMap().putError(Constants.PROPOSALDATA_CHANGED_VAL_KEY, KeyConstants.PROPOSAL_DATA_OVERRIDE_SAME_VALUE, 
+            GlobalVariables.getMessageMap().putError(Constants.PROPOSALDATA_CHANGED_VAL_KEY, KeyConstants.PROPOSAL_DATA_OVERRIDE_SAME_VALUE, 
                     new String[] { proposalOverriddenData.getEditableColumn().getColumnLabel(), (proposalOverriddenData.getDisplayValue() != null) ? proposalOverriddenData.getDisplayValue() : overriddenValue});
             return false;
         }

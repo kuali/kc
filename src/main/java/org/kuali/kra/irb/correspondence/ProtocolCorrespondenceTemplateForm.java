@@ -21,10 +21,10 @@ import java.util.List;
 
 import javax.servlet.http.HttpServletRequest;
 
-import org.kuali.rice.kns.service.KNSServiceLocator;
-import org.kuali.rice.kns.service.LookupService;
 import org.kuali.rice.kns.util.ActionFormUtilMap;
 import org.kuali.rice.kns.web.struts.form.KualiForm;
+import org.kuali.rice.krad.service.KRADServiceLocatorWeb;
+import org.kuali.rice.krad.service.LookupService;
 
 /**
  * 
@@ -106,7 +106,7 @@ public class ProtocolCorrespondenceTemplateForm extends KualiForm {
      */
     @SuppressWarnings("unchecked")
     private List<ProtocolCorrespondenceType> initCorrespondenceTypes() {
-        LookupService lookupService = KNSServiceLocator.getLookupService();
+        LookupService lookupService = KRADServiceLocatorWeb.getLookupService();
         return (List<ProtocolCorrespondenceType>) lookupService.findCollectionBySearchUnbounded(ProtocolCorrespondenceType.class, new HashMap());
     }
 

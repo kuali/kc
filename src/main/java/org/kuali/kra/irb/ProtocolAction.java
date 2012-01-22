@@ -53,16 +53,17 @@ import org.kuali.kra.service.KraAuthorizationService;
 import org.kuali.kra.service.UnitAclLoadService;
 import org.kuali.kra.web.struts.action.AuditActionHelper;
 import org.kuali.kra.web.struts.action.KraTransactionalDocumentActionBase;
-import org.kuali.rice.kew.util.KEWConstants;
-import org.kuali.rice.kns.bo.BusinessObject;
-import org.kuali.rice.kns.document.Document;
+import org.kuali.rice.kew.api.KewApiConstants;
 import org.kuali.rice.kns.lookup.LookupResultsService;
-import org.kuali.rice.kns.rule.event.KualiDocumentEvent;
-import org.kuali.rice.kns.service.KNSServiceLocator;
-import org.kuali.rice.kns.service.KualiRuleService;
-import org.kuali.rice.kns.util.GlobalVariables;
-import org.kuali.rice.kns.util.KNSConstants;
+import org.kuali.rice.kns.util.KNSGlobalVariables;
 import org.kuali.rice.kns.web.struts.form.KualiDocumentFormBase;
+import org.kuali.rice.krad.bo.BusinessObject;
+import org.kuali.rice.krad.document.Document;
+import org.kuali.rice.krad.rules.rule.event.KualiDocumentEvent;
+import org.kuali.rice.krad.service.KRADServiceLocatorWeb;
+import org.kuali.rice.krad.service.KualiRuleService;
+import org.kuali.rice.krad.util.GlobalVariables;
+import org.kuali.rice.krad.util.KRADConstants;
 import org.springframework.util.CollectionUtils;
 
 /**
@@ -83,7 +84,7 @@ public abstract class ProtocolAction extends KraTransactionalDocumentActionBase 
     public ActionForward execute(ActionMapping mapping, ActionForm form, HttpServletRequest request, HttpServletResponse response)
             throws Exception {
         final ActionForward forward = super.execute(mapping, form, request, response);
-        if(GlobalVariables.getAuditErrorMap().isEmpty()) {
+        if(KNSGlobalVariables.getAuditErrorMap().isEmpty()) {
             new AuditActionHelper().auditConditionally((ProtocolForm) form);
         }
         
@@ -146,7 +147,7 @@ public abstract class ProtocolAction extends KraTransactionalDocumentActionBase 
     }
 
     protected String getSubmitActionType(HttpServletRequest request) {
-        String parameterName = (String) request.getAttribute(KNSConstants.METHOD_TO_CALL_ATTRIBUTE);
+        String parameterName = (String) request.getAttribute(KRADConstants.METHOD_TO_CALL_ATTRIBUTE);
         String actionTypeCode = "";
         if (StringUtils.isNotBlank(parameterName)) {
             actionTypeCode = StringUtils.substringBetween(parameterName, ".actionType", ".");
@@ -186,11 +187,11 @@ public abstract class ProtocolAction extends KraTransactionalDocumentActionBase 
         // for protocol lookup copy link - rice 1.1 need this
         ProtocolForm protocolForm = (ProtocolForm) form;
         String command = request.getParameter("command");
-        if (KEWConstants.DOCSEARCH_COMMAND.equals(command)) {
-            String docIdRequestParameter = request.getParameter(KNSConstants.PARAMETER_DOC_ID);
-            Document retrievedDocument = KNSServiceLocator.getDocumentService().getByDocumentHeaderId(docIdRequestParameter);
+        if (KewApiConstants.DOCSEARCH_COMMAND.equals(command)) {
+            String docIdRequestParameter = request.getParameter(KRADConstants.PARAMETER_DOC_ID);
+            Document retrievedDocument = KRADServiceLocatorWeb.getDocumentService().getByDocumentHeaderId(docIdRequestParameter);
             protocolForm.setDocument(retrievedDocument);
-            request.setAttribute(KNSConstants.PARAMETER_DOC_ID, docIdRequestParameter);        
+            request.setAttribute(KRADConstants.PARAMETER_DOC_ID, docIdRequestParameter);        
        }
         // make sure current submission is displayed when navigate to action page.
         protocolForm.getActionHelper().setCurrentSubmissionNumber(-1);
@@ -224,7 +225,7 @@ public abstract class ProtocolAction extends KraTransactionalDocumentActionBase 
                 actionForward = super.save(mapping, form, request, response);
                 this.postSave(mapping, form, request, response);
                 
-                if (KNSConstants.SAVE_METHOD.equals(protocolForm.getMethodToCall()) && protocolForm.isAuditActivated() 
+                if (KRADConstants.SAVE_METHOD.equals(protocolForm.getMethodToCall()) && protocolForm.isAuditActivated() 
                         && GlobalVariables.getMessageMap().hasNoErrors()) {
                     actionForward = mapping.findForward("protocolActions");
                 }
@@ -359,32 +360,32 @@ public abstract class ProtocolAction extends KraTransactionalDocumentActionBase 
         String command = protocolForm.getCommand();
         String detailId;
        
-        if (command.startsWith(KEWConstants.DOCSEARCH_COMMAND+"detailId")) {
-            detailId = command.substring((KEWConstants.DOCSEARCH_COMMAND+"detailId").length());
+        if (command.startsWith(KewApiConstants.DOCSEARCH_COMMAND+"detailId")) {
+            detailId = command.substring((KewApiConstants.DOCSEARCH_COMMAND+"detailId").length());
             protocolForm.setDetailId(detailId);
             viewBatchCorrespondence(mapping, protocolForm, request, response);
             return RESPONSE_ALREADY_HANDLED;
-//            protocolForm.setCommand(KEWConstants.DOCSEARCH_COMMAND);
-//            command = KEWConstants.DOCSEARCH_COMMAND;
+//            protocolForm.setCommand(KewApiConstants.DOCSEARCH_COMMAND);
+//            command = KewApiConstants.DOCSEARCH_COMMAND;
         }
-        if (KEWConstants.ACTIONLIST_INLINE_COMMAND.equals(command)) {
-            String docIdRequestParameter = request.getParameter(KNSConstants.PARAMETER_DOC_ID);
-            Document retrievedDocument = KNSServiceLocator.getDocumentService().getByDocumentHeaderId(docIdRequestParameter);
+        if (KewApiConstants.ACTIONLIST_INLINE_COMMAND.equals(command)) {
+            String docIdRequestParameter = request.getParameter(KRADConstants.PARAMETER_DOC_ID);
+            Document retrievedDocument = KRADServiceLocatorWeb.getDocumentService().getByDocumentHeaderId(docIdRequestParameter);
             protocolForm.setDocument(retrievedDocument);
-            request.setAttribute(KNSConstants.PARAMETER_DOC_ID, docIdRequestParameter);
+            request.setAttribute(KRADConstants.PARAMETER_DOC_ID, docIdRequestParameter);
             forward = mapping.findForward(Constants.MAPPING_COPY_PROPOSAL_PAGE);
-            forward = new ActionForward(forward.getPath()+ "?" + KNSConstants.PARAMETER_DOC_ID + "=" + docIdRequestParameter);  
+            forward = new ActionForward(forward.getPath()+ "?" + KRADConstants.PARAMETER_DOC_ID + "=" + docIdRequestParameter);  
         } else if (Constants.MAPPING_PROTOCOL_ACTIONS.equals(command) || Constants.MAPPING_PROTOCOL_ONLINE_REVIEW.equals(command)) {
-            String docIdRequestParameter = request.getParameter(KNSConstants.PARAMETER_DOC_ID);
-            Document retrievedDocument = KNSServiceLocator.getDocumentService().getByDocumentHeaderId(docIdRequestParameter);
+            String docIdRequestParameter = request.getParameter(KRADConstants.PARAMETER_DOC_ID);
+            Document retrievedDocument = KRADServiceLocatorWeb.getDocumentService().getByDocumentHeaderId(docIdRequestParameter);
             protocolForm.setDocument(retrievedDocument);
-            request.setAttribute(KNSConstants.PARAMETER_DOC_ID, docIdRequestParameter);
+            request.setAttribute(KRADConstants.PARAMETER_DOC_ID, docIdRequestParameter);
             loadDocument(protocolForm);
         } else {
             forward = super.docHandler(mapping, form, request, response);
         }
 
-        if (KEWConstants.INITIATE_COMMAND.equals(protocolForm.getCommand())) {
+        if (KewApiConstants.INITIATE_COMMAND.equals(protocolForm.getCommand())) {
             protocolForm.getDocument().initialize();
         } else {
             protocolForm.initialize();

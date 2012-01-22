@@ -18,7 +18,6 @@ package org.kuali.kra.irb.noteattachment;
 import java.io.Serializable;
 import java.sql.Timestamp;
 import java.util.Comparator;
-import java.util.LinkedHashMap;
 
 import org.kuali.kra.SkipVersioning;
 import org.kuali.kra.irb.Protocol;
@@ -28,19 +27,24 @@ import org.kuali.kra.irb.ProtocolAssociate;
  * The Protocol Notepad class.
  */
 public class ProtocolNotepad extends ProtocolAssociate implements Comparable<ProtocolNotepad> {
-    
+
     private static final long serialVersionUID = -294125058992878907L;
-    
+
     private Long id;
+
     private Integer entryNumber = Integer.valueOf(0);
+
     private String comments;
+
     private boolean restrictedView;
+
     private String noteTopic;
+
     private boolean editable;
 
     @SkipVersioning
     private transient String updateUserFullName;
-    
+
     /**
      * empty ctor to satisfy JavaBean convention.
      */
@@ -48,7 +52,7 @@ public class ProtocolNotepad extends ProtocolAssociate implements Comparable<Pro
         super();
         this.editable = false;
     }
-    
+
     /**
      * Convenience ctor to add the protocol as an owner.
      * 
@@ -62,7 +66,7 @@ public class ProtocolNotepad extends ProtocolAssociate implements Comparable<Pro
         super(protocol);
         this.editable = false;
     }
-    
+
     /**
      * Gets the id attribute. 
      * @return Returns the id.
@@ -158,18 +162,6 @@ public class ProtocolNotepad extends ProtocolAssociate implements Comparable<Pro
     public void setUpdateUserFullName(String updateUserFullName) {
         this.updateUserFullName = updateUserFullName;
     }
-    
-    /** {@inheritDoc} */
-    @Override
-    protected LinkedHashMap<String, Object> toStringMapper() {
-        final LinkedHashMap<String, Object> hashMap = super.toStringMapper();
-        hashMap.put("id", this.getId());
-        hashMap.put("entryNumber", this.getEntryNumber());
-        hashMap.put("comments", this.getComments());
-        hashMap.put("restrictedView", Boolean.valueOf(this.getRestrictedView()));
-        hashMap.put("noteTopic", this.getNoteTopic());
-        return hashMap;
-    }
 
     /** {@inheritDoc} */
     public void resetPersistenceState() {
@@ -195,15 +187,12 @@ public class ProtocolNotepad extends ProtocolAssociate implements Comparable<Pro
         if (this == obj) {
             return true;
         }
-        
         if (!super.equals(obj)) {
             return false;
         }
-        
         if (this.getClass() != obj.getClass()) {
             return false;
         }
-        
         final ProtocolNotepad other = (ProtocolNotepad) obj;
         if (this.comments == null) {
             if (other.comments != null) {
@@ -212,7 +201,6 @@ public class ProtocolNotepad extends ProtocolAssociate implements Comparable<Pro
         } else if (!this.comments.equals(other.comments)) {
             return false;
         }
-        
         if (this.entryNumber == null) {
             if (other.entryNumber != null) {
                 return false;
@@ -220,7 +208,6 @@ public class ProtocolNotepad extends ProtocolAssociate implements Comparable<Pro
         } else if (!this.entryNumber.equals(other.entryNumber)) {
             return false;
         }
-        
         if (this.id == null) {
             if (other.id != null) {
                 return false;
@@ -228,7 +215,6 @@ public class ProtocolNotepad extends ProtocolAssociate implements Comparable<Pro
         } else if (!this.id.equals(other.id)) {
             return false;
         }
-        
         if (this.noteTopic == null) {
             if (other.noteTopic != null) {
                 return false;
@@ -236,30 +222,28 @@ public class ProtocolNotepad extends ProtocolAssociate implements Comparable<Pro
         } else if (!this.noteTopic.equals(other.noteTopic)) {
             return false;
         }
-        
         if (this.restrictedView != other.restrictedView) {
             return false;
         }
-        
         return true;
     }
 
     /**
      * compares Notepads by entry number.
      */
-    public final static class NotepadByEntryNumber implements Comparator<ProtocolNotepad>, Serializable {
+    public static final class NotepadByEntryNumber implements Comparator<ProtocolNotepad>, Serializable {
 
         public static final NotepadByEntryNumber INSTANCE = new NotepadByEntryNumber();
+
         private static final long serialVersionUID = -2271453419166988229L;
-        
+
         private NotepadByEntryNumber() {
-            //internal
         }
-        
+
         /** {@inheritDoc} */
         public int compare(ProtocolNotepad o1, ProtocolNotepad o2) {
             return o1.getEntryNumber().compareTo(o2.getEntryNumber());
-        }     
+        }
     }
 
     @Override
@@ -271,15 +255,14 @@ public class ProtocolNotepad extends ProtocolAssociate implements Comparable<Pro
 
     @Override
     public void setUpdateUser(String updateUser) {
-        if (updateUser == null || getUpdateUser() == null || isEditable() ) {
+        if (updateUser == null || getUpdateUser() == null || isEditable()) {
             super.setUpdateUser(updateUser);
         }
     }
-    
+
     public boolean isEditable() {
         return editable;
     }
-
 
     public void setEditable(boolean editable) {
         this.editable = editable;
@@ -292,6 +275,4 @@ public class ProtocolNotepad extends ProtocolAssociate implements Comparable<Pro
     public int compareTo(ProtocolNotepad protocolNotepad) {
         return this.getUpdateTimestamp().compareTo(protocolNotepad.getUpdateTimestamp());
     }
-    
-    
 }

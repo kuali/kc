@@ -26,9 +26,9 @@ import org.apache.commons.lang.StringUtils;
 import org.kuali.kra.award.home.Award;
 import org.kuali.kra.award.paymentreports.Frequency;
 import org.kuali.kra.award.paymentreports.awardreports.AwardReportTerm;
-import org.kuali.rice.core.util.KeyLabelPair;
-import org.kuali.rice.kns.service.DateTimeService;
-import org.kuali.rice.kns.service.PersistenceService;
+import org.kuali.rice.core.api.datetime.DateTimeService;
+import org.kuali.rice.core.api.util.KeyValue;
+import org.kuali.rice.krad.service.PersistenceService;
 
 /**
  * 
@@ -70,7 +70,7 @@ public class AwardCloseoutServiceImpl implements AwardCloseoutService {
         
         refreshAwardReportTerms(award.getAwardReportTermItems());
                 
-        for (KeyLabelPair kl : (new CloseoutReportTypeValuesFinder()).getKeyValues()) {
+        for (KeyValue kl : (new CloseoutReportTypeValuesFinder()).getKeyValues()) {
             closeoutReportTypeCode = kl.getKey().toString();
             allDueDatesAreEqual = true;
             dateCalculatedUsingFrequency = null;
@@ -249,7 +249,7 @@ public class AwardCloseoutServiceImpl implements AwardCloseoutService {
         
         refreshAwardReportTerms(award.getAwardReportTermItems());
                 
-        for (KeyLabelPair kl : (new CloseoutReportTypeValuesFinder()).getKeyValues()) {
+        for (KeyValue kl : (new CloseoutReportTypeValuesFinder()).getKeyValues()) {
             closeoutReportTypeCode = kl.getKey().toString();
             allDueDatesAreEqual = true;
             dateCalculatedUsingFrequency = null;

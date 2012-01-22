@@ -28,7 +28,7 @@ import org.kuali.kra.budget.BudgetDecimal;
 import org.kuali.kra.budget.RateDecimal;
 import org.kuali.kra.infrastructure.BudgetDecimalFormatter;
 import org.kuali.kra.infrastructure.RateDecimalFormatter;
-import org.kuali.rice.kns.web.format.Formatter;
+import org.kuali.rice.core.web.format.Formatter;
 
 /**
  * This class provides a central place for application-wide {@link Formatter Formatter} registration.

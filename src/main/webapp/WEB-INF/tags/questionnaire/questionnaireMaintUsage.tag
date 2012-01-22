@@ -41,10 +41,10 @@
 							                <c:forEach items="${krafn:getOptionList('org.kuali.kra.irb.personnel.ProtocolPersonRoleValuesFinder', paramMap)}" var="option">
 							                <c:choose>
 							                    <c:when test="${KualiForm.document.protocol.protocolPersons[personIndex].protocolPersonRoleId == option.key}">
-							                    <option value="${option.key}" selected>${option.label}</option>
+							                    <option value="${option.key}" selected>${option.value}</option>
 							                    </c:when>
 							                    <c:otherwise>
-							                    <option value="${option.key}">${option.label}</option>
+							                    <option value="${option.key}">${option.value}</option>
 							                    </c:otherwise>
 							                </c:choose>
 							                </c:forEach>
@@ -83,15 +83,15 @@
 
   <script>
 
-                $("#usagepanelcontent").hide();
-                $("a.usagepanelcontrol").toggle(
+                jq("#usagepanelcontent").hide();
+                jq("a.usagepanelcontrol").toggle(
                     function()
                     {
-                        $("#usagepanelcontent").slideDown(500);
-                        $("a.usagepanelcontrol").html("<img src='kr/images/tinybutton-hide.gif' alt='show/hide panel' title='show/hide panel' width='45' height='15' border='0' align='absmiddle'>");
+                        jq("#usagepanelcontent").slideDown(500);
+                        jq("a.usagepanelcontrol").html("<img src='kr/images/tinybutton-hide.gif' alt='show/hide panel' title='show/hide panel' width='45' height='15' border='0' align='absmiddle'>");
                     },function(){
-                        $("#usagepanelcontent").slideUp(500);
-                        $("a.usagepanelcontrol").html("<img src='kr/images/tinybutton-show.gif' alt='show/hide panel' title='show/hide panel' width='45' height='15' border='0' align='absmiddle'>");
+                        jq("#usagepanelcontent").slideUp(500);
+                        jq("a.usagepanelcontrol").html("<img src='kr/images/tinybutton-show.gif' alt='show/hide panel' title='show/hide panel' width='45' height='15' border='0' align='absmiddle'>");
                     }
                 );
    </script>

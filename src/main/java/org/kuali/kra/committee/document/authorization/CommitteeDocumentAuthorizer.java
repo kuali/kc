@@ -22,10 +22,9 @@ import org.kuali.kra.authorization.ApplicationTask;
 import org.kuali.kra.authorization.KcTransactionalDocumentAuthorizerBase;
 import org.kuali.kra.committee.document.CommitteeDocument;
 import org.kuali.kra.infrastructure.TaskName;
-import org.kuali.rice.kew.util.KEWConstants;
-import org.kuali.rice.kim.bo.Person;
+import org.kuali.rice.kim.api.identity.Person;
 import org.kuali.rice.kns.authorization.AuthorizationConstants;
-import org.kuali.rice.kns.document.Document;
+import org.kuali.rice.krad.document.Document;
 
 /**
  * This class is the Committee Document Authorizer.  It determines the edit modes and
@@ -34,7 +33,7 @@ import org.kuali.rice.kns.document.Document;
 public class CommitteeDocumentAuthorizer extends KcTransactionalDocumentAuthorizerBase {
        
     /**
-     * @see org.kuali.rice.kns.document.authorization.TransactionalDocumentAuthorizer#getEditModes(org.kuali.rice.kns.document.Document, org.kuali.rice.kim.bo.Person, java.util.Set)
+     * @see org.kuali.rice.kns.document.authorization.TransactionalDocumentAuthorizer#getEditModes(org.kuali.rice.krad.document.Document, org.kuali.rice.kim.api.identity.Person, java.util.Set)
      */
     public Set<String> getEditModes(Document document, Person user, Set<String> currentEditModes) {
         Set<String> editModes = new HashSet<String>();
@@ -64,14 +63,14 @@ public class CommitteeDocumentAuthorizer extends KcTransactionalDocumentAuthoriz
     }
     
     /**
-     * @see org.kuali.rice.kns.document.authorization.DocumentAuthorizer#canInitiate(java.lang.String, org.kuali.rice.kim.bo.Person)
+     * @see org.kuali.rice.kns.document.authorization.DocumentAuthorizer#canInitiate(java.lang.String, org.kuali.rice.kim.api.identity.Person)
      */
     public boolean canInitiate(String documentTypeName, Person user) { 
         return canCreateCommittee(user);
     }
     
     /**
-     * @see org.kuali.rice.kns.document.authorization.DocumentAuthorizer#canOpen(org.kuali.rice.kns.document.Document, org.kuali.rice.kim.bo.Person)
+     * @see org.kuali.rice.kns.document.authorization.DocumentAuthorizer#canOpen(org.kuali.rice.krad.document.Document, org.kuali.rice.kim.api.identity.Person)
      */
     public boolean canOpen(Document document, Person user) {
         CommitteeDocument committeeDocument = (CommitteeDocument) document;
@@ -82,7 +81,7 @@ public class CommitteeDocumentAuthorizer extends KcTransactionalDocumentAuthoriz
     }
     
     /**
-     * @see org.kuali.kra.authorization.KcTransactionalDocumentAuthorizerBase#canEdit(org.kuali.rice.kns.document.Document, org.kuali.rice.kim.bo.Person)
+     * @see org.kuali.kra.authorization.KcTransactionalDocumentAuthorizerBase#canEdit(org.kuali.rice.krad.document.Document, org.kuali.rice.kim.api.identity.Person)
      */
     @Override
     public boolean canEdit(Document document, Person user) {
@@ -91,82 +90,75 @@ public class CommitteeDocumentAuthorizer extends KcTransactionalDocumentAuthoriz
     }
     
     /**
-     * @see org.kuali.kra.authorization.KcTransactionalDocumentAuthorizerBase#canSave(org.kuali.rice.kns.document.Document, org.kuali.rice.kim.bo.Person)
+     * @see org.kuali.kra.authorization.KcTransactionalDocumentAuthorizerBase#canSave(org.kuali.rice.krad.document.Document, org.kuali.rice.kim.api.identity.Person)
      */
     @Override
-    protected boolean canSave(Document document, Person user) {
+    public boolean canSave(Document document, Person user) {
         return canEdit(document, user);
     }
     
     /**
-     * @see org.kuali.kra.authorization.KcTransactionalDocumentAuthorizerBase#canRoute(org.kuali.rice.kns.document.Document, org.kuali.rice.kim.bo.Person)
+     * @see org.kuali.kra.authorization.KcTransactionalDocumentAuthorizerBase#canRoute(org.kuali.rice.krad.document.Document, org.kuali.rice.kim.api.identity.Person)
      */
     @Override
-    protected boolean canRoute(Document document, Person user) {
+    public boolean canRoute(Document document, Person user) {
         return !isFinal(document) && super.canRoute(document, user);
     }
     
     /**
-     * @see org.kuali.kra.authorization.KcTransactionalDocumentAuthorizerBase#canBlanketApprove(org.kuali.rice.kns.document.Document, org.kuali.rice.kim.bo.Person)
+     * @see org.kuali.kra.authorization.KcTransactionalDocumentAuthorizerBase#canBlanketApprove(org.kuali.rice.krad.document.Document, org.kuali.rice.kim.api.identity.Person)
      */
     @Override
-    protected boolean canBlanketApprove(Document document, Person user) {
+    public boolean canBlanketApprove(Document document, Person user) {
         return !isFinal(document) && super.canBlanketApprove(document, user);
     }
     
     /**
-     * @see org.kuali.kra.authorization.KcTransactionalDocumentAuthorizerBase#canCancel(org.kuali.rice.kns.document.Document, org.kuali.rice.kim.bo.Person)
+     * @see org.kuali.kra.authorization.KcTransactionalDocumentAuthorizerBase#canCancel(org.kuali.rice.krad.document.Document, org.kuali.rice.kim.api.identity.Person)
      */
     @Override
-    protected boolean canCancel(Document document, Person user) {
+    public boolean canCancel(Document document, Person user) {
         return !isFinal(document) && super.canCancel(document, user);
     }
     
     /**
-     * @see org.kuali.kra.authorization.KcTransactionalDocumentAuthorizerBase#canAcknowledge(org.kuali.rice.kns.document.Document, org.kuali.rice.kim.bo.Person)
+     * @see org.kuali.kra.authorization.KcTransactionalDocumentAuthorizerBase#canAcknowledge(org.kuali.rice.krad.document.Document, org.kuali.rice.kim.api.identity.Person)
      */
     @Override
-    protected boolean canAcknowledge(Document document, Person user) {
+    public boolean canAcknowledge(Document document, Person user) {
+        return false;
+    }
+    
+    
+    /**
+     * @see org.kuali.kra.authorization.KcTransactionalDocumentAuthorizerBase#canApprove(org.kuali.rice.krad.document.Document, org.kuali.rice.kim.api.identity.Person)
+     */
+    @Override
+    public boolean canApprove(Document document, Person user) {
         return false;
     }
     
     /**
-     * @see org.kuali.kra.authorization.KcTransactionalDocumentAuthorizerBase#canFYI(org.kuali.rice.kns.document.Document, org.kuali.rice.kim.bo.Person)
+     * @see org.kuali.kra.authorization.KcTransactionalDocumentAuthorizerBase#canDisapprove(org.kuali.rice.krad.document.Document, org.kuali.rice.kim.api.identity.Person)
      */
     @Override
-    protected boolean canFYI(Document document, Person user) {
+    public boolean canDisapprove(Document document, Person user) {
         return false;
     }
     
     /**
-     * @see org.kuali.kra.authorization.KcTransactionalDocumentAuthorizerBase#canApprove(org.kuali.rice.kns.document.Document, org.kuali.rice.kim.bo.Person)
+     * @see org.kuali.kra.authorization.KcTransactionalDocumentAuthorizerBase#canReload(org.kuali.rice.krad.document.Document, org.kuali.rice.kim.api.identity.Person)
      */
     @Override
-    protected boolean canApprove(Document document, Person user) {
-        return false;
-    }
-    
-    /**
-     * @see org.kuali.kra.authorization.KcTransactionalDocumentAuthorizerBase#canDisapprove(org.kuali.rice.kns.document.Document, org.kuali.rice.kim.bo.Person)
-     */
-    @Override
-    protected boolean canDisapprove(Document document, Person user) {
-        return false;
-    }
-    
-    /**
-     * @see org.kuali.kra.authorization.KcTransactionalDocumentAuthorizerBase#canReload(org.kuali.rice.kns.document.Document, org.kuali.rice.kim.bo.Person)
-     */
-    @Override
-    protected boolean canReload(Document document, Person user) {
+    public boolean canReload(Document document, Person user) {
         return isFinal(document);
     }
     
     /**
-     * @see org.kuali.kra.authorization.KcTransactionalDocumentAuthorizerBase#canCopy(org.kuali.rice.kns.document.Document, org.kuali.rice.kim.bo.Person)
+     * @see org.kuali.kra.authorization.KcTransactionalDocumentAuthorizerBase#canCopy(org.kuali.rice.krad.document.Document, org.kuali.rice.kim.api.identity.Person)
      */
     @Override
-    protected boolean canCopy(Document document, Person user) {
+    public boolean canCopy(Document document, Person user) {
         return false;
     }
     
@@ -191,4 +183,17 @@ public class CommitteeDocumentAuthorizer extends KcTransactionalDocumentAuthoriz
         CommitteeTask task = new CommitteeTask(taskName, doc.getCommittee());       
         return getTaskAuthorizationService().isAuthorized(userId, task);
     }
+
+    /*
+    @Override
+    public boolean canFyi(Document document, Person user) {
+        return false;
+    }
+    */
+    
+    @Override
+    public boolean canSendNoteFyi(Document document, Person user) {
+        return false;
+    }
+
 }

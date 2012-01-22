@@ -45,11 +45,11 @@ import org.kuali.kra.infrastructure.Constants;
 import org.kuali.kra.infrastructure.KeyConstants;
 import org.kuali.kra.infrastructure.KraServiceLocator;
 import org.kuali.kra.proposaldevelopment.bo.ActivityType;
-import org.kuali.rice.kns.bo.BusinessObject;
-import org.kuali.rice.kns.service.BusinessObjectService;
 import org.kuali.rice.kns.util.AuditCluster;
 import org.kuali.rice.kns.util.AuditError;
-import org.kuali.rice.kns.util.GlobalVariables;
+import org.kuali.rice.kns.util.KNSGlobalVariables;
+import org.kuali.rice.krad.bo.BusinessObject;
+import org.kuali.rice.krad.service.BusinessObjectService;
 
 public class BudgetRatesServiceImpl<T extends BudgetParent> implements BudgetRatesService<T> {
     private static final String SPACE = " ";
@@ -237,7 +237,7 @@ public class BudgetRatesServiceImpl<T extends BudgetParent> implements BudgetRat
      */
     @SuppressWarnings("unchecked")
     public List<BudgetPeriod> getBudgetPeriods(){
-        BudgetForm budgetForm = (BudgetForm) GlobalVariables.getKualiForm();
+        BudgetForm budgetForm = (BudgetForm) KNSGlobalVariables.getKualiForm();
         BudgetDocument<T> budgetDocument  = budgetForm.getBudgetDocument();
         List<BudgetPeriod> budgetPeriods = budgetDocument.getBudget().getBudgetPeriods();
         return budgetPeriods;
@@ -1007,11 +1007,11 @@ public class BudgetRatesServiceImpl<T extends BudgetParent> implements BudgetRat
     protected List<AuditError> getAuditErrors() {
         List<AuditError> auditErrors = new ArrayList<AuditError>();
         
-        if (!GlobalVariables.getAuditErrorMap().containsKey(BUDGET_RATE_AUDIT_WARNING_KEY)) {
-           GlobalVariables.getAuditErrorMap().put(BUDGET_RATE_AUDIT_WARNING_KEY, new AuditCluster(Constants.BUDGET_RATE_PANEL_NAME, auditErrors, Constants.AUDIT_WARNINGS));
+        if (!KNSGlobalVariables.getAuditErrorMap().containsKey(BUDGET_RATE_AUDIT_WARNING_KEY)) {
+           KNSGlobalVariables.getAuditErrorMap().put(BUDGET_RATE_AUDIT_WARNING_KEY, new AuditCluster(Constants.BUDGET_RATE_PANEL_NAME, auditErrors, Constants.AUDIT_WARNINGS));
         }
         else {
-            auditErrors = ((AuditCluster)GlobalVariables.getAuditErrorMap().get(BUDGET_RATE_AUDIT_WARNING_KEY)).getAuditErrorList();
+            auditErrors = ((AuditCluster)KNSGlobalVariables.getAuditErrorMap().get(BUDGET_RATE_AUDIT_WARNING_KEY)).getAuditErrorList();
         }
         
         return auditErrors;

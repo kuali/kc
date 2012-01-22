@@ -28,8 +28,9 @@
 
 	<bean id="committeeModuleConfiguration" parent="committeeModuleConfiguration-parentBean" />
 
-	<bean id="committeeModuleConfiguration-parentBean" class="org.kuali.rice.kns.bo.ModuleConfiguration"
+	<bean id="committeeModuleConfiguration-parentBean" class="org.kuali.rice.krad.bo.ModuleConfiguration"
 		abstract="true">
+		<property name="namespaceCode" value="KC-COMMITTEE" />
 		<property name="databaseRepositoryFilePaths">
 			<list>
 				<value>org/kuali/kra/committee/repository-committee.xml</value>
@@ -178,7 +179,7 @@
 		</property>
 	</bean>
 	
-	<bean class="org.kuali.rice.ksb.messaging.KSBExporter">
+	<bean class="org.kuali.rice.ksb.api.bus.support.ServiceBusExporter">
 	  <property name="serviceDefinition">
 			<bean parent="kcService" p:service-ref="activeCommitteeMemberDerivedRoleTypeService"
 	      p:localServiceName="activeCommitteeMemberDerivedRoleTypeService" />
@@ -198,7 +199,7 @@
 		</property>
 	</bean>
 	
-	<bean class="org.kuali.rice.ksb.messaging.KSBExporter">
+	<bean class="org.kuali.rice.ksb.api.bus.support.ServiceBusExporter">
 	  <property name="serviceDefinition">
 			<bean parent="kcService" p:service-ref="activeCommitteeMemberOnScheduledDateDerivedRoleTypeService"
 	      p:localServiceName="activeCommitteeMemberOnScheduledDateDerivedRoleTypeService" />
@@ -256,6 +257,8 @@
 	<bean id="committeeBatchCorrespondenceDao" parent="platformAwareDao"
 		class="org.kuali.kra.committee.dao.ojb.CommitteeBatchCorrespondenceDaoOjb" />
 	
+		
+		
 		
 	<bean id="committeeCollaboratorBusinessLogicFactoryGroup" 
 		class="org.kuali.kra.committee.bo.businessLogic.impl.CommitteeCollaboratorBusinessLogicFactoryGroupImpl"

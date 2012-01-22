@@ -69,26 +69,25 @@ import org.kuali.kra.proposaldevelopment.service.NarrativeService;
 import org.kuali.kra.proposaldevelopment.service.ProposalCopyService;
 import org.kuali.kra.proposaldevelopment.service.ProposalPersonBiographyService;
 import org.kuali.kra.questionnaire.QuestionnaireService;
-import org.kuali.kra.questionnaire.answer.Answer;
 import org.kuali.kra.questionnaire.answer.AnswerHeader;
 import org.kuali.kra.questionnaire.answer.ModuleQuestionnaireBean;
 import org.kuali.kra.questionnaire.answer.QuestionnaireAnswerService;
 import org.kuali.kra.service.KraAuthorizationService;
 import org.kuali.kra.service.UnitService;
-import org.kuali.rice.kns.bo.BusinessObject;
-import org.kuali.rice.kns.bo.DocumentHeader;
-import org.kuali.rice.kns.bo.PersistableBusinessObject;
-import org.kuali.rice.kns.bo.PersistableBusinessObjectBase;
-import org.kuali.rice.kns.document.Document;
-import org.kuali.rice.kns.service.BusinessObjectService;
-import org.kuali.rice.kns.service.DateTimeService;
-import org.kuali.rice.kns.service.DocumentService;
-import org.kuali.rice.kns.service.KNSServiceLocator;
-import org.kuali.rice.kns.service.KualiRuleService;
-import org.kuali.rice.kns.service.ParameterService;
-import org.kuali.rice.kns.util.GlobalVariables;
-import org.kuali.rice.kns.util.KNSPropertyConstants;
-import org.kuali.rice.kns.util.ObjectUtils;
+import org.kuali.rice.core.api.datetime.DateTimeService;
+import org.kuali.rice.coreservice.framework.parameter.ParameterService;
+import org.kuali.rice.krad.bo.BusinessObject;
+import org.kuali.rice.krad.bo.DocumentHeader;
+import org.kuali.rice.krad.bo.PersistableBusinessObject;
+import org.kuali.rice.krad.bo.PersistableBusinessObjectBase;
+import org.kuali.rice.krad.document.Document;
+import org.kuali.rice.krad.service.BusinessObjectService;
+import org.kuali.rice.krad.service.DocumentService;
+import org.kuali.rice.krad.service.KRADServiceLocatorWeb;
+import org.kuali.rice.krad.service.KualiRuleService;
+import org.kuali.rice.krad.util.GlobalVariables;
+import org.kuali.rice.krad.util.KRADPropertyConstants;
+import org.kuali.rice.krad.util.ObjectUtils;
 
 /**
  * The Proposal Copy Service creates a new Proposal Development Document
@@ -208,7 +207,7 @@ public class ProposalCopyServiceImpl implements ProposalCopyService {
             copyProposal(doc, newDoc, criteria);
             fixProposal(doc, newDoc, criteria);
 
-            DocumentService docService = KNSServiceLocator.getDocumentService();
+            DocumentService docService = KRADServiceLocatorWeb.getDocumentService();
             docService.saveDocument(newDoc);
             
             // Can't initialize authorization until a proposal is saved
@@ -261,7 +260,7 @@ public class ProposalCopyServiceImpl implements ProposalCopyService {
      */
     protected ProposalDevelopmentDocument createNewProposal(ProposalDevelopmentDocument srcDoc, ProposalCopyCriteria criteria) throws Exception {
         
-        DocumentService docService = KNSServiceLocator.getDocumentService();
+        DocumentService docService = KRADServiceLocatorWeb.getDocumentService();
         ProposalDevelopmentDocument newDoc = (ProposalDevelopmentDocument) docService.getNewDocument(srcDoc.getClass());
         
         LOG.info("EXECUTING IN createNewProposal");
@@ -679,7 +678,7 @@ public class ProposalCopyServiceImpl implements ProposalCopyService {
      */
     protected void fixBudgetVersions(ProposalDevelopmentDocument doc) {
         if (doc.getBudgetDocumentVersions().size() > 0) {
-            String budgetStatusIncompleteCode = this.parameterService.getParameterValue(
+            String budgetStatusIncompleteCode = this.parameterService.getParameterValueAsString(
                     BudgetDocument.class, Constants.BUDGET_STATUS_INCOMPLETE_CODE);
             
             doc.getDevelopmentProposal().setBudgetStatus(budgetStatusIncompleteCode);
@@ -1081,7 +1080,7 @@ public class ProposalCopyServiceImpl implements ProposalCopyService {
             // Find the attribute value
             CustomAttributeDocument customAttributeDocument = entry.getValue();
             Map<String, Object> primaryKeys = new HashMap<String, Object>();
-            primaryKeys.put(KNSPropertyConstants.DOCUMENT_NUMBER, src.getDocumentNumber());
+            primaryKeys.put(KRADPropertyConstants.DOCUMENT_NUMBER, src.getDocumentNumber());
             primaryKeys.put(Constants.CUSTOM_ATTRIBUTE_ID, customAttributeDocument.getCustomAttributeId());
             CustomAttributeDocValue customAttributeDocValue = (CustomAttributeDocValue)businessObjectService.findByPrimaryKey(CustomAttributeDocValue.class, primaryKeys);
             
@@ -1167,9 +1166,9 @@ public class ProposalCopyServiceImpl implements ProposalCopyService {
      * @return true or false
      */
     protected boolean isProposalTypeRenewalRevisionContinuation(String proposalTypeCode) {
-        String proposalTypeCodeRenewal = this.parameterService.getParameterValue(ProposalDevelopmentDocument.class, KeyConstants.PROPOSALDEVELOPMENT_PROPOSALTYPE_RENEWAL);
-        String proposalTypeCodeRevision = this.parameterService.getParameterValue(ProposalDevelopmentDocument.class, KeyConstants.PROPOSALDEVELOPMENT_PROPOSALTYPE_REVISION);
-        String proposalTypeCodeContinuation = this.parameterService.getParameterValue(ProposalDevelopmentDocument.class, KeyConstants.PROPOSALDEVELOPMENT_PROPOSALTYPE_CONTINUATION);
+        String proposalTypeCodeRenewal = this.parameterService.getParameterValueAsString(ProposalDevelopmentDocument.class, KeyConstants.PROPOSALDEVELOPMENT_PROPOSALTYPE_RENEWAL);
+        String proposalTypeCodeRevision = this.parameterService.getParameterValueAsString(ProposalDevelopmentDocument.class, KeyConstants.PROPOSALDEVELOPMENT_PROPOSALTYPE_REVISION);
+        String proposalTypeCodeContinuation = this.parameterService.getParameterValueAsString(ProposalDevelopmentDocument.class, KeyConstants.PROPOSALDEVELOPMENT_PROPOSALTYPE_CONTINUATION);
          
         return !StringUtils.isEmpty(proposalTypeCode) &&
                (proposalTypeCode.equals(proposalTypeCodeRenewal) ||

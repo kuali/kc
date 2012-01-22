@@ -16,7 +16,7 @@
 <%@ include file="/WEB-INF/jsp/kraTldHeader.jsp"%>
 
 <channel:portalChannelTop channelTitle="Awards" />
-<c:set var="financialIntegration" value="${kfunc:getKNSParameterValue('KC-AWARD', 'Document', 'FIN_SYSTEM_INTEGRATION_ON')}" />
+<c:set var="financialIntegration" value='<%=org.kuali.rice.coreservice.framework.CoreFrameworkServiceLocator.getParameterService().getParameterValueAsBoolean("KC-AWARD", "Document", "FIN_SYSTEM_INTEGRATION_ON")%>' />
 <div class="body">
   <ul class="chan">
     <li><portal:portalLink displayTitle="true" title="Account Type" url="kr/lookup.do?methodToCall=start&businessObjectClassName=org.kuali.kra.bo.AccountType&returnLocation=${ConfigProperties.application.url}/portal.do&hideReturnLink=true&docFormKey=88888888" /></li>

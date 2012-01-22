@@ -21,11 +21,11 @@ import java.util.List;
 import org.kuali.kra.common.notification.bo.NotificationType;
 import org.kuali.kra.infrastructure.PermissionConstants;
 import org.kuali.kra.questionnaire.question.Question;
-import org.kuali.rice.kns.bo.BusinessObject;
+import org.kuali.rice.krad.bo.BusinessObject;
 import org.kuali.rice.kns.lookup.HtmlData;
 import org.kuali.rice.kns.lookup.KualiLookupableHelperServiceImpl;
 import org.kuali.rice.kns.lookup.HtmlData.AnchorHtmlData;
-import org.kuali.rice.kns.util.KNSConstants;
+import org.kuali.rice.krad.util.KRADConstants;
 
 public class NotificationLookupableHelperServiceImpl extends KualiLookupableHelperServiceImpl {
 
@@ -49,16 +49,16 @@ public class NotificationLookupableHelperServiceImpl extends KualiLookupableHelp
         boolean hasModifyPermission = getNotificationAuthorizationService().hasPermission(PermissionConstants.MODIFY_NOTIFICATION);
         boolean hasViewPermission = hasModifyPermission || getNotificationAuthorizationService().hasPermission(PermissionConstants.VIEW_NOTIFICATION);
         if (hasModifyPermission) {
-            AnchorHtmlData htmlData = getUrlData(businessObject, KNSConstants.MAINTENANCE_EDIT_METHOD_TO_CALL, pkNames);
+            AnchorHtmlData htmlData = getUrlData(businessObject, KRADConstants.MAINTENANCE_EDIT_METHOD_TO_CALL, pkNames);
             htmlDataList.add(htmlData);
 
-            AnchorHtmlData htmlData1 = getUrlData(businessObject, KNSConstants.MAINTENANCE_COPY_METHOD_TO_CALL, pkNames);
+            AnchorHtmlData htmlData1 = getUrlData(businessObject, KRADConstants.MAINTENANCE_COPY_METHOD_TO_CALL, pkNames);
             htmlDataList.add(htmlData1);
         } 
         // if user can view question, then if doc number exists, use doc service to view, otherwise open for editing in read-only mode
         if (hasViewPermission) {
             AnchorHtmlData htmlData2 = new AnchorHtmlData();
-            htmlData2 = getUrlData(businessObject, KNSConstants.MAINTENANCE_EDIT_METHOD_TO_CALL, pkNames);
+            htmlData2 = getUrlData(businessObject, KRADConstants.MAINTENANCE_EDIT_METHOD_TO_CALL, pkNames);
             htmlData2.setDisplayText(VIEW);
             htmlDataList.add(htmlData2);
         }

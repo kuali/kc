@@ -24,9 +24,8 @@ import org.junit.Test;
 import org.kuali.kra.award.commitments.AwardCostShare;
 import org.kuali.kra.award.commitments.AwardFandaRate;
 import org.kuali.kra.award.home.Award;
-import org.kuali.kra.award.web.struts.action.AwardCommitmentsAction;
 import org.kuali.kra.bo.CostShareType;
-import org.kuali.rice.kns.util.KualiDecimal;
+import org.kuali.rice.core.api.util.type.KualiDecimal;
 
 /**
  * 

@@ -15,26 +15,25 @@
  */
 package org.kuali.kra.meeting;
 
-import java.util.LinkedHashMap;
-
 import org.kuali.kra.bo.KraPersistableBusinessObjectBase;
 
 /**
  * 
  * This class is for schedule other action type code.
  */
-public class ScheduleActItemType extends KraPersistableBusinessObjectBase { 
-    
-    private static final long serialVersionUID = -2501084035126192701L;
-    private String scheduleActItemTypeCode; 
-    private String description; 
-    private CommScheduleActItem commScheduleActItems;
-    
-    
-    public ScheduleActItemType() { 
+public class ScheduleActItemType extends KraPersistableBusinessObjectBase {
 
-    } 
-    
+    private static final long serialVersionUID = -2501084035126192701L;
+
+    private String scheduleActItemTypeCode;
+
+    private String description;
+
+    private CommScheduleActItem commScheduleActItems;
+
+    public ScheduleActItemType() {
+    }
+
     public String getScheduleActItemTypeCode() {
         return scheduleActItemTypeCode;
     }
@@ -58,14 +57,4 @@ public class ScheduleActItemType extends KraPersistableBusinessObjectBase {
     public void setCommScheduleActItems(CommScheduleActItem commScheduleActItems) {
         this.commScheduleActItems = commScheduleActItems;
     }
-
-    /** {@inheritDoc} */
-    @Override 
-    protected LinkedHashMap<String, Object> toStringMapper() {
-        LinkedHashMap<String, Object> hashMap = new LinkedHashMap<String, Object>();
-        hashMap.put("scheduleActItemTypeCode", this.getScheduleActItemTypeCode());
-        hashMap.put("description", this.getDescription());
-        return hashMap;
-    }
-    
 }

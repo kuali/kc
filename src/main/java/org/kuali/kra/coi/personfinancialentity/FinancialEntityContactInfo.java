@@ -15,8 +15,6 @@
  */
 package org.kuali.kra.coi.personfinancialentity;
 
-import java.util.LinkedHashMap;
-
 import org.apache.commons.lang.StringUtils;
 import org.kuali.kra.bo.KraPersistableBusinessObjectBase;
 import org.kuali.kra.bo.Organization;
@@ -27,25 +25,37 @@ import org.kuali.kra.bo.Organization;
  */
 public class FinancialEntityContactInfo extends KraPersistableBusinessObjectBase {
 
-
     /**
      * Comment for <code>serialVersionUID</code>
      */
     private static final long serialVersionUID = -279139759458525391L;
+
     private Long financialEntityContactInfoId;
+
     private Long personFinIntDisclosureId;
+
     private String addressLine1;
+
     private String addressLine2;
+
     private String addressLine3;
+
     private String city;
+
     private String countryCode;
+
     private String webAddress1;
+
     private String webAddress2;
+
     private String postalCode;
+
     private String state;
+
     private Organization organization;
+
     private PersonFinIntDisclosure personFinIntDisclosure;
-    
+
     public Long getPersonFinIntDisclosureId() {
         return personFinIntDisclosureId;
     }
@@ -140,12 +150,6 @@ public class FinancialEntityContactInfo extends KraPersistableBusinessObjectBase
 
     public void setFinancialEntityContactInfoId(Long financialEntityContactInfoId) {
         this.financialEntityContactInfoId = financialEntityContactInfoId;
-    }
-
-    @Override
-    protected LinkedHashMap toStringMapper() {
-        // TODO Auto-generated method stub
-        return null;
     }
 
     public PersonFinIntDisclosure getPersonFinIntDisclosure() {

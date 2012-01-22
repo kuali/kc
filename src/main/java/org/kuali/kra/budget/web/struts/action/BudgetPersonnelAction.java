@@ -17,7 +17,7 @@ package org.kuali.kra.budget.web.struts.action;
 
 import static org.kuali.kra.infrastructure.Constants.MAPPING_BASIC;
 import static org.kuali.kra.infrastructure.Constants.MAPPING_CLOSE_PAGE;
-import static org.kuali.rice.kns.util.KNSConstants.QUESTION_INST_ATTRIBUTE_NAME;
+import static org.kuali.rice.krad.util.KRADConstants.QUESTION_INST_ATTRIBUTE_NAME;
 
 import java.util.ArrayList;
 import java.util.Collection;
@@ -60,17 +60,16 @@ import org.kuali.kra.infrastructure.Constants;
 import org.kuali.kra.infrastructure.KeyConstants;
 import org.kuali.kra.infrastructure.KraServiceLocator;
 import org.kuali.kra.web.struts.action.StrutsConfirmation;
-import org.kuali.rice.kew.util.KEWConstants;
-import org.kuali.rice.kns.bo.BusinessObject;
-import org.kuali.rice.kns.bo.PersistableBusinessObject;
-import org.kuali.rice.kns.document.Document;
+import org.kuali.rice.core.api.util.RiceKeyConstants;
+import org.kuali.rice.kew.api.KewApiConstants;
 import org.kuali.rice.kns.lookup.LookupResultsService;
-import org.kuali.rice.kns.service.BusinessObjectService;
 import org.kuali.rice.kns.service.DictionaryValidationService;
-import org.kuali.rice.kns.service.KualiConfigurationService;
-import org.kuali.rice.kns.util.GlobalVariables;
-import org.kuali.rice.kns.util.KNSConstants;
-import org.kuali.rice.kns.util.RiceKeyConstants;
+import org.kuali.rice.kns.util.KNSGlobalVariables;
+import org.kuali.rice.krad.bo.BusinessObject;
+import org.kuali.rice.krad.document.Document;
+import org.kuali.rice.krad.service.BusinessObjectService;
+import org.kuali.rice.krad.util.GlobalVariables;
+import org.kuali.rice.krad.util.KRADConstants;
 
 /**
  * Action class for Budget Personnel page
@@ -136,7 +135,7 @@ public class BudgetPersonnelAction extends BudgetExpensesAction {
         BudgetLineItem newBudgetLineItem = budgetForm.getNewBudgetLineItems().get(budgetCategoryTypeIndex);
         BudgetPersonnelDetails budgetPersonDetails = budgetForm.getNewBudgetPersonnelDetails();
         budgetPersonDetails.setBudgetId(budget.getBudgetId());
-        budgetPersonDetails.setPeriodTypeCode(this.getParameterService().getParameterValue(
+        budgetPersonDetails.setPeriodTypeCode(this.getParameterService().getParameterValueAsString(
                 BudgetDocument.class, Constants.BUDGET_PERSON_DETAILS_DEFAULT_PERIODTYPE));
         budgetPersonDetails.setCostElement(newBudgetLineItem.getCostElement());
         
@@ -157,14 +156,14 @@ public class BudgetPersonnelAction extends BudgetExpensesAction {
         dictionaryValidationService.validateAttributeFormat(BudgetLineItem.class.getSimpleName(), "groupName", newBudgetLineItem.getGroupName(), groupErrorKey);
         
         if(budgetForm.getViewBudgetPeriod() == null || StringUtils.equalsIgnoreCase(budgetForm.getViewBudgetPeriod().toString(), "0")){
-            GlobalVariables.getErrorMap().putError("viewBudgetPeriod", KeyConstants.ERROR_BUDGET_PERIOD_NOT_SELECTED);
+            GlobalVariables.getMessageMap().putError("viewBudgetPeriod", KeyConstants.ERROR_BUDGET_PERIOD_NOT_SELECTED);
         }
         else if(newBudgetLineItem.getCostElement() == null || StringUtils.equalsIgnoreCase(newBudgetLineItem.getCostElement(), "")){
-            GlobalVariables.getErrorMap().putError("newBudgetLineItems[" + budgetCategoryTypeIndex + "].costElement", KeyConstants.ERROR_COST_ELEMENT_NOT_SELECTED);
+            GlobalVariables.getMessageMap().putError("newBudgetLineItems[" + budgetCategoryTypeIndex + "].costElement", KeyConstants.ERROR_COST_ELEMENT_NOT_SELECTED);
         }else if(budgetPersonDetails.getPersonSequenceNumber() == null){
-            GlobalVariables.getErrorMap().putError("newBudgetPersonnelDetails.personSequenceNumber", KeyConstants.ERROR_BUDGET_PERSONNEL_NOT_SELECTED);
+            GlobalVariables.getMessageMap().putError("newBudgetPersonnelDetails.personSequenceNumber", KeyConstants.ERROR_BUDGET_PERSONNEL_NOT_SELECTED);
         } else if(!budgetPersonnelRule.processCheckJobCodeObjectCodeCombo(budgetDocument, budgetPersonDetails, false)) {
-            GlobalVariables.getErrorMap().putError("newBudgetLineItems[" + budgetCategoryTypeIndex + "].costElement", KeyConstants.ERROR_JOBCODE_COST_ELEMENT_COMBO_INVALID);
+            GlobalVariables.getMessageMap().putError("newBudgetLineItems[" + budgetCategoryTypeIndex + "].costElement", KeyConstants.ERROR_JOBCODE_COST_ELEMENT_COMBO_INVALID);
         }
         else{
             Map<String, Object> primaryKeys = new HashMap<String, Object>();
@@ -187,7 +186,7 @@ public class BudgetPersonnelAction extends BudgetExpensesAction {
             List<BudgetLineItem> existingPersonnelLineItems = new ArrayList<BudgetLineItem>();
             List<BudgetLineItem> existingLineItems = budget.getBudgetPeriod(budgetPeriod.getBudgetPeriod() - 1).getBudgetLineItems();
             
-            if(GlobalVariables.getErrorMap().isEmpty()) {
+            if(GlobalVariables.getMessageMap().hasNoErrors()) {
                 for(BudgetLineItem budgetLineItem : existingLineItems) {
                     budgetLineItem.refreshNonUpdateableReferences();
                     if(budgetLineItem.getBudgetCategory().getBudgetCategoryTypeCode().equalsIgnoreCase(newBudgetCategory.getBudgetCategoryTypeCode())) {
@@ -280,7 +279,7 @@ public class BudgetPersonnelAction extends BudgetExpensesAction {
     private void addBudgetPersonnelDetails(BudgetForm budgetForm, BudgetPeriod budgetPeriod, BudgetLineItem newBudgetLineItem, BudgetPersonnelDetails newBudgetPersonnelDetails) throws Exception {
         boolean errorFound = false;
         if (budgetForm.getNewBudgetPersonnelDetails().getPersonSequenceNumber() == null) {
-            GlobalVariables.getErrorMap().putError("newBudgetPersonnelDetails.personSequenceNumber", RiceKeyConstants.ERROR_REQUIRED, new String[] { "Person (Person)" });
+            GlobalVariables.getMessageMap().putError("newBudgetPersonnelDetails.personSequenceNumber", RiceKeyConstants.ERROR_REQUIRED, new String[] { "Person (Person)" });
             errorFound=true;
         }
         
@@ -328,7 +327,7 @@ public class BudgetPersonnelAction extends BudgetExpensesAction {
      */
     protected int getSelectedPersonnel(HttpServletRequest request) {
         int selectedPersonnel = -1;
-        String parameterName = (String) request.getAttribute(KNSConstants.METHOD_TO_CALL_ATTRIBUTE);
+        String parameterName = (String) request.getAttribute(KRADConstants.METHOD_TO_CALL_ATTRIBUTE);
         if (StringUtils.isNotBlank(parameterName)) {
             String personnelIndex = StringUtils.substringBetween(parameterName, ".personnel", ".");
             selectedPersonnel = Integer.parseInt(personnelIndex);
@@ -376,28 +375,28 @@ public class BudgetPersonnelAction extends BudgetExpensesAction {
         BudgetLineItem selectedBudgetLineItem = budget.getBudgetPeriod(selectedBudgetPeriodIndex).getBudgetLineItem(selectedBudgetLineItemIndex);
         BudgetPersonnelDetails budgetPersonnelDetails = selectedBudgetLineItem.getBudgetPersonnelDetailsList().get(selectedPersonnelIndex);
         boolean errorFound = false;
-        GlobalVariables.getErrorMap().addToErrorPath("document");
+        GlobalVariables.getMessageMap().addToErrorPath("document");
         
         if(StringUtils.isEmpty(budgetPersonnelDetails.getPeriodTypeCode())) { 
-            GlobalVariables.getErrorMap().putError("budgetPeriod[" + selectedBudgetPeriodIndex   +"].budgetLineItem[" + selectedBudgetLineItemIndex + "].budgetPersonnelDetailsList[" + selectedPersonnelIndex + "].periodTypeCode", KeyConstants.ERROR_REQUIRED_PERIOD_TYPE);
+            GlobalVariables.getMessageMap().putError("budgetPeriod[" + selectedBudgetPeriodIndex   +"].budgetLineItem[" + selectedBudgetLineItemIndex + "].budgetPersonnelDetailsList[" + selectedPersonnelIndex + "].periodTypeCode", KeyConstants.ERROR_REQUIRED_PERIOD_TYPE);
             errorFound=true;
         }
         
         if(budgetPersonnelDetails.getPercentEffort().isGreaterThan(new BudgetDecimal(100))){
-            GlobalVariables.getErrorMap().putError("budgetPeriod[" + selectedBudgetPeriodIndex   +"].budgetLineItem[" + selectedBudgetLineItemIndex + "].budgetPersonnelDetailsList[" + selectedPersonnelIndex + "].percentEffort", KeyConstants.ERROR_PERCENTAGE, Constants.PERCENT_EFFORT_FIELD);
+            GlobalVariables.getMessageMap().putError("budgetPeriod[" + selectedBudgetPeriodIndex   +"].budgetLineItem[" + selectedBudgetLineItemIndex + "].budgetPersonnelDetailsList[" + selectedPersonnelIndex + "].percentEffort", KeyConstants.ERROR_PERCENTAGE, Constants.PERCENT_EFFORT_FIELD);
             errorFound=true;
         }
         if(budgetPersonnelDetails.getPercentCharged().isGreaterThan(new BudgetDecimal(100))){
-            GlobalVariables.getErrorMap().putError("budgetPeriod[" + selectedBudgetPeriodIndex +"].budgetLineItem[" + selectedBudgetLineItemIndex + "].budgetPersonnelDetailsList[" + selectedPersonnelIndex + "].percentCharged", KeyConstants.ERROR_PERCENTAGE, Constants.PERCENT_CHARGED_FIELD);
+            GlobalVariables.getMessageMap().putError("budgetPeriod[" + selectedBudgetPeriodIndex +"].budgetLineItem[" + selectedBudgetLineItemIndex + "].budgetPersonnelDetailsList[" + selectedPersonnelIndex + "].percentCharged", KeyConstants.ERROR_PERCENTAGE, Constants.PERCENT_CHARGED_FIELD);
             errorFound=true;
         }
         if(budgetPersonnelDetails.getPercentCharged().isGreaterThan(budgetPersonnelDetails.getPercentEffort())){
-            GlobalVariables.getErrorMap().putError("budgetPeriod[" + selectedBudgetPeriodIndex +"].budgetLineItem[" + selectedBudgetLineItemIndex + "].budgetPersonnelDetailsList[" + selectedPersonnelIndex + "].percentCharged", KeyConstants.ERROR_PERCENT_EFFORT_LESS_THAN_PERCENT_CHARGED);
+            GlobalVariables.getMessageMap().putError("budgetPeriod[" + selectedBudgetPeriodIndex +"].budgetLineItem[" + selectedBudgetLineItemIndex + "].budgetPersonnelDetailsList[" + selectedPersonnelIndex + "].percentCharged", KeyConstants.ERROR_PERCENT_EFFORT_LESS_THAN_PERCENT_CHARGED);
             errorFound=true;
         }
         errorFound = errorFound || personnelDatesCheck(selectedBudgetLineItem, budgetPersonnelDetails, selectedBudgetPeriodIndex, selectedBudgetLineItemIndex, selectedPersonnelIndex);
         
-        GlobalVariables.getErrorMap().removeFromErrorPath("document");
+        GlobalVariables.getMessageMap().removeFromErrorPath("document");
         return errorFound;
     }
 
@@ -405,33 +404,33 @@ public class BudgetPersonnelAction extends BudgetExpensesAction {
         boolean errorFound = false;
         
         if(budgetPersonnelDetails.getStartDate() == null) {
-            GlobalVariables.getErrorMap().putError("budgetPeriod[" + selectedBudgetPeriodIndex +"].budgetLineItem[" + selectedBudgetLineItemIndex + "].budgetPersonnelDetailsList[" + detailIndex + "].startDate", RiceKeyConstants.ERROR_REQUIRED, new String[] { "Start Date (Start Date)" });
+            GlobalVariables.getMessageMap().putError("budgetPeriod[" + selectedBudgetPeriodIndex +"].budgetLineItem[" + selectedBudgetLineItemIndex + "].budgetPersonnelDetailsList[" + detailIndex + "].startDate", RiceKeyConstants.ERROR_REQUIRED, new String[] { "Start Date (Start Date)" });
             errorFound=true;
         }
         if(budgetPersonnelDetails.getEndDate() == null) {
-            GlobalVariables.getErrorMap().putError("budgetPeriod[" + selectedBudgetPeriodIndex +"].budgetLineItem[" + selectedBudgetLineItemIndex + "].budgetPersonnelDetailsList[" + detailIndex + "].endDate", RiceKeyConstants.ERROR_REQUIRED, new String[] { "End Date (End Date)" });
+            GlobalVariables.getMessageMap().putError("budgetPeriod[" + selectedBudgetPeriodIndex +"].budgetLineItem[" + selectedBudgetLineItemIndex + "].budgetPersonnelDetailsList[" + detailIndex + "].endDate", RiceKeyConstants.ERROR_REQUIRED, new String[] { "End Date (End Date)" });
             errorFound=true;
         }
         
         if(!errorFound) {
             if(budgetPersonnelDetails.getEndDate().compareTo(budgetPersonnelDetails.getStartDate()) < 0) {
-                GlobalVariables.getErrorMap().putError("budgetPeriod[" + selectedBudgetPeriodIndex +"].budgetLineItem[" + selectedBudgetLineItemIndex + "].budgetPersonnelDetailsList[" + detailIndex + "].endDate", KeyConstants.ERROR_PERSONNEL_DETAIL_DATES);
+                GlobalVariables.getMessageMap().putError("budgetPeriod[" + selectedBudgetPeriodIndex +"].budgetLineItem[" + selectedBudgetLineItemIndex + "].budgetPersonnelDetailsList[" + detailIndex + "].endDate", KeyConstants.ERROR_PERSONNEL_DETAIL_DATES);
                 errorFound=true;
             }
             if(budgetLineItem.getEndDate().compareTo(budgetPersonnelDetails.getEndDate()) < 0) {
-                GlobalVariables.getErrorMap().putError("budgetPeriod[" + selectedBudgetPeriodIndex +"].budgetLineItem[" + selectedBudgetLineItemIndex + "].budgetPersonnelDetailsList[" + detailIndex + "].endDate", KeyConstants.ERROR_PERSONNEL_DETAIL_END_DATE, new String[] {"can not be after", "end date"});
+                GlobalVariables.getMessageMap().putError("budgetPeriod[" + selectedBudgetPeriodIndex +"].budgetLineItem[" + selectedBudgetLineItemIndex + "].budgetPersonnelDetailsList[" + detailIndex + "].endDate", KeyConstants.ERROR_PERSONNEL_DETAIL_END_DATE, new String[] {"can not be after", "end date"});
                 errorFound=true;
             }
             if(budgetLineItem.getStartDate().compareTo(budgetPersonnelDetails.getEndDate()) > 0) {
-                GlobalVariables.getErrorMap().putError("budgetPeriod[" + selectedBudgetPeriodIndex +"].budgetLineItem[" + selectedBudgetLineItemIndex + "].budgetPersonnelDetailsList[" + detailIndex + "].endDate", KeyConstants.ERROR_PERSONNEL_DETAIL_END_DATE, new String[] {"can not be before", "start date"});
+                GlobalVariables.getMessageMap().putError("budgetPeriod[" + selectedBudgetPeriodIndex +"].budgetLineItem[" + selectedBudgetLineItemIndex + "].budgetPersonnelDetailsList[" + detailIndex + "].endDate", KeyConstants.ERROR_PERSONNEL_DETAIL_END_DATE, new String[] {"can not be before", "start date"});
                 errorFound=true;
             }
             if(budgetLineItem.getStartDate().compareTo(budgetPersonnelDetails.getStartDate()) > 0) {
-                GlobalVariables.getErrorMap().putError("budgetPeriod[" + selectedBudgetPeriodIndex +"].budgetLineItem[" + selectedBudgetLineItemIndex + "].budgetPersonnelDetailsList[" + detailIndex + "].startDate", KeyConstants.ERROR_PERSONNEL_DETAIL_START_DATE, new String[] {"can not be before", "start date"});
+                GlobalVariables.getMessageMap().putError("budgetPeriod[" + selectedBudgetPeriodIndex +"].budgetLineItem[" + selectedBudgetLineItemIndex + "].budgetPersonnelDetailsList[" + detailIndex + "].startDate", KeyConstants.ERROR_PERSONNEL_DETAIL_START_DATE, new String[] {"can not be before", "start date"});
                 errorFound=true;
             }
             if(budgetLineItem.getEndDate().compareTo(budgetPersonnelDetails.getStartDate()) < 0) {
-                GlobalVariables.getErrorMap().putError("budgetPeriod[" + selectedBudgetPeriodIndex +"].budgetLineItem[" + selectedBudgetLineItemIndex + "].budgetPersonnelDetailsList[" + detailIndex + "].startDate", KeyConstants.ERROR_PERSONNEL_DETAIL_START_DATE, new String[] {"can not be after", "end date"});
+                GlobalVariables.getMessageMap().putError("budgetPeriod[" + selectedBudgetPeriodIndex +"].budgetLineItem[" + selectedBudgetLineItemIndex + "].budgetPersonnelDetailsList[" + detailIndex + "].startDate", KeyConstants.ERROR_PERSONNEL_DETAIL_START_DATE, new String[] {"can not be after", "end date"});
                 errorFound=true;
             }
         }
@@ -548,7 +547,7 @@ public class BudgetPersonnelAction extends BudgetExpensesAction {
             
             validJobCodeCECombo = budgetPersonnelRule.processCheckJobCodeObjectCodeCombo(budgetDocument, budgetPersonnelDetails, true);
             if(!validJobCodeCECombo)  {
-                GlobalVariables.getErrorMap().putError("document.budgetPeriod[" + budgetPeriodIndex   +"].budgetLineItem[" + budgetLineItemIndex + "].budgetPersonnelDetailsList[" + k + "].personSequenceNumber", KeyConstants.ERROR_SAVE_JOBCODE_COST_ELEMENT_COMBO_INVALID);
+                GlobalVariables.getMessageMap().putError("document.budgetPeriod[" + budgetPeriodIndex   +"].budgetLineItem[" + budgetLineItemIndex + "].budgetPersonnelDetailsList[" + k + "].personSequenceNumber", KeyConstants.ERROR_SAVE_JOBCODE_COST_ELEMENT_COMBO_INVALID);
             }
             valid &= validJobCodeCECombo;
             k++;
@@ -639,10 +638,10 @@ public class BudgetPersonnelAction extends BudgetExpensesAction {
 
         // prepare for the reload action - set doc id and command
         budgetForm.setDocId(document.getDocumentNumber());
-        budgetForm.setCommand(KEWConstants.DOCSEARCH_COMMAND);
+        budgetForm.setCommand(KewApiConstants.DOCSEARCH_COMMAND);
         // forward off to the doc handler
         ActionForward actionForward = docHandler(mapping, form, request, response);
-        GlobalVariables.getMessageList().add(RiceKeyConstants.MESSAGE_RELOADED);
+        KNSGlobalVariables.getMessageList().add(RiceKeyConstants.MESSAGE_RELOADED);
         
         reconcilePersonnelRoles(budgetForm.getDocument());
         populatePersonnelCategoryTypeCodes(budgetForm);  

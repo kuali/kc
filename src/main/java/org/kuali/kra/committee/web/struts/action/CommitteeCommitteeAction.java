@@ -39,8 +39,8 @@ import org.kuali.kra.infrastructure.TaskName;
 import org.kuali.kra.irb.ProtocolDocumentRule;
 import org.kuali.kra.service.VersioningService;
 import org.kuali.kra.service.impl.VersioningServiceImpl;
-import org.kuali.rice.kns.bo.PersistableBusinessObject;
-import org.kuali.rice.kns.util.KNSConstants;
+import org.kuali.rice.krad.bo.PersistableBusinessObject;
+import org.kuali.rice.krad.util.KRADConstants;
 
 /**
  * The CommitteeCommitteeAction corresponds to the Committee tab (web page).  It is
@@ -59,7 +59,7 @@ public class CommitteeCommitteeAction extends CommitteeAction {
         ActionForward actionForward = super.execute(mapping, form, request, response);
         // Following is for committee lookup - edit committee 
         CommitteeForm committeeForm = ((CommitteeForm)form);
-        String commandParam = request.getParameter(KNSConstants.PARAMETER_COMMAND);
+        String commandParam = request.getParameter(KRADConstants.PARAMETER_COMMAND);
         if (StringUtils.isNotBlank(commandParam) && commandParam.equals("initiate") && StringUtils.isNotBlank(request.getParameter(COMMITTEE_ID))) {
             Committee committee = getCommitteeService().getCommitteeById(request.getParameter(COMMITTEE_ID));
             /* don't need the original committeeDocument saved in xml content */
@@ -124,5 +124,5 @@ public class CommitteeCommitteeAction extends CommitteeAction {
     private CommitteeService getCommitteeService() {
         return (CommitteeService) KraServiceLocator.getService(CommitteeService.class);
     }
-    
+
 }

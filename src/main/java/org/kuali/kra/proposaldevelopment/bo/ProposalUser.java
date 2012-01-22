@@ -15,11 +15,9 @@
  */
 package org.kuali.kra.proposaldevelopment.bo;
 
-import java.util.LinkedHashMap;
-
 import org.apache.commons.lang.StringUtils;
 import org.kuali.kra.infrastructure.RoleConstants;
-import org.kuali.rice.kns.bo.BusinessObjectBase;
+import org.kuali.rice.krad.bo.BusinessObjectBase;
 
 /**
  * A <b>ProposalUser</b> represents a user who has a role in a Proposal's ACL.
@@ -33,18 +31,21 @@ import org.kuali.rice.kns.bo.BusinessObjectBase;
  * @author Kuali Research Administration Team (kualidev@oncourse.iu.edu)
  */
 public class ProposalUser extends BusinessObjectBase {
-    
+
     private String username = "";
+
     private String fullname = "";
+
     private String unitNumber = "";
+
     private String unitName = "";
+
     private String roleName = "";
-    
+
     /**
      * Constructs a ProposalUser.
      */
     public ProposalUser() {
-       
     }
 
     /**
@@ -54,7 +55,7 @@ public class ProposalUser extends BusinessObjectBase {
     public String getUsername() {
         return username;
     }
-    
+
     /**
      * Set the user's unique username.
      * @param username the user's username
@@ -78,7 +79,7 @@ public class ProposalUser extends BusinessObjectBase {
     public void setFullname(String fullname) {
         this.fullname = fullname;
     }
-    
+
     /**
      * Get the user's home unit number.
      * @return the user's home unit number.
@@ -94,7 +95,7 @@ public class ProposalUser extends BusinessObjectBase {
     public void setUnitNumber(String unitNumber) {
         this.unitNumber = unitNumber;
     }
-    
+
     /**
      * Get the user's home unit name.
      * @return the user's home unit name.
@@ -102,7 +103,7 @@ public class ProposalUser extends BusinessObjectBase {
     public String getUnitName() {
         return unitName;
     }
-    
+
     /**
      * Set the user's home unit name.
      * @param unitName the user's home unit name
@@ -110,7 +111,7 @@ public class ProposalUser extends BusinessObjectBase {
     public void setUnitName(String unitName) {
         this.unitName = unitName;
     }
-    
+
     /**
      * Get the user's role id in the proposal.
      * @return the user's role id in the proposal.
@@ -118,7 +119,7 @@ public class ProposalUser extends BusinessObjectBase {
     public String getRoleName() {
         return roleName;
     }
-    
+
     /**
      * Set the user's role id.
      * @param roleId the user's role id
@@ -146,29 +147,13 @@ public class ProposalUser extends BusinessObjectBase {
             return "";
         }
     }
-    
-    /**
-     * @see org.kuali.rice.kns.bo.BusinessObjectBase#toStringMapper()
-     */
-    @Override
-    protected LinkedHashMap toStringMapper() {
-        LinkedHashMap map = new LinkedHashMap();
-        map.put("username", getUsername());
-        map.put("fullname", getFullname());
-        map.put("unitNumber", getUnitNumber());
-        map.put("unitName", getUnitName());
-        map.put("roleName", getRoleName());
-        map.put("roleLabel", getRoleLabel());
-        return map;
-    }
 
     /**
-     * @see org.kuali.rice.kns.bo.BusinessObject#refresh()
+     * @see org.kuali.rice.krad.bo.BusinessObject#refresh()
      */
     public void refresh() {
-        // do nothing
     }
-    
+
     /**
      * @see java.lang.Object#equals(java.lang.Object)
      */
@@ -176,9 +161,7 @@ public class ProposalUser extends BusinessObjectBase {
         if (obj == null) return false;
         if (obj == this) return true;
         if (!obj.getClass().equals(this.getClass())) return false;
-        
         ProposalUser user = (ProposalUser) obj;
-        return StringUtils.equals(this.username, user.username) &&
-               StringUtils.equals(this.roleName, user.roleName);
+        return StringUtils.equals(this.username, user.username) && StringUtils.equals(this.roleName, user.roleName);
     }
 }

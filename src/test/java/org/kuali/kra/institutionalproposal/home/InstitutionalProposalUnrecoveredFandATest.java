@@ -57,6 +57,6 @@ private static final int IP_UNRECOVERED_FNA_ATTRIBUTES_COUNT = 7;
      */
     @Test
     public void testInstitutionalProposalUnrecovedFandABoAttributesCount() throws Exception {              
-        Assert.assertEquals(IP_UNRECOVERED_FNA_ATTRIBUTES_COUNT, institutionalProposalUnrecoveredFandABo.toStringMapper().size());
+        Assert.assertEquals(IP_UNRECOVERED_FNA_ATTRIBUTES_COUNT, institutionalProposalUnrecoveredFandABo.getClass().getFields().length);
     }
 }

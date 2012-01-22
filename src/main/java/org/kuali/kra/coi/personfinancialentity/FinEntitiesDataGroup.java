@@ -15,7 +15,6 @@
  */
 package org.kuali.kra.coi.personfinancialentity;
 
-import java.util.LinkedHashMap;
 import java.util.List;
 
 import org.kuali.kra.bo.KraPersistableBusinessObjectBase;
@@ -24,23 +23,24 @@ import org.kuali.kra.bo.KraPersistableBusinessObjectBase;
  * 
  * This class is for FE entity data groups.
  */
-public class FinEntitiesDataGroup extends KraPersistableBusinessObjectBase implements Comparable<FinEntitiesDataGroup> { 
-    
+public class FinEntitiesDataGroup extends KraPersistableBusinessObjectBase implements Comparable<FinEntitiesDataGroup> {
 
     /**
      * Comment for <code>serialVersionUID</code>
      */
     private static final long serialVersionUID = -7800055388419460633L;
-    private Integer dataGroupId; 
-    private String dataGroupName; 
-    private Integer dataGroupSortId; 
-    
-    private List<FinEntitiesDataMatrix> finEntitiesDataMatrixs; 
-    
-    public FinEntitiesDataGroup() { 
 
-    } 
-    
+    private Integer dataGroupId;
+
+    private String dataGroupName;
+
+    private Integer dataGroupSortId;
+
+    private List<FinEntitiesDataMatrix> finEntitiesDataMatrixs;
+
+    public FinEntitiesDataGroup() {
+    }
+
     public Integer getDataGroupId() {
         return dataGroupId;
     }
@@ -65,16 +65,6 @@ public class FinEntitiesDataGroup extends KraPersistableBusinessObjectBase imple
         this.dataGroupSortId = dataGroupSortId;
     }
 
-    /** {@inheritDoc} */
-    @Override 
-    protected LinkedHashMap<String, Object> toStringMapper() {
-        LinkedHashMap<String, Object> hashMap = new LinkedHashMap<String, Object>();
-        hashMap.put("dataGroupId", this.getDataGroupId());
-        hashMap.put("dataGroupName", this.getDataGroupName());
-        hashMap.put("dataGroupSortId", this.getDataGroupSortId());
-        return hashMap;
-    }
-
     public List<FinEntitiesDataMatrix> getFinEntitiesDataMatrixs() {
         return finEntitiesDataMatrixs;
     }
@@ -86,5 +76,4 @@ public class FinEntitiesDataGroup extends KraPersistableBusinessObjectBase imple
     public int compareTo(FinEntitiesDataGroup arg1) {
         return getDataGroupSortId().compareTo(arg1.getDataGroupSortId());
     }
-    
 }

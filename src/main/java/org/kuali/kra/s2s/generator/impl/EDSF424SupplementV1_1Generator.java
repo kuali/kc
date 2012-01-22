@@ -15,9 +15,6 @@
  */
 package org.kuali.kra.s2s.generator.impl;
 
-import java.util.ArrayList;
-import java.util.List;
-
 import gov.grants.apply.forms.edSF424SupplementV11.EDSF424SupplementDocument;
 import gov.grants.apply.forms.edSF424SupplementV11.EDSF424SupplementDocument.EDSF424Supplement;
 import gov.grants.apply.forms.edSF424SupplementV11.EDSF424SupplementDocument.EDSF424Supplement.AssuranceNumber;
@@ -25,6 +22,9 @@ import gov.grants.apply.forms.edSF424SupplementV11.EDSF424SupplementDocument.EDS
 import gov.grants.apply.system.attachmentsV10.AttachedFileDataType;
 import gov.grants.apply.system.globalLibraryV20.YesNoDataType;
 import gov.grants.apply.system.globalLibraryV20.YesNoNotApplicableDataType;
+
+import java.util.ArrayList;
+import java.util.List;
 
 import org.apache.xmlbeans.XmlObject;
 import org.kuali.kra.bo.Organization;

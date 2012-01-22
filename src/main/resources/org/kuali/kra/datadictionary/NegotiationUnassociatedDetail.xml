@@ -45,7 +45,7 @@
     <property name="forceUppercase" value="false" />
     <property name="label" value="negotiationUnassociatedDetailId" />
     <property name="shortLabel" value="negotiationUnassociatedDetailId" />
-    <property name="required" value="false" />
+    <property name="required" value="true" />
     <property name="maxLength" value="22" />
     <property name="validationPattern" >
       <bean parent="NumericValidationPattern" />

@@ -22,12 +22,12 @@ import org.kuali.kra.bo.InstituteRate;
 import org.kuali.kra.budget.rates.InstituteRateMaintenanceDocumentRule;
 import org.kuali.kra.infrastructure.KeyConstants;
 import org.kuali.kra.maintenance.MaintenanceRuleTestBase;
-import org.kuali.rice.kns.UserSession;
+import org.kuali.rice.core.api.util.RiceKeyConstants;
 import org.kuali.rice.kns.document.MaintenanceDocument;
-import org.kuali.rice.kns.util.ErrorMessage;
-import org.kuali.rice.kns.util.GlobalVariables;
-import org.kuali.rice.kns.util.RiceKeyConstants;
-import org.kuali.rice.kns.util.TypedArrayList;
+import org.kuali.rice.krad.UserSession;
+import org.kuali.rice.krad.util.ErrorMessage;
+import org.kuali.rice.krad.util.GlobalVariables;
+import org.springframework.util.AutoPopulatingList;
 
 public class InstituteRateMaintenanceDocumentRuleTest extends MaintenanceRuleTestBase {
     private InstituteRateMaintenanceDocumentRule rule = null;
@@ -75,14 +75,14 @@ public class InstituteRateMaintenanceDocumentRuleTest extends MaintenanceRuleTes
         instituteRate.setActivityTypeCode("1");
         MaintenanceDocument instituteRateDocument = newMaintDoc(instituteRate);
         assertFalse(rule.processCustomRouteDocumentBusinessRules(instituteRateDocument));
-        TypedArrayList errors = GlobalVariables.getErrorMap().getMessages("document.newMaintainableObject.rateTypeCode");
+        AutoPopulatingList errors = GlobalVariables.getMessageMap().getMessages("document.newMaintainableObject.rateTypeCode");
         assertTrue(errors.size() == 1);
         ErrorMessage message = (ErrorMessage) errors.get(0);
         assertEquals(message.getErrorKey(), KeyConstants.ERROR_RATE_TYPE_NOT_EXIST);
 
         // approve will have the same error too.
         assertFalse(rule.processCustomApproveDocumentBusinessRules(instituteRateDocument));
-        errors = GlobalVariables.getErrorMap().getMessages("document.newMaintainableObject.rateTypeCode");
+        errors = GlobalVariables.getMessageMap().getMessages("document.newMaintainableObject.rateTypeCode");
         assertTrue(errors.size() == 1);
         message = (ErrorMessage) errors.get(0);
         assertEquals(message.getErrorKey(), KeyConstants.ERROR_RATE_TYPE_NOT_EXIST);
@@ -100,14 +100,14 @@ public class InstituteRateMaintenanceDocumentRuleTest extends MaintenanceRuleTes
         instituteRate.setActivityTypeCode("1");
         MaintenanceDocument instituteRateDocument = newMaintDoc(instituteRate);
         assertFalse(rule.processCustomRouteDocumentBusinessRules(instituteRateDocument));
-        TypedArrayList errors = GlobalVariables.getErrorMap().getMessages("document.newMaintainableObject.unitNumber");
+        AutoPopulatingList errors = GlobalVariables.getMessageMap().getMessages("document.newMaintainableObject.unitNumber");
         assertTrue(errors.size() == 1);
         ErrorMessage message = (ErrorMessage) errors.get(0);
         assertEquals(message.getErrorKey(), RiceKeyConstants.ERROR_EXISTENCE);
 
         // approve will have the same error too.
         assertFalse(rule.processCustomApproveDocumentBusinessRules(instituteRateDocument));
-        errors = GlobalVariables.getErrorMap().getMessages("document.newMaintainableObject.unitNumber");
+        errors = GlobalVariables.getMessageMap().getMessages("document.newMaintainableObject.unitNumber");
         assertTrue(errors.size() == 1);
         message = (ErrorMessage) errors.get(0);
         assertEquals(message.getErrorKey(), RiceKeyConstants.ERROR_EXISTENCE);
@@ -125,14 +125,14 @@ public class InstituteRateMaintenanceDocumentRuleTest extends MaintenanceRuleTes
         instituteRate.setActivityTypeCode("x");
         MaintenanceDocument instituteRateDocument = newMaintDoc(instituteRate);
         assertFalse(rule.processCustomRouteDocumentBusinessRules(instituteRateDocument));
-        TypedArrayList errors = GlobalVariables.getErrorMap().getMessages("document.newMaintainableObject.activityTypeCode");
+        AutoPopulatingList errors = GlobalVariables.getMessageMap().getMessages("document.newMaintainableObject.activityTypeCode");
         assertTrue(errors.size() == 1);
         ErrorMessage message = (ErrorMessage) errors.get(0);
         assertEquals(message.getErrorKey(), RiceKeyConstants.ERROR_EXISTENCE);
 
         // approve will have the same error too.
         assertFalse(rule.processCustomApproveDocumentBusinessRules(instituteRateDocument));
-        errors = GlobalVariables.getErrorMap().getMessages("document.newMaintainableObject.activityTypeCode");
+        errors = GlobalVariables.getMessageMap().getMessages("document.newMaintainableObject.activityTypeCode");
         assertTrue(errors.size() == 1);
         message = (ErrorMessage) errors.get(0);
         assertEquals(message.getErrorKey(), RiceKeyConstants.ERROR_EXISTENCE);

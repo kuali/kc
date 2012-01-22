@@ -20,11 +20,11 @@ import java.util.List;
 
 import org.kuali.kra.award.document.AwardDocument;
 import org.kuali.kra.infrastructure.Constants;
-import org.kuali.rice.kns.document.Document;
-import org.kuali.rice.kns.rule.DocumentAuditRule;
 import org.kuali.rice.kns.util.AuditCluster;
 import org.kuali.rice.kns.util.AuditError;
-import org.kuali.rice.kns.util.GlobalVariables;
+import org.kuali.rice.kns.util.KNSGlobalVariables;
+import org.kuali.rice.krad.document.Document;
+import org.kuali.rice.krad.rules.rule.DocumentAuditRule;
 
 /**
  * This class processes audit rules (warnings) for the Report Information related
@@ -68,9 +68,9 @@ public class AwardSponsorContactAuditRule implements DocumentAuditRule {
     @SuppressWarnings("unchecked")
     protected void reportAndCreateAuditCluster() {
         if (auditErrors.size() > 0) {
-            AuditCluster existingErrors = (AuditCluster) GlobalVariables.getAuditErrorMap().get(CONTACTS_AUDIT_ERRORS);
+            AuditCluster existingErrors = (AuditCluster) KNSGlobalVariables.getAuditErrorMap().get(CONTACTS_AUDIT_ERRORS);
             if (existingErrors == null) {
-                GlobalVariables.getAuditErrorMap().put(CONTACTS_AUDIT_ERRORS, new AuditCluster(Constants.CONTACTS_PANEL_NAME,
+                KNSGlobalVariables.getAuditErrorMap().put(CONTACTS_AUDIT_ERRORS, new AuditCluster(Constants.CONTACTS_PANEL_NAME,
                                                                                               auditErrors, Constants.AUDIT_ERRORS));
             } else {
                 existingErrors.getAuditErrorList().addAll(auditErrors);

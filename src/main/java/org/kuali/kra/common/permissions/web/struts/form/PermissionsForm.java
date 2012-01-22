@@ -15,7 +15,7 @@
  */
 package org.kuali.kra.common.permissions.web.struts.form;
 
-import org.kuali.rice.kns.document.Document;
+import org.kuali.rice.krad.document.Document;
 
 /**
  * Every Document Form that requires a Permissions tab web page must

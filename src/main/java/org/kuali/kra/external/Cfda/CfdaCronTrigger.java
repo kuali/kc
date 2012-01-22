@@ -23,13 +23,17 @@ import org.apache.commons.lang.StringUtils;
 import org.apache.commons.logging.Log;
 import org.apache.commons.logging.LogFactory;
 import org.kuali.kra.infrastructure.Constants;
-import org.kuali.rice.kns.service.ParameterService;
+import org.kuali.rice.coreservice.framework.parameter.ParameterService;
+import org.springframework.context.ApplicationEvent;
+import org.springframework.context.ApplicationListener;
+import org.springframework.context.event.ContextRefreshedEvent;
+import org.springframework.context.event.ContextStartedEvent;
 import org.springframework.scheduling.quartz.CronTriggerBean;
 
 /**
  * This class is the cron trigger class for the CFDA batch job
  */
-public class CfdaCronTrigger extends CronTriggerBean {
+public class CfdaCronTrigger extends CronTriggerBean implements ApplicationListener {
    /**
     * 
     *      1.  Seconds
@@ -41,7 +45,8 @@ public class CfdaCronTrigger extends CronTriggerBean {
            7. Year (optional field)
     */
     private ParameterService parameterService;
-
+    private boolean refreshed = false;
+    
     private static final Log LOG = LogFactory.getLog(CfdaCronTrigger.class);
 
    
@@ -50,15 +55,18 @@ public class CfdaCronTrigger extends CronTriggerBean {
      * 
      * @see org.springframework.scheduling.quartz.CronTriggerBean#afterPropertiesSet()
      */
-    public void afterPropertiesSet() throws ParseException {
-        setCronExpression(getSystemCronExpression());
-        setStartTime(getCronStartTime());
+    public void afterPropertiesSet() throws Exception {
+        setCronExpression(Constants.DEFAULT_CRON_EXPRESSION);
+        setStartTime(getDefaultCronStartTime());
         super.afterPropertiesSet();
     }
-
+    
+    private Date getDefaultCronStartTime() {
+        return new Date(System.currentTimeMillis() + (365*24*60*60*1000L)); 
+    }
     
     private Date getCronStartTime() {
-        String integrationParameter = parameterService.getParameterValue(Constants.PARAMETER_MODULE_AWARD, 
+        String integrationParameter = parameterService.getParameterValueAsString(Constants.PARAMETER_MODULE_AWARD, 
                                                                             Constants.PARAMETER_COMPONENT_DOCUMENT,
                                                                             Constants.FIN_SYSTEM_INTEGRATION_ON_OFF_PARAMETER);
         Date defaultDate; 
@@ -77,8 +85,8 @@ public class CfdaCronTrigger extends CronTriggerBean {
             return dateFormat.parse(dateString);
         } catch (Exception e) {
             LOG.warn("Not able to get the starttime for CFDA from system param table. Set it to " + defaultDateStr);
-            return defaultDate;
         }
+        return defaultDate;
     }
 
     /**
@@ -87,13 +95,8 @@ public class CfdaCronTrigger extends CronTriggerBean {
      * @return the Cron Expression
      */
     private String getSystemCronExpression() {
-       try {
-            String cron = getParameterValue(Constants.CFDA_BATCH_JOB_CRON_EXPRESSION_PARAMETER);
-            return  cron;
-        } catch (Exception ex) {
-            // use default to check if update works...
-            return Constants.DEFAULT_CRON_EXPRESSION;
-        }
+        String systemCronExpression = getParameterValue(Constants.CFDA_BATCH_JOB_CRON_EXPRESSION_PARAMETER);
+        return (StringUtils.isEmpty(systemCronExpression)) ? Constants.DEFAULT_CRON_EXPRESSION : systemCronExpression;
     }
 
     /**
@@ -103,7 +106,7 @@ public class CfdaCronTrigger extends CronTriggerBean {
      * @return the parameter's value
      */
     private String getParameterValue(String key) {
-        return parameterService.getParameterValue(Constants.MODULE_NAMESPACE_AWARD,Constants.PARAMETER_COMPONENT_DOCUMENT, key);
+        return parameterService.getParameterValueAsString(Constants.MODULE_NAMESPACE_AWARD,Constants.PARAMETER_COMPONENT_DOCUMENT, key);
     }
 
     /**
@@ -117,6 +120,29 @@ public class CfdaCronTrigger extends CronTriggerBean {
     public ParameterService getParameterService() {
         return parameterService;
     }
+    
+    /**
+     * FIXME
+     * This is a hack as a result of a rice upgrade to reset the cron expression after it is initialized.
+     * This is because the ParamterService not being available when this Bean is being created by Spring
+     * and lazy-init or depends-on will not work in this case.
+     * {@inheritDoc}
+     */
+    public void onApplicationEvent(ApplicationEvent event) {
+        if (event instanceof ContextStartedEvent && !this.refreshed) {
+            try {
+                final String newExpr = this.getSystemCronExpression();
+                this.refreshed = true;
+                this.setCronExpression(newExpr);
+                this.setStartTime(this.getCronStartTime());
+                LOG.info("refreshing cron expression to [" + newExpr + "].");
+            } catch (ParseException e) {
+                LOG.warn("unable refresh cron expression");
+            }
+        }
+        
+    }
+
 
 }
 

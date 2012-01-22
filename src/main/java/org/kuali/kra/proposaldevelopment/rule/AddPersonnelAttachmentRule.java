@@ -16,7 +16,7 @@
 package org.kuali.kra.proposaldevelopment.rule;
 
 import org.kuali.kra.proposaldevelopment.rule.event.AddPersonnelAttachmentEvent;
-import org.kuali.rice.kns.rule.BusinessRule;
+import org.kuali.rice.krad.rules.rule.BusinessRule;
 
 public interface AddPersonnelAttachmentRule extends BusinessRule {
     

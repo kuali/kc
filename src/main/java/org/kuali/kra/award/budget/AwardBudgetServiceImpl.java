@@ -68,15 +68,15 @@ import org.kuali.kra.proposaldevelopment.bo.DevelopmentProposal;
 import org.kuali.kra.proposaldevelopment.budget.bo.ProposalDevelopmentBudgetExt;
 import org.kuali.kra.service.DeepCopyPostProcessor;
 import org.kuali.kra.service.VersionHistoryService;
-import org.kuali.rice.kew.exception.WorkflowException;
-import org.kuali.rice.kns.bo.DocumentHeader;
-import org.kuali.rice.kns.document.Document;
-import org.kuali.rice.kns.service.BusinessObjectService;
-import org.kuali.rice.kns.service.DocumentService;
-import org.kuali.rice.kns.service.ParameterService;
-import org.kuali.rice.kns.util.GlobalVariables;
-import org.kuali.rice.kns.util.KualiDecimal;
-import org.kuali.rice.kns.workflow.service.KualiWorkflowDocument;
+import org.kuali.rice.core.api.util.type.KualiDecimal;
+import org.kuali.rice.coreservice.framework.parameter.ParameterService;
+import org.kuali.rice.kew.api.WorkflowDocument;
+import org.kuali.rice.kew.api.exception.WorkflowException;
+import org.kuali.rice.krad.bo.DocumentHeader;
+import org.kuali.rice.krad.document.Document;
+import org.kuali.rice.krad.service.BusinessObjectService;
+import org.kuali.rice.krad.service.DocumentService;
+import org.kuali.rice.krad.util.GlobalVariables;
 import org.springframework.beans.BeanUtils;
 
 /**
@@ -133,8 +133,8 @@ public class AwardBudgetServiceImpl implements AwardBudgetService {
      * @see org.kuali.kra.award.budget.AwardBudgetService#processApproval(org.kuali.kra.award.budget.document.AwardBudgetDocument)
      */
     public void processApproval(AwardBudgetDocument awardBudgetDocument) {
-        KualiWorkflowDocument workFlowDocument = getWorkflowDocument(awardBudgetDocument);
-        if(workFlowDocument.stateIsFinal()){
+        WorkflowDocument workFlowDocument = getWorkflowDocument(awardBudgetDocument);
+        if(workFlowDocument.isFinal()){
             processStatusChange(awardBudgetDocument, KeyConstants.AWARD_BUDGET_STATUS_TO_BE_POSTED);
         }
         saveDocument(awardBudgetDocument);
@@ -155,15 +155,15 @@ public class AwardBudgetServiceImpl implements AwardBudgetService {
     }
     
     protected void processStatusChange(AwardBudgetDocument awardBudgetDocument,String routingStatus){
-        KualiWorkflowDocument workflowDocument = getWorkflowDocument(awardBudgetDocument);
+        WorkflowDocument workflowDocument = getWorkflowDocument(awardBudgetDocument);
         String submittedStatusCode = getParameterValue(routingStatus);
         String submittedStatus = findStatusDescription(submittedStatusCode);
         awardBudgetDocument.getAwardBudget().setAwardBudgetStatusCode(submittedStatusCode);
-        workflowDocument.getRouteHeader().setAppDocStatus(submittedStatus);
+        workflowDocument.setApplicationDocumentStatus(submittedStatus);
     }
 
     protected String getParameterValue(String awardBudgetParameter) {
-        return  getParameterService().getParameterValue(AwardBudgetDocument.class, awardBudgetParameter);
+        return  getParameterService().getParameterValueAsString(AwardBudgetDocument.class, awardBudgetParameter);
     }
 
 
@@ -185,8 +185,8 @@ public class AwardBudgetServiceImpl implements AwardBudgetService {
      * @param doc the document
      * @return the workflow document or null if there is none
      */
-    protected KualiWorkflowDocument getWorkflowDocument(Document doc) {
-        KualiWorkflowDocument workflowDocument = null;
+    protected WorkflowDocument getWorkflowDocument(Document doc) {
+        WorkflowDocument workflowDocument = null;
         if (doc != null) {
             DocumentHeader header = doc.getDocumentHeader();
             if (header != null) {
@@ -323,7 +323,7 @@ public class AwardBudgetServiceImpl implements AwardBudgetService {
             awardBudget.setUrRateClassCode(getBudgetParameterValue( Constants.BUDGET_DEFAULT_UNDERRECOVERY_RATE_CODE));
         }
         awardBudget.setOhRateTypeCode(getBudgetParameterValue( Constants.BUDGET_DEFAULT_OVERHEAD_RATE_TYPE_CODE));
-        awardBudget.setModularBudgetFlag(parameterService.getIndicatorParameter(BudgetDocument.class, Constants.BUDGET_DEFAULT_MODULAR_FLAG));
+        awardBudget.setModularBudgetFlag(parameterService.getParameterValueAsBoolean(BudgetDocument.class, Constants.BUDGET_DEFAULT_MODULAR_FLAG));
         awardBudget.setBudgetStatus(getAwardParameterValue( KeyConstants.AWARD_BUDGET_STATUS_IN_PROGRESS));
         // do not want the Budget adjustment doc number to be copied over to the new budget.
         // this should be null so the budget can be posted again to the financial system.
@@ -345,13 +345,13 @@ public class AwardBudgetServiceImpl implements AwardBudgetService {
 
         return awardBudgetDocument;
     }
-
+    
     /**
      * This method...
      * @return
      */
     private String getBudgetParameterValue(String parameter) {
-        return parameterService.getParameterValue(BudgetDocument.class, parameter);
+        return parameterService.getParameterValueAsString(BudgetDocument.class, parameter);
     }
 
     /**
@@ -359,7 +359,7 @@ public class AwardBudgetServiceImpl implements AwardBudgetService {
      * @return
      */
     private String getAwardParameterValue(String parameter) {
-        return parameterService.getParameterValue(AwardBudgetDocument.class, parameter);
+        return parameterService.getParameterValueAsString(AwardBudgetDocument.class, parameter);
     }
     
     public void setBudgetLimits(AwardBudgetDocument awardBudgetDocument, AwardDocument parentDocument) {
@@ -503,7 +503,7 @@ public class AwardBudgetServiceImpl implements AwardBudgetService {
     }
 
     protected String getAwardPostedStatusCode() {
-        return this.parameterService.getParameterValue(AwardBudgetDocument.class, KeyConstants.AWARD_BUDGET_STATUS_POSTED);
+        return this.parameterService.getParameterValueAsString(AwardBudgetDocument.class, KeyConstants.AWARD_BUDGET_STATUS_POSTED);
     }
 
     protected BudgetVersionOverview getLastBudgetVersion(AwardDocument award) {

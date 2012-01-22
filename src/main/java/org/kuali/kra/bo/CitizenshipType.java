@@ -15,15 +15,16 @@
  */
 package org.kuali.kra.bo;
 
-import java.util.LinkedHashMap;
 
 /**
  * This class...
  */
 public class CitizenshipType extends KraPersistableBusinessObjectBase {
-    
+
     private int citizenshipTypeCode;
+
     private String description;
+
     private boolean active;
 
     /**
@@ -32,56 +33,28 @@ public class CitizenshipType extends KraPersistableBusinessObjectBase {
     public CitizenshipType() {
         super();
     }
-    
-    
 
     public int getCitizenshipTypeCode() {
         return citizenshipTypeCode;
     }
 
-
-
     public void setCitizenshipTypeCode(int citizenTypeCode) {
         this.citizenshipTypeCode = citizenTypeCode;
     }
-
-
 
     public String getDescription() {
         return description;
     }
 
-
-
     public void setDescription(String description) {
         this.description = description;
     }
-
-
 
     public boolean isActive() {
         return active;
     }
 
-
-
     public void setActive(boolean active) {
         this.active = active;
-    }
-
-    /**
-     * @see org.kuali.rice.kns.bo.BusinessObjectBase#toStringMapper()
-     */
-    @Override
-    protected LinkedHashMap toStringMapper() {
-        LinkedHashMap map = new LinkedHashMap();
-        map.put("citizen type code", this.getCitizenshipTypeCode());
-        map.put("description", this.getDescription());
-        map.put("Active", this.isActive());
-        map.put("update user", this.getUpdateUser());
-        map.put("update date", this.getUpdateTimestamp());
-        map.put("objectid", this.getObjectId());
-        map.put("versionNumber", this.getVersionNumber());
-        return map;
     }
 }

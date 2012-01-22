@@ -18,7 +18,7 @@ package org.kuali.kra.award.budget;
 import java.io.Serializable;
 
 import org.kuali.kra.award.AwardForm;
-import org.kuali.rice.kns.util.KualiDecimal;
+import org.kuali.rice.core.api.util.type.KualiDecimal;
 
 public class AwardBudgetLimitsBean implements Serializable {
     

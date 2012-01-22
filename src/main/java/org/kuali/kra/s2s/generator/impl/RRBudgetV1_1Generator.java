@@ -210,19 +210,20 @@ public class RRBudgetV1_1Generator extends RRBudgetBaseGenerator {
 	 */
 	private BudgetYear1DataType getBudgetJustificationAttachment(BudgetYear1DataType budgetYear) {
 
-        AttachedFileDataType attachedFileDataType = AttachedFileDataType.Factory.newInstance();
-        for (Narrative narrative : pdDoc.getDevelopmentProposal().getNarratives()) {
-            if (narrative.getNarrativeTypeCode() != null
-                    && Integer.parseInt(narrative.getNarrativeTypeCode()) == BUDGET_JUSTIFICATION_ATTACHMENT) {
-                attachedFileDataType = getAttachedFileType(narrative);
-                if (attachedFileDataType != null) {
-                    break;
-                }
-            }
-        }
+		AttachedFileDataType attachedFileDataType = AttachedFileDataType.Factory.newInstance();
+		for (Narrative narrative : pdDoc.getDevelopmentProposal().getNarratives()) {
+			if (narrative.getNarrativeTypeCode() != null
+					&& Integer.parseInt(narrative.getNarrativeTypeCode()) == BUDGET_JUSTIFICATION_ATTACHMENT) {
+				attachedFileDataType = getAttachedFileType(narrative);
+				if (attachedFileDataType != null) {
+					break;
+				}
+			}
+		}
         budgetYear.setBudgetJustificationAttachment(attachedFileDataType);
-        return budgetYear;
-    }
+		return budgetYear;
+	}
+
 	/**
 	 * This method gets BudgetYearDataType details like
 	 * BudgetPeriodStartDate,BudgetPeriodEndDate,BudgetPeriod
@@ -1112,7 +1113,7 @@ public class RRBudgetV1_1Generator extends RRBudgetBaseGenerator {
 					keyPersonCount++;
 					LOG.info("keyPersonCount:" + keyPersonCount);
 				}
-			  }
+			}
 				keyPersons.setKeyPersonArray(keyPersonList.toArray(new KeyPersonDataType[0]));
 			}
 			if (periodInfo.getTotalFundsKeyPersons() != null) {

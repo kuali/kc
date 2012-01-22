@@ -15,25 +15,23 @@
  */
 package org.kuali.kra.meeting;
 
-import java.util.LinkedHashMap;
-
 import org.kuali.kra.bo.KraPersistableBusinessObjectBase;
 
 /**
  * 
  * This class is standard protocol review comment.
  */
-public class ProtocolContingency extends KraPersistableBusinessObjectBase { 
-    
-    private static final long serialVersionUID = 9043529163603762324L;
-    private String protocolContingencyCode; 
-    private String description; 
-    
-    
-    public ProtocolContingency() { 
+public class ProtocolContingency extends KraPersistableBusinessObjectBase {
 
-    } 
-    
+    private static final long serialVersionUID = 9043529163603762324L;
+
+    private String protocolContingencyCode;
+
+    private String description;
+
+    public ProtocolContingency() {
+    }
+
     public String getProtocolContingencyCode() {
         return protocolContingencyCode;
     }
@@ -49,14 +47,4 @@ public class ProtocolContingency extends KraPersistableBusinessObjectBase {
     public void setDescription(String description) {
         this.description = description;
     }
-
-    /** {@inheritDoc} */
-    @Override 
-    protected LinkedHashMap<String, Object> toStringMapper() {
-        LinkedHashMap<String, Object> hashMap = new LinkedHashMap<String, Object>();
-        hashMap.put("protocolContingencyCode", this.getProtocolContingencyCode());
-        hashMap.put("description", this.getDescription());
-        return hashMap;
-    }
-    
 }

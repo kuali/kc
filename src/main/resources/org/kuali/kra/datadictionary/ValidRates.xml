@@ -119,8 +119,8 @@
 			<bean parent="TextControlDefinition"
 				p:size="10" />
 		</property>
-		<property name="summary" value="Off Campus Rate" />
-		<property name="description" value="Off Campus Rate" />
+		<property name="summary" value="Off CampusContractContract Rate" />
+		<property name="description" value="Off CampusContractContract Rate" />
 	</bean>
 
 	<bean id="ValidRates-rateClassType" parent="ValidRates-rateClassType-parentBean" />

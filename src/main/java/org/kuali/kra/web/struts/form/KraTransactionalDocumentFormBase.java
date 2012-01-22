@@ -25,21 +25,20 @@ import javax.servlet.http.HttpServletRequest;
 
 import org.apache.commons.lang.StringUtils;
 import org.kuali.kra.authorization.KraAuthorizationConstants;
-import org.kuali.kra.bo.CoeusModule;
 import org.kuali.kra.bo.PersonEditableField;
 import org.kuali.kra.document.ResearchDocumentBase;
 import org.kuali.kra.infrastructure.KeyConstants;
 import org.kuali.kra.infrastructure.KraServiceLocator;
 import org.kuali.kra.rules.SoftError;
-import org.kuali.rice.kns.document.Document;
 import org.kuali.rice.kns.document.authorization.DocumentAuthorizerBase;
-import org.kuali.rice.kns.document.authorization.PessimisticLock;
-import org.kuali.rice.kns.service.BusinessObjectService;
-import org.kuali.rice.kns.util.GlobalVariables;
-import org.kuali.rice.kns.util.KNSConstants;
-import org.kuali.rice.kns.util.ObjectUtils;
 import org.kuali.rice.kns.web.struts.form.KualiTransactionalDocumentFormBase;
 import org.kuali.rice.kns.web.ui.ExtraButton;
+import org.kuali.rice.krad.document.Document;
+import org.kuali.rice.krad.document.authorization.PessimisticLock;
+import org.kuali.rice.krad.service.BusinessObjectService;
+import org.kuali.rice.krad.util.GlobalVariables;
+import org.kuali.rice.krad.util.KRADConstants;
+import org.kuali.rice.krad.util.ObjectUtils;
   
 /**
  * This class isbase class for KC Transactional Documents ...
@@ -81,11 +80,11 @@ public abstract class KraTransactionalDocumentFormBase extends KualiTransactiona
         // Hack to get panels with add/delete items that are editable after add (Protocol Participants, Special Review) to work correctly with validation.  
         // In this scenario, the user adds a couple of correctly formatted items but then changes one of the fields to an incorrect format and saves.  This will
         // cause validation errors, but if the user now tries to delete the errant entry, validation will fail because the validator in the Kuali Request 
-        // Processor still detects the error in the message map.  We don't want validation to run for a delete method, so we need to clear the current error 
+        // ProcessDefinitionDefinitionor still detects the error in the message map.  We don't want validation to run for a delete method, so we need to clear the current error 
         // messages, preventing the validator from running and allowing the delete to go through.
         //
         // This is detected by the existence of "validate0" on the methodToCall property (similar to finding the line number of a delete).
-        String methodToCallAttribute = (String) request.getAttribute(KNSConstants.METHOD_TO_CALL_ATTRIBUTE);
+        String methodToCallAttribute = (String) request.getAttribute(KRADConstants.METHOD_TO_CALL_ATTRIBUTE);
         if (StringUtils.contains(methodToCallAttribute, "validate")) {
             String validateParameter = StringUtils.substringBetween(methodToCallAttribute, ".validate", ".");
             if (StringUtils.equals("0", validateParameter)) {
@@ -184,7 +183,7 @@ public abstract class KraTransactionalDocumentFormBase extends KualiTransactiona
      * @return the Header Dispatch action
      */
     public String getHeaderDispatch() {
-        return this.getDocumentActions().containsKey(KNSConstants.KUALI_ACTION_CAN_SAVE) ? "save" : "reload";
+        return this.getDocumentActions().containsKey(KRADConstants.KUALI_ACTION_CAN_SAVE) ? "save" : "reload";
     }
     
     protected abstract String getLockRegion();

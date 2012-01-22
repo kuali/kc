@@ -20,7 +20,6 @@ import org.junit.Assert;
 import org.junit.Before;
 import org.junit.Test;
 import org.kuali.kra.award.home.Award;
-import org.kuali.kra.award.notesandattachments.notes.AwardNotepad;
 
 /**
  * This class tests methods in AwardNotepad.java
@@ -58,6 +57,6 @@ private static final int AWARD_NOTEPAD_ATTRIBUTES_COUNT = 7;
      */
     @Test
     public void testAwardNotepadBoAttributesCount() throws Exception {              
-        Assert.assertEquals(AWARD_NOTEPAD_ATTRIBUTES_COUNT, awardNotepadBo.toStringMapper().size());
+        Assert.assertEquals(AWARD_NOTEPAD_ATTRIBUTES_COUNT, awardNotepadBo.getClass().getFields().length);
     }
 }

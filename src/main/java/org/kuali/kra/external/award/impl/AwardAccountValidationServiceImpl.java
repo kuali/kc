@@ -28,9 +28,9 @@ import org.kuali.kra.bo.KcPerson;
 import org.kuali.kra.external.award.AwardAccountValidationService;
 import org.kuali.kra.external.award.FinancialIndirectCostRecoveryTypeCode;
 import org.kuali.kra.infrastructure.KeyConstants;
-import org.kuali.rice.kns.service.BusinessObjectService;
-import org.kuali.rice.kns.util.GlobalVariables;
-import org.kuali.rice.kns.util.ObjectUtils;
+import org.kuali.rice.krad.service.BusinessObjectService;
+import org.kuali.rice.krad.util.GlobalVariables;
+import org.kuali.rice.krad.util.ObjectUtils;
 
 public class AwardAccountValidationServiceImpl implements AwardAccountValidationService {
 

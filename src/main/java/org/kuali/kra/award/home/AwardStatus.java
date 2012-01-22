@@ -15,50 +15,40 @@
  */
 package org.kuali.kra.award.home;
 
-import java.util.LinkedHashMap;
-
 import org.kuali.kra.bo.KraPersistableBusinessObjectBase;
 
 /**
  * 
  * This class represents AwardStatus BO
  */
-public class AwardStatus extends KraPersistableBusinessObjectBase { 
-	
-	/**
+public class AwardStatus extends KraPersistableBusinessObjectBase {
+
+    /**
      * Comment for <code>serialVersionUID</code>
      */
     private static final long serialVersionUID = 7554440681643595144L;
-    private String statusCode; 
-	private String description; 
-	
-	public AwardStatus() { 
 
-	} 
-	
-	public String getStatusCode() {
-		return statusCode;
-	}
+    private String statusCode;
 
-	public void setStatusCode(String statusCode) {
-		this.statusCode = statusCode;
-	}
+    private String description;
 
-	public String getDescription() {
-		return description;
-	}
+    public AwardStatus() {
+    }
 
-	public void setDescription(String description) {
-		this.description = description;
-	}
+    public String getStatusCode() {
+        return statusCode;
+    }
 
-	@SuppressWarnings("unchecked")
-    @Override 
-	protected LinkedHashMap toStringMapper() {
-        LinkedHashMap hashMap = new LinkedHashMap();
-        hashMap.put("statusCode", getStatusCode());
-        hashMap.put("description", getDescription());
-        return hashMap;
+    public void setStatusCode(String statusCode) {
+        this.statusCode = statusCode;
+    }
+
+    public String getDescription() {
+        return description;
+    }
+
+    public void setDescription(String description) {
+        this.description = description;
     }
 
     /**
@@ -84,26 +74,22 @@ public class AwardStatus extends KraPersistableBusinessObjectBase {
         if (obj == null) {
             return false;
         }
-        if (getClass() != obj.getClass())
-            return false;
+        if (getClass() != obj.getClass()) return false;
         AwardStatus other = (AwardStatus) obj;
         if (description == null) {
             if (other.description != null) {
                 return false;
             }
-        }
-        else if (!description.equals(other.description)) {
+        } else if (!description.equals(other.description)) {
             return false;
         }
         if (statusCode == null) {
             if (other.statusCode != null) {
                 return false;
             }
-        }
-        else if (!statusCode.equals(other.statusCode)) {
+        } else if (!statusCode.equals(other.statusCode)) {
             return false;
         }
         return true;
     }
-	
 }

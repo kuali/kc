@@ -15,14 +15,10 @@
  */
 package org.kuali.kra.award.budget;
 
-import java.util.LinkedHashMap;
-
 import org.apache.commons.lang.ObjectUtils;
 import org.apache.commons.lang.StringUtils;
 import org.kuali.kra.award.AwardAssociate;
-import org.kuali.kra.award.home.Award;
-import org.kuali.kra.budget.core.Budget;
-import org.kuali.rice.kns.util.KualiDecimal;
+import org.kuali.rice.core.api.util.type.KualiDecimal;
 
 /**
  * 
@@ -33,23 +29,26 @@ import org.kuali.rice.kns.util.KualiDecimal;
  * if future features as discussed are ever implemented.
  */
 public class AwardBudgetLimit extends AwardAssociate {
-    
+
     private static final long serialVersionUID = 1215583539908050082L;
-    
+
     private Long budgetLimitId;
+
     private Long awardId;
+
     private Long budgetId;
+
     private String limitTypeCode;
+
     private KualiDecimal limit;
-    
+
     public AwardBudgetLimit() {
-        
     }
-    
+
     public AwardBudgetLimit(LIMIT_TYPE type) {
         setLimitType(type);
     }
-    
+
     /**
      * 
      * Constructs a AwardBudgetLimit.java by copying relevant info from the AwardBudgetLimit (limitTypeCode and limit)
@@ -60,31 +59,39 @@ public class AwardBudgetLimit extends AwardAssociate {
         limitTypeCode = budgetLimit.getLimitTypeCode();
         limit = budgetLimit.getLimit();
     }
-    
+
     public Long getBudgetLimitId() {
         return budgetLimitId;
     }
+
     public void setBudgetLimitId(Long budgetLimitId) {
         this.budgetLimitId = budgetLimitId;
     }
+
     public Long getAwardId() {
         return awardId;
     }
+
     public void setAwardId(Long awardId) {
         this.awardId = awardId;
     }
+
     public Long getBudgetId() {
         return budgetId;
     }
+
     public void setBudgetId(Long budgetId) {
         this.budgetId = budgetId;
     }
+
     public String getLimitTypeCode() {
         return limitTypeCode;
     }
+
     public void setLimitTypeCode(String limitTypeCode) {
         this.limitTypeCode = limitTypeCode;
     }
+
     public LIMIT_TYPE getLimitType() {
         if (limitTypeCode == null) {
             return null;
@@ -96,33 +103,43 @@ public class AwardBudgetLimit extends AwardAssociate {
         }
         return null;
     }
+
     public void setLimitType(LIMIT_TYPE type) {
         limitTypeCode = type.getType();
     }
+
     public KualiDecimal getLimit() {
         return limit;
     }
+
     public void setLimit(KualiDecimal limit) {
         this.limit = limit;
     }
-    
+
     public static enum LIMIT_TYPE {
+
         TOTAL_COST("totalCost", "Total", "totalCost"), DIRECT_COST("directCost", "Total Direct", "totalDirectCost"), INDIRECT_COST("indirectCost", "Total F&A", "totalIndirectCost");
-        
+
         private String type;
+
         private String desc;
+
         private String budgetProperty;
+
         private LIMIT_TYPE(String type, String desc, String budgetProperty) {
             this.type = type;
             this.desc = desc;
             this.budgetProperty = budgetProperty;
         }
+
         public String getType() {
             return type;
         }
+
         public String getDesc() {
             return desc;
         }
+
         public String getBudgetProperty() {
             return budgetProperty;
         }
@@ -131,21 +148,7 @@ public class AwardBudgetLimit extends AwardAssociate {
     public void resetPersistenceState() {
         this.setBudgetLimitId(null);
     }
-    
-    /**
-     * @see org.kuali.core.bo.BusinessObjectBase#toStringMapper()
-     */
-    @Override
-    protected LinkedHashMap<String, Object> toStringMapper() {
-        LinkedHashMap<String, Object> map = new LinkedHashMap<String, Object>();
-        map.put("budgetLimitId", budgetLimitId);
-        map.put("awardId", awardId);
-        map.put("budgetId", budgetId);
-        map.put("limitType", limitTypeCode);
-        map.put("limit", limit);
-        return map;
-    }
-    
+
     public int hashCode() {
         final int PRIME = 31;
         int result = 1;
@@ -156,7 +159,7 @@ public class AwardBudgetLimit extends AwardAssociate {
         result = PRIME * result + ((limit == null) ? 0 : limit.hashCode());
         return result;
     }
-    
+
     public boolean equals(Object o) {
         if (this == o) {
             return true;

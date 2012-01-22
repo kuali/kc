@@ -23,13 +23,13 @@ import org.junit.After;
 import org.junit.Assert;
 import org.junit.Before;
 import org.junit.Test;
-import org.kuali.kra.award.AwardDocumentRule;
 import org.kuali.kra.award.commitments.AwardFandaRate;
 import org.kuali.kra.award.paymentreports.awardreports.AwardReportTerm;
-import org.kuali.rice.kns.util.ErrorMap;
-import org.kuali.rice.kns.util.GlobalVariables;
-import org.kuali.rice.kns.util.KualiDecimal;
-import org.kuali.rice.core.util.KeyLabelPair;
+import org.kuali.rice.core.api.util.ConcreteKeyValue;
+import org.kuali.rice.core.api.util.KeyValue;
+import org.kuali.rice.core.api.util.type.KualiDecimal;
+import org.kuali.rice.krad.util.GlobalVariables;
+import org.kuali.rice.krad.util.MessageMap;
 
 /**
  * 
@@ -68,7 +68,7 @@ public class AwardDocumentRuleTest extends AwardDocumentRule{
         awardFandaRateList.add(awardFandaRate2);
         
         
-        GlobalVariables.setErrorMap(new ErrorMap());
+        GlobalVariables.setMessageMap(new MessageMap());
     }
 
     @After
@@ -100,22 +100,22 @@ public class AwardDocumentRuleTest extends AwardDocumentRule{
         Assert.assertFalse(awardDocumentRule.isValidFrequencyBase(awardReportTerm, getFrequencyBaseCodes("5")));
     }
     
-    protected List<KeyLabelPair> getReportCodes(String reportClassCode){        
-        List<KeyLabelPair> reportCodes = new ArrayList<KeyLabelPair>();
-        reportCodes.add(new KeyLabelPair("5", "Final"));
-        reportCodes.add(new KeyLabelPair("39", "SF Something"));
+    protected List<KeyValue> getReportCodes(String reportClassCode){        
+        List<KeyValue> reportCodes = new ArrayList<KeyValue>();
+        reportCodes.add(new ConcreteKeyValue("5", "Final"));
+        reportCodes.add(new ConcreteKeyValue("39", "SF Something"));
         return reportCodes;
     }
     
-    protected List<KeyLabelPair> getFrequencyCodes(String reportClassCode, String reportCode){        
-        List<KeyLabelPair> frequencyCodes = new ArrayList<KeyLabelPair>();
-        frequencyCodes.add(new KeyLabelPair("5", "Final"));
+    protected List<KeyValue> getFrequencyCodes(String reportClassCode, String reportCode){        
+        List<KeyValue> frequencyCodes = new ArrayList<KeyValue>();
+        frequencyCodes.add(new ConcreteKeyValue("5", "Final"));
         return frequencyCodes;
     }
     
-    protected List<KeyLabelPair> getFrequencyBaseCodes(String frequencyCode){        
-        List<KeyLabelPair> frequencyBaseCodes = new ArrayList<KeyLabelPair>();
-        frequencyBaseCodes.add(new KeyLabelPair("5", "Final"));
+    protected List<KeyValue> getFrequencyBaseCodes(String frequencyCode){        
+        List<KeyValue> frequencyBaseCodes = new ArrayList<KeyValue>();
+        frequencyBaseCodes.add(new ConcreteKeyValue("5", "Final"));
         return frequencyBaseCodes;
     }
    

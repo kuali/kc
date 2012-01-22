@@ -30,9 +30,9 @@ import org.kuali.kra.committee.test.CommitteeFactory;
 import org.kuali.kra.infrastructure.TaskName;
 import org.kuali.kra.service.impl.mocks.KraAuthorizationServiceMock;
 import org.kuali.kra.test.infrastructure.KcUnitTestBase;
-import org.kuali.rice.kew.exception.WorkflowException;
-import org.kuali.rice.kns.UserSession;
-import org.kuali.rice.kns.util.GlobalVariables;
+import org.kuali.rice.kew.api.exception.WorkflowException;
+import org.kuali.rice.krad.UserSession;
+import org.kuali.rice.krad.util.GlobalVariables;
 
 /**
  * Test the Committee Action Authorizer.
@@ -72,7 +72,7 @@ public class CommitteeActionAuthorizerTest extends KcUnitTestBase {
         final KraAuthorizationServiceMock kraAuthorizationService = new KraAuthorizationServiceMock(true);
         authorizer.setKraAuthorizationService(kraAuthorizationService);
         
-        committeeDocument.getDocumentHeader().getWorkflowDocument().routeDocument("");
+        committeeDocument.getDocumentHeader().getWorkflowDocument().route("");
         CommitteeTask task = new CommitteeTask(TaskName.PERFORM_COMMITTEE_ACTIONS, committeeDocument.getCommittee());
         assertEquals(true, authorizer.isAuthorized(USERNAME, task));
     }
@@ -91,7 +91,7 @@ public class CommitteeActionAuthorizerTest extends KcUnitTestBase {
         final KraAuthorizationServiceMock kraAuthorizationService = new KraAuthorizationServiceMock(false);
         authorizer.setKraAuthorizationService(kraAuthorizationService);
 
-        committeeDocument.getDocumentHeader().getWorkflowDocument().routeDocument("");
+        committeeDocument.getDocumentHeader().getWorkflowDocument().route("");
         CommitteeTask task = new CommitteeTask(TaskName.PERFORM_COMMITTEE_ACTIONS, committeeDocument.getCommittee());
         assertEquals(false, authorizer.isAuthorized(USERNAME, task));
     }
@@ -129,7 +129,7 @@ public class CommitteeActionAuthorizerTest extends KcUnitTestBase {
         final KraAuthorizationServiceMock kraAuthorizationService = new KraAuthorizationServiceMock(true);
         authorizer.setKraAuthorizationService(kraAuthorizationService);
         
-        committeeDocument.getDocumentHeader().getWorkflowDocument().routeDocument("");
+        committeeDocument.getDocumentHeader().getWorkflowDocument().route("");
         CommitteeTask task = new CommitteeTask(TaskName.PERFORM_COMMITTEE_ACTIONS, committeeDocument.getCommittee());
         assertEquals(false, authorizer.isAuthorized(USERNAME, task));
     }

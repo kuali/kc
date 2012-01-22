@@ -15,9 +15,6 @@
  */
 package org.kuali.kra.coi.personfinancialentity;
 
-import java.util.List;
-
-import org.kuali.kra.coi.DisclosureReporterUnit;
 import org.kuali.kra.rule.BusinessRuleInterface;
 import org.kuali.kra.rule.event.KraDocumentEventBaseExtension;
 

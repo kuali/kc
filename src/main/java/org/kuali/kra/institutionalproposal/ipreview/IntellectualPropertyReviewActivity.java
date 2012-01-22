@@ -16,7 +16,6 @@
 package org.kuali.kra.institutionalproposal.ipreview;
 
 import java.sql.Date;
-import java.util.LinkedHashMap;
 
 import org.kuali.kra.SequenceAssociate;
 import org.kuali.kra.bo.KraPersistableBusinessObjectBase;
@@ -24,28 +23,36 @@ import org.kuali.kra.bo.KraPersistableBusinessObjectBase;
 /**
  * This class represents an Intellectual Property Review Activity.
  */
-public class IntellectualPropertyReviewActivity extends KraPersistableBusinessObjectBase implements SequenceAssociate<IntellectualPropertyReview> { 
-    
+public class IntellectualPropertyReviewActivity extends KraPersistableBusinessObjectBase implements SequenceAssociate<IntellectualPropertyReview> {
+
     private static final long serialVersionUID = 1L;
 
-    private Long proposalIpReviewActivityId; 
+    private Long proposalIpReviewActivityId;
+
     private Long ipReviewId;
-    private String proposalNumber; 
-    private Integer sequenceNumber; 
-    private Integer activityNumber; 
-    private String ipReviewActivityTypeCode; 
-    private Date activityDate; 
-    private String comments; 
+
+    private String proposalNumber;
+
+    private Integer sequenceNumber;
+
+    private Integer activityNumber;
+
+    private String ipReviewActivityTypeCode;
+
+    private Date activityDate;
+
+    private String comments;
+
     private IntellectualPropertyReviewActivityType ipReviewActivityType;
+
     private IntellectualPropertyReview intellectualPropertyReview;
-    
+
     /**
      * Constructs an IntellectualPropertyReviewActivity.java.
      */
-    public IntellectualPropertyReviewActivity() { 
+    public IntellectualPropertyReviewActivity() {
+    }
 
-    } 
-    
     public Long getProposalIpReviewActivityId() {
         return proposalIpReviewActivityId;
     }
@@ -53,7 +60,7 @@ public class IntellectualPropertyReviewActivity extends KraPersistableBusinessOb
     public void setProposalIpReviewActivityId(Long proposalIpReviewActivityId) {
         this.proposalIpReviewActivityId = proposalIpReviewActivityId;
     }
-    
+
     public Long getIpReviewId() {
         return ipReviewId;
     }
@@ -109,7 +116,7 @@ public class IntellectualPropertyReviewActivity extends KraPersistableBusinessOb
     public void setComments(String comments) {
         this.comments = comments;
     }
-    
+
     public IntellectualPropertyReviewActivityType getIpReviewActivityType() {
         return ipReviewActivityType;
     }
@@ -117,7 +124,7 @@ public class IntellectualPropertyReviewActivity extends KraPersistableBusinessOb
     public void setIpReviewActivityType(IntellectualPropertyReviewActivityType ipReviewActivityType) {
         this.ipReviewActivityType = ipReviewActivityType;
     }
-    
+
     public IntellectualPropertyReview getIntellectualPropertyReview() {
         return intellectualPropertyReview;
     }
@@ -152,20 +159,6 @@ public class IntellectualPropertyReviewActivity extends KraPersistableBusinessOb
      */
     public void resetPersistenceState() {
         this.proposalIpReviewActivityId = null;
-    }
-
-    /** {@inheritDoc} */
-    @Override 
-    protected LinkedHashMap<String, Object> toStringMapper() {
-        LinkedHashMap<String, Object> hashMap = new LinkedHashMap<String, Object>();
-        hashMap.put("proposalIpRevActivityId", this.getProposalIpReviewActivityId());
-        hashMap.put("proposalNumber", this.getProposalNumber());
-        hashMap.put("sequenceNumber", this.getSequenceNumber());
-        hashMap.put("activityNumber", this.getActivityNumber());
-        hashMap.put("ipReviewActivityTypeCode", this.getIpReviewActivityTypeCode());
-        hashMap.put("activityDate", this.getActivityDate());
-        hashMap.put("comments", this.getComments());
-        return hashMap;
     }
 
     @Override
@@ -253,5 +246,4 @@ public class IntellectualPropertyReviewActivity extends KraPersistableBusinessOb
         }
         return true;
     }
-    
 }

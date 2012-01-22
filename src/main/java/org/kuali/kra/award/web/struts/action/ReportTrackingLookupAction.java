@@ -42,16 +42,16 @@ import org.kuali.kra.infrastructure.KraServiceLocator;
 import org.kuali.kra.service.ResearchDocumentService;
 import org.kuali.kra.service.UnitAuthorizationService;
 import org.kuali.kra.service.VersionHistoryService;
+import org.kuali.rice.core.api.datetime.DateTimeService;
 import org.kuali.rice.ken.util.NotificationConstants;
-import org.kuali.rice.kew.util.KEWConstants;
-import org.kuali.rice.kns.exception.AuthorizationException;
+import org.kuali.rice.kew.api.KewApiConstants;
 import org.kuali.rice.kns.lookup.Lookupable;
-import org.kuali.rice.kns.service.DateTimeService;
-import org.kuali.rice.kns.service.DocumentService;
-import org.kuali.rice.kns.util.GlobalVariables;
-import org.kuali.rice.kns.util.KNSConstants;
-import org.kuali.rice.kns.util.ObjectUtils;
 import org.kuali.rice.kns.web.struts.action.KualiLookupAction;
+import org.kuali.rice.krad.exception.AuthorizationException;
+import org.kuali.rice.krad.service.DocumentService;
+import org.kuali.rice.krad.util.GlobalVariables;
+import org.kuali.rice.krad.util.KRADConstants;
+import org.kuali.rice.krad.util.ObjectUtils;
 
 public class ReportTrackingLookupAction extends KualiLookupAction {
     
@@ -176,12 +176,12 @@ public class ReportTrackingLookupAction extends KualiLookupAction {
         }
         String docNumber = newest.getAwardDocument().getDocumentNumber();
         final AwardDocument awardDocument = (AwardDocument) getDocumentService().getByDocumentHeaderId(docNumber);
-        String forwardUrl = buildForwardUrl(awardDocument.getDocumentHeader().getWorkflowDocument().getRouteHeaderId());
+        String forwardUrl = buildForwardUrl(awardDocument.getDocumentHeader().getWorkflowDocument().getDocumentId());
         return new ActionForward(forwardUrl, true);
     }    
     
     protected String getSelectedAwardNumber(HttpServletRequest request) {
-        String parameterName = (String) request.getAttribute(KNSConstants.METHOD_TO_CALL_ATTRIBUTE);
+        String parameterName = (String) request.getAttribute(KRADConstants.METHOD_TO_CALL_ATTRIBUTE);
         if (StringUtils.isNotBlank(parameterName)) {
             return StringUtils.substringBetween(parameterName, ".awardNumber", ".");
         } else {
@@ -197,7 +197,7 @@ public class ReportTrackingLookupAction extends KualiLookupAction {
      * @param routeHeaderId
      * @return String
      */
-    protected String buildForwardUrl(Long routeHeaderId) {
+    protected String buildForwardUrl(String routeHeaderId) {
         ResearchDocumentService researchDocumentService = KraServiceLocator.getService(ResearchDocumentService.class);
         String forward = researchDocumentService.getDocHandlerUrl(routeHeaderId);
         //forward = forward.replaceFirst(DEFAULT_TAB, ALTERNATE_OPEN_TAB);
@@ -207,10 +207,10 @@ public class ReportTrackingLookupAction extends KualiLookupAction {
         else {
             forward += "&";
         }
-        forward += KEWConstants.ROUTEHEADER_ID_PARAMETER + "=" + routeHeaderId;
-        forward += "&" + KEWConstants.COMMAND_PARAMETER + "=" + NotificationConstants.NOTIFICATION_DETAIL_VIEWS.DOC_SEARCH_VIEW;
+        forward += KewApiConstants.DOCUMENT_ID_PARAMETER + "=" + routeHeaderId;
+        forward += "&" + KewApiConstants.COMMAND_PARAMETER + "=" + NotificationConstants.NOTIFICATION_DETAIL_VIEWS.DOC_SEARCH_VIEW;
         if (GlobalVariables.getUserSession().isBackdoorInUse()) {
-            forward += "&" + KEWConstants.BACKDOOR_ID_PARAMETER + "=" + GlobalVariables.getUserSession().getPrincipalName();
+            forward += "&" + KewApiConstants.BACKDOOR_ID_PARAMETER + "=" + GlobalVariables.getUserSession().getPrincipalName();
         }
         return forward;
     }    

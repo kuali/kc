@@ -25,10 +25,10 @@ import org.kuali.kra.infrastructure.KeyConstants;
 import org.kuali.kra.infrastructure.KraServiceLocator;
 import org.kuali.kra.irb.ProtocolDocument;
 import org.kuali.kra.irb.test.ProtocolRuleTestBase;
-import org.kuali.rice.kns.service.BusinessObjectService;
-import org.kuali.rice.kns.util.ErrorMessage;
-import org.kuali.rice.kns.util.GlobalVariables;
-import org.kuali.rice.kns.util.TypedArrayList;
+import org.kuali.rice.krad.service.BusinessObjectService;
+import org.kuali.rice.krad.util.ErrorMessage;
+import org.kuali.rice.krad.util.GlobalVariables;
+import org.springframework.util.AutoPopulatingList;
 
 public class ProtocolReferenceRuleTest extends ProtocolRuleTestBase {
 
@@ -92,13 +92,13 @@ public class ProtocolReferenceRuleTest extends ProtocolRuleTestBase {
         AddProtocolReferenceEvent event = new AddProtocolReferenceEvent(Constants.EMPTY_STRING,document,newProtocolReferenceBean);
         assertFalse(rule.processAddProtocolReferenceBusinessRules(event));
         
-        TypedArrayList errors = GlobalVariables.getErrorMap().getMessages(NEW_PROTOCOLREFERENCE + ".protocolReferenceTypeCode");   
+        AutoPopulatingList errors = GlobalVariables.getMessageMap().getMessages(NEW_PROTOCOLREFERENCE + ".protocolReferenceTypeCode");   
         assertEquals(1, errors.size());
         ErrorMessage message = (ErrorMessage) errors.get(0);
         assertEquals(message.getErrorKey(), KeyConstants.ERROR_PROTOCOLREFERENCE_PROTOCOLREFERENCETYPECODE);
         
         
-        errors = GlobalVariables.getErrorMap().getMessages(NEW_PROTOCOLREFERENCE + ".referenceKey");
+        errors = GlobalVariables.getMessageMap().getMessages(NEW_PROTOCOLREFERENCE + ".referenceKey");
         assertTrue(errors.size() == 1);
         message = (ErrorMessage) errors.get(0);
         assertEquals(message.getErrorKey(), KeyConstants.ERROR_PROTOCOLREFERENCE_PROTOCOLREFERENCEKEY);

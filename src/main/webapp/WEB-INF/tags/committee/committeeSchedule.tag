@@ -248,7 +248,7 @@
 	                    <td>
 	                        <div align=center>
 	                            <c:choose>
-	                                <c:when test="${!readOnly && KualiForm.document.documentHeader.workflowDocument.routeHeader.docRouteStatus == 'S'}">
+	                                <c:when test="${!readOnly && KualiForm.document.documentHeader.workflowDocument.status.code == 'S'}">
 	                                    <c:if test="${committeeSchedule.delete}">
 	                                        <kul:htmlControlAttribute property="document.committeeList[0].committeeSchedules[${status.index}].selected" 
 	                                                                  attributeEntry="${committeeScheduleAttributes.selected}" />
@@ -273,7 +273,7 @@
 	            </c:if>     
             </c:forEach>
             
-            <c:if test="${!readOnly && KualiForm.document.documentHeader.workflowDocument.routeHeader.docRouteStatus == 'S'}">
+            <c:if test="${!readOnly && KualiForm.document.documentHeader.workflowDocument.status.code == 'S'}">
                 <tr>
                     <td colspan="7" class="infoline">&nbsp;</td>
                     <th style="padding:3px;">   

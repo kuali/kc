@@ -16,26 +16,35 @@
 package org.kuali.kra.bo.versioning;
 
 import java.sql.Date;
-import java.util.LinkedHashMap;
 
 import org.kuali.kra.SequenceOwner;
 import org.kuali.kra.bo.KraPersistableBusinessObjectBase;
-import org.kuali.rice.kns.util.ObjectUtils;
+import org.kuali.rice.krad.util.ObjectUtils;
 
 public class VersionHistory extends KraPersistableBusinessObjectBase {
+
     private static final long serialVersionUID = -4851728455206181532L;
-    
+
     private Long versionHistoryId;
+
     private String sequenceOwnerClassName;
+
     private String sequenceOwnerVersionNameField;
+
     private String sequenceOwnerVersionNameValue;
+
     private Integer sequenceOwnerSequenceNumber;
+
     private String statusForOjb;
+
     private String userId;
+
     private Date versionDate;
 
-    private transient VersionStatus status;    
+    private transient VersionStatus status;
+
     private transient SequenceOwner<? extends SequenceOwner<?>> sequenceOwner;
+
     /**
      * Default c'tor
      */
@@ -50,7 +59,7 @@ public class VersionHistory extends KraPersistableBusinessObjectBase {
      */
     public VersionHistory(SequenceOwner<? extends SequenceOwner<?>> sequenceOwner, VersionStatus status, String userId, Date versionDate) {
         setSequenceOwner(sequenceOwner);
-        if(sequenceOwner != null) {
+        if (sequenceOwner != null) {
             setSequenceOwnerSequenceNumber(sequenceOwner.getSequenceNumber());
             setSequenceOwnerClassName(sequenceOwner.getClass().getName());
             setSequenceOwnerVersionNameField(sequenceOwner.getVersionNameField());
@@ -60,7 +69,7 @@ public class VersionHistory extends KraPersistableBusinessObjectBase {
         setUserId(userId);
         setVersionDate(versionDate);
     }
-    
+
     /**
      * @see java.lang.Object#hashCode()
      */
@@ -82,49 +91,28 @@ public class VersionHistory extends KraPersistableBusinessObjectBase {
      */
     @Override
     public boolean equals(Object obj) {
-        if (this == obj)
-            return true;
-        if (obj == null)
-            return false;
-        if (!(obj instanceof VersionHistory))
-            return false;
+        if (this == obj) return true;
+        if (obj == null) return false;
+        if (!(obj instanceof VersionHistory)) return false;
         VersionHistory other = (VersionHistory) obj;
         if (sequenceOwnerClassName == null) {
-            if (other.sequenceOwnerClassName != null)
-                return false;
-        }
-        else if (!sequenceOwnerClassName.equals(other.sequenceOwnerClassName))
-            return false;
+            if (other.sequenceOwnerClassName != null) return false;
+        } else if (!sequenceOwnerClassName.equals(other.sequenceOwnerClassName)) return false;
         if (sequenceOwnerSequenceNumber == null) {
-            if (other.sequenceOwnerSequenceNumber != null)
-                return false;
-        }
-        else if (!sequenceOwnerSequenceNumber.equals(other.sequenceOwnerSequenceNumber))
-            return false;
+            if (other.sequenceOwnerSequenceNumber != null) return false;
+        } else if (!sequenceOwnerSequenceNumber.equals(other.sequenceOwnerSequenceNumber)) return false;
         if (sequenceOwnerVersionNameValue == null) {
-            if (other.sequenceOwnerVersionNameValue != null)
-                return false;
-        }
-        else if (!sequenceOwnerVersionNameValue.equals(other.sequenceOwnerVersionNameValue))
-            return false;
+            if (other.sequenceOwnerVersionNameValue != null) return false;
+        } else if (!sequenceOwnerVersionNameValue.equals(other.sequenceOwnerVersionNameValue)) return false;
         if (statusForOjb == null) {
-            if (other.statusForOjb != null)
-                return false;
-        }
-        else if (!statusForOjb.equals(other.statusForOjb))
-            return false;
+            if (other.statusForOjb != null) return false;
+        } else if (!statusForOjb.equals(other.statusForOjb)) return false;
         if (userId == null) {
-            if (other.userId != null)
-                return false;
-        }
-        else if (!userId.equals(other.userId))
-            return false;
+            if (other.userId != null) return false;
+        } else if (!userId.equals(other.userId)) return false;
         if (versionDate == null) {
-            if (other.versionDate != null)
-                return false;
-        }
-        else if (!versionDate.equals(other.versionDate))
-            return false;
+            if (other.versionDate != null) return false;
+        } else if (!versionDate.equals(other.versionDate)) return false;
         return true;
     }
 
@@ -135,6 +123,7 @@ public class VersionHistory extends KraPersistableBusinessObjectBase {
     public SequenceOwner<? extends SequenceOwner<?>> getSequenceOwner() {
         return sequenceOwner;
     }
+
     /**
      * Gets the className attribute. 
      * @return Returns the className.
@@ -142,6 +131,7 @@ public class VersionHistory extends KraPersistableBusinessObjectBase {
     public String getSequenceOwnerClassName() {
         return sequenceOwnerClassName;
     }
+
     /**
      * Gets the sequenceNumber attribute. 
      * @return Returns the sequenceNumber.
@@ -149,7 +139,7 @@ public class VersionHistory extends KraPersistableBusinessObjectBase {
     public Integer getSequenceOwnerSequenceNumber() {
         return sequenceOwnerSequenceNumber;
     }
-    
+
     /**
      * Gets the sequenceOwnerReferenceIdentifierFieldName attribute. 
      * @return Returns the sequenceOwnerReferenceIdentifierFieldName.
@@ -171,23 +161,23 @@ public class VersionHistory extends KraPersistableBusinessObjectBase {
      * @return Returns the status.
      */
     public VersionStatus getStatus() {
-        if(status == null && statusForOjb != null) {
+        if (status == null && statusForOjb != null) {
             status = VersionStatus.valueOf(statusForOjb);
         }
         return status;
     }
-    
+
     /**
      * Gets the statusForOjb attribute. 
      * @return Returns the statusForOjb.
      */
     public String getStatusForOjb() {
-        if(statusForOjb != null) {
+        if (statusForOjb != null) {
             status = VersionStatus.valueOf(statusForOjb);
         }
         return statusForOjb;
     }
-    
+
     /**
      * Gets the userId attribute. 
      * @return Returns the userId.
@@ -195,6 +185,7 @@ public class VersionHistory extends KraPersistableBusinessObjectBase {
     public String getUserId() {
         return userId;
     }
+
     /**
      * Gets the versionDate attribute. 
      * @return Returns the versionDate.
@@ -202,6 +193,7 @@ public class VersionHistory extends KraPersistableBusinessObjectBase {
     public Date getVersionDate() {
         return versionDate;
     }
+
     /**
      * Gets the versionHistoryId attribute. 
      * @return Returns the versionHistoryId.
@@ -209,6 +201,7 @@ public class VersionHistory extends KraPersistableBusinessObjectBase {
     public Long getVersionHistoryId() {
         return versionHistoryId;
     }
+
     /**
      * Gets the activeVersion attribute. 
      * @return Returns the activeVersion.
@@ -216,13 +209,14 @@ public class VersionHistory extends KraPersistableBusinessObjectBase {
     public boolean isActiveVersion() {
         return status == VersionStatus.ACTIVE;
     }
+
     /**
      * Sets the sequenceOwner attribute value.
      * @param sequenceOwner The sequenceOwner to set.
      */
     public void setSequenceOwner(SequenceOwner<? extends SequenceOwner<?>> sequenceOwner) {
         this.sequenceOwner = sequenceOwner;
-    } 
+    }
 
     /**
      * Sets the className attribute value.
@@ -255,13 +249,13 @@ public class VersionHistory extends KraPersistableBusinessObjectBase {
     public void setSequenceOwnerVersionNameValue(String sequenceOwnerVersionNameValue) {
         this.sequenceOwnerVersionNameValue = sequenceOwnerVersionNameValue;
     }
-    
+
     /**
      * Sets the status attribute value.
      * @param status The status to set.
      */
     public void setStatus(VersionStatus status) {
-        if(status != null) {
+        if (status != null) {
             statusForOjb = status.name();
         }
         this.status = status;
@@ -298,21 +292,5 @@ public class VersionHistory extends KraPersistableBusinessObjectBase {
      */
     public void setVersionHistoryId(Long versionHistoryId) {
         this.versionHistoryId = versionHistoryId;
-    }
-    
-    @Override
-    protected LinkedHashMap<String, Object> toStringMapper() {
-        LinkedHashMap<String, Object> map = new LinkedHashMap<String, Object>();
-        
-        map.put("versionHistoryId", versionHistoryId);
-        map.put("sequenceOwnerClassName", sequenceOwnerClassName);
-        map.put("sequenceOwnerVersionNameField", sequenceOwnerVersionNameField);
-        map.put("sequenceOwnerVersionNameValue", sequenceOwnerVersionNameValue);
-        map.put("sequenceOwnerSequenceNumber", sequenceOwnerSequenceNumber);
-        map.put("statusForOjb", statusForOjb);
-        map.put("userId", userId);
-        map.put("versionDate", versionDate);
-        
-        return map;
     }
 }

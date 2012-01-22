@@ -15,14 +15,12 @@
  */
 package org.kuali.kra.s2s.generator.impl;
 
-import gov.grants.apply.forms.performanceSite12V12.PerformanceSite12Document.PerformanceSite12;
 import gov.grants.apply.forms.performanceSite13V13.PerformanceSite13Document;
 import gov.grants.apply.forms.performanceSite13V13.SiteLocationDataType;
 import gov.grants.apply.forms.performanceSite13V13.PerformanceSite13Document.PerformanceSite13;
 import gov.grants.apply.system.attachmentsV10.AttachedFileDataType;
 import gov.grants.apply.system.globalLibraryV20.YesNoDataType;
 
-import java.util.ArrayList;
 import java.util.List;
 
 import org.apache.xmlbeans.XmlObject;

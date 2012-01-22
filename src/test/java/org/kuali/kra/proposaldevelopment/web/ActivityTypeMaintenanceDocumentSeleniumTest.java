@@ -168,7 +168,7 @@ public class ActivityTypeMaintenanceDocumentSeleniumTest extends KcSeleniumTestB
         assertNotNull(document.getDocumentNumber());
         assertNotNull(document.getDocumentHeader());
         assertEquals(documentNumber, document.getDocumentHeader().getDocumentNumber());
-        ActivityType activityType = (ActivityType) document.getNewMaintainableObject().getBusinessObject();
+        ActivityType activityType = (ActivityType) document.getNewMaintainableObject().getDataObject();
         assertEquals(activityTypeCode, activityType.getActivityTypeCode());
         assertEquals(description, activityType.getDescription());
     }

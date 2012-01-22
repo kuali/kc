@@ -37,7 +37,8 @@
                            http://www.springframework.org/schema/util/spring-util-2.5.xsd">
                            
     <bean id="questionnaireModuleConfiguration" parent="questionnaireModuleConfiguration-parentBean" />
-    <bean id="questionnaireModuleConfiguration-parentBean" class="org.kuali.rice.kns.bo.ModuleConfiguration" abstract="true">
+    <bean id="questionnaireModuleConfiguration-parentBean" class="org.kuali.rice.krad.bo.ModuleConfiguration" abstract="true">
+    	<property name="namespaceCode" value="KC-QUESTIONNAIRE" />
         <property name="databaseRepositoryFilePaths">
             <list>
                 <value>org/kuali/kra/questionnaire/repository-questionnaire.xml</value>
@@ -136,7 +137,7 @@
             </property>
             <property name="questionnaireAnswerService">
                 <ref bean="questionnaireAnswerService" />
-            </property> 
+            </property>
             <property name="kcPersonService">
                 <ref bean="kcPersonService" />
             </property>

@@ -15,8 +15,6 @@
  */
 package org.kuali.kra.budget.personnel;
 
-import java.util.LinkedHashMap;
-
 import org.kuali.kra.bo.KraPersistableBusinessObjectBase;
 
 /**
@@ -25,38 +23,30 @@ import org.kuali.kra.bo.KraPersistableBusinessObjectBase;
  * AppointmentType.java
  */
 public class AppointmentType extends KraPersistableBusinessObjectBase {
-	
-	private String appointmentTypeCode;
+
+    private String appointmentTypeCode;
+
     private Integer duration;
-	private String description;
-	
+
+    private String description;
+
     /**
      * Retrieves the description attribute
      * 
      * @return String
      */
-	public String getDescription() {
-		return description;
-	}
-    
+    public String getDescription() {
+        return description;
+    }
+
     /**
      * Assigns the description attribute
      *
      * @param description
      */
-	public void setDescription(String description) {
-		this.description = description;
-	}
-	@Override
-	protected LinkedHashMap toStringMapper() {
-		LinkedHashMap propMap = new LinkedHashMap();
-		propMap.put("appointmentTypeCode", this.getAppointmentTypeCode());
-		propMap.put("description", this.getDescription());
-		propMap.put("duration", this.getDuration());
-		propMap.put("updateTimestamp", this.getUpdateTimestamp());
-		propMap.put("updateUser", this.getUpdateUser());
-		return propMap;
-	}
+    public void setDescription(String description) {
+        this.description = description;
+    }
 
     /**
      * Gets the appointmentTypeCode attribute. 

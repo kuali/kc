@@ -21,28 +21,29 @@ import java.util.Collection;
 import java.util.List;
 
 import org.kuali.kra.bo.CoeusModule;
-import org.kuali.rice.core.util.KeyLabelPair;
-import org.kuali.rice.kns.lookup.keyvalues.KeyValuesBase;
-import org.kuali.rice.kns.service.KNSServiceLocator;
-import org.kuali.rice.kns.service.KeyValuesService;
+import org.kuali.rice.core.api.util.ConcreteKeyValue;
+import org.kuali.rice.core.api.util.KeyValue;
+import org.kuali.rice.krad.keyvalues.KeyValuesBase;
+import org.kuali.rice.krad.service.KRADServiceLocator;
+import org.kuali.rice.krad.service.KeyValuesService;
 
 public class PersonEditableFieldModuleValuesFinder extends KeyValuesBase {
-    List<KeyLabelPair> moduleCodes = null;
+    List<KeyValue> moduleCodes = null;
 
     /*
      * @see org.kuali.keyvalues.KeyValuesFinder#getKeyValues()
      */
     @SuppressWarnings("unchecked")
-    public List<KeyLabelPair> getKeyValues() {
+    public List<KeyValue> getKeyValues() {
         List<String> validCodes = Arrays.asList(new String[] {CoeusModule.PROPOSAL_DEVELOPMENT_MODULE_CODE, CoeusModule.IRB_MODULE_CODE});
         if (moduleCodes == null) {
-            KeyValuesService boService = KNSServiceLocator.getKeyValuesService();
+            KeyValuesService boService = KRADServiceLocator.getKeyValuesService();
             Collection<CoeusModule> codes = (Collection<CoeusModule>) boService.findAll(CoeusModule.class);
-            List<KeyLabelPair> labels = new ArrayList<KeyLabelPair>();
-            labels.add(new KeyLabelPair("", "select"));
+            List<KeyValue> labels = new ArrayList<KeyValue>();
+            labels.add(new ConcreteKeyValue("", "select"));
             for (CoeusModule coeusModule : codes) {
                 if (validCodes.contains(coeusModule.getModuleCode())) {
-                    labels.add(new KeyLabelPair(coeusModule.getModuleCode(), coeusModule.getDescription()));
+                    labels.add(new ConcreteKeyValue(coeusModule.getModuleCode(), coeusModule.getDescription()));
                 }
             }
 

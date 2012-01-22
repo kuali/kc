@@ -60,15 +60,15 @@ import org.kuali.kra.questionnaire.answer.ModuleQuestionnaireBean;
 import org.kuali.kra.questionnaire.answer.QuestionnaireAnswerService;
 import org.kuali.kra.questionnaire.question.QuestionService;
 import org.kuali.kra.service.KcPersonService;
-import org.kuali.rice.kew.exception.WorkflowException;
+import org.kuali.rice.core.api.datetime.DateTimeService;
+import org.kuali.rice.kew.api.exception.WorkflowException;
 import org.kuali.rice.kew.routeheader.service.RouteHeaderService;
-import org.kuali.rice.kns.bo.PersistableBusinessObject;
 import org.kuali.rice.kns.document.MaintenanceDocumentBase;
-import org.kuali.rice.kns.service.BusinessObjectService;
-import org.kuali.rice.kns.service.DateTimeService;
-import org.kuali.rice.kns.service.DocumentService;
-import org.kuali.rice.kns.service.KNSServiceLocator;
-import org.kuali.rice.kns.workflow.KualiDocumentXmlMaterializer;
+import org.kuali.rice.krad.bo.PersistableBusinessObject;
+import org.kuali.rice.krad.service.BusinessObjectService;
+import org.kuali.rice.krad.service.DocumentService;
+import org.kuali.rice.krad.service.KRADServiceLocator;
+import org.kuali.rice.krad.workflow.KualiDocumentXmlMaterializer;
 
 /**
  * This class generates XML that conforms with the XSD related to Budget total
@@ -87,6 +87,7 @@ public class QuestionnaireXmlStream implements XmlStream {
     private KcPersonService kcPersonService;
     private static final Log LOG = LogFactory.getLog(QuestionnaireXmlStream.class);
     List<QuestionnaireQuestion> sortedQuestionnaireQuestions;
+
     
     /**
      * This method generates XML committee report. It uses data passed in
@@ -310,7 +311,7 @@ public class QuestionnaireXmlStream implements XmlStream {
      */
     private void setModuleUsageList(org.kuali.kra.questionnaire.Questionnaire questionnaire,Questionnaire questionnaireType){
         ModuleUsageType moduleUsage = questionnaireType.addNewModuleUsage();
-       
+        
         List moduleInfoTypeList =new ArrayList<ModuleInfoType>();
         List <QuestionnaireUsage> questionnaireUsageList = questionnaire.getQuestionnaireUsages();
         for (QuestionnaireUsage usage : questionnaireUsageList) {
@@ -330,7 +331,7 @@ public class QuestionnaireXmlStream implements XmlStream {
         moduleUsage.setModuleInfoArray((ModuleInfoType[]) moduleInfoTypeList.toArray(new ModuleInfoType[0]));
     }
     
-    
+
     @SuppressWarnings("unchecked")
     private CoeusSubModule getQuestionnaireCoeusSubModule(String moduleItemCode, String moduleSubItemKey) {
         Map param = new HashMap();
@@ -455,9 +456,9 @@ public class QuestionnaireXmlStream implements XmlStream {
             questionnaireDocument = (MaintenanceDocumentBase)documentService.getByDocumentHeaderId(documentNumber);
             if(questionnaireDocument!=null){
                 String content = KraServiceLocator.getService(RouteHeaderService.class).getContent(
-                questionnaireDocument.getDocumentHeader().getWorkflowDocument().getRouteHeaderId()).getDocumentContent();
+                questionnaireDocument.getDocumentHeader().getWorkflowDocument().getDocumentId()).getDocumentContent();
                 questionnaire = (org.kuali.kra.questionnaire.Questionnaire)getBusinessObjectFromXML(content,KualiDocumentXmlMaterializer.class.getName());
-           }    
+           }            
         }
         catch (WorkflowException e) {
             LOG.error("Problem in deserializing xmldata to Questionnaire",e);
@@ -472,7 +473,7 @@ public class QuestionnaireXmlStream implements XmlStream {
     private PersistableBusinessObject getBusinessObjectFromXML(String xmlDocumentContents, String objectTagName) {
         String objXml = StringUtils.substringBetween(xmlDocumentContents, "<" + objectTagName + ">", "</"+ objectTagName +">");
         objXml = "<" + objectTagName + ">" + objXml + "</" + objectTagName + ">";
-        KualiDocumentXmlMaterializer kualiDocumentXmlMaterializer = (KualiDocumentXmlMaterializer)KNSServiceLocator.getXmlObjectSerializerService().fromXml(objXml);
+        KualiDocumentXmlMaterializer kualiDocumentXmlMaterializer = (KualiDocumentXmlMaterializer)KRADServiceLocator.getXmlObjectSerializerService().fromXml(objXml);
         
         KraMaintenanceDocument kraMaintenanceDocument = (KraMaintenanceDocument)kualiDocumentXmlMaterializer.getDocument();
         PersistableBusinessObject businessObject = (PersistableBusinessObject)kraMaintenanceDocument.getDocumentBusinessObject();
@@ -500,19 +501,19 @@ public class QuestionnaireXmlStream implements XmlStream {
                               questionInfo=questionsType.addNewQuestionInfo();
                          }else{
                               questionInfo = parentQuestionInfo.addNewQuestionInfo();
-                         }
+            }
                          setAnswerInfoDetails(questionnaireQuestion,questionInfo,questionnaireCompletionFlag,printableBusinessObject,questionId,
                                         questionNumber, answerHeaders);
-                       
+
                          questionnaireQuestion.setAllow(false);
                      }
-                 }
-           }
         }
+                }
+            }
         catch (PrintingException e) {
             LOG.error("Problem in deserializing xmldata to Questionnaire",e);
         }
-         
+        
         QuestionInfoType[] childQuestionsList;
         QuestionInfoType questionInfoListData;
         if(questionsType!=null)
@@ -530,76 +531,76 @@ public class QuestionnaireXmlStream implements XmlStream {
                         questionnaireCompletionFlag, printableBusinessObject, answerHeaders);
             }
         }
-    }
-    
+        }
+        
     private void setAnswerInfoDetails(QuestionnaireQuestion questionnaireQuestion,QuestionInfoType questionInfo,
             boolean questionnaireCompletionFlag,KraPersistableBusinessObjectBase printableBusinessObject,Long questionId,
             int questionNumber, List<AnswerHeader> answerHeaders)throws PrintingException {
        
         
-        boolean isAnswerPresent = false;
-        if (questionId != null) {
-            questionInfo.setQuestionId(questionId.intValue());
-        }
-        questionInfo.setQuestionNumber(questionNumber);
-        if (questionnaireQuestion.getQuestion() == null) {
-            questionnaireQuestion.refreshReferenceObject("question");
-        }
-        if (questionnaireQuestion.getQuestion() != null) {
-            questionInfo.setQuestion(questionnaireQuestion.getQuestion().getQuestion());
-            if(!questionnaireQuestion.getParentQuestionNumber().equals(0)){
-                questionInfo.setParentQuestionNumber(questionnaireQuestion.getParentQuestionNumber());
-            }
-        }
-        if (answerHeaders != null && answerHeaders.size() > 0) {
-            boolean isAnswerNamePresent=false;
-            int selectedAnswer = 0;
-            for (AnswerHeader answerHeader : answerHeaders) {
-                String answerName="";
-                String answerPerson="";
-                String answerDescription = null;
-                if (questionnaireQuestion.getQuestionnaireRefIdFk().equals(answerHeader.getQuestionnaireRefIdFk())) {
-                    List<Answer> answers = answerHeader.getAnswers();
-                    for (Answer answer : answers) {
-                        if (answer.getQuestionnaireQuestion().getQuestionnaireQuestionsId().equals(
-                                questionnaireQuestion.getQuestionnaireQuestionsId())
-                                && answer.getQuestionNumber().equals(questionnaireQuestion.getQuestionNumber())
-                                && answer.getQuestionRefIdFk().equals(questionnaireQuestion.getQuestionRefIdFk())) {
-                            boolean updateQuestionDescription = printableBusinessObject instanceof ProposalPerson;
-                            if (answer.getAnswer() != null) {
-                                isAnswerPresent = true;
-                                if(isAnswerNamePresent==true)
-                                    answerName+=", ";
-                                answerName += answer.getAnswer().trim();
-                                 if (answerName != null) {
-                                    if (answerName.trim().equalsIgnoreCase("Y")) {
-                                        answerDescription = "Yes";
-                                        if (updateQuestionDescription) {
-                                            questionInfo.setQuestion(questionnaireQuestion.getQuestion().getAffirmativeStatementConversion());
-                                        }
-                                    } else if (answerName.trim().equalsIgnoreCase("N")) {
-                                        answerDescription = "No";
-                                        if (updateQuestionDescription) {
-                                            questionInfo.setQuestion(questionnaireQuestion.getQuestion().getNegativeStatementConversion());
-                                        }
-                                    } else if (answerName.trim().equalsIgnoreCase("X")) {
-                                        answerDescription = "None";
-                                    } else {
-                                        answerDescription = answerName;
-                                    }
-                                }
-                                selectedAnswer = answer.getAnswerNumber();
-                                isAnswerNamePresent=true;
-                               //break;
-                            }
-                        }
-
+                boolean isAnswerPresent = false;
+                if (questionId != null) {
+                    questionInfo.setQuestionId(questionId.intValue());
+                }
+                questionInfo.setQuestionNumber(questionNumber);
+                if (questionnaireQuestion.getQuestion() == null) {
+                    questionnaireQuestion.refreshReferenceObject("question");
+                }
+                if (questionnaireQuestion.getQuestion() != null) {
+                    questionInfo.setQuestion(questionnaireQuestion.getQuestion().getQuestion());
+                    if(!questionnaireQuestion.getParentQuestionNumber().equals(0)){
+                        questionInfo.setParentQuestionNumber(questionnaireQuestion.getParentQuestionNumber());
                     }
                 }
+                if (answerHeaders != null && answerHeaders.size() > 0) {
+                    boolean isAnswerNamePresent=false;
+                    int selectedAnswer = 0;
+                    for (AnswerHeader answerHeader : answerHeaders) {
+                        String answerName="";
+                        String answerPerson="";
+                        String answerDescription = null;
+                        if (questionnaireQuestion.getQuestionnaireRefIdFk().equals(answerHeader.getQuestionnaireRefIdFk())) {
+                            List<Answer> answers = answerHeader.getAnswers();
+                            for (Answer answer : answers) {
+                                if (answer.getQuestionnaireQuestion().getQuestionnaireQuestionsId().equals(
+                                        questionnaireQuestion.getQuestionnaireQuestionsId())
+                                        && answer.getQuestionNumber().equals(questionnaireQuestion.getQuestionNumber())
+                                        && answer.getQuestionRefIdFk().equals(questionnaireQuestion.getQuestionRefIdFk())) {
+                                    boolean updateQuestionDescription = printableBusinessObject instanceof ProposalPerson;
+                                    if (answer.getAnswer() != null) {
+                                        isAnswerPresent = true;
+                                        if(isAnswerNamePresent==true)
+                                            answerName+=", ";
+                                        answerName += answer.getAnswer().trim();
+                                        if (answerName != null) {
+                                            if (answerName.trim().equalsIgnoreCase("Y")) {
+                                                answerDescription = "Yes";
+                                                if (updateQuestionDescription) {
+                                                  questionInfo.setQuestion(questionnaireQuestion.getQuestion().getAffirmativeStatementConversion());
+                                                }
+                                            } else if (answerName.trim().equalsIgnoreCase("N")) {
+                                                answerDescription = "No";
+                                                if (updateQuestionDescription) {
+                                                    questionInfo.setQuestion(questionnaireQuestion.getQuestion().getNegativeStatementConversion());
+                                                }
+                                            } else if (answerName.trim().equalsIgnoreCase("X")) {
+                                                answerDescription = "None";
+                                            } else {
+                                                answerDescription = answerName;
+                                            }
+                                        }
+                                        selectedAnswer = answer.getAnswerNumber();
+                                        isAnswerNamePresent=true;
+                                        //break;
+                                    }
+                                }
+
+                            }
+                        }
                 
-                //if (isAnswerPresent || !questionnaireCompletionFlag) {
-                    AnswerInfoType answerInfo = questionInfo.addNewAnswerInfo();
-                    answerInfo.setAnswerNumber(selectedAnswer);
+                        //if (isAnswerPresent || !questionnaireCompletionFlag) {
+                            AnswerInfoType answerInfo = questionInfo.addNewAnswerInfo();
+                            answerInfo.setAnswerNumber(selectedAnswer);
 //                    if(answerDescription==null||answerDescription.isEmpty())
 //                        answerDescription="notAnswered";
                     if((questionnaireQuestion.getQuestion().getQuestionTypeId().equals(6)) && (questionnaireQuestion.getQuestion().getLookupClass().equals("org.kuali.kra.bo.KcPerson"))) {
@@ -616,10 +617,10 @@ public class QuestionnaireXmlStream implements XmlStream {
                         }
                             
                         }}
-                    answerInfo.setAnswer(answerDescription);
+                            answerInfo.setAnswer(answerDescription);
+                        }
+                    }
                 }
-            }
-        }
     
     /**
      * 
@@ -678,7 +679,7 @@ public class QuestionnaireXmlStream implements XmlStream {
              }
              catch(Exception e){
                  LOG.error("Problem in deserializing xmldata to Questionnaire",e);
-             }
+            }
         }
     }
 

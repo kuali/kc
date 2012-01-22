@@ -16,7 +16,7 @@
 package org.kuali.kra.proposaldevelopment.rules;
 
 import org.kuali.kra.proposaldevelopment.rule.event.SaveProposalSitesEvent;
-import org.kuali.rice.kns.rule.BusinessRule;
+import org.kuali.rice.krad.rules.rule.BusinessRule;
 
 public interface SaveProposalSitesRule extends BusinessRule {
     

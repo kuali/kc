@@ -18,7 +18,7 @@ package org.kuali.kra.committee.web.struts.action;
 import static org.apache.commons.lang.StringUtils.isNotBlank;
 import static org.apache.commons.lang.StringUtils.substringBetween;
 import static org.kuali.kra.infrastructure.Constants.MAPPING_BASIC;
-import static org.kuali.rice.kns.util.KNSConstants.METHOD_TO_CALL_ATTRIBUTE;
+import static org.kuali.rice.krad.util.KRADConstants.METHOD_TO_CALL_ATTRIBUTE;
 
 import java.util.ArrayList;
 import java.util.Collection;
@@ -46,9 +46,8 @@ import org.kuali.kra.committee.web.struts.form.CommitteeForm;
 import org.kuali.kra.committee.web.struts.form.CommitteeHelper;
 import org.kuali.kra.infrastructure.Constants;
 import org.kuali.kra.infrastructure.KraServiceLocator;
-import org.kuali.kra.irb.ProtocolDocumentRule;
-import org.kuali.rice.kns.bo.PersistableBusinessObject;
-import org.kuali.rice.kns.util.KNSConstants;
+import org.kuali.rice.krad.bo.PersistableBusinessObject;
+import org.kuali.rice.krad.util.KRADConstants;
 
 /**
  * The CommitteeMembershipAction corresponds to the Members tab (web page).  It is
@@ -202,7 +201,7 @@ public class CommitteeMembershipAction extends CommitteeAction {
     @Override
     public ActionForward performLookup(ActionMapping mapping, ActionForm form, HttpServletRequest request,
             HttpServletResponse response) throws Exception {
-        String parameterName = (String) request.getAttribute(KNSConstants.METHOD_TO_CALL_ATTRIBUTE);
+        String parameterName = (String) request.getAttribute(KRADConstants.METHOD_TO_CALL_ATTRIBUTE);
         String memberIndex = StringUtils.substringBetween(parameterName, "memberIndex", ".");
         if (StringUtils.isNotBlank(memberIndex)) {
             ((CommitteeForm)form).getCommitteeHelper().setMemberIndex(Integer.parseInt(memberIndex));

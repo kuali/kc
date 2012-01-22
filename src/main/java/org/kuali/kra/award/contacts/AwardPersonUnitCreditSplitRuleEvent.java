@@ -20,9 +20,9 @@ import java.util.Map;
 import org.apache.commons.logging.Log;
 import org.apache.commons.logging.LogFactory;
 import org.kuali.kra.rule.event.KraDocumentEventBase;
-import org.kuali.rice.kns.document.Document;
-import org.kuali.rice.kns.rule.BusinessRule;
-import org.kuali.rice.kns.util.KualiDecimal;
+import org.kuali.rice.core.api.util.type.KualiDecimal;
+import org.kuali.rice.krad.document.Document;
+import org.kuali.rice.krad.rules.rule.BusinessRule;
 
 /**
  * This class is used by AwardPersonCreditSplitRule implementers
@@ -55,7 +55,7 @@ public class AwardPersonUnitCreditSplitRuleEvent extends KraDocumentEventBase {
     }
 
     /**
-     * @see org.kuali.rice.kns.rule.event.KualiDocumentEvent#getRuleInterfaceClass()
+     * @see org.kuali.rice.krad.rules.rule.event.KualiDocumentEvent#getRuleInterfaceClass()
      */
     public Class<AwardPersonUnitCreditSplitRule> getRuleInterfaceClass() {
         return AwardPersonUnitCreditSplitRule.class;
@@ -70,7 +70,7 @@ public class AwardPersonUnitCreditSplitRuleEvent extends KraDocumentEventBase {
     }
 
     /**
-     * @see org.kuali.rice.kns.rule.event.KualiDocumentEvent#invokeRuleMethod(org.kuali.rice.kns.rule.BusinessRule)
+     * @see org.kuali.rice.krad.rules.rule.event.KualiDocumentEvent#invokeRuleMethod(org.kuali.rice.krad.rules.rule.BusinessRule)
      */
     public boolean invokeRuleMethod(BusinessRule rule) {
         return false;

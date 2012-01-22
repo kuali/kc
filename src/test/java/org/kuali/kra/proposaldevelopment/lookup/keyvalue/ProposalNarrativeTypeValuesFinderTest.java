@@ -26,7 +26,8 @@ import org.junit.Test;
 import org.kuali.kra.proposaldevelopment.bo.Narrative;
 import org.kuali.kra.proposaldevelopment.bo.NarrativeType;
 import org.kuali.kra.proposaldevelopment.document.ProposalDevelopmentDocument;
-import org.kuali.rice.core.util.KeyLabelPair;
+import org.kuali.rice.core.api.util.ConcreteKeyValue;
+import org.kuali.rice.core.api.util.KeyValue;
 
 public class ProposalNarrativeTypeValuesFinderTest {
 
@@ -38,7 +39,7 @@ public class ProposalNarrativeTypeValuesFinderTest {
     private ProposalNarrativeTypeValuesFinder finder;
     private NarrativeType otherNarrativeType;
     private NarrativeType proposalNarrativeType;
-    private List<KeyLabelPair> allNarrativeTypesAsKeyLabelPairs;
+    private List<KeyValue> allNarrativeTypesAsKeyValues;
     private Collection<NarrativeType> allNarrativeTypes;
     
     @Before
@@ -87,7 +88,7 @@ public class ProposalNarrativeTypeValuesFinderTest {
         narrativeType.setDescription(narrativeDescription);
         narrativeType.setAllowMultiple(allowMultiple ? YES : NO);
         allNarrativeTypes.add(narrativeType);
-        allNarrativeTypesAsKeyLabelPairs.add(new KeyLabelPair(narrativeTypeCode ,narrativeDescription));
+        allNarrativeTypesAsKeyValues.add(new ConcreteKeyValue(narrativeTypeCode ,narrativeDescription));
         
         return narrativeType;
     }
@@ -108,7 +109,7 @@ public class ProposalNarrativeTypeValuesFinderTest {
 
     private void initNarrativeTypes() {
         allNarrativeTypes = new ArrayList<NarrativeType>();
-        allNarrativeTypesAsKeyLabelPairs = new ArrayList<KeyLabelPair>();
+        allNarrativeTypesAsKeyValues = new ArrayList<KeyValue>();
         proposalNarrativeType = createNarrativeType("1", "Proposal", false);
         bioNarrativeType = createNarrativeType("2", "Bio Sketch", false);
         otherNarrativeType = createNarrativeType("3", "Other", true);        

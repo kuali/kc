@@ -16,7 +16,7 @@
 package org.kuali.kra.award.contacts;
 
 import org.kuali.kra.award.home.Award;
-import org.kuali.rice.kns.util.GlobalVariables;
+import org.kuali.rice.krad.util.GlobalVariables;
 
 /**
  * This class implements the specified rule
@@ -38,7 +38,7 @@ public class AwardSponsorContactAddRuleImpl extends BaseAwardContactAddRule {
         for(AwardSponsorContact unitContact: award.getSponsorContacts()) {
             valid = !unitContact.getRolodexId().equals(newContact.getRolodexId());
             if(!valid) {
-                GlobalVariables.getErrorMap().putError(AWARD_SPONSOR_CONTACT_LIST_ERROR_KEY, ERROR_AWARD_SPONSOR_CONTACT_EXISTS, newContact.getFullName());
+                GlobalVariables.getMessageMap().putError(AWARD_SPONSOR_CONTACT_LIST_ERROR_KEY, ERROR_AWARD_SPONSOR_CONTACT_EXISTS, newContact.getFullName());
                 break;
             }
         }

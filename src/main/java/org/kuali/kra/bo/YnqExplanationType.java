@@ -15,14 +15,14 @@
  */
 package org.kuali.kra.bo;
 
-import java.util.LinkedHashMap;
 
 public class YnqExplanationType extends KraPersistableBusinessObjectBase {
 
-    private String explanationType; 
-    private String description; 
+    private String explanationType;
 
-    public YnqExplanationType(){
+    private String description;
+
+    public YnqExplanationType() {
         super();
     }
 
@@ -41,13 +41,4 @@ public class YnqExplanationType extends KraPersistableBusinessObjectBase {
     public void setDescription(String description) {
         this.description = description;
     }
-
-    @Override 
-    protected LinkedHashMap toStringMapper() {
-        LinkedHashMap hashMap = new LinkedHashMap();
-        hashMap.put("explanationType", getExplanationType());
-        hashMap.put("description", getDescription());
-        return hashMap;
-    }
-
 }

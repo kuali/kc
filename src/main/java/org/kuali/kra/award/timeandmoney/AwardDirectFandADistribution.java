@@ -16,10 +16,9 @@
 package org.kuali.kra.award.timeandmoney;
 
 import java.sql.Date;
-import java.util.LinkedHashMap;
 
 import org.kuali.kra.award.AwardAssociate;
-import org.kuali.rice.kns.util.KualiDecimal;
+import org.kuali.rice.core.api.util.type.KualiDecimal;
 
 /**
  * This class is the BO representation of an Award Amount F and A Distribution.
@@ -30,21 +29,28 @@ public class AwardDirectFandADistribution extends AwardAssociate {
      * Comment for <code>serialVersionUID</code>
      */
     private static final long serialVersionUID = 1548622355738763084L;
-    
+
     private Long awardDirectFandADistributionId;
+
     private Integer amountSequenceNumber;
+
     private Long awardAmountInfoId;
+
     private Integer budgetPeriod;
+
     private Date startDate;
+
     private Date endDate;
+
     private KualiDecimal directCost;
+
     private KualiDecimal indirectCost;
-    
+
     public AwardDirectFandADistribution() {
         setDirectCost(new KualiDecimal(0.00));
         setIndirectCost(new KualiDecimal(0.00));
     }
-    
+
     public AwardDirectFandADistribution(int budgetPeriodNum, Date periodStartDate, Date periodEndDate) {
         setDirectCost(new KualiDecimal(0.00));
         setIndirectCost(new KualiDecimal(0.00));
@@ -61,7 +67,7 @@ public class AwardDirectFandADistribution extends AwardAssociate {
     public Long getAwardAmountInfoId() {
         return awardAmountInfoId;
     }
-    
+
     /**
      * Gets the awardDirectFandADistributionId attribute. 
      * @return Returns the awardDirectFandADistributionId.
@@ -69,6 +75,7 @@ public class AwardDirectFandADistribution extends AwardAssociate {
     public Long getAwardDirectFandADistributionId() {
         return awardDirectFandADistributionId;
     }
+
     /**
      * Sets the awardDirectFandADistributionId attribute value.
      * @param awardDirectFandADistributionId The awardDirectFandADistributionId to set.
@@ -76,7 +83,7 @@ public class AwardDirectFandADistribution extends AwardAssociate {
     public void setAwardDirectFandADistributionId(Long awardDirectFandADistributionId) {
         this.awardDirectFandADistributionId = awardDirectFandADistributionId;
     }
-   
+
     /**
      * Gets the amountSequenceNumber attribute. 
      * @return Returns the amountSequenceNumber.
@@ -84,6 +91,7 @@ public class AwardDirectFandADistribution extends AwardAssociate {
     public Integer getAmountSequenceNumber() {
         return amountSequenceNumber;
     }
+
     /**
      * Sets the amountSequenceNumber attribute value.
      * @param amountSequenceNumber The amountSequenceNumber to set.
@@ -91,6 +99,7 @@ public class AwardDirectFandADistribution extends AwardAssociate {
     public void setAmountSequenceNumber(Integer amountSequenceNumber) {
         this.amountSequenceNumber = amountSequenceNumber;
     }
+
     /**
      * Gets the budgetPeriod attribute. 
      * @return Returns the budgetPeriod.
@@ -98,6 +107,7 @@ public class AwardDirectFandADistribution extends AwardAssociate {
     public Integer getBudgetPeriod() {
         return budgetPeriod;
     }
+
     /**
      * Sets the budgetPeriod attribute value.
      * @param budgetPeriod The budgetPeriod to set.
@@ -105,6 +115,7 @@ public class AwardDirectFandADistribution extends AwardAssociate {
     public void setBudgetPeriod(Integer budgetPeriod) {
         this.budgetPeriod = budgetPeriod;
     }
+
     /**
      * Gets the startDate attribute. 
      * @return Returns the startDate.
@@ -112,6 +123,7 @@ public class AwardDirectFandADistribution extends AwardAssociate {
     public Date getStartDate() {
         return startDate;
     }
+
     /**
      * Sets the startDate attribute value.
      * @param startDate The startDate to set.
@@ -119,6 +131,7 @@ public class AwardDirectFandADistribution extends AwardAssociate {
     public void setStartDate(Date startDate) {
         this.startDate = startDate;
     }
+
     /**
      * Gets the endDate attribute. 
      * @return Returns the endDate.
@@ -126,6 +139,7 @@ public class AwardDirectFandADistribution extends AwardAssociate {
     public Date getEndDate() {
         return endDate;
     }
+
     /**
      * Sets the endDate attribute value.
      * @param endDate The endDate to set.
@@ -133,6 +147,7 @@ public class AwardDirectFandADistribution extends AwardAssociate {
     public void setEndDate(Date endDate) {
         this.endDate = endDate;
     }
+
     /**
      * Gets the directCost attribute. 
      * @return Returns the directCost.
@@ -140,6 +155,7 @@ public class AwardDirectFandADistribution extends AwardAssociate {
     public KualiDecimal getDirectCost() {
         return directCost;
     }
+
     /**
      * Sets the directCost attribute value.
      * @param directCost The directCost to set.
@@ -147,6 +163,7 @@ public class AwardDirectFandADistribution extends AwardAssociate {
     public void setDirectCost(KualiDecimal directCost) {
         this.directCost = directCost;
     }
+
     /**
      * Gets the indirectCost attribute. 
      * @return Returns the indirectCost.
@@ -154,6 +171,7 @@ public class AwardDirectFandADistribution extends AwardAssociate {
     public KualiDecimal getIndirectCost() {
         return indirectCost;
     }
+
     /**
      * Sets the indirectCost attribute value.
      * @param indirectCost The indirectCost to set.
@@ -161,6 +179,7 @@ public class AwardDirectFandADistribution extends AwardAssociate {
     public void setIndirectCost(KualiDecimal indirectCost) {
         this.indirectCost = indirectCost;
     }
+
     /**
      * Gets the serialVersionUID attribute. 
      * @return Returns the serialVersionUID.
@@ -168,33 +187,14 @@ public class AwardDirectFandADistribution extends AwardAssociate {
     public static long getSerialVersionUID() {
         return serialVersionUID;
     }
-    
-    
-    
-    /**
-     * @see org.kuali.core.bo.BusinessObjectBase#toStringMapper()
-     */
-    @Override
-    protected LinkedHashMap<String, Object> toStringMapper() {
-        LinkedHashMap<String, Object> map = new LinkedHashMap<String, Object>();
-        map.put("awardDirectFandADistributionId", awardDirectFandADistributionId);
-        map.put("amountSequenceNumber", amountSequenceNumber);
-        map.put("awardAmountInfoId", awardAmountInfoId);
-        map.put("budgetPeriod", budgetPeriod);
-        map.put("startDate", startDate);
-        map.put("endDate", endDate);
-        map.put("directCost", directCost);
-        map.put("indirectCost", indirectCost);
-        return map;
-    }
-    
+
     /**
      * @see org.kuali.kra.Sequenceable#resetPersistenceState()
      */
     public void resetPersistenceState() {
         this.awardDirectFandADistributionId = null;
     }
-    
+
     /**
      * @see java.lang.Object#hashCode()
      */
@@ -212,67 +212,40 @@ public class AwardDirectFandADistribution extends AwardAssociate {
         result = prime * result + ((startDate == null) ? 0 : startDate.hashCode());
         return result;
     }
+
     /**
      * @see java.lang.Object#equals(java.lang.Object)
      */
     @Override
     public boolean equals(Object obj) {
-        if (this == obj)
-            return true;
-        if (!super.equals(obj))
-            return false;
-        if (getClass() != obj.getClass())
-            return false;
+        if (this == obj) return true;
+        if (!super.equals(obj)) return false;
+        if (getClass() != obj.getClass()) return false;
         final AwardDirectFandADistribution other = (AwardDirectFandADistribution) obj;
         if (amountSequenceNumber == null) {
-            if (other.amountSequenceNumber != null)
-                return false;
-        }
-        else if (!amountSequenceNumber.equals(other.amountSequenceNumber))
-            return false;
+            if (other.amountSequenceNumber != null) return false;
+        } else if (!amountSequenceNumber.equals(other.amountSequenceNumber)) return false;
         if (awardAmountInfoId == null) {
-            if (other.awardAmountInfoId != null)
-                return false;
-        }
-        else if (!awardAmountInfoId.equals(other.awardAmountInfoId))
-            return false;
+            if (other.awardAmountInfoId != null) return false;
+        } else if (!awardAmountInfoId.equals(other.awardAmountInfoId)) return false;
         if (awardDirectFandADistributionId == null) {
-            if (other.awardDirectFandADistributionId != null)
-                return false;
-        }
-        else if (!awardDirectFandADistributionId.equals(other.awardDirectFandADistributionId))
-            return false;
+            if (other.awardDirectFandADistributionId != null) return false;
+        } else if (!awardDirectFandADistributionId.equals(other.awardDirectFandADistributionId)) return false;
         if (budgetPeriod == null) {
-            if (other.budgetPeriod != null)
-                return false;
-        }
-        else if (!budgetPeriod.equals(other.budgetPeriod))
-            return false;
+            if (other.budgetPeriod != null) return false;
+        } else if (!budgetPeriod.equals(other.budgetPeriod)) return false;
         if (directCost == null) {
-            if (other.directCost != null)
-                return false;
-        }
-        else if (!directCost.equals(other.directCost))
-            return false;
+            if (other.directCost != null) return false;
+        } else if (!directCost.equals(other.directCost)) return false;
         if (endDate == null) {
-            if (other.endDate != null)
-                return false;
-        }
-        else if (!endDate.equals(other.endDate))
-            return false;
+            if (other.endDate != null) return false;
+        } else if (!endDate.equals(other.endDate)) return false;
         if (indirectCost == null) {
-            if (other.indirectCost != null)
-                return false;
-        }
-        else if (!indirectCost.equals(other.indirectCost))
-            return false;
+            if (other.indirectCost != null) return false;
+        } else if (!indirectCost.equals(other.indirectCost)) return false;
         if (startDate == null) {
-            if (other.startDate != null)
-                return false;
-        }
-        else if (!startDate.equals(other.startDate))
-            return false;
+            if (other.startDate != null) return false;
+        } else if (!startDate.equals(other.startDate)) return false;
         return true;
     }
 }
-   

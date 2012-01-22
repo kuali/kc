@@ -17,7 +17,6 @@ package org.kuali.kra.irb.onlinereview;
 
 import java.sql.Date;
 import java.util.ArrayList;
-import java.util.LinkedHashMap;
 import java.util.List;
 import java.util.Map;
 
@@ -34,60 +33,76 @@ import org.kuali.kra.irb.ProtocolOnlineReviewDocument;
 import org.kuali.kra.irb.actions.submit.ProtocolReviewer;
 import org.kuali.kra.irb.actions.submit.ProtocolSubmission;
 import org.kuali.kra.meeting.CommitteeScheduleMinute;
-import org.kuali.rice.kew.util.KEWConstants;
-import org.kuali.rice.kns.util.GlobalVariables;
+import org.kuali.rice.krad.util.GlobalVariables;
 
 /**
  * This class encapsulates the notion of a protocol review. Essentially 
  * a join between protocol, submission, and a reviewer.  The ProtocolReview
  * is created by the IRB Admin as request.
  */
-public class ProtocolOnlineReview extends KraPersistableBusinessObjectBase implements Permissionable, 
-                                             UnitAclLoadable
-                                            {
+public class ProtocolOnlineReview extends KraPersistableBusinessObjectBase implements Permissionable, UnitAclLoadable {
 
-    
     private static final long serialVersionUID = 531397319695764847L;
-    
+
     private Long protocolOnlineReviewId;
+
     private Long protocolId;
+
     private Long submissionIdFk;
+
     private Long protocolReviewerId;
 
     private String protocolOnlineReviewStatusCode;
+
     private Long protocolOnlineReviewDeterminationRecommendationCode;
+
     private Date dateDue;
+
     private Date dateRequested;
+
     private String actionsPerformed;
+
     private boolean reviewerApproved = false;
+
     private boolean adminAccepted = false;
 
     private Protocol protocol;
+
     private ProtocolSubmission protocolSubmission;
+
     private ProtocolReviewer protocolReviewer;
+
     private ProtocolOnlineReviewStatus protocolOnlineReviewStatus;
+
     private ProtocolOnlineReviewDeterminationRecommendation protocolOnlineReviewDeterminationRecommendation;
-    
+
     private List<CommitteeScheduleMinute> committeeScheduleMinutes;
+
     private List<ProtocolReviewAttachment> reviewAttachments;
+
     private ProtocolOnlineReviewDocument protocolOnlineReviewDocument;
-    
-    //lookup fields
-    //private transient String lookupProtocolNumber;
+
+    //lookup fields  
+    //private transient String lookupProtocolNumber;  
     private transient Protocol lookupProtocol;
+
     private transient Integer lookupReviewerRolodexId;
+
     private transient Rolodex lookupReviewerRolodex;
+
     private transient String lookupReviewerPersonId;
+
     private transient KcPerson lookupReviewerPerson;
+
     private transient String lookupProtocolOnlineReviewStatusCode;
-    // to limit reviewertype drop down to primary/secondary on OLR
+
+    // to limit reviewertype drop down to primary/secondary on OLR  
     private transient String reviewerTypeCode;
-    
-    
+
     public ProtocolOnlineReview() {
         this.committeeScheduleMinutes = new ArrayList<CommitteeScheduleMinute>();
     }
-    
+
     /**
      * Gets the protocolReviewId attribute. 
      * @return Returns the protocolReviewId.
@@ -95,7 +110,6 @@ public class ProtocolOnlineReview extends KraPersistableBusinessObjectBase imple
     public Long getProtocolOnlineReviewId() {
         return protocolOnlineReviewId;
     }
-
 
     /**
      * Sets the protocolReviewId attribute value.
@@ -105,7 +119,6 @@ public class ProtocolOnlineReview extends KraPersistableBusinessObjectBase imple
         this.protocolOnlineReviewId = protocolOnlineReviewId;
     }
 
-
     /**
      * Gets the protocolId attribute. 
      * @return Returns the protocolId.
@@ -113,7 +126,6 @@ public class ProtocolOnlineReview extends KraPersistableBusinessObjectBase imple
     public Long getProtocolId() {
         return protocolId;
     }
-
 
     /**
      * Sets the protocolId attribute value.
@@ -123,7 +135,6 @@ public class ProtocolOnlineReview extends KraPersistableBusinessObjectBase imple
         this.protocolId = protocolId;
     }
 
-
     /**
      * Gets the submissionIdFk attribute. 
      * @return Returns the submissionIdFk.
@@ -131,7 +142,6 @@ public class ProtocolOnlineReview extends KraPersistableBusinessObjectBase imple
     public Long getSubmissionIdFk() {
         return submissionIdFk;
     }
-
 
     /**
      * Sets the submissionIdFk attribute value.
@@ -141,14 +151,12 @@ public class ProtocolOnlineReview extends KraPersistableBusinessObjectBase imple
         this.submissionIdFk = submissionIdFk;
     }
 
-
     /** Gets the protocolReviewStatusCode attribute. 
      * @return Returns the protocolReviewStatusCode.
      */
     public String getProtocolOnlineReviewStatusCode() {
         return protocolOnlineReviewStatusCode;
     }
-
 
     /**
      * Sets the protocolReviewStatusCode attribute value.
@@ -158,7 +166,6 @@ public class ProtocolOnlineReview extends KraPersistableBusinessObjectBase imple
         this.protocolOnlineReviewStatusCode = protocolOnlineReviewStatusCode;
     }
 
-
     /**
      * Gets the dueDate attribute. 
      * @return Returns the dueDate.
@@ -166,7 +173,6 @@ public class ProtocolOnlineReview extends KraPersistableBusinessObjectBase imple
     public Date getDateDue() {
         return dateDue;
     }
-
 
     /**
      * Sets the dueDate attribute value.
@@ -176,7 +182,6 @@ public class ProtocolOnlineReview extends KraPersistableBusinessObjectBase imple
         this.dateDue = dateDue;
     }
 
-
     /**
      * Gets the dateRequested attribute. 
      * @return Returns the dateRequested.
@@ -184,7 +189,6 @@ public class ProtocolOnlineReview extends KraPersistableBusinessObjectBase imple
     public Date getDateRequested() {
         return dateRequested;
     }
-
 
     /**
      * Sets the dateRequested attribute value.
@@ -194,7 +198,6 @@ public class ProtocolOnlineReview extends KraPersistableBusinessObjectBase imple
         this.dateRequested = dateRequested;
     }
 
-
     /**
      * Gets the protocol attribute. 
      * @return Returns the protocol.
@@ -202,7 +205,6 @@ public class ProtocolOnlineReview extends KraPersistableBusinessObjectBase imple
     public Protocol getProtocol() {
         return protocol;
     }
-
 
     /**
      * Sets the protocol attribute value.
@@ -212,7 +214,6 @@ public class ProtocolOnlineReview extends KraPersistableBusinessObjectBase imple
         this.protocol = protocol;
     }
 
-
     /**
      * Gets the protocolSubmission attribute. 
      * @return Returns the protocolSubmission.
@@ -220,7 +221,6 @@ public class ProtocolOnlineReview extends KraPersistableBusinessObjectBase imple
     public ProtocolSubmission getProtocolSubmission() {
         return protocolSubmission;
     }
-
 
     /**
      * Sets the protocolSubmission attribute value.
@@ -238,7 +238,6 @@ public class ProtocolOnlineReview extends KraPersistableBusinessObjectBase imple
         return protocolOnlineReviewStatus;
     }
 
-
     /**
      * Sets the protocolReviewStatus attribute value.
      * @param protocolOnlineReviewStatus The protocolReviewStatus to set.
@@ -255,7 +254,6 @@ public class ProtocolOnlineReview extends KraPersistableBusinessObjectBase imple
         return protocolOnlineReviewDeterminationRecommendationCode;
     }
 
-
     /**
      * Sets the protocolReviewDeterminationRecommendationCode attribute value.
      * @param protocolOnlineReviewDeterminationRecommendationCode The protocolReviewDeterminationRecommendationCode to set.
@@ -263,7 +261,6 @@ public class ProtocolOnlineReview extends KraPersistableBusinessObjectBase imple
     public void setProtocolOnlineReviewDeterminationRecommendationCode(Long protocolOnlineReviewDeterminationRecommendationCode) {
         this.protocolOnlineReviewDeterminationRecommendationCode = protocolOnlineReviewDeterminationRecommendationCode;
     }
-
 
     /**
      * Gets the protocolReviewDeterminationRecommendation attribute. 
@@ -273,16 +270,14 @@ public class ProtocolOnlineReview extends KraPersistableBusinessObjectBase imple
         return protocolOnlineReviewDeterminationRecommendation;
     }
 
-
     /**
      * Sets the protocolReviewDeterminationRecommendation attribute value.
      * @param protocolOnlineReviewDeterminationRecommendation The protocolReviewDeterminationRecommendation to set.
      */
-    public void setProtocolOnlineReviewDeterminationRecommendation(
-            ProtocolOnlineReviewDeterminationRecommendation protocolOnlineReviewDeterminationRecommendation) {
+    public void setProtocolOnlineReviewDeterminationRecommendation(ProtocolOnlineReviewDeterminationRecommendation protocolOnlineReviewDeterminationRecommendation) {
         this.protocolOnlineReviewDeterminationRecommendation = protocolOnlineReviewDeterminationRecommendation;
     }
-    
+
     /**
      * Gets the protocolReviewerId attribute. 
      * @return Returns the protocolReviewerId.
@@ -290,7 +285,6 @@ public class ProtocolOnlineReview extends KraPersistableBusinessObjectBase imple
     public Long getProtocolReviewerId() {
         return protocolReviewerId;
     }
-
 
     /**
      * Sets the protocolReviewerId attribute value.
@@ -300,7 +294,6 @@ public class ProtocolOnlineReview extends KraPersistableBusinessObjectBase imple
         this.protocolReviewerId = protocolReviewerId;
     }
 
-
     /**
      * Gets the protocolReviewer attribute. 
      * @return Returns the protocolReviewer.
@@ -309,7 +302,6 @@ public class ProtocolOnlineReview extends KraPersistableBusinessObjectBase imple
         return protocolReviewer;
     }
 
-
     /**
      * Sets the protocolReviewer attribute value.
      * @param protocolReviewer The protocolReviewer to set.
@@ -317,49 +309,27 @@ public class ProtocolOnlineReview extends KraPersistableBusinessObjectBase imple
     public void setProtocolReviewer(ProtocolReviewer protocolReviewer) {
         this.protocolReviewer = protocolReviewer;
     }
-    
-    @Override
-    @SuppressWarnings("unchecked")
-    protected LinkedHashMap toStringMapper() {
-        LinkedHashMap<String,Object> hashMap = new LinkedHashMap<String,Object>();
-        hashMap.put( "protocolId" , getProtocolId() );
-        hashMap.put( "submissionIdFk", getSubmissionIdFk() );
-        hashMap.put( "protocolReviewerId", getProtocolReviewerId());
-        hashMap.put( "protocolOnlineReviewStatusCode", getProtocolOnlineReviewStatusCode() );
-        hashMap.put( "protocolOnlineReviewDeterminationRecommendationCode", getProtocolOnlineReviewDeterminationRecommendationCode() );
-        hashMap.put( "dateDue", getDateDue() );
-        hashMap.put( "dateRequested", getDateRequested() );
-        hashMap.put( "reviewerApproved", isReviewerApproved() );
-        hashMap.put( "adminAccepted", isAdminAccepted() );
-        return hashMap;
-    }
-
 
     public String getDocumentKey() {
         return Permissionable.PROTOCOL_ONLINE_REVIEW_KEY;
     }
 
-
     public String getDocumentNumberForPermission() {
         return getProtocolOnlineReviewId().toString();
     }
 
-
     public String getDocumentRoleTypeCode() {
-        // TODO Auto-generated method stub
+        // TODO Auto-generated method stub  
         return null;
     }
-
 
     public String getLeadUnitNumber() {
         return getProtocol().getLeadUnitNumber();
     }
 
-
     public String getNamespace() {
         return "KC-PROTOCOL";
     }
-
 
     public List<String> getRoleNames() {
         List<String> roleNames = new ArrayList<String>();
@@ -371,9 +341,8 @@ public class ProtocolOnlineReview extends KraPersistableBusinessObjectBase imple
         qualifiedRoleAttributes.put(protocol.getDocumentKey(), protocol.getDocumentNumberForPermission());
     }
 
-
     public String getDocumentUnitNumber() {
-        // TODO Auto-generated method stub
+        // TODO Auto-generated method stub  
         return null;
     }
 
@@ -384,7 +353,6 @@ public class ProtocolOnlineReview extends KraPersistableBusinessObjectBase imple
     public List<CommitteeScheduleMinute> getCommitteeScheduleMinutes() {
         return committeeScheduleMinutes;
     }
-
 
     /**
      * Sets the committeeScheduleMinutes attribute value.
@@ -402,7 +370,6 @@ public class ProtocolOnlineReview extends KraPersistableBusinessObjectBase imple
         return protocolOnlineReviewDocument;
     }
 
-
     /**
      * Sets the protocolReviewDocument attribute value.
      * @param protocolOnlineReviewDocument The protocolReviewDocument to set.
@@ -410,8 +377,8 @@ public class ProtocolOnlineReview extends KraPersistableBusinessObjectBase imple
     public void setProtocolOnlineReviewDocument(ProtocolOnlineReviewDocument protocolOnlineReviewDocument) {
         this.protocolOnlineReviewDocument = protocolOnlineReviewDocument;
     }
-    
-    @SuppressWarnings( "unchecked" )
+
+    @SuppressWarnings("unchecked")
     public List buildListOfDeletionAwareLists() {
         return super.buildListOfDeletionAwareLists();
     }
@@ -421,22 +388,21 @@ public class ProtocolOnlineReview extends KraPersistableBusinessObjectBase imple
         this.protocolOnlineReviewId = null;
     }
 
-//    /**
-//     * Gets the lookupProtocolNumber attribute. 
-//     * @return Returns the lookupProtocolNumber.
-//     */
-//    public String getLookupProtocolNumber() {
-//        return protocol.getProtocolNumber();
-//    }
-//
-//    /**
-//     * Sets the lookupProtocolNumber attribute value.
-//     * @param lookupProtocolNumber The lookupProtocolNumber to set.
-//     */
-//    public void setLookupProtocolNumber(String lookupProtocolNumber) {
-//        this.lookupProtocolNumber = lookupProtocolNumber;
-//    }
-
+    //    /**  
+    //     * Gets the lookupProtocolNumber attribute.   
+    //     * @return Returns the lookupProtocolNumber.  
+    //     */  
+    //    public String getLookupProtocolNumber() {  
+    //        return protocol.getProtocolNumber();  
+    //    }  
+    //  
+    //    /**  
+    //     * Sets the lookupProtocolNumber attribute value.  
+    //     * @param lookupProtocolNumber The lookupProtocolNumber to set.  
+    //     */  
+    //    public void setLookupProtocolNumber(String lookupProtocolNumber) {  
+    //        this.lookupProtocolNumber = lookupProtocolNumber;  
+    //    }  
     /**
      * Gets the lookupReviewerRolodexId attribute. 
      * @return Returns the lookupReviewerRolodexId.
@@ -461,7 +427,6 @@ public class ProtocolOnlineReview extends KraPersistableBusinessObjectBase imple
         return lookupReviewerPersonId;
     }
 
-
     /**
      * Sets the lookupReviewerPersonId attribute value.
      * @param lookupReviewerPersonId The lookupReviewerPersonId to set.
@@ -478,7 +443,6 @@ public class ProtocolOnlineReview extends KraPersistableBusinessObjectBase imple
         return lookupReviewerRolodex;
     }
 
-
     /**
      * Sets the lookupReviewerRolodex attribute value.
      * @param lookupReviewerRolodex The lookupReviewerRolodex to set.
@@ -486,7 +450,6 @@ public class ProtocolOnlineReview extends KraPersistableBusinessObjectBase imple
     public void setLookupReviewerRolodex(Rolodex lookupReviewerRolodex) {
         this.lookupReviewerRolodex = lookupReviewerRolodex;
     }
-
 
     /**
      * Gets the lookupReviewerPerson attribute. 
@@ -496,7 +459,6 @@ public class ProtocolOnlineReview extends KraPersistableBusinessObjectBase imple
         return lookupReviewerPerson;
     }
 
-
     /**
      * Sets the lookupReviewerPerson attribute value.
      * @param lookupReviewerPerson The lookupReviewerPerson to set.
@@ -504,7 +466,6 @@ public class ProtocolOnlineReview extends KraPersistableBusinessObjectBase imple
     public void setLookupReviewerPerson(KcPerson lookupReviewerPerson) {
         this.lookupReviewerPerson = lookupReviewerPerson;
     }
-
 
     /**
      * Gets the loopReviewerFullName attribute. 
@@ -519,15 +480,14 @@ public class ProtocolOnlineReview extends KraPersistableBusinessObjectBase imple
      * @param loopReviewerFullName The loopReviewerFullName to set.
      */
     public void setLookupReviewerFullName(String loopReviewerFullName) {
-        //this.loopReviewerFullName = loopReviewerFullName;
     }
-       
+
     /*
      * Returns if the review is active or not.
      * If the review has a status code of 'X' we return false;
      */
     public boolean isActive() {
-        return !StringUtils.equals(ProtocolOnlineReviewStatus.REMOVED_CANCELLED_STATUS_CD,getProtocolOnlineReviewStatusCode());
+        return !StringUtils.equals(ProtocolOnlineReviewStatus.REMOVED_CANCELLED_STATUS_CD, getProtocolOnlineReviewStatusCode());
     }
 
     public Protocol getLookupProtocol() {
@@ -545,7 +505,7 @@ public class ProtocolOnlineReview extends KraPersistableBusinessObjectBase imple
     public void setLookupProtocolOnlineReviewStatusCode(String lookupProtocolOnlineReviewStatusCode) {
         this.lookupProtocolOnlineReviewStatusCode = lookupProtocolOnlineReviewStatusCode;
     }
-    
+
     /**
      * Returns the dateDue if it is non-empty; otherwise, returns the scheduled meeting date.
      * @return dateDue if not-null, otherwise scheduled meeting date
@@ -569,7 +529,7 @@ public class ProtocolOnlineReview extends KraPersistableBusinessObjectBase imple
     public void setActionsPerformed(String actionsPerformed) {
         this.actionsPerformed = actionsPerformed;
     }
-    
+
     /**
      * 
      * This method is to add action performed for this OLR.  This used as audit trail and be used when undo
@@ -582,17 +542,15 @@ public class ProtocolOnlineReview extends KraPersistableBusinessObjectBase imple
         } else {
             this.actionsPerformed = this.actionsPerformed + Constants.SEMI_COLON + action + Constants.COLON + GlobalVariables.getUserSession().getPrincipalName();
         }
-        
     }
-    
-//    public boolean isLastActionReviewerApproved() {
-//        return isStatusMatched(KEWConstants.ROUTE_HEADER_ENROUTE_CD);
-//    }
-//    
-//    public boolean isLastActionAdminApproved() {
-//        return isStatusMatched(KEWConstants.ROUTE_HEADER_FINAL_CD);
-//    }
-    
+
+    //    public boolean isLastActionReviewerApproved() {  
+    //        return isStatusMatched(KewApiConstants.ROUTE_HEADER_ENROUTE_CD);  
+    //    }  
+    //      
+    //    public boolean isLastActionAdminApproved() {  
+    //        return isStatusMatched(KewApiConstants.ROUTE_HEADER_FINAL_CD);  
+    //    }  
     public boolean isReviewerApproved() {
         return reviewerApproved;
     }
@@ -623,13 +581,11 @@ public class ProtocolOnlineReview extends KraPersistableBusinessObjectBase imple
             }
         }
         return isMatched;
-        
     }
-    
+
     /*
      * get the reviewer user name of the last action performed if last action is reviewer approve OLR doc.
      */
-    
     /**
      * get the reviewer user name of the last action performed if last action is reviewer approve OLR doc.
      */
@@ -638,7 +594,7 @@ public class ProtocolOnlineReview extends KraPersistableBusinessObjectBase imple
         String[] approveAction = actions[actions.length - 2].split(Constants.COLON);
         return approveAction[1];
     }
-    
+
     /**
      * after undo last action, OLR will be versioned.  remove the last actionperformed from "actionsPerformed"
      * In case, this OLR is finalized again and undo.
@@ -670,5 +626,4 @@ public class ProtocolOnlineReview extends KraPersistableBusinessObjectBase imple
     public void setReviewAttachments(List<ProtocolReviewAttachment> reviewAttachments) {
         this.reviewAttachments = reviewAttachments;
     }
-
 }

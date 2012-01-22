@@ -19,8 +19,6 @@ import org.kuali.kra.bo.KraPersistableBusinessObjectBase;
 import org.kuali.kra.irb.actions.ProtocolAction;
 import org.kuali.kra.irb.correspondence.ProtocolCorrespondence;
 
-import java.util.LinkedHashMap;
-
 /**
  * 
  * This class implements the CommitteeBatchCorrespondenceDetail business object.
@@ -30,23 +28,27 @@ public class CommitteeBatchCorrespondenceDetail extends KraPersistableBusinessOb
     private static final long serialVersionUID = 1L;
 
     private Long committeeBatchCorrespondenceDetailId;
+
     private String committeeBatchCorrespondenceId;
+
     private Long protocolActionId;
+
     private Long protocolCorrespondenceId;
-    
+
     private boolean selected;
-    
+
     private CommitteeBatchCorrespondence committeeBatchCorrespondence;
+
     private ProtocolAction protocolAction;
+
     private ProtocolCorrespondence protocolCorrespondence;
-    
+
     /**
      * 
      * Constructs a CommitteeBatchCorrespondenceDetail.java.
      */
     public CommitteeBatchCorrespondenceDetail() {
-
-    } 
+    }
 
     public Long getCommitteeBatchCorrespondenceDetailId() {
         return committeeBatchCorrespondenceDetailId;
@@ -103,23 +105,12 @@ public class CommitteeBatchCorrespondenceDetail extends KraPersistableBusinessOb
     public void setProtocolCorrespondence(ProtocolCorrespondence protocolCorrespondence) {
         this.protocolCorrespondence = protocolCorrespondence;
     }
-    
+
     public boolean getSelected() {
         return selected;
     }
-    
+
     public void setSelected(boolean selected) {
         this.selected = selected;
-    }
-
-    /** {@inheritDoc} */
-    @Override 
-    protected LinkedHashMap<String, Object> toStringMapper() {
-        LinkedHashMap<String, Object> hashMap = new LinkedHashMap<String, Object>();
-        hashMap.put("committeeBatchCorrespondenceDetailId", this.getCommitteeBatchCorrespondenceDetailId());
-        hashMap.put("committeeBatchCorrespondenceId", this.getCommitteeBatchCorrespondenceId());
-        hashMap.put("protocolActionId", this.getProtocolActionId());
-        hashMap.put("protocolCorrespondenceId", this.getProtocolCorrespondenceId());
-        return hashMap;
     }
 }

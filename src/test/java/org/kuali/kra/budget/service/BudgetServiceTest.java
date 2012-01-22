@@ -29,12 +29,12 @@ import org.kuali.kra.proposaldevelopment.document.ProposalDevelopmentDocument;
 import org.kuali.kra.proposaldevelopment.service.ProposalDevelopmentService;
 import org.kuali.kra.service.KraAuthorizationService;
 import org.kuali.kra.test.infrastructure.KcUnitTestBase;
-import org.kuali.rice.kim.bo.Person;
-import org.kuali.rice.kim.service.PersonService;
-import org.kuali.rice.kns.UserSession;
-import org.kuali.rice.kns.document.authorization.PessimisticLock;
-import org.kuali.rice.kns.service.KNSServiceLocator;
-import org.kuali.rice.kns.util.GlobalVariables;
+import org.kuali.rice.kim.api.identity.Person;
+import org.kuali.rice.kim.api.identity.PersonService;
+import org.kuali.rice.krad.UserSession;
+import org.kuali.rice.krad.document.authorization.PessimisticLock;
+import org.kuali.rice.krad.service.KRADServiceLocatorWeb;
+import org.kuali.rice.krad.util.GlobalVariables;
 
 /**
  * Unit tests for the BudgetService interface
@@ -75,14 +75,14 @@ public class BudgetServiceTest extends KcUnitTestBase {
         String testDocumentDescription = "Test New Budget Doc";
         
         UserSession currentSession = GlobalVariables.getUserSession();
-        PessimisticLock lock = KNSServiceLocator.getPessimisticLockService().generateNewLock(pdDocument.getDocumentNumber(), pdDocument.getDocumentNumber()+"-BUDGET", currentSession.getPerson());
+        PessimisticLock lock = KRADServiceLocatorWeb.getPessimisticLockService().generateNewLock(pdDocument.getDocumentNumber(), pdDocument.getDocumentNumber()+"-BUDGET", currentSession.getPerson());
         pdDocument.addPessimisticLock(lock);
         
         BudgetDocument budgetDocument = budgetCommonService.getNewBudgetVersion(pdDocument, testDocumentDescription);
         
         // Verify that status is final
-        assertTrue(budgetDocument.getDocumentHeader().getWorkflowDocument().stateIsApproved());
-        //assertEquals(KNSConstants.DocumentStatusCodes.APPROVED, budgetDocument.getDocumentHeader().getDocumentStatusCode());
+        assertTrue(budgetDocument.getDocumentHeader().getWorkflowDocument().isApproved());
+        //assertEquals(KRADConstants.DocumentStatusCodes.APPROVED, budgetDocument.getDocumentHeader().getDocumentStatusCode());
         
         // Verify that fields were set properly
         assertEquals(((ProposalDevelopmentDocument)budgetDocument.getParentDocument()).getDevelopmentProposal().getProposalNumber(), testProposalNumber);
@@ -106,8 +106,8 @@ public class BudgetServiceTest extends KcUnitTestBase {
         BudgetDocument copyBudgetDocument = budgetCommonService.copyBudgetVersion(budgetDocument);
         
 //      //Verify that status is final
-        assertTrue(budgetDocument.getDocumentHeader().getWorkflowDocument().stateIsApproved());
-        //assertEquals(KNSConstants.DocumentStatusCodes.APPROVED, budgetDocument.getDocumentHeader().getDocumentStatus());
+        assertTrue(budgetDocument.getDocumentHeader().getWorkflowDocument().isApproved());
+        //assertEquals(KRADConstants.DocumentStatusCodes.APPROVED, budgetDocument.getDocumentHeader().getDocumentStatus());
         
         // Verify that fields were set properly
         assertEquals(((ProposalDevelopmentDocument)copyBudgetDocument.getParentDocument()).getDevelopmentProposal().getProposalNumber(), testProposalNumber);
@@ -142,7 +142,7 @@ public class BudgetServiceTest extends KcUnitTestBase {
         
         pdDocument.getDevelopmentProposal().refreshReferenceObject("ownedByUnit");
         
-        PersonService<Person> personService = getService(PersonService.class);
+        PersonService personService = getService(PersonService.class);
         Person user = personService.getPersonByPrincipalName("quickstart");
         
         getService(KraAuthorizationService.class).addRole(user.getPrincipalId(), RoleConstants.AGGREGATOR, pdDocument);

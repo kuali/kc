@@ -38,7 +38,8 @@
   	
     <bean id="subAwardModuleConfiguration" parent="subAwardModuleConfiguration-parentBean" />
 	
-    <bean id="subAwardModuleConfiguration-parentBean" class="org.kuali.rice.kns.bo.ModuleConfiguration" abstract="true">
+    <bean id="subAwardModuleConfiguration-parentBean" class="org.kuali.rice.krad.bo.ModuleConfiguration" abstract="true">
+    	<property name="namespaceCode" value="KC-AWARD" />
 		<property name="databaseRepositoryFilePaths">
 			<list>
 				<value>org/kuali/kra/subaward/repository-subAward.xml</value>				

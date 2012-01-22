@@ -18,8 +18,9 @@ package org.kuali.kra.coi.notesandattachments;
 import java.util.ArrayList;
 import java.util.List;
 
-import org.kuali.rice.core.util.KeyLabelPair;
-import org.kuali.rice.kns.lookup.keyvalues.KeyValuesBase;
+import org.kuali.rice.core.api.util.ConcreteKeyValue;
+import org.kuali.rice.core.api.util.KeyValue;
+import org.kuali.rice.krad.keyvalues.KeyValuesBase;
 
 /**
  * 
@@ -32,13 +33,13 @@ public class SortByValuesFinder extends KeyValuesBase {
      * 
      * @see org.kuali.rice.kns.lookup.keyvalues.KeyValuesFinder#getKeyValues()
      */
-    public List<KeyLabelPair> getKeyValues() {
+    public List<KeyValue> getKeyValues() {
         
-        List<KeyLabelPair> keyValues = new ArrayList<KeyLabelPair>();
-        keyValues.add(new KeyLabelPair("", "None"));
-        keyValues.add(new KeyLabelPair("DESC", new String("Description")));
-        keyValues.add(new KeyLabelPair("LAUP", new String("Last Updated")));
-        keyValues.add(new KeyLabelPair("UPBY", new String("Last Updated By")));
+        List<KeyValue> keyValues = new ArrayList<KeyValue>();
+        keyValues.add(new ConcreteKeyValue("", "None"));
+        keyValues.add(new ConcreteKeyValue("DESC", new String("Description")));
+        keyValues.add(new ConcreteKeyValue("LAUP", new String("Last Updated")));
+        keyValues.add(new ConcreteKeyValue("UPBY", new String("Last Updated By")));
         
         return keyValues;
     }

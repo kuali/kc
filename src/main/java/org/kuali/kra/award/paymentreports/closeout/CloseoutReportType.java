@@ -13,10 +13,7 @@
  * See the License for the specific language governing permissions and
  * limitations under the License.
  */
-
 package org.kuali.kra.award.paymentreports.closeout;
-
-import java.util.LinkedHashMap;
 
 import org.kuali.kra.bo.KraPersistableBusinessObjectBase;
 
@@ -24,36 +21,23 @@ import org.kuali.kra.bo.KraPersistableBusinessObjectBase;
  * 
  * This class represets the CloseoutReportType business object.
  */
-public class CloseoutReportType extends KraPersistableBusinessObjectBase { 
-    
+public class CloseoutReportType extends KraPersistableBusinessObjectBase {
+
     /**
      * Comment for <code>serialVersionUID</code>
      */
     private static final long serialVersionUID = -1825249905096558223L;
-    private String closeoutReportCode; 
+
+    private String closeoutReportCode;
+
     private String description;
 
     /**
      * 
      * Constructs a CloseoutReportType.java.
      */
-    public CloseoutReportType() { 
-
-    } 
-    
-
-    /**
-     * 
-     * @see org.kuali.rice.kns.bo.BusinessObjectBase#toStringMapper()
-     */
-    @Override 
-    protected LinkedHashMap<String, Object> toStringMapper() {
-        LinkedHashMap<String, Object> hashMap = new LinkedHashMap<String, Object>();
-        hashMap.put("closeoutReportCode", getCloseoutReportCode());
-        hashMap.put("description", getDescription());
-        return hashMap;
+    public CloseoutReportType() {
     }
-
 
     /**
      * Gets the closeoutReportCode attribute. 
@@ -63,7 +47,6 @@ public class CloseoutReportType extends KraPersistableBusinessObjectBase {
         return closeoutReportCode;
     }
 
-
     /**
      * Sets the closeoutReportCode attribute value.
      * @param closeoutReportCode The closeoutReportCode to set.
@@ -71,7 +54,6 @@ public class CloseoutReportType extends KraPersistableBusinessObjectBase {
     public void setCloseoutReportCode(String closeoutReportCode) {
         this.closeoutReportCode = closeoutReportCode;
     }
-
 
     /**
      * Gets the description attribute. 
@@ -81,7 +63,6 @@ public class CloseoutReportType extends KraPersistableBusinessObjectBase {
         return description;
     }
 
-
     /**
      * Sets the description attribute value.
      * @param description The description to set.
@@ -89,7 +70,7 @@ public class CloseoutReportType extends KraPersistableBusinessObjectBase {
     public void setDescription(String description) {
         this.description = description;
     }
-    
+
     /**
      * @see java.lang.Object#hashCode()
      */
@@ -101,26 +82,18 @@ public class CloseoutReportType extends KraPersistableBusinessObjectBase {
         return result;
     }
 
-
     /**
      * @see java.lang.Object#equals(java.lang.Object)
      */
     @Override
     public boolean equals(Object obj) {
-        if (this == obj)
-            return true;
-        if (obj == null)
-            return false;
-        if (!(obj instanceof CloseoutReportType))
-            return false;
+        if (this == obj) return true;
+        if (obj == null) return false;
+        if (!(obj instanceof CloseoutReportType)) return false;
         final CloseoutReportType other = (CloseoutReportType) obj;
         if (closeoutReportCode == null) {
-            if (other.closeoutReportCode != null)
-                return false;
-        }
-        else if (!closeoutReportCode.equals(other.closeoutReportCode))
-            return false;
+            if (other.closeoutReportCode != null) return false;
+        } else if (!closeoutReportCode.equals(other.closeoutReportCode)) return false;
         return true;
     }
-    
 }

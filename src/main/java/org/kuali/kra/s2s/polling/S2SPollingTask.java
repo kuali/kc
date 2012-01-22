@@ -31,20 +31,22 @@ import java.util.List;
 import java.util.Map;
 import java.util.Vector;
 
+import javax.mail.MessagingException;
+
 import org.apache.commons.logging.Log;
 import org.apache.commons.logging.LogFactory;
+import org.kuali.kra.infrastructure.KraServiceLocator;
 import org.kuali.kra.proposaldevelopment.bo.DevelopmentProposal;
 import org.kuali.kra.proposaldevelopment.document.ProposalDevelopmentDocument;
 import org.kuali.kra.s2s.S2SException;
 import org.kuali.kra.s2s.bo.S2sAppSubmission;
 import org.kuali.kra.s2s.service.S2SService;
 import org.kuali.kra.s2s.util.S2SConstants;
-import org.kuali.rice.kns.mail.InvalidAddressException;
-import org.kuali.rice.kns.mail.MailMessage;
-import org.kuali.rice.kns.service.BusinessObjectService;
-import org.kuali.rice.kns.service.DateTimeService;
-import org.kuali.rice.kns.service.KNSServiceLocator;
-import org.kuali.rice.kns.service.MailService;
+import org.kuali.rice.core.api.datetime.DateTimeService;
+import org.kuali.rice.core.api.mail.MailMessage;
+import org.kuali.rice.krad.exception.InvalidAddressException;
+import org.kuali.rice.krad.service.BusinessObjectService;
+import org.kuali.rice.krad.service.MailService;
 
 /**
  * 
@@ -320,6 +322,14 @@ public class S2SPollingTask {
                 SubmissionData localSubInfo = submList.elementAt(i);
                 localSubInfo.getS2sAppSubmission().setLastNotifiedDate(lastNotiDateArr[i]);
             }
+        } catch (MessagingException me) {
+            LOG.error("Mail sending failed");
+            LOG.error(me.getMessage(), me);
+            int size = submList.size();
+            for (int i = 0; i < size; i++) {
+                SubmissionData localSubInfo = submList.elementAt(i);
+                localSubInfo.getS2sAppSubmission().setLastNotifiedDate(lastNotiDateArr[i]);
+            }
         }
         saveSubmissionDetails(submList);
     }
@@ -361,8 +371,8 @@ public class S2SPollingTask {
      * @throws InvalidAddressException
      * @throws Exception
      */
-    private void sendMail(HashMap<String, Vector<SubmissionData>> htMails) throws InvalidAddressException {
-        MailService mailService = KNSServiceLocator.getMailService();
+    private void sendMail(HashMap<String, Vector<SubmissionData>> htMails) throws InvalidAddressException , MessagingException {
+        MailService mailService = KraServiceLocator.getService(MailService.class); 
         if (htMails.isEmpty()) {
             return;
         }

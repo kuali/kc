@@ -22,7 +22,7 @@ import org.kuali.kra.proposaldevelopment.bo.ProposalSite;
 import org.kuali.kra.proposaldevelopment.document.ProposalDevelopmentDocument;
 import org.kuali.kra.proposaldevelopment.rule.AddCongressionalDistrictRule;
 import org.kuali.kra.proposaldevelopment.web.struts.form.CongressionalDistrictHelper;
-import org.kuali.rice.kns.rule.BusinessRule;
+import org.kuali.rice.krad.rules.rule.BusinessRule;
 
 /**
  * This class represents the "add congressional district to a proposal site" event.

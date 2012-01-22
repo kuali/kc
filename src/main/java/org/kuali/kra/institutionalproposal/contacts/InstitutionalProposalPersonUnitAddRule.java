@@ -15,7 +15,7 @@
  */
 package org.kuali.kra.institutionalproposal.contacts;
 
-import org.kuali.rice.kns.rule.BusinessRule;
+import org.kuali.rice.krad.rules.rule.BusinessRule;
 
 /**
  * This class...

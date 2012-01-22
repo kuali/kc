@@ -15,8 +15,6 @@
  */
 package org.kuali.kra.proposaldevelopment.bo;
 
-import java.util.LinkedHashMap;
-
 import org.apache.commons.lang.StringUtils;
 import org.kuali.kra.bo.KraPersistableBusinessObjectBase;
 import org.kuali.kra.bo.Sponsor;
@@ -30,11 +28,15 @@ import org.kuali.kra.bo.Sponsor;
 public class LookupableDevelopmentProposal extends KraPersistableBusinessObjectBase {
 
     private static final long serialVersionUID = 1L;
+
     private Sponsor sponsor;
+
     private String sponsorCode;
+
     private String proposalNumber;
+
     private String title;
-  
+
     public String getSponsorCode() {
         return sponsorCode;
     }
@@ -42,51 +44,38 @@ public class LookupableDevelopmentProposal extends KraPersistableBusinessObjectB
     public void setSponsorCode(String sponsorCode) {
         this.sponsorCode = sponsorCode;
     }
-    
+
     public String getSponsorName() {
-        if (getSponsor()!= null) {
+        if (getSponsor() != null) {
             return getSponsor().getSponsorName();
         }
         return null;
     }
-    
+
     public Sponsor getSponsor() {
-        if (sponsor== null  && !StringUtils.isEmpty(sponsorCode)) {
+        if (sponsor == null && !StringUtils.isEmpty(sponsorCode)) {
             this.refreshReferenceObject("sponsor");
         }
         return sponsor;
     }
 
-
     public void setSponsor(Sponsor sponsor) {
         this.sponsor = sponsor;
     }
-
 
     public String getProposalNumber() {
         return proposalNumber;
     }
 
-
     public void setProposalNumber(String proposalNumber) {
         this.proposalNumber = proposalNumber;
     }
-
 
     public String getTitle() {
         return title;
     }
 
-
     public void setTitle(String title) {
         this.title = title;
     }
-
-
-    @Override
-    protected LinkedHashMap toStringMapper() {
-        // TODO Auto-generated method stub
-        return null;
-    }
-
 }

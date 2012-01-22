@@ -13,10 +13,7 @@
  * See the License for the specific language governing permissions and
  * limitations under the License.
  */
-
 package org.kuali.kra.award.paymentreports;
-
-import java.util.LinkedHashMap;
 
 import org.kuali.kra.bo.KraPersistableBusinessObjectBase;
 
@@ -24,26 +21,32 @@ import org.kuali.kra.bo.KraPersistableBusinessObjectBase;
  * 
  * This class represents the Frequency Business Object.
  */
-public class Frequency extends KraPersistableBusinessObjectBase { 
-    
+public class Frequency extends KraPersistableBusinessObjectBase {
+
     /**
      * Comment for <code>serialVersionUID</code>
      */
     private static final long serialVersionUID = 3635003841342435180L;
-    private String frequencyCode; 
-    private String description; 
-    private Integer numberOfDays; 
-    private Integer numberOfMonths; 
-    private Boolean repeatFlag; 
-    private Integer advanceNumberOfDays; 
-    private Integer advanceNumberOfMonths; 
-    private boolean active;
-    
-    
-    public Frequency() { 
 
-    } 
-    
+    private String frequencyCode;
+
+    private String description;
+
+    private Integer numberOfDays;
+
+    private Integer numberOfMonths;
+
+    private Boolean repeatFlag;
+
+    private Integer advanceNumberOfDays;
+
+    private Integer advanceNumberOfMonths;
+
+    private boolean active;
+
+    public Frequency() {
+    }
+
     public String getFrequencyCode() {
         return frequencyCode;
     }
@@ -98,22 +101,6 @@ public class Frequency extends KraPersistableBusinessObjectBase {
 
     public void setAdvanceNumberOfMonths(Integer advanceNumberOfMonths) {
         this.advanceNumberOfMonths = advanceNumberOfMonths;
-    }    
-
-    @SuppressWarnings("unchecked")
-    @Override 
-    protected LinkedHashMap toStringMapper() {
-        LinkedHashMap hashMap = new LinkedHashMap();
-        hashMap.put("frequencyCode", getFrequencyCode());
-        hashMap.put("description", getDescription());
-        hashMap.put("numberOfDays", getNumberOfDays());
-        hashMap.put("numberOfMonths", getNumberOfMonths());
-        hashMap.put("repeatFlag", getRepeatFlag());
-//        hashMap.put("proposalDueFlag", getProposalDueFlag());
-//        hashMap.put("invoiceFlag", getInvoiceFlag());
-        hashMap.put("advanceNumberOfDays", getAdvanceNumberOfDays());
-        hashMap.put("advanceNumberOfMonths", getAdvanceNumberOfMonths());
-        return hashMap;
     }
 
     /**
@@ -132,15 +119,15 @@ public class Frequency extends KraPersistableBusinessObjectBase {
      */
     @Override
     public boolean equals(Object obj) {
-        if (this == obj){
+        if (this == obj) {
             return true;
-        }   
-        if (obj == null){
+        }
+        if (obj == null) {
             return false;
-        }   
-        if (!(obj instanceof Frequency)){
+        }
+        if (!(obj instanceof Frequency)) {
             return false;
-        }   
+        }
         return equals((Frequency) obj);
     }
 
@@ -150,14 +137,14 @@ public class Frequency extends KraPersistableBusinessObjectBase {
      * @param frequency
      * @return
      */
-    public boolean equals(Frequency frequency){
+    public boolean equals(Frequency frequency) {
         if (frequencyCode == null) {
-            if (frequency.frequencyCode != null){
+            if (frequency.frequencyCode != null) {
                 return false;
-            }   
-        }else if (!frequencyCode.equals(frequency.frequencyCode)){
+            }
+        } else if (!frequencyCode.equals(frequency.frequencyCode)) {
             return false;
-        }   
+        }
         return true;
     }
 
@@ -168,5 +155,4 @@ public class Frequency extends KraPersistableBusinessObjectBase {
     public void setActive(boolean active) {
         this.active = active;
     }
-        
 }

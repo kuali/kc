@@ -16,7 +16,6 @@
 package org.kuali.kra.award.paymentreports.closeout;
 
 import java.sql.Date;
-import java.util.LinkedHashMap;
 
 import org.apache.commons.lang.StringUtils;
 import org.kuali.kra.award.AwardAssociate;
@@ -25,20 +24,27 @@ import org.kuali.kra.award.AwardAssociate;
  * 
  * This class represents the AwardCloseout business object.
  */
-public class AwardCloseout extends AwardAssociate { 
-    
+public class AwardCloseout extends AwardAssociate {
+
     /**
      * Comment for <code>serialVersionUID</code>
      */
     private static final long serialVersionUID = 5392480855349965272L;
+
     private Long awardCloseoutId;
+
     private Date finalSubmissionDate;
+
     private Date dueDate;
+
     private String closeoutReportCode;
+
     private String closeoutReportName;
+
     private boolean multiple;
+
     private CloseoutReportType closeoutReportType;
-    
+
     /**
      * 
     <c:choose>
@@ -57,15 +63,13 @@ public class AwardCloseout extends AwardAssociate {
          </c:otherwise>
     </c:choose>
      */
-    
     /**
      * 
      * Constructs a AwardCloseout.java.
      */
-    public AwardCloseout() { 
+    public AwardCloseout() {
+    }
 
-    } 
-    
     /**
      * 
      * This method...
@@ -82,8 +86,8 @@ public class AwardCloseout extends AwardAssociate {
      */
     public void setAwardCloseoutId(Long awardCloseoutId) {
         this.awardCloseoutId = awardCloseoutId;
-    }    
-    
+    }
+
     /**
      * 
      * This method...
@@ -100,19 +104,6 @@ public class AwardCloseout extends AwardAssociate {
      */
     public void setFinalSubmissionDate(Date finalSubmissionDate) {
         this.finalSubmissionDate = finalSubmissionDate;
-    }    
-
-    /** {@inheritDoc} */
-    @Override 
-    protected LinkedHashMap<String, Object> toStringMapper() {
-        LinkedHashMap<String, Object> hashMap = new LinkedHashMap<String, Object>();
-        hashMap.put("awardCloseoutId", this.getAwardCloseoutId());         
-        hashMap.put("finalSubmissionDate", this.getFinalSubmissionDate());
-        hashMap.put("closeoutReportCode", this.getCloseoutReportCode());
-        hashMap.put("closeoutReportName", this.getCloseoutReportName());
-        hashMap.put("dueDate", this.getDueDate());
-        hashMap.put("multiple", this.isMultiple());
-        return hashMap;
     }
 
     /**
@@ -193,7 +184,7 @@ public class AwardCloseout extends AwardAssociate {
         result = prime * result + ((finalSubmissionDate == null) ? 0 : finalSubmissionDate.hashCode());
         result = prime * result + (multiple ? 1231 : 1237);
         return result;
-    }    
+    }
 
     /**
      * Gets the multiple attribute. 
@@ -210,12 +201,12 @@ public class AwardCloseout extends AwardAssociate {
     public void setMultiple(boolean multiple) {
         this.multiple = multiple;
     }
-    
+
     /**
      * 
      * @see org.kuali.kra.Sequenceable#resetPersistenceState()
      */
-    public void resetPersistenceState(){
+    public void resetPersistenceState() {
         awardCloseoutId = null;
     }
 
@@ -224,36 +215,23 @@ public class AwardCloseout extends AwardAssociate {
      */
     @Override
     public boolean equals(Object obj) {
-        if (this == obj)
-            return true;
-        if (!super.equals(obj))
-            return false;
-        if (!(obj instanceof AwardCloseout))
-            return false;
+        if (this == obj) return true;
+        if (!super.equals(obj)) return false;
+        if (!(obj instanceof AwardCloseout)) return false;
         final AwardCloseout other = (AwardCloseout) obj;
         if (closeoutReportCode == null) {
-            if (other.closeoutReportCode != null)
-                return false;
-        }
-        else if (!closeoutReportCode.equals(other.closeoutReportCode))
-            return false;
+            if (other.closeoutReportCode != null) return false;
+        } else if (!closeoutReportCode.equals(other.closeoutReportCode)) return false;
         if (dueDate == null) {
-            if (other.dueDate != null)
-                return false;
-        }
-        else if (!dueDate.equals(other.dueDate))
-            return false;
+            if (other.dueDate != null) return false;
+        } else if (!dueDate.equals(other.dueDate)) return false;
         if (finalSubmissionDate == null) {
-            if (other.finalSubmissionDate != null)
-                return false;
-        }
-        else if (!finalSubmissionDate.equals(other.finalSubmissionDate))
-            return false;
-        if (multiple != other.multiple)
-            return false;
+            if (other.finalSubmissionDate != null) return false;
+        } else if (!finalSubmissionDate.equals(other.finalSubmissionDate)) return false;
+        if (multiple != other.multiple) return false;
         return true;
     }
-    
+
     /**
      * 
      * This method returns true if the closeout report code equals "UD".
@@ -263,6 +241,4 @@ public class AwardCloseout extends AwardAssociate {
         boolean retVal = StringUtils.equalsIgnoreCase("UD", this.getCloseoutReportCode());
         return retVal;
     }
-    
-    
 }

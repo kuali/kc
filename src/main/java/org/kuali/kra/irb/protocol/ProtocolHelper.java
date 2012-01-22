@@ -49,12 +49,11 @@ import org.kuali.kra.service.KcPersonService;
 import org.kuali.kra.service.RolodexService;
 import org.kuali.kra.service.TaskAuthorizationService;
 import org.kuali.kra.service.UnitService;
-import org.kuali.rice.kew.exception.WorkflowException;
-import org.kuali.rice.kim.bo.role.dto.KimRoleInfo;
-import org.kuali.rice.kim.bo.types.dto.AttributeSet;
-import org.kuali.rice.kim.service.RoleManagementService;
-import org.kuali.rice.kns.service.ParameterService;
-import org.kuali.rice.kns.util.GlobalVariables;
+import org.kuali.rice.coreservice.framework.parameter.ParameterService;
+import org.kuali.rice.kew.api.exception.WorkflowException;
+import org.kuali.rice.kim.api.role.Role;
+import org.kuali.rice.kim.api.role.RoleService;
+import org.kuali.rice.krad.util.GlobalVariables;
 
 public class ProtocolHelper implements Serializable {
     
@@ -162,6 +161,9 @@ public class ProtocolHelper implements Serializable {
         this.form = form;
         setNewProtocolLocation(new ProtocolLocation());
         setDeletedProtocolFundingSources(new ArrayList<ProtocolFundingSource>());
+        setNewFundingSource(new ProtocolFundingSource());
+        setNewProtocolParticipant(new ProtocolParticipant());
+        setNewProtocolFundingSources(new ArrayList<ProtocolFundingSource>());
     }    
     
     /**
@@ -255,7 +257,7 @@ public class ProtocolHelper implements Serializable {
      * @return parameter value
      */
     private String getParameterValue(String parameterName) {
-        return getParameterService().getParameterValue(ProtocolDocument.class, parameterName);        
+        return getParameterService().getParameterValueAsString(ProtocolDocument.class, parameterName);        
     }
 
     public void setReferenceId1Label(String referenceId1Label) {
@@ -433,7 +435,7 @@ public class ProtocolHelper implements Serializable {
      * Creates the initial PROTOCOL_CREATED action for a new protocol.
      */
     public void createInitialProtocolAction() {
-        if (getProtocol().getProtocolDocument().getDocumentHeader().getWorkflowDocument().stateIsInitiated()) {
+        if (getProtocol().getProtocolDocument().getDocumentHeader().getWorkflowDocument().isInitiated()) {
             getProtocol().getProtocolActions().clear();
             ProtocolAction protocolAction = new ProtocolAction(getProtocol(), null, ProtocolActionType.PROTOCOL_CREATED);
             protocolAction.setComments(PROTOCOL_CREATED);
@@ -683,21 +685,21 @@ public class ProtocolHelper implements Serializable {
     }
     
     public boolean isRoleIRBAdmin() {
-        KimRoleInfo roleInfo = getRoleManagementService().getRoleByName(RoleConstants.DEPARTMENT_ROLE_TYPE, RoleConstants.IRB_ADMINISTRATOR);
+        Role roleInfo = getRoleService().getRoleByNameAndNamespaceCode(RoleConstants.DEPARTMENT_ROLE_TYPE, RoleConstants.IRB_ADMINISTRATOR);
         List<String> roleIds = new ArrayList<String>();
-        roleIds.add(roleInfo.getRoleId());
+        roleIds.add(roleInfo.getId());
         Map<String, String> qualifiedRoleAttributes = new HashMap<String, String>();
         qualifiedRoleAttributes.put(KcKimAttributes.UNIT_NUMBER, "*");
-        AttributeSet qualifications = new AttributeSet(qualifiedRoleAttributes);
-        return getRoleManagementService().principalHasRole(getUserIdentifier(), roleIds, qualifications);
+        Map<String,String> qualifications =new HashMap<String,String>(qualifiedRoleAttributes);
+        return getRoleService().principalHasRole(getUserIdentifier(), roleIds, qualifications);
     }
     
     /**
-     * Quick method to get the RoleManagementService
-     * @return RoleManagementService reference
+     * Quick method to get the RoleService
+     * @return RoleService reference
      */
-    private RoleManagementService getRoleManagementService() {
-        return KraServiceLocator.getService(RoleManagementService.class);
+    private RoleService getRoleService() {
+        return KraServiceLocator.getService(RoleService.class);
     }
 
     public List<ProtocolFundingSource> getNewProtocolFundingSources() {

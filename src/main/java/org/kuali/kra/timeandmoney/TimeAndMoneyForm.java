@@ -21,7 +21,6 @@ import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
 import java.util.TreeMap;
-import java.util.Map.Entry;
 
 import javax.servlet.http.HttpServletRequest;
 
@@ -39,19 +38,18 @@ import org.kuali.kra.timeandmoney.document.TimeAndMoneyDocument;
 import org.kuali.kra.timeandmoney.service.ActivePendingTransactionsService;
 import org.kuali.kra.timeandmoney.transactions.TransactionBean;
 import org.kuali.kra.web.struts.form.KraTransactionalDocumentFormBase;
-import org.kuali.rice.kew.exception.WorkflowException;
-import org.kuali.rice.kew.util.KEWConstants;
-import org.kuali.rice.kns.service.BusinessObjectService;
+import org.kuali.rice.core.api.CoreApiServiceLocator;
+import org.kuali.rice.core.api.config.property.ConfigurationService;
+import org.kuali.rice.coreservice.framework.parameter.ParameterService;
+import org.kuali.rice.kew.api.KewApiConstants;
+import org.kuali.rice.kew.api.WorkflowDocument;
+import org.kuali.rice.kew.api.exception.WorkflowException;
 import org.kuali.rice.kns.service.DataDictionaryService;
-import org.kuali.rice.kns.service.DocumentService;
-import org.kuali.rice.kns.service.KNSServiceLocator;
-import org.kuali.rice.kns.service.KualiConfigurationService;
-import org.kuali.rice.kns.service.ParameterConstants;
-import org.kuali.rice.kns.service.ParameterService;
-import org.kuali.rice.kns.util.GlobalVariables;
 import org.kuali.rice.kns.web.ui.ExtraButton;
 import org.kuali.rice.kns.web.ui.HeaderField;
-import org.kuali.rice.kns.workflow.service.KualiWorkflowDocument;
+import org.kuali.rice.krad.service.BusinessObjectService;
+import org.kuali.rice.krad.service.DocumentService;
+import org.kuali.rice.krad.service.KRADServiceLocator;
 
 public class TimeAndMoneyForm extends KraTransactionalDocumentFormBase {
 
@@ -129,7 +127,7 @@ public class TimeAndMoneyForm extends KraTransactionalDocumentFormBase {
         }
         setControlForAwardHierarchyView("2");
         setCurrentOrPendingView("0");
-        setDirectIndirectViewEnabled(getParameterService().getParameterValue(Constants.PARAMETER_MODULE_AWARD, Constants.PARAMETER_COMPONENT_DOCUMENT, "ENABLE_AWD_ANT_OBL_DIRECT_INDIRECT_COST"));
+        setDirectIndirectViewEnabled(getParameterService().getParameterValueAsString(Constants.PARAMETER_MODULE_AWARD, Constants.PARAMETER_COMPONENT_DOCUMENT, "ENABLE_AWD_ANT_OBL_DIRECT_INDIRECT_COST"));
         previousNodeMap = new HashMap<String, String>();
         nextNodeMap = new HashMap<String, String>();
         awardHierarchyToggle = new TreeMap<String, String>();
@@ -146,7 +144,7 @@ public class TimeAndMoneyForm extends KraTransactionalDocumentFormBase {
      * This method initializes either the document or the form based on the command value.
      */
     public void initializeFormOrDocumentBasedOnCommand(){
-        if (KEWConstants.INITIATE_COMMAND.equals(getCommand())) {
+        if (KewApiConstants.INITIATE_COMMAND.equals(getCommand())) {
             getTimeAndMoneyDocument().initialize();
         }else{
             initialize();
@@ -388,8 +386,8 @@ public class TimeAndMoneyForm extends KraTransactionalDocumentFormBase {
     
     
     public boolean isCancelOrFinalStatus () {
-        return this.getDocument().getDocumentHeader().getWorkflowDocument().stateIsCanceled() ||
-                this.getDocument().getDocumentHeader().getWorkflowDocument().stateIsFinal();
+        return this.getDocument().getDocumentHeader().getWorkflowDocument().isCanceled() ||
+                this.getDocument().getDocumentHeader().getWorkflowDocument().isFinal();
     }
 
     public boolean isInSingleNodeHierarchy () {
@@ -544,7 +542,6 @@ public class TimeAndMoneyForm extends KraTransactionalDocumentFormBase {
         this.nextNodeMap = nextNodeMap;
     }
 
-    
     public String getAwardHierarchy() throws ParseException {
         awardHierarchy = "";
         if(StringUtils.isBlank(awardNumber)){
@@ -558,8 +555,6 @@ public class TimeAndMoneyForm extends KraTransactionalDocumentFormBase {
         }
         return awardHierarchy;
     }
-    
-    
     
     public void setAwardHierarchy(String awardHierarchy) {
         this.awardHierarchy = awardHierarchy;
@@ -585,7 +580,7 @@ public class TimeAndMoneyForm extends KraTransactionalDocumentFormBase {
     public List<ExtraButton> getExtraTopButtons() {
         extraButtons.clear();
         String externalImageURL = Constants.KRA_EXTERNALIZABLE_IMAGES_URI_KEY;
-        String generatePeriodImage = lookupKualiConfigurationService().getPropertyString(externalImageURL) + "tinybutton1-returntoaward.gif";
+        String generatePeriodImage = lookupKualiConfigurationService().getPropertyValueAsString(externalImageURL) + "tinybutton1-returntoaward.gif";
         
         addExtraButton("methodToCall.returnToAward", generatePeriodImage, "Return to Award");
         
@@ -596,18 +591,18 @@ public class TimeAndMoneyForm extends KraTransactionalDocumentFormBase {
      * This method does what its name says
      * @return
      */
-    private KualiConfigurationService lookupKualiConfigurationService() {
-        return KraServiceLocator.getService(KualiConfigurationService.class);
+    private ConfigurationService lookupKualiConfigurationService() {
+        return KRADServiceLocator.getKualiConfigurationService();
     }
     
     
     /**
      * 
-     * @see org.kuali.rice.kns.web.struts.form.KualiDocumentFormBase#populateHeaderFields(org.kuali.rice.kns.workflow.service.KualiWorkflowDocument)
+     * @see org.kuali.rice.kns.web.struts.form.KualiDocumentFormBase#populateHeaderFields(org.kuali.rice.kew.api.WorkflowDocument)
      */
     @SuppressWarnings("unchecked")
     @Override
-    public void populateHeaderFields(KualiWorkflowDocument workflowDocument) {
+    public void populateHeaderFields(WorkflowDocument workflowDocument) {
         // super.populateHeaderFields(workflowDocument);
 
         TimeAndMoneyDocument timeAndMoneyDocument = getTimeAndMoneyDocument();
@@ -627,7 +622,7 @@ public class TimeAndMoneyForm extends KraTransactionalDocumentFormBase {
 
         String docIdAndStatus = COLUMN;
         if (workflowDocument != null) {
-            docIdAndStatus = timeAndMoneyDocument.getDocumentNumber() + COLUMN + workflowDocument.getStatusDisplayValue();
+            docIdAndStatus = timeAndMoneyDocument.getDocumentNumber() + COLUMN + workflowDocument.getStatus().getLabel();
         }
         getDocInfo().add(new HeaderField("DataDictionary.Award.attributes.docIdStatus", docIdAndStatus));
         String unitName = awardDocument.getAward().getUnitName();
@@ -653,7 +648,7 @@ public class TimeAndMoneyForm extends KraTransactionalDocumentFormBase {
         String createDateStr = null;
         String updateUser = null;
         if (awardDocument.getUpdateTimestamp() != null) {
-            createDateStr = KNSServiceLocator.getDateTimeService().toString(awardDocument.getUpdateTimestamp(), "MM/dd/yy");
+            createDateStr = CoreApiServiceLocator.getDateTimeService().toString(awardDocument.getUpdateTimestamp(), "MM/dd/yy");
             updateUser = awardDocument.getUpdateUser().length() > NUMBER_30 ? awardDocument.getUpdateUser().substring(0, NUMBER_30)
                     : awardDocument.getUpdateUser();
             getDocInfo().add(
@@ -727,12 +722,12 @@ public class TimeAndMoneyForm extends KraTransactionalDocumentFormBase {
         
         TimeAndMoneyDocument lastFinalDoc = getLastFinalTandMDocument(timeAndMoneyDocuments);
         if(lastFinalDoc != null) {
-            displayEditButton = (lastFinalDoc.getDocumentHeader().getWorkflowDocument().stateIsFinal() && 
+            displayEditButton = (lastFinalDoc.getDocumentHeader().getWorkflowDocument().isFinal() && 
                     lastFinalDoc.getDocumentNumber().equals(this.getTimeAndMoneyDocument().getDocumentNumber()));
         }
         //TimeAndMoneyDocument timeAndMoneyDocument = (TimeAndMoneyDocument) documentService.getByDocumentHeaderId(t.getDocumentNumber());
-//        displayEditButton = (timeAndMoneyDocument.getDocumentHeader().getWorkflowDocument().stateIsFinal() ||
-//                            timeAndMoneyDocument.getDocumentHeader().getWorkflowDocument().stateIsCanceled()) && 
+//        displayEditButton = (timeAndMoneyDocument.getDocumentHeader().getWorkflowDocument().isFinal() ||
+//                            timeAndMoneyDocument.getDocumentHeader().getWorkflowDocument().isCanceled()) && 
 //                            timeAndMoneyDocument.getDocumentNumber().equals(this.getTimeAndMoneyDocument().getDocumentNumber());
 //        if(!getKraWorkflowService().isInWorkflow(timeAndMoneyDocument)){
 //            displayEditButton = Boolean.FALSE;
@@ -746,7 +741,7 @@ public class TimeAndMoneyForm extends KraTransactionalDocumentFormBase {
         while(timeAndMoneyDocuments.size() > 0) {
             TimeAndMoneyDocument docWithWorkFlowData = 
                 (TimeAndMoneyDocument) documentService.getByDocumentHeaderId(timeAndMoneyDocuments.get(timeAndMoneyDocuments.size() - 1).getDocumentNumber());
-            if(docWithWorkFlowData.getDocumentHeader().getWorkflowDocument().stateIsCanceled()) {
+            if(docWithWorkFlowData.getDocumentHeader().getWorkflowDocument().isCanceled()) {
                 timeAndMoneyDocuments.remove(timeAndMoneyDocuments.size() - 1);
             }else {
                 returnVal = docWithWorkFlowData;
@@ -761,7 +756,7 @@ public class TimeAndMoneyForm extends KraTransactionalDocumentFormBase {
         // clear out the extra buttons array
         extraButtons.clear();
         String externalImageURL = Constants.KRA_EXTERNALIZABLE_IMAGES_URI_KEY;
-        String reloadImage = lookupKualiConfigurationService().getPropertyString(externalImageURL) + "buttonsmall_reload.gif";
+        String reloadImage = lookupKualiConfigurationService().getPropertyValueAsString(externalImageURL) + "buttonsmall_reload.gif";
         addExtraButton("methodToCall.reload", reloadImage, "Reload");
         
         return extraButtons;

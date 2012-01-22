@@ -33,17 +33,18 @@ import org.kuali.kra.infrastructure.KeyConstants;
 import org.kuali.kra.s2s.S2SException;
 import org.kuali.kra.s2s.bo.S2sOpportunity;
 import org.kuali.kra.s2s.service.S2SService;
-import org.kuali.rice.kns.bo.BusinessObject;
+import org.kuali.rice.core.web.format.Formatter;
+import org.kuali.rice.core.web.format.TimestampAMPMFormatter;
 import org.kuali.rice.kns.lookup.KualiLookupableHelperServiceImpl;
 import org.kuali.rice.kns.lookup.LookupUtils;
-import org.kuali.rice.kns.util.GlobalVariables;
-import org.kuali.rice.kns.util.KNSConstants;
-import org.kuali.rice.kns.util.ObjectUtils;
-import org.kuali.rice.kns.web.format.Formatter;
-import org.kuali.rice.kns.web.format.TimestampAMPMFormatter;
+import org.kuali.rice.kns.util.KNSGlobalVariables;
 import org.kuali.rice.kns.web.struts.form.LookupForm;
 import org.kuali.rice.kns.web.ui.Column;
 import org.kuali.rice.kns.web.ui.ResultRow;
+import org.kuali.rice.krad.bo.BusinessObject;
+import org.kuali.rice.krad.util.GlobalVariables;
+import org.kuali.rice.krad.util.KRADConstants;
+import org.kuali.rice.krad.util.ObjectUtils;
 import org.springframework.transaction.annotation.Transactional;
 
 /**
@@ -63,10 +64,10 @@ public class S2sOpportunityLookupableHelperServiceImpl extends KualiLookupableHe
      */
     public List<? extends BusinessObject> getSearchResults(Map<String, String> fieldValues) {
         LookupUtils.removeHiddenCriteriaFields(getBusinessObjectClass(), fieldValues);
-        setBackLocation(fieldValues.get(KNSConstants.BACK_LOCATION));
-        setDocFormKey(fieldValues.get(KNSConstants.DOC_FORM_KEY));
-        setReferencesToRefresh(fieldValues.get(KNSConstants.REFERENCES_TO_REFRESH));
-        GlobalVariables.getMessageList().add(Constants.GRANTS_GOV_LINK);
+        setBackLocation(fieldValues.get(KRADConstants.BACK_LOCATION));
+        setDocFormKey(fieldValues.get(KRADConstants.DOC_FORM_KEY));
+        setReferencesToRefresh(fieldValues.get(KRADConstants.REFERENCES_TO_REFRESH));
+        KNSGlobalVariables.getMessageList().add(Constants.GRANTS_GOV_LINK);
         List<S2sOpportunity> s2sOpportunity = new ArrayList<S2sOpportunity>();
         if (fieldValues != null
                 && (fieldValues.get(Constants.CFDA_NUMBER) != null && !StringUtils.equals(fieldValues.get(Constants.CFDA_NUMBER)
@@ -78,7 +79,7 @@ public class S2sOpportunityLookupableHelperServiceImpl extends KualiLookupableHe
                         .get(Constants.OPPORTUNITY_ID), "");
             }catch (S2SException e) {
                 LOG.error(e.getMessage(), e);
-                GlobalVariables.getErrorMap().putError(Constants.NO_FIELD, e.getErrorKey(),e.getMessage());
+                GlobalVariables.getMessageMap().putError(Constants.NO_FIELD, e.getErrorKey(),e.getMessage());
                 return new ArrayList<S2sOpportunity>();
             }
             if (s2sOpportunity != null && s2sOpportunity.size()!=0) {
@@ -90,7 +91,7 @@ public class S2sOpportunityLookupableHelperServiceImpl extends KualiLookupableHe
                 s2sOpportunity = s2SService.searchOpportunity(fieldValues.get(Constants.CFDA_NUMBER), "", "");
                 }catch (S2SException e) {
                     LOG.error(e.getMessage(), e);
-                    GlobalVariables.getErrorMap().putError(Constants.NO_FIELD, e.getErrorKey(),e.getMessage());
+                    GlobalVariables.getMessageMap().putError(Constants.NO_FIELD, e.getErrorKey(),e.getMessage());
                     return new ArrayList<S2sOpportunity>();
                 }
                 if (s2sOpportunity != null) {
@@ -101,11 +102,11 @@ public class S2sOpportunityLookupableHelperServiceImpl extends KualiLookupableHe
                 else{
                     if (fieldValues.get(Constants.CFDA_NUMBER) != null
                             && !StringUtils.equals(fieldValues.get(Constants.CFDA_NUMBER).trim(), "")) {
-                        GlobalVariables.getErrorMap().putError(Constants.CFDA_NUMBER, KeyConstants.ERROR_IF_CFDANUMBER_IS_INVALID);
+                        GlobalVariables.getMessageMap().putError(Constants.CFDA_NUMBER, KeyConstants.ERROR_IF_CFDANUMBER_IS_INVALID);
                     }
                     if (fieldValues.get(Constants.OPPORTUNITY_ID) != null
                             && !StringUtils.equals(fieldValues.get(Constants.OPPORTUNITY_ID).trim(), "")) {
-                        GlobalVariables.getErrorMap().putError(Constants.OPPORTUNITY_ID,
+                        GlobalVariables.getMessageMap().putError(Constants.OPPORTUNITY_ID,
                                 KeyConstants.ERROR_IF_OPPORTUNITY_ID_IS_INVALID);
                     }
                 }
@@ -114,7 +115,7 @@ public class S2sOpportunityLookupableHelperServiceImpl extends KualiLookupableHe
              return new ArrayList<S2sOpportunity>();
         }
         else {
-            GlobalVariables.getErrorMap().putError(Constants.NO_FIELD, KeyConstants.ERROR_IF_CFDANUMBER_AND_OPPORTUNITY_ID_IS_NULL);
+            GlobalVariables.getMessageMap().putError(Constants.NO_FIELD, KeyConstants.ERROR_IF_CFDANUMBER_AND_OPPORTUNITY_ID_IS_NULL);
             return s2sOpportunity;
         }
     }
@@ -179,7 +180,7 @@ public class S2sOpportunityLookupableHelperServiceImpl extends KualiLookupableHe
     }
     /**
      * As a workaround to format timestamp objects, overriding this method to handle timestamp formating.
-     * @see org.kuali.rice.kns.lookup.AbstractLookupableHelperServiceImpl#getParameters(org.kuali.rice.kns.bo.BusinessObject, java.util.Map, java.lang.String, java.util.List)
+     * @see org.kuali.rice.kns.lookup.AbstractLookupableHelperServiceImpl#getParameters(org.kuali.rice.krad.bo.BusinessObject, java.util.Map, java.lang.String, java.util.List)
      */
     protected Properties getParameters(BusinessObject bo, Map fieldConversions, String lookupImpl, List returnKeys) {
         Properties parameters = super.getParameters(bo, fieldConversions, lookupImpl, returnKeys);

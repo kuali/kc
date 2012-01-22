@@ -15,15 +15,16 @@
  */
 package org.kuali.kra.service.impl;
 
+import static org.hamcrest.core.Is.is;
+import static org.hamcrest.core.IsEqual.equalTo;
+import static org.hamcrest.core.IsNull.nullValue;
+
 import java.util.List;
 
 import org.junit.After;
 import org.junit.Assert;
 import org.junit.Before;
 import org.junit.Test;
-import static org.hamcrest.core.Is.*;
-import static org.hamcrest.core.IsNull.*;
-import static org.hamcrest.core.IsEqual.*;
 import org.kuali.kra.SeparatelySequenceableAssociate;
 import org.kuali.kra.SequenceAssociate;
 import org.kuali.kra.service.VersioningService;
@@ -40,7 +41,10 @@ import org.kuali.kra.service.impl.versioningartifacts.SequenceAssociateGrandChil
 import org.kuali.kra.service.impl.versioningartifacts.SequenceOwnerImpl;
 import org.kuali.kra.service.impl.versioningartifacts.SimpleAssociate;
 import org.kuali.kra.service.impl.versioningartifacts.SimpleAssociate2;
-import org.kuali.kra.service.impl.versioningartifacts.SepSequenceComplexArtifacts.*;
+import org.kuali.kra.service.impl.versioningartifacts.SepSequenceComplexArtifacts.AttachmentLargeData;
+import org.kuali.kra.service.impl.versioningartifacts.SepSequenceComplexArtifacts.AttachmentMetaData;
+import org.kuali.kra.service.impl.versioningartifacts.SepSequenceComplexArtifacts.AttachmentMetaDataAssoc;
+import org.kuali.kra.service.impl.versioningartifacts.SepSequenceComplexArtifacts.AttachmentOwner;
 
 
 /**

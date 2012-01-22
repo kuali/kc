@@ -18,15 +18,16 @@ package org.kuali.kra.irb.correspondence;
 import java.util.ArrayList;
 import java.util.List;
 
-import org.kuali.rice.core.util.KeyLabelPair;
-import org.kuali.rice.kns.lookup.keyvalues.KeyValuesBase;
+import org.kuali.rice.core.api.util.ConcreteKeyValue;
+import org.kuali.rice.core.api.util.KeyValue;
+import org.kuali.rice.krad.keyvalues.KeyValuesBase;
 
 public class SendCorrespondenceValuesFinder extends KeyValuesBase {
 
-    public List<KeyLabelPair> getKeyValues() {
-        List<KeyLabelPair> keyValues = new ArrayList<KeyLabelPair>();
-        keyValues.add(new KeyLabelPair(BatchCorrespondence.SEND_CORRESPONDENCE_BEFORE_EVENT, "Before"));
-        keyValues.add(new KeyLabelPair(BatchCorrespondence.SEND_CORRESPONDENCE_AFTER_EVENT, "After"));
+    public List<KeyValue> getKeyValues() {
+        List<KeyValue> keyValues = new ArrayList<KeyValue>();
+        keyValues.add(new ConcreteKeyValue(BatchCorrespondence.SEND_CORRESPONDENCE_BEFORE_EVENT, "Before"));
+        keyValues.add(new ConcreteKeyValue(BatchCorrespondence.SEND_CORRESPONDENCE_AFTER_EVENT, "After"));
         return keyValues;
     }
 

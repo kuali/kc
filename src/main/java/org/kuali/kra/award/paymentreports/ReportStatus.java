@@ -15,8 +15,6 @@
  */
 package org.kuali.kra.award.paymentreports;
 
-import java.util.LinkedHashMap;
-
 import org.kuali.kra.bo.KraPersistableBusinessObjectBase;
 
 /**
@@ -29,47 +27,34 @@ public class ReportStatus extends KraPersistableBusinessObjectBase {
      * Comment for <code>serialVersionUID</code>
      */
     private static final long serialVersionUID = 3119807996482789387L;
-    private String reportStatusCode;
-    private String description;
-    private boolean active;
 
+    private String reportStatusCode;
+
+    private String description;
+
+    private boolean active;
 
     public String getDescription() {
         return description;
     }
 
-
     public void setDescription(String description) {
         this.description = description;
     }
-    
-    @SuppressWarnings("unchecked")
-    @Override
-    protected LinkedHashMap toStringMapper() {
-        LinkedHashMap result = new LinkedHashMap();
-        result.put("statusCode", getReportStatusCode());
-        result.put("description", getDescription());
-        return result;
-    }
-
 
     public String getReportStatusCode() {
         return reportStatusCode;
     }
 
-
     public void setReportStatusCode(String reportStatusCode) {
         this.reportStatusCode = reportStatusCode;
     }
-
 
     public boolean isActive() {
         return active;
     }
 
-
     public void setActive(boolean active) {
         this.active = active;
-    }    
-    
+    }
 }

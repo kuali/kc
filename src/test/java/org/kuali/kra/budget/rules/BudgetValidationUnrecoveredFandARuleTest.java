@@ -15,20 +15,17 @@
  */
 package org.kuali.kra.budget.rules;
 
-import junit.framework.TestCase;
-
 import org.junit.After;
 import org.junit.Assert;
 import org.junit.Before;
 import org.junit.Test;
 import org.kuali.kra.budget.BudgetDecimal;
-import org.kuali.kra.budget.RateDecimal;
 import org.kuali.kra.budget.distributionincome.BudgetUnrecoveredFandA;
 import org.kuali.kra.budget.distributionincome.BudgetUnrecoveredFandARuleImpl;
 import org.kuali.kra.budget.distributionincome.BudgetValidationUnrecoveredFandAEvent;
 import org.kuali.kra.budget.distributionincome.BudgetValidationUnrecoveredFandARule;
-import org.kuali.rice.kns.util.ErrorMap;
-import org.kuali.rice.kns.util.GlobalVariables;
+import org.kuali.rice.krad.util.GlobalVariables;
+import org.kuali.rice.krad.util.MessageMap;
 
 public class BudgetValidationUnrecoveredFandARuleTest {
     private static final BudgetDecimal AMOUNT = new BudgetDecimal(100.00);
@@ -42,7 +39,7 @@ public class BudgetValidationUnrecoveredFandARuleTest {
     
     @Before
     public void setUp() {
-        GlobalVariables.setErrorMap(new ErrorMap());
+        GlobalVariables.setMessageMap(new MessageMap());
         unrecoveredFandARule = new BudgetUnrecoveredFandARuleImpl();
     }
 
@@ -56,21 +53,21 @@ public class BudgetValidationUnrecoveredFandARuleTest {
     public void testValidatingRequiredFields_AllRequiredFieldsFilled() throws Exception { 
         unrecoveredFandA = new BudgetUnrecoveredFandA(BUDGET_FISCAL_YEAR, AMOUNT, APPLICABLE_RATE, ON_CAMPUS, SOURCE_ACCOUNT);        
         Assert.assertTrue(unrecoveredFandARule.processBudgetValidationUnrecoveredFandABusinessRules(getEvent(unrecoveredFandA)));
-        Assert.assertEquals(0, GlobalVariables.getErrorMap().keySet().size());
+        Assert.assertEquals(0, GlobalVariables.getMessageMap().getErrorMessages().keySet().size());
     }
 
     @Test
     public void testValidatingRequiredFields_FiscalYearMissing() throws Exception {
         unrecoveredFandA = new BudgetUnrecoveredFandA(null, AMOUNT, APPLICABLE_RATE, ON_CAMPUS, SOURCE_ACCOUNT);        
         Assert.assertFalse(unrecoveredFandARule.processBudgetValidationUnrecoveredFandABusinessRules(getEvent(unrecoveredFandA)));
-        Assert.assertEquals(1, GlobalVariables.getErrorMap().keySet().size());
+        Assert.assertEquals(1, GlobalVariables.getMessageMap().getErrorMessages().keySet().size());
     }
 
     @Test
     public void testValidatingRequiredFields_NoneSet() throws Exception {
         unrecoveredFandA = new BudgetUnrecoveredFandA();        
         Assert.assertFalse(unrecoveredFandARule.processBudgetValidationUnrecoveredFandABusinessRules(getEvent(unrecoveredFandA)));
-        Assert.assertEquals(4, GlobalVariables.getErrorMap().keySet().size());
+        Assert.assertEquals(4, GlobalVariables.getMessageMap().getErrorMessages().keySet().size());
     }
     
     @Test
@@ -78,28 +75,28 @@ public class BudgetValidationUnrecoveredFandARuleTest {
         unrecoveredFandA = new BudgetUnrecoveredFandA(BUDGET_FISCAL_YEAR, null, APPLICABLE_RATE, ON_CAMPUS, SOURCE_ACCOUNT);
         //Amount is set to 0.00 if it is null
         Assert.assertTrue(unrecoveredFandARule.processBudgetValidationUnrecoveredFandABusinessRules(getEvent(unrecoveredFandA)));
-        Assert.assertEquals(0, GlobalVariables.getErrorMap().keySet().size());
+        Assert.assertEquals(0, GlobalVariables.getMessageMap().getErrorMessages().keySet().size());
     }
     
     @Test
     public void testValidatingRequiredFields_CampusMissing() throws Exception {
         unrecoveredFandA = new BudgetUnrecoveredFandA(BUDGET_FISCAL_YEAR, AMOUNT, APPLICABLE_RATE, null, SOURCE_ACCOUNT);        
         Assert.assertFalse(unrecoveredFandARule.processBudgetValidationUnrecoveredFandABusinessRules(getEvent(unrecoveredFandA)));
-        Assert.assertEquals(1, GlobalVariables.getErrorMap().keySet().size());
+        Assert.assertEquals(1, GlobalVariables.getMessageMap().getErrorMessages().keySet().size());
     }
     
     @Test
     public void testValidatingRequiredFields_ApplicableRateMissing() throws Exception {
         unrecoveredFandA = new BudgetUnrecoveredFandA(BUDGET_FISCAL_YEAR, AMOUNT, null, ON_CAMPUS, SOURCE_ACCOUNT);        
         Assert.assertFalse(unrecoveredFandARule.processBudgetValidationUnrecoveredFandABusinessRules(getEvent(unrecoveredFandA)));
-        Assert.assertEquals(1, GlobalVariables.getErrorMap().keySet().size());
+        Assert.assertEquals(1, GlobalVariables.getMessageMap().getErrorMessages().keySet().size());
     }
     
     @Test
     public void testValidatingRequiredFields_SourceAccountMissing() throws Exception {
         unrecoveredFandA = new BudgetUnrecoveredFandA(BUDGET_FISCAL_YEAR, AMOUNT, APPLICABLE_RATE, ON_CAMPUS, null);        
         Assert.assertFalse(unrecoveredFandARule.processBudgetValidationUnrecoveredFandABusinessRules(getEvent(unrecoveredFandA)));
-        Assert.assertEquals(1, GlobalVariables.getErrorMap().keySet().size());
+        Assert.assertEquals(1, GlobalVariables.getMessageMap().getErrorMessages().keySet().size());
     }
     
     private BudgetValidationUnrecoveredFandAEvent getEvent(BudgetUnrecoveredFandA unrecoveredFandA) {

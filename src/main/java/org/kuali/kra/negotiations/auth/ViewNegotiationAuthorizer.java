@@ -16,8 +16,6 @@
 package org.kuali.kra.negotiations.auth;
 
 import org.kuali.kra.infrastructure.PermissionConstants;
-import org.kuali.kra.negotiations.bo.Negotiation;
-import org.kuali.kra.negotiations.service.NegotiationService;
 
 /**
  * 

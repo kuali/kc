@@ -16,21 +16,19 @@
 package org.kuali.kra.institutionalproposal.contacts;
 
 import java.util.HashMap;
-import java.util.LinkedHashMap;
 import java.util.Map;
 
 import org.kuali.kra.SequenceAssociate;
-import org.kuali.kra.award.home.Award;
 import org.kuali.kra.bo.KraPersistableBusinessObjectBase;
 import org.kuali.kra.infrastructure.KraServiceLocator;
 import org.kuali.kra.institutionalproposal.home.InstitutionalProposal;
 import org.kuali.kra.proposaldevelopment.bo.CreditSplit;
 import org.kuali.kra.proposaldevelopment.bo.InvestigatorCreditType;
-import org.kuali.rice.kns.service.BusinessObjectService;
-import org.kuali.rice.kns.util.KualiDecimal;
+import org.kuali.rice.core.api.util.type.KualiDecimal;
+import org.kuali.rice.krad.service.BusinessObjectService;
 
-public class InstitutionalProposalPersonCreditSplit extends KraPersistableBusinessObjectBase implements CreditSplit, SequenceAssociate<InstitutionalProposal> { 
-    
+public class InstitutionalProposalPersonCreditSplit extends KraPersistableBusinessObjectBase implements CreditSplit, SequenceAssociate<InstitutionalProposal> {
+
     /**
      * Comment for <code>serialVersionUID</code>
      */
@@ -39,21 +37,24 @@ public class InstitutionalProposalPersonCreditSplit extends KraPersistableBusine
     private static final String INV_CREDIT_TYPE_CODE_FIELD_NAME = "invCreditTypeCode";
 
     private Long institutionalProposalPersonCreditSplitId;
+
     private InstitutionalProposalPerson institutionalProposalPerson;
+
     private KualiDecimal credit;
+
     private InvestigatorCreditType investigatorCreditType;
-    
-    // OJB Hacks
+
+    // OJB Hacks  
     private String invCreditTypeCode;
+
     private Long institutionalProposalContactId;
-    
+
     /**
      * Default Constructor
      */
     public InstitutionalProposalPersonCreditSplit() {
-        
     }
-    
+
     /**
      * Convenience Constructor
      * @param investigatorCreditType
@@ -63,7 +64,7 @@ public class InstitutionalProposalPersonCreditSplit extends KraPersistableBusine
         setInvestigatorCreditType(investigatorCreditType);
         setCredit(credit);
     }
-    
+
     /**
      * Gets the institutionalProposalContactId attribute. 
      * @return Returns the institutionalProposalContactId.
@@ -175,45 +176,32 @@ public class InstitutionalProposalPersonCreditSplit extends KraPersistableBusine
         return KraServiceLocator.getService(BusinessObjectService.class);
     }
 
-    @Override 
-    protected LinkedHashMap<String, Object> toStringMapper() {
-        LinkedHashMap<String, Object> map = new LinkedHashMap<String, Object>();
-        map.put("institutionalProposalPersonCreditSplitId", institutionalProposalPersonCreditSplitId);
-        map.put("institutionalProposalPerson", institutionalProposalPerson);    
-        map.put("credit", credit);
-        map.put("investigatorCreditType", investigatorCreditType);
-        map.put(INV_CREDIT_TYPE_CODE_FIELD_NAME, invCreditTypeCode);
-        map.put("institutionalProposalContactId", institutionalProposalContactId);
-        return map;
-    }
-    
     /**
      * This method lazy-loads the InvestigatorCreditType
      */
     private void refreshInvestigatorCreditTypeIfNeeded() {
-        if(invCreditTypeCode != null && (investigatorCreditType == null || !invCreditTypeCode.equals(investigatorCreditType.getInvCreditTypeCode()))) {
+        if (invCreditTypeCode != null && (investigatorCreditType == null || !invCreditTypeCode.equals(investigatorCreditType.getInvCreditTypeCode()))) {
             Map<String, Object> keyMap = new HashMap<String, Object>();
             keyMap.put(INV_CREDIT_TYPE_CODE_FIELD_NAME, invCreditTypeCode);
             investigatorCreditType = (InvestigatorCreditType) getBusinessObjectService().findByPrimaryKey(InvestigatorCreditType.class, keyMap);
         }
     }
-    
+
     public InstitutionalProposal getSequenceOwner() {
         return getInstitutionalProposalPerson() != null ? getInstitutionalProposalPerson().getInstitutionalProposal() : null;
     }
-    
+
     public void setSequenceOwner(InstitutionalProposal newlyVersionedOwner) {
-        if(getInstitutionalProposalPerson() != null) {
+        if (getInstitutionalProposalPerson() != null) {
             getInstitutionalProposalPerson().setInstitutionalProposal(newlyVersionedOwner);
         }
     }
-    
+
     public Integer getSequenceNumber() {
-        return  getInstitutionalProposalPerson() != null ? getInstitutionalProposalPerson().getSequenceNumber() : 0;
+        return getInstitutionalProposalPerson() != null ? getInstitutionalProposalPerson().getSequenceNumber() : 0;
     }
-    
+
     public void resetPersistenceState() {
         this.institutionalProposalPersonCreditSplitId = null;
     }
-
 }

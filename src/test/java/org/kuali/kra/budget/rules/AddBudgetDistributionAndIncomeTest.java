@@ -21,9 +21,10 @@ import org.junit.Before;
 import org.junit.Test;
 import org.kuali.kra.budget.document.BudgetDocument;
 import org.kuali.kra.budget.document.BudgetDocumentContainer;
-import org.kuali.rice.kns.util.ErrorMap;
-import org.kuali.rice.kns.util.GlobalVariables;
+import org.kuali.rice.kns.util.KNSGlobalVariables;
 import org.kuali.rice.kns.web.struts.form.KualiForm;
+import org.kuali.rice.krad.util.GlobalVariables;
+import org.kuali.rice.krad.util.MessageMap;
 
 /**
  * This class is parent for AddXxx Tests, where Xxx is a BudgetDistributionandIncomeComponent
@@ -45,9 +46,9 @@ public abstract class AddBudgetDistributionAndIncomeTest {
      */
     @Before
     public void setUp() {
-        GlobalVariables.setErrorMap(new ErrorMap());
+        GlobalVariables.setMessageMap(new MessageMap());
         document = new MockBudgetDocument();        
-        GlobalVariables.setKualiForm(new MockBudgetForm(document));
+        KNSGlobalVariables.setKualiForm(new MockBudgetForm(document));
         addArtifactToDocument(generateReferenceArtifact());
     }
 
@@ -59,7 +60,7 @@ public abstract class AddBudgetDistributionAndIncomeTest {
     public void tearDown() {
         GlobalVariables.clear();
         document = null;
-        GlobalVariables.setKualiForm(null);
+        KNSGlobalVariables.setKualiForm(null);
     }
     
     /**

@@ -15,19 +15,18 @@
  */
 package org.kuali.kra.irb.actions.submit;
 
-import java.util.LinkedHashMap;
-
 import org.kuali.kra.bo.KraPersistableBusinessObjectBase;
 
 @SuppressWarnings("serial")
 public class ExemptStudiesCheckListItem extends KraPersistableBusinessObjectBase {
 
     private String exemptStudiesCheckListCode;
+
     private String description;
+
     private transient boolean checked = false;
-    
+
     public ExemptStudiesCheckListItem() {
-        
     }
 
     public String getExemptStudiesCheckListCode() {
@@ -45,22 +44,12 @@ public class ExemptStudiesCheckListItem extends KraPersistableBusinessObjectBase
     public void setDescription(String description) {
         this.description = description;
     }
-    
+
     public void setChecked(boolean checked) {
         this.checked = checked;
     }
-    
+
     public boolean getChecked() {
         return checked;
-    }
-    
-    @SuppressWarnings("unchecked")
-    @Override
-    protected LinkedHashMap toStringMapper() {
-        LinkedHashMap map = new LinkedHashMap();
-        map.put("exemptStudiesCheckListCode", getExemptStudiesCheckListCode());
-        map.put("description", getDescription());
-        map.put("checked", getChecked());
-        return map;
     }
 }

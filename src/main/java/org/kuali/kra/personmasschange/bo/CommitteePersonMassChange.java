@@ -60,14 +60,5 @@ public class CommitteePersonMassChange extends KraPersistableBusinessObjectBase 
     public void setPersonMassChange(PersonMassChange personMassChange) {
         this.personMassChange = personMassChange;
     }
-    
-    @Override
-    protected LinkedHashMap<String, Object> toStringMapper() {
-        LinkedHashMap<String, Object> propMap = new LinkedHashMap<String, Object>();
-        propMap.put("committeePersonMassChangeId", getCommitteePersonMassChangeId());
-        propMap.put("personMassChangeId", getPersonMassChangeId());
-        propMap.put("member", isMember());
-        return propMap;
-    }
 
 }

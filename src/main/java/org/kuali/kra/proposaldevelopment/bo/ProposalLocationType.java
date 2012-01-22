@@ -15,14 +15,14 @@
  */
 package org.kuali.kra.proposaldevelopment.bo;
 
-import java.util.LinkedHashMap;
-
 import org.kuali.kra.bo.KraPersistableBusinessObjectBase;
 
 public class ProposalLocationType extends KraPersistableBusinessObjectBase {
+
     private static final long serialVersionUID = 4387258582030826617L;
-    
+
     private int locationTypeCode;
+
     private String locationTypeDesc;
 
     public void setLocationTypeCode(int locationTypeCode) {
@@ -40,13 +40,4 @@ public class ProposalLocationType extends KraPersistableBusinessObjectBase {
     public String getLocationTypeDesc() {
         return locationTypeDesc;
     }
-
-    @Override
-    protected LinkedHashMap<String, ?> toStringMapper() {
-        LinkedHashMap<String, Object> hashMap = new LinkedHashMap<String, Object>();
-        hashMap.put("locationTypeCode", this.getLocationTypeCode());
-        hashMap.put("locationTypeDesc", this.getLocationTypeDesc());
-        return hashMap;
-    }
-
 }

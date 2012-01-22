@@ -28,7 +28,7 @@ import org.kuali.kra.award.paymentreports.ValidClassReportFrequency;
 import org.kuali.kra.award.paymentreports.ValidFrequencyBase;
 import org.kuali.kra.infrastructure.KraServiceLocator;
 import org.kuali.kra.service.AwardTemplateReportTermService;
-import org.kuali.rice.kns.service.BusinessObjectService;
+import org.kuali.rice.krad.service.BusinessObjectService;
 
 public class AwardTemplateReportTermServiceImpl implements AwardTemplateReportTermService{
     

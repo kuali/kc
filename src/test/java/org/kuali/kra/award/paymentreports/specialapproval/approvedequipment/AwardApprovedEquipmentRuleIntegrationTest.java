@@ -28,8 +28,9 @@ import org.kuali.kra.award.AwardForm;
 import org.kuali.kra.award.home.Award;
 import org.kuali.kra.rules.SoftError;
 import org.kuali.kra.test.infrastructure.KcUnitTestBase;
-import org.kuali.rice.kns.UserSession;
-import org.kuali.rice.kns.util.GlobalVariables;
+import org.kuali.rice.kns.util.KNSGlobalVariables;
+import org.kuali.rice.krad.UserSession;
+import org.kuali.rice.krad.util.GlobalVariables;
 
 /**
  * This class tests AwardApprovedEquipmentRuleImpl behavior
@@ -59,7 +60,7 @@ public class AwardApprovedEquipmentRuleIntegrationTest extends KcUnitTestBase {
         award.setAwardId(1L);
         award.setAwardNumber("X1000");
         award.setSequenceNumber(1);
-        GlobalVariables.setKualiForm(new AwardForm());
+        KNSGlobalVariables.setKualiForm(new AwardForm());
     }
     
     @After
@@ -97,8 +98,8 @@ public class AwardApprovedEquipmentRuleIntegrationTest extends KcUnitTestBase {
     }
 
     private List<SoftError> getSoftErrors() {
-        Map<String, Collection<SoftError>> softErrorMap = ((AwardForm) GlobalVariables.getKualiForm()).getSoftErrors();
-        Collection<SoftError> errors = softErrorMap != null ? softErrorMap.get(ERROR_KEY) : null;
+        Map<String, Collection<SoftError>> softMessageMap = ((AwardForm) KNSGlobalVariables.getKualiForm()).getSoftErrors();
+        Collection<SoftError> errors = softMessageMap != null ? softMessageMap.get(ERROR_KEY) : null;
         return errors != null ? new ArrayList<SoftError>(errors) : new ArrayList<SoftError>();
     }
     

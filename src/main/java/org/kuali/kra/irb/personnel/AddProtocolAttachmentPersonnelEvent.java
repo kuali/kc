@@ -16,8 +16,8 @@
 package org.kuali.kra.irb.personnel;
 
 import org.kuali.kra.irb.noteattachment.ProtocolAttachmentPersonnel;
-import org.kuali.rice.kns.document.Document;
-import org.kuali.rice.kns.rule.BusinessRule;
+import org.kuali.rice.krad.document.Document;
+import org.kuali.rice.krad.rules.rule.BusinessRule;
 
 public class AddProtocolAttachmentPersonnelEvent extends ProtocolAttachmentPersonnelEventBase {
 

@@ -22,7 +22,7 @@ import java.util.Map;
 import org.apache.commons.collections.CollectionUtils;
 import org.kuali.kra.common.notification.bo.NotificationModuleRole;
 import org.kuali.kra.service.NotificationModuleRoleService;
-import org.kuali.rice.kns.service.BusinessObjectService;
+import org.kuali.rice.krad.service.BusinessObjectService;
 
 public class NotificationModuleRoleServiceImpl implements NotificationModuleRoleService {
     

@@ -15,25 +15,26 @@
  */
 package org.kuali.kra.bo;
 
-import java.util.LinkedHashMap;
-
-import org.apache.commons.lang.StringUtils;
 
 /**
- * Class representation of the Person <code>{@link org.kuali.rice.kns.bo.BusinessObject}</code>
+ * Class representation of the Person <code>{@link org.kuali.rice.krad.bo.BusinessObject}</code>
  *
- * @see org.kuali.rice.kns.bo.BusinessObject
+ * @see org.kuali.rice.krad.bo.BusinessObject
  * @see org.kuali.core.bo.PersistableBusinessObject
  * @author $Author: gmcgrego $
  * @version $Revision: 1.3 $
  */
 public class PersonEditableField extends KraPersistableBusinessObjectBase {
+
     private String fieldName;
+
     private boolean active;
-    private String moduleCode; 
+
+    private String moduleCode;
 
     private Long personEditableFieldId;
-    private CoeusModule coeusModule; 
+
+    private CoeusModule coeusModule;
 
     /**
      * Gets the value of fieldName
@@ -43,7 +44,7 @@ public class PersonEditableField extends KraPersistableBusinessObjectBase {
     public String getFieldName() {
         return this.fieldName;
     }
-     
+
     /**
      * Sets the value of fieldName
      *
@@ -69,14 +70,6 @@ public class PersonEditableField extends KraPersistableBusinessObjectBase {
         this.active = active;
     }
 
-
-	@Override 
-	protected LinkedHashMap toStringMapper() {
-   	    LinkedHashMap hashmap = new LinkedHashMap();
-        hashmap.put("fieldName", getFieldName());
-		return hashmap;
-	}
-
     public String getModuleCode() {
         return moduleCode;
     }
@@ -94,17 +87,16 @@ public class PersonEditableField extends KraPersistableBusinessObjectBase {
     }
 
     public CoeusModule getCoeusModule() {
-        // if "All" is implemented
-//        if (StringUtils.equals("0", moduleCode) && coeusModule == null) {
-//            coeusModule = new CoeusModule();
-//            coeusModule.setModuleCode("0");
-//            coeusModule.setDescription("All");
-//        }
+        // if "All" is implemented 
+        //        if (StringUtils.equals("0", moduleCode) && coeusModule == null) { 
+        //            coeusModule = new CoeusModule(); 
+        //            coeusModule.setModuleCode("0"); 
+        //            coeusModule.setDescription("All"); 
+        //        } 
         return coeusModule;
     }
 
     public void setCoeusModule(CoeusModule coeusModule) {
         this.coeusModule = coeusModule;
     }
-
 }

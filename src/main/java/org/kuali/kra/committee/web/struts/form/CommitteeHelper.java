@@ -36,8 +36,8 @@ import org.kuali.kra.committee.web.struts.form.schedule.ScheduleData;
 import org.kuali.kra.infrastructure.KraServiceLocator;
 import org.kuali.kra.infrastructure.TaskName;
 import org.kuali.kra.service.TaskAuthorizationService;
-import org.kuali.rice.kns.util.GlobalVariables;
 import org.kuali.rice.kns.util.WebUtils;
+import org.kuali.rice.krad.util.GlobalVariables;
 
 /**
  * The CommitteeHelper corresponds to the Committee tab web page.
@@ -92,7 +92,7 @@ public class CommitteeHelper implements Serializable {
      * This method is UI view hook.
      */
     public void prepareView() {
-        if (committeeForm.getCommitteeDocument().getDocumentHeader().getWorkflowDocument().stateIsFinal() || committeeForm.getCommitteeDocument().getDocumentHeader().getWorkflowDocument().stateIsEnroute() || committeeForm.getCommitteeDocument().getDocumentHeader().getWorkflowDocument().stateIsCanceled()) {
+        if (committeeForm.getCommitteeDocument().getDocumentHeader().getWorkflowDocument().isFinal() || committeeForm.getCommitteeDocument().getDocumentHeader().getWorkflowDocument().isEnroute() || committeeForm.getCommitteeDocument().getDocumentHeader().getWorkflowDocument().isCanceled()) {
             modifyCommittee = false;
             Committee activeCommittee = getCommitteeService().getCommitteeById(
                     getCommittee().getCommitteeId());

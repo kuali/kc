@@ -17,7 +17,7 @@ package org.kuali.kra.irb.actions.abandon;
 
 import org.kuali.kra.irb.Protocol;
 import org.kuali.kra.irb.actions.genericactions.ProtocolGenericActionBean;
-import org.kuali.rice.kew.exception.WorkflowException;
+import org.kuali.rice.kew.api.exception.WorkflowException;
 
 /**
  * 

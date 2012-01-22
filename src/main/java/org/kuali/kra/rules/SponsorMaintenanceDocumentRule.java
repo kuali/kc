@@ -22,7 +22,7 @@ import org.kuali.kra.infrastructure.KeyConstants;
 import org.kuali.kra.infrastructure.KraServiceLocator;
 import org.kuali.rice.kns.document.MaintenanceDocument;
 import org.kuali.rice.kns.service.DataDictionaryService;
-import org.kuali.rice.kns.util.GlobalVariables;
+import org.kuali.rice.krad.util.GlobalVariables;
 
 /**
  * This class overrides the custom route and custom approve methods of the MaintenanceDocument processing to check the length of the
@@ -69,7 +69,7 @@ public class SponsorMaintenanceDocumentRule extends KraMaintenanceDocumentRuleBa
      */
     private boolean checkSponsorCode(MaintenanceDocument document) {
         boolean valid = true;
-        Sponsor sponsor = (Sponsor) document.getNewMaintainableObject().getBusinessObject();
+        Sponsor sponsor = (Sponsor) document.getNewMaintainableObject().getDataObject();
         if (sponsor.getSponsorCode() != null && !Pattern.matches(SPONSOR_CODE_REGEX, sponsor.getSponsorCode())) {
             String errorLabel = KraServiceLocator.getService(DataDictionaryService.class).getAttributeErrorLabel(Sponsor.class, SPONSOR_CODE_FIELD_NAME);
             GlobalVariables.getMessageMap().putError(SPONSOR_CODE_ERROR_PROPERTY_NAME, KeyConstants.ERROR_INVALID_FORMAT_WITH_FORMAT, errorLabel, 

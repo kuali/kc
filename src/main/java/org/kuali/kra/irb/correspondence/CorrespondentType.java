@@ -15,23 +15,21 @@
  */
 package org.kuali.kra.irb.correspondence;
 
-import java.util.LinkedHashMap;
-
 import org.kuali.kra.bo.KraPersistableBusinessObjectBase;
 
-public class CorrespondentType extends KraPersistableBusinessObjectBase { 
-    
+public class CorrespondentType extends KraPersistableBusinessObjectBase {
+
     private static final long serialVersionUID = 1L;
 
-    private String correspondentTypeCode; 
-    private String description; 
-    private String qualifier; 
-    
-   
-    public CorrespondentType() { 
+    private String correspondentTypeCode;
 
-    } 
-    
+    private String description;
+
+    private String qualifier;
+
+    public CorrespondentType() {
+    }
+
     public String getCorrespondentTypeCode() {
         return correspondentTypeCode;
     }
@@ -55,15 +53,4 @@ public class CorrespondentType extends KraPersistableBusinessObjectBase {
     public void setQualifier(String qualifier) {
         this.qualifier = qualifier;
     }
-
-    /** {@inheritDoc} */
-    @Override 
-    protected LinkedHashMap<String, Object> toStringMapper() {
-        LinkedHashMap<String, Object> hashMap = new LinkedHashMap<String, Object>();
-        hashMap.put("correspondentTypeCode", this.getCorrespondentTypeCode());
-        hashMap.put("description", this.getDescription());
-        hashMap.put("qualifier", this.getQualifier());
-        return hashMap;
-    }
-    
 }

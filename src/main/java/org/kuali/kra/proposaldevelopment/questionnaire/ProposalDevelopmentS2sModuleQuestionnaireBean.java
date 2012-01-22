@@ -23,7 +23,7 @@ import org.kuali.kra.questionnaire.answer.ModuleQuestionnaireBean;
 public class ProposalDevelopmentS2sModuleQuestionnaireBean extends ModuleQuestionnaireBean {
     
     public ProposalDevelopmentS2sModuleQuestionnaireBean(DevelopmentProposal developmentProposal) {
-        super(CoeusModule.PROPOSAL_DEVELOPMENT_MODULE_CODE, developmentProposal.getProposalNumber(), CoeusSubModule.PROPOSAL_S2S_SUBMODULE, "0", developmentProposal.getProposalDocument().getDocumentHeader().getWorkflowDocument().stateIsApproved());      
+        super(CoeusModule.PROPOSAL_DEVELOPMENT_MODULE_CODE, developmentProposal.getProposalNumber(), CoeusSubModule.PROPOSAL_S2S_SUBMODULE, "0", developmentProposal.getProposalDocument().getDocumentHeader().getWorkflowDocument().isApproved());      
     }
     
 }

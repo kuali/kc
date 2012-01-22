@@ -15,21 +15,23 @@
  */
 package org.kuali.kra.award.contacts;
 
-import org.kuali.kra.award.AwardForm;
-import org.kuali.kra.award.document.AwardDocument;
-import org.kuali.kra.award.home.ContactRole;
-import org.kuali.kra.infrastructure.KraServiceLocator;
 import static org.kuali.kra.logging.BufferedLogger.info;
-import org.kuali.kra.proposaldevelopment.bo.ProposalPersonRole;
-import org.kuali.kra.proposaldevelopment.service.KeyPersonnelService;
-import org.kuali.kra.service.Sponsorable;
-import org.kuali.rice.kns.util.GlobalVariables;
-import org.kuali.rice.core.util.KeyLabelPair;
 
 import java.util.ArrayList;
 import java.util.Collection;
 import java.util.List;
 import java.util.Map;
+
+import org.kuali.kra.award.AwardForm;
+import org.kuali.kra.award.document.AwardDocument;
+import org.kuali.kra.award.home.ContactRole;
+import org.kuali.kra.infrastructure.KraServiceLocator;
+import org.kuali.kra.proposaldevelopment.bo.ProposalPersonRole;
+import org.kuali.kra.proposaldevelopment.service.KeyPersonnelService;
+import org.kuali.kra.service.Sponsorable;
+import org.kuali.rice.core.api.util.ConcreteKeyValue;
+import org.kuali.rice.core.api.util.KeyValue;
+import org.kuali.rice.kns.util.KNSGlobalVariables;
 
 /**
  * This class finds Award Unit Contact Project Roles
@@ -39,13 +41,13 @@ public class AwardPersonProjectRolesValuesFinder extends AwardContactsProjectRol
 
     public List getKeyValues() {
         @SuppressWarnings("unchecked") final Collection<ProposalPersonRole> roles = getKeyValuesService().findAll(ProposalPersonRole.class);
-        final AwardDocument awardDocument = ((AwardForm) GlobalVariables.getKualiForm()).getAwardDocument();
+        final AwardDocument awardDocument = ((AwardForm) KNSGlobalVariables.getKualiForm()).getAwardDocument();
 
         Sponsorable sponsorable = awardDocument.getAward();
         Map<String, String> roleDescriptions = getKeyPersonnelService().loadKeyPersonnelRoleDescriptions(sponsorable.isSponsorNihMultiplePi());
 
-        List<KeyLabelPair> keyValues = new ArrayList<KeyLabelPair>();
-        keyValues.add(new KeyLabelPair("", "select"));
+        List<KeyValue> keyValues = new ArrayList<KeyValue>();
+        keyValues.add(new ConcreteKeyValue("", "select"));
         for (ProposalPersonRole role : roles) {
             boolean showRole = true;
 
@@ -59,7 +61,7 @@ public class AwardPersonProjectRolesValuesFinder extends AwardContactsProjectRol
 
             if (showRole) {
                 String roleDescription =  roleDescriptions.get(role.getRoleCode());
-                keyValues.add(new KeyLabelPair(role.getProposalPersonRoleId(), roleDescription));
+                keyValues.add(new ConcreteKeyValue(role.getProposalPersonRoleId(), roleDescription));
                 info("Added role ", role.getProposalPersonRoleId());
                 info("With description ", roleDescription);
             }

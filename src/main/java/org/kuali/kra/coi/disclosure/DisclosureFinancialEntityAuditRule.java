@@ -24,11 +24,11 @@ import org.kuali.kra.coi.CoiDisclosureDocument;
 import org.kuali.kra.infrastructure.Constants;
 import org.kuali.kra.infrastructure.KeyConstants;
 import org.kuali.kra.rules.ResearchDocumentRuleBase;
-import org.kuali.rice.kns.document.Document;
-import org.kuali.rice.kns.rule.DocumentAuditRule;
 import org.kuali.rice.kns.util.AuditCluster;
 import org.kuali.rice.kns.util.AuditError;
-import org.kuali.rice.kns.util.GlobalVariables;
+import org.kuali.rice.kns.util.KNSGlobalVariables;
+import org.kuali.rice.krad.document.Document;
+import org.kuali.rice.krad.rules.rule.DocumentAuditRule;
 
 public class DisclosureFinancialEntityAuditRule extends ResearchDocumentRuleBase implements DocumentAuditRule {
 
@@ -62,7 +62,7 @@ public class DisclosureFinancialEntityAuditRule extends ResearchDocumentRuleBase
         stringBuilder.append(anchor);
         auditErrors.add(new AuditError(String.format(errorKey, index), error, stringBuilder.toString()));   
     }
-   
+    
     
     protected void addErrorToAuditErrors(int index, int index1, String errorKey) {
         StringBuilder stringBuilder = new StringBuilder();
@@ -125,9 +125,9 @@ public class DisclosureFinancialEntityAuditRule extends ResearchDocumentRuleBase
         } else {
             for (CoiDiscDetail coiDiscDetail : coiDisclosure.getCoiDisclProjects().get(0).getCoiDiscDetails()) {
                 if (coiDiscDetail.getEntityStatusCode() == null) {
-                    addErrorToAuditErrors(i, Constants.DISCLOSURE_MANUAL_FINANCIAL_ENTITY_KEY, 
-                                            Constants.DISCLOSURE_FINANCIAL_ENTITY_PANEL_ANCHOR,
-                                            KeyConstants.ERROR_COI_FINANCIAL_ENTITY_STATUS_REQUIRED);
+                        addErrorToAuditErrors(i, Constants.DISCLOSURE_MANUAL_FINANCIAL_ENTITY_KEY, 
+                                                Constants.DISCLOSURE_FINANCIAL_ENTITY_PANEL_ANCHOR,
+                                                KeyConstants.ERROR_COI_FINANCIAL_ENTITY_STATUS_REQUIRED);
                     isSelected = false;
                 }
                 i++;
@@ -138,7 +138,7 @@ public class DisclosureFinancialEntityAuditRule extends ResearchDocumentRuleBase
 
     protected void reportAndCreateAuditCluster() {
         if (auditErrors.size() > 0) {
-            GlobalVariables.getAuditErrorMap().put(FINANCIAL_ENTITY_AUDIT_ERRORS, 
+            KNSGlobalVariables.getAuditErrorMap().put(FINANCIAL_ENTITY_AUDIT_ERRORS, 
                     new AuditCluster(Constants.COI_DISCLOSURE_DISCLOSURE_PANEL_NAME, auditErrors, Constants.AUDIT_ERRORS));
         }
     }

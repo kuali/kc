@@ -15,37 +15,30 @@
  */
 package org.kuali.kra.bo;
 
-import java.util.LinkedHashMap;
+
 /**
  * 
  * This class is represents S2S_REVISION_TYPE table
  */
 public class S2sRevisionType extends KraPersistableBusinessObjectBase {
-	private String s2sRevisionTypeCode;
-	private String description;
 
-	public String getS2sRevisionTypeCode() {
-		return s2sRevisionTypeCode;
-	}
+    private String s2sRevisionTypeCode;
 
-	public void setS2sRevisionTypeCode(String s2sRevisionTypeCode) {
-		this.s2sRevisionTypeCode = s2sRevisionTypeCode;
-	}
+    private String description;
 
-	public String getDescription() {
-		return description;
-	}
+    public String getS2sRevisionTypeCode() {
+        return s2sRevisionTypeCode;
+    }
 
-	public void setDescription(String description) {
-		this.description = description;
-	}
+    public void setS2sRevisionTypeCode(String s2sRevisionTypeCode) {
+        this.s2sRevisionTypeCode = s2sRevisionTypeCode;
+    }
 
+    public String getDescription() {
+        return description;
+    }
 
-	@Override 
-	protected LinkedHashMap toStringMapper() {
-		LinkedHashMap hashMap = new LinkedHashMap();
-		hashMap.put("s2sRevisionTypeCode", getS2sRevisionTypeCode());
-		hashMap.put("description", getDescription());
-		return hashMap;
-	}
+    public void setDescription(String description) {
+        this.description = description;
+    }
 }

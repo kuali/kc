@@ -25,10 +25,10 @@ import org.kuali.kra.infrastructure.KeyConstants;
 import org.kuali.kra.infrastructure.KraServiceLocator;
 import org.kuali.kra.irb.ProtocolDocument;
 import org.kuali.kra.irb.test.ProtocolRuleTestBase;
-import org.kuali.rice.kns.service.BusinessObjectService;
-import org.kuali.rice.kns.util.ErrorMessage;
-import org.kuali.rice.kns.util.GlobalVariables;
-import org.kuali.rice.kns.util.TypedArrayList;
+import org.kuali.rice.krad.service.BusinessObjectService;
+import org.kuali.rice.krad.util.ErrorMessage;
+import org.kuali.rice.krad.util.GlobalVariables;
+import org.springframework.util.AutoPopulatingList;
 
 public class ProtocolLocationRuleTest extends ProtocolRuleTestBase {
 
@@ -93,7 +93,7 @@ public class ProtocolLocationRuleTest extends ProtocolRuleTestBase {
         newProtocolLocation.setOrganizationId(OLD_ORGANIZATION_VALUE);
         assertFalse(rule.processAddProtocolLocationBusinessRules(getAddProtocolLocationEvent(newProtocolLocation)));
         
-        TypedArrayList errors = GlobalVariables.getErrorMap().getMessages(NEW_PROTOCOL_LOCATION + ".organizationId");
+        AutoPopulatingList errors = GlobalVariables.getMessageMap().getMessages(NEW_PROTOCOL_LOCATION + ".organizationId");
         assertTrue(errors.size() == 1);    
         ErrorMessage message = (ErrorMessage) errors.get(0);
         assertEquals(message.getErrorKey(), KeyConstants.ERROR_PROTOCOL_LOCATION_ORGANIZATION_ID_DUPLICATE);

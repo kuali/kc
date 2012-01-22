@@ -15,13 +15,12 @@
  */
 package org.kuali.kra.rules;
 
-import org.apache.commons.lang.StringUtils;
 import org.kuali.kra.bo.Ynq;
 import org.kuali.kra.infrastructure.Constants;
 import org.kuali.kra.infrastructure.KeyConstants;
 import org.kuali.rice.kns.document.MaintenanceDocument;
 import org.kuali.rice.kns.maintenance.rules.MaintenanceDocumentRuleBase;
-import org.kuali.rice.kns.util.GlobalVariables;
+import org.kuali.rice.krad.util.GlobalVariables;
 
 public class YnqMaintenanceDocumentRule  extends MaintenanceDocumentRuleBase {
 
@@ -61,17 +60,17 @@ public class YnqMaintenanceDocumentRule  extends MaintenanceDocumentRuleBase {
         if (LOG.isDebugEnabled()) {
             LOG.debug("new maintainable is: " + maintenanceDocument.getNewMaintainableObject().getClass());
         }
-        Ynq newYnq = (Ynq) maintenanceDocument.getNewMaintainableObject().getBusinessObject();
+        Ynq newYnq = (Ynq) maintenanceDocument.getNewMaintainableObject().getDataObject();
         
         /* check if answer is YES / NO and explanation / date required for NA */
         
         if(newYnq.getNoOfAnswers() < Constants.ANSWER_YES_NO_NA) {
             if(newYnq.getExplanationRequiredFor() != null && newYnq.getExplanationRequiredFor().contains(Constants.ANSWER_NA)) {
-                GlobalVariables.getErrorMap().putError("document.newMaintainableObject.explanationRequiredFor", KeyConstants.INVALID_EXPLANATION_REQUIRED_FOR);
+                GlobalVariables.getMessageMap().putError("document.newMaintainableObject.explanationRequiredFor", KeyConstants.INVALID_EXPLANATION_REQUIRED_FOR);
                 valid = false;
             }
             if(newYnq.getDateRequiredFor() != null && newYnq.getDateRequiredFor().contains(Constants.ANSWER_NA)) {
-                GlobalVariables.getErrorMap().putError("document.newMaintainableObject.dateRequiredFor", KeyConstants.INVALID_DATE_REQUIRED_FOR);
+                GlobalVariables.getMessageMap().putError("document.newMaintainableObject.dateRequiredFor", KeyConstants.INVALID_DATE_REQUIRED_FOR);
                 valid = false;
             }
         }

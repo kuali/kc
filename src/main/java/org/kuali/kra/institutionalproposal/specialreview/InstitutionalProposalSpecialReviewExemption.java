@@ -15,8 +15,6 @@
  */
 package org.kuali.kra.institutionalproposal.specialreview;
 
-import java.util.LinkedHashMap;
-
 import org.kuali.kra.common.specialreview.bo.SpecialReviewExemption;
 
 /**
@@ -25,10 +23,11 @@ import org.kuali.kra.common.specialreview.bo.SpecialReviewExemption;
 public class InstitutionalProposalSpecialReviewExemption extends SpecialReviewExemption {
 
     private static final long serialVersionUID = -329478900344140486L;
-    
+
     private Long proposalSpecialReviewExemptionId;
+
     private Long proposalSpecialReviewId;
-    
+
     private InstitutionalProposalSpecialReview institutionalProposalSpecialReview;
 
     public Long getProposalSpecialReviewExemptionId() {
@@ -46,7 +45,7 @@ public class InstitutionalProposalSpecialReviewExemption extends SpecialReviewEx
     public void setProposalSpecialReviewId(Long proposalSpecialReviewId) {
         this.proposalSpecialReviewId = proposalSpecialReviewId;
     }
-    
+
     public void setInstitutionalProposalSpecialReview(InstitutionalProposalSpecialReview institutionalProposalSpecialReview) {
         this.institutionalProposalSpecialReview = institutionalProposalSpecialReview;
     }
@@ -54,13 +53,4 @@ public class InstitutionalProposalSpecialReviewExemption extends SpecialReviewEx
     public InstitutionalProposalSpecialReview getInstitutionalProposalSpecialReview() {
         return institutionalProposalSpecialReview;
     }
-    
-    @Override
-    protected LinkedHashMap<String, Object> toStringMapper() {
-        LinkedHashMap<String, Object> propMap = super.toStringMapper();
-        propMap.put("proposalSpecialReviewExemptionId", getProposalSpecialReviewExemptionId());
-        propMap.put("proposalSpecialReviewId", getProposalSpecialReviewId());
-        return propMap;
-    }
-    
 }

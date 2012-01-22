@@ -71,7 +71,7 @@
             </list>
           </property>
         </bean>
-       </list>
+      </list>
     </property>
   </bean>
 
@@ -84,7 +84,7 @@
     <property name="name" value="unitNumber" />
     <property name="forceUppercase" value="true" />
     <property name="label" value="Unit Number" />
-    <property name="shortLabel" value="Unit Number" /> 
+    <property name="shortLabel" value="Unit Number" />
     <property name="maxLength" value="8" />
     <property name="validationPattern" >
       <bean parent="AnyCharacterValidationPattern" />
@@ -194,7 +194,7 @@
   </bean>
   <bean id="Unit-campusCode" parent="Unit-campusCode-parentBean"/>
   
-  <bean id="Unit-campusCode-parentBean" abstract="true" parent="Campus-campusCode">
+  <bean id="Unit-campusCode-parentBean" abstract="true" parent="Campus-code">
     <property name="name" value="campusCode" />
     <property name="required" value="false" />
   </bean>
@@ -281,7 +281,6 @@
               p:attributeName="unitName" />
         <bean parent="FieldDefinition"
               p:attributeName="campusCode" />
-
       </list>
     </property>
     <property name="resultFields" >

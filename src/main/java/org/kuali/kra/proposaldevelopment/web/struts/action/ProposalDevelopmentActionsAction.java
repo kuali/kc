@@ -22,6 +22,7 @@ import java.io.ByteArrayOutputStream;
 import java.io.IOException;
 import java.util.ArrayList;
 import java.util.Collection;
+import java.util.Collections;
 import java.util.HashMap;
 import java.util.Iterator;
 import java.util.List;
@@ -31,7 +32,6 @@ import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 
 import org.apache.commons.collections.CollectionUtils;
-import org.apache.commons.lang.ArrayUtils;
 import org.apache.commons.lang.StringUtils;
 import org.apache.commons.logging.Log;
 import org.apache.commons.logging.LogFactory;
@@ -90,33 +90,35 @@ import org.kuali.kra.service.KraAuthorizationService;
 import org.kuali.kra.service.KraPersistenceStructureService;
 import org.kuali.kra.web.struts.action.AuditActionHelper;
 import org.kuali.kra.web.struts.action.StrutsConfirmation;
-import org.kuali.rice.kew.dto.ActionRequestDTO;
-import org.kuali.rice.kew.dto.DocumentDetailDTO;
-import org.kuali.rice.kew.dto.KeyValueDTO;
-import org.kuali.rice.kew.dto.ReportCriteriaDTO;
-import org.kuali.rice.kew.routeheader.DocumentRouteHeaderValue;
-import org.kuali.rice.kew.service.WorkflowInfo;
-import org.kuali.rice.kew.util.KEWConstants;
-import org.kuali.rice.kim.bo.types.dto.AttributeSet;
+import org.kuali.rice.core.api.resourceloader.GlobalResourceLoader;
+import org.kuali.rice.coreservice.framework.parameter.ParameterConstants;
+import org.kuali.rice.coreservice.framework.parameter.ParameterService;
+import org.kuali.rice.kew.api.KewApiConstants;
+import org.kuali.rice.kew.api.WorkflowDocument;
+import org.kuali.rice.kew.api.action.ActionRequest;
+import org.kuali.rice.kew.api.action.RoutingReportCriteria;
+import org.kuali.rice.kew.api.action.WorkflowDocumentActionsService;
+import org.kuali.rice.kew.api.document.DocumentDetail;
+import org.kuali.rice.kim.api.permission.PermissionService;
+import org.kuali.rice.kim.api.services.KimApiServiceLocator;
 import org.kuali.rice.kns.question.ConfirmationQuestion;
-import org.kuali.rice.kns.service.BusinessObjectService;
-import org.kuali.rice.kns.service.DocumentService;
-import org.kuali.rice.kns.service.KNSServiceLocator;
-import org.kuali.rice.kns.service.KualiRuleService;
-import org.kuali.rice.kns.service.ParameterConstants;
-import org.kuali.rice.kns.service.ParameterService;
-import org.kuali.rice.kns.service.PersistenceStructureService;
-import org.kuali.rice.kns.service.PessimisticLockService;
 import org.kuali.rice.kns.util.AuditCluster;
-import org.kuali.rice.kns.util.ErrorMessage;
-import org.kuali.rice.kns.util.GlobalVariables;
-import org.kuali.rice.kns.util.KNSConstants;
-import org.kuali.rice.kns.util.ObjectUtils;
+import org.kuali.rice.kns.util.KNSGlobalVariables;
 import org.kuali.rice.kns.util.WebUtils;
 import org.kuali.rice.kns.web.struts.action.AuditModeAction;
 import org.kuali.rice.kns.web.struts.form.KualiDocumentFormBase;
 import org.kuali.rice.kns.web.struts.form.KualiForm;
-import org.kuali.rice.kns.workflow.service.KualiWorkflowDocument;
+import org.kuali.rice.krad.service.BusinessObjectService;
+import org.kuali.rice.krad.service.DocumentService;
+import org.kuali.rice.krad.service.KRADServiceLocator;
+import org.kuali.rice.krad.service.KRADServiceLocatorWeb;
+import org.kuali.rice.krad.service.KualiRuleService;
+import org.kuali.rice.krad.service.PersistenceStructureService;
+import org.kuali.rice.krad.service.PessimisticLockService;
+import org.kuali.rice.krad.util.ErrorMessage;
+import org.kuali.rice.krad.util.GlobalVariables;
+import org.kuali.rice.krad.util.KRADConstants;
+import org.kuali.rice.krad.util.ObjectUtils;
 
 /**
  * Handles all of the actions from the Proposal Development Actions web page.
@@ -164,7 +166,7 @@ public class ProposalDevelopmentActionsAction extends ProposalDevelopmentAction 
     public ActionForward approve(ActionMapping mapping, ActionForm form, HttpServletRequest request, HttpServletResponse response)
             throws Exception {
         KualiDocumentFormBase kualiDocumentFormBase = (KualiDocumentFormBase) form;
-        KualiWorkflowDocument workflowDoc = kualiDocumentFormBase.getDocument().getDocumentHeader().getWorkflowDocument();
+        WorkflowDocument workflowDoc = kualiDocumentFormBase.getDocument().getDocumentHeader().getWorkflowDocument();
 
         ActionForward forward;
         if (canGenerateRequestsInFuture(workflowDoc)) {
@@ -176,33 +178,33 @@ public class ProposalDevelopmentActionsAction extends ProposalDevelopmentAction 
         ProposalDevelopmentDocument proposalDevelopmentDocument = ((ProposalDevelopmentForm) form).getDocument();
         if (autogenerateInstitutionalProposal() && proposalDevelopmentDocument.getInstitutionalProposalNumber() != null) {
             if (ProposalType.REVISION_TYPE_CODE.equals(proposalDevelopmentDocument.getDevelopmentProposal().getProposalTypeCode())) {
-                GlobalVariables.getMessageList().add(KeyConstants.MESSAGE_INSTITUTIONAL_PROPOSAL_VERSIONED, 
+                KNSGlobalVariables.getMessageList().add(KeyConstants.MESSAGE_INSTITUTIONAL_PROPOSAL_VERSIONED, 
                         proposalDevelopmentDocument.getInstitutionalProposalNumber());
             } else {
                 String proposalNumber = proposalDevelopmentDocument.getInstitutionalProposalNumber();
-                GlobalVariables.getMessageList().add(KeyConstants.MESSAGE_INSTITUTIONAL_PROPOSAL_CREATED, proposalNumber);
+                KNSGlobalVariables.getMessageList().add(KeyConstants.MESSAGE_INSTITUTIONAL_PROPOSAL_CREATED, proposalNumber);
             }
         }
         
-        Long routeHeaderId = Long.parseLong(((ProposalDevelopmentForm) form).getDocument().getDocumentNumber());
+        String routeHeaderId = ((ProposalDevelopmentForm) form).getDocument().getDocumentNumber();
         String returnLocation = buildActionUrl(routeHeaderId, Constants.MAPPING_PROPOSAL_ACTIONS, "ProposalDevelopmentDocument");
         
-        ActionForward basicForward = mapping.findForward(KNSConstants.MAPPING_PORTAL);
+        ActionForward basicForward = mapping.findForward(KRADConstants.MAPPING_PORTAL);
         ActionForward holdingPageForward = mapping.findForward(Constants.MAPPING_HOLDING_PAGE);
         return routeToHoldingPage(basicForward, forward, holdingPageForward, returnLocation);
     }
 
-    private ActionForward promptUserForInput(KualiWorkflowDocument workflowDoc, String action, ActionMapping mapping, ActionForm form,
+    private ActionForward promptUserForInput(WorkflowDocument workflowDoc, String action, ActionMapping mapping, ActionForm form,
             HttpServletRequest request, HttpServletResponse response) throws Exception {
-        Object question = request.getParameter(KNSConstants.QUESTION_INST_ATTRIBUTE_NAME);
-        Object buttonClicked = request.getParameter(KNSConstants.QUESTION_CLICKED_BUTTON);
+        Object question = request.getParameter(KRADConstants.QUESTION_INST_ATTRIBUTE_NAME);
+        Object buttonClicked = request.getParameter(KRADConstants.QUESTION_CLICKED_BUTTON);
         String methodToCall = ((KualiForm) form).getMethodToCall();
         
         if ( !DOCUMENT_APPROVE_QUESTION.equals(question)) {
             // ask question if not already asked
-              return this.performQuestionWithoutInput(mapping, form, request, response, DOCUMENT_APPROVE_QUESTION, KNSServiceLocator
-                      .getKualiConfigurationService().getPropertyString(KeyConstants.QUESTION_APPROVE_FUTURE_REQUESTS),
-                       KNSConstants.CONFIRMATION_QUESTION, methodToCall, "");             
+              return this.performQuestionWithoutInput(mapping, form, request, response, DOCUMENT_APPROVE_QUESTION, KRADServiceLocator
+                      .getKualiConfigurationService().getPropertyValueAsString(KeyConstants.QUESTION_APPROVE_FUTURE_REQUESTS),
+                       KRADConstants.CONFIRMATION_QUESTION, methodToCall, "");             
         }
         else if(DOCUMENT_APPROVE_QUESTION.equals(question) && ConfirmationQuestion.NO.equals(buttonClicked)) {
             workflowDoc.setDoNotReceiveFutureRequests();
@@ -219,48 +221,49 @@ public class ProposalDevelopmentActionsAction extends ProposalDevelopmentAction 
             throw new UnsupportedOperationException( String.format( "promptUserForInput does not know how to forward for action %s.", action )); 
     }   
 
-    private boolean canGenerateRequestsInFuture(KualiWorkflowDocument workflowDoc) throws Exception {
-        //String loggedInUserID = GlobalVariables.getUserSession().getPerson().getPrincipalName();
+    private boolean canGenerateRequestsInFuture(WorkflowDocument workflowDoc) throws Exception {
         String loggedInPrincipalId = GlobalVariables.getUserSession().getPrincipalId();
-        //NetworkIdDTO networkId = new NetworkIdDTO(loggedInUserID);
-        ReportCriteriaDTO reportCriteria = new ReportCriteriaDTO(new Long(workflowDoc.getRouteHeaderId()));
-        reportCriteria.setTargetPrincipalIds(new String[] { loggedInPrincipalId });
+        RoutingReportCriteria.Builder reportCriteriaBuilder = RoutingReportCriteria.Builder.createByDocumentId(workflowDoc.getDocumentId());
+        reportCriteriaBuilder.setTargetPrincipalIds(Collections.singletonList(loggedInPrincipalId));
 
         boolean receiveFutureRequests = false;
         boolean doNotReceiveFutureRequests = false;    
 
-        List variables = workflowDoc.getRouteHeader().getVariables();
-        String[] currentRouteNodeName = workflowDoc.getCurrentRouteNodeNames().split(DocumentRouteHeaderValue.CURRENT_ROUTE_NODE_NAME_DELIMITER);
-        if (CollectionUtils.isNotEmpty(variables)) {
-            for (Object variable : variables) {
-                KeyValueDTO kvp = (KeyValueDTO) variable;
-                if (kvp.getKey().startsWith(KEWConstants.RECEIVE_FUTURE_REQUESTS_BRANCH_STATE_KEY)
-                        && kvp.getValue().toUpperCase().equals(KEWConstants.RECEIVE_FUTURE_REQUESTS_BRANCH_STATE_VALUE)
-                        && kvp.getKey().contains(loggedInPrincipalId)) {
-                    receiveFutureRequests = true; 
-                    break;
-                }
-                else if (kvp.getKey().startsWith(KEWConstants.RECEIVE_FUTURE_REQUESTS_BRANCH_STATE_KEY)
-                      && kvp.getValue().toUpperCase().equals(KEWConstants.DONT_RECEIVE_FUTURE_REQUESTS_BRANCH_STATE_VALUE)
-                      && kvp.getKey().contains(loggedInPrincipalId)) {
-                    doNotReceiveFutureRequests = true; 
-                    break;
-                }
+        Map<String, String> variables = workflowDoc.getVariables();
+        org.kuali.rice.krad.workflow.service.WorkflowDocumentService workflowDocumentService = KRADServiceLocatorWeb.getService("workflowDocumentService");
+        String currentRouteNodeNames = workflowDocumentService.getCurrentRouteNodeNames(workflowDoc);
+        if (variables != null && CollectionUtils.isNotEmpty(variables.keySet())) {
+            Iterator<String> variableIterator = variables.keySet().iterator();
+            while(variableIterator.hasNext()) {
+                    String variableKey = variableIterator.next();
+                    String variableValue = variables.get(variableKey);
+                    if (variableKey.startsWith(KewApiConstants.RECEIVE_FUTURE_REQUESTS_BRANCH_STATE_KEY)
+                            && variableValue.toUpperCase().equals(KewApiConstants.RECEIVE_FUTURE_REQUESTS_BRANCH_STATE_VALUE)
+                            && variableKey.contains(loggedInPrincipalId)) {
+                        receiveFutureRequests = true; 
+                        break;
+                    }
+                    else if (variableKey.startsWith(KewApiConstants.RECEIVE_FUTURE_REQUESTS_BRANCH_STATE_KEY)
+                          && variableValue.toUpperCase().equals(KewApiConstants.DONT_RECEIVE_FUTURE_REQUESTS_BRANCH_STATE_VALUE)
+                          && variableKey.contains(loggedInPrincipalId)) {
+                        doNotReceiveFutureRequests = true; 
+                        break;
+                    }
             }
         } 
 
-        return ((receiveFutureRequests == false && doNotReceiveFutureRequests == false) && canGenerateMultipleApprovalRequests(reportCriteria, loggedInPrincipalId, currentRouteNodeName ));
+        return ((receiveFutureRequests == false && doNotReceiveFutureRequests == false) && canGenerateMultipleApprovalRequests(reportCriteriaBuilder.build(), loggedInPrincipalId, currentRouteNodeNames ));
     }
     
-    private boolean canGenerateMultipleApprovalRequests(ReportCriteriaDTO reportCriteria, String loggedInPrincipalId, String[] currentRouteNodeNames ) throws Exception {
+    private boolean canGenerateMultipleApprovalRequests(RoutingReportCriteria reportCriteria, String loggedInPrincipalId, String currentRouteNodeNames ) throws Exception {
         int approvalRequestsCount = 0;
-        WorkflowInfo info = new WorkflowInfo();
+        WorkflowDocumentActionsService info = GlobalResourceLoader.getService("rice.kew.workflowDocumentActionsService");
         
-        DocumentDetailDTO results1 = info.routingReport(reportCriteria);
-        for(ActionRequestDTO actionRequest : results1.getActionRequests() ){
+        DocumentDetail results1 = info.executeSimulation(reportCriteria);
+        for(ActionRequest actionRequest : results1.getActionRequests() ){
             //!actionRequest.isRoleRequest() &&  removed from condition for 
-            if(actionRequest.isPending() && actionRequest.getActionRequested().equalsIgnoreCase(KEWConstants.ACTION_REQUEST_APPROVE_REQ) && 
-                    recipientMatchesUser(actionRequest, loggedInPrincipalId) && !ArrayUtils.contains( currentRouteNodeNames,actionRequest.getNodeName()) ) {
+            if(actionRequest.isPending() && actionRequest.getActionRequested().getCode().equalsIgnoreCase(KewApiConstants.ACTION_REQUEST_APPROVE_REQ) && 
+                    recipientMatchesUser(actionRequest, loggedInPrincipalId) && !StringUtils.contains( currentRouteNodeNames,actionRequest.getNodeName()) ) {
                 approvalRequestsCount+=1; 
             }
         }
@@ -268,17 +271,17 @@ public class ProposalDevelopmentActionsAction extends ProposalDevelopmentAction 
         return (approvalRequestsCount > 0);
     }
     
-    private boolean recipientMatchesUser(ActionRequestDTO actionRequest, String loggedInPrincipalId) {
+    private boolean recipientMatchesUser(ActionRequest actionRequest, String loggedInPrincipalId) {
         KcGroupService groupService = KraServiceLocator.getService(KcGroupService.class);
         if(actionRequest != null && loggedInPrincipalId != null ) {
-            ActionRequestDTO[] actionRequests =  { actionRequest };
+            List<ActionRequest> actionRequests =  Collections.singletonList(actionRequest);
             if(actionRequest.isRoleRequest()) {
-                actionRequests = actionRequest.getChildrenRequests();
+                actionRequests = actionRequest.getChildRequests();
             }
-            for( ActionRequestDTO cActionRequest : actionRequests ) {
+            for( ActionRequest cActionRequest : actionRequests ) {
                 String recipientUser = cActionRequest.getPrincipalId();
                 if( ( recipientUser != null && recipientUser.equals(loggedInPrincipalId) ) 
-                        || ( groupService.isMemberOfGroup(loggedInPrincipalId, cActionRequest.getGroupId() ))) {
+                        || (StringUtils.isNotBlank(cActionRequest.getGroupId()) && groupService.isMemberOfGroup(loggedInPrincipalId, cActionRequest.getGroupId() ))) {
                     return true;
                 }
             }
@@ -483,16 +486,16 @@ public class ProposalDevelopmentActionsAction extends ProposalDevelopmentAction 
         //System.err.println("******************* Got to the reject action **************************");
         KualiDocumentFormBase kualiDocumentFormBase = (KualiDocumentFormBase) form;
 
-        //Object question = request.getParameter(KNSConstants.QUESTION_INST_ATTRIBUTE_NAME);
-        //Object buttonClicked = request.getParameter(KNSConstants.QUESTION_CLICKED_BUTTON);
-        //String reason = request.getParameter(KNSConstants.QUESTION_REASON_ATTRIBUTE_NAME);
+        //Object question = request.getParameter(KRADConstants.QUESTION_INST_ATTRIBUTE_NAME);
+        //Object buttonClicked = request.getParameter(KRADConstants.QUESTION_CLICKED_BUTTON);
+        //String reason = request.getParameter(KRADConstants.QUESTION_REASON_ATTRIBUTE_NAME);
        // String methodToCall = ((KualiForm) form).getMethodToCall();
         //if (question == null) {
           //  System.err.println("               question null");
             ((ProposalDevelopmentForm)form).setShowRejectionConfirmation(true);
             return mapping.findForward(Constants.MAPPING_BASIC);
             //return this.performQuestionWithInput(mapping, form, request, response, DOCUMENT_REJECT_QUESTION,
-              //      "Are you sure you want to reject this document?", KNSConstants.CONFIRMATION_QUESTION, methodToCall, "");
+              //      "Are you sure you want to reject this document?", KRADConstants.CONFIRMATION_QUESTION, methodToCall, "");
         //}
         //else if ((DOCUMENT_REJECT_QUESTION.equals(question)) && ConfirmationQuestion.NO.equals(buttonClicked)) {
           //  System.err.println("               question answered NO");
@@ -556,9 +559,9 @@ public class ProposalDevelopmentActionsAction extends ProposalDevelopmentAction 
         
         proposalDevelopmentForm.setAuditActivated(true);
         //success=KraServiceLocator.getService(KualiRuleService.class).applyRules(new DocumentAuditEvent(proposalDevelopmentForm.getDocument()));
-        //HashMap map=GlobalVariables.getAuditErrorMap();
-        Object question = request.getParameter(KNSConstants.QUESTION_INST_ATTRIBUTE_NAME);
-        Object buttonClicked = request.getParameter(KNSConstants.QUESTION_CLICKED_BUTTON);
+        //HashMap map=KNSGlobalVariables.getAuditErrorMap();
+        Object question = request.getParameter(KRADConstants.QUESTION_INST_ATTRIBUTE_NAME);
+        Object buttonClicked = request.getParameter(KRADConstants.QUESTION_CLICKED_BUTTON);
         String methodToCall = ((KualiForm) form).getMethodToCall();
         
         ActionForward forward = mapping.findForward(Constants.MAPPING_BASIC);
@@ -569,7 +572,7 @@ public class ProposalDevelopmentActionsAction extends ProposalDevelopmentAction 
         if (status == WARNING) {
 
             if(status == WARNING && question == null){
-                forward =  this.performQuestionWithoutInput(mapping, form, request, response, DOCUMENT_ROUTE_QUESTION, "Validation Warning Exists.Are you sure want to submit to workflow routing.", KNSConstants.CONFIRMATION_QUESTION, methodToCall, "");
+                forward =  this.performQuestionWithoutInput(mapping, form, request, response, DOCUMENT_ROUTE_QUESTION, "Validation Warning Exists.Are you sure want to submit to workflow routing.", KRADConstants.CONFIRMATION_QUESTION, methodToCall, "");
             } 
             else if(DOCUMENT_ROUTE_QUESTION.equals(question) && ConfirmationQuestion.YES.equals(buttonClicked)) {
                 //status is OK now since the user said it was :)
@@ -583,7 +586,7 @@ public class ProposalDevelopmentActionsAction extends ProposalDevelopmentAction 
         
         
         if(status == OK || userSaysOk ) {
-            KualiWorkflowDocument workflowDoc = proposalDevelopmentForm.getDocument().getDocumentHeader().getWorkflowDocument();
+            WorkflowDocument workflowDoc = proposalDevelopmentForm.getDocument().getDocumentHeader().getWorkflowDocument();
             if( canGenerateRequestsInFuture(workflowDoc) )
                 forward = promptUserForInput(workflowDoc, "route", mapping, form, request, response);
             else 
@@ -591,20 +594,20 @@ public class ProposalDevelopmentActionsAction extends ProposalDevelopmentAction 
         } else if ( status == WARNING ) { 
             
         } else {
-            GlobalVariables.getErrorMap().clear(); // clear error from isValidSubmission()    
-            GlobalVariables.getErrorMap().putError("datavalidation",KeyConstants.ERROR_WORKFLOW_SUBMISSION,  new String[] {});
+            GlobalVariables.getMessageMap().clearErrorMessages(); // clear error from isValidSubmission()    
+            GlobalVariables.getMessageMap().putError("datavalidation",KeyConstants.ERROR_WORKFLOW_SUBMISSION,  new String[] {});
         
             if ((pdDoc.getDevelopmentProposal().getContinuedFrom() != null) && isNewProposalType(pdDoc) && isSubmissionApplication(pdDoc)) {
-                GlobalVariables.getErrorMap().putError("someKey", KeyConstants.ERROR_RESUBMISSION_INVALID_PROPOSALTYPE_SUBMISSIONTYPE);
+                GlobalVariables.getMessageMap().putError("someKey", KeyConstants.ERROR_RESUBMISSION_INVALID_PROPOSALTYPE_SUBMISSIONTYPE);
             }
         
             forward = mapping.findForward((Constants.MAPPING_BASIC));
         }
         
-        Long routeHeaderId = Long.parseLong(proposalDevelopmentForm.getDocument().getDocumentNumber());
+        String routeHeaderId = proposalDevelopmentForm.getDocument().getDocumentNumber();
         String returnLocation = buildActionUrl(routeHeaderId, Constants.MAPPING_PROPOSAL_ACTIONS, "ProposalDevelopmentDocument");
         
-        ActionForward basicForward = mapping.findForward(KNSConstants.MAPPING_PORTAL);
+        ActionForward basicForward = mapping.findForward(KRADConstants.MAPPING_PORTAL);
         ActionForward holdingPageForward = mapping.findForward(Constants.MAPPING_HOLDING_PAGE);
         return routeToHoldingPage(basicForward, forward, holdingPageForward, returnLocation);
     }
@@ -633,8 +636,8 @@ public class ProposalDevelopmentActionsAction extends ProposalDevelopmentAction 
         
         int status = isValidSubmission(proposalDevelopmentDocument);
         
-        Object question = request.getParameter(KNSConstants.QUESTION_INST_ATTRIBUTE_NAME);
-        Object buttonClicked = request.getParameter(KNSConstants.QUESTION_CLICKED_BUTTON);
+        Object question = request.getParameter(KRADConstants.QUESTION_INST_ATTRIBUTE_NAME);
+        Object buttonClicked = request.getParameter(KRADConstants.QUESTION_CLICKED_BUTTON);
         
         if( (question == null || buttonClicked == null ) && status == WARNING && proposalDevelopmentForm.getResubmissionOption()==null) {
                 StrutsConfirmation qst = buildSubmitToGrantsGovWithWarningsQuestion(mapping, form, request, response);
@@ -679,7 +682,7 @@ public class ProposalDevelopmentActionsAction extends ProposalDevelopmentAction 
         
     }catch(S2SException ex){
         LOG.error(ex.getMessage(), ex);
-        GlobalVariables.getMessageList().add(new ErrorMessage(KeyConstants.ERROR_ON_GRANTS_GOV_SUBMISSION));
+        KNSGlobalVariables.getMessageList().add(new ErrorMessage(KeyConstants.ERROR_ON_GRANTS_GOV_SUBMISSION));
         return mapping.findForward(Constants.MAPPING_BASIC);
     }    
     return forward;
@@ -715,7 +718,7 @@ public class ProposalDevelopmentActionsAction extends ProposalDevelopmentAction 
          */
         if ((proposalDevelopmentDocument.getDevelopmentProposal().getContinuedFrom() != null) && isNewProposalType(proposalDevelopmentDocument) && isSubmissionApplication(proposalDevelopmentDocument)) {
             state = ERROR;
-            //GlobalVariables.getErrorMap().putError("someKey", KeyConstants.ERROR_RESUBMISSION_INVALID_PROPOSALTYPE_SUBMISSIONTYPE);
+            //GlobalVariables.getMessageMap().putError("someKey", KeyConstants.ERROR_RESUBMISSION_INVALID_PROPOSALTYPE_SUBMISSIONTYPE);
         } else {
             /* 
              * Don't know what to do about the Audit Rules.  The parent class invokes the Audit rules
@@ -748,11 +751,11 @@ public class ProposalDevelopmentActionsAction extends ProposalDevelopmentAction 
              */
             if (!auditPassed || !s2sPassed) {
                 state = WARNING;
-                for (Iterator iter = GlobalVariables.getAuditErrorMap().keySet().iterator(); iter.hasNext();) {
-                    AuditCluster auditCluster = (AuditCluster)GlobalVariables.getAuditErrorMap().get(iter.next());
+                for (Iterator iter = KNSGlobalVariables.getAuditErrorMap().keySet().iterator(); iter.hasNext();) {
+                    AuditCluster auditCluster = (AuditCluster)KNSGlobalVariables.getAuditErrorMap().get(iter.next());
                     if (!StringUtils.equalsIgnoreCase(auditCluster.getCategory(), Constants.AUDIT_WARNINGS)) {
                         state = ERROR;
-                        GlobalVariables.getErrorMap().putError("noKey", KeyConstants.VALIDATTION_ERRORS_BEFORE_GRANTS_GOV_SUBMISSION);
+                        GlobalVariables.getMessageMap().putError("noKey", KeyConstants.VALIDATTION_ERRORS_BEFORE_GRANTS_GOV_SUBMISSION);
                         break;
                     }
                 }
@@ -762,14 +765,18 @@ public class ProposalDevelopmentActionsAction extends ProposalDevelopmentAction 
         return state;
     }
     
+    private PermissionService getPermissionService() {
+        return KimApiServiceLocator.getPermissionService();
+    }    
+    
     /*
      * To submit to sponsor, user must also have permission to create and submit institutional proposal documents.
      */
     private boolean userCanCreateInstitutionalProposal() {
         boolean hasPermission = true;
-        AttributeSet permissionDetails = new AttributeSet();
+        Map<String,String> permissionDetails =new HashMap<String,String>();
         permissionDetails.put(PermissionConstants.DOCUMENT_TYPE_ATTRIBUTE_QUALIFIER, InstitutionalProposalConstants.INSTITUTIONAL_PROPOSAL_DOCUMENT_NAME);
-        if (!getIdentityManagementService().hasPermission(GlobalVariables.getUserSession().getPrincipalId(), 
+        if (!getPermissionService().hasPermission(GlobalVariables.getUserSession().getPrincipalId(), 
                 InstitutionalProposalConstants.INSTITUTIONAL_PROPOSAL_NAMESPACE, 
                 PermissionConstants.CREATE_INSTITUTIONAL_PROPOSAL, 
                 permissionDetails)) {
@@ -779,7 +786,7 @@ public class ProposalDevelopmentActionsAction extends ProposalDevelopmentAction 
                     GlobalVariables.getUserSession().getPrincipalName(),
                     PermissionConstants.CREATE_INSTITUTIONAL_PROPOSAL);
         }
-        if (!getIdentityManagementService().hasPermission(GlobalVariables.getUserSession().getPrincipalId(), 
+        if (!getPermissionService().hasPermission(GlobalVariables.getUserSession().getPrincipalId(), 
                 InstitutionalProposalConstants.INSTITUTIONAL_PROPOSAL_NAMESPACE, 
                 PermissionConstants.SUBMIT_INSTITUTIONAL_PROPOSAL, 
                 permissionDetails)) {
@@ -821,7 +828,7 @@ public class ProposalDevelopmentActionsAction extends ProposalDevelopmentAction 
      * @return the parameter's value
      */
     private String getProposalParameterValue(String parameterName) {
-        return this.getParameterService().getParameterValue(ProposalDevelopmentDocument.class, parameterName);
+        return this.getParameterService().getParameterValueAsString(ProposalDevelopmentDocument.class, parameterName);
     }
     
     /**
@@ -839,12 +846,12 @@ public class ProposalDevelopmentActionsAction extends ProposalDevelopmentAction 
         ProposalDevelopmentForm proposalDevelopmentForm = (ProposalDevelopmentForm) form;
         ProposalDevelopmentDocument proposalDevelopmentDocument = (ProposalDevelopmentDocument)proposalDevelopmentForm.getDocument();
         
-        boolean isIPProtocolLinkingEnabled = getParameterService().getIndicatorParameter(
+        boolean isIPProtocolLinkingEnabled = getParameterService().getParameterValueAsBoolean(
             "KC-PROTOCOL", "Document", "irb.protocol.institute.proposal.linking.enabled");
         List<ProposalSpecialReview> specialReviews = proposalDevelopmentDocument.getDevelopmentProposal().getPropSpecialReviews();
         if (!isIPProtocolLinkingEnabled 
             || applyRules(new SaveSpecialReviewLinkEvent<ProposalSpecialReview>(proposalDevelopmentDocument, specialReviews, new ArrayList<String>()))) {
-                       
+           
             if (!(autogenerateInstitutionalProposal() && "X".equals(proposalDevelopmentForm.getResubmissionOption()))) {
                 proposalDevelopmentDocument.getDevelopmentProposal().setSubmitFlag(true);
     
@@ -856,14 +863,14 @@ public class ProposalDevelopmentActionsAction extends ProposalDevelopmentAction 
                             proposalStateService.getProposalStateTypeCode(proposalDevelopmentDocument, false, false));
                 }
             } else {
-                if (proposalDevelopmentDocument.getDocumentHeader().getWorkflowDocument().stateIsFinal()) {
+                if (proposalDevelopmentDocument.getDocumentHeader().getWorkflowDocument().isFinal()) {
                     proposalDevelopmentDocument.getDevelopmentProposal().setProposalStateTypeCode(ProposalState.APPROVED);
                 } else {
                     proposalDevelopmentDocument.getDevelopmentProposal().setProposalStateTypeCode(ProposalState.APPROVAL_PENDING);                
                 }
             }
             String pCode = proposalDevelopmentDocument.getDevelopmentProposal().getProposalStateTypeCode();
-            DocumentService documentService = KNSServiceLocator.getDocumentService();
+            DocumentService documentService = KRADServiceLocatorWeb.getDocumentService();
             documentService.saveDocument(proposalDevelopmentDocument);
             if( !StringUtils.equals(pCode, proposalDevelopmentDocument.getDevelopmentProposal().getProposalStateTypeCode() )) {
                 proposalDevelopmentDocument.getDevelopmentProposal().setProposalStateTypeCode(pCode);
@@ -882,10 +889,10 @@ public class ProposalDevelopmentActionsAction extends ProposalDevelopmentAction 
     private void generateInstitutionalProposal(ProposalDevelopmentForm proposalDevelopmentForm) {
         ProposalDevelopmentDocument proposalDevelopmentDocument = proposalDevelopmentForm.getDocument();
         if ("X".equals(proposalDevelopmentForm.getResubmissionOption())) {
-            if (proposalDevelopmentDocument.getDocumentHeader().getWorkflowDocument().stateIsFinal()) {
-                GlobalVariables.getMessageList().add(KeyConstants.MESSAGE_INSTITUTIONAL_PROPOSAL_NOT_CREATED);
+            if (proposalDevelopmentDocument.getDocumentHeader().getWorkflowDocument().isFinal()) {
+                KNSGlobalVariables.getMessageList().add(KeyConstants.MESSAGE_INSTITUTIONAL_PROPOSAL_NOT_CREATED);
             } else {
-                GlobalVariables.getMessageList().add(KeyConstants.MESSAGE_INSTITUTIONAL_PROPOSAL_NOT_CREATED_INROUTE);
+                KNSGlobalVariables.getMessageList().add(KeyConstants.MESSAGE_INSTITUTIONAL_PROPOSAL_NOT_CREATED_INROUTE);
             }
             return;
         }
@@ -898,7 +905,7 @@ public class ProposalDevelopmentActionsAction extends ProposalDevelopmentAction 
                     proposalDevelopmentForm.getInstitutionalProposalToVersion(),
                     proposalDevelopmentDocument.getDevelopmentProposal(),
                     proposalDevelopmentDocument.getFinalBudgetForThisProposal());
-            GlobalVariables.getMessageList().add(KeyConstants.MESSAGE_INSTITUTIONAL_PROPOSAL_VERSIONED, 
+            KNSGlobalVariables.getMessageList().add(KeyConstants.MESSAGE_INSTITUTIONAL_PROPOSAL_VERSIONED, 
                     versionNumber,
                     proposalDevelopmentForm.getInstitutionalProposalToVersion());
             
@@ -907,7 +914,7 @@ public class ProposalDevelopmentActionsAction extends ProposalDevelopmentAction 
         } else {
             String proposalNumber = createInstitutionalProposal(
                     proposalDevelopmentDocument.getDevelopmentProposal(), proposalDevelopmentDocument.getFinalBudgetForThisProposal());
-            GlobalVariables.getMessageList().add(KeyConstants.MESSAGE_INSTITUTIONAL_PROPOSAL_CREATED, proposalNumber);
+            KNSGlobalVariables.getMessageList().add(KeyConstants.MESSAGE_INSTITUTIONAL_PROPOSAL_CREATED, proposalNumber);
             persistProposalAdminDetails(proposalDevelopmentDocument.getDevelopmentProposal().getProposalNumber(), getActiveProposalId(proposalNumber));
             persistSpecialReviewProtocolFundingSourceLink(getActiveProposalId(proposalNumber));
         }
@@ -1279,7 +1286,7 @@ public class ProposalDevelopmentActionsAction extends ProposalDevelopmentAction 
                     budgetDocument = (BudgetDocument) documentService.getByDocumentHeaderId(budgetVersion.getDocumentNumber());
                 }
             }
-            Long routeHeaderId = budgetDocument.getDocumentHeader().getWorkflowDocument().getRouteHeaderId();
+            String routeHeaderId = budgetDocument.getDocumentHeader().getWorkflowDocument().getDocumentId();
             forward = buildForwardUrl(routeHeaderId);
         } catch (Exception e) {
             LOG.info("forward to budgetsummary "+e.getStackTrace());
@@ -1336,7 +1343,7 @@ public class ProposalDevelopmentActionsAction extends ProposalDevelopmentAction 
     }
 
     public ActionForward hierarchyActionCanceled(ActionMapping mapping, ActionForm form, HttpServletRequest request, HttpServletResponse response) throws Exception {
-        GlobalVariables.getMessageList().add(ProposalHierarchyKeyConstants.MESSAGE_ACTION_CANCEL);
+        KNSGlobalVariables.getMessageList().add(ProposalHierarchyKeyConstants.MESSAGE_ACTION_CANCEL);
         return mapping.findForward(Constants.MAPPING_BASIC);
     }
     
@@ -1430,10 +1437,10 @@ public class ProposalDevelopmentActionsAction extends ProposalDevelopmentAction 
         
         ActionForward returnForward = super.blanketApprove(mapping, form, request, response);
         
-        Long routeHeaderId = Long.parseLong(((ProposalDevelopmentForm) form).getDocument().getDocumentNumber());
+        String routeHeaderId = ((ProposalDevelopmentForm) form).getDocument().getDocumentNumber();
         String returnLocation = buildActionUrl(routeHeaderId, Constants.MAPPING_PROPOSAL_ACTIONS, "ProposalDevelopmentDocument");
         
-        ActionForward forward = mapping.findForward(KNSConstants.MAPPING_PORTAL);
+        ActionForward forward = mapping.findForward(KRADConstants.MAPPING_PORTAL);
         ActionForward holdingPageForward = mapping.findForward(Constants.MAPPING_HOLDING_PAGE);
         return routeToHoldingPage(forward, returnForward, holdingPageForward, returnLocation);
     }
@@ -1527,7 +1534,7 @@ public class ProposalDevelopmentActionsAction extends ProposalDevelopmentAction 
     }
     
     private boolean autogenerateInstitutionalProposal() {
-        return getParameterService().getIndicatorParameter(
+        return getParameterService().getParameterValueAsBoolean(
                 Constants.MODULE_NAMESPACE_PROPOSAL_DEVELOPMENT, 
                 ParameterConstants.DOCUMENT_COMPONENT,
                 KeyConstants.AUTOGENERATE_INSTITUTIONAL_PROPOSAL_PARAM);
@@ -1535,7 +1542,7 @@ public class ProposalDevelopmentActionsAction extends ProposalDevelopmentAction 
     
     public ActionForward deleteProposal(ActionMapping mapping, ActionForm form, HttpServletRequest request, HttpServletResponse response) throws Exception {
         if (((ProposalDevelopmentForm) form).getDocument().getDevelopmentProposal().isInHierarchy()) {
-            GlobalVariables.getMessageList().add(new ErrorMessage(KeyConstants.ERROR_DELETE_PROPOSAL_IN_HIERARCHY));
+            KNSGlobalVariables.getMessageList().add(new ErrorMessage(KeyConstants.ERROR_DELETE_PROPOSAL_IN_HIERARCHY));
             return mapping.findForward(Constants.MAPPING_BASIC);
         }
         StrutsConfirmation question = 

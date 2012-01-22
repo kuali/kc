@@ -61,7 +61,7 @@ public class BudgetCategoryTypeExistenceRule extends KraMaintenanceDocumentRuleB
         if (LOG.isDebugEnabled()) {
             LOG.debug("new maintainable is: " + maintenanceDocument.getNewMaintainableObject().getClass());
         }
-        BudgetCategory budgetCategory = (BudgetCategory) maintenanceDocument.getNewMaintainableObject().getBusinessObject();
+        BudgetCategory budgetCategory = (BudgetCategory) maintenanceDocument.getNewMaintainableObject().getDataObject();
 
         Map pkMap = new HashMap();
         pkMap.put("budgetCategoryTypeCode", budgetCategory.getBudgetCategoryTypeCode());

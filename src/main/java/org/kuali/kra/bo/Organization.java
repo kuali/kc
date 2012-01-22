@@ -16,340 +16,336 @@
 package org.kuali.kra.bo;
 
 import java.sql.Date;
-import java.util.LinkedHashMap;
 import java.util.List;
 
-import org.kuali.rice.kns.util.TypedArrayList;
+import org.springframework.util.AutoPopulatingList;
 
 public class Organization extends KraPersistableBusinessObjectBase {
+
     private static final long serialVersionUID = 2010946634885248282L;
-    
+
     private String organizationId;
-	private String address;
-	private String agencySymbol;
-	private String animalWelfareAssurance;
-	private String cableAddress;
-	private String cageNumber;
-	private Integer cognizantAuditor;
-	private Rolodex cognizantAuditorRolodex;
-	private String comGovEntityCode;
-	private String congressionalDistrict;
-	private Integer contactAddressId;
-	private String county;
-	private String dodacNumber;
-	private String dunsNumber;
-	private String dunsPlusFourNumber;
-	private String federalEmployerId;
-	private String humanSubAssurance;
-	private Date incorporatedDate;
-	private String incorporatedIn;
-	private String indirectCostRateAgreement;
-	private String irsTaxExemption;
-	private String stateEmployeeClaim;
-	private String stateTaxExemptNum;
-	private String nsfInstitutionalCode;
-	private Integer numberOfEmployees;
-	private Integer onrResidentRep;
-	private Rolodex onrResidentRepRolodex;
-	private String organizationName;
-	private String phsAccount;
-	private Date scienceMisconductComplDate;
-	private String telexNumber;
-	private String vendorCode;
-	
-	private Rolodex rolodex;
+
+    private String address;
+
+    private String agencySymbol;
+
+    private String animalWelfareAssurance;
+
+    private String cableAddress;
+
+    private String cageNumber;
+
+    private Integer cognizantAuditor;
+
+    private Rolodex cognizantAuditorRolodex;
+
+    private String comGovEntityCode;
+
+    private String congressionalDistrict;
+
+    private Integer contactAddressId;
+
+    private String county;
+
+    private String dodacNumber;
+
+    private String dunsNumber;
+
+    private String dunsPlusFourNumber;
+
+    private String federalEmployerId;
+
+    private String humanSubAssurance;
+
+    private Date incorporatedDate;
+
+    private String incorporatedIn;
+
+    private String indirectCostRateAgreement;
+
+    private String irsTaxExemption;
+
+    private String stateEmployeeClaim;
+
+    private String stateTaxExemptNum;
+
+    private String nsfInstitutionalCode;
+
+    private Integer numberOfEmployees;
+
+    private Integer onrResidentRep;
+
+    private Rolodex onrResidentRepRolodex;
+
+    private String organizationName;
+
+    private String phsAccount;
+
+    private Date scienceMisconductComplDate;
+
+    private String telexNumber;
+
+    private String vendorCode;
+
+    private Rolodex rolodex;
+
     private List<OrganizationYnq> organizationYnqs;
+
     private List<OrganizationType> organizationTypes;
+
     private List<OrganizationIndirectcost> organizationIdcs;
+
     private List<OrganizationAudit> organizationAudits;
-    
+
     @SuppressWarnings("unchecked")
     public Organization() {
         super();
-        organizationYnqs = new TypedArrayList(OrganizationYnq.class);        
-        organizationTypes = new TypedArrayList(OrganizationType.class);        
-        organizationIdcs = new TypedArrayList(OrganizationIndirectcost.class);        
-        organizationAudits = new TypedArrayList(OrganizationAudit.class);        
+        organizationYnqs = new AutoPopulatingList<OrganizationYnq>(OrganizationYnq.class);
+        organizationTypes = new AutoPopulatingList<OrganizationType>(OrganizationType.class);
+        organizationIdcs = new AutoPopulatingList<OrganizationIndirectcost>(OrganizationIndirectcost.class);
+        organizationAudits = new AutoPopulatingList<OrganizationAudit>(OrganizationAudit.class);
     }
 
-    
-	public String getOrganizationId() {
-		return organizationId;
-	}
+    public String getOrganizationId() {
+        return organizationId;
+    }
 
-	public void setOrganizationId(String organizationId) {
-		this.organizationId = organizationId;
-	}
+    public void setOrganizationId(String organizationId) {
+        this.organizationId = organizationId;
+    }
 
-	public String getAddress() {
-		return address;
-	}
+    public String getAddress() {
+        return address;
+    }
 
-	public void setAddress(String address) {
-		this.address = address;
-	}
+    public void setAddress(String address) {
+        this.address = address;
+    }
 
-	public String getAgencySymbol() {
-		return agencySymbol;
-	}
+    public String getAgencySymbol() {
+        return agencySymbol;
+    }
 
-	public void setAgencySymbol(String agencySymbol) {
-		this.agencySymbol = agencySymbol;
-	}
+    public void setAgencySymbol(String agencySymbol) {
+        this.agencySymbol = agencySymbol;
+    }
 
-	public String getAnimalWelfareAssurance() {
-		return animalWelfareAssurance;
-	}
+    public String getAnimalWelfareAssurance() {
+        return animalWelfareAssurance;
+    }
 
-	public void setAnimalWelfareAssurance(String animalWelfareAssurance) {
-		this.animalWelfareAssurance = animalWelfareAssurance;
-	}
+    public void setAnimalWelfareAssurance(String animalWelfareAssurance) {
+        this.animalWelfareAssurance = animalWelfareAssurance;
+    }
 
-	public String getCableAddress() {
-		return cableAddress;
-	}
+    public String getCableAddress() {
+        return cableAddress;
+    }
 
-	public void setCableAddress(String cableAddress) {
-		this.cableAddress = cableAddress;
-	}
+    public void setCableAddress(String cableAddress) {
+        this.cableAddress = cableAddress;
+    }
 
-	public String getCageNumber() {
-		return cageNumber;
-	}
+    public String getCageNumber() {
+        return cageNumber;
+    }
 
-	public void setCageNumber(String cageNumber) {
-		this.cageNumber = cageNumber;
-	}
+    public void setCageNumber(String cageNumber) {
+        this.cageNumber = cageNumber;
+    }
 
-	public Integer getCognizantAuditor() {
-		return cognizantAuditor;
-	}
+    public Integer getCognizantAuditor() {
+        return cognizantAuditor;
+    }
 
-	public void setCognizantAuditor(Integer cognizantAuditor) {
-		this.cognizantAuditor = cognizantAuditor;
-	}
+    public void setCognizantAuditor(Integer cognizantAuditor) {
+        this.cognizantAuditor = cognizantAuditor;
+    }
 
-	public String getComGovEntityCode() {
-		return comGovEntityCode;
-	}
+    public String getComGovEntityCode() {
+        return comGovEntityCode;
+    }
 
-	public void setComGovEntityCode(String comGovEntityCode) {
-		this.comGovEntityCode = comGovEntityCode;
-	}
+    public void setComGovEntityCode(String comGovEntityCode) {
+        this.comGovEntityCode = comGovEntityCode;
+    }
 
-	public String getCongressionalDistrict() {
-		return congressionalDistrict;
-	}
+    public String getCongressionalDistrict() {
+        return congressionalDistrict;
+    }
 
-	public void setCongressionalDistrict(String congressionalDistrict) {
-		this.congressionalDistrict = congressionalDistrict;
-	}
+    public void setCongressionalDistrict(String congressionalDistrict) {
+        this.congressionalDistrict = congressionalDistrict;
+    }
 
-	public Integer getContactAddressId() {
-		return contactAddressId;
-	}
+    public Integer getContactAddressId() {
+        return contactAddressId;
+    }
 
-	public void setContactAddressId(Integer contactAddressId) {
-		this.contactAddressId = contactAddressId;
-	}
+    public void setContactAddressId(Integer contactAddressId) {
+        this.contactAddressId = contactAddressId;
+    }
 
-	public String getCounty() {
-		return county;
-	}
+    public String getCounty() {
+        return county;
+    }
 
-	public void setCounty(String county) {
-		this.county = county;
-	}
+    public void setCounty(String county) {
+        this.county = county;
+    }
 
-	public String getDodacNumber() {
-		return dodacNumber;
-	}
+    public String getDodacNumber() {
+        return dodacNumber;
+    }
 
-	public void setDodacNumber(String dodacNumber) {
-		this.dodacNumber = dodacNumber;
-	}
+    public void setDodacNumber(String dodacNumber) {
+        this.dodacNumber = dodacNumber;
+    }
 
-	public String getDunsNumber() {
-		return dunsNumber;
-	}
+    public String getDunsNumber() {
+        return dunsNumber;
+    }
 
-	public void setDunsNumber(String dunsNumber) {
-		this.dunsNumber = dunsNumber;
-	}
+    public void setDunsNumber(String dunsNumber) {
+        this.dunsNumber = dunsNumber;
+    }
 
-	public String getDunsPlusFourNumber() {
-		return dunsPlusFourNumber;
-	}
+    public String getDunsPlusFourNumber() {
+        return dunsPlusFourNumber;
+    }
 
-	public void setDunsPlusFourNumber(String dunsPlusFourNumber) {
-		this.dunsPlusFourNumber = dunsPlusFourNumber;
-	}
+    public void setDunsPlusFourNumber(String dunsPlusFourNumber) {
+        this.dunsPlusFourNumber = dunsPlusFourNumber;
+    }
 
-	public String getFederalEmployerId() {
-		return federalEmployerId;
-	}
+    public String getFederalEmployerId() {
+        return federalEmployerId;
+    }
 
-	public void setFederalEmployerId(String federalEmployerId) {
-		this.federalEmployerId = federalEmployerId;
-	}
+    public void setFederalEmployerId(String federalEmployerId) {
+        this.federalEmployerId = federalEmployerId;
+    }
 
-	public String getHumanSubAssurance() {
-		return humanSubAssurance;
-	}
+    public String getHumanSubAssurance() {
+        return humanSubAssurance;
+    }
 
-	public void setHumanSubAssurance(String humanSubAssurance) {
-		this.humanSubAssurance = humanSubAssurance;
-	}
+    public void setHumanSubAssurance(String humanSubAssurance) {
+        this.humanSubAssurance = humanSubAssurance;
+    }
 
-	public Date getIncorporatedDate() {
-		return incorporatedDate;
-	}
+    public Date getIncorporatedDate() {
+        return incorporatedDate;
+    }
 
-	public void setIncorporatedDate(Date incorporatedDate) {
-		this.incorporatedDate = incorporatedDate;
-	}
+    public void setIncorporatedDate(Date incorporatedDate) {
+        this.incorporatedDate = incorporatedDate;
+    }
 
-	public String getIncorporatedIn() {
-		return incorporatedIn;
-	}
+    public String getIncorporatedIn() {
+        return incorporatedIn;
+    }
 
-	public void setIncorporatedIn(String incorporatedIn) {
-		this.incorporatedIn = incorporatedIn;
-	}
+    public void setIncorporatedIn(String incorporatedIn) {
+        this.incorporatedIn = incorporatedIn;
+    }
 
-	public String getIndirectCostRateAgreement() {
-		return indirectCostRateAgreement;
-	}
+    public String getIndirectCostRateAgreement() {
+        return indirectCostRateAgreement;
+    }
 
-	public void setIndirectCostRateAgreement(String indirectCostRateAgreement) {
-		this.indirectCostRateAgreement = indirectCostRateAgreement;
-	}
+    public void setIndirectCostRateAgreement(String indirectCostRateAgreement) {
+        this.indirectCostRateAgreement = indirectCostRateAgreement;
+    }
 
-	public String getIrsTaxExemption() {
-		return irsTaxExemption;
-	}
+    public String getIrsTaxExemption() {
+        return irsTaxExemption;
+    }
 
-	public void setIrsTaxExemption(String irsTaxExemption) {
-		this.irsTaxExemption = irsTaxExemption;
-	}
+    public void setIrsTaxExemption(String irsTaxExemption) {
+        this.irsTaxExemption = irsTaxExemption;
+    }
 
-	public String getStateEmployeeClaim() {
-		return stateEmployeeClaim;
-	}
+    public String getStateEmployeeClaim() {
+        return stateEmployeeClaim;
+    }
 
-	public void setStateEmployeeClaim(String stateEmployeeClaim) {
-		this.stateEmployeeClaim = stateEmployeeClaim;
-	}
+    public void setStateEmployeeClaim(String stateEmployeeClaim) {
+        this.stateEmployeeClaim = stateEmployeeClaim;
+    }
 
-	public String getStateTaxExemptNum() {
-		return stateTaxExemptNum;
-	}
+    public String getStateTaxExemptNum() {
+        return stateTaxExemptNum;
+    }
 
-	public void setStateTaxExemptNum(String stateTaxExemptNum) {
-		this.stateTaxExemptNum = stateTaxExemptNum;
-	}
+    public void setStateTaxExemptNum(String stateTaxExemptNum) {
+        this.stateTaxExemptNum = stateTaxExemptNum;
+    }
 
-	public String getNsfInstitutionalCode() {
-		return nsfInstitutionalCode;
-	}
+    public String getNsfInstitutionalCode() {
+        return nsfInstitutionalCode;
+    }
 
-	public void setNsfInstitutionalCode(String nsfInstitutionalCode) {
-		this.nsfInstitutionalCode = nsfInstitutionalCode;
-	}
+    public void setNsfInstitutionalCode(String nsfInstitutionalCode) {
+        this.nsfInstitutionalCode = nsfInstitutionalCode;
+    }
 
-	public Integer getNumberOfEmployees() {
-		return numberOfEmployees;
-	}
+    public Integer getNumberOfEmployees() {
+        return numberOfEmployees;
+    }
 
-	public void setNumberOfEmployees(Integer numberOfEmployees) {
-		this.numberOfEmployees = numberOfEmployees;
-	}
+    public void setNumberOfEmployees(Integer numberOfEmployees) {
+        this.numberOfEmployees = numberOfEmployees;
+    }
 
-	public Integer getOnrResidentRep() {
-		return onrResidentRep;
-	}
+    public Integer getOnrResidentRep() {
+        return onrResidentRep;
+    }
 
-	public void setOnrResidentRep(Integer onrResidentRep) {
-		this.onrResidentRep = onrResidentRep;
-	}
+    public void setOnrResidentRep(Integer onrResidentRep) {
+        this.onrResidentRep = onrResidentRep;
+    }
 
-	public String getOrganizationName() {
-		return organizationName;
-	}
+    public String getOrganizationName() {
+        return organizationName;
+    }
 
-	public void setOrganizationName(String organizationName) {
-		this.organizationName = organizationName;
-	}
+    public void setOrganizationName(String organizationName) {
+        this.organizationName = organizationName;
+    }
 
-	public String getPhsAccount() {
-		return phsAccount;
-	}
+    public String getPhsAccount() {
+        return phsAccount;
+    }
 
-	public void setPhsAccount(String phsAccount) {
-		this.phsAccount = phsAccount;
-	}
+    public void setPhsAccount(String phsAccount) {
+        this.phsAccount = phsAccount;
+    }
 
-	public Date getScienceMisconductComplDate() {
-		return scienceMisconductComplDate;
-	}
+    public Date getScienceMisconductComplDate() {
+        return scienceMisconductComplDate;
+    }
 
-	public void setScienceMisconductComplDate(Date scienceMisconductComplDate) {
-		this.scienceMisconductComplDate = scienceMisconductComplDate;
-	}
+    public void setScienceMisconductComplDate(Date scienceMisconductComplDate) {
+        this.scienceMisconductComplDate = scienceMisconductComplDate;
+    }
 
-	public String getTelexNumber() {
-		return telexNumber;
-	}
+    public String getTelexNumber() {
+        return telexNumber;
+    }
 
-	public void setTelexNumber(String telexNumber) {
-		this.telexNumber = telexNumber;
-	}
+    public void setTelexNumber(String telexNumber) {
+        this.telexNumber = telexNumber;
+    }
 
-	public String getVendorCode() {
-		return vendorCode;
-	}
+    public String getVendorCode() {
+        return vendorCode;
+    }
 
-	public void setVendorCode(String vendorCode) {
-		this.vendorCode = vendorCode;
-	}
-
-
-	@SuppressWarnings("unchecked")
-    @Override 
-	protected LinkedHashMap toStringMapper() {
-		LinkedHashMap hashMap = new LinkedHashMap();
-		hashMap.put("organizationId", getOrganizationId());
-		hashMap.put("address", getAddress());
-		hashMap.put("agencySymbol", getAgencySymbol());
-		hashMap.put("animalWelfareAssurance", getAnimalWelfareAssurance());
-		hashMap.put("cableAddress", getCableAddress());
-		hashMap.put("cageNumber", getCageNumber());
-		hashMap.put("cognizantAuditor", getCognizantAuditor());
-		hashMap.put("comGovEntityCode", getComGovEntityCode());
-		hashMap.put("congressionalDistrict", getCongressionalDistrict());
-		hashMap.put("contactAddressId", getContactAddressId());
-		hashMap.put("county", getCounty());
-		hashMap.put("dodacNumber", getDodacNumber());
-		hashMap.put("dunsNumber", getDunsNumber());
-		hashMap.put("dunsPlusFourNumber", getDunsPlusFourNumber());
-		hashMap.put("federalEmployerId", getFederalEmployerId());
-		hashMap.put("humanSubAssurance", getHumanSubAssurance());
-		hashMap.put("incorporatedDate", getIncorporatedDate());
-		hashMap.put("incorporatedIn", getIncorporatedIn());
-		hashMap.put("indirectCostRateAgreement", getIndirectCostRateAgreement());
-		hashMap.put("irsTaxExemption", getIrsTaxExemption());
-		hashMap.put("stateEmployeeClaim", getStateEmployeeClaim());
-		hashMap.put("stateTaxExemptNum", getStateTaxExemptNum());
-		hashMap.put("nsfInstitutionalCode", getNsfInstitutionalCode());
-		hashMap.put("numberOfEmployees", getNumberOfEmployees());
-		hashMap.put("onrResidentRep", getOnrResidentRep());
-		hashMap.put("organizationName", getOrganizationName());
-		hashMap.put("phsAccount", getPhsAccount());
-		hashMap.put("scienceMisconductComplDate", getScienceMisconductComplDate());
-		hashMap.put("telexNumber", getTelexNumber());
-		hashMap.put("vendorCode", getVendorCode());
-		return hashMap;
-	}
+    public void setVendorCode(String vendorCode) {
+        this.vendorCode = vendorCode;
+    }
 
     public Rolodex getRolodex() {
         return rolodex;
@@ -371,8 +367,7 @@ public class Organization extends KraPersistableBusinessObjectBase {
         while (getOrganizationYnqs().size() <= index) {
             getOrganizationYnqs().add(new OrganizationYnq());
         }
-        
-        return (OrganizationYnq)getOrganizationYnqs().get(index);
+        return (OrganizationYnq) getOrganizationYnqs().get(index);
     }
 
     public List<OrganizationType> getOrganizationTypes() {
@@ -387,8 +382,7 @@ public class Organization extends KraPersistableBusinessObjectBase {
         while (getOrganizationTypes().size() <= index) {
             getOrganizationTypes().add(new OrganizationType());
         }
-        
-        return (OrganizationType)getOrganizationTypes().get(index);
+        return (OrganizationType) getOrganizationTypes().get(index);
     }
 
     public List<OrganizationIndirectcost> getOrganizationIdcs() {
@@ -403,8 +397,7 @@ public class Organization extends KraPersistableBusinessObjectBase {
         while (getOrganizationIdcs().size() <= index) {
             getOrganizationIdcs().add(new OrganizationIndirectcost());
         }
-        
-        return (OrganizationIndirectcost)getOrganizationIdcs().get(index);
+        return (OrganizationIndirectcost) getOrganizationIdcs().get(index);
     }
 
     public List<OrganizationAudit> getOrganizationAudits() {
@@ -414,45 +407,35 @@ public class Organization extends KraPersistableBusinessObjectBase {
     public void setOrganizationAudits(List<OrganizationAudit> organizationAudits) {
         this.organizationAudits = organizationAudits;
     }
-    
+
     public OrganizationAudit getOrganizationAudit(int index) {
         while (getOrganizationAudits().size() <= index) {
             getOrganizationAudits().add(new OrganizationAudit());
         }
-        
-        return (OrganizationAudit)getOrganizationAudits().get(index);
+        return (OrganizationAudit) getOrganizationAudits().get(index);
     }
-
 
     public String getFedralEmployerId() {
         return federalEmployerId;
     }
 
-
     public void setFedralEmployerId(String federalEmployerId) {
-        this.federalEmployerId = federalEmployerId;        
+        this.federalEmployerId = federalEmployerId;
     }
-
 
     public Rolodex getCognizantAuditorRolodex() {
         return cognizantAuditorRolodex;
     }
 
-
     public void setCognizantAuditorRolodex(Rolodex cognizantAuditorRolodex) {
         this.cognizantAuditorRolodex = cognizantAuditorRolodex;
     }
-
 
     public Rolodex getOnrResidentRepRolodex() {
         return onrResidentRepRolodex;
     }
 
-
     public void setOnrResidentRepRolodex(Rolodex onrResidentRepRolodex) {
         this.onrResidentRepRolodex = onrResidentRepRolodex;
     }
-
-
-
 }

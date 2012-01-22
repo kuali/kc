@@ -20,8 +20,8 @@ import org.kuali.kra.proposaldevelopment.bo.ProposalAbstract;
 import org.kuali.kra.proposaldevelopment.document.ProposalDevelopmentDocument;
 import org.kuali.kra.proposaldevelopment.rule.AbstractsRule;
 import org.kuali.kra.rule.event.KraDocumentEventBase;
-import org.kuali.rice.kns.rule.BusinessRule;
-import org.kuali.rice.kns.util.ObjectUtils;
+import org.kuali.rice.krad.rules.rule.BusinessRule;
+import org.kuali.rice.krad.util.ObjectUtils;
 
 /**
  * The AddAbstractEvent is generated when a Proposal Abstract is to be added to
@@ -51,7 +51,7 @@ public class AddAbstractEvent extends KraDocumentEventBase {
     }
     
     /**
-     * @see org.kuali.rice.kns.rule.event.KualiDocumentEventBase#validate()
+     * @see org.kuali.rice.krad.rules.rule.event.KualiDocumentEventBase#validate()
      */
     public void validate() {
         super.validate();
@@ -80,14 +80,14 @@ public class AddAbstractEvent extends KraDocumentEventBase {
     }
 
     /**
-     * @see org.kuali.rice.kns.rule.event.KualiDocumentEvent#getRuleInterfaceClass()
+     * @see org.kuali.rice.krad.rules.rule.event.KualiDocumentEvent#getRuleInterfaceClass()
      */
     public Class getRuleInterfaceClass() {
         return AbstractsRule.class;
     }
 
     /**
-     * @see org.kuali.rice.kns.rule.event.KualiDocumentEvent#invokeRuleMethod(org.kuali.rice.kns.rule.BusinessRule)
+     * @see org.kuali.rice.krad.rules.rule.event.KualiDocumentEvent#invokeRuleMethod(org.kuali.rice.krad.rules.rule.BusinessRule)
      */
     public boolean invokeRuleMethod(BusinessRule rule) {
         return ((AbstractsRule) rule).processAddAbstractBusinessRules((ProposalDevelopmentDocument) this.getDocument(), 

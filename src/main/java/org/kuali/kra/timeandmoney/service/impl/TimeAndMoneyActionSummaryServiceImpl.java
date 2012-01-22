@@ -22,8 +22,8 @@ import org.apache.ojb.broker.accesslayer.LookupException;
 import org.kuali.kra.timeandmoney.dao.TimeAndMoneyDao;
 import org.kuali.kra.timeandmoney.history.TimeAndMoneyActionSummary;
 import org.kuali.kra.timeandmoney.service.TimeAndMoneyActionSummaryService;
-import org.kuali.rice.kns.dao.impl.PlatformAwareDaoBaseOjb;
-import org.kuali.rice.kns.service.BusinessObjectService;
+import org.kuali.rice.core.framework.persistence.ojb.dao.PlatformAwareDaoBaseOjb;
+import org.kuali.rice.krad.service.BusinessObjectService;
 
 public class TimeAndMoneyActionSummaryServiceImpl extends PlatformAwareDaoBaseOjb implements TimeAndMoneyActionSummaryService {
     

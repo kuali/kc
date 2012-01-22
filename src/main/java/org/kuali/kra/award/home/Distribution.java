@@ -13,10 +13,7 @@
  * See the License for the specific language governing permissions and
  * limitations under the License.
  */
-
 package org.kuali.kra.award.home;
-
-import java.util.LinkedHashMap;
 
 import org.kuali.kra.bo.KraPersistableBusinessObjectBase;
 
@@ -25,23 +22,25 @@ import org.kuali.kra.bo.KraPersistableBusinessObjectBase;
  * This class represents Distribution business object and is mapped
  * with DISTRIBUTION table.
  */
-public class Distribution extends KraPersistableBusinessObjectBase { 
-    
+public class Distribution extends KraPersistableBusinessObjectBase {
+
     /**
      * Comment for <code>serialVersionUID</code>
      */
     private static final long serialVersionUID = -8638092879516673772L;
-    private String ospDistributionCode; 
-    private String description; 
+
+    private String ospDistributionCode;
+
+    private String description;
+
     private boolean active;
-    
+
     /**
      * Constructs a Distribution.java
      */
-    public Distribution() { 
+    public Distribution() {
+    }
 
-    } 
-    
     /**
      * 
      * @return
@@ -75,18 +74,6 @@ public class Distribution extends KraPersistableBusinessObjectBase {
     }
 
     /**
-     * 
-     * @see org.kuali.rice.kns.bo.BusinessObjectBase#toStringMapper()
-     */
-    @Override 
-    protected LinkedHashMap<String, Object> toStringMapper() {
-        LinkedHashMap<String, Object> hashMap = new LinkedHashMap<String, Object>();
-        hashMap.put("ospDistributionCode", getOspDistributionCode());
-        hashMap.put("description", getDescription());
-        return hashMap;
-    }
-
-    /**
      * @see java.lang.Object#hashCode()
      */
     @Override
@@ -102,15 +89,15 @@ public class Distribution extends KraPersistableBusinessObjectBase {
      */
     @Override
     public boolean equals(Object obj) {
-        if (this == obj){
+        if (this == obj) {
             return true;
-        }   
-        if (obj == null){
+        }
+        if (obj == null) {
             return false;
-        }   
-        if (!(obj instanceof Distribution)){
+        }
+        if (!(obj instanceof Distribution)) {
             return false;
-        }   
+        }
         return equals((Distribution) obj);
     }
 
@@ -120,14 +107,14 @@ public class Distribution extends KraPersistableBusinessObjectBase {
      * @param distribution
      * @return
      */
-    public boolean equals(Distribution distribution){
+    public boolean equals(Distribution distribution) {
         if (ospDistributionCode == null) {
-            if (distribution.ospDistributionCode != null){
+            if (distribution.ospDistributionCode != null) {
                 return false;
-            }   
-        }else if (!ospDistributionCode.equals(distribution.ospDistributionCode)){
+            }
+        } else if (!ospDistributionCode.equals(distribution.ospDistributionCode)) {
             return false;
-        }   
+        }
         return true;
     }
 
@@ -138,5 +125,4 @@ public class Distribution extends KraPersistableBusinessObjectBase {
     public void setActive(boolean active) {
         this.active = active;
     }
-    
 }

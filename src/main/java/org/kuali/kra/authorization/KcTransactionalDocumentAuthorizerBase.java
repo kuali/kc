@@ -22,19 +22,24 @@ import java.util.Set;
 
 import org.kuali.kra.infrastructure.KraServiceLocator;
 import org.kuali.kra.service.TaskAuthorizationService;
-import org.kuali.rice.kew.exception.WorkflowException;
-import org.kuali.rice.kew.service.WorkflowDocument;
-import org.kuali.rice.kew.util.KEWConstants;
-import org.kuali.rice.kim.bo.Person;
-import org.kuali.rice.kim.bo.impl.KimAttributes;
-import org.kuali.rice.kim.util.KimConstants;
-import org.kuali.rice.kns.authorization.BusinessObjectAuthorizerBase;
-import org.kuali.rice.kns.bo.BusinessObject;
-import org.kuali.rice.kns.document.Document;
+import org.kuali.rice.core.api.resourceloader.GlobalResourceLoader;
+import org.kuali.rice.coreservice.api.CoreServiceApiServiceLocator;
+import org.kuali.rice.coreservice.framework.CoreFrameworkServiceLocator;
+import org.kuali.rice.coreservice.framework.parameter.ParameterService;
+import org.kuali.rice.coreservice.impl.CoreServiceImplServiceLocator;
+import org.kuali.rice.kew.api.KewApiConstants;
+import org.kuali.rice.kew.api.WorkflowDocument;
+import org.kuali.rice.kew.api.WorkflowDocumentFactory;
+import org.kuali.rice.kew.api.action.ActionType;
+import org.kuali.rice.kim.api.KimConstants;
+import org.kuali.rice.kim.api.identity.Person;
+import org.kuali.rice.kns.bo.authorization.BusinessObjectAuthorizerBase;
 import org.kuali.rice.kns.document.authorization.TransactionalDocumentAuthorizer;
-import org.kuali.rice.kns.service.ParameterService;
 import org.kuali.rice.kns.util.KNSConstants;
-import org.kuali.rice.kns.workflow.service.KualiWorkflowDocument;
+import org.kuali.rice.krad.document.Document;
+import org.kuali.rice.krad.service.KRADServiceLocatorWeb;
+import org.kuali.rice.krad.util.KRADConstants;
+import org.kuali.rice.krad.workflow.service.WorkflowDocumentService;
 
 /**
  * Base class for all KC document authorizers.  The document authorizer determines both the
@@ -50,7 +55,7 @@ public abstract class KcTransactionalDocumentAuthorizerBase extends BusinessObje
      */
     protected ParameterService getParameterService() {
         if (this.parameterService == null) {
-            this.parameterService = KraServiceLocator.getService(ParameterService.class);        
+            this.parameterService = CoreFrameworkServiceLocator.getParameterService();  
         }
         return this.parameterService;
     }
@@ -61,7 +66,7 @@ public abstract class KcTransactionalDocumentAuthorizerBase extends BusinessObje
     public static final String USER_SESSION_METHOD_TO_CALL_COMPLETE_OBJECT_KEY = "METHOD_TO_CALL_KEYS_COMPLETE_OBJECT_KEY";
 
     /**
-     * @see org.kuali.rice.kns.document.authorization.DocumentAuthorizer#getDocumentActions(org.kuali.rice.kns.document.Document, org.kuali.rice.kim.bo.Person, java.util.Set)
+     * @see org.kuali.rice.kns.document.authorization.DocumentAuthorizer#getDocumentActions(org.kuali.rice.krad.document.Document, org.kuali.rice.kim.api.identity.Person, java.util.Set)
      */
     public Set<String> getDocumentActions(Document document, Person user, Set<String> oldDocumentActions) {
         return getDocumentActions(document, user);
@@ -78,69 +83,69 @@ public abstract class KcTransactionalDocumentAuthorizerBase extends BusinessObje
         Set<String> documentActions = new HashSet<String>();
         
         if (canEdit(document, user)) {
-            documentActions.add(KNSConstants.KUALI_ACTION_CAN_EDIT);
+            documentActions.add(KRADConstants.KUALI_ACTION_CAN_EDIT);
         }
         
         if (canEdit(document, user)) {
-            documentActions.add(KNSConstants.KUALI_ACTION_CAN_EDIT__DOCUMENT_OVERVIEW);
+            documentActions.add(KRADConstants.KUALI_ACTION_CAN_EDIT_DOCUMENT_OVERVIEW);
         }
         
         if (canAnnotate(document, user)){
-            documentActions.add(KNSConstants.KUALI_ACTION_CAN_ANNOTATE);
+            documentActions.add(KRADConstants.KUALI_ACTION_CAN_ANNOTATE);
         }
          
         if (canClose(document, user)) {
-            documentActions.add(KNSConstants.KUALI_ACTION_CAN_CLOSE);
+            documentActions.add(KRADConstants.KUALI_ACTION_CAN_CLOSE);
         }
          
         if (canSave(document, user)) {
-            documentActions.add(KNSConstants.KUALI_ACTION_CAN_SAVE);
+            documentActions.add(KRADConstants.KUALI_ACTION_CAN_SAVE);
         }
         
         if (canRoute(document, user)){
-            documentActions.add(KNSConstants.KUALI_ACTION_CAN_ROUTE);
+            documentActions.add(KRADConstants.KUALI_ACTION_CAN_ROUTE);
         }
          
         if (canCancel(document, user)) {
-            documentActions.add(KNSConstants.KUALI_ACTION_CAN_CANCEL);
+            documentActions.add(KRADConstants.KUALI_ACTION_CAN_CANCEL);
         }
          
         if (canReload(document, user)) {
-            documentActions.add(KNSConstants.KUALI_ACTION_CAN_RELOAD);
+            documentActions.add(KRADConstants.KUALI_ACTION_CAN_RELOAD);
         }
         if (canCopy(document, user)) {
-            documentActions.add(KNSConstants.KUALI_ACTION_CAN_COPY);
+            documentActions.add(KRADConstants.KUALI_ACTION_CAN_COPY);
         }
         if (canPerformRouteReport(document, user)) {
-            documentActions.add(KNSConstants.KUALI_ACTION_PERFORM_ROUTE_REPORT);
+            documentActions.add(KRADConstants.KUALI_ACTION_PERFORM_ROUTE_REPORT);
         }
         
         if (canAdHocRoute(document, user)) {
-            documentActions.add(KNSConstants.KUALI_ACTION_CAN_AD_HOC_ROUTE);
+            documentActions.add(KRADConstants.KUALI_ACTION_CAN_AD_HOC_ROUTE);
         }
         
         if (canBlanketApprove(document, user)) {
-            documentActions.add(KNSConstants.KUALI_ACTION_CAN_BLANKET_APPROVE);
+            documentActions.add(KRADConstants.KUALI_ACTION_CAN_BLANKET_APPROVE);
         }
         if (canApprove(document, user)) {
-            documentActions.add(KNSConstants.KUALI_ACTION_CAN_APPROVE);
+            documentActions.add(KRADConstants.KUALI_ACTION_CAN_APPROVE);
         }
         if (canDisapprove(document, user)) {
-            documentActions.add(KNSConstants.KUALI_ACTION_CAN_DISAPPROVE);
+            documentActions.add(KRADConstants.KUALI_ACTION_CAN_DISAPPROVE);
         }
         if (canSendAdhocRequests(document, user)) {
-            documentActions.add(KNSConstants.KUALI_ACTION_CAN_SEND_ADHOC_REQUESTS);
+            documentActions.add(KRADConstants.KUALI_ACTION_CAN_SEND_ADHOC_REQUESTS);
         }
         if (canAddAdhocRequests(document, user)) {
-            documentActions.add(KNSConstants.KUALI_ACTION_CAN_ADD_ADHOC_REQUESTS);
+            documentActions.add(KRADConstants.KUALI_ACTION_CAN_ADD_ADHOC_REQUESTS);
         }
  
         if (canAcknowledge(document, user)) {
-            documentActions.add(KNSConstants.KUALI_ACTION_CAN_ACKNOWLEDGE);
+            documentActions.add(KRADConstants.KUALI_ACTION_CAN_ACKNOWLEDGE);
         }
         
-        if (canFYI(document, user))  {
-            documentActions.add(KNSConstants.KUALI_ACTION_CAN_FYI);
+        if (canFyi(document, user))  {
+            documentActions.add(KRADConstants.KUALI_ACTION_CAN_FYI);
         }
         
         return documentActions;
@@ -153,8 +158,8 @@ public abstract class KcTransactionalDocumentAuthorizerBase extends BusinessObje
      */
     protected final boolean canEdit(Document document) {
         boolean canEdit = false;
-        KualiWorkflowDocument workflowDocument = document.getDocumentHeader().getWorkflowDocument();
-        if (workflowDocument.stateIsInitiated() || workflowDocument.stateIsSaved() || workflowDocument.stateIsEnroute() || workflowDocument.stateIsException()) {
+        WorkflowDocument workflowDocument = document.getDocumentHeader().getWorkflowDocument();
+        if (workflowDocument.isInitiated() || workflowDocument.isSaved() || workflowDocument.isEnroute() || workflowDocument.isException()) {
             canEdit = true; 
         }
         
@@ -176,8 +181,8 @@ public abstract class KcTransactionalDocumentAuthorizerBase extends BusinessObje
      * @return true if reloadable; otherwise false
      */
     protected final boolean canReload(Document document) {
-        KualiWorkflowDocument workflowDocument = document.getDocumentHeader().getWorkflowDocument();
-        return (canEdit(document) && !workflowDocument.stateIsInitiated()) ;
+        WorkflowDocument workflowDocument = document.getDocumentHeader().getWorkflowDocument();
+        return (canEdit(document) && !workflowDocument.isInitiated()) ;
              
     }
     
@@ -206,8 +211,8 @@ public abstract class KcTransactionalDocumentAuthorizerBase extends BusinessObje
      */
     protected final boolean canRoute(Document document) {
         boolean canRoute = false;
-        KualiWorkflowDocument workflowDocument = document.getDocumentHeader().getWorkflowDocument();
-        if (workflowDocument.stateIsInitiated() || workflowDocument.stateIsSaved()){
+        WorkflowDocument workflowDocument = document.getDocumentHeader().getWorkflowDocument();
+        if (workflowDocument.isInitiated() || workflowDocument.isSaved()){
              canRoute = true;
         }
         return canRoute;
@@ -241,7 +246,7 @@ public abstract class KcTransactionalDocumentAuthorizerBase extends BusinessObje
      * @return true if a route report can be generated; otherwise false
      */
     protected final boolean canPerformRouteReport(Document document) {
-        return this.getParameterService().getIndicatorParameter( KNSConstants.KNS_NAMESPACE, KNSConstants.DetailTypes.DOCUMENT_DETAIL_TYPE, KNSConstants.SystemGroupParameterNames.DEFAULT_CAN_PERFORM_ROUTE_REPORT_IND);
+        return this.getParameterService().getParameterValueAsBoolean( KRADConstants.KNS_NAMESPACE, KRADConstants.DetailTypes.DOCUMENT_DETAIL_TYPE, KRADConstants.SystemGroupParameterNames.DEFAULT_CAN_PERFORM_ROUTE_REPORT_IND);
     }
     
     /**
@@ -250,8 +255,8 @@ public abstract class KcTransactionalDocumentAuthorizerBase extends BusinessObje
      * @return true if an AdHoc route can be added; otherwise false
      */
     protected final boolean canAdHocRoute(Document document) {
-        KualiWorkflowDocument workflowDocument = document.getDocumentHeader().getWorkflowDocument();
-        return (canEdit(document)&& !workflowDocument.stateIsException());
+        WorkflowDocument workflowDocument = document.getDocumentHeader().getWorkflowDocument();
+        return (canEdit(document)&& !workflowDocument.isException());
     }
     
     /**
@@ -269,7 +274,7 @@ public abstract class KcTransactionalDocumentAuthorizerBase extends BusinessObje
      * @return true if AdHoc requests can be sent; otherwise false
      */
     protected final boolean canSendAdhocRequests(Document document) {
-        return canAdHocRoute(document) && document.getDocumentHeader().getWorkflowDocument().stateIsEnroute();
+        return canAdHocRoute(document) && document.getDocumentHeader().getWorkflowDocument().isEnroute();
     }
        
     /**
@@ -288,7 +293,7 @@ public abstract class KcTransactionalDocumentAuthorizerBase extends BusinessObje
      * @param user the user
      * @return true if the user can annotate the document; otherwise false
      */
-    protected boolean canAnnotate(Document document, Person user) {
+    public boolean canAnnotate(Document document, Person user) {
         return canAnnotate(document);
     }
     
@@ -298,7 +303,7 @@ public abstract class KcTransactionalDocumentAuthorizerBase extends BusinessObje
      * @param user the user
      * @return true if the user can close the document; otherwise false
      */
-    protected boolean canClose(Document document, Person user) {
+    public boolean canClose(Document document, Person user) {
         return canClose(document);
     }
     
@@ -308,7 +313,7 @@ public abstract class KcTransactionalDocumentAuthorizerBase extends BusinessObje
      * @param user the user
      * @return true if the user can save the document; otherwise false
      */
-    protected boolean canSave(Document document, Person user) {
+    public boolean canSave(Document document, Person user) {
         return canEdit(document);
     }
     
@@ -318,7 +323,7 @@ public abstract class KcTransactionalDocumentAuthorizerBase extends BusinessObje
      * @param user the user
      * @return true if the user can cancel the document; otherwise false
      */
-    protected boolean canCancel(Document document, Person user) {
+    public boolean canCancel(Document document, Person user) {
         return canCancel(document);
     }
     
@@ -328,7 +333,7 @@ public abstract class KcTransactionalDocumentAuthorizerBase extends BusinessObje
      * @param user the user
      * @return true if the user can reload the document; otherwise false
      */
-    protected boolean canReload(Document document, Person user) {
+    public boolean canReload(Document document, Person user) {
         return canReload(document);
     }
     
@@ -338,7 +343,7 @@ public abstract class KcTransactionalDocumentAuthorizerBase extends BusinessObje
      * @param user the user
      * @return true if the user can copy the document; otherwise false
      */
-    protected boolean canCopy(Document document, Person user) {
+    public boolean canCopy(Document document, Person user) {
         return canCopy(document);
     }
     
@@ -348,7 +353,7 @@ public abstract class KcTransactionalDocumentAuthorizerBase extends BusinessObje
      * @param user the user
      * @return true if the user can perform route reports; otherwise false
      */
-    protected boolean canPerformRouteReport(Document document, Person user) {
+    public boolean canPerformRouteReport(Document document, Person user) {
         return canPerformRouteReport(document);
     }
     
@@ -358,11 +363,11 @@ public abstract class KcTransactionalDocumentAuthorizerBase extends BusinessObje
      * @param user the user
      * @return true if the user can approve the document; otherwise false
      */
-    protected boolean canApprove(Document document, Person user) {
+    public boolean canApprove(Document document, Person user) {
         WorkflowDocument workDoc = getWorkflowDocument( document, user );
-        return workDoc.getRouteHeader().isApproveRequested() 
-            && workDoc.getRouteHeader().getValidActions().contains(KEWConstants.ACTION_TAKEN_APPROVED_CD )
-            && workDoc.stateIsEnroute(); 
+        return workDoc.isApprovalRequested() 
+            && workDoc.getValidActions().getValidActions().contains(ActionType.fromCode(KewApiConstants.ACTION_TAKEN_APPROVED_CD))
+            && workDoc.isEnroute(); 
     }
     
     /**
@@ -371,13 +376,13 @@ public abstract class KcTransactionalDocumentAuthorizerBase extends BusinessObje
      * @param user the user
      * @return true if the user can disapprove the document; otherwise false
      */
-    protected boolean canDisapprove(Document document, Person user) {
+    public boolean canDisapprove(Document document, Person user) {
         //KRACOEUS-3548:  This used to just return true.  Altered so that it returns true only if there
         //is an approval requested and workflow believes that a disapprove is allowed. 
         WorkflowDocument workflowDocument = getWorkflowDocument( document, user );
-        return workflowDocument.getRouteHeader().isApproveRequested() 
-                && workflowDocument.getRouteHeader().getValidActions().contains(KEWConstants.ACTION_TAKEN_DENIED_CD)
-                && workflowDocument.stateIsEnroute();
+        return workflowDocument.isApprovalRequested() 
+                && workflowDocument.getValidActions().getValidActions().contains(ActionType.fromCode(KewApiConstants.ACTION_TAKEN_DENIED_CD))
+                && workflowDocument.isEnroute();
     }
     
     /**
@@ -407,11 +412,11 @@ public abstract class KcTransactionalDocumentAuthorizerBase extends BusinessObje
      * @param user the user
      * @return true if the user can blanket approve the document; otherwise false
      */
-    protected boolean canBlanketApprove(Document document, Person user) {
+    public boolean canBlanketApprove(Document document, Person user) {
         return canBlanketApprove(document) &&
                isAuthorizedByTemplate(
                         document,
-                        KNSConstants.KUALI_RICE_WORKFLOW_NAMESPACE,
+                        KRADConstants.KUALI_RICE_WORKFLOW_NAMESPACE,
                         KimConstants.PermissionTemplateNames.BLANKET_APPROVE_DOCUMENT,
                         user.getPrincipalId());
     }
@@ -422,10 +427,10 @@ public abstract class KcTransactionalDocumentAuthorizerBase extends BusinessObje
      * @param user the user
      * @return true if the user can route the document; otherwise false
      */
-    protected boolean canRoute(Document document, Person user) {
+    public boolean canRoute(Document document, Person user) {
        return canRoute(document) && 
               isAuthorizedByTemplate(document,
-                        KNSConstants.KUALI_RICE_WORKFLOW_NAMESPACE,
+                        KRADConstants.KUALI_RICE_WORKFLOW_NAMESPACE,
                         KimConstants.PermissionTemplateNames.ROUTE_DOCUMENT,
                         user.getPrincipalId());
     }
@@ -436,8 +441,8 @@ public abstract class KcTransactionalDocumentAuthorizerBase extends BusinessObje
      * @param user the user
      * @return true if the user can acknowledge the document; otherwise false
      */
-    protected boolean canAcknowledge(Document document, Person user) { 
-        return canTakeRequestedAction(document, KEWConstants.ACTION_REQUEST_ACKNOWLEDGE_REQ, user);
+    public boolean canAcknowledge(Document document, Person user) { 
+        return canTakeRequestedAction(document, KewApiConstants.ACTION_REQUEST_ACKNOWLEDGE_REQ, user);
     }
     
     /**
@@ -446,8 +451,8 @@ public abstract class KcTransactionalDocumentAuthorizerBase extends BusinessObje
      * @param user the user
      * @return true if the user can FYI the document; otherwise false
      */
-    protected boolean canFYI(Document document, Person user) {
-        return canTakeRequestedAction(document, KEWConstants.ACTION_REQUEST_FYI_REQ, user);
+    public boolean canFyi(Document document, Person user) {
+        return canTakeRequestedAction(document, KewApiConstants.ACTION_REQUEST_FYI_REQ, user);
     }
     
     /**
@@ -457,7 +462,7 @@ public abstract class KcTransactionalDocumentAuthorizerBase extends BusinessObje
      * @return true if the user can approve and disapprove the document; otherwise false
      */
     protected boolean canApproveAndDisapprove(Document document, Person user) {
-         return canTakeRequestedAction(document, KEWConstants.ACTION_REQUEST_APPROVE_REQ, user);
+         return canTakeRequestedAction(document, KewApiConstants.ACTION_REQUEST_APPROVE_REQ, user);
     }
     
     /**
@@ -478,9 +483,9 @@ public abstract class KcTransactionalDocumentAuthorizerBase extends BusinessObje
      */
     public final boolean canReceiveAdHoc(Document document, Person user, String actionRequestCode) {
         Map<String,String> additionalPermissionDetails = new HashMap<String, String>();
-        additionalPermissionDetails.put(KimAttributes.ACTION_REQUEST_CD, actionRequestCode);
+        additionalPermissionDetails.put(KimConstants.AttributeConstants.ACTION_REQUEST_CD, actionRequestCode);
         return isAuthorizedByTemplate(document,
-                KNSConstants.KUALI_RICE_WORKFLOW_NAMESPACE,
+                KRADConstants.KUALI_RICE_WORKFLOW_NAMESPACE,
                 KimConstants.PermissionTemplateNames.AD_HOC_REVIEW_DOCUMENT,
                 user.getPrincipalId(), additionalPermissionDetails, null );
     }
@@ -497,10 +502,10 @@ public abstract class KcTransactionalDocumentAuthorizerBase extends BusinessObje
                                               String attachmentTypeCode, Person user) {
         Map<String, String> additionalPermissionDetails = new HashMap<String, String>();
         if (attachmentTypeCode != null) {
-            additionalPermissionDetails.put(KimAttributes.ATTACHMENT_TYPE_CODE,
+            additionalPermissionDetails.put(KimConstants.AttributeConstants.ATTACHMENT_TYPE_CODE,
                     attachmentTypeCode);
         }
-        return isAuthorizedByTemplate(document, KNSConstants.KNS_NAMESPACE,
+        return isAuthorizedByTemplate(document, KRADConstants.KNS_NAMESPACE,
                 KimConstants.PermissionTemplateNames.ADD_NOTE_ATTACHMENT, user
                         .getPrincipalId(), additionalPermissionDetails, null);
     }
@@ -517,12 +522,12 @@ public abstract class KcTransactionalDocumentAuthorizerBase extends BusinessObje
                             String attachmentTypeCode, String createdBySelfOnly, Person user) {
         Map<String, String> additionalPermissionDetails = new HashMap<String, String>();
         if (attachmentTypeCode != null) {
-            additionalPermissionDetails.put(KimAttributes.ATTACHMENT_TYPE_CODE,
+            additionalPermissionDetails.put(KimConstants.AttributeConstants.ATTACHMENT_TYPE_CODE,
                     attachmentTypeCode);
         }
-        additionalPermissionDetails.put(KimAttributes.CREATED_BY_SELF_ONLY,
+        additionalPermissionDetails.put(KimConstants.AttributeConstants.CREATED_BY_SELF_ONLY,
                 createdBySelfOnly);
-        return isAuthorizedByTemplate(document, KNSConstants.KNS_NAMESPACE,
+        return isAuthorizedByTemplate(document, KRADConstants.KNS_NAMESPACE,
                 KimConstants.PermissionTemplateNames.DELETE_NOTE_ATTACHMENT,
                 user.getPrincipalId(), additionalPermissionDetails, null);
     }
@@ -537,14 +542,19 @@ public abstract class KcTransactionalDocumentAuthorizerBase extends BusinessObje
      */
     public boolean canViewNoteAttachment(Document document,
                                                String attachmentTypeCode, Person user) {
+        return canViewNoteAttachment(document, attachmentTypeCode, user.getPrincipalId(), user);
+    }
+    
+    public boolean canViewNoteAttachment(Document document, String attachmentTypeCode, 
+                   String authorUniversalIdentifier, Person user) {
         Map<String, String> additionalPermissionDetails = new HashMap<String, String>();
         if (attachmentTypeCode != null) {
-            additionalPermissionDetails.put(KimAttributes.ATTACHMENT_TYPE_CODE,
-                    attachmentTypeCode);
+        additionalPermissionDetails.put(KimConstants.AttributeConstants.ATTACHMENT_TYPE_CODE,
+        attachmentTypeCode);
         }
-        return isAuthorizedByTemplate(document, KNSConstants.KNS_NAMESPACE,
-                KimConstants.PermissionTemplateNames.VIEW_NOTE_ATTACHMENT, user
-                        .getPrincipalId(), additionalPermissionDetails, null);
+        return isAuthorizedByTemplate(document, KRADConstants.KNS_NAMESPACE,
+        KimConstants.PermissionTemplateNames.VIEW_NOTE_ATTACHMENT, user
+        .getPrincipalId(), additionalPermissionDetails, null);
     }
     
     /**
@@ -553,21 +563,21 @@ public abstract class KcTransactionalDocumentAuthorizerBase extends BusinessObje
      * @param user the user
      * @return true if the user can take the requested action; otherwise false
      */
-    private boolean canTakeRequestedAction(Document document,
+    public boolean canTakeRequestedAction(Document document,
                                            String actionRequestCode, Person user) {
         Map<String, String> additionalPermissionDetails = new HashMap<String, String>();
-        additionalPermissionDetails.put(KimAttributes.ACTION_REQUEST_CD,
+        additionalPermissionDetails.put(KimConstants.AttributeConstants.ACTION_REQUEST_CD,
                 actionRequestCode);
-        return isAuthorizedByTemplate(document, KNSConstants.KNS_NAMESPACE,
+        return isAuthorizedByTemplate(document, KRADConstants.KNS_NAMESPACE,
                 KimConstants.PermissionTemplateNames.TAKE_REQUESTED_ACTION,
                 user.getPrincipalId(), additionalPermissionDetails, null);
     }
 
     /**
-     * @see org.kuali.rice.kns.authorization.BusinessObjectAuthorizerBase#addPermissionDetails(org.kuali.rice.kns.bo.BusinessObject, java.util.Map)
+     * @see org.kuali.rice.kns.bo.authorization.BusinessObjectAuthorizerBase#addPermissionDetails(org.kuali.rice.krad.bo.BusinessObject, java.util.Map)
      */
     @Override
-    protected void addPermissionDetails(BusinessObject businessObject,
+    protected void addPermissionDetails(Object businessObject,
             Map<String, String> attributes) {
         super.addPermissionDetails(businessObject, attributes);
         if (businessObject instanceof Document) {
@@ -576,10 +586,10 @@ public abstract class KcTransactionalDocumentAuthorizerBase extends BusinessObje
     }
 
     /**
-     * @see org.kuali.rice.kns.authorization.BusinessObjectAuthorizerBase#addRoleQualification(org.kuali.rice.kns.bo.BusinessObject, java.util.Map)
+     * @see org.kuali.rice.kns.bo.authorization.BusinessObjectAuthorizerBase#addRoleQualification(org.kuali.rice.krad.bo.BusinessObject, java.util.Map)
      */
     @Override
-    protected void addRoleQualification(BusinessObject businessObject,
+    protected void addRoleQualification(Object businessObject,
             Map<String, String> attributes) {
         super.addRoleQualification(businessObject, attributes);
         if (businessObject instanceof Document) {
@@ -589,20 +599,19 @@ public abstract class KcTransactionalDocumentAuthorizerBase extends BusinessObje
 
     private void addStandardAttributes(Document document,
             Map<String, String> attributes) {
-        KualiWorkflowDocument wd = document.getDocumentHeader()
+        WorkflowDocument wd = document.getDocumentHeader()
                 .getWorkflowDocument();
-        attributes.put(KimAttributes.DOCUMENT_NUMBER, document
+        attributes.put(KimConstants.AttributeConstants.DOCUMENT_NUMBER, document
                 .getDocumentNumber());
-        attributes.put(KimAttributes.DOCUMENT_TYPE_NAME, wd.getDocumentType());
-        if (wd.stateIsInitiated() || wd.stateIsSaved()) {
-            attributes.put(KimAttributes.ROUTE_NODE_NAME,
+        attributes.put(KimConstants.AttributeConstants.DOCUMENT_TYPE_NAME, wd.getDocumentTypeName());
+        if (wd.isInitiated() || wd.isSaved()) {
+            attributes.put(KimConstants.AttributeConstants.ROUTE_NODE_NAME,
                     PRE_ROUTING_ROUTE_NAME);
         } else {
-            attributes.put(KimAttributes.ROUTE_NODE_NAME, wd
-                    .getCurrentRouteNodeNames());
+            WorkflowDocumentService workflowDocumentService = KRADServiceLocatorWeb.getWorkflowDocumentService();
+            attributes.put(KimConstants.AttributeConstants.ROUTE_NODE_NAME, workflowDocumentService.getCurrentRouteNodeNames(wd));
         }
-        attributes.put(KimAttributes.ROUTE_STATUS_CODE, wd.getRouteHeader()
-                .getDocRouteStatus());
+        attributes.put(KimConstants.AttributeConstants.ROUTE_STATUS_CODE, wd.getStatus().getCode());
     }
     
 
@@ -620,13 +629,13 @@ public abstract class KcTransactionalDocumentAuthorizerBase extends BusinessObje
     }
     
     protected boolean isEnroute(Document document) {
-        return KEWConstants.ROUTE_HEADER_ENROUTE_CD.equals(
-                document.getDocumentHeader().getWorkflowDocument().getRouteHeader().getDocRouteStatus());
+        return KewApiConstants.ROUTE_HEADER_ENROUTE_CD.equals(
+                document.getDocumentHeader().getWorkflowDocument().getStatus().getCode());
     }
     
     protected boolean isFinal(Document document) {
-        return KEWConstants.ROUTE_HEADER_FINAL_CD.equals(
-                document.getDocumentHeader().getWorkflowDocument().getRouteHeader().getDocRouteStatus());
+        return KewApiConstants.ROUTE_HEADER_FINAL_CD.equals(
+                document.getDocumentHeader().getWorkflowDocument().getStatus().getCode());
     }
     
     /**
@@ -634,7 +643,7 @@ public abstract class KcTransactionalDocumentAuthorizerBase extends BusinessObje
      * but that does not currently produce a worklflow document with the isXXXXResqueted populated correctly for
      * ad hoc users.
      * 
-     * KRACOEUS-3678,3677:  KualiWorkflowDocument is not returning true for ad-hoc users when the instance 
+     * KRACOEUS-3678,3677:  WorkflowDocument is not returning true for ad-hoc users when the instance 
      * is from the document.getDocumentHeader().getWorkflowDocument() method 
      * hack is to get WorkflowDocument from the WorkflowDocument constructor directly.
      * 
@@ -643,15 +652,17 @@ public abstract class KcTransactionalDocumentAuthorizerBase extends BusinessObje
      * @return
      */
     private WorkflowDocument getWorkflowDocument( Document document, Person user ) {
-            try {
-                WorkflowDocument workDoc = new WorkflowDocument(user.getPrincipalId(), document.getDocumentHeader().getWorkflowDocument().getRouteHeaderId() );
-                return workDoc;
-            }
-            catch (WorkflowException e) {
-              throw new RuntimeException( String.format( "Could not load WorkflowDocument for document %s",document.getDocumentNumber() ) );
-            }
+        WorkflowDocument workDoc = WorkflowDocumentFactory.loadDocument(user.getPrincipalId(), document.getDocumentHeader().getWorkflowDocument().getDocumentId() );
+        return workDoc;
     }
-    
-    
-    
+
+    @Override
+    public boolean canEditDocumentOverview(Document document, Person user) {
+        return canEdit(document, user);
+    }
+
+    @Override
+    public boolean canSendAnyTypeAdHocRequests(Document document, Person user) {
+        return true;
+    }
 }

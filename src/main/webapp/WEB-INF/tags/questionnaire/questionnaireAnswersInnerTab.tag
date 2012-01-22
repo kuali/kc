@@ -151,7 +151,7 @@
 		                        <c:set target="${paramMap}" property="argName" value="${answer.question.lookupReturn}" />
 		                        <c:forEach items="${krafn:getOptionList('org.kuali.kra.lookup.keyvalue.ArgValueLookupValuesFinder', paramMap)}" var="option">
 		        	                <c:if test="${answer.answer == option.key}">
-		        	                    ${option.label}
+		        	                    ${option.value}
 		        	                </c:if>    
 		                        </c:forEach>
                             </c:when>

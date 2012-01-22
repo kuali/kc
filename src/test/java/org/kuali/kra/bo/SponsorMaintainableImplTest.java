@@ -21,7 +21,7 @@ import org.junit.Before;
 import org.junit.Test;
 import org.kuali.kra.infrastructure.Constants;
 import org.kuali.kra.test.infrastructure.KcUnitTestBase;
-import org.kuali.rice.kns.service.impl.ParameterServiceImpl;
+import org.kuali.rice.coreservice.impl.parameter.ParameterServiceImpl;
 
 public class SponsorMaintainableImplTest extends KcUnitTestBase {
 

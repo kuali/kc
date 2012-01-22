@@ -17,27 +17,27 @@ package org.kuali.kra.kim.service.impl;
 
 import java.util.ArrayList;
 import java.util.List;
+import java.util.Map;
 
 import org.apache.commons.lang.StringUtils;
 import org.kuali.kra.bo.UnitAdministrator;
 import org.kuali.kra.kim.bo.KcKimAttributes;
 import org.kuali.kra.service.UnitService;
-import org.kuali.rice.kim.bo.Role;
-import org.kuali.rice.kim.bo.role.dto.RoleMembershipInfo;
-import org.kuali.rice.kim.bo.types.dto.AttributeSet;
-import org.kuali.rice.kim.service.support.KimRoleTypeService;
-import org.kuali.rice.kim.service.support.impl.KimDerivedRoleTypeServiceBase;
+import org.kuali.rice.core.api.membership.MemberType;
+import org.kuali.rice.kim.api.role.RoleMembership;
+import org.kuali.rice.kim.framework.role.RoleTypeService;
+import org.kuali.rice.kns.kim.role.DerivedRoleTypeServiceBase;
 
 /**
  * Checks whether the principal is a Unit Administrator for the given unit.
  */
-public class UnitAdministratorDerivedRoleTypeServiceImpl extends KimDerivedRoleTypeServiceBase implements KimRoleTypeService {
+public class UnitAdministratorDerivedRoleTypeServiceImpl extends DerivedRoleTypeServiceBase implements RoleTypeService {
     
     private UnitService unitService;
     
     @Override
-    public boolean hasApplicationRole(
-            String principalId, List<String> groupIds, String namespaceCode, String roleName, AttributeSet qualification) {
+    public boolean hasDerivedRole(
+            String principalId, List<String> groupIds, String namespaceCode, String roleName, Map<String,String> qualification) {
         
         String unitNumber = qualification.get(KcKimAttributes.UNIT_NUMBER);
         if (StringUtils.isNotBlank(unitNumber)) {
@@ -57,15 +57,15 @@ public class UnitAdministratorDerivedRoleTypeServiceImpl extends KimDerivedRoleT
     }
     
     @Override
-    public List<RoleMembershipInfo> getRoleMembersFromApplicationRole(String namespaceCode, String roleName, AttributeSet qualification) {
+    public List<RoleMembership> getRoleMembersFromDerivedRole(String namespaceCode, String roleName, Map<String,String> qualification) {
         String unitNumber = qualification.get(KcKimAttributes.UNIT_NUMBER);
-        List<RoleMembershipInfo> members = new ArrayList<RoleMembershipInfo>();
+        List<RoleMembership> members = new ArrayList<RoleMembership>();
         
         if (StringUtils.isNotBlank(unitNumber)) {
             List<UnitAdministrator> unitAdministrators = unitService.retrieveUnitAdministratorsByUnitNumber(unitNumber);
             for ( UnitAdministrator unitAdministrator : unitAdministrators ) {
                 if ( StringUtils.isNotBlank(unitAdministrator.getPersonId()) ) {
-                    members.add( new RoleMembershipInfo(null, null, unitAdministrator.getPersonId(), Role.PRINCIPAL_MEMBER_TYPE, null) );
+                    members.add( RoleMembership.Builder.create(null, null, unitAdministrator.getPersonId(), MemberType.PRINCIPAL, null).build() );
                 }
             }
         }

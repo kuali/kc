@@ -19,7 +19,8 @@ import java.util.ArrayList;
 import java.util.List;
 
 import org.kuali.kra.keyvalue.ValuesFinderTestBase;
-import org.kuali.rice.core.util.KeyLabelPair;
+import org.kuali.rice.core.api.util.ConcreteKeyValue;
+import org.kuali.rice.core.api.util.KeyValue;
 
 /**
  * This class tests LeadUnitValuesFinder.
@@ -32,14 +33,14 @@ public class LeadUnitValuesFinderTest extends ValuesFinderTestBase {
     }
 
     @Override
-    protected List<KeyLabelPair> getKeyValues() {
-        final List<KeyLabelPair> keylabel = new ArrayList<KeyLabelPair>();
+    protected List<KeyValue> getKeyValues() {
+        final List<KeyValue> keylabel = new ArrayList<KeyValue>();
         
-        keylabel.add(new KeyLabelPair("", "select"));
-        keylabel.add(new KeyLabelPair("000001", "000001 - University"));
-        keylabel.add(new KeyLabelPair("IN-CARD", "IN-CARD - CARDIOLOGY"));
-        keylabel.add(new KeyLabelPair("IN-CARR", "IN-CARR - CARDIOLOGY RECHARGE CTR"));
-        keylabel.add(new KeyLabelPair("BL-IIDC", "BL-IIDC - IND INST ON DISABILITY/COMMNTY"));
+        keylabel.add(new ConcreteKeyValue("", "select"));
+        keylabel.add(new ConcreteKeyValue("000001", "000001 - University"));
+        keylabel.add(new ConcreteKeyValue("IN-CARD", "IN-CARD - CARDIOLOGY"));
+        keylabel.add(new ConcreteKeyValue("IN-CARR", "IN-CARR - CARDIOLOGY RECHARGE CTR"));
+        keylabel.add(new ConcreteKeyValue("BL-IIDC", "BL-IIDC - IND INST ON DISABILITY/COMMNTY"));
         
         return keylabel;
     }

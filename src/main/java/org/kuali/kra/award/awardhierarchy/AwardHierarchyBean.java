@@ -25,9 +25,9 @@ import org.apache.commons.logging.LogFactory;
 import org.kuali.kra.award.AwardForm;
 import org.kuali.kra.award.home.Award;
 import org.kuali.kra.infrastructure.KraServiceLocator;
-import org.kuali.rice.kns.util.ErrorMessage;
-import org.kuali.rice.kns.util.GlobalVariables;
+import org.kuali.rice.kns.util.KNSGlobalVariables;
 import org.kuali.rice.kns.util.MessageList;
+import org.kuali.rice.krad.util.ErrorMessage;
 
 /**
  * Assumptions:
@@ -201,7 +201,7 @@ public class AwardHierarchyBean implements Serializable {
      */
     public boolean saveHierarchyChanges() {
         MessageList messageList = new MessageList();
-        MessageList originalMessageList = GlobalVariables.getMessageList();
+        MessageList originalMessageList = KNSGlobalVariables.getMessageList();
         if(originalMessageList != null) {
             messageList.addAll(originalMessageList);
         }
@@ -216,7 +216,7 @@ public class AwardHierarchyBean implements Serializable {
             messageList.add(new ErrorMessage(ERROR_AWARD_HIERARCHY_NOTSAVED, e.getMessage()));
             result = false;
         }
-        GlobalVariables.setMessageList(messageList);
+        KNSGlobalVariables.setMessageList(messageList);
         return result;
     }
     

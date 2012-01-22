@@ -21,11 +21,9 @@ import org.junit.After;
 import org.junit.Assert;
 import org.junit.Before;
 import org.junit.Test;
-import org.kuali.kra.award.commitments.AwardFandaRate;
-import org.kuali.kra.award.commitments.AwardFandaRateRule;
-import org.kuali.rice.kns.util.ErrorMap;
-import org.kuali.rice.kns.util.GlobalVariables;
-import org.kuali.rice.kns.util.KualiDecimal;
+import org.kuali.rice.core.api.util.type.KualiDecimal;
+import org.kuali.rice.krad.util.GlobalVariables;
+import org.kuali.rice.krad.util.MessageMap;
 
 /**
  * This class tests <code>AwardFandaRateRule</code>
@@ -51,7 +49,7 @@ public class AwardFandaRateRuleTest {
         awardFandaRate.setUnderrecoveryOfIndirectCost(new KualiDecimal(1000));
         awardFandaRate.setStartDate(new Date(new Long("1183316613046")));        
         awardFandaRate.setEndDate(new Date(new Long("1214852613046")));
-        GlobalVariables.setErrorMap(new ErrorMap());
+        GlobalVariables.setMessageMap(new MessageMap());
     }
 
     /**

@@ -15,24 +15,24 @@
  */
 package org.kuali.kra;
 
-import java.util.LinkedHashMap;
-
 import org.kuali.kra.bo.KraPersistableBusinessObjectBase;
- 
+
 /**
  * This class is meant to be a common base class for SeparatelySequenceableAssociate BOs (for BOs that haven't already
  * extended a class).
  * 
  */
 public abstract class SeparateAssociate extends KraPersistableBusinessObjectBase implements SeparatelySequenceableAssociate {
+
     private static final long serialVersionUID = -8385115657304261423L;
+
     private static final Integer INITIAL_VERSION = Integer.valueOf(0);
 
-    //the pk of the BO - this can always be moved to a subclass if it conflict with a BOs PK requirements
+    //the pk of the BO - this can always be moved to a subclass if it conflict with a BOs PK requirements  
     private Long id;
-    
+
     private Integer sequenceNumber = INITIAL_VERSION;
-    
+
     /** {@inheritDoc} */
     public Integer getSequenceNumber() {
         return this.sequenceNumber;
@@ -45,17 +45,17 @@ public abstract class SeparateAssociate extends KraPersistableBusinessObjectBase
     public void setSequenceNumber(Integer sequenceNumber) {
         this.sequenceNumber = sequenceNumber;
     }
-    
+
     /** {@inheritDoc} */
     public void incrementSequenceNumber() {
-        this.sequenceNumber++; 
+        this.sequenceNumber++;
     }
-    
+
     /** {@inheritDoc} */
     public void resetPersistenceState() {
         this.setId(null);
     }
-    
+
     /**
      * Gets the  id.
      * @return the  id
@@ -63,7 +63,7 @@ public abstract class SeparateAssociate extends KraPersistableBusinessObjectBase
     public Long getId() {
         return this.id;
     }
-    
+
     /**
      * Sets the id.
      * @param id the id
@@ -71,16 +71,7 @@ public abstract class SeparateAssociate extends KraPersistableBusinessObjectBase
     public void setId(Long id) {
         this.id = id;
     }
-    
-    /** {@inheritDoc} */
-    @Override
-    protected LinkedHashMap<String, Object> toStringMapper() {
-        LinkedHashMap<String, Object> map = new LinkedHashMap<String, Object>();
-        map.put("id", this.id);
-        map.put("sequenceNumber", this.sequenceNumber);
-        return map;
-    }
-    
+
     /** {@inheritDoc} */
     @Override
     public int hashCode() {
@@ -90,7 +81,7 @@ public abstract class SeparateAssociate extends KraPersistableBusinessObjectBase
         result = prime * result + ((this.sequenceNumber == null) ? 0 : this.sequenceNumber.hashCode());
         return result;
     }
-    
+
     /** {@inheritDoc} */
     @Override
     public boolean equals(Object obj) {
@@ -108,16 +99,14 @@ public abstract class SeparateAssociate extends KraPersistableBusinessObjectBase
             if (other.id != null) {
                 return false;
             }
-        }
-        else if (!this.id.equals(other.id)) {
+        } else if (!this.id.equals(other.id)) {
             return false;
         }
         if (this.sequenceNumber == null) {
             if (other.sequenceNumber != null) {
                 return false;
             }
-        }
-        else if (!this.sequenceNumber.equals(other.sequenceNumber)) {
+        } else if (!this.sequenceNumber.equals(other.sequenceNumber)) {
             return false;
         }
         return true;

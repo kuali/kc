@@ -15,11 +15,8 @@
  */
 package org.kuali.kra.questionnaire.answer;
 
-import java.util.ArrayList;
-import java.util.LinkedHashMap;
 import java.util.List;
 
-import org.apache.commons.lang.ObjectUtils;
 import org.kuali.kra.bo.KraPersistableBusinessObjectBase;
 import org.kuali.kra.questionnaire.QuestionnaireQuestion;
 import org.kuali.kra.questionnaire.question.Question;
@@ -34,17 +31,26 @@ public class Answer extends KraPersistableBusinessObjectBase {
     private Long id;
 
     private Integer questionNumber;
+
     private Integer answerNumber;
+
     private String answer;
 
     private Long answerHeaderIdFk;
+
     private AnswerHeader answerHeader;
+
     private Long questionRefIdFk;
+
     private Question question;
+
     private Long questionnaireQuestionsIdFk;
+
     private QuestionnaireQuestion questionnaireQuestion;
-    // transient field : indicate whether a child should be displayed
+
+    // transient field : indicate whether a child should be displayed  
     private String matchedChild = "N";
+
     private List<Answer> parentAnswer;
 
     /**
@@ -173,21 +179,6 @@ public class Answer extends KraPersistableBusinessObjectBase {
         this.question = question;
     }
 
-    /** {@inheritDoc} */
-    @Override
-    protected LinkedHashMap<String, Object> toStringMapper() {
-        LinkedHashMap<String, Object> hashMap = new LinkedHashMap<String, Object>();
-        hashMap.put("id", this.getId());
-        hashMap.put("answerHeaderIdFk", this.getAnswerHeaderIdFk());
-        hashMap.put("questionRefIdFk", this.getQuestionRefIdFk());
-        hashMap.put("questionNumber", this.getQuestionNumber());
-        hashMap.put("answerNumber", this.getAnswerNumber());
-        hashMap.put("answer", this.getAnswer());
-        hashMap.put("matchedChild", this.matchedChild);
-        hashMap.put("this.getParentAnswer().size()", this.getParentAnswer() == null ? 0 : this.getParentAnswer().size());
-        return hashMap;
-    }
-
     public Long getAnswerHeaderIdFk() {
         return answerHeaderIdFk;
     }
@@ -227,5 +218,4 @@ public class Answer extends KraPersistableBusinessObjectBase {
     public void setParentAnswer(List<Answer> parentAnswer) {
         this.parentAnswer = parentAnswer;
     }
-
 }

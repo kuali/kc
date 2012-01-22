@@ -33,7 +33,7 @@ import org.kuali.kra.proposaldevelopment.bo.DevelopmentProposal;
 import org.kuali.kra.proposaldevelopment.budget.bo.ProposalDevelopmentBudgetExt;
 import org.kuali.kra.proposaldevelopment.service.ProposalStatusService;
 import org.kuali.kra.proposaldevelopment.web.struts.form.ProposalDevelopmentForm;
-import org.kuali.rice.kns.service.BusinessObjectService;
+import org.kuali.rice.krad.service.BusinessObjectService;
 
 /**
  * This class...
@@ -93,7 +93,7 @@ public class ProposalDevelopmentHierarchyAction extends ProposalDevelopmentActio
                     budget.setBudgetStatus(proposal.getBudgetStatus());
                 }
                 else {
-                    String budgetStatusIncompleteCode = this.getParameterService().getParameterValue(
+                    String budgetStatusIncompleteCode = this.getParameterService().getParameterValueAsString(
                             BudgetDocument.class, Constants.BUDGET_STATUS_INCOMPLETE_CODE);
                     budget.setBudgetStatus(budgetStatusIncompleteCode);
                     
@@ -101,7 +101,7 @@ public class ProposalDevelopmentHierarchyAction extends ProposalDevelopmentActio
             }
         }
         pdForm.setBudgetToSummarize(budget);
-        pdForm.setProposalHierarchyIndirectObjectCode(getParameterService().getParameterValue(BudgetDocument.class, "proposalHierarchySubProjectIndirectCostElement"));
+        pdForm.setProposalHierarchyIndirectObjectCode(getParameterService().getParameterValueAsString(BudgetDocument.class, "proposalHierarchySubProjectIndirectCostElement"));
 
         return mapping.findForward(FORWARD_BUDGET_SUMMARY);
     }    

@@ -15,23 +15,23 @@
  */
 package org.kuali.kra.irb.correspondence;
 
-import java.util.LinkedHashMap;
-
 import org.kuali.kra.bo.KraPersistableBusinessObjectBase;
 
-public class ValidProtoActionCoresp extends KraPersistableBusinessObjectBase { 
-    
+public class ValidProtoActionCoresp extends KraPersistableBusinessObjectBase {
+
     private static final long serialVersionUID = 1L;
 
-    private Long validProtoActionCorespId; 
-    private String protocolActionTypeCode; 
-    private String protoCorrespTypeCode; 
-    private boolean finalFlag; 
-    
-    public ValidProtoActionCoresp() { 
+    private Long validProtoActionCorespId;
 
-    } 
-    
+    private String protocolActionTypeCode;
+
+    private String protoCorrespTypeCode;
+
+    private boolean finalFlag;
+
+    public ValidProtoActionCoresp() {
+    }
+
     public Long getValidProtoActionCorespId() {
         return validProtoActionCorespId;
     }
@@ -63,16 +63,4 @@ public class ValidProtoActionCoresp extends KraPersistableBusinessObjectBase {
     public void setFinalFlag(boolean finalFlag) {
         this.finalFlag = finalFlag;
     }
-
-    /** {@inheritDoc} */
-    @Override 
-    protected LinkedHashMap<String, Object> toStringMapper() {
-        LinkedHashMap<String, Object> hashMap = new LinkedHashMap<String, Object>();
-        hashMap.put("validProtoActionCorespId", this.getValidProtoActionCorespId());
-        hashMap.put("protocolActionTypeCode", this.getProtocolActionTypeCode());
-        hashMap.put("protoCorrespTypeCode", this.getProtoCorrespTypeCode());
-        hashMap.put("finalFlag", this.getFinalFlag());
-        return hashMap;
-    }
-    
 }

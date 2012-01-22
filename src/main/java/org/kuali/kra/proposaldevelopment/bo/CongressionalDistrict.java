@@ -15,8 +15,6 @@
  */
 package org.kuali.kra.proposaldevelopment.bo;
 
-import java.util.LinkedHashMap;
-
 import org.kuali.kra.bo.KraPersistableBusinessObjectBase;
 
 /**
@@ -24,14 +22,19 @@ import org.kuali.kra.bo.KraPersistableBusinessObjectBase;
  * state code and a district number, although it is represented by a single string.
  */
 public class CongressionalDistrict extends KraPersistableBusinessObjectBase {
+
     public static final int DISTRICT_NUMBER_LENGTH = 3;
+
     private static final long serialVersionUID = 9043098848918407500L;
-    
+
     private Long congressionalDistrictId;
+
     private String proposalNumber;
+
     private Integer siteNumber;
+
     private String congressionalDistrict;
-    
+
     public void setCongressionalDistrictId(Long congressionalDistrictId) {
         this.congressionalDistrictId = congressionalDistrictId;
     }
@@ -59,7 +62,7 @@ public class CongressionalDistrict extends KraPersistableBusinessObjectBase {
     public String getCongressionalDistrict() {
         return congressionalDistrict;
     }
-    
+
     public void setCongressionalDistrict(String stateCode, String districtNumber) {
         setCongressionalDistrict(stateCode + "-" + districtNumber);
     }
@@ -67,14 +70,4 @@ public class CongressionalDistrict extends KraPersistableBusinessObjectBase {
     public void setCongressionalDistrict(String congressionalDistrict) {
         this.congressionalDistrict = congressionalDistrict;
     }
-
-    @Override
-    protected LinkedHashMap<String, ?> toStringMapper() {
-        LinkedHashMap<String, Object> hashMap = new LinkedHashMap<String, Object>();
-        hashMap.put("proposalNumber", this.getProposalNumber());
-        hashMap.put("siteNumber", this.getSiteNumber());
-        hashMap.put("congressionalDistrict", this.getCongressionalDistrict());
-        return hashMap;
-    }
-
 }

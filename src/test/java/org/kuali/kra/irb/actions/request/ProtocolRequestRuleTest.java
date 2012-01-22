@@ -27,8 +27,8 @@ import org.kuali.kra.irb.actions.ProtocolActionType;
 import org.kuali.kra.irb.actions.submit.ProtocolSubmissionType;
 import org.kuali.kra.irb.test.ProtocolRuleTestBase;
 import org.kuali.kra.rules.TemplateRuleTest;
-import org.kuali.rice.kew.exception.WorkflowException;
-import org.kuali.rice.kns.service.ParameterService;
+import org.kuali.rice.coreservice.framework.parameter.ParameterService;
+import org.kuali.rice.kew.api.exception.WorkflowException;
 
 /**
  * Test the business rules for Protocol Requests: close, suspend, open enrollment,
@@ -128,7 +128,7 @@ public class ProtocolRequestRuleTest extends ProtocolRuleTestBase {
         final ParameterService service = context.mock(ParameterService.class);
         
         context.checking(new Expectations() {{
-            allowing(service).getParameterValue(ProtocolDocument.class, Constants.PARAMETER_IRB_COMM_SELECTION_DURING_SUBMISSION);
+            allowing(service).getParameterValueAsString(ProtocolDocument.class, Constants.PARAMETER_IRB_COMM_SELECTION_DURING_SUBMISSION);
             will(returnValue(committeeMandatoryCode));
         }});
         

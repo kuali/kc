@@ -24,9 +24,9 @@ import org.kuali.kra.infrastructure.KraServiceLocator;
 import org.kuali.kra.lookup.keyvalue.KeyValueFinderService;
 import org.kuali.kra.proposaldevelopment.bo.NarrativeType;
 import org.kuali.kra.proposaldevelopment.document.ProposalDevelopmentDocument;
-import org.kuali.rice.core.util.KeyLabelPair;
-import org.kuali.rice.kns.lookup.keyvalues.KeyValuesBase;
-import org.kuali.rice.kns.service.ParameterService;
+import org.kuali.rice.core.api.util.KeyValue;
+import org.kuali.rice.coreservice.framework.parameter.ParameterService;
+import org.kuali.rice.krad.keyvalues.KeyValuesBase;
 
 /**
  * 
@@ -48,8 +48,8 @@ public class InstituteAttachmentTypeValuesFinder  extends KeyValuesBase {
     }
     
     private KeyValueFinderService keyValueFinderService= (KeyValueFinderService)KraServiceLocator.getService("keyValueFinderService");
-        public List<KeyLabelPair> getKeyValues() {
-            String instituteNarrativeTypeGroup = this.getParameterService().getParameterValue(ProposalDevelopmentDocument.class, Constants.INSTITUTE_NARRATIVE_TYPE_GROUP);
+        public List<KeyValue> getKeyValues() {
+            String instituteNarrativeTypeGroup = this.getParameterService().getParameterValueAsString(ProposalDevelopmentDocument.class, Constants.INSTITUTE_NARRATIVE_TYPE_GROUP);
             Map<String,String> queryMap = new HashMap<String,String>();
             queryMap.put("narrativeTypeGroup", instituteNarrativeTypeGroup);
             queryMap.put("systemGenerated", "N");

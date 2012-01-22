@@ -32,7 +32,7 @@ public class AwardSponsorContactProjectRolesValuesFinder extends AwardContactsPr
     @Override
     @SuppressWarnings("unchecked")
     public List getKeyValues() {
-        return buildKeyLabelPairs(getKeyValuesService().findAllOrderBy(getRoleType(), "description", true));
+        return buildKeyValues(getKeyValuesService().findAllOrderBy(getRoleType(), "description", true));
     }
     
     @Override

@@ -19,7 +19,6 @@ import java.util.Map;
 
 import org.kuali.kra.institutionalproposal.document.InstitutionalProposalDocument;
 import org.kuali.kra.kim.bo.KcKimAttributes;
-import org.kuali.rice.kns.bo.BusinessObject;
 import org.kuali.rice.kns.document.authorization.TransactionalDocumentAuthorizer;
 import org.kuali.rice.kns.document.authorization.TransactionalDocumentAuthorizerBase;
 
@@ -32,7 +31,7 @@ public class InstitutionalProposalDocumentAuthorizer extends TransactionalDocume
     
     @Override
     protected void addRoleQualification(
-            BusinessObject primaryBusinessObjectOrDocument,
+            Object primaryBusinessObjectOrDocument,
             Map<String, String> attributes) {
         super.addRoleQualification(primaryBusinessObjectOrDocument, attributes);
         InstitutionalProposalDocument institutionalProposalDocument = (InstitutionalProposalDocument) primaryBusinessObjectOrDocument;

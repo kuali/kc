@@ -15,8 +15,6 @@
  */
 package org.kuali.kra.award.home.fundingproposal;
 
-import java.util.LinkedHashMap;
-
 import org.kuali.kra.award.home.Award;
 import org.kuali.kra.bo.KraPersistableBusinessObjectBase;
 import org.kuali.kra.institutionalproposal.home.InstitutionalProposal;
@@ -27,16 +25,20 @@ import org.kuali.kra.institutionalproposal.home.InstitutionalProposal;
  * parts of the application, such as versioning.
  */
 public class AwardFundingProposal extends KraPersistableBusinessObjectBase {
+
     private static final long serialVersionUID = -8135146676358083314L;
-    
+
     private Long awardFundingProposalId;
+
     private Award award;
+
     private InstitutionalProposal proposal;
 
-    // for OJB
+    // for OJB  
     private Long awardId;
+
     private Long proposalId;
-    
+
     private boolean active;
 
     /**
@@ -45,7 +47,7 @@ public class AwardFundingProposal extends KraPersistableBusinessObjectBase {
     public AwardFundingProposal() {
         setActive(true);
     }
-    
+
     /**
      * Constructs a AwardFundingProposal.java.
      * @param award
@@ -56,28 +58,28 @@ public class AwardFundingProposal extends KraPersistableBusinessObjectBase {
         setAward(award);
         setProposal(proposal);
     }
-    
+
     /**
      * @return Returns the award.
      */
     public Award getAward() {
         return award;
     }
-    
+
     /**
      * @return Returns the awardFundingProposalId.
      */
     public Long getAwardFundingProposalId() {
         return awardFundingProposalId;
     }
-    
+
     /**
      * @return Returns the awardId.
      */
     public Long getAwardId() {
         return awardId;
     }
-    
+
     /**
      * @return Returns the proposal.
      */
@@ -91,7 +93,7 @@ public class AwardFundingProposal extends KraPersistableBusinessObjectBase {
     public Long getProposalId() {
         return proposalId;
     }
-    
+
     /**
      * @param award The award to set.
      */
@@ -128,15 +130,15 @@ public class AwardFundingProposal extends KraPersistableBusinessObjectBase {
     public void setProposalId(Long proposalId) {
         this.proposalId = proposalId;
     }
-    
+
     public boolean isActive() {
         return active;
     }
-    
+
     public void setActive(boolean active) {
         this.active = active;
     }
-    
+
     /**
      * True if this entity has ever been persisted (even if there are unpersisted in-memory modifications).
      * @return boolean
@@ -144,45 +146,22 @@ public class AwardFundingProposal extends KraPersistableBusinessObjectBase {
     public boolean isPersisted() {
         return this.getAwardFundingProposalId() != null;
     }
-    
-    /**
-     * @see org.kuali.rice.kns.bo.BusinessObjectBase#toStringMapper()
-     */
-    @Override
-    protected LinkedHashMap<String, Object> toStringMapper() {
-        LinkedHashMap<String, Object> map = new LinkedHashMap<String, Object>();
-        
-        map.put("awardFundingProposalId", awardFundingProposalId);
-        map.put("award", award);
-        map.put("proposal", proposal);
-        
-        return map;
-    }
-    
+
     /**
      * @see java.lang.Object#equals(java.lang.Object)
      */
     @Override
     public boolean equals(Object obj) {
-        if (this == obj)
-            return true;
-        if (obj == null)
-            return false;
-        if (!(obj instanceof AwardFundingProposal))
-            return false;
+        if (this == obj) return true;
+        if (obj == null) return false;
+        if (!(obj instanceof AwardFundingProposal)) return false;
         AwardFundingProposal other = (AwardFundingProposal) obj;
         if (awardId == null) {
-            if (other.awardId != null)
-                return false;
-        }
-        else if (!awardId.equals(other.awardId))
-            return false;
+            if (other.awardId != null) return false;
+        } else if (!awardId.equals(other.awardId)) return false;
         if (proposalId == null) {
-            if (other.proposalId != null)
-                return false;
-        }
-        else if (!proposalId.equals(other.proposalId))
-            return false;
+            if (other.proposalId != null) return false;
+        } else if (!proposalId.equals(other.proposalId)) return false;
         return true;
     }
 

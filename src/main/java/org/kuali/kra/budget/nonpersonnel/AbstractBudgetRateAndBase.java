@@ -16,158 +16,149 @@
 package org.kuali.kra.budget.nonpersonnel;
 
 import java.sql.Date;
-import java.util.LinkedHashMap;
 
 import org.kuali.kra.budget.BudgetDecimal;
 import org.kuali.kra.budget.core.BudgetAssociate;
 import org.kuali.kra.budget.rates.RateClass;
 
 public abstract class AbstractBudgetRateAndBase extends BudgetAssociate {
+
     /**
      * Comment for <code>serialVersionUID</code>
      */
     private static final long serialVersionUID = 5786156490914012479L;
 
-
     private Long budgetPeriodId;
 
-
     private Integer budgetPeriod;
-	private Integer lineItemNumber;
-	private String rateClassCode;
-	private Integer rateNumber;
-	private String rateTypeCode;
-	private BudgetDecimal appliedRate;
-	private BudgetDecimal baseCostSharing;
-	private BudgetDecimal calculatedCost;
-	private BudgetDecimal calculatedCostSharing;
-	private Date endDate;
-	private Boolean onOffCampusFlag;
-	private Date startDate;
+
+    private Integer lineItemNumber;
+
+    private String rateClassCode;
+
+    private Integer rateNumber;
+
+    private String rateTypeCode;
+
+    private BudgetDecimal appliedRate;
+
+    private BudgetDecimal baseCostSharing;
+
+    private BudgetDecimal calculatedCost;
+
+    private BudgetDecimal calculatedCostSharing;
+
+    private Date endDate;
+
+    private Boolean onOffCampusFlag;
+
+    private Date startDate;
+
     private RateClass rateClass;
 
-	public Integer getBudgetPeriod() {
-		return budgetPeriod;
-	}
+    public Integer getBudgetPeriod() {
+        return budgetPeriod;
+    }
 
-	public void setBudgetPeriod(Integer budgetPeriod) {
-		this.budgetPeriod = budgetPeriod;
-	}
+    public void setBudgetPeriod(Integer budgetPeriod) {
+        this.budgetPeriod = budgetPeriod;
+    }
 
-	public Integer getLineItemNumber() {
-		return lineItemNumber;
-	}
+    public Integer getLineItemNumber() {
+        return lineItemNumber;
+    }
 
-	public void setLineItemNumber(Integer lineItemNumber) {
-		this.lineItemNumber = lineItemNumber;
-	}
+    public void setLineItemNumber(Integer lineItemNumber) {
+        this.lineItemNumber = lineItemNumber;
+    }
 
-	public String getRateClassCode() {
-		return rateClassCode;
-	}
+    public String getRateClassCode() {
+        return rateClassCode;
+    }
 
-	public void setRateClassCode(String rateClassCode) {
-		this.rateClassCode = rateClassCode;
-	}
+    public void setRateClassCode(String rateClassCode) {
+        this.rateClassCode = rateClassCode;
+    }
 
-	public Integer getRateNumber() {
-		return rateNumber;
-	}
+    public Integer getRateNumber() {
+        return rateNumber;
+    }
 
-	public void setRateNumber(Integer rateNumber) {
-		this.rateNumber = rateNumber;
-	}
+    public void setRateNumber(Integer rateNumber) {
+        this.rateNumber = rateNumber;
+    }
 
-	public String getRateTypeCode() {
-		return rateTypeCode;
-	}
+    public String getRateTypeCode() {
+        return rateTypeCode;
+    }
 
-	public void setRateTypeCode(String rateTypeCode) {
-		this.rateTypeCode = rateTypeCode;
-	}
+    public void setRateTypeCode(String rateTypeCode) {
+        this.rateTypeCode = rateTypeCode;
+    }
 
-	public BudgetDecimal getAppliedRate() {
-		return BudgetDecimal.returnZeroIfNull(appliedRate);
-	}
+    public BudgetDecimal getAppliedRate() {
+        return BudgetDecimal.returnZeroIfNull(appliedRate);
+    }
 
-	public void setAppliedRate(BudgetDecimal appliedRate) {
-		this.appliedRate = appliedRate;
-	}
+    public void setAppliedRate(BudgetDecimal appliedRate) {
+        this.appliedRate = appliedRate;
+    }
 
-	public BudgetDecimal getBaseCostSharing() {
-		return BudgetDecimal.returnZeroIfNull(baseCostSharing);
-	}
+    public BudgetDecimal getBaseCostSharing() {
+        return BudgetDecimal.returnZeroIfNull(baseCostSharing);
+    }
 
-	public void setBaseCostSharing(BudgetDecimal baseCostSharing) {
-		this.baseCostSharing = baseCostSharing;
-	}
+    public void setBaseCostSharing(BudgetDecimal baseCostSharing) {
+        this.baseCostSharing = baseCostSharing;
+    }
 
-	public BudgetDecimal getCalculatedCost() {
-		return calculatedCost;
-	}
+    public BudgetDecimal getCalculatedCost() {
+        return calculatedCost;
+    }
 
-	public void setCalculatedCost(BudgetDecimal calculatedCost) {
-		this.calculatedCost = calculatedCost;
-	}
+    public void setCalculatedCost(BudgetDecimal calculatedCost) {
+        this.calculatedCost = calculatedCost;
+    }
 
-	public BudgetDecimal getCalculatedCostSharing() {
-		return calculatedCostSharing;
-	}
+    public BudgetDecimal getCalculatedCostSharing() {
+        return calculatedCostSharing;
+    }
 
-	public void setCalculatedCostSharing(BudgetDecimal calculatedCostSharing) {
-		this.calculatedCostSharing = calculatedCostSharing;
-	}
+    public void setCalculatedCostSharing(BudgetDecimal calculatedCostSharing) {
+        this.calculatedCostSharing = calculatedCostSharing;
+    }
 
-	public Date getEndDate() {
-		return endDate;
-	}
+    public Date getEndDate() {
+        return endDate;
+    }
 
-	public void setEndDate(Date endDate) {
-		this.endDate = endDate;
-	}
+    public void setEndDate(Date endDate) {
+        this.endDate = endDate;
+    }
 
-	public Boolean getOnOffCampusFlag() {
-		return onOffCampusFlag;
-	}
+    public Boolean getOnOffCampusFlag() {
+        return onOffCampusFlag;
+    }
 
-	public void setOnOffCampusFlag(Boolean onOffCampusFlag) {
-		this.onOffCampusFlag = onOffCampusFlag;
-	}
+    public void setOnOffCampusFlag(Boolean onOffCampusFlag) {
+        this.onOffCampusFlag = onOffCampusFlag;
+    }
 
-	public Date getStartDate() {
-		return startDate;
-	}
+    public Date getStartDate() {
+        return startDate;
+    }
 
-	public void setStartDate(Date startDate) {
-		this.startDate = startDate;
-	}
-    
-	public RateClass getRateClass() {
+    public void setStartDate(Date startDate) {
+        this.startDate = startDate;
+    }
+
+    public RateClass getRateClass() {
         return rateClass;
     }
 
     public void setRateClass(RateClass rateClass) {
         this.rateClass = rateClass;
     }
-
-    @SuppressWarnings("unchecked")
-    @Override 
-	protected LinkedHashMap toStringMapper() {
-        LinkedHashMap<String, Object> hashMap = super.toStringMapper();
-		hashMap.put("budgetPeriod", getBudgetPeriod());
-		hashMap.put("lineItemNumber", getLineItemNumber());
-		hashMap.put("rateClassCode", getRateClassCode());
-		hashMap.put("rateNumber", getRateNumber());
-		hashMap.put("rateTypeCode", getRateTypeCode());
-		hashMap.put("appliedRate", getAppliedRate());
-		hashMap.put("baseCostSharing", getBaseCostSharing());
-		hashMap.put("calculatedCost", getCalculatedCost());
-		hashMap.put("calculatedCostSharing", getCalculatedCostSharing());
-		hashMap.put("endDate", getEndDate());
-		hashMap.put("onOffCampusFlag", getOnOffCampusFlag());
-		hashMap.put("startDate", getStartDate());
-		return hashMap;
-	}
 
     /**
      * Gets the budgetPeriodId attribute. 
@@ -184,5 +175,4 @@ public abstract class AbstractBudgetRateAndBase extends BudgetAssociate {
     public void setBudgetPeriodId(Long budgetPeriodId) {
         this.budgetPeriodId = budgetPeriodId;
     }
-
 }

@@ -16,10 +16,10 @@
 package org.kuali.kra.budget.distributionincome;
 
 
-public interface BudgetUnrecoveredFandAAllocationRule {
+public interface BudgetUnrecoveredFandAAllocationRule extends org.kuali.rice.krad.rules.rule.BusinessRule {
 
     /**
-     * Process business rules for allocation of BudgetUnrecoveredFandA
+     * ProcessDefinitionDefinitionDefinition business rules for allocation of BudgetUnrecoveredFandA
      * @param addBudgetCostShareEvent
      * @return
      */

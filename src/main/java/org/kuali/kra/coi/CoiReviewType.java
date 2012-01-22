@@ -15,8 +15,6 @@
  */
 package org.kuali.kra.coi;
 
-import java.util.LinkedHashMap;
-
 import org.kuali.kra.bo.KraPersistableBusinessObjectBase;
 
 /**
@@ -68,14 +66,5 @@ public class CoiReviewType extends KraPersistableBusinessObjectBase {
         this.globalFlag = globalFlag;
     }
     */
-
-    @SuppressWarnings("unchecked")
-    @Override
-    protected LinkedHashMap toStringMapper() {
-        LinkedHashMap map = new LinkedHashMap();
-        map.put("reviewTypeCode", getReviewTypeCode());
-        map.put("description", getDescription());
-        return map;
-    }
 }
 

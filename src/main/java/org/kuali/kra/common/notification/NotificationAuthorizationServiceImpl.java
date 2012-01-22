@@ -18,7 +18,7 @@ package org.kuali.kra.common.notification;
 import org.kuali.kra.bo.KcPerson;
 import org.kuali.kra.service.KcPersonService;
 import org.kuali.kra.service.UnitAuthorizationService;
-import org.kuali.rice.kns.util.GlobalVariables;
+import org.kuali.rice.krad.util.GlobalVariables;
 
 public class NotificationAuthorizationServiceImpl implements NotificationAuthorizationService {
 

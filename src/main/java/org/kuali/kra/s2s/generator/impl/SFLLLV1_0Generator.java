@@ -15,6 +15,7 @@
  */
 package org.kuali.kra.s2s.generator.impl;
 
+import gov.grants.apply.forms.attachmentsV11.AttachmentsDocument;
 import gov.grants.apply.forms.sflllV10.LobbyingActivitiesDisclosureDocument;
 import gov.grants.apply.forms.sflllV10.ReportDataType;
 import gov.grants.apply.forms.sflllV10.ReportEntityDataType;
@@ -42,7 +43,7 @@ import org.kuali.kra.infrastructure.KraServiceLocator;
 import org.kuali.kra.proposaldevelopment.document.ProposalDevelopmentDocument;
 import org.kuali.kra.s2s.generator.bo.DepartmentalPerson;
 import org.kuali.kra.s2s.util.S2SConstants;
-import org.kuali.rice.kns.service.BusinessObjectService;
+import org.kuali.rice.krad.service.BusinessObjectService;
 
 /**
  * 

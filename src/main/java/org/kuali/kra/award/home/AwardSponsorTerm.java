@@ -15,50 +15,47 @@
  */
 package org.kuali.kra.award.home;
 
-import java.util.LinkedHashMap;
-
 import org.kuali.kra.award.AwardAssociate;
-import org.kuali.kra.award.AwardTemplateSyncScope;
 import org.kuali.kra.award.awardhierarchy.sync.AwardSyncableProperty;
 import org.kuali.kra.bo.SponsorTerm;
-import org.kuali.kra.infrastructure.KraServiceLocator;
-import org.kuali.rice.kns.service.BusinessObjectService;
+import org.kuali.rice.krad.service.BusinessObjectService;
 
 /**
  * This class is business object representation of AwardSponsorTerm.
  */
 public class AwardSponsorTerm extends AwardAssociate {
-    
+
     /**
      * Comment for <code>serialVersionUID</code>
      */
     private static final long serialVersionUID = -7613461089397009434L;
-    
+
     private transient BusinessObjectService businessObjectService;
+
     private Long awardSponsorTermId;
-    //@AwardSyncable( scopes = {AwardTemplateSyncScope.CONTAINING_CLASS_INHERIT} ) 
-    @AwardSyncableProperty(key=true)
+
+    //@AwardSyncable( scopes = {AwardTemplateSyncScope.CONTAINING_CLASS_INHERIT} )   
+    @AwardSyncableProperty(key = true)
     private Long sponsorTermId;
+
     private SponsorTerm sponsorTerm;
-    
+
     /**
      * Constructs a AwardSponsorTerm.java.
      */
-    public AwardSponsorTerm () {
+    public AwardSponsorTerm() {
         super();
     }
-    
-    
+
     /**
      * Constructs a AwardSponsorTerm.java.
      * @param sponsorTermId
      * @param sponsorTerm
      */
-    public AwardSponsorTerm (Long sponsorTermId, SponsorTerm sponsorTerm) {
+    public AwardSponsorTerm(Long sponsorTermId, SponsorTerm sponsorTerm) {
         this.sponsorTermId = sponsorTermId;
         this.sponsorTerm = sponsorTerm;
     }
-
 
     /**
      * Gets the awardTermId attribute. 
@@ -91,20 +88,7 @@ public class AwardSponsorTerm extends AwardAssociate {
     public void setSponsorTermId(Long sponsorTermId) {
         this.sponsorTermId = sponsorTermId;
     }
-    
-    /**
-     * @see org.kuali.core.bo.BusinessObjectBase#toStringMapper()
-     */
-    @Override
-    protected LinkedHashMap<String,Object> toStringMapper() {        
-        LinkedHashMap<String,Object> hashMap = new LinkedHashMap<String,Object>();
-        hashMap.put("awardSponsorTermId", getAwardSponsorTermId());
-        hashMap.put("sponsorTermId", getSponsorTermId());
-        hashMap.put("awardNumber", getAwardNumber());
-        hashMap.put("sequenceNumber", getSequenceNumber());
-        return hashMap;
-    }
-    
+
     /**
      * This method returns sponsorTermTypeCode associated with sponsorTerm.
      * @return
@@ -112,7 +96,7 @@ public class AwardSponsorTerm extends AwardAssociate {
     public String getSponsorTermTypeCode() {
         return sponsorTerm.getSponsorTermTypeCode();
     }
-    
+
     /**
      * This method returns sponsorTermCode associated with sponsorTerm.
      * @return
@@ -120,7 +104,7 @@ public class AwardSponsorTerm extends AwardAssociate {
     public String getSponsorTermCode() {
         return sponsorTerm.getSponsorTermCode();
     }
-    
+
     /**
      * This method returns description associated with sponsorTerm.
      * @return
@@ -128,19 +112,18 @@ public class AwardSponsorTerm extends AwardAssociate {
     public String getDescription() {
         return sponsorTerm.getDescription();
     }
-    
-//    /**
-//     * This method returns the Kra business object service.
-//     * @return
-//     */
-//    BusinessObjectService getKraBusinessObjectService() {
-//        if(businessObjectService == null){
-//            businessObjectService = 
-//                (BusinessObjectService) KraServiceLocator.getService("businessObjectService");
-//        }
-//        return businessObjectService;
-//    }
 
+    //    /**  
+    //     * This method returns the Kra business object service.  
+    //     * @return  
+    //     */  
+    //    BusinessObjectService getKraBusinessObjectService() {  
+    //        if(businessObjectService == null){  
+    //            businessObjectService =   
+    //                (BusinessObjectService) KraServiceLocator.getService("businessObjectService");  
+    //        }  
+    //        return businessObjectService;  
+    //    }  
     /**
      * Gets the sponsorTerm attribute. 
      * @return Returns the sponsorTerm.
@@ -177,40 +160,25 @@ public class AwardSponsorTerm extends AwardAssociate {
      */
     @Override
     public boolean equals(Object obj) {
-        if (this == obj)
-            return true;
-        if (obj == null)
-            return false;
-        if (getClass() != obj.getClass())
-            return false;
-        if(!super.equals(obj)) {
+        if (this == obj) return true;
+        if (obj == null) return false;
+        if (getClass() != obj.getClass()) return false;
+        if (!super.equals(obj)) {
             return false;
         }
         final AwardSponsorTerm other = (AwardSponsorTerm) obj;
         if (awardSponsorTermId == null) {
-            if (other.awardSponsorTermId != null)
-                return false;
-        }
-        else if (!awardSponsorTermId.equals(other.awardSponsorTermId))
-            return false;
+            if (other.awardSponsorTermId != null) return false;
+        } else if (!awardSponsorTermId.equals(other.awardSponsorTermId)) return false;
         if (businessObjectService == null) {
-            if (other.businessObjectService != null)
-                return false;
-        }
-        else if (!businessObjectService.equals(other.businessObjectService))
-            return false;
+            if (other.businessObjectService != null) return false;
+        } else if (!businessObjectService.equals(other.businessObjectService)) return false;
         if (sponsorTerm == null) {
-            if (other.sponsorTerm != null)
-                return false;
-        }
-        else if (!sponsorTerm.equals(other.sponsorTerm))
-            return false;
+            if (other.sponsorTerm != null) return false;
+        } else if (!sponsorTerm.equals(other.sponsorTerm)) return false;
         if (sponsorTermId == null) {
-            if (other.sponsorTermId != null)
-                return false;
-        }
-        else if (!sponsorTermId.equals(other.sponsorTermId))
-            return false;
+            if (other.sponsorTermId != null) return false;
+        } else if (!sponsorTermId.equals(other.sponsorTermId)) return false;
         return true;
     }
 
@@ -220,5 +188,4 @@ public class AwardSponsorTerm extends AwardAssociate {
     public void resetPersistenceState() {
         this.awardSponsorTermId = null;
     }
-
 }

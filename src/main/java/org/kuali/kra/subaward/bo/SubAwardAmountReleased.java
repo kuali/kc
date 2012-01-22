@@ -26,42 +26,54 @@ import org.kuali.kra.bo.KcAttachment;
 import org.kuali.kra.infrastructure.KraServiceLocator;
 import org.kuali.kra.service.KcAttachmentService;
 import org.kuali.kra.subaward.bo.SubAward;
-import org.kuali.rice.kns.util.KualiDecimal;
+import org.kuali.rice.core.api.util.type.KualiDecimal;
 
 public class SubAwardAmountReleased  extends SubAwardAssociate implements KcAttachment{ 
-    
+
     private static final long serialVersionUID = 1L;
 
-    private Integer subAwardAmtReleasedId; 
+    private Integer subAwardAmtReleasedId;
     private Long subAwardId; 
-    private String subAwardCode; 
-    private Integer lineNumber; 
+    private String subAwardCode;
+    private Integer lineNumber;
     private KualiDecimal amountReleased; 
-   
 
-    private Date effectiveDate; 
-    private String comments; 
-    private String invoiceNumber; 
-    private Date startDate; 
-    private Date endDate; 
-    private boolean statusCode; 
-    private String approvalComments; 
-    private String approvedByUser; 
-    private Date approvalDate; 
-    private byte[] document; 
-    private String fileName; 
-    private String createdBy; 
-    private Date createdDate; 
-    private String mimeType; 
+
+    private Date effectiveDate;
+
+    private String comments;
+
+    private String invoiceNumber;
+
+    private Date startDate;
+
+    private Date endDate;
+
+    private boolean statusCode;
+
+    private String approvalComments;
+
+    private String approvedByUser;
+
+    private Date approvalDate;
+
+    private byte[] document;
+
+    private String fileName;
+
+    private String createdBy;
+
+    private Date createdDate;
+
+    private String mimeType;
     private AttachmentFile file;
-    private SubAward SubAward; 
+    private SubAward SubAward;
     private String contentType;
     transient private FormFile newFile;
-    
-    public SubAwardAmountReleased() { 
 
-    } 
-    
+    public SubAwardAmountReleased() {
+    }
+
     public Integer getSubAwardAmtReleasedId() {
         return subAwardAmtReleasedId;
     }
@@ -94,7 +106,6 @@ public class SubAwardAmountReleased  extends SubAwardAssociate implements KcAtta
     public void setLineNumber(Integer lineNumber) {
         this.lineNumber = lineNumber;
     }
-
 
     public Date getEffectiveDate() {
         return effectiveDate;
@@ -228,32 +239,7 @@ public class SubAwardAmountReleased  extends SubAwardAssociate implements KcAtta
     public void setFile(AttachmentFile file) {
         this.file = file;
     }
-    /** {@inheritDoc} */
-    @Override 
-    protected LinkedHashMap<String, Object> toStringMapper() {
-        LinkedHashMap<String, Object> hashMap = new LinkedHashMap<String, Object>();
-        hashMap.put("subAwardAmtReleasedId", this.getSubAwardAmtReleasedId());
-        hashMap.put("subAwardId", this.getSubAwardId());
-        hashMap.put("subAwardCode", this.getSubAwardCode());
-        hashMap.put("sequenceNumber", this.getSequenceNumber());
-        hashMap.put("lineNumber", this.getLineNumber());
-        hashMap.put("amountReleased", this.getAmountReleased());
-        hashMap.put("effectiveDate", this.getEffectiveDate());
-        hashMap.put("comments", this.getComments());
-        hashMap.put("invoiceNumber", this.getInvoiceNumber());
-        hashMap.put("startDate", this.getStartDate());
-        hashMap.put("endDate", this.getEndDate());
-        hashMap.put("statusCode", this.getStatusCode());
-        hashMap.put("approvalComments", this.getApprovalComments());
-        hashMap.put("approvedByUser", this.getApprovedByUser());
-        hashMap.put("approvalDate", this.getApprovalDate());
-        hashMap.put("document", this.getDocument());
-        hashMap.put("fileName", this.getFileName());
-        hashMap.put("createdBy", this.getCreatedBy());
-        hashMap.put("createdDate", this.getCreatedDate());
-        hashMap.put("mimeType", this.getMimeType());
-        return hashMap;
-    }
+
     /**
      * 
      * This method used to populate the attachment to subAwardReleased object by reading FormFile 
@@ -297,8 +283,7 @@ public class SubAwardAmountReleased  extends SubAwardAssociate implements KcAtta
     @Override
     public String getType() {
         return getContentType();
-    }
-
+}
     @Override
     public byte[] getData() {
         return getDocument();

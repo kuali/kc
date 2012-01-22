@@ -23,7 +23,7 @@ import org.kuali.kra.budget.parameters.BudgetPeriod;
 import org.kuali.kra.budget.rates.BudgetRate;
 import org.kuali.kra.costshare.CostShareService;
 import org.kuali.kra.infrastructure.Constants;
-import org.kuali.rice.kns.service.ParameterService;
+import org.kuali.rice.coreservice.framework.parameter.ParameterService;
 
 public class BudgetDistributionAndIncomeServiceImpl implements BudgetDistributionAndIncomeService {
 
@@ -44,7 +44,7 @@ public class BudgetDistributionAndIncomeServiceImpl implements BudgetDistributio
     
     
     protected boolean isBudgetFinalAndComplete(Budget budget) {
-        String budgetStatusCompleteValue = this.parameterService.getParameterValue(
+        String budgetStatusCompleteValue = this.parameterService.getParameterValueAsString(
                 BudgetDocument.class, Constants.BUDGET_STATUS_COMPLETE_CODE);
         return (budget.getFinalVersionFlag() && budgetStatusCompleteValue.equals(budget.getBudgetStatus()));
     }
@@ -145,7 +145,7 @@ public class BudgetDistributionAndIncomeServiceImpl implements BudgetDistributio
      * This method is a factory for BudgetUnrecoveredFandA
      * @param fiscalYearSummary The fiscal year summary data
      * @param applicableRate The applicable rate
-     * @param onCampusFlag The on-Campus flag
+     * @param onCampusFlag The on-CampusContract flag
      * @return
      */
     protected BudgetUnrecoveredFandA createBudgetUnrecoveredFandA(FiscalYearSummary fiscalYearSummary, BudgetDecimal applicableRate, String onCampusFlag) {

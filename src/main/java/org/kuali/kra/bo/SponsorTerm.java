@@ -15,8 +15,6 @@
  */
 package org.kuali.kra.bo;
 
-import java.util.LinkedHashMap;
-
 import org.apache.commons.lang.StringEscapeUtils;
 
 /**
@@ -24,25 +22,27 @@ import org.apache.commons.lang.StringEscapeUtils;
  */
 public class SponsorTerm extends KraPersistableBusinessObjectBase {
 
-
     /**
      * Comment for <code>serialVersionUID</code>
      */
     private static final long serialVersionUID = -1780708005730780612L;
-    private Long sponsorTermId; 
-    private String sponsorTermCode; 
-    private String sponsorTermTypeCode; 
-    private String description; 
-    
-    private SponsorTermType sponsorTermType; 
-    
+
+    private Long sponsorTermId;
+
+    private String sponsorTermCode;
+
+    private String sponsorTermTypeCode;
+
+    private String description;
+
+    private SponsorTermType sponsorTermType;
+
     /**
      * Constructs a SponsorTerm.java.
      */
-    public SponsorTerm() { 
+    public SponsorTerm() {
+    }
 
-    } 
-    
     /**
      * Gets the sponsorTermId attribute. 
      * @return Returns the sponsorTermId.
@@ -114,7 +114,7 @@ public class SponsorTerm extends KraPersistableBusinessObjectBase {
     public String getEscapedDescription() {
         return StringEscapeUtils.escapeHtml(description);
     }
-    
+
     /**
      * Gets the sponsorTermType attribute. 
      * @return Returns the sponsorTermType.
@@ -139,17 +139,6 @@ public class SponsorTerm extends KraPersistableBusinessObjectBase {
         return serialVersionUID;
     }
 
-    @SuppressWarnings("unchecked")
-    @Override 
-    protected LinkedHashMap toStringMapper() {
-        LinkedHashMap hashMap = new LinkedHashMap();
-        hashMap.put("sponsorTermId", getSponsorTermId());
-        hashMap.put("sponsorTermCode", getSponsorTermCode());
-        hashMap.put("sponsorTermTypeCode", getSponsorTermTypeCode());
-        hashMap.put("description", getDescription());
-        return hashMap;
-    }
-
     /**
      * @see java.lang.Object#hashCode()
      */
@@ -170,44 +159,25 @@ public class SponsorTerm extends KraPersistableBusinessObjectBase {
      */
     @Override
     public boolean equals(Object obj) {
-        if (this == obj)
-            return true;
-        if (obj == null)
-            return false;
-        if (getClass() != obj.getClass())
-            return false;
+        if (this == obj) return true;
+        if (obj == null) return false;
+        if (getClass() != obj.getClass()) return false;
         SponsorTerm other = (SponsorTerm) obj;
         if (description == null) {
-            if (other.description != null)
-                return false;
-        }
-        else if (!description.equals(other.description))
-            return false;
+            if (other.description != null) return false;
+        } else if (!description.equals(other.description)) return false;
         if (sponsorTermCode == null) {
-            if (other.sponsorTermCode != null)
-                return false;
-        }
-        else if (!sponsorTermCode.equals(other.sponsorTermCode))
-            return false;
+            if (other.sponsorTermCode != null) return false;
+        } else if (!sponsorTermCode.equals(other.sponsorTermCode)) return false;
         if (sponsorTermId == null) {
-            if (other.sponsorTermId != null)
-                return false;
-        }
-        else if (!sponsorTermId.equals(other.sponsorTermId))
-            return false;
+            if (other.sponsorTermId != null) return false;
+        } else if (!sponsorTermId.equals(other.sponsorTermId)) return false;
         if (sponsorTermType == null) {
-            if (other.sponsorTermType != null)
-                return false;
-        }
-        else if (!sponsorTermType.equals(other.sponsorTermType))
-            return false;
+            if (other.sponsorTermType != null) return false;
+        } else if (!sponsorTermType.equals(other.sponsorTermType)) return false;
         if (sponsorTermTypeCode == null) {
-            if (other.sponsorTermTypeCode != null)
-                return false;
-        }
-        else if (!sponsorTermTypeCode.equals(other.sponsorTermTypeCode))
-            return false;
+            if (other.sponsorTermTypeCode != null) return false;
+        } else if (!sponsorTermTypeCode.equals(other.sponsorTermTypeCode)) return false;
         return true;
     }
-
 }

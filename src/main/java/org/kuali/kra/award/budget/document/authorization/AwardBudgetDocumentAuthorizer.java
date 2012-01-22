@@ -23,19 +23,17 @@ import org.kuali.kra.award.budget.document.AwardBudgetDocument;
 import org.kuali.kra.award.home.Award;
 import org.kuali.kra.budget.document.BudgetParentDocument;
 import org.kuali.kra.budget.document.authorization.BudgetDocumentAuthorizer;
-import org.kuali.kra.infrastructure.Constants;
 import org.kuali.kra.infrastructure.KeyConstants;
 import org.kuali.kra.infrastructure.TaskName;
-import org.kuali.kra.proposaldevelopment.document.ProposalDevelopmentDocument;
-import org.kuali.rice.kim.bo.Person;
+import org.kuali.rice.kew.api.WorkflowDocument;
+import org.kuali.rice.kim.api.identity.Person;
 import org.kuali.rice.kns.authorization.AuthorizationConstants;
-import org.kuali.rice.kns.document.Document;
-import org.kuali.rice.kns.workflow.service.KualiWorkflowDocument;
+import org.kuali.rice.krad.document.Document;
 
 public class AwardBudgetDocumentAuthorizer  extends BudgetDocumentAuthorizer {
 
     /**
-     * @see org.kuali.rice.kns.document.authorization.TransactionalDocumentAuthorizer#getEditModes(org.kuali.rice.kns.document.Document, org.kuali.rice.kim.bo.Person, java.util.Set)
+     * @see org.kuali.rice.kns.document.authorization.TransactionalDocumentAuthorizer#getEditModes(org.kuali.rice.krad.document.Document, org.kuali.rice.kim.api.identity.Person, java.util.Set)
      */
     public Set<String> getEditModes(Document document, Person user, Set<String> currentEditModes) {
         Set<String> editModes = new HashSet<String>();
@@ -90,41 +88,41 @@ public class AwardBudgetDocumentAuthorizer  extends BudgetDocumentAuthorizer {
     }
     
     @Override
-    protected boolean canSave(Document document, Person user) {
+    public boolean canSave(Document document, Person user) {
         return canEdit(document, user);
     }
     
     @Override
-    protected boolean canReload(Document document, Person user) {
-        KualiWorkflowDocument workflow = document.getDocumentHeader().getWorkflowDocument();
-        return canEdit(document, user) || workflow.stateIsCanceled();
+    public boolean canReload(Document document, Person user) {
+        WorkflowDocument workflow = document.getDocumentHeader().getWorkflowDocument();
+        return canEdit(document, user) || workflow.isCanceled();
     }
     
     
     @Override
-    protected boolean canApprove( Document document, Person user ) {
+    public boolean canApprove( Document document, Person user ) {
         return super.canApprove(document,user) && canExecuteAwardBudgetTask( user, (AwardBudgetDocument)document, TaskName.APPROVE_AWARD_BUDGET);
     }
     
     @Override
-    protected boolean canDisapprove( Document document, Person user ) {
+    public boolean canDisapprove( Document document, Person user ) {
         return super.canDisapprove(document, user) && canExecuteAwardBudgetTask( user, (AwardBudgetDocument)document, TaskName.DISAPPROVE_AWARD_BUDGET);
     }
     
     @Override
-    protected boolean canRoute(Document document, Person user) {
+    public boolean canRoute(Document document, Person user) {
         return canExecuteAwardBudgetTask(user, (AwardBudgetDocument) document, TaskName.SUBMIT_TO_WORKFLOW);
     }
     
     private boolean isRebudget(AwardBudgetDocument awardBudgetDocument){
         AwardBudgetExt budget = awardBudgetDocument.getAwardBudget();
-        String rebudgetTypeCode = getParameterService().getParameterValue(AwardBudgetDocument.class, KeyConstants.AWARD_BUDGET_TYPE_REBUDGET);
+        String rebudgetTypeCode = getParameterService().getParameterValueAsString(AwardBudgetDocument.class, KeyConstants.AWARD_BUDGET_TYPE_REBUDGET);
         return budget.getAwardBudgetTypeCode().equals(rebudgetTypeCode);
     }
     
     @Override
-    protected boolean canCancel(Document document, Person user) {
-        KualiWorkflowDocument workflow = document.getDocumentHeader().getWorkflowDocument();
-        return super.canCancel(document)&&canEdit(document) && !workflow.stateIsEnroute() ; 
+    public boolean canCancel(Document document, Person user) {
+        WorkflowDocument workflow = document.getDocumentHeader().getWorkflowDocument();
+        return super.canCancel(document)&&canEdit(document) && !workflow.isEnroute() ; 
     }
 }

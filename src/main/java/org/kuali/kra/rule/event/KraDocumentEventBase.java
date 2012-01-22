@@ -15,8 +15,8 @@
  */
 package org.kuali.kra.rule.event;
 
-import org.kuali.rice.kns.document.Document;
-import org.kuali.rice.kns.rule.event.KualiDocumentEventBase;
+import org.kuali.rice.krad.document.Document;
+import org.kuali.rice.krad.rules.rule.event.KualiDocumentEventBase;
 
 
 /**

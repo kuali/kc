@@ -17,37 +17,44 @@ package org.kuali.kra.irb.correspondence;
 
 import java.util.ArrayList;
 import java.util.Collections;
-import java.util.LinkedHashMap;
 import java.util.List;
 
 import org.apache.commons.lang.StringUtils;
 import org.kuali.kra.bo.KraPersistableBusinessObjectBase;
 import org.kuali.kra.irb.actions.ProtocolActionType;
 
-public class BatchCorrespondence extends KraPersistableBusinessObjectBase { 
-    
-    public static final String SEND_CORRESPONDENCE_BEFORE_EVENT ="BEFORE";
-    public static final String SEND_CORRESPONDENCE_AFTER_EVENT ="AFTER";
+public class BatchCorrespondence extends KraPersistableBusinessObjectBase {
+
+    public static final String SEND_CORRESPONDENCE_BEFORE_EVENT = "BEFORE";
+
+    public static final String SEND_CORRESPONDENCE_AFTER_EVENT = "AFTER";
 
     private static final long serialVersionUID = 1L;
-    
-    private String batchCorrespondenceTypeCode; 
-    private String description; 
-    private String daysToEventUiText; 
+
+    private String batchCorrespondenceTypeCode;
+
+    private String description;
+
+    private String daysToEventUiText;
+
     private String sendCorrespondence;
+
     private Integer finalActionDay;
-    private String finalActionTypeCode; 
+
+    private String finalActionTypeCode;
+
     private String finalActionCorrespType;
-    
+
     private List<BatchCorrespondenceDetail> batchCorrespondenceDetails;
-    
+
     private ProtocolCorrespondenceType protocolCorrespondenceType;
+
     private ProtocolActionType protocolActionType;
-    
+
     public BatchCorrespondence() {
         setBatchCorrespondenceDetails(new ArrayList<BatchCorrespondenceDetail>());
-    } 
-    
+    }
+
     public String getBatchCorrespondenceTypeCode() {
         return batchCorrespondenceTypeCode;
     }
@@ -154,19 +161,4 @@ public class BatchCorrespondence extends KraPersistableBusinessObjectBase {
     public void setProtocolActionType(ProtocolActionType protocolActionType) {
         this.protocolActionType = protocolActionType;
     }
-
-    /** {@inheritDoc} */
-    @Override 
-    protected LinkedHashMap<String, Object> toStringMapper() {
-        LinkedHashMap<String, Object> hashMap = new LinkedHashMap<String, Object>();
-        hashMap.put("BatchCorresponcenceTypeCode", this.getBatchCorrespondenceTypeCode());
-        hashMap.put("description", this.getDescription());
-        hashMap.put("daysToEventUiText", this.getDaysToEventUiText());
-        hashMap.put("sendCorrespondence", this.getSendCorrespondence());
-        hashMap.put("finalActionDay", this.getFinalActionDay());
-        hashMap.put("finalActionTypeCode", this.getFinalActionTypeCode());
-        hashMap.put("finalActionCorrespType", this.getFinalActionCorrespType());
-        return hashMap;
-    }
-    
 }

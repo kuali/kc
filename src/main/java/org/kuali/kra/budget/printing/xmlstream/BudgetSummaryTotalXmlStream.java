@@ -24,7 +24,6 @@ import noNamespace.BudgetSalaryDocument.BudgetSalary;
 import org.apache.xmlbeans.XmlObject;
 import org.kuali.kra.bo.KraPersistableBusinessObjectBase;
 import org.kuali.kra.budget.core.Budget;
-import org.kuali.kra.budget.document.BudgetDocument;
 import org.kuali.kra.document.ResearchDocumentBase;
 
 /**

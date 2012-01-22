@@ -15,13 +15,11 @@
  */
 package org.kuali.kra.coi;
 
-import java.util.LinkedHashMap;
-
 import org.apache.commons.lang.StringUtils;
 import org.kuali.kra.bo.KraPersistableBusinessObjectBase;
 import org.kuali.kra.coi.personfinancialentity.PersonFinIntDisclosure;
 import org.kuali.kra.infrastructure.KraServiceLocator;
-import org.kuali.rice.kns.service.SequenceAccessorService;
+import org.kuali.rice.krad.service.SequenceAccessorService;
 
 public class CoiDiscDetail extends KraPersistableBusinessObjectBase implements Comparable<CoiDiscDetail> { 
     
@@ -43,7 +41,6 @@ public class CoiDiscDetail extends KraPersistableBusinessObjectBase implements C
     private Long personFinIntDisclosureId;
     // for master disclosure.  if this is not null, then it is copied from previous master disclosure
     private Long copiedCoiDiscDetailId; 
-    
     private PersonFinIntDisclosure personFinIntDisclosure;
     private CoiEntityStatusCode coiEntityStatusCode; 
     private CoiDisclosure coiDisclosure; 
@@ -54,7 +51,7 @@ public class CoiDiscDetail extends KraPersistableBusinessObjectBase implements C
     // the only exception is annual event which may have several project type.
     // this is also used for sorting, so annual discl cSan be in proper order, then they can be moved to 
     // eventbo.
-    private String projectType;
+    private String projectType; 
     // fk to projects.  easire to retrieve project, especially projects are versioned.  moduleitemkey is not enough
     private String projectIdFk; 
     // transient data for UI
@@ -187,25 +184,6 @@ public class CoiDiscDetail extends KraPersistableBusinessObjectBase implements C
         this.coiDisclosure = coiDisclosure;
     }
 
-    /** {@inheritDoc} */
-    @Override 
-    protected LinkedHashMap<String, Object> toStringMapper() {
-        LinkedHashMap<String, Object> hashMap = new LinkedHashMap<String, Object>();
-        hashMap.put("coiDiscDetailId", this.getCoiDiscDetailId());
-        hashMap.put("coiDisclosureId", this.getCoiDisclosureId());
-        hashMap.put("coiDisclosureNumber", this.getCoiDisclosureNumber());
-        hashMap.put("sequenceNumber", this.getSequenceNumber());
-        hashMap.put("coiDiscDetailNumber", this.getCoiDiscDetailNumber());
-        hashMap.put("moduleCode", this.getModuleCode());
-        hashMap.put("moduleItemKey", this.getModuleItemKey());
-        hashMap.put("entityNumber", this.getEntityNumber());
-        hashMap.put("entitySequenceNumber", this.getEntitySequenceNumber());
-        hashMap.put("entityStatusCode", this.getEntityStatusCode());
-        hashMap.put("description", this.getDescription());
-        hashMap.put("comments", this.getComments());
-        return hashMap;
-    }
-
     public Long getPersonFinIntDisclosureId() {
         return personFinIntDisclosureId;
     }
@@ -221,7 +199,7 @@ public class CoiDiscDetail extends KraPersistableBusinessObjectBase implements C
     public void setPersonFinIntDisclosure(PersonFinIntDisclosure personFinIntDisclosure) {
         this.personFinIntDisclosure = personFinIntDisclosure;
     }
-    
+
     public int compareTo(CoiDiscDetail other) {
         int result = 0;
         if (other != null) {

@@ -31,8 +31,8 @@ import org.kuali.kra.irb.Protocol;
 import org.kuali.kra.irb.noteattachment.ProtocolAttachmentPersonnel;
 import org.kuali.kra.service.KraAuthorizationService;
 import org.kuali.kra.service.PersonEditableService;
-import org.kuali.rice.kns.service.BusinessObjectService;
-import org.kuali.rice.kns.service.SequenceAccessorService;
+import org.kuali.rice.krad.service.BusinessObjectService;
+import org.kuali.rice.krad.service.SequenceAccessorService;
 
 
 public class ProtocolPersonnelServiceImpl implements ProtocolPersonnelService {
@@ -571,14 +571,11 @@ public class ProtocolPersonnelServiceImpl implements ProtocolPersonnelService {
      */
     public boolean isValidStudentFacultyMatch(List<ProtocolPerson> protocolPersons) {
         boolean validInvestigator = true;
-System.out.println("\n\n");
         HashMap<Integer, Integer> investigatorAffiliation = new HashMap<Integer, Integer>();
         for(ProtocolPerson protocolPerson : protocolPersons) {
             if(isAffiliationStudentInvestigatorOrFacultySupervisor(protocolPerson)) {
                 updateAffiliationCount(protocolPerson, investigatorAffiliation);
             }
-System.out.println("protocolPerson, name = " + protocolPerson.getUserName() + ", is student inv = " + isAffiliationStudentInvestigatorOrFacultySupervisor(protocolPerson)
-                   + ", count = " + investigatorAffiliation.size());
         }
         Integer studentAffiliationCount = investigatorAffiliation.get(getStudentAffiliationType()) == null
                                           ? 0 : investigatorAffiliation.get(getStudentAffiliationType());
@@ -587,7 +584,6 @@ System.out.println("protocolPerson, name = " + protocolPerson.getUserName() + ",
         if(studentAffiliationCount > 0 && studentAffiliationCount.compareTo(facultySupervisorAffiliationCount) != 0) {
             validInvestigator = false;
         }
-System.out.println("\n\n");
         return validInvestigator;
     }
     
@@ -613,12 +609,12 @@ System.out.println("\n\n");
      */
     protected void updateAffiliationCount(ProtocolPerson protocolPerson, HashMap<Integer, Integer> investigatorAffiliation) {
         Integer totalCountForAffiliation = 0;
-        totalCountForAffiliation = investigatorAffiliation.get(protocolPerson.getAffiliationTypeCode());
+        totalCountForAffiliation = investigatorAffiliation.get(protocolPerson.getAffiliationType().getAffiliationTypeCode());
         if(totalCountForAffiliation == null) {
-            investigatorAffiliation.put(protocolPerson.getAffiliationTypeCode(), 1);
+            investigatorAffiliation.put(protocolPerson.getAffiliationType().getAffiliationTypeCode(), 1);
         }else {
-            investigatorAffiliation.remove(protocolPerson.getAffiliationTypeCode());
-            investigatorAffiliation.put(protocolPerson.getAffiliationTypeCode(), totalCountForAffiliation++);
+            investigatorAffiliation.remove(protocolPerson.getAffiliationType().getAffiliationTypeCode());
+            investigatorAffiliation.put(protocolPerson.getAffiliationType().getAffiliationTypeCode(), totalCountForAffiliation++);
         }
     }
     

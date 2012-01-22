@@ -15,10 +15,8 @@
  */
 package org.kuali.kra.common.permissions.bo;
 
-import java.util.LinkedHashMap;
-
 import org.apache.commons.lang.StringUtils;
-import org.kuali.rice.kns.bo.BusinessObjectBase;
+import org.kuali.rice.krad.bo.BusinessObjectBase;
 
 /**
  * A <b>PermissionsUser</b> is used for the form on the Permissions tab
@@ -86,22 +84,6 @@ public class PermissionsUser extends BusinessObjectBase {
         this.unitName = unitName;
     }
     
-    /**
-     * @see org.kuali.core.bo.BusinessObjectBase#toStringMapper()
-     */
-    @Override
-    @SuppressWarnings("unchecked")
-    protected LinkedHashMap toStringMapper() {
-        LinkedHashMap map = new LinkedHashMap();
-        map.put("userId", getUserId());
-        map.put("userName", getUserName());
-        map.put("fullName", getFullName());
-        map.put("roleName", getRoleName());
-        map.put("unitNumber", getUnitNumber());
-        map.put("unitName", getUnitName());
-        return map;
-    }
-
     /**
      * @see org.kuali.core.bo.BusinessObject#refresh()
      */

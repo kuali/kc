@@ -15,36 +15,27 @@
  */
 package org.kuali.kra.budget.personnel;
 
-import java.util.LinkedHashMap;
-
 import org.kuali.kra.bo.KraPersistableBusinessObjectBase;
 
 public class JobCode extends KraPersistableBusinessObjectBase {
-	private String jobCode;
-	private String jobTitle;
 
-	public String getJobCode() {
-		return jobCode;
-	}
+    private String jobCode;
 
-	public void setJobCode(String jobCode) {
-		this.jobCode = jobCode;
-	}
+    private String jobTitle;
 
-	public String getJobTitle() {
-		return jobTitle;
-	}
+    public String getJobCode() {
+        return jobCode;
+    }
 
-	public void setJobTitle(String jobTitle) {
-		this.jobTitle = jobTitle;
-	}
+    public void setJobCode(String jobCode) {
+        this.jobCode = jobCode;
+    }
 
+    public String getJobTitle() {
+        return jobTitle;
+    }
 
-	@Override 
-	protected LinkedHashMap toStringMapper() {
-		LinkedHashMap hashMap = new LinkedHashMap();
-		hashMap.put("jobCode", getJobCode());
-		hashMap.put("jobTitle", getJobTitle());
-		return hashMap;
-	}
+    public void setJobTitle(String jobTitle) {
+        this.jobTitle = jobTitle;
+    }
 }

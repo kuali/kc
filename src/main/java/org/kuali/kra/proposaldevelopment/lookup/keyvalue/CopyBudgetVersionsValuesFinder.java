@@ -19,13 +19,13 @@ import java.util.ArrayList;
 import java.util.List;
 
 import org.kuali.kra.budget.versions.BudgetDocumentVersion;
-import org.kuali.kra.budget.versions.BudgetVersionOverview;
 import org.kuali.kra.proposaldevelopment.bo.ProposalCopyCriteria;
-import org.kuali.rice.kns.lookup.keyvalues.KeyValuesBase;
-import org.kuali.rice.core.util.KeyLabelPair;
 import org.kuali.kra.proposaldevelopment.document.ProposalDevelopmentDocument;
 import org.kuali.kra.proposaldevelopment.web.struts.form.ProposalDevelopmentForm;
-import org.kuali.rice.kns.util.GlobalVariables;
+import org.kuali.rice.core.api.util.ConcreteKeyValue;
+import org.kuali.rice.core.api.util.KeyValue;
+import org.kuali.rice.kns.util.KNSGlobalVariables;
+import org.kuali.rice.krad.keyvalues.KeyValuesBase;
 
 /**
  * See the method <code>getKeyValues()</code> for a full description.
@@ -37,15 +37,15 @@ public class CopyBudgetVersionsValuesFinder extends KeyValuesBase {
     /**
      * Gets the key/value pairs for copying budget versions.
      */
-    public List<KeyLabelPair> getKeyValues() {
+    public List<KeyValue> getKeyValues() {
         
-        final List<KeyLabelPair> keyValues = new ArrayList<KeyLabelPair>();
+        final List<KeyValue> keyValues = new ArrayList<KeyValue>();
         
-        keyValues.add(new KeyLabelPair(ProposalCopyCriteria.BUDGET_ALL_VERSIONS, 
+        keyValues.add(new ConcreteKeyValue(ProposalCopyCriteria.BUDGET_ALL_VERSIONS, 
             ProposalCopyCriteria.BUDGET_ALL_VERSIONS));
         
         if (this.finalVersionPresent()) {
-            keyValues.add(new KeyLabelPair(ProposalCopyCriteria.BUDGET_FINAL_VERSION, 
+            keyValues.add(new ConcreteKeyValue(ProposalCopyCriteria.BUDGET_FINAL_VERSION, 
                 ProposalCopyCriteria.BUDGET_FINAL_VERSION));            
         }
         
@@ -81,7 +81,7 @@ public class CopyBudgetVersionsValuesFinder extends KeyValuesBase {
      * @return the ProposalDevelopmentDocument
      */
     ProposalDevelopmentDocument getDocument() {
-        final ProposalDevelopmentForm form = (ProposalDevelopmentForm) GlobalVariables.getKualiForm();
+        final ProposalDevelopmentForm form = (ProposalDevelopmentForm) KNSGlobalVariables.getKualiForm();
         if (form == null) {
             return null;
         }

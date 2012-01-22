@@ -22,7 +22,7 @@ import org.kuali.kra.kew.KraDocumentRejectionService;
 import org.kuali.kra.proposaldevelopment.document.ProposalDevelopmentDocument;
 import org.kuali.kra.proposaldevelopment.document.authorization.ProposalTask;
 import org.kuali.kra.service.UnitAuthorizationService;
-import org.kuali.rice.kns.workflow.service.KualiWorkflowDocument;
+import org.kuali.rice.kew.api.WorkflowDocument;
 
 
 /**
@@ -63,7 +63,7 @@ public class ModifyProposalAuthorizer extends ProposalAuthorizer {
              * After the initial save, the proposal can only be modified if it is not in workflow
              * and the user has the require permission.
              */
-            KualiWorkflowDocument wfd=doc.getDocumentHeader().getWorkflowDocument();
+            WorkflowDocument wfd=doc.getDocumentHeader().getWorkflowDocument();
 
             boolean hasBeenRejected=KraServiceLocator.getService(KraDocumentRejectionService.class).isDocumentOnInitialNode(doc);
             hasPermission = !doc.isViewOnly() &&

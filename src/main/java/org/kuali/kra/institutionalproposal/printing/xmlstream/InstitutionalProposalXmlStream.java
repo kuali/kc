@@ -86,8 +86,8 @@ import org.kuali.kra.irb.Protocol;
 import org.kuali.kra.printing.util.PrintingUtils;
 import org.kuali.kra.proposaldevelopment.bo.ProposalPerson;
 import org.kuali.kra.service.InstitutionalProposalCustomAttributeService;
-import org.kuali.rice.kns.service.ParameterConstants;
-import org.kuali.rice.kns.service.ParameterService;
+import org.kuali.rice.coreservice.framework.parameter.ParameterConstants;
+import org.kuali.rice.coreservice.framework.parameter.ParameterService;
 
 /**
  * This class generates XML that conforms with the XSD related to Institution
@@ -224,7 +224,7 @@ public class InstitutionalProposalXmlStream extends
                 if(custData.getCustomAttributeId() == (long)customAttributeDocumentEntry.getValue().getCustomAttribute().getId()
                         && customAttributeDocuments.get(custData.getCustomAttributeId().toString()).getCustomAttribute().getGroupName()
                             .equalsIgnoreCase(KraServiceLocator.getService(ParameterService.class).
-                                 getParameterValue(InstitutionalProposalConstants.INSTITUTIONAL_PROPOSAL_NAMESPACE,ParameterConstants.DOCUMENT_COMPONENT,Constants.INSTITUTE_PROPOSAL_OTHER_GROUP))){    
+                                 getParameterValueAsString(InstitutionalProposalConstants.INSTITUTIONAL_PROPOSAL_NAMESPACE,ParameterConstants.DOCUMENT_COMPONENT,Constants.INSTITUTE_PROPOSAL_OTHER_GROUP))){    
                     
                     otherGroup.setGroupName(customAttributeDocuments.get(custData.getCustomAttributeId().toString()).getCustomAttribute().getGroupName());
                     otherGroupDetails.setColumnValue(custData.getValue());                  

@@ -16,38 +16,47 @@
 package org.kuali.kra.institutionalproposal.proposaladmindetails;
 
 import java.sql.Date;
-import java.util.LinkedHashMap;
 
 import org.kuali.kra.bo.KraPersistableBusinessObjectBase;
 import org.kuali.kra.institutionalproposal.home.InstitutionalProposal;
 import org.kuali.kra.proposaldevelopment.bo.DevelopmentProposal;
 
-public class ProposalAdminDetails extends KraPersistableBusinessObjectBase { 
-    
+public class ProposalAdminDetails extends KraPersistableBusinessObjectBase {
+
     /**
      * Comment for <code>serialVersionUID</code>
      */
     private static final long serialVersionUID = -277575593517810685L;
-    
-    private Long proposalAdminDetailId;
-    private String devProposalNumber;
-    private Long instProposalId;     
-    private Date dateSubmittedByDept; 
-    private Date dateReturnedToDept; 
-    private Date dateApprovedByOsp; 
-    private Date dateSubmittedToAgency; 
-    private Date instPropCreateDate; 
-    private String instPropCreateUser; 
-    private String signedBy; 
-    private boolean submissionType;
-    
-    private DevelopmentProposal developmentProposal;
-    private InstitutionalProposal institutionalProposal;
-    
-    public ProposalAdminDetails() { 
 
-    } 
-    
+    private Long proposalAdminDetailId;
+
+    private String devProposalNumber;
+
+    private Long instProposalId;
+
+    private Date dateSubmittedByDept;
+
+    private Date dateReturnedToDept;
+
+    private Date dateApprovedByOsp;
+
+    private Date dateSubmittedToAgency;
+
+    private Date instPropCreateDate;
+
+    private String instPropCreateUser;
+
+    private String signedBy;
+
+    private boolean submissionType;
+
+    private DevelopmentProposal developmentProposal;
+
+    private InstitutionalProposal institutionalProposal;
+
+    public ProposalAdminDetails() {
+    }
+
     public Date getDateSubmittedByDept() {
         return dateSubmittedByDept;
     }
@@ -112,23 +121,6 @@ public class ProposalAdminDetails extends KraPersistableBusinessObjectBase {
         this.submissionType = submissionType;
     }
 
-    /** {@inheritDoc} */
-    @Override 
-    protected LinkedHashMap<String, Object> toStringMapper() {
-        LinkedHashMap<String, Object> hashMap = new LinkedHashMap<String, Object>();
-        hashMap.put("devProposalNumber", this.getDevProposalNumber());
-        hashMap.put("instProposalId", this.getInstProposalId());
-        hashMap.put("dateSubmittedByDept", this.getDateSubmittedByDept());
-        hashMap.put("dateReturnedToDept", this.getDateReturnedToDept());
-        hashMap.put("dateApprovedByOsp", this.getDateApprovedByOsp());
-        hashMap.put("dateSubmittedToAgency", this.getDateSubmittedToAgency());
-        hashMap.put("instPropCreateDate", this.getInstPropCreateDate());
-        hashMap.put("instPropCreateUser", this.getInstPropCreateUser());
-        hashMap.put("signedBy", this.getSignedBy());
-        hashMap.put("submissionType", this.getSubmissionType());
-        return hashMap;
-    }
-
     /**
      * Gets the proposalAdminDetailId attribute. 
      * @return Returns the proposalAdminDetailId.
@@ -144,7 +136,7 @@ public class ProposalAdminDetails extends KraPersistableBusinessObjectBase {
     public void setProposalAdminDetailId(Long proposalAdminDetailId) {
         this.proposalAdminDetailId = proposalAdminDetailId;
     }
-    
+
     /**
      * Gets the instProposalId attribute. 
      * @return Returns the instProposalId.
@@ -208,5 +200,4 @@ public class ProposalAdminDetails extends KraPersistableBusinessObjectBase {
     public void setDevProposalNumber(String devProposalNumber) {
         this.devProposalNumber = devProposalNumber;
     }
-    
 }

@@ -24,7 +24,7 @@ import org.kuali.kra.s2s.generator.S2SBaseFormGenerator;
 import org.kuali.kra.s2s.generator.S2SQuestionnairing;
 import org.kuali.kra.s2s.service.S2SBudgetCalculatorService;
 import org.kuali.kra.s2s.service.S2SUtilService;
-import org.kuali.rice.kns.service.ParameterService;
+import org.kuali.rice.coreservice.framework.parameter.ParameterService;
 
 /**
  * This abstract class has methods that are common to all the versions of
@@ -81,7 +81,7 @@ public abstract class PHS398FellowshipSupplementalBaseGenerator extends
 		parameterService = KraServiceLocator.getService(ParameterService.class);
 	}
     protected List<String> getCostElementsByParam(String costElementParam) {
-        String costElementsParamValue = parameterService.getParameterValue(ProposalDevelopmentDocument.class, costElementParam);
+        String costElementsParamValue = parameterService.getParameterValueAsString(ProposalDevelopmentDocument.class, costElementParam);
         String[] costElements = costElementsParamValue.split(",");
         List<String> costElementList = new ArrayList<String>();
         for (int i = 0; i < costElements.length; i++) {

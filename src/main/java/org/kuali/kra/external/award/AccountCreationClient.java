@@ -18,10 +18,10 @@ package org.kuali.kra.external.award;
 import javax.xml.datatype.DatatypeConfigurationException;
 
 import org.kuali.kra.award.home.Award;
-import org.kuali.rice.kew.exception.WorkflowException;
-import org.kuali.rice.kns.service.BusinessObjectService;
-import org.kuali.rice.kns.service.DocumentService;
-import org.kuali.rice.kns.service.ParameterService;
+import org.kuali.rice.kew.api.exception.WorkflowException;
+import org.kuali.rice.krad.service.BusinessObjectService;
+import org.kuali.rice.krad.service.DocumentService;
+import org.kuali.rice.coreservice.framework.parameter.ParameterService;
 
 public interface AccountCreationClient {
 
@@ -47,7 +47,7 @@ public interface AccountCreationClient {
      * @return
      */
     String isValidChartAccount(String chartOfAccountsCode, String accountNumber);
-    
+
     void setDocumentService(DocumentService documentService);
 
     void setBusinessObjectService(BusinessObjectService businessObjectService);

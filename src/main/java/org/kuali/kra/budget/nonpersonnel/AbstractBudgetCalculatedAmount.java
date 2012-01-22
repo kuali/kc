@@ -15,35 +15,45 @@
  */
 package org.kuali.kra.budget.nonpersonnel;
 
-import java.util.LinkedHashMap;
-
 import org.kuali.kra.budget.BudgetDecimal;
 import org.kuali.kra.budget.core.BudgetAssociate;
 import org.kuali.kra.budget.rates.RateClass;
-import org.kuali.kra.budget.rates.RateType;
 
 public abstract class AbstractBudgetCalculatedAmount extends BudgetAssociate {
-	/**
+
+    /**
      * Comment for <code>serialVersionUID</code>
      */
     private static final long serialVersionUID = 4346953317701218299L;
-    private Integer budgetPeriod;
-	private Integer lineItemNumber;
-	private String rateClassCode;
-	private String rateTypeCode;
-	private Boolean applyRateFlag;
-	private BudgetDecimal calculatedCost;
-	private BudgetDecimal calculatedCostSharing;
-	private String rateClassType;
-	private Integer rateNumber;
-	private RateClass rateClass;
-	private String rateTypeDescription;
-//	private RateType rateType;
 
-	private Long budgetPeriodId;
+    private Integer budgetPeriod;
+
+    private Integer lineItemNumber;
+
+    private String rateClassCode;
+
+    private String rateTypeCode;
+
+    private Boolean applyRateFlag;
+
+    private BudgetDecimal calculatedCost;
+
+    private BudgetDecimal calculatedCostSharing;
+
+    private String rateClassType;
+
+    private Integer rateNumber;
+
+    private RateClass rateClass;
+
+    private String rateTypeDescription;
+
+    //	private RateType rateType; 
+    private Long budgetPeriodId;
+
     private Long budgetLineItemId;
-	
-	public Long getBudgetPeriodId() {
+
+    public Long getBudgetPeriodId() {
         return budgetPeriodId;
     }
 
@@ -67,95 +77,76 @@ public abstract class AbstractBudgetCalculatedAmount extends BudgetAssociate {
         this.rateClass = rateClass;
     }
 
-//    /**
-//     * Gets the rateType attribute. 
-//     * @return Returns the rateType.
-//     */
-//    public RateType getRateType() {
-//        return rateType;
-//    }
-//
-//    /**
-//     * Sets the rateType attribute value.
-//     * @param rateType The rateType to set.
-//     */
-//    public void setRateType(RateType rateType) {
-//        this.rateType = rateType;
-//    }
-
+    //    /** 
+    //     * Gets the rateType attribute.  
+    //     * @return Returns the rateType. 
+    //     */ 
+    //    public RateType getRateType() { 
+    //        return rateType; 
+    //    } 
+    // 
+    //    /** 
+    //     * Sets the rateType attribute value. 
+    //     * @param rateType The rateType to set. 
+    //     */ 
+    //    public void setRateType(RateType rateType) { 
+    //        this.rateType = rateType; 
+    //    } 
     public Integer getBudgetPeriod() {
-		return budgetPeriod;
-	}
+        return budgetPeriod;
+    }
 
-	public void setBudgetPeriod(Integer budgetPeriod) {
-		this.budgetPeriod = budgetPeriod;
-	}
+    public void setBudgetPeriod(Integer budgetPeriod) {
+        this.budgetPeriod = budgetPeriod;
+    }
 
-	public Integer getLineItemNumber() {
-		return lineItemNumber;
-	}
+    public Integer getLineItemNumber() {
+        return lineItemNumber;
+    }
 
-	public void setLineItemNumber(Integer lineItemNumber) {
-		this.lineItemNumber = lineItemNumber;
-	}
+    public void setLineItemNumber(Integer lineItemNumber) {
+        this.lineItemNumber = lineItemNumber;
+    }
 
-	public String getRateClassCode() {
-		return rateClassCode;
-	}
+    public String getRateClassCode() {
+        return rateClassCode;
+    }
 
-	public void setRateClassCode(String rateClassCode) {
-		this.rateClassCode = rateClassCode;
-	}
+    public void setRateClassCode(String rateClassCode) {
+        this.rateClassCode = rateClassCode;
+    }
 
-	public String getRateTypeCode() {
-		return rateTypeCode;
-	}
+    public String getRateTypeCode() {
+        return rateTypeCode;
+    }
 
-	public void setRateTypeCode(String rateTypeCode) {
-		this.rateTypeCode = rateTypeCode;
-	}
+    public void setRateTypeCode(String rateTypeCode) {
+        this.rateTypeCode = rateTypeCode;
+    }
 
-	public Boolean getApplyRateFlag() {
-		return applyRateFlag;
-	}
+    public Boolean getApplyRateFlag() {
+        return applyRateFlag;
+    }
 
     public void setApplyRateFlag(Boolean applyRateFlag) {
-		this.applyRateFlag = applyRateFlag;
-	}
+        this.applyRateFlag = applyRateFlag;
+    }
 
-	public BudgetDecimal getCalculatedCost() {
-		return calculatedCost;
-	}
+    public BudgetDecimal getCalculatedCost() {
+        return calculatedCost;
+    }
 
-	public void setCalculatedCost(BudgetDecimal calculatedCost) {
-		this.calculatedCost = calculatedCost;
-	}
+    public void setCalculatedCost(BudgetDecimal calculatedCost) {
+        this.calculatedCost = calculatedCost;
+    }
 
-	public BudgetDecimal getCalculatedCostSharing() {
-		return calculatedCostSharing;
-	}
+    public BudgetDecimal getCalculatedCostSharing() {
+        return calculatedCostSharing;
+    }
 
-	public void setCalculatedCostSharing(BudgetDecimal calculatedCostSharing) {
-		this.calculatedCostSharing = calculatedCostSharing;
-	}
-
-
-	@SuppressWarnings("unchecked")
-    @Override 
-	protected LinkedHashMap toStringMapper() {
-		LinkedHashMap hashMap = super.toStringMapper();
-		hashMap.put("budgetPeriod", getBudgetPeriod());
-		hashMap.put("lineItemNumber", getLineItemNumber());
-//		hashMap.put("proposalNumber", getProposalNumber());
-//        hashMap.put("budgetVersionNumber", getBudgetVersionNumber());
-		hashMap.put("rateClassCode", getRateClassCode());
-		hashMap.put("rateTypeCode", getRateTypeCode());
-		hashMap.put("versionNumber", getVersionNumber());
-		hashMap.put("applyRateFlag", getApplyRateFlag());
-		hashMap.put("calculatedCost", getCalculatedCost());
-		hashMap.put("calculatedCostSharing", getCalculatedCostSharing());
-		return hashMap;
-	}
+    public void setCalculatedCostSharing(BudgetDecimal calculatedCostSharing) {
+        this.calculatedCostSharing = calculatedCostSharing;
+    }
 
     /**
      * Gets the rateClassType attribute. 
@@ -220,5 +211,4 @@ public abstract class AbstractBudgetCalculatedAmount extends BudgetAssociate {
     public void setRateTypeDescription(String rateTypeDescription) {
         this.rateTypeDescription = rateTypeDescription;
     }
-
 }

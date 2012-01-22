@@ -15,32 +15,34 @@
  */
 package org.kuali.kra.institutionalproposal.home;
 
-import java.util.LinkedHashMap;
-
 import org.kuali.kra.bo.KraPersistableBusinessObjectBase;
 import org.kuali.kra.bo.Unit;
 
-public class InstitutionalProposalUnit extends KraPersistableBusinessObjectBase { 
-    
+public class InstitutionalProposalUnit extends KraPersistableBusinessObjectBase {
+
     private static final long serialVersionUID = 1L;
 
-    private Integer proposalUnitsId; 
-    private String proposalNumber; 
-    private Integer sequenceNumber; 
-    private String personId; 
-    private String unitNumber; 
-    private boolean leadUnitFlag; 
-    
-    private Unit unit; 
-    
-    public InstitutionalProposalUnit() { 
+    private Integer proposalUnitsId;
 
-    } 
+    private String proposalNumber;
+
+    private Integer sequenceNumber;
+
+    private String personId;
+
+    private String unitNumber;
+
+    private boolean leadUnitFlag;
+
+    private Unit unit;
+
+    public InstitutionalProposalUnit() {
+    }
 
     public boolean isLeadUnit() {
         return leadUnitFlag;
     }
-    
+
     public Integer getProposalUnitsId() {
         return proposalUnitsId;
     }
@@ -96,18 +98,4 @@ public class InstitutionalProposalUnit extends KraPersistableBusinessObjectBase 
     public void setUnit(Unit unit) {
         this.unit = unit;
     }
-
-    /** {@inheritDoc} */
-    @Override 
-    protected LinkedHashMap<String, Object> toStringMapper() {
-        LinkedHashMap<String, Object> hashMap = new LinkedHashMap<String, Object>();
-        hashMap.put("proposalUnitsId", this.getProposalUnitsId());
-        hashMap.put("proposalNumber", this.getProposalNumber());
-        hashMap.put("sequenceNumber", this.getSequenceNumber());
-        hashMap.put("personId", this.getPersonId());
-        hashMap.put("unitNumber", this.getUnitNumber());
-        hashMap.put("leadUnitFlag", this.getLeadUnitFlag());
-        return hashMap;
-    }
-    
 }

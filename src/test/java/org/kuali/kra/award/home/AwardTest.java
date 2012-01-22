@@ -30,7 +30,7 @@ import org.kuali.kra.bo.KcPerson;
 import org.kuali.kra.bo.KcPersonFixtureFactory;
 import org.kuali.kra.bo.NonOrganizationalRolodex;
 import org.kuali.kra.bo.Unit;
-import org.kuali.rice.kns.util.KualiDecimal;
+import org.kuali.rice.core.api.util.type.KualiDecimal;
 
 /**
  * 
@@ -72,7 +72,7 @@ public class AwardTest {
      */
     @Test
     public void testAwardBoAttributesCount() throws Exception {              
-        Assert.assertEquals(AWARD_ATTRIBUTES_COUNT, awardBo.toStringMapper().size());
+        Assert.assertEquals(AWARD_ATTRIBUTES_COUNT, awardBo.getClass().getFields().length);
     }
     
     @Test

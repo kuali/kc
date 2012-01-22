@@ -15,7 +15,6 @@
  */
 package org.kuali.kra.service.impl;
 
-import java.lang.reflect.InvocationTargetException;
 import java.lang.reflect.Method;
 import java.util.ArrayList;
 import java.util.Collection;
@@ -28,18 +27,16 @@ import java.util.Map;
 import org.apache.commons.lang.StringUtils;
 import org.apache.commons.logging.Log;
 import org.apache.commons.logging.LogFactory;
-import org.apache.ojb.broker.util.logging.Logger;
 import org.kuali.kra.bo.Sponsor;
 import org.kuali.kra.bo.SponsorHierarchy;
 import org.kuali.kra.dao.SponsorHierarchyDao;
-import org.kuali.kra.dao.ojb.SponsorHierarchyDaoOjb;
 import org.kuali.kra.infrastructure.Constants;
 import org.kuali.kra.service.SponsorService;
 import org.kuali.kra.service.Sponsorable;
 import org.kuali.kra.web.struts.form.SponsorHierarchyForm;
-import org.kuali.rice.kns.service.BusinessObjectService;
-import org.kuali.rice.kns.service.ParameterService;
-import org.kuali.rice.kns.util.GlobalVariables;
+import org.kuali.rice.coreservice.framework.parameter.ParameterService;
+import org.kuali.rice.krad.service.BusinessObjectService;
+import org.kuali.rice.krad.util.GlobalVariables;
 
 public class SponsorServiceImpl implements SponsorService, Constants {
     private SponsorHierarchyDao sponsorHierarchyDao;
@@ -204,7 +201,7 @@ public class SponsorServiceImpl implements SponsorService, Constants {
         }
         int groupingNumber = 300;
         try {
-           String sysParam = parameterService.getParameterValue(
+           String sysParam = parameterService.getParameterValueAsString(
                 Constants.MODULE_NAMESPACE_PROPOSAL_DEVELOPMENT, "A", Constants.NUMBER_PER_SPONSOR_HIERARCHY_GROUP);
            groupingNumber=Integer.parseInt(sysParam);
         } catch (Exception e) {
@@ -495,11 +492,11 @@ public class SponsorServiceImpl implements SponsorService, Constants {
     }
 
     protected String findNihIndicatorForSponsorHierarchyLevel() {
-        return parameterService.getParameterValue(KC_GENERIC_PARAMETER_NAMESPACE, KC_ALL_PARAMETER_DETAIL_TYPE_CODE, SPONSOR_LEVEL_HIERARCHY);
+        return parameterService.getParameterValueAsString(KC_GENERIC_PARAMETER_NAMESPACE, KC_ALL_PARAMETER_DETAIL_TYPE_CODE, SPONSOR_LEVEL_HIERARCHY);
     }
 
     protected String findSponsorHierarchyName() {
-        return parameterService.getParameterValue(KC_GENERIC_PARAMETER_NAMESPACE, KC_ALL_PARAMETER_DETAIL_TYPE_CODE, SPONSOR_HIERARCHY_NAME );
+        return parameterService.getParameterValueAsString(KC_GENERIC_PARAMETER_NAMESPACE, KC_ALL_PARAMETER_DETAIL_TYPE_CODE, SPONSOR_HIERARCHY_NAME );
     }
 
     protected Collection<SponsorHierarchy> loadSponsorHierarchies(String sponsorCode) {

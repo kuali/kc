@@ -15,7 +15,7 @@
  */
 package org.kuali.kra.award.paymentreports.closeout;
 
-import org.kuali.rice.kns.rule.BusinessRule;
+import org.kuali.rice.krad.rules.rule.BusinessRule;
 
 /**
  * This interface defines the rule processing method

@@ -18,10 +18,10 @@ package org.kuali.kra.rules;
 import org.apache.commons.lang.StringUtils;
 import org.kuali.kra.bo.CustomAttribute;
 import org.kuali.kra.infrastructure.Constants;
+import org.kuali.rice.core.api.util.RiceKeyConstants;
 import org.kuali.rice.kns.document.MaintenanceDocument;
 import org.kuali.rice.kns.maintenance.rules.MaintenanceDocumentRuleBase;
-import org.kuali.rice.kns.util.GlobalVariables;
-import org.kuali.rice.kns.util.RiceKeyConstants;
+import org.kuali.rice.krad.util.GlobalVariables;
 
 public class CustomAttributeMaintenanceDocumentRule extends MaintenanceDocumentRuleBase {
     
@@ -61,7 +61,7 @@ public class CustomAttributeMaintenanceDocumentRule extends MaintenanceDocumentR
         if (LOG.isDebugEnabled()) {
             LOG.debug("new maintainable is: " + maintenanceDocument.getNewMaintainableObject().getClass());
         }
-        CustomAttribute newCustomAttribute = (CustomAttribute) maintenanceDocument.getNewMaintainableObject().getBusinessObject();
+        CustomAttribute newCustomAttribute = (CustomAttribute) maintenanceDocument.getNewMaintainableObject().getDataObject();
 
         // FIXME : iffy solution - will be used to retrieve lookupreturn list by the valuesfinder class
         if (StringUtils.isNotBlank(newCustomAttribute.getLookupClass())) {
@@ -69,7 +69,7 @@ public class CustomAttributeMaintenanceDocumentRule extends MaintenanceDocumentR
         }
         if (StringUtils.isNotBlank(newCustomAttribute.getLookupClass())
                 && StringUtils.isBlank(newCustomAttribute.getLookupReturn())) {
-            GlobalVariables.getErrorMap().putError(Constants.DOCUMENT_NEWMAINTAINABLEOBJECT_LOOKUPRETURN, RiceKeyConstants.ERROR_REQUIRED,
+            GlobalVariables.getMessageMap().putError(Constants.DOCUMENT_NEWMAINTAINABLEOBJECT_LOOKUPRETURN, RiceKeyConstants.ERROR_REQUIRED,
                     new String[] { "Lookup Return" });
             return false;
         }

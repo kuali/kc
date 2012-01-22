@@ -15,8 +15,6 @@
  */
 package org.kuali.kra.irb;
 
-import java.util.LinkedHashMap;
-
 import org.apache.commons.lang.ObjectUtils;
 import org.apache.commons.lang.StringUtils;
 import org.kuali.kra.bo.KcPerson;
@@ -29,21 +27,27 @@ import org.kuali.kra.service.KcPersonService;
 
 public class ProtocolReviewerBase extends KraPersistableBusinessObjectBase {
 
-    private Long protocolIdFk; 
+    private Long protocolIdFk;
+
     private Long submissionIdFk;
+
     private boolean nonEmployeeFlag;
+
     private String personId;
+
     private Integer rolodexId;
+
     private Rolodex rolodex;
 
     private Protocol protocol;
+
     private ProtocolSubmission protocolSubmission;
 
-    //transient fields for the services, and the
-    //kcPerson.
+    //transient fields for the services, and the  
+    //kcPerson.  
     private transient KcPersonService kcPersonService;
+
     private transient KcPerson kcPerson;
-    
 
     public Long getProtocolIdFk() {
         return protocolIdFk;
@@ -108,17 +112,6 @@ public class ProtocolReviewerBase extends KraPersistableBusinessObjectBase {
     public void setProtocolSubmission(ProtocolSubmission protocolSubmission) {
         this.protocolSubmission = protocolSubmission;
     }
-    
-    @Override
-    protected LinkedHashMap toStringMapper() {
-        LinkedHashMap map = new LinkedHashMap();
-        map.put("protocolIdFk", getProtocolIdFk());
-        map.put("submissionIdFk", getSubmissionIdFk());
-        map.put("personId", getPersonId());
-        map.put("rolodexId", getRolodexId());
-        map.put("nonEmployeeFlag", getNonEmployeeFlag());
-        return map;
-    }
 
     public KcPerson getPerson() {
         if (kcPerson == null) {
@@ -126,7 +119,7 @@ public class ProtocolReviewerBase extends KraPersistableBusinessObjectBase {
         }
         return kcPerson;
     }
-    
+
     public void setKcPersonService(KcPersonService kcPersonService) {
         this.kcPersonService = kcPersonService;
     }
@@ -135,7 +128,6 @@ public class ProtocolReviewerBase extends KraPersistableBusinessObjectBase {
         if (this.kcPersonService == null) {
             this.kcPersonService = KraServiceLocator.getService(KcPersonService.class);
         }
-        
         return this.kcPersonService;
     }
 
@@ -146,36 +138,34 @@ public class ProtocolReviewerBase extends KraPersistableBusinessObjectBase {
      * @param member
      * @return
      */
-    public boolean isProtocolReviewerFromCommitteeMembership( CommitteeMembership member ) {
+    public boolean isProtocolReviewerFromCommitteeMembership(CommitteeMembership member) {
         boolean isMatched = false;
-        if (!getNonEmployeeFlag() && StringUtils.equals(member.getPersonId(),getPersonId())) {
+        if (!getNonEmployeeFlag() && StringUtils.equals(member.getPersonId(), getPersonId())) {
             isMatched = true;
-        } else if (getNonEmployeeFlag() && ObjectUtils.equals(member.getRolodexId(),getRolodexId()) ){
+        } else if (getNonEmployeeFlag() && ObjectUtils.equals(member.getRolodexId(), getRolodexId())) {
             isMatched = true;
         }
         return isMatched;
     }
-    
+
     /**
      * Convenience method - compares the provided personId with the rolodex id or the personId
      * of this record appropriately.
      * @param personId
      * @return
      */
-    public boolean isPersonIdProtocolReviewer(String personId,boolean nonEmployeeFlag) {
+    public boolean isPersonIdProtocolReviewer(String personId, boolean nonEmployeeFlag) {
         boolean result = false;
-        if ( (nonEmployeeFlag == getNonEmployeeFlag()) && ((getNonEmployeeFlag() && StringUtils.equals(getRolodexId()==null?null:getRolodexId().toString(), personId) && (getNonEmployeeFlag()==nonEmployeeFlag))
-            ||
-            ( !getNonEmployeeFlag() && StringUtils.equals( personId, this.personId )))) {
+        if ((nonEmployeeFlag == getNonEmployeeFlag()) && ((getNonEmployeeFlag() && StringUtils.equals(getRolodexId() == null ? null : getRolodexId().toString(), personId) && (getNonEmployeeFlag() == nonEmployeeFlag)) || (!getNonEmployeeFlag() && StringUtils.equals(personId, this.personId)))) {
             result = true;
         }
         return result;
     }
 
     public String getFullName() {
-        if (nonEmployeeFlag && getRolodex()!=null) {
+        if (nonEmployeeFlag && getRolodex() != null) {
             return getRolodex().getFullName();
-        } else if (getPerson()!=null) {
+        } else if (getPerson() != null) {
             return getPerson().getFullName();
         } else {
             return null;

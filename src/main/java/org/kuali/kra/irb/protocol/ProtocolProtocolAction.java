@@ -61,12 +61,12 @@ import org.kuali.kra.irb.protocol.reference.ProtocolReferenceBean;
 import org.kuali.kra.irb.protocol.reference.ProtocolReferenceService;
 import org.kuali.kra.irb.protocol.reference.ProtocolReferenceType;
 import org.kuali.kra.irb.protocol.research.ProtocolResearchAreaService;
-import org.kuali.rice.kew.util.KEWConstants;
-import org.kuali.rice.kns.bo.BusinessObject;
-import org.kuali.rice.kns.document.Document;
-import org.kuali.rice.kns.service.KNSServiceLocator;
-import org.kuali.rice.kns.util.GlobalVariables;
-import org.kuali.rice.kns.util.KNSConstants;
+import org.kuali.rice.kew.api.KewApiConstants;
+import org.kuali.rice.krad.bo.BusinessObject;
+import org.kuali.rice.krad.document.Document;
+import org.kuali.rice.krad.service.KRADServiceLocatorWeb;
+import org.kuali.rice.krad.util.GlobalVariables;
+import org.kuali.rice.krad.util.KRADConstants;
 
 /**
  * The ProtocolProtocolAction corresponds to the Protocol tab (web page). It is responsible for handling all user requests from that
@@ -88,9 +88,9 @@ public class ProtocolProtocolAction extends ProtocolAction {
 
         // Following is for protocol lookup - edit protocol
         ProtocolForm protocolForm = (ProtocolForm) form;
-        String commandParam = request.getParameter(KNSConstants.PARAMETER_COMMAND);
+        String commandParam = request.getParameter(KRADConstants.PARAMETER_COMMAND);
 
-        if (StringUtils.isNotBlank(commandParam) && commandParam.equals(KEWConstants.DOCSEARCH_COMMAND)
+        if (StringUtils.isNotBlank(commandParam) && commandParam.equals(KewApiConstants.DOCSEARCH_COMMAND)
                 && StringUtils.isNotBlank(request.getParameter("submissionId"))) {
             // protocolsubmission lookup
             for (ProtocolSubmission protocolSubmission : protocolForm.getDocument().getProtocol().getProtocolSubmissions()) {
@@ -119,7 +119,7 @@ public class ProtocolProtocolAction extends ProtocolAction {
 
         if (StringUtils.isNotEmpty(command) && command.equals("displayDocSearchView") && StringUtils.isNotEmpty(docId)) {
             // copy link from protocol lookup - Copy Action
-            Document retrievedDocument = KNSServiceLocator.getDocumentService().getByDocumentHeaderId(docId);
+            Document retrievedDocument = KRADServiceLocatorWeb.getDocumentService().getByDocumentHeaderId(docId);
             protocolform.setDocument(retrievedDocument);
         }
 
@@ -430,7 +430,7 @@ public class ProtocolProtocolAction extends ProtocolAction {
     public ActionForward confirmDeleteProtocolFundingSource(ActionMapping mapping, ActionForm form, HttpServletRequest request, HttpServletResponse response) 
         throws Exception {
         
-        Object question = request.getParameter(KNSConstants.QUESTION_INST_ATTRIBUTE_NAME);
+        Object question = request.getParameter(KRADConstants.QUESTION_INST_ATTRIBUTE_NAME);
         if (CONFIRM_DELETE_PROTOCOL_FUNDING_SOURCE_KEY.equals(question)) {
             ProtocolForm protocolForm = (ProtocolForm) form;
             ProtocolDocument protocolDocument = protocolForm.getDocument();
@@ -483,7 +483,7 @@ public class ProtocolProtocolAction extends ProtocolAction {
      * @see org.kuali.kra.web.struts.action.KraTransactionalDocumentActionBase#buildForwardUrl(java.lang.Long)
      */
     @Override
-    public String buildForwardUrl(Long routeHeaderId) {
+    public String buildForwardUrl(String routeHeaderId) {
         return super.buildForwardUrl(routeHeaderId);
     }
 
@@ -516,10 +516,10 @@ public class ProtocolProtocolAction extends ProtocolAction {
 
             String boClassName = entry.getKey();
             String fieldConversions = entry.getValue();
-            String fullParameter = (String) request.getAttribute(KNSConstants.METHOD_TO_CALL_ATTRIBUTE);
+            String fullParameter = (String) request.getAttribute(KRADConstants.METHOD_TO_CALL_ATTRIBUTE);
             String updatedParameter = getProtocolFundingSourceService().updateLookupParameter(fullParameter, boClassName, fieldConversions);
 
-            request.setAttribute(KNSConstants.METHOD_TO_CALL_ATTRIBUTE, updatedParameter);
+            request.setAttribute(KRADConstants.METHOD_TO_CALL_ATTRIBUTE, updatedParameter);
             returnAction = super.performLookup(mapping, form, request, response);
 
             protocolForm.getProtocolHelper().setEditProtocolFundingSourceName(false);

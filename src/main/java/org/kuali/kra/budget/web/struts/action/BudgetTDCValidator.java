@@ -21,7 +21,6 @@ import java.util.Set;
 import javax.servlet.http.HttpServletRequest;
 
 import org.kuali.kra.budget.document.BudgetParentDocument;
-import org.kuali.kra.proposaldevelopment.document.ProposalDevelopmentDocument;
 import org.kuali.kra.proposaldevelopment.rules.BudgetModularTotalDirectCostRule;
 
 /**
@@ -49,7 +48,7 @@ public class BudgetTDCValidator {
 
     /**
      * Calls the tdc rule generating errors and warnings.  Errors generated will be placed
-     * in the {@link org.kuali.rice.kns.util.GlobalVariables.GlobalVariables#getErrorMap() ErrorMap}
+     * in the {@link org.kuali.rice.krad.util.GlobalVariables.GlobalVariables#getErrorMap() MessageMap}
      * while warnings will be added as a request attribute named
      * {@link TDC_WARNINGS_ATTRIBUTE_NAME TDC_WARNINGS_ATTRIBUTE_NAME}.
      *

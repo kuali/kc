@@ -30,8 +30,8 @@ import org.kuali.kra.bo.UnitCorrespondent;
 import org.kuali.kra.dao.UnitLookupDao;
 import org.kuali.kra.infrastructure.KraServiceLocator;
 import org.kuali.kra.service.UnitService;
-import org.kuali.rice.kns.service.BusinessObjectService;
-import org.kuali.rice.kns.util.KNSConstants;
+import org.kuali.rice.krad.service.BusinessObjectService;
+import org.kuali.rice.krad.util.KRADConstants;
 
 /**
  * The Unit Service Implementation.
@@ -157,9 +157,9 @@ public class UnitServiceImpl implements UnitService {
         int startIdx = unitNumber.indexOf("px\">", unitNumber.indexOf("<tr>"));
         for (Unit unit : getSubUnits(unitNumber.substring(startIdx+4, unitNumber.indexOf(COLUMN, startIdx) - 1))) {
             if (StringUtils.isNotBlank(subUnits)) {
-                subUnits = subUnits +"#SEPARATOR#" +unit.getUnitNumber()+KNSConstants.BLANK_SPACE+COLUMN+KNSConstants.BLANK_SPACE+unit.getUnitName();
+                subUnits = subUnits +"#SEPARATOR#" +unit.getUnitNumber()+KRADConstants.BLANK_SPACE+COLUMN+KRADConstants.BLANK_SPACE+unit.getUnitName();
             } else {
-                subUnits = unit.getUnitNumber()+KNSConstants.BLANK_SPACE+COLUMN+KNSConstants.BLANK_SPACE+unit.getUnitName();                
+                subUnits = unit.getUnitNumber()+KRADConstants.BLANK_SPACE+COLUMN+KRADConstants.BLANK_SPACE+unit.getUnitName();                
             }
         }
         return subUnits;
@@ -194,14 +194,14 @@ public class UnitServiceImpl implements UnitService {
     public String getInitialUnitsForUnitHierarchy() {
         Unit instituteUnit = getTopUnit();
         int parentIdx = 0;
-        String subUnits = instituteUnit.getUnitNumber() +KNSConstants.BLANK_SPACE+COLUMN+KNSConstants.BLANK_SPACE+instituteUnit.getUnitName()+SEPARATOR;
+        String subUnits = instituteUnit.getUnitNumber() +KRADConstants.BLANK_SPACE+COLUMN+KRADConstants.BLANK_SPACE+instituteUnit.getUnitName()+SEPARATOR;
         numberOfUnits = 0;
         for (Unit unit : getSubUnits(instituteUnit.getUnitNumber())) {
-            subUnits = subUnits + parentIdx + DASH + unit.getUnitNumber()+KNSConstants.BLANK_SPACE+COLUMN+KNSConstants.BLANK_SPACE+unit.getUnitName()+SEPARATOR;
+            subUnits = subUnits + parentIdx + DASH + unit.getUnitNumber()+KRADConstants.BLANK_SPACE+COLUMN+KRADConstants.BLANK_SPACE+unit.getUnitName()+SEPARATOR;
             // we can make it more flexible, to add a while loop and with a 'depth' argument.
             numberOfUnits++;
             for (Unit unit1 : getSubUnits(unit.getUnitNumber())) {
-                subUnits = subUnits + numberOfUnits + DASH + unit1.getUnitNumber()+KNSConstants.BLANK_SPACE+COLUMN+KNSConstants.BLANK_SPACE+unit1.getUnitName()+SEPARATOR;
+                subUnits = subUnits + numberOfUnits + DASH + unit1.getUnitNumber()+KRADConstants.BLANK_SPACE+COLUMN+KRADConstants.BLANK_SPACE+unit1.getUnitName()+SEPARATOR;
             }
         }
         subUnits = subUnits.substring(0, subUnits.length() - 3);
@@ -213,10 +213,10 @@ public class UnitServiceImpl implements UnitService {
     public String getInitialUnitsForUnitHierarchy(int depth) {
         Unit instituteUnit = getTopUnit();
         int parentIdx = 0;
-        String subUnits = instituteUnit.getUnitNumber() +KNSConstants.BLANK_SPACE+COLUMN+KNSConstants.BLANK_SPACE+instituteUnit.getUnitName()+SEPARATOR;
+        String subUnits = instituteUnit.getUnitNumber() +KRADConstants.BLANK_SPACE+COLUMN+KRADConstants.BLANK_SPACE+instituteUnit.getUnitName()+SEPARATOR;
         numberOfUnits = 0;
         for (Unit unit : getSubUnits(instituteUnit.getUnitNumber())) {
-            subUnits = subUnits + parentIdx + DASH + unit.getUnitNumber()+KNSConstants.BLANK_SPACE+COLUMN+KNSConstants.BLANK_SPACE+unit.getUnitName()+SEPARATOR;
+            subUnits = subUnits + parentIdx + DASH + unit.getUnitNumber()+KRADConstants.BLANK_SPACE+COLUMN+KRADConstants.BLANK_SPACE+unit.getUnitName()+SEPARATOR;
             // we can make it more flexible, to add a while loop and with a 'depth' argument.
             numberOfUnits++;
             if (depth - 2 > 0) {
@@ -234,7 +234,7 @@ public class UnitServiceImpl implements UnitService {
         int parentNum = numberOfUnits;
         level--;
         for (Unit unit1 : getSubUnits(unit.getUnitNumber())) {
-            subUnits = subUnits + parentNum + DASH + unit1.getUnitNumber()+KNSConstants.BLANK_SPACE+COLUMN+KNSConstants.BLANK_SPACE+unit1.getUnitName()+SEPARATOR;
+            subUnits = subUnits + parentNum + DASH + unit1.getUnitNumber()+KRADConstants.BLANK_SPACE+COLUMN+KRADConstants.BLANK_SPACE+unit1.getUnitName()+SEPARATOR;
             numberOfUnits++;
             if (level > 0) {
                 subUnits = subUnits +  getSubUnits(unit1, level);

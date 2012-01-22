@@ -15,6 +15,8 @@
  */
 package org.kuali.kra.budget.distributionincome;
 
+import static org.kuali.rice.kns.util.KNSGlobalVariables.getAuditErrorMap;
+
 import java.util.ArrayList;
 import java.util.List;
 
@@ -24,12 +26,10 @@ import org.kuali.kra.budget.document.BudgetDocument;
 import org.kuali.kra.costshare.CostShareRuleResearchDocumentBase;
 import org.kuali.kra.infrastructure.Constants;
 import org.kuali.kra.infrastructure.KeyConstants;
-import org.kuali.rice.kns.document.Document;
-import org.kuali.rice.kns.rule.DocumentAuditRule;
 import org.kuali.rice.kns.util.AuditCluster;
 import org.kuali.rice.kns.util.AuditError;
-
-import static org.kuali.rice.kns.util.GlobalVariables.getAuditErrorMap;
+import org.kuali.rice.krad.document.Document;
+import org.kuali.rice.krad.rules.rule.DocumentAuditRule;
 
 /**
  * 
@@ -40,7 +40,7 @@ public class BudgetCostShareAuditRule extends CostShareRuleResearchDocumentBase 
     
     /**
      * 
-     * @see org.kuali.rice.kns.rule.DocumentAuditRule#processRunAuditBusinessRules(org.kuali.rice.kns.document.Document)
+     * @see org.kuali.rice.krad.rules.rule.DocumentAuditRule#processRunAuditBusinessRules(org.kuali.rice.krad.document.Document)
      */
     public boolean processRunAuditBusinessRules(Document document) {
         Budget budget = ((BudgetDocument) document).getBudget();

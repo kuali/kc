@@ -17,16 +17,17 @@ package org.kuali.kra.irb.actions.submit;
 
 import java.util.ArrayList;
 import java.util.Collection;
+import java.util.HashMap;
 import java.util.List;
 
 import org.kuali.kra.authorization.KraAuthorizationConstants;
-import org.kuali.kra.infrastructure.KraServiceLocator;
 import org.kuali.kra.irb.actions.IrbActionsKeyValuesBase;
 import org.kuali.kra.lookup.keyvalue.PrefixValuesFinder;
-import org.kuali.rice.core.util.KeyLabelPair;
-import org.kuali.rice.kim.bo.types.dto.AttributeSet;
-import org.kuali.rice.kim.service.IdentityManagementService;
-import org.kuali.rice.kns.util.GlobalVariables;
+import org.kuali.rice.core.api.util.ConcreteKeyValue;
+import org.kuali.rice.core.api.util.KeyValue;
+import org.kuali.rice.kim.api.permission.PermissionService;
+import org.kuali.rice.kim.api.services.KimApiServiceLocator;
+import org.kuali.rice.krad.util.GlobalVariables;
 
 /**
  * Assembles the Protocol Review Types to display in the drop-down menu when
@@ -36,28 +37,28 @@ public class ProtocolReviewTypeValuesFinder extends IrbActionsKeyValuesBase {
 
     private static final String PERMISSION_NAME = "View Active Protocol Review Types";
 
-    private IdentityManagementService identityManagementService;
+    private PermissionService permissionService;
 
     private static List<ProtocolReviewType>allReviewTypes = null;
     /**
      * {@inheritDoc}
-     * @see org.kuali.rice.kns.lookup.keyvalues.KeyValuesFinder#getKeyValues()
+     * @see org.kuali.rice.krad.keyvalues.KeyValuesFinder#getKeyValues()
      */
-    public List<?> getKeyValues() {
-        List<KeyLabelPair> keyValues = filterActiveProtocolReviewTypes();
-        keyValues.add(0, new KeyLabelPair(PrefixValuesFinder.getPrefixKey(), PrefixValuesFinder.getDefaultPrefixValue()));
+    public List<KeyValue> getKeyValues() {
+        List<KeyValue> keyValues = filterActiveProtocolReviewTypes();
+        keyValues.add(0, new ConcreteKeyValue(PrefixValuesFinder.getPrefixKey(), PrefixValuesFinder.getDefaultPrefixValue()));
         return keyValues;
     }
     
-    private List<KeyLabelPair> filterActiveProtocolReviewTypes() {
-        final List<KeyLabelPair> filteredKeyValues = new ArrayList<KeyLabelPair>();
+    private List<KeyValue> filterActiveProtocolReviewTypes() {
+        final List<KeyValue> filteredKeyValues = new ArrayList<KeyValue>();
         
-        boolean canViewNonGlobalReviewTypes = getIdentityManagementService().hasPermission(
-                GlobalVariables.getUserSession().getPrincipalId(), KraAuthorizationConstants.KC_SYSTEM_NAMESPACE_CODE , PERMISSION_NAME, new AttributeSet());
+        boolean canViewNonGlobalReviewTypes = getPermissionService().hasPermission(
+                GlobalVariables.getUserSession().getPrincipalId(), KraAuthorizationConstants.KC_SYSTEM_NAMESPACE_CODE , PERMISSION_NAME,new HashMap<String,String>());
         
         for (ProtocolReviewType item : getAllReviewTypes()) {
             if (item.isGlobalFlag() || canViewNonGlobalReviewTypes) {
-                filteredKeyValues.add(new KeyLabelPair(item.getReviewTypeCode(), item.getDescription()));
+                filteredKeyValues.add(new ConcreteKeyValue(item.getReviewTypeCode(), item.getDescription()));
             }
         }
         
@@ -76,11 +77,11 @@ public class ProtocolReviewTypeValuesFinder extends IrbActionsKeyValuesBase {
         return allReviewTypes;
     }
 
-    public IdentityManagementService getIdentityManagementService() {
-        if (identityManagementService == null) {
-            identityManagementService = KraServiceLocator.getService(IdentityManagementService.class);
+    public PermissionService getPermissionService() {
+        if (permissionService == null) {
+            permissionService = KimApiServiceLocator.getPermissionService();
         }
-        return identityManagementService;
+        return permissionService;
     }
     
 

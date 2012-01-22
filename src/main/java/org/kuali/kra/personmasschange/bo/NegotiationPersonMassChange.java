@@ -61,13 +61,5 @@ public class NegotiationPersonMassChange extends KraPersistableBusinessObjectBas
         this.personMassChange = personMassChange;
     }
 
-    @Override
-    protected LinkedHashMap<String, Object> toStringMapper() {
-        LinkedHashMap<String, Object> propMap = new LinkedHashMap<String, Object>();
-        propMap.put("negotiationPersonMassChangeId", getNegotiationPersonMassChangeId());
-        propMap.put("personMassChangeId", getPersonMassChangeId());
-        propMap.put("negotiator", isNegotiator());
-        return propMap;
-    }
 
 }

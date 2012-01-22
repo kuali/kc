@@ -28,8 +28,8 @@ import org.kuali.kra.irb.ProtocolForm;
 import org.kuali.kra.irb.auth.ProtocolTask;
 import org.kuali.kra.irb.noteattachment.ProtocolAttachmentPersonnel;
 import org.kuali.kra.service.TaskAuthorizationService;
-import org.kuali.rice.kns.service.ParameterService;
-import org.kuali.rice.kns.util.GlobalVariables;
+import org.kuali.rice.coreservice.framework.parameter.ParameterService;
+import org.kuali.rice.krad.util.GlobalVariables;
 
 public class PersonnelHelper implements Serializable {
     
@@ -69,7 +69,7 @@ public class PersonnelHelper implements Serializable {
     }
     
     public boolean isProtocolFinal() {
-        return form.getDocument().getDocumentHeader().getWorkflowDocument().stateIsFinal();
+        return form.getDocument().getDocumentHeader().getWorkflowDocument().isFinal();
     }
    
     private void initializePermissions(Protocol protocol) {
@@ -140,7 +140,7 @@ public class PersonnelHelper implements Serializable {
      * @return parameter value
      */
     private String getParameterValue(String parameterName) {
-        return this.getParameterService().getParameterValue(ProtocolDocument.class, parameterName);        
+        return this.getParameterService().getParameterValueAsString(ProtocolDocument.class, parameterName);        
     }
 
     public boolean isPersonTrainingSectionRequired() {

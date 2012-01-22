@@ -19,8 +19,6 @@ import org.junit.After;
 import org.junit.Assert;
 import org.junit.Before;
 import org.junit.Test;
-import org.kuali.kra.institutionalproposal.home.InstitutionalProposal;
-import org.kuali.kra.institutionalproposal.home.InstitutionalProposalCostShare;
 
 /**
  * 
@@ -60,7 +58,7 @@ private static final int IP_COST_SHARE_ATTRIBUTES_COUNT = 6;
      */
     @Test
     public void testInstitutionalProposalCostShareBoAttributesCount() throws Exception {              
-        Assert.assertEquals(IP_COST_SHARE_ATTRIBUTES_COUNT, institutionalProposalCostShareBo.toStringMapper().size());
+        Assert.assertEquals(IP_COST_SHARE_ATTRIBUTES_COUNT, institutionalProposalCostShareBo.getClass().getFields().length);
     }
     
 }

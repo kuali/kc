@@ -19,7 +19,8 @@ import java.util.ArrayList;
 import java.util.List;
 
 import org.kuali.kra.keyvalue.ValuesFinderTestBase;
-import org.kuali.rice.core.util.KeyLabelPair;
+import org.kuali.rice.core.api.util.ConcreteKeyValue;
+import org.kuali.rice.core.api.util.KeyValue;
 
 public class MinuteEntryTypeValuesFinderTest extends ValuesFinderTestBase {
 
@@ -29,16 +30,16 @@ public class MinuteEntryTypeValuesFinderTest extends ValuesFinderTestBase {
     }
 
     @Override
-    protected List<KeyLabelPair> getKeyValues() {
-        final List<KeyLabelPair> keylabel = new ArrayList<KeyLabelPair>();
+    protected List<KeyValue> getKeyValues() {
+        final List<KeyValue> keylabel = new ArrayList<KeyValue>();
         
         // if permission changed, this needs to be adjusted too.
-        keylabel.add(new KeyLabelPair("", "select"));
-        keylabel.add(new KeyLabelPair("1", "General Comments"));
-        keylabel.add(new KeyLabelPair("2", "Attendance"));
-        keylabel.add(new KeyLabelPair("3", "Protocol"));
-        keylabel.add(new KeyLabelPair("4", "Other Business"));
-        keylabel.add(new KeyLabelPair("5", "Adverse Events"));
+        keylabel.add(new ConcreteKeyValue("", "select"));
+        keylabel.add(new ConcreteKeyValue("1", "General Comments"));
+        keylabel.add(new ConcreteKeyValue("2", "Attendance"));
+        keylabel.add(new ConcreteKeyValue("3", "Protocol"));
+        keylabel.add(new ConcreteKeyValue("4", "Other Business"));
+        keylabel.add(new ConcreteKeyValue("5", "Adverse Events"));
         
         return keylabel;
     }

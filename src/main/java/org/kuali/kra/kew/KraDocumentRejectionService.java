@@ -15,7 +15,8 @@
  */
 package org.kuali.kra.kew;
 
-import org.kuali.rice.kns.document.Document;
+import org.kuali.rice.kew.api.exception.WorkflowException;
+import org.kuali.rice.krad.document.Document;
 
 /**
  * Encapsulates reject functionality.

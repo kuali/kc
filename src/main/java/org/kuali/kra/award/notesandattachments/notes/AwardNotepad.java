@@ -15,38 +15,41 @@
  */
 package org.kuali.kra.award.notesandattachments.notes;
 
-//import java.sql.Date;
+//import java.sql.Date;  
 import java.sql.Timestamp;
-//import java.text.DateFormat;
-//import java.util.Calendar;
-import java.util.LinkedHashMap;
 
 import org.kuali.kra.award.AwardAssociate;
 
 /**
  * This class...
  */
-public class AwardNotepad extends AwardAssociate { 
-    
+public class AwardNotepad extends AwardAssociate {
+
     private static final long serialVersionUID = 1L;
 
-    private Long awardNotepadId; 
-    private String awardNumber; 
-    private Integer entryNumber; 
-    private String comments; 
+    private Long awardNotepadId;
+
+    private String awardNumber;
+
+    private Integer entryNumber;
+
+    private String comments;
+
     private String noteTopic;
-    private boolean restrictedView; 
+
+    private boolean restrictedView;
+
     private Timestamp createTimestamp;
+
     private String createUser;
-    
+
     /**
      * 
      * Constructs a AwardNotepad.java.
      */
     public AwardNotepad() {
-    } 
-    
-    
+    }
+
     public Long getAwardNotepadId() {
         return awardNotepadId;
     }
@@ -86,7 +89,6 @@ public class AwardNotepad extends AwardAssociate {
     public void setRestrictedView(boolean restrictedView) {
         this.restrictedView = restrictedView;
     }
-    
 
     /**
      * Gets the noteTopic attribute. 
@@ -103,8 +105,6 @@ public class AwardNotepad extends AwardAssociate {
     public void setNoteTopic(String noteTopic) {
         this.noteTopic = noteTopic;
     }
-    
-    
 
     /**
      * Gets the createTimeStamp attribute. 
@@ -114,44 +114,26 @@ public class AwardNotepad extends AwardAssociate {
         return createTimestamp;
     }
 
-
     /**
      * Sets the createTimeStamp attribute value.
      * @param createTimeStamp The createTimeStamp to set.
      */
     public void setCreateTimestamp(Timestamp pCreateTimestamp) {
         this.createTimestamp = pCreateTimestamp;
-    }    
+    }
 
     public String getCreateUser() {
         return createUser;
     }
 
-
     public void setCreateUser(String createUser) {
         this.createUser = createUser;
     }
-
 
     /**
      * @see org.kuali.kra.Sequenceable#resetPersistenceState()
      */
     public void resetPersistenceState() {
         this.awardNotepadId = null;
-    }
-
-
-    /** {@inheritDoc} */
-    @Override 
-    protected LinkedHashMap<String, Object> toStringMapper() {
-        LinkedHashMap<String, Object> hashMap = new LinkedHashMap<String, Object>();
-        hashMap.put("awardNotepadId", this.getAwardNotepadId());
-        hashMap.put("awardNumber", this.getAwardNumber());
-        hashMap.put("entryNumber", this.getEntryNumber());
-        hashMap.put("comments", this.getComments());
-        hashMap.put("restrictedView", this.getRestrictedView());
-        hashMap.put("noteTopic", this.getNoteTopic());
-        hashMap.put("createUser", this.getCreateUser());
-        return hashMap;
     }
 }

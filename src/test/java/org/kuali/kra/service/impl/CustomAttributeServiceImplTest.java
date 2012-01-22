@@ -34,13 +34,13 @@ import org.kuali.kra.proposaldevelopment.document.ProposalDevelopmentDocument;
 import org.kuali.kra.proposaldevelopment.service.ProposalDevelopmentService;
 import org.kuali.kra.service.CustomAttributeService;
 import org.kuali.kra.test.infrastructure.KcUnitTestBase;
-import org.kuali.rice.kew.exception.WorkflowException;
-import org.kuali.rice.kns.UserSession;
-import org.kuali.rice.kns.service.BusinessObjectService;
-import org.kuali.rice.kns.service.DocumentService;
-import org.kuali.rice.kns.service.KNSServiceLocator;
-import org.kuali.rice.kns.util.GlobalVariables;
-import org.kuali.rice.kns.util.KNSPropertyConstants;
+import org.kuali.rice.kew.api.exception.WorkflowException;
+import org.kuali.rice.krad.UserSession;
+import org.kuali.rice.krad.service.BusinessObjectService;
+import org.kuali.rice.krad.service.DocumentService;
+import org.kuali.rice.krad.service.KRADServiceLocatorWeb;
+import org.kuali.rice.krad.util.GlobalVariables;
+import org.kuali.rice.krad.util.KRADPropertyConstants;
 
 /**
  * This class tests CustomAttributeServiceImpl.
@@ -63,7 +63,7 @@ public class CustomAttributeServiceImplTest extends KcUnitTestBase {
         super.setUp();
         GlobalVariables.setUserSession(new UserSession("quickstart"));
         testCustomAttributeDocuments = TestUtilities.setupTestCustomAttributeDocuments();
-        documentService = KNSServiceLocator.getDocumentService();
+        documentService = KRADServiceLocatorWeb.getDocumentService();
         customAttributeService = KraServiceLocator.getService(CustomAttributeService.class);
         businessObjectService = KraServiceLocator.getService(BusinessObjectService.class);
         proposalDevelopmentService = KraServiceLocator.getService(ProposalDevelopmentService.class);
@@ -175,7 +175,7 @@ public class CustomAttributeServiceImplTest extends KcUnitTestBase {
 
         Map<String, Object> primaryKeys = new HashMap<String, Object>();
         primaryKeys.put(Constants.CUSTOM_ATTRIBUTE_ID, customAttributeId);
-        primaryKeys.put(KNSPropertyConstants.DOCUMENT_NUMBER, documentNumber);
+        primaryKeys.put(KRADPropertyConstants.DOCUMENT_NUMBER, documentNumber);
         CustomAttributeDocValue customAttributeDocValue = (CustomAttributeDocValue) businessObjectService.findByPrimaryKey(CustomAttributeDocValue.class, primaryKeys);
         assertNotNull("customAttributeDocValue should be found and not null", customAttributeDocValue);
         assertEquals(name + "Value", customAttributeDocValue.getValue());

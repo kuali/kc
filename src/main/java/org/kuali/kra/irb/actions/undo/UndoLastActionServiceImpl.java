@@ -41,17 +41,17 @@ import org.kuali.kra.irb.onlinereview.ProtocolOnlineReviewService;
 import org.kuali.kra.irb.onlinereview.ProtocolOnlineReviewStatus;
 import org.kuali.kra.irb.onlinereview.ProtocolReviewAttachment;
 import org.kuali.kra.meeting.CommitteeScheduleMinute;
+import org.kuali.rice.kew.api.KewApiConstants;
+import org.kuali.rice.kew.api.WorkflowDocument;
+import org.kuali.rice.kew.api.WorkflowDocumentFactory;
 import org.kuali.rice.kew.routeheader.DocumentRouteHeaderValue;
 import org.kuali.rice.kew.routeheader.service.RouteHeaderService;
-import org.kuali.rice.kew.service.WorkflowDocument;
-import org.kuali.rice.kew.util.KEWConstants;
-import org.kuali.rice.kim.service.IdentityManagementService;
-import org.kuali.rice.kns.service.BusinessObjectService;
-import org.kuali.rice.kns.service.DocumentService;
-import org.kuali.rice.kns.util.GlobalVariables;
-import org.kuali.rice.kns.util.KNSConstants;
-import org.kuali.rice.kns.util.ObjectUtils;
-import org.kuali.rice.kns.workflow.service.KualiWorkflowDocument;
+import org.kuali.rice.kim.api.identity.IdentityService;
+import org.kuali.rice.krad.service.BusinessObjectService;
+import org.kuali.rice.krad.service.DocumentService;
+import org.kuali.rice.krad.util.GlobalVariables;
+import org.kuali.rice.krad.util.KRADConstants;
+import org.kuali.rice.krad.util.ObjectUtils;
 
 public class UndoLastActionServiceImpl implements UndoLastActionService {
     private static final String AMEND = "A";
@@ -64,7 +64,7 @@ public class UndoLastActionServiceImpl implements UndoLastActionService {
     private ReviewCommentsService reviewCommentsService;
     private ProtocolOnlineReviewService protocolOnlineReviewService;
     private RouteHeaderService routeHeaderService;
-    private IdentityManagementService identityManagementService;
+    private IdentityService identityManagementService;
     public void setProtocolActionService(ProtocolActionService protocolActionService) {
         this.protocolActionService = protocolActionService;
     }
@@ -103,7 +103,7 @@ public class UndoLastActionServiceImpl implements UndoLastActionService {
             removeAttachedCorrespondences(lastActionPerformed); 
             
             //Clear the Audit trail - Action history created
-            if(!protocolDocument.getDocumentHeader().getWorkflowDocument().stateIsCanceled()) {
+            if(!protocolDocument.getDocumentHeader().getWorkflowDocument().isCanceled()) {
                 protocol.getProtocolActions().remove(undoLastActionBean.getLastPerformedAction());
             }
             
@@ -126,14 +126,14 @@ public class UndoLastActionServiceImpl implements UndoLastActionService {
     }
     
     protected ProtocolDocument undoWorkflowRouting(ProtocolDocument protocolDocument, ProtocolAction lastPerformedAction) throws Exception {
-        KualiWorkflowDocument currentWorkflowDocument = protocolDocument.getDocumentHeader().getWorkflowDocument();
+        WorkflowDocument currentWorkflowDocument = protocolDocument.getDocumentHeader().getWorkflowDocument();
         ProtocolCopyService protocolCopyService = KraServiceLocator.getService(ProtocolCopyService.class);
         
         //Do we need additional check to see if this is not a Renewal/Amendment Approval? since we already eliminated those options within Authz Logic
-        if (currentWorkflowDocument.stateIsCanceled()) {
+        if (currentWorkflowDocument.isCanceled()) {
             protocolDocument = protocolCopyService.copyProtocol(protocolDocument);
             resetProtocolStatus(protocolDocument.getProtocol());
-        } else if(currentWorkflowDocument != null && currentWorkflowDocument.stateIsFinal() && lastPerformedAction != null 
+        } else if(currentWorkflowDocument != null && currentWorkflowDocument.isFinal() && lastPerformedAction != null 
                   && (ProtocolActionType.APPROVED.equals(lastPerformedAction.getProtocolActionTypeCode()) 
                           || ProtocolActionType.EXPEDITE_APPROVAL.equals(lastPerformedAction.getProtocolActionTypeCode()))) {
             //currentWorkflowDocument.returnToPreviousRouteLevel("Undo Last Action", currentWorkflowDocument.getDocRouteLevel() - 1);
@@ -154,7 +154,7 @@ public class UndoLastActionServiceImpl implements UndoLastActionService {
             convertReviewComments(protocolDocument.getProtocol());            
             documentService.routeDocument(protocolDocument, Constants.PROTOCOL_UNDO_APPROVE_ANNOTATION, null);
             updateProtocolReviews(protocolDocument.getProtocol());
-       } else if (currentWorkflowDocument != null && currentWorkflowDocument.stateIsSaved() && lastPerformedAction != null 
+       } else if (currentWorkflowDocument != null && currentWorkflowDocument.isSaved() && lastPerformedAction != null 
                 && (ProtocolActionType.SPECIFIC_MINOR_REVISIONS_REQUIRED.equals(lastPerformedAction.getProtocolActionTypeCode()) 
                         || ProtocolActionType.SUBSTANTIVE_REVISIONS_REQUIRED.equals(lastPerformedAction.getProtocolActionTypeCode()))) {
             convertReviewComments(protocolDocument.getProtocol());            
@@ -199,8 +199,7 @@ public class UndoLastActionServiceImpl implements UndoLastActionService {
         for (ProtocolOnlineReview onlineReview : oldProtocol.getProtocolSubmission().getProtocolOnlineReviews()) {
             ProtocolOnlineReviewDocument oldDoc = (ProtocolOnlineReviewDocument) documentService.getByDocumentHeaderId(onlineReview
                     .getProtocolOnlineReviewDocument().getDocumentNumber());
-            if (!KEWConstants.ROUTE_HEADER_DISAPPROVED_CD.equals(oldDoc.getDocumentHeader().getWorkflowDocument().getRouteHeader()
-                    .getDocRouteStatus())) {
+            if (!KewApiConstants.ROUTE_HEADER_DISAPPROVED_CD.equals(oldDoc.getDocumentHeader().getWorkflowDocument().getStatus().getCode())) {
                 ProtocolOnlineReview copiedReview = (ProtocolOnlineReview) ObjectUtils.deepCopy(onlineReview);
                 ProtocolReviewer reviewer = getReviewer(onlineReview, protocol);
                 setNewOnlnReview(copiedReview, reviewer, protocol);
@@ -228,23 +227,23 @@ public class UndoLastActionServiceImpl implements UndoLastActionService {
      * OLR doc is finalized when protocol is versioned.
      */
     private void resetOnlineReviewStatus(ProtocolOnlineReviewDocument document) throws Exception {
-        if (document.getProtocolOnlineReview().isStatusMatched(KEWConstants.ROUTE_HEADER_ENROUTE_CD)) {
+        if (document.getProtocolOnlineReview().isStatusMatched(KewApiConstants.ROUTE_HEADER_ENROUTE_CD)) {
             if (isAsyncComplete(document.getDocumentNumber(), 2)) {
                 document.getProtocolOnlineReview().setProtocolOnlineReviewStatusCode(ProtocolOnlineReviewStatus.FINAL_STATUS_CD);
                 String principalId = identityManagementService.getPrincipalByPrincipalName(
                         document.getProtocolOnlineReview().getReviewerUserName()).getPrincipalId();
 
-                WorkflowDocument workflowDocument = new WorkflowDocument(principalId, Long.parseLong(document.getDocumentNumber()));
+                WorkflowDocument workflowDocument = WorkflowDocumentFactory.loadDocument(principalId, document.getDocumentNumber());
                 workflowDocument.approve("approve for undo");
             }
-        } else if (document.getProtocolOnlineReview().isStatusMatched(KEWConstants.ROUTE_HEADER_FINAL_CD)) {
+        } else if (document.getProtocolOnlineReview().isStatusMatched(KewApiConstants.ROUTE_HEADER_FINAL_CD)) {
             if (isAsyncComplete(document.getDocumentNumber(), 2)) {
 
-                final String principalId = identityManagementService.getPrincipalByPrincipalName(KNSConstants.SYSTEM_USER)
+                final String principalId = identityManagementService.getPrincipalByPrincipalName(KRADConstants.SYSTEM_USER)
                         .getPrincipalId();
-                WorkflowDocument workflowDocument = new WorkflowDocument(principalId, Long.parseLong(document.getDocumentNumber()));
+                WorkflowDocument workflowDocument = WorkflowDocumentFactory.loadDocument(principalId, document.getDocumentNumber());
 
-                workflowDocument.superUserApprove("Finalize for undo");
+                workflowDocument.superUserBlanketApprove("Finalize for undo");
 
 
             }
@@ -261,7 +260,7 @@ public class UndoLastActionServiceImpl implements UndoLastActionService {
         int numberOfWaits = 0;
         while (numberOfWaits++ < 100 && !isComplete) {
             try {
-                DocumentRouteHeaderValue document = routeHeaderService.getRouteHeader(Long.parseLong(docId));
+                DocumentRouteHeaderValue document = routeHeaderService.getRouteHeader(docId);
                 isComplete = document.getActionsTaken().size() == numbActionTaken;
                 if (!isComplete) {
                     System.out.println("Wait Async to complete " + docId + " " + numberOfWaits);
@@ -345,7 +344,7 @@ public class UndoLastActionServiceImpl implements UndoLastActionService {
         this.routeHeaderService = routeHeaderService;
     }
 
-    public void setIdentityManagementService(IdentityManagementService identityManagementService) {
+    public void setIdentityManagementService(IdentityService identityManagementService) {
         this.identityManagementService = identityManagementService;
     }
     

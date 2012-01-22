@@ -15,50 +15,41 @@
  */
 package org.kuali.kra.award.awardhierarchy.sync;
 
-import java.util.LinkedHashMap;
-
 import org.apache.commons.lang.StringUtils;
 import org.kuali.kra.award.home.Award;
 import org.kuali.kra.bo.KraPersistableBusinessObjectBase;
 
 public class AwardSyncChange extends KraPersistableBusinessObjectBase {
-    
-    private static final long serialVersionUID = -1131991638179375877L;
-    
-    private Long awardSyncChangeId;
-    private Long awardId;
-    private Award award;
-    
-    private String xml;
-    private String className;
-    private String attrName;
-    private String objectDesc;
-    private String dataDesc;
-    
-    private String syncType;
-    
-    private String syncDescendants;
-    private boolean syncFabricated;
-    private boolean syncCostSharing;
-    
-    private transient boolean delete;
-    private transient AwardSyncXmlExport xmlExport;
 
-    @Override
-    protected LinkedHashMap<String, Object> toStringMapper() {
-        LinkedHashMap<String, Object> retval = new LinkedHashMap<String, Object>();
-        retval.put("awardSyncChangeId", awardSyncChangeId);
-        retval.put("awardId", awardId);
-        retval.put("className", className);
-        retval.put("attrName", attrName);
-        retval.put("objectDesc", objectDesc);
-        retval.put("dataDesc", dataDesc);
-        retval.put("syncType", syncType);
-        retval.put("syncDescendants", syncDescendants);
-        retval.put("syncFabricated", syncFabricated);
-        retval.put("syncCostSharing", syncCostSharing);
-        return retval;
-    }
+    private static final long serialVersionUID = -1131991638179375877L;
+
+    private Long awardSyncChangeId;
+
+    private Long awardId;
+
+    private Award award;
+
+    private String xml;
+
+    private String className;
+
+    private String attrName;
+
+    private String objectDesc;
+
+    private String dataDesc;
+
+    private String syncType;
+
+    private String syncDescendants;
+
+    private boolean syncFabricated;
+
+    private boolean syncCostSharing;
+
+    private transient boolean delete;
+
+    private transient AwardSyncXmlExport xmlExport;
 
     public String getXml() {
         return xml;
@@ -171,7 +162,7 @@ public class AwardSyncChange extends KraPersistableBusinessObjectBase {
     public void setSyncDescendants(String syncDescendants) {
         this.syncDescendants = syncDescendants;
     }
-    
+
     public AwardSyncDescendantValues getSyncDescendantsType() {
         for (AwardSyncDescendantValues value : AwardSyncDescendantValues.values()) {
             if (StringUtils.equals(value.getSyncValue(), syncDescendants)) {
@@ -180,10 +171,11 @@ public class AwardSyncChange extends KraPersistableBusinessObjectBase {
         }
         return null;
     }
+
     public void setSyncDescendantsType(AwardSyncDescendantValues value) {
         syncDescendants = value.getSyncValue();
     }
-    
+
     public AwardSyncType getType() {
         for (AwardSyncType type : AwardSyncType.values()) {
             if (StringUtils.equals(type.getSyncValue(), syncType)) {
@@ -192,9 +184,8 @@ public class AwardSyncChange extends KraPersistableBusinessObjectBase {
         }
         return null;
     }
-    
+
     public void setType(AwardSyncType type) {
         syncType = type.getSyncValue();
     }
-
 }

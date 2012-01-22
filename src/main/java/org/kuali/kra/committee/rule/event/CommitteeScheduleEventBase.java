@@ -21,7 +21,7 @@ import org.kuali.kra.committee.bo.CommitteeSchedule;
 import org.kuali.kra.committee.web.struts.form.schedule.ScheduleData;
 import org.kuali.kra.rule.BusinessRuleInterface;
 import org.kuali.kra.rule.event.KraDocumentEventBaseExtension;
-import org.kuali.rice.kns.document.Document;
+import org.kuali.rice.krad.document.Document;
 
 @SuppressWarnings("unchecked")
 public abstract class CommitteeScheduleEventBase<Z extends BusinessRuleInterface> extends KraDocumentEventBaseExtension {

@@ -54,7 +54,7 @@ private static final int SPONSOR_TERM_TYPE_ATTRIBUTES_COUNT = 2;
      */
     @Test
     public void testCommentTypeBoAttributesCount() throws Exception {              
-        Assert.assertEquals(SPONSOR_TERM_TYPE_ATTRIBUTES_COUNT, sponsorTermTypeBo.toStringMapper().size());
+        Assert.assertEquals(SPONSOR_TERM_TYPE_ATTRIBUTES_COUNT, sponsorTermTypeBo.getClass().getFields().length);
     }
 
 }

@@ -32,8 +32,9 @@ import org.kuali.kra.committee.web.struts.form.schedule.ScheduleData;
 import org.kuali.kra.committee.web.struts.form.schedule.StyleKey;
 import org.kuali.kra.committee.web.struts.form.schedule.WeeklyScheduleDetails;
 import org.kuali.kra.committee.web.struts.form.schedule.YearlyScheduleDetails;
-import org.kuali.rice.kns.util.ErrorMap;
-import org.kuali.rice.kns.util.GlobalVariables;
+import org.kuali.rice.kns.util.KNSGlobalVariables;
+import org.kuali.rice.krad.util.GlobalVariables;
+import org.kuali.rice.krad.util.MessageMap;
 
 public class CommitteeScheduleStartAndEndDateRuleTest  {
     
@@ -56,8 +57,8 @@ public class CommitteeScheduleStartAndEndDateRuleTest  {
     @SuppressWarnings("unchecked")
     @Before
     public void setUp(){
-        GlobalVariables.setErrorMap(new ErrorMap());
-        GlobalVariables.setAuditErrorMap(new HashMap()); 
+        GlobalVariables.setMessageMap(new MessageMap());
+        KNSGlobalVariables.setAuditErrorMap(new HashMap()); 
     }
     
     /**

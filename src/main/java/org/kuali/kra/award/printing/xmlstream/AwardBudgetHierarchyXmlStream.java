@@ -15,34 +15,27 @@
  */
 package org.kuali.kra.award.printing.xmlstream;
 
-import java.math.BigDecimal;
 import java.util.ArrayList;
 import java.util.Collection;
 import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
 
-import javassist.bytecode.Descriptor.Iterator;
-
 import noNamespace.AmountInfoType;
 import noNamespace.AwardNoticeDocument;
-import noNamespace.AwardType;
 import noNamespace.AwardNoticeDocument.AwardNotice;
+import noNamespace.AwardType;
 import noNamespace.AwardType.AwardAmountInfo;
 
-import org.apache.commons.lang.StringUtils;
 import org.apache.xmlbeans.XmlObject;
 import org.kuali.kra.award.awardhierarchy.AwardHierarchy;
-import org.kuali.kra.award.awardhierarchy.AwardHierarchyService;
-import org.kuali.kra.award.document.AwardDocument;
 import org.kuali.kra.award.home.Award;
 import org.kuali.kra.award.printing.AwardPrintType;
 import org.kuali.kra.bo.KraPersistableBusinessObjectBase;
 import org.kuali.kra.document.ResearchDocumentBase;
-import org.kuali.kra.infrastructure.Constants;
 import org.kuali.kra.infrastructure.KraServiceLocator;
 import org.kuali.kra.service.ServiceHelper;
-import org.kuali.rice.kns.service.BusinessObjectService;
+import org.kuali.rice.krad.service.BusinessObjectService;
 /**
  * This class generates XML that conforms with the XSD related to Award Budget
  * hierarchy Report. The data for XML is derived from
@@ -63,7 +56,6 @@ public class AwardBudgetHierarchyXmlStream extends AwardBudgetBaseStream {
 	 *            parameters related to XML generation
 	 * @return {@link XmlObject} representing the XML
 	 */
-
 	public Map<String, XmlObject> generateXmlStream(
 			KraPersistableBusinessObjectBase printableBusinessObject, Map<String, Object> reportParameters) {
 		Map<String, XmlObject> budgetHierarchyMap = new HashMap<String, XmlObject>();
@@ -116,7 +108,7 @@ public class AwardBudgetHierarchyXmlStream extends AwardBudgetBaseStream {
 			amountInfoTypes = recurseTree(branchNode,amountInfoTypes);
 			amountInfoTypes.add(0,amountInfoType);
 			awardAmountInfo.setAmountInfoArray(amountInfoTypes.toArray(new AmountInfoType[0]));
-      }
+		}
 		return awardAmountInfo;
 	}
 
@@ -124,9 +116,8 @@ public class AwardBudgetHierarchyXmlStream extends AwardBudgetBaseStream {
 	 * This method will set the values to award amount info xml object
 	 * attributes .
 	 */
-	
 	private AmountInfoType setAwardAmountInfo(Award award,
-			org.kuali.kra.award.home.AwardAmountInfo awardAmount) {	   
+			org.kuali.kra.award.home.AwardAmountInfo awardAmount) {
 	    AmountInfoType amountInfoType = AmountInfoType.Factory.newInstance();
 		if (award.getAccountNumber() != null) {
 			amountInfoType.setAccountNumber(award.getAccountNumber());
@@ -167,7 +158,7 @@ public class AwardBudgetHierarchyXmlStream extends AwardBudgetBaseStream {
 		}
 		if (award.getAwardNumber() != null) {
 			amountInfoType.setAwardNumber(award.getAwardNumber());
-		 }
+		}
 		if (awardAmount.getObligationExpirationDate() != null) {
 			amountInfoType.setObligationExpirationDate(dateTimeService
 					.getCalendar(awardAmount.getObligationExpirationDate()));
@@ -203,7 +194,7 @@ public class AwardBudgetHierarchyXmlStream extends AwardBudgetBaseStream {
               childNode.setRoot(branchNode.getRoot());  
               recurseTree(childNode,amountInfoTypes);
              
-            }
+}
         } 
        return amountInfoTypes;
     }

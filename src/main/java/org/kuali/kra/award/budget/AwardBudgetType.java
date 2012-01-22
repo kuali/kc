@@ -15,23 +15,21 @@
  */
 package org.kuali.kra.award.budget;
 
-import java.util.LinkedHashMap;
-
 import org.kuali.kra.bo.KraPersistableBusinessObjectBase;
 
-public class AwardBudgetType extends KraPersistableBusinessObjectBase { 
-    
+public class AwardBudgetType extends KraPersistableBusinessObjectBase {
+
     private static final long serialVersionUID = 1L;
 
-    private String awardBudgetTypeCode; 
-    private String description; 
-    
-    private AwardBudgetExt awardBudgetExt; 
-    
-    public AwardBudgetType() { 
+    private String awardBudgetTypeCode;
 
-    } 
-    
+    private String description;
+
+    private AwardBudgetExt awardBudgetExt;
+
+    public AwardBudgetType() {
+    }
+
     public String getAwardBudgetTypeCode() {
         return awardBudgetTypeCode;
     }
@@ -55,14 +53,4 @@ public class AwardBudgetType extends KraPersistableBusinessObjectBase {
     public void setAwardBudgetExt(AwardBudgetExt awardBudgetExt) {
         this.awardBudgetExt = awardBudgetExt;
     }
-
-    /** {@inheritDoc} */
-    @Override 
-    protected LinkedHashMap<String, Object> toStringMapper() {
-        LinkedHashMap<String, Object> hashMap = new LinkedHashMap<String, Object>();
-        hashMap.put("awardBudgetTypeCode", this.getAwardBudgetTypeCode());
-        hashMap.put("description", this.getDescription());
-        return hashMap;
-    }
-    
 }

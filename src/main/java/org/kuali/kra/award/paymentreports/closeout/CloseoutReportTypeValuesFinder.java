@@ -23,10 +23,11 @@ import org.apache.commons.lang.StringUtils;
 import org.kuali.kra.award.document.AwardDocument;
 import org.kuali.kra.infrastructure.KeyConstants;
 import org.kuali.kra.infrastructure.KraServiceLocator;
-import org.kuali.rice.kns.lookup.keyvalues.KeyValuesBase;
-import org.kuali.rice.kns.service.KeyValuesService;
-import org.kuali.rice.kns.service.ParameterService;
-import org.kuali.rice.core.util.KeyLabelPair;
+import org.kuali.rice.core.api.util.ConcreteKeyValue;
+import org.kuali.rice.core.api.util.KeyValue;
+import org.kuali.rice.coreservice.framework.parameter.ParameterService;
+import org.kuali.rice.krad.keyvalues.KeyValuesBase;
+import org.kuali.rice.krad.service.KeyValuesService;
 
 /**
  * 
@@ -44,16 +45,16 @@ public class CloseoutReportTypeValuesFinder extends KeyValuesBase {
      * 
      * @see org.kuali.core.lookup.keyvalues.KeyValuesFinder#getKeyValues()
      */    
-    public List<KeyLabelPair> getKeyValues() {
+    public List<KeyValue> getKeyValues() {
         Collection<CloseoutReportType> closeoutReportTypes = (Collection<CloseoutReportType>)getKeyValuesService().findAll(CloseoutReportType.class);
         
-        List<KeyLabelPair> keyValues = new ArrayList<KeyLabelPair>();
+        List<KeyValue> keyValues = new ArrayList<KeyValue>();
         
         for(CloseoutReportType closeoutReportType: closeoutReportTypes){
-            if (!StringUtils.equalsIgnoreCase(closeoutReportType.getCloseoutReportCode(), this.getParameterService().getParameterValue(
+            if (!StringUtils.equalsIgnoreCase(closeoutReportType.getCloseoutReportCode(), this.getParameterService().getParameterValueAsString(
                     AwardDocument.class, 
                     KeyConstants.CLOSE_OUT_REPORT_TYPE_USER_DEFINED))){
-                keyValues.add(new KeyLabelPair(closeoutReportType.getCloseoutReportCode(), closeoutReportType.getDescription()));    
+                keyValues.add(new ConcreteKeyValue(closeoutReportType.getCloseoutReportCode(), closeoutReportType.getDescription()));    
             }
         }
         

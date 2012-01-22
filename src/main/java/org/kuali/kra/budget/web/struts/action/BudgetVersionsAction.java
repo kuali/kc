@@ -20,8 +20,8 @@ import static org.kuali.kra.infrastructure.Constants.MAPPING_BASIC;
 import static org.kuali.kra.infrastructure.KraServiceLocator.getService;
 import static org.kuali.kra.logging.BufferedLogger.debug;
 import static org.kuali.kra.logging.BufferedLogger.info;
-import static org.kuali.rice.kns.util.KNSConstants.QUESTION_CLICKED_BUTTON;
-import static org.kuali.rice.kns.util.KNSConstants.QUESTION_INST_ATTRIBUTE_NAME;
+import static org.kuali.rice.krad.util.KRADConstants.QUESTION_CLICKED_BUTTON;
+import static org.kuali.rice.krad.util.KRADConstants.QUESTION_INST_ATTRIBUTE_NAME;
 
 import java.util.ArrayList;
 import java.util.Collection;
@@ -63,14 +63,12 @@ import org.kuali.kra.proposaldevelopment.hierarchy.ProposalHierarcyActionHelper;
 import org.kuali.kra.proposaldevelopment.service.ProposalDevelopmentService;
 import org.kuali.kra.question.CopyPeriodsQuestion;
 import org.kuali.kra.web.struts.action.StrutsConfirmation;
-import org.kuali.rice.kew.exception.WorkflowException;
-import org.kuali.rice.kns.authorization.AuthorizationConstants;
-import org.kuali.rice.kns.bo.BusinessObject;
-import org.kuali.rice.kns.lookup.LookupResultsService;
-import org.kuali.rice.kns.question.ConfirmationQuestion;
-import org.kuali.rice.kns.service.DocumentService;
-import org.kuali.rice.kns.util.GlobalVariables;
+import org.kuali.rice.kew.api.exception.WorkflowException;
 import org.kuali.rice.kns.web.struts.form.KualiForm;
+import org.kuali.rice.kns.authorization.AuthorizationConstants;
+import org.kuali.rice.kns.question.ConfirmationQuestion;
+import org.kuali.rice.krad.service.DocumentService;
+import org.kuali.rice.krad.util.GlobalVariables;
 
 /**
  * Struts Action class for requests from the Budget Versions page.
@@ -78,7 +76,7 @@ import org.kuali.rice.kns.web.struts.form.KualiForm;
 public class BudgetVersionsAction extends BudgetAction {
     private static final String TOGGLE_TAB = "toggleTab";
     private static final String CONFIRM_SYNCH_BUDGET_RATE_BUDGET_DOCUMENT = "confirmSynchBudgetRateForBudgetDocument";
-    private static final String NO_SYNCH_BUDGET_RATE_BUDGET_DOCUMENT = "noSynchBudgetRateForBudgetDocument";
+    private static final String NO_SYNCH_BUDGET_RATE_BUDGET_DOCUMENT = "noSynchBudgetRateForBudgetDocument";    
     /**
      * Main execute method that is run. Populates A map of rate types in the {@link HttpServletRequest} instance to be used
      * in the JSP. The map is called <code>rateClassMap</code> this is set everytime execute is called in this class. This should only
@@ -95,7 +93,8 @@ public class BudgetVersionsAction extends BudgetAction {
         request.setAttribute("rateClassMap", getBudgetRatesService().getBudgetRateClassMap("O"));
         
         final BudgetForm budgetForm = (BudgetForm) form;
-        BudgetParentDocument parentDocument = getBudgetParentDocument(budgetForm);
+        BudgetDocument budgetDocument = budgetForm.getBudgetDocument();
+        BudgetParentDocument parentDocument = budgetDocument.getParentDocument();
         if (TOGGLE_TAB.equals(budgetForm.getMethodToCall())) {
             final BudgetTDCValidator tdcValidator = new BudgetTDCValidator(request);
             tdcValidator.validateGeneratingWarnings(parentDocument);
@@ -146,9 +145,9 @@ public class BudgetVersionsAction extends BudgetAction {
             if (awardBudgetService.checkRateChange(savedBudgetRates, award)) {
                 return confirm(
                         syncAwardBudgetRateConfirmationQuestion(mapping, form, request, response,
-                                KeyConstants.QUESTION_SYNCH_AWARD_RATE), CONFIRM_SYNCH_AWARD_RATES, NO_SYNCH_AWARD_RATES);
-            }
-        }
+	                    KeyConstants.QUESTION_SYNCH_AWARD_RATE), CONFIRM_SYNCH_AWARD_RATES, NO_SYNCH_AWARD_RATES);
+	        	 }
+	        	 }
         if (budgetService.checkActivityTypeChange(allPropRates, budgetParent.getActivityTypeCode())) {
             //Rates-Refresh Scenario-2
             budget.setRateClassTypesReloaded(true);
@@ -158,8 +157,8 @@ public class BudgetVersionsAction extends BudgetAction {
             //Throw Empty Rates message
             return confirm(syncBudgetRateConfirmationQuestion(mapping, form, request, response,
                     KeyConstants.QUESTION_NO_RATES_ATTEMPT_SYNCH), CONFIRM_SYNCH_BUDGET_RATE_BUDGET_DOCUMENT, NO_SYNCH_BUDGET_RATE_BUDGET_DOCUMENT);
-        }
-
+	        }
+	    	
         final BudgetTDCValidator tdcValidator = new BudgetTDCValidator(request);
         tdcValidator.validateGeneratingWarnings(parentDocument);
 
@@ -177,13 +176,14 @@ public class BudgetVersionsAction extends BudgetAction {
      */
     public ActionForward addBudgetVersion(ActionMapping mapping, ActionForm form, HttpServletRequest request, HttpServletResponse response) throws Exception {
         BudgetForm budgetForm = (BudgetForm) form;
-        BudgetParentDocument parentDocument = getBudgetParentDocument(budgetForm);
+        BudgetDocument budgetDocument = budgetForm.getBudgetDocument();
+        BudgetParentDocument parentDocument = budgetDocument.getParentDocument();
         BudgetDocument newBudgetDoc = getBudgetService().addBudgetVersion(parentDocument, budgetForm.getNewBudgetVersionName());
         budgetForm.setNewBudgetVersionName("");
         
         return mapping.findForward(Constants.MAPPING_BASIC);
     }
-
+    
     /**
      * This method...
      * @param budgetForm
@@ -228,7 +228,7 @@ public class BudgetVersionsAction extends BudgetAction {
         DocumentService documentService = KraServiceLocator.getService(DocumentService.class);
         BudgetDocument budgetDocument = (BudgetDocument) documentService.getByDocumentHeaderId(budgetToOpen.getDocumentNumber());
         Budget budgetOpen = budgetDocument.getBudget();
-        Long routeHeaderId = budgetDocument.getDocumentHeader().getWorkflowDocument().getRouteHeaderId();
+        String routeHeaderId = budgetDocument.getDocumentHeader().getWorkflowDocument().getDocumentId();
         
         
         Collection<BudgetRate> allPropRates = budgetService.getSavedBudgetRates(budgetOpen);
@@ -257,7 +257,7 @@ public class BudgetVersionsAction extends BudgetAction {
     public ActionForward confirmSynchBudgetRateForBudgetDocument(ActionMapping mapping, ActionForm form, HttpServletRequest request, HttpServletResponse response) throws Exception {
         BudgetForm budgetForm = (BudgetForm) form;
         BudgetDocument budgetDocument = budgetForm.getDocument();
-
+    
         return synchBudgetRate(budgetDocument, true);
     }
 
@@ -269,13 +269,13 @@ public class BudgetVersionsAction extends BudgetAction {
     }
     protected ActionForward synchBudgetRate(BudgetDocument budgetDocument, boolean confirm) throws Exception {
         Budget budgetOpen = budgetDocument.getBudget();
-        Long routeHeaderId = budgetDocument.getDocumentHeader().getWorkflowDocument().getRouteHeaderId();
+        String routeHeaderId = budgetDocument.getDocumentHeader().getWorkflowDocument().getDocumentId();
         budgetOpen.setActivityTypeCode(budgetDocument.getParentDocument().getBudgetParent().getActivityTypeCode());
         budgetOpen.setRateClassTypesReloaded(true);
         String forward = buildForwardUrl(routeHeaderId);
         if (confirm) {
             forward = forward.replace("budgetParameters.do?", "budgetParameters.do?syncBudgetRate=Y&");
-        }
+         }
         return new ActionForward(forward, true);
     }
 
@@ -309,7 +309,7 @@ public class BudgetVersionsAction extends BudgetAction {
         BudgetForm budgetForm = (BudgetForm) form;
         BudgetDocument budgetDocument = getSelectedBudgetDocument(request, budgetForm);
         return synchBudgetRate(budgetDocument, false);
-    }
+        }
 
     private BudgetRatesService getBudgetRateService() {
         return KraServiceLocator.getService(BudgetRatesService.class);
@@ -364,25 +364,25 @@ public class BudgetVersionsAction extends BudgetAction {
             return mapping.findForward(Constants.MAPPING_BASIC);
         }
         
-        try {
-            valid &= getBudgetService().validateBudgetAuditRuleBeforeSaveBudgetVersion(parentDocument);
+       try {
+                valid &=getBudgetService().validateBudgetAuditRuleBeforeSaveBudgetVersion(parentDocument);
         }
         catch (Exception ex) {
-            info("Audit rule check failed ", ex.getStackTrace());
-        }
-        if (!valid) {
-            // set up error message to go to validate panel
-
-            Integer budgetVersionNumber = budgetForm.getFinalBudgetVersion();
-            // ask form for final version number... if it is null, ask current budget document its version number
-            if (budgetVersionNumber == null || budgetVersionNumber.intValue() == -1) {
-                budgetVersionNumber = budget.getBudgetVersionNumber();
+                info("Audit rule check failed ", ex.getStackTrace());
             }
-            GlobalVariables.getErrorMap().putError(
-                    "document.parentDocument.budgetDocumentVersion[" + (budgetVersionNumber.intValue() - 1)
-                            + "].budgetVersionOverview.budgetStatus",
-                    KeyConstants.CLEAR_AUDIT_ERRORS_BEFORE_CHANGE_STATUS_TO_COMPLETE);
-        }
+            if (!valid) {
+                // set up error message to go to validate panel
+                
+                Integer budgetVersionNumber = budgetForm.getFinalBudgetVersion();
+                // ask form for final version number... if it is null, ask current budget document its version number
+                if (budgetVersionNumber == null || budgetVersionNumber.intValue() == -1) {
+                    budgetVersionNumber = budget.getBudgetVersionNumber();
+                } 
+                GlobalVariables
+                    .getMessageMap()
+                        .putError("document.parentDocument.budgetDocumentVersion["+(budgetVersionNumber.intValue() - 1)+"].budgetVersionOverview.budgetStatus",
+                                    KeyConstants.CLEAR_AUDIT_ERRORS_BEFORE_CHANGE_STATUS_TO_COMPLETE);
+            } 
         if (budgetForm.isSaveAfterCopy()) {
             List<BudgetDocumentVersion> overviews = parentDocument.getBudgetDocumentVersions();
             BudgetVersionOverview copiedOverview = overviews.get(overviews.size() - 1).getBudgetVersionOverview();

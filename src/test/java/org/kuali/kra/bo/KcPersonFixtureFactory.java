@@ -2,9 +2,9 @@ package org.kuali.kra.bo;
 
 import org.kuali.kra.service.impl.adapters.BusinessObjectServiceAdapter;
 import org.kuali.kra.service.impl.adapters.IdentityServiceAdapter;
-import org.kuali.rice.kim.bo.entity.dto.KimEntityInfo;
-import org.kuali.rice.kim.service.IdentityService;
-import org.kuali.rice.kns.service.BusinessObjectService;
+import org.kuali.rice.kim.api.identity.IdentityService;
+import org.kuali.rice.kim.api.identity.entity.Entity;
+import org.kuali.rice.krad.service.BusinessObjectService;
 
 public class KcPersonFixtureFactory {
 
@@ -70,10 +70,10 @@ public class KcPersonFixtureFactory {
     private static IdentityService getMockIdentityService() {
         return new IdentityServiceAdapter() {
             @Override
-            public KimEntityInfo getEntityInfoByPrincipalId(String principalId) {
-                KimEntityInfo entity = new KimEntityInfo();
-                entity.setEntityId(principalId);
-                return entity;
+            public Entity getEntityByPrincipalId(String principalId) {
+                Entity.Builder entityBuilder = Entity.Builder.create();
+                entityBuilder.setId(principalId);
+                return entityBuilder.build();
             }
         };
     }

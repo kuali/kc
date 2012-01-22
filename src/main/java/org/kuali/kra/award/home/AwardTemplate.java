@@ -16,105 +16,97 @@
 package org.kuali.kra.award.home;
 
 import java.util.ArrayList;
-import java.util.LinkedHashMap;
 import java.util.List;
 
-import org.kuali.kra.award.paymentreports.Frequency;
 import org.kuali.kra.award.paymentreports.awardreports.AwardReportTermRecipient;
 import org.kuali.kra.bo.KraPersistableBusinessObjectBase;
 import org.kuali.kra.bo.Sponsor;
-import org.kuali.rice.kns.util.ObjectUtils;
-import org.kuali.rice.kns.util.TypedArrayList;
+import org.springframework.util.AutoPopulatingList;
 
-public class AwardTemplate extends KraPersistableBusinessObjectBase{ 
-	
-	/**
+public class AwardTemplate extends KraPersistableBusinessObjectBase {
+
+    /**
      * Comment for <code>serialVersionUID</code>
      */
     private static final long serialVersionUID = -3038831932003349194L;
-    private String statusCode; 
+
+    private String statusCode;
+
     private String description;
-    private AwardStatus awardTemplateStatus; 
 
-    //sync to templateCode
-    private Integer templateCode; 
-    //sync to primeSponsorCode
-    private String primeSponsorCode; 
-    //
-    private String nonCompetingContPrpslDueCode; 
-    //
-    private String competingRenewalPrpslDueCode; 
-    //
-    private String basisOfPaymentCode; 
-    //
-    private String methodOfPaymentCode; 
-    
+    private AwardStatus awardTemplateStatus;
+
+    //sync to templateCode  
+    private Integer templateCode;
+
+    //sync to primeSponsorCode  
+    private String primeSponsorCode;
+
+    //  
+    private String nonCompetingContPrpslDueCode;
+
+    //  
+    private String competingRenewalPrpslDueCode;
+
+    //  
+    private String basisOfPaymentCode;
+
+    //  
+    private String methodOfPaymentCode;
+
     private Sponsor primeSponsor;
-  
+
     private AwardBasisOfPayment awardBasisOfPayment;
+
     private AwardMethodOfPayment awardMethodOfPayment;
-    
-	private List<AwardTemplateReportTerm> templateReportTerms; 
-	private List<AwardTemplateComment> templateComments; 
-	private List<AwardTemplateContact> templateContacts; 
-    private List<AwardTemplateTerm> templateTerms; 
-	
-	@SuppressWarnings("unchecked")
-    public AwardTemplate() { 
-	    templateContacts = new TypedArrayList(AwardTemplateContact.class);
-	    templateComments = new TypedArrayList(AwardTemplateComment.class);
-	    templateTerms = new TypedArrayList(AwardTemplateTerm.class);
-	    templateReportTerms = new TypedArrayList(AwardTemplateReportTerm.class);
-	} 
-	
-	public String getStatusCode() {
-		return statusCode;
-	}
 
-	public void setStatusCode(String statusCode) {
-		this.statusCode = statusCode;
-	}
+    private List<AwardTemplateReportTerm> templateReportTerms;
 
+    private List<AwardTemplateComment> templateComments;
 
-	public AwardStatus getAwardTemplateStatus() {
-		return awardTemplateStatus;
-	}
+    private List<AwardTemplateContact> templateContacts;
 
-	public void setAwardTemplateStatus(AwardStatus awardTemplateStatus) {
-		this.awardTemplateStatus = awardTemplateStatus;
-	}
+    private List<AwardTemplateTerm> templateTerms;
 
-	public List<AwardTemplateReportTerm> getTemplateReportTerms() {
-		return templateReportTerms;
-	}
+    @SuppressWarnings("unchecked")
+    public AwardTemplate() {
+        templateContacts = new AutoPopulatingList<AwardTemplateContact>(AwardTemplateContact.class);
+        templateComments = new AutoPopulatingList<AwardTemplateComment>(AwardTemplateComment.class);
+        templateTerms = new AutoPopulatingList<AwardTemplateTerm>(AwardTemplateTerm.class);
+        templateReportTerms = new AutoPopulatingList<AwardTemplateReportTerm>(AwardTemplateReportTerm.class);
+    }
 
-	public void setTemplateReportTerms(List<AwardTemplateReportTerm> templateReportTerms) {
-		this.templateReportTerms = templateReportTerms;
-	}
+    public String getStatusCode() {
+        return statusCode;
+    }
 
+    public void setStatusCode(String statusCode) {
+        this.statusCode = statusCode;
+    }
 
-	public List<AwardTemplateContact> getTemplateContacts() {
-		return templateContacts;
-	}
+    public AwardStatus getAwardTemplateStatus() {
+        return awardTemplateStatus;
+    }
 
-	public void setTemplateContacts(List<AwardTemplateContact> templateContacts) {
-		this.templateContacts = templateContacts;
-	}
+    public void setAwardTemplateStatus(AwardStatus awardTemplateStatus) {
+        this.awardTemplateStatus = awardTemplateStatus;
+    }
 
+    public List<AwardTemplateReportTerm> getTemplateReportTerms() {
+        return templateReportTerms;
+    }
 
-	@SuppressWarnings("unchecked")
-    @Override 
-	protected LinkedHashMap toStringMapper() {
-		LinkedHashMap hashMap = new LinkedHashMap();
-          hashMap.put("primeSponsorCode", getPrimeSponsorCode());
-          hashMap.put("nonCompetingContPrpslDue", getNonCompetingContPrpslDueCode());
-          hashMap.put("competingRenewalPrpslDue", getCompetingRenewalPrpslDueCode());
-          hashMap.put("basisOfPaymentCode", getBasisOfPaymentCode());
-          hashMap.put("methodOfPaymentCode", getMethodOfPaymentCode());
-          hashMap.put("statusCode", getStatusCode());
-		return hashMap;
-	}
+    public void setTemplateReportTerms(List<AwardTemplateReportTerm> templateReportTerms) {
+        this.templateReportTerms = templateReportTerms;
+    }
 
+    public List<AwardTemplateContact> getTemplateContacts() {
+        return templateContacts;
+    }
+
+    public void setTemplateContacts(List<AwardTemplateContact> templateContacts) {
+        this.templateContacts = templateContacts;
+    }
 
     /**
      * Gets the templateComments attribute. 
@@ -275,7 +267,7 @@ public class AwardTemplate extends KraPersistableBusinessObjectBase{
     public void setMethodOfPaymentCode(String methodOfPaymentCode) {
         this.methodOfPaymentCode = methodOfPaymentCode;
     }
- 
+
     /**
      * Gets the awardBasisOfPayment attribute. 
      * @return Returns the awardBasisOfPayment.
@@ -323,20 +315,19 @@ public class AwardTemplate extends KraPersistableBusinessObjectBase{
     public void setPrimeSponsor(Sponsor primeSponsor) {
         this.primeSponsor = primeSponsor;
     }
-	
-    
+
     @SuppressWarnings("unchecked")
     @Override
     public List buildListOfDeletionAwareLists() {
-        // TODO : need this ?
+        // TODO : need this ?  
         List managedLists = super.buildListOfDeletionAwareLists();
         managedLists.add(getTemplateTerms());
         managedLists.add(getAwardComments());
         managedLists.add(getTemplateReportTerms());
         managedLists.add(getTemplateContacts());
-        ArrayList<AwardReportTermRecipient> rcpts = new ArrayList<AwardReportTermRecipient>(); 
-        for( AwardTemplateReportTerm rt : getTemplateReportTerms() ) {
-            rcpts.addAll(rt.getAwardReportTermRecipients() );
+        ArrayList<AwardReportTermRecipient> rcpts = new ArrayList<AwardReportTermRecipient>();
+        for (AwardTemplateReportTerm rt : getTemplateReportTerms()) {
+            rcpts.addAll(rt.getAwardReportTermRecipients());
         }
         managedLists.add(rcpts);
         return managedLists;
@@ -353,9 +344,9 @@ public class AwardTemplate extends KraPersistableBusinessObjectBase{
         for (AwardTemplateContact tempContact : getTemplateContacts()) {
             tempContact.setTemplateContactId(null);
         }
-        for (AwardTemplateTerm tempTerm : getTemplateTerms()) {;
+        for (AwardTemplateTerm tempTerm : getTemplateTerms()) {
+            ;
             tempTerm.setAwardTemplateTermId(null);
         }
     }
-    
 }

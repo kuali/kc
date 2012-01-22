@@ -15,9 +15,6 @@
  */
 package org.kuali.kra.negotiations.customdata;
 
-import java.util.LinkedHashMap;
-
-import org.kuali.kra.SequenceAssociate;
 import org.kuali.kra.SequenceOwner;
 import org.kuali.kra.bo.CustomAttribute;
 import org.kuali.kra.negotiations.NegotiationAssociate;
@@ -26,23 +23,24 @@ import org.kuali.kra.negotiations.bo.Negotiation;
 /**
  * This is Business Object class for IP custom data BO.
  */
-public class NegotiationCustomData extends NegotiationAssociate  { 
-    
+public class NegotiationCustomData extends NegotiationAssociate {
+
     private static final long serialVersionUID = 1L;
 
-    private Long negotiationCustomDataId; 
-    private Long customAttributeId; 
-    private String value; 
-    
-    private CustomAttribute customAttribute; 
-    
+    private Long negotiationCustomDataId;
+
+    private Long customAttributeId;
+
+    private String value;
+
+    private CustomAttribute customAttribute;
+
     /**
      * Constructs a NegotiationCustomData.java.
      */
-    public NegotiationCustomData() { 
+    public NegotiationCustomData() {
+    }
 
-    } 
-    
     /**
      * This method...
      * @return
@@ -106,12 +104,12 @@ public class NegotiationCustomData extends NegotiationAssociate  {
     public void setCustomAttribute(CustomAttribute customAttribute) {
         this.customAttribute = customAttribute;
     }
-    
+
     /**
      * @see org.kuali.kra.SequenceAssociate#getSequenceOwner()
      */
     public SequenceOwner getSequenceOwner() {
-        return (SequenceOwner)getNegotiation();
+        return (SequenceOwner) getNegotiation();
     }
 
     /**
@@ -127,18 +125,6 @@ public class NegotiationCustomData extends NegotiationAssociate  {
     public void resetPersistenceState() {
         this.negotiationCustomDataId = null;
     }
-
-
-    /** {@inheritDoc} */
-    @Override 
-    protected LinkedHashMap<String, Object> toStringMapper() {
-        LinkedHashMap<String, Object> hashMap = new LinkedHashMap<String, Object>();
-        hashMap.put("negotiationCustomDataId", this.getNegotiationCustomDataId());
-        hashMap.put("customAttributeId", this.getCustomAttributeId());
-        hashMap.put("value", this.getValue());
-        return hashMap;
-    }
-    
 
     /**
      * @see java.lang.Object#hashCode()
@@ -159,39 +145,22 @@ public class NegotiationCustomData extends NegotiationAssociate  {
      */
     @Override
     public boolean equals(Object obj) {
-        if (this == obj)
-            return true;
-        if (obj == null)
-            return false;
-        if (getClass() != obj.getClass())
-            return false;
+        if (this == obj) return true;
+        if (obj == null) return false;
+        if (getClass() != obj.getClass()) return false;
         NegotiationCustomData other = (NegotiationCustomData) obj;
         if (customAttribute == null) {
-            if (other.customAttribute != null)
-                return false;
-        }
-        else if (!customAttribute.equals(other.customAttribute))
-            return false;
+            if (other.customAttribute != null) return false;
+        } else if (!customAttribute.equals(other.customAttribute)) return false;
         if (customAttributeId == null) {
-            if (other.customAttributeId != null)
-                return false;
-        }
-        else if (!customAttributeId.equals(other.customAttributeId))
-            return false;
+            if (other.customAttributeId != null) return false;
+        } else if (!customAttributeId.equals(other.customAttributeId)) return false;
         if (negotiationCustomDataId == null) {
-            if (other.negotiationCustomDataId != null)
-                return false;
-        }
-        else if (!negotiationCustomDataId.equals(other.negotiationCustomDataId))
-            return false;
+            if (other.negotiationCustomDataId != null) return false;
+        } else if (!negotiationCustomDataId.equals(other.negotiationCustomDataId)) return false;
         if (value == null) {
-            if (other.value != null)
-                return false;
-        }
-        else if (!value.equals(other.value))
-            return false;
+            if (other.value != null) return false;
+        } else if (!value.equals(other.value)) return false;
         return true;
     }
-
-    
 }

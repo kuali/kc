@@ -44,12 +44,12 @@ import org.kuali.kra.irb.personnel.ProtocolUnit;
 import org.kuali.kra.irb.protocol.funding.ProtocolFundingSource;
 import org.kuali.kra.irb.protocol.location.ProtocolLocation;
 import org.kuali.kra.irb.protocol.research.ProtocolResearchArea;
-import org.kuali.rice.kns.bo.PersistableBusinessObject;
-import org.kuali.rice.kns.dao.LookupDao;
-import org.kuali.rice.kns.dao.impl.PlatformAwareDaoBaseOjb;
+import org.kuali.rice.core.framework.persistence.ojb.dao.PlatformAwareDaoBaseOjb;
 import org.kuali.rice.kns.service.DataDictionaryService;
-import org.kuali.rice.kns.util.KNSConstants;
-import org.kuali.rice.kns.util.OjbCollectionAware;
+import org.kuali.rice.krad.bo.PersistableBusinessObject;
+import org.kuali.rice.krad.dao.LookupDao;
+import org.kuali.rice.krad.util.KRADConstants;
+import org.kuali.rice.krad.util.OjbCollectionAware;
 
 /**
  * 
@@ -283,8 +283,8 @@ class ProtocolDaoOjb extends PlatformAwareDaoBaseOjb implements OjbCollectionAwa
      * This method to set up the list of fields that should not be included in the query criteria.
      */
     private void initExcludedFields() {
-        excludedFields.add(KNSConstants.BACK_LOCATION);
-        excludedFields.add(KNSConstants.DOC_FORM_KEY);
+        excludedFields.add(KRADConstants.BACK_LOCATION);
+        excludedFields.add(KRADConstants.DOC_FORM_KEY);
     }
     
     /*

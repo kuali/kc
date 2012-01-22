@@ -19,8 +19,8 @@ import org.jmock.Expectations;
 import org.jmock.Mockery;
 import org.junit.Test;
 import org.kuali.kra.award.home.Award;
-import org.kuali.rice.kns.rule.event.KualiDocumentEvent;
-import org.kuali.rice.kns.service.KualiRuleService;
+import org.kuali.rice.krad.rules.rule.event.KualiDocumentEvent;
+import org.kuali.rice.krad.service.KualiRuleService;
 
 /**
  * This test class will not be executable until we fix the Rice code where 

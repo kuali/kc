@@ -15,15 +15,13 @@
  */
 package org.kuali.kra.util.spring;
 
+import static org.kuali.kra.logging.BufferedLogger.info;
+
 import java.lang.reflect.Method;
 
 import org.aopalliance.intercept.MethodInterceptor;
 import org.aopalliance.intercept.MethodInvocation;
 import org.apache.commons.lang.StringUtils;
-import org.apache.commons.logging.Log;
-import org.apache.commons.logging.LogFactory;
-
-import static org.kuali.kra.logging.BufferedLogger.*;
 import org.springframework.aop.framework.ProxyFactoryBean;
 
 /**

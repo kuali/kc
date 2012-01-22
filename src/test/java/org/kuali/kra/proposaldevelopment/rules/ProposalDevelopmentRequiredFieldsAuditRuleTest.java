@@ -33,13 +33,15 @@ import org.kuali.kra.proposaldevelopment.document.ProposalDevelopmentDocument;
 import org.kuali.kra.proposaldevelopment.service.impl.ProposalDevelopmentServiceImpl;
 import org.kuali.kra.s2s.bo.S2sOpportunity;
 import org.kuali.kra.test.infrastructure.KcUnitTestBase;
-import org.kuali.rice.kns.UserSession;
-import org.kuali.rice.kns.service.DocumentService;
-import org.kuali.rice.kns.service.KNSServiceLocator;
-import org.kuali.rice.kns.service.ParameterService;
+import org.kuali.rice.coreservice.framework.parameter.ParameterService;
+import org.kuali.rice.coreservice.framework.CoreFrameworkServiceLocator;
 import org.kuali.rice.kns.util.AuditCluster;
 import org.kuali.rice.kns.util.AuditError;
-import org.kuali.rice.kns.util.GlobalVariables;
+import org.kuali.rice.kns.util.KNSGlobalVariables;
+import org.kuali.rice.krad.UserSession;
+import org.kuali.rice.krad.service.DocumentService;
+import org.kuali.rice.krad.service.KRADServiceLocatorWeb;
+import org.kuali.rice.krad.util.GlobalVariables;
 
 /**
  * This class tests the ProposalDevelopmentSponsorProgramInformationAuditRule class
@@ -67,16 +69,16 @@ public class ProposalDevelopmentRequiredFieldsAuditRuleTest extends KcUnitTestBa
     public void setUp() throws Exception {
         super.setUp();
         GlobalVariables.setUserSession(new UserSession("quickstart"));
-        GlobalVariables.setAuditErrorMap(new HashMap());
-        documentService = KNSServiceLocator.getDocumentService();
-        parameterService = KNSServiceLocator.getParameterService();
+        KNSGlobalVariables.setAuditErrorMap(new HashMap());
+        documentService = KRADServiceLocatorWeb.getDocumentService();
+        parameterService = CoreFrameworkServiceLocator.getParameterService();
         auditRule = new ProposalDevelopmentProposalRequiredFieldsAuditRule();
         
-        proposalTypeCodeRenewal = parameterService.getParameterValue(ProposalDevelopmentDocument.class, KeyConstants.PROPOSALDEVELOPMENT_PROPOSALTYPE_RENEWAL);
-        proposalTypeCodeRevision = parameterService.getParameterValue(ProposalDevelopmentDocument.class, KeyConstants.PROPOSALDEVELOPMENT_PROPOSALTYPE_REVISION);
-        proposalTypeCodeContinuation = parameterService.getParameterValue(ProposalDevelopmentDocument.class, KeyConstants.PROPOSALDEVELOPMENT_PROPOSALTYPE_CONTINUATION);
-        proposalTypeCodeResubmission = parameterService.getParameterValue(ProposalDevelopmentDocument.class, KeyConstants.PROPOSALDEVELOPMENT_PROPOSALTYPE_RESUBMISSION);
-        proposalTypeCodeNew = parameterService.getParameterValue(ProposalDevelopmentDocument.class, KeyConstants.PROPOSALDEVELOPMENT_PROPOSALTYPE_NEW);
+        proposalTypeCodeRenewal = parameterService.getParameterValueAsString(ProposalDevelopmentDocument.class, KeyConstants.PROPOSALDEVELOPMENT_PROPOSALTYPE_RENEWAL);
+        proposalTypeCodeRevision = parameterService.getParameterValueAsString(ProposalDevelopmentDocument.class, KeyConstants.PROPOSALDEVELOPMENT_PROPOSALTYPE_REVISION);
+        proposalTypeCodeContinuation = parameterService.getParameterValueAsString(ProposalDevelopmentDocument.class, KeyConstants.PROPOSALDEVELOPMENT_PROPOSALTYPE_CONTINUATION);
+        proposalTypeCodeResubmission = parameterService.getParameterValueAsString(ProposalDevelopmentDocument.class, KeyConstants.PROPOSALDEVELOPMENT_PROPOSALTYPE_RESUBMISSION);
+        proposalTypeCodeNew = parameterService.getParameterValueAsString(ProposalDevelopmentDocument.class, KeyConstants.PROPOSALDEVELOPMENT_PROPOSALTYPE_NEW);
         
         Calendar calendar = new GregorianCalendar();
         calendar.add(Calendar.DATE, 1);
@@ -87,13 +89,13 @@ public class ProposalDevelopmentRequiredFieldsAuditRuleTest extends KcUnitTestBa
         proposal.setDeadlineDate(tomorrow);
         proposal.setProposalTypeCode(proposalTypeCodeNew);
         proposal.setS2sOpportunity(new S2sOpportunity());
-        changeCorrectedTypeCode = parameterService.getParameterValue(ProposalDevelopmentDocument.class, "s2s.submissiontype.changedCorrected");
+        changeCorrectedTypeCode = parameterService.getParameterValueAsString(ProposalDevelopmentDocument.class, "s2s.submissiontype.changedCorrected");
     }
 
     @After
     public void tearDown() throws Exception {
         GlobalVariables.setUserSession(null);
-        GlobalVariables.setAuditErrorMap(null);
+        KNSGlobalVariables.setAuditErrorMap(null);
         documentService = null;
         auditRule = null;
         super.tearDown();
@@ -105,10 +107,10 @@ public class ProposalDevelopmentRequiredFieldsAuditRuleTest extends KcUnitTestBa
         proposal.getS2sOpportunity().setS2sSubmissionTypeCode(changeCorrectedTypeCode);
         proposal.setSponsorProposalNumber(null);
         validateAuditRule(pdDoc, Constants.ORIGINAL_PROPOSAL_ID_KEY, KeyConstants.ERROR_PROPOSAL_REQUIRE_ID_CHANGE_APP, "requiredFieldsAuditErrors", true);
-        GlobalVariables.getAuditErrorMap().clear();
+        KNSGlobalVariables.getAuditErrorMap().clear();
         proposal.setSponsorProposalNumber("AA123456");
         validateAuditRule(pdDoc, Constants.ORIGINAL_PROPOSAL_ID_KEY, KeyConstants.ERROR_PROPOSAL_REQUIRE_ID_CHANGE_APP, "requiredFieldsAuditErrors", false);
-        GlobalVariables.getAuditErrorMap().clear();
+        KNSGlobalVariables.getAuditErrorMap().clear();
         proposal.setSponsorProposalNumber(null);
         proposal.setContinuedFrom("1");
         //will report error as the instprop found won't be linked to a propdev
@@ -125,8 +127,8 @@ public class ProposalDevelopmentRequiredFieldsAuditRuleTest extends KcUnitTestBa
      */
     private void validateAuditRule(ProposalDevelopmentDocument document, String fieldKey, String messageKey, String auditKey, boolean expectError) {
         assertTrue("Audit Rule did not produce expected results", auditRule.processRunAuditBusinessRules(document) ^ expectError);
-        assertEquals(expectError?1:0, GlobalVariables.getAuditErrorMap().size());
-        AuditCluster auditCluster = (AuditCluster)GlobalVariables.getAuditErrorMap().get(auditKey);
+        assertEquals(expectError?1:0, KNSGlobalVariables.getAuditErrorMap().size());
+        AuditCluster auditCluster = (AuditCluster)KNSGlobalVariables.getAuditErrorMap().get(auditKey);
 
         if (expectError) {
             assertEquals("Required Fields for Saving Document ", auditCluster.getLabel());

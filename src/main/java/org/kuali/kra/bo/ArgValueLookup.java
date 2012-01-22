@@ -15,22 +15,22 @@
  */
 package org.kuali.kra.bo;
 
-import java.util.LinkedHashMap;
 
-public class ArgValueLookup extends KraPersistableBusinessObjectBase { 
-    
+public class ArgValueLookup extends KraPersistableBusinessObjectBase {
+
     private static final long serialVersionUID = 1L;
 
-    private Integer argValueLookupId; 
-    private String argumentName; 
-    private String value; 
-    private String description; 
-    
-    
-    public ArgValueLookup() { 
+    private Integer argValueLookupId;
 
-    } 
-    
+    private String argumentName;
+
+    private String value;
+
+    private String description;
+
+    public ArgValueLookup() {
+    }
+
     public Integer getArgValueLookupId() {
         return argValueLookupId;
     }
@@ -62,16 +62,4 @@ public class ArgValueLookup extends KraPersistableBusinessObjectBase {
     public void setDescription(String description) {
         this.description = description;
     }
-
-    /** {@inheritDoc} */
-    @Override 
-    protected LinkedHashMap<String, Object> toStringMapper() {
-        LinkedHashMap<String, Object> hashMap = new LinkedHashMap<String, Object>();
-        hashMap.put("argValueLookupId", this.getArgValueLookupId());
-        hashMap.put("argumentName", this.getArgumentName());
-        hashMap.put("value", this.getValue());
-        hashMap.put("description", this.getDescription());
-        return hashMap;
-    }
-    
 }

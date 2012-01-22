@@ -32,16 +32,16 @@ import org.kuali.kra.budget.rates.RateType;
 import org.kuali.kra.infrastructure.Constants;
 import org.kuali.kra.infrastructure.KraServiceLocator;
 import org.kuali.kra.kew.KraDocumentRejectionService;
-import org.kuali.rice.kew.dto.ActionTakenDTO;
-import org.kuali.rice.kew.dto.ActionTakenEventDTO;
-import org.kuali.rice.kew.dto.DocumentRouteStatusChangeDTO;
-import org.kuali.rice.kew.exception.WorkflowException;
-import org.kuali.rice.kew.util.KEWConstants;
-import org.kuali.rice.kns.service.BusinessObjectService;
-import org.kuali.rice.kns.service.DocumentService;
-import org.kuali.rice.kns.service.ParameterConstants;
-import org.kuali.rice.kns.service.ParameterConstants.COMPONENT;
-import org.kuali.rice.kns.service.ParameterConstants.NAMESPACE;
+import org.kuali.rice.coreservice.framework.parameter.ParameterConstants;
+import org.kuali.rice.coreservice.framework.parameter.ParameterConstants.COMPONENT;
+import org.kuali.rice.coreservice.framework.parameter.ParameterConstants.NAMESPACE;
+import org.kuali.rice.kew.api.KewApiConstants;
+import org.kuali.rice.kew.api.action.ActionTaken;
+import org.kuali.rice.kew.api.exception.WorkflowException;
+import org.kuali.rice.kew.framework.postprocessor.ActionTakenEvent;
+import org.kuali.rice.kew.framework.postprocessor.DocumentRouteStatusChange;
+import org.kuali.rice.krad.service.BusinessObjectService;
+import org.kuali.rice.krad.service.DocumentService;
 
 @NAMESPACE(namespace=Constants.MODULE_NAMESPACE_AWARD_BUDGET)
 @COMPONENT(component=ParameterConstants.DOCUMENT_COMPONENT)
@@ -174,9 +174,9 @@ public class AwardBudgetDocument extends BudgetDocument<org.kuali.kra.award.home
     
     /**
      * Added mthod to enable change of status when the document changes KEW status.
-     * @see org.kuali.rice.kns.document.DocumentBase#doRouteStatusChange(org.kuali.rice.kew.dto.DocumentRouteStatusChangeDTO)
+     * @see org.kuali.rice.krad.document.DocumentBase#doRouteStatusChange(org.kuali.rice.kew.framework.postprocessor.DocumentRouteStatusChange)
      */
-    public void doRouteStatusChange(DocumentRouteStatusChangeDTO dto) {
+    public void doRouteStatusChange(DocumentRouteStatusChange dto) {
         super.doRouteStatusChange(dto);
         String newStatus = dto.getNewRouteStatus();
         String oldStatus = dto.getOldRouteStatus();
@@ -187,11 +187,11 @@ public class AwardBudgetDocument extends BudgetDocument<org.kuali.kra.award.home
             LOG.debug(String.format( "Route status change on AwardBudgetDocument #%s from %s to %s.", getDocumentNumber(), oldStatus, newStatus ));
         
         //Only know what to do with disapproved right now, left the
-        if( StringUtils.equals( newStatus, KEWConstants.ROUTE_HEADER_DISAPPROVED_CD )) {
+        if( StringUtils.equals( newStatus, KewApiConstants.ROUTE_HEADER_DISAPPROVED_CD )) {
             getAwardBudget().setAwardBudgetStatusCode(Constants.BUDGET_STATUS_CODE_DISAPPROVED );
-        } else if( StringUtils.equals( newStatus, KEWConstants.ROUTE_HEADER_CANCEL_CD ) ) {
+        } else if( StringUtils.equals( newStatus, KewApiConstants.ROUTE_HEADER_CANCEL_CD ) ) {
             getAwardBudget().setAwardBudgetStatusCode(Constants.BUDGET_STATUS_CODE_CANCELLED );
-        } else if( StringUtils.equals( newStatus, KEWConstants.ROUTE_HEADER_FINAL_CD )) {
+        } else if( StringUtils.equals( newStatus, KewApiConstants.ROUTE_HEADER_FINAL_CD )) {
             getAwardBudget().setAwardBudgetStatusCode(Constants.BUDGET_STATUS_CODE_TO_BE_POSTED);
             changeStatus = true;
         }
@@ -211,16 +211,16 @@ public class AwardBudgetDocument extends BudgetDocument<org.kuali.kra.award.home
      * Added method to detect when the document is being approved from the initial node.  In this case
      * the document is actually being re-submitted after a rejection.  The award budget status then 
      * changes back to In Progress.
-     * @see org.kuali.rice.kns.document.DocumentBase#doActionTaken(org.kuali.rice.kew.dto.ActionTakenEventDTO)
+     * @see org.kuali.rice.krad.document.DocumentBase#doActionTaken(org.kuali.rice.kew.framework.postprocessor.ActionTakenEvent)
      */
-    public void doActionTaken(ActionTakenEventDTO event) {
+    public void doActionTaken(ActionTakenEvent event) {
         super.doActionTaken(event);
-        ActionTakenDTO actionTaken = event.getActionTaken();
+        ActionTaken actionTaken = event.getActionTaken();
         KraDocumentRejectionService documentRejectionService = KraServiceLocator.getService(KraDocumentRejectionService.class);
         if( LOG.isDebugEnabled() ) {
-            LOG.debug( String.format( "Action taken on document %s: event code %s, action taken is %s"  , getDocumentNumber(), event.getDocumentEventCode(), actionTaken.getActionTaken() ) );
+            LOG.debug( String.format( "Action taken on document %s: event code %s, action taken is %s"  , getDocumentNumber(), event.getDocumentEventCode(), actionTaken.getActionTaken().getCode()) );
         }
-        if( StringUtils.equals( KEWConstants.ACTION_TAKEN_APPROVED_CD, actionTaken.getActionTaken() ) && documentRejectionService.isDocumentOnInitialNode(this) ) {
+        if( StringUtils.equals( KewApiConstants.ACTION_TAKEN_APPROVED_CD, actionTaken.getActionTaken().getCode()) && documentRejectionService.isDocumentOnInitialNode(this) ) {
             //the document is being approved from the initial node.
             //this means it was rejected and is now being approved by the initiator.
             //set the status back to in progress
@@ -259,7 +259,7 @@ public class AwardBudgetDocument extends BudgetDocument<org.kuali.kra.award.home
         //force ojb to precache the budget as an AwardBudgetExt.
         //without this it caches the budget as a Budget which causes problems
         //when assuming it must be an awardbudgetext for an awardbudgetdocument
-        if (this.getBudget() != null) {
+        if (this.getBudget() != null && this.getBudget().getBudgetId() != null) {
             AwardBudgetExt budget = KraServiceLocator.getService(BusinessObjectService.class).findBySinglePrimaryKey(AwardBudgetExt.class, this.getBudget().getBudgetId());
         }
         super.prepareForSave();

@@ -28,15 +28,15 @@ import org.kuali.kra.proposaldevelopment.rules.ProposalDevelopmentRuleTestBase;
 import org.kuali.kra.proposaldevelopment.service.ProposalRoleTemplateService;
 import org.kuali.kra.rule.event.SaveCustomAttributeEvent;
 import org.kuali.kra.service.KraAuthorizationService;
-import org.kuali.rice.kns.UserSession;
-import org.kuali.rice.kns.document.authorization.PessimisticLock;
-import org.kuali.rice.kns.service.BusinessObjectService;
-import org.kuali.rice.kns.service.DocumentService;
-import org.kuali.rice.kns.service.KNSServiceLocator;
-import org.kuali.rice.kns.util.ErrorMessage;
-import org.kuali.rice.kns.util.GlobalVariables;
-import org.kuali.rice.kns.util.RiceKeyConstants;
-import org.kuali.rice.kns.util.TypedArrayList;
+import org.kuali.rice.core.api.util.RiceKeyConstants;
+import org.kuali.rice.krad.UserSession;
+import org.kuali.rice.krad.document.authorization.PessimisticLock;
+import org.kuali.rice.krad.service.BusinessObjectService;
+import org.kuali.rice.krad.service.DocumentService;
+import org.kuali.rice.krad.service.KRADServiceLocatorWeb;
+import org.kuali.rice.krad.util.ErrorMessage;
+import org.kuali.rice.krad.util.GlobalVariables;
+import org.springframework.util.AutoPopulatingList;
 
 
 // TODO : temporary extends ProposalDevelopmentRuleTestBase to test proposal document custom data 
@@ -94,7 +94,7 @@ public class SaveCustomAttributeRuleTest extends ProposalDevelopmentRuleTestBase
         assertTrue(rule.processRules(saveCustomAttributeEvent));
         
         UserSession currentSession = GlobalVariables.getUserSession();
-        PessimisticLock lock = KNSServiceLocator.getPessimisticLockService().generateNewLock(document.getDocumentNumber(), "PROPOSAL-"+document.getDocumentNumber(), currentSession.getPerson());
+        PessimisticLock lock = KRADServiceLocatorWeb.getPessimisticLockService().generateNewLock(document.getDocumentNumber(), "PROPOSAL-"+document.getDocumentNumber(), currentSession.getPerson());
         document.addPessimisticLock(lock);
         
         String userId = GlobalVariables.getUserSession().getPrincipalId();
@@ -107,7 +107,7 @@ public class SaveCustomAttributeRuleTest extends ProposalDevelopmentRuleTestBase
             KraServiceLocator.getService(DocumentService.class).saveDocument(document);
             KraServiceLocator.getService(DocumentService.class).routeDocument(document, "just testing", null);
         }
-        catch (org.kuali.rice.kns.exception.ValidationException ex) {
+        catch (org.kuali.rice.krad.exception.ValidationException ex) {
             assertEquals(ex.getMessage(), "business rule evaluation failed");
         }
 
@@ -124,7 +124,7 @@ public class SaveCustomAttributeRuleTest extends ProposalDevelopmentRuleTestBase
         document.getCustomAttributeDocuments().get("8").getCustomAttribute().setValue(TestUtilities.LOCAL_REVIEW_DATE_VALUE);
         SaveCustomAttributeEvent saveCustomAttributeEvent = new SaveCustomAttributeEvent(Constants.EMPTY_STRING, document);
         assertFalse(rule.processRules(saveCustomAttributeEvent));
-        TypedArrayList errors = GlobalVariables.getErrorMap().getMessages("customAttributeValues(id4)");
+        AutoPopulatingList errors = GlobalVariables.getMessageMap().getMessages("customAttributeValues(id4)");
         assertTrue(errors.size() == 1);
         ErrorMessage message = (ErrorMessage) errors.get(0);
         assertEquals(KeyConstants.ERROR_INVALID_FORMAT_WITH_FORMAT, message.getErrorKey());
@@ -141,7 +141,7 @@ public class SaveCustomAttributeRuleTest extends ProposalDevelopmentRuleTestBase
         document.getCustomAttributeDocuments().get("8").getCustomAttribute().setValue(TestUtilities.LOCAL_REVIEW_DATE_VALUE);
         SaveCustomAttributeEvent saveCustomAttributeEvent = new SaveCustomAttributeEvent(Constants.EMPTY_STRING, document);
         assertFalse(rule.processRules(saveCustomAttributeEvent));
-        TypedArrayList errors = GlobalVariables.getErrorMap().getMessages("customAttributeValues(id1)");
+        AutoPopulatingList errors = GlobalVariables.getMessageMap().getMessages("customAttributeValues(id1)");
         assertTrue(errors.size() == 1);
         ErrorMessage message = (ErrorMessage) errors.get(0);
         assertEquals(message.getErrorKey(), RiceKeyConstants.ERROR_MAX_LENGTH);
@@ -158,7 +158,7 @@ public class SaveCustomAttributeRuleTest extends ProposalDevelopmentRuleTestBase
         document.getCustomAttributeDocuments().get("8").getCustomAttribute().setValue("2008-02-08");
         SaveCustomAttributeEvent saveCustomAttributeEvent = new SaveCustomAttributeEvent(Constants.EMPTY_STRING, document);
         assertFalse(rule.processRules(saveCustomAttributeEvent));
-        TypedArrayList errors = GlobalVariables.getErrorMap().getMessages("customAttributeValues(id8)");
+        AutoPopulatingList errors = GlobalVariables.getMessageMap().getMessages("customAttributeValues(id8)");
         assertTrue(errors.size() == 1);
         ErrorMessage message = (ErrorMessage) errors.get(0);
         assertEquals(RiceKeyConstants.ERROR_INVALID_FORMAT, message.getErrorKey());
@@ -175,7 +175,7 @@ public class SaveCustomAttributeRuleTest extends ProposalDevelopmentRuleTestBase
         document.getCustomAttributeDocuments().get("8").getCustomAttribute().setValue("02/29/2010");
         SaveCustomAttributeEvent saveCustomAttributeEvent = new SaveCustomAttributeEvent(Constants.EMPTY_STRING, document);
         assertFalse(rule.processRules(saveCustomAttributeEvent));
-        TypedArrayList errors = GlobalVariables.getErrorMap().getMessages("customAttributeValues(id8)");
+        AutoPopulatingList errors = GlobalVariables.getMessageMap().getMessages("customAttributeValues(id8)");
         assertTrue(errors.size() == 1);
         ErrorMessage message = (ErrorMessage) errors.get(0);
         assertEquals(KeyConstants.ERROR_DATE, message.getErrorKey());

@@ -23,11 +23,8 @@ import java.util.LinkedHashMap;
 import java.util.List;
 
 import org.apache.commons.lang.StringUtils;
-import org.apache.ojb.broker.PersistenceBroker;
-import org.apache.ojb.broker.PersistenceBrokerException;
 import org.kuali.kra.SkipVersioning;
 import org.kuali.kra.bo.KcPerson;
-import org.kuali.kra.bo.KraPersistableBusinessObjectBase;
 import org.kuali.kra.committee.bo.CommitteeSchedule;
 import org.kuali.kra.infrastructure.KraServiceLocator;
 import org.kuali.kra.infrastructure.RoleConstants;
@@ -35,47 +32,66 @@ import org.kuali.kra.irb.Protocol;
 import org.kuali.kra.irb.actions.submit.ProtocolReviewer;
 import org.kuali.kra.irb.onlinereview.ProtocolOnlineReview;
 import org.kuali.kra.irb.onlinereview.ProtocolReviewable;
-import org.kuali.rice.kim.service.RoleManagementService;
-import org.kuali.rice.kim.service.RoleService;
-import org.kuali.rice.kns.service.BusinessObjectService;
-import org.kuali.rice.kns.util.GlobalVariables;
+import org.kuali.rice.kim.api.role.RoleService;
+import org.kuali.rice.krad.service.BusinessObjectService;
+import org.kuali.rice.krad.util.GlobalVariables;
 
 /**
  * 
  * This is BO class for committee schedule minute. 
  */
-public class CommitteeScheduleMinute extends ProtocolReviewable implements Cloneable { 
+public class CommitteeScheduleMinute extends ProtocolReviewable implements Cloneable {
 
     private static final long serialVersionUID = -2294619582524055884L;
+
     private static final String PERSON_NOT_FOUND_FORMAT_STRING = "%s (not found)";
+
     private static final org.apache.log4j.Logger LOG = org.apache.log4j.Logger.getLogger(CommitteeScheduleMinute.class);
 
-    
-    private Long commScheduleMinutesId; 
-    private Long scheduleIdFk; 
+    private Long commScheduleMinutesId;
+
+    private Long scheduleIdFk;
+
     private Integer entryNumber;
-    private String minuteEntryTypeCode; 
-    private String protocolContingencyCode; 
-    private Long protocolIdFk; 
+
+    private String minuteEntryTypeCode;
+
+    private String protocolContingencyCode;
+
+    private Long protocolIdFk;
+
     private Long commScheduleActItemsIdFk;
-    private Long submissionIdFk; 
-    private boolean privateCommentFlag; 
-    private boolean finalFlag; 
+
+    private Long submissionIdFk;
+
+    private boolean privateCommentFlag;
+
+    private boolean finalFlag;
+
     private Long protocolReviewerIdFk;
+
     private Long protocolOnlineReviewIdFk;
+
     private ProtocolContingency protocolContingency;
+
     private MinuteEntryType minuteEntryType;
+
     private CommScheduleActItem commScheduleActItem;
+
     private CommitteeSchedule committeeSchedule;
+
     private ProtocolReviewer protocolReviewer;
+
     private String createUser;
+
     private Timestamp createTimestamp;
-     
+
     @SkipVersioning
     private transient ProtocolOnlineReview protocolOnlineReview;
-    private String minuteEntry; 
-    
-    // TODO : not sure how this protocols yet.
+
+    private String minuteEntry;
+
+    // TODO : not sure how this protocols yet.  
     @SkipVersioning
     private List<Protocol> protocols;
 
@@ -83,13 +99,15 @@ public class CommitteeScheduleMinute extends ProtocolReviewable implements Clone
     private Protocol protocol;
 
     private boolean generateAttendance = false;
-    
+
     @SkipVersioning
     private transient String createUserFullName;
+
     @SkipVersioning
     private transient String updateUserFullName;
+
     private transient boolean displayReviewerName;
-    
+
     /*
      * This comparator orders CommitteeScheduleMinute by entry type first and then by entry type detail (if available)
      */
@@ -97,34 +115,32 @@ public class CommitteeScheduleMinute extends ProtocolReviewable implements Clone
 
         public int compare(CommitteeScheduleMinute csm1, CommitteeScheduleMinute csm2) {
             int retVal = 0;
-            // first sort by protocol number if possible
+            // first sort by protocol number if possible  
             if ((csm1.getProtocolIdFk() != null) && (csm2.getProtocolIdFk() != null)) {
                 retVal = csm1.getProtocol().getProtocolNumber().compareTo(csm2.getProtocol().getProtocolNumber());
             } else if ((csm1.getProtocolIdFk() == null) && (csm2.getProtocolIdFk() != null)) {
-                retVal = -1;  // null should come before actual protocol
+                retVal = -1;
             } else if ((csm1.getProtocolIdFk() != null) && (csm2.getProtocolIdFk() == null)) {
-                retVal = 1;   // protocol comes after null
+                retVal = 1;
             }
-            
-            // if still same, check entry type then timestamps
+            // if still same, check entry type then timestamps  
             if (retVal == 0) {
                 retVal = csm1.getMinuteEntryType().compareTo(csm2.getMinuteEntryType());
-                // if not entry type then try time of entries
+                // if not entry type then try time of entries  
                 if ((retVal == 0) && (csm1.getUpdateTimestamp() != null) && (csm2.getUpdateTimestamp() != null)) {
                     retVal = csm1.getUpdateTimestamp().compareTo(csm2.getUpdateTimestamp());
                 }
             }
             return retVal;
         }
-    }; 
+    };
 
     /**
      * Constructs a CommitteeScheduleMinute.
      */
     public CommitteeScheduleMinute() {
-        
     }
-    
+
     /**
      * Constructs a CommitteeScheduleMinute with a default minute entry.
      * @param minuteEntryTypeCode the type code for the default minute entry
@@ -132,7 +148,7 @@ public class CommitteeScheduleMinute extends ProtocolReviewable implements Clone
     public CommitteeScheduleMinute(String minuteEntryTypeCode) {
         this.minuteEntryTypeCode = minuteEntryTypeCode;
     }
-    
+
     public Long getScheduleIdFk() {
         return scheduleIdFk;
     }
@@ -164,7 +180,7 @@ public class CommitteeScheduleMinute extends ProtocolReviewable implements Clone
     public void setProtocolIdFk(Long protocolIdFk) {
         this.protocolIdFk = protocolIdFk;
     }
-    
+
     public Long getCommScheduleActItemsIdFk() {
         return commScheduleActItemsIdFk;
     }
@@ -209,38 +225,19 @@ public class CommitteeScheduleMinute extends ProtocolReviewable implements Clone
     }
 
     @Override
-    public String toString(){
+    public String toString() {
         StringBuffer retVal = new StringBuffer(50);
         LinkedHashMap hm = toStringMapper();
-        for(Object key : hm.keySet()){
+        for (Object key : hm.keySet()) {
             retVal.append(key.toString()).append(" : ");
-            try{
+            try {
                 retVal.append(hm.get(key).toString());
-            }catch(Exception e){
+            } catch (Exception e) {
                 retVal.append("NPE problem");
             }
             retVal.append("\n");
         }
         return retVal.toString();
-    }
-
-    /** {@inheritDoc} */
-    @Override 
-    protected LinkedHashMap<String, Object> toStringMapper() {
-        LinkedHashMap<String, Object> hashMap = new LinkedHashMap<String, Object>();
-        hashMap.put("commScheduleMinutesId", this.getCommScheduleMinutesId());
-        hashMap.put("scheduleIdFk", this.getScheduleIdFk());
-        hashMap.put("entryNumber", this.getEntryNumber());
-        hashMap.put("minuteEntryTypeCode", this.getMinuteEntryTypeCode());
-        hashMap.put("protocolIdFk", this.getProtocolIdFk());
-        hashMap.put("commScheduleActItemsIdFk", this.getCommScheduleActItemsIdFk());
-        hashMap.put("submissionIdFk", this.getSubmissionIdFk());
-        hashMap.put("privateCommentFlag", this.getPrivateCommentFlag());
-        hashMap.put("finalFlag", this.isFinalFlag());
-        hashMap.put("protocolContingencyCode", this.getProtocolContingencyCode());
-        hashMap.put("minuteEntry", this.getMinuteEntry());
-        hashMap.put("protocolOnlineReviewIdFk", getProtocolOnlineReviewIdFk() );
-        return hashMap;
     }
 
     public Long getCommScheduleMinutesId() {
@@ -254,9 +251,7 @@ public class CommitteeScheduleMinute extends ProtocolReviewable implements Clone
     public ProtocolContingency getProtocolContingency() {
         if (StringUtils.isBlank(protocolContingencyCode)) {
             protocolContingency = null;
-        }
-        else if (protocolContingency == null || 
-                 !StringUtils.equals(protocolContingencyCode, protocolContingency.getProtocolContingencyCode())) {
+        } else if (protocolContingency == null || !StringUtils.equals(protocolContingencyCode, protocolContingency.getProtocolContingencyCode())) {
             refreshReferenceObject("protocolContingency");
         }
         return protocolContingency;
@@ -273,7 +268,7 @@ public class CommitteeScheduleMinute extends ProtocolReviewable implements Clone
     public void setMinuteEntryType(MinuteEntryType minuteEntryType) {
         this.minuteEntryType = minuteEntryType;
     }
-    
+
     public CommScheduleActItem getCommScheduleActItem() {
         return commScheduleActItem;
     }
@@ -330,7 +325,6 @@ public class CommitteeScheduleMinute extends ProtocolReviewable implements Clone
         this.protocolReviewer = protocolReviewer;
     }
 
-
     public void setCreateUser(String createUser) {
         this.createUser = createUser;
     }
@@ -363,7 +357,6 @@ public class CommitteeScheduleMinute extends ProtocolReviewable implements Clone
         this.protocolOnlineReviewIdFk = protocolOnlineReviewIdFk;
     }
 
-    
     /**
      * Gets the protocolReview attribute. 
      * @return Returns the protocolReview.
@@ -390,13 +383,9 @@ public class CommitteeScheduleMinute extends ProtocolReviewable implements Clone
      */
     @Override
     public boolean equals(Object o) {
-        if( o!=null && o instanceof CommitteeScheduleMinute ) {
+        if (o != null && o instanceof CommitteeScheduleMinute) {
             CommitteeScheduleMinute csm = (CommitteeScheduleMinute) o;
-            return this.getCommScheduleMinutesId().equals(csm.getCommScheduleMinutesId()) 
-                && StringUtils.equals(this.getMinuteEntry(), csm.getMinuteEntry()) 
-                && this.getEntryNumber().equals(csm.getEntryNumber()) 
-                && this.getPrivateCommentFlag() == csm.getPrivateCommentFlag()
-                && this.isFinalFlag() == csm.isFinalFlag();
+            return this.getCommScheduleMinutesId().equals(csm.getCommScheduleMinutesId()) && StringUtils.equals(this.getMinuteEntry(), csm.getMinuteEntry()) && this.getEntryNumber().equals(csm.getEntryNumber()) && this.getPrivateCommentFlag() == csm.getPrivateCommentFlag() && this.isFinalFlag() == csm.isFinalFlag();
         } else {
             return false;
         }
@@ -406,29 +395,24 @@ public class CommitteeScheduleMinute extends ProtocolReviewable implements Clone
      * beforeUpdate - only do actual update if a change has been made to the comment.
      */
     @Override
-    public void beforeUpdate(PersistenceBroker persistenceBroker) throws PersistenceBrokerException {
+    protected void preUpdate() {
         if (setUpdateIfModified()) {
-            super.beforeUpdate(persistenceBroker);
+            super.preUpdate();
         }
     }
-    
+
     private boolean setUpdateIfModified() {
         boolean result = false;
         String updateUser = GlobalVariables.getUserSession().getPrincipalName();
         if (getCommScheduleMinutesId() != null) {
-            HashMap <String, String> pkMap = new HashMap<String, String>();
+            HashMap<String, String> pkMap = new HashMap<String, String>();
             pkMap.put("commScheduleMinutesId", getCommScheduleMinutesId().toString());
-            CommitteeScheduleMinute committeeScheduleMinute = (CommitteeScheduleMinute)KraServiceLocator.getService(BusinessObjectService.class).findByPrimaryKey(this.getClass(), pkMap);
-//            if (!updateUser.equals(committeeScheduleMinute.getUpdateUser())) {
-                if (!StringUtils.equals(getMinuteEntry(), committeeScheduleMinute.getMinuteEntry())
-                        || privateCommentFlag != committeeScheduleMinute.getPrivateCommentFlag()
-                        || finalFlag != committeeScheduleMinute.isFinalFlag()
-                        || isProtocolFieldChanged(committeeScheduleMinute)
-                ) {
-                    this.setUpdateUser(updateUser);
-                    result = true;
-                }                                    
-//            }
+            CommitteeScheduleMinute committeeScheduleMinute = (CommitteeScheduleMinute) KraServiceLocator.getService(BusinessObjectService.class).findByPrimaryKey(this.getClass(), pkMap);
+            //            if (!updateUser.equals(committeeScheduleMinute.getUpdateUser())) {  
+            if (!StringUtils.equals(getMinuteEntry(), committeeScheduleMinute.getMinuteEntry()) || privateCommentFlag != committeeScheduleMinute.getPrivateCommentFlag() || finalFlag != committeeScheduleMinute.isFinalFlag() || isProtocolFieldChanged(committeeScheduleMinute)) {
+                this.setUpdateUser(updateUser);
+                result = true;
+            }
         } else {
             this.setUpdateUser(updateUser);
             result = true;
@@ -436,18 +420,18 @@ public class CommitteeScheduleMinute extends ProtocolReviewable implements Clone
         setUpdateUserSet(true);
         return result;
     }
-    
+
     private boolean isProtocolFieldChanged(CommitteeScheduleMinute committeeScheduleMinute) {
         boolean isChanged = false;
-        // check for identical objects or both being null
-        if (protocolIdFk != committeeScheduleMinute.getProtocolIdFk()) { 
+        // check for identical objects or both being null  
+        if (protocolIdFk != committeeScheduleMinute.getProtocolIdFk()) {
             if (protocolIdFk != null) {
                 isChanged &= !protocolIdFk.equals(committeeScheduleMinute.getProtocolIdFk());
             } else {
                 isChanged &= !committeeScheduleMinute.getProtocolIdFk().equals(protocolIdFk);
             }
         }
-        if (protocolContingencyCode != committeeScheduleMinute.getProtocolContingencyCode()) { 
+        if (protocolContingencyCode != committeeScheduleMinute.getProtocolContingencyCode()) {
             if (protocolContingencyCode != null) {
                 isChanged &= !protocolContingencyCode.equals(committeeScheduleMinute.getProtocolContingencyCode());
             } else {
@@ -456,7 +440,7 @@ public class CommitteeScheduleMinute extends ProtocolReviewable implements Clone
         }
         return isChanged;
     }
-    
+
     /**
      * 
      * This method returns true if the object has been saved to the database, and returns false if it has not.
@@ -465,7 +449,7 @@ public class CommitteeScheduleMinute extends ProtocolReviewable implements Clone
     public boolean isPersisted() {
         return this.commScheduleMinutesId != null;
     }
-    
+
     public Long getProtocolId() {
         Long protocolId = null;
         if (this.protocol != null) {
@@ -476,12 +460,11 @@ public class CommitteeScheduleMinute extends ProtocolReviewable implements Clone
             }
             if (protocol != null) {
                 protocolId = this.protocol.getProtocolId();
-                
-            } 
+            }
         }
         return protocolId;
     }
-    
+
     /**
      * Gets the createUserFullName attribute. 
      * @return Returns the createUserFullName.
@@ -489,7 +472,7 @@ public class CommitteeScheduleMinute extends ProtocolReviewable implements Clone
     public String getCreateUserFullName() {
         if (createUserFullName == null && getCreateUser() != null) {
             KcPerson person = getKcPersonService().getKcPersonByUserName(getCreateUser());
-            createUserFullName = person==null?String.format(PERSON_NOT_FOUND_FORMAT_STRING,getCreateUser()):person.getFullName();
+            createUserFullName = person == null ? String.format(PERSON_NOT_FOUND_FORMAT_STRING, getCreateUser()) : person.getFullName();
         }
         return createUserFullName;
     }
@@ -509,7 +492,7 @@ public class CommitteeScheduleMinute extends ProtocolReviewable implements Clone
     public String getUpdateUserFullName() {
         if (updateUserFullName == null && getUpdateUser() != null) {
             KcPerson person = getKcPersonService().getKcPersonByUserName(getUpdateUser());
-            updateUserFullName = person==null?String.format(PERSON_NOT_FOUND_FORMAT_STRING,getUpdateUser()):person.getFullName();
+            updateUserFullName = person == null ? String.format(PERSON_NOT_FOUND_FORMAT_STRING, getUpdateUser()) : person.getFullName();
         }
         return updateUserFullName;
     }
@@ -529,7 +512,7 @@ public class CommitteeScheduleMinute extends ProtocolReviewable implements Clone
     public void setCommitteeSchedule(CommitteeSchedule committeeSchedule) {
         this.committeeSchedule = committeeSchedule;
     }
-    
+
     /**
      * Returns whether the current user can view this comment.
      * 
@@ -546,7 +529,7 @@ public class CommitteeScheduleMinute extends ProtocolReviewable implements Clone
     }
 
     private boolean isIrbAdministrator(String principalId) {
-        RoleService roleService = KraServiceLocator.getService(RoleManagementService.class);
+        RoleService roleService = KraServiceLocator.getService(RoleService.class);
         Collection<String> ids = roleService.getRoleMemberPrincipalIds(RoleConstants.DEPARTMENT_ROLE_TYPE, RoleConstants.IRB_ADMINISTRATOR, null);
         return ids.contains(principalId);
     }
@@ -555,11 +538,9 @@ public class CommitteeScheduleMinute extends ProtocolReviewable implements Clone
         CommitteeScheduleMinute copy = null;
         try {
             copy = (CommitteeScheduleMinute) this.clone();
-        }
-        catch (CloneNotSupportedException e) {
+        } catch (CloneNotSupportedException e) {
             throw new RuntimeException(e);
         }
-        
         return copy;
     }
 
@@ -570,8 +551,7 @@ public class CommitteeScheduleMinute extends ProtocolReviewable implements Clone
     public void setDisplayReviewerName(boolean displayReviewerName) {
         this.displayReviewerName = displayReviewerName;
     }
-    
-   
+
     /**
      * 
      * This method is needed to determine whether schedule minute comments have been accepted by
@@ -579,28 +559,25 @@ public class CommitteeScheduleMinute extends ProtocolReviewable implements Clone
      * are returned true by default.
      * @return false if it is an online review comment and not accepted, true otherwise.
      */
-//    public boolean isAccepted() {
-//        boolean accepted = false;
-//         
-//        if (getProtocolOnlineReviewIdFk() != null) {
-//            ProtocolOnlineReview protocolOnlineReview = getBusinessObjectService().findBySinglePrimaryKey(ProtocolOnlineReview.class, getProtocolOnlineReviewIdFk());
-//            if (protocolOnlineReview.isAdminAccepted()) {
-//                accepted = true;
-//            }
-//        } else {
-//            accepted = true;
-//        }
-//        
-//        return accepted;
-//    }
-
-    
-//    private BusinessObjectService getBusinessObjectService() {
-//        return KraServiceLocator.getService(BusinessObjectService.class);
-//    }
-
+    //    public boolean isAccepted() {  
+    //        boolean accepted = false;  
+    //           
+    //        if (getProtocolOnlineReviewIdFk() != null) {  
+    //            ProtocolOnlineReview protocolOnlineReview = getBusinessObjectService().findBySinglePrimaryKey(ProtocolOnlineReview.class, getProtocolOnlineReviewIdFk());  
+    //            if (protocolOnlineReview.isAdminAccepted()) {  
+    //                accepted = true;  
+    //            }  
+    //        } else {  
+    //            accepted = true;  
+    //        }  
+    //          
+    //        return accepted;  
+    //    }  
+    //    private BusinessObjectService getBusinessObjectService() {  
+    //        return KraServiceLocator.getService(BusinessObjectService.class);  
+    //    }  
     public boolean isReviewComment() {
-        // TODO Auto-generated method stub
+        // TODO Auto-generated method stub  
         return true;
     }
 
@@ -613,5 +590,4 @@ public class CommitteeScheduleMinute extends ProtocolReviewable implements Clone
     public boolean isPrivate() {
         return getPrivateCommentFlag();
     }
-
 }

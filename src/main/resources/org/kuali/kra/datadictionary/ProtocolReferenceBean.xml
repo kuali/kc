@@ -26,9 +26,9 @@
 		<property name="titleAttribute" value="protocolId" />
 		<property name="attributes" >
 			<list>
-				<ref bean="ProtocolReferenceBean-ProtocolReferenceId" />
-				<ref bean="ProtocolReferenceBean-ProtocolReferenceNumber" />
-				<ref bean="ProtocolReferenceBean-ProtocolReferenceTypeCode" />
+				<ref bean="ProtocolReferenceBean-protocolReferenceId" />
+				<ref bean="ProtocolReferenceBean-protocolReferenceNumber" />
+				<ref bean="ProtocolReferenceBean-protocolReferenceTypeCode" />
 				<ref bean="ProtocolReferenceBean-referenceKey" />
 				<ref bean="ProtocolReferenceBean-applicationDate" />
 				<ref bean="ProtocolReferenceBean-approvalDate" />
@@ -39,9 +39,9 @@
 
 	<!-- Attribute Definitions -->
 
-	<bean id="ProtocolReferenceBean-ProtocolReferenceId" parent="ProtocolReferenceBean-ProtocolReferenceId-parentBean" />
-	<bean id="ProtocolReferenceBean-ProtocolReferenceId-parentBean" abstract="true" parent="AttributeDefinition" >
-		<property name="name" value="ProtocolReferenceId" />
+	<bean id="ProtocolReferenceBean-protocolReferenceId" parent="ProtocolReferenceBean-protocolReferenceId-parentBean" />
+	<bean id="ProtocolReferenceBean-protocolReferenceId-parentBean" abstract="true" parent="AttributeDefinition" >
+		<property name="name" value="protocolReferenceId" />
 		<property name="forceUppercase" value="false" />
 		<property name="label" value="Protocol Reference Id" />
 		<property name="shortLabel" value="Protocol Reference Id" />
@@ -57,9 +57,9 @@
 		<property name="description" value="Protocol Reference Id" />
 	</bean>
 
-	<bean id="ProtocolReferenceBean-ProtocolReferenceNumber" parent="ProtocolReferenceBean-ProtocolReferenceNumber-parentBean" />
-	<bean id="ProtocolReferenceBean-ProtocolReferenceNumber-parentBean" abstract="true" parent="AttributeDefinition" >
-		<property name="name" value="ProtocolReferenceNumber" />
+	<bean id="ProtocolReferenceBean-protocolReferenceNumber" parent="ProtocolReferenceBean-protocolReferenceNumber-parentBean" />
+	<bean id="ProtocolReferenceBean-protocolReferenceNumber-parentBean" abstract="true" parent="AttributeDefinition" >
+		<property name="name" value="protocolReferenceNumber" />
 		<property name="forceUppercase" value="false" />
 		<property name="label" value="Protocol Reference Number" />
 		<property name="shortLabel" value="Protocol Reference Number" />
@@ -75,8 +75,8 @@
 		<property name="description" value="Protocol Reference Number" />
 	</bean>
 
-	<bean id="ProtocolReferenceBean-ProtocolReferenceTypeCode" parent="ProtocolReferenceBean-ProtocolReferenceTypeCode-parentBean" />
-	<bean id="ProtocolReferenceBean-ProtocolReferenceTypeCode-parentBean" abstract="true" parent="AttributeDefinition" >
+	<bean id="ProtocolReferenceBean-protocolReferenceTypeCode" parent="ProtocolReferenceBean-protocolReferenceTypeCode-parentBean" />
+	<bean id="ProtocolReferenceBean-protocolReferenceTypeCode-parentBean" abstract="true" parent="AttributeDefinition" >
 		<property name="name" value="protocolReferenceTypeCode" />
 		<property name="forceUppercase" value="false" />
 		<property name="label" value="Protocol Reference Type Code" />

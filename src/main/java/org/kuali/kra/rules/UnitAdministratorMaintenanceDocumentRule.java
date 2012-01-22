@@ -26,8 +26,8 @@ import org.kuali.kra.bo.UnitAdministratorType;
 import org.kuali.kra.infrastructure.KeyConstants;
 import org.kuali.kra.infrastructure.KraServiceLocator;
 import org.kuali.rice.kns.document.MaintenanceDocument;
-import org.kuali.rice.kns.service.BusinessObjectService;
-import org.kuali.rice.kns.util.GlobalVariables;
+import org.kuali.rice.krad.service.BusinessObjectService;
+import org.kuali.rice.krad.util.GlobalVariables;
 
 /**
  * Defines the business rules for adding a new Unit Administrator.
@@ -60,7 +60,7 @@ public class UnitAdministratorMaintenanceDocumentRule extends KraMaintenanceDocu
     private boolean validateMultipleUnitAdministratorTypes(MaintenanceDocument document) {
         boolean isValid = true;
         
-        UnitAdministrator newUnitAdministrator = (UnitAdministrator) document.getNewMaintainableObject().getBusinessObject();
+        UnitAdministrator newUnitAdministrator = (UnitAdministrator) document.getNewMaintainableObject().getDataObject();
         Unit newUnit = newUnitAdministrator.getUnit();
         UnitAdministratorType newUnitAdministratorType = newUnitAdministrator.getUnitAdministratorType();
         

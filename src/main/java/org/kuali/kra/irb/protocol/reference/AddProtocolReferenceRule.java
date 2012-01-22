@@ -15,7 +15,7 @@
  */
 package org.kuali.kra.irb.protocol.reference;
 
-import org.kuali.rice.kns.rule.BusinessRule;
+import org.kuali.rice.krad.rules.rule.BusinessRule;
 
 /**
  * This class adds rule for adding new <code>ProtocolReference</code> object

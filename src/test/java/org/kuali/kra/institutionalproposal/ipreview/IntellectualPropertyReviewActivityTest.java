@@ -51,7 +51,7 @@ public class IntellectualPropertyReviewActivityTest {
      */
     @Test
     public void testAwardCostShareBoAttributesCount() throws Exception {              
-        Assert.assertEquals(INTELLECTUAL_PROPERTY_REVIEW_ACTIVITY_ATTRIBUTES_COUNT, intellectualPropertyReviewActivity.toStringMapper().size());
+        Assert.assertEquals(INTELLECTUAL_PROPERTY_REVIEW_ACTIVITY_ATTRIBUTES_COUNT, intellectualPropertyReviewActivity.getClass().getFields().length);
     }
 
 }

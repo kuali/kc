@@ -15,8 +15,6 @@
  */
 package org.kuali.kra.award.home;
 
-import java.util.LinkedHashMap;
-
 import org.kuali.kra.bo.KraPersistableBusinessObjectBase;
 
 /**
@@ -24,40 +22,32 @@ import org.kuali.kra.bo.KraPersistableBusinessObjectBase;
  * 
  * @author Kuali Coeus development team (kc.dev@kuali.org)
  */
-public class AwardType extends KraPersistableBusinessObjectBase { 
-	
+public class AwardType extends KraPersistableBusinessObjectBase {
+
     private static final long serialVersionUID = 1652576733758069217L;
-    
-    private Integer awardTypeCode; 
-	private String description; 
-	
-	public AwardType() { 
 
-	} 
-	
-	public Integer getAwardTypeCode() {
-		return awardTypeCode;
-	}
+    private Integer awardTypeCode;
 
-	public void setAwardTypeCode(Integer awardTypeCode) {
-		this.awardTypeCode = awardTypeCode;
-	}
+    private String description;
 
-	public String getDescription() {
-		return description;
-	}
+    public AwardType() {
+    }
 
-	public void setDescription(String description) {
-		this.description = description;
-	}
+    public Integer getAwardTypeCode() {
+        return awardTypeCode;
+    }
 
-	@Override 
-	protected LinkedHashMap<String,Object> toStringMapper() {
-		LinkedHashMap<String,Object> hashMap = new LinkedHashMap<String,Object>();
-		hashMap.put("awardTypeCode", getAwardTypeCode());
-		hashMap.put("description", getDescription());
-		return hashMap;
-	}
+    public void setAwardTypeCode(Integer awardTypeCode) {
+        this.awardTypeCode = awardTypeCode;
+    }
+
+    public String getDescription() {
+        return description;
+    }
+
+    public void setDescription(String description) {
+        this.description = description;
+    }
 
     @Override
     public int hashCode() {
@@ -70,26 +60,16 @@ public class AwardType extends KraPersistableBusinessObjectBase {
 
     @Override
     public boolean equals(Object obj) {
-        if (this == obj)
-            return true;
-        if (obj == null)
-            return false;
-        if (getClass() != obj.getClass())
-            return false;
+        if (this == obj) return true;
+        if (obj == null) return false;
+        if (getClass() != obj.getClass()) return false;
         final AwardType other = (AwardType) obj;
         if (awardTypeCode == null) {
-            if (other.awardTypeCode != null)
-                return false;
-        }
-        else if (!awardTypeCode.equals(other.awardTypeCode))
-            return false;
+            if (other.awardTypeCode != null) return false;
+        } else if (!awardTypeCode.equals(other.awardTypeCode)) return false;
         if (description == null) {
-            if (other.description != null)
-                return false;
-        }
-        else if (!description.equals(other.description))
-            return false;
+            if (other.description != null) return false;
+        } else if (!description.equals(other.description)) return false;
         return true;
     }
-    
 }

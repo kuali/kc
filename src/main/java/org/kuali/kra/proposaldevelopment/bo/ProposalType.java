@@ -15,22 +15,23 @@
  */
 package org.kuali.kra.proposaldevelopment.bo;
 
-import java.util.LinkedHashMap;
-
 import org.kuali.kra.bo.KraPersistableBusinessObjectBase;
 
-public class ProposalType  extends KraPersistableBusinessObjectBase {
-    
+public class ProposalType extends KraPersistableBusinessObjectBase {
+
     public static final String RESUBMISSION_TYPE_CODE = "2";
+
     public static final String CONTINUATION_TYPE_CODE = "4";
+
     public static final String REVISION_TYPE_CODE = "5";
-    
+
     /**
      * Comment for <code>serialVersionUID</code>
      */
     private static final long serialVersionUID = -7629520657077311450L;
-    
+
     private String proposalTypeCode;
+
     private String description;
 
     public String getDescription() {
@@ -48,17 +49,4 @@ public class ProposalType  extends KraPersistableBusinessObjectBase {
     public void setProposalTypeCode(String proposalTypeCode) {
         this.proposalTypeCode = proposalTypeCode;
     }
-
-    @Override
-    protected LinkedHashMap toStringMapper() {
-        LinkedHashMap propMap = new LinkedHashMap();
-        propMap.put("proposalTypeCode", this.getProposalTypeCode());
-        propMap.put("description", this.getDescription());
-        propMap.put("updateTimestamp", this.getUpdateTimestamp());
-        propMap.put("updateUser", this.getUpdateUser());
-        return propMap;
-    }
-
 }
-
-

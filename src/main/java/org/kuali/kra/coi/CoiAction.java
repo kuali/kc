@@ -29,16 +29,16 @@ import org.kuali.kra.infrastructure.KraServiceLocator;
 import org.kuali.kra.rule.event.KraDocumentEventBaseExtension;
 import org.kuali.kra.web.struts.action.AuditActionHelper;
 import org.kuali.kra.web.struts.action.KraTransactionalDocumentActionBase;
-import org.kuali.rice.kns.util.GlobalVariables;
+import org.kuali.rice.kns.util.KNSGlobalVariables;
 
 public abstract class CoiAction extends KraTransactionalDocumentActionBase {
     protected static final String MASTER_DISCLOSURE = "masterDisclosure";
-
+    
     @Override
     public ActionForward execute(ActionMapping mapping, ActionForm form, HttpServletRequest request, HttpServletResponse response)
             throws Exception {
         final ActionForward forward = super.execute(mapping, form, request, response);
-        if(GlobalVariables.getAuditErrorMap().isEmpty()) {
+        if(KNSGlobalVariables.getAuditErrorMap().isEmpty()) {
             new AuditActionHelper().auditConditionally((CoiDisclosureForm) form);
         }
         
@@ -106,7 +106,7 @@ public abstract class CoiAction extends KraTransactionalDocumentActionBase {
         return KraServiceLocator.getService(KcNotificationService.class);
     }
     
-    //  @Override
+//    @Override
    /* public final ActionForward save(ActionMapping mapping, ActionForm form, HttpServletRequest request, HttpServletResponse response)
         throws Exception {
         

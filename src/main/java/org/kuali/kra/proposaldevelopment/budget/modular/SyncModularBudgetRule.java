@@ -15,9 +15,10 @@
  */
 package org.kuali.kra.proposaldevelopment.budget.modular;
 
-import org.kuali.rice.kns.document.Document;
+import org.kuali.rice.krad.document.Document;
+import org.kuali.rice.krad.rules.rule.BusinessRule;
 
-public interface SyncModularBudgetRule {
+public interface SyncModularBudgetRule extends BusinessRule {
     
     public boolean processSyncModularBusinessRules(Document document);
 

@@ -29,9 +29,9 @@ import org.kuali.kra.award.home.Award;
 import org.kuali.kra.infrastructure.KraServiceLocator;
 import org.kuali.kra.proposaldevelopment.bo.CreditSplit;
 import org.kuali.kra.proposaldevelopment.bo.InvestigatorCreditType;
-import org.kuali.rice.kns.service.BusinessObjectService;
-import org.kuali.rice.kns.service.ParameterService;
-import org.kuali.rice.kns.util.KualiDecimal;
+import org.kuali.rice.core.api.util.type.KualiDecimal;
+import org.kuali.rice.coreservice.framework.parameter.ParameterService;
+import org.kuali.rice.krad.service.BusinessObjectService;
 
 /**
  * Provides credit split support
@@ -167,7 +167,7 @@ public class AwardCreditSplitBean implements Serializable {
      * @return
      */
     protected String fetchParameterValue(String parmName) {
-        return this.getParameterService().getParameterValue(AwardDocument.class, parmName);
+        return this.getParameterService().getParameterValueAsString(AwardDocument.class, parmName);
     }
     
     /**

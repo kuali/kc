@@ -19,7 +19,7 @@ import java.sql.Date;
 
 import org.kuali.kra.committee.rules.CommitteeActionFilterBatchCorrespondenceHistoryRule;
 import org.kuali.kra.rule.BusinessRuleInterface;
-import org.kuali.rice.kns.document.Document;
+import org.kuali.rice.krad.document.Document;
 
 /**
  * 

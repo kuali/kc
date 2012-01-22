@@ -22,10 +22,12 @@ import org.apache.commons.lang.StringUtils;
 import org.kuali.kra.bo.KcPerson;
 import org.kuali.kra.infrastructure.Constants;
 import org.kuali.kra.service.KcPersonService;
+import org.kuali.rice.kim.api.identity.Person;
+import org.kuali.rice.kim.impl.identity.PersonImpl;
 import org.kuali.rice.kns.lookup.KualiLookupableHelperServiceImpl;
-import org.kuali.rice.kns.util.GlobalVariables;
 import org.kuali.rice.kns.web.ui.Field;
 import org.kuali.rice.kns.web.ui.Row;
+import org.kuali.rice.krad.util.GlobalVariables;
 
 /**
  * Lookup helper that retrieves KcPerson BOs.
@@ -35,7 +37,7 @@ public class KcPersonLookupableHelperServiceImpl extends KualiLookupableHelperSe
     private static final long serialVersionUID = 1L;
     
     private static final String CAMPUS_CODE_FIELD = "campusCode";
-    private static final String CAMPUS_LOOKUPABLE_CLASS_NAME = "org.kuali.rice.kns.bo.CampusImpl";
+    private static final String CAMPUS_LOOKUPABLE_CLASS_NAME = "org.kuali.rice.location.impl.campus.CampusBo";
 
     private KcPersonService kcPersonService;
     
@@ -43,7 +45,7 @@ public class KcPersonLookupableHelperServiceImpl extends KualiLookupableHelperSe
     public List<Row> getRows() {
         List<Row> rows = super.getRows();
         
-        boolean multiCampusEnabled = getParameterService().getIndicatorParameter(
+        boolean multiCampusEnabled = getParameterService().getParameterValueAsBoolean(
             Constants.KC_GENERIC_PARAMETER_NAMESPACE, Constants.KC_ALL_PARAMETER_DETAIL_TYPE_CODE, Constants.PARAMETER_MULTI_CAMPUS_ENABLED);
         
         for (Row row : rows) {
@@ -71,7 +73,11 @@ public class KcPersonLookupableHelperServiceImpl extends KualiLookupableHelperSe
     /** {@inheritDoc} */
     @Override
     public List<KcPerson> getSearchResults(Map<String, String> fieldValues) { 
-        return this.kcPersonService.getKcPersons(fieldValues);
+        this.kcPersonService.modifyFieldValues(fieldValues);
+        this.setBusinessObjectClass(PersonImpl.class);
+        List<Person> personResults = (List<Person>) super.getSearchResults(fieldValues);
+        this.setBusinessObjectClass(KcPerson.class);
+        return this.kcPersonService.createKcPersonsFromPeople(personResults); 
     }
 
     /**

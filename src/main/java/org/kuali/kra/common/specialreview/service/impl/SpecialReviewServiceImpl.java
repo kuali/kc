@@ -39,9 +39,9 @@ import org.kuali.kra.institutionalproposal.specialreview.InstitutionalProposalSp
 import org.kuali.kra.irb.Protocol;
 import org.kuali.kra.irb.ProtocolFinderDao;
 import org.kuali.kra.irb.protocol.funding.ProtocolFundingSource;
-import org.kuali.rice.kns.document.Document;
-import org.kuali.rice.kns.service.BusinessObjectService;
-import org.kuali.rice.kns.service.DocumentService;
+import org.kuali.rice.krad.document.Document;
+import org.kuali.rice.krad.service.BusinessObjectService;
+import org.kuali.rice.krad.service.DocumentService;
 
 /**
  * Implements the SpecialReviewService.
@@ -97,14 +97,14 @@ public class SpecialReviewServiceImpl implements SpecialReviewService {
      * {@inheritDoc}
      * @see org.kuali.kra.common.specialreview.service.SpecialReviewService#getViewSpecialReviewProtocolRouteHeaderId(java.lang.String)
      */
-    public Long getViewSpecialReviewProtocolRouteHeaderId(String protocolNumber) throws Exception {
-        Long routeHeaderId = 0L;
+    public String getViewSpecialReviewProtocolRouteHeaderId(String protocolNumber) throws Exception {
+        String routeHeaderId = null;
         
         if (StringUtils.isNotBlank(protocolNumber)) {
             Protocol protocol = getProtocolFinderDao().findCurrentProtocolByNumber(protocolNumber);
             if (protocol != null) {
                 Document document = getDocumentService().getByDocumentHeaderId(protocol.getProtocolDocument().getDocumentNumber());
-                routeHeaderId = document.getDocumentHeader().getWorkflowDocument().getRouteHeaderId();
+                routeHeaderId = document.getDocumentHeader().getWorkflowDocument().getDocumentId();
             }
         }
         

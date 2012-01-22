@@ -210,7 +210,7 @@
           <property name="inquiryFields" >
             <list>
               <bean parent="FieldDefinition"
-                    p:attributeName="SubAwardCloseoutId"
+                    p:attributeName="subAwardCloseoutId"
                     p:forceInquiry="true" />             
             </list>
           </property>

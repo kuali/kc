@@ -25,8 +25,9 @@ import org.jmock.integration.junit4.JUnit4Mockery;
 import org.junit.Assert;
 import org.junit.Before;
 import org.junit.Test;
-import org.kuali.rice.kns.util.ErrorMap;
-import org.kuali.rice.kns.util.GlobalVariables;
+import org.kuali.rice.kns.util.KNSGlobalVariables;
+import org.kuali.rice.krad.util.GlobalVariables;
+import org.kuali.rice.krad.util.MessageMap;
 
 /**
  * Tests for {@link ProtocolAttachmentProtocolRuleHelper ProtocolAttachmentProtocolRuleHelper}.
@@ -37,8 +38,8 @@ public class ProtocolAttachmentProtocolRuleHelperTest {
     
     @Before
     public void setupGlobalVars() {
-        GlobalVariables.setAuditErrorMap(new HashMap());
-        GlobalVariables.setErrorMap(new ErrorMap());
+        KNSGlobalVariables.setAuditErrorMap(new HashMap());
+        GlobalVariables.setMessageMap(new MessageMap());
     }
     
     /**

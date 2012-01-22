@@ -22,8 +22,8 @@ import org.kuali.kra.bo.CostShareType;
 import org.kuali.kra.costshare.CostShareRuleResearchDocumentBase;
 import org.kuali.kra.infrastructure.KeyConstants;
 import org.kuali.kra.infrastructure.KraServiceLocator;
-import org.kuali.rice.kns.service.BusinessObjectService;
-import org.kuali.rice.kns.util.KualiDecimal;
+import org.kuali.rice.core.api.util.type.KualiDecimal;
+import org.kuali.rice.krad.service.BusinessObjectService;
 
 /**
  * This class...
@@ -85,7 +85,7 @@ public class AwardCostShareRuleImpl extends CostShareRuleResearchDocumentBase im
     /**
     *
     * Test source and destination for equality in AwardCostShare.
-    * @param AwardCostShare, ErrorMap
+    * @param AwardCostShare, MessageMap
     * @return Boolean
     */
     public boolean validateCostShareSourceAndDestinationForEquality(AwardCostShare awardCostShare){

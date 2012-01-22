@@ -18,20 +18,13 @@ import java.sql.Date;
 import java.sql.Timestamp;
 import java.util.ArrayList;
 import java.util.HashMap;
-import java.util.HashSet;
 import java.util.List;
 import java.util.Map;
-import java.util.Set;
 
 import org.apache.commons.lang.StringUtils;
-import org.jmock.Expectations;
-import org.jmock.Mockery;
-import org.jmock.integration.junit4.JUnit4Mockery;
-import org.jmock.lib.legacy.ClassImposteriser;
 import org.junit.After;
 import org.junit.Before;
 import org.junit.Test;
-import org.kuali.kra.bo.KcPerson;
 import org.kuali.kra.bo.Rolodex;
 import org.kuali.kra.committee.bo.Committee;
 import org.kuali.kra.committee.bo.CommitteeMembership;
@@ -42,26 +35,24 @@ import org.kuali.kra.committee.document.CommitteeDocument;
 import org.kuali.kra.committee.test.CommitteeFactory;
 import org.kuali.kra.committee.web.struts.form.schedule.Time12HrFmt;
 import org.kuali.kra.infrastructure.KraServiceLocator;
-import org.kuali.kra.infrastructure.RoleConstants;
 import org.kuali.kra.irb.Protocol;
 import org.kuali.kra.irb.ProtocolDocument;
 import org.kuali.kra.irb.actions.ProtocolAction;
 import org.kuali.kra.irb.actions.ProtocolActionType;
 import org.kuali.kra.irb.actions.ProtocolStatus;
 import org.kuali.kra.irb.test.ProtocolFactory;
-import org.kuali.kra.service.KcPersonService;
 import org.kuali.kra.service.RolodexService;
 import org.kuali.kra.test.infrastructure.KcUnitTestBase;
-import org.kuali.rice.kew.exception.WorkflowException;
-import org.kuali.rice.kim.bo.entity.dto.KimPrincipalInfo;
-import org.kuali.rice.kim.service.IdentityManagementService;
-import org.kuali.rice.kim.service.PersonService;
-import org.kuali.rice.kim.service.RoleService;
-import org.kuali.rice.kns.UserSession;
-import org.kuali.rice.kns.service.BusinessObjectService;
-import org.kuali.rice.kns.service.DocumentService;
-import org.kuali.rice.kns.util.ErrorMap;
-import org.kuali.rice.kns.util.GlobalVariables;
+import org.kuali.rice.kew.api.exception.WorkflowException;
+import org.kuali.rice.kim.api.identity.IdentityService;
+import org.kuali.rice.kim.api.identity.PersonService;
+import org.kuali.rice.kim.api.identity.principal.Principal;
+import org.kuali.rice.kns.util.KNSGlobalVariables;
+import org.kuali.rice.krad.UserSession;
+import org.kuali.rice.krad.service.BusinessObjectService;
+import org.kuali.rice.krad.service.DocumentService;
+import org.kuali.rice.krad.util.GlobalVariables;
+import org.kuali.rice.krad.util.MessageMap;
 
 /**
  * Test the ProtocolSubmitActionService implementation.
@@ -83,7 +74,7 @@ public class ProtocolSubmitActionServiceTest extends KcUnitTestBase {
     private PersonService personService;
     private RolodexService rolodexService;
     private DocumentService documentService;
-    private IdentityManagementService identityManagementService;
+    private IdentityService identityManagementService;
     private List<ProtocolReviewerBean> defaultReviewers;
 
     @SuppressWarnings("unchecked")
@@ -91,14 +82,14 @@ public class ProtocolSubmitActionServiceTest extends KcUnitTestBase {
     public void setUp() throws Exception {
         super.setUp();
         GlobalVariables.setUserSession(new UserSession("quickstart"));
-        GlobalVariables.setErrorMap(new ErrorMap());
-        GlobalVariables.setAuditErrorMap(new HashMap());
+        GlobalVariables.setMessageMap(new MessageMap());
+        KNSGlobalVariables.setAuditErrorMap(new HashMap());
         protocolSubmitActionService = KraServiceLocator.getService(ProtocolSubmitActionService.class);
         businessObjectService = KraServiceLocator.getService(BusinessObjectService.class);
         personService = KraServiceLocator.getService(PersonService.class);
         rolodexService = KraServiceLocator.getService(RolodexService.class);
         documentService = KraServiceLocator.getService("kraDocumentService");
-        identityManagementService = KraServiceLocator.getService(IdentityManagementService.class);
+        identityManagementService = KraServiceLocator.getService(IdentityService.class);
         defaultReviewers = getDefaultReviewers();
         
     }
@@ -106,8 +97,8 @@ public class ProtocolSubmitActionServiceTest extends KcUnitTestBase {
     @After
     public void tearDown() throws Exception {
         GlobalVariables.setUserSession(null);
-        GlobalVariables.setErrorMap(null);
-        GlobalVariables.setAuditErrorMap(null);
+        GlobalVariables.setMessageMap(null);
+        KNSGlobalVariables.setAuditErrorMap(null);
         super.tearDown();
     }
     
@@ -258,7 +249,7 @@ public class ProtocolSubmitActionServiceTest extends KcUnitTestBase {
         ProtocolReviewerBean reviewer = new ProtocolReviewerBean();
         
         
-        KimPrincipalInfo prncpl = identityManagementService.getPrincipalByPrincipalName("quickstart");
+        Principal prncpl = identityManagementService.getPrincipalByPrincipalName("quickstart");
         reviewer.setPersonId(prncpl.getPrincipalId());
         reviewer.setNonEmployeeFlag(false);
         reviewer.setReviewerTypeCode("1");

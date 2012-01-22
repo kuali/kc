@@ -21,9 +21,10 @@ import java.util.List;
 
 import org.kuali.kra.award.paymentreports.ReportClass;
 import org.kuali.kra.infrastructure.KraServiceLocator;
-import org.kuali.rice.kns.lookup.keyvalues.KeyValuesBase;
-import org.kuali.rice.kns.service.KeyValuesService;
-import org.kuali.rice.core.util.KeyLabelPair;
+import org.kuali.rice.core.api.util.ConcreteKeyValue;
+import org.kuali.rice.core.api.util.KeyValue;
+import org.kuali.rice.krad.keyvalues.KeyValuesBase;
+import org.kuali.rice.krad.service.KeyValuesService;
 
 /**
  * 
@@ -39,13 +40,13 @@ public class ReportClassValuesFinder extends KeyValuesBase {
      * 
      * @see org.kuali.core.lookup.keyvalues.KeyValuesFinder#getKeyValues()
      */    
-    public List<KeyLabelPair> getKeyValues() {
+    public List<KeyValue> getKeyValues() {
         Collection<ReportClass> reportClasses = (Collection<ReportClass>)getKeyValuesService().findAll(ReportClass.class);
         
-        List<KeyLabelPair> keyValues = new ArrayList<KeyLabelPair>();
+        List<KeyValue> keyValues = new ArrayList<KeyValue>();
         
         for(ReportClass reportClass: reportClasses){
-            keyValues.add(new KeyLabelPair(reportClass.getReportClassCode(), reportClass.getDescription()));
+            keyValues.add(new ConcreteKeyValue(reportClass.getReportClassCode(), reportClass.getDescription()));
         }
         
         return keyValues;

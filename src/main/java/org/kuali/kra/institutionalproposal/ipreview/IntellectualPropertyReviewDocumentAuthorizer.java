@@ -19,7 +19,6 @@ import java.util.Map;
 
 import org.apache.commons.lang.StringUtils;
 import org.kuali.kra.kim.bo.KcKimAttributes;
-import org.kuali.rice.kns.bo.BusinessObject;
 import org.kuali.rice.kns.document.MaintenanceDocument;
 import org.kuali.rice.kns.document.authorization.MaintenanceDocumentAuthorizer;
 import org.kuali.rice.kns.document.authorization.MaintenanceDocumentAuthorizerBase;
@@ -33,12 +32,12 @@ public class IntellectualPropertyReviewDocumentAuthorizer
     
     @Override
     protected void addRoleQualification(
-            BusinessObject primaryBusinessObjectOrDocument,
+            Object primaryBusinessObjectOrDocument,
             Map<String, String> attributes) {
         super.addRoleQualification(primaryBusinessObjectOrDocument, attributes);
         MaintenanceDocument maintenanceDocument = (MaintenanceDocument) primaryBusinessObjectOrDocument;
         IntellectualPropertyReview ipReview = 
-            (IntellectualPropertyReview) maintenanceDocument.getOldMaintainableObject().getBusinessObject();
+            (IntellectualPropertyReview) maintenanceDocument.getOldMaintainableObject().getDataObject();
         if (!StringUtils.isBlank(ipReview.getLeadUnitNumber())) {
             attributes.put(KcKimAttributes.UNIT_NUMBER, ipReview.getLeadUnitNumber());
         } else {

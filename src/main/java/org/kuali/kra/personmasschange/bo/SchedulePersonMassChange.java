@@ -61,13 +61,4 @@ public class SchedulePersonMassChange extends KraPersistableBusinessObjectBase {
         this.personMassChange = personMassChange;
     }
 
-    @Override
-    protected LinkedHashMap<String, Object> toStringMapper() {
-        LinkedHashMap<String, Object> propMap = new LinkedHashMap<String, Object>();
-        propMap.put("schedulePersonMassChangeId", getSchedulePersonMassChangeId());
-        propMap.put("personMassChangeId", getPersonMassChangeId());
-        propMap.put("attendees", isAttendees());
-        return propMap;
-    }
-
 }

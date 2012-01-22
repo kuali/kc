@@ -18,9 +18,9 @@ package org.kuali.kra.irb.actions.delete;
 import org.kuali.kra.irb.Protocol;
 import org.kuali.kra.irb.actions.ProtocolStatus;
 import org.kuali.kra.irb.onlinereview.ProtocolOnlineReviewService;
-import org.kuali.rice.kew.exception.WorkflowException;
-import org.kuali.rice.kns.service.BusinessObjectService;
-import org.kuali.rice.kns.service.DocumentService;
+import org.kuali.rice.kew.api.exception.WorkflowException;
+import org.kuali.rice.krad.service.BusinessObjectService;
+import org.kuali.rice.krad.service.DocumentService;
 
 /**
  * The ProtocolDeleteService implementation.

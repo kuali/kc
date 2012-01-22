@@ -15,17 +15,21 @@
  */
 package org.kuali.kra.budget.nonpersonnel;
 
+import java.io.IOException;
 import java.io.Serializable;
+import java.io.StringReader;
 import java.sql.Date;
 import java.text.DateFormat;
 import java.text.SimpleDateFormat;
 
 import org.apache.commons.logging.Log;
 import org.apache.commons.logging.LogFactory;
-import org.dom4j.Document;
-import org.dom4j.DocumentException;
-import org.dom4j.DocumentHelper;
-import org.dom4j.Node;
+import org.jdom.CDATA;
+import org.jdom.Document;
+import org.jdom.Element;
+import org.jdom.JDOMException;
+import org.jdom.input.SAXBuilder;
+import org.jdom.output.XMLOutputter;
 
 public class BudgetJustificationWrapper implements Serializable {
     private String justificationText;        
@@ -75,12 +79,11 @@ public class BudgetJustificationWrapper implements Serializable {
     }
     
     public String toString() {
-        Document document = DocumentHelper.createDocument();
-        document.addElement("budgetJustification")
-                .addAttribute("lastUpdateBy", lastUpdateUser)
-                .addAttribute("lastUpdateOn", lastUpdateTime)
-                .addCDATA(justificationText);
-        return document.asXML();
+        Document document = new Document(new Element("budgetJustification")
+            .setAttribute("lastUpdateBy", lastUpdateUser)
+            .setAttribute("lastUpdateOn", lastUpdateTime)
+            .addContent(new CDATA(justificationText)));
+        return new XMLOutputter().outputString(document);
     }
     
     /**
@@ -97,14 +100,21 @@ public class BudgetJustificationWrapper implements Serializable {
             return;
         }
         
+        SAXBuilder parser = new SAXBuilder();
+        Document document;
         try {
-            Document document = DocumentHelper.parseText(budgetJustificationAsXML);
-            Node node = document.selectSingleNode("//budgetJustification");
-            lastUpdateUser = node.valueOf("@lastUpdateBy");
-            lastUpdateTime = node.valueOf("@lastUpdateOn");
-            justificationText = node.getText();
-        } catch (DocumentException e) {
-            LOG.warn(e.getMessage(), e);
-        }            
+            document = parser.build(new StringReader(budgetJustificationAsXML));
+            Element node = document.getRootElement();
+            lastUpdateUser = node.getAttributeValue("lastUpdateBy");
+            lastUpdateTime = node.getAttributeValue("lastUpdateOn");
+            justificationText = node.getText();            
+        }
+        catch (JDOMException e) {
+            LOG.warn("Unable to parse budget justification XML.", e);
+        }
+        catch (IOException e) {
+            LOG.warn("Unable to parse budget justification XML.", e);
+        }
+         
     }
 }

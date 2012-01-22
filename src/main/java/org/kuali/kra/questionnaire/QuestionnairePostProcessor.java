@@ -15,16 +15,15 @@
  */
 package org.kuali.kra.questionnaire;
 
-import java.rmi.RemoteException;
-
 import org.apache.commons.collections.CollectionUtils;
 import org.kuali.kra.infrastructure.KraServiceLocator;
 import org.kuali.kra.workflow.KcPostProcessor;
-import org.kuali.rice.kew.dto.DocumentRouteStatusChangeDTO;
+import org.kuali.rice.kew.api.KewApiConstants;
+import org.kuali.rice.kew.framework.postprocessor.DocumentRouteStatusChange;
+import org.kuali.rice.kew.framework.postprocessor.ProcessDocReport;
 import org.kuali.rice.kew.routeheader.DocumentRouteHeaderValue;
 import org.kuali.rice.kew.routeheader.service.RouteHeaderService;
-import org.kuali.rice.kew.util.KEWConstants;
-import org.kuali.rice.kns.util.GlobalVariables;
+import org.kuali.rice.krad.util.GlobalVariables;
 
 /**
  * 
@@ -35,11 +34,11 @@ public class QuestionnairePostProcessor extends KcPostProcessor {
     private static final org.apache.log4j.Logger LOG = org.apache.log4j.Logger.getLogger(QuestionnairePostProcessor.class);
 
     @Override
-    public boolean doRouteStatusChange(DocumentRouteStatusChangeDTO statusChangeEvent) throws RemoteException {
-        boolean routeStatusChange = super.doRouteStatusChange(statusChangeEvent);
-        if (KEWConstants.ROUTE_HEADER_PROCESSED_CD.equals(statusChangeEvent.getNewRouteStatus()) && !isApproveByInitiator(statusChangeEvent.getRouteHeaderId().toString())) {
+    public ProcessDocReport doRouteStatusChange(DocumentRouteStatusChange statusChangeEvent) throws Exception {
+        ProcessDocReport routeStatusChange = super.doRouteStatusChange(statusChangeEvent);
+        if (KewApiConstants.ROUTE_HEADER_PROCESSED_CD.equals(statusChangeEvent.getNewRouteStatus()) && !isApproveByInitiator(statusChangeEvent.getDocumentId().toString())) {
         try {
-            DocumentRouteHeaderValue document = getRouteHeaderService().getRouteHeader(statusChangeEvent.getRouteHeaderId());
+            DocumentRouteHeaderValue document = getRouteHeaderService().getRouteHeader(statusChangeEvent.getDocumentId());
             document.markDocumentFinalized();
         } catch (Exception e) {
             LOG.debug("mark Questionnaire doc 'finalized' failed "+e.getMessage());
@@ -50,7 +49,7 @@ public class QuestionnairePostProcessor extends KcPostProcessor {
 
     private boolean isApproveByInitiator(String docId) {
         boolean isInitiator = true;
-        DocumentRouteHeaderValue document = getRouteHeaderService().getRouteHeader(Long.parseLong(docId));
+        DocumentRouteHeaderValue document = getRouteHeaderService().getRouteHeader(docId);
         if (CollectionUtils.isNotEmpty(document.getActionsTaken())) {
             isInitiator = document.getActionsTaken().get(0).getPrincipalId().equals(GlobalVariables.getUserSession().getPrincipalId());
         }

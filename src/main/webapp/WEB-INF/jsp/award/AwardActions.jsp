@@ -27,16 +27,22 @@
   	extraTopButtons="${KualiForm.extraTopButtons}" >
   	
   	<c:set var="readOnly" value="${not KualiForm.editingMode['fullEntry']}" scope="request" />
-  	
+  	<script>
+	  $j = jQuery.noConflict();
+	</script>
+
 	<script language="JavaScript" type="text/javascript" src="dwr/engine.js"></script>
 
 	<script language="JavaScript" type="text/javascript" src="dwr/util.js"></script>
+		
+	<script language="JavaScript" type="text/javascript" src="dwr/interface/AwardHierarchyUIService.js"></script>	
 
-	<script type="text/javascript" src="scripts/jquery/jquery.js"></script>
 	<link rel="stylesheet" href="css/jquery/new_kuali.css" type="text/css" />
 	<link rel="stylesheet" href="css/jquery/kuali-stylesheet.css" type="text/css" />
 	<link rel="stylesheet" href="css/jquery/jquery.treeview.css" type="text/css" />
-	
+	<script>
+	  $j = jQuery.noConflict();
+	</script>
     <script type="text/javascript" src="scripts/jquery/jquery.treeview.js"></script>   	
   	
   	  	
@@ -59,6 +65,5 @@
 <kul:documentControls transactionalDocument="true" />
 
 </kul:documentPage>
-
 <script type="text/javascript" src="scripts/awardHierarchyShared.js"></script>
-	<script type="text/javascript" src="scripts/awardHierarchy.js"></script>		
+<script type="text/javascript" src="scripts/awardHierarchy.js"></script>		

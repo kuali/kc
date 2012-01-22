@@ -17,7 +17,6 @@
 <%@ include file="/WEB-INF/jsp/kraTldHeader.jsp"%>
 
 <c:if test="${!proposalBudgetFlag}">
-<script type="text/javascript" src="scripts/jquery/jquery.js"></script>
 <script language="javascript">
   //well IE7 is super helpful and doesn't support Array.indexOf(used below) so here we implement
   //our own if there isn't one.
@@ -31,8 +30,6 @@
         return -1;
     }
   }
-  
-  var $jq = jQuery.noConflict();
 
   function displayOfInactiveStatuses(checkbox) {
 	  var statuses = [
@@ -43,25 +40,25 @@
 	           </c:if>
 		   </c:forEach>
 		   ];
-	  $jq('#budget-versions-table').find('select[name$="awardBudgetStatusCode"]').each(function() {
-		  if (statuses.indexOf($jq(this).val()) != -1) {
-			  if ($jq(checkbox).is(':checked')) {
-			  	$jq(this).parent().parent().parent().parent().show();
-			  	if ($jq(this).parent().parent().parent().parent().find('input[name*="tabStates"]').val() == 'OPEN') {
-			  		$jq(this).parent().parent().parent().parent().next().show();
+	  jQuery('#budget-versions-table').find('select[name$="awardBudgetStatusCode"]').each(function() {
+		  if (statuses.indexOf(jQuery(this).val()) != -1) {
+			  if (jQuery(checkbox).is(':checked')) {
+			  	jQuery(this).parent().parent().parent().parent().show();
+			  	if (jQuery(this).parent().parent().parent().parent().find('input[name*="tabStates"]').val() == 'OPEN') {
+			  		jQuery(this).parent().parent().parent().parent().next().show();
 			  	}
 			  } else {
-				$jq(this).parent().parent().parent().parent().hide();
-				$jq(this).parent().parent().parent().parent().next().hide();
+				jQuery(this).parent().parent().parent().parent().hide();
+				jQuery(this).parent().parent().parent().parent().next().hide();
 			  }
 		  }
 	  });
   }
 
-  $jq(document).ready(function() {
-	  $jq('tr.showAllRow').show();
-	  displayOfInactiveStatuses($jq('input[name=showAllBudgetVersions]'));
-	  $jq('input[name=showAllBudgetVersions]').click(function () {
+  jQuery(document).ready(function() {
+	  jQuery('tr.showAllRow').show();
+	  displayOfInactiveStatuses(jQuery('input[name=showAllBudgetVersions]'));
+	  jQuery('input[name=showAllBudgetVersions]').click(function () {
 		  displayOfInactiveStatuses(this);
 	  });
   });
@@ -217,9 +214,9 @@
            			</td>
            			<td class="tab-subhead"><kul:htmlControlAttribute property="${version}.documentDescription" attributeEntry="${budgetVersionOverviewAttributes.documentDescription}" readOnly="${descriptionUpdatable != 'Yes'}"/></td>
 	            	<td class="tab-subhead"><div align="center">${budgetVersion.budgetVersionOverview.budgetVersionNumber}</div></td>
-		            <td class="tab-subhead"><div align="right">&nbsp;<kul:htmlControlAttribute property="${version}.totalDirectCost" attributeEntry="${budgetVersionOverviewAttributes.totalDirectCost}" styleClass="amount" readOnly="true"/></div></td>
-		            <td class="tab-subhead"><div align="right">&nbsp;<kul:htmlControlAttribute property="${version}.totalIndirectCost" attributeEntry="${budgetVersionOverviewAttributes.totalIndirectCost}" styleClass="amount" readOnly="true"/></div></td>
-		            <td class="tab-subhead"><div align="right">&nbsp;<kul:htmlControlAttribute property="${version}.totalCost" attributeEntry="${budgetVersionOverviewAttributes.totalCost}" styleClass="amount" readOnly="true"/></div></td>
+		            <td class="tab-subhead"><div align="right">&nbsp;<kul:htmlControlAttribute property="${version}.totalDirectCost" attributeEntry="${budgetAttributes.totalDirectCost}" styleClass="amount" readOnly="true"/></div></td>
+		            <td class="tab-subhead"><div align="right">&nbsp;<kul:htmlControlAttribute property="${version}.totalIndirectCost" attributeEntry="${budgetAttributes.totalIndirectCost}" styleClass="amount" readOnly="true"/></div></td>
+		            <td class="tab-subhead"><div align="right">&nbsp;<kul:htmlControlAttribute property="${version}.totalCost" attributeEntry="${budgetAttributes.totalCost}" styleClass="amount" readOnly="true"/></div></td>
 		            <td class="tab-subhead">
 		            	<div align="center">
 		            		<!--  This field is to hold select status if it's disabled by javascript -->

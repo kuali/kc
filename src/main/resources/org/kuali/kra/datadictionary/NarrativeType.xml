@@ -106,7 +106,9 @@
   <bean id="NarrativeType-description" parent="NarrativeType-description-parentBean" />
 
   <bean id="NarrativeType-description-parentBean" abstract="true" parent="KraAttributeReferenceDummy-description">
+  	<property name="maxLength" value="200" />
   </bean>
+  
   <bean id="NarrativeType-versionNumber" parent="NarrativeType-versionNumber-parentBean" />
 
   <bean id="NarrativeType-versionNumber-parentBean" abstract="true" parent="AttributeReferenceDummy-versionNumber">

@@ -3,7 +3,6 @@ package org.kuali.kra.institutionalproposal.printing.service.impl;
 import java.util.Map;
 
 import org.kuali.kra.bo.KraPersistableBusinessObjectBase;
-import org.kuali.kra.document.ResearchDocumentBase;
 import org.kuali.kra.institutionalproposal.printing.InstitutionalProposalPrintType;
 import org.kuali.kra.institutionalproposal.printing.print.InstitutionalProposalPrint;
 import org.kuali.kra.institutionalproposal.printing.service.InstitutionalProposalPrintingService;

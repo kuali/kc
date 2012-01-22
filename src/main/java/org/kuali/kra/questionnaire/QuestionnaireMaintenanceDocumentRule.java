@@ -18,11 +18,11 @@ package org.kuali.kra.questionnaire;
 import org.apache.commons.lang.StringUtils;
 import org.kuali.kra.infrastructure.KeyConstants;
 import org.kuali.kra.infrastructure.KraServiceLocator;
+import org.kuali.rice.core.api.util.RiceKeyConstants;
 import org.kuali.rice.kns.document.MaintenanceDocument;
 import org.kuali.rice.kns.maintenance.rules.MaintenanceDocumentRuleBase;
-import org.kuali.rice.kns.util.GlobalVariables;
-import org.kuali.rice.kns.util.MessageMap;
-import org.kuali.rice.kns.util.RiceKeyConstants;
+import org.kuali.rice.krad.util.GlobalVariables;
+import org.kuali.rice.krad.util.MessageMap;
 
 /**
  * 
@@ -64,8 +64,8 @@ public class QuestionnaireMaintenanceDocumentRule extends MaintenanceDocumentRul
 
 
         boolean valid = true;
-        Questionnaire newQuestionnaire = (Questionnaire)maintenanceDocument.getNewMaintainableObject().getBusinessObject();
-        MessageMap errorMap = GlobalVariables.getErrorMap();
+        Questionnaire newQuestionnaire = (Questionnaire)maintenanceDocument.getNewMaintainableObject().getDataObject();
+        MessageMap errorMap = GlobalVariables.getMessageMap();
         if (StringUtils.isBlank(newQuestionnaire.getName())) {
             errorMap.putError("document.newMaintainableObject.businessObject.name", RiceKeyConstants.ERROR_REQUIRED, "Questionnaire Name");
             valid = false;

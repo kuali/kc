@@ -16,20 +16,18 @@
 package org.kuali.kra.questionnaire.question;
 
 import org.kuali.kra.bo.KraPersistableBusinessObjectBase;
-import java.util.LinkedHashMap;
 
-public class QuestionType extends KraPersistableBusinessObjectBase { 
-    
+public class QuestionType extends KraPersistableBusinessObjectBase {
+
     private static final long serialVersionUID = 1L;
 
-    private Integer questionTypeId; 
-    private String questionTypeName; 
-    
-    
-    public QuestionType() { 
+    private Integer questionTypeId;
 
-    } 
-    
+    private String questionTypeName;
+
+    public QuestionType() {
+    }
+
     public Integer getQuestionTypeId() {
         return questionTypeId;
     }
@@ -45,14 +43,4 @@ public class QuestionType extends KraPersistableBusinessObjectBase {
     public void setQuestionTypeName(String questionTypeName) {
         this.questionTypeName = questionTypeName;
     }
-
-    /** {@inheritDoc} */
-    @Override 
-    protected LinkedHashMap<String, Object> toStringMapper() {
-        LinkedHashMap<String, Object> hashMap = new LinkedHashMap<String, Object>();
-        hashMap.put("questionTypeId", this.getQuestionTypeId());
-        hashMap.put("questionTypeName", this.getQuestionTypeName());
-        return hashMap;
-    }
-    
 }

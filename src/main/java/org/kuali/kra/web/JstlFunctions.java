@@ -23,7 +23,7 @@ import java.util.Map;
 
 import org.apache.commons.beanutils.BeanUtils;
 import org.kuali.kra.budget.BudgetDecimal;
-import org.kuali.rice.kns.lookup.keyvalues.KeyValuesFinder;
+import org.kuali.rice.krad.keyvalues.KeyValuesFinder;
 
 /**
  * Full of static methods for JSTL function access.

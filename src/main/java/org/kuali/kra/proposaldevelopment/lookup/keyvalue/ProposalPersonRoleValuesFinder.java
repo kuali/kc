@@ -15,24 +15,29 @@
  */
 package org.kuali.kra.proposaldevelopment.lookup.keyvalue;
 
-import static org.kuali.kra.infrastructure.Constants.*;
-import org.kuali.kra.infrastructure.KraServiceLocator;
+import static org.kuali.kra.infrastructure.Constants.KC_ALL_PARAMETER_DETAIL_TYPE_CODE;
+import static org.kuali.kra.infrastructure.Constants.KC_GENERIC_PARAMETER_NAMESPACE;
+import static org.kuali.kra.infrastructure.Constants.KEY_PERSON_ROLE;
+import static org.kuali.kra.infrastructure.Constants.PERSON_ROLE_PARAMETER_PREFIX;
 import static org.kuali.kra.infrastructure.KraServiceLocator.getService;
 import static org.kuali.kra.logging.BufferedLogger.info;
+
+import java.util.ArrayList;
+import java.util.Collection;
+import java.util.List;
+
+import org.kuali.kra.infrastructure.KraServiceLocator;
 import org.kuali.kra.proposaldevelopment.bo.DevelopmentProposal;
 import org.kuali.kra.proposaldevelopment.bo.ProposalPersonRole;
 import org.kuali.kra.proposaldevelopment.document.ProposalDevelopmentDocument;
 import org.kuali.kra.proposaldevelopment.service.KeyPersonnelService;
 import org.kuali.kra.proposaldevelopment.web.struts.form.ProposalDevelopmentForm;
-import org.kuali.rice.kns.lookup.keyvalues.KeyValuesBase;
-import org.kuali.rice.kns.service.KeyValuesService;
-import org.kuali.rice.kns.service.ParameterService;
-import org.kuali.rice.kns.util.GlobalVariables;
-import org.kuali.rice.core.util.KeyLabelPair;
-
-import java.util.ArrayList;
-import java.util.Collection;
-import java.util.List;
+import org.kuali.rice.core.api.util.ConcreteKeyValue;
+import org.kuali.rice.core.api.util.KeyValue;
+import org.kuali.rice.coreservice.framework.parameter.ParameterService;
+import org.kuali.rice.kns.util.KNSGlobalVariables;
+import org.kuali.rice.krad.keyvalues.KeyValuesBase;
+import org.kuali.rice.krad.service.KeyValuesService;
 
 /**
  * Temporary class until this can be gotten working via table.
@@ -56,16 +61,16 @@ public class ProposalPersonRoleValuesFinder extends KeyValuesBase {
     }
     
     /**
-     * @see org.kuali.rice.kns.lookup.keyvalues.KeyValuesBase#getKeyValues()
+     * @see org.kuali.rice.krad.keyvalues.KeyValuesBase#getKeyValues()
      */
     public List getKeyValues() {
         final Collection<ProposalPersonRole> roles = getKeyValuesService().findAll(ProposalPersonRole.class);
-        final ProposalDevelopmentDocument document = ((ProposalDevelopmentForm) GlobalVariables.getKualiForm()).getDocument();
+        final ProposalDevelopmentDocument document = ((ProposalDevelopmentForm) KNSGlobalVariables.getKualiForm()).getDocument();
         final DevelopmentProposal developmentProposal = document.getDevelopmentProposal();
 
         final boolean hasPrincipalInvestigator = getKeyPersonnelService().hasPrincipalInvestigator(document);
-        List<KeyLabelPair> keyValues = new ArrayList<KeyLabelPair>();
-        keyValues.add(new KeyLabelPair("", "select"));
+        List<KeyValue> keyValues = new ArrayList<KeyValue>();
+        keyValues.add(new ConcreteKeyValue("", "select"));
          for (ProposalPersonRole role : roles) {
             info("Adding role ", role.getProposalPersonRoleId());
             info("With description ", findRoleDescription(role, developmentProposal));
@@ -80,7 +85,7 @@ public class ProposalPersonRoleValuesFinder extends KeyValuesBase {
             info("showRole = ", showRole);
 
             if (showRole) {
-                keyValues.add(new KeyLabelPair(role.getProposalPersonRoleId(), findRoleDescription(role, developmentProposal)));
+                keyValues.add(new ConcreteKeyValue(role.getProposalPersonRoleId(), findRoleDescription(role, developmentProposal)));
             }
 
             info("Returning ", keyValues);
@@ -92,7 +97,7 @@ public class ProposalPersonRoleValuesFinder extends KeyValuesBase {
     }
 
     protected String findRoleDescription(ProposalPersonRole role, DevelopmentProposal proposal) {
-          return this.getParameterService().getParameterValue(KC_GENERIC_PARAMETER_NAMESPACE, KC_ALL_PARAMETER_DETAIL_TYPE_CODE,
+          return this.getParameterService().getParameterValueAsString(KC_GENERIC_PARAMETER_NAMESPACE, KC_ALL_PARAMETER_DETAIL_TYPE_CODE,
                 PERSON_ROLE_PARAMETER_PREFIX + getRoleIdPrefix(proposal) + role.getProposalPersonRoleId().toLowerCase());
     }
     /**
@@ -101,7 +106,7 @@ public class ProposalPersonRoleValuesFinder extends KeyValuesBase {
      * @return true if the role has been rendered already, false otherwise
      */
     private boolean isNewProposalPersonRoleRendered() {
-        return ((ProposalDevelopmentForm) GlobalVariables.getKualiForm()).isNewProposalPersonRoleRendered();
+        return ((ProposalDevelopmentForm) KNSGlobalVariables.getKualiForm()).isNewProposalPersonRoleRendered();
     }
 
     /**

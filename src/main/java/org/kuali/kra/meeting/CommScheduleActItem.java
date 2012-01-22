@@ -15,8 +15,6 @@
  */
 package org.kuali.kra.meeting;
 
-import java.util.LinkedHashMap;
-
 import org.kuali.kra.bo.KraPersistableBusinessObjectBase;
 import org.kuali.kra.committee.bo.CommitteeSchedule;
 
@@ -24,21 +22,27 @@ import org.kuali.kra.committee.bo.CommitteeSchedule;
  * 
  * This class is for schedule meeting other action.
  */
-public class CommScheduleActItem extends KraPersistableBusinessObjectBase { 
-    
-    private static final long serialVersionUID = 5688256868516863628L;
-    private Long commScheduleActItemsId; 
-    private Long scheduleIdFk; 
-    private Integer actionItemNumber; 
-    private String scheduleActItemTypeCode; 
-    private String itemDescription; 
-    private CommitteeSchedule committeeSchedule;
-    private ScheduleActItemType scheduleActItemType;    
-    
-    public CommScheduleActItem() { 
+public class CommScheduleActItem extends KraPersistableBusinessObjectBase {
 
-    } 
-    
+    private static final long serialVersionUID = 5688256868516863628L;
+
+    private Long commScheduleActItemsId;
+
+    private Long scheduleIdFk;
+
+    private Integer actionItemNumber;
+
+    private String scheduleActItemTypeCode;
+
+    private String itemDescription;
+
+    private CommitteeSchedule committeeSchedule;
+
+    private ScheduleActItemType scheduleActItemType;
+
+    public CommScheduleActItem() {
+    }
+
     public Long getCommScheduleActItemsId() {
         return commScheduleActItemsId;
     }
@@ -71,7 +75,6 @@ public class CommScheduleActItem extends KraPersistableBusinessObjectBase {
         this.itemDescription = itemDescription;
     }
 
-
     public ScheduleActItemType getScheduleActItemType() {
         return scheduleActItemType;
     }
@@ -80,17 +83,6 @@ public class CommScheduleActItem extends KraPersistableBusinessObjectBase {
         this.scheduleActItemType = scheduleActItemType;
     }
 
-    /** {@inheritDoc} */
-    @Override 
-    protected LinkedHashMap<String, Object> toStringMapper() {
-        LinkedHashMap<String, Object> hashMap = new LinkedHashMap<String, Object>();
-        hashMap.put("commScheduleActItemsId", this.getCommScheduleActItemsId());
-        hashMap.put("scheduleIdFk", this.getScheduleIdFk());
-        hashMap.put("actionItemNumber", this.getActionItemNumber());
-        hashMap.put("scheduleActItemTypeCode", this.getScheduleActItemTypeCode());
-        hashMap.put("itemDescription", this.getItemDescription());
-        return hashMap;
-    }
     public CommitteeSchedule getCommitteeSchedule() {
         return committeeSchedule;
     }
@@ -106,7 +98,7 @@ public class CommScheduleActItem extends KraPersistableBusinessObjectBase {
     public void setScheduleIdFk(Long scheduleIdFk) {
         this.scheduleIdFk = scheduleIdFk;
     }
-    
+
     /**
      * @see java.lang.Object#equals(java.lang.Object)
      */
@@ -126,13 +118,11 @@ public class CommScheduleActItem extends KraPersistableBusinessObjectBase {
             if (other.commScheduleActItemsId != null) {
                 return false;
             }
-        }
-        else if (!commScheduleActItemsId.equals(other.commScheduleActItemsId)) {
+        } else if (!commScheduleActItemsId.equals(other.commScheduleActItemsId)) {
             return false;
         }
         return true;
     }
-    
 
     /**
      * @see java.lang.Object#hashCode()
@@ -144,5 +134,4 @@ public class CommScheduleActItem extends KraPersistableBusinessObjectBase {
         result = prime * result + ((commScheduleActItemsId == null) ? 0 : commScheduleActItemsId.hashCode());
         return result;
     }
-
 }

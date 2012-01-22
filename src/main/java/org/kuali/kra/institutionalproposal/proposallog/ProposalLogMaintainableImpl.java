@@ -22,12 +22,12 @@ import java.util.Map;
 import org.apache.commons.lang.StringUtils;
 import org.kuali.kra.infrastructure.KraServiceLocator;
 import org.kuali.kra.maintenance.KraMaintainableImpl;
-import org.kuali.rice.kim.util.KimConstants;
+import org.kuali.rice.core.api.datetime.DateTimeService;
+import org.kuali.rice.kim.api.KimConstants;
 import org.kuali.rice.kns.document.MaintenanceDocument;
 import org.kuali.rice.kns.maintenance.Maintainable;
-import org.kuali.rice.kns.service.DateTimeService;
-import org.kuali.rice.kns.service.SequenceAccessorService;
-import org.kuali.rice.kns.util.GlobalVariables;
+import org.kuali.rice.krad.service.SequenceAccessorService;
+import org.kuali.rice.krad.util.GlobalVariables;
 
 public class ProposalLogMaintainableImpl extends KraMaintainableImpl implements Maintainable {
 
@@ -39,6 +39,14 @@ public class ProposalLogMaintainableImpl extends KraMaintainableImpl implements 
     
     private transient DateTimeService dateTimeService;
     private transient SequenceAccessorService sequenceAccessorService;
+    
+    /* Temporary workaround..this overriding can be removed once 
+     * DataObjectMetaDataService.areNotesSupported is fixed
+     */
+    @Override
+    public boolean isNotesEnabled() {
+        return true;
+    }
     
     /**
      * @see org.kuali.rice.kns.maintenance.Maintainable#refresh(String refreshCaller, Map fieldValues, MaintenanceDocument document)
@@ -61,7 +69,7 @@ public class ProposalLogMaintainableImpl extends KraMaintainableImpl implements 
     
     @Override
     public void processAfterNew(MaintenanceDocument document, Map<String,String[]> parameters) {
-        ProposalLog proposalLog = (ProposalLog) document.getDocumentBusinessObject();
+        ProposalLog proposalLog = (ProposalLog) document.getNoteTarget();
         if (StringUtils.isBlank(proposalLog.getProposalNumber())) {
             // New record; set default values.
             setupDefaultValues(proposalLog);
@@ -72,7 +80,7 @@ public class ProposalLogMaintainableImpl extends KraMaintainableImpl implements 
         
     @Override
     public void processAfterCopy(MaintenanceDocument document, Map<String,String[]> parameters) {
-        ProposalLog proposalLog = (ProposalLog) document.getDocumentBusinessObject();
+        ProposalLog proposalLog = (ProposalLog) document.getNoteTarget();
         proposalLog.setCreateTimestamp(null);
         proposalLog.setCreateUser(null);
         proposalLog.setUpdateTimestamp(null);

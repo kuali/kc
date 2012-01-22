@@ -15,9 +15,7 @@
  */
 package org.kuali.kra.proposaldevelopment.bo;
 
-import java.util.LinkedHashMap;
-
-import org.kuali.rice.kns.bo.TransientBusinessObjectBase;
+import org.kuali.rice.krad.bo.TransientBusinessObjectBase;
 
 public class YnqGroupName extends TransientBusinessObjectBase implements Comparable<YnqGroupName> {
     
@@ -68,15 +66,6 @@ public class YnqGroupName extends TransientBusinessObjectBase implements Compara
         return this.truncGroupName;
     }
 
-    /** {@inheritDoc} */
-    @Override
-    protected LinkedHashMap<String, String> toStringMapper() {
-        LinkedHashMap<String, String> propMap = new LinkedHashMap<String, String>();
-        propMap.put("groupName", this.getGroupName());
-        propMap.put("truncGroupName", this.getTruncGroupName());
-        return propMap;
-    }
-    
     /**
      * Compares by group name.
      */

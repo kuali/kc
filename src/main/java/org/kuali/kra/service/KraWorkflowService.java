@@ -18,7 +18,7 @@ package org.kuali.kra.service;
 import org.kuali.kra.proposaldevelopment.bo.ProposalDevelopmentApproverViewDO;
 import org.kuali.kra.proposaldevelopment.document.ProposalDevelopmentDocument;
 import org.kuali.kra.proposaldevelopment.web.struts.form.ProposalDevelopmentForm;
-import org.kuali.rice.kns.document.Document;
+import org.kuali.rice.krad.document.Document;
 
 /**
  * The KRA Workflow Service is simply a set or re-usable functionality

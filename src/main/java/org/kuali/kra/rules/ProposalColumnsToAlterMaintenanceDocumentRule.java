@@ -27,15 +27,15 @@ import org.kuali.kra.proposaldevelopment.bo.ProposalColumnsToAlter;
 import org.kuali.kra.proposaldevelopment.bo.ProposalOverview;
 import org.kuali.kra.proposaldevelopment.document.ProposalDevelopmentDocument;
 import org.kuali.kra.service.KraPersistenceStructureService;
-import org.kuali.rice.kns.datadictionary.AttributeDefinition;
-import org.kuali.rice.kns.datadictionary.DataDictionaryEntry;
-import org.kuali.rice.kns.datadictionary.validation.ValidationPattern;
+import org.kuali.rice.core.api.util.RiceKeyConstants;
 import org.kuali.rice.kns.document.MaintenanceDocument;
 import org.kuali.rice.kns.maintenance.rules.MaintenanceDocumentRuleBase;
 import org.kuali.rice.kns.service.DataDictionaryService;
 import org.kuali.rice.kns.service.KNSServiceLocator;
-import org.kuali.rice.kns.util.GlobalVariables;
-import org.kuali.rice.kns.util.RiceKeyConstants;
+import org.kuali.rice.krad.datadictionary.AttributeDefinition;
+import org.kuali.rice.krad.datadictionary.DataDictionaryEntry;
+import org.kuali.rice.krad.datadictionary.validation.ValidationPattern;
+import org.kuali.rice.krad.util.GlobalVariables;
 
 public class ProposalColumnsToAlterMaintenanceDocumentRule extends MaintenanceDocumentRuleBase {
     
@@ -82,14 +82,14 @@ public class ProposalColumnsToAlterMaintenanceDocumentRule extends MaintenanceDo
         if (LOG.isDebugEnabled()) {
             LOG.debug("New maintainable is: " + maintenanceDocument.getNewMaintainableObject().getClass());
         }
-        ProposalColumnsToAlter newEditableProposalField = (ProposalColumnsToAlter) maintenanceDocument.getNewMaintainableObject().getBusinessObject();
+        ProposalColumnsToAlter newEditableProposalField = (ProposalColumnsToAlter) maintenanceDocument.getNewMaintainableObject().getDataObject();
 
         if (StringUtils.isNotBlank(newEditableProposalField.getLookupClass())) {
             GlobalVariables.getUserSession().addObject(Constants.LOOKUP_CLASS_NAME, (Object)newEditableProposalField.getLookupClass());
         }
         if (StringUtils.isNotBlank(newEditableProposalField.getLookupClass())
                 && StringUtils.isBlank(newEditableProposalField.getLookupReturn())) {
-            GlobalVariables.getErrorMap().putError(Constants.PROPOSAL_EDITABLECOLUMN_LOOKUPRETURN, RiceKeyConstants.ERROR_REQUIRED,
+            GlobalVariables.getMessageMap().putError(Constants.PROPOSAL_EDITABLECOLUMN_LOOKUPRETURN, RiceKeyConstants.ERROR_REQUIRED,
                     new String[] { "Lookup Return" });
             return false;
         }
@@ -106,9 +106,9 @@ public class ProposalColumnsToAlterMaintenanceDocumentRule extends MaintenanceDo
     }
     
     private boolean verifyProposaEditableColumnsDataType(MaintenanceDocument maintenanceDocument) {
-        ProposalColumnsToAlter newEditableProposalField = (ProposalColumnsToAlter) maintenanceDocument.getNewMaintainableObject().getBusinessObject();
+        ProposalColumnsToAlter newEditableProposalField = (ProposalColumnsToAlter) maintenanceDocument.getNewMaintainableObject().getDataObject();
         KraPersistenceStructureService kraPersistenceStructureService = KraServiceLocator.getService(KraPersistenceStructureService.class);
-        DataDictionaryService dataDictionaryService = KNSServiceLocator.getDataDictionaryService();
+        DataDictionaryService dataDictionaryService = (DataDictionaryService) KNSServiceLocator.getDataDictionaryService();
         Map<String, String> fieldMap = kraPersistenceStructureService.getDBColumnToObjectAttributeMap(ProposalOverview.class);
         DataDictionaryEntry entry = dataDictionaryService.getDataDictionary().getDictionaryObjectEntry(ProposalDevelopmentDocument.class.getName());
         
@@ -132,7 +132,7 @@ public class ProposalColumnsToAlterMaintenanceDocumentRule extends MaintenanceDo
                             inputDataType = newEditableProposalField.getDataType();
                             if(!proposalFieldDataType.equalsIgnoreCase(inputDataType)) {
                                 //throw error
-                                GlobalVariables.getErrorMap().putError(Constants.PROPOSAL_EDITABLECOLUMN_DATATYPE, KeyConstants.PROPOSAL_EDITABLECOLUMN_DATATYPE_MISMATCH);
+                                GlobalVariables.getMessageMap().putError(Constants.PROPOSAL_EDITABLECOLUMN_DATATYPE, KeyConstants.PROPOSAL_EDITABLECOLUMN_DATATYPE_MISMATCH);
                                 returnFlag = false;
                             }
                         }
@@ -143,7 +143,7 @@ public class ProposalColumnsToAlterMaintenanceDocumentRule extends MaintenanceDo
                 fieldMaxLength = dataDictionaryService.getAttributeMaxLength(DevelopmentProposal.class, editableProposalField);
                 if(fieldMaxLength > inputDataLength) {
                     //throw error
-                    GlobalVariables.getErrorMap().putError(Constants.PROPOSAL_EDITABLECOLUMN_DATALENGTH, KeyConstants.PROPOSAL_EDITABLECOLUMN_DATALENGTH_MISMATCH);
+                    GlobalVariables.getMessageMap().putError(Constants.PROPOSAL_EDITABLECOLUMN_DATALENGTH, KeyConstants.PROPOSAL_EDITABLECOLUMN_DATALENGTH_MISMATCH);
                     returnFlag = false;
                 }
             }

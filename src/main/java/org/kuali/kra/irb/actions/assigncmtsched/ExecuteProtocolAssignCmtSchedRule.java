@@ -16,12 +16,12 @@
 package org.kuali.kra.irb.actions.assigncmtsched;
 
 import org.kuali.kra.irb.ProtocolDocument;
-import org.kuali.rice.kns.rule.BusinessRule;
+import org.kuali.rice.krad.rules.rule.BusinessRule;
 
 public interface ExecuteProtocolAssignCmtSchedRule extends BusinessRule {
 
     /**
-     * Process the business validation when a protocol is assigned
+     * ProcessDefinitionDefinitionDefinition the business validation when a protocol is assigned
      * to a committee/schedule.
      * @param document the protocol document
      * @param actionBean contains the committee/schedule to assign to

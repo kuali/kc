@@ -25,18 +25,16 @@ import static org.kuali.kra.infrastructure.KeyConstants.ERROR_DELETE_LEAD_UNIT;
 import static org.kuali.kra.infrastructure.KeyConstants.ERROR_INVALID_UNIT;
 import static org.kuali.kra.infrastructure.KeyConstants.ERROR_INVALID_YEAR;
 import static org.kuali.kra.infrastructure.KeyConstants.ERROR_INVESTIGATOR_UPBOUND;
+import static org.kuali.kra.infrastructure.KeyConstants.ERROR_MISSING_CITIZENSHIP_TYPE;
 import static org.kuali.kra.infrastructure.KeyConstants.ERROR_MISSING_PERSON_ROLE;
 import static org.kuali.kra.infrastructure.KeyConstants.ERROR_ONE_UNIT;
 import static org.kuali.kra.infrastructure.KeyConstants.ERROR_PERCENTAGE;
-import static org.kuali.kra.infrastructure.KeyConstants.ERROR_PROPOSAL_PERSON_EXISTS;
 import static org.kuali.kra.infrastructure.KeyConstants.ERROR_PROPOSAL_PERSON_EXISTS_WITH_ROLE;
 import static org.kuali.kra.infrastructure.KeyConstants.ERROR_SELECT_UNIT;
-import static org.kuali.kra.infrastructure.KeyConstants.ERROR_MISSING_CITIZENSHIP_TYPE;
 import static org.kuali.kra.infrastructure.KraServiceLocator.getService;
 import static org.kuali.kra.logging.FormattedLogger.debug;
 import static org.kuali.kra.logging.FormattedLogger.info;
 
-import java.util.Iterator;
 import java.util.List;
 
 import org.apache.commons.lang.StringUtils;
@@ -57,11 +55,11 @@ import org.kuali.kra.proposaldevelopment.rule.ChangeKeyPersonRule;
 import org.kuali.kra.proposaldevelopment.service.KeyPersonnelService;
 import org.kuali.kra.rules.ResearchDocumentRuleBase;
 import org.kuali.kra.service.KcPersonService;
-import org.kuali.rice.kns.bo.BusinessObject;
-import org.kuali.rice.kns.document.Document;
-import org.kuali.rice.kns.util.GlobalVariables;
-import org.kuali.rice.kns.util.KualiDecimal;
-import org.kuali.rice.kns.util.RiceKeyConstants;
+import org.kuali.rice.core.api.util.RiceKeyConstants;
+import org.kuali.rice.core.api.util.type.KualiDecimal;
+import org.kuali.rice.krad.bo.BusinessObject;
+import org.kuali.rice.krad.document.Document;
+import org.kuali.rice.krad.util.GlobalVariables;
 
 /**
  * Implementation of business rules required for the Key Persons Page of the 
@@ -142,12 +140,12 @@ public class ProposalDevelopmentKeyPersonsRule extends ResearchDocumentRuleBase 
             
             if(person.getPercentageEffort()!= null && (person.getPercentageEffort().isLessThan(new KualiDecimal(0)) 
                     || person.getPercentageEffort().isGreaterThan(new KualiDecimal(100)))){
-                GlobalVariables.getErrorMap().putError("document.developmentProposalList[0].proposalPersons[" + personIndex + "].percentageEffort", ERROR_PERCENTAGE,
+                GlobalVariables.getMessageMap().putError("document.developmentProposalList[0].proposalPersons[" + personIndex + "].percentageEffort", ERROR_PERCENTAGE,
                         new String[] {"Percentage Effort" });
             }
             
             if(StringUtils.isNotBlank(person.getEraCommonsUserName()) && person.getEraCommonsUserName().length() < FIELD_ERA_COMMONS_USERNAME_MIN_LENGTH){
-                GlobalVariables.getErrorMap().putError("document.developmentProposalList[0].proposalPersons[" + personIndex + "].eraCommonsUserName", KeyConstants.ERROR_MINLENGTH,
+                GlobalVariables.getMessageMap().putError("document.developmentProposalList[0].proposalPersons[" + personIndex + "].eraCommonsUserName", KeyConstants.ERROR_MINLENGTH,
                         new String[] {"eRA Commons User Name" , ""+ FIELD_ERA_COMMONS_USERNAME_MIN_LENGTH});
             }
             
@@ -266,9 +264,9 @@ public class ProposalDevelopmentKeyPersonsRule extends ResearchDocumentRuleBase 
      * @see org.kuali.kra.rules.ResearchDocumentRuleBase#reportError(String, String, String...)
      */
     protected void reportErrorWithPrefix(String errorPathPrefix, String propertyName, String errorKey, String... errorParams) {
-        GlobalVariables.getErrorMap().addToErrorPath(errorPathPrefix);
+        GlobalVariables.getMessageMap().addToErrorPath(errorPathPrefix);
         super.reportError(propertyName, errorKey, errorParams);
-        GlobalVariables.getErrorMap().removeFromErrorPath(errorPathPrefix);        
+        GlobalVariables.getMessageMap().removeFromErrorPath(errorPathPrefix);        
     }
 
     /**
@@ -326,7 +324,7 @@ public class ProposalDevelopmentKeyPersonsRule extends ResearchDocumentRuleBase 
     /**
      * Either adding a degree or unit can trigger this rule to be validated
      * 
-     * @see org.kuali.kra.proposaldevelopment.rule.ChangeKeyPersonRule#processChangeKeyPersonBusinessRules(org.kuali.kra.proposaldevelopment.bo.ProposalPerson, org.kuali.rice.kns.bo.BusinessObject)
+     * @see org.kuali.kra.proposaldevelopment.rule.ChangeKeyPersonRule#processChangeKeyPersonBusinessRules(org.kuali.kra.proposaldevelopment.bo.ProposalPerson, org.kuali.rice.krad.bo.BusinessObject)
      * @see org.kuali.kra.proposaldevelopment.web.struts.action.ProposalDevelopmentKeyPersonnelAction#insertDegree(org.apache.struts.action.ActionMapping, org.apache.struts.action.ActionForm, javax.servlet.http.HttpServletRequest, javax.servlet.http.HttpServletResponse)
      * @see org.kuali.kra.proposaldevelopment.web.struts.action.ProposalDevelopmentKeyPersonnelAction#insertUnit(org.apache.struts.action.ActionMapping, org.apache.struts.action.ActionForm, javax.servlet.http.HttpServletRequest, javax.servlet.http.HttpServletResponse)
      */
@@ -359,13 +357,13 @@ public class ProposalDevelopmentKeyPersonsRule extends ResearchDocumentRuleBase 
         
         debug("Validating unit %s",  source);
        
-        if (source.getUnit() == null && isBlank(source.getUnitNumber()) && (GlobalVariables.getErrorMap().getMessages("newProposalPersonUnit*")== null)) {
-            GlobalVariables.getErrorMap().putError("newProposalPersonUnit[" + index + "].unitNumber", ERROR_SELECT_UNIT);
+        if (source.getUnit() == null && isBlank(source.getUnitNumber()) && (GlobalVariables.getMessageMap().getMessages("newProposalPersonUnit*")== null)) {
+            GlobalVariables.getMessageMap().putError("newProposalPersonUnit[" + index + "].unitNumber", ERROR_SELECT_UNIT);
             retval = false;
         }
         
-        if (isNotBlank(source.getUnitNumber()) && isInvalid(Unit.class, keyValue("unitNumber", source.getUnitNumber())) && (GlobalVariables.getErrorMap().getMessages("newProposalPersonUnit*")== null)) {
-            GlobalVariables.getErrorMap().putError("newProposalPersonUnit[" + index + "].unitNumber", ERROR_INVALID_UNIT,
+        if (isNotBlank(source.getUnitNumber()) && isInvalid(Unit.class, keyValue("unitNumber", source.getUnitNumber())) && (GlobalVariables.getMessageMap().getMessages("newProposalPersonUnit*")== null)) {
+            GlobalVariables.getMessageMap().putError("newProposalPersonUnit[" + index + "].unitNumber", ERROR_INVALID_UNIT,
                     source.getUnitNumber(), person.getFullName());
             retval = false;
         }
@@ -373,16 +371,16 @@ public class ProposalDevelopmentKeyPersonsRule extends ResearchDocumentRuleBase 
         debug("isLeadUnit %s", source.isLeadUnit());
         if(source.isDelete()){
             if(person.getProposalPersonRoleId().equals(PRINCIPAL_INVESTIGATOR_ROLE)){
-               if (isDeletingUnitFromPrincipalInvestigator(source, person)&& (GlobalVariables.getErrorMap().getMessages("newProposalPersonUnit*")== null)) {
-                   GlobalVariables.getErrorMap().putError("newProposalPersonUnit[" + index + "].unitNumber", ERROR_DELETE_LEAD_UNIT,
+               if (isDeletingUnitFromPrincipalInvestigator(source, person)&& (GlobalVariables.getMessageMap().getMessages("newProposalPersonUnit*")== null)) {
+                   GlobalVariables.getMessageMap().putError("newProposalPersonUnit[" + index + "].unitNumber", ERROR_DELETE_LEAD_UNIT,
                            source.getUnitNumber(), person.getFullName());
                 retval = false;
                }
             }
         }else
         {
-        if((unitExists(source , person)) && (GlobalVariables.getErrorMap().getMessages("newProposalPersonUnit*")== null)){
-            GlobalVariables.getErrorMap().putError("newProposalPersonUnit[" + index + "].unitNumber", ERROR_ADD_EXISTING_UNIT,
+        if((unitExists(source , person)) && (GlobalVariables.getMessageMap().getMessages("newProposalPersonUnit*")== null)){
+            GlobalVariables.getMessageMap().putError("newProposalPersonUnit[" + index + "].unitNumber", ERROR_ADD_EXISTING_UNIT,
                      source.getUnitNumber(), person.getFullName());
             retval=false;
         }
@@ -435,9 +433,9 @@ public class ProposalDevelopmentKeyPersonsRule extends ResearchDocumentRuleBase 
         boolean retval = true;
      
         String regExpr = "^(16|17|18|19|20)[0-9]{2}$";
-        if(source.getGraduationYear()!=null && !(source.getGraduationYear().matches(regExpr)) && GlobalVariables.getErrorMap().getMessages("document.newProposalPersonDegree") == null)
+        if(source.getGraduationYear()!=null && !(source.getGraduationYear().matches(regExpr)) && GlobalVariables.getMessageMap().getMessages("document.newProposalPersonDegree") == null)
         {            
-            GlobalVariables.getErrorMap().putError("newProposalPersonDegree[" + index + "].graduationYear", ERROR_INVALID_YEAR,
+            GlobalVariables.getMessageMap().putError("newProposalPersonDegree[" + index + "].graduationYear", ERROR_INVALID_YEAR,
                     new String[] { source.getGraduationYear(), "Graduation Year"});
             retval = false;
         }
@@ -450,14 +448,14 @@ public class ProposalDevelopmentKeyPersonsRule extends ResearchDocumentRuleBase 
             retval = false;
         }
         if(StringUtils.isBlank(source.getDegreeCode())){
-            GlobalVariables.getErrorMap().putError("newProposalPersonDegree[" + index + "].degreeCode", RiceKeyConstants.ERROR_REQUIRED,
+            GlobalVariables.getMessageMap().putError("newProposalPersonDegree[" + index + "].degreeCode", RiceKeyConstants.ERROR_REQUIRED,
                     new String[] {"Degree Type" });
             retval= false;
         }
 
         if(StringUtils.isBlank(source.getDegree())){
 
-            GlobalVariables.getErrorMap().putError("newProposalPersonDegree[" + index + "].degree", RiceKeyConstants.ERROR_REQUIRED,
+            GlobalVariables.getMessageMap().putError("newProposalPersonDegree[" + index + "].degree", RiceKeyConstants.ERROR_REQUIRED,
                     new String[] {"Degree Description" });
             retval= false;
         }
@@ -465,7 +463,7 @@ public class ProposalDevelopmentKeyPersonsRule extends ResearchDocumentRuleBase 
         
         if(StringUtils.isBlank(source.getGraduationYear())){
 
-            GlobalVariables.getErrorMap().putError("newProposalPersonDegree[" + index + "].graduationYear", RiceKeyConstants.ERROR_REQUIRED,
+            GlobalVariables.getMessageMap().putError("newProposalPersonDegree[" + index + "].graduationYear", RiceKeyConstants.ERROR_REQUIRED,
                     new String[] {"Graduation year" });
             retval= false;
         }
@@ -488,7 +486,7 @@ public class ProposalDevelopmentKeyPersonsRule extends ResearchDocumentRuleBase 
                 ProposalPersonCreditSplit creditSplit = personCreditSplit.get(j);
                 if(creditSplit.getCredit() !=null){
                     if(creditSplit.getCredit().doubleValue() > 100.00 || creditSplit.getCredit().doubleValue() < 0.00){
-                        GlobalVariables.getErrorMap().putError("document.developmentProposalList[0].investigator["+i+"].creditSplits["+j+"].credit", ERROR_PERCENTAGE,
+                        GlobalVariables.getMessageMap().putError("document.developmentProposalList[0].investigator["+i+"].creditSplits["+j+"].credit", ERROR_PERCENTAGE,
                                 new String[] {"Credit Split" });
                         retval=false;
                     }
@@ -501,7 +499,7 @@ public class ProposalDevelopmentKeyPersonsRule extends ResearchDocumentRuleBase 
                     ProposalUnitCreditSplit unitSplit = unitCreditSplit.get(k);
                     if(unitSplit.getCredit()!= null){
                         if(unitSplit.getCredit().doubleValue() > 100.00 || unitSplit.getCredit().doubleValue() < 0.00){
-                            GlobalVariables.getErrorMap().putError("document.developmentProposalList[0].investigator["+i+"].units["+j+"].creditSplits["+k+"].credit", ERROR_PERCENTAGE,
+                            GlobalVariables.getMessageMap().putError("document.developmentProposalList[0].investigator["+i+"].units["+j+"].creditSplits["+k+"].credit", ERROR_PERCENTAGE,
                                     new String[] {"Credit Split" });
                             retval=false; 
                         }

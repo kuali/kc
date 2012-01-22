@@ -15,7 +15,6 @@
  */
 package org.kuali.kra.bo;
 
-import java.util.LinkedHashMap;
 
 /**
  * Class representation of a Notice of Opportunity Business Object
@@ -23,6 +22,7 @@ import java.util.LinkedHashMap;
 public class NoticeOfOpportunity extends KraPersistableBusinessObjectBase {
 
     private String noticeOfOpportunityCode;
+
     private String description;
 
     /**
@@ -58,15 +58,5 @@ public class NoticeOfOpportunity extends KraPersistableBusinessObjectBase {
      */
     public void setNoticeOfOpportunityCode(String noticeOfOpportunityCode) {
         this.noticeOfOpportunityCode = noticeOfOpportunityCode;
-    }
-
-    @Override
-    protected LinkedHashMap toStringMapper() {
-        LinkedHashMap propMap = new LinkedHashMap();
-        propMap.put("noticeOfOpportunityCode", this.getNoticeOfOpportunityCode().toString());
-        propMap.put("description", this.getDescription());
-        propMap.put("updateTimestamp", this.getUpdateTimestamp());
-        propMap.put("updateUser", this.getUpdateUser());
-        return propMap;
     }
 }

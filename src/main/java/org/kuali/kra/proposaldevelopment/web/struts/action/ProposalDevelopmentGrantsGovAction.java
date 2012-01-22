@@ -16,7 +16,7 @@
 package org.kuali.kra.proposaldevelopment.web.struts.action;
 
 import static org.kuali.kra.infrastructure.KeyConstants.QUESTION_DELETE_OPPORTUNITY_CONFIRMATION;
-import static org.kuali.rice.kns.util.KNSConstants.QUESTION_INST_ATTRIBUTE_NAME;
+import static org.kuali.rice.krad.util.KRADConstants.QUESTION_INST_ATTRIBUTE_NAME;
 
 import java.util.ArrayList;
 import java.util.List;
@@ -39,7 +39,7 @@ import org.kuali.kra.s2s.bo.S2sOppForms;
 import org.kuali.kra.s2s.bo.S2sOpportunity;
 import org.kuali.kra.s2s.service.S2SService;
 import org.kuali.kra.web.struts.action.StrutsConfirmation;
-import org.kuali.rice.kns.util.GlobalVariables;
+import org.kuali.rice.krad.util.GlobalVariables;
 
 public class ProposalDevelopmentGrantsGovAction extends ProposalDevelopmentAction {
     private static final String CONFIRM_REMOVE_OPPRTUNITY_KEY = "confirmRemoveOpportunity";
@@ -88,8 +88,8 @@ public class ProposalDevelopmentGrantsGovAction extends ProposalDevelopmentActio
         Boolean mandatoryFormNotAvailable = false;
         List<S2sOppForms> s2sOppForms = new ArrayList<S2sOppForms>();
         S2sOpportunity s2sOpportunity = proposalDevelopmentDocument.getDevelopmentProposal().getS2sOpportunity();
-        try{
-            if(s2sOpportunity.getSchemaUrl()!=null){
+        try {
+            if (s2sOpportunity != null && s2sOpportunity.getSchemaUrl() != null) {
                 s2sOppForms = KraServiceLocator.getService(S2SService.class).parseOpportunityForms(s2sOpportunity);
                 if(s2sOppForms!=null){
                     for(S2sOppForms s2sOppForm:s2sOppForms){
@@ -104,12 +104,12 @@ public class ProposalDevelopmentGrantsGovAction extends ProposalDevelopmentActio
                     s2sOpportunity.setVersionNumber(proposalDevelopmentForm.getVersionNumberForS2sOpportunity());
                     proposalDevelopmentForm.setVersionNumberForS2sOpportunity(null);                
                 }else{
-                    GlobalVariables.getErrorMap().putError(Constants.NO_FIELD, KeyConstants.ERROR_IF_OPPORTUNITY_ID_IS_INVALID,proposalDevelopmentDocument.getDevelopmentProposal().getS2sOpportunity().getOpportunityId());
+                    GlobalVariables.getMessageMap().putError(Constants.NO_FIELD, KeyConstants.ERROR_IF_OPPORTUNITY_ID_IS_INVALID,proposalDevelopmentDocument.getDevelopmentProposal().getS2sOpportunity().getOpportunityId());
                     proposalDevelopmentDocument.getDevelopmentProposal().setS2sOpportunity(new S2sOpportunity());
                 }            
             }
         }catch(S2SException ex){
-            GlobalVariables.getErrorMap().putError(Constants.NO_FIELD, ex.getErrorKey(),ex.getMessageWithParams());
+            GlobalVariables.getMessageMap().putError(Constants.NO_FIELD, ex.getErrorKey(),ex.getMessageWithParams());
             proposalDevelopmentDocument.getDevelopmentProposal().setS2sOpportunity(new S2sOpportunity());
             return mapping.findForward(Constants.MAPPING_BASIC);
         }
@@ -195,8 +195,8 @@ public class ProposalDevelopmentGrantsGovAction extends ProposalDevelopmentActio
 //        boolean warningExists = false;
 //        AttachmentDataSource attachmentDataSource = KraServiceLocator.getService(S2SService.class).printForm(proposalDevelopmentDocument);
 //        if(attachmentDataSource==null || attachmentDataSource.getContent()==null){
-//            for (Iterator iter = GlobalVariables.getAuditErrorMap().keySet().iterator(); iter.hasNext();){     
-//                AuditCluster auditCluster = (AuditCluster)GlobalVariables.getAuditErrorMap().get(iter.next());
+//            for (Iterator iter = KNSGlobalVariables.getAuditErrorMap().keySet().iterator(); iter.hasNext();){     
+//                AuditCluster auditCluster = (AuditCluster)KNSGlobalVariables.getAuditErrorMap().get(iter.next());
 //                if(StringUtils.equalsIgnoreCase(auditCluster.getCategory(),Constants.AUDIT_ERRORS)){
 //                    errorExists=true;
 //                    break;
@@ -210,7 +210,7 @@ public class ProposalDevelopmentGrantsGovAction extends ProposalDevelopmentActio
 //                }
 //            }
 //            if(grantsGovErrorExists || errorExists){
-//                GlobalVariables.getErrorMap().putError("document.noKey", KeyConstants.VALIDATTION_ERRORS_BEFORE_GRANTS_GOV_SUBMISSION);
+//                GlobalVariables.getMessageMap().putError("document.noKey", KeyConstants.VALIDATTION_ERRORS_BEFORE_GRANTS_GOV_SUBMISSION);
 //                proposalDevelopmentForm.setAuditActivated(true);
 //                return mapping.findForward(Constants.MAPPING_PROPOSAL_ACTIONS);
 //            }
@@ -246,7 +246,7 @@ public class ProposalDevelopmentGrantsGovAction extends ProposalDevelopmentActio
                 throw new RuntimeException("Refresh Failed");
             }
         }catch(S2SException ex){
-            GlobalVariables.getErrorMap().putError(Constants.NO_FIELD, ex.getErrorKey(),ex.getMessage());
+            GlobalVariables.getMessageMap().putError(Constants.NO_FIELD, ex.getErrorKey(),ex.getMessage());
             return mapping.findForward(Constants.MAPPING_BASIC);
         }
     }
@@ -270,13 +270,13 @@ public class ProposalDevelopmentGrantsGovAction extends ProposalDevelopmentActio
             return mapping.findForward(Constants.MAPPING_BASIC);
         }
         
-        final String proposalTypeCodeRevision = this.getParameterService().getParameterValue(ProposalDevelopmentDocument.class, 
+        final String proposalTypeCodeRevision = this.getParameterService().getParameterValueAsString(ProposalDevelopmentDocument.class, 
                 KeyConstants.PROPOSALDEVELOPMENT_PROPOSALTYPE_REVISION);
 
         if(proposalDevelopmentDocument.getDevelopmentProposal().getS2sOpportunity()!= null && proposalDevelopmentDocument.getDevelopmentProposal().getS2sOpportunity().getOpportunityId()!= null && 
                 StringUtils.equalsIgnoreCase(proposalDevelopmentDocument.getDevelopmentProposal().getProposalTypeCode(), proposalTypeCodeRevision) && 
                 StringUtils.isBlank(proposalDevelopmentDocument.getDevelopmentProposal().getS2sOpportunity().getRevisionCode())) { 
-            GlobalVariables.getErrorMap().putError("document.developmentProposalList[0].s2sOpportunity.revisionCode", KeyConstants.ERROR_REQUIRED_REVISIONTYPE);
+            GlobalVariables.getMessageMap().putError("document.developmentProposalList[0].s2sOpportunity.revisionCode", KeyConstants.ERROR_REQUIRED_REVISIONTYPE);
             return mapping.findForward(Constants.MAPPING_BASIC);
         } 
 

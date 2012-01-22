@@ -16,11 +16,9 @@
 package org.kuali.kra.institutionalproposal.contacts;
 
 import java.util.HashMap;
-import java.util.LinkedHashMap;
 import java.util.Map;
 
 import org.kuali.kra.SequenceAssociate;
-import org.kuali.kra.SequenceOwner;
 import org.kuali.kra.award.home.ContactRole;
 import org.kuali.kra.bo.Contactable;
 import org.kuali.kra.bo.KcPerson;
@@ -28,9 +26,8 @@ import org.kuali.kra.bo.NonOrganizationalRolodex;
 import org.kuali.kra.infrastructure.KraServiceLocator;
 import org.kuali.kra.institutionalproposal.InstitutionalProposalAssociate;
 import org.kuali.kra.institutionalproposal.home.InstitutionalProposal;
-import org.kuali.kra.irb.Protocol;
 import org.kuali.kra.service.KcPersonService;
-import org.kuali.rice.kns.service.BusinessObjectService;
+import org.kuali.rice.krad.service.BusinessObjectService;
 
 /**
  * This class...
@@ -41,32 +38,39 @@ public abstract class InstitutionalProposalContact extends InstitutionalProposal
      * Comment for <code>serialVersionUID</code>
      */
     private static final long serialVersionUID = 7866050768005705153L;
+
     private static final String ROLODEX_ID_FIELD_NAME = "rolodexId";
+
     private static final String PERSON_ID_FIELD_NAME = "personId";
-    
+
     /**
      * These field are OJB hacks. Because anonymous access wouldn't work for more than one field, the institutionalProposal,
      * we need to provide real fields to be persisted
      */
     protected String personId;
-    
+
     protected Integer rolodexId;
+
     protected String roleCode;
-    
-    private Long institutionalProposalContactId;    
+
+    private Long institutionalProposalContactId;
+
     private ContactRole contactRole;
+
     private String fullName;
+
     private KcPerson person;
+
     private NonOrganizationalRolodex rolodex;
+
     private transient KcPersonService kcPersonService;
-    
+
     /**
      * Constructor
      */
     public InstitutionalProposalContact() {
-        
     }
-    
+
     /**
      * 
      * Convenience constructor
@@ -116,7 +120,7 @@ public abstract class InstitutionalProposalContact extends InstitutionalProposal
                 return false;
             }
         } else {
-            if(getContact().getFullName() == null) {
+            if (getContact().getFullName() == null) {
                 if (other.getContact().getFullName() != null) {
                     return false;
                 }
@@ -141,16 +145,16 @@ public abstract class InstitutionalProposalContact extends InstitutionalProposal
      */
     public Contactable getContact() {
         Contactable contact = person != null ? person : (rolodex != null ? rolodex : null);
-        if(contact == null) {
-            if(personId != null) {
+        if (contact == null) {
+            if (personId != null) {
                 refreshPerson();
                 contact = person;
-            } else if(rolodexId != null) {
+            } else if (rolodexId != null) {
                 refreshRolodex();
                 contact = rolodex;
             }
-        }        
-        return contact; 
+        }
+        return contact;
     }
 
     /**
@@ -167,14 +171,14 @@ public abstract class InstitutionalProposalContact extends InstitutionalProposal
     public String getGenericId() {
         return rolodexId != null ? rolodexId.toString() : personId;
     }
-    
+
     /**
      * @return
      */
     public String getOrganizationIdentifier() {
         return getContact() != null ? getContact().getOrganizationIdentifier() : null;
     }
-    
+
     /**
      * Gets the contactRole attribute. 
      * @return Returns the contactRole.
@@ -182,7 +186,7 @@ public abstract class InstitutionalProposalContact extends InstitutionalProposal
     public ContactRole getContactRole() {
         return contactRole;
     }
-    
+
     /**
      * @return
      */
@@ -209,12 +213,12 @@ public abstract class InstitutionalProposalContact extends InstitutionalProposal
      * @return Returns the person.
      */
     public KcPerson getPerson() {
-        if(person == null && personId != null) {
+        if (person == null && personId != null) {
             refreshPerson();
         }
         return person;
     }
-    
+
     /**
      * Gets the personId attribute. 
      * @return Returns the personId.
@@ -222,7 +226,7 @@ public abstract class InstitutionalProposalContact extends InstitutionalProposal
     public String getPersonId() {
         return personId;
     }
-    
+
     public String getPhoneNumber() {
         return getContact() != null ? getContact().getPhoneNumber() : null;
     }
@@ -242,7 +246,7 @@ public abstract class InstitutionalProposalContact extends InstitutionalProposal
     public NonOrganizationalRolodex getRolodex() {
         return rolodex;
     }
-    
+
     /**
      * Gets the rolodexId attribute. 
      * @return Returns the rolodexId.
@@ -270,14 +274,14 @@ public abstract class InstitutionalProposalContact extends InstitutionalProposal
     public boolean isEmployee() {
         return getContact() != null && (getContact() instanceof KcPerson);
     }
-       
+
     /**
      * @see org.kuali.kra.Sequenceable#resetPersistenceState()
      */
     public void resetPersistenceState() {
         this.institutionalProposalContactId = null;
     }
-    
+
     /**
      * Sets the institutionalProposalContactId attribute value.
      * @param institutionalProposalContactId The institutionalProposalContactId to set.
@@ -285,50 +289,48 @@ public abstract class InstitutionalProposalContact extends InstitutionalProposal
     public void setInstitutionalProposalContactId(Long institutionalProposalContactid) {
         this.institutionalProposalContactId = institutionalProposalContactid;
     }
-    
+
     /**
      * Sets the contactRole attribute value.
      * @param contactRole The contactRole to set.
      */
     public void setContactRole(ContactRole contactRole) {
         this.contactRole = contactRole;
-        this.roleCode =  contactRole != null ? contactRole.getRoleCode() : null; 
+        this.roleCode = contactRole != null ? contactRole.getRoleCode() : null;
     }
-    
+
     public void setContactRoleCode(String roleCode) {
         this.roleCode = roleCode;
-        refreshContactRole(); 
+        refreshContactRole();
     }
-    
+
     public void setEmailAddress(String emailAddress) {
-        // no-op
     }
-    
+
     public void setFullName(String fullName) {
         this.fullName = fullName;
     }
-    
+
     /**
      * Sets the person attribute value.
      * @param person The person to set.
      */
     public void setPerson(KcPerson person) {
-        if(person != null && person.getPersonId() == null) {
+        if (person != null && person.getPersonId() == null) {
             person = null;
         }
-        
         this.person = person;
         this.rolodex = null;
-        this.rolodexId = null;        
-        if(person != null) {
-            this.fullName =  person.getFullName();
+        this.rolodexId = null;
+        if (person != null) {
+            this.fullName = person.getFullName();
             this.personId = person.getPersonId();
         } else {
-            this.fullName =  null;
+            this.fullName = null;
             this.personId = null;
         }
     }
-    
+
     /**
      * Sets the personId attribute value.
      * @param personId The personId to set.
@@ -337,9 +339,8 @@ public abstract class InstitutionalProposalContact extends InstitutionalProposal
         this.personId = personId;
         refreshPerson();
     }
-    
+
     public void setPhoneNumber(String phoneNumber) {
-        // no-op
     }
 
     /**
@@ -356,22 +357,21 @@ public abstract class InstitutionalProposalContact extends InstitutionalProposal
      * @param rolodex The rolodex to set.
      */
     public void setRolodex(NonOrganizationalRolodex rolodex) {
-        if(rolodex != null && rolodex.getRolodexId() == null) {
+        if (rolodex != null && rolodex.getRolodexId() == null) {
             rolodex = null;
         }
-        
         this.person = null;
         this.personId = null;
         this.rolodex = rolodex;
-        if(rolodex != null) {
-            this.fullName =  rolodex.getFullName();
+        if (rolodex != null) {
+            this.fullName = rolodex.getFullName();
             this.rolodexId = rolodex.getRolodexId();
         } else {
-            this.fullName =  null;
+            this.fullName = null;
             this.rolodexId = null;
         }
     }
-    
+
     /**
      * Sets the rolodexId attribute value.
      * @param rolodexId The rolodexId to set.
@@ -382,9 +382,8 @@ public abstract class InstitutionalProposalContact extends InstitutionalProposal
     }
 
     public void setUnitName(String unitName) {
-        // no-op
     }
-    
+
     /**
      * This method looks up BOS
      * @return
@@ -392,7 +391,7 @@ public abstract class InstitutionalProposalContact extends InstitutionalProposal
     protected BusinessObjectService getBusinessObjectService() {
         return (BusinessObjectService) KraServiceLocator.getService(BusinessObjectService.class);
     }
-    
+
     /**
      * Gets the KC Person Service.
      * @return KC Person Service.
@@ -401,45 +400,33 @@ public abstract class InstitutionalProposalContact extends InstitutionalProposal
         if (this.kcPersonService == null) {
             this.kcPersonService = KraServiceLocator.getService(KcPersonService.class);
         }
-        
         return this.kcPersonService;
     }
-    
+
     /**
      * This method specifies the actual class implementing ContactRole
      * @return
      */
-    protected abstract Class<?extends ContactRole> getContactRoleType();
-    
+    protected abstract Class<? extends ContactRole> getContactRoleType();
+
     /**
      * This method specifies the identifier of the actual type implementing ContactRole
      * @return
      */
     protected abstract String getContactRoleTypeIdentifier();
-    
+
     /**
      * @see org.kuali.kra.institutionalProposal.contacts.institutionalProposalContact#refreshContactRole()
      */
     protected ContactRole refreshContactRole() {
         ContactRole role;
-        if(roleCode != null) {
-            role = (ContactRole) getBusinessObjectService().findByPrimaryKey(getContactRoleType(), 
-                                                                             getIdentifierMap(getContactRoleTypeIdentifier(), roleCode));
+        if (roleCode != null) {
+            role = (ContactRole) getBusinessObjectService().findByPrimaryKey(getContactRoleType(), getIdentifierMap(getContactRoleTypeIdentifier(), roleCode));
         } else {
             role = null;
         }
         setContactRole(role);
         return role;
-    }
-    
-    @Override    
-    protected LinkedHashMap<String,Object> toStringMapper() {
-        LinkedHashMap<String,Object> map = super.toStringMapper();
-        map.put("institutionalProposalContactId", institutionalProposalContactId);    
-        map.put("fullName", fullName);
-        map.put("person", person);
-        map.put("rolodex", rolodex);
-        return map;
     }
 
     /**
@@ -453,32 +440,31 @@ public abstract class InstitutionalProposalContact extends InstitutionalProposal
         map.put(identifierField, identifierValue);
         return map;
     }
-    
+
     /*
      * Refreshes the person from the personId
      */
     protected void refreshPerson() {
-        if(personId != null) {
-            if(this.person == null || !personId.equals(this.person.getPersonId())) {
+        if (personId != null) {
+            if (this.person == null || !personId.equals(this.person.getPersonId())) {
                 setPerson(getKcPersonService().getKcPersonByPersonId(personId));
             }
         }
     }
-    
+
     /*
      * Refreshes the rolodex from the rolodexId
      */
     protected void refreshRolodex() {
         NonOrganizationalRolodex rolodex;
-        if(rolodexId != null) {
-            rolodex = (NonOrganizationalRolodex) getBusinessObjectService().findByPrimaryKey(NonOrganizationalRolodex.class, 
-                                                                                                getIdentifierMap(ROLODEX_ID_FIELD_NAME, rolodexId));
+        if (rolodexId != null) {
+            rolodex = (NonOrganizationalRolodex) getBusinessObjectService().findByPrimaryKey(NonOrganizationalRolodex.class, getIdentifierMap(ROLODEX_ID_FIELD_NAME, rolodexId));
         } else {
             rolodex = null;
         }
         setRolodex(rolodex);
     }
-    
+
     /**
      * @see org.kuali.kra.SequenceAssociate#getSequenceOwner()
      */
@@ -486,15 +472,13 @@ public abstract class InstitutionalProposalContact extends InstitutionalProposal
         return getInstitutionalProposal();
     }
 
-//    public Integer getSequenceNumber() {
-//        return getInstitutionalProposal().getSequenceNumber();
-//    }
-
+    //    public Integer getSequenceNumber() {  
+    //        return getInstitutionalProposal().getSequenceNumber();  
+    //    }  
     /**
      * @see org.kuali.kra.SequenceAssociate#setSequenceOwner(org.kuali.kra.SequenceOwner)
      */
     public void setSequenceOwner(InstitutionalProposal newlyVersionedOwner) {
         setInstitutionalProposal((InstitutionalProposal) newlyVersionedOwner);
     }
-
 }

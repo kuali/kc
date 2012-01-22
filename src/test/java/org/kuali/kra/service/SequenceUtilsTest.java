@@ -16,7 +16,8 @@
 package org.kuali.kra.service;
 
 
-import static org.junit.Assert.*;
+import static org.junit.Assert.assertFalse;
+import static org.junit.Assert.assertTrue;
 
 import java.io.Serializable;
 import java.util.ArrayList;
@@ -28,7 +29,6 @@ import org.kuali.kra.SequenceAssociate;
 import org.kuali.kra.SkipVersioning;
 import org.kuali.kra.service.impl.SequenceUtils;
 import org.kuali.kra.service.impl.versioningartifacts.SimpleSequenceOwner;
-import org.kuali.rice.kns.bo.BusinessObject;
 
 /**
  * 

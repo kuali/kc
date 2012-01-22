@@ -46,11 +46,11 @@
                 <c:forEach items="${krafn:getOptionList('org.kuali.kra.award.lookup.keyvalue.ValidAwardBasisPaymentValueFinder', paramMap1)}" var="option">
 	                <c:choose>                    	
 	                	<c:when test="${document.awardList[0].basisOfPaymentCode == option.key}">
-	                        <option value="${option.key}" selected>${option.label}</option>
+	                        <option value="${option.key}" selected>${option.value}</option>
 	                    </c:when>
 	                    <c:otherwise>
-	                        <c:out value="${option.label}"/>
-	                        <option value="${option.key}">${option.label}</option>
+	                        <c:out value="${option.value}"/>
+	                        <option value="${option.key}">${option.value}</option>
 	                    </c:otherwise>
 	                </c:choose>         
 	            </c:forEach>
@@ -75,11 +75,11 @@
                 <c:forEach items="${krafn:getOptionList('org.kuali.kra.award.lookup.keyvalue.ValidMethodOfPaymentValuesFinder', paramMap2)}" var="option">
 	                <c:choose>                    	
 	                	<c:when test="${document.awardList[0].methodOfPaymentCode == option.key}">
-	                        <option value="${option.key}" selected>${option.label}</option>
+	                        <option value="${option.key}" selected>${option.value}</option>
 	                    </c:when>
 	                    <c:otherwise>
-	                        <c:out value="${option.label}"/>
-	                        <option value="${option.key}">${option.label}</option>
+	                        <c:out value="${option.value}"/>
+	                        <option value="${option.key}">${option.value}</option>
 	                    </c:otherwise>
 	                </c:choose>         
 	            </c:forEach>

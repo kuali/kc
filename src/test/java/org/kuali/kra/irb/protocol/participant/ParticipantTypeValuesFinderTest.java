@@ -19,7 +19,7 @@ import java.util.ArrayList;
 import java.util.List;
 
 import org.kuali.kra.keyvalue.ValuesFinderTestBase;
-import org.kuali.rice.core.util.KeyLabelPair;
+import org.kuali.rice.core.api.util.KeyValue;
 
 /**
  * 
@@ -35,8 +35,8 @@ public class ParticipantTypeValuesFinderTest extends ValuesFinderTestBase {
     }
 
     @Override
-    protected List<KeyLabelPair> getKeyValues() {
-        final List<KeyLabelPair> keylabel = new ArrayList<KeyLabelPair>();
+    protected List<KeyValue> getKeyValues() {
+        final List<KeyValue> keylabel = new ArrayList<KeyValue>();
         
         keylabel.add(createKeyValue("", "select"));
         keylabel.add(createKeyValue("1", "Children"));

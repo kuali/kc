@@ -11,6 +11,6 @@ VALUES (KRIM_ROLE_PERM_ID_BS_S.NEXTVAL, SYS_GUID(), '1', (SELECT ROLE_ID FROM KR
 (SELECT PERM_ID FROM KRIM_PERM_T WHERE NM= 'View Coi Restricted Notes'), 'Y')
 /
 --  Creates a system parameter to define the default sort behavior of protocol attachments
-INSERT INTO KRNS_PARM_T (NMSPC_CD,PARM_DTL_TYP_CD,PARM_NM,TXT,PARM_DESC_TXT,PARM_TYP_CD,CONS_CD,APPL_NMSPC_CD,OBJ_ID,VER_NBR) 
+INSERT INTO KRCR_PARM_T (NMSPC_CD,CMPNT_CD,PARM_NM,VAL,PARM_DESC_TXT,PARM_TYP_CD,EVAL_OPRTR_CD,APPL_ID,OBJ_ID,VER_NBR) 
 VALUES ('KC-COIDISCLOSURE','Document','coiAttachmentDefaultSort','LAUP','Default sort for coi disclosure attachments','CONFG','A','KC',sys_guid(),'1')
 /

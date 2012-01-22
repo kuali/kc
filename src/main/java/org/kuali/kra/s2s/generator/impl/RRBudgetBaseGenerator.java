@@ -47,9 +47,9 @@ import org.kuali.kra.s2s.generator.bo.EquipmentInfo;
 import org.kuali.kra.s2s.generator.bo.KeyPersonInfo;
 import org.kuali.kra.s2s.service.S2SBudgetCalculatorService;
 import org.kuali.kra.s2s.service.S2SUtilService;
-import org.kuali.rice.kew.exception.WorkflowException;
-import org.kuali.rice.kns.service.BusinessObjectService;
-import org.kuali.rice.kns.service.DocumentService;
+import org.kuali.rice.kew.api.exception.WorkflowException;
+import org.kuali.rice.krad.service.BusinessObjectService;
+import org.kuali.rice.krad.service.DocumentService;
 
 /**
  * This abstract class has methods that are common to all the versions of
@@ -251,7 +251,7 @@ public abstract class RRBudgetBaseGenerator extends S2SBaseFormGenerator {
         }
         return false;
     }
-   
+
    /**
     * This method check whether the key person has a personnel budget  
     * 

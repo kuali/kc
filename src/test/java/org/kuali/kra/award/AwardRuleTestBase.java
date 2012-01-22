@@ -22,13 +22,14 @@ import org.junit.Before;
 import org.kuali.kra.award.document.AwardDocument;
 import org.kuali.kra.infrastructure.KraServiceLocator;
 import org.kuali.kra.test.infrastructure.KcUnitTestBase;
-import org.kuali.rice.kew.exception.WorkflowException;
-import org.kuali.rice.kns.UserSession;
-import org.kuali.rice.kns.service.DocumentService;
-import org.kuali.rice.kns.util.ErrorMap;
-import org.kuali.rice.kns.util.ErrorMessage;
-import org.kuali.rice.kns.util.GlobalVariables;
-import org.kuali.rice.kns.util.TypedArrayList;
+import org.kuali.rice.kew.api.exception.WorkflowException;
+import org.kuali.rice.kns.util.KNSGlobalVariables;
+import org.kuali.rice.krad.UserSession;
+import org.kuali.rice.krad.service.DocumentService;
+import org.kuali.rice.krad.util.ErrorMessage;
+import org.kuali.rice.krad.util.GlobalVariables;
+import org.kuali.rice.krad.util.MessageMap;
+import org.springframework.util.AutoPopulatingList;
 
 /**
  * Base class for Award business rule tests.
@@ -42,16 +43,16 @@ public abstract class AwardRuleTestBase extends KcUnitTestBase {
     public void setUp() throws Exception {
         super.setUp();
         GlobalVariables.setUserSession(new UserSession("quickstart"));
-        GlobalVariables.setErrorMap(new ErrorMap());
-        GlobalVariables.setAuditErrorMap(new HashMap());
+        GlobalVariables.setMessageMap(new MessageMap());
+        KNSGlobalVariables.setAuditErrorMap(new HashMap());
         documentService = KraServiceLocator.getService(DocumentService.class);
     }
 
     @After
     public void tearDown() throws Exception {
         GlobalVariables.setUserSession(null);
-        GlobalVariables.setErrorMap(null);
-        GlobalVariables.setAuditErrorMap(null);
+        GlobalVariables.setMessageMap(null);
+        KNSGlobalVariables.setAuditErrorMap(null);
         documentService = null;
         super.tearDown();
     }
@@ -74,7 +75,7 @@ public abstract class AwardRuleTestBase extends KcUnitTestBase {
      * @param errorKey
      */
     protected void assertError(String propertyKey, String errorKey) {
-        TypedArrayList errors = GlobalVariables.getErrorMap().getMessages(propertyKey);
+        AutoPopulatingList errors = GlobalVariables.getMessageMap().getMessages(propertyKey);
         assertNotNull(errors);
         assertTrue(errors.size() == 1);
         

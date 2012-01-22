@@ -28,17 +28,13 @@ import java.util.List;
 import java.util.ListIterator;
 import java.util.RandomAccess;
 
-import org.kuali.rice.kns.util.KualiDecimal;
 import org.kuali.kra.budget.BudgetDecimal;
-import org.kuali.kra.budget.calculator.query.And;
 import org.kuali.kra.budget.calculator.query.Equals;
 import org.kuali.kra.budget.calculator.query.GreaterThan;
 import org.kuali.kra.budget.calculator.query.LesserThan;
 import org.kuali.kra.budget.calculator.query.Operator;
-import org.kuali.kra.budget.calculator.query.Or;
 import org.kuali.kra.budget.calculator.query.RelationalOperator;
-import org.kuali.kra.budget.rates.BudgetRate;
-import org.kuali.rice.kns.util.KualiDecimal;
+import org.kuali.rice.core.api.util.type.KualiDecimal;
 
 
 /**

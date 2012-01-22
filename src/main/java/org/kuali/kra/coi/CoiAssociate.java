@@ -61,10 +61,4 @@ public class CoiAssociate extends KraPersistableBusinessObjectBase {
         this.coiDisclosure = coiDisclosure;
     }
 
-
-    @Override
-    protected LinkedHashMap toStringMapper() {
-        // TODO Auto-generated method stub
-        return null;
-    }
 }

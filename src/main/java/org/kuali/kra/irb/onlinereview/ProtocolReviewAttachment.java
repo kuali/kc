@@ -16,10 +16,7 @@
 package org.kuali.kra.irb.onlinereview;
 
 import java.sql.Timestamp;
-import java.util.LinkedHashMap;
 
-import org.apache.ojb.broker.PersistenceBroker;
-import org.apache.ojb.broker.PersistenceBrokerException;
 import org.apache.struts.upload.FormFile;
 import org.kuali.kra.SkipVersioning;
 import org.kuali.kra.bo.AttachmentFile;
@@ -151,12 +148,6 @@ public class ProtocolReviewAttachment extends ProtocolReviewable {
             shouldBeSaved = true;
         }
         this.protocolOnlineReview = protocolOnlineReview;
-    }
-
-    @Override
-    protected LinkedHashMap toStringMapper() {
-        // TODO Auto-generated method stub
-        return null;
     }
 
     public boolean isPrivateFlag() {
@@ -325,9 +316,9 @@ public class ProtocolReviewAttachment extends ProtocolReviewable {
      * beforeUpdate - only do actual update if a change has been made to the comment.
      */
     @Override
-    public void beforeUpdate(PersistenceBroker persistenceBroker) throws PersistenceBrokerException {
+    protected void preUpdate() {
         if (isShouldBeSaved()) {
-            super.beforeUpdate(persistenceBroker);
+            super.preUpdate();
         }
     }
     

@@ -22,7 +22,6 @@ import org.kuali.kra.coi.CoiDisclosureDocument;
 import org.kuali.kra.institutionalproposal.document.InstitutionalProposalDocument;
 import org.kuali.kra.irb.ProtocolDocument;
 import org.kuali.kra.proposaldevelopment.document.ProposalDevelopmentDocument;
-import org.kuali.rice.kns.bo.BusinessObject;
 import org.kuali.rice.kns.maintenance.KualiMaintainableImpl;
 
 /**

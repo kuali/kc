@@ -17,7 +17,6 @@ package org.kuali.kra.irb.personnel;
 
 import java.sql.Date;
 import java.util.ArrayList;
-import java.util.LinkedHashMap;
 import java.util.List;
 
 import org.apache.commons.lang.StringUtils;
@@ -33,92 +32,162 @@ import org.kuali.kra.service.KcPersonService;
 public class ProtocolPerson extends ProtocolAssociate implements PersonEditableInterface {
 
     private static final long serialVersionUID = 3226064839786525909L;
+
     private Integer protocolPersonId;
+
     private String personId;
+
     private String personName;
+
     private String protocolPersonRoleId;
+
     private Integer rolodexId;
+
     private Integer affiliationTypeCode;
+
     private String comments;
 
     private AffiliationType affiliationType;
+
     private ProtocolPersonRole protocolPersonRole;
 
     private ProtocolPersonRolodex rolodex;
 
     private boolean delete;
+
     private boolean trained;
 
     private List<ProtocolUnit> protocolUnits;
+
     private List<ProtocolAttachmentPersonnel> attachmentPersonnels;
 
     private int selectedUnit;
+
     private String previousPersonRoleId;
+
     private transient KcPersonService kcPersonService;
+
     private transient KcPerson kcPerson;
-// editable fields
+
+    // editable fields  
     private String socialSecurityNumber;
+
     private String lastName;
+
     private String firstName;
+
     private String middleName;
+
     private String fullName;
+
     private String priorName;
+
     private String userName;
+
     private String emailAddress;
+
     private Date dateOfBirth;
+
     private Integer age;
+
     private Integer ageByFiscalYear;
+
     private String gender;
+
     private String race;
+
     private String educationLevel;
+
     private String degree;
+
     private String major;
+
     private Boolean handicappedFlag;
+
     private String handicapType;
+
     private Boolean veteranFlag;
+
     private String veteranType;
+
     private String visaCode;
+
     private String visaType;
+
     private Date visaRenewalDate;
+
     private Boolean hasVisa;
+
     private String officeLocation;
+
     private String officePhone;
+
     private String secondaryOfficeLocation;
+
     private String secondaryOfficePhone;
+
     private String school;
+
     private String yearGraduated;
+
     private String directoryDepartment;
+
     private String saluation;
+
     private String countryOfCitizenship;
+
     private String primaryTitle;
+
     private String directoryTitle;
+
     private String homeUnit;
+
     private Boolean facultyFlag;
+
     private Boolean graduateStudentStaffFlag;
+
     private Boolean researchStaffFlag;
+
     private Boolean serviceStaffFlag;
+
     private Boolean supportStaffFlag;
+
     private Boolean otherAcademicGroupFlag;
+
     private Boolean medicalStaffFlag;
+
     private Boolean vacationAccrualFlag;
+
     private Boolean onSabbaticalFlag;
+
     private String idProvided;
+
     private String idVerified;
+
     private String addressLine1;
+
     private String addressLine2;
+
     private String addressLine3;
+
     private String city;
+
     private String county;
+
     private String state;
+
     private String postalCode;
+
     private String countryCode;
+
     private String faxNumber;
+
     private String pagerNumber;
+
     private String mobilePhoneNumber;
+
     private String eraCommonsUserName;
 
-    
-    
     public ProtocolPerson() {
         this.protocolUnits = new ArrayList<ProtocolUnit>();
         this.attachmentPersonnels = new ArrayList<ProtocolAttachmentPersonnel>();
@@ -197,26 +266,13 @@ public class ProtocolPerson extends ProtocolAssociate implements PersonEditableI
         this.protocolPersonRole = protocolPersonRole;
     }
 
-    /**  {@inheritDoc} */
-    @Override
-    protected LinkedHashMap<String, Object> toStringMapper() {
-        LinkedHashMap<String, Object> hashMap = super.toStringMapper();
-        hashMap.put("protocolPersonId", this.getProtocolPersonId());
-        hashMap.put("personId", this.getPersonId());
-        hashMap.put("personName", this.getPersonName());
-        hashMap.put("protocolPersonRoleId", this.getProtocolPersonRoleId());
-        hashMap.put("rolodexId", this.getRolodexId());
-        hashMap.put("affiliationTypeCode", this.getAffiliationTypeCode());
-        return hashMap;
-    }
-
     public KcPerson getPerson() {
-        if (kcPerson == null && this.personId!=null) {
+        if (kcPerson == null && this.personId != null) {
             kcPerson = getKcPersonService().getKcPersonByPersonId(this.personId);
         }
         return kcPerson;
     }
-    
+
     /**
      * Gets the KC Person Service.
      * @return KC Person Service.
@@ -225,7 +281,6 @@ public class ProtocolPerson extends ProtocolAssociate implements PersonEditableI
         if (this.kcPersonService == null) {
             this.kcPersonService = KraServiceLocator.getService(KcPersonService.class);
         }
-        
         return this.kcPersonService;
     }
 
@@ -314,15 +369,14 @@ public class ProtocolPerson extends ProtocolAssociate implements PersonEditableI
     public String getPersonKey() {
         return this.getPersonId() == null ? this.getRolodexId().toString() : this.getPersonId();
     }
-    
+
     /**
      * This method is to build and return a unique key for protocol person.
      * 
      * @return String
      */
     public String getPersonUniqueKey() {
-        return new StringBuilder(this.getPersonId() == null ? this.getRolodexId().toString() : this.getPersonId()).append(
-                this.getProtocolPersonRoleId()).toString();
+        return new StringBuilder(this.getPersonId() == null ? this.getRolodexId().toString() : this.getPersonId()).append(this.getProtocolPersonRoleId()).toString();
     }
 
     public String getPreviousPersonRoleId() {
@@ -340,7 +394,7 @@ public class ProtocolPerson extends ProtocolAssociate implements PersonEditableI
      * @return true / false
      */
     public boolean isNonEmployee() {
-        return this.rolodex != null || (this.rolodexId != null && StringUtils.isNotBlank(this.rolodexId.toString())); 
+        return this.rolodex != null || (this.rolodexId != null && StringUtils.isNotBlank(this.rolodexId.toString()));
     }
 
     /**
@@ -350,7 +404,7 @@ public class ProtocolPerson extends ProtocolAssociate implements PersonEditableI
      */
     public ProtocolUnit getLeadUnit() {
         ProtocolUnit leadUnit = null;
-        for (ProtocolUnit unit : this.getProtocolUnits()) { 
+        for (ProtocolUnit unit : this.getProtocolUnits()) {
             if (unit.getLeadUnitFlag()) {
                 leadUnit = unit;
                 break;
@@ -358,7 +412,7 @@ public class ProtocolPerson extends ProtocolAssociate implements PersonEditableI
         }
         return leadUnit;
     }
-    
+
     /**
      * Gets the attachment personnels. Cannot return {@code null}.
      * @return the attachment personnels
@@ -367,10 +421,9 @@ public class ProtocolPerson extends ProtocolAssociate implements PersonEditableI
         if (this.attachmentPersonnels == null) {
             this.attachmentPersonnels = new ArrayList<ProtocolAttachmentPersonnel>();
         }
-        
         return this.attachmentPersonnels;
     }
-    
+
     public void setAttachmentPersonnels(List<ProtocolAttachmentPersonnel> attachmentPersonnels) {
         this.attachmentPersonnels = attachmentPersonnels;
     }
@@ -388,7 +441,7 @@ public class ProtocolPerson extends ProtocolAssociate implements PersonEditableI
             unit.init(this);
         }
     }
-    
+
     /** {@inheritDoc}  */
     public void resetPersistenceState() {
         this.setProtocolPersonId(null);
@@ -493,24 +546,24 @@ public class ProtocolPerson extends ProtocolAssociate implements PersonEditableI
         }
         return true;
     }
-    
+
     public boolean isPrincipalInvestigator() {
-        if (StringUtils.equals(protocolPersonRoleId , "PI")) {
+        if (StringUtils.equals(protocolPersonRoleId, "PI")) {
             return true;
         } else {
             return false;
         }
     }
-    
+
     public String getLastName() {
-//        if (this.personId!=null) {
-//            return getPerson().geeptLastName();
-//        } else if (getRolodex()!=null) {
-//            return getRolodex().getLastName();
-//        } else {
-//            return null;
-//        }
-          return lastName;
+        //        if (this.personId!=null) {  
+        //            return getPerson().geeptLastName();  
+        //        } else if (getRolodex()!=null) {  
+        //            return getRolodex().getLastName();  
+        //        } else {  
+        //            return null;  
+        //        }  
+        return lastName;
     }
 
     public String getSocialSecurityNumber() {
@@ -980,5 +1033,4 @@ public class ProtocolPerson extends ProtocolAssociate implements PersonEditableI
     public void setLastName(String lastName) {
         this.lastName = lastName;
     }
-    
 }

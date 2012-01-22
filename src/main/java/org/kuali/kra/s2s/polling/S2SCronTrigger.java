@@ -20,18 +20,23 @@ import java.text.SimpleDateFormat;
 import java.util.Calendar;
 import java.util.Date;
 
+import org.apache.commons.lang.StringUtils;
 import org.apache.commons.logging.Log;
 import org.apache.commons.logging.LogFactory;
 import org.kuali.kra.proposaldevelopment.document.ProposalDevelopmentDocument;
-import org.kuali.rice.kns.service.DateTimeService;
-import org.kuali.rice.kns.service.ParameterService;
+import org.kuali.rice.core.api.datetime.DateTimeService;
+import org.kuali.rice.coreservice.framework.parameter.ParameterService;
+import org.springframework.context.ApplicationEvent;
+import org.springframework.context.ApplicationListener;
+import org.springframework.context.event.ContextRefreshedEvent;
+import org.springframework.context.event.ContextStartedEvent;
 import org.springframework.scheduling.quartz.CronTriggerBean;
 
 /**
  * The S2SCronTrigger is needed because we can't inject the Cron Expression from the SpringBeans.xml file. 
  * Rather, we have to retrieve the Cron Expression from the System Parameters.
  */
-public class S2SCronTrigger extends CronTriggerBean {
+public class S2SCronTrigger extends CronTriggerBean implements ApplicationListener {
 
     /**
      * Default Cron expression which is every 20 minutes.
@@ -55,6 +60,8 @@ public class S2SCronTrigger extends CronTriggerBean {
 
     private static final Log LOG = LogFactory.getLog(S2SCronTrigger.class);
 
+    private boolean refreshed = false;
+    
     public DateTimeService getDateTimeService() {
         return dateTimeService;
     }
@@ -76,12 +83,18 @@ public class S2SCronTrigger extends CronTriggerBean {
      * 
      * @see org.springframework.scheduling.quartz.CronTriggerBean#afterPropertiesSet()
      */
-    public void afterPropertiesSet() throws ParseException {
-        setCronExpression(getSystemCronExpression());
-        setStartTime(getS2sCronStartTime());
+    public void afterPropertiesSet() throws Exception {
+        setCronExpression(DEFAULT_CRON_EXPRESSION);
+        setStartTime(getDefaultS2sCronStartTime());
         super.afterPropertiesSet();
     }
 
+    private Date getDefaultS2sCronStartTime() {
+        Calendar today = dateTimeService.getCurrentCalendar();
+        today.add(Calendar.YEAR, 2);
+        return today.getTime();
+    }
+    
     private Date getS2sCronStartTime() {
         String s2sSchedulerEnabled="false";
         Calendar today = dateTimeService.getCurrentCalendar();
@@ -107,11 +120,8 @@ public class S2SCronTrigger extends CronTriggerBean {
      * @return the Cron Expression
      */
     private String getSystemCronExpression() {
-        try {
-            return getParameterValue(this.cronExpressionParameterName);
-        }catch (Exception ex) {
-            return DEFAULT_CRON_EXPRESSION;
-        }
+        String systemCronExpression = getParameterValue(this.cronExpressionParameterName);
+        return (StringUtils.isEmpty(systemCronExpression)) ? DEFAULT_CRON_EXPRESSION : systemCronExpression;
     }
 
     /**
@@ -121,7 +131,7 @@ public class S2SCronTrigger extends CronTriggerBean {
      * @return the parameter's value
      */
     private String getParameterValue(String key) {
-        return this.parameterService.getParameterValue(ProposalDevelopmentDocument.class, key);
+        return this.parameterService.getParameterValueAsString(ProposalDevelopmentDocument.class, key);
     }
 
     /**
@@ -141,5 +151,28 @@ public class S2SCronTrigger extends CronTriggerBean {
     public void setCronExpressionParameterName(String cronExpressionParameterName) {
         this.cronExpressionParameterName = cronExpressionParameterName;
     }
+    
+    /**
+     * FIXME
+     * This is a hack as a result of a rice upgrade to reset the cron expression after it is initialized.
+     * This is because the ParamterService not being available when this Bean is being created by Spring
+     * and lazy-init or depends-on will not work in this case.
+     * {@inheritDoc}
+     */
+    public void onApplicationEvent(ApplicationEvent event) {
+        if (event instanceof ContextStartedEvent && !this.refreshed) {
+            try {
+                final String newExpr = this.getSystemCronExpression();
+                this.refreshed = true;
+                this.setCronExpression(newExpr);
+                this.setStartTime(this.getS2sCronStartTime());
+                LOG.info("refreshing cron expression to [" + newExpr + "].");
+            } catch (ParseException e) {
+                LOG.warn("unable refresh cron expression");
+            }
+        }
+        
+    }
+
 
 }

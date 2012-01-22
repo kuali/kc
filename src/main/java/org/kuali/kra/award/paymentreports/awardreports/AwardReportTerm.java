@@ -13,14 +13,12 @@
  * See the License for the specific language governing permissions and
  * limitations under the License.
  */
-
 package org.kuali.kra.award.paymentreports.awardreports;
 
 import java.sql.Date;
 import java.util.ArrayList;
 import java.util.Collections;
 import java.util.Comparator;
-import java.util.LinkedHashMap;
 import java.util.List;
 
 import org.apache.commons.lang.ObjectUtils;
@@ -38,14 +36,13 @@ import org.kuali.kra.award.paymentreports.Report;
 import org.kuali.kra.award.paymentreports.ReportClass;
 import org.kuali.kra.award.paymentreports.awardreports.reporting.ReportTracking;
 
-
 /**
  * 
  * This class represents the AwardReportTerm business object 
  * 
  */
-public class AwardReportTerm extends AwardAssociate implements GenericAwardReportTerm { 
-    
+public class AwardReportTerm extends AwardAssociate implements GenericAwardReportTerm {
+
     /**
      * Comment for <code>serialVersionUID</code>
      */
@@ -53,45 +50,58 @@ public class AwardReportTerm extends AwardAssociate implements GenericAwardRepor
 
     private Long awardReportTermId;
     private List<ReportTracking> reportTrackings;
-    
-    
-    @AwardSyncableProperty(key=true) 
-    @AwardSyncable( scopes = {AwardTemplateSyncScope.CONTAINING_CLASS_INHERIT} ) 
-    private String reportClassCode; 
-    @AwardSyncableProperty(key=true)
-    @AwardSyncable( scopes = {AwardTemplateSyncScope.CONTAINING_CLASS_INHERIT} ) 
-    private String reportCode; 
-    @AwardSyncableProperty(key=true)
-    @AwardSyncable( scopes = {AwardTemplateSyncScope.CONTAINING_CLASS_INHERIT} ) 
-    private String frequencyCode; 
-    @AwardSyncableProperty(key=true)
-    @AwardSyncable( scopes = {AwardTemplateSyncScope.CONTAINING_CLASS_INHERIT} ) 
-    private String frequencyBaseCode; 
+
+
+    @AwardSyncableProperty(key = true)
+    @AwardSyncable(scopes = { AwardTemplateSyncScope.CONTAINING_CLASS_INHERIT })
+    private String reportClassCode;
+
+    @AwardSyncableProperty(key = true)
+    @AwardSyncable(scopes = { AwardTemplateSyncScope.CONTAINING_CLASS_INHERIT })
+    private String reportCode;
+
+    @AwardSyncableProperty(key = true)
+    @AwardSyncable(scopes = { AwardTemplateSyncScope.CONTAINING_CLASS_INHERIT })
+    private String frequencyCode;
+
+    @AwardSyncableProperty(key = true)
+    @AwardSyncable(scopes = { AwardTemplateSyncScope.CONTAINING_CLASS_INHERIT })
+    private String frequencyBaseCode;
+
     @AwardSyncableProperty
-    @AwardSyncable( scopes = {AwardTemplateSyncScope.CONTAINING_CLASS_INHERIT} ) 
+    @AwardSyncable(scopes = { AwardTemplateSyncScope.CONTAINING_CLASS_INHERIT })
     private String ospDistributionCode;
+
     @AwardSyncableProperty
-    @AwardSyncable( scopes = {AwardTemplateSyncScope.CONTAINING_CLASS_INHERIT} ) 
+    @AwardSyncable(scopes = { AwardTemplateSyncScope.CONTAINING_CLASS_INHERIT })
     private Date dueDate;
 
-    private Distribution distribution; 
-    private @AwardSyncable( scopes = {AwardTemplateSyncScope.CONTAINING_CLASS_INHERIT} ) Frequency frequency; 
-    private @AwardSyncable( scopes = {AwardTemplateSyncScope.CONTAINING_CLASS_INHERIT} ) FrequencyBase frequencyBase; 
-    private @AwardSyncable( scopes = {AwardTemplateSyncScope.CONTAINING_CLASS_INHERIT} ) Report report; 
-    private @AwardSyncable( scopes = {AwardTemplateSyncScope.CONTAINING_CLASS_INHERIT} ) ReportClass reportClass;
+    private Distribution distribution;
+
+    @AwardSyncable(scopes = { AwardTemplateSyncScope.CONTAINING_CLASS_INHERIT })
+    private Frequency frequency;
+
+    @AwardSyncable(scopes = { AwardTemplateSyncScope.CONTAINING_CLASS_INHERIT })
+    private FrequencyBase frequencyBase;
+
+    @AwardSyncable(scopes = { AwardTemplateSyncScope.CONTAINING_CLASS_INHERIT })
+    private Report report;
+
+    @AwardSyncable(scopes = { AwardTemplateSyncScope.CONTAINING_CLASS_INHERIT })
+    private ReportClass reportClass;
 
     @AwardSyncableProperty
-    @AwardSyncableList(parentPropertyName="awardReportTerm",syncClass=AwardReportTermRecipient.class,syncSourceClass=AwardTemplateReportTermRecipient.class,scopes={AwardTemplateSyncScope.CONTAINING_CLASS_INHERIT}) 
+    @AwardSyncableList(parentPropertyName = "awardReportTerm", syncClass = AwardReportTermRecipient.class, syncSourceClass = AwardTemplateReportTermRecipient.class, scopes = { AwardTemplateSyncScope.CONTAINING_CLASS_INHERIT })
     private List<AwardReportTermRecipient> awardReportTermRecipients;
-    
+
     /**
      * 
      * Constructs a AwardReportTerm.java.
      */
     public AwardReportTerm() {
         awardReportTermRecipients = new ArrayList<AwardReportTermRecipient>();
-    } 
-    
+    }
+
     /**
      * 
      * @return
@@ -107,54 +117,26 @@ public class AwardReportTerm extends AwardAssociate implements GenericAwardRepor
     public void setAwardReportTermId(Long awardReportTermId) {
         this.awardReportTermId = awardReportTermId;
     }
-    
-    /**
-     * 
-     * @see org.kuali.core.bo.BusinessObjectBase#toStringMapper()
-     */
-    @Override
-    protected LinkedHashMap<String, Object> toStringMapper() {
-        LinkedHashMap<String,Object> hashMap = new LinkedHashMap<String,Object>();
-        hashMap.put("reportClassCode", getReportClassCode());
-        hashMap.put("reportCode", getReportCode());
-        hashMap.put("frequencyCode", getFrequencyCode());
-        hashMap.put("frequencyBaseCode", getFrequencyBaseCode());
-        hashMap.put("ospDistributionCode", getOspDistributionCode());
-        hashMap.put("dueDate", getDueDate());
-        hashMap.put("awardReportTermId", getAwardReportTermId());        
-        //hashMap.put("awardNumber", getAwardNumber());
-        //hashMap.put("sequenceNumber", getSequenceNumber());
-        return hashMap;
-    }
 
-    
-    class ARTRComparator implements Comparator
-    {    
-        public int compare(Object artr1, Object artr2)
-        {    
-            try
-            {
-                String artr1Desc = ((AwardReportTermRecipient)artr1).getRolodex().getLastName();        
-                String artr2Desc = ((AwardReportTermRecipient)artr2).getRolodex().getLastName();
-                if (artr1Desc == null)
-                {
+    class ARTRComparator implements Comparator {
+
+        public int compare(Object artr1, Object artr2) {
+            try {
+                String artr1Desc = ((AwardReportTermRecipient) artr1).getRolodex().getLastName();
+                String artr2Desc = ((AwardReportTermRecipient) artr2).getRolodex().getLastName();
+                if (artr1Desc == null) {
                     artr1Desc = "";
                 }
-                if (artr2Desc == null)
-                {
+                if (artr2Desc == null) {
                     artr2Desc = "";
                 }
-                return artr1Desc.compareTo(artr2Desc);  
-            }
-            catch (Exception e)
-            {
+                return artr1Desc.compareTo(artr2Desc);
+            } catch (Exception e) {
                 return 0;
             }
         }
-        
     }
-    
-    
+
     /**
      * 
      * 
@@ -187,16 +169,16 @@ public class AwardReportTerm extends AwardAssociate implements GenericAwardRepor
      * @see java.lang.Object#equals(java.lang.Object)
      */
     @Override
-    public boolean equals(Object obj) {        
-        if (this == obj){
+    public boolean equals(Object obj) {
+        if (this == obj) {
             return true;
-        }   
-        if (!super.equals(obj)){
+        }
+        if (!super.equals(obj)) {
             return false;
-        }   
-        if (!(obj instanceof AwardReportTerm)){
+        }
+        if (!(obj instanceof AwardReportTerm)) {
             return false;
-        }   
+        }
         return true;
     }
 
@@ -208,29 +190,21 @@ public class AwardReportTerm extends AwardAssociate implements GenericAwardRepor
      */
     public boolean equalsInitialFields(GenericAwardReportTerm otherReportTerm) {
         boolean isEqual = true;
-
         if (otherReportTerm == null) {
             isEqual = false;
-        }
-        else if (!StringUtils.equals(getReportClassCode(), otherReportTerm.getReportClassCode())) {
+        } else if (!StringUtils.equals(getReportClassCode(), otherReportTerm.getReportClassCode())) {
             isEqual = false;
-        } 
-        else if (!StringUtils.equals(getReportCode(), otherReportTerm.getReportCode())) {
-                isEqual = false;
-        }
-        else if (!StringUtils.equals(getFrequencyCode(), otherReportTerm.getFrequencyCode())) {
+        } else if (!StringUtils.equals(getReportCode(), otherReportTerm.getReportCode())) {
             isEqual = false;
-        }
-        else if (!StringUtils.equals(getFrequencyBaseCode(), otherReportTerm.getFrequencyBaseCode())) {
+        } else if (!StringUtils.equals(getFrequencyCode(), otherReportTerm.getFrequencyCode())) {
             isEqual = false;
-        }
-        else if (!StringUtils.equals(getOspDistributionCode(), otherReportTerm.getOspDistributionCode())) {
+        } else if (!StringUtils.equals(getFrequencyBaseCode(), otherReportTerm.getFrequencyBaseCode())) {
+            isEqual = false;
+        } else if (!StringUtils.equals(getOspDistributionCode(), otherReportTerm.getOspDistributionCode())) {
+            isEqual = false;
+        } else if (!ObjectUtils.equals(getDueDate(), otherReportTerm.getDueDate())) {
             isEqual = false;
         }
-        else if (!ObjectUtils.equals(getDueDate(), otherReportTerm.getDueDate())) {
-            isEqual = false;
-        }
-        
         return isEqual;
     }
 
@@ -423,5 +397,5 @@ public class AwardReportTerm extends AwardAssociate implements GenericAwardRepor
 
     public void setReportTrackings(List<ReportTracking> reportTrackings) {
         this.reportTrackings = reportTrackings;
-    }   
+    }
 }

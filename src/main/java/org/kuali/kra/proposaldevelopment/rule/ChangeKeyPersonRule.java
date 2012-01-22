@@ -16,12 +16,12 @@
 package org.kuali.kra.proposaldevelopment.rule;
 
 import org.kuali.kra.proposaldevelopment.bo.ProposalPerson;
-import org.kuali.rice.kns.bo.BusinessObject;
+import org.kuali.rice.krad.bo.BusinessObject;
 
 /**
  * Interface for rule implementations to go from where an action changes a <code>{@link ProposalPerson}</code>
  */
-public interface ChangeKeyPersonRule {
+public interface ChangeKeyPersonRule extends org.kuali.rice.krad.rules.rule.BusinessRule {
 
     /**
      * To process Change event business rules for <code>{@link ProposalPerson}</code> instances. Any <code>{@link BusinessObject}</code>

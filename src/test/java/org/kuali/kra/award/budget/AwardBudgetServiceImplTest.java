@@ -31,7 +31,8 @@ import org.kuali.kra.proposaldevelopment.bo.DevelopmentProposal;
 import org.kuali.kra.proposaldevelopment.budget.bo.ProposalDevelopmentBudgetExt;
 import org.kuali.kra.proposaldevelopment.document.ProposalDevelopmentDocument;
 import org.kuali.kra.test.infrastructure.KcUnitTestBase;
-import org.kuali.rice.kns.service.impl.BusinessObjectServiceImpl;
+import org.kuali.rice.krad.bo.BusinessObject;
+import org.kuali.rice.krad.service.impl.BusinessObjectServiceImpl;
 
 public class AwardBudgetServiceImplTest extends KcUnitTestBase {
 
@@ -106,21 +107,23 @@ public class AwardBudgetServiceImplTest extends KcUnitTestBase {
     
     class MyBOService extends BusinessObjectServiceImpl {
         public MyBOService() { }
-        public Object findBySinglePrimaryKey(Class clazz, Object value) {
+        
+        @Override
+        public <T extends BusinessObject> T findBySinglePrimaryKey(Class<T> clazz, Object value) {
             if (clazz == DevelopmentProposal.class) {
                 assertEquals(devProposalNumber, value);
                 DevelopmentProposal temp = new DevelopmentProposal();
                 ProposalDevelopmentDocument doc = new ProposalDevelopmentDocument();
                 doc.setDocumentNumber(devPropDocNumber);
                 temp.setProposalDocument(doc);
-                return temp;
+                return (T) temp;
             } else if (clazz == ProposalDevelopmentBudgetExt.class) {
                 assertEquals(budgetId, value);
                 ProposalDevelopmentBudgetExt temp = new ProposalDevelopmentBudgetExt();
                 temp.add(new BudgetPeriod());
                 temp.add(new BudgetPeriod());
                 temp.setFinalVersionFlag(true);
-                return temp;
+                return (T) temp;
             } else {
                 return null;
             }

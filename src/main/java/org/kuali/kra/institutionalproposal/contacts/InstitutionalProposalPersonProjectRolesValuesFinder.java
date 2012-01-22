@@ -29,8 +29,9 @@ import org.kuali.kra.institutionalproposal.web.struts.form.InstitutionalProposal
 import org.kuali.kra.proposaldevelopment.bo.ProposalPersonRole;
 import org.kuali.kra.proposaldevelopment.service.KeyPersonnelService;
 import org.kuali.kra.service.Sponsorable;
-import org.kuali.rice.kns.util.GlobalVariables;
-import org.kuali.rice.core.util.KeyLabelPair;
+import org.kuali.rice.core.api.util.ConcreteKeyValue;
+import org.kuali.rice.core.api.util.KeyValue;
+import org.kuali.rice.kns.util.KNSGlobalVariables;
 
 /**
  * This class...
@@ -41,13 +42,13 @@ public class InstitutionalProposalPersonProjectRolesValuesFinder extends Institu
 
     public List getKeyValues() {
         @SuppressWarnings("unchecked") final Collection<ProposalPersonRole> roles = getKeyValuesService().findAll(ProposalPersonRole.class);
-        final InstitutionalProposalDocument institutionalProposalDocument = ((InstitutionalProposalForm) GlobalVariables.getKualiForm()).getInstitutionalProposalDocument();
+        final InstitutionalProposalDocument institutionalProposalDocument = ((InstitutionalProposalForm) KNSGlobalVariables.getKualiForm()).getInstitutionalProposalDocument();
 
         Sponsorable sponsorable = institutionalProposalDocument.getInstitutionalProposal();
         Map<String, String> roleDescriptions = getKeyPersonnelService().loadKeyPersonnelRoleDescriptions(sponsorable.isSponsorNihMultiplePi());
 
-        List<KeyLabelPair> keyValues = new ArrayList<KeyLabelPair>();
-        keyValues.add(new KeyLabelPair("", "select"));
+        List<KeyValue> keyValues = new ArrayList<KeyValue>();
+        keyValues.add(new ConcreteKeyValue("", "select"));
         for (ProposalPersonRole role : roles) {
             boolean showRole = true;
 
@@ -61,7 +62,7 @@ public class InstitutionalProposalPersonProjectRolesValuesFinder extends Institu
 
             if (showRole) {
                 String roleDescription =  roleDescriptions.get(role.getRoleCode());
-                keyValues.add(new KeyLabelPair(role.getProposalPersonRoleId(), roleDescription));
+                keyValues.add(new ConcreteKeyValue(role.getProposalPersonRoleId(), roleDescription));
                 info("Added role ", role.getProposalPersonRoleId());
                 info("With description ", roleDescription);
             }

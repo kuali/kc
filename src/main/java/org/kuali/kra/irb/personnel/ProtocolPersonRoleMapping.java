@@ -15,88 +15,68 @@
  */
 package org.kuali.kra.irb.personnel;
 
-import java.util.LinkedHashMap;
-
 import org.kuali.kra.bo.KraPersistableBusinessObjectBase;
 
 /**
  * This class represents protocol person role mapping business object
  */
-public class ProtocolPersonRoleMapping extends KraPersistableBusinessObjectBase { 
-	
-	/**
+public class ProtocolPersonRoleMapping extends KraPersistableBusinessObjectBase {
+
+    /**
      * Comment for <code>serialVersionUID</code>
      */
     private static final long serialVersionUID = -4525940858799917386L;
-    private Integer roleMappingId; 
-    private String sourceRoleId; 
-    private String targetRoleId; 
+
+    private Integer roleMappingId;
+
+    private String sourceRoleId;
+
+    private String targetRoleId;
+
     private ProtocolPersonRole sourceRole;
+
     private ProtocolPersonRole targetRole;
-    
-	public ProtocolPersonRoleMapping() { 
 
-	} 
-	
-
-	public Integer getRoleMappingId() {
-        return roleMappingId;
+    public ProtocolPersonRoleMapping() {
     }
 
+    public Integer getRoleMappingId() {
+        return roleMappingId;
+    }
 
     public void setRoleMappingId(Integer roleMappingId) {
         this.roleMappingId = roleMappingId;
     }
 
-
     public String getSourceRoleId() {
         return sourceRoleId;
     }
-
 
     public void setSourceRoleId(String sourceRoleId) {
         this.sourceRoleId = sourceRoleId;
     }
 
-
     public String getTargetRoleId() {
         return targetRoleId;
     }
-
 
     public void setTargetRoleId(String targetRoleId) {
         this.targetRoleId = targetRoleId;
     }
 
-
-    @Override 
-	protected LinkedHashMap<String,Object> toStringMapper() {
-		LinkedHashMap<String,Object> hashMap = new LinkedHashMap<String,Object>();
-		hashMap.put("roleMappingId", getRoleMappingId());
-		hashMap.put("sourceRoleId", getSourceRoleId());
-        hashMap.put("targetRoleId", getTargetRoleId());
-		return hashMap;
-	}
-
-
     public ProtocolPersonRole getSourceRole() {
         return sourceRole;
     }
-
 
     public void setSourceRole(ProtocolPersonRole sourceRole) {
         this.sourceRole = sourceRole;
     }
 
-
     public ProtocolPersonRole getTargetRole() {
         return targetRole;
     }
 
-
     public void setTargetRole(ProtocolPersonRole targetRole) {
         this.targetRole = targetRole;
     }
-
-	
 }

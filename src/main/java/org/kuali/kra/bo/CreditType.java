@@ -15,7 +15,6 @@
  */
 package org.kuali.kra.bo;
 
-import java.util.LinkedHashMap;
 
 /**
  * Class representation of the Credit Type Business Object
@@ -23,46 +22,48 @@ import java.util.LinkedHashMap;
  * $Id: CreditType.java,v 1.2 2008-07-23 19:16:44 gmcgrego Exp $
  */
 public class CreditType extends KraPersistableBusinessObjectBase {
-	
-	private String creditTypeCode;
+
+    private String creditTypeCode;
+
     private Boolean addsToHundred;
-	private String description;
-	
+
+    private String description;
+
     /**
      * Retrieves the description attribute
      * 
      * @return String
      */
-	public String getDescription() {
-		return description;
-	}
-    
+    public String getDescription() {
+        return description;
+    }
+
     /**
      * Assigns the description attribute
      *
      * @param description
      */
-	public void setDescription(String description) {
-		this.description = description;
-	}
+    public void setDescription(String description) {
+        this.description = description;
+    }
 
     /**
      * Retrieves the credit type code attribute from the credit type bo
      *
      * @return String
      */
-	public String getCreditTypeCode() {
-		return creditTypeCode;
-	}
-    
+    public String getCreditTypeCode() {
+        return creditTypeCode;
+    }
+
     /**
      * Assigns the credit type code attribute to the credit type bo
      *
      * @param creditTypeCode
      */
-	public void setCreditTypeCode(String creditTypeCode) {
-		this.creditTypeCode = creditTypeCode;
-	}
+    public void setCreditTypeCode(String creditTypeCode) {
+        this.creditTypeCode = creditTypeCode;
+    }
 
     /**
      * Gets the value of addsToHundred
@@ -80,16 +81,5 @@ public class CreditType extends KraPersistableBusinessObjectBase {
      */
     public final void setAddsToHundred(final Boolean argAddsToHundred) {
         this.addsToHundred = argAddsToHundred;
-    }    
-
-	@Override
-	protected LinkedHashMap toStringMapper() {
-		LinkedHashMap propMap = new LinkedHashMap();
-		propMap.put("creditTypeCode", this.getCreditTypeCode());
-		propMap.put("description", this.getDescription());
-		propMap.put("addsToHundred", this.isAddsToHundred());
-		propMap.put("updateTimestamp", this.getUpdateTimestamp());
-		propMap.put("updateUser", this.getUpdateUser());
-		return propMap;
-	}
+    }
 }

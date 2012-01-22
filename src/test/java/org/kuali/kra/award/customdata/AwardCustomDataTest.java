@@ -19,7 +19,6 @@ import org.junit.After;
 import org.junit.Assert;
 import org.junit.Before;
 import org.junit.Test;
-import org.kuali.kra.award.customdata.AwardCustomData;
 import org.kuali.kra.award.home.Award;
 
 /**
@@ -58,7 +57,7 @@ public class AwardCustomDataTest {
      */
     @Test
     public void testAwardCostShareBoAttributesCount() throws Exception {              
-        Assert.assertEquals(AWARD_CUSTOM_DATA_ATTRIBUTES_COUNT, awardCustomDataBo.toStringMapper().size());
+        Assert.assertEquals(AWARD_CUSTOM_DATA_ATTRIBUTES_COUNT, awardCustomDataBo.getClass().getFields().length);
     }
     
 }

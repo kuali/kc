@@ -24,7 +24,7 @@ import org.kuali.kra.infrastructure.KeyConstants;
 import org.kuali.kra.infrastructure.KraServiceLocator;
 import org.kuali.kra.rules.KraMaintenanceDocumentRuleBase;
 import org.kuali.rice.kns.document.MaintenanceDocument;
-import org.kuali.rice.kns.service.BusinessObjectService;
+import org.kuali.rice.krad.service.BusinessObjectService;
 
 /**
  * 
@@ -51,7 +51,7 @@ public class FinEntitiesDataGroupMaintenanceDocumentRule  extends KraMaintenance
     private boolean checkUniqueness(MaintenanceDocument document) {
         boolean isValid = true;
         
-        FinEntitiesDataGroup newFinEntitiesDataGroup = (FinEntitiesDataGroup) document.getNewMaintainableObject().getBusinessObject();
+        FinEntitiesDataGroup newFinEntitiesDataGroup = (FinEntitiesDataGroup) document.getNewMaintainableObject().getDataObject();
         
         isValid &= checkSortIdUniqueness(newFinEntitiesDataGroup);
         isValid &= checkGroupNameUniqueness(newFinEntitiesDataGroup);

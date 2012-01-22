@@ -20,8 +20,8 @@ import org.apache.commons.logging.Log;
 import org.apache.commons.logging.LogFactory;
 import org.kuali.kra.proposaldevelopment.rule.ResubmissionPromptRule;
 import org.kuali.kra.rule.event.KraDocumentEventBase;
-import org.kuali.rice.kns.document.Document;
-import org.kuali.rice.kns.rule.BusinessRule;
+import org.kuali.rice.krad.document.Document;
+import org.kuali.rice.krad.rules.rule.BusinessRule;
 
 /**
  * Defines the event of validating the options for Proposal Development resubmission.
@@ -50,7 +50,7 @@ public class ResubmissionRuleEvent extends KraDocumentEventBase {
 
     /**
      * {@inheritDoc}
-     * @see org.kuali.rice.kns.rule.event.KualiDocumentEvent#invokeRuleMethod(org.kuali.rice.kns.rule.BusinessRule)
+     * @see org.kuali.rice.krad.rules.rule.event.KualiDocumentEvent#invokeRuleMethod(org.kuali.rice.krad.rules.rule.BusinessRule)
      */
     public boolean invokeRuleMethod(BusinessRule rule) {
         return ((ResubmissionPromptRule) rule).processResubmissionPromptBusinessRules(this);

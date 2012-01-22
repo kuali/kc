@@ -35,8 +35,6 @@ import org.kuali.kra.questionnaire.QuestionnaireHelperBase;
 import org.kuali.kra.questionnaire.answer.Answer;
 import org.kuali.kra.questionnaire.answer.AnswerHeader;
 import org.kuali.kra.questionnaire.answer.ModuleQuestionnaireBean;
-import org.kuali.kra.service.TaskAuthorizationService;
-import org.kuali.rice.kns.util.GlobalVariables;
 
 /**
  * 

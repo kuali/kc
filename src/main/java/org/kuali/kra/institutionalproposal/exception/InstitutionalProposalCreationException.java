@@ -15,7 +15,7 @@
  */
 package org.kuali.kra.institutionalproposal.exception;
 
-import org.kuali.rice.kns.exception.KualiException;
+import org.kuali.rice.core.api.exception.KualiException;
 
 public class InstitutionalProposalCreationException extends KualiException {
 

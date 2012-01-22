@@ -15,12 +15,11 @@
  */
 package org.kuali.kra.common.notification.bo;
 
-import java.util.LinkedHashMap;
 import java.util.List;
 
 import org.kuali.kra.bo.CoeusModule;
 import org.kuali.kra.bo.KraPersistableBusinessObjectBase;
-import org.kuali.rice.kns.util.TypedArrayList;
+import org.springframework.util.AutoPopulatingList;
 
 /**
  * Defines the template for Notifications.
@@ -41,7 +40,7 @@ public class NotificationType extends KraPersistableBusinessObjectBase {
     private CoeusModule coeusModule;
     
     @SuppressWarnings("unchecked")
-    private List<NotificationTypeRecipient> notificationTypeRecipients = new TypedArrayList(NotificationTypeRecipient.class);
+    private List<NotificationTypeRecipient> notificationTypeRecipients = new AutoPopulatingList<NotificationTypeRecipient>(NotificationTypeRecipient.class);
 
     public Long getNotificationTypeId() {
         return notificationTypeId;
@@ -98,7 +97,7 @@ public class NotificationType extends KraPersistableBusinessObjectBase {
     public void setPromptUser(boolean promptUser) {
         this.promptUser = promptUser;
     }
-    
+
     public boolean getSendNotification() {
         return sendNotification;
     }
@@ -122,28 +121,14 @@ public class NotificationType extends KraPersistableBusinessObjectBase {
     public void setNotificationTypeRecipients(List<NotificationTypeRecipient> notificationTypeRecipients) {
         this.notificationTypeRecipients = notificationTypeRecipients;
     }
-    
+
     @Override
     public List buildListOfDeletionAwareLists() {
         List deleteAwareList = super.buildListOfDeletionAwareLists();
         deleteAwareList.add(getNotificationTypeRecipients());
         return deleteAwareList;
     }
-
-    @Override
-    protected LinkedHashMap<String, Object> toStringMapper() {
-        LinkedHashMap<String, Object> propMap = new LinkedHashMap<String, Object>();
-        propMap.put("notificationTypeId", getNotificationTypeId());
-        propMap.put("moduleCode", getModuleCode());
-        propMap.put("actionCode", getActionCode());
-        propMap.put("description", getDescription());
-        propMap.put("subject", getSubject());
-        propMap.put("message", getMessage());
-        propMap.put("promptUser", getPromptUser());
-        propMap.put("sendNotification", getSendNotification());
-        return propMap;
-    }
-
+    
     @Override
     public int hashCode() {
         final int prime = 31;

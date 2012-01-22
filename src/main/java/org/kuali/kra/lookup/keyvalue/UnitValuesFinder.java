@@ -21,9 +21,10 @@ import java.util.List;
 
 import org.kuali.kra.bo.Unit;
 import org.kuali.kra.infrastructure.KraServiceLocator;
-import org.kuali.rice.core.util.KeyLabelPair;
-import org.kuali.rice.kns.lookup.keyvalues.KeyValuesBase;
-import org.kuali.rice.kns.service.KeyValuesService;
+import org.kuali.rice.core.api.util.ConcreteKeyValue;
+import org.kuali.rice.core.api.util.KeyValue;
+import org.kuali.rice.krad.keyvalues.KeyValuesBase;
+import org.kuali.rice.krad.service.KeyValuesService;
 
 public class UnitValuesFinder extends KeyValuesBase {
 
@@ -40,17 +41,17 @@ public class UnitValuesFinder extends KeyValuesBase {
      * is always &lt;"", "select:"&gt;.
      * @see org.kuali.core.lookup.keyvalues.KeyValuesFinder#getKeyValues()
      */
-    public List<KeyLabelPair> getKeyValues() {
+    public List<KeyValue> getKeyValues() {
         KeyValuesService keyValuesService = (KeyValuesService) KraServiceLocator.getService("keyValuesService");
         Collection<Unit> unites = keyValuesService.findAll(Unit.class);
-        List<KeyLabelPair> keyValues = new ArrayList<KeyLabelPair>();
-        keyValues.add(new KeyLabelPair("", "select"));
+        List<KeyValue> keyValues = new ArrayList<KeyValue>();
+        keyValues.add(new ConcreteKeyValue("", "select"));
         for (Unit unit : unites){
-            keyValues.add(new KeyLabelPair(unit.getUnitNumber(), unit.getUnitName()));
+            keyValues.add(new ConcreteKeyValue(unit.getUnitNumber(), unit.getUnitName()));
         }
         /*
         for (KimRoleType roleType : roleTypes) {
-            keyValues.add(new KeyLabelPair(roleType.getRoleTypeCode(), roleType.getDescription()));
+            keyValues.add(new ConcreteKeyValue(roleType.getRoleTypeCode(), roleType.getDescription()));
         }*/
         return keyValues;
     }

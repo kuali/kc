@@ -15,28 +15,28 @@
  */
 package org.kuali.kra.institutionalproposal.home;
 
-import java.util.LinkedHashMap;
-
 import org.kuali.kra.SequenceAssociate;
 import org.kuali.kra.SequenceOwner;
 import org.kuali.kra.bo.AbstractScienceKeyword;
 import org.kuali.kra.bo.ScienceKeyword;
 
-public class InstitutionalProposalScienceKeyword extends AbstractScienceKeyword implements SequenceAssociate { 
-    
+public class InstitutionalProposalScienceKeyword extends AbstractScienceKeyword implements SequenceAssociate {
+
     private static final long serialVersionUID = 1L;
 
     private Long proposalScienceKeywordId;
+
     private Boolean selectKeyword = false;
 
-    private String proposalNumber; 
-    private Integer sequenceNumber; 
-    private InstitutionalProposal institutionalProposal;
-    
-    public InstitutionalProposalScienceKeyword() { 
+    private String proposalNumber;
 
-    } 
-    
+    private Integer sequenceNumber;
+
+    private InstitutionalProposal institutionalProposal;
+
+    public InstitutionalProposalScienceKeyword() {
+    }
+
     /**
      * Constructs a PropScienceKeyword.
      * @param proposalNumber
@@ -48,26 +48,13 @@ public class InstitutionalProposalScienceKeyword extends AbstractScienceKeyword 
         setScienceKeywordCode(scienceKeyword.getScienceKeywordCode());
         setScienceKeyword(scienceKeyword);
     }
-    
+
     public Long getProposalScienceKeywordId() {
         return proposalScienceKeywordId;
     }
 
     public void setProposalScienceKeywordId(Long proposalScienceKeywordId) {
         this.proposalScienceKeywordId = proposalScienceKeywordId;
-    }
-
-
-    /** {@inheritDoc} */
-    @Override 
-    protected LinkedHashMap<String, Object> toStringMapper() {
-        LinkedHashMap<String, Object> hashMap = new LinkedHashMap<String, Object>();
-        hashMap.put("proposalScienceKeywordId", this.getProposalScienceKeywordId());
-        hashMap.put("proposalNumber", this.getProposalNumber());
-        hashMap.put("sequenceNumber", this.getSequenceNumber());
-        hashMap.put("institutionalProposal", this.getInstitutionalProposal());
-        hashMap.put("scienceKeywordCode", this.getScienceKeywordCode());
-        return hashMap;
     }
 
     /**
@@ -116,7 +103,7 @@ public class InstitutionalProposalScienceKeyword extends AbstractScienceKeyword 
      */
     public void setInstitutionalProposal(InstitutionalProposal institutionalProposal) {
         this.institutionalProposal = institutionalProposal;
-        if(institutionalProposal != null) {
+        if (institutionalProposal != null) {
             setSequenceNumber(institutionalProposal.getSequenceNumber());
             setProposalNumber(institutionalProposal.getProposalNumber());
         } else {
@@ -124,7 +111,7 @@ public class InstitutionalProposalScienceKeyword extends AbstractScienceKeyword 
             setProposalNumber("");
         }
     }
-    
+
     /**
      * Gets the selectKeyword attribute. 
      * @return Returns the selectKeyword.
@@ -140,7 +127,7 @@ public class InstitutionalProposalScienceKeyword extends AbstractScienceKeyword 
     public void setSelectKeyword(Boolean selectKeyword) {
         this.selectKeyword = selectKeyword;
     }
-    
+
     /**
      * @see org.kuali.kra.SequenceAssociate#getSequenceOwner()
      */
@@ -161,5 +148,4 @@ public class InstitutionalProposalScienceKeyword extends AbstractScienceKeyword 
     public void resetPersistenceState() {
         this.proposalScienceKeywordId = null;
     }
-    
 }

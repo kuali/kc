@@ -16,7 +16,6 @@
 package org.kuali.kra.award.home;
 
 import java.sql.Date;
-import java.util.LinkedHashMap;
 import java.util.List;
 
 import org.apache.commons.lang.ObjectUtils;
@@ -27,57 +26,54 @@ import org.kuali.kra.award.paymentreports.Report;
 import org.kuali.kra.award.paymentreports.ReportClass;
 import org.kuali.kra.award.paymentreports.awardreports.GenericAwardReportTerm;
 import org.kuali.kra.bo.KraPersistableBusinessObjectBase;
-import org.kuali.rice.kns.util.TypedArrayList;
+import org.springframework.util.AutoPopulatingList;
 
-public class AwardTemplateReportTerm extends KraPersistableBusinessObjectBase implements GenericAwardReportTerm { 
-	
-	/**
+public class AwardTemplateReportTerm extends KraPersistableBusinessObjectBase implements GenericAwardReportTerm {
+
+    /**
      * Comment for <code>serialVersionUID</code>
      */
     private static final long serialVersionUID = -2410943921568581512L;
-    private Integer templateReportTermId; 
+
+    private Integer templateReportTermId;
+
     private AwardTemplate awardTemplate;
-	private List<AwardTemplateReportTermRecipient> awardTemplateReportTermRecipients;
-	
-    private String reportClassCode; 
-    private String reportCode; 
-    private String frequencyCode; 
-    private String frequencyBaseCode; 
+
+    private List<AwardTemplateReportTermRecipient> awardTemplateReportTermRecipients;
+
+    private String reportClassCode;
+
+    private String reportCode;
+
+    private String frequencyCode;
+
+    private String frequencyBaseCode;
+
     private String ospDistributionCode;
+
     private Date dueDate;
 
-    private Distribution distribution; 
-    private Frequency frequency; 
-    private FrequencyBase frequencyBase; 
-    private Report report; 
+    private Distribution distribution;
+
+    private Frequency frequency;
+
+    private FrequencyBase frequencyBase;
+
+    private Report report;
+
     private ReportClass reportClass;
 
-	
-	public AwardTemplateReportTerm() { 
-	    awardTemplateReportTermRecipients = new TypedArrayList(AwardTemplateReportTermRecipient.class);
-	} 
-	
-	public Integer getTemplateReportTermId() {
-		return templateReportTermId;
-	}
+    public AwardTemplateReportTerm() {
+        awardTemplateReportTermRecipients = new AutoPopulatingList<AwardTemplateReportTermRecipient>(AwardTemplateReportTermRecipient.class);
+    }
 
-	public void setTemplateReportTermId(Integer templateReportTermId) {
-		this.templateReportTermId = templateReportTermId;
-	}
+    public Integer getTemplateReportTermId() {
+        return templateReportTermId;
+    }
 
-	@SuppressWarnings("unchecked")
-    @Override 
-	protected LinkedHashMap toStringMapper() {
-		LinkedHashMap hashMap = new LinkedHashMap();
-		hashMap.put("templateReportTermId", getTemplateReportTermId());
-		hashMap.put("reportClassCode", getReportClassCode());
-		hashMap.put("reportCode", getReportCode());
-		hashMap.put("frequencyCode", getFrequencyCode());
-		hashMap.put("frequencyBaseCode", getFrequencyBaseCode());
-		hashMap.put("ospDistributionCode", getOspDistributionCode());
-		hashMap.put("dueDate", getDueDate());
-		return hashMap;
-	}
+    public void setTemplateReportTermId(Integer templateReportTermId) {
+        this.templateReportTermId = templateReportTermId;
+    }
 
     /**
      * Gets the awardTemplateReportTermRecipients attribute. 
@@ -94,7 +90,6 @@ public class AwardTemplateReportTerm extends KraPersistableBusinessObjectBase im
     public void setAwardTemplateReportTermRecipients(List<AwardTemplateReportTermRecipient> awardTemplateReportTermRecipients) {
         this.awardTemplateReportTermRecipients = awardTemplateReportTermRecipients;
     }
-
 
     /**
      * Gets the reportClassCode attribute. 
@@ -325,100 +320,57 @@ public class AwardTemplateReportTerm extends KraPersistableBusinessObjectBase im
      */
     @Override
     public boolean equals(Object obj) {
-        if (this == obj)
-            return true;
-        if (obj == null)
-            return false;
-        if (getClass() != obj.getClass())
-            return false;
+        if (this == obj) return true;
+        if (obj == null) return false;
+        if (getClass() != obj.getClass()) return false;
         AwardTemplateReportTerm other = (AwardTemplateReportTerm) obj;
-        if (!awardTemplate.equals(other.awardTemplate))
-            return false;
+        if (!awardTemplate.equals(other.awardTemplate)) return false;
         if (awardTemplateReportTermRecipients == null) {
-            if (other.awardTemplateReportTermRecipients != null)
-                return false;
-        }
-        else if (!awardTemplateReportTermRecipients.equals(other.awardTemplateReportTermRecipients))
-            return false;
+            if (other.awardTemplateReportTermRecipients != null) return false;
+        } else if (!awardTemplateReportTermRecipients.equals(other.awardTemplateReportTermRecipients)) return false;
         if (distribution == null) {
-            if (other.distribution != null)
-                return false;
-        }
-        else if (!distribution.equals(other.distribution))
-            return false;
+            if (other.distribution != null) return false;
+        } else if (!distribution.equals(other.distribution)) return false;
         if (dueDate == null) {
-            if (other.dueDate != null)
-                return false;
-        }
-        else if (!dueDate.equals(other.dueDate))
-            return false;
+            if (other.dueDate != null) return false;
+        } else if (!dueDate.equals(other.dueDate)) return false;
         if (frequency == null) {
-            if (other.frequency != null)
-                return false;
-        }
-        else if (!frequency.equals(other.frequency))
-            return false;
+            if (other.frequency != null) return false;
+        } else if (!frequency.equals(other.frequency)) return false;
         if (frequencyBase == null) {
-            if (other.frequencyBase != null)
-                return false;
-        }
-        else if (!frequencyBase.equals(other.frequencyBase))
-            return false;
+            if (other.frequencyBase != null) return false;
+        } else if (!frequencyBase.equals(other.frequencyBase)) return false;
         if (frequencyBaseCode == null) {
-            if (other.frequencyBaseCode != null)
-                return false;
-        }
-        else if (!frequencyBaseCode.equals(other.frequencyBaseCode))
-            return false;
+            if (other.frequencyBaseCode != null) return false;
+        } else if (!frequencyBaseCode.equals(other.frequencyBaseCode)) return false;
         if (frequencyCode == null) {
-            if (other.frequencyCode != null)
-                return false;
-        }
-        else if (!frequencyCode.equals(other.frequencyCode))
-            return false;
+            if (other.frequencyCode != null) return false;
+        } else if (!frequencyCode.equals(other.frequencyCode)) return false;
         if (ospDistributionCode == null) {
-            if (other.ospDistributionCode != null)
-                return false;
-        }
-        else if (!ospDistributionCode.equals(other.ospDistributionCode))
-            return false;
+            if (other.ospDistributionCode != null) return false;
+        } else if (!ospDistributionCode.equals(other.ospDistributionCode)) return false;
         if (report == null) {
-            if (other.report != null)
-                return false;
-        }
-        else if (!report.equals(other.report))
-            return false;
+            if (other.report != null) return false;
+        } else if (!report.equals(other.report)) return false;
         if (reportClass == null) {
-            if (other.reportClass != null)
-                return false;
-        }
-        else if (!reportClass.equals(other.reportClass))
-            return false;
+            if (other.reportClass != null) return false;
+        } else if (!reportClass.equals(other.reportClass)) return false;
         if (reportClassCode == null) {
-            if (other.reportClassCode != null)
-                return false;
-        }
-        else if (!reportClassCode.equals(other.reportClassCode))
-            return false;
+            if (other.reportClassCode != null) return false;
+        } else if (!reportClassCode.equals(other.reportClassCode)) return false;
         if (reportCode == null) {
-            if (other.reportCode != null)
-                return false;
-        }
-        else if (!reportCode.equals(other.reportCode))
-            return false;
+            if (other.reportCode != null) return false;
+        } else if (!reportCode.equals(other.reportCode)) return false;
         if (templateReportTermId == null) {
-            if (other.templateReportTermId != null)
-                return false;
-        }
-        else if (!templateReportTermId.equals(other.templateReportTermId))
-            return false;
+            if (other.templateReportTermId != null) return false;
+        } else if (!templateReportTermId.equals(other.templateReportTermId)) return false;
         return true;
     }
-    
+
     @SuppressWarnings("unchecked")
     @Override
     public List buildListOfDeletionAwareLists() {
-        // TODO : need this ?
+        // TODO : need this ?  
         List managedLists = super.buildListOfDeletionAwareLists();
         managedLists.add(getAwardReportTermRecipients());
         return managedLists;
@@ -432,32 +384,21 @@ public class AwardTemplateReportTerm extends KraPersistableBusinessObjectBase im
      */
     public boolean equalsInitialFields(GenericAwardReportTerm otherReportTerm) {
         boolean isEqual = true;
-
         if (otherReportTerm == null) {
             isEqual = false;
-        }
-        else if (!StringUtils.equals(getReportClassCode(), otherReportTerm.getReportClassCode())) {
+        } else if (!StringUtils.equals(getReportClassCode(), otherReportTerm.getReportClassCode())) {
             isEqual = false;
-        } 
-        else if (!StringUtils.equals(getReportCode(), otherReportTerm.getReportCode())) {
-                isEqual = false;
-        }
-        else if (!StringUtils.equals(getFrequencyCode(), otherReportTerm.getFrequencyCode())) {
+        } else if (!StringUtils.equals(getReportCode(), otherReportTerm.getReportCode())) {
             isEqual = false;
-        }
-        else if (!StringUtils.equals(getFrequencyBaseCode(), otherReportTerm.getFrequencyBaseCode())) {
+        } else if (!StringUtils.equals(getFrequencyCode(), otherReportTerm.getFrequencyCode())) {
             isEqual = false;
-        }
-        else if (!StringUtils.equals(getOspDistributionCode(), otherReportTerm.getOspDistributionCode())) {
+        } else if (!StringUtils.equals(getFrequencyBaseCode(), otherReportTerm.getFrequencyBaseCode())) {
+            isEqual = false;
+        } else if (!StringUtils.equals(getOspDistributionCode(), otherReportTerm.getOspDistributionCode())) {
+            isEqual = false;
+        } else if (!ObjectUtils.equals(getDueDate(), otherReportTerm.getDueDate())) {
             isEqual = false;
         }
-        else if (!ObjectUtils.equals(getDueDate(), otherReportTerm.getDueDate())) {
-            isEqual = false;
-        }
-        
         return isEqual;
     }
-
-  
-
 }

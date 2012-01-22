@@ -15,8 +15,6 @@
  */
 package org.kuali.kra.institutionalproposal.specialreview;
 
-import java.util.LinkedHashMap;
-
 import org.kuali.kra.SequenceAssociate;
 import org.kuali.kra.common.specialreview.bo.SpecialReview;
 import org.kuali.kra.institutionalproposal.home.InstitutionalProposal;
@@ -24,15 +22,15 @@ import org.kuali.kra.institutionalproposal.home.InstitutionalProposal;
 /**
  * Defines the Institutional Proposal Special Review.
  */
-public class InstitutionalProposalSpecialReview extends SpecialReview<InstitutionalProposalSpecialReviewExemption> 
-    implements SequenceAssociate<InstitutionalProposal> { 
+public class InstitutionalProposalSpecialReview extends SpecialReview<InstitutionalProposalSpecialReviewExemption> implements SequenceAssociate<InstitutionalProposal> {
 
     private static final long serialVersionUID = -3351482754078003727L;
-    
+
     private Long proposalSpecialReviewId;
+
     private Long proposalId;
 
-    private InstitutionalProposal sequenceOwner; 
+    private InstitutionalProposal sequenceOwner;
 
     public Long getProposalSpecialReviewId() {
         return proposalSpecialReviewId;
@@ -57,7 +55,7 @@ public class InstitutionalProposalSpecialReview extends SpecialReview<Institutio
     public void setSequenceOwner(InstitutionalProposal sequenceOwner) {
         this.sequenceOwner = sequenceOwner;
     }
-    
+
     public Integer getSequenceNumber() {
         return sequenceOwner != null ? sequenceOwner.getSequenceNumber() : null;
     }
@@ -73,7 +71,7 @@ public class InstitutionalProposalSpecialReview extends SpecialReview<Institutio
             exemption.setProposalSpecialReviewId(null);
         }
     }
-    
+
     /**
      * {@inheritDoc}
      * @see org.kuali.kra.common.specialreview.bo.SpecialReview#createSpecialReviewExemption(java.lang.String)
@@ -84,14 +82,6 @@ public class InstitutionalProposalSpecialReview extends SpecialReview<Institutio
         institutionalProposalSpecialReviewExemption.setExemptionTypeCode(exemptionTypeCode);
         institutionalProposalSpecialReviewExemption.setInstitutionalProposalSpecialReview(this);
         return institutionalProposalSpecialReviewExemption;
-    }
-    
-    @Override 
-    protected LinkedHashMap<String, Object> toStringMapper() {
-        LinkedHashMap<String, Object> propMap = super.toStringMapper();
-        propMap.put("proposalSpecialReviewId", getProposalSpecialReviewId());
-        propMap.put("proposalId", getProposalId());
-        return propMap;
     }
 
     @Override
@@ -131,5 +121,4 @@ public class InstitutionalProposalSpecialReview extends SpecialReview<Institutio
         }
         return true;
     }
-
 }

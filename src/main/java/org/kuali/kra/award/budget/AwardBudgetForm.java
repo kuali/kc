@@ -15,8 +15,8 @@
  */
 package org.kuali.kra.award.budget;
 
-import java.sql.Timestamp;
 import java.util.ArrayList;
+import java.util.Date;
 import java.util.List;
 
 import org.apache.commons.lang.StringUtils;
@@ -28,13 +28,14 @@ import org.kuali.kra.infrastructure.Constants;
 import org.kuali.kra.infrastructure.KraServiceLocator;
 import org.kuali.kra.infrastructure.TaskName;
 import org.kuali.kra.service.TaskAuthorizationService;
+import org.kuali.rice.core.api.CoreApiServiceLocator;
+import org.kuali.rice.core.api.config.property.ConfigurationService;
+import org.kuali.rice.kew.api.WorkflowDocument;
 import org.kuali.rice.kns.datadictionary.HeaderNavigation;
-import org.kuali.rice.kns.service.KNSServiceLocator;
-import org.kuali.rice.kns.service.KualiConfigurationService;
-import org.kuali.rice.kns.util.GlobalVariables;
 import org.kuali.rice.kns.web.ui.ExtraButton;
 import org.kuali.rice.kns.web.ui.HeaderField;
-import org.kuali.rice.kns.workflow.service.KualiWorkflowDocument;
+import org.kuali.rice.krad.service.KRADServiceLocator;
+import org.kuali.rice.krad.util.GlobalVariables;
 
 public class AwardBudgetForm extends BudgetForm {
     /**
@@ -81,6 +82,7 @@ public class AwardBudgetForm extends BudgetForm {
         AwardBudgetDocument doc = this.getAwardBudgetDocument();
         String externalImageURL = Constants.KRA_EXTERNALIZABLE_IMAGES_URI_KEY;
         String krImageURL = Constants.KR_EXTERNALIZABLE_IMAGES_URI_KEY;
+        ConfigurationService configurationService = KRADServiceLocator.getKualiConfigurationService();
         
         TaskAuthorizationService tas = KraServiceLocator.getService(TaskAuthorizationService.class);
         if (tas.isAuthorized(GlobalVariables.getUserSession().getPrincipalId(), new AwardBudgetTask(TaskName.TOGGLE_AWARD_BUDGET_STATUS, doc))) {
@@ -93,10 +95,10 @@ public class AwardBudgetForm extends BudgetForm {
         }
         
         if( tas.isAuthorized(GlobalVariables.getUserSession().getPrincipalId(), new BudgetTask("awardBudget", "rejectBudget", doc))) {
-            addExtraButton("methodToCall.reject", KraServiceLocator.getService(KualiConfigurationService.class).getPropertyString(externalImageURL) + "buttonsmall_reject.gif", "Reject");
+            addExtraButton("methodToCall.reject", configurationService.getPropertyValueAsString(externalImageURL) + "buttonsmall_reject.gif", "Reject");
         }
         if( tas.isAuthorized(GlobalVariables.getUserSession().getPrincipalId(), new BudgetTask("awardBudget", "cancelBudget", doc))) {
-            addExtraButton("methodToCall.cancel", KraServiceLocator.getService(KualiConfigurationService.class).getPropertyString(krImageURL) + "buttonsmall_cancel.gif", "Cancel");
+            addExtraButton("methodToCall.cancel", configurationService.getPropertyValueAsString(krImageURL) + "buttonsmall_cancel.gif", "Cancel");
         }
         
         return extraButtons;
@@ -152,21 +154,21 @@ public class AwardBudgetForm extends BudgetForm {
     }
 
     @Override
-    protected HeaderField getHeaderDocStatus (KualiWorkflowDocument parentWorkflowDocument) {
+    protected HeaderField getHeaderDocStatus (WorkflowDocument parentWorkflowDocument) {
         AwardBudgetExt abe = this.getAwardBudgetDocument().getAwardBudget();
         return new HeaderField("DataDictionary.AttributeReferenceDummy.attributes.workflowDocumentStatus", abe.getAwardBudgetStatus().getDescription());
     }
     
     @Override
-    protected HeaderField getHeaderDocInitiator(KualiWorkflowDocument parentWorkflowDocument) {
-        KualiWorkflowDocument doc = getBudgetDocument().getDocumentHeader().getWorkflowDocument();
-        return new HeaderField("DataDictionary.AttributeReferenceDummy.attributes.initiatorNetworkId", doc.getInitiatorNetworkId());
+    protected HeaderField getHeaderDocInitiator(WorkflowDocument parentWorkflowDocument) {
+        WorkflowDocument doc = getBudgetDocument().getDocumentHeader().getWorkflowDocument();
+        return new HeaderField("DataDictionary.AttributeReferenceDummy.attributes.initiatorNetworkId", doc.getInitiatorPrincipalId());
     }
     
     @Override
-    protected HeaderField getHeaderDocCreateDate(KualiWorkflowDocument parentWorkflowDocument) {
-        Timestamp ts = getBudgetDocument().getDocumentHeader().getWorkflowDocument().getCreateDate();
-        String updateDateStr = KNSServiceLocator.getDateTimeService().toString(ts, "hh:mm a MM/dd/yyyy");
+    protected HeaderField getHeaderDocCreateDate(WorkflowDocument parentWorkflowDocument) {
+        Date ts = getBudgetDocument().getDocumentHeader().getWorkflowDocument().getDateCreated().toDate();
+        String updateDateStr = CoreApiServiceLocator.getDateTimeService().toString(ts, "hh:mm a MM/dd/yyyy");
         return new HeaderField("DataDictionary.AttributeReferenceDummy.attributes.createDate", updateDateStr);
     }
     /**

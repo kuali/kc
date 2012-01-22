@@ -15,7 +15,6 @@
  */
 package org.kuali.kra.bo;
 
-import java.util.LinkedHashMap;
 
 /**
  * This class is business object representation of a Sponsor Term Type.
@@ -26,17 +25,16 @@ public class SponsorTermType extends KraPersistableBusinessObjectBase {
      * Comment for <code>serialVersionUID</code>
      */
     private static final long serialVersionUID = -6111334757622425480L;
-    private String sponsorTermTypeCode; 
-    private String description; 
-    
-    
+
+    private String sponsorTermTypeCode;
+
+    private String description;
+
     /**
      * Constructs a SponsorTermType.java.
      */
-    public SponsorTermType() { 
-
-    } 
-  
+    public SponsorTermType() {
+    }
 
     /**
      * Gets the sponsorTermTypeCode attribute. 
@@ -69,19 +67,6 @@ public class SponsorTermType extends KraPersistableBusinessObjectBase {
     public void setDescription(String description) {
         this.description = description;
     }
-    
-    /**
-     * @see org.kuali.core.bo.BusinessObjectBase#toStringMapper()
-     */
-    @SuppressWarnings("unchecked")
-    @Override 
-    protected LinkedHashMap toStringMapper() {
-        LinkedHashMap hashMap = new LinkedHashMap();
-        hashMap.put("sponsorTermTypeCode", getSponsorTermTypeCode());
-        hashMap.put("description", getDescription());
-        return hashMap;
-    }
-
 
     /**
      * @see java.lang.Object#hashCode()
@@ -95,32 +80,21 @@ public class SponsorTermType extends KraPersistableBusinessObjectBase {
         return result;
     }
 
-
     /**
      * @see java.lang.Object#equals(java.lang.Object)
      */
     @Override
     public boolean equals(Object obj) {
-        if (this == obj)
-            return true;
-        if (obj == null)
-            return false;
-        if (getClass() != obj.getClass())
-            return false;
+        if (this == obj) return true;
+        if (obj == null) return false;
+        if (getClass() != obj.getClass()) return false;
         SponsorTermType other = (SponsorTermType) obj;
         if (description == null) {
-            if (other.description != null)
-                return false;
-        }
-        else if (!description.equals(other.description))
-            return false;
+            if (other.description != null) return false;
+        } else if (!description.equals(other.description)) return false;
         if (sponsorTermTypeCode == null) {
-            if (other.sponsorTermTypeCode != null)
-                return false;
-        }
-        else if (!sponsorTermTypeCode.equals(other.sponsorTermTypeCode))
-            return false;
+            if (other.sponsorTermTypeCode != null) return false;
+        } else if (!sponsorTermTypeCode.equals(other.sponsorTermTypeCode)) return false;
         return true;
     }
-
 }

@@ -15,34 +15,40 @@
  */
 package org.kuali.kra.questionnaire;
 
-import java.util.LinkedHashMap;
-
 import org.apache.commons.lang.ObjectUtils;
 import org.kuali.kra.SequenceAssociate;
 import org.kuali.kra.bo.CoeusModule;
 import org.kuali.kra.bo.KraPersistableBusinessObjectBase;
 
-public class QuestionnaireUsage extends KraPersistableBusinessObjectBase implements Comparable<QuestionnaireUsage>,SequenceAssociate<Questionnaire> { 
-    
-    private static final long serialVersionUID = -5676341963373665440L;
-    private Long questionnaireUsageId; 
-    private String moduleItemCode; 
-    private String moduleSubItemCode; 
-    private String questionnaireRefIdFk; 
-    private Integer ruleId; 
-    private String questionnaireLabel; 
-    private Integer questionnaireSequenceNumber;
-    private boolean mandatory; 
-    private CoeusModule coeusModule;
-    private Questionnaire questionnaire;
-    
-    private Questionnaire sequenceOwner;
-    
-    
-    public QuestionnaireUsage() { 
+public class QuestionnaireUsage extends KraPersistableBusinessObjectBase implements Comparable<QuestionnaireUsage>, SequenceAssociate<Questionnaire> {
 
-    } 
-    
+    private static final long serialVersionUID = -5676341963373665440L;
+
+    private Long questionnaireUsageId;
+
+    private String moduleItemCode;
+
+    private String moduleSubItemCode;
+
+    private String questionnaireRefIdFk;
+
+    private Integer ruleId;
+
+    private String questionnaireLabel;
+
+    private Integer questionnaireSequenceNumber;
+
+    private boolean mandatory;
+
+    private CoeusModule coeusModule;
+
+    private Questionnaire questionnaire;
+
+    private Questionnaire sequenceOwner;
+
+    public QuestionnaireUsage() {
+    }
+
     public Long getQuestionnaireUsageId() {
         return questionnaireUsageId;
     }
@@ -107,27 +113,14 @@ public class QuestionnaireUsage extends KraPersistableBusinessObjectBase impleme
         this.questionnaire = questionnaire;
     }
 
-    /** {@inheritDoc} */
-    @Override 
-    protected LinkedHashMap<String, Object> toStringMapper() {
-        LinkedHashMap<String, Object> hashMap = new LinkedHashMap<String, Object>();
-        hashMap.put("questionnaireUsageId", this.getQuestionnaireUsageId());
-        hashMap.put("moduleItemCode", this.getModuleItemCode());
-        hashMap.put("moduleSubItemCode", this.getModuleSubItemCode());
-        hashMap.put("questionnaireRefIdFk", this.getQuestionnaireRefIdFk());
-        hashMap.put("ruleId", this.getRuleId());
-        hashMap.put("questionnaireLabel", this.getQuestionnaireLabel());
-        return hashMap;
-    }
-
     public Questionnaire getSequenceOwner() {
         return this.getQuestionnaire();
     }
 
     public void setSequenceOwner(Questionnaire newlyVersionedOwner) {
         setQuestionnaire(newlyVersionedOwner);
-        
     }
+
     /** {@inheritDoc} */
     public void resetPersistenceState() {
         this.setQuestionnaireUsageId(null);
@@ -149,12 +142,10 @@ public class QuestionnaireUsage extends KraPersistableBusinessObjectBase impleme
         if (ObjectUtils.equals(this.getQuestionnaire().getQuestionnaireId(), argQuestionnaireUsage.getQuestionnaire().getQuestionnaireId())) {
             if (ObjectUtils.equals(this.getQuestionnaireRefIdFk(), argQuestionnaireUsage.getQuestionnaireRefIdFk())) {
                 return argQuestionnaireUsage.getQuestionnaireSequenceNumber().compareTo(this.getQuestionnaireSequenceNumber());
-            }
-            else {
+            } else {
                 return argQuestionnaireUsage.getQuestionnaireRefIdFk().compareTo(this.getQuestionnaireRefIdFk());
             }
-        }
-        else {
+        } else {
             return this.getQuestionnaire().getQuestionnaireIdAsInteger().compareTo(argQuestionnaireUsage.getQuestionnaire().getQuestionnaireIdAsInteger());
         }
     }
@@ -166,5 +157,4 @@ public class QuestionnaireUsage extends KraPersistableBusinessObjectBase impleme
     public void setMandatory(boolean mandatory) {
         this.mandatory = mandatory;
     }
-
 }

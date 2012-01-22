@@ -16,14 +16,14 @@
 package org.kuali.kra.irb.actions.history;
 
 import java.sql.Date;
-import java.util.LinkedHashMap;
 
-import org.kuali.rice.kns.bo.BusinessObjectBase;
+import org.kuali.rice.krad.bo.BusinessObjectBase;
 
 @SuppressWarnings("serial")
 public class DateRangeFilter extends BusinessObjectBase {
-    
+
     private Date beginningOn;
+
     private Date endingOn;
 
     public Date getBeginningOn() {
@@ -41,16 +41,7 @@ public class DateRangeFilter extends BusinessObjectBase {
     public void setEndingOn(Date endingOn) {
         this.endingOn = endingOn;
     }
-    
-    @Override
-    protected LinkedHashMap<String, Object> toStringMapper() {
-        LinkedHashMap<String, Object> map = new LinkedHashMap<String,Object>();
-        map.put("beginningOn", getBeginningOn());
-        map.put("endingOn", getEndingOn());
-        return map;
-    }
 
     public void refresh() {
-        // do nothing
     }
 }

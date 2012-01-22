@@ -202,7 +202,6 @@ public class CustomDataHelper extends CustomDataHelperBase{
                     customAttributeGroups.put(groupName, customAttributeDocumentList);
                 }
                 customAttributeDocumentList.add(customAttributeDocuments.get(loopsubAwardCustomData.getCustomAttributeId().toString()));
-                Collections.sort(customAttributeDocumentList, new LabelComparator());
             }
         }
         populateCustomDataValuesFromParentMap();

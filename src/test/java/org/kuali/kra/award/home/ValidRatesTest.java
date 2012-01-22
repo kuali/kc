@@ -19,7 +19,6 @@ import org.junit.After;
 import org.junit.Assert;
 import org.junit.Before;
 import org.junit.Test;
-import org.kuali.kra.award.home.ValidRates;
 
 /**
  * 
@@ -42,7 +41,7 @@ public class ValidRatesTest {
 
     @Test
     public final void testToStringMapper() {
-        Assert.assertEquals(VALID_RATES_ATTRIUTES_COUNT, validRates.toStringMapper().size());
+        Assert.assertEquals(VALID_RATES_ATTRIUTES_COUNT, validRates.getClass().getFields().length);
     }
 
 }

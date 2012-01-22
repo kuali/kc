@@ -29,10 +29,10 @@ import org.kuali.kra.proposaldevelopment.bo.Narrative;
 import org.kuali.kra.proposaldevelopment.bo.ProposalState;
 import org.kuali.kra.proposaldevelopment.document.ProposalDevelopmentDocument;
 import org.kuali.kra.service.TaskAuthorizationService;
-import org.kuali.rice.kim.bo.Person;
+import org.kuali.rice.kew.api.WorkflowDocument;
+import org.kuali.rice.kim.api.identity.Person;
 import org.kuali.rice.kns.authorization.AuthorizationConstants;
-import org.kuali.rice.kns.document.Document;
-import org.kuali.rice.kns.workflow.service.KualiWorkflowDocument;
+import org.kuali.rice.krad.document.Document;
 
 /**
  * The Proposal Development Document Authorizer.  Primarily responsible for determining if
@@ -254,59 +254,54 @@ public class ProposalDevelopmentDocumentAuthorizer extends KcTransactionalDocume
     }
     
     @Override
-    protected boolean canSave(Document document, Person user) {
+    public boolean canSave(Document document, Person user) {
         return canEdit(document, user);
     }
     
     @Override
-    protected boolean canCancel(Document document, Person user) {
+    public boolean canCancel(Document document, Person user) {
         return canEdit(document, user) && super.canCancel(document, user);
     }
     
     @Override
-    protected boolean canReload(Document document, Person user) {
-        KualiWorkflowDocument workflow = document.getDocumentHeader().getWorkflowDocument();
-        return canEdit(document, user) || workflow.stateIsCanceled();
+    public boolean canReload(Document document, Person user) {
+        WorkflowDocument workflow = document.getDocumentHeader().getWorkflowDocument();
+        return canEdit(document, user) || workflow.isCanceled();
     }
     
     @Override
-    protected boolean canRoute(Document document, Person user) {
+    public boolean canRoute(Document document, Person user) {
         return canExecuteProposalTask(user.getPrincipalId(), (ProposalDevelopmentDocument) document, TaskName.SUBMIT_TO_WORKFLOW) && canExecuteProposalTask( user.getPrincipalName(), (ProposalDevelopmentDocument)document, TaskName.PROPOSAL_HIERARCHY_CHILD_WORKFLOW_ACTION);
     }
     
     @Override
-    protected boolean canAnnotate(Document document, Person user) {
+    public boolean canAnnotate(Document document, Person user) {
         return canRoute(document, user) && canExecuteProposalTask( user.getPrincipalName(), (ProposalDevelopmentDocument)document, TaskName.PROPOSAL_HIERARCHY_CHILD_WORKFLOW_ACTION);
     }
     
     @Override
-    protected boolean canCopy(Document document, Person user) {
+    public boolean canCopy(Document document, Person user) {
         return false;
     }
     
     @Override
-    protected boolean canApprove( Document document, Person user ) {
+    public boolean canApprove( Document document, Person user ) {
         return super.canApprove(document,user) && canExecuteProposalTask( user.getPrincipalName(), (ProposalDevelopmentDocument)document, TaskName.PROPOSAL_HIERARCHY_CHILD_WORKFLOW_ACTION);
     }
     
     @Override
-    protected boolean canDisapprove( Document document, Person user ) {
+    public boolean canDisapprove( Document document, Person user ) {
         return super.canDisapprove(document, user) && canExecuteProposalTask( user.getPrincipalName(), (ProposalDevelopmentDocument)document, TaskName.PROPOSAL_HIERARCHY_CHILD_WORKFLOW_ACTION);
     }
     
     @Override
-    protected boolean canFYI( Document document, Person user ) {
-        return super.canFYI(document, user) && canExecuteProposalTask( user.getPrincipalName(), (ProposalDevelopmentDocument)document, TaskName.PROPOSAL_HIERARCHY_CHILD_WORKFLOW_ACTION);
+    public boolean canBlanketApprove( Document document, Person user ) {
+        WorkflowDocument workflowDocument = document.getDocumentHeader().getWorkflowDocument();
+        return workflowDocument.isEnroute() && super.canBlanketApprove(document, user) && canExecuteProposalTask( user.getPrincipalName(), (ProposalDevelopmentDocument)document, TaskName.PROPOSAL_HIERARCHY_CHILD_WORKFLOW_ACTION);
     }
     
     @Override
-    protected boolean canBlanketApprove( Document document, Person user ) {
-        KualiWorkflowDocument workflowDocument = document.getDocumentHeader().getWorkflowDocument();
-        return workflowDocument.stateIsEnroute() && super.canBlanketApprove(document, user) && canExecuteProposalTask( user.getPrincipalName(), (ProposalDevelopmentDocument)document, TaskName.PROPOSAL_HIERARCHY_CHILD_WORKFLOW_ACTION);
-    }
-    
-    @Override
-    protected boolean canAcknowledge( Document document, Person user ) {
+    public boolean canAcknowledge( Document document, Person user ) {
         return super.canAcknowledge(document, user) && canExecuteProposalTask( user.getPrincipalName(), (ProposalDevelopmentDocument)document, TaskName.PROPOSAL_HIERARCHY_CHILD_ACKNOWLEDGE_ACTION);
     }
     
@@ -336,4 +331,15 @@ public class ProposalDevelopmentDocumentAuthorizer extends KcTransactionalDocume
     public boolean canViewNoteAttachment(Document document, String attachmentTypeCode, Person user) {
         return canExecuteProposalTask(user.getPrincipalId(), (ProposalDevelopmentDocument) document, TaskName.VIEW_PROPOSAL);
     }
+
+    @Override
+    public boolean canFyi( Document document, Person user ) {
+        return super.canFyi(document, user) && canExecuteProposalTask( user.getPrincipalName(), (ProposalDevelopmentDocument)document, TaskName.PROPOSAL_HIERARCHY_CHILD_WORKFLOW_ACTION);
+    }
+
+    @Override
+    public boolean canSendNoteFyi(Document document, Person user) {
+        return false;
+    }
+
 }

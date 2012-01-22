@@ -15,6 +15,7 @@
  */
 package org.kuali.kra.lookup;
 
+import java.util.Collection;
 import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
@@ -22,18 +23,18 @@ import java.util.Map;
 import org.apache.commons.lang.StringUtils;
 import org.kuali.kra.bo.CustomAttributeDocument;
 import org.kuali.kra.infrastructure.Constants;
-import org.kuali.rice.kns.bo.BusinessObject;
 import org.kuali.rice.kns.lookup.HtmlData;
 import org.kuali.rice.kns.lookup.KualiLookupableHelperServiceImpl;
 import org.kuali.rice.kns.lookup.HtmlData.AnchorHtmlData;
+import org.kuali.rice.krad.bo.BusinessObject;
 
 public class CustomAttributeLookupHelperServiceImpl extends KualiLookupableHelperServiceImpl {
 
     private static final String EQUAL_CHAR = "=";
-    private List<String> documentTypeParam;
+    private Collection<String> documentTypeParam;
     
     public CustomAttributeLookupHelperServiceImpl() {
-        documentTypeParam = getParameterService().getParameterValues(Constants.KC_GENERIC_PARAMETER_NAMESPACE,
+        documentTypeParam = getParameterService().getParameterValuesAsString(Constants.KC_GENERIC_PARAMETER_NAMESPACE,
                 Constants.CUSTOM_ATTRIBUTE_DOCUMENT_DETAIL_TYPE_CODE, Constants.CUSTOM_ATTRIBUTE_DOCUMENT_PARAM_NAME);
     }
     
@@ -53,7 +54,7 @@ public class CustomAttributeLookupHelperServiceImpl extends KualiLookupableHelpe
 
     /**
      * Because the search results is using descriptive name, we need to reverse to use code in href. 
-     * @see org.kuali.rice.kns.lookup.AbstractLookupableHelperServiceImpl#getCustomActionUrls(org.kuali.rice.kns.bo.BusinessObject, java.util.List)
+     * @see org.kuali.rice.kns.lookup.AbstractLookupableHelperServiceImpl#getCustomActionUrls(org.kuali.rice.krad.bo.BusinessObject, java.util.List)
      */
     @Override
     public List<HtmlData> getCustomActionUrls(BusinessObject businessObject, List pkNames) {

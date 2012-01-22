@@ -17,8 +17,6 @@ package org.kuali.kra.negotiations.bo;
 
 import java.util.List;
 
-import org.kuali.kra.award.contacts.AwardPerson;
-import org.kuali.kra.bo.KcPerson;
 import org.kuali.kra.proposaldevelopment.bo.ProposalType;
 
 /**

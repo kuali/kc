@@ -16,10 +16,10 @@
 package org.kuali.kra.s2s.generator.impl;
 
 import gov.grants.apply.forms.rrKeyPersonV11.PersonProfileDataType;
-import gov.grants.apply.forms.rrKeyPersonV11.PersonProfileDataType.Profile;
-import gov.grants.apply.forms.rrKeyPersonV11.PersonProfileDataType.Profile.OtherProjectRoleCategory;
 import gov.grants.apply.forms.rrKeyPersonV11.ProjectRoleDataType;
 import gov.grants.apply.forms.rrKeyPersonV11.RRKeyPersonDocument;
+import gov.grants.apply.forms.rrKeyPersonV11.PersonProfileDataType.Profile;
+import gov.grants.apply.forms.rrKeyPersonV11.PersonProfileDataType.Profile.OtherProjectRoleCategory;
 import gov.grants.apply.forms.rrKeyPersonV11.RRKeyPersonDocument.RRKeyPerson;
 import gov.grants.apply.forms.rrKeyPersonV11.RRKeyPersonDocument.RRKeyPerson.AdditionalProfilesAttached;
 import gov.grants.apply.forms.rrKeyPersonV11.RRKeyPersonDocument.RRKeyPerson.BioSketchsAttached;

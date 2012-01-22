@@ -203,7 +203,7 @@ public class InstituteRateMaintenanceDocumentSeleniumTest extends KcSeleniumTest
         assertNotNull(document.getDocumentNumber());
         assertNotNull(document.getDocumentHeader());
         assertEquals(documentNumber, document.getDocumentHeader().getDocumentNumber());
-        InstituteRate instituteRate = (InstituteRate) document.getNewMaintainableObject().getBusinessObject();
+        InstituteRate instituteRate = (InstituteRate) document.getNewMaintainableObject().getDataObject();
         assertEquals(DEFAULT_ACTIVITY_TYPE_CODE, instituteRate.getActivityTypeCode());
         assertEquals(fiscalYear, instituteRate.getFiscalYear());
         assertEquals(DEFAULT_ON_OFF_CAMPUS_FLAG, instituteRate.getOnOffCampusFlag());

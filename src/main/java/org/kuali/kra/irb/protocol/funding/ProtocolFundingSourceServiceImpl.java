@@ -40,16 +40,16 @@ import org.kuali.kra.proposaldevelopment.bo.LookupableDevelopmentProposal;
 import org.kuali.kra.service.FundingSourceTypeService;
 import org.kuali.kra.service.SponsorService;
 import org.kuali.kra.service.UnitService;
+import org.kuali.rice.coreservice.framework.parameter.ParameterService;
 import org.kuali.rice.kew.util.Utilities;
-import org.kuali.rice.kns.bo.BusinessObject;
-import org.kuali.rice.kns.document.Document;
 import org.kuali.rice.kns.lookup.HtmlData;
 import org.kuali.rice.kns.lookup.LookupableHelperService;
-import org.kuali.rice.kns.service.BusinessObjectService;
-import org.kuali.rice.kns.service.DocumentService;
-import org.kuali.rice.kns.service.ParameterService;
-import org.kuali.rice.kns.util.GlobalVariables;
-import org.kuali.rice.kns.util.KNSConstants;
+import org.kuali.rice.krad.bo.BusinessObject;
+import org.kuali.rice.krad.document.Document;
+import org.kuali.rice.krad.service.BusinessObjectService;
+import org.kuali.rice.krad.service.DocumentService;
+import org.kuali.rice.krad.util.GlobalVariables;
+import org.kuali.rice.krad.util.KRADConstants;
 
 /**
  * Implements ProtocolFundingSource.
@@ -527,12 +527,12 @@ public class ProtocolFundingSourceServiceImpl implements ProtocolFundingSourceSe
      */
     public String updateLookupParameter(String parameter, String boClassName, String fieldConversions) {
         StringBuffer fullParameterBuffer = new StringBuffer(parameter);
-        int start = fullParameterBuffer.indexOf(KNSConstants.METHOD_TO_CALL_BOPARM_LEFT_DEL) + KNSConstants.METHOD_TO_CALL_BOPARM_LEFT_DEL.length();
-        int end = fullParameterBuffer.indexOf(KNSConstants.METHOD_TO_CALL_BOPARM_RIGHT_DEL);        
+        int start = fullParameterBuffer.indexOf(KRADConstants.METHOD_TO_CALL_BOPARM_LEFT_DEL) + KRADConstants.METHOD_TO_CALL_BOPARM_LEFT_DEL.length();
+        int end = fullParameterBuffer.indexOf(KRADConstants.METHOD_TO_CALL_BOPARM_RIGHT_DEL);        
         fullParameterBuffer.replace(start, end, boClassName);
 
-        start = fullParameterBuffer.indexOf(KNSConstants.METHOD_TO_CALL_PARM1_LEFT_DEL) + KNSConstants.METHOD_TO_CALL_PARM1_LEFT_DEL.length();
-        end = fullParameterBuffer.indexOf(KNSConstants.METHOD_TO_CALL_PARM1_RIGHT_DEL);        
+        start = fullParameterBuffer.indexOf(KRADConstants.METHOD_TO_CALL_PARM1_LEFT_DEL) + KRADConstants.METHOD_TO_CALL_PARM1_LEFT_DEL.length();
+        end = fullParameterBuffer.indexOf(KRADConstants.METHOD_TO_CALL_PARM1_RIGHT_DEL);        
         fullParameterBuffer.replace(start, end, fieldConversions);
         
         return fullParameterBuffer.toString();
@@ -595,7 +595,7 @@ public class ProtocolFundingSourceServiceImpl implements ProtocolFundingSourceSe
      */
     private String buildViewTransactionalFundingSourceUrl(String documentNumber, ProtocolProtocolAction action) throws Exception {
         Document document = getDocumentService().getByDocumentHeaderId(documentNumber);
-        Long routeHeaderId = document.getDocumentHeader().getWorkflowDocument().getRouteHeaderId();
+        String routeHeaderId = document.getDocumentHeader().getWorkflowDocument().getDocumentId();
         
         Properties parameters = new Properties();
         parameters.put("viewDocument", Boolean.TRUE.toString());
@@ -653,7 +653,7 @@ public class ProtocolFundingSourceServiceImpl implements ProtocolFundingSourceSe
         if (!parameterService.parameterExists(ProtocolDocument.class, link)) {
             isLinkEnabled = true;
         } else {
-            isLinkEnabled = parameterService.getIndicatorParameter(ProtocolDocument.class, link);
+            isLinkEnabled = parameterService.getParameterValueAsBoolean(ProtocolDocument.class, link);
         }
         
         return isLinkEnabled;

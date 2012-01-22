@@ -16,44 +16,18 @@
 package org.kuali.kra.infrastructure;
 
 import javax.servlet.ServletContextEvent;
-import javax.servlet.ServletContextListener;
 
-import org.apache.commons.lang.StringUtils;
-import org.springframework.context.ApplicationContext;
-import org.springframework.context.support.ClassPathXmlApplicationContext;
+import org.kuali.rice.core.web.listener.KualiInitializeListener;
 
-public class KraServiceLocatorListener implements ServletContextListener {
+public class KraServiceLocatorListener extends KualiInitializeListener {
     private static final org.apache.commons.logging.Log LOG = org.apache.commons.logging.LogFactory.getLog(KraServiceLocatorListener.class);
 
-	public void contextDestroyed(ServletContextEvent sce) {
+	public void contextDestroyed(ServletContextEvent sce) {}
 
-	}
-
-	public void contextInitialized(ServletContextEvent sce) {
+    public void contextInitialized(ServletContextEvent sce) {
         LOG.debug("Starting KraServiceLocatorListener");
-        
-        ApplicationContext appContext = null;
-
-        String bootstrapSpringBeans = "classpath:kc-bootstrap-springbeans.xml";
-        if (!StringUtils.isBlank(System.getProperty(Constants.BOOTSTRAP_SPRING_FILE))) {
-            bootstrapSpringBeans = System.getProperty(Constants.BOOTSTRAP_SPRING_FILE);
-            LOG.info("Found bootstrap Spring Beans file defined in system properties: " + bootstrapSpringBeans);
-        } else if (!StringUtils.isBlank(sce.getServletContext().getInitParameter(Constants.BOOTSTRAP_SPRING_FILE))) {
-            bootstrapSpringBeans = sce.getServletContext().getInitParameter(Constants.BOOTSTRAP_SPRING_FILE);
-            LOG.info("Found bootstrap Spring Beans file defined in servlet context: " + bootstrapSpringBeans);
-        }
-
-        try {
-            appContext = new ClassPathXmlApplicationContext(bootstrapSpringBeans);
-        } catch (RuntimeException e) {
-            LOG.fatal("error during startup", e);
-            throw e;
-        } catch (Error e) {
-            LOG.fatal("error during startup", e);
-            throw e;
-        }
-
-        KraServiceLocator.setAppContext(appContext);
-	}
+        super.contextInitialized(sce);
+        KraServiceLocator.setAppContext(getContext());
+    }
 
 }

@@ -15,8 +15,6 @@
  */
 package org.kuali.kra.coi.personfinancialentity;
 
-import java.util.LinkedHashMap;
-
 import org.apache.commons.lang.StringUtils;
 import org.kuali.kra.bo.KraPersistableBusinessObjectBase;
 
@@ -24,29 +22,38 @@ import org.kuali.kra.bo.KraPersistableBusinessObjectBase;
  * 
  * This class is for Person Int. FE details
  */
-public class PersonFinIntDisclDet extends KraPersistableBusinessObjectBase { 
-    
+public class PersonFinIntDisclDet extends KraPersistableBusinessObjectBase {
+
     /**
      * Comment for <code>serialVersionUID</code>
      */
     private static final long serialVersionUID = 1121307383084809439L;
-    private Long perFinIntDisclDetId; 
-    private String entityNumber; 
-    private Integer sequenceNumber; 
-    private String columnName; 
-    private String columnValue; 
-    private String relationshipTypeCode; 
-    private String comments; 
-    private Long personFinIntDisclosureId; 
 
-    private FinEntitiesDataMatrix finEntitiesDataMatrix; 
+    private Long perFinIntDisclDetId;
+
+    private String entityNumber;
+
+    private Integer sequenceNumber;
+
+    private String columnName;
+
+    private String columnValue;
+
+    private String relationshipTypeCode;
+
+    private String comments;
+
+    private Long personFinIntDisclosureId;
+
+    private FinEntitiesDataMatrix finEntitiesDataMatrix;
+
     private PersonFinIntDisclosure personFinIntDisclosure;
-    private FinIntEntityRelType finIntEntityRelType;
-    
-    public PersonFinIntDisclDet() { 
 
-    } 
-    
+    private FinIntEntityRelType finIntEntityRelType;
+
+    public PersonFinIntDisclDet() {
+    }
+
     public Long getPerFinIntDisclDetId() {
         return perFinIntDisclDetId;
     }
@@ -111,20 +118,6 @@ public class PersonFinIntDisclDet extends KraPersistableBusinessObjectBase {
         this.finEntitiesDataMatrix = finEntitiesDataMatrix;
     }
 
-    /** {@inheritDoc} */
-    @Override 
-    protected LinkedHashMap<String, Object> toStringMapper() {
-        LinkedHashMap<String, Object> hashMap = new LinkedHashMap<String, Object>();
-        hashMap.put("perFinIntDisclDetId", this.getPerFinIntDisclDetId());
-        hashMap.put("entityNumber", this.getEntityNumber());
-        hashMap.put("sequenceNumber", this.getSequenceNumber());
-        hashMap.put("columnName", this.getColumnName());
-        hashMap.put("columnValue", this.getColumnValue());
-        hashMap.put("relationshipTypeCode", this.getRelationshipTypeCode());
-        hashMap.put("comments", this.getComments());
-        return hashMap;
-    }
-
     public Long getPersonFinIntDisclosureId() {
         return personFinIntDisclosureId;
     }
@@ -151,5 +144,4 @@ public class PersonFinIntDisclDet extends KraPersistableBusinessObjectBase {
     public void setFinIntEntityRelType(FinIntEntityRelType finIntEntityRelType) {
         this.finIntEntityRelType = finIntEntityRelType;
     }
-    
 }

@@ -15,31 +15,32 @@
  */
 package org.kuali.kra.irb.correspondence;
 
-import java.util.LinkedHashMap;
-
 import org.apache.struts.upload.FormFile;
 import org.kuali.kra.bo.KraPersistableBusinessObjectBase;
 import org.kuali.kra.committee.bo.Committee;
 import org.kuali.kra.committee.service.CommitteeService;
 import org.kuali.kra.infrastructure.KraServiceLocator;
 
-public class ProtocolCorrespondenceTemplate extends KraPersistableBusinessObjectBase 
-                                            implements Comparable<ProtocolCorrespondenceTemplate> { 
-    
+public class ProtocolCorrespondenceTemplate extends KraPersistableBusinessObjectBase implements Comparable<ProtocolCorrespondenceTemplate> {
+
     private static final long serialVersionUID = 1L;
 
-    private Integer protoCorrespTemplId; 
-    private String protoCorrespTypeCode; 
-    private String committeeId; 
+    private Integer protoCorrespTemplId;
+
+    private String protoCorrespTypeCode;
+
+    private String committeeId;
+
     private String fileName;
-    private byte[] correspondenceTemplate; 
-    
+
+    private byte[] correspondenceTemplate;
+
     private transient FormFile templateFile;
-    
+
     public ProtocolCorrespondenceTemplate() {
         super();
-    } 
-    
+    }
+
     public Integer getProtoCorrespTemplId() {
         return protoCorrespTemplId;
     }
@@ -92,22 +93,10 @@ public class ProtocolCorrespondenceTemplate extends KraPersistableBusinessObject
         return templateFile;
     }
 
-    /** {@inheritDoc} */
-    @Override 
-    protected LinkedHashMap<String, Object> toStringMapper() {
-        LinkedHashMap<String, Object> hashMap = new LinkedHashMap<String, Object>();
-        hashMap.put("protoCorrespTemplId", this.getProtoCorrespTemplId());
-        hashMap.put("protoCorrespTypeCode", this.getProtoCorrespTypeCode());
-        hashMap.put("committeeId", this.getCommitteeId());
-        hashMap.put("fileName", this.getFileName());
-        hashMap.put("correspondenceTemplate", this.getCorrespondenceTemplate());
-        return hashMap;
-    }
-    
     public int compareTo(ProtocolCorrespondenceTemplate arg) {
         return this.getCommittee().getCommitteeName().compareTo(arg.getCommittee().getCommitteeName());
     }
-    
+
     private CommitteeService getCommitteeService() {
         return (CommitteeService) KraServiceLocator.getService(CommitteeService.class);
     }

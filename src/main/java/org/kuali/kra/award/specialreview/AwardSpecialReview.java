@@ -13,10 +13,7 @@
  * See the License for the specific language governing permissions and
  * limitations under the License.
  */
-
 package org.kuali.kra.award.specialreview;
-
-import java.util.LinkedHashMap;
 
 import org.kuali.kra.SequenceAssociate;
 import org.kuali.kra.award.home.Award;
@@ -25,13 +22,14 @@ import org.kuali.kra.common.specialreview.bo.SpecialReview;
 /**
  * Defines the Award Special Review.
  */
-public class AwardSpecialReview extends SpecialReview<AwardSpecialReviewExemption> implements SequenceAssociate<Award> { 
+public class AwardSpecialReview extends SpecialReview<AwardSpecialReviewExemption> implements SequenceAssociate<Award> {
 
     private static final long serialVersionUID = -414391670637651376L;
-    
+
     private Long awardSpecialReviewId;
+
     private Long awardId;
-    
+
     private Award sequenceOwner;
 
     public Long getAwardSpecialReviewId() {
@@ -61,7 +59,7 @@ public class AwardSpecialReview extends SpecialReview<AwardSpecialReviewExemptio
     public Integer getSequenceNumber() {
         return sequenceOwner != null ? sequenceOwner.getSequenceNumber() : null;
     }
-    
+
     /**
      * {@inheritDoc}
      * @see org.kuali.kra.Sequenceable#resetPersistenceState()
@@ -73,7 +71,7 @@ public class AwardSpecialReview extends SpecialReview<AwardSpecialReviewExemptio
             exemption.setAwardSpecialReviewId(null);
         }
     }
-    
+
     /**
      * {@inheritDoc}
      * @see org.kuali.kra.common.specialreview.bo.SpecialReview#createSpecialReviewExemption(java.lang.String)
@@ -84,14 +82,6 @@ public class AwardSpecialReview extends SpecialReview<AwardSpecialReviewExemptio
         awardSpecialReviewExemption.setExemptionTypeCode(exemptionTypeCode);
         awardSpecialReviewExemption.setAwardSpecialReview(this);
         return awardSpecialReviewExemption;
-    }
-
-    @Override 
-    protected LinkedHashMap<String, Object> toStringMapper() {
-        LinkedHashMap<String, Object> propMap = super.toStringMapper();
-        propMap.put("awardSpecialReviewId", getAwardSpecialReviewId());
-        propMap.put("awardId", getAwardId());
-        return propMap;
     }
 
     @Override
@@ -131,5 +121,4 @@ public class AwardSpecialReview extends SpecialReview<AwardSpecialReviewExemptio
         }
         return true;
     }
-
 }

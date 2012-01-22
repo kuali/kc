@@ -24,13 +24,12 @@ import org.kuali.kra.award.customdata.AwardCustomData;
 import org.kuali.kra.award.document.AwardDocument;
 import org.kuali.kra.bo.CustomAttributeDocument;
 import org.kuali.kra.infrastructure.Constants;
-import org.kuali.kra.institutionalproposal.customdata.InstitutionalProposalCustomData;
-import org.kuali.rice.kns.document.Document;
-import org.kuali.rice.kns.rule.DocumentAuditRule;
+import org.kuali.rice.core.api.util.RiceKeyConstants;
 import org.kuali.rice.kns.util.AuditCluster;
 import org.kuali.rice.kns.util.AuditError;
-import org.kuali.rice.kns.util.GlobalVariables;
-import org.kuali.rice.kns.util.RiceKeyConstants;
+import org.kuali.rice.kns.util.KNSGlobalVariables;
+import org.kuali.rice.krad.document.Document;
+import org.kuali.rice.krad.rules.rule.DocumentAuditRule;
 
 /**
  * This class...
@@ -38,10 +37,10 @@ import org.kuali.rice.kns.util.RiceKeyConstants;
 public class AwardCustomDataAuditRule implements DocumentAuditRule {
 
     /**
-     * @see org.kuali.core.rule.DocumentAuditRule#processRunAuditBusinessRules(org.kuali.rice.kns.document.Document)
+     * @see org.kuali.core.rule.DocumentAuditRule#processRunAuditBusinessRules(org.kuali.rice.krad.document.Document)
      */
     /**
-     * @see org.kuali.rice.kns.rule.DocumentAuditRule#processRunAuditBusinessRules(org.kuali.rice.kns.document.Document)
+     * @see org.kuali.rice.krad.rules.rule.DocumentAuditRule#processRunAuditBusinessRules(org.kuali.rice.krad.document.Document)
      */
     @SuppressWarnings("unchecked")
     public boolean processRunAuditBusinessRules(Document document) {
@@ -80,11 +79,11 @@ public class AwardCustomDataAuditRule implements DocumentAuditRule {
     @SuppressWarnings("unchecked")
     private void getAuditClusterAndReportErrors(CustomAttributeDocument customAttributeDocument) {
         String key = "CustomData" + StringUtils.deleteWhitespace(customAttributeDocument.getCustomAttribute().getGroupName()) + "Errors";
-        AuditCluster auditCluster = (AuditCluster) GlobalVariables.getAuditErrorMap().get(key);
+        AuditCluster auditCluster = (AuditCluster) KNSGlobalVariables.getAuditErrorMap().get(key);
         if (auditCluster == null) {
             List<AuditError> auditErrors = new ArrayList<AuditError>();
             auditCluster = new AuditCluster(customAttributeDocument.getCustomAttribute().getGroupName(), auditErrors, Constants.AUDIT_ERRORS);
-            GlobalVariables.getAuditErrorMap().put(key, auditCluster);
+            KNSGlobalVariables.getAuditErrorMap().put(key, auditCluster);
         }
         List<AuditError> auditErrors = auditCluster.getAuditErrorList();
         auditErrors.add(new AuditError("customAttributeValues(id" + customAttributeDocument.getCustomAttributeId() + ")",

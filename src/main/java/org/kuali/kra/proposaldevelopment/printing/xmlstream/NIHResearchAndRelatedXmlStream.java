@@ -114,8 +114,8 @@ import org.kuali.kra.proposaldevelopment.specialreview.ProposalSpecialReview;
 import org.kuali.kra.s2s.generator.bo.KeyPersonInfo;
 import org.kuali.kra.service.SponsorService;
 import org.kuali.kra.service.UnitService;
-import org.kuali.rice.kns.service.ParameterService;
-import org.kuali.rice.kns.util.KualiDecimal;
+import org.kuali.rice.core.api.util.type.KualiDecimal;
+import org.kuali.rice.coreservice.framework.parameter.ParameterService;
 
 /**
  * This class generates XML that confirms with the RaR XSD related to Proposal
@@ -241,11 +241,11 @@ AbstractResearchAndRelatedStream {
     }
     protected boolean isProposalTypeRenewalRevisionContinuation(String proposalTypeCode) {
         String proposalTypeCodeRenewal = 
-            parameterService.getParameterValue(ProposalDevelopmentDocument.class, KeyConstants.PROPOSALDEVELOPMENT_PROPOSALTYPE_RENEWAL);
+            parameterService.getParameterValueAsString(ProposalDevelopmentDocument.class, KeyConstants.PROPOSALDEVELOPMENT_PROPOSALTYPE_RENEWAL);
         String proposalTypeCodeRevision = 
-            parameterService.getParameterValue(ProposalDevelopmentDocument.class, KeyConstants.PROPOSALDEVELOPMENT_PROPOSALTYPE_REVISION);
+            parameterService.getParameterValueAsString(ProposalDevelopmentDocument.class, KeyConstants.PROPOSALDEVELOPMENT_PROPOSALTYPE_REVISION);
         String proposalTypeCodeContinuation = 
-            parameterService.getParameterValue(ProposalDevelopmentDocument.class, KeyConstants.PROPOSALDEVELOPMENT_PROPOSALTYPE_CONTINUATION);
+            parameterService.getParameterValueAsString(ProposalDevelopmentDocument.class, KeyConstants.PROPOSALDEVELOPMENT_PROPOSALTYPE_CONTINUATION);
 
         return !StringUtils.isEmpty(proposalTypeCode) &&
         (proposalTypeCode.equals(proposalTypeCodeRenewal) ||
@@ -269,7 +269,7 @@ AbstractResearchAndRelatedStream {
 
         if (isProposalTypeRenewalRevisionContinuation(proposalTypeCode)) {
             String federalIdComesFromAwardStr = parameterService
-            .getParameterValue(ProposalDevelopmentDocument.class,"FEDERAL_ID_COMES_FROM_CURRENT_AWARD");
+            .getParameterValueAsString(ProposalDevelopmentDocument.class,"FEDERAL_ID_COMES_FROM_CURRENT_AWARD");
             if ("Y".equalsIgnoreCase(federalIdComesFromAwardStr)) {
                 String currentAwardNumber = developmentProposal.getCurrentAwardNumber();
                 Award award = getAward(currentAwardNumber);
@@ -742,7 +742,7 @@ AbstractResearchAndRelatedStream {
 
     private IndirectCostRateDetails getIndirectCostDetails(DevelopmentProposal developmentProposal) {
         IndirectCostRateDetails indirectCost = IndirectCostRateDetails.Factory.newInstance();
-        String dhhsAgreementFlag = getParameterService().getParameterValue(ProposalDevelopmentDocument.class, "DHHS_AGREEMENT");
+        String dhhsAgreementFlag = getParameterService().getParameterValueAsString(ProposalDevelopmentDocument.class, "DHHS_AGREEMENT");
         Organization orgBean = developmentProposal.getApplicantOrganization().getOrganization();
         try {
             if (dhhsAgreementFlag.equals("0")) {
@@ -799,10 +799,10 @@ AbstractResearchAndRelatedStream {
         nsfSeniorPersonnelType.setRownumber(BigInteger.valueOf(rowNumber));
     }
     
-    public void setNSFSeniorPersonnel(KeyPersonInfo seniorPersonnelBean,NSFSeniorPersonnelType nsfSeniorPersonnelType, int rowNumber){
+    public void setNSFSeniorPersonnel(KeyPersonInfo seniorPersonnelBean,NSFSeniorPersonnelType nsfSeniorPersonnelType, int rowNumber){    
         nsfSeniorPersonnelType.setFullName(getFullName(seniorPersonnelBean));
         nsfSeniorPersonnelType.setTitle(seniorPersonnelBean.getRole());      
-        nsfSeniorPersonnelType.setAcademicMonthsFunded( seniorPersonnelBean.getAcademicMonths().bigDecimalValue()); 
+        nsfSeniorPersonnelType.setAcademicMonthsFunded( seniorPersonnelBean.getAcademicMonths().bigDecimalValue());     
         nsfSeniorPersonnelType.setCalendarMonthsFunded(cumulativeCalendarMonthsFunded.bigDecimalValue());         
         nsfSeniorPersonnelType.setSummerMonthsFunded(seniorPersonnelBean.getSummerMonths().bigDecimalValue()); 
         nsfSeniorPersonnelType.setFundsRequested(seniorPersonnelBean.getRequestedSalary().bigDecimalValue());
@@ -980,9 +980,9 @@ AbstractResearchAndRelatedStream {
             boolean isNih = sponsorService.isSponsorNihOsc(developmentProposal) || sponsorService.isSponsorNihMultiplePi(developmentProposal);
             String mappingName = isNih?"NIH_PRINTING":"NSF_PRINTING";
 
-            String fnaGt25KParamValue = getParameterService().getParameterValue(BudgetDocument.class, "SUBCONTRACTOR_F_AND_A_GT_25K");
-            String fnaLt25KParamValue = getParameterService().getParameterValue(BudgetDocument.class, "SUBCONTRACTOR_F_AND_A_LT_25K");
-            String fnaBroadParamValue = getParameterService().getParameterValue(BudgetDocument.class, "BROAD_F_AND_A");
+            String fnaGt25KParamValue = getParameterService().getParameterValueAsString(BudgetDocument.class, "SUBCONTRACTOR_F_AND_A_GT_25K");
+            String fnaLt25KParamValue = getParameterService().getParameterValueAsString(BudgetDocument.class, "SUBCONTRACTOR_F_AND_A_LT_25K");
+            String fnaBroadParamValue = getParameterService().getParameterValueAsString(BudgetDocument.class, "BROAD_F_AND_A");
             Map<String, String> categoryMap = new HashMap<String, String>();
             categoryMap.put(KEY_TARGET_CATEGORY_CODE, "04");
             categoryMap.put(KEY_MAPPING_NAME, mappingName);

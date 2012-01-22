@@ -18,7 +18,6 @@ package org.kuali.kra.irb.noteattachment;
 import java.util.ArrayList;
 import java.util.Arrays;
 import java.util.Collection;
-import java.util.LinkedHashMap;
 
 import org.apache.struts.upload.FormFile;
 import org.kuali.kra.SkipVersioning;
@@ -29,26 +28,30 @@ import org.kuali.kra.irb.ProtocolAssociate;
 /**
  * This is the base class for all Protocol Attachments.
  */
-public abstract class ProtocolAttachmentBase extends ProtocolAssociate implements TypedAttachment{
+public abstract class ProtocolAttachmentBase extends ProtocolAssociate implements TypedAttachment {
 
     private static final long serialVersionUID = -2519574730475246022L;
-    
+
     private Long id;
+
     private Long fileId;
+
     private Integer documentId;
 
     private transient AttachmentFile file;
+
     private transient FormFile newFile;
+
     @SkipVersioning
     private transient String updateUserFullName;
-    
+
     /**
      * empty ctor to satisfy JavaBean convention.
      */
     public ProtocolAttachmentBase() {
         super();
     }
-    
+
     /**
      * Convenience ctor to set the protocol, protocol id and the protocolNumber from the passed in protocol.
      * 
@@ -61,7 +64,7 @@ public abstract class ProtocolAttachmentBase extends ProtocolAssociate implement
     public ProtocolAttachmentBase(final Protocol protocol) {
         super(protocol);
     }
-    
+
     /**
      * Gets the Protocol Attachment Base File.
      * @return the Protocol Attachment Base File
@@ -72,7 +75,7 @@ public abstract class ProtocolAttachmentBase extends ProtocolAssociate implement
         }
         return this.file;
     }
-    
+
     /**
      * Sets the Protocol Attachment Base File.
      * @param file the Protocol Attachment Base File
@@ -80,7 +83,7 @@ public abstract class ProtocolAttachmentBase extends ProtocolAssociate implement
     public void setFile(AttachmentFile file) {
         this.file = file;
     }
-    
+
     /**
      * Gets the Protocol Attachment Base New File.
      * @return the Protocol Attachment Base New File
@@ -112,18 +115,18 @@ public abstract class ProtocolAttachmentBase extends ProtocolAssociate implement
     public void setFileId(Long fileId) {
         this.fileId = fileId;
     }
-    
+
     /**
      * A human readable description of the attachment type.
      * @return a description
      */
     public abstract String getAttachmentDescription();
-    
+
     /** {@inheritDoc} */
     public void resetPersistenceState() {
         this.setId(null);
     }
-    
+
     /**
      * Gets the  id.
      * @return the  id
@@ -131,7 +134,7 @@ public abstract class ProtocolAttachmentBase extends ProtocolAssociate implement
     public Long getId() {
         return this.id;
     }
-    
+
     /**
      * Sets the id.
      * @param id the id
@@ -139,16 +142,7 @@ public abstract class ProtocolAttachmentBase extends ProtocolAssociate implement
     public void setId(Long id) {
         this.id = id;
     }
-    
-    /** {@inheritDoc} */
-    @Override 
-    protected LinkedHashMap<String, Object> toStringMapper() {
-        final LinkedHashMap<String, Object> hashMap = super.toStringMapper();
-        hashMap.put(PropertyName.FILE_ID.getPropertyName(), this.getFileId());
-        hashMap.put(PropertyName.ID.getPropertyName(), this.getId());
-        return hashMap;
-    }
-    
+
     /**
      * Adds an attachment to a Collection.
      * @param <T> the type of attachment
@@ -160,14 +154,12 @@ public abstract class ProtocolAttachmentBase extends ProtocolAssociate implement
         if (attachment == null) {
             throw new IllegalArgumentException("the attachment is null");
         }
-        
         if (toCollection == null) {
             throw new IllegalArgumentException("the toList is null");
         }
-        
         toCollection.add(attachment);
     }
-    
+
     /**
      * Adds an attachment to a Collection.
      * @param <T> the type of attachment
@@ -179,14 +171,12 @@ public abstract class ProtocolAttachmentBase extends ProtocolAssociate implement
         if (attachment == null) {
             throw new IllegalArgumentException("the attachment is null");
         }
-        
         if (fromCollection == null) {
             throw new IllegalArgumentException("the toList is null");
         }
-        
         fromCollection.remove(attachment);
     }
-    
+
     /**
      * Checks if an attachment is new (not persisted yet).
      * @return true if new false if not
@@ -194,7 +184,7 @@ public abstract class ProtocolAttachmentBase extends ProtocolAssociate implement
     public boolean isNew() {
         return this.getId() == null;
     }
-    
+
     /**
      * Returns a new collection containing only new attachments.
      * @param <T> the type of attachments in the collection.
@@ -203,16 +193,14 @@ public abstract class ProtocolAttachmentBase extends ProtocolAssociate implement
      */
     public static <T extends ProtocolAttachmentBase> Collection<T> filterNewAttachments(final Collection<T> attachments) {
         final Collection<T> newAttachments = new ArrayList<T>();
-        
         for (final T attachment : attachments) {
             if (attachment.isNew()) {
                 newAttachments.add(attachment);
             }
         }
-        
         return newAttachments;
     }
-    
+
     /**
      * Returns a new collection containing only exiting attachments.
      * @param <T> the type of attachments in the collection.
@@ -224,7 +212,7 @@ public abstract class ProtocolAttachmentBase extends ProtocolAssociate implement
         existingAttachments.removeAll(filterNewAttachments(attachments));
         return existingAttachments;
     }
-    
+
     /**
      * Method to check whether an attachment supports versioning.  Currently, all attachments
      * have structural capabilities to version; however, currently we are not versioning all attachment types
@@ -233,7 +221,7 @@ public abstract class ProtocolAttachmentBase extends ProtocolAssociate implement
      * @return true is attachment supports versioning.
      */
     public abstract boolean supportsVersioning();
-    
+
     /** {@inheritDoc} */
     @Override
     public int hashCode() {
@@ -289,11 +277,10 @@ public abstract class ProtocolAttachmentBase extends ProtocolAssociate implement
     private boolean isSameFile(AttachmentFile obj, AttachmentFile other) {
         if (!Arrays.equals(obj.getData(), other.getData())) {
             return false;
-        }  else {
+        } else {
             if (obj.getId() != null && other.getId() != null && !obj.getId().equals(other.getId())) {
                 return false;
-            } else if ((obj.getId() != null && other.getId() == null) ||
-                    (obj.getId() == null && other.getId() != null)) {
+            } else if ((obj.getId() != null && other.getId() == null) || (obj.getId() == null && other.getId() != null)) {
                 return false;
             }
         }
@@ -301,16 +288,14 @@ public abstract class ProtocolAttachmentBase extends ProtocolAssociate implement
             if (other.getName() != null) {
                 return false;
             }
-        }
-        else if (!obj.getName().equals(other.getName())) {
+        } else if (!obj.getName().equals(other.getName())) {
             return false;
         }
         if (obj.getType() == null) {
             if (other.getType() != null) {
                 return false;
             }
-        }
-        else if (!obj.getType().equals(other.getType())) {
+        } else if (!obj.getType().equals(other.getType())) {
             return false;
         }
         return true;
@@ -320,10 +305,11 @@ public abstract class ProtocolAttachmentBase extends ProtocolAssociate implement
      * Contains all the property names in this class.
      */
     public static enum PropertyName {
+
         FILE_ID("fileId"), ID("id");
-        
+
         private final String name;
-        
+
         /**
          * Sets the enum properties.
          * @param name the name.
@@ -331,7 +317,7 @@ public abstract class ProtocolAttachmentBase extends ProtocolAssociate implement
         PropertyName(final String name) {
             this.name = name;
         }
-        
+
         /**
          * Gets the property name.
          * @return the the property name.
@@ -339,7 +325,7 @@ public abstract class ProtocolAttachmentBase extends ProtocolAssociate implement
         public String getPropertyName() {
             return this.name;
         }
-        
+
         /**
          * Gets the {@link #getPropertyName() propertyName()}.
          * @return {@link #getPropertyName() propertyName()}

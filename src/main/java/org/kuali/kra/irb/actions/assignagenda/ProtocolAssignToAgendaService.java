@@ -18,8 +18,6 @@ package org.kuali.kra.irb.actions.assignagenda;
 import org.kuali.kra.irb.Protocol;
 import org.kuali.kra.irb.actions.ProtocolAction;
 
-import java.util.Date;
-
 /**
  * Handles the processing of assigning a protocol to an agenda.
  */

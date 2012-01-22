@@ -50,15 +50,15 @@ import org.kuali.kra.infrastructure.KeyConstants;
 import org.kuali.kra.infrastructure.KraServiceLocator;
 import org.kuali.kra.service.KeywordsService;
 import org.kuali.kra.service.VersioningService;
-import org.kuali.rice.kew.exception.WorkflowException;
-import org.kuali.rice.kns.question.ConfirmationQuestion;
-import org.kuali.rice.kns.service.BusinessObjectService;
-import org.kuali.rice.kns.service.ParameterConstants;
-import org.kuali.rice.kns.service.ParameterService;
+import org.kuali.rice.coreservice.framework.parameter.ParameterConstants;
+import org.kuali.rice.coreservice.framework.parameter.ParameterService;
+import org.kuali.rice.kew.api.exception.WorkflowException;
 import org.kuali.rice.kns.util.ActionFormUtilMap;
-import org.kuali.rice.kns.util.GlobalVariables;
-import org.kuali.rice.kns.util.KNSConstants;
-import org.kuali.rice.kns.web.struts.form.KualiDocumentFormBase;
+import org.kuali.rice.kns.util.KNSGlobalVariables;
+import org.kuali.rice.kns.question.ConfirmationQuestion;
+import org.kuali.rice.krad.service.BusinessObjectService;
+import org.kuali.rice.krad.util.GlobalVariables;
+import org.kuali.rice.krad.util.KRADConstants;
 
 
 /**
@@ -162,7 +162,7 @@ public class AwardHomeAction extends AwardAction {
     public ActionForward open(ActionMapping mapping, ActionForm form, HttpServletRequest request, HttpServletResponse response) throws Exception {
         ActionForward actionForward = super.execute(mapping, form, request, response);
         AwardForm awardForm = (AwardForm) form;
-        String commandParam = request.getParameter(KNSConstants.PARAMETER_COMMAND);
+        String commandParam = request.getParameter(KRADConstants.PARAMETER_COMMAND);
         if (StringUtils.isNotBlank(commandParam) && commandParam.equals("initiate")
             && StringUtils.isNotBlank(request.getParameter(AWARD_ID_PARAMETER_NAME))) {
             Award award = findSelectedAward(request.getParameter(AWARD_ID_PARAMETER_NAME));
@@ -201,7 +201,7 @@ public class AwardHomeAction extends AwardAction {
             throws Exception {
         ActionForward actionForward = super.execute(mapping, form, request, response);
         AwardForm awardForm = (AwardForm) form; 
-        String commandParam = request.getParameter(KNSConstants.PARAMETER_COMMAND);
+        String commandParam = request.getParameter(KRADConstants.PARAMETER_COMMAND);
         if (StringUtils.isNotBlank(commandParam) && commandParam.equals("initiate")
             && StringUtils.isNotBlank(request.getParameter(AWARD_ID_PARAMETER_NAME))) {
             Award award = findSelectedAward(request.getParameter(AWARD_ID_PARAMETER_NAME));
@@ -226,8 +226,8 @@ public class AwardHomeAction extends AwardAction {
         super.refresh(mapping, form, request, response);
         GlobalVariables.getUserSession().removeObject(Constants.LINKED_FUNDING_PROPOSALS_KEY);
         AwardForm awardMultiLookupForm = (AwardForm) form;
-        String lookupResultsBOClassName = request.getParameter(KNSConstants.LOOKUP_RESULTS_BO_CLASS_NAME);
-        String lookupResultsSequenceNumber = request.getParameter(KNSConstants.LOOKUP_RESULTS_SEQUENCE_NUMBER);
+        String lookupResultsBOClassName = request.getParameter(KRADConstants.LOOKUP_RESULTS_BO_CLASS_NAME);
+        String lookupResultsSequenceNumber = request.getParameter(KRADConstants.LOOKUP_RESULTS_SEQUENCE_NUMBER);
         awardMultiLookupForm.setLookupResultsBOClassName(lookupResultsBOClassName);
         awardMultiLookupForm.setLookupResultsSequenceNumber(lookupResultsSequenceNumber);
         Award awardDocument = awardMultiLookupForm.getAwardDocument().getAward();
@@ -252,7 +252,7 @@ public class AwardHomeAction extends AwardAction {
         AwardForm awardForm = (AwardForm) form;
         AwardDocument awardDocument = awardForm.getAwardDocument();
         
-        //if award is a root Award and direct/indirect view is enabled, then we need to sum the obligated and anticipated totals until we create
+      //if award is a root Award and direct/indirect view is enabled, then we need to sum the obligated and anticipated totals until we create
         //initial T&M doc.
         if(awardDocument.getAward().getAwardNumber().endsWith("-00001") && isDirectIndirectViewEnabled()) {
             setTotalsOnAward(awardDocument.getAward());
@@ -281,7 +281,6 @@ public class AwardHomeAction extends AwardAction {
         return forward;
     }
     
-
     private void setTotalsOnAward(Award award) {
         AwardAmountInfo aai = award.getLastAwardAmountInfo();
         aai.setAmountObligatedToDate(aai.getObligatedTotalDirect().add(aai.getObligatedTotalIndirect()));
@@ -301,7 +300,7 @@ public class AwardHomeAction extends AwardAction {
     
     public boolean isDirectIndirectViewEnabled() {
         boolean returnValue = false;
-        String directIndirectEnabledValue = getParameterService().getParameterValue(Constants.PARAMETER_MODULE_AWARD, ParameterConstants.DOCUMENT_COMPONENT, "ENABLE_AWD_ANT_OBL_DIRECT_INDIRECT_COST");
+        String directIndirectEnabledValue = getParameterService().getParameterValueAsString(Constants.PARAMETER_MODULE_AWARD, ParameterConstants.DOCUMENT_COMPONENT, "ENABLE_AWD_ANT_OBL_DIRECT_INDIRECT_COST");
         if(directIndirectEnabledValue.equals("1")) {
             returnValue = true;
         }
@@ -331,7 +330,7 @@ public class AwardHomeAction extends AwardAction {
      */
     @Override
     public ActionForward performLookup(ActionMapping mapping, ActionForm form, HttpServletRequest request, HttpServletResponse response) throws Exception {
-        String parameterName = (String) request.getAttribute(KNSConstants.METHOD_TO_CALL_ATTRIBUTE);
+        String parameterName = (String) request.getAttribute(KRADConstants.METHOD_TO_CALL_ATTRIBUTE);
         if (StringUtils.isNotBlank(parameterName) && parameterName.indexOf(".performLookup") != -1 && parameterName.contains("InstitutionalProposal")) {
             GlobalVariables.getUserSession().addObject(Constants.LINKED_FUNDING_PROPOSALS_KEY, ((AwardForm) form).getLinkedProposals());
         }
@@ -416,7 +415,7 @@ public class AwardHomeAction extends AwardAction {
         
         AwardDocument parentSyncAward = getAwardSyncService().getAwardLockingHierarchyForSync(awardDocument, GlobalVariables.getUserSession().getPrincipalId()); 
         if (parentSyncAward != null) {
-            GlobalVariables.getMessageList().add("error.award.awardhierarchy.sync.locked", parentSyncAward.getDocumentNumber());
+            KNSGlobalVariables.getMessageList().add("error.award.awardhierarchy.sync.locked", parentSyncAward.getDocumentNumber());
             return mapping.findForward(Constants.MAPPING_AWARD_BASIC);
         }
         
@@ -424,7 +423,7 @@ public class AwardHomeAction extends AwardAction {
             VersionHistory foundPending = findPendingVersion(award);
             cleanUpUserSession();
             if(foundPending != null) {
-                Object question = request.getParameter(KNSConstants.QUESTION_CLICKED_BUTTON);
+                Object question = request.getParameter(KRADConstants.QUESTION_CLICKED_BUTTON);
                 forward = question == null ? showPromptForEditingPendingVersion(mapping, form, request, response) :
                                              processPromptForEditingPendingVersionResponse(mapping, request, response, awardForm, foundPending);
             } else {
@@ -548,7 +547,7 @@ public class AwardHomeAction extends AwardAction {
     }
     
     private String makeDocumentOpenUrl(AwardDocument newAwardDocument) {
-        String workflowUrl = getKualiConfigurationService().getPropertyString(KNSConstants.WORKFLOW_URL_KEY);
+        String workflowUrl = getKualiConfigurationService().getPropertyValueAsString(KRADConstants.WORKFLOW_URL_KEY);
         return String.format(DOC_HANDLER_URL_PATTERN, workflowUrl, newAwardDocument.getDocumentNumber());
     }
     
@@ -568,8 +567,8 @@ public class AwardHomeAction extends AwardAction {
                                                                 HttpServletResponse response) throws Exception {
         return this.performQuestionWithoutInput(mapping, form, request, response, "EDIT_OR_VERSION_QUESTION_ID",
                                                 getResources(request).getMessage(AWARD_VERSION_EDITPENDING_PROMPT_KEY),
-                                                KNSConstants.CONFIRMATION_QUESTION,
-                                                KNSConstants.MAPPING_CANCEL, "");
+                                                KRADConstants.CONFIRMATION_QUESTION,
+                                                KRADConstants.MAPPING_CANCEL, "");
     }
     
     private ActionForward processPromptForEditingPendingVersionResponse(ActionMapping mapping, HttpServletRequest request,
@@ -577,7 +576,7 @@ public class AwardHomeAction extends AwardAction {
             VersionHistory foundPending) throws WorkflowException, 
                                                 IOException {
         ActionForward forward;
-        Object buttonClicked = request.getParameter(KNSConstants.QUESTION_CLICKED_BUTTON);
+        Object buttonClicked = request.getParameter(KRADConstants.QUESTION_CLICKED_BUTTON);
         if (ConfirmationQuestion.NO.equals(buttonClicked)) {
             forward = mapping.findForward(Constants.MAPPING_BASIC);
         } else {

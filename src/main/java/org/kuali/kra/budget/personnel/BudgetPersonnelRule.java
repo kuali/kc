@@ -34,11 +34,11 @@ import org.kuali.kra.infrastructure.Constants;
 import org.kuali.kra.infrastructure.KeyConstants;
 import org.kuali.kra.infrastructure.KraServiceLocator;
 import org.kuali.kra.proposaldevelopment.bo.DevelopmentProposal;
-import org.kuali.rice.kns.service.BusinessObjectService;
-import org.kuali.rice.kns.service.ParameterService;
-import org.kuali.rice.kns.util.GlobalVariables;
-import org.kuali.rice.kns.util.MessageMap;
-import org.kuali.rice.kns.util.RiceKeyConstants;
+import org.kuali.rice.core.api.util.RiceKeyConstants;
+import org.kuali.rice.coreservice.framework.parameter.ParameterService;
+import org.kuali.rice.krad.service.BusinessObjectService;
+import org.kuali.rice.krad.util.GlobalVariables;
+import org.kuali.rice.krad.util.MessageMap;
 
 /**
  * Business Rules for the BudgetPersonnel panel. 
@@ -366,7 +366,7 @@ public class BudgetPersonnelRule {
         List<ValidCeJobCode> validCostElements = null;
     
         if (save) {
-            String jobCodeValidationEnabledInd = this.paramService.getParameterValue(BudgetDocument.class, Constants.BUDGET_JOBCODE_VALIDATION_ENABLED);
+            String jobCodeValidationEnabledInd = this.paramService.getParameterValueAsString(BudgetDocument.class, Constants.BUDGET_JOBCODE_VALIDATION_ENABLED);
             
             Map<String, Object> fieldValues = new HashMap<String, Object>();
             BudgetPerson budgetPerson = null;

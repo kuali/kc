@@ -26,8 +26,8 @@ import org.kuali.kra.infrastructure.KeyConstants;
 import org.kuali.kra.infrastructure.KraServiceLocator;
 import org.kuali.kra.rules.KraMaintenanceDocumentRuleBase;
 import org.kuali.rice.kns.document.MaintenanceDocument;
-import org.kuali.rice.kns.service.BusinessObjectService;
-import org.kuali.rice.kns.util.GlobalVariables;
+import org.kuali.rice.krad.service.BusinessObjectService;
+import org.kuali.rice.krad.util.GlobalVariables;
 
 public class ValidCeRateTypeMaintenanceDocumentRule extends KraMaintenanceDocumentRuleBase {
     
@@ -68,7 +68,7 @@ public class ValidCeRateTypeMaintenanceDocumentRule extends KraMaintenanceDocume
         if (LOG.isDebugEnabled()) {
             LOG.debug("new maintainable is: " + maintenanceDocument.getNewMaintainableObject().getClass());
         }
-        ValidCeRateType validCeRateType = (ValidCeRateType) maintenanceDocument.getNewMaintainableObject().getBusinessObject();
+        ValidCeRateType validCeRateType = (ValidCeRateType) maintenanceDocument.getNewMaintainableObject().getDataObject();
 
         if (StringUtils.isNotBlank(validCeRateType.getRateClassCode()) && StringUtils.isNotBlank(validCeRateType.getRateTypeCode())) {
             Map pkMap = new HashMap();
@@ -76,7 +76,7 @@ public class ValidCeRateTypeMaintenanceDocumentRule extends KraMaintenanceDocume
             pkMap.put("rateTypeCode", validCeRateType.getRateTypeCode());
             RateType rateType = (RateType)KraServiceLocator.getService(BusinessObjectService.class).findByPrimaryKey(RateType.class, pkMap);
             if (rateType == null ) {
-                GlobalVariables.getErrorMap().putError("document.newMaintainableObject.rateTypeCode", KeyConstants.ERROR_RATE_TYPE_NOT_EXIST,
+                GlobalVariables.getMessageMap().putError("document.newMaintainableObject.rateTypeCode", KeyConstants.ERROR_RATE_TYPE_NOT_EXIST,
                         new String[] { validCeRateType.getRateClassCode(), validCeRateType.getRateTypeCode() });
                 valid = false;
             }

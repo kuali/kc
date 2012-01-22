@@ -49,16 +49,16 @@ import org.kuali.kra.rule.BusinessRuleInterface;
 import org.kuali.kra.rule.event.KraDocumentEventBaseExtension;
 import org.kuali.kra.rules.ResearchDocumentRuleBase;
 import org.kuali.kra.service.UnitService;
-import org.kuali.rice.core.util.KeyLabelPair;
-import org.kuali.rice.kew.exception.WorkflowException;
+import org.kuali.rice.core.api.util.KeyValue;
+import org.kuali.rice.kew.api.KewApiConstants;
+import org.kuali.rice.kew.api.exception.WorkflowException;
 import org.kuali.rice.kew.routeheader.service.RouteHeaderService;
-import org.kuali.rice.kew.util.KEWConstants;
-import org.kuali.rice.kns.bo.PersistableBusinessObject;
-import org.kuali.rice.kns.document.Document;
-import org.kuali.rice.kns.service.BusinessObjectService;
-import org.kuali.rice.kns.service.DocumentService;
-import org.kuali.rice.kns.service.KNSServiceLocator;
-import org.kuali.rice.kns.util.GlobalVariables;
+import org.kuali.rice.krad.bo.PersistableBusinessObject;
+import org.kuali.rice.krad.document.Document;
+import org.kuali.rice.krad.service.BusinessObjectService;
+import org.kuali.rice.krad.service.DocumentService;
+import org.kuali.rice.krad.service.KRADServiceLocator;
+import org.kuali.rice.krad.util.GlobalVariables;
 
 /**
  * This is the main business rule class for the Committee Document.  It
@@ -92,7 +92,7 @@ public class CommitteeDocumentRule extends ResearchDocumentRuleBase implements B
     private static final boolean CHOMP_LAST_LETTER_S_FROM_COLLECTION_NAME = false;
     
     /**
-     * @see org.kuali.core.rules.DocumentRuleBase#processCustomRouteDocumentBusinessRules(org.kuali.rice.kns.document.Document)
+     * @see org.kuali.core.rules.DocumentRuleBase#processCustomRouteDocumentBusinessRules(org.kuali.rice.krad.document.Document)
      */
     @Override
     protected boolean processCustomRouteDocumentBusinessRules(Document document) {
@@ -104,14 +104,14 @@ public class CommitteeDocumentRule extends ResearchDocumentRuleBase implements B
     }
 
     /**
-     * @see org.kuali.core.rules.DocumentRuleBase#processCustomSaveDocumentBusinessRules(org.kuali.rice.kns.document.Document)
+     * @see org.kuali.core.rules.DocumentRuleBase#processCustomSaveDocumentBusinessRules(org.kuali.rice.krad.document.Document)
      */
     @Override
     protected boolean processCustomSaveDocumentBusinessRules(Document document) {
        
         boolean valid = true;
         
-        GlobalVariables.getErrorMap().addToErrorPath("document");
+        GlobalVariables.getMessageMap().addToErrorPath("document");
         
         /* 
          * The Kuali Core business rules don't check to see if the required fields are
@@ -122,8 +122,8 @@ public class CommitteeDocumentRule extends ResearchDocumentRuleBase implements B
          * there by this method.
          */
         getDictionaryValidationService().validateDocumentAndUpdatableReferencesRecursively(document, getMaxDictionaryValidationDepth(), VALIDATION_REQUIRED, CHOMP_LAST_LETTER_S_FROM_COLLECTION_NAME);
-        valid &= GlobalVariables.getErrorMap().isEmpty();
-        GlobalVariables.getErrorMap().removeFromErrorPath("document");
+        valid &= GlobalVariables.getMessageMap().hasNoErrors();
+        GlobalVariables.getMessageMap().removeFromErrorPath("document");
         
         valid &= validateCommitteeId((CommitteeDocument) document);
         valid &= validateUniqueCommitteeId((CommitteeDocument) document);
@@ -134,6 +134,7 @@ public class CommitteeDocumentRule extends ResearchDocumentRuleBase implements B
                    
         valid &= validateCommitteeMemberships((CommitteeDocument) document);
         valid &= processScheduleRules((CommitteeDocument) document);
+        
         
         return valid;
     }
@@ -191,7 +192,7 @@ public class CommitteeDocumentRule extends ResearchDocumentRuleBase implements B
 
         Committee committee = document.getCommittee();
         boolean valid = true;
-        if (committee.getSequenceNumber() == 1 && (document.getDocumentHeader().getWorkflowDocument().stateIsInitiated() || document.getDocumentHeader().getWorkflowDocument().stateIsSaved())) {
+        if (committee.getSequenceNumber() == 1 && (document.getDocumentHeader().getWorkflowDocument().isInitiated() || document.getDocumentHeader().getWorkflowDocument().isSaved())) {
             if (getCommitteeIds(document.getDocumentNumber()).contains(committee.getCommitteeId())) {
                 valid = false;
             } else {
@@ -241,11 +242,11 @@ public class CommitteeDocumentRule extends ResearchDocumentRuleBase implements B
                     .getByDocumentHeaderId(commDoc.getDocumentNumber());
             // Get XML of workflow document
             String content = KraServiceLocator.getService(RouteHeaderService.class).getContent(
-                    workflowCommitteeDoc.getDocumentHeader().getWorkflowDocument().getRouteHeaderId()).getDocumentContent();
+                    workflowCommitteeDoc.getDocumentHeader().getWorkflowDocument().getDocumentId()).getDocumentContent();
 
             // Create committee from XML and add to the document
             workflowCommitteeDoc.getCommitteeList().add(populateCommitteeFromXmlDocumentContents(content));
-            if (!workflowCommitteeDoc.getDocumentHeader().getWorkflowDocument().stateIsCanceled()) {
+            if (!workflowCommitteeDoc.getDocumentHeader().getWorkflowDocument().isCanceled()) {
                 result.add(workflowCommitteeDoc);
             }
             }
@@ -274,7 +275,7 @@ public class CommitteeDocumentRule extends ResearchDocumentRuleBase implements B
                 CommitteeDocument.class);
         for (CommitteeDocument committeeDoc : committeeDocss) {
             if (StringUtils.isNotBlank(committeeDoc.getCommitteeId()) && !result.contains(committeeDoc.getCommitteeId())
-                    && StringUtils.isNotBlank(committeeDoc.getDocStatusCode()) && !committeeDoc.getDocStatusCode().equals(KEWConstants.ROUTE_HEADER_CANCEL_CD)
+                    && StringUtils.isNotBlank(committeeDoc.getDocStatusCode()) && !committeeDoc.getDocStatusCode().equals(KewApiConstants.ROUTE_HEADER_CANCEL_CD)
                     && !StringUtils.equals(committeeDoc.getDocumentNumber(), docNumber)) {
                 result.add(committeeDoc.getCommitteeId());
             }
@@ -300,7 +301,7 @@ public class CommitteeDocumentRule extends ResearchDocumentRuleBase implements B
     private PersistableBusinessObject getBusinessObjectFromXML(String xmlDocumentContents, String objectTagName) {
         String objXml = StringUtils.substringBetween(xmlDocumentContents, "<" + objectTagName + ">", "</" + objectTagName + ">");
         objXml = "<" + objectTagName + ">" + objXml + "</" + objectTagName + ">";
-        PersistableBusinessObject businessObject = (PersistableBusinessObject) KNSServiceLocator.getXmlObjectSerializerService().fromXml(objXml);
+        PersistableBusinessObject businessObject = (PersistableBusinessObject) KRADServiceLocator.getXmlObjectSerializerService().fromXml(objXml);
         return businessObject;
     }
 
@@ -313,9 +314,9 @@ public class CommitteeDocumentRule extends ResearchDocumentRuleBase implements B
     private boolean validateUniqueCommitteeName(CommitteeDocument document) {
         Committee committee = document.getCommittee();
         CommitteeIdValuesFinder committeeIdValuesFinder = new CommitteeIdValuesFinder();
-        List<KeyLabelPair> committeeIdNamePairList = committeeIdValuesFinder.getKeyValues();
-        for (KeyLabelPair committeeIdNamePair : committeeIdNamePairList) {
-            if (StringUtils.equalsIgnoreCase(committeeIdNamePair.getLabel(), committee.getCommitteeName()) 
+        List<KeyValue> committeeIdNamePairList = committeeIdValuesFinder.getKeyValues();
+        for (KeyValue committeeIdNamePair : committeeIdNamePairList) {
+            if (StringUtils.equalsIgnoreCase(committeeIdNamePair.getValue(), committee.getCommitteeName()) 
                     && StringUtils.isNotBlank((String) committeeIdNamePair.getKey()) 
                     && !StringUtils.equalsIgnoreCase((String) committeeIdNamePair.getKey(), committee.getCommitteeId())) {
                 reportError(COMMITTEE_NAME_FIELD, KeyConstants.ERROR_COMMITTEE_DUPLICATE_NAME);            

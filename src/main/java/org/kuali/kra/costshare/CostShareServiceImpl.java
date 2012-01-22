@@ -17,7 +17,7 @@ package org.kuali.kra.costshare;
 
 import org.apache.commons.lang.StringUtils;
 import org.kuali.kra.infrastructure.Constants;
-import org.kuali.rice.kns.service.ParameterService;
+import org.kuali.rice.coreservice.framework.parameter.ParameterService;
 
 /**
  * This class...
@@ -37,7 +37,7 @@ public class CostShareServiceImpl implements CostShareService {
      */
     public String getCostShareLabel(boolean resetSession) {
         if (label == null || resetSession) {
-            label = this.getParameterService().getParameterValue(Constants.KC_GENERIC_PARAMETER_NAMESPACE, 
+            label = this.getParameterService().getParameterValueAsString(Constants.KC_GENERIC_PARAMETER_NAMESPACE, 
                     Constants.KC_ALL_PARAMETER_DETAIL_TYPE_CODE, PARAM_LABEL_NAME);
         }
         return label;

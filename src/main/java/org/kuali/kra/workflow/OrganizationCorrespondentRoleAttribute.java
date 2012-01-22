@@ -24,13 +24,13 @@ import org.apache.commons.lang.StringUtils;
 import org.kuali.kra.bo.OrganizationCorrespondent;
 import org.kuali.kra.infrastructure.KraServiceLocator;
 import org.kuali.kra.service.OrganizationService;
+import org.kuali.rice.kew.api.identity.Id;
+import org.kuali.rice.kew.api.identity.PrincipalId;
+import org.kuali.rice.kew.api.rule.RoleName;
 import org.kuali.rice.kew.engine.RouteContext;
-import org.kuali.rice.kew.identity.Id;
-import org.kuali.rice.kew.identity.PrincipalId;
 import org.kuali.rice.kew.routeheader.DocumentContent;
 import org.kuali.rice.kew.rule.GenericRoleAttribute;
 import org.kuali.rice.kew.rule.QualifiedRoleName;
-import org.kuali.rice.kew.rule.Role;
 import org.w3c.dom.NodeList;
 
 public class OrganizationCorrespondentRoleAttribute extends GenericRoleAttribute {
@@ -47,8 +47,8 @@ public class OrganizationCorrespondentRoleAttribute extends GenericRoleAttribute
         return qualifiedRoleNames;
     }
 
-    public List<Role> getRoleNames() {
-        Role role = new Role(OrganizationCorrespondentRoleAttribute.class, ROLE_NAME, ROLE_NAME);
+    public List<RoleName> getRoleNames() {
+        RoleName role = RoleName.Builder.create("org.kuali.kra.workflow.OrganizationCorrespondentRoleAttribute", ROLE_NAME, ROLE_NAME).build();
         return Collections.singletonList(role);
     }
     

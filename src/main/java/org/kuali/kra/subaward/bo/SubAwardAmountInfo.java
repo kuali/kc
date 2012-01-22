@@ -27,35 +27,45 @@ import java.sql.Date;
 
 import org.kuali.kra.service.KcAttachmentService;
 import org.kuali.kra.subaward.bo.SubAward;
-import org.kuali.rice.kns.util.KualiDecimal;
+import org.kuali.rice.core.api.util.type.KualiDecimal;
 
 public class SubAwardAmountInfo extends SubAwardAssociate implements KcAttachment{ 
-    
+
     private static final long serialVersionUID = 1L;
 
-    private Integer subAwardAmountInfoId; 
+    private Integer subAwardAmountInfoId;
     private Long subAwardId; 
-    private String subAwardCode; 
-    private Integer lineNumber; 
-    private KualiDecimal obligatedAmount; 
-    private KualiDecimal obligatedChange; 
-    private KualiDecimal anticipatedAmount; 
-    private KualiDecimal anticipatedChange; 
-    private Date effectiveDate; 
-    private String comments; 
-    private String fileName; 
-    private byte[] document; 
-    private String mimeType; 
+    private String subAwardCode;
+    private Integer lineNumber;
+
+    private KualiDecimal obligatedAmount;
+
+    private KualiDecimal obligatedChange;
+
+    private KualiDecimal anticipatedAmount;
+
+    private KualiDecimal anticipatedChange;
+
+    private Date effectiveDate;
+
+    private String comments;
+
+    private String fileName;
+
+    private byte[] document;
+
+    private String mimeType;
+
     private AttachmentFile file;
     transient private FormFile newFile;
-    private SubAward subAward; 
+    private SubAward subAward;
     private Long fileId;
     private String contentType;
 
     public SubAwardAmountInfo() { 
-        
-    } 
-      
+
+    }
+
     public Integer getSubAwardAmountInfoId() {
         return subAwardAmountInfoId;
     }
@@ -88,8 +98,6 @@ public class SubAwardAmountInfo extends SubAwardAssociate implements KcAttachmen
     public void setLineNumber(Integer lineNumber) {
         this.lineNumber = lineNumber;
     }
-
-  
 
     public Date getEffectiveDate() {
         return effectiveDate;
@@ -150,28 +158,6 @@ public class SubAwardAmountInfo extends SubAwardAssociate implements KcAttachmen
         }
     }
 
-    /** {@inheritDoc} */
-    @Override 
-    protected LinkedHashMap<String, Object> toStringMapper() {
-        LinkedHashMap<String, Object> hashMap = new LinkedHashMap<String, Object>();
-        hashMap.put("subAwardAmountInfoId", this.getSubAwardAmountInfoId());
-        hashMap.put("subAwardId", this.getSubAwardId());
-        hashMap.put("subAwardCode", this.getSubAwardCode());
-        hashMap.put("sequenceNumber", this.getSequenceNumber());
-        hashMap.put("lineNumber", this.getLineNumber());
-        hashMap.put("obligatedAmount", this.getObligatedAmount());
-        hashMap.put("obligatedChange", this.getObligatedChange());
-        hashMap.put("anticipatedAmount", this.getAnticipatedAmount());
-        hashMap.put("anticipatedChange", this.getAnticipatedChange());
-        hashMap.put("effectiveDate", this.getEffectiveDate());
-        hashMap.put("comments", this.getComments());
-        hashMap.put("fileName", this.getFileName());
-        hashMap.put("document", this.getDocument());
-        hashMap.put("mimeType", this.getMimeType());
-        hashMap.put("fileId", this.getFileId());
-        return hashMap;
-    }
-
     public KualiDecimal getObligatedAmount() {
         return obligatedAmount;
     }
@@ -203,31 +189,29 @@ public class SubAwardAmountInfo extends SubAwardAssociate implements KcAttachmen
     public void setAnticipatedChange(KualiDecimal anticipatedChange) {
         this.anticipatedChange = anticipatedChange;
     }
-    
+
     /**
      * Gets the  Attachment File.
      */
     public AttachmentFile getFile() {
         return this.file;
     }
-    
+
     /**
      * Sets the  Attachment File.
      */
     public void setFile(AttachmentFile file) {
         this.file = file;
     }
-    
-   
+
     public FormFile getNewFile() {
         return this.newFile;
     }
 
-    
     public void setNewFile(FormFile newFile) {
         this.newFile = newFile;
     }
-    
+
     /**
      * Gets the file Id. 
      * @return the file Id.
@@ -249,7 +233,7 @@ public class SubAwardAmountInfo extends SubAwardAssociate implements KcAttachmen
     public void resetPersistenceState() {
         this.subAwardAmountInfoId = null;
     }
-
+    
     @Override
     public String getName() {
         return getFileName();

@@ -15,10 +15,13 @@
  */
 package org.kuali.kra.service.impl.mocks;
 
-import java.util.*;
+import java.util.ArrayList;
+import java.util.List;
+import java.util.Map;
 
 import org.kuali.kra.bo.KcPerson;
 import org.kuali.kra.service.KcPersonService;
+import org.kuali.rice.kim.api.identity.Person;
 
 public class MockKcPersonService implements KcPersonService {
     
@@ -54,4 +57,15 @@ public class MockKcPersonService implements KcPersonService {
         personList.add(new KcPerson());
     }
 
+    @Override
+    public void modifyFieldValues(Map<String, String> fieldValues) {
+        
+    }
+
+    @Override
+    public List<KcPerson> createKcPersonsFromPeople(List<Person> people) {
+        return null;
+    }
+
+    
 }

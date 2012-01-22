@@ -17,21 +17,15 @@ package org.kuali.kra.budget.versions;
 
 import java.sql.Date;
 import java.util.HashMap;
-import java.util.LinkedHashMap;
 import java.util.Map;
 
-import org.apache.ojb.broker.PersistenceBroker;
-import org.apache.ojb.broker.PersistenceBrokerException;
 import org.kuali.kra.bo.KraPersistableBusinessObjectBase;
 import org.kuali.kra.budget.BudgetDecimal;
-import org.kuali.kra.budget.document.BudgetDocument;
-import org.kuali.kra.budget.parameters.BudgetPeriod;
 import org.kuali.kra.budget.rates.RateClass;
 import org.kuali.kra.infrastructure.DeepCopyIgnore;
-import org.kuali.kra.infrastructure.DeepCopyIgnoreScopes;
 import org.kuali.kra.infrastructure.KraServiceLocator;
-import org.kuali.rice.kns.bo.DocumentHeader;
-import org.kuali.rice.kns.service.BusinessObjectService;
+import org.kuali.rice.krad.bo.DocumentHeader;
+import org.kuali.rice.krad.service.BusinessObjectService;
 
 /**
  * Class representation of a Budget Overview Business Object.  This BO maps to
@@ -40,44 +34,67 @@ import org.kuali.rice.kns.service.BusinessObjectService;
  * @author kra-developers-l@indiana.edu
  */
 public class BudgetVersionOverview extends KraPersistableBusinessObjectBase implements Comparable<BudgetVersionOverview> {
-    
+
     /**
      * Comment for <code>serialVersionUID</code>
      */
     private static final long serialVersionUID = -4997453399414404715L;
+
     private Integer budgetVersionNumber;
+
     @DeepCopyIgnore
     private Long budgetId;
+
     private String documentNumber;
+
     private String documentDescription;
+
     private BudgetDecimal costSharingAmount;
+
     private Date endDate;
+
     private Date startDate;
+
     private boolean finalVersionFlag;
+
     private String ohRateTypeCode;
+
     private String ohRateClassCode;
+
     private BudgetDecimal residualFunds;
+
     private BudgetDecimal totalCost;
+
     private BudgetDecimal totalDirectCost;
+
     private BudgetDecimal totalIndirectCost;
+
     private BudgetDecimal totalCostLimit;
+
     private BudgetDecimal totalDirectCostLimit;
+
     private BudgetDecimal underrecoveryAmount;
+
     private String comments;
+
     private boolean descriptionUpdatable;
+
     private RateClass rateClass;
-    
+
     private String name;
+
     private String budgetStatus;
-    
-    
+
     private Boolean modularBudgetFlag;
+
     private String urRateClassCode;
+
     private String onOffCampusFlag;
+
     private String printBudgetCommentFlag;
 
-    private Boolean submitCostSharingFlag=Boolean.TRUE;
-    
+    private Boolean submitCostSharingFlag = Boolean.TRUE;
+
     public Integer getBudgetVersionNumber() {
         return budgetVersionNumber;
     }
@@ -87,7 +104,7 @@ public class BudgetVersionOverview extends KraPersistableBusinessObjectBase impl
     }
 
     public BudgetDecimal getCostSharingAmount() {
-        return costSharingAmount == null ?  BudgetDecimal.ZERO : costSharingAmount;
+        return costSharingAmount == null ? BudgetDecimal.ZERO : costSharingAmount;
     }
 
     public void setCostSharingAmount(BudgetDecimal costSharingAmount) {
@@ -126,14 +143,13 @@ public class BudgetVersionOverview extends KraPersistableBusinessObjectBase impl
         this.rateClass = rateClass;
     }
 
-//    public String getProposalNumber() {
-//        return proposalNumber;
-//    }
-//    
-//    public void setProposalNumber(String proposalNumber) {
-//        this.proposalNumber = proposalNumber;
-//    }
-    
+    //    public String getProposalNumber() { 
+    //        return proposalNumber; 
+    //    } 
+    //     
+    //    public void setProposalNumber(String proposalNumber) { 
+    //        this.proposalNumber = proposalNumber; 
+    //    } 
     public String getDocumentNumber() {
         return documentNumber;
     }
@@ -151,13 +167,12 @@ public class BudgetVersionOverview extends KraPersistableBusinessObjectBase impl
     }
 
     public BudgetDecimal getTotalCost() {
-        return totalCost == null ?  BudgetDecimal.ZERO : totalCost;
+        return totalCost == null ? BudgetDecimal.ZERO : totalCost;
     }
 
     public void setTotalCost(BudgetDecimal totalCost) {
         this.totalCost = totalCost;
     }
-
 
     public void setTotalDirectCost(BudgetDecimal totalDirectCost) {
         this.totalDirectCost = totalDirectCost;
@@ -167,11 +182,10 @@ public class BudgetVersionOverview extends KraPersistableBusinessObjectBase impl
         this.totalIndirectCost = totalIndirectCost;
     }
 
-
     public void setUnderrecoveryAmount(BudgetDecimal underrecoveryAmount) {
         this.underrecoveryAmount = underrecoveryAmount;
     }
-    
+
     public String getName() {
         return name;
     }
@@ -187,7 +201,7 @@ public class BudgetVersionOverview extends KraPersistableBusinessObjectBase impl
     public void setBudgetStatus(String budgetStatus) {
         this.budgetStatus = budgetStatus;
     }
-    
+
     public Date getEndDate() {
         return endDate;
     }
@@ -205,24 +219,25 @@ public class BudgetVersionOverview extends KraPersistableBusinessObjectBase impl
     }
 
     public BudgetDecimal getTotalCostLimit() {
-        return totalCostLimit==null?BudgetDecimal.ZERO:totalCostLimit;
+        return totalCostLimit == null ? BudgetDecimal.ZERO : totalCostLimit;
     }
 
     public void setTotalCostLimit(BudgetDecimal totalCostLimit) {
         this.totalCostLimit = totalCostLimit;
     }
+
     public BudgetDecimal getTotalDirectCost() {
-        return totalDirectCost == null ?  new BudgetDecimal(0) : totalDirectCost;
+        return totalDirectCost == null ? new BudgetDecimal(0) : totalDirectCost;
     }
+
     public BudgetDecimal getTotalIndirectCost() {
-        return totalIndirectCost == null ?  new BudgetDecimal(0) : totalIndirectCost;
+        return totalIndirectCost == null ? new BudgetDecimal(0) : totalIndirectCost;
     }
+
     public BudgetDecimal getUnderrecoveryAmount() {
-        return underrecoveryAmount == null ?  new BudgetDecimal(0) : underrecoveryAmount;
+        return underrecoveryAmount == null ? new BudgetDecimal(0) : underrecoveryAmount;
     }
 
-
-    
     public String getDocumentDescription() {
         return documentDescription;
     }
@@ -230,7 +245,7 @@ public class BudgetVersionOverview extends KraPersistableBusinessObjectBase impl
     public void setDocumentDescription(String documentDescription) {
         this.documentDescription = documentDescription;
     }
-    
+
     public String getComments() {
         return comments;
     }
@@ -238,12 +253,13 @@ public class BudgetVersionOverview extends KraPersistableBusinessObjectBase impl
     public void setComments(String comments) {
         this.comments = comments;
     }
-    
+
     public boolean isDescriptionUpdatable() {
         return descriptionUpdatable;
     }
+
     public String getDescriptionUpdatable() {
-        return descriptionUpdatable?"Yes":"No";
+        return descriptionUpdatable ? "Yes" : "No";
     }
 
     public void setDescriptionUpdatable(boolean descriptionUpdatable) {
@@ -251,19 +267,19 @@ public class BudgetVersionOverview extends KraPersistableBusinessObjectBase impl
     }
 
     /**
-     * @see org.kuali.rice.kns.bo.PersistableBusinessObjectBase#afterLookup()
+     * @see org.kuali.rice.krad.bo.PersistableBusinessObjectBase#afterLookup()
      */
     @Override
-    public void afterLookup(PersistenceBroker persistenceBroker) throws PersistenceBrokerException {
-        // The purpose of this lookup is to get the document description from the doc header,
-        // without mapping the enire doc header (which can be large) in ojb.
-        super.afterLookup(persistenceBroker);
+    protected void postLoad() {
+        // The purpose of this lookup is to get the document description from the doc header, 
+        // without mapping the enire doc header (which can be large) in ojb. 
+        super.postLoad();
         DocumentHeader docHeader = getDocHeader();
         if (docHeader != null) {
             this.documentDescription = docHeader.getDocumentDescription();
         }
     }
-    
+
     protected DocumentHeader getDocHeader() {
         BusinessObjectService boService = KraServiceLocator.getService(BusinessObjectService.class);
         Map<String, Object> keyMap = new HashMap<String, Object>();
@@ -271,7 +287,7 @@ public class BudgetVersionOverview extends KraPersistableBusinessObjectBase impl
         DocumentHeader docHeader = (DocumentHeader) boService.findByPrimaryKey(DocumentHeader.class, keyMap);
         return docHeader;
     }
-    
+
     /**
      * 
      * @see java.lang.Comparable
@@ -343,27 +359,6 @@ public class BudgetVersionOverview extends KraPersistableBusinessObjectBase impl
     public void setOnOffCampusFlag(String onOffCampusFlag) {
         this.onOffCampusFlag = onOffCampusFlag;
     }
-    @Override
-    protected LinkedHashMap toStringMapper() {
-        LinkedHashMap<String,Object> hashMap = new LinkedHashMap<String,Object>();        
-        hashMap.put("budgetVersionNumber", budgetVersionNumber);
-        hashMap.put("comments", comments);
-        hashMap.put("costSharingAmount", costSharingAmount);
-        hashMap.put("endDate", endDate);
-        hashMap.put("finalVersionFlag", finalVersionFlag);
-        hashMap.put("modularBudgetFlag", modularBudgetFlag);
-        hashMap.put("ohRateClassCode", ohRateClassCode);
-        hashMap.put("ohRateTypeCode", ohRateTypeCode);
-        hashMap.put("residualFunds", residualFunds);
-        hashMap.put("startDate", startDate);
-        hashMap.put("totalCost", totalCost);
-        hashMap.put("totalCostLimit", totalCostLimit);
-        hashMap.put("totalDirectCost", totalDirectCost);
-        hashMap.put("totalIndirectCost", totalIndirectCost);
-        hashMap.put("underrecoveryAmount", underrecoveryAmount);
-        hashMap.put("urRateClassCode", urRateClassCode);
-        return hashMap;
-    }
 
     /**
      * @see java.lang.Object#hashCode()
@@ -404,149 +399,78 @@ public class BudgetVersionOverview extends KraPersistableBusinessObjectBase impl
      */
     @Override
     public boolean equals(Object obj) {
-        if (this == obj)
-            return true;
-        if (obj == null)
-            return false;
-        if (getClass() != obj.getClass())
-            return false;
+        if (this == obj) return true;
+        if (obj == null) return false;
+        if (getClass() != obj.getClass()) return false;
         BudgetVersionOverview other = (BudgetVersionOverview) obj;
         if (budgetId == null) {
-            if (other.budgetId != null)
-                return false;
-        }
-        else if (!budgetId.equals(other.budgetId))
-            return false;
+            if (other.budgetId != null) return false;
+        } else if (!budgetId.equals(other.budgetId)) return false;
         if (budgetStatus == null) {
-            if (other.budgetStatus != null)
-                return false;
-        }
-        else if (!budgetStatus.equals(other.budgetStatus))
-            return false;
+            if (other.budgetStatus != null) return false;
+        } else if (!budgetStatus.equals(other.budgetStatus)) return false;
         if (budgetVersionNumber == null) {
-            if (other.budgetVersionNumber != null)
-                return false;
-        }
-        else if (!budgetVersionNumber.equals(other.budgetVersionNumber))
-            return false;
+            if (other.budgetVersionNumber != null) return false;
+        } else if (!budgetVersionNumber.equals(other.budgetVersionNumber)) return false;
         if (comments == null) {
-            if (other.comments != null)
-                return false;
-        }
-        else if (!comments.equals(other.comments))
-            return false;
+            if (other.comments != null) return false;
+        } else if (!comments.equals(other.comments)) return false;
         if (costSharingAmount == null) {
-            if (other.costSharingAmount != null)
-                return false;
-        }
-        else if (!costSharingAmount.equals(other.costSharingAmount))
-            return false;
-        if (descriptionUpdatable != other.descriptionUpdatable)
-            return false;
+            if (other.costSharingAmount != null) return false;
+        } else if (!costSharingAmount.equals(other.costSharingAmount)) return false;
+        if (descriptionUpdatable != other.descriptionUpdatable) return false;
         if (documentDescription == null) {
-            if (other.documentDescription != null)
-                return false;
-        }
-        else if (!documentDescription.equals(other.documentDescription))
-            return false;
+            if (other.documentDescription != null) return false;
+        } else if (!documentDescription.equals(other.documentDescription)) return false;
         if (documentNumber == null) {
-            if (other.documentNumber != null)
-                return false;
-        }
-        else if (!documentNumber.equals(other.documentNumber))
-            return false;
+            if (other.documentNumber != null) return false;
+        } else if (!documentNumber.equals(other.documentNumber)) return false;
         if (endDate == null) {
-            if (other.endDate != null)
-                return false;
-        }
-        else if (!endDate.equals(other.endDate))
-            return false;
-        if (finalVersionFlag != other.finalVersionFlag)
-            return false;
+            if (other.endDate != null) return false;
+        } else if (!endDate.equals(other.endDate)) return false;
+        if (finalVersionFlag != other.finalVersionFlag) return false;
         if (modularBudgetFlag == null) {
-            if (other.modularBudgetFlag != null)
-                return false;
-        }
-        else if (!modularBudgetFlag.equals(other.modularBudgetFlag))
-            return false;
+            if (other.modularBudgetFlag != null) return false;
+        } else if (!modularBudgetFlag.equals(other.modularBudgetFlag)) return false;
         if (name == null) {
-            if (other.name != null)
-                return false;
-        }
-        else if (!name.equals(other.name))
-            return false;
+            if (other.name != null) return false;
+        } else if (!name.equals(other.name)) return false;
         if (ohRateClassCode == null) {
-            if (other.ohRateClassCode != null)
-                return false;
-        }
-        else if (!ohRateClassCode.equals(other.ohRateClassCode))
-            return false;
+            if (other.ohRateClassCode != null) return false;
+        } else if (!ohRateClassCode.equals(other.ohRateClassCode)) return false;
         if (ohRateTypeCode == null) {
-            if (other.ohRateTypeCode != null)
-                return false;
-        }
-        else if (!ohRateTypeCode.equals(other.ohRateTypeCode))
-            return false;
+            if (other.ohRateTypeCode != null) return false;
+        } else if (!ohRateTypeCode.equals(other.ohRateTypeCode)) return false;
         if (onOffCampusFlag == null) {
-            if (other.onOffCampusFlag != null)
-                return false;
-        }
-        else if (!onOffCampusFlag.equals(other.onOffCampusFlag))
-            return false;
+            if (other.onOffCampusFlag != null) return false;
+        } else if (!onOffCampusFlag.equals(other.onOffCampusFlag)) return false;
         if (rateClass == null) {
-            if (other.rateClass != null)
-                return false;
-        }
-        else if (!rateClass.equals(other.rateClass))
-            return false;
+            if (other.rateClass != null) return false;
+        } else if (!rateClass.equals(other.rateClass)) return false;
         if (residualFunds == null) {
-            if (other.residualFunds != null)
-                return false;
-        }
-        else if (!residualFunds.equals(other.residualFunds))
-            return false;
+            if (other.residualFunds != null) return false;
+        } else if (!residualFunds.equals(other.residualFunds)) return false;
         if (startDate == null) {
-            if (other.startDate != null)
-                return false;
-        }
-        else if (!startDate.equals(other.startDate))
-            return false;
+            if (other.startDate != null) return false;
+        } else if (!startDate.equals(other.startDate)) return false;
         if (totalCost == null) {
-            if (other.totalCost != null)
-                return false;
-        }
-        else if (!totalCost.equals(other.totalCost))
-            return false;
+            if (other.totalCost != null) return false;
+        } else if (!totalCost.equals(other.totalCost)) return false;
         if (totalCostLimit == null) {
-            if (other.totalCostLimit != null)
-                return false;
-        }
-        else if (!totalCostLimit.equals(other.totalCostLimit))
-            return false;
+            if (other.totalCostLimit != null) return false;
+        } else if (!totalCostLimit.equals(other.totalCostLimit)) return false;
         if (totalDirectCost == null) {
-            if (other.totalDirectCost != null)
-                return false;
-        }
-        else if (!totalDirectCost.equals(other.totalDirectCost))
-            return false;
+            if (other.totalDirectCost != null) return false;
+        } else if (!totalDirectCost.equals(other.totalDirectCost)) return false;
         if (totalIndirectCost == null) {
-            if (other.totalIndirectCost != null)
-                return false;
-        }
-        else if (!totalIndirectCost.equals(other.totalIndirectCost))
-            return false;
+            if (other.totalIndirectCost != null) return false;
+        } else if (!totalIndirectCost.equals(other.totalIndirectCost)) return false;
         if (underrecoveryAmount == null) {
-            if (other.underrecoveryAmount != null)
-                return false;
-        }
-        else if (!underrecoveryAmount.equals(other.underrecoveryAmount))
-            return false;
+            if (other.underrecoveryAmount != null) return false;
+        } else if (!underrecoveryAmount.equals(other.underrecoveryAmount)) return false;
         if (urRateClassCode == null) {
-            if (other.urRateClassCode != null)
-                return false;
-        }
-        else if (!urRateClassCode.equals(other.urRateClassCode))
-            return false;
+            if (other.urRateClassCode != null) return false;
+        } else if (!urRateClassCode.equals(other.urRateClassCode)) return false;
         return true;
     }
 
@@ -589,5 +513,4 @@ public class BudgetVersionOverview extends KraPersistableBusinessObjectBase impl
     public void setSubmitCostSharingFlag(Boolean submitCostSharingFlag) {
         this.submitCostSharingFlag = submitCostSharingFlag;
     }
-
 }

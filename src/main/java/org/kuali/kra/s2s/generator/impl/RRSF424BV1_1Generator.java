@@ -15,14 +15,10 @@
  */
 package org.kuali.kra.s2s.generator.impl;
 
-import java.util.Calendar;
-
 import gov.grants.apply.forms.rrsf424SF424BV11.AssuranceType;
 import gov.grants.apply.forms.rrsf424SF424BV11.AssurancesDocument;
 import gov.grants.apply.forms.rrsf424SF424BV11.AuthorizedRepresentativeDocument.AuthorizedRepresentative;
 
-import org.apache.xmlbeans.XmlObject;
-import org.kuali.kra.bo.Organization;
 import org.kuali.kra.infrastructure.KraServiceLocator;
 import org.kuali.kra.proposaldevelopment.bo.DevelopmentProposal;
 import org.kuali.kra.proposaldevelopment.bo.ProposalSite;
@@ -32,7 +28,7 @@ import org.kuali.kra.s2s.generator.S2SBaseFormGenerator;
 import org.kuali.kra.s2s.generator.bo.DepartmentalPerson;
 import org.kuali.kra.s2s.service.S2SUtilService;
 import org.kuali.kra.s2s.util.S2SConstants;
-import org.kuali.rice.kns.service.DateTimeService;
+import org.kuali.rice.core.api.datetime.DateTimeService;
 
 /**
  * This class...

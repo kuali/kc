@@ -48,17 +48,19 @@ import org.kuali.kra.proposaldevelopment.budget.modular.BudgetModularSummary;
 import org.kuali.kra.proposaldevelopment.document.ProposalDevelopmentDocument;
 import org.kuali.kra.proposaldevelopment.hierarchy.bo.HierarchyProposalSummary;
 import org.kuali.kra.web.struts.form.BudgetVersionFormBase;
-import org.kuali.rice.kew.exception.WorkflowException;
+import org.kuali.rice.core.api.CoreApiServiceLocator;
+import org.kuali.rice.core.api.config.property.ConfigurationService;
+import org.kuali.rice.kew.api.WorkflowDocument;
+import org.kuali.rice.kew.api.exception.WorkflowException;
 import org.kuali.rice.kns.datadictionary.HeaderNavigation;
-import org.kuali.rice.kns.document.Document;
-import org.kuali.rice.kns.service.KNSServiceLocator;
-import org.kuali.rice.kns.service.KualiConfigurationService;
 import org.kuali.rice.kns.util.ActionFormUtilMap;
-import org.kuali.rice.kns.util.GlobalVariables;
-import org.kuali.rice.kns.util.KNSConstants;
 import org.kuali.rice.kns.web.ui.ExtraButton;
 import org.kuali.rice.kns.web.ui.HeaderField;
-import org.kuali.rice.kns.workflow.service.KualiWorkflowDocument;
+import org.kuali.rice.krad.document.Document;
+import org.kuali.rice.krad.service.KRADServiceLocator;
+import org.kuali.rice.krad.service.KRADServiceLocatorWeb;
+import org.kuali.rice.krad.util.GlobalVariables;
+import org.kuali.rice.krad.util.KRADConstants;
 
 public class BudgetForm extends BudgetVersionFormBase implements CostShareFunctions {
     
@@ -269,9 +271,9 @@ public class BudgetForm extends BudgetVersionFormBase implements CostShareFuncti
         // clear out the extra buttons array
         extraButtons.clear();
         String externalImageURL = Constants.KRA_EXTERNALIZABLE_IMAGES_URI_KEY;
-        String generatePeriodImage = lookupKualiConfigurationService().getPropertyString(externalImageURL) + "buttonsmall_generatePeriods.gif";
-        String calculatePeriodImage = lookupKualiConfigurationService().getPropertyString(externalImageURL) + "buttonsmall_calculatePeriods.gif";
-        String defaultImage = lookupKualiConfigurationService().getPropertyString(externalImageURL) + "buttonsmall_defaultPeriods.gif";
+        String generatePeriodImage = lookupKualiConfigurationService().getPropertyValueAsString(externalImageURL) + "buttonsmall_generatePeriods.gif";
+        String calculatePeriodImage = lookupKualiConfigurationService().getPropertyValueAsString(externalImageURL) + "buttonsmall_calculatePeriods.gif";
+        String defaultImage = lookupKualiConfigurationService().getPropertyValueAsString(externalImageURL) + "buttonsmall_defaultPeriods.gif";
         addExtraButton("methodToCall.generateAllPeriods", generatePeriodImage, "Generate All Periods");
         addExtraButton("methodToCall.questionCalculateAllPeriods",calculatePeriodImage, "Calculate All Periods");
         addExtraButton("methodToCall.defaultPeriods",defaultImage, "Default Periods");
@@ -283,9 +285,9 @@ public class BudgetForm extends BudgetVersionFormBase implements CostShareFuncti
         // clear out the extra buttons array
         extraButtons.clear();
         String externalImageURL = Constants.KRA_EXTERNALIZABLE_IMAGES_URI_KEY;
-        String returnToExpensesImage = lookupKualiConfigurationService().getPropertyString(externalImageURL) + "buttonsmall_returnToExpenses.gif";
+        String returnToExpensesImage = lookupKualiConfigurationService().getPropertyValueAsString(externalImageURL) + "buttonsmall_returnToExpenses.gif";
         addExtraButton("methodToCall.returnToExpenses", returnToExpensesImage, "Return To Expenses");
-        String calculateImage = lookupKualiConfigurationService().getPropertyString(externalImageURL) + "buttonsmall_calculate.gif";
+        String calculateImage = lookupKualiConfigurationService().getPropertyValueAsString(externalImageURL) + "buttonsmall_calculate.gif";
         addExtraButton("methodToCall.calculateLineItem", calculateImage, "Calculate");
         return extraButtons;
     }
@@ -293,8 +295,8 @@ public class BudgetForm extends BudgetVersionFormBase implements CostShareFuncti
         // clear out the extra buttons array
         extraButtons.clear();
         String externalImageURL = Constants.KRA_EXTERNALIZABLE_IMAGES_URI_KEY;
-        String calculateCurrentPeriodImage = lookupKualiConfigurationService().getPropertyString(externalImageURL) + "buttonsmall_calculateCurrent2.gif"; 
-        //String viewPersonnelSalariesImage = lookupKualiConfigurationService().getPropertyString(externalImageURL) + "buttonsmall_viewpersal.gif"; 
+        String calculateCurrentPeriodImage = lookupKualiConfigurationService().getPropertyValueAsString(externalImageURL) + "buttonsmall_calculateCurrent2.gif"; 
+        //String viewPersonnelSalariesImage = lookupKualiConfigurationService().getPropertyValueAsString(externalImageURL) + "buttonsmall_viewpersal.gif"; 
         addExtraButton("methodToCall.calculateCurrentPeriod", calculateCurrentPeriodImage, "Calculate Current Period");
         //addExtraButton("methodToCall.viewPersonnelSalaries",viewPersonnelSalariesImage, "View Personnel Salaries");
         
@@ -304,8 +306,8 @@ public class BudgetForm extends BudgetVersionFormBase implements CostShareFuncti
         // clear out the extra buttons array
         extraButtons.clear();
         String externalImageURL = Constants.KRA_EXTERNALIZABLE_IMAGES_URI_KEY;
-        String syncAllImage = lookupKualiConfigurationService().getPropertyString(externalImageURL) + "buttonsmall_syncallrates.gif"; 
-        String resetAllImage = lookupKualiConfigurationService().getPropertyString(externalImageURL) + "buttonsmall_resetallrates.gif"; 
+        String syncAllImage = lookupKualiConfigurationService().getPropertyValueAsString(externalImageURL) + "buttonsmall_syncallrates.gif"; 
+        String resetAllImage = lookupKualiConfigurationService().getPropertyValueAsString(externalImageURL) + "buttonsmall_resetallrates.gif"; 
         addExtraButton("methodToCall.syncAllRates", syncAllImage, "Sync All Rates");
         addExtraButton("methodToCall.resetAllRates",resetAllImage, "Reset All Rates");
         
@@ -317,11 +319,11 @@ public class BudgetForm extends BudgetVersionFormBase implements CostShareFuncti
         extraButtons.clear();
         String externalImageURL = Constants.KRA_EXTERNALIZABLE_IMAGES_URI_KEY;
         
-//        String syncToProposalImage = lookupKualiConfigurationService().getPropertyString(externalImageURL) + "buttonsmall_synctoprop.gif"; 
+//        String syncToProposalImage = lookupKualiConfigurationService().getPropertyValueAsString(externalImageURL) + "buttonsmall_synctoprop.gif"; 
 //        addExtraButton("methodToCall.synchToProposal", syncToProposalImage, "Synch to Proposal");
-        String calculateCurrentPeriodImage = lookupKualiConfigurationService().getPropertyString(externalImageURL) + "buttonsmall_calculateCurrent2.gif"; 
+        String calculateCurrentPeriodImage = lookupKualiConfigurationService().getPropertyValueAsString(externalImageURL) + "buttonsmall_calculateCurrent2.gif"; 
         addExtraButton("methodToCall.calculateCurrentPeriod", calculateCurrentPeriodImage, "Calculate Current Period");
-        String viewPersonnelSalariesImage = lookupKualiConfigurationService().getPropertyString(externalImageURL) + "buttonsmall_viewpersal.gif"; 
+        String viewPersonnelSalariesImage = lookupKualiConfigurationService().getPropertyValueAsString(externalImageURL) + "buttonsmall_viewpersal.gif"; 
         addExtraButton("methodToCall.viewPersonnelSalaries",viewPersonnelSalariesImage, "View Personnel Salaries","excludeSubmitRestriction=true");
         
         return extraButtons;
@@ -333,14 +335,14 @@ public class BudgetForm extends BudgetVersionFormBase implements CostShareFuncti
         extraTopButtons.add(configureReturnToParentTopButton()); 
         
         ExtraButton customExpandAllButton = new ExtraButton();
-        String expandAllImage = lookupKualiConfigurationService().getPropertyString(KR_EXTERNALIZABLE_IMAGES_URI_KEY) + "tinybutton-expandall.gif"; 
+        String expandAllImage = lookupKualiConfigurationService().getPropertyValueAsString(KR_EXTERNALIZABLE_IMAGES_URI_KEY) + "tinybutton-expandall.gif"; 
         customExpandAllButton.setExtraButtonProperty("methodToCall.showAllTabs");
         customExpandAllButton.setExtraButtonSource(expandAllImage);
         customExpandAllButton.setExtraButtonAltText("show all panel content");
         customExpandAllButton.setExtraButtonOnclick("javascript: showAllPanels(); return false;");
         
         ExtraButton customCollapseAllButton = new ExtraButton();
-        String hideAllImage = lookupKualiConfigurationService().getPropertyString(KR_EXTERNALIZABLE_IMAGES_URI_KEY) + "tinybutton-collapseall.gif"; 
+        String hideAllImage = lookupKualiConfigurationService().getPropertyValueAsString(KR_EXTERNALIZABLE_IMAGES_URI_KEY) + "tinybutton-collapseall.gif"; 
         customCollapseAllButton.setExtraButtonProperty("methodToCall.hideAllTabs");
         customCollapseAllButton.setExtraButtonSource(hideAllImage);
         customCollapseAllButton.setExtraButtonAltText("hide all panel content");
@@ -470,11 +472,11 @@ public class BudgetForm extends BudgetVersionFormBase implements CostShareFuncti
      * This method to suppress copy/reload buttons for 'Totals' page
      */
     public void suppressButtonsForTotalPage() {
-        if (getDocumentActions().containsKey((KNSConstants.KUALI_ACTION_CAN_COPY))) {
-            documentActions.remove(KNSConstants.KUALI_ACTION_CAN_COPY);
+        if (getDocumentActions().containsKey((KRADConstants.KUALI_ACTION_CAN_COPY))) {
+            documentActions.remove(KRADConstants.KUALI_ACTION_CAN_COPY);
         }
-        if (getDocumentActions().containsKey((KNSConstants.KUALI_ACTION_CAN_RELOAD))) {
-            documentActions.remove(KNSConstants.KUALI_ACTION_CAN_RELOAD);
+        if (getDocumentActions().containsKey((KRADConstants.KUALI_ACTION_CAN_RELOAD))) {
+            documentActions.remove(KRADConstants.KUALI_ACTION_CAN_RELOAD);
         }
     }
 
@@ -559,7 +561,7 @@ public class BudgetForm extends BudgetVersionFormBase implements CostShareFuncti
         super.populate(request);
         
         if ("resetRates".equals(getMethodToCall()) || "resetAllRates".equals(getMethodToCall())) {
-            GlobalVariables.getErrorMap().clear();
+            GlobalVariables.getMessageMap().clearErrorMessages();
             getUnconvertedValues().clear();
         }
         
@@ -658,15 +660,15 @@ public class BudgetForm extends BudgetVersionFormBase implements CostShareFuncti
      * @return
      */
     protected String buildExtraButtonSourceURI(String buttonFileName) {
-        return lookupKualiConfigurationService().getPropertyString(Constants.KRA_EXTERNALIZABLE_IMAGES_URI_KEY) + buttonFileName;
+        return lookupKualiConfigurationService().getPropertyValueAsString(Constants.KRA_EXTERNALIZABLE_IMAGES_URI_KEY) + buttonFileName;
     }
 
     /**
      * This method does what its name says
      * @return
      */
-    private KualiConfigurationService lookupKualiConfigurationService() {
-        return KraServiceLocator.getService(KualiConfigurationService.class);
+    private ConfigurationService lookupKualiConfigurationService() {
+        return KRADServiceLocator.getKualiConfigurationService();
     }
     
     public String getPrevOnOffCampusFlag() {
@@ -686,10 +688,10 @@ public class BudgetForm extends BudgetVersionFormBase implements CostShareFuncti
     }    
     
     @Override
-    public void populateHeaderFields(KualiWorkflowDocument workflowDocument) {
+    public void populateHeaderFields(WorkflowDocument workflowDocument) {
         BudgetDocument budgetDocument = getDocument();
         BudgetParentDocument parentDocument = budgetDocument.getParentDocument();
-        KualiWorkflowDocument parentWorkflowDocument = null;
+        WorkflowDocument parentWorkflowDocument = null;
         
         try {
             if(parentDocument != null) {
@@ -700,7 +702,7 @@ public class BudgetForm extends BudgetVersionFormBase implements CostShareFuncti
         
         try {
             if(parentDocument != null && parentWorkflowDocument == null) {
-                Document retrievedDocument = KNSServiceLocator.getDocumentService().getByDocumentHeaderId(parentDocument.getDocumentNumber());
+                Document retrievedDocument = KRADServiceLocatorWeb.getDocumentService().getByDocumentHeaderId(parentDocument.getDocumentNumber());
                 parentWorkflowDocument = retrievedDocument.getDocumentHeader().getWorkflowDocument();
             }
         } catch (WorkflowException e) {
@@ -740,20 +742,20 @@ public class BudgetForm extends BudgetVersionFormBase implements CostShareFuncti
         return new HeaderField("DataDictionary.DocumentHeader.attributes.documentNumber", parentDocument != null? parentDocument.getDocumentNumber() : null); 
     }
 
-    protected HeaderField getHeaderDocStatus (KualiWorkflowDocument parentWorkflowDocument) {
-        return new HeaderField("DataDictionary.AttributeReferenceDummy.attributes.workflowDocumentStatus", parentWorkflowDocument != null? parentWorkflowDocument.getStatusDisplayValue() : null);
+    protected HeaderField getHeaderDocStatus (WorkflowDocument parentWorkflowDocument) {
+        return new HeaderField("DataDictionary.AttributeReferenceDummy.attributes.workflowDocumentStatus", parentWorkflowDocument != null? parentWorkflowDocument.getStatus().getLabel() : null);
     }
     
-    protected HeaderField getHeaderDocInitiator(KualiWorkflowDocument parentWorkflowDocument) {
+    protected HeaderField getHeaderDocInitiator(WorkflowDocument parentWorkflowDocument) {
         return new HeaderField("DataDictionary.AttributeReferenceDummy.attributes.initiatorNetworkId", 
-                               parentWorkflowDocument != null? parentWorkflowDocument.getInitiatorNetworkId() : null, 
-                               parentWorkflowDocument != null? "<kul:inquiry boClassName='org.kuali.rice.kns.bo.user.UniversalUser' keyValues='${PropertyConstants.KUALI_USER_PERSON_UNIVERSAL_IDENTIFIER}=" + parentWorkflowDocument.getRouteHeader().getInitiatorPrincipalId() + "' render='true'>" + parentWorkflowDocument.getInitiatorNetworkId() + "</kul:inquiry>" : null);
+                               parentWorkflowDocument != null? parentWorkflowDocument.getInitiatorPrincipalId() : null, 
+                               parentWorkflowDocument != null? "<kul:inquiry boClassName='org.kuali.rice.kns.bo.user.UniversalUser' keyValues='${PropertyConstants.KUALI_USER_PERSON_UNIVERSAL_IDENTIFIER}=" + parentWorkflowDocument.getInitiatorPrincipalId() + "' render='true'>" + parentWorkflowDocument.getInitiatorPrincipalId() + "</kul:inquiry>" : null);
     }
     
-    protected HeaderField getHeaderDocCreateDate(KualiWorkflowDocument parentWorkflowDocument) {
+    protected HeaderField getHeaderDocCreateDate(WorkflowDocument parentWorkflowDocument) {
         String createDateStr = null;
-        if(parentWorkflowDocument != null && parentWorkflowDocument.getCreateDate() != null) {
-        createDateStr = KNSServiceLocator.getDateTimeService().toString(parentWorkflowDocument.getCreateDate(), "hh:mm a MM/dd/yyyy");
+        if(parentWorkflowDocument != null && parentWorkflowDocument.getDateCreated() != null) {
+        createDateStr = CoreApiServiceLocator.getDateTimeService().toString(parentWorkflowDocument.getDateCreated().toDate(), "hh:mm a MM/dd/yyyy");
         }
         return new HeaderField("DataDictionary.AttributeReferenceDummy.attributes.createDate", createDateStr);
     }
@@ -854,13 +856,13 @@ public class BudgetForm extends BudgetVersionFormBase implements CostShareFuncti
     @Override
     protected void setSaveDocumentControl(Map editMode) {
         
-        if (hasModifyBudgetPermission(editMode) && !getDocumentActions().containsKey(KNSConstants.KUALI_ACTION_CAN_SAVE)) {
-            getDocumentActions().put(KNSConstants.KUALI_ACTION_CAN_SAVE, KNSConstants.KUALI_DEFAULT_TRUE_VALUE);
+        if (hasModifyBudgetPermission(editMode) && !getDocumentActions().containsKey(KRADConstants.KUALI_ACTION_CAN_SAVE)) {
+            getDocumentActions().put(KRADConstants.KUALI_ACTION_CAN_SAVE, KRADConstants.KUALI_DEFAULT_TRUE_VALUE);
             return;
         }
         
-        if (!hasModifyBudgetPermission(editMode) && getDocumentActions().containsKey(KNSConstants.KUALI_ACTION_CAN_SAVE)) {
-            getDocumentActions().remove(KNSConstants.KUALI_ACTION_CAN_SAVE);
+        if (!hasModifyBudgetPermission(editMode) && getDocumentActions().containsKey(KRADConstants.KUALI_ACTION_CAN_SAVE)) {
+            getDocumentActions().remove(KRADConstants.KUALI_ACTION_CAN_SAVE);
         }
     }
     

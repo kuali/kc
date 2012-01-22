@@ -1,13 +1,13 @@
 package org.kuali.kra.service;
 
+import java.util.ArrayList;
+import java.util.List;
+
 import org.junit.Assert;
 import org.kuali.kra.bo.SponsorHierarchy;
 import org.kuali.kra.infrastructure.Constants;
 import org.kuali.kra.proposaldevelopment.service.KeyPersonnelService;
-import org.kuali.rice.kns.service.BusinessObjectService;
-
-import java.util.ArrayList;
-import java.util.List;
+import org.kuali.rice.krad.service.BusinessObjectService;
 
 class NihSponsorHandlingTestHelper {
     static final String SPONSOR_CODE_FOR_HIERARCHY_A = "005979"; // Google

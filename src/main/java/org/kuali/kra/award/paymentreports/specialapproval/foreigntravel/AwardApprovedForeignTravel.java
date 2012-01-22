@@ -17,60 +17,67 @@ package org.kuali.kra.award.paymentreports.specialapproval.foreigntravel;
 
 import java.io.Serializable;
 import java.sql.Date;
-import java.util.LinkedHashMap;
 import java.util.Map;
 
 import org.kuali.kra.award.AwardAssociate;
 import org.kuali.kra.award.home.ValuableItem;
-
-import org.kuali.kra.bo.KcPerson;
-
 import org.kuali.kra.bo.Contactable;
+import org.kuali.kra.bo.KcPerson;
 import org.kuali.kra.bo.NonOrganizationalRolodex;
-
 import org.kuali.kra.infrastructure.KraServiceLocator;
 import org.kuali.kra.service.KcPersonService;
 import org.kuali.kra.service.ServiceHelper;
-import org.kuali.rice.kns.service.BusinessObjectService;
-import org.kuali.rice.kns.util.KualiDecimal;
+import org.kuali.rice.core.api.util.type.KualiDecimal;
+import org.kuali.rice.krad.service.BusinessObjectService;
 
 /**
  * This class handles the Award Special Approval for Approved Equipment
  */
-public class AwardApprovedForeignTravel extends AwardAssociate 
-                                        implements Comparable<AwardApprovedForeignTravel>, ValuableItem {
+public class AwardApprovedForeignTravel extends AwardAssociate implements Comparable<AwardApprovedForeignTravel>, ValuableItem {
+
     private static final long serialVersionUID = 1039155193608738040L;
-    
+
     private Long approvedForeignTravelId;
+
     private KcPerson personTraveler;
+
     private String personId;
+
     private Integer rolodexId;
+
     private NonOrganizationalRolodex rolodexTraveler;
-    //private Serializable genericId;
+
+    //private Serializable genericId; 
     /**
      * Gets the genericId attribute. 
      * @return Returns the genericId.
      */
-//    public Serializable getGenericId() {
-//        return genericId;
-//    }
-
+    //    public Serializable getGenericId() { 
+    //        return genericId; 
+    //    } 
     /**
      * Sets the genericId attribute value.
      * @param genericId The genericId to set.
      */
-//    public void setGenericId(Serializable genericId) {
-//        this.genericId = genericId;        
-//    }
-
+    //    public void setGenericId(Serializable genericId) { 
+    //        this.genericId = genericId;         
+    //    } 
     private String travelerName;
+
     private String destination;
+
     private Date startDate;
+
     private Date endDate;
+
     private KualiDecimal amount;
 
-    private static int instanceCount;   // used in tag
-    private int instanceNumber;         // used in tag
+    private static int instanceCount;
+
+    // used in tag 
+    private int instanceNumber;
+
+    // used in tag 
     private KcPersonService kcPersonService;
 
     /**
@@ -79,15 +86,15 @@ public class AwardApprovedForeignTravel extends AwardAssociate
     public AwardApprovedForeignTravel() {
         instanceNumber = instanceCount++;
     }
-    
+
     /**
      * Constructs a AwardApprovedForeignTravel
      */
     public AwardApprovedForeignTravel(Object traveler, String destination, Date startDate, Date endDate, double amount) {
         super();
-        if(traveler instanceof KcPerson) {
+        if (traveler instanceof KcPerson) {
             setPersonTraveler((KcPerson) traveler);
-        } else if(traveler instanceof NonOrganizationalRolodex) {
+        } else if (traveler instanceof NonOrganizationalRolodex) {
             setRolodexTraveler((NonOrganizationalRolodex) traveler);
         }
         this.destination = destination;
@@ -117,7 +124,7 @@ public class AwardApprovedForeignTravel extends AwardAssociate
     public Long getApprovedForeignTravelId() {
         return approvedForeignTravelId;
     }
-    
+
     /**
      * Gets the traveler name attribute. 
      * @return Returns the traveler name.
@@ -133,7 +140,7 @@ public class AwardApprovedForeignTravel extends AwardAssociate
     public KcPerson getPersonTraveler() {
         return personTraveler;
     }
-    
+
     public String getPersonId() {
         return personId;
     }
@@ -148,7 +155,7 @@ public class AwardApprovedForeignTravel extends AwardAssociate
 
     public Contactable getTraveler() {
         Contactable contact = personTraveler != null ? personTraveler : (rolodexTraveler != null ? rolodexTraveler : null);
-        if(contact == null) {
+        if (contact == null) {
             contact = loadTraveler();
         }
         return contact;
@@ -227,7 +234,7 @@ public class AwardApprovedForeignTravel extends AwardAssociate
     public void resetPersistenceState() {
         this.approvedForeignTravelId = null;
     }
-    
+
     /**
      * Sets the approvedForeignTravelId attribute value.
      * @param approvedForeignTravelId The approvedForeignTravelId to set.
@@ -242,7 +249,7 @@ public class AwardApprovedForeignTravel extends AwardAssociate
      */
     public void setPersonTraveler(final KcPerson personTraveler) {
         this.personTraveler = personTraveler;
-        if(personTraveler != null) {
+        if (personTraveler != null) {
             this.travelerName = personTraveler.getFullName();
             this.personId = personTraveler.getPersonId();
             setRolodexTraveler(null);
@@ -264,7 +271,7 @@ public class AwardApprovedForeignTravel extends AwardAssociate
      */
     public void setRolodexTraveler(NonOrganizationalRolodex rolodexTraveler) {
         this.rolodexTraveler = rolodexTraveler;
-        if(rolodexTraveler != null) {
+        if (rolodexTraveler != null) {
             this.travelerName = rolodexTraveler.getFullName();
             this.rolodexId = rolodexTraveler.getRolodexId();
             setPersonTraveler(null);
@@ -286,15 +293,15 @@ public class AwardApprovedForeignTravel extends AwardAssociate
      * Sets the destination attribute value.
      * @param destination  The destination  to set.
      */
-    public void setDestination (final String destination ) {
+    public void setDestination(final String destination) {
         this.destination = destination;
     }
-    
+
     /**
      * Sets the end date attribute value.
      * @param endDate The end date to set.
      */
-    public void setEndDate(final Date endDate ) {
+    public void setEndDate(final Date endDate) {
         this.endDate = endDate;
     }
 
@@ -305,7 +312,7 @@ public class AwardApprovedForeignTravel extends AwardAssociate
     public void setStartDate(final Date startDate) {
         this.startDate = startDate;
     }
-    
+
     /**
      * Sets the amount attribute value.
      * @param amount The amount to set.
@@ -313,7 +320,7 @@ public class AwardApprovedForeignTravel extends AwardAssociate
     public void setAmount(final KualiDecimal amount) {
         this.amount = amount;
     }
-    
+
     /**
      * Convenience method
      * @param amount
@@ -321,7 +328,7 @@ public class AwardApprovedForeignTravel extends AwardAssociate
     public void setAmount(final double amount) {
         this.amount = new KualiDecimal(amount);
     }
-    
+
     /**
      * Note: This was modified from the Eclipse generated version so that Traveler Name is only 
      * used if the Traveler reference is null
@@ -333,12 +340,11 @@ public class AwardApprovedForeignTravel extends AwardAssociate
         int result = 1;
         result = PRIME * result + ((destination == null) ? 0 : destination.hashCode());
         result = PRIME * result + ((startDate == null) ? 0 : startDate.hashCode());
-        if(personTraveler == null) {
+        if (personTraveler == null) {
             result = PRIME * result + ((travelerName == null) ? 0 : travelerName.hashCode());
         } else {
             result = PRIME * result + personTraveler.hashCode();
         }
-        
         return result;
     }
 
@@ -388,55 +394,38 @@ public class AwardApprovedForeignTravel extends AwardAssociate
         } else {
             return other.personTraveler != null && personTraveler.getFullName().equalsIgnoreCase(other.personTraveler.getFullName());
         }
-        
         return true;
-    }
-
-    /**
-     * @return
-     */
-    @Override
-    protected LinkedHashMap<String, Object> toStringMapper() {
-        LinkedHashMap<String, Object> map = super.toStringMapper();
-        map.put("approvedEquipmentId", approvedForeignTravelId);
-        map.put("traveler", personTraveler);
-        map.put("destination", destination);
-        map.put("startDate", startDate);
-        map.put("endDate", endDate);
-        map.put("amount", amount);
-        return map;
     }
 
     public String toString() {
         return String.format("********** %s=%s;%s=%s [%d]", "travelerId", personId, "travelerName", travelerName, instanceNumber);
     }
-    
+
     public int compareTo(AwardApprovedForeignTravel other) {
         int result = startDate != null ? startDate.compareTo(other.startDate) : 0;
-        if(result == 0) {
+        if (result == 0) {
             Contactable thisTraveler = getTraveler();
             Contactable otherTraveler = other.getTraveler();
-            if(thisTraveler != null && otherTraveler != null) {
+            if (thisTraveler != null && otherTraveler != null) {
                 result = thisTraveler.getLastName().compareToIgnoreCase(otherTraveler.getLastName());
-                if(result == 0) {
+                if (result == 0) {
                     result = thisTraveler.getFirstName().compareToIgnoreCase(otherTraveler.getFirstName());
                 }
             }
         }
         return result;
-    }       
+    }
 
     Contactable loadTraveler() {
         final Contactable contact;
-        if(personId != null) {
+        if (personId != null) {
             contact = getKcPersonService().getKcPersonByPersonId(this.personId);
-        } else if(rolodexId != null) {
+        } else if (rolodexId != null) {
             Map map = ServiceHelper.getInstance().buildCriteriaMap("rolodexId", rolodexId);
             contact = (Contactable) getBusinessObjectService().findMatching(NonOrganizationalRolodex.class, map).iterator().next();
         } else {
             contact = null;
         }
-
         return contact;
     }
 
@@ -444,10 +433,9 @@ public class AwardApprovedForeignTravel extends AwardAssociate
         return KraServiceLocator.getService(BusinessObjectService.class);
     }
 
-//    private int compareTravelerNames(String thisTravelerName, String otherTravelerName) {
-//        return thisTravelerName.compareToIgnoreCase(otherTravelerName);
-//    }
-    
+    //    private int compareTravelerNames(String thisTravelerName, String otherTravelerName) { 
+    //        return thisTravelerName.compareToIgnoreCase(otherTravelerName); 
+    //    } 
     /**
      * Gets the KC Person Service.
      * @return KC Person Service.
@@ -456,7 +444,6 @@ public class AwardApprovedForeignTravel extends AwardAssociate
         if (this.kcPersonService == null) {
             this.kcPersonService = KraServiceLocator.getService(KcPersonService.class);
         }
-        
         return this.kcPersonService;
     }
 }

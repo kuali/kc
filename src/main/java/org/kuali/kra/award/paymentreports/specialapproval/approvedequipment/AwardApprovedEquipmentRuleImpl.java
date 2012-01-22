@@ -20,8 +20,8 @@ import java.util.List;
 import org.apache.commons.lang.StringUtils;
 import org.kuali.kra.infrastructure.KeyConstants;
 import org.kuali.kra.rules.ResearchDocumentRuleBase;
-import org.kuali.rice.kns.util.GlobalVariables;
-import org.kuali.rice.kns.util.KualiDecimal;
+import org.kuali.rice.core.api.util.type.KualiDecimal;
+import org.kuali.rice.krad.util.GlobalVariables;
 
 /**
  * The AwardApprovedEquipmentRuleImpl
@@ -139,6 +139,6 @@ public class AwardApprovedEquipmentRuleImpl extends ResearchDocumentRuleBase
     }
     
     private boolean hasDuplicateErrorBeenReported() {
-        return GlobalVariables.getErrorMap().containsMessageKey(KeyConstants.ERROR_AWARD_APPROVED_EQUIPMENT_ITEM_NOT_UNIQUE);
+        return GlobalVariables.getMessageMap().containsMessageKey(KeyConstants.ERROR_AWARD_APPROVED_EQUIPMENT_ITEM_NOT_UNIQUE);
     }
 }

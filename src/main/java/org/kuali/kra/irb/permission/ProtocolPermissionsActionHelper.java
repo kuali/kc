@@ -19,7 +19,7 @@ import org.kuali.kra.common.permissions.web.struts.action.PermissionsActionHelpe
 import org.kuali.kra.infrastructure.KraServiceLocator;
 import org.kuali.kra.irb.ProtocolDocument;
 import org.kuali.kra.service.KraAuthorizationService;
-import org.kuali.rice.kns.document.Document;
+import org.kuali.rice.krad.document.Document;
 
 /**
  * The Protocol Permissions Action Helper performs all of the presentation logic

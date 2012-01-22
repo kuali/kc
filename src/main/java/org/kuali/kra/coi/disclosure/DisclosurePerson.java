@@ -15,7 +15,6 @@
  */
 package org.kuali.kra.coi.disclosure;
 
-import java.util.LinkedHashMap;
 import java.util.List;
 
 import org.kuali.kra.SequenceAssociate;
@@ -39,12 +38,6 @@ public class DisclosurePerson extends DisclosureReporter implements SequenceAsso
     private String personRoleId;
     private List<DisclosurePersonUnit> disclosurePersonUnits;
     private CoiDisclosure coiDisclosure;
-
-    @Override
-    protected LinkedHashMap toStringMapper() {
-        // TODO Auto-generated method stub
-        return null;
-    }
 
     public Long getDisclosurePersonId() {
         return disclosurePersonId;

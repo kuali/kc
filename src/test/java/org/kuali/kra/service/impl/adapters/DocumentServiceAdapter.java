@@ -17,14 +17,24 @@ package org.kuali.kra.service.impl.adapters;
 
 import java.util.List;
 
-import org.kuali.rice.kew.exception.WorkflowException;
-import org.kuali.rice.kns.bo.AdHocRouteRecipient;
-import org.kuali.rice.kns.bo.Note;
-import org.kuali.rice.kns.bo.PersistableBusinessObject;
-import org.kuali.rice.kns.document.Document;
-import org.kuali.rice.kns.service.DocumentService;
+import org.kuali.rice.kew.api.exception.WorkflowException;
+import org.kuali.rice.kim.api.identity.Person;
+import org.kuali.rice.krad.bo.AdHocRouteRecipient;
+import org.kuali.rice.krad.bo.Note;
+import org.kuali.rice.krad.bo.PersistableBusinessObject;
+import org.kuali.rice.krad.document.Document;
+import org.kuali.rice.krad.service.DocumentService;
 
 public class DocumentServiceAdapter implements DocumentService {
+
+    @Override
+    public boolean saveDocumentNotes(Document document) {
+        return false;
+    }
+
+    @Override
+    public void sendNoteRouteNotification(Document document, Note note, Person sender) throws WorkflowException {
+    }
 
     public Document acknowledgeDocument(Document document, String annotation, List adHocRecipients) throws WorkflowException {
         return null;
@@ -50,7 +60,8 @@ public class DocumentServiceAdapter implements DocumentService {
         return null;
     }
 
-    public Note createNoteFromDocument(Document document, String text) throws Exception {
+    @Override
+    public Note createNoteFromDocument(Document document, String text) {
         return null;
     }
 
@@ -118,7 +129,10 @@ public class DocumentServiceAdapter implements DocumentService {
         return null;
     }
 
-    public void updateDocument(Document document) {
-
+    @Override
+    public Document updateDocument(Document document) {
+        return null;
     }
+
+
 }

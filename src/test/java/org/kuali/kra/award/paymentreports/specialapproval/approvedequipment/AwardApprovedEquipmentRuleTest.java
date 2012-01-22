@@ -28,8 +28,8 @@ import org.junit.Before;
 import org.junit.Test;
 import org.kuali.kra.award.home.Award;
 import org.kuali.kra.rules.SoftError;
-import org.kuali.rice.kns.util.ErrorMap;
-import org.kuali.rice.kns.util.GlobalVariables;
+import org.kuali.rice.krad.util.GlobalVariables;
+import org.kuali.rice.krad.util.MessageMap;
 
 /**
  * This class tests AwardApprovedEquipmentRuleImpl behavior
@@ -56,7 +56,7 @@ public class AwardApprovedEquipmentRuleTest {
         award.setSequenceNumber(1);
         String requirement = EquipmentCapitalizationMinimumLoader.INSTITUTION_REQUIREMENT;
         minimumCapitalizationInfo = new MinimumCapitalizationInfo(requirement, AMOUNT2, AMOUNT1, AMOUNT2);
-        GlobalVariables.setErrorMap(new ErrorMap());
+        GlobalVariables.setMessageMap(new MessageMap());
     }
     
     @After

@@ -23,10 +23,10 @@ import org.apache.commons.logging.LogFactory;
 import org.apache.cxf.common.util.StringUtils;
 import org.kuali.kra.common.notification.service.KcNotificationService;
 import org.kuali.kra.infrastructure.Constants;
-import org.kuali.rice.kns.UserSession;
-import org.kuali.rice.kns.service.ParameterService;
-import org.kuali.rice.kns.util.GlobalVariables;
-import org.kuali.rice.kns.util.ObjectUtils;
+import org.kuali.rice.coreservice.framework.parameter.ParameterService;
+import org.kuali.rice.krad.UserSession;
+import org.kuali.rice.krad.util.GlobalVariables;
+import org.kuali.rice.krad.util.ObjectUtils;
 import org.quartz.JobExecutionContext;
 import org.quartz.JobExecutionException;
 import org.springframework.scheduling.quartz.QuartzJobBean;
@@ -36,7 +36,7 @@ import org.springframework.scheduling.quartz.QuartzJobBean;
  * Extends QuartzJobBean for Persistence.
  */
 public class CfdaBatchJob extends QuartzJobBean {
-    
+
     private static final String BREAK = "<BR>";
     private static final String CONTEXT_NAME = "CFDA Batch Job";
     private static final String SUBJECT = "CFDA batch job result";
@@ -91,7 +91,7 @@ public class CfdaBatchJob extends QuartzJobBean {
      * @return
      */
     protected String getRecipient() {
-        String recipient = parameterService.getParameterValue(Constants.PARAMETER_MODULE_AWARD, 
+        String recipient = parameterService.getParameterValueAsString(Constants.PARAMETER_MODULE_AWARD, 
                 Constants.PARAMETER_COMPONENT_DOCUMENT,
                 Constants.CFDA_BATCH_NOTIFICATION_RECIPIENT_PARAMETER);  
         return recipient;
@@ -112,7 +112,6 @@ public class CfdaBatchJob extends QuartzJobBean {
     public void setCfdaService(CfdaService cfdaService) {
         this.cfdaService = cfdaService;
     }
-
     /**
      * This is injected into the scheduler context by spring.
      * @param kcNotificationService

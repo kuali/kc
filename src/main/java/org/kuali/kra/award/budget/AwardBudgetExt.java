@@ -16,7 +16,6 @@
 package org.kuali.kra.award.budget;
 
 import java.util.ArrayList;
-import java.util.LinkedHashMap;
 import java.util.List;
 import java.util.SortedMap;
 
@@ -32,45 +31,61 @@ import org.kuali.kra.budget.rates.RateType;
 import org.kuali.kra.budget.versions.BudgetDocumentVersion;
 import org.kuali.kra.budget.versions.BudgetVersionOverview;
 import org.kuali.kra.infrastructure.KeyConstants;
-import org.kuali.kra.infrastructure.KraServiceLocator;
-import org.kuali.rice.kns.service.ParameterService;
+import org.kuali.rice.coreservice.framework.CoreFrameworkServiceLocator;
 
-public class AwardBudgetExt extends Budget { 
-    
+public class AwardBudgetExt extends Budget {
 
     private static final long serialVersionUID = 1L;
 
-    private String awardBudgetStatusCode; 
-    private String awardBudgetTypeCode; 
+    private String awardBudgetStatusCode;
+
+    private String awardBudgetTypeCode;
+
     private BudgetDecimal obligatedTotal;
-    private BudgetDecimal obligatedAmount=BudgetDecimal.ZERO;
-    private AwardBudgetStatus awardBudgetStatus; 
+
+    private BudgetDecimal obligatedAmount = BudgetDecimal.ZERO;
+
+    private AwardBudgetStatus awardBudgetStatus;
+
     private AwardBudgetType awardBudgetType;
+
     private String description;
+
     private String budgetInitiator;
+
     private BudgetVersionOverview prevBudget;
+
     private List<BudgetDecimal> budgetsTotals;
+
     private List<AwardBudgetLimit> awardBudgetLimits;
+
     private BudgetVersionOverview firstBudget;
     
     private SortedMap<CostElement, BudgetDecimal> objectCodeBudgetTotals;
+
     private SortedMap<RateType, BudgetDecimal> calculatedExpenseBudgetTotals;
+
     private SortedMap<String, BudgetDecimal> totalBudgetSummaryTotals;
+
     private SortedMap<String, BudgetDecimal> objectCodePersonnelFringeBudgetTotals;
+
     private SortedMap<RateType, BudgetDecimal> personnelCalculatedExpenseBudgetTotals;
+
     private SortedMap<RateType, BudgetDecimal> nonPersonnelCalculatedExpenseBudgetTotals;
-    
-    
+
     public AwardBudgetExt() {
         super();
         awardBudgetLimits = new ArrayList<AwardBudgetLimit>();
-    } 
-    public AwardBudgetPeriodExt getNewBudgetPeriod(){
+    }
+
+    public AwardBudgetPeriodExt getNewBudgetPeriod() {
         return new AwardBudgetPeriodExt();
     }
+
     public BudgetLineItem getNewBudgetLineItem() {
         return new AwardBudgetLineItemExt();
     }
+
     public BudgetPersonnelDetails getNewBudgetPersonnelLineItem() {
         return new AwardBudgetPersonnelDetailsExt();
     }
@@ -107,25 +122,13 @@ public class AwardBudgetExt extends Budget {
         this.awardBudgetType = awardBudgetType;
     }
 
-    /** {@inheritDoc} */
-    @Override 
-    protected LinkedHashMap<String, Object> toStringMapper() {
-        LinkedHashMap<String, Object> hashMap = new LinkedHashMap<String, Object>();
-        hashMap.put("budgetId", this.getBudgetId());
-        hashMap.put("obligatedTotal", this.getObligatedTotal());
-        hashMap.put("obligatedAmount", this.getObligatedAmount());
-        hashMap.put("awardBudgetStatusCode", this.getAwardBudgetStatusCode());
-        hashMap.put("awardBudgetTypeCode", this.getAwardBudgetTypeCode());
-        return hashMap;
-    }
-
     /**
      * Gets the ohRatesNonEditable attribute. 
      * @return Returns the ohRatesNonEditable.
      */
     public boolean getOhRatesNonEditable() {
-        Award award = (Award)getBudgetDocument().getParentDocument().getBudgetParent();
-        return award.getAwardFandaRate().isEmpty()?false:true;
+        Award award = (Award) getBudgetDocument().getParentDocument().getBudgetParent();
+        return award.getAwardFandaRate().isEmpty() ? false : true;
     }
 
     /**
@@ -133,9 +136,8 @@ public class AwardBudgetExt extends Budget {
      * @return Returns the ebRatesNonEditable.
      */
     public boolean getEbRatesNonEditable() {
-        Award award = (Award)getBudgetDocument().getParentDocument().getBudgetParent();
-        return ((award.getSpecialEbRateOffCampus()!=null && award.getSpecialEbRateOffCampus().isPositive())||
-                 (award.getSpecialEbRateOnCampus()!=null && award.getSpecialEbRateOnCampus().isPositive()))?true:false;
+        Award award = (Award) getBudgetDocument().getParentDocument().getBudgetParent();
+        return ((award.getSpecialEbRateOffCampus() != null && award.getSpecialEbRateOffCampus().isPositive()) || (award.getSpecialEbRateOnCampus() != null && award.getSpecialEbRateOnCampus().isPositive())) ? true : false;
     }
 
     /**
@@ -144,7 +146,7 @@ public class AwardBudgetExt extends Budget {
      * @return Returns the obligatedTotal.
      */
     public BudgetDecimal getObligatedTotal() {
-        return obligatedTotal==null?BudgetDecimal.ZERO:obligatedTotal;
+        return obligatedTotal == null ? BudgetDecimal.ZERO : obligatedTotal;
     }
 
     /**
@@ -155,13 +157,15 @@ public class AwardBudgetExt extends Budget {
     public void setObligatedTotal(BudgetDecimal obligatedAmount) {
         this.obligatedTotal = obligatedAmount;
     }
+
     /**
      * Gets the obligatedAmount attribute. 
      * @return Returns the obligatedAmount.
      */
     public BudgetDecimal getObligatedAmount() {
-        return obligatedAmount==null?BudgetDecimal.ZERO:obligatedAmount;
+        return obligatedAmount == null ? BudgetDecimal.ZERO : obligatedAmount;
     }
+
     /**
      * Sets the obligatedAmount attribute value.
      * @param obligatedAmount The obligatedAmount to set.
@@ -169,6 +173,7 @@ public class AwardBudgetExt extends Budget {
     public void setObligatedAmount(BudgetDecimal obligatedAmount) {
         this.obligatedAmount = obligatedAmount;
     }
+
     /**
      * Gets the description attribute. 
      * @return Returns the description.
@@ -176,6 +181,7 @@ public class AwardBudgetExt extends Budget {
     public String getDescription() {
         return description;
     }
+
     /**
      * Sets the description attribute value.
      * @param description The description to set.
@@ -183,6 +189,7 @@ public class AwardBudgetExt extends Budget {
     public void setDescription(String description) {
         this.description = description;
     }
+
     /**
      * Gets the budgetInitiator attribute. 
      * @return Returns the budgetInitiator.
@@ -190,6 +197,7 @@ public class AwardBudgetExt extends Budget {
     public String getBudgetInitiator() {
         return budgetInitiator;
     }
+
     /**
      * Sets the budgetInitiator attribute value.
      * @param budgetInitiator The budgetInitiator to set.
@@ -197,16 +205,16 @@ public class AwardBudgetExt extends Budget {
     public void setBudgetInitiator(String budgetInitiator) {
         this.budgetInitiator = budgetInitiator;
     }
-    
+
     public BudgetVersionOverview getPrevBudget() {
         if (prevBudget == null && this.getBudgetDocument() != null) {
             Integer version = 0;
             for (BudgetDocumentVersion budgetDocumentVersion : this.getBudgetDocument().getParentDocument().getBudgetDocumentVersions()) {
                 for (BudgetVersionOverview budgetVersionOverview : budgetDocumentVersion.getBudgetVersionOverviews()) {
-                    if (budgetVersionOverview != null && budgetVersionOverview.getBudgetVersionNumber() > version
-                            && getParameterValue(KeyConstants.AWARD_BUDGET_STATUS_POSTED).equals(
-                                    ((AwardBudgetVersionOverviewExt)budgetVersionOverview).getAwardBudgetStatusCode())
-                            && budgetVersionOverview.getBudgetVersionNumber() < this.getBudgetVersionNumber()) {
+                    if (budgetVersionOverview != null && budgetVersionOverview.getBudgetVersionNumber() > version 
+                    		&& getParameterValue(KeyConstants.AWARD_BUDGET_STATUS_POSTED).equals(
+                    				((AwardBudgetVersionOverviewExt) budgetVersionOverview).getAwardBudgetStatusCode()) 
+                    		&& budgetVersionOverview.getBudgetVersionNumber() < this.getBudgetVersionNumber()) {
                         version = budgetVersionOverview.getBudgetVersionNumber();
                         prevBudget = budgetVersionOverview;
                     }
@@ -224,6 +232,7 @@ public class AwardBudgetExt extends Budget {
         }
         return prevBudget;
     }
+
     public BudgetVersionOverview getFirstBudget() {
         if (firstBudget == null && this.getBudgetDocument() != null) {
             Integer version = 0;
@@ -249,104 +258,116 @@ public class AwardBudgetExt extends Budget {
         return firstBudget;
     }
     
-    
     public void setPrevBudget(BudgetVersionOverview prevBudget) {
         this.prevBudget = prevBudget;
     }
+
     public List<BudgetDecimal> getBudgetsTotals() {
         addBudgetTotals();
         return budgetsTotals;
     }
+
     public void setBudgetsTotals(List<BudgetDecimal> budgetsTotals) {
         this.budgetsTotals = budgetsTotals;
     }
-    
+
     private void addBudgetTotals() {
-        List <BudgetDecimal> totals = new ArrayList<BudgetDecimal>();
+        List<BudgetDecimal> totals = new ArrayList<BudgetDecimal>();
         totals.add(this.getTotalCost().add(getPrevBudget().getTotalCost()));
         totals.add(this.getTotalDirectCost().add(getPrevBudget().getTotalDirectCost()));
         totals.add(this.getTotalIndirectCost().add(getPrevBudget().getTotalIndirectCost()));
         totals.add(this.getUnderrecoveryAmount().add(getPrevBudget().getUnderrecoveryAmount()));
         totals.add(this.getCostSharingAmount().add(getPrevBudget().getCostSharingAmount()));
         this.setBudgetsTotals(totals);
-
     }
-    public String getRebudgetFlag(){
+
+    public String getRebudgetFlag() {
         String rebudgetTypeCode = getParameterValue(KeyConstants.AWARD_BUDGET_TYPE_REBUDGET);
         return Boolean.toString(getAwardBudgetTypeCode().equals(rebudgetTypeCode));
     }
+    
     private String getParameterValue(String parameter) {
-        return KraServiceLocator.getService(ParameterService.class).
-                    getParameterValue(AwardBudgetDocument.class,parameter);
+        return CoreFrameworkServiceLocator.getParameterService().getParameterValueAsString(AwardBudgetDocument.class, parameter);
     }
+
     public List<AwardBudgetLimit> getAwardBudgetLimits() {
         return awardBudgetLimits;
     }
+
     public void setAwardBudgetLimits(List<AwardBudgetLimit> awardBudgetLimits) {
         this.awardBudgetLimits = awardBudgetLimits;
     }
+
     public SortedMap<CostElement, BudgetDecimal> getObjectCodeBudgetTotals() {
         return objectCodeBudgetTotals;
     }
+
     public void setObjectCodeBudgetTotals(SortedMap<CostElement, BudgetDecimal> objectCodeBudgetTotals) {
         this.objectCodeBudgetTotals = objectCodeBudgetTotals;
     }
+
     public SortedMap<RateType, BudgetDecimal> getCalculatedExpenseBudgetTotals() {
         return calculatedExpenseBudgetTotals;
     }
+
     public void setCalculatedExpenseBudgetTotals(SortedMap<RateType, BudgetDecimal> calculatedExpenseBudgetTotals) {
         this.calculatedExpenseBudgetTotals = calculatedExpenseBudgetTotals;
     }
+
     public SortedMap<String, BudgetDecimal> getTotalBudgetSummaryTotals() {
         return totalBudgetSummaryTotals;
     }
+
     public void setTotalBudgetSummaryTotals(SortedMap<String, BudgetDecimal> totalBudgetSummaryTotals) {
         this.totalBudgetSummaryTotals = totalBudgetSummaryTotals;
     }
+
     public SortedMap<String, BudgetDecimal> getObjectCodePersonnelFringeBudgetTotals() {
         return objectCodePersonnelFringeBudgetTotals;
     }
+
     public void setObjectCodePersonnelFringeBudgetTotals(SortedMap<String, BudgetDecimal> objectCodePersonnelFringeBudgetTotals) {
         this.objectCodePersonnelFringeBudgetTotals = objectCodePersonnelFringeBudgetTotals;
     }
+
     public SortedMap<RateType, BudgetDecimal> getPersonnelCalculatedExpenseBudgetTotals() {
         return personnelCalculatedExpenseBudgetTotals;
     }
+
     public void setPersonnelCalculatedExpenseBudgetTotals(SortedMap<RateType, BudgetDecimal> personnelCalculatedExpenseBudgetTotals) {
         this.personnelCalculatedExpenseBudgetTotals = personnelCalculatedExpenseBudgetTotals;
     }
+
     public SortedMap<RateType, BudgetDecimal> getNonPersonnelCalculatedExpenseBudgetTotals() {
         return nonPersonnelCalculatedExpenseBudgetTotals;
     }
-    public void setNonPersonnelCalculatedExpenseBudgetTotals(
-            SortedMap<RateType, BudgetDecimal> nonPersonnelCalculatedExpenseBudgetTotals) {
+
+    public void setNonPersonnelCalculatedExpenseBudgetTotals(SortedMap<RateType, BudgetDecimal> nonPersonnelCalculatedExpenseBudgetTotals) {
         this.nonPersonnelCalculatedExpenseBudgetTotals = nonPersonnelCalculatedExpenseBudgetTotals;
     }
-    
+
     @Override
     public List buildListOfDeletionAwareLists() {
         List deletionAwareList = super.buildListOfDeletionAwareLists();
         List<AwardBudgetPeriodSummaryCalculatedAmount> awardBudgetPeriodSummaryCalculatedAmounts = new ArrayList<AwardBudgetPeriodSummaryCalculatedAmount>();
         for (BudgetPeriod persistableBusinessObject : getBudgetPeriods()) {
-            awardBudgetPeriodSummaryCalculatedAmounts.addAll(((AwardBudgetPeriodExt)persistableBusinessObject).getAwardBudgetPeriodFringeAmounts());
-            awardBudgetPeriodSummaryCalculatedAmounts.addAll(((AwardBudgetPeriodExt)persistableBusinessObject).getAwardBudgetPeriodFnAAmounts());
+            awardBudgetPeriodSummaryCalculatedAmounts.addAll(((AwardBudgetPeriodExt) persistableBusinessObject).getAwardBudgetPeriodFringeAmounts());
+            awardBudgetPeriodSummaryCalculatedAmounts.addAll(((AwardBudgetPeriodExt) persistableBusinessObject).getAwardBudgetPeriodFnAAmounts());
         }
         deletionAwareList.add(awardBudgetPeriodSummaryCalculatedAmounts);
         deletionAwareList.add(awardBudgetLimits);
         return deletionAwareList;
     }
+
     /**
      * Gets the sum of the Direct Cost Amount for all budget periods.
      * @return the amount
      */
     public BudgetDecimal getSumDirectCostAmountFromPeriods() {
-        
         BudgetDecimal amount = BudgetDecimal.ZERO;
         for (final BudgetPeriod period : this.getBudgetPeriods()) {
             amount = amount.add(period.getTotalDirectCost());
         }
-        
         return amount;
     }
-
 }

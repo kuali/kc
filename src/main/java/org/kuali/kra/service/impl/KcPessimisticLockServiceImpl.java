@@ -20,10 +20,10 @@ import java.util.Collection;
 import org.kuali.kra.infrastructure.Constants;
 import org.kuali.kra.proposaldevelopment.document.ProposalDevelopmentDocument;
 import org.kuali.kra.service.KcPessimisticLockService;
-import org.kuali.rice.kns.document.authorization.PessimisticLock;
-import org.kuali.rice.kns.service.BusinessObjectService;
-import org.kuali.rice.kns.service.DateTimeService;
-import org.kuali.rice.kns.service.ParameterService;
+import org.kuali.rice.core.api.datetime.DateTimeService;
+import org.kuali.rice.coreservice.framework.parameter.ParameterService;
+import org.kuali.rice.krad.document.authorization.PessimisticLock;
+import org.kuali.rice.krad.service.BusinessObjectService;
 import org.springframework.transaction.annotation.Transactional;
 
 /**
@@ -131,6 +131,6 @@ public class KcPessimisticLockServiceImpl implements KcPessimisticLockService {
      * @return the parameter's value
      */
     protected String getParameterValue(String key) {
-        return this.parameterService.getParameterValue(ProposalDevelopmentDocument.class, key);
+        return this.parameterService.getParameterValueAsString(ProposalDevelopmentDocument.class, key);
     }
 }

@@ -19,8 +19,9 @@ import java.util.ArrayList;
 import java.util.List;
 
 import org.kuali.kra.util.watermark.WatermarkConstants;
-import org.kuali.rice.core.util.KeyLabelPair;
-import org.kuali.rice.kns.lookup.keyvalues.KeyValuesBase;
+import org.kuali.rice.core.api.util.ConcreteKeyValue;
+import org.kuali.rice.core.api.util.KeyValue;
+import org.kuali.rice.krad.keyvalues.KeyValuesBase;
 
 /**
  * 
@@ -30,12 +31,12 @@ public class WatermarkTypeValuesFinder extends KeyValuesBase {
     /**
      * This method for storing lookup keyvalues of watermark type.
      * Watermark Type: TEXT , IMAGE.
-     * @see org.kuali.rice.kns.lookup.keyvalues.KeyValuesFinder#getKeyValues()
+     * @see org.kuali.rice.krad.keyvalues.KeyValuesFinder#getKeyValues()
      */
-    public List<KeyLabelPair> getKeyValues() {
-        List<KeyLabelPair> keyValues = new ArrayList<KeyLabelPair>();
-        keyValues.add(new KeyLabelPair("TEXT", WatermarkConstants.WATERMARK_TYPE_TEXT));
-        keyValues.add(new KeyLabelPair("IMAGE", WatermarkConstants.WATERMARK_TYPE_IMAGE));
+    public List<KeyValue> getKeyValues() {
+        List<KeyValue> keyValues = new ArrayList<KeyValue>();
+        keyValues.add(new ConcreteKeyValue("TEXT", WatermarkConstants.WATERMARK_TYPE_TEXT));
+        keyValues.add(new ConcreteKeyValue("IMAGE", WatermarkConstants.WATERMARK_TYPE_IMAGE));
         return keyValues;
     }
 }

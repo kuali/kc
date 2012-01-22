@@ -18,13 +18,12 @@ package org.kuali.kra.negotiations.bo;
 import java.sql.Date;
 import java.util.ArrayList;
 import java.util.Calendar;
-import java.util.LinkedHashMap;
 import java.util.List;
 
 import org.apache.commons.lang.ObjectUtils;
 import org.kuali.kra.bo.KcPerson;
 import org.kuali.kra.bo.KraPersistableBusinessObjectBase;
-import org.kuali.rice.kns.util.GlobalVariables;
+import org.kuali.rice.krad.util.GlobalVariables;
 
 /**
  * Negotiation Activity BO.
@@ -35,34 +34,51 @@ public class NegotiationActivity extends KraPersistableBusinessObjectBase {
      * Comment for <code>serialVersionUID</code>
      */
     private static final long serialVersionUID = 1927288853033781994L;
-    public static final long MILLISECS_PER_DAY = 24*60*60*1000;
-    
+
+    public static final long MILLISECS_PER_DAY = 24 * 60 * 60 * 1000;
+
     private Long activityId;
+
     private Long negotiationId;
+
     private Negotiation negotiation;
+
     private Long locationId;
+
     private NegotiationLocation location;
+
     private Long activityTypeId;
+
     private NegotiationActivityType activityType;
+
     private Date startDate;
+
     private Date endDate;
+
     private Date createDate;
+
     private Date followupDate;
+
     private String lastModifiedUsername;
+
     private Date lastModifiedDate;
+
     private String description;
+
     private Boolean restricted;
+
     private List<NegotiationActivityAttachment> attachments;
-    
+
     private transient NegotiationActivityAttachment newAttachment;
+
     private transient boolean updated;
-    
+
     public NegotiationActivity() {
         restricted = Boolean.TRUE;
         attachments = new ArrayList<NegotiationActivityAttachment>();
         newAttachment = new NegotiationActivityAttachment();
     }
-    
+
     /**
      * Calculates the number of days between the start date and either the end date when
      * available or the current date.
@@ -71,7 +87,7 @@ public class NegotiationActivity extends KraPersistableBusinessObjectBase {
     public String getNumberOfDays() {
         return getNumberOfDays(getStartDate(), getEndDate());
     }
-    
+
     /**
      * 
      * This method Calculates the number of days between the start date and either the end date when available or the current date.
@@ -93,7 +109,7 @@ public class NegotiationActivity extends KraPersistableBusinessObjectBase {
             return (((end - start) / MILLISECS_PER_DAY) + 1) + "";
         }
     }
-    
+
     /**
      * This method should be called during the execute or before save to
      * update this BOs last updated by fields when something has changed.
@@ -112,43 +128,29 @@ public class NegotiationActivity extends KraPersistableBusinessObjectBase {
         return activityId;
     }
 
-
-
     public void setActivityId(Long activityId) {
         this.activityId = activityId;
     }
-
-
 
     public Long getNegotiationId() {
         return negotiationId;
     }
 
-
-
     public void setNegotiationId(Long negotiationId) {
         this.negotiationId = negotiationId;
     }
-
-
 
     public Negotiation getNegotiation() {
         return negotiation;
     }
 
-
-
     public void setNegotiation(Negotiation negotiation) {
         this.negotiation = negotiation;
     }
 
-
-
     public Long getLocationId() {
         return locationId;
     }
-
-
 
     public void setLocationId(Long locationId) {
         if (!ObjectUtils.equals(this.locationId, locationId)) {
@@ -157,13 +159,9 @@ public class NegotiationActivity extends KraPersistableBusinessObjectBase {
         this.locationId = locationId;
     }
 
-
-
     public NegotiationLocation getLocation() {
         return location;
     }
-
-
 
     public void setLocation(NegotiationLocation location) {
         if (!ObjectUtils.equals(this.location, location)) {
@@ -172,13 +170,9 @@ public class NegotiationActivity extends KraPersistableBusinessObjectBase {
         this.location = location;
     }
 
-
-
     public Long getActivityTypeId() {
         return activityTypeId;
     }
-
-
 
     public void setActivityTypeId(Long activityTypeId) {
         if (!ObjectUtils.equals(this.activityTypeId, activityTypeId)) {
@@ -187,25 +181,17 @@ public class NegotiationActivity extends KraPersistableBusinessObjectBase {
         this.activityTypeId = activityTypeId;
     }
 
-
-
     public NegotiationActivityType getActivityType() {
         return activityType;
     }
-
-
 
     public void setActivityType(NegotiationActivityType activityType) {
         this.activityType = activityType;
     }
 
-
-
     public Date getStartDate() {
         return startDate;
     }
-
-
 
     public void setStartDate(Date startDate) {
         if (!ObjectUtils.equals(this.startDate, startDate)) {
@@ -214,40 +200,28 @@ public class NegotiationActivity extends KraPersistableBusinessObjectBase {
         this.startDate = startDate;
     }
 
-
-
     public Date getEndDate() {
         return endDate;
     }
 
-
-
     public void setEndDate(Date endDate) {
         if (!ObjectUtils.equals(this.endDate, endDate)) {
             updated = true;
-        }        
+        }
         this.endDate = endDate;
     }
-
-
 
     public Date getCreateDate() {
         return createDate;
     }
 
-
-
     public void setCreateDate(Date createDate) {
         this.createDate = createDate;
     }
 
-
-
     public Date getFollowupDate() {
         return followupDate;
     }
-
-
 
     public void setFollowupDate(Date followupDate) {
         if (!ObjectUtils.equals(this.followupDate, followupDate)) {
@@ -256,18 +230,14 @@ public class NegotiationActivity extends KraPersistableBusinessObjectBase {
         this.followupDate = followupDate;
     }
 
-
-
     public String getLastModifiedUsername() {
         return lastModifiedUsername;
     }
 
-
-
     public void setLastModifiedUsername(String lastModifiedUsername) {
         this.lastModifiedUsername = lastModifiedUsername;
     }
-    
+
     public KcPerson getLastModifiedUser() {
         if (this.getLastModifiedUsername() == null) {
             return null;
@@ -275,24 +245,23 @@ public class NegotiationActivity extends KraPersistableBusinessObjectBase {
             return getKcPersonService().getKcPersonByUserName(this.getLastModifiedUsername());
         }
     }
+    
+    public String getLastModifiedUserFullName() {
+        KcPerson user = getLastModifiedUser();
+        return user == null ? "" : user.getFullName();
+    }
 
     public Date getLastModifiedDate() {
         return lastModifiedDate;
     }
 
-
-
     public void setLastModifiedDate(Date lastModifiedDate) {
         this.lastModifiedDate = lastModifiedDate;
     }
 
-
-
     public String getDescription() {
         return description;
     }
-
-
 
     public void setDescription(String description) {
         if (!ObjectUtils.equals(this.description, description)) {
@@ -301,32 +270,15 @@ public class NegotiationActivity extends KraPersistableBusinessObjectBase {
         this.description = description;
     }
 
-
-
     public Boolean getRestricted() {
         return restricted;
     }
 
-
-
     public void setRestricted(Boolean restricted) {
         if (!ObjectUtils.equals(this.restricted, restricted)) {
             updated = true;
-        }        
+        }
         this.restricted = restricted;
-    }
-
-    @SuppressWarnings("unchecked")
-    @Override
-    protected LinkedHashMap toStringMapper() {
-        LinkedHashMap result = new LinkedHashMap();
-        result.put("activityId", activityId);
-        result.put("negotiationId", negotiationId);
-        result.put("activityTypeId", activityTypeId);
-        result.put("locationId", locationId);
-        result.put("startDate", startDate);
-        result.put("endDate", endDate);
-        return result;
     }
 
     public List<NegotiationActivityAttachment> getAttachments() {
@@ -336,7 +288,7 @@ public class NegotiationActivity extends KraPersistableBusinessObjectBase {
     public void setAttachments(List<NegotiationActivityAttachment> attachments) {
         this.attachments = attachments;
     }
-    
+
     /**
      * Add a new attachment to this activity.
      * @param attachment

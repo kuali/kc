@@ -15,21 +15,20 @@
  */
 package org.kuali.kra.meeting;
 
-import java.util.LinkedHashMap;
 
 /**
  * 
  * This class is for member recused from vote.
  */
-public class ProtocolVoteRecused extends ProtocolMeetingVoter { 
-    
-    private static final long serialVersionUID = 6207540592702779518L;
-    private Long protocolVoteRecusedId;    
-    
-    public ProtocolVoteRecused() { 
+public class ProtocolVoteRecused extends ProtocolMeetingVoter {
 
-    } 
-    
+    private static final long serialVersionUID = 6207540592702779518L;
+
+    private Long protocolVoteRecusedId;
+
+    public ProtocolVoteRecused() {
+    }
+
     public Long getProtocolVoteRecusedId() {
         return protocolVoteRecusedId;
     }
@@ -37,12 +36,4 @@ public class ProtocolVoteRecused extends ProtocolMeetingVoter {
     public void setProtocolVoteRecusedId(Long protocolVoteRecusedId) {
         this.protocolVoteRecusedId = protocolVoteRecusedId;
     }
-
-    /** {@inheritDoc} */
-    @Override 
-    protected LinkedHashMap<String, Object> toStringMapper() {
-        LinkedHashMap<String, Object> hashMap = super.toStringMapper();
-        hashMap.put("protocolVoteRecusedId", this.getProtocolVoteRecusedId());
-        return hashMap;
-    }    
 }

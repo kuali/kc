@@ -15,41 +15,48 @@
  */
 package org.kuali.kra.budget.calculator;
 
-import java.util.LinkedHashMap;
-
 import org.kuali.kra.bo.KraPersistableBusinessObjectBase;
 import org.kuali.kra.budget.rates.RateClass;
 import org.kuali.kra.budget.rates.RateClassType;
 import org.kuali.kra.budget.rates.RateType;
 
 public class ValidCalcType extends KraPersistableBusinessObjectBase {
-	private String calcTypeId;
-	private Integer dependentSeqNumber;
-	private String rateClassType;
-	private String dependentRateClassType;
-	private String rateClassCode;
-	private String rateTypeCode;
-    
+
+    private String calcTypeId;
+
+    private Integer dependentSeqNumber;
+
+    private String rateClassType;
+
+    private String dependentRateClassType;
+
+    private String rateClassCode;
+
+    private String rateTypeCode;
+
     private RateClassType rateClassTypeRef;
+
     private RateClassType dependentRateClassTypeRef;
+
     private RateClass rateClass;
+
     private RateType rateType;
 
-	public String getCalcTypeId() {
-		return calcTypeId;
-	}
+    public String getCalcTypeId() {
+        return calcTypeId;
+    }
 
-	public void setCalcTypeId(String calcTypeId) {
-		this.calcTypeId = calcTypeId;
-	}
+    public void setCalcTypeId(String calcTypeId) {
+        this.calcTypeId = calcTypeId;
+    }
 
-	public Integer getDependentSeqNumber() {
-		return dependentSeqNumber;
-	}
+    public Integer getDependentSeqNumber() {
+        return dependentSeqNumber;
+    }
 
-	public void setDependentSeqNumber(Integer dependentSeqNumber) {
-		this.dependentSeqNumber = dependentSeqNumber;
-	}
+    public void setDependentSeqNumber(Integer dependentSeqNumber) {
+        this.dependentSeqNumber = dependentSeqNumber;
+    }
 
     public String getDependentRateClassType() {
         return dependentRateClassType;
@@ -84,21 +91,21 @@ public class ValidCalcType extends KraPersistableBusinessObjectBase {
     }
 
     public String getRateClassCode() {
-		return rateClassCode;
-	}
+        return rateClassCode;
+    }
 
-	public void setRateClassCode(String rateClassCode) {
-		this.rateClassCode = rateClassCode;
-	}
+    public void setRateClassCode(String rateClassCode) {
+        this.rateClassCode = rateClassCode;
+    }
 
-	public String getRateTypeCode() {
-		return rateTypeCode;
-	}
+    public String getRateTypeCode() {
+        return rateTypeCode;
+    }
 
-	public void setRateTypeCode(String rateTypeCode) {
-		this.rateTypeCode = rateTypeCode;
-	}
-    
+    public void setRateTypeCode(String rateTypeCode) {
+        this.rateTypeCode = rateTypeCode;
+    }
+
     public RateClass getRateClass() {
         return rateClass;
     }
@@ -114,16 +121,4 @@ public class ValidCalcType extends KraPersistableBusinessObjectBase {
     public void setRateType(RateType rateType) {
         this.rateType = rateType;
     }
-
-    @Override 
-	protected LinkedHashMap toStringMapper() {
-		LinkedHashMap hashMap = new LinkedHashMap();
-		hashMap.put("calcTypeId", getCalcTypeId());
-		hashMap.put("dependentSeqNumber", getDependentSeqNumber());
-		hashMap.put("rateClassType", getRateClassType());
-		hashMap.put("dependentRateClassType", getDependentRateClassType());
-		hashMap.put("rateClassCode", getRateClassCode());
-		hashMap.put("rateTypeCode", getRateTypeCode());
-		return hashMap;
-	}
 }

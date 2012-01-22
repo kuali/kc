@@ -34,7 +34,7 @@ public class CommitteeActionAuthorizer extends CommitteeAuthorizer {
      */
     public boolean isAuthorized(String userId, CommitteeTask task) {
         Committee committee = task.getCommittee();
-        return StringUtils.equals(committee.getCommitteeDocument().getDocumentHeader().getWorkflowDocument().getStatusDisplayValue(), "FINAL")
+        return StringUtils.equals(committee.getCommitteeDocument().getDocumentHeader().getWorkflowDocument().getStatus().getLabel(), "FINAL")
                 && committee.getCommitteeId() != null
                 && committeeService.getCommitteeById(committee.getCommitteeId()).getId().equals(committee.getId())
                 && hasPermission(userId, committee, PermissionConstants.PERFORM_COMMITTEE_ACTIONS);

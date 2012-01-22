@@ -16,51 +16,76 @@
 package org.kuali.kra.proposaldevelopment.bo;
 
 import java.sql.Date;
-import java.util.LinkedHashMap;
 
 import org.kuali.kra.bo.KraPersistableBusinessObjectBase;
 
-public class ProposalOverview extends KraPersistableBusinessObjectBase { 
-    private String proposalNumber; 
+public class ProposalOverview extends KraPersistableBusinessObjectBase {
+
+    private String proposalNumber;
+
     private String documentNumber;
+
     private String proposalTypeCode;
+
     private String continuedFrom;
+
     private String sponsorCode;
+
     private String activityTypeCode;
+
     private String ownedByUnitNumber;
+
     private Date requestedStartDateInitial;
+
     private Date requestedEndDateInitial;
+
     private String title;
+
     private String currentAwardNumber;
+
     private Date deadlineDate;
+
     private String noticeOfOpportunityCode;
+
     private String deadlineType;
+
     private String cfdaNumber;
+
     private String programAnnouncementNumber;
+
     private String primeSponsorCode;
+
     private String sponsorProposalNumber;
+
     private String nsfCode;
+
     private Boolean subcontracts;
+
     private String agencyDivisionCode;
+
     private String agencyProgramCode;
+
     private String programAnnouncementTitle;
+
     private String mailBy;
+
     private String mailType;
+
     private String mailAccountNumber;
+
     private String mailDescription;
+
     private Integer mailingAddressId;
+
     private String numberOfCopies;
+
     private String organizationId;
-    private String performingOrganizationId; 
+
+    private String performingOrganizationId;
+
     private String budgetStatus;
+
     private String creationStatusCode;
-    
-    @Override 
-    protected LinkedHashMap toStringMapper() {
-        LinkedHashMap hashMap = new LinkedHashMap();
-        hashMap.put("proposalNumber", proposalNumber);
-        return hashMap;
-    }
 
     public String getProposalNumber() {
         return proposalNumber;
@@ -325,5 +350,4 @@ public class ProposalOverview extends KraPersistableBusinessObjectBase {
     public void setDocumentNumber(String documentNumber) {
         this.documentNumber = documentNumber;
     }
-
 }

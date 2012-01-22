@@ -21,8 +21,9 @@ import java.util.List;
 import org.kuali.kra.irb.ProtocolDocument;
 import org.kuali.kra.irb.ProtocolOnlineReviewDocument;
 import org.kuali.kra.kim.bo.KcKimAttributes;
-import org.kuali.rice.core.util.KeyLabelPair;
-import org.kuali.rice.kns.lookup.keyvalues.KeyValuesBase;
+import org.kuali.rice.core.api.util.ConcreteKeyValue;
+import org.kuali.rice.core.api.util.KeyValue;
+import org.kuali.rice.krad.keyvalues.KeyValuesBase;
 
 /**
  * Defines the values finder for the role qualifiers field in notifications
@@ -32,18 +33,19 @@ public class NotificationModuleRoleQualifierValuesFinder extends KeyValuesBase {
 
     /**
      * {@inheritDoc}
-     * @see org.kuali.rice.kns.lookup.keyvalues.KeyValuesFinder#getKeyValues()
+     * @see org.kuali.rice.krad.keyvalues.KeyValuesFinder#getKeyValues()
      */
-    public List<KeyLabelPair> getKeyValues() {
-        List<KeyLabelPair> documentList = new ArrayList<KeyLabelPair>();
-        documentList.add(new KeyLabelPair(KcKimAttributes.UNIT_NUMBER, "Unit Number"));
-        documentList.add(new KeyLabelPair("protocolLeadUnitNumber", "Unit Number (Online Review)"));
-        documentList.add(new KeyLabelPair(KcKimAttributes.PROTOCOL, "Protocol Number"));
-        documentList.add(new KeyLabelPair(KcKimAttributes.SUBUNITS, "Descend Heirarchy"));
-        documentList.add(new KeyLabelPair("submissionId", "Submission Id"));
-        documentList.add(new KeyLabelPair("protocolOnlineReviewId", "Protocol Online Review Id"));
-        documentList.add(new KeyLabelPair("negotiation", "Negotiation Id"));
-        documentList.add(new KeyLabelPair("disclosure", "Disclosure Id"));
+    public List<KeyValue> getKeyValues() {
+        List<KeyValue> documentList = new ArrayList<KeyValue>();
+        documentList.add(new ConcreteKeyValue(KcKimAttributes.UNIT_NUMBER, "Unit Number"));
+        documentList.add(new ConcreteKeyValue("protocolLeadUnitNumber", "Unit Number (Online Review)"));
+        documentList.add(new ConcreteKeyValue(KcKimAttributes.PROTOCOL, "Protocol Number"));
+        documentList.add(new ConcreteKeyValue(KcKimAttributes.SUBUNITS, "Descend Heirarchy"));
+        documentList.add(new ConcreteKeyValue("submissionId", "Submission Id"));
+        documentList.add(new ConcreteKeyValue("protocolOnlineReviewId", "Protocol Online Review Id"));
+        documentList.add(new ConcreteKeyValue("negotiation", "Negotiation Id"));
+        documentList.add(new ConcreteKeyValue("disclosure", "Disclosure Id"));
+        
         return documentList;
     }
 

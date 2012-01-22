@@ -15,18 +15,17 @@
  */
 package org.kuali.kra.irb.noteattachment;
 
-import java.util.LinkedHashMap;
-
 import org.kuali.kra.bo.KraPersistableBusinessObjectBase;
 
 /**
  * This class represents the Protocol Attachment Type.
  */
 public class ProtocolAttachmentType extends KraPersistableBusinessObjectBase {
-    
+
     private static final long serialVersionUID = 2053606476193782286L;
 
     private String code;
+
     private String description;
 
     /**
@@ -35,7 +34,7 @@ public class ProtocolAttachmentType extends KraPersistableBusinessObjectBase {
     public ProtocolAttachmentType() {
         super();
     }
-    
+
     /**
      * Convenience ctor to set the relevant properties of this class.
      * 
@@ -50,7 +49,7 @@ public class ProtocolAttachmentType extends KraPersistableBusinessObjectBase {
         this.code = code;
         this.description = description;
     }
-    
+
     /**
      * Gets the protocol attachment type code.
      * @return the protocol attachment type code
@@ -81,15 +80,6 @@ public class ProtocolAttachmentType extends KraPersistableBusinessObjectBase {
      */
     public void setDescription(String description) {
         this.description = description;
-    }
-
-    /** {@inheritDoc} */
-    @Override 
-    protected LinkedHashMap<String, Object> toStringMapper() {
-        LinkedHashMap<String, Object> hashMap = new LinkedHashMap<String, Object>();
-        hashMap.put("code", this.getCode());
-        hashMap.put("description", this.getDescription());
-        return hashMap;
     }
 
     /** {@inheritDoc} */

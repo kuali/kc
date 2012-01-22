@@ -16,7 +16,7 @@
 package org.kuali.kra.irb.actions.decision;
 
 import org.kuali.kra.irb.ProtocolDocument;
-import org.kuali.rice.kns.rule.BusinessRule;
+import org.kuali.rice.krad.rules.rule.BusinessRule;
 
 /**
  * This class defines the methods needed for committee decision rules.

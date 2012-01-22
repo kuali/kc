@@ -61,19 +61,21 @@ import org.kuali.kra.service.KcAttachmentService;
 import org.kuali.kra.service.KeywordsService;
 import org.kuali.kra.service.VersionException;
 import org.kuali.kra.service.VersioningService;
-import org.kuali.rice.core.util.RiceConstants;
-import org.kuali.rice.kew.exception.WorkflowException;
-import org.kuali.rice.kns.bo.Attachment;
-import org.kuali.rice.kns.bo.Note;
-import org.kuali.rice.kns.bo.PersistableBusinessObject;
-import org.kuali.rice.kns.question.ConfirmationQuestion;
-import org.kuali.rice.kns.rule.event.KualiDocumentEvent;
-import org.kuali.rice.kns.service.ParameterService;
-import org.kuali.rice.kns.util.GlobalVariables;
-import org.kuali.rice.kns.util.KNSConstants;
-import org.kuali.rice.kns.util.RiceKeyConstants;
+import org.kuali.rice.core.api.util.RiceConstants;
+import org.kuali.rice.core.api.util.RiceKeyConstants;
+import org.kuali.rice.coreservice.framework.parameter.ParameterService;
+import org.kuali.rice.kew.api.exception.WorkflowException;
+import org.kuali.rice.kns.datadictionary.BusinessObjectEntry;
 import org.kuali.rice.kns.util.WebUtils;
 import org.kuali.rice.kns.web.struts.form.KualiDocumentFormBase;
+import org.kuali.rice.krad.bo.Attachment;
+import org.kuali.rice.krad.bo.Note;
+import org.kuali.rice.krad.bo.PersistableBusinessObject;
+import org.kuali.rice.kns.question.ConfirmationQuestion;
+import org.kuali.rice.krad.service.KRADServiceLocatorWeb;
+import org.kuali.rice.krad.util.GlobalVariables;
+import org.kuali.rice.krad.util.KRADConstants;
+import org.kuali.rice.krad.util.NoteType;
 
 /**
  * This class...
@@ -110,24 +112,28 @@ public class InstitutionalProposalHomeAction extends InstitutionalProposalAction
                 .getDocument(), institutionalProposalForm.getInstitutionalProposalNotepadBean()
                 .getNewInstitutionalProposalNotepad(), ErrorType.HARDERROR))) {
             InstitutionalProposalNotepad notepad = institutionalProposalForm.getInstitutionalProposalNotepadBean().getNewInstitutionalProposalNotepad();
+            BusinessObjectEntry businessObjectEntry = (BusinessObjectEntry) KRADServiceLocatorWeb.getDataDictionaryService().getDataDictionary().getBusinessObjectEntry("org.kuali.kra.institutionalproposal.home.InstitutionalProposalNotepad");
             if (institutionalProposalForm.getAttachmentFile() != null) {
-                if (!notepad.isBoNotesSupport()) {
+                if (!businessObjectEntry.isBoNotesEnabled()) {
                     throw new RuntimeException("to add attachments, the DD file for InstitutionalProposalNotepad must be configured for boNotesEnabled=true");
                 }
                 else {
-                    List<Note> boNotes = notepad.getBoNotes();
+                    // FIXME: Rice 2.0 upgrade.  since this is a new bo, there is no objid generated yet.
+                    // so noteservice.getByRemoteObjectId should not work.  there is no other option to get this list, and it seemed that there should be no list.
+                    /*
+                   List<Note> boNotes = notepad.getBoNotes();
                     if (!boNotes.isEmpty()) {
                         throw new IllegalStateException("IP already has an attachment for the note"); 
                     }
-                    
+                    */
                     
                     FormFile attachmentFile = institutionalProposalForm.getAttachmentFile();
                     
                     if (attachmentFile == null) {
                         GlobalVariables.getMessageMap().putError(
                                 String.format("%s.%s",
-                                        KNSConstants.NEW_DOCUMENT_NOTE_PROPERTY_NAME,
-                                        KNSConstants.NOTE_ATTACHMENT_FILE_PROPERTY_NAME),
+                                        KRADConstants.NEW_DOCUMENT_NOTE_PROPERTY_NAME,
+                                        KRADConstants.NOTE_ATTACHMENT_FILE_PROPERTY_NAME),
                                 RiceKeyConstants.ERROR_UPLOADFILE_NULL);
                     }
                     
@@ -135,7 +141,7 @@ public class InstitutionalProposalHomeAction extends InstitutionalProposalAction
                     // Checking attachment file name for invalid characters.
                     if (attachmentService.hasInvalidCharacters(attachmentFile.getFileName())) {
                         String parameter = getParameterService().
-                            getParameterValue(ProposalDevelopmentDocument.class, Constants.INVALID_FILE_NAME_CHECK_PARAMETER);    
+                            getParameterValueAsString(ProposalDevelopmentDocument.class, Constants.INVALID_FILE_NAME_CHECK_PARAMETER);    
                         
                         if (Constants.INVALID_FILE_NAME_ERROR_CODE.equals(parameter)) {
                             GlobalVariables.getMessageMap().putError(Constants.INVALID_FILE_NAME_ERROR_TAB, KeyConstants.INVALID_FILE_NAME, 
@@ -149,15 +155,15 @@ public class InstitutionalProposalHomeAction extends InstitutionalProposalAction
                     
                     Note newNote = new Note();
                     newNote.setNoteText("Default text, will never be shown to user.");
-                    newNote.setNoteTypeCode(KNSConstants.NoteTypeEnum.BUSINESS_OBJECT_NOTE_TYPE.getCode());
+                    newNote.setNoteTypeCode(NoteType.BUSINESS_OBJECT.getCode());
                     newNote.setNotePostedTimestampToCurrent();
                     Attachment attachment = null;
                     if (attachmentFile != null && !StringUtils.isBlank(attachmentFile.getFileName())) {
                         if (attachmentFile.getFileSize() == 0) {
                             GlobalVariables.getMessageMap().putError(
                                     String.format("%s.%s",
-                                            KNSConstants.NEW_DOCUMENT_NOTE_PROPERTY_NAME,
-                                            KNSConstants.NOTE_ATTACHMENT_FILE_PROPERTY_NAME),
+                                            KRADConstants.NEW_DOCUMENT_NOTE_PROPERTY_NAME,
+                                            KRADConstants.NOTE_ATTACHMENT_FILE_PROPERTY_NAME),
                                     RiceKeyConstants.ERROR_UPLOADFILE_EMPTY,
                                     attachmentFile.getFileName());
                         }
@@ -166,10 +172,10 @@ public class InstitutionalProposalHomeAction extends InstitutionalProposalAction
                             attachment = getAttachmentService().createAttachment(notepad, attachmentFile.getFileName(), attachmentFile.getContentType(), attachmentFile.getFileSize(), attachmentFile.getInputStream(), attachmentType);
                         }
                         // create a new note from the data passed in
-                        Note tmpNote = getNoteService().createNote(newNote, notepad);
+                        Note tmpNote = getNoteService().createNote(newNote, notepad, GlobalVariables.getUserSession().getPrincipalId());
                         tmpNote.refresh();
-                        notepad.addNote(tmpNote);
                         tmpNote.addAttachment(attachment);
+                        getNoteService().save(tmpNote);
                     }
                 }
             }
@@ -266,8 +272,8 @@ public class InstitutionalProposalHomeAction extends InstitutionalProposalAction
             throws Exception {
         super.refresh(mapping, form, request, response);
         InstitutionalProposalForm propMultiLookupForm = (InstitutionalProposalForm) form;
-        String lookupResultsBOClassName = request.getParameter(KNSConstants.LOOKUP_RESULTS_BO_CLASS_NAME);
-        String lookupResultsSequenceNumber = request.getParameter(KNSConstants.LOOKUP_RESULTS_SEQUENCE_NUMBER);
+        String lookupResultsBOClassName = request.getParameter(KRADConstants.LOOKUP_RESULTS_BO_CLASS_NAME);
+        String lookupResultsSequenceNumber = request.getParameter(KRADConstants.LOOKUP_RESULTS_SEQUENCE_NUMBER);
         propMultiLookupForm.setLookupResultsBOClassName(lookupResultsBOClassName);
         propMultiLookupForm.setLookupResultsSequenceNumber(lookupResultsSequenceNumber);
         InstitutionalProposal prop = propMultiLookupForm.getInstitutionalProposalDocument().getInstitutionalProposal();
@@ -336,7 +342,7 @@ public class InstitutionalProposalHomeAction extends InstitutionalProposalAction
 
         ActionForward forward;
         if (pendingProposal != null) {
-            Object question = request.getParameter(KNSConstants.QUESTION_CLICKED_BUTTON);
+            Object question = request.getParameter(KRADConstants.QUESTION_CLICKED_BUTTON);
             forward = question == null ? showPromptForEditingPendingVersion(mapping, institutionalProposalForm, request, response) :
                                          processPromptForEditingPendingVersionResponse(mapping, request, response, institutionalProposalForm, pendingProposal);
         } else {
@@ -442,7 +448,7 @@ public class InstitutionalProposalHomeAction extends InstitutionalProposalAction
     }
 
     private String makeDocumentOpenUrl(InstitutionalProposalDocument newInstitutionalProposalDocument) {
-        String workflowUrl = getKualiConfigurationService().getPropertyString(KNSConstants.WORKFLOW_URL_KEY);
+        String workflowUrl = getKualiConfigurationService().getPropertyValueAsString(KRADConstants.WORKFLOW_URL_KEY);
         String url = String.format("%s/DocHandler.do?command=displayDocSearchView&docId=%s", 
                 workflowUrl, newInstitutionalProposalDocument.getDocumentNumber());
         return url;
@@ -451,14 +457,14 @@ public class InstitutionalProposalHomeAction extends InstitutionalProposalAction
     private ActionForward showPromptForEditingPendingVersion(ActionMapping mapping, InstitutionalProposalForm form, HttpServletRequest request,
             HttpServletResponse response) throws Exception {
         return this.performQuestionWithoutInput(mapping, form, request, response, "EDIT_OR_VERSION_QUESTION_ID", getResources(
-                request).getMessage(VERSION_EDITPENDING_PROMPT_KEY), KNSConstants.CONFIRMATION_QUESTION,
-                KNSConstants.MAPPING_CANCEL, "");
+                request).getMessage(VERSION_EDITPENDING_PROMPT_KEY), KRADConstants.CONFIRMATION_QUESTION,
+                KRADConstants.MAPPING_CANCEL, "");
     }
 
     private ActionForward processPromptForEditingPendingVersionResponse(ActionMapping mapping, HttpServletRequest request,
             HttpServletResponse response, InstitutionalProposalForm institutionalProposalForm, InstitutionalProposal institutionalProposal) throws WorkflowException, IOException {
         ActionForward forward;
-        Object buttonClicked = request.getParameter(KNSConstants.QUESTION_CLICKED_BUTTON);
+        Object buttonClicked = request.getParameter(KRADConstants.QUESTION_CLICKED_BUTTON);
         if (ConfirmationQuestion.NO.equals(buttonClicked)) {
             forward = mapping.findForward(Constants.MAPPING_BASIC);
         }
@@ -531,7 +537,7 @@ public class InstitutionalProposalHomeAction extends InstitutionalProposalAction
 
         if (attachmentIndex >= 0) {
             // each IPNotepad has only one KNS note attached to it, and a KNS attachment is attached to that note
-            Note note = noteParent.getBoNote(0);
+            Note note = getNoteService().getByRemoteObjectId(noteParent.getObjectId()).get(0);
             Attachment attachment = note.getAttachment();
             //make sure attachment is setup with backwards reference to note (rather then doing this we could also just call the attachment service (with a new method that took in the note)
             attachment.setNote(note);

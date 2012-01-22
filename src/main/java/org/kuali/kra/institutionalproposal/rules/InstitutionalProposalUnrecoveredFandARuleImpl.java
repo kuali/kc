@@ -27,8 +27,8 @@ import org.kuali.kra.institutionalproposal.IndirectcostRateType;
 import org.kuali.kra.institutionalproposal.home.InstitutionalProposalCostShare;
 import org.kuali.kra.institutionalproposal.home.InstitutionalProposalUnrecoveredFandA;
 import org.kuali.kra.rules.ResearchDocumentRuleBase;
-import org.kuali.rice.kns.service.BusinessObjectService;
-import org.kuali.rice.kns.util.KualiDecimal;
+import org.kuali.rice.core.api.util.type.KualiDecimal;
+import org.kuali.rice.krad.service.BusinessObjectService;
 
 /**
  * This class...
@@ -94,7 +94,7 @@ public class InstitutionalProposalUnrecoveredFandARuleImpl extends ResearchDocum
     /**
     *
     * Test fiscal year for valid range.
-    * @param AwardCostShare, ErrorMap
+    * @param AwardCostShare, MessageMap
     * @return Boolean
     */
     public boolean validateUnrecoveredFandAFiscalYearRange(InstitutionalProposalUnrecoveredFandA institutionalProposalUnrecoveredFandA){

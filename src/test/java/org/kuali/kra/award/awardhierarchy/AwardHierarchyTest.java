@@ -17,21 +17,20 @@ package org.kuali.kra.award.awardhierarchy;
 
 import static org.junit.Assert.assertEquals;
 import static org.junit.Assert.assertNotNull;
-import static org.junit.Assert.assertTrue;
 
-import org.junit.Test;
+import java.sql.Date;
+import java.util.ArrayList;
+import java.util.Collection;
+import java.util.List;
+import java.util.Map;
+
 import org.junit.Assert;
+import org.junit.Test;
 import org.kuali.kra.award.home.Award;
 import org.kuali.kra.bo.versioning.VersionHistory;
 import org.kuali.kra.bo.versioning.VersionStatus;
 import org.kuali.kra.service.impl.VersionHistoryServiceImpl;
 import org.kuali.kra.service.impl.adapters.BusinessObjectServiceAdapter;
-
-import java.sql.Date;
-import java.util.Collection;
-import java.util.List;
-import java.util.ArrayList;
-import java.util.Map;
 
 public class AwardHierarchyTest {
     private static final String AWARD_NUMBER_PATTERN = "%06d-%05d";

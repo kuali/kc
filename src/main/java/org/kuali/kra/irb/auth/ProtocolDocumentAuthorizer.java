@@ -28,11 +28,10 @@ import org.kuali.kra.infrastructure.TaskName;
 import org.kuali.kra.irb.ProtocolDocument;
 import org.kuali.kra.irb.actions.ProtocolStatus;
 import org.kuali.kra.irb.personnel.ProtocolPerson;
-import org.kuali.kra.irb.protocol.participant.ProtocolParticipant;
 import org.kuali.kra.service.TaskAuthorizationService;
-import org.kuali.rice.kim.bo.Person;
+import org.kuali.rice.kim.api.identity.Person;
 import org.kuali.rice.kns.authorization.AuthorizationConstants;
-import org.kuali.rice.kns.document.Document;
+import org.kuali.rice.krad.document.Document;
 
 /**
  * This class is the Proposal Document Authorizer.  It determines the edit modes and
@@ -41,7 +40,7 @@ import org.kuali.rice.kns.document.Document;
 public class ProtocolDocumentAuthorizer extends KcTransactionalDocumentAuthorizerBase {
     
     /**
-     * @see org.kuali.rice.kns.document.authorization.TransactionalDocumentAuthorizer#getEditModes(org.kuali.rice.kns.document.Document, org.kuali.rice.kim.bo.Person, java.util.Set)
+     * @see org.kuali.rice.kns.document.authorization.TransactionalDocumentAuthorizer#getEditModes(org.kuali.rice.krad.document.Document, org.kuali.rice.kim.api.identity.Person, java.util.Set)
      */
     public Set<String> getEditModes(Document document, Person user, Set<String> currentEditModes) {
         Set<String> editModes = new HashSet<String>();
@@ -99,14 +98,14 @@ public class ProtocolDocumentAuthorizer extends KcTransactionalDocumentAuthorize
         return true;
     }
     /**
-     * @see org.kuali.rice.kns.document.authorization.DocumentAuthorizer#canInitiate(java.lang.String, org.kuali.rice.kim.bo.Person)
+     * @see org.kuali.rice.kns.document.authorization.DocumentAuthorizer#canInitiate(java.lang.String, org.kuali.rice.kim.api.identity.Person)
      */
     public boolean canInitiate(String documentTypeName, Person user) {
         return canCreateProtocol(user);
     }
 
     /**
-     * @see org.kuali.rice.kns.document.authorization.DocumentAuthorizer#canOpen(org.kuali.rice.kns.document.Document, org.kuali.rice.kim.bo.Person)
+     * @see org.kuali.rice.kns.document.authorization.DocumentAuthorizer#canOpen(org.kuali.rice.krad.document.Document, org.kuali.rice.kim.api.identity.Person)
      */
     public boolean canOpen(Document document, Person user) {
         ProtocolDocument protocolDocument = (ProtocolDocument) document;
@@ -141,7 +140,7 @@ public class ProtocolDocumentAuthorizer extends KcTransactionalDocumentAuthorize
     }
     
     /**
-     * @see org.kuali.kra.authorization.KcTransactionalDocumentAuthorizerBase#canEdit(org.kuali.rice.kns.document.Document, org.kuali.rice.kim.bo.Person)
+     * @see org.kuali.kra.authorization.KcTransactionalDocumentAuthorizerBase#canEdit(org.kuali.rice.krad.document.Document, org.kuali.rice.kim.api.identity.Person)
      */
     @Override
     public boolean canEdit(Document document, Person user) {
@@ -149,34 +148,34 @@ public class ProtocolDocumentAuthorizer extends KcTransactionalDocumentAuthorize
     }
     
     /**
-     * @see org.kuali.kra.authorization.KcTransactionalDocumentAuthorizerBase#canSave(org.kuali.rice.kns.document.Document, org.kuali.rice.kim.bo.Person)
+     * @see org.kuali.kra.authorization.KcTransactionalDocumentAuthorizerBase#canSave(org.kuali.rice.krad.document.Document, org.kuali.rice.kim.api.identity.Person)
      */
     @Override
-    protected boolean canSave(Document document, Person user) {
+    public boolean canSave(Document document, Person user) {
         return canEdit(document, user);
     }
     
     /**
-     * @see org.kuali.kra.authorization.KcTransactionalDocumentAuthorizerBase#canCopy(org.kuali.rice.kns.document.Document, org.kuali.rice.kim.bo.Person)
+     * @see org.kuali.kra.authorization.KcTransactionalDocumentAuthorizerBase#canCopy(org.kuali.rice.krad.document.Document, org.kuali.rice.kim.api.identity.Person)
      */
     @Override
-    protected boolean canCopy(Document document, Person user) {
+    public boolean canCopy(Document document, Person user) {
         return false;
     }
     
     /**
-     * @see org.kuali.kra.authorization.KcTransactionalDocumentAuthorizerBase#canCancel(org.kuali.rice.kns.document.Document, org.kuali.rice.kim.bo.Person)
+     * @see org.kuali.kra.authorization.KcTransactionalDocumentAuthorizerBase#canCancel(org.kuali.rice.krad.document.Document, org.kuali.rice.kim.api.identity.Person)
      */
     @Override
-    protected boolean canCancel(Document document, Person user) {
+    public boolean canCancel(Document document, Person user) {
         return false;
     }
     
     /**
-     * @see org.kuali.kra.authorization.KcTransactionalDocumentAuthorizerBase#canRoute(org.kuali.rice.kns.document.Document, org.kuali.rice.kim.bo.Person)
+     * @see org.kuali.kra.authorization.KcTransactionalDocumentAuthorizerBase#canRoute(org.kuali.rice.krad.document.Document, org.kuali.rice.kim.api.identity.Person)
      */
     @Override
-    protected boolean canRoute(Document document, Person user) {
+    public boolean canRoute(Document document, Person user) {
         return false;
     }
     
@@ -187,7 +186,18 @@ public class ProtocolDocumentAuthorizer extends KcTransactionalDocumentAuthorize
      * @return always false for ProtocolDocument
      */
     @Override
-    protected boolean canBlanketApprove(Document document, Person user) {
+    public boolean canBlanketApprove(Document document, Person user) {
         return false;
     }
+
+    @Override
+    public boolean canSendNoteFyi(Document document, Person user) {
+        return false;
+    }
+
+    @Override
+    public boolean canFyi(Document document, Person user) {
+        return false;
+    }
+    
 }

@@ -21,21 +21,21 @@ import java.util.List;
 import org.kuali.kra.award.AwardForm;
 import org.kuali.kra.award.home.Award;
 import org.kuali.kra.award.home.fundingproposal.FundingProposalMergeType;
-import org.kuali.rice.core.util.KeyLabelPair;
-import org.kuali.rice.kns.lookup.keyvalues.KeyValuesBase;
-import org.kuali.rice.kns.lookup.keyvalues.PersistableBusinessObjectValuesFinder;
-import org.kuali.rice.kns.util.GlobalVariables;
+import org.kuali.rice.core.api.util.ConcreteKeyValue;
+import org.kuali.rice.core.api.util.KeyValue;
+import org.kuali.rice.kns.util.KNSGlobalVariables;
+import org.kuali.rice.krad.keyvalues.PersistableBusinessObjectValuesFinder;
 
 public class FundingProposalMergeTypeValuesFinder extends PersistableBusinessObjectValuesFinder {
 
-    public List<KeyLabelPair> getKeyValues() {
-        List<KeyLabelPair> values = new ArrayList<KeyLabelPair>();
+    public List<KeyValue> getKeyValues() {
+        List<KeyValue> values = new ArrayList<KeyValue>();
         if (isNewAward()) {
-            values.add(new KeyLabelPair(FundingProposalMergeType.NEWAWARD.getKey(), FundingProposalMergeType.NEWAWARD.getDesc()));
+            values.add(new ConcreteKeyValue(FundingProposalMergeType.NEWAWARD.getKey(), FundingProposalMergeType.NEWAWARD.getDesc()));
         } else {
             for (FundingProposalMergeType type : FundingProposalMergeType.values()) {
                 if (type != FundingProposalMergeType.NEWAWARD) {
-                    values.add(new KeyLabelPair(type.getKey(), type.getDesc()));
+                    values.add(new ConcreteKeyValue(type.getKey(), type.getDesc()));
                 }
             }
         }
@@ -43,7 +43,7 @@ public class FundingProposalMergeTypeValuesFinder extends PersistableBusinessObj
     }
     
     protected boolean isNewAward() {
-        Award award = ((AwardForm)GlobalVariables.getKualiForm()).getAwardDocument().getAward();
+        Award award = ((AwardForm)KNSGlobalVariables.getKualiForm()).getAwardDocument().getAward();
         return award.isNew() && award.getSequenceNumber() <= 1 && award.getFundingProposals().isEmpty();
     }
 

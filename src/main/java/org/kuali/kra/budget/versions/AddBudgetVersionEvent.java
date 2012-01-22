@@ -23,8 +23,8 @@ import static org.kuali.kra.logging.BufferedLogger.logger;
 import org.kuali.kra.budget.core.Budget;
 import org.kuali.kra.proposaldevelopment.document.ProposalDevelopmentDocument;
 import org.kuali.kra.rule.event.KraDocumentEventBase;
-import org.kuali.rice.kns.document.Document;
-import org.kuali.rice.kns.rule.BusinessRule;
+import org.kuali.rice.krad.document.Document;
+import org.kuali.rice.krad.rules.rule.BusinessRule;
 
 public class AddBudgetVersionEvent extends KraDocumentEventBase {
     
@@ -69,7 +69,7 @@ public class AddBudgetVersionEvent extends KraDocumentEventBase {
     }
 
     /**
-     * @see org.kuali.rice.kns.rule.event.KualiDocumentEvent#getRuleInterfaceClass()
+     * @see org.kuali.rice.krad.rules.rule.event.KualiDocumentEvent#getRuleInterfaceClass()
      */
     public Class<AddBudgetVersionRule> getRuleInterfaceClass() {
         return AddBudgetVersionRule.class;
@@ -100,7 +100,7 @@ public class AddBudgetVersionEvent extends KraDocumentEventBase {
     }
 
     /**
-     * @see org.kuali.rice.kns.rule.event.KualiDocumentEvent#invokeRuleMethod(org.kuali.rice.kns.rule.BusinessRule)
+     * @see org.kuali.rice.krad.rules.rule.event.KualiDocumentEvent#invokeRuleMethod(org.kuali.rice.krad.rules.rule.BusinessRule)
      */
     public boolean invokeRuleMethod(BusinessRule rule) {
         try {

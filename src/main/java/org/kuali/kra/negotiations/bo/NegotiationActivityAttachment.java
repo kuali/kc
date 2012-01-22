@@ -15,8 +15,6 @@
  */
 package org.kuali.kra.negotiations.bo;
 
-import java.util.LinkedHashMap;
-
 import org.apache.struts.upload.FormFile;
 import org.kuali.kra.bo.AttachmentFile;
 import org.kuali.kra.bo.KraPersistableBusinessObjectBase;
@@ -25,20 +23,28 @@ import org.kuali.kra.bo.KraPersistableBusinessObjectBase;
  * Negotiation Activity Attachment BO.
  */
 public class NegotiationActivityAttachment extends KraPersistableBusinessObjectBase {
-    
+
     /**
      * Comment for <code>serialVersionUID</code>
      */
     private static final long serialVersionUID = -1933107350837716003L;
+
     private Long attachmentId;
+
     private Long activityId;
+
     private NegotiationActivity activity;
+
     private String description;
+
     private Boolean restricted;
+
     private Long fileId;
+
     private AttachmentFile file;
+
     private transient FormFile newFile;
-    
+
     public NegotiationActivityAttachment() {
         restricted = Boolean.TRUE;
     }
@@ -105,17 +111,5 @@ public class NegotiationActivityAttachment extends KraPersistableBusinessObjectB
 
     public void setNewFile(FormFile newFile) {
         this.newFile = newFile;
-    }
-    
-    @SuppressWarnings("unchecked")
-    @Override
-    protected LinkedHashMap toStringMapper() {
-        LinkedHashMap result = new LinkedHashMap();
-        result.put("attachmentId", attachmentId);
-        result.put("activityId", activityId);
-        result.put("fileId", fileId);
-        result.put("description", description);
-        result.put("restricted", restricted);
-        return result;
     }
 }

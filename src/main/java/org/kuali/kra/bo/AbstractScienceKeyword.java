@@ -15,7 +15,7 @@
  */
 package org.kuali.kra.bo;
 
-import java.util.LinkedHashMap;
+
 /**
  * 
  * This is an abstract class for holding common properties of ScienceKeyword
@@ -23,26 +23,29 @@ import java.util.LinkedHashMap;
  */
 public abstract class AbstractScienceKeyword extends KraPersistableBusinessObjectBase {
 
-	private String scienceKeywordCode;
-	private String scienceKeywordDescription;
-	private ScienceKeyword scienceKeyword;
-	private Boolean selectKeyword = false;
+    private String scienceKeywordCode;
+
+    private String scienceKeywordDescription;
+
+    private ScienceKeyword scienceKeyword;
+
+    private Boolean selectKeyword = false;
 
     /**
      * Gets the scienceKeywordCode attribute. 
      * @return Returns the scienceKeywordCode.
      */
-	public String getScienceKeywordCode() {
-		return scienceKeywordCode;
-	}
-	
+    public String getScienceKeywordCode() {
+        return scienceKeywordCode;
+    }
+
     /**
      * Sets the scienceKeywordCode attribute value.
      * @param scienceKeywordCode.
      */
-	public void setScienceKeywordCode(String scienceCode) {
-		this.scienceKeywordCode = scienceCode;
-	}
+    public void setScienceKeywordCode(String scienceCode) {
+        this.scienceKeywordCode = scienceCode;
+    }
 
     /**
      * Gets the scienceKeyword attribute. 
@@ -51,6 +54,7 @@ public abstract class AbstractScienceKeyword extends KraPersistableBusinessObjec
     public ScienceKeyword getScienceKeyword() {
         return scienceKeyword;
     }
+
     /**
      * Sets the scienceKeyword attribute value.
      * @param scienceKeyword The scienceKeyword to set.
@@ -58,6 +62,7 @@ public abstract class AbstractScienceKeyword extends KraPersistableBusinessObjec
     public void setScienceKeyword(ScienceKeyword scienceKeyword) {
         this.scienceKeyword = scienceKeyword;
     }
+
     /**
      * Gets the selectKeyword attribute. 
      * @return Returns the selectKeyword.
@@ -65,6 +70,7 @@ public abstract class AbstractScienceKeyword extends KraPersistableBusinessObjec
     public Boolean getSelectKeyword() {
         return selectKeyword;
     }
+
     /**
      * Sets the selectKeyword attribute value.
      * @param selectKeyword The selectKeyword to set.
@@ -72,6 +78,7 @@ public abstract class AbstractScienceKeyword extends KraPersistableBusinessObjec
     public void setSelectKeyword(Boolean selectKeyword) {
         this.selectKeyword = selectKeyword;
     }
+
     /**
      * Gets the scienceKeywordDescription attribute. 
      * @return Returns the scienceKeywordDescription.
@@ -79,22 +86,12 @@ public abstract class AbstractScienceKeyword extends KraPersistableBusinessObjec
     public String getScienceKeywordDescription() {
         return scienceKeywordDescription;
     }
+
     /**
      * Sets the scienceKeywordDescription attribute value.
      * @param scienceKeywordDescription The scienceKeywordDescription to set.
      */
     public void setScienceKeywordDescription(String scienceKeywordDescription) {
         this.scienceKeywordDescription = scienceKeywordDescription;
-    }
-
-    @SuppressWarnings("unchecked")
-    @Override
-    protected LinkedHashMap toStringMapper() {
-        LinkedHashMap propMap = new LinkedHashMap();
-        propMap.put("scienceKeywordCode", this.getScienceKeywordCode());
-        propMap.put("description", this.getScienceKeywordDescription());
-        propMap.put("updateTimestamp", this.getUpdateTimestamp());
-        propMap.put("updateUser", this.getUpdateUser());
-        return propMap;
     }
 }

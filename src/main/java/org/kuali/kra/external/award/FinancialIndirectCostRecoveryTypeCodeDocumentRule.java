@@ -25,11 +25,10 @@ import org.kuali.kra.infrastructure.KeyConstants;
 import org.kuali.kra.infrastructure.KraServiceLocator;
 import org.kuali.kra.rules.KraMaintenanceDocumentRuleBase;
 import org.kuali.rice.kns.document.MaintenanceDocument;
-import org.kuali.rice.kns.service.BusinessObjectService;
-import org.kuali.rice.kns.util.GlobalVariables;
-import org.kuali.rice.kns.util.KNSConstants;
-import org.kuali.rice.kns.util.MessageMap;
-import org.kuali.kra.external.award.FinancialIndirectCostRecoveryTypeCode;
+import org.kuali.rice.krad.service.BusinessObjectService;
+import org.kuali.rice.krad.util.GlobalVariables;
+import org.kuali.rice.krad.util.KRADConstants;
+import org.kuali.rice.krad.util.MessageMap;
 
 public class FinancialIndirectCostRecoveryTypeCodeDocumentRule extends KraMaintenanceDocumentRuleBase{
     private BusinessObjectService businessObjectService;
@@ -67,9 +66,9 @@ public class FinancialIndirectCostRecoveryTypeCodeDocumentRule extends KraMainte
      */
     public boolean isDocumentValidForSave(MaintenanceDocument document) {
         boolean result = super.isDocumentValidForSave(document);
-        final FinancialIndirectCostRecoveryTypeCode mapping = (FinancialIndirectCostRecoveryTypeCode) document.getNewMaintainableObject().getBusinessObject();
-        if (!document.getNewMaintainableObject().getMaintenanceAction().equals(KNSConstants.MAINTENANCE_DELETE_ACTION)) {
-            if (!document.getNewMaintainableObject().getMaintenanceAction().equals(KNSConstants.MAINTENANCE_EDIT_ACTION)) {
+        final FinancialIndirectCostRecoveryTypeCode mapping = (FinancialIndirectCostRecoveryTypeCode) document.getNewMaintainableObject().getDataObject();
+        if (!document.getNewMaintainableObject().getMaintenanceAction().equals(KRADConstants.MAINTENANCE_DELETE_ACTION)) {
+            if (!document.getNewMaintainableObject().getMaintenanceAction().equals(KRADConstants.MAINTENANCE_EDIT_ACTION)) {
                 result &= validateUniqueEntry(mapping);
                 result &= checkExistence(mapping);
             }
@@ -89,7 +88,7 @@ public class FinancialIndirectCostRecoveryTypeCodeDocumentRule extends KraMainte
             pkMap.put("rateTypeCode", newMapping.getRateTypeCode());
             RateType rateType = (RateType) getBusinessObjectService().findByPrimaryKey(RateType.class, pkMap);
             if (rateType == null) {
-                GlobalVariables.getErrorMap().putError("document.newMaintainableObject.rateTypeCode", KeyConstants.ERROR_RATE_TYPE_NOT_EXIST,
+                GlobalVariables.getMessageMap().putError("document.newMaintainableObject.rateTypeCode", KeyConstants.ERROR_RATE_TYPE_NOT_EXIST,
                         new String[] {newMapping.getRateClassCode(), newMapping.getRateTypeCode() });
                 valid = false;
             }

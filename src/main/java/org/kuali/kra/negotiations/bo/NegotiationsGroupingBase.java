@@ -15,15 +15,16 @@
  */
 package org.kuali.kra.negotiations.bo;
 
-import java.util.LinkedHashMap;
-
 import org.kuali.kra.bo.KraPersistableBusinessObjectBase;
 
 public abstract class NegotiationsGroupingBase extends KraPersistableBusinessObjectBase implements Comparable<NegotiationsGroupingBase> {
 
     private Long id;
+
     private String code;
+
     private String description;
+
     private boolean active;
 
     public Long getId() {
@@ -57,17 +58,17 @@ public abstract class NegotiationsGroupingBase extends KraPersistableBusinessObj
     public void setActive(boolean active) {
         this.active = active;
     }
-    
+
     @Override
     public boolean equals(Object o) {
         boolean retVal = false;
-        if (o.getClass().equals(this.getClass())) {
+        if (o != null && o.getClass().equals(this.getClass())) {
             NegotiationStatus other = (NegotiationStatus) o;
             retVal = this.getId().equals(other.getId());
         }
         return retVal;
     }
-    
+
     @Override
     public int hashCode() {
         final int prime = 31;
@@ -78,15 +79,6 @@ public abstract class NegotiationsGroupingBase extends KraPersistableBusinessObj
         return result;
     }
 
-    @Override
-    protected LinkedHashMap toStringMapper() {
-        LinkedHashMap map = new LinkedHashMap();
-        map.put("id", this.getId());
-        map.put("code", this.getCode());
-        map.put("description", this.getDescription());
-        return map;
-    }
-    
     /**
      * 
      * This method implements comparable based on the code field.
@@ -96,5 +88,4 @@ public abstract class NegotiationsGroupingBase extends KraPersistableBusinessObj
     public int compareTo(NegotiationsGroupingBase o) {
         return this.getCode().compareTo(o.getCode());
     }
-
 }

@@ -20,11 +20,11 @@ import java.util.Comparator;
 import java.util.List;
 import java.util.Map;
 
-import org.kuali.rice.core.util.KeyLabelPair;
-import org.kuali.rice.kns.lookup.keyvalues.KeyValuesFinder;
+import org.kuali.rice.core.api.util.KeyValue;
+import org.kuali.rice.krad.keyvalues.KeyValuesFinder;
 
 /**
- * A {@link KeyValuesFinder KeyValuesFinder} that sort the {@link KeyLabelPair KeyLabelPair} returned from
+ * A {@link KeyValuesFinder KeyValuesFinder} that sort the {@link KeyValue KeyValue} returned from
  * {@link #getKeyValues()}.
  * 
  * <p>
@@ -49,10 +49,10 @@ import org.kuali.rice.kns.lookup.keyvalues.KeyValuesFinder;
 //in the Google Collections API
 public final class SortedValuesFinder implements KeyValuesFinder {
 
-    private static final Comparator<KeyLabelPair> DEFAULT_COMPARATOR = KeyLabelPairComparator.getInstance();
+    private static final Comparator<KeyValue> DEFAULT_COMPARATOR = KeyValueComparator.getInstance();
     
     private final KeyValuesFinder finder;
-    private final Comparator<KeyLabelPair> comparator; 
+    private final Comparator<KeyValue> comparator; 
     
     /**
      * Wraps a {@link KeyValuesFinder KeyValuesFinder} and using the default {@link Comparator Comparator}.
@@ -70,7 +70,7 @@ public final class SortedValuesFinder implements KeyValuesFinder {
      * @param comparator the comparator to use for sorting.
      * @throws NullPointerException if the finder or the comparator value is null.
      */
-    public SortedValuesFinder(final KeyValuesFinder finder, final Comparator<KeyLabelPair> comparator) {
+    public SortedValuesFinder(final KeyValuesFinder finder, final Comparator<KeyValue> comparator) {
         
         if (finder == null) {
             throw new NullPointerException("the finder is null");
@@ -87,25 +87,25 @@ public final class SortedValuesFinder implements KeyValuesFinder {
     /**
      * {@inheritDoc}
      */
-    public String getKeyLabel(final Object key) {
+    public String getKeyLabel(final String key) {
         return this.finder.getKeyLabel(key);
     }
 
     /**
      * {@inheritDoc}
      */
-    public Map<Object, String> getKeyLabelMap() {
+    public Map<String, String> getKeyLabelMap() {
         @SuppressWarnings("unchecked")
-        final Map<Object, String> map = this.finder.getKeyLabelMap();
+        final Map<String, String> map = this.finder.getKeyLabelMap();
         return map;
     }
 
     /**
      * {@inheritDoc}
      */
-    public List<KeyLabelPair> getKeyValues() {
+    public List<KeyValue> getKeyValues() {
         @SuppressWarnings("unchecked")
-        final List<KeyLabelPair> list = this.finder.getKeyValues();
+        final List<KeyValue> list = this.finder.getKeyValues();
         Collections.sort(list, this.comparator);
         return list;
     }
@@ -114,16 +114,16 @@ public final class SortedValuesFinder implements KeyValuesFinder {
      * Gets the default {@link Comparator Comparator}.
      * @return the default {@link Comparator Comparator}
      */
-    public static Comparator<KeyLabelPair> getDefaultComparator() {
+    public static Comparator<KeyValue> getDefaultComparator() {
         return DEFAULT_COMPARATOR;
     }
     
     /**
      * {@inheritDoc}
      */
-    public List<KeyLabelPair> getKeyValues(boolean includeActiveOnly) {
+    public List<KeyValue> getKeyValues(boolean includeActiveOnly) {
         @SuppressWarnings("unchecked")
-        final List<KeyLabelPair> list = this.finder.getKeyValues(includeActiveOnly);
+        final List<KeyValue> list = this.finder.getKeyValues(includeActiveOnly);
         Collections.sort(list, this.comparator);
         return list;
     }

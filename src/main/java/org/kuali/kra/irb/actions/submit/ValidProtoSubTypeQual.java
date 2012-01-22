@@ -15,27 +15,28 @@
  */
 package org.kuali.kra.irb.actions.submit;
 
-import java.util.LinkedHashMap;
-
 import org.kuali.kra.bo.KraPersistableBusinessObjectBase;
 
-public class ValidProtoSubTypeQual extends KraPersistableBusinessObjectBase { 
-    
+public class ValidProtoSubTypeQual extends KraPersistableBusinessObjectBase {
+
     /**
      * Comment for <code>serialVersionUID</code>
      */
     private static final long serialVersionUID = 6546751709369749190L;
-    private Long validProtoSubTypeQualId; 
-    private String submissionTypeCode; 
-    private String submissionTypeQualCode; 
-    
-    private ProtocolSubmissionType submissionType; 
-    private ProtocolSubmissionQualifierType submissionTypeQualifier; 
-    
-    public ValidProtoSubTypeQual() { 
 
-    } 
-    
+    private Long validProtoSubTypeQualId;
+
+    private String submissionTypeCode;
+
+    private String submissionTypeQualCode;
+
+    private ProtocolSubmissionType submissionType;
+
+    private ProtocolSubmissionQualifierType submissionTypeQualifier;
+
+    public ValidProtoSubTypeQual() {
+    }
+
     public Long getValidProtoSubTypeQualId() {
         return validProtoSubTypeQualId;
     }
@@ -75,15 +76,4 @@ public class ValidProtoSubTypeQual extends KraPersistableBusinessObjectBase {
     public void setSubmissionTypeQualifier(ProtocolSubmissionQualifierType submissionTypeQualifier) {
         this.submissionTypeQualifier = submissionTypeQualifier;
     }
-
-    /** {@inheritDoc} */
-    @Override 
-    protected LinkedHashMap<String, Object> toStringMapper() {
-        LinkedHashMap<String, Object> hashMap = new LinkedHashMap<String, Object>();
-        hashMap.put("validProtoSubTypeQualId", this.getValidProtoSubTypeQualId());
-        hashMap.put("submissionTypeCode", this.getSubmissionTypeCode());
-        hashMap.put("submissionTypeQualCode", this.getSubmissionTypeQualCode());
-        return hashMap;
-    }
-    
 }

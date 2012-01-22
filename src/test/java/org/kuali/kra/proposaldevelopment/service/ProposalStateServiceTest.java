@@ -24,8 +24,8 @@ import org.kuali.kra.infrastructure.KraServiceLocator;
 import org.kuali.kra.proposaldevelopment.bo.ProposalState;
 import org.kuali.kra.proposaldevelopment.document.ProposalDevelopmentDocument;
 import org.kuali.kra.test.infrastructure.KcUnitTestBase;
-import org.kuali.rice.kns.bo.DocumentHeader;
-import org.kuali.rice.kns.workflow.service.KualiWorkflowDocument;
+import org.kuali.rice.kew.api.WorkflowDocument;
+import org.kuali.rice.krad.bo.DocumentHeader;
 
 /**
  * Unit Tests for the Proposal State Service Implementation.
@@ -45,13 +45,13 @@ public class ProposalStateServiceTest extends KcUnitTestBase {
     
     private ProposalStateService service;
     private Mockery mockery;
-    private KualiWorkflowDocument mock;
+    private WorkflowDocument mock;
     
     @Before
     public void initTest() {
         mockery = new JUnit4Mockery();
         service = KraServiceLocator.getService(ProposalStateService.class);
-        mock = mockery.mock(KualiWorkflowDocument.class);
+        mock = mockery.mock(WorkflowDocument.class);
     }
 
     /**
@@ -168,68 +168,68 @@ public class ProposalStateServiceTest extends KcUnitTestBase {
 
         setMockExpectations(mock, workflowState);
          
-        docHdr.setWorkflowDocument((KualiWorkflowDocument) mock);
+        docHdr.setWorkflowDocument((WorkflowDocument) mock);
         doc.setDocumentHeader(docHdr);
         
         return doc;
     }
     
     /**
-     * Set the expectations for the KualiWorkflowDocument mock.
-     * @param mock the KualiWorkflowDocument mock
+     * Set the expectations for the WorkflowDocument mock.
+     * @param mock the WorkflowDocument mock
      * @param workflowState the workflow state
      */
-    private void setMockExpectations(final KualiWorkflowDocument mock, final int workflowState) {
+    private void setMockExpectations(final WorkflowDocument mock, final int workflowState) {
         
         mockery.checking(new Expectations() {{
             
             switch (workflowState) {
                 case INITIATED:
-                    atLeast(1).of(mock).stateIsInitiated(); will(returnValue(true));
+                    atLeast(1).of(mock).isInitiated(); will(returnValue(true));
                     break;
                     
                 case SAVED:
-                    atLeast(1).of(mock).stateIsInitiated(); will(returnValue(false));
-                    atLeast(1).of(mock).stateIsSaved(); will(returnValue(true));
+                    atLeast(1).of(mock).isInitiated(); will(returnValue(false));
+                    atLeast(1).of(mock).isSaved(); will(returnValue(true));
                     break;
                     
                 case ENROUTE:
-                    atLeast(1).of(mock).stateIsInitiated(); will(returnValue(false));
-                    atLeast(1).of(mock).stateIsSaved(); will(returnValue(false));
-                    atLeast(2).of(mock).stateIsEnroute(); will(returnValue(true));
+                    atLeast(1).of(mock).isInitiated(); will(returnValue(false));
+                    atLeast(1).of(mock).isSaved(); will(returnValue(false));
+                    atLeast(2).of(mock).isEnroute(); will(returnValue(true));
                     break;
                     
                 case APPROVED:
-                    atLeast(1).of(mock).stateIsInitiated(); will(returnValue(false));
-                    atLeast(1).of(mock).stateIsSaved(); will(returnValue(false));
-                    atLeast(1).of(mock).stateIsEnroute(); will(returnValue(false));
-                    atLeast(1).of(mock).stateIsApproved(); will(returnValue(true));
+                    atLeast(1).of(mock).isInitiated(); will(returnValue(false));
+                    atLeast(1).of(mock).isSaved(); will(returnValue(false));
+                    atLeast(1).of(mock).isEnroute(); will(returnValue(false));
+                    atLeast(1).of(mock).isApproved(); will(returnValue(true));
                     break;
                     
                 case DISAPPROVED:
-                    atLeast(1).of(mock).stateIsInitiated(); will(returnValue(false));
-                    atLeast(1).of(mock).stateIsSaved(); will(returnValue(false));
-                    atLeast(1).of(mock).stateIsEnroute(); will(returnValue(false));
-                    atLeast(1).of(mock).stateIsApproved(); will(returnValue(false));
-                    atLeast(1).of(mock).stateIsDisapproved(); will(returnValue(true));
+                    atLeast(1).of(mock).isInitiated(); will(returnValue(false));
+                    atLeast(1).of(mock).isSaved(); will(returnValue(false));
+                    atLeast(1).of(mock).isEnroute(); will(returnValue(false));
+                    atLeast(1).of(mock).isApproved(); will(returnValue(false));
+                    atLeast(1).of(mock).isDisapproved(); will(returnValue(true));
                     break;
                     
                 case CANCELED:
-                    atLeast(1).of(mock).stateIsInitiated(); will(returnValue(false));
-                    atLeast(1).of(mock).stateIsSaved(); will(returnValue(false));
-                    atLeast(1).of(mock).stateIsEnroute(); will(returnValue(false));
-                    atLeast(1).of(mock).stateIsApproved(); will(returnValue(false));
-                    atLeast(1).of(mock).stateIsDisapproved(); will(returnValue(false));
-                    atLeast(1).of(mock).stateIsCanceled(); will(returnValue(true));
+                    atLeast(1).of(mock).isInitiated(); will(returnValue(false));
+                    atLeast(1).of(mock).isSaved(); will(returnValue(false));
+                    atLeast(1).of(mock).isEnroute(); will(returnValue(false));
+                    atLeast(1).of(mock).isApproved(); will(returnValue(false));
+                    atLeast(1).of(mock).isDisapproved(); will(returnValue(false));
+                    atLeast(1).of(mock).isCanceled(); will(returnValue(true));
                     break;
                     
                 case EXCEPTION:
-                    atLeast(1).of(mock).stateIsInitiated(); will(returnValue(false));
-                    atLeast(1).of(mock).stateIsSaved(); will(returnValue(false));
-                    atLeast(1).of(mock).stateIsEnroute(); will(returnValue(false));
-                    atLeast(1).of(mock).stateIsApproved(); will(returnValue(false));
-                    atLeast(1).of(mock).stateIsDisapproved(); will(returnValue(false));
-                    atLeast(1).of(mock).stateIsCanceled(); will(returnValue(false));
+                    atLeast(1).of(mock).isInitiated(); will(returnValue(false));
+                    atLeast(1).of(mock).isSaved(); will(returnValue(false));
+                    atLeast(1).of(mock).isEnroute(); will(returnValue(false));
+                    atLeast(1).of(mock).isApproved(); will(returnValue(false));
+                    atLeast(1).of(mock).isDisapproved(); will(returnValue(false));
+                    atLeast(1).of(mock).isCanceled(); will(returnValue(false));
                     break;
                 
             }

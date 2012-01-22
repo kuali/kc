@@ -35,14 +35,14 @@ import org.kuali.kra.proposaldevelopment.rule.event.CopyProposalEvent;
 import org.kuali.kra.proposaldevelopment.service.ProposalCopyService;
 import org.kuali.kra.proposaldevelopment.web.struts.form.ProposalDevelopmentForm;
 import org.kuali.kra.s2s.bo.S2sAppSubmission;
-import org.kuali.rice.kns.service.BusinessObjectService;
-import org.kuali.rice.kns.service.DateTimeService;
-import org.kuali.rice.kns.service.DocumentService;
-import org.kuali.rice.kns.service.KNSServiceLocator;
-import org.kuali.rice.kns.service.KualiRuleService;
-import org.kuali.rice.kns.service.PessimisticLockService;
-import org.kuali.rice.kns.util.GlobalVariables;
-import org.kuali.rice.kns.workflow.service.KualiWorkflowDocument;
+import org.kuali.rice.core.api.datetime.DateTimeService;
+import org.kuali.rice.kew.api.WorkflowDocument;
+import org.kuali.rice.krad.service.BusinessObjectService;
+import org.kuali.rice.krad.service.DocumentService;
+import org.kuali.rice.krad.service.KRADServiceLocatorWeb;
+import org.kuali.rice.krad.service.KualiRuleService;
+import org.kuali.rice.krad.service.PessimisticLockService;
+import org.kuali.rice.krad.util.GlobalVariables;
 
 /**
  * Handles all of the actions from the Proposal Development Actions web page.
@@ -89,9 +89,9 @@ public class ProposalDevelopmentResubmissionAction extends ProposalDevelopmentAc
         else {
             String originalProposalId = doc.getDevelopmentProposal().getProposalNumber();
             String newDocId = proposalCopyService.copyProposal(doc, criteria);
-            KualiWorkflowDocument originalWFDoc= doc.getDocumentHeader().getWorkflowDocument();
+            WorkflowDocument originalWFDoc= doc.getDocumentHeader().getWorkflowDocument();
             KraServiceLocator.getService(PessimisticLockService.class).releaseAllLocksForUser(doc.getPessimisticLocks(), GlobalVariables.getUserSession().getPerson());
-            DocumentService docService = KNSServiceLocator.getDocumentService();
+            DocumentService docService = KRADServiceLocatorWeb.getDocumentService();
             // Switch over to the new proposal development document and
             // go to the Proposal web page.
             
@@ -103,9 +103,9 @@ public class ProposalDevelopmentResubmissionAction extends ProposalDevelopmentAc
             copiedDocument.getDevelopmentProposal().setProposalTypeCode("4");
             copiedDocument.getDevelopmentProposal().getS2sOpportunity().setS2sSubmissionType(null);
                         
-            KualiWorkflowDocument workflowDocument = copiedDocument.getDocumentHeader().getWorkflowDocument();
+            WorkflowDocument workflowDocument = copiedDocument.getDocumentHeader().getWorkflowDocument();
  // Removed cancel of original document until KEW will allow this to happen
- //           if(!originalWFDoc.stateIsFinal()){
+ //           if(!originalWFDoc.isFinal()){
  //               originalWFDoc.cancel("");
  //           }
             docService.saveDocument(copiedDocument);

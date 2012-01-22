@@ -248,8 +248,6 @@ public class CustomDataHelper extends CustomDataHelperBase {
         populateCustomDataValuesFromParentMap();
     }
     
-    
-    
     /**
      * This class is being used as a workaround to a struts issue that will not allow indexing into a list of string primitives from JSP.
      * The only purpose of this class is to hold a string object with getters and setters so the tag file can call into index of ArrayList

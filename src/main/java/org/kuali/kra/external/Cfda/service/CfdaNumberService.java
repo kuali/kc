@@ -23,7 +23,6 @@ import javax.jws.soap.SOAPBinding;
 
 import org.kuali.kra.external.HashMapElement;
 import org.kuali.kra.external.Cfda.CfdaDTO;
-import org.kuali.kra.external.unit.UnitDTO;
 
 /**
  * This is the external service that is published to the service bus for

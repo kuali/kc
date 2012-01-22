@@ -15,8 +15,6 @@
  */
 package org.kuali.kra.coi.disclosure;
 
-import java.util.LinkedHashMap;
-
 import org.apache.commons.lang.StringUtils;
 import org.kuali.kra.SequenceAssociate;
 import org.kuali.kra.bo.Unit;
@@ -34,89 +32,83 @@ public class DisclosurePersonUnit  extends DisclosureReporterUnit implements Seq
 //    @SkipVersioning
     private DisclosurePerson disclosurePerson;
 
-@Override
-protected LinkedHashMap toStringMapper() {
-    // TODO Auto-generated method stub
-    return null;
-}
-
-public Long getDisclosurePersonUnitsId() {
-    return disclosurePersonUnitsId;
-}
-
-public void setDisclosurePersonUnitsId(Long disclosurePersonUnitsId) {
-    this.disclosurePersonUnitsId = disclosurePersonUnitsId;
-}
-
-public Long getDisclosurePersonId() {
-    return disclosurePersonId;
-}
-
-public void setDisclosurePersonId(Long disclosurePersonId) {
-    this.disclosurePersonId = disclosurePersonId;
-}
-
-public String getUnitNumber() {
-    return unitNumber;
-}
-
-public void setUnitNumber(String unitNumber) {
-    this.unitNumber = unitNumber;
-}
-
-public boolean isLeadUnitFlag() {
-    return leadUnitFlag;
-}
-
-public void setLeadUnitFlag(boolean leadUnitFlag) {
-    this.leadUnitFlag = leadUnitFlag;
-}
-
-public String getPersonId() {
-    return personId;
-}
-
-public void setPersonId(String personId) {
-    this.personId = personId;
-}
-
-public DisclosurePerson getDisclosurePerson() {
-    return disclosurePerson;
-}
-
-public void setDisclosurePerson(DisclosurePerson disclosurePerson) {
-    this.disclosurePerson = disclosurePerson;
-}
-
-@Override
-public Long getReporterUnitId() {
-    // TODO Auto-generated method stub
-    return getDisclosurePersonUnitsId();
-}
-
-@Override
-public Integer getSequenceNumber() {
-    // TODO Auto-generated method stub
-    return null;
-}
-
-@Override
-public void resetPersistenceState() {
-    this.setDisclosurePersonUnitsId(null);
-            
-}
-
-@Override
-public void setSequenceOwner(CoiDisclosure newlyVersionedOwner) {
-    this.getDisclosurePerson().setCoiDisclosure(newlyVersionedOwner);   
-            
-}
-
-@Override
-public CoiDisclosure getSequenceOwner() {
-    // TODO Auto-generated method stub
-    return this.getDisclosurePerson().getCoiDisclosure();
-}
+    public Long getDisclosurePersonUnitsId() {
+        return disclosurePersonUnitsId;
+    }
+    
+    public void setDisclosurePersonUnitsId(Long disclosurePersonUnitsId) {
+        this.disclosurePersonUnitsId = disclosurePersonUnitsId;
+    }
+    
+    public Long getDisclosurePersonId() {
+        return disclosurePersonId;
+    }
+    
+    public void setDisclosurePersonId(Long disclosurePersonId) {
+        this.disclosurePersonId = disclosurePersonId;
+    }
+    
+    public String getUnitNumber() {
+        return unitNumber;
+    }
+    
+    public void setUnitNumber(String unitNumber) {
+        this.unitNumber = unitNumber;
+    }
+    
+    public boolean isLeadUnitFlag() {
+        return leadUnitFlag;
+    }
+    
+    public void setLeadUnitFlag(boolean leadUnitFlag) {
+        this.leadUnitFlag = leadUnitFlag;
+    }
+    
+    public String getPersonId() {
+        return personId;
+    }
+    
+    public void setPersonId(String personId) {
+        this.personId = personId;
+    }
+    
+    public DisclosurePerson getDisclosurePerson() {
+        return disclosurePerson;
+    }
+    
+    public void setDisclosurePerson(DisclosurePerson disclosurePerson) {
+        this.disclosurePerson = disclosurePerson;
+    }
+    
+    @Override
+    public Long getReporterUnitId() {
+        // TODO Auto-generated method stub
+        return getDisclosurePersonUnitsId();
+    }
+    
+    @Override
+    public Integer getSequenceNumber() {
+        // TODO Auto-generated method stub
+        return null;
+    }
+    
+    @Override
+    public void resetPersistenceState() {
+        this.setDisclosurePersonUnitsId(null);
+                
+    }
+    
+    @Override
+    public void setSequenceOwner(CoiDisclosure newlyVersionedOwner) {
+        this.getDisclosurePerson().setCoiDisclosure(newlyVersionedOwner);   
+                
+    }
+    
+    @Override
+    public CoiDisclosure getSequenceOwner() {
+        // TODO Auto-generated method stub
+        return this.getDisclosurePerson().getCoiDisclosure();
+    }
 
 
 

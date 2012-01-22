@@ -20,7 +20,7 @@ import java.util.List;
 
 import org.kuali.kra.infrastructure.KeyConstants;
 import org.kuali.kra.rules.ResearchDocumentRuleBase;
-import org.kuali.rice.kns.util.GlobalVariables;
+import org.kuali.rice.krad.util.GlobalVariables;
 
 /**
  * The AwardPaymentScheduleRuleImpl
@@ -144,6 +144,6 @@ public class AwardReportTermRecipientRuleImpl extends ResearchDocumentRuleBase
     }
     
     private boolean hasDuplicateErrorBeenReported() {
-        return GlobalVariables.getErrorMap().containsMessageKey(KeyConstants.ERROR_AWARD_REPORT_TERM_RECIPIENT_ITEM_NOT_UNIQUE);
+        return GlobalVariables.getMessageMap().containsMessageKey(KeyConstants.ERROR_AWARD_REPORT_TERM_RECIPIENT_ITEM_NOT_UNIQUE);
     }
 }

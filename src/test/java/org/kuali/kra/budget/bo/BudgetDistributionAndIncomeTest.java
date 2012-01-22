@@ -25,7 +25,6 @@ import org.kuali.kra.budget.BudgetDecimal;
 import org.kuali.kra.budget.core.Budget;
 import org.kuali.kra.budget.distributionincome.BudgetDistributionAndIncomeService;
 import org.kuali.kra.budget.distributionincome.BudgetDistributionAndIncomeServiceImpl;
-import org.kuali.kra.budget.document.BudgetDocument;
 import org.kuali.kra.budget.parameters.BudgetPeriod;
 
 public abstract class BudgetDistributionAndIncomeTest {

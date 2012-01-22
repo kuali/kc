@@ -16,7 +16,7 @@
 package org.kuali.kra.irb.actions.request;
 
 import org.kuali.kra.irb.Protocol;
-import org.kuali.rice.kew.exception.WorkflowException;
+import org.kuali.rice.kew.api.exception.WorkflowException;
 
 /**
  * Protocol Request Service.

@@ -16,15 +16,11 @@
 package org.kuali.kra.bo;
 
 import java.sql.Date;
-import java.util.LinkedHashMap;
 import java.util.List;
-import java.util.Properties;
 
 import org.apache.struts.upload.FormFile;
-import org.kuali.rice.kns.bo.PersistableAttachment;
-import org.kuali.rice.kns.util.KNSConstants;
-import org.kuali.rice.kns.util.TypedArrayList;
-import org.kuali.rice.kns.util.UrlFactory;
+import org.kuali.rice.krad.bo.PersistableAttachment;
+import org.springframework.util.AutoPopulatingList;
 
 /**
  * Class contains attributes related to a KIM entity that do not currently have a home inside of KIM.
@@ -34,47 +30,80 @@ public class KcPersonExtendedAttributes extends KraPersistableBusinessObjectBase
     private static final long serialVersionUID = -6236580785268966391L;
 
     private String personId;
+
     private Integer ageByFiscalYear;
+
     private String race;
+
     private String educationLevel;
+
     private String degree;
+
     private String major;
+
     private Boolean handicappedFlag;
+
     private String handicapType;
+
     private Boolean veteranFlag;
+
     private String veteranType;
+
     private String visaCode;
+
     private String visaType;
+
     private Date visaRenewalDate;
+
     private Boolean hasVisa;
+
     private String officeLocation;
+
     private String secondaryOfficeLocation;
+
     private String school;
+
     private String yearGraduated;
+
     private String directoryDepartment;
+
     private String primaryTitle;
+
     private String directoryTitle;
+
     private Boolean vacationAccrualFlag;
+
     private Boolean onSabbaticalFlag;
+
     private String idProvided;
+
     private String idVerified;
+
     private String county;
+
     private Integer citizenshipTypeCode;
+
     private String multiCampusPrincipalId;
+
     private String multiCampusPrincipalName;
     private Date salaryAnniversaryDate;
-    
+
     private String biosketchDescription;
+
     private String fileName;
+
     private String contentType;
+
     private byte[] attachmentContent;
+
     private transient FormFile templateFile;
-    
-    private List<PersonDegree> personDegrees = new TypedArrayList(PersonDegree.class);
-    private List<PersonAppointment> personAppointments = new TypedArrayList(PersonAppointment.class);
+
+    private List<PersonDegree> personDegrees = new AutoPopulatingList<PersonDegree>(PersonDegree.class);
+
+    private List<PersonAppointment> personAppointments = new AutoPopulatingList<PersonAppointment>(PersonAppointment.class);
+
     private CitizenshipType citizenshipType;
-    
-    
+
     /**
      * Gets the value of personId which is actually the KIM principal id.
      * @return the value of personId
@@ -90,7 +119,7 @@ public class KcPersonExtendedAttributes extends KraPersistableBusinessObjectBase
     public void setPersonId(String personId) {
         this.personId = personId;
     }
-    
+
     /**
      * Gets the value of ageByFiscalYear.
      * @return the value of ageByFiscalYear
@@ -490,41 +519,6 @@ public class KcPersonExtendedAttributes extends KraPersistableBusinessObjectBase
     public void setCounty(String argCounty) {
         this.county = argCounty;
     }
-    
-    /** {@inheritDoc} */
-    @Override
-    protected LinkedHashMap<String, Object> toStringMapper() {
-        final LinkedHashMap<String, Object> map = new LinkedHashMap<String, Object>();
-        
-        map.put("personId", this.personId);
-        map.put("ageByFiscalYear", this.ageByFiscalYear);
-        map.put("race", this.race);
-        map.put("educationLevel", this.educationLevel);
-        map.put("degree", this.degree);
-        map.put("major", this.major);
-        map.put("handicappedFlag", this.handicappedFlag);
-        map.put("handicapType", this.handicapType);
-        map.put("veteranFlag", this.veteranFlag);
-        map.put("veteranType", this.veteranType);
-        map.put("visaCode", this.visaCode);
-        map.put("visaType", this.visaType);
-        map.put("visaRenewalDate", this.visaRenewalDate);
-        map.put("hasVisa", this.hasVisa);
-        map.put("officeLocation", this.officeLocation);
-        map.put("secondaryOfficeLocation", this.secondaryOfficeLocation);
-        map.put("school", this.school);
-        map.put("yearGraduated", this.yearGraduated);
-        map.put("directoryDepartment", this.directoryDepartment);
-        map.put("primaryTitle", this.primaryTitle);
-        map.put("directoryTitle", this.directoryTitle);
-        map.put("vacationAccrualFlag", this.vacationAccrualFlag);
-        map.put("onSabbaticalFlag", this.onSabbaticalFlag);
-        map.put("idProvided", this.idProvided);
-        map.put("idVerified", this.idVerified);
-        map.put("county", this.county);
-        
-        return map;
-    }
 
     public List<PersonDegree> getPersonDegrees() {
         return personDegrees;
@@ -581,8 +575,8 @@ public class KcPersonExtendedAttributes extends KraPersistableBusinessObjectBase
     public void setBiosketchDescription(String biosketchDescription) {
         this.biosketchDescription = biosketchDescription;
     }
-    
-    public Integer getCitizenshipTypeCode() { 
+
+    public Integer getCitizenshipTypeCode() {
         return citizenshipTypeCode;
     }
 

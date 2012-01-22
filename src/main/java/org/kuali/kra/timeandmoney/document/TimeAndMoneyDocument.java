@@ -36,17 +36,15 @@ import org.kuali.kra.infrastructure.RoleConstants;
 import org.kuali.kra.service.KraAuthorizationService;
 import org.kuali.kra.timeandmoney.AwardHierarchyNode;
 import org.kuali.kra.timeandmoney.AwardVersionHistory;
-import org.kuali.kra.timeandmoney.TimeAndMoneyDocumentHistory;
 import org.kuali.kra.timeandmoney.history.TimeAndMoneyActionSummary;
 import org.kuali.kra.timeandmoney.service.ActivePendingTransactionsService;
 import org.kuali.kra.timeandmoney.transactions.AwardAmountTransaction;
 import org.kuali.kra.timeandmoney.transactions.PendingTransaction;
-import org.kuali.rice.kew.dto.DocumentRouteStatusChangeDTO;
-import org.kuali.rice.kew.util.KEWConstants;
-import org.kuali.rice.kns.document.Copyable;
-import org.kuali.rice.kns.document.SessionDocument;
-import org.kuali.rice.kns.util.GlobalVariables;
-import org.kuali.rice.kns.util.ObjectUtils;
+import org.kuali.rice.kew.api.KewApiConstants;
+import org.kuali.rice.kew.framework.postprocessor.DocumentRouteStatusChange;
+import org.kuali.rice.krad.document.Copyable;
+import org.kuali.rice.krad.document.SessionDocument;
+import org.kuali.rice.krad.util.ObjectUtils;
 
 /**
  * 
@@ -124,9 +122,9 @@ public class TimeAndMoneyDocument extends ResearchDocumentBase implements  Copya
     }
     
     @Override
-    public void doRouteStatusChange(DocumentRouteStatusChangeDTO statusChangeEvent) {
+    public void doRouteStatusChange(DocumentRouteStatusChange statusChangeEvent) {
         super.doRouteStatusChange(statusChangeEvent);
-        if (StringUtils.equals(KEWConstants.ROUTE_HEADER_PROCESSED_CD, statusChangeEvent.getNewRouteStatus())){
+        if (StringUtils.equals(KewApiConstants.ROUTE_HEADER_PROCESSED_CD, statusChangeEvent.getNewRouteStatus())){
             this.setAwardHierarchyItems(getAwardHierarchyService().getAwardHierarchy(rootAwardNumber, getOrder()));
             this.setAwardNumber(rootAwardNumber);  
             Award tmpAward = getCurrentAward(this);
@@ -191,7 +189,7 @@ public class TimeAndMoneyDocument extends ResearchDocumentBase implements  Copya
     }
     
     public boolean getDocumentRouteStatus() {
-        return getDocumentHeader().getWorkflowDocument().stateIsEnroute() || getDocumentHeader().getWorkflowDocument().stateIsFinal();
+        return getDocumentHeader().getWorkflowDocument().isEnroute() || getDocumentHeader().getWorkflowDocument().isFinal();
     }
     
     public boolean isNew(){
@@ -431,8 +429,8 @@ public class TimeAndMoneyDocument extends ResearchDocumentBase implements  Copya
         boolean isComplete = false;
         
         if (getDocumentHeader().hasWorkflowDocument()) {
-            String docRouteStatus = getDocumentHeader().getWorkflowDocument().getRouteHeader().getDocRouteStatus();
-            if (KEWConstants.ROUTE_HEADER_FINAL_CD.equals(docRouteStatus)) {
+            String docRouteStatus = getDocumentHeader().getWorkflowDocument().getStatus().getCode();
+            if (KewApiConstants.ROUTE_HEADER_FINAL_CD.equals(docRouteStatus)) {
                 isComplete = true;
             }
         }

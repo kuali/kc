@@ -15,8 +15,6 @@
  */
 package org.kuali.kra.meeting;
 
-import java.util.LinkedHashMap;
-
 import org.apache.commons.lang.StringUtils;
 import org.kuali.kra.bo.KraPersistableBusinessObjectBase;
 import org.kuali.kra.committee.bo.CommitteeMembership;
@@ -26,25 +24,34 @@ import org.kuali.kra.committee.bo.CommitteeSchedule;
  * 
  * This is a Bo class for committee schedule attendance.
  */
-public class CommitteeScheduleAttendance extends KraPersistableBusinessObjectBase { 
-    
-    private static final long serialVersionUID = -6010677692125364332L;
-    private Long commScheduleAttendanceId; 
-    private Long scheduleIdFk; 
-    private String personId; 
-    private boolean guestFlag; 
-    private boolean alternateFlag; 
-    private String alternateFor; 
-    private boolean nonEmployeeFlag; 
-    private String comments; 
-    private String personName; 
-    private String roleName; 
-    private CommitteeSchedule committeeSchedule; 
-    
-    public CommitteeScheduleAttendance() { 
+public class CommitteeScheduleAttendance extends KraPersistableBusinessObjectBase {
 
-    } 
-    
+    private static final long serialVersionUID = -6010677692125364332L;
+
+    private Long commScheduleAttendanceId;
+
+    private Long scheduleIdFk;
+
+    private String personId;
+
+    private boolean guestFlag;
+
+    private boolean alternateFlag;
+
+    private String alternateFor;
+
+    private boolean nonEmployeeFlag;
+
+    private String comments;
+
+    private String personName;
+
+    private String roleName;
+
+    private CommitteeSchedule committeeSchedule;
+
+    public CommitteeScheduleAttendance() {
+    }
 
     public String getPersonId() {
         return personId;
@@ -94,22 +101,6 @@ public class CommitteeScheduleAttendance extends KraPersistableBusinessObjectBas
         this.comments = comments;
     }
 
-    /** {@inheritDoc} */
-    @Override 
-    protected LinkedHashMap<String, Object> toStringMapper() {
-        LinkedHashMap<String, Object> hashMap = new LinkedHashMap<String, Object>();
-        hashMap.put("commScheduleAttendanceId", this.getCommScheduleAttendanceId());
-        hashMap.put("scheduleIdFk", this.getScheduleIdFk());
-        hashMap.put("personId", this.getPersonId());
-        hashMap.put("guestFlag", this.getGuestFlag());
-        hashMap.put("alternateFlag", this.getAlternateFlag());
-        hashMap.put("alternateFor", this.getAlternateFor());
-        hashMap.put("nonEmployeeFlag", this.getNonEmployeeFlag());
-        hashMap.put("comments", this.getComments());
-        hashMap.put("personName", this.getPersonName());
-        return hashMap;
-    }
-
     public Long getScheduleIdFk() {
         return scheduleIdFk;
     }
@@ -122,49 +113,40 @@ public class CommitteeScheduleAttendance extends KraPersistableBusinessObjectBas
         this.commScheduleAttendanceId = commScheduleAttendanceId;
     }
 
-
     public CommitteeSchedule getCommitteeSchedule() {
         return committeeSchedule;
     }
-
 
     public void setCommitteeSchedule(CommitteeSchedule committeeSchedule) {
         this.committeeSchedule = committeeSchedule;
     }
 
-
     public Long getCommScheduleAttendanceId() {
         return commScheduleAttendanceId;
     }
-
 
     public String getPersonName() {
         return personName;
     }
 
-
     public void setPersonName(String personName) {
         this.personName = personName;
     }
-
 
     public String getRoleName() {
         return roleName;
     }
 
-
     public void setRoleName(String roleName) {
         this.roleName = roleName;
     }
-    
+
     public boolean isCommitteeMember(CommitteeMembership membership) {
         if (getNonEmployeeFlag() && membership.getRolodexId() != null) {
-            return StringUtils.equals(membership.getRolodexId().toString(),getPersonId());
-        } else if (!getNonEmployeeFlag() && membership.getPersonId()!=null) {
-            return StringUtils.equals(getPersonId(),membership.getPersonId());
+            return StringUtils.equals(membership.getRolodexId().toString(), getPersonId());
+        } else if (!getNonEmployeeFlag() && membership.getPersonId() != null) {
+            return StringUtils.equals(getPersonId(), membership.getPersonId());
         }
         return false;
     }
-    
-    
 }

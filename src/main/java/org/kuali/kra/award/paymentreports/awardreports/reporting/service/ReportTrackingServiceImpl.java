@@ -33,8 +33,8 @@ import org.kuali.kra.award.paymentreports.awardreports.AwardReportTerm;
 import org.kuali.kra.award.paymentreports.awardreports.reporting.ReportTracking;
 import org.kuali.kra.award.paymentreports.awardreports.reporting.ReportTrackingBean;
 import org.kuali.kra.service.AwardScheduleGenerationService;
-import org.kuali.rice.kns.service.BusinessObjectService;
-import org.kuali.rice.kns.util.GlobalVariables;
+import org.kuali.rice.krad.service.BusinessObjectService;
+import org.kuali.rice.krad.util.GlobalVariables;
 
 /**
  * 
@@ -371,7 +371,7 @@ public class ReportTrackingServiceImpl implements ReportTrackingService {
         ReportStatus rs = (ReportStatus) this.getBusinessObjectService().findByPrimaryKey(ReportStatus.class, params);
         return rs;
     }
-    
+
     @Override
     public boolean shouldAlertReportTrackingDetailChange(Award award) {
         boolean retVal = false;
@@ -390,8 +390,7 @@ public class ReportTrackingServiceImpl implements ReportTrackingService {
                                 dbAward.getLastAwardAmountInfo().getCurrentFundEffectiveDate());
                 }
             }
-        }
-        
+}
         return retVal;
     }
     

@@ -22,8 +22,8 @@ import org.apache.commons.lang.StringUtils;
 import org.kuali.kra.infrastructure.Constants;
 import org.kuali.kra.infrastructure.KraServiceLocator;
 import org.kuali.kra.service.MultiCampusIdentityService;
-import org.kuali.rice.kim.bo.impl.GroupImpl;
-import org.kuali.rice.kns.util.GlobalVariables;
+import org.kuali.rice.kim.impl.group.GroupBo;
+import org.kuali.rice.krad.util.GlobalVariables;
 
 /**
  * Overrides the normal {@link org.kuali.rice.kim.lookup.GroupLookupableHelperServiceImpl} to modify lookup parameters for multicampus mode.
@@ -37,8 +37,8 @@ public class GroupLookupableHelperServiceImpl extends org.kuali.rice.kim.lookup.
     private MultiCampusIdentityService multiCampusIdentityService;
     
     @Override
-    public List<GroupImpl> getSearchResults(Map<String, String> fieldValues) {
-        boolean multiCampusEnabled = getParameterService().getIndicatorParameter(
+    public List<GroupBo> getSearchResults(Map<String, String> fieldValues) {
+        boolean multiCampusEnabled = getParameterService().getParameterValueAsBoolean(
                 Constants.KC_GENERIC_PARAMETER_NAMESPACE, Constants.KC_ALL_PARAMETER_DETAIL_TYPE_CODE, Constants.PARAMETER_MULTI_CAMPUS_ENABLED);
         
         if (multiCampusEnabled) {

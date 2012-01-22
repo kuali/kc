@@ -11,7 +11,7 @@
 			<!--Does not work when using param replacement-->
 			<!--<serviceNamespace>${service.namespace}</serviceNamespace>-->
 			<postProcessorName>
-				org.kuali.rice.kns.workflow.postprocessor.KualiPostProcessor
+				org.kuali.rice.krad.workflow.postprocessor.KualiPostProcessor
 			</postProcessorName>
 		</documentType>
 	</documentTypes>

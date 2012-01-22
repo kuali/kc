@@ -22,8 +22,8 @@ import java.util.List;
 import java.util.Map;
 
 import noNamespace.AwardTransactionType;
-import noNamespace.AwardType.AwardTransactionInfo;
 import noNamespace.SchoolInfoType2;
+import noNamespace.AwardType.AwardTransactionInfo;
 
 import org.apache.commons.logging.Log;
 import org.apache.commons.logging.LogFactory;
@@ -33,9 +33,9 @@ import org.kuali.kra.printing.xmlstream.XmlStream;
 import org.kuali.kra.proposaldevelopment.document.ProposalDevelopmentDocument;
 import org.kuali.kra.timeandmoney.document.TimeAndMoneyDocument;
 import org.kuali.kra.timeandmoney.transactions.AwardAmountTransaction;
-import org.kuali.rice.kns.service.BusinessObjectService;
-import org.kuali.rice.kns.service.DateTimeService;
-import org.kuali.rice.kns.service.ParameterService;
+import org.kuali.rice.core.api.datetime.DateTimeService;
+import org.kuali.rice.coreservice.framework.parameter.ParameterService;
+import org.kuali.rice.krad.service.BusinessObjectService;
 
 /**
  * <p>
@@ -90,7 +90,7 @@ public abstract class AwardBudgetBaseStream implements XmlStream {
 		return awardTransactionInfo;
 	}
     private String getProposalParameterValue(String param) {
-        return parameterService.getParameterValue(ProposalDevelopmentDocument.class, param);
+        return parameterService.getParameterValueAsString(ProposalDevelopmentDocument.class, param);
     }
 	/*
 	 * This method will set the values to award amount transaction xml object

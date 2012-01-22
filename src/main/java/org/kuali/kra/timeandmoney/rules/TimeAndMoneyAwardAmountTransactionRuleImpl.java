@@ -19,7 +19,6 @@ import org.kuali.kra.infrastructure.KeyConstants;
 import org.kuali.kra.rules.ResearchDocumentRuleBase;
 import org.kuali.kra.timeandmoney.document.TimeAndMoneyDocument;
 import org.kuali.kra.timeandmoney.rule.event.TimeAndMoneyAwardAmountTransactionSaveEvent;
-import org.kuali.kra.timeandmoney.transactions.AwardAmountTransaction;
 
 /**
  * This class...

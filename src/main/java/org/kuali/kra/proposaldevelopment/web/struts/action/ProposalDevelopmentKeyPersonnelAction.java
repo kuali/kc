@@ -30,7 +30,7 @@ import static org.kuali.kra.infrastructure.KraServiceLocator.getService;
 import static org.kuali.kra.logging.BufferedLogger.info;
 import static org.kuali.kra.logging.FormattedLogger.debug;
 import static org.kuali.kra.logging.FormattedLogger.warn;
-import static org.kuali.rice.kns.util.KNSConstants.METHOD_TO_CALL_ATTRIBUTE;
+import static org.kuali.rice.krad.util.KRADConstants.METHOD_TO_CALL_ATTRIBUTE;
 
 import java.util.ArrayList;
 import java.util.Collection;
@@ -73,9 +73,9 @@ import org.kuali.kra.proposaldevelopment.web.struts.form.ProposalDevelopmentForm
 import org.kuali.kra.questionnaire.answer.AnswerHeader;
 import org.kuali.kra.questionnaire.answer.QuestionnaireAnswerService;
 import org.kuali.kra.questionnaire.print.QuestionnairePrintingService;
-import org.kuali.rice.kns.service.BusinessObjectService;
-import org.kuali.rice.kns.service.KualiRuleService;
-import org.kuali.rice.kns.util.GlobalVariables;
+import org.kuali.rice.krad.service.BusinessObjectService;
+import org.kuali.rice.krad.service.KualiRuleService;
+import org.kuali.rice.krad.util.GlobalVariables;
 
 /**
  * Handles actions from the Key Persons page of the 
@@ -154,7 +154,7 @@ public class ProposalDevelopmentKeyPersonnelAction extends ProposalDevelopmentAc
         debug(INV_SIZE_MSG, pdform.getDocument().getDevelopmentProposal().getInvestigators().size());
     
         try {
-            boolean creditSplitEnabled = this.getParameterService().getIndicatorParameter(ProposalDevelopmentDocument.class, CREDIT_SPLIT_ENABLED_RULE_NAME)
+            boolean creditSplitEnabled = this.getParameterService().getParameterValueAsBoolean(ProposalDevelopmentDocument.class, CREDIT_SPLIT_ENABLED_RULE_NAME)
                 && pdform.getDocument().getDevelopmentProposal().getInvestigators().size() > 0;
             request.setAttribute(CREDIT_SPLIT_ENABLED_FLAG, new Boolean(creditSplitEnabled));
             pdform.setCreditSplitEnabled(creditSplitEnabled);
@@ -270,7 +270,7 @@ public class ProposalDevelopmentKeyPersonnelAction extends ProposalDevelopmentAc
     public ActionForward insertProposalPerson(ActionMapping mapping, ActionForm form, HttpServletRequest request, HttpServletResponse response) throws Exception {
         ProposalDevelopmentForm pdform = (ProposalDevelopmentForm) form;
         ProposalDevelopmentDocument document = pdform.getDocument();
-        GlobalVariables.getErrorMap().removeFromErrorPath("document.proposalPersons");
+        GlobalVariables.getMessageMap().removeFromErrorPath("document.proposalPersons");
         
         if (isNotBlank(pdform.getNewProposalPerson().getProposalPersonRoleId())) {
             if (pdform.getNewProposalPerson().getProposalPersonRoleId().equals(PRINCIPAL_INVESTIGATOR_ROLE) || pdform.getNewProposalPerson().equals(CO_INVESTIGATOR_ROLE)) {

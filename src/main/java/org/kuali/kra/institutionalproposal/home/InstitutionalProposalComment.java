@@ -15,33 +15,34 @@
  */
 package org.kuali.kra.institutionalproposal.home;
 
-import java.util.LinkedHashMap;
-
 import org.apache.commons.lang.StringUtils;
 import org.kuali.kra.bo.CommentType;
 import org.kuali.kra.institutionalproposal.InstitutionalProposalAssociate;
 
-public class InstitutionalProposalComment extends InstitutionalProposalAssociate { 
-    
+public class InstitutionalProposalComment extends InstitutionalProposalAssociate {
+
     private static final long serialVersionUID = 1L;
 
-    private Long proposalCommentsId; 
-    private Long proposalId; 
-    private String commentTypeCode; 
-    private String comments; 
-    
-    private CommentType commentType; 
-    
-    public InstitutionalProposalComment() { 
+    private Long proposalCommentsId;
+
+    private Long proposalId;
+
+    private String commentTypeCode;
+
+    private String comments;
+
+    private CommentType commentType;
+
+    public InstitutionalProposalComment() {
         super();
-    } 
-    
+    }
+
     public InstitutionalProposalComment(String commentTypeCode) {
         this();
         setCommentTypeCode(commentTypeCode);
         setComments(StringUtils.EMPTY);
     }
-    
+
     public Long getProposalCommentsId() {
         return proposalCommentsId;
     }
@@ -82,19 +83,6 @@ public class InstitutionalProposalComment extends InstitutionalProposalAssociate
         this.commentType = commentType;
     }
 
-    /** {@inheritDoc} */
-    @Override 
-    protected LinkedHashMap<String, Object> toStringMapper() {
-        LinkedHashMap<String, Object> hashMap = new LinkedHashMap<String, Object>();
-        hashMap.put("proposalCommentsId", this.getProposalCommentsId());
-        hashMap.put("proposalId", this.getProposalId());
-        hashMap.put("proposalNumber", this.getProposalNumber());
-        hashMap.put("sequenceNumber", this.getSequenceNumber());
-        hashMap.put("commentTypeCode", this.getCommentTypeCode());
-        hashMap.put("comments", this.getComments());
-        return hashMap;
-    }
-
     @Override
     public int hashCode() {
         final int prime = 31;
@@ -109,44 +97,25 @@ public class InstitutionalProposalComment extends InstitutionalProposalAssociate
 
     @Override
     public boolean equals(Object obj) {
-        if (this == obj)
-            return true;
-        if (obj == null)
-            return false;
-        if (getClass() != obj.getClass())
-            return false;
+        if (this == obj) return true;
+        if (obj == null) return false;
+        if (getClass() != obj.getClass()) return false;
         InstitutionalProposalComment other = (InstitutionalProposalComment) obj;
         if (commentType == null) {
-            if (other.commentType != null)
-                return false;
-        }
-        else if (!commentType.equals(other.commentType))
-            return false;
+            if (other.commentType != null) return false;
+        } else if (!commentType.equals(other.commentType)) return false;
         if (commentTypeCode == null) {
-            if (other.commentTypeCode != null)
-                return false;
-        }
-        else if (!commentTypeCode.equals(other.commentTypeCode))
-            return false;
+            if (other.commentTypeCode != null) return false;
+        } else if (!commentTypeCode.equals(other.commentTypeCode)) return false;
         if (comments == null) {
-            if (other.comments != null)
-                return false;
-        }
-        else if (!comments.equals(other.comments))
-            return false;
+            if (other.comments != null) return false;
+        } else if (!comments.equals(other.comments)) return false;
         if (proposalCommentsId == null) {
-            if (other.proposalCommentsId != null)
-                return false;
-        }
-        else if (!proposalCommentsId.equals(other.proposalCommentsId))
-            return false;
+            if (other.proposalCommentsId != null) return false;
+        } else if (!proposalCommentsId.equals(other.proposalCommentsId)) return false;
         if (proposalId == null) {
-            if (other.proposalId != null)
-                return false;
-        }
-        else if (!proposalId.equals(other.proposalId))
-            return false;
+            if (other.proposalId != null) return false;
+        } else if (!proposalId.equals(other.proposalId)) return false;
         return true;
     }
-    
 }

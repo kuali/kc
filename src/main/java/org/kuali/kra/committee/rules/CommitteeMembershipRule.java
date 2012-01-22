@@ -45,7 +45,7 @@ public class CommitteeMembershipRule extends ResearchDocumentRuleBase
     private final String PROPERTY_NAME_ROLE_END_DATE = "committeeHelper.newCommitteeMembershipRoles[%1$s].endDate"; 
                     
     /**
-     * Process the validation rules for an <code>{@link AddCommitteeMembershipEvent}</code>.
+     * ProcessDefinitionDefinitionDefinition the validation rules for an <code>{@link AddCommitteeMembershipEvent}</code>.
      * 
      * @param addCommitteeMembershipEvent
      * @return <code>true</code> if all validation rules are passed, <code>false</code> otherwise
@@ -68,7 +68,7 @@ public class CommitteeMembershipRule extends ResearchDocumentRuleBase
     }
     
     /**
-     * Process the validation rules for an <code>{@link addCommitteeMembershipRoleEvent}</code>.
+     * ProcessDefinitionDefinitionDefinition the validation rules for an <code>{@link addCommitteeMembershipRoleEvent}</code>.
      * 
      * @param addCommitteeMembershipRoleEvent
      * @return <code>true</code> if all validation rules are passed, <code>false</code> otherwise

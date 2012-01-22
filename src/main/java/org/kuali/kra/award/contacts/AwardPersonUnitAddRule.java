@@ -15,7 +15,7 @@
  */
 package org.kuali.kra.award.contacts;
 
-import org.kuali.rice.kns.rule.BusinessRule;
+import org.kuali.rice.krad.rules.rule.BusinessRule;
 
 /**
  * This defines the rules for AwardProjectPerson

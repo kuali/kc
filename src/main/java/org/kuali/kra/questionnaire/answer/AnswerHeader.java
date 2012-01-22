@@ -16,7 +16,6 @@
 package org.kuali.kra.questionnaire.answer;
 
 import java.util.ArrayList;
-import java.util.LinkedHashMap;
 import java.util.List;
 
 import org.drools.core.util.StringUtils;
@@ -29,26 +28,37 @@ import org.kuali.kra.questionnaire.Questionnaire;
 public class AnswerHeader extends KraPersistableBusinessObjectBase {
 
     private static final long serialVersionUID = 1L;
+
     private static final String NOT_SHOW_ANSWER = "N";
+
     private Long answerHeaderId;
+
     private String moduleItemCode;
+
     private String moduleItemKey;
+
     private String moduleSubItemCode;
+
     private String moduleSubItemKey;
+
     private String questionnaireRefIdFk;
+
     private Questionnaire questionnaire;
+
     private boolean completed = false;
 
     private List<Answer> answers;
-    
-    // Transient properties for questionnaire answer 
-    private boolean newerVersionPublished = false;
-    private String updateOption;
-    private String showQuestions;
-    private boolean notUpdated = false;
-    
 
-    transient private boolean activeQuestionnaire = true;
+    // Transient properties for questionnaire answer   
+    private boolean newerVersionPublished = false;
+
+    private String updateOption;
+
+    private String showQuestions;
+
+    private boolean notUpdated = false;
+
+    private transient boolean activeQuestionnaire = true;
 
     public AnswerHeader() {
         super();
@@ -61,13 +71,12 @@ public class AnswerHeader extends KraPersistableBusinessObjectBase {
         this.moduleItemKey = moduleQuestionnaireBean.getModuleItemKey();
         this.moduleSubItemKey = moduleQuestionnaireBean.getModuleSubItemKey();
         this.questionnaireRefIdFk = questionnaireRefIdFk.toString();
-        // current coeus is setting this to 0
- //       this.moduleSubItemCode = "0";
+        // current coeus is setting this to 0  
+        //       this.moduleSubItemCode = "0";  
         answers = new ArrayList<Answer>();
         showQuestions = NOT_SHOW_ANSWER;
-
     }
-    
+
     public void setNewModuleQuestionnaireBeanReferenceData(ModuleQuestionnaireBean newModuleQuestionnaireBean) {
         this.moduleItemCode = newModuleQuestionnaireBean.getModuleItemCode();
         this.moduleItemKey = newModuleQuestionnaireBean.getModuleItemKey();
@@ -219,20 +228,6 @@ public class AnswerHeader extends KraPersistableBusinessObjectBase {
         this.answers = answers;
     }
 
-    /** {@inheritDoc} */
-    @Override
-    protected LinkedHashMap<String, Object> toStringMapper() {
-        LinkedHashMap<String, Object> hashMap = new LinkedHashMap<String, Object>();
-        hashMap.put("moduleItemCode", this.getModuleItemCode());
-        hashMap.put("moduleItemKey", this.getModuleItemKey());
-        hashMap.put("moduleSubItemCode", this.getModuleSubItemCode());
-        hashMap.put("moduleSubItemKey", this.getModuleSubItemKey());
-        hashMap.put("questionnaireRefIdFk", this.getQuestionnaireRefIdFk());
-        hashMap.put("answerHeaderId", this.getAnswerHeaderId());
-        hashMap.put("completed", Boolean.valueOf(this.getCompleted()));
-        return hashMap;
-    }
-
     public Long getAnswerHeaderId() {
         return answerHeaderId;
     }
@@ -240,7 +235,7 @@ public class AnswerHeader extends KraPersistableBusinessObjectBase {
     public void setAnswerHeaderId(Long answerHeaderId) {
         this.answerHeaderId = answerHeaderId;
     }
-    
+
     public boolean isNewerVersionPublished() {
         return newerVersionPublished;
     }
@@ -264,7 +259,7 @@ public class AnswerHeader extends KraPersistableBusinessObjectBase {
     public void setShowQuestions(String showQuestions) {
         this.showQuestions = showQuestions;
     }
-    
+
     public boolean isNotUpdated() {
         return notUpdated;
     }
@@ -280,7 +275,7 @@ public class AnswerHeader extends KraPersistableBusinessObjectBase {
     public void setActiveQuestionnaire(boolean activeQuestionnaire) {
         this.activeQuestionnaire = activeQuestionnaire;
     }
-    
+
     /**
      * 
      * This method programatically checks to make sure all the answers have a value in the answer string.

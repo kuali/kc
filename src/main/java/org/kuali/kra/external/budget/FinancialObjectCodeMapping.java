@@ -14,7 +14,6 @@
  * limitations under the License.
  */
 package org.kuali.kra.external.budget;
-import java.util.LinkedHashMap;
 
 import org.kuali.kra.bo.KraPersistableBusinessObjectBase;
 import org.kuali.kra.bo.Unit;
@@ -28,19 +27,27 @@ public class FinancialObjectCodeMapping extends KraPersistableBusinessObjectBase
      * Comment for <code>serialVersionUID</code>
      */
     private static final long serialVersionUID = -7669400139293393635L;
+
     private String rateClassCode;
+
     private String rateTypeCode;
+
     private String unitNumber;
+
     private String financialObjectCode;
+
     private String activityTypeCode;
+
     private Long mappingId;
 
     private ActivityType activityType;
+
     private RateClass rateClass;
+
     private RateType rateType;
+
     private Unit unit;
-   
-    
+
     public Long getMappingId() {
         return mappingId;
     }
@@ -112,7 +119,7 @@ public class FinancialObjectCodeMapping extends KraPersistableBusinessObjectBase
     public void setUnitNumber(String unitNumber) {
         this.unitNumber = unitNumber;
     }
-    
+
     public String getFinancialObjectCode() {
         return financialObjectCode;
     }
@@ -121,20 +128,8 @@ public class FinancialObjectCodeMapping extends KraPersistableBusinessObjectBase
         this.financialObjectCode = financialObjectCode;
     }
 
-    @Override
-    protected LinkedHashMap toStringMapper() {
-            LinkedHashMap m = new LinkedHashMap();
-            m.put("rateClassCode", this.rateClassCode);
-            m.put("rateTypeCode", this.rateTypeCode);
-            m.put("unitNumber", this.unitNumber);
-            m.put("activityTypeCode", this.activityTypeCode);
-            m.put("financialObjectCode", this.financialObjectCode);
-            return m;
-    }
-
     public int compareTo(Object arg0) {
-        // TODO Auto-generated method stub
+        // TODO Auto-generated method stub 
         return 0;
     }
-
 }

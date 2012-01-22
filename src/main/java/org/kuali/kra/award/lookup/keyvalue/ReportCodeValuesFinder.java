@@ -24,14 +24,14 @@ import java.util.List;
 import java.util.Set;
 
 import org.apache.commons.lang.StringUtils;
-import org.kuali.kra.award.lookup.keyvalue.FrequencyBaseCodeValuesFinder.FrequenceBaseComparator;
 import org.kuali.kra.award.paymentreports.Report;
 import org.kuali.kra.award.paymentreports.ValidClassReportFrequency;
 import org.kuali.kra.infrastructure.KraServiceLocator;
-import org.kuali.rice.core.util.KeyLabelPair;
-import org.kuali.rice.kns.lookup.keyvalues.KeyValuesBase;
-import org.kuali.rice.kns.service.KeyValuesService;
-import org.kuali.rice.kns.util.GlobalVariables;
+import org.kuali.rice.core.api.util.ConcreteKeyValue;
+import org.kuali.rice.core.api.util.KeyValue;
+import org.kuali.rice.krad.keyvalues.KeyValuesBase;
+import org.kuali.rice.krad.service.KeyValuesService;
+import org.kuali.rice.krad.util.GlobalVariables;
 
 /**
  * 
@@ -71,9 +71,9 @@ public class ReportCodeValuesFinder extends KeyValuesBase {
      * @see org.kuali.core.lookup.keyvalues.KeyValuesFinder#getKeyValues()
      */
     @SuppressWarnings("all")
-    public List<KeyLabelPair> getKeyValues() {
+    public List<KeyValue> getKeyValues() {
         if (GlobalVariables.getUserSession().retrieveObject("awreport"+getReportClassCode()) != null) {
-            return (List<KeyLabelPair>)GlobalVariables.getUserSession().retrieveObject("awreport"+getReportClassCode());
+            return (List<KeyValue>)GlobalVariables.getUserSession().retrieveObject("awreport"+getReportClassCode());
         } else {
 
             Collection<ValidClassReportFrequency> validClassReportFrequencies =  
@@ -132,8 +132,8 @@ public class ReportCodeValuesFinder extends KeyValuesBase {
         {    
             try
             {
-                String desc1 = ((KeyLabelPair)kv1).getLabel();
-                String desc2 = ((KeyLabelPair)kv2).getLabel();
+                String desc1 = ((KeyValue) kv1).getValue();
+                String desc2 = ((KeyValue) kv2).getValue();
                 if (desc1 == null)
                 {
                     desc1 = "";
@@ -155,14 +155,14 @@ public class ReportCodeValuesFinder extends KeyValuesBase {
     
     /**
      * 
-     * This method browses through set and creates the keylabelpair list from it.
+     * This method browses through set and creates the KeyValue list from it.
      * 
      * @param uniqueValidClassReportFrequencies
      * @return
      */
-    protected List<KeyLabelPair> getKeyValues(Set<String> uniqueValidClassReportFrequencies) {
+    protected List<KeyValue> getKeyValues(Set<String> uniqueValidClassReportFrequencies) {
         
-        List<KeyLabelPair> keyValues = new ArrayList<KeyLabelPair>();
+        List<KeyValue> keyValues = new ArrayList<KeyValue>();
         ValidClassReportFrequency validClassReportFrequency = new ValidClassReportFrequency();
         for (String reportCode : uniqueValidClassReportFrequencies) {        
             validClassReportFrequency.setReportCode(reportCode);
@@ -171,10 +171,10 @@ public class ReportCodeValuesFinder extends KeyValuesBase {
             String reportReportCode = validClassReportFrequency.getReportCode().toString();
             Report report = validClassReportFrequency.getReport();
             String reportDescription = report.getDescription() + (report.getFinalReportFlag() ? " (Final Report)" : "");
-            keyValues.add(new KeyLabelPair(reportReportCode, reportDescription));
+            keyValues.add(new ConcreteKeyValue(reportReportCode, reportDescription));
         }
         Collections.sort(keyValues, new ReportCodeComparator());
-        keyValues.add(0, new KeyLabelPair("","select"));
+        keyValues.add(0, new ConcreteKeyValue("","select"));
         GlobalVariables.getUserSession().addObject("awreport" + getReportClassCode(), keyValues);
         return keyValues;
     }

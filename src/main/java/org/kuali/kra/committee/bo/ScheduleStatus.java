@@ -15,43 +15,32 @@
  */
 package org.kuali.kra.committee.bo;
 
-import java.util.LinkedHashMap;
-
 import org.kuali.kra.bo.KraPersistableBusinessObjectBase;
 
-public class ScheduleStatus extends KraPersistableBusinessObjectBase { 
+public class ScheduleStatus extends KraPersistableBusinessObjectBase {
 
     private static final long serialVersionUID = -7318684957814299092L;
-	private Integer scheduleStatusCode; 
-	private String description; 
-	
-	public ScheduleStatus() { 
 
-	} 
-	
-	public Integer getScheduleStatusCode() {
-		return scheduleStatusCode;
-	}
+    private Integer scheduleStatusCode;
 
-	public void setScheduleStatusCode(Integer scheduleStatusCode) {
-		this.scheduleStatusCode = scheduleStatusCode;
-	}
+    private String description;
 
-	public String getDescription() {
-		return description;
-	}
+    public ScheduleStatus() {
+    }
 
-	public void setDescription(String description) {
-		this.description = description;
-	}
+    public Integer getScheduleStatusCode() {
+        return scheduleStatusCode;
+    }
 
-	@SuppressWarnings("unchecked")
-    @Override 
-	protected LinkedHashMap toStringMapper() {
-		LinkedHashMap hashMap = new LinkedHashMap();
-		hashMap.put("scheduleStatusCode", getScheduleStatusCode());
-		hashMap.put("description", getDescription());
-		return hashMap;
-	}
-	
+    public void setScheduleStatusCode(Integer scheduleStatusCode) {
+        this.scheduleStatusCode = scheduleStatusCode;
+    }
+
+    public String getDescription() {
+        return description;
+    }
+
+    public void setDescription(String description) {
+        this.description = description;
+    }
 }

@@ -21,9 +21,10 @@ import java.util.List;
 import org.kuali.kra.infrastructure.Constants;
 import org.kuali.kra.infrastructure.KraServiceLocator;
 import org.kuali.kra.service.SponsorService;
-import org.kuali.rice.core.util.KeyLabelPair;
-import org.kuali.rice.kns.lookup.keyvalues.KeyValuesBase;
-import org.kuali.rice.kns.service.ParameterService;
+import org.kuali.rice.core.api.util.ConcreteKeyValue;
+import org.kuali.rice.core.api.util.KeyValue;
+import org.kuali.rice.coreservice.framework.parameter.ParameterService;
+import org.kuali.rice.krad.keyvalues.KeyValuesBase;
 
 public class PrintingHierarchyNameValuesFinder extends KeyValuesBase {
 
@@ -31,13 +32,13 @@ public class PrintingHierarchyNameValuesFinder extends KeyValuesBase {
     private ParameterService parameterService;
     
     public List getKeyValues() {
-        List<KeyLabelPair> result = new ArrayList<KeyLabelPair>();
-        String hierarchyName = getParameterService().getParameterValue(
+        List<KeyValue> result = new ArrayList<KeyValue>();
+        String hierarchyName = getParameterService().getParameterValueAsString(
                 Constants.KC_GENERIC_PARAMETER_NAMESPACE, Constants.KC_ALL_PARAMETER_DETAIL_TYPE_CODE, 
                 Constants.SPONSOR_HIERARCHY_PRINTING_NAME_PARAM);
         List<String> groupNames = getSponsorService().getUniqueGroupingNames(hierarchyName, 1);
         for (String group : groupNames) {
-            result.add(new KeyLabelPair(group, group));
+            result.add(new ConcreteKeyValue(group, group));
         }
         return result;
     }

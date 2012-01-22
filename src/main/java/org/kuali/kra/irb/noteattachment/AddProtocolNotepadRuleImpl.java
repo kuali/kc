@@ -15,7 +15,6 @@
  */
 package org.kuali.kra.irb.noteattachment;
 
-import org.kuali.kra.irb.ProtocolDocument;
 
 /**
  * Implementation of {@link AddProtocolNotepadRule AddProtocolNotepadRule}.

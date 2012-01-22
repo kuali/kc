@@ -22,7 +22,7 @@ import org.kuali.kra.committee.document.CommitteeDocument;
 import org.kuali.kra.committee.rules.CommitteeScheduleTimeRule;
 import org.kuali.kra.committee.web.struts.form.schedule.ScheduleData;
 import org.kuali.kra.rule.BusinessRuleInterface;
-import org.kuali.rice.kns.document.Document;
+import org.kuali.rice.krad.document.Document;
 
 public class CommitteeScheduleTimeEvent extends CommitteeScheduleEventBase<CommitteeScheduleTimeRule> {
     

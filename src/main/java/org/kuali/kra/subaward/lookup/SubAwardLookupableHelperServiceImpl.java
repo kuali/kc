@@ -31,15 +31,15 @@ import org.kuali.kra.infrastructure.KraServiceLocator;
 import org.kuali.kra.lookup.KraLookupableHelperServiceImpl;
 import org.kuali.kra.service.VersionHistoryService;
 import org.kuali.kra.subaward.document.SubAwardDocument;
-import org.kuali.rice.kew.exception.WorkflowException;
-import org.kuali.rice.kew.util.KEWConstants;
-import org.kuali.rice.kns.bo.BusinessObject;
+import org.kuali.rice.kew.api.exception.WorkflowException;
+import org.kuali.rice.kew.api.KewApiConstants;
+import org.kuali.rice.krad.bo.BusinessObject;
 import org.kuali.rice.kns.lookup.HtmlData;
 import org.kuali.rice.kns.lookup.HtmlData.AnchorHtmlData;
-import org.kuali.rice.kns.service.BusinessObjectService;
-import org.kuali.rice.kns.service.DocumentService;
-import org.kuali.rice.kns.util.KNSConstants;
-import org.kuali.rice.kns.util.UrlFactory;
+import org.kuali.rice.krad.service.BusinessObjectService;
+import org.kuali.rice.krad.service.DocumentService;
+import org.kuali.rice.krad.util.KRADConstants;
+import org.kuali.rice.krad.util.UrlFactory;
 import org.kuali.rice.kns.web.ui.Field;
 import org.kuali.rice.kns.web.ui.Row;
 import org.kuali.kra.subaward.bo.SubAward;
@@ -104,9 +104,9 @@ public class SubAwardLookupableHelperServiceImpl extends KraLookupableHelperServ
         AnchorHtmlData htmlData = new AnchorHtmlData();
         htmlData.setDisplayText("open");
         Properties parameters = new Properties();
-        parameters.put(KNSConstants.DISPATCH_REQUEST_PARAMETER, KNSConstants.DOC_HANDLER_METHOD);
-        parameters.put(KNSConstants.PARAMETER_COMMAND, KEWConstants.DOCSEARCH_COMMAND);
-        parameters.put(KNSConstants.DOCUMENT_TYPE_NAME, getDocumentTypeName());
+        parameters.put(KRADConstants.DISPATCH_REQUEST_PARAMETER, KRADConstants.DOC_HANDLER_METHOD);
+        parameters.put(KRADConstants.PARAMETER_COMMAND, KewApiConstants.DOCSEARCH_COMMAND);
+        parameters.put(KRADConstants.DOCUMENT_TYPE_NAME, getDocumentTypeName());
         parameters.put("viewDocument", viewOnly.toString());
         parameters.put("docOpenedFromAwardSearch", "true");
         parameters.put("docId", subAwardDocument.getDocumentNumber());
@@ -170,6 +170,7 @@ public class SubAwardLookupableHelperServiceImpl extends KraLookupableHelperServ
           } 
           return activeSubAwards;
       }
+      
     @Override
     protected String getHtmlAction() {
         return "subAwardHome.do";

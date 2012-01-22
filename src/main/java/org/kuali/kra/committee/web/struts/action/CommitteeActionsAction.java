@@ -70,7 +70,6 @@ public class CommitteeActionsAction extends CommitteeAction {
 
     // signifies that a response has already be handled therefore forwarding to obtain a response is not needed. 
     private static final ActionForward RESPONSE_ALREADY_HANDLED = null;
-  
     
     /**
      * This method is perform the action - Generate Batch Correspondence.
@@ -308,10 +307,12 @@ public class CommitteeActionsAction extends CommitteeAction {
     public ActionForward printCommitteeDocument(ActionMapping mapping, ActionForm form, HttpServletRequest request, 
             HttpServletResponse response) throws Exception {
         ActionForward actionForward = mapping.findForward(Constants.MAPPING_BASIC);
+        
         CommitteeForm committeeForm = (CommitteeForm) form;
         CommitteeDocument committeeDocument = committeeForm.getCommitteeDocument();
         Boolean printRooster = committeeForm.getCommitteeHelper().getPrintRooster();
         Boolean printFutureScheduledMeeting = committeeForm.getCommitteeHelper().getPrintFutureScheduledMeeting();
+        
         CommitteeTask task = new CommitteeTask(TaskName.PERFORM_COMMITTEE_ACTIONS, committeeDocument.getCommittee());
         if (isAuthorized(task)) {
             if (applyRules(new CommitteeActionPrintCommitteeDocumentEvent(Constants.EMPTY_STRING, committeeForm.getDocument(), 

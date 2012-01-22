@@ -91,7 +91,7 @@ ${kfunc:registerEditableProperty(KualiForm, "actionHelper.protocolSubmitAction.n
 	                        </div>
 	                    </th>
 	                    <c:set target="${paramMap}" property="protocolLeadUnit" value="${KualiForm.document.protocolList[0].leadUnitNumber}" />
-	                    <c:set target="${paramMap}" property="docRouteStatus" value="${KualiForm.document.documentHeader.workflowDocument.routeHeader.docRouteStatus}" />
+	                    <c:set target="${paramMap}" property="docRouteStatus" value="${KualiForm.document.documentHeader.workflowDocument.status.code}" />
 	                    <c:set var="docNumber" value="${KualiForm.document.protocol.protocolNumber}" />
 	                    <c:choose>
 	                        <c:when test="${KualiForm.actionHelper.showCommittee}">
@@ -100,11 +100,11 @@ ${kfunc:registerEditableProperty(KualiForm, "actionHelper.protocolSubmitAction.n
 				                        <c:forEach items="${krafn:getOptionList('org.kuali.kra.committee.lookup.keyvalue.CommitteeIdByUnitValuesFinder', paramMap)}" var="option">   
 				                            <c:choose>                      
 				                                <c:when test="${KualiForm.actionHelper.protocolSubmitAction.committeeId == option.key}">
-				                                    <option value="${option.key}" selected="selected">${option.label}</option>
+				                                    <option value="${option.key}" selected="selected">${option.value}</option>
 				                                </c:when>
 				                                <c:otherwise>                               
-				                                    <c:out value="${option.label}"/>
-				                                    <option value="${option.key}">${option.label}</option>
+				                                    <c:out value="${option.value}"/>
+				                                    <option value="${option.key}">${option.value}</option>
 				                                </c:otherwise>
 				                            </c:choose>                                                
 				                        </c:forEach>
@@ -117,11 +117,11 @@ ${kfunc:registerEditableProperty(KualiForm, "actionHelper.protocolSubmitAction.n
                                         <c:forEach items="${krafn:getOptionList('org.kuali.kra.committee.lookup.keyvalue.CommitteeIdByUnitValuesFinder', paramMap)}" var="option">
                                             <c:choose>                      
                                                 <c:when test="${KualiForm.actionHelper.protocolSubmitAction.committeeId == option.key}">
-                                                    <option value="${option.key}" selected="selected">${option.label}</option>
+                                                    <option value="${option.key}" selected="selected">${option.value}</option>
                                                 </c:when>
                                                 <c:otherwise>                               
-                                                    <c:out value="${option.label}"/>
-                                                    <option value="${option.key}">${option.label}</option>
+                                                    <c:out value="${option.value}"/>
+                                                    <option value="${option.key}">${option.value}</option>
                                                 </c:otherwise>
                                             </c:choose>                                                
                                         </c:forEach>

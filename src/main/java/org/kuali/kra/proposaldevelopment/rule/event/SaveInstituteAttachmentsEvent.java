@@ -17,8 +17,8 @@ package org.kuali.kra.proposaldevelopment.rule.event;
 
 import org.kuali.kra.proposaldevelopment.document.ProposalDevelopmentDocument;
 import org.kuali.kra.proposaldevelopment.rule.SaveInstituteAttachmentsRule;
-import org.kuali.rice.kns.document.Document;
-import org.kuali.rice.kns.rule.BusinessRule;
+import org.kuali.rice.krad.document.Document;
+import org.kuali.rice.krad.rules.rule.BusinessRule;
 
 public class SaveInstituteAttachmentsEvent extends NarrativeEventBase{
     private static final org.apache.commons.logging.Log LOG = org.apache.commons.logging.LogFactory.getLog(SaveInstituteAttachmentsEvent.class);
@@ -43,14 +43,14 @@ public class SaveInstituteAttachmentsEvent extends NarrativeEventBase{
     }
 
     /**
-     * @see org.kuali.rice.kns.rule.event.KualiDocumentEvent#getRuleInterfaceClass()
+     * @see org.kuali.rice.krad.rules.rule.event.KualiDocumentEvent#getRuleInterfaceClass()
      */
     public Class getRuleInterfaceClass() {
         return SaveInstituteAttachmentsRule.class;
     }
 
     /**
-     * @see org.kuali.rice.kns.rule.event.KualiDocumentEvent#invokeRuleMethod(org.kuali.rice.kns.rule.BusinessRule)
+     * @see org.kuali.rice.krad.rules.rule.event.KualiDocumentEvent#invokeRuleMethod(org.kuali.rice.krad.rules.rule.BusinessRule)
      */
     public boolean invokeRuleMethod(BusinessRule rule) {
         return ((SaveInstituteAttachmentsRule) rule).processSaveInstituteAttachmentsBusinessRules(this);

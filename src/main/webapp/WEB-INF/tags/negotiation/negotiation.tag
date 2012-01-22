@@ -145,27 +145,27 @@
                 			${KualiForm.dispayChangeAssociatedDocumentWarningMessage }
                 		</c:if>
                 		
-		                	<c:choose>
-	                			<c:when test="${KualiForm.displayAward}">
-	                				<kul:lookup boClassName="org.kuali.kra.award.home.Award" 
-	                					fieldConversions="awardNumber:document.negotiationList[0].associatedDocumentId" />
-						      	</c:when>
-						      	<c:when test="${KualiForm.displaySubAward}">
+	                	<c:choose>
+                			<c:when test="${KualiForm.displayAward}">
+                				<kul:lookup boClassName="org.kuali.kra.award.home.Award" 
+                					fieldConversions="awardNumber:document.negotiationList[0].associatedDocumentId" />
+					      	</c:when>
+					      	<c:when test="${KualiForm.displaySubAward}">
 						      		<kul:lookup boClassName="org.kuali.kra.subaward.bo.SubAward" 
 						        		fieldConversions="subAwardId:document.negotiationList[0].associatedDocumentId" /> 
-						      	</c:when>
-						      	<c:when test="${KualiForm.displayProposalLog}">
-						        	<kul:lookup boClassName="org.kuali.kra.institutionalproposal.proposallog.ProposalLog" 
-						        		fieldConversions="proposalNumber:document.negotiationList[0].associatedDocumentId" />  
-						      	</c:when>
-						      	<c:when test="${KualiForm.displayInstitutionalProposal}">
-						        	<kul:lookup boClassName="org.kuali.kra.institutionalproposal.home.InstitutionalProposal" 
-						        		fieldConversions="proposalNumber:document.negotiationList[0].associatedDocumentId" /> 
-						      	</c:when>
-							</c:choose>
+					      	</c:when>
+					      	<c:when test="${KualiForm.displayProposalLog}">
+					        	<kul:lookup boClassName="org.kuali.kra.institutionalproposal.proposallog.ProposalLog" 
+					        		fieldConversions="proposalNumber:document.negotiationList[0].associatedDocumentId" />  
+					      	</c:when>
+					      	<c:when test="${KualiForm.displayInstitutionalProposal}">
+					        	<kul:lookup boClassName="org.kuali.kra.institutionalproposal.home.InstitutionalProposal" 
+					        		fieldConversions="proposalNumber:document.negotiationList[0].associatedDocumentId" /> 
+					      	</c:when>
+						</c:choose>
 						<c:if test="${KualiForm.dispayChangeAssociatedDocumentWarning }">
 							</div>
-						</c:if>
+					</c:if>
 					</c:if>
                 </td>
             </tr>
@@ -192,7 +192,7 @@
 	                		${kfunc:registerEditableProperty(KualiForm, "document.negotiationList[0].unAssociatedDetail.leadUnitNumber")}
 	                		<kul:lookup boClassName="org.kuali.kra.bo.Unit" 
 						        		fieldConversions="unitNumber:document.negotiationList[0].unAssociatedDetail.leadUnitNumber" />
-					    </c:if>
+					    </c:if> 
 					    <kul:directInquiry boClassName="org.kuali.kra.bo.Unit" inquiryParameters="document.negotiationList[0].unAssociatedDetail.leadUnitNumber:unitNumber" anchor="${tabKey}" /> 
                 	</td>
             	</tr>
@@ -272,7 +272,7 @@
 	                </td>
 	                <th>&nbsp;</th>
 	                <td>&nbsp;</td>
-            	</tr>    	
+            		</tr>
             	<tr>
             		<th>
             			<div align="right">
@@ -355,7 +355,6 @@
                 	<th>
                 		<div align="right">
             				<kul:htmlAttributeLabel attributeEntry="${negotiationUnassociatedDetailAttributes.leadUnitNumber}" />
-            				
             			</div>
                 	</th>
                 	<td>
@@ -395,7 +394,7 @@
 	                </td>
 	                <th>&nbsp;</th>
 	                <td>&nbsp;</td>
-            	</tr>	            	
+            		</tr>
             	<tr>
             		<th>
             			<div align="right">

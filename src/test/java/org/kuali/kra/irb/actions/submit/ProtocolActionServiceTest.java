@@ -37,7 +37,7 @@ import org.kuali.kra.irb.actions.followup.FollowupActionService;
 import org.kuali.kra.irb.onlinereview.ProtocolOnlineReview;
 import org.kuali.kra.irb.personnel.ProtocolPerson;
 import org.kuali.kra.meeting.CommitteeScheduleMinute;
-import org.kuali.rice.kns.service.BusinessObjectService;
+import org.kuali.rice.krad.service.BusinessObjectService;
 
 public class ProtocolActionServiceTest extends ProtocolActionServiceTestBase {
 

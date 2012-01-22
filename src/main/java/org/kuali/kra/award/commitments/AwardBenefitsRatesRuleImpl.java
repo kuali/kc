@@ -26,9 +26,9 @@ import org.kuali.kra.award.home.ValidRates;
 import org.kuali.kra.infrastructure.KeyConstants;
 import org.kuali.kra.infrastructure.KraServiceLocator;
 import org.kuali.kra.rules.ResearchDocumentRuleBase;
-import org.kuali.rice.kns.service.BusinessObjectService;
-import org.kuali.rice.kns.service.ParameterService;
-import org.kuali.rice.kns.util.KualiDecimal;
+import org.kuali.rice.core.api.util.type.KualiDecimal;
+import org.kuali.rice.coreservice.framework.parameter.ParameterService;
+import org.kuali.rice.krad.service.BusinessObjectService;
 
 /**
  * This class processes Benefits Rates Business Rules
@@ -65,7 +65,7 @@ public class AwardBenefitsRatesRuleImpl extends ResearchDocumentRuleBase impleme
     boolean validateBenefitsRatesInValidRatesTable(Award award) {
         boolean valid = true;
         if(StringUtils.equalsIgnoreCase(
-                this.getParameterService().getParameterValue(AwardDocument.class,
+                this.getParameterService().getParameterValueAsString(AwardDocument.class,
                         KeyConstants.ENABLE_AWARD_FNA_VALIDATION),
                         KeyConstants.ENABLED_PARAMETER_VALUE_ONE)){
             valid = checkValidRatesOrNullValues(award);
@@ -74,13 +74,13 @@ public class AwardBenefitsRatesRuleImpl extends ResearchDocumentRuleBase impleme
                         KeyConstants.ERROR_BENEFITS_RATES);
             }
         }else if(StringUtils.equalsIgnoreCase(
-                this.getParameterService().getParameterValue(AwardDocument.class,
+                this.getParameterService().getParameterValueAsString(AwardDocument.class,
                         KeyConstants.ENABLE_AWARD_FNA_VALIDATION),
                         KeyConstants.ENABLED_PARAMETER_VALUE_TWO)){
             valid = checkSingleValidRatesOrNullValues(award);
             if(!valid){
                 if(StringUtils.equalsIgnoreCase(
-                        this.getParameterService().getParameterValue(AwardDocument.class,
+                        this.getParameterService().getParameterValueAsString(AwardDocument.class,
                                 KeyConstants.OPTION_WARNING_ERROR_AWARD_FANDA_VALIDATION),
                                 KeyConstants.ERROR)){
                     reportError(BENEFITS_RATES, 

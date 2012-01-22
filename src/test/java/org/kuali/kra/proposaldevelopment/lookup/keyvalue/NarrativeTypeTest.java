@@ -24,9 +24,9 @@ import org.kuali.kra.infrastructure.Constants;
 import org.kuali.kra.infrastructure.KraServiceLocator;
 import org.kuali.kra.proposaldevelopment.bo.NarrativeType;
 import org.kuali.kra.test.infrastructure.KcUnitTestBase;
-import org.kuali.rice.kns.dao.BusinessObjectDao;
-import org.kuali.rice.kns.service.KualiConfigurationService;
-import org.kuali.rice.kns.service.ParameterConstants;
+import org.kuali.rice.coreservice.framework.parameter.ParameterConstants;
+import org.kuali.rice.coreservice.framework.parameter.ParameterService;
+import org.kuali.rice.krad.dao.BusinessObjectDao;
 
 /**
  * This class tests NsfCodeValuesFinder.
@@ -47,7 +47,7 @@ public class NarrativeTypeTest extends KcUnitTestBase {
     @Test public void testGetKeyValues() throws Exception {
         BusinessObjectDao businessObjectDao = (BusinessObjectDao)KraServiceLocator.getService(Constants.BUSINESS_OBJECT_DAO_NAME);
 
-        String paramValue = getService(KualiConfigurationService.class).getParameterValue(
+        String paramValue = getService(ParameterService.class).getParameterValueAsString(
                 Constants.MODULE_NAMESPACE_PROPOSAL_DEVELOPMENT, ParameterConstants.DOCUMENT_COMPONENT, Constants.PROPOSAL_NARRATIVE_TYPE_GROUP);
         assertNotNull(paramValue);
         assertNotSame("System Parameter for "+Constants.PROPOSAL_NARRATIVE_TYPE_GROUP+ " not loaded...","", paramValue);

@@ -17,6 +17,6 @@ package org.kuali.kra.service;
 
 public interface ResearchDocumentService {
     
-    public String getDocHandlerUrl(Long routeHeaderId);
+    public String getDocHandlerUrl(String routeHeaderId);
 
 }

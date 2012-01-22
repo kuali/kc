@@ -15,40 +15,33 @@
  */
 package org.kuali.kra.s2s.bo;
 
-import java.util.LinkedHashMap;
 import java.util.List;
 
 import org.kuali.kra.bo.KraPersistableBusinessObjectBase;
 
 public class S2sApplication extends KraPersistableBusinessObjectBase {
-	private String proposalNumber;
-	private String application;
-	private List<S2sAppAttachments> s2sAppAttachmentList; 
 
-	public String getProposalNumber() {
-		return proposalNumber;
-	}
+    private String proposalNumber;
 
-	public void setProposalNumber(String proposalNumber) {
-		this.proposalNumber = proposalNumber;
-	}
+    private String application;
 
-	public String getApplication() {
-		return application;
-	}
+    private List<S2sAppAttachments> s2sAppAttachmentList;
 
-	public void setApplication(String application) {
-		this.application = application;
-	}
+    public String getProposalNumber() {
+        return proposalNumber;
+    }
 
+    public void setProposalNumber(String proposalNumber) {
+        this.proposalNumber = proposalNumber;
+    }
 
-	@Override 
-	protected LinkedHashMap toStringMapper() {
-		LinkedHashMap hashMap = new LinkedHashMap();
-		hashMap.put("proposalNumber", getProposalNumber());
-		hashMap.put("application", getApplication());
-		return hashMap;
-	}
+    public String getApplication() {
+        return application;
+    }
+
+    public void setApplication(String application) {
+        this.application = application;
+    }
 
     /**
      * Gets the s2sAttachments attribute. 

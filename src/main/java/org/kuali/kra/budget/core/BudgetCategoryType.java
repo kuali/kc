@@ -15,8 +15,6 @@
  */
 package org.kuali.kra.budget.core;
 
-import java.util.LinkedHashMap;
-
 import org.kuali.kra.bo.KraPersistableBusinessObjectBase;
 
 /**
@@ -25,11 +23,13 @@ import org.kuali.kra.bo.KraPersistableBusinessObjectBase;
  * BudgetCategoryType.java
  */
 public class BudgetCategoryType extends KraPersistableBusinessObjectBase implements Comparable {
-    
+
     private String budgetCategoryTypeCode;
+
     private String description;
+
     private String sortId;
-    
+
     public String getSortId() {
         return sortId;
     }
@@ -46,7 +46,7 @@ public class BudgetCategoryType extends KraPersistableBusinessObjectBase impleme
     public String getDescription() {
         return description;
     }
-    
+
     /**
      * Assigns the description attribute
      *
@@ -54,15 +54,6 @@ public class BudgetCategoryType extends KraPersistableBusinessObjectBase impleme
      */
     public void setDescription(String description) {
         this.description = description;
-    }
-    @Override
-    protected LinkedHashMap toStringMapper() {
-        LinkedHashMap propMap = new LinkedHashMap();
-        propMap.put("budgetCategoryTypeCode", this.getBudgetCategoryTypeCode());
-        propMap.put("description", this.getDescription());
-        propMap.put("updateTimestamp", this.getUpdateTimestamp());
-        propMap.put("updateUser", this.getUpdateUser());
-        return propMap;
     }
 
     /**
@@ -80,7 +71,7 @@ public class BudgetCategoryType extends KraPersistableBusinessObjectBase impleme
     public void setBudgetCategoryTypeCode(String budgetCategoryTypeCode) {
         this.budgetCategoryTypeCode = budgetCategoryTypeCode;
     }
-    
+
     /**
      * This is for totals page 
      * @see java.lang.Comparable#compareTo(java.lang.Object)
@@ -88,9 +79,8 @@ public class BudgetCategoryType extends KraPersistableBusinessObjectBase impleme
     public int compareTo(Object o) {
         return compareTo((BudgetCategoryType) o);
     }
-    
+
     public int compareTo(BudgetCategoryType budgetCategoryType) {
         return this.sortId.compareTo(budgetCategoryType.sortId);
     }
-
 }

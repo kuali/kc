@@ -15,9 +15,7 @@
  */
 package org.kuali.kra.proposaldevelopment.bo;
 
-import java.util.LinkedHashMap;
-
-import org.kuali.rice.kns.bo.BusinessObjectBase;
+import org.kuali.rice.krad.bo.BusinessObjectBase;
 
 public class ProposalRoleState extends BusinessObjectBase {
 
@@ -48,12 +46,6 @@ public class ProposalRoleState extends BusinessObjectBase {
 
     public void setState(Boolean state) {
         this.state = state;
-    }
-
-    @Override
-    protected LinkedHashMap toStringMapper() {
-        // TODO Auto-generated method stub
-        return null;
     }
 
     public void refresh() {

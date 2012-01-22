@@ -16,26 +16,27 @@
 package org.kuali.kra.proposaldevelopment.bo;
 
 import org.kuali.kra.bo.KraPersistableBusinessObjectBase;
-import java.util.LinkedHashMap;
 
-public class ValidNarrForms extends KraPersistableBusinessObjectBase { 
-    
+public class ValidNarrForms extends KraPersistableBusinessObjectBase {
 
     /**
      * Comment for <code>serialVersionUID</code>
      */
     private static final long serialVersionUID = -5530788098530332763L;
-    private Integer validNarrFormsId; 
-    private String formName; 
-    private String narrativeTypeCode; 
-    private String mandatory; 
-    private NarrativeType narrativeType;
-    
-    
-    public ValidNarrForms() { 
 
-    } 
-    
+    private Integer validNarrFormsId;
+
+    private String formName;
+
+    private String narrativeTypeCode;
+
+    private String mandatory;
+
+    private NarrativeType narrativeType;
+
+    public ValidNarrForms() {
+    }
+
     public Integer getValidNarrFormsId() {
         return validNarrFormsId;
     }
@@ -68,17 +69,6 @@ public class ValidNarrForms extends KraPersistableBusinessObjectBase {
         this.mandatory = mandatory;
     }
 
-    /** {@inheritDoc} */
-    @Override 
-    protected LinkedHashMap<String, Object> toStringMapper() {
-        LinkedHashMap<String, Object> hashMap = new LinkedHashMap<String, Object>();
-        hashMap.put("validNarrFormsId", this.getValidNarrFormsId());
-        hashMap.put("formName", this.getFormName());
-        hashMap.put("narrativeTypeCode", this.getNarrativeTypeCode());
-        hashMap.put("mandatory", this.getMandatory());
-        return hashMap;
-    }
-
     /**
      * Sets the narrativeType attribute value.
      * @param narrativeType The narrativeType to set.
@@ -94,5 +84,4 @@ public class ValidNarrForms extends KraPersistableBusinessObjectBase {
     public NarrativeType getNarrativeType() {
         return narrativeType;
     }
-    
 }

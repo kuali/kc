@@ -16,7 +16,6 @@
 package org.kuali.kra.irb;
 
 import java.util.ArrayList;
-import java.util.Vector;
 
 import org.junit.After;
 import org.junit.Before;
@@ -27,11 +26,10 @@ import org.kuali.kra.infrastructure.KraServiceLocator;
 import org.kuali.kra.irb.protocol.research.ProtocolResearchArea;
 import org.kuali.kra.irb.test.ProtocolRuleTestBase;
 import org.kuali.kra.rules.ResearchDocumentRuleBase;
+import org.kuali.rice.core.api.util.RiceKeyConstants;
 import org.kuali.rice.kns.service.DictionaryValidationService;
-import org.kuali.rice.kns.util.ErrorMap;
-import org.kuali.rice.kns.util.GlobalVariables;
-import org.kuali.rice.kns.util.MessageMap;
-import org.kuali.rice.kns.util.RiceKeyConstants;
+import org.kuali.rice.krad.util.GlobalVariables;
+import org.kuali.rice.krad.util.MessageMap;
 
 public class ProtocolDocumentRuleTest extends ProtocolRuleTestBase {
 
@@ -76,10 +74,10 @@ public class ProtocolDocumentRuleTest extends ProtocolRuleTestBase {
         ProtocolDocument document = getNewProtocolDocument();
         //setProtocolRequiredFields(document);
         document.getDocumentHeader().setDocumentDescription(DEFAULT_DOCUMENT_DESCRIPTION);
-        ErrorMap errorMap = GlobalVariables.getErrorMap();
+        MessageMap errorMap = GlobalVariables.getMessageMap();
         errorMap.addToErrorPath(rule.DOCUMENT_ERROR_PATH);
         dictionaryValidationService.validateDocumentAndUpdatableReferencesRecursively(document, 10,true,true);
-        assertEquals(3, errorMap.size());
+        assertEquals(3, errorMap.getErrorMessages().size());
         assertError("document.protocolList[0].leadUnitNumber", RiceKeyConstants.ERROR_REQUIRED);
         assertError("document.protocolList[0].title", RiceKeyConstants.ERROR_REQUIRED);
         assertError("document.protocolList[0].principalInvestigatorId", RiceKeyConstants.ERROR_REQUIRED);

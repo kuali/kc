@@ -20,9 +20,9 @@ import static org.apache.commons.lang.StringUtils.replace;
 import static org.kuali.kra.infrastructure.KraServiceLocator.getService;
 import static org.kuali.kra.logging.BufferedLogger.debug;
 import static org.kuali.kra.logging.BufferedLogger.error;
-import static org.kuali.rice.kns.util.KNSConstants.CONFIRMATION_QUESTION;
-import static org.kuali.rice.kns.util.KNSConstants.EMPTY_STRING;
-import static org.kuali.rice.kns.util.KNSConstants.QUESTION_CLICKED_BUTTON;
+import static org.kuali.rice.krad.util.KRADConstants.CONFIRMATION_QUESTION;
+import static org.kuali.rice.krad.util.KRADConstants.EMPTY_STRING;
+import static org.kuali.rice.krad.util.KRADConstants.QUESTION_CLICKED_BUTTON;
 
 import java.io.ByteArrayOutputStream;
 import java.io.IOException;
@@ -71,34 +71,36 @@ import org.kuali.kra.service.TaskAuthorizationService;
 import org.kuali.kra.timeandmoney.TimeAndMoneyForm;
 import org.kuali.kra.web.struts.authorization.WebAuthorizationService;
 import org.kuali.kra.web.struts.form.KraTransactionalDocumentFormBase;
-import org.kuali.rice.core.util.RiceConstants;
+import org.kuali.rice.core.api.config.property.ConfigurationService;
+import org.kuali.rice.core.api.util.RiceConstants;
+import org.kuali.rice.core.api.util.RiceKeyConstants;
 import org.kuali.rice.ken.util.NotificationConstants;
-import org.kuali.rice.kew.exception.WorkflowException;
+import org.kuali.rice.kew.api.KewApiConstants;
+import org.kuali.rice.kew.api.WorkflowDocument;
+import org.kuali.rice.kew.api.exception.WorkflowException;
 import org.kuali.rice.kew.routeheader.service.RouteHeaderService;
-import org.kuali.rice.kew.util.KEWConstants;
-import org.kuali.rice.kim.bo.Person;
-import org.kuali.rice.kns.authorization.AuthorizationConstants;
-import org.kuali.rice.kns.bo.PersistableBusinessObject;
-import org.kuali.rice.kns.document.Document;
-import org.kuali.rice.kns.document.authorization.PessimisticLock;
-import org.kuali.rice.kns.exception.AuthorizationException;
-import org.kuali.rice.kns.exception.UnknownDocumentIdException;
-import org.kuali.rice.kns.question.ConfirmationQuestion;
-import org.kuali.rice.kns.service.BusinessObjectService;
-import org.kuali.rice.kns.service.DocumentService;
-import org.kuali.rice.kns.service.KNSServiceLocator;
-import org.kuali.rice.kns.service.KualiConfigurationService;
-import org.kuali.rice.kns.service.PessimisticLockService;
-import org.kuali.rice.kns.util.GlobalVariables;
-import org.kuali.rice.kns.util.KNSConstants;
+import org.kuali.rice.kim.api.identity.Person;
+import org.kuali.rice.kns.util.KNSGlobalVariables;
 import org.kuali.rice.kns.util.MessageList;
-import org.kuali.rice.kns.util.MessageMap;
-import org.kuali.rice.kns.util.RiceKeyConstants;
 import org.kuali.rice.kns.util.WebUtils;
 import org.kuali.rice.kns.web.struts.action.KualiTransactionalDocumentActionBase;
 import org.kuali.rice.kns.web.struts.form.KualiDocumentFormBase;
 import org.kuali.rice.kns.web.struts.form.KualiForm;
-import org.kuali.rice.kns.workflow.service.KualiWorkflowDocument;
+import org.kuali.rice.kns.authorization.AuthorizationConstants;
+import org.kuali.rice.krad.bo.PersistableBusinessObject;
+import org.kuali.rice.krad.document.Document;
+import org.kuali.rice.krad.document.authorization.PessimisticLock;
+import org.kuali.rice.krad.exception.AuthorizationException;
+import org.kuali.rice.krad.exception.UnknownDocumentIdException;
+import org.kuali.rice.kns.question.ConfirmationQuestion;
+import org.kuali.rice.krad.service.BusinessObjectService;
+import org.kuali.rice.krad.service.DocumentService;
+import org.kuali.rice.krad.service.KRADServiceLocator;
+import org.kuali.rice.krad.service.KRADServiceLocatorWeb;
+import org.kuali.rice.krad.service.PessimisticLockService;
+import org.kuali.rice.krad.util.GlobalVariables;
+import org.kuali.rice.krad.util.KRADConstants;
+import org.kuali.rice.krad.util.MessageMap;
 import org.xml.sax.InputSource;
 import org.xml.sax.SAXException;
 
@@ -123,7 +125,7 @@ public class KraTransactionalDocumentActionBase extends KualiTransactionalDocume
          * invoked, the document's view only flag is set according to the form's view only flag.
          */
         KraTransactionalDocumentFormBase kcForm = (KraTransactionalDocumentFormBase) form;
-        String commandParam = request.getParameter(KNSConstants.PARAMETER_COMMAND);
+        String commandParam = request.getParameter(KRADConstants.PARAMETER_COMMAND);
         if (StringUtils.isNotBlank(commandParam) && commandParam.equals("displayDocSearchView") && StringUtils.isNotBlank(request.getParameter("viewDocument"))) {
             if (request.getParameter("viewDocument").equals("true")) {
                 kcForm.setViewOnly(true);
@@ -136,7 +138,7 @@ public class KraTransactionalDocumentActionBase extends KualiTransactionalDocume
          */
         MessageList messageList = (MessageList) GlobalVariables.getUserSession().retrieveObject(Constants.HOLDING_PAGE_MESSAGES);
         if (messageList != null) {
-            GlobalVariables.getMessageList().addAll(messageList);
+            KNSGlobalVariables.getMessageList().addAll(messageList);
             GlobalVariables.getUserSession().removeObject(Constants.HOLDING_PAGE_MESSAGES);
         }
         
@@ -244,8 +246,8 @@ public class KraTransactionalDocumentActionBase extends KualiTransactionalDocume
         retval.setQuestionType(CONFIRMATION_QUESTION);
 
 
-        KualiConfigurationService kualiConfiguration = getService(KualiConfigurationService.class);
-        String questionText = kualiConfiguration.getPropertyString(configurationId);
+        ConfigurationService kualiConfiguration = KRADServiceLocator.getKualiConfigurationService();
+        String questionText = kualiConfiguration.getPropertyValueAsString(configurationId);
 
         for (int i = 0; i < params.length; i++) {
             questionText = replace(questionText, "{" + i + "}", params[i]);
@@ -278,7 +280,7 @@ public class KraTransactionalDocumentActionBase extends KualiTransactionalDocume
      * @param routeHeaderId
      * @return String
      */
-    protected String buildForwardUrl(Long routeHeaderId) {
+    protected String buildForwardUrl(String routeHeaderId) {
         ResearchDocumentService researchDocumentService = KraServiceLocator.getService(ResearchDocumentService.class);
         String forward = researchDocumentService.getDocHandlerUrl(routeHeaderId);
         forward = forward.replaceFirst(DEFAULT_TAB, ALTERNATE_OPEN_TAB);
@@ -288,10 +290,10 @@ public class KraTransactionalDocumentActionBase extends KualiTransactionalDocume
         else {
             forward += "&";
         }
-        forward += KEWConstants.ROUTEHEADER_ID_PARAMETER + "=" + routeHeaderId;
-        forward += "&" + KEWConstants.COMMAND_PARAMETER + "=" + NotificationConstants.NOTIFICATION_DETAIL_VIEWS.DOC_SEARCH_VIEW;
+        forward += KewApiConstants.DOCUMENT_ID_PARAMETER + "=" + routeHeaderId;
+        forward += "&" + KewApiConstants.COMMAND_PARAMETER + "=" + NotificationConstants.NOTIFICATION_DETAIL_VIEWS.DOC_SEARCH_VIEW;
         if (GlobalVariables.getUserSession().isBackdoorInUse()) {
-            forward += "&" + KEWConstants.BACKDOOR_ID_PARAMETER + "=" + GlobalVariables.getUserSession().getPrincipalName();
+            forward += "&" + KewApiConstants.BACKDOOR_ID_PARAMETER + "=" + GlobalVariables.getUserSession().getPrincipalName();
         }
         return forward;
     }
@@ -304,10 +306,10 @@ public class KraTransactionalDocumentActionBase extends KualiTransactionalDocume
      * @param documentTypeName the type name of the document
      * @return the forward URL for the given routeHeaderId
      */
-    protected String buildActionUrl(Long routeHeaderId, String actionTabName, String documentTypeName) {
+    protected String buildActionUrl(String routeHeaderId, String actionTabName, String documentTypeName) {
         String returnLocation = buildForwardUrl(routeHeaderId);
         returnLocation = returnLocation.replaceFirst(NotificationConstants.NOTIFICATION_DETAIL_VIEWS.DOC_SEARCH_VIEW, actionTabName);
-        returnLocation += "&" + KNSConstants.DOCUMENT_TYPE_NAME + "=" + documentTypeName;
+        returnLocation += "&" + KRADConstants.DOCUMENT_TYPE_NAME + "=" + documentTypeName;
         returnLocation += "&" + "viewDocument=false";
         return returnLocation;
     }
@@ -351,7 +353,7 @@ public class KraTransactionalDocumentActionBase extends KualiTransactionalDocume
     }
         
     /**
-     * Process an Authorization Violation.
+     * ProcessDefinitionDefinitionDefinition an Authorization Violation.
      * 
      * @param mapping the Action Mapping
      * @param form the form
@@ -369,7 +371,7 @@ public class KraTransactionalDocumentActionBase extends KualiTransactionalDocume
 
     /** 
      * {@inheritDoc}
-     * @see org.kuali.rice.kns.web.struts.action.KualiDocumentActionBase#generatePessimisticLockMessage(org.kuali.rice.kns.document.authorization.PessimisticLock)
+     * @see org.kuali.rice.kns.web.struts.action.KualiDocumentActionBase#generatePessimisticLockMessage(org.kuali.rice.krad.document.authorization.PessimisticLock)
      */
     @Override
     protected String generatePessimisticLockMessage(PessimisticLock lock) {
@@ -379,12 +381,12 @@ public class KraTransactionalDocumentActionBase extends KualiTransactionalDocume
             descriptor = StringUtils.capitalize(descriptor.substring(descriptor.indexOf("-") + 1).toLowerCase());
         }
         return new StringBuilder().append("This ").append(descriptor).append(" is locked for editing by ").append(lock.getOwnedByUser().getPrincipalName()).append(" as of ")
-                .append(org.kuali.rice.core.util.RiceConstants.getDefaultTimeFormat().format(lock.getGeneratedTimestamp())).append(" on ")
-                .append(org.kuali.rice.core.util.RiceConstants.getDefaultDateFormat().format(lock.getGeneratedTimestamp())).toString();
+                .append(org.kuali.rice.core.api.util.RiceConstants.getDefaultTimeFormat().format(lock.getGeneratedTimestamp())).append(" on ")
+                .append(org.kuali.rice.core.api.util.RiceConstants.getDefaultDateFormat().format(lock.getGeneratedTimestamp())).toString();
     }
 
     private List<PessimisticLock> findMatchingLocksWithGivenDescriptor(String lockDescriptor) {
-        BusinessObjectService boService = KNSServiceLocator.getBusinessObjectService();
+        BusinessObjectService boService = KRADServiceLocator.getBusinessObjectService();
         Map fieldValues = new HashMap();
         fieldValues.put("lockDescriptor", lockDescriptor);
         List<PessimisticLock> matchingLocks = (List<PessimisticLock>) boService.findMatching(PessimisticLock.class, fieldValues);
@@ -396,7 +398,7 @@ public class KraTransactionalDocumentActionBase extends KualiTransactionalDocume
         String activeLockRegion = (String) GlobalVariables.getUserSession().retrieveObject(
                 KraAuthorizationConstants.ACTIVE_LOCK_REGION);
         GlobalVariables.getUserSession().removeObject(KraAuthorizationConstants.ACTIVE_LOCK_REGION);
-        PessimisticLockService lockService = KNSServiceLocator.getPessimisticLockService();
+        PessimisticLockService lockService = KRADServiceLocatorWeb.getPessimisticLockService();
         Person loggedInUser = GlobalVariables.getUserSession().getPerson();
 
         String budgetLockDescriptor = null;
@@ -544,7 +546,7 @@ public class KraTransactionalDocumentActionBase extends KualiTransactionalDocume
         // save in workflow
         getKraDocumentService().saveDocument(document);
 
-        GlobalVariables.getMessageList().add(RiceKeyConstants.MESSAGE_SAVED);
+        KNSGlobalVariables.getMessageList().add(RiceKeyConstants.MESSAGE_SAVED);
         kualiDocumentFormBase.setAnnotation("");
 
         return mapping.findForward(RiceConstants.MAPPING_BASIC);
@@ -588,7 +590,7 @@ public class KraTransactionalDocumentActionBase extends KualiTransactionalDocume
      * @return the status (INITIATED, SAVED, etc.)
      */
     private String getDocumentStatus(Document doc) {
-        return doc.getDocumentHeader().getWorkflowDocument().getStatusDisplayValue();
+        return doc.getDocumentHeader().getWorkflowDocument().getStatus().getLabel();
     }
     
     /**
@@ -624,19 +626,19 @@ public class KraTransactionalDocumentActionBase extends KualiTransactionalDocume
 
         // only want to prompt them to save if they already can save
         if (canSave(docForm)) {
-            Object question = request.getParameter(KNSConstants.QUESTION_INST_ATTRIBUTE_NAME);
-            KualiConfigurationService kualiConfiguration = KNSServiceLocator.getKualiConfigurationService();
+            Object question = request.getParameter(KRADConstants.QUESTION_INST_ATTRIBUTE_NAME);
+            ConfigurationService kualiConfiguration = KRADServiceLocator.getKualiConfigurationService();
 
             // logic for close question
             if (question == null) {
                 // ask question if not already asked
-                forward = performQuestionWithoutInput(mapping, form, request, response, KNSConstants.DOCUMENT_SAVE_BEFORE_CLOSE_QUESTION, 
-                        kualiConfiguration.getPropertyString(RiceKeyConstants.QUESTION_SAVE_BEFORE_CLOSE), KNSConstants.CONFIRMATION_QUESTION, 
-                        KNSConstants.MAPPING_CLOSE, "");
+                forward = performQuestionWithoutInput(mapping, form, request, response, KRADConstants.DOCUMENT_SAVE_BEFORE_CLOSE_QUESTION, 
+                        kualiConfiguration.getPropertyValueAsString(RiceKeyConstants.QUESTION_SAVE_BEFORE_CLOSE), KRADConstants.CONFIRMATION_QUESTION, 
+                        KRADConstants.MAPPING_CLOSE, "");
             } else {
                 // otherwise attempt to save and close
-                Object buttonClicked = request.getParameter(KNSConstants.QUESTION_CLICKED_BUTTON);
-                if ((KNSConstants.DOCUMENT_SAVE_BEFORE_CLOSE_QUESTION.equals(question)) && ConfirmationQuestion.YES.equals(buttonClicked)) {
+                Object buttonClicked = request.getParameter(KRADConstants.QUESTION_CLICKED_BUTTON);
+                if ((KRADConstants.DOCUMENT_SAVE_BEFORE_CLOSE_QUESTION.equals(question)) && ConfirmationQuestion.YES.equals(buttonClicked)) {
                     forward = saveOnClose(mapping, form, request, response);
                 } else {
                     forward = super.close(mapping, docForm, request, response);
@@ -691,17 +693,17 @@ public class KraTransactionalDocumentActionBase extends KualiTransactionalDocume
         if (doc == null) {
             throw new UnknownDocumentIdException("Document no longer exists.  It may have been cancelled before being saved.");
         }
-        KualiWorkflowDocument workflowDocument = doc.getDocumentHeader().getWorkflowDocument();
+        WorkflowDocument workflowDocument = doc.getDocumentHeader().getWorkflowDocument();
         
         if ( workflowDocument != doc.getDocumentHeader().getWorkflowDocument() ) {
             LOG.warn( "Workflow document changed via canOpen check" );
             doc.getDocumentHeader().setWorkflowDocument(workflowDocument);
         }
         kualiDocumentFormBase.setDocument(doc);
-        KualiWorkflowDocument workflowDoc = doc.getDocumentHeader().getWorkflowDocument();
-        kualiDocumentFormBase.setDocTypeName(workflowDoc.getDocumentType());
-        String content = KraServiceLocator.getService(RouteHeaderService.class).getContent(workflowDoc.getRouteHeaderId()).getDocumentContent();
-        if (doc instanceof CommitteeDocument && !workflowDoc.getRouteHeader().getDocRouteStatus().equals(KEWConstants.ROUTE_HEADER_FINAL_CD)) {
+        WorkflowDocument workflowDoc = doc.getDocumentHeader().getWorkflowDocument();
+        kualiDocumentFormBase.setDocTypeName(workflowDoc.getDocumentTypeName());
+        String content = KraServiceLocator.getService(RouteHeaderService.class).getContent(workflowDoc.getDocumentId()).getDocumentContent();
+        if (doc instanceof CommitteeDocument && !workflowDoc.getStatus().getCode().equals(KewApiConstants.ROUTE_HEADER_FINAL_CD)) {
             Committee committee = (Committee)populateCommitteeFromXmlDocumentContents(content);
             ((CommitteeDocument)doc).getCommitteeList().add(committee);
             committee.setCommitteeDocument((CommitteeDocument) doc);
@@ -709,7 +711,7 @@ public class KraTransactionalDocumentActionBase extends KualiTransactionalDocume
         if (!getDocumentHelperService().getDocumentAuthorizer(doc).canOpen(doc, GlobalVariables.getUserSession().getPerson())) {
             throw buildAuthorizationException("open", doc);
         }
-        GlobalVariables.getUserSession().setWorkflowDocument(workflowDoc);
+        KRADServiceLocatorWeb.getSessionDocumentService().addDocumentToUserSession(GlobalVariables.getUserSession(), workflowDoc);
     }
 
     /*
@@ -732,7 +734,7 @@ public class KraTransactionalDocumentActionBase extends KualiTransactionalDocume
             || form instanceof ProtocolForm || form instanceof CommitteeForm || form instanceof TimeAndMoneyForm) {
             ActionForward basicForward = mapping.findForward(Constants.MAPPING_BASIC);
             if (StringUtils.equals(forward.getPath(), basicForward.getPath())) {
-                forward = mapping.findForward(KNSConstants.MAPPING_PORTAL);
+                forward = mapping.findForward(KRADConstants.MAPPING_PORTAL);
             }
         }
         
@@ -754,7 +756,7 @@ public class KraTransactionalDocumentActionBase extends KualiTransactionalDocume
         CommitteeDocument committeeDocument = committeeForm.getCommitteeDocument();
 
         getKraDocumentService().routeDocument(committeeDocument, committeeForm.getAnnotation(), combineAdHocRecipients(committeeForm));
-        GlobalVariables.getMessageList().add(RiceKeyConstants.MESSAGE_ROUTE_SUCCESSFUL);
+        KNSGlobalVariables.getMessageList().add(RiceKeyConstants.MESSAGE_ROUTE_SUCCESSFUL);
         committeeForm.setAnnotation("");
 
         return createSuccessfulSubmitRedirect("Committee", committeeDocument.getCommittee().getCommitteeId(), request, mapping, committeeForm);
@@ -857,7 +859,7 @@ public class KraTransactionalDocumentActionBase extends KualiTransactionalDocume
         if (objXml.contains("itemDesctiption")) {
             objXml = objXml.replaceAll("itemDesctiption", "itemDescription");
         }
-        PersistableBusinessObject businessObject = (PersistableBusinessObject) KNSServiceLocator.getXmlObjectSerializerService().fromXml(objXml);
+        PersistableBusinessObject businessObject = (PersistableBusinessObject) KRADServiceLocator.getXmlObjectSerializerService().fromXml(objXml);
         return businessObject;
     }
 
@@ -889,7 +891,7 @@ public class KraTransactionalDocumentActionBase extends KualiTransactionalDocume
         if (!StringUtils.equals(forward.getPath(), returnForward.getPath())) {
             return returnForward;
         } else {
-            GlobalVariables.getUserSession().addObject(Constants.HOLDING_PAGE_MESSAGES, GlobalVariables.getMessageList());
+            GlobalVariables.getUserSession().addObject(Constants.HOLDING_PAGE_MESSAGES, KNSGlobalVariables.getMessageList());
             GlobalVariables.getUserSession().addObject(Constants.HOLDING_PAGE_RETURN_LOCATION, (Object) returnLocation);
             return holdingPageForward;
         }
@@ -902,7 +904,7 @@ public class KraTransactionalDocumentActionBase extends KualiTransactionalDocume
             document.prepareForSave();
             return super.sendAdHocRequests(mapping, dform, request, response);
         } else {
-            GlobalVariables.getErrorMap().putError("newAdHocRoutePerson.id", ONE_ADHOC_REQUIRED_ERROR_KEY);
+            GlobalVariables.getMessageMap().putError("newAdHocRoutePerson.id", ONE_ADHOC_REQUIRED_ERROR_KEY);
             return mapping.findForward(Constants.MAPPING_BASIC);
         }
     }

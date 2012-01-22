@@ -27,9 +27,9 @@ import org.kuali.kra.award.document.AwardDocument;
 import org.kuali.kra.award.home.Award;
 import org.kuali.kra.infrastructure.KeyConstants;
 import org.kuali.kra.infrastructure.KraServiceLocator;
-import org.kuali.rice.kns.service.KeyValuesService;
-import org.kuali.rice.kns.service.KualiRuleService;
-import org.kuali.rice.kns.service.ParameterService;
+import org.kuali.rice.coreservice.framework.parameter.ParameterService;
+import org.kuali.rice.krad.service.KeyValuesService;
+import org.kuali.rice.krad.service.KualiRuleService;
 
 /**
  * This class supports the AwardForm class
@@ -95,7 +95,7 @@ public class AwardReportsBean implements Serializable {
             if(newAwardReportTermRecipient.getContactId()!=null){
                 populateContactTypeAndRolodex(newAwardReportTermRecipient);
             }else if(newAwardReportTermRecipient.getRolodexId()!=null){
-                newAwardReportTermRecipient.setContactTypeCode(this.getParameterService().getParameterValue(AwardDocument.class, KeyConstants.CONTACT_TYPE_OTHER));            
+                newAwardReportTermRecipient.setContactTypeCode(this.getParameterService().getParameterValueAsString(AwardDocument.class, KeyConstants.CONTACT_TYPE_OTHER));            
             }
             getAward().getAwardReportTermItems().get(index).getAwardReportTermRecipients().add(newAwardReportTermRecipient);
             initRecipient(index);
@@ -306,7 +306,7 @@ public class AwardReportsBean implements Serializable {
      */
     @SuppressWarnings("all")
     Collection<AwardSponsorContact> getSponsorContactsUsingKeyValuesService(Long contactId){        
-        Map<String, Long> map = new HashMap<String, Long>();
+        Map<String, Object> map = new HashMap<String, Object>();
         map.put("awardContactId", contactId);
         return getKeyValuesService().findMatching(AwardSponsorContact.class, map);
     }

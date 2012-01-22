@@ -30,7 +30,7 @@ import org.junit.runner.RunWith;
 import org.kuali.kra.award.commitments.AwardFandaRateServiceImpl;
 import org.kuali.kra.budget.document.BudgetDocument;
 import org.kuali.kra.infrastructure.Constants;
-import org.kuali.rice.kns.service.ParameterService;
+import org.kuali.rice.coreservice.framework.parameter.ParameterService;
 
 /**
  * 
@@ -65,7 +65,7 @@ public class AwardFandaRateServiceImplTest {
         final ParameterService parameterService
             = context.mock(ParameterService.class);
         context.checking(new Expectations() {{
-            one(parameterService).getParameterValue(BudgetDocument.class, Constants.BUDGET_CURRENT_FISCAL_YEAR); will(returnValue("07/01/2000"));
+            one(parameterService).getParameterValueAsString(BudgetDocument.class, Constants.BUDGET_CURRENT_FISCAL_YEAR); will(returnValue("07/01/2000"));
         }});
 
         awardFandaRateService.setParameterService(parameterService);
@@ -84,7 +84,7 @@ public class AwardFandaRateServiceImplTest {
         final ParameterService parameterService
         = context.mock(ParameterService.class);
         context.checking(new Expectations() {{
-            one(parameterService).getParameterValue(BudgetDocument.class, Constants.BUDGET_CURRENT_FISCAL_YEAR); will(returnValue("07/01/2000"));
+            one(parameterService).getParameterValueAsString(BudgetDocument.class, Constants.BUDGET_CURRENT_FISCAL_YEAR); will(returnValue("07/01/2000"));
         }});
 
         awardFandaRateService.setParameterService(parameterService);

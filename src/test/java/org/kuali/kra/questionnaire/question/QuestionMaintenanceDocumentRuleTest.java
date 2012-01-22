@@ -22,10 +22,10 @@ import org.kuali.kra.infrastructure.Constants;
 import org.kuali.kra.infrastructure.KeyConstants;
 import org.kuali.kra.maintenance.MaintenanceRuleTestBase;
 import org.kuali.rice.kns.document.MaintenanceDocument;
-import org.kuali.rice.kns.util.ErrorMap;
-import org.kuali.rice.kns.util.ErrorMessage;
-import org.kuali.rice.kns.util.GlobalVariables;
-import org.kuali.rice.kns.util.TypedArrayList;
+import org.kuali.rice.krad.util.ErrorMessage;
+import org.kuali.rice.krad.util.GlobalVariables;
+import org.kuali.rice.krad.util.MessageMap;
+import org.springframework.util.AutoPopulatingList;
 
 public class QuestionMaintenanceDocumentRuleTest extends MaintenanceRuleTestBase {
 
@@ -49,7 +49,7 @@ public class QuestionMaintenanceDocumentRuleTest extends MaintenanceRuleTestBase
         MaintenanceDocument questionMaintenanceDocument = newMaintDoc(question);
         rule.dataDictionaryValidate(questionMaintenanceDocument);
         
-        ErrorMap errorMap = GlobalVariables.getErrorMap();
+        MessageMap errorMap = GlobalVariables.getMessageMap();
         assertEquals(3, errorMap.getErrorCount());
         
         assertError("document.newMaintainableObject.businessObject.question");
@@ -68,7 +68,7 @@ public class QuestionMaintenanceDocumentRuleTest extends MaintenanceRuleTestBase
         MaintenanceDocument questionMaintenanceDocument = newMaintDoc(question, question);
         assertTrue(rule.processCustomRouteDocumentBusinessRules(questionMaintenanceDocument));
 
-        ErrorMap errorMap = GlobalVariables.getErrorMap();
+        MessageMap errorMap = GlobalVariables.getMessageMap();
         assertEquals(0, errorMap.getErrorCount());
     }
     
@@ -83,7 +83,7 @@ public class QuestionMaintenanceDocumentRuleTest extends MaintenanceRuleTestBase
         MaintenanceDocument questionMaintenanceDocument = newMaintDoc(question, question);
         assertTrue(rule.processCustomRouteDocumentBusinessRules(questionMaintenanceDocument));
 
-        ErrorMap errorMap = GlobalVariables.getErrorMap();
+        MessageMap errorMap = GlobalVariables.getMessageMap();
         assertEquals(0, errorMap.getErrorCount());
     }
     
@@ -101,7 +101,7 @@ public class QuestionMaintenanceDocumentRuleTest extends MaintenanceRuleTestBase
         MaintenanceDocument questionMaintenanceDocument = newMaintDoc(question, question);
         assertTrue(rule.processCustomRouteDocumentBusinessRules(questionMaintenanceDocument));
 
-        ErrorMap errorMap = GlobalVariables.getErrorMap();
+        MessageMap errorMap = GlobalVariables.getMessageMap();
         assertEquals(0, errorMap.getErrorCount());
     }
     
@@ -116,7 +116,7 @@ public class QuestionMaintenanceDocumentRuleTest extends MaintenanceRuleTestBase
         MaintenanceDocument questionMaintenanceDocument = newMaintDoc(question, question);
         assertFalse(rule.processCustomRouteDocumentBusinessRules(questionMaintenanceDocument));
 
-        ErrorMap errorMap = GlobalVariables.getErrorMap();
+        MessageMap errorMap = GlobalVariables.getMessageMap();
         assertEquals(3, errorMap.getErrorCount());
 
         assertError(Constants.QUESTION_DOCUMENT_FIELD_DISPLAYED_ANSWERS, KeyConstants.ERROR_QUESTION_DISPLAYED_ANSWERS_INVALID_BOXES);
@@ -137,7 +137,7 @@ public class QuestionMaintenanceDocumentRuleTest extends MaintenanceRuleTestBase
         MaintenanceDocument questionMaintenanceDocument = newMaintDoc(question, question);
         assertTrue(rule.processCustomRouteDocumentBusinessRules(questionMaintenanceDocument));
 
-        ErrorMap errorMap = GlobalVariables.getErrorMap();
+        MessageMap errorMap = GlobalVariables.getMessageMap();
         assertEquals(0, errorMap.getErrorCount());
     }
     
@@ -152,7 +152,7 @@ public class QuestionMaintenanceDocumentRuleTest extends MaintenanceRuleTestBase
         MaintenanceDocument questionMaintenanceDocument = newMaintDoc(question, question);
         assertFalse(rule.processCustomRouteDocumentBusinessRules(questionMaintenanceDocument));
 
-        ErrorMap errorMap = GlobalVariables.getErrorMap();
+        MessageMap errorMap = GlobalVariables.getMessageMap();
         assertEquals(2, errorMap.getErrorCount());
 
         assertError(Constants.QUESTION_DOCUMENT_FIELD_DISPLAYED_ANSWERS, KeyConstants.ERROR_QUESTION_DISPLAYED_ANSWERS_INVALID_BOXES);
@@ -173,7 +173,7 @@ public class QuestionMaintenanceDocumentRuleTest extends MaintenanceRuleTestBase
         MaintenanceDocument questionMaintenanceDocument = newMaintDoc(question, question);
         assertTrue(rule.processCustomRouteDocumentBusinessRules(questionMaintenanceDocument));
 
-        ErrorMap errorMap = GlobalVariables.getErrorMap();
+        MessageMap errorMap = GlobalVariables.getMessageMap();
         assertEquals(0, errorMap.getErrorCount());
     }
     
@@ -188,7 +188,7 @@ public class QuestionMaintenanceDocumentRuleTest extends MaintenanceRuleTestBase
         MaintenanceDocument questionMaintenanceDocument = newMaintDoc(question, question);
         assertFalse(rule.processCustomRouteDocumentBusinessRules(questionMaintenanceDocument));
 
-        ErrorMap errorMap = GlobalVariables.getErrorMap();
+        MessageMap errorMap = GlobalVariables.getMessageMap();
         assertEquals(3, errorMap.getErrorCount());
 
         assertError(Constants.QUESTION_DOCUMENT_FIELD_DISPLAYED_ANSWERS, KeyConstants.ERROR_QUESTION_DISPLAYED_ANSWERS_INVALID_AREAS);
@@ -210,7 +210,7 @@ public class QuestionMaintenanceDocumentRuleTest extends MaintenanceRuleTestBase
         MaintenanceDocument questionMaintenanceDocument = newMaintDoc(question, question);
         assertTrue(rule.processCustomRouteDocumentBusinessRules(questionMaintenanceDocument));
 
-        ErrorMap errorMap = GlobalVariables.getErrorMap();
+        MessageMap errorMap = GlobalVariables.getMessageMap();
         assertEquals(0, errorMap.getErrorCount());
     }
 
@@ -226,7 +226,7 @@ public class QuestionMaintenanceDocumentRuleTest extends MaintenanceRuleTestBase
         MaintenanceDocument questionMaintenanceDocument = newMaintDoc(question, question);
         assertFalse(rule.processCustomRouteDocumentBusinessRules(questionMaintenanceDocument));
 
-        ErrorMap errorMap = GlobalVariables.getErrorMap();
+        MessageMap errorMap = GlobalVariables.getMessageMap();
         assertEquals(3, errorMap.getErrorCount());
         
         assertError(Constants.QUESTION_DOCUMENT_FIELD_LOOKUP_CLASS, KeyConstants.ERROR_QUESTION_LOOKUP_CLASS_NOT_SPECIFIED);
@@ -249,7 +249,7 @@ public class QuestionMaintenanceDocumentRuleTest extends MaintenanceRuleTestBase
         MaintenanceDocument questionMaintenanceDocument = newMaintDoc(question, question);
         assertFalse(rule.processCustomRouteDocumentBusinessRules(questionMaintenanceDocument));
 
-        ErrorMap errorMap = GlobalVariables.getErrorMap();
+        MessageMap errorMap = GlobalVariables.getMessageMap();
         assertEquals(1, errorMap.getErrorCount());
         
         assertError(Constants.QUESTION_DOCUMENT_FIELD_LOOKUP_RETURN, KeyConstants.ERROR_QUESTION_LOOKUP_RETURN_INVALID);
@@ -266,7 +266,7 @@ public class QuestionMaintenanceDocumentRuleTest extends MaintenanceRuleTestBase
         MaintenanceDocument questionMaintenanceDocument = newMaintDoc(question, question);
         assertFalse(rule.processCustomRouteDocumentBusinessRules(questionMaintenanceDocument));
 
-        ErrorMap errorMap = GlobalVariables.getErrorMap();
+        MessageMap errorMap = GlobalVariables.getMessageMap();
         assertEquals(1, errorMap.getErrorCount());
         
         assertError(Constants.QUESTION_DOCUMENT_FIELD_QUESTION_TYPE_ID, KeyConstants.ERROR_QUESTION_RESPONSE_TYPE_NOT_SPECIFIED);
@@ -284,7 +284,7 @@ public class QuestionMaintenanceDocumentRuleTest extends MaintenanceRuleTestBase
         MaintenanceDocument questionMaintenanceDocument = newMaintDoc(question, question);
         assertFalse(rule.processCustomRouteDocumentBusinessRules(questionMaintenanceDocument));
 
-        ErrorMap errorMap = GlobalVariables.getErrorMap();
+        MessageMap errorMap = GlobalVariables.getMessageMap();
         assertEquals(1, errorMap.getErrorCount());
         
         assertError(Constants.QUESTION_DOCUMENT_FIELD_QUESTION_TYPE_ID, KeyConstants.ERROR_QUESTION_RESPONSE_TYPE_INVALID);
@@ -296,7 +296,7 @@ public class QuestionMaintenanceDocumentRuleTest extends MaintenanceRuleTestBase
      * @param propertyKey
      */
     protected void assertError(String propertyKey) {
-        TypedArrayList errors = GlobalVariables.getErrorMap().getMessages(propertyKey);
+        AutoPopulatingList errors = GlobalVariables.getMessageMap().getMessages(propertyKey);
         assertNotNull(errors);
         assertTrue(errors.size() == 1);
         
@@ -311,7 +311,7 @@ public class QuestionMaintenanceDocumentRuleTest extends MaintenanceRuleTestBase
      * @param errorKey
      */
     protected void assertError(String propertyKey, String errorKey) {
-        TypedArrayList errors = GlobalVariables.getErrorMap().getMessages(propertyKey);
+        AutoPopulatingList errors = GlobalVariables.getMessageMap().getMessages(propertyKey);
         assertNotNull(errors);
         assertTrue(errors.size() == 1);
         

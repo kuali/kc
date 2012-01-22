@@ -15,35 +15,44 @@
  */
 package org.kuali.kra.budget.rates;
 
-import java.util.LinkedHashMap;
-
 import org.apache.commons.lang.ObjectUtils;
 import org.kuali.kra.bo.AbstractInstituteRate;
 import org.kuali.kra.budget.BudgetDecimal;
 import org.kuali.kra.budget.calculator.RateClassType;
 import org.kuali.kra.budget.core.Budget;
 import org.kuali.kra.budget.core.BudgetAssociateInterface;
+
 public abstract class AbstractBudgetRate extends AbstractInstituteRate implements BudgetAssociateInterface {
-	/**
+
+    /**
      * Comment for <code>serialVersionUID</code>
      */
     private static final long serialVersionUID = -7152006670699620080L;
+
     private Long budgetId;
+
     private Budget budget;
-	private BudgetDecimal applicableRate;
+
+    private BudgetDecimal applicableRate;
+
     private BudgetDecimal oldApplicableRate;
+
     private boolean rateChanged;
+
     private String viewLocation;
+
     private boolean displayLocation = true;
+
     private String budgetPeriod;
+
     private String affectedBudgetPeriod;
+
     private String trackAffectedPeriod;
 
-    
     public AbstractBudgetRate() {
         super();
     }
-    
+
     public AbstractBudgetRate(String unitNumber, AbstractInstituteRate abstractInstituteRate) {
         this();
         copyValues(unitNumber, abstractInstituteRate);
@@ -67,18 +76,19 @@ public abstract class AbstractBudgetRate extends AbstractInstituteRate implement
     @Override
     public boolean getNonEditableRateFlag() {
         boolean nonEditableRate = false;
-        if(getBudget()!=null){
-            if(RateClassType.EMPLOYEE_BENEFITS.getRateClassType().equals(getRateClassType())){
+        if (getBudget() != null) {
+            if (RateClassType.EMPLOYEE_BENEFITS.getRateClassType().equals(getRateClassType())) {
                 nonEditableRate = getBudget().getEbRatesNonEditable();
-            }else if(RateClassType.OVERHEAD.getRateClassType().equals(getRateClassType())){
+            } else if (RateClassType.OVERHEAD.getRateClassType().equals(getRateClassType())) {
                 nonEditableRate = getBudget().getOhRatesNonEditable();
             }
         }
         return nonEditableRate;
     }
-	public BudgetDecimal getApplicableRate() {
-		return BudgetDecimal.returnZeroIfNull(applicableRate);
-	}
+
+    public BudgetDecimal getApplicableRate() {
+        return BudgetDecimal.returnZeroIfNull(applicableRate);
+    }
 
     public BudgetDecimal getExactApplicableRate() {
         return applicableRate;
@@ -91,24 +101,14 @@ public abstract class AbstractBudgetRate extends AbstractInstituteRate implement
     public void setExactApplicableRate(BudgetDecimal applicableRate) {
         setApplicableRate(applicableRate);
     }
-    
+
     public void setApplicableRate(BudgetDecimal applicableRate) {
         setOldApplicableRate(this.applicableRate);
         if (!ObjectUtils.equals(this.applicableRate, applicableRate)) {
             setRateChanged(true);
         }
         this.applicableRate = applicableRate;
-	}
-
-	@Override 
-	@SuppressWarnings("unchecked")
-	protected LinkedHashMap toStringMapper() {
-		LinkedHashMap hashMap = super.toStringMapper();
-//		hashMap.put("proposalNumber", getProposalNumber());
-//		hashMap.put("budgetVersionNumber", getBudgetVersionNumber());
-		hashMap.put("applicableRate", getApplicableRate());
-		return hashMap;
-	}
+    }
 
     public BudgetDecimal getOldApplicableRate() {
         return BudgetDecimal.returnZeroIfNull(oldApplicableRate);
@@ -214,63 +214,35 @@ public abstract class AbstractBudgetRate extends AbstractInstituteRate implement
      */
     @Override
     public boolean equals(Object obj) {
-        if (this == obj)
-            return true;
-        if (!super.equals(obj))
-            return false;
-        if (getClass() != obj.getClass())
-            return false;
+        if (this == obj) return true;
+        if (!super.equals(obj)) return false;
+        if (getClass() != obj.getClass()) return false;
         AbstractBudgetRate other = (AbstractBudgetRate) obj;
         if (affectedBudgetPeriod == null) {
-            if (other.affectedBudgetPeriod != null)
-                return false;
-        }
-        else if (!affectedBudgetPeriod.equals(other.affectedBudgetPeriod))
-            return false;
+            if (other.affectedBudgetPeriod != null) return false;
+        } else if (!affectedBudgetPeriod.equals(other.affectedBudgetPeriod)) return false;
         if (applicableRate == null) {
-            if (other.applicableRate != null)
-                return false;
-        }
-        else if (!applicableRate.equals(other.applicableRate))
-            return false;
+            if (other.applicableRate != null) return false;
+        } else if (!applicableRate.equals(other.applicableRate)) return false;
         if (budget == null) {
-            if (other.budget != null)
-                return false;
-        }
-        else if (!budget.equals(other.budget))
-            return false;
+            if (other.budget != null) return false;
+        } else if (!budget.equals(other.budget)) return false;
         if (budgetId == null) {
-            if (other.budgetId != null)
-                return false;
-        }
-        else if (!budgetId.equals(other.budgetId))
-            return false;
+            if (other.budgetId != null) return false;
+        } else if (!budgetId.equals(other.budgetId)) return false;
         if (budgetPeriod == null) {
-            if (other.budgetPeriod != null)
-                return false;
-        }
-        else if (!budgetPeriod.equals(other.budgetPeriod))
-            return false;
-        if (displayLocation != other.displayLocation)
-            return false;
+            if (other.budgetPeriod != null) return false;
+        } else if (!budgetPeriod.equals(other.budgetPeriod)) return false;
+        if (displayLocation != other.displayLocation) return false;
         if (oldApplicableRate == null) {
-            if (other.oldApplicableRate != null)
-                return false;
-        }
-        else if (!oldApplicableRate.equals(other.oldApplicableRate))
-            return false;
+            if (other.oldApplicableRate != null) return false;
+        } else if (!oldApplicableRate.equals(other.oldApplicableRate)) return false;
         if (trackAffectedPeriod == null) {
-            if (other.trackAffectedPeriod != null)
-                return false;
-        }
-        else if (!trackAffectedPeriod.equals(other.trackAffectedPeriod))
-            return false;
+            if (other.trackAffectedPeriod != null) return false;
+        } else if (!trackAffectedPeriod.equals(other.trackAffectedPeriod)) return false;
         if (viewLocation == null) {
-            if (other.viewLocation != null)
-                return false;
-        }
-        else if (!viewLocation.equals(other.viewLocation))
-            return false;
+            if (other.viewLocation != null) return false;
+        } else if (!viewLocation.equals(other.viewLocation)) return false;
         return true;
     }
 

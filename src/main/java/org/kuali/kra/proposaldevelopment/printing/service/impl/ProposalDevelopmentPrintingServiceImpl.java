@@ -43,8 +43,8 @@ import org.kuali.kra.proposaldevelopment.printing.print.PrintCertificationPrint;
 import org.kuali.kra.proposaldevelopment.printing.print.ProposalSponsorFormsPrint;
 import org.kuali.kra.proposaldevelopment.printing.service.ProposalDevelopmentPrintingService;
 import org.kuali.kra.s2s.service.S2SUtilService;
-import org.kuali.rice.kns.service.BusinessObjectService;
-import org.kuali.rice.kns.service.ParameterService;
+import org.kuali.rice.coreservice.framework.parameter.ParameterService;
+import org.kuali.rice.krad.service.BusinessObjectService;
 
 /**
  * This class is the implementation of
@@ -176,7 +176,7 @@ public class ProposalDevelopmentPrintingServiceImpl implements
             retval.addAll(sponsorForm.getSponsorFormTemplates());
         }
         
-        String hierarchyName = getParameterService().getParameterValue(
+        String hierarchyName = getParameterService().getParameterValueAsString(
                 Constants.KC_GENERIC_PARAMETER_NAMESPACE, Constants.KC_ALL_PARAMETER_DETAIL_TYPE_CODE, 
                 Constants.SPONSOR_HIERARCHY_PRINTING_NAME_PARAM);
         sponsorCodeMap.put(Constants.HIERARCHY_NAME, hierarchyName);

@@ -27,8 +27,8 @@ import org.kuali.kra.irb.actions.correspondence.ProtocolActionCorrespondenceGene
 import org.kuali.kra.irb.actions.genericactions.ProtocolGenericCorrespondence;
 import org.kuali.kra.irb.actions.submit.ProtocolActionService;
 import org.kuali.kra.irb.onlinereview.ProtocolOnlineReviewService;
-import org.kuali.rice.kns.service.DocumentService;
-import org.kuali.rice.kns.service.ParameterService;
+import org.kuali.rice.coreservice.framework.parameter.ParameterService;
+import org.kuali.rice.krad.service.DocumentService;
 
 /**
  * Approves a protocol, either for a full, expedited, or response protocol submission.
@@ -59,7 +59,7 @@ public class ProtocolApproveServiceImpl implements ProtocolApproveService {
         if (protocol.isRenewal()) {
             protocol.setLastApprovalDate(actionBean.getApprovalDate());
         }
-        String exemptProtocolTypeCode = parameterService.getParameterValue(ProtocolDocument.class, Constants.PROTOCOL_TYPE_CODE_EXEMPT);
+        String exemptProtocolTypeCode = parameterService.getParameterValueAsString(ProtocolDocument.class, Constants.PROTOCOL_TYPE_CODE_EXEMPT);
         if (!StringUtils.equals(exemptProtocolTypeCode, protocol.getProtocolTypeCode())) {
             protocol.setExpirationDate(actionBean.getExpirationDate());
         }

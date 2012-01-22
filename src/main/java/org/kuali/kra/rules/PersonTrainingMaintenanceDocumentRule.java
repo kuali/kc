@@ -23,7 +23,7 @@ import org.apache.commons.lang.StringUtils;
 import org.kuali.kra.bo.PersonTraining;
 import org.kuali.kra.infrastructure.KeyConstants;
 import org.kuali.rice.kns.document.MaintenanceDocument;
-import org.kuali.rice.kns.util.GlobalVariables;
+import org.kuali.rice.krad.util.GlobalVariables;
 
 public class PersonTrainingMaintenanceDocumentRule extends KraMaintenanceDocumentRuleBase {
 
@@ -32,7 +32,7 @@ public class PersonTrainingMaintenanceDocumentRule extends KraMaintenanceDocumen
      * @see org.kuali.core.maintenance.rules.MaintenanceDocumentRuleBase#processCustomRouteDocumentBusinessRules(org.kuali.core.document.MaintenanceDocument)
      */ 
     protected boolean processCustomRouteDocumentBusinessRules(MaintenanceDocument document) {
-        PersonTraining personTraining = (PersonTraining)document.getDocumentBusinessObject();
+        PersonTraining personTraining = (PersonTraining)document.getNoteTarget();
         return validate(personTraining);
     }
     
@@ -42,7 +42,7 @@ public class PersonTrainingMaintenanceDocumentRule extends KraMaintenanceDocumen
      */
     @Override
     protected boolean processCustomApproveDocumentBusinessRules(MaintenanceDocument document) {
-        PersonTraining personTraining = (PersonTraining)document.getDocumentBusinessObject();
+        PersonTraining personTraining = (PersonTraining)document.getNoteTarget();
         return validate(personTraining);
     }
 
@@ -56,7 +56,7 @@ public class PersonTrainingMaintenanceDocumentRule extends KraMaintenanceDocumen
             if (!personTrainings.isEmpty()) {
                 PersonTraining existPersonTraining = personTrainings.get(0);
                 if (personTraining.getPersonTrainingId() == null || personTraining.getPersonTrainingId() == existPersonTraining.getPersonTrainingId()) {
-                    GlobalVariables.getErrorMap().putError("document.newMaintainableObject.personId", KeyConstants.PERSON_TRAINING_EXISTS,
+                    GlobalVariables.getMessageMap().putError("document.newMaintainableObject.personId", KeyConstants.PERSON_TRAINING_EXISTS,
                             new String[] { personTraining.getTrainingNumber().toString(), personTraining.getPersonId() });
                     valid = false;
                 }

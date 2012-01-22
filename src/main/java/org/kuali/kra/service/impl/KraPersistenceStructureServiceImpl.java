@@ -21,8 +21,8 @@ import java.util.Map;
 import org.apache.ojb.broker.metadata.ClassDescriptor;
 import org.apache.ojb.broker.metadata.FieldDescriptor;
 import org.kuali.kra.service.KraPersistenceStructureService;
-import org.kuali.rice.kns.exception.ClassNotPersistableException;
-import org.kuali.rice.kns.service.impl.PersistenceStructureServiceImpl;
+import org.kuali.rice.krad.exception.ClassNotPersistableException;
+import org.kuali.rice.krad.service.impl.PersistenceStructureServiceImpl;
 
 public class KraPersistenceStructureServiceImpl extends PersistenceStructureServiceImpl implements KraPersistenceStructureService { 
 

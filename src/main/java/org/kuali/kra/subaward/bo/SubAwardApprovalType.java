@@ -16,30 +16,26 @@
 package org.kuali.kra.subaward.bo;
 
 import org.kuali.kra.bo.KraPersistableBusinessObjectBase;
-import java.util.LinkedHashMap;
-import org.kuali.kra.subaward.bo.TemplateSubAwardTerms;
-import org.kuali.kra.subaward.bo.AwardSubAwardTerms;
 
-public class SubAwardApprovalType extends KraPersistableBusinessObjectBase { 
-    
+public class SubAwardApprovalType extends KraPersistableBusinessObjectBase {
+
     private static final long serialVersionUID = 1L;
 
-    private Integer subAwardApprovalTypeCode; 
-    private String description; 
-    
-    private TemplateSubAwardTerms templateSubAwardTerms; 
-    private AwardSubAwardTerms awardSubAwardTerms; 
-    
-    public SubAwardApprovalType() { 
+    private Integer subAwardApprovalTypeCode;
 
-    } 
-    
-   
+    private String description;
+
+    private TemplateSubAwardTerms templateSubAwardTerms;
+
+    private AwardSubAwardTerms awardSubAwardTerms;
+
+    public SubAwardApprovalType() {
+    }
 
     public Integer getSubAwardApprovalTypeCode() {
         return subAwardApprovalTypeCode;
     }
-    
+
     public void setSubAwardApprovalTypeCode(Integer subAwardApprovalTypeCode) {
         this.subAwardApprovalTypeCode = subAwardApprovalTypeCode;
     }
@@ -67,13 +63,4 @@ public class SubAwardApprovalType extends KraPersistableBusinessObjectBase {
     public void setAwardSubAwardTerms(AwardSubAwardTerms awardSubAwardTerms) {
         this.awardSubAwardTerms = awardSubAwardTerms;
     }
-
-    /** {@inheritDoc} */
-    @Override 
-    protected LinkedHashMap<String, Object> toStringMapper() {
-        LinkedHashMap<String, Object> hashMap = new LinkedHashMap<String, Object>();
-        hashMap.put("subAwardApprovalTypeCode", this.getSubAwardApprovalTypeCode());
-        hashMap.put("description", this.getDescription());
-        return hashMap;
-    }    
 }

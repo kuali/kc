@@ -19,9 +19,9 @@ import java.util.HashSet;
 import java.util.Set;
 
 import org.kuali.kra.authorization.KcTransactionalDocumentAuthorizerBase;
-import org.kuali.rice.kim.bo.Person;
+import org.kuali.rice.kim.api.identity.Person;
 import org.kuali.rice.kns.authorization.AuthorizationConstants;
-import org.kuali.rice.kns.document.Document;
+import org.kuali.rice.krad.document.Document;
 
 public class PersonMassChangeDocumentAuthorizer extends KcTransactionalDocumentAuthorizerBase {
 
@@ -40,6 +40,16 @@ public class PersonMassChangeDocumentAuthorizer extends KcTransactionalDocumentA
     @Override
     public boolean canOpen(Document document, Person user) {
         return true;
+    }
+
+    @Override
+    public boolean canSendNoteFyi(Document document, Person user) {
+        return false;
+    }
+    
+    @Override
+    public boolean canFyi(Document document, Person user) {
+        return false;
     }
 
 

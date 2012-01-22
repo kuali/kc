@@ -183,7 +183,7 @@ public class CostElementMaintenanceDocumentSeleniumTest extends KcSeleniumTestBa
         assertNotNull(document.getDocumentNumber());
         assertNotNull(document.getDocumentHeader());
         assertEquals(documentNumber, document.getDocumentHeader().getDocumentNumber());
-        CostElement costElement = (CostElement) document.getNewMaintainableObject().getBusinessObject();
+        CostElement costElement = (CostElement) document.getNewMaintainableObject().getDataObject();
         assertEquals(costElementCode, costElement.getCostElement());
         assertEquals(DEFAULT_BUDGET_CATEGORY_CODE, costElement.getBudgetCategoryCode());
         assertEquals(description, costElement.getDescription());

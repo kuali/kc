@@ -18,7 +18,7 @@ package org.kuali.kra.budget.core;
 import org.kuali.kra.budget.document.BudgetDocument;
 import org.kuali.kra.budget.document.BudgetParentDocument;
 import org.kuali.kra.budget.parameters.BudgetPeriod;
-import org.kuali.rice.kew.exception.WorkflowException;
+import org.kuali.rice.kew.api.exception.WorkflowException;
 
 /**
  * This interface has services which required different implementations in AwardBudget and ProposalBudget modules 

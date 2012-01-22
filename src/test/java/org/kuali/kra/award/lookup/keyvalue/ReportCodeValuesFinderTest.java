@@ -25,19 +25,19 @@ import org.junit.Before;
 import org.junit.Test;
 import org.kuali.kra.award.paymentreports.ValidClassReportFrequency;
 import org.kuali.kra.test.infrastructure.KcUnitTestBase;
-import org.kuali.rice.core.util.KeyLabelPair;
+import org.kuali.rice.core.api.util.KeyValue;
 
 public class ReportCodeValuesFinderTest extends KcUnitTestBase {
     
     ReportCodeValuesFinder reportCodeValuesFinder;
-    List<KeyLabelPair> reportCodes;
+    List<KeyValue> reportCodes;
     Collection<ValidClassReportFrequency> validClassReportFrequencies;
 
     @Before
     public void setUp() throws Exception {
         super.setUp();
         reportCodeValuesFinder = new ReportCodeValuesFinder("1");        
-        reportCodes = new ArrayList<KeyLabelPair>();        
+        reportCodes = new ArrayList<KeyValue>();        
         validClassReportFrequencies = new ArrayList<ValidClassReportFrequency>();      
     }
 
@@ -53,9 +53,9 @@ public class ReportCodeValuesFinderTest extends KcUnitTestBase {
         reportCodes = reportCodeValuesFinder.getKeyValues();
         Assert.assertEquals(11,reportCodes.size());
         
-        for(KeyLabelPair keyLabelPair:reportCodes){
-            Assert.assertNotNull(keyLabelPair.getKey());
-            Assert.assertNotNull(keyLabelPair.getLabel());
+        for(KeyValue KeyValue:reportCodes){
+            Assert.assertNotNull(KeyValue.getKey());
+            Assert.assertNotNull(KeyValue.getValue());
         }
     }
     

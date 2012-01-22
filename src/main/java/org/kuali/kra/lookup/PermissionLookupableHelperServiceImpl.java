@@ -22,8 +22,8 @@ import org.apache.commons.lang.StringUtils;
 import org.kuali.kra.infrastructure.Constants;
 import org.kuali.kra.infrastructure.KraServiceLocator;
 import org.kuali.kra.service.MultiCampusIdentityService;
-import org.kuali.rice.kns.bo.BusinessObject;
-import org.kuali.rice.kns.util.GlobalVariables;
+import org.kuali.rice.krad.bo.BusinessObject;
+import org.kuali.rice.krad.util.GlobalVariables;
 
 /**
  * Overrides the normal {@link org.kuali.rice.kim.lookup.PermissionLookupableHelperServiceImpl} to modify lookup parameters for multicampus mode.
@@ -38,7 +38,7 @@ public class PermissionLookupableHelperServiceImpl extends org.kuali.rice.kim.lo
     
     @Override
     public List<? extends BusinessObject> getSearchResults(Map<String, String> fieldValues) {
-        boolean multiCampusEnabled = getParameterService().getIndicatorParameter(
+        boolean multiCampusEnabled = getParameterService().getParameterValueAsBoolean(
                 Constants.KC_GENERIC_PARAMETER_NAMESPACE, Constants.KC_ALL_PARAMETER_DETAIL_TYPE_CODE, Constants.PARAMETER_MULTI_CAMPUS_ENABLED);
         
         if (multiCampusEnabled) {

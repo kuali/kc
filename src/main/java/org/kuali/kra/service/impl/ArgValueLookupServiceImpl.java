@@ -21,7 +21,7 @@ import java.util.TreeSet;
 
 import org.kuali.kra.bo.ArgValueLookup;
 import org.kuali.kra.service.ArgValueLookupService;
-import org.kuali.rice.kns.service.BusinessObjectService;
+import org.kuali.rice.krad.service.BusinessObjectService;
 
 /**
  * This class provides the implementation of the ArgValueLookup Service.

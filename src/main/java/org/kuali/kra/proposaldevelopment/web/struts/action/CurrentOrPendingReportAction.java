@@ -17,7 +17,6 @@ package org.kuali.kra.proposaldevelopment.web.struts.action;
 
 import java.io.ByteArrayOutputStream;
 import java.io.IOException;
-import java.lang.annotation.Target;
 import java.util.HashMap;
 import java.util.Map;
 
@@ -36,7 +35,6 @@ import org.kuali.kra.infrastructure.KraServiceLocator;
 import org.kuali.kra.printing.service.CurrentAndPendingReportService;
 import org.kuali.kra.proposaldevelopment.bo.AttachmentDataSource;
 import org.kuali.rice.kns.util.WebUtils;
-import org.kuali.rice.kns.web.struts.action.AuditModeAction;
 import org.kuali.rice.kns.web.struts.action.KualiAction;
 
 public class CurrentOrPendingReportAction extends KualiAction{

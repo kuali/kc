@@ -31,13 +31,13 @@ import org.junit.Test;
 import org.kuali.kra.infrastructure.KraServiceLocator;
 import org.kuali.kra.infrastructure.PermissionConstants;
 import org.kuali.kra.test.infrastructure.KcUnitTestBase;
-import org.kuali.rice.kns.UserSession;
 import org.kuali.rice.kns.document.MaintenanceDocumentBase;
 import org.kuali.rice.kns.lookup.HtmlData;
 import org.kuali.rice.kns.lookup.HtmlData.AnchorHtmlData;
-import org.kuali.rice.kns.service.DocumentService;
 import org.kuali.rice.kns.service.MaintenanceDocumentDictionaryService;
-import org.kuali.rice.kns.util.GlobalVariables;
+import org.kuali.rice.krad.UserSession;
+import org.kuali.rice.krad.service.DocumentService;
+import org.kuali.rice.krad.util.GlobalVariables;
 
 public class QuestionnaireLookupableHelperServiceTest extends KcUnitTestBase {
 
@@ -126,9 +126,9 @@ public class QuestionnaireLookupableHelperServiceTest extends KcUnitTestBase {
         maintDocument.getNewMaintainableObject().setBusinessObject(createQuestionnaire("test1", "desc 1"));
         documentService.routeDocument(maintDocument,null,null);
         // not sure why it is not persisted in DB.  also need to do this save, so getcustomactionurls can retrieve it with bos
-        Questionnaire questionnaire = (Questionnaire)maintDocument.getNewMaintainableObject().getBusinessObject();
+        Questionnaire questionnaire = (Questionnaire)maintDocument.getNewMaintainableObject().getDataObject();
         questionnaire.setDocumentNumber(maintDocument.getDocumentNumber());
-        getBusinessObjectService().save((Questionnaire)maintDocument.getNewMaintainableObject().getBusinessObject());
+        getBusinessObjectService().save((Questionnaire)maintDocument.getNewMaintainableObject().getDataObject());
         List pkNames = new ArrayList();
         pkNames.add("questionnaireRefId");
   
@@ -158,9 +158,9 @@ public class QuestionnaireLookupableHelperServiceTest extends KcUnitTestBase {
         maintDocument.getNewMaintainableObject().setBusinessObject(createQuestionnaire("test1", "desc 1"));
         documentService.routeDocument(maintDocument,null,null);
         // not sure why it is not persisted in DB.  also need to do this save, so getcustomactionurls can retrieve it with bos
-        Questionnaire questionnaire = (Questionnaire)maintDocument.getNewMaintainableObject().getBusinessObject();
+        Questionnaire questionnaire = (Questionnaire)maintDocument.getNewMaintainableObject().getDataObject();
         questionnaire.setDocumentNumber(maintDocument.getDocumentNumber());
-        getBusinessObjectService().save((Questionnaire)maintDocument.getNewMaintainableObject().getBusinessObject());
+        getBusinessObjectService().save((Questionnaire)maintDocument.getNewMaintainableObject().getDataObject());
         List pkNames = new ArrayList();
         pkNames.add("questionnaireRefId");
   
@@ -192,9 +192,9 @@ public class QuestionnaireLookupableHelperServiceTest extends KcUnitTestBase {
         maintDocument.getNewMaintainableObject().setBusinessObject(createQuestionnaire("test1", "desc 1"));
         documentService.routeDocument(maintDocument,null,null);
         // not sure why it is not persisted in DB.  also need to do this save, so getcustomactionurls can retrieve it with bos
-        Questionnaire questionnaire = (Questionnaire)maintDocument.getNewMaintainableObject().getBusinessObject();
+        Questionnaire questionnaire = (Questionnaire)maintDocument.getNewMaintainableObject().getDataObject();
         questionnaire.setDocumentNumber(maintDocument.getDocumentNumber());
-        getBusinessObjectService().save((Questionnaire)maintDocument.getNewMaintainableObject().getBusinessObject());
+        getBusinessObjectService().save((Questionnaire)maintDocument.getNewMaintainableObject().getDataObject());
         List pkNames = new ArrayList();
         pkNames.add("questionnaireRefId");
   

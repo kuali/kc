@@ -25,9 +25,9 @@ import org.apache.commons.logging.LogFactory;
 import org.kuali.kra.award.home.Award;
 import org.kuali.kra.award.home.AwardAmountInfo;
 import org.kuali.kra.timeandmoney.document.TimeAndMoneyDocument;
-import org.kuali.rice.kew.exception.WorkflowException;
-import org.kuali.rice.kns.service.BusinessObjectService;
-import org.kuali.rice.kns.service.DocumentService;
+import org.kuali.rice.kew.api.exception.WorkflowException;
+import org.kuali.rice.krad.service.BusinessObjectService;
+import org.kuali.rice.krad.service.DocumentService;
 
 public class AwardAmountInfoServiceImpl implements AwardAmountInfoService {
 
@@ -67,7 +67,7 @@ public class AwardAmountInfoServiceImpl implements AwardAmountInfoService {
                 TimeAndMoneyDocument timeAndMoneyDocument = 
                     (TimeAndMoneyDocument)getDocumentService().getByDocumentHeaderId(timeAndMoneyDocuments.get(0).getDocumentHeader().getDocumentNumber());
                 if(timeAndMoneyDocument.getDocumentHeader().hasWorkflowDocument()) {
-                    if(timeAndMoneyDocument.getDocumentHeader().getWorkflowDocument().stateIsFinal()) {
+                    if(timeAndMoneyDocument.getDocumentHeader().getWorkflowDocument().isFinal()) {
                         validAwardAmountInfos.add(aai);
                     }
                 }

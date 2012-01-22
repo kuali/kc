@@ -19,8 +19,6 @@ import org.junit.After;
 import org.junit.Assert;
 import org.junit.Before;
 import org.junit.Test;
-import org.kuali.kra.award.home.Award;
-import org.kuali.kra.award.home.AwardSponsorTerm;
 
 
 /**
@@ -59,7 +57,7 @@ private static final int AWARD_SPONSOR_TERM_ATTRIBUTES_COUNT = 4;
      */
     @Test
     public void testAwardCostShareBoAttributesCount() throws Exception {              
-        Assert.assertEquals(AWARD_SPONSOR_TERM_ATTRIBUTES_COUNT, awardSponsorTermBo.toStringMapper().size());
+        Assert.assertEquals(AWARD_SPONSOR_TERM_ATTRIBUTES_COUNT, awardSponsorTermBo.getClass().getFields().length);
     }
     
 }

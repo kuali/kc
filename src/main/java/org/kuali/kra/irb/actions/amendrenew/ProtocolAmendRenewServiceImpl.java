@@ -33,13 +33,13 @@ import org.kuali.kra.irb.questionnaire.ProtocolModuleQuestionnaireBean;
 import org.kuali.kra.questionnaire.answer.AnswerHeader;
 import org.kuali.kra.questionnaire.answer.ModuleQuestionnaireBean;
 import org.kuali.kra.questionnaire.answer.QuestionnaireAnswerService;
-import org.kuali.rice.kew.exception.WorkflowException;
-import org.kuali.rice.kns.bo.DocumentHeader;
-import org.kuali.rice.kns.document.Document;
-import org.kuali.rice.kns.service.BusinessObjectService;
-import org.kuali.rice.kns.service.DocumentService;
-import org.kuali.rice.kns.service.SequenceAccessorService;
-import org.kuali.rice.kns.workflow.service.KualiWorkflowDocument;
+import org.kuali.rice.kew.api.WorkflowDocument;
+import org.kuali.rice.kew.api.exception.WorkflowException;
+import org.kuali.rice.krad.bo.DocumentHeader;
+import org.kuali.rice.krad.document.Document;
+import org.kuali.rice.krad.service.BusinessObjectService;
+import org.kuali.rice.krad.service.DocumentService;
+import org.kuali.rice.krad.service.SequenceAccessorService;
 
 /**
  * The Protocol Amendment/Renewal Service Implementation.
@@ -507,13 +507,13 @@ public class ProtocolAmendRenewServiceImpl implements ProtocolAmendRenewService 
      * @return
      */
     protected boolean isAmendmentCompleted(Protocol protocol) {
-        KualiWorkflowDocument workflowDocument = getWorkflowDocument(protocol.getProtocolDocument());
+        WorkflowDocument workflowDocument = getWorkflowDocument(protocol.getProtocolDocument());
         if (workflowDocument != null) {
-            return workflowDocument.stateIsApproved() ||
-                   workflowDocument.stateIsFinal() ||
-                   workflowDocument.stateIsDisapproved() ||
-                   workflowDocument.stateIsCanceled() ||
-                   workflowDocument.stateIsException();
+            return workflowDocument.isApproved() ||
+                   workflowDocument.isFinal() ||
+                   workflowDocument.isDisapproved() ||
+                   workflowDocument.isCanceled() ||
+                   workflowDocument.isException();
         }
         return false;
     }
@@ -523,8 +523,8 @@ public class ProtocolAmendRenewServiceImpl implements ProtocolAmendRenewService 
      * @param doc the document
      * @return the workflow document or null if there is none
      */
-    protected KualiWorkflowDocument getWorkflowDocument(Document doc) {
-        KualiWorkflowDocument workflowDocument = null;
+    protected WorkflowDocument getWorkflowDocument(Document doc) {
+        WorkflowDocument workflowDocument = null;
         if (doc != null) {
             DocumentHeader header = doc.getDocumentHeader();
             if (header != null) {

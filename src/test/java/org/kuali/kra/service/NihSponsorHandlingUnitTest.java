@@ -18,10 +18,10 @@ import org.kuali.kra.service.impl.SponsorServiceImpl;
 import org.kuali.kra.service.impl.adapters.BusinessObjectServiceAdapter;
 import org.kuali.kra.service.impl.adapters.KeyPersonnelServiceAdapter;
 import org.kuali.kra.service.impl.adapters.ParameterServiceAdapter;
-import org.kuali.rice.kns.bo.PersistableBusinessObject;
-import org.kuali.rice.kns.service.BusinessObjectService;
-import org.kuali.rice.kns.service.ParameterConstants;
-import org.kuali.rice.kns.service.ParameterService;
+import org.kuali.rice.coreservice.framework.parameter.ParameterConstants;
+import org.kuali.rice.coreservice.framework.parameter.ParameterService;
+import org.kuali.rice.krad.bo.PersistableBusinessObject;
+import org.kuali.rice.krad.service.BusinessObjectService;
 
 public class NihSponsorHandlingUnitTest {
     private NihSponsorHandlingTestHelper helper;
@@ -98,11 +98,12 @@ public class NihSponsorHandlingUnitTest {
             public Collection findMatching(Class klass, Map fieldValues) {
                 return SponsorHierarchy.class.equals(klass) ? sponsorHierarchies.values() : null;
             }
-            public void save(PersistableBusinessObject bo) {
+            public PersistableBusinessObject save(PersistableBusinessObject bo) {
                 if(bo instanceof SponsorHierarchy) {
                     SponsorHierarchy sh = (SponsorHierarchy) bo;
                     sponsorHierarchies.put(String.format("%s:%s", sh.getSponsorCode(), sh.getHierarchyName()), sh);
                 }
+                return bo;
             }
             public int countMatching(Class clazz, Map fieldValues) {
                 if(SponsorHierarchy.class.equals(clazz)){
@@ -138,7 +139,7 @@ public class NihSponsorHandlingUnitTest {
                         return null;
                     }
                 } else {
-                    return super.getParameterValue(namespaceCode, detailTypeCode, parameterName);
+                    return super.getParameterValueAsString(namespaceCode, detailTypeCode, parameterName);
                 }
             }
         };

@@ -5,7 +5,7 @@
             <name>PersonMassChangeDocument</name>
             <description>Manage Person Mass Change</description>
             <label>KC Person Mass Change</label>
-            <postProcessorName>org.kuali.rice.kns.workflow.postprocessor.KualiPostProcessor</postProcessorName>
+            <postProcessorName>org.kuali.rice.krad.workflow.postprocessor.KualiPostProcessor</postProcessorName>
             <superUserWorkgroupName>KC-WKFLW:KcAdmin</superUserWorkgroupName>
             <blanketApproveWorkgroupName>KC-WKFLW:KcAdmin</blanketApproveWorkgroupName>
             <defaultExceptionWorkgroupName>KC-WKFLW:KcAdmin</defaultExceptionWorkgroupName>

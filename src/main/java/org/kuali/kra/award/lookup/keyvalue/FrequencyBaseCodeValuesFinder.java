@@ -26,10 +26,11 @@ import java.util.Set;
 import org.apache.commons.lang.StringUtils;
 import org.kuali.kra.award.paymentreports.ValidFrequencyBase;
 import org.kuali.kra.infrastructure.KraServiceLocator;
-import org.kuali.rice.core.util.KeyLabelPair;
-import org.kuali.rice.kns.lookup.keyvalues.KeyValuesBase;
-import org.kuali.rice.kns.service.KeyValuesService;
-import org.kuali.rice.kns.util.GlobalVariables;
+import org.kuali.rice.core.api.util.ConcreteKeyValue;
+import org.kuali.rice.core.api.util.KeyValue;
+import org.kuali.rice.krad.keyvalues.KeyValuesBase;
+import org.kuali.rice.krad.service.KeyValuesService;
+import org.kuali.rice.krad.util.GlobalVariables;
 
 /**
  * 
@@ -67,9 +68,9 @@ public class FrequencyBaseCodeValuesFinder extends KeyValuesBase {
      * @see org.kuali.core.lookup.keyvalues.KeyValuesFinder#getKeyValues()
      */
     @SuppressWarnings("all")
-    public List<KeyLabelPair> getKeyValues() {
+    public List<KeyValue> getKeyValues() {
         if (GlobalVariables.getUserSession().retrieveObject("awfreqbase" + getFrequencyCode()) != null) {
-            return (List<KeyLabelPair>) GlobalVariables.getUserSession().retrieveObject("awfreqbase" + getFrequencyCode());
+            return (List<KeyValue>) GlobalVariables.getUserSession().retrieveObject("awfreqbase" + getFrequencyCode());
         } else {
             Collection<ValidFrequencyBase> validFrequencyBaseCodes = getKeyValuesService().findAll(ValidFrequencyBase.class);
 
@@ -140,8 +141,8 @@ public class FrequencyBaseCodeValuesFinder extends KeyValuesBase {
          */
         public int compare(Object kv1, Object kv2) {
             try {
-                String desc1 = ((KeyLabelPair) kv1).getLabel();
-                String desc2 = ((KeyLabelPair) kv2).getLabel();
+                String desc1 = ((KeyValue) kv1).getValue();
+                String desc2 = ((KeyValue) kv2).getValue();
                 if (desc1 == null) {
                     desc1 = "";
                 }
@@ -159,24 +160,24 @@ public class FrequencyBaseCodeValuesFinder extends KeyValuesBase {
 
     /**
      * 
-     * This method browses through set and creates the keylabelpair list from it.
+     * This method browses through set and creates the KeyValue list from it.
      * 
      * @param uniqueValidFrequencyBases
      * @return
      */
-    protected List<KeyLabelPair> getKeyValues(Set<String> uniqueValidFrequencyBases) {
-        List<KeyLabelPair> keyValues = new ArrayList<KeyLabelPair>();
+    protected List<KeyValue> getKeyValues(Set<String> uniqueValidFrequencyBases) {
+        List<KeyValue> keyValues = new ArrayList<KeyValue>();
         ValidFrequencyBase validFrequencyBase = new ValidFrequencyBase();
         for (String frequencyBaseCode : uniqueValidFrequencyBases) {
             validFrequencyBase.setFrequencyBaseCode(frequencyBaseCode);
             validFrequencyBase.refreshReferenceObject("frequencyBase");
             if (validFrequencyBase.getFrequencyBase().isActive()) {
-                keyValues.add(new KeyLabelPair(validFrequencyBase.getFrequencyBaseCode(), validFrequencyBase.getFrequencyBase()
+                keyValues.add(new ConcreteKeyValue(validFrequencyBase.getFrequencyBaseCode(), validFrequencyBase.getFrequencyBase()
                         .getDescription()));
             }
         }
         Collections.sort(keyValues, new FrequenceBaseComparator());
-        keyValues.add(0, new KeyLabelPair("", "select"));
+        keyValues.add(0, new ConcreteKeyValue("", "select"));
         GlobalVariables.getUserSession().addObject("awfreqbase" + getFrequencyCode(), keyValues);
 
         return keyValues;

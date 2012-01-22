@@ -18,7 +18,7 @@ package org.kuali.kra.budget.parameters;
 import org.apache.commons.lang.StringUtils;
 import org.kuali.kra.budget.document.BudgetDocument;
 import org.kuali.kra.rule.event.KraDocumentEventBase;
-import org.kuali.rice.kns.document.Document;
+import org.kuali.rice.krad.document.Document;
 
 public abstract class BudgetPeriodEventBase extends KraDocumentEventBase implements BudgetPeriodEvent {
 
@@ -83,7 +83,7 @@ public abstract class BudgetPeriodEventBase extends KraDocumentEventBase impleme
     }
 
     /**
-     * @see org.kuali.rice.kns.rule.event.KualiDocumentEvent#validate()
+     * @see org.kuali.rice.krad.rules.rule.event.KualiDocumentEvent#validate()
      */
     public void validate() {
         super.validate();

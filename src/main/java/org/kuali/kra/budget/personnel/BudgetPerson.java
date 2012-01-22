@@ -16,7 +16,6 @@
 package org.kuali.kra.budget.personnel;
 
 import java.sql.Date;
-import java.util.LinkedHashMap;
 
 import org.apache.commons.lang.ObjectUtils;
 import org.apache.commons.lang.StringUtils;
@@ -25,51 +24,65 @@ import org.kuali.kra.bo.Rolodex;
 import org.kuali.kra.budget.BudgetDecimal;
 import org.kuali.kra.budget.core.BudgetAssociate;
 import org.kuali.kra.infrastructure.KraServiceLocator;
+import org.kuali.kra.proposaldevelopment.hierarchy.HierarchyMaintainable;
 import org.kuali.kra.service.KcPersonService;
-import org.kuali.kra.proposaldevelopment.hierarchy.HierarchyMaintainable;
-import org.kuali.kra.proposaldevelopment.hierarchy.HierarchyMaintainable;
 
 /**
  * BudgetPerson business object
  */
 public class BudgetPerson extends BudgetAssociate implements HierarchyMaintainable {
-	
+
     private static final long serialVersionUID = 1L;
-    
+
     private Date effectiveDate;
-	private String jobCode;
-	private JobCode jobCodeRef;
-	private String jobTitle;
-	private Boolean nonEmployeeFlag;
-	private String personId;
+
+    private String jobCode;
+
+    private JobCode jobCodeRef;
+
+    private String jobTitle;
+
+    private Boolean nonEmployeeFlag;
+
+    private String personId;
+
     private Integer rolodexId;
+
     private String tbnId;
-	private String appointmentTypeCode;
-	private BudgetDecimal calculationBase;
-	private String personName;
-	private AppointmentType appointmentType;
-	private Integer personSequenceNumber;
-	private Rolodex rolodex;
+
+    private String appointmentTypeCode;
+
+    private BudgetDecimal calculationBase;
+
+    private String personName;
+
+    private AppointmentType appointmentType;
+
+    private Integer personSequenceNumber;
+
+    private Rolodex rolodex;
+
     private String role;
     private Date salaryAnniversaryDate;
-    
+
     private transient KcPersonService kcPersonService;
 
     private String hierarchyProposalNumber;
+
     private boolean hiddenInHierarchy;
 
-	public Date getEffectiveDate() {
-		return effectiveDate;
-	}
+    public Date getEffectiveDate() {
+        return effectiveDate;
+    }
 
-	public void setEffectiveDate(Date effectiveDate) {
-		this.effectiveDate = effectiveDate;
-	}
-    
+    public void setEffectiveDate(Date effectiveDate) {
+        this.effectiveDate = effectiveDate;
+    }
+
     public BudgetPerson() {
         super();
     }
-    
+
     public BudgetPerson(KcPerson person) {
         super();
         this.personId = person.getPersonId();
@@ -77,14 +90,14 @@ public class BudgetPerson extends BudgetAssociate implements HierarchyMaintainab
         this.salaryAnniversaryDate = person.getExtendedAttributes().getSalaryAnniversaryDate();
         this.nonEmployeeFlag = false;
     }
-    
+
     public BudgetPerson(Rolodex rolodex) {
         super();
         this.rolodexId = rolodex.getRolodexId();
         this.personName = rolodex.getFirstName() + " " + rolodex.getLastName();
         this.nonEmployeeFlag = true;
     }
-    
+
     public BudgetPerson(TbnPerson tbn) {
         super();
         this.tbnId = tbn.getTbnId();
@@ -92,7 +105,7 @@ public class BudgetPerson extends BudgetAssociate implements HierarchyMaintainab
         this.nonEmployeeFlag = true;
         this.jobCode = tbn.getJobCode();
     }
-    
+
     public BudgetPerson(PersonRolodex proposalPerson) {
         super();
         if (proposalPerson.getPersonId() != null) {
@@ -105,78 +118,63 @@ public class BudgetPerson extends BudgetAssociate implements HierarchyMaintainab
         this.personName = proposalPerson.getFullName();
     }
 
-	/*
+    /*
 	 * Helper method for calculator. This is used for sorting and filtering after combining with rates purpose
 	 */
     public Date getStartDate() {
         return effectiveDate;
     }
-    
-	public String getJobCode() {
-		return jobCode;
-	}
 
-	public void setJobCode(String jobCode) {
-	    if (this.jobCode == null || !this.jobCode.equals(jobCode)){
-	       this.jobCode = jobCode;
-	       refreshJobTitle();
-	    }
-	}
+    public String getJobCode() {
+        return jobCode;
+    }
 
-	public Boolean getNonEmployeeFlag() {
-		return nonEmployeeFlag;
-	}
+    public void setJobCode(String jobCode) {
+        if (this.jobCode == null || !this.jobCode.equals(jobCode)) {
+            this.jobCode = jobCode;
+            refreshJobTitle();
+        }
+    }
 
-	public void setNonEmployeeFlag(Boolean nonEmployeeFlag) {
-		this.nonEmployeeFlag = nonEmployeeFlag;
-	}
+    public Boolean getNonEmployeeFlag() {
+        return nonEmployeeFlag;
+    }
 
-	public String getPersonId() {
-		return personId;
-	}
+    public void setNonEmployeeFlag(Boolean nonEmployeeFlag) {
+        this.nonEmployeeFlag = nonEmployeeFlag;
+    }
 
-	public void setPersonId(String personId) {
-		this.personId = personId;
-	}
+    public String getPersonId() {
+        return personId;
+    }
 
-	public AppointmentType getAppointmentType() {
-		return appointmentType;
-	}
+    public void setPersonId(String personId) {
+        this.personId = personId;
+    }
 
-	public void setAppointmentType(AppointmentType appointmentType) {
-		this.appointmentType = appointmentType;
-	}
+    public AppointmentType getAppointmentType() {
+        return appointmentType;
+    }
 
-	public BudgetDecimal getCalculationBase() {
-		return calculationBase;
-	}
+    public void setAppointmentType(AppointmentType appointmentType) {
+        this.appointmentType = appointmentType;
+    }
 
-	public void setCalculationBase(BudgetDecimal calculationBase) {
-		this.calculationBase = calculationBase;
-	}
+    public BudgetDecimal getCalculationBase() {
+        return calculationBase;
+    }
 
-	public String getPersonName() {
-		return personName;
-	}
+    public void setCalculationBase(BudgetDecimal calculationBase) {
+        this.calculationBase = calculationBase;
+    }
 
-	public void setPersonName(String personName) {
-		this.personName = personName;
-	}
+    public String getPersonName() {
+        return personName;
+    }
 
-
-	@SuppressWarnings("unchecked")
-    @Override 
-	protected LinkedHashMap toStringMapper() {
-        LinkedHashMap<String, Object> hashMap = super.toStringMapper();
-		hashMap.put("effectiveDate", getEffectiveDate());
-		hashMap.put("jobCode", getJobCode());
-		hashMap.put("nonEmployeeFlag", getNonEmployeeFlag());
-		hashMap.put("personId", getPersonId());
-		hashMap.put("appointmentTypeCode", getAppointmentTypeCode());
-		hashMap.put("calculationBase", getCalculationBase());
-		hashMap.put("personName", getPersonName());
-		return hashMap;
-	}
+    public void setPersonName(String personName) {
+        this.personName = personName;
+    }
 
     /**
      * Gets the appointmentTypeCode attribute. 
@@ -193,8 +191,6 @@ public class BudgetPerson extends BudgetAssociate implements HierarchyMaintainab
     public void setAppointmentTypeCode(String appointmentTypeCode) {
         this.appointmentTypeCode = appointmentTypeCode;
     }
-    
-    
 
     /**
      * Gets the rolodexId attribute. 
@@ -219,7 +215,7 @@ public class BudgetPerson extends BudgetAssociate implements HierarchyMaintainab
     public KcPerson getPerson() {
         return getKcPersonService().getKcPersonByPersonId(personId);
     }
-    
+
     /**
      * Gets the KC Person Service.
      * @return KC Person Service.
@@ -228,7 +224,6 @@ public class BudgetPerson extends BudgetAssociate implements HierarchyMaintainab
         if (this.kcPersonService == null) {
             this.kcPersonService = KraServiceLocator.getService(KcPersonService.class);
         }
-        
         return this.kcPersonService;
     }
 
@@ -263,7 +258,7 @@ public class BudgetPerson extends BudgetAssociate implements HierarchyMaintainab
     public void setPersonSequenceNumber(Integer personSequenceNumber) {
         this.personSequenceNumber = personSequenceNumber;
     }
-    
+
     public String getTbnId() {
         return tbnId;
     }
@@ -295,7 +290,7 @@ public class BudgetPerson extends BudgetAssociate implements HierarchyMaintainab
     public void setRole(String role) {
         this.role = role;
     }
-    
+
     /**
      * This method determines if the given budgetPerson is the same person with the same job code & effective date
      * @param budgetPerson
@@ -316,7 +311,7 @@ public class BudgetPerson extends BudgetAssociate implements HierarchyMaintainab
         } else if (this.getNonEmployeeFlag() != null && !this.getNonEmployeeFlag() && budgetPerson.getNonEmployeeFlag() != null && !budgetPerson.getNonEmployeeFlag()) {
             return this.getPersonId().equals(budgetPerson.getPersonId());
         }
-        // else non-employee vs. employee
+        // else non-employee vs. employee 
         return false;
     }
 
@@ -331,42 +326,41 @@ public class BudgetPerson extends BudgetAssociate implements HierarchyMaintainab
         } else if (!this.getNonEmployeeFlag() && !budgetPerson.getNonEmployeeFlag()) {
             return this.getPersonId().equals(budgetPerson.getPersonId());
         }
-        // else non-employee vs. employee
+        // else non-employee vs. employee 
         return false;
     }
 
     public String getPersonRolodexTbnId() {
-        String rolodexPersonId = getRolodexId()==null?getPersonId():getRolodexId().toString();
-        return rolodexPersonId==null?getTbnId():rolodexPersonId;
+        String rolodexPersonId = getRolodexId() == null ? getPersonId() : getRolodexId().toString();
+        return rolodexPersonId == null ? getTbnId() : rolodexPersonId;
     }
 
-
     public String getJobTitle() {
-        // Note, since we aren't persisting the jobTitle in the BudgetPersons table, we need to grab the title 
-        // for each BudgetPerson.jobCode via svc call below.
+        // Note, since we aren't persisting the jobTitle in the BudgetPersons table, we need to grab the title  
+        // for each BudgetPerson.jobCode via svc call below. 
         getJobTitleFromJobCode();
         String ret = null;
         if (jobCodeRef != null) {
             ret = jobCodeRef.getJobTitle();
-        } 
+        }
         return ret;
     }
-    
+
     public void setJobTitle(String jobTitle) {
         refreshJobTitle();
     }
-    
+
     private void refreshJobTitle() {
         jobCodeRef = null;
         getJobTitleFromJobCode();
     }
-    
+
     private void getJobTitleFromJobCode() {
         if (StringUtils.isNotBlank(getJobCode()) && 
                 (this.jobCodeRef == null || !StringUtils.isNotBlank(this.jobCodeRef.getJobTitle())) ) { 
-                JobCodeService jcService = KraServiceLocator.getService(JobCodeService.class);
-                this.jobCodeRef = jcService.findJobCodeRef(getJobCode());
-            }
+            JobCodeService jcService = KraServiceLocator.getService(JobCodeService.class);
+            this.jobCodeRef = jcService.findJobCodeRef(getJobCode());
+        }
     }
 
     public JobCode getJobCodeRef() {

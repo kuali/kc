@@ -22,9 +22,10 @@ import org.apache.commons.lang.StringUtils;
 import org.kuali.kra.award.home.ValidBasisMethodPayment;
 import org.kuali.kra.infrastructure.KraServiceLocator;
 import org.kuali.kra.service.AwardPaymentAndInvoicesService;
-import org.kuali.rice.core.util.KeyLabelPair;
-import org.kuali.rice.kns.lookup.keyvalues.KeyValuesBase;
-import org.kuali.rice.kns.service.KeyValuesService;
+import org.kuali.rice.core.api.util.ConcreteKeyValue;
+import org.kuali.rice.core.api.util.KeyValue;
+import org.kuali.rice.krad.keyvalues.KeyValuesBase;
+import org.kuali.rice.krad.service.KeyValuesService;
 
 /**
  * 
@@ -63,13 +64,13 @@ public class ValidMethodOfPaymentValuesFinder extends KeyValuesBase {
      * @see org.kuali.core.lookup.keyvalues.KeyValuesFinder#getKeyValues()
      */
     @SuppressWarnings("all")
-    public List<KeyLabelPair> getKeyValues() {
-        List<KeyLabelPair> keyLabels = new ArrayList<KeyLabelPair>();
-        keyLabels.add( new KeyLabelPair( "", "select" ));
+    public List<KeyValue> getKeyValues() {
+        List<KeyValue> keyLabels = new ArrayList<KeyValue>();
+        keyLabels.add( new ConcreteKeyValue( "", "select" ));
         if( StringUtils.isNotBlank(basisOfPaymentCode)) {
             for( ValidBasisMethodPayment basisMethodPayment : getAwardPaymentAndInvoicesService().getValidBasisMethodPaymentByBasisCode(basisOfPaymentCode) ) { 
                 basisMethodPayment.refresh();
-                keyLabels.add(new KeyLabelPair( basisMethodPayment.getMethodOfPaymentCode(), basisMethodPayment.getMethodOfPayment().getDescription() ) );
+                keyLabels.add(new ConcreteKeyValue( basisMethodPayment.getMethodOfPaymentCode(), basisMethodPayment.getMethodOfPayment().getDescription() ) );
             
             }
         }

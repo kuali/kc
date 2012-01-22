@@ -18,7 +18,6 @@ package org.kuali.kra.award.contacts;
 import java.util.ArrayList;
 import java.util.Collection;
 import java.util.HashMap;
-import java.util.LinkedHashMap;
 import java.util.List;
 import java.util.Map;
 
@@ -32,33 +31,39 @@ import org.kuali.kra.bo.Unit;
 import org.kuali.kra.bo.UnitAdministrator;
 import org.kuali.kra.infrastructure.KraServiceLocator;
 import org.kuali.kra.service.ServiceHelper;
-import org.kuali.rice.kns.service.BusinessObjectService;
+import org.kuali.rice.krad.service.BusinessObjectService;
 
 /**
  * This class associates an AwardContact and a Unit
  */
 public class AwardPersonUnit extends KraPersistableBusinessObjectBase implements Comparable<AwardPersonUnit>, SequenceAssociate<Award> {
+
     public static final boolean IS_LEAD_UNIT = Boolean.TRUE;
+
     public static final boolean IS_NOT_LEAD_UNIT = Boolean.FALSE;
-    
+
     private static final long serialVersionUID = 3550317176047537585L;
-    
+
     private Long awardPersonUnitId;
-    //don't version parent bo as it leads to odd and destructive behavior in some cases
+
+    //don't version parent bo as it leads to odd and destructive behavior in some cases  
     @SkipVersioning
-    @AwardSyncableProperty(parent=true, parentProperty="units")
+    @AwardSyncableProperty(parent = true, parentProperty = "units")
     private AwardPerson awardPerson;
+
     @AwardSyncableProperty
-    private boolean leadUnit;    
+    private boolean leadUnit;
+
     private Unit unit;
-    
+
     private List<AwardPersonUnitCreditSplit> creditSplits;
-    
-    // OJB Hack
-    @AwardSyncableProperty(key=true)
+
+    // OJB Hack  
+    @AwardSyncableProperty(key = true)
     private String unitNumber;
+
     private Long awardContactId;
-    
+
     /**
      * Default Constructor
      */
@@ -66,6 +71,7 @@ public class AwardPersonUnit extends KraPersistableBusinessObjectBase implements
         super();
         creditSplits = new ArrayList<AwardPersonUnitCreditSplit>();
     }
+
     /**
      * Constructs a AwardPersonUnit
      * @param awardPerson
@@ -74,7 +80,7 @@ public class AwardPersonUnit extends KraPersistableBusinessObjectBase implements
         this();
         setAwardPerson(awardPerson);
     }
-    
+
     /**
      * Constructs a AwardPersonUnit
      * @param awardPerson
@@ -85,9 +91,9 @@ public class AwardPersonUnit extends KraPersistableBusinessObjectBase implements
         this();
         setAwardPerson(awardPerson);
         setUnit(unit);
-        leadUnit = isLeadUnit;        
+        leadUnit = isLeadUnit;
     }
-    
+
     /**
      * Find the lead unit from among award awardPerson units
      * @param awardPersonUnits
@@ -95,29 +101,29 @@ public class AwardPersonUnit extends KraPersistableBusinessObjectBase implements
      */
     public static Unit findLeadUnit(Collection<AwardPersonUnit> awardPersonUnits) {
         Unit foundLeadUnit = null;
-        for(AwardPersonUnit apu: awardPersonUnits) {
-            if(apu.isLeadUnit()) {
+        for (AwardPersonUnit apu : awardPersonUnits) {
+            if (apu.isLeadUnit()) {
                 foundLeadUnit = apu.getUnit();
             }
         }
         return foundLeadUnit;
     }
-    
+
     /**
      * @param creditSplit
      */
     public void add(AwardPersonUnitCreditSplit creditSplit) {
-       creditSplits.add(creditSplit);
-       creditSplit.setAwardPersonUnit(this);
+        creditSplits.add(creditSplit);
+        creditSplit.setAwardPersonUnit(this);
     }
-    
+
     /**
      * @see java.lang.Comparable#compareTo(java.lang.Object)
      */
     public int compareTo(AwardPersonUnit other) {
         return this.unit.getUnitName().compareToIgnoreCase(other.getUnit().getUnitName());
     }
-    
+
     /**
      * @see java.lang.Object#equals(java.lang.Object)
      */
@@ -149,6 +155,7 @@ public class AwardPersonUnit extends KraPersistableBusinessObjectBase implements
         }
         return true;
     }
+
     /**
      * Gets the awardPersonId attribute. 
      * @return Returns the awardPersonId.
@@ -156,24 +163,26 @@ public class AwardPersonUnit extends KraPersistableBusinessObjectBase implements
     public Long getAwardContactId() {
         return awardContactId;
     }
-    
+
     public List<UnitAdministrator> getOspAdministrators() {
         List<UnitAdministrator> ospAdministrators = new ArrayList<UnitAdministrator>();
         if (unit != null) {
-            for(UnitAdministrator unitAdministrator : unit.getUnitAdministrators()) {
-                if(unitAdministrator.getUnitAdministratorType().getDescription().equals("OSP_ADMINISTRATOR")) {
+            for (UnitAdministrator unitAdministrator : unit.getUnitAdministrators()) {
+                if (unitAdministrator.getUnitAdministratorType().getDescription().equals("OSP_ADMINISTRATOR")) {
                     ospAdministrators.add(unitAdministrator);
                 }
             }
         }
         return ospAdministrators;
     }
+
     /**
      * @return
      */
     public AwardContact getAwardPerson() {
         return awardPerson;
     }
+
     /**
      * Gets the awardPersonUnitId attribute. 
      * @return Returns the awardPersonUnitId.
@@ -181,7 +190,7 @@ public class AwardPersonUnit extends KraPersistableBusinessObjectBase implements
     public Long getAwardPersonUnitId() {
         return awardPersonUnitId;
     }
-    
+
     /**
      * @param index
      * @return
@@ -189,7 +198,7 @@ public class AwardPersonUnit extends KraPersistableBusinessObjectBase implements
     public AwardPersonUnitCreditSplit getCreditSplit(int index) {
         return creditSplits.get(index);
     }
-    
+
     /**
      * Gets the creditSplits attribute. 
      * @return Returns the creditSplits.
@@ -197,14 +206,14 @@ public class AwardPersonUnit extends KraPersistableBusinessObjectBase implements
     public List<AwardPersonUnitCreditSplit> getCreditSplits() {
         return creditSplits;
     }
-    
+
     /**
      * @return
      */
     public String getFullName() {
         return awardPerson != null ? (awardPerson.getContact() != null ? awardPerson.getContact().getFullName() : null) : null;
     }
-    
+
     /**
      * @return
      */
@@ -299,24 +308,15 @@ public class AwardPersonUnit extends KraPersistableBusinessObjectBase implements
      */
     public void setUnitNumber(String unitNumber) {
         this.unitNumber = unitNumber;
-        Map<String,String> pk = new HashMap<String, String>();
+        Map<String, String> pk = new HashMap<String, String>();
         pk.put("unitNumber", unitNumber);
-        Unit unit = (Unit)KraServiceLocator.getService(BusinessObjectService.class).findByPrimaryKey(Unit.class, pk);
+        Unit unit = (Unit) KraServiceLocator.getService(BusinessObjectService.class).findByPrimaryKey(Unit.class, pk);
         if (unit != null) {
             this.unit = unit;
-        }
-        else {
+        } else {
             this.unit = null;
             this.unitNumber = null;
         }
-    }
-
-    @Override
-    protected LinkedHashMap<String, Object> toStringMapper() {
-        LinkedHashMap<String, Object> map = new LinkedHashMap<String, Object>();
-        map.put("unitName", unit);
-        map.put("leadUnit", leadUnit);
-        return map;
     }
 
     /**
@@ -327,29 +327,29 @@ public class AwardPersonUnit extends KraPersistableBusinessObjectBase implements
     }
 
     private void lazilyLoadUnit() {
-        if(StringUtils.isNotEmpty(unitNumber) && unit == null) {
+        if (StringUtils.isNotEmpty(unitNumber) && unit == null) {
             Collection c = getBusinessObjectService().findMatching(Unit.class, ServiceHelper.getInstance().buildCriteriaMap("unitNumber", unitNumber));
-            if(c.size() > 0) {
+            if (c.size() > 0) {
                 unit = (Unit) c.iterator().next();
             }
         }
     }
+
     public Award getSequenceOwner() {
         return awardPerson != null ? awardPerson.getAward() : null;
     }
-    
+
     public void setSequenceOwner(Award newlyVersionedOwner) {
-        if(awardPerson != null) {
+        if (awardPerson != null) {
             awardPerson.setAward(newlyVersionedOwner);
         }
     }
-    
+
     public Integer getSequenceNumber() {
-        return  awardPerson != null ? awardPerson.getSequenceNumber() : 0;
+        return awardPerson != null ? awardPerson.getSequenceNumber() : 0;
     }
-    
+
     public void resetPersistenceState() {
         awardPersonUnitId = null;
     }
-    
 }
