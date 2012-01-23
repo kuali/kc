@@ -1588,6 +1588,10 @@ public class ProposalDevelopmentForm extends BudgetVersionFormBase implements Re
     }
     
     public boolean canPerformWorkflowAction() {
+        //If an exception (like AuthorizationException) occurred before this call, the workflowDocument will be null
+        if (!getDocument().getDocumentHeader().hasWorkflowDocument()) {
+           return false;
+        }
         KcTransactionalDocumentAuthorizerBase documentAuthorizer = (KcTransactionalDocumentAuthorizerBase) KNSServiceLocator.getDocumentHelperService().getDocumentAuthorizer(this.getDocument());
         Person user = GlobalVariables.getUserSession().getPerson();
         Set<String> documentActions = documentAuthorizer.getDocumentActions(this.getDocument(), user, null);

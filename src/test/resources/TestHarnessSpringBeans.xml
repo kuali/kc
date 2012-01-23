@@ -1,0 +1,125 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!--
+
+    Copyright 2005-2011 The Kuali Foundation
+
+    Licensed under the Educational Community License, Version 2.0 (the "License");
+    you may not use this file except in compliance with the License.
+    You may obtain a copy of the License at
+
+    http://www.opensource.org/licenses/ecl2.php
+
+    Unless required by applicable law or agreed to in writing, software
+    distributed under the License is distributed on an "AS IS" BASIS,
+    WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
+    See the License for the specific language governing permissions and
+    limitations under the License.
+
+-->
+<!-- The workflow engine Spring configuration is bifurcated into data source and bean configuration
+     to allow independent replacement of the data source configuration (for example for unit tests) -->
+<beans xmlns="http://www.springframework.org/schema/beans"
+       xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" 
+       xmlns:p="http://www.springframework.org/schema/p" 
+       xmlns:aop="http://www.springframework.org/schema/aop"
+       xmlns:beans="http://www.springframework.org/schema/beans"
+       xmlns:context="http://www.springframework.org/schema/context"
+       xmlns:jdbc="http://www.springframework.org/schema/jdbc"
+       xmlns:jee="http://www.springframework.org/schema/jee"
+       xmlns:jms="http://www.springframework.org/schema/jms"
+       xmlns:lang="http://www.springframework.org/schema/lang"
+       xmlns:mvc="http://www.springframework.org/schema/mvc"
+       xmlns:oxm="http://www.springframework.org/schema/oxm"
+       xmlns:task="http://www.springframework.org/schema/task"
+       xmlns:tx="http://www.springframework.org/schema/tx"
+       xmlns:util="http://www.springframework.org/schema/util"
+       xsi:schemaLocation="http://www.springframework.org/schema/aop
+                           http://www.springframework.org/schema/aop/spring-aop-3.0.xsd
+                           http://www.springframework.org/schema/beans
+                           http://www.springframework.org/schema/beans/spring-beans-3.0.xsd
+                           http://www.springframework.org/schema/context
+                           http://www.springframework.org/schema/context/spring-context-3.0.xsd
+                           http://www.springframework.org/schema/jdbc
+                           http://www.springframework.org/schema/jdbc/spring-jdbc-3.0.xsd
+                           http://www.springframework.org/schema/jee
+                           http://www.springframework.org/schema/jee/spring-jee-3.0.xsd
+                           http://www.springframework.org/schema/jms
+                           http://www.springframework.org/schema/jms/spring-jms-3.0.xsd
+                           http://www.springframework.org/schema/lang
+                           http://www.springframework.org/schema/lang/spring-lang-3.0.xsd
+                           http://www.springframework.org/schema/mvc
+                           http://www.springframework.org/schema/mvc/spring-mvc-3.0.xsd
+                           http://www.springframework.org/schema/oxm
+                           http://www.springframework.org/schema/oxm/spring-oxm-3.0.xsd
+                           http://www.springframework.org/schema/task
+                           http://www.springframework.org/schema/task/spring-task-3.0.xsd
+                           http://www.springframework.org/schema/tx
+                           http://www.springframework.org/schema/tx/spring-tx-3.0.xsd
+                           http://www.springframework.org/schema/util
+                           http://www.springframework.org/schema/util/spring-util-3.0.xsd">
+  <bean class="org.springframework.beans.factory.config.PropertyPlaceholderConfigurer">
+		<property name="properties" value="#{T(org.kuali.rice.core.api.config.property.ConfigContext).getCurrentContextConfig().getProperties()}" />
+  </bean>
+
+  <bean id="bootstrapConfig" class="org.kuali.rice.core.impl.config.property.ConfigFactoryBean">
+    <property name="configLocations">
+      <list>
+        <value>classpath:META-INF/common-config-defaults.xml</value>
+      </list>
+    </property>
+  </bean>
+
+
+  <bean id="ojbConfigurer" class="org.kuali.rice.core.framework.persistence.ojb.JtaOjbConfigurer">
+    <property name="transactionManager" ref="jtaTransactionManager"/>
+  </bean>
+
+  <bean id="userTransaction" class="org.kuali.rice.core.framework.persistence.jta.UserTransactionFactoryBean">
+  	<property name="defaultUserTransaction"><ref bean="transactionManager${connection.pool.impl}"/></property>
+  </bean>
+  <bean id="jtaTransactionManager" class="org.kuali.rice.core.framework.persistence.jta.TransactionManagerFactoryBean">
+  	<property name="defaultTransactionManager"><ref bean="transactionManager${connection.pool.impl}"/></property>
+  </bean>
+
+  <bean id="transactionManager" class="org.springframework.transaction.jta.JtaTransactionManager">
+    <property name="userTransaction"><ref bean="userTransaction"/></property>
+    <property name="transactionManager"><ref bean="jtaTransactionManager"/></property>
+    <property name="defaultTimeout" value="${transaction.timeout}"/>
+  </bean>
+
+	<bean id="transactionTemplate" class="org.springframework.transaction.support.TransactionTemplate">
+		<property name="transactionManager">
+			<ref bean="transactionManager" />
+		</property>
+	</bean>
+
+  <bean id="riceDataSourceXAPool" class="org.kuali.rice.core.framework.persistence.jdbc.datasource.XAPoolDataSource">
+    <property name="transactionManager" ref="transactionManagerXAPool"/>
+    <property name="driverClassName" value="${datasource.driver.name}"/>
+    <property name="url" value="${datasource.url}"/>
+    <property name="maxSize" value="${datasource.pool.maxSize}" />
+    <property name="minSize" value="${datasource.pool.minSize}"/>
+    <property name="maxWait" value="${datasource.pool.maxWait}"/>
+    <property name="validationQuery" value="${datasource.pool.validationQuery}"/>
+    <property name="username" value="${datasource.username}" />
+    <property name="password" value="${datasource.password}" />
+  </bean>
+
+  <alias name="riceDataSource${connection.pool.impl}" alias="riceDataSource"/>
+  <alias name="riceDataSource${connection.pool.impl}" alias="dataSource"/>
+
+  <bean id="nonTransactionalDataSource" class="org.apache.commons.dbcp.BasicDataSource" destroy-method="close">
+    <property name="driverClassName" value="${datasource.driver.name}"/>
+    <property name="url" value="${datasource.url}"/>
+    <property name="maxActive" value="${datasource.pool.maxSize}"/>
+    <property name="minIdle" value="${datasource.pool.minSize}" />
+    <property name="initialSize" value="${datasource.pool.minSize}"/>
+    <property name="validationQuery" value="${datasource.pool.validationQuery}"/>
+    <property name="username" value="${datasource.username}" />
+    <property name="password" value="${datasource.password}" />
+    <property name="accessToUnderlyingConnectionAllowed" value="true"/>
+  </bean>
+
+  <import resource="classpath:org/kuali/rice/core/RiceJTASpringBeans.xml"/>
+  <import resource="classpath:org/kuali/rice/core/RiceDataSourceSpringBeans.xml"/>
+</beans>

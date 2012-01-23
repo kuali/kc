@@ -1,0 +1,73 @@
+<!--
+
+    Copyright 2005-2011 The Kuali Foundation
+
+    Licensed under the Educational Community License, Version 2.0 (the "License");
+    you may not use this file except in compliance with the License.
+    You may obtain a copy of the License at
+
+    http://www.opensource.org/licenses/ecl2.php
+
+    Unless required by applicable law or agreed to in writing, software
+    distributed under the License is distributed on an "AS IS" BASIS,
+    WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
+    See the License for the specific language governing permissions and
+    limitations under the License.
+
+-->
+<!-- config file loaded by the TestHarness root test case. -->
+<config>
+
+  <!-- add all the common defaults -->
+  <param name="config.location">classpath:META-INF/common-config-defaults.xml</param>
+
+  <param name="message.delivery">synchronous</param>
+  <param name="dev.mode">true</param>
+  <param name="rice.ken.testMode">true</param>
+  <param name="rice.kcb.testmode">true</param>
+
+  <param name="encryption.key" override="false">7IC64w6ksLU</param>
+
+  <!-- Default to the single test keystore. -->
+  <param name="keystore.alias">rice</param>
+  <param name="keystore.password">r1c3pw</param>
+  <param name="keystore.file">${basedir}/src/test/resources/keystore/ricekeystore</param>
+  <param name="keystore.location">${basedir}/src/test/resources/keystore/ricekeystore</param>
+
+  <param name="useQuartzDatabase">false</param>
+  <param name="notification.quartz.autostartup">false</param>
+
+  <param name="datasource.pool.minSize">5</param>
+  <param name="datasource.pool.maxSize">5</param>
+  <param name="datasource.pool.maxWait">30000</param>
+
+  <param name="unittest.jetty.server1.port" override="false" random="true">10000-10999</param>
+  <param name="unittest.jetty.server2.port" override="false" random="true">11000-11999</param>
+  <param name="unittest.jetty.server3.port" override="false" random="true">12000-12999</param>
+  <param name="unittest.jetty.server4.port" override="false" random="true">13000-13999</param>
+  <param name="unittest.jetty.server5.port" override="false" random="true">14000-14999</param>
+  <param name="unittest.jetty.server6.port" override="false" random="true">15000-15999</param>
+  <param name="unittest.jetty.server7.port" override="false" random="true">16000-16999</param>
+  <param name="unittest.jetty.server8.port" override="false" random="true">17000-17999</param>
+  <param name="unittest.jetty.server9.port" override="false" random="true">18000-18999</param>
+  <param name="unittest.jetty.server10.port" override="false" random="true">19000-19999</param>
+
+  <param name="rice.struts.message.resources">org.kuali.rice.krad.ApplicationResources,org.kuali.rice.kew.ApplicationResources,org.kuali.rice.ksb.ApplicationResources,org.kuali.rice.kim.ApplicationResources,KR-Test-ApplicationResources</param>
+
+  <param name="rice.kr.set.soap.services.as.default">false</param>
+  <param name="rice.kcb.set.soap.services.as.default">false</param>
+  <param name="rice.ken.set.soap.services.as.default">false</param>
+  <param name="rice.kew.set.soap.services.as.default">false</param>
+  <param name="rice.kim.set.soap.services.as.default">false</param>
+  <param name="rice.ksb.set.soap.services.as.default">false</param>
+
+  <param name="rice.krad.componentPublishing.enabled">false</param>
+
+  <param name="location.mode">LOCAL</param>
+  <param name="coreservice.mode">LOCAL</param>
+  <param name="ken.mode">LOCAL</param>
+  <param name="kim.mode">LOCAL</param>
+  <param name="kew.mode">LOCAL</param>
+  <param name="krms.mode">LOCAL</param>
+
+</config>
