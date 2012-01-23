@@ -46,7 +46,7 @@ public class KcPersonServiceImplTest extends KcUnitTestBase {
     @Test
     public void testGetKcPersons() {
         Map<String,String> fieldValues = new HashMap<String, String>();
-        fieldValues.put("NM_TYP_CD", "PREFERRED");
+        fieldValues.put("names.nameCode", "PRFR"); 
         List<KcPerson> kcPersons = service.getKcPersons(fieldValues);
         Iterator<KcPerson> i = kcPersons.iterator();
         boolean foundExpectedPerson = false;

@@ -23,7 +23,7 @@ This config file should only contain config locations not actual config properti
 		Contains properties that may not be set by KC's defaults.  This properties
 		should never override.
 	-->
-	<param name="config.location">classpath:META-INF/common-config-defaults.xml</param>
+	<param name="config.location">classpath:META-INF/test-config-defaults.xml</param>
 
 	<!--
 		KC's project defaults
@@ -49,7 +49,7 @@ This config file should only contain config locations not actual config properti
 		
 		Contains locations to find other config files.
 	 -->
-	<param name="config.location">classpath:META-INF/common-config-test-locations.xml</param>
+	<param name="config.location">${user.home}/kuali/test/${environment}/${module.name}-test-config.xml</param>
 
 	<!-- 
 		KC's config file hook
