@@ -118,7 +118,7 @@
     <property name="label" value="Subrecipient Name" />
     <property name="shortLabel" value="Subrecipient Name" />
     <property name="maxLength" value="60" />
-    <property name="required" value="true" />
+    <property name="required" value="false" />
     <property name="control" >
       <bean parent="TextControlDefinition"
             p:size="60" />
