@@ -25,8 +25,8 @@ import org.kuali.kra.institutionalproposal.home.InstitutionalProposal;
  * This class...
  */
 public class InstitutionalProposalCustomDataTest {
-
- private static final int INSTITUTIONAL_PROPOSAL_CUSTOM_DATA_ATTRIBUTES_COUNT = 3;
+ //Changing the field count to include all declared fields since we can't override toStringMapper anymore
+ private static final int INSTITUTIONAL_PROPOSAL_CUSTOM_DATA_ATTRIBUTES_COUNT = 5;
     
     private InstitutionalProposalCustomData institutionalProposalCustomDataBo;
     private InstitutionalProposal institutionalProposal = new InstitutionalProposal();
@@ -57,7 +57,7 @@ public class InstitutionalProposalCustomDataTest {
      */
     @Test
     public void testAwardCostShareBoAttributesCount() throws Exception {              
-        Assert.assertEquals(INSTITUTIONAL_PROPOSAL_CUSTOM_DATA_ATTRIBUTES_COUNT, institutionalProposalCustomDataBo.getClass().getFields().length);
+        Assert.assertEquals(INSTITUTIONAL_PROPOSAL_CUSTOM_DATA_ATTRIBUTES_COUNT, institutionalProposalCustomDataBo.getClass().getDeclaredFields().length);
     }
     
 }
