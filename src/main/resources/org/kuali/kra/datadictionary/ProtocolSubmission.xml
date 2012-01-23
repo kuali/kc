@@ -362,6 +362,7 @@
     <bean id="ProtocolSubmission-committeeSchedule.scheduledDate" parent="ProtocolSubmission-committeeSchedule.scheduledDate-parentBean" />
     <bean id="ProtocolSubmission-committeeSchedule.scheduledDate-parentBean" abstract="true" parent="CommSchedule-scheduledDate" >
 		<property name="name" value="committeeSchedule.scheduledDate" />
+		<property name="required" value="false" />
     </bean>
     
     <bean id="ProtocolSubmission-comments" parent="ProtocolSubmission-comments-parentBean" />
