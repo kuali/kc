@@ -39,7 +39,7 @@
 	<param name="test.mode">true</param>
 	<param name="ken.test.mode">true</param>
 	
-	<param name="filter.login.class">org.kuali.rice.kns.web.filter.AutoLoginFilter</param>
+	<param name="filter.login.class">org.kuali.rice.krad.web.filter.AutoLoginFilter</param>
 	<param name="filtermapping.login.1">/*</param>
 	<param name="filter.login.autouser">quickstart</param>
 </config>
