@@ -15,6 +15,10 @@
  */
 package org.kuali.kra.test.infrastructure;
 
+import static org.kuali.kra.test.infrastructure.lifecycle.KcUnitTestBaseLifecycle.BROWSER_ADDRESS;
+import static org.kuali.kra.test.infrastructure.lifecycle.KcUnitTestBaseLifecycle.BROWSER_PROTOCOL;
+import static org.kuali.kra.test.infrastructure.lifecycle.KcUnitTestBaseLifecycle.PORTAL_ADDRESS;
+
 import org.apache.commons.lang.StringUtils;
 import org.junit.After;
 import org.junit.AfterClass;
@@ -23,15 +27,12 @@ import org.junit.BeforeClass;
 import org.junit.runner.RunWith;
 import org.junit.runner.notification.RunListener;
 import org.kuali.kra.infrastructure.Constants;
+import org.kuali.kra.test.infrastructure.lifecycle.KcUnitTestBaseLifecycle;
 import org.kuali.kra.test.infrastructure.lifecycle.KcUnitTestSeleniumLifecycle;
 import org.openqa.selenium.WebDriver;
 
 @RunWith(KcSeleniumTestRunner.class)
 public class KcSeleniumTestBase extends KcUnitTestBase {
-    
-    private static final String BROWSER_PROTOCOL = "http";
-    private static final String BROWSER_ADDRESS = "127.0.0.1";
-    private static final String PORTAL_ADDRESS = "kc-dev";
     
     protected static WebDriver driver;
     
@@ -68,7 +69,7 @@ public class KcSeleniumTestBase extends KcUnitTestBase {
     public void setUp() throws Exception {
         super.setUp();
         
-        driver.get(BROWSER_PROTOCOL + "://" + BROWSER_ADDRESS + ":" + HtmlUnitUtil.getPort().toString() + "/" + PORTAL_ADDRESS);
+        driver.get(BROWSER_PROTOCOL + "://" + BROWSER_ADDRESS + ":" + KcUnitTestBaseLifecycle.getPort() + "/" + PORTAL_ADDRESS);
         defaultHandle = driver.getWindowHandle();
     }
     
@@ -80,7 +81,7 @@ public class KcSeleniumTestBase extends KcUnitTestBase {
                 driver.close();
             }
         }
-        driver.get(BROWSER_PROTOCOL + "://" + BROWSER_ADDRESS + ":" + HtmlUnitUtil.getPort().toString() + "/" + PORTAL_ADDRESS);
+        driver.get(BROWSER_PROTOCOL + "://" + BROWSER_ADDRESS + ":" + KcUnitTestBaseLifecycle.getPort() + "/" + PORTAL_ADDRESS);
         
         super.tearDown();
     }
