@@ -18,32 +18,35 @@ package org.kuali.kra.infrastructure;
 import static org.kuali.kra.infrastructure.Constants.MODULE_NAMESPACE_PROPOSAL_DEVELOPMENT;
 import static org.kuali.rice.coreservice.framework.parameter.ParameterConstants.DOCUMENT_COMPONENT;
 
+import java.util.ArrayList;
 import java.util.Collection;
 import java.util.Date;
-import java.util.HashMap;
-import java.util.Map;
+import java.util.List;
 
 import org.junit.Before;
 import org.junit.Test;
 import org.kuali.kra.proposaldevelopment.bo.MailType;
 import org.kuali.kra.test.infrastructure.KcUnitTestBase;
+import org.kuali.rice.core.api.criteria.Predicate;
+import org.kuali.rice.core.api.criteria.PredicateFactory;
+import org.kuali.rice.core.api.criteria.QueryByCriteria;
 import org.kuali.rice.core.api.datetime.DateTimeService;
-import org.kuali.rice.coreservice.api.parameter.Parameter;
+import org.kuali.rice.coreservice.api.CoreServiceApiServiceLocator;
+import org.kuali.rice.coreservice.api.parameter.ParameterQueryResults;
+import org.kuali.rice.coreservice.api.parameter.ParameterRepositoryService;
 import org.kuali.rice.kns.service.DataDictionaryService;
 import org.kuali.rice.krad.dao.BusinessObjectDao;
-import org.kuali.rice.krad.service.KRADServiceLocatorWeb;
-import org.kuali.rice.krad.service.LookupService;
 
 /**
  * This class tests the KraServiceLocator
  */ 
 public class KraServiceLocatorTest extends KcUnitTestBase {
 
-    private LookupService lookupService;
+    private ParameterRepositoryService parameterRepositoryService;
     
     @Before
     public void setUpServices() {
-        this.lookupService = KRADServiceLocatorWeb.getLookupService();
+        this.parameterRepositoryService = CoreServiceApiServiceLocator.getParameterRepositoryService();
     }
     
     @Test public void testGetDataDictionaryService() throws Exception {
@@ -72,14 +75,18 @@ public class KraServiceLocatorTest extends KcUnitTestBase {
     }
 
     @Test public void testProposalDevelopmentParameters() throws Exception {
+        QueryByCriteria.Builder queryBuilder = QueryByCriteria.Builder.create();
+        List<Predicate> predicates = new ArrayList<Predicate>();
+        ParameterQueryResults parameterQueryResults = null;
+        predicates.add(PredicateFactory.equal("namespaceCode", MODULE_NAMESPACE_PROPOSAL_DEVELOPMENT));
+        predicates.add(PredicateFactory.equal("componentCode", DOCUMENT_COMPONENT));
+        queryBuilder.setPredicates(PredicateFactory.and(predicates.toArray(new Predicate[] {})));
+        parameterQueryResults = parameterRepositoryService.findParameters(queryBuilder.build());
 
-        Map<String, String> criteria = new HashMap<String, String>(2);
-        criteria.put("parameterNamespaceCode", MODULE_NAMESPACE_PROPOSAL_DEVELOPMENT);
-        criteria.put("parameterDetailTypeCode", DOCUMENT_COMPONENT);
-
-        Collection<Parameter> parameters = lookupService.findCollectionBySearch(Parameter.class, criteria);
-        assertNotNull(parameters); 
-        assertTrue(parameters.size() > 1);
+        assertNotNull(parameterQueryResults); 
+        assertNotNull(parameterQueryResults.getResults());
+        //We are using getResults().size() because parameterQueryResults.getTotalRowCount is null even when the results list is not and contains one or more records
+        assertTrue(parameterQueryResults.getResults().size() > 0);
     }
 
 }

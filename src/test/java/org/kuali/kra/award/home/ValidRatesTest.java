@@ -26,7 +26,7 @@ import org.junit.Test;
  */
 public class ValidRatesTest {
     
-    public static final int VALID_RATES_ATTRIUTES_COUNT = 5;
+    public static final int VALID_RATES_ATTRIUTES_COUNT = 7;
     ValidRates validRates;
 
     @Before
@@ -41,7 +41,7 @@ public class ValidRatesTest {
 
     @Test
     public final void testToStringMapper() {
-        Assert.assertEquals(VALID_RATES_ATTRIUTES_COUNT, validRates.getClass().getFields().length);
+        Assert.assertEquals(VALID_RATES_ATTRIUTES_COUNT, validRates.getClass().getDeclaredFields().length);
     }
 
 }

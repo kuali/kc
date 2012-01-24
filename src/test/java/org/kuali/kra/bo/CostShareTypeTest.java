@@ -25,7 +25,7 @@ import org.junit.Test;
  * This class tests methods in Award.java class
  */
 public class CostShareTypeTest { 
-    private static final int COST_SHARE_TYPE_ATTRIBUTES_COUNT = 2;
+    private static final int COST_SHARE_TYPE_ATTRIBUTES_COUNT = 3;
     
     private CostShareType costShareTypeBo;
     
@@ -54,7 +54,7 @@ public class CostShareTypeTest {
      */
     @Test
     public void testCostShareTypeBoAttributesCount() throws Exception {              
-        Assert.assertEquals(COST_SHARE_TYPE_ATTRIBUTES_COUNT, costShareTypeBo.getClass().getFields().length);
+        Assert.assertEquals(COST_SHARE_TYPE_ATTRIBUTES_COUNT, costShareTypeBo.getClass().getDeclaredFields().length);
     }
     
 }

@@ -58,7 +58,7 @@ public class AwardTransferringSponsorTest {
    @Test
    public void testAwardCostShareBoAttributesCount() throws Exception {              
        Assert.assertEquals(AWARD_TRANSFERRING_SPONSOR_ATTRIBUTES_COUNT, 
-               awardTransferringSponsor.getClass().getFields().length);
+               awardTransferringSponsor.getClass().getDeclaredFields().length);
    }
 
 }

@@ -26,7 +26,7 @@ import org.kuali.kra.award.home.Award;
  */
 public class AwardNotepadTest {
 
-private static final int AWARD_NOTEPAD_ATTRIBUTES_COUNT = 7;
+private static final int AWARD_NOTEPAD_ATTRIBUTES_COUNT = 9;
     
     private AwardNotepad awardNotepadBo;
     private Award award = new Award();
@@ -57,6 +57,6 @@ private static final int AWARD_NOTEPAD_ATTRIBUTES_COUNT = 7;
      */
     @Test
     public void testAwardNotepadBoAttributesCount() throws Exception {              
-        Assert.assertEquals(AWARD_NOTEPAD_ATTRIBUTES_COUNT, awardNotepadBo.getClass().getFields().length);
+        Assert.assertEquals(AWARD_NOTEPAD_ATTRIBUTES_COUNT, awardNotepadBo.getClass().getDeclaredFields().length);
     }
 }
