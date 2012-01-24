@@ -30,10 +30,10 @@ import org.junit.runner.RunWith;
 import org.junit.runner.notification.RunListener;
 import org.kuali.kra.infrastructure.KraServiceLocator;
 import org.kuali.kra.test.infrastructure.lifecycle.KcUnitTestMainLifecycle;
-import org.kuali.rice.coreservice.api.parameter.Parameter;
-import org.kuali.rice.coreservice.framework.parameter.ParameterService;
 import org.kuali.rice.core.framework.persistence.jpa.OrmUtils;
+import org.kuali.rice.coreservice.api.parameter.Parameter;
 import org.kuali.rice.coreservice.framework.CoreFrameworkServiceLocator;
+import org.kuali.rice.coreservice.framework.parameter.ParameterService;
 import org.kuali.rice.kns.util.KNSGlobalVariables;
 import org.kuali.rice.krad.UserSession;
 import org.kuali.rice.krad.document.Document;
@@ -249,10 +249,6 @@ public class KcUnitTestBase extends Assert implements KcUnitTestMethodAware {
      */
     protected final <T> T getService(Class<T> serviceClass) {
         return KraServiceLocator.getService(serviceClass);
-    }
-    
-    public int getPort() {
-        return LIFECYCLE.getPort();
     }
 
     /**
