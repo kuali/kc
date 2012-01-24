@@ -67,7 +67,7 @@ public class InstituteRateMaintenanceDocumentRule extends KraMaintenanceDocument
     public boolean processCustomRouteDocumentBusinessRules(MaintenanceDocument document) {
         this.logDocInfo(document);
         
-        boolean valid = this.rule.validateRateTypeAndRateClass((AbstractInstituteRate) document.getNoteTarget());
+        boolean valid = this.rule.validateRateTypeAndRateClass((AbstractInstituteRate) document.getDocumentDataObject());
         valid &= checkExistence((AbstractInstituteRate) document.getNewMaintainableObject().getDataObject());
         
         return valid;
@@ -81,7 +81,7 @@ public class InstituteRateMaintenanceDocumentRule extends KraMaintenanceDocument
     public boolean processCustomApproveDocumentBusinessRules(MaintenanceDocument document) {
         this.logDocInfo(document);
         
-        boolean valid = this.rule.validateRateTypeAndRateClass((AbstractInstituteRate) document.getNoteTarget());
+        boolean valid = this.rule.validateRateTypeAndRateClass((AbstractInstituteRate) document.getDocumentDataObject());
         valid &= checkExistence((AbstractInstituteRate) document.getNewMaintainableObject().getDataObject());
         
         return valid;

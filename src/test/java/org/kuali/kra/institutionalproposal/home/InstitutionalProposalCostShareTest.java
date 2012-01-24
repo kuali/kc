@@ -26,7 +26,7 @@ import org.junit.Test;
  */
 public class InstitutionalProposalCostShareTest {
 
-private static final int IP_COST_SHARE_ATTRIBUTES_COUNT = 6;
+private static final int IP_COST_SHARE_ATTRIBUTES_COUNT = 8;
     
     private InstitutionalProposalCostShare institutionalProposalCostShareBo;
     private InstitutionalProposal institutionalProposal;
@@ -58,7 +58,7 @@ private static final int IP_COST_SHARE_ATTRIBUTES_COUNT = 6;
      */
     @Test
     public void testInstitutionalProposalCostShareBoAttributesCount() throws Exception {              
-        Assert.assertEquals(IP_COST_SHARE_ATTRIBUTES_COUNT, institutionalProposalCostShareBo.getClass().getFields().length);
+        Assert.assertEquals(IP_COST_SHARE_ATTRIBUTES_COUNT, institutionalProposalCostShareBo.getClass().getDeclaredFields().length);
     }
     
 }
