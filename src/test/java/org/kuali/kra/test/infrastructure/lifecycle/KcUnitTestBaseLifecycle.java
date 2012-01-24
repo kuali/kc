@@ -18,6 +18,7 @@ package org.kuali.kra.test.infrastructure.lifecycle;
 import org.apache.commons.lang.time.StopWatch;
 import org.apache.commons.logging.Log;
 import org.apache.commons.logging.LogFactory;
+import org.kuali.rice.core.api.config.property.ConfigContext;
 
 /**
  * An abstract lifecycle.
@@ -32,6 +33,11 @@ import org.apache.commons.logging.LogFactory;
  * </ul>
  */
 public abstract class KcUnitTestBaseLifecycle implements KcUnitTestLifecycle {
+    
+    public static final String BROWSER_PROTOCOL = "http";
+    public static final String BROWSER_ADDRESS = "127.0.0.1";
+    public static final String PORTAL_ADDRESS = "kc-dev";
+    
     // non static Log to allow it to be named after the runtime class
     protected final Log LOG = LogFactory.getLog(this.getClass());
 
@@ -280,6 +286,10 @@ public abstract class KcUnitTestBaseLifecycle implements KcUnitTestLifecycle {
     /** {@inheritDoc} */
     public final boolean isPerSuiteStarted() {
         return this.perSuiteStarted;
+    }
+    
+    public static String getPort() {
+        return ConfigContext.getCurrentContextConfig().getProperty("kns.test.port");
     }
 
     /** exception that wraps any lifecycle failures. */

@@ -621,7 +621,7 @@ public abstract class KcSeleniumHelper {
         
         click("Document Search");
         
-        set("routeHeaderId", documentNumber);
+        set("documentId", documentNumber);
         
         click("methodToCall.search");
         

@@ -21,7 +21,6 @@ import java.util.List;
 import javax.xml.namespace.QName;
 
 import org.kuali.kra.infrastructure.KraServiceLocator;
-import org.kuali.kra.test.infrastructure.HtmlUnitUtil;
 import org.kuali.kra.test.infrastructure.JettyServerLifecycle;
 import org.kuali.kra.test.infrastructure.TestHarnessServiceLocator;
 import org.kuali.rice.core.api.config.property.Config;
@@ -37,15 +36,15 @@ import org.springframework.transaction.support.DefaultTransactionDefinition;
  * This class implements all of the common lifecycle elements of a KC Unit Test
  */
 public class KcUnitTestMainLifecycle extends KcUnitTestBaseLifecycle {
-    protected static final String TEST_CONFIG_XML = "classpath:META-INF/kc-test-config.xml";
-    protected static final String DEFAULT_TEST_HARNESS_SPRING_BEANS = "classpath:TestHarnessSpringBeans.xml";
-    protected static final String CONTEXT_NAME = "/kc-dev";
-    protected static final String RELATIVE_WEB_ROOT = "/src/main/webapp";
-    protected static final String DEFAULT_TRANSACTION_MANAGER_NAME = "transactionManager";
+    
+    private static final String TEST_CONFIG_XML = "classpath:META-INF/kc-test-config.xml";
+    private static final String TEST_CONFIG_DEFAULTS_XML = "classpath:META-INF/test-config-defaults.xml";
+    private static final String DEFAULT_TEST_HARNESS_SPRING_BEANS = "classpath:TestHarnessSpringBeans.xml";
+    private static final String RELATIVE_WEB_ROOT = "/src/main/webapp";
+    private static final String DEFAULT_TRANSACTION_MANAGER_NAME = "transactionManager";
 
     private PlatformTransactionManager transactionManager;
     private SpringResourceLoader loader;
-    private int port;
     private JettyServerLifecycle jetty;
     private TransactionStatus perTestTransactionStatus;
 //    private TransactionStatus perClassTransactionStatus;
@@ -80,8 +79,8 @@ public class KcUnitTestMainLifecycle extends KcUnitTestBaseLifecycle {
         }
         ConfigFactoryBean.CONFIG_OVERRIDE_LOCATION = TEST_CONFIG_XML;
         List<String> configLocations = new ArrayList<String>();
-        configLocations.add("classpath:META-INF/test-config-defaults.xml");
-        configLocations.add("classpath:META-INF/kc-test-config.xml");
+        configLocations.add(TEST_CONFIG_DEFAULTS_XML);
+        configLocations.add(TEST_CONFIG_XML);
         Config config = new JAXBConfigImpl(configLocations, System.getProperties());
         config.parseConfig();
         ConfigContext.init(config);
@@ -94,8 +93,7 @@ public class KcUnitTestMainLifecycle extends KcUnitTestBaseLifecycle {
         if (LOG.isInfoEnabled()) {
             LOG.info("Loading Jetty Server...");
         }
-        port = HtmlUnitUtil.getPort();
-        jetty = new JettyServerLifecycle(port, CONTEXT_NAME, RELATIVE_WEB_ROOT);
+        jetty = new JettyServerLifecycle(Integer.parseInt(KcUnitTestBaseLifecycle.getPort()), "/" + PORTAL_ADDRESS, RELATIVE_WEB_ROOT);
         jetty.setConfigMode(JettyServerLifecycle.ConfigMode.MERGE);
         jetty.start();
     }
@@ -151,10 +149,6 @@ public class KcUnitTestMainLifecycle extends KcUnitTestBaseLifecycle {
      */
     public void setTransactionManager(PlatformTransactionManager transactionManager) {
         this.transactionManager = transactionManager;
-    }
-
-    public int getPort() {
-        return port;
     }
 
 }
