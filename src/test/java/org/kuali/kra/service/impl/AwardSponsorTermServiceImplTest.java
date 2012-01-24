@@ -38,26 +38,26 @@ public class AwardSponsorTermServiceImplTest extends AwardSponsorTermServiceImpl
     private static final String TEST_STRING_TWO = "test2";
     
     AwardSponsorTermServiceImpl awardSponsorTermServiceImpl;
-    List<KeyValue> KeyValueList;
+    List<KeyValue> keyValueList;
     List<SponsorTerm> sponsorTerms;
     
     @Before
     public void setUp() throws Exception {
         awardSponsorTermServiceImpl = new AwardSponsorTermServiceImpl();
-        KeyValueList = new ArrayList<KeyValue>();
-        KeyValueList.add(new ConcreteKeyValue(ONE, TEST_STRING_ONE));
-        KeyValueList.add(new ConcreteKeyValue(TWO, TEST_STRING_TWO));
+        keyValueList = new ArrayList<KeyValue>();
+        keyValueList.add(new ConcreteKeyValue(ONE, TEST_STRING_ONE));
+        keyValueList.add(new ConcreteKeyValue(TWO, TEST_STRING_TWO));
     }
 
     @After
     public void tearDown() throws Exception {
         awardSponsorTermServiceImpl = null;
-        KeyValueList = null;
+        keyValueList = null;
     }
 
     @Test
     public final void testAddEmptyNewSponsorTerms() {
-        sponsorTerms = awardSponsorTermServiceImpl.getEmptyNewSponsorTerms(KeyValueList);
-        Assert.assertEquals(TWO, sponsorTerms.size());
+        sponsorTerms = awardSponsorTermServiceImpl.getEmptyNewSponsorTerms(keyValueList);
+        Assert.assertEquals(Integer.parseInt(TWO), sponsorTerms.size());
     }
 }
