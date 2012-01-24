@@ -177,7 +177,8 @@ public class CoiDisclosureAction extends CoiAction {
             }
             coiDisclosureForm.getCoiDisclosureDocument().getCoiDisclosure().setEventTypeCode(eventTypeCode);
         } else {
-            forward = mapping.findForward(Constants.MAPPING_BASIC);
+            coiDisclosureForm.setCommand(KewApiConstants.DOCSEARCH_COMMAND);
+            super.docHandler(mapping, form, request, response);
         }
         ((CoiDisclosureForm)form).getDisclosureHelper().prepareView();
       checkToLoadDisclosureDetails(coiDisclosureForm.getCoiDisclosureDocument().getCoiDisclosure(), ((CoiDisclosureForm) form).getMethodToCall(), coiDisclosureForm.getDisclosureHelper().getNewProjectId(), coiDisclosureForm.getDisclosureHelper().getNewModuleItemKey());
