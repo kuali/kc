@@ -1561,6 +1561,7 @@ public class Protocol extends KraPersistableBusinessObjectBase implements Sequen
     @SuppressWarnings("unchecked")
     private void mergeSpecialReview(Protocol amendment) {
         setSpecialReviews((List<ProtocolSpecialReview>) deepCopy(amendment.getSpecialReviews()));
+        cleanupSpecialReviews(amendment);
     }
     
     @SuppressWarnings("unchecked")
