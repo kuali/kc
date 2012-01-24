@@ -24,7 +24,7 @@
 <%@ attribute name="responseDivClass" required="true" %>
 <%@ attribute name="answerValidationError" %>
                         
-<div class="${responseDivClass}">
+<div id="${responseDivClass}" class="Qresponsediv">
     <span class="Qresponse">
     	
     	<c:set var="prop" value="${property}.answerHeaders[${answerHeaderIndex}].answers[${questionIndex}].answer"/>
