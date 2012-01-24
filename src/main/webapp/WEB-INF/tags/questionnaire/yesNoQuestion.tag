@@ -27,7 +27,7 @@
 <%@ attribute name="answerValidationError" required = "true" %>
                         
     <%-- need 'onCLick' because IE is not working well with 'onChange' which will not take effect until cursor is moving to somewhere --%>
-<div class="${responseDivClass}">
+<div id="${responseDivClass}" class="Qresponsediv">
     <span class="Qresponse">
     
     	<c:set var="prop" value="${property}.answerHeaders[${answerHeaderIndex}].answers[${questionIndex}].answer"/>

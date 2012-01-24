@@ -24,7 +24,7 @@
 <%@ attribute name="responseDivClass" required="true" %>
 <%@ attribute name="answerValidationError" required = "true" %>
 
-<div class="${responseDivClass}">
+<div id="${responseDivClass}" class="Qresponsediv">
     <span class="Qresponse">
             <%-- 'class' is a little different than the other conditions because onchange is handled in tag not by jquery 
                  jquery 'change' is not working for date from date picker --%>
