@@ -29,7 +29,7 @@
 <c:set var="questionFieldName" value="${property}.answerHeaders[${answerHeaderIndex}].answers[${questionIndex}].answer" />
 ${kfunc:registerEditableProperty(KualiForm, questionFieldName)}
                       
-<div class="${responseDivClass}">
+<div id="${responseDivClass}" class="Qresponsediv">
     <span class="Qresponse">
         <table style="border:none; width:100%;" cellpadding="0" cellspacing="0">
             <tr>
