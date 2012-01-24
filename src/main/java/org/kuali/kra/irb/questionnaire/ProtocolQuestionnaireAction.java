@@ -281,8 +281,9 @@ public class ProtocolQuestionnaireAction extends ProtocolAction {
         // so bos.findmatching will find all the matching codes in the list 
         protocolForm.getQuestionnaireHelper().setAnswerHeaders(
                 getQuestionnaireAnswerService().getQuestionnaireAnswer(moduleQuestionnaireBean));
-        if (protocol.isAmendment() || protocol.isRenewal()) {           
-            moduleQuestionnaireBean.setModuleSubItemCode(subModuleCode);
+        if (protocol.isAmendment() || protocol.isRenewal()) {  
+            // get the questionnaire amended if 'questionnaire' is selected amendment section
+            moduleQuestionnaireBean.setModuleSubItemCode(CoeusSubModule.ZERO_SUBMODULE);
             List<AnswerHeader> answerHeaders = getQuestionnaireAnswerService().getQuestionnaireAnswer(moduleQuestionnaireBean);
             if (!answerHeaders.isEmpty()) {
                 protocolForm.getQuestionnaireHelper().getAnswerHeaders().addAll(answerHeaders);
