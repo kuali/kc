@@ -30,6 +30,7 @@ import org.kuali.kra.irb.ProtocolDocument;
 import org.kuali.kra.irb.ProtocolOnlineReviewDocument;
 import org.kuali.kra.personmasschange.document.PersonMassChangeDocument;
 import org.kuali.kra.proposaldevelopment.document.ProposalDevelopmentDocument;
+import org.kuali.kra.subaward.document.SubAwardDocument;
 import org.kuali.kra.timeandmoney.document.TimeAndMoneyDocument;
 import org.kuali.rice.kew.api.KewApiConstants;
 import org.kuali.rice.kim.api.identity.Person;
@@ -112,6 +113,8 @@ public abstract class AbstractHoldingPageAction extends KualiAction {
             isProcessComplete = ((PersonMassChangeDocument) document).isProcessComplete();
         } else if (document instanceof CoiDisclosureDocument) {
             isProcessComplete = ((CoiDisclosureDocument) document).isProcessComplete();
+        }else if (document instanceof SubAwardDocument) {
+            isProcessComplete = ((SubAwardDocument) document).isProcessComplete();
         }
         
         return isProcessComplete;
