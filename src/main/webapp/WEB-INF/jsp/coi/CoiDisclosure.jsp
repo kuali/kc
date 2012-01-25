@@ -154,9 +154,13 @@
     <%-- <kra-coi:awardProjects /> --%>
     <kra-coi:newAwardFinancialEntities />
 </c:if>
-<c:if test="${KualiForm.document.coiDisclosureList[0].eventTypeCode=='2' or KualiForm.document.coiDisclosureList[0].eventTypeCode=='10'}" >
+<c:if test="${KualiForm.document.coiDisclosureList[0].eventTypeCode=='2'}" >
     <%-- <kra-coi:proposalProjects /> --%>
     <kra-coi:newProposalFinancialEntities />
+</c:if>
+<c:if test="${KualiForm.document.coiDisclosureList[0].eventTypeCode=='10'}" >
+    <%-- <kra-coi:proposalProjects /> --%>
+    <kra-coi:newInstitutionalProposalFinancialEntities />
 </c:if>
 <c:if test="${KualiForm.document.coiDisclosureList[0].eventTypeCode=='3'}" >
    <%-- <kra-coi:protocolProjects /> --%>
