@@ -1,4 +1,4 @@
-INSERT INTO KRIM_ROLE_T (ROLE_ID, OBJ_ID, VER_NBR, ROLE_NM, NMSPC_CD, DESC_TXT, KIM_TYP_ID, ACTV_IND, LAST_UPDT_DT) VALUES (KRIM_ROLE_ID_S.nextval, SYS_GUID(), 1,'Modify All Dev Proposals', 'KC-UNT', 'Modify All Dev Proposals',(SELECT kim_typ_id FROM krim_typ_t WHERE nm = 'Unit'), 'Y', SYSDATE)
+INSERT INTO KRIM_ROLE_T (ROLE_ID, OBJ_ID, VER_NBR, ROLE_NM, NMSPC_CD, DESC_TXT, KIM_TYP_ID, ACTV_IND, LAST_UPDT_DT) VALUES (KRIM_ROLE_ID_BS_S.nextval, SYS_GUID(), 1,'Modify All Dev Proposals', 'KC-UNT', 'Modify All Dev Proposals',(SELECT kim_typ_id FROM krim_typ_t WHERE nm = 'Unit'), 'Y', SYSDATE)
 /
 INSERT INTO KRIM_ROLE_PERM_T (ROLE_PERM_ID, OBJ_ID, VER_NBR, ROLE_ID, PERM_ID, ACTV_IND) VALUES (KRIM_ROLE_PERM_ID_BS_S.nextval, SYS_GUID(), 1, (SELECT ROLE_ID FROM KRIM_ROLE_T WHERE ROLE_NM ='Modify All Dev Proposals'), (SELECT PERM_ID FROM KRIM_PERM_T WHERE NM ='Modify ProposalDevelopmentDocument'), 'Y')
 /
