@@ -17,15 +17,22 @@ package org.kuali.kra.irb.actions;
 
 import java.sql.Timestamp;
 import java.text.SimpleDateFormat;
+import java.util.HashMap;
 import java.util.List;
+import java.util.Map;
 
 import org.apache.commons.lang.StringUtils;
 import org.kuali.kra.SkipVersioning;
+import org.kuali.kra.bo.CoeusModule;
+import org.kuali.kra.bo.CoeusSubModule;
+import org.kuali.kra.infrastructure.KraServiceLocator;
 import org.kuali.kra.irb.Protocol;
 import org.kuali.kra.irb.ProtocolAssociate;
 import org.kuali.kra.irb.actions.print.QuestionnairePrintOption;
 import org.kuali.kra.irb.actions.submit.ProtocolSubmission;
 import org.kuali.kra.irb.correspondence.ProtocolCorrespondence;
+import org.kuali.kra.questionnaire.answer.AnswerHeader;
+import org.kuali.rice.krad.service.BusinessObjectService;
 
 /**
  * 
@@ -378,6 +385,92 @@ public class ProtocolAction extends ProtocolAssociate {
 
     public void setQuestionnairePrintOption(QuestionnairePrintOption questionnairePrintOption) {
         this.questionnairePrintOption = questionnairePrintOption;
+    }
+
+    public void setQuestionnairePrintOptionFromHelper(ActionHelper actionHelper) {
+        if (getSubmissionNumber() != null
+                && !ProtocolActionType.SUBMIT_TO_IRB.equals(getProtocolActionTypeCode())) {
+            setAnswerHeadersCount(actionHelper.getAnswerHeaderCount(CoeusSubModule.PROTOCOL_SUBMISSION, Integer.toString(getSubmissionNumber())));
+            if (getAnswerHeadersCount() > 0) {
+                setQuestionnairePrintOption(getQnPrintOptionForAction(getProtocolNumber(),
+                                getSubmissionNumber().toString(), CoeusSubModule.PROTOCOL_SUBMISSION, this));
+            }
+        } else if (ProtocolActionType.SUBMIT_TO_IRB.equals(getProtocolActionTypeCode())
+                && ("Submitted to IRB").equals(getComments())) {
+            if (getProtocol().isAmendment() || getProtocol().isRenewal()) {
+                setQuestionnairePrintOption(getQnPrintOptionForAction(getProtocolNumber(),
+                                getSequenceNumber().toString(), CoeusSubModule.AMENDMENT_RENEWAL, this));
+
+            } else {
+                setQuestionnairePrintOption(getQnPrintOptionForAction(getProtocolNumber(),
+                                getInitialSequence(this, ""), CoeusSubModule.ZERO_SUBMODULE, this));
+            }
+        } else if (ProtocolActionType.SUBMIT_TO_IRB.equals(getProtocolActionTypeCode()) && StringUtils.isNotBlank(getComments())
+                                                            && (getComments().startsWith("Amendment-") || getComments().startsWith("Renewal-"))) {
+            String amendmentRenewalNumber = getAmendmentRenewalNumber(getComments());
+            setQuestionnairePrintOption(getQnPrintOptionForAction(getProtocolNumber() + amendmentRenewalNumber, 
+                                        getInitialSequence(this, amendmentRenewalNumber), CoeusSubModule.AMENDMENT_RENEWAL, this));
+        }
+    }
+    
+    private QuestionnairePrintOption getQnPrintOptionForAction(String itemKey, String subItemKey, String subItemCode, ProtocolAction protocolAction) {
+
+        protocolAction.setAnswerHeadersCount(getAnswerHeaderCount(subItemCode, itemKey, subItemKey));
+        if (protocolAction.getAnswerHeadersCount() > 0) {
+            QuestionnairePrintOption qnPrintOption = new QuestionnairePrintOption();
+            qnPrintOption.setItemKey(itemKey);
+            qnPrintOption.setSubItemCode(subItemCode);
+            qnPrintOption.setSubItemKey(subItemKey);
+            return qnPrintOption;
+        } else {
+            return null;
+        }
+    }
+
+    public int getAnswerHeaderCount(String moduleSubItemCode, String moduleItemKey, String moduleSubItemKey) {
+        Map<String, String> fieldValues = new HashMap<String, String>();
+        fieldValues.put("moduleItemCode", CoeusModule.IRB_MODULE_CODE);
+        fieldValues.put("moduleItemKey", moduleItemKey);
+        if (!moduleItemKey.contains("A") && !moduleItemKey.contains("R") && !getProtocol().isAmendment() && !getProtocol().isRenewal()) {
+            fieldValues.put("moduleSubItemCode", moduleSubItemCode);
+        }
+        fieldValues.put("moduleSubItemKey", moduleSubItemKey);
+        return getBusinessObjectService().countMatching(AnswerHeader.class, fieldValues);
+        
+    }
+    
+    private String getAmendmentRenewalNumber(String comment) {
+        String retVal="";
+        if (comment.startsWith("Amendment-")) {
+            retVal = "A" + comment.substring(10, 13);
+        } else {
+            retVal = "R" + comment.substring(8, 11);
+                     
+        }
+        return retVal;
+    }
+    
+
+    /*
+     * get the sequence number of the protocol that the action initially created
+     */
+    private String getInitialSequence(ProtocolAction protocolAction, String amendmentRenewalNumber) {
+        Map<String, String> fieldValues = new HashMap<String, String>();
+        fieldValues.put("protocolNumber", protocolAction.getProtocolNumber() + amendmentRenewalNumber);
+        if (StringUtils.isBlank(amendmentRenewalNumber)) {
+            fieldValues.put("actionId", protocolAction.getActionId().toString());
+        }
+        else {
+            fieldValues.put("submissionNumber", protocolAction.getSubmissionNumber().toString());
+        }
+        fieldValues.put("protocolActionTypeCode", ProtocolActionType.SUBMIT_TO_IRB);
+        return ((List<ProtocolAction>) getBusinessObjectService().findMatchingOrderBy(ProtocolAction.class, fieldValues,
+                "protocolActionId", true)).get(0).getProtocol().getSequenceNumber().toString();
+    }
+
+
+    public BusinessObjectService getBusinessObjectService() {
+        return KraServiceLocator.getService(BusinessObjectService.class);
     }
 
     public int getAnswerHeadersCount() {
