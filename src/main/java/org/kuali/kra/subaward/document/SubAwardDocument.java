@@ -116,6 +116,23 @@ public class SubAwardDocument extends ResearchDocumentBase implements  Copyable,
     protected VersionHistoryService getVersionHistoryService() {
         return KraServiceLocator.getService(VersionHistoryService.class);
     }
+    /**
+     * This method is to check whether rice async routing is ok now.   
+     * Close to hack.  called by holdingpageaction
+     * Different document type may have different routing set up, so each document type
+     * can implement its own isProcessComplete
+     * @return
+     */
+    public boolean isProcessComplete() {
 
-    
+        boolean isComplete = false;
+        if (getDocumentHeader().hasWorkflowDocument()) {
+            if (getDocumentHeader().getWorkflowDocument().isFinal()) {
+                isComplete = true;
+            }
+        }
+
+        return isComplete;
+
+    }
 }
