@@ -1202,6 +1202,10 @@ public class Protocol extends KraPersistableBusinessObjectBase implements Sequen
      * @param amendment
      */
     public void merge(Protocol amendment) {
+        merge(amendment, true);
+    }
+    
+    public void merge(Protocol amendment, boolean mergeActions) {
         List<ProtocolAmendRenewModule> modules = amendment.getProtocolAmendRenewal().getModules();
         for (ProtocolAmendRenewModule module : modules) {
             merge(amendment, module.getProtocolModuleTypeCode());
@@ -1210,7 +1214,9 @@ public class Protocol extends KraPersistableBusinessObjectBase implements Sequen
             merge(amendment, ProtocolModule.ADD_MODIFY_ATTACHMENTS);
         }
         mergeProtocolSubmission(amendment);
-        mergeProtocolAction(amendment);
+        if (mergeActions) {
+            mergeProtocolAction(amendment);
+        }
     }
 
     private boolean isRenewalWithNewAttachment(Protocol renewal) {
