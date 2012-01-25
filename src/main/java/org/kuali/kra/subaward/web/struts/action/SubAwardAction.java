@@ -100,7 +100,12 @@ public class SubAwardAction extends KraTransactionalDocumentActionBase{
         String command = subAwardForm.getCommand();
         if (KewApiConstants.ACTIONLIST_INLINE_COMMAND.equals(command)) {
             loadDocumentInForm(request, subAwardForm);
-        } else {
+        }
+        else if(Constants.MAPPING_SUBAWARD_ACTION_PAGE.equals(command)){
+            loadDocumentInForm(request, subAwardForm);
+            forward = subAwardActions(mapping, subAwardForm, request, response);
+        }
+        else {
             forward = super.docHandler(mapping, form, request, response);
         }
         return forward;
@@ -355,6 +360,23 @@ public ActionForward blanketApprove(ActionMapping mapping, ActionForm form, Http
     }
 }
 
+  @Override
+  public ActionForward approve(ActionMapping mapping, ActionForm form, HttpServletRequest request, HttpServletResponse response) throws Exception {
+      SubAwardForm subAwardForm = (SubAwardForm)form;
+      ActionForward forward = mapping.findForward(Constants.MAPPING_BASIC);
+      ValidationState status = new AuditActionHelper().isValidSubmission(subAwardForm, true);
+
+      if(status == ValidationState.OK){
+          return forward = super.approve(mapping, form, request, response);
+      }
+      else{
+          GlobalVariables.getMessageMap().clearErrorMessages();
+          GlobalVariables.getMessageMap().putError("datavalidation",KeyConstants.ERROR_WORKFLOW_SUBMISSION,  new String[] {});
+
+          return forward;
+      }
+  }
+ 
 
  public ActionForward medusa(ActionMapping mapping, ActionForm form, HttpServletRequest request, HttpServletResponse response) throws Exception {
        SubAwardForm subAwardForm = (SubAwardForm) form;
