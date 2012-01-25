@@ -2022,16 +2022,17 @@ public class ActionHelper implements Serializable {
                 protocolAction.setIsInFilterView(true);
             }
             if (protocolAction.getIsInFilterView()) {
-                checkQuestionnaire(protocolAction);
+                protocolAction.setQuestionnairePrintOptionFromHelper(this);
             }
         }
     }
     
-
+    // All the following methods were refactored into the ProtocolAction, where they belong
+    
     /*
-     * check if this particular has any questionnaire associated with it.
+     * check if this particular ProtocolAction has any questionnaire associated with it.
      */
-    private void checkQuestionnaire(ProtocolAction protocolAction) {
+/*    private void checkQuestionnaire(ProtocolAction protocolAction) {
         if (protocolAction.getSubmissionNumber() != null
                 && !ProtocolActionType.SUBMIT_TO_IRB.equals(protocolAction.getProtocolActionTypeCode())) {
             protocolAction.setAnswerHeadersCount(getAnswerHeaderCount(CoeusSubModule.PROTOCOL_SUBMISSION, Integer
@@ -2059,11 +2060,12 @@ public class ActionHelper implements Serializable {
                     CoeusSubModule.AMENDMENT_RENEWAL, protocolAction));
          }
     }
+*/
 
     /*
      * set up questionnaire option for UI view button
      */
-    private QuestionnairePrintOption getQnPrintOptionForAction(String itemKey, String subItemKey, String subItemCode, ProtocolAction protocolAction) {
+/*    QuestionnairePrintOption getQnPrintOptionForAction(String itemKey, String subItemKey, String subItemCode, ProtocolAction protocolAction) {
 
         protocolAction.setAnswerHeadersCount(getAnswerHeaderCount(subItemCode, itemKey, subItemKey));
         if (protocolAction.getAnswerHeadersCount() > 0) {
@@ -2077,7 +2079,7 @@ public class ActionHelper implements Serializable {
         }
     }
     
-    private int getAnswerHeaderCount(String moduleSubItemCode, String moduleItemKey, String moduleSubItemKey) {
+    public int getAnswerHeaderCount(String moduleSubItemCode, String moduleItemKey, String moduleSubItemKey) {
         Map<String, String> fieldValues = new HashMap<String, String>();
         fieldValues.put("moduleItemCode", CoeusModule.IRB_MODULE_CODE);
         fieldValues.put("moduleItemKey", moduleItemKey);
@@ -2088,11 +2090,12 @@ public class ActionHelper implements Serializable {
         return getBusinessObjectService().countMatching(AnswerHeader.class, fieldValues);
         
     }
+*/
     
     /*
      * utility method to get amend or renewal number
      */
-    private String getAmendmentRenewalNumber(String comment) {
+/*  private String getAmendmentRenewalNumber(String comment) {
         String retVal="";
         if (comment.startsWith("Amendment-")) {
             retVal = "A" + comment.substring(10, 13);
@@ -2102,17 +2105,16 @@ public class ActionHelper implements Serializable {
         }
         return retVal;
     }
-    
+*/    
 
     /*
      * get the sequence number of the protocol that the action initially created
      */
-    private String getInitialSequence(ProtocolAction protocolAction, String amendmentRenewalNumber) {
+/*  private String getInitialSequence(ProtocolAction protocolAction, String amendmentRenewalNumber) {
         Map<String, String> fieldValues = new HashMap<String, String>();
         fieldValues.put("protocolNumber", protocolAction.getProtocolNumber() + amendmentRenewalNumber);
         if (StringUtils.isBlank(amendmentRenewalNumber)) {
             fieldValues.put("actionId", protocolAction.getActionId().toString());
-
         }
         else {
             fieldValues.put("submissionNumber", protocolAction.getSubmissionNumber().toString());
@@ -2121,6 +2123,7 @@ public class ActionHelper implements Serializable {
         return ((List<ProtocolAction>) getBusinessObjectService().findMatchingOrderBy(ProtocolAction.class, fieldValues,
                 "protocolActionId", true)).get(0).getProtocol().getSequenceNumber().toString();
     }
+*/
 
     /**
      * Prepares, sorts, and returns a list of protocol actions.
@@ -2144,7 +2147,6 @@ public class ActionHelper implements Serializable {
         return protocolActions;
     }
     
-    @SuppressWarnings("unchecked")
     private Collection<ProtocolSubmissionDoc> getSubmissionDocs(ProtocolAction protocolAction) {
         Map<String, Object> fieldValues = new HashMap<String, Object>();
         fieldValues.put("protocolNumber", protocolAction.getProtocolNumber());
@@ -2450,7 +2452,7 @@ public class ActionHelper implements Serializable {
         return getAnswerHeaderCount(moduleSubItemCode, moduleSubItemKey) > 0;
     }
 
-    private int getAnswerHeaderCount(String moduleSubItemCode, String moduleSubItemKey) {
+    int getAnswerHeaderCount(String moduleSubItemCode, String moduleSubItemKey) {
         Map<String, String> fieldValues = new HashMap<String, String>();
         fieldValues.put("moduleItemCode", CoeusModule.IRB_MODULE_CODE);
         fieldValues.put("moduleItemKey", getProtocol().getProtocolNumber());
