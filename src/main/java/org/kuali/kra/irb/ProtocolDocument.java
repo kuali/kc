@@ -87,6 +87,10 @@ public class ProtocolDocument extends ResearchDocumentBase implements Copyable, 
     
     private static final String APPROVED_COMMENT = "Approved";
     private static final String DISAPPROVED_COMMENT = "Disapproved";
+    private static final String listOfStatiiEligibleForMerging = ProtocolStatus.SUBMITTED_TO_IRB + " " + ProtocolStatus.SPECIFIC_MINOR_REVISIONS_REQUIRED + " " + 
+                                                                 ProtocolStatus.DEFERRED + " " + ProtocolStatus.SUBSTANTIVE_REVISIONS_REQUIRED + " " +  
+                                                                 ProtocolStatus.AMENDMENT_IN_PROGRESS + " " + ProtocolStatus.RENEWAL_IN_PROGRESS + " " + 
+                                                                 ProtocolStatus.SUSPENDED_BY_PI + " " + ProtocolStatus.DELETED + " " + ProtocolStatus.WITHDRAWN;
     
     private List<Protocol> protocolList;
     private String protocolWorkflowType;
@@ -260,6 +264,7 @@ public class ProtocolDocument extends ResearchDocumentBase implements Copyable, 
     /**
      * Merge the amendment into the original protocol.  Actually, we must first make a new
      * version of the original and then merge the amendment into that new version.
+     * Also merge changes into any versions of the protocol that are being amended/renewed.
      * @param protocolStatusCode
      * @throws Exception
      */
@@ -297,8 +302,29 @@ public class ProtocolDocument extends ResearchDocumentBase implements Copyable, 
         
         finalizeAttachmentProtocol(this.getProtocol());
         getBusinessObjectService().save(this);
+
+        // now that we've saved the approved protocol, we must find all others under modification and update them too.
+        for (Protocol otherProtocol: getProtocolFinder().findProtocols(getOriginalProtocolNumber())) {
+            String status = otherProtocol.getProtocolStatus().getProtocolStatusCode();
+            if (isEligibleForMerging(status, otherProtocol)) {
+                // then this protocol version is being amended so push changes to it
+                LOG.info("Merging amendment " + this.getProtocol().getProtocolNumber() + " into editable protocol " + otherProtocol.getProtocolNumber());
+                otherProtocol.merge(getProtocol(), false);
+                String protocolType = protocolStatusCode.equals(ProtocolStatus.AMENDMENT_MERGED) ? ProtocolActionType.AMENDMENT_CREATED 
+                                                                                                 : ProtocolActionType.RENEWAL_CREATED;
+                action = new ProtocolAction(otherProtocol, null, protocolType);
+                action.setComments(type + "-" + getProtocolNumberIndex() + ": Merged");
+                otherProtocol.getProtocolActions().add(action);
+                getBusinessObjectService().save(otherProtocol);
+            }
+        }
+   
     }
     
+    private boolean isEligibleForMerging(String status, Protocol otherProtocol) {
+        return listOfStatiiEligibleForMerging.contains(status) && !StringUtils.equals(this.getProtocol().getProtocolNumber(), otherProtocol.getProtocolNumber());
+    }
+
     /*
      * This method is to make the document status of the attachment protocol to "finalized" 
      */
