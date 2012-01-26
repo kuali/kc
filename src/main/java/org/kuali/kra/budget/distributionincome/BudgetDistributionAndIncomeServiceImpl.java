@@ -65,11 +65,11 @@ public class BudgetDistributionAndIncomeServiceImpl implements BudgetDistributio
     public void initializeCostSharingCollectionDefaults(Budget budget) {
         if (budget.isCostSharingApplicable() && budget.isCostSharingAvailable() && budget.getBudgetCostShares().size() == 0
                 && !isBudgetFinalAndComplete(budget)) {
-            if (this.costShareService.validateProjectPeriodAsFiscalYear(false)){
+            if (this.costShareService.validateProjectPeriodAsFiscalYear()){
                 for (FiscalYearSummary fiscalYearSummary : budget.getFiscalYearCostShareTotals()) {
                     budget.add(createBudgetCostShare(fiscalYearSummary));
                 }
-            } else if (this.costShareService.validateProjectPeriodAsProjectPeriod(false)) {
+            } else if (this.costShareService.validateProjectPeriodAsProjectPeriod()) {
                 int counter = 1;
                 for (BudgetPeriod period : budget.getBudgetPeriods()) {
                     budget.add(createBudgetCostShare(counter, period.getCostSharingAmount()));

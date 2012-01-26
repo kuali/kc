@@ -27,7 +27,7 @@ import org.kuali.kra.test.infrastructure.KcUnitTestBase;
  * This class tests methods in Award.java class
  */
 public class AwardCommentFactoryTest extends KcUnitTestBase{ 
-    private static final int AWARD_COMMENT_FACTORY_ATTRIBUTES_COUNT = 50;
+    private static final int AWARD_COMMENT_ATTRIBUTES_COUNT = 8;
     
     private Award awardBo;
     private AwardCommentFactory awardCommentFactory;
@@ -61,7 +61,7 @@ public class AwardCommentFactoryTest extends KcUnitTestBase{
      */
     @Test
     public void testAwardBoAttributesCount() throws Exception {              
-        Assert.assertEquals(AWARD_COMMENT_FACTORY_ATTRIBUTES_COUNT, awardBo.getClass().getFields().length);
+        Assert.assertEquals(AWARD_COMMENT_ATTRIBUTES_COUNT, awardCommentFactory.createCostShareComment().getClass().getDeclaredFields().length);
     }
     
     /**

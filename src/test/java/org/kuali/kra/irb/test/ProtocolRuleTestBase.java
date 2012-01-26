@@ -122,7 +122,7 @@ public abstract class ProtocolRuleTestBase extends KcUnitTestBase {
         protocolPerson.setProtocolNumber("0");
         protocolPerson.setSequenceNumber(0);
         protocolPerson.refreshReferenceObject(REFERENCE_PERSON_ROLE);
-        return protocolPerson;
+        return protocolPerson; 
     }
     
     /**
@@ -140,7 +140,7 @@ public abstract class ProtocolRuleTestBase extends KcUnitTestBase {
      * @param errorKey
      */
     protected void assertError(String propertyKey, String errorKey) {
-        AutoPopulatingList errors = GlobalVariables.getMessageMap().getMessages(propertyKey);
+        AutoPopulatingList<ErrorMessage> errors = GlobalVariables.getMessageMap().getMessages(propertyKey);
         assertNotNull(errors);
         assertTrue(errors.size() == 1);
         

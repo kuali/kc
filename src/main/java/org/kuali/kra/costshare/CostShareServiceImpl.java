@@ -30,25 +30,21 @@ public class CostShareServiceImpl implements CostShareService {
     private static final String STANDARD_COST_SHARE_LABEL_PROJECT_PERIOD = "Project Period";
     
     private ParameterService parameterService; 
-    private String label;
 
     /**
      * @see org.kuali.kra.costshare.CostShareService#getCostShareLabel()
      */
-    public String getCostShareLabel(boolean resetSession) {
-        if (label == null || resetSession) {
-            label = this.getParameterService().getParameterValueAsString(Constants.KC_GENERIC_PARAMETER_NAMESPACE, 
+    public String getCostShareLabel() {
+        return this.getParameterService().getParameterValueAsString(Constants.KC_GENERIC_PARAMETER_NAMESPACE, 
                     Constants.KC_ALL_PARAMETER_DETAIL_TYPE_CODE, PARAM_LABEL_NAME);
-        }
-        return label;
     }
     
     /**
      * 
      * @see org.kuali.kra.costshare.CostShareService#validateProjectPeriodAsFiscalYear()
      */
-    public boolean validateProjectPeriodAsFiscalYear(boolean resetSession) {
-        boolean retVal = StringUtils.equalsIgnoreCase(STANDARD_COST_SHARE_LABEL_FISCAL_YEAR, getCostShareLabel(resetSession));
+    public boolean validateProjectPeriodAsFiscalYear() {
+        boolean retVal = StringUtils.equalsIgnoreCase(STANDARD_COST_SHARE_LABEL_FISCAL_YEAR, getCostShareLabel());
         return retVal;
     }
     
@@ -56,8 +52,8 @@ public class CostShareServiceImpl implements CostShareService {
      * 
      * @see org.kuali.kra.costshare.CostShareService#validateProjectPeriodAsProjectPeriod()
      */
-    public boolean validateProjectPeriodAsProjectPeriod(boolean resetSession) {
-        boolean retVal = StringUtils.equalsIgnoreCase(STANDARD_COST_SHARE_LABEL_PROJECT_PERIOD, getCostShareLabel(resetSession));
+    public boolean validateProjectPeriodAsProjectPeriod() {
+        boolean retVal = StringUtils.equalsIgnoreCase(STANDARD_COST_SHARE_LABEL_PROJECT_PERIOD, getCostShareLabel());
         return retVal;
     }
 

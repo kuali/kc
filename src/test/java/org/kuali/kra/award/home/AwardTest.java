@@ -39,7 +39,7 @@ import org.kuali.rice.core.api.util.type.KualiDecimal;
 public class AwardTest { 
     private static final double DELTA = 0.001;
 
-    private static final int AWARD_ATTRIBUTES_COUNT = 50;
+    private static final int AWARD_ATTRIBUTES_COUNT = 122;
     private static final String PERSON_ID = "1001";
     private static final String KP_PERSON_ID = "1002";
     private static final int ROLODEX_ID = 1002;
@@ -72,7 +72,7 @@ public class AwardTest {
      */
     @Test
     public void testAwardBoAttributesCount() throws Exception {              
-        Assert.assertEquals(AWARD_ATTRIBUTES_COUNT, awardBo.getClass().getFields().length);
+        Assert.assertEquals(AWARD_ATTRIBUTES_COUNT, awardBo.getClass().getDeclaredFields().length);
     }
     
     @Test

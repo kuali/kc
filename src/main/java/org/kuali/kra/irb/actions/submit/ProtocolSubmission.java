@@ -453,7 +453,7 @@ public class ProtocolSubmission extends ProtocolAssociate {
     }
 
     public String getPiName() {
-        return getProtocol().getPrincipalInvestigator().getPersonName();
+        return (getProtocol().getPrincipalInvestigator() != null ? getProtocol().getPrincipalInvestigator().getPersonName() : "");
     }
 
     public void setPiName(String piName) {

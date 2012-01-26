@@ -22,7 +22,7 @@ import org.junit.Test;
 
 public class ProposalCommentTest {
     
-private static final int PROPOSAL_COMMENT_ATTRIBUTES_COUNT = 4;
+private static final int PROPOSAL_COMMENT_ATTRIBUTES_COUNT = 7;
     
     private ProposalComment proposalComment;
     
@@ -51,7 +51,7 @@ private static final int PROPOSAL_COMMENT_ATTRIBUTES_COUNT = 4;
      */
     @Test
     public void testAwardCostShareBoAttributesCount() throws Exception {              
-        Assert.assertEquals(PROPOSAL_COMMENT_ATTRIBUTES_COUNT, proposalComment.getClass().getFields().length);
+        Assert.assertEquals(PROPOSAL_COMMENT_ATTRIBUTES_COUNT, proposalComment.getClass().getDeclaredFields().length);
     }
 
 }

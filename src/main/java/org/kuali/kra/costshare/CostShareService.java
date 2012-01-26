@@ -24,10 +24,9 @@ public interface CostShareService {
     /**
      * 
      * This method checks the parameter service for the cost share label and returns the string.
-     * This method is cached/
      * @return
      */
-    String getCostShareLabel(boolean resetSession);
+    String getCostShareLabel();
     
     
     /**
@@ -35,13 +34,13 @@ public interface CostShareService {
      * This method returns true if the project period label is "Fiscal Year"
      * @return
      */
-    boolean validateProjectPeriodAsFiscalYear(boolean resetSession);
+    boolean validateProjectPeriodAsFiscalYear();
     
     /**
      * 
      * This method returns true if the project period label is "Project Period"
      * @return
      */
-    boolean validateProjectPeriodAsProjectPeriod(boolean resetSession);
+    boolean validateProjectPeriodAsProjectPeriod();
 
 }

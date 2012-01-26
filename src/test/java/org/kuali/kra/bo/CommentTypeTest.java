@@ -25,7 +25,7 @@ import org.junit.Test;
  * This class tests methods in Award.java class
  */
 public class CommentTypeTest { 
-    private static final int COMMENT_TYPE_ATTRIBUTES_COUNT = 5;
+    private static final int COMMENT_TYPE_ATTRIBUTES_COUNT = 7;
     
     private CommentType commentTypeBo;
     
@@ -54,7 +54,7 @@ public class CommentTypeTest {
      */
     @Test
     public void testCommentTypeBoAttributesCount() throws Exception {              
-        Assert.assertEquals(COMMENT_TYPE_ATTRIBUTES_COUNT, commentTypeBo.getClass().getFields().length);
+        Assert.assertEquals(COMMENT_TYPE_ATTRIBUTES_COUNT, commentTypeBo.getClass().getDeclaredFields().length);
     }
     
 }

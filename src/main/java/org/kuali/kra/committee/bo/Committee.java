@@ -287,6 +287,8 @@ public class Committee extends KraPersistableBusinessObjectBase implements Compa
 
         for (CommitteeMembershipRole committeeMembershipRole : committeeMembership.getMembershipRoles()) {
             if (committeeMembershipRole.getMembershipRoleCode().equals(CHAIR_MEMBERSHIP_ROLE_CODE)
+                    && committeeMembershipRole.getStartDate() != null 
+                    && committeeMembershipRole.getEndDate() != null 
                     && !currentDate.before(committeeMembershipRole.getStartDate()) && !currentDate.after(committeeMembershipRole.getEndDate())) {
                 isChairRoleFound = true;
                 break;

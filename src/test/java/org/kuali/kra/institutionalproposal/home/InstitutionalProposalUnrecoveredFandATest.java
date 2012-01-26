@@ -25,7 +25,7 @@ import org.junit.Test;
  */
 public class InstitutionalProposalUnrecoveredFandATest {
 
-private static final int IP_UNRECOVERED_FNA_ATTRIBUTES_COUNT = 7;
+private static final int IP_UNRECOVERED_FNA_ATTRIBUTES_COUNT = 9;
     
     private InstitutionalProposalUnrecoveredFandA institutionalProposalUnrecoveredFandABo;
     private InstitutionalProposal institutionalProposal;
@@ -57,6 +57,6 @@ private static final int IP_UNRECOVERED_FNA_ATTRIBUTES_COUNT = 7;
      */
     @Test
     public void testInstitutionalProposalUnrecovedFandABoAttributesCount() throws Exception {              
-        Assert.assertEquals(IP_UNRECOVERED_FNA_ATTRIBUTES_COUNT, institutionalProposalUnrecoveredFandABo.getClass().getFields().length);
+        Assert.assertEquals(IP_UNRECOVERED_FNA_ATTRIBUTES_COUNT, institutionalProposalUnrecoveredFandABo.getClass().getDeclaredFields().length);
     }
 }
