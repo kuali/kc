@@ -229,7 +229,7 @@
     <property name="validationPattern" >
       <bean parent="AnyCharacterValidationPattern" p:allowWhitespace="true" />
     </property>
-    <property name="required" value="true" />
+    <property name="required" value="false" />
     <property name="control" >
       <bean parent="TextControlDefinition"
             p:size="12" />
@@ -355,7 +355,7 @@
     <property name="validationPattern" >
       <bean parent="AlphaNumericValidationPattern" />
     </property>
-    <property name="required" value="true" />
+    <property name="required" value="false" />
     <property name="control" >
       <bean parent="TextControlDefinition"
             p:size="60" />
@@ -374,7 +374,7 @@
     <property name="shortLabel" value="Requisitioner" />
     <property name="maxLength" value="200" />
    
-    <property name="required" value="true" />
+    <property name="required" value="false" />
     <property name="control" >
       <bean parent="TextControlDefinition"
             p:size="60" />

@@ -88,7 +88,6 @@ import org.junit.runners.Suite.SuiteClasses;
     org.kuali.kra.committee.bo.CommitteeScheduleTest.class,
     org.kuali.kra.committee.bo.CommitteeMembershipTest.class,
     org.kuali.kra.committee.bo.CommitteeTest.class,
-    org.kuali.kra.committee.bo.ScheduleStatusTest.class,
     org.kuali.kra.institutionalproposal.contacts.InstitutionalProposalCreditSplitBeanTest.class,
     org.kuali.kra.award.home.fundingproposal.AwardFundingProposalBeanTest.class,
     org.kuali.kra.award.contacts.AwardProjectPersonAddRuleImplTest.class,

@@ -107,6 +107,10 @@
 		<property name="validationPattern" >
         <bean parent="NumericValidationPattern" />
 		</property>
+		<!--
+		<property name="validCharactersConstraint">
+      	<bean parent="NumericPatternConstraint"/>
+    	</property>-->
 		<property name="control" >
 			<bean parent="TextControlDefinition"
 				p:size="10" />

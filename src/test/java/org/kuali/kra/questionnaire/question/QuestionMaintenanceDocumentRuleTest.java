@@ -50,11 +50,12 @@ public class QuestionMaintenanceDocumentRuleTest extends MaintenanceRuleTestBase
         rule.dataDictionaryValidate(questionMaintenanceDocument);
         
         MessageMap errorMap = GlobalVariables.getMessageMap();
-        assertEquals(3, errorMap.getErrorCount());
+        assertEquals(4, errorMap.getErrorCount());
         
         assertError("document.newMaintainableObject.businessObject.question");
         assertError("document.newMaintainableObject.businessObject.status");
         assertError("document.newMaintainableObject.businessObject.categoryTypeCode");
+        assertError("document.newMaintainableObject.businessObject.questionTypeId");
     }
     
     /**

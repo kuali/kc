@@ -49,39 +49,48 @@ public class CostShareServiceTest extends KcUnitTestBase {
 
     @Test
     public void testGetCostShareLabel() {
+        String parameterForBackup = getParameterService().getParameterValueAsString(this.getClass(), "CostShareProjectPeriodNameLabel");
         updateParameterForTesting(this.getClass(), "CostShareProjectPeriodNameLabel", "Project Period");
-        String result = costShareService.getCostShareLabel(false);
+        String result = costShareService.getCostShareLabel();
         assertEquals("Project Period", result);
+        
+        //Switch it back
+        updateParameterForTesting(this.getClass(), "CostShareProjectPeriodNameLabel", parameterForBackup);
     }
     
     @Test
     public void testValidateProjectPeriodAsFiscalYear() {
-        boolean result = costShareService.validateProjectPeriodAsFiscalYear(false);
+        boolean result = costShareService.validateProjectPeriodAsFiscalYear();
         assertFalse(result);
     }
     
     @Test
     public void tesValidateProjectPeriodAsProjectPeriod() {
-        boolean result = costShareService.validateProjectPeriodAsProjectPeriod(false);
+        boolean result = costShareService.validateProjectPeriodAsProjectPeriod();
         assertTrue(result);
     }
     
     @Test
     public void testSwitchParmAndReTestValidations() {        
         String fiscalYearParm = "FisCal Year";
+        String parameterForBackup = costShareService.getCostShareLabel();
+        
         updateParameterForTesting(this.getClass(), "CostShareProjectPeriodNameLabel", fiscalYearParm);
-        String newParm = costShareService.getCostShareLabel(true);
+        String newParm = costShareService.getCostShareLabel();
         
         assertEquals(fiscalYearParm, newParm);
-        assertTrue(costShareService.validateProjectPeriodAsFiscalYear(false));
-        assertFalse(costShareService.validateProjectPeriodAsProjectPeriod(false));
+        assertTrue(costShareService.validateProjectPeriodAsFiscalYear());
+        assertFalse(costShareService.validateProjectPeriodAsProjectPeriod());
         
         String fooBar = "foo";
         updateParameterForTesting(this.getClass(), "CostShareProjectPeriodNameLabel", fooBar);
-        newParm = costShareService.getCostShareLabel(true);
+        newParm = costShareService.getCostShareLabel();
         assertEquals(fooBar, newParm);
-        assertFalse(costShareService.validateProjectPeriodAsFiscalYear(false));
-        assertFalse(costShareService.validateProjectPeriodAsProjectPeriod(false));
+        assertFalse(costShareService.validateProjectPeriodAsFiscalYear());
+        assertFalse(costShareService.validateProjectPeriodAsProjectPeriod());
+        
+        //Switch it back
+        updateParameterForTesting(this.getClass(), "CostShareProjectPeriodNameLabel", parameterForBackup);
     }
 
     @Test

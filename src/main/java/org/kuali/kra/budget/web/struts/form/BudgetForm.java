@@ -938,7 +938,7 @@ public class BudgetForm extends BudgetVersionFormBase implements CostShareFuncti
      * @see org.kuali.kra.costshare.CostShareFunctions#getProjectPeriodLabel()
      */
     public String getProjectPeriodLabel() {
-        String label = KraServiceLocator.getService(CostShareService.class).getCostShareLabel(false);
+        String label = KraServiceLocator.getService(CostShareService.class).getCostShareLabel();
         return label;
     }
     

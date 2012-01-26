@@ -20,6 +20,8 @@ import java.util.List;
 
 import org.kuali.kra.keyvalue.ValuesFinderTestBase;
 import org.kuali.rice.core.api.util.KeyValue;
+import org.kuali.rice.kns.util.KNSGlobalVariables;
+import org.kuali.rice.krad.util.GlobalVariables;
 
 /**
  * 
@@ -28,7 +30,12 @@ import org.kuali.rice.core.api.util.KeyValue;
  * @author Kuali Research Administration Team (kc.dev@kuali.org)
  */
 public class ParticipantTypeValuesFinderTest extends ValuesFinderTestBase {
-
+    @Override
+    public void setUp() throws Exception {
+        GlobalVariables.clear();
+        KNSGlobalVariables.clear();
+    }
+    
     @Override
     protected Class<ParticipantTypeValuesFinder> getTestClass() {
         return ParticipantTypeValuesFinder.class;

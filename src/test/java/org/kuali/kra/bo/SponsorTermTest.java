@@ -25,7 +25,7 @@ import org.junit.Test;
  */
 public class SponsorTermTest {
     
-private static final int SPONSOR_TERM_ATTRIBUTES_COUNT = 4;
+private static final int SPONSOR_TERM_ATTRIBUTES_COUNT = 6;
     
     private SponsorTerm sponsorTermBo;
     
@@ -54,7 +54,7 @@ private static final int SPONSOR_TERM_ATTRIBUTES_COUNT = 4;
      */
     @Test
     public void testCommentTypeBoAttributesCount() throws Exception {              
-        Assert.assertEquals(SPONSOR_TERM_ATTRIBUTES_COUNT, sponsorTermBo.getClass().getFields().length);
+        Assert.assertEquals(SPONSOR_TERM_ATTRIBUTES_COUNT, sponsorTermBo.getClass().getDeclaredFields().length);
     }
 
 }

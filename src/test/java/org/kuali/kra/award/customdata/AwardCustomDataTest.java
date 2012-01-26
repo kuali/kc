@@ -26,7 +26,7 @@ import org.kuali.kra.award.home.Award;
  * This class tests methods in Award.java class
  */
 public class AwardCustomDataTest { 
-    private static final int AWARD_CUSTOM_DATA_ATTRIBUTES_COUNT = 3;
+    private static final int AWARD_CUSTOM_DATA_ATTRIBUTES_COUNT = 5;
     
     private AwardCustomData awardCustomDataBo;
     private Award award = new Award();
@@ -57,7 +57,7 @@ public class AwardCustomDataTest {
      */
     @Test
     public void testAwardCostShareBoAttributesCount() throws Exception {              
-        Assert.assertEquals(AWARD_CUSTOM_DATA_ATTRIBUTES_COUNT, awardCustomDataBo.getClass().getFields().length);
+        Assert.assertEquals(AWARD_CUSTOM_DATA_ATTRIBUTES_COUNT, awardCustomDataBo.getClass().getDeclaredFields().length);
     }
     
 }

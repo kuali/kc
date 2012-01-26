@@ -63,7 +63,7 @@ public class SponsorMaintainableImplTest extends KcUnitTestBase {
 
     class ParameterServiceMock extends ParameterServiceImpl {
         public boolean autoGenSponsorCode = true;
-        public boolean getIndicatorParameter(String namespace, String detailCode, String parmValue) {
+        public Boolean getParameterValueAsBoolean(String namespace, String detailCode, String parmValue) {
             assertEquals(Constants.KC_GENERIC_PARAMETER_NAMESPACE, namespace);
             assertEquals(Constants.KC_ALL_PARAMETER_DETAIL_TYPE_CODE, detailCode);
             assertEquals(SponsorMaintainableImpl.AUTO_GEN_SPONSOR_CODE_PARM, parmValue);

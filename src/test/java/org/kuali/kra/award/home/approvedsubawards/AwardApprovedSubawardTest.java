@@ -25,7 +25,7 @@ import org.junit.Test;
  * This class tests methods in Award.java class
  */
 public class AwardApprovedSubawardTest { 
-    private static final int AWARD_APPROVED_SUBAWARD_ATTRIBUTES_COUNT = 5;
+    private static final int AWARD_APPROVED_SUBAWARD_ATTRIBUTES_COUNT = 6;
     
     private AwardApprovedSubaward awardApprovedSubawrdBo;
     
@@ -54,7 +54,7 @@ public class AwardApprovedSubawardTest {
      */
     @Test
     public void testAwardApprovedSubawardBoAttributesCount() throws Exception {              
-        Assert.assertEquals(AWARD_APPROVED_SUBAWARD_ATTRIBUTES_COUNT, awardApprovedSubawrdBo.getClass().getFields().length);
+        Assert.assertEquals(AWARD_APPROVED_SUBAWARD_ATTRIBUTES_COUNT, awardApprovedSubawrdBo.getClass().getDeclaredFields().length);
     }
     
 }

@@ -110,17 +110,17 @@ public abstract class CostShareRuleResearchDocumentBase extends ResearchDocument
     }
     
     private String getProjectPeriodLabel() {
-        String label = getCostShareService().getCostShareLabel(false);
+        String label = getCostShareService().getCostShareLabel();
         return label;
     }
     
     private boolean validateAsFiscalYear() {
-        boolean retVal = getCostShareService().validateProjectPeriodAsFiscalYear(false);
+        boolean retVal = getCostShareService().validateProjectPeriodAsFiscalYear();
         return retVal;
     }
     
     private boolean validateAsProjectPeriod() {
-        boolean retVal = getCostShareService().validateProjectPeriodAsProjectPeriod(false);
+        boolean retVal = getCostShareService().validateProjectPeriodAsProjectPeriod();
         return retVal;
         
     }

@@ -22,7 +22,7 @@ import org.junit.Test;
 
 public class IntellectualPropertyReviewTest {
     
-    private static final int INTELLECTUAL_PROPERTY_REVIEW_ATTRIBUTES_COUNT = 6;
+    private static final int INTELLECTUAL_PROPERTY_REVIEW_ATTRIBUTES_COUNT = 23;
     
     private IntellectualPropertyReview intellectualPropertyReview;
     
@@ -51,7 +51,7 @@ public class IntellectualPropertyReviewTest {
      */
     @Test
     public void testAwardCostShareBoAttributesCount() throws Exception {              
-        Assert.assertEquals(INTELLECTUAL_PROPERTY_REVIEW_ATTRIBUTES_COUNT, intellectualPropertyReview.getClass().getFields().length);
+        Assert.assertEquals(INTELLECTUAL_PROPERTY_REVIEW_ATTRIBUTES_COUNT, intellectualPropertyReview.getClass().getDeclaredFields().length);
     }
 
 }

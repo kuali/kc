@@ -26,7 +26,7 @@ import org.kuali.kra.award.home.Award;
  * This class tests methods in Award.java class
  */
 public class AwardCostShareTest { 
-    private static final int AWARD_COST_SHARE_ATTRIBUTES_COUNT = 10;
+    private static final int AWARD_COST_SHARE_ATTRIBUTES_COUNT = 11;
     
     private AwardCostShare awardCostShareBo;
     private Award award = new Award();
@@ -57,7 +57,7 @@ public class AwardCostShareTest {
      */
     @Test
     public void testAwardCostShareBoAttributesCount() throws Exception {              
-        Assert.assertEquals(AWARD_COST_SHARE_ATTRIBUTES_COUNT, awardCostShareBo.getClass().getFields().length);
+        Assert.assertEquals(AWARD_COST_SHARE_ATTRIBUTES_COUNT, awardCostShareBo.getClass().getDeclaredFields().length);
     }
     
 }

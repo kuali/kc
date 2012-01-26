@@ -357,6 +357,7 @@
     <bean id="ProtocolSubmission-protocol.title" parent="ProtocolSubmission-protocol.title-parentBean" />
     <bean id="ProtocolSubmission-protocol.title-parentBean" abstract="true" parent="Protocol-title" >
     		<property name="name" value="protocol.title" />
+    		<property name="required" value="false" />
     </bean>
     
     <bean id="ProtocolSubmission-committeeSchedule.scheduledDate" parent="ProtocolSubmission-committeeSchedule.scheduledDate-parentBean" />

@@ -18,8 +18,11 @@ package org.kuali.kra.proposaldevelopment.lookup.keyvalue;
 import java.util.ArrayList;
 import java.util.List;
 
+import org.junit.Before;
 import org.kuali.kra.keyvalue.ValuesFinderTestBase;
 import org.kuali.rice.core.api.util.KeyValue;
+import org.kuali.rice.kns.util.KNSGlobalVariables;
+import org.kuali.rice.krad.util.GlobalVariables;
 
 /**
  * Test the Abstract Type Values Finder.
@@ -27,7 +30,12 @@ import org.kuali.rice.core.api.util.KeyValue;
  * @author Kuali Research Administration Team (kualidev@oncourse.iu.edu)
  */
 public class AbstractTypeValuesFinderTest extends ValuesFinderTestBase {
-   
+    @Override
+    public void setUp() throws Exception {
+        GlobalVariables.clear();
+        KNSGlobalVariables.clear();
+    }
+    
     @Override
     protected Class<AbstractTypeValuesFinder> getTestClass() {
         return AbstractTypeValuesFinder.class;
