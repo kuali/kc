@@ -25,7 +25,7 @@ import org.junit.Test;
  * This class tests methods in Award.java class
  */
 public class AwardFandaRateTest { 
-    private static final int AWARD_FANDA_RATE_COUNT = 10;
+    private static final int AWARD_FANDA_RATE_COUNT = 11;
     
     private AwardFandaRate awardFandaRate;
     
@@ -54,7 +54,7 @@ public class AwardFandaRateTest {
      */
     @Test
     public void testAwardIndirectCostRateBoAttributesCount() throws Exception {              
-        Assert.assertEquals(AWARD_FANDA_RATE_COUNT, awardFandaRate.getClass().getFields().length);
+        Assert.assertEquals(AWARD_FANDA_RATE_COUNT, awardFandaRate.getClass().getDeclaredFields().length);
     }
     
 }

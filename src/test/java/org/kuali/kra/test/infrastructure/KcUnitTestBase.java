@@ -250,7 +250,7 @@ public class KcUnitTestBase extends Assert implements KcUnitTestMethodAware {
     protected final <T> T getService(Class<T> serviceClass) {
         return KraServiceLocator.getService(serviceClass);
     }
-
+    
     /**
      * Gets the path of a given class file.
      * @param clazz the class
@@ -263,9 +263,9 @@ public class KcUnitTestBase extends Assert implements KcUnitTestMethodAware {
     }
 
     protected void updateParameterForTesting(Class componentClass, String parameterName, String newValue) {
-        Parameter parameter = parameterService.getParameter(componentClass, parameterName);
+        Parameter parameter = getParameterService().getParameter(componentClass, parameterName);
         Parameter.Builder parameterForUpdate = Parameter.Builder.create(parameter);
         parameterForUpdate.setValue(newValue);
-        parameterService.updateParameter(parameterForUpdate.build());
+        getParameterService().updateParameter(parameterForUpdate.build());
     }
 }

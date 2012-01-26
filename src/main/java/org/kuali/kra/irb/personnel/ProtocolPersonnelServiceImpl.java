@@ -609,12 +609,12 @@ public class ProtocolPersonnelServiceImpl implements ProtocolPersonnelService {
      */
     protected void updateAffiliationCount(ProtocolPerson protocolPerson, HashMap<Integer, Integer> investigatorAffiliation) {
         Integer totalCountForAffiliation = 0;
-        totalCountForAffiliation = investigatorAffiliation.get(protocolPerson.getAffiliationType().getAffiliationTypeCode());
+        totalCountForAffiliation = investigatorAffiliation.get(protocolPerson.getAffiliationTypeCode());
         if(totalCountForAffiliation == null) {
-            investigatorAffiliation.put(protocolPerson.getAffiliationType().getAffiliationTypeCode(), 1);
+            investigatorAffiliation.put(protocolPerson.getAffiliationTypeCode(), 1);
         }else {
-            investigatorAffiliation.remove(protocolPerson.getAffiliationType().getAffiliationTypeCode());
-            investigatorAffiliation.put(protocolPerson.getAffiliationType().getAffiliationTypeCode(), totalCountForAffiliation++);
+            investigatorAffiliation.remove(protocolPerson.getAffiliationTypeCode());
+            investigatorAffiliation.put(protocolPerson.getAffiliationTypeCode(), totalCountForAffiliation++);
         }
     }
     

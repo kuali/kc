@@ -1235,7 +1235,7 @@ public abstract class AwardBaseStream implements XmlStream {
 	}
 	
 	private String getProjectPeriodFieldDescription() {
-	    String retVal =  KraServiceLocator.getService(CostShareService.class).getCostShareLabel(false);
+	    String retVal =  KraServiceLocator.getService(CostShareService.class).getCostShareLabel();
 	    return retVal;
 	}
 	

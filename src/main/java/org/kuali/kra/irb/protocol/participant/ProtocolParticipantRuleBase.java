@@ -47,9 +47,7 @@ public class ProtocolParticipantRuleBase extends ResearchDocumentRuleBase {
         ProtocolParticipant newProtocolParticipant = addProtocolParticipantEvent.getNewProtocolParticipant();
         List<ProtocolParticipant> protocolParticipants = addProtocolParticipantEvent.getProtocolParticipants();
         String errorPath = addProtocolParticipantEvent.getErrorPathPrefix();
-        
-        getDictionaryValidationService().validateBusinessObject(newProtocolParticipant);
-        rulePassed &= GlobalVariables.getMessageMap().hasNoErrors();
+        rulePassed &= getDictionaryValidationService().isBusinessObjectValid(newProtocolParticipant);
         rulePassed &= validateUniqueParticipantType(newProtocolParticipant, protocolParticipants, errorPath);
         
         return rulePassed;

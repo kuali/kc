@@ -102,7 +102,7 @@ public class AwardCostShareRuleTest extends KcUnitTestBase {
     public final void testValidateCostShareFiscalYearRange() {
         updateParameterForTesting(CostShareServiceTest.class, "CostShareProjectPeriodNameLabel", "Fiscal Year");        
         CostShareService costShareService = KraServiceLocator.getService(CostShareService.class);
-        costShareService.getCostShareLabel(true);
+        costShareService.getCostShareLabel();
         awardCostShareRule.setCostShareService(costShareService);
         
         Assert.assertTrue(awardCostShareRule.validateCostShareFiscalYearRange(awardCostShare));

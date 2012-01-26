@@ -24,7 +24,7 @@ import org.kuali.kra.test.infrastructure.KcUnitTestBase;
 
 public class SubAwardCustomDataTest extends KcUnitTestBase{
     
-    private static final int SUBAWARD_PROPOSAL_CUSTOM_DATA_ATTRIBUTES_COUNT = 4;
+    private static final int SUBAWARD_PROPOSAL_CUSTOM_DATA_ATTRIBUTES_COUNT = 7;
     
     private SubAwardCustomData subAwardCustomDataBo;
     private SubAward subAward = new SubAward();
@@ -43,6 +43,6 @@ public class SubAwardCustomDataTest extends KcUnitTestBase{
     
     @Test
     public void testSubAwardCustomDataBoAttributesCount() throws Exception {              
-        Assert.assertEquals(SUBAWARD_PROPOSAL_CUSTOM_DATA_ATTRIBUTES_COUNT, subAwardCustomDataBo.getClass().getFields().length);
+        Assert.assertEquals(SUBAWARD_PROPOSAL_CUSTOM_DATA_ATTRIBUTES_COUNT, subAwardCustomDataBo.getClass().getDeclaredFields().length);
     }
 }

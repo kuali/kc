@@ -20,7 +20,7 @@ import org.junit.Assert;
 import org.junit.Before;
 import org.junit.Test;
 import org.kuali.kra.test.infrastructure.KcUnitTestBase;
-import org.kuali.rice.core.api.exception.RiceRuntimeException;
+import org.kuali.rice.core.api.exception.RiceIllegalArgumentException;
 import org.kuali.rice.kew.service.KEWServiceLocator;
 import org.kuali.rice.kim.api.identity.Person;
 
@@ -29,7 +29,7 @@ public class QuickStartUserLookupTest extends KcUnitTestBase {
     /*
      * re: JIRA KRACOEUS-635
      */
-    @Test(expected=RiceRuntimeException.class)
+    @Test(expected=RiceIllegalArgumentException.class)
     public void testFindingQuickstartUser_TruncatedUserId() throws Exception {
         Person user = KEWServiceLocator.getIdentityHelperService().getPersonByPrincipalName("quicksta");
         fail("We should get an exception");

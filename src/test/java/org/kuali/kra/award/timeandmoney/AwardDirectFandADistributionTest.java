@@ -26,7 +26,7 @@ import org.kuali.kra.award.home.Award;
  */
 public class AwardDirectFandADistributionTest {
 
-private static final int AWARD_DIRECT_F_AND_A_DISTRIBUTION_ATTRIBUTES_COUNT = 8;
+private static final int AWARD_DIRECT_F_AND_A_DISTRIBUTION_ATTRIBUTES_COUNT = 9;
     
     private AwardDirectFandADistribution awardDirectFandADistributionBo;
     private Award award = new Award();
@@ -57,7 +57,7 @@ private static final int AWARD_DIRECT_F_AND_A_DISTRIBUTION_ATTRIBUTES_COUNT = 8;
      */
     @Test
     public void testAwardCostShareBoAttributesCount() throws Exception {              
-        Assert.assertEquals(AWARD_DIRECT_F_AND_A_DISTRIBUTION_ATTRIBUTES_COUNT, awardDirectFandADistributionBo.getClass().getFields().length);
+        Assert.assertEquals(AWARD_DIRECT_F_AND_A_DISTRIBUTION_ATTRIBUTES_COUNT, awardDirectFandADistributionBo.getClass().getDeclaredFields().length);
     }
     
 }

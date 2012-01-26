@@ -22,7 +22,7 @@ import org.junit.Test;
 
 public class IntellectualPropertyReviewRequirementTypeTest {
     
-    private static final int INTELLECTUAL_PROPERTY_REVIEW_REQUIREMENT_TYPE_ATTRIBUTES_COUNT = 2;
+    private static final int INTELLECTUAL_PROPERTY_REVIEW_REQUIREMENT_TYPE_ATTRIBUTES_COUNT = 3;
     
     private IntellectualPropertyReviewRequirementType intellectualPropertyReviewRequirementType;
     
@@ -52,7 +52,7 @@ public class IntellectualPropertyReviewRequirementTypeTest {
     @Test
     public void testAwardCostShareBoAttributesCount() throws Exception {              
         Assert.assertEquals(INTELLECTUAL_PROPERTY_REVIEW_REQUIREMENT_TYPE_ATTRIBUTES_COUNT, 
-                intellectualPropertyReviewRequirementType.getClass().getFields().length);
+                intellectualPropertyReviewRequirementType.getClass().getDeclaredFields().length);
     }
 
 }

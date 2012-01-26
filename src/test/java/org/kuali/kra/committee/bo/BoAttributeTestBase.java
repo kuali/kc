@@ -59,25 +59,6 @@ public abstract class BoAttributeTestBase<T extends KraPersistableBusinessObject
     }
 
     /**
-     * Concrete implementer should make a call to getToStringMapper() of BO class returning Map.
-     * @return
-     */
-    protected final Map<String, String> getToStringMapper() {
-        String boToString = bo.toString();
-        Map<String, String> fieldMap = new HashMap<String, String>();
-        //ReflectionToStringBuilder uses ToStringStyle DEFAULT_STYLE by default
-        Pattern p = Pattern.compile("(?<=\\[).*(?=\\])");
-        Matcher m = p.matcher(boToString);
-        if(m.find()) {
-            String[] matches = m.group().split(",");
-            for(String match: matches) {
-                String[] fieldValue = match.split("=");
-                fieldMap.put(fieldValue[0], fieldValue[1]);
-            }
-        }
-        return fieldMap;
-    }
-    /**
      * Concrete implementer should return Map<String, Object>, using bo's field and value. Map should include all the fields used in
      * definition of toStringMapper().
      * 
@@ -95,33 +76,6 @@ public abstract class BoAttributeTestBase<T extends KraPersistableBusinessObject
      * This method can be used to set BO's prerequisites.
      */
     protected void boPostrequisite() {
-    }
-
-    /**
-     * This method tests attributes count in BO of toStringMapper.
-     * 
-     * @throws Exception
-     */
-    @Test
-    public void testBoAttributesCount() throws Exception {
-        Assert.assertEquals(attributeCount, getToStringMapper().size());
-        ;
-    }
-
-    /**
-     * This method tests fields added to Map of toStringMapper in BO
-     * 
-     * @throws Exception
-     */
-    @SuppressWarnings("unchecked")
-    @Test
-    public void testBoFields() throws Exception {
-        Map map = getToStringMapper();
-        Map fieldMap = getFieldMap();
-        Set<String> set = fieldMap.keySet();
-        for (String field : set) {
-            assertEquals(fieldMap.get(field), map.get(field));
-        }
     }
 
     /**
