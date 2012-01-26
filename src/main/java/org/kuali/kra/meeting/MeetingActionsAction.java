@@ -326,6 +326,7 @@ public class MeetingActionsAction extends MeetingAction {
             if (printRooster) {
                 printable = getCommitteePrintingService().getCommitteePrintable(CommitteeReportType.ROSTER);
                 printable.setPrintableBusinessObject(document.getCommittee());
+                document.getCommittee().setPrintRooster(printRooster);
                 printableArtifactList.add(printable);
                 ((MeetingForm) form).getMeetingHelper().setPrintRooster(false);
             }
@@ -333,6 +334,7 @@ public class MeetingActionsAction extends MeetingAction {
                 printable = getCommitteePrintingService().getCommitteePrintable(CommitteeReportType.FUTURE_SCHEDULED_MEETINGS);
                 printable.setPrintableBusinessObject(document.getCommittee());
                 printableArtifactList.add(printable);
+                document.getCommittee().setPrintRooster(printFutureScheduledMeeting);
                 ((MeetingForm) form).getMeetingHelper().setPrintFutureScheduledMeeting(false);
             }
             AttachmentDataSource dataStream = getCommitteePrintingService().print(printableArtifactList);
