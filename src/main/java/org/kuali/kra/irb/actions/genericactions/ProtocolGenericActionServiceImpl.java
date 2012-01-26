@@ -182,7 +182,7 @@ public class ProtocolGenericActionServiceImpl implements ProtocolGenericActionSe
                 }
             }
         }
-
+        
         protocol.refreshReferenceObject("protocolStatus");
         documentService.saveDocument(protocol.getProtocolDocument());
     }

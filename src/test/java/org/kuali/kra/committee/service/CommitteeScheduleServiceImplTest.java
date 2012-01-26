@@ -354,7 +354,7 @@ public class CommitteeScheduleServiceImplTest  {
             dates.add(DateUtils.addDays(new Date(),2));
             Time24HrFmt time  = new Time24HrFmt(TIME24HR_0_1); 
             int day = scheduleData.getDailySchedule().getDay();
-            one(scheduleService).getScheduledDates(dt,endDt,time,day,null);will(returnValue(dates));
+            one(scheduleService).getIntervalInDaysScheduledDates(dt,endDt,time,day);will(returnValue(dates));
         }});
         scheduleData.getDailySchedule().setDayOption(DailyScheduleDetails.optionValues.XDAY.toString());
         
@@ -378,7 +378,7 @@ public class CommitteeScheduleServiceImplTest  {
             dates.add(DateUtils.addDays(new Date(),2));
             Time24HrFmt time  = new Time24HrFmt(TIME24HR_0_1); 
             int day = scheduleData.getDailySchedule().getDay();
-            one(scheduleService).getScheduledDates(dt,endDt,time,day,null);will(returnValue(dates));
+            one(scheduleService).getIntervalInDaysScheduledDates(dt,endDt,time,day);will(returnValue(dates));
         }});
     }
     

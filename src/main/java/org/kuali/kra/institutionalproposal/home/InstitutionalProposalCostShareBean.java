@@ -119,7 +119,7 @@ public class InstitutionalProposalCostShareBean implements Serializable, CostSha
      * @see org.kuali.kra.costshare.CostShareFunctions#getProjectPeriodLabel()
      */
     public String getProjectPeriodLabel() {
-        String label = KraServiceLocator.getService(CostShareService.class).getCostShareLabel(false);
+        String label = KraServiceLocator.getService(CostShareService.class).getCostShareLabel();
         return label;
     }
 }

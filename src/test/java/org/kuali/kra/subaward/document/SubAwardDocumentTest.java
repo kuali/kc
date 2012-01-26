@@ -27,7 +27,7 @@ public class SubAwardDocumentTest extends KcUnitTestBase{
     
     @Before
     public void setUp() throws Exception {
-        super.setUp();
+        super.setUp(); 
         GlobalVariables.setUserSession(new UserSession("quickstart"));
     }
     

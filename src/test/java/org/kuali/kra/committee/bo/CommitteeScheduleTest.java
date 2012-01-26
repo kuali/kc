@@ -33,7 +33,7 @@ import org.kuali.kra.committee.web.struts.form.schedule.Time12HrFmt.MERIDIEM;
 
 public class CommitteeScheduleTest extends BoAttributeTestBase<CommitteeSchedule> {
     
-    private static final int ATTRIBUTE_COUNT = 15;
+    private static final int ATTRIBUTE_COUNT = 31;
     
     private static final Date date = new Date(new java.util.Date().getTime());
     private static final Timestamp timestamp = new Timestamp(new java.util.Date().getTime());

@@ -26,7 +26,7 @@ import org.junit.Test;
  */
 public class AwardSponsorTermTest {
 
-private static final int AWARD_SPONSOR_TERM_ATTRIBUTES_COUNT = 4;
+private static final int AWARD_SPONSOR_TERM_ATTRIBUTES_COUNT = 5;
     
     private AwardSponsorTerm awardSponsorTermBo;
     private Award award = new Award();
@@ -57,7 +57,7 @@ private static final int AWARD_SPONSOR_TERM_ATTRIBUTES_COUNT = 4;
      */
     @Test
     public void testAwardCostShareBoAttributesCount() throws Exception {              
-        Assert.assertEquals(AWARD_SPONSOR_TERM_ATTRIBUTES_COUNT, awardSponsorTermBo.getClass().getFields().length);
+        Assert.assertEquals(AWARD_SPONSOR_TERM_ATTRIBUTES_COUNT, awardSponsorTermBo.getClass().getDeclaredFields().length);
     }
     
 }

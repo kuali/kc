@@ -64,7 +64,7 @@ public class BudgetDocumentRuleTest extends KcUnitTestBase {
         ps.updateParameter(parameterForUpdate.build());
         
         CostShareService costShareService = KraServiceLocator.getService(CostShareService.class);
-        costShareService.getCostShareLabel(true);
+        costShareService.getCostShareLabel();
         budgetDocRule.setCostShareService(costShareService);
         
         assertTrue(budgetDocRule.processBudgetProjectIncomeBusinessRule(budgetDoc));
