@@ -102,6 +102,7 @@ import org.kuali.rice.coreservice.framework.parameter.ParameterService;
 import org.kuali.rice.kew.api.KewApiConstants;
 import org.kuali.rice.kew.api.WorkflowDocument;
 import org.kuali.rice.kew.util.PerformanceLogger;
+import org.kuali.rice.kim.api.KimConstants;
 import org.kuali.rice.kim.api.identity.Person;
 import org.kuali.rice.kim.api.permission.PermissionQueryResults;
 import org.kuali.rice.kim.api.permission.PermissionService;
@@ -339,6 +340,31 @@ public class ProposalDevelopmentForm extends BudgetVersionFormBase implements Re
                 }
             }   
             personCount++;
+        }
+    }
+    
+    @Override
+    protected void populateFalseCheckboxes(HttpServletRequest request) {
+        Map<String, String[]> parameterMap = request.getParameterMap();
+        final String checkBoxToResetFieldParam = "checkboxToReset";
+        if (parameterMap.get(checkBoxToResetFieldParam) != null) {
+            final String[] checkboxesToResetFields = request.getParameterValues("checkboxToReset");
+            if (checkboxesToResetFields != null && checkboxesToResetFields.length > 0) {
+                for (int i = 0; i < checkboxesToResetFields.length; i++) {
+                    String propertyName = (String) checkboxesToResetFields[i];
+                    if (!StringUtils.isBlank(propertyName) && parameterMap.get(propertyName) == null) {
+                        if (StringUtils.containsIgnoreCase(propertyName, "answer")) {
+                            populateForProperty(propertyName, null, parameterMap);
+                        } else {
+                            populateForProperty(propertyName, KimConstants.KIM_ATTRIBUTE_BOOLEAN_FALSE_STR_VALUE_DISPLAY, parameterMap);
+                        }
+                    } else if (!StringUtils.isBlank(propertyName) && parameterMap.get(propertyName) != null 
+                            && parameterMap.get(propertyName).length >= 1 
+                            && parameterMap.get(propertyName)[0].equalsIgnoreCase("on")) {
+                        populateForProperty(propertyName, KimConstants.KIM_ATTRIBUTE_BOOLEAN_TRUE_STR_VALUE_DISPLAY, parameterMap);
+                    }
+                }
+            }
         }
     }
     
