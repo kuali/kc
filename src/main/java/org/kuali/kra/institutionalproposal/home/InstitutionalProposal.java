@@ -18,13 +18,13 @@ package org.kuali.kra.institutionalproposal.home;
 import java.sql.Date;
 import java.util.ArrayList;
 import java.util.Calendar;
+import java.util.Collections;
+import java.util.Comparator;
 import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
 
 import org.apache.commons.lang.StringUtils;
-import org.apache.ojb.broker.PersistenceBroker;
-import org.apache.ojb.broker.PersistenceBrokerException;
 import org.kuali.kra.SequenceOwner;
 import org.kuali.kra.SkipVersioning;
 import org.kuali.kra.award.home.AwardType;
@@ -1159,10 +1159,53 @@ public class InstitutionalProposal extends KraPersistableBusinessObjectBase impl
      * Gets the projectPersons attribute. 
      * @return Returns the projectPersons.
      */
-    public List<InstitutionalProposalPerson> getProjectPersons() {
-        return projectPersons;
+    @SuppressWarnings("unchecked")
+    public List<InstitutionalProposalPerson> getProjectPersons() 
+    {        
+        Collections.sort(projectPersons, new ProjectPersonComparator());
+        return projectPersons; 
+    }
+    
+    
+    @SuppressWarnings("rawtypes")
+    class ProjectPersonComparator implements Comparator 
+    {
+        
+        public int compare(Object ipp1, Object ipp2) 
+        {
+            String lastName1 = ((InstitutionalProposalPerson) ipp1).getContact().getLastName();  
+            String lastName2 = ((InstitutionalProposalPerson) ipp2).getContact().getLastName();    
+            String contactRoleCode1 = ((InstitutionalProposalPerson) ipp1).getContactRole().getRoleCode();
+            String contactRoleCode2 = ((InstitutionalProposalPerson) ipp2).getContactRole().getRoleCode();
+                
+            if (contactRoleCode1.equals(contactRoleCode2))
+            {
+                return lastName1.compareTo(lastName2);
+            }
+            else 
+            {
+                if (contactRoleCode1.equals(ContactRole.PI_CODE))
+                {
+                    return -1;
+                }
+                if (contactRoleCode2.equals(ContactRole.PI_CODE))
+                {
+                    return 1;
+                }
+                if (contactRoleCode1.equals(ContactRole.COI_CODE)) 
+                {
+                    return -1;
+                }
+                else 
+                {
+                    return 1;
+                }              
+            }
+        }
+        
     }
 
+    
     /**
      * Sets the projectPersons attribute value.
      * @param projectPersons The projectPersons to set.
