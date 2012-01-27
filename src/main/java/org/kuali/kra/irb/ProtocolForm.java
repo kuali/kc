@@ -55,7 +55,9 @@ import org.kuali.kra.service.KraAuthorizationService;
 import org.kuali.kra.web.struts.form.Auditable;
 import org.kuali.kra.web.struts.form.KraTransactionalDocumentFormBase;
 import org.kuali.rice.core.api.CoreApiServiceLocator;
+import org.kuali.rice.core.api.config.property.ConfigurationService;
 import org.kuali.rice.kew.api.WorkflowDocument;
+import org.kuali.rice.kew.impl.KewImplConstants;
 import org.kuali.rice.kim.api.KimConstants;
 import org.kuali.rice.kns.datadictionary.HeaderNavigation;
 import org.kuali.rice.kns.service.DataDictionaryService;
@@ -506,10 +508,19 @@ public class ProtocolForm extends KraTransactionalDocumentFormBase implements Pe
     public List<ExtraButton> getExtraActionsButtons() {
         // clear out the extra buttons array
         extraButtons.clear();
-        ProtocolDocument doc = this.getDocument();
-        String externalImageURL = KRADConstants.EXTERNALIZABLE_IMAGES_URL_KEY;
-        String sendAdHocRequestsImage = KRADServiceLocator.getKualiConfigurationService().getPropertyValueAsString(externalImageURL) + "buttonsmall_sendadhocreq.gif";
-        addExtraButton("methodToCall.sendAdHocRequests", sendAdHocRequestsImage, "Send AdHoc Requests");
+
+        String externalImageURL = Constants.KRA_EXTERNALIZABLE_IMAGES_URI_KEY;
+        ConfigurationService configurationService = KRADServiceLocator.getKualiConfigurationService();
+        
+        boolean suppressRoutingControls = getActionHelper().getCanApproveFull() || !getActionHelper().getCanApproveOther();
+        if (suppressRoutingControls && getDocumentActions().get(KRADConstants.KUALI_ACTION_CAN_SEND_ADHOC_REQUESTS) != null) {
+            String sendAdHocRequestsImage = configurationService.getPropertyValueAsString(externalImageURL) + "buttonsmall_sendadhocreq.gif";
+            addExtraButton("methodToCall.sendAdHocRequests", sendAdHocRequestsImage, "Send AdHoc Requests");
+        }
+        
+        String sendNotificationImage = configurationService.getPropertyValueAsString(externalImageURL) + "buttonsmall_send_notification.gif";
+        addExtraButton("methodToCall.sendNotification", sendNotificationImage, "Send Notification");
+        
         return extraButtons;
     }
      

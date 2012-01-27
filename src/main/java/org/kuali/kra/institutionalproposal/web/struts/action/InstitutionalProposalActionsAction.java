@@ -33,6 +33,9 @@ import org.kuali.kra.infrastructure.KeyConstants;
 import org.kuali.kra.infrastructure.KraServiceLocator;
 import org.kuali.kra.institutionalproposal.document.InstitutionalProposalDocument;
 import org.kuali.kra.institutionalproposal.fundedawards.FundedAwardsBean;
+import org.kuali.kra.institutionalproposal.home.InstitutionalProposal;
+import org.kuali.kra.institutionalproposal.notification.InstitutionalProposalNotificationContext;
+import org.kuali.kra.institutionalproposal.notification.InstitutionalProposalNotificationRenderer;
 import org.kuali.kra.institutionalproposal.printing.InstitutionalProposalPrintType;
 import org.kuali.kra.institutionalproposal.printing.service.InstitutionalProposalPrintingService;
 import org.kuali.kra.institutionalproposal.web.struts.form.InstitutionalProposalForm;
@@ -286,9 +289,20 @@ public class InstitutionalProposalActionsAction extends InstitutionalProposalAct
         ((InstitutionalProposalForm)form).getDocument().prepareForSave();
         return super.fyi(mapping, form, request, response);
     }
-
-  
     
+    public ActionForward sendNotification(ActionMapping mapping, ActionForm form, HttpServletRequest request, HttpServletResponse response) throws Exception {
+        InstitutionalProposalForm institutionalProposalForm = (InstitutionalProposalForm) form;
+        InstitutionalProposal institutionalProposal = institutionalProposalForm.getInstitutionalProposalDocument().getInstitutionalProposal();
+        
+        InstitutionalProposalNotificationRenderer renderer = new InstitutionalProposalNotificationRenderer(institutionalProposal);
+        InstitutionalProposalNotificationContext context 
+            = new InstitutionalProposalNotificationContext(institutionalProposal, null, "Ad-Hoc Notification", renderer);
+        
+        institutionalProposalForm.getNotificationHelper().initializeDefaultValues(context);
+        
+        return mapping.findForward("notificationEditor");
+    }
+
     /**
      * 
      * This method is to build the confirmation question for unlocking funded awards.

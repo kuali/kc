@@ -22,6 +22,7 @@ import java.util.Map;
 import org.apache.commons.lang.StringUtils;
 import org.kuali.kra.authorization.KraAuthorizationConstants;
 import org.kuali.kra.common.customattributes.CustomDataForm;
+import org.kuali.kra.common.notification.web.struts.form.NotificationHelper;
 import org.kuali.kra.common.web.struts.form.ReportHelperBean;
 import org.kuali.kra.common.web.struts.form.ReportHelperBeanContainer;
 import org.kuali.kra.infrastructure.Constants;
@@ -35,15 +36,23 @@ import org.kuali.kra.institutionalproposal.document.InstitutionalProposalDocumen
 import org.kuali.kra.institutionalproposal.home.InstitutionalProposalCostShareBean;
 import org.kuali.kra.institutionalproposal.home.InstitutionalProposalNotepadBean;
 import org.kuali.kra.institutionalproposal.home.InstitutionalProposalUnrecoveredFandABean;
+import org.kuali.kra.institutionalproposal.notification.InstitutionalProposalNotificationContext;
 import org.kuali.kra.institutionalproposal.specialreview.SpecialReviewHelper;
 import org.kuali.kra.medusa.MedusaBean;
+import org.kuali.kra.proposaldevelopment.document.ProposalDevelopmentDocument;
+import org.kuali.kra.proposaldevelopment.document.authorization.ProposalTask;
+import org.kuali.kra.service.TaskAuthorizationService;
 import org.kuali.kra.web.struts.form.Auditable;
 import org.kuali.kra.web.struts.form.KraTransactionalDocumentFormBase;
 import org.kuali.kra.web.struts.form.MultiLookupFormBase;
+import org.kuali.rice.core.api.config.property.ConfigurationService;
 import org.kuali.rice.coreservice.framework.parameter.ParameterService;
 import org.kuali.rice.kns.datadictionary.HeaderNavigation;
 import org.kuali.rice.kns.service.DataDictionaryService;
 import org.kuali.rice.kns.util.ActionFormUtilMap;
+import org.kuali.rice.kns.web.ui.ExtraButton;
+import org.kuali.rice.krad.service.KRADServiceLocator;
+import org.kuali.rice.krad.util.GlobalVariables;
 import org.kuali.rice.krad.util.KRADConstants;
 
 /**
@@ -65,6 +74,7 @@ public class InstitutionalProposalForm extends KraTransactionalDocumentFormBase 
     
     private SpecialReviewHelper specialReviewHelper;
     private InstitutionalProposalCustomDataFormHelper institutionalProposalCustomDataFormHelper;
+    private NotificationHelper<InstitutionalProposalNotificationContext> notificationHelper;
     private InstitutionalProposalNotepadBean institutionalProposalNotepadBean;
     private InstitutionalProposalCostShareBean institutionalProposalCostShareBean;
     private InstitutionalProposalUnrecoveredFandABean institutionalProposalUnrecoveredFandABean;
@@ -106,6 +116,7 @@ public class InstitutionalProposalForm extends KraTransactionalDocumentFormBase 
     public void initialize() {
         specialReviewHelper = new SpecialReviewHelper(this);
         institutionalProposalCustomDataFormHelper = new InstitutionalProposalCustomDataFormHelper(this);
+        notificationHelper = new NotificationHelper<InstitutionalProposalNotificationContext>();
         institutionalProposalNotepadBean = new InstitutionalProposalNotepadBean(this);
         institutionalProposalCostShareBean = new InstitutionalProposalCostShareBean(this);
         institutionalProposalUnrecoveredFandABean = new InstitutionalProposalUnrecoveredFandABean(this);
@@ -175,6 +186,22 @@ public class InstitutionalProposalForm extends KraTransactionalDocumentFormBase 
     public void setInstitutionalProposalCustomDataFormHelper(
             InstitutionalProposalCustomDataFormHelper institutionalProposalCustomDataFormHelper) {
         this.institutionalProposalCustomDataFormHelper = institutionalProposalCustomDataFormHelper;
+    }
+    
+    /**
+     * Gets the notificationHelper attribute. 
+     * @return Returns the notificationHelper.
+     */
+    public NotificationHelper<InstitutionalProposalNotificationContext> getNotificationHelper() {
+        return notificationHelper;
+    }
+
+    /**
+     * Sets the notificationHelper attribute value.
+     * @param notificationHelper The notificationHelper to set.
+     */
+    public void setNotificationHelper(NotificationHelper<InstitutionalProposalNotificationContext> notificationHelper) {
+        this.notificationHelper = notificationHelper;
     }
     
     /**
@@ -475,6 +502,18 @@ public class InstitutionalProposalForm extends KraTransactionalDocumentFormBase 
         HeaderNavigation[] result = new HeaderNavigation[resultList.size()];
         resultList.toArray(result);
         return result;
+    }
+    
+    public List<ExtraButton> getExtraActionsButtons() {
+        extraButtons.clear();
+        
+        String externalImageURL = Constants.KRA_EXTERNALIZABLE_IMAGES_URI_KEY;
+        ConfigurationService configurationService = KRADServiceLocator.getKualiConfigurationService();
+        
+        String sendNotificationImage = configurationService.getPropertyValueAsString(externalImageURL) + "buttonsmall_send_notification.gif";
+        addExtraButton("methodToCall.sendNotification", sendNotificationImage, "Send Notification");
+        
+        return extraButtons;
     }
 
 }

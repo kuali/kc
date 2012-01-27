@@ -783,4 +783,7 @@
 		</property>
 	</bean>
 	
+    <bean id="awardNotificationRoleQualifierService" class="org.kuali.kra.award.notification.AwardNotificationRoleQualifierServiceImpl">
+    </bean>
+	
 </beans>

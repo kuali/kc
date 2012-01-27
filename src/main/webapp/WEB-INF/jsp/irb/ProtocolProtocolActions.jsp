@@ -31,9 +31,7 @@
 <c:set var="protocolAttributes" value="${DataDictionary.ProtocolDocument.attributes}" />
 <c:set var="showActions" value="${empty DocumentPessimisticLockMessages}" scope="request"/>
 <c:set var="suppressRoutingControls" value="${KualiForm.actionHelper.canApproveFull || !KualiForm.actionHelper.canApproveOther}" scope="request"/>
-<c:if test="${suppressRoutingControls && !empty KualiForm.documentActions[Constants.KUALI_ACTION_CAN_SEND_ADHOC_REQUESTS]}">
-	<c:set var="extraButtons" value="${KualiForm.extraActionsButtons}" scope="request"/>
-</c:if>	
+<c:set var="extraButtons" value="${KualiForm.extraActionsButtons}" scope="request"/>
 
 <style type="text/css">
    .compare { color: #666666 }
