@@ -18,6 +18,7 @@ package org.kuali.kra.irb.protocol.participant;
 import java.util.ArrayList;
 import java.util.List;
 
+import org.junit.Ignore;
 import org.junit.Test;
 import org.kuali.kra.infrastructure.Constants;
 import org.kuali.kra.infrastructure.KeyConstants;
@@ -82,6 +83,9 @@ public class ProtocolParticipantRuleTest extends ProtocolRuleTestBase {
      * 
      * @throws Exception
      */
+    /* Test has been marked with ignore flag due to KCINFR-445 
+     * Once the related Rice issue is resolved, this can be included back */
+    @Ignore
     @Test
     public void testAddProtocolParticipantWithNegCount() throws Exception {
         new TemplateRuleTest<AddProtocolParticipantEvent, AddProtocolParticipantRule> (){            
@@ -126,6 +130,9 @@ public class ProtocolParticipantRuleTest extends ProtocolRuleTestBase {
     /**
      * Test adding a participant with an unspecified participant type.  This is not allowed.
      */
+    /* Test has been marked with ignore flag due to KCINFR-445 
+     * Once the related Rice issue is resolved, this can be included back */
+    @Ignore
     @Test
     public void testAddUnspecifiedProtocolParticipant() throws Exception {
         new TemplateRuleTest<AddProtocolParticipantEvent, AddProtocolParticipantRule> (){            
