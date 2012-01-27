@@ -24,6 +24,7 @@ import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
 
+import org.apache.commons.collections.CollectionUtils;
 import org.apache.commons.lang.StringUtils;
 import org.kuali.kra.SequenceOwner;
 import org.kuali.kra.SkipVersioning;
@@ -1161,8 +1162,9 @@ public class InstitutionalProposal extends KraPersistableBusinessObjectBase impl
      */
     @SuppressWarnings("unchecked")
     public List<InstitutionalProposalPerson> getProjectPersons() 
-    {        
-        Collections.sort(projectPersons, new ProjectPersonComparator());
+    {   if(CollectionUtils.isNotEmpty(projectPersons)) {    
+            Collections.sort(projectPersons, new ProjectPersonComparator());
+        }
         return projectPersons; 
     }
     
@@ -1171,12 +1173,14 @@ public class InstitutionalProposal extends KraPersistableBusinessObjectBase impl
     class ProjectPersonComparator implements Comparator 
     {
         
-        public int compare(Object ipp1, Object ipp2) 
+        public int compare(Object obj1, Object obj2) 
         {
-            String lastName1 = ((InstitutionalProposalPerson) ipp1).getContact().getLastName();  
-            String lastName2 = ((InstitutionalProposalPerson) ipp2).getContact().getLastName();    
-            String contactRoleCode1 = ((InstitutionalProposalPerson) ipp1).getContactRole().getRoleCode();
-            String contactRoleCode2 = ((InstitutionalProposalPerson) ipp2).getContactRole().getRoleCode();
+            InstitutionalProposalPerson ipp1 = (InstitutionalProposalPerson) obj1;
+            InstitutionalProposalPerson ipp2 = (InstitutionalProposalPerson) obj2;
+            String lastName1 = ipp1.getContact() != null ? ipp1.getContact().getLastName() : "";  
+            String lastName2 = ipp2.getContact() != null ? ipp2.getContact().getLastName() : "";
+            String contactRoleCode1 = ipp1.getContactRole() != null ? ipp1.getContactRole().getRoleCode() : "";
+            String contactRoleCode2 = ipp2.getContactRole() != null ? ipp2.getContactRole().getRoleCode() : "";
                 
             if (contactRoleCode1.equals(contactRoleCode2))
             {
