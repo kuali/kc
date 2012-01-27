@@ -874,5 +874,8 @@
 		<property name = "questionnaireAnswerService" ref = "questionnaireAnswerService"/>
 		<property name = "questionnaireService" ref = "questionnaireService"/>
 	</bean>
+	
+	<bean id="proposalDevelopmentNotificationRoleQualifierService" class="org.kuali.kra.proposaldevelopment.notification.ProposalDevelopmentNotificationRoleQualifierServiceImpl">
+    </bean>
 
 </beans>

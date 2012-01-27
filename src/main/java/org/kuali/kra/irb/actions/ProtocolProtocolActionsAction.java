@@ -31,6 +31,10 @@ import org.apache.struts.action.ActionForm;
 import org.apache.struts.action.ActionForward;
 import org.apache.struts.action.ActionMapping;
 import org.kuali.kra.authorization.ApplicationTask;
+import org.kuali.kra.award.AwardForm;
+import org.kuali.kra.award.home.Award;
+import org.kuali.kra.award.notification.AwardNotificationContext;
+import org.kuali.kra.award.notification.AwardNotificationRenderer;
 import org.kuali.kra.bo.AttachmentFile;
 import org.kuali.kra.bo.CoeusModule;
 import org.kuali.kra.bo.CoeusSubModule;
@@ -3511,6 +3515,18 @@ public class ProtocolProtocolActionsAction extends ProtocolAction implements Aud
 //            }
             return forward;
         }
+    }
+    
+    public ActionForward sendNotification(ActionMapping mapping, ActionForm form, HttpServletRequest request, HttpServletResponse response) throws Exception {
+        ProtocolForm protocolForm = (ProtocolForm) form;
+        Protocol protocol = protocolForm.getProtocolDocument().getProtocol();
+        
+        IRBNotificationRenderer renderer = new IRBNotificationRenderer(protocol);
+        IRBNotificationContext context = new IRBNotificationContext(protocol, null, "Ad-Hoc Notification", renderer);
+        
+        protocolForm.getNotificationHelper().initializeDefaultValues(context);
+        
+        return mapping.findForward("protocolNotificationEditor");
     }
 
     protected PersonService getPersonService() {

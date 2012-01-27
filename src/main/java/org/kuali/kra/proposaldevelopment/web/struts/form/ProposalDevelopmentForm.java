@@ -46,6 +46,7 @@ import org.kuali.kra.bo.KcPerson;
 import org.kuali.kra.bo.SponsorFormTemplateList;
 import org.kuali.kra.bo.Unit;
 import org.kuali.kra.budget.core.Budget;
+import org.kuali.kra.common.notification.web.struts.form.NotificationHelper;
 import org.kuali.kra.common.web.struts.form.ReportHelperBean;
 import org.kuali.kra.common.web.struts.form.ReportHelperBeanContainer;
 import org.kuali.kra.infrastructure.Constants;
@@ -74,6 +75,7 @@ import org.kuali.kra.proposaldevelopment.bo.ProposalUserEditRoles;
 import org.kuali.kra.proposaldevelopment.document.ProposalDevelopmentDocument;
 import org.kuali.kra.proposaldevelopment.document.authorization.ProposalTask;
 import org.kuali.kra.proposaldevelopment.hierarchy.bo.HierarchyProposalSummary;
+import org.kuali.kra.proposaldevelopment.notification.ProposalDevelopmentNotificationContext;
 import org.kuali.kra.proposaldevelopment.questionnaire.ProposalDevelopmentQuestionnaireHelper;
 import org.kuali.kra.proposaldevelopment.questionnaire.ProposalDevelopmentS2sQuestionnaireHelper;
 import org.kuali.kra.proposaldevelopment.questionnaire.ProposalPersonQuestionnaireHelper;
@@ -206,6 +208,8 @@ public class ProposalDevelopmentForm extends BudgetVersionFormBase implements Re
     private ProposalDevelopmentRejectionBean proposalDevelopmentRejectionBean;
     private boolean showRejectionConfirmation;
     
+    private NotificationHelper<ProposalDevelopmentNotificationContext> notificationHelper;
+    
     private ProposalDevelopmentQuestionnaireHelper proposalDevelopmentQuestionnaireHelper;
     private ProposalDevelopmentS2sQuestionnaireHelper proposalDevelopmentS2sQuestionnaireHelper;
     private List<ProposalPersonQuestionnaireHelper> proposalPersonQuestionnaireHelpers;
@@ -267,6 +271,7 @@ public class ProposalDevelopmentForm extends BudgetVersionFormBase implements Re
         reportHelperBean = new ReportHelperBean(this);
         canCreateProposal = isAuthorizedToCreateProposal();
         setProposalDevelopmentRejectionBean(new ProposalDevelopmentRejectionBean());
+        setNotificationHelper(new NotificationHelper());
         setQuestionnaireHelper(new ProposalDevelopmentQuestionnaireHelper(this));
         setS2sQuestionnaireHelper(new ProposalDevelopmentS2sQuestionnaireHelper(this));
         
@@ -1207,6 +1212,9 @@ public class ProposalDevelopmentForm extends BudgetVersionFormBase implements Re
             addExtraButton("methodToCall.deleteProposal", deleteProposalImage, "Delete Proposal");
         }
         
+        String sendNotificationImage = configurationService.getPropertyValueAsString(externalImageURL) + "buttonsmall_send_notification.gif";
+        addExtraButton("methodToCall.sendNotification", sendNotificationImage, "Send Notification");
+        
         return extraButtons;
     }
     
@@ -1819,6 +1827,14 @@ public class ProposalDevelopmentForm extends BudgetVersionFormBase implements Re
     
     public void setShowRejectionConfirmation(boolean showRejectionConfirmation) {
         this.showRejectionConfirmation = showRejectionConfirmation;
+    }
+    
+    public NotificationHelper<ProposalDevelopmentNotificationContext> getNotificationHelper() {
+        return notificationHelper;
+    }
+    
+    public void setNotificationHelper(NotificationHelper<ProposalDevelopmentNotificationContext> notificationHelper) {
+        this.notificationHelper = notificationHelper;
     }
     
     /**

@@ -28,7 +28,8 @@
   	<div align="right"><kul:help documentTypeName="${KualiForm.documentTypeName}" pageName="Institutional Proposal Actions" /></div>
 
 <c:set var="readOnly" value="${KualiForm.editingMode['viewOnly']}" scope="request" />
-
+<c:set var="extraButtons" value="${KualiForm.extraActionsButtons}" scope="request" />
+    
 <kra:dataValidation auditActivated="${KualiForm.auditActivated}" topTab="true"/>
 <kra-ip:institutionalProposalFundedAwards />
 <kul:adHocRecipients />
@@ -37,7 +38,12 @@
 
 <kul:panelFooter />	
  
-<kul:documentControls transactionalDocument="true" />
+<kul:documentControls transactionalDocument="true"
+                      extraButtonSource="${extraButtonSource}"
+                      extraButtonProperty="${extraButtonProperty}"
+                      extraButtonAlt="${extraButtonAlt}" 
+                      extraButtons="${extraButtons}" />
+
 <script language="javascript" src="scripts/kuali_application.js"></script>
 
 </kul:documentPage>

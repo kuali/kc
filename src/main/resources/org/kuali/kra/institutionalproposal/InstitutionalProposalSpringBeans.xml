@@ -173,5 +173,7 @@
 		</property>
 	</bean>
 
+    <bean id="institutionalProposalNotificationRoleQualifierService" class="org.kuali.kra.institutionalproposal.notification.InstitutionalProposalNotificationRoleQualifierServiceImpl">
+    </bean>
     
 </beans>
