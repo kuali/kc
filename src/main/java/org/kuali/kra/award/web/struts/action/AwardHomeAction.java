@@ -589,6 +589,11 @@ public class AwardHomeAction extends AwardAction {
     
     public ActionForward applySponsorTemplate(ActionMapping mapping, ActionForm form, HttpServletRequest request,
             HttpServletResponse response) throws Exception {
-        return fullSyncToAwardTemplate(mapping, form, request, response);
+        AwardForm awardForm = (AwardForm) form;
+        ActionForward result = fullSyncToAwardTemplate(mapping, form, request, response);
+        
+        awardForm.setReportTrackingBeans(awardForm.buildReportTrackingBeans());
+        
+        return result;
     }
 }
