@@ -42,8 +42,8 @@
                                     Role Search
                                 </td>
                                 <td style="border: medium none;">
-                                    <kul:lookup boClassName="org.kuali.rice.kim.bo.Role" 
-                                                fieldConversions="roleId:notificationHelper.newRoleId" />
+                                    <kul:lookup boClassName="org.kuali.rice.kim.impl.role.RoleBo" 
+                                                fieldConversions="id:notificationHelper.newRoleId" />
                                 </td>
                             </tr>
                             <tr>

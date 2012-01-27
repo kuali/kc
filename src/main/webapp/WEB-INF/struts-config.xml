@@ -140,6 +140,7 @@
           <forward name="ajaxBudgetSummary" path="/WEB-INF/jsp/proposalhierarchy/ProposalHierarchyBudgetSummary.jsp" />
           <forward name="deleted" path="/WEB-INF/jsp/proposaldevelopment/ProposalDevelopmentDeleted.jsp"/>
           <forward name="approverView" path="/WEB-INF/jsp/proposaldevelopment/ProposalDevelopmentApproverView.jsp" />
+          <forward name="notificationEditor" path="/WEB-INF/jsp/proposaldevelopment/ProposalDevelopmentNotificationEditor.jsp" />
       </action>
 
  		<action path="/unitHierarchy" name="UnitHierarchyForm" type="org.kuali.kra.web.struts.action.UnitHierarchyAction" scope="request">
@@ -176,10 +177,10 @@
             <forward name="replaceLookup" path="/WEB-INF/jsp/questionnaire/questionReplace.jsp" />            
         </action>
         
-    <action path="/resubmissionPrompt" name="ProposalDevelopmentForm" attribute="KualiForm" scope="request" parameter="methodToCall" validate="false" input="/WEB-INF/jsp/institutionalproposal/ProposalLogMerge.jsp" type="org.kuali.kra.proposaldevelopment.web.struts.action.ProposalDevelopmentResubmissionPromptAction">
-        <forward name="actions" path="/WEB-INF/jsp/proposaldevelopment/ProposalDevelopmentActions.jsp" />
-        <forward name="basic" path="/WEB-INF/jsp/proposaldevelopment/ProposalDevelopmentResubmissionPrompt.jsp" />
-    </action>
+        <action path="/resubmissionPrompt" name="ProposalDevelopmentForm" attribute="KualiForm" scope="request" parameter="methodToCall" validate="false" input="/WEB-INF/jsp/institutionalproposal/ProposalLogMerge.jsp" type="org.kuali.kra.proposaldevelopment.web.struts.action.ProposalDevelopmentResubmissionPromptAction">
+            <forward name="actions" path="/WEB-INF/jsp/proposaldevelopment/ProposalDevelopmentActions.jsp" />
+            <forward name="basic" path="/WEB-INF/jsp/proposaldevelopment/ProposalDevelopmentResubmissionPrompt.jsp" />
+        </action>
 
       <!--  Budget -->
       <action path="/budget*" name="BudgetForm" input="/WEB-INF/jsp/budget/Budget{1}.jsp" type="org.kuali.kra.budget.web.struts.action.Budget{1}Action"  scope="request" parameter="methodToCall" validate="true" attribute="KualiForm">
@@ -229,6 +230,7 @@
           <forward name="medusa" path="/WEB-INF/jsp/award/AwardMedusa.jsp" />   
           <forward name="icrRateCodePrompt" path="/WEB-INF/jsp/award/IcrRateCodePrompt.jsp" />
           <!--<forward name="commentViewHistory" path="/WEB-INF/jsp/award/AwardCommentViewHistory.jsp" />-->                                  
+          <forward name="notificationEditor" path="/WEB-INF/jsp/award/AwardNotificationEditor.jsp" />
       </action>
       <action path="/awardCommentViewHistory" name="AwardForm" input="/WEB-INF/jsp/award/AwardCommentViewHistory.jsp" type="org.kuali.kra.award.web.struts.action.AwardNotesAndAttachmentsAction" scope="request" parameter="methodToCall" validate="true" attribute="KualiForm">
             <forward name="basic" path="/WEB-INF/jsp/award/AwardCommentViewHistory.jsp" />
@@ -312,6 +314,7 @@
           <forward name="distribution" path="/WEB-INF/jsp/institutionalproposal/InstitutionalProposalDistribution.jsp" />
           <forward name="institutionalProposalActions" path="/WEB-INF/jsp/institutionalproposal/InstitutionalProposalActions.jsp" />
           <forward name="medusa" path="/WEB-INF/jsp/institutionalproposal/InstitutionalProposalMedusa.jsp" />                    
+          <forward name="notificationEditor" path="/WEB-INF/jsp/institutionalproposal/InstitutionalProposalNotificationEditor.jsp" />
       </action>
       
       <action path="/mergeProposalLog" name="ProposalLogMergeForm" attribute="KualiForm" scope="request" parameter="methodToCall" validate="false" input="/WEB-INF/jsp/institutionalproposal/ProposalLogMerge.jsp" type="org.kuali.kra.institutionalproposal.proposallog.ProposalLogMergeAction">

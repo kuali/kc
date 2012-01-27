@@ -13,21 +13,28 @@
  * See the License for the specific language governing permissions and
  * limitations under the License.
  */
-package org.kuali.kra.common.notification.service;
+package org.kuali.kra.award.notification;
 
-import org.kuali.kra.common.notification.bo.NotificationModuleRoleQualifier;
+import org.kuali.kra.award.home.Award;
+import org.kuali.kra.common.notification.service.KcNotificationRoleQualifierService;
 
 /**
- * Defines the service to fill in module role qualifier information.
+ * Defines the service to fill in module role qualifier information for Award.
  */
-public interface KcNotificationRoleQualifierService {
+public interface AwardNotificationRoleQualifierService extends KcNotificationRoleQualifierService {
+
+    /**
+     * Returns the Award.
+     * 
+     * @return the Award
+     */
+    Award getAward();
     
     /**
-     * Returns the appropriate value given the information in the passed in module role qualifier.
-     * 
-     * @param qualifier the module role qualifier
-     * @return the associated value, or null if not found.
+     * Sets the Award.
+     *
+     * @param award the Award to set
      */
-    String getRoleQualifierValue(NotificationModuleRoleQualifier qualifier);
-
+    void setAward(Award award);
+    
 }
