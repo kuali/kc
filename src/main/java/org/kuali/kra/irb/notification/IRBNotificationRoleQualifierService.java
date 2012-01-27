@@ -19,10 +19,37 @@ import org.kuali.kra.common.notification.service.KcNotificationRoleQualifierServ
 import org.kuali.kra.irb.Protocol;
 import org.kuali.kra.irb.onlinereview.ProtocolOnlineReview;
 
+/**
+ * Defines the service to fill in module role qualifier information for Protocol.
+ */
 public interface IRBNotificationRoleQualifierService extends KcNotificationRoleQualifierService {
 
-    public void setProtocol(Protocol protocol);
-    public Protocol getProtocol();
-    public void setProtocolOnlineReview(ProtocolOnlineReview protocolOnlineReview);
-    public ProtocolOnlineReview getProtocolOnlineReview();
+    /**
+     * Returns the Protocol.
+     * 
+     * @return the Protocol
+     */
+    Protocol getProtocol();
+    
+    /**
+     * Sets the Protocol.
+     *
+     * @param protocol the Protocol to set
+     */
+    void setProtocol(Protocol protocol);
+
+    /**
+     * Returns the Protocol Online Review.
+     * 
+     * @return the Protocol Online Review
+     */
+    ProtocolOnlineReview getProtocolOnlineReview();
+    
+    /**
+     * Sets the Protocol Online Review.
+     *
+     * @param protocolOnlineReview the Protocol Online Review to set
+     */
+    void setProtocolOnlineReview(ProtocolOnlineReview protocolOnlineReview);
+    
 }

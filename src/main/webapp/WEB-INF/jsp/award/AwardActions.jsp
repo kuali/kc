@@ -27,6 +27,7 @@
   	extraTopButtons="${KualiForm.extraTopButtons}" >
   	
   	<c:set var="readOnly" value="${not KualiForm.editingMode['fullEntry']}" scope="request" />
+  	<c:set var="extraButtons" value="${KualiForm.extraActionsButtons}" scope="request" />
   	<script>
 	  $j = jQuery.noConflict();
 	</script>
@@ -62,7 +63,11 @@
 <kul:documentControls transactionalDocument="true" suppressRoutingControls="true" />
 --%>
 
-<kul:documentControls transactionalDocument="true" />
+<kul:documentControls transactionalDocument="true"
+                      extraButtonSource="${extraButtonSource}"
+                      extraButtonProperty="${extraButtonProperty}"
+                      extraButtonAlt="${extraButtonAlt}" 
+                      extraButtons="${extraButtons}" />
 
 </kul:documentPage>
 <script type="text/javascript" src="scripts/awardHierarchyShared.js"></script>

@@ -21,38 +21,43 @@ import org.kuali.kra.irb.Protocol;
 import org.kuali.kra.irb.onlinereview.ProtocolOnlineReview;
 import org.kuali.kra.kim.bo.KcKimAttributes;
 
-
+/**
+ * Implements the IRBNotificationRoleQualifierService.
+ */
 public class IRBNotificationRoleQualifierServiceImpl implements IRBNotificationRoleQualifierService {
 
     private Protocol protocol;
     private ProtocolOnlineReview protocolOnlineReview;
     
     /**
-     * 
-     * @see org.kuali.kra.common.notification.service.KcNotificationRoleQualifierService#getRoleQualifierValue(org.kuali.kra.common.notification.bo.NotificationModuleRoleQualifier)
+     * {@inheritDoc}
+     * @see org.kuali.kra.common.notification.service.KcNotificationRoleQualifierService#getRoleQualifierValue(
+     *      org.kuali.kra.common.notification.bo.NotificationModuleRoleQualifier)
      */
     @Override
     public String getRoleQualifierValue(NotificationModuleRoleQualifier qualifier) {
+        String roleQualifierValue = null;
+        
         String qName = qualifier.getQualifier();
         
-            if (StringUtils.equalsIgnoreCase(qName, KcKimAttributes.UNIT_NUMBER) ||
-                StringUtils.equalsIgnoreCase(qName, "protocolLeadUnitNumber")) {
-                return getProtocol().getLeadUnitNumber();
-            } else if (StringUtils.equalsIgnoreCase(qName, KcKimAttributes.PROTOCOL)) {
-                return getProtocol().getProtocolNumber();
-            } else if (StringUtils.equalsIgnoreCase(qName, KcKimAttributes.SUBUNITS)) {
-                return "Y";
-            } else if (StringUtils.equalsIgnoreCase(qName, "submissionId")) {
-                if (getProtocol().getProtocolSubmission() != null) {
-                    return getProtocol().getProtocolSubmission().getSubmissionId().toString();
-                }
-            } else if (StringUtils.equals(qName, "protocolOnlineReviewId")) {
-                if (protocolOnlineReview != null) {
-                    return protocolOnlineReview.getProtocolOnlineReviewId().toString();
-                }
+        if (StringUtils.equalsIgnoreCase(qName, KcKimAttributes.UNIT_NUMBER) 
+                || StringUtils.equalsIgnoreCase(qName, "protocolLeadUnitNumber")) {
+            roleQualifierValue = getProtocol().getLeadUnitNumber();
+        } else if (StringUtils.equalsIgnoreCase(qName, KcKimAttributes.PROTOCOL)) {
+            roleQualifierValue = getProtocol().getProtocolNumber();
+        } else if (StringUtils.equalsIgnoreCase(qName, KcKimAttributes.SUBUNITS)) {
+            roleQualifierValue = "Y";
+        } else if (StringUtils.equalsIgnoreCase(qName, "submissionId")) {
+            if (getProtocol().getProtocolSubmission() != null) {
+                roleQualifierValue = getProtocol().getProtocolSubmission().getSubmissionId().toString();
             }
+        } else if (StringUtils.equals(qName, "protocolOnlineReviewId")) {
+            if (protocolOnlineReview != null) {
+                roleQualifierValue = protocolOnlineReview.getProtocolOnlineReviewId().toString();
+            }
+        }
         
-        return null;
+        return roleQualifierValue;
     }
 
     public Protocol getProtocol() {

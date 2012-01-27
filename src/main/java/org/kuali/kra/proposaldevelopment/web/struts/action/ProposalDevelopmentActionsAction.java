@@ -71,6 +71,8 @@ import org.kuali.kra.proposaldevelopment.bo.ProposalType;
 import org.kuali.kra.proposaldevelopment.document.ProposalDevelopmentDocument;
 import org.kuali.kra.proposaldevelopment.hierarchy.ProposalHierarchyKeyConstants;
 import org.kuali.kra.proposaldevelopment.hierarchy.service.ProposalHierarchyService;
+import org.kuali.kra.proposaldevelopment.notification.ProposalDevelopmentNotificationContext;
+import org.kuali.kra.proposaldevelopment.notification.ProposalDevelopmentNotificationRenderer;
 import org.kuali.kra.proposaldevelopment.printing.service.ProposalDevelopmentPrintingService;
 import org.kuali.kra.proposaldevelopment.rule.event.CopyProposalEvent;
 import org.kuali.kra.proposaldevelopment.rule.event.ProposalDataOverrideEvent;
@@ -1555,9 +1557,17 @@ public class ProposalDevelopmentActionsAction extends ProposalDevelopmentAction 
         KraServiceLocator.getService(ProposalDevelopmentService.class).deleteProposal(propDevForm.getDocument());
         return mapping.findForward("portal");
     }
+    
+    public ActionForward sendNotification(ActionMapping mapping, ActionForm form, HttpServletRequest request, HttpServletResponse response) throws Exception {
+        ProposalDevelopmentForm proposalDevelopmentForm = (ProposalDevelopmentForm) form;
+        DevelopmentProposal developmentProposal = proposalDevelopmentForm.getDocument().getDevelopmentProposal();
+        
+        ProposalDevelopmentNotificationRenderer renderer = new ProposalDevelopmentNotificationRenderer(developmentProposal);
+        ProposalDevelopmentNotificationContext context = new ProposalDevelopmentNotificationContext(developmentProposal, null, "Ad-Hoc Notification", renderer);
+        
+        proposalDevelopmentForm.getNotificationHelper().initializeDefaultValues(context);
+        
+        return mapping.findForward("notificationEditor");
+    }
+    
 }
-    
-    
-    
-    
-    

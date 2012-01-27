@@ -51,6 +51,7 @@ import org.kuali.kra.award.home.fundingproposal.AwardFundingProposalBean;
 import org.kuali.kra.award.notesandattachments.attachments.AwardAttachmentFormBean;
 import org.kuali.kra.award.notesandattachments.comments.AwardCommentBean;
 import org.kuali.kra.award.notesandattachments.notes.AwardNotepadBean;
+import org.kuali.kra.award.notification.AwardNotificationContext;
 import org.kuali.kra.award.paymentreports.ReportClass;
 import org.kuali.kra.award.paymentreports.awardreports.AwardReportsBean;
 import org.kuali.kra.award.paymentreports.awardreports.reporting.ReportTracking;
@@ -68,6 +69,7 @@ import org.kuali.kra.award.web.struts.action.SponsorTermFormHelper;
 import org.kuali.kra.bo.versioning.VersionHistory;
 import org.kuali.kra.budget.BudgetDecimal;
 import org.kuali.kra.common.customattributes.CustomDataForm;
+import org.kuali.kra.common.notification.web.struts.form.NotificationHelper;
 import org.kuali.kra.common.permissions.web.struts.form.PermissionsForm;
 import org.kuali.kra.external.award.web.AccountCreationPresentationHelper;
 import org.kuali.kra.infrastructure.Constants;
@@ -160,6 +162,7 @@ public class AwardForm extends BudgetVersionFormBase
     private CustomDataHelper customDataHelper = new CustomDataHelper(this);
     private PermissionsHelper permissionsHelper;
     private SpecialReviewHelper specialReviewHelper;
+    private NotificationHelper<AwardNotificationContext> notificationHelper;
     private AwardCreditSplitBean awardCreditSplitBean;
     private Map<String, AwardHierarchy> awardHierarchyNodes;
     private String awardNumberInputTemp;//This is temporary till the GUI mock is ready for award hierarchy
@@ -255,6 +258,7 @@ public class AwardForm extends BudgetVersionFormBase
         //awardDirectFandADistributionBean = new AwardDirectFandADistributionBean(this);
         setPermissionsHelper(new PermissionsHelper(this));
         setSpecialReviewHelper(new SpecialReviewHelper(this));
+        setNotificationHelper(new NotificationHelper());
         //sponsorTermTypes = new ArrayList<KeyValue>();
         awardCreditSplitBean = new AwardCreditSplitBean(this);
         awardCommentBean = new AwardCommentBean(this);
@@ -601,6 +605,22 @@ public class AwardForm extends BudgetVersionFormBase
      */
     public void setSpecialReviewHelper(SpecialReviewHelper specialReviewHelper) {
         this.specialReviewHelper = specialReviewHelper;
+    }
+    
+    /**
+     * Gets the Notification Helper.
+     * @return the Notification Helper
+     */
+    public NotificationHelper<AwardNotificationContext> getNotificationHelper() {
+        return notificationHelper;
+    }
+    
+    /**
+     * Sets the Notification Helper.
+     * @param notificationHelper the Notification Helper
+     */
+    public void setNotificationHelper(NotificationHelper<AwardNotificationContext> notificationHelper) {
+        this.notificationHelper = notificationHelper;
     }
 
     /**
@@ -1416,6 +1436,18 @@ public class AwardForm extends BudgetVersionFormBase
         HeaderNavigation[] result = new HeaderNavigation[resultList.size()];
         resultList.toArray(result);
         return result;
+    }
+    
+    public List<ExtraButton> getExtraActionsButtons() {
+        extraButtons.clear();
+        
+        String externalImageURL = Constants.KRA_EXTERNALIZABLE_IMAGES_URI_KEY;
+        ConfigurationService configurationService = KRADServiceLocator.getKualiConfigurationService();
+        
+        String sendNotificationImage = configurationService.getPropertyValueAsString(externalImageURL) + "buttonsmall_send_notification.gif";
+        addExtraButton("methodToCall.sendNotification", sendNotificationImage, "Send Notification");
+        
+        return extraButtons;
     }
 
     public Long getPlaceHolderAwardId() {
