@@ -138,6 +138,62 @@
 							<goal>wsdl2java</goal>
 						</goals>
 					</execution>
+					<execution>
+						<id>award-creation-service</id>
+						<phase>generate-sources</phase>
+						<inherited>false</inherited>
+						<configuration>
+							<!-- maven 3 conventions - works with current m2Eclipse -->
+							<sourceRoot>${project.build.directory}/generated/cxf/main/java</sourceRoot>
+							<disableDirectoryScan>true</disableDirectoryScan>
+							<wsdlOptions>
+								<wsdlOption>
+									<noAddressBinding>true</noAddressBinding>
+									<wsdl>${gg.wsdl.location}/AwardCreationService.wsdl</wsdl>
+									<bindingFiles>
+										<bindingFile>${basedir}/src/main/resources/wsdl/award_jaxb.xml</bindingFile>
+									</bindingFiles>
+									<extraargs>
+										<extraarg>-verbose</extraarg>
+										<extraarg>-validate</extraarg>
+										<extraarg>-wsdlLocation</extraarg>
+										<extraarg>${award.wsdl.packaged.location}</extraarg>
+									</extraargs>
+								</wsdlOption>
+							</wsdlOptions>
+						</configuration>
+						<goals>
+							<goal>wsdl2java</goal>
+						</goals>
+					</execution>
+					<execution>
+						<id>agency-creation-service</id>
+						<phase>generate-sources</phase>
+						<inherited>false</inherited>
+						<configuration>
+							<!-- maven 3 conventions - works with current m2Eclipse -->
+							<sourceRoot>${project.build.directory}/generated/cxf/main/java</sourceRoot>
+							<disableDirectoryScan>true</disableDirectoryScan>
+							<wsdlOptions>
+								<wsdlOption>
+									<noAddressBinding>true</noAddressBinding>
+									<wsdl>${gg.wsdl.location}/AgencyCreationService.wsdl</wsdl>
+									<bindingFiles>
+										<bindingFile>${basedir}/src/main/resources/wsdl/agency_jaxb.xml</bindingFile>
+									</bindingFiles>
+									<extraargs>
+										<extraarg>-verbose</extraarg>
+										<extraarg>-validate</extraarg>
+										<extraarg>-wsdlLocation</extraarg>
+										<extraarg>${agency.wsdl.packaged.location}</extraarg>
+									</extraargs>
+								</wsdlOption>
+							</wsdlOptions>
+						</configuration>
+						<goals>
+							<goal>wsdl2java</goal>
+						</goals>
+					</execution>					
 				</executions>
 				<dependencies>
                     <dependency>
@@ -1119,7 +1175,7 @@
 											<artifactId>rice-web</artifactId>
 											<version>${rice.version}</version>
 											<type>war</type>
-											<overWrite>false</overWrite>
+											<overWrite>true</overWrite>
 											<outputDirectory>src/main/webapp</outputDirectory>
 										</artifactItem>
 									</artifactItems>
@@ -1597,6 +1653,8 @@
     	<gg.schema.dir>${basedir}/src/main/resources/wsdl/schema</gg.schema.dir>
     	<account.wsdl.packaged.location>wsdl/AccountCreationService.wsdl</account.wsdl.packaged.location>  
     	<budget.wsdl.packaged.location>wsdl/BudgetAdjustmentService.wsdl</budget.wsdl.packaged.location>  
+		<award.wsdl.packaged.location>wsdl/AwardCreationService.wsdl</award.wsdl.packaged.location>
+		<agency.wsdl.packaged.location>wsdl/AgencyCreationService.wsdl</agency.wsdl.packaged.location>    
     	
 	</properties>
 </project>

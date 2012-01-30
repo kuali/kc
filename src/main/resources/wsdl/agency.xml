@@ -1,0 +1,13 @@
+<jaxws:bindings xmlns:jaxws="http://java.sun.com/xml/ns/jaxws" xmlns:jaxb="http://java.sun.com/xml/ns/jaxb" wsdlLocation="AgencyCreationService.wsdl">
+    <jaxws:package name="org.kuali.kfs.integration.cg.service"/>
+    <jaxws:bindings node="wsdl:definitions/wsdl:types/xsd:schema">
+        <jaxb:schemaBindings>
+            <jaxb:package name="org.kuali.kfs.integration.cg.dto"/>
+        </jaxb:schemaBindings>
+    </jaxws:bindings>
+    <jaxb:bindings node="wsdl:definitions/wsdl:service">
+        <jaxb:schemaBindings>
+            <jaxb:package name="org.kuali.kfs.integration.cg.service"/>
+        </jaxb:schemaBindings>
+    </jaxb:bindings>    
+</jaxws:bindings>

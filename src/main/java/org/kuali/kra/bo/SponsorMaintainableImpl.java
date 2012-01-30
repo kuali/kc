@@ -17,12 +17,20 @@ package org.kuali.kra.bo;
 
 import java.util.List;
 
+import javax.xml.datatype.DatatypeConfigurationException;
+
 import org.apache.commons.lang.StringUtils;
+import org.kuali.kra.external.agency.AgencyCreationClient;
 import org.kuali.kra.infrastructure.Constants;
 import org.kuali.kra.infrastructure.KraServiceLocator;
 import org.kuali.kra.maintenance.KraMaintainableImpl;
+import org.kuali.kra.maintenance.KraMaintenanceDocument;
+import org.kuali.rice.kew.exception.WorkflowException;
+import org.kuali.rice.kns.bo.DocumentHeader;
+import org.kuali.rice.kns.document.Document;
 import org.kuali.rice.kns.document.MaintenanceDocument;
 import org.kuali.rice.kns.maintenance.Maintainable;
+import org.kuali.rice.kns.service.KNSServiceLocator;
 import org.kuali.rice.kns.service.ParameterService;
 import org.kuali.rice.kns.service.SequenceAccessorService;
 import org.kuali.rice.kns.web.ui.Field;
@@ -111,7 +119,36 @@ public class SponsorMaintainableImpl extends KraMaintainableImpl {
         this.sequenceAccessorService = sequenceAccessorService;
     }
 
-
+    @Override
+    public void doRouteStatusChange(DocumentHeader documentHeader) {
+        super.doRouteStatusChange(documentHeader);
+        
+        if(documentHeader.getWorkflowDocument().stateIsFinal()){
+            //TODO creat & check parameter
+            //if(getParamter().getValue().equals("YES")){
+            try {
+                MaintenanceDocument document = (MaintenanceDocument)KNSServiceLocator.getDocumentService().getByDocumentHeaderId(documentHeader.getDocumentNumber());
+                createFinancialSystemAgency((Sponsor)document.getDocumentBusinessObject());
+            }
+            catch (WorkflowException e) {
+                e.printStackTrace();
+            }  
+            //} 
+        }
+    }
+    
+    private void createFinancialSystemAgency(Sponsor sponsor){
+        AgencyCreationClient aclient = (AgencyCreationClient) KraServiceLocator.getService("agencyCreationClient");
+        try {
+            aclient.createAgency(sponsor);
+        }
+        catch (DatatypeConfigurationException e) {
+            e.printStackTrace();
+        }
+        catch (WorkflowException e) {
+            e.printStackTrace();
+        }
+    }
     
     
     
