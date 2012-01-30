@@ -34,11 +34,11 @@ import org.kuali.kra.award.home.AwardAmountInfo;
 import org.kuali.kra.award.home.AwardComment;
 import org.kuali.kra.award.home.AwardService;
 import org.kuali.kra.award.home.approvedsubawards.AwardApprovedSubaward;
-import org.kuali.kra.award.notesandattachments.attachments.AwardAttachment;
 import org.kuali.kra.award.notesandattachments.notes.AwardNotepad;
 import org.kuali.kra.award.paymentreports.closeout.AwardCloseout;
 import org.kuali.kra.award.paymentreports.specialapproval.approvedequipment.AwardApprovedEquipment;
 import org.kuali.kra.award.paymentreports.specialapproval.foreigntravel.AwardApprovedForeignTravel;
+import org.kuali.kra.award.specialreview.AwardSpecialReview;
 import org.kuali.kra.bo.versioning.VersionHistory;
 import org.kuali.kra.bo.versioning.VersionStatus;
 import org.kuali.kra.infrastructure.Constants;
@@ -353,7 +353,9 @@ public class AwardHierarchyServiceImpl implements AwardHierarchyService {
             restoreOriginalAwardPropertiesAfterCopy(award, originalAwardNumber, originalSequenceNumber);
             award.setAwardDocument(document);
             copyAwardAmountDateInfo(award, newAward);
-            newAward.cleanupSpecialReviews(award);
+
+            List<AwardSpecialReview> awardSpecialReviews = new ArrayList<AwardSpecialReview>();
+            newAward.setSpecialReviews(awardSpecialReviews);
             clearFilteredAttributes(newAward);
         } catch(Exception e) { 
             throw uncheckedException(e);
