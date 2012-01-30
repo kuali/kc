@@ -163,7 +163,6 @@
     <property name="name" value="salaryAnniversaryDate" />
     <property name="label" value="Salary Anniversary Date" />
     <property name="shortLabel" value="Salary Anniversary Date" />
-    <property name="required" value="true" />
     <property name="summary" value="Salary Anniversary Date" />
     <property name="description" value="Salary Anniversary Date." />
   </bean>
