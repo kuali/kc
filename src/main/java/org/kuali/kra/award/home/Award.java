@@ -3291,23 +3291,7 @@ public class Award extends KraPersistableBusinessObjectBase implements KeywordsM
     public void setAwardCommentHistoryFlags(List<Boolean> awardCommentHistoryFlags) {
         this.awardCommentHistoryFlags = awardCommentHistoryFlags;
     }
-
-    public void cleanupSpecialReviews(Award srcAward) {
-        List<AwardSpecialReview> srcSpecialReviews = srcAward.getSpecialReviews();
-        List<AwardSpecialReview> dstSpecialReviews = getSpecialReviews();
-        for (int i = 0; i < srcSpecialReviews.size(); i++) {
-            AwardSpecialReview srcSpecialReview = srcSpecialReviews.get(i);
-            AwardSpecialReview dstSpecialReview = dstSpecialReviews.get(i);
-            List<String> exemptionCodeCopy = new ArrayList<String>();
-            // copy exemption codes, since they are transient and ignored by deepCopy()
-            if (srcSpecialReview.getExemptionTypeCodes() != null) {
-                for (String s : srcSpecialReview.getExemptionTypeCodes()) {
-                    exemptionCodeCopy.add(new String(s));
-                }
-                dstSpecialReview.setExemptionTypeCodes(exemptionCodeCopy);
-            }
-        }
-    }
+    
     public void orderStaticCloseOutReportItems(List<AwardCloseout> awardCloseoutItems) {
         if(awardCloseoutItems != null && awardCloseoutItems.size() == TOTAL_STATIC_REPORTS){
             awardCloseoutNewItems.clear();
