@@ -15,13 +15,21 @@
  */
 package org.kuali.kra.subaward.bo;
 
+import java.util.HashMap;
+import java.util.Map;
+
 import org.kuali.kra.award.home.ContactType;
+import org.kuali.kra.bo.NonOrganizationalRolodex;
 import org.kuali.kra.bo.Rolodex;
+import org.kuali.kra.infrastructure.KraServiceLocator;
 import org.kuali.kra.subaward.bo.SubAward;
+import org.kuali.rice.krad.service.BusinessObjectService;
 
 public class SubAwardContact extends SubAwardAssociate { 
 
     private static final long serialVersionUID = 1L;
+
+	private static final String ROLODEX_ID_FIELD_NAME = "rolodexId";
 
     private Integer subAwardContactId;
     private Long subAwardId; 
@@ -122,6 +130,7 @@ public class SubAwardContact extends SubAwardAssociate {
 
     public void setRolodexId(Integer rolodexId) {
         this.rolodexId = rolodexId;
+        refreshRolodex();
     }
 
     public ContactType getContactType() {
@@ -133,6 +142,9 @@ public class SubAwardContact extends SubAwardAssociate {
     }
 
     public Rolodex getRolodex() {
+        if(rolodexId != null){
+           refreshRolodex();
+        }
         return rolodex;
     }
 
@@ -265,6 +277,39 @@ public class SubAwardContact extends SubAwardAssociate {
     public void resetPersistenceState() {
 
             this.subAwardContactId = null;
+    }
+    
+    /*
+     * Refreshes the rolodex from the rolodexId
+     */
+    protected void refreshRolodex() {
+        NonOrganizationalRolodex rolodex;
+        if (rolodexId != null) {
+            rolodex = (NonOrganizationalRolodex) getBusinessObjectService().findByPrimaryKey(NonOrganizationalRolodex.class, getIdentifierMap(ROLODEX_ID_FIELD_NAME, rolodexId));
+        } else {
+            rolodex = null;
+        }
+        setRolodex(rolodex);
+    }    
+
+    /**
+     * Build an identifier map for the BOS lookup
+     * @param identifierField
+     * @param identifierValue
+     * @return
+     */
+    protected Map<String, Object> getIdentifierMap(String identifierField, Object identifierValue) {
+        Map<String, Object> map = new HashMap<String, Object>();
+        map.put(identifierField, identifierValue);
+        return map;
+    }
+    
+    /**
+     * This method looks up BOS
+     * @return
+     */
+    protected BusinessObjectService getBusinessObjectService() {
+        return (BusinessObjectService) KraServiceLocator.getService(BusinessObjectService.class);
     }
     
 }

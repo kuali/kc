@@ -14,6 +14,9 @@
  limitations under the License.
 --%>
 <%@ include file="/WEB-INF/jsp/kraTldHeader.jsp"%>
+<script type='text/javascript' src='dwr/interface/RolodexService.js'></script>
+<script type='text/javascript' src='dwr/engine.js'></script>
+<script type='text/javascript' src='dwr/util.js'></script>
 
 <c:set var="subAwardContactAttributes" value="${DataDictionary.SubAwardContact.attributes}" />
 <c:set var="action" value="subAwardHome" />
@@ -28,59 +31,118 @@
     		<span class="subhead-right"><kul:help businessObjectClassName="org.kuali.kra.bo.SubAwardContact" altText="help"/></span>
         </h3>
         
-        <table cellpadding=0 cellspacing=0 summary="">
-            <tr>
-              <th><div align="left">&nbsp;</div></th> 
-               <th><div align="center"><kul:htmlAttributeLabel attributeEntry="${subAwardContactAttributes.rolodexName}" /></div></th>
-               <th><div align="center"><kul:htmlAttributeLabel attributeEntry="${subAwardContactAttributes.contactTypeCode}" /></div></th>               
-                <%-- <c:if test="${canModify}">  --%>
-              	    <kul:htmlAttributeHeaderCell literalLabel="Actions" scope="col"/>
-          	    <%-- </c:if> --%>
-            </tr>
-             <c:if test="${readOnly!='true'}">
-            <tr>    
-    				<th class="infoline" rowspan="1">
-						Add:
-					</th>					
-     			 
-     			<td><div align="center">
-     					 <kul:htmlControlAttribute property="newSubAwardContact.rolodex.firstName" readOnly="${readOnly}" attributeEntry="${subAwardContactAttributes.rolodexName}" />
-     					  <c:if test="${readOnly!='true'}">
-							<kul:lookup boClassName="org.kuali.kra.bo.NonOrganizationalRolodex" 
-								fieldConversions="firstName:newSubAwardContact.rolodex.firstName,rolodexId:newSubAwardContact.rolodexId,sponsorCode:newSubAwardContact.rolodex.sponsorCode,organization:newSubAwardContact.rolodex.organization,addressLine1:newSubAwardContact.rolodex.addressLine1,addressLine2:newSubAwardContact.rolodex.addressLine2,addressLine3:newSubAwardContact.rolodex.addressLine3,city:newSubAwardContact.rolodex.city,county:newSubAwardContact.rolodex.county,state:newSubAwardContact.rolodex.state,postalCode:newSubAwardContact.rolodex.postalCode,countryCode:newSubAwardContact.rolodex.countryCode,phoneNumber:newSubAwardContact.rolodex.phoneNumber,emailAddress:newSubAwardContact.rolodex.emailAddress,faxNumber:newSubAwardContact.rolodex.faxNumber,comments:newSubAwardContact.rolodex.comments" 			
-          						anchor="${tabKey}"/>    
-          				  </c:if>     
-   					</div> 
-   				</td>
-   				<td><div align="center">
-     					<kul:htmlControlAttribute property="newSubAwardContact.contactTypeCode" readOnly="${readOnly}" attributeEntry="${subAwardContactAttributes.contactTypeCode}" />           
-   					</div> 
-   				</td>   							
-   				<td class="infoline" rowspan="1"><div align="center">
+   <table id="subAward-contacts-table" cellpadding="0" cellspacing="0">
+        <tr>
+		  <th scope="row" width="5%">&nbsp;</th>
+		  <th width="15%">* Person or Organization</th>
+		  <th width="20%">* Project Role</div></th>
+		  <th width="15%">Office Phone</th>
+		  <th width="15%">Email</th>
+		  <th width="15%"><div align="center">Actions</div></th>				
+				
+         <c:if test="${!readOnly}">
+	     <tr>
+				<th class="infoline" scope="row">Add</th>
+				<td nowrap class="grid" class="infoline">
+                    Non-employee ID:                      
+					<kul:htmlControlAttribute property="newSubAwardContact.rolodex.fullName" 
+      								attributeEntry="${subAwardContactAttributes.rolodexName}" 
+      							    onblur="loadRolodexInfo('newSubAwardContact.rolodex.fullName',
+	                               							'org.fullName.div',
+	                	        				  			'org.phoneNumber',
+           	        							  			'org.emailAddress',
+           	        							  			'rolodexId');"
+           	        							  			readOnly="${readOnly}"/>  
+           	        							  			
+  					<c:if test="${!readOnly}">
+  					
+  						<kul:lookup boClassName="org.kuali.kra.bo.Rolodex" fieldConversions="rolodexId:newSubAwardContact.rolodexId" 
+  									anchor="${tabKey}" lookupParameters="newSubAwardContact.rolodexId:rolodexId"/>
+  					</c:if>
+  		</c:if> 
+  		            <c:if test="${readOnly}">
+					     <html:hidden styleId ="org.fullName" property="newSubAwardContact.rolodex.fullName" />
+				    </c:if>
+				
+				    ${kfunc:registerEditableProperty(KualiForm, "newSubAwardContact.rolodexId")}
+				    <html:hidden styleId ="rolodexId" property="newSubAwardContact.rolodexId" />	
+	              
+	               <div id="org.fullName.div">&nbsp; <c:if
+					test="${!empty KualiForm.newSubAwardContact.rolodex}">
+					<c:choose>
+						<c:when
+							test="${empty KualiForm.newSubAwardContact.rolodex}">
+							<span style='color: red;'>not found</span>
+						</c:when>
+						<c:otherwise>
+							<c:out
+								value="${KualiForm.newSubAwardContact.rolodex.organization}" />
+						</c:otherwise>
+					</c:choose>
+				</c:if></div>
+		    </td>
+				  
+				<td class="infoline" style="font-size: 80%">
+	        		<div align="center">
+		        		<kul:htmlControlAttribute property="newSubAwardContact.contactTypeCode" 
+	                									attributeEntry="${subAwardContactAttributes.contactTypeCode}" />
+					</div>
+	        	</td>
+	        	<td id="org.phoneNumber" class="infoline">
+	        	  <div align="center">
+	        		<c:out value="${newSubAwardContact.rolodex.phoneNumber}" />
+	        	  </div>
+	        	</td>
+	        	<td id="org.emailAddress" class="infoline">
+	        	  <div align="center">
+	        		<c:out value="${newSubAwardContact.rolodex.emailAddress}" />
+	        	  </div>
+	        	</td>
+				<td class="infoline" rowspan="1"><div align="center">
    						<c:if test="${readOnly!='true'}">
 						<html:image property="methodToCall.addContacts.anchor${tabKey}" 
 						            src='${ConfigProperties.kra.externalizable.images.url}tinybutton-add1.gif' 
 						            styleClass="tinybutton"/>
 						</c:if>
 	                </div>
-	            </td>   				
-   			</tr> 
-   			</c:if>
-   			<c:forEach var="subAwardContacts" items="${KualiForm.document.subAwardList[0].subAwardContactsList}" varStatus="status">
+	             </td>	  			  
+		  </tr>
+		  
+		  
+		  <c:forEach var="subAwardContacts" items="${KualiForm.document.subAwardList[0].subAwardContactsList}" varStatus="status">		  
 		              <tr>
 						<th width="5%" class="infoline" rowspan="2">
 							<c:out value="${status.index+1}" />
+							<input type="hidden" name="subAward_contact.identifier_${status.index}" value="${subAwardContacts.rolodexId}" />
 						</th>	                
 		                <td width="9%" valign="middle">
-						<div align="center">
-	                		<kul:htmlControlAttribute property="document.subAwardList[0].subAwardContactsList[${status.index}].rolodex.firstName" readOnly="true" attributeEntry="${subAwardContactAttributes.rolodexName}" />
+						<div align="center">     	                		
+	                		<c:choose>
+	                		    <c:when test="${empty subAwardContacts.rolodex.fullName}">
+	                		       ${subAwardContacts.rolodex.organization}&nbsp;
+	                		    </c:when>
+	                		    <c:otherwise>
+	                	           ${subAwardContacts.rolodex.fullName}&nbsp;
+	                		    </c:otherwise>
+	                		</c:choose>	                		
+						<kul:directInquiry boClassName="org.kuali.kra.bo.NonOrganizationalRolodex" inquiryParameters="subAward_contact.identifier_${status.index}:rolodexId" anchor="${tabKey}" />
 						</div>
 						</td>
 		                <td width="9%" valign="middle">
 						<div align="center">
 	                		<kul:htmlControlAttribute property="document.subAwardList[0].subAwardContactsList[${status.index}].contactTypeCode" attributeEntry="${subAwardContactAttributes.contactTypeCode}"  datePicker="true"/>                		
 						</div>
-						</td>	               
+						</td>	
+						<td width="9%" valign="middle">
+						<div align="center">
+							<kul:htmlControlAttribute property="document.subAwardList[0].subAwardContactsList[${status.index}].rolodex.phoneNumber" attributeEntry="${subAwardContactAttributes.phoneNumber}" readOnly="true" />				
+						</div>
+						</td>
+						<td width="9%" valign="middle">
+						<div align="center">
+							<kul:htmlControlAttribute property="document.subAwardList[0].subAwardContactsList[${status.index}].rolodex.emailAddress" attributeEntry="${subAwardContactAttributes.emailAddress}" readOnly="true" />				
+						</div>
+						</td>               
 						<td width="10%" valign="middle" rowspan="1">
 						<div align="center">
 						  <c:if test="${!readOnly}">
@@ -91,168 +153,9 @@
 						</div>
 						</td>	
 		            </tr>		           	            
-		            <tr>		            
-		            <td colspan="3">
-		            
-<kul:innerTab tabTitle="Person Details" parentTab="${subAwardContactAttributes.rolodexName}" defaultOpen="false" 
-                          useCurrentTabIndexAsKey="true" 
-                          tabErrorKey="">	
-	
-	 <table cellpadding="0" cellspacing="0" summary="Project Personnel Details">
-		<tr>
-			<th class="infoline">
-				<div align="right">
-					<kul:htmlAttributeLabel attributeEntry="${subAwardContactAttributes.rolodexName}" />
-				</div>
-			</th>
-			<td>
-				<kul:htmlControlAttribute property="document.subAwardList[0].subAwardContactsList[${status.index}].rolodex.firstName" attributeEntry="${subAwardContactAttributes.rolodexName}" readOnly="true" />
-			</td>
-			<th class="infoline">
-				<div align="right">
-					<kul:htmlAttributeLabel attributeEntry="${subAwardContactAttributes.rolodexId}" />
-				</div>
-			</th>
-			<td>
-				<kul:htmlControlAttribute property="document.subAwardList[0].subAwardContactsList[${status.index}].rolodexId" attributeEntry="${subAwardContactAttributes.rolodexName}" readOnly="true" />
-			</td>
-		</tr>
-		<tr>
-			<th class="infoline">
-				<div align="right">
-					<kul:htmlAttributeLabel attributeEntry="${subAwardContactAttributes.sponsorCode}" />
-				</div>
-			</th>
-			<td>
-				<kul:htmlControlAttribute property="document.subAwardList[0].subAwardContactsList[${status.index}].rolodex.sponsorCode" attributeEntry="${subAwardContactAttributes.sponsorCode}" readOnly="true" />
-			</td>
-			<th class="infoline" >
-				<div align="right">
-					<kul:htmlAttributeLabel attributeEntry="${subAwardContactAttributes.organization}" />
-				</div>
-			</th>
-			<td>
-				<kul:htmlControlAttribute property="document.subAwardList[0].subAwardContactsList[${status.index}].rolodex.organization" attributeEntry="${subAwardContactAttributes.organization}" readOnly="true" />
-			</td>
-		</tr>
-		<tr>			
-			<th class="infoline">
-				<div align="right">
-					<kul:htmlAttributeLabel attributeEntry="${subAwardContactAttributes.addressLine1}" />
-				</div>
-			</th>
-			<td colspan="3">
-				<kul:htmlControlAttribute property="document.subAwardList[0].subAwardContactsList[${status.index}].rolodex.addressLine1" attributeEntry="${subAwardContactAttributes.addressLine1}" readOnly="true" />
-			</td>
-		</tr>
-		<tr>
-			<th class="infoline">
-				<div align="right">
-					
-				</div>
-			</th>
-			<td colspan="3">
-				<kul:htmlControlAttribute property="document.subAwardList[0].subAwardContactsList[${status.index}].rolodex.addressLine2" attributeEntry="${subAwardContactAttributes.addressLine2}" readOnly="true" />
-			</td>
-		</tr>
-		<tr>			
-			<th class="infoline">
-				<div align="right">
-					
-				</div>
-			</th>
-			<td colspan="3">
-				<kul:htmlControlAttribute property="document.subAwardList[0].subAwardContactsList[${status.index}].rolodex.addressLine3" attributeEntry="${subAwardContactAttributes.addressLine3}" readOnly="true" />
-			</td>
-		</tr>
-		<tr>
-			<th class="infoline">
-				<div align="right">
-					<kul:htmlAttributeLabel attributeEntry="${subAwardContactAttributes.city}" />
-				</div>
-			</th>
-			<td>
-				<kul:htmlControlAttribute property="document.subAwardList[0].subAwardContactsList[${status.index}].rolodex.city" attributeEntry="${subAwardContactAttributes.city}" readOnly="true" />
-			</td>
-			<th class="infoline">
-				<div align="right">
-					<kul:htmlAttributeLabel attributeEntry="${subAwardContactAttributes.county}" />
-				</div>
-			</th>
-			<td>
-				<kul:htmlControlAttribute property="document.subAwardList[0].subAwardContactsList[${status.index}].rolodex.county" attributeEntry="${subAwardContactAttributes.county}" readOnly="true" />
-			</td>
-		</tr>	
-		<tr>
-			<th class="infoline">
-				<div align="right">
-					<kul:htmlAttributeLabel attributeEntry="${subAwardContactAttributes.state}" />
-				</div>
-			</th>
-			<td>
-				<kul:htmlControlAttribute property="document.subAwardList[0].subAwardContactsList[${status.index}].rolodex.state" attributeEntry="${subAwardContactAttributes.state}" readOnly="true" />
-			</td>
-			<th class="infoline">
-				<div align="right">
-					<kul:htmlAttributeLabel attributeEntry="${subAwardContactAttributes.postalCode}" />
-				</div>
-			</th>
-			<td>
-				<kul:htmlControlAttribute property="document.subAwardList[0].subAwardContactsList[${status.index}].rolodex.postalCode" attributeEntry="${subAwardContactAttributes.postalCode}" readOnly="true" />
-			</td>
-		</tr>
-		<tr>
-			<th class="infoline">
-				<div align="right">
-					<kul:htmlAttributeLabel attributeEntry="${subAwardContactAttributes.countryCode}" />
-				</div>
-			</th>
-			<td>
-				<kul:htmlControlAttribute property="document.subAwardList[0].subAwardContactsList[${status.index}].rolodex.countryCode" attributeEntry="${subAwardContactAttributes.countryCode}" readOnly="true" />
-			</td>
-			<th class="infoline">
-				<div align="right">
-					<kul:htmlAttributeLabel attributeEntry="${subAwardContactAttributes.phoneNumber}" />
-				</div>
-			</th>
-			<td>
-				<kul:htmlControlAttribute property="document.subAwardList[0].subAwardContactsList[${status.index}].rolodex.phoneNumber" attributeEntry="${subAwardContactAttributes.phoneNumber}" readOnly="true" />
-			</td>
-		</tr>	
-		<tr>
-			<th class="infoline">
-				<div align="right">
-					<kul:htmlAttributeLabel attributeEntry="${subAwardContactAttributes.emailAddress}" />
-				</div>
-			</th>
-			<td>
-				<kul:htmlControlAttribute property="document.subAwardList[0].subAwardContactsList[${status.index}].rolodex.emailAddress" attributeEntry="${subAwardContactAttributes.emailAddress}" readOnly="true" />
-			</td>
-			<th class="infoline">
-				<div align="right">
-					<kul:htmlAttributeLabel attributeEntry="${subAwardContactAttributes. faxNumber}" />
-				</div>
-			</th>
-			<td>
-				<kul:htmlControlAttribute property="document.subAwardList[0].subAwardContactsList[${status.index}].rolodex.faxNumber" attributeEntry="${subAwardContactAttributes. faxNumber}" readOnly="true" />
-			</td>
-		</tr>
-		<tr>
-			<th class="infoline">
-				<div align="right">
-					<kul:htmlAttributeLabel attributeEntry="${subAwardContactAttributes.comments}" />
-				</div>
-			</th>
-			<td colspan="3">
-				<kul:htmlControlAttribute property="document.subAwardList[0].subAwardContactsList[${status.index}].rolodex.comments" attributeEntry="${subAwardContactAttributes.comments}" readOnly="true" />
-			</td>			
-		</tr>	   		   	  	  	  	            				
-	</table> 
-  </kul:innerTab>
-  
-        </td>
+		            <tr>
        </tr>     
-	 </c:forEach>
-   </table>
+	 </c:forEach> 
+		   </table>
   </div>
 </kul:tab>

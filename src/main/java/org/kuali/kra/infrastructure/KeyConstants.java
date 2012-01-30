@@ -994,6 +994,7 @@ public final class KeyConstants {
     public static final String ERROR_REQUIRED_SUBAWARD_CONTACT_TYPE_CODE = "error.required.subaward.contact.contact.type.code";
     public static final String ERROR_REQUIRED_SUBAWARD_CLOSEOUT_TYPE_CODE = "error.required.subaward.closeout.closeout.type.code";
     public static final String ERROR_REQUIRED_SUBAWARD_FUNDING_SOURCE_AWARD_NUMBER= "error.required.subaward.funding.source.award.number";
+    public static final String ERROR_REQUIRED_SUBAWARD_CONTACT_PERSON_EXIST= "error.subAwardSponsorContact.person.exists";
     public static final String ERROR_REQUIRED_SUBAWARD_FUNDING_SOURCE_AWARD_NUMBER_DUPLICATE= "error.required.subaward.funding.source.award.number.duplicate";
     public static final String SUBAWARD_ERROR_END_DATE_GREATER_THAN_START = "subaward.error.end.date.greater.than.start";
     public static final String ERROR_AMOUNT_INFO_OBLIGATED_AMOUNT = "subaward.error.obligated.amount.greater.than.anticipated.amount";
