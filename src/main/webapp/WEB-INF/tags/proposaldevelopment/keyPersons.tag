@@ -65,7 +65,8 @@
          leftSideHtmlAttribute="${proposalPersonAttributes.delete}" 
      	 leftSideHtmlDisabled="false"
          defaultOpen="${hasErrors}" 
-         transparentBackground="${transparent}"> 
+         transparentBackground="${transparent}"
+         useCurrentTabIndexAsKey="${true }"> 
          <kra-pd:person proposalPerson="${proposalPersonProperty}" personIndex="${status.index}"/>
      </kul:tab>
  </c:forEach>
