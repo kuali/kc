@@ -43,7 +43,7 @@ import org.kuali.rice.core.api.util.type.KualiDecimal;
 public final class QueryList<E> implements List<E>, RandomAccess, Cloneable, Serializable {
 
     private static final long serialVersionUID = -3215265492607686197L;
-    
+    private static final org.apache.commons.logging.Log LOG = org.apache.commons.logging.LogFactory.getLog(QueryList.class);
     //using delegation to make it easier to swap out underlying implementation
     //also helps with possible inheritance bugs...
     //cannot make final because of clone otherwise this should always assumed to be non-null upon construction
@@ -88,6 +88,7 @@ public final class QueryList<E> implements List<E>, RandomAccess, Cloneable, Ser
      * @param ascending if true sorting is done in ascending order,
      * else sorting is done in descending order.
      */
+    @SuppressWarnings("rawtypes")
     public boolean sort(String fieldName, boolean ascending, boolean ignoreCase) {
         Object current, next;
         int compareValue = 0;
@@ -97,7 +98,7 @@ public final class QueryList<E> implements List<E>, RandomAccess, Cloneable, Ser
             return false;
         }
         Class dataClass = get(0).getClass();
-        
+        String methodName=null;
         try{
             field = dataClass.getDeclaredField(fieldName);
             if(! field.isAccessible()) {
@@ -106,7 +107,7 @@ public final class QueryList<E> implements List<E>, RandomAccess, Cloneable, Ser
         }catch (NoSuchFieldException noSuchFieldException) {
             //field not available. Use method invokation.
             try{
-                String methodName = "get" + (fieldName.charAt(0)+"").toUpperCase()+ fieldName.substring(1);
+                methodName = "get" + (fieldName.charAt(0)+"").toUpperCase()+ fieldName.substring(1);
                 method = dataClass.getMethod(methodName, null);
             }catch (NoSuchMethodException noSuchMethodException) {
                 noSuchMethodException.printStackTrace();
@@ -137,8 +138,17 @@ public final class QueryList<E> implements List<E>, RandomAccess, Cloneable, Ser
                         }
                     }
                     else{
-                        Comparable thisObj = (Comparable)method.invoke(current, null);
-                        Comparable otherObj = (Comparable)method.invoke(next, null);
+                        Comparable thisObj = null;
+                        Comparable otherObj = null;
+                        if(methodName!=null){
+                            Method thisObjMethod = current.getClass().getMethod(methodName, null);
+                            Method otherObjMethod = next.getClass().getMethod(methodName, null);
+                            thisObj = (Comparable)thisObjMethod.invoke(current, null);
+                            otherObj = (Comparable)otherObjMethod.invoke(next, null);
+                        }else{
+                            thisObj = (Comparable)method.invoke(current, null);
+                            otherObj = (Comparable)method.invoke(next, null);
+                        }
                         if (thisObj == null) {
                             compareValue = -1;
                         } else if (otherObj == null) {
@@ -152,10 +162,18 @@ public final class QueryList<E> implements List<E>, RandomAccess, Cloneable, Ser
                         }
                     }
                 }catch (IllegalAccessException illegalAccessException) {
-                    illegalAccessException.printStackTrace();
+                    LOG.warn(illegalAccessException.getMessage());
                     return false;
                 }catch (InvocationTargetException invocationTargetException) {
-                    invocationTargetException.printStackTrace();
+                    LOG.warn(invocationTargetException.getMessage(),invocationTargetException);
+                    return false;
+                }
+                catch (SecurityException e) {
+                    LOG.warn(e.getMessage(),e);
+                    return false;
+                }
+                catch (NoSuchMethodException e) {
+                    LOG.warn(e.getMessage(),e);
                     return false;
                 }
                 
@@ -169,10 +187,10 @@ public final class QueryList<E> implements List<E>, RandomAccess, Cloneable, Ser
                     set(nextIndex, temp);
                 }
                 
-            }//End For - Inner
-        }//End For - Outer
-        return true; //sort completed successfully
-    }//End Sort
+            }
+        }
+        return true; 
+    }
     
        
     /** sorts the QueryList by the fieldNames in ascending or descending order.
