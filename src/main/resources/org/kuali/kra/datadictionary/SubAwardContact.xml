@@ -135,14 +135,14 @@
     <property name="forceUppercase" value="false" />
     <property name="label" value="Rolodex Name" />
     <property name="shortLabel" value="Rolodex Name" />
-    <property name="maxLength" value="63" />
+    <property name="maxLength" value="90" />
     <property name="validationPattern" >
-      <bean parent="AlphaNumericValidationPattern" />
+      <bean parent="AnyCharacterValidationPattern" />
     </property>
     <property name="required" value="false" />
     <property name="control" >
       <bean parent="TextControlDefinition"
-            p:size="10" />
+            p:size="25" />
     </property>
     <property name="summary" value="Rolodex Name" />
     <property name="description" value="Rolodex Name" />    
