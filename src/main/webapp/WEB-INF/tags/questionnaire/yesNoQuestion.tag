@@ -30,9 +30,12 @@
 <div id="${responseDivClass}" class="Qresponsediv">
     <span class="Qresponse">
     
+    
     	<c:set var="prop" value="${property}.answerHeaders[${answerHeaderIndex}].answers[${questionIndex}].answer"/>
         ${kfunc:registerEditableProperty(KualiForm, prop)}
-                   <input type="hidden" name="checkboxToReset" value="${prop}"/> 
+       <%--
+        <input type="hidden" name="checkboxToReset" value="${prop}"/>
+     --%> 
  
         <c:choose>
             <c:when test="${bean.answerHeaders[answerHeaderIndex].answers[questionIndex].answer eq 'Y'}" >
