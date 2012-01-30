@@ -22,6 +22,7 @@ import org.apache.commons.lang.StringUtils;
 import org.kuali.kra.bo.KcPerson;
 import org.kuali.kra.bo.Rolodex;
 import org.kuali.kra.budget.BudgetDecimal;
+import org.kuali.kra.budget.calculator.DateSortable;
 import org.kuali.kra.budget.core.BudgetAssociate;
 import org.kuali.kra.infrastructure.KraServiceLocator;
 import org.kuali.kra.proposaldevelopment.hierarchy.HierarchyMaintainable;
@@ -30,7 +31,7 @@ import org.kuali.kra.service.KcPersonService;
 /**
  * BudgetPerson business object
  */
-public class BudgetPerson extends BudgetAssociate implements HierarchyMaintainable {
+public class BudgetPerson extends BudgetAssociate implements HierarchyMaintainable,DateSortable {
 
     private static final long serialVersionUID = 1L;
 
@@ -456,6 +457,11 @@ public class BudgetPerson extends BudgetAssociate implements HierarchyMaintainab
      */
     public void setSalaryAnniversaryDate(Date salaryAnniversaryDate) {
         this.salaryAnniversaryDate = salaryAnniversaryDate;
+    }
+
+    @Override
+    public Date getSortableDate() {
+        return getEffectiveDate();
     }
     
     

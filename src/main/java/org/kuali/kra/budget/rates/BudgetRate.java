@@ -15,9 +15,12 @@
  */
 package org.kuali.kra.budget.rates;
 
-import org.kuali.kra.bo.InstituteRate;
+import java.sql.Date;
 
-public class BudgetRate extends AbstractBudgetRate {
+import org.kuali.kra.bo.InstituteRate;
+import org.kuali.kra.budget.calculator.DateSortable;
+
+public class BudgetRate extends AbstractBudgetRate implements DateSortable {
 
     private String activityTypeCode;
 
@@ -62,5 +65,10 @@ public class BudgetRate extends AbstractBudgetRate {
             if (other.activityTypeCode != null) return false;
         } else if (!activityTypeCode.equals(other.activityTypeCode)) return false;
         return true;
+    }
+
+    @Override
+    public Date getSortableDate() {
+        return getStartDate();
     }
 }
