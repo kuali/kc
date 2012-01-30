@@ -51,6 +51,7 @@
 <kul:routeLog /> 
 <kra:section permission="createAwardAccount">
 <kra-a:awardCreateAccount />
+<kra-a:awardCreateAward />
 </kra:section>
 <kul:panelFooter />
 

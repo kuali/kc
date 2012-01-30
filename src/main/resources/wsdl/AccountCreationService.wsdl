@@ -220,7 +220,7 @@
   </wsdl:binding>
   <wsdl:service name="accountCreationServiceSOAP">
     <wsdl:port binding="tns:accountCreationServiceSOAPSoapBinding" name="accountCreationServicePort">
-      <soap:address location="http://stg.kfs.kuali.org:80/kfs-stg/remoting/accountCreationServiceSOAP"/>
+      <soap:address location="http://localhost:8081/kfs-dev/remoting/accountCreationServiceSOAP"/>
     </wsdl:port>
   </wsdl:service>
 </wsdl:definitions>

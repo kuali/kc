@@ -154,7 +154,8 @@ public class Award extends KraPersistableBusinessObjectBase implements KeywordsM
     private String financialAccountDocumentNumber;
     private Date financialAccountCreationDate;
     private String financialChartOfAccountsCode;
-
+    private String financialAwardDocumentNumber;
+    private Date financialAwardCreationDate;
 
     private static boolean newVersion;
 
@@ -1472,6 +1473,8 @@ public class Award extends KraPersistableBusinessObjectBase implements KeywordsM
         hashMap.put("currentActionComments", getCurrentActionComments());
         hashMap.put("financialAccountDocumentNumber", getFinancialAccountDocumentNumber());
         hashMap.put("financialAccountCreationDate", getFinancialAccountCreationDate());
+        hashMap.put("financialAwardDocumentNumber", getFinancialAccountDocumentNumber());
+        hashMap.put("financialAwardCreationDate", getFinancialAccountCreationDate());
         return hashMap;
     }
 
@@ -1489,6 +1492,23 @@ public class Award extends KraPersistableBusinessObjectBase implements KeywordsM
 
     public void setFinancialAccountCreationDate(Date financialAccountCreationDate) {
         this.financialAccountCreationDate = financialAccountCreationDate;
+    }
+    
+
+    public String getFinancialAwardDocumentNumber() {
+        return financialAwardDocumentNumber;
+    }
+
+    public void setFinancialAwardDocumentNumber(String financialAwardDocumentNumber) {
+        this.financialAwardDocumentNumber = financialAwardDocumentNumber;
+    }
+
+    public Date getFinancialAwardCreationDate() {
+        return financialAwardCreationDate;
+    }
+
+    public void setFinancialAwardCreationDate(Date financialAwardCreationDate) {
+        this.financialAwardCreationDate = financialAwardCreationDate;
     }
 
     /**

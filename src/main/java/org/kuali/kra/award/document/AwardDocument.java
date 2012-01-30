@@ -21,6 +21,8 @@ import java.util.List;
 import java.util.Map;
 import java.util.Set;
 
+import javax.xml.datatype.DatatypeConfigurationException;
+
 import org.apache.commons.lang.StringUtils;
 import org.apache.commons.logging.Log;
 import org.apache.commons.logging.LogFactory;
@@ -47,6 +49,7 @@ import org.kuali.kra.budget.document.BudgetParentDocument;
 import org.kuali.kra.budget.versions.BudgetDocumentVersion;
 import org.kuali.kra.budget.versions.BudgetVersionOverview;
 import org.kuali.kra.common.permissions.Permissionable;
+import org.kuali.kra.external.award.AwardCreationClient;
 import org.kuali.kra.infrastructure.Constants;
 import org.kuali.kra.infrastructure.KraServiceLocator;
 import org.kuali.kra.infrastructure.RoleConstants;
@@ -59,6 +62,7 @@ import org.kuali.kra.service.KraAuthorizationService;
 import org.kuali.kra.service.VersionHistoryService;
 import org.kuali.rice.kew.dto.DocumentRouteLevelChangeDTO;
 import org.kuali.rice.kew.dto.DocumentRouteStatusChangeDTO;
+import org.kuali.rice.kew.exception.WorkflowException;
 import org.kuali.rice.kew.util.KEWConstants;
 import org.kuali.rice.kim.bo.Person;
 import org.kuali.rice.kim.bo.types.dto.AttributeSet;
@@ -246,6 +250,20 @@ public class AwardDocument extends BudgetParentDocument<Award> implements  Copya
 
             //getVersionHistoryService().createVersionHistory(getAward(), VersionStatus.ACTIVE, GlobalVariables.getUserSession().getPrincipalName());
             getVersionHistoryService().updateVersionHistoryOnRouteToFinal(getAward(), VersionStatus.ACTIVE, GlobalVariables.getUserSession().getPrincipalName());
+            
+            //call web service if parameter to do so is set to ON.
+            if(isCreateFinancialAwardParameterOn()){
+                AwardCreationClient awardClient = (AwardCreationClient) KraServiceLocator.getService("awardCreationClient");
+                try {
+                    awardClient.createAward(this.getAward());
+                }
+                catch (DatatypeConfigurationException e) {
+                    e.printStackTrace();
+                }
+                catch (WorkflowException e) {
+                    e.printStackTrace();
+                }
+            }
         }
         if (newStatus.equalsIgnoreCase(KEWConstants.ROUTE_HEADER_CANCEL_CD) || newStatus.equalsIgnoreCase(KEWConstants.ROUTE_HEADER_DISAPPROVED_CD)) {
             revertFundedProposals();
@@ -670,6 +688,14 @@ public class AwardDocument extends BudgetParentDocument<Award> implements  Copya
     public void refreshBudgetDocumentVersions() {
         this.refreshReferenceObject("actualBudgetDocumentVersions");
         budgetDocumentVersions.clear();
+    }
+    
+    protected boolean isCreateFinancialAwardParameterOn() {
+        String createFinancialAwardParameter = getParameterService().getParameterValue (
+                                                                Constants.PARAMETER_MODULE_AWARD, 
+                                                                ParameterConstants.DOCUMENT_COMPONENT, 
+                                                                Constants.AUTO_CREATE_FIN_AWARD_ON_OFF_PARAMETER);
+        return createFinancialAwardParameter.equalsIgnoreCase(Constants.FIN_SYSTEM_INTEGRATION_ON) ? true : false;
     }
 
 }

@@ -1,0 +1,114 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<wsdl:definitions name="awardCreationServiceSOAP" targetNamespace="KFS" xmlns:ns1="http://cxf.apache.org/bindings/xformat"
+	xmlns:soap="http://schemas.xmlsoap.org/wsdl/soap/" xmlns:tns="KFS" xmlns:wsdl="http://schemas.xmlsoap.org/wsdl/" xmlns:xsd="http://www.w3.org/2001/XMLSchema">
+	<wsdl:types>
+		<xs:schema elementFormDefault="unqualified" targetNamespace="KFS" version="1.0" xmlns:tns="KFS" xmlns:xs="http://www.w3.org/2001/XMLSchema">
+			<xs:element name="createAward" type="tns:createAward" />
+			<xs:element name="createAwardResponse" type="tns:createAwardResponse" />
+			<xs:element name="updateAward" type="tns:updateAward" />
+			<xs:element name="updateAwardResponse" type="tns:updateAwardResponse" />
+			<xs:complexType name="updateAward">
+				<xs:sequence>
+					<xs:element minOccurs="0" name="awardParametersDTO" type="tns:awardParametersDTO" />
+				</xs:sequence>
+			</xs:complexType>
+			<xs:complexType name="awardParametersDTO">
+				<xs:sequence>
+					<xs:element minOccurs="0" name="agencyNumber" type="xs:string" />
+					<xs:element minOccurs="0" name="awardDocumentNumber" type="xs:string" />
+					<xs:element minOccurs="0" name="awardId" type="xs:string" />
+					<xs:element minOccurs="0" name="awardProjectTitle" type="xs:string" />
+					<xs:element minOccurs="0" name="awardPurposeCode" type="xs:string" />
+					<xs:element minOccurs="0" name="awardStatusCode" type="xs:string" />
+					<xs:element minOccurs="0" name="principalId" type="xs:string" />
+					<xs:element minOccurs="0" name="projectEndDate" type="xs:dateTime" />
+					<xs:element minOccurs="0" name="projectStartDate" type="xs:dateTime" />
+					<xs:element minOccurs="0" name="proposalAwardTypeCode" type="xs:string" />
+					<xs:element minOccurs="0" name="proposalDirectCostAmount" type="xs:string" />
+					<xs:element minOccurs="0" name="proposalIndirectCostAmount" type="xs:string" />
+					<xs:element minOccurs="0" name="proposalPrimaryProjectDirectorId" type="xs:string" />
+					<xs:element minOccurs="0" name="proposalSubmissionDate" type="xs:dateTime" />
+					<xs:element minOccurs="0" name="unit" type="xs:string" />
+				</xs:sequence>
+			</xs:complexType>
+			<xs:complexType name="updateAwardResponse">
+				<xs:sequence>
+					<xs:element minOccurs="0" name="return" type="tns:awardCreationStatusDTO" />
+				</xs:sequence>
+			</xs:complexType>
+			<xs:complexType name="awardCreationStatusDTO">
+				<xs:sequence>
+					<xs:element minOccurs="0" name="documentNumber" type="xs:string" />
+					<xs:element maxOccurs="unbounded" minOccurs="0" name="errorMessages" nillable="true" type="xs:string" />
+					<xs:element minOccurs="0" name="status" type="xs:string" />
+				</xs:sequence>
+			</xs:complexType>
+			<xs:complexType name="createAward">
+				<xs:sequence>
+					<xs:element minOccurs="0" name="awardParametersDTO" type="tns:awardParametersDTO" />
+				</xs:sequence>
+			</xs:complexType>
+			<xs:complexType name="createAwardResponse">
+				<xs:sequence>
+					<xs:element minOccurs="0" name="return" type="tns:awardCreationStatusDTO" />
+				</xs:sequence>
+			</xs:complexType>
+		</xs:schema>
+	</wsdl:types>
+	<wsdl:message name="createAwardResponse">
+		<wsdl:part element="tns:createAwardResponse" name="parameters">
+		</wsdl:part>
+	</wsdl:message>
+	<wsdl:message name="updateAwardResponse">
+		<wsdl:part element="tns:updateAwardResponse" name="parameters">
+		</wsdl:part>
+	</wsdl:message>
+	<wsdl:message name="createAward">
+		<wsdl:part element="tns:createAward" name="parameters">
+		</wsdl:part>
+	</wsdl:message>
+	<wsdl:message name="updateAward">
+		<wsdl:part element="tns:updateAward" name="parameters">
+		</wsdl:part>
+	</wsdl:message>
+	<wsdl:portType name="awardCreationService">
+		<wsdl:operation name="updateAward">
+			<wsdl:input message="tns:updateAward" name="updateAward">
+			</wsdl:input>
+			<wsdl:output message="tns:updateAwardResponse" name="updateAwardResponse">
+			</wsdl:output>
+		</wsdl:operation>
+		<wsdl:operation name="createAward">
+			<wsdl:input message="tns:createAward" name="createAward">
+			</wsdl:input>
+			<wsdl:output message="tns:createAwardResponse" name="createAwardResponse">
+			</wsdl:output>
+		</wsdl:operation>
+	</wsdl:portType>
+	<wsdl:binding name="awardCreationServiceSOAPSoapBinding" type="tns:awardCreationService">
+		<soap:binding style="document" transport="http://schemas.xmlsoap.org/soap/http" />
+		<wsdl:operation name="updateAward">
+			<soap:operation soapAction="" style="document" />
+			<wsdl:input name="updateAward">
+				<soap:body use="literal" />
+			</wsdl:input>
+			<wsdl:output name="updateAwardResponse">
+				<soap:body use="literal" />
+			</wsdl:output>
+		</wsdl:operation>
+		<wsdl:operation name="createAward">
+			<soap:operation soapAction="" style="document" />
+			<wsdl:input name="createAward">
+				<soap:body use="literal" />
+			</wsdl:input>
+			<wsdl:output name="createAwardResponse">
+				<soap:body use="literal" />
+			</wsdl:output>
+		</wsdl:operation>
+	</wsdl:binding>
+	<wsdl:service name="awardCreationServiceSOAP">
+		<wsdl:port binding="tns:awardCreationServiceSOAPSoapBinding" name="awardCreationServicePort">
+			<soap:address location="http://localhost:8081/kfs-dev/remoting/awardCreationServiceSOAP" />
+		</wsdl:port>
+	</wsdl:service>
+</wsdl:definitions>
