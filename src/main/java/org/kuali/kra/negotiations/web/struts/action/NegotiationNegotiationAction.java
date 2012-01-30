@@ -74,6 +74,10 @@ public class NegotiationNegotiationAction extends NegotiationAction {
         negotiationForm.getNegotiationActivityHelper().generateAllAttachments();
         return actionForward;
     }
+    
+    public ActionForward negotiation(ActionMapping mapping, ActionForm form, HttpServletRequest request, HttpServletResponse response) {
+        return mapping.findForward(Constants.NEGOTIATION_HOME_PAGE);
+    }
 
     /**
      * Should only be used when opening the document from a search and clicking on the medusa link.
