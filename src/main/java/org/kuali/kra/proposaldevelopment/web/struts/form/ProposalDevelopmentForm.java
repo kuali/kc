@@ -348,6 +348,11 @@ public class ProposalDevelopmentForm extends BudgetVersionFormBase implements Re
         }
     }
     
+    /**
+     * This is a duplication of KualiTransactionalDocumentFormBase.populateFalseCheckboxes with the cavet that this function
+     * puts a NULL in for fields that contain "answer", which are the field names of radio Y/N buttons for the questionnaire framework.
+     * @see org.kuali.rice.kns.web.struts.form.KualiTransactionalDocumentFormBase#populateFalseCheckboxes(javax.servlet.http.HttpServletRequest)
+     */
     @Override
     protected void populateFalseCheckboxes(HttpServletRequest request) {
         Map<String, String[]> parameterMap = request.getParameterMap();
