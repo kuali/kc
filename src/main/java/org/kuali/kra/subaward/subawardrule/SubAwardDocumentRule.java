@@ -333,13 +333,13 @@ public class SubAwardDocumentRule extends ResearchDocumentRuleBase implements Su
     
     
 
-    public boolean processAddSubAwardContactBusinessRules(SubAwardContact subAwardContact) {
+    public boolean processAddSubAwardContactBusinessRules(SubAwardContact subAwardContact,SubAward subAward) {
         boolean rulePassed = true;
-        rulePassed &= processSaveSubAwardContactBusinessRules(subAwardContact);
+        rulePassed &= processSaveSubAwardContactBusinessRules(subAwardContact,subAward);
         
         return rulePassed;
     }
-    protected boolean  processSaveSubAwardContactBusinessRules(SubAwardContact subAwardContact){ 
+    protected boolean  processSaveSubAwardContactBusinessRules(SubAwardContact subAwardContact,SubAward subAward){ 
         
         boolean rulePassed = true;   
         
@@ -355,6 +355,17 @@ public class SubAwardDocumentRule extends ResearchDocumentRuleBase implements Su
             reportError(CONTACT_TYPE_CODE
                     , KeyConstants.ERROR_REQUIRED_SUBAWARD_CONTACT_TYPE_CODE);
         }  
+        for(SubAwardContact contact : subAward.getSubAwardContactsList()){
+            if(contact.getRolodexId().equals(subAwardContact.getRolodexId())){
+               rulePassed = false;              
+               String contactName = contact.getRolodex().getFullName();
+               
+               if(contactName == null){
+                   contactName = contact.getRolodex().getOrganization();
+               }               
+               reportError(ROLODEX_ID, KeyConstants.ERROR_REQUIRED_SUBAWARD_CONTACT_PERSON_EXIST, new String[] {contactName});  
+            }
+        }
         return rulePassed;
     }
     

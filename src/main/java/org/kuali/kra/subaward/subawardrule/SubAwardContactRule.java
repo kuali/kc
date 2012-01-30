@@ -15,8 +15,9 @@
  */
 package org.kuali.kra.subaward.subawardrule;
 
+import org.kuali.kra.subaward.bo.SubAward;
 import org.kuali.kra.subaward.bo.SubAwardContact;
 
 public interface SubAwardContactRule extends org.kuali.rice.krad.rules.rule.BusinessRule {
-    public boolean processAddSubAwardContactBusinessRules(SubAwardContact subAwardContact);
+    public boolean processAddSubAwardContactBusinessRules(SubAwardContact subAwardContact,SubAward subAward);
 }
