@@ -77,8 +77,6 @@
         <ref bean="Award-projectPersons.awardContactId" />    
         <ref bean="Award-financialAccountDocumentNumber" /> 
         <ref bean="Award-financialAccountCreationDate" />
-        <ref bean="Award-financialAwardDocumentNumber" /> 
-        <ref bean="Award-financialAwardCreationDate" />
         <ref bean="Award-financialChartOfAccountsCode" />
       </list>
     </property>
@@ -979,37 +977,8 @@
     	<property name="description" value="Chart of accounts for a Financial Account." />
   	</bean>
   	
-	<bean id="Award-financialAwardDocumentNumber" parent="Award-financialAwardDocumentNumber-parentBean" /> 
-  	<bean id="Award-financialAwardDocumentNumber-parentBean" abstract="true"  parent="AttributeDefinition"> 
-  		<property name="name" value="financialAwardDocumentNumber" />
-  		<property name="forceUppercase" value="false" />
-  		<property name="label" value="Financial award document number" />
-  	 	<property name="shortLabel" value="financial award document number" />
-    	<property name="maxLength" value="20" />
-    	<property name="validationPattern" >
-    		<bean parent="AnyCharacterValidationPattern"
-            	p:allowWhitespace="false" />
-    	</property>
-    	<property name="required" value="false" />
-    	<property name="control" >
-     	 	<bean parent="TextControlDefinition"
-           	 p:size="20" />
-    	</property>
-    	<property name="summary" value="Document number returned by financial service" />
-    	<property name="description" value="Document number returned by financial service when an award is created." />
-  	</bean>
-  	
-	<bean id="Award-financialAwardCreationDate" parent="Award-financialAwardCreationDate-parentBean" />
-   	<bean id="Award-financialAwardCreationDate-parentBean" abstract="true"  parent="AttributeReferenceDummy-genericDate"> 
-  		<property name="name" value="financialAwardCreationDate" />
-  		<property name="forceUppercase" value="false" />
-  		<property name="label" value="Financial award creation date" />
-  		<property name="shortLabel" value="Financial award creation date" />
-    	<property name="maxLength" value="20" />
-    	<property name="required" value="false" />
-    	<property name="summary" value="Financial award creation date" />
-    	<property name="description" value="Financial award creation date." />
-  	</bean>
+	
+	
 	
     <bean id="Award-lookupOspAdministratorName" parent="Award-lookupOspAdministratorName-parentBean" />
     <bean id="Award-lookupOspAdministratorName-parentBean" abstract="true" parent="AwardContact-fullName">

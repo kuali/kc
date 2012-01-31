@@ -411,9 +411,6 @@ public interface Constants {
     // financial system integration
     public static final String FIN_SYSTEM_INTEGRATION_ON_OFF_PARAMETER = "FIN_SYSTEM_INTEGRATION_ON";
     public static final String FIN_SYSTEM_INTEGRATION_ON = "ON";
-    public static final String FIN_SYSTEM_INTEGRATION_AGENCY_CREATION_LOG = "finSystemAgencyCreationLog";
-    public static final String AUTO_CREATE_FIN_AWARD_ON_OFF_PARAMETER = "AUTO_CREATE_FIN_AWARD";
-    
     //CFDA
     public static final int MAX_ALLOWABLE_CFDA_PGM_TITLE_NAME = 300;
     public static final String CFDA_MAINT_TYP_ID_AUTOMATIC = "Automatic";

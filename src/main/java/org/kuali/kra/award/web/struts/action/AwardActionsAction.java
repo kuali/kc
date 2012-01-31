@@ -31,7 +31,6 @@ import org.apache.commons.lang.StringUtils;
 import org.apache.struts.action.ActionForm;
 import org.apache.struts.action.ActionForward;
 import org.apache.struts.action.ActionMapping;
-import org.kuali.kfs.integration.cg.service.AwardCreationService;
 import org.kuali.kra.award.AwardForm;
 import org.kuali.kra.award.AwardNumberService;
 import org.kuali.kra.award.awardhierarchy.AwardHierarchy;
@@ -68,7 +67,6 @@ import org.kuali.rice.kns.util.KNSConstants;
 import org.kuali.rice.kns.web.struts.action.AuditModeAction;
 import org.kuali.rice.kns.web.struts.form.KualiDocumentFormBase;
 import org.kuali.kra.external.award.*;
-import org.kuali.kra.external.award.impl.AwardCreationClientImpl;
 
 /**
  * 
@@ -81,10 +79,8 @@ public class AwardActionsAction extends AwardAction implements AuditModeAction {
     private static final String NEW_CHILD_COPY_FROM_PARENT_OPTION = "b";
     private static final String ERROR_CANCEL_PENDING_PROPOSALS = "error.cancel.fundingproposal.pendingVersion";
     private static final String ACCOUNT_ALREADY_CREATED = "error.award.createAccount.account.already.created";
-    private static final String FINANCIAL_AWARD_ALREADY_CREATED = "error.award.createFinancialAward.award.already.created";
     private static final String AWARD_ACCOUNT_NUMBER_NOT_SPECIFIED = "error.award.createAccount.invalid.accountNumber";
     private static final String NO_PERMISSION_TO_CREATE_ACCOUNT = "error.award.createAccount.noPermission";
-    private static final String NO_PERMISSION_TO_CREATE_FINANCIAL_AWARD = "error.award.createFinancialAward.noPermission";
     public static final String NEW_CHILD_NEW_OPTION = "a";
     public static final String AWARD_COPY_NEW_OPTION = "a";
     public static final String AWARD_COPY_CHILD_OF_OPTION = "b";
@@ -723,10 +719,6 @@ public class AwardActionsAction extends AwardAction implements AuditModeAction {
         AwardForm awardForm = (AwardForm) form;
         AwardDocument awardDocument = awardForm.getAwardDocument();
         Award award = awardDocument.getAward();
-        
-        AwardCreationClient aclient = (AwardCreationClient) KraServiceLocator.getService("awardCreationClient");
-        aclient.createAward(award);
-        
         // if the user has permissions to create a financial account
         if (awardForm.getEditingMode().get("createAwardAccount").equals("true")) {
             AwardAccountValidationService accountValidationService = getAwardAccountValidationService();
@@ -751,36 +743,6 @@ public class AwardActionsAction extends AwardAction implements AuditModeAction {
        
         return forward; 
     }
-    
-    public ActionForward createFinancialAward(ActionMapping mapping, ActionForm form, HttpServletRequest request, HttpServletResponse response) throws Exception {
-        ActionForward forward = new ActionForward();
-        AwardForm awardForm = (AwardForm) form;
-        AwardDocument awardDocument = awardForm.getAwardDocument();
-        Award award = awardDocument.getAward();
-        
-        
-        // if the user has permissions to create a financial system award
-        if ("true".equals(awardForm.getEditingMode().get("createFinancialAward"))) {
-            AwardCreationClient awardClient = (AwardCreationClient) KraServiceLocator.getService("awardCreationClient");
-
-            /*
-             * If award hasn't already been created, create it or
-             * display an error
-             */
-            if (award.getFinancialAccountDocumentNumber() == null) {
-                awardClient.createAward(award);
-            } else {
-                GlobalVariables.getMessageMap().putError(FINANCIAL_AWARD_ALREADY_CREATED, KeyConstants.FIN_SYS_SERVICE_AWARD_EXISTS_ERROR);
-            }
-        }
-        else {
-            GlobalVariables.getMessageMap().putError(NO_PERMISSION_TO_CREATE_FINANCIAL_AWARD, KeyConstants.NO_PERMISSION_TO_CREATE_FINANCIAL_AWARD);
-        }
-        forward = mapping.findForward(Constants.MAPPING_AWARD_ACTIONS_PAGE);
-       
-        return forward; 
-    }
-    
     
     protected AwardAccountValidationService getAwardAccountValidationService() {
         return KraServiceLocator.getService("awardAccountValidationService");

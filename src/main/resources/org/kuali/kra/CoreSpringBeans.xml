@@ -534,17 +534,6 @@
 		<property name="documentService" ref="documentService" />
 		<property name="businessObjectService" ref="businessObjectService" />
 	</bean>
-	
-	<bean id="awardCreationClient"
-		class="org.kuali.kra.external.award.AwardCreationClientFactoryBean">
-		<property name="sharedRice" value="${shared.rice}" />
-		<property name="documentService" ref="documentService" />
-	</bean>
-	
-	<bean id="agencyCreationClient"
-		class="org.kuali.kra.external.agency.AgencyCreationClientFactoryBean">
-		<property name="sharedRice" value="${shared.rice}" />
-	</bean>
 
 	<bean id="awardAccountValidationService" class="org.kuali.kra.external.award.impl.AwardAccountValidationServiceImpl">
 		<property name="businessObjectService" ref="businessObjectService" />
