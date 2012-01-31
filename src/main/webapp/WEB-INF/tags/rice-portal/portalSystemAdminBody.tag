@@ -20,6 +20,7 @@
       <channel:systemAdminSystem />
       <channel:systemAdminBatch />
       <administrationChannel:configuration />
+      <mainChannel:rules />
 </td>
 <td class="content" valign="top">
       <administrationChannel:identity />
