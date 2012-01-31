@@ -89,8 +89,6 @@
     	<field-descriptor name="financialAccountCreationDate" column="FIN_ACCOUNT_CREATION_DATE" jdbc-type="DATE" />
     	<field-descriptor name="financialChartOfAccountsCode" column="FIN_CHART_OF_ACCOUNTS_CODE" jdbc-type="VARCHAR" />
     	<field-descriptor name="syncChild" column="HIERARCHY_SYNC_CHILD" jdbc-type="CHAR" conversion="org.kuali.rice.kns.util.OjbCharBooleanConversion"/>
-    	<field-descriptor name="financialAwardDocumentNumber" column="FIN_AWARD_DOC_NBR" jdbc-type="VARCHAR" />
-    	<field-descriptor name="financialAwardCreationDate" column="FIN_AWARD_CREATION_DATE" jdbc-type="DATE" />
     	
     	<collection-descriptor name="awardComments" proxy="true" element-class-ref="org.kuali.kra.award.home.AwardComment" collection-class="org.apache.ojb.broker.util.collections.ManageableArrayList" auto-retrieve="true" auto-update="object" auto-delete="object">
             <inverse-foreignkey field-ref="awardId"/>

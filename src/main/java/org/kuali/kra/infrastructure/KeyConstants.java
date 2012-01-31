@@ -547,18 +547,8 @@ public final class KeyConstants {
     public static final String NO_PERMISSION_TO_CREATE_ACCOUNT = "error.award.createAccount.noPermission";
     public static final String VALIDATION_DID_NOT_OCCUR = "error.award.account.number.not.validated";
     
-    // financial system web service validation error messages
-    public static final String FIN_SYS_SERVICE_ERRORS = "error.financial.system.service.serviceErrors";
-    public static final String FIN_SYS_SERVICE_SAVED_WITH_ERRORS = "error.financial.system.service.saved.with.errors";
-    public static final String FIN_SYS_SERVICE_CANNOT_CONNECT = "error.financial.system.service.cannotConnect";
-    public static final String FIN_SYS_SERVICE_INVALID_WSDL_URL = "error.financial.system.service.invalid.wsdlurl";
-    public static final String FIN_SYS_SERVICE_DOCUMENT_NUMBER_NULL = "error.financial.system.service.nullDocumentNumber";
     
-    // award creation on financial system validation error messages
-    public static final String FIN_SYS_SERVICE_AWARD_EXISTS_ERROR="error.financial.system.service.award.already.exists";
-    public static final String FIN_SYS_SERVICE_AGENCY_EXISTS_ERROR="error.financial.system.service.agency.already.exists";
-    public static final String NO_PERMISSION_TO_CREATE_FINANCIAL_AWARD = "error.award.createFinancialAward.noPermission";    
-            
+    
     // award budget
     public static final String BUDGET_POSTED = "message.award.budget.adjustment.budget.posted";
     public static final String BUDGET_ADJUSTMENT_DOCUMENT_NOT_CREATED = "error.award.budget.adjustment.document.not.created";

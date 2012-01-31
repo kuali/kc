@@ -106,9 +106,6 @@ public class AwardDocumentAuthorizer extends KcTransactionalDocumentAuthorizerBa
             if (canCreateAwardAccount(document, user)) {
                 editModes.add("createAwardAccount");
             }
-            if (canCreateFinancialAward(document, user)) {
-                editModes.add("createFinancialAward");
-            }
             if (awardHasHierarchyChildren(document)) {
                 editModes.add("awardSync");
             }   
@@ -156,34 +153,6 @@ public class AwardDocumentAuthorizer extends KcTransactionalDocumentAuthorizerBa
         return hasPermission;
     }
     
-    /**
-     * This method decides if a user has permissions to create a financial award.
-     * @param document
-     * @param user
-     * @return hasPermission
-     */
-    public boolean canCreateFinancialAward(Document document, Person user) {
-        AwardDocument awardDocument = (AwardDocument) document;
-        Award award = awardDocument.getAward();
-        boolean hasPermission = false;
-        String status = document.getDocumentHeader().getWorkflowDocument().getRouteHeader().getDocRouteStatus();
-        // if document is in processed or final state
-        if (status.equalsIgnoreCase(KEWConstants.ROUTE_HEADER_PROCESSED_CD) || 
-            status.equalsIgnoreCase(KEWConstants.ROUTE_HEADER_FINAL_CD)) {
-            
-            // if the integration parameter is ON
-            if (isFinancialSystemIntegrationParameterOn()) {
-                hasPermission = hasCreateFinancialAwardPermission();
-                // if award has already been created, the document number will appear for everyone.
-                if (award.getFinancialAwardDocumentNumber() != null) {
-                    hasPermission = true;
-                }
-                
-            }
-        }
-        return hasPermission;
-    }
-    
     protected boolean isFinancialSystemIntegrationParameterOn() {
         String awardAccountParameter = getParameterService().getParameterValue (
                                                                 Constants.PARAMETER_MODULE_AWARD, 
@@ -201,18 +170,6 @@ public class AwardDocumentAuthorizer extends KcTransactionalDocumentAuthorizerBa
         // if the user has permission.
         hasPermission = identityManagementService.hasPermission(UserSession.getAuthenticatedUser().getPrincipalId(), 
                                                                 "KC-AWARD", "Create Award Account",set);
-        return hasPermission;    
-    }
-    
-    public boolean hasCreateFinancialAwardPermission() {
-        boolean hasPermission = false;
-        IdentityManagementService identityManagementService = getIdentityManagementService();
-        AttributeSet set = new AttributeSet();
-        set.put("documentTypeName", "AwardDocument");
-        set.put("documentAction", "Create financial award");
-        // if the user has permission.
-        hasPermission = identityManagementService.hasPermission(UserSession.getAuthenticatedUser().getPrincipalId(), 
-                                                                "KC-AWARD", "Create Financial Award",set);
         return hasPermission;    
     }
     
