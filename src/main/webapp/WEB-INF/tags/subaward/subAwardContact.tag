@@ -39,7 +39,7 @@
 		  <th width="15%">Office Phone</th>
 		  <th width="15%">Email</th>
 		  <th width="15%"><div align="center">Actions</div></th>				
-				
+		</tr>		
          <c:if test="${!readOnly}">
 	     <tr>
 				<th class="infoline" scope="row">Add</th>
@@ -59,7 +59,6 @@
   						<kul:lookup boClassName="org.kuali.kra.bo.Rolodex" fieldConversions="rolodexId:newSubAwardContact.rolodexId" 
   									anchor="${tabKey}" lookupParameters="newSubAwardContact.rolodexId:rolodexId"/>
   					</c:if>
-  		</c:if> 
   		            <c:if test="${readOnly}">
 					     <html:hidden styleId ="org.fullName" property="newSubAwardContact.rolodex.fullName" />
 				    </c:if>
@@ -107,7 +106,7 @@
 	                </div>
 	             </td>	  			  
 		  </tr>
-		  
+		  </c:if>  
 		  
 		  <c:forEach var="subAwardContacts" items="${KualiForm.document.subAwardList[0].subAwardContactsList}" varStatus="status">		  
 		              <tr>
