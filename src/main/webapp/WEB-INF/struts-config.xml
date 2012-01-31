@@ -1,6 +1,7 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <!DOCTYPE struts-config PUBLIC "-//Apache Software Foundation//DTD Struts Configuration 1.2//EN" "http://struts.apache.org/dtds/struts-config_1_2.dtd" [
-	<!ENTITY protocol_forwards SYSTEM "struts_protocol_forwards.xml">
+    <!ENTITY protocol_forwards SYSTEM "struts_protocol_forwards.xml">
+    <!ENTITY iacuc_forwards SYSTEM "struts_iacuc_forwards.xml">
 	<!ENTITY coi_forwards SYSTEM "struts_coi_forwards.xml">
 	]>
 
@@ -49,6 +50,7 @@
 		<form-bean name="NegotiationForm" type="org.kuali.kra.negotiations.web.struts.form.NegotiationForm" />
 		<form-bean name="PersonMassChangeForm" type="org.kuali.kra.personmasschange.web.struts.form.PersonMassChangeForm" />
 		<form-bean name="ReportTrackingLookupForm" type="org.kuali.kra.award.web.struts.action.ReportTrackingLookupForm" />
+        <form-bean name="IacucProtocolForm" type="org.kuali.kra.iacuc.IacucProtocolForm" />
     </form-beans>
 
 <!-- Rice content Start -->
@@ -398,7 +400,54 @@
         <forward name="basic" path="/WEB-INF/jsp/irb/ProtocolNotificationEditor.jsp"/>
         &protocol_forwards;
       </action>
+
+
       <!--  KRA IRB Mapping END -->
+      
+      
+      <!-- IACUC Mapping -->
+      <action path="/iacucProtocolProtocol" name="IacucProtocolForm" input="/WEB-INF/jsp/iacuc/ProtocolProtocol.jsp" type="org.kuali.kra.iacuc.protocol.IacucProtocolProtocolAction"  scope="request" parameter="methodToCall" validate="true" attribute="KualiForm">
+        <forward name="basic" path="/WEB-INF/jsp/iacuc/ProtocolProtocol.jsp" />
+        &iacuc_forwards;
+      </action>
+      
+      <action path="/iacucQuestionnaire" name="IacucProtocolForm" input="/WEB-INF/jsp/iacuc/ProtocolQuestionnaire.jsp" type="org.kuali.kra.iacuc.questionnaire.IacucProtocolQuestionnaireAction"  scope="request" parameter="methodToCall" validate="true" attribute="KualiForm">
+        <forward name="basic" path="/WEB-INF/jsp/iacuc/ProtocolQuestionnaire.jsp" />
+        &iacuc_forwards;
+      </action>
+      
+      <action path="/iacucPersonnel" name="IacucProtocolForm" input="/WEB-INF/jsp/iacuc/ProtocolPersonnel.jsp" type="org.kuali.kra.iacuc.personnel.IacucProtocolPersonnelAction"  scope="request" parameter="methodToCall" validate="true" attribute="KualiForm">
+        <forward name="basic" path="/WEB-INF/jsp/iacuc/ProtocoPersonnel.jsp" />
+        &iacuc_forwards;
+      </action>
+      <action path="/iacucProtocolCustomData" name="IacucProtocolForm" input="/WEB-INF/jsp/iacuc/ProtocolCustomData.jsp" type="org.kuali.kra.iacuc.customdata.IacucProtocolCustomDataAction"  scope="request" parameter="methodToCall" validate="true" attribute="KualiForm" >
+        <forward name="basic" path="/WEB-INF/jsp/iacuc/ProtocolCustomData.jsp" />
+        &iacuc_forwards;
+      </action>
+
+      <action path="/iacucProtocolSpecialReview" name="IacucProtocolForm" input="/WEB-INF/jsp/iacuc/ProtocolSpecialReview.jsp" type="org.kuali.kra.iacuc.specialreview.IacucProtocolSpecialReviewAction"  scope="request" parameter="methodToCall" validate="true" attribute="KualiForm" >
+        <forward name="basic" path="/WEB-INF/jsp/iacuc/ProtocolSpecialReview.jsp" />
+        &iacuc_forwards;
+      </action>
+      
+      <action path="/iacucProtocolActions" name="IacucProtocolForm" input="/WEB-INF/jsp/iacuc/ProtocolProtocolActions.jsp" type="org.kuali.kra.iacuc.actions.IacucProtocolActionsAction"  scope="request" parameter="methodToCall" validate="true" attribute="KualiForm">
+        <forward name="basic" path="/WEB-INF/jsp/iacuc/ProtocolProtocolActions.jsp" />
+        &iacuc_forwards;
+      </action>
+      
+      <action path="/iacucProtocolOnlineReview" name="IacucProtocolForm" input="/WEB-INF/jsp/iacuc/ProtocolOnlineReview.jsp" type="org.kuali.kra.iacuc.onlinereview.IacucProtocolOnlineReviewAction"  scope="request" parameter="methodToCall" validate="true" attribute="KualiForm">
+        <forward name="basic" path = "/WEB-INF/jsp/iacuc/ProtocolOnlineReview.jsp"/>
+        &iacuc_forwards;
+      </action>
+      <action path="/iacucProtocolNoteAndAttachment" name="IacucProtocolForm" input="/WEB-INF/jsp/iacuc/ProtocolNoteAndAttachment.jsp" type="org.kuali.kra.iacuc.noteattachment.IacucProtocolNoteAndAttachmentAction"  scope="request" parameter="methodToCall" validate="true" attribute="KualiForm">
+        <forward name="basic" path="/WEB-INF/jsp/irb/ProtocolNoteAndAttachment.jsp" />
+        &iacuc_forwards;
+      </action>
+      
+      <action path="/iacucProtocolPermissions" name="IacucProtocolForm" input="/WEB-INF/jsp/iacuc/ProtocolPermissions.jsp" type="org.kuali.kra.iacuc.permission.IacucProtocolPermissionsAction"  scope="request" parameter="methodToCall" validate="true" attribute="KualiForm">
+        <forward name="basic" path="/WEB-INF/jsp/iacuc/ProtocolPermissions.jsp" />
+        &iacuc_forwards;
+      </action>
       
       
       <!--  KRA Committee Mapping -->
