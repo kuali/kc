@@ -1,0 +1,24 @@
+<!--
+    This contains the forwards for Protocol.
+    This fragment is included in the struts-config.xml file so that the protocol
+    forwards within different actions do not have to be duplicated.
+    
+    This duplication occurs as a result of our "repackaging by unit-of-work" effort.  Since
+    I couldn't find a struts solution for this problem, this is what I came up with :-)
+ -->
+<forward name="iacucProtocol" path="/WEB-INF/jsp/iacuc/ProtocolProtocol.jsp" />
+<forward name="iacucPersonnel" path="/WEB-INF/jsp/iacuc/ProtocolPersonnel.jsp" />
+<forward name="iacucProtocolPermissions" path="/WEB-INF/jsp/iacuc/ProtocolPermissions.jsp" />
+<forward name="iacucPermissionsRoleRights" path="/WEB-INF/jsp/iacuc/ProtocolPermissionsRoleRights.jsp" />
+<forward name="iacucViewQuestionnaire" path="/WEB-INF/jsp/iacuc/ViewQuestionnaire.jsp" />
+<forward name="iacucAjaxQuestionnaire" path="/WEB-INF/jsp/iacuc/AjaxQuestionnaire.jsp" />
+<forward name="iacucSubmissionQuestionnaire" path="/WEB-INF/jsp/iacuc/SubmissionQuestionnaire.jsp" />
+<forward name="iacucPermissionsEditRoles" path="/WEB-INF/jsp/iacuc/ProtocolPermissionsEditRoles.jsp" />
+<forward name="iacucPermissionsCloseEditRoles" path="/WEB-INF/jsp/iacuc/ProtocolPermissionsCloseEditRoles.jsp" />
+<forward name="iacucNoteAndAttachment" path="/WEB-INF/jsp/iacuc/ProtocolNoteAndAttachment.jsp" />
+<forward name="iacucProtocolOnlineReview" path = "/WEB-INF/jsp/iacuc/ProtocolOnlineReview.jsp"/>
+<forward name="iacucProtocolActions" path="/WEB-INF/jsp/iacuc/ProtocolProtocolActions.jsp" />
+<forward name="iacucCustomData" path="/WEB-INF/jsp/iacuc/ProtocolCustomData.jsp" />
+<forward name="iacucSpecialReview" path="/WEB-INF/jsp/iacuc/ProtocolSpecialReview.jsp" />
+<forward name="iacucCheckListItemDescription" path="/WEB-INF/jsp/iacuc/ProtocolCheckListItemDescription.jsp" />
+<forward name="iacucQuestionnaire" path="/WEB-INF/jsp/iacuc/ProtocolQuestionnaire.jsp" />
