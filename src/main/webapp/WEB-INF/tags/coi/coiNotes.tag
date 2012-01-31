@@ -24,7 +24,6 @@
         <c:set var="tabItemCount" value="${tabItemCount+1}" />
     </c:if>
 </c:forEach>
-<C:out value="here ${modifyPermission} " />
 <kul:tab tabTitle="Notes" tabItemCount="${tabItemCount}" defaultOpen="false" tabErrorKey="error.coi.notes.*">
 	<div class="tab-container" align="center">
     	<h3>
@@ -65,7 +64,7 @@
 	            	  	</div>
 		            </td>
 		            <td>
-		            <html:select property="coiNotesAndAttachmentsHelper.newCoiDisclosureNotepad.projectId" tabindex="0" disabled="${readOnly}">
+		            <html:select property="coiNotesAndAttachmentsHelper.newCoiDisclosureNotepad.projectId" style="width:180px" tabindex="0" disabled="${readOnly}">
 					<c:forEach
 							items="${krafn:getOptionList('org.kuali.kra.coi.lookup.keyvalue.CoiDisclosureProjectValuesFinder', paramMap1)}" var="option">
 
