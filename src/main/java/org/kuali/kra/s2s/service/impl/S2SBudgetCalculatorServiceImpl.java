@@ -31,6 +31,7 @@ import org.apache.commons.logging.LogFactory;
 import org.kuali.kra.bo.KcPerson;
 import org.kuali.kra.bo.Rolodex;
 import org.kuali.kra.budget.BudgetDecimal;
+import org.kuali.kra.budget.calculator.QueryList;
 import org.kuali.kra.budget.calculator.RateClassType;
 import org.kuali.kra.budget.core.Budget;
 import org.kuali.kra.budget.core.BudgetCategoryMap;
@@ -2252,16 +2253,22 @@ public class S2SBudgetCalculatorServiceImpl implements
 						.getDocumentService().getByDocumentHeaderId(
 								versionOverview.getDocumentNumber());
 			} else {
-				List<BudgetDocumentVersion> budgetVersions = pdDoc
-						.getBudgetDocumentVersions();
-				if (budgetVersions != null && budgetVersions.size() > 0) {
-					// If no final version found and if there are more than zero
-					// budget versions, get the last one
-					budgetDocument = (BudgetDocument) KRADServiceLocatorWeb
-							.getDocumentService().getByDocumentHeaderId(
-									budgetVersions.get(budgetVersions.size() - 1).getBudgetVersionOverview().getDocumentNumber());
-				}
-			}
+                List<BudgetDocumentVersion> budgetVersions = pdDoc
+                        .getBudgetDocumentVersions();
+        
+                QueryList<BudgetVersionOverview> budgetVersionOverviews = new QueryList<BudgetVersionOverview>();
+                for (BudgetDocumentVersion budgetDocumentVersion : budgetVersions) {
+                    budgetVersionOverviews.add((BudgetVersionOverview)budgetDocumentVersion.getBudgetVersionOverview());
+                }
+                if(!budgetVersionOverviews.isEmpty()){
+                    budgetVersionOverviews.sort("budgetVersionNumber",false);
+                    BudgetVersionOverview budgetVersionOverview = budgetVersionOverviews.get(0);
+                    
+                    budgetDocument = (BudgetDocument) KRADServiceLocatorWeb.getDocumentService().getByDocumentHeaderId
+                    (budgetVersionOverview.getDocumentNumber());
+                }
+            }
+
 		} catch (WorkflowException e) {
 			LOG.error("Error while getting Budget veraion", e);
 			throw new S2SException(e);
