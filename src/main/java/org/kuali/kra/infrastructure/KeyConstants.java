@@ -1040,7 +1040,7 @@ public final class KeyConstants {
     public static final String ERROR_PERSON_MASS_CHANGE_REPLACER_EMPTY = "error.personMassChange.replacer.empty";
     public static final String ERROR_PERSON_MASS_CHANGE_REPLACEE_SELECTION = "error.personMassChange.replacee.selection";
     public static final String ERROR_PERSON_MASS_CHANGE_REPLACER_SELECTION = "error.personMassChange.replacer.selection";
-    
+    public static final String ERROR_PERSON_MASS_CHANGE_DOCUMENT_LOCKED = "error.personMassChange.document.locked";
     /**
      * private utility class ctor.
      * @throws UnsupportedOperationException if called.

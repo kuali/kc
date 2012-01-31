@@ -16,8 +16,9 @@
 package org.kuali.kra.personmasschange.service.impl;
 
 import java.util.ArrayList;
-import java.util.Collection;
+import java.util.HashSet;
 import java.util.List;
+import java.util.Set;
 
 import org.apache.commons.lang.StringUtils;
 import org.kuali.kra.bo.Unit;
@@ -34,17 +35,30 @@ public class UnitPersonMassChangeServiceImpl implements UnitPersonMassChangeServ
     private BusinessObjectService businessObjectService;
 
     @Override
-    @SuppressWarnings("unchecked")
     public List<Unit> getUnitChangeCandidates(PersonMassChange personMassChange) {
-        List<Unit> unitChangeCandidates = new ArrayList<Unit>();
+        Set<Unit> unitChangeCandidates = new HashSet<Unit>();
+        
+        List<Unit> units = new ArrayList<Unit>();
+        if (personMassChange.getUnitPersonMassChange().isAdministrator()) {
+            units.addAll(getBusinessObjectService().findAll(Unit.class));
+        }
 
-        Collection<Unit> units = getBusinessObjectService().findAll(Unit.class);
         for (Unit unit : units) {
-            for (UnitAdministrator unitAdministrator : unit.getUnitAdministrators()) {
-                if (StringUtils.equals(personMassChange.getReplaceePersonId(), unitAdministrator.getPersonId())) {
-                    unitChangeCandidates.add(unit);
-                    break;
-                }
+            if (personMassChange.getUnitPersonMassChange().isAdministrator()) {
+                getUnitAdministratorChangeCandidates(personMassChange, unit);
+            }
+        }
+        
+        return new ArrayList<Unit>(unitChangeCandidates);
+    }
+    
+    private List<Unit> getUnitAdministratorChangeCandidates(PersonMassChange personMassChange, Unit unit) {
+        List<Unit> unitChangeCandidates = new ArrayList<Unit>();
+        
+        for (UnitAdministrator unitAdministrator : unit.getUnitAdministrators()) {
+            if (StringUtils.equals(personMassChange.getReplaceePersonId(), unitAdministrator.getPersonId())) {
+                unitChangeCandidates.add(unit);
+                break;
             }
         }
         
@@ -54,28 +68,34 @@ public class UnitPersonMassChangeServiceImpl implements UnitPersonMassChangeServ
     @Override
     public void performPersonMassChange(PersonMassChange personMassChange, List<Unit> unitChangeCandidates) {
         for (Unit unitChangeCandidate : unitChangeCandidates) {
-            List<UnitAdministrator> unitAdministratorChangeCandidates = new ArrayList<UnitAdministrator>();
-            
-            for (UnitAdministrator unitAdministrator : unitChangeCandidate.getUnitAdministrators()) {
-                if (StringUtils.equals(personMassChange.getReplaceePersonId(), unitAdministrator.getPersonId())) {
-                    unitAdministratorChangeCandidates.add(unitAdministrator);
-                }
+            if (personMassChange.getUnitPersonMassChange().isAdministrator()) {
+                performUnitAdministratorPersonMassChange(personMassChange, unitChangeCandidate);
             }
-            
-            for (UnitAdministrator unitAdministratorChangeCandidate : unitAdministratorChangeCandidates) {
-                UnitAdministrator newUnitAdministrator = new UnitAdministrator();
-                newUnitAdministrator.setUnitNumber(unitAdministratorChangeCandidate.getUnitNumber());
-                newUnitAdministrator.setPersonId(personMassChange.getReplacerPersonId());
-                newUnitAdministrator.setUnitAdministratorTypeCode(unitAdministratorChangeCandidate.getUnitAdministratorTypeCode());
-                newUnitAdministrator.setUnit(unitAdministratorChangeCandidate.getUnit());
-                newUnitAdministrator.setUnitAdministratorType(unitAdministratorChangeCandidate.getUnitAdministratorType());
-                
-                unitChangeCandidate.getUnitAdministrators().remove(unitAdministratorChangeCandidate);
-                unitChangeCandidate.getUnitAdministrators().add(newUnitAdministrator);
-                
-                getBusinessObjectService().delete(unitAdministratorChangeCandidate);
-                getBusinessObjectService().save(newUnitAdministrator);
+        }
+    }
+    
+    private void performUnitAdministratorPersonMassChange(PersonMassChange personMassChange, Unit unitChangeCandidate) {
+        List<UnitAdministrator> unitAdministratorChangeCandidates = new ArrayList<UnitAdministrator>();
+        
+        for (UnitAdministrator unitAdministrator : unitChangeCandidate.getUnitAdministrators()) {
+            if (StringUtils.equals(personMassChange.getReplaceePersonId(), unitAdministrator.getPersonId())) {
+                unitAdministratorChangeCandidates.add(unitAdministrator);
             }
+        }
+        
+        for (UnitAdministrator unitAdministratorChangeCandidate : unitAdministratorChangeCandidates) {
+            UnitAdministrator newUnitAdministrator = new UnitAdministrator();
+            newUnitAdministrator.setUnitNumber(unitAdministratorChangeCandidate.getUnitNumber());
+            newUnitAdministrator.setPersonId(personMassChange.getReplacerPersonId());
+            newUnitAdministrator.setUnitAdministratorTypeCode(unitAdministratorChangeCandidate.getUnitAdministratorTypeCode());
+            newUnitAdministrator.setUnit(unitAdministratorChangeCandidate.getUnit());
+            newUnitAdministrator.setUnitAdministratorType(unitAdministratorChangeCandidate.getUnitAdministratorType());
+            
+            unitChangeCandidate.getUnitAdministrators().remove(unitAdministratorChangeCandidate);
+            unitChangeCandidate.getUnitAdministrators().add(newUnitAdministrator);
+            
+            getBusinessObjectService().delete(unitAdministratorChangeCandidate);
+            getBusinessObjectService().save(newUnitAdministrator);
         }
     }
     
