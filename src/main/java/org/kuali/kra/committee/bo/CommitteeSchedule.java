@@ -369,19 +369,22 @@ public class CommitteeSchedule extends CommitteeAssociate implements Comparable<
         if (obj.getClass() != this.getClass()) {
             return false;
         }
-        CommitteeSchedule committeeSchedule = (CommitteeSchedule) obj;
-        if (this.getId() != null && this.getId().equals(committeeSchedule.getId())) {
-            return true;
-        } else {
+        CommitteeSchedule other = (CommitteeSchedule) obj;
+        if (id == null) {
+            if (other.id != null) {
+                return false;
+            }
+        } else if (!id.equals(other.id)) {
             return false;
         }
+        return true;
     }
 
     @Override
     public int hashCode() {
         final int PRIME = 31;
         int result = 1;
-        result = PRIME * result + (this.getId() == null ? 0 : this.getId().hashCode());
+        result = PRIME * result + (id == null ? 0 : id.hashCode());
         return result;     
     }
     
