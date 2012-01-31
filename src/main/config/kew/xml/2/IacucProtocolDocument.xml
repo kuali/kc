@@ -1,0 +1,31 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<data xmlns="ns:workflow" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:schemaLocation="ns:workflow resource:WorkflowData">
+    <documentTypes xmlns="ns:workflow/DocumentType" xsi:schemaLocation="ns:workflow/DocumentType resource:DocumentType">
+        <documentType>
+            <name>IacucProtocolDocument</name>
+            <description>Manage Iacuc Protocol</description>
+            <label>KC Iacuc Protocol</label>
+            <postProcessorName>org.kuali.rice.krad.workflow.postprocessor.KualiPostProcessor</postProcessorName>
+            <superUserWorkgroupName>KC-WKFLW:KcAdmin</superUserWorkgroupName>
+            <blanketApproveWorkgroupName>KC-WKFLW:KcAdmin</blanketApproveWorkgroupName>
+            <defaultExceptionWorkgroupName>KC-WKFLW:KcAdmin</defaultExceptionWorkgroupName>
+            <docHandler>${kuali.docHandler.url.prefix}/iacucProtocolProtocol.do?methodToCall=docHandler</docHandler>
+            <helpDefinitionURL>default.htm?turl=Documents/iacucProtocol.htm</helpDefinitionURL>
+            <active>true</active>
+            <routingVersion>2</routingVersion>
+            <routePaths>
+                <routePath>
+                    <start name="Initiated" />
+                </routePath>
+            </routePaths>
+            <routeNodes>
+                <start name="Initiated">
+                    <activationType>P</activationType>
+                    <mandatoryRoute>false</mandatoryRoute>
+                    <finalApproval>false</finalApproval>
+                </start>
+            </routeNodes>
+            <parent>KC</parent>
+        </documentType>
+    </documentTypes>    
+</data>

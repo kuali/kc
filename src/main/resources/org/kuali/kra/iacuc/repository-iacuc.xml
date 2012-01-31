@@ -1,0 +1,79 @@
+<!--
+ Copyright 2005-2010 The Kuali Foundation.
+ 
+ Licensed under the Educational Community License, Version 1.0 (the "License");
+ you may not use this file except in compliance with the License.
+ You may obtain a copy of the License at
+ 
+ http://www.opensource.org/licenses/ecl1.php
+ 
+ Unless required by applicable law or agreed to in writing, software
+ distributed under the License is distributed on an "AS IS" BASIS,
+ WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
+ See the License for the specific language governing permissions and
+ limitations under the License.
+-->
+
+<!-- <!DOCTYPE descriptor-repository PUBLIC "-//Apache Software Foundation//DTD OJB Repository//EN" "../../../../repository.dtd">-->
+
+<descriptor-repository version="1.0">
+
+    <class-descriptor class="org.kuali.kra.iacuc.IacucProtocolDocument" table="IACUC_PROTOCOL_DOCUMENT">
+        <field-descriptor name="documentNumber" column="DOCUMENT_NUMBER" jdbc-type="VARCHAR" primarykey="true" />
+        <field-descriptor name="updateTimestamp" column="UPDATE_TIMESTAMP" jdbc-type="TIMESTAMP"/>      
+        <field-descriptor name="updateUser" column="UPDATE_USER" jdbc-type="VARCHAR"/>
+        <field-descriptor name="objectId" column="OBJ_ID" jdbc-type="VARCHAR" />
+        <field-descriptor name="versionNumber" column="VER_NBR" jdbc-type="BIGINT" locking="false" />
+        <reference-descriptor name="documentHeader" class-ref="org.kuali.rice.krad.bo.DocumentHeader" auto-retrieve="true" auto-update="object" auto-delete="object">
+            <foreignkey field-ref="documentNumber" />
+        </reference-descriptor>
+        <collection-descriptor name="protocolList" proxy="true" element-class-ref="org.kuali.kra.iacuc.IacucProtocol" collection-class="org.apache.ojb.broker.util.collections.ManageableArrayList" auto-retrieve="true" auto-update="object" auto-delete="object">
+            <inverse-foreignkey field-ref="documentNumber" />
+        </collection-descriptor>
+        <!-- GENERATE NEXT VALUE -->
+        <collection-descriptor name="documentNextvalues" element-class-ref="org.kuali.kra.bo.DocumentNextvalue" auto-retrieve="true" auto-update="object" auto-delete="object">
+            <inverse-foreignkey field-ref="documentKey" /> 
+        </collection-descriptor>
+        <!-- GENERATE NEXT VALUE -->
+    </class-descriptor>
+
+    <class-descriptor class="org.kuali.kra.iacuc.IacucProtocol" table="IACUC_PROTOCOL">
+        <field-descriptor name="protocolId" column="PROTOCOL_ID" jdbc-type="BIGINT" primarykey="true" sequence-name="SEQ_PROTOCOL_ID" autoincrement="true"/>
+        <field-descriptor name="documentNumber" column="DOCUMENT_NUMBER" jdbc-type="VARCHAR" access="anonymous"/>
+        <field-descriptor name="protocolNumber" column="PROTOCOL_NUMBER" jdbc-type="VARCHAR" />
+        <field-descriptor name="sequenceNumber" column="SEQUENCE_NUMBER" jdbc-type="INTEGER"/>
+        <field-descriptor name="active" column="ACTIVE" jdbc-type="CHAR" conversion="org.kuali.rice.core.framework.persistence.ojb.conversion.OjbCharBooleanConversion"/>
+        <field-descriptor name="protocolTypeCode" column="PROTOCOL_TYPE_CODE" jdbc-type="VARCHAR" />
+        <field-descriptor name="protocolStatusCode" column="PROTOCOL_STATUS_CODE" jdbc-type="VARCHAR" />
+        <field-descriptor name="title" column="TITLE" jdbc-type="VARCHAR" />
+        <field-descriptor name="description" column="DESCRIPTION" jdbc-type="VARCHAR" />
+        <field-descriptor name="applicationDate" column="APPLICATION_DATE" jdbc-type="DATE" />
+        <field-descriptor name="approvalDate" column="APPROVAL_DATE" jdbc-type="DATE" />
+        <field-descriptor name="expirationDate" column="EXPIRATION_DATE" jdbc-type="DATE" />
+        <field-descriptor name="fdaApplicationNumber" column="FDA_APPLICATION_NUMBER" jdbc-type="VARCHAR" />
+        <field-descriptor name="referenceNumber1" column="REFERENCE_NUMBER_1" jdbc-type="VARCHAR" />
+        <field-descriptor name="referenceNumber2" column="REFERENCE_NUMBER_2" jdbc-type="VARCHAR" />
+        <field-descriptor name="isBillable" column="IS_BILLABLE" jdbc-type="VARCHAR" conversion="org.kuali.rice.core.framework.persistence.ojb.conversion.OjbCharBooleanConversion"/>
+        <field-descriptor name="specialReviewIndicator" column="SPECIAL_REVIEW_INDICATOR" jdbc-type="VARCHAR" />
+        <field-descriptor name="keyStudyPersonIndicator" column="KEY_STUDY_PERSON_INDICATOR" jdbc-type="VARCHAR" />
+        <field-descriptor name="fundingSourceIndicator" column="FUNDING_SOURCE_INDICATOR" jdbc-type="VARCHAR" />
+        <field-descriptor name="correspondentIndicator" column="CORRESPONDENT_INDICATOR" jdbc-type="VARCHAR" />
+        <field-descriptor name="referenceIndicator" column="REFERENCE_INDICATOR" jdbc-type="VARCHAR" />
+        <field-descriptor name="layStatement1" column="LAY_STATEMENT_1" jdbc-type="VARCHAR" />
+        <field-descriptor name="layStatement2" column="LAY_STATEMENT_2" jdbc-type="VARCHAR" />
+        <field-descriptor name="createTimestamp" column="CREATE_TIMESTAMP" jdbc-type="TIMESTAMP" />
+        <field-descriptor name="createUser" column="CREATE_USER" jdbc-type="VARCHAR" />
+        <field-descriptor name="updateTimestamp" column="UPDATE_TIMESTAMP" jdbc-type="TIMESTAMP" />
+        <field-descriptor name="updateUser" column="UPDATE_USER" jdbc-type="VARCHAR" />
+        <field-descriptor name="lastApprovalDate" column="LAST_APPROVAL_DATE" jdbc-type="DATE" />
+        <field-descriptor name="overviewTimeline" column="OVERVIEW_TIMELINE" jdbc-type="VARCHAR" />
+        <field-descriptor name="speciesStudyGroupIndicator" column="SPECIES_STUDY_GROUP_INDICATOR" jdbc-type="VARCHAR" />
+        <field-descriptor name="alternativeSearchIndicator" column="ALTERNATIVE_SEARCH_INDICATOR" jdbc-type="VARCHAR" />
+        <field-descriptor name="scientificJustifIndicator" column="SCIENTIFIC_JUSTIF_INDICATOR" jdbc-type="VARCHAR" />
+        <field-descriptor name="versionNumber" column="VER_NBR" jdbc-type="BIGINT" locking="true" />
+        <field-descriptor name="objectId" column="OBJ_ID" jdbc-type="VARCHAR" />
+        <reference-descriptor name="iacucProtocolDocument" class-ref="org.kuali.kra.iacuc.IacucProtocolDocument" auto-retrieve="true" auto-update="none" auto-delete="none">
+            <foreignkey field-ref="documentNumber" />
+        </reference-descriptor>
+    </class-descriptor>
+</descriptor-repository>
