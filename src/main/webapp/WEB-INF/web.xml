@@ -14,6 +14,8 @@
       <param-name>web.bootstrap.spring.file</param-name>
       <param-value>classpath:kc-bootstrap-springbeans.xml</param-value>
     </context-param>
+    
+    
 
 	<filter>
         <filter-name>HideWebInfFilter</filter-name>
@@ -94,6 +96,21 @@
     	<filter-name>UserPreferencesFilter</filter-name>
     	<servlet-name>kcb</servlet-name>
  	</filter-mapping>    
+ 	
+ 	<filter-mapping>
+    <filter-name>BootstrapFilter</filter-name>
+    <servlet-name>krad</servlet-name>
+  </filter-mapping>
+
+  <filter-mapping>
+    <filter-name>UserLoginFilter</filter-name>
+    <servlet-name>krad</servlet-name>
+  </filter-mapping>
+
+  <filter-mapping>
+    <filter-name>UserPreferencesFilter</filter-name>
+    <servlet-name>krad</servlet-name>
+  </filter-mapping>
 <!-- Rice content End -->
 
   <filter>
@@ -230,6 +247,17 @@
 		</init-param>
 		<load-on-startup>1</load-on-startup>
 	</servlet>
+	
+	<!-- KRAD Servlet -->
+	<servlet>
+        <servlet-name>krad</servlet-name>
+        <servlet-class>org.springframework.web.servlet.DispatcherServlet</servlet-class>
+        <load-on-startup>3</load-on-startup>
+    </servlet>
+    <servlet-mapping>
+        <servlet-name>krad</servlet-name>
+        <url-pattern>/kr-krad/*</url-pattern>
+    </servlet-mapping>
 
     <!-- KCB servlets -->
     <servlet>
