@@ -1,7 +1,7 @@
 /*
  * Copyright 2005-2010 The Kuali Foundation
  * 
- * Licensed under the Educational Community License, Version 2.0 (the "License");
+ * Licensed under the Educational CommCommitteey License, Version 2.0 (the "License");
  * you may not use this file except in compliance with the License.
  * You may obtain a copy of the License at
  * 
@@ -16,26 +16,185 @@
 package org.kuali.kra.personmasschange.service.impl;
 
 import java.util.ArrayList;
+import java.util.Collection;
+import java.util.HashMap;
+import java.util.HashSet;
 import java.util.List;
+import java.util.Map;
+import java.util.Set;
 
+import org.apache.commons.collections.CollectionUtils;
+import org.apache.commons.lang.StringUtils;
+import org.kuali.kra.bo.KcPerson;
+import org.kuali.kra.bo.Rolodex;
 import org.kuali.kra.committee.bo.Committee;
+import org.kuali.kra.committee.bo.CommitteeMembership;
+import org.kuali.kra.infrastructure.KeyConstants;
 import org.kuali.kra.personmasschange.bo.PersonMassChange;
 import org.kuali.kra.personmasschange.service.CommitteePersonMassChangeService;
+import org.kuali.kra.rules.ErrorReporter;
+import org.kuali.kra.service.KcPersonService;
+import org.kuali.kra.service.RolodexService;
+import org.kuali.rice.krad.service.BusinessObjectService;
 
 /**
  * Defines the service for performing a Person Mass Change on Committees.
  */
 public class CommitteePersonMassChangeServiceImpl implements CommitteePersonMassChangeService {
+    
+    private static final String COMMITTEE_FIELD = "document.personMassChange.committeePersonMassChange.";
 
+    private static final String COMMITTEE_ID = "committeeId";
+    private static final String SEQUENCE_NUMBER = "sequenceNumber";
+    private static final String MEMBER = "member";
+    
+    private static final String COMMITTEE_MEMBER_FIELD = COMMITTEE_FIELD + MEMBER;
+    
+    private static final String COMMITTEE = "committee";
+    
+    private final ErrorReporter errorReporter = new ErrorReporter();
+    
+    private BusinessObjectService businessObjectService;
+    private KcPersonService kcPersonService;
+    private RolodexService rolodexService;
+    
     @Override
     public List<Committee> getCommitteeChangeCandidates(PersonMassChange personMassChange) {
-        // TODO Auto-generated method stub
-        return new ArrayList<Committee>();
+        Set<Committee> committeeChangeCandidates = new HashSet<Committee>();
+        
+        List<Committee> committees = new ArrayList<Committee>();
+        if (personMassChange.getCommitteePersonMassChange().isMember()) {
+            committees.addAll(getCommittees(personMassChange));
+        }
+
+        for (Committee committee : committees) {
+            if (personMassChange.getCommitteePersonMassChange().isMember()) {
+                committeeChangeCandidates.addAll(getCommitteeMemberChangeCandidates(personMassChange, committee));
+            }
+        }
+        
+        return new ArrayList<Committee>(committeeChangeCandidates);
+    }
+    
+    private List<Committee> getCommittees(PersonMassChange personMassChange) {
+        List<Committee> committeeChangeCandidates = new ArrayList<Committee>();
+        
+        Collection<Committee> committees = getBusinessObjectService().findAll(Committee.class);
+
+        if (personMassChange.isChangeAllSequences()) {
+            committeeChangeCandidates.addAll(committees);
+        } else {
+            committeeChangeCandidates.addAll(getLatestCommittees(committees));
+        }
+        
+        return committeeChangeCandidates;
+    }
+    
+    private List<Committee> getLatestCommittees(Collection<Committee> committees) {
+        List<Committee> latestCommittees = new ArrayList<Committee>();
+        
+        for (String uniqueCommitteeId : getUniqueCommitteeIds(committees)) {
+            Map<String, String> fieldValues = new HashMap<String, String>();
+            fieldValues.put(COMMITTEE_ID, uniqueCommitteeId);
+            Collection<Committee> uniqueCommittees = getBusinessObjectService().findMatchingOrderBy(Committee.class, fieldValues, SEQUENCE_NUMBER, false);
+            if (!uniqueCommittees.isEmpty()) {
+                latestCommittees.add((Committee) CollectionUtils.get(uniqueCommittees, 0));
+            }
+        }
+        
+        return latestCommittees;
+    }
+    
+    private Set<String> getUniqueCommitteeIds(Collection<Committee> committees) {
+        Set<String> uniqueCommitteeIds = new HashSet<String>();
+        
+        for (Committee committee : committees) {
+            uniqueCommitteeIds.add(committee.getCommitteeId());
+        }
+        
+        return uniqueCommitteeIds;
+        
+    }
+    
+    private List<Committee> getCommitteeMemberChangeCandidates(PersonMassChange personMassChange, Committee committee) {
+        List<Committee> committeeChangeCandidates = new ArrayList<Committee>();
+        
+        for (CommitteeMembership committeeMembership : committee.getCommitteeMemberships()) {
+            if (isPersonIdMassChange(personMassChange, committeeMembership) || isRolodexMassChange(personMassChange, committeeMembership)) {
+                committeeChangeCandidates.add(committee);
+                break;
+            }
+        }
+        
+        return committeeChangeCandidates;
     }
 
     @Override
     public void performPersonMassChange(PersonMassChange personMassChange, List<Committee> committeeChangeCandidates) {
-        // TODO Auto-generated method stub
+        for (Committee committeeChangeCandidate : committeeChangeCandidates) {
+            List<CommitteeMembership> committeeMembershipChangeCandidates = new ArrayList<CommitteeMembership>();
+            
+            if (committeeChangeCandidate.getCommitteeDocument().getPessimisticLocks().isEmpty()) {
+                for (CommitteeMembership committeeMembership : committeeChangeCandidate.getCommitteeMemberships()) {
+                    if (isPersonIdMassChange(personMassChange, committeeMembership) || isRolodexMassChange(personMassChange, committeeMembership)) {
+                        committeeMembershipChangeCandidates.add(committeeMembership);
+                    }
+                }
+                
+                for (CommitteeMembership committeeMembershipChangeCandidate : committeeMembershipChangeCandidates) {
+                    if (personMassChange.getReplaceePersonId() != null) {
+                        KcPerson person = getKcPersonService().getKcPersonByPersonId(personMassChange.getReplacerPersonId());
+                        committeeMembershipChangeCandidate.setPersonId(person.getPersonId());
+                        committeeMembershipChangeCandidate.setPersonName(person.getFullName());
+                    } else if (personMassChange.getReplaceeRolodexId() != null) {
+                        Rolodex rolodex = getRolodexService().getRolodex(Integer.parseInt(personMassChange.getReplacerRolodexId()));
+                        committeeMembershipChangeCandidate.setRolodexId(rolodex.getRolodexId());
+                        committeeMembershipChangeCandidate.setPersonName(rolodex.getFullName());
+                    }
+                    
+                    getBusinessObjectService().save(committeeMembershipChangeCandidate);
+                }
+            } else {
+                if (personMassChange.getCommitteePersonMassChange().isMember()) {
+                    String committeeName = committeeChangeCandidate.getCommitteeName();
+                    errorReporter.reportWarning(COMMITTEE_MEMBER_FIELD, KeyConstants.ERROR_PERSON_MASS_CHANGE_DOCUMENT_LOCKED, COMMITTEE, committeeName);
+                }
+            }
+        }
+    }
+    
+    private boolean isPersonIdMassChange(PersonMassChange personMassChange, CommitteeMembership committeeMembership) {
+        String replaceePersonId = personMassChange.getReplaceePersonId();
+        return replaceePersonId != null && StringUtils.equals(replaceePersonId, committeeMembership.getPersonId());
+    }
+    
+    private boolean isRolodexMassChange(PersonMassChange personMassChange, CommitteeMembership committeeMembership) {
+        String replaceeRolodexId = personMassChange.getReplaceeRolodexId();
+        return replaceeRolodexId != null && StringUtils.equals(replaceeRolodexId, String.valueOf(committeeMembership.getRolodexId()));
+    }
+    
+    public BusinessObjectService getBusinessObjectService() {
+        return businessObjectService;
+    }
+    
+    public void setBusinessObjectService(BusinessObjectService businessObjectService) {
+        this.businessObjectService = businessObjectService;
+    }
+    
+    public KcPersonService getKcPersonService() {
+        return kcPersonService;
+    }
+    
+    public void setKcPersonService(KcPersonService kcPersonService) {
+        this.kcPersonService = kcPersonService;
+    }
+    
+    public RolodexService getRolodexService() {
+        return rolodexService;
+    }
+    
+    public void setRolodexService(RolodexService rolodexService) {
+        this.rolodexService = rolodexService;
     }
 
 }
