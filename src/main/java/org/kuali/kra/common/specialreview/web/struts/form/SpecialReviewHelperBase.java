@@ -17,7 +17,9 @@ package org.kuali.kra.common.specialreview.web.struts.form;
 
 import java.io.Serializable;
 import java.util.ArrayList;
+import java.util.HashMap;
 import java.util.List;
+import java.util.Map;
 
 import org.apache.commons.lang.StringUtils;
 import org.kuali.kra.bo.SpecialReviewApprovalType;
@@ -29,7 +31,11 @@ import org.kuali.kra.infrastructure.KraServiceLocator;
 import org.kuali.kra.irb.Protocol;
 import org.kuali.kra.irb.ProtocolFinderDao;
 import org.kuali.kra.irb.actions.submit.ProtocolExemptStudiesCheckListItem;
+import org.kuali.kra.proposaldevelopment.bo.DevelopmentProposal;
+import org.kuali.kra.proposaldevelopment.bo.ProposalState;
+import org.kuali.kra.proposaldevelopment.specialreview.ProposalSpecialReview;
 import org.kuali.rice.coreservice.framework.parameter.ParameterService;
+import org.kuali.rice.krad.service.BusinessObjectService;
 import org.kuali.rice.krad.util.GlobalVariables;
 
 /**
@@ -105,10 +111,26 @@ public abstract class SpecialReviewHelperBase<T extends SpecialReview<? extends 
         if (getIsProtocolLinkingEnabled()) {
             if (specialReview != null && SpecialReviewType.HUMAN_SUBJECTS.equals(specialReview.getSpecialReviewTypeCode())) {
                 Protocol protocol = getLastApprovedProtocol(specialReview.getProtocolNumber());
-                
                 if (protocol != null) {
                     specialReview.setApprovalTypeCode(SpecialReviewApprovalType.LINK_TO_IRB);
-                    specialReview.setProtocolStatus(protocol.getProtocolStatus().getDescription());
+                    
+                    if (specialReview.getClass().equals(ProposalSpecialReview.class)) {
+                        ProposalSpecialReview psr = (ProposalSpecialReview) specialReview;
+                        DevelopmentProposal dp = getPropososalDevelopment(psr.getProposalNumber());
+                        if (dp != null 
+                                && (StringUtils.equals(dp.getProposalStateTypeCode(), ProposalState.APPROVED_AND_SUBMITTED)
+                                        || StringUtils.equals(dp.getProposalStateTypeCode(), ProposalState.DISAPPROVED)
+                                        || StringUtils.equals(dp.getProposalStateTypeCode(), ProposalState.APPROVED_POST_SUBMISSION)
+                                        || StringUtils.equals(dp.getProposalStateTypeCode(), ProposalState.DISAPPROVED_POST_SUBMISSION))
+                                && specialReview.getProtocolStatus() != null) {
+                            // if the proposal is complete, do not get the fresh copy of the IRB status
+                        } else {
+                            specialReview.setProtocolStatus(protocol.getProtocolStatus().getDescription());
+                        }
+                    } else {
+                        specialReview.setProtocolStatus(protocol.getProtocolStatus().getDescription());
+                    }
+                    
                     specialReview.setProtocolNumber(protocol.getProtocolNumber());
                     specialReview.setApplicationDate(protocol.getProtocolSubmission().getSubmissionDate());
                     specialReview.setApprovalDate(protocol.getLastApprovalDate() == null ? protocol.getApprovalDate() : protocol.getLastApprovalDate());
@@ -121,6 +143,23 @@ public abstract class SpecialReviewHelperBase<T extends SpecialReview<? extends 
                 }
             }
         }
+    }
+    
+    /**
+     * 
+     * This method gets a DevelopmentProposal object based on the proposalNumber
+     * @param proposalNumber
+     * @return
+     */
+    protected DevelopmentProposal getPropososalDevelopment(String proposalNumber) {
+        final String PROPOSAL_NUMBER = "PROPOSAL_NUMBER";
+        DevelopmentProposal dp = null;
+        if (proposalNumber != null) {
+            Map<String, String> key = new HashMap<String, String>();
+            key.put(PROPOSAL_NUMBER, proposalNumber);
+            dp = KraServiceLocator.getService(BusinessObjectService.class).findByPrimaryKey(DevelopmentProposal.class, key);
+        }
+        return dp;
     }
     
     /**
