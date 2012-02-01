@@ -73,6 +73,9 @@
     </bean>
     
     <bean id="schedulePersonMassChangeService" class="org.kuali.kra.personmasschange.service.impl.SchedulePersonMassChangeServiceImpl">
+        <property name="businessObjectService" ref="businessObjectService" />
+        <property name="kcPersonService" ref="kcPersonService" />
+        <property name="rolodexService" ref="rolodexService" />
     </bean>
     
     <bean id="unitPersonMassChangeService" class="org.kuali.kra.personmasschange.service.impl.UnitPersonMassChangeServiceImpl">
