@@ -23,11 +23,10 @@
 <%@ attribute name="answerHeaderIndex" required="true" %>
 <%@ attribute name="bean" required="true" type="org.kuali.kra.questionnaire.QuestionnaireHelperBase" %>
 <%@ attribute name="property" required="true" %>
-<%@ attribute name="responseDivClass" required="true" %>
 <%@ attribute name="answerValidationError" required = "true" %>
                         
     <%-- need 'onCLick' because IE is not working well with 'onChange' which will not take effect until cursor is moving to somewhere --%>
-<div id="${responseDivClass}" class="Qresponsediv">
+<div class="Qresponsediv">
     <span class="Qresponse">
     
     
