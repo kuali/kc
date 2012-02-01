@@ -21,10 +21,9 @@
 <%@ attribute name="answerHeaderIndex" required="true" %>
 <%@ attribute name="bean" required="true" type="org.kuali.kra.questionnaire.QuestionnaireHelperBase" %>
 <%@ attribute name="property" required="true" %>
-<%@ attribute name="responseDivClass" required="true" %>
 <%@ attribute name="answerValidationError" required = "true" %>
 
-<div id="${responseDivClass}" class="Qresponsediv">
+<div class="Qresponsediv">
     <span class="Qresponse">
             <%-- 'class' is a little different than the other conditions because onchange is handled in tag not by jquery 
                  jquery 'change' is not working for date from date picker --%>
