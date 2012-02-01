@@ -20,10 +20,9 @@
 <%@ attribute name="answerHeaderIndex" required="true" %>
 <%@ attribute name="bean" required="true" type="org.kuali.kra.questionnaire.QuestionnaireHelperBase" %>
 <%@ attribute name="property" required="true" %>
-<%@ attribute name="responseDivClass" required="true" %>
 <%@ attribute name="answerValidationError" required = "true" %>
 
-<div id="${responseDivClass}" class="Qresponsediv">
+<div class="Qresponsediv">
     <span class="Qresponse">
         
         <c:set var="prop" value="${property}.answerHeaders[${answerHeaderIndex}].answers[${questionIndex}].answer"/>

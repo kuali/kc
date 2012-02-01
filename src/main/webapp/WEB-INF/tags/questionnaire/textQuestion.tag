@@ -23,13 +23,12 @@
 <%@ attribute name="answerHeaderIndex" required="true" %>
 <%@ attribute name="bean" required="true" type="org.kuali.kra.questionnaire.QuestionnaireHelperBase" %>
 <%@ attribute name="property" required="true" %>
-<%@ attribute name="responseDivClass" required="true" %>
 <%@ attribute name="answerValidationError" required = "true" %>
 
 <c:set var="questionFieldName" value="${property}.answerHeaders[${answerHeaderIndex}].answers[${questionIndex}].answer" />
 ${kfunc:registerEditableProperty(KualiForm, questionFieldName)}
                       
-<div id="${responseDivClass}" class="Qresponsediv">
+<div class="Qresponsediv">
     <span class="Qresponse">
         <table style="border:none; width:100%;" cellpadding="0" cellspacing="0">
             <tr>

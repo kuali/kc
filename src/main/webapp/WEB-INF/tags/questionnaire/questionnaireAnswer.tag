@@ -20,10 +20,6 @@
 <%@ attribute name="questionIndex" required="true" %>
 <%@ attribute name="answerHeaderIndex" required="true" %>
 
-<c:set var="responseDivClass" value="Qresponsediv"/>   
-<c:if test="${bean.answerHeaders[answerHeaderIndex].answers[questionIndex].questionnaireQuestion.parentQuestionNumber != 0}" >
-    <c:set var="responseDivClass" value="Qresponsediv-parent-${answerHeaderIndex}-${bean.answerHeaders[answerHeaderIndex].answers[questionIndex].questionnaireQuestion.parentQuestionNumber}"/>   
-</c:if>                 
 <c:set var="fieldName" value="${property}.answerHeaders[${answerHeaderIndex}].answers[${questionIndex}].answer" />
 <c:set var="answerValidationError" value="false"/>
 <c:forEach items="${ErrorPropertyList}" var="key">
@@ -35,31 +31,31 @@
     <c:when test="${bean.answerHeaders[answerHeaderIndex].answers[questionIndex].question.questionTypeId == 1}" >
         <kra-questionnaire:yesNoQuestion question="${bean.answerHeaders[answerHeaderIndex].answers[questionIndex].question}"
             answer="${bean.answerHeaders[answerHeaderIndex].answers[questionIndex]}" questionIndex="${questionIndex}"
-            bean = "${bean}" property = "${property}" answerHeaderIndex = "${answerHeaderIndex}" responseDivClass = "${responseDivClass}"
+            bean = "${bean}" property = "${property}" answerHeaderIndex = "${answerHeaderIndex}" 
             answerValidationError = "${answerValidationError}"/>
     </c:when>
     <c:when test="${bean.answerHeaders[answerHeaderIndex].answers[questionIndex].question.questionTypeId == 2}" >
         <kra-questionnaire:yesNoNaQuestion question="${bean.answerHeaders[answerHeaderIndex].answers[questionIndex].question}"
             answer="${bean.answerHeaders[answerHeaderIndex].answers[questionIndex]}" questionIndex="${questionIndex}"
-            bean = "${bean}" property = "${property}" answerHeaderIndex = "${answerHeaderIndex}" responseDivClass = "${responseDivClass}"
+            bean = "${bean}" property = "${property}" answerHeaderIndex = "${answerHeaderIndex}" 
             answerValidationError = "${answerValidationError}"/>
     </c:when>
     <c:when test="${bean.answerHeaders[answerHeaderIndex].answers[questionIndex].question.questionTypeId == 3}" >
         <kra-questionnaire:numberQuestion question="${bean.answerHeaders[answerHeaderIndex].answers[questionIndex].question}"
             answer="${bean.answerHeaders[answerHeaderIndex].answers[questionIndex]}" questionIndex="${questionIndex}"
-            bean = "${bean}" property = "${property}" answerHeaderIndex = "${answerHeaderIndex}" responseDivClass = "${responseDivClass}"
+            bean = "${bean}" property = "${property}" answerHeaderIndex = "${answerHeaderIndex}" 
             answerValidationError = "${answerValidationError}"/>
     </c:when>
     <c:when test="${bean.answerHeaders[answerHeaderIndex].answers[questionIndex].question.questionTypeId == 4}" >
         <kra-questionnaire:dateQuestion question="${bean.answerHeaders[answerHeaderIndex].answers[questionIndex].question}"
             answer="${bean.answerHeaders[answerHeaderIndex].answers[questionIndex]}" questionIndex="${questionIndex}"
-            bean = "${bean}" property = "${property}" answerHeaderIndex = "${answerHeaderIndex}" responseDivClass = "${responseDivClass}"
+            bean = "${bean}" property = "${property}" answerHeaderIndex = "${answerHeaderIndex}" 
             answerValidationError = "${answerValidationError}"/>
     </c:when>
     <c:when test="${bean.answerHeaders[answerHeaderIndex].answers[questionIndex].question.questionTypeId == 5}" >
         <kra-questionnaire:textQuestion question="${bean.answerHeaders[answerHeaderIndex].answers[questionIndex].question}"
             answer="${bean.answerHeaders[answerHeaderIndex].answers[questionIndex]}" questionIndex="${questionIndex}"
-            bean = "${bean}" property = "${property}" answerHeaderIndex = "${answerHeaderIndex}" responseDivClass = "${responseDivClass}"
+            bean = "${bean}" property = "${property}" answerHeaderIndex = "${answerHeaderIndex}" 
             answerValidationError = "${answerValidationError}"/>
     </c:when>
     <c:when test="${bean.answerHeaders[answerHeaderIndex].answers[questionIndex].question.questionTypeId == 6}" >
@@ -67,13 +63,13 @@
             <c:when test = "${bean.answerHeaders[answerHeaderIndex].answers[questionIndex].question.lookupClass == 'org.kuali.kra.bo.ArgValueLookup'}">
                 <kra-questionnaire:argValueLookupQuestion question="${bean.answerHeaders[answerHeaderIndex].answers[questionIndex].question}"
                     answer="${bean.answerHeaders[answerHeaderIndex].answers[questionIndex]}" questionIndex="${questionIndex}"
-                    bean="${bean}" property="${property}" answerHeaderIndex = "${answerHeaderIndex}" responseDivClass = "${responseDivClass}"
+                    bean="${bean}" property="${property}" answerHeaderIndex = "${answerHeaderIndex}" 
                     answerValidationError = "${answerValidationError}"/>
             </c:when>
             <c:otherwise>
                 <kra-questionnaire:lookupQuestion question="${bean.answerHeaders[answerHeaderIndex].answers[questionIndex].question}"
                     answer="${bean.answerHeaders[answerHeaderIndex].answers[questionIndex]}" questionIndex="${questionIndex}"
-                    bean="${bean}" property="${property}" answerHeaderIndex = "${answerHeaderIndex}" responseDivClass = "${responseDivClass}"
+                    bean="${bean}" property="${property}" answerHeaderIndex = "${answerHeaderIndex}" 
                     answerValidationError = "${answerValidationError}"/>
             </c:otherwise>
         </c:choose>
