@@ -44,25 +44,27 @@ public class UnitPersonMassChangeServiceImpl implements UnitPersonMassChangeServ
         }
 
         for (Unit unit : units) {
-            if (personMassChange.getUnitPersonMassChange().isAdministrator()) {
-                getUnitAdministratorChangeCandidates(personMassChange, unit);
+            if (isUnitAdministratorChangeCandidate(personMassChange, unit)) {
+                unitChangeCandidates.add(unit);
             }
         }
         
         return new ArrayList<Unit>(unitChangeCandidates);
     }
     
-    private List<Unit> getUnitAdministratorChangeCandidates(PersonMassChange personMassChange, Unit unit) {
-        List<Unit> unitChangeCandidates = new ArrayList<Unit>();
+    private boolean isUnitAdministratorChangeCandidate(PersonMassChange personMassChange, Unit unit) {
+        boolean isUnitAdministratorChangeCandidate = false;
         
-        for (UnitAdministrator unitAdministrator : unit.getUnitAdministrators()) {
-            if (StringUtils.equals(personMassChange.getReplaceePersonId(), unitAdministrator.getPersonId())) {
-                unitChangeCandidates.add(unit);
-                break;
+        if (personMassChange.getUnitPersonMassChange().isAdministrator()) {
+            for (UnitAdministrator unitAdministrator : unit.getUnitAdministrators()) {
+                if (StringUtils.equals(personMassChange.getReplaceePersonId(), unitAdministrator.getPersonId())) {
+                    isUnitAdministratorChangeCandidate = true;
+                    break;
+                }
             }
         }
         
-        return unitChangeCandidates;
+        return isUnitAdministratorChangeCandidate;
     }
 
     @Override
@@ -78,7 +80,7 @@ public class UnitPersonMassChangeServiceImpl implements UnitPersonMassChangeServ
         List<UnitAdministrator> unitAdministratorChangeCandidates = new ArrayList<UnitAdministrator>();
         
         for (UnitAdministrator unitAdministrator : unitChangeCandidate.getUnitAdministrators()) {
-            if (StringUtils.equals(personMassChange.getReplaceePersonId(), unitAdministrator.getPersonId())) {
+            if (isPersonIdMassChange(personMassChange, unitAdministrator)) {
                 unitAdministratorChangeCandidates.add(unitAdministrator);
             }
         }
@@ -97,6 +99,11 @@ public class UnitPersonMassChangeServiceImpl implements UnitPersonMassChangeServ
             getBusinessObjectService().delete(unitAdministratorChangeCandidate);
             getBusinessObjectService().save(newUnitAdministrator);
         }
+    }
+    
+    private boolean isPersonIdMassChange(PersonMassChange personMassChange, UnitAdministrator unitAdministrator) {
+        String replaceePersonId = personMassChange.getReplaceePersonId();
+        return replaceePersonId != null && StringUtils.equals(replaceePersonId, unitAdministrator.getPersonId());
     }
     
     public BusinessObjectService getBusinessObjectService() {

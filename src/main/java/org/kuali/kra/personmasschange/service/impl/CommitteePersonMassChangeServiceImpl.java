@@ -68,8 +68,8 @@ public class CommitteePersonMassChangeServiceImpl implements CommitteePersonMass
         }
 
         for (Committee committee : committees) {
-            if (personMassChange.getCommitteePersonMassChange().isMember()) {
-                committeeChangeCandidates.addAll(getCommitteeMemberChangeCandidates(personMassChange, committee));
+            if (isCommitteeMemberChangeCandidate(personMassChange, committee)) {
+                committeeChangeCandidates.add(committee);
             }
         }
         
@@ -116,43 +116,27 @@ public class CommitteePersonMassChangeServiceImpl implements CommitteePersonMass
         
     }
     
-    private List<Committee> getCommitteeMemberChangeCandidates(PersonMassChange personMassChange, Committee committee) {
-        List<Committee> committeeChangeCandidates = new ArrayList<Committee>();
+    private boolean isCommitteeMemberChangeCandidate(PersonMassChange personMassChange, Committee committee) {
+        boolean isCommitteeMemberChangeCandidate = false;
         
-        for (CommitteeMembership committeeMembership : committee.getCommitteeMemberships()) {
-            if (isPersonIdMassChange(personMassChange, committeeMembership) || isRolodexMassChange(personMassChange, committeeMembership)) {
-                committeeChangeCandidates.add(committee);
-                break;
+        if (personMassChange.getCommitteePersonMassChange().isMember()) {
+            for (CommitteeMembership committeeMembership : committee.getCommitteeMemberships()) {
+                if (isPersonIdMassChange(personMassChange, committeeMembership) || isRolodexIdMassChange(personMassChange, committeeMembership)) {
+                    isCommitteeMemberChangeCandidate = true;
+                    break;
+                }
             }
         }
         
-        return committeeChangeCandidates;
+        return isCommitteeMemberChangeCandidate;
     }
 
     @Override
     public void performPersonMassChange(PersonMassChange personMassChange, List<Committee> committeeChangeCandidates) {
         for (Committee committeeChangeCandidate : committeeChangeCandidates) {
-            List<CommitteeMembership> committeeMembershipChangeCandidates = new ArrayList<CommitteeMembership>();
-            
             if (committeeChangeCandidate.getCommitteeDocument().getPessimisticLocks().isEmpty()) {
-                for (CommitteeMembership committeeMembership : committeeChangeCandidate.getCommitteeMemberships()) {
-                    if (isPersonIdMassChange(personMassChange, committeeMembership) || isRolodexMassChange(personMassChange, committeeMembership)) {
-                        committeeMembershipChangeCandidates.add(committeeMembership);
-                    }
-                }
-                
-                for (CommitteeMembership committeeMembershipChangeCandidate : committeeMembershipChangeCandidates) {
-                    if (personMassChange.getReplaceePersonId() != null) {
-                        KcPerson person = getKcPersonService().getKcPersonByPersonId(personMassChange.getReplacerPersonId());
-                        committeeMembershipChangeCandidate.setPersonId(person.getPersonId());
-                        committeeMembershipChangeCandidate.setPersonName(person.getFullName());
-                    } else if (personMassChange.getReplaceeRolodexId() != null) {
-                        Rolodex rolodex = getRolodexService().getRolodex(Integer.parseInt(personMassChange.getReplacerRolodexId()));
-                        committeeMembershipChangeCandidate.setRolodexId(rolodex.getRolodexId());
-                        committeeMembershipChangeCandidate.setPersonName(rolodex.getFullName());
-                    }
-                    
-                    getBusinessObjectService().save(committeeMembershipChangeCandidate);
+                if (personMassChange.getCommitteePersonMassChange().isMember()) {
+                    performCommitteeMemberPersonMassChange(personMassChange, committeeChangeCandidate);
                 }
             } else {
                 if (personMassChange.getCommitteePersonMassChange().isMember()) {
@@ -163,12 +147,30 @@ public class CommitteePersonMassChangeServiceImpl implements CommitteePersonMass
         }
     }
     
+    private void performCommitteeMemberPersonMassChange(PersonMassChange personMassChange, Committee committeeChangeCandidate) {
+        for (CommitteeMembership committeeMembership : committeeChangeCandidate.getCommitteeMemberships()) {
+            if (personMassChange.getReplacerPersonId() != null) {
+                KcPerson person = getKcPersonService().getKcPersonByPersonId(personMassChange.getReplacerPersonId());
+                committeeMembership.setPersonId(person.getPersonId());
+                committeeMembership.setRolodexId(null);
+                committeeMembership.setPersonName(person.getFullName());
+            } else if (personMassChange.getReplacerRolodexId() != null) {
+                Rolodex rolodex = getRolodexService().getRolodex(Integer.parseInt(personMassChange.getReplacerRolodexId()));
+                committeeMembership.setRolodexId(rolodex.getRolodexId());
+                committeeMembership.setPersonId(null);
+                committeeMembership.setPersonName(rolodex.getFullName());
+            }
+            
+            getBusinessObjectService().save(committeeMembership);
+        }
+    }
+    
     private boolean isPersonIdMassChange(PersonMassChange personMassChange, CommitteeMembership committeeMembership) {
         String replaceePersonId = personMassChange.getReplaceePersonId();
         return replaceePersonId != null && StringUtils.equals(replaceePersonId, committeeMembership.getPersonId());
     }
     
-    private boolean isRolodexMassChange(PersonMassChange personMassChange, CommitteeMembership committeeMembership) {
+    private boolean isRolodexIdMassChange(PersonMassChange personMassChange, CommitteeMembership committeeMembership) {
         String replaceeRolodexId = personMassChange.getReplaceeRolodexId();
         return replaceeRolodexId != null && StringUtils.equals(replaceeRolodexId, String.valueOf(committeeMembership.getRolodexId()));
     }
