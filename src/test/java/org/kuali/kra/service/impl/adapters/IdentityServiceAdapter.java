@@ -21,6 +21,7 @@ import org.kuali.rice.kim.api.identity.name.EntityName;
 import org.kuali.rice.kim.api.identity.personal.EntityBioDemographics;
 import org.kuali.rice.kim.api.identity.personal.EntityEthnicity;
 import org.kuali.rice.kim.api.identity.phone.EntityPhone;
+import org.kuali.rice.kim.api.identity.principal.EntityNamePrincipalName;
 import org.kuali.rice.kim.api.identity.principal.Principal;
 import org.kuali.rice.kim.api.identity.privacy.EntityPrivacyPreferences;
 import org.kuali.rice.kim.api.identity.residency.EntityResidency;
@@ -374,5 +375,21 @@ public class IdentityServiceAdapter implements IdentityService {
     public EntityVisa updateVisa(EntityVisa visa) throws RiceIllegalArgumentException, RiceIllegalStateException {
         return null;
     }
+
+    @Override
+    public Entity getEntityByEmployeeId(String employeeId) throws RiceIllegalArgumentException {
+        return null;
+    }
+
+    @Override
+    public EntityDefault getEntityDefaultByEmployeeId(String employeeId) throws RiceIllegalArgumentException {
+        return null;
+    }
+
+    @Override
+    public EntityNamePrincipalName getDefaultNamesForPrincipalId(String principalId) {
+        return null;
+    }
+    
     
 }

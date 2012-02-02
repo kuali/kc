@@ -20,7 +20,7 @@
   <strong>Actions </strong>
 
       <ul class="chan">
-        <li><portal:portalLink displayTitle="false" title="Create IACUC Protocol" url="iacucProtocolProtocol.do?methodToCall=docHandler&command=initiate&docTypeName=IacucProtocolDocument">Create IACUC Protocol</portal:portalLink></li>
+        <li><portal:portalLink displayTitle="false" title="Create IACUC Protocol" url="${ConfigProperties.application.url}/iacucProtocolProtocol.do?methodToCall=docHandler&command=initiate&docTypeName=IacucProtocolDocument">Create IACUC Protocol</portal:portalLink></li>
         <li>Amend or Renew IACUC Protocol</li>
         <li>Notify IACUC on a Protocol</li>
         <li>Request a Status Change on a IACUC Protocol</li>
