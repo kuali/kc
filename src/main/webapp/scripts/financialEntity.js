@@ -166,7 +166,23 @@
                             $j(this).html("<img src='kr/images/tinybutton-show.gif' alt='show/hide panel' width='45' height='15' border='0' align='absmiddle'>");
                         }
                );
-                $j(".relationDetailSubpanelContent").hide();
+           $j(".relationDetailSubpanelContent").hide();
+
+           $j(".finEntityAttachmentsSubpanel").toggle(
+                        function()
+                        {
+                            var controlId = $j(this).attr("id");
+                            var contentId = controlId.replace("Control","Content");
+                            $j("#"+contentId).slideDown(500);
+                            $j(this).html("<img src='kr/images/tinybutton-hide.gif' alt='show/hide panel' width='45' height='15' border='0' align='absmiddle'>");
+                        },function(){
+                            var controlId = $j(this).attr("id");
+                            var contentId = controlId.replace("Control","Content");
+                            $j("#"+contentId).slideUp(500);
+                            $j(this).html("<img src='kr/images/tinybutton-show.gif' alt='show/hide panel' width='45' height='15' border='0' align='absmiddle'>");
+                        }
+               );
+           $j(".finEntityAttachmentsSubpanelContent").hide();
                           
   // the show/hide for entity and relation detail panels are not from kuali framework
   // so to override the onclick here to also expand entity and relation detail panels
