@@ -107,7 +107,7 @@
 					</th>
                   <td align="left" valign="middle">
 					<div align="center">
-                		<kul:htmlControlAttribute property="document.pendingTransactions[${status.index}].transactionId" attributeEntry="${pendingTransactionAttributes.awardAmountTransactionId}"  readOnly="true" />
+                		<kul:htmlControlAttribute property="document.pendingTransactions[${status.index}].transactionId" attributeEntry="${pendingTransactionAttributes.transactionId}"  readOnly="true" />
 					</div>
 				  </td>
 				  <td align="left" valign="middle">
@@ -206,7 +206,7 @@
 					</th>
                   <td align="left" valign="middle">
 					<div align="center">
-                		<kul:htmlControlAttribute property="document.pendingTransactions[${status.index}].transactionId" attributeEntry="${pendingTransactionAttributes.awardAmountTransactionId}"  readOnly="true" />
+                		<kul:htmlControlAttribute property="document.pendingTransactions[${status.index}].transactionId" attributeEntry="${pendingTransactionAttributes.transactionId}"  readOnly="true" />
 					</div>
 				  </td>
 				  <td align="left" valign="middle">
