@@ -195,16 +195,20 @@ public class SubAwardHomeAction extends SubAwardAction{
         this.getBusinessObjectService().delete(subAwardContact);
         return mapping.findForward(Constants.MAPPING_SUBAWARD_PAGE);
     }
+    
     public ActionForward addCloseouts(ActionMapping mapping, ActionForm form, HttpServletRequest request,
-            HttpServletResponse response) throws Exception {   
-        
-        SubAwardForm subAwardForm=(SubAwardForm) form;
-        SubAwardCloseout subAwardCloseout =subAwardForm.getNewSubAwardCloseout();
-        
-       if(new SubAwardDocumentRule().processAddSubAwardCloseoutBusinessRules(subAwardCloseout)){
-           addCloseoutToSubAward(subAwardForm.getSubAwardDocument().getSubAward(), subAwardCloseout);
-           subAwardForm.setNewSubAwardCloseout(new SubAwardCloseout());
-       }
+            HttpServletResponse response) throws Exception {
+
+        SubAwardForm subAwardForm = (SubAwardForm) form;
+        SubAwardCloseout subAwardCloseout = subAwardForm.getNewSubAwardCloseout();
+
+        if (new SubAwardDocumentRule().processAddSubAwardCloseoutBusinessRules(subAwardCloseout)) {
+            if (subAwardCloseout.getDateFollowup() == null) {
+                subAwardCloseout.setDateFollowup(this.getSubAwardService().getCalculatedFollowupDate(subAwardCloseout.getDateRequested()));
+            }
+            addCloseoutToSubAward(subAwardForm.getSubAwardDocument().getSubAward(), subAwardCloseout);
+            subAwardForm.setNewSubAwardCloseout(new SubAwardCloseout());
+        }
         return mapping.findForward(Constants.MAPPING_SUBAWARD_PAGE);
     }
 

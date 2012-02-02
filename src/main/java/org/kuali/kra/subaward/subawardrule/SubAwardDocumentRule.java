@@ -61,6 +61,7 @@ public class SubAwardDocumentRule extends ResearchDocumentRuleBase implements Su
     private static final String CONTACT_TYPE_CODE="newSubAwardContact.contactTypeCode";
     
     private static final String CLOSEOUT_TYPE_CODE="newSubAwardCloseout.closeoutTypeCode";
+    private static final String DATE_REQUESTED = "newSubAwardCloseout.dateRequested";
     
     private static final String AWARD_NUMBER="newSubAwardFundingSource.award.awardNumber";
     
@@ -390,6 +391,10 @@ public class SubAwardDocumentRule extends ResearchDocumentRuleBase implements Su
             reportError(CLOSEOUT_TYPE_CODE
                     , KeyConstants.ERROR_REQUIRED_SUBAWARD_CLOSEOUT_TYPE_CODE);
         }  
+        if (subAwardCloseout == null || subAwardCloseout.getDateRequested() == null) {
+            rulePassed = false;
+            reportError(DATE_REQUESTED, KeyConstants.ERROR_REQUIRED_SUBAWARD_DATE_REQUESTED);
+        }
         return rulePassed;
     }
     
