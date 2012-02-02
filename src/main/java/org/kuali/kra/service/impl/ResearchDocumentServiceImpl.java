@@ -25,8 +25,7 @@ public class ResearchDocumentServiceImpl implements ResearchDocumentService {
     
     public String getDocHandlerUrl(String routeHeaderId) {
         DocumentRouteHeaderValue routeHeader = routeHeaderService.getRouteHeader(routeHeaderId);
-        //return routeHeader.getDocumentType().getResolvedDocumentHandlerUrl();
-        return routeHeader.getDocumentType().getDocHandlerUrl();    
+        return routeHeader.getDocumentType().getResolvedDocumentHandlerUrl();
     }
 
     public void setRouteHeaderService(RouteHeaderService routeHeaderService) {

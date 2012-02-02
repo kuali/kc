@@ -18,7 +18,7 @@
 <channel:portalChannelTop channelTitle="Nervous System" />
 <div class="body">
     <ul class="chan">
-        <li><portal:portalLink displayTitle="true" title="System Parameter" url="kr/lookup.do?methodToCall=start&businessObjectClassName=org.kuali.core.bo.Parameter&docFormKey=88888888&returnLocation=${ConfigProperties.application.url}/portal.do&hideReturnLink=true" /></li>
+        <li><portal:portalLink displayTitle="true" title="System Parameter" url="${ConfigProperties.kr.url}/lookup.do?methodToCall=start&businessObjectClassName=org.kuali.core.bo.Parameter&docFormKey=88888888&returnLocation=${ConfigProperties.application.url}/portal.do&hideReturnLink=true" /></li>
     </ul>
     </div>
 <channel:portalChannelBottom />
