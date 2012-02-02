@@ -31,6 +31,7 @@ public class FinancialEntitySummaryBean implements Serializable {
     private String ownershipType;
     private String details;
     private Map<String, String> relationshipDetails;
+    private Map<String, String> attachmentSummary;
     private FinancialEntityForm financialEntityForm;
     
     
@@ -91,8 +92,12 @@ public class FinancialEntitySummaryBean implements Serializable {
     public void setOwnershipType(String ownershipType) {
         this.ownershipType = ownershipType;
     }
-    
-    
+    public Map<String, String> getAttachmentSummary() {
+        return attachmentSummary;
+    }
+    public void setAttachmentSummary(Map<String, String> attachmentSummary) {
+        this.attachmentSummary = attachmentSummary;
+    }
     
     
 }
