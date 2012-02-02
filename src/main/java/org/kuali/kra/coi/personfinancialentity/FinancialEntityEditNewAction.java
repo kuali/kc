@@ -15,6 +15,9 @@
  */
 package org.kuali.kra.coi.personfinancialentity;
 
+import java.util.ArrayList;
+import java.util.List;
+
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 
@@ -22,8 +25,19 @@ import org.apache.commons.lang.StringUtils;
 import org.apache.struts.action.ActionForm;
 import org.apache.struts.action.ActionForward;
 import org.apache.struts.action.ActionMapping;
+import org.kuali.kra.coi.CoiDisclosureForm;
+import org.kuali.kra.coi.notesandattachments.CoiNotesAndAttachmentsHelper;
+import org.kuali.kra.coi.notesandattachments.attachments.CoiDisclosureAttachment;
+import org.kuali.kra.coi.notesandattachments.attachments.FinancialEntityAttachment;
 import org.kuali.kra.infrastructure.Constants;
+import org.kuali.kra.infrastructure.KeyConstants;
+import org.kuali.kra.irb.ProtocolDocument;
+import org.kuali.kra.irb.ProtocolForm;
+import org.kuali.kra.irb.noteattachment.ProtocolAttachmentPersonnel;
+import org.kuali.kra.irb.personnel.ProtocolPerson;
+import org.kuali.kra.web.struts.action.StrutsConfirmation;
 import org.kuali.rice.krad.util.GlobalVariables;
+import org.kuali.rice.krad.util.KRADConstants;
 import org.kuali.rice.krad.util.ObjectUtils;
 
 /**
@@ -32,6 +46,9 @@ import org.kuali.rice.krad.util.ObjectUtils;
  */
 public class FinancialEntityEditNewAction extends FinancialEntityAction {
     private static final String NEW_FINANCIAL_ENTITY = "financialEntityHelper.newPersonFinancialEntity";
+
+    private static final String CONFIRM_YES_DELETE_ATTACHMENT = "confirmDeleteAttachment";
+    private static final String CONFIRM_NO_DELETE = "";
 
     /**
      * 
@@ -80,6 +97,7 @@ public class FinancialEntityEditNewAction extends FinancialEntityAction {
         personFinIntDisclosure.setPerFinIntDisclDetails(getFinancialEntityService().getFinDisclosureDetails(
                 financialEntityHelper.getNewRelationDetails(), personFinIntDisclosure.getEntityNumber(),
                 personFinIntDisclosure.getSequenceNumber()));
+        personFinIntDisclosure.setFinEntityAttachments(financialEntityHelper.getFinEntityAttachmentList());
         saveFinancialEntity(form, personFinIntDisclosure);
         financialEntityHelper.setNewPersonFinancialEntity(new PersonFinIntDisclosure());
         financialEntityHelper.getNewPersonFinancialEntity().setCurrentFlag(true);
@@ -87,6 +105,7 @@ public class FinancialEntityEditNewAction extends FinancialEntityAction {
         financialEntityHelper.getNewPersonFinancialEntity().setFinancialEntityReporterId(
                 financialEntityHelper.getFinancialEntityReporter().getFinancialEntityReporterId());
         financialEntityHelper.setNewRelationDetails(getFinancialEntityService().getFinancialEntityDataMatrix());
+        financialEntityHelper.setFinEntityAttachmentList(new ArrayList<FinancialEntityAttachment>());
     }
 
     /**
@@ -106,5 +125,38 @@ public class FinancialEntityEditNewAction extends FinancialEntityAction {
         return mapping.findForward(Constants.MAPPING_BASIC);
     }
     
+    /**
+     * 
+     * This method is to add a new attachment for Financial Entity
+     * @param mapping
+     * @param form
+     * @param request
+     * @param response
+     * @return
+     * @throws Exception
+     */
+    public ActionForward addNewFinancialEntityAttachment(ActionMapping mapping, ActionForm form, HttpServletRequest request,
+            HttpServletResponse response) throws Exception {
+        ((FinancialEntityForm) form).getFinancialEntityHelper().addNewFinancialEntityAttachment();
+        return mapping.findForward(Constants.MAPPING_BASIC);
+    }
+
+    /**
+     * Method called when deleting an attachment from a Financial Entity.
+     * 
+     * @param mapping
+     * @param form
+     * @param request
+     * @param response= 
+     * @return
+     * @throws Exception
+     */
+    public ActionForward deleteFinancialEntityAttachment(ActionMapping mapping, ActionForm form, HttpServletRequest request, 
+            HttpServletResponse response) throws Exception {
+        FinancialEntityForm financialEntityForm = (FinancialEntityForm) form;
+        int selectedLine = getSelectedLine(request);
+        financialEntityForm.getFinancialEntityHelper().getNewPersonFinancialEntity().getFinEntityAttachments().remove(selectedLine);
+        return mapping.findForward(Constants.MAPPING_BASIC);
+    }
 
 }

@@ -49,7 +49,7 @@
 	value="${KualiForm.financialEntitySummaryHelper.previousFinancialEntity}" />
 <c:set var="entityNumber" value="${currentFinancialEntity.entityNumber}" />
 <c:set var="entityStatus" value="${currentFinancialEntity.statusCode}" />
- <table class="content_table">
+<table class="content_table">
 	<tr>
 		<th class="elementhead_left">${currentFinancialEntity.entityName}</th>
 		<th class="elementhead_right" colspan="3">
@@ -58,64 +58,65 @@
 	</tr>
 	<tr>
 		<td class="content_gradient" colspan="4">
-		<b><fmt:formatDate value="${currentFinancialEntity.updateTimestamp}" pattern="MM/dd/yyyy KK:mm a" /> &nbsp;
-		${currentFinancialEntity.updateUser} 
-		<span style="float: right;">
-		Version ${currentVersionNumber} of ${numberOfVersions} 
+			<b><fmt:formatDate value="${currentFinancialEntity.updateTimestamp}" pattern="MM/dd/yyyy KK:mm a" /> &nbsp;
+			${currentFinancialEntity.updateUser} 
+			<span style="float: right;">
+				Version ${currentVersionNumber} of ${numberOfVersions} 
 		
-		<c:choose>
-		<c:when test="${currentVersionNumber != 1}">
-		<c:set var="versionNumber" value="${currentVersionNumber - 1}" />
-		<a href="${pageContext.request.contextPath}/financialEntityEditList.do?methodToCall=previousNextVersion&versionNumber=${versionNumber}&entityNumber=${entityNumber}&status=${entityStatus}">		
-		<img id="prev" src='${ConfigProperties.kra.externalizable.images.url}tinybutton-prev.gif' styleClass="tinybutton" title="Show" />
-		</a>
-		</c:when>
-		<c:otherwise>
-		<img id="prev" src='${ConfigProperties.kra.externalizable.images.url}tinybutton-prev2.png' styleClass="tinybutton" title="Show" />
-		</c:otherwise>
-		</c:choose>
-		<c:choose>
-		<c:when test="${currentVersionNumber != numberOfVersions}" >
-		<c:set var="versionNumber" value="${currentVersionNumber + 1}" />
-		<a href="${pageContext.request.contextPath}/financialEntityEditList.do?methodToCall=previousNextVersion&versionNumber=${versionNumber}&entityNumber=${entityNumber}&status=${entityStatus}">		
-		<img id="next" src='${ConfigProperties.kra.externalizable.images.url}tinybutton-next.gif' styleClass="tinybutton" title="Show" /> 
-		</a>
-		</c:when>
-		<c:otherwise>
-		<img id="next" src='${ConfigProperties.kra.externalizable.images.url}tinybutton-next2.png' styleClass="tinybutton" title="Show" /> 		
-		</c:otherwise>
-		</c:choose>
-		</span>
-		</b>
+				<c:choose>
+					<c:when test="${currentVersionNumber != 1}">
+						<c:set var="versionNumber" value="${currentVersionNumber - 1}" />
+						<a href="${pageContext.request.contextPath}/financialEntityEditList.do?methodToCall=previousNextVersion&versionNumber=${versionNumber}&entityNumber=${entityNumber}&status=${entityStatus}">		
+							<img id="prev" src='${ConfigProperties.kra.externalizable.images.url}tinybutton-prev.gif' styleClass="tinybutton" title="Show" />
+						</a>
+					</c:when>
+					<c:otherwise>
+						<img id="prev" src='${ConfigProperties.kra.externalizable.images.url}tinybutton-prev2.png' styleClass="tinybutton" title="Show" />
+					</c:otherwise>
+				</c:choose>
+				<c:choose>
+					<c:when test="${currentVersionNumber != numberOfVersions}" >
+						<c:set var="versionNumber" value="${currentVersionNumber + 1}" />
+						<a href="${pageContext.request.contextPath}/financialEntityEditList.do?methodToCall=previousNextVersion&versionNumber=${versionNumber}&entityNumber=${entityNumber}&status=${entityStatus}">		
+							<img id="next" src='${ConfigProperties.kra.externalizable.images.url}tinybutton-next.gif' styleClass="tinybutton" title="Show" /> 
+						</a>
+					</c:when>
+					<c:otherwise>
+						<img id="next" src='${ConfigProperties.kra.externalizable.images.url}tinybutton-next2.png' styleClass="tinybutton" title="Show" /> 		
+					</c:otherwise>
+				</c:choose>
+			</span>
+			</b>
 		</td>
 	</tr>
 	<tr>
 		<td>
-		<table style="width: 100%" class="content_table" border="1">
-			<kra-coi:FinancialEntitySummary current="true" />
-		</table>
+			<table style="width: 100%" class="content_table" border="1">
+				<kra-coi:FinancialEntitySummary current="true" />
+			</table>
 		</td>
 	</tr>
 	<c:if test="${currentVersionNumber > 1}" >	
-	<tr>
-		<td colspan="4" style="background-color: rgb(195, 195, 195); padding : 5px">
-		<b><a id="previousEntry-showHide" title="" href="">
-		<img id="showHide" src='${ConfigProperties.kra.externalizable.images.url}tinybutton-show.gif' styleClass="tinybutton" title="Show" /> 
-		</a> Compare to Previous Version
-		<fmt:formatDate value="${previousFinancialEntity.updateTimestamp}"
-			pattern="MM/dd/yyyy KK:mm a" /> &nbsp;
-		${previousFinancialEntity.updateUser}</b>
-		</td>
-	</tr>
-	<tr>
-		<td>
-		<div id="previousEntry">
-		<table style="width: 100%" class="content_table" border="1">
-			<kra-coi:FinancialEntitySummary current="false" />
-		</table>
-		</div>
-		</td>
-	</tr>
+		<tr>
+			<td colspan="4" style="background-color: rgb(195, 195, 195); padding : 5px">
+			<b>
+				<a id="previousEntry-showHide" title="" href="">
+					<img id="showHide" src='${ConfigProperties.kra.externalizable.images.url}tinybutton-show.gif' styleClass="tinybutton" title="Show" /> 
+				</a> Compare to Previous Version
+				<fmt:formatDate value="${previousFinancialEntity.updateTimestamp}"
+					pattern="MM/dd/yyyy KK:mm a" /> &nbsp;
+				${previousFinancialEntity.updateUser}</b>
+			</td>
+		</tr>
+		<tr>
+			<td>
+				<div id="previousEntry">
+					<table style="width: 100%" class="content_table" border="1">
+						<kra-coi:FinancialEntitySummary current="false" />
+					</table>
+				</div>
+			</td>
+		</tr>
 	</c:if>
 </table>
 </html:html>
