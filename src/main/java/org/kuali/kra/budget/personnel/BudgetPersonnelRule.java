@@ -128,7 +128,6 @@ public class BudgetPersonnelRule {
      */
     public boolean processCheckExistBudgetPersonnelDetailsBusinessRules(BudgetDocument budgetDocument, BudgetPerson budgetPerson) {
         boolean valid = true;
-
         final Map<String, Object> qMap = new HashMap<String, Object>();
         qMap.put("budgetId", budgetDocument.getBudget().getBudgetId());
         qMap.put("personId", budgetPerson.getPersonId());
@@ -153,10 +152,15 @@ public class BudgetPersonnelRule {
      * the deleted detail may have not been persisted before delete person is called.
      */
     private boolean isPersonDetailsFound (Budget budget, BudgetPerson budgetPerson) {
+        
         for (BudgetPeriod budgetPeriod : budget.getBudgetPeriods()) {
             for (BudgetLineItem lineItem : budgetPeriod.getBudgetLineItems()) {
                 for (BudgetPersonnelDetails budgetPersonnelDetail : lineItem.getBudgetPersonnelDetailsList()) {
-                    if (budgetPersonnelDetail.getPersonId().equals(budgetPerson.getPersonId()) && 
+                    String personId = budgetPerson.getPersonId();
+                    if(budgetPerson.getNonEmployeeFlag() && budgetPerson.getRolodexId() != null){
+                        personId = budgetPerson.getRolodexId().toString();
+                    }
+                    if (budgetPersonnelDetail.getPersonId().equals(personId) && 
                             budgetPersonnelDetail.getPersonSequenceNumber().equals(budgetPerson.getPersonSequenceNumber())) {
                         return true;
                     }
