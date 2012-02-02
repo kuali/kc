@@ -17,6 +17,8 @@ package org.kuali.kra.subaward.service.impl;
 
 import java.io.ByteArrayOutputStream;
 import java.io.IOException;
+import java.sql.Date;
+import java.util.Calendar;
 import java.util.Collection;
 import java.util.HashMap;
 import java.util.List;
@@ -24,6 +26,8 @@ import java.util.Map;
 
 import javax.servlet.http.HttpServletResponse;
 
+import org.apache.commons.lang.StringUtils;
+import org.apache.commons.lang.time.DateUtils;
 import org.kuali.kra.bo.KraPersistableBusinessObjectBase;
 import org.kuali.kra.bo.versioning.VersionHistory;
 import org.kuali.kra.bo.versioning.VersionStatus;
@@ -41,6 +45,7 @@ import org.kuali.rice.krad.service.BusinessObjectService;
 import org.kuali.rice.krad.service.DocumentService;
 import org.kuali.rice.krad.service.SequenceAccessorService;
 import org.kuali.rice.core.api.util.type.KualiDecimal;
+import org.kuali.rice.coreservice.framework.parameter.ParameterService;
 
 public class SubAwardServiceImpl implements SubAwardService{
 
@@ -49,6 +54,7 @@ public class SubAwardServiceImpl implements SubAwardService{
     private VersioningService versioningService;
     private DocumentService documentService;
     private SequenceAccessorService sequenceAccessorService;
+    private ParameterService parameterService;
     
     public SubAwardDocument createNewSubAwardVersion(SubAwardDocument subAwardDocument) throws VersionException, WorkflowException {
 
@@ -84,6 +90,14 @@ public class SubAwardServiceImpl implements SubAwardService{
     public void setDocumentService(DocumentService documentService) {
         this.documentService = documentService;
     }
+    public ParameterService getParameterService() {
+        return parameterService;
+    }
+
+    public void setParameterService(ParameterService parameterService) {
+        this.parameterService = parameterService;
+    }
+
     @Override
     public void updateSubAwardSequenceStatus(SubAward subAward, VersionStatus status) {
         if (status.equals(VersionStatus.ACTIVE)) {
@@ -197,5 +211,28 @@ public class SubAwardServiceImpl implements SubAwardService{
                // LOG.warn(ioEx.getMessage(), ioEx);
             }
         }
+    }
+    
+    public String getFollowupDateDefaultLength() {
+        String namespaceCode = "KC-SUBAWARD";
+        String componentCode = "Document";
+        String parameterName = "Subaward Follow Up";
+        String followupDateRange = this.getParameterService().getParameterValueAsString(namespaceCode, componentCode, parameterName);
+        return followupDateRange;
+    }
+    
+    public Date getCalculatedFollowupDate(Date baseDate) {
+        String followupDateRange = getFollowupDateDefaultLength();
+        String rangeUnit = followupDateRange.substring(followupDateRange.length() - 1, followupDateRange.length());
+        int rangeAmount = Integer.parseInt(followupDateRange.substring(0, followupDateRange.length() - 1));
+        Date retDate = null;
+        if (StringUtils.equalsIgnoreCase(rangeUnit, "D")) {
+            retDate = new Date(DateUtils.addDays(baseDate, rangeAmount).getTime());
+        } else if (StringUtils.equalsIgnoreCase(rangeUnit, "W")) {
+            retDate = new Date(DateUtils.addWeeks(baseDate, rangeAmount).getTime());
+        } else {
+            throw new IllegalArgumentException("An invalid range unit was set in the 'Subaward Follow Up' parameter: " + rangeUnit);
+        }
+        return retDate;
     }
 }
