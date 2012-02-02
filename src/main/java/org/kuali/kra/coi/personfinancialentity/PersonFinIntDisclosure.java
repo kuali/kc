@@ -25,7 +25,13 @@ import org.kuali.kra.SkipVersioning;
 import org.kuali.kra.bo.KraPersistableBusinessObjectBase;
 import org.kuali.kra.bo.OrganizationTypeList;
 import org.kuali.kra.bo.Sponsor;
+import org.kuali.kra.coi.disclosure.DisclosurePerson;
+import org.kuali.kra.coi.disclosure.DisclosurePersonUnit;
+import org.kuali.kra.coi.notesandattachments.attachments.FinancialEntityAttachment;
 import org.kuali.kra.infrastructure.Constants;
+import org.kuali.rice.core.api.CoreApiServiceLocator;
+import org.kuali.rice.core.api.datetime.DateTimeService;
+import org.kuali.rice.krad.util.GlobalVariables;
 
 /**
  * 
@@ -64,8 +70,11 @@ public class PersonFinIntDisclosure extends KraPersistableBusinessObjectBase imp
     private List<FinIntEntityYnq> finIntEntityYnqs;
     private List<PersonFinIntDisclDet> perFinIntDisclDetails;
     private List<FinancialEntityContactInfo> finEntityContactInfos;
+    private List<FinancialEntityAttachment> finEntityAttachments;
     private Sponsor sponsor;
     private String sponsorName;
+
+    private transient DateTimeService dateTimeService;
     
     // @SkipVersioning
     private FinancialEntityReporter financialEntityReporter;
@@ -79,6 +88,7 @@ public class PersonFinIntDisclosure extends KraPersistableBusinessObjectBase imp
         super();
         finEntityContactInfos = new ArrayList<FinancialEntityContactInfo>();
         finEntityContactInfos.add(new FinancialEntityContactInfo());
+        finEntityAttachments = new ArrayList<FinancialEntityAttachment>();
     } 
     
     public String getPersonId() {
@@ -337,6 +347,14 @@ public class PersonFinIntDisclosure extends KraPersistableBusinessObjectBase imp
         this.finEntityContactInfos = finEntityContactInfos;
     }
 
+    public List<FinancialEntityAttachment> getFinEntityAttachments() {
+        return finEntityAttachments;
+    }
+
+    public void setFinEntityAttachments(List<FinancialEntityAttachment> finEntityAttachments) {
+        this.finEntityAttachments = finEntityAttachments;
+    }
+
     public String getPrincipalBusinessActivity() {
         return principalBusinessActivity;
     }
@@ -364,5 +382,20 @@ public class PersonFinIntDisclosure extends KraPersistableBusinessObjectBase imp
     public boolean isStatusActive() {
         return StringUtils.equals(FinIntEntityStatus.ACTIVE, this.statusCode.toString());
     }
-    
+ 
+    protected DateTimeService getDateTimeService() {
+        if(dateTimeService == null) {
+            dateTimeService = (DateTimeService) CoreApiServiceLocator.getDateTimeService();
+        }
+        return dateTimeService;
+    }
+
+    @SuppressWarnings("unchecked")
+    @Override
+    public List buildListOfDeletionAwareLists() {
+        List managedLists = super.buildListOfDeletionAwareLists();
+        managedLists.add(finEntityAttachments);
+        return managedLists;
+    }
+
 }

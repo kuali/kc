@@ -22,6 +22,7 @@ import java.util.Map;
 import java.util.TreeMap;
 
 import org.apache.commons.lang.StringUtils;
+import org.kuali.kra.coi.notesandattachments.attachments.FinancialEntityAttachment;
 import org.kuali.kra.infrastructure.Constants;
 import org.kuali.kra.infrastructure.KraServiceLocator;
 import org.kuali.kra.lookup.keyvalue.ArgValueLookupValuesFinder;
@@ -142,7 +143,9 @@ public class FinancialEntitySummaryHelper implements Serializable {
         }
         Map<String, String> dataGroups = getDataGroups();
         currentSummary.setRelationshipDetails(cleanupDetails(currentRelationshipDetails, dataGroups));
+        currentSummary.setAttachmentSummary(generateAttachmentSummary(currentFinancialEntity.getFinEntityAttachments()));
         previousSummary.setRelationshipDetails(cleanupDetails(previousRelationshipDetails, dataGroups));
+        previousSummary.setAttachmentSummary(generateAttachmentSummary(previousFinancialEntity.getFinEntityAttachments()));
     }
 
     /**
@@ -222,6 +225,14 @@ public class FinancialEntitySummaryHelper implements Serializable {
        
         
         return formattedRelationshipDetails;    
+    }
+    
+    protected Map<String, String> generateAttachmentSummary(List<FinancialEntityAttachment> attachments) {
+        Map<String, String> formattedAttachments = new TreeMap<String, String>();
+        for (FinancialEntityAttachment attachment: attachments) {
+            formattedAttachments.put(attachment.getDescription(), attachment.getFileName());
+        }
+        return formattedAttachments;
     }
     
     /**

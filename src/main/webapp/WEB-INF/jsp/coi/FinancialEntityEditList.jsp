@@ -88,7 +88,7 @@
             onKeyPress="return isReturnKeyAllowed('methodToCall.' , event);">
             
         <html:form styleId="kualiForm" action="/financialEntityEditList.do"
-            method="post" onsubmit="return hasFormAlreadyBeenSubmitted();">
+            method="post" enctype="multipart/form-data" onsubmit="return hasFormAlreadyBeenSubmitted();">
             <c:set var="KualiForm" value="${KualiForm}" /> 
             <jsp:useBean id="KualiForm" type="org.kuali.rice.kns.web.struts.form.KualiForm" /> 
             <a name="topOfForm"></a>
