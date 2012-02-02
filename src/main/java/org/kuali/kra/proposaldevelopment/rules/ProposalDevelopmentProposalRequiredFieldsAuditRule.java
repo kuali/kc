@@ -16,7 +16,10 @@
 package org.kuali.kra.proposaldevelopment.rules;
 
 import java.util.ArrayList;
+import java.util.Collections;
+import java.util.HashMap;
 import java.util.List;
+import java.util.Map;
 
 import org.apache.commons.lang.StringUtils;
 import org.kuali.kra.infrastructure.Constants;
@@ -33,6 +36,12 @@ import org.kuali.rice.kns.util.AuditError;
 import org.kuali.rice.kns.util.KNSGlobalVariables;
 import org.kuali.rice.krad.document.Document;
 import org.kuali.rice.krad.rules.rule.DocumentAuditRule;
+import org.kuali.rice.krms.api.KrmsApiServiceLocator;
+import org.kuali.rice.krms.api.engine.Engine;
+import org.kuali.rice.krms.api.engine.EngineResults;
+import org.kuali.rice.krms.api.engine.Facts;
+import org.kuali.rice.krms.api.engine.SelectionCriteria;
+import org.kuali.rice.krms.framework.type.ValidationActionTypeService;
 
 /**
  * This class processes audit rules (warnings) for the Sponsor & Program Information related
@@ -77,8 +86,33 @@ public class ProposalDevelopmentProposalRequiredFieldsAuditRule implements Docum
         if (auditErrors.size() > 0) {
             KNSGlobalVariables.getAuditErrorMap().put("requiredFieldsAuditErrors", new AuditCluster(Constants.REQUIRED_FIELDS_PANEL_NAME, auditErrors, Constants.AUDIT_ERRORS));
         }
+        
+        //valid &= validateKrmsRules(proposalDevelopmentDocument);
 
         return valid;
+    }
+    
+    protected boolean validateKrmsRules(ProposalDevelopmentDocument proposalDevelopmentDocument) {
+        Map<String, String> contextQualifiers = new HashMap<String, String>();
+        contextQualifiers.put("namespaceCode", "KC-PD");
+        contextQualifiers.put("name", "Proposal Development Validation");
+        SelectionCriteria selectionCriteria = SelectionCriteria.createCriteria(null, contextQualifiers,
+                Collections.singletonMap("unitNumber", proposalDevelopmentDocument.getLeadUnitNumber()));
+
+        Facts.Builder factsBuilder = Facts.Builder.create();
+
+        // Probably will want to come up w/something more generic here
+        factsBuilder.addFact("Sponsor Code", proposalDevelopmentDocument.getDevelopmentProposal().getSponsorCode());
+
+        Engine engine = KrmsApiServiceLocator.getEngine();
+        EngineResults results = engine.execute(selectionCriteria, factsBuilder.build(), null);
+        // Translate these into audit errors
+        
+        // comma-delimited list of error & warning messages
+        String errors = (String) results.getAttribute(ValidationActionTypeService.VALIDATIONS_ACTION_ATTRIBUTE);
+        
+        
+        return StringUtils.isEmpty(errors);
     }
     
     /**
