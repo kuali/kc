@@ -92,5 +92,8 @@
         <property name="sequenceAccessorService">
             <ref bean="sequenceAccessorService" />
         </property>
+        <property name="parameterService">
+            <ref bean="parameterService" />
+        </property>
     </bean>
 </beans>	
