@@ -15,6 +15,8 @@
  */
 package org.kuali.kra.subaward.service;
 
+import java.sql.Date;
+
 import javax.servlet.http.HttpServletResponse;
 
 import org.kuali.kra.bo.KraPersistableBusinessObjectBase;
@@ -61,7 +63,22 @@ public interface SubAwardService {
      * @param subAward
      * @return
      */
-     public void downloadAttachment(KraPersistableBusinessObjectBase attachmentDataSource, HttpServletResponse response) throws Exception; 
+     public void downloadAttachment(KraPersistableBusinessObjectBase attachmentDataSource, HttpServletResponse response) throws Exception;
+     
+     /**
+      * 
+      * This method returns the value of the parameter 'Subaward Follow Up'.
+      * @return
+      */
+     public String getFollowupDateDefaultLength();
+     
+     /**
+      * 
+      * This method calculates a follow date based on getFollowupDateDefaultLength and the passed in baseDate.
+      * @param baseDate
+      * @return
+      */
+     public Date getCalculatedFollowupDate(Date baseDate);
 
 
 }
