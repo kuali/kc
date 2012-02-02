@@ -155,10 +155,10 @@ public class UnitAgendaTypeService extends AgendaTypeServiceBase  {
                     // applies to should return true if:
                     // environmentQualifierValue = agendaQualifier.getValue, OR
                     // agendaQualifier.getValue is a parent of environmentQualifierValue
-                    if (!environmentQualifierValue.equals(agendaQualifier.getValue())
-                            && !isChildUnit(environmentQualifierValue, agendaQualifier.getValue())) {
-                        return false;
-                    }
+//                    if (!environmentQualifierValue.equals(agendaQualifier.getValue())
+//                            && !isChildUnit(environmentQualifierValue, agendaQualifier.getValue())) {
+//                        return false;
+//                    }
                 } else if (!environmentQualifierValue.equals(agendaQualifierValue)) {
                     return false;
                 }
@@ -166,12 +166,12 @@ public class UnitAgendaTypeService extends AgendaTypeServiceBase  {
             return true;
         }
         
-        private boolean isChildUnit(String childNumber, String parentNumber) {
-            UnitService unitService = KraServiceLocator.getService(UnitService.class);
-            Unit childUnit = unitService.getUnit(childNumber);
-            Unit parentUnit = unitService.getUnit(parentNumber);
-            return childUnit.isParentUnit(parentUnit);
-        }
+//        private boolean isChildUnit(String childNumber, String parentNumber) {
+//            UnitService unitService = KraServiceLocator.getService(UnitService.class);
+//            Unit childUnit = unitService.getUnit(childNumber);
+//            Unit parentUnit = unitService.getUnit(parentNumber);
+//            return childUnit.isParentUnit(parentUnit);
+//        }
         
     }
 
