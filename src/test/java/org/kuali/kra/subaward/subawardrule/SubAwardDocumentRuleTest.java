@@ -72,6 +72,7 @@ public class SubAwardDocumentRuleTest extends KcUnitTestBase {
         
         subAwardCloseout = new SubAwardCloseout();
         subAwardCloseout.setCloseoutTypeCode(1);
+        subAwardCloseout.setDateRequested(new Date(2012, 1, 1));
         
         subAwardFundingSource = new SubAwardFundingSource();
         subAwardFundingSource.setAwardId(new Long("1183316613046"));        
