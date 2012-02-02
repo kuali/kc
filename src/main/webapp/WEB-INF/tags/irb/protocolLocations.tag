@@ -22,14 +22,12 @@
 <c:set var="rolodexAttributes" value="${DataDictionary.Rolodex.attributes}" />
 <c:set var="action" value="protocolLocation" />
 <c:set var="readOnly" value="${!KualiForm.protocolHelper.modifyOrganizations}" />
-
 <kul:tab tabTitle="Organizations" defaultOpen="false" tabErrorKey="protocolHelper.newProtocolLocation*" auditCluster="requiredFieldsAuditErrors" tabAuditKey="" useRiceAuditMode="true">
 	<div class="tab-container" align="center">
     	<h3>
     		<span class="subhead-left">Organizations</span>
     		<span class="subhead-right"><kul:help businessObjectClassName="org.kuali.kra.irb.protocol.location.ProtocolLocation" altText="help"/></span>
         </h3>
-        
         <table id="location-table" cellpadding="0" cellspacing="0" summary="">
           	<%-- Header --%>
           	<tr>
@@ -52,7 +50,8 @@
 					</th>
 	
 	                <td align="left" valign="middle"  class="infoline">
-	                	<kul:htmlControlAttribute property="protocolHelper.newProtocolLocation.organizationId" attributeEntry="${protocolLocationAttributes.organizationId}" onblur="loadOrganizationName('protocolHelper.newProtocolLocation.organizationId', 'protocolHelper.organizationName');" />
+                        <%-- readOnly is passed as true to fix scope issues in htmlControlAttribute --%>
+	                	<kul:htmlControlAttribute property="protocolHelper.newProtocolLocation.organizationId" attributeEntry="${protocolLocationAttributes.organizationId}" readOnly="false" onblur="loadOrganizationName('protocolHelper.newProtocolLocation.organizationId', 'protocolHelper.organizationName');" />
 	                    <kul:lookup boClassName="org.kuali.kra.bo.Organization" 
 	                    fieldConversions="organizationId:protocolHelper.newProtocolLocation.organizationId,contactAddressId:protocolHelper.newProtocolLocation.rolodexId,humanSubAssurance:protocolHelper.newProtocolLocation.organization.humanSubAssurance,organizationName:protocolHelper.newProtocolLocation.organization.organizationName,rolodex.firstName:protocolHelper.newProtocolLocation.organization.rolodex.firstName,rolodex.lastName:protocolHelper.newProtocolLocation.organization.rolodex.lastName,rolodex.addressLine1:protocolHelper.newProtocolLocation.organization.rolodex.addressLine1,rolodex.addressLine2:protocolHelper.newProtocolLocation.organization.rolodex.addressLine2,rolodex.addressLine3:protocolHelper.newProtocolLocation.organization.rolodex.addressLine3,rolodex.city:protocolHelper.newProtocolLocation.organization.rolodex.city,rolodex.state:protocolHelper.newProtocolLocation.organization.rolodex.state" anchor="${currentTabIndex}"/> 
 	                    <kul:directInquiry boClassName="org.kuali.kra.bo.Organization" inquiryParameters="protocolHelper.newProtocolLocation.organizationId:organizationId" anchor="${currentTabIndex}"/>
@@ -74,7 +73,7 @@
 	                </td>
 	                <td align="left" valign="middle" class="infoline">
 	                	<div align="center">
-	                	<kul:htmlControlAttribute property="protocolHelper.newProtocolLocation.protocolOrganizationTypeCode" attributeEntry="${protocolLocationAttributes.protocolOrganizationTypeCode}" />
+	                	<kul:htmlControlAttribute property="protocolHelper.newProtocolLocation.protocolOrganizationTypeCode" attributeEntry="${protocolLocationAttributes.protocolOrganizationTypeCode}" readOnly="false" />
 	                	</div>
 					</td>
 	                <td align="left" valign="middle" class="infoline">

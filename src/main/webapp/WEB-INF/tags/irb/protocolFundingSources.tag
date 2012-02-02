@@ -52,8 +52,10 @@
 	                               
 	                <td>
 	                    <div align="center">
+	                        <%-- readOnly is passed as true to fix scope issues in htmlControlAttribute --%>
 	                        <kul:htmlControlAttribute property="protocolHelper.newFundingSource.fundingSourceTypeCode" 
 	                                                  attributeEntry="${protocolFundingSourceAttributes.fundingSourceTypeCode}" 
+	                                                  readOnly="false"
 	                                                  onchange="updateSourceNameEditable(
 	                                                            'protocolHelper.newFundingSource.fundingSourceTypeCode', 
                                                                 'protocolHelper.newFundingSource.fundingSourceNumber',
@@ -66,6 +68,7 @@
 	                   <div align="center">
 	                       <kul:htmlControlAttribute property="protocolHelper.newFundingSource.fundingSourceNumber" 
 	                                                 attributeEntry="${protocolFundingSourceAttributes.fundingSourceNumber}"
+													 readOnly="false"
 	                                                 onblur="updateSourceNameEditable(
                                                                 'protocolHelper.newFundingSource.fundingSourceTypeCode', 
                                                                 'protocolHelper.newFundingSource.fundingSourceNumber',
@@ -83,7 +86,8 @@
 	                    <div align="center">
                             <div id="protocolHelper.newFundingSource.fundingSourceName.edit.div" style="${sourceNameEditStyle}">
                                 <kul:htmlControlAttribute property="protocolHelper.newFundingSource.fundingSourceName" 
-                                                          attributeEntry="${protocolFundingSourceAttributes.fundingSourceName}" />
+                                                          attributeEntry="${protocolFundingSourceAttributes.fundingSourceName}" 
+                                                          readOnly="false" />
                             </div>
                             <div id="protocolHelper.newFundingSource.fundingSourceName.display.div" style="${sourceNameDisplaySyle}">
                                 <c:out value="${KualiForm.protocolHelper.newFundingSource.fundingSourceName}" />
