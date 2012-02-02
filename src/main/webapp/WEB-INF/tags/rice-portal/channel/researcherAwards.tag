@@ -19,7 +19,7 @@
 <div class="body">
 	<ul class="chan">
 	  <li>Awards in Progress</li>
-      <li><portal:portalLink displayTitle="false" title="All my Awards" url="kr/lookup.do?methodToCall=search&businessObjectClassName=org.kuali.kra.award.home.Award&docFormKey=88888888&includeCustomActionUrls=true&returnLocation=${ConfigProperties.application.url}/portal.do&userId=${UserSession.person.principalId}&hideReturnLink=true">All my Awards</portal:portalLink></li>
+      <li><portal:portalLink displayTitle="false" title="All my Awards" url="${ConfigProperties.kr.url}/lookup.do?methodToCall=search&businessObjectClassName=org.kuali.kra.award.home.Award&docFormKey=88888888&includeCustomActionUrls=true&returnLocation=${ConfigProperties.application.url}/portal.do&userId=${UserSession.person.principalId}&hideReturnLink=true">All my Awards</portal:portalLink></li>
 	</ul>
 </div>
 <channel:portalChannelBottom />

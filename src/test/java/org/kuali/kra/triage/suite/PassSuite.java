@@ -23,7 +23,7 @@ import org.junit.runners.Suite.SuiteClasses;
 @SuiteClasses(  {
 
     org.kuali.kra.test.OjbRepositoryMappingTest.class,
-    org.kuali.kra.test.infrastructure.test.LifecycleTest.class,
+    //org.kuali.kra.test.infrastructure.test.LifecycleTest.class,
     org.kuali.kra.institutionalproposal.customdata.InstitutionalProposalCustomDataTest.class,
     org.kuali.kra.award.rule.AwardCommentsRuleTest.class,
     org.kuali.kra.irb.protocol.participant.ProtocolParticipantRuleTest.class,

@@ -95,11 +95,9 @@
 		<property name="validRunModes">
 			<list>
 				<value>LOCAL</value>
-				<value>EMBEDDED</value>
 			</list>
 		</property>
         <property name="applicationDataSource" ref="dataSource${connection.pool.impl}" />
-		<property name="serverDataSource" ref="riceDataSource${connection.pool.impl}" /> 
 	</bean>	
  
 	<bean id="coreServiceConfigurer" class="org.kuali.rice.coreservice.impl.config.CoreServiceConfigurer">
