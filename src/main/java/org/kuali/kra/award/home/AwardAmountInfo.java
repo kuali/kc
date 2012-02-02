@@ -105,7 +105,7 @@ public class AwardAmountInfo extends AwardAssociate {
     public void setAnticipatedTotalAmount(KualiDecimal anticipatedTotalAmount) {
         this.anticipatedTotalAmount = anticipatedTotalAmount;
         if (!(getAward() == null)) {
-            if (getAward().getAwardAmountInfos().size() == 1) {
+            if (getAward().getAwardAmountInfos().size() == 1 && getAward().getSequenceNumber() == 1) {
                 setAntDistributableAmount(anticipatedTotalAmount);
             }
         }
@@ -142,7 +142,7 @@ public class AwardAmountInfo extends AwardAssociate {
     public void setAmountObligatedToDate(KualiDecimal amountObligatedToDate) {
         this.amountObligatedToDate = amountObligatedToDate;
         if (!(getAward() == null)) {
-            if (getAward().getAwardAmountInfos().size() == 1) {
+            if (getAward().getAwardAmountInfos().size() == 1 && getAward().getSequenceNumber() == 1) {
                 setObliDistributableAmount(amountObligatedToDate);
             }
         }
