@@ -911,4 +911,19 @@
             <ref bean="notificationAuthorizationService" />
         </property>
     </bean>    
+    
+    <!-- 
+    <bean id="unitAgendaTypeService" class="org.kuali.kra.krms.UnitAgendaTypeService">
+    </bean>
+    <bean class="org.kuali.rice.ksb.api.bus.support.ServiceBusExporter">
+        <property name="serviceDefinition">
+            <bean parent="kcService" p:service-ref="unitAgendaTypeService"
+                p:localServiceName="unitAgendaTypeService" />
+        </property>
+    </bean>
+    
+    <bean id="sampleAppPeopleFlowTypeService" class="org.kuali.rice.krad.workflow.DataDictionaryPeopleFlowTypeServiceImpl">
+    </bean>
+     -->
+    
 </beans>
