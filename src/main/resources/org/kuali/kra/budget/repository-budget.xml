@@ -473,6 +473,7 @@
 		<field-descriptor name="tbnId" column="TBN_ID" jdbc-type="VARCHAR" />
 		<field-descriptor name="calculationBase" column="CALCULATION_BASE" jdbc-type="DECIMAL" conversion="org.kuali.kra.infrastructure.OjbBudgetDecimalFieldConversion"/>
 		<field-descriptor name="personName" column="PERSON_NAME" jdbc-type="VARCHAR"/>
+		<field-descriptor name="salaryAnniversaryDate" column="SALARY_ANNIVERSARY_DATE" jdbc-type="DATE"/>
 		<field-descriptor name="updateTimestamp" column="UPDATE_TIMESTAMP" jdbc-type="TIMESTAMP"/>
 		<field-descriptor name="updateUser" column="UPDATE_USER" jdbc-type="VARCHAR"/>
 		<field-descriptor name="versionNumber" column="VER_NBR" jdbc-type="BIGINT" locking="false" />
