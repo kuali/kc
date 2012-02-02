@@ -70,6 +70,11 @@
     </bean>
     
     <bean id="protocolPersonMassChangeService" class="org.kuali.kra.personmasschange.service.impl.ProtocolPersonMassChangeServiceImpl">
+        <property name="businessObjectService" ref="businessObjectService" />
+        <property name="personEditableService" ref="personEditableService" />
+        <property name="protocolPersonTrainingService" ref="protocolPersonTrainingService" />
+        <property name="kcPersonService" ref="kcPersonService" />
+        <property name="rolodexService" ref="rolodexService" />
     </bean>
     
     <bean id="schedulePersonMassChangeService" class="org.kuali.kra.personmasschange.service.impl.SchedulePersonMassChangeServiceImpl">

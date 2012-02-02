@@ -69,7 +69,7 @@ public class SchedulePersonMassChangeServiceImpl implements SchedulePersonMassCh
         }
 
         for (CommitteeSchedule schedule : schedules) {
-            if (isScheduleAttendeesChangeCandidate(personMassChange, schedule)) {
+            if (isScheduleChangeCandidate(personMassChange, schedule)) {
                 scheduleChangeCandidates.add(schedule);
             }
         }
@@ -82,13 +82,7 @@ public class SchedulePersonMassChangeServiceImpl implements SchedulePersonMassCh
         
         Collection<Committee> committees = getBusinessObjectService().findAll(Committee.class);
 
-        if (personMassChange.isChangeAllSequences()) {
-            for (Committee committee : committees) {
-                scheduleChangeCandidates.addAll(committee.getCommitteeSchedules());
-            }
-        } else {
-            scheduleChangeCandidates.addAll(getLatestSchedules(committees));
-        }
+        scheduleChangeCandidates.addAll(getLatestSchedules(committees));
         
         return scheduleChangeCandidates;
     }
@@ -124,11 +118,15 @@ public class SchedulePersonMassChangeServiceImpl implements SchedulePersonMassCh
         
     }
     
-    private boolean isScheduleAttendeesChangeCandidate(PersonMassChange personMassChange, CommitteeSchedule schedule) {
+    private boolean isScheduleChangeCandidate(PersonMassChange personMassChange, CommitteeSchedule schedule) {
+        return isScheduleAttendeesChangeCandidate(personMassChange, schedule.getCommitteeScheduleAttendances());
+    }
+    
+    private boolean isScheduleAttendeesChangeCandidate(PersonMassChange personMassChange, List<CommitteeScheduleAttendance> scheduleAttendances) {
         boolean isScheduleAttendeesChangeCandidate = false;
         
         if (personMassChange.getSchedulePersonMassChange().isAttendees()) {
-            for (CommitteeScheduleAttendance scheduleAttendance : schedule.getCommitteeScheduleAttendances()) {
+            for (CommitteeScheduleAttendance scheduleAttendance : scheduleAttendances) {
                 if (isPersonIdMassChange(personMassChange, scheduleAttendance) || isRolodexIdMassChange(personMassChange, scheduleAttendance)) {
                     isScheduleAttendeesChangeCandidate = true;
                     break;
@@ -148,11 +146,15 @@ public class SchedulePersonMassChangeServiceImpl implements SchedulePersonMassCh
                 }
             } else {
                 if (personMassChange.getSchedulePersonMassChange().isAttendees()) {
-                    String scheduleId = scheduleChangeCandidate.getScheduleId();
-                    errorReporter.reportWarning(SCHEDULE_ATTENDEES_FIELD, KeyConstants.ERROR_PERSON_MASS_CHANGE_DOCUMENT_LOCKED, SCHEDULE, scheduleId);
+                    reportWarning(SCHEDULE_ATTENDEES_FIELD, scheduleChangeCandidate);
                 }
             }
         }
+    }
+    
+    private void reportWarning(String propertyName, CommitteeSchedule scheduleChangeCandidate) {
+        String scheduleId = scheduleChangeCandidate.getScheduleId();
+        errorReporter.reportWarning(propertyName, KeyConstants.ERROR_PERSON_MASS_CHANGE_DOCUMENT_LOCKED, SCHEDULE, scheduleId);
     }
     
     private void performScheduleAttendeesPersonMassChange(PersonMassChange personMassChange, CommitteeSchedule scheduleChangeCandidate) {

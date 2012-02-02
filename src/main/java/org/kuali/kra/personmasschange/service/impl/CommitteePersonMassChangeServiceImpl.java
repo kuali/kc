@@ -68,7 +68,7 @@ public class CommitteePersonMassChangeServiceImpl implements CommitteePersonMass
         }
 
         for (Committee committee : committees) {
-            if (isCommitteeMemberChangeCandidate(personMassChange, committee)) {
+            if (isCommitteeChangeCandidate(personMassChange, committee)) {
                 committeeChangeCandidates.add(committee);
             }
         }
@@ -81,11 +81,7 @@ public class CommitteePersonMassChangeServiceImpl implements CommitteePersonMass
         
         Collection<Committee> committees = getBusinessObjectService().findAll(Committee.class);
 
-        if (personMassChange.isChangeAllSequences()) {
-            committeeChangeCandidates.addAll(committees);
-        } else {
-            committeeChangeCandidates.addAll(getLatestCommittees(committees));
-        }
+        committeeChangeCandidates.addAll(getLatestCommittees(committees));
         
         return committeeChangeCandidates;
     }
@@ -116,11 +112,15 @@ public class CommitteePersonMassChangeServiceImpl implements CommitteePersonMass
         
     }
     
-    private boolean isCommitteeMemberChangeCandidate(PersonMassChange personMassChange, Committee committee) {
+    private boolean isCommitteeChangeCandidate(PersonMassChange personMassChange, Committee committee) {
+        return isCommitteeMemberChangeCandidate(personMassChange, committee.getCommitteeMemberships());
+    }
+    
+    private boolean isCommitteeMemberChangeCandidate(PersonMassChange personMassChange, List<CommitteeMembership> committeeMemberships) {
         boolean isCommitteeMemberChangeCandidate = false;
         
         if (personMassChange.getCommitteePersonMassChange().isMember()) {
-            for (CommitteeMembership committeeMembership : committee.getCommitteeMemberships()) {
+            for (CommitteeMembership committeeMembership : committeeMemberships) {
                 if (isPersonIdMassChange(personMassChange, committeeMembership) || isRolodexIdMassChange(personMassChange, committeeMembership)) {
                     isCommitteeMemberChangeCandidate = true;
                     break;
@@ -135,16 +135,16 @@ public class CommitteePersonMassChangeServiceImpl implements CommitteePersonMass
     public void performPersonMassChange(PersonMassChange personMassChange, List<Committee> committeeChangeCandidates) {
         for (Committee committeeChangeCandidate : committeeChangeCandidates) {
             if (committeeChangeCandidate.getCommitteeDocument().getPessimisticLocks().isEmpty()) {
-                if (personMassChange.getCommitteePersonMassChange().isMember()) {
-                    performCommitteeMemberPersonMassChange(personMassChange, committeeChangeCandidate);
-                }
+                performCommitteeMemberPersonMassChange(personMassChange, committeeChangeCandidate);
             } else {
-                if (personMassChange.getCommitteePersonMassChange().isMember()) {
-                    String committeeName = committeeChangeCandidate.getCommitteeName();
-                    errorReporter.reportWarning(COMMITTEE_MEMBER_FIELD, KeyConstants.ERROR_PERSON_MASS_CHANGE_DOCUMENT_LOCKED, COMMITTEE, committeeName);
-                }
+                reportWarning(COMMITTEE_MEMBER_FIELD, committeeChangeCandidate);
             }
         }
+    }
+    
+    private void reportWarning(String propertyName, Committee committeeChangeCandidate) {
+        String committeeName = committeeChangeCandidate.getCommitteeName();
+        errorReporter.reportWarning(propertyName, KeyConstants.ERROR_PERSON_MASS_CHANGE_DOCUMENT_LOCKED, COMMITTEE, committeeName);
     }
     
     private void performCommitteeMemberPersonMassChange(PersonMassChange personMassChange, Committee committeeChangeCandidate) {
