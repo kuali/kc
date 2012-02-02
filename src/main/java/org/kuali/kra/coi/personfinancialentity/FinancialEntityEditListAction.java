@@ -101,6 +101,7 @@ public class FinancialEntityEditListAction extends FinancialEntityAction{
         PersonFinIntDisclosure personFinIntDisclosure = getFinancialEntities(form).get(entityIndex);
         financialEntityHelper.setEditEntityIndex(entityIndex);
         financialEntityHelper.setEditRelationDetails(getFinancialEntityService().getFinancialEntityDataMatrixForEdit(personFinIntDisclosure.getPerFinIntDisclDetails()));
+        financialEntityHelper.setFinEntityAttachmentList(personFinIntDisclosure.getFinEntityAttachments());
         financialEntityHelper.resetPrevSponsorCode();
     }
 

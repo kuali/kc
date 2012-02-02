@@ -242,6 +242,9 @@
         <collection-descriptor name="finEntityContactInfos" proxy="true" element-class-ref="org.kuali.kra.coi.personfinancialentity.FinancialEntityContactInfo" collection-class="org.apache.ojb.broker.util.collections.ManageableArrayList" auto-retrieve="true" auto-update="object" auto-delete="none">
             <inverse-foreignkey field-ref="personFinIntDisclosureId"/>
         </collection-descriptor>
+		 <collection-descriptor name="finEntityAttachments" proxy="true" element-class-ref="org.kuali.kra.coi.notesandattachments.attachments.FinancialEntityAttachment" collection-class="org.apache.ojb.broker.util.collections.ManageableArrayList" auto-retrieve="true" auto-update="object" auto-delete="none">
+            <inverse-foreignkey field-ref="financialEntityId" />
+        </collection-descriptor>
 	</class-descriptor>
 
 	<class-descriptor class="org.kuali.kra.coi.personfinancialentity.PersonFinIntDisclDet" table="PER_FIN_INT_DISCL_DET">
@@ -601,4 +604,30 @@
 		<field-descriptor name="objectId" column="OBJ_ID" jdbc-type="VARCHAR" />
         <field-descriptor name="versionNumber" column="VER_NBR" jdbc-type="BIGINT" locking="false" />
 	</class-descriptor>    
+	
+	<class-descriptor class="org.kuali.kra.coi.notesandattachments.attachments.FinancialEntityAttachment" table="FINANCIAL_ENTITY_ATTACHMENT">
+        <field-descriptor name="attachmentId" column="FINANCIAL_ENTITY_ATTACHMENT_ID" jdbc-type="BIGINT" primarykey="true" sequence-name="SEQ_DISCLOSURE_ID" autoincrement="true"/>
+        <field-descriptor name="financialEntityId" column="FINANCIAL_ENTITY_ID_FK" jdbc-type="BIGINT" />
+        <field-descriptor name="sequenceNumber" column="SEQUENCE_NUMBER" jdbc-type="INTEGER" />
+        <field-descriptor name="documentId" column="DOCUMENT_ID" jdbc-type="INTEGER" />
+        <field-descriptor name="fileId" column="FILE_ID" jdbc-type="BIGINT"/>
+        <field-descriptor name="description" column="DESCRIPTION" jdbc-type="VARCHAR" />
+        <field-descriptor name="contactName" column="CONTACT_NAME" jdbc-type="VARCHAR" />
+        <field-descriptor name="contactEmailAddress" column="EMAIL_ADDRESS" jdbc-type="VARCHAR" />
+        <field-descriptor name="contactPhoneNumber" column="PHONE_NUMBER" jdbc-type="VARCHAR" />
+        <field-descriptor name="comments" column="COMMENTS" jdbc-type="VARCHAR" />
+        <field-descriptor name="updateTimestamp" column="UPDATE_TIMESTAMP" jdbc-type="TIMESTAMP" />
+        <field-descriptor name="updateUser" column="UPDATE_USER" jdbc-type="VARCHAR" />
+        <field-descriptor name="versionNumber" column="VER_NBR" jdbc-type="BIGINT" locking="false" />
+        <field-descriptor name="objectId" column="OBJ_ID" jdbc-type="VARCHAR" />
+        <reference-descriptor name="financialEntity" class-ref="org.kuali.kra.coi.personfinancialentity.PersonFinIntDisclosure" auto-retrieve="true" auto-update="none" auto-delete="none"> 
+            <foreignkey field-ref="financialEntityId"/>
+        </reference-descriptor>
+        
+        <reference-descriptor name="file" proxy="true" class-ref="org.kuali.kra.bo.AttachmentFile" auto-retrieve="true" auto-update="object" auto-delete="true"> 
+			<foreignkey field-ref="fileId"/>
+		</reference-descriptor>
+        
+	</class-descriptor>
+	
 </descriptor-repository>

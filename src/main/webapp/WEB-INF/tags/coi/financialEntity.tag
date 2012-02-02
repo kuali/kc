@@ -150,8 +150,8 @@
                 
                         <tr>
                             <td colspan="5">
-                               <kra-coi:financialEntityRelationshipDetails prop="financialEntityHelper.editRelationDetails" detailList="${KualiForm.financialEntityHelper.editRelationDetails}"/>
-             
+                            	<kra-coi:financialEntityRelationshipDetails prop="financialEntityHelper.editRelationDetails" detailList="${KualiForm.financialEntityHelper.editRelationDetails}"/>
+								<kra-coi:financialEntityAttachments/>
                             </td>
                         </tr>     
                     </c:if>
