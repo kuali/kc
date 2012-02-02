@@ -19,15 +19,15 @@
 <div class="body">
   <strong>My Financial Entities </strong>
   <ul class="chan">
-    <li><portal:portalLink displayTitle="false" title="Create New Financial Entity" url="financialEntityManagement.do?methodToCall=management&financialEntityHelper.reporterId=&coiDocId=">Financial Entity</portal:portalLink></li>
-    <li><portal:portalLink displayTitle="false" title="View/Edit Financial Entities" url="financialEntityManagement.do?methodToCall=editList&financialEntityHelper.reporterId=&coiDocId=">View/Edit Financial Entities</portal:portalLink></li>
+    <li><portal:portalLink displayTitle="false" title="Create New Financial Entity" url="${ConfigProperties.application.url}/financialEntityManagement.do?methodToCall=management&financialEntityHelper.reporterId=&coiDocId=">Financial Entity</portal:portalLink></li>
+    <li><portal:portalLink displayTitle="false" title="View/Edit Financial Entities" url="${ConfigProperties.application.url}/financialEntityManagement.do?methodToCall=editList&financialEntityHelper.reporterId=&coiDocId=">View/Edit Financial Entities</portal:portalLink></li>
   </ul>
   <strong>My Disclosures </strong>
   <ul class="chan">
-    <li><portal:portalLink displayTitle="false" title="Master Disclosure" url="coiDisclosure.do?methodToCall=viewMasterDisclosure">Master Disclosure</portal:portalLink></li>
-    <li><portal:portalLink displayTitle="false" title="Create Annual Disclosure" url="coiDisclosure.do?methodToCall=docHandler&command=initiate&docTypeName=CoiDisclosureDocument">Create Annual Disclosure</portal:portalLink></li>
-    <li><portal:portalLink displayTitle="false" title="Create Manual Disclosure" url="coiDisclosure.do?methodToCall=docHandler&command=initiate_14&docTypeName=CoiDisclosureDocument">Create Manual Disclosure</portal:portalLink></li>
-    <li><portal:portalLink displayTitle="false" title="New Project Disclosures" url="projectEventDisclosure.do?methodToCall=getDisclosuresToComplete">New Project Disclosures To Complete</portal:portalLink></li>
+    <li><portal:portalLink displayTitle="false" title="Master Disclosure" url="${ConfigProperties.application.url}/coiDisclosure.do?methodToCall=viewMasterDisclosure">Master Disclosure</portal:portalLink></li>
+    <li><portal:portalLink displayTitle="false" title="Create Annual Disclosure" url="${ConfigProperties.application.url}/coiDisclosure.do?methodToCall=docHandler&command=initiate&docTypeName=CoiDisclosureDocument">Create Annual Disclosure</portal:portalLink></li>
+    <li><portal:portalLink displayTitle="false" title="Create Manual Disclosure" url="${ConfigProperties.application.url}/coiDisclosure.do?methodToCall=docHandler&command=initiate_14&docTypeName=CoiDisclosureDocument">Create Manual Disclosure</portal:portalLink></li>
+    <li><portal:portalLink displayTitle="false" title="New Project Disclosures" url="${ConfigProperties.application.url}/projectEventDisclosure.do?methodToCall=getDisclosuresToComplete">New Project Disclosures To Complete</portal:portalLink></li>
     <li>View/Edit Disclosure</li>
   </ul>
 </div>
