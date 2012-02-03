@@ -51,27 +51,8 @@ public class SubAwardServiceTest extends KcUnitTestBase {
 
     @Test
     public void testGetCalculatedFollowupDate() {
-        Date januaryFirst = new Date(2012, 1, 1);
-        Date checkDate = subAwardService.getCalculatedFollowupDate(januaryFirst);
-        Date expectedDate = new Date(DateUtils.addWeeks(januaryFirst, 6).getTime());
+        Date checkDate = subAwardService.getCalculatedFollowupDate(new Date(2012, 1, 1));
+        Date expectedDate = new Date(DateUtils.addWeeks(new Date(2012, 1, 1), 6).getTime());
         assertEquals(expectedDate, checkDate);
     }
-    
-    @Test
-    public void testGetCalculatedFollowupDate2() {
-        String namespaceCode = "KC-SUBAWARD";
-        String componentCode = "Document";
-        String parameterName = "Subaward Follow Up";
-        Parameter parm = getParameterService().getParameter(namespaceCode, componentCode, parameterName);
-        
-        Parameter.Builder parameterForUpdate = Parameter.Builder.create(parm);
-        parameterForUpdate.setValue("5000D");
-        getParameterService().updateParameter(parameterForUpdate.build());
-        
-        Date januaryFirst = new Date(2012, 1, 1);
-        Date checkDate = subAwardService.getCalculatedFollowupDate(januaryFirst);
-        Date expectedDate = new Date(DateUtils.addDays(januaryFirst, 5000).getTime());
-        assertEquals(expectedDate, checkDate);
-    }
-
 }
