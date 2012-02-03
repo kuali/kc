@@ -1,0 +1,132 @@
+<!--
+ Copyright 2005-2010 The Kuali Foundation
+
+ Licensed under the Educational Community License, Version 2.0 (the "License");
+ you may not use this file except in compliance with the License.
+ You may obtain a copy of the License at
+
+ http://www.osedu.org/licenses/ECL-2.0
+
+ Unless required by applicable law or agreed to in writing, software
+ distributed under the License is distributed on an "AS IS" BASIS,
+ WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
+ See the License for the specific language governing permissions and	
+ limitations under the License.
+-->
+
+<!--
+This class holds the PersonFinIntDisclosureAssociate information.  All BOs that extend PersonFinIntDisclosureAssociate should
+reference this file within their spring beans definition.
+-->
+<beans xmlns="http://www.springframework.org/schema/beans"
+    xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+    xmlns:p="http://www.springframework.org/schema/p"
+    xsi:schemaLocation="http://www.springframework.org/schema/beans
+        http://www.springframework.org/schema/beans/spring-beans-2.0.xsd">
+
+	<bean id="PersonFinIntDisclosureAssociate" abstract="true" parent="PersonFinIntDisclosureAssociate-parentBean" />
+	<bean id="PersonFinIntDisclosureAssociate-parentBean" abstract="true" parent="BusinessObjectEntry">
+		<property name="businessObjectClass" value="org.kuali.kra.coi.PersonFinIntDisclosureAssociate" />
+		<property name="objectLabel" value="Coi Disclosure Associate" />
+		<property name="inquiryDefinition" >
+			<ref bean="PersonFinIntDisclosureAssociate-inquiryDefinition" />
+		</property>
+		<property name="lookupDefinition" >
+			<ref bean="PersonFinIntDisclosureAssociate-lookupDefinition" />
+		</property>
+		<property name="titleAttribute" value="entityNumber" />
+		<property name="attributes" >
+			<list>
+				<ref bean="PersonFinIntDisclosureAssociate-entityNumber" />
+				<ref bean="PersonFinIntDisclosureAssociate-sequenceNumber" />
+				<ref bean="PersonFinIntDisclosureAssociate-versionNumber" />
+				<ref bean="PersonFinIntDisclosureAssociate-updateUser" />
+				<ref bean="PersonFinIntDisclosureAssociate-updateTimestamp" />
+			</list>
+		</property>
+	</bean>
+	
+	<bean id="PersonFinIntDisclosureAssociate-entityNumber" parent="PersonFinIntDisclosureAssociate-entityNumber-parentBean" />
+	<bean id="PersonFinIntDisclosureAssociate-entityNumber-parentBean" abstract="true" parent="FinancialEntity-entityNumber"/>
+
+	<bean id="PersonFinIntDisclosureAssociate-sequenceNumber" parent="PersonFinIntDisclosureAssociate-sequenceNumber-parentBean" />
+	<bean id="PersonFinIntDisclosureAssociate-sequenceNumber-parentBean" abstract="true" parent="FinancialEntity-sequenceNumber"/>
+	
+	<bean id="PersonFinIntDisclosureAssociate-versionNumber" parent="PersonFinIntDisclosureAssociate-versionNumber-parentBean" />
+	<bean id="PersonFinIntDisclosureAssociate-versionNumber-parentBean" abstract="true" parent="AttributeReferenceDummy-versionNumber" />
+	
+	<bean id="PersonFinIntDisclosureAssociate-updateUser" parent="PersonFinIntDisclosureAssociate-updateUser-parentBean" />
+	<bean id="PersonFinIntDisclosureAssociate-updateUser-parentBean" abstract="true" parent="KraAttributeReferenceDummy-updateUser"/>
+	
+	<bean id="PersonFinIntDisclosureAssociate-updateTimestamp" parent="PersonFinIntDisclosureAssociate-updateTimestamp-parentBean" />
+	<bean id="PersonFinIntDisclosureAssociate-updateTimestamp-parentBean" abstract="true" parent="KraAttributeReferenceDummy-updateTimestamp"/>
+  
+	<!-- Business Object Inquiry Definition -->
+	<bean id="PersonFinIntDisclosureAssociate-inquiryDefinition" parent="PersonFinIntDisclosureAssociate-inquiryDefinition-parentBean" />
+	<bean id="PersonFinIntDisclosureAssociate-inquiryDefinition-parentBean" abstract="true" parent="InquiryDefinition">
+		<property name="title" value="protocolNumber" />
+		<property name="inquirySections" >
+			<list>
+				<bean parent="InquirySectionDefinition">
+					<property name="title" value="entityNumber" />
+					<property name="numberOfColumns" value="1" />
+					<property name="inquiryFields" >
+						<list>
+							<bean parent="FieldDefinition"
+								p:attributeName="entityNumber" />
+							<bean parent="FieldDefinition"
+								p:attributeName="sequenceNumber" />
+							<bean parent="FieldDefinition"
+								p:attributeName="versionNumber" />
+							<bean parent="FieldDefinition"
+								p:attributeName="updateUser" />
+							<bean parent="FieldDefinition"
+								p:attributeName="updateTimestamp" />
+						</list>
+					</property>
+				</bean>
+			</list>
+		</property>
+	</bean>
+	
+		<!-- Business Object Lookup Definition -->
+	<bean id="PersonFinIntDisclosureAssociate-lookupDefinition" parent="PersonFinIntDisclosureAssociate-lookupDefinition-parentBean" />
+	<bean id="PersonFinIntDisclosureAssociate-lookupDefinition-parentBean" abstract="true" parent="LookupDefinition">
+		<property name="title" value="Coi Disclosure Associate Lookup" />
+        <property name="lookupableID" value="PersonFinIntDisclosureAssociateLookupable" />
+		<property name="menubar" value="&lt;a href=&quot;index.jsp&quot;&gt;Main&lt;/a&gt;" />
+
+		<property name="defaultSort" >
+			<bean parent="SortDefinition" >
+		</bean>
+		</property>
+		<property name="lookupFields" >
+			<list>
+				<bean parent="FieldDefinition"
+					p:attributeName="entityNumber" />
+				<bean parent="FieldDefinition"
+					p:attributeName="sequenceNumber" />
+				<bean parent="FieldDefinition"
+					p:attributeName="versionNumber" />
+				<bean parent="FieldDefinition"
+					p:attributeName="updateUser" />
+				<bean parent="FieldDefinition"
+					p:attributeName="updateTimestamp" />
+			</list>
+		</property>
+		<property name="resultFields" >
+			<list>
+				<bean parent="FieldDefinition"
+					p:attributeName="entityNumber" />
+				<bean parent="FieldDefinition"
+					p:attributeName="sequenceNumber" />
+				<bean parent="FieldDefinition"
+					p:attributeName="versionNumber" />
+				<bean parent="FieldDefinition"
+					p:attributeName="updateUser" />
+				<bean parent="FieldDefinition"
+					p:attributeName="updateTimestamp" />
+			</list>
+		</property>
+	</bean>
+</beans>
