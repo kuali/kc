@@ -88,6 +88,7 @@
   	>
   	
 <%-- --%>
+<c:set var="readOnly" value="true" scope="request"/>
 <div align="right"><kul:help documentTypeName="CoiDisclosureDocument" pageName="CoiDisclosure" /></div>
 <kul:documentOverview editingMode="${KualiForm.editingMode}" />
 <kra-coi:disclosureReporter />
@@ -116,6 +117,9 @@
     <%-- <kra-coi:proposalProjects /> --%>
     <kra-coi:masterProtocol masterDisclosureProjects="${masterDisclosure.protocolProjects}"/>
 </c:if>
+
+<kra-coi:coiNoteAndAttachment/>
+
 <c:if test="${fn:length(masterDisclosure.allProjects) > 0}" >
     <%-- <kra-coi:proposalProjects /> --%>
     <kra-coi:masterDisclosures />

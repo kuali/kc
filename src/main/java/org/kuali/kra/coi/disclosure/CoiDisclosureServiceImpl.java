@@ -19,13 +19,9 @@ import java.sql.Date;
 import java.util.ArrayList;
 import java.util.Collection;
 import java.util.Collections;
-import java.util.Comparator;
 import java.util.HashMap;
-import java.util.Iterator;
 import java.util.List;
 import java.util.Map;
-
-import noNamespace.ReportType;
 
 import org.apache.commons.collections.CollectionUtils;
 import org.apache.commons.lang.StringUtils;
@@ -46,6 +42,8 @@ import org.kuali.kra.coi.CoiDisclosureStatus;
 import org.kuali.kra.coi.CoiDispositionStatus;
 import org.kuali.kra.coi.DisclosureReporter;
 import org.kuali.kra.coi.DisclosureReporterUnit;
+import org.kuali.kra.coi.notesandattachments.attachments.CoiDisclosureAttachment;
+import org.kuali.kra.coi.notesandattachments.notes.CoiDisclosureNotepad;
 import org.kuali.kra.coi.personfinancialentity.FinancialEntityService;
 import org.kuali.kra.coi.personfinancialentity.PersonFinIntDisclosure;
 import org.kuali.kra.dao.SponsorHierarchyDao;
@@ -1136,6 +1134,8 @@ public class CoiDisclosureServiceImpl implements CoiDisclosureService {
                     projectType = coiDiscDetail.getProjectType();
                 }
                 moduleItemKey = coiDiscDetail.getModuleItemKey();
+                addProjectDisclAttachments(disclosureProjectBean, coiDisclosure, coiDiscDetail.getOriginalCoiDisclosureId());
+                addProjectDisclNotepads(disclosureProjectBean, coiDisclosure, coiDiscDetail.getOriginalCoiDisclosureId());
             }
             disclosureProjectBean.getProjectDiscDetails().add(coiDiscDetail);            
         }
@@ -1144,6 +1144,24 @@ public class CoiDisclosureServiceImpl implements CoiDisclosureService {
         return masterDisclosureBean;
     }
         
+    private void addProjectDisclAttachments(CoiDisclosureProjectBean disclosureProjectBean, CoiDisclosure coiDisclosure, Long originalDisclosureId) {
+        for (CoiDisclosureAttachment disclattachment : coiDisclosure.getCoiDisclosureAttachments()) {
+            if ((disclattachment.getOriginalCoiDisclosureId() == null && originalDisclosureId == null) || 
+                    (disclattachment.getOriginalCoiDisclosureId() != null && originalDisclosureId != null && disclattachment.getOriginalCoiDisclosureId().equals(originalDisclosureId))) {
+                disclosureProjectBean.getProjectDiscAttachments().add(disclattachment);
+            }
+        }        
+    }
+    
+    private void addProjectDisclNotepads(CoiDisclosureProjectBean disclosureProjectBean, CoiDisclosure coiDisclosure, Long originalDisclosureId) {
+        for (CoiDisclosureNotepad disclNotepad : coiDisclosure.getCoiDisclosureNotepads()) {
+            if ((disclNotepad.getOriginalCoiDisclosureId() == null && originalDisclosureId == null) || 
+                    (disclNotepad.getOriginalCoiDisclosureId() != null && originalDisclosureId != null && disclNotepad.getOriginalCoiDisclosureId().equals(originalDisclosureId))) {
+                disclosureProjectBean.getProjectDiscNotepads().add(disclNotepad);
+            }
+        }        
+    }
+    
     /*
      * set up a list of disclosures that will be rendered in 'Disclosures' panel for master disclosure
      */
