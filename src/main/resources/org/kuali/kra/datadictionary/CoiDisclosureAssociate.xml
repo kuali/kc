@@ -15,8 +15,8 @@
 -->
 
 <!--
-This class holds the ProtocolAssociate information.  All BOs that extend ProtocolAssociate should
-reference this file within there spring beans definition.
+This class holds the CoiDisclosureAssociate information.  All BOs that extend CoiDisclosureAssociate should
+reference this file within their spring beans definition.
 -->
 <beans xmlns="http://www.springframework.org/schema/beans"
     xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
