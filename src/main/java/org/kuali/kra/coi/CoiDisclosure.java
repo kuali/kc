@@ -339,6 +339,7 @@ public class CoiDisclosure extends KraPersistableBusinessObjectBase implements S
         managedLists.add(getDisclosurePersons());
         managedLists.add(getCoiDiscDetails());
         managedLists.add(getCoiUserRoles());
+        managedLists.add(getCoiDisclosureAttachments());
         return managedLists;
     }
 

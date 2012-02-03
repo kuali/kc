@@ -84,11 +84,6 @@
 			<bean parent="TextControlDefinition"
 				p:size="15" />
 		</property>
-		<!--<property name="control" >
-       		<bean parent="SelectControlDefinition"
-            p:valuesFinderClass="org.kuali.kra.coi.lookup.keyvalue.CoiDisclosureProjectValuesFinder"
-            p:includeKeyInLabel="false" />
-    	</property>-->
 		<property name="summary" value="Project" />
 		<property name="description" value="Project" />
 	</bean>

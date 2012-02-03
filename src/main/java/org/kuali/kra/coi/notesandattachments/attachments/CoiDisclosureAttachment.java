@@ -257,39 +257,4 @@ public class CoiDisclosureAttachment extends CoiDisclosureAssociate implements C
         return result;
     }
     
-    protected void populateAttachment() {
-        FormFile newFile = getNewFile();
-        if(newFile==null) return;
-        byte[] fileData;
-       /* try {
-            narrativeFileData = narrativeFile.getFileData();
-            if (narrativeFileData.length > 0) {
-                NarrativeAttachment narrativeAttachment;
-                if (getNarrativeAttachmentList().isEmpty()) {
-                    narrativeAttachment = new NarrativeAttachment();
-                    getNarrativeAttachmentList().add(narrativeAttachment);
-                }else {
-                    narrativeAttachment = getNarrativeAttachmentList().get(0);
-                    if (narrativeAttachment == null) {
-                        narrativeAttachment = new NarrativeAttachment();
-                        getNarrativeAttachmentList().set(0, narrativeAttachment);
-                    }
-                }
-                String fileName = narrativeFile.getFileName();
-                narrativeAttachment.setFileName(fileName);
-                narrativeAttachment.setContentType(narrativeFile.getContentType());
-                narrativeAttachment.setNarrativeData(narrativeFile.getFileData());
-                narrativeAttachment.setProposalNumber(getProposalNumber());
-                narrativeAttachment.setModuleNumber(getModuleNumber());
-                setFileName(narrativeAttachment.getFileName());
-                setContentType(narrativeAttachment.getContentType());
-            }else {
-                getNarrativeAttachmentList().clear();
-            }
-        }catch (FileNotFoundException e) {
-            getNarrativeAttachmentList().clear();
-        }catch (IOException e) {
-            getNarrativeAttachmentList().clear();
-        }*/
-    }
 }
