@@ -378,7 +378,7 @@ public class FinancialEntityHelper implements Serializable {
 
         for (final FinancialEntityAttachment attachment : financialEntityAttachments) {
             if (doesNewFileExist(attachment)) {
-                final AttachmentFile newFile = AttachmentFile.createFromFormFile(attachment.getNewFile());
+                AttachmentFile newFile = AttachmentFile.createFromFormFile(attachment.getNewFile());
                 //setting the sequence number to the old file sequence number
                 if (attachment.getFile() != null) {
                     newFile.setSequenceNumber(attachment.getFile().getSequenceNumber());

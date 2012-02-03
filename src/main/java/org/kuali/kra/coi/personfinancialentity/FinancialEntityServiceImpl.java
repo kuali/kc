@@ -23,6 +23,7 @@ import java.util.Map;
 
 import org.apache.commons.lang.StringUtils;
 import org.kuali.kra.bo.KcPerson;
+import org.kuali.kra.coi.notesandattachments.attachments.FinancialEntityAttachment;
 import org.kuali.kra.infrastructure.Constants;
 import org.kuali.kra.service.KcPersonService;
 import org.kuali.kra.service.VersionException;
@@ -274,7 +275,9 @@ public class FinancialEntityServiceImpl implements FinancialEntityService {
      * 
      * @see org.kuali.kra.coi.personfinancialentity.FinancialEntityService#versionPersonFinintDisclosure(org.kuali.kra.coi.personfinancialentity.PersonFinIntDisclosure, java.util.List)
      */
-    public PersonFinIntDisclosure versionPersonFinintDisclosure(PersonFinIntDisclosure personFinIntDisclosure, List<FinEntityDataMatrixBean> newRelationDetails) throws VersionException {
+    public PersonFinIntDisclosure versionPersonFinintDisclosure(PersonFinIntDisclosure personFinIntDisclosure, 
+                                                                List<FinEntityDataMatrixBean> newRelationDetails,
+                                                                List<FinancialEntityAttachment> newFinancialEntityAttachments) throws VersionException {
         PersonFinIntDisclosure newDisclosure = versioningService.createNewVersion(personFinIntDisclosure);
         FinancialEntityContactInfo copiedContactInfo = (FinancialEntityContactInfo)ObjectUtils.deepCopy(newDisclosure.getFinEntityContactInfos().get(0));
         copiedContactInfo.setPersonFinIntDisclosureId(null);
@@ -284,6 +287,7 @@ public class FinancialEntityServiceImpl implements FinancialEntityService {
         newDisclosure.setPerFinIntDisclDetails(getFinDisclosureDetails(
                 newRelationDetails, newDisclosure.getEntityNumber(),
                 newDisclosure.getSequenceNumber()));
+        newDisclosure.setFinEntityAttachments(FinancialEntityAttachment.copyAttachmentList(newFinancialEntityAttachments));
         nonCurrentOldDisclosure(personFinIntDisclosure.getPersonFinIntDisclosureId());
         return newDisclosure;
     }

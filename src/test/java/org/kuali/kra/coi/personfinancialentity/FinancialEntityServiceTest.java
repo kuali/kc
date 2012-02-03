@@ -29,6 +29,7 @@ import org.junit.Before;
 import org.junit.Test;
 import org.kuali.kra.bo.KcPerson;
 import org.kuali.kra.bo.Unit;
+import org.kuali.kra.coi.notesandattachments.attachments.FinancialEntityAttachment;
 import org.kuali.kra.service.KcPersonService;
 import org.kuali.kra.service.VersioningService;
 import org.kuali.rice.krad.service.BusinessObjectService;
@@ -401,7 +402,8 @@ public class FinancialEntityServiceTest {
 
        financialEntityService.setBusinessObjectService(businessObjectService);
        financialEntityService.setVersioningService(versioningService);
-       PersonFinIntDisclosure newDisclosure = financialEntityService.versionPersonFinintDisclosure(personFinIntDisclosure, new ArrayList<FinEntityDataMatrixBean>());
+       PersonFinIntDisclosure newDisclosure = financialEntityService.versionPersonFinintDisclosure(personFinIntDisclosure, 
+               new ArrayList<FinEntityDataMatrixBean>(), new ArrayList<FinancialEntityAttachment>());
        Assert.assertEquals(newDisclosure.getSequenceNumber(), new Integer(2));
        Assert.assertNull(newDisclosure.getFinEntityContactInfos().get(0).getPersonFinIntDisclosureId());
        Assert.assertNull(newDisclosure.getFinEntityContactInfos().get(0).getFinancialEntityContactInfoId());

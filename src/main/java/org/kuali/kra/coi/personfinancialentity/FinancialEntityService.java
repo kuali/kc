@@ -17,6 +17,7 @@ package org.kuali.kra.coi.personfinancialentity;
 
 import java.util.List;
 
+import org.kuali.kra.coi.notesandattachments.attachments.FinancialEntityAttachment;
 import org.kuali.kra.service.VersionException;
 
 /**
@@ -81,10 +82,13 @@ public interface FinancialEntityService {
      * This method to version person FE disclosure
      * @param personFinIntDisclosure
      * @param newRelationDetails
+     * @param newFinancialEntityAttachments
      * @return
      * @throws VersionException
      */
-    PersonFinIntDisclosure versionPersonFinintDisclosure(PersonFinIntDisclosure personFinIntDisclosure, List<FinEntityDataMatrixBean> newRelationDetails) throws VersionException;
+    PersonFinIntDisclosure versionPersonFinintDisclosure(PersonFinIntDisclosure personFinIntDisclosure, 
+                                                        List<FinEntityDataMatrixBean> newRelationDetails,
+                                                        List<FinancialEntityAttachment> newFinancialEntityAttachments) throws VersionException;
 
     /**
      * get next entity number from DB sequence

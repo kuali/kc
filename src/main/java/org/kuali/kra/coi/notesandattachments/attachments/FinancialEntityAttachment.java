@@ -17,19 +17,19 @@ package org.kuali.kra.coi.notesandattachments.attachments;
 
 
 import java.sql.Timestamp;
+import java.util.ArrayList;
 import java.util.List;
 
 import org.apache.struts.upload.FormFile;
 import org.kuali.kra.SkipVersioning;
 import org.kuali.kra.bo.AttachmentFile;
-import org.kuali.kra.coi.CoiDisclosure;
-import org.kuali.kra.coi.CoiDisclosureAssociate;
+import org.kuali.kra.coi.PersonFinIntDisclosureAssociate;
 import org.kuali.kra.coi.personfinancialentity.PersonFinIntDisclosure;
 import org.kuali.rice.core.api.CoreApiServiceLocator;
 import org.kuali.rice.core.api.datetime.DateTimeService;
 import org.kuali.rice.krad.util.GlobalVariables;
 
-public class FinancialEntityAttachment extends CoiDisclosureAssociate implements Comparable<FinancialEntityAttachment>{
+public class FinancialEntityAttachment extends PersonFinIntDisclosureAssociate implements Comparable<FinancialEntityAttachment>{
     /**
      * Comment for <code>serialVersionUID</code>
      */
@@ -44,7 +44,7 @@ public class FinancialEntityAttachment extends CoiDisclosureAssociate implements
     private transient FormFile newFile;
     @SkipVersioning
     private transient String updateUserFullName;   
-    private Long coiDisclosureId;
+    private Long personFinIntDisclosureId;
     private String description;
     private String contactName;
     private String contactEmailAddress;
@@ -56,9 +56,24 @@ public class FinancialEntityAttachment extends CoiDisclosureAssociate implements
     public FinancialEntityAttachment() {
         super();
     }
-    
-    public FinancialEntityAttachment(CoiDisclosure coiDisclosure) {
-        this.setCoiDisclosure(coiDisclosure);
+
+    public FinancialEntityAttachment(FinancialEntityAttachment oldAtt) {
+        this.attachmentId = null;
+        this.fileId = oldAtt.fileId;
+        this.documentId = oldAtt.documentId;
+        this.financialEntityId = oldAtt.financialEntityId;
+        this.personFinIntDisclosureId = oldAtt.personFinIntDisclosureId;
+        this.description = oldAtt.description;
+        this.contactName = oldAtt.contactName;
+        this.contactEmailAddress = oldAtt.contactEmailAddress;
+        this.contactPhoneNumber = oldAtt.contactPhoneNumber;
+        this.comments = oldAtt.comments;
+        this.statusCode = oldAtt.statusCode;
+        this.updateTimestamp = oldAtt.updateTimestamp;
+        
+    }
+    public FinancialEntityAttachment(PersonFinIntDisclosure personFinIntDisclosure) {
+        this.setPersonFinIntDisclosure(personFinIntDisclosure);
     }
 
     
@@ -148,11 +163,11 @@ public class FinancialEntityAttachment extends CoiDisclosureAssociate implements
     public void setUpdateUserFullName(String updateUserFullName) {
         this.updateUserFullName = updateUserFullName;
     }
-    public Long getCoiDisclosureId() {
-        return coiDisclosureId;
+    public Long getPersonFinIntDisclosureId() {
+        return personFinIntDisclosureId;
     }
-    public void setCoiDisclosureId(Long coiDisclosureId) {
-        this.coiDisclosureId = coiDisclosureId;
+    public void setPersonFinIntDisclosureId(Long personFinIntDisclosureId) {
+        this.personFinIntDisclosureId = personFinIntDisclosureId;
     }
     public String getDescription() {
         return description;
@@ -166,17 +181,17 @@ public class FinancialEntityAttachment extends CoiDisclosureAssociate implements
     public String getStatusCode() {
         return statusCode;
     }
-    public static void addAttachmentToCollection(FinancialEntityAttachment coiDisclosureAttachment,
-            List<FinancialEntityAttachment> coiDisclosureAttachments) {
-        if (coiDisclosureAttachment == null) {
+    public static void addAttachmentToCollection(FinancialEntityAttachment personFinIntDisclosureAttachment,
+            List<FinancialEntityAttachment> personFinIntDisclosureAttachments) {
+        if (personFinIntDisclosureAttachment == null) {
             throw new IllegalArgumentException("the attachment is null");
         }
         
-        if (coiDisclosureAttachments == null) {
+        if (personFinIntDisclosureAttachments == null) {
             throw new IllegalArgumentException("the toList is null");
         }
         
-        coiDisclosureAttachments.add(coiDisclosureAttachment);
+        personFinIntDisclosureAttachments.add(personFinIntDisclosureAttachment);
         
     }
     public void setUpdateUser(String updateUser) {
@@ -251,5 +266,13 @@ public class FinancialEntityAttachment extends CoiDisclosureAssociate implements
     public void updateParms() {
         setUpdateUser(GlobalVariables.getUserSession().getPrincipalName());
         setUpdateTimestamp(((DateTimeService)CoreApiServiceLocator.getDateTimeService()).getCurrentTimestamp());
+    }
+    
+    public static List<FinancialEntityAttachment> copyAttachmentList(List<FinancialEntityAttachment>oldList) {
+        List<FinancialEntityAttachment> newList = new ArrayList<FinancialEntityAttachment>();
+        for (FinancialEntityAttachment att : oldList) {
+            newList.add(new FinancialEntityAttachment(att));
+        }
+        return newList;
     }
 }
