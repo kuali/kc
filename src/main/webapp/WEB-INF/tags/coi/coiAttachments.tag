@@ -18,7 +18,7 @@
 <jsp:useBean id="paramMap1" class="java.util.HashMap"/>
 
 <c:set var="numberOfAttachments" value="0" />
-<c:set var="modify" value="${KualiForm.coiNotesAndAttachmentsHelper.modifyAttachments}" />
+<c:set var="modify" value="${KualiForm.coiNotesAndAttachmentsHelper.modifyAttachments and not readOnly}" />
 <c:set var="attributes" value="${DataDictionary.CoiDisclosureAttachment.attributes}" />
 <c:set var="attachmentFileAttributes" value="${DataDictionary.AttachmentFile.attributes}" />
 <c:set var="attachmentFilterAttributes" value="${DataDictionary.CoiDisclosureAttachmentFilter.attributes}" />
@@ -377,6 +377,7 @@
 									<html:image property="methodToCall.viewAttachmentCoi.line${itrStatus.index}.anchor${currentTabIndex}"
 										src='${ConfigProperties.kra.externalizable.images.url}tinybutton-view.gif' styleClass="tinybutton"
 										alt="View Coi Disclosure Attachment" onclick="excludeSubmitRestriction = true;"/>
+										<c:if test="${not readOnly}">
 										<input class="tinybutton" type="image"
 											src='${ConfigProperties.kra.externalizable.images.url}tinybutton-replace.gif'
 											id="replaceButton${itrStatus.index}"
@@ -389,6 +390,7 @@
 										    <html:image property="methodToCall.deleteCoiDisclosureAttachment.line${itrStatus.index}.anchor${currentTabIndex}"
 											    src='${ConfigProperties.kra.externalizable.images.url}tinybutton-delete1.gif' styleClass="tinybutton"
 											    alt="Delete Coi Disclosure Attachment"/>
+								        </c:if>			    
 								</div>
 							</td>
 			         	</tr>

@@ -39,7 +39,9 @@ public class CoiDisclosureNotepad extends CoiDisclosureAssociate implements Comp
     private String projectId;
     private String entityNumber;
     private Long entitySequenceNumber;
-  
+    private Long originalCoiDisclosureId; 
+    private CoiDisclosure originalCoiDisclosure; 
+
     public CoiDisclosureNotepad() {
         super();
         editable = false;
@@ -233,6 +235,22 @@ public class CoiDisclosureNotepad extends CoiDisclosureAssociate implements Comp
     public int compareTo(CoiDisclosureNotepad coiDisclosureNotepad) {
         return this.getUpdateTimestamp().compareTo(coiDisclosureNotepad.getUpdateTimestamp());
 
+    }
+
+    public Long getOriginalCoiDisclosureId() {
+        return originalCoiDisclosureId;
+    }
+
+    public void setOriginalCoiDisclosureId(Long originalCoiDisclosureId) {
+        this.originalCoiDisclosureId = originalCoiDisclosureId;
+    }
+
+    public CoiDisclosure getOriginalCoiDisclosure() {
+        return originalCoiDisclosure;
+    }
+
+    public void setOriginalCoiDisclosure(CoiDisclosure originalCoiDisclosure) {
+        this.originalCoiDisclosure = originalCoiDisclosure;
     }
 
 }

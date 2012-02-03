@@ -32,20 +32,15 @@ import org.kuali.kra.coi.CoiDisclosure;
 import org.kuali.kra.coi.CoiDisclosureDocument;
 import org.kuali.kra.coi.CoiDisclosureForm;
 import org.kuali.kra.coi.CoiDisclosureHistory;
-import org.kuali.kra.coi.CoiUserRole;
 import org.kuali.kra.coi.CoiDispositionStatus;
+import org.kuali.kra.coi.CoiUserRole;
 import org.kuali.kra.coi.certification.SubmitDisclosureAction;
+import org.kuali.kra.coi.notesandattachments.attachments.CoiDisclosureAttachment;
+import org.kuali.kra.coi.notesandattachments.notes.CoiDisclosureNotepad;
 import org.kuali.kra.coi.notification.CoiNotificationContext;
 import org.kuali.kra.coi.notification.DisclosureCertifiedNotificationRenderer;
 import org.kuali.kra.coi.notification.DisclosureCertifiedNotificationRequestBean;
 import org.kuali.kra.common.notification.service.KcNotificationService;
-import org.kuali.kra.infrastructure.Constants;
-import org.kuali.kra.irb.ProtocolForm;
-import org.kuali.kra.irb.actions.ProtocolActionType;
-import org.kuali.kra.irb.actions.notification.NotifyIrbNotificationRenderer;
-import org.kuali.kra.irb.actions.notification.ProtocolNotificationRequestBean;
-import org.kuali.kra.irb.notification.IRBNotificationContext;
-import org.kuali.kra.irb.notification.IRBNotificationRenderer;
 import org.kuali.rice.kew.api.exception.WorkflowException;
 import org.kuali.rice.krad.bo.AdHocRouteRecipient;
 import org.kuali.rice.krad.service.BusinessObjectService;
@@ -79,7 +74,7 @@ public class CoiDisclosureActionServiceImpl implements CoiDisclosureActionServic
         coiDisclosure.setDisclosureDispositionCode(CoiDispositionStatus.APPROVED);
         disclosures.add(coiDisclosure);
         if (masterCoiDisclosure != null) {
-            copyDisclosureDetails(masterCoiDisclosure, coiDisclosure);
+            copyCollections(masterCoiDisclosure, coiDisclosure);
             masterCoiDisclosure.setCurrentDisclosure(false);
 //            coiDisclosure.setCurrentDisclosure(true);
             disclosures.add(masterCoiDisclosure);
@@ -129,6 +124,13 @@ public class CoiDisclosureActionServiceImpl implements CoiDisclosureActionServic
         }
     }
     
+    private void  copyCollections(CoiDisclosure masterCoiDisclosure, CoiDisclosure coiDisclosure) {
+        
+        copyDisclosureDetails(masterCoiDisclosure, coiDisclosure);
+        copyDisclosureNotePads(masterCoiDisclosure, coiDisclosure);
+        copyDisclosureAttachments(masterCoiDisclosure, coiDisclosure);
+    }
+    
     /*
      * copy disclosure details of current master disclosure to the disclosure that is bing approved
      */
@@ -146,6 +148,40 @@ public class CoiDisclosureActionServiceImpl implements CoiDisclosureActionServic
                 }
                 coiDisclosure.getCoiDiscDetails().add(copiedDiscDetail);
             }
+        }
+    }
+
+    private void copyDisclosureNotePads(CoiDisclosure masterCoiDisclosure, CoiDisclosure coiDisclosure) {
+        // may also need to add note/attachment to new master disclosure
+//        CoiDisclosure copiedDisclosure = (CoiDisclosure) ObjectUtils.deepCopy(masterCoiDisclosure);
+        for (CoiDisclosureNotepad coiDisclosureNotepad : masterCoiDisclosure.getCoiDisclosureNotepads()) {
+//            if (!isDisclosureNotePadExist(coiDisclosure, coiDisclosureNotepad)) {
+                // TODO implement the if check when originaldisclosureid is added to notepad
+                CoiDisclosureNotepad copiedCoiDisclosureNotepad = (CoiDisclosureNotepad) ObjectUtils.deepCopy(coiDisclosureNotepad);
+                copiedCoiDisclosureNotepad.setSequenceNumber(coiDisclosure.getSequenceNumber());
+                copiedCoiDisclosureNotepad.setId(null);
+                if (copiedCoiDisclosureNotepad.getOriginalCoiDisclosureId() == null) {
+                    copiedCoiDisclosureNotepad.setOriginalCoiDisclosureId(masterCoiDisclosure.getCoiDisclosureId());
+                }
+                coiDisclosure.getCoiDisclosureNotepads().add(copiedCoiDisclosureNotepad);
+//            }
+        }
+    }
+
+    private void copyDisclosureAttachments(CoiDisclosure masterCoiDisclosure, CoiDisclosure coiDisclosure) {
+        // may also need to add note/attachment to new master disclosure
+//        CoiDisclosure copiedDisclosure = (CoiDisclosure) ObjectUtils.deepCopy(masterCoiDisclosure);
+        for (CoiDisclosureAttachment coiDisclosureAttachment : masterCoiDisclosure.getCoiDisclosureAttachments()) {
+//            if (!isDisclosureNotePadExist(coiDisclosure, coiDisclosureNotepad)) {
+                // TODO implement the if check when originaldisclosureid is added to notepad
+                CoiDisclosureAttachment copiedCoiDisclosureAttachment = (CoiDisclosureAttachment) ObjectUtils.deepCopy(coiDisclosureAttachment);
+                copiedCoiDisclosureAttachment.setSequenceNumber(coiDisclosure.getSequenceNumber());
+                copiedCoiDisclosureAttachment.setAttachmentId(null);
+                if (copiedCoiDisclosureAttachment.getOriginalCoiDisclosureId() == null) {
+                    copiedCoiDisclosureAttachment.setOriginalCoiDisclosureId(masterCoiDisclosure.getCoiDisclosureId());
+                }
+                coiDisclosure.getCoiDisclosureAttachments().add(copiedCoiDisclosureAttachment);
+//            }
         }
     }
 

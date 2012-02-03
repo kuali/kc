@@ -127,7 +127,7 @@ public class CoiDisclosureAction extends CoiAction {
         coiDisclosureDocument.getCoiDisclosure().initSelectedUnit();
         // TODO : 'checkToLoadDisclosureDetails' should not need to be executed for every action.  need to make it somewhere ?
 //        checkToLoadDisclosureDetails(coiDisclosureDocument.getCoiDisclosure(), ((CoiDisclosureForm) form).getMethodToCall(), coiDisclosureForm.getDisclosureHelper().getNewProjectId());
-        if ((StringUtils.equals("reload", coiDisclosureForm.getMethodToCall())
+        if ((StringUtils.equals("reload", coiDisclosureForm.getMethodToCall()) || StringUtils.equals("updateAttachmentFilter", coiDisclosureForm.getMethodToCall()) 
                 || StringUtils.equals("headerTab", coiDisclosureForm.getMethodToCall()) || StringUtils.equals("docHandler",
                 coiDisclosureForm.getMethodToCall())) && coiDisclosureDocument.getCoiDisclosure().isApprovedDisclosure()) {
             coiDisclosureForm.getDisclosureHelper().setMasterDisclosureBean(
