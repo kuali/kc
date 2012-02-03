@@ -196,13 +196,6 @@ public class CoiNotesAndAttachmentsHelper {
         return dateTimeService;
     }
 
-    /**
-     * initializes a new attachment personnel setting the protocol id.
-     */
-    /*  protected void initNewAttachment() {
-        this.setNewCoiDisclosureAttachment(new CoiDisclosureAttachment(this.getCoiDisclosure()));
-    }*/
-
     public <T extends CoiDisclosureAttachment> String retrieveConfirmMethodByType() {
         final String confirmMethod;
 
@@ -371,7 +364,6 @@ public class CoiNotesAndAttachmentsHelper {
                         //a refresh button has been clicked, now we just need to update the appropriate attachment status code
                         int numericVal = Integer.valueOf(key.substring(fieldNameStarter.length()));
                         CoiDisclosureAttachment attachment = retrieveExistingAttachmentByType(numericVal);
-                        //getCoiDisclosure().getCoiDisclosureAttachments().add(numericVal, attachment);
                         FormFile file = attachment.getNewFile();
                         if(file == null) return;
                         byte[] fileData;
@@ -386,13 +378,13 @@ public class CoiNotesAndAttachmentsHelper {
                                 getBusinessObjectService().save(attachment);
                             }
                         } catch (Exception e) {
-
+                            e.printStackTrace();
                         }
 
                     }
                 }
             } catch(Exception e) {
-
+                e.printStackTrace();
             }
         }
 
@@ -412,7 +404,6 @@ public class CoiNotesAndAttachmentsHelper {
         }
 
         CoiDisclosureAttachment attachment = attachments.get(index);
-        getBusinessObjectService().delete(attachment);
         attachments.remove(attachment);
         return true;
     }
