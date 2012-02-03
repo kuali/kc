@@ -59,7 +59,7 @@
 	         				</div>
 					</th>
 					<td>
-	                <html:select property="coiNotesAndAttachmentsHelper.newCoiDisclosureAttachment.projectId" tabindex="0" disabled="${readOnly}" >                                              
+	                <html:select property="coiNotesAndAttachmentsHelper.newCoiDisclosureAttachment.projectId" tabindex="0" style="width:180px" disabled="${readOnly}" >                                              
 					
 					<c:forEach items="${krafn:getOptionList('org.kuali.kra.coi.lookup.keyvalue.CoiDisclosureProjectValuesFinder', paramMap1)}" var="option">
 	                <c:choose>                    	
@@ -278,7 +278,7 @@
 	         				</div>
 							</th>
 							<td>
-								<kul:htmlControlAttribute property="document.coiDisclosureList[0].coiDisclosureAttachments[${itrStatus.index}].projectId" attributeEntry="${attributes.contactName}" readOnly="true"/>							
+								<kul:htmlControlAttribute property="document.coiDisclosureList[0].coiDisclosureAttachments[${itrStatus.index}].projectId" attributeEntry="${attributes.projectId}" readOnly="true"/>							
 							</td>
 							<th>
 							<div align="right">

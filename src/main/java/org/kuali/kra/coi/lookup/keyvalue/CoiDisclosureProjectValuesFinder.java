@@ -143,25 +143,11 @@ public class CoiDisclosureProjectValuesFinder extends KeyValuesBase {
     protected void addProjects(List<KeyValue> keyLabels, String event, String pid) {
         String userId = GlobalVariables.getUserSession().getPrincipalId();
 
-       /* if (StringUtils.equalsIgnoreCase(event, CoiDisclosureEventType.MANUAL_AWARD)) {
-            CoiDisclosureForm coiDisclosureForm = (CoiDisclosureForm) GlobalVariables.getKualiForm();
-           // keyLabels.add(new KeyLabelPair("", "select"));
-
-            CoiDisclosureDocument coiDisclosureDocument = coiDisclosureForm.getCoiDisclosureDocument();
-            CoiDisclosure coiDisclosure = coiDisclosureDocument.getCoiDisclosure();
-            addAwards(keyLabels, coiDisclosure.getModuleItemKey());
-           // check moduleItemKey for award id.
-        }*/
         if (StringUtils.equalsIgnoreCase(event, CoiDisclosureEventType.AWARD)) {
             addAwards(keyLabels, pid);
         }
         if (StringUtils.equalsIgnoreCase(event, CoiDisclosureEventType.DEVELOPMENT_PROPOSAL)) {
             addProposals(keyLabels, pid);
-            /*List<InstitutionalProposal> ips = getCoiDisclosureService().getInstitutionalProposals(userId);
-            for (InstitutionalProposal ip : ips) {
-                keyLabels.add(new KeyLabelPair(ip.getInstProposalNumber(), 
-                        formatLabel("IP--" + ip.getInstProposalNumber(), ip.getTitle())));
-            }*/
         }
         if (StringUtils.equalsIgnoreCase(event, CoiDisclosureEventType.IRB_PROTOCOL)) {
             addProtocols(keyLabels, pid);
