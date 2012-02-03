@@ -26,6 +26,8 @@ import org.kuali.kra.bo.KraPersistableBusinessObjectBase;
 import org.kuali.kra.coi.CoiDiscDetail;
 import org.kuali.kra.coi.CoiDisclosure;
 import org.kuali.kra.coi.Disclosurable;
+import org.kuali.kra.coi.notesandattachments.attachments.CoiDisclosureAttachment;
+import org.kuali.kra.coi.notesandattachments.notes.CoiDisclosureNotepad;
 import org.kuali.rice.krad.util.ObjectUtils;
 
 public class CoiDisclosureProjectBean implements Serializable {
@@ -41,9 +43,13 @@ public class CoiDisclosureProjectBean implements Serializable {
     private String projectName;
     private String projectId;
     private Date approvalDate; 
+    private List<CoiDisclosureAttachment> projectDiscAttachments;
+    private List<CoiDisclosureNotepad> projectDiscNotepads;
 
     public CoiDisclosureProjectBean() {
         projectDiscDetails = new ArrayList<CoiDiscDetail> ();
+        projectDiscAttachments = new ArrayList<CoiDisclosureAttachment> ();
+        projectDiscNotepads = new ArrayList<CoiDisclosureNotepad> ();
     }
     
 
@@ -134,6 +140,26 @@ public class CoiDisclosureProjectBean implements Serializable {
 
     public void setApprovalDate(Date approvalDate) {
         this.approvalDate = approvalDate;
+    }
+
+
+    public List<CoiDisclosureAttachment> getProjectDiscAttachments() {
+        return projectDiscAttachments;
+    }
+
+
+    public void setProjectDiscAttachments(List<CoiDisclosureAttachment> projectDiscAttachments) {
+        this.projectDiscAttachments = projectDiscAttachments;
+    }
+
+
+    public List<CoiDisclosureNotepad> getProjectDiscNotepads() {
+        return projectDiscNotepads;
+    }
+
+
+    public void setProjectDiscNotepads(List<CoiDisclosureNotepad> projectDiscNotepads) {
+        this.projectDiscNotepads = projectDiscNotepads;
     }
 
 }

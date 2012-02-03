@@ -55,7 +55,9 @@ public class CoiDisclosureAttachment extends CoiDisclosureAssociate implements C
     private String projectId;
     private String entityNumber;
     private Long entitySequenceNumber;
-    
+    private Long originalCoiDisclosureId; 
+    private CoiDisclosure originalCoiDisclosure; 
+
     public CoiDisclosureAttachment() {
         super();
     }
@@ -257,4 +259,20 @@ public class CoiDisclosureAttachment extends CoiDisclosureAssociate implements C
         return result;
     }
     
+
+    public Long getOriginalCoiDisclosureId() {
+        return originalCoiDisclosureId;
+    }
+
+    public void setOriginalCoiDisclosureId(Long originalCoiDisclosureId) {
+        this.originalCoiDisclosureId = originalCoiDisclosureId;
+    }
+
+    public CoiDisclosure getOriginalCoiDisclosure() {
+        return originalCoiDisclosure;
+    }
+
+    public void setOriginalCoiDisclosure(CoiDisclosure originalCoiDisclosure) {
+        this.originalCoiDisclosure = originalCoiDisclosure;
+    }
 }
