@@ -230,7 +230,9 @@ public class FinancialEntitySummaryHelper implements Serializable {
     protected Map<String, String> generateAttachmentSummary(List<FinancialEntityAttachment> attachments) {
         Map<String, String> formattedAttachments = new TreeMap<String, String>();
         for (FinancialEntityAttachment attachment: attachments) {
-            formattedAttachments.put(attachment.getDescription(), attachment.getFileName());
+            String descriptionString = (!StringUtils.isEmpty(attachment.getContactName()) ? " Uploaded by " + attachment.getContactName() : "") +
+                                       " at " + attachment.getUpdateTimestamp();
+            formattedAttachments.put(attachment.getFileName(), descriptionString);
         }
         return formattedAttachments;
     }

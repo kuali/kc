@@ -27,6 +27,7 @@ import org.apache.commons.lang.StringUtils;
 import org.apache.struts.action.ActionForm;
 import org.apache.struts.action.ActionForward;
 import org.apache.struts.action.ActionMapping;
+import org.kuali.kra.coi.notesandattachments.attachments.FinancialEntityAttachment;
 import org.kuali.kra.infrastructure.Constants;
 import org.kuali.kra.infrastructure.KeyConstants;
 import org.kuali.kra.service.VersionException;
@@ -101,7 +102,7 @@ public class FinancialEntityEditListAction extends FinancialEntityAction{
         PersonFinIntDisclosure personFinIntDisclosure = getFinancialEntities(form).get(entityIndex);
         financialEntityHelper.setEditEntityIndex(entityIndex);
         financialEntityHelper.setEditRelationDetails(getFinancialEntityService().getFinancialEntityDataMatrixForEdit(personFinIntDisclosure.getPerFinIntDisclDetails()));
-        financialEntityHelper.setFinEntityAttachmentList(personFinIntDisclosure.getFinEntityAttachments());
+        financialEntityHelper.setFinEntityAttachmentList(FinancialEntityAttachment.copyAttachmentList(personFinIntDisclosure.getFinEntityAttachments()));
         financialEntityHelper.resetPrevSponsorCode();
     }
 
@@ -341,7 +342,9 @@ public class FinancialEntityEditListAction extends FinancialEntityAction{
      */
     private PersonFinIntDisclosure versionFinancialEntity(ActionForm form, PersonFinIntDisclosure personFinIntDisclosure, Integer statusCode, String statusDesc) throws VersionException {
         FinancialEntityHelper financialEntityHelper = ((FinancialEntityForm) form).getFinancialEntityHelper();
-        PersonFinIntDisclosure newVersionDisclosure = getFinancialEntityService().versionPersonFinintDisclosure(personFinIntDisclosure, financialEntityHelper.getEditRelationDetails());
+        PersonFinIntDisclosure newVersionDisclosure = getFinancialEntityService().versionPersonFinintDisclosure(personFinIntDisclosure, 
+                                                               financialEntityHelper.getEditRelationDetails(), 
+                                                               financialEntityHelper.getFinEntityAttachmentList());
 
         newVersionDisclosure.setStatusCode(statusCode);
         newVersionDisclosure.setStatusDescription(statusDesc);
@@ -371,7 +374,7 @@ public class FinancialEntityEditListAction extends FinancialEntityAction{
         int entityIndex = getSelectedLine(request);
         PersonFinIntDisclosure personFinIntDisclosure = getFinancialEntities(form).get(entityIndex);
 
-        if (isValidToSave(personFinIntDisclosure, getErrotPropertyPrefix(form, entityIndex))) {
+        if (isValidToSave(personFinIntDisclosure, getErrorPropertyPrefix(form, entityIndex))) {
             if (StringUtils.equals(PROCESS_STATUS_FINAL, personFinIntDisclosure.getProcessStatus())) {
                 PersonFinIntDisclosure newFinIntDisclosure = versionFinancialEntity(form, personFinIntDisclosure,
                         StringUtils.equals(ACTIVATE_ENTITY, financialEntityHelper.getEditType()) ? 1 : 2, Constants.EMPTY_STRING);
@@ -380,6 +383,7 @@ public class FinancialEntityEditListAction extends FinancialEntityAction{
             else {
                 personFinIntDisclosure.setProcessStatus(PROCESS_STATUS_FINAL);
                 resetFinEntityDet(financialEntityHelper, personFinIntDisclosure);
+                personFinIntDisclosure.setFinEntityAttachments(financialEntityHelper.getFinEntityAttachmentList());
                 saveFinancialEntity(form, personFinIntDisclosure);
             }
             if (StringUtils.isNotBlank(financialEntityForm.getCoiDocId())) {
@@ -395,7 +399,7 @@ public class FinancialEntityEditListAction extends FinancialEntityAction{
     /*
      * get proper error prefix for active and inactive FE
      */
-    private String getErrotPropertyPrefix(ActionForm form, int entityIndex) {
+    private String getErrorPropertyPrefix(ActionForm form, int entityIndex) {
         
         FinancialEntityHelper financialEntityHelper = ((FinancialEntityForm) form).getFinancialEntityHelper();
         if (StringUtils.equals(ACTIVATE_ENTITY, financialEntityHelper.getEditType())) {
@@ -423,16 +427,17 @@ public class FinancialEntityEditListAction extends FinancialEntityAction{
         int entityIndex = getSelectedLine(request);
         PersonFinIntDisclosure personFinIntDisclosure = getFinancialEntities(form).get(entityIndex);
 
-        if (isValidToSave(personFinIntDisclosure, getErrotPropertyPrefix(form, entityIndex))) {
+        if (isValidToSave(personFinIntDisclosure, getErrorPropertyPrefix(form, entityIndex))) {
             if (StringUtils.equals(PROCESS_STATUS_FINAL, personFinIntDisclosure.getProcessStatus())) {
                 PersonFinIntDisclosure newVersionDisclosure = getFinancialEntityService().versionPersonFinintDisclosure(
-                        personFinIntDisclosure, financialEntityHelper.getEditRelationDetails());
+                        personFinIntDisclosure, financialEntityHelper.getEditRelationDetails(), financialEntityHelper.getFinEntityAttachmentList());
                 newVersionDisclosure.setProcessStatus("S");
                 newVersionDisclosure.setStatusDescription(Constants.EMPTY_STRING);
                 saveFinancialEntity(form, newVersionDisclosure);
                 resetEditEntityIndex(form, newVersionDisclosure.getPersonFinIntDisclosureId());
             }
             else {
+                personFinIntDisclosure.setFinEntityAttachments(financialEntityHelper.getFinEntityAttachmentList());
                 resetFinEntityDet(financialEntityHelper, personFinIntDisclosure);
                 saveFinancialEntity(form, personFinIntDisclosure);
             }
@@ -468,5 +473,21 @@ public class FinancialEntityEditListAction extends FinancialEntityAction{
             }
             i++;
         }
+    }
+    
+    public ActionForward addNewFinancialEntityAttachment(ActionMapping mapping, ActionForm form, HttpServletRequest request,
+            HttpServletResponse response) throws Exception {
+        ((FinancialEntityForm) form).getFinancialEntityHelper().addNewFinancialEntityAttachment();
+        return mapping.findForward(Constants.MAPPING_BASIC);
+    }
+
+    public ActionForward deleteFinancialEntityAttachment(ActionMapping mapping, ActionForm form, HttpServletRequest request, 
+            HttpServletResponse response) throws Exception {
+        FinancialEntityForm financialEntityForm = (FinancialEntityForm) form;
+        int selectedLine = getSelectedLine(request);
+        FinancialEntityAttachment attachment = financialEntityForm.getFinancialEntityHelper().getFinEntityAttachmentList().get(selectedLine);
+        financialEntityForm.getFinancialEntityHelper().getFinEntityAttachmentList().remove(selectedLine);
+        getBusinessObjectService().delete(attachment);
+        return mapping.findForward(Constants.MAPPING_BASIC);
     }
 }
