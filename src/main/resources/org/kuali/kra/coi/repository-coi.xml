@@ -121,6 +121,10 @@
         <field-descriptor name="entitySequenceNumber" column="ENTITY_SEQUENCE_NUMBER" jdbc-type="BIGINT" />
         <field-descriptor name="versionNumber" column="VER_NBR" jdbc-type="BIGINT" locking="false" />
         <field-descriptor name="objectId" column="OBJ_ID" jdbc-type="VARCHAR" />
+        <field-descriptor name="originalCoiDisclosureId" column="ORIGINAL_COI_DISCLOSURE_ID" jdbc-type="BIGINT" />
+        <reference-descriptor name="originalCoiDisclosure" class-ref="org.kuali.kra.coi.CoiDisclosure" auto-retrieve="true" auto-update="none" auto-delete="none"> 
+            <foreignkey field-ref="originalCoiDisclosureId"/>
+        </reference-descriptor>
         <reference-descriptor name="coiDisclosure" class-ref="org.kuali.kra.coi.CoiDisclosure" auto-retrieve="true" auto-update="none" auto-delete="none"> 
             <foreignkey field-ref="coiDisclosureId"/>
         </reference-descriptor>
@@ -147,6 +151,10 @@
         <field-descriptor name="entitySequenceNumber" column="ENTITY_SEQUENCE_NUMBER" jdbc-type="BIGINT" />
         <field-descriptor name="versionNumber" column="VER_NBR" jdbc-type="BIGINT" locking="false" />
         <field-descriptor name="objectId" column="OBJ_ID" jdbc-type="VARCHAR" />       
+        <field-descriptor name="originalCoiDisclosureId" column="ORIGINAL_COI_DISCLOSURE_ID" jdbc-type="BIGINT" />
+        <reference-descriptor name="originalCoiDisclosure" class-ref="org.kuali.kra.coi.CoiDisclosure" auto-retrieve="true" auto-update="none" auto-delete="none"> 
+            <foreignkey field-ref="originalCoiDisclosureId"/>
+        </reference-descriptor>
         <reference-descriptor name="coiDisclosure" class-ref="org.kuali.kra.coi.CoiDisclosure" auto-retrieve="true" auto-update="none" auto-delete="none"> 
             <foreignkey field-ref="coiDisclosureId"/>
         </reference-descriptor>

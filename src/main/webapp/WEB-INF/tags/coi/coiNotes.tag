@@ -43,7 +43,7 @@
 				<th align="left"><div align="center">Actions</div></th>
 				
 			</tr>
-			<kra:permission value="${modifyPermission}">
+			<kra:permission value="${modifyPermission and not readOnly}">
 			
 				<tr>
 	            	<th width="40" align="center" scope="row"><div align="center">Add:</div></th>
@@ -145,7 +145,7 @@
 					<td class="infoline">
 		            	<div align=center>
 							<c:choose>
-							<c:when test="${modifyPermission}">
+							<c:when test="${modifyPermission and not readOnly}">
 							<html:image property="methodToCall.deleteNote.line${status.index}.anchor${tabKey}"
 										src='${ConfigProperties.kra.externalizable.images.url}tinybutton-delete1.gif' styleClass="tinybutton"/>
 							</c:when>
