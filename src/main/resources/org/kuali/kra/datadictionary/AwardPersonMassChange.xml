@@ -27,6 +27,7 @@
                 <ref bean="AwardPersonMassChange-awardPersonMassChangeId" />
                 <ref bean="AwardPersonMassChange-personMassChangeId" />
                 <ref bean="AwardPersonMassChange-investigator" />
+                <ref bean="AwardPersonMassChange-keyStudyPerson" />
                 <ref bean="AwardPersonMassChange-contactPerson" />
                 <ref bean="AwardPersonMassChange-foreignTrip" />
                 <ref bean="AwardPersonMassChange-unitAdministrator" />
@@ -70,6 +71,20 @@
         </property>
         <property name="summary" value="Investigator" />
         <property name="description" value="Investigator" />
+    </bean>
+    
+    <bean id="AwardPersonMassChange-keyStudyPerson" parent="AwardPersonMassChange-keyStudyPerson-parentBean" />
+    <bean id="AwardPersonMassChange-keyStudyPerson-parentBean" abstract="true" parent="AttributeDefinition" >
+        <property name="name" value="keyStudyPerson" />
+        <property name="forceUppercase" value="false" />
+        <property name="label" value="Key Study Person" />
+        <property name="shortLabel" value="Key Study Person" />
+        <property name="maxLength" value="1" />
+        <property name="control" >
+            <bean parent="CheckboxControlDefinition" />
+        </property>
+        <property name="summary" value="Key Study Person" />
+        <property name="description" value="Key Study Person" />
     </bean>
     
     <bean id="AwardPersonMassChange-contactPerson" parent="AwardPersonMassChange-contactPerson-parentBean" />

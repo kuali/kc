@@ -1,6 +1,7 @@
 <%@ include file="/WEB-INF/jsp/kraTldHeader.jsp"%>
 
 <c:set var="personMassChangeAttributes" value="${DataDictionary.PersonMassChange.attributes}" />
+<c:set var="iacucProtocolPersonMassChangeAttributes" value="${DataDictionary.IacucProtocolPersonMassChange.attributes}" />
 <c:set var="awardPersonMassChangeAttributes" value="${DataDictionary.AwardPersonMassChange.attributes}" />
 <c:set var="institutionalProposalPersonMassChangeAttributes" value="${DataDictionary.InstitutionalProposalPersonMassChange.attributes}" />
 <c:set var="proposalDevelopmentPersonMassChangeAttributes" value="${DataDictionary.ProposalDevelopmentPersonMassChange.attributes}" />
@@ -30,6 +31,11 @@
 	                                                                    attributeEntry="${awardPersonMassChangeAttributes.investigator}" readOnly="false" /></td>
 	                </tr>
 	                <tr>
+                        <th style="width:50%"><div align="left"><kul:htmlAttributeLabel attributeEntry="${awardPersonMassChangeAttributes.keyStudyPerson}" /></div></th>
+                        <td style="width:50%"><kul:htmlControlAttribute property="document.personMassChange.awardPersonMassChange.keyStudyPerson" 
+                                                                        attributeEntry="${awardPersonMassChangeAttributes.keyStudyPerson}" readOnly="false" /></td>
+                    </tr>
+	                <tr>
 	                    <th style="width:50%"><div align="left"><kul:htmlAttributeLabel attributeEntry="${awardPersonMassChangeAttributes.contactPerson}" /></div></th>
 	                    <td style="width:50%"><kul:htmlControlAttribute property="document.personMassChange.awardPersonMassChange.contactPerson" 
 	                                                                    attributeEntry="${awardPersonMassChangeAttributes.contactPerson}" readOnly="false" /></td>
@@ -47,14 +53,44 @@
 	                <tr>
 	                    <td colspan="2"><div align="center">
 	                        <html:image src='${ConfigProperties.kra.externalizable.images.url}tinybutton-selectall.gif' alt="Select All" styleClass="tinybutton" 
-	                                    onclick="selectAllPersonMassChangeCategory('document.personMassChange.awardPersonMassChange', 'investigator', 'contactPerson', 'foreignTrip', 'unitAdministrator')" />
+	                                    onclick="selectAllPersonMassChangeCategory('document.personMassChange.awardPersonMassChange', 'investigator', 'keyStudyPerson', 'contactPerson', 'foreignTrip', 'unitAdministrator')" />
 	                        <html:image src='${ConfigProperties.kra.externalizable.images.url}tinybutton-selectnone.gif' alt="Select None" styleClass="tinybutton" 
-	                                    onclick="unselectAllPersonMassChangeCategory('document.personMassChange.awardPersonMassChange', 'investigator', 'contactPerson', 'foreignTrip', 'unitAdministrator')"/>
+	                                    onclick="unselectAllPersonMassChangeCategory('document.personMassChange.awardPersonMassChange', 'investigator', 'keyStudyPerson', 'contactPerson', 'foreignTrip', 'unitAdministrator')"/>
 	                    </div></td>
 	                </tr>
 	            </table>
 	        </div>
 	    </kul:innerTab>
+	    
+	    <kul:innerTab parentTab="${parentTab}" tabTitle="IACUC ${tabTitle}" tabErrorKey="document.personMassChange.iacucProtocolPersonMassChange.*" defaultOpen="false" >
+            <div class="tab-container" align="center">
+                <table cellpadding="4" cellspacing="0" summary="">
+                    <tr>
+                        <th style="width:50%"><div align="left"><kul:htmlAttributeLabel attributeEntry="${iacucProtocolPersonMassChangeAttributes.investigator}" /></div></th>
+                        <td style="width:50%"><kul:htmlControlAttribute property="document.personMassChange.iacucProtocolPersonMassChange.investigator" 
+                                                                        attributeEntry="${iacucProtocolPersonMassChangeAttributes.investigator}" readOnly="false" /></td>
+                    </tr>
+                    <tr>
+                        <th style="width:50%"><div align="left"><kul:htmlAttributeLabel attributeEntry="${iacucProtocolPersonMassChangeAttributes.keyStudyPerson}" /></div></th>
+                        <td style="width:50%"><kul:htmlControlAttribute property="document.personMassChange.iacucProtocolPersonMassChange.keyStudyPerson" 
+                                                                        attributeEntry="${iacucProtocolPersonMassChangeAttributes.keyStudyPerson}" readOnly="false" /></td>
+                    </tr>
+                    <tr>
+                        <th style="width:50%"><div align="left"><kul:htmlAttributeLabel attributeEntry="${iacucProtocolPersonMassChangeAttributes.correspondents}" /></div></th>
+                        <td style="width:50%"><kul:htmlControlAttribute property="document.personMassChange.iacucProtocolPersonMassChange.correspondents" 
+                                                                        attributeEntry="${iacucProtocolPersonMassChangeAttributes.correspondents}" readOnly="false" /></td>
+                    </tr>
+                    <tr>
+                        <td colspan="2"><div align="center">
+                            <html:image src='${ConfigProperties.kra.externalizable.images.url}tinybutton-selectall.gif' alt="Select All" styleClass="tinybutton" 
+                                        onclick="selectAllPersonMassChangeCategory('document.personMassChange.iacucProtocolPersonMassChange', 'investigator', 'keyStudyPerson', 'correspondents')" />
+                            <html:image src='${ConfigProperties.kra.externalizable.images.url}tinybutton-selectnone.gif' alt="Select None" styleClass="tinybutton" 
+                                        onclick="unselectAllPersonMassChangeCategory('document.personMassChange.iacucProtocolPersonMassChange', 'investigator', 'keyStudyPerson', 'correspondents')"/>
+                        </div></td>
+                    </tr>
+                </table>
+            </div>
+        </kul:innerTab>
 	    
 	    <kul:innerTab parentTab="${parentTab}" tabTitle="Institutional Proposal ${tabTitle}" tabErrorKey="document.personMassChange.institutionalProposalPersonMassChange.*" defaultOpen="false" >
 	        <div class="tab-container" align="center">
@@ -64,6 +100,11 @@
 	                    <td style="width:50%"><kul:htmlControlAttribute property="document.personMassChange.institutionalProposalPersonMassChange.investigator" 
 	                                                                    attributeEntry="${institutionalProposalPersonMassChangeAttributes.investigator}" readOnly="false" /></td>
 	                </tr>
+	                <tr>
+                        <th style="width:50%"><div align="left"><kul:htmlAttributeLabel attributeEntry="${institutionalProposalPersonMassChangeAttributes.keyStudyPerson}" /></div></th>
+                        <td style="width:50%"><kul:htmlControlAttribute property="document.personMassChange.institutionalProposalPersonMassChange.keyStudyPerson" 
+                                                                        attributeEntry="${institutionalProposalPersonMassChangeAttributes.keyStudyPerson}" readOnly="false" /></td>
+                    </tr>
 	                <tr>
 	                    <th style="width:50%"><div align="left"><kul:htmlAttributeLabel attributeEntry="${institutionalProposalPersonMassChangeAttributes.unitAdministrator}" /></div></th>
 	                    <td style="width:50%"><kul:htmlControlAttribute property="document.personMassChange.institutionalProposalPersonMassChange.unitAdministrator" 
@@ -82,9 +123,9 @@
 	                <tr>
                         <td colspan="2"><div align="center">
                             <html:image src='${ConfigProperties.kra.externalizable.images.url}tinybutton-selectall.gif' alt="Select All" styleClass="tinybutton" 
-                                        onclick="selectAllPersonMassChangeCategory('document.personMassChange.institutionalProposalPersonMassChange', 'investigator', 'unitAdministrator', 'mailingInformation', 'ipReviewer')" />
+                                        onclick="selectAllPersonMassChangeCategory('document.personMassChange.institutionalProposalPersonMassChange', 'investigator', 'keyStudyPerson', 'unitAdministrator', 'mailingInformation', 'ipReviewer')" />
                             <html:image src='${ConfigProperties.kra.externalizable.images.url}tinybutton-selectnone.gif' alt="Select None" styleClass="tinybutton" 
-                                        onclick="unselectAllPersonMassChangeCategory('document.personMassChange.institutionalProposalPersonMassChange', 'investigator', 'unitAdministrator', 'mailingInformation', 'ipReviewer')"/>
+                                        onclick="unselectAllPersonMassChangeCategory('document.personMassChange.institutionalProposalPersonMassChange', 'investigator', 'keyStudyPerson', 'unitAdministrator', 'mailingInformation', 'ipReviewer')"/>
                         </div></td>
                     </tr>
 	            </table>

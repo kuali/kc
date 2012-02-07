@@ -15,17 +15,16 @@
  */
 package org.kuali.kra.personmasschange.bo;
 
-import java.util.LinkedHashMap;
-
 import org.kuali.kra.bo.KraPersistableBusinessObjectBase;
 
 public class AwardPersonMassChange extends KraPersistableBusinessObjectBase {
 
-    private static final long serialVersionUID = 8844147765907909357L;
+    private static final long serialVersionUID = 61654453082405554L;
     
     private long awardPersonMassChangeId;
     private long personMassChangeId;
     private boolean investigator;
+    private boolean keyStudyPerson;
     private boolean contactPerson;
     private boolean foreignTrip;
     private boolean unitAdministrator;
@@ -55,7 +54,15 @@ public class AwardPersonMassChange extends KraPersistableBusinessObjectBase {
     public void setInvestigator(boolean investigator) {
         this.investigator = investigator;
     }
-    
+
+    public boolean isKeyStudyPerson() {
+        return keyStudyPerson;
+    }
+
+    public void setKeyStudyPerson(boolean keyStudyPerson) {
+        this.keyStudyPerson = keyStudyPerson;
+    }
+
     public boolean isContactPerson() {
         return contactPerson;
     }
