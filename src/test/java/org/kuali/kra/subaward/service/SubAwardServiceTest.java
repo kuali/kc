@@ -55,4 +55,12 @@ public class SubAwardServiceTest extends KcUnitTestBase {
         Date expectedDate = new Date(DateUtils.addWeeks(new Date(2012, 1, 1), 6).getTime());
         assertEquals(expectedDate, checkDate);
     }
+    
+    @Test
+    public void testGetFollowupDateDefaultLengthInDays() {
+        int followUpDays = subAwardService.getFollowupDateDefaultLengthInDays();
+        int expectedFollowUpDays = 6 * 7;
+        assertEquals(expectedFollowUpDays, followUpDays);
+        
+    }
 }
