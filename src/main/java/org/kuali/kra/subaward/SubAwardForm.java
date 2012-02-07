@@ -25,6 +25,7 @@ import org.kuali.kra.bo.Rolodex;
 import org.kuali.kra.common.customattributes.CustomDataForm;
 import org.kuali.kra.common.permissions.web.struts.form.PermissionsForm;
 import org.kuali.kra.common.permissions.web.struts.form.PermissionsHelperBase;
+import org.kuali.kra.infrastructure.KraServiceLocator;
 import org.kuali.kra.medusa.MedusaBean;
 import org.kuali.kra.subaward.bo.SubAward;
 import org.kuali.kra.subaward.bo.SubAwardAmountInfo;
@@ -34,6 +35,7 @@ import org.kuali.kra.subaward.bo.SubAwardContact;
 import org.kuali.kra.subaward.bo.SubAwardFundingSource;
 import org.kuali.kra.subaward.customdata.CustomDataHelper;
 import org.kuali.kra.subaward.document.SubAwardDocument;
+import org.kuali.kra.subaward.service.SubAwardService;
 import org.kuali.rice.kew.api.KewApiConstants;
 import org.kuali.rice.kew.api.WorkflowDocument;
 import org.kuali.rice.kns.web.ui.HeaderField;
@@ -54,6 +56,8 @@ public class SubAwardForm extends KraTransactionalDocumentFormBase implements Pe
     private boolean auditActivated;
     private MedusaBean medusaBean;
     private FormFile newFile;
+    private int defaultFollowUpDayDifference = 0;
+    
     public FormFile getNewFile() {
         return newFile;
     }
@@ -267,6 +271,18 @@ public class SubAwardForm extends KraTransactionalDocumentFormBase implements Pe
      */
     public void setMedusaBean(MedusaBean medusaBean) {
         this.medusaBean = medusaBean;
+    }
+    
+    /**
+     * 
+     * This returns the value of subawardservice.getFollowupDateDefaultLengthInDays() to be used on subAwardCloseout.tag
+     * @return
+     */
+    public int getDefaultFollowUpDayDifference() {
+        if (defaultFollowUpDayDifference == 0) {
+            defaultFollowUpDayDifference = KraServiceLocator.getService(SubAwardService.class).getFollowupDateDefaultLengthInDays();
+        }
+        return defaultFollowUpDayDifference;
     }
   
 
