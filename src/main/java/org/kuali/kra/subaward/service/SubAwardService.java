@@ -79,6 +79,14 @@ public interface SubAwardService {
       * @return
       */
      public Date getCalculatedFollowupDate(Date baseDate);
+     
+     
+     /**
+      * 
+      * This method calls getFollowupDateDefaultLength translates the value into days or weeks, and then returns the value in days.
+      * @return
+      */
+     public int getFollowupDateDefaultLengthInDays();
 
 
 }

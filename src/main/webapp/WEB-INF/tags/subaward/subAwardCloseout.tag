@@ -50,9 +50,25 @@
    					</div> 
    				</td>
    				<td><div align="center">
-     					<kul:htmlControlAttribute property="newSubAwardCloseout.dateRequested" readOnly="${readOnly}" attributeEntry="${subAwardCloseoutAttributes.dateRequested}" datePicker="true" />           
+     					<kul:htmlControlAttribute property="newSubAwardCloseout.dateRequested" readOnly="${readOnly}" 
+     						attributeEntry="${subAwardCloseoutAttributes.dateRequested}" datePicker="true" onchange="defaultFollowupField(this)" />           
    					</div> 
    				</td>
+   				<script language="javascript">
+   				<!--
+   					function defaultFollowupField(dateRequestedField) {
+   						var dateFollowupField = document.getElementsByName("newSubAwardCloseout.dateFollowup")[0];
+   						if (dateRequestedField.value != '' && dateFollowupField.value == '') {
+   							var month = dateRequestedField.value.substring(0, 2) - 1;
+   							var date = dateRequestedField.value.substring(3, 5);
+   							var year = dateRequestedField.value.substring(6, 10);
+   							var dateRequested = new Date(year, month, date, 0, 0, 0);
+   							dateRequested.setDate(dateRequested.getDate() + ${KualiForm.defaultFollowUpDayDifference});
+   							dateFollowupField.value = (dateRequested.getMonth() + 1) + "/" + dateRequested.getDate() + "/" + dateRequested.getFullYear(); 
+   						}
+   					}
+   				-->
+   				</script>
    				<td><div align="center">
      					<kul:htmlControlAttribute property="newSubAwardCloseout.dateFollowup" readOnly="${readOnly}" attributeEntry="${subAwardCloseoutAttributes.dateFollowup}" datePicker="true" />         
    					</div> 
