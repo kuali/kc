@@ -1,6 +1,7 @@
 <%@ include file="/WEB-INF/jsp/kraTldHeader.jsp"%>
 
 <c:set var="awardAttributes" value="${DataDictionary.Award.attributes}" />
+<c:set var="iacucProtocolAttributes" value="${DataDictionary.IacucProtocol.attributes}" />
 <c:set var="institutionalProposalAttributes" value="${DataDictionary.InstitutionalProposal.attributes}" />
 <c:set var="proposalDevelopmentAttributes" value="${DataDictionary.DevelopmentProposal.attributes}" />
 <c:set var="proposalLogAttributes" value="${DataDictionary.ProposalLog.attributes}" />
@@ -39,6 +40,30 @@
 	            </table>
 	        </div>
 	    </kul:innerTab>
+	    
+	    <kul:innerTab parentTab="${parentTab}" tabTitle="IACUC ${tabTitle}" defaultOpen="false" >
+            <div class="tab-container" align="center">
+                <table cellpadding="4" cellspacing="0" summary="">
+                    <tr>
+                        <th style="width:50%"><div align="left"><kul:htmlAttributeLabel attributeEntry="${iacucProtocolAttributes.protocolNumber}" /></div></th>
+                        <th style="width:50%"><div align="left"><kul:htmlAttributeLabel attributeEntry="${iacucProtocolAttributes.title}" /></div></th>
+                    </tr>
+                    <c:if test="${empty KualiForm.personMassChangeViewHelper.iacucProtocolChangeCandidates}">
+                       <tr>
+                           <td colspan="2"><div align="center"><c:out value="${KualiForm.personMassChangeViewHelper.emptyCandidatesMessage}" /></div></td>
+                       </tr>
+                    </c:if>
+                    <c:forEach var="iacucProtocolChangeCandidate" items="${KualiForm.personMassChangeViewHelper.iacucProtocolChangeCandidates}" varStatus="status">
+                        <tr>
+                            <td style="width:50%"><kul:htmlControlAttribute property="personMassChangeViewHelper.iacucProtocolChangeCandidates[${status.index}].protocolNumber" 
+                                                                            attributeEntry="${iacucProtocolAttributes.protocolNumber}" readOnly="true" /></td>
+                            <td style="width:50%"><kul:htmlControlAttribute property="personMassChangeViewHelper.iacucProtocolChangeCandidates[${status.index}].title" 
+                                                                            attributeEntry="${iacucProtocolAttributes.title}" readOnly="true" /></td>
+                        </tr>
+                    </c:forEach>
+                </table>
+            </div>
+        </kul:innerTab>
 	    
 	    <kul:innerTab parentTab="${parentTab}" tabTitle="Institutional Proposal ${tabTitle}" defaultOpen="false" >
 	        <div class="tab-container" align="center">

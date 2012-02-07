@@ -21,6 +21,7 @@ import org.kuali.kra.award.home.Award;
 import org.kuali.kra.bo.Unit;
 import org.kuali.kra.committee.bo.Committee;
 import org.kuali.kra.committee.bo.CommitteeSchedule;
+import org.kuali.kra.iacuc.IacucProtocol;
 import org.kuali.kra.institutionalproposal.home.InstitutionalProposal;
 import org.kuali.kra.institutionalproposal.proposallog.ProposalLog;
 import org.kuali.kra.irb.Protocol;
@@ -28,6 +29,7 @@ import org.kuali.kra.negotiations.bo.Negotiation;
 import org.kuali.kra.personmasschange.bo.PersonMassChange;
 import org.kuali.kra.personmasschange.service.AwardPersonMassChangeService;
 import org.kuali.kra.personmasschange.service.CommitteePersonMassChangeService;
+import org.kuali.kra.personmasschange.service.IacucProtocolPersonMassChangeService;
 import org.kuali.kra.personmasschange.service.InstitutionalProposalPersonMassChangeService;
 import org.kuali.kra.personmasschange.service.NegotiationPersonMassChangeService;
 import org.kuali.kra.personmasschange.service.PersonMassChangeService;
@@ -46,6 +48,7 @@ import org.kuali.kra.subaward.bo.SubAward;
 public class PersonMassChangeServiceImpl implements PersonMassChangeService {
     
     private AwardPersonMassChangeService awardPersonMassChangeService;
+    private IacucProtocolPersonMassChangeService iacucProtocolPersonMassChangeService;
     private InstitutionalProposalPersonMassChangeService institutionalProposalPersonMassChangeService;
     private ProposalDevelopmentPersonMassChangeService proposalDevelopmentPersonMassChangeService;
     private ProposalLogPersonMassChangeService proposalLogPersonMassChangeService;
@@ -60,6 +63,9 @@ public class PersonMassChangeServiceImpl implements PersonMassChangeService {
     public void performPersonMassChange(PersonMassChange personMassChange) {
         List<Award> awardChangeCandidates = getAwardPersonMassChangeService().getAwardChangeCandidates(personMassChange);
         getAwardPersonMassChangeService().performPersonMassChange(personMassChange, awardChangeCandidates);
+        
+        List<IacucProtocol> iacucProtocolChangeCandidates = getIacucProtocolPersonMassChangeService().getIacucProtocolChangeCandidates(personMassChange);
+        getIacucProtocolPersonMassChangeService().performPersonMassChange(personMassChange, iacucProtocolChangeCandidates);
         
         List<InstitutionalProposal> institutionalProposalChangeCandidates 
             = getInstitutionalProposalPersonMassChangeService().getInstitutionalProposalChangeCandidates(personMassChange);
@@ -97,6 +103,14 @@ public class PersonMassChangeServiceImpl implements PersonMassChangeService {
 
     public void setAwardPersonMassChangeService(AwardPersonMassChangeService awardPersonMassChangeService) {
         this.awardPersonMassChangeService = awardPersonMassChangeService;
+    }
+    
+    public IacucProtocolPersonMassChangeService getIacucProtocolPersonMassChangeService() {
+        return iacucProtocolPersonMassChangeService;
+    }
+
+    public void setIacucProtocolPersonMassChangeService(IacucProtocolPersonMassChangeService iacucProtocolPersonMassChangeService) {
+        this.iacucProtocolPersonMassChangeService = iacucProtocolPersonMassChangeService;
     }
 
     public InstitutionalProposalPersonMassChangeService getInstitutionalProposalPersonMassChangeService() {
