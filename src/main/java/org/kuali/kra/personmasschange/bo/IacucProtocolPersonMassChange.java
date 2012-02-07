@@ -19,9 +19,9 @@ import org.kuali.kra.bo.KraPersistableBusinessObjectBase;
 
 public class IacucProtocolPersonMassChange extends KraPersistableBusinessObjectBase {
 
-    private static final long serialVersionUID = 6966837084945864548L;
+    private static final long serialVersionUID = 2640850709328683379L;
     
-    private long protocolPersonMassChangeId;
+    private long iacucProtocolPersonMassChangeId;
     private long personMassChangeId;
     private boolean investigator;
     private boolean keyStudyPerson;
@@ -29,12 +29,12 @@ public class IacucProtocolPersonMassChange extends KraPersistableBusinessObjectB
     
     private PersonMassChange personMassChange;
 
-    public long getProtocolPersonMassChangeId() {
-        return protocolPersonMassChangeId;
+    public long getIacucProtocolPersonMassChangeId() {
+        return iacucProtocolPersonMassChangeId;
     }
 
-    public void setProtocolPersonMassChangeId(long protocolPersonMassChangeId) {
-        this.protocolPersonMassChangeId = protocolPersonMassChangeId;
+    public void setIacucProtocolPersonMassChangeId(long iacucProtocolPersonMassChangeId) {
+        this.iacucProtocolPersonMassChangeId = iacucProtocolPersonMassChangeId;
     }
 
     public long getPersonMassChangeId() {
