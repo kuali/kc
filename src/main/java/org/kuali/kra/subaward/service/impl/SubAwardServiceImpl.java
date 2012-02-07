@@ -222,17 +222,22 @@ public class SubAwardServiceImpl implements SubAwardService{
     }
     
     public Date getCalculatedFollowupDate(Date baseDate) {
+        Date retDate = new Date(DateUtils.addDays(baseDate, getFollowupDateDefaultLengthInDays()).getTime());
+        return retDate;
+    }
+    
+    public int getFollowupDateDefaultLengthInDays() {
         String followupDateRange = getFollowupDateDefaultLength();
         String rangeUnit = followupDateRange.substring(followupDateRange.length() - 1, followupDateRange.length());
         int rangeAmount = Integer.parseInt(followupDateRange.substring(0, followupDateRange.length() - 1));
-        Date retDate = null;
+        int returnAmount = 0;
         if (StringUtils.equalsIgnoreCase(rangeUnit, "D")) {
-            retDate = new Date(DateUtils.addDays(baseDate, rangeAmount).getTime());
+            returnAmount = rangeAmount;
         } else if (StringUtils.equalsIgnoreCase(rangeUnit, "W")) {
-            retDate = new Date(DateUtils.addWeeks(baseDate, rangeAmount).getTime());
+            returnAmount = rangeAmount * 7;
         } else {
             throw new IllegalArgumentException("An invalid range unit was set in the 'Subaward Follow Up' parameter: " + rangeUnit);
         }
-        return retDate;
+        return returnAmount;
     }
 }
