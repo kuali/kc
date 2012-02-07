@@ -22,6 +22,7 @@ import org.kuali.kra.award.home.Award;
 import org.kuali.kra.bo.Unit;
 import org.kuali.kra.committee.bo.Committee;
 import org.kuali.kra.committee.bo.CommitteeSchedule;
+import org.kuali.kra.iacuc.IacucProtocol;
 import org.kuali.kra.infrastructure.KraServiceLocator;
 import org.kuali.kra.institutionalproposal.home.InstitutionalProposal;
 import org.kuali.kra.institutionalproposal.proposallog.ProposalLog;
@@ -30,6 +31,7 @@ import org.kuali.kra.negotiations.bo.Negotiation;
 import org.kuali.kra.personmasschange.bo.PersonMassChange;
 import org.kuali.kra.personmasschange.service.AwardPersonMassChangeService;
 import org.kuali.kra.personmasschange.service.CommitteePersonMassChangeService;
+import org.kuali.kra.personmasschange.service.IacucProtocolPersonMassChangeService;
 import org.kuali.kra.personmasschange.service.InstitutionalProposalPersonMassChangeService;
 import org.kuali.kra.personmasschange.service.NegotiationPersonMassChangeService;
 import org.kuali.kra.personmasschange.service.ProposalDevelopmentPersonMassChangeService;
@@ -50,6 +52,7 @@ public class PersonMassChangeViewHelper extends PersonMassChangeHelperBase {
     private PersonMassChangeForm form;
     
     private List<Award> awardChangeCandidates;
+    private List<IacucProtocol> iacucProtocolChangeCandidates;
     private List<InstitutionalProposal> institutionalProposalChangeCandidates;
     private List<DevelopmentProposal> proposalDevelopmentChangeCandidates;
     private List<ProposalLog> proposalLogChangeCandidates;
@@ -61,6 +64,7 @@ public class PersonMassChangeViewHelper extends PersonMassChangeHelperBase {
     private List<Unit> unitChangeCandidates;
     
     private transient AwardPersonMassChangeService awardPersonMassChangeService;
+    private transient IacucProtocolPersonMassChangeService iacucProtocolPersonMassChangeService;
     private transient InstitutionalProposalPersonMassChangeService institutionalProposalPersonMassChangeService;
     private transient ProposalDevelopmentPersonMassChangeService proposalDevelopmentPersonMassChangeService;
     private transient ProposalLogPersonMassChangeService proposalLogPersonMassChangeService;
@@ -75,6 +79,7 @@ public class PersonMassChangeViewHelper extends PersonMassChangeHelperBase {
         this.form = form;
         
         awardChangeCandidates = new ArrayList<Award>();
+        iacucProtocolChangeCandidates = new ArrayList<IacucProtocol>();
         institutionalProposalChangeCandidates = new ArrayList<InstitutionalProposal>();
         proposalDevelopmentChangeCandidates = new ArrayList<DevelopmentProposal>();
         proposalLogChangeCandidates = new ArrayList<ProposalLog>();
@@ -96,6 +101,14 @@ public class PersonMassChangeViewHelper extends PersonMassChangeHelperBase {
 
     public void setAwardChangeCandidates(List<Award> awardChangeCandidates) {
         this.awardChangeCandidates = awardChangeCandidates;
+    }
+    
+    public List<IacucProtocol> getIacucProtocolChangeCandidates() {
+        return iacucProtocolChangeCandidates;
+    }
+
+    public void setIacucProtocolChangeCandidates(List<IacucProtocol> iacucProtocolChangeCandidates) {
+        this.iacucProtocolChangeCandidates = iacucProtocolChangeCandidates;
     }
 
     public List<InstitutionalProposal> getInstitutionalProposalChangeCandidates() {
@@ -180,6 +193,7 @@ public class PersonMassChangeViewHelper extends PersonMassChangeHelperBase {
         prepareReplacerView(personMassChange, personMassChange.getReplacerPersonId(), personMassChange.getReplacerRolodexId());
         
         setAwardChangeCandidates(getAwardPersonMassChangeService().getAwardChangeCandidates(personMassChange));
+        setIacucProtocolChangeCandidates(getIacucProtocolPersonMassChangeService().getIacucProtocolChangeCandidates(personMassChange));
         setInstitutionalProposalChangeCandidates(getInstitutionalProposalPersonMassChangeService().getInstitutionalProposalChangeCandidates(personMassChange));
         setProposalDevelopmentChangeCandidates(getProposalDevelopmentPersonMassChangeService().getProposalDevelopmentChangeCandidates(personMassChange));
         setProposalLogChangeCandidates(getProposalLogPersonMassChangeService().getProposalLogChangeCandidates(personMassChange));
@@ -200,6 +214,17 @@ public class PersonMassChangeViewHelper extends PersonMassChangeHelperBase {
 
     public void setAwardPersonMassChangeService(AwardPersonMassChangeService awardPersonMassChangeService) {
         this.awardPersonMassChangeService = awardPersonMassChangeService;
+    }
+    
+    public IacucProtocolPersonMassChangeService getIacucProtocolPersonMassChangeService() {
+        if (iacucProtocolPersonMassChangeService == null) {
+            iacucProtocolPersonMassChangeService = KraServiceLocator.getService(IacucProtocolPersonMassChangeService.class);
+        }
+        return iacucProtocolPersonMassChangeService;
+    }
+
+    public void setIacucProtocolPersonMassChangeService(IacucProtocolPersonMassChangeService iacucProtocolPersonMassChangeService) {
+        this.iacucProtocolPersonMassChangeService = iacucProtocolPersonMassChangeService;
     }
 
     public InstitutionalProposalPersonMassChangeService getInstitutionalProposalPersonMassChangeService() {

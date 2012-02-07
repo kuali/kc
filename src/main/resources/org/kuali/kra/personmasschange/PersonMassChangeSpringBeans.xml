@@ -48,6 +48,9 @@
     <bean id="awardPersonMassChangeService" class="org.kuali.kra.personmasschange.service.impl.AwardPersonMassChangeServiceImpl">
     </bean>
     
+    <bean id="iacucProtocolPersonMassChangeService" class="org.kuali.kra.personmasschange.service.impl.IacucProtocolPersonMassChangeServiceImpl">
+    </bean>
+    
     <bean id="institutionalProposalPersonMassChangeService" class="org.kuali.kra.personmasschange.service.impl.InstitutionalProposalPersonMassChangeServiceImpl">
     </bean>
     
@@ -89,6 +92,7 @@
     
     <bean id="personMassChangeService" class="org.kuali.kra.personmasschange.service.impl.PersonMassChangeServiceImpl">
         <property name="awardPersonMassChangeService" ref="awardPersonMassChangeService" />
+        <property name="iacucProtocolPersonMassChangeService" ref="iacucProtocolPersonMassChangeService" />
         <property name="institutionalProposalPersonMassChangeService" ref="institutionalProposalPersonMassChangeService" />
         <property name="proposalDevelopmentPersonMassChangeService" ref="proposalDevelopmentPersonMassChangeService" />
         <property name="proposalLogPersonMassChangeService" ref="proposalLogPersonMassChangeService" />
