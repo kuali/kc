@@ -22,6 +22,10 @@ import org.kuali.kra.budget.calculator.DateSortable;
 
 public class BudgetRate extends AbstractBudgetRate implements DateSortable {
 
+    /**
+     * Comment for <code>serialVersionUID</code>
+     */
+    private static final long serialVersionUID = 6843344277997293690L;
     private String activityTypeCode;
 
     public BudgetRate() {
