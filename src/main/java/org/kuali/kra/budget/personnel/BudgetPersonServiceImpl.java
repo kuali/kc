@@ -120,13 +120,18 @@ public class BudgetPersonServiceImpl implements BudgetPersonService {
         KcPerson kcPerson = getKcPersonService().getKcPersonByPersonId(budgetPerson.getPersonId());
         List<PersonAppointment> appointments = kcPerson.getExtendedAttributes().getPersonAppointments();
         boolean added = false;
+        String defaultJobCode = this.parameterService.getParameterValueAsString("KC-B", "Document", Constants.BUDGET_PERSON_DEFAULT_JOB_CODE_PARAMETER);
         for (PersonAppointment appointment : appointments) {
             if (isAppointmentApplicableToBudget(budget, appointment)) {
                 BudgetPerson newBudgetPerson = new BudgetPerson();
                 newBudgetPerson.setPersonId(budgetPerson.getPersonId());
                 newBudgetPerson.setPersonName(budgetPerson.getPersonName());
                 newBudgetPerson.setNonEmployeeFlag(budgetPerson.getNonEmployeeFlag());
-                newBudgetPerson.setJobCode(appointment.getJobCode());
+                if (StringUtils.isEmpty(appointment.getJobCode())) {
+                    newBudgetPerson.setJobCode(defaultJobCode);
+                } else {
+                    newBudgetPerson.setJobCode(appointment.getJobCode());
+                }
                 newBudgetPerson.setJobTitle(appointment.getJobTitle());
                 newBudgetPerson.setCalculationBase(appointment.getSalary());
                 // use budget start date instead of appointment start date to prepopulate effective date
@@ -143,6 +148,7 @@ public class BudgetPersonServiceImpl implements BudgetPersonService {
         //person without appointment information
         if (!added) {
             populateBudgetPersonData(budget, budgetPerson);
+            budgetPerson.setJobCode(defaultJobCode);
             budget.addBudgetPerson(budgetPerson);
         }
     }

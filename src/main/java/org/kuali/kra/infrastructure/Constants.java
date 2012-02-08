@@ -219,7 +219,6 @@ public interface Constants {
     public static final String BUDGET_STATUS_CODE_DISAPPROVED = "13";
     
     // Budget Personnel
-    public static final String BUDGET_PERSON_DEFAULT_JOB_CODE = "budgetPersonDefaultJobCode";
     public static final String BUDGET_PERSON_DEFAULT_APPOINTMENT_TYPE = "budgetPersonDefaultAppointmentType";
     //public static final String BUDGET_PERSON_DEFAULT_PERIOD_TYPE = "budgetPersonDefaultPeriodType";
     public static final String BUDGET_PERSON_DEFAULT_CALCULATION_BASE = "budgetPersonDefaultCalculationBase";
@@ -228,6 +227,7 @@ public interface Constants {
     public static final String BUDGET_PERSONNEL_PAGE = "personnel";
     public static final String JOB_CODE = "jobCode";
     public static final String BUDGET_CATEGORY_PERSONNEL = "P";
+    public static final String BUDGET_PERSON_DEFAULT_JOB_CODE_PARAMETER = "budgetPersonDefaultJobCode";
         
     // KIM Authorization Namespace for KRA
     public static final String KRA_NAMESPACE = "KRA";
