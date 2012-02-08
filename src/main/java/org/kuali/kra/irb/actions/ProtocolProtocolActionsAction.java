@@ -31,10 +31,6 @@ import org.apache.struts.action.ActionForm;
 import org.apache.struts.action.ActionForward;
 import org.apache.struts.action.ActionMapping;
 import org.kuali.kra.authorization.ApplicationTask;
-import org.kuali.kra.award.AwardForm;
-import org.kuali.kra.award.home.Award;
-import org.kuali.kra.award.notification.AwardNotificationContext;
-import org.kuali.kra.award.notification.AwardNotificationRenderer;
 import org.kuali.kra.bo.AttachmentFile;
 import org.kuali.kra.bo.CoeusModule;
 import org.kuali.kra.bo.CoeusSubModule;
@@ -162,12 +158,12 @@ import org.kuali.rice.core.api.datetime.DateTimeService;
 import org.kuali.rice.kew.api.KewApiConstants;
 import org.kuali.rice.kim.api.identity.Person;
 import org.kuali.rice.kim.api.identity.PersonService;
+import org.kuali.rice.kns.question.ConfirmationQuestion;
 import org.kuali.rice.kns.util.KNSGlobalVariables;
 import org.kuali.rice.kns.util.WebUtils;
 import org.kuali.rice.kns.web.struts.action.AuditModeAction;
 import org.kuali.rice.krad.document.Document;
 import org.kuali.rice.krad.document.authorization.PessimisticLock;
-import org.kuali.rice.kns.question.ConfirmationQuestion;
 import org.kuali.rice.krad.util.GlobalVariables;
 import org.kuali.rice.krad.util.KRADConstants;
 import org.kuali.rice.krad.util.ObjectUtils;
@@ -200,7 +196,7 @@ public class ProtocolProtocolActionsAction extends ProtocolAction implements Aud
     /** signifies that a response has already be handled therefore forwarding to obtain a response is not needed. */
     private static final ActionForward RESPONSE_ALREADY_HANDLED = null;
     private static final String SUBMISSION_ID = "submissionId";
-     
+    private static final String CORRESPONDENCE = "correspondence";
     
     private static final Map<String, String> PRINTTAG_MAP = new HashMap<String, String>() {
         {
@@ -477,11 +473,15 @@ public class ProtocolProtocolActionsAction extends ProtocolAction implements Aud
                 protocolForm.setDocId(pd.getDocumentNumber());
                 loadDocument(protocolForm);
                 protocolForm.getProtocolHelper().prepareView();
-                
+                protocolForm.getActionHelper().setProtocolCorrespondence(getProtocolCorrespondence(protocolForm, PROTOCOL_TAB, new ProtocolNotificationRequestBean(protocolForm.getProtocolDocument().getProtocol(), ProtocolActionType.WITHDRAWN, "Withdrawn"), false));
                 recordProtocolActionSuccess("Withdraw");
-                return checkToSendNotification(mapping, mapping.findForward(PROTOCOL_TAB), protocolForm, new ProtocolNotificationRequestBean(protocolForm.getProtocolDocument().getProtocol(), ProtocolActionType.WITHDRAWN, "Withdrawn"));
+//                return checkToSendNotification(mapping, mapping.findForward("correspondence"), protocolForm, new ProtocolNotificationRequestBean(protocolForm.getProtocolDocument().getProtocol(), ProtocolActionType.WITHDRAWN, "Withdrawn"));
     
-//                return mapping.findForward(PROTOCOL_TAB);
+                if (protocolForm.getActionHelper().getProtocolCorrespondence() != null) {
+                    return mapping.findForward(CORRESPONDENCE);
+                } else {
+                    return checkToSendNotification(mapping, mapping.findForward("correspondence"), protocolForm, new ProtocolNotificationRequestBean(protocolForm.getProtocolDocument().getProtocol(), ProtocolActionType.WITHDRAWN, "Withdrawn"));
+                }
             }
         } else {
             GlobalVariables.getMessageMap().clearErrorMessages();
@@ -491,6 +491,25 @@ public class ProtocolProtocolActionsAction extends ProtocolAction implements Aud
         return mapping.findForward(Constants.MAPPING_BASIC);
     }
 
+    private ProtocolCorrespondence getProtocolCorrespondence (ProtocolForm protocolForm, String forwardName, ProtocolNotificationRequestBean notificationRequestBean, boolean holdingPage) {
+        boolean result = false;
+        
+        Map<String,Object> keyValues = new HashMap<String, Object>();
+//        keyValues.put("protocolId", protocolForm.getProtocolDocument().getProtocol().getProtocolId());
+        // actionid <-> action.actionid  actionidfk<->action.protocolactionid
+        keyValues.put("actionIdFk", protocolForm.getProtocolDocument().getProtocol().getLastProtocolAction().getProtocolActionId());
+        List<ProtocolCorrespondence> correspondences = (List<ProtocolCorrespondence>)getBusinessObjectService().findMatching(ProtocolCorrespondence.class, keyValues);
+        if (correspondences.isEmpty()) {
+            return null;
+        } else {
+            ProtocolCorrespondence correspondence = correspondences.get(0);
+            correspondence.setForwardName(forwardName);
+            correspondence.setNotificationRequestBean(notificationRequestBean);
+            correspondence.setHoldingPage(holdingPage);
+            return correspondence;
+            
+        }
+    }
     /**
      * Notify the IRB office.
      * 
@@ -1552,6 +1571,11 @@ public class ProtocolProtocolActionsAction extends ProtocolAction implements Aud
         }
         if (request.getParameter(KRADConstants.QUESTION_INST_ATTRIBUTE_NAME) != null) {
             forward = confirmFollowupAction(mapping, form, request, response, Constants.MAPPING_BASIC);
+            protocolForm.getActionHelper().setProtocolCorrespondence(getProtocolCorrespondence(protocolForm, PROTOCOL_ACTIONS_TAB, null, false));
+
+            if (protocolForm.getActionHelper().getProtocolCorrespondence() != null) {
+                return mapping.findForward(CORRESPONDENCE);
+            } 
         }
         
         return forward;
@@ -1583,9 +1607,18 @@ public class ProtocolProtocolActionsAction extends ProtocolAction implements Aud
 //                if (document.getProtocol().isAmendment() || document.getProtocol().isRenewal()) {
 //                    forward = mapping.findForward(KRADConstants.MAPPING_PORTAL);
 //                }
-                forward = routeProtocolToHoldingPage(mapping, protocolForm);                                    
-                
+//                forward = routeProtocolToHoldingPage(mapping, protocolForm);                                    
                 recordProtocolActionSuccess("Full Approval");
+                // issue : protocolcorrespondence is reset after loading correspondence ? more work
+//                protocolForm.getProtocolHelper().prepareView();
+//                protocolForm.getActionHelper().setProtocolCorrespondence(getProtocolCorrespondence(protocolForm, PROTOCOL_ACTIONS_TAB, null, true));
+//
+//                if (protocolForm.getActionHelper().getProtocolCorrespondence() != null) {
+//                    return mapping.findForward(CORRESPONDENCE);
+//                } else {
+                    forward = routeProtocolToHoldingPage(mapping, protocolForm);                                    
+//                }
+                
             }
         }
         
@@ -1622,7 +1655,15 @@ public class ProtocolProtocolActionsAction extends ProtocolAction implements Aud
         if (request.getParameter(KRADConstants.QUESTION_INST_ATTRIBUTE_NAME) != null) {
             confirmFollowupAction(mapping, form, request, response, KRADConstants.MAPPING_PORTAL);
             //forward = mapping.findForward(KRADConstants.MAPPING_PORTAL);                                    
-            forward = routeProtocolToHoldingPage(mapping, protocolForm);                                    
+//            forward = routeProtocolToHoldingPage(mapping, protocolForm);                                    
+            protocolForm.getProtocolHelper().prepareView();
+            protocolForm.getActionHelper().setProtocolCorrespondence(getProtocolCorrespondence(protocolForm, PROTOCOL_ACTIONS_TAB, null, true));
+
+            if (protocolForm.getActionHelper().getProtocolCorrespondence() != null) {
+                return mapping.findForward(CORRESPONDENCE);
+            } else {
+                forward = routeProtocolToHoldingPage(mapping, protocolForm);                                    
+            }
         }
         return forward;
     }
@@ -1745,6 +1786,11 @@ public class ProtocolProtocolActionsAction extends ProtocolAction implements Aud
                 saveReviewComments(protocolForm, actionBean.getReviewCommentsBean());
                 
                 recordProtocolActionSuccess("Close");
+                protocolForm.getActionHelper().setProtocolCorrespondence(getProtocolCorrespondence(protocolForm, PROTOCOL_ACTIONS_TAB, null, false));
+
+                if (protocolForm.getActionHelper().getProtocolCorrespondence() != null) {
+                    return mapping.findForward(CORRESPONDENCE);
+                } 
             }
         }
         
@@ -1807,7 +1853,15 @@ public class ProtocolProtocolActionsAction extends ProtocolAction implements Aud
                     
                     recordProtocolActionSuccess("Defer");
                     
-                    forward = checkToSendNotification(mapping, mapping.findForward(PROTOCOL_TAB), protocolForm, new ProtocolNotificationRequestBean(protocolForm.getProtocolDocument().getProtocol(),ProtocolActionType.DEFERRED, "Deferred"));
+                    protocolForm.getActionHelper().setProtocolCorrespondence(getProtocolCorrespondence(protocolForm, PROTOCOL_TAB, new ProtocolNotificationRequestBean(protocolForm.getProtocolDocument().getProtocol(),ProtocolActionType.DEFERRED, "Deferred"), false));
+
+                    if (protocolForm.getActionHelper().getProtocolCorrespondence() != null) {
+                        return mapping.findForward(CORRESPONDENCE);
+                    } else {
+                        forward = checkToSendNotification(mapping, mapping.findForward(PROTOCOL_TAB), protocolForm, new ProtocolNotificationRequestBean(protocolForm.getProtocolDocument().getProtocol(),ProtocolActionType.DEFERRED, "Deferred"));                                    
+                    }
+                    
+//                    forward = checkToSendNotification(mapping, mapping.findForward(PROTOCOL_TAB), protocolForm, new ProtocolNotificationRequestBean(protocolForm.getProtocolDocument().getProtocol(),ProtocolActionType.DEFERRED, "Deferred"));
 //                    forward = mapping.findForward(PROTOCOL_TAB);
                 }
             }
@@ -1840,6 +1894,10 @@ public class ProtocolProtocolActionsAction extends ProtocolAction implements Aud
                 saveReviewComments(protocolForm, actionBean.getReviewCommentsBean());
                 
                 recordProtocolActionSuccess("Disapprove");
+                protocolForm.getActionHelper().setProtocolCorrespondence(getProtocolCorrespondence(protocolForm, PROTOCOL_ACTIONS_TAB, null, false));
+                if (protocolForm.getActionHelper().getProtocolCorrespondence() != null) {
+                    return mapping.findForward(CORRESPONDENCE);
+                }
             }
         }
         
@@ -1995,7 +2053,14 @@ public class ProtocolProtocolActionsAction extends ProtocolAction implements Aud
 //              } else {
 //                  getNotificationService().sendNotification(context);
 //              }
-                forward = checkToSendNotification(mapping, mapping.findForward(PROTOCOL_TAB), protocolForm, new ProtocolNotificationRequestBean(protocolForm.getProtocolDocument().getProtocol(),ProtocolActionType.SPECIFIC_MINOR_REVISIONS_REQUIRED, "Specific Minor Revisions Required"));
+                protocolForm.getActionHelper().setProtocolCorrespondence(getProtocolCorrespondence(protocolForm, PROTOCOL_TAB, new ProtocolNotificationRequestBean(protocolForm.getProtocolDocument().getProtocol(),ProtocolActionType.SPECIFIC_MINOR_REVISIONS_REQUIRED, "Specific Minor Revisions Required"), false));
+
+                if (protocolForm.getActionHelper().getProtocolCorrespondence() != null) {
+                    return mapping.findForward(CORRESPONDENCE);
+                } else {
+                    forward = checkToSendNotification(mapping, mapping.findForward(PROTOCOL_TAB), protocolForm, new ProtocolNotificationRequestBean(protocolForm.getProtocolDocument().getProtocol(),ProtocolActionType.SPECIFIC_MINOR_REVISIONS_REQUIRED, "Specific Minor Revisions Required"));                                   
+                }
+//               forward = checkToSendNotification(mapping, mapping.findForward(PROTOCOL_TAB), protocolForm, new ProtocolNotificationRequestBean(protocolForm.getProtocolDocument().getProtocol(),ProtocolActionType.SPECIFIC_MINOR_REVISIONS_REQUIRED, "Specific Minor Revisions Required"));
 //                forward = mapping.findForward(PROTOCOL_TAB);
             }
         }
@@ -2031,7 +2096,14 @@ public class ProtocolProtocolActionsAction extends ProtocolAction implements Aud
                 
                 recordProtocolActionSuccess("Return for Substantive Revisions Required");
                 
-                forward = checkToSendNotification(mapping, mapping.findForward(PROTOCOL_TAB), protocolForm, new ProtocolNotificationRequestBean(protocolForm.getProtocolDocument().getProtocol(),ProtocolActionType.SUBSTANTIVE_REVISIONS_REQUIRED, "Substantive Revisions Required"));
+                protocolForm.getActionHelper().setProtocolCorrespondence(getProtocolCorrespondence(protocolForm, PROTOCOL_TAB, new ProtocolNotificationRequestBean(protocolForm.getProtocolDocument().getProtocol(),ProtocolActionType.SUBSTANTIVE_REVISIONS_REQUIRED, "Substantive Revisions Required"), false));
+
+                if (protocolForm.getActionHelper().getProtocolCorrespondence() != null) {
+                    return mapping.findForward(CORRESPONDENCE);
+                } else {
+                    forward = checkToSendNotification(mapping, mapping.findForward(PROTOCOL_TAB), protocolForm, new ProtocolNotificationRequestBean(protocolForm.getProtocolDocument().getProtocol(),ProtocolActionType.SUBSTANTIVE_REVISIONS_REQUIRED, "Substantive Revisions Required"));                                   
+                }
+//                forward = checkToSendNotification(mapping, mapping.findForward(PROTOCOL_TAB), protocolForm, new ProtocolNotificationRequestBean(protocolForm.getProtocolDocument().getProtocol(),ProtocolActionType.SUBSTANTIVE_REVISIONS_REQUIRED, "Substantive Revisions Required"));
             }
         }
         
@@ -2059,6 +2131,12 @@ public class ProtocolProtocolActionsAction extends ProtocolAction implements Aud
                 saveReviewComments(protocolForm, actionBean.getReviewCommentsBean());
                 
                 recordProtocolActionSuccess("Suspend");
+//                protocolForm.getProtocolHelper().prepareView();
+                protocolForm.getActionHelper().setProtocolCorrespondence(getProtocolCorrespondence(protocolForm, PROTOCOL_ACTIONS_TAB, null, false));
+
+                if (protocolForm.getActionHelper().getProtocolCorrespondence() != null) {
+                    return mapping.findForward(CORRESPONDENCE);
+                }
             }
         }
         
@@ -2086,6 +2164,11 @@ public class ProtocolProtocolActionsAction extends ProtocolAction implements Aud
                 saveReviewComments(protocolForm, actionBean.getReviewCommentsBean());
                 
                 recordProtocolActionSuccess("Suspend by DSMB");
+                protocolForm.getActionHelper().setProtocolCorrespondence(getProtocolCorrespondence(protocolForm, PROTOCOL_ACTIONS_TAB, null, false));
+
+                if (protocolForm.getActionHelper().getProtocolCorrespondence() != null) {
+                    return mapping.findForward(CORRESPONDENCE);
+                } 
             }
         }
         
@@ -2113,6 +2196,12 @@ public class ProtocolProtocolActionsAction extends ProtocolAction implements Aud
                 saveReviewComments(protocolForm, actionBean.getReviewCommentsBean());
                 
                 recordProtocolActionSuccess("Terminate");
+                protocolForm.getProtocolHelper().prepareView();
+                protocolForm.getActionHelper().setProtocolCorrespondence(getProtocolCorrespondence(protocolForm, PROTOCOL_ACTIONS_TAB, null, false));
+
+                if (protocolForm.getActionHelper().getProtocolCorrespondence() != null) {
+                    return mapping.findForward(CORRESPONDENCE);
+                }
             }
         }
         
@@ -2543,7 +2632,16 @@ public class ProtocolProtocolActionsAction extends ProtocolAction implements Aud
             
             recordProtocolActionSuccess("Abandon");
             org.kuali.kra.irb.actions.ProtocolAction lastAction = protocolForm.getProtocolDocument().getProtocol().getLastProtocolAction();
-            return checkToSendNotification(mapping, mapping.findForward(PROTOCOL_ACTIONS_TAB), protocolForm, new ProtocolNotificationRequestBean(protocolForm.getProtocolDocument().getProtocol(),ProtocolActionType.ABANDON_PROTOCOL, "Abandon"));
+
+            protocolForm.getProtocolHelper().prepareView();
+            protocolForm.getActionHelper().setProtocolCorrespondence(getProtocolCorrespondence(protocolForm, PROTOCOL_ACTIONS_TAB, new ProtocolNotificationRequestBean(protocolForm.getProtocolDocument().getProtocol(),ProtocolActionType.ABANDON_PROTOCOL, "Abandon"), false));
+
+            if (protocolForm.getActionHelper().getProtocolCorrespondence() != null) {
+                return mapping.findForward(CORRESPONDENCE);
+            } else {
+                return checkToSendNotification(mapping, mapping.findForward("correspondence"), protocolForm, new ProtocolNotificationRequestBean(protocolForm.getProtocolDocument().getProtocol(), ProtocolActionType.ABANDON_PROTOCOL, "Abandon"));
+            }
+//            return checkToSendNotification(mapping, mapping.findForward(PROTOCOL_ACTIONS_TAB), protocolForm, new ProtocolNotificationRequestBean(protocolForm.getProtocolDocument().getProtocol(),ProtocolActionType.ABANDON_PROTOCOL, "Abandon"));
 
         }
 
@@ -3535,5 +3633,69 @@ public class ProtocolProtocolActionsAction extends ProtocolAction implements Aud
     
     protected KcNotificationService getNotificationService() {
         return KraServiceLocator.getService(KcNotificationService.class);
+    }
+    
+    public ActionForward viewCorrespondence(ActionMapping mapping, ActionForm form, HttpServletRequest request,
+            HttpServletResponse response) throws Exception {
+        
+//        final int selection = this.getSelectedLine(request);
+        ActionHelper actionHelper = ((ProtocolForm) form).getActionHelper();
+        PrintableAttachment source = new PrintableAttachment();
+        source.setContent(actionHelper.getProtocolCorrespondence().getCorrespondence());
+        source.setContentType(Constants.PDF_REPORT_CONTENT_TYPE);
+        source.setFileName("Correspondence-" + actionHelper.getProtocolCorrespondence().getProtocolCorrespondenceType().getDescription() + Constants.PDF_FILE_EXTENSION);
+        PrintingUtils.streamToResponse(source, response);
+        
+        return null;
+    }
+    /*
+     * concrete class for AttachmentDataSource.
+     * This is a similar class from printingserviceimpl
+     * TODO : maybe should create a public class for this ?
+     */
+    private class PrintableAttachment extends AttachmentDataSource {
+        private byte[] streamData;
+
+        public byte[] getContent() {
+            return streamData;
+        }
+
+        public void setContent(byte[] streamData) {
+            this.streamData = streamData;
+        }
+    }
+
+    public ActionForward saveCorrespondence(ActionMapping mapping, ActionForm form, HttpServletRequest request,
+            HttpServletResponse response) throws Exception {
+        return correspondenceAction(mapping, form, true);
+    }
+
+    public ActionForward closeCorrespondence(ActionMapping mapping, ActionForm form, HttpServletRequest request,
+            HttpServletResponse response) throws Exception {
+
+        return correspondenceAction(mapping, form, false);
+    }
+
+    private ActionForward correspondenceAction(ActionMapping mapping, ActionForm form, boolean saveAction) {
+        // final int selection = this.getSelectedLine(request);
+        ProtocolForm protocolForm = ((ProtocolForm) form);
+        ActionHelper actionHelper = protocolForm.getActionHelper();
+        ProtocolCorrespondence correspondence = actionHelper.getProtocolCorrespondence();
+        if (saveAction) {
+            getBusinessObjectService().save(correspondence);
+        }
+
+        // TODO : forward will be based different action correspondence. this is a test for withdraw
+        if (correspondence.getNotificationRequestBean() != null) {
+            return checkToSendNotification(mapping, mapping.findForward(correspondence.getForwardName()), protocolForm,
+                    correspondence.getNotificationRequestBean());
+        } else {
+            if (correspondence.isHoldingPage()) {
+                return routeProtocolToHoldingPage(mapping, protocolForm);
+            } else {
+                return mapping.findForward(correspondence.getForwardName());
+            }
+        }
+   
     }
 }
