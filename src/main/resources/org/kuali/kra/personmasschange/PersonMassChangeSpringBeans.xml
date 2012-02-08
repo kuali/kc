@@ -86,7 +86,7 @@
         <property name="rolodexService" ref="rolodexService" />
     </bean>
     
-    <bean id="unitPersonMassChangeService" class="org.kuali.kra.personmasschange.service.impl.UnitPersonMassChangeServiceImpl">
+    <bean id="unitAdministratorPersonMassChangeService" class="org.kuali.kra.personmasschange.service.impl.UnitAdministratorPersonMassChangeServiceImpl">
         <property name="businessObjectService" ref="businessObjectService" />
     </bean>
     
@@ -101,7 +101,7 @@
         <property name="committeePersonMassChangeService" ref="committeePersonMassChangeService" />
         <property name="protocolPersonMassChangeService" ref="protocolPersonMassChangeService" />
         <property name="schedulePersonMassChangeService" ref="schedulePersonMassChangeService" />
-        <property name="unitPersonMassChangeService" ref="unitPersonMassChangeService" />
+        <property name="unitAdministratorPersonMassChangeService" ref="unitAdministratorPersonMassChangeService" />
     </bean>
 
 </beans>
