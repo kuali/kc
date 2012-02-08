@@ -465,7 +465,9 @@ public class ProtocolForm extends KraTransactionalDocumentFormBase implements Pe
     @Override
     public boolean isPropertyEditable(String propertyName) {
         if (propertyName.startsWith("actionHelper.protocolSubmitAction.reviewer") ||
-                propertyName.startsWith("methodToCall.printSubmissionQuestionnaireAnswer.line")) {
+                propertyName.startsWith("methodToCall.printSubmissionQuestionnaireAnswer.line")
+                || propertyName.startsWith("methodToCall.saveCorrespondence")
+                || propertyName.startsWith("methodToCall.closeCorrespondence")) {
             return true;
         } else {
             return super.isPropertyEditable(propertyName);
