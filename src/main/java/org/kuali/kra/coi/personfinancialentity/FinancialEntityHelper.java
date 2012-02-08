@@ -17,18 +17,11 @@ package org.kuali.kra.coi.personfinancialentity;
 
 import java.io.Serializable;
 import java.util.ArrayList;
-import java.util.Collection;
 import java.util.Collections;
-import java.util.HashMap;
 import java.util.List;
-import java.util.Map;
 
 import org.apache.commons.lang.StringUtils;
-import org.apache.commons.lang.math.NumberUtils;
 import org.kuali.kra.bo.AttachmentFile;
-import org.kuali.kra.coi.notesandattachments.AddFinancialEntityAttachmentEvent;
-import org.kuali.kra.coi.notesandattachments.AddFinancialEntityAttachmentRule;
-import org.kuali.kra.coi.notesandattachments.AddFinancialEntityAttachmentRuleImpl;
 import org.kuali.kra.coi.notesandattachments.attachments.FinancialEntityAttachment;
 import org.kuali.kra.infrastructure.Constants;
 import org.kuali.kra.infrastructure.KraServiceLocator;
@@ -66,10 +59,6 @@ public class FinancialEntityHelper implements Serializable {
     private String editCoiEntityId;
     private String reporterId;
     
-    private final BusinessObjectService businessObjectService;
-
-    private static final String ATTACHMENT_TYPE_CD = "1";
-
     public String getEditType() {
         return editType;
     }
@@ -102,7 +91,6 @@ public class FinancialEntityHelper implements Serializable {
         newRolodexId = -1;
         prevSponsorCode = Constants.EMPTY_STRING;
         prevNewSponsorCode = Constants.EMPTY_STRING;
-        this.businessObjectService = KraServiceLocator.getService(BusinessObjectService.class);
         this.form = form;
     }
 
@@ -358,37 +346,28 @@ public class FinancialEntityHelper implements Serializable {
          * Adds the "new" financialEntityAttachment to the FinancialEntity Document.  Before
          * adding this method executes validation.  If the validation fails the attachment is not added.    
          */
-        syncNewFiles(Collections.singletonList(getNewFinEntityAttachment()));
+        syncNewFile(getNewFinEntityAttachment());
 
-        final AddFinancialEntityAttachmentRule rule = new AddFinancialEntityAttachmentRuleImpl();
-        final AddFinancialEntityAttachmentEvent event = new AddFinancialEntityAttachmentEvent(form.getDocument(), newFinEntityAttachment);
-
-        assignDocumentId(Collections.singletonList(getNewFinEntityAttachment()), createTypeToMaxDocNumber(getFinEntityAttachmentList()));
-        if (rule.processAddFinancialEntityAttachmentRules(event)) {
-            newFinEntityAttachment.setFinancialEntityId(getNewPersonFinancialEntity().getPersonFinIntDisclosureId()); 
-            newFinEntityAttachment.setSequenceNumber(getNewPersonFinancialEntity().getSequenceNumber());
-            newFinEntityAttachment.updateParms();
-            getFinEntityAttachmentList().add(newFinEntityAttachment);
-            newFinEntityAttachment = new FinancialEntityAttachment();
-        }
+        newFinEntityAttachment.setFinancialEntityId(getNewPersonFinancialEntity().getPersonFinIntDisclosureId()); 
+        newFinEntityAttachment.setSequenceNumber(getNewPersonFinancialEntity().getSequenceNumber());
+        newFinEntityAttachment.updateParms();
+        getFinEntityAttachmentList().add(newFinEntityAttachment);
+        newFinEntityAttachment = new FinancialEntityAttachment();
     }
 
-    protected void syncNewFiles(List<FinancialEntityAttachment> financialEntityAttachments) {
-        assert financialEntityAttachments != null : "the attachments was null";
+    protected void syncNewFile(FinancialEntityAttachment attachment) {
+        assert attachment != null : "the attachment is null";
 
-        for (final FinancialEntityAttachment attachment : financialEntityAttachments) {
-            if (doesNewFileExist(attachment)) {
-                AttachmentFile newFile = AttachmentFile.createFromFormFile(attachment.getNewFile());
-                //setting the sequence number to the old file sequence number
-                if (attachment.getFile() != null) {
-                    newFile.setSequenceNumber(attachment.getFile().getSequenceNumber());
-                }
-                attachment.setFile(newFile);
-                // set to null, so the subsequent post will not creating new file again
-                attachment.setNewFile(null);
+        if (doesNewFileExist(attachment)) {
+            AttachmentFile newFile = AttachmentFile.createFromFormFile(attachment.getNewFile());
+            //setting the sequence number to the old file sequence number
+            if (attachment.getFile() != null) {
+                newFile.setSequenceNumber(attachment.getFile().getSequenceNumber());
             }
+            attachment.setFile(newFile);
+            // set to null, so the subsequent post will not create new file again
+            attachment.setNewFile(null);
         }
-
     }
 
     private static boolean doesNewFileExist(FinancialEntityAttachment attachment) {
@@ -396,26 +375,6 @@ public class FinancialEntityHelper implements Serializable {
         return attachment.getNewFile() != null && StringUtils.isNotBlank(attachment.getNewFile().getFileName());
     }
 
-    private <T extends FinancialEntityAttachment> Map<String, Integer> createTypeToMaxDocNumber(final Collection<T> attachments) {
-        assert attachments != null : "the attachments was null";
-
-        final Map<String, Integer> typeToDocNumber = new HashMap<String, Integer>();
-
-        for (final T attachment : attachments) {
-            final Integer curMax = typeToDocNumber.get(ATTACHMENT_TYPE_CD);
-            if (curMax == null || curMax.intValue() < attachment.getDocumentId().intValue()) {
-                typeToDocNumber.put(ATTACHMENT_TYPE_CD, attachment.getDocumentId());
-            }
-        }
-
-        return typeToDocNumber;
-    }
-
-    private static Integer createNextDocNumber(final Integer docNumber) {
-        return docNumber == null ? NumberUtils.INTEGER_ONE : Integer.valueOf(docNumber.intValue() + 1);
-    }
-
-    
     public List<FinancialEntityAttachment> getFinEntityAttachmentList() {
         return finEntityAttachmentList;
     }
@@ -425,19 +384,4 @@ public class FinancialEntityHelper implements Serializable {
         this.finEntityAttachmentList = finEntityAttachmentList;
     }
 
-
-    /**
-     * This method...
-     * @param attachments
-     */
-    private void assignDocumentId(List<FinancialEntityAttachment> attachments, final Map<String, Integer> typeToDocNumber) {
-        for (FinancialEntityAttachment attachment : attachments) {
-            final Integer nextDocNumber = createNextDocNumber(typeToDocNumber.get(ATTACHMENT_TYPE_CD));
-            attachment.setDocumentId(nextDocNumber);
-        }
-    }
-
-    private BusinessObjectService getBusinessObjectService() {
-        return businessObjectService;
-    }
  }

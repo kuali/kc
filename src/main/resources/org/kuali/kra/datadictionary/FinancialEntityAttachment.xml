@@ -35,7 +35,6 @@
 			<list>
 				<ref bean="FinancialEntityAttachment-attachmentId" />
 				<ref bean="FinancialEntityAttachment-financialEntityId" />
-				<ref bean="FinancialEntityAttachment-documentId" />
 				<ref bean="FinancialEntityAttachment-fileId" />
 				<ref bean="FinancialEntityAttachment-description" />
 				<ref bean="FinancialEntityAttachment-contactName" />
@@ -118,24 +117,6 @@
 	            p:rows="3"
 	            p:cols="40"/>
         </property>
-	</bean>
-	
-	<bean id="FinancialEntityAttachment-documentId" parent="FinancialEntityAttachment-documentId-parentBean" />
-	<bean id="FinancialEntityAttachment-documentId-parentBean" abstract="true" parent="AttributeDefinition" >
-		<property name="name" value="documentId" />
-		<property name="forceUppercase" value="false" />
-		<property name="label" value="Document Id" />
-		<property name="shortLabel" value="Document Id" />
-		<property name="maxLength" value="4" />
-		<property name="validationPattern" >
-			<bean parent="NumericValidationPattern" />
-		</property>
-		<property name="control" >
-			<bean parent="TextControlDefinition"
-				p:size="5" />
-		</property>
-		<property name="summary" value="Document Id" />
-		<property name="description" value="Document Id" />
 	</bean>
 	
 	<bean id="FinancialEntityAttachment-financialEntityId" parent="FinancialEntityAttachment-financialEntityId-parentBean" />

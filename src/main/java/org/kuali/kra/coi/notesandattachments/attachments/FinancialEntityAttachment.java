@@ -36,7 +36,6 @@ public class FinancialEntityAttachment extends PersonFinIntDisclosureAssociate i
     private static final long serialVersionUID = 8722598360752485817L;
     private Long attachmentId;
     private Long fileId;
-    private Integer documentId;
     private Long financialEntityId;
     private PersonFinIntDisclosure financialEntity;
     
@@ -60,7 +59,6 @@ public class FinancialEntityAttachment extends PersonFinIntDisclosureAssociate i
     public FinancialEntityAttachment(FinancialEntityAttachment oldAtt) {
         this.attachmentId = null;
         this.fileId = oldAtt.fileId;
-        this.documentId = oldAtt.documentId;
         this.financialEntityId = oldAtt.financialEntityId;
         this.personFinIntDisclosureId = oldAtt.personFinIntDisclosureId;
         this.description = oldAtt.description;
@@ -136,12 +134,6 @@ public class FinancialEntityAttachment extends PersonFinIntDisclosureAssociate i
     public void setFileId(Long fileId) {
         this.fileId = fileId;
     }
-    public Integer getDocumentId() {
-        return documentId;
-    }
-    public void setDocumentId(Integer documentId) {
-        this.documentId = documentId;
-    }
     public AttachmentFile getFile() {
         return file;
     }
@@ -181,19 +173,7 @@ public class FinancialEntityAttachment extends PersonFinIntDisclosureAssociate i
     public String getStatusCode() {
         return statusCode;
     }
-    public static void addAttachmentToCollection(FinancialEntityAttachment personFinIntDisclosureAttachment,
-            List<FinancialEntityAttachment> personFinIntDisclosureAttachments) {
-        if (personFinIntDisclosureAttachment == null) {
-            throw new IllegalArgumentException("the attachment is null");
-        }
-        
-        if (personFinIntDisclosureAttachments == null) {
-            throw new IllegalArgumentException("the toList is null");
-        }
-        
-        personFinIntDisclosureAttachments.add(personFinIntDisclosureAttachment);
-        
-    }
+
     public void setUpdateUser(String updateUser) {
         if (updateUser == null || getUpdateUser() == null  ) {
         super.setUpdateUser(updateUser);
@@ -226,13 +206,6 @@ public class FinancialEntityAttachment extends PersonFinIntDisclosureAssociate i
         } else if (!description.equals(other.description)) {
             return false;
         }
-        if (documentId == null) {
-            if (other.documentId != null) {
-                return false;
-            }
-        } else if (!documentId.equals(other.documentId)) {
-            return false;
-        }
        
         if (this.file == null) {
             if (other.file != null) {
@@ -257,7 +230,6 @@ public class FinancialEntityAttachment extends PersonFinIntDisclosureAssociate i
         final int prime = 31;
         int result = super.hashCode();
         result = prime * result + ((description == null) ? 0 : description.hashCode());
-        result = prime * result + ((documentId == null) ? 0 : documentId.hashCode());
         result = prime * result + ((this.file == null) ? 0 : this.file.hashCode());
         result = prime * result + ((this.fileId == null) ? 0 : this.fileId.hashCode());
         return result;
