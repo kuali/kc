@@ -28,7 +28,6 @@ import java.util.Map;
 
 import org.apache.commons.collections.CollectionUtils;
 import org.apache.commons.lang.StringUtils;
-import org.kuali.kra.authorization.ApplicationTask;
 import org.kuali.kra.bo.CoeusModule;
 import org.kuali.kra.bo.CoeusSubModule;
 import org.kuali.kra.committee.bo.CommitteeSchedule;
@@ -77,6 +76,7 @@ import org.kuali.kra.irb.actions.undo.UndoLastActionBean;
 import org.kuali.kra.irb.actions.withdraw.ProtocolWithdrawBean;
 import org.kuali.kra.irb.auth.GenericProtocolAuthorizer;
 import org.kuali.kra.irb.auth.ProtocolTask;
+import org.kuali.kra.irb.correspondence.ProtocolCorrespondence;
 import org.kuali.kra.irb.onlinereview.ProtocolReviewAttachment;
 import org.kuali.kra.irb.questionnaire.ProtocolModuleQuestionnaireBean;
 import org.kuali.kra.irb.summary.ProtocolSummary;
@@ -330,6 +330,7 @@ public class ActionHelper implements Serializable {
     private boolean hideReviewerName;
     private boolean hideSubmissionReviewerName;
     private boolean hideReviewerNameForAttachment;
+    private ProtocolCorrespondence protocolCorrespondence;
 
     /**
      * Constructs an ActionHelper.
@@ -3041,6 +3042,14 @@ public class ActionHelper implements Serializable {
 
     public void setHideReviewerNameForAttachment(boolean hideReviewerNameForAttachment) {
         this.hideReviewerNameForAttachment = hideReviewerNameForAttachment;
+    }
+
+    public ProtocolCorrespondence getProtocolCorrespondence() {
+        return protocolCorrespondence;
+    }
+
+    public void setProtocolCorrespondence(ProtocolCorrespondence protocolCorrespondence) {
+        this.protocolCorrespondence = protocolCorrespondence;
     }
 
 }

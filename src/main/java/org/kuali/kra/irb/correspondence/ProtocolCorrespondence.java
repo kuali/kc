@@ -19,6 +19,7 @@ import org.apache.commons.lang.StringUtils;
 import org.kuali.kra.bo.KraPersistableBusinessObjectBase;
 import org.kuali.kra.irb.Protocol;
 import org.kuali.kra.irb.actions.ProtocolAction;
+import org.kuali.kra.irb.actions.notification.ProtocolNotificationRequestBean;
 
 /**
  * 
@@ -51,6 +52,10 @@ public class ProtocolCorrespondence extends KraPersistableBusinessObjectBase {
     private ProtocolCorrespondenceType protocolCorrespondenceType;
 
     private ProtocolAction protocolAction;
+    // hooks to view/save correspondence
+    private ProtocolNotificationRequestBean notificationRequestBean;
+    private String forwardName;
+    private boolean holdingPage;
 
     /**
      * 
@@ -156,5 +161,29 @@ public class ProtocolCorrespondence extends KraPersistableBusinessObjectBase {
             this.refreshReferenceObject("protocolCorrespondenceType");
         }
         return protocolCorrespondenceType;
+    }
+
+    public String getForwardName() {
+        return forwardName;
+    }
+
+    public void setForwardName(String forwardName) {
+        this.forwardName = forwardName;
+    }
+
+    public ProtocolNotificationRequestBean getNotificationRequestBean() {
+        return notificationRequestBean;
+    }
+
+    public void setNotificationRequestBean(ProtocolNotificationRequestBean notificationRequestBean) {
+        this.notificationRequestBean = notificationRequestBean;
+    }
+
+    public boolean isHoldingPage() {
+        return holdingPage;
+    }
+
+    public void setHoldingPage(boolean holdingPage) {
+        this.holdingPage = holdingPage;
     }
 }

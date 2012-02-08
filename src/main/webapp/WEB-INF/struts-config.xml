@@ -356,6 +356,7 @@
       <action path="/protocolProtocolActions" name="ProtocolForm" input="/WEB-INF/jsp/irb/ProtocolProtocolActions.jsp" type="org.kuali.kra.irb.actions.ProtocolProtocolActionsAction"  scope="request" parameter="methodToCall" validate="true" attribute="KualiForm">
         <forward name="basic" path="/WEB-INF/jsp/irb/ProtocolProtocolActions.jsp" />
 	    &protocol_forwards;
+        <forward name="correspondence" path="/WEB-INF/jsp/irb/ProtocolCorrespondenceAction.jsp" />
       </action>
       
       <action path="/protocolOnlineReview" name="ProtocolForm" input="/WEB-INF/jsp/irb/ProtocolOnlineReview.jsp" type="org.kuali.kra.irb.onlinereview.ProtocolOnlineReviewAction"  scope="request" parameter="methodToCall" validate="true" attribute="KualiForm">
