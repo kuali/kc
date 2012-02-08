@@ -617,7 +617,6 @@
         <field-descriptor name="attachmentId" column="FINANCIAL_ENTITY_ATTACHMENT_ID" jdbc-type="BIGINT" primarykey="true" sequence-name="SEQ_DISCLOSURE_ID" autoincrement="true"/>
         <field-descriptor name="financialEntityId" column="FINANCIAL_ENTITY_ID_FK" jdbc-type="BIGINT" />
         <field-descriptor name="sequenceNumber" column="SEQUENCE_NUMBER" jdbc-type="INTEGER" />
-        <field-descriptor name="documentId" column="DOCUMENT_ID" jdbc-type="INTEGER" />
         <field-descriptor name="fileId" column="FILE_ID" jdbc-type="BIGINT"/>
         <field-descriptor name="description" column="DESCRIPTION" jdbc-type="VARCHAR" />
         <field-descriptor name="contactName" column="CONTACT_NAME" jdbc-type="VARCHAR" />
