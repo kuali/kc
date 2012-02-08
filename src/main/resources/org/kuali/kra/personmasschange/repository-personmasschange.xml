@@ -77,7 +77,7 @@
         <collection-descriptor name="schedulePersonMassChangeList" proxy="true" element-class-ref="org.kuali.kra.personmasschange.bo.SchedulePersonMassChange" collection-class="org.apache.ojb.broker.util.collections.ManageableArrayList" auto-retrieve="true" auto-update="object" auto-delete="object">
             <inverse-foreignkey field-ref="personMassChangeId"/>
         </collection-descriptor>
-        <collection-descriptor name="unitPersonMassChangeList" proxy="true" element-class-ref="org.kuali.kra.personmasschange.bo.UnitPersonMassChange" collection-class="org.apache.ojb.broker.util.collections.ManageableArrayList" auto-retrieve="true" auto-update="object" auto-delete="object">
+        <collection-descriptor name="unitAdministratorPersonMassChangeList" proxy="true" element-class-ref="org.kuali.kra.personmasschange.bo.UnitAdministratorPersonMassChange" collection-class="org.apache.ojb.broker.util.collections.ManageableArrayList" auto-retrieve="true" auto-update="object" auto-delete="object">
             <inverse-foreignkey field-ref="personMassChangeId"/>
         </collection-descriptor>
     </class-descriptor>
@@ -229,9 +229,14 @@
         </reference-descriptor>
     </class-descriptor>
     
-    <class-descriptor class="org.kuali.kra.personmasschange.bo.UnitPersonMassChange" table="UNIT_PMC">
-        <field-descriptor name="unitPersonMassChangeId" column="UNIT_PMC_ID" jdbc-type="BIGINT" primarykey="true" autoincrement="true" sequence-name="SEQ_PERSON_MASS_CHANGE_ID" />
+    <class-descriptor class="org.kuali.kra.personmasschange.bo.UnitAdministratorPersonMassChange" table="UNIT_ADMINISTRATOR_PMC">
+        <field-descriptor name="unitAdministratorPersonMassChangeId" column="UNIT_ADMINISTRATOR_PMC_ID" jdbc-type="BIGINT" primarykey="true" autoincrement="true" sequence-name="SEQ_PERSON_MASS_CHANGE_ID" />
         <field-descriptor name="personMassChangeId" column="PERSON_MASS_CHANGE_ID" jdbc-type="BIGINT"/>
+        <field-descriptor name="administrativeOfficer" column="ADMINISTRATIVE_OFFICER" jdbc-type="VARCHAR" conversion="org.kuali.rice.core.framework.persistence.ojb.conversion.OjbCharBooleanConversion"/>
+        <field-descriptor name="ospAdministrator" column="OSP_ADMINISTRATOR" jdbc-type="VARCHAR" conversion="org.kuali.rice.core.framework.persistence.ojb.conversion.OjbCharBooleanConversion"/>
+        <field-descriptor name="unitHead" column="UNIT_HEAD" jdbc-type="VARCHAR" conversion="org.kuali.rice.core.framework.persistence.ojb.conversion.OjbCharBooleanConversion"/>
+        <field-descriptor name="deanVP" column="DEAN_VP" jdbc-type="VARCHAR" conversion="org.kuali.rice.core.framework.persistence.ojb.conversion.OjbCharBooleanConversion"/>
+        <field-descriptor name="otherIndividualToNotify" column="OTHER_INDIVIDUAL_TO_NOTIFY" jdbc-type="VARCHAR" conversion="org.kuali.rice.core.framework.persistence.ojb.conversion.OjbCharBooleanConversion"/>
         <field-descriptor name="administrator" column="ADMINISTRATOR" jdbc-type="VARCHAR" conversion="org.kuali.rice.core.framework.persistence.ojb.conversion.OjbCharBooleanConversion"/>
         <field-descriptor name="updateUser" column="UPDATE_USER" jdbc-type="VARCHAR" />
         <field-descriptor name="updateTimestamp" column="UPDATE_TIMESTAMP" jdbc-type="TIMESTAMP" />

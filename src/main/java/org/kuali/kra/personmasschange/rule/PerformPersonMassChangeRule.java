@@ -22,7 +22,7 @@ import org.kuali.kra.personmasschange.bo.NegotiationPersonMassChange;
 import org.kuali.kra.personmasschange.bo.PersonMassChange;
 import org.kuali.kra.personmasschange.bo.ProposalDevelopmentPersonMassChange;
 import org.kuali.kra.personmasschange.bo.SubawardPersonMassChange;
-import org.kuali.kra.personmasschange.bo.UnitPersonMassChange;
+import org.kuali.kra.personmasschange.bo.UnitAdministratorPersonMassChange;
 import org.kuali.kra.personmasschange.rule.event.PerformPersonMassChangeEvent;
 import org.kuali.kra.rule.BusinessRuleInterface;
 import org.kuali.kra.rules.ResearchDocumentRuleBase;
@@ -37,7 +37,7 @@ public class PerformPersonMassChangeRule extends ResearchDocumentRuleBase implem
     private static final String PROPOSAL_DEVELOPMENT_FIELD = "document.personMassChange.proposalDevelopmentPersonMassChange.";
     private static final String SUBAWARD_FIELD = "document.personMassChange.subawardPersonMassChange.";
     private static final String NEGOTIATION_FIELD = "document.personMassChange.negotiationPersonMassChange.";
-    private static final String UNIT_FIELD = "document.personMassChange.unitPersonMassChange.";
+    private static final String UNIT_ADMINISTRATOR_FIELD = "document.personMassChange.unitAdministratorPersonMassChange.";
 
     private static final String CONTACT_PERSON_ID = "contactPerson";
     private static final String FOREIGN_TRIP_ID = "foreignTrip";
@@ -47,6 +47,11 @@ public class PerformPersonMassChangeRule extends ResearchDocumentRuleBase implem
     private static final String BUDGET_PERSON_ID = "budgetPerson";
     private static final String REQUISITIONER_ID = "requisitioner";
     private static final String NEGOTIATOR_ID = "negotiator";
+    private static final String ADMINISTRATIVE_OFFICER_ID = "administrativeOfficer";
+    private static final String OSP_ADMINISTRATOR_ID = "ospAdministrator";
+    private static final String UNIT_HEAD_ID = "unitHead";
+    private static final String DEAN_VP_ID = "deanVP";
+    private static final String OTHER_INDIVIDUAL_TO_NOTIFY_ID = "otherIndividualToNotify";
     private static final String ADMINISTRATOR_ID = "administrator";
     
     private static final String AWARD_CONTACT_PERSON_FIELD = AWARD_FIELD + CONTACT_PERSON_ID;
@@ -60,7 +65,12 @@ public class PerformPersonMassChangeRule extends ResearchDocumentRuleBase implem
     private static final String SUBAWARD_CONTACT_PERSON_FIELD = SUBAWARD_FIELD + CONTACT_PERSON_ID;
     private static final String SUBAWARD_REQUISITIONER_FIELD = SUBAWARD_FIELD + REQUISITIONER_ID;
     private static final String NEGOTIATION_NEGOTIATOR_FIELD = NEGOTIATION_FIELD + NEGOTIATOR_ID;
-    private static final String UNIT_ADMINISTRATOR_FIELD = UNIT_FIELD + ADMINISTRATOR_ID;
+    private static final String UNIT_ADMINISTRATOR_ADMINISTRATIVE_OFFICER_FIELD = UNIT_ADMINISTRATOR_FIELD + ADMINISTRATIVE_OFFICER_ID;
+    private static final String UNIT_ADMINISTRATOR_OSP_ADMINISTRATOR_FIELD = UNIT_ADMINISTRATOR_FIELD + OSP_ADMINISTRATOR_ID;
+    private static final String UNIT_ADMINISTRATOR_UNIT_HEAD_FIELD = UNIT_ADMINISTRATOR_FIELD + UNIT_HEAD_ID;
+    private static final String UNIT_ADMINISTRATOR_DEAN_VP_FIELD = UNIT_ADMINISTRATOR_FIELD + DEAN_VP_ID;
+    private static final String UNIT_ADMINISTRATOR_OTHER_INDIVIDUAL_TO_NOTIFY_FIELD = UNIT_ADMINISTRATOR_FIELD + OTHER_INDIVIDUAL_TO_NOTIFY_ID;
+    private static final String UNIT_ADMINISTRATOR_ADMINISTRATOR_FIELD = UNIT_ADMINISTRATOR_FIELD + ADMINISTRATOR_ID;
     
     private static final String EMPLOYEE = "Employee";
     private static final String NON_EMPLOYEE = "Non-Employee";
@@ -76,7 +86,12 @@ public class PerformPersonMassChangeRule extends ResearchDocumentRuleBase implem
     private static final String SUBAWARD_CONTACT_PERSON = "SubAward Contact Person";
     private static final String SUBAWARD_REQUISITIONER = "SubAward Requisitioner";
     private static final String NEGOTIATION_NEGOTIATOR = "Negotiation Negotiator";
-    private static final String UNIT_ADMINISTRATOR = "Unit Administrator";
+    private static final String UNIT_ADMINISTRATOR_ADMINISTRATIVE_OFFICER = "Unit Administrator Administrative Officer";
+    private static final String UNIT_ADMINISTRATOR_OSP_ADMINISTRATOR = "Unit Administrator OSP Administrator";
+    private static final String UNIT_ADMINISTRATOR_UNIT_HEAD = "Unit Administrator Unit Head";
+    private static final String UNIT_ADMINISTRATOR_DEAN_VP = "Unit Administrator Dean VP";
+    private static final String UNIT_ADMINISTRATOR_OTHER_INDIVIDUAL_TO_NOTIFY = "Unit Administrator Other Individual to Notify";
+    private static final String UNIT_ADMINISTRATOR_ADMINISTRATOR = "Unit Administrator Administrator";
     
     /**
      * {@inheritDoc}
@@ -99,7 +114,7 @@ public class PerformPersonMassChangeRule extends ResearchDocumentRuleBase implem
             rulePassed &= validateProposalDevelopmentMassChange(personMassChange);
             rulePassed &= validateSubawardMassChange(personMassChange);
             rulePassed &= validateNegotiationMassChange(personMassChange);
-            rulePassed &= validateUnitMassChange(personMassChange);
+            rulePassed &= validateUnitAdministratorMassChange(personMassChange);
         }
         return rulePassed;
     }
@@ -204,13 +219,33 @@ public class PerformPersonMassChangeRule extends ResearchDocumentRuleBase implem
         return isValid;
     }
     
-    private boolean validateUnitMassChange(PersonMassChange personMassChange) {
+    private boolean validateUnitAdministratorMassChange(PersonMassChange personMassChange) {
         boolean isValid = true;
         
-        UnitPersonMassChange unitPersonMassChange = personMassChange.getUnitPersonMassChange();
+        UnitAdministratorPersonMassChange unitPersonMassChange = personMassChange.getUnitAdministratorPersonMassChange();
+        
+        if (unitPersonMassChange.isAdministrativeOfficer()) {
+            isValid &= validatePerson(personMassChange, UNIT_ADMINISTRATOR_ADMINISTRATIVE_OFFICER_FIELD, UNIT_ADMINISTRATOR_ADMINISTRATIVE_OFFICER);
+        }
+        
+        if (unitPersonMassChange.isOspAdministrator()) {
+            isValid &= validatePerson(personMassChange, UNIT_ADMINISTRATOR_OSP_ADMINISTRATOR_FIELD, UNIT_ADMINISTRATOR_OSP_ADMINISTRATOR);
+        }
+        
+        if (unitPersonMassChange.isUnitHead()) {
+            isValid &= validatePerson(personMassChange, UNIT_ADMINISTRATOR_UNIT_HEAD_FIELD, UNIT_ADMINISTRATOR_UNIT_HEAD);
+        }
+        
+        if (unitPersonMassChange.isDeanVP()) {
+            isValid &= validatePerson(personMassChange, UNIT_ADMINISTRATOR_DEAN_VP_FIELD, UNIT_ADMINISTRATOR_DEAN_VP);
+        }
+        
+        if (unitPersonMassChange.isOtherIndividualToNotify()) {
+            isValid &= validatePerson(personMassChange, UNIT_ADMINISTRATOR_OTHER_INDIVIDUAL_TO_NOTIFY_FIELD, UNIT_ADMINISTRATOR_OTHER_INDIVIDUAL_TO_NOTIFY);
+        }
         
         if (unitPersonMassChange.isAdministrator()) {
-            isValid &= validatePerson(personMassChange, UNIT_ADMINISTRATOR_FIELD, UNIT_ADMINISTRATOR);
+            isValid &= validatePerson(personMassChange, UNIT_ADMINISTRATOR_ADMINISTRATOR_FIELD, UNIT_ADMINISTRATOR_ADMINISTRATOR);
         }
         
         return isValid;

@@ -11,7 +11,7 @@
 <c:set var="committeePersonMassChangeAttributes" value="${DataDictionary.CommitteePersonMassChange.attributes}" />
 <c:set var="protocolPersonMassChangeAttributes" value="${DataDictionary.ProtocolPersonMassChange.attributes}" />
 <c:set var="schedulePersonMassChangeAttributes" value="${DataDictionary.SchedulePersonMassChange.attributes}" />
-<c:set var="unitPersonMassChangeAttributes" value="${DataDictionary.UnitPersonMassChange.attributes}" />
+<c:set var="unitAdministratorPersonMassChangeAttributes" value="${DataDictionary.UnitAdministratorPersonMassChange.attributes}" />
 <c:set var="action" value="personMassChangeHome" />
 <c:set var="className" value="org.kuali.kra.personmasschange.document.PersonMassChangeDocument" />
 <c:set var="readOnly" value="${not KualiForm.editingMode['modify']}"/>
@@ -307,20 +307,45 @@
 	        </div>
 	    </kul:innerTab>
 	    
-	    <kul:innerTab parentTab="${parentTab}" tabTitle="Unit ${tabTitle}" tabErrorKey="document.personMassChange.unitPersonMassChange.*" defaultOpen="false" >
+	    <kul:innerTab parentTab="${parentTab}" tabTitle="Unit Administrator ${tabTitle}" tabErrorKey="document.personMassChange.unitAdministratorPersonMassChange.*" defaultOpen="false" >
 	        <div class="tab-container" align="center">
 	            <table cellpadding="4" cellspacing="0" summary="">
+	               <tr>
+                        <th style="width:50%"><div align="left"><kul:htmlAttributeLabel attributeEntry="${unitAdministratorPersonMassChangeAttributes.administrativeOfficer}" /></div></th>
+                        <td style="width:50%"><kul:htmlControlAttribute property="document.personMassChange.unitAdministratorPersonMassChange.administrativeOfficer" 
+                                                                        attributeEntry="${unitAdministratorPersonMassChangeAttributes.administrativeOfficer}" readOnly="false" /></td>
+                    </tr>
+                    <tr>
+                        <th style="width:50%"><div align="left"><kul:htmlAttributeLabel attributeEntry="${unitAdministratorPersonMassChangeAttributes.ospAdministrator}" /></div></th>
+                        <td style="width:50%"><kul:htmlControlAttribute property="document.personMassChange.unitAdministratorPersonMassChange.ospAdministrator" 
+                                                                        attributeEntry="${unitAdministratorPersonMassChangeAttributes.ospAdministrator}" readOnly="false" /></td>
+                    </tr>
+                    <tr>
+                        <th style="width:50%"><div align="left"><kul:htmlAttributeLabel attributeEntry="${unitAdministratorPersonMassChangeAttributes.unitHead}" /></div></th>
+                        <td style="width:50%"><kul:htmlControlAttribute property="document.personMassChange.unitAdministratorPersonMassChange.unitHead" 
+                                                                        attributeEntry="${unitAdministratorPersonMassChangeAttributes.unitHead}" readOnly="false" /></td>
+                    </tr>
+                    <tr>
+                        <th style="width:50%"><div align="left"><kul:htmlAttributeLabel attributeEntry="${unitAdministratorPersonMassChangeAttributes.deanVP}" /></div></th>
+                        <td style="width:50%"><kul:htmlControlAttribute property="document.personMassChange.unitAdministratorPersonMassChange.deanVP" 
+                                                                        attributeEntry="${unitAdministratorPersonMassChangeAttributes.deanVP}" readOnly="false" /></td>
+                    </tr>
+                    <tr>
+                        <th style="width:50%"><div align="left"><kul:htmlAttributeLabel attributeEntry="${unitAdministratorPersonMassChangeAttributes.otherIndividualToNotify}" /></div></th>
+                        <td style="width:50%"><kul:htmlControlAttribute property="document.personMassChange.unitAdministratorPersonMassChange.otherIndividualToNotify" 
+                                                                        attributeEntry="${unitAdministratorPersonMassChangeAttributes.otherIndividualToNotify}" readOnly="false" /></td>
+                    </tr>
 	                <tr>
-	                    <th style="width:50%"><div align="left"><kul:htmlAttributeLabel attributeEntry="${unitPersonMassChangeAttributes.administrator}" /></div></th>
-	                    <td style="width:50%"><kul:htmlControlAttribute property="document.personMassChange.unitPersonMassChange.administrator" 
-	                                                                    attributeEntry="${unitPersonMassChangeAttributes.administrator}" readOnly="false" /></td>
+	                    <th style="width:50%"><div align="left"><kul:htmlAttributeLabel attributeEntry="${unitAdministratorPersonMassChangeAttributes.administrator}" /></div></th>
+	                    <td style="width:50%"><kul:htmlControlAttribute property="document.personMassChange.unitAdministratorPersonMassChange.administrator" 
+	                                                                    attributeEntry="${unitAdministratorPersonMassChangeAttributes.administrator}" readOnly="false" /></td>
 	                </tr>
 	                <tr>
                         <td colspan="2"><div align="center">
                             <html:image src='${ConfigProperties.kra.externalizable.images.url}tinybutton-selectall.gif' alt="Select All" styleClass="tinybutton" 
-                                        onclick="selectAllPersonMassChangeCategory('document.personMassChange.unitPersonMassChange', 'administrator')" />
+                                        onclick="selectAllPersonMassChangeCategory('document.personMassChange.unitAdministratorPersonMassChange', 'administrativeOfficer', 'ospAdministrator', 'unitHead', 'deanVP', 'otherIndividualToNotify', 'administrator')" />
                             <html:image src='${ConfigProperties.kra.externalizable.images.url}tinybutton-selectnone.gif' alt="Select None" styleClass="tinybutton" 
-                                        onclick="unselectAllPersonMassChangeCategory('document.personMassChange.unitPersonMassChange', 'administrator')"/>
+                                        onclick="unselectAllPersonMassChangeCategory('document.personMassChange.unitAdministratorPersonMassChange', 'administrativeOfficer', 'ospAdministrator', 'unitHead', 'deanVP', 'otherIndividualToNotify', 'administrator')"/>
                         </div></td>
                     </tr>
 	            </table>
