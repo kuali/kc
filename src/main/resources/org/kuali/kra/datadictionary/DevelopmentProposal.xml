@@ -1,20 +1,11 @@
-<!--
-/*
- * Copyright 2005-2010 The Kuali Foundation
- * 
- * Licensed under the Educational Community License, Version 2.0 (the "License");
- * you may not use this file except in compliance with the License.
- * You may obtain a copy of the License at
- * 
- * http://www.osedu.org/licenses/ECL-2.0
- * 
- * Unless required by applicable law or agreed to in writing, software
- * distributed under the License is distributed on an "AS IS" BASIS,
- * WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
- * See the License for the specific language governing permissions and
- * limitations under the License.
- */
--->
+<!-- /* * Copyright 2005-2010 The Kuali Foundation * * Licensed under the 
+	Educational Community License, Version 2.0 (the "License"); * you may not 
+	use this file except in compliance with the License. * You may obtain a copy 
+	of the License at * * http://www.osedu.org/licenses/ECL-2.0 * * Unless required 
+	by applicable law or agreed to in writing, software * distributeand under the 
+	License is distributed on an "AS IS" BASIS, * WITHOUT WARRANTIES OR CONDITIONS 
+	OF ANY KIND, either express or implied. * See the License for the specific 
+	language governing permissions and * limitations under the License. */ -->
 <beans xmlns="http://www.springframework.org/schema/beans"
 	xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xmlns:p="http://www.springframework.org/schema/p"
 	xsi:schemaLocation="http://www.springframework.org/schema/beans
@@ -26,10 +17,8 @@
 		<property name="businessObjectClass"
 			value="org.kuali.kra.proposaldevelopment.bo.DevelopmentProposal" />
 		<property name="objectLabel" value="Development Proposal" />
-		<!--
-			<property name="inquiryDefinition" > <ref
-			bean="DevelopmentProposal-inquiryDefinition" /> </property>
-		-->
+		<!-- <property name="inquiryDefinition" > <ref bean="DevelopmentProposal-inquiryDefinition" 
+			/> </property> -->
 		<property name="lookupDefinition">
 			<ref bean="DevelopmentProposal-lookupDefinition" />
 		</property>
@@ -76,23 +65,19 @@
 				<ref bean="DevelopmentProposal-principalInvestigatorName" />
 				<!-- <ref bean="DevelopmentProposal-proposalPersons.fullName" /> -->
 				<ref bean="DevelopmentProposal-proposalDocument.documentNumber" />
+				<ref bean="DevelopmentProposal-anticipatedAwardTypeCode" />
 				<ref bean="DevelopmentProposal-budgetStatus" />
 			</list>
 		</property>
 		<property name="collections">
 			<list>
-				<bean parent="CollectionDefinition" p:name="proposalPersons" p:label="Proposal Personnel" p:shortLabel="Personnel" p:elementLabel="Proposal Person" />
-			</list>	
-		</property>
-<!-- 
-		<property name="relationships">
-			<list>
-				<bean parent=RelationshipDefinition">
-				
-				</bean>
+				<bean parent="CollectionDefinition" p:name="proposalPersons"
+					p:label="Proposal Personnel" p:shortLabel="Personnel"
+					p:elementLabel="Proposal Person" />
 			</list>
 		</property>
--->
+		<!-- <property name="relationships"> <list> <bean parent=RelationshipDefinition"> 
+			</bean> </list> </property> -->
 	</bean>
 
 
@@ -157,8 +142,8 @@
 	</bean>
 
 	<bean id="DevelopmentProposal-sponsor.sponsorName" parent="DevelopmentProposal-sponsor.sponsorName-parentBean" />
-	<bean id="DevelopmentProposal-sponsor.sponsorName-parentBean" abstract="true"
-		parent="AttributeDefinition">
+	<bean id="DevelopmentProposal-sponsor.sponsorName-parentBean"
+		abstract="true" parent="AttributeDefinition">
 		<property name="name" value="sponsor.sponsorName" />
 		<property name="forceUppercase" value="false" />
 		<property name="label" value="Sponsor Name" />
@@ -196,8 +181,7 @@
 		<property name="shortLabel" value="End Dt" />
 		<property name="required" value="true" />
 		<property name="summary" value="The End Date of the Proposal" />
-		<property name="description"
-			value="The date the project period will terminate." />
+		<property name="description" value="The date the project period will terminate." />
 	</bean>
 
 	<bean id="DevelopmentProposal-activityTypeCode" parent="DevelopmentProposal-activityTypeCode-parentBean" />
@@ -368,6 +352,30 @@
 		<property name="summary" value="The Deadline Type for this Proposal." />
 		<property name="description" value="Indicates the type of proposal deadline." />
 	</bean>
+
+  <bean id="DevelopmentProposal-anticipatedAwardTypeCode" parent="DevelopmentProposal-anticipatedAwardTypeCode-parentBean" />
+  <bean id="DevelopmentProposal-anticipatedAwardTypeCode-parentBean" abstract="true" parent="AttributeDefinition" >
+    <property name="name" value="anticipatedAwardTypeCode" />
+    <property name="forceUppercase" value="false" />
+    <property name="label" value="Anticipated Award Type" />
+    <property name="shortLabel" value="Anticipated Award Type" />
+    <property name="maxLength" value="3" />
+    <property name="validationPattern" >
+      <bean parent="NumericValidationPattern" />
+    </property>
+    <property name="required" value="false" />
+    <property name="control" >
+      <bean parent="SelectControlDefinition"
+            p:businessObjectClass="org.kuali.kra.award.home.AwardType" 
+            p:valuesFinderClass="org.kuali.kra.lookup.keyvalue.ExtendedPersistableBusinessObjectValuesFinder"
+            p:includeKeyInLabel="false"
+            p:includeBlankRow="false"
+            p:keyAttribute="awardTypeCode"   
+            p:labelAttribute="description" />
+    </property>
+    <property name="summary" value="Anticipated Award Type" />
+    <property name="description" value="Anticipated Award Type" />
+  </bean>
 
 	<bean id="DevelopmentProposal-primeSponsorCode" parent="DevelopmentProposal-primeSponsorCode-parentBean" />
 	<bean id="DevelopmentProposal-primeSponsorCode-parentBean"
@@ -680,8 +688,8 @@
 	</bean>
 
 	<bean id="DevelopmentProposal-proposalStateTypeCode" parent="DevelopmentProposal-proposalStateTypeCode-parentBean" />
-	<bean id="DevelopmentProposal-proposalStateTypeCode-parentBean" abstract="true"
-		parent="AttributeDefinition">
+	<bean id="DevelopmentProposal-proposalStateTypeCode-parentBean"
+		abstract="true" parent="AttributeDefinition">
 		<property name="name" value="proposalStateTypeCode" />
 		<property name="forceUppercase" value="false" />
 		<property name="label" value="Proposal State" />
@@ -691,7 +699,8 @@
 			<bean parent="AlphaNumericValidationPattern" />
 		</property>
 		<property name="control">
-			<bean parent="SelectControlDefinition" p:businessObjectClass="org.kuali.kra.proposaldevelopment.bo.ProposalState"
+			<bean parent="SelectControlDefinition"
+				p:businessObjectClass="org.kuali.kra.proposaldevelopment.bo.ProposalState"
 				p:valuesFinderClass="org.kuali.kra.lookup.keyvalue.ExtendedPersistableBusinessObjectValuesFinder"
 				p:includeKeyInLabel="false" p:keyAttribute="stateTypeCode"
 				p:labelAttribute="description" />
@@ -701,9 +710,10 @@
 			value="The Proposal State for this Proposal Development Document" />
 	</bean>
 
-	<bean id="DevelopmentProposal-proposalState.description" parent="DevelopmentProposal-proposalState.description-parentBean" />
-	<bean id="DevelopmentProposal-proposalState.description-parentBean" abstract="true"
-		parent="AttributeDefinition">
+	<bean id="DevelopmentProposal-proposalState.description"
+		parent="DevelopmentProposal-proposalState.description-parentBean" />
+	<bean id="DevelopmentProposal-proposalState.description-parentBean"
+		abstract="true" parent="AttributeDefinition">
 		<property name="name" value="proposalState.description" />
 		<property name="forceUppercase" value="false" />
 		<property name="label" value="Proposal State" />
@@ -791,60 +801,59 @@
 		<property name="description" value="Hierarchy Status" />
 	</bean>
 
-	<!-- 
-  	<bean id="DevelopmentProposal-proposalPersons.fullName" parent="DevelopmentProposal-proposalPersons.fullName-parentBean" />
-	<bean id="DevelopmentProposal-proposalPersons.fullName-parentBean" abstract="true" parent="AttributeDefinition" >
-		<property name="name" value="proposalPersons.fullName" />
-		<property name="forceUppercase" value="false" />
-		<property name="label" value="Proposal Person Full Name" />
-		<property name="shortLabel" value="Proposal Person" />
-		<property name="maxLength" value="60" />
-		<property name="validationPattern" >
-      		<bean p:allowWhitespace="true" parent="AnyCharacterValidationPattern" />
-		</property>
-		<property name="control" >
-			<bean p:size="30" parent="TextControlDefinition" />
-		</property>
-		<property name="summary" value="Proposal Person" />
-		<property name="description" value="Proposal Person" />
-	</bean>
-	 -->
-	 
-  	<bean id="DevelopmentProposal-principalInvestigatorName" parent="DevelopmentProposal-principalInvestigatorName-parentBean" />
-	<bean id="DevelopmentProposal-principalInvestigatorName-parentBean" abstract="true" parent="AttributeDefinition" >
+	<!-- <bean id="DevelopmentProposal-proposalPersons.fullName" parent="DevelopmentProposal-proposalPersons.fullName-parentBean" 
+		/> <bean id="DevelopmentProposal-proposalPersons.fullName-parentBean" abstract="true" 
+		parent="AttributeDefinition" > <property name="name" value="proposalPersons.fullName" 
+		/> <property name="forceUppercase" value="false" /> <property name="label" 
+		value="Proposal Person Full Name" /> <property name="shortLabel" value="Proposal 
+		Person" /> <property name="maxLength" value="60" /> <property name="validationPattern" 
+		> <bean p:allowWhitespace="true" parent="AnyCharacterValidationPattern" /> 
+		</property> <property name="control" > <bean p:size="30" parent="TextControlDefinition" 
+		/> </property> <property name="summary" value="Proposal Person" /> <property 
+		name="description" value="Proposal Person" /> </bean> -->
+
+	<bean id="DevelopmentProposal-principalInvestigatorName"
+		parent="DevelopmentProposal-principalInvestigatorName-parentBean" />
+	<bean id="DevelopmentProposal-principalInvestigatorName-parentBean"
+		abstract="true" parent="AttributeDefinition">
 		<property name="name" value="principalInvestigatorName" />
 		<property name="forceUppercase" value="false" />
 		<property name="label" value="Principal Investigator" />
 		<property name="shortLabel" value="PI" />
 		<property name="maxLength" value="60" />
-		<property name="validationPattern" >
-      		<bean p:allowWhitespace="true" parent="AnyCharacterValidationPattern" />
+		<property name="validationPattern">
+			<bean p:allowWhitespace="true" parent="AnyCharacterValidationPattern" />
 		</property>
-		<property name="control" >
+		<property name="control">
 			<bean p:size="20" parent="TextControlDefinition" />
 		</property>
 		<property name="summary" value="Principal Investigator" />
 		<property name="description" value="Principal Investigator Full Name" />
 	</bean>
-	
-	<bean id="DevelopmentProposal-budgetStatus" parent="DevelopmentProposal-budgetStatus-parentBean"/>
 
-	  <bean id="DevelopmentProposal-budgetStatus-parentBean" abstract="true" parent="AttributeDefinition">
-	    <property name="name" value="budgetStatus"/>
-	    <property name="forceUppercase" value="false"/>
-	    <property name="label" value="Budget Status"/>
-	    <property name="shortLabel" value="Budget Status"/>
-	    <property name="maxLength" value="1"/>
-	    <property name="validationPattern">
-	      <bean parent="AlphaNumericValidationPattern"/>
-	    </property>
-	    <property name="control">
-	      <bean parent="SelectControlDefinition" p:businessObjectClass="org.kuali.kra.proposaldevelopment.bo.BudgetStatus" p:valuesFinderClass="org.kuali.kra.lookup.keyvalue.ExtendedPersistableBusinessObjectValuesFinder" p:includeKeyInLabel="false" p:keyAttribute="budgetStatusCode" p:labelAttribute="description"/>
-	    </property>
-	    <property name="summary" value="Budget Status summary"/>
-	    <property name="description" value="The status of the final budget version for this Proposal Development Document"/>
-	  </bean>
-	
+	<bean id="DevelopmentProposal-budgetStatus" parent="DevelopmentProposal-budgetStatus-parentBean" />
+
+	<bean id="DevelopmentProposal-budgetStatus-parentBean" abstract="true"
+		parent="AttributeDefinition">
+		<property name="name" value="budgetStatus" />
+		<property name="forceUppercase" value="false" />
+		<property name="label" value="Budget Status" />
+		<property name="shortLabel" value="Budget Status" />
+		<property name="maxLength" value="1" />
+		<property name="validationPattern">
+			<bean parent="AlphaNumericValidationPattern" />
+		</property>
+		<property name="control">
+			<bean parent="SelectControlDefinition" p:businessObjectClass="org.kuali.kra.proposaldevelopment.bo.BudgetStatus"
+				p:valuesFinderClass="org.kuali.kra.lookup.keyvalue.ExtendedPersistableBusinessObjectValuesFinder"
+				p:includeKeyInLabel="false" p:keyAttribute="budgetStatusCode"
+				p:labelAttribute="description" />
+		</property>
+		<property name="summary" value="Budget Status summary" />
+		<property name="description"
+			value="The status of the final budget version for this Proposal Development Document" />
+	</bean>
+
 	<!-- Business Object Lookup Definition -->
 	<bean id="DevelopmentProposal-lookupDefinition" parent="DevelopmentProposal-lookupDefinition-parentBean" />
 	<bean id="DevelopmentProposal-lookupDefinition-parentBean"
@@ -869,7 +878,8 @@
 				<bean parent="FieldDefinition" p:attributeName="proposalTypeCode" />
 				<bean parent="FieldDefinition" p:attributeName="proposalStateTypeCode" />
 				<bean parent="FieldDefinition" p:attributeName="title" />
-				<!-- <bean parent="FieldDefinition" p:attributeName="proposalPersons.fullName" /> -->
+				<!-- <bean parent="FieldDefinition" p:attributeName="proposalPersons.fullName" 
+					/> -->
 				<bean parent="FieldDefinition" p:attributeName="deadlineDate" />
 				<bean parent="FieldDefinition" p:attributeName="sponsorCode" />
 				<bean parent="FieldDefinition" p:attributeName="sponsor.sponsorName" />

@@ -27,6 +27,7 @@ import java.util.TreeMap;
 import org.apache.commons.collections.CollectionUtils;
 import org.apache.commons.lang.StringUtils;
 import org.kuali.kra.award.home.ContactRole;
+import org.kuali.kra.award.home.AwardType;
 import org.kuali.kra.bo.KraPersistableBusinessObjectBase;
 import org.kuali.kra.bo.NoticeOfOpportunity;
 import org.kuali.kra.bo.NsfCode;
@@ -103,6 +104,9 @@ public class DevelopmentProposal extends KraPersistableBusinessObjectBase implem
     private NoticeOfOpportunity noticeOfOpportunity;
 
     private String deadlineType;
+    
+    private Integer anticipatedAwardTypeCode;
+    private AwardType anticipatedAwardType;
 
     private String cfdaNumber;
 
@@ -607,6 +611,30 @@ public class DevelopmentProposal extends KraPersistableBusinessObjectBase implem
     }
 
     /**
+     * Sets the anticipatedAwardType attribute value.
+     * 
+     * @param anticipatedAwardType The anticipatedAwardType to set.
+     */
+    public void setAnticipatedAwardTypeCode(Integer anticipatedAwardTypeCode) {
+        this.anticipatedAwardTypeCode = anticipatedAwardTypeCode;
+    }
+    
+    public void setAnticipatedAwardType(AwardType anticipatedAwardType) {
+        this.anticipatedAwardType = anticipatedAwardType;
+    }
+    /**
+     * Gets the anticipatedAwardType attribute.
+     * 
+     * @return Returns the anticipatedAwardType.
+     */
+    public Integer getAnticipatedAwardTypeCode() {
+        return anticipatedAwardTypeCode;
+    }
+    public AwardType getAnticipatedAwardType() {
+        return anticipatedAwardType;
+    }
+
+    /**
      * Sets the deadlineType attribute value.
      * 
      * @param deadlineType The deadlineType to set.
@@ -616,7 +644,7 @@ public class DevelopmentProposal extends KraPersistableBusinessObjectBase implem
     }
 
     /**
-     * Gets the noticeOfOpportunityCode attribute.
+     * Gets the noticeOfOpportu nityCode attribute.
      * 
      * @return Returns the noticeOfOpportunityCode.
      */

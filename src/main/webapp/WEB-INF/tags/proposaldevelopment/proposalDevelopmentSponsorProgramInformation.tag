@@ -89,9 +89,8 @@
            		<td>
            			<kul:htmlControlAttribute property="document.developmentProposalList[0].subcontracts" attributeEntry="${proposalDevelopmentAttributes.subcontracts}" />
            		</td>
-     		</tr>
-        	<tr>
-				<th><div align="right"><kul:htmlAttributeLabel attributeEntry="${proposalDevelopmentAttributes.agencyDivisionCode}" /></div></th>
+     		</tr>`
+        	<tr>				<th><div align="right"><kul:htmlAttributeLabel attributeEntry="${proposalDevelopmentAttributes.agencyDivisionCode}" /></div></th>
                 <td>
                 	<kul:htmlControlAttribute property="document.developmentProposalList[0].agencyDivisionCode" attributeEntry="${proposalDevelopmentAttributes.agencyDivisionCode}" />
                 </td>
@@ -100,12 +99,26 @@
            			<kul:htmlControlAttribute property="document.developmentProposalList[0].agencyProgramCode" attributeEntry="${proposalDevelopmentAttributes.agencyProgramCode}" />
            		</td>
      		</tr>
+
+     		<tr>
+				<th><div align="right"><kul:htmlAttributeLabel attributeEntry="${proposalDevelopmentAttributes.anticipatedAwardTypeCode}" /></div></th>
+                <td>
+                	<kul:htmlControlAttribute property="document.developmentProposalList[0].anticipatedAwardTypeCode" readOnly="${readOnly}" attributeEntry="${proposalDevelopmentAttributes.anticipatedAwardTypeCode}" styleClass="fixed-size-200-select"/>
+                </td>
+     		</tr>
+     		</tr>
+
+
             <tr>
                 <th><div align="right"><kul:htmlAttributeLabel attributeEntry="${proposalDevelopmentAttributes.programAnnouncementTitle}" /></div></th>
                 <td colspan="3" align="left" valign="middle">
                 	<kul:htmlControlAttribute property="document.developmentProposalList[0].programAnnouncementTitle" attributeEntry="${proposalDevelopmentAttributes.programAnnouncementTitle}" />
                 </td>
             </tr>
+            
+            
+            
+            
         </table>
     </div>
 </kul:tab>
