@@ -29,7 +29,9 @@ import org.kuali.kra.bo.PersonEditableField;
 import org.kuali.kra.document.ResearchDocumentBase;
 import org.kuali.kra.infrastructure.KeyConstants;
 import org.kuali.kra.infrastructure.KraServiceLocator;
+import org.kuali.kra.questionnaire.QuestionableFormInterface;
 import org.kuali.kra.rules.SoftError;
+import org.kuali.rice.kim.api.KimConstants;
 import org.kuali.rice.kns.document.authorization.DocumentAuthorizerBase;
 import org.kuali.rice.kns.web.struts.form.KualiTransactionalDocumentFormBase;
 import org.kuali.rice.kns.web.ui.ExtraButton;
@@ -298,5 +300,38 @@ public abstract class KraTransactionalDocumentFormBase extends KualiTransactiona
      */
     public String getModuleCode() {
         return "0";
+    }
+    
+    /**
+     * This is a duplication of KualiTransactionalDocumentFormBase.populateFalseCheckboxes with the cavet that this function
+     * puts a NULL in for fields that contain "answer", which are the field names of radio Y/N buttons for the questionnaire framework.
+     * @see org.kuali.rice.kns.web.struts.form.KualiTransactionalDocumentFormBase#populateFalseCheckboxes(javax.servlet.http.HttpServletRequest)
+     */
+    @Override
+    protected void populateFalseCheckboxes(HttpServletRequest request) {
+        Map<String, String[]> parameterMap = request.getParameterMap();
+        final String checkBoxToResetFieldParam = "checkboxToReset";
+        if (parameterMap.get(checkBoxToResetFieldParam) != null) {
+            final String[] checkboxesToResetFields = request.getParameterValues("checkboxToReset");
+            if (checkboxesToResetFields != null && checkboxesToResetFields.length > 0) {
+                for (int i = 0; i < checkboxesToResetFields.length; i++) {
+                    String propertyName = (String) checkboxesToResetFields[i];
+                    if (!StringUtils.isBlank(propertyName) && parameterMap.get(propertyName) == null) {
+                        if (this instanceof QuestionableFormInterface 
+                                && StringUtils.startsWithIgnoreCase(propertyName, ((QuestionableFormInterface) this).getQuestionnaireFieldStarter())
+                                && StringUtils.containsIgnoreCase(propertyName, ((QuestionableFormInterface) this).getQuestionnaireFieldMiddle())
+                                && StringUtils.endsWithIgnoreCase(propertyName, ((QuestionableFormInterface) this).getQuestionnaireFieldEnd())) {
+                            populateForProperty(propertyName, null, parameterMap);
+                        } else {
+                            populateForProperty(propertyName, KimConstants.KIM_ATTRIBUTE_BOOLEAN_FALSE_STR_VALUE_DISPLAY, parameterMap);
+                        }
+                    } else if (!StringUtils.isBlank(propertyName) && parameterMap.get(propertyName) != null 
+                            && parameterMap.get(propertyName).length >= 1 
+                            && parameterMap.get(propertyName)[0].equalsIgnoreCase("on")) {
+                        populateForProperty(propertyName, KimConstants.KIM_ATTRIBUTE_BOOLEAN_TRUE_STR_VALUE_DISPLAY, parameterMap);
+                    }
+                }
+            }
+        }
     }
 }
