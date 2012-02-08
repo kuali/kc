@@ -6,7 +6,7 @@
 			<description>Create/Edit a Special Review Type Code</description>
 			<label>Special Review Type</label>
 			<parent>KcSharedMaintenanceDocument</parent>
-			<helpDefinitionURL>default.htm?turl=Documents/specialreviewapprovaltype.htm</helpDefinitionURL>
+			<helpDefinitionURL>default.htm?turl=Documents/specialreviewtype.htm</helpDefinitionURL>
 		</documentType>
 	</documentTypes>	
 </data>

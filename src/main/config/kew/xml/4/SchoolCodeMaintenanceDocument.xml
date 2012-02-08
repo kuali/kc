@@ -6,6 +6,7 @@
 			<description>Create a New School Code</description>
 			<label>School Code</label>
 			<parent>KcMiscellaneousMaintenanceDocument</parent>
+			<helpDefinitionURL>default.htm?turl=Documents/schoolcode.htm</helpDefinitionURL>
 		</documentType>
 	</documentTypes>	
 </data>

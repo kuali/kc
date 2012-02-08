@@ -8,6 +8,7 @@
             <description>Create/Edit a Cost Share Type</description>
             <label>Cost Share Type</label>
             <parent>KcSharedMaintenanceDocument</parent>
+            <helpDefinitionURL>default.htm?turl=Documents/costsharetype.htm</helpDefinitionURL>
         </documentType>
     </documentTypes>
 </data>

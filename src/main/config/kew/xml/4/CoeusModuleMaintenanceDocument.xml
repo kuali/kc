@@ -6,6 +6,7 @@
 			<description>Create a Kuali Coeus Module</description>
 			<label>Kuali Coeus Module</label>
 			<parent>KcMiscellaneousMaintenanceDocument</parent>
+			<helpDefinitionURL>default.htm?turl=Documents/modulenames.htm</helpDefinitionURL>
 		</documentType>
 	</documentTypes>	
 </data>

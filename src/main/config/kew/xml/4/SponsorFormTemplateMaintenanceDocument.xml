@@ -6,6 +6,7 @@
 			<description>Create a New Sponsor Form Template</description>
 			<label>Sponsor Form Template</label>
 			<parent>KcMiscellaneousMaintenanceDocument</parent>
+			<helpDefinitionURL>default.htm?turl=Documents/sponsorformtemplates.htm</helpDefinitionURL>
 		</documentType>
 	</documentTypes>	
 </data>
