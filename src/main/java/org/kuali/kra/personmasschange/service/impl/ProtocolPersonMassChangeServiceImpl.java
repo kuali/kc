@@ -34,6 +34,7 @@ import org.kuali.kra.irb.onlinereview.ProtocolOnlineReview;
 import org.kuali.kra.irb.personnel.ProtocolPerson;
 import org.kuali.kra.irb.personnel.ProtocolPersonRole;
 import org.kuali.kra.irb.personnel.ProtocolPersonTrainingService;
+import org.kuali.kra.irb.personnel.ProtocolUnit;
 import org.kuali.kra.personmasschange.bo.PersonMassChange;
 import org.kuali.kra.personmasschange.service.ProtocolPersonMassChangeService;
 import org.kuali.kra.rules.ErrorReporter;
@@ -136,14 +137,22 @@ public class ProtocolPersonMassChangeServiceImpl implements ProtocolPersonMassCh
         List<ProtocolPerson> protocolPersons = protocol.getProtocolPersons();
         List<ProtocolOnlineReview> protocolOnlineReviews = protocol.getProtocolOnlineReviews();
         
-        String[] protocolPersonInvestigatorRoles = { ProtocolPersonRole.ROLE_PRINCIPAL_INVESTIGATOR, ProtocolPersonRole.ROLE_CO_INVESTIGATOR };
-        String[] protocolPersonKeyStudyPersonRoles = { ProtocolPersonRole.ROLE_STUDY_PERSONNEL };
-        String[] protocolPersonCorrespondentsRoles = { ProtocolPersonRole.ROLE_CORRESPONDENT_CRC, ProtocolPersonRole.ROLE_CORRESPONDENT_ADMINISTRATOR };
+        String[] investigatorRoles = { ProtocolPersonRole.ROLE_PRINCIPAL_INVESTIGATOR, ProtocolPersonRole.ROLE_CO_INVESTIGATOR };
+        String[] keyStudyPersonRoles = { ProtocolPersonRole.ROLE_STUDY_PERSONNEL };
+        String[] correspondentsRoles = { ProtocolPersonRole.ROLE_CORRESPONDENT_CRC, ProtocolPersonRole.ROLE_CORRESPONDENT_ADMINISTRATOR };
         
-        isProtocolChangeCandidate |= isProtocolPersonChangeCandidate(personMassChange, protocolPersons, protocolPersonInvestigatorRoles);
-        isProtocolChangeCandidate |= isProtocolPersonChangeCandidate(personMassChange, protocolPersons, protocolPersonKeyStudyPersonRoles);
-        isProtocolChangeCandidate |= isProtocolPersonChangeCandidate(personMassChange, protocolPersons, protocolPersonCorrespondentsRoles);
-        isProtocolChangeCandidate |= isProtocolReviewerChangeCandidate(personMassChange, protocolOnlineReviews);
+        if (personMassChange.getProtocolPersonMassChange().isInvestigator()) {
+            isProtocolChangeCandidate |= isProtocolPersonChangeCandidate(personMassChange, protocolPersons, investigatorRoles);
+        }
+        if (personMassChange.getProtocolPersonMassChange().isKeyStudyPerson()) {
+            isProtocolChangeCandidate |= isProtocolPersonChangeCandidate(personMassChange, protocolPersons, keyStudyPersonRoles);
+        }
+        if (personMassChange.getProtocolPersonMassChange().isCorrespondents()) {
+            isProtocolChangeCandidate |= isProtocolPersonChangeCandidate(personMassChange, protocolPersons, correspondentsRoles);
+        }
+        if (personMassChange.getProtocolPersonMassChange().isReviewer()) {
+            isProtocolChangeCandidate |= isProtocolReviewerChangeCandidate(personMassChange, protocolOnlineReviews);
+        }
         
         return isProtocolChangeCandidate;
     }
@@ -151,13 +160,11 @@ public class ProtocolPersonMassChangeServiceImpl implements ProtocolPersonMassCh
     private boolean isProtocolPersonChangeCandidate(PersonMassChange personMassChange, List<ProtocolPerson> protocolPersons, String... protocolPersonRoles) {
         boolean isProtocolPersonChangeCandidate = false;
         
-        if (personMassChange.getProtocolPersonMassChange().isInvestigator()) {
-            for (ProtocolPerson protocolPerson : protocolPersons) {
-                if (isProtocolPersonInRole(protocolPerson, protocolPersonRoles)) {
-                    if (isPersonIdMassChange(personMassChange, protocolPerson) || isRolodexIdMassChange(personMassChange, protocolPerson)) {
-                        isProtocolPersonChangeCandidate = true;
-                        break;
-                    }
+        for (ProtocolPerson protocolPerson : protocolPersons) {
+            if (isProtocolPersonInRole(protocolPerson, protocolPersonRoles)) {
+                if (isPersonIdMassChange(personMassChange, protocolPerson) || isRolodexIdMassChange(personMassChange, protocolPerson)) {
+                    isProtocolPersonChangeCandidate = true;
+                    break;
                 }
             }
         }
@@ -169,7 +176,7 @@ public class ProtocolPersonMassChangeServiceImpl implements ProtocolPersonMassCh
         boolean isProtocolPersonInRole = false;
         
         for (String protocolPersonRole : protocolPersonRoles) {
-            if (StringUtils.equals(protocolPerson.getProtocolPersonRole().getDescription(), protocolPersonRole)) {
+            if (StringUtils.equals(protocolPerson.getProtocolPersonRoleId(), protocolPersonRole)) {
                 isProtocolPersonInRole = true;
                 break;
             }
@@ -181,13 +188,11 @@ public class ProtocolPersonMassChangeServiceImpl implements ProtocolPersonMassCh
     private boolean isProtocolReviewerChangeCandidate(PersonMassChange personMassChange, List<ProtocolOnlineReview> protocolOnlineReviews) {
         boolean isProtocolReviewerChangeCandidate = false;
         
-        if (personMassChange.getProtocolPersonMassChange().isReviewer()) {
-            for (ProtocolOnlineReview protocolOnlineReview : protocolOnlineReviews) {
-                ProtocolReviewer protocolReviewer = protocolOnlineReview.getProtocolReviewer();
-                if (isPersonIdMassChange(personMassChange, protocolReviewer) || isRolodexIdMassChange(personMassChange, protocolReviewer)) {
-                    isProtocolReviewerChangeCandidate = true;
-                    break;
-                }
+        for (ProtocolOnlineReview protocolOnlineReview : protocolOnlineReviews) {
+            ProtocolReviewer protocolReviewer = protocolOnlineReview.getProtocolReviewer();
+            if (isPersonIdMassChange(personMassChange, protocolReviewer) || isRolodexIdMassChange(personMassChange, protocolReviewer)) {
+                isProtocolReviewerChangeCandidate = true;
+                break;
             }
         }
         
@@ -249,10 +254,18 @@ public class ProtocolPersonMassChangeServiceImpl implements ProtocolPersonMassCh
                     getPersonEditableService().populateContactFieldsFromPersonId(protocolPerson);
                     getProtocolPersonTrainingService().setTrainedFlag(protocolPerson);
                     protocolPerson.setRolodexId(null);
+                    
+                    for (ProtocolUnit protocolUnit : protocolPerson.getProtocolUnits()) {
+                        protocolUnit.setPersonId(personMassChange.getReplacerPersonId());
+                    }
                 } else if (personMassChange.getReplacerRolodexId() != null) {
                     getPersonEditableService().populateContactFieldsFromRolodexId(protocolPerson);
                     getProtocolPersonTrainingService().setTrainedFlag(protocolPerson);
                     protocolPerson.setPersonId(null);
+                    
+                    for (ProtocolUnit protocolUnit : protocolPerson.getProtocolUnits()) {
+                        protocolUnit.setPersonId(null);
+                    }
                 }
 
                 getBusinessObjectService().save(protocolPerson);
