@@ -19,7 +19,7 @@ import java.util.ArrayList;
 import java.util.List;
 
 import org.kuali.kra.award.home.Award;
-import org.kuali.kra.bo.Unit;
+import org.kuali.kra.bo.UnitAdministrator;
 import org.kuali.kra.committee.bo.Committee;
 import org.kuali.kra.committee.bo.CommitteeSchedule;
 import org.kuali.kra.iacuc.IacucProtocol;
@@ -39,13 +39,13 @@ import org.kuali.kra.personmasschange.service.ProposalLogPersonMassChangeService
 import org.kuali.kra.personmasschange.service.ProtocolPersonMassChangeService;
 import org.kuali.kra.personmasschange.service.SchedulePersonMassChangeService;
 import org.kuali.kra.personmasschange.service.SubawardPersonMassChangeService;
-import org.kuali.kra.personmasschange.service.UnitPersonMassChangeService;
+import org.kuali.kra.personmasschange.service.UnitAdministratorPersonMassChangeService;
 import org.kuali.kra.proposaldevelopment.bo.DevelopmentProposal;
 import org.kuali.kra.subaward.bo.SubAward;
 
 public class PersonMassChangeViewHelper extends PersonMassChangeHelperBase {
 
-    private static final long serialVersionUID = -2800122326898510358L;
+    private static final long serialVersionUID = -2286604379815618461L;
 
     private static final String EMPTY_CANDIDATES_MESSAGE = "No records need to be changed.";
 
@@ -61,7 +61,7 @@ public class PersonMassChangeViewHelper extends PersonMassChangeHelperBase {
     private List<Committee> committeeChangeCandidates;
     private List<Protocol> protocolChangeCandidates;
     private List<CommitteeSchedule> scheduleChangeCandidates;
-    private List<Unit> unitChangeCandidates;
+    private List<UnitAdministrator> unitAdministratorChangeCandidates;
     
     private transient AwardPersonMassChangeService awardPersonMassChangeService;
     private transient IacucProtocolPersonMassChangeService iacucProtocolPersonMassChangeService;
@@ -73,7 +73,7 @@ public class PersonMassChangeViewHelper extends PersonMassChangeHelperBase {
     private transient CommitteePersonMassChangeService committeePersonMassChangeService;
     private transient ProtocolPersonMassChangeService protocolPersonMassChangeService;
     private transient SchedulePersonMassChangeService schedulePersonMassChangeService;
-    private transient UnitPersonMassChangeService unitPersonMassChangeService;
+    private transient UnitAdministratorPersonMassChangeService unitAdministratorPersonMassChangeService;
     
     public PersonMassChangeViewHelper(PersonMassChangeForm form) {
         this.form = form;
@@ -88,7 +88,7 @@ public class PersonMassChangeViewHelper extends PersonMassChangeHelperBase {
         committeeChangeCandidates = new ArrayList<Committee>();
         protocolChangeCandidates = new ArrayList<Protocol>();
         scheduleChangeCandidates = new ArrayList<CommitteeSchedule>();
-        unitChangeCandidates = new ArrayList<Unit>();
+        unitAdministratorChangeCandidates = new ArrayList<UnitAdministrator>();
     }
     
     public String getEmptyCandidatesMessage() {
@@ -175,12 +175,12 @@ public class PersonMassChangeViewHelper extends PersonMassChangeHelperBase {
         this.scheduleChangeCandidates = scheduleChangeCandidates;
     }
 
-    public List<Unit> getUnitChangeCandidates() {
-        return unitChangeCandidates;
+    public List<UnitAdministrator> getUnitAdministratorChangeCandidates() {
+        return unitAdministratorChangeCandidates;
     }
 
-    public void setUnitChangeCandidates(List<Unit> unitChangeCandidates) {
-        this.unitChangeCandidates = unitChangeCandidates;
+    public void setUnitAdministratorChangeCandidates(List<UnitAdministrator> unitAdministratorChangeCandidates) {
+        this.unitAdministratorChangeCandidates = unitAdministratorChangeCandidates;
     }
     
     /**
@@ -202,7 +202,7 @@ public class PersonMassChangeViewHelper extends PersonMassChangeHelperBase {
         setCommitteeChangeCandidates(getCommitteePersonMassChangeService().getCommitteeChangeCandidates(personMassChange));
         setProtocolChangeCandidates(getProtocolPersonMassChangeService().getProtocolChangeCandidates(personMassChange));
         setScheduleChangeCandidates(getSchedulePersonMassChangeService().getScheduleChangeCandidates(personMassChange));
-        setUnitChangeCandidates(getUnitPersonMassChangeService().getUnitChangeCandidates(personMassChange));
+        setUnitAdministratorChangeCandidates(getUnitAdministratorPersonMassChangeService().getUnitAdministratorChangeCandidates(personMassChange));
     }
     
     public AwardPersonMassChangeService getAwardPersonMassChangeService() {
@@ -315,15 +315,15 @@ public class PersonMassChangeViewHelper extends PersonMassChangeHelperBase {
         this.schedulePersonMassChangeService = schedulePersonMassChangeService;
     }
 
-    public UnitPersonMassChangeService getUnitPersonMassChangeService() {
-        if (unitPersonMassChangeService == null) {
-            unitPersonMassChangeService = KraServiceLocator.getService(UnitPersonMassChangeService.class);
+    public UnitAdministratorPersonMassChangeService getUnitAdministratorPersonMassChangeService() {
+        if (unitAdministratorPersonMassChangeService == null) {
+            unitAdministratorPersonMassChangeService = KraServiceLocator.getService(UnitAdministratorPersonMassChangeService.class);
         }
-        return unitPersonMassChangeService;
+        return unitAdministratorPersonMassChangeService;
     }
 
-    public void setUnitPersonMassChangeService(UnitPersonMassChangeService unitPersonMassChangeService) {
-        this.unitPersonMassChangeService = unitPersonMassChangeService;
+    public void setUnitAdministratorPersonMassChangeService(UnitAdministratorPersonMassChangeService unitAdministratorPersonMassChangeService) {
+        this.unitAdministratorPersonMassChangeService = unitAdministratorPersonMassChangeService;
     }
 
 }

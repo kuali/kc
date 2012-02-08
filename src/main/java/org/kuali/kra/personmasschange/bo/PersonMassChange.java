@@ -16,7 +16,6 @@
 package org.kuali.kra.personmasschange.bo;
 
 import java.util.ArrayList;
-import java.util.LinkedHashMap;
 import java.util.List;
 
 import org.kuali.kra.bo.KraPersistableBusinessObjectBase;
@@ -24,7 +23,7 @@ import org.kuali.kra.personmasschange.document.PersonMassChangeDocument;
 
 public class PersonMassChange extends KraPersistableBusinessObjectBase {
 
-    private static final long serialVersionUID = -3623048013289266430L;
+    private static final long serialVersionUID = 2236054992674521658L;
 
     private long personMassChangeId;
     
@@ -41,6 +40,7 @@ public class PersonMassChange extends KraPersistableBusinessObjectBase {
     private PersonMassChangeDocument personMassChangeDocument;
     
     private List<AwardPersonMassChange> awardPersonMassChangeList;
+    private List<IacucProtocolPersonMassChange> iacucProtocolPersonMassChangeList;
     private List<InstitutionalProposalPersonMassChange> institutionalProposalPersonMassChangeList;
     private List<ProposalDevelopmentPersonMassChange> proposalDevelopmentPersonMassChangeList;
     private List<ProposalLogPersonMassChange> proposalLogPersonMassChangeList;
@@ -49,13 +49,18 @@ public class PersonMassChange extends KraPersistableBusinessObjectBase {
     private List<CommitteePersonMassChange> committeePersonMassChangeList;
     private List<ProtocolPersonMassChange> protocolPersonMassChangeList;
     private List<SchedulePersonMassChange> schedulePersonMassChangeList;
-    private List<UnitPersonMassChange> unitPersonMassChangeList;
+    private List<UnitAdministratorPersonMassChange> unitAdministratorPersonMassChangeList;
     
     public PersonMassChange() {
         awardPersonMassChangeList = new ArrayList<AwardPersonMassChange>();
         AwardPersonMassChange newAwardPersonMassChange = new AwardPersonMassChange();
         newAwardPersonMassChange.setPersonMassChange(this);
         awardPersonMassChangeList.add(newAwardPersonMassChange);
+        
+        iacucProtocolPersonMassChangeList = new ArrayList<IacucProtocolPersonMassChange>();
+        IacucProtocolPersonMassChange newIacucProtocolPersonMassChange = new IacucProtocolPersonMassChange();
+        newIacucProtocolPersonMassChange.setPersonMassChange(this);
+        iacucProtocolPersonMassChangeList.add(newIacucProtocolPersonMassChange);
         
         institutionalProposalPersonMassChangeList = new ArrayList<InstitutionalProposalPersonMassChange>();
         InstitutionalProposalPersonMassChange newInstitutionalProposalPersonMassChange = new InstitutionalProposalPersonMassChange();
@@ -97,10 +102,10 @@ public class PersonMassChange extends KraPersistableBusinessObjectBase {
         newSchedulePersonMassChange.setPersonMassChange(this);
         schedulePersonMassChangeList.add(newSchedulePersonMassChange);
         
-        unitPersonMassChangeList = new ArrayList<UnitPersonMassChange>();
-        UnitPersonMassChange newUnitPersonMassChange = new UnitPersonMassChange();
-        newUnitPersonMassChange.setPersonMassChange(this);
-        unitPersonMassChangeList.add(newUnitPersonMassChange);
+        unitAdministratorPersonMassChangeList = new ArrayList<UnitAdministratorPersonMassChange>();
+        UnitAdministratorPersonMassChange newUnitAdministratorPersonMassChange = new UnitAdministratorPersonMassChange();
+        newUnitAdministratorPersonMassChange.setPersonMassChange(this);
+        unitAdministratorPersonMassChangeList.add(newUnitAdministratorPersonMassChange);
     }
     
     public long getPersonMassChangeId() {
@@ -183,6 +188,14 @@ public class PersonMassChange extends KraPersistableBusinessObjectBase {
         this.awardPersonMassChangeList = awardPersonMassChangeList;
     }
 
+    public List<IacucProtocolPersonMassChange> getIacucProtocolPersonMassChangeList() {
+        return iacucProtocolPersonMassChangeList;
+    }
+
+    public void setIacucProtocolPersonMassChangeList(List<IacucProtocolPersonMassChange> iacucProtocolPersonMassChangeList) {
+        this.iacucProtocolPersonMassChangeList = iacucProtocolPersonMassChangeList;
+    }
+
     public List<InstitutionalProposalPersonMassChange> getInstitutionalProposalPersonMassChangeList() {
         return institutionalProposalPersonMassChangeList;
     }
@@ -247,12 +260,12 @@ public class PersonMassChange extends KraPersistableBusinessObjectBase {
         this.schedulePersonMassChangeList = schedulePersonMassChangeList;
     }
 
-    public List<UnitPersonMassChange> getUnitPersonMassChangeList() {
-        return unitPersonMassChangeList;
+    public List<UnitAdministratorPersonMassChange> getUnitAdministratorPersonMassChangeList() {
+        return unitAdministratorPersonMassChangeList;
     }
 
-    public void setUnitPersonMassChangeList(List<UnitPersonMassChange> unitPersonMassChangeList) {
-        this.unitPersonMassChangeList = unitPersonMassChangeList;
+    public void setUnitAdministratorPersonMassChangeList(List<UnitAdministratorPersonMassChange> unitAdministratorPersonMassChangeList) {
+        this.unitAdministratorPersonMassChangeList = unitAdministratorPersonMassChangeList;
     }
 
     public AwardPersonMassChange getAwardPersonMassChange() {
@@ -261,6 +274,14 @@ public class PersonMassChange extends KraPersistableBusinessObjectBase {
 
     public void setAwardPersonMassChange(AwardPersonMassChange awardPersonMassChange) {
         awardPersonMassChangeList.set(0, awardPersonMassChange);
+    }
+    
+    public IacucProtocolPersonMassChange getIacucProtocolPersonMassChange() {
+        return iacucProtocolPersonMassChangeList.isEmpty() ? null : iacucProtocolPersonMassChangeList.get(0);
+    }
+
+    public void setIacucProtocolPersonMassChange(IacucProtocolPersonMassChange iacucProtocolPersonMassChange) {
+        iacucProtocolPersonMassChangeList.set(0, iacucProtocolPersonMassChange);
     }
 
     public InstitutionalProposalPersonMassChange getInstitutionalProposalPersonMassChange() {
@@ -327,12 +348,12 @@ public class PersonMassChange extends KraPersistableBusinessObjectBase {
         schedulePersonMassChangeList.set(0, schedulePersonMassChange);
     }
 
-    public UnitPersonMassChange getUnitPersonMassChange() {
-        return unitPersonMassChangeList.isEmpty() ? null : unitPersonMassChangeList.get(0);
+    public UnitAdministratorPersonMassChange getUnitAdministratorPersonMassChange() {
+        return unitAdministratorPersonMassChangeList.isEmpty() ? null : unitAdministratorPersonMassChangeList.get(0);
     }
 
-    public void setUnitPersonMassChange(UnitPersonMassChange unitPersonMassChange) {
-        unitPersonMassChangeList.set(0, unitPersonMassChange);
+    public void setUnitPersonMassChange(UnitAdministratorPersonMassChange unitAdministratorPersonMassChange) {
+        unitAdministratorPersonMassChangeList.set(0, unitAdministratorPersonMassChange);
     }
 
 }
