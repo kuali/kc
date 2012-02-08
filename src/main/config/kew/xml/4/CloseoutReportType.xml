@@ -8,6 +8,7 @@
             <description>Create/Edit a Closeout Report Type</description>
             <label>Closeout Report Type</label>
             <parent>KcSharedMaintenanceDocument</parent>
+            <helpDefinitionURL>default.htm?turl=Documents/closeouttype.htm</helpDefinitionURL>
         </documentType>
     </documentTypes>
 </data>

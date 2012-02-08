@@ -6,6 +6,7 @@
 			<description>Create a New NSF Code</description>
 			<label>NSF Code</label>
 			<parent>KcSharedMaintenanceDocument</parent>
+			<helpDefinitionURL>default.htm?turl=Documents/nsfcode.htm</helpDefinitionURL>
 		</documentType>
 	</documentTypes>	
 </data>

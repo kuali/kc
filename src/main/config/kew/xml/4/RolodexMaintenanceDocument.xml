@@ -6,6 +6,7 @@
 			<description>Create/Edit a Rolodex entry</description>
 			<label>Address Book</label>
 			<parent>KcSharedMaintenanceDocument</parent>
+			<helpDefinitionURL>default.htm?turl=Documents/rolodex.htm</helpDefinitionURL>
 		</documentType>
 	</documentTypes>	
 </data>

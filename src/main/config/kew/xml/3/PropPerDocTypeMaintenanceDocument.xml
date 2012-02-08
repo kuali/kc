@@ -6,6 +6,7 @@
 			<description>Create a New Proposal Person Document Type</description>
 			<label>Proposal Person Document Type</label>
 			<parent>KcMaintenanceDocument</parent>
+			<helpDefinitionURL>default.htm?turl=Documents/persondocumenttype.htm</helpDefinitionURL>
 		</documentType>
 	</documentTypes>	
 </data>

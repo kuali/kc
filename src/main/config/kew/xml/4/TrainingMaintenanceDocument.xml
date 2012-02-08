@@ -6,6 +6,7 @@
 			<description>Create a New Training</description>
 			<label>Training</label>
 			<parent>KcMiscellaneousMaintenanceDocument</parent>
+			<helpDefinitionURL>default.htm?turl=Documents/training.htm</helpDefinitionURL>
 		</documentType>
 	</documentTypes>	
 </data>
