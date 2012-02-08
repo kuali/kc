@@ -45,6 +45,7 @@ import org.kuali.rice.krad.util.KRADConstants;
  * 
  * This class is the struts action for financial entity maintenance
  */
+@SuppressWarnings("deprecation")
 public class FinancialEntityAction extends KualiAction {
 
     protected static final String INACTIVATE_ENTITY = "inactive";
