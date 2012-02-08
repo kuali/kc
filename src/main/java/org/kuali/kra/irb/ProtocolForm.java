@@ -47,6 +47,7 @@ import org.kuali.kra.irb.protocol.funding.ProtocolFundingSource;
 import org.kuali.kra.irb.protocol.reference.ProtocolReferenceBean;
 import org.kuali.kra.irb.questionnaire.QuestionnaireHelper;
 import org.kuali.kra.irb.specialreview.SpecialReviewHelper;
+import org.kuali.kra.questionnaire.QuestionableFormInterface;
 import org.kuali.kra.questionnaire.answer.Answer;
 import org.kuali.kra.questionnaire.answer.AnswerHeader;
 import org.kuali.kra.questionnaire.answer.ModuleQuestionnaireBean;
@@ -72,7 +73,7 @@ import org.kuali.rice.krad.util.KRADConstants;
  * This class...
  * @author Kuali Nervous System Team (kualidev@oncourse.iu.edu)
  */
-public class ProtocolForm extends KraTransactionalDocumentFormBase implements PermissionsForm, CustomDataForm, Auditable {
+public class ProtocolForm extends KraTransactionalDocumentFormBase implements PermissionsForm, CustomDataForm, Auditable, QuestionableFormInterface {
     
     private static final long serialVersionUID = 3736148760520952504L;
     
@@ -225,30 +226,11 @@ public class ProtocolForm extends KraTransactionalDocumentFormBase implements Pe
     public void populate(HttpServletRequest request) { 
         initAnswerList(request);
         super.populate(request);
-        resetNoQuestionAnswer();
+        
         // Temporary hack for KRACOEUS-489
         if (getActionFormUtilMap() instanceof ActionFormUtilMap) {
             ((ActionFormUtilMap) getActionFormUtilMap()).clear();
         }
-    }
-    
-    /*
-     * if Y/N is not answered, it will be populated as "No", so reset it back to null
-     */
-    private void resetNoQuestionAnswer() {
-        if (CollectionUtils.isNotEmpty(getQuestionnaireHelper().getAnswerHeaders())) {
-            for (AnswerHeader answerHeader : getQuestionnaireHelper().getAnswerHeaders()) {
-                for (Answer answer : answerHeader.getAnswers()) {
-                    if ((answer.getQuestion().getQuestionTypeId() == 1 || answer.getQuestion().getQuestionTypeId() == 2) &&
-                            KimConstants.KIM_ATTRIBUTE_BOOLEAN_FALSE_STR_VALUE_DISPLAY.equals(answer.getAnswer())) {
-                        answer.setAnswer(null);
-                    }
-                    
-                }
-                
-            }
-        }
-       
     }
     
     /*
@@ -542,6 +524,18 @@ public class ProtocolForm extends KraTransactionalDocumentFormBase implements Pe
 
     public void setDeletedProtocolFundingSources(List<ProtocolFundingSource> deletedProtocolFundingSources) {
         this.deletedProtocolFundingSources = deletedProtocolFundingSources;
+    }
+    
+    public String getQuestionnaireFieldStarter() {
+        return "questionnaireHelper.answerHeaders[";
+    }
+    
+    public String getQuestionnaireFieldMiddle() {
+        return DEFAULT_MIDDLE;
+    }
+    
+    public String getQuestionnaireFieldEnd() {
+        return DEFAULT_END;
     }
     
 }
