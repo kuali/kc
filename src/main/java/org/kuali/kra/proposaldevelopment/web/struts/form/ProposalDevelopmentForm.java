@@ -84,6 +84,7 @@ import org.kuali.kra.proposaldevelopment.service.ProposalDevelopmentService;
 import org.kuali.kra.proposaldevelopment.specialreview.SpecialReviewHelper;
 import org.kuali.kra.proposaldevelopment.web.bean.ProposalDevelopmentRejectionBean;
 import org.kuali.kra.proposaldevelopment.web.bean.ProposalUserRoles;
+import org.kuali.kra.questionnaire.QuestionableFormInterface;
 import org.kuali.kra.questionnaire.answer.AnswerHeader;
 import org.kuali.kra.questionnaire.answer.QuestionnaireAnswerService;
 import org.kuali.kra.s2s.bo.S2sAppSubmission;
@@ -125,7 +126,7 @@ import org.springframework.util.AutoPopulatingList;
 /**
  * This class is the Struts form bean for DevelopmentProposal
  */
-public class ProposalDevelopmentForm extends BudgetVersionFormBase implements ReportHelperBeanContainer {
+public class ProposalDevelopmentForm extends BudgetVersionFormBase implements ReportHelperBeanContainer, QuestionableFormInterface {
     
     private static final long serialVersionUID = 7928293162992415894L;
     private static final String MISSING_PARAM_MSG = "Couldn't find parameter ";
@@ -345,43 +346,6 @@ public class ProposalDevelopmentForm extends BudgetVersionFormBase implements Re
                 }
             }   
             personCount++;
-        }
-    }
-    
-    /**
-     * This is a duplication of KualiTransactionalDocumentFormBase.populateFalseCheckboxes with the cavet that this function
-     * puts a NULL in for fields that contain "answer", which are the field names of radio Y/N buttons for the questionnaire framework.
-     * @see org.kuali.rice.kns.web.struts.form.KualiTransactionalDocumentFormBase#populateFalseCheckboxes(javax.servlet.http.HttpServletRequest)
-     * @ToDo move to KraTransactionalDocumentFormBase refactor to be shared.
-     */
-    @Override
-    protected void populateFalseCheckboxes(HttpServletRequest request) {
-        Map<String, String[]> parameterMap = request.getParameterMap();
-        final String checkBoxToResetFieldParam = "checkboxToReset";
-        if (parameterMap.get(checkBoxToResetFieldParam) != null) {
-            final String[] checkboxesToResetFields = request.getParameterValues("checkboxToReset");
-            if (checkboxesToResetFields != null && checkboxesToResetFields.length > 0) {
-                for (int i = 0; i < checkboxesToResetFields.length; i++) {
-                    String propertyName = (String) checkboxesToResetFields[i];
-                    if (!StringUtils.isBlank(propertyName) && parameterMap.get(propertyName) == null) {
-                        //proposalPersonQuestionnaireHelpers[0].answerHeaders[0].answers[0].answer
-                        final String start = "proposalPersonQuestionnaireHelpers[";
-                        final String middle = "].answers[";
-                        final String end = "].answer";
-                        if (StringUtils.startsWithIgnoreCase(propertyName, start)
-                                && StringUtils.containsIgnoreCase(propertyName, middle)
-                                && StringUtils.endsWithIgnoreCase(propertyName, end)) {
-                            populateForProperty(propertyName, null, parameterMap);
-                        } else {
-                            populateForProperty(propertyName, KimConstants.KIM_ATTRIBUTE_BOOLEAN_FALSE_STR_VALUE_DISPLAY, parameterMap);
-                        }
-                    } else if (!StringUtils.isBlank(propertyName) && parameterMap.get(propertyName) != null 
-                            && parameterMap.get(propertyName).length >= 1 
-                            && parameterMap.get(propertyName)[0].equalsIgnoreCase("on")) {
-                        populateForProperty(propertyName, KimConstants.KIM_ATTRIBUTE_BOOLEAN_TRUE_STR_VALUE_DISPLAY, parameterMap);
-                    }
-                }
-            }
         }
     }
     
@@ -1941,5 +1905,17 @@ public class ProposalDevelopmentForm extends BudgetVersionFormBase implements Re
         S2sOpportunity s2sOpportunity = new S2sOpportunity();
         s2sOpportunity.setOpportunityId(opportunityId);
         this.getDocument().getDevelopmentProposalList().get(0).setS2sOpportunity(s2sOpportunity);
+    }
+    
+    public String getQuestionnaireFieldStarter() {
+        return "proposalPersonQuestionnaireHelpers[";
+    }
+    
+    public String getQuestionnaireFieldMiddle() {
+        return DEFAULT_MIDDLE;
+    }
+    
+    public String getQuestionnaireFieldEnd() {
+        return DEFAULT_END;
     }
 }
