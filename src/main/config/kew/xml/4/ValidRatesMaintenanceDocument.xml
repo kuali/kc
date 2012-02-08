@@ -6,6 +6,7 @@
 			<description>Create a New Valid Rate</description>
 			<label>Valid Rates</label>
 			<parent>KcMiscellaneousMaintenanceDocument</parent>
+			<helpDefinitionURL>default.htm?turl=Documents/validrates.htm</helpDefinitionURL>
 		</documentType>
 	</documentTypes>	
 </data>

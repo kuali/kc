@@ -8,6 +8,7 @@
             <description>Create/Edit a F &amp; A Rate Type</description>
             <label>F &amp; A Rate Type</label>
             <parent>KcSharedMaintenanceDocument</parent>
+            <helpDefinitionURL>default.htm?turl=Documents/faratetype.htm</helpDefinitionURL>
         </documentType>
     </documentTypes>
 </data>

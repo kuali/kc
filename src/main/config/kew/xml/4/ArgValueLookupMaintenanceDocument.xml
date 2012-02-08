@@ -6,6 +6,7 @@
 			<description>Create/Edit a Argument Value Lookup</description>
 			<label>Argument Value</label>
 			<parent>KcSharedMaintenanceDocument</parent>
+			<helpDefinitionURL>default.htm?turl=Documents/argumentvalue.htm</helpDefinitionURL>
 		</documentType>
 	</documentTypes>	
 </data>

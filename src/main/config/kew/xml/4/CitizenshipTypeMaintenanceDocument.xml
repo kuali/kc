@@ -6,7 +6,7 @@
 			<description>Create a New Citizenship Type</description>
 			<label>Citizenship Type</label>
 			<parent>KcSharedMaintenanceDocument</parent>
-			<helpDefinitionURL>default.htm?turl=Documents/abstracttype.htm</helpDefinitionURL>
+			<helpDefinitionURL>default.htm?turl=Documents/citizenshiptype.htm</helpDefinitionURL>
 		</documentType>
 	</documentTypes>	
 </data>

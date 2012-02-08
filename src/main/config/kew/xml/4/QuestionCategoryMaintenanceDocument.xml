@@ -6,6 +6,7 @@
 			<description>Create/Edit a Question Category</description>
 			<label>Question Category</label>
 			<parent>KcSharedMaintenanceDocument</parent>
+			<helpDefinitionURL>default.htm?turl=Documents/questioncategory.htm</helpDefinitionURL>
 		</documentType>
 	</documentTypes>	
 </data>

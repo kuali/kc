@@ -6,6 +6,7 @@
 			<description>Document used to create or update SubAward Status business objects.</description>
 			<label>SubAward Status Maintenance Document</label>
 			<parent>KcSharedMaintenanceDocument</parent>
+			<helpDefinitionURL>default.htm?turl=Documents/subawardstatus.htm</helpDefinitionURL>
 			</documentType>
 	</documentTypes>	
 </data>
