@@ -6,6 +6,7 @@
 			<description>Create a New Contact Type</description>
 			<label>Contact Type</label>
 			<parent>KcAwardsMaintenanceDocument</parent>
+			<helpDefinitionURL>default.htm?turl=Documents/sponsorcontacttype.htm</helpDefinitionURL>
 		</documentType>
 	</documentTypes>	
 </data>

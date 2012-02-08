@@ -6,6 +6,7 @@
 			<description>Create/Edit a Unit Administrator</description>
 			<label>Unit Administrator</label>
 			<parent>KcSharedMaintenanceDocument</parent>
+			<helpDefinitionURL>default.htm?turl=Documents/unitadministrator.htm</helpDefinitionURL>
 		</documentType>
 	</documentTypes>	
 </data>

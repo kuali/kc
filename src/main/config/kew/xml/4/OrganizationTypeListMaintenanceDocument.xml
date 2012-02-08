@@ -6,6 +6,7 @@
 			<description>Create/Edit an Organization Type Code</description>
 			<label>Organization</label>
 			<parent>KcSharedMaintenanceDocument</parent>
+			<helpDefinitionURL>default.htm?turl=Documents/organizationtypelist.htm</helpDefinitionURL>
 		</documentType>
 	</documentTypes>	
 </data>

@@ -6,7 +6,7 @@
 			<description>Create/Edit an Institute La Rate</description>
 			<label>Institute La Rates Maintenance Document</label>
 			<parent>KcSharedMaintenanceDocument</parent>
-			<helpDefinitionURL>default.htm?turl=Documents/institutelarate.htm</helpDefinitionURL>
+			<helpDefinitionURL>default.htm?turl=Documents/institutelarates.htm</helpDefinitionURL>
 		</documentType>
 	</documentTypes>	
 </data>

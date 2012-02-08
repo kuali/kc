@@ -6,6 +6,7 @@
 			<description>Create/Edit a Notification Module Role</description>
 			<label>Notification Module</label>
 			<parent>KcSharedMaintenanceDocument</parent>
+			<helpDefinitionURL>default.htm?turl=Documents/notificationmodule.htm</helpDefinitionURL>
 		</documentType>
 	</documentTypes>	
 </data>

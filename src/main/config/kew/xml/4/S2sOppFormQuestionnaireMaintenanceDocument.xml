@@ -6,6 +6,7 @@
 			<description>Create/Edit a S2S Opportunity Form to Questionnaire Mapping</description>
 			<label>S2S Opportunity Form to Questionnaire Mapping</label>
 			<parent>KcSharedMaintenanceDocument</parent>
+			<helpDefinitionURL>default.htm?turl=Documents/s2sopportunityformtoquestionnairemapping.htm</helpDefinitionURL>
 		</documentType>
 	</documentTypes>	
 </data>
