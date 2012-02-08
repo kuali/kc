@@ -40,6 +40,7 @@
                 <ref bean="ProtocolCorrespondence-sequenceNumber" />
                 <ref bean="ProtocolCorrespondence-correspondence" />
                 <ref bean="ProtocolCorrespondence-versionNumber" />
+                <ref bean="ProtocolCorrespondence-finalFlag" />
             </list>
         </property>
     </bean>
@@ -120,6 +121,14 @@
 
     <bean id="ProtocolCorrespondence-versionNumber" parent="ProtocolCorrespondence-versionNumber-parentBean" />
     <bean id="ProtocolCorrespondence-versionNumber-parentBean" abstract="true" parent="AttributeReferenceDummy-versionNumber">
+    </bean>
+    <bean id="ProtocolCorrespondence-finalFlag" parent="ProtocolCorrespondence-finalFlag-parentBean" />
+    <bean id="ProtocolCorrespondence-finalFlag-parentBean" abstract="true" parent="AttributeReferenceDummy-genericBoolean" >
+        <property name="name" value="finalFlag" />
+        <property name="label" value="Final" />
+        <property name="shortLabel" value="Final" />
+        <property name="summary" value="Is Final" />
+        <property name="description" value="Is Final" />
     </bean>
 
     <!-- Business Object Inquiry Definition -->
