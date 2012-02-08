@@ -22,7 +22,14 @@ import org.kuali.kra.award.home.ContactRole;
  */
 public class UnitAdministratorType extends KraPersistableBusinessObjectBase implements ContactRole {
 
+    public static final String ADMINISTRATIVE_OFFICER_TYPE_CODE = "1";
     public static final String OSP_ADMINISTRATOR_TYPE_CODE = "2";
+    public static final String UNIT_HEAD_TYPE_CODE = "3";
+    public static final String DEAN_VP_TYPE_CODE = "4";
+    public static final String OTHER_INDIVIDUAL_TO_NOTIFY_TYPE_CODE = "5";
+    public static final String GRANTS_GOV_PROPOSAL_CONTACT_TYPE_CODE = "6";
+    public static final String ADMINISTRATIVE_CONTACT_TYPE_CODE = "7";
+    public static final String FINANCIAL_CONTACT_TYPE_CODE = "8";
 
     /**
      * Comment for <code>serialVersionUID</code>

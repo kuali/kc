@@ -18,7 +18,7 @@ package org.kuali.kra.personmasschange.service.impl;
 import java.util.List;
 
 import org.kuali.kra.award.home.Award;
-import org.kuali.kra.bo.Unit;
+import org.kuali.kra.bo.UnitAdministrator;
 import org.kuali.kra.committee.bo.Committee;
 import org.kuali.kra.committee.bo.CommitteeSchedule;
 import org.kuali.kra.iacuc.IacucProtocol;
@@ -38,7 +38,7 @@ import org.kuali.kra.personmasschange.service.ProposalLogPersonMassChangeService
 import org.kuali.kra.personmasschange.service.ProtocolPersonMassChangeService;
 import org.kuali.kra.personmasschange.service.SchedulePersonMassChangeService;
 import org.kuali.kra.personmasschange.service.SubawardPersonMassChangeService;
-import org.kuali.kra.personmasschange.service.UnitPersonMassChangeService;
+import org.kuali.kra.personmasschange.service.UnitAdministratorPersonMassChangeService;
 import org.kuali.kra.proposaldevelopment.bo.DevelopmentProposal;
 import org.kuali.kra.subaward.bo.SubAward;
 
@@ -57,7 +57,7 @@ public class PersonMassChangeServiceImpl implements PersonMassChangeService {
     private CommitteePersonMassChangeService committeePersonMassChangeService;
     private ProtocolPersonMassChangeService protocolPersonMassChangeService;
     private SchedulePersonMassChangeService schedulePersonMassChangeService;
-    private UnitPersonMassChangeService unitPersonMassChangeService;
+    private UnitAdministratorPersonMassChangeService unitAdministratorPersonMassChangeService;
 
     @Override
     public void performPersonMassChange(PersonMassChange personMassChange) {
@@ -93,8 +93,9 @@ public class PersonMassChangeServiceImpl implements PersonMassChangeService {
         List<CommitteeSchedule> scheduleChangeCandidates = getSchedulePersonMassChangeService().getScheduleChangeCandidates(personMassChange);
         getSchedulePersonMassChangeService().performPersonMassChange(personMassChange, scheduleChangeCandidates);
         
-        List<Unit> unitChangeCandidates = getUnitPersonMassChangeService().getUnitChangeCandidates(personMassChange);
-        getUnitPersonMassChangeService().performPersonMassChange(personMassChange, unitChangeCandidates);
+        List<UnitAdministrator> unitAdministratorChangeCandidates 
+            = getUnitAdministratorPersonMassChangeService().getUnitAdministratorChangeCandidates(personMassChange);
+        getUnitAdministratorPersonMassChangeService().performPersonMassChange(personMassChange, unitAdministratorChangeCandidates);
     }
 
     public AwardPersonMassChangeService getAwardPersonMassChangeService() {
@@ -177,12 +178,12 @@ public class PersonMassChangeServiceImpl implements PersonMassChangeService {
         this.schedulePersonMassChangeService = schedulePersonMassChangeService;
     }
 
-    public UnitPersonMassChangeService getUnitPersonMassChangeService() {
-        return unitPersonMassChangeService;
+    public UnitAdministratorPersonMassChangeService getUnitAdministratorPersonMassChangeService() {
+        return unitAdministratorPersonMassChangeService;
     }
 
-    public void setUnitPersonMassChangeService(UnitPersonMassChangeService unitPersonMassChangeService) {
-        this.unitPersonMassChangeService = unitPersonMassChangeService;
+    public void setUnitAdministratorPersonMassChangeService(UnitAdministratorPersonMassChangeService unitAdministratorPersonMassChangeService) {
+        this.unitAdministratorPersonMassChangeService = unitAdministratorPersonMassChangeService;
     }
 
 }

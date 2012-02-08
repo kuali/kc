@@ -17,28 +17,28 @@ package org.kuali.kra.personmasschange.service;
 
 import java.util.List;
 
-import org.kuali.kra.bo.Unit;
+import org.kuali.kra.bo.UnitAdministrator;
 import org.kuali.kra.personmasschange.bo.PersonMassChange;
 
 /**
- * Defines the service interface for performing a Person Mass Change on Units.
+ * Defines the service interface for performing a Person Mass Change on Unit Administrators.
  */
-public interface UnitPersonMassChangeService {
+public interface UnitAdministratorPersonMassChangeService {
 
     /**
-     * Returns the Units that would have a Person Mass Change performed on them.
+     * Returns the Unit Administrators that would have a Person Mass Change performed on them.
      * 
      * @param personMassChange the Person Mass Change to be performed
-     * @return the Units that would have a Person Mass Change performed on them
+     * @return the Unit Administrators that would have a Person Mass Change performed on them
      */
-    List<Unit> getUnitChangeCandidates(PersonMassChange personMassChange);
+    List<UnitAdministrator> getUnitAdministratorChangeCandidates(PersonMassChange personMassChange);
     
     /**
-     * Performs the Person Mass Change on the Units.
+     * Performs the Person Mass Change on the Unit Administrators.
      * 
      * @param personMassChange the Person Mass Change to be performed
-     * @param unitChangeCandidates the Units to perform a Person Mass Change on
+     * @param unitAdministratorChangeCandidates the Unit Administrators to perform a Person Mass Change on
      */
-    void performPersonMassChange(PersonMassChange personMassChange, List<Unit> unitChangeCandidates);
+    void performPersonMassChange(PersonMassChange personMassChange, List<UnitAdministrator> unitAdministratorChangeCandidates);
 
 }

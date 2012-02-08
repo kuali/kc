@@ -1,0 +1,150 @@
+<!--
+ Copyright 2005-2010 The Kuali Foundation
+
+ Licensed under the Educational Community License, Version 2.0 (the "License");
+ you may not use this file except in compliance with the License.
+ You may obtain a copy of the License at
+
+ http://www.osedu.org/licenses/ECL-2.0
+
+ Unless required by applicable law or agreed to in writing, software
+ distributed under the License is distributed on an "AS IS" BASIS,
+ WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
+ See the License for the specific language governing permissions and
+ limitations under the License.
+-->
+<beans xmlns="http://www.springframework.org/schema/beans"
+       xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+       xmlns:p="http://www.springframework.org/schema/p"
+       xsi:schemaLocation="http://www.springframework.org/schema/beans http://www.springframework.org/schema/beans/spring-beans-2.0.xsd">
+
+    <bean id="UnitAdministratorPersonMassChange" parent="UnitAdministratorPersonMassChange-parentBean" />
+    <bean id="UnitAdministratorPersonMassChange-parentBean" abstract="true" parent="BusinessObjectEntry">
+        <property name="businessObjectClass" value="org.kuali.kra.personmasschange.bo.UnitAdministratorPersonMassChange" />
+        <property name="objectLabel" value="Unit Administrator Person Mass Change" />
+        <property name="attributes" >
+            <list>
+                <ref bean="UnitAdministratorPersonMassChange-unitAdministratorPersonMassChangeId" />
+                <ref bean="UnitAdministratorPersonMassChange-personMassChangeId" />
+                <ref bean="UnitAdministratorPersonMassChange-administrativeOfficer" />
+                <ref bean="UnitAdministratorPersonMassChange-ospAdministrator" />
+                <ref bean="UnitAdministratorPersonMassChange-unitHead" />
+                <ref bean="UnitAdministratorPersonMassChange-deanVP" />
+                <ref bean="UnitAdministratorPersonMassChange-otherIndividualToNotify" />
+                <ref bean="UnitAdministratorPersonMassChange-administrator" />
+                <ref bean="UnitAdministratorPersonMassChange-versionNumber" />
+            </list>
+        </property>
+    </bean>
+
+    <!-- Attribute Definitions -->
+    
+    <bean id="UnitAdministratorPersonMassChange-unitAdministratorPersonMassChangeId" parent="UnitAdministratorPersonMassChange-unitAdministratorPersonMassChangeId-parentBean" />
+    <bean id="UnitAdministratorPersonMassChange-unitAdministratorPersonMassChangeId-parentBean" abstract="true" parent="AttributeDefinition" >
+        <property name="name" value="unitAdministratorPersonMassChangeId" />
+        <property name="forceUppercase" value="false" />
+        <property name="label" value="Unit Administrator Person Mass Change Id" />
+        <property name="shortLabel" value="Unit Administrator Person Mass Change Id" />
+        <property name="maxLength" value="12" />
+        <property name="validationPattern" >
+            <bean parent="NumericValidationPattern" />
+        </property>
+        <property name="control" >
+            <bean parent="TextControlDefinition"
+                p:size="12" />
+        </property>
+        <property name="summary" value="Unit Administrator Person Mass Change Id" />
+        <property name="description" value="Unit Administrator Person Mass Change Id" />
+    </bean>
+    
+    <bean id="UnitAdministratorPersonMassChange-personMassChangeId" parent="UnitAdministratorPersonMassChange-personMassChangeId-parentBean" />
+    <bean id="UnitAdministratorPersonMassChange-personMassChangeId-parentBean" abstract="true" parent="PersonMassChange-personMassChangeId" />
+    
+    <bean id="UnitAdministratorPersonMassChange-administrativeOfficer" parent="UnitAdministratorPersonMassChange-administrativeOfficer-parentBean" />
+    <bean id="UnitAdministratorPersonMassChange-administrativeOfficer-parentBean" abstract="true" parent="AttributeDefinition" >
+        <property name="name" value="administrativeOfficer" />
+        <property name="forceUppercase" value="false" />
+        <property name="label" value="Administrative Officer" />
+        <property name="shortLabel" value="Administrative Officer" />
+        <property name="maxLength" value="1" />
+        <property name="control" >
+            <bean parent="CheckboxControlDefinition" />
+        </property>
+        <property name="summary" value="Administrative Officer" />
+        <property name="description" value="Administrative Officer" />
+    </bean>
+    
+    <bean id="UnitAdministratorPersonMassChange-ospAdministrator" parent="UnitAdministratorPersonMassChange-ospAdministrator-parentBean" />
+    <bean id="UnitAdministratorPersonMassChange-ospAdministrator-parentBean" abstract="true" parent="AttributeDefinition" >
+        <property name="name" value="ospAdministrator" />
+        <property name="forceUppercase" value="false" />
+        <property name="label" value="OSP Administrator" />
+        <property name="shortLabel" value="OSP Administrator" />
+        <property name="maxLength" value="1" />
+        <property name="control" >
+            <bean parent="CheckboxControlDefinition" />
+        </property>
+        <property name="summary" value="OSP Administrator" />
+        <property name="description" value="OSP Administrator" />
+    </bean>
+    
+    <bean id="UnitAdministratorPersonMassChange-unitHead" parent="UnitAdministratorPersonMassChange-unitHead-parentBean" />
+    <bean id="UnitAdministratorPersonMassChange-unitHead-parentBean" abstract="true" parent="AttributeDefinition" >
+        <property name="name" value="unitHead" />
+        <property name="forceUppercase" value="false" />
+        <property name="label" value="Unit Head" />
+        <property name="shortLabel" value="Unit Head" />
+        <property name="maxLength" value="1" />
+        <property name="control" >
+            <bean parent="CheckboxControlDefinition" />
+        </property>
+        <property name="summary" value="Unit Head" />
+        <property name="description" value="Unit Head" />
+    </bean>
+    
+    <bean id="UnitAdministratorPersonMassChange-deanVP" parent="UnitAdministratorPersonMassChange-deanVP-parentBean" />
+    <bean id="UnitAdministratorPersonMassChange-deanVP-parentBean" abstract="true" parent="AttributeDefinition" >
+        <property name="name" value="deanVP" />
+        <property name="forceUppercase" value="false" />
+        <property name="label" value="Dean VP" />
+        <property name="shortLabel" value="Dean VP" />
+        <property name="maxLength" value="1" />
+        <property name="control" >
+            <bean parent="CheckboxControlDefinition" />
+        </property>
+        <property name="summary" value="Dean VP" />
+        <property name="description" value="Dean VP" />
+    </bean>
+    
+    <bean id="UnitAdministratorPersonMassChange-otherIndividualToNotify" parent="UnitAdministratorPersonMassChange-otherIndividualToNotify-parentBean" />
+    <bean id="UnitAdministratorPersonMassChange-otherIndividualToNotify-parentBean" abstract="true" parent="AttributeDefinition" >
+        <property name="name" value="otherIndividualToNotify" />
+        <property name="forceUppercase" value="false" />
+        <property name="label" value="Other Individual to Notify" />
+        <property name="shortLabel" value="Other Individual to Notify" />
+        <property name="maxLength" value="1" />
+        <property name="control" >
+            <bean parent="CheckboxControlDefinition" />
+        </property>
+        <property name="summary" value="Other Individual to Notify" />
+        <property name="description" value="Other Individual to Notify" />
+    </bean>
+    
+    <bean id="UnitAdministratorPersonMassChange-administrator" parent="UnitAdministratorPersonMassChange-administrator-parentBean" />
+    <bean id="UnitAdministratorPersonMassChange-administrator-parentBean" abstract="true" parent="AttributeDefinition" >
+        <property name="name" value="administrator" />
+        <property name="forceUppercase" value="false" />
+        <property name="label" value="Administrator" />
+        <property name="shortLabel" value="Administrator" />
+        <property name="maxLength" value="1" />
+        <property name="control" >
+            <bean parent="CheckboxControlDefinition" />
+        </property>
+        <property name="summary" value="Administrator" />
+        <property name="description" value="Administrator" />
+    </bean>
+    
+    <bean id="UnitAdministratorPersonMassChange-versionNumber" parent="UnitAdministratorPersonMassChange-versionNumber-parentBean" />
+    <bean id="UnitAdministratorPersonMassChange-versionNumber-parentBean" abstract="true" parent="AttributeReferenceDummy-versionNumber" />
+    
+</beans>
