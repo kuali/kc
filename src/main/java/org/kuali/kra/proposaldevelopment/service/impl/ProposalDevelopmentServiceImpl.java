@@ -21,6 +21,7 @@ import java.util.ArrayList;
 import java.util.Collection;
 import java.util.Date;
 import java.util.HashMap;
+import java.util.Iterator;
 import java.util.List;
 import java.util.ListIterator;
 import java.util.Map;
@@ -41,8 +42,10 @@ import org.kuali.kra.budget.distributionincome.BudgetCostShare;
 import org.kuali.kra.budget.document.BudgetDocument;
 import org.kuali.kra.budget.versions.BudgetDocumentVersion;
 import org.kuali.kra.infrastructure.Constants;
+import org.kuali.kra.infrastructure.KraServiceLocator;
 import org.kuali.kra.infrastructure.PermissionConstants;
 import org.kuali.kra.institutionalproposal.home.InstitutionalProposal;
+import org.kuali.kra.institutionalproposal.proposaladmindetails.ProposalAdminDetails;
 import org.kuali.kra.proposaldevelopment.bo.CoPiInfoDO;
 import org.kuali.kra.proposaldevelopment.bo.CostShareInfoDO;
 import org.kuali.kra.proposaldevelopment.bo.DevelopmentProposal;
@@ -567,5 +570,26 @@ public List<CostShareInfoDO> getCostShareInfo (Budget budget) {
     
     return costShareInfos;
 }
+
+    /**
+     * Return the institutional proposal linked to the development proposal.
+     * @param proposalDevelopmentDocument
+     * @param instProposalNumber
+     * @return
+     */
+    public InstitutionalProposal getInstitutionalProposal(String devProposalNumber) {
+        Long instProposalId = null;
+        Map<String, Object> values = new HashMap<String, Object>();
+        values.put("devProposalNumber", devProposalNumber);
+        Collection<ProposalAdminDetails> proposalAdminDetails = 
+            businessObjectService.findMatching(ProposalAdminDetails.class, values);
+        
+        for(Iterator iter = proposalAdminDetails.iterator(); iter.hasNext();){
+            ProposalAdminDetails pad = (ProposalAdminDetails) iter.next();
+            pad.refreshReferenceObject("institutionalProposal");
+            return pad.getInstitutionalProposal();
+        }
+        return null;
+    }
     
 }

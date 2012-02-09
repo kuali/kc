@@ -89,5 +89,6 @@ public interface ProposalDevelopmentService {
     
     public List<CostShareInfoDO> getCostShareInfo (Budget budget);
 
-
+    public InstitutionalProposal getInstitutionalProposal(String devProposalNumber);
+    
 }
