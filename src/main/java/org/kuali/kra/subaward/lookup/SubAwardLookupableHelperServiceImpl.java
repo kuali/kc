@@ -26,9 +26,11 @@ import java.util.Set;
 import java.util.TreeSet;
 
 import org.apache.commons.lang.StringUtils;
+import org.kuali.kra.award.home.Award;
 import org.kuali.kra.bo.versioning.VersionHistory;
 import org.kuali.kra.infrastructure.KraServiceLocator;
 import org.kuali.kra.lookup.KraLookupableHelperServiceImpl;
+import org.kuali.kra.service.ServiceHelper;
 import org.kuali.kra.service.VersionHistoryService;
 import org.kuali.kra.subaward.document.SubAwardDocument;
 import org.kuali.rice.kew.api.exception.WorkflowException;
@@ -37,12 +39,12 @@ import org.kuali.rice.krad.bo.BusinessObject;
 import org.kuali.rice.kns.lookup.HtmlData;
 import org.kuali.rice.kns.lookup.HtmlData.AnchorHtmlData;
 import org.kuali.rice.krad.service.BusinessObjectService;
-import org.kuali.rice.krad.service.DocumentService;
 import org.kuali.rice.krad.util.KRADConstants;
 import org.kuali.rice.krad.util.UrlFactory;
 import org.kuali.rice.kns.web.ui.Field;
 import org.kuali.rice.kns.web.ui.Row;
 import org.kuali.kra.subaward.bo.SubAward;
+import org.kuali.kra.subaward.bo.SubAwardFundingSource;
 
 public class SubAwardLookupableHelperServiceImpl extends KraLookupableHelperServiceImpl {
 
@@ -68,10 +70,12 @@ public class SubAwardLookupableHelperServiceImpl extends KraLookupableHelperServ
             formProps.put("unitAdministratorTypeCode", "2");
         }
         fieldValues.remove("lookupOspAdministratorName");
+        String awardNumber = fieldValues.get("awardNumber");
+        fieldValues.remove("awardNumber");
         List<SubAward> unboundedResults = (List<SubAward>) super.getSearchResultsUnbounded(fieldValues);
         List<SubAward> returnResults = new ArrayList<SubAward>();
         try {
-            returnResults = filterForActiveSubAwards(unboundedResults);
+            returnResults = filterForActiveSubAwards(unboundedResults,awardNumber);
         }
         catch (WorkflowException e) {
             // TODO Auto-generated catch block
@@ -142,9 +146,8 @@ public class SubAwardLookupableHelperServiceImpl extends KraLookupableHelperServ
       }
       
       @SuppressWarnings("unchecked")
-      protected List<SubAward> filterForActiveSubAwards(Collection<SubAward> collectionByQuery) throws WorkflowException {
+      protected List<SubAward> filterForActiveSubAwards(Collection<SubAward> collectionByQuery, String awardNumber) throws WorkflowException {
           BusinessObjectService businessObjectService =  KraServiceLocator.getService(BusinessObjectService.class);
-          DocumentService documentService = KraServiceLocator.getService(DocumentService.class);
           Set<String> subAwardCodes = new TreeSet<String>();
           List<Integer> subAwardCodeList = new ArrayList<Integer>();
           List<String> subAwardCodeSortedList = new ArrayList<String>();
@@ -168,7 +171,38 @@ public class SubAwardLookupableHelperServiceImpl extends KraLookupableHelperServ
                   }
               }
           } 
-          return activeSubAwards;
+         
+          List<SubAward> filteredSubAwardList = new ArrayList<SubAward>();
+          if(awardNumber!=null && !awardNumber.equals("")){
+              Collection <Award>awards = getBusinessObjectService().findMatching(Award.class, ServiceHelper.getInstance().
+                      buildCriteriaMap(new String[] { "awardNumber"}, new Object[] { awardNumber }));
+              List<Award> linkedAwards = new ArrayList<Award>();
+              for(Award award : awards){
+                  linkedAwards.add(award);
+              }
+              List<SubAwardFundingSource> fundingSourceList = new ArrayList<SubAwardFundingSource>();
+              for(Award linkedAward : linkedAwards){
+                  Collection <SubAwardFundingSource> subAwardFundingSource = getBusinessObjectService().findMatching
+                  (SubAwardFundingSource.class, ServiceHelper.getInstance().buildCriteriaMap(new String[] { "awardId"}, new Object[] { linkedAward.getAwardId() }));
+                  for (SubAwardFundingSource subAwardFunding : subAwardFundingSource){
+                      fundingSourceList.add(subAwardFunding);
+                  }
+              }
+
+              for(SubAward subAward : activeSubAwards){
+                  for (SubAwardFundingSource subAwardFunding : fundingSourceList){
+                      if(subAward.getSubAwardId().equals(subAwardFunding.getSubAwardId())){
+                          filteredSubAwardList.add(subAward);
+                      }
+                  }
+              }
+          }else{
+              for(SubAward subAward : activeSubAwards){
+                  filteredSubAwardList.add(subAward);
+              }
+
+          }
+          return filteredSubAwardList;
       }
       
     @Override

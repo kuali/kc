@@ -114,6 +114,9 @@ public class TestSubAwardAuthorizers extends KcUnitTestBase {
         subAward.setSubAwardTypeCode(229);
         subAward.setSubAwardCode("7687");
         subAward.setStatusCode(123);
+        subAward.setPurchaseOrderNum("111");
+        subAward.setRequisitionerId("1");
+        
         document.setSubAward(subAward);
         getDocumentService().saveDocument(document);
         return document;
