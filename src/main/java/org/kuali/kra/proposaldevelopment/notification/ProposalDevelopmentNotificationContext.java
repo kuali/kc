@@ -24,6 +24,7 @@ import org.kuali.kra.common.notification.service.KcNotificationModuleRoleService
 import org.kuali.kra.common.notification.service.KcNotificationService;
 import org.kuali.kra.infrastructure.KraServiceLocator;
 import org.kuali.kra.proposaldevelopment.bo.DevelopmentProposal;
+import org.kuali.kra.proposaldevelopment.document.ProposalDevelopmentDocument;
 import org.kuali.kra.util.EmailAttachment;
 
 /**
@@ -33,6 +34,7 @@ public class ProposalDevelopmentNotificationContext extends NotificationContextB
 
     private static final long serialVersionUID = 7899968257291957401L;
     
+    private DevelopmentProposal proposal;
     private String documentNumber;
     private String actionTypeCode;
     private String contextName;
@@ -49,13 +51,29 @@ public class ProposalDevelopmentNotificationContext extends NotificationContextB
                                                   NotificationRenderer renderer) {
         super(renderer);
         
+        this.proposal = developmentProposal;
         this.documentNumber = developmentProposal.getProposalDocument().getDocumentNumber();
         this.actionTypeCode = actionTypeCode;
         this.contextName = contextName;
         
         setNotificationService(KraServiceLocator.getService(KcNotificationService.class));
         setNotificationModuleRoleService(KraServiceLocator.getService(KcNotificationModuleRoleService.class));
-        setNotificationRoleQualifierService(KraServiceLocator.getService(ProposalDevelopmentNotificationRoleQualifierService.class));
+        ProposalDevelopmentNotificationRoleQualifierService roleQualifier = KraServiceLocator.getService(ProposalDevelopmentNotificationRoleQualifierService.class);
+        roleQualifier.setDevelopmentProposal(developmentProposal);
+        setNotificationRoleQualifierService(roleQualifier);
+    }
+    
+    /**
+     * 
+     * Constructs a ProposalDevelopmentNotificationContext.java using a default Proposal Development Renderer.
+     * @param developmentProposal
+     * @param actionTypeCode
+     * @param contextName
+     */
+    public ProposalDevelopmentNotificationContext(DevelopmentProposal developmentProposal, String actionTypeCode, String contextName) {
+        this(developmentProposal, actionTypeCode, contextName, 
+                KraServiceLocator.getService(ProposalDevelopmentNotificationRenderer.class));
+        ((ProposalDevelopmentNotificationRenderer) this.getRenderer()).setDevelopmentProposal(developmentProposal);
     }
     
     /**
@@ -104,6 +122,14 @@ public class ProposalDevelopmentNotificationContext extends NotificationContextB
      */
     public void setEmailAttachments(List<EmailAttachment> emailAttachments) {
         this.emailAttachments = emailAttachments;
+    }
+
+    public DevelopmentProposal getProposal() {
+        return proposal;
+    }
+
+    public void setProposal(DevelopmentProposal proposal) {
+        this.proposal = proposal;
     }
     
 }

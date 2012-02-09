@@ -22,6 +22,7 @@ import java.util.List;
 
 import org.apache.commons.lang.StringUtils;
 import org.kuali.kra.award.home.ContactRole;
+import org.kuali.kra.bo.AbstractProjectPerson;
 import org.kuali.kra.bo.KcPerson;
 import org.kuali.kra.bo.KraPersistableBusinessObjectBase;
 import org.kuali.kra.bo.PersonEditableInterface;
@@ -41,7 +42,7 @@ import org.kuali.rice.core.api.util.type.KualiDecimal;
  * @author $Author: gmcgrego $
  * @version $Revision: 1.42 $
  */
-public class ProposalPerson extends KraPersistableBusinessObjectBase implements CreditSplitable, PersonRolodex, PersonEditableInterface {
+public class ProposalPerson extends KraPersistableBusinessObjectBase implements CreditSplitable, PersonRolodex, PersonEditableInterface, AbstractProjectPerson {
 
     private static final long serialVersionUID = -4110005875629288373L;
 
@@ -2111,5 +2112,10 @@ public class ProposalPerson extends KraPersistableBusinessObjectBase implements 
             }
         }
         return false;
+    }
+
+    @Override
+    public String getRoleCode() {
+        return this.getRole().getRoleCode();
     }
 }
