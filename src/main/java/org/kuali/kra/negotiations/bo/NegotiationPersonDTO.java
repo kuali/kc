@@ -16,10 +16,11 @@
 package org.kuali.kra.negotiations.bo;
 
 import org.apache.commons.lang.StringUtils;
+import org.kuali.kra.bo.AbstractProjectPerson;
 import org.kuali.kra.bo.KcPerson;
 import org.kuali.kra.infrastructure.Constants;
 
-public class NegotiationPersonDTO {
+public class NegotiationPersonDTO implements AbstractProjectPerson {
     
     private KcPerson person;
     private String roleCode;

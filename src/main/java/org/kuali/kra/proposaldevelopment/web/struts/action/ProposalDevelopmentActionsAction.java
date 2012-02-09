@@ -46,6 +46,7 @@ import org.kuali.kra.budget.core.Budget;
 import org.kuali.kra.budget.document.BudgetDocument;
 import org.kuali.kra.budget.versions.BudgetDocumentVersion;
 import org.kuali.kra.budget.versions.BudgetVersionOverview;
+import org.kuali.kra.common.notification.service.KcNotificationService;
 import org.kuali.kra.common.specialreview.rule.event.SaveSpecialReviewLinkEvent;
 import org.kuali.kra.common.specialreview.service.SpecialReviewService;
 import org.kuali.kra.common.web.struts.form.ReportHelperBean;
@@ -140,6 +141,8 @@ public class ProposalDevelopmentActionsAction extends ProposalDevelopmentAction 
     private static final int OK = 0;
     private static final int WARNING = 1;
     private static final int ERROR = 2;
+    
+    private KcNotificationService notificationService;
     
     /**
      * Struts mapping for the Proposal web page.  
@@ -847,6 +850,7 @@ public class ProposalDevelopmentActionsAction extends ProposalDevelopmentAction 
             HttpServletResponse response)throws Exception{
         ProposalDevelopmentForm proposalDevelopmentForm = (ProposalDevelopmentForm) form;
         ProposalDevelopmentDocument proposalDevelopmentDocument = (ProposalDevelopmentDocument)proposalDevelopmentForm.getDocument();
+        ActionForward forward = mapping.findForward(Constants.MAPPING_BASIC);
         
         boolean isIPProtocolLinkingEnabled = getParameterService().getParameterValueAsBoolean(
             "KC-PROTOCOL", "Document", "irb.protocol.institute.proposal.linking.enabled");
@@ -882,10 +886,17 @@ public class ProposalDevelopmentActionsAction extends ProposalDevelopmentAction 
     
             if (autogenerateInstitutionalProposal()) {
                 generateInstitutionalProposal(proposalDevelopmentForm);
+                ProposalDevelopmentNotificationContext context = new ProposalDevelopmentNotificationContext(proposalDevelopmentDocument.getDevelopmentProposal(), "101", "Proposal Submitted");
+                if (proposalDevelopmentForm.getNotificationHelper().getPromptUserForNotificationEditor(context)) {
+                    proposalDevelopmentForm.getNotificationHelper().initializeDefaultValues(context);
+                    forward = mapping.findForward("notificationEditor");
+                } else {
+                    getNotificationService().sendNotification(context);                
+                }                
             }
         }
         
-        return mapping.findForward(Constants.MAPPING_BASIC);
+        return forward;
     }
     
     private void generateInstitutionalProposal(ProposalDevelopmentForm proposalDevelopmentForm) {
@@ -1556,6 +1567,17 @@ public class ProposalDevelopmentActionsAction extends ProposalDevelopmentAction 
         ProposalDevelopmentForm propDevForm = (ProposalDevelopmentForm) form;
         KraServiceLocator.getService(ProposalDevelopmentService.class).deleteProposal(propDevForm.getDocument());
         return mapping.findForward("portal");
+    }
+
+    protected KcNotificationService getNotificationService() {
+        if (notificationService == null) {
+            notificationService = KraServiceLocator.getService(KcNotificationService.class);
+        }
+        return notificationService;
+    }
+
+    public void setNotificationService(KcNotificationService notificationService) {
+        this.notificationService = notificationService;
     }
     
     public ActionForward sendNotification(ActionMapping mapping, ActionForm form, HttpServletRequest request, HttpServletResponse response) throws Exception {

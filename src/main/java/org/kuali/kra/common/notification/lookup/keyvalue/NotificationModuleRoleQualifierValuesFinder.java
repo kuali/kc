@@ -45,6 +45,7 @@ public class NotificationModuleRoleQualifierValuesFinder extends KeyValuesBase {
         documentList.add(new ConcreteKeyValue("protocolOnlineReviewId", "Protocol Online Review Id"));
         documentList.add(new ConcreteKeyValue("negotiation", "Negotiation Id"));
         documentList.add(new ConcreteKeyValue("disclosure", "Disclosure Id"));
+        documentList.add(new ConcreteKeyValue(KcKimAttributes.PROPOSAL, "Proposal"));
         
         return documentList;
     }

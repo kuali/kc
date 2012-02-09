@@ -15,7 +15,9 @@
  */
 package org.kuali.kra.proposaldevelopment.notification;
 
+import org.apache.commons.lang.StringUtils;
 import org.kuali.kra.common.notification.bo.NotificationModuleRoleQualifier;
+import org.kuali.kra.kim.bo.KcKimAttributes;
 import org.kuali.kra.proposaldevelopment.bo.DevelopmentProposal;
 
 /**
@@ -33,8 +35,14 @@ public class ProposalDevelopmentNotificationRoleQualifierServiceImpl implements 
     @Override
     public String getRoleQualifierValue(NotificationModuleRoleQualifier qualifier) {
         String roleQualifierValue = null;
-        
-        // TODO: fill in role qualifier values here
+        if (StringUtils.equals(qualifier.getQualifier(), KcKimAttributes.PROPOSAL)) {
+            roleQualifierValue = developmentProposal.getProposalNumber();
+        }
+        else if (StringUtils.equals(qualifier.getQualifier(), KcKimAttributes.UNIT_NUMBER)) {
+            if (developmentProposal.getUnitNumber() != null) {
+                roleQualifierValue = developmentProposal.getUnitNumber();
+            }
+        } 
         
         return roleQualifierValue;
     }
