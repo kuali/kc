@@ -119,7 +119,7 @@ public class SubAward extends KraPersistableBusinessObjectBase implements Permis
     private KualiDecimal totalAvailableAmount;
     private transient String docIdStatus;
     private transient String lastUpdate;
-
+    private String awardNumber;
 
     public String getSubAwardSequenceStatus() {
         return subAwardSequenceStatus;
@@ -770,5 +770,11 @@ public class SubAward extends KraPersistableBusinessObjectBase implements Permis
     public String getSubAwardRequisitionerId() {
         return this.getRequisitionerId();
     }
-    
+    public void setAwardNumber(String awardNumber) {
+        this.awardNumber = awardNumber;
+    }
+
+    public String getAwardNumber() {
+        return awardNumber;
+    }
 }
