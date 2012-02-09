@@ -1279,7 +1279,7 @@ public class ProposalDevelopmentForm extends BudgetVersionFormBase implements Re
     }
 
     public boolean isCanSubmitToGrantsGov() {
-        String routeStatus = this.getDocument().getDocumentHeader().getWorkflowDocument().getApplicationDocumentStatus();
+        String routeStatus = this.getDocument().getDocumentHeader().getWorkflowDocument().getStatus().getCode();
         return ( KewApiConstants.ROUTE_HEADER_PROCESSED_CD.equals(routeStatus) || KewApiConstants.ROUTE_HEADER_FINAL_CD.equals(routeStatus) || KewApiConstants.ROUTE_HEADER_ENROUTE_CD.equals(routeStatus) ) 
                     &&  !isSubmissionStatusReadOnly();
     }
@@ -1900,11 +1900,12 @@ public class ProposalDevelopmentForm extends BudgetVersionFormBase implements Re
      * This function is needed as the tags can no longer set attributes of null object automatically, an object must be created first.
      * @param opportunityId
      */
+
     public void setNewS2sOpportunityWithId(String opportunityId) {
-        System.err.println("Got here!");
-        S2sOpportunity s2sOpportunity = new S2sOpportunity();
-        s2sOpportunity.setOpportunityId(opportunityId);
-        this.getDocument().getDevelopmentProposalList().get(0).setS2sOpportunity(s2sOpportunity);
+        if(this.getDocument().getDevelopmentProposal().getS2sOpportunity() == null) {
+            this.getDocument().getDevelopmentProposal().setS2sOpportunity(new S2sOpportunity());
+        }
+        this.getDocument().getDevelopmentProposal().getS2sOpportunity().setOpportunityId(opportunityId);
     }
     
     public String getQuestionnaireFieldStarter() {
