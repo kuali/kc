@@ -37,6 +37,7 @@
                 <ref bean="NotificationTypeRecipient-notificationTypeRecipientId" />
                 <ref bean="NotificationTypeRecipient-notificationTypeId" />
                 <ref bean="NotificationTypeRecipient-roleName" />
+                <ref bean="NotificationTypeRecipient-roleSubQualifier" />
                 <ref bean="NotificationTypeRecipient-personId" />
                 <ref bean="NotificationTypeRecipient-rolodexId" />
                 <ref bean="NotificationTypeRecipient-fullName" />
@@ -101,6 +102,25 @@
         </property>
         <property name="summary" value="Role" />
         <property name="description" value="Role" />
+    </bean>
+    
+    <bean id="NotificationTypeRecipient-roleSubQualifier" parent="NotificationTypeRecipient-roleSubQualifier-parentBean" />
+    <bean id="NotificationTypeRecipient-roleSubQualifier-parentBean" abstract="true" parent="AttributeDefinition">
+        <property name="name" value="roleSubQualifier" />
+        <property name="forceUppercase" value="false" />
+        <property name="label" value="Sub Role" />
+        <property name="shortLabel" value="Sub Role" />
+        <property name="maxLength" value="125" />
+        <property name="validationPattern" >
+            <bean parent="AnyCharacterValidationPattern" 
+                  p:allowWhitespace="true" />
+        </property>
+        <property name="control" >
+            <bean parent="SelectControlDefinition" 
+            	p:valuesFinderClass="org.kuali.kra.common.notification.lookup.keyvalue.NotificationRoleSubQualifierValuesFinder"/>
+        </property>
+        <property name="summary" value="Sub Role" />
+        <property name="description" value="Sub Role" />
     </bean>
     
     <bean id="NotificationTypeRecipient-personId" parent="NotificationTypeRecipient-personId-parentBean" />

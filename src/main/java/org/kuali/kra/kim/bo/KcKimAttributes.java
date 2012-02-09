@@ -30,6 +30,7 @@ public class KcKimAttributes extends KimAttributes {
     public static final String ORGANIZATION_ID = "organizationId";
     public static final String SUBUNITS = "subunits";
     public static final String NEGOTIATION = "negotiation";
+    public static final String SUB_QUALIFIER = "subQualifier";
     
     protected String proposal;
     protected String protocol;

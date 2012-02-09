@@ -79,7 +79,7 @@
                 </div></td>
             </tr>
             
-            <c:forEach items="${KualiForm.notificationHelper.notificationRecipients}" varStatus="status">
+            <c:forEach items="${KualiForm.notificationHelper.notificationRecipients}" var="recipient" varStatus="status">
                 <tr>
                     <th class="infoline">
                        <c:out value="${status.index + 1}" />
@@ -88,6 +88,16 @@
                         <kul:htmlControlAttribute property="notificationHelper.notificationRecipients[${status.index}].fullName" 
                                                   attributeEntry="${notificationTypeRecipientAttributes.fullName}" 
                                                   readOnly="true" />
+						<c:set var="subQualifierValues" value="${recipient.subQualifierValues}"/>
+						<c:if test="${not empty subQualifierValues}">
+							<div style="margin-left: 2em;"><kul:htmlAttributeLabel attributeEntry="${notificationTypeRecipientAttributes.roleSubQualifier}"/> 
+							<html:select property="notificationHelper.notificationRecipients[${status.index}].roleSubQualifier">
+								<c:forEach items="${subQualifierValues}" var="keyValue">
+									<html:option value="${keyValue.key}"><c:out value="${keyValue.value}"/></html:option>
+								</c:forEach>
+							</html:select>
+							</div>
+						</c:if>
                     </div></td>
                     <td align="left" valign="middle"><div align="center">
                         <html:image property="methodToCall.deleteNotificationRecipient.line${status.index}.anchor${currentTabIndex}"

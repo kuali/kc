@@ -2829,9 +2829,9 @@ function closeQuestionnairePop() {
 }
 
 
-function callAjax(methodToCall, codeValue, successCallback, errorCallback) {
+function callAjaxByPath(url, methodToCall, codeValue, successCallback, errorCallback) {
 	$j.ajax( {
-		url : 'jqueryAjax.do',
+		url : url,
 		type : 'POST',
 		dataType : 'html',
 		data : 'methodToCall='+methodToCall+'&code=' + codeValue,
@@ -2841,6 +2841,10 @@ function callAjax(methodToCall, codeValue, successCallback, errorCallback) {
 		error : errorCallback,
 		success : successCallback
 	});
+}
+
+function callAjax(methodToCall, codeValue, successCallback, errorCallback) {
+	callAjaxByPath('jqueryAjax.do', methodToCall, codeValue, successCallback, errorCallback);
 }
 
 function ajaxLoad(methodToCall, codeField, fieldToUpdate) {

@@ -912,6 +912,20 @@
         </property>
     </bean>    
     
+    <bean id="notificationRoleSubQualifierFinders" class="org.kuali.kra.common.notification.service.impl.NotificationRoleSubQualifierFindersImpl">
+    	<property name="finders">
+    		<map>
+    			<entry key="KC-PD:Investigators">
+    				<bean class="org.kuali.kra.lookup.keyvalue.ExtendedPersistableBusinessObjectValuesFinder">
+    					<property name="businessObjectClass" value="org.kuali.kra.proposaldevelopment.bo.ProposalPersonRole" />
+    					<property name="keyAttributeName" value="proposalPersonRoleId"/>
+    					<property name="labelAttributeName" value="description"/>
+    				</bean>
+    			</entry>
+    		</map>
+    	</property>
+    </bean>
+    
     <!-- 
     <bean id="unitAgendaTypeService" class="org.kuali.kra.krms.UnitAgendaTypeService">
     </bean>
@@ -925,5 +939,4 @@
     <bean id="sampleAppPeopleFlowTypeService" class="org.kuali.rice.krad.workflow.DataDictionaryPeopleFlowTypeServiceImpl">
     </bean>
      -->
-    
 </beans>
