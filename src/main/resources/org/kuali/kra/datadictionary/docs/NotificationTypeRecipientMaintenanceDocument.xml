@@ -38,6 +38,7 @@
       <list>
         <bean parent="MaintainableFieldDefinition" p:name="notificationTypeId" p:required="true"/>
         <bean parent="MaintainableFieldDefinition" p:name="roleName" p:required="true"/>
+        <bean parent="MaintainableFieldDefinition" p:name="roleSubQualifier" p:required="false"/>
       </list>
     </property>
   </bean>
@@ -59,11 +60,13 @@
           <property name="summaryFields">
             <list>
               <bean parent="MaintainableFieldDefinition" p:name="roleName"/>
+              <bean parent="MaintainableFieldDefinition" p:name="roleSubQualifier"/>
             </list>
           </property>
           <property name="maintainableFields">
             <list>
-	          <bean parent="MaintainableFieldDefinition" p:name="roleName" p:required="true"/>
+	          <bean parent="MaintainableFieldDefinition" p:name="roleName" p:required="true" p:readOnlyAfterAdd="true"/>
+	          <bean parent="MaintainableFieldDefinition" p:name="roleSubQualifier" p:required="false" p:readOnlyAfterAdd="true"/>
             </list>
           </property>
         </bean>

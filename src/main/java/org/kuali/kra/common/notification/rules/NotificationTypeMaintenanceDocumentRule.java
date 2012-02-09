@@ -123,18 +123,15 @@ public class NotificationTypeMaintenanceDocumentRule extends KraMaintenanceDocum
         for (ListIterator<NotificationTypeRecipient> outer = newNotificationTypeRecipients.listIterator(); outer.hasNext();) {
             NotificationTypeRecipient outerNotificationTypeRecipient = outer.next();
             
-            String outerRoleName = outerNotificationTypeRecipient.getRoleName();
-            
             for (ListIterator<NotificationTypeRecipient> inner = newNotificationTypeRecipients.listIterator(outer.nextIndex()); inner.hasNext();) {
                 int currentIndex = inner.nextIndex();
                 NotificationTypeRecipient innerNotificationTypeRecipient = inner.next();
                 
-                String innerRoleName = innerNotificationTypeRecipient.getRoleName();
-                
-                if (StringUtils.equals(outerRoleName, innerRoleName)) {
+                if (StringUtils.equals(outerNotificationTypeRecipient.getRoleName(), innerNotificationTypeRecipient.getRoleName())
+                        && StringUtils.equals(outerNotificationTypeRecipient.getRoleSubQualifier(), innerNotificationTypeRecipient.getRoleSubQualifier())) {
                     isValid = false;
                     putFieldError(String.format(ROLE_FIELD_NAME, currentIndex), 
-                        KeyConstants.ERROR_NOTIFICATION_ROLE_NAME_EXISTS, new String[] {innerRoleName});
+                        KeyConstants.ERROR_NOTIFICATION_ROLE_NAME_EXISTS, new String[] {innerNotificationTypeRecipient.getRoleName()});
                 }
             }
         }
