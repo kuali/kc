@@ -1301,4 +1301,42 @@
 			<foreignkey field-ref="costElement"/>
 		</reference-descriptor> 
 	</class-descriptor>	
+	<class-descriptor class="org.kuali.kra.budget.rates.RateClassBaseExclusion" table="RATE_CLASS_BASE_EXCLUSION">
+		<field-descriptor name="rateClassBaseExclusionId" column="RATE_CLASS_BASE_EXCL_ID" jdbc-type="BIGINT" primarykey="true" autoincrement="true" sequence-name="SEQ_RATE_CLASS_BASE_EXCL_ID"/>
+		<field-descriptor name="rateClassCode" column="RATE_CLASS_CODE" jdbc-type="VARCHAR" />
+		<field-descriptor name="rateTypeCode" column="RATE_TYPE_CODE" jdbc-type="VARCHAR" />
+		<field-descriptor name="rateClassCodeExcl" column="RATE_CLASS_CODE_EXCL" jdbc-type="VARCHAR" />
+		<field-descriptor name="rateTypeCodeExcl" column="RATE_TYPE_CODE_EXCL" jdbc-type="VARCHAR" />
+		<field-descriptor name="updateTimestamp" column="UPDATE_TIMESTAMP" jdbc-type="TIMESTAMP" />
+		<field-descriptor name="updateUser" column="UPDATE_USER" jdbc-type="VARCHAR" />
+		<field-descriptor name="versionNumber" column="VER_NBR" jdbc-type="BIGINT" locking="true" />
+		<field-descriptor name="objectId" column="OBJ_ID" jdbc-type="VARCHAR" />
+		<reference-descriptor name="rateType" class-ref="org.kuali.kra.budget.rates.RateType" auto-retrieve="true" auto-update="none" auto-delete="none"> 
+			<foreignkey field-ref="rateClassCode"/>
+			<foreignkey field-ref="rateTypeCode"/>
+		</reference-descriptor>
+		<reference-descriptor name="rateTypeExclusion" class-ref="org.kuali.kra.budget.rates.RateType" auto-retrieve="true" auto-update="none" auto-delete="none"> 
+			<foreignkey field-ref="rateClassCodeExcl"/>
+			<foreignkey field-ref="rateTypeCodeExcl"/>
+		</reference-descriptor>
+	</class-descriptor>	
+	<class-descriptor class="org.kuali.kra.budget.rates.RateClassBaseInclusion" table="RATE_CLASS_BASE_INCLUSION">
+		<field-descriptor name="rateClassBaseInclusionId" column="RATE_CLASS_BASE_INCL_ID" jdbc-type="BIGINT" primarykey="true" autoincrement="true" sequence-name="SEQ_RATE_CLASS_BASE_INCL_ID"/>
+		<field-descriptor name="rateClassCode" column="RATE_CLASS_CODE" jdbc-type="VARCHAR" />
+		<field-descriptor name="rateTypeCode" column="RATE_TYPE_CODE" jdbc-type="VARCHAR" />
+		<field-descriptor name="rateClassCodeIncl" column="RATE_CLASS_CODE_INCL" jdbc-type="VARCHAR" />
+		<field-descriptor name="rateTypeCodeIncl" column="RATE_TYPE_CODE_INCL" jdbc-type="VARCHAR" />
+		<field-descriptor name="updateTimestamp" column="UPDATE_TIMESTAMP" jdbc-type="TIMESTAMP" />
+		<field-descriptor name="updateUser" column="UPDATE_USER" jdbc-type="VARCHAR" />
+		<field-descriptor name="versionNumber" column="VER_NBR" jdbc-type="BIGINT" locking="true" />
+		<field-descriptor name="objectId" column="OBJ_ID" jdbc-type="VARCHAR" />
+		<reference-descriptor name="rateType" class-ref="org.kuali.kra.budget.rates.RateType" auto-retrieve="true" auto-update="none" auto-delete="none"> 
+			<foreignkey field-ref="rateClassCode"/>
+			<foreignkey field-ref="rateTypeCode"/>
+		</reference-descriptor>
+		<reference-descriptor name="rateTypeInclusion" class-ref="org.kuali.kra.budget.rates.RateType" auto-retrieve="true" auto-update="none" auto-delete="none"> 
+			<foreignkey field-ref="rateClassCodeIncl"/>
+			<foreignkey field-ref="rateTypeCodeIncl"/>
+		</reference-descriptor>
+	</class-descriptor>
 </descriptor-repository>
