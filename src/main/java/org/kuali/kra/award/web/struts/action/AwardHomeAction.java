@@ -50,6 +50,7 @@ import org.kuali.kra.infrastructure.KeyConstants;
 import org.kuali.kra.infrastructure.KraServiceLocator;
 import org.kuali.kra.service.KeywordsService;
 import org.kuali.kra.service.VersioningService;
+import org.kuali.rice.core.api.util.type.KualiDecimal;
 import org.kuali.rice.coreservice.framework.parameter.ParameterConstants;
 import org.kuali.rice.coreservice.framework.parameter.ParameterService;
 import org.kuali.rice.kew.api.exception.WorkflowException;
@@ -256,6 +257,16 @@ public class AwardHomeAction extends AwardAction {
         //initial T&M doc.
         if(awardDocument.getAward().getAwardNumber().endsWith("-00001") && isDirectIndirectViewEnabled()) {
             setTotalsOnAward(awardDocument.getAward());
+        }
+        
+        /**
+         * the following two null overrides are per KCAWD-1001
+         */
+        if (awardDocument.getAward().getAwardAmountInfos().get(0).getAnticipatedTotalAmount() == null) {
+            awardDocument.getAward().getAwardAmountInfos().get(0).setAnticipatedTotalAmount(new KualiDecimal(0));
+        }
+        if (awardDocument.getAward().getAwardAmountInfos().get(0).getAmountObligatedToDate() == null) {
+            awardDocument.getAward().getAwardAmountInfos().get(0).setAmountObligatedToDate(new KualiDecimal(0));
         }
         
         awardForm.getSpecialReviewHelper().prepareView();
