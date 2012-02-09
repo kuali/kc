@@ -20,6 +20,7 @@ import java.util.HashMap;
 import java.util.List;
 
 import org.apache.commons.collections.CollectionUtils;
+import org.apache.commons.lang.StringUtils;
 import org.kuali.kra.common.notification.bo.NotificationModuleRole;
 import org.kuali.kra.common.notification.bo.NotificationModuleRoleQualifier;
 import org.kuali.kra.common.notification.bo.NotificationTypeRecipient;
@@ -27,6 +28,7 @@ import org.kuali.kra.common.notification.exception.UnknownRoleException;
 import org.kuali.kra.common.notification.service.KcNotificationModuleRoleService;
 import org.kuali.kra.common.notification.service.KcNotificationRoleQualifierService;
 import org.kuali.kra.common.notification.service.KcNotificationService;
+import org.kuali.kra.kim.bo.KcKimAttributes;
 
 /**
  * Provides a base class for all notifications to extend.  It defines a holding place for the required services as well as a few methods that should be 
@@ -83,6 +85,9 @@ public abstract class NotificationContextBase implements NotificationContext, Se
                                 getNotificationRoleQualifierService().getRoleQualifierValue(mQualifier));
                     }
                 }
+            }
+            if (StringUtils.isNotBlank(notificationRecipient.getRoleSubQualifier())) {
+                notificationRecipient.getRoleQualifiers().put(KcKimAttributes.SUB_QUALIFIER, notificationRecipient.getRoleSubQualifier());
             }
         } else {
             throw new UnknownRoleException(notificationRecipient.getRoleName(), getContextName());

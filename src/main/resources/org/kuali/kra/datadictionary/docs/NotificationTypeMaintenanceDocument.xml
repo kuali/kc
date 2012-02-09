@@ -28,6 +28,7 @@
     <property name="webScriptFiles">
       <list>
         <value>../dwr/interface/NotificationModuleRoleService.js</value>
+        <value>../scripts/notificationMaint.js</value>
       </list>
     </property>    
     
