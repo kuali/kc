@@ -33,6 +33,7 @@
 	<param name="kns.mode">LOCAL</param>
 	<param name="coreservice.mode">LOCAL</param>
 	<param name="location.mode">LOCAL</param>
+	<param name="dev.mode">true</param>
 	
 	<param name="rice.krad.componentPublishing.enabled">false</param>
 	<param name="service.namespace">KC</param>
@@ -176,9 +177,6 @@
 	<param name="kew.ehcache.config.location" override="false">classpath:org/kuali/rice/kew/impl/config/kew.ehcache.xml</param>
 	<param name="core.ehcache.config.location" override="false">classpath:org/kuali/rice/core/config/core.ehcache.xml</param>
 	<param name="location.ehcache.config.location" override="false">classpath:org/kuali/rice/location/config/location.ehcache.xml</param>
-	<!-- 
-	<param name="shareddata.ehcache.config.location" override="false">classpath:org/kuali/rice/shareddata/config/shareddata.ehcache.xml</param>
-	 -->
 	 <!-- XAPool is still the default in common-config-defaults. But that might change -->
 	<param name="connection.pool.impl">XAPool</param>
 	 
