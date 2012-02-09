@@ -1,0 +1,12 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<data xmlns="ns:workflow" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:schemaLocation="ns:workflow resource:WorkflowData">
+	<documentTypes xmlns="ns:workflow/DocumentType" xsi:schemaLocation="ns:workflow/DocumentType resource:DocumentType">
+		<documentType>
+			<name>RateClassBaseExclusionMaintenanceDocument</name>
+			<description>Create/Edit a Rate Class Exclusion</description>
+			<label>Rate Class Exclusion Maintenance Document</label>
+			<parent>KcSharedMaintenanceDocument</parent>
+			<helpDefinitionURL>default.htm?turl=Documents/rateclassBaseExclusion.htm</helpDefinitionURL>
+		</documentType>
+	</documentTypes>	
+</data>
