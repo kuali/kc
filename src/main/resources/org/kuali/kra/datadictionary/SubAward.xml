@@ -45,6 +45,7 @@
         <ref bean="SubAward-docIdStatus" />  
         <ref bean="SubAward-lastUpdate" />
         <ref bean="SubAward-subAwardCode" />    
+        <ref bean="SubAward-awardNumber" /> 
       </list>
     </property>
   </bean>
@@ -55,8 +56,8 @@
   <bean id="SubAward-subAwardId-parentBean" abstract="true" parent="AttributeDefinition">
     <property name="name" value="subAwardId" />
     <property name="forceUppercase" value="false" />
-    <property name="label" value="Subaward Id" />
-    <property name="shortLabel" value="Subaward Id" />
+    <property name="label" value="Subaward ID" />
+    <property name="shortLabel" value="Subaward ID" />
     <property name="maxLength" value="22" />
     <property name="validationPattern" >
       <bean parent="NumericValidationPattern" />
@@ -66,16 +67,16 @@
       <bean parent="TextControlDefinition"
             p:size="10" />
     </property>
-    <property name="summary" value="SubAward Id" />
-    <property name="description" value="SubAward Id" />    
+    <property name="summary" value="SubAward ID" />
+    <property name="description" value="SubAward ID" />    
   </bean>
     
   <bean id="SubAward-subAwardCode" parent="SubAward-subAwardCode-parentBean" />
   <bean id="SubAward-subAwardCode-parentBean" abstract="true" parent="AttributeDefinition">
     <property name="name" value="subAwardCode" />
     <property name="forceUppercase" value="false" />
-    <property name="label" value="Subaward Id" />
-    <property name="shortLabel" value="Subaward Id" />
+    <property name="label" value="Subaward ID" />
+    <property name="shortLabel" value="Subaward ID" />
     <property name="maxLength" value="22" />
     <property name="validationPattern" >
       <bean parent="NumericValidationPattern" />
@@ -85,8 +86,8 @@
       <bean parent="TextControlDefinition"
             p:size="10" />
     </property>
-    <property name="summary" value="SubAward Id" />
-    <property name="description" value="SubAward Id" />    
+    <property name="summary" value="Subaward ID" />
+    <property name="description" value="Subaward ID" />    
   </bean>
    
   <bean id="SubAward-organizationId" parent="SubAward-organizationId-parentBean" />
@@ -105,8 +106,8 @@
       <bean parent="TextControlDefinition"
             p:size="60" />
     </property>
-    <property name="summary" value="Subrecipient Id" />
-    <property name="description" value="Subrecipient Id" />    
+    <property name="summary" value="Subrecipient" />
+    <property name="description" value="Subrecipient" />    
   </bean>
   
    
@@ -223,19 +224,19 @@
   <bean id="SubAward-purchaseOrderId-parentBean" abstract="true" parent="AttributeDefinition">
     <property name="name" value="purchaseOrderNum" />
     <property name="forceUppercase" value="false" />
-    <property name="label" value="Purchase Order Id" />
-    <property name="shortLabel" value="Purchase Order Id" />
+    <property name="label" value="Purchase Order ID" />
+    <property name="shortLabel" value="Purchase Order ID" />
     <property name="maxLength" value="12" />
     <property name="validationPattern" >
       <bean parent="AnyCharacterValidationPattern" p:allowWhitespace="true" />
     </property>
-    <property name="required" value="false" />
+    <property name="required" value="true" />
     <property name="control" >
       <bean parent="TextControlDefinition"
             p:size="12" />
     </property>
-    <property name="summary" value="Purchase Order Id" />
-    <property name="description" value="Purchase Order Id" />    
+    <property name="summary" value="Purchase Order ID" />
+    <property name="description" value="Purchase Order ID" />    
   </bean>
   
   <bean id="SubAward-title" parent="SubAward-title-parentBean" />
@@ -307,8 +308,8 @@
   <bean id="SubAward-accountNumber-parentBean" abstract="true" parent="AttributeDefinition">
     <property name="name" value="accountNumber" />
     <property name="forceUppercase" value="false" />
-    <property name="label" value="Account Id" />
-    <property name="shortLabel" value="Account Id" />
+    <property name="label" value="Account ID" />
+    <property name="shortLabel" value="Account ID" />
     <property name="maxLength" value="7" />
     <property name="validationPattern" >
       <bean parent="AlphaNumericValidationPattern" />
@@ -318,8 +319,8 @@
       <bean parent="TextControlDefinition"
             p:size="15" />
     </property>
-    <property name="summary" value="Account Id" />
-    <property name="description" value="Account Id" />    
+    <property name="summary" value="Account ID" />
+    <property name="description" value="Account ID" />    
   </bean>
   
   
@@ -328,8 +329,8 @@
   <bean id="SubAward-vendorNumber-parentBean" abstract="true" parent="AttributeDefinition">
     <property name="name" value="vendorNumber" />
     <property name="forceUppercase" value="false" />
-    <property name="label" value="Vendor Id" />
-    <property name="shortLabel" value="Vendor Id" />
+    <property name="label" value="Vendor ID" />
+    <property name="shortLabel" value="Vendor ID" />
     <property name="maxLength" value="10" />
     <property name="validationPattern" >
       <bean parent="AlphaNumericValidationPattern" />
@@ -339,8 +340,8 @@
       <bean parent="TextControlDefinition"
             p:size="15" />
     </property>
-    <property name="summary" value="Vendor Id" />
-    <property name="description" value="Vendor Id" />    
+    <property name="summary" value="Vendor ID" />
+    <property name="description" value="Vendor ID" />    
   </bean>
   
   
@@ -349,19 +350,19 @@
   <bean id="SubAward-requisitionerId-parentBean" abstract="true" parent="AttributeDefinition">
     <property name="name" value="requisitionerId" />
     <property name="forceUppercase" value="false" />
-    <property name="label" value="Requisitioner Id" />
-    <property name="shortLabel" value="Requisitioner Id" />
+    <property name="label" value="Requisitioner ID" />
+    <property name="shortLabel" value="Requisitioner ID" />
     <property name="maxLength" value="200" />
     <property name="validationPattern" >
       <bean parent="AlphaNumericValidationPattern" />
     </property>
-    <property name="required" value="false" />
+    <property name="required" value="true" />
     <property name="control" >
       <bean parent="TextControlDefinition"
             p:size="60" />
     </property>
-    <property name="summary" value="Requisitioner Id" />
-    <property name="description" value="Requisitioner Id" />    
+    <property name="summary" value="Requisitioner ID" />
+    <property name="description" value="Requisitioner ID" />    
   </bean>
   
   
@@ -633,6 +634,26 @@
     </property>
   </bean>
   
+  <bean id="SubAward-awardNumber" parent="SubAward-awardNumber-parentBean" />
+  <bean id="SubAward-awardNumber-parentBean" abstract="true" parent="AttributeDefinition">
+    <property name="name" value="awardNumber" />
+    <property name="forceUppercase" value="false" />
+    <property name="label" value="Award ID" />
+    <property name="shortLabel" value="Award ID" />
+    <property name="maxLength" value="12" />
+    <property name="validationPattern" >
+      <bean parent="RegexValidationPattern"
+            p:pattern="\d\d\d\d\d\d-\d\d\d\d\d" 
+            p:validationErrorMessageKey="error.invalid.awardId"/>
+    </property>
+    <property name="required" value="false" />
+    <property name="control" >
+      <bean parent="TextControlDefinition"
+            p:size="12" />
+    </property>
+    <property name="summary" value="Award ID" />
+    <property name="description" value="Award ID" />
+  </bean>
   <!-- Business Object Lookup Definition -->
 
   <bean id="SubAward-lookupDefinition" parent="SubAward-lookupDefinition-parentBean" />
@@ -655,6 +676,7 @@
         <bean p:attributeName="endDate" parent="FieldDefinition" p:forceInquiry="true" />
         <bean p:attributeName="subAwardTypeCode" parent="FieldDefinition" p:forceInquiry="true" />
         <bean p:attributeName="purchaseOrderNum" parent="FieldDefinition" p:forceInquiry="true" />
+        <bean p:attributeName="awardNumber" parent="FieldDefinition"  />
         <bean p:attributeName="title" parent="FieldDefinition" p:forceInquiry="true" />
         <bean p:attributeName="statusCode" parent="FieldDefinition" p:forceInquiry="true" />
         <bean p:attributeName="accountNumber" parent="FieldDefinition" p:forceInquiry="true" />
