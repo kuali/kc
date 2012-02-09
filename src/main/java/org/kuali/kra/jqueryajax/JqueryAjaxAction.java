@@ -15,6 +15,8 @@
  */
 package org.kuali.kra.jqueryajax;
 
+import java.util.List;
+
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 
@@ -24,9 +26,11 @@ import org.apache.struts.action.ActionForward;
 import org.apache.struts.action.ActionMapping;
 import org.kuali.kra.award.home.AwardTemplate;
 import org.kuali.kra.bo.Unit;
+import org.kuali.kra.common.notification.service.NotificationRoleSubQualifierFinders;
 import org.kuali.kra.infrastructure.Constants;
 import org.kuali.kra.infrastructure.KraServiceLocator;
 import org.kuali.kra.service.UnitService;
+import org.kuali.rice.core.api.util.KeyValue;
 import org.kuali.rice.kns.web.struts.action.KualiDocumentActionBase;
 
 /**
@@ -35,6 +39,7 @@ import org.kuali.rice.kns.web.struts.action.KualiDocumentActionBase;
  */
 public class JqueryAjaxAction extends KualiDocumentActionBase {
 
+    protected NotificationRoleSubQualifierFinders notificationRoleSubQualifierFinders;
 
     /**
      * 
@@ -92,5 +97,38 @@ public class JqueryAjaxAction extends KualiDocumentActionBase {
         }
         return mapping.findForward(Constants.MAPPING_BASIC);
         
+    }
+    
+    public ActionForward getNotificationRoleSubQualifiers(ActionMapping mapping, ActionForm form, HttpServletRequest request,
+            HttpServletResponse response)
+    throws Exception {
+        JqueryAjaxForm ajaxForm = (JqueryAjaxForm) form;
+        List<KeyValue> values = getNotificationRoleSubQualifierFinders().getKeyValuesForRole(ajaxForm.getCode());
+        StringBuffer buffer = new StringBuffer();
+        buffer.append("[ ");
+        for (KeyValue value : values) {
+            buffer.append("{ 'key' :'");
+            buffer.append(value.getKey());
+            buffer.append("', 'value' : '");
+            buffer.append(value.getValue());
+            buffer.append("'} , ");
+        }
+        buffer.append("]");
+        ajaxForm.setReturnVal(buffer.toString());
+        
+        return mapping.findForward(Constants.MAPPING_BASIC);
+    }
+
+
+    protected NotificationRoleSubQualifierFinders getNotificationRoleSubQualifierFinders() {
+        if (notificationRoleSubQualifierFinders == null) {
+            notificationRoleSubQualifierFinders = KraServiceLocator.getService(NotificationRoleSubQualifierFinders.class);
+        }
+        return notificationRoleSubQualifierFinders;
+    }
+
+
+    public void setNotificationRoleSubQualifierFinders(NotificationRoleSubQualifierFinders notificationRoleSubQualifierFinders) {
+        this.notificationRoleSubQualifierFinders = notificationRoleSubQualifierFinders;
     }
 }

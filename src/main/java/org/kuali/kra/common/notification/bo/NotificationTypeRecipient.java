@@ -15,9 +15,15 @@
  */
 package org.kuali.kra.common.notification.bo;
 
+import java.util.ArrayList;
+import java.util.List;
 import java.util.Map;
 
+import org.apache.commons.lang.StringUtils;
 import org.kuali.kra.bo.KraPersistableBusinessObjectBase;
+import org.kuali.kra.common.notification.service.NotificationRoleSubQualifierFinders;
+import org.kuali.kra.infrastructure.KraServiceLocator;
+import org.kuali.rice.core.api.util.KeyValue;
 
 /**
  * Defines the recipients for a {@code NotificationType}.
@@ -29,6 +35,7 @@ public class NotificationTypeRecipient extends KraPersistableBusinessObjectBase 
     private Long notificationTypeRecipientId;
     private Long notificationTypeId;
     private String roleName;
+    private String roleSubQualifier;
     
     // Non-persistent field for tracking the qualifier value.
     private Map<String,String> roleQualifiers;
@@ -139,6 +146,22 @@ public class NotificationTypeRecipient extends KraPersistableBusinessObjectBase 
         }
 
         return true;
+    }
+
+    public String getRoleSubQualifier() {
+        return roleSubQualifier;
+    }
+
+    public void setRoleSubQualifier(String roleSubQualifier) {
+        this.roleSubQualifier = roleSubQualifier;
+    }
+    
+    public List<KeyValue> getSubQualifierValues() {
+        if (StringUtils.isNotBlank(getRoleName())) {
+            return KraServiceLocator.getService(NotificationRoleSubQualifierFinders.class).getKeyValuesForRole(getRoleName());
+        } else {
+            return new ArrayList<KeyValue>();
+        }
     }
     
 }
