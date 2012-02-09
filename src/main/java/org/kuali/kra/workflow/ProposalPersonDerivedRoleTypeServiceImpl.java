@@ -21,6 +21,7 @@ import java.util.List;
 import java.util.Map;
 
 import org.apache.commons.lang.StringUtils;
+import org.kuali.kra.bo.AbstractProjectPerson;
 import org.kuali.kra.infrastructure.Constants;
 import org.kuali.kra.kim.bo.KcKimAttributes;
 import org.kuali.kra.proposaldevelopment.bo.ProposalPerson;
@@ -29,61 +30,13 @@ import org.kuali.rice.core.api.membership.MemberType;
 import org.kuali.rice.kim.api.role.RoleMembership;
 import org.kuali.rice.kns.kim.role.DerivedRoleTypeServiceBase;
 
-public class ProposalPersonDerivedRoleTypeServiceImpl extends DerivedRoleTypeServiceBase {
-    public static final String PRIMARY_INVESTIGATOR_ROLE_NAME = "PrimaryInvestigator";
-    public static final String CO_INVESTIGATOR_ROLE_NAME = "CoInvestigator";
-    public static final String KEYPERSON_ROLE_NAME = "KeyPerson";
-    private static final Map<String, String> proposalRoleCodeConsants = new HashMap<String, String>();
-    
-    static {
-        proposalRoleCodeConsants.put(PRIMARY_INVESTIGATOR_ROLE_NAME, Constants.PRINCIPAL_INVESTIGATOR_ROLE);
-        proposalRoleCodeConsants.put(CO_INVESTIGATOR_ROLE_NAME, Constants.CO_INVESTIGATOR_ROLE);
-        proposalRoleCodeConsants.put(KEYPERSON_ROLE_NAME, Constants.KEY_PERSON_ROLE);
-    }
+public class ProposalPersonDerivedRoleTypeServiceImpl extends AbstractProjectPersonDerivedRoleTypeServiceImpl {
     
 	private ProposalPersonService proposalPersonService;
 	
 	protected List<String> requiredAttributes = new ArrayList<String>();
 	{
 		requiredAttributes.add(KcKimAttributes.PROPOSAL);
-	}
-	
-	@Override
-    public List<RoleMembership> getRoleMembersFromDerivedRole(String namespaceCode, String roleName, Map<String,String> qualification) {
-		validateRequiredAttributesAgainstReceived(qualification);
-		
-		String proposalNumber = qualification.get(KcKimAttributes.PROPOSAL);
-		List<RoleMembership> members = new ArrayList<RoleMembership>();
-		
-        if (StringUtils.isNotBlank(proposalNumber)) {
-            List<ProposalPerson> proposalPersons = getProposalPersonService().getProposalKeyPersonnel(proposalNumber, roleName);
-            for ( ProposalPerson proposalPerson : proposalPersons ) {
-                if ( StringUtils.isNotBlank(proposalPerson.getPersonId()) ) {
-                    members.add( RoleMembership.Builder.create(null, null, proposalPerson.getPersonId(), MemberType.PRINCIPAL, null).build() );
-                }
-            }
-        }
-	        
-		return members;
-	}
-
-	@Override
-	public boolean hasDerivedRole(
-			String principalId, List<String> groupIds, String namespaceCode, String roleName, Map<String,String> qualification){
-		validateRequiredAttributesAgainstReceived(qualification);
-	
-		String proposalNumber = qualification.get(KcKimAttributes.PROPOSAL);
-		
-		if (StringUtils.isNotBlank(proposalNumber)) {
-            List<ProposalPerson> proposalPersons = getProposalPersonService().getProposalKeyPersonnel(proposalNumber, roleName);
-            for ( ProposalPerson proposalPerson : proposalPersons ) {
-                if ( StringUtils.isNotBlank(proposalPerson.getPersonId()) &&  proposalPerson.getPersonId().equalsIgnoreCase(principalId)) {
-                    return true;
-                }
-            }
-		} 
-     
-		return false;
 	}
 
     public ProposalPersonService getProposalPersonService() {
@@ -92,6 +45,17 @@ public class ProposalPersonDerivedRoleTypeServiceImpl extends DerivedRoleTypeSer
 
     public void setProposalPersonService(ProposalPersonService proposalPersonService) {
         this.proposalPersonService = proposalPersonService;
+    }
+
+    @Override
+    protected List<? extends AbstractProjectPerson> getProjectPersons(Map<String, String> qualification) {
+        String proposalNumber = qualification.get(KcKimAttributes.PROPOSAL);
+
+        if (StringUtils.isNotBlank(proposalNumber)) {
+            return getProposalPersonService().getProposalKeyPersonnel(proposalNumber);
+        } else {
+            return new ArrayList<AbstractProjectPerson>();
+        }
     }
 
 }

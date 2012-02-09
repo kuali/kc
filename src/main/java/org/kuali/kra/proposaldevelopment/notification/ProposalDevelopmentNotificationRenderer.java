@@ -15,10 +15,13 @@
  */
 package org.kuali.kra.proposaldevelopment.notification;
 
+import java.text.SimpleDateFormat;
 import java.util.Map;
 
 import org.kuali.kra.common.notification.NotificationRendererBase;
+import org.kuali.kra.institutionalproposal.home.InstitutionalProposal;
 import org.kuali.kra.proposaldevelopment.bo.DevelopmentProposal;
+import org.kuali.kra.proposaldevelopment.service.ProposalDevelopmentService;
 
 /**
  * Renders fields for the Proposal Development notifications.
@@ -28,6 +31,12 @@ public class ProposalDevelopmentNotificationRenderer extends NotificationRendere
     private static final long serialVersionUID = 1143944858168503090L;
 
     private DevelopmentProposal developmentProposal;
+    
+    private ProposalDevelopmentService proposalDevelopmentService;
+    
+    public ProposalDevelopmentNotificationRenderer() {
+        
+    }
     
     /**
      * Constructs a Proposal Development notification renderer.
@@ -42,7 +51,24 @@ public class ProposalDevelopmentNotificationRenderer extends NotificationRendere
      * @see org.kuali.kra.common.notification.NotificationRenderer#getReplacementParameters()
      */
     public Map<String, String> getDefaultReplacementParameters() {
-        return super.getDefaultReplacementParameters();
+        SimpleDateFormat dateFormatter = new SimpleDateFormat("MM/dd/yyyy");
+        Map<String, String> result = super.getDefaultReplacementParameters();
+        result.put("{PROPOSAL_NUMBER}", developmentProposal.getProposalNumber());
+        result.put("{PROPOSAL_TITLE}", developmentProposal.getTitle());
+        result.put("{SPONSOR_CODE}", developmentProposal.getSponsorCode());
+        result.put("{SPONSOR_NAME}", developmentProposal.getSponsorName());
+        result.put("{PROGRAM_ANNOUNCEMENT_NUMBER}", developmentProposal.getProgramAnnouncementNumber());
+        result.put("{PROGRAM_ANNOUNCEMENT_TITLE}", developmentProposal.getProgramAnnouncementTitle());
+        result.put("{CFDA_NUMBER}", developmentProposal.getCfdaNumber());
+        result.put("{DEADLINE_DATE}", dateFormatter.format(developmentProposal.getDeadlineDate()));
+        result.put("{PI_NAME}", developmentProposal.getPrincipalInvestigatorName());
+        result.put("{LEAD_UNIT}", developmentProposal.getUnitNumber());
+        result.put("{LEAD_UNIT_NAME}", developmentProposal.getUnit().getUnitName());
+        result.put("{PRIME_SPONSOR_CODE}", developmentProposal.getPrimeSponsorCode());
+        result.put("{PRIME_SPONSOR_NAME}", developmentProposal.getPrimeSponsor() != null ? developmentProposal.getPrimeSponsor().getSponsorName() : "");
+        InstitutionalProposal instProp = getProposalDevelopmentService().getInstitutionalProposal(developmentProposal.getProposalNumber());
+        result.put("{INSTITUTIONAL_PROPOSAL_NUMBER}", instProp != null ? instProp.getProposalNumber() : "");
+        return result;
     }
 
     public DevelopmentProposal getDevelopmentProposal() {
@@ -52,5 +78,14 @@ public class ProposalDevelopmentNotificationRenderer extends NotificationRendere
     public void setDevelopmentProposal(DevelopmentProposal developmentProposal) {
         this.developmentProposal = developmentProposal;
     }
+
+    public ProposalDevelopmentService getProposalDevelopmentService() {
+        return proposalDevelopmentService;
+    }
+
+    public void setProposalDevelopmentService(ProposalDevelopmentService proposalDevelopmentService) {
+        this.proposalDevelopmentService = proposalDevelopmentService;
+    }
+    
     
 }

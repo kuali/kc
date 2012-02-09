@@ -35,6 +35,8 @@ public interface ProposalPersonService {
      */
     public ProposalPerson getProposalPersonById(String proposalNumber, Integer proposalPersonNumber);
     
+    public List<ProposalPerson> getProposalKeyPersonnel(String proposalNumber);
+    
     public List<ProposalPerson> getProposalKeyPersonnel(String proposalNumber, String roleName);
     
 }

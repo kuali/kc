@@ -85,6 +85,13 @@ public class ProposalPersonServiceImpl implements ProposalPersonService {
         return (ProposalPerson) getBusinessObjectService().findByPrimaryKey(ProposalPerson.class, keys);
     }
     
+    public List<ProposalPerson> getProposalKeyPersonnel(String proposalNumber) {
+        Map<String, String> keys = new HashMap<String, String>();
+        keys.put("proposalNumber", proposalNumber.toString());
+          
+        return (List<ProposalPerson>) getBusinessObjectService().findMatching(ProposalPerson.class, keys);
+    }    
+    
     public List<ProposalPerson> getProposalKeyPersonnel(String proposalNumber, String roleCode) {
         Map<String, String> keys = new HashMap<String, String>();
         keys.put("proposalNumber", proposalNumber.toString());
