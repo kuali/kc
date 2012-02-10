@@ -184,6 +184,10 @@
 					parent="parentAuthorizer">
 					<property name="taskName" value="createTimeAndMoney" />
 				</bean>
+				<bean class="org.kuali.kra.authorizer.CreateSubAwardAuthorizer"
+					parent="parentAuthorizer">
+					<property name="taskName" value="createSubaward" />
+				</bean>
 				<bean class="org.kuali.kra.authorizer.CreateCoiDisclosureAuthorizer"
 					parent="parentAuthorizer">
 					<property name="taskName" value="createCoiDisclosure" />
