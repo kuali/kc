@@ -33,8 +33,10 @@ import org.kuali.kra.infrastructure.KeyConstants;
 import org.kuali.kra.s2s.S2SException;
 import org.kuali.kra.s2s.bo.S2sOpportunity;
 import org.kuali.kra.s2s.service.S2SService;
+import org.kuali.rice.core.api.config.property.ConfigContext;
 import org.kuali.rice.core.web.format.Formatter;
 import org.kuali.rice.core.web.format.TimestampAMPMFormatter;
+import org.kuali.rice.coreservice.api.CoreServiceApiServiceLocator;
 import org.kuali.rice.kns.lookup.KualiLookupableHelperServiceImpl;
 import org.kuali.rice.kns.lookup.LookupUtils;
 import org.kuali.rice.kns.util.KNSGlobalVariables;
@@ -42,6 +44,7 @@ import org.kuali.rice.kns.web.struts.form.LookupForm;
 import org.kuali.rice.kns.web.ui.Column;
 import org.kuali.rice.kns.web.ui.ResultRow;
 import org.kuali.rice.krad.bo.BusinessObject;
+import org.kuali.rice.krad.service.KRADServiceLocator;
 import org.kuali.rice.krad.util.GlobalVariables;
 import org.kuali.rice.krad.util.KRADConstants;
 import org.kuali.rice.krad.util.ObjectUtils;
@@ -145,21 +148,23 @@ public class S2sOpportunityLookupableHelperServiceImpl extends KualiLookupableHe
             String oppurtunityId=columns.get(5).getPropertyValue();
             String oppurtunityTitle=columns.get(6).getPropertyValue();
             String schemaUrl=columns.get(7).getPropertyValue();
-            
+            String applicationUrl = KRADServiceLocator.getKualiConfigurationService().getPropertyValueAsString(KRADConstants.APPLICATION_URL_KEY);
             String createProposalUrl=null;
             try {
                     String encodedUrl = URIUtil
                             .encodeQuery(lookupForm.getBackLocation()
-                                    + "?channelTitle=CreateProposal&channelUrl=proposalDevelopmentProposal.do?methodToCall=docHandler&command=initiate&docTypeName=ProposalDevelopmentDocument"
+                                    + "?channelTitle=CreateProposal&channelUrl="
+                                    + applicationUrl
+                                    + "/proposalDevelopmentProposal.do?methodToCall=docHandler&command=initiate&docTypeName=ProposalDevelopmentDocument"
                                     + "&createProposalFromGrantsGov=true"
-                                    + "&document.developmentProposalList[0].s2sOpportunity.cfdaNumber=" + cfdaNumber
-                                    + "&document.developmentProposalList[0].s2sOpportunity.opportunityId=" + oppurtunityId
-                                    + "&document.developmentProposalList[0].s2sOpportunity.opportunityTitle=" + oppurtunityTitle
-                                    + "&document.developmentProposalList[0].s2sOpportunity.closingDate=" + closingDate
-                                    + "&document.developmentProposalList[0].s2sOpportunity.openingDate=" + openingDate
-                                    + "&document.developmentProposalList[0].s2sOpportunity.instructionUrl=" + instructionUrl
-                                    + "&document.developmentProposalList[0].s2sOpportunity.competetionId=" + competetionId
-                                    + "&document.developmentProposalList[0].s2sOpportunity.schemaUrl=" + schemaUrl);
+                                    + "&newS2sOpportunity.cfdaNumber=" + cfdaNumber
+                                    + "&newS2sOpportunity.opportunityId=" + oppurtunityId
+                                    + "&newS2sOpportunity.opportunityTitle=" + oppurtunityTitle
+                                    + "&newS2sOpportunity.closingDate=" + closingDate
+                                    + "&newS2sOpportunity.openingDate=" + openingDate
+                                    + "&newS2sOpportunity.instructionUrl=" + instructionUrl
+                                    + "&newS2sOpportunity.competetionId=" + competetionId
+                                    + "&newS2sOpportunity.schemaUrl=" + schemaUrl);
                     createProposalUrl = "<a href=" + encodedUrl + ">Create Proposal</a>";
                     row.setReturnUrl(createProposalUrl);
                 }
