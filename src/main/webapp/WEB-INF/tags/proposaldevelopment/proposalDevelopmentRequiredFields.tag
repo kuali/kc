@@ -67,7 +67,7 @@
 				<th><div align="right"><kul:htmlAttributeLabel attributeEntry="${proposalDevelopmentAttributes.ownedByUnitNumber}" /></div></th>
                 <td align="left" valign="middle">
                   <c:choose>
-                    <c:when test="${empty KualiForm.document.developmentProposalList[0].ownedByUnit}">
+                    <c:when test="${empty KualiForm.document.developmentProposalList[0].ownedByUnit or empty KualiForm.document.developmentProposalList[0].ownedByUnit.unitNumber}">
                     	<kul:htmlControlAttribute property="document.developmentProposalList[0].ownedByUnitNumber" attributeEntry="${proposalDevelopmentAttributes.ownedByUnitNumber}" />
                     </c:when>
                     <c:otherwise>
