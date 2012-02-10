@@ -56,7 +56,7 @@ public class QuestionnaireServiceImpl implements QuestionnaireService {
         // permissionModuleMap.put(PermissionConstants.MODIFY_PERSON,"6");
         permissionModuleMap.put(PermissionConstants.MODIFY_PROTOCOL + ":" + "KC-PROTOCOL", "7");
         permissionModuleMap.put(PermissionConstants.MAINTAIN_QUESTIONNAIRE_USAGE + ":" + Constants.MODULE_NAMESPACE_PROTOCOL, "7");
-        // permissionModuleMap.put(PermissionConstants.MODIFY_COI,"8");
+        permissionModuleMap.put(PermissionConstants.MAINTAIN_COI_DISCLOSURE + ":" + Constants.MODULE_NAMESPACE_COIDISCLOSURE, "8");
     }
 
     /**
