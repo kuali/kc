@@ -1900,13 +1900,13 @@ public class ProposalDevelopmentForm extends BudgetVersionFormBase implements Re
      * This function is needed as the tags can no longer set attributes of null object automatically, an object must be created first.
      * @param opportunityId
      */
-
+    /*
     public void setNewS2sOpportunityWithId(String opportunityId) {
         if(this.getDocument().getDevelopmentProposal().getS2sOpportunity() == null) {
             this.getDocument().getDevelopmentProposal().setS2sOpportunity(new S2sOpportunity());
         }
         this.getDocument().getDevelopmentProposal().getS2sOpportunity().setOpportunityId(opportunityId);
-    }
+    }*/
     
     public String getQuestionnaireFieldStarter() {
         return "proposalPersonQuestionnaireHelpers[";
