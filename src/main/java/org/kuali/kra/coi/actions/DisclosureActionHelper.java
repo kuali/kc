@@ -57,6 +57,7 @@ public class DisclosureActionHelper implements Serializable {
 
     public DisclosureActionHelper(CoiDisclosureForm coiDisclosureForm) {
         this.coiDisclosureForm = coiDisclosureForm;
+        newCoiUserRole = new CoiUserRole();
         businessObjectService = KraServiceLocator.getService(BusinessObjectService.class);
         parameterService = KraServiceLocator.getService(ParameterService.class);
         taskAuthorizationService = KraServiceLocator.getService(TaskAuthorizationService.class);
