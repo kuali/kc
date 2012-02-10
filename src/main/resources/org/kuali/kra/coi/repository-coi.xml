@@ -571,6 +571,38 @@
     <class-descriptor class="org.kuali.kra.coi.CoiDisclosureEventType" table="COI_DISCLOSURE_EVENT_TYPE">
         <field-descriptor name="eventTypeCode" column="EVENT_TYPE_CODE" jdbc-type="VARCHAR" primarykey="true" />
         <field-descriptor name="description" column="DESCRIPTION" jdbc-type="VARCHAR" />
+        <field-descriptor name="excludeFromMasterDisclosure" column="EXCLUDE_FROM_MASTER_DISCL" jdbc-type="CHAR" conversion="org.kuali.rice.core.framework.persistence.ojb.conversion.OjbCharBooleanConversion" />
+        <field-descriptor name="activeFlag" column="ACTIVE_FLAG" jdbc-type="CHAR" conversion="org.kuali.rice.core.framework.persistence.ojb.conversion.OjbCharBooleanConversion" />        
+        <field-descriptor name="useShortTextField1" column="USE_SHRT_TXT_FLD_1" jdbc-type="CHAR" conversion="org.kuali.rice.core.framework.persistence.ojb.conversion.OjbCharBooleanConversion" />
+        <field-descriptor name="requireShortTextField1" column="REQ_SHRT_TXT_FLD_1" jdbc-type="CHAR" conversion="org.kuali.rice.core.framework.persistence.ojb.conversion.OjbCharBooleanConversion" />        
+        <field-descriptor name="shortTextField1Label" column="SHRT_TXT_FLD_1_LABEL" jdbc-type="VARCHAR" />
+        <field-descriptor name="useShortTextField2" column="USE_SHRT_TXT_FLD_2" jdbc-type="CHAR" conversion="org.kuali.rice.core.framework.persistence.ojb.conversion.OjbCharBooleanConversion" />
+        <field-descriptor name="requireShortTextField2" column="REQ_SHRT_TXT_FLD_2" jdbc-type="CHAR" conversion="org.kuali.rice.core.framework.persistence.ojb.conversion.OjbCharBooleanConversion" />                
+        <field-descriptor name="shortTextField2Label" column="SHRT_TXT_FLD_2_LABEL" jdbc-type="VARCHAR" />
+        <field-descriptor name="useShortTextField3" column="USE_SHRT_TXT_FLD_3" jdbc-type="CHAR" conversion="org.kuali.rice.core.framework.persistence.ojb.conversion.OjbCharBooleanConversion" />
+        <field-descriptor name="requireShortTextField3" column="REQ_SHRT_TXT_FLD_3" jdbc-type="CHAR" conversion="org.kuali.rice.core.framework.persistence.ojb.conversion.OjbCharBooleanConversion" />                
+        <field-descriptor name="shortTextField3Label" column="SHRT_TXT_FLD_3_LABEL" jdbc-type="VARCHAR" />
+        <field-descriptor name="useLongTextField1" column="USE_LNG_TXT_FLD_1" jdbc-type="CHAR" conversion="org.kuali.rice.core.framework.persistence.ojb.conversion.OjbCharBooleanConversion" />
+        <field-descriptor name="requireLongTextField1" column="REQ_LNG_TXT_FLD_1" jdbc-type="CHAR" conversion="org.kuali.rice.core.framework.persistence.ojb.conversion.OjbCharBooleanConversion" />                
+        <field-descriptor name="longTextField1Label" column="LNG_TXT_FLD_1_LABEL" jdbc-type="VARCHAR" />
+        <field-descriptor name="useLongTextField2" column="USE_LNG_TXT_FLD_2" jdbc-type="CHAR" conversion="org.kuali.rice.core.framework.persistence.ojb.conversion.OjbCharBooleanConversion" />
+        <field-descriptor name="requireLongTextField2" column="REQ_LNG_TXT_FLD_2" jdbc-type="CHAR" conversion="org.kuali.rice.core.framework.persistence.ojb.conversion.OjbCharBooleanConversion" />
+        <field-descriptor name="longTextField2Label" column="LNG_TXT_FLD_2_LABEL" jdbc-type="VARCHAR" />
+        <field-descriptor name="useLongTextField3" column="USE_LNG_TXT_FLD_3" jdbc-type="CHAR" conversion="org.kuali.rice.core.framework.persistence.ojb.conversion.OjbCharBooleanConversion" />
+        <field-descriptor name="requireLongTextField3" column="REQ_LNG_TXT_FLD_3" jdbc-type="CHAR" conversion="org.kuali.rice.core.framework.persistence.ojb.conversion.OjbCharBooleanConversion" />
+        <field-descriptor name="longTextField3Label" column="LNG_TXT_FLD_3_LABEL" jdbc-type="VARCHAR" />
+        <field-descriptor name="useNumberField1" column="USE_NMBR_FLD_1" jdbc-type="CHAR" conversion="org.kuali.rice.core.framework.persistence.ojb.conversion.OjbCharBooleanConversion" />
+        <field-descriptor name="requireNumberField1" column="REQ_NMBR_FLD_1" jdbc-type="CHAR" conversion="org.kuali.rice.core.framework.persistence.ojb.conversion.OjbCharBooleanConversion" />        
+        <field-descriptor name="numberField1Label" column="NMBR_FLD_1_LABEL" jdbc-type="VARCHAR" />
+        <field-descriptor name="useNumberField2" column="USE_NMBR_FLD_2" jdbc-type="CHAR" conversion="org.kuali.rice.core.framework.persistence.ojb.conversion.OjbCharBooleanConversion" />
+        <field-descriptor name="requireNumberField2" column="REQ_NMBR_FLD_2" jdbc-type="CHAR" conversion="org.kuali.rice.core.framework.persistence.ojb.conversion.OjbCharBooleanConversion" />                
+        <field-descriptor name="numberField2Label" column="NMBR_FLD_2_LABEL" jdbc-type="VARCHAR" /> 
+        <field-descriptor name="useDateField1" column="USE_DATE_FLD_1" jdbc-type="CHAR" conversion="org.kuali.rice.core.framework.persistence.ojb.conversion.OjbCharBooleanConversion" />
+        <field-descriptor name="requireDateField1" column="REQ_DATE_FLD_1" jdbc-type="CHAR" conversion="org.kuali.rice.core.framework.persistence.ojb.conversion.OjbCharBooleanConversion" />                        
+        <field-descriptor name="dateField1Label" column="DATE_FLD_1_LABEL" jdbc-type="VARCHAR" />          
+        <field-descriptor name="useDateField2" column="USE_DATE_FLD_2" jdbc-type="CHAR" conversion="org.kuali.rice.core.framework.persistence.ojb.conversion.OjbCharBooleanConversion" />
+        <field-descriptor name="requireDateField2" column="REQ_DATE_FLD_2" jdbc-type="CHAR" conversion="org.kuali.rice.core.framework.persistence.ojb.conversion.OjbCharBooleanConversion" />                                
+        <field-descriptor name="dateField2Label" column="DATE_FLD_2_LABEL" jdbc-type="VARCHAR" />                 
         <field-descriptor name="updateTimestamp" column="UPDATE_TIMESTAMP" jdbc-type="TIMESTAMP" />
         <field-descriptor name="updateUser" column="UPDATE_USER" jdbc-type="VARCHAR" />
         <field-descriptor name="objectId" column="OBJ_ID" jdbc-type="VARCHAR" />

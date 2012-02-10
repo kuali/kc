@@ -22,6 +22,7 @@
         <property name="maintainableSections">
             <list>
                 <ref bean="CoiDisclosureEventTypeMaintenanceDocument-EditCoiDisclosureEventType"/>
+                <ref bean="CoiDisclosureEventTypeMaintenanceDocument-EditCoiDisclosureEventTypeProjectDetails"/>
             </list>
         </property>
         <property name="lockingKeys">
@@ -29,9 +30,6 @@
                 <value>eventTypeCode</value>
             </list>
         </property>
-        
-        
-        
         
         
         <property name="documentTypeName" value="CoiDisclosureEventTypeMaintenanceDocument"/>
@@ -50,10 +48,52 @@
             <list>
                 <bean parent="MaintainableFieldDefinition" p:name="eventTypeCode" p:required="true"/>
                 <bean parent="MaintainableFieldDefinition" p:name="description" p:required="true"/>
-                <!-- <bean parent="MaintainableFieldDefinition" p:name="globalFlag" p:required="true"/>  -->
+                <bean parent="MaintainableFieldDefinition" p:name="excludeFromMasterDisclosure"/>
+                <bean parent="MaintainableFieldDefinition" p:name="activeFlag"/>
                 <bean parent="MaintainableFieldDefinition" p:name="versionNumber"/>
             </list>
         </property>
     </bean>
+    
+    <bean id="CoiDisclosureEventTypeMaintenanceDocument-EditCoiDisclosureEventTypeProjectDetails" parent="CoiDisclosureEventTypeMaintenanceDocument-EditCoiDisclosureEventTypeProjectDetails-parentBean"/>
+    <bean id="CoiDisclosureEventTypeMaintenanceDocument-EditCoiDisclosureEventTypeProjectDetails-parentBean" abstract="true" parent="MaintainableSectionDefinition">
+        <property name="id" value="Edit Coi Event Type Project Details"/>
+        <property name="title" value="Edit Coi Event Type Project Details"/>
+        <property name="defaultOpen" value="false"/>
+        <property name="maintainableItems">
+            <list>
+                <bean parent="MaintainableFieldDefinition" p:name="useShortTextField1"/>
+                <bean parent="MaintainableFieldDefinition" p:name="requireShortTextField1"/>                
+                <bean parent="MaintainableFieldDefinition" p:name="shortTextField1Label"/>
+                <bean parent="MaintainableFieldDefinition" p:name="useShortTextField2"/>
+                <bean parent="MaintainableFieldDefinition" p:name="requireShortTextField2"/>                
+                <bean parent="MaintainableFieldDefinition" p:name="shortTextField2Label"/>
+                <bean parent="MaintainableFieldDefinition" p:name="useShortTextField3"/>
+                <bean parent="MaintainableFieldDefinition" p:name="requireShortTextField3"/>                
+                <bean parent="MaintainableFieldDefinition" p:name="shortTextField3Label"/>
+                <bean parent="MaintainableFieldDefinition" p:name="useLongTextField1"/>
+                <bean parent="MaintainableFieldDefinition" p:name="requireLongTextField1"/>
+                <bean parent="MaintainableFieldDefinition" p:name="longTextField1Label"/>
+                <bean parent="MaintainableFieldDefinition" p:name="useLongTextField2"/>
+                <bean parent="MaintainableFieldDefinition" p:name="requireLongTextField2"/>
+                <bean parent="MaintainableFieldDefinition" p:name="longTextField2Label"/> 
+                <bean parent="MaintainableFieldDefinition" p:name="useLongTextField3"/>
+                <bean parent="MaintainableFieldDefinition" p:name="requireLongTextField3"/>
+                <bean parent="MaintainableFieldDefinition" p:name="longTextField3Label"/>
+                <bean parent="MaintainableFieldDefinition" p:name="useNumberField1"/>
+                <bean parent="MaintainableFieldDefinition" p:name="requireNumberField1"/>
+                <bean parent="MaintainableFieldDefinition" p:name="numberField1Label"/>
+                <bean parent="MaintainableFieldDefinition" p:name="useNumberField2"/>
+                <bean parent="MaintainableFieldDefinition" p:name="requireNumberField2"/>
+                <bean parent="MaintainableFieldDefinition" p:name="numberField2Label"/>
+                <bean parent="MaintainableFieldDefinition" p:name="useDateField1"/>
+                <bean parent="MaintainableFieldDefinition" p:name="requireDateField1"/>
+                <bean parent="MaintainableFieldDefinition" p:name="dateField1Label"/> 
+                <bean parent="MaintainableFieldDefinition" p:name="useDateField2"/>
+                <bean parent="MaintainableFieldDefinition" p:name="requireDateField2"/>
+                <bean parent="MaintainableFieldDefinition" p:name="dateField2Label"/>                          
+            </list>
+        </property>
+    </bean>    
 </beans>
 
