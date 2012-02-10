@@ -48,13 +48,28 @@ var kualiElements = kualiForm.elements;
 </script>
 <script language="javascript" src="dwr/interface/SponsorService.js"></script>
 <c:if test="${readOnly}">
+  <c:if test="${not KualiForm.editingMode['viewOnly']}">
 	<c:set var="extraButtonSource" value="${ConfigProperties.kra.externalizable.images.url}buttonsmall_edit_temp.gif"/>
 	<c:set var="extraButtonProperty" value="methodToCall.editOrVersion"/>
 	<c:set var="extraButtonAlt" value="Edit or Version"/>
+  </c:if>
 </c:if>
-<kul:documentControls transactionalDocument="true" suppressRoutingControls="true" 
-						extraButtonSource="${extraButtonSource}" 
-						extraButtonProperty="${extraButtonProperty}"
-						extraButtonAlt="${extraButtonAlt}" 
-					    suppressCancelButton="true"/>
+
+<c:choose>
+	<c:when test="${not KualiForm.editingMode['viewOnly']}">
+		<kul:documentControls transactionalDocument="true" suppressRoutingControls="true" 
+								extraButtonSource="${extraButtonSource}" 
+								extraButtonProperty="${extraButtonProperty}"
+								extraButtonAlt="${extraButtonAlt}" 
+							    suppressCancelButton="true"/>
+	</c:when>				    
+	<c:otherwise>
+		<kul:documentControls transactionalDocument="true" suppressRoutingControls="true" 
+								extraButtonSource="${extraButtonSource}" 
+								extraButtonProperty="${extraButtonProperty}"
+								extraButtonAlt="${extraButtonAlt}"
+								viewOnly= "true" 
+							    suppressCancelButton="true"/>
+	</c:otherwise>	
+</c:choose>	    	    
 </kul:documentPage>
