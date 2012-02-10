@@ -58,7 +58,7 @@ public class FinancialEntityHelper implements Serializable {
     private List<PersonFinIntDisclosure> versions;
     private String editCoiEntityId;
     private String reporterId;
-    
+
     public String getEditType() {
         return editType;
     }
@@ -73,7 +73,7 @@ public class FinancialEntityHelper implements Serializable {
         if (StringUtils.isBlank(reporterId)) {
             reporterId = GlobalVariables.getUserSession().getPrincipalId();
         }
-        newPersonFinancialEntity = new PersonFinIntDisclosure();
+      newPersonFinancialEntity = new PersonFinIntDisclosure();
         newPersonFinancialEntity.setCurrentFlag(true);
         financialEntityReporter = new FinancialEntityReporter();
         newPersonFinancialEntity.setPersonId(reporterId);
@@ -92,6 +92,12 @@ public class FinancialEntityHelper implements Serializable {
         prevSponsorCode = Constants.EMPTY_STRING;
         prevNewSponsorCode = Constants.EMPTY_STRING;
         this.form = form;
+    }
+    
+    public void refreshData() {
+        finEntityRelationshipTypes = getFinancialEntityService().getFinancialEntityRelationshipTypes();
+        newRelationDetails = getFinancialEntityService().getFinancialEntityDataMatrix();
+
     }
 
 
@@ -171,7 +177,8 @@ public class FinancialEntityHelper implements Serializable {
     
     public FinancialEntityReporter getFinancialEntityReporter() {
         return financialEntityReporter;
-    }    
+    }
+    
     private void refreshFinancialEntityReporter() {
         if (StringUtils.isBlank(reporterId)) {
             reporterId = GlobalVariables.getUserSession().getPrincipalId();
@@ -348,27 +355,27 @@ public class FinancialEntityHelper implements Serializable {
          */
         syncNewFile(getNewFinEntityAttachment());
 
-        newFinEntityAttachment.setFinancialEntityId(getNewPersonFinancialEntity().getPersonFinIntDisclosureId()); 
-        newFinEntityAttachment.setSequenceNumber(getNewPersonFinancialEntity().getSequenceNumber());
-        newFinEntityAttachment.updateParms();
-        getFinEntityAttachmentList().add(newFinEntityAttachment);
-        newFinEntityAttachment = new FinancialEntityAttachment();
-    }
+            newFinEntityAttachment.setFinancialEntityId(getNewPersonFinancialEntity().getPersonFinIntDisclosureId()); 
+            newFinEntityAttachment.setSequenceNumber(getNewPersonFinancialEntity().getSequenceNumber());
+            newFinEntityAttachment.updateParms();
+            getFinEntityAttachmentList().add(newFinEntityAttachment);
+            newFinEntityAttachment = new FinancialEntityAttachment();
+        }
 
     protected void syncNewFile(FinancialEntityAttachment attachment) {
         assert attachment != null : "the attachment is null";
 
-        if (doesNewFileExist(attachment)) {
-            AttachmentFile newFile = AttachmentFile.createFromFormFile(attachment.getNewFile());
-            //setting the sequence number to the old file sequence number
-            if (attachment.getFile() != null) {
-                newFile.setSequenceNumber(attachment.getFile().getSequenceNumber());
-            }
-            attachment.setFile(newFile);
+            if (doesNewFileExist(attachment)) {
+                AttachmentFile newFile = AttachmentFile.createFromFormFile(attachment.getNewFile());
+                //setting the sequence number to the old file sequence number
+                if (attachment.getFile() != null) {
+                    newFile.setSequenceNumber(attachment.getFile().getSequenceNumber());
+                }
+                attachment.setFile(newFile);
             // set to null, so the subsequent post will not create new file again
-            attachment.setNewFile(null);
+                attachment.setNewFile(null);
+            }
         }
-    }
 
     private static boolean doesNewFileExist(FinancialEntityAttachment attachment) {
         assert attachment != null : "the attachment was null";
