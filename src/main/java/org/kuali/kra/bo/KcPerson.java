@@ -323,7 +323,7 @@ public class KcPerson implements Contactable, BusinessObject {
      * @return the value of userName
      */
     public String getUserName() {
-        final String userName = this.getPrincipal().getPrincipalName();
+        final String userName = this.getPrincipal() != null? this.getPrincipal().getPrincipalName() : null;
         
         return userName != null ? userName : "";
     }
@@ -844,9 +844,9 @@ public class KcPerson implements Contactable, BusinessObject {
     /**
      * Gets the password.
      * @return the password
-     */
+     */ 
     public String getPassword() {
-        return this.getPrincipal().getPassword() != null ? this.getPrincipal().getPassword() : "";
+        return (this.getPrincipal() != null && this.getPrincipal().getPassword() != null) ? this.getPrincipal().getPassword() : "";
     }
 
     /** {@inheritDoc} */
@@ -1066,7 +1066,7 @@ public class KcPerson implements Contactable, BusinessObject {
      */
     private PrincipalContract getPrincipal() {
         return selectSingleValue(this.entity.getPrincipals(), new Selector<PrincipalContract, PrincipalContract>() {
-            public PrincipalContract notFoundValue() { return Principal.Builder.create(""); }
+            public PrincipalContract notFoundValue() { return null; } 
             public PrincipalContract select(PrincipalContract a) { return a; }
             public boolean shouldSelect(PrincipalContract a) { return personId.equals(a.getPrincipalId()); }
         });

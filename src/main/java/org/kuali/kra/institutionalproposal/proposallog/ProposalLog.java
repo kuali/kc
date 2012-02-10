@@ -247,7 +247,7 @@ public class ProposalLog extends KraPersistableBusinessObjectBase implements Neg
         if (this.piId != null) {
             return this.getKcPersonService().getKcPersonByPersonId(this.piId);
         }
-        return null;
+        return new KcPerson();
     }
     
     public NonOrganizationalRolodex getRolodex() {
