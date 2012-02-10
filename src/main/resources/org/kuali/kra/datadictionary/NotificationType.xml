@@ -24,6 +24,7 @@
     <bean id="NotificationType" parent="NotificationType-parentBean" />
     <bean id="NotificationType-parentBean" abstract="true" parent="BusinessObjectEntry">
         <property name="businessObjectClass" value="org.kuali.kra.common.notification.bo.NotificationType" />
+        <property name="boNotesEnabled" value="true"/>
         <property name="objectLabel" value="Notification" />
         <property name="inquiryDefinition" >
             <ref bean="NotificationType-inquiryDefinition" />
