@@ -118,7 +118,9 @@ public class ProposalDevelopmentAction extends BudgetParentActionBase {
         String createProposalFromGrantsGov=request.getParameter("createProposalFromGrantsGov");
         S2sOpportunity s2sOpportunity = new S2sOpportunity();
         if(createProposalFromGrantsGov!=null && createProposalFromGrantsGov.equals("true")){
-        s2sOpportunity = proposalDevelopmentForm.getDocument().getDevelopmentProposal().getS2sOpportunity();
+            s2sOpportunity = proposalDevelopmentForm.getNewS2sOpportunity();
+            proposalDevelopmentForm.getDocument().getDevelopmentProposal().setS2sOpportunity(s2sOpportunity);
+            proposalDevelopmentForm.setNewS2sOpportunity(new S2sOpportunity());
         }
         //KRACOEUS-5064
         if (proposalDevelopmentForm.getDocument().getDocumentHeader().getDocumentNumber() == null && request.getParameter(KRADConstants.PARAMETER_DOC_ID) != null) {
