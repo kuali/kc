@@ -24,11 +24,10 @@
         <c:set var="tabItemCount" value="${tabItemCount+1}" />
     </c:if>
 </c:forEach>
-<kul:tab tabTitle="Notes" tabItemCount="${tabItemCount}" defaultOpen="false" tabErrorKey="error.coi.notes.*">
 	<div class="tab-container" align="center">
     	<h3>
     		<span class="subhead-left">Notes</span>
-    		<span class="subhead-right"><kul:help businessObjectClassName="org.kuali.kra.coi.notesandattachments.notepad.CoiDisclosureNotepad" altText="help"/></span>
+	   		<span class="subhead-right"><kul:help parameterNamespace="KC-COIDISCLOSURE" parameterDetailType="Document" parameterName="coiNotesAndAttachmentsHelp" altText="help"/></span>
         </h3>
         <table id="coiDisclosure-notepad-table" cellpadding="0" cellspacing="0" summary="Coi Disclosure Notepad">
 			<tr>
@@ -157,4 +156,4 @@
         	</c:forEach> 
         </table>
    </div>
-</kul:tab>
+

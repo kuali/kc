@@ -10,7 +10,7 @@
 			<blanketApproveWorkgroupName>KC-WKFLW:KcAdmin</blanketApproveWorkgroupName>
 			<defaultExceptionWorkgroupName>KC-WKFLW:KcAdmin</defaultExceptionWorkgroupName>
 			<docHandler>${kuali.docHandler.url.prefix}/coiDisclosure.do?methodToCall=docHandler</docHandler>
-			<helpDefinitionURL>default.htm?turl=Documents/coiDisclosure.htm</helpDefinitionURL>
+			<helpDefinitionURL>default.htm?turl=Documents/disclosure.htm</helpDefinitionURL>
 			<active>true</active>
 			<routingVersion>2</routingVersion>
 			<routePaths>

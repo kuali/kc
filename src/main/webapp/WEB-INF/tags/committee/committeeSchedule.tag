@@ -31,7 +31,7 @@
         <c:if test="${!readOnly}">
             <h3>
                 <span class="subhead-left">Add to Schedule</span>
-                <span class="subhead-right"><kul:help businessObjectClassName="org.kuali.kra.committee.bo.CommitteeSchedule" altText="help"/></span>
+				<span class="subhead-right"><kul:help parameterNamespace="KC-COMMITTEE" parameterDetailType="Document" parameterName="committeeAddScheduleHelp" altText="help"/></span>
             </h3>      
         
             <table cellpadding=0 cellspacing=0 summary="">
@@ -147,7 +147,7 @@
 
         <h3>
             <span class="subhead-left">Schedule</span>
-            <span class="subhead-right"><kul:help businessObjectClassName="org.kuali.kra.committee.bo.CommitteeSchedule" altText="help"/></span>
+			<span class="subhead-right"><kul:help parameterNamespace="KC-COMMITTEE" parameterDetailType="Document" parameterName="committeeScheduleHelp" altText="help"/></span>
         </h3>
             <table id="schedule-table" cellpadding=0 cellspacing="0"  summary="">
               <tr>

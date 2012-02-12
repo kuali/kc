@@ -6,6 +6,7 @@
 			<description>Create a New ProtocolOnlineReview Status</description>
 			<label>Protocol Review Status Code</label>
 			<parent>KcAwardsMaintenanceDocument</parent>
+			<helpDefinitionURL>default.htm?turl=Documents/protocolonlinereviewstatuscodes.htm</helpDefinitionURL>
 		</documentType>
 	</documentTypes>	
 </data>

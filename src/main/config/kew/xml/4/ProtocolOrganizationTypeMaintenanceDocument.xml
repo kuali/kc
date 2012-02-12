@@ -8,6 +8,7 @@
             <description>Create/Edit a Protocol Organization Type</description>
             <label>Protocol Protocol Organization Type</label>
             <parent>KcSharedMaintenanceDocument</parent>
+	    <helpDefinitionURL>default.htm?turl=Documents/protocolorganizationtype.htm</helpDefinitionURL>
         </documentType>
     </documentTypes>
 </data>

@@ -6,6 +6,7 @@
 			<description>Create a Protocol Type</description>
 			<label>Protocol Type Maintenance Document</label>
 			<parent>KcComplianceMaintenanceDocument</parent>
+			<helpDefinitionURL>default.htm?turl=Documents/protocoltype.htm</helpDefinitionURL>
 		</documentType>
 	</documentTypes>	
 </data>

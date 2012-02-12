@@ -6,6 +6,7 @@
 			<description>Create a New Risk Level</description>
 			<label>Risk Level Maintenance Document</label>
 			<parent>KcMaintenanceDocument</parent>
+			<helpDefinitionURL>default.htm?turl=Documents/risklevel.htm</helpDefinitionURL>
 		</documentType>
 	</documentTypes>	
 </data>

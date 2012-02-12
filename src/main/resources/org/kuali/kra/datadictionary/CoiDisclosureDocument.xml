@@ -32,7 +32,7 @@
       	<list>
         	<bean parent="HeaderNavigation">
 	          	<property name="helpDefinition">
-	            	<bean parent="HelpDefinition" p:parameterNamespace="KC-COIDISCLOSURE" p:parameterName="coiDisclosureHelp" p:parameterDetailType="Document"/>
+	            	<bean parent="HelpDefinition" p:parameterNamespace="KC-COIDISCLOSURE" p:parameterName="coiDisclosure1Help" p:parameterDetailType="Document"/>
 	          	</property>
 	          	<property name="headerTabDisplayName" value="Disclosure"/>
 	          	<property name="headerTabNavigateTo" value="disclosure"/>

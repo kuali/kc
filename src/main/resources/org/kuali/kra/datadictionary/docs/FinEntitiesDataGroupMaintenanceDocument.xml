@@ -42,8 +42,8 @@
     
     <bean id="FinEntitiesDataGroupMaintenanceDocument-EditFinEntitiesDataGroup" parent="FinEntitiesDataGroupMaintenanceDocument-EditFinEntitiesDataGroup-parentBean" />
     <bean id="FinEntitiesDataGroupMaintenanceDocument-EditFinEntitiesDataGroup-parentBean" abstract="true" parent="MaintainableSectionDefinition">
-        <property name="id" value="Edit Fin Entities Data Groups" />
-        <property name="title" value="Edit Fin Entities Data Groups" />
+        <property name="id" value="Edit Financial Entities Data Groups" />
+        <property name="title" value="Edit Financial Entities Data Groups" />
         <property name="maintainableItems" >
             <list>
                 <bean parent="MaintainableFieldDefinition"

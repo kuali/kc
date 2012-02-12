@@ -6,6 +6,7 @@
 			<description>Create a New ProtocolOnlineReviewDeterminationRecommendation</description>
 			<label>Protocol Review Determination Recommendation Code</label>
 			<parent>KcAwardsMaintenanceDocument</parent>
+			<helpDefinitionURL>default.htm?turl=Documents/protocolonlinereviewdeterminationrecommendationcodes.htm</helpDefinitionURL>
 		</documentType>
 	</documentTypes>	
 </data>
