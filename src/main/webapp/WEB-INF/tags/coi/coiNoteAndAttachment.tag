@@ -26,16 +26,10 @@ var kualiElements = kualiForm.elements;
 
 </SCRIPT>
 <kul:tab tabTitle="Notes & Attachments" tabItemCount="${tabItemCount}" defaultOpen="false" tabErrorKey="*">
-<div class="tab-container" align="center">
-    	<h3>
-    		<span class="subhead-left">Notes & Attachments</span>
-    		<span class="subhead-right"><kul:help businessObjectClassName="org.kuali.kra.coi.notesandattachments.notepad.CoiDisclosureNotepad" altText="help"/></span>
-        </h3>
-<kra-coi:coiAttachments />
 
-<kra-coi:coiNotes />
+	<kra-coi:coiNotes />
+	<kra-coi:coiAttachments />
 
-</div>
 </kul:tab>
 
 

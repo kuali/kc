@@ -6,6 +6,7 @@
 			<description>Create a New Protocol Contingency</description>
 			<label>Protocol Contingency</label>
 			<parent>KcComplianceMaintenanceDocument</parent>
+			<helpDefinitionURL>default.htm?turl=Documents/protocolcontingency.htm</helpDefinitionURL>
 		</documentType>
 	</documentTypes>	
 </data>

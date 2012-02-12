@@ -42,8 +42,8 @@
     
     <bean id="FinIntEntityRelTypeMaintenanceDocument-EditFinIntEntityRelType" parent="FinIntEntityRelTypeMaintenanceDocument-EditFinIntEntityRelType-parentBean" />
     <bean id="FinIntEntityRelTypeMaintenanceDocument-EditFinIntEntityRelType-parentBean" abstract="true" parent="MaintainableSectionDefinition">
-        <property name="id" value="Edit Fin Int Entity Rel Type" />
-        <property name="title" value="Edit Fin Int Entity Rel Type" />
+        <property name="id" value="Edit Financial Interest Entity Relationship Type" />
+        <property name="title" value="Edit Financial Interest Entity Relationship Type" />
         <property name="maintainableItems" >
             <list>
                 <bean parent="MaintainableFieldDefinition"

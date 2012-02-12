@@ -8,6 +8,7 @@
 			<description>Create/Edit Correspondence Generated for Protocol Action</description>
 			<label>Correspondence Generated</label>
 			<parent>KcSharedMaintenanceDocument</parent>
+			<helpDefinitionURL>default.htm?turl=Documents/correspondencegenerated.htm</helpDefinitionURL>
 		</documentType>
 	</documentTypes>
 </data>

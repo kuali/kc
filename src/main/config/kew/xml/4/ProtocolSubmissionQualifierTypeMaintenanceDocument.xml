@@ -3,9 +3,10 @@
 	<documentTypes xmlns="ns:workflow/DocumentType" xsi:schemaLocation="ns:workflow/DocumentType resource:DocumentType">
 		<documentType>
 			<name>ProtocolSubmissionQualifierTypeMaintenanceDocument</name>
-			<description>Create an Protocol Submission Qualifier Type</description>
+			<description>Create a Protocol Submission Qualifier Type</description>
 			<label>Protocol Submission Qualifier Type Maintenance Document</label>
 			<parent>KcComplianceMaintenanceDocument</parent>
+			<helpDefinitionURL>default.htm?turl=Documents/protocolsubmissionqualifiertype.htm</helpDefinitionURL>
 		</documentType>
 	</documentTypes>	
 </data>

@@ -6,6 +6,7 @@
 			<description>Create/Edit Protocol Submission Status</description>
 			<label>Protocol Submission Status</label>
 			<parent>KcComplianceMaintenanceDocument</parent>
+			<helpDefinitionURL>default.htm?turl=Documents/submissionstatus.htm</helpDefinitionURL>
 		</documentType>
 	</documentTypes>	
 </data>

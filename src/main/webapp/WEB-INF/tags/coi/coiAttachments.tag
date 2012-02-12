@@ -32,12 +32,11 @@
         <c:set var="tabItemCount" value="${tabItemCount+1}" />
 </c:forEach>
 
-<kul:tab tabTitle="Attachments" tabItemCount="${tabItemCount}" defaultOpen="false" >
 	<div class="tab-container" align="center">
 	<kra:permission value="${modify}">
 	<h3>
-	<span class="subhead-left">Attachments</span> 
-	<spanclass="subhead-right"> </span>
+		<span class="subhead-left">Attachments</span> 
+		<span class="subhead-right"><kul:help parameterNamespace="KC-COIDISCLOSURE" parameterDetailType="Document" parameterName="coiNotesAndAttachmentsHelp" altText="help"/></span>
 	</h3>
 	<table cellpadding="4" cellspacing="0" summary="">	
 	         	<tr>
@@ -405,4 +404,3 @@
 		</table>
 		</c:if>
 	</div>
-</kul:tab>

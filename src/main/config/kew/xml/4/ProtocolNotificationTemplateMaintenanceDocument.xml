@@ -8,6 +8,7 @@
 			<description>Create/Edit a Notification Template</description>
 			<label>Notification Template</label>
 			<parent>KcSharedMaintenanceDocument</parent>
+			<helpDefinitionURL>default.htm?turl=Documents/protocolactionnotificationtemplate.htm</helpDefinitionURL>
 		</documentType>
 	</documentTypes>
 </data>

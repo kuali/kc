@@ -6,6 +6,7 @@
 			<description>Create/Edit Schedule Status</description>
 			<label>Schedule Status</label>
 			<parent>KcComplianceMaintenanceDocument</parent>
+			<helpDefinitionURL>default.htm?turl=Documents/schedulestatus.htm</helpDefinitionURL>
 		</documentType>
 	</documentTypes>	
 </data>

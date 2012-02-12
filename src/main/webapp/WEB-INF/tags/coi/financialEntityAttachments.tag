@@ -121,7 +121,7 @@
 	        		                                      readOnly="true" /> 
 							</td>
     		        	    <td>
-		                	    <kra:fileicon attachment="${oldAttachment.file}"/> ${oldAttachment.fileName}
+		                	    <kra:fileicon attachment="${oldAttachment.attachmentFile}"/> ${oldAttachment.fileName}
 							</td>
 			                <td>
 								<div align=center>

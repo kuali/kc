@@ -8,6 +8,7 @@
 			<description>Create/Edit Valid Protocol Submission Review Type</description>
 			<label>Valid Protocol Submission Review Type</label>
 			<parent>KcSharedMaintenanceDocument</parent>
+			<helpDefinitionURL>default.htm?turl=Documents/validprotocolsubmissionreviewtype.htm</helpDefinitionURL>
 		</documentType>
 	</documentTypes>
 </data>

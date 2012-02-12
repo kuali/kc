@@ -8,6 +8,7 @@
 			<description>Create/Edit a Protocol Correspondence Type</description>
 			<label>Protocol Correspondence Type</label>
 			<parent>KcSharedMaintenanceDocument</parent>
+			<helpDefinitionURL>default.htm?turl=Documents/correspondencetype.htm</helpDefinitionURL>
 		</documentType>
 	</documentTypes>
 </data>

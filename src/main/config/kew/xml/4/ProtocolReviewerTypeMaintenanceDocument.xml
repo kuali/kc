@@ -6,6 +6,7 @@
 			<description>Create a New Protocol Reviewer Type</description>
 			<label>Protocol Reviewer Type</label>
 			<parent>KcComplianceMaintenanceDocument</parent>
+			<helpDefinitionURL>default.htm?turl=Documents/protocolreviewertype.htm</helpDefinitionURL>
 		</documentType>
 	</documentTypes>	
 </data>

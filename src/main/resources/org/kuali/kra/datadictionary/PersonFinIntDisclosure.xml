@@ -29,6 +29,12 @@
         <property name="lookupDefinition" >
             <ref bean="FinancialEntity-lookupDefinition" />
         </property>
+        <property name="helpDefinition" >
+      		<bean parent="HelpDefinition"
+            	p:parameterNamespace="KC-COIDISCLOSURE"
+            	p:parameterName="financialEntityHelp"
+            	p:parameterDetailType="Document" />
+    	</property>
         <property name="titleAttribute" value="personFinIntDisclosureId" />
         <property name="attributes" >
             <list>
