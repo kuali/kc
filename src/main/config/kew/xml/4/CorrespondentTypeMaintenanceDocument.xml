@@ -8,6 +8,7 @@
 			<description>Create/Edit a Correspondent Type</description>
 			<label>Correspondent Type</label>
 			<parent>KcSharedMaintenanceDocument</parent>
+			<helpDefinitionURL>default.htm?turl=Documents/correspondenttype.htm</helpDefinitionURL>
 		</documentType>
 	</documentTypes>
 </data>

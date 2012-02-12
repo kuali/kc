@@ -6,6 +6,7 @@
             <description>Create a Coi Event Type</description>
             <label>Coi Event Type Maintenance Document</label>
             <parent>KcSharedMaintenanceDocument</parent>
+			<helpDefinitionURL>default.htm?turl=Documents/coidisclosureeventtype.htm</helpDefinitionURL>
         </documentType>
     </documentTypes>    
 </data>

@@ -6,6 +6,7 @@
 			<description>Create a New Schedule Act Item Type</description>
 			<label>Schedule Act Item Type</label>
 			<parent>KcComplianceMaintenanceDocument</parent>
+			<helpDefinitionURL>default.htm?turl=Documents/scheduledotheractiontype.htm</helpDefinitionURL>
 		</documentType>
 	</documentTypes>	
-</data>
+</data>                                 

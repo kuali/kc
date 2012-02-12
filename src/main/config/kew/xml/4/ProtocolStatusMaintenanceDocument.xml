@@ -6,6 +6,7 @@
 			<description>Create a Protocol Status</description>
 			<label>Protocol Status Maintenance Document</label>
 			<parent>KcComplianceMaintenanceDocument</parent>
+			<helpDefinitionURL>default.htm?turl=Documents/protocolstatus.htm</helpDefinitionURL>
 		</documentType>
 	</documentTypes>	
 </data>

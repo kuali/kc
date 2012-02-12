@@ -3,9 +3,10 @@
     <documentTypes xmlns="ns:workflow/DocumentType" xsi:schemaLocation="ns:workflow/DocumentType resource:DocumentType">
         <documentType>
             <name>FinIntEntityRelTypeMaintenanceDocument</name>
-            <description>Create a Fin Int Entity relationship type</description>
+            <description>Create a Financial Interest Entity relationship type</description>
             <label>Financial Interest Entity Relationship Type Maintenance Document</label>
             <parent>KcMiscellaneousMaintenanceDocument</parent>
+			<helpDefinitionURL>default.htm?turl=Documents/entityrelationshiptype.htm</helpDefinitionURL>
         </documentType>
     </documentTypes>    
 </data>

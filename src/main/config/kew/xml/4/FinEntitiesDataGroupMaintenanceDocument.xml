@@ -6,6 +6,7 @@
             <description>Create a Fin Entity Data Group</description>
             <label>Financial Entity Data Group Maintenance Document</label>
             <parent>KcMiscellaneousMaintenanceDocument</parent>
+			<helpDefinitionURL>default.htm?turl=Documents/entitydatagroups.htm</helpDefinitionURL>
         </documentType>
     </documentTypes>    
 </data>

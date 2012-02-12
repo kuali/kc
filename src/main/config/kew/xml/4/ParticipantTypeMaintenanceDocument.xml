@@ -6,6 +6,7 @@
 			<description>Create/Edit a Participant Type</description>
 			<label>Participant Type</label>
 			<parent>KcComplianceMaintenanceDocument</parent>
+			<helpDefinitionURL>default.htm?turl=Documents/participanttype.htm</helpDefinitionURL>
 		</documentType>
 	</documentTypes>	
 </data>

@@ -8,6 +8,7 @@
             <description>Create/Edit a Protocol Person Role</description>
             <label>Protocol Person Role</label>
             <parent>KcSharedMaintenanceDocument</parent>
+            <helpDefinitionURL>default.htm?turl=Documents/protocolpersonrole.htm</helpDefinitionURL>
         </documentType>
     </documentTypes>
 </data>

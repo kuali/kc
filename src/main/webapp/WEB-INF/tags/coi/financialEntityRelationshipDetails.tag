@@ -10,8 +10,11 @@
     <div class="tab-container" align="center">
         <h3>
             <span class="subhead-left"> 
-            <a href="#" id ="relationDetailControl" class="relationDetailSubpanel"><img src='kr/images/tinybutton-show.gif' alt='show/hide panel' width='45' height='15' border='0' align='absmiddle'></a> Relationship Details </span>
-            <span class="subhead-right"> <kul:help businessObjectClassName="org.kuali.kra.coi.personfinancialentity.FinIntEntityStatus" altText="help"/> </span>
+            	<a href="#" id ="relationDetailControl" class="relationDetailSubpanel"><img src='kr/images/tinybutton-show.gif' alt='show/hide panel' width='45' height='15' border='0' align='absmiddle'></a> Relationship Details 
+            </span>
+			<span class="subhead-right"> 
+				<kul:help parameterNamespace="KC-COIDISCLOSURE" parameterDetailType="Document" parameterName="financialEntityRelationshipHelp" altText="help"/>
+            </span>
         </h3>
         <div id="relationDetailContent" class="relationDetailSubpanelContent">                    
                     

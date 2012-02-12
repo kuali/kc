@@ -4,7 +4,7 @@
 	<kra:permission value="${KualiForm.personnelHelper.modifyPersonnel}">
     	<kra:uncollapsable tabTitle="Add Person:" tabErrorKey="newProtocolPerson.*" auditCluster="personnelAuditErrors" tabAuditKey="newProtocolPerson*">
           <div align="right">
-            <kul:help businessObjectClassName="org.kuali.kra.irb.personnel.ProtocolPerson" altText="help"/>
+			<kul:help parameterNamespace="KC-PROTOCOL" parameterDetailType="Document" parameterName="protocolAddPersonnelHelp" altText="help"/>
           </div>
           <div align="center">
             <table  cellpadding="0" cellspacing="0" class="grid" summary="">

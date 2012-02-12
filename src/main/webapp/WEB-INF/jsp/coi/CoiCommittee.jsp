@@ -29,6 +29,8 @@
 	auditCount="0"
   	headerDispatch="${KualiForm.headerDispatch}"
   	headerTabActive="committee">
+
+   	<div align="right"><kul:help parameterNamespace="KC-COIDISCLOSURE" parameterDetailType="Document" parameterName="disclosureCommitteeHelp" altText="help"/></div>
   	
 Committee TO BE Implemented
 

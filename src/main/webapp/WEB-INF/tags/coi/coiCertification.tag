@@ -19,6 +19,7 @@
 	<div class="tab-container" align="center">
 		<h3> 
 			<span class="subhead-left">${title}</span>
+	   		<span class="subhead-right"><kul:help parameterNamespace="KC-COIDISCLOSURE" parameterDetailType="Document" parameterName="coiCertificationHelp" altText="help"/></span>
 		</h3>
 		<table cellpadding="0" cellspacing="0" summary="">
 			<tr>

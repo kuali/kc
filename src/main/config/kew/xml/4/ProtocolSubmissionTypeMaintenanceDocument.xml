@@ -6,6 +6,7 @@
 			<description>Create/Edit Protocol Submission Type</description>
 			<label>Protocol Submission Type</label>
 			<parent>KcComplianceMaintenanceDocument</parent>
+			<helpDefinitionURL>default.htm?turl=Documents/submissiontype.htm</helpDefinitionURL>
 		</documentType>
 	</documentTypes>	
 </data>
