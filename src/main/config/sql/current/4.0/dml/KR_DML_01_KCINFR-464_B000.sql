@@ -41,6 +41,8 @@ UPDATE KRCR_PARM_T SET VAL='default.htm?turl=Documents/committee1.htm' WHERE PAR
 /
 UPDATE KRCR_PARM_T SET VAL='default.htm?turl=Documents/certification.htm' WHERE PARM_NM='coiCertificationHelp'
 /
+UPDATE KRCR_PARM_T SET VAL='default.htm?turl=Documents/disclosure.htm' WHERE PARM_NM='coiDisclosureHelp'
+/
 UPDATE KRCR_PARM_T SET VAL='default.htm?turl=Documents/disclosureactions.htm' WHERE PARM_NM='disclosureActionsHelp'
 /
 UPDATE KRCR_PARM_T SET VAL='default.htm?turl=Documents/notesattachments1.htm' WHERE PARM_NM='protocolNotesAndAttachmentsHelp'
