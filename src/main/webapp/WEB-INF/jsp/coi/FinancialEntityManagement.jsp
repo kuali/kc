@@ -67,8 +67,7 @@
             <a name="topOfForm"></a>
             <div class="headerarea" id="headerarea">
                 <h1>Financial Entities 
-                    <a href="${pageContext.request.contextPath}/kr/help.do?methodToCall=getDocumentHelpText&amp;documentTypeName=CoiDisclosureDocument" tabindex="1000000" target="helpWindow"  title="[Help]document help"><img src="kr/static/images/my_cp_inf.gif" alt="[Help]document help" hspace=5 border=0  align="middle">
-                    </a>
+                    <kul:help parameterNamespace="KC-COIDISCLOSURE" parameterDetailType="Document" parameterName="financialEntityHelp" altText="help"/>
                 </h1>
             </div>
 

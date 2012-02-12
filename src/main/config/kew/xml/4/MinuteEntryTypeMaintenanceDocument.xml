@@ -6,6 +6,7 @@
 			<description>Create a New Minute Entry Type</description>
 			<label>Minute Entry Type</label>
 			<parent>KcComplianceMaintenanceDocument</parent>
+			<helpDefinitionURL>default.htm?turl=Documents/minuteentrytype.htm</helpDefinitionURL>
 		</documentType>
 	</documentTypes>	
 </data>

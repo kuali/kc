@@ -6,6 +6,7 @@
             <description>Create a Fin Entity Data Matrix</description>
             <label>Financial Entity Data Matrix Maintenance Document</label>
             <parent>KcMiscellaneousMaintenanceDocument</parent>
+			<helpDefinitionURL>default.htm?turl=Documents/entitydatamatrix.htm</helpDefinitionURL>
         </documentType>
     </documentTypes>    
 </data>

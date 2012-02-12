@@ -6,6 +6,7 @@
             <description>Create a Coi Status</description>
             <label>Coi Status Maintenance Document</label>
             <parent>KcSharedMaintenanceDocument</parent>
+			<helpDefinitionURL>default.htm?turl=Documents/coistatus.htm</helpDefinitionURL>
         </documentType>
     </documentTypes>    
 </data>

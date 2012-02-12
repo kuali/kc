@@ -8,6 +8,7 @@
 			<description>Create/Edit Valid Protocol Follow-up Actions</description>
 			<label>Protocol Follow-up Actions Maintenance Document</label>
 			<parent>KcSharedMaintenanceDocument</parent>
+			<helpDefinitionURL>default.htm?turl=Documents/protocolfollowupactions.htm</helpDefinitionURL>
 		</documentType>
 	</documentTypes>
 </data>

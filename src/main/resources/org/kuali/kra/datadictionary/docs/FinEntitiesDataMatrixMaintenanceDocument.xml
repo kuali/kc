@@ -42,8 +42,8 @@
     
     <bean id="FinEntitiesDataMatrixMaintenanceDocument-EditFinEntitiesDataMatrix" parent="FinEntitiesDataMatrixMaintenanceDocument-EditFinEntitiesDataMatrix-parentBean" />
     <bean id="FinEntitiesDataMatrixMaintenanceDocument-EditFinEntitiesDataMatrix-parentBean" abstract="true" parent="MaintainableSectionDefinition">
-        <property name="id" value="Edit Fin Entities Data Matrix" />
-        <property name="title" value="Edit Fin Entities Data Matrix" />
+        <property name="id" value="Edit Financial Entities Data Matrix" />
+        <property name="title" value="Edit Financial Entities Data Matrix" />
         <property name="maintainableItems" >
             <list>
                 <bean parent="MaintainableFieldDefinition"

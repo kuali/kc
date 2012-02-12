@@ -6,6 +6,7 @@
 			<description>Create/Edit a Protocol Review Type</description>
 			<label>Protocol Review Type</label>
 			<parent>KcComplianceMaintenanceDocument</parent>
+			<helpDefinitionURL>default.htm?turl=Documents/protocolreviewtype.htm</helpDefinitionURL>
 		</documentType>
 	</documentTypes>	
 </data>

@@ -6,6 +6,7 @@
 			<description>Create/Edit a Committee Membership Type</description>
 			<label>Committee Membership Type</label>
 			<parent>KcComplianceMaintenanceDocument</parent>
+			<helpDefinitionURL>default.htm?turl=Documents/committeemembershiptype.htm</helpDefinitionURL>
 		</documentType>
 	</documentTypes>	
 </data>

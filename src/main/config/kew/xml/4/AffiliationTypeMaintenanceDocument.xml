@@ -6,6 +6,7 @@
 			<description>Create an Affiliation Type</description>
 			<label>Affiliation Type Maintenance Document</label>
 			<parent>KcComplianceMaintenanceDocument</parent>
+			<helpDefinitionURL>default.htm?turl=Documents/affiliationtype.htm</helpDefinitionURL>
 		</documentType>
 	</documentTypes>	
 </data>

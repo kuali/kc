@@ -6,6 +6,7 @@
 			<description>Create/Edit a Protocol Reference Type</description>
 			<label>Protocol Reference Type</label>
 			<parent>KcComplianceMaintenanceDocument</parent>
+			<helpDefinitionURL>default.htm?turl=Documents/referencetype.htm</helpDefinitionURL>
 		</documentType>
 	</documentTypes>	
 </data>

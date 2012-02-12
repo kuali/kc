@@ -6,6 +6,7 @@
 			<description>Create a Protocol Attachment Group</description>
 			<label>Protocol Attachment Group Maintenance Document</label>
 			<parent>KcComplianceMaintenanceDocument</parent>
+			<helpDefinitionURL>default.htm?turl=Documents/protocolattachmentgroup.htm</helpDefinitionURL>
 		</documentType>
 	</documentTypes>	
 </data>
