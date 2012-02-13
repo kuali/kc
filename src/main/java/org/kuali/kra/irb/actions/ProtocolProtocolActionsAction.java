@@ -68,6 +68,8 @@ import org.kuali.kra.irb.actions.copy.ProtocolCopyService;
 import org.kuali.kra.irb.actions.correction.AdminCorrectionBean;
 import org.kuali.kra.irb.actions.correction.AdminCorrectionService;
 import org.kuali.kra.irb.actions.correction.ProtocolAdminCorrectionEvent;
+import org.kuali.kra.irb.actions.correspondence.AbstractProtocolActionsCorrespondence;
+import org.kuali.kra.irb.actions.correspondence.ProtocolActionCorrespondenceGenerationService;
 import org.kuali.kra.irb.actions.decision.CommitteeDecision;
 import org.kuali.kra.irb.actions.decision.CommitteeDecisionAbstainerEvent;
 import org.kuali.kra.irb.actions.decision.CommitteeDecisionEvent;
@@ -79,6 +81,8 @@ import org.kuali.kra.irb.actions.followup.FollowupActionService;
 import org.kuali.kra.irb.actions.genericactions.ProtocolGenericActionBean;
 import org.kuali.kra.irb.actions.genericactions.ProtocolGenericActionEvent;
 import org.kuali.kra.irb.actions.genericactions.ProtocolGenericActionService;
+import org.kuali.kra.irb.actions.genericactions.ProtocolGenericCorrespondence;
+import org.kuali.kra.irb.actions.grantexemption.GrantExemptionCorrespondence;
 import org.kuali.kra.irb.actions.grantexemption.ProtocolGrantExemptionBean;
 import org.kuali.kra.irb.actions.grantexemption.ProtocolGrantExemptionEvent;
 import org.kuali.kra.irb.actions.grantexemption.ProtocolGrantExemptionService;
@@ -122,9 +126,11 @@ import org.kuali.kra.irb.actions.submit.ValidProtocolActionAction;
 import org.kuali.kra.irb.actions.undo.UndoLastActionBean;
 import org.kuali.kra.irb.actions.undo.UndoLastActionService;
 import org.kuali.kra.irb.actions.withdraw.ProtocolWithdrawService;
+import org.kuali.kra.irb.actions.withdraw.WithdrawCorrespondence;
 import org.kuali.kra.irb.auth.GenericProtocolAuthorizer;
 import org.kuali.kra.irb.auth.ProtocolTask;
 import org.kuali.kra.irb.correspondence.ProtocolCorrespondence;
+import org.kuali.kra.irb.correspondence.ProtocolCorrespondenceType;
 import org.kuali.kra.irb.noteattachment.AddProtocolNotepadEvent;
 import org.kuali.kra.irb.noteattachment.AddProtocolNotepadRule;
 import org.kuali.kra.irb.noteattachment.AddProtocolNotepadRuleImpl;
@@ -142,6 +148,7 @@ import org.kuali.kra.irb.summary.ProtocolSummary;
 import org.kuali.kra.meeting.CommitteeScheduleMinute;
 import org.kuali.kra.meeting.MinuteEntryType;
 import org.kuali.kra.printing.Printable;
+import org.kuali.kra.printing.PrintingException;
 import org.kuali.kra.printing.print.AbstractPrint;
 import org.kuali.kra.printing.service.WatermarkService;
 import org.kuali.kra.printing.util.PrintingUtils;
@@ -216,6 +223,36 @@ public class ProtocolProtocolActionsAction extends ProtocolAction implements Aud
             put("4", "Return for Substantive Revisions Required");
         }
     };
+
+    private static final List GENERIC_TYPE_PONDENCE;
+    static {
+        final List correspondenceTypes = new ArrayList();
+        correspondenceTypes.add(ProtocolCorrespondenceType.ABANDON_NOTICE);
+        correspondenceTypes.add(ProtocolCorrespondenceType.APPROVAL_LETTER);
+        correspondenceTypes.add(ProtocolCorrespondenceType.CLOSURE_NOTICE);
+        correspondenceTypes.add(ProtocolCorrespondenceType.EXPEDITED_APPROVAL_LETTER);
+        correspondenceTypes.add(ProtocolCorrespondenceType.NOTICE_OF_DEFERRAL);
+        correspondenceTypes.add(ProtocolCorrespondenceType.SMR_LETTER);
+        correspondenceTypes.add(ProtocolCorrespondenceType.SRR_LETTER);
+        correspondenceTypes.add(ProtocolCorrespondenceType.SUSPENSION_NOTICE);
+        correspondenceTypes.add(ProtocolCorrespondenceType.TERMINATION_NOTICE);
+        GENERIC_TYPE_PONDENCE = correspondenceTypes;
+    }
+
+    private static final Map<String, String> CORR_TYPE_TO_ACTION_TYPE_MAP;
+
+    static {
+        CORR_TYPE_TO_ACTION_TYPE_MAP = new HashMap<String, String>();
+        CORR_TYPE_TO_ACTION_TYPE_MAP.put(ProtocolCorrespondenceType.ABANDON_NOTICE, ProtocolActionType.ABANDON_PROTOCOL);
+        CORR_TYPE_TO_ACTION_TYPE_MAP.put(ProtocolCorrespondenceType.APPROVAL_LETTER,ProtocolActionType.APPROVED);
+        CORR_TYPE_TO_ACTION_TYPE_MAP.put(ProtocolCorrespondenceType.CLOSURE_NOTICE,ProtocolActionType.CLOSED_ADMINISTRATIVELY_CLOSED);
+        CORR_TYPE_TO_ACTION_TYPE_MAP.put(ProtocolCorrespondenceType.EXPEDITED_APPROVAL_LETTER,ProtocolActionType.EXPEDITE_APPROVAL);
+        CORR_TYPE_TO_ACTION_TYPE_MAP.put(ProtocolCorrespondenceType.NOTICE_OF_DEFERRAL,ProtocolActionType.DEFERRED);
+        CORR_TYPE_TO_ACTION_TYPE_MAP.put(ProtocolCorrespondenceType.SMR_LETTER,ProtocolActionType.SPECIFIC_MINOR_REVISIONS_REQUIRED);
+        CORR_TYPE_TO_ACTION_TYPE_MAP.put(ProtocolCorrespondenceType.SRR_LETTER,ProtocolActionType.SUBSTANTIVE_REVISIONS_REQUIRED);
+        CORR_TYPE_TO_ACTION_TYPE_MAP.put(ProtocolCorrespondenceType.SUSPENSION_NOTICE,ProtocolActionType.SUSPENDED);
+        CORR_TYPE_TO_ACTION_TYPE_MAP.put(ProtocolCorrespondenceType.TERMINATION_NOTICE,ProtocolActionType.TERMINATED);
+    }
 
     /** {@inheritDoc} */
     public ActionForward execute(ActionMapping mapping, ActionForm form, HttpServletRequest request, HttpServletResponse response)
@@ -3708,7 +3745,7 @@ public class ProtocolProtocolActionsAction extends ProtocolAction implements Aud
             getBusinessObjectService().save(correspondence);
         }
         // TODO : this is a hack for fullapprove to resotre key
-        if (GlobalVariables.getUserSession().retrieveObject("approvalComplCorrespondence") != null) {
+        if (GlobalVariables.getUserSession().retrieveObject("approvalComplpondence") != null) {
                GlobalVariables.getUserSession().addObject(DocumentAuthorizerBase.USER_SESSION_METHOD_TO_CALL_COMPLETE_OBJECT_KEY, GlobalVariables.getUserSession().retrieveObject("approvalComplCorrespondence"));
                GlobalVariables.getUserSession().removeObject("approvalComplCorrespondence");
         }
@@ -3726,4 +3763,56 @@ public class ProtocolProtocolActionsAction extends ProtocolAction implements Aud
         }
    
     }
+    
+    public ActionForward regenerateCorrespondence(ActionMapping mapping, ActionForm form, HttpServletRequest request, 
+            HttpServletResponse response) throws Exception {
+        
+        ProtocolForm protocolForm = (ProtocolForm) form;
+        int actionIndex = getSelectedLine(request);
+        int attachmentIndex = getSelectedAttachment(request);
+        org.kuali.kra.irb.actions.ProtocolAction protocolAction = protocolForm.getActionHelper().getProtocol().getProtocolActions().get(actionIndex);
+        ProtocolCorrespondence protocolCorrespondence = protocolAction.getProtocolCorrespondences().get(attachmentIndex);
+
+        if (protocolCorrespondence == null) {
+            LOG.info(NOT_FOUND_SELECTION + "protocolAction: " + actionIndex + ", protocolCorrespondence: " + attachmentIndex);
+            // may want to tell the user the selection was invalid.
+            return mapping.findForward(Constants.MAPPING_BASIC);
+        }
+
+        Protocol protocol = protocolCorrespondence.getProtocol();
+        AttachmentDataSource dataSource = generateCorrespondenceDocument(protocol, protocolCorrespondence.getProtoCorrespTypeCode());
+        PrintableAttachment source = new PrintableAttachment();
+//        ProtocolCorrespondence correspondence = getProtocolCorrespondence(protocol);
+        if (dataSource != null) {
+            protocolCorrespondence.setCorrespondence(dataSource.getContent());
+            protocolCorrespondence.setForwardName(PROTOCOL_ACTIONS_TAB);
+            protocolForm.getActionHelper().setProtocolCorrespondence(protocolCorrespondence);
+            return mapping.findForward(CORRESPONDENCE);
+        }
+        return mapping.findForward(Constants.MAPPING_BASIC);
+
+    }
+    
+    protected AttachmentDataSource generateCorrespondenceDocument(Protocol protocol, String correspondenceType) throws PrintingException {
+        AbstractProtocolActionsCorrespondence correspondence = null;
+        if (StringUtils.equals(ProtocolCorrespondenceType.WITHDRAWAL_NOTICE, correspondenceType)) {
+            correspondence = new WithdrawCorrespondence();
+        } else if (GENERIC_TYPE_PONDENCE.contains(correspondenceType)) {
+            correspondence = new ProtocolGenericCorrespondence(CORR_TYPE_TO_ACTION_TYPE_MAP.get(correspondenceType));
+        } else if (StringUtils.equals(ProtocolCorrespondenceType.GRANT_EXEMPTION_NOTICE, correspondenceType)) {
+            correspondence = new GrantExemptionCorrespondence();
+        }
+        correspondence.setProtocol(protocol);
+        // TODO : set up actiontype 920 as "regenerate correspondence"
+//        ProtocolAction protocolAction = new ProtocolAction(protocol, null, "920");
+//        protocolAction.setComments("Regenerate Correspondence");
+//        protocol.getProtocolActions().add(protocolAction);
+//        getBusinessObjectService().save(protocol);
+        return getProtocolActionCorrespondenceGenerationService().reGenerateCorrespondenceDocument(correspondence);
+    } 
+
+    private ProtocolActionCorrespondenceGenerationService getProtocolActionCorrespondenceGenerationService() {
+        return KraServiceLocator.getService(ProtocolActionCorrespondenceGenerationService.class);
+    }
+
 }
