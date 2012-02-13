@@ -52,6 +52,7 @@ public class InstitutionalProposalCostShareBean implements Serializable, CostSha
      */
     public InstitutionalProposalCostShareBean(InstitutionalProposalForm parent) {
         this.parent = parent;
+        init(); 
     }
     
     /**
