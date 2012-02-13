@@ -482,6 +482,7 @@
             <forward name="basic" path="/WEB-INF/jsp/meeting/meeting{1}.jsp" />
             <forward name="management" path="/WEB-INF/jsp/meeting/meetingManagement.jsp" />
             <forward name="actions" path="/WEB-INF/jsp/meeting/meetingActions.jsp" />
+            <forward name="correspondence" path="/WEB-INF/jsp/meeting/meetingCorrespondenceAction.jsp" />
      </action>
      
      <action path="/medusaAjax" name="MedusaForm" type="org.kuali.kra.medusa.web.MedusaAjaxAction" attribute="KualiForm">
