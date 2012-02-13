@@ -3,6 +3,7 @@
 <c:set var="kraAttributeReferenceDummyAttributes" value="${DataDictionary.KraAttributeReferenceDummy.attributes}" />
 ${kfunc:registerEditableProperty(KualiForm, "actionHelper.selectedHistoryItem")}
 <c:set var="submissionDocAttributes" value="${DataDictionary.ProtocolSubmissionDoc.attributes}" />
+<c:set var="irbAdmin" value="${KualiForm.actionHelper.irbAdmin}" />
 
 <kul:innerTab tabTitle="History" parentTab="" defaultOpen="false" tabErrorKey="actionHelper.filteredHistory*">
 
@@ -127,10 +128,12 @@ ${kfunc:registerEditableProperty(KualiForm, "actionHelper.selectedHistoryItem")}
 		           		    	                            <td>${correspondence.protocolCorrespondenceType.description}</td>
 		           		 					                <td align="center" valign="middle">
                                                                 <div align="center">
+                                                                  <c:if test="${irbAdmin}">
                                                                     <html:image property="methodToCall.viewActionCorrespondence.line${status.index}.attachment${attachmentStatus.index}.anchor${currentTabIndex}"
 										                                        src='${ConfigProperties.kra.externalizable.images.url}tinybutton-view.gif' 
 										                                        alt="View Correspondence" onclick="excludeSubmitRestriction = true;"
 										                                        styleClass="tinybutton"/>
+                                                                   </c:if>
 								                               </div>
 							                                 </td>
 		           		    	                        </tr>

@@ -36,6 +36,7 @@ import org.kuali.kra.committee.service.CommitteeService;
 import org.kuali.kra.infrastructure.Constants;
 import org.kuali.kra.infrastructure.KeyConstants;
 import org.kuali.kra.infrastructure.KraServiceLocator;
+import org.kuali.kra.infrastructure.RoleConstants;
 import org.kuali.kra.infrastructure.TaskName;
 import org.kuali.kra.irb.Protocol;
 import org.kuali.kra.irb.ProtocolDocument;
@@ -89,6 +90,7 @@ import org.kuali.kra.questionnaire.answer.ModuleQuestionnaireBean;
 import org.kuali.kra.questionnaire.answer.QuestionnaireAnswerService;
 import org.kuali.kra.rules.ErrorReporter;
 import org.kuali.kra.service.KcPersonService;
+import org.kuali.kra.service.KraAuthorizationService;
 import org.kuali.kra.service.TaskAuthorizationService;
 import org.kuali.kra.util.DateUtils;
 import org.kuali.rice.coreservice.framework.parameter.ParameterService;
@@ -103,6 +105,7 @@ import org.kuali.rice.krad.util.ObjectUtils;
 public class ActionHelper implements Serializable {
 
     private static final long ONE_DAY = 1000L * 60L * 60L * 24L;
+    private static final String NAMESPACE = "KC-UNT";
     private static final List<String> ACTION_TYPE_SUBMISSION_DOC;
     static {
         final List<String> codes = new ArrayList<String>();     
@@ -316,6 +319,7 @@ public class ActionHelper implements Serializable {
 
     private transient CommitteeScheduleService committeeScheduleService;
     private transient KcPersonService kcPersonService;
+    private transient KraAuthorizationService kraAuthorizationService;
     private transient BusinessObjectService businessObjectService;
     private transient FollowupActionService followupActionService;
     private Map<String, ProtocolRequestBean>  actionTypeRequestBeanMap = new HashMap<String, ProtocolRequestBean>();
@@ -3051,5 +3055,18 @@ public class ActionHelper implements Serializable {
     public void setProtocolCorrespondence(ProtocolCorrespondence protocolCorrespondence) {
         this.protocolCorrespondence = protocolCorrespondence;
     }
+
+    public boolean isIrbAdmin() {
+        return getKraAuthorizationService().hasRole(GlobalVariables.getUserSession().getPrincipalId(), NAMESPACE, RoleConstants.IRB_ADMINISTRATOR);
+    }
+    
+    protected KraAuthorizationService getKraAuthorizationService() {
+        if (this.kraAuthorizationService == null) {
+            this.kraAuthorizationService = KraServiceLocator.getService(KraAuthorizationService.class);
+        }
+        
+        return this.kraAuthorizationService;
+    }
+    
 
 }
