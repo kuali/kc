@@ -18,7 +18,7 @@ package org.kuali.kra.bo;
 import org.kuali.kra.infrastructure.KraServiceLocator;
 import org.kuali.kra.service.KcPersonService;
 
-public class UnitAdministrator extends KraPersistableBusinessObjectBase {
+public class UnitAdministrator extends KraPersistableBusinessObjectBase implements AbstractUnitAdministrator {
 
     private String personId;
 
