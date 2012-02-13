@@ -2,6 +2,7 @@
 
 <%-- <c:set var="readOnly" value="${KualiForm.readOnly}"  scope="request"/> --%>
 <c:set var="committeeScheduleAttributes" value="${DataDictionary.CommitteeSchedule.attributes}" />
+<c:set var="kraAttributeReferenceDummyAttributes" value="${DataDictionary.KraAttributeReferenceDummy.attributes}" />
 
 <kul:tab defaultOpen="false" tabTitle="Correspondence"
     tabErrorKey="document.committee*">
@@ -16,7 +17,8 @@
         	<tr>
         		<kul:htmlAttributeHeaderCell literalLabel="Protocol Number" scope="col" />
         		<kul:htmlAttributeHeaderCell literalLabel="Correspondence" scope="col" />
-        		<kul:htmlAttributeHeaderCell literalLabel="Date Created" scope="col" />
+                <kul:htmlAttributeHeaderCell literalLabel="Date Created" scope="col" />
+                <kul:htmlAttributeHeaderCell literalLabel="Regenerate" scope="col" />
 				<kul:htmlAttributeHeaderCell literalLabel="Actions" scope="col" />
 			</tr>
         	<c:forEach var="correspondence" items="${KualiForm.meetingHelper.correspondences}" varStatus="status">
@@ -30,15 +32,33 @@
 	                <td align="left" valign="middle">
 	                    <div align="left"><fmt:formatDate value="${correspondence.updateTimestamp}" pattern="MM/dd/yyyy" /> </div>
 					</td>
+                    <td>
+                        <div align="center">
+                            <kul:htmlControlAttribute property="meetingHelper.correspondences[${status.index}].regenerateFlag" 
+                                                      attributeEntry="${kraAttributeReferenceDummyAttributes.checkBox}"
+                                                      styleClass="regenerateclass" readOnly="false" />
+                        </div>
+                    </td>
 						<td>
 							<div align="center">&nbsp;					
-									<html:image property="methodToCall.viewCorrespondence.line${status.index}.anchor${currentTabIndex}"
-										src='${ConfigProperties.kra.externalizable.images.url}tinybutton-view.gif' styleClass="tinybutton"
-										alt="View Agenda" onclick="excludeSubmitRestriction = true;"/>
+                                    <html:image property="methodToCall.viewCorrespondence.line${status.index}.anchor${currentTabIndex}"
+                                        src='${ConfigProperties.kra.externalizable.images.url}tinybutton-view.gif' styleClass="tinybutton"
+                                        alt="View Correspondence" onclick="excludeSubmitRestriction = true;"/>
 							</div>
 		                </td>
 	            </tr>
         	</c:forEach>
+                <tr>
+                    <td colspan="5">
+                            <div align="center">&nbsp;                  
+                                    <html:image property="methodToCall.regenerateCorrespondence.line${status.index}.anchor${currentTabIndex}"
+                                        src='${ConfigProperties.kra.externalizable.images.url}tinybutton-regenerate.gif' styleClass="tinybutton"
+                                        alt="Regenerate Correspondence" title="Regenerate Correspondence" onclick="excludeSubmitRestriction = true;"/>
+                                  <html:image property="methodToCall.selectAllProtocolPrint.anchor${tabKey}" src="${ConfigProperties.kra.externalizable.images.url}tinybutton-selectall.gif" title="Select All" alt="Select All" styleClass="tinybutton" onclick="$('.regenerateclass').attr('checked', true);return false;" />
+                                  <html:image property="methodToCall.deselectAllProtocolPrint.anchor${tabKey}" src="${ConfigProperties.kra.externalizable.images.url}tinybutton-selectnone.gif" title="Select None" alt="Select None" styleClass="tinybutton" onclick="$('.regenerateclass').attr('checked', false);return false;" />
+                            </div>
+                    </td>
+                </tr>    
        </table> 	
 </div>
 

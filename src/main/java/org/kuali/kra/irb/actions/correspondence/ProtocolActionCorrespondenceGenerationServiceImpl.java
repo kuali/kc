@@ -89,19 +89,29 @@ public class ProtocolActionCorrespondenceGenerationServiceImpl implements Protoc
     
     /**{@inheritDoc}**/
     public void generateCorrespondenceDocumentAndAttach(AbstractProtocolActionsCorrespondence printableCorrespondence) 
-        throws PrintingException {
-        if (printableCorrespondence.getXSLTemplates().size() > 0) {
-            //there are templates in play, lets do some printing and attaching            
-            Protocol protocol = printableCorrespondence.getProtocol();
-            AttachmentDataSource ads = this.printingService.print(printableCorrespondence);
-            if (ads.getContent().length > 0) {
-                //only need to do this, if there is actually printable correspondence to save
-                //this may not be the case if a bad template is put in place, or under certain testing conditions.
-                buildAndAttachProtocolCorrespondence(protocol, ads.getContent(), printableCorrespondence.getProtoCorrespTypeCode());
+            throws PrintingException {
+            if (printableCorrespondence.getXSLTemplates().size() > 0) {
+                //there are templates in play, lets do some printing and attaching            
+                Protocol protocol = printableCorrespondence.getProtocol();
+                AttachmentDataSource ads = this.printingService.print(printableCorrespondence);
+                if (ads.getContent().length > 0) {
+                    //only need to do this, if there is actually printable correspondence to save
+                    //this may not be the case if a bad template is put in place, or under certain testing conditions.
+                    buildAndAttachProtocolCorrespondence(protocol, ads.getContent(), printableCorrespondence.getProtoCorrespTypeCode());
+                }
             }
         }
-    }
-    
+        
+    public AttachmentDataSource reGenerateCorrespondenceDocument(AbstractProtocolActionsCorrespondence printableCorrespondence) 
+            throws PrintingException {
+            if (printableCorrespondence.getXSLTemplates().size() > 0) {
+                //there are templates in play, lets do some printing and attaching            
+                Protocol protocol = printableCorrespondence.getProtocol();
+                return this.printingService.print(printableCorrespondence);
+            }
+            return null;
+        }
+        
     /**{@inheritDoc}**/
     public List<ProtocolCorrespondenceTemplate> getCorrespondenceTemplates(String actionType) {
         List<ProtocolCorrespondenceTemplate> templates = 

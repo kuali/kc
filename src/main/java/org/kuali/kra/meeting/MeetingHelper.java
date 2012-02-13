@@ -15,8 +15,6 @@
  */
 package org.kuali.kra.meeting;
 
-import static org.kuali.kra.infrastructure.KraServiceLocator.getService;
-
 import java.io.Serializable;
 import java.sql.Date;
 import java.util.ArrayList;
@@ -70,6 +68,8 @@ public class MeetingHelper implements Serializable {
     private boolean hideReviewerName;
     private static String minutesSentMessage;
     private static String agendaSentMessage;
+    private ProtocolCorrespondence protocolCorrespondence;
+    private List<ProtocolCorrespondence> regeneratedCorrespondences;
 
     private static final String AGENDA_SENT_MESSAGE = "message.disclosure.submit.thankyou";
     private static final String MINUTES_SENT_MESSAGE = "message.disclosure.submit.thankyou";
@@ -464,6 +464,26 @@ public class MeetingHelper implements Serializable {
             agendaSentMessage = KRADServiceLocator.getKualiConfigurationService().getPropertyValueAsString(MESSAGE_COMMITTEESCHEDULE_AGENDASENT);
         }
         return agendaSentMessage;
+    }
+
+
+    public ProtocolCorrespondence getProtocolCorrespondence() {
+        return protocolCorrespondence;
+    }
+
+
+    public void setProtocolCorrespondence(ProtocolCorrespondence protocolCorrespondence) {
+        this.protocolCorrespondence = protocolCorrespondence;
+    }
+
+
+    public List<ProtocolCorrespondence> getRegeneratedCorrespondences() {
+        return regeneratedCorrespondences;
+    }
+
+
+    public void setRegeneratedCorrespondences(List<ProtocolCorrespondence> regeneratedCorrespondences) {
+        this.regeneratedCorrespondences = regeneratedCorrespondences;
     }
     
 }
