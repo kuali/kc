@@ -332,8 +332,8 @@ function openSelectedAward(requestTracker) {
       jQuery(tblTag).find('.obligationStartDate').text(info['currentFundEffectiveDate']);
       jQuery(tblTag).find('.projectEndDate').text(info['finalExpirationDate']);
       jQuery(tblTag).find('.obligationEndDate').text(info['obligationExpirationDate']);
-      jQuery(tblTag).find('.anticipatedAmount').text("jQuery" + info['anticipatedTotalAmount']);
-      jQuery(tblTag).find('.obligatedAmount').text("jQuery" + info['amountObligatedToDate']);
+      jQuery(tblTag).find('.anticipatedAmount').text("$" + info['anticipatedTotalAmount']);
+      jQuery(tblTag).find('.obligatedAmount').text("$" + info['amountObligatedToDate']);
       jQuery(tblTag).find('.title').text(info['title']);
       return tblTag;
   }
