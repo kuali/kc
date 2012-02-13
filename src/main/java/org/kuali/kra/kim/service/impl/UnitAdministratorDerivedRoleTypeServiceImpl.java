@@ -20,56 +20,32 @@ import java.util.List;
 import java.util.Map;
 
 import org.apache.commons.lang.StringUtils;
+import org.kuali.kra.bo.AbstractUnitAdministrator;
 import org.kuali.kra.bo.UnitAdministrator;
 import org.kuali.kra.kim.bo.KcKimAttributes;
 import org.kuali.kra.service.UnitService;
-import org.kuali.rice.core.api.membership.MemberType;
-import org.kuali.rice.kim.api.role.RoleMembership;
 import org.kuali.rice.kim.framework.role.RoleTypeService;
-import org.kuali.rice.kns.kim.role.DerivedRoleTypeServiceBase;
 
 /**
  * Checks whether the principal is a Unit Administrator for the given unit.
  */
-public class UnitAdministratorDerivedRoleTypeServiceImpl extends DerivedRoleTypeServiceBase implements RoleTypeService {
+public class UnitAdministratorDerivedRoleTypeServiceImpl extends AbstractUnitAdministratorDerivedRoleTypeService implements RoleTypeService {
     
     private UnitService unitService;
-    
-    @Override
-    public boolean hasDerivedRole(
-            String principalId, List<String> groupIds, String namespaceCode, String roleName, Map<String,String> qualification) {
-        
-        String unitNumber = qualification.get(KcKimAttributes.UNIT_NUMBER);
-        if (StringUtils.isNotBlank(unitNumber)) {
-            List<UnitAdministrator> unitAdministrators = unitService.retrieveUnitAdministratorsByUnitNumber(unitNumber);
-            for (UnitAdministrator unitAdministrator : unitAdministrators) {
-                if (unitAdministrator.getPersonId().equals(principalId)) {
-                    return true;
-                }
-            }
-        }
-        
-        return false;
-    }
 
     public void setUnitService(UnitService unitService) {
         this.unitService = unitService;
     }
-    
+
     @Override
-    public List<RoleMembership> getRoleMembersFromDerivedRole(String namespaceCode, String roleName, Map<String,String> qualification) {
+    public List<? extends AbstractUnitAdministrator> getUnitAdministrators(Map<String, String> qualification) {
         String unitNumber = qualification.get(KcKimAttributes.UNIT_NUMBER);
-        List<RoleMembership> members = new ArrayList<RoleMembership>();
         
         if (StringUtils.isNotBlank(unitNumber)) {
-            List<UnitAdministrator> unitAdministrators = unitService.retrieveUnitAdministratorsByUnitNumber(unitNumber);
-            for ( UnitAdministrator unitAdministrator : unitAdministrators ) {
-                if ( StringUtils.isNotBlank(unitAdministrator.getPersonId()) ) {
-                    members.add( RoleMembership.Builder.create(null, null, unitAdministrator.getPersonId(), MemberType.PRINCIPAL, null).build() );
-                }
-            }
+            return unitService.retrieveUnitAdministratorsByUnitNumber(unitNumber);
+        } else {
+            return new ArrayList<UnitAdministrator>();
         }
-            
-        return members;
+
     }
 }

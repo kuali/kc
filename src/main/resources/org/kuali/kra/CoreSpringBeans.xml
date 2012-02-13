@@ -926,9 +926,45 @@
     					<property name="labelAttributeName" value="description"/>
     				</bean>
     			</entry>
+    			<entry key="KC-WKFLW:Unit Administrator">
+    				<bean class="org.kuali.kra.lookup.keyvalue.ExtendedPersistableBusinessObjectValuesFinder">
+    					<property name="businessObjectClass" value="org.kuali.kra.bo.UnitAdministratorType" />
+    					<property name="keyAttributeName" value="unitAdministratorTypeCode"/>
+    					<property name="labelAttributeName" value="description"/>
+    				</bean>
+    			</entry>  
+    			<entry key="KC-PD:All Unit Administrators">
+    				<bean class="org.kuali.kra.lookup.keyvalue.ExtendedPersistableBusinessObjectValuesFinder">
+    					<property name="businessObjectClass" value="org.kuali.kra.bo.UnitAdministratorType" />
+    					<property name="keyAttributeName" value="unitAdministratorTypeCode"/>
+    					<property name="labelAttributeName" value="description"/>
+    				</bean>
+    			</entry> 
     		</map>
     	</property>
     </bean>
+    
+	<bean id="proposalAllUnitAdministratorDerivedRoleTypeService"
+		class="org.kuali.kra.proposaldevelopment.service.impl.ProposalAllUnitAdministratorDerivedRoleTypeServiceImpl">
+		<property name="unitService" ref="unitService" />
+	</bean>
+	<bean class="org.kuali.rice.ksb.api.bus.support.ServiceBusExporter">
+		<property name="serviceDefinition">
+			<bean parent="kcService" p:service-ref="proposalAllUnitAdministratorDerivedRoleTypeService"
+				p:localServiceName="proposalAllUnitAdministratorDerivedRoleTypeService" />
+		</property>
+	</bean>  
+	
+	<bean id="pastApproversDerivedRoleTypeService"
+		class="org.kuali.kra.workflow.PastApproversDerivedRoleTypeServiceImpl">
+		<property name="workflowDocumentService" ref="kewWorkflowDocumentService" />
+	</bean>
+	<bean class="org.kuali.rice.ksb.api.bus.support.ServiceBusExporter">
+		<property name="serviceDefinition">
+			<bean parent="kcService" p:service-ref="pastApproversDerivedRoleTypeService"
+				p:localServiceName="pastApproversDerivedRoleTypeService" />
+		</property>
+	</bean>  	  
     
     <!-- 
     <bean id="unitAgendaTypeService" class="org.kuali.kra.krms.UnitAgendaTypeService">
