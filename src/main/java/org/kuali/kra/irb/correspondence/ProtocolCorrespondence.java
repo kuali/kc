@@ -52,6 +52,9 @@ public class ProtocolCorrespondence extends KraPersistableBusinessObjectBase {
     private ProtocolCorrespondenceType protocolCorrespondenceType;
 
     private ProtocolAction protocolAction;
+    
+    private boolean regenerateFlag;
+
     // hooks to view/save correspondence
     private ProtocolNotificationRequestBean notificationRequestBean;
     private String forwardName;
@@ -185,5 +188,13 @@ public class ProtocolCorrespondence extends KraPersistableBusinessObjectBase {
 
     public void setHoldingPage(boolean holdingPage) {
         this.holdingPage = holdingPage;
+    }
+
+    public boolean isRegenerateFlag() {
+        return regenerateFlag;
+    }
+
+    public void setRegenerateFlag(boolean regenerateFlag) {
+        this.regenerateFlag = regenerateFlag;
     }
 }

@@ -26,6 +26,17 @@ import org.kuali.kra.infrastructure.Constants;
 public class ProtocolCorrespondenceType extends KraPersistableBusinessObjectBase {
 
     private static final long serialVersionUID = -4725522827463252054L;
+    public static final String APPROVAL_LETTER = "1";
+    public static final String WITHDRAWAL_NOTICE = "16";
+    public static final String GRANT_EXEMPTION_NOTICE = "17";
+    public static final String CLOSURE_NOTICE = "26";
+    public static final String ABANDON_NOTICE = "28";
+    public static final String NOTICE_OF_DEFERRAL = "3";
+    public static final String SRR_LETTER = "4";
+    public static final String SMR_LETTER = "6";
+    public static final String EXPEDITED_APPROVAL_LETTER = "5";
+    public static final String SUSPENSION_NOTICE = "7";
+    public static final String TERMINATION_NOTICE = "8";
 
     private String protoCorrespTypeCode;
 
