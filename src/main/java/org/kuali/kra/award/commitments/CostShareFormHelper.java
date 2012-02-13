@@ -37,6 +37,7 @@ public class CostShareFormHelper implements Serializable, CostShareFunctions {
      */
     public CostShareFormHelper(AwardForm parent) {
         this.parent = parent;
+        init();
     }
     
     /**
