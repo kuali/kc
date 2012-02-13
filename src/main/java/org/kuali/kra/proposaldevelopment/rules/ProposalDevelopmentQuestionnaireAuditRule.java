@@ -52,22 +52,26 @@ public class ProposalDevelopmentQuestionnaireAuditRule extends ResearchDocumentR
         
         boolean valid = true;
         ProposalDevelopmentDocument proposalDevelopmentDocument = (ProposalDevelopmentDocument)document;
-        
         List<AnswerHeader> headers = getQuestionnaireAnswerService().getQuestionnaireAnswer(new ProposalDevelopmentModuleQuestionnaireBean(proposalDevelopmentDocument.getDevelopmentProposal()));  
         List<QuestionnaireUsage> usages = getQuestionnaireAnswerService().getPublishedQuestionnaire(CoeusModule.PROPOSAL_DEVELOPMENT_MODULE_CODE, CoeusSubModule.ZERO_SUBMODULE, true);
-        for (int i=0;i<headers.size();i++) {
-            AnswerHeader header = headers.get(i);
-            if (!header.getCompleted()) {
-                valid = false;
-                getProposalS2sAuditErrorsByGroup("questionnaireHelper",usages.get(i).getQuestionnaireLabel(),i).add(
-                        new AuditError(String.format(PROPOSAL_QUESTIONNAIRE_KEY, i, "complete"), KeyConstants.ERROR_QUESTIONNAIRE_NOT_COMPLETE,
-                                Constants.QUESTIONS_PAGE+"."+usages.get(i).getQuestionnaireLabel(), new String[] {usages.get(i).getQuestionnaireLabel()}));
+        int i = 0;
+        for (AnswerHeader answerHeader : headers) {
+            if (!answerHeader.getCompleted()) {
+                for(QuestionnaireUsage questionnaireUsage : usages){
+                    String questionnaireId = questionnaireUsage.getQuestionnaire().getQuestionnaireId();
+                    if (questionnaireId.equalsIgnoreCase(answerHeader.getQuestionnaire().getQuestionnaireId())){
+                        valid = false;
+                        getProposalS2sAuditErrorsByGroup("questionnaireHelper",questionnaireUsage.getQuestionnaireLabel(),i).add(
+                            new AuditError(String.format(PROPOSAL_QUESTIONNAIRE_KEY, i, "complete"), KeyConstants.ERROR_QUESTIONNAIRE_NOT_COMPLETE,
+                                    Constants.QUESTIONS_PAGE+"."+questionnaireUsage.getQuestionnaireLabel(), new String[] {questionnaireUsage.getQuestionnaireLabel()}));
+                        break;
+                    }
+                }
             }
+            i++; 
         }
-        
         return valid;
     }
- 
     
     
     private synchronized QuestionnaireAnswerService getQuestionnaireAnswerService() {
@@ -88,7 +92,6 @@ public class ProposalDevelopmentQuestionnaireAuditRule extends ResearchDocumentR
     private List<AuditError> getProposalS2sAuditErrorsByGroup(String formProperty, String usageLabel, Integer answerHeaderIndex) {
         List<AuditError> auditErrors = new ArrayList<AuditError>();
         String key = String.format( PROPOSAL_QUESTIONNAIRE_PANEL_KEY, formProperty, usageLabel, answerHeaderIndex );
-        
         if (!KNSGlobalVariables.getAuditErrorMap().containsKey(key)) {
            KNSGlobalVariables.getAuditErrorMap().put(key, new AuditCluster(usageLabel, auditErrors, AUDIT_ERRORS));
         }
