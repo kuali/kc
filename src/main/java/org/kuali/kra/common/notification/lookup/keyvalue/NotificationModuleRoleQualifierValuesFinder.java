@@ -23,6 +23,7 @@ import org.kuali.kra.irb.ProtocolOnlineReviewDocument;
 import org.kuali.kra.kim.bo.KcKimAttributes;
 import org.kuali.rice.core.api.util.ConcreteKeyValue;
 import org.kuali.rice.core.api.util.KeyValue;
+import org.kuali.rice.kim.api.KimConstants;
 import org.kuali.rice.krad.keyvalues.KeyValuesBase;
 
 /**
@@ -46,6 +47,7 @@ public class NotificationModuleRoleQualifierValuesFinder extends KeyValuesBase {
         documentList.add(new ConcreteKeyValue("negotiation", "Negotiation Id"));
         documentList.add(new ConcreteKeyValue("disclosure", "Disclosure Id"));
         documentList.add(new ConcreteKeyValue(KcKimAttributes.PROPOSAL, "Proposal"));
+        documentList.add(new ConcreteKeyValue(KimConstants.AttributeConstants.DOCUMENT_NUMBER, "Document Number"));
         
         return documentList;
     }

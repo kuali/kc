@@ -21,6 +21,7 @@ import java.util.Map;
 import org.kuali.kra.common.notification.NotificationRendererBase;
 import org.kuali.kra.institutionalproposal.home.InstitutionalProposal;
 import org.kuali.kra.proposaldevelopment.bo.DevelopmentProposal;
+import org.kuali.kra.proposaldevelopment.bo.ProposalChangedData;
 import org.kuali.kra.proposaldevelopment.service.ProposalDevelopmentService;
 
 /**
@@ -31,8 +32,9 @@ public class ProposalDevelopmentNotificationRenderer extends NotificationRendere
     private static final long serialVersionUID = 1143944858168503090L;
 
     private DevelopmentProposal developmentProposal;
+    private ProposalChangedData proposalChangedData;
     
-    private ProposalDevelopmentService proposalDevelopmentService;
+    private transient ProposalDevelopmentService proposalDevelopmentService;
     
     public ProposalDevelopmentNotificationRenderer() {
         
@@ -68,6 +70,10 @@ public class ProposalDevelopmentNotificationRenderer extends NotificationRendere
         result.put("{PRIME_SPONSOR_NAME}", developmentProposal.getPrimeSponsor() != null ? developmentProposal.getPrimeSponsor().getSponsorName() : "");
         InstitutionalProposal instProp = getProposalDevelopmentService().getInstitutionalProposal(developmentProposal.getProposalNumber());
         result.put("{INSTITUTIONAL_PROPOSAL_NUMBER}", instProp != null ? instProp.getProposalNumber() : "");
+        if (proposalChangedData != null) {
+            result.put("{OVERRIDE_FIELD_NAME}", proposalChangedData.getEditableColumn().getColumnLabel());
+            result.put("{OVERRIDE_FIELD_VALUE}", proposalChangedData.getDisplayValue());
+        }
         return result;
     }
 
@@ -85,6 +91,14 @@ public class ProposalDevelopmentNotificationRenderer extends NotificationRendere
 
     public void setProposalDevelopmentService(ProposalDevelopmentService proposalDevelopmentService) {
         this.proposalDevelopmentService = proposalDevelopmentService;
+    }
+
+    public ProposalChangedData getProposalChangedData() {
+        return proposalChangedData;
+    }
+
+    public void setProposalChangedData(ProposalChangedData proposalChangedData) {
+        this.proposalChangedData = proposalChangedData;
     }
     
     

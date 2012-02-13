@@ -311,6 +311,7 @@ public class ProposalDevelopmentActionsAction extends ProposalDevelopmentAction 
         BusinessObjectService boService = KraServiceLocator.getService(BusinessObjectService.class);
         KraPersistenceStructureService kraPersistenceStructureService = KraServiceLocator.getService(KraPersistenceStructureService.class);
 
+        ActionForward forward = mapping.findForward("basic");
         ProposalDevelopmentForm pdForm = (ProposalDevelopmentForm) form;
         ProposalDevelopmentDocument pdDocument = pdForm.getDocument();
         ProposalChangedData newProposalChangedData = pdForm.getNewProposalChangedData();
@@ -349,9 +350,20 @@ public class ProposalDevelopmentActionsAction extends ProposalDevelopmentAction 
             
             pdForm.setNewProposalChangedData(new ProposalChangedData());
             growProposalChangedHistory(pdDocument, newProposalChangedData);
+            
+            ProposalDevelopmentNotificationContext context = 
+                new ProposalDevelopmentNotificationContext(pdDocument.getDevelopmentProposal(), "103", "Proposal Data Override");
+            ((ProposalDevelopmentNotificationRenderer) context.getRenderer()).setProposalChangedData(newProposalChangedData);
+            if (pdForm.getNotificationHelper().getPromptUserForNotificationEditor(context)) {
+                pdForm.getNotificationHelper().initializeDefaultValues(context);
+                forward = mapping.findForward("notificationEditor");
+            } else {
+                getNotificationService().sendNotification(context);                
+            }                
+
         }
         
-        return mapping.findForward("basic");
+        return forward;
     }
     
     private void growProposalChangedHistory(ProposalDevelopmentDocument pdDocument, ProposalChangedData newProposalChangedData) {
