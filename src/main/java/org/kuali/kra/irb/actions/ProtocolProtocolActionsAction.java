@@ -3787,6 +3787,7 @@ public class ProtocolProtocolActionsAction extends ProtocolAction implements Aud
             protocolCorrespondence.setCorrespondence(dataSource.getContent());
             protocolCorrespondence.setForwardName(PROTOCOL_ACTIONS_TAB);
             protocolForm.getActionHelper().setProtocolCorrespondence(protocolCorrespondence);
+            getBusinessObjectService().save(protocolCorrespondence);
             return mapping.findForward(CORRESPONDENCE);
         }
         return mapping.findForward(Constants.MAPPING_BASIC);
