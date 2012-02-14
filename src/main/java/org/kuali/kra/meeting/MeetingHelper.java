@@ -26,9 +26,11 @@ import org.kuali.kra.committee.bo.CommitteeSchedule;
 import org.kuali.kra.committee.document.authorization.CommitteeScheduleTask;
 import org.kuali.kra.committee.document.authorization.CommitteeTask;
 import org.kuali.kra.infrastructure.KraServiceLocator;
+import org.kuali.kra.infrastructure.RoleConstants;
 import org.kuali.kra.infrastructure.TaskName;
 import org.kuali.kra.irb.actions.reviewcomments.ReviewCommentsService;
 import org.kuali.kra.irb.correspondence.ProtocolCorrespondence;
+import org.kuali.kra.service.KraAuthorizationService;
 import org.kuali.kra.service.TaskAuthorizationService;
 import org.kuali.rice.krad.bo.PersistableBusinessObject;
 import org.kuali.rice.krad.service.KRADServiceLocator;
@@ -38,6 +40,7 @@ public class MeetingHelper implements Serializable {
 
     private static final long serialVersionUID = 2363534404324211441L;
     private static final String FIELD_SEPARAATOR = "#f#";
+    private static final String NAMESPACE = "KC-UNT";
     private MeetingForm form;
     private Date agendaGenerationDate;
     private CommitteeSchedule committeeSchedule;
@@ -76,6 +79,7 @@ public class MeetingHelper implements Serializable {
 
     private static final String MESSAGE_COMMITTEESCHEDULE_AGENDASENT = "message.committeeSchedule.agendaSent";
     private static final String MESSAGE_COMMITTEESCHEDULE_MINUTESSENT = "message.committeeSchedule.minutesSent";
+    private transient KraAuthorizationService kraAuthorizationService;
 
     public MeetingHelper(MeetingForm form) {
         this.form = form;
@@ -485,5 +489,18 @@ public class MeetingHelper implements Serializable {
     public void setRegeneratedCorrespondences(List<ProtocolCorrespondence> regeneratedCorrespondences) {
         this.regeneratedCorrespondences = regeneratedCorrespondences;
     }
+ 
+    public boolean isIrbAdmin() {
+        return getKraAuthorizationService().hasRole(GlobalVariables.getUserSession().getPrincipalId(), NAMESPACE, RoleConstants.IRB_ADMINISTRATOR);
+    }
     
+    protected KraAuthorizationService getKraAuthorizationService() {
+        if (this.kraAuthorizationService == null) {
+            this.kraAuthorizationService = KraServiceLocator.getService(KraAuthorizationService.class);
+        }
+        
+        return this.kraAuthorizationService;
+    }
+    
+
 }
