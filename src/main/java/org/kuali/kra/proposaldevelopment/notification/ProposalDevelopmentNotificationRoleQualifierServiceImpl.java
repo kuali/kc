@@ -19,6 +19,7 @@ import org.apache.commons.lang.StringUtils;
 import org.kuali.kra.common.notification.bo.NotificationModuleRoleQualifier;
 import org.kuali.kra.kim.bo.KcKimAttributes;
 import org.kuali.kra.proposaldevelopment.bo.DevelopmentProposal;
+import org.kuali.rice.kim.api.KimConstants;
 
 /**
  * Implements the DevelopmentProposalNotificationRoleQualifierService.
@@ -42,7 +43,9 @@ public class ProposalDevelopmentNotificationRoleQualifierServiceImpl implements 
             if (developmentProposal.getUnitNumber() != null) {
                 roleQualifierValue = developmentProposal.getUnitNumber();
             }
-        } 
+        } else if (StringUtils.equals(qualifier.getQualifier(), KimConstants.AttributeConstants.DOCUMENT_NUMBER)) {
+            roleQualifierValue = developmentProposal.getProposalDocument().getDocumentNumber();
+        }
         
         return roleQualifierValue;
     }
