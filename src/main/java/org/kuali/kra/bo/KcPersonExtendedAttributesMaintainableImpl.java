@@ -15,7 +15,6 @@
  */
 package org.kuali.kra.bo;
 
-import java.util.Iterator;
 import java.util.List;
 
 import org.apache.commons.lang.StringUtils;
@@ -38,7 +37,7 @@ public class KcPersonExtendedAttributesMaintainableImpl extends KraMaintainableI
 
     @Override
     public void prepareForSave() {
-        KcPersonExtendedAttributes kcPersonExtendedAttributes = (KcPersonExtendedAttributes) this.businessObject;
+        KcPersonExtendedAttributes kcPersonExtendedAttributes = (KcPersonExtendedAttributes) this.getDataObject();
 
         if (!isValidPrincipalId(kcPersonExtendedAttributes.getPersonId())) {
             reportInvalidPrincipalId(kcPersonExtendedAttributes);
@@ -47,8 +46,16 @@ public class KcPersonExtendedAttributesMaintainableImpl extends KraMaintainableI
         if (!isValidCitizenshipTypeCode(kcPersonExtendedAttributes)) {
             reportInvalidCitizenshipTypeCode(kcPersonExtendedAttributes);
         }
-
         super.prepareForSave();
+    }
+    
+    @Override
+    public void saveDataObject() {
+        KcPersonExtendedAttributes kcPersonExtendedAttributes = (KcPersonExtendedAttributes) this.getDataObject();
+        if (kcPersonExtendedAttributes.getCitizenshipType() == null && kcPersonExtendedAttributes.getCitizenshipTypeCode() != null) {
+            kcPersonExtendedAttributes.refreshReferenceObject("citizenshipType");
+        }
+        super.saveDataObject();
     }
 
     private void reportInvalidPrincipalId(KcPersonExtendedAttributes kcPersonExtendedAttributes) {
@@ -83,19 +90,6 @@ public class KcPersonExtendedAttributesMaintainableImpl extends KraMaintainableI
     private boolean isValidCitizenshipTypeCode(KcPersonExtendedAttributes kcPersonExtendedAttributes) {
         Integer citizenshipType = kcPersonExtendedAttributes.getCitizenshipTypeCode();
         return citizenshipType != null;
-        /*
-        if (citizenshipType != null) {
-            Iterator citizenshipTypes = this.getBusinessObjectService().findAll(CitizenshipType.class).iterator();
-            while (citizenshipTypes.hasNext()) {
-                CitizenshipType type = (CitizenshipType) citizenshipTypes.next();
-                if (citizenshipType.equals(type.getCitizenshipTypeCode())) {
-                    kcPersonExtendedAttributes.setCitizenshipType(type);
-                    return true;
-                }
-            }
-        }
-        return false;
-        */
     }
 
     @Override
