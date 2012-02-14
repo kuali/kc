@@ -156,6 +156,7 @@ public interface PermissionConstants {
     public static final String MAINTAIN_COI_DISCLOSURE_ATTACHMENTS = "Maintain Coi Disclosure Attachments";
     public static final String VIEW_RESTRICTED_COI_NOTES = "View Coi Restricted Notes";
     public static final String MAINTAIN_COI_REVIEWERS = "Maintain Coi Reviewers";
+    public static final String REPORT_COI_DISCLOSURE = "Report Coi Disclosure";
 
     
     /*
