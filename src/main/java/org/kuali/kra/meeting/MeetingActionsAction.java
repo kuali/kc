@@ -417,6 +417,7 @@ public class MeetingActionsAction extends MeetingAction {
                 // PrintingUtils.streamToResponse(source, response);
             }
         }
+        getBusinessObjectService().save(meetingHelper.getRegeneratedCorrespondences());
         return mapping.findForward("correspondence");
     }
 
@@ -505,6 +506,11 @@ public class MeetingActionsAction extends MeetingAction {
         if (saveAction) {
             getBusinessObjectService().save(correspondences);
         }
+        // reset the regenerate check box
+        for (ProtocolCorrespondence protocolCorrespondence : meetingHelper.getCorrespondences()) {
+            protocolCorrespondence.setRegenerateFlag(false);
+        }
+        
         return mapping.findForward("actions");
    
     }

@@ -3,6 +3,7 @@
 <%-- <c:set var="readOnly" value="${KualiForm.readOnly}"  scope="request"/> --%>
 <c:set var="committeeScheduleAttributes" value="${DataDictionary.CommitteeSchedule.attributes}" />
 <c:set var="kraAttributeReferenceDummyAttributes" value="${DataDictionary.KraAttributeReferenceDummy.attributes}" />
+<c:set var="irbAdmin" value="${KualiForm.meetingHelper.irbAdmin}" />
 
 <kul:tab defaultOpen="false" tabTitle="Correspondence"
     tabErrorKey="document.committee*">
@@ -34,9 +35,12 @@
 					</td>
                     <td>
                         <div align="center">
+                           <c:if test="${irbAdmin}">               
+                        
                             <kul:htmlControlAttribute property="meetingHelper.correspondences[${status.index}].regenerateFlag" 
                                                       attributeEntry="${kraAttributeReferenceDummyAttributes.checkBox}"
                                                       styleClass="regenerateclass" readOnly="false" />
+                           </c:if>                           
                         </div>
                     </td>
 						<td>
@@ -48,9 +52,10 @@
 		                </td>
 	            </tr>
         	</c:forEach>
+              <c:if test="${irbAdmin}">               
                 <tr>
                     <td colspan="5">
-                            <div align="center">&nbsp;                  
+                            <div align="center">&nbsp;   
                                     <html:image property="methodToCall.regenerateCorrespondence.line${status.index}.anchor${currentTabIndex}"
                                         src='${ConfigProperties.kra.externalizable.images.url}tinybutton-regenerate.gif' styleClass="tinybutton"
                                         alt="Regenerate Correspondence" title="Regenerate Correspondence" onclick="excludeSubmitRestriction = true;"/>
@@ -59,6 +64,7 @@
                             </div>
                     </td>
                 </tr>    
+               </c:if>  
        </table> 	
 </div>
 
