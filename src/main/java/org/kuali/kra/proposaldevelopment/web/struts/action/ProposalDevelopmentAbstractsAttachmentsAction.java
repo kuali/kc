@@ -53,6 +53,8 @@ import org.kuali.kra.proposaldevelopment.bo.ProposalAbstract;
 import org.kuali.kra.proposaldevelopment.bo.ProposalPersonBiography;
 import org.kuali.kra.proposaldevelopment.bo.ProposalPersonBiographyAttachment;
 import org.kuali.kra.proposaldevelopment.document.ProposalDevelopmentDocument;
+import org.kuali.kra.proposaldevelopment.notification.ProposalDevelopmentNotificationContext;
+import org.kuali.kra.proposaldevelopment.notification.ProposalDevelopmentNotificationRenderer;
 import org.kuali.kra.proposaldevelopment.rule.event.AddAbstractEvent;
 import org.kuali.kra.proposaldevelopment.rule.event.AddInstituteAttachmentEvent;
 import org.kuali.kra.proposaldevelopment.rule.event.AddNarrativeEvent;
@@ -439,8 +441,20 @@ public class ProposalDevelopmentAbstractsAttachmentsAction extends ProposalDevel
             HttpServletResponse response) throws Exception {
         ProposalDevelopmentForm proposalDevelopmentForm = (ProposalDevelopmentForm) form;
         ProposalDevelopmentDocument pd = proposalDevelopmentForm.getDocument();
+        ActionForward forward = mapping.findForward(MAPPING_BASIC);
+        Narrative modifiedNarrative = pd.getDevelopmentProposal().getNarrative(getSelectedLine(request));
         pd.getDevelopmentProposal().replaceAttachment(getSelectedLine(request));
-        return mapping.findForward(MAPPING_BASIC);
+        ProposalDevelopmentNotificationContext context = 
+            new ProposalDevelopmentNotificationContext(pd.getDevelopmentProposal(), "102", "Proposal Data Override");
+        ((ProposalDevelopmentNotificationRenderer) context.getRenderer()).setModifiedNarrative(modifiedNarrative);
+        if (proposalDevelopmentForm.getNotificationHelper().getPromptUserForNotificationEditor(context)) {
+            proposalDevelopmentForm.getNotificationHelper().initializeDefaultValues(context);
+            forward = mapping.findForward("notificationEditor");
+        } else {
+            getNotificationService().sendNotification(context);                
+        }                
+
+        return forward;
     }
     
     /**

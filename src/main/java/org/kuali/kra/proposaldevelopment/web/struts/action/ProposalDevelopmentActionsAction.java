@@ -142,8 +142,6 @@ public class ProposalDevelopmentActionsAction extends ProposalDevelopmentAction 
     private static final int WARNING = 1;
     private static final int ERROR = 2;
     
-    private KcNotificationService notificationService;
-    
     /**
      * Struts mapping for the Proposal web page.  
      */
@@ -1581,17 +1579,6 @@ public class ProposalDevelopmentActionsAction extends ProposalDevelopmentAction 
         return mapping.findForward("portal");
     }
 
-    protected KcNotificationService getNotificationService() {
-        if (notificationService == null) {
-            notificationService = KraServiceLocator.getService(KcNotificationService.class);
-        }
-        return notificationService;
-    }
-
-    public void setNotificationService(KcNotificationService notificationService) {
-        this.notificationService = notificationService;
-    }
-    
     public ActionForward sendNotification(ActionMapping mapping, ActionForm form, HttpServletRequest request, HttpServletResponse response) throws Exception {
         ProposalDevelopmentForm proposalDevelopmentForm = (ProposalDevelopmentForm) form;
         DevelopmentProposal developmentProposal = proposalDevelopmentForm.getDocument().getDevelopmentProposal();
