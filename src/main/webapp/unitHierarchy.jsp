@@ -76,7 +76,11 @@ body {
 	onsubmit="return hasFormAlreadyBeenSubmitted();"> 
 
 <div class="headerarea-small" id="headerarea-small">	
-	<h1 align="center"> Unit Hierarchy </h1>
+	<h1> 
+		Unit Hierarchy
+		&nbsp; 
+		<kul:help parameterNamespace="KC-UNT" parameterDetailType="Document" parameterName="unitHierarchyHelp" altText="help"/>
+	</h1>
 	<div class="lookupcreatenew" title="Create a new record">
 	<a href="kr/maintenance.do?businessObjectClassName=org.kuali.kra.bo.Unit&methodToCall=start">
 	<img src="kr/images/tinybutton-createnew.gif" alt="create new" width="70" height="15"/></a>   
