@@ -20,25 +20,24 @@
 <c:set var="unitAttributes" value="${DataDictionary.Unit.attributes}" />
 <bean:define id="disclosurePersonUnits" name="KualiForm" property="document.coiDisclosureList[0].disclosurePersons[0].disclosurePersonUnits" />
 <c:set var="readOnly" value="${!KualiForm.disclosureHelper.modifyReporter}" />
-<table cellpadding=0 cellspacing=0 summary="">
-    <tr>
-        <td>
-            <kul:innerTab tabTitle="Unit Details" parentTab="Reporter" defaultOpen="false" tabErrorKey="disclosureHelper.newDisclosurePersonUnit.*,document.coiDisclosureList[0].disclosurePersons[0]*" useCurrentTabIndexAsKey="false">
-                <div class="innerTab-container" align="left">
-                    <table class=tab cellpadding="0" cellspacing="0" summary="">
-                        <tbody>
-                        <%-- Header --%>
-                        <tr>
-                            <kul:htmlAttributeHeaderCell literalLabel="&nbsp;" scope="col" /> 
-                            <kul:htmlAttributeHeaderCell attributeEntry="${unitAttributes.unitName}" scope="col" align="center"/>
-                            <kul:htmlAttributeHeaderCell attributeEntry="${disclosurePersonUnitsAttributes.unitNumber}" scope="col" align="center"/>
-                            <kul:htmlAttributeHeaderCell attributeEntry="${disclosurePersonUnitsAttributes.leadUnitFlag}" scope="col" align="center"/>
-                            <c:if test="${!readOnly}">
-                                <kul:htmlAttributeHeaderCell literalLabel="Actions" scope="col" align="center"/>
+
+<div class="tab-container" align="center">
+    <kul:innerTab tabTitle="Unit Details" parentTab="Reporter" defaultOpen="false" tabErrorKey="disclosureHelper.newDisclosurePersonUnit.*,document.coiDisclosureList[0].disclosurePersons[0]*" useCurrentTabIndexAsKey="false">
+    	<div class="innerTab-container" align="left">
+        	<table class=tab cellpadding="0" cellspacing="0" summary="">
+                <tbody>
+                	<%-- Header --%>
+                    <tr>
+                        <kul:htmlAttributeHeaderCell literalLabel="&nbsp;" scope="col" /> 
+                        <kul:htmlAttributeHeaderCell attributeEntry="${unitAttributes.unitName}" scope="col" align="center"/>
+                        <kul:htmlAttributeHeaderCell attributeEntry="${disclosurePersonUnitsAttributes.unitNumber}" scope="col" align="center"/>
+                        <kul:htmlAttributeHeaderCell attributeEntry="${disclosurePersonUnitsAttributes.leadUnitFlag}" scope="col" align="center"/>
+                        <c:if test="${!readOnly}">
+                            <kul:htmlAttributeHeaderCell literalLabel="Actions" scope="col" align="center"/>
                         </tr> 
                         <%-- Header --%>
                         
-                         <%-- New data --%>
+                        <%-- New data --%>
                         <%-- kra:permission value="${KualiForm.disclosureHelper.modifyPersonnel}" --%>
                              <tr>
                                 <th class="infoline">
@@ -78,7 +77,7 @@
                                         src="${ConfigProperties.kr.externalizable.images.url}tinybutton-add1.gif" title="Add Unit" alt="Add Unit" styleClass="tinybutton"/></div>
                                 </td>
                             </c:if>
-                            </tr>
+                        </tr>
                         <%-- /kra:permission --%>
                         <%-- New data --%>
                         
@@ -114,8 +113,8 @@
                             </tr>
                         </c:forEach>
                         <%-- Existing data --%>
-            </tr> 
-            <%--           
+            	</tr> 
+            	<%--           
                 <tr>
                     <td align="center" colspan="5">
                         <div align="center">
@@ -125,12 +124,8 @@
                     </td>
                 </tr>
                 --%>
-                        </tbody>
-                    </table>
-                </div>
-            </kul:innerTab>
-        </td>
-    </tr>
-</table>
-
-
+            	</tbody>
+        	</table>
+        </div>
+    </kul:innerTab>
+</div>

@@ -128,7 +128,7 @@
     <!-- Business Object Lookup Definition -->
     <bean id="ProtocolAttachmentTypeGroup-lookupDefinition" parent="ProtocolAttachmentTypeGroup-lookupDefinition-parentBean" />
     <bean id="ProtocolAttachmentTypeGroup-lookupDefinition-parentBean" abstract="true" parent="LookupDefinition">
-        <property name="title" value="Protocol Attachment TypeGroup Lookup" />
+        <property name="title" value="Protocol Attachment Type Group Lookup" />
         <property name="menubar" value="&lt;a href=&quot;index.jsp&quot;&gt;Main&lt;/a&gt;" />
 
         <property name="defaultSort" >
