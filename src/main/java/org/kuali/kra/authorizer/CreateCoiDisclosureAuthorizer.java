@@ -29,8 +29,8 @@ public class CreateCoiDisclosureAuthorizer extends TaskAuthorizerImpl {
      */
     public boolean isAuthorized(String userId, Task task) {
         // TODO : do we let coi admin create coi disclosure if admin is not a reporter ?
-        return coiDisclosureService.isReporter() ||
-               hasUnitPermission(userId, Constants.MODULE_NAMESPACE_COIDISCLOSURE, PermissionConstants.MAINTAIN_COI_DISCLOSURE);
+        return coiDisclosureService.isReporter() || hasUnitPermission(userId, Constants.MODULE_NAMESPACE_COIDISCLOSURE, PermissionConstants.REPORT_COI_DISCLOSURE)
+               || hasUnitPermission(userId, Constants.MODULE_NAMESPACE_COIDISCLOSURE, PermissionConstants.MAINTAIN_COI_DISCLOSURE);
     }
 
     public void setCoiDisclosureService(CoiDisclosureService coiDisclosureService) {
