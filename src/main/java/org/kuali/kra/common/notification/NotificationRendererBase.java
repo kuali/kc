@@ -22,7 +22,6 @@ import java.util.Map;
 import org.apache.commons.lang.StringUtils;
 import org.kuali.kra.infrastructure.KraServiceLocator;
 import org.kuali.kra.service.KcPersonService;
-import org.kuali.rice.core.api.CoreApiServiceLocator;
 import org.kuali.rice.core.api.config.property.ConfigurationService;
 import org.kuali.rice.krad.service.KRADServiceLocator;
 import org.kuali.rice.krad.util.GlobalVariables;
@@ -36,13 +35,15 @@ public abstract class NotificationRendererBase implements NotificationRenderer, 
 
     public static final String USER_FULLNAME = "{USER_FULLNAME}";
     public static final String DOCHANDLER_PREFIX = "{DOCUMENT_PREFIX}";
-    public static final String DOCHANDLER_PREFIX_PROPERTY = "appserver.url";
+    
+    public static final String DOCHANDLER_SCHM_PROP = "application.http.scheme";
+    public static final String DOCHANDLER_HOST_PROP = "application.host";
+    public static final String DOCHANDLER_PORT_PROP = "http.port";
+    public static final String DOCHANDLER_CODE_PROP = "app.code";
+    public static final String DOCHANDLER_ENVR_PROP = "environment";
+
     private transient KcPersonService kcPersonService;
-    
-    public static final String[] REPLACEMENT_PARAMETERS = new String[] { USER_FULLNAME,
-                                                                         DOCHANDLER_PREFIX,
-                                                                       };
-    
+    private ConfigurationService kualiConfigurationService;
     
     /**
      * {@inheritDoc}
@@ -74,20 +75,11 @@ public abstract class NotificationRendererBase implements NotificationRenderer, 
      */
     public Map<String, String> getDefaultReplacementParameters() {
 
-        String[] replacementParameters = REPLACEMENT_PARAMETERS;
         Map<String, String> params = new HashMap<String, String>();
-        
-        String key = null;
-        for (int i = 0; i < replacementParameters.length; i++) {
-            key = replacementParameters[i];
-            if (StringUtils.equals(key, USER_FULLNAME)) {
-                if (GlobalVariables.getUserSession() != null) {
-                    params.put(key, getKcPersonService().getKcPersonByPersonId(GlobalVariables.getUserSession().getPrincipalId()).getFullName());
-                }
-            } else if (StringUtils.equals(key, DOCHANDLER_PREFIX)) {
-                params.put(key, getDocumentLocation());
-            }
+        if (GlobalVariables.getUserSession() != null) {
+            params.put(USER_FULLNAME, getKcPersonService().getKcPersonByPersonId(GlobalVariables.getUserSession().getPrincipalId()).getFullName());
         }
+        params.put(DOCHANDLER_PREFIX, getDocumentLocation());
         
         return params;
     }
@@ -113,15 +105,25 @@ public abstract class NotificationRendererBase implements NotificationRenderer, 
     }
 
     private String getDocumentLocation() {
-        String result = getKualiConfigurationService().getPropertyValueAsString(DOCHANDLER_PREFIX_PROPERTY);
-        if (result == null) {
-            result = "..";   // default is current relative location (relative to base at this server)
+        String result = null;
+        String schm = getKualiConfigurationService().getPropertyValueAsString(DOCHANDLER_SCHM_PROP);
+        String host = getKualiConfigurationService().getPropertyValueAsString(DOCHANDLER_HOST_PROP);
+        String port = getKualiConfigurationService().getPropertyValueAsString(DOCHANDLER_PORT_PROP);
+        String code = getKualiConfigurationService().getPropertyValueAsString(DOCHANDLER_CODE_PROP);
+        String envr = getKualiConfigurationService().getPropertyValueAsString(DOCHANDLER_ENVR_PROP);
+        if (schm == null || host == null || code == null || envr == null) {
+            result = "..";   // default is to back up URL before KEN (relative to base at this server)
+        } else {
+            result = schm + "://" + host + (!StringUtils.isEmpty(port) ? ":" + port : "") + "/" + code + "-" + envr;
         }
         return result;
     }
 
     private ConfigurationService getKualiConfigurationService() {
-        return KRADServiceLocator.getKualiConfigurationService();
+        if (kualiConfigurationService == null) {
+            kualiConfigurationService = KRADServiceLocator.getKualiConfigurationService();
+        }
+        return kualiConfigurationService;
     }
 
 }
