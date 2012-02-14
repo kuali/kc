@@ -21,6 +21,7 @@ import java.util.Map;
 import org.kuali.kra.common.notification.NotificationRendererBase;
 import org.kuali.kra.institutionalproposal.home.InstitutionalProposal;
 import org.kuali.kra.proposaldevelopment.bo.DevelopmentProposal;
+import org.kuali.kra.proposaldevelopment.bo.Narrative;
 import org.kuali.kra.proposaldevelopment.bo.ProposalChangedData;
 import org.kuali.kra.proposaldevelopment.service.ProposalDevelopmentService;
 
@@ -33,6 +34,7 @@ public class ProposalDevelopmentNotificationRenderer extends NotificationRendere
 
     private DevelopmentProposal developmentProposal;
     private ProposalChangedData proposalChangedData;
+    private Narrative modifiedNarrative;
     
     private transient ProposalDevelopmentService proposalDevelopmentService;
     
@@ -74,6 +76,11 @@ public class ProposalDevelopmentNotificationRenderer extends NotificationRendere
             result.put("{OVERRIDE_FIELD_NAME}", proposalChangedData.getEditableColumn().getColumnLabel());
             result.put("{OVERRIDE_FIELD_VALUE}", proposalChangedData.getDisplayValue());
         }
+        if (modifiedNarrative != null) {
+            result.put("{NARRATIVE_MODULE_NUM}", modifiedNarrative.getModuleNumber().toString());
+            result.put("{NARRATIVE_TYPE}", modifiedNarrative.getNarrativeType().getDescription());
+            result.put("{NARRATIVE_MODULE_DESCRIPTION}", modifiedNarrative.getModuleTitle() == null ? "" : modifiedNarrative.getModuleTitle());
+        }
         return result;
     }
 
@@ -99,6 +106,14 @@ public class ProposalDevelopmentNotificationRenderer extends NotificationRendere
 
     public void setProposalChangedData(ProposalChangedData proposalChangedData) {
         this.proposalChangedData = proposalChangedData;
+    }
+
+    public Narrative getModifiedNarrative() {
+        return modifiedNarrative;
+    }
+
+    public void setModifiedNarrative(Narrative modifiedNarrative) {
+        this.modifiedNarrative = modifiedNarrative;
     }
     
     
