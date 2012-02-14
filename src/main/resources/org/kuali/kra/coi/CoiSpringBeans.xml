@@ -54,7 +54,7 @@
         <property name="sequenceAccessorService" ref="sequenceAccessorService" />
     </bean>
    
-   <!--<bean id="financialEntityLookupable" class="org.kuali.rice.kns.lookup.KualiLookupableImpl" scope="prototype">
+   	<bean id="financialEntityLookupable" class="org.kuali.rice.kns.lookup.KualiLookupableImpl" scope="prototype">
   		<property name="lookupableHelperService">
     		<ref bean="financialEntityLookupableHelperService" />
   		</property>
@@ -62,7 +62,7 @@
 	
     <bean id="financialEntityLookupableHelperService" class="org.kuali.kra.coi.lookup.FinancialEntityLookupableHelper" parent="lookupableHelperService" scope="prototype">
     	
-    </bean>-->
+    </bean>
     
      <bean id="coiDisclosureService" class="org.kuali.kra.coi.disclosure.CoiDisclosureServiceImpl">
         <property name="businessObjectService" ref="businessObjectService" />
@@ -110,8 +110,7 @@
                 
                 <bean class="org.kuali.kra.coi.auth.MaintainCoiReviewersAuthorizer" parent="parentCoiDisclosureAuthorizer" >
                      <property name="taskName" value="maintainCoiReviewers" />                
-                </bean>     
-                           
+                </bean>       
             </list>
         </property>
     </bean>
