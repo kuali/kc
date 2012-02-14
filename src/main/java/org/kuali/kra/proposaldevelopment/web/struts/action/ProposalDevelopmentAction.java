@@ -46,6 +46,7 @@ import org.kuali.kra.budget.versions.BudgetDocumentVersion;
 import org.kuali.kra.budget.web.struts.action.BudgetParentActionBase;
 import org.kuali.kra.budget.web.struts.action.BudgetTDCValidator;
 import org.kuali.kra.common.customattributes.CustomDataHelperBase.LabelComparator;
+import org.kuali.kra.common.notification.service.KcNotificationService;
 import org.kuali.kra.infrastructure.Constants;
 import org.kuali.kra.infrastructure.KeyConstants;
 import org.kuali.kra.infrastructure.KraServiceLocator;
@@ -105,6 +106,7 @@ public class ProposalDevelopmentAction extends BudgetParentActionBase {
     private static final String ERROR_NO_GRANTS_GOV_FORM_SELECTED = "error.proposalDevelopment.no.grants.gov.form.selected";
     private static final Log LOG = LogFactory.getLog(ProposalDevelopmentAction.class);
     private ProposalHierarcyActionHelper hierarchyHelper;
+    private KcNotificationService notificationService;
     
     /**
      * @see org.kuali.rice.kns.web.struts.action.KualiDocumentActionBase#docHandler(org.apache.struts.action.ActionMapping, org.apache.struts.action.ActionForm, javax.servlet.http.HttpServletRequest, javax.servlet.http.HttpServletResponse)
@@ -1069,6 +1071,18 @@ public class ProposalDevelopmentAction extends BudgetParentActionBase {
         }
         return formProperty;
     }
+    
+    protected KcNotificationService getNotificationService() {
+        if (notificationService == null) {
+            notificationService = KraServiceLocator.getService(KcNotificationService.class);
+        }
+        return notificationService;
+    }
+
+    public void setNotificationService(KcNotificationService notificationService) {
+        this.notificationService = notificationService;
+    }
+    
     
     
     
