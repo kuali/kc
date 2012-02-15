@@ -64,7 +64,11 @@ public class ProposalDevelopmentNotificationRenderer extends NotificationRendere
         result.put("{PROGRAM_ANNOUNCEMENT_NUMBER}", developmentProposal.getProgramAnnouncementNumber());
         result.put("{PROGRAM_ANNOUNCEMENT_TITLE}", developmentProposal.getProgramAnnouncementTitle());
         result.put("{CFDA_NUMBER}", developmentProposal.getCfdaNumber());
-        result.put("{DEADLINE_DATE}", dateFormatter.format(developmentProposal.getDeadlineDate()));
+        if (developmentProposal.getDeadlineDate() != null) {
+            result.put("{DEADLINE_DATE}", dateFormatter.format(developmentProposal.getDeadlineDate()));
+        } else {
+            result.put("{DEADLINE_DATE}", "");
+        }
         result.put("{PI_NAME}", developmentProposal.getPrincipalInvestigatorName());
         result.put("{LEAD_UNIT}", developmentProposal.getUnitNumber());
         result.put("{LEAD_UNIT_NAME}", developmentProposal.getUnit().getUnitName());
